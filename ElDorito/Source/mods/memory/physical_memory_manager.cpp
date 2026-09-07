@@ -11,17 +11,18 @@
 
 struct c_physical_memory_manager;
 struct c_virtual_page_memory_allocator;
-namespace
+namespace hades_file_local
 {
 	struct s_physical_memory_stage;
 	class c_physical_memory_stack;
 }
+using namespace hades_file_local;
 
 /* ---------- constants */
 
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	struct s_physical_memory_stage
 	{
@@ -29,11 +30,12 @@ namespace
 		unsigned long current_size; // 0x4
 	};
 }
+using namespace hades_file_local;
 // static_assert(sizeof(s_physical_memory_stage) == 8, "Invalid s_physical_memory_stage size");
 // The layout above is the PDB's member list without its padding, so the
 // size assertion is withheld: it would fail on alignment alone.
 
-namespace
+namespace hades_file_local
 {
 	class c_physical_memory_stack
 	{
@@ -59,6 +61,7 @@ namespace
 	};
 	static_assert(sizeof(c_physical_memory_stack) == 48, "Invalid c_physical_memory_stack size");
 }
+using namespace hades_file_local;
 /* ---------- prototypes */
 
 /* ---------- globals */
@@ -178,3 +181,119 @@ void c_physical_memory_manager::prepare_for_new_map() // 0x108BE2F0
 }
 
 /* ---------- private code */
+
+extern c_physical_memory_stack* _sub_108BDA20(c_physical_memory_stack *const);
+_inline c_physical_memory_stack::c_physical_memory_stack() // 0x108BDA20
+{
+	// `anonymous-namespace'::c_physical_memory_stack::c_physical_memory_stack
+	// c_physical_memory_stack *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_108BDA20(this);
+}
+
+_extern unsigned long _sub_108BDEC0(c_physical_memory_stack *const, e_physical_memory_stage);
+_inline unsigned long c_physical_memory_stack::get_stage_used_size(e_physical_memory_stage stage) // 0x108BDEC0
+{
+	// `anonymous-namespace'::c_physical_memory_stack::get_stage_used_size
+	// e_physical_memory_stage stage;
+	todo("implement");
+	unsigned long __result = _sub_108BDEC0(this, stage);
+	return __result;
+}
+
+_extern unsigned long _sub_108BE010(c_physical_memory_stack const *const);
+_inline unsigned long c_physical_memory_stack::get_used_size() const // 0x108BE010
+{
+	// `anonymous-namespace'::c_physical_memory_stack::get_used_size
+	// c_physical_memory_stack const *const this;
+	todo("implement");
+	unsigned long __result = _sub_108BE010((c_physical_memory_stack const *)this);
+	return __result;
+}
+
+_extern unsigned long _sub_108BDF40(c_physical_memory_stack const *const);
+_inline unsigned long c_physical_memory_stack::get_total_size() const // 0x108BDF40
+{
+	// `anonymous-namespace'::c_physical_memory_stack::get_total_size
+	// c_physical_memory_stack const *const this;
+	todo("implement");
+	unsigned long __result = _sub_108BDF40((c_physical_memory_stack const *)this);
+	return __result;
+}
+
+_extern void *_sub_108BDD00(c_physical_memory_stack *const);
+_inline void *c_physical_memory_stack::get_base_address() // 0x108BDD00
+{
+	// `anonymous-namespace'::c_physical_memory_stack::get_base_address
+	// c_physical_memory_stack *const this;
+	todo("implement");
+	void * __result = _sub_108BDD00(this);
+	return __result;
+}
+
+_extern void *_sub_108BDDD0(c_physical_memory_stack *const);
+_inline void *c_physical_memory_stack::get_current_address() // 0x108BDDD0
+{
+	// `anonymous-namespace'::c_physical_memory_stack::get_current_address
+	// c_physical_memory_stack *const this;
+	todo("implement");
+	void * __result = _sub_108BDDD0(this);
+	return __result;
+}
+
+extern e_physical_memory_stage _sub_108BDE40(c_physical_memory_stack const *const);
+_inline e_physical_memory_stage c_physical_memory_stack::get_current_stage() const // 0x108BDE40
+{
+	// `anonymous-namespace'::c_physical_memory_stack::get_current_stage
+	// c_physical_memory_stack const *const this;
+	todo("implement");
+	e_physical_memory_stage __result = _sub_108BDE40((c_physical_memory_stack const *)this);
+	return __result;
+}
+
+_extern void _sub_108BE3C0(c_physical_memory_stack *const, e_physical_memory_stage);
+void c_physical_memory_stack::push(e_physical_memory_stage stage) // 0x108BE3C0
+{
+	// `anonymous-namespace'::c_physical_memory_stack::push
+	// e_physical_memory_stage stage;
+	todo("implement");
+	_sub_108BE3C0(this, stage);
+}
+
+_extern void _sub_108BE1F0(c_physical_memory_stack *const, e_physical_memory_stage);
+void c_physical_memory_stack::pop(e_physical_memory_stage stage) // 0x108BE1F0
+{
+	// `anonymous-namespace'::c_physical_memory_stack::pop
+	// e_physical_memory_stage stage;
+	todo("implement");
+	_sub_108BE1F0(this, stage);
+}
+
+_extern bool _sub_108BE0E0(c_physical_memory_stack *const, unsigned long);
+bool c_physical_memory_stack::initialize(unsigned long m_total_size) // 0x108BE0E0
+{
+	// `anonymous-namespace'::c_physical_memory_stack::initialize
+	// unsigned long m_total_size;
+	{
+		// __int32 i;
+	}
+	todo("implement");
+	bool __result = _sub_108BE0E0(this, m_total_size);
+	return __result;
+}
+
+_extern void *_sub_108BDB40(c_physical_memory_stack *const, e_physical_memory_stage, unsigned long, long, unsigned long *);
+void *c_physical_memory_stack::allocate(e_physical_memory_stage stage, unsigned long size, long alignment_bits, unsigned long *out_allocated_size) // 0x108BDB40
+{
+	// `anonymous-namespace'::c_physical_memory_stack::allocate
+	// e_physical_memory_stage stage;
+	// unsigned long size;
+	// long alignment_bits;
+	// unsigned long *out_allocated_size;
+	// void *memory;
+	// unsigned long allocated_size;
+	todo("implement");
+	void * __result = _sub_108BDB40(this, stage, size, alignment_bits, out_allocated_size);
+	return __result;
+}

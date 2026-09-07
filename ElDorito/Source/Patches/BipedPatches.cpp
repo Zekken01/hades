@@ -95,10 +95,11 @@ namespace Patches
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern real_vector3d global_zero3d; // 0x11182860
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Patches

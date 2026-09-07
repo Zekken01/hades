@@ -24,15 +24,18 @@ using namespace ::Forge;
 
 /* ---------- prototypes */
 
+void Reset();
+
 /* ---------- globals */
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern bool killBarrierDisabled; // 0x11371848
 	extern bool pushBarrierDisabled; // 0x11371849
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Forge
@@ -86,3 +89,12 @@ namespace Forge
 }
 
 /* ---------- private code */
+
+_extern void _sub_1067C1B0();
+void Reset() // 0x1067C1B0
+{
+	// `anonymous-namespace'::Reset
+	// procedure flags: nofpo
+	todo("implement");
+	_sub_1067C1B0();
+}

@@ -7,6 +7,7 @@
 #include "Blam/cseries/cseries.hpp"
 #include "Blam/input/input.hpp"
 #include "ChatCommands/ChatCommandMap.hpp"
+#include "Common/Http/HttpHeaders.hpp"
 #include "Modules/ModuleBase.hpp"
 #include "Modules/ModuleInput.hpp"
 #include "Patch.hpp"
@@ -145,16 +146,21 @@ using namespace ::Blam;
 
 /* ---------- prototypes */
 
+bool UpdateVoip(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+void RendererStarted(char const *map);
+bool VariableListenToMicrophone(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+
 /* ---------- globals */
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern bool ready; // 0x124578D0
 	extern bool isMainMenu; // 0x124578D1
 	extern bool isChatting; // 0x124578D2
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Modules
@@ -208,3 +214,44 @@ namespace Modules
 }
 
 /* ---------- private code */
+
+_extern bool _sub_10A25520(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool UpdateVoip(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A25520
+{
+	// `anonymous-namespace'::UpdateVoip
+	// static ...; // 0x10A257F8
+	// static ...; // 0x10A257E0
+	// static ...; // 0x10A257D8
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
+	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
+	todo("implement");
+	bool __result = _sub_10A25520(Arguments, returnInfo);
+	return __result;
+}
+
+_extern void _sub_10A24DC0(char const *);
+void RendererStarted(char const *map) // 0x10A24DC0
+{
+	// `anonymous-namespace'::RendererStarted
+	// char const *map;
+	todo("implement");
+	_sub_10A24DC0(map);
+}
+
+_extern bool _sub_10A258C0(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool VariableListenToMicrophone(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A258C0
+{
+	// `anonymous-namespace'::VariableListenToMicrophone
+	// static ...; // 0x10A25A5C
+	// static ...; // 0x10A25A44
+	// static ...; // 0x10A25A3C
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
+	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
+	todo("implement");
+	bool __result = _sub_10A258C0(arguments, returnInfo);
+	return __result;
+}

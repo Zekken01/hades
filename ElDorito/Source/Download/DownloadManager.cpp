@@ -132,3 +132,11 @@ namespace Download
 }
 
 /* ---------- private code */
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template Download::CHttpFileDownloadManager & Utils::Singleton<Download::CHttpFileDownloadManager>::Instance();

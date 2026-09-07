@@ -2,6 +2,8 @@
 
 #include "hades/hades.h"
 
+#include "Blam/animations/animation_definitions.hpp"
+#include "Blam/animations/animation_manager.hpp"
 #include "Blam/cseries/cseries.hpp"
 #include "Blam/cseries/cseries_memory.hpp"
 #include "Blam/cseries/enums.inl"
@@ -15,10 +17,14 @@
 #include "Blam/math/real_math.inl"
 #include "Blam/math/real_math_definitions.hpp"
 #include "Blam/objects/damage.hpp"
+#include "Blam/objects/damage_definitions.hpp"
+#include "Blam/objects/object_types.hpp"
 #include "Blam/objects/objects.hpp"
 #include "Blam/structures/cluster_reference.hpp"
 #include "Blam/tag_files/tag_block.inl"
 #include "Blam/tag_files/tag_groups.hpp"
+#include "Blam/units/units.hpp"
+#include "ChatCommands/ChatCommandMap.hpp"
 #include "Patch.hpp"
 #include "Patches/Audio.hpp"
 #include "Pointer.hpp"
@@ -52,6 +58,15 @@
 #include <utility>
 #include <vector>
 
+/* ---------- forward declarations */
+
+struct c_animation_manager;
+struct s_animation_sync_action;
+struct s_animation_sync_action_participant;
+struct s_object_data;
+struct s_player_datum;
+struct s_unit_data;
+
 namespace Utils {}
 using namespace ::Utils;
 namespace Modules {}
@@ -78,6 +93,12 @@ namespace Patches
 	}
 }
 
+bool object_has_invincibility(long object_index);
+bool player_can_assassinate_object_hook(long player_index, long object_index);
+bool object_can_be_melee_instant_killed_hook(long object_index);
+bool motor_system_biped_physics_preupdate_moving_hook(long biped_index, void *physics_input, void *physics_output, bool a4, bool a5, float a6, bool a7, bool a8);
+bool sync_action_compatible_with_participant_current_states_hook(long initiator_index, long target_index, unsigned long sync_action_name);
+
 /* ---------- globals */
 
 /* ---------- private variables */
@@ -100,3 +121,98 @@ namespace Patches
 }
 
 /* ---------- private code */
+
+_extern bool _sub_10A29E40(long);
+bool object_has_invincibility(long object_index) // 0x10A29E40
+{
+	// `anonymous-namespace'::object_has_invincibility
+	// long object_index;
+	// s_unit_data *unit;
+	{
+		// s_player_datum *player;
+	}
+	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
+	todo("implement");
+	bool __result = _sub_10A29E40(object_index);
+	return __result;
+}
+
+_extern bool _sub_10A29F10(long, long);
+bool player_can_assassinate_object_hook(long player_index, long object_index) // 0x10A29F10
+{
+	// `anonymous-namespace'::player_can_assassinate_object_hook
+	// long object_index;
+	// bool (*const player_can_assassinate_object)(long, long);
+	// function call : bool (*const)(long, long)
+	todo("implement");
+	bool __result = _sub_10A29F10(player_index, object_index);
+	return __result;
+}
+
+_extern bool _sub_10A29D90(long);
+bool object_can_be_melee_instant_killed_hook(long object_index) // 0x10A29D90
+{
+	// `anonymous-namespace'::object_can_be_melee_instant_killed_hook
+	// long object_index;
+	// bool (*const object_can_be_melee_instant_killed)(long);
+	// function call : bool (*const)(long)
+	todo("implement");
+	bool __result = _sub_10A29D90(object_index);
+	return __result;
+}
+
+_extern bool _sub_10A29CA0(long, void *, void *, bool, bool, float, bool, bool);
+bool motor_system_biped_physics_preupdate_moving_hook(long biped_index, void *physics_input, void *physics_output, bool a4, bool a5, float a6, bool a7, bool a8) // 0x10A29CA0
+{
+	// `anonymous-namespace'::motor_system_biped_physics_preupdate_moving_hook
+	// bool a8;
+	// bool (*const motor_system_biped_physics_preupdate_moving)(long, void *, void *, bool, bool, float, bool, bool);
+	// bool ret;
+	// bool (*const object_is_running_sync_action)(long);
+	// function call : bool (*const)(long, void *, void *, bool, bool, float, bool, bool)
+	// function call : bool (*const)(long)
+	todo("implement");
+	bool __result = _sub_10A29CA0(biped_index, physics_input, physics_output, a4, a5, a6, a7, a8);
+	return __result;
+}
+
+_extern bool _sub_10A29FE0(long, long, unsigned long);
+bool sync_action_compatible_with_participant_current_states_hook(long initiator_index, long target_index, unsigned long sync_action_name) // 0x10A29FE0
+{
+	// `anonymous-namespace'::sync_action_compatible_with_participant_current_states_hook
+	// unsigned long sync_action_name;
+	// bool (*const initiator_satisfies_airborne_state)(long, long, bool);
+	// c_animation_manager *initiator_manager;
+	// s_object_data *target;
+	// bool (*const target_satisfies_airborne_state)(long, long, bool);
+	// s_object_data *initiator;
+	// s_animation_sync_action_participant *target_participant;
+	// bool initiator_valid;
+	// s_animation_sync_action *target_sync_action;
+	// s_animation_sync_action_participant *initiator_participant;
+	// bool target_valid;
+	// c_animation_manager *target_manager;
+	// s_animation_sync_action *initiator_sync_action;
+	{
+		// long i;
+	}
+	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
+	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
+	// function call : s_animation_sync_action *(*const)(c_animation_manager const *, unsigned long, unsigned long, unsigned long)
+	// function call : s_animation_sync_action *(*const)(c_animation_manager const *, unsigned long, unsigned long, unsigned long)
+	// function call : bool (*const)(long, long, bool)
+	// function call : bool (*const)(long, long, bool)
+	todo("implement");
+	bool __result = _sub_10A29FE0(initiator_index, target_index, sync_action_name);
+	return __result;
+}
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template bool c_tag_block<s_animation_sync_action_participant>::try_get_element(__int32, s_animation_sync_action_participant **) const;
+template s_animation_sync_action_participant & c_tag_block<s_animation_sync_action_participant>::operator[](__int32);
+template s_animation_sync_action_participant * c_tag_block<s_animation_sync_action_participant>::get_element(__int32) const;

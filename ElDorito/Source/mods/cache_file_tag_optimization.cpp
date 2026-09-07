@@ -101,7 +101,7 @@ extern "C" void optimize_user_interface_map_list(s_cache_tag_instance *tag_insta
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern c_static_bit_vector<65535> g_reforge_objects; // 0x123AEF30
 	extern c_static_bit_vector<65535> g_reforge_models; // 0x123B0F30
@@ -109,6 +109,7 @@ namespace
 	extern c_static_bit_vector<256> g_reforge_material_indices; // 0x123B4F30
 	extern c_static_bit_vector<65535> g_reforge_material_tags; // 0x123B4F58
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 _extern void _sub_1087CB10(s_cache_tag_instance *);
@@ -483,3 +484,49 @@ extern "C" void optimize_user_interface_map_list(s_cache_tag_instance *tag_insta
 	todo("implement");
 	_sub_1087CC40(tag_instance);
 }
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template bool c_enum<enum e_game_engine_type,long>::operator!=(e_game_engine_type const &) const;
+template bool c_enum<enum e_game_engine_type,long>::operator==(e_game_engine_type const &) const;
+template bool c_enum<enum e_game_mode,long>::operator!=(e_game_mode const &) const;
+template bool c_static_bit_vector<256>::test(long);
+template bool c_static_bit_vector<256>::valid_bit(long);
+template bool c_static_bit_vector<65535>::test(long);
+template bool c_static_bit_vector<65535>::valid_bit(long);
+template bool c_tag_block<s_forge_palette_item>::try_get_element(__int32, s_forge_palette_item **) const;
+template bool c_tag_block<s_geometry_material>::try_get_element(__int32, s_geometry_material **) const;
+template bool c_tag_block<s_tag_reference>::try_get_element(__int32, s_tag_reference **) const;
+template s_forge_palette_item & c_tag_block<s_forge_palette_item>::operator[](__int32);
+template s_forge_palette_item * c_tag_block<s_forge_palette_item>::get_element(__int32) const;
+template s_geometry_material & c_tag_block<s_geometry_material>::operator[](__int32);
+template s_geometry_material * c_tag_block<s_geometry_material>::get_element(__int32) const;
+template s_global_material_definition * c_tag_block<s_global_material_definition>::begin();
+template s_global_material_definition * c_tag_block<s_global_material_definition>::end();
+template s_multiplayer_consumable * c_tag_block<s_multiplayer_consumable>::begin();
+template s_multiplayer_consumable * c_tag_block<s_multiplayer_consumable>::end();
+template s_multiplayer_equipment * c_tag_block<s_multiplayer_equipment>::begin();
+template s_multiplayer_equipment * c_tag_block<s_multiplayer_equipment>::end();
+template s_multiplayer_event_response_definition * c_tag_block<s_multiplayer_event_response_definition>::begin();
+template s_multiplayer_event_response_definition * c_tag_block<s_multiplayer_event_response_definition>::end();
+template s_multiplayer_object_set * c_tag_block<s_multiplayer_object_set>::begin();
+template s_multiplayer_object_set * c_tag_block<s_multiplayer_object_set>::end();
+template s_multiplayer_object_substitution * c_tag_block<s_multiplayer_object_substitution>::begin();
+template s_multiplayer_object_substitution * c_tag_block<s_multiplayer_object_substitution>::end();
+template s_multiplayer_runtime_globals_definition & c_tag_block<s_multiplayer_runtime_globals_definition>::operator[](__int32);
+template s_multiplayer_vehicle * c_tag_block<s_multiplayer_vehicle>::begin();
+template s_multiplayer_vehicle * c_tag_block<s_multiplayer_vehicle>::end();
+template s_tag_reference & c_tag_block<s_tag_reference>::operator[](__int32);
+template s_tag_reference * c_tag_block<s_tag_reference>::get_element(__int32) const;
+template s_user_interface_map_image * c_tag_block<s_user_interface_map_image>::begin();
+template s_user_interface_map_image * c_tag_block<s_user_interface_map_image>::end();
+template void c_static_bit_vector<256>::clear();
+template void c_static_bit_vector<256>::set(long);
+template void c_static_bit_vector<65535>::clear();
+template void c_static_bit_vector<65535>::set(long);
+template void c_static_bit_vector<65535>::set_all();
+template void c_static_bit_vector<65535>::unset(long);

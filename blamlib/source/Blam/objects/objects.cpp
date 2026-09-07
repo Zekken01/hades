@@ -155,3 +155,12 @@ unsigned long object_get_variant_name(long object_index) // 0x10EF8D20
 }
 
 /* ---------- private code */
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template s_model_variant * c_tag_block<s_model_variant>::begin();
+template s_model_variant * c_tag_block<s_model_variant>::end();

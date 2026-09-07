@@ -130,10 +130,11 @@ namespace Forge
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern Forge::ObjectSet s_SelectedObjects; // 0x1244FA70
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Forge
@@ -471,3 +472,20 @@ namespace Forge
 }
 
 /* ---------- private code */
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template c_enum<enum e_multiplayer_object_boundary_shape,char>::c_enum(c_enum<enum e_multiplayer_object_boundary_shape,char> const &);
+template c_enum<enum e_multiplayer_object_boundary_shape,char>::c_enum(char const &);
+template c_enum<enum e_scenario_object_source,char>::c_enum(c_enum<enum e_scenario_object_source,char> const &);
+template c_enum<enum e_scenario_object_source,char>::c_enum(char const &);
+template c_flags<enum e_game_engine_type,unsigned short>::c_flags(c_flags<enum e_game_engine_type,unsigned short> const &);
+template c_flags<enum e_game_engine_type,unsigned short>::c_flags(unsigned short const &);
+template c_flags<enum e_variant_object_placement_flags,unsigned short>::c_flags(c_flags<enum e_variant_object_placement_flags,unsigned short> const &);
+template c_flags<enum e_variant_object_placement_flags,unsigned short>::c_flags(unsigned short const &);
+template c_flags<enum e_variant_placement_flags,unsigned char>::c_flags(c_flags<enum e_variant_placement_flags,unsigned char> const &);
+template c_tag_block_index<s_scenario_structure_bsp_reference,short>::c_tag_block_index(c_tag_block_index<s_scenario_structure_bsp_reference,short> const &);

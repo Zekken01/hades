@@ -70,3 +70,14 @@ bool c_network_session_parameter_base::set_allowed() const // 0x10F1F0C0
 }
 
 /* ---------- private code */
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template c_flags<enum e_network_session_parameter_base_flags,unsigned char> & c_flags<enum e_network_session_parameter_base_flags,unsigned char>::operator|=(__int32 const);
+template c_flags<enum e_network_session_parameter_base_flags,unsigned char> c_flags<enum e_network_session_parameter_base_flags,unsigned char>::operator&(__int32 const) const;
+template c_flags<enum e_network_session_parameter_base_flags,unsigned char>::c_flags(unsigned char const &);
+template c_flags<enum e_network_session_parameter_base_flags,unsigned char>::operator bool() const;

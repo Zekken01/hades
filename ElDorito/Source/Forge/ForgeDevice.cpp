@@ -38,15 +38,18 @@
 /* ---------- forward declarations */
 
 class CForgeDeviceManager;
+struct CForgeDeviceObjectProperties;
 struct c_game_engine;
 struct s_device_data;
+struct s_device_group_datum;
 struct s_machine_definition;
 struct s_multiplayer_object_properties;
 struct s_object_header;
-namespace
+namespace hades_file_local
 {
 	struct SDeviceChannel;
 }
+using namespace hades_file_local;
 
 namespace Utils {}
 using namespace ::Utils;
@@ -62,7 +65,7 @@ namespace Patches
 
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	struct SDeviceChannel
 	{
@@ -72,16 +75,20 @@ namespace
 	static_assert(sizeof(SDeviceChannel) == 8, "Invalid SDeviceChannel size");
 
 }
+using namespace hades_file_local;
 /* ---------- prototypes */
+
+void UpdateDevice(unsigned long objectIndex);
 
 /* ---------- globals */
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern bool shouldReset; // 0x123AC7C8
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 _extern void _sub_10860FE0(CForgeDeviceManager *const);
@@ -161,3 +168,48 @@ EForgeDeviceType CForgeDeviceManager::GetDeviceType(long objectIndex) // 0x10860
 }
 
 /* ---------- private code */
+
+_extern void _sub_10861320(unsigned long);
+void UpdateDevice(unsigned long objectIndex) // 0x10861320
+{
+	// `anonymous-namespace'::UpdateDevice
+	// static ...; // 0x1086165B
+	// static ...; // 0x1086164C
+	// static ...; // 0x10861634
+	// static ...; // 0x1086162C
+	// unsigned long objectIndex;
+	// void (*const simulation_action_object_update)(long, unsigned long long *);
+	// s_device_data *device;
+	// s_multiplayer_object_properties *multiplayerProperties;
+	// unsigned char channelIndex;
+	// SDeviceChannel *channel;
+	{
+		// s_device_group_datum *powerGroup;
+		// s_device_group_datum *positionGroup;
+	}
+	{
+		// CForgeDeviceObjectProperties *deviceProperties;
+		// unsigned long *machine_flags;
+	}
+	{
+		// unsigned long long component_mask;
+	}
+	{
+	}
+	// function call : s_multiplayer_object_properties *(*const)(unsigned long)
+	// function call : bool (*const)(long, unsigned long)
+	// function call : bool (*const)(long, unsigned long)
+	// function call : void (*const)(long, unsigned long long *)
+	// function call : void (*const)(long, unsigned long long *)
+	todo("implement");
+	_sub_10861320(objectIndex);
+}
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template c_enum<enum e_machine_type,short>::operator short() const;
+template s_device_group_datum * c_data_array<s_device_group_datum>::try_and_get(unsigned long);

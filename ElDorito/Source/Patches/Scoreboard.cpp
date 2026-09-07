@@ -2,6 +2,7 @@
 
 #include "hades/hades.h"
 
+#include "Blam/ai/actor.hpp"
 #include "Blam/cseries/cseries.hpp"
 #include "Blam/cseries/enums.inl"
 #include "Blam/cseries/flags.inl"
@@ -17,6 +18,7 @@
 #include "Blam/objects/objects.hpp"
 #include "Blam/structures/cluster_reference.hpp"
 #include "Blam/tag_files/tag_groups.hpp"
+#include "ChatCommands/ChatCommandMap.hpp"
 #include "Forge/ForgeUndo.hpp"
 #include "Patch.hpp"
 #include "Patches/Audio.hpp"
@@ -52,11 +54,13 @@
 
 /* ---------- forward declarations */
 
-namespace
+struct s_player_datum;
+namespace hades_file_local
 {
 	struct SslWStringHeader;
 	struct PlayerNameString;
 }
+using namespace hades_file_local;
 
 namespace Patches {}
 using namespace ::Patches;
@@ -70,7 +74,7 @@ namespace Patches
 
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	struct SslWStringHeader
 	{
@@ -86,6 +90,7 @@ namespace
 		char16_t name[16]; // 0xC
 	};
 }
+using namespace hades_file_local;
 // static_assert(sizeof(PlayerNameString) == 44, "Invalid PlayerNameString size");
 // The layout above is the PDB's member list without its padding, so the
 // size assertion is withheld: it would fail on alignment alone.
@@ -99,6 +104,12 @@ namespace Patches
 		extern void ApplyAll();
 	}
 }
+
+__int32 GetUtf16Length(char16_t const *str, __int32 maxLength);
+PlayerNameString *GetPlayerName(s_player_datum *playerData, __int32 index);
+void GLScoreboardPlayerAllocatorHook();
+void GLScoreboardPlayerConstructorHook();
+void ScoreboardUpdateHook();
 
 /* ---------- globals */
 
@@ -122,3 +133,58 @@ namespace Patches
 }
 
 /* ---------- private code */
+
+_extern __int32 _sub_10ACAF70(char16_t const *, __int32);
+__int32 GetUtf16Length(char16_t const *str, __int32 maxLength) // 0x10ACAF70
+{
+	// `anonymous-namespace'::GetUtf16Length
+	// __int32 maxLength;
+	// __int32 length;
+	todo("implement");
+	__int32 __result = _sub_10ACAF70(str, maxLength);
+	return __result;
+}
+
+extern PlayerNameString *_sub_10ACADA0(s_player_datum *, __int32);
+PlayerNameString *GetPlayerName(s_player_datum *playerData, __int32 index) // 0x10ACADA0
+{
+	// `anonymous-namespace'::GetPlayerName
+	// __int32 index;
+	// void *(*Allocate)(unsigned __int32);
+	// __int32 length;
+	// void (*Free)(void *);
+	// PlayerNameString *result;
+	// function call : void (*)(void *)
+	// function call : void *(*)(unsigned __int32)
+	todo("implement");
+	PlayerNameString * __result = _sub_10ACADA0(playerData, index);
+	return __result;
+}
+
+extern void _sub_10ACAD50();
+__declspec(naked) void GLScoreboardPlayerAllocatorHook() // 0x10ACAD50
+{
+	// `anonymous-namespace'::GLScoreboardPlayerAllocatorHook
+	// procedure flags: nofpo
+	todo("implement");
+	_sub_10ACAD50();
+}
+
+extern void _sub_10ACAD70();
+__declspec(naked) void GLScoreboardPlayerConstructorHook() // 0x10ACAD70
+{
+	// `anonymous-namespace'::GLScoreboardPlayerConstructorHook
+	// procedure flags: nofpo
+	todo("implement");
+	_sub_10ACAD70();
+}
+
+extern void _sub_10ACAFC0();
+__declspec(naked) void ScoreboardUpdateHook() // 0x10ACAFC0
+{
+	// `anonymous-namespace'::ScoreboardUpdateHook
+	// procedure flags: nofpo
+// done:
+	todo("implement");
+	_sub_10ACAFC0();
+}

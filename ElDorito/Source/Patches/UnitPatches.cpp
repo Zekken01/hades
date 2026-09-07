@@ -453,3 +453,23 @@ extern "C" void object_detach_predicted_objects_hook(__int32 object_index) // 0x
 	todo("implement");
 	_sub_106A2720(object_index);
 }
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template Modules::ModuleSettings & Utils::Singleton<Modules::ModuleSettings>::Instance();
+template bool c_flags<enum e_animation_frame_event_types,unsigned long>::test(e_animation_frame_event_types) const;
+template bool c_flags<enum e_assassination_event_flags,unsigned char>::operator!=(unsigned char const &) const;
+template bool c_flags<enum e_assassination_event_flags,unsigned char>::operator==(unsigned char const &) const;
+template bool c_flags<enum e_assassination_event_flags,unsigned char>::test(e_assassination_event_flags) const;
+template c_flags<enum e_assassination_event_flags,unsigned char> & c_flags<enum e_assassination_event_flags,unsigned char>::operator&=(__int32 const);
+template c_flags<enum e_assassination_event_flags,unsigned char> & c_flags<enum e_assassination_event_flags,unsigned char>::operator=(unsigned char const &);
+template c_flags<enum e_assassination_event_flags,unsigned char> & c_flags<enum e_assassination_event_flags,unsigned char>::operator|=(__int32 const);
+template c_flags<enum e_multiplayer_team_designator,short>::operator short() const;
+template s_weapon_barrel_definition * c_tag_block<s_weapon_barrel_definition>::operator->();
+template void Pointer::Write<bool (__cdecl*)(long,unsigned long,long,float *,bool *,bool *)>(bool (*const value)(long, unsigned long, long, float *, bool *, bool *)) const;
+template void Pointer::Write<void (__cdecl*)(int,enum e_action)>(void (*const value)(__int32, e_action)) const;
+template void Pointer::Write<void (__cdecl*)(long,enum e_action)>(void (*const value)(long, e_action)) const;

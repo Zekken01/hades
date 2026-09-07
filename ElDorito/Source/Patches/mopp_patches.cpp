@@ -2,6 +2,7 @@
 
 #include "hades/hades.h"
 
+#include "Blam/ai/actor.hpp"
 #include "Blam/cache/cache_files.hpp"
 #include "Blam/cseries/cseries.hpp"
 #include "Blam/cseries/enums.inl"
@@ -80,14 +81,20 @@ namespace Patches
 	}
 }
 
+void fixMoppAddress();
+void loc_D0E9E3_hook();
+void loc_D0D919_hook();
+void loc_D0F505_hook();
+
 /* ---------- globals */
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern bool ApplyRuntimeMoppFix; // 0x12464608
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Patches
@@ -132,3 +139,40 @@ namespace Patches
 }
 
 /* ---------- private code */
+
+extern void _sub_10A8BD30();
+__declspec(naked) void fixMoppAddress() // 0x10A8BD30
+{
+	// `anonymous-namespace'::fixMoppAddress
+	// procedure flags: nofpo
+// skip_fixup:
+	todo("implement");
+	_sub_10A8BD30();
+}
+
+extern void _sub_10A8BD90();
+__declspec(naked) void loc_D0E9E3_hook() // 0x10A8BD90
+{
+	// `anonymous-namespace'::loc_D0E9E3_hook
+	// procedure flags: nofpo
+	todo("implement");
+	_sub_10A8BD90();
+}
+
+extern void _sub_10A8BD60();
+__declspec(naked) void loc_D0D919_hook() // 0x10A8BD60
+{
+	// `anonymous-namespace'::loc_D0D919_hook
+	// procedure flags: nofpo
+	todo("implement");
+	_sub_10A8BD60();
+}
+
+extern void _sub_10A8BDB0();
+__declspec(naked) void loc_D0F505_hook() // 0x10A8BDB0
+{
+	// `anonymous-namespace'::loc_D0F505_hook
+	// procedure flags: nofpo
+	todo("implement");
+	_sub_10A8BDB0();
+}

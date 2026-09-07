@@ -164,11 +164,12 @@ extern "C" __int32 FormatFilename(char *str, __int32 length);
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern s_mod_system_globals g_mod_system_globals; // 0x12407EC0
 	extern char const *k_package_directory; // 0x11352BB4
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 _extern void _sub_108BC8E0(bool);

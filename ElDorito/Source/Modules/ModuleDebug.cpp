@@ -19,16 +19,21 @@
 #include "Blam/memory/bitstream.hpp"
 #include "Blam/memory/data_array.inl"
 #include "Blam/memory/data_iterator.inl"
+#include "Blam/memory/tls.hpp"
 #include "Blam/objects/damage.hpp"
+#include "Blam/objects/object_definitions.hpp"
 #include "Blam/objects/objects.hpp"
 #include "Blam/structures/cluster_reference.hpp"
 #include "Blam/tag_files/file_reference.inl"
 #include "Blam/tag_files/files.hpp"
 #include "Blam/tag_files/tag_block.inl"
 #include "Blam/tag_files/tag_groups.hpp"
+#include "ChatCommands/ChatCommandMap.hpp"
+#include "Common/Http/HttpHeaders.hpp"
 #include "Console/Console.hpp"
 #include "ElDorito.hpp"
 #include "Modules/ModuleBase.hpp"
+#include "Patches/CustomPackets.hpp"
 #include "Pointer.hpp"
 #include "ThirdParty/rapidjson/allocators.h"
 #include "ThirdParty/rapidjson/encodedstream.h"
@@ -47,6 +52,7 @@
 #include "Utils/String.hpp"
 #include "Web/Ui/Screen.hpp"
 #include "Web/Ui/ScreenLayer.hpp"
+#include "Web/WebRenderer.hpp"
 #include "Web/WebRendererApp.hpp"
 #include "Web/WebRendererRenderHandler.hpp"
 #include "Web/WebRenderHandlerOsr.hpp"
@@ -158,11 +164,39 @@
 
 /* ---------- forward declarations */
 
+struct begin;
+struct end;
 struct lambda_1;
+struct s_object_definition;
+struct s_object_header;
+namespace Blam
+{
+	namespace Network
+	{
+		struct Session;
+	}
+}
 namespace Modules
 {
 	class ModuleBase;
 	class ModuleDebug;
+}
+namespace Web
+{
+	namespace Browser
+	{
+		class WebRenderer;
+	}
+}
+namespace Web
+{
+	namespace Ui
+	{
+		namespace ScreenLayer
+		{
+			struct SDialogShowParams;
+		}
+	}
 }
 
 namespace Utils {}
@@ -258,6 +292,11 @@ namespace Console {}
 using namespace ::Console;
 namespace Blam {}
 using namespace ::Blam;
+namespace Blam
+{
+	namespace Network {}
+	using namespace Blam::Network;
+}
 
 /* ---------- constants */
 
@@ -271,6 +310,23 @@ using namespace ::Blam;
 //static_assert(sizeof(CommandDialogTest::__l2::<lambda_1>) == 1, "Invalid CommandDialogTest::__l2::<lambda_1> size");
 
 /* ---------- prototypes */
+
+bool CommandCrash(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandNuke(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandDumpTags(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandDialogTest(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandDebugTint(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandRasterizerSetZPlanes(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandTeleportToCamera(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandReflectionDebug(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandStartRandomTrace(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandStopRandomTrace(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandCefOpenURL(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandLaunchClient(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandTileWindows(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandRenderGeoHitTest(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandGameShowCrte(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandHideForgeObjects(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
 
 /* ---------- globals */
 
@@ -291,3 +347,314 @@ namespace Modules
 }
 
 /* ---------- private code */
+
+_extern bool _sub_1097F460(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandCrash(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x1097F460
+{
+	// `anonymous-namespace'::CommandCrash
+	// static ...; // 0x1097F588
+	// static ...; // 0x1097F580
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// __int32 volatile *a;
+	todo("implement");
+	bool __result = _sub_1097F460(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_109807F0(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandNuke(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x109807F0
+{
+	// `anonymous-namespace'::CommandNuke
+	// static ...; // 0x1098090C
+	// static ...; // 0x10980904
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// function call : void *()
+	// function call : __int32 (void *, unsigned __int32)
+	todo("implement");
+	bool __result = _sub_109807F0(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_1097FBB0(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandDumpTags(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x1097FBB0
+{
+	// `anonymous-namespace'::CommandDumpTags
+	// static ...; // 0x1097FD94
+	// static ...; // 0x1097FD7C
+	// static ...; // 0x1097FD74
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// _iobuf *fp;
+	// char const *filename;
+	{
+		// __int32 i;
+		{
+			// char const *tag_name;
+			// long index;
+			// char tag_group_name[5];
+		}
+	}
+	todo("implement");
+	bool __result = _sub_1097FBB0(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_1097FA00(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandDialogTest(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x1097FA00
+{
+	// `anonymous-namespace'::CommandDialogTest
+	// static ...; // 0x1097FB40
+	// static ...; // 0x1097FB38
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// Web::Ui::ScreenLayer::SDialogShowParams params;
+	todo("implement");
+	bool __result = _sub_1097FA00(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_1097F5F0(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandDebugTint(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x1097F5F0
+{
+	// `anonymous-namespace'::CommandDebugTint
+	// static ...; // 0x1097F91C
+	// static ...; // 0x1097F914
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	{
+		// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	}
+	todo("implement");
+	bool __result = _sub_1097F5F0(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10980970(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandRasterizerSetZPlanes(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10980970
+{
+	// `anonymous-namespace'::CommandRasterizerSetZPlanes
+	// static ...; // 0x10980EE0
+	// static ...; // 0x10980ED8
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// static float `CommandRasterizerSetZPlanes'::`2'::far_clip_plane; // 0x12454D64
+	// static float `CommandRasterizerSetZPlanes'::`2'::near_clip_plane; // 0x12454D60
+	{
+		// float far_plane;
+		// float near_plane;
+	}
+	{
+		// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	}
+	todo("implement");
+	bool __result = _sub_10980970(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10981480(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandTeleportToCamera(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10981480
+{
+	// `anonymous-namespace'::CommandTeleportToCamera
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	todo("implement");
+	bool __result = _sub_10981480(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10981050(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandReflectionDebug(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10981050
+{
+	// `anonymous-namespace'::CommandReflectionDebug
+	// static ...; // 0x109811C4
+	// static ...; // 0x109811BC
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// bool &g_reflection_debug;
+	// __int32 const value;
+	{
+		// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	}
+	todo("implement");
+	bool __result = _sub_10981050(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10981370(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandStartRandomTrace(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10981370
+{
+	// `anonymous-namespace'::CommandStartRandomTrace
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	todo("implement");
+	bool __result = _sub_10981370(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10981420(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandStopRandomTrace(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10981420
+{
+	// `anonymous-namespace'::CommandStopRandomTrace
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	todo("implement");
+	bool __result = _sub_10981420(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_1097F2D0(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandCefOpenURL(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x1097F2D0
+{
+	// `anonymous-namespace'::CommandCefOpenURL
+	// static ...; // 0x1097F3F0
+	// static ...; // 0x1097F3E8
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// std::shared_ptr<Web::Browser::WebRenderer> webRenderer;
+	todo("implement");
+	bool __result = _sub_1097F2D0(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10980230(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandLaunchClient(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10980230
+{
+	// `anonymous-namespace'::CommandLaunchClient
+	// static ...; // 0x109806B2
+	// static ...; // 0x109806A4
+	// static ...; // 0x10980680
+	// static ...; // 0x10980678
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// bool hasConnect;
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > args;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > formattedArgs;
+	// char exePath[260];
+	{
+		// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &<range>$L0;
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const *<begin>$L0;
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const *<end>$L0;
+		{
+			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &arg;
+		}
+	}
+	// function call : unsigned long (HINSTANCE__ *, char *, unsigned long)
+	// function call : unsigned long ()
+	// function call : HINSTANCE__ *(HWND__ *, char const *, char const *, char const *, char const *, __int32)
+	// function call : unsigned long ()
+	todo("implement");
+	bool __result = _sub_10980230(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_109814D0(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandTileWindows(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x109814D0
+{
+	// `anonymous-namespace'::CommandTileWindows
+	// static ...; // 0x1098174B
+	// static ...; // 0x10981748
+	// static ...; // 0x10981724
+	// static ...; // 0x1098171C
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// HWND__ *windows[32];
+	// __int32 rowHeight;
+	// __int32 posX;
+	// __int32 screenHeight;
+	// HWND__ *hwnd;
+	// __int32 numWindows;
+	// __int32 posY;
+	// __int32 screenWidth;
+	{
+		// char windowTitle[1024];
+	}
+	{
+		// __int32 i;
+		{
+			// __int32 ww;
+			// HWND__ *hwnd;
+			// tagRECT wr;
+			// __int32 wh;
+		}
+	}
+	// function call : __int32 (__int32)
+	// function call : __int32 (__int32)
+	// function call : HWND__ *(HWND__ *, HWND__ *, char const *, char const *)
+	// function call : __int32 (HWND__ *, char *, __int32)
+	// function call : __int32 (HWND__ *, __int32)
+	// function call : __int32 (HWND__ *, tagRECT *)
+	// function call : __int32 (HWND__ *, HWND__ *, __int32, __int32, __int32, __int32, unsigned __int32)
+	todo("implement");
+	bool __result = _sub_109814D0(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10981240(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandRenderGeoHitTest(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10981240
+{
+	// `anonymous-namespace'::CommandRenderGeoHitTest
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// bool &globalVar;
+	todo("implement");
+	bool __result = _sub_10981240(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_1097FE30(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandGameShowCrte(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x1097FE30
+{
+	// `anonymous-namespace'::CommandGameShowCrte
+	// static ...; // 0x1097FF94
+	// static ...; // 0x1097FF7C
+	// static ...; // 0x1097FF74
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// short tag_index;
+	// constexpr void (*const `CommandGameShowCrte'::`2'::cortana_globals__play_effect)(__int32); // constant == 11267264
+	{
+		// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	}
+	// function call : void (*const)(__int32)
+	todo("implement");
+	bool __result = _sub_1097FE30(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10980000(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandHideForgeObjects(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10980000
+{
+	// `anonymous-namespace'::CommandHideForgeObjects
+	// static ...; // 0x109801B0
+	// static ...; // 0x109801A8
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// void (*const object_hide)(long, bool);
+	// bool hidden;
+	// Blam::Network::Session *session;
+	{
+		// c_data_array<s_object_header> *object_headers;
+		{
+			// c_data_iterator<s_object_header> it;
+			{
+				// s_object_definition *object_definition;
+				// long definition_index;
+				// unsigned long objectIndex;
+			}
+		}
+	}
+	// function call : bool (*const)()
+	// function call : void *(*const)(unsigned long, long)
+	// function call : void (*const)(long, bool)
+	todo("implement");
+	bool __result = _sub_10980000(Arguments, returnInfo);
+	return __result;
+}
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template void Pointer::WriteFast<float>(float const) const;

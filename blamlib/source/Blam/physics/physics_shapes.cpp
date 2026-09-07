@@ -296,3 +296,14 @@ void c_convex_vertices_shape_with_material::fixup(c_convex_vertices_shape_with_m
 }
 
 /* ---------- private code */
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template bool c_tag_block<hkpConvexVerticesShape::FourVectors>::try_get_element(__int32, hkpConvexVerticesShape::FourVectors **) const;
+template c_convex_vertices_shape_with_material * c_tag_block<c_convex_vertices_shape_with_material>::begin();
+template hkpConvexVerticesShape::FourVectors & c_tag_block<hkpConvexVerticesShape::FourVectors>::operator[](__int32);
+template hkpConvexVerticesShape::FourVectors * c_tag_block<hkpConvexVerticesShape::FourVectors>::get_element(__int32) const;

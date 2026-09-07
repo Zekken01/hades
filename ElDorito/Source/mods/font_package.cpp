@@ -427,3 +427,13 @@ extern "C" bool fixup_and_validate_font_package_file(void *buffer) // 0x10888710
 	bool __result = _sub_10888710(buffer);
 	return __result;
 }
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template s_font_package_cache_entry * s_static_array<s_font_package_cache_entry,8>::begin() const;
+template s_font_package_cache_entry * s_static_array<s_font_package_cache_entry,8>::end() const;
+template void s_static_string<256>::set(char const *);

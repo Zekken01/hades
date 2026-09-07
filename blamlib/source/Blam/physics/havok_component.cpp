@@ -84,3 +84,12 @@ void c_havok_component::set_rigid_body_collision_filter_info(long rigid_body_ind
 }
 
 /* ---------- private code */
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template c_havok_component * c_data_array<c_havok_component>::try_and_get(unsigned long);
+template c_havok_component::c_rigid_body & hkArray<c_havok_component::c_rigid_body>::operator[](__int32);

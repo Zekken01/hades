@@ -187,6 +187,8 @@ namespace Web
 	}
 }
 
+void OnInput();
+
 /* ---------- globals */
 
 /* ---------- private variables */
@@ -286,3 +288,38 @@ namespace Web
 }
 
 /* ---------- private code */
+
+_extern void _sub_10CA4AB0();
+void OnInput() // 0x10CA4AB0
+{
+	// `anonymous-namespace'::OnInput
+	// procedure flags: nofpo
+	// double threshold;
+	// float leftx;
+	// static __int32 `OnInput'::`2'::joystickMoveTicks; // 0x1247ED84
+	// OnInput::__l2::ControllerAxes &controllerAxes;
+	// bool isEmoting;
+	// float lefty;
+	{
+		// long playerIndex;
+		{
+			// s_player_datum *player;
+		}
+	}
+	// function call : unsigned long (*const)(long)
+	// function call : unsigned long (*const)(long)
+	// function call : unsigned long (*const)(long)
+	todo("implement");
+	_sub_10CA4AB0();
+}
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template bool c_tag_block<s_player_action_widget_data>::try_get_element(__int32, s_player_action_widget_data **) const;
+template s_player_action_widget_data & c_tag_block<s_player_action_widget_data>::operator[](__int32);
+template s_player_action_widget_data * c_tag_block<s_player_action_widget_data>::get_element(__int32) const;
+template s_player_action_widget_data * c_tag_block<s_player_action_widget_data>::operator->();

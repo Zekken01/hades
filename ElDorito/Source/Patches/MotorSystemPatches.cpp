@@ -2,15 +2,21 @@
 
 #include "hades/hades.h"
 
+#include "Blam/animations/mixing_board/channels/animation_channel.hpp"
 #include "Blam/cseries/cseries.hpp"
 #include "Blam/cseries/enums.inl"
 #include "Blam/hs/hs.hpp"
 #include "Blam/math/real_math_definitions.hpp"
 #include "Blam/motor/action_system.hpp"
+#include "Blam/motor/motor_system.hpp"
 #include "Blam/objects/damage.hpp"
+#include "Blam/objects/damage_definitions.hpp"
+#include "Blam/objects/object_types.hpp"
 #include "Blam/objects/objects.hpp"
 #include "Blam/structures/cluster_reference.hpp"
 #include "Blam/tag_files/tag_groups.hpp"
+#include "Blam/units/units.hpp"
+#include "ChatCommands/ChatCommandMap.hpp"
 #include "Patch.hpp"
 #include "Patches/Audio.hpp"
 #include "Player/PlayerEmotes.hpp"
@@ -45,8 +51,13 @@
 
 /* ---------- forward declarations */
 
+class c_motor_task;
+struct c_animation_channel;
 struct s_action_definition;
+struct s_action_request;
 struct s_action_usage;
+struct s_object_data;
+struct s_unit_data;
 
 namespace Player {}
 using namespace ::Player;
@@ -72,15 +83,25 @@ namespace Patches
 	}
 }
 
+bool action_allow_interruption_hook(e_action current_action, e_action desired_action, unsigned short *context);
+bool motor_animation_task_busy_hook(long object_index, c_motor_task *task, long resource_type, bool a4, bool a5);
+s_action_definition *action_get_definition_hook(e_action action_type);
+bool action_submit_hook(long motor_index, s_action_request *request);
+void action_finished_hook(long motor_index, e_action action_type);
+bool action_update_hook(long motor_index);
+bool unit_movement_inhibited_hook(long unit_index);
+bool custom_animation_submit_motor_task_allow_hook(long motor_index, e_action action, long mask);
+
 /* ---------- globals */
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern s_action_usage g_action_usage_definitions[88]; // 0x11351E28
 	extern s_action_definition *g_action_definitions[88]; // 0x113520E8
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Patches
@@ -99,3 +120,126 @@ namespace Patches
 }
 
 /* ---------- private code */
+
+_extern bool _sub_107BAC40(e_action, e_action, unsigned short *);
+bool action_allow_interruption_hook(e_action current_action, e_action desired_action, unsigned short *context) // 0x107BAC40
+{
+	// `anonymous-namespace'::action_allow_interruption_hook
+	// unsigned short *context;
+	// bool result;
+	{
+		// unsigned short desired_flags;
+		{
+			// short current_prioruty;
+			// short desired_priority;
+		}
+	}
+	todo("implement");
+	bool __result = _sub_107BAC40(current_action, desired_action, context);
+	return __result;
+}
+
+_extern bool _sub_107BB150(long, c_motor_task *, long, bool, bool);
+bool motor_animation_task_busy_hook(long object_index, c_motor_task *task, long resource_type, bool a4, bool a5) // 0x107BB150
+{
+	// `anonymous-namespace'::motor_animation_task_busy_hook
+	// bool a5;
+	// bool v5;
+	{
+		// long action_type;
+		{
+			// unsigned short flags;
+		}
+	}
+	// function call : c_animation_channel *(*const)(long, long)
+	todo("implement");
+	bool __result = _sub_107BB150(object_index, task, resource_type, a4, a5);
+	return __result;
+}
+
+extern s_action_definition *_sub_107BADF0(e_action);
+s_action_definition *action_get_definition_hook(e_action action_type) // 0x107BADF0
+{
+	// `anonymous-namespace'::action_get_definition_hook
+	// e_action action_type;
+	todo("implement");
+	s_action_definition * __result = _sub_107BADF0(action_type);
+	return __result;
+}
+
+_extern bool _sub_107BAE20(long, s_action_request *);
+bool action_submit_hook(long motor_index, s_action_request *request) // 0x107BAE20
+{
+	// `anonymous-namespace'::action_submit_hook
+	// s_action_request *request;
+	// void (*const player_training_unit_submitted_action)(long, long, e_action, bool);
+	// bool result;
+	// s_action_definition *definition;
+	{
+		// s_unit_data *unit;
+	}
+	// function call : void (*const)(long)
+	// function call : bool (*)(long, s_action_request const *)
+	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
+	// function call : void (*const)(long, long, e_action, bool)
+	todo("implement");
+	bool __result = _sub_107BAE20(motor_index, request);
+	return __result;
+}
+
+_extern void _sub_107BAD60(long, e_action);
+void action_finished_hook(long motor_index, e_action action_type) // 0x107BAD60
+{
+	// `anonymous-namespace'::action_finished_hook
+	// e_action action_type;
+	// function call : void (*)(long, e_action)
+	todo("implement");
+	_sub_107BAD60(motor_index, action_type);
+}
+
+_extern bool _sub_107BAF80(long);
+bool action_update_hook(long motor_index) // 0x107BAF80
+{
+	// `anonymous-namespace'::action_update_hook
+	// long motor_index;
+	// bool result;
+	{
+		// __int32 i;
+		{
+			// s_action_definition *definition;
+			// c_motor_task *task;
+		}
+	}
+	// function call : c_motor_task *(*const)(long, long)
+	// function call : bool (*)(long, e_action)
+	todo("implement");
+	bool __result = _sub_107BAF80(motor_index);
+	return __result;
+}
+
+_extern bool _sub_107BB2A0(long);
+bool unit_movement_inhibited_hook(long unit_index) // 0x107BB2A0
+{
+	// `anonymous-namespace'::unit_movement_inhibited_hook
+	// long unit_index;
+	// bool (*const unit_has_armor_lock)(long);
+	// bool (*const biped_is_animation_controlled_by_equipment)(long);
+	// function call : bool (*const)(long)
+	// function call : bool (*const)(long)
+	todo("implement");
+	bool __result = _sub_107BB2A0(unit_index);
+	return __result;
+}
+
+_extern bool _sub_107BB0B0(long, e_action, long);
+bool custom_animation_submit_motor_task_allow_hook(long motor_index, e_action action, long mask) // 0x107BB0B0
+{
+	// `anonymous-namespace'::custom_animation_submit_motor_task_allow_hook
+	// long mask;
+	// bool (*const motor_task_allow)(long, e_action, long);
+	// function call : bool (*const)(long, e_action)
+	// function call : bool (*const)(long, e_action, long)
+	todo("implement");
+	bool __result = _sub_107BB0B0(motor_index, action, mask);
+	return __result;
+}

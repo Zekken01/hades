@@ -164,3 +164,13 @@ _inline long c_gui_map_category_datasource::get_current_item_count_internal() //
 }
 
 /* ---------- private code */
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template bool s_static_array<c_gui_map_category_datasource::s_map_category_item,100>::valid(__int32);
+template c_gui_map_category_datasource::s_map_category_item & s_static_array<c_gui_map_category_datasource::s_map_category_item,100>::operator[](long);
+template c_gui_map_category_datasource::s_map_category_item * s_static_array<c_gui_map_category_datasource::s_map_category_item,100>::get_elements();

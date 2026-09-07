@@ -1478,6 +1478,15 @@ enum e_collision_surface_flags
 };
 static_assert32(sizeof(e_collision_surface_flags) == 4, "Invalid e_collision_surface_flags size");
 
+enum e_compression_info_flags
+{
+	_compressed_position_bit = 0,
+	_compressed_texcoord_bit = 1,
+	_compression_optimized_bit = 2,
+	k_number_of_compression_info_flags = 3,
+};
+static_assert32(sizeof(e_compression_info_flags) == 4, "Invalid e_compression_info_flags size");
+
 enum e_control_function_output_modifier
 {
 	_function_output_modifier_none = 0,
@@ -2216,6 +2225,14 @@ enum e_gui_game_mode
 };
 static_assert32(sizeof(e_gui_game_mode) == 4, "Invalid e_gui_game_mode size");
 
+enum e_hole_algorithm
+{
+	_hole_algorithm0 = 0,
+	_hole_algorithm1 = 1,
+	_hole_algorithm2 = 2,
+};
+static_assert32(sizeof(e_hole_algorithm) == 4, "Invalid e_hole_algorithm size");
+
 enum e_hs_compile_state
 {
 	_hs_compile_state_edited = 0,
@@ -2339,6 +2356,16 @@ enum e_hs_type
 	k_number_of_hs_types = 84,
 };
 static_assert32(sizeof(e_hs_type) == 4, "Invalid e_hs_type size");
+
+enum e_image_content_type
+{
+	_image_content_map = 0,
+	_image_content_small_map = 1,
+	_image_content_variant = 2,
+	_image_content_film = 3,
+	_image_content_clip = 4,
+};
+static_assert32(sizeof(e_image_content_type) == 4, "Invalid e_image_content_type size");
 
 enum e_index_buffer_type
 {
@@ -2746,6 +2773,13 @@ enum e_network_session_boot_reason
 	k_network_session_boot_reason_count = 16,
 };
 static_assert32(sizeof(e_network_session_boot_reason) == 4, "Invalid e_network_session_boot_reason size");
+
+enum e_network_session_parameter_base_flags
+{
+	_network_session_parameter_base_flags_allowed_bit = 0,
+	_network_session_parameter_base_flags_unknown_bit = 1,
+};
+static_assert32(sizeof(e_network_session_parameter_base_flags) == 4, "Invalid e_network_session_parameter_base_flags size");
 
 enum e_network_session_parameter_type
 {
@@ -3297,6 +3331,16 @@ enum e_render_method_extern_mode
 };
 static_assert32(sizeof(e_render_method_extern_mode) == 4, "Invalid e_render_method_extern_mode size");
 
+enum e_render_method_flags
+{
+	_render_method_ignore_fog_bit = 0,
+	_render_method_use_custom_fog_setting_bit = 1,
+	_render_method_calculate_z_camera_bit = 2,
+	_render_method_never_shields_bit = 3,
+	_render_method_only_shields_bit = 4,
+};
+static_assert32(sizeof(e_render_method_flags) == 4, "Invalid e_render_method_flags size");
+
 enum e_render_method_postprocess_flags
 {
 	_postprocess_bit0 = 0,
@@ -3646,6 +3690,15 @@ enum e_sky_atm_flags
 {
 };
 static_assert32(sizeof(e_sky_atm_flags) == 4, "Invalid e_sky_atm_flags size");
+
+enum e_sorting_layer
+{
+	_sorting_layer_invalid = 0,
+	_sorting_layer_pre_pass = 1,
+	_sorting_layer_normal = 2,
+	_sorting_layer_post_pass = 3,
+};
+static_assert32(sizeof(e_sorting_layer) == 4, "Invalid e_sorting_layer size");
 
 enum e_sound_accoustics_flags
 {
@@ -4590,6 +4643,19 @@ enum e_variant_placement_flags
 	_variant_placement_asymmetric_bit = 3,
 };
 static_assert32(sizeof(e_variant_placement_flags) == 4, "Invalid e_variant_placement_flags size");
+
+enum e_vertex_buffer_usage
+{
+	_vertex_buffer_usage_geometry = 0,
+	_vertex_buffer_usage_per_pixel = 1,
+	_vertex_buffer_usage_per_vertex = 2,
+	_vertex_buffer_usage_ambient_prt = 3,
+	_vertex_buffer_usage_unknown4 = 4,
+	_vertex_buffer_usage_unknown5 = 5,
+	_vertex_buffer_usage_water_strips = 6,
+	_vertex_buffer_usage_water_parameters = 7,
+};
+static_assert32(sizeof(e_vertex_buffer_usage) == 4, "Invalid e_vertex_buffer_usage size");
 
 enum e_vertex_type
 {
@@ -5833,6 +5899,7 @@ static_assert32(sizeof(c_network_session) == 2473024, "Invalid c_network_session
 
 struct c_network_session_parameter_base
 {
+	private:
 	virtual void notify_set_update_required();
 	virtual void notify_set_change_request();
 	virtual void notify_update_payload_sent_to_peer(long);
@@ -5849,6 +5916,7 @@ struct c_network_session_parameter_base
 	virtual void notify_reset_peer_state(long);
 	virtual void notify_clear();
 	virtual void notify_transition_state_to_become_host();
+	public:
 	unsigned char m_type[4]; // 0x4, c_enum<enum e_network_session_parameter_type,unsigned long>
 	void *m_name; // 0x8, const char *
 	c_network_session * m_session; // 0xC

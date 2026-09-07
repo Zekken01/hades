@@ -13,6 +13,7 @@
 #include "Blam/math/real_math_definitions.hpp"
 #include "Blam/physics/havok_types.hpp"
 #include "Blam/tag_files/tag_groups.hpp"
+#include "ChatCommands/ChatCommandMap.hpp"
 #include "Debug/DebugDraw.hpp"
 #include "Patch.hpp"
 #include "Patches/Audio.hpp"
@@ -60,12 +61,19 @@
 
 /* ---------- forward declarations */
 
+class CDebugDraw;
+class c_gui_data;
+class c_gui_list_item_widget;
+class c_gui_list_widget;
+class c_gui_screen_widget;
+class c_gui_widget;
 struct real_point2d;
 struct real_rectangle2d;
-namespace
+namespace hades_file_local
 {
 	struct SMouseSupportContext;
 }
+using namespace hades_file_local;
 
 namespace Utils {}
 using namespace ::Utils;
@@ -126,7 +134,7 @@ using namespace ::Blam;
 
 /* ---------- constants */
 
-namespace
+namespace hades_file_local
 {
 	enum EMouseContext
 	{
@@ -135,9 +143,10 @@ namespace
 		Game,
 	};
 }
+using namespace hades_file_local;
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	#pragma pack(push, 4)
 	struct SMouseSupportContext
@@ -160,6 +169,7 @@ namespace
 	#pragma pack(pop)
 	static_assert(sizeof(SMouseSupportContext) == 52, "Invalid SMouseSupportContext size");
 }
+using namespace hades_file_local;
 /* ---------- prototypes */
 
 namespace Patches
@@ -171,16 +181,31 @@ namespace Patches
 	}
 }
 
+void SetMouseContext(EMouseContext ctx);
+void MouseSupportUpdate();
+void ScrollListWidget(c_gui_screen_widget *screenWidget, c_gui_list_widget *listWidget, __int32 amount);
+bool HandleScreen(c_gui_screen_widget *screenWidget, SMouseSupportContext &ctx);
+bool HandleListWidgets(c_gui_screen_widget *screenWidget, SMouseSupportContext &ctx, c_gui_widget *parentWidget);
+bool HandleListWidget(c_gui_screen_widget *screenWidget, c_gui_list_widget *listWidget, SMouseSupportContext &ctx);
+bool HandleSpinnerListWidgetFocus(c_gui_screen_widget *screenWidget, c_gui_list_widget *listWidget, SMouseSupportContext &ctx);
+void ComputeListItemBounds(c_gui_list_item_widget *itemWidget, real_rectangle2d &bounds);
+void UpdateMouseMovementTracking(SMouseSupportContext &state);
+void UpdateMouseState(SMouseSupportContext &state);
+void ComputeWidgetBounds(c_gui_widget *widget, real_rectangle2d *accumulatedBounds, bool (*childFilter)(c_gui_widget const &));
+void MapWidgetBoundsToWindowCoords(real_rectangle2d const &windowBounds, real_rectangle2d &widgetBounds);
+bool RectangleContainsPoint(real_rectangle2d const &rect, real_point2d const &point);
+
 /* ---------- globals */
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern __int32 globalMouseX; // 0x12408358
 	extern __int32 globalMouseY; // 0x1240835C
 	extern float globalMouseMoveDelta; // 0x12408360
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Patches
@@ -211,3 +236,223 @@ namespace Patches
 }
 
 /* ---------- private code */
+
+_extern void _sub_108D5630(EMouseContext);
+void SetMouseContext(EMouseContext ctx) // 0x108D5630
+{
+	// `anonymous-namespace'::SetMouseContext
+	// EMouseContext ctx;
+	// static EMouseContext `SetMouseContext'::`2'::lastCtx; // 0x11352D84
+	{
+		// c_gui_screen_widget *activeScreen;
+		// bool tagUiOpen;
+		{
+			// c_gui_widget *focusedWidget;
+		}
+	}
+	todo("implement");
+	_sub_108D5630(ctx);
+}
+
+_extern void _sub_108D50B0();
+void MouseSupportUpdate() // 0x108D50B0
+{
+	// `anonymous-namespace'::MouseSupportUpdate
+	// procedure flags: nofpo
+	// static ...; // 0x108D52F0
+	// static ...; // 0x108D52E4
+	// static ...; // 0x108D52DC
+	// static SMouseSupportContext `MouseSupportUpdate'::`2'::ctx; // 0x12408364
+	// bool isDebug;
+	// c_gui_screen_widget *activeScreen;
+	{
+		// CDebugDraw dd;
+	}
+	{
+		// c_gui_widget *focusedWidget;
+	}
+	// function call : HWND__ *()
+	todo("implement");
+	_sub_108D50B0();
+}
+
+_extern void _sub_108D54F0(c_gui_screen_widget *, c_gui_list_widget *, __int32);
+void ScrollListWidget(c_gui_screen_widget *screenWidget, c_gui_list_widget *listWidget, __int32 amount) // 0x108D54F0
+{
+	// `anonymous-namespace'::ScrollListWidget
+	// __int32 amount;
+	// long &visibleItemCount;
+	// c_gui_data *data;
+	// long &pageOffset;
+	// long newIndex;
+	// long dataItemCount;
+	// function call : long ()
+	todo("implement");
+	_sub_108D54F0(screenWidget, listWidget, amount);
+}
+
+_extern bool _sub_108D48A0(c_gui_screen_widget *, SMouseSupportContext &);
+bool HandleScreen(c_gui_screen_widget *screenWidget, SMouseSupportContext &ctx) // 0x108D48A0
+{
+	// `anonymous-namespace'::HandleScreen
+	// SMouseSupportContext &ctx;
+	// c_gui_widget *focusedWidget;
+	// static long `HandleScreen'::`2'::lastScreenWidgetName; // 0x11352D88
+	{
+		// c_gui_list_widget *listWidget;
+	}
+	{
+		{
+			// __int32 amount;
+			// long index;
+		}
+	}
+	todo("implement");
+	bool __result = _sub_108D48A0(screenWidget, ctx);
+	return __result;
+}
+
+_extern bool _sub_108D47A0(c_gui_screen_widget *, SMouseSupportContext &, c_gui_widget *);
+bool HandleListWidgets(c_gui_screen_widget *screenWidget, SMouseSupportContext &ctx, c_gui_widget *parentWidget) // 0x108D47A0
+{
+	// `anonymous-namespace'::HandleListWidgets
+	// c_gui_widget *parentWidget;
+	// bool handled;
+	{
+		// c_gui_widget *widget;
+	}
+	todo("implement");
+	bool __result = _sub_108D47A0(screenWidget, ctx, parentWidget);
+	return __result;
+}
+
+_extern bool _sub_108D3FD0(c_gui_screen_widget *, c_gui_list_widget *, SMouseSupportContext &);
+bool HandleListWidget(c_gui_screen_widget *screenWidget, c_gui_list_widget *listWidget, SMouseSupportContext &ctx) // 0x108D3FD0
+{
+	// `anonymous-namespace'::HandleListWidget
+	// static ...; // 0x108D45EC
+	// static ...; // 0x108D45E4
+	// c_gui_screen_widget *screenWidget;
+	// c_gui_list_widget *listWidget;
+	// SMouseSupportContext &ctx;
+	// bool isDebug;
+	// bool handled;
+	// c_gui_list_item_widget *listItem;
+	{
+		// CDebugDraw dd;
+		// real_rectangle2d bounds;
+		{
+			// bool isTransitioning;
+			// long transitionStateFlags;
+			// c_gui_widget *focused_widget;
+		}
+	}
+	todo("implement");
+	bool __result = _sub_108D3FD0(screenWidget, listWidget, ctx);
+	return __result;
+}
+
+_extern bool _sub_108D4A60(c_gui_screen_widget *, c_gui_list_widget *, SMouseSupportContext &);
+bool HandleSpinnerListWidgetFocus(c_gui_screen_widget *screenWidget, c_gui_list_widget *listWidget, SMouseSupportContext &ctx) // 0x108D4A60
+{
+	// `anonymous-namespace'::HandleSpinnerListWidgetFocus
+	// SMouseSupportContext &ctx;
+	// c_gui_widget *focusedParent;
+	// void (*const animateArrowButton)(c_gui_list_widget *, c_gui_widget *, __int32);
+	// c_gui_widget *focused;
+	{
+		// __int32 amount;
+		// c_gui_data *data;
+		// long index;
+		// long dataItemCount;
+	}
+	// function call : long ()
+	todo("implement");
+	bool __result = _sub_108D4A60(screenWidget, listWidget, ctx);
+	return __result;
+}
+
+_extern void _sub_108D3CC0(c_gui_list_item_widget *, real_rectangle2d &);
+void ComputeListItemBounds(c_gui_list_item_widget *itemWidget, real_rectangle2d &bounds) // 0x108D3CC0
+{
+	// `anonymous-namespace'::ComputeListItemBounds
+	// static ...; // 0x108D3D84
+	// static ...; // 0x108D3D7C
+	// c_gui_list_item_widget *itemWidget;
+	// real_rectangle2d &bounds;
+	// real_point2d anchorPos;
+	todo("implement");
+	_sub_108D3CC0(itemWidget, bounds);
+}
+
+_extern void _sub_108D5970(SMouseSupportContext &);
+void UpdateMouseMovementTracking(SMouseSupportContext &state) // 0x108D5970
+{
+	// `anonymous-namespace'::UpdateMouseMovementTracking
+	// SMouseSupportContext &state;
+	todo("implement");
+	_sub_108D5970(state);
+}
+
+_extern void _sub_108D5A20(SMouseSupportContext &);
+void UpdateMouseState(SMouseSupportContext &state) // 0x108D5A20
+{
+	// `anonymous-namespace'::UpdateMouseState
+	// SMouseSupportContext &state;
+	// unsigned long *clientResolution;
+	// unsigned long *renderBoundaries;
+	todo("implement");
+	_sub_108D5A20(state);
+}
+
+_extern void _sub_108D3DD0(c_gui_widget *, real_rectangle2d *, bool (*)(c_gui_widget const &));
+void ComputeWidgetBounds(c_gui_widget *widget, real_rectangle2d *accumulatedBounds, bool (*childFilter)(c_gui_widget const &)) // 0x108D3DD0
+{
+	// `anonymous-namespace'::ComputeWidgetBounds
+	// static ...; // 0x108D3F4C
+	// c_gui_widget *widget;
+	// real_rectangle2d *accumulatedBounds;
+	// bool (*childFilter)(c_gui_widget const &);
+	// c_gui_widget *child;
+	{
+		// real_rectangle2d bounds;
+	}
+	// function call : bool (*)(c_gui_widget const &)
+	todo("implement");
+	_sub_108D3DD0(widget, accumulatedBounds, childFilter);
+}
+
+_extern void _sub_108D4BE0(real_rectangle2d const &, real_rectangle2d &);
+void MapWidgetBoundsToWindowCoords(real_rectangle2d const &windowBounds, real_rectangle2d &widgetBounds) // 0x108D4BE0
+{
+	// `anonymous-namespace'::MapWidgetBoundsToWindowCoords
+	// static ...; // 0x108D4F95
+	// static ...; // 0x108D4F88
+	// static ...; // 0x108D4F64
+	// static ...; // 0x108D4F5C
+	// real_rectangle2d const &windowBounds;
+	// real_rectangle2d &widgetBounds;
+	// long (*const interface_get_closest_authored_ui_aspect_ratio)();
+	// float ui_aspect_ratio;
+	// float window_height;
+	// float ui_tag_resolutions[2][2];
+	// long *ui_resolution;
+	// float widescreen_factor;
+	// float window_width;
+	// long display_mode;
+	// real_point2d window_scale;
+	// real_point2d ui_scale;
+	// function call : long (*const)()
+	todo("implement");
+	_sub_108D4BE0(windowBounds, widgetBounds);
+}
+
+_extern bool _sub_108D5460(real_rectangle2d const &, real_point2d const &);
+bool RectangleContainsPoint(real_rectangle2d const &rect, real_point2d const &point) // 0x108D5460
+{
+	// `anonymous-namespace'::RectangleContainsPoint
+	// real_point2d const &point;
+	todo("implement");
+	bool __result = _sub_108D5460(rect, point);
+	return __result;
+}

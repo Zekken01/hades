@@ -36,7 +36,7 @@ extern float get_linear_buffer_value(long a1, long max_pixel_value, float a3);
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern bool g_LUT_initialized; // 0x1256B9F8
 	extern IDirect3DTexture9 *g_LUT_1D; // 0x1256B9FC
@@ -47,6 +47,7 @@ namespace
 	extern float gamma_adjustment[5]; // 0x11359F38
 	extern float black_level_adjustment[5]; // 0x1256BA04
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 _extern void _sub_10F14560();

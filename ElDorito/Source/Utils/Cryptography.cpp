@@ -64,6 +64,8 @@ namespace Utils
 	}
 }
 
+unsigned long AcquireProvider();
+
 /* ---------- globals */
 
 /* ---------- private variables */
@@ -315,4 +317,16 @@ namespace Utils
 			return __result;
 		}
 	}
+}
+
+_extern unsigned long _sub_10C53E20();
+unsigned long AcquireProvider() // 0x10C53E20
+{
+	// `anonymous-namespace'::AcquireProvider
+	// procedure flags: nofpo
+	// static unsigned long `AcquireProvider'::`2'::handle; // 0x1247EC64
+	// function call : __int32 (unsigned long *, char const *, char const *, unsigned long, unsigned long)
+	todo("implement");
+	unsigned long __result = _sub_10C53E20();
+	return __result;
 }

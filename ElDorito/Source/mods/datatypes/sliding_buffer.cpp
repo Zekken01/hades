@@ -1,5 +1,6 @@
 /* ---------- headers */
 
+#include "mods/datatypes/sliding_buffer.hpp"
 #include "hades/hades.h"
 
 /* ---------- constants */

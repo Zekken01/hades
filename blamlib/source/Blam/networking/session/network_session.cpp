@@ -270,3 +270,15 @@ long c_network_session_membership::find_next_player(long previous_player_index) 
 }
 
 /* ---------- private code */
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template bool c_enum<enum e_network_session_state,unsigned char>::operator==(e_network_session_state const &) const;
+template bool c_enum<enum e_network_session_state,unsigned char>::operator>=(e_network_session_state const &) const;
+template c_enum<enum e_network_session_state,unsigned char>::c_enum(c_enum<enum e_network_session_state,unsigned char> const &);
+template c_enum<enum e_network_session_state,unsigned char>::c_enum(unsigned char const &);
+template c_enum<enum e_network_session_state,unsigned char>::operator enum e_network_session_state() const;

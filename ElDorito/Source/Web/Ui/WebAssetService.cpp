@@ -15,6 +15,7 @@
 #include "Blam/tag_files/file_reference.inl"
 #include "Blam/tag_files/files.hpp"
 #include "Blam/tag_files/tag_groups.hpp"
+#include "ChatCommands/ChatCommandMap.hpp"
 #include "Common/Http/HttpHeaders.hpp"
 #include "Common/RefCounting.hpp"
 #include "mods/cache_file_tag_cache.hpp"
@@ -96,6 +97,8 @@
 
 class CModPackageFileSystemView;
 class CModPackageFileSystemViewManager;
+class IMod;
+class c_mod_package;
 struct begin;
 struct end;
 namespace Web
@@ -143,6 +146,8 @@ namespace Blam
 /* ---------- definitions */
 
 /* ---------- prototypes */
+
+std::shared_ptr<CModPackageFileSystemView> GetModVFS(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &identifier, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &vfsId);
 
 /* ---------- globals */
 
@@ -240,3 +245,35 @@ _inline CModPackageFileSystemViewManager::CModPackageFileSystemViewManager() // 
 }
 
 /* ---------- private code */
+
+extern std::shared_ptr<CModPackageFileSystemView> _sub_1077E970(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+std::shared_ptr<CModPackageFileSystemView> GetModVFS(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &identifier, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &vfsId) // 0x1077E970
+{
+	// `anonymous-namespace'::GetModVFS
+	// static ...; // 0x1077EC0C
+	// static ...; // 0x1077EBF4
+	// static ...; // 0x1077EBEC
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &identifier;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &vfsId;
+	// EModIndex modIndex;
+	{
+		// Ref<IMod> mod;
+		{
+			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > hashStr;
+			// c_mod_package const *pak;
+		}
+	}
+	// function call : Ref<IMod> (EModIndex) const
+	// function call : c_mod_package *(bool) const
+	todo("implement");
+	std::shared_ptr<CModPackageFileSystemView> __result = _sub_1077E970(identifier, vfsId);
+	return __result;
+}
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template CModPackageFileSystemViewManager & Utils::Singleton<CModPackageFileSystemViewManager>::Instance();

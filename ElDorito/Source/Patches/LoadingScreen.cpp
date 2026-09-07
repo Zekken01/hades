@@ -11,6 +11,7 @@
 #include "Blam/game/player_appearance.hpp"
 #include "Blam/game/player_configuration.inl"
 #include "Blam/hs/hs.hpp"
+#include "Blam/main/levels.hpp"
 #include "Blam/math/real_math.inl"
 #include "Blam/math/real_math_definitions.hpp"
 #include "Blam/objects/damage.hpp"
@@ -19,11 +20,16 @@
 #include "Blam/tag_files/file_reference.inl"
 #include "Blam/tag_files/files.hpp"
 #include "Blam/tag_files/tag_groups.hpp"
+#include "ChatCommands/ChatCommandMap.hpp"
+#include "Common/Http/HttpHeaders.hpp"
 #include "mods/FileSystem/ModPackageFileSystemView.hpp"
+#include "mods/font_package.hpp"
+#include "mods/map_variant_loader.hpp"
 #include "mods/mod_definitions.hpp"
 #include "mods/mod_identifier.hpp"
 #include "mods/mod_package_manager.hpp"
 #include "mods/new/IModManager.hpp"
+#include "Modules/ModuleServer.hpp"
 #include "Patch.hpp"
 #include "Patches/Audio.hpp"
 #include "Patches/CustomPackets.hpp"
@@ -74,6 +80,16 @@
 
 /* ---------- forward declarations */
 
+class c_mod_package_manager;
+struct c_game_engine_base_variant;
+struct s_game_options;
+struct s_level_datum;
+struct s_level_insertion_datum;
+struct s_map_variant;
+namespace Modules
+{
+	class ModuleServer;
+}
 namespace Patches
 {
 	namespace LoadingScreen
@@ -118,6 +134,15 @@ namespace Patches
 	}
 }
 
+bool ShowLoadingScreenHook(s_game_options &options);
+void BeginLoadingHook(unsigned __int32 totalBytes);
+void UpdateLoadingProgressHook(unsigned __int32 bytes);
+void HideLoadingScreenHook();
+std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > GetActiveSkullsForDisplay(unsigned long primarySkulls, unsigned long secondarySkulls);
+std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > GetActiveSkullsForDisplay();
+std::basic_string<char,std::char_traits<char>,std::allocator<char> > camapgin_difficulty_level_to_string(long level);
+bool BuildLoadingScreenShowInfo(s_game_options &gameOptions, Patches::LoadingScreen::LoadingScreenShowInfo &outInfo);
+
 /* ---------- globals */
 
 namespace Patches
@@ -130,11 +155,12 @@ namespace Patches
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern std::shared_ptr<Patches::LoadingScreen::LoadingScreenUi> ActiveUi; // 0x12458CF8
 	extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > const kCampaignSkullNames[16]; // 0x12458B38
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Patches
@@ -172,3 +198,158 @@ namespace Patches
 }
 
 /* ---------- private code */
+
+_extern bool _sub_10A84100(s_game_options &);
+bool ShowLoadingScreenHook(s_game_options &options) // 0x10A84100
+{
+	// `anonymous-namespace'::ShowLoadingScreenHook
+	// static ...; // 0x10A84498
+	// static ...; // 0x10A8448C
+	// static ...; // 0x10A84484
+	// s_game_options &options;
+	{
+		// bool HasIntroBinks;
+	}
+	{
+		// Patches::LoadingScreen::LoadingScreenShowInfo info;
+	}
+	// function call : bool (*)(s_game_options &)
+	// function call : void (Patches::LoadingScreen::LoadingScreenShowInfo const &)
+	// function call : bool (*)(s_game_options &)
+	todo("implement");
+	bool __result = _sub_10A84100(options);
+	return __result;
+}
+
+_extern void _sub_10A82EA0(unsigned __int32);
+void BeginLoadingHook(unsigned __int32 totalBytes) // 0x10A82EA0
+{
+	// `anonymous-namespace'::BeginLoadingHook
+	// unsigned __int32 totalBytes;
+	// function call : void (unsigned __int32)
+	todo("implement");
+	_sub_10A82EA0(totalBytes);
+}
+
+_extern void _sub_10A84590(unsigned __int32);
+void UpdateLoadingProgressHook(unsigned __int32 bytes) // 0x10A84590
+{
+	// `anonymous-namespace'::UpdateLoadingProgressHook
+	// unsigned __int32 bytes;
+	// function call : void (unsigned __int32)
+	todo("implement");
+	_sub_10A84590(bytes);
+}
+
+_extern void _sub_10A84000();
+void HideLoadingScreenHook() // 0x10A84000
+{
+	// `anonymous-namespace'::HideLoadingScreenHook
+	// procedure flags: nofpo
+	// void (*HideLoadingScreen)();
+	// function call : void (*)()
+	// function call : void ()
+	todo("implement");
+	_sub_10A84000();
+}
+
+extern std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > _sub_10A83D50(unsigned long, unsigned long);
+std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > GetActiveSkullsForDisplay(unsigned long primarySkulls, unsigned long secondarySkulls) // 0x10A83D50
+{
+	// `anonymous-namespace'::GetActiveSkullsForDisplay
+	// static ...; // 0x10A83E6C
+	// static ...; // 0x10A83E64
+	// unsigned long primarySkulls;
+	// unsigned long secondarySkulls;
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > skulls;
+	{
+		// __int32 i;
+	}
+	todo("implement");
+	std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > __result = _sub_10A83D50(primarySkulls, secondarySkulls);
+	return __result;
+}
+
+extern std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > _sub_10A83ED0();
+std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > GetActiveSkullsForDisplay() // 0x10A83ED0
+{
+	// `anonymous-namespace'::GetActiveSkullsForDisplay
+	// procedure flags: nofpo
+	// static ...; // 0x10A83FAC
+	// static ...; // 0x10A83F9C
+	// static ...; // 0x10A83F84
+	// static ...; // 0x10A83F7C
+	// unsigned long secondarySkulls;
+	// unsigned long primarySkulls;
+	// function call : unsigned long *(*const)(unsigned long *)
+	// function call : unsigned long *(*const)(unsigned long *)
+	todo("implement");
+	std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > __result = _sub_10A83ED0();
+	return __result;
+}
+
+extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10A84770(long);
+std::basic_string<char,std::char_traits<char>,std::allocator<char> > camapgin_difficulty_level_to_string(long level) // 0x10A84770
+{
+	// `anonymous-namespace'::camapgin_difficulty_level_to_string
+	// static ...; // 0x10A84874
+// $LN7:
+// $LN6:
+// $LN5:
+// $LN4:
+	// long level;
+	todo("implement");
+	std::string __result = _sub_10A84770(level);
+	return __result;
+}
+
+_extern bool _sub_10A82F40(s_game_options &, Patches::LoadingScreen::LoadingScreenShowInfo &);
+bool BuildLoadingScreenShowInfo(s_game_options &gameOptions, Patches::LoadingScreen::LoadingScreenShowInfo &outInfo) // 0x10A82F40
+{
+	// `anonymous-namespace'::BuildLoadingScreenShowInfo
+	// static ...; // 0x10A83A52
+	// static ...; // 0x10A83A46
+	// static ...; // 0x10A83A40
+	// static ...; // 0x10A83A3A
+	// static ...; // 0x10A83A30
+	// static ...; // 0x10A839F4
+	// static ...; // 0x10A839EC
+// $LN13:
+// $LN12:
+// $LN11:
+// $LN10:
+// $LN9:
+// $LN8:
+// $LN7:
+	// s_game_options &gameOptions;
+	// Patches::LoadingScreen::LoadingScreenShowInfo &outInfo;
+	// bool hasModSet;
+	// Modules::ModuleServer const &moduleServer;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > modhash;
+	// c_mod_package_manager::s_entry mod_package;
+	{
+		// char *rawGameVariant;
+		// s_map_variant const &mapVariant;
+		// s_level_datum level;
+		// c_game_engine_base_variant *gameVariant;
+	}
+	{
+		// s_level_insertion_datum insertion;
+	}
+	// function call : bool (*const)(long, s_level_datum *)
+	// function call : bool (*const)(long, s_level_datum *)
+	// function call : bool (*const)(long, s_level_insertion_datum *)
+	// function call : long (*const)()
+	todo("implement");
+	bool __result = _sub_10A82F40(gameOptions, outInfo);
+	return __result;
+}
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template c_enum<enum e_game_engine_type,long>::operator long() const;
+template c_enum<enum e_game_mode,long>::operator long() const;

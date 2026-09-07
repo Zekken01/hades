@@ -5,7 +5,9 @@
 
 #include "Blam/BlamInput.hpp"
 #include "Blam/BlamNetwork.hpp"
+#include "Blam/camera/camera.hpp"
 #include "Blam/camera/director.hpp"
+#include "Blam/camera/observer.hpp"
 #include "Blam/cseries/cseries.hpp"
 #include "Blam/cseries/enums.inl"
 #include "Blam/cseries/flags.inl"
@@ -23,6 +25,8 @@
 #include "Blam/objects/objects.hpp"
 #include "Blam/structures/cluster_reference.hpp"
 #include "Blam/tag_files/tag_groups.hpp"
+#include "ChatCommands/ChatCommandMap.hpp"
+#include "Common/Http/HttpHeaders.hpp"
 #include "ElDorito.hpp"
 #include "Modules/ModuleBase.hpp"
 #include "Patch.hpp"
@@ -63,7 +67,20 @@
 
 /* ---------- forward declarations */
 
+class c_camera;
+class c_director;
 struct real_euler_angles2d;
+struct real_euler_angles3d;
+struct real_point3d;
+struct real_vector3d;
+struct s_observer_result;
+namespace Blam
+{
+	namespace Network
+	{
+		struct Session;
+	}
+}
 namespace Modules
 {
 	class ModuleBase;
@@ -90,6 +107,11 @@ namespace Patches
 
 namespace Blam {}
 using namespace ::Blam;
+namespace Blam
+{
+	namespace Network {}
+	using namespace Blam::Network;
+}
 
 /* ---------- constants */
 
@@ -97,15 +119,25 @@ using namespace ::Blam;
 
 /* ---------- prototypes */
 
+bool VariableCameraFovUpdate(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool VariableCameraHideHudUpdate(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool VariableCameraHideKillFeedUpdate(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool VariableCameraSpeedUpdate(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool VariableCameraPositionUpdate(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool VariableCameraModeUpdate(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool VariableCameraShowCoordinatesUpdate(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool VariableOldViewOffsetScaleUpdate(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+
 /* ---------- globals */
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern float &k_camera_field_of_view_default; // 0x11353EC0
 	extern real_euler_angles2d inputAngularVelocity; // 0x12454D54
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Modules
@@ -139,3 +171,138 @@ namespace Modules
 }
 
 /* ---------- private code */
+
+_extern bool _sub_10979E70(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool VariableCameraFovUpdate(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10979E70
+{
+	// `anonymous-namespace'::VariableCameraFovUpdate
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// Modules::ModuleCamera &moduleCamera;
+	// float value;
+	todo("implement");
+	bool __result = _sub_10979E70(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_1097A000(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool VariableCameraHideHudUpdate(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x1097A000
+{
+	// `anonymous-namespace'::VariableCameraHideHudUpdate
+	// static ...; // 0x1097A1C4
+	// static ...; // 0x1097A1BC
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// bool statusBool;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > status;
+	// unsigned long value;
+	todo("implement");
+	bool __result = _sub_1097A000(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_1097A250(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool VariableCameraHideKillFeedUpdate(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x1097A250
+{
+	// `anonymous-namespace'::VariableCameraHideKillFeedUpdate
+	// static ...; // 0x1097A414
+	// static ...; // 0x1097A40C
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// bool statusBool;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > status;
+	// unsigned long value;
+	todo("implement");
+	bool __result = _sub_1097A250(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_1097AD40(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool VariableCameraSpeedUpdate(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x1097AD40
+{
+	// `anonymous-namespace'::VariableCameraSpeedUpdate
+	// static ...; // 0x1097AE6C
+	// static ...; // 0x1097AE64
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// float speed;
+	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	todo("implement");
+	bool __result = _sub_1097AD40(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_1097A670(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool VariableCameraPositionUpdate(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x1097A670
+{
+	// `anonymous-namespace'::VariableCameraPositionUpdate
+	// static ...; // 0x1097AA77
+	// static ...; // 0x1097AA73
+	// static ...; // 0x1097AA6C
+	// static ...; // 0x1097AA64
+	// static ...; // 0x1097AA28
+	// static ...; // 0x1097AA20
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// c_director *director;
+	// c_camera *camera;
+	// real_point3d pos;
+	{
+		// s_observer_result const *observer_camera;
+		// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+		// real_euler_angles3d euler;
+	}
+	{
+		// real_euler_angles2d angles;
+		// real_vector3d forward;
+	}
+	// function call : c_director *(*const)(long)
+	// function call : bool (*const)()
+	// function call : s_observer_result *(*const)(long)
+	// function call : void (real_point3d const *)
+	// function call : void (real_vector3d const *)
+	todo("implement");
+	bool __result = _sub_1097A670(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_1097A4A0(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool VariableCameraModeUpdate(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x1097A4A0
+{
+	// `anonymous-namespace'::VariableCameraModeUpdate
+	// static ...; // 0x1097A5FC
+	// static ...; // 0x1097A5F4
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// constexpr bool (*const `VariableCameraModeUpdate'::`2'::player_terminal_chud_set)(bool); // constant == 11050832
+	// bool result;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > mode;
+	// function call : bool (*const)()
+	todo("implement");
+	bool __result = _sub_1097A4A0(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_1097AB90(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool VariableCameraShowCoordinatesUpdate(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x1097AB90
+{
+	// `anonymous-namespace'::VariableCameraShowCoordinatesUpdate
+	// static ...; // 0x1097ACD0
+	// static ...; // 0x1097ACC8
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// Blam::Network::Session *session;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > status;
+	todo("implement");
+	bool __result = _sub_1097AB90(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_1097AED0(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool VariableOldViewOffsetScaleUpdate(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x1097AED0
+{
+	// `anonymous-namespace'::VariableOldViewOffsetScaleUpdate
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	todo("implement");
+	bool __result = _sub_1097AED0(Arguments, returnInfo);
+	return __result;
+}

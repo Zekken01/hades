@@ -32,6 +32,8 @@ using namespace ::Debug;
 
 /* ---------- prototypes */
 
+char **CommandLineToArgvA(char *CmdLine, __int32 *_argc);
+
 /* ---------- globals */
 
 /* ---------- private variables */
@@ -58,3 +60,29 @@ CommandLineArgs::~CommandLineArgs() // 0x106D1330
 }
 
 /* ---------- private code */
+
+_extern char **_sub_106D13A0(char *, __int32 *);
+char **CommandLineToArgvA(char *CmdLine, __int32 *_argc) // 0x106D13A0
+{
+	// `anonymous-namespace'::CommandLineToArgvA
+	// static ...; // 0x106D158C
+// $LN18:
+// $LN16:
+// $LN11:
+	// char *CmdLine;
+	// __int32 *_argc;
+	// unsigned long argc;
+	// unsigned char in_QM;
+	// unsigned long i;
+	// unsigned long j;
+	// char *_argv;
+	// unsigned char in_TEXT;
+	// unsigned char in_SPACE;
+	// char **argv;
+	// char a;
+	// unsigned long len;
+	// function call : void *(unsigned __int32, unsigned long)
+	todo("implement");
+	char ** __result = _sub_106D13A0(CmdLine, _argc);
+	return __result;
+}

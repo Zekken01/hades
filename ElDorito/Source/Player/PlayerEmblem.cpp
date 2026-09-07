@@ -70,15 +70,6 @@ using namespace ::Blam;
 
 /* ---------- prototypes */
 
-namespace Player
-{
-	namespace PlayerEmblem
-	{
-		extern void set_emblem_texture(long sampler, long player_index, bool use_generic, bool screen_emblem);
-		extern void set_emblem_customization_biped(long sampler, bool use_generic, bool screen_emblem);
-	}
-}
-
 /* ---------- globals */
 
 namespace Utils
@@ -121,3 +112,11 @@ namespace Player
 }
 
 /* ---------- private code */
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template Player::PlayerEmblemDownload & Utils::Singleton<Player::PlayerEmblemDownload>::Instance();

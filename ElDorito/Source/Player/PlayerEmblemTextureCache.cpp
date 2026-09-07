@@ -24,10 +24,11 @@ namespace Player
 		class PlayerEmblemTextureCache;
 	}
 }
-namespace
+namespace hades_file_local
 {
 	struct CachedTexture;
 }
+using namespace hades_file_local;
 
 namespace Player {}
 using namespace ::Player;
@@ -41,7 +42,7 @@ namespace Player
 
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	struct CachedTexture
 	{
@@ -51,7 +52,11 @@ namespace
 	};
 	static_assert(sizeof(CachedTexture) == 8, "Invalid CachedTexture size");
 }
+using namespace hades_file_local;
 /* ---------- prototypes */
+
+bool LoadEmblemTexture(__int32 index, IDirect3DTexture9 **texture);
+bool GetTextureInternal(__int32 index, IDirect3DTexture9 **texture);
 
 /* ---------- globals */
 
@@ -76,3 +81,28 @@ namespace Player
 }
 
 /* ---------- private code */
+
+_extern bool _sub_107E9FC0(__int32, IDirect3DTexture9 **);
+bool LoadEmblemTexture(__int32 index, IDirect3DTexture9 **texture) // 0x107E9FC0
+{
+	// `anonymous-namespace'::LoadEmblemTexture
+	// static ...; // 0x107EA084
+	// static ...; // 0x107EA07C
+	// __int32 index;
+	// IDirect3DTexture9 **texture;
+	// char path[260];
+	todo("implement");
+	bool __result = _sub_107E9FC0(index, texture);
+	return __result;
+}
+
+_extern bool _sub_107E9F10(__int32, IDirect3DTexture9 **);
+bool GetTextureInternal(__int32 index, IDirect3DTexture9 **texture) // 0x107E9F10
+{
+	// `anonymous-namespace'::GetTextureInternal
+	// IDirect3DTexture9 **texture;
+	// CachedTexture &cachedTexture;
+	todo("implement");
+	bool __result = _sub_107E9F10(index, texture);
+	return __result;
+}

@@ -117,16 +117,16 @@ public:
 	c_enum operator~() const;
 	c_enum operator|(c_enum const &) const;
 	c_enum operator|(t_type const &) const;
-	c_enum operator|(t_storage_type const) const;
+	c_enum operator|(__int32 const) const;
 	c_enum &operator|=(c_enum const &);
 	c_enum &operator|=(t_type const &);
-	c_enum &operator|=(t_storage_type const);
+	c_enum &operator|=(__int32 const);
 	c_enum operator&(c_enum const &) const;
 	c_enum operator&(t_type const &) const;
-	c_enum operator&(t_storage_type const) const;
+	_inline c_enum operator&(__int32 const other) const;
 	c_enum &operator&=(c_enum const &);
 	c_enum &operator&=(t_type const &);
-	c_enum &operator&=(t_storage_type const);
+	c_enum &operator&=(__int32 const);
 	c_enum operator+(c_enum const &) const;
 	c_enum operator+(t_type const &) const;
 	c_enum operator+(t_storage_type const &) const;
@@ -193,12 +193,16 @@ public:
 	c_flags operator~() const;
 	c_flags operator|(c_flags const &) const;
 	c_flags operator|(t_type const &) const;
+	_inline c_flags operator|(__int32 const other) const;
 	c_flags &operator|=(c_flags const &);
 	c_flags &operator|=(t_type const &);
+	_inline c_flags &operator|=(__int32 const other);
 	c_flags operator&(c_flags const &) const;
 	_inline c_flags operator&(t_type const &other) const;
+	_inline c_flags operator&(__int32 const other) const;
 	c_flags &operator&=(c_flags const &);
 	c_flags &operator&=(t_type const &);
+	_inline c_flags &operator&=(__int32 const other);
 	c_flags operator+(c_flags const &) const;
 	c_flags operator+(t_type const &) const;
 	c_flags operator+(t_storage_type const &) const;
@@ -497,7 +501,7 @@ public:
 	CSimpleMessageQueue &operator=(CSimpleMessageQueue const &);
 	_inline void Initialize();
 	_inline t_arg0 *TryToAllocate();
-	void ConsumeAll(void (*)(t_arg0 *));
+	_inline void ConsumeAll(void (*f)(t_arg0 *));
 	long GetEstimatedCount() const volatile;
 private:
 	_inline _SINGLE_LIST_ENTRY *Reversed(_SINGLE_LIST_ENTRY *head);
@@ -692,17 +696,17 @@ namespace Patches
 		private:
 			VariadicPacket() = default;
 			VariadicPacket(VariadicPacket const &);
-			VariadicPacket(unsigned __int32, __int32);
+			_inline VariadicPacket(unsigned __int32 guid, __int32 extraDataCount);
 			VariadicPacket &operator=(VariadicPacket const &);
 			typedef VariadicPacket TPacketType;
 		public:
-			static __int32 CalculateExtraDataCount(__int32);
-			static __int32 CalculateSize(__int32);
-			__int32 GetExtraDataCount() const;
+			static _inline __int32 CalculateExtraDataCount(__int32 packetSize);
+			static _inline __int32 CalculateSize(__int32 extraDataCount);
+			_inline __int32 GetExtraDataCount() const;
 			void operator()(VariadicPacket *) const;
-			__int32 GetSize() const;
-			static std::shared_ptr<VariadicPacket > Allocate(unsigned __int32, __int32);
-			static VariadicPacket *FromBuffer(unsigned char *, __int32);
+			_inline __int32 GetSize() const;
+			static _inline std::shared_ptr<VariadicPacket > Allocate(unsigned __int32 guid, __int32 extraDataCount);
+			static _inline VariadicPacket *FromBuffer(unsigned char *buffer, __int32 extraDataCount);
 			t_arg0 Data; // 0x14
 		private:
 			__int32 extraDataCount; // 0x18
@@ -889,11 +893,11 @@ template<typename t_arg0, long t_arg1>
 class c_static_sliding_buffer
 {
 public:
-	t_arg0 get_element(long) const;
-	long get_first_index() const;
-	long get_last_index() const;
-	long get_count() const;
-	void insert(t_arg0 const &);
+	_inline t_arg0 get_element(long index) const;
+	_inline long get_first_index() const;
+	_inline long get_last_index() const;
+	_inline long get_count() const;
+	_inline void insert(t_arg0 const &value);
 	void clear();
 private:
 	t_arg0 m_values[t_arg1]; // 0x0
@@ -901,7 +905,7 @@ private:
 	long m_tail; // 0x34
 	long m_count; // 0x38
 public:
-	c_static_sliding_buffer(); /* compiler_generated() */
+	_inline c_static_sliding_buffer(); /* compiler_generated() */
 };
 
 /* ---------- c_basic_buffer (1 instantiations) */
@@ -964,10 +968,10 @@ namespace Patches
 		public:
 			typedef Patches::CustomPackets::VariadicPacket<t_arg0,t_arg1> TPacket;
 			VariadicPacketSender() = default;
-			VariadicPacketSender(unsigned __int32);
-			std::shared_ptr<Patches::CustomPackets::VariadicPacket<t_arg0,t_arg1> > New(__int32) const;
-			void Send(__int32, std::shared_ptr<Patches::CustomPackets::VariadicPacket<t_arg0,t_arg1> const >);
-			void Send(__int32, Patches::CustomPackets::VariadicPacket<t_arg0,t_arg1> const &);
+			_inline VariadicPacketSender(unsigned __int32 id);
+			_inline std::shared_ptr<Patches::CustomPackets::VariadicPacket<t_arg0,t_arg1> > New(__int32 extraDataCount) const;
+			_inline void Send(__int32 targetPeer, std::shared_ptr<Patches::CustomPackets::VariadicPacket<t_arg0,t_arg1> const > packet);
+			_inline void Send(__int32 targetPeer, Patches::CustomPackets::VariadicPacket<t_arg0,t_arg1> const &packet);
 		private:
 			unsigned __int32 id; // 0x0
 		};
@@ -990,20 +994,20 @@ namespace Patches
 			VariadicPacketHandler(VariadicPacketHandler &); /* compiler_generated() */
 			VariadicPacketHandler(VariadicPacketHandler const &); /* compiler_generated() */
 			VariadicPacketHandler(__int32, __int32);
-			VariadicPacketHandler(__int32);
+			_inline VariadicPacketHandler(__int32 extraDataMin);
 			virtual void Serialize(Blam::BitStream *, t_arg0 const *, __int32, t_arg1 const *) = 0;
 			virtual bool Deserialize(Blam::BitStream *, t_arg0 *, __int32, t_arg1 *) = 0;
 			virtual void HandlePacket(Blam::Network::ObserverChannel *, Patches::CustomPackets::VariadicPacket<t_arg0,t_arg1> const *) = 0;
-			virtual __int32 GetMinRawPacketSize() const;
-			virtual __int32 GetMaxRawPacketSize() const;
-			virtual void SerializeRawPacket(Blam::BitStream *, __int32, void const *);
-			virtual bool DeserializeRawPacket(Blam::BitStream *, __int32, void *);
-			virtual void HandleRawPacket(Blam::Network::ObserverChannel *, void const *);
+			virtual _inline __int32 GetMinRawPacketSize() const;
+			virtual _inline __int32 GetMaxRawPacketSize() const;
+			virtual _inline void SerializeRawPacket(Blam::BitStream *stream, __int32 packetSize, void const *packet);
+			virtual _inline bool DeserializeRawPacket(Blam::BitStream *stream, __int32 packetSize, void *packet);
+			virtual _inline void HandleRawPacket(Blam::Network::ObserverChannel *sender, void const *packet);
 		private:
 			__int32 minPacketSize; // 0x4
 			__int32 maxPacketSize; // 0x8
 		public:
-			virtual ~VariadicPacketHandler(); /* compiler_generated() */
+			virtual _inline ~VariadicPacketHandler(); /* compiler_generated() */
 			VariadicPacketHandler &operator=(VariadicPacketHandler &); /* compiler_generated() */
 			VariadicPacketHandler &operator=(VariadicPacketHandler const &); /* compiler_generated() */
 		};
@@ -1100,7 +1104,7 @@ _inline bool c_tag_block<t_type>::try_get_element(__int32 index, t_type **out_el
 	return todo_result<bool>();
 }
 
-/* ---------- c_enum members (119 instantiations folded) */
+/* ---------- c_enum members (120 instantiations folded) */
 
 template<typename t_type, typename t_storage_type>
 _inline c_enum<t_type, t_storage_type>::c_enum()
@@ -1161,6 +1165,14 @@ _inline bool c_enum<t_type, t_storage_type>::operator!=(t_type const &other) con
 }
 
 template<typename t_type, typename t_storage_type>
+_inline c_enum<t_type, t_storage_type> c_enum<t_type, t_storage_type>::operator&(__int32 const other) const
+{
+	mangled_prefix_assert("??I?$c_enum@");
+	todo("implement");
+	return todo_result<c_enum>();
+}
+
+template<typename t_type, typename t_storage_type>
 _inline c_enum<t_type, t_storage_type> c_enum<t_type, t_storage_type>::operator-(t_type const &other) const
 {
 	mangled_prefix_assert("??G?$c_enum@");
@@ -1216,7 +1228,7 @@ _inline bool c_enum<t_type, t_storage_type>::operator>=(t_type const &other) con
 	return todo_result<bool>();
 }
 
-/* ---------- c_flags members (97 instantiations folded) */
+/* ---------- c_flags members (136 instantiations folded) */
 
 template<typename t_type, typename t_storage_type>
 _inline c_flags<t_type, t_storage_type>::c_flags()
@@ -1262,11 +1274,27 @@ _inline bool c_flags<t_type, t_storage_type>::operator!=(t_storage_type const &o
 }
 
 template<typename t_type, typename t_storage_type>
+_inline c_flags<t_type, t_storage_type> c_flags<t_type, t_storage_type>::operator&(__int32 const other) const
+{
+	mangled_prefix_assert("??I?$c_flags@");
+	todo("implement");
+	return todo_result<c_flags>();
+}
+
+template<typename t_type, typename t_storage_type>
 _inline c_flags<t_type, t_storage_type> c_flags<t_type, t_storage_type>::operator&(t_type const &other) const
 {
 	mangled_prefix_assert("??I?$c_flags@");
 	todo("implement");
 	return todo_result<c_flags>();
+}
+
+template<typename t_type, typename t_storage_type>
+_inline c_flags<t_type, t_storage_type> & c_flags<t_type, t_storage_type>::operator&=(__int32 const other)
+{
+	mangled_prefix_assert("??_4?$c_flags@");
+	todo("implement");
+	return todo_result<c_flags &>();
 }
 
 template<typename t_type, typename t_storage_type>
@@ -1310,6 +1338,22 @@ _inline bool c_flags<t_type, t_storage_type>::operator>=(t_type const &other) co
 }
 
 template<typename t_type, typename t_storage_type>
+_inline c_flags<t_type, t_storage_type> c_flags<t_type, t_storage_type>::operator|(__int32 const other) const
+{
+	mangled_prefix_assert("??U?$c_flags@");
+	todo("implement");
+	return todo_result<c_flags>();
+}
+
+template<typename t_type, typename t_storage_type>
+_inline c_flags<t_type, t_storage_type> & c_flags<t_type, t_storage_type>::operator|=(__int32 const other)
+{
+	mangled_prefix_assert("??_5?$c_flags@");
+	todo("implement");
+	return todo_result<c_flags &>();
+}
+
+template<typename t_type, typename t_storage_type>
 _inline void c_flags<t_type, t_storage_type>::set(t_type bit, bool value)
 {
 	mangled_prefix_assert("?set@?$c_flags@");
@@ -1324,22 +1368,20 @@ _inline bool c_flags<t_type, t_storage_type>::test(t_type bit) const
 	return todo_result<bool>();
 }
 
-/* ---------- Utils::Singleton members (39 instantiations folded) */
+/* ---------- Utils::Singleton members (40 instantiations folded) */
 
 template<typename t_type>
 _inline t_type & Utils::Singleton<t_type>::Instance()
 {
-	mangled_prefix_assert("?Instance@?$Singleton@");
 	todo("implement");
 	return todo_result<t_type &>();
 }
 
-/* ---------- s_static_array members (59 instantiations folded) */
+/* ---------- s_static_array members (67 instantiations folded) */
 
 template<typename t_type, long k_count>
 _inline t_type * s_static_array<t_type, k_count>::begin() const
 {
-	mangled_prefix_assert("?begin@?$s_static_array@");
 	todo("implement");
 	return todo_result<t_type *>();
 }
@@ -1347,7 +1389,6 @@ _inline t_type * s_static_array<t_type, k_count>::begin() const
 template<typename t_type, long k_count>
 _inline t_type * s_static_array<t_type, k_count>::end() const
 {
-	mangled_prefix_assert("?end@?$s_static_array@");
 	todo("implement");
 	return todo_result<t_type *>();
 }
@@ -1371,7 +1412,6 @@ _inline t_type * s_static_array<t_type, k_count>::get_elements()
 template<typename t_type, long k_count>
 _inline t_type & s_static_array<t_type, k_count>::operator[](long index)
 {
-	mangled_prefix_assert("??A?$s_static_array@");
 	todo("implement");
 	return todo_result<t_type &>();
 }
@@ -1379,7 +1419,6 @@ _inline t_type & s_static_array<t_type, k_count>::operator[](long index)
 template<typename t_type, long k_count>
 _inline t_type const & s_static_array<t_type, k_count>::operator[](long index) const
 {
-	mangled_prefix_assert("??A?$s_static_array@");
 	todo("implement");
 	return todo_result<t_type const &>();
 }
@@ -1387,14 +1426,12 @@ _inline t_type const & s_static_array<t_type, k_count>::operator[](long index) c
 template<typename t_type, long k_count>
 _inline void s_static_array<t_type, k_count>::set_memory(unsigned char value)
 {
-	mangled_prefix_assert("?set_memory@?$s_static_array@");
 	todo("implement");
 }
 
 template<typename t_type, long k_count>
 _inline bool s_static_array<t_type, k_count>::valid(__int32 index)
 {
-	mangled_prefix_assert("?valid@?$s_static_array@");
 	todo("implement");
 	return todo_result<bool>();
 }
@@ -1494,7 +1531,7 @@ _inline bool c_data_iterator<t_type>::operator==(c_data_iterator const &rhs) con
 	return todo_result<bool>();
 }
 
-/* ---------- c_data_array members (29 instantiations folded) */
+/* ---------- c_data_array members (30 instantiations folded) */
 
 template<typename t_type>
 _inline c_data_iterator<t_type> c_data_array<t_type>::begin()
@@ -1531,7 +1568,6 @@ _inline t_type * c_data_array<t_type>::get_absolute(long absolute_index)
 template<typename t_type>
 _inline t_type * c_data_array<t_type>::try_and_get(unsigned long index)
 {
-	mangled_prefix_assert("?try_and_get@?$c_data_array@");
 	todo("implement");
 	return todo_result<t_type *>();
 }
@@ -1672,33 +1708,35 @@ _inline CEventSink<t_args...>::SCallbackEntry::~SCallbackEntry()
 	todo("implement");
 }
 
-/* ---------- CSimpleMessageQueue members (10 instantiations folded) */
+/* ---------- CSimpleMessageQueue members (21 instantiations folded) */
 
 template<typename t_arg0, long t_arg1>
 _inline CSimpleMessageQueue<t_arg0, t_arg1>::CSimpleMessageQueue()
 {
-	mangled_prefix_assert("??0?$CSimpleMessageQueue@");
+	todo("implement");
+}
+
+template<typename t_arg0, long t_arg1>
+_inline void CSimpleMessageQueue<t_arg0, t_arg1>::ConsumeAll(void (*f) (t_arg0 *))
+{
 	todo("implement");
 }
 
 template<typename t_arg0, long t_arg1>
 _inline void CSimpleMessageQueue<t_arg0, t_arg1>::FreeElement(CSimpleMessageQueue::SQueueEntry *node)
 {
-	mangled_prefix_assert("?FreeElement@?$CSimpleMessageQueue@");
 	todo("implement");
 }
 
 template<typename t_arg0, long t_arg1>
 _inline void CSimpleMessageQueue<t_arg0, t_arg1>::Initialize()
 {
-	mangled_prefix_assert("?Initialize@?$CSimpleMessageQueue@");
 	todo("implement");
 }
 
 template<typename t_arg0, long t_arg1>
 _inline _SINGLE_LIST_ENTRY * CSimpleMessageQueue<t_arg0, t_arg1>::Reversed(_SINGLE_LIST_ENTRY *head)
 {
-	mangled_prefix_assert("?Reversed@?$CSimpleMessageQueue@");
 	todo("implement");
 	return todo_result<_SINGLE_LIST_ENTRY *>();
 }
@@ -1706,7 +1744,6 @@ _inline _SINGLE_LIST_ENTRY * CSimpleMessageQueue<t_arg0, t_arg1>::Reversed(_SING
 template<typename t_arg0, long t_arg1>
 _inline t_arg0 * CSimpleMessageQueue<t_arg0, t_arg1>::TryToAllocate()
 {
-	mangled_prefix_assert("?TryToAllocate@?$CSimpleMessageQueue@");
 	todo("implement");
 	return todo_result<t_arg0 *>();
 }
@@ -1714,7 +1751,6 @@ _inline t_arg0 * CSimpleMessageQueue<t_arg0, t_arg1>::TryToAllocate()
 template<typename t_arg0, long t_arg1>
 _inline CSimpleMessageQueue<t_arg0, t_arg1>::SQueueEntry::SQueueEntry()
 {
-	mangled_prefix_assert("??0SQueueEntry@?$CSimpleMessageQueue@");
 	todo("implement");
 }
 
@@ -1766,21 +1802,19 @@ _inline std::_Vector_const_iterator<std::_Vector_val<std::_Simple_types<std::pai
 	return todo_result<std::_Vector_const_iterator<std::_Vector_val<std::_Simple_types<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,t_arg0> > > >>();
 }
 
-/* ---------- Patches::CustomPackets::Packet members (3 instantiations folded) */
+/* ---------- Patches::CustomPackets::Packet members (4 instantiations folded) */
 
 template<typename t_arg0>
 _inline Patches::CustomPackets::Packet<t_arg0>::Packet(unsigned __int32 guid)
 {
-	mangled_prefix_assert("??0?$Packet@");
 	todo("implement");
 }
 
-/* ---------- Patches::CustomPackets::PacketSender members (9 instantiations folded) */
+/* ---------- Patches::CustomPackets::PacketSender members (12 instantiations folded) */
 
 template<typename t_arg0>
 _inline Patches::CustomPackets::Packet<t_arg0> Patches::CustomPackets::PacketSender<t_arg0>::New() const
 {
-	mangled_prefix_assert("?New@?$PacketSender@");
 	todo("implement");
 	return todo_result<Patches::CustomPackets::Packet<t_arg0>>();
 }
@@ -1788,14 +1822,12 @@ _inline Patches::CustomPackets::Packet<t_arg0> Patches::CustomPackets::PacketSen
 template<typename t_arg0>
 _inline Patches::CustomPackets::PacketSender<t_arg0>::PacketSender(unsigned __int32 id)
 {
-	mangled_prefix_assert("??0?$PacketSender@");
 	todo("implement");
 }
 
 template<typename t_arg0>
 _inline void Patches::CustomPackets::PacketSender<t_arg0>::Send(__int32 targetPeer, Patches::CustomPackets::Packet<t_arg0> const &packet) const
 {
-	mangled_prefix_assert("?Send@?$PacketSender@");
 	todo("implement");
 }
 
@@ -1916,6 +1948,51 @@ _inline Ref<t_arg0> & Ref<t_arg0>::operator=(Ref const &newp)
 	return todo_result<Ref &>();
 }
 
+/* ---------- Patches::CustomPackets::VariadicPacket members (5 instantiations folded) */
+
+template<typename t_arg0, typename t_arg1>
+_inline __int32 Patches::CustomPackets::VariadicPacket<t_arg0, t_arg1>::CalculateExtraDataCount(__int32 packetSize)
+{
+	todo("implement");
+	return todo_result<__int32>();
+}
+
+template<typename t_arg0, typename t_arg1>
+_inline __int32 Patches::CustomPackets::VariadicPacket<t_arg0, t_arg1>::CalculateSize(__int32 extraDataCount)
+{
+	todo("implement");
+	return todo_result<__int32>();
+}
+
+template<typename t_arg0, typename t_arg1>
+_inline __int32 Patches::CustomPackets::VariadicPacket<t_arg0, t_arg1>::GetExtraDataCount() const
+{
+	todo("implement");
+	return todo_result<__int32>();
+}
+
+template<typename t_arg0, typename t_arg1>
+_inline __int32 Patches::CustomPackets::VariadicPacket<t_arg0, t_arg1>::GetSize() const
+{
+	todo("implement");
+	return todo_result<__int32>();
+}
+
+template<typename t_arg0, typename t_arg1>
+_inline Patches::CustomPackets::VariadicPacket<t_arg0, t_arg1>::VariadicPacket(unsigned __int32 guid, __int32 extraDataCount)
+{
+	todo("implement");
+}
+
+/* ---------- s_user_interface_text_value_pair_proxy members (2 instantiations folded) */
+
+template<long t_arg0>
+_inline s_text_value_pair_definition * s_user_interface_text_value_pair_proxy<t_arg0>::get_tag_definition()
+{
+	todo("implement");
+	return todo_result<s_text_value_pair_definition *>();
+}
+
 /* ---------- Utils::WebSocket::Logger members (13 instantiations folded) */
 
 template<typename t_arg0, typename t_arg1>
@@ -1991,6 +2068,80 @@ template<typename t_arg0>
 _inline void c_custom_network_session_parameter<t_arg0>::initialize(e_network_session_parameter_type type, char const *name, long priority, long writeable, c_network_session *session)
 {
 	mangled_prefix_assert("?initialize@?$c_custom_network_session_parameter@");
+	todo("implement");
+}
+
+/* ---------- c_block_allocator members (3 instantiations folded) */
+
+template<long t_arg0, long t_arg1>
+_inline void * c_block_allocator<t_arg0, t_arg1>::allocate()
+{
+	todo("implement");
+	return todo_result<void *>();
+}
+
+template<long t_arg0, long t_arg1>
+_inline void c_block_allocator<t_arg0, t_arg1>::free(void *p)
+{
+	todo("implement");
+}
+
+template<long t_arg0, long t_arg1>
+_inline c_block_allocator<t_arg0, t_arg1> & c_block_allocator<t_arg0, t_arg1>::get()
+{
+	todo("implement");
+	return todo_result<c_block_allocator &>();
+}
+
+/* ---------- c_static_sliding_buffer members (5 instantiations folded) */
+
+template<typename t_arg0, long t_arg1>
+_inline long c_static_sliding_buffer<t_arg0, t_arg1>::get_count() const
+{
+	todo("implement");
+	return todo_result<long>();
+}
+
+template<typename t_arg0, long t_arg1>
+_inline t_arg0 c_static_sliding_buffer<t_arg0, t_arg1>::get_element(long index) const
+{
+	todo("implement");
+	return todo_result<t_arg0>();
+}
+
+template<typename t_arg0, long t_arg1>
+_inline long c_static_sliding_buffer<t_arg0, t_arg1>::get_first_index() const
+{
+	todo("implement");
+	return todo_result<long>();
+}
+
+template<typename t_arg0, long t_arg1>
+_inline long c_static_sliding_buffer<t_arg0, t_arg1>::get_last_index() const
+{
+	todo("implement");
+	return todo_result<long>();
+}
+
+template<typename t_arg0, long t_arg1>
+_inline void c_static_sliding_buffer<t_arg0, t_arg1>::insert(t_arg0 const &value)
+{
+	todo("implement");
+}
+
+/* ---------- Patches::CustomPackets::VariadicPacketSender members (1 instantiations folded) */
+
+template<typename t_arg0, typename t_arg1>
+_inline Patches::CustomPackets::VariadicPacketSender<t_arg0, t_arg1>::VariadicPacketSender(unsigned __int32 id)
+{
+	todo("implement");
+}
+
+/* ---------- Patches::CustomPackets::VariadicPacketHandler members (1 instantiations folded) */
+
+template<typename t_arg0, typename t_arg1>
+_inline Patches::CustomPackets::VariadicPacketHandler<t_arg0, t_arg1>::VariadicPacketHandler(__int32 extraDataMin)
+{
 	todo("implement");
 }
 

@@ -70,6 +70,15 @@ namespace Patches
 {
 	namespace Network
 	{
+		_extern void _sub_108D8F20(Patches::Network::PlayerPropertiesExtensionBase *const);
+		_inline PlayerPropertiesExtensionBase::~PlayerPropertiesExtensionBase() // 0x108D8F20
+		{
+			mangled_x86(MANGLED_TODO, "??1PlayerPropertiesExtensionBase@Network@Patches@@UAE@XZ");
+			// Patches::Network::PlayerPropertiesExtensionBase *const this;
+			todo("implement");
+			_sub_108D8F20(this);
+		}
+
 		_extern void _sub_108D9320(Patches::Network::PlayerPropertiesExtender *const, std::shared_ptr<Patches::Network::PlayerPropertiesExtensionBase>);
 		_inline void PlayerPropertiesExtender::Add(std::shared_ptr<Patches::Network::PlayerPropertiesExtensionBase> extension) // 0x108D9320
 		{

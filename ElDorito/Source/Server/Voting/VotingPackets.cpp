@@ -21,6 +21,7 @@
 #include "Blam/objects/objects.hpp"
 #include "Blam/structures/cluster_reference.hpp"
 #include "Blam/tag_files/tag_groups.hpp"
+#include "ChatCommands/ChatCommandMap.hpp"
 #include "Common/Http/HttpHeaders.hpp"
 #include "Patches/CustomPackets.hpp"
 #include "Server/Voting/VotingTypes.hpp"
@@ -60,6 +61,8 @@
 
 /* ---------- forward declarations */
 
+struct begin;
+struct end;
 namespace Blam
 {
 	class BitStream;
@@ -69,6 +72,7 @@ namespace Blam
 	namespace Network
 	{
 		struct ObserverChannel;
+		struct PlayerSession;
 		struct Session;
 		struct SessionMembership;
 	}
@@ -82,10 +86,11 @@ namespace Server
 		struct VotingMessage;
 	}
 }
-namespace
+namespace hades_file_local
 {
 	class VotingMessagePacketHandler;
 }
+using namespace hades_file_local;
 
 namespace Utils {}
 using namespace ::Utils;
@@ -125,7 +130,7 @@ namespace Blam
 
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	class VotingMessagePacketHandler :
 		public Patches::CustomPackets::PacketHandler<Server::Voting::VotingMessage>
@@ -143,6 +148,7 @@ namespace
 	};
 	static_assert(sizeof(VotingMessagePacketHandler) == 4, "Invalid VotingMessagePacketHandler size");
 }
+using namespace hades_file_local;
 namespace Patches
 {
 	namespace CustomPackets
@@ -166,24 +172,29 @@ namespace Server
 	}
 }
 
+void ReceivedVotingMessage(Blam::Network::Session *session, __int32 peer, Server::Voting::VotingMessage const &message);
+bool SendVotingMessagePacket(Blam::Network::Session *session, __int32 peer, Server::Voting::VotingMessage const &message);
+
 /* ---------- globals */
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern std::shared_ptr<Patches::CustomPackets::PacketSender<Server::Voting::VotingMessage> > VotingPacketSender; // 0x1246B6A8
 	extern std::vector<std::shared_ptr<Server::Voting::VotingMessageHandler>,std::allocator<std::shared_ptr<Server::Voting::VotingMessageHandler> > > votingMessageHandlers; // 0x1246B698
 }
+using namespace hades_file_local;
 namespace Server
 {
 	namespace Voting
 	{
-		namespace
+		namespace hades_file_local_Server_Voting
 		{
 			extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > const DefaultTypes[8]; // 0x1246B4D8
 			extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > const DefaultTypeNames[8]; // 0x1246B5B8
 		}
+		using namespace hades_file_local_Server_Voting;
 	}
 }
 /* ---------- public code */
@@ -267,3 +278,102 @@ namespace Server
 }
 
 /* ---------- private code */
+
+_extern void _sub_10C49460(VotingMessagePacketHandler *const, Blam::BitStream *, Server::Voting::VotingMessage const *);
+_inline void VotingMessagePacketHandler::Serialize(Blam::BitStream *stream, Server::Voting::VotingMessage const *data) // 0x10C49460
+{
+	// `anonymous-namespace'::VotingMessagePacketHandler::Serialize
+	// Server::Voting::VotingMessage const *data;
+	{
+		// __int32 i;
+	}
+	{
+	}
+	todo("implement");
+	_sub_10C49460(this, stream, data);
+}
+
+_extern bool _sub_10C48890(VotingMessagePacketHandler *const, Blam::BitStream *, Server::Voting::VotingMessage *);
+_inline bool VotingMessagePacketHandler::Deserialize(Blam::BitStream *stream, Server::Voting::VotingMessage *data) // 0x10C48890
+{
+	// `anonymous-namespace'::VotingMessagePacketHandler::Deserialize
+	// Server::Voting::VotingMessage *data;
+	{
+		// __int32 i;
+	}
+	{
+	}
+	todo("implement");
+	bool __result = _sub_10C48890(this, stream, data);
+	return __result;
+}
+
+_extern void _sub_10C48C70(VotingMessagePacketHandler *const, Blam::Network::ObserverChannel *, Patches::CustomPackets::Packet<Server::Voting::VotingMessage> const *);
+_inline void VotingMessagePacketHandler::HandlePacket(Blam::Network::ObserverChannel *sender, Patches::CustomPackets::Packet<Server::Voting::VotingMessage> const *packet) // 0x10C48C70
+{
+	// `anonymous-namespace'::VotingMessagePacketHandler::HandlePacket
+	// Patches::CustomPackets::Packet<Server::Voting::VotingMessage> const *packet;
+	// Blam::Network::Session *session;
+	todo("implement");
+	_sub_10C48C70(this, sender, packet);
+}
+
+_extern void _sub_10C48F50(Blam::Network::Session *, __int32, Server::Voting::VotingMessage const &);
+void ReceivedVotingMessage(Blam::Network::Session *session, __int32 peer, Server::Voting::VotingMessage const &message) // 0x10C48F50
+{
+	// `anonymous-namespace'::ReceivedVotingMessage
+	// static ...; // 0x10C490D4
+	// Blam::Network::Session *session;
+	// __int32 peer;
+	// Server::Voting::VotingMessage const &message;
+	{
+		// Blam::Network::PlayerSession &player;
+		// Blam::Network::SessionMembership &membership;
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > name;
+	}
+	{
+		// std::vector<std::shared_ptr<Server::Voting::VotingMessageHandler>,std::allocator<std::shared_ptr<Server::Voting::VotingMessageHandler> > > &<range>$L0;
+		// std::shared_ptr<Server::Voting::VotingMessageHandler> *<begin>$L0;
+		// std::shared_ptr<Server::Voting::VotingMessageHandler> *<end>$L0;
+		{
+			// std::shared_ptr<Server::Voting::VotingMessageHandler> &handler;
+		}
+	}
+	// function call : void (Server::Voting::VotingMessage const &)
+	todo("implement");
+	_sub_10C48F50(session, peer, message);
+}
+
+_extern bool _sub_10C492B0(Blam::Network::Session *, __int32, Server::Voting::VotingMessage const &);
+bool SendVotingMessagePacket(Blam::Network::Session *session, __int32 peer, Server::Voting::VotingMessage const &message) // 0x10C492B0
+{
+	// `anonymous-namespace'::SendVotingMessagePacket
+	// static ...; // 0x10C49398
+	// Blam::Network::Session *session;
+	// __int32 peer;
+	// Server::Voting::VotingMessage const &message;
+	// Patches::CustomPackets::Packet<Server::Voting::VotingMessage> packet;
+	todo("implement");
+	bool __result = _sub_10C492B0(session, peer, message);
+	return __result;
+}
+
+extern VotingMessagePacketHandler* _sub_10C48030(VotingMessagePacketHandler *const);
+_inline VotingMessagePacketHandler::VotingMessagePacketHandler() // 0x10C48030
+{
+	// `anonymous-namespace'::VotingMessagePacketHandler::VotingMessagePacketHandler
+	// VotingMessagePacketHandler *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10C48030(this);
+}
+
+_extern void _sub_10C48430(VotingMessagePacketHandler *const);
+_inline VotingMessagePacketHandler::~VotingMessagePacketHandler() // 0x10C48430
+{
+	// `anonymous-namespace'::VotingMessagePacketHandler::~VotingMessagePacketHandler
+	// VotingMessagePacketHandler *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10C48430(this);
+}

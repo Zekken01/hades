@@ -68,10 +68,11 @@ extern s_data_array **g_script_node_runtime_state_allocation; // 0x11359AB4
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern s_hs_global_external **const g_hs_global_externals; // 0x112497A8
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 _extern void *_sub_10F02FA0(unsigned long);
@@ -236,3 +237,12 @@ hs_value hs_value::get_default(e_hs_type type) // 0x10F02A90
 }
 
 /* ---------- private code */
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template c_enum<unsigned short,enum e_hs_type>::operator enum e_hs_type() const;
+template s_hs_global_runtime * c_data_array<s_hs_global_runtime>::try_and_get_absolute(long);

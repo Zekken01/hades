@@ -70,6 +70,15 @@ namespace Objects
 
 namespace Objects
 {
+	_extern void _sub_10798290(::Objects::ObjectMessageSystem *const);
+	_inline void ObjectMessageSystem::DisposeFromOldMap() // 0x10798290
+	{
+		mangled_x86(MANGLED_TODO, "?DisposeFromOldMap@ObjectMessageSystem@Objects@@UAEXXZ");
+		// Objects::ObjectMessageSystem *const this;
+		todo("implement");
+		_sub_10798290(this);
+	}
+
 	_extern void _sub_107999B0();
 	void CObjectMessaging::Init() // 0x107999B0
 	{
@@ -110,6 +119,16 @@ namespace Objects
 		// procedure flags: nofpo
 		todo("implement");
 		_sub_10799A00();
+	}
+
+	_extern void _sub_10799710(::Objects::ObjectMessageSystem *const);
+	_inline ObjectMessageSystem::~ObjectMessageSystem() // 0x10799710
+	{
+		mangled_x86(MANGLED_TODO, "??1ObjectMessageSystem@Objects@@UAE@XZ");
+		// Objects::ObjectMessageSystem *const this;
+		compiler_generated();
+		todo("implement");
+		_sub_10799710(this);
 	}
 }
 

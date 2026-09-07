@@ -2,6 +2,8 @@
 
 #include "hades/hades.h"
 
+#include "Blam/ai/actor.hpp"
+#include "ChatCommands/ChatCommandMap.hpp"
 #include "Patch.hpp"
 #include "Patches/Audio.hpp"
 #include "Pointer.hpp"
@@ -55,6 +57,9 @@ namespace Patches
 	}
 }
 
+void AimAssistHook();
+unsigned __int32 DualAimAssistHook(unsigned __int32 unitObject, short weaponIndex);
+
 /* ---------- globals */
 
 /* ---------- private variables */
@@ -77,3 +82,25 @@ namespace Patches
 }
 
 /* ---------- private code */
+
+extern void _sub_10A8BDD0();
+__declspec(naked) void AimAssistHook() // 0x10A8BDD0
+{
+	// `anonymous-namespace'::AimAssistHook
+	// procedure flags: nofpo
+// controller:
+	todo("implement");
+	_sub_10A8BDD0();
+}
+
+_extern unsigned __int32 _sub_10A8C040(unsigned __int32, short);
+unsigned __int32 DualAimAssistHook(unsigned __int32 unitObject, short weaponIndex) // 0x10A8C040
+{
+	// `anonymous-namespace'::DualAimAssistHook
+	// short weaponIndex;
+	// unsigned __int32 (*UnitGetWeapon)(unsigned __int32, short);
+	// function call : unsigned __int32 (*)(unsigned __int32, short)
+	todo("implement");
+	unsigned __int32 __result = _sub_10A8C040(unitObject, weaponIndex);
+	return __result;
+}

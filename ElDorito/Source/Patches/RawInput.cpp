@@ -11,6 +11,7 @@
 #include "Blam/game/game_variant.hpp"
 #include "Blam/game/player_appearance.hpp"
 #include "Blam/game/player_configuration.inl"
+#include "Blam/game/player_control.hpp"
 #include "Blam/game/players.hpp"
 #include "Blam/hs/hs.hpp"
 #include "Blam/main/game_preferences.hpp"
@@ -66,10 +67,13 @@
 
 struct s_global_preferences;
 struct s_global_preferences_settings;
-namespace
+struct s_player_control_input_state;
+struct s_player_datum;
+namespace hades_file_local
 {
 	struct RawMouseState;
 }
+using namespace hades_file_local;
 
 namespace Utils {}
 using namespace ::Utils;
@@ -100,7 +104,7 @@ using namespace ::Blam;
 
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	struct RawMouseState
 	{
@@ -120,6 +124,7 @@ namespace
 	};
 	static_assert(sizeof(RawMouseState) == 16, "Invalid RawMouseState size");
 }
+using namespace hades_file_local;
 /* ---------- prototypes */
 
 namespace Patches
@@ -130,6 +135,10 @@ namespace Patches
 		extern void UpdateCameraYawPitch(float deltaX, float deltaY, float &yaw, float &pitch);
 	}
 }
+
+bool ShouldDisableRawInput();
+bool RawInputHookImpl(tagRAWINPUT *rwInput);
+void RawInputHook(__int32 unused, unsigned __int32 wParam, HRAWINPUT__ *hRawInput);
 
 /* ---------- globals */
 
@@ -171,3 +180,62 @@ namespace Patches
 }
 
 /* ---------- private code */
+
+_extern bool _sub_10ABF5C0();
+bool ShouldDisableRawInput() // 0x10ABF5C0
+{
+	// `anonymous-namespace'::ShouldDisableRawInput
+	// procedure flags: nofpo
+	// static ...; // 0x10ABF82C
+	// static ...; // 0x10ABF820
+	// static ...; // 0x10ABF818
+	// bool (*const game_engine_round_in_progress)();
+	{
+		// s_player_datum *player;
+		// long heldObjectIndex;
+		// bool leftMouseDown;
+		// unsigned long playerIndex;
+		// short activeScreenCount;
+	}
+	// function call : bool (*const)()
+	// function call : unsigned long (*const)(long)
+	// function call : bool (*const)(long, long *, long *)
+	todo("implement");
+	bool __result = _sub_10ABF5C0();
+	return __result;
+}
+
+_extern bool _sub_10ABF380(tagRAWINPUT *);
+bool RawInputHookImpl(tagRAWINPUT *rwInput) // 0x10ABF380
+{
+	// `anonymous-namespace'::RawInputHookImpl
+	// tagRAWINPUT *rwInput;
+	// bool (*const game_is_mainmenu)();
+	// bool inhibit_movement;
+	// bool controllerEnabled;
+	// s_player_control_input_state *player_control;
+	// bool isFlying;
+	// function call : bool (*const)()
+	// function call : bool (*const)(__int32)
+	todo("implement");
+	bool __result = _sub_10ABF380(rwInput);
+	return __result;
+}
+
+_extern void _sub_10ABF0F0(__int32, unsigned __int32, HRAWINPUT__ *);
+void RawInputHook(__int32 unused, unsigned __int32 wParam, HRAWINPUT__ *hRawInput) // 0x10ABF0F0
+{
+	// `anonymous-namespace'::RawInputHook
+	// static ...; // 0x10ABF2D8
+	// static ...; // 0x10ABF2D0
+	// __int32 unused;
+	// unsigned __int32 wParam;
+	// HRAWINPUT__ *hRawInput;
+	// RawMouseState *mouseState;
+	// bool const mouseEnabled;
+	// unsigned __int32 cbSize;
+	// tagRAWINPUT input;
+	// function call : unsigned __int32 (HRAWINPUT__ *, unsigned __int32, void *, unsigned __int32 *, unsigned __int32)
+	todo("implement");
+	_sub_10ABF0F0(unused, wParam, hRawInput);
+}

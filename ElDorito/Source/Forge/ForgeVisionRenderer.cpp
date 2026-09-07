@@ -71,11 +71,12 @@ namespace Modules
 {
 	class ModuleForge;
 }
-namespace
+namespace hades_file_local
 {
 	struct s_hud_camera_object;
 	struct s_hud_camera_globals;
 }
+using namespace hades_file_local;
 
 namespace Utils {}
 using namespace ::Utils;
@@ -93,7 +94,7 @@ namespace Forge
 
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	struct s_hud_camera_object
 	{
@@ -128,6 +129,7 @@ namespace
 	};
 	static_assert(sizeof(s_hud_camera_globals) == 288, "Invalid s_hud_camera_globals size");
 }
+using namespace hades_file_local;
 /* ---------- prototypes */
 
 /* ---------- globals */
@@ -147,11 +149,12 @@ namespace Utils
 
 namespace Forge
 {
-	namespace
+	namespace hades_file_local_Forge
 	{
 		extern float colorAnimation; // 0x116F4A70
 		extern long selectionColor; // 0x116F4A74
 	}
+	using namespace hades_file_local_Forge;
 }
 /* ---------- public code */
 
@@ -281,3 +284,11 @@ namespace Forge
 }
 
 /* ---------- private code */
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template Modules::ModuleForge & Utils::Singleton<Modules::ModuleForge>::Instance();

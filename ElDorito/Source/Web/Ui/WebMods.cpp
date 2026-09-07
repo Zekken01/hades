@@ -136,6 +136,7 @@
 class IMod;
 class IModListener;
 class IServerConnectModDownloadUI;
+class c_mod_package;
 struct SServerConnectState;
 struct lambda_1;
 namespace Blam
@@ -155,11 +156,12 @@ namespace Web
 		}
 	}
 }
-namespace
+namespace hades_file_local
 {
 	struct DownloadStatusInfo;
 	class ModChangeListener;
 }
+using namespace hades_file_local;
 
 namespace Utils {}
 using namespace ::Utils;
@@ -235,7 +237,7 @@ namespace Blam
 
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	struct DownloadStatusInfo
 	{
@@ -269,6 +271,7 @@ namespace
 	};
 	static_assert(sizeof(ModChangeListener) == 4, "Invalid ModChangeListener size");
 }
+using namespace hades_file_local;
 // Web::Ui::WebMods::CWebModDownloadScreen is defined in hades/recovered_types.h, which the synthesised
 // templates in hades/recovered_templates.h inherit from.
 
@@ -307,6 +310,10 @@ namespace Web
 	}
 }
 
+void NotifyDownloadStateChanged(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &fromState, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &toState);
+void NotifyDownloadStatus(DownloadStatusInfo const &info);
+void NotifyDownloadError(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &reason);
+
 /* ---------- globals */
 
 namespace Web
@@ -322,10 +329,11 @@ namespace Web
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern bool screenVisible; // 0x1247EDCC
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 extern std::shared_ptr<IServerConnectModDownloadUI> _sub_10CAD340();
@@ -440,6 +448,42 @@ namespace Web
 				_sub_10CAD3B0((IServerConnectModDownloadUI *)this);
 			}
 
+			_extern void _sub_10CAE000(Web::Ui::WebMods::CWebModDownloadScreen *const);
+			void CWebModDownloadScreen::OnDestroy() // 0x10CAE000
+			{
+				mangled_x86(MANGLED_TODO, "?OnDestroy@CWebModDownloadScreen@WebMods@Ui@Web@@UAEXXZ");
+				// Web::Ui::WebMods::CWebModDownloadScreen *const this;
+				todo("implement");
+				_sub_10CAE000(this);
+			}
+
+			_extern void _sub_10CAED00(Web::Ui::WebMods::CWebModDownloadScreen *const);
+			void CWebModDownloadScreen::OnShow() // 0x10CAED00
+			{
+				mangled_x86(MANGLED_TODO, "?OnShow@CWebModDownloadScreen@WebMods@Ui@Web@@UAEXXZ");
+				// Web::Ui::WebMods::CWebModDownloadScreen *const this;
+				todo("implement");
+				_sub_10CAED00(this);
+			}
+
+			_extern void _sub_10CAE9E0(Web::Ui::WebMods::CWebModDownloadScreen *const);
+			void CWebModDownloadScreen::OnHide() // 0x10CAE9E0
+			{
+				mangled_x86(MANGLED_TODO, "?OnHide@CWebModDownloadScreen@WebMods@Ui@Web@@UAEXXZ");
+				// Web::Ui::WebMods::CWebModDownloadScreen *const this;
+				todo("implement");
+				_sub_10CAE9E0(this);
+			}
+
+			_extern void _sub_10CAED20(Web::Ui::WebMods::CWebModDownloadScreen *const);
+			void CWebModDownloadScreen::OnUpdate() // 0x10CAED20
+			{
+				mangled_x86(MANGLED_TODO, "?OnUpdate@CWebModDownloadScreen@WebMods@Ui@Web@@UAEXXZ");
+				// Web::Ui::WebMods::CWebModDownloadScreen *const this;
+				todo("implement");
+				_sub_10CAED20(this);
+			}
+
 			_extern void _sub_10CAE720();
 			void OnGameInputUpdated() // 0x10CAE720
 			{
@@ -517,3 +561,109 @@ _inline SServerConnectState::SRequiredMod &SServerConnectState::SRequiredMod::op
 }
 
 /* ---------- private code */
+
+_extern void _sub_10CAEA00(ModChangeListener *const, EModIndex, IMod *);
+_inline void ModChangeListener::OnModChanged(EModIndex index, IMod *mod) // 0x10CAEA00
+{
+	// `anonymous-namespace'::ModChangeListener::OnModChanged
+	// static ...; // 0x10CAEC50
+	// static ...; // 0x10CAEC2C
+	// static ...; // 0x10CAEC24
+	// ModChangeListener *const this;
+	// EModIndex index;
+	// IMod *mod;
+	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buff;
+	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
+	{
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > hash_str;
+		// c_mod_package *pak;
+	}
+	// function call : c_mod_package *(bool) const
+	todo("implement");
+	_sub_10CAEA00(this, index, mod);
+}
+
+_extern void _sub_10CAD960(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+void NotifyDownloadStateChanged(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &fromState, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &toState) // 0x10CAD960
+{
+	// `anonymous-namespace'::NotifyDownloadStateChanged
+	// static ...; // 0x10CADAF0
+	// static ...; // 0x10CADAD8
+	// static ...; // 0x10CADAD0
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &fromState;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &toState;
+	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buff;
+	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
+	todo("implement");
+	_sub_10CAD960(fromState, toState);
+}
+
+_extern void _sub_10CADB70(DownloadStatusInfo const &);
+void NotifyDownloadStatus(DownloadStatusInfo const &info) // 0x10CADB70
+{
+	// `anonymous-namespace'::NotifyDownloadStatus
+	// static ...; // 0x10CADE27
+	// static ...; // 0x10CADE20
+	// static ...; // 0x10CADE08
+	// static ...; // 0x10CADE00
+	// DownloadStatusInfo const &info;
+	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buff;
+	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
+	todo("implement");
+	_sub_10CADB70(info);
+}
+
+_extern void _sub_10CAD780(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+void NotifyDownloadError(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &reason) // 0x10CAD780
+{
+	// `anonymous-namespace'::NotifyDownloadError
+	// static ...; // 0x10CAD8FB
+	// static ...; // 0x10CAD8F4
+	// static ...; // 0x10CAD8DC
+	// static ...; // 0x10CAD8D4
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &reason;
+	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buff;
+	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
+	todo("implement");
+	_sub_10CAD780(reason);
+}
+
+extern DownloadStatusInfo* _sub_10CAC8C0(DownloadStatusInfo *const);
+_inline DownloadStatusInfo::DownloadStatusInfo() // 0x10CAC8C0
+{
+	// `anonymous-namespace'::DownloadStatusInfo::DownloadStatusInfo
+	// DownloadStatusInfo *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10CAC8C0(this);
+}
+
+extern ModChangeListener* _sub_10CAC940(ModChangeListener *const);
+_inline ModChangeListener::ModChangeListener() // 0x10CAC940
+{
+	// `anonymous-namespace'::ModChangeListener::ModChangeListener
+	// ModChangeListener *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10CAC940(this);
+}
+
+_extern void _sub_10CACAE0(DownloadStatusInfo *const);
+_inline DownloadStatusInfo::~DownloadStatusInfo() // 0x10CACAE0
+{
+	// `anonymous-namespace'::DownloadStatusInfo::~DownloadStatusInfo
+	// DownloadStatusInfo *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10CACAE0(this);
+}
+
+_extern void _sub_10CACB50(ModChangeListener *const);
+_inline ModChangeListener::~ModChangeListener() // 0x10CACB50
+{
+	// `anonymous-namespace'::ModChangeListener::~ModChangeListener
+	// ModChangeListener *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10CACB50(this);
+}

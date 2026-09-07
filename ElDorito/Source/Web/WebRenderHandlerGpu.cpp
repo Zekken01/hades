@@ -187,10 +187,11 @@ namespace Web
 {
 	namespace Browser
 	{
-		namespace
+		namespace hades_file_local_Web_Browser
 		{
 			extern char const *WebRendererHlsl; // 0x11355590
 		}
+		using namespace hades_file_local_Web_Browser;
 	}
 }
 /* ---------- public code */

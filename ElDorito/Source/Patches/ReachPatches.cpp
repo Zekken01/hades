@@ -7,6 +7,7 @@
 #include "Blam/cseries/enums.inl"
 #include "Blam/cseries/flags.inl"
 #include "Blam/geometry/geometry_definitions.hpp"
+#include "Blam/geometry/geometry_sampler.hpp"
 #include "Blam/hs/hs.hpp"
 #include "Blam/math/real_math_definitions.hpp"
 #include "Blam/memory/static_array.inl"
@@ -18,7 +19,9 @@
 #include "Blam/rasterizer/rasterizer_samplers.hpp"
 #include "Blam/rasterizer/rasterizer_states.hpp"
 #include "Blam/rasterizer/rasterizers_textures_cache.hpp"
+#include "Blam/render/render_structure.hpp"
 #include "Blam/scenario/scenario.hpp"
+#include "Blam/scenario/scenario_definitions.hpp"
 #include "Blam/shaders/render_method_submit.hpp"
 #include "Blam/shaders/render_methods_definitions.hpp"
 #include "Blam/structures/cluster_reference.hpp"
@@ -30,6 +33,7 @@
 #include "Blam/tag_files/tag_groups.hpp"
 #include "Blam/visibility/visibility.hpp"
 #include "Blam/visibility/visibility_items.hpp"
+#include "ChatCommands/ChatCommandMap.hpp"
 #include "Modules/ModuleGraphics.hpp"
 #include "Patch.hpp"
 #include "Patches/Audio.hpp"
@@ -67,27 +71,37 @@
 
 /* ---------- forward declarations */
 
+class c_rasterizer_vertex_buffer;
 struct c_collision_bsp_reference;
 struct c_render_method_data;
 struct real_matrix4x3;
+struct real_point3d;
 struct s_cluster_reference;
+struct s_geometry_material;
 struct s_instance_part;
 struct s_mesh;
+struct s_part;
+struct s_render_geometry;
+struct s_render_method_postprocess_definition;
+struct s_scenario;
+struct s_scenario_lightmap_bsp_data;
 struct s_scenario_structure_bsp;
 struct s_structure_bsp_path_finding;
 struct s_structure_bsp_resources;
 struct s_structure_cluster;
+struct s_structure_instanced_geometry_definition;
 struct s_structure_instanced_geometry_instance;
 namespace Modules
 {
 	class ModuleGraphics;
 }
-namespace
+namespace hades_file_local
 {
 	struct s_decal_cylinder;
 	struct c_instanced_geometry_iterator;
 	struct s_instance_collision_test_arguements;
 }
+using namespace hades_file_local;
 
 namespace Utils {}
 using namespace ::Utils;
@@ -105,7 +119,7 @@ namespace Patches
 
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	#pragma pack(push, 4)
 	struct s_decal_cylinder
@@ -155,6 +169,7 @@ namespace
 	};
 	static_assert(sizeof(s_instance_collision_test_arguements) == 24, "Invalid s_instance_collision_test_arguements size");
 }
+using namespace hades_file_local;
 /* ---------- prototypes */
 
 namespace Patches
@@ -164,6 +179,14 @@ namespace Patches
 		extern void ApplyAfterInit();
 	}
 }
+
+bool scenario_structure_bsp_has_valid_lightmap_for_bsp_type_hook(long definition_index, long bspIndex, long bsp_type);
+bool s_render_method_postprocess_definition__query_texture_transform_hook(s_render_method_postprocess_definition *thisptr, void *unused, long bitmap_reference_index, unsigned long *out_color, long *out_bitmap_group_index, long *out_bitmap_index);
+bool rasterizer_force_default_lighting_hook();
+long update_cluster_stream_and_determine_lighting_attributes_hook(e_entry_point entry_point, __int32 bsp_index, s_render_geometry *geometry, s_mesh *mesh, s_part *part, s_geometry_material *materials, s_cluster_reference cluster);
+void c_instanced_geometry_iterator__next_hook(c_instanced_geometry_iterator *thisptr);
+void c_instanced_geometry_iterator__ctor_hook(c_instanced_geometry_iterator *thisptr, void *__formal, s_cluster_reference *cluster_references, s_decal_cylinder *cylinder, long ignore_instance_index);
+bool test_instanced_geometry_hook(s_instance_collision_test_arguements *test_arguments, long instance_index, s_structure_instanced_geometry_instance *instance, s_structure_instanced_geometry_definition *definition, unsigned long flags);
 
 /* ---------- globals */
 
@@ -193,3 +216,192 @@ namespace Patches
 }
 
 /* ---------- private code */
+
+_extern bool _sub_107C0330(long, long, long);
+bool scenario_structure_bsp_has_valid_lightmap_for_bsp_type_hook(long definition_index, long bspIndex, long bsp_type) // 0x107C0330
+{
+	// `anonymous-namespace'::scenario_structure_bsp_has_valid_lightmap_for_bsp_type_hook
+	// long bsp_type;
+	// long lightmap_definition_index;
+	// s_scenario_lightmap_bsp_data *lightmap_bsp_data;
+	// s_scenario_structure_bsp *structure_bsp;
+	// s_scenario *scenario;
+	// s_scenario_lightmap_bsp_data *(*const scenario_lightmap_find_bsp)(long, long, long);
+	// s_scenario_structure_bsp *(*const scenario_structure_bsp_get)(s_scenario const *, long);
+	{
+		// long total_mesh_part_count;
+		// bool valid;
+		{
+			// long cluster_index;
+			{
+				// long mesh_index;
+			}
+		}
+	}
+	// function call : void *(*const)(unsigned long, long)
+	// function call : s_scenario_lightmap_bsp_data *(*const)(long, long, long)
+	// function call : s_scenario_structure_bsp *(*const)(s_scenario const *, long)
+	todo("implement");
+	bool __result = _sub_107C0330(definition_index, bspIndex, bsp_type);
+	return __result;
+}
+
+_extern bool _sub_107C0280(s_render_method_postprocess_definition *, void *, long, unsigned long *, long *, long *);
+bool s_render_method_postprocess_definition__query_texture_transform_hook(s_render_method_postprocess_definition *thisptr, void *unused, long bitmap_reference_index, unsigned long *out_color, long *out_bitmap_group_index, long *out_bitmap_index) // 0x107C0280
+{
+	// `anonymous-namespace'::s_render_method_postprocess_definition__query_texture_transform_hook
+	// long *out_bitmap_index;
+	// bool (*const query_texture_transform)(s_render_method_postprocess_definition *, long, unsigned long *, long *, long *);
+	// long texture_constant_index;
+	// function call : bool (*const)(s_render_method_postprocess_definition *, long, unsigned long *, long *, long *)
+	todo("implement");
+	bool __result = _sub_107C0280(thisptr, unused, bitmap_reference_index, out_color, out_bitmap_group_index, out_bitmap_index);
+	return __result;
+}
+
+_extern bool _sub_107C01E0();
+bool rasterizer_force_default_lighting_hook() // 0x107C01E0
+{
+	// `anonymous-namespace'::rasterizer_force_default_lighting_hook
+	// procedure flags: nofpo
+	// long sbsp_index;
+	{
+		// s_scenario_structure_bsp *sbsp;
+	}
+	// function call : long (*const)()
+	// function call : s_scenario_structure_bsp *(*const)(long)
+	todo("implement");
+	bool __result = _sub_107C01E0();
+	return __result;
+}
+
+_extern long _sub_107C09F0(e_entry_point, __int32, s_render_geometry *, s_mesh *, s_part *, s_geometry_material *, s_cluster_reference);
+long update_cluster_stream_and_determine_lighting_attributes_hook(e_entry_point entry_point, __int32 bsp_index, s_render_geometry *geometry, s_mesh *mesh, s_part *part, s_geometry_material *materials, s_cluster_reference cluster) // 0x107C09F0
+{
+	// `anonymous-namespace'::update_cluster_stream_and_determine_lighting_attributes_hook
+	// s_cluster_reference cluster;
+	// bool (*const rasterizer_force_default_lighting)();
+	// long result;
+	{
+		// c_rasterizer_vertex_buffer *vertex_buffer;
+		// s_scenario_lightmap_bsp_data *lbsp;
+		// long static_per_vertex_index;
+		// long vertex_buffer_index;
+	}
+	// function call : bool (*const)()
+	// function call : void (*const)()
+	// function call : c_rasterizer_vertex_buffer *(*const)(s_scenario_lightmap_bsp_data *, long)
+	// function call : bool (*const)(c_rasterizer_vertex_buffer const *)
+	todo("implement");
+	long __result = _sub_107C09F0(entry_point, bsp_index, geometry, mesh, part, materials, cluster);
+	return __result;
+}
+
+extern c_instanced_geometry_iterator* _sub_107BE6E0(c_instanced_geometry_iterator *const, s_cluster_reference *, s_decal_cylinder *, long);
+_inline c_instanced_geometry_iterator::c_instanced_geometry_iterator(s_cluster_reference *cluster_references, s_decal_cylinder *cylinder, long ignore_instance_index) // 0x107BE6E0
+{
+	// `anonymous-namespace'::c_instanced_geometry_iterator::c_instanced_geometry_iterator
+	// long ignore_instance_index;
+	// static unsigned long `c_instanced_geometry_iterator::c_instanced_geometry_iterator'::`2'::static_visited_instance_bit_vector[256]; // 0x1138DEE8
+	todo("implement");
+	_sub_107BE6E0(this, cluster_references, cylinder, ignore_instance_index);
+}
+
+_extern bool _sub_107BFE40(c_instanced_geometry_iterator *const);
+_inline bool c_instanced_geometry_iterator::next_instance() // 0x107BFE40
+{
+	// `anonymous-namespace'::c_instanced_geometry_iterator::next_instance
+	// c_instanced_geometry_iterator *const this;
+	todo("implement");
+	bool __result = _sub_107BFE40(this);
+	return __result;
+}
+
+_extern bool _sub_107BFCD0(c_instanced_geometry_iterator *const);
+_inline bool c_instanced_geometry_iterator::next_cluster() // 0x107BFCD0
+{
+	// `anonymous-namespace'::c_instanced_geometry_iterator::next_cluster
+	// c_instanced_geometry_iterator *const this;
+	// s_cluster_reference &cluster_ref;
+	// function call : s_scenario_structure_bsp *(*const)(long)
+	todo("implement");
+	bool __result = _sub_107BFCD0(this);
+	return __result;
+}
+
+_extern bool _sub_107C0100(c_instanced_geometry_iterator *const);
+_inline bool c_instanced_geometry_iterator::next_instance_bucket() // 0x107C0100
+{
+	// `anonymous-namespace'::c_instanced_geometry_iterator::next_instance_bucket
+	// c_instanced_geometry_iterator *const this;
+	todo("implement");
+	bool __result = _sub_107C0100(this);
+	return __result;
+}
+
+_extern void _sub_107BFBD0(c_instanced_geometry_iterator *const);
+_inline void c_instanced_geometry_iterator::next() // 0x107BFBD0
+{
+	// `anonymous-namespace'::c_instanced_geometry_iterator::next
+	// c_instanced_geometry_iterator *const this;
+	// bool (*const collision_point_in_cylinder)(real_point3d const *, real_matrix4x3 const *, float, float, float *);
+	// function call : bool (*const)(real_point3d const *, real_matrix4x3 const *, float, float, float *)
+	todo("implement");
+	_sub_107BFBD0(this);
+}
+
+_extern void _sub_107BF730(c_instanced_geometry_iterator *);
+void c_instanced_geometry_iterator__next_hook(c_instanced_geometry_iterator *thisptr) // 0x107BF730
+{
+	// `anonymous-namespace'::c_instanced_geometry_iterator__next_hook
+	// c_instanced_geometry_iterator *thisptr;
+	todo("implement");
+	_sub_107BF730(thisptr);
+}
+
+_extern void _sub_107BF6B0(c_instanced_geometry_iterator *, void *, s_cluster_reference *, s_decal_cylinder *, long);
+void c_instanced_geometry_iterator__ctor_hook(c_instanced_geometry_iterator *thisptr, void *__formal, s_cluster_reference *cluster_references, s_decal_cylinder *cylinder, long ignore_instance_index) // 0x107BF6B0
+{
+	// `anonymous-namespace'::c_instanced_geometry_iterator__ctor_hook
+	// long ignore_instance_index;
+	todo("implement");
+	_sub_107BF6B0(thisptr, __formal, cluster_references, cylinder, ignore_instance_index);
+}
+
+_extern bool _sub_107C06E0(s_instance_collision_test_arguements *, long, s_structure_instanced_geometry_instance *, s_structure_instanced_geometry_definition *, unsigned long);
+bool test_instanced_geometry_hook(s_instance_collision_test_arguements *test_arguments, long instance_index, s_structure_instanced_geometry_instance *instance, s_structure_instanced_geometry_definition *definition, unsigned long flags) // 0x107C06E0
+{
+	// `anonymous-namespace'::test_instanced_geometry_hook
+	// unsigned long flags;
+	// bool (*const test_instanced_geometry)(s_instance_collision_test_arguements *, long, s_structure_instanced_geometry_instance *, s_structure_instanced_geometry_definition *, unsigned long);
+	// function call : bool (*const)(s_instance_collision_test_arguements *, long, s_structure_instanced_geometry_instance *, s_structure_instanced_geometry_definition *, unsigned long)
+	todo("implement");
+	bool __result = _sub_107C06E0(test_arguments, instance_index, instance, definition, flags);
+	return __result;
+}
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template Modules::ModuleGraphics & Utils::Singleton<Modules::ModuleGraphics>::Instance();
+template bool c_flags<enum e_instanced_geometry_flags,unsigned short>::test(e_instanced_geometry_flags) const;
+template bool c_flags<enum e_scenario_structure_bsp_compatibility_flags,unsigned short>::test(e_scenario_structure_bsp_compatibility_flags) const;
+template bool c_tag_block<s_instance_part>::try_get_element(__int32, s_instance_part **) const;
+template bool c_tag_block<s_instance_part_contents>::try_get_element(__int32, s_instance_part_contents **) const;
+template bool c_tag_block<s_mesh>::try_get_element(__int32, s_mesh **) const;
+template bool c_tag_block<s_structure_cluster>::try_get_element(__int32, s_structure_cluster **) const;
+template c_flags<enum e_part_flags,unsigned char> c_flags<enum e_part_flags,unsigned char>::operator&(__int32 const) const;
+template c_flags<enum e_part_flags,unsigned char>::c_flags(unsigned char const &);
+template c_flags<enum e_part_flags,unsigned char>::operator bool() const;
+template s_instance_part & c_tag_block<s_instance_part>::operator[](__int32);
+template s_instance_part * c_tag_block<s_instance_part>::get_element(__int32) const;
+template s_instance_part_contents & c_tag_block<s_instance_part_contents>::operator[](__int32);
+template s_instance_part_contents * c_tag_block<s_instance_part_contents>::get_element(__int32) const;
+template s_mesh & c_tag_block<s_mesh>::operator[](__int32);
+template s_mesh * c_tag_block<s_mesh>::get_element(__int32) const;
+template s_structure_cluster & c_tag_block<s_structure_cluster>::operator[](__int32);
+template s_structure_cluster * c_tag_block<s_structure_cluster>::get_element(__int32) const;
+template s_structure_instanced_geometry_instance & c_tag_block<s_structure_instanced_geometry_instance>::operator[](__int32);

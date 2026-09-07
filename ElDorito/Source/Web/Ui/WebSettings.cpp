@@ -12,6 +12,7 @@
 #include "Blam/game/player_configuration.inl"
 #include "Blam/hs/hs.hpp"
 #include "Blam/input/input.hpp"
+#include "Blam/interface/user_interface_sound.hpp"
 #include "Blam/math/real_math.inl"
 #include "Blam/math/real_math_definitions.hpp"
 #include "Blam/objects/damage.hpp"
@@ -35,6 +36,7 @@
 #include "Utils/Singleton.hpp"
 #include "Web/Ui/Screen.hpp"
 #include "Web/Ui/ScreenLayer.hpp"
+#include "Web/Ui/WebMods.hpp"
 
 #include <Windows.h>
 #include <stdio.h>
@@ -74,10 +76,11 @@ namespace Web
 		class WebScreen;
 	}
 }
-namespace
+namespace hades_file_local
 {
 	class WebSettingsScreen;
 }
+using namespace hades_file_local;
 
 namespace Utils {}
 using namespace ::Utils;
@@ -138,7 +141,7 @@ using namespace ::Blam;
 
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	class WebSettingsScreen :
 		public Web::Ui::WebScreen
@@ -152,6 +155,7 @@ namespace
 	};
 	static_assert(sizeof(WebSettingsScreen) == 4, "Invalid WebSettingsScreen size");
 }
+using namespace hades_file_local;
 typedef bool (*CommandUpdateFunc)(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
 namespace Patches
 {
@@ -174,6 +178,8 @@ namespace Web
 		}
 	}
 }
+
+void OnGameInputUpdated();
 
 /* ---------- globals */
 
@@ -209,3 +215,25 @@ namespace Web
 }
 
 /* ---------- private code */
+
+_extern void _sub_10CB53C0();
+void OnGameInputUpdated() // 0x10CB53C0
+{
+	// `anonymous-namespace'::OnGameInputUpdated
+	// procedure flags: nofpo
+	// function call : long (*const)(e_user_interface_sound, long)
+	// function call : bool (*const)()
+	// function call : long (*const)(e_user_interface_sound, long)
+	todo("implement");
+	_sub_10CB53C0();
+}
+
+extern WebSettingsScreen* _sub_10CB5130(WebSettingsScreen *const);
+_inline WebSettingsScreen::WebSettingsScreen() // 0x10CB5130
+{
+	// `anonymous-namespace'::WebSettingsScreen::WebSettingsScreen
+	// WebSettingsScreen *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10CB5130(this);
+}

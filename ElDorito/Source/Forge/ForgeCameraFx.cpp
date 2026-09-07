@@ -32,10 +32,11 @@ namespace Forge
 	class CForgeCameraFx;
 	struct ForgeMapModifierProperties;
 }
-namespace
+namespace hades_file_local
 {
 	struct ForgeCameraFxState;
 }
+using namespace hades_file_local;
 
 namespace Forge {}
 using namespace ::Forge;
@@ -44,7 +45,7 @@ using namespace ::Forge;
 
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	struct ForgeCameraFxState
 	{
@@ -58,6 +59,7 @@ namespace
 	};
 	static_assert(sizeof(ForgeCameraFxState) == 20, "Invalid ForgeCameraFxState size");
 }
+using namespace hades_file_local;
 typedef unsigned short IRQ_DEVICE_POLICY;
 typedef unsigned long ERESOURCE_THREAD;
 typedef unsigned char SECURITY_CONTEXT_TRACKING_MODE;

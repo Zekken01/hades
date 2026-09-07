@@ -89,10 +89,11 @@ namespace Server
 		struct ClientInfoData;
 	}
 }
-namespace
+namespace hades_file_local
 {
 	class ClientInfoDataPacketHandler;
 }
+using namespace hades_file_local;
 
 namespace Utils {}
 using namespace ::Utils;
@@ -112,6 +113,12 @@ namespace Patches
 	using namespace Patches::CustomPackets;
 }
 
+namespace Blam
+{
+	namespace Network {}
+	using namespace Blam::Network;
+}
+
 namespace Blam {}
 using namespace ::Blam;
 
@@ -119,7 +126,7 @@ using namespace ::Blam;
 
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	class ClientInfoDataPacketHandler :
 		public Patches::CustomPackets::PacketHandler<Server::ClientDataTracker::ClientInfoData>
@@ -137,6 +144,7 @@ namespace
 	};
 	static_assert(sizeof(ClientInfoDataPacketHandler) == 4, "Invalid ClientInfoDataPacketHandler size");
 }
+using namespace hades_file_local;
 namespace Patches
 {
 	namespace CustomPackets
@@ -160,6 +168,10 @@ namespace Server
 	}
 }
 
+bool SendMessagePacket(__int32 peer, Server::ClientDataTracker::ClientInfoData const &message);
+bool HostReceivedMessage(Blam::Network::Session *session, __int32 peer, Server::ClientDataTracker::ClientInfoData const &message);
+bool SendClientMessage(Blam::Network::Session *session, Server::ClientDataTracker::ClientInfoData const &message);
+
 /* ---------- globals */
 
 namespace Server
@@ -172,10 +184,11 @@ namespace Server
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern std::shared_ptr<Patches::CustomPackets::PacketSender<Server::ClientDataTracker::ClientInfoData> > PacketSender; // 0x124675C8
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Server
@@ -335,3 +348,105 @@ namespace Server
 }
 
 /* ---------- private code */
+
+_extern void _sub_10B00590(ClientInfoDataPacketHandler *const, Blam::BitStream *, Server::ClientDataTracker::ClientInfoData const *);
+_inline void ClientInfoDataPacketHandler::Serialize(Blam::BitStream *stream, Server::ClientDataTracker::ClientInfoData const *data) // 0x10B00590
+{
+	// `anonymous-namespace'::ClientInfoDataPacketHandler::Serialize
+	// Server::ClientDataTracker::ClientInfoData const *data;
+	todo("implement");
+	_sub_10B00590(this, stream, data);
+}
+
+_extern bool _sub_10AFFDE0(ClientInfoDataPacketHandler *const, Blam::BitStream *, Server::ClientDataTracker::ClientInfoData *);
+_inline bool ClientInfoDataPacketHandler::Deserialize(Blam::BitStream *stream, Server::ClientDataTracker::ClientInfoData *data) // 0x10AFFDE0
+{
+	// `anonymous-namespace'::ClientInfoDataPacketHandler::Deserialize
+	// Server::ClientDataTracker::ClientInfoData *data;
+	todo("implement");
+	bool __result = _sub_10AFFDE0(this, stream, data);
+	return __result;
+}
+
+_extern void _sub_10AFFF60(ClientInfoDataPacketHandler *const, Blam::Network::ObserverChannel *, Patches::CustomPackets::Packet<Server::ClientDataTracker::ClientInfoData> const *);
+_inline void ClientInfoDataPacketHandler::HandlePacket(Blam::Network::ObserverChannel *sender, Patches::CustomPackets::Packet<Server::ClientDataTracker::ClientInfoData> const *packet) // 0x10AFFF60
+{
+	// `anonymous-namespace'::ClientInfoDataPacketHandler::HandlePacket
+	// Patches::CustomPackets::Packet<Server::ClientDataTracker::ClientInfoData> const *packet;
+	// __int32 peer;
+	// Blam::Network::Session *session;
+	todo("implement");
+	_sub_10AFFF60(this, sender, packet);
+}
+
+_extern bool _sub_10B00470(__int32, Server::ClientDataTracker::ClientInfoData const &);
+bool SendMessagePacket(__int32 peer, Server::ClientDataTracker::ClientInfoData const &message) // 0x10B00470
+{
+	// `anonymous-namespace'::SendMessagePacket
+	// static ...; // 0x10B00540
+	// static ...; // 0x10B00538
+	// __int32 peer;
+	// Server::ClientDataTracker::ClientInfoData const &message;
+	// Patches::CustomPackets::Packet<Server::ClientDataTracker::ClientInfoData> packet;
+	todo("implement");
+	bool __result = _sub_10B00470(peer, message);
+	return __result;
+}
+
+_extern bool _sub_10B00090(Blam::Network::Session *, __int32, Server::ClientDataTracker::ClientInfoData const &);
+bool HostReceivedMessage(Blam::Network::Session *session, __int32 peer, Server::ClientDataTracker::ClientInfoData const &message) // 0x10B00090
+{
+	// `anonymous-namespace'::HostReceivedMessage
+	// Server::ClientDataTracker::ClientInfoData const &message;
+	todo("implement");
+	bool __result = _sub_10B00090(session, peer, message);
+	return __result;
+}
+
+_extern bool _sub_10B003E0(Blam::Network::Session *, Server::ClientDataTracker::ClientInfoData const &);
+bool SendClientMessage(Blam::Network::Session *session, Server::ClientDataTracker::ClientInfoData const &message) // 0x10B003E0
+{
+	// `anonymous-namespace'::SendClientMessage
+	// Server::ClientDataTracker::ClientInfoData const &message;
+	todo("implement");
+	bool __result = _sub_10B003E0(session, message);
+	return __result;
+}
+
+extern ClientInfoDataPacketHandler* _sub_10AFF100(ClientInfoDataPacketHandler *const);
+_inline ClientInfoDataPacketHandler::ClientInfoDataPacketHandler() // 0x10AFF100
+{
+	// `anonymous-namespace'::ClientInfoDataPacketHandler::ClientInfoDataPacketHandler
+	// ClientInfoDataPacketHandler *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10AFF100(this);
+}
+
+_extern void _sub_10AFF7E0(ClientInfoDataPacketHandler *const);
+_inline ClientInfoDataPacketHandler::~ClientInfoDataPacketHandler() // 0x10AFF7E0
+{
+	// `anonymous-namespace'::ClientInfoDataPacketHandler::~ClientInfoDataPacketHandler
+	// ClientInfoDataPacketHandler *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10AFF7E0(this);
+}
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template Patches::CustomPackets::Packet<Server::ClientDataTracker::ClientInfoData> Patches::CustomPackets::PacketSender<Server::ClientDataTracker::ClientInfoData>::New() const;
+template Patches::CustomPackets::Packet<Server::ClientDataTracker::ClientInfoData>::Packet(unsigned __int32);
+template Patches::CustomPackets::PacketSender<Server::ClientDataTracker::ClientInfoData>::PacketSender(unsigned __int32);
+template __int32 Patches::CustomPackets::PacketHandler<Server::ClientDataTracker::ClientInfoData>::GetMaxRawPacketSize() const;
+template __int32 Patches::CustomPackets::PacketHandler<Server::ClientDataTracker::ClientInfoData>::GetMinRawPacketSize() const;
+template bool Patches::CustomPackets::PacketHandler<Server::ClientDataTracker::ClientInfoData>::DeserializeRawPacket(Blam::BitStream *, __int32, void *);
+template unsigned __int32 Blam::BitStream::ReadUnsigned<unsigned int>(unsigned __int32, unsigned __int32);
+template void Blam::BitStream::WriteUnsigned<unsigned __int64>(unsigned long long, unsigned long long, unsigned long long);
+template void Patches::CustomPackets::PacketHandler<Server::ClientDataTracker::ClientInfoData>::HandleRawPacket(Blam::Network::ObserverChannel *, void const *);
+template void Patches::CustomPackets::PacketHandler<Server::ClientDataTracker::ClientInfoData>::SerializeRawPacket(Blam::BitStream *, __int32, void const *);
+template void Patches::CustomPackets::PacketSender<Server::ClientDataTracker::ClientInfoData>::Send(__int32, Patches::CustomPackets::Packet<Server::ClientDataTracker::ClientInfoData> const &) const;

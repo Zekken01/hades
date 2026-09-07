@@ -85,14 +85,17 @@ namespace Common
 	}
 }
 
+void FatalError(char const *message);
+
 /* ---------- globals */
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern std::vector<std::vector<Common::D3DAdapters::DisplayMode,std::allocator<Common::D3DAdapters::DisplayMode> >,std::allocator<std::vector<Common::D3DAdapters::DisplayMode,std::allocator<Common::D3DAdapters::DisplayMode> > > > adapterModes; // 0x11371944
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Common
@@ -196,3 +199,22 @@ namespace Common
 }
 
 /* ---------- private code */
+
+_extern void _sub_10687900(char const *);
+void FatalError(char const *message) // 0x10687900
+{
+	// `anonymous-namespace'::FatalError
+	// char const *message;
+	// function call : __int32 (HWND__ *, char const *, char const *, unsigned __int32)
+	// function call : void (unsigned __int32)
+	todo("implement");
+	_sub_10687900(message);
+}
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template bool Common::D3DAdapters::operator<(Common::D3DAdapters::DisplayMode const &, Common::D3DAdapters::DisplayMode const &);

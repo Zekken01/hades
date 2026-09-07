@@ -13,6 +13,9 @@
 #include "Blam/game/player_configuration.inl"
 #include "Blam/game/players.hpp"
 #include "Blam/hs/hs.hpp"
+#include "Blam/interface/gui/gui_pregame_setup_manager.hpp"
+#include "Blam/interface/gui/gui_selected_items.hpp"
+#include "Blam/main/levels.hpp"
 #include "Blam/math/real_math.inl"
 #include "Blam/math/real_math_definitions.hpp"
 #include "Blam/memory/bitstream.hpp"
@@ -64,6 +67,7 @@
 #include <iterator>
 #include <limits>
 #include <list>
+#include <memory>
 #include <mutex>
 #include <optional>
 #include <ostream>
@@ -72,6 +76,7 @@
 #include <stdexcept>
 #include <stop_token>
 #include <streambuf>
+#include <string>
 #include <system_error>
 #include <thread>
 #include <tuple>
@@ -84,10 +89,19 @@
 
 class IMod;
 class IModListener;
-namespace
+class c_mod_package_manager;
+class c_network_session;
+struct c_gui_game_variant_selected_item;
+struct c_gui_level_selected_item;
+struct c_gui_map_selected_item;
+struct c_gui_pregame_setup_manager;
+class c_gui_selected_item;
+struct s_level_datum;
+namespace hades_file_local
 {
 	class ModListener;
 }
+using namespace hades_file_local;
 
 namespace Utils {}
 using namespace ::Utils;
@@ -121,7 +135,7 @@ namespace Blam
 
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	class ModListener :
 		public IModListener
@@ -138,6 +152,7 @@ namespace
 	};
 	static_assert(sizeof(ModListener) == 4, "Invalid ModListener size");
 }
+using namespace hades_file_local;
 /* ---------- prototypes */
 
 namespace Patches
@@ -149,14 +164,24 @@ namespace Patches
 	}
 }
 
+void LoadDefaultModPackageAsync(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &id);
+void c_gui_pregame_setup_manager__initialize_game_mode_hook(c_gui_pregame_setup_manager *thisptr, void *unused, long ui_game_mode, long a3);
+void c_gui_pregame_setup_manager__handle_item_chosen_hook(c_gui_pregame_setup_manager *thisptr, void *__formal, long controller_index, c_gui_selected_item *item, char arg8, long screen_index);
+void c_gui_pregame_setup_manager__update_hook(c_gui_pregame_setup_manager *thisptr);
+void notify_mod_package_opened_or_closed(EModIndex index);
+void notify_lobby_changed();
+void lobby_update();
+void clear_mod_cached_map_files();
+
 /* ---------- globals */
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern bool levels_dirty; // 0x1138DEDB
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Patches
@@ -185,3 +210,260 @@ namespace Patches
 }
 
 /* ---------- private code */
+
+_extern void _sub_107BC140(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+void LoadDefaultModPackageAsync(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &id) // 0x107BC140
+{
+	// `anonymous-namespace'::LoadDefaultModPackageAsync
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &id;
+	todo("implement");
+	_sub_107BC140(id);
+}
+
+_extern void _sub_107BCE00(c_gui_pregame_setup_manager *, void *, long, long);
+void c_gui_pregame_setup_manager__initialize_game_mode_hook(c_gui_pregame_setup_manager *thisptr, void *unused, long ui_game_mode, long a3) // 0x107BCE00
+{
+	// `anonymous-namespace'::c_gui_pregame_setup_manager__initialize_game_mode_hook
+	// static ...; // 0x107BD935
+	// static ...; // 0x107BD928
+	// static ...; // 0x107BD917
+	// static ...; // 0x107BD90F
+	// static ...; // 0x107BD901
+	// static ...; // 0x107BD8EC
+	// static ...; // 0x107BD8DF
+	// static ...; // 0x107BD8CC
+	// static ...; // 0x107BD8C4
+	// static ...; // 0x107BD8B6
+	// static ...; // 0x107BD8A1
+	// static ...; // 0x107BD894
+	// static ...; // 0x107BD7E0
+	// static ...; // 0x107BD7D8
+	// c_gui_pregame_setup_manager *thisptr;
+	// void *unused;
+	// long ui_game_mode;
+	// long a3;
+	{
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > CampaignPakName;
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > lastMod;
+		{
+			// c_mod_package_manager::s_entry defaultSetMod;
+			{
+				// c_mod_package_manager::s_entry currentLoadedPackage;
+			}
+		}
+		{
+			// c_mod_package_manager::s_entry packageEntry;
+		}
+	}
+	{
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > FireFightPakName;
+		{
+			{
+			}
+		}
+		{
+		}
+	}
+	{
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > MultiplayerPakName;
+		{
+			{
+			}
+		}
+		{
+		}
+	}
+	// function call : void (*)(c_gui_pregame_setup_manager *, long, long)
+	todo("implement");
+	_sub_107BCE00(thisptr, unused, ui_game_mode, a3);
+}
+
+_extern void _sub_107BC3F0(c_gui_pregame_setup_manager *, void *, long, c_gui_selected_item *, char, long);
+void c_gui_pregame_setup_manager__handle_item_chosen_hook(c_gui_pregame_setup_manager *thisptr, void *__formal, long controller_index, c_gui_selected_item *item, char arg8, long screen_index) // 0x107BC3F0
+{
+	// `anonymous-namespace'::c_gui_pregame_setup_manager__handle_item_chosen_hook
+	// static ...; // 0x107BCBC2
+	// static ...; // 0x107BCBBE
+	// static ...; // 0x107BCBB7
+	// static ...; // 0x107BCBA8
+	// static ...; // 0x107BCB9A
+	// static ...; // 0x107BCB90
+	// static ...; // 0x107BCB8C
+	// static ...; // 0x107BCB84
+	// static ...; // 0x107BCAE8
+	// static ...; // 0x107BCAE0
+	// c_gui_pregame_setup_manager *thisptr;
+	// void *__formal;
+	// long controller_index;
+	// c_gui_selected_item *item;
+	// char arg8;
+	// long screen_index;
+	// void (*const c_gui_pregame_setup_manager__handle_item_chosen)(c_gui_pregame_setup_manager *, long, c_gui_selected_item *, char, long);
+	{
+		// __int32 mapID;
+		{
+			// c_gui_level_selected_item *selectedItem;
+		}
+		{
+			// c_gui_game_variant_selected_item *selectedItem;
+			// bool valid;
+			{
+				// char *const path;
+				// std::filesystem::path dir;
+				{
+					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > parent;
+				}
+			}
+			{
+				// wchar_t *const gameType;
+				// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > GameTypeWString;
+				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > gameTypeString;
+			}
+		}
+		{
+			// c_gui_map_selected_item *selectedItem;
+			{
+				{
+				}
+			}
+			{
+				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > mapNameString;
+				// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > MapNameWString;
+				// wchar_t *const mapName;
+				{
+					// s_level_datum map_level;
+					{
+						// std::basic_string<char,std::char_traits<char>,std::allocator<char> > mapName;
+						// std::filesystem::path dir;
+					}
+				}
+			}
+		}
+	}
+	// function call : void (*const)(c_gui_pregame_setup_manager *, long, c_gui_selected_item *, char, long)
+	todo("implement");
+	_sub_107BC3F0(thisptr, __formal, controller_index, item, arg8, screen_index);
+}
+
+_extern void _sub_107BDC50(c_gui_pregame_setup_manager *);
+void c_gui_pregame_setup_manager__update_hook(c_gui_pregame_setup_manager *thisptr) // 0x107BDC50
+{
+	// `anonymous-namespace'::c_gui_pregame_setup_manager__update_hook
+	// static ...; // 0x107BE02D
+	// static ...; // 0x107BE020
+	// static ...; // 0x107BE008
+	// static ...; // 0x107BE000
+	// c_gui_pregame_setup_manager *thisptr;
+	// void (*const c_gui_screen_pregame_lobby_campaign__restore_save_game)(void *, long);
+	// void (*const restore_game_setup_internal)(c_gui_pregame_setup_manager *, void *);
+	{
+		// bool waiting_for_mod_cache_load;
+		{
+			// IMod *mod;
+		}
+		{
+			// __int32 const lobbyType;
+			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > lastGameType;
+			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > lastMap;
+		}
+	}
+	// function call : bool (*const)()
+	// function call : bool (*const)()
+	// function call : IMod *(EModIndex) const
+	// function call : bool () const
+	// function call : bool (*const)()
+	// function call : void (*const)(c_gui_pregame_setup_manager *, e_gui_game_mode)
+	// function call : void (*const)(void *, long)
+	// function call : void (*const)(c_gui_pregame_setup_manager *, void *)
+	todo("implement");
+	_sub_107BDC50(thisptr);
+}
+
+_extern void _sub_107BE5C0(EModIndex);
+void notify_mod_package_opened_or_closed(EModIndex index) // 0x107BE5C0
+{
+	// `anonymous-namespace'::notify_mod_package_opened_or_closed
+	// EModIndex index;
+	todo("implement");
+	_sub_107BE5C0(index);
+}
+
+_extern void _sub_107BE510();
+void notify_lobby_changed() // 0x107BE510
+{
+	// `anonymous-namespace'::notify_lobby_changed
+	// procedure flags: nofpo
+	todo("implement");
+	_sub_107BE510();
+}
+
+_extern void _sub_107BE3D0();
+void lobby_update() // 0x107BE3D0
+{
+	// `anonymous-namespace'::lobby_update
+	// procedure flags: nofpo
+	// static ...; // 0x107BE4C4
+	// static ...; // 0x107BE4B8
+	// static ...; // 0x107BE4B0
+	// c_network_session *session;
+	// static long `lobby_update'::`2'::last_update_number; // 0x1135235C
+	{
+		// long update_number;
+	}
+	// function call : bool (*const)()
+	// function call : bool (*const)()
+	// function call : bool (*const)(c_network_session **)
+	todo("implement");
+	_sub_107BE3D0();
+}
+
+_extern void _sub_107BE130();
+void clear_mod_cached_map_files() // 0x107BE130
+{
+	// `anonymous-namespace'::clear_mod_cached_map_files
+	// procedure flags: nofpo
+	// long (*const cached_map_file_close)(long);
+	{
+		// long i;
+	}
+	// function call : long (*const)(long)
+	todo("implement");
+	_sub_107BE130();
+}
+
+_extern void _sub_107BC190(ModListener *const, EModIndex, IMod *);
+_inline void ModListener::OnModChanged(EModIndex index, IMod *mod) // 0x107BC190
+{
+	// `anonymous-namespace'::ModListener::OnModChanged
+	// IMod *mod;
+	todo("implement");
+	_sub_107BC190(this, index, mod);
+}
+
+extern ModListener* _sub_107BBB20(ModListener *const);
+_inline ModListener::ModListener() // 0x107BBB20
+{
+	// `anonymous-namespace'::ModListener::ModListener
+	// ModListener *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_107BBB20(this);
+}
+
+_extern void _sub_107BBB80(ModListener *const);
+_inline ModListener::~ModListener() // 0x107BBB80
+{
+	// `anonymous-namespace'::ModListener::~ModListener
+	// ModListener *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_107BBB80(this);
+}
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template bool c_enum<long,enum e_gui_selected_item_type>::operator==(e_gui_selected_item_type const &) const;

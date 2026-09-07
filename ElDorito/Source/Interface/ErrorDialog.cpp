@@ -29,16 +29,17 @@
 /* ---------- forward declarations */
 
 class ErrorDialog;
-namespace
+namespace hades_file_local
 {
 	struct DialogInitParams;
 }
+using namespace hades_file_local;
 
 /* ---------- constants */
 
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	struct DialogInitParams
 	{
@@ -54,7 +55,11 @@ namespace
 	static_assert(sizeof(DialogInitParams) == 56, "Invalid DialogInitParams size");
 
 }
+using namespace hades_file_local;
 /* ---------- prototypes */
+
+__int32 DialogProc(HWND__ *hWnd, unsigned __int32 msg, unsigned __int32 wParam, long lParam);
+std::basic_string<char,std::char_traits<char>,std::allocator<char> > NormalizeLineEndings(std::basic_string<char,std::char_traits<char>,std::allocator<char> > input);
 
 /* ---------- globals */
 
@@ -79,3 +84,67 @@ void ErrorDialog::Show(std::basic_string<char,std::char_traits<char>,std::alloca
 }
 
 /* ---------- private code */
+
+_extern __int32 _sub_10786D50(HWND__ *, unsigned __int32, unsigned __int32, long);
+__int32 DialogProc(HWND__ *hWnd, unsigned __int32 msg, unsigned __int32 wParam, long lParam) // 0x10786D50
+{
+	// `anonymous-namespace'::DialogProc
+	// static ...; // 0x10786F68
+	// static ...; // 0x10786F60
+	// HWND__ *hWnd;
+	// unsigned __int32 msg;
+	// unsigned __int32 wParam;
+	// long lParam;
+	{
+		// tagRECT ec;
+		// std::unique_ptr<DialogInitParams,std::default_delete<DialogInitParams> > initParams;
+		// HRESULT hr;
+		// __int32 const margin;
+		// HICON__ *hIcon;
+	}
+	// function call : __int32 (unsigned __int32)
+	// function call : __int32 (HWND__ *, char const *)
+	// function call : __int32 (HWND__ *, __int32, char const *)
+	// function call : HRESULT (HINSTANCE__ *, wchar_t const *, __int32, __int32, HICON__ **)
+	// function call : long (HWND__ *, unsigned __int32, unsigned __int32, long)
+	// function call : long (HWND__ *, __int32, unsigned __int32, unsigned __int32, long)
+	// function call : long (HWND__ *, __int32, unsigned __int32, unsigned __int32, long)
+	// function call : __int32 (tagRECT *, __int32, __int32)
+	// function call : long (HWND__ *, __int32, unsigned __int32, unsigned __int32, long)
+	// function call : __int32 (HWND__ *, __int32)
+	// function call : __int32 (HWND__ *, __int32)
+	todo("implement");
+	__int32 __result = _sub_10786D50(hWnd, msg, wParam, lParam);
+	return __result;
+}
+
+extern DialogInitParams* _sub_10786AF0(DialogInitParams *const);
+_inline DialogInitParams::DialogInitParams() // 0x10786AF0
+{
+	// `anonymous-namespace'::DialogInitParams::DialogInitParams
+	// DialogInitParams *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10786AF0(this);
+}
+
+_extern void _sub_10786BD0(DialogInitParams *const);
+_inline DialogInitParams::~DialogInitParams() // 0x10786BD0
+{
+	// `anonymous-namespace'::DialogInitParams::~DialogInitParams
+	// DialogInitParams *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10786BD0(this);
+}
+
+extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10787040(std::string);
+std::basic_string<char,std::char_traits<char>,std::allocator<char> > NormalizeLineEndings(std::basic_string<char,std::char_traits<char>,std::allocator<char> > input) // 0x10787040
+{
+	// `anonymous-namespace'::NormalizeLineEndings
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > input;
+	// unsigned __int32 pos;
+	todo("implement");
+	std::string __result = _sub_10787040(input);
+	return __result;
+}

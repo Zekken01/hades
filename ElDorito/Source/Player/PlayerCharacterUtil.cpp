@@ -215,3 +215,20 @@ long unit_get_global_player_control_block_index(long unit_index) // 0x106BE730
 }
 
 /* ---------- private code */
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template Modules::ModuleCampaign & Utils::Singleton<Modules::ModuleCampaign>::Instance();
+template bool c_tag_block<s_game_globals_player_character_type>::try_get_element(__int32, s_game_globals_player_character_type **) const;
+template bool c_tag_block<s_game_globals_player_representation>::try_get_element(__int32, s_game_globals_player_representation **) const;
+template c_flags<enum e_unit_flags,unsigned long> c_flags<enum e_unit_flags,unsigned long>::operator&(__int32 const) const;
+template c_flags<enum e_unit_flags,unsigned long>::c_flags(unsigned long const &);
+template c_flags<enum e_unit_flags,unsigned long>::operator bool() const;
+template c_tag_block_index<s_game_globals_player_information,char>::operator char() const;
+template c_tag_block_index<s_game_globals_player_representation,char>::operator char() const;
+template s_game_globals_player_character_type & c_tag_block<s_game_globals_player_character_type>::operator[](__int32);
+template s_game_globals_player_character_type * c_tag_block<s_game_globals_player_character_type>::get_element(__int32) const;

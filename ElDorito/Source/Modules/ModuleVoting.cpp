@@ -20,6 +20,8 @@
 #include "Blam/objects/objects.hpp"
 #include "Blam/structures/cluster_reference.hpp"
 #include "Blam/tag_files/tag_groups.hpp"
+#include "ChatCommands/ChatCommandMap.hpp"
+#include "Common/Http/HttpHeaders.hpp"
 #include "ElDorito.hpp"
 #include "Modules/ModuleBase.hpp"
 #include "Patches/PlayerPropertiesExtension.hpp"
@@ -64,6 +66,13 @@
 
 /* ---------- forward declarations */
 
+namespace Blam
+{
+	namespace Network
+	{
+		struct Session;
+	}
+}
 namespace Modules
 {
 	class ModuleBase;
@@ -98,12 +107,21 @@ namespace Web
 
 namespace Blam {}
 using namespace ::Blam;
+namespace Blam
+{
+	namespace Network {}
+	using namespace Blam::Network;
+}
 
 /* ---------- constants */
 
 /* ---------- definitions */
 
 /* ---------- prototypes */
+
+bool ReloadJson(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool VarVotingSystemUpdated(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandServerCancelVote(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
 
 /* ---------- globals */
 
@@ -118,11 +136,12 @@ namespace Server
 {
 	namespace Voting
 	{
-		namespace
+		namespace hades_file_local_Server_Voting
 		{
 			extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > const DefaultTypes[8]; // 0x11387E88
 			extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > const DefaultTypeNames[8]; // 0x11387F68
 		}
+		using namespace hades_file_local_Server_Voting;
 	}
 }
 /* ---------- public code */
@@ -140,3 +159,45 @@ namespace Modules
 }
 
 /* ---------- private code */
+
+_extern bool _sub_106D6110(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool ReloadJson(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x106D6110
+{
+	// `anonymous-namespace'::ReloadJson
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// unsigned long VotingType;
+	// bool loadFileFromDisc;
+	todo("implement");
+	bool __result = _sub_106D6110(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_106D6210(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool VarVotingSystemUpdated(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x106D6210
+{
+	// `anonymous-namespace'::VarVotingSystemUpdated
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// Blam::Network::Session *session;
+	// function call : bool (*const)()
+	todo("implement");
+	bool __result = _sub_106D6210(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_106D5F80(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandServerCancelVote(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x106D5F80
+{
+	// `anonymous-namespace'::CommandServerCancelVote
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	todo("implement");
+	bool __result = _sub_106D5F80(Arguments, returnInfo);
+	return __result;
+}
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template Modules::ModuleVoting & Utils::Singleton<Modules::ModuleVoting>::Instance();

@@ -76,6 +76,7 @@
 
 namespace Modules
 {
+	class CommandMap;
 	class ElModules;
 	class ModuleBase;
 	class ModuleCamera;
@@ -85,6 +86,7 @@ namespace Modules
 	class ModuleTime;
 	class ModuleUPnP;
 	class ModuleWeapon;
+	struct Command;
 }
 
 namespace Utils {}
@@ -117,6 +119,10 @@ namespace Blam
 
 /* ---------- prototypes */
 
+bool CommandHelp(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandExecute(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandWriteConfig(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+
 /* ---------- globals */
 
 namespace Utils
@@ -147,3 +153,98 @@ namespace Modules
 }
 
 /* ---------- private code */
+
+_extern bool _sub_108BF6A0(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandHelp(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x108BF6A0
+{
+	// `anonymous-namespace'::CommandHelp
+	// static ...; // 0x108BF9B4
+	// static ...; // 0x108BF99C
+	// static ...; // 0x108BF994
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// Modules::CommandMap &commandMap;
+	{
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > cmdName;
+		// Modules::Command *cmd;
+		{
+			// bool isModule;
+			{
+				// std::_Deque_iterator<std::_Deque_val<std::_Deque_simple_types<Modules::Command> > > it;
+			}
+		}
+	}
+	todo("implement");
+	bool __result = _sub_108BF6A0(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_108BF290(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandExecute(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x108BF290
+{
+	// `anonymous-namespace'::CommandExecute
+	// static ...; // 0x108BF5C0
+	// static ...; // 0x108BF5A8
+	// static ...; // 0x108BF5A0
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// std::basic_ifstream<char,std::char_traits<char> > in;
+	{
+		// bool stopOnFirstError;
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > contents;
+	}
+	todo("implement");
+	bool __result = _sub_108BF290(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_108BFA90(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandWriteConfig(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x108BFA90
+{
+	// `anonymous-namespace'::CommandWriteConfig
+	// static ...; // 0x108C045F
+	// static ...; // 0x108C0454
+	// static ...; // 0x108C044C
+	// static ...; // 0x108C0442
+	// static ...; // 0x108C043F
+	// static ...; // 0x108C0435
+	// static ...; // 0x108C0432
+	// static ...; // 0x108C0428
+	// static ...; // 0x108C0420
+	// static ...; // 0x108C0418
+	// static ...; // 0x108C0394
+	// static ...; // 0x108C038C
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > wide_ed_appdata;
+	// std::basic_ofstream<char,std::char_traits<char> > outKeys;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > prefsFile;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > prefsName;
+	// wchar_t *localAppdata;
+	// std::basic_ofstream<char,std::char_traits<char> > outFile;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > ed_appdata;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > keyFile;
+	{
+		// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+		// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > keystream;
+	}
+	{
+	}
+	todo("implement");
+	bool __result = _sub_108BFA90(Arguments, returnInfo);
+	return __result;
+}
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template Modules::ModuleCamera & Utils::Singleton<Modules::ModuleCamera>::Instance();
+template Modules::ModuleCheat & Utils::Singleton<Modules::ModuleCheat>::Instance();
+template Modules::ModuleInput & Utils::Singleton<Modules::ModuleInput>::Instance();
+template Modules::ModuleScript & Utils::Singleton<Modules::ModuleScript>::Instance();
+template Modules::ModuleTime & Utils::Singleton<Modules::ModuleTime>::Instance();
+template Modules::ModuleUPnP & Utils::Singleton<Modules::ModuleUPnP>::Instance();
+template Modules::ModuleWeapon & Utils::Singleton<Modules::ModuleWeapon>::Instance();

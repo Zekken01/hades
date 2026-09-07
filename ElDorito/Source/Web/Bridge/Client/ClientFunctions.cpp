@@ -288,15 +288,18 @@ namespace Web
 	}
 }
 
+void PongReceived(Blam::Network::NetworkAddress const &from, unsigned __int32 timestamp, unsigned short id, unsigned __int32 latency);
+
 /* ---------- globals */
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern unsigned short PingId; // 0x1247EC8C
 	extern bool PingHandlerRegistered; // 0x1247EC8E
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Web
@@ -1621,3 +1624,16 @@ namespace Web
 }
 
 /* ---------- private code */
+
+_extern void _sub_10C69AC0(Blam::Network::NetworkAddress const &, unsigned __int32, unsigned short, unsigned __int32);
+void PongReceived(Blam::Network::NetworkAddress const &from, unsigned __int32 timestamp, unsigned short id, unsigned __int32 latency) // 0x10C69AC0
+{
+	// `anonymous-namespace'::PongReceived
+	// Blam::Network::NetworkAddress const &from;
+	// unsigned __int32 timestamp;
+	// unsigned short id;
+	// unsigned __int32 latency;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > data;
+	todo("implement");
+	_sub_10C69AC0(from, timestamp, id, latency);
+}

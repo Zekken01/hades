@@ -92,10 +92,11 @@ using namespace ::Modules;
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern char const *const kMapLoadTempFile; // 0x11181B88
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 _extern void _sub_107876B0(c_map_load_crash_recovery_helper *const);

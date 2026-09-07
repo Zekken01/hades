@@ -26,6 +26,7 @@
 #include "ThirdParty/rapidjson/writer.h"
 #include "Web/Ui/Screen.hpp"
 #include "Web/Ui/ScreenLayer.hpp"
+#include "Web/Ui/WebMods.hpp"
 
 #include <Windows.h>
 #include <stdio.h>
@@ -52,10 +53,11 @@ namespace Console
 {
 	class ConsoleOutputHandler;
 }
-namespace
+namespace hades_file_local
 {
 	class WebConsoleOutputHandler;
 }
+using namespace hades_file_local;
 
 namespace base
 {
@@ -114,7 +116,7 @@ using namespace ::Blam;
 
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	class WebConsoleOutputHandler :
 		public Console::ConsoleOutputHandler
@@ -130,6 +132,7 @@ namespace
 	};
 	static_assert(sizeof(WebConsoleOutputHandler) == 4, "Invalid WebConsoleOutputHandler size");
 }
+using namespace hades_file_local;
 /* ---------- prototypes */
 
 namespace Web
@@ -144,6 +147,8 @@ namespace Web
 		}
 	}
 }
+
+void OnGameInputUpdated();
 
 /* ---------- globals */
 
@@ -188,3 +193,47 @@ namespace Web
 }
 
 /* ---------- private code */
+
+_extern void _sub_10C9DF20(WebConsoleOutputHandler *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+void WebConsoleOutputHandler::WriteLine(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &line) // 0x10C9DF20
+{
+	// `anonymous-namespace'::WebConsoleOutputHandler::WriteLine
+	// static ...; // 0x10C9E098
+	// static ...; // 0x10C9E080
+	// static ...; // 0x10C9E078
+	// WebConsoleOutputHandler *const this;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &line;
+	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
+	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
+	todo("implement");
+	_sub_10C9DF20(this, line);
+}
+
+_extern void _sub_10C9DDE0();
+void OnGameInputUpdated() // 0x10C9DDE0
+{
+	// `anonymous-namespace'::OnGameInputUpdated
+	// procedure flags: nofpo
+	todo("implement");
+	_sub_10C9DDE0();
+}
+
+extern WebConsoleOutputHandler* _sub_10C9DA50(WebConsoleOutputHandler *const);
+_inline WebConsoleOutputHandler::WebConsoleOutputHandler() // 0x10C9DA50
+{
+	// `anonymous-namespace'::WebConsoleOutputHandler::WebConsoleOutputHandler
+	// WebConsoleOutputHandler *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10C9DA50(this);
+}
+
+_extern void _sub_10C9DB60(WebConsoleOutputHandler *const);
+_inline WebConsoleOutputHandler::~WebConsoleOutputHandler() // 0x10C9DB60
+{
+	// `anonymous-namespace'::WebConsoleOutputHandler::~WebConsoleOutputHandler
+	// WebConsoleOutputHandler *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10C9DB60(this);
+}

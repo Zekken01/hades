@@ -96,10 +96,11 @@ namespace Server
 
 namespace Server
 {
-	namespace
+	namespace hades_file_local_Server
 	{
 		extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > DefaultBanListPath; // 0x1246757C
 	}
+	using namespace hades_file_local_Server;
 }
 /* ---------- public code */
 

@@ -4,10 +4,12 @@
 
 #include "Blam/cseries/cseries.hpp"
 #include "Blam/cseries/enums.inl"
+#include "Blam/game/engine/game_engine_events.hpp"
 #include "Blam/math/real_math.inl"
 #include "Blam/math/real_math_definitions.hpp"
 #include "Blam/tag_files/tag_groups.hpp"
 #include "ChatCommands/ChatCommandMap.hpp"
+#include "Patches/Events.hpp"
 #include "ThirdParty/rapidjson/allocators.h"
 #include "ThirdParty/rapidjson/encodedstream.h"
 #include "ThirdParty/rapidjson/encodings.h"
@@ -61,6 +63,11 @@
 #include <unordered_map>
 #include <utility>
 #include <vector>
+
+/* ---------- forward declarations */
+
+struct s_game_engine_event_data;
+struct s_multiplayer_event_response_definition;
 
 namespace base
 {
@@ -127,14 +134,18 @@ namespace Web
 	}
 }
 
+void OnEvent(unsigned long player, s_game_engine_event_data const *event, s_multiplayer_event_response_definition const *definition);
+std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetEventName(unsigned __int32 stringId);
+
 /* ---------- globals */
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern std::unordered_map<unsigned int,std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::hash<unsigned int>,std::equal_to<unsigned int>,std::allocator<std::pair<unsigned int const ,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > EventNames; // 0x1247ECA0
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Web
@@ -156,3 +167,49 @@ namespace Web
 }
 
 /* ---------- private code */
+
+_extern void _sub_10C8A700(unsigned long, s_game_engine_event_data const *, s_multiplayer_event_response_definition const *);
+void OnEvent(unsigned long player, s_game_engine_event_data const *event, s_multiplayer_event_response_definition const *definition) // 0x10C8A700
+{
+	// `anonymous-namespace'::OnEvent
+	// static ...; // 0x10C8A91C
+	// static ...; // 0x10C8A8F8
+	// static ...; // 0x10C8A8F0
+	// unsigned long player;
+	// s_game_engine_event_data const *event;
+	// s_multiplayer_event_response_definition const *definition;
+	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > eventName;
+	// unsigned __int32 (*GetLocalPlayer)(__int32);
+	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
+	// function call : unsigned __int32 (*)(__int32)
+	todo("implement");
+	_sub_10C8A700(player, event, definition);
+}
+
+extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10C8A3E0(unsigned __int32);
+std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetEventName(unsigned __int32 stringId) // 0x10C8A3E0
+{
+	// `anonymous-namespace'::GetEventName
+	// static ...; // 0x10C8A60E
+	// static ...; // 0x10C8A60B
+	// static ...; // 0x10C8A608
+	// static ...; // 0x10C8A5E4
+	// static ...; // 0x10C8A5DC
+	// unsigned __int32 stringId;
+	// std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > > it;
+	// std::basic_ostringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > name;
+	todo("implement");
+	std::string __result = _sub_10C8A3E0(stringId);
+	return __result;
+}
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template c_enum<enum e_game_engine_event_audience,short>::operator short() const;
+template c_enum<enum e_game_engine_event_type,char>::operator char() const;

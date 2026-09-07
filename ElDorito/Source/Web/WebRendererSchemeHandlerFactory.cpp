@@ -120,8 +120,16 @@
 /* ---------- forward declarations */
 
 class CModPackageFileSystemView;
+class CefStreamResourceHandler;
 struct CefStringTraitsUTF16;
 struct lambda_1;
+namespace Utils
+{
+	namespace Uri
+	{
+		struct UriComponents;
+	}
+}
 namespace Web
 {
 	namespace Browser
@@ -179,15 +187,24 @@ namespace Blam
 
 /* ---------- prototypes */
 
+std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetMimeType(std::basic_string<char,std::char_traits<char>,std::allocator<char> > extension);
+scoped_refptr<CefResourceHandler> CreateError(scoped_refptr<CefRequest> request, __int32 statusCode, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &statusText);
+bool HandleContentRange(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &range_query, scoped_refptr<CefStreamReader> stream, std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16>,std::less<CefStringBase<CefStringTraitsUTF16> >,std::allocator<std::pair<CefStringBase<CefStringTraitsUTF16> const ,CefStringBase<CefStringTraitsUTF16> > > > &header_map, long long &content_length);
+bool ParseRequestUri(scoped_refptr<CefRequest> const &request, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &scheme, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &host, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &path);
+void BuildResponseHeaders(scoped_refptr<CefRequest> const &request, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &contentType, scoped_refptr<CefStreamReader> const &stream, std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16>,std::less<CefStringBase<CefStringTraitsUTF16> >,std::allocator<std::pair<CefStringBase<CefStringTraitsUTF16> const ,CefStringBase<CefStringTraitsUTF16> > > > &headers);
+bool ParseRequestRange(scoped_refptr<CefRequest> request, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &range);
+scoped_refptr<CefStreamResourceHandler> GetStreamResourceHandler(scoped_refptr<CefRequest> request, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &mimeType, std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16>,std::less<CefStringBase<CefStringTraitsUTF16> >,std::allocator<std::pair<CefStringBase<CefStringTraitsUTF16> const ,CefStringBase<CefStringTraitsUTF16> > > > &headers, scoped_refptr<CefStreamReader> stream);
+
 /* ---------- globals */
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern char const *const kDefaultMimetype; // 0x111C0F5C
 	extern std::unordered_map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::hash<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::equal_to<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > kExtensionMimeTypeMap; // 0x1247EE30
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Web
@@ -269,3 +286,130 @@ namespace Web
 }
 
 /* ---------- private code */
+
+extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10CE1B50(std::string);
+std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetMimeType(std::basic_string<char,std::char_traits<char>,std::allocator<char> > extension) // 0x10CE1B50
+{
+	// `anonymous-namespace'::GetMimeType
+	// static ...; // 0x10CE1CF8
+	// static ...; // 0x10CE1CEC
+	// static ...; // 0x10CE1CE4
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > extension;
+	// std::_List_const_iterator<std::_List_val<std::_List_simple_types<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > > it;
+	todo("implement");
+	std::string __result = _sub_10CE1B50(extension);
+	return __result;
+}
+
+extern scoped_refptr<CefResourceHandler> _sub_10CE17D0(scoped_refptr<CefRequest>, __int32, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+scoped_refptr<CefResourceHandler> CreateError(scoped_refptr<CefRequest> request, __int32 statusCode, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &statusText) // 0x10CE17D0
+{
+	// `anonymous-namespace'::CreateError
+	// static ...; // 0x10CE1A6C
+	// static ...; // 0x10CE1A64
+	// scoped_refptr<CefRequest> request;
+	// __int32 statusCode;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &statusText;
+	// std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16>,std::less<CefStringBase<CefStringTraitsUTF16> >,std::allocator<std::pair<CefStringBase<CefStringTraitsUTF16> const ,CefStringBase<CefStringTraitsUTF16> > > > headers;
+	// scoped_refptr<CefStreamReader> stream;
+	todo("implement");
+	scoped_refptr<CefResourceHandler> __result = _sub_10CE17D0(request, statusCode, statusText);
+	return __result;
+}
+
+_extern bool _sub_10CE2680(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, scoped_refptr<CefStreamReader>, std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16>,std::less<CefStringBase<CefStringTraitsUTF16> >,std::allocator<std::pair<CefStringBase<CefStringTraitsUTF16> const ,CefStringBase<CefStringTraitsUTF16> > > > &, long long &);
+bool HandleContentRange(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &range_query, scoped_refptr<CefStreamReader> stream, std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16>,std::less<CefStringBase<CefStringTraitsUTF16> >,std::allocator<std::pair<CefStringBase<CefStringTraitsUTF16> const ,CefStringBase<CefStringTraitsUTF16> > > > &header_map, long long &content_length) // 0x10CE2680
+{
+	// `anonymous-namespace'::HandleContentRange
+	// static ...; // 0x10CE2C20
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &range_query;
+	// scoped_refptr<CefStreamReader> stream;
+	// std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16>,std::less<CefStringBase<CefStringTraitsUTF16> >,std::allocator<std::pair<CefStringBase<CefStringTraitsUTF16> const ,CefStringBase<CefStringTraitsUTF16> > > > &header_map;
+	// long long &content_length;
+	// long long range_begin;
+	// long long total_bytes;
+	// long long range_end;
+	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > content_length_ss;
+	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > content_range_ss;
+	{
+		// unsigned __int32 hyphen_pos;
+	}
+	// function call : __int32 (long long, __int32)
+	// function call : long long ()
+	// function call : __int32 (long long, __int32)
+	todo("implement");
+	bool __result = _sub_10CE2680(range_query, stream, header_map, content_length);
+	return __result;
+}
+
+_extern bool _sub_10CE3180(scoped_refptr<CefRequest> const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool ParseRequestUri(scoped_refptr<CefRequest> const &request, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &scheme, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &host, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &path) // 0x10CE3180
+{
+	// `anonymous-namespace'::ParseRequestUri
+	// static ...; // 0x10CE344C
+	// scoped_refptr<CefRequest> const &request;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &scheme;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &host;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &path;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > url;
+	// Utils::Uri::UriComponents components;
+	// function call : CefStringBase<CefStringTraitsUTF16> ()
+	todo("implement");
+	bool __result = _sub_10CE3180(request, scheme, host, path);
+	return __result;
+}
+
+_extern void _sub_10CE0160(scoped_refptr<CefRequest> const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, scoped_refptr<CefStreamReader> const &, std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16>,std::less<CefStringBase<CefStringTraitsUTF16> >,std::allocator<std::pair<CefStringBase<CefStringTraitsUTF16> const ,CefStringBase<CefStringTraitsUTF16> > > > &);
+void BuildResponseHeaders(scoped_refptr<CefRequest> const &request, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &contentType, scoped_refptr<CefStreamReader> const &stream, std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16>,std::less<CefStringBase<CefStringTraitsUTF16> >,std::allocator<std::pair<CefStringBase<CefStringTraitsUTF16> const ,CefStringBase<CefStringTraitsUTF16> > > > &headers) // 0x10CE0160
+{
+	// `anonymous-namespace'::BuildResponseHeaders
+	// static ...; // 0x10CE0398
+	// static ...; // 0x10CE0390
+	// scoped_refptr<CefRequest> const &request;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &contentType;
+	// scoped_refptr<CefStreamReader> const &stream;
+	// std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16>,std::less<CefStringBase<CefStringTraitsUTF16> >,std::allocator<std::pair<CefStringBase<CefStringTraitsUTF16> const ,CefStringBase<CefStringTraitsUTF16> > > > &headers;
+	// std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<CefStringBase<CefStringTraitsUTF16> const ,CefStringBase<CefStringTraitsUTF16> > > > > it;
+	// std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16>,std::less<CefStringBase<CefStringTraitsUTF16> >,std::allocator<std::pair<CefStringBase<CefStringTraitsUTF16> const ,CefStringBase<CefStringTraitsUTF16> > > > requestHeaders;
+	// CefStringBase<CefStringTraitsUTF16> origin;
+	// function call : void (std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16>,std::less<CefStringBase<CefStringTraitsUTF16> >,std::allocator<std::pair<CefStringBase<CefStringTraitsUTF16> const ,CefStringBase<CefStringTraitsUTF16> > > > &)
+	todo("implement");
+	_sub_10CE0160(request, contentType, stream, headers);
+}
+
+_extern bool _sub_10CE2EA0(scoped_refptr<CefRequest>, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool ParseRequestRange(scoped_refptr<CefRequest> request, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &range) // 0x10CE2EA0
+{
+	// `anonymous-namespace'::ParseRequestRange
+	// static ...; // 0x10CE30D0
+	// static ...; // 0x10CE30B8
+	// static ...; // 0x10CE30B0
+	// scoped_refptr<CefRequest> request;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &range;
+	// std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16>,std::less<CefStringBase<CefStringTraitsUTF16> >,std::allocator<std::pair<CefStringBase<CefStringTraitsUTF16> const ,CefStringBase<CefStringTraitsUTF16> > > > headers;
+	// std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<CefStringBase<CefStringTraitsUTF16> const ,CefStringBase<CefStringTraitsUTF16> > > > > findRange;
+	// function call : void (std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16>,std::less<CefStringBase<CefStringTraitsUTF16> >,std::allocator<std::pair<CefStringBase<CefStringTraitsUTF16> const ,CefStringBase<CefStringTraitsUTF16> > > > &)
+	todo("implement");
+	bool __result = _sub_10CE2EA0(request, range);
+	return __result;
+}
+
+extern scoped_refptr<CefStreamResourceHandler> _sub_10CE1D70(scoped_refptr<CefRequest>, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16>,std::less<CefStringBase<CefStringTraitsUTF16> >,std::allocator<std::pair<CefStringBase<CefStringTraitsUTF16> const ,CefStringBase<CefStringTraitsUTF16> > > > &, scoped_refptr<CefStreamReader>);
+scoped_refptr<CefStreamResourceHandler> GetStreamResourceHandler(scoped_refptr<CefRequest> request, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &mimeType, std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16>,std::less<CefStringBase<CefStringTraitsUTF16> >,std::allocator<std::pair<CefStringBase<CefStringTraitsUTF16> const ,CefStringBase<CefStringTraitsUTF16> > > > &headers, scoped_refptr<CefStreamReader> stream) // 0x10CE1D70
+{
+	// `anonymous-namespace'::GetStreamResourceHandler
+	// static ...; // 0x10CE246C
+	// static ...; // 0x10CE2464
+	// scoped_refptr<CefRequest> request;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &mimeType;
+	// std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16>,std::less<CefStringBase<CefStringTraitsUTF16> >,std::allocator<std::pair<CefStringBase<CefStringTraitsUTF16> const ,CefStringBase<CefStringTraitsUTF16> > > > &headers;
+	// scoped_refptr<CefStreamReader> stream;
+	// scoped_refptr<CefStreamResourceHandler> handler;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > range;
+	{
+		// long long content_length;
+	}
+	todo("implement");
+	scoped_refptr<CefStreamResourceHandler> __result = _sub_10CE1D70(request, mimeType, headers, stream);
+	return __result;
+}

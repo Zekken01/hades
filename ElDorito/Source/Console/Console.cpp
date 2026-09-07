@@ -62,10 +62,11 @@ namespace Console
 {
 	class ConsoleOutputHandler;
 }
-namespace
+namespace hades_file_local
 {
 	class LogConsoleOutputHandler;
 }
+using namespace hades_file_local;
 
 namespace Utils {}
 using namespace ::Utils;
@@ -76,7 +77,7 @@ using namespace ::Console;
 
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	class LogConsoleOutputHandler :
 		public Console::ConsoleOutputHandler
@@ -92,6 +93,7 @@ namespace
 	};
 	static_assert(sizeof(LogConsoleOutputHandler) == 4, "Invalid LogConsoleOutputHandler size");
 }
+using namespace hades_file_local;
 /* ---------- prototypes */
 
 namespace Console
@@ -105,10 +107,11 @@ namespace Console
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern std::vector<std::shared_ptr<Console::ConsoleOutputHandler>,std::allocator<std::shared_ptr<Console::ConsoleOutputHandler> > > Handlers; // 0x1240DA2C
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Console
@@ -173,3 +176,32 @@ namespace Console
 }
 
 /* ---------- private code */
+
+_extern void _sub_10950B80(LogConsoleOutputHandler *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+void LogConsoleOutputHandler::WriteLine(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &line) // 0x10950B80
+{
+	// `anonymous-namespace'::LogConsoleOutputHandler::WriteLine
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &line;
+	todo("implement");
+	_sub_10950B80(this, line);
+}
+
+extern LogConsoleOutputHandler* _sub_10950350(LogConsoleOutputHandler *const);
+_inline LogConsoleOutputHandler::LogConsoleOutputHandler() // 0x10950350
+{
+	// `anonymous-namespace'::LogConsoleOutputHandler::LogConsoleOutputHandler
+	// LogConsoleOutputHandler *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10950350(this);
+}
+
+_extern void _sub_10950630(LogConsoleOutputHandler *const);
+_inline LogConsoleOutputHandler::~LogConsoleOutputHandler() // 0x10950630
+{
+	// `anonymous-namespace'::LogConsoleOutputHandler::~LogConsoleOutputHandler
+	// LogConsoleOutputHandler *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10950630(this);
+}

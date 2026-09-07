@@ -82,10 +82,11 @@ namespace Modules
 	class ModuleBase;
 	class ModuleInput;
 }
-namespace
+namespace hades_file_local
 {
 	struct CommandBinding;
 }
+using namespace hades_file_local;
 
 namespace Utils {}
 using namespace ::Utils;
@@ -127,7 +128,7 @@ using namespace ::Blam;
 
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	#pragma pack(push, 4)
 	struct CommandBinding
@@ -146,13 +147,39 @@ namespace
 	#pragma pack(pop)
 	static_assert(sizeof(CommandBinding) == 20, "Invalid CommandBinding size");
 }
+using namespace hades_file_local;
 /* ---------- prototypes */
+
+void CopyBinding(Blam::Input::GameAction sourceAction, Blam::Input::GameAction destAction);
+void LoadDefaultBindings();
+__int32 GetDefaultSettingsKey(__int32 action, Blam::Input::KeyCode *keys, Blam::Input::MouseButton *mouseButtons);
+void PopulateDefaultKeys(std::vector<Blam::Input::ConfigurableAction,std::allocator<Blam::Input::ConfigurableAction> > *actions);
+void BuildSettingsMenu();
+bool VariableInputRawInputUpdate(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandBind(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool IsModifierKeyDown();
+bool IsModifierKey(Blam::Input::KeyCode code);
+void KeyboardUpdated();
+bool ParseKeyOrMouseButton(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name, Blam::Input::KeyCode *resultKey, Blam::Input::MouseButton *resultMouse);
+bool ParseControllerButton(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name, Blam::Input::ControllerButton *result);
+bool CommandBindControllerAction(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandBindKeyboardAction(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool VariableControllerSensitivityXUpdated(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool VariableControllerSensitivityYUpdated(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool VariableControllerStickLayoutUpdated(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandDumpBindingsJson(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandFindKeybdBinding(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandDumpBindings(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandResetBindings(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool TryParseFloat(char const *str, float *value);
+bool CommandControllerVibrationTest(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandSetMouseWheelEventTime(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
 
 /* ---------- globals */
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern Utils::NameValueTable<enum Blam::Input::ControllerButton> controllerButtons; // 0x124550A0
 	extern Utils::NameValueTable<enum Blam::Input::KeyCode> keyCodes; // 0x12454F08
@@ -162,6 +189,7 @@ namespace
 	extern std::vector<Blam::Input::ConfigurableAction,std::allocator<Blam::Input::ConfigurableAction> > vehicleControls; // 0x12454EE8
 	extern Blam::Input::BindingsTable bindings; // 0x124559B0
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Modules
@@ -298,3 +326,425 @@ namespace Modules
 }
 
 /* ---------- private code */
+
+_extern void _sub_109D04A0(Blam::Input::GameAction, Blam::Input::GameAction);
+void CopyBinding(Blam::Input::GameAction sourceAction, Blam::Input::GameAction destAction) // 0x109D04A0
+{
+	// `anonymous-namespace'::CopyBinding
+	// Blam::Input::GameAction destAction;
+	todo("implement");
+	_sub_109D04A0(sourceAction, destAction);
+}
+
+_extern void _sub_109D2C10();
+void LoadDefaultBindings() // 0x109D2C10
+{
+	// `anonymous-namespace'::LoadDefaultBindings
+	// procedure flags: nofpo
+	{
+		// __int32 i;
+	}
+	{
+	}
+	todo("implement");
+	_sub_109D2C10();
+}
+
+_extern __int32 _sub_109D2410(__int32, Blam::Input::KeyCode *, Blam::Input::MouseButton *);
+__int32 GetDefaultSettingsKey(__int32 action, Blam::Input::KeyCode *keys, Blam::Input::MouseButton *mouseButtons) // 0x109D2410
+{
+	// `anonymous-namespace'::GetDefaultSettingsKey
+	// Blam::Input::MouseButton *mouseButtons;
+	// Blam::Input::KeyCode primaryKey;
+	// Blam::Input::MouseButton mouseButton;
+	todo("implement");
+	__int32 __result = _sub_109D2410(action, keys, mouseButtons);
+	return __result;
+}
+
+_extern void _sub_109D3810(std::vector<Blam::Input::ConfigurableAction,std::allocator<Blam::Input::ConfigurableAction> > *);
+void PopulateDefaultKeys(std::vector<Blam::Input::ConfigurableAction,std::allocator<Blam::Input::ConfigurableAction> > *actions) // 0x109D3810
+{
+	// `anonymous-namespace'::PopulateDefaultKeys
+	// std::vector<Blam::Input::ConfigurableAction,std::allocator<Blam::Input::ConfigurableAction> > *actions;
+	{
+		// std::vector<Blam::Input::ConfigurableAction,std::allocator<Blam::Input::ConfigurableAction> > &<range>$L0;
+		// Blam::Input::ConfigurableAction *<begin>$L0;
+		// Blam::Input::ConfigurableAction *<end>$L0;
+		{
+			// Blam::Input::ConfigurableAction &configAction;
+		}
+	}
+	todo("implement");
+	_sub_109D3810(actions);
+}
+
+_extern void _sub_109CD830();
+void BuildSettingsMenu() // 0x109CD830
+{
+	// `anonymous-namespace'::BuildSettingsMenu
+	// procedure flags: nofpo
+	todo("implement");
+	_sub_109CD830();
+}
+
+_extern bool _sub_109D3C30(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool VariableInputRawInputUpdate(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x109D3C30
+{
+	// `anonymous-namespace'::VariableInputRawInputUpdate
+	// static ...; // 0x109D3D60
+	// static ...; // 0x109D3D58
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// bool statusBool;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > status;
+	// unsigned long value;
+	todo("implement");
+	bool __result = _sub_109D3C30(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_109CD8A0(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandBind(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x109CD8A0
+{
+	// `anonymous-namespace'::CommandBind
+	// static ...; // 0x109CE21F
+	// static ...; // 0x109CE217
+	// static ...; // 0x109CE20F
+	// static ...; // 0x109CE20C
+	// static ...; // 0x109CE204
+	// static ...; // 0x109CE1BC
+	// static ...; // 0x109CE1B4
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// constexpr CommandBind::__l2::s_state KEYNAME_PART; // constant == 0
+	// constexpr CommandBind::__l2::s_state COMMAND_PART; // constant == 2
+	// bool isHold;
+	// CommandBinding *binding;
+	// CommandBind::__l2::s_state state;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &rawArguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > keyName;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > command;
+	// Blam::Input::KeyCode keyCode;
+	// std::_String_const_iterator<std::_String_val<std::_Simple_types<char> > > partStart;
+	// constexpr CommandBind::__l2::s_state COMMAND_HOLD_PART; // constant == 1
+	{
+		// std::_String_const_iterator<std::_String_val<std::_Simple_types<char> > > it;
+		{
+			// bool isEnd;
+			// char ch;
+			{
+				// std::_String_const_iterator<std::_String_val<std::_Simple_types<char> > > partEnd;
+			}
+		}
+	}
+	todo("implement");
+	bool __result = _sub_109CD8A0(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_109D2850();
+bool IsModifierKeyDown() // 0x109D2850
+{
+	// `anonymous-namespace'::IsModifierKeyDown
+	// procedure flags: nofpo
+	todo("implement");
+	bool __result = _sub_109D2850();
+	return __result;
+}
+
+_extern bool _sub_109D27F0(Blam::Input::KeyCode);
+bool IsModifierKey(Blam::Input::KeyCode code) // 0x109D27F0
+{
+	// `anonymous-namespace'::IsModifierKey
+	// Blam::Input::KeyCode code;
+	todo("implement");
+	bool __result = _sub_109D27F0(code);
+	return __result;
+}
+
+_extern void _sub_109D2900();
+void KeyboardUpdated() // 0x109D2900
+{
+	// `anonymous-namespace'::KeyboardUpdated
+	// procedure flags: nofpo
+	// static ...; // 0x109D2B6B
+	// static ...; // 0x109D2B64
+	// static ...; // 0x109D2B4C
+	// static ...; // 0x109D2B44
+	{
+		// __int32 i;
+		{
+			// unsigned char keyTicks;
+			// CommandBinding *const binding;
+			// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > command;
+			// Blam::Input::KeyCode keyCode;
+			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > result;
+		}
+	}
+	todo("implement");
+	_sub_109D2900();
+}
+
+extern CommandBinding* _sub_109C4B10(CommandBinding *const);
+_inline CommandBinding::CommandBinding() // 0x109C4B10
+{
+	// `anonymous-namespace'::CommandBinding::CommandBinding
+	// CommandBinding *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_109C4B10(this);
+}
+
+_extern bool _sub_109D36C0(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, Blam::Input::KeyCode *, Blam::Input::MouseButton *);
+bool ParseKeyOrMouseButton(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name, Blam::Input::KeyCode *resultKey, Blam::Input::MouseButton *resultMouse) // 0x109D36C0
+{
+	// `anonymous-namespace'::ParseKeyOrMouseButton
+	// Blam::Input::MouseButton *resultMouse;
+	todo("implement");
+	bool __result = _sub_109D36C0(name, resultKey, resultMouse);
+	return __result;
+}
+
+_extern bool _sub_109D35A0(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, Blam::Input::ControllerButton *);
+bool ParseControllerButton(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name, Blam::Input::ControllerButton *result) // 0x109D35A0
+{
+	// `anonymous-namespace'::ParseControllerButton
+	// Blam::Input::ControllerButton *result;
+	todo("implement");
+	bool __result = _sub_109D35A0(name, result);
+	return __result;
+}
+
+_extern bool _sub_109CE4A0(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandBindControllerAction(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x109CE4A0
+{
+	// `anonymous-namespace'::CommandBindControllerAction
+	// static ...; // 0x109CE74E
+	// static ...; // 0x109CE747
+	// static ...; // 0x109CE73C
+	// static ...; // 0x109CE70C
+	// static ...; // 0x109CE704
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// Blam::Input::GameAction action;
+	// Blam::Input::ControllerButton button;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > actionName;
+	{
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > buttonName;
+	}
+	todo("implement");
+	bool __result = _sub_109CE4A0(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_109CE810(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandBindKeyboardAction(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x109CE810
+{
+	// `anonymous-namespace'::CommandBindKeyboardAction
+	// static ...; // 0x109CECF0
+	// static ...; // 0x109CECE5
+	// static ...; // 0x109CECD8
+	// static ...; // 0x109CECC9
+	// static ...; // 0x109CECBC
+	// static ...; // 0x109CECAD
+	// static ...; // 0x109CEC9C
+	// static ...; // 0x109CEC3C
+	// static ...; // 0x109CEC34
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// Blam::Input::GameAction action;
+	// Blam::Input::KeyCode primaryKey;
+	// Blam::Input::MouseButton primaryMouse;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > actionName;
+	// Blam::Input::KeyCode secondaryKey;
+	// Blam::Input::MouseButton secondaryMouse;
+	{
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > primaryKeyName;
+	}
+	{
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > secondaryKeyName;
+	}
+	todo("implement");
+	bool __result = _sub_109CE810(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_109D3A00(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool VariableControllerSensitivityXUpdated(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x109D3A00
+{
+	// `anonymous-namespace'::VariableControllerSensitivityXUpdated
+	// static ...; // 0x109D3A94
+	// static ...; // 0x109D3A8C
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// float newSensitivity;
+	todo("implement");
+	bool __result = _sub_109D3A00(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_109D3AE0(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool VariableControllerSensitivityYUpdated(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x109D3AE0
+{
+	// `anonymous-namespace'::VariableControllerSensitivityYUpdated
+	// static ...; // 0x109D3B74
+	// static ...; // 0x109D3B6C
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// float newSensitivity;
+	todo("implement");
+	bool __result = _sub_109D3AE0(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_109D3BC0(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool VariableControllerStickLayoutUpdated(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x109D3BC0
+{
+	// `anonymous-namespace'::VariableControllerStickLayoutUpdated
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// unsigned long layout;
+	todo("implement");
+	bool __result = _sub_109D3BC0(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_109CF820(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandDumpBindingsJson(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x109CF820
+{
+	// `anonymous-namespace'::CommandDumpBindingsJson
+	// static ...; // 0x109CFD74
+	// static ...; // 0x109CFD6D
+	// static ...; // 0x109CFD67
+	// static ...; // 0x109CFD5C
+	// static ...; // 0x109CFD20
+	// static ...; // 0x109CFD18
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
+	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
+	// Blam::Input::BindingsTable currentBindings;
+	{
+		// __int32 i;
+		{
+			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > names[6];
+			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > actionName;
+		}
+	}
+	todo("implement");
+	bool __result = _sub_109CF820(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_109CFEF0(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandFindKeybdBinding(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x109CFEF0
+{
+	// `anonymous-namespace'::CommandFindKeybdBinding
+	// static ...; // 0x109D0258
+	// static ...; // 0x109D0251
+	// static ...; // 0x109D0244
+	// static ...; // 0x109D0240
+	// static ...; // 0x109D0204
+	// static ...; // 0x109D01FC
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > search_for;
+	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
+	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
+	{
+		// __int32 i;
+		{
+			// __int32 k;
+			{
+				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > command_part;
+				{
+					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > key;
+				}
+			}
+		}
+	}
+	todo("implement");
+	bool __result = _sub_109CFEF0(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_109CEF20(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandDumpBindings(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x109CEF20
+{
+	// `anonymous-namespace'::CommandDumpBindings
+	// static ...; // 0x109CF637
+	// static ...; // 0x109CF62C
+	// static ...; // 0x109CF608
+	// static ...; // 0x109CF600
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// Blam::Input::BindingsTable currentBindings;
+	{
+		// __int32 i;
+		{
+			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > names[6];
+			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > actionName;
+		}
+	}
+	todo("implement");
+	bool __result = _sub_109CEF20(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_109D0350(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandResetBindings(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x109D0350
+{
+	// `anonymous-namespace'::CommandResetBindings
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	todo("implement");
+	bool __result = _sub_109D0350(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_109D38E0(char const *, float *);
+bool TryParseFloat(char const *str, float *value) // 0x109D38E0
+{
+	// `anonymous-namespace'::TryParseFloat
+	// static ...; // 0x109D3964
+	// static ...; // 0x109D395C
+	// char const *str;
+	// float *value;
+	// char *endp;
+	todo("implement");
+	bool __result = _sub_109D38E0(str, value);
+	return __result;
+}
+
+_extern bool _sub_109CEE40(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandControllerVibrationTest(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x109CEE40
+{
+	// `anonymous-namespace'::CommandControllerVibrationTest
+	// static ...; // 0x109CEED4
+	// static ...; // 0x109CEECC
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// float duration;
+	todo("implement");
+	bool __result = _sub_109CEE40(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_109D03A0(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandSetMouseWheelEventTime(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x109D03A0
+{
+	// `anonymous-namespace'::CommandSetMouseWheelEventTime
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	todo("implement");
+	bool __result = _sub_109D03A0(Arguments, returnInfo);
+	return __result;
+}
+
+_extern void _sub_109C9F00(CommandBinding *const);
+_inline CommandBinding::~CommandBinding() // 0x109C9F00
+{
+	// `anonymous-namespace'::CommandBinding::~CommandBinding
+	// CommandBinding *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_109C9F00(this);
+}

@@ -153,10 +153,11 @@ namespace Web
 		}
 	}
 }
-namespace
+namespace hades_file_local
 {
 	struct DownloadStatusInfo;
 }
+using namespace hades_file_local;
 
 namespace Utils {}
 using namespace ::Utils;
@@ -228,7 +229,7 @@ namespace Blam
 
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	struct DownloadStatusInfo
 	{
@@ -247,6 +248,7 @@ namespace
 	};
 	static_assert(sizeof(DownloadStatusInfo) == 288, "Invalid DownloadStatusInfo size");
 }
+using namespace hades_file_local;
 // Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen is defined in hades/recovered_types.h, which the synthesised
 // templates in hades/recovered_templates.h inherit from.
 
@@ -284,6 +286,10 @@ namespace Web
 	}
 }
 
+void NotifyDownloadStateChanged(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &fromState, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &toState);
+void NotifyDownloadStatus(DownloadStatusInfo const &info);
+void NotifyDownloadError(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &reason);
+
 /* ---------- globals */
 
 namespace Web
@@ -299,10 +305,11 @@ namespace Web
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern bool screenVisible; // 0x1247EC90
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 extern std::shared_ptr<IModBrowserModDownloadUI> _sub_10C7CC90();
@@ -411,6 +418,42 @@ namespace Web
 				_sub_10C7CD00((IModBrowserModDownloadUI *)this);
 			}
 
+			_extern void _sub_10C7D950(Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen *const);
+			void CWebModDownloadSingleScreen::OnDestroy() // 0x10C7D950
+			{
+				mangled_x86(MANGLED_TODO, "?OnDestroy@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXXZ");
+				// Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen *const this;
+				todo("implement");
+				_sub_10C7D950(this);
+			}
+
+			_extern void _sub_10C7DFD0(Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen *const);
+			void CWebModDownloadSingleScreen::OnShow() // 0x10C7DFD0
+			{
+				mangled_x86(MANGLED_TODO, "?OnShow@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXXZ");
+				// Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen *const this;
+				todo("implement");
+				_sub_10C7DFD0(this);
+			}
+
+			_extern void _sub_10C7DF90(Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen *const);
+			void CWebModDownloadSingleScreen::OnHide() // 0x10C7DF90
+			{
+				mangled_x86(MANGLED_TODO, "?OnHide@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXXZ");
+				// Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen *const this;
+				todo("implement");
+				_sub_10C7DF90(this);
+			}
+
+			_extern void _sub_10C7E010(Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen *const);
+			void CWebModDownloadSingleScreen::OnUpdate() // 0x10C7E010
+			{
+				mangled_x86(MANGLED_TODO, "?OnUpdate@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXXZ");
+				// Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen *const this;
+				todo("implement");
+				_sub_10C7E010(this);
+			}
+
 			_extern void _sub_10C7CE90();
 			void Init() // 0x10C7CE90
 			{
@@ -499,3 +542,68 @@ namespace Web
 }
 
 /* ---------- private code */
+
+_extern void _sub_10C7D210(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+void NotifyDownloadStateChanged(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &fromState, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &toState) // 0x10C7D210
+{
+	// `anonymous-namespace'::NotifyDownloadStateChanged
+	// static ...; // 0x10C7D3A0
+	// static ...; // 0x10C7D388
+	// static ...; // 0x10C7D380
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &fromState;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &toState;
+	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buff;
+	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
+	todo("implement");
+	_sub_10C7D210(fromState, toState);
+}
+
+_extern void _sub_10C7D420(DownloadStatusInfo const &);
+void NotifyDownloadStatus(DownloadStatusInfo const &info) // 0x10C7D420
+{
+	// `anonymous-namespace'::NotifyDownloadStatus
+	// static ...; // 0x10C7D6D7
+	// static ...; // 0x10C7D6D0
+	// static ...; // 0x10C7D6B8
+	// static ...; // 0x10C7D6B0
+	// DownloadStatusInfo const &info;
+	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buff;
+	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
+	todo("implement");
+	_sub_10C7D420(info);
+}
+
+_extern void _sub_10C7D030(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+void NotifyDownloadError(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &reason) // 0x10C7D030
+{
+	// `anonymous-namespace'::NotifyDownloadError
+	// static ...; // 0x10C7D1AB
+	// static ...; // 0x10C7D1A4
+	// static ...; // 0x10C7D18C
+	// static ...; // 0x10C7D184
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &reason;
+	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buff;
+	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
+	todo("implement");
+	_sub_10C7D030(reason);
+}
+
+extern DownloadStatusInfo* _sub_10C7B590(DownloadStatusInfo *const);
+_inline DownloadStatusInfo::DownloadStatusInfo() // 0x10C7B590
+{
+	// `anonymous-namespace'::DownloadStatusInfo::DownloadStatusInfo
+	// DownloadStatusInfo *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10C7B590(this);
+}
+
+_extern void _sub_10C7B930(DownloadStatusInfo *const);
+_inline DownloadStatusInfo::~DownloadStatusInfo() // 0x10C7B930
+{
+	// `anonymous-namespace'::DownloadStatusInfo::~DownloadStatusInfo
+	// DownloadStatusInfo *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10C7B930(this);
+}

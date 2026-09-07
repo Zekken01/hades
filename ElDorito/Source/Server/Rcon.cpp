@@ -5,9 +5,12 @@
 #include "Blam/main/levels.hpp"
 #include "ChatCommands/ChatCommandMap.hpp"
 #include "CommandMap.hpp"
+#include "Common/Http/HttpHeaders.hpp"
 #include "Console/Console.hpp"
 #include "ElDorito.hpp"
 #include "Forge/Magnets.hpp"
+#include "Modules/ModuleServer.hpp"
+#include "Patches/CustomPackets.hpp"
 #include "Patches/Network.hpp"
 #include "Pointer.hpp"
 #include "Utils/Macros.hpp"
@@ -135,10 +138,16 @@ namespace Console
 {
 	class ConsoleOutputHandler;
 }
-namespace
+namespace Modules
+{
+	class ModuleServer;
+	struct Command;
+}
+namespace hades_file_local
 {
 	class RconConsoleOutputHandler;
 }
+using namespace hades_file_local;
 
 namespace Utils {}
 using namespace ::Utils;
@@ -201,7 +210,7 @@ using namespace ::Console;
 
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	class RconConsoleOutputHandler :
 		public Console::ConsoleOutputHandler
@@ -218,6 +227,7 @@ namespace
 	};
 	static_assert(sizeof(RconConsoleOutputHandler) == 4, "Invalid RconConsoleOutputHandler size");
 }
+using namespace hades_file_local;
 /* ---------- prototypes */
 
 namespace Server
@@ -230,11 +240,21 @@ namespace Server
 	}
 }
 
+void ForceStopServer();
+void InitServer();
+bool OnValidate(websocketpp::server<Utils::WebSocket::Config> *rconServer, std::weak_ptr<void> hdl);
+void OnMessage(websocketpp::server<Utils::WebSocket::Config> *rconServer, std::weak_ptr<void> hdl, std::shared_ptr<websocketpp::message_buffer::message<websocketpp::message_buffer::alloc::con_msg_manager> > msg);
+void ProcessCommand(websocketpp::server<Utils::WebSocket::Config> *rconServer, std::weak_ptr<void> hdl, std::shared_ptr<websocketpp::message_buffer::message<websocketpp::message_buffer::alloc::con_msg_manager> > msg);
+void ProcessPassword(websocketpp::server<Utils::WebSocket::Config> *rconServer, std::weak_ptr<void> hdl, std::shared_ptr<websocketpp::message_buffer::message<websocketpp::message_buffer::alloc::con_msg_manager> > msg);
+void OnClose(websocketpp::server<Utils::WebSocket::Config> *rconServer, std::weak_ptr<void> hdl);
+void LogMessage(websocketpp::server<Utils::WebSocket::Config> *rconServer, std::weak_ptr<void> hdl, std::basic_string<char,std::char_traits<char>,std::allocator<char> > message);
+std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetLogString(websocketpp::server<Utils::WebSocket::Config> *rconServer, std::weak_ptr<void> hdl, std::basic_string<char,std::char_traits<char>,std::allocator<char> > message);
+
 /* ---------- globals */
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern websocketpp::server<Utils::WebSocket::Config> rconServer; // 0x12467AA8
 	extern std::set<std::weak_ptr<void>,std::owner_less<std::weak_ptr<void> >,std::allocator<std::weak_ptr<void> > > authenticatedConnections; // 0x12467A94
@@ -242,6 +262,7 @@ namespace
 	extern char const *AcceptMessage; // 0x11354EAC
 	extern char const *DenyMessage; // 0x11354EB0
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Server
@@ -296,3 +317,180 @@ namespace Server
 }
 
 /* ---------- private code */
+
+_extern void _sub_10BB5A60(RconConsoleOutputHandler *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+_inline void RconConsoleOutputHandler::WriteLine(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &line) // 0x10BB5A60
+{
+	// `anonymous-namespace'::RconConsoleOutputHandler::WriteLine
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &line;
+	todo("implement");
+	_sub_10BB5A60(this, line);
+}
+
+_extern void _sub_10BB3A60();
+void ForceStopServer() // 0x10BB3A60
+{
+	// `anonymous-namespace'::ForceStopServer
+	// procedure flags: nofpo
+	todo("implement");
+	_sub_10BB3A60();
+}
+
+_extern void _sub_10BB3E50();
+void InitServer() // 0x10BB3E50
+{
+	// `anonymous-namespace'::InitServer
+	// procedure flags: nofpo
+	// static ...; // 0x10BB40A8
+	// static ...; // 0x10BB409C
+	// static ...; // 0x10BB4094
+// $LN11:
+	{
+		// unsigned long port;
+	}
+	{
+		// std::exception const &e;
+	}
+	// function call : char const *() const
+	todo("implement");
+	_sub_10BB3E50();
+}
+
+_extern bool _sub_10BB4B10(websocketpp::server<Utils::WebSocket::Config> *, std::weak_ptr<void>);
+bool OnValidate(websocketpp::server<Utils::WebSocket::Config> *rconServer, std::weak_ptr<void> hdl) // 0x10BB4B10
+{
+	// `anonymous-namespace'::OnValidate
+	// static ...; // 0x10BB4D94
+	// static ...; // 0x10BB4D7C
+	// static ...; // 0x10BB4D74
+	// websocketpp::server<Utils::WebSocket::Config> *rconServer;
+	// std::weak_ptr<void> hdl;
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > subprotocols;
+	// std::shared_ptr<websocketpp::connection<Utils::WebSocket::Config> > connection;
+	todo("implement");
+	bool __result = _sub_10BB4B10(rconServer, hdl);
+	return __result;
+}
+
+_extern void _sub_10BB4850(websocketpp::server<Utils::WebSocket::Config> *, std::weak_ptr<void>, std::shared_ptr<websocketpp::message_buffer::message<websocketpp::message_buffer::alloc::con_msg_manager> >);
+void OnMessage(websocketpp::server<Utils::WebSocket::Config> *rconServer, std::weak_ptr<void> hdl, std::shared_ptr<websocketpp::message_buffer::message<websocketpp::message_buffer::alloc::con_msg_manager> > msg) // 0x10BB4850
+{
+	// `anonymous-namespace'::OnMessage
+	// static ...; // 0x10BB4A68
+// $LN20:
+	// websocketpp::server<Utils::WebSocket::Config> *rconServer;
+	// std::weak_ptr<void> hdl;
+	// std::shared_ptr<websocketpp::message_buffer::message<websocketpp::message_buffer::alloc::con_msg_manager> > msg;
+	{
+		// websocketpp::exception const &e;
+	}
+	// function call : char const *() const
+	todo("implement");
+	_sub_10BB4850(rconServer, hdl, msg);
+}
+
+_extern void _sub_10BB4E60(websocketpp::server<Utils::WebSocket::Config> *, std::weak_ptr<void>, std::shared_ptr<websocketpp::message_buffer::message<websocketpp::message_buffer::alloc::con_msg_manager> >);
+void ProcessCommand(websocketpp::server<Utils::WebSocket::Config> *rconServer, std::weak_ptr<void> hdl, std::shared_ptr<websocketpp::message_buffer::message<websocketpp::message_buffer::alloc::con_msg_manager> > msg) // 0x10BB4E60
+{
+	// `anonymous-namespace'::ProcessCommand
+	// static ...; // 0x10BB51D8
+	// websocketpp::server<Utils::WebSocket::Config> *rconServer;
+	// std::weak_ptr<void> hdl;
+	// std::shared_ptr<websocketpp::message_buffer::message<websocketpp::message_buffer::alloc::con_msg_manager> > msg;
+	// Modules::Command *cmd;
+	{
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > output;
+	}
+	todo("implement");
+	_sub_10BB4E60(rconServer, hdl, msg);
+}
+
+_extern void _sub_10BB52E0(websocketpp::server<Utils::WebSocket::Config> *, std::weak_ptr<void>, std::shared_ptr<websocketpp::message_buffer::message<websocketpp::message_buffer::alloc::con_msg_manager> >);
+void ProcessPassword(websocketpp::server<Utils::WebSocket::Config> *rconServer, std::weak_ptr<void> hdl, std::shared_ptr<websocketpp::message_buffer::message<websocketpp::message_buffer::alloc::con_msg_manager> > msg) // 0x10BB52E0
+{
+	// `anonymous-namespace'::ProcessPassword
+	// static ...; // 0x10BB5690
+	// static ...; // 0x10BB5688
+	// websocketpp::server<Utils::WebSocket::Config> *rconServer;
+	// std::weak_ptr<void> hdl;
+	// std::shared_ptr<websocketpp::message_buffer::message<websocketpp::message_buffer::alloc::con_msg_manager> > msg;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > actualPassword;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > inPassword;
+	todo("implement");
+	_sub_10BB52E0(rconServer, hdl, msg);
+}
+
+_extern void _sub_10BB4770(websocketpp::server<Utils::WebSocket::Config> *, std::weak_ptr<void>);
+void OnClose(websocketpp::server<Utils::WebSocket::Config> *rconServer, std::weak_ptr<void> hdl) // 0x10BB4770
+{
+	// `anonymous-namespace'::OnClose
+	// std::weak_ptr<void> hdl;
+	todo("implement");
+	_sub_10BB4770(rconServer, hdl);
+}
+
+_extern void _sub_10BB4330(websocketpp::server<Utils::WebSocket::Config> *, std::weak_ptr<void>, std::string);
+void LogMessage(websocketpp::server<Utils::WebSocket::Config> *rconServer, std::weak_ptr<void> hdl, std::basic_string<char,std::char_traits<char>,std::allocator<char> > message) // 0x10BB4330
+{
+	// `anonymous-namespace'::LogMessage
+	// static ...; // 0x10BB4640
+	// static ...; // 0x10BB4638
+	// static ...; // 0x10BB4608
+	// static ...; // 0x10BB4600
+	// websocketpp::server<Utils::WebSocket::Config> *rconServer;
+	// std::weak_ptr<void> hdl;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > message;
+	// std::filesystem::path parentDirectory;
+	// std::basic_ofstream<char,std::char_traits<char> > logFile;
+	// std::filesystem::path logFilePath;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > rconLogFile;
+	// Modules::ModuleServer &serverModule;
+	todo("implement");
+	_sub_10BB4330(rconServer, hdl, message);
+}
+
+extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10BB3AC0(websocketpp::server<Utils::WebSocket::Config> *, std::weak_ptr<void>, std::string);
+std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetLogString(websocketpp::server<Utils::WebSocket::Config> *rconServer, std::weak_ptr<void> hdl, std::basic_string<char,std::char_traits<char>,std::allocator<char> > message) // 0x10BB3AC0
+{
+	// `anonymous-namespace'::GetLogString
+	// static ...; // 0x10BB3D7E
+	// static ...; // 0x10BB3D73
+	// static ...; // 0x10BB3D6C
+	// static ...; // 0x10BB3D63
+	// static ...; // 0x10BB3D60
+	// static ...; // 0x10BB3D0C
+	// static ...; // 0x10BB3D04
+	// websocketpp::server<Utils::WebSocket::Config> *rconServer;
+	// std::weak_ptr<void> hdl;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > message;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > client;
+	// std::basic_ostringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// long long time;
+	// std::shared_ptr<websocketpp::connection<Utils::WebSocket::Config> > connection;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > trimedIP;
+	// tm gmTime;
+	// std::chrono::time_point<std::chrono::system_clock,std::chrono::duration<__int64,std::ratio<1,10000000> > > now;
+	todo("implement");
+	std::string __result = _sub_10BB3AC0(rconServer, hdl, message);
+	return __result;
+}
+
+extern RconConsoleOutputHandler* _sub_10B95270(RconConsoleOutputHandler *const);
+_inline RconConsoleOutputHandler::RconConsoleOutputHandler() // 0x10B95270
+{
+	// `anonymous-namespace'::RconConsoleOutputHandler::RconConsoleOutputHandler
+	// RconConsoleOutputHandler *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10B95270(this);
+}
+
+_extern void _sub_10BA2FB0(RconConsoleOutputHandler *const);
+_inline RconConsoleOutputHandler::~RconConsoleOutputHandler() // 0x10BA2FB0
+{
+	// `anonymous-namespace'::RconConsoleOutputHandler::~RconConsoleOutputHandler
+	// RconConsoleOutputHandler *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10BA2FB0(this);
+}

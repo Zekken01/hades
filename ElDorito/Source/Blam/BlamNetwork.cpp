@@ -123,6 +123,8 @@ namespace Blam
 		extern bool SetNetworkMode(__int32 mode);
 		extern bool Disconnect();
 		extern void LeaveGame();
+
+		PingPacket MakePingPacket(unsigned short id);
 	}
 }
 
@@ -635,3 +637,32 @@ namespace Blam
 }
 
 /* ---------- private code */
+
+namespace Blam
+{
+	namespace Network
+	{
+		extern PingPacket _sub_1092C4A0(unsigned short);
+		PingPacket MakePingPacket(unsigned short id) // 0x1092C4A0
+		{
+			// `anonymous-namespace'::MakePingPacket
+			// static ...; // 0x1092C534
+			// static ...; // 0x1092C528
+			// static ...; // 0x1092C520
+			// unsigned short id;
+			// Blam::Network::PingPacket packet;
+			todo("implement");
+			Blam::Network::PingPacket __result = _sub_1092C4A0(id);
+			return __result;
+		}
+	}
+}
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template bool c_flags<enum c_game_engine_miscellaneous_options::e_flags,unsigned char>::test(c_game_engine_miscellaneous_options::e_flags) const;
+template void Pointer::Write<Blam::Network::PacketTable const *>(Blam::Network::PacketTable const *const) const;

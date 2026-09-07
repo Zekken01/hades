@@ -3,6 +3,7 @@
 #include "Patches/GamePatches.hpp"
 #include "hades/hades.h"
 
+#include "ChatCommands/ChatCommandMap.hpp"
 #include "Common/Http/HttpHeaders.hpp"
 #include "Patch.hpp"
 #include "Patches/Audio.hpp"
@@ -39,6 +40,8 @@
 /* ---------- forward declarations */
 
 struct IGameSystem;
+struct begin;
+struct end;
 
 namespace Patches {}
 using namespace ::Patches;
@@ -63,14 +66,21 @@ namespace Patches
 	}
 }
 
+void unused_initialize_hook();
+void unused_dispose_hook();
+void unused_intialize_for_new_map_hook();
+void unused_dispose_from_old_map_hook();
+void unused_update_hook();
+
 /* ---------- globals */
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern std::vector<IGameSystem *,std::allocator<IGameSystem *> > eldewritoGameSystems; // 0x12408340
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Patches
@@ -98,3 +108,93 @@ namespace Patches
 }
 
 /* ---------- private code */
+
+_extern void _sub_108D1590();
+void unused_initialize_hook() // 0x108D1590
+{
+	// `anonymous-namespace'::unused_initialize_hook
+	// procedure flags: nofpo
+	{
+		// std::vector<IGameSystem *,std::allocator<IGameSystem *> > &<range>$L0;
+		// IGameSystem **<begin>$L0;
+		// IGameSystem **<end>$L0;
+		{
+			// IGameSystem *system;
+		}
+	}
+	// function call : void ()
+	todo("implement");
+	_sub_108D1590();
+}
+
+_extern void _sub_108D14F0();
+void unused_dispose_hook() // 0x108D14F0
+{
+	// `anonymous-namespace'::unused_dispose_hook
+	// procedure flags: nofpo
+	{
+		// std::vector<IGameSystem *,std::allocator<IGameSystem *> > &<range>$L0;
+		// IGameSystem **<begin>$L0;
+		// IGameSystem **<end>$L0;
+		{
+			// IGameSystem *system;
+		}
+	}
+	// function call : void ()
+	todo("implement");
+	_sub_108D14F0();
+}
+
+_extern void _sub_108D1630();
+void unused_intialize_for_new_map_hook() // 0x108D1630
+{
+	// `anonymous-namespace'::unused_intialize_for_new_map_hook
+	// procedure flags: nofpo
+	{
+		// std::vector<IGameSystem *,std::allocator<IGameSystem *> > &<range>$L0;
+		// IGameSystem **<begin>$L0;
+		// IGameSystem **<end>$L0;
+		{
+			// IGameSystem *system;
+		}
+	}
+	// function call : void ()
+	todo("implement");
+	_sub_108D1630();
+}
+
+_extern void _sub_108D1450();
+void unused_dispose_from_old_map_hook() // 0x108D1450
+{
+	// `anonymous-namespace'::unused_dispose_from_old_map_hook
+	// procedure flags: nofpo
+	{
+		// std::vector<IGameSystem *,std::allocator<IGameSystem *> > &<range>$L0;
+		// IGameSystem **<begin>$L0;
+		// IGameSystem **<end>$L0;
+		{
+			// IGameSystem *system;
+		}
+	}
+	// function call : void ()
+	todo("implement");
+	_sub_108D1450();
+}
+
+_extern void _sub_108D16D0();
+void unused_update_hook() // 0x108D16D0
+{
+	// `anonymous-namespace'::unused_update_hook
+	// procedure flags: nofpo
+	{
+		// std::vector<IGameSystem *,std::allocator<IGameSystem *> > &<range>$L0;
+		// IGameSystem **<begin>$L0;
+		// IGameSystem **<end>$L0;
+		{
+			// IGameSystem *system;
+		}
+	}
+	// function call : void ()
+	todo("implement");
+	_sub_108D16D0();
+}

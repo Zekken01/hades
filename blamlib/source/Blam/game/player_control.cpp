@@ -50,3 +50,12 @@ s_player_control_input_state *player_control_input_get(long user_index) // 0x10F
 }
 
 /* ---------- private code */
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template bool s_static_array<s_player_control_input_state,4>::valid(__int32);
+template s_player_control_input_state & s_static_array<s_player_control_input_state,4>::operator[](long);

@@ -112,10 +112,11 @@ namespace Forge
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern real_vector3d global_zero3d; // 0x1119A698
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 extern s_map_variant *_sub_109699F0();
@@ -366,3 +367,11 @@ namespace Forge
 }
 
 /* ---------- private code */
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template bool c_flags<enum e_variant_object_placement_flags,unsigned short>::test(e_variant_object_placement_flags) const;

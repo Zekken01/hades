@@ -4,6 +4,7 @@
 #include "hades/hades.h"
 
 #include "Audio/AudioDeviceManager.hpp"
+#include "ChatCommands/ChatCommandMap.hpp"
 #include "Common/Http/HttpHeaders.hpp"
 #include "Console/Console.hpp"
 #include "Download/DownloadStatCounter.hpp"
@@ -97,6 +98,8 @@ using namespace ::Http;
 
 /* ---------- prototypes */
 
+bool CommandDownloadHttp(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &retValue);
+
 /* ---------- globals */
 
 /* ---------- private variables */
@@ -126,3 +129,20 @@ _inline CEventSink<>::SCallbackEntry::SCallbackEntry(CEventSink<>::SCallbackEntr
 }
 
 /* ---------- private code */
+
+_extern bool _sub_10856F10(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandDownloadHttp(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &retValue) // 0x10856F10
+{
+	// `anonymous-namespace'::CommandDownloadHttp
+	// static ...; // 0x10857144
+	// static ...; // 0x1085712C
+	// static ...; // 0x10857124
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &args;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &retValue;
+	// std::shared_ptr<Download::CHttpFileDownload> download;
+	// std::shared_ptr<`CommandDownloadHttp'::`2'::ScopedDebugTrace> debugTrace;
+	// function call : void ()
+	todo("implement");
+	bool __result = _sub_10856F10(args, retValue);
+	return __result;
+}

@@ -16,6 +16,9 @@
 #include "Blam/objects/objects.hpp"
 #include "Blam/structures/cluster_reference.hpp"
 #include "Blam/tag_files/tag_groups.hpp"
+#include "mods/font_package.hpp"
+#include "Modules/ModuleCampaign.hpp"
+#include "Modules/ModuleGame.hpp"
 #include "Patch.hpp"
 #include "Pointer.hpp"
 #include "Utils/Singleton.hpp"
@@ -48,6 +51,15 @@
 #include <utility>
 #include <vector>
 
+/* ---------- forward declarations */
+
+struct s_game_options;
+namespace Modules
+{
+	class ModuleCampaign;
+	class ModuleGame;
+}
+
 namespace Utils {}
 using namespace ::Utils;
 namespace Modules {}
@@ -60,6 +72,8 @@ using namespace ::Modules;
 /* ---------- prototypes */
 
 extern void life_cycle_patches_apply();
+
+bool begin_load_map_game_options_verify_hook(s_game_options *options);
 
 /* ---------- globals */
 
@@ -77,3 +91,15 @@ void life_cycle_patches_apply() // 0x1091F4B0
 }
 
 /* ---------- private code */
+
+_extern bool _sub_1091F420(s_game_options *);
+bool begin_load_map_game_options_verify_hook(s_game_options *options) // 0x1091F420
+{
+	// `anonymous-namespace'::begin_load_map_game_options_verify_hook
+	// s_game_options *options;
+	// Modules::ModuleCampaign *moduleCampaign;
+	// Modules::ModuleGame *moduleGame;
+	todo("implement");
+	bool __result = _sub_1091F420(options);
+	return __result;
+}

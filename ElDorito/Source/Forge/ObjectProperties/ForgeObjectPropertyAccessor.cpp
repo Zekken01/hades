@@ -20,6 +20,7 @@
 #include "Forge/ForgeObjectProperties.hpp"
 #include "Forge/Geoemetry.hpp"
 #include "Forge/ObjectProperties/ForgePropertyValue.hpp"
+#include "mods/map_variant_loader.hpp"
 #include "Patches/GamePatches.hpp"
 #include "Utils/NameValueTable.hpp"
 #include "Utils/Singleton.hpp"
@@ -49,10 +50,12 @@
 struct CForgeDeviceObjectProperties;
 struct begin;
 struct end;
+struct s_map_variant;
 struct s_map_variant_placement_properties;
 struct s_multiplayer_object_properties;
 struct s_object_data;
 struct s_simulation_queue_sandbox_event_data;
+struct s_variant_datum;
 struct s_variant_quota;
 namespace Forge
 {
@@ -67,10 +70,11 @@ namespace Forge
 	struct ReforgeObjectProperties;
 	struct SPropertyValue;
 }
-namespace
+namespace hades_file_local
 {
 	struct SPixel24;
 }
+using namespace hades_file_local;
 
 namespace Utils {}
 using namespace ::Utils;
@@ -88,7 +92,7 @@ namespace Patches
 
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	struct SPixel24
 	{
@@ -98,7 +102,13 @@ namespace
 	};
 	static_assert(sizeof(SPixel24) == 3, "Invalid SPixel24 size");
 }
+using namespace hades_file_local;
 /* ---------- prototypes */
+
+_inline bool GetMapVariantObjectProperties(long objectIndex, s_map_variant_placement_properties *outProperties);
+_inline bool SetMapVariantObjectProperties(long playerIndex, long objectIndex, s_map_variant_placement_properties &properties);
+_inline bool GetMapVariantBudgetForObject(long objectIndex, s_variant_quota *outEntry);
+_inline bool SetMapVariantBudgetForObject(long playerIndex, long objectIndex, s_variant_quota &entry);
 
 /* ---------- globals */
 
@@ -746,3 +756,81 @@ namespace Forge
 }
 
 /* ---------- private code */
+
+_extern bool _sub_1083DD90(long, s_map_variant_placement_properties *);
+_inline bool GetMapVariantObjectProperties(long objectIndex, s_map_variant_placement_properties *outProperties) // 0x1083DD90
+{
+	// `anonymous-namespace'::GetMapVariantObjectProperties
+	// s_map_variant_placement_properties *outProperties;
+	// s_object_data *object;
+	// s_map_variant_placement_properties *properties;
+	todo("implement");
+	bool __result = _sub_1083DD90(objectIndex, outProperties);
+	return __result;
+}
+
+_extern bool _sub_108406A0(long, long, s_map_variant_placement_properties &);
+_inline bool SetMapVariantObjectProperties(long playerIndex, long objectIndex, s_map_variant_placement_properties &properties) // 0x108406A0
+{
+	// `anonymous-namespace'::SetMapVariantObjectProperties
+	// s_map_variant_placement_properties &properties;
+	// s_object_data *object;
+	// void (*const Forge_SetPlacementVariantProperties)(unsigned __int32, __int32, s_map_variant_placement_properties *);
+	// function call : bool (*const)()
+	// function call : void (*const)(unsigned __int32, __int32, s_map_variant_placement_properties *)
+	todo("implement");
+	bool __result = _sub_108406A0(playerIndex, objectIndex, properties);
+	return __result;
+}
+
+_extern bool _sub_1083DCA0(long, s_variant_quota *);
+_inline bool GetMapVariantBudgetForObject(long objectIndex, s_variant_quota *outEntry) // 0x1083DCA0
+{
+	// `anonymous-namespace'::GetMapVariantBudgetForObject
+	// s_variant_quota *outEntry;
+	// s_variant_datum &placement;
+	// s_object_data *object;
+	// s_map_variant *mapVariant;
+	todo("implement");
+	bool __result = _sub_1083DCA0(objectIndex, outEntry);
+	return __result;
+}
+
+_extern bool _sub_10840500(long, long, s_variant_quota &);
+_inline bool SetMapVariantBudgetForObject(long playerIndex, long objectIndex, s_variant_quota &entry) // 0x10840500
+{
+	// `anonymous-namespace'::SetMapVariantBudgetForObject
+	// static ...; // 0x10840628
+	// long playerIndex;
+	// long objectIndex;
+	// s_variant_quota &entry;
+	// s_variant_datum &placement;
+	// s_object_data *object;
+	// s_simulation_queue_sandbox_event_data event_data;
+	// s_map_variant *mapVariant;
+	// function call : void (*const)(s_simulation_queue_sandbox_event_data *)
+	todo("implement");
+	bool __result = _sub_10840500(playerIndex, objectIndex, entry);
+	return __result;
+}
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template c_enum<enum e_game_engine_symmetric_placement,char>::operator char() const;
+template c_enum<enum e_multiplayer_object_boundary_shape,char>::operator char() const;
+template c_enum<enum e_multiplayer_teleporter_channel,unsigned char>::operator unsigned char() const;
+template c_flags<enum e_game_engine_flags,unsigned short>::operator unsigned short() const;
+template c_flags<enum e_game_engine_type,unsigned short> & c_flags<enum e_game_engine_type,unsigned short>::operator=(unsigned short const &);
+template c_flags<enum e_game_engine_type,unsigned short>::c_flags();
+template c_flags<enum e_multiplayer_object_flags,unsigned char>::operator unsigned char() const;
+template c_flags<enum e_variant_placement_flags,unsigned char> & c_flags<enum e_variant_placement_flags,unsigned char>::operator&=(__int32 const);
+template c_flags<enum e_variant_placement_flags,unsigned char> & c_flags<enum e_variant_placement_flags,unsigned char>::operator=(c_flags<enum e_variant_placement_flags,unsigned char> const &);
+template c_flags<enum e_variant_placement_flags,unsigned char> & c_flags<enum e_variant_placement_flags,unsigned char>::operator|=(__int32 const);
+template c_flags<enum e_variant_placement_flags,unsigned char> c_flags<enum e_variant_placement_flags,unsigned char>::operator&(__int32 const) const;
+template c_flags<enum e_variant_placement_flags,unsigned char> c_flags<enum e_variant_placement_flags,unsigned char>::operator|(__int32 const) const;
+template c_flags<enum e_variant_placement_flags,unsigned char>::c_flags();
+template c_flags<enum e_variant_placement_flags,unsigned char>::c_flags(unsigned char const &);

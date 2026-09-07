@@ -41,10 +41,11 @@ using namespace ::Forge;
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern long currentWeatherIndex; // 0x1134D1A4
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Forge
@@ -108,3 +109,13 @@ namespace Forge
 }
 
 /* ---------- private code */
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template bool c_tag_block<s_forge_weather_definition>::try_get_element(__int32, s_forge_weather_definition **) const;
+template s_forge_weather_definition & c_tag_block<s_forge_weather_definition>::operator[](__int32);
+template s_forge_weather_definition * c_tag_block<s_forge_weather_definition>::get_element(__int32) const;

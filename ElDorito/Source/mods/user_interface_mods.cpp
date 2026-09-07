@@ -183,3 +183,15 @@ void c_user_interface_mods_player_character_data::update() // 0x108C2F60
 }
 
 /* ---------- private code */
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template bool s_static_array<c_user_interface_mods_player_character_data::s_player_character,128>::valid(__int32);
+template bool s_static_array<c_user_interface_mods_player_character_data::s_player_character_set,8>::valid(__int32);
+template c_user_interface_mods_player_character_data::s_player_character & s_static_array<c_user_interface_mods_player_character_data::s_player_character,128>::operator[](long);
+template c_user_interface_mods_player_character_data::s_player_character_set & s_static_array<c_user_interface_mods_player_character_data::s_player_character_set,8>::operator[](long);
+template s_mod_globals_player_character & c_tag_block<s_mod_globals_player_character>::operator[](__int32);

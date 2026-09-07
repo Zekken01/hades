@@ -349,6 +349,8 @@ extern __int32 ExitInstance();
 extern __int32 GetEDVersion();
 extern "C" __int32 __stdcall DllMain(HINSTANCE__ *hModule, unsigned long Reason, void *Misc);
 
+void HandleFinder();
+
 /* ---------- globals */
 
 unsigned __int32 ElDorito::MainThreadID; // 0x1240F690
@@ -368,19 +370,21 @@ namespace Server
 {
 	namespace Voting
 	{
-		namespace
+		namespace hades_file_local_Server_Voting
 		{
 			extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > const DefaultTypes[8]; // 0x1240F698
 			extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > const DefaultTypeNames[8]; // 0x1240F778
 		}
+		using namespace hades_file_local_Server_Voting;
 	}
 }
 namespace Server
 {
-	namespace
+	namespace hades_file_local_Server
 	{
 		extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > DefaultBanListPath; // 0x1240F858
 	}
+	using namespace hades_file_local_Server;
 }
 /* ---------- public code */
 
@@ -835,3 +839,22 @@ namespace Debug
 		}
 	}
 }
+
+_extern void _sub_10964CF0();
+void HandleFinder() // 0x10964CF0
+{
+	// `anonymous-namespace'::HandleFinder
+	// procedure flags: nofpo
+	todo("implement");
+	_sub_10964CF0();
+}
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template CModBrowserManager & Utils::Singleton<CModBrowserManager>::Instance();
+template CServerConnectManager & Utils::Singleton<CServerConnectManager>::Instance();
+template Modules::ElModules & Utils::Singleton<Modules::ElModules>::Instance();

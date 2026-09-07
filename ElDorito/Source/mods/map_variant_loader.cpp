@@ -11,6 +11,7 @@
 #include "Blam/hs/hs.hpp"
 #include "Blam/main/levels.hpp"
 #include "Blam/math/real_math_definitions.hpp"
+#include "Blam/networking/session/network_session.hpp"
 #include "Blam/objects/damage.hpp"
 #include "Blam/objects/objects.hpp"
 #include "Blam/saved_games/blf.hpp"
@@ -81,15 +82,17 @@ class IModListener;
 class c_file_open_scope;
 class c_file_reference;
 class c_mod_package;
+class c_network_session;
 struct c_map_variant_loader;
 struct s_blf_chunk_header;
 struct s_file_reference;
 struct s_level_datum;
 struct s_map_variant;
-namespace
+namespace hades_file_local
 {
 	class ModListener;
 }
+using namespace hades_file_local;
 
 namespace Utils {}
 using namespace ::Utils;
@@ -105,7 +108,7 @@ namespace Blam
 
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	class ModListener :
 		public IModListener
@@ -121,17 +124,19 @@ namespace
 	};
 	static_assert(sizeof(ModListener) == 4, "Invalid ModListener size");
 }
+using namespace hades_file_local;
 /* ---------- prototypes */
 
 /* ---------- globals */
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > stored_blf; // 0x123B8A40
 	extern e_map_variant_load_error last_error; // 0x123B8A5C
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 _extern void _sub_1088AB10();
@@ -258,3 +263,55 @@ e_map_variant_load_error c_map_variant_loader::get_last_error() // 0x1088AAF0
 }
 
 /* ---------- private code */
+
+extern ModListener* _sub_1088A2D0(ModListener *const);
+_inline ModListener::ModListener() // 0x1088A2D0
+{
+	// `anonymous-namespace'::ModListener::ModListener
+	// ModListener *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_1088A2D0(this);
+}
+
+_extern void _sub_1088A330(ModListener *const);
+_inline ModListener::~ModListener() // 0x1088A330
+{
+	// `anonymous-namespace'::ModListener::~ModListener
+	// ModListener *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_1088A330(this);
+}
+
+_extern void _sub_1088A3F0(ModListener *const, EModIndex, IMod *);
+void ModListener::OnModChanged(EModIndex index, IMod *mod) // 0x1088A3F0
+{
+	// `anonymous-namespace'::ModListener::OnModChanged
+	// static ...; // 0x1088A5CC
+	// static ...; // 0x1088A5C4
+	// ModListener *const this;
+	// EModIndex index;
+	// IMod *mod;
+	// void (*const global_preferences_set_last_game_setup)(void *);
+	// s_map_variant map_variant;
+	// void *(*const global_preferences_get_last_game_setup)();
+	// c_network_session *session;
+	// static unsigned char `ModListener::OnModChanged'::`2'::game_setup[269176]; // 0x123B8A60
+	// function call : void *(*const)()
+	// function call : void (*const)(void *)
+	// function call : bool (*const)(c_network_session **)
+	// function call : bool (*const)(s_map_variant *)
+	todo("implement");
+	_sub_1088A3F0(this, index, mod);
+}
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template c_flags<enum e_file_permission_flags,long>::c_flags(c_flags<enum e_file_permission_flags,long> const &);
+template char const * s_static_string<256>::append(char const *);
+template long s_static_string<256>::length();

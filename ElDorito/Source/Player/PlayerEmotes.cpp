@@ -3,6 +3,8 @@
 #include "Player/PlayerEmotes.hpp"
 #include "hades/hades.h"
 
+#include "Blam/animations/mixing_board/channels/animation_channel.hpp"
+#include "Blam/BitStream.hpp"
 #include "Blam/cseries/cseries.hpp"
 #include "Blam/cseries/cseries_memory.hpp"
 #include "Blam/cseries/enums.inl"
@@ -20,9 +22,11 @@
 #include "Blam/memory/data_array.inl"
 #include "Blam/memory/data_iterator.inl"
 #include "Blam/memory/static_array.inl"
+#include "Blam/memory/tls.hpp"
 #include "Blam/mods/mod_globals.hpp"
 #include "Blam/mods/player_action_set.hpp"
 #include "Blam/motor/action_system.hpp"
+#include "Blam/motor/motor_system.hpp"
 #include "Blam/objects/damage.hpp"
 #include "Blam/objects/damage_definitions.hpp"
 #include "Blam/objects/object_types.hpp"
@@ -57,8 +61,11 @@
 /* ---------- forward declarations */
 
 class c_bitstream;
+class c_motor_task;
 class c_simulation_event_definition;
 class c_simulation_type_collection;
+struct c_animation_channel;
+struct c_motor_request;
 struct c_replication_outgoing_event;
 struct lambda_1;
 struct s_action_definition;
@@ -69,20 +76,26 @@ struct s_mod_globals_player_character_customization;
 struct s_mod_player_action;
 struct s_mod_player_actions_set_definition;
 struct s_object_data;
+struct s_object_header;
 struct s_player_datum;
 struct s_unit_camera_definition;
 struct s_unit_data;
 struct simulation_event_definition_return_value;
+namespace Blam
+{
+	class BitStream;
+}
 namespace Player
 {
 	class CPlayerEmotes;
 }
-namespace
+namespace hades_file_local
 {
 	struct s_simulation_player_emote_event_data;
 	class CPlayerEmoteAction;
 	class c_simulation_player_emote_event_definition;
 }
+using namespace hades_file_local;
 
 namespace Utils {}
 using namespace ::Utils;
@@ -99,7 +112,7 @@ using namespace ::Blam;
 
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	struct s_simulation_player_emote_event_data
 	{
@@ -171,6 +184,7 @@ namespace
 	};
 	static_assert(sizeof(c_simulation_player_emote_event_definition) == 4, "Invalid c_simulation_player_emote_event_definition size");
 }
+using namespace hades_file_local;
 //class Player::CPlayerEmotes::RequestStartEmote::__l2::<lambda_1>
 //{
 //public:
@@ -200,6 +214,10 @@ namespace
 //static_assert(sizeof(Player::CPlayerEmotes::RequestStopEmote::__l2::<lambda_1>) == 4, "Invalid Player::CPlayerEmotes::RequestStopEmote::__l2::<lambda_1> size");
 
 /* ---------- prototypes */
+
+bool PlayerCanEmote(__int32 playerIndex, __int32 definitionIndex, short emoteIndex);
+void PlayerStartEmote(__int32 playerIndex, long definitionIndex, long emoteIndex);
+void PlayerStopEmote(__int32 playerIndex);
 
 /* ---------- globals */
 
@@ -367,3 +385,387 @@ namespace Player
 }
 
 /* ---------- private code */
+
+extern CPlayerEmoteAction::SActionRequest* _sub_107EB2F0(CPlayerEmoteAction::SActionRequest *const, __int32, __int32);
+_inline CPlayerEmoteAction::SActionRequest::SActionRequest(__int32 definitionIndex, __int32 emoteIndex) // 0x107EB2F0
+{
+	// `anonymous-namespace'::CPlayerEmoteAction::SActionRequest::SActionRequest
+	// __int32 emoteIndex;
+	todo("implement");
+	_sub_107EB2F0(this, definitionIndex, emoteIndex);
+}
+
+_extern void _sub_107EC430(CPlayerEmoteAction::SActionRequest *const, long);
+_inline void CPlayerEmoteAction::SActionRequest::Submit(long unit_index) // 0x107EC430
+{
+	// `anonymous-namespace'::CPlayerEmoteAction::SActionRequest::Submit
+	// long unit_index;
+	// function call : bool (*const)(long, s_action_request *)
+	todo("implement");
+	_sub_107EC430(this, unit_index);
+}
+
+_extern void _sub_107ECF90(CPlayerEmoteAction::SActionRequest *const, __int32);
+_inline void CPlayerEmoteAction::SActionRequest::submit_unit_holograms(__int32 unit_index) // 0x107ECF90
+{
+	// `anonymous-namespace'::CPlayerEmoteAction::SActionRequest::submit_unit_holograms
+	// static ...; // 0x107ED0C4
+	// static ...; // 0x107ED0BC
+	// CPlayerEmoteAction::SActionRequest *const this;
+	// __int32 unit_index;
+	// c_data_array<s_object_header> *object_headers;
+	{
+		// c_data_iterator<s_object_header> it;
+		{
+			// s_unit_data *unit;
+		}
+	}
+	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
+	// function call : bool (*const)(long, s_action_request *)
+	todo("implement");
+	_sub_107ECF90(this, unit_index);
+}
+
+_extern void _sub_107ED270(long);
+_inline void CPlayerEmoteAction::unit_put_away_weapons(long unit_index) // 0x107ED270
+{
+	// `anonymous-namespace'::CPlayerEmoteAction::unit_put_away_weapons
+	// long unit_index;
+	// s_unit_data *unit;
+	// void (*const unit_action_weapon_put_away_end)(long, bool, char);
+	// void (*const unit_send_message_to_first_person)(long, e_unit_messages);
+	// bool (*const weapon_put_away)(long, bool, bool);
+	// void (*const unit_unzoom)(long, bool);
+	{
+		// long i;
+		{
+			// long inventory_index;
+			{
+				// long weapon_index;
+			}
+		}
+	}
+	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
+	// function call : bool (*const)(long, bool, bool)
+	// function call : void (*const)(long, bool)
+	// function call : void (*const)(long, e_unit_messages)
+	// function call : void (*const)(long, bool, char)
+	// function call : char (*const)(long, unsigned long, unsigned long, bool)
+	todo("implement");
+	_sub_107ED270(unit_index);
+}
+
+_extern bool _sub_107EA0D0(long, s_action_request const *);
+_inline bool CPlayerEmoteAction::ActionSubmit(long unit_index, s_action_request const *action_request) // 0x107EA0D0
+{
+	// `anonymous-namespace'::CPlayerEmoteAction::ActionSubmit
+	// s_action_request const *action_request;
+	// Player::CPlayerEmotes::SActionStateData *emoteStateData;
+	// long active_primary_weapon_index;
+	// s_mod_player_action *actionDef;
+	// s_mod_player_actions_set_definition *actionSet;
+	// CPlayerEmoteAction::SActionRequest *request;
+	// function call : bool (*const)(long, e_action, unsigned short)
+	// function call : bool (*const)()
+	// function call : long (*const)(long, long *)
+	// function call : bool (*const)(long)
+	// function call : bool (*const)(long, short, short)
+	// function call : void (*const)(long, e_action)
+	todo("implement");
+	bool __result = _sub_107EA0D0(unit_index, action_request);
+	return __result;
+}
+
+_extern bool _sub_107EA320(long, e_action);
+_inline bool CPlayerEmoteAction::ActionUpdate(long unit_index, e_action action_type) // 0x107EA320
+{
+	// `anonymous-namespace'::CPlayerEmoteAction::ActionUpdate
+	// e_action action_type;
+	// Player::CPlayerEmotes::SActionStateData *emoteStateData;
+	// s_mod_player_action *actionDef;
+	// s_mod_player_actions_set_definition *actionSet;
+	{
+		// c_motor_task *task;
+		{
+			// c_animation_channel *channel;
+		}
+	}
+	// function call : c_motor_task *(*const)(long, e_action)
+	// function call : c_animation_channel *(*const)(long, c_motor_task *)
+	// function call : void (*const)(c_animation_channel *, float)
+	// function call : bool (*const)(long, short, short)
+	todo("implement");
+	bool __result = _sub_107EA320(unit_index, action_type);
+	return __result;
+}
+
+_extern void _sub_107EA4F0(long, e_action);
+_inline void CPlayerEmoteAction::ActionFinished(long unit_index, e_action action_type) // 0x107EA4F0
+{
+	// `anonymous-namespace'::CPlayerEmoteAction::ActionFinished
+	// e_action action_type;
+	// Player::CPlayerEmotes::SActionStateData *emoteStateData;
+	// s_mod_player_action *actionDef;
+	// s_mod_player_actions_set_definition *actionSet;
+	todo("implement");
+	_sub_107EA4F0(unit_index, action_type);
+}
+
+_extern void _sub_107EA5D0(long, e_action);
+_inline void CPlayerEmoteAction::ActionInterrupt(long unit_index, e_action action_type) // 0x107EA5D0
+{
+	// `anonymous-namespace'::CPlayerEmoteAction::ActionInterrupt
+	// e_action action_type;
+	todo("implement");
+	_sub_107EA5D0(unit_index, action_type);
+}
+
+_extern void _sub_107EA5F0(long, e_action, unsigned long);
+_inline void CPlayerEmoteAction::ActionAnimationEvent(long unit_index, e_action action_type, unsigned long flags) // 0x107EA5F0
+{
+	// `anonymous-namespace'::CPlayerEmoteAction::ActionAnimationEvent
+	// unsigned long flags;
+	todo("implement");
+	_sub_107EA5F0(unit_index, action_type, flags);
+}
+
+_extern bool _sub_107EC2F0(long, unsigned long, unsigned long);
+_inline bool CPlayerEmoteAction::StartAnimation(long unit_index, unsigned long mode, unsigned long state) // 0x107EC2F0
+{
+	// `anonymous-namespace'::CPlayerEmoteAction::StartAnimation
+	// static ...; // 0x107EC3CC
+	// long unit_index;
+	// unsigned long mode;
+	// unsigned long state;
+	// e_motor_result result;
+	// c_motor_request motor_request;
+	// function call : e_motor_result (*const)(long, c_motor_request *)
+	todo("implement");
+	bool __result = _sub_107EC2F0(unit_index, mode, state);
+	return __result;
+}
+
+extern e_simulation_event_type _sub_107EA610(c_simulation_player_emote_event_definition const *const);
+_inline e_simulation_event_type c_simulation_player_emote_event_definition::event_type() const // 0x107EA610
+{
+	// `anonymous-namespace'::c_simulation_player_emote_event_definition::event_type
+	// c_simulation_player_emote_event_definition const *const this;
+	todo("implement");
+	e_simulation_event_type __result = _sub_107EA610((c_simulation_player_emote_event_definition const *)this);
+	return __result;
+}
+
+extern char const *_sub_107EA640(c_simulation_player_emote_event_definition const *const);
+_inline char const *c_simulation_player_emote_event_definition::event_name() const // 0x107EA640
+{
+	// `anonymous-namespace'::c_simulation_player_emote_event_definition::event_name
+	// c_simulation_player_emote_event_definition const *const this;
+	todo("implement");
+	char const * __result = _sub_107EA640((c_simulation_player_emote_event_definition const *)this);
+	return __result;
+}
+
+_extern long _sub_107EA670(c_simulation_player_emote_event_definition const *const);
+_inline long c_simulation_player_emote_event_definition::payload_size() const // 0x107EA670
+{
+	// `anonymous-namespace'::c_simulation_player_emote_event_definition::payload_size
+	// c_simulation_player_emote_event_definition const *const this;
+	todo("implement");
+	long __result = _sub_107EA670((c_simulation_player_emote_event_definition const *)this);
+	return __result;
+}
+
+_extern long _sub_107EA6A0(c_simulation_player_emote_event_definition const *const);
+_inline long c_simulation_player_emote_event_definition::number_of_entity_references() const // 0x107EA6A0
+{
+	// `anonymous-namespace'::c_simulation_player_emote_event_definition::number_of_entity_references
+	// c_simulation_player_emote_event_definition const *const this;
+	todo("implement");
+	long __result = _sub_107EA6A0((c_simulation_player_emote_event_definition const *)this);
+	return __result;
+}
+
+_extern bool _sub_107EA6C0(c_simulation_player_emote_event_definition const *const);
+_inline bool c_simulation_player_emote_event_definition::reference_delays_entity_deletion() const // 0x107EA6C0
+{
+	// `anonymous-namespace'::c_simulation_player_emote_event_definition::reference_delays_entity_deletion
+	// c_simulation_player_emote_event_definition const *const this;
+	todo("implement");
+	bool __result = _sub_107EA6C0((c_simulation_player_emote_event_definition const *)this);
+	return __result;
+}
+
+_extern bool _sub_107EA6E0(c_simulation_player_emote_event_definition const *const, c_replication_outgoing_event const *, s_simulation_view_telemetry_data const *);
+_inline bool c_simulation_player_emote_event_definition::event_can_be_transmitted(c_replication_outgoing_event const *__formal, s_simulation_view_telemetry_data const *__formal1) const // 0x107EA6E0
+{
+	// `anonymous-namespace'::c_simulation_player_emote_event_definition::event_can_be_transmitted
+	// s_simulation_view_telemetry_data const *__formal;
+	todo("implement");
+	bool __result = _sub_107EA6E0((c_simulation_player_emote_event_definition const *)this, __formal, __formal1);
+	return __result;
+}
+
+_extern long _sub_107EA700(c_simulation_player_emote_event_definition const *const, c_replication_outgoing_event const *, s_simulation_view_telemetry_data const *, long *);
+_inline long c_simulation_player_emote_event_definition::minimum_required_bits(c_replication_outgoing_event const *__formal, s_simulation_view_telemetry_data const *__formal1, long *__formal2) const // 0x107EA700
+{
+	// `anonymous-namespace'::c_simulation_player_emote_event_definition::minimum_required_bits
+	// long *__formal;
+	todo("implement");
+	long __result = _sub_107EA700((c_simulation_player_emote_event_definition const *)this, __formal, __formal1, __formal2);
+	return __result;
+}
+
+_extern float _sub_107EA730(c_simulation_player_emote_event_definition const *const, c_replication_outgoing_event const *, s_simulation_view_telemetry_data const *, float);
+_inline float c_simulation_player_emote_event_definition::calculate_relevance(c_replication_outgoing_event const *__formal, s_simulation_view_telemetry_data const *__formal1, float __formal2) const // 0x107EA730
+{
+	// `anonymous-namespace'::c_simulation_player_emote_event_definition::calculate_relevance
+	// float __formal;
+	todo("implement");
+	float __result = _sub_107EA730((c_simulation_player_emote_event_definition const *)this, __formal, __formal1, __formal2);
+	return __result;
+}
+
+_extern void _sub_107EA750(c_simulation_player_emote_event_definition const *const, c_replication_outgoing_event const *, s_simulation_view_telemetry_data const *, float, long, char *);
+_inline void c_simulation_player_emote_event_definition::write_description_to_string(c_replication_outgoing_event const *__formal, s_simulation_view_telemetry_data const *__formal1, float __formal2, long __formal3, char *description) const // 0x107EA750
+{
+	// `anonymous-namespace'::c_simulation_player_emote_event_definition::write_description_to_string
+	// char *description;
+	todo("implement");
+	_sub_107EA750((c_simulation_player_emote_event_definition const *)this, __formal, __formal1, __formal2, __formal3, description);
+}
+
+extern simulation_event_definition_return_value *_sub_107EA7B0(c_simulation_player_emote_event_definition const *const, simulation_event_definition_return_value *, c_replication_outgoing_event const *, s_simulation_view_telemetry_data const *);
+_inline simulation_event_definition_return_value *c_simulation_player_emote_event_definition::gather_requirements_data(simulation_event_definition_return_value *data, c_replication_outgoing_event const *e, s_simulation_view_telemetry_data const *telemetry) const // 0x107EA7B0
+{
+	// `anonymous-namespace'::c_simulation_player_emote_event_definition::gather_requirements_data
+	// s_simulation_view_telemetry_data const *telemetry;
+	todo("implement");
+	simulation_event_definition_return_value * __result = _sub_107EA7B0((c_simulation_player_emote_event_definition const *)this, data, e, telemetry);
+	return __result;
+}
+
+_extern void _sub_107EA810(c_simulation_player_emote_event_definition const *const, long, void const *, c_bitstream *, bool);
+_inline void c_simulation_player_emote_event_definition::event_payload_encode(long payload_size, void const *payload, c_bitstream *packet, bool predicted) const // 0x107EA810
+{
+	// `anonymous-namespace'::c_simulation_player_emote_event_definition::event_payload_encode
+	// bool predicted;
+	// s_simulation_player_emote_event_data *const data;
+	// Blam::BitStream *packet_impl;
+	todo("implement");
+	_sub_107EA810((c_simulation_player_emote_event_definition const *)this, payload_size, payload, packet, predicted);
+}
+
+_extern bool _sub_107EA8D0(c_simulation_player_emote_event_definition const *const, long, void *, c_bitstream *, bool);
+_inline bool c_simulation_player_emote_event_definition::event_payload_decode(long payload_size, void *payload, c_bitstream *packet, bool predicted) const // 0x107EA8D0
+{
+	// `anonymous-namespace'::c_simulation_player_emote_event_definition::event_payload_decode
+	// bool predicted;
+	// s_simulation_player_emote_event_data *data;
+	// Blam::BitStream *packet_impl;
+	todo("implement");
+	bool __result = _sub_107EA8D0((c_simulation_player_emote_event_definition const *)this, payload_size, payload, packet, predicted);
+	return __result;
+}
+
+_extern void _sub_107EA980(c_simulation_player_emote_event_definition *const, long, void *);
+_inline void c_simulation_player_emote_event_definition::prepare_event_data_for_gameworld(long payload_size, void *payload) // 0x107EA980
+{
+	// `anonymous-namespace'::c_simulation_player_emote_event_definition::prepare_event_data_for_gameworld
+	// void *payload;
+	todo("implement");
+	_sub_107EA980(this, payload_size, payload);
+}
+
+_extern bool _sub_107EA9A0(c_simulation_player_emote_event_definition *const, long, long const *, long, void const *);
+_inline bool c_simulation_player_emote_event_definition::apply_game_event(long reference_gamestate_count, long const *gamestate_indices, long payload_size, void const *payload) // 0x107EA9A0
+{
+	// `anonymous-namespace'::c_simulation_player_emote_event_definition::apply_game_event
+	// void const *payload;
+	// s_player_datum *player;
+	// long player_index;
+	// s_simulation_player_emote_event_data *data;
+	// function call : long (*const)(long)
+	todo("implement");
+	bool __result = _sub_107EA9A0(this, reference_gamestate_count, gamestate_indices, payload_size, payload);
+	return __result;
+}
+
+_extern bool _sub_107EB750(__int32, __int32, short);
+bool PlayerCanEmote(__int32 playerIndex, __int32 definitionIndex, short emoteIndex) // 0x107EB750
+{
+	// `anonymous-namespace'::PlayerCanEmote
+	// short emoteIndex;
+	// s_player_datum *player;
+	// s_mod_globals_definition *const modg;
+	// s_mod_player_actions_set_definition *const actionSet;
+	{
+		// __int32 i;
+		{
+			// s_mod_globals_player_character_customization *const character;
+		}
+	}
+	todo("implement");
+	bool __result = _sub_107EB750(playerIndex, definitionIndex, emoteIndex);
+	return __result;
+}
+
+_extern void _sub_107EB980(__int32, long, long);
+void PlayerStartEmote(__int32 playerIndex, long definitionIndex, long emoteIndex) // 0x107EB980
+{
+	// `anonymous-namespace'::PlayerStartEmote
+	// static ...; // 0x107EBAC0
+	// static ...; // 0x107EBAB8
+	// __int32 playerIndex;
+	// long definitionIndex;
+	// long emoteIndex;
+	// s_player_datum *player;
+	// CPlayerEmoteAction::SActionRequest actionRequest;
+	{
+		// s_simulation_player_emote_event_data data;
+	}
+	// function call : bool (*const)(long)
+	// function call : bool (*const)()
+	// function call : void (*const)(e_simulation_event_type, long, long *, long, long, void const *)
+	todo("implement");
+	_sub_107EB980(playerIndex, definitionIndex, emoteIndex);
+}
+
+_extern void _sub_107EBB50(__int32);
+void PlayerStopEmote(__int32 playerIndex) // 0x107EBB50
+{
+	// `anonymous-namespace'::PlayerStopEmote
+	// static ...; // 0x107EBD44
+	// static ...; // 0x107EBD38
+	// static ...; // 0x107EBD30
+	// __int32 playerIndex;
+	// s_player_datum *player;
+	// Player::CPlayerEmotes::SActionStateData *emoteStateData;
+	// s_mod_player_action *actionDef;
+	// s_mod_player_actions_set_definition *actionSet;
+	{
+		// s_simulation_player_emote_event_data data;
+	}
+	// function call : bool (*const)(long, e_action)
+	// function call : void (*const)(long, e_action)
+	// function call : bool (*const)(long)
+	// function call : bool (*const)()
+	// function call : void (*const)(e_simulation_event_type, long, long *, long, long, void const *)
+	todo("implement");
+	_sub_107EBB50(playerIndex);
+}
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template bool c_tag_block<s_mod_player_action>::try_get_element(__int32, s_mod_player_action **) const;
+template bool c_tag_block<s_unit_camera_definition>::try_get_element(__int32, s_unit_camera_definition **) const;
+template s_game_globals_player_character_type const & c_tag_block<s_game_globals_player_character_type>::operator[](__int32) const;
+template s_mod_globals_player_character_customization const & c_tag_block<s_mod_globals_player_character_customization>::operator[](__int32) const;
+template s_mod_player_action & c_tag_block<s_mod_player_action>::operator[](__int32);
+template s_mod_player_action * c_tag_block<s_mod_player_action>::get_element(__int32) const;
+template s_player_datum * c_data_array<s_player_datum>::try_and_get_absolute(long);
+template s_unit_camera_definition & c_tag_block<s_unit_camera_definition>::operator[](__int32);
+template s_unit_camera_definition * c_tag_block<s_unit_camera_definition>::get_element(__int32) const;

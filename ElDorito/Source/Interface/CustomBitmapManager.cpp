@@ -158,11 +158,12 @@ extern Microsoft::WRL::Details::CreatorMap const *__pobjectentrylast; // 0x1134A
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern char const *kBasePath; // 0x1134DA8C
 	extern CustomBitmapManager g_customBitmapManager; // 0x1138CEB8
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 extern CustomBitmapManager *_sub_10784CB0();

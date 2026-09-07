@@ -78,6 +78,15 @@ namespace Audio
 {
 	namespace FMOD
 	{
+		_extern void _sub_106CAFB0(Audio::FMOD::IReadStream *const);
+		_inline IReadStream::~IReadStream() // 0x106CAFB0
+		{
+			mangled_x86(MANGLED_TODO, "??1IReadStream@FMOD@Audio@@UAE@XZ");
+			// Audio::FMOD::IReadStream *const this;
+			todo("implement");
+			_sub_106CAFB0(this);
+		}
+
 		extern CMemoryReadStream* _sub_106CAEB0(Audio::FMOD::CMemoryReadStream *const, void *, __int32);
 		_inline CMemoryReadStream::CMemoryReadStream(void *buffer, __int32 length) // 0x106CAEB0
 		{
@@ -95,6 +104,56 @@ namespace Audio
 			compiler_generated();
 			todo("implement");
 			_sub_106CAF30(this);
+		}
+
+		_extern void _sub_106CAF60(Audio::FMOD::CMemoryReadStream *const);
+		_inline CMemoryReadStream::~CMemoryReadStream() // 0x106CAF60
+		{
+			mangled_x86(MANGLED_TODO, "??1CMemoryReadStream@FMOD@Audio@@UAE@XZ");
+			// Audio::FMOD::CMemoryReadStream *const this;
+			compiler_generated();
+			todo("implement");
+			_sub_106CAF60(this);
+		}
+
+		_extern __int32 _sub_106CB890(Audio::FMOD::CMemoryReadStream *const, void *, __int32);
+		_inline __int32 CMemoryReadStream::Read(void *buffer, __int32 bytes) // 0x106CB890
+		{
+			mangled_x86(MANGLED_TODO, "?Read@CMemoryReadStream@FMOD@Audio@@UAEHPAXH@Z");
+			// __int32 bytes;
+			// __int32 n;
+			todo("implement");
+			__int32 __result = _sub_106CB890(this, buffer, bytes);
+			return __result;
+		}
+
+		_extern void _sub_106CBB80(Audio::FMOD::CMemoryReadStream *const, long long, __int32);
+		_inline void CMemoryReadStream::Seek(long long offset, __int32 type) // 0x106CBB80
+		{
+			mangled_x86(MANGLED_TODO, "?Seek@CMemoryReadStream@FMOD@Audio@@UAEX_JH@Z");
+			// __int32 type;
+			todo("implement");
+			_sub_106CBB80(this, offset, type);
+		}
+
+		_extern long long _sub_106CB4B0(Audio::FMOD::CMemoryReadStream const *const);
+		_inline long long CMemoryReadStream::GetPosition() const // 0x106CB4B0
+		{
+			mangled_x86(MANGLED_TODO, "?GetPosition@CMemoryReadStream@FMOD@Audio@@UBE_JXZ");
+			// Audio::FMOD::CMemoryReadStream const *const this;
+			todo("implement");
+			long long __result = _sub_106CB4B0((Audio::FMOD::CMemoryReadStream const *)this);
+			return __result;
+		}
+
+		_extern long long _sub_106CB480(Audio::FMOD::CMemoryReadStream const *const);
+		_inline long long CMemoryReadStream::GetLength() const // 0x106CB480
+		{
+			mangled_x86(MANGLED_TODO, "?GetLength@CMemoryReadStream@FMOD@Audio@@UBE_JXZ");
+			// Audio::FMOD::CMemoryReadStream const *const this;
+			todo("implement");
+			long long __result = _sub_106CB480((Audio::FMOD::CMemoryReadStream const *)this);
+			return __result;
 		}
 
 		_extern bool _sub_106CB4E0(Audio::FMOD::COggVorbisDecoder *const, Audio::FMOD::IReadStream *);

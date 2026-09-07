@@ -32,10 +32,11 @@ struct lambda_1;
 //};
 //static_assert(sizeof(Patches::CustomPackets::VariadicPacket<SyncUpdatePacketData,SyncUpdatePacketVar>::Allocate::__l2::<lambda_1>) == 1, "Invalid Patches::CustomPackets::VariadicPacket<SyncUpdatePacketData,SyncUpdatePacketVar>::Allocate::__l2::<lambda_1> size");
 
-namespace
+namespace hades_file_local
 {
 
 }
+using namespace hades_file_local;
 /* ---------- prototypes */
 
 namespace Patches
@@ -56,6 +57,15 @@ namespace Patches
 {
 	namespace CustomPackets
 	{
+		_extern void _sub_10AFF8B0(Patches::CustomPackets::RawPacketHandler *const);
+		_inline RawPacketHandler::~RawPacketHandler() // 0x10AFF8B0
+		{
+			mangled_x86(MANGLED_TODO, "??1RawPacketHandler@CustomPackets@Patches@@UAE@XZ");
+			// Patches::CustomPackets::RawPacketHandler *const this;
+			todo("implement");
+			_sub_10AFF8B0(this);
+		}
+
 		extern PacketBase* _sub_10AFF1F0(Patches::CustomPackets::PacketBase *const, unsigned __int32);
 		_inline PacketBase::PacketBase(unsigned __int32 guid) // 0x10AFF1F0
 		{

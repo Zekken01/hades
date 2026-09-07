@@ -5,6 +5,7 @@
 #include "Blam/cseries/cseries.hpp"
 #include "Blam/hs/hs.hpp"
 #include "Blam/tag_files/tag_groups.hpp"
+#include "ChatCommands/ChatCommandMap.hpp"
 #include "Scripting/HaloScript/HsMethodMap.hpp"
 #include "Scripting/HaloScript/HsThreadStorage.hpp"
 
@@ -24,6 +25,7 @@
 
 /* ---------- forward declarations */
 
+struct hs_value;
 namespace Scripting
 {
 	namespace HS
@@ -62,6 +64,17 @@ namespace Scripting
 	}
 }
 
+void hs_math_sine_evaluate(short op, long thread_index, bool initial);
+void hs_math_cosine_evaluate(short op, long thread_index, bool initial);
+void hs_math_tangent_evaluate(short op, long thread_index, bool initial);
+void hs_math_square_root_evaluate(short op, long thread_index, bool initial);
+void hs_math_absolute_evaluate(short op, long thread_index, bool initial);
+void hs_math_floating_absolute_evaluate(short op, long thread_index, bool initial);
+void hs_math_ceiling_evaluate(short op, long thread_index, bool initial);
+void hs_math_floor_evaluate(short op, long thread_index, bool initial);
+void hs_math_modulus_evaluate(short op, long thread_index, bool initial);
+void hs_math_floating_modulus_evaluate(short op, long thread_index, bool initial);
+
 /* ---------- globals */
 
 /* ---------- private variables */
@@ -90,3 +103,187 @@ namespace Scripting
 }
 
 /* ---------- private code */
+
+_extern void _sub_106819D0(short, long, bool);
+void hs_math_sine_evaluate(short op, long thread_index, bool initial) // 0x106819D0
+{
+	// `anonymous-namespace'::hs_math_sine_evaluate
+	// bool initial;
+	{
+		// hs_value *args;
+		{
+			// float result;
+			// float input;
+		}
+	}
+	// function call : hs_value *(*const)(short, long, bool)
+	// function call : void (*const)(long, hs_value)
+	todo("implement");
+	_sub_106819D0(op, thread_index, initial);
+}
+
+_extern void _sub_10681450(short, long, bool);
+void hs_math_cosine_evaluate(short op, long thread_index, bool initial) // 0x10681450
+{
+	// `anonymous-namespace'::hs_math_cosine_evaluate
+	// bool initial;
+	{
+		// hs_value *args;
+		{
+			// float result;
+			// float input;
+		}
+	}
+	// function call : hs_value *(*const)(short, long, bool)
+	// function call : void (*const)(long, hs_value)
+	todo("implement");
+	_sub_10681450(op, thread_index, initial);
+}
+
+_extern void _sub_10681BB0(short, long, bool);
+void hs_math_tangent_evaluate(short op, long thread_index, bool initial) // 0x10681BB0
+{
+	// `anonymous-namespace'::hs_math_tangent_evaluate
+	// bool initial;
+	{
+		// hs_value *args;
+		{
+			// float result;
+			// float input;
+		}
+	}
+	// function call : hs_value *(*const)(short, long, bool)
+	// function call : void (*const)(long, hs_value)
+	todo("implement");
+	_sub_10681BB0(op, thread_index, initial);
+}
+
+_extern void _sub_10681AC0(short, long, bool);
+void hs_math_square_root_evaluate(short op, long thread_index, bool initial) // 0x10681AC0
+{
+	// `anonymous-namespace'::hs_math_square_root_evaluate
+	// bool initial;
+	{
+		// hs_value *args;
+		{
+			// float result;
+			// float input;
+		}
+	}
+	// function call : hs_value *(*const)(short, long, bool)
+	// function call : void (*const)(long, hs_value)
+	todo("implement");
+	_sub_10681AC0(op, thread_index, initial);
+}
+
+_extern void _sub_10681280(short, long, bool);
+void hs_math_absolute_evaluate(short op, long thread_index, bool initial) // 0x10681280
+{
+	// `anonymous-namespace'::hs_math_absolute_evaluate
+	// bool initial;
+	{
+		// hs_value *args;
+		{
+			// long result;
+			// long input;
+		}
+	}
+	// function call : hs_value *(*const)(short, long, bool)
+	// function call : void (*const)(long, hs_value)
+	todo("implement");
+	_sub_10681280(op, thread_index, initial);
+}
+
+_extern void _sub_10681540(short, long, bool);
+void hs_math_floating_absolute_evaluate(short op, long thread_index, bool initial) // 0x10681540
+{
+	// `anonymous-namespace'::hs_math_floating_absolute_evaluate
+	// bool initial;
+	{
+		// hs_value *args;
+		{
+			// float result;
+			// float input;
+		}
+	}
+	// function call : hs_value *(*const)(short, long, bool)
+	// function call : void (*const)(long, hs_value)
+	todo("implement");
+	_sub_10681540(op, thread_index, initial);
+}
+
+_extern void _sub_10681360(short, long, bool);
+void hs_math_ceiling_evaluate(short op, long thread_index, bool initial) // 0x10681360
+{
+	// `anonymous-namespace'::hs_math_ceiling_evaluate
+	// bool initial;
+	{
+		// hs_value *args;
+		{
+			// float result;
+			// float input;
+		}
+	}
+	// function call : hs_value *(*const)(short, long, bool)
+	// function call : void (*const)(long, hs_value)
+	todo("implement");
+	_sub_10681360(op, thread_index, initial);
+}
+
+_extern void _sub_106817B0(short, long, bool);
+void hs_math_floor_evaluate(short op, long thread_index, bool initial) // 0x106817B0
+{
+	// `anonymous-namespace'::hs_math_floor_evaluate
+	// bool initial;
+	{
+		// hs_value *args;
+		{
+			// float result;
+			// float input;
+		}
+	}
+	// function call : hs_value *(*const)(short, long, bool)
+	// function call : void (*const)(long, hs_value)
+	todo("implement");
+	_sub_106817B0(op, thread_index, initial);
+}
+
+_extern void _sub_106818A0(short, long, bool);
+void hs_math_modulus_evaluate(short op, long thread_index, bool initial) // 0x106818A0
+{
+	// `anonymous-namespace'::hs_math_modulus_evaluate
+	// bool initial;
+	{
+		// hs_value *args;
+		{
+			// long input1;
+			// long input2;
+			// long result;
+		}
+	}
+	// function call : hs_value *(*const)(short, long, bool)
+	// function call : void (*const)(long, hs_value)
+	// function call : void (*const)(long, hs_value)
+	todo("implement");
+	_sub_106818A0(op, thread_index, initial);
+}
+
+_extern void _sub_10681630(short, long, bool);
+void hs_math_floating_modulus_evaluate(short op, long thread_index, bool initial) // 0x10681630
+{
+	// `anonymous-namespace'::hs_math_floating_modulus_evaluate
+	// bool initial;
+	{
+		// hs_value *args;
+		{
+			// float input1;
+			// float input2;
+			// float result;
+		}
+	}
+	// function call : hs_value *(*const)(short, long, bool)
+	// function call : void (*const)(long, hs_value)
+	// function call : void (*const)(long, hs_value)
+	todo("implement");
+	_sub_10681630(op, thread_index, initial);
+}

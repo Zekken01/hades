@@ -219,11 +219,12 @@ namespace Server
 {
 	namespace Voting
 	{
-		namespace
+		namespace hades_file_local_Server_Voting
 		{
 			extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > const DefaultTypes[8]; // 0x11388E58
 			extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > const DefaultTypeNames[8]; // 0x11388F38
 		}
+		using namespace hades_file_local_Server_Voting;
 	}
 }
 /* ---------- public code */
@@ -453,3 +454,13 @@ namespace Server
 }
 
 /* ---------- private code */
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template Modules::ModuleGame & Utils::Singleton<Modules::ModuleGame>::Instance();
+template c_flags<enum e_blf_scenario_flags,long>::c_flags();
+template c_flags<enum e_file_permission_flags,long>::c_flags(long const &);

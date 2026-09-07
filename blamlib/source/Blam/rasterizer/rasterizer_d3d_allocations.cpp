@@ -556,6 +556,14 @@ void c_d3d_resource_tracker::get_allocated_resource_counts(long *num_allocated_p
 	_sub_10F0FC30(num_allocated_pixel_shaders, num_allocated_vertex_shaders, num_allocated_vertex_buffers, num_allocated_index_buffers, num_allocated_surfaces, num_allocated_textures, num_allocated_vertex_declarations);
 }
 
+template<typename t_arg0>
+_inline long c_d3d_resource_tracker::add_resource_helper(t_arg0 resource, t_arg0 tracked_allocations, long max_resources, long *count)
+{
+	mangled_prefix_assert("??$add_resource_helper@");
+	todo("implement");
+	return todo_result<long>();
+}
+
 _extern void _sub_10F0FA40();
 void d3d_resource_tracker_output_allocated_resource_counts() // 0x10F0FA40
 {

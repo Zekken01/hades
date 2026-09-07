@@ -57,11 +57,12 @@ namespace Job
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern CJobManager jobManager; // 0x123AEE68
 	extern bool initialized; // 0x123AEEF0
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Job

@@ -137,6 +137,16 @@ namespace Web
 			todo("implement");
 			_sub_10C826F0(this, callback);
 		}
+
+		_extern void _sub_10C83020(Web::Browser::WebEmblemRenderHandler *const);
+		_inline WebEmblemRenderHandler::~WebEmblemRenderHandler() // 0x10C83020
+		{
+			mangled_x86(MANGLED_TODO, "??1WebEmblemRenderHandler@Browser@Web@@UAE@XZ");
+			// Web::Browser::WebEmblemRenderHandler *const this;
+			compiler_generated();
+			todo("implement");
+			_sub_10C83020(this);
+		}
 	}
 }
 
@@ -161,6 +171,25 @@ namespace Web
 {
 	namespace Browser
 	{
+		_extern void _sub_10C842D0(Web::Browser::WebEmblemRenderHandler *const);
+		_inline void WebEmblemRenderHandler::OnRenderComplete() // 0x10C842D0
+		{
+			mangled_x86(MANGLED_TODO, "?OnRenderComplete@WebEmblemRenderHandler@Browser@Web@@UAEXXZ");
+			// Web::Browser::WebEmblemRenderHandler *const this;
+			todo("implement");
+			_sub_10C842D0(this);
+		}
+
+		_extern void _sub_10C842F0(Web::Browser::WebEmblemRenderHandler *const);
+		_inline void WebEmblemRenderHandler::OnRenderDataAvailable() // 0x10C842F0
+		{
+			mangled_x86(MANGLED_TODO, "?OnRenderDataAvailable@WebEmblemRenderHandler@Browser@Web@@UAEXXZ");
+			// Web::Browser::WebEmblemRenderHandler *const this;
+			// function call : void ()
+			todo("implement");
+			_sub_10C842F0(this);
+		}
+
 		_extern void _sub_10C84DD0(Web::Browser::WebEmblemRenderHandler *const, scoped_refptr<CefCallback>);
 		_inline void WebEmblemRenderHandler::SetCefContinuation(scoped_refptr<CefCallback> callback) // 0x10C84DD0
 		{

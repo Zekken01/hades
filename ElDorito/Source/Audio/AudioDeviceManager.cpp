@@ -267,3 +267,17 @@ namespace Audio
 }
 
 /* ---------- private code */
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template Audio::SAudioDeviceEvent * CSimpleMessageQueue<Audio::SAudioDeviceEvent,16>::TryToAllocate();
+template CSimpleMessageQueue<Audio::SAudioDeviceEvent,16>::CSimpleMessageQueue();
+template CSimpleMessageQueue<Audio::SAudioDeviceEvent,16>::~CSimpleMessageQueue();
+template _SINGLE_LIST_ENTRY * CSimpleMessageQueue<Audio::SAudioDeviceEvent,16>::Reversed(_SINGLE_LIST_ENTRY *);
+template void CEventSink<Audio::SAudioDeviceEvent const &>::PostEvent(Audio::SAudioDeviceEvent const &);
+template void CSimpleMessageQueue<Audio::SAudioDeviceEvent,16>::FreeElement(CSimpleMessageQueue<Audio::SAudioDeviceEvent,16>::SQueueEntry *);
+template void CSimpleMessageQueue<Audio::SAudioDeviceEvent,16>::Initialize();

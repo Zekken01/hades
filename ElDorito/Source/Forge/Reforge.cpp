@@ -69,10 +69,11 @@ namespace Forge
 		struct SRenderMaterialParameters;
 	}
 }
-namespace
+namespace hades_file_local
 {
 	struct SReforgeGlobals;
 }
+using namespace hades_file_local;
 
 namespace Forge {}
 using namespace ::Forge;
@@ -86,7 +87,7 @@ namespace Forge
 
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	struct SReforgeGlobals
 	{
@@ -95,6 +96,7 @@ namespace
 	};
 	static_assert(sizeof(SReforgeGlobals) == 8192, "Invalid SReforgeGlobals size");
 }
+using namespace hades_file_local;
 /* ---------- prototypes */
 
 namespace Forge
@@ -119,6 +121,8 @@ namespace Forge
 		long get_controlling_unit(long unit_index);
 	}
 }
+
+s_render_model *GeObjectRenderModel(long objectTagIndex);
 
 /* ---------- globals */
 
@@ -353,3 +357,27 @@ namespace Forge
 		}
 	}
 }
+
+extern s_render_model *_sub_108657A0(long);
+s_render_model *GeObjectRenderModel(long objectTagIndex) // 0x108657A0
+{
+	// `anonymous-namespace'::GeObjectRenderModel
+	// long objectTagIndex;
+	// s_object_definition *objectDef;
+	// s_model_definition *model;
+	// function call : void *(*const)(unsigned long, long)
+	// function call : void *(*const)(unsigned long, long)
+	// function call : void *(*const)(unsigned long, long)
+	todo("implement");
+	s_render_model * __result = _sub_108657A0(objectTagIndex);
+	return __result;
+}
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template s_tag_reference * c_tag_block<s_tag_reference>::begin();
+template s_tag_reference * c_tag_block<s_tag_reference>::end();

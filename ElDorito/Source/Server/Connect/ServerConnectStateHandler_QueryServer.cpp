@@ -3,12 +3,14 @@
 #include "Server/Connect/ServerConnectStateHandler_QueryServer.hpp"
 #include "hades/hades.h"
 
+#include "ChatCommands/ChatCommandMap.hpp"
 #include "Common/Http/HttpHeaders.hpp"
 #include "Common/Http/HttpRequest.hpp"
 #include "Console/Console.hpp"
 #include "Job/JobDefinitions.hpp"
 #include "Server/Connect/ServerConnectDefintiions.hpp"
 #include "Server/Connect/ServerConnectStateManager.hpp"
+#include "ThirdParty/HttpRequest.hpp"
 #include "ThirdParty/rapidjson/allocators.h"
 #include "ThirdParty/rapidjson/document.h"
 #include "ThirdParty/rapidjson/encodedstream.h"
@@ -26,6 +28,7 @@
 #include "ThirdParty/rapidjson/stream.h"
 #include "Utils/NetworkUtil.hpp"
 #include "Utils/String.hpp"
+#include "Utils/WebSocket.hpp"
 
 #include <Windows.h>
 #include <stdio.h>
@@ -62,6 +65,7 @@
 /* ---------- forward declarations */
 
 class CServerConnectStateHandler_QueryServer;
+class HttpRequest;
 struct SQueryInfoServerArgs;
 struct SQueryInfoServerData;
 struct SServerConnectState;
@@ -88,7 +92,7 @@ using namespace ::Console;
 
 /* ---------- constants */
 
-namespace
+namespace hades_file_local
 {
 	enum class EQueryModsResult
 	{
@@ -109,6 +113,7 @@ namespace
 		IncompatibleVersion,
 	};
 }
+using namespace hades_file_local;
 /* ---------- definitions */
 
 //class CServerConnectStateHandler_QueryServer::OnEnter::__l2::<lambda_1>
@@ -160,6 +165,9 @@ namespace
 //static_assert(sizeof(CServerConnectStateHandler_QueryServer::OnEnter::__l2::<lambda_3>) == 64, "Invalid CServerConnectStateHandler_QueryServer::OnEnter::__l2::<lambda_3> size");
 
 /* ---------- prototypes */
+
+EQueryModsResult QueryModsBlocking(SQueryInfoServerArgs const &args, std::vector<SServerConnectState::SRequiredMod,std::allocator<SServerConnectState::SRequiredMod> > *outPackages);
+EQueryInfoServerResult QueryInfoServerBlocking(SQueryInfoServerArgs const &args, SQueryInfoServerData *result);
 
 /* ---------- globals */
 
@@ -345,3 +353,77 @@ EJobResult CServerConnectStateHandler_QueryServer::QueryModsJobCallback(SQueryIn
 }
 
 /* ---------- private code */
+
+extern EQueryModsResult _sub_10B14B30(SQueryInfoServerArgs const &, std::vector<SServerConnectState::SRequiredMod,std::allocator<SServerConnectState::SRequiredMod> > *);
+EQueryModsResult QueryModsBlocking(SQueryInfoServerArgs const &args, std::vector<SServerConnectState::SRequiredMod,std::allocator<SServerConnectState::SRequiredMod> > *outPackages) // 0x10B14B30
+{
+	// `anonymous-namespace'::QueryModsBlocking
+	// static ...; // 0x10B158CD
+	// static ...; // 0x10B158C2
+	// static ...; // 0x10B158B9
+	// static ...; // 0x10B158B1
+	// static ...; // 0x10B158AC
+	// static ...; // 0x10B158A7
+	// static ...; // 0x10B158A4
+	// static ...; // 0x10B15898
+	// static ...; // 0x10B1582C
+	// static ...; // 0x10B15824
+	// SQueryInfoServerArgs const &args;
+	// std::vector<SServerConnectState::SRequiredMod,std::allocator<SServerConnectState::SRequiredMod> > *outPackages;
+	// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > respHdr;
+	// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
+	// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > expected;
+	// HttpRequest req;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > endpoint;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > resp;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > authString;
+	{
+		// rapidjson::GenericMemberIterator<0,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > it;
+		{
+			// SServerConnectState::SRequiredMod description;
+			// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &mod;
+		}
+	}
+	todo("implement");
+	EQueryModsResult __result = _sub_10B14B30(args, outPackages);
+	return __result;
+}
+
+extern EQueryInfoServerResult _sub_10B13380(SQueryInfoServerArgs const &, SQueryInfoServerData *);
+EQueryInfoServerResult QueryInfoServerBlocking(SQueryInfoServerArgs const &args, SQueryInfoServerData *result) // 0x10B13380
+{
+	// `anonymous-namespace'::QueryInfoServerBlocking
+	// static ...; // 0x10B14517
+	// static ...; // 0x10B1450B
+	// static ...; // 0x10B14502
+	// static ...; // 0x10B144FA
+	// static ...; // 0x10B144F5
+	// static ...; // 0x10B144F0
+	// static ...; // 0x10B144E8
+	// static ...; // 0x10B144E2
+	// static ...; // 0x10B144D9
+	// static ...; // 0x10B144CD
+	// static ...; // 0x10B144C7
+	// static ...; // 0x10B144C0
+	// static ...; // 0x10B14424
+	// static ...; // 0x10B1441C
+	// SQueryInfoServerArgs const &args;
+	// SQueryInfoServerData *result;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > xnkid;
+	// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > respHdr;
+	// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > gameVer;
+	// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > usernameStr;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > ourEdVer;
+	// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > passwordStr;
+	// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > expected;
+	// HttpRequest req;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > xnaddr;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > resp;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > edVer;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > gameVersion;
+	// function call : unsigned long ()
+	todo("implement");
+	EQueryInfoServerResult __result = _sub_10B13380(args, result);
+	return __result;
+}

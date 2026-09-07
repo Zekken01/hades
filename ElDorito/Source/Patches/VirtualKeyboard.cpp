@@ -62,6 +62,16 @@ namespace Blam
 		class VirtualKeyboard;
 	}
 }
+namespace Web
+{
+	namespace Ui
+	{
+		namespace ScreenLayer
+		{
+			struct SDialogShowParams;
+		}
+	}
+}
 
 namespace Utils {}
 using namespace ::Utils;
@@ -147,25 +157,30 @@ namespace Blam
 
 /* ---------- prototypes */
 
-namespace Patches
+namespace Blam
 {
-	namespace VirtualKeyboard
+	namespace Input
 	{
-		extern void Init();
-		extern void ApplyAll();
-		extern void SetKeyboardHandler(std::function<void __cdecl(Blam::Input::VirtualKeyboard *)> callback);
+		VirtualKeyboard *CreateVirtualKeyboard(char const *file, __int32 line, __int32 unk2, __int32 unk3, __int32 unk4, __int32 unk5, __int32 maxLength, __int32 unk7, __int32 unk8);
 	}
 }
+
+void SetVirtualKeyboardDefaultValue(Blam::Input::VirtualKeyboard *keyboard, void *unused, wchar_t *newDefaultValue);
+void SetVirtualKeyboardTitle(Blam::Input::VirtualKeyboard *keyboard, void *unused, wchar_t *newTitle);
+void SetVirtualKeyboardDescription(Blam::Input::VirtualKeyboard *keyboard, void *unused, wchar_t *newDescription);
+bool ShowVirtualKeyboard(Blam::Input::VirtualKeyboard *keyboard, char const *file, __int32 line);
+void WebVirtualKeyboardHandler(Blam::Input::VirtualKeyboard *keyboard);
 
 /* ---------- globals */
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern std::function<void __cdecl(Blam::Input::VirtualKeyboard *)> KeyboardHandler; // 0x124674F8
 	extern Blam::Input::VirtualKeyboard *CurrentKeyboard; // 0x12467520
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Patches
@@ -202,3 +217,87 @@ namespace Patches
 }
 
 /* ---------- private code */
+
+//_extern void _sub_10AEB510(<lambda_1> const *const, Blam::Input::VirtualKeyboard *);
+//_inline void <lambda_1>::operator()(Blam::Input::VirtualKeyboard *keyboard) const // 0x10AEB510
+//{
+//	// `anonymous-namespace'::<lambda_1>::operator()
+//	// Blam::Input::VirtualKeyboard *keyboard;
+//	// function call : void ()
+//	todo("implement");
+//	_sub_10AEB510(this, keyboard);
+//}
+
+namespace Blam
+{
+	namespace Input
+	{
+		extern VirtualKeyboard *_sub_10AEBD00(char const *, __int32, __int32, __int32, __int32, __int32, __int32, __int32, __int32);
+		VirtualKeyboard *CreateVirtualKeyboard(char const *file, __int32 line, __int32 unk2, __int32 unk3, __int32 unk4, __int32 unk5, __int32 maxLength, __int32 unk7, __int32 unk8) // 0x10AEBD00
+		{
+			// `anonymous-namespace'::CreateVirtualKeyboard
+			// __int32 unk8;
+			todo("implement");
+			Blam::Input::VirtualKeyboard * __result = _sub_10AEBD00(file, line, unk2, unk3, unk4, unk5, maxLength, unk7, unk8);
+			return __result;
+		}
+	}
+}
+
+_extern void _sub_10AEBF10(Blam::Input::VirtualKeyboard *, void *, wchar_t *);
+void SetVirtualKeyboardDefaultValue(Blam::Input::VirtualKeyboard *keyboard, void *unused, wchar_t *newDefaultValue) // 0x10AEBF10
+{
+	// `anonymous-namespace'::SetVirtualKeyboardDefaultValue
+	// wchar_t *newDefaultValue;
+	todo("implement");
+	_sub_10AEBF10(keyboard, unused, newDefaultValue);
+}
+
+_extern void _sub_10AEBFD0(Blam::Input::VirtualKeyboard *, void *, wchar_t *);
+void SetVirtualKeyboardTitle(Blam::Input::VirtualKeyboard *keyboard, void *unused, wchar_t *newTitle) // 0x10AEBFD0
+{
+	// `anonymous-namespace'::SetVirtualKeyboardTitle
+	// wchar_t *newTitle;
+	todo("implement");
+	_sub_10AEBFD0(keyboard, unused, newTitle);
+}
+
+_extern void _sub_10AEBF70(Blam::Input::VirtualKeyboard *, void *, wchar_t *);
+void SetVirtualKeyboardDescription(Blam::Input::VirtualKeyboard *keyboard, void *unused, wchar_t *newDescription) // 0x10AEBF70
+{
+	// `anonymous-namespace'::SetVirtualKeyboardDescription
+	// wchar_t *newDescription;
+	todo("implement");
+	_sub_10AEBF70(keyboard, unused, newDescription);
+}
+
+_extern bool _sub_10AEC030(Blam::Input::VirtualKeyboard *, char const *, __int32);
+bool ShowVirtualKeyboard(Blam::Input::VirtualKeyboard *keyboard, char const *file, __int32 line) // 0x10AEC030
+{
+	// `anonymous-namespace'::ShowVirtualKeyboard
+	// __int32 line;
+	todo("implement");
+	bool __result = _sub_10AEC030(keyboard, file, line);
+	return __result;
+}
+
+_extern void _sub_10AEC080(Blam::Input::VirtualKeyboard *);
+void WebVirtualKeyboardHandler(Blam::Input::VirtualKeyboard *keyboard) // 0x10AEC080
+{
+	// `anonymous-namespace'::WebVirtualKeyboardHandler
+	// static ...; // 0x10AEC335
+	// static ...; // 0x10AEC329
+	// static ...; // 0x10AEC31C
+	// static ...; // 0x10AEC30F
+	// static ...; // 0x10AEC308
+	// static ...; // 0x10AEC2CC
+	// static ...; // 0x10AEC2C4
+	// Blam::Input::VirtualKeyboard *keyboard;
+	// Web::Ui::ScreenLayer::SDialogShowParams params;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > defaultValue;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > description;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > templateName;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > title;
+	todo("implement");
+	_sub_10AEC080(keyboard);
+}

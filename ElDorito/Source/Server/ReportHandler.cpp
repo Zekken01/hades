@@ -5,6 +5,8 @@
 #include "ChatCommands/ChatCommandMap.hpp"
 #include "Common/Http/HttpHeaders.hpp"
 #include "Common/Http/HttpRequest.hpp"
+#include "Patches/Core.hpp"
+#include "ThirdParty/HttpRequest.hpp"
 #include "ThirdParty/rapidjson/allocators.h"
 #include "ThirdParty/rapidjson/document.h"
 #include "ThirdParty/rapidjson/encodedstream.h"
@@ -18,9 +20,11 @@
 #include "ThirdParty/rapidjson/internal/strtod.h"
 #include "ThirdParty/rapidjson/memorystream.h"
 #include "ThirdParty/rapidjson/reader.h"
+#include "ThirdParty/rapidjson/stream.h"
 #include "Utils/DewritoReader.hpp"
 #include "Utils/Singleton.hpp"
 #include "Utils/String.hpp"
+#include "Utils/WebSocket.hpp"
 
 #include <boost/asio.hpp>
 #include <boost/assert.hpp>
@@ -42,6 +46,7 @@
 #include <wchar.h>
 #include <algorithm>
 #include <atomic>
+#include <chrono>
 #include <cmath>
 #include <condition_variable>
 #include <cstddef>
@@ -71,10 +76,14 @@
 
 /* ---------- forward declarations */
 
-namespace
+class HttpRequest;
+struct begin;
+struct end;
+namespace hades_file_local
 {
 	struct ReportRequest;
 }
+using namespace hades_file_local;
 
 namespace Utils {}
 using namespace ::Utils;
@@ -104,7 +113,7 @@ namespace Patches
 
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	struct ReportRequest
 	{
@@ -121,6 +130,7 @@ namespace
 	static_assert(sizeof(ReportRequest) == 40, "Invalid ReportRequest size");
 
 }
+using namespace hades_file_local;
 /* ---------- prototypes */
 
 namespace Server
@@ -133,17 +143,26 @@ namespace Server
 	}
 }
 
+void GetEndpoints();
+bool ForwardReportToEndpoint(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &endpoint, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &report);
+void ForwardReportToEndpoints(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &report);
+bool HandleReport(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &token);
+void HandleReports();
+unsigned long HandledReportsThreadProc(void *lpParam);
+void OnShutdown();
+
 /* ---------- globals */
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern std::mutex mutex; // 0x12467960
 	extern std::condition_variable signal; // 0x12467990
 	extern std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > playerReportUrls; // 0x124679B8
 	extern bool shouldExit; // 0x124679D8
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Server
@@ -189,3 +208,188 @@ namespace Server
 }
 
 /* ---------- private code */
+
+_extern void _sub_10B22890();
+void GetEndpoints() // 0x10B22890
+{
+	// `anonymous-namespace'::GetEndpoints
+	// procedure flags: nofpo
+	// static ...; // 0x10B22A0C
+	// static ...; // 0x10B22A00
+	// static ...; // 0x10B229F8
+	// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
+	{
+		// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &urls;
+		{
+			// unsigned __int32 i;
+		}
+	}
+	todo("implement");
+	_sub_10B22890();
+}
+
+_extern bool _sub_10B21ED0(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+bool ForwardReportToEndpoint(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &endpoint, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &report) // 0x10B21ED0
+{
+	// `anonymous-namespace'::ForwardReportToEndpoint
+	// static ...; // 0x10B22604
+	// static ...; // 0x10B225F9
+	// static ...; // 0x10B225F4
+	// static ...; // 0x10B225EC
+	// static ...; // 0x10B225B0
+	// static ...; // 0x10B225A8
+// $LN43:
+// $LN44:
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &endpoint;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &report;
+	// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > expected;
+	// HttpRequest req;
+	// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > statusCode;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > resp;
+	// std::basic_ofstream<char,std::char_traits<char> > logfile;
+	todo("implement");
+	bool __result = _sub_10B21ED0(endpoint, report);
+	return __result;
+}
+
+extern ReportRequest* _sub_10B21560(ReportRequest *const, ReportRequest &);
+_inline ReportRequest::ReportRequest(ReportRequest &__that) // 0x10B21560
+{
+	// `anonymous-namespace'::ReportRequest::ReportRequest
+	// ReportRequest &__that;
+	compiler_generated();
+	todo("implement");
+	_sub_10B21560(this, __that);
+}
+
+extern ReportRequest* _sub_10B215E0(ReportRequest *const, ReportRequest const &);
+_inline ReportRequest::ReportRequest(ReportRequest const &__that) // 0x10B215E0
+{
+	// `anonymous-namespace'::ReportRequest::ReportRequest
+	// ReportRequest const &__that;
+	compiler_generated();
+	todo("implement");
+	_sub_10B215E0(this, __that);
+}
+
+extern ReportRequest* _sub_10B21660(ReportRequest *const);
+_inline ReportRequest::ReportRequest() // 0x10B21660
+{
+	// `anonymous-namespace'::ReportRequest::ReportRequest
+	// ReportRequest *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10B21660(this);
+}
+
+_extern void _sub_10B218B0(ReportRequest *const);
+_inline ReportRequest::~ReportRequest() // 0x10B218B0
+{
+	// `anonymous-namespace'::ReportRequest::~ReportRequest
+	// ReportRequest *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10B218B0(this);
+}
+
+extern ReportRequest &_sub_10B219D0(ReportRequest *const, ReportRequest &);
+_inline ReportRequest &ReportRequest::operator=(ReportRequest &__that) // 0x10B219D0
+{
+	// `anonymous-namespace'::ReportRequest::operator=
+	// ReportRequest &__that;
+	compiler_generated();
+	todo("implement");
+	ReportRequest & __result = _sub_10B219D0(this, __that);
+	return __result;
+}
+
+_extern void _sub_10B227F0(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+void ForwardReportToEndpoints(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &report) // 0x10B227F0
+{
+	// `anonymous-namespace'::ForwardReportToEndpoints
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &report;
+	{
+		// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > &<range>$L0;
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *<begin>$L0;
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *<end>$L0;
+		{
+			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &endpoint;
+		}
+	}
+	todo("implement");
+	_sub_10B227F0(report);
+}
+
+_extern bool _sub_10B22BE0(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+bool HandleReport(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &token) // 0x10B22BE0
+{
+	// `anonymous-namespace'::HandleReport
+	// static ...; // 0x10B23459
+	// static ...; // 0x10B23451
+	// static ...; // 0x10B23448
+	// static ...; // 0x10B2343D
+	// static ...; // 0x10B23438
+	// static ...; // 0x10B23430
+	// static ...; // 0x10B233E8
+	// static ...; // 0x10B233E0
+// $LN39:
+// $LN10:
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &token;
+	// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > expected;
+	// HttpRequest req;
+	// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > statusCode;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > resp;
+	// std::basic_ofstream<char,std::char_traits<char> > logfile;
+	{
+		// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> dewrito;
+	}
+	todo("implement");
+	bool __result = _sub_10B22BE0(token);
+	return __result;
+}
+
+_extern void _sub_10B23680();
+void HandleReports() // 0x10B23680
+{
+	// `anonymous-namespace'::HandleReports
+	// procedure flags: nofpo
+	// static ...; // 0x10B238F4
+	// static ...; // 0x10B238E8
+	// static ...; // 0x10B238E0
+	{
+		// std::_Vector_iterator<std::_Vector_val<std::_Simple_types<ReportRequest> > > it;
+		{
+			// long long deltaTime;
+			// ReportRequest &request;
+		}
+	}
+	todo("implement");
+	_sub_10B23680();
+}
+
+_extern unsigned long _sub_10B239A0(void *);
+unsigned long HandledReportsThreadProc(void *lpParam) // 0x10B239A0
+{
+	// `anonymous-namespace'::HandledReportsThreadProc
+	// static ...; // 0x10B23AC4
+	// static ...; // 0x10B23AC0
+	// static ...; // 0x10B23AA8
+	// static ...; // 0x10B23AA0
+	// void *lpParam;
+	{
+		// std::unique_lock<std::mutex> lk;
+		// std::chrono::time_point<std::chrono::system_clock,std::chrono::duration<__int64,std::ratio<1,10000000> > > now;
+	}
+	todo("implement");
+	unsigned long __result = _sub_10B239A0(lpParam);
+	return __result;
+}
+
+_extern void _sub_10B23BA0();
+void OnShutdown() // 0x10B23BA0
+{
+	// `anonymous-namespace'::OnShutdown
+	// procedure flags: nofpo
+	todo("implement");
+	_sub_10B23BA0();
+}

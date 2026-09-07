@@ -12,6 +12,8 @@
 #include "CommandMap.hpp"
 #include "Common/Http/HttpHeaders.hpp"
 #include "ElDorito.hpp"
+#include "Modules/ModuleInput.hpp"
+#include "Modules/ModuleSettings.hpp"
 #include "Patch.hpp"
 #include "Patches/CustomPackets.hpp"
 #include "Patches/Input.hpp"
@@ -42,6 +44,7 @@
 #include "Utils/Singleton.hpp"
 #include "Utils/String.hpp"
 #include "Web/Ui/Screen.hpp"
+#include "Web/Ui/WebMods.hpp"
 #include "Web/WebRenderer.hpp"
 #include "Web/WebRendererApp.hpp"
 #include "Web/WebRendererHandler.hpp"
@@ -147,8 +150,17 @@
 
 struct begin;
 struct end;
+namespace Blam
+{
+	namespace Input
+	{
+		struct ActionState;
+	}
+}
 namespace Modules
 {
+	class ModuleInput;
+	class ModuleSettings;
 	struct Command;
 }
 namespace Patches
@@ -193,10 +205,11 @@ namespace Web
 		}
 	}
 }
-namespace
+namespace hades_file_local
 {
 	class WebOverlayInputContext;
 }
+using namespace hades_file_local;
 
 namespace Utils {}
 using namespace ::Utils;
@@ -288,7 +301,7 @@ using namespace ::Blam;
 
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	class WebOverlayInputContext :
 		public Patches::Input::InputContext
@@ -309,6 +322,7 @@ namespace
 	};
 	static_assert(sizeof(WebOverlayInputContext) == 8, "Invalid WebOverlayInputContext size");
 }
+using namespace hades_file_local;
 //struct OnUIInputUpdated::__l2::ControllerAxes
 //{
 //	short LeftX; // 0x0
@@ -372,6 +386,20 @@ namespace Web
 	}
 }
 
+void QuickBlockInput();
+void QuickUnblockInput();
+void WindowCreated(HWND__ *window);
+void ShutdownRenderer();
+CefStructBase<CefPlatformEventTraits> MakeCefPlatformEvent(tagMSG *msg);
+void HandleMouseMessage(tagMSG *msg);
+void HandleKeyMessage(tagMSG *msg);
+void GetMsgHookImpl(__int32 code, unsigned __int32 wParam, long lParam);
+long GetMsgHook(__int32 code, unsigned __int32 wParam, long lParam);
+void OnGameInputUpdated();
+void OnUIInputUpdated();
+void OnVariableUpdate(Modules::Command const *command);
+void NotifyVariablesUpdated();
+
 /* ---------- globals */
 
 namespace Web
@@ -388,7 +416,7 @@ namespace Web
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern HHOOK__ *MessageHook; // 0x1247ED28
 	extern bool InputCaptured; // 0x1247ED2C
@@ -400,6 +428,7 @@ namespace
 	extern __int32 g_last_mouse_y; // 0x1247ED38
 	extern char const *ScreenIdString[16]; // 0x11355298
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Web
@@ -709,3 +738,271 @@ namespace Patches
 }
 
 /* ---------- private code */
+
+_extern void _sub_10C92B00(WebOverlayInputContext *const);
+_inline void WebOverlayInputContext::Activated() // 0x10C92B00
+{
+	// `anonymous-namespace'::WebOverlayInputContext::Activated
+	// WebOverlayInputContext *const this;
+	todo("implement");
+	_sub_10C92B00(this);
+}
+
+_extern void _sub_10C93180(WebOverlayInputContext *const);
+_inline void WebOverlayInputContext::Deactivated() // 0x10C93180
+{
+	// `anonymous-namespace'::WebOverlayInputContext::Deactivated
+	// WebOverlayInputContext *const this;
+	todo("implement");
+	_sub_10C93180(this);
+}
+
+_extern bool _sub_10C931A0(WebOverlayInputContext *const);
+_inline bool WebOverlayInputContext::GameInputTick() // 0x10C931A0
+{
+	// `anonymous-namespace'::WebOverlayInputContext::GameInputTick
+	// WebOverlayInputContext *const this;
+	todo("implement");
+	bool __result = _sub_10C931A0(this);
+	return __result;
+}
+
+_extern bool _sub_10C970D0(WebOverlayInputContext *const);
+_inline bool WebOverlayInputContext::UiInputTick() // 0x10C970D0
+{
+	// `anonymous-namespace'::WebOverlayInputContext::UiInputTick
+	// WebOverlayInputContext *const this;
+	todo("implement");
+	bool __result = _sub_10C970D0(this);
+	return __result;
+}
+
+_extern void _sub_10C94110(WebOverlayInputContext *const);
+_inline void WebOverlayInputContext::InputBlock() // 0x10C94110
+{
+	// `anonymous-namespace'::WebOverlayInputContext::InputBlock
+	// WebOverlayInputContext *const this;
+	todo("implement");
+	_sub_10C94110(this);
+}
+
+_extern void _sub_10C941E0(WebOverlayInputContext *const);
+_inline void WebOverlayInputContext::InputUnblock() // 0x10C941E0
+{
+	// `anonymous-namespace'::WebOverlayInputContext::InputUnblock
+	// WebOverlayInputContext *const this;
+	todo("implement");
+	_sub_10C941E0(this);
+}
+
+_extern void _sub_10C95D40();
+void QuickBlockInput() // 0x10C95D40
+{
+	// `anonymous-namespace'::QuickBlockInput
+	// procedure flags: nofpo
+	todo("implement");
+	_sub_10C95D40();
+}
+
+_extern void _sub_10C95D90();
+void QuickUnblockInput() // 0x10C95D90
+{
+	// `anonymous-namespace'::QuickUnblockInput
+	// procedure flags: nofpo
+	todo("implement");
+	_sub_10C95D90();
+}
+
+_extern void _sub_10C972C0(HWND__ *);
+void WindowCreated(HWND__ *window) // 0x10C972C0
+{
+	// `anonymous-namespace'::WindowCreated
+	// HWND__ *window;
+	// unsigned long threadId;
+	// function call : unsigned long (HWND__ *, unsigned long *)
+	// function call : HHOOK__ *(__int32, long (*)(__int32, unsigned __int32, long), HINSTANCE__ *, unsigned long)
+	todo("implement");
+	_sub_10C972C0(window);
+}
+
+_extern void _sub_10C96D40();
+void ShutdownRenderer() // 0x10C96D40
+{
+	// `anonymous-namespace'::ShutdownRenderer
+	// procedure flags: nofpo
+	// static ...; // 0x10C96E99
+	// static ...; // 0x10C96E90
+	// static ...; // 0x10C96E78
+	// static ...; // 0x10C96E70
+	{
+		// std::map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::shared_ptr<Web::Ui::WebScreen>,std::less<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::shared_ptr<Web::Ui::WebScreen> > > > &<range>$L0;
+		// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::shared_ptr<Web::Ui::WebScreen> > > > > <begin>$L0;
+		// std::_Default_sentinel <end>$L0;
+		{
+			// std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::shared_ptr<Web::Ui::WebScreen> > &screen;
+		}
+	}
+	// function call : void ()
+	todo("implement");
+	_sub_10C96D40();
+}
+
+extern CefStructBase<CefPlatformEventTraits> _sub_10C94230(tagMSG *);
+CefStructBase<CefPlatformEventTraits> MakeCefPlatformEvent(tagMSG *msg) // 0x10C94230
+{
+	// `anonymous-namespace'::MakeCefPlatformEvent
+	// static ...; // 0x10C9434C
+	// static ...; // 0x10C94340
+	// static ...; // 0x10C94338
+	// tagMSG *msg;
+	// CefStructBase<CefPlatformEventTraits> event;
+	todo("implement");
+	CefStructBase<CefPlatformEventTraits> __result = _sub_10C94230(msg);
+	return __result;
+}
+
+_extern void _sub_10C939D0(tagMSG *);
+void HandleMouseMessage(tagMSG *msg) // 0x10C939D0
+{
+	// `anonymous-namespace'::HandleMouseMessage
+	// tagMSG *msg;
+	todo("implement");
+	_sub_10C939D0(msg);
+}
+
+_extern void _sub_10C93890(tagMSG *);
+void HandleKeyMessage(tagMSG *msg) // 0x10C93890
+{
+	// `anonymous-namespace'::HandleKeyMessage
+	// tagMSG *msg;
+	todo("implement");
+	_sub_10C93890(msg);
+}
+
+_extern void _sub_10C933A0(__int32, unsigned __int32, long);
+void GetMsgHookImpl(__int32 code, unsigned __int32 wParam, long lParam) // 0x10C933A0
+{
+	// `anonymous-namespace'::GetMsgHookImpl
+	// static ...; // 0x10C9352C
+	// static ...; // 0x10C93520
+	// static ...; // 0x10C93518
+// $LN22:
+// $LN16:
+	// __int32 code;
+	// unsigned __int32 wParam;
+	// long lParam;
+	// std::shared_ptr<Web::Browser::WebRenderer> webRenderer;
+	// tagMSG *msg;
+	todo("implement");
+	_sub_10C933A0(code, wParam, lParam);
+}
+
+_extern long _sub_10C93310(__int32, unsigned __int32, long);
+long GetMsgHook(__int32 code, unsigned __int32 wParam, long lParam) // 0x10C93310
+{
+	// `anonymous-namespace'::GetMsgHook
+	// long lParam;
+	// function call : long (HHOOK__ *, __int32, unsigned __int32, long)
+	todo("implement");
+	long __result = _sub_10C93310(code, wParam, lParam);
+	return __result;
+}
+
+_extern void _sub_10C950F0();
+void OnGameInputUpdated() // 0x10C950F0
+{
+	// `anonymous-namespace'::OnGameInputUpdated
+	// procedure flags: nofpo
+	// static ...; // 0x10C9542C
+	// static ...; // 0x10C95428
+	// static ...; // 0x10C95410
+	// static ...; // 0x10C95408
+	// std::shared_ptr<Web::Browser::WebRenderer> webRenderer;
+	{
+		// char url[256];
+	}
+	// function call : HINSTANCE__ *(HWND__ *, char const *, char const *, char const *, char const *, __int32)
+	todo("implement");
+	_sub_10C950F0();
+}
+
+_extern void _sub_10C95510();
+void OnUIInputUpdated() // 0x10C95510
+{
+	// `anonymous-namespace'::OnUIInputUpdated
+	// procedure flags: nofpo
+	// static ...; // 0x10C95B4E
+	// static ...; // 0x10C95B47
+	// static ...; // 0x10C95B44
+	// static ...; // 0x10C95B20
+	// static ...; // 0x10C95B18
+	// Modules::ModuleSettings &moduleSettings;
+	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
+	// Modules::ModuleInput &moduleInput;
+	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
+	// OnUIInputUpdated::__l2::ControllerAxes &controllerAxes;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > js;
+	{
+		// __int32 i;
+		{
+			// Blam::Input::ActionState *action;
+		}
+	}
+	// function call : long (*const)()
+	// function call : float (*const)()
+	todo("implement");
+	_sub_10C95510();
+}
+
+_extern void _sub_10C95CF0(Modules::Command const *);
+void OnVariableUpdate(Modules::Command const *command) // 0x10C95CF0
+{
+	// `anonymous-namespace'::OnVariableUpdate
+	// Modules::Command const *command;
+	todo("implement");
+	_sub_10C95CF0(command);
+}
+
+_extern void _sub_10C94C80();
+void NotifyVariablesUpdated() // 0x10C94C80
+{
+	// `anonymous-namespace'::NotifyVariablesUpdated
+	// procedure flags: nofpo
+	// static ...; // 0x10C94FFC
+	// static ...; // 0x10C94FF3
+	// static ...; // 0x10C94FEC
+	// static ...; // 0x10C94FD4
+	// static ...; // 0x10C94FCC
+// $LN11:
+// $LN10:
+// $LN9:
+// $LN8:
+	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
+	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
+	{
+		// Modules::Command const &command;
+	}
+	// function call : float (*const)(float)
+	todo("implement");
+	_sub_10C94C80();
+}
+
+extern WebOverlayInputContext* _sub_10C91390(WebOverlayInputContext *const);
+_inline WebOverlayInputContext::WebOverlayInputContext() // 0x10C91390
+{
+	// `anonymous-namespace'::WebOverlayInputContext::WebOverlayInputContext
+	// WebOverlayInputContext *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10C91390(this);
+}
+
+_extern void _sub_10C91DC0(WebOverlayInputContext *const);
+_inline WebOverlayInputContext::~WebOverlayInputContext() // 0x10C91DC0
+{
+	// `anonymous-namespace'::WebOverlayInputContext::~WebOverlayInputContext
+	// WebOverlayInputContext *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10C91DC0(this);
+}

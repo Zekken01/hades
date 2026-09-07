@@ -2,6 +2,7 @@
 
 #include "hades/hades.h"
 
+#include "Blam/ai/actor.hpp"
 #include "Blam/cache/cache_files.hpp"
 #include "Blam/cseries/cseries.hpp"
 #include "Blam/cseries/enums.inl"
@@ -84,14 +85,18 @@ namespace Patches
 	}
 }
 
+void first_person_weapon_offset_hook1_hook();
+void first_person_weapon_offset_hook2_hook();
+
 /* ---------- globals */
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern long g_first_weapon_offset_field_offset; // 0x113532DC
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Patches
@@ -119,3 +124,21 @@ namespace Patches
 }
 
 /* ---------- private code */
+
+extern void _sub_10916880();
+__declspec(naked) void first_person_weapon_offset_hook1_hook() // 0x10916880
+{
+	// `anonymous-namespace'::first_person_weapon_offset_hook1_hook
+	// procedure flags: nofpo
+	todo("implement");
+	_sub_10916880();
+}
+
+extern void _sub_10916890();
+__declspec(naked) void first_person_weapon_offset_hook2_hook() // 0x10916890
+{
+	// `anonymous-namespace'::first_person_weapon_offset_hook2_hook
+	// procedure flags: nofpo
+	todo("implement");
+	_sub_10916890();
+}

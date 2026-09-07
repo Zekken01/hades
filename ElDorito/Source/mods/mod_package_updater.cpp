@@ -193,11 +193,54 @@ enum
 
 extern bool download_mod_package_header(char const *url, s_mod_package_header *out_header, bool use_range);
 
+void shell_allocate_console();
+void shell_free_console(bool dedicated);
+
 /* ---------- globals */
 
 /* ---------- private variables */
 
 /* ---------- public code */
+
+extern c_mod_package_updater_blocking::s_mod_package_description* _sub_108ADB90(c_mod_package_updater_blocking::s_mod_package_description *const, c_mod_package_updater_blocking::s_mod_package_description &);
+_inline c_mod_package_updater_blocking::s_mod_package_description::s_mod_package_description(c_mod_package_updater_blocking::s_mod_package_description &&__that) // 0x108ADB90
+{
+	mangled_x86(MANGLED_TODO, "??0s_mod_package_description@c_mod_package_updater_blocking@@QAE@$$QAU01@@Z");
+	// c_mod_package_updater_blocking::s_mod_package_description &__that;
+	compiler_generated();
+	todo("implement");
+	_sub_108ADB90(this, __that);
+}
+
+extern c_mod_package_updater_blocking::s_mod_package_description* _sub_108ADCD0(c_mod_package_updater_blocking::s_mod_package_description *const, c_mod_package_updater_blocking::s_mod_package_description const &);
+_inline c_mod_package_updater_blocking::s_mod_package_description::s_mod_package_description(c_mod_package_updater_blocking::s_mod_package_description const &__that) // 0x108ADCD0
+{
+	mangled_x86(MANGLED_TODO, "??0s_mod_package_description@c_mod_package_updater_blocking@@QAE@ABU01@@Z");
+	// c_mod_package_updater_blocking::s_mod_package_description const &__that;
+	compiler_generated();
+	todo("implement");
+	_sub_108ADCD0(this, __that);
+}
+
+extern c_mod_package_updater_blocking::s_mod_package_description* _sub_108ADE70(c_mod_package_updater_blocking::s_mod_package_description *const);
+_inline c_mod_package_updater_blocking::s_mod_package_description::s_mod_package_description() // 0x108ADE70
+{
+	mangled_x86(MANGLED_TODO, "??0s_mod_package_description@c_mod_package_updater_blocking@@QAE@XZ");
+	// c_mod_package_updater_blocking::s_mod_package_description *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_108ADE70(this);
+}
+
+_extern void _sub_108ADFE0(c_mod_package_updater_blocking::s_mod_package_description *const);
+_inline c_mod_package_updater_blocking::s_mod_package_description::~s_mod_package_description() // 0x108ADFE0
+{
+	mangled_x86(MANGLED_TODO, "??1s_mod_package_description@c_mod_package_updater_blocking@@QAE@XZ");
+	// c_mod_package_updater_blocking::s_mod_package_description *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_108ADFE0(this);
+}
 
 _extern void _sub_108B1070(c_mod_package_updater_blocking *const, bool, char const *, char const *);
 void c_mod_package_updater_blocking::initialize(bool dedicated, char const *package_list_filename, char const *package_directory) // 0x108B1070
@@ -368,46 +411,6 @@ bool c_mod_package_updater_blocking::update_package(c_mod_package_updater_blocki
 	return __result;
 }
 
-extern c_mod_package_updater_blocking::s_mod_package_description* _sub_108ADB90(c_mod_package_updater_blocking::s_mod_package_description *const, c_mod_package_updater_blocking::s_mod_package_description &);
-_inline c_mod_package_updater_blocking::s_mod_package_description::s_mod_package_description(c_mod_package_updater_blocking::s_mod_package_description &&__that) // 0x108ADB90
-{
-	mangled_x86(MANGLED_TODO, "??0s_mod_package_description@c_mod_package_updater_blocking@@QAE@$$QAU01@@Z");
-	// c_mod_package_updater_blocking::s_mod_package_description &__that;
-	compiler_generated();
-	todo("implement");
-	_sub_108ADB90(this, __that);
-}
-
-extern c_mod_package_updater_blocking::s_mod_package_description* _sub_108ADCD0(c_mod_package_updater_blocking::s_mod_package_description *const, c_mod_package_updater_blocking::s_mod_package_description const &);
-_inline c_mod_package_updater_blocking::s_mod_package_description::s_mod_package_description(c_mod_package_updater_blocking::s_mod_package_description const &__that) // 0x108ADCD0
-{
-	mangled_x86(MANGLED_TODO, "??0s_mod_package_description@c_mod_package_updater_blocking@@QAE@ABU01@@Z");
-	// c_mod_package_updater_blocking::s_mod_package_description const &__that;
-	compiler_generated();
-	todo("implement");
-	_sub_108ADCD0(this, __that);
-}
-
-extern c_mod_package_updater_blocking::s_mod_package_description* _sub_108ADE70(c_mod_package_updater_blocking::s_mod_package_description *const);
-_inline c_mod_package_updater_blocking::s_mod_package_description::s_mod_package_description() // 0x108ADE70
-{
-	mangled_x86(MANGLED_TODO, "??0s_mod_package_description@c_mod_package_updater_blocking@@QAE@XZ");
-	// c_mod_package_updater_blocking::s_mod_package_description *const this;
-	compiler_generated();
-	todo("implement");
-	_sub_108ADE70(this);
-}
-
-_extern void _sub_108ADFE0(c_mod_package_updater_blocking::s_mod_package_description *const);
-_inline c_mod_package_updater_blocking::s_mod_package_description::~s_mod_package_description() // 0x108ADFE0
-{
-	mangled_x86(MANGLED_TODO, "??1s_mod_package_description@c_mod_package_updater_blocking@@QAE@XZ");
-	// c_mod_package_updater_blocking::s_mod_package_description *const this;
-	compiler_generated();
-	todo("implement");
-	_sub_108ADFE0(this);
-}
-
 _extern bool _sub_108B1BF0(c_mod_package_updater_blocking *const);
 bool c_mod_package_updater_blocking::process_queue() // 0x108B1BF0
 {
@@ -435,3 +438,64 @@ bool c_mod_package_updater_blocking::update_packages_blocking() // 0x108B2EF0
 }
 
 /* ---------- private code */
+
+_extern void _sub_108B1F00();
+void shell_allocate_console() // 0x108B1F00
+{
+	// `anonymous-namespace'::shell_allocate_console
+	// procedure flags: nofpo
+	// static ...; // 0x108B2089
+	// static ...; // 0x108B2080
+	// static ...; // 0x108B2078
+	// static ...; // 0x108B2054
+	// static ...; // 0x108B204C
+	// _iobuf *fpStdIn;
+	// long style;
+	// HWND__ *consoleWindow;
+	// _iobuf *fpStdOut;
+	// _iobuf *fpStdErr;
+	// function call : __int32 ()
+	// function call : HWND__ *()
+	// function call : long (HWND__ *, __int32)
+	// function call : long (HWND__ *, __int32, long)
+	// function call : HMENU__ *(HWND__ *, __int32)
+	// function call : __int32 (HMENU__ *, unsigned __int32, unsigned __int32)
+	// function call : __int32 (HWND__ *, HWND__ *, __int32, __int32, __int32, __int32, unsigned __int32)
+	todo("implement");
+	_sub_108B1F00();
+}
+
+_extern void _sub_108B2100(bool);
+void shell_free_console(bool dedicated) // 0x108B2100
+{
+	// `anonymous-namespace'::shell_free_console
+	// static ...; // 0x108B229D
+	// static ...; // 0x108B2294
+	// static ...; // 0x108B228C
+	// static ...; // 0x108B2268
+	// static ...; // 0x108B2260
+	// bool dedicated;
+	// HWND__ *consoleWindow;
+	{
+		// _iobuf *fpStdIn;
+		// _iobuf *fpStdOut;
+		// _iobuf *fpStdErr;
+	}
+	// function call : HWND__ *()
+	// function call : HMENU__ *(HWND__ *, __int32)
+	// function call : __int32 (HMENU__ *, unsigned __int32, unsigned __int32)
+	// function call : __int32 ()
+	todo("implement");
+	_sub_108B2100(dedicated);
+}
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template char const * s_static_string<32>::get_string() const;
+template s_static_string<256>::operator char const *() const;
+template s_static_string<32>::operator char const *() const;
+template void s_static_string<32>::set_wchar(wchar_t const *);

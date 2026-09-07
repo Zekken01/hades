@@ -649,3 +649,13 @@ namespace Server
 }
 
 /* ---------- private code */
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template bool c_enum<enum e_game_results_event_type,char>::operator==(e_game_results_event_type const &) const;
+template c_enum<enum e_damage_reporting_type,long>::operator long() const;
+template c_enum<enum e_game_results_event_type,char>::operator char() const;

@@ -48,10 +48,11 @@ namespace Forge
 	class CForgeAtmosphere;
 	struct ForgeMapModifierProperties;
 }
-namespace
+namespace hades_file_local
 {
 	struct ForgeAtmosphereState;
 }
+using namespace hades_file_local;
 
 namespace Forge {}
 using namespace ::Forge;
@@ -60,7 +61,7 @@ using namespace ::Forge;
 
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	#pragma pack(push, 4)
 	struct ForgeAtmosphereState
@@ -76,6 +77,7 @@ namespace
 	#pragma pack(pop)
 	static_assert(sizeof(ForgeAtmosphereState) == 28, "Invalid ForgeAtmosphereState size");
 }
+using namespace hades_file_local;
 /* ---------- prototypes */
 
 /* ---------- globals */
@@ -133,3 +135,15 @@ namespace Forge
 }
 
 /* ---------- private code */
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template bool c_tag_block<c_atmosphere_setting>::try_get_element(__int32, c_atmosphere_setting **) const;
+template c_atmosphere_setting & c_tag_block<c_atmosphere_setting>::operator[](__int32);
+template c_atmosphere_setting * c_tag_block<c_atmosphere_setting>::get_element(__int32) const;
+template c_flags<enum e_atmosphere_flags,unsigned short> & c_flags<enum e_atmosphere_flags,unsigned short>::operator=(unsigned short const &);
+template c_flags<enum e_atmosphere_flags,unsigned short>::c_flags();

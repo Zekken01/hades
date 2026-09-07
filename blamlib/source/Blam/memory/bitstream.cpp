@@ -520,3 +520,12 @@ void c_bitstream::pop_position(bool restore) // 0x10F01740
 }
 
 /* ---------- private code */
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template bool c_enum<enum c_bitstream::e_state,long>::operator==(c_bitstream::e_state const &) const;
+template c_enum<enum c_bitstream::e_state,long>::c_enum();

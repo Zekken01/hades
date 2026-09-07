@@ -63,6 +63,7 @@
 /* ---------- forward declarations */
 
 struct s_object_data;
+struct s_player_action;
 struct s_player_datum;
 struct s_unit_data;
 
@@ -104,15 +105,22 @@ namespace Patches
 	}
 }
 
+bool HasSprintPlayerTrait(long player_index);
+bool player_is_using_adrenaline(long player_index);
+bool player_can_sprint(long player_index);
+void player_examine_action_hook(long player_index, long unit_index, s_player_action *action);
+void player_sprint_enter_hook(long unit_index, e_unit_messages message);
+
 /* ---------- globals */
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern __int32 sprintState; // 0x11354BFC
 	extern bool sprintUnlimited; // 0x12467417
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Patches
@@ -208,3 +216,91 @@ namespace Patches
 }
 
 /* ---------- private code */
+
+_extern bool _sub_10AD14D0(long);
+bool HasSprintPlayerTrait(long player_index) // 0x10AD14D0
+{
+	// `anonymous-namespace'::HasSprintPlayerTrait
+	// long player_index;
+	// s_player_datum *player;
+	todo("implement");
+	bool __result = _sub_10AD14D0(player_index);
+	return __result;
+}
+
+_extern bool _sub_10AD1B90(long);
+bool player_is_using_adrenaline(long player_index) // 0x10AD1B90
+{
+	// `anonymous-namespace'::player_is_using_adrenaline
+	// long player_index;
+	// s_player_datum *player;
+	{
+		// s_unit_data *unitObject;
+		// e_equipment_type equipment_type;
+		// s_unit_data *eqipObject;
+		{
+			// float activeFraction;
+		}
+	}
+	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
+	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
+	// function call : e_equipment_type (*const)(long, long)
+	// function call : float (*const)(long)
+	// function call : long (*const)(long)
+	todo("implement");
+	bool __result = _sub_10AD1B90(player_index);
+	return __result;
+}
+
+_extern bool _sub_10AD1980(long);
+bool player_can_sprint(long player_index) // 0x10AD1980
+{
+	// `anonymous-namespace'::player_can_sprint
+	// long player_index;
+	// s_player_datum *player;
+	// bool (*const game_is_cooperative)();
+	// function call : bool (*const)(unsigned long)
+	// function call : bool (*)()
+	// function call : bool (*const)()
+	// function call : bool (*const)()
+	todo("implement");
+	bool __result = _sub_10AD1980(player_index);
+	return __result;
+}
+
+_extern void _sub_10AD1B00(long, long, s_player_action *);
+void player_examine_action_hook(long player_index, long unit_index, s_player_action *action) // 0x10AD1B00
+{
+	// `anonymous-namespace'::player_examine_action_hook
+	// s_player_action *action;
+	// constexpr void (*const `player_examine_action_hook'::`2'::player_examine_action)(long, long, s_player_action *); // constant == 5494048
+	// function call : void (*const)(long, long, s_player_action *)
+	todo("implement");
+	_sub_10AD1B00(player_index, unit_index, action);
+}
+
+_extern void _sub_10AD1E10(long, e_unit_messages);
+void player_sprint_enter_hook(long unit_index, e_unit_messages message) // 0x10AD1E10
+{
+	// `anonymous-namespace'::player_sprint_enter_hook
+	// e_unit_messages message;
+	// void (*const unit_send_message_to_first_person)(long, e_unit_messages);
+	// void (*const weapon_stop_reload)(long, bool);
+	// bool (*const weapon_reloading)(long, long, short *);
+	{
+		// s_unit_data *unit;
+		{
+			// long i;
+			{
+				// long weapon_index;
+			}
+		}
+	}
+	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
+	// function call : long (*const)(long, short)
+	// function call : bool (*const)(long, long, short *)
+	// function call : void (*const)(long, bool)
+	// function call : void (*const)(long, e_unit_messages)
+	todo("implement");
+	_sub_10AD1E10(unit_index, message);
+}

@@ -217,3 +217,16 @@ namespace Mods
 }
 
 /* ---------- private code */
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template bool c_tag_block<s_mod_globals_player_character>::try_get_element(__int32, s_mod_globals_player_character **) const;
+template bool c_tag_block<s_mod_globals_player_character_set>::try_get_element(__int32, s_mod_globals_player_character_set **) const;
+template s_mod_globals_player_character * c_tag_block<s_mod_globals_player_character>::get_element(__int32) const;
+template s_mod_globals_player_character const & c_tag_block<s_mod_globals_player_character>::operator[](__int32) const;
+template s_mod_globals_player_character_set & c_tag_block<s_mod_globals_player_character_set>::operator[](__int32);
+template s_mod_globals_player_character_set * c_tag_block<s_mod_globals_player_character_set>::get_element(__int32) const;

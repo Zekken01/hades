@@ -10,10 +10,11 @@
 
 namespace Forge
 {
-	namespace
+	namespace hades_file_local_Forge
 	{
 		struct VertexPosUV;
 	}
+	using namespace hades_file_local_Forge;
 }
 
 /* ---------- constants */
@@ -22,7 +23,7 @@ namespace Forge
 
 namespace Forge
 {
-	namespace
+	namespace hades_file_local_Forge
 	{
 		namespace Geoemetry
 		{
@@ -37,6 +38,7 @@ namespace Forge
 			static_assert(sizeof(Forge::Geoemetry::VertexPosUV) == 20, "Invalid Forge::Geoemetry::VertexPosUV size");
 		}
 	}
+	using namespace hades_file_local_Forge;
 }
 /* ---------- prototypes */
 

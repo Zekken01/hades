@@ -412,3 +412,18 @@ namespace Scripting
 }
 
 /* ---------- private code */
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template bool c_tag_block<s_hs_script>::try_get_element(__int32, s_hs_script **) const;
+template bool c_tag_block<s_hs_script_parameter>::try_get_element(__int32, s_hs_script_parameter **) const;
+template c_enum<enum e_hs_script_type,short>::operator enum e_hs_script_type() const;
+template c_enum<enum e_hs_type,short>::operator enum e_hs_type() const;
+template s_hs_script * c_tag_block<s_hs_script>::get_element(__int32) const;
+template s_hs_script const & c_tag_block<s_hs_script>::operator[](__int32) const;
+template s_hs_script_parameter * c_tag_block<s_hs_script_parameter>::get_element(__int32) const;
+template s_hs_script_parameter const & c_tag_block<s_hs_script_parameter>::operator[](__int32) const;

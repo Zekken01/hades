@@ -164,6 +164,15 @@ namespace Player
 			_sub_107E7110(this, __that);
 		}
 
+		_extern void _sub_107E7620(Player::Emblems::PlayerEmblemFileStream *const);
+		_inline PlayerEmblemFileStream::~PlayerEmblemFileStream() // 0x107E7620
+		{
+			mangled_x86(MANGLED_TODO, "??1PlayerEmblemFileStream@Emblems@Player@@UAE@XZ");
+			// Player::Emblems::PlayerEmblemFileStream *const this;
+			todo("implement");
+			_sub_107E7620(this);
+		}
+
 		extern PlayerEmblemRenderTask* _sub_107E71B0(Player::Emblems::PlayerEmblemRenderTask *const);
 		_inline PlayerEmblemRenderTask::PlayerEmblemRenderTask() // 0x107E71B0
 		{
@@ -219,6 +228,16 @@ namespace Player
 			_sub_107E7BF0(this);
 		}
 
+		_extern bool _sub_107E8130(Player::Emblems::PlayerEmblemFileStream *const, void *, __int32, __int32 *);
+		_inline bool PlayerEmblemFileStream::Read(void *data, __int32 bytesToRead, __int32 *bytesRead) // 0x107E8130
+		{
+			mangled_x86(MANGLED_TODO, "?Read@PlayerEmblemFileStream@Emblems@Player@@UAE_NPAXHPAH@Z");
+			// __int32 *bytesRead;
+			todo("implement");
+			bool __result = _sub_107E8130(this, data, bytesToRead, bytesRead);
+			return __result;
+		}
+
 		extern IPlayerEmblemStream* _sub_107E6E70(Player::Emblems::IPlayerEmblemStream *const);
 		_inline IPlayerEmblemStream::IPlayerEmblemStream() // 0x107E6E70
 		{
@@ -238,6 +257,27 @@ namespace Player
 			// function call : void *()
 			todo("implement");
 			_sub_107E6EA0(this, buff, owner);
+		}
+
+		_extern void _sub_107E7550(Player::Emblems::PlayerEmblemD3DXBufferStream *const);
+		_inline PlayerEmblemD3DXBufferStream::~PlayerEmblemD3DXBufferStream() // 0x107E7550
+		{
+			mangled_x86(MANGLED_TODO, "??1PlayerEmblemD3DXBufferStream@Emblems@Player@@UAE@XZ");
+			// Player::Emblems::PlayerEmblemD3DXBufferStream *const this;
+			// function call : unsigned long ()
+			todo("implement");
+			_sub_107E7550(this);
+		}
+
+		_extern bool _sub_107E8070(Player::Emblems::PlayerEmblemD3DXBufferStream *const, void *, __int32, __int32 *);
+		_inline bool PlayerEmblemD3DXBufferStream::Read(void *data, __int32 bytesToRead, __int32 *bytesRead) // 0x107E8070
+		{
+			mangled_x86(MANGLED_TODO, "?Read@PlayerEmblemD3DXBufferStream@Emblems@Player@@UAE_NPAXHPAH@Z");
+			// __int32 *bytesRead;
+			// __int32 n;
+			todo("implement");
+			bool __result = _sub_107E8070(this, data, bytesToRead, bytesRead);
+			return __result;
 		}
 
 		_extern void _sub_107E7DF0(Player::Emblems::PlayerEmblemRenderTask const &);

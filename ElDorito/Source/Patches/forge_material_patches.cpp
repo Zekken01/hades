@@ -4,15 +4,21 @@
 
 #include "Blam/cseries/cseries.hpp"
 #include "Blam/cseries/enums.inl"
+#include "Blam/forge/forge_globals.hpp"
 #include "Blam/hs/hs.hpp"
 #include "Blam/math/real_math_definitions.hpp"
 #include "Blam/objects/damage.hpp"
+#include "Blam/objects/damage_definitions.hpp"
+#include "Blam/objects/multiplayer_game_objects.hpp"
+#include "Blam/objects/object_types.hpp"
 #include "Blam/objects/objects.hpp"
 #include "Blam/physics/havok_component.hpp"
 #include "Blam/physics/havok_types.hpp"
 #include "Blam/structures/cluster_reference.hpp"
 #include "Blam/tag_files/tag_block.inl"
 #include "Blam/tag_files/tag_groups.hpp"
+#include "ChatCommands/ChatCommandMap.hpp"
+#include "Forge/ForgeObjectProperties.hpp"
 #include "Forge/Geoemetry.hpp"
 #include "Patch.hpp"
 #include "Pointer.hpp"
@@ -46,10 +52,23 @@
 
 /* ---------- forward declarations */
 
-namespace
+class c_havok_component;
+struct hkpEntity;
+struct hkpShape;
+struct real_vector3d;
+struct s_forge_globals_definition;
+struct s_forge_material_type;
+struct s_multiplayer_object_properties;
+struct s_object_data;
+namespace Forge
+{
+	struct ReforgeObjectProperties;
+}
+namespace hades_file_local
 {
 	struct c_global_material_type;
 }
+using namespace hades_file_local;
 
 namespace Forge {}
 using namespace ::Forge;
@@ -63,7 +82,7 @@ namespace Forge
 
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	struct c_global_material_type
 	{
@@ -71,9 +90,16 @@ namespace
 	};
 	static_assert(sizeof(c_global_material_type) == 2, "Invalid c_global_material_type size");
 }
+using namespace hades_file_local;
 /* ---------- prototypes */
 
 extern void forge_material_patches_apply();
+
+bool object_is_reforge_object(long object_index);
+bool reforge_get_object_global_material_override(long object_index, s_forge_material_type **out_type);
+long sub_5E0EA0_hook(void *thisptr, void *unused, short a2, char a3, char a4, __int32 a5, __int32 a6, long object_index, bool a8, long a9, long a10, float a11, float a12, c_global_material_type global_material_type_a, c_global_material_type global_material_type_b);
+c_global_material_type *collision_get_global_material_index(c_global_material_type *global_material_type, long object_index, long material_index);
+void calculate_havok_shape_properties_hook2(hkpShape *shape, hkpEntity *rigidbody, real_vector3d *position, __int32 a4, float *out_friction, float *out_restitution, c_global_material_type *out_global_material_type);
 
 /* ---------- globals */
 
@@ -91,3 +117,90 @@ void forge_material_patches_apply() // 0x109186F0
 }
 
 /* ---------- private code */
+
+_extern bool _sub_10918AD0(long);
+bool object_is_reforge_object(long object_index) // 0x10918AD0
+{
+	// `anonymous-namespace'::object_is_reforge_object
+	// long object_index;
+	todo("implement");
+	bool __result = _sub_10918AD0(object_index);
+	return __result;
+}
+
+_extern bool _sub_10918B20(long, s_forge_material_type **);
+bool reforge_get_object_global_material_override(long object_index, s_forge_material_type **out_type) // 0x10918B20
+{
+	// `anonymous-namespace'::reforge_get_object_global_material_override
+	// s_forge_material_type **out_type;
+	// s_multiplayer_object_properties *multiplayer_properties;
+	// Forge::ReforgeObjectProperties *const reforge_properties;
+	// s_forge_globals_definition *forge_globals;
+	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
+	// function call : s_multiplayer_object_properties *(*const)(unsigned long)
+	todo("implement");
+	bool __result = _sub_10918B20(object_index, out_type);
+	return __result;
+}
+
+_extern long _sub_10918C90(void *, void *, short, char, char, __int32, __int32, long, bool, long, long, float, float, c_global_material_type, c_global_material_type);
+long sub_5E0EA0_hook(void *thisptr, void *unused, short a2, char a3, char a4, __int32 a5, __int32 a6, long object_index, bool a8, long a9, long a10, float a11, float a12, c_global_material_type global_material_type_a, c_global_material_type global_material_type_b) // 0x10918C90
+{
+	// `anonymous-namespace'::sub_5E0EA0_hook
+	// float a11;
+	// float a12;
+	// c_global_material_type global_material_type_a;
+	// c_global_material_type global_material_type_b;
+	// s_forge_material_type *material_override;
+	// constexpr long (*const `sub_5E0EA0_hook'::`2'::sub_5E0EA0)(void *, short, char, char, __int32, __int32, long, bool, long, long, float, float, c_global_material_type, c_global_material_type); // constant == 6164128
+	// function call : long (*const)(void *, short, char, char, __int32, __int32, long, bool, long, long, float, float, c_global_material_type, c_global_material_type)
+	todo("implement");
+	long __result = _sub_10918C90(thisptr, unused, a2, a3, a4, a5, a6, object_index, a8, a9, a10, a11, a12, global_material_type_a, global_material_type_b);
+	return __result;
+}
+
+extern c_global_material_type *_sub_10918610(c_global_material_type *, long, long);
+c_global_material_type *collision_get_global_material_index(c_global_material_type *global_material_type, long object_index, long material_index) // 0x10918610
+{
+	// `anonymous-namespace'::collision_get_global_material_index
+	// static ...; // 0x10918698
+	// c_global_material_type *global_material_type;
+	// long object_index;
+	// long material_index;
+	// constexpr c_global_material_type *(*const `collision_get_global_material_index'::`2'::object_get_material)(c_global_material_type *, __int32, __int32); // constant == 11893056
+	// s_forge_material_type *material_override;
+	// function call : c_global_material_type *(*const)(c_global_material_type *, __int32, __int32)
+	todo("implement");
+	c_global_material_type * __result = _sub_10918610(global_material_type, object_index, material_index);
+	return __result;
+}
+
+_extern void _sub_109184D0(hkpShape *, hkpEntity *, real_vector3d *, __int32, float *, float *, c_global_material_type *);
+void calculate_havok_shape_properties_hook2(hkpShape *shape, hkpEntity *rigidbody, real_vector3d *position, __int32 a4, float *out_friction, float *out_restitution, c_global_material_type *out_global_material_type) // 0x109184D0
+{
+	// `anonymous-namespace'::calculate_havok_shape_properties_hook2
+	// __int32 a4;
+	// float *out_friction;
+	// float *out_restitution;
+	// c_global_material_type *out_global_material_type;
+	// constexpr void (*const `calculate_havok_shape_properties_hook2'::`2'::calculate_havok_shape_properties)(hkpShape *, hkpEntity *, real_vector3d *, __int32, float *, float *, c_global_material_type *); // constant == 7424544
+	// c_havok_component *havok_component;
+	// long havok_component_index;
+	{
+		// s_forge_material_type *material_override;
+	}
+	// function call : void (*const)(hkpShape *, hkpEntity *, real_vector3d *, __int32, float *, float *, c_global_material_type *)
+	// function call : long (*const)(hkpEntity const *)
+	todo("implement");
+	_sub_109184D0(shape, rigidbody, position, a4, out_friction, out_restitution, out_global_material_type);
+}
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template bool c_tag_block<s_forge_material_type>::try_get_element(__int32, s_forge_material_type **) const;
+template s_forge_material_type & c_tag_block<s_forge_material_type>::operator[](__int32);
+template s_forge_material_type * c_tag_block<s_forge_material_type>::get_element(__int32) const;

@@ -26,13 +26,14 @@
 
 /* ---------- forward declarations */
 
-namespace
+namespace hades_file_local
 {
 	struct jpeg_memory_mgr;
 	struct jpeg_compress_struct;
 	struct jpeg_destination_mgr;
 	struct stdvector_destination_mgr;
 }
+using namespace hades_file_local;
 
 namespace Utils {}
 using namespace ::Utils;
@@ -41,7 +42,7 @@ using namespace ::Utils;
 
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	struct jpeg_memory_mgr
 	{
@@ -84,6 +85,7 @@ namespace
 	};
 	static_assert(sizeof(stdvector_destination_mgr) == 24, "Invalid stdvector_destination_mgr size");
 }
+using namespace hades_file_local;
 /* ---------- prototypes */
 
 namespace Utils
@@ -94,6 +96,11 @@ namespace Utils
 		extern void CompressFile(std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > destFilename, __int32 quality, unsigned char const *srcBits, __int32 width, __int32 height);
 	}
 }
+
+void init_stdvector_destination(jpeg_compress_struct *__formal);
+bool empty_stdvector_output_buffer(jpeg_compress_struct *cinfo);
+void term_stdvector_destination(jpeg_compress_struct *cinfo);
+void jpeg_stdvector_dest(jpeg_compress_struct *cinfo, std::vector<unsigned char,std::allocator<unsigned char> > &vec);
 
 /* ---------- globals */
 
@@ -151,3 +158,46 @@ namespace Utils
 }
 
 /* ---------- private code */
+
+_extern void _sub_10754710(jpeg_compress_struct *);
+void init_stdvector_destination(jpeg_compress_struct *__formal) // 0x10754710
+{
+	// `anonymous-namespace'::init_stdvector_destination
+	// jpeg_compress_struct *__formal;
+	todo("implement");
+	_sub_10754710(__formal);
+}
+
+_extern bool _sub_10754630(jpeg_compress_struct *);
+bool empty_stdvector_output_buffer(jpeg_compress_struct *cinfo) // 0x10754630
+{
+	// `anonymous-namespace'::empty_stdvector_output_buffer
+	// jpeg_compress_struct *cinfo;
+	// unsigned __int32 const currentSize;
+	// stdvector_destination_mgr *dest;
+	todo("implement");
+	bool __result = _sub_10754630(cinfo);
+	return __result;
+}
+
+_extern void _sub_10754950(jpeg_compress_struct *);
+void term_stdvector_destination(jpeg_compress_struct *cinfo) // 0x10754950
+{
+	// `anonymous-namespace'::term_stdvector_destination
+	// jpeg_compress_struct *cinfo;
+	// stdvector_destination_mgr *dest;
+	// unsigned __int32 const used_bytes;
+	todo("implement");
+	_sub_10754950(cinfo);
+}
+
+_extern void _sub_10754730(jpeg_compress_struct *, std::vector<unsigned char,std::allocator<unsigned char> > &);
+void jpeg_stdvector_dest(jpeg_compress_struct *cinfo, std::vector<unsigned char,std::allocator<unsigned char> > &vec) // 0x10754730
+{
+	// `anonymous-namespace'::jpeg_stdvector_dest
+	// std::vector<unsigned char,std::allocator<unsigned char> > &vec;
+	// stdvector_destination_mgr *dest;
+	// function call : void *(*)(void *, __int32, unsigned __int32)
+	todo("implement");
+	_sub_10754730(cinfo, vec);
+}

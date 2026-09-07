@@ -65,6 +65,13 @@
 /* ---------- forward declarations */
 
 class VotingOutputHandler;
+namespace Blam
+{
+	namespace Input
+	{
+		struct ActionState;
+	}
+}
 namespace Server
 {
 	namespace Voting
@@ -129,6 +136,12 @@ namespace Patches
 	using namespace Patches::Input;
 }
 
+namespace Blam
+{
+	namespace Network {}
+	using namespace Blam::Network;
+}
+
 namespace Blam {}
 using namespace ::Blam;
 
@@ -163,15 +176,20 @@ namespace Web
 	}
 }
 
+void LifeCycleStateChanged(Blam::Network::LifeCycleState newState);
+void OnUiInputUpdate();
+void OnVotingEnded();
+
 /* ---------- globals */
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern bool currentlyVoting; // 0x1247ED51
 	extern bool temporarilyHidden; // 0x1247ED52
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 extern VotingOutputHandler* _sub_10C9A6B0(VotingOutputHandler *const);
@@ -181,6 +199,16 @@ _inline VotingOutputHandler::VotingOutputHandler() // 0x10C9A6B0
 	// VotingOutputHandler *const this;
 	todo("implement");
 	_sub_10C9A6B0(this);
+}
+
+_extern void _sub_10C9A7F0(VotingOutputHandler *const);
+_inline VotingOutputHandler::~VotingOutputHandler() // 0x10C9A7F0
+{
+	mangled_x86(MANGLED_TODO, "??1VotingOutputHandler@@UAE@XZ");
+	// VotingOutputHandler *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10C9A7F0(this);
 }
 
 namespace Server
@@ -245,3 +273,40 @@ namespace Web
 }
 
 /* ---------- private code */
+
+_extern void _sub_10C9AB00(Blam::Network::LifeCycleState);
+void LifeCycleStateChanged(Blam::Network::LifeCycleState newState) // 0x10C9AB00
+{
+	// `anonymous-namespace'::LifeCycleStateChanged
+	// Blam::Network::LifeCycleState newState;
+	todo("implement");
+	_sub_10C9AB00(newState);
+}
+
+_extern void _sub_10C9B850();
+void OnUiInputUpdate() // 0x10C9B850
+{
+	// `anonymous-namespace'::OnUiInputUpdate
+	// procedure flags: nofpo
+	// unsigned char *(*const c_gui_screen_manager__get_first)(void *, unsigned __int32, __int32);
+	{
+		// Blam::Input::ActionState *action;
+		// unsigned char *widget;
+		// unsigned char *screenManager;
+		{
+			// unsigned __int32 name;
+		}
+	}
+	// function call : unsigned char *(*const)(void *, unsigned __int32, __int32)
+	todo("implement");
+	_sub_10C9B850();
+}
+
+_extern void _sub_10C9BA30();
+void OnVotingEnded() // 0x10C9BA30
+{
+	// `anonymous-namespace'::OnVotingEnded
+	// procedure flags: nofpo
+	todo("implement");
+	_sub_10C9BA30();
+}

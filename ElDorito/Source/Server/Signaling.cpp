@@ -179,12 +179,13 @@ namespace Blam
 		struct Session;
 	}
 }
-namespace
+namespace hades_file_local
 {
 	struct coninfo;
 	struct WebSocketPacketData;
 	class WebSocketPacketHandler;
 }
+using namespace hades_file_local;
 
 namespace Utils {}
 using namespace ::Utils;
@@ -291,7 +292,7 @@ using namespace ::Blam;
 
 /* ---------- constants */
 
-namespace
+namespace hades_file_local
 {
 	enum RejectionReason
 	{
@@ -300,9 +301,10 @@ namespace
 		eNone,
 	};
 }
+using namespace hades_file_local;
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	struct coninfo
 	{
@@ -354,6 +356,7 @@ namespace
 	static_assert(sizeof(WebSocketPacketHandler) == 4, "Invalid WebSocketPacketHandler size");
 
 }
+using namespace hades_file_local;
 typedef char const *LPCCH;
 typedef wchar_t const *LPCWCH;
 namespace Patches
@@ -381,11 +384,22 @@ namespace Server
 	}
 }
 
+void LifeCycleChanged(Blam::Network::LifeCycleState state);
+std::basic_string<char,std::char_traits<char>,std::allocator<char> > ServerPortJson();
+void ForceStopServer();
+bool OnValidate(websocketpp::server<Utils::WebSocket::Config> *signalServer, std::weak_ptr<void> hdl);
+void HandleMessage(websocketpp::server<Utils::WebSocket::Config> *signalServer, std::weak_ptr<void> hdl, std::shared_ptr<websocketpp::message_buffer::message<websocketpp::message_buffer::alloc::con_msg_manager> > msg);
+void OnMessage(websocketpp::server<Utils::WebSocket::Config> *signalServer, std::weak_ptr<void> hdl, std::shared_ptr<websocketpp::message_buffer::message<websocketpp::message_buffer::alloc::con_msg_manager> > msg);
+void OnClose(websocketpp::server<Utils::WebSocket::Config> *signalServer, std::weak_ptr<void> hdl);
+RejectionReason ProcessPassword(char const *echo, coninfo &info);
+void CreatePasswords();
+void ResetPassword(__int32 peerIndex);
+
 /* ---------- globals */
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > authStrings[17]; // 0x12468290
 	extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > currentPassword; // 0x12468268
@@ -393,6 +407,7 @@ namespace
 	extern websocketpp::server<Utils::WebSocket::Config> signalServer; // 0x12467F80
 	extern rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> iceServers; // 0x12468470
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Server
@@ -561,3 +576,297 @@ namespace Server
 }
 
 /* ---------- private code */
+
+_extern void _sub_10C2E670(Blam::Network::LifeCycleState);
+void LifeCycleChanged(Blam::Network::LifeCycleState state) // 0x10C2E670
+{
+	// `anonymous-namespace'::LifeCycleChanged
+	// Blam::Network::LifeCycleState state;
+	todo("implement");
+	_sub_10C2E670(state);
+}
+
+_extern void _sub_10C2FD80(WebSocketPacketHandler *const, Blam::BitStream *, WebSocketPacketData const *);
+void WebSocketPacketHandler::Serialize(Blam::BitStream *stream, WebSocketPacketData const *data) // 0x10C2FD80
+{
+	// `anonymous-namespace'::WebSocketPacketHandler::Serialize
+	// WebSocketPacketData const *data;
+	todo("implement");
+	_sub_10C2FD80(this, stream, data);
+}
+
+_extern bool _sub_10C2CCF0(WebSocketPacketHandler *const, Blam::BitStream *, WebSocketPacketData *);
+bool WebSocketPacketHandler::Deserialize(Blam::BitStream *stream, WebSocketPacketData *data) // 0x10C2CCF0
+{
+	// `anonymous-namespace'::WebSocketPacketHandler::Deserialize
+	// WebSocketPacketData *data;
+	todo("implement");
+	bool __result = _sub_10C2CCF0(this, stream, data);
+	return __result;
+}
+
+_extern void _sub_10C2E030(WebSocketPacketHandler *const, Blam::Network::ObserverChannel *, Patches::CustomPackets::Packet<WebSocketPacketData> const *);
+void WebSocketPacketHandler::HandlePacket(Blam::Network::ObserverChannel *sender, Patches::CustomPackets::Packet<WebSocketPacketData> const *packet) // 0x10C2E030
+{
+	// `anonymous-namespace'::WebSocketPacketHandler::HandlePacket
+	// Patches::CustomPackets::Packet<WebSocketPacketData> const *packet;
+	// Blam::Network::Session *session;
+	// __int32 sendingPeer;
+	todo("implement");
+	_sub_10C2E030(this, sender, packet);
+}
+
+extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10C2FE80();
+std::basic_string<char,std::char_traits<char>,std::allocator<char> > ServerPortJson() // 0x10C2FE80
+{
+	// `anonymous-namespace'::ServerPortJson
+	// procedure flags: nofpo
+	// static ...; // 0x10C3033A
+	// static ...; // 0x10C30333
+	// static ...; // 0x10C30330
+	// static ...; // 0x10C3030C
+	// static ...; // 0x10C30304
+	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
+	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > ip;
+	// Blam::Network::Session *session;
+	todo("implement");
+	std::string __result = _sub_10C2FE80();
+	return __result;
+}
+
+_extern void _sub_10C2CE00();
+void ForceStopServer() // 0x10C2CE00
+{
+	// `anonymous-namespace'::ForceStopServer
+	// procedure flags: nofpo
+	todo("implement");
+	_sub_10C2CE00();
+}
+
+_extern bool _sub_10C2ED70(websocketpp::server<Utils::WebSocket::Config> *, std::weak_ptr<void>);
+bool OnValidate(websocketpp::server<Utils::WebSocket::Config> *signalServer, std::weak_ptr<void> hdl) // 0x10C2ED70
+{
+	// `anonymous-namespace'::OnValidate
+	// static ...; // 0x10C2EF6D
+	// static ...; // 0x10C2EF68
+	// static ...; // 0x10C2EF44
+	// static ...; // 0x10C2EF3C
+	// websocketpp::server<Utils::WebSocket::Config> *signalServer;
+	// std::weak_ptr<void> hdl;
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > subprotocols;
+	// coninfo info;
+	// std::shared_ptr<websocketpp::connection<Utils::WebSocket::Config> > connection;
+	todo("implement");
+	bool __result = _sub_10C2ED70(signalServer, hdl);
+	return __result;
+}
+
+_extern void _sub_10C2CF50(websocketpp::server<Utils::WebSocket::Config> *, std::weak_ptr<void>, std::shared_ptr<websocketpp::message_buffer::message<websocketpp::message_buffer::alloc::con_msg_manager> >);
+void HandleMessage(websocketpp::server<Utils::WebSocket::Config> *signalServer, std::weak_ptr<void> hdl, std::shared_ptr<websocketpp::message_buffer::message<websocketpp::message_buffer::alloc::con_msg_manager> > msg) // 0x10C2CF50
+{
+	// `anonymous-namespace'::HandleMessage
+	// static ...; // 0x10C2DCBA
+	// static ...; // 0x10C2DCB6
+	// static ...; // 0x10C2DCB0
+	// static ...; // 0x10C2DCA9
+	// static ...; // 0x10C2DCA2
+	// static ...; // 0x10C2DC9B
+	// static ...; // 0x10C2DC90
+	// static ...; // 0x10C2DC87
+	// static ...; // 0x10C2DC82
+	// static ...; // 0x10C2DC7B
+	// static ...; // 0x10C2DC74
+	// static ...; // 0x10C2DC6D
+	// static ...; // 0x10C2DC62
+	// static ...; // 0x10C2DC59
+	// static ...; // 0x10C2DC54
+	// static ...; // 0x10C2DB88
+	// static ...; // 0x10C2DB80
+	// websocketpp::server<Utils::WebSocket::Config> *signalServer;
+	// std::weak_ptr<void> hdl;
+	// std::shared_ptr<websocketpp::message_buffer::message<websocketpp::message_buffer::alloc::con_msg_manager> > msg;
+	// std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > > it;
+	// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> doc;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > proto;
+	// rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> &allocator;
+	{
+		// RejectionReason reject;
+		{
+			// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
+			// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
+		}
+	}
+	{
+		// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
+		// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > setUid;
+		// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
+		{
+			// std::map<std::weak_ptr<void>,coninfo,std::owner_less<std::weak_ptr<void> >,std::allocator<std::pair<std::weak_ptr<void> const ,coninfo> > > &<range>$L0;
+			// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > > <begin>$L0;
+			// std::_Default_sentinel <end>$L0;
+			{
+				// std::pair<std::weak_ptr<void> const ,coninfo> peer;
+			}
+		}
+	}
+	{
+		{
+			// std::_Default_sentinel <end>$L1;
+			// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > > <begin>$L1;
+			// std::map<std::weak_ptr<void>,coninfo,std::owner_less<std::weak_ptr<void> >,std::allocator<std::pair<std::weak_ptr<void> const ,coninfo> > > &<range>$L1;
+			{
+			}
+		}
+	}
+	todo("implement");
+	_sub_10C2CF50(signalServer, hdl, msg);
+}
+
+_extern void _sub_10C2EBC0(websocketpp::server<Utils::WebSocket::Config> *, std::weak_ptr<void>, std::shared_ptr<websocketpp::message_buffer::message<websocketpp::message_buffer::alloc::con_msg_manager> >);
+void OnMessage(websocketpp::server<Utils::WebSocket::Config> *signalServer, std::weak_ptr<void> hdl, std::shared_ptr<websocketpp::message_buffer::message<websocketpp::message_buffer::alloc::con_msg_manager> > msg) // 0x10C2EBC0
+{
+	// `anonymous-namespace'::OnMessage
+	// static ...; // 0x10C2ECF8
+// $LN12:
+	// websocketpp::server<Utils::WebSocket::Config> *signalServer;
+	// std::weak_ptr<void> hdl;
+	// std::shared_ptr<websocketpp::message_buffer::message<websocketpp::message_buffer::alloc::con_msg_manager> > msg;
+	{
+		// std::exception const &e;
+	}
+	// function call : char const *() const
+	todo("implement");
+	_sub_10C2EBC0(signalServer, hdl, msg);
+}
+
+_extern void _sub_10C2E730(websocketpp::server<Utils::WebSocket::Config> *, std::weak_ptr<void>);
+void OnClose(websocketpp::server<Utils::WebSocket::Config> *signalServer, std::weak_ptr<void> hdl) // 0x10C2E730
+{
+	// `anonymous-namespace'::OnClose
+	// static ...; // 0x10C2EACB
+	// static ...; // 0x10C2EAC4
+	// static ...; // 0x10C2EABB
+	// static ...; // 0x10C2EAB0
+	// static ...; // 0x10C2EAA7
+	// static ...; // 0x10C2EAA0
+	// static ...; // 0x10C2EA4C
+	// static ...; // 0x10C2EA44
+	// websocketpp::server<Utils::WebSocket::Config> *signalServer;
+	// std::weak_ptr<void> hdl;
+	// std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > > it;
+	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
+	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > subproto;
+	{
+		// std::map<std::weak_ptr<void>,coninfo,std::owner_less<std::weak_ptr<void> >,std::allocator<std::pair<std::weak_ptr<void> const ,coninfo> > > &<range>$L0;
+		// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > > <begin>$L0;
+		// std::_Default_sentinel <end>$L0;
+		{
+			// std::pair<std::weak_ptr<void> const ,coninfo> client;
+		}
+	}
+	todo("implement");
+	_sub_10C2E730(signalServer, hdl);
+}
+
+extern RejectionReason _sub_10C2F010(char const *, coninfo &);
+RejectionReason ProcessPassword(char const *echo, coninfo &info) // 0x10C2F010
+{
+	// `anonymous-namespace'::ProcessPassword
+	// static ...; // 0x10C2F2FB
+	// static ...; // 0x10C2F2F8
+	// static ...; // 0x10C2F2D4
+	// static ...; // 0x10C2F2CC
+	// char const *echo;
+	// coninfo &info;
+	// Blam::Network::Session *session;
+	// __int32 peerIdx;
+	{
+		// char uid[17];
+		// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > name;
+	}
+	todo("implement");
+	RejectionReason __result = _sub_10C2F010(echo, info);
+	return __result;
+}
+
+_extern void _sub_10C2CC60();
+void CreatePasswords() // 0x10C2CC60
+{
+	// `anonymous-namespace'::CreatePasswords
+	// procedure flags: nofpo
+	{
+		// __int32 i;
+	}
+	todo("implement");
+	_sub_10C2CC60();
+}
+
+_extern void _sub_10C2FB60(__int32);
+void ResetPassword(__int32 peerIndex) // 0x10C2FB60
+{
+	// `anonymous-namespace'::ResetPassword
+	// __int32 peerIndex;
+	todo("implement");
+	_sub_10C2FB60(peerIndex);
+}
+
+extern WebSocketPacketHandler* _sub_10C2B4F0(WebSocketPacketHandler *const);
+_inline WebSocketPacketHandler::WebSocketPacketHandler() // 0x10C2B4F0
+{
+	// `anonymous-namespace'::WebSocketPacketHandler::WebSocketPacketHandler
+	// WebSocketPacketHandler *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10C2B4F0(this);
+}
+
+extern coninfo* _sub_10C2B550(coninfo *const, coninfo &);
+_inline coninfo::coninfo(coninfo &__that) // 0x10C2B550
+{
+	// `anonymous-namespace'::coninfo::coninfo
+	// coninfo &__that;
+	compiler_generated();
+	todo("implement");
+	_sub_10C2B550(this, __that);
+}
+
+extern coninfo* _sub_10C2B600(coninfo *const, coninfo const &);
+_inline coninfo::coninfo(coninfo const &__that) // 0x10C2B600
+{
+	// `anonymous-namespace'::coninfo::coninfo
+	// coninfo const &__that;
+	compiler_generated();
+	todo("implement");
+	_sub_10C2B600(this, __that);
+}
+
+_extern void _sub_10C2BF80(WebSocketPacketHandler *const);
+_inline WebSocketPacketHandler::~WebSocketPacketHandler() // 0x10C2BF80
+{
+	// `anonymous-namespace'::WebSocketPacketHandler::~WebSocketPacketHandler
+	// WebSocketPacketHandler *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10C2BF80(this);
+}
+
+_extern void _sub_10C2BFD0(coninfo *const);
+_inline coninfo::~coninfo() // 0x10C2BFD0
+{
+	// `anonymous-namespace'::coninfo::~coninfo
+	// coninfo *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10C2BFD0(this);
+}
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template void Blam::BitStream::WriteUnsigned<unsigned short>(unsigned short, unsigned short, unsigned short);

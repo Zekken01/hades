@@ -237,6 +237,8 @@ namespace Patches
 	extern void Tick();
 }
 
+void UnprotectMemory();
+
 /* ---------- globals */
 
 /* ---------- private variables */
@@ -308,3 +310,20 @@ namespace Patches
 }
 
 /* ---------- private code */
+
+_extern void _sub_109686B0();
+void UnprotectMemory() // 0x109686B0
+{
+	// `anonymous-namespace'::UnprotectMemory
+	// procedure flags: nofpo
+	// static ...; // 0x1096876C
+	// static ...; // 0x10968760
+	// static ...; // 0x10968758
+	// unsigned __int32 Total;
+	// _MEMORY_BASIC_INFORMATION MemInfo;
+	// unsigned __int32 Offset;
+	// function call : unsigned long (void const *, _MEMORY_BASIC_INFORMATION *, unsigned long)
+	// function call : __int32 (void *, unsigned long, unsigned long, unsigned long *)
+	todo("implement");
+	_sub_109686B0();
+}

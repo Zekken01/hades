@@ -26,15 +26,20 @@
 #include "Blam/tag_files/file_reference.inl"
 #include "Blam/tag_files/files.hpp"
 #include "Blam/tag_files/tag_groups.hpp"
+#include "ChatCommands/ChatCommandMap.hpp"
 #include "CommandMap.hpp"
+#include "Common/Http/HttpHeaders.hpp"
 #include "Common/Http/HttpRequest.hpp"
 #include "Console/Console.hpp"
 #include "ElDorito.hpp"
+#include "Forge/ForgeUndo.hpp"
+#include "Forge/ObjectSet.hpp"
 #include "mods/FileSystem/ModPackageFileSystemView.hpp"
 #include "mods/mod_identifier.hpp"
 #include "mods/mod_package_manager.hpp"
 #include "mods/new/IModManager.hpp"
 #include "Modules/ModuleBase.hpp"
+#include "Modules/ModulePlayer.hpp"
 #include "Patches/Network.hpp"
 #include "Pointer.hpp"
 #include "Server/BanList.hpp"
@@ -44,6 +49,7 @@
 #include "Server/StatsServerBanList.hpp"
 #include "Server/Voting/VotingPackets.hpp"
 #include "Server/Voting/VotingTypes.hpp"
+#include "ThirdParty/HttpRequest.hpp"
 #include "ThirdParty/rapidjson/allocators.h"
 #include "ThirdParty/rapidjson/document.h"
 #include "ThirdParty/rapidjson/encodedstream.h"
@@ -65,9 +71,12 @@
 #include "ThirdParty/rapidjson/writer.h"
 #include "Utils/DewritoReader.hpp"
 #include "Utils/Macros.hpp"
+#include "Utils/NameValueTable.hpp"
 #include "Utils/Singleton.hpp"
 #include "Utils/StlUtil.hpp"
 #include "Utils/String.hpp"
+#include "Utils/WebSocket.hpp"
+#include "Web/Bridge/WebRendererQueryHandler.hpp"
 
 #include <boost/asio.hpp>
 #include <boost/assert.hpp>
@@ -129,13 +138,32 @@
 
 /* ---------- forward declarations */
 
+class CModPackageFileSystemView;
+class HttpRequest;
 class c_mod_package_manager;
 struct SServerConnectOptions;
+struct begin;
+struct end;
+namespace Blam
+{
+	namespace Network
+	{
+		struct NetworkAddress;
+		struct PlayerSession;
+		struct Session;
+		struct SessionMembership;
+	}
+}
 namespace Modules
 {
 	class ModuleBase;
+	class ModulePlayer;
 	class ModuleServer;
 	struct Command;
+}
+namespace Server
+{
+	class BanList;
 }
 
 namespace Utils {}
@@ -198,6 +226,12 @@ namespace Patches
 	using namespace Patches::Tweaks;
 }
 
+namespace Blam
+{
+	namespace Network {}
+	using namespace Blam::Network;
+}
+
 namespace Console {}
 using namespace ::Console;
 namespace PersistentMemory {}
@@ -212,7 +246,7 @@ namespace Blam
 
 /* ---------- constants */
 
-namespace
+namespace hades_file_local
 {
 	enum KickType
 	{
@@ -221,9 +255,79 @@ namespace
 		TempBan,
 	};
 }
+using namespace hades_file_local;
 /* ---------- definitions */
 
 /* ---------- prototypes */
+
+bool VarServerNameUpdated(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool VariablePostGameFadeDelayUpdate(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool VariableServerCountdownUpdate(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool VariableServerMaxPlayersUpdate(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool VariableServerGamePortUpdate(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+void GetEndpoints(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > &destVect, std::basic_string<char,std::char_traits<char>,std::allocator<char> > endpointType);
+bool GetEndpoint(std::basic_string<char,std::char_traits<char>,std::allocator<char> > endpointName, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+unsigned long CommandServerAnnounce_Thread(void *lpParam);
+unsigned long CommandServerUnannounce_Thread(void *lpParam);
+bool CommandServerAnnounce(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandServerUnannounce(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool VariableServerShouldAnnounceUpdate(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandServerConnect(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+__int32 FindPlayerByName(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name, bool findPeer);
+std::vector<int,std::allocator<int> > FindPlayersByUid(unsigned long long uid);
+void BanIp(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &ip);
+void BanUid(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &playerUid);
+void BanName(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name);
+void TempBanIP(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &ip);
+bool UnbanIp(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &ip);
+bool UnbanUid(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &playerUid);
+bool UnbanName(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name);
+bool DoKickPlayerCommand(KickType type, std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool DoKickUidCommand(KickType type, std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool DoKickIndexCommand(KickType type, std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandServerKickPlayer(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandServerBanPlayer(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandServerKickPlayerUid(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandServerTempBanPlayer(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandServerTempBanPlayerUid(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandServerBanPlayerUid(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandServerKickPlayerIndex(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandServerBanPlayerIndex(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandServerKickBan(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandServerBan(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandServerUnban(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandServerMutePlayer(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandServerUnmutePlayer(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandServerClearAllMutes(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandServerClearTempBans(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandServerRemoveTempBan(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandServerListTempBans(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandServerListPlayers(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandServerListPlayersJSON(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandServerMode(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandServerLobbyType(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandServerPing(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandServerShuffleTeams(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandServerGetEndpoint(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+void PongReceived(Blam::Network::NetworkAddress const &from, unsigned __int32 timestamp, unsigned short id, unsigned __int32 latency);
+bool HitmarkersEnabledChanged(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool SprintStateChanged(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool BottomlessClipEnabledChanged(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool UnlimitedSprintEnabledChanged(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandServerSubmitVote(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandServerSay(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandServerPM(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool EncryptMessageWithPublicKey(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandWebsocketInfo(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+void UpdatePersistentMod(std::basic_string<char,std::char_traits<char>,std::allocator<char> > mod);
+bool CommandLoadMod(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandListMods(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandListModInfo(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandListModFiles(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandEnumerateMods(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandDeleteMod(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool VariablePlayersInfoClientUpdate(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandRefreshServerFilters(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
 
 /* ---------- globals */
 
@@ -231,26 +335,29 @@ namespace
 
 namespace Server
 {
-	namespace
+	namespace hades_file_local_Server
 	{
 		extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > DefaultBanListPath; // 0x12456040
 	}
+	using namespace hades_file_local_Server;
 }
 namespace Server
 {
 	namespace Voting
 	{
-		namespace
+		namespace hades_file_local_Server_Voting
 		{
 			extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > const DefaultTypes[8]; // 0x12455E80
 			extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > const DefaultTypeNames[8]; // 0x12455F60
 		}
+		using namespace hades_file_local_Server_Voting;
 	}
 }
-namespace
+namespace hades_file_local
 {
 	extern unsigned short PingId; // 0x1245605C
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Modules
@@ -398,3 +505,1266 @@ namespace Modules
 }
 
 /* ---------- private code */
+
+_extern bool _sub_10A148A0(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool VarServerNameUpdated(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A148A0
+{
+	// `anonymous-namespace'::VarServerNameUpdated
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	todo("implement");
+	bool __result = _sub_10A148A0(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A14A50(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool VariablePostGameFadeDelayUpdate(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A14A50
+{
+	// `anonymous-namespace'::VariablePostGameFadeDelayUpdate
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// unsigned long seconds;
+	todo("implement");
+	bool __result = _sub_10A14A50(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A14B50(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool VariableServerCountdownUpdate(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A14B50
+{
+	// `anonymous-namespace'::VariableServerCountdownUpdate
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// unsigned long offset;
+	// unsigned long seconds;
+	todo("implement");
+	bool __result = _sub_10A14B50(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A15010(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool VariableServerMaxPlayersUpdate(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A15010
+{
+	// `anonymous-namespace'::VariableServerMaxPlayersUpdate
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// char (*network_squad_session_set_maximum_player_count)(__int32);
+	// function call : char (*)(__int32)
+	todo("implement");
+	bool __result = _sub_10A15010(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A14FC0(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool VariableServerGamePortUpdate(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A14FC0
+{
+	// `anonymous-namespace'::VariableServerGamePortUpdate
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	todo("implement");
+	bool __result = _sub_10A14FC0(Arguments, returnInfo);
+	return __result;
+}
+
+_extern void _sub_10A136F0(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > &, std::string);
+void GetEndpoints(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > &destVect, std::basic_string<char,std::char_traits<char>,std::allocator<char> > endpointType) // 0x10A136F0
+{
+	// `anonymous-namespace'::GetEndpoints
+	// static ...; // 0x10A1386C
+	// static ...; // 0x10A13864
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > &destVect;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > endpointType;
+	{
+		// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
+		{
+			// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &mastersArray;
+			{
+				// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > *it;
+			}
+		}
+	}
+	todo("implement");
+	_sub_10A136F0(destVect, endpointType);
+}
+
+_extern bool _sub_10A132A0(std::string, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool GetEndpoint(std::basic_string<char,std::char_traits<char>,std::allocator<char> > endpointName, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A132A0
+{
+	// `anonymous-namespace'::GetEndpoint
+	// static ...; // 0x10A13600
+	// static ...; // 0x10A135F9
+	// static ...; // 0x10A135F0
+	// static ...; // 0x10A135C0
+	// static ...; // 0x10A135B8
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > endpointName;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	{
+		// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
+		{
+			// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
+			// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
+			// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &mastersArray;
+			{
+				// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > *it;
+			}
+		}
+		{
+			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > endpoint;
+		}
+	}
+	todo("implement");
+	bool __result = _sub_10A132A0(endpointName, returnInfo);
+	return __result;
+}
+
+_extern unsigned long _sub_10A09A70(void *);
+unsigned long CommandServerAnnounce_Thread(void *lpParam) // 0x10A09A70
+{
+	// `anonymous-namespace'::CommandServerAnnounce_Thread
+	// static ...; // 0x10A0A82F
+	// static ...; // 0x10A0A81D
+	// static ...; // 0x10A0A816
+	// static ...; // 0x10A0A812
+	// static ...; // 0x10A0A809
+	// static ...; // 0x10A0A801
+	// static ...; // 0x10A0A7FC
+	// static ...; // 0x10A0A7F7
+	// static ...; // 0x10A0A7F0
+	// static ...; // 0x10A0A784
+	// static ...; // 0x10A0A77C
+// $LN47:
+// $LN49:
+	// void *lpParam;
+	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > errors;
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > announceEndpoints;
+	{
+		// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > &<range>$L0;
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *<begin>$L0;
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *<end>$L0;
+		{
+			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > server;
+			{
+				// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > respHdr;
+				// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
+				// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > expected;
+				// HttpRequest req;
+				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > resp;
+				// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &result;
+			}
+		}
+	}
+	// function call : unsigned long ()
+	todo("implement");
+	unsigned long __result = _sub_10A09A70(lpParam);
+	return __result;
+}
+
+_extern unsigned long _sub_10A0F2D0(void *);
+unsigned long CommandServerUnannounce_Thread(void *lpParam) // 0x10A0F2D0
+{
+	// `anonymous-namespace'::CommandServerUnannounce_Thread
+	// static ...; // 0x10A100CF
+	// static ...; // 0x10A100BD
+	// static ...; // 0x10A100B6
+	// static ...; // 0x10A100B2
+	// static ...; // 0x10A100A9
+	// static ...; // 0x10A100A1
+	// static ...; // 0x10A1009C
+	// static ...; // 0x10A10097
+	// static ...; // 0x10A10090
+	// static ...; // 0x10A10024
+	// static ...; // 0x10A1001C
+// $LN48:
+// $LN50:
+	// void *lpParam;
+	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > errors;
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > announceEndpoints;
+	{
+		// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > &<range>$L0;
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *<begin>$L0;
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *<end>$L0;
+		{
+			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > server;
+			{
+				// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > respHdr;
+				// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
+				// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > expected;
+				// HttpRequest req;
+				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > resp;
+				// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &result;
+			}
+		}
+	}
+	// function call : unsigned long ()
+	todo("implement");
+	unsigned long __result = _sub_10A0F2D0(lpParam);
+	return __result;
+}
+
+_extern bool _sub_10A09760(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandServerAnnounce(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A09760
+{
+	// `anonymous-namespace'::CommandServerAnnounce
+	// static ...; // 0x10A099BC
+	// static ...; // 0x10A099B4
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	{
+		// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
+		{
+			// void *thread;
+		}
+	}
+	// function call : void *(_SECURITY_ATTRIBUTES *, unsigned long, unsigned long (*)(void *), void *, unsigned long, unsigned long *)
+	todo("implement");
+	bool __result = _sub_10A09760(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A0F240(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandServerUnannounce(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A0F240
+{
+	// `anonymous-namespace'::CommandServerUnannounce
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// void *thread;
+	// function call : void *(_SECURITY_ATTRIBUTES *, unsigned long, unsigned long (*)(void *), void *, unsigned long, unsigned long *)
+	todo("implement");
+	bool __result = _sub_10A0F240(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A15090(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool VariableServerShouldAnnounceUpdate(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A15090
+{
+	// `anonymous-namespace'::VariableServerShouldAnnounceUpdate
+	// static ...; // 0x10A15158
+	// static ...; // 0x10A15150
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > returnValueIgnored;
+	todo("implement");
+	bool __result = _sub_10A15090(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A0B280(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandServerConnect(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A0B280
+{
+	// `anonymous-namespace'::CommandServerConnect
+	// static ...; // 0x10A0B676
+	// static ...; // 0x10A0B671
+	// static ...; // 0x10A0B66C
+	// static ...; // 0x10A0B664
+	// static ...; // 0x10A0B628
+	// static ...; // 0x10A0B620
+// $LN19:
+// $LN8:
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// SServerConnectOptions options;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > host;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > password;
+	// unsigned __int32 rawIpaddr;
+	// __int32 httpPort;
+	// unsigned __int32 portOffset;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > address;
+	{
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > port;
+	}
+	todo("implement");
+	bool __result = _sub_10A0B280(Arguments, returnInfo);
+	return __result;
+}
+
+_extern __int32 _sub_10A12E90(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, bool);
+__int32 FindPlayerByName(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name, bool findPeer) // 0x10A12E90
+{
+	// `anonymous-namespace'::FindPlayerByName
+	// bool findPeer;
+	// Blam::Network::SessionMembership *membership;
+	// Blam::Network::Session *session;
+	{
+		// __int32 peerIdx;
+		{
+			// Blam::Network::PlayerSession *player;
+			// __int32 playerIdx;
+		}
+	}
+	todo("implement");
+	__int32 __result = _sub_10A12E90(name, findPeer);
+	return __result;
+}
+
+extern std::vector<int,std::allocator<int> > _sub_10A13040(unsigned long long);
+std::vector<int,std::allocator<int> > FindPlayersByUid(unsigned long long uid) // 0x10A13040
+{
+	// `anonymous-namespace'::FindPlayersByUid
+	// static ...; // 0x10A13216
+	// static ...; // 0x10A1320C
+	// static ...; // 0x10A131F4
+	// static ...; // 0x10A131EC
+	// unsigned long long uid;
+	// Blam::Network::SessionMembership *membership;
+	// Blam::Network::Session *session;
+	// std::vector<int,std::allocator<int> > indices;
+	{
+		// __int32 peerIdx;
+		{
+			// Blam::Network::PlayerSession *player;
+			// __int32 playerIdx;
+		}
+	}
+	todo("implement");
+	std::vector<int,std::allocator<int> > __result = _sub_10A13040(uid);
+	return __result;
+}
+
+_extern void _sub_10A079B0(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+void BanIp(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &ip) // 0x10A079B0
+{
+	// `anonymous-namespace'::BanIp
+	// static ...; // 0x10A07A78
+	// static ...; // 0x10A07A6C
+	// static ...; // 0x10A07A64
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &ip;
+	// Server::BanList banList;
+	todo("implement");
+	_sub_10A079B0(ip);
+}
+
+_extern void _sub_10A07BD0(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+void BanUid(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &playerUid) // 0x10A07BD0
+{
+	// `anonymous-namespace'::BanUid
+	// static ...; // 0x10A07CC8
+	// static ...; // 0x10A07CC0
+	// static ...; // 0x10A07CA8
+	// static ...; // 0x10A07CA0
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &playerUid;
+	// unsigned long long uid;
+	{
+		// Server::BanList banList;
+	}
+	todo("implement");
+	_sub_10A07BD0(playerUid);
+}
+
+_extern void _sub_10A07AC0(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+void BanName(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name) // 0x10A07AC0
+{
+	// `anonymous-namespace'::BanName
+	// static ...; // 0x10A07B88
+	// static ...; // 0x10A07B7C
+	// static ...; // 0x10A07B74
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name;
+	// Server::BanList banList;
+	todo("implement");
+	_sub_10A07AC0(name);
+}
+
+_extern void _sub_10A14150(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+void TempBanIP(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &ip) // 0x10A14150
+{
+	// `anonymous-namespace'::TempBanIP
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &ip;
+	todo("implement");
+	_sub_10A14150(ip);
+}
+
+_extern bool _sub_10A14240(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+bool UnbanIp(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &ip) // 0x10A14240
+{
+	// `anonymous-namespace'::UnbanIp
+	// static ...; // 0x10A1433C
+	// static ...; // 0x10A14330
+	// static ...; // 0x10A14328
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &ip;
+	// Server::BanList banList;
+	todo("implement");
+	bool __result = _sub_10A14240(ip);
+	return __result;
+}
+
+_extern bool _sub_10A144E0(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+bool UnbanUid(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &playerUid) // 0x10A144E0
+{
+	// `anonymous-namespace'::UnbanUid
+	// static ...; // 0x10A14634
+	// static ...; // 0x10A14630
+	// static ...; // 0x10A14618
+	// static ...; // 0x10A14610
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &playerUid;
+	// Server::BanList banList;
+	// unsigned long long uid;
+	todo("implement");
+	bool __result = _sub_10A144E0(playerUid);
+	return __result;
+}
+
+_extern bool _sub_10A14390(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+bool UnbanName(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name) // 0x10A14390
+{
+	// `anonymous-namespace'::UnbanName
+	// static ...; // 0x10A1448C
+	// static ...; // 0x10A14480
+	// static ...; // 0x10A14478
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name;
+	// Server::BanList banList;
+	todo("implement");
+	bool __result = _sub_10A14390(name);
+	return __result;
+}
+
+_extern bool _sub_10A11AA0(KickType, std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool DoKickPlayerCommand(KickType type, std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A11AA0
+{
+	// `anonymous-namespace'::DoKickPlayerCommand
+	// static ...; // 0x10A12194
+	// static ...; // 0x10A12170
+	// static ...; // 0x10A12168
+	// KickType type;
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// __int32 peer;
+	// __int32 playerIdx;
+	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > kickPlayerName;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > ip;
+	// Blam::Network::Session *session;
+	// e_network_session_boot_reason banReason;
+	todo("implement");
+	bool __result = _sub_10A11AA0(type, Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A12370(KickType, std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool DoKickUidCommand(KickType type, std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A12370
+{
+	// `anonymous-namespace'::DoKickUidCommand
+	// static ...; // 0x10A12A53
+	// static ...; // 0x10A12A44
+	// static ...; // 0x10A12A14
+	// static ...; // 0x10A12A0C
+	// KickType type;
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// bool success;
+	// unsigned long long uid;
+	// Blam::Network::Session *session;
+	// e_network_session_boot_reason banReason;
+	// std::vector<int,std::allocator<int> > indices;
+	{
+		// std::vector<int,std::allocator<int> > &<range>$L0;
+		// __int32 *<begin>$L0;
+		// __int32 *<end>$L0;
+		{
+			// __int32 playerIdx;
+			{
+				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > kickPlayerName;
+				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > ip;
+			}
+		}
+	}
+	todo("implement");
+	bool __result = _sub_10A12370(type, Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A11390(KickType, std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool DoKickIndexCommand(KickType type, std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A11390
+{
+	// `anonymous-namespace'::DoKickIndexCommand
+	// static ...; // 0x10A11920
+	// static ...; // 0x10A118FC
+	// static ...; // 0x10A118F4
+// $LN33:
+	// KickType type;
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// Blam::Network::PlayerSession *player;
+	// __int32 index;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > kickPlayerName;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > ip;
+	// Blam::Network::Session *session;
+	// __int32 banReason;
+	// unsigned __int32 pos;
+	todo("implement");
+	bool __result = _sub_10A11390(type, Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A0C500(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandServerKickPlayer(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A0C500
+{
+	// `anonymous-namespace'::CommandServerKickPlayer
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	todo("implement");
+	bool __result = _sub_10A0C500(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A0B0F0(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandServerBanPlayer(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A0B0F0
+{
+	// `anonymous-namespace'::CommandServerBanPlayer
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	todo("implement");
+	bool __result = _sub_10A0B0F0(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A0C5A0(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandServerKickPlayerUid(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A0C5A0
+{
+	// `anonymous-namespace'::CommandServerKickPlayerUid
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	todo("implement");
+	bool __result = _sub_10A0C5A0(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A0F1A0(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandServerTempBanPlayer(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A0F1A0
+{
+	// `anonymous-namespace'::CommandServerTempBanPlayer
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	todo("implement");
+	bool __result = _sub_10A0F1A0(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A0F1F0(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandServerTempBanPlayerUid(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A0F1F0
+{
+	// `anonymous-namespace'::CommandServerTempBanPlayerUid
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	todo("implement");
+	bool __result = _sub_10A0F1F0(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A0B190(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandServerBanPlayerUid(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A0B190
+{
+	// `anonymous-namespace'::CommandServerBanPlayerUid
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	todo("implement");
+	bool __result = _sub_10A0B190(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A0C550(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandServerKickPlayerIndex(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A0C550
+{
+	// `anonymous-namespace'::CommandServerKickPlayerIndex
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	todo("implement");
+	bool __result = _sub_10A0C550(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A0B140(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandServerBanPlayerIndex(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A0B140
+{
+	// `anonymous-namespace'::CommandServerBanPlayerIndex
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	todo("implement");
+	bool __result = _sub_10A0B140(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A0B810(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandServerKickBan(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A0B810
+{
+	// `anonymous-namespace'::CommandServerKickBan
+	// static ...; // 0x10A0C258
+	// static ...; // 0x10A0C24F
+	// static ...; // 0x10A0C245
+	// static ...; // 0x10A0C241
+	// static ...; // 0x10A0C239
+	// static ...; // 0x10A0C234
+	// static ...; // 0x10A0C1E0
+	// static ...; // 0x10A0C1D8
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// Blam::Network::Session *session;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > banType;
+	{
+		// Blam::Network::SessionMembership *membership;
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > ip;
+		{
+			// __int32 peerIdx;
+			{
+				// __int32 playerIdx;
+				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > playerIp;
+			}
+		}
+	}
+	{
+		// unsigned long long uid;
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > playerUid;
+		{
+			// std::vector<int,std::allocator<int> > indices;
+			{
+				// std::vector<int,std::allocator<int> > &<range>$L0;
+				// __int32 *<begin>$L0;
+				// __int32 *<end>$L0;
+				{
+					// __int32 playerIdx;
+				}
+			}
+		}
+	}
+	{
+		// __int32 playerIdx;
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > name;
+	}
+	todo("implement");
+	bool __result = _sub_10A0B810(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A0ABB0(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandServerBan(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A0ABB0
+{
+	// `anonymous-namespace'::CommandServerBan
+	// static ...; // 0x10A0AFCD
+	// static ...; // 0x10A0AFC9
+	// static ...; // 0x10A0AFC4
+	// static ...; // 0x10A0AF94
+	// static ...; // 0x10A0AF8C
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > banType;
+	{
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > ip;
+	}
+	{
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > uid;
+	}
+	{
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > name;
+	}
+	todo("implement");
+	bool __result = _sub_10A0ABB0(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A10460(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandServerUnban(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A10460
+{
+	// `anonymous-namespace'::CommandServerUnban
+	// static ...; // 0x10A10A81
+	// static ...; // 0x10A10A7D
+	// static ...; // 0x10A10A78
+	// static ...; // 0x10A10A48
+	// static ...; // 0x10A10A40
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > banType;
+	{
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > ip;
+	}
+	{
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > uid;
+	}
+	{
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > name;
+	}
+	todo("implement");
+	bool __result = _sub_10A10460(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A0DAB0(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandServerMutePlayer(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A0DAB0
+{
+	// `anonymous-namespace'::CommandServerMutePlayer
+	// static ...; // 0x10A0DC68
+	// static ...; // 0x10A0DC60
+// $LN14:
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// Blam::Network::PlayerSession *player;
+	// __int32 index;
+	// Blam::Network::Session *session;
+	// bool result;
+	// unsigned __int32 pos;
+	todo("implement");
+	bool __result = _sub_10A0DAB0(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A10C20(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandServerUnmutePlayer(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A10C20
+{
+	// `anonymous-namespace'::CommandServerUnmutePlayer
+	// static ...; // 0x10A10DD8
+	// static ...; // 0x10A10DD0
+// $LN14:
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// Blam::Network::PlayerSession *player;
+	// __int32 index;
+	// Blam::Network::Session *session;
+	// bool result;
+	// unsigned __int32 pos;
+	todo("implement");
+	bool __result = _sub_10A10C20(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A0B1E0(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandServerClearAllMutes(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A0B1E0
+{
+	// `anonymous-namespace'::CommandServerClearAllMutes
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	todo("implement");
+	bool __result = _sub_10A0B1E0(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A0B220(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandServerClearTempBans(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A0B220
+{
+	// `anonymous-namespace'::CommandServerClearTempBans
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	todo("implement");
+	bool __result = _sub_10A0B220(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A0E3A0(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandServerRemoveTempBan(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A0E3A0
+{
+	// `anonymous-namespace'::CommandServerRemoveTempBan
+	// static ...; // 0x10A0E78E
+	// static ...; // 0x10A0E783
+	// static ...; // 0x10A0E77A
+	// static ...; // 0x10A0E774
+	// static ...; // 0x10A0E738
+	// static ...; // 0x10A0E730
+// $LN21:
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// std::map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,int,std::less<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,int> > > list;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > arg;
+	// __int32 i;
+	// __int32 index;
+	{
+		// bool success;
+	}
+	{
+		// std::map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,int,std::less<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,int> > > &<range>$L0;
+		// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,int> > > > <begin>$L0;
+		// std::_Default_sentinel <end>$L0;
+		{
+			// std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,int> entry;
+		}
+	}
+	todo("implement");
+	bool __result = _sub_10A0E3A0(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A0D020(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandServerListTempBans(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A0D020
+{
+	// `anonymous-namespace'::CommandServerListTempBans
+	// static ...; // 0x10A0D2C6
+	// static ...; // 0x10A0D2BB
+	// static ...; // 0x10A0D2B2
+	// static ...; // 0x10A0D2AC
+	// static ...; // 0x10A0D270
+	// static ...; // 0x10A0D268
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// std::map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,int,std::less<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,int> > > list;
+	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// __int32 i;
+	{
+		// std::map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,int,std::less<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,int> > > &<range>$L0;
+		// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,int> > > > <begin>$L0;
+		// std::_Default_sentinel <end>$L0;
+		{
+			// std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,int> entry;
+		}
+	}
+	todo("implement");
+	bool __result = _sub_10A0D020(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A0C5F0(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandServerListPlayers(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A0C5F0
+{
+	// `anonymous-namespace'::CommandServerListPlayers
+	// static ...; // 0x10A0C9B0
+	// static ...; // 0x10A0C9AB
+	// static ...; // 0x10A0C9A7
+	// static ...; // 0x10A0C9A4
+	// static ...; // 0x10A0C968
+	// static ...; // 0x10A0C960
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// __int32 playerIdx;
+	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// Blam::Network::Session *session;
+	{
+		// Blam::Network::PlayerSession player;
+		// char uid[17];
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > name;
+		{
+			// Blam::Network::NetworkAddress ip;
+		}
+	}
+	todo("implement");
+	bool __result = _sub_10A0C5F0(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A0CAB0(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandServerListPlayersJSON(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A0CAB0
+{
+	// `anonymous-namespace'::CommandServerListPlayersJSON
+	// static ...; // 0x10A0CEF5
+	// static ...; // 0x10A0CEEE
+	// static ...; // 0x10A0CEEA
+	// static ...; // 0x10A0CEE4
+	// static ...; // 0x10A0CEA8
+	// static ...; // 0x10A0CEA0
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
+	// __int32 playerIdx;
+	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
+	// Blam::Network::Session *session;
+	{
+		// Blam::Network::PlayerSession player;
+		// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > color;
+		// char uid[17];
+	}
+	todo("implement");
+	bool __result = _sub_10A0CAB0(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A0D720(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandServerMode(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A0D720
+{
+	// `anonymous-namespace'::CommandServerMode
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// __int32 previous;
+	// __int32 serverMode;
+	// bool retVal;
+	todo("implement");
+	bool __result = _sub_10A0D720(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A0D380(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandServerLobbyType(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A0D380
+{
+	// `anonymous-namespace'::CommandServerLobbyType
+	// static ...; // 0x10A0D650
+	// static ...; // 0x10A0D648
+// $LN18:
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > previous;
+	// __int32 lobbyType;
+	// bool retVal;
+	todo("implement");
+	bool __result = _sub_10A0D380(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A0E040(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandServerPing(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A0E040
+{
+	// `anonymous-namespace'::CommandServerPing
+	// static ...; // 0x10A0E2CC
+	// static ...; // 0x10A0E2C4
+// $LN17:
+// $LN14:
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// Blam::Network::SessionMembership *membership;
+	// __int32 channelIndex;
+	// Blam::Network::Session *session;
+	{
+		// Blam::Network::NetworkAddress blamAddress;
+		// unsigned short port;
+	}
+	todo("implement");
+	bool __result = _sub_10A0E040(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A0EAC0(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandServerShuffleTeams(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A0EAC0
+{
+	// `anonymous-namespace'::CommandServerShuffleTeams
+	// static ...; // 0x10A0EEDE
+	// static ...; // 0x10A0EED8
+	// static ...; // 0x10A0EEB4
+	// static ...; // 0x10A0EEAC
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// __int32 numTeams;
+	// __int32 teamIndex;
+	// Modules::ModuleServer &moduleServer;
+	// Blam::Network::SessionMembership *membership;
+	// __int32 minTeams;
+	// std::bitset<17> peers;
+	// __int32 numPlayers;
+	// static __int32 `CommandServerShuffleTeams'::`2'::$TSS1; // 0x12456064
+	// __int32 players[16];
+	// unsigned long minTeamSize;
+	// unsigned long maxPlayers;
+	// static std::random_device `CommandServerShuffleTeams'::`2'::rng; // 0x1245605E
+	// Blam::Network::Session *session;
+	// static std::mersenne_twister_engine<unsigned int,32,624,397,31,2567483615,11,4294967295,7,2636928640,15,4022730752,18,1812433253> `CommandServerShuffleTeams'::`2'::urng; // 0x12456068
+	// static __int32 `CommandServerShuffleTeams'::`2'::$TSS0; // 0x12456060
+	{
+		// __int32 player;
+	}
+	{
+		// __int32 i;
+	}
+	todo("implement");
+	bool __result = _sub_10A0EAC0(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A0B790(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandServerGetEndpoint(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A0B790
+{
+	// `anonymous-namespace'::CommandServerGetEndpoint
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	todo("implement");
+	bool __result = _sub_10A0B790(Arguments, returnInfo);
+	return __result;
+}
+
+_extern void _sub_10A13AF0(Blam::Network::NetworkAddress const &, unsigned __int32, unsigned short, unsigned __int32);
+void PongReceived(Blam::Network::NetworkAddress const &from, unsigned __int32 timestamp, unsigned short id, unsigned __int32 latency) // 0x10A13AF0
+{
+	// `anonymous-namespace'::PongReceived
+	// static ...; // 0x10A13DB4
+	// Blam::Network::NetworkAddress const &from;
+	// unsigned __int32 timestamp;
+	// unsigned short id;
+	// unsigned __int32 latency;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > ipStr;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > message;
+	todo("implement");
+	_sub_10A13AF0(from, timestamp, id, latency);
+}
+
+_extern bool _sub_10A13A60(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool HitmarkersEnabledChanged(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A13A60
+{
+	// `anonymous-namespace'::HitmarkersEnabledChanged
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// bool enabled;
+	// Modules::ModuleServer &serverModule;
+	todo("implement");
+	bool __result = _sub_10A13A60(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A140E0(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool SprintStateChanged(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A140E0
+{
+	// `anonymous-namespace'::SprintStateChanged
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// unsigned long state;
+	// Modules::ModuleServer &serverModule;
+	todo("implement");
+	bool __result = _sub_10A140E0(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A07D10(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool BottomlessClipEnabledChanged(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A07D10
+{
+	// `anonymous-namespace'::BottomlessClipEnabledChanged
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// bool enabled;
+	// Modules::ModuleServer &serverModule;
+	todo("implement");
+	bool __result = _sub_10A07D10(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A146A0(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool UnlimitedSprintEnabledChanged(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A146A0
+{
+	// `anonymous-namespace'::UnlimitedSprintEnabledChanged
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// Modules::ModuleServer &serverModule;
+	// bool unlimited;
+	todo("implement");
+	bool __result = _sub_10A146A0(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A0F000(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandServerSubmitVote(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A0F000
+{
+	// `anonymous-namespace'::CommandServerSubmitVote
+	// static ...; // 0x10A0F12C
+	// static ...; // 0x10A0F124
+// $LN10:
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// __int32 vote;
+	// unsigned __int32 pos;
+	todo("implement");
+	bool __result = _sub_10A0F000(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A0E8A0(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandServerSay(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A0E8A0
+{
+	// `anonymous-namespace'::CommandServerSay
+	// static ...; // 0x10A0EA34
+	// static ...; // 0x10A0EA2C
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// Blam::Network::Session *session;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > message;
+	{
+		// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &<range>$L0;
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const *<begin>$L0;
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const *<end>$L0;
+		{
+			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &word;
+		}
+	}
+	todo("implement");
+	bool __result = _sub_10A0E8A0(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A0DCF0(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandServerPM(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A0DCF0
+{
+	// `anonymous-namespace'::CommandServerPM
+	// static ...; // 0x10A0DF78
+	// static ...; // 0x10A0DF60
+	// static ...; // 0x10A0DF58
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// __int32 peer;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > playerName;
+	// Blam::Network::Session *session;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > message;
+	todo("implement");
+	bool __result = _sub_10A0DCF0(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A12C20(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool EncryptMessageWithPublicKey(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A12C20
+{
+	// `anonymous-namespace'::EncryptMessageWithPublicKey
+	// static ...; // 0x10A12DFB
+	// static ...; // 0x10A12DF4
+	// static ...; // 0x10A12DD0
+	// static ...; // 0x10A12DC8
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// Modules::ModulePlayer &modulePlayer;
+	// char const *const PasswordChars;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > pubKey;
+	// Modules::ModuleServer &moduleServer;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > encryptedString;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > value;
+	todo("implement");
+	bool __result = _sub_10A12C20(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A10E60(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandWebsocketInfo(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A10E60
+{
+	// `anonymous-namespace'::CommandWebsocketInfo
+	// static ...; // 0x10A11273
+	// static ...; // 0x10A11270
+	// static ...; // 0x10A1124C
+	// static ...; // 0x10A11244
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
+	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > ip;
+	// Blam::Network::Session *session;
+	todo("implement");
+	bool __result = _sub_10A10E60(Arguments, returnInfo);
+	return __result;
+}
+
+_extern void _sub_10A14740(std::string);
+void UpdatePersistentMod(std::basic_string<char,std::char_traits<char>,std::allocator<char> > mod) // 0x10A14740
+{
+	// `anonymous-namespace'::UpdatePersistentMod
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > mod;
+	// __int32 lobbyType;
+	todo("implement");
+	_sub_10A14740(mod);
+}
+
+_extern bool _sub_10A094E0(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandLoadMod(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A094E0
+{
+	// `anonymous-namespace'::CommandLoadMod
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &path;
+	todo("implement");
+	bool __result = _sub_10A094E0(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A08C10(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandListMods(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A08C10
+{
+	// `anonymous-namespace'::CommandListMods
+	// static ...; // 0x10A0930E
+	// static ...; // 0x10A0930B
+	// static ...; // 0x10A092FD
+	// static ...; // 0x10A092F4
+	// static ...; // 0x10A092EB
+	// static ...; // 0x10A092E3
+	// static ...; // 0x10A092DC
+	// static ...; // 0x10A0927C
+	// static ...; // 0x10A09274
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// c_mod_package_manager::c_threadsafe_iterator it;
+	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
+	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
+	// c_mod_package_manager &package_manager;
+	{
+		// char buffer[32];
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > version;
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > hash_str;
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > filename;
+		// tm *convertedLocal;
+		// s_static_string<32> metadata_name;
+	}
+	todo("implement");
+	bool __result = _sub_10A08C10(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A08250(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandListModInfo(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A08250
+{
+	// `anonymous-namespace'::CommandListModInfo
+	// static ...; // 0x10A08A0E
+	// static ...; // 0x10A08A0B
+	// static ...; // 0x10A08A03
+	// static ...; // 0x10A089FA
+	// static ...; // 0x10A089EC
+	// static ...; // 0x10A089E3
+	// static ...; // 0x10A089DB
+	// static ...; // 0x10A089D4
+	// static ...; // 0x10A08968
+	// static ...; // 0x10A08960
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// c_mod_package_manager::c_threadsafe_iterator it;
+	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > modHash;
+	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
+	// c_mod_package_manager &package_manager;
+	{
+		// char buffer[32];
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > version;
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > hash_str;
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > filename;
+		// tm *convertedLocal;
+		// s_static_string<32> metadata_name;
+	}
+	todo("implement");
+	bool __result = _sub_10A08250(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A07EB0(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandListModFiles(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A07EB0
+{
+	// `anonymous-namespace'::CommandListModFiles
+	// static ...; // 0x10A0817E
+	// static ...; // 0x10A08173
+	// static ...; // 0x10A08168
+	// static ...; // 0x10A0815F
+	// static ...; // 0x10A08155
+	// static ...; // 0x10A08150
+	// static ...; // 0x10A080FC
+	// static ...; // 0x10A080F4
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	{
+		// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
+		// std::unordered_map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,CModPackageFileSystemView::SFileEntry,std::hash<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::equal_to<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,CModPackageFileSystemView::SFileEntry> > > modFileList;
+		// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
+		{
+			// std::unordered_map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,CModPackageFileSystemView::SFileEntry,std::hash<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::equal_to<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,CModPackageFileSystemView::SFileEntry> > > &<range>$L0;
+			// std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,CModPackageFileSystemView::SFileEntry> > > > <begin>$L0;
+			// std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,CModPackageFileSystemView::SFileEntry> > > > <end>$L0;
+			{
+				// std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,CModPackageFileSystemView::SFileEntry> fileEntry;
+				{
+					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > file;
+				}
+			}
+		}
+	}
+	todo("implement");
+	bool __result = _sub_10A07EB0(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A07E50(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandEnumerateMods(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A07E50
+{
+	// `anonymous-namespace'::CommandEnumerateMods
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// c_mod_package_manager &package_manager;
+	todo("implement");
+	bool __result = _sub_10A07E50(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A07DA0(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandDeleteMod(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A07DA0
+{
+	// `anonymous-namespace'::CommandDeleteMod
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// c_mod_package_manager &package_manager;
+	todo("implement");
+	bool __result = _sub_10A07DA0(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A149E0(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool VariablePlayersInfoClientUpdate(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A149E0
+{
+	// `anonymous-namespace'::VariablePlayersInfoClientUpdate
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	todo("implement");
+	bool __result = _sub_10A149E0(Arguments, returnInfo);
+	return __result;
+}
+
+_extern bool _sub_10A09700(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandRefreshServerFilters(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A09700
+{
+	// `anonymous-namespace'::CommandRefreshServerFilters
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	todo("implement");
+	bool __result = _sub_10A09700(Arguments, returnInfo);
+	return __result;
+}

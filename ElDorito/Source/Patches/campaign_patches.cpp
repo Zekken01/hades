@@ -366,3 +366,19 @@ namespace Patches
 }
 
 /* ---------- private code */
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template bool c_flags<enum e_scenario_flags,unsigned short>::test(e_scenario_flags) const;
+template bool c_tag_block<long>::try_get_element(__int32, long **) const;
+template bool c_tag_block<s_cinematic_shot_clip>::try_get_element(__int32, s_cinematic_shot_clip **) const;
+template c_flags<enum e_object_flags,long> & c_flags<enum e_object_flags,long>::operator|=(__int32 const);
+template c_flags<enum e_unit_flags,unsigned long> & c_flags<enum e_unit_flags,unsigned long>::operator|=(__int32 const);
+template long & c_tag_block<long>::operator[](__int32);
+template long * c_tag_block<long>::get_element(__int32) const;
+template s_cinematic_shot_clip & c_tag_block<s_cinematic_shot_clip>::operator[](__int32);
+template s_cinematic_shot_clip * c_tag_block<s_cinematic_shot_clip>::get_element(__int32) const;

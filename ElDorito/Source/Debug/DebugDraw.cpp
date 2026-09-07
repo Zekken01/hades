@@ -39,7 +39,8 @@
 class CDebugDraw;
 struct CDebugDrawBackend;
 struct DebugDrawKey;
-struct SPayloadVisitor;
+struct c_font_cache_mt_safe;
+struct c_rasterizer_draw_string;
 struct hkpCapsuleShape;
 struct real_argb_color;
 struct real_matrix4x3;
@@ -50,7 +51,9 @@ struct real_rectangle3d;
 struct real_vector3d;
 struct s_font_header;
 struct short_point_2d;
-namespace
+struct short_rectangle2d;
+struct t_arg0;
+namespace hades_file_local
 {
 	struct SDrawBox2dMessage;
 	struct SDrawBoxMessage;
@@ -69,10 +72,11 @@ namespace
 	struct SRenderThreadMessage;
 	struct SCacehEntry;
 }
+using namespace hades_file_local;
 
 /* ---------- constants */
 
-namespace
+namespace hades_file_local
 {
 	enum EMessageType
 	{
@@ -93,9 +97,10 @@ namespace
 		Clear,
 	};
 }
+using namespace hades_file_local;
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	#pragma pack(push, 4)
 	struct SDrawBox2dMessage
@@ -263,6 +268,9 @@ namespace
 		DebugDrawKey cacheKey; // 0x10
 		std::variant<SDrawPointMessage,SDrawLineMessage,SDrawVectorMessage,SDrawTriangleMessage,SDrawSphereMessage,SDrawPillMessage,SDrawCylinderMessage,SDrawConeMessage,SDrawBox2dMessage,SDrawBoxMessage,SDrawBoxOrientedMessage,SDrawText2dMessage,SDrawText3dMessage,SDrawPhysicsShapeCapsuleMessage,SClearMessage> payload; // 0x18
 		SRenderThreadMessage(); /* compiler_generated() */
+	public:
+		template<typename t_arg0>
+		t_arg0 GetPayload();
 	};
 	#pragma pack(pop)
 	static_assert(sizeof(SRenderThreadMessage) == 308, "Invalid SRenderThreadMessage size");
@@ -299,6 +307,7 @@ namespace
 	};
 	static_assert(sizeof(SPayloadVisitor) == 1, "Invalid SPayloadVisitor size");
 }
+using namespace hades_file_local;
 typedef std::variant<SDrawPointMessage,SDrawLineMessage,SDrawVectorMessage,SDrawTriangleMessage,SDrawSphereMessage,SDrawPillMessage,SDrawCylinderMessage,SDrawConeMessage,SDrawBox2dMessage,SDrawBoxMessage,SDrawBoxOrientedMessage,SDrawText2dMessage,SDrawText3dMessage,SDrawPhysicsShapeCapsuleMessage,SClearMessage> TMessagePayload;
 
 /* ---------- prototypes */
@@ -306,6 +315,12 @@ typedef std::variant<SDrawPointMessage,SDrawLineMessage,SDrawVectorMessage,SDraw
 extern __int32 AllocateCacheEntry();
 extern __int32 FindCacheEntry(char const *group, DebugDrawKey cacheKey);
 extern void EvictCacheEntry(char const *group, DebugDrawKey cacheKey);
+
+extern "C" void PreRenderCommand(SRenderThreadMessage &command);
+extern "C" void PostRenderCommand(SRenderThreadMessage &command);
+extern "C" void HandleRenderThreadMessage(SRenderThreadMessage *message);
+void DrawString2dInternal(real_point2d const &point, long color, char const *text, __int32 fontId, float scale);
+void DrawString3dInternal(real_point3d const &point, long color, char const *text, __int32 fontId, float scale);
 
 /* ---------- globals */
 
@@ -841,3 +856,248 @@ float CDebugDraw::GetLineHeight(__int32 fontId) const // 0x1081C220
 }
 
 /* ---------- private code */
+
+template<typename t_arg0>
+_inline t_arg0 SRenderThreadMessage::GetPayload()
+{
+	todo("implement");
+	return todo_result<t_arg0>();
+}
+
+_extern void _sub_10818640(SPayloadVisitor *const, SDrawBox2dMessage const &);
+_inline void SPayloadVisitor::operator()(SDrawBox2dMessage const &payload) // 0x10818640
+{
+	// SPayloadVisitor::operator()
+	// SDrawBox2dMessage const &payload;
+	todo("implement");
+	_sub_10818640(this, payload);
+}
+
+_extern void _sub_108186A0(SPayloadVisitor *const, SDrawBoxMessage const &);
+_inline void SPayloadVisitor::operator()(SDrawBoxMessage const &payload) // 0x108186A0
+{
+	// SPayloadVisitor::operator()
+	// SDrawBoxMessage const &payload;
+	todo("implement");
+	_sub_108186A0(this, payload);
+}
+
+_extern void _sub_10818700(SPayloadVisitor *const, SDrawBoxOrientedMessage const &);
+_inline void SPayloadVisitor::operator()(SDrawBoxOrientedMessage const &payload) // 0x10818700
+{
+	// SPayloadVisitor::operator()
+	// SDrawBoxOrientedMessage const &payload;
+	todo("implement");
+	_sub_10818700(this, payload);
+}
+
+_extern void _sub_10818A60(SPayloadVisitor *const, SDrawSphereMessage const &);
+_inline void SPayloadVisitor::operator()(SDrawSphereMessage const &payload) // 0x10818A60
+{
+	// SPayloadVisitor::operator()
+	// SDrawSphereMessage const &payload;
+	todo("implement");
+	_sub_10818A60(this, payload);
+}
+
+_extern void _sub_10818970(SPayloadVisitor *const, SDrawPillMessage const &);
+_inline void SPayloadVisitor::operator()(SDrawPillMessage const &payload) // 0x10818970
+{
+	// SPayloadVisitor::operator()
+	// SDrawPillMessage const &payload;
+	todo("implement");
+	_sub_10818970(this, payload);
+}
+
+_extern void _sub_10818800(SPayloadVisitor *const, SDrawCylinderMessage const &);
+_inline void SPayloadVisitor::operator()(SDrawCylinderMessage const &payload) // 0x10818800
+{
+	// SPayloadVisitor::operator()
+	// SDrawCylinderMessage const &payload;
+	todo("implement");
+	_sub_10818800(this, payload);
+}
+
+_extern void _sub_10818770(SPayloadVisitor *const, SDrawConeMessage const &);
+_inline void SPayloadVisitor::operator()(SDrawConeMessage const &payload) // 0x10818770
+{
+	// SPayloadVisitor::operator()
+	// SDrawConeMessage const &payload;
+	todo("implement");
+	_sub_10818770(this, payload);
+}
+
+_extern void _sub_10818880(SPayloadVisitor *const, SDrawLineMessage const &);
+_inline void SPayloadVisitor::operator()(SDrawLineMessage const &payload) // 0x10818880
+{
+	// SPayloadVisitor::operator()
+	// SDrawLineMessage const &payload;
+	todo("implement");
+	_sub_10818880(this, payload);
+}
+
+_extern void _sub_10818C40(SPayloadVisitor *const, SDrawVectorMessage const &);
+_inline void SPayloadVisitor::operator()(SDrawVectorMessage const &payload) // 0x10818C40
+{
+	// SPayloadVisitor::operator()
+	// SDrawVectorMessage const &payload;
+	todo("implement");
+	_sub_10818C40(this, payload);
+}
+
+_extern void _sub_108189F0(SPayloadVisitor *const, SDrawPointMessage const &);
+_inline void SPayloadVisitor::operator()(SDrawPointMessage const &payload) // 0x108189F0
+{
+	// SPayloadVisitor::operator()
+	// SDrawPointMessage const &payload;
+	todo("implement");
+	_sub_108189F0(this, payload);
+}
+
+_extern void _sub_10818BD0(SPayloadVisitor *const, SDrawTriangleMessage const &);
+_inline void SPayloadVisitor::operator()(SDrawTriangleMessage const &payload) // 0x10818BD0
+{
+	// SPayloadVisitor::operator()
+	// SDrawTriangleMessage const &payload;
+	todo("implement");
+	_sub_10818BD0(this, payload);
+}
+
+_extern void _sub_10818AD0(SPayloadVisitor *const, SDrawText2dMessage const &);
+_inline void SPayloadVisitor::operator()(SDrawText2dMessage const &payload) // 0x10818AD0
+{
+	// SPayloadVisitor::operator()
+	// SDrawText2dMessage const &payload;
+	todo("implement");
+	_sub_10818AD0(this, payload);
+}
+
+_extern void _sub_10818B50(SPayloadVisitor *const, SDrawText3dMessage const &);
+_inline void SPayloadVisitor::operator()(SDrawText3dMessage const &payload) // 0x10818B50
+{
+	// SPayloadVisitor::operator()
+	// SDrawText3dMessage const &payload;
+	todo("implement");
+	_sub_10818B50(this, payload);
+}
+
+_extern void _sub_108188F0(SPayloadVisitor *const, SDrawPhysicsShapeCapsuleMessage const &);
+_inline void SPayloadVisitor::operator()(SDrawPhysicsShapeCapsuleMessage const &payload) // 0x108188F0
+{
+	// SPayloadVisitor::operator()
+	// SDrawPhysicsShapeCapsuleMessage const &payload;
+	todo("implement");
+	_sub_108188F0(this, payload);
+}
+
+_extern void _sub_108185D0(SPayloadVisitor *const, SClearMessage const &);
+_inline void SPayloadVisitor::operator()(SClearMessage const &payload) // 0x108185D0
+{
+	// SPayloadVisitor::operator()
+	// SClearMessage const &payload;
+	todo("implement");
+	_sub_108185D0(this, payload);
+}
+
+_extern void _sub_1081C5C0(SRenderThreadMessage &);
+extern "C" void PreRenderCommand(SRenderThreadMessage &command) // 0x1081C5C0
+{
+	// PreRenderCommand
+	// SRenderThreadMessage &command;
+	todo("implement");
+	_sub_1081C5C0(command);
+}
+
+_extern void _sub_1081C570(SRenderThreadMessage &);
+extern "C" void PostRenderCommand(SRenderThreadMessage &command) // 0x1081C570
+{
+	// PostRenderCommand
+	// SRenderThreadMessage &command;
+	todo("implement");
+	_sub_1081C570(command);
+}
+
+_extern void _sub_1081C2D0(SRenderThreadMessage *);
+extern "C" void HandleRenderThreadMessage(SRenderThreadMessage *message) // 0x1081C2D0
+{
+	// HandleRenderThreadMessage
+	// SRenderThreadMessage *message;
+	{
+		// __int32 cacheEntryIndex;
+	}
+	todo("implement");
+	_sub_1081C2D0(message);
+}
+
+_extern void _sub_1081B280(real_point2d const &, long, char const *, __int32, float);
+void DrawString2dInternal(real_point2d const &point, long color, char const *text, __int32 fontId, float scale) // 0x1081B280
+{
+	// `anonymous-namespace'::DrawString2dInternal
+	// static ...; // 0x1081B510
+	// static ...; // 0x1081B508
+	// real_point2d const &point;
+	// long color;
+	// char const *text;
+	// __int32 fontId;
+	// float scale;
+	{
+		// SRenderThreadMessage *message;
+		{
+			// SDrawText2dMessage &payload;
+		}
+	}
+	{
+		// real_argb_color colorf;
+		// short_rectangle2d bounds;
+		// c_rasterizer_draw_string m_drawString;
+		// c_font_cache_mt_safe m_fontCache;
+	}
+	// function call : bool (*const)()
+	// function call : void (*const)(short_rectangle2d *, short_rectangle2d *, short_rectangle2d *, short_rectangle2d *)
+	// function call : real_argb_color *(*const)(unsigned long, real_argb_color *)
+	todo("implement");
+	_sub_1081B280(point, color, text, fontId, scale);
+}
+
+_extern void _sub_1081B8C0(real_point3d const &, long, char const *, __int32, float);
+void DrawString3dInternal(real_point3d const &point, long color, char const *text, __int32 fontId, float scale) // 0x1081B8C0
+{
+	// `anonymous-namespace'::DrawString3dInternal
+	// long color;
+	// char const *text;
+	// __int32 fontId;
+	// float scale;
+	{
+		// SRenderThreadMessage *message;
+		{
+			// SDrawText3dMessage &payload;
+		}
+	}
+	{
+		// real_argb_color colorf;
+	}
+	// function call : bool (*const)()
+	// function call : real_argb_color *(*const)(unsigned long, real_argb_color *)
+	todo("implement");
+	_sub_1081B8C0(point, color, text, fontId, scale);
+}
+
+extern SCacehEntry* _sub_10817E60(SCacehEntry *const);
+_inline SCacehEntry::SCacehEntry() : cacheKey(todo_result<DebugDrawKey>()) // 0x10817E60
+{
+	// `anonymous-namespace'::SCacehEntry::SCacehEntry
+	// SCacehEntry *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10817E60(this);
+}
+
+extern SRenderThreadMessage* _sub_10817F40(SRenderThreadMessage *const);
+_inline SRenderThreadMessage::SRenderThreadMessage() : cacheKey(todo_result<DebugDrawKey>()) // 0x10817F40
+{
+	// `anonymous-namespace'::SRenderThreadMessage::SRenderThreadMessage
+	// SRenderThreadMessage *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10817F40(this);
+}

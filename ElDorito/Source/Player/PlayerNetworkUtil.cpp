@@ -150,3 +150,11 @@ namespace Player
 }
 
 /* ---------- private code */
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template s_player_datum & c_data_iterator<s_player_datum>::operator*();

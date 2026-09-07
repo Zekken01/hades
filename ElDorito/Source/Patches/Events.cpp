@@ -60,13 +60,17 @@
 
 /* ---------- forward declarations */
 
+struct begin;
+struct end;
 struct s_game_engine_event_data;
 struct s_multiplayer_event_response_definition;
-namespace
+struct s_player_datum;
+namespace hades_file_local
 {
 	struct s_suppressed_game_engine_event;
 	struct s_suppressed_game_engine_event_collection;
 }
+using namespace hades_file_local;
 
 namespace Patches {}
 using namespace ::Patches;
@@ -84,7 +88,7 @@ enum
 	k_game_engine_event_grief_time_in_seconds = 7, // 0x0007
 };
 
-namespace
+namespace hades_file_local
 {
 	enum e_suppressed_game_engine_event_flags
 	{
@@ -93,9 +97,10 @@ namespace
 		_suppressed_game_engine_event_delayed_for_join_bit,
 	};
 }
+using namespace hades_file_local;
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	struct s_suppressed_game_engine_event
 	{
@@ -127,6 +132,7 @@ namespace
 	static_assert(sizeof(s_suppressed_game_engine_event_collection) == 3076, "Invalid s_suppressed_game_engine_event_collection size");
 
 }
+using namespace hades_file_local;
 /* ---------- prototypes */
 
 namespace Patches
@@ -138,14 +144,20 @@ namespace Patches
 	}
 }
 
+void RunEventHook(unsigned long player, s_game_engine_event_data const *event, s_multiplayer_event_response_definition const *definition);
+bool player_has_name(long player_index);
+void game_engine_update_game_events_hook();
+void game_event_set_cause_player_hook(long player_index, s_game_engine_event_data *event);
+
 /* ---------- globals */
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern std::vector<std::function<void __cdecl(unsigned long,s_game_engine_event_data const *,s_multiplayer_event_response_definition const *)>,std::allocator<std::function<void __cdecl(unsigned long,s_game_engine_event_data const *,s_multiplayer_event_response_definition const *)> > > OnEventCallbacks; // 0x124584AC
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Patches
@@ -184,3 +196,139 @@ _inline s_game_engine_event_data &s_game_engine_event_data::operator=(s_game_eng
 }
 
 /* ---------- private code */
+
+_extern void _sub_10A59BD0(unsigned long, s_game_engine_event_data const *, s_multiplayer_event_response_definition const *);
+void RunEventHook(unsigned long player, s_game_engine_event_data const *event, s_multiplayer_event_response_definition const *definition) // 0x10A59BD0
+{
+	// `anonymous-namespace'::RunEventHook
+	// s_multiplayer_event_response_definition const *definition;
+	// void (*RunEvent)(unsigned long, s_game_engine_event_data const *, s_multiplayer_event_response_definition const *);
+	{
+		// std::vector<std::function<void __cdecl(unsigned long,s_game_engine_event_data const *,s_multiplayer_event_response_definition const *)>,std::allocator<std::function<void __cdecl(unsigned long,s_game_engine_event_data const *,s_multiplayer_event_response_definition const *)> > > &<range>$L0;
+		// std::function<void __cdecl(unsigned long,s_game_engine_event_data const *,s_multiplayer_event_response_definition const *)> *<begin>$L0;
+		// std::function<void __cdecl(unsigned long,s_game_engine_event_data const *,s_multiplayer_event_response_definition const *)> *<end>$L0;
+		{
+			// std::function<void __cdecl(unsigned long,s_game_engine_event_data const *,s_multiplayer_event_response_definition const *)> &callback;
+		}
+	}
+	// function call : void (*)(unsigned long, s_game_engine_event_data const *, s_multiplayer_event_response_definition const *)
+	todo("implement");
+	_sub_10A59BD0(player, event, definition);
+}
+
+extern s_suppressed_game_engine_event* _sub_10A58EA0(s_suppressed_game_engine_event *const);
+_inline s_suppressed_game_engine_event::s_suppressed_game_engine_event() // 0x10A58EA0
+{
+	// `anonymous-namespace'::s_suppressed_game_engine_event::s_suppressed_game_engine_event
+	// s_suppressed_game_engine_event *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10A58EA0(this);
+}
+
+extern s_suppressed_game_engine_event_collection* _sub_10A58F00(s_suppressed_game_engine_event_collection *const);
+_inline s_suppressed_game_engine_event_collection::s_suppressed_game_engine_event_collection() // 0x10A58F00
+{
+	// `anonymous-namespace'::s_suppressed_game_engine_event_collection::s_suppressed_game_engine_event_collection
+	// s_suppressed_game_engine_event_collection *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10A58F00(this);
+}
+
+_extern bool _sub_10A5B150(long);
+bool player_has_name(long player_index) // 0x10A5B150
+{
+	// `anonymous-namespace'::player_has_name
+	// long player_index;
+	// s_player_datum *player;
+	todo("implement");
+	bool __result = _sub_10A5B150(player_index);
+	return __result;
+}
+
+extern s_suppressed_game_engine_event &_sub_10A59290(s_suppressed_game_engine_event *const, s_suppressed_game_engine_event const &);
+_inline s_suppressed_game_engine_event &s_suppressed_game_engine_event::operator=(s_suppressed_game_engine_event const &__that) // 0x10A59290
+{
+	// `anonymous-namespace'::s_suppressed_game_engine_event::operator=
+	// s_suppressed_game_engine_event const &__that;
+	compiler_generated();
+	todo("implement");
+	s_suppressed_game_engine_event & __result = _sub_10A59290(this, __that);
+	return __result;
+}
+
+_extern void _sub_10A5AAA0();
+void game_engine_update_game_events_hook() // 0x10A5AAA0
+{
+	// `anonymous-namespace'::game_engine_update_game_events_hook
+	// procedure flags: nofpo
+	// static ...; // 0x10A5AEEC
+	// static ...; // 0x10A5AEE0
+	// static ...; // 0x10A5AED8
+	// constexpr void (*const `game_engine_update_game_events_hook'::`2'::game_engine_event_play)(s_game_engine_event_data const *); // constant == 5659808
+	// long default_delay_ticks;
+	// char *game_engine_globals;
+	// long delay_for_join_in_ticks;
+	// s_suppressed_game_engine_event_collection sorted_events;
+	// long current_time;
+	// s_suppressed_game_engine_event_collection *events;
+	// long grief_time_in_ticks;
+	{
+		// s_static_array<s_suppressed_game_engine_event,64> &<range>$L0;
+		// s_suppressed_game_engine_event *<begin>$L0;
+		// s_suppressed_game_engine_event *<end>$L0;
+		{
+			// s_suppressed_game_engine_event &event;
+			{
+				// long delay_for_ticks;
+			}
+		}
+	}
+	{
+		// __int32 (*comparator)(void const *, void const *);
+		{
+			// s_suppressed_game_engine_event *<end>$L1;
+			// s_suppressed_game_engine_event *<begin>$L1;
+			// s_static_array<s_suppressed_game_engine_event,64> &<range>$L1;
+			{
+				// s_suppressed_game_engine_event const &sorted_event;
+				{
+					// s_suppressed_game_engine_event &event;
+				}
+			}
+		}
+	}
+	// function call : long (*const)()
+	// function call : long (*const)(float)
+	// function call : long (*const)(float)
+	// function call : long (*const)(float)
+	// function call : void (*const)(s_game_engine_event_data const *)
+	todo("implement");
+	_sub_10A5AAA0();
+}
+
+_extern void _sub_10A5B010(long, s_game_engine_event_data *);
+void game_event_set_cause_player_hook(long player_index, s_game_engine_event_data *event) // 0x10A5B010
+{
+	// `anonymous-namespace'::game_event_set_cause_player_hook
+	// s_game_engine_event_data *event;
+	// s_player_datum *player;
+	todo("implement");
+	_sub_10A5B010(player_index, event);
+}
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template c_enum<enum e_game_engine_event_type,char> & c_enum<enum e_game_engine_event_type,char>::operator=(c_enum<enum e_game_engine_event_type,char> const &);
+template c_flags<enum e_suppressed_game_engine_event_flags,unsigned char> & c_flags<enum e_suppressed_game_engine_event_flags,unsigned char>::operator&=(__int32 const);
+template c_flags<enum e_suppressed_game_engine_event_flags,unsigned char> & c_flags<enum e_suppressed_game_engine_event_flags,unsigned char>::operator=(c_flags<enum e_suppressed_game_engine_event_flags,unsigned char> const &);
+template c_flags<enum e_suppressed_game_engine_event_flags,unsigned char> & c_flags<enum e_suppressed_game_engine_event_flags,unsigned char>::operator|=(__int32 const);
+template c_flags<enum e_suppressed_game_engine_event_flags,unsigned char> c_flags<enum e_suppressed_game_engine_event_flags,unsigned char>::operator&(__int32 const) const;
+template c_flags<enum e_suppressed_game_engine_event_flags,unsigned char>::c_flags();
+template c_flags<enum e_suppressed_game_engine_event_flags,unsigned char>::c_flags(unsigned char const &);
+template c_flags<enum e_suppressed_game_engine_event_flags,unsigned char>::operator bool() const;

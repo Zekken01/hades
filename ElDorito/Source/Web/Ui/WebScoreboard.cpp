@@ -9,6 +9,7 @@
 #include "Blam/cseries/enums.inl"
 #include "Blam/cseries/flags.inl"
 #include "Blam/cseries/static_string.inl"
+#include "Blam/game/engine/game_engine.hpp"
 #include "Blam/game/engine/game_engine_events.hpp"
 #include "Blam/game/engine/game_engine_infection.hpp"
 #include "Blam/game/engine/game_engine_juggernaut.hpp"
@@ -32,6 +33,7 @@
 #include "Blam/networking/session/network_session_membership.hpp"
 #include "Blam/networking/session/network_session_parameters_base.hpp"
 #include "Blam/objects/damage.hpp"
+#include "Blam/objects/damage_definitions.hpp"
 #include "Blam/objects/objects.hpp"
 #include "Blam/structures/cluster_reference.hpp"
 #include "Blam/tag_files/file_reference.inl"
@@ -39,6 +41,7 @@
 #include "Blam/tag_files/tag_groups.hpp"
 #include "ChatCommands/ChatCommandMap.hpp"
 #include "mods/FileSystem/ModPackageFileSystemView.hpp"
+#include "mods/font_package.hpp"
 #include "mods/mod_definitions.hpp"
 #include "mods/mod_identifier.hpp"
 #include "mods/mod_package_manager.hpp"
@@ -104,11 +107,16 @@
 
 /* ---------- forward declarations */
 
+class c_mod_package_manager;
+class c_network_session;
+struct c_game_engine;
 struct c_game_statborg;
 struct s_game_engine_event_data;
+struct s_game_options;
 struct s_game_results_player_statistics;
 struct s_globals;
 struct s_multiplayer_event_response_definition;
+struct s_network_session_player;
 struct s_player_datum;
 namespace Blam
 {
@@ -117,13 +125,14 @@ namespace Blam
 		struct ActionState;
 	}
 }
-namespace
+namespace hades_file_local
 {
 	struct s_session_player;
 	struct s_session_update;
 	struct s_scores_update;
 	struct s_scoreboard_update;
 }
+using namespace hades_file_local;
 
 namespace Utils {}
 using namespace ::Utils;
@@ -205,7 +214,7 @@ namespace Blam
 
 /* ---------- constants */
 
-namespace
+namespace hades_file_local
 {
 	enum e_game_scoreboard_state
 	{
@@ -222,9 +231,10 @@ namespace
 		_game_scoreboard_state_game_returning_to_lobby,
 	};
 }
+using namespace hades_file_local;
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	struct s_session_player
 	{
@@ -280,9 +290,10 @@ namespace
 	static_assert(sizeof(s_session_update) == 2024, "Invalid s_session_update size");
 
 }
+using namespace hades_file_local;
 typedef unsigned long argb_color;
 
-namespace
+namespace hades_file_local
 {
 	#pragma pack(push, 4)
 	struct s_scores_update
@@ -307,6 +318,7 @@ namespace
 	#pragma pack(pop)
 	static_assert(sizeof(s_scores_update) == 18444, "Invalid s_scores_update size");
 }
+using namespace hades_file_local;
 typedef unsigned long rgb_color;
 namespace Patches
 {
@@ -324,7 +336,7 @@ namespace Patches
 	}
 }
 
-namespace
+namespace hades_file_local
 {
 	struct s_scoreboard_update
 	{
@@ -340,6 +352,7 @@ namespace
 	};
 	static_assert(sizeof(s_scoreboard_update) == 20472, "Invalid s_scoreboard_update size");
 }
+using namespace hades_file_local;
 struct s_globals
 {
 	bool shown; // 0x0
@@ -383,6 +396,15 @@ namespace Web
 		}
 	}
 }
+
+void serialize_session_player(rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, s_session_player const &player);
+void serialize_session_update(rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, s_session_update const &update);
+void serialize_scores_update(rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, s_scores_update const &update);
+void serialize_update(rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, s_scoreboard_update const &update);
+void build_score_update(s_scores_update &update);
+void build_session_update(s_session_update &update);
+void build_full_update(s_scoreboard_update &update);
+void check_to_send_update();
 
 /* ---------- globals */
 
@@ -532,3 +554,257 @@ namespace Web
 }
 
 /* ---------- private code */
+
+extern s_globals* _sub_10CAFEF0(s_globals *const);
+_inline s_globals::s_globals() // 0x10CAFEF0
+{
+	// `anonymous-namespace'::<unnamed-type-globals>::<unnamed-type-globals>
+	// s_globals *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10CAFEF0(this);
+}
+
+_extern void _sub_10CB0080(s_scoreboard_update *const);
+_inline s_scoreboard_update::~s_scoreboard_update() // 0x10CB0080
+{
+	// `anonymous-namespace'::s_scoreboard_update::~s_scoreboard_update
+	// s_scoreboard_update *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10CB0080(this);
+}
+
+_extern void _sub_10CB00D0(s_session_player *const);
+_inline s_session_player::~s_session_player() // 0x10CB00D0
+{
+	// `anonymous-namespace'::s_session_player::~s_session_player
+	// s_session_player *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10CB00D0(this);
+}
+
+_extern void _sub_10CB0140(s_session_update *const);
+_inline s_session_update::~s_session_update() // 0x10CB0140
+{
+	// `anonymous-namespace'::s_session_update::~s_session_update
+	// s_session_update *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10CB0140(this);
+}
+
+_extern void _sub_10CB4150(rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &, s_session_player const &);
+void serialize_session_player(rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, s_session_player const &player) // 0x10CB4150
+{
+	// `anonymous-namespace'::serialize_session_player
+	// static ...; // 0x10CB4300
+	// static ...; // 0x10CB42F8
+	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer;
+	// s_session_player const &player;
+	// char buff[17];
+	todo("implement");
+	_sub_10CB4150(writer, player);
+}
+
+_extern void _sub_10CB4390(rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &, s_session_update const &);
+void serialize_session_update(rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, s_session_update const &update) // 0x10CB4390
+{
+	// `anonymous-namespace'::serialize_session_update
+	// s_session_update const &update;
+	{
+		// long i;
+	}
+	todo("implement");
+	_sub_10CB4390(writer, update);
+}
+
+_extern void _sub_10CB3AF0(rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &, s_scores_update const &);
+void serialize_scores_update(rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, s_scores_update const &update) // 0x10CB3AF0
+{
+	// `anonymous-namespace'::serialize_scores_update
+	// s_scores_update const &update;
+	{
+		// long i;
+		{
+			// s_game_results_player_statistics const &stats;
+			// c_game_statborg::s_player_row const &scores;
+		}
+	}
+	{
+	}
+	todo("implement");
+	_sub_10CB3AF0(writer, update);
+}
+
+_extern void _sub_10CB4760(rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &, s_scoreboard_update const &);
+void serialize_update(rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, s_scoreboard_update const &update) // 0x10CB4760
+{
+	// `anonymous-namespace'::serialize_update
+	// s_scoreboard_update const &update;
+	todo("implement");
+	_sub_10CB4760(writer, update);
+}
+
+_extern void _sub_10CB1DE0(s_scores_update &);
+void build_score_update(s_scores_update &update) // 0x10CB1DE0
+{
+	// `anonymous-namespace'::build_score_update
+	// static ...; // 0x10CB25B9
+	// static ...; // 0x10CB25A8
+	// static ...; // 0x10CB2590
+	// static ...; // 0x10CB2588
+	// s_scores_update &update;
+	// bool in_game_engine;
+	// bool (*const player_is_vip)(long, __int32 *);
+	// c_game_statborg *scoreboard;
+	// c_network_session *session;
+	{
+		// long i;
+		{
+			// s_player_datum *player;
+			// long player_datum_index;
+			{
+				// c_enum<enum e_game_engine_type,long> current_gametype;
+				// bool is_juggernaut;
+				// bool is_zombie;
+				// bool is_alpha_zombie;
+			}
+		}
+	}
+	{
+	}
+	{
+		// bool tie;
+	}
+	// function call : bool (*const)(c_network_session **)
+	// function call : c_game_statborg *(*const)()
+	// function call : bool (*const)()
+	// function call : long (*const)(long)
+	// function call : bool (*const)()
+	// function call : bool (*const)()
+	// function call : bool (*)()
+	// function call : bool (*const)()
+	// function call : c_game_engine *(*const)()
+	// function call : s_game_options *(*const)()
+	// function call : bool (*const)()
+	// function call : bool (*const)(long, __int32 *)
+	// function call : bool (*const)()
+	// function call : long (*const)(long)
+	// function call : bool (*const)(long)
+	// function call : long (*const)(long)
+	// function call : bool (*const)()
+	// function call : s_game_options *(*const)()
+	// function call : bool (*const)()
+	// function call : bool (*const)()
+	// function call : bool (*const)()
+	// function call : bool (*const)()
+	// function call : bool (*const)()
+	// function call : bool (*const)()
+	todo("implement");
+	_sub_10CB1DE0(update);
+}
+
+_extern void _sub_10CB27C0(s_session_update &);
+void build_session_update(s_session_update &update) // 0x10CB27C0
+{
+	// `anonymous-namespace'::build_session_update
+	// static ...; // 0x10CB303C
+	// static ...; // 0x10CB3030
+	// static ...; // 0x10CB3024
+	// static ...; // 0x10CB3018
+	// static ...; // 0x10CB3010
+	// static ...; // 0x10CB3004
+	// static ...; // 0x10CB2FBC
+	// static ...; // 0x10CB2FB4
+	// s_session_update &update;
+	// s_game_options *game_options;
+	// bool hasModSet;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > playersInfo;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > modhash;
+	// c_network_session *session;
+	// c_mod_package_manager::s_entry mod_package;
+	{
+		// long i;
+		{
+			// s_network_session_player *player;
+			// s_static_string<5> service_tag;
+			// s_player_datum *game_player;
+			// s_session_player *player_update;
+			// s_static_string<16> player_name;
+		}
+	}
+	// function call : bool (*const)(c_network_session **)
+	// function call : s_game_options *(*const)()
+	// function call : bool (*const)()
+	// function call : long (*const)()
+	// function call : __int32 (*const)()
+	todo("implement");
+	_sub_10CB27C0(update);
+}
+
+_extern void _sub_10CB1D80(s_scoreboard_update &);
+void build_full_update(s_scoreboard_update &update) // 0x10CB1D80
+{
+	// `anonymous-namespace'::build_full_update
+	// s_scoreboard_update &update;
+	todo("implement");
+	_sub_10CB1D80(update);
+}
+
+_extern void _sub_10CB3270();
+void check_to_send_update() // 0x10CB3270
+{
+	// `anonymous-namespace'::check_to_send_update
+	// procedure flags: nofpo
+	// static ...; // 0x10CB36A3
+	// static ...; // 0x10CB369C
+	// static ...; // 0x10CB3690
+	// static ...; // 0x10CB3684
+	// static ...; // 0x10CB3654
+	// static ...; // 0x10CB364C
+	// bool membership_changed;
+	// bool is_final_update;
+	// bool (*const game_results_get_game_finalized)();
+	// c_network_session *session;
+	{
+		// s_scoreboard_update update;
+		{
+			// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> string_buff;
+			// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> json_writer;
+		}
+	}
+	// function call : bool (*const)(c_network_session **)
+	// function call : bool (*const)()
+	// function call : bool (*const)()
+	// function call : float (*const)(float)
+	todo("implement");
+	_sub_10CB3270();
+}
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template bool s_static_array<c_game_statborg::s_player_row,16>::valid(__int32);
+template bool s_static_array<c_game_statborg::s_team_row,8>::valid(__int32);
+template bool s_static_array<long,16>::valid(__int32);
+template bool s_static_array<long,8>::valid(__int32);
+template bool s_static_array<s_game_results_player_statistics,16>::valid(__int32);
+template c_enum<enum e_game_engine_type,long>::c_enum(c_enum<enum e_game_engine_type,long> const &);
+template c_enum<enum e_game_engine_type,long>::c_enum(long const &);
+template c_game_statborg::s_player_row & s_static_array<c_game_statborg::s_player_row,16>::operator[](long);
+template c_game_statborg::s_player_row const & s_static_array<c_game_statborg::s_player_row,16>::operator[](long) const;
+template c_game_statborg::s_team_row & s_static_array<c_game_statborg::s_team_row,8>::operator[](long);
+template c_game_statborg::s_team_row const & s_static_array<c_game_statborg::s_team_row,8>::operator[](long) const;
+template char const * s_static_string<5>::get_string() const;
+template long & s_static_array<long,16>::operator[](long);
+template long & s_static_array<long,8>::operator[](long);
+template long const & s_static_array<long,16>::operator[](long) const;
+template long const & s_static_array<long,8>::operator[](long) const;
+template s_game_results_player_statistics & s_static_array<s_game_results_player_statistics,16>::operator[](long);
+template s_game_results_player_statistics const & s_static_array<s_game_results_player_statistics,16>::operator[](long) const;
+template void s_static_string<5>::set_wchar(wchar_t const *);

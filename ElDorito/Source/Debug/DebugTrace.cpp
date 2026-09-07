@@ -43,15 +43,15 @@ struct lambda_typedef_fastcall;
 struct lambda_typedef_stdcall;
 struct lambda_typedef_vectorcall;
 struct real_point2d;
-struct s_buff;
 namespace Modules
 {
 	struct Command;
 }
-namespace
+namespace hades_file_local
 {
 	struct STraceLine;
 }
+using namespace hades_file_local;
 
 namespace Utils {}
 using namespace ::Utils;
@@ -62,7 +62,7 @@ using namespace ::Modules;
 
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	#pragma pack(push, 4)
 	struct STraceLine
@@ -84,6 +84,7 @@ namespace
 		s_buff(); /* compiler_generated() */
 	};
 }
+using namespace hades_file_local;
 // static_assert(sizeof(s_buff) == 82092, "Invalid s_buff size");
 // Withheld: the type inventory does not describe this type, so its
 // padding could not be reconstructed.
@@ -126,15 +127,18 @@ namespace
 
 /* ---------- prototypes */
 
+void InitializeIfNeeded();
+
 /* ---------- globals */
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern std::atomic<bool> initialized; // 0x116A3614
 	extern std::atomic<bool> clearRequested; // 0x116A3615
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 _extern void _sub_1081E310(__int32, char const *, ...);
@@ -171,3 +175,46 @@ void CDebugTrace::Render() // 0x1081E0F0
 }
 
 /* ---------- private code */
+
+_extern void _sub_1081DD80(s_buff *const, STraceLine *);
+_inline void s_buff::Add(STraceLine *line) // 0x1081DD80
+{
+	// `anonymous-namespace'::<unnamed-type-buff>::Add
+	// STraceLine *line;
+	todo("implement");
+	_sub_1081DD80(this, line);
+}
+
+_extern void _sub_1081DE40(s_buff *const);
+_inline void s_buff::Clear() // 0x1081DE40
+{
+	// `anonymous-namespace'::<unnamed-type-buff>::Clear
+	// s_buff *const this;
+	todo("implement");
+	_sub_1081DE40(this);
+}
+
+_extern void _sub_1081E010();
+void InitializeIfNeeded() // 0x1081E010
+{
+	// `anonymous-namespace'::InitializeIfNeeded
+	// procedure flags: nofpo
+	// static ...; // 0x1081E0BC
+	// static ...; // 0x1081E0B0
+	// static ...; // 0x1081E0A8
+	{
+		// bool exp;
+	}
+	todo("implement");
+	_sub_1081E010();
+}
+
+extern s_buff* _sub_1081DA60(s_buff *const);
+_inline s_buff::s_buff() // 0x1081DA60
+{
+	// `anonymous-namespace'::<unnamed-type-buff>::<unnamed-type-buff>
+	// s_buff *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_1081DA60(this);
+}

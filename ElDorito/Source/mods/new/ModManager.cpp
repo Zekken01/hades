@@ -271,3 +271,16 @@ void ModManager::OnModLoadStateChanged(Mod *mod) // 0x10791EA0
 }
 
 /* ---------- private code */
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template Mod * Ref<Mod>::Get() const;
+template Mod * Ref<Mod>::operator->() const;
+template Ref<Mod> & Ref<Mod>::operator=(Mod *);
+template Ref<Mod> & Ref<Mod>::operator=(Ref<Mod> const &);
+template Ref<Mod>::Ref();
+template Ref<Mod>::operator Mod *() const;

@@ -96,6 +96,8 @@ namespace base
 
 /* ---------- prototypes */
 
+void MergeDocuments(rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> &dest, rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> &src, rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> &allocator);
+
 /* ---------- globals */
 
 /* ---------- private variables */
@@ -158,3 +160,24 @@ namespace Utils
 }
 
 /* ---------- private code */
+
+_extern void _sub_10C57400(rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> &, rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> &, rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> &);
+void MergeDocuments(rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> &dest, rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> &src, rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> &allocator) // 0x10C57400
+{
+	// `anonymous-namespace'::MergeDocuments
+	// static ...; // 0x10C5759C
+	// static ...; // 0x10C57578
+	// static ...; // 0x10C57570
+	// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> &dest;
+	// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> &src;
+	// rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> &allocator;
+	{
+		// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > itr;
+		{
+			// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > key;
+			// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > value;
+		}
+	}
+	todo("implement");
+	_sub_10C57400(dest, src, allocator);
+}

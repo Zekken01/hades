@@ -114,6 +114,7 @@ struct real_vector3d;
 struct s_object_data;
 struct s_tag_iterator;
 struct s_unit_data;
+struct s_weapon_barrel;
 struct s_weapon_barrel_definition;
 struct s_weapon_data;
 struct s_weapon_definition;
@@ -165,7 +166,7 @@ namespace Blam
 
 /* ---------- constants */
 
-namespace
+namespace hades_file_local
 {
 	enum ProjectilePenaltyType
 	{
@@ -174,6 +175,7 @@ namespace
 		eProjectilePenalty_Turning,
 	};
 }
+using namespace hades_file_local;
 /* ---------- definitions */
 
 // bottomless_clip_state is defined in hades/recovered_types.h, which the synthesised
@@ -221,6 +223,21 @@ extern void weapon_barrel_fire(long weapon_index, short barrel_index, bool simul
 extern bool player_has_bottomless_clip(long player_index);
 extern bool weapon_has_bottomless_clip(long weapon_index);
 
+bool weapon_can_be_dual_wielded_hook(long weapon_index);
+short unit_rotate_zoom_level_hook(long unit_index, short level);
+bool weapon_should_apply_bloom(unsigned __int32 weaponObjectIndex, __int32 barrelIndex, ProjectilePenaltyType type);
+void weapon_apply_firing_penalty_hook(unsigned __int32 weaponObjectIndex, __int32 barrelIndex);
+void weapon_apply_movement_penalty_hook(unsigned __int32 weaponObjectIndex, __int32 barrelIndex);
+void weapon_apply_turning_penalty_hook(unsigned __int32 weaponObjectIndex, __int32 barrelIndex);
+bool SupportWeaponStartHook(__int32 weaponObjectIndex);
+float weapon_calculate_error_angle_hook(unsigned __int32 weaponObjectIndex, __int32 barrelIndex, bool forcedScope, unsigned char scopeLevel, float error);
+unsigned __int32 weapon_barrel_update_hook(unsigned __int32 weaponObjectIndex, __int32 barrelIndex);
+bool weapon_bloom_decay_hook(unsigned __int32 weaponObjectIndex, __int32 barrelIndex);
+bool weapon_compute_function_value_hook(long weapon_index, unsigned long function_name, long definition_index, float *out_value, bool *out_value_valid, bool *a6);
+bool weapon_has_infinite_ammo_hook(long weapon_index);
+bool player_has_infinite_ammo_hook(long player_index);
+void weapon_barrel_fire__unit_active_camouflage_ding_hook(long unit_index, float camo, float time);
+
 /* ---------- globals */
 
 namespace Patches
@@ -236,10 +253,11 @@ namespace Patches
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern bool cheat_bottomless_clip; // 0x1246752D
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Patches
@@ -858,3 +876,238 @@ bool weapon_has_bottomless_clip(long weapon_index) // 0x10AF8180
 }
 
 /* ---------- private code */
+
+_extern bool _sub_10AF7E70(long);
+bool weapon_can_be_dual_wielded_hook(long weapon_index) // 0x10AF7E70
+{
+	// `anonymous-namespace'::weapon_can_be_dual_wielded_hook
+	// long weapon_index;
+	// bool can_dual_wield;
+	// s_weapon_definition *weapon_definition;
+	// s_object_data *weapon;
+	// function call : void *(*const)(unsigned long, long)
+	todo("implement");
+	bool __result = _sub_10AF7E70(weapon_index);
+	return __result;
+}
+
+_extern short _sub_10AF7190(long, short);
+short unit_rotate_zoom_level_hook(long unit_index, short level) // 0x10AF7190
+{
+	// `anonymous-namespace'::unit_rotate_zoom_level_hook
+	// short level;
+	// short (*const unit_rotate_zoom_level)(long, short);
+	// function call : bool (*const)(unsigned long)
+	// function call : short (*const)(long, short)
+	todo("implement");
+	short __result = _sub_10AF7190(unit_index, level);
+	return __result;
+}
+
+_extern bool _sub_10AF8330(unsigned __int32, __int32, ProjectilePenaltyType);
+bool weapon_should_apply_bloom(unsigned __int32 weaponObjectIndex, __int32 barrelIndex, ProjectilePenaltyType type) // 0x10AF8330
+{
+	// `anonymous-namespace'::weapon_should_apply_bloom
+	// ProjectilePenaltyType type;
+	// s_object_data *unitObject;
+	// s_weapon_definition *weaponDefinition;
+	// s_object_data *weaponObject;
+	// __int32 functionIndex;
+	// bool isCrouching;
+	// function call : bool (*const)(long)
+	// function call : long (*const)(long)
+	// function call : void *(*const)(unsigned long, long)
+	todo("implement");
+	bool __result = _sub_10AF8330(weaponObjectIndex, barrelIndex, type);
+	return __result;
+}
+
+_extern void _sub_10AF7230(unsigned __int32, __int32);
+void weapon_apply_firing_penalty_hook(unsigned __int32 weaponObjectIndex, __int32 barrelIndex) // 0x10AF7230
+{
+	// `anonymous-namespace'::weapon_apply_firing_penalty_hook
+	// __int32 barrelIndex;
+	// void (*const weapon_apply_firing_penalty)(unsigned __int32, __int32);
+	// function call : void (*const)(unsigned __int32, __int32)
+	todo("implement");
+	_sub_10AF7230(weaponObjectIndex, barrelIndex);
+}
+
+_extern void _sub_10AF72C0(unsigned __int32, __int32);
+void weapon_apply_movement_penalty_hook(unsigned __int32 weaponObjectIndex, __int32 barrelIndex) // 0x10AF72C0
+{
+	// `anonymous-namespace'::weapon_apply_movement_penalty_hook
+	// __int32 barrelIndex;
+	// void (*const weapon_apply_movement_penalty)(unsigned __int32, __int32);
+	// function call : void (*const)(unsigned __int32, __int32)
+	todo("implement");
+	_sub_10AF72C0(weaponObjectIndex, barrelIndex);
+}
+
+_extern void _sub_10AF7350(unsigned __int32, __int32);
+void weapon_apply_turning_penalty_hook(unsigned __int32 weaponObjectIndex, __int32 barrelIndex) // 0x10AF7350
+{
+	// `anonymous-namespace'::weapon_apply_turning_penalty_hook
+	// __int32 barrelIndex;
+	// void (*const weapon_apply_turning_penalty)(unsigned __int32, __int32);
+	// function call : void (*const)(unsigned __int32, __int32)
+	todo("implement");
+	_sub_10AF7350(weaponObjectIndex, barrelIndex);
+}
+
+_extern bool _sub_10AF5230(__int32);
+bool SupportWeaponStartHook(__int32 weaponObjectIndex) // 0x10AF5230
+{
+	// `anonymous-namespace'::SupportWeaponStartHook
+	// __int32 weaponObjectIndex;
+	todo("implement");
+	bool __result = _sub_10AF5230(weaponObjectIndex);
+	return __result;
+}
+
+_extern float _sub_10AF7AE0(unsigned __int32, __int32, bool, unsigned char, float);
+float weapon_calculate_error_angle_hook(unsigned __int32 weaponObjectIndex, __int32 barrelIndex, bool forcedScope, unsigned char scopeLevel, float error) // 0x10AF7AE0
+{
+	// `anonymous-namespace'::weapon_calculate_error_angle_hook
+	// float error;
+	// float fireTimePenalty;
+	// float errorAngleMin;
+	// float magnificationFactor;
+	// s_weapon_definition *weaponDefinition;
+	// float min;
+	// float (*weapon_caclulate_magnification)(unsigned __int32, unsigned short);
+	// s_object_data *weaponObject;
+	// s_weapon_barrel_definition &barrelDefinition;
+	// unsigned __int32 unitObjectIndex;
+	// float max;
+	// float errorAngleMax;
+	// float errorAngle;
+	{
+		// s_object_data *unitObject;
+		// unsigned char magnificationLevel;
+		// float magnification;
+	}
+	// function call : void *(*const)(unsigned long, long)
+	// function call : float (*)(unsigned __int32, unsigned short)
+	// function call : float (*const)(unsigned __int32, unsigned __int32)
+	// function call : bool (*const)(unsigned __int32)
+	todo("implement");
+	float __result = _sub_10AF7AE0(weaponObjectIndex, barrelIndex, forcedScope, scopeLevel, error);
+	return __result;
+}
+
+_extern unsigned __int32 _sub_10AF75A0(unsigned __int32, __int32);
+unsigned __int32 weapon_barrel_update_hook(unsigned __int32 weaponObjectIndex, __int32 barrelIndex) // 0x10AF75A0
+{
+	// `anonymous-namespace'::weapon_barrel_update_hook
+	// __int32 barrelIndex;
+	// s_weapon_definition *weaponDefinition;
+	// s_object_data *weaponObject;
+	// bool (*const weapon_update_barrel)(unsigned __int32, __int32);
+	// bool result;
+	{
+		// s_weapon_barrel *barrels;
+		// s_weapon_barrel &barrel;
+		// float secondsPerTick;
+		// s_weapon_barrel_definition &barrelDefinition;
+		{
+			// s_object_data *unitObject;
+			// float t;
+			// unsigned char weaponObjectFlags;
+			// bool hasBloomFunction;
+			// unsigned __int32 unitObjectIndex;
+			// bool isCrouching;
+			{
+				// float fireTimePenalty;
+				// float errorAccelerationTime;
+			}
+		}
+	}
+	// function call : bool (*const)(unsigned __int32, __int32)
+	// function call : void *(*const)(unsigned long, long)
+	// function call : float (*const)()
+	// function call : float (*const)()
+	// function call : float (*const)(unsigned __int32, unsigned __int32)
+	// function call : bool (*const)(unsigned __int32)
+	todo("implement");
+	unsigned __int32 __result = _sub_10AF75A0(weaponObjectIndex, barrelIndex);
+	return __result;
+}
+
+_extern bool _sub_10AF7AC0(unsigned __int32, __int32);
+bool weapon_bloom_decay_hook(unsigned __int32 weaponObjectIndex, __int32 barrelIndex) // 0x10AF7AC0
+{
+	// `anonymous-namespace'::weapon_bloom_decay_hook
+	// __int32 barrelIndex;
+	todo("implement");
+	bool __result = _sub_10AF7AC0(weaponObjectIndex, barrelIndex);
+	return __result;
+}
+
+_extern bool _sub_10AF7FB0(long, unsigned long, long, float *, bool *, bool *);
+bool weapon_compute_function_value_hook(long weapon_index, unsigned long function_name, long definition_index, float *out_value, bool *out_value_valid, bool *a6) // 0x10AF7FB0
+{
+	// `anonymous-namespace'::weapon_compute_function_value_hook
+	// bool *a6;
+	// bool (*const weapon_compute_function_value)(long, unsigned long, long, float *, bool *, bool *);
+	{
+		// s_weapon_data *weapon;
+		// long barrel_index;
+	}
+	// function call : float (*const)(float)
+	// function call : long (*const)()
+	// function call : bool (*const)(long, unsigned long, long, float *, bool *, bool *)
+	todo("implement");
+	bool __result = _sub_10AF7FB0(weapon_index, function_name, definition_index, out_value, out_value_valid, a6);
+	return __result;
+}
+
+_extern bool _sub_10AF8260(long);
+bool weapon_has_infinite_ammo_hook(long weapon_index) // 0x10AF8260
+{
+	// `anonymous-namespace'::weapon_has_infinite_ammo_hook
+	// long weapon_index;
+	// bool (*const player_has_infinite_ammo)(long);
+	// s_weapon_data *weapon;
+	// long owner_unit_index;
+	{
+		// s_unit_data *unit;
+	}
+	// function call : long (*const)(long)
+	// function call : bool (*const)(long)
+	todo("implement");
+	bool __result = _sub_10AF8260(weapon_index);
+	return __result;
+}
+
+_extern bool _sub_10AF7000(long);
+bool player_has_infinite_ammo_hook(long player_index) // 0x10AF7000
+{
+	// `anonymous-namespace'::player_has_infinite_ammo_hook
+	// long player_index;
+	todo("implement");
+	bool __result = _sub_10AF7000(player_index);
+	return __result;
+}
+
+_extern void _sub_10AF74E0(long, float, float);
+void weapon_barrel_fire__unit_active_camouflage_ding_hook(long unit_index, float camo, float time) // 0x10AF74E0
+{
+	// `anonymous-namespace'::weapon_barrel_fire__unit_active_camouflage_ding_hook
+	// float time;
+	// void (*const unit_active_camouflage_ding)(long, float, float);
+	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
+	// function call : void (*const)(long, float, float)
+	todo("implement");
+	_sub_10AF74E0(unit_index, camo, time);
+}
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template bool c_flags<enum e_weapon_definition_flags,unsigned long>::test(e_weapon_definition_flags) const;
+template c_flags<enum e_barrel_flags,long>::operator long() const;
+template c_flags<enum e_weapon_definition_flags,unsigned long>::operator unsigned long() const;

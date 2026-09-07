@@ -97,6 +97,11 @@ private:
 	static long m_num_of_allocated_surfaces;
 	static long m_num_of_allocated_textures;
 	static long m_num_of_allocated_vertex_declarations;
+public:
+	template<typename t_arg0>
+	long add_resource_helper(t_arg0 resource, t_arg0 tracked_allocations, long max_resources, long *count);
+	template<typename t_arg0>
+	long remove_resource_helper(t_arg0 const resource, t_arg0 tracked_allocations, long *count);
 };
 static_assert(sizeof(c_d3d_resource_tracker) == 1, "Invalid c_d3d_resource_tracker size");
 

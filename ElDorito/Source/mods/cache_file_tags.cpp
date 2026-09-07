@@ -91,12 +91,13 @@ namespace Blam
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern std::shared_ptr<c_cache_file_tag_cache> tag_cache; // 0x123AEF10
 	extern std::shared_ptr<Blam::Cache::StringIDCache> string_id_cache; // 0x123AEF18
 	extern std::chrono::time_point<std::filesystem::_File_time_clock,std::chrono::duration<__int64,std::ratio<1,10000000> > > previous_last_write_time; // 0x123AEF20
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 extern std::shared_ptr<c_cache_file_tag_cache> _sub_10879AA0();

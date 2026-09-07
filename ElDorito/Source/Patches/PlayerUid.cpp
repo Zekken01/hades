@@ -22,12 +22,14 @@
 #include "Blam/tag_files/tag_groups.hpp"
 #include "CommandMap.hpp"
 #include "Console/Console.hpp"
+#include "Modules/ModulePlayer.hpp"
 #include "Patch.hpp"
 #include "Patches/Audio.hpp"
 #include "Patches/PlayerPropertiesExtension.hpp"
 #include "Player/PlayerCustomizationExtension.hpp"
 #include "Pointer.hpp"
 #include "Utils/Singleton.hpp"
+#include "Utils/StlUtil.hpp"
 #include "Utils/String.hpp"
 
 #include <Windows.h>
@@ -68,10 +70,15 @@ namespace Blam
 {
 	class BitStream;
 }
-namespace
+namespace Modules
+{
+	class ModulePlayer;
+}
+namespace hades_file_local
 {
 	class UidExtension;
 }
+using namespace hades_file_local;
 
 namespace Utils {}
 using namespace ::Utils;
@@ -96,7 +103,7 @@ using namespace ::Blam;
 
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	class UidExtension :
 		public Patches::Network::PlayerPropertiesExtension<unsigned __int64>
@@ -116,6 +123,7 @@ namespace
 	};
 	static_assert(sizeof(UidExtension) == 4, "Invalid UidExtension size");
 }
+using namespace hades_file_local;
 /* ---------- prototypes */
 
 namespace Patches
@@ -129,15 +137,19 @@ namespace Patches
 	}
 }
 
+void EnsureValidUid();
+unsigned long long GetPlayerUidHook(__int32 unused);
+
 /* ---------- globals */
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern Pointer UidValidPtr; // 0x12467320
 	extern Pointer UidPtr; // 0x12467324
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Patches
@@ -199,3 +211,107 @@ namespace Patches
 }
 
 /* ---------- private code */
+
+_extern void _sub_10AB4190(UidExtension *const, __int32, unsigned long long *);
+_inline void UidExtension::BuildData(__int32 playerIndex, unsigned long long *out) // 0x10AB4190
+{
+	// `anonymous-namespace'::UidExtension::BuildData
+	// unsigned long long *out;
+	todo("implement");
+	_sub_10AB4190(this, playerIndex, out);
+}
+
+_extern void _sub_10AB40D0(UidExtension *const, __int32, s_player_configuration *, unsigned long long const &);
+_inline void UidExtension::ApplyData(__int32 playerIndex, s_player_configuration *properties, unsigned long long const &data) // 0x10AB40D0
+{
+	// `anonymous-namespace'::UidExtension::ApplyData
+	// unsigned long long const &data;
+	todo("implement");
+	_sub_10AB40D0(this, playerIndex, properties, data);
+}
+
+_extern void _sub_10AB4CC0(UidExtension *const, Blam::BitStream *, unsigned long long const &);
+_inline void UidExtension::Serialize(Blam::BitStream *stream, unsigned long long const &data) // 0x10AB4CC0
+{
+	// `anonymous-namespace'::UidExtension::Serialize
+	// unsigned long long const &data;
+	todo("implement");
+	_sub_10AB4CC0(this, stream, data);
+}
+
+_extern void _sub_10AB4270(UidExtension *const, Blam::BitStream *, unsigned long long *);
+_inline void UidExtension::Deserialize(Blam::BitStream *stream, unsigned long long *out) // 0x10AB4270
+{
+	// `anonymous-namespace'::UidExtension::Deserialize
+	// unsigned long long *out;
+	todo("implement");
+	_sub_10AB4270(this, stream, out);
+}
+
+extern UidExtension* _sub_10AB39F0(UidExtension *const);
+_inline UidExtension::UidExtension() // 0x10AB39F0
+{
+	// `anonymous-namespace'::UidExtension::UidExtension
+	// UidExtension *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10AB39F0(this);
+}
+
+_extern void _sub_10AB3B50(UidExtension *const);
+_inline UidExtension::~UidExtension() // 0x10AB3B50
+{
+	// `anonymous-namespace'::UidExtension::~UidExtension
+	// UidExtension *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10AB3B50(this);
+}
+
+_extern void _sub_10AB42D0();
+void EnsureValidUid() // 0x10AB42D0
+{
+	// `anonymous-namespace'::EnsureValidUid
+	// procedure flags: nofpo
+	// static ...; // 0x10AB4804
+	// static ...; // 0x10AB4800
+	// static ...; // 0x10AB47F8
+	// static ...; // 0x10AB47F3
+	// static ...; // 0x10AB47EC
+	// static ...; // 0x10AB47B0
+	// static ...; // 0x10AB47A8
+	// Modules::ModulePlayer &playerVars;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > pubKey;
+	// unsigned long long uid;
+	// SHA256state_st sha256;
+	// unsigned char hash[32];
+	{
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > privKey;
+	}
+	todo("implement");
+	_sub_10AB42D0();
+}
+
+_extern unsigned long long _sub_10AB4AA0(__int32);
+unsigned long long GetPlayerUidHook(__int32 unused) // 0x10AB4AA0
+{
+	// `anonymous-namespace'::GetPlayerUidHook
+	// __int32 unused;
+	todo("implement");
+	unsigned long long __result = _sub_10AB4AA0(unused);
+	return __result;
+}
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template unsigned __int32 Patches::Network::PlayerPropertiesExtension<unsigned __int64>::GetDataSize() const;
+template unsigned long long Blam::BitStream::ReadUnsigned<unsigned __int64>(__int32);
+template void Patches::Network::PlayerPropertiesExtension<unsigned __int64>::ApplyData(__int32, s_player_configuration *, void const *);
+template void Patches::Network::PlayerPropertiesExtension<unsigned __int64>::BuildData(__int32, void *);
+template void Patches::Network::PlayerPropertiesExtension<unsigned __int64>::Deserialize(Blam::BitStream *, void *);
+template void Patches::Network::PlayerPropertiesExtension<unsigned __int64>::Serialize(Blam::BitStream *, void const *);
+template void Pointer::WriteFast<unsigned __int64>(unsigned long long const) const;

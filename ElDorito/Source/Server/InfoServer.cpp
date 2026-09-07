@@ -6,6 +6,7 @@
 #include "Blam/cseries/cseries.hpp"
 #include "Blam/cseries/enums.inl"
 #include "Blam/cseries/flags.inl"
+#include "Blam/game/engine/game_engine.hpp"
 #include "Blam/game/engine/game_engine_option.hpp"
 #include "Blam/game/game_results.hpp"
 #include "Blam/game/game_variant.hpp"
@@ -26,6 +27,7 @@
 #include "CommandMap.hpp"
 #include "ElDorito.hpp"
 #include "mods/FileSystem/ModPackageFileSystemView.hpp"
+#include "mods/font_package.hpp"
 #include "mods/mod_definitions.hpp"
 #include "mods/mod_identifier.hpp"
 #include "mods/mod_package_manager.hpp"
@@ -97,10 +99,24 @@
 
 /* ---------- forward declarations */
 
-namespace
+class c_mod_package_manager;
+struct s_game_options;
+struct s_game_results_player_statistics;
+struct s_mod_server_package_entry;
+struct s_player_emblem_configuration;
+namespace Blam
+{
+	namespace Network
+	{
+		struct PlayerSession;
+		struct Session;
+	}
+}
+namespace hades_file_local
 {
 	struct HttpRequestLine;
 }
+using namespace hades_file_local;
 
 namespace Utils {}
 using namespace ::Utils;
@@ -142,6 +158,8 @@ namespace Blam
 {
 	namespace Cache {}
 	using namespace Blam::Cache;
+	namespace Network {}
+	using namespace Blam::Network;
 }
 
 /* ---------- constants */
@@ -156,7 +174,7 @@ namespace Blam
 
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	#pragma pack(push, 4)
 	struct HttpRequestLine
@@ -174,6 +192,7 @@ namespace
 	#pragma pack(pop)
 	static_assert(sizeof(HttpRequestLine) == 84, "Invalid HttpRequestLine size");
 }
+using namespace hades_file_local;
 /* ---------- prototypes */
 
 namespace Server
@@ -188,11 +207,20 @@ namespace Server
 	}
 }
 
+std::basic_string<char,std::char_traits<char>,std::allocator<char> > BuildInfoServerPayload(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &inDataBuffer);
+std::basic_string<char,std::char_traits<char>,std::allocator<char> > GenerateModList();
+bool ParseHttpRequestLine(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &rawline, HttpRequestLine *outRequestLine);
+std::basic_string<char,std::char_traits<char>,std::allocator<char> > BuildHttpResponse(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &status, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &contentType, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &content, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &additionalHeaders);
+std::basic_string<char,std::char_traits<char>,std::allocator<char> > BuildInfoServerResponse(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &rawRequest);
+std::basic_string<char,std::char_traits<char>,std::allocator<char> > BuildModsServerResponse(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &rawRequest);
+std::basic_string<char,std::char_traits<char>,std::allocator<char> > BuildNotFoundResponse(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &rawRequest);
+std::basic_string<char,std::char_traits<char>,std::allocator<char> > BuildBadRequestResponse(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &rawRequest);
+
 /* ---------- globals */
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern unsigned __int32 infoSocket; // 0x124678D8
 	extern bool infoSocketOpen; // 0x124678DC
@@ -202,15 +230,17 @@ namespace
 	extern long long timeSinceLastPoll; // 0x124678E8
 	extern __int32 modCount; // 0x124678F0
 }
+using namespace hades_file_local;
 namespace Server
 {
 	namespace Voting
 	{
-		namespace
+		namespace hades_file_local_Server_Voting
 		{
 			extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > const DefaultTypes[8]; // 0x124676E0
 			extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > const DefaultTypeNames[8]; // 0x124677C0
 		}
+		using namespace hades_file_local_Server_Voting;
 	}
 }
 /* ---------- public code */
@@ -314,3 +344,224 @@ namespace Server
 }
 
 /* ---------- private code */
+
+extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10B1B3F0(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+std::basic_string<char,std::char_traits<char>,std::allocator<char> > BuildInfoServerPayload(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &inDataBuffer) // 0x10B1B3F0
+{
+	// `anonymous-namespace'::BuildInfoServerPayload
+	// static ...; // 0x10B1CC2F
+	// static ...; // 0x10B1CC20
+	// static ...; // 0x10B1CC14
+	// static ...; // 0x10B1CC0E
+	// static ...; // 0x10B1CC07
+	// static ...; // 0x10B1CBFB
+	// static ...; // 0x10B1CBF4
+	// static ...; // 0x10B1CBF2
+	// static ...; // 0x10B1CBEB
+	// static ...; // 0x10B1CBE0
+	// static ...; // 0x10B1CBD3
+	// static ...; // 0x10B1CBCB
+	// static ...; // 0x10B1CBC6
+	// static ...; // 0x10B1CBBF
+	// static ...; // 0x10B1CBB8
+	// static ...; // 0x10B1CBB4
+	// static ...; // 0x10B1CBAE
+	// static ...; // 0x10B1CB9D
+	// static ...; // 0x10B1CB94
+	// static ...; // 0x10B1CAB0
+	// static ...; // 0x10B1CAA8
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &inDataBuffer;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > xnkid;
+	// bool authenticated;
+	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> s;
+	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > eldewritoVersion;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > mapName;
+	// e_game_engine_type variantType;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > xnaddr;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > gameVersion;
+	// Blam::Network::Session *session;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > response;
+	// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > mapVariantName;
+	// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > variantName;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > status;
+	// e_game_mode gameMode;
+	{
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > authString;
+	}
+	{
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > modHash;
+		// unsigned __int32 playerInfoBase;
+		// c_mod_package_manager::s_entry packageEntry;
+		// unsigned __int32 playerStatusBase;
+		// __int32 peerIdx;
+		{
+			// unsigned __int32 *scores;
+			{
+				// __int32 t;
+			}
+		}
+		{
+			// __int32 playerIdx;
+			{
+				// Blam::Network::PlayerSession *player;
+				// s_player_emblem_configuration config;
+				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > emblem;
+				// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > color;
+				// unsigned char alive;
+				// char uid[17];
+				// s_game_results_player_statistics *player_stats;
+				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > name;
+				// unsigned short team;
+			}
+		}
+	}
+	// function call : s_game_options *(*)()
+	todo("implement");
+	std::string __result = _sub_10B1B3F0(inDataBuffer);
+	return __result;
+}
+
+extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10B1DAF0();
+std::basic_string<char,std::char_traits<char>,std::allocator<char> > GenerateModList() // 0x10B1DAF0
+{
+	// `anonymous-namespace'::GenerateModList
+	// procedure flags: nofpo
+	// static ...; // 0x10B1E264
+	// static ...; // 0x10B1E25D
+	// static ...; // 0x10B1E256
+	// static ...; // 0x10B1E249
+	// static ...; // 0x10B1E245
+	// static ...; // 0x10B1E239
+	// static ...; // 0x10B1E22A
+	// static ...; // 0x10B1E225
+	// static ...; // 0x10B1E21C
+	// static ...; // 0x10B1E1B0
+	// static ...; // 0x10B1E1A8
+	// c_mod_package_manager::c_threadsafe_iterator it;
+	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
+	// bool has_server_package_list;
+	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
+	// c_mod_package_manager &package_manager;
+	// bool file_server_enabled;
+	{
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > key;
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > hash_encoded;
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > package_url;
+		// s_mod_server_package_entry server_package;
+		{
+			// std::filesystem::path path;
+			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > filename;
+		}
+	}
+	todo("implement");
+	std::string __result = _sub_10B1DAF0();
+	return __result;
+}
+
+_extern bool _sub_10B1E470(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, HttpRequestLine *);
+bool ParseHttpRequestLine(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &rawline, HttpRequestLine *outRequestLine) // 0x10B1E470
+{
+	// `anonymous-namespace'::ParseHttpRequestLine
+	// static ...; // 0x10B1E778
+	// static ...; // 0x10B1E770
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &rawline;
+	// HttpRequestLine *outRequestLine;
+	// constexpr ParseHttpRequestLine::__l2::s_state STATE_PROTOCOL_VERSION; // constant == 2
+	// constexpr ParseHttpRequestLine::__l2::s_state STATE_END; // constant == 3
+	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > buff;
+	// ParseHttpRequestLine::__l2::s_state state;
+	// constexpr ParseHttpRequestLine::__l2::s_state STATE_METHOD_TOKEN; // constant == 0
+	// constexpr ParseHttpRequestLine::__l2::s_state STATE_REQUEST_URI; // constant == 1
+	{
+		// __int32 i;
+		{
+			// char c;
+		}
+	}
+	todo("implement");
+	bool __result = _sub_10B1E470(rawline, outRequestLine);
+	return __result;
+}
+
+extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10B1AF30(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+std::basic_string<char,std::char_traits<char>,std::allocator<char> > BuildHttpResponse(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &status, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &contentType, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &content, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &additionalHeaders) // 0x10B1AF30
+{
+	// `anonymous-namespace'::BuildHttpResponse
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &additionalHeaders;
+	todo("implement");
+	std::string __result = _sub_10B1AF30(status, contentType, content, additionalHeaders);
+	return __result;
+}
+
+extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10B1D250(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+std::basic_string<char,std::char_traits<char>,std::allocator<char> > BuildInfoServerResponse(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &rawRequest) // 0x10B1D250
+{
+	// `anonymous-namespace'::BuildInfoServerResponse
+	// static ...; // 0x10B1D45C
+	// static ...; // 0x10B1D450
+	// static ...; // 0x10B1D448
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &rawRequest;
+	// long long curTime;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &replyData;
+	todo("implement");
+	std::string __result = _sub_10B1D250(rawRequest);
+	return __result;
+}
+
+extern HttpRequestLine* _sub_10B1ACC0(HttpRequestLine *const);
+_inline HttpRequestLine::HttpRequestLine() // 0x10B1ACC0
+{
+	// `anonymous-namespace'::HttpRequestLine::HttpRequestLine
+	// HttpRequestLine *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10B1ACC0(this);
+}
+
+_extern void _sub_10B1AD30(HttpRequestLine *const);
+_inline HttpRequestLine::~HttpRequestLine() // 0x10B1AD30
+{
+	// `anonymous-namespace'::HttpRequestLine::~HttpRequestLine
+	// HttpRequestLine *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10B1AD30(this);
+}
+
+extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10B1D4F0(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+std::basic_string<char,std::char_traits<char>,std::allocator<char> > BuildModsServerResponse(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &rawRequest) // 0x10B1D4F0
+{
+	// `anonymous-namespace'::BuildModsServerResponse
+	// static ...; // 0x10B1D870
+	// static ...; // 0x10B1D864
+	// static ...; // 0x10B1D85C
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &rawRequest;
+	// bool authenticated;
+	{
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > authString;
+	}
+	todo("implement");
+	std::string __result = _sub_10B1D4F0(rawRequest);
+	return __result;
+}
+
+extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10B1D960(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+std::basic_string<char,std::char_traits<char>,std::allocator<char> > BuildNotFoundResponse(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &rawRequest) // 0x10B1D960
+{
+	// `anonymous-namespace'::BuildNotFoundResponse
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &rawRequest;
+	todo("implement");
+	std::string __result = _sub_10B1D960(rawRequest);
+	return __result;
+}
+
+extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10B1ADA0(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+std::basic_string<char,std::char_traits<char>,std::allocator<char> > BuildBadRequestResponse(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &rawRequest) // 0x10B1ADA0
+{
+	// `anonymous-namespace'::BuildBadRequestResponse
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &rawRequest;
+	todo("implement");
+	std::string __result = _sub_10B1ADA0(rawRequest);
+	return __result;
+}

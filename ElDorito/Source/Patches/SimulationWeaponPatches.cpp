@@ -6,14 +6,20 @@
 #include "Blam/cseries/enums.inl"
 #include "Blam/game/aim_target.hpp"
 #include "Blam/hs/hs.hpp"
+#include "Blam/items/weapon_definitions.hpp"
+#include "Blam/items/weapons.hpp"
 #include "Blam/math/real_math.inl"
 #include "Blam/math/real_math_definitions.hpp"
 #include "Blam/memory/static_array.inl"
 #include "Blam/objects/damage.hpp"
 #include "Blam/objects/objects.hpp"
+#include "Blam/objects/target_tracking.hpp"
+#include "Blam/simulation/simulation_types.hpp"
 #include "Blam/structures/cluster_reference.hpp"
 #include "Blam/tag_files/tag_block.inl"
 #include "Blam/tag_files/tag_groups.hpp"
+#include "Blam/units/units.hpp"
+#include "ChatCommands/ChatCommandMap.hpp"
 #include "Patch.hpp"
 #include "Patches/Audio.hpp"
 #include "Pointer.hpp"
@@ -48,11 +54,19 @@
 
 /* ---------- forward declarations */
 
+struct c_aim_target_object;
 struct c_aim_target_predicted;
 struct c_aim_target_simulation_entity;
+struct c_target_tracking_system;
+struct real_matrix4x3;
+struct real_point3d;
 struct real_vector3d;
 struct s_aim_assist_targeting_result;
-namespace
+struct s_unit_data;
+struct s_unit_target_tracking_block;
+struct s_weapon_data;
+struct s_weapon_definition;
+namespace hades_file_local
 {
 	struct s_simulation_action_projectile_fire_result;
 	struct s_player_predicted_aim_assist;
@@ -60,6 +74,7 @@ namespace
 	struct s_predicted_weapon_fire_projectile_data;
 	struct s_predicted_weapon_fire_data;
 }
+using namespace hades_file_local;
 
 namespace Utils {}
 using namespace ::Utils;
@@ -77,7 +92,7 @@ namespace Patches
 
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	struct s_simulation_action_projectile_fire_result
 	{
@@ -182,6 +197,7 @@ namespace
 	};
 	static_assert(sizeof(s_predicted_weapon_fire_data) == 128, "Invalid s_predicted_weapon_fire_data size");
 }
+using namespace hades_file_local;
 /* ---------- prototypes */
 
 namespace Patches
@@ -191,6 +207,9 @@ namespace Patches
 		extern void ApplyAll();
 	}
 }
+
+void simulation_action_weapon_fire_hook(long weapon_index, long barrel_index, bool barrel_should_recover, long tracked_gamestate_index, float projectile_error, short unit_zoom_level, s_simulation_action_projectile_fire_result *projectile_results, long projectile_result_count, bool generated_from_host_live_fire);
+void c_simulation_weapon_fire_event_definition__apply_game_event_hook(void *thisptr, void *__formal, long a1, long const *object_references, long object_reference_count, s_weapon_fire_event_sending_data *payload);
 
 /* ---------- globals */
 
@@ -214,3 +233,180 @@ namespace Patches
 }
 
 /* ---------- private code */
+
+_extern void _sub_1069FE20(long, long, bool, long, float, short, s_simulation_action_projectile_fire_result *, long, bool);
+void simulation_action_weapon_fire_hook(long weapon_index, long barrel_index, bool barrel_should_recover, long tracked_gamestate_index, float projectile_error, short unit_zoom_level, s_simulation_action_projectile_fire_result *projectile_results, long projectile_result_count, bool generated_from_host_live_fire) // 0x1069FE20
+{
+	// `anonymous-namespace'::simulation_action_weapon_fire_hook
+	// long tracked_gamestate_index;
+	// float projectile_error;
+	// short unit_zoom_level;
+	// s_simulation_action_projectile_fire_result *projectile_results;
+	// long projectile_result_count;
+	// bool generated_from_host_live_fire;
+	// long player_index;
+	// long object_index;
+	// long object_references[1];
+	// s_weapon_fire_event_sending_data event_data;
+	// long aim_assist_unit_index;
+	// s_weapon_definition *weapon_definiton;
+	// long weapon_owner_unit_index;
+	// long unit_inventory_index;
+	// s_weapon_data *weapon;
+	{
+		// s_unit_data *unit;
+		// long weapon_control_unit_index;
+	}
+	{
+		// s_aim_assist_targeting_result *aim_assist_targeting_result;
+	}
+	{
+		// long i;
+		{
+			// long index;
+			// s_simulation_action_projectile_fire_result const *current_fire_result;
+			{
+				// long entity_index;
+				{
+					// long target_index;
+					{
+						// long j;
+					}
+				}
+			}
+		}
+	}
+	{
+		// c_aim_target_object *aim_target;
+	}
+	// function call : bool (*const)()
+	// function call : bool (*const)()
+	// function call : void *(*const)(unsigned long, long)
+	// function call : long (*const)(long)
+	// function call : long (*const)(long)
+	// function call : long (*const)(long)
+	// function call : long (*const)(long)
+	// function call : bool (*const)(long, long, long *)
+	// function call : void (*const)(c_aim_target_predicted *)
+	// function call : void (*const)(long, real_vector3d *)
+	// function call : void (*const)(s_aim_assist_targeting_result *, s_player_predicted_aim_assist *)
+	// function call : bool (*const)()
+	// function call : long (*const)(long)
+	// function call : long (*const)(long)
+	// function call : unsigned long (*const)(unsigned short)
+	// function call : bool (*const)(long)
+	// function call : bool (*const)(c_target_tracking_system *)
+	// function call : c_aim_target_object *(*const)(c_target_tracking_system *)
+	// function call : bool (*const)(c_aim_target_object *, c_aim_target_simulation_entity *)
+	// function call : void (*const)(long, long, long *, long, void const *)
+	// function call : void (*const)(e_simulation_event_type, long, long *, long, long, void const *)
+	todo("implement");
+	_sub_1069FE20(weapon_index, barrel_index, barrel_should_recover, tracked_gamestate_index, projectile_error, unit_zoom_level, projectile_results, projectile_result_count, generated_from_host_live_fire);
+}
+
+_extern void _sub_1069EF80(void *, void *, long, long const *, long, s_weapon_fire_event_sending_data *);
+void c_simulation_weapon_fire_event_definition__apply_game_event_hook(void *thisptr, void *__formal, long a1, long const *object_references, long object_reference_count, s_weapon_fire_event_sending_data *payload) // 0x1069EF80
+{
+	// `anonymous-namespace'::c_simulation_weapon_fire_event_definition__apply_game_event_hook
+	// static ...; // 0x1069F984
+	// static ...; // 0x1069F980
+	// static ...; // 0x1069F97C
+	// static ...; // 0x1069F91C
+	// static ...; // 0x1069F914
+	// void *thisptr;
+	// void *__formal;
+	// long a1;
+	// long const *object_references;
+	// long object_reference_count;
+	// s_weapon_fire_event_sending_data *payload;
+	// long weapon_index;
+	// long object_index;
+	// s_predicted_weapon_fire_data fire_data;
+	// long weapon_control_unit_index;
+	// s_weapon_data *weapon;
+	// long delay;
+	// short reloading_time;
+	// long object_type;
+	// s_weapon_definition *weapon_def;
+	// long barrel_index;
+	{
+		// s_unit_data *unit;
+		// long weapon_set_index;
+		// long unit_inventory_index;
+	}
+	{
+		// real_point3d position;
+		// real_vector3d *event_data_aiming_vector;
+		// real_vector3d aiming_vector;
+		{
+			// long i;
+			{
+				// long index;
+				// s_weapon_fire_event_sending_data::s_predicted_projectile_fire_data *projectile_element;
+				// bool valid;
+				{
+					// long target_index;
+					{
+						// long gamestate_index;
+						{
+							// long predicted_object_index;
+							{
+								// real_matrix4x3 *node_matrices;
+								// long node_index;
+								// long node_matrix_count;
+							}
+						}
+					}
+				}
+			}
+		}
+		{
+		}
+	}
+	{
+		// long v67;
+		// long v57;
+		// long v64;
+	}
+	// function call : long (*const)(long)
+	// function call : long (*const)(long)
+	// function call : void *(*const)(unsigned long, long)
+	// function call : long (*const)(long)
+	// function call : real_matrix4x3 *(*const)(long, long *)
+	// function call : char (*const)(long, real_point3d *)
+	// function call : void (*const)(long, real_vector3d const *, real_vector3d const *)
+	// function call : bool (*const)(c_aim_target_object *)
+	// function call : bool (*const)(long)
+	// function call : char (*const)(c_aim_target_simulation_entity *)
+	// function call : bool (*const)(c_target_tracking_system *, c_aim_target_simulation_entity *, s_unit_target_tracking_block *)
+	// function call : long (*const)(float)
+	// function call : bool (*const)(long, long, short *)
+	// function call : void (*const)(long, bool)
+	// function call : char (*const)(long, long, long *, long *, long *)
+	// function call : bool (*const)()
+	// function call : bool (*const)(long, short)
+	// function call : char (*const)(long, short, bool)
+	// function call : long (*const)(long, short)
+	// function call : long (*const)(long, short, float)
+	// function call : void (*const)(long, s_predicted_weapon_fire_data *, bool, long)
+	todo("implement");
+	_sub_1069EF80(thisptr, __formal, a1, object_references, object_reference_count, payload);
+}
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template bool c_enum<enum e_weapon_barrel_prediction_type,short>::operator==(e_weapon_barrel_prediction_type const &) const;
+template bool c_tag_block<s_unit_target_tracking_block>::try_get_element(__int32, s_unit_target_tracking_block **) const;
+template bool c_tag_block<s_weapon_barrel_definition>::try_get_element(__int32, s_weapon_barrel_definition **) const;
+template bool s_static_array<char,2>::valid(__int32);
+template bool s_static_array<long,4>::valid(__int32);
+template char & s_static_array<char,2>::operator[](long);
+template long & s_static_array<long,4>::operator[](long);
+template s_unit_target_tracking_block & c_tag_block<s_unit_target_tracking_block>::operator[](__int32);
+template s_unit_target_tracking_block * c_tag_block<s_unit_target_tracking_block>::get_element(__int32) const;
+template s_weapon_barrel_definition & c_tag_block<s_weapon_barrel_definition>::operator[](__int32);
+template s_weapon_barrel_definition * c_tag_block<s_weapon_barrel_definition>::get_element(__int32) const;

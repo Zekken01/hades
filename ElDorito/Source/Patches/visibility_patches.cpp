@@ -524,3 +524,40 @@ extern "C" unsigned char const *scenario_pvs_connected_clusters_get_hook(s_clust
 	unsigned char const * __result = _sub_10AC6630(cluster_reference, out_count);
 	return __result;
 }
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template bool c_tag_block<s_cluster_reference>::try_get_element(__int32, s_cluster_reference **) const;
+template bool c_tag_block<s_scenario_zone_set>::try_get_element(__int32, s_scenario_zone_set **) const;
+template bool c_tag_block<s_scenario_zone_set_bsp_pvs>::try_get_element(__int32, s_scenario_zone_set_bsp_pvs **) const;
+template bool c_tag_block<s_scenario_zone_set_bsp_seam_cluster_mapping>::try_get_element(__int32, s_scenario_zone_set_bsp_seam_cluster_mapping **) const;
+template bool c_tag_block<s_scenario_zone_set_pvs>::try_get_element(__int32, s_scenario_zone_set_pvs **) const;
+template bool s_static_array<s_cluster_reference,64>::valid(__int32);
+template bool s_static_array<s_seam_mapping,128>::valid(__int32);
+template c_tag_block_flags<s_scenario_structure_bsp_reference,long>::operator long() const;
+template c_tag_block_index<s_scenario_zone_set_pvs,long>::operator long() const;
+template char * c_tag_block<char>::begin();
+template char * c_tag_block<char>::end();
+template long s_simple_list<s_visible_cluster,1392>::add();
+template long s_simple_list<s_visible_instance,4608>::add();
+template long s_simple_list<s_visible_instance_group,4096>::add();
+template long s_static_array<s_cluster_reference,64>::get_count();
+template s_cluster_reference & c_tag_block<s_cluster_reference>::operator[](__int32);
+template s_cluster_reference & s_static_array<s_cluster_reference,64>::operator[](long);
+template s_cluster_reference * c_tag_block<s_cluster_reference>::get_element(__int32) const;
+template s_instance_part const & c_tag_block<s_instance_part>::operator[](__int32) const;
+template s_instance_part_contents const & c_tag_block<s_instance_part_contents>::operator[](__int32) const;
+template s_scenario_zone_set & c_tag_block<s_scenario_zone_set>::operator[](__int32);
+template s_scenario_zone_set * c_tag_block<s_scenario_zone_set>::get_element(__int32) const;
+template s_scenario_zone_set_bsp_pvs & c_tag_block<s_scenario_zone_set_bsp_pvs>::operator[](__int32);
+template s_scenario_zone_set_bsp_pvs * c_tag_block<s_scenario_zone_set_bsp_pvs>::get_element(__int32) const;
+template s_scenario_zone_set_bsp_seam_cluster_mapping & c_tag_block<s_scenario_zone_set_bsp_seam_cluster_mapping>::operator[](__int32);
+template s_scenario_zone_set_bsp_seam_cluster_mapping * c_tag_block<s_scenario_zone_set_bsp_seam_cluster_mapping>::get_element(__int32) const;
+template s_scenario_zone_set_pvs & c_tag_block<s_scenario_zone_set_pvs>::operator[](__int32);
+template s_scenario_zone_set_pvs * c_tag_block<s_scenario_zone_set_pvs>::get_element(__int32) const;
+template s_seam_mapping & s_static_array<s_seam_mapping,128>::operator[](long);
+template s_structure_cluster const & c_tag_block<s_structure_cluster>::operator[](__int32) const;

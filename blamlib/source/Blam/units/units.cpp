@@ -206,3 +206,15 @@ bool unit_has_vision(long unit_index) // 0x10F0D040
 }
 
 /* ---------- private code */
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template bool c_tag_block<s_game_globals_grenade>::try_get_element(__int32, s_game_globals_grenade **) const;
+template char * s_static_array<char,2>::begin() const;
+template char * s_static_array<char,2>::end() const;
+template s_game_globals_grenade & c_tag_block<s_game_globals_grenade>::operator[](__int32);
+template s_game_globals_grenade * c_tag_block<s_game_globals_grenade>::get_element(__int32) const;

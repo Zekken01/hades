@@ -1030,3 +1030,22 @@ void SetUiPlayerModelRotation(float angleDegrees, float seconds) // 0x10AB7400
 }
 
 /* ---------- private code */
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template bool s_static_array<s_model_customization_region_permutation,16>::valid(__int32);
+template s_game_globals_player_character_type * c_tag_block<s_game_globals_player_character_type>::begin();
+template s_game_globals_player_character_type * c_tag_block<s_game_globals_player_character_type>::end();
+template s_model_customization_player_region & c_tag_block<s_model_customization_player_region>::operator[](__int32);
+template s_model_customization_player_region_permutation & c_tag_block<s_model_customization_player_region_permutation>::operator[](__int32);
+template s_model_customization_region_permutation & c_tag_block<s_model_customization_region_permutation>::operator[](__int32);
+template s_model_customization_region_permutation & s_static_array<s_model_customization_region_permutation,16>::operator[](long);
+template s_model_customization_region_permutation * s_static_array<s_model_customization_region_permutation,16>::get_elements();
+template s_model_variant & c_tag_block<s_model_variant>::operator[](__int32);
+template s_model_variant_region & c_tag_block<s_model_variant_region>::operator[](__int32);
+template s_multiplayer_universal_globals_definition & c_tag_block<s_multiplayer_universal_globals_definition>::operator[](__int32);
+template void s_static_array<s_model_customization_region_permutation,16>::set_memory(unsigned char);

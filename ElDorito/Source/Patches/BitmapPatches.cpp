@@ -64,6 +64,8 @@ namespace Patches
 	}
 }
 
+bool bitmap_format_is_default_srgb_hook(short format);
+
 /* ---------- globals */
 
 /* ---------- private variables */
@@ -96,3 +98,26 @@ _inline Hook::~Hook() // 0x10698FB0
 }
 
 /* ---------- private code */
+
+_extern bool _sub_1069A9E0(short);
+bool bitmap_format_is_default_srgb_hook(short format) // 0x1069A9E0
+{
+	// `anonymous-namespace'::bitmap_format_is_default_srgb_hook
+	// static ...; // 0x1069AA38
+	// static ...; // 0x1069AA30
+// $LN14:
+// $LN2:
+	// short format;
+	todo("implement");
+	bool __result = _sub_1069A9E0(format);
+	return __result;
+}
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template void Pointer::Write<unsigned long>(unsigned long const) const;
+template void Pointer::Write<unsigned short>(unsigned short const) const;

@@ -22,6 +22,7 @@
 #include "Blam/structures/cluster_reference.hpp"
 #include "Blam/tag_files/tag_groups.hpp"
 #include "ChatCommands/ChatCommandMap.hpp"
+#include "Modules/ModuleInput.hpp"
 #include "Server/ServerChat.hpp"
 #include "ThirdParty/rapidjson/allocators.h"
 #include "ThirdParty/rapidjson/encodedstream.h"
@@ -44,6 +45,7 @@
 #include "Utils/String.hpp"
 #include "Web/Ui/Screen.hpp"
 #include "Web/Ui/ScreenLayer.hpp"
+#include "Web/Ui/WebMods.hpp"
 
 #include <Windows.h>
 #include <stdio.h>
@@ -62,10 +64,12 @@
 #include <istream>
 #include <iterator>
 #include <limits>
+#include <memory>
 #include <ostream>
 #include <sstream>
 #include <stdexcept>
 #include <streambuf>
+#include <string>
 #include <system_error>
 #include <tuple>
 #include <type_traits>
@@ -76,8 +80,16 @@
 
 namespace Blam
 {
+	namespace Input
+	{
+		struct BindingsTable;
+	}
+}
+namespace Blam
+{
 	namespace Network
 	{
+		struct PlayerSession;
 		struct Session;
 	}
 }
@@ -89,10 +101,11 @@ namespace Server
 		struct ChatMessage;
 	}
 }
-namespace
+namespace hades_file_local
 {
 	class GameChatHandler;
 }
+using namespace hades_file_local;
 
 namespace Utils {}
 using namespace ::Utils;
@@ -148,10 +161,10 @@ namespace Web
 
 namespace Patches {}
 using namespace ::Patches;
-namespace Patches
+namespace Blam
 {
 	namespace Input {}
-	using namespace Patches::Input;
+	using namespace Blam::Input;
 }
 
 namespace Blam {}
@@ -166,7 +179,7 @@ namespace Blam
 
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	class GameChatHandler :
 		public Server::Chat::ChatHandler
@@ -183,6 +196,7 @@ namespace
 	};
 	static_assert(sizeof(GameChatHandler) == 4, "Invalid GameChatHandler size");
 }
+using namespace hades_file_local;
 /* ---------- prototypes */
 
 namespace Web
@@ -200,14 +214,17 @@ namespace Web
 	}
 }
 
+void OnGameInputUpdated();
+
 /* ---------- globals */
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern bool isChatBoxVisible; // 0x1247ED53
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Web
@@ -291,3 +308,76 @@ namespace Server
 }
 
 /* ---------- private code */
+
+_extern void _sub_10C9CE80(GameChatHandler *const, __int32, Server::Chat::ChatMessage *, bool *);
+void GameChatHandler::MessageSent(__int32 senderPeer, Server::Chat::ChatMessage *message, bool *ignore) // 0x10C9CE80
+{
+	// `anonymous-namespace'::GameChatHandler::MessageSent
+	// bool *ignore;
+	todo("implement");
+	_sub_10C9CE80(this, senderPeer, message, ignore);
+}
+
+_extern void _sub_10C9C880(GameChatHandler *const, Server::Chat::ChatMessage const &);
+void GameChatHandler::MessageReceived(Server::Chat::ChatMessage const &message) // 0x10C9C880
+{
+	// `anonymous-namespace'::GameChatHandler::MessageReceived
+	// static ...; // 0x10C9CD30
+	// static ...; // 0x10C9CD25
+	// static ...; // 0x10C9CD1E
+	// static ...; // 0x10C9CD1A
+	// static ...; // 0x10C9CD14
+	// static ...; // 0x10C9CCD8
+	// static ...; // 0x10C9CCD0
+// $LN8:
+// $LN7:
+// $LN6:
+// $LN5:
+	// GameChatHandler *const this;
+	// Server::Chat::ChatMessage const &message;
+	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
+	// char const *chatType;
+	// Blam::Network::Session *session;
+	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
+	{
+		// Blam::Network::PlayerSession player;
+		// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > color;
+		// char uid[17];
+	}
+	todo("implement");
+	_sub_10C9C880(this, message);
+}
+
+extern GameChatHandler* _sub_10C9C430(GameChatHandler *const);
+_inline GameChatHandler::GameChatHandler() // 0x10C9C430
+{
+	// `anonymous-namespace'::GameChatHandler::GameChatHandler
+	// GameChatHandler *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10C9C430(this);
+}
+
+_extern void _sub_10C9C570(GameChatHandler *const);
+_inline GameChatHandler::~GameChatHandler() // 0x10C9C570
+{
+	// `anonymous-namespace'::GameChatHandler::~GameChatHandler
+	// GameChatHandler *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10C9C570(this);
+}
+
+_extern void _sub_10C9CEA0();
+void OnGameInputUpdated() // 0x10C9CEA0
+{
+	// `anonymous-namespace'::OnGameInputUpdated
+	// procedure flags: nofpo
+	// static ...; // 0x10C9CFEC
+	// static ...; // 0x10C9CFE0
+	// static ...; // 0x10C9CFD8
+	// Blam::Input::BindingsTable bindings;
+	// function call : bool (*const)()
+	todo("implement");
+	_sub_10C9CEA0();
+}

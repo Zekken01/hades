@@ -99,17 +99,6 @@ namespace Player
 
 /* ---------- prototypes */
 
-namespace Player
-{
-	namespace ServiceRecord
-	{
-		extern unsigned long __stdcall GetServiceRecord_Thread(void *lpParam);
-		extern Player::ServiceRecord::ServiceRecord getCachedServiceRecord(__int32 networkPlayerIndex);
-		extern void clearCache();
-		extern void requestPlayerServiceRecord(__int32 networkPlayerIndex);
-	}
-}
-
 /* ---------- globals */
 
 /* ---------- public code */

@@ -660,3 +660,16 @@ void CModBrowserStateHandler_AcquireMod::OnDownloadSingleFinished() // 0x1071839
 }
 
 /* ---------- private code */
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template CSimpleMessageQueue<SSignatureVerificationResult,4>::CSimpleMessageQueue();
+template CSimpleMessageQueue<SSignatureVerificationResult,4>::~CSimpleMessageQueue();
+template SSignatureVerificationResult * CSimpleMessageQueue<SSignatureVerificationResult,4>::TryToAllocate();
+template _SINGLE_LIST_ENTRY * CSimpleMessageQueue<SSignatureVerificationResult,4>::Reversed(_SINGLE_LIST_ENTRY *);
+template void CSimpleMessageQueue<SSignatureVerificationResult,4>::FreeElement(CSimpleMessageQueue<SSignatureVerificationResult,4>::SQueueEntry *);
+template void CSimpleMessageQueue<SSignatureVerificationResult,4>::Initialize();

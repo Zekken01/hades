@@ -108,10 +108,11 @@ namespace Player
 {
 	class PlayerEmblemDownload;
 }
-namespace
+namespace hades_file_local
 {
 	struct PlayerEmblem;
 }
+using namespace hades_file_local;
 
 namespace Utils {}
 using namespace ::Utils;
@@ -146,7 +147,7 @@ using namespace ::Blam;
 
 /* ---------- constants */
 
-namespace
+namespace hades_file_local
 {
 	enum State
 	{
@@ -159,9 +160,10 @@ namespace
 		eRemoving,
 	};
 }
+using namespace hades_file_local;
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	struct PlayerEmblem
 	{
@@ -185,6 +187,7 @@ namespace
 	};
 	static_assert(sizeof(PlayerEmblem) == 152, "Invalid PlayerEmblem size");
 }
+using namespace hades_file_local;
 //class Player::PlayerEmblemDownload::{ctor}::__l2::<lambda_1>
 //{
 //public:
@@ -515,3 +518,23 @@ namespace Player
 }
 
 /* ---------- private code */
+
+_extern void _sub_108FC5B0(PlayerEmblem *const);
+_inline PlayerEmblem::~PlayerEmblem() // 0x108FC5B0
+{
+	// `anonymous-namespace'::PlayerEmblem::~PlayerEmblem
+	// PlayerEmblem *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_108FC5B0(this);
+}
+
+extern PlayerEmblem* _sub_108FC400(PlayerEmblem *const);
+_inline PlayerEmblem::PlayerEmblem() // 0x108FC400
+{
+	// `anonymous-namespace'::PlayerEmblem::PlayerEmblem
+	// PlayerEmblem *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_108FC400(this);
+}

@@ -32,6 +32,7 @@
 #include "Patches/PlayerPropertiesExtension.hpp"
 #include "Player/PlayerCharacterSystem.hpp"
 #include "Player/PlayerCustomizationDB.hpp"
+#include "Player/PlayerCustomizationExtension.hpp"
 #include "Utils/NameValueTable.hpp"
 #include "Utils/Singleton.hpp"
 
@@ -102,6 +103,8 @@ namespace Player
 {
 	extern void BuildChangeColors(unsigned long *changeColors, std::map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::less<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > const &colors);
 }
+
+unsigned __int32 ParseColor(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &value);
 
 /* ---------- globals */
 
@@ -331,3 +334,39 @@ namespace Player
 }
 
 /* ---------- private code */
+
+_extern unsigned __int32 _sub_107CBD20(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+unsigned __int32 ParseColor(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &value) // 0x107CBD20
+{
+	// `anonymous-namespace'::ParseColor
+	// static ...; // 0x107CBED7
+	// static ...; // 0x107CBECC
+	// static ...; // 0x107CBEB4
+	// static ...; // 0x107CBEAC
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &value;
+	// std::basic_regex<char,std::regex_traits<char> > expression;
+	// std::match_results<char const *,std::allocator<std::sub_match<char const *> > > what;
+	todo("implement");
+	unsigned __int32 __result = _sub_107CBD20(value);
+	return __result;
+}
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template Player::CPlayerCustomizationDB & Utils::Singleton<Player::CPlayerCustomizationDB>::Instance();
+template bool c_tag_block<s_model_customization_player_region>::try_get_element(__int32, s_model_customization_player_region **) const;
+template bool c_tag_block<s_model_customization_player_region_permutation>::try_get_element(__int32, s_model_customization_player_region_permutation **) const;
+template bool c_tag_block<s_model_customization_region_permutation>::try_get_element(__int32, s_model_customization_region_permutation **) const;
+template bool c_tag_block<s_model_customization_selection>::try_get_element(__int32, s_model_customization_selection **) const;
+template s_model_customization_player_region * c_tag_block<s_model_customization_player_region>::get_element(__int32) const;
+template s_model_customization_player_region const & c_tag_block<s_model_customization_player_region>::operator[](__int32) const;
+template s_model_customization_player_region_permutation * c_tag_block<s_model_customization_player_region_permutation>::get_element(__int32) const;
+template s_model_customization_player_region_permutation const & c_tag_block<s_model_customization_player_region_permutation>::operator[](__int32) const;
+template s_model_customization_region_permutation * c_tag_block<s_model_customization_region_permutation>::get_element(__int32) const;
+template s_model_customization_region_permutation const & c_tag_block<s_model_customization_region_permutation>::operator[](__int32) const;
+template s_model_customization_selection & c_tag_block<s_model_customization_selection>::operator[](__int32);
+template s_model_customization_selection * c_tag_block<s_model_customization_selection>::get_element(__int32) const;

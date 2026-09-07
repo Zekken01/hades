@@ -211,10 +211,11 @@ namespace Debug
 {
 	namespace CrashReporting
 	{
-		namespace
+		namespace hades_file_local_Debug_CrashReporting
 		{
 			extern char const *kLifeCycleStateNames[18]; // 0x1134D270
 		}
+		using namespace hades_file_local_Debug_CrashReporting;
 	}
 }
 /* ---------- public code */
@@ -392,3 +393,31 @@ namespace Debug
 }
 
 /* ---------- private code */
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template ElDorito & Utils::Singleton<ElDorito>::Instance();
+template IMod * Ref<IMod>::operator->() const;
+template Modules::ModuleDebug & Utils::Singleton<Modules::ModuleDebug>::Instance();
+template Modules::ModulePlayer & Utils::Singleton<Modules::ModulePlayer>::Instance();
+template Ref<IMod>::operator IMod *() const;
+template Ref<IMod>::~Ref();
+template Utils::Logger & Utils::Singleton<Utils::Logger>::Instance();
+template bool c_enum<enum e_game_mode,long>::operator==(e_game_mode const &) const;
+template c_enum<enum e_game_engine_type,long>::operator enum e_game_engine_type() const;
+template c_enum<enum e_game_mode,long>::operator enum e_game_mode() const;
+template char const * s_static_string<16>::get_string() const;
+template char const * s_static_string<16>::print(char const *, ...);
+template char const * s_static_string<256>::get_string() const;
+template char const * s_static_string<256>::print(char const *, ...);
+template char const * s_static_string<4096>::get_string() const;
+template char const * s_static_string<4096>::print(char const *, ...);
+template s_static_string<4096>::operator char const *() const;
+template void const s_static_string<16>::print_va(char const *, char *);
+template void const s_static_string<256>::print_va(char const *, char *);
+template void const s_static_string<4096>::print_va(char const *, char *);
+template void s_static_string<16>::set_wchar(wchar_t const *);

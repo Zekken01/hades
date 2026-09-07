@@ -6,6 +6,7 @@
 #include "Blam/cseries/cseries.hpp"
 #include "Blam/hs/hs.hpp"
 #include "Blam/tag_files/tag_groups.hpp"
+#include "Common/Http/HttpHeaders.hpp"
 #include "Modules/ModuleBase.hpp"
 #include "Patches/PlayerPropertiesExtension.hpp"
 #include "Scripting/HaloScript/HsMethodMap.hpp"
@@ -74,6 +75,10 @@ namespace Scripting
 /* ---------- definitions */
 
 /* ---------- prototypes */
+
+bool CommandGenerateMethodDecl(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &retValue);
+bool CommandScriptHelp(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &retValue);
+bool CommandGenerateDoc(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &retValue);
 
 /* ---------- globals */
 
@@ -144,3 +149,52 @@ namespace Scripting
 }
 
 /* ---------- private code */
+
+_extern bool _sub_106D4200(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandGenerateMethodDecl(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &retValue) // 0x106D4200
+{
+	// `anonymous-namespace'::CommandGenerateMethodDecl
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &retValue;
+	// Scripting::HS::ScriptMethod const *method;
+	// Scripting::HS::ScriptMethodMap &methods;
+	todo("implement");
+	bool __result = _sub_106D4200(args, retValue);
+	return __result;
+}
+
+_extern bool _sub_106D4330(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandScriptHelp(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &retValue) // 0x106D4330
+{
+	// `anonymous-namespace'::CommandScriptHelp
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &retValue;
+	// Scripting::HS::ScriptMethod const *method;
+	// Scripting::HS::ScriptMethodMap &methods;
+	todo("implement");
+	bool __result = _sub_106D4330(args, retValue);
+	return __result;
+}
+
+_extern bool _sub_106D3FE0(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+bool CommandGenerateDoc(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &retValue) // 0x106D3FE0
+{
+	// `anonymous-namespace'::CommandGenerateDoc
+	// static ...; // 0x106D4174
+	// static ...; // 0x106D415C
+	// static ...; // 0x106D4154
+	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &args;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &retValue;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > documentation;
+	// std::basic_ofstream<char,std::char_traits<char> > outFile;
+	// Scripting::HS::ScriptMethodMap &methods;
+	todo("implement");
+	bool __result = _sub_106D3FE0(args, retValue);
+	return __result;
+}
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template Scripting::HS::ScriptMethodMap & Utils::Singleton<Scripting::HS::ScriptMethodMap>::Instance();

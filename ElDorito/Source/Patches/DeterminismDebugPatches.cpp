@@ -6,8 +6,10 @@
 #include "Blam/cseries/cseries_memory.hpp"
 #include "Blam/math/real_math_definitions.hpp"
 #include "Blam/memory/tls.hpp"
+#include "ChatCommands/ChatCommandMap.hpp"
 #include "Common/Http/HttpHeaders.hpp"
 #include "Forge/Reforge.hpp"
+#include "mods/mod_package_updater.hpp"
 #include "Patch.hpp"
 #include "Patches/Audio.hpp"
 #include "Patches/PlayerPropertiesExtension.hpp"
@@ -57,13 +59,16 @@
 
 /* ---------- forward declarations */
 
+struct begin;
+struct end;
 struct lambda_1;
 struct lambda_2;
 struct s_simulation_update;
-namespace
+namespace hades_file_local
 {
 	class CDebugRandomTraceManager;
 }
+using namespace hades_file_local;
 
 namespace Utils {}
 using namespace ::Utils;
@@ -81,7 +86,7 @@ namespace Patches
 
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 
 	//@@anonymous-namespace@@
@@ -133,6 +138,7 @@ namespace
 	static_assert(sizeof(CDebugRandomTraceManager) == 16760, "Invalid CDebugRandomTraceManager size");
 
 }
+using namespace hades_file_local;
 //class Patches::DeterminismDebug::ApplyAll::__l2::<lambda_1>
 //{
 //public:
@@ -158,6 +164,9 @@ namespace Patches
 		extern bool StopRandomTrace();
 	}
 }
+
+void simulation_record_update_hook(s_simulation_update *update);
+unsigned long *get_random_seed_address_hook();
 
 /* ---------- globals */
 
@@ -201,3 +210,178 @@ namespace Patches
 }
 
 /* ---------- private code */
+
+_extern bool _sub_107A43F0(CDebugRandomTraceManager *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+_inline bool CDebugRandomTraceManager::StartTrace(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &filePath) // 0x107A43F0
+{
+	// `anonymous-namespace'::CDebugRandomTraceManager::StartTrace
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &filePath;
+	todo("implement");
+	bool __result = _sub_107A43F0(this, filePath);
+	return __result;
+}
+
+_extern bool _sub_107A45E0(CDebugRandomTraceManager *const);
+_inline bool CDebugRandomTraceManager::StopTrace() // 0x107A45E0
+{
+	// `anonymous-namespace'::CDebugRandomTraceManager::StopTrace
+	// static ...; // 0x107A4738
+	// static ...; // 0x107A472C
+	// static ...; // 0x107A4724
+	// CDebugRandomTraceManager *const this;
+	// std::unique_lock<std::mutex> lock;
+	todo("implement");
+	bool __result = _sub_107A45E0(this);
+	return __result;
+}
+
+_extern void _sub_107A3560(CDebugRandomTraceManager *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+_inline void CDebugRandomTraceManager::InitializeForNewMap(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &mapPath) // 0x107A3560
+{
+	// `anonymous-namespace'::CDebugRandomTraceManager::InitializeForNewMap
+	// static ...; // 0x107A3694
+	// static ...; // 0x107A368C
+	// CDebugRandomTraceManager *const this;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &mapPath;
+	// __int32 lastPathSeparator;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > name;
+	todo("implement");
+	_sub_107A3560(this, mapPath);
+}
+
+_extern void _sub_107A4280(CDebugRandomTraceManager *const, s_simulation_update const &);
+_inline void CDebugRandomTraceManager::RecordSimulationUpdate(s_simulation_update const &update) // 0x107A4280
+{
+	// `anonymous-namespace'::CDebugRandomTraceManager::RecordSimulationUpdate
+	// s_simulation_update const &update;
+	// unsigned long verifySeed;
+	// unsigned long time;
+	// unsigned long verifyTime;
+	// unsigned long seed;
+	// function call : long (*const)()
+	todo("implement");
+	_sub_107A4280(this, update);
+}
+
+_extern void _sub_107A4040(CDebugRandomTraceManager *const, unsigned __int32);
+_inline void CDebugRandomTraceManager::RecordRandomSeed(unsigned __int32 seed) // 0x107A4040
+{
+	// `anonymous-namespace'::CDebugRandomTraceManager::RecordRandomSeed
+	// static ...; // 0x107A41F8
+	// static ...; // 0x107A41E0
+	// static ...; // 0x107A41D8
+	// CDebugRandomTraceManager *const this;
+	// unsigned __int32 seed;
+	// CDebugRandomTraceManager::SRandomEvent event;
+	{
+		// std::scoped_lock<std::mutex> lock;
+	}
+	// function call : unsigned short (unsigned long, unsigned long, void **, unsigned long *)
+	// function call : long (*const)()
+	todo("implement");
+	_sub_107A4040(this, seed);
+}
+
+_extern void _sub_107A3850(CDebugRandomTraceManager *const, CDebugRandomTraceManager::SRandomEvent const &);
+_inline void CDebugRandomTraceManager::LogEvent(CDebugRandomTraceManager::SRandomEvent const &e) // 0x107A3850
+{
+	// `anonymous-namespace'::CDebugRandomTraceManager::LogEvent
+	// static ...; // 0x107A3CE0
+	// static ...; // 0x107A3CD8
+	// static ...; // 0x107A3CD5
+	// static ...; // 0x107A3CD0
+	// static ...; // 0x107A3C94
+	// static ...; // 0x107A3C8C
+	// CDebugRandomTraceManager *const this;
+	// CDebugRandomTraceManager::SRandomEvent const &e;
+	// char stackBuffer[8192];
+	// __int32 stackLen;
+	// __int32 len;
+	{
+		// __int32 i;
+		{
+			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > moduleName;
+			{
+				// HINSTANCE__ *hModule;
+				{
+					// unsigned __int32 relativeAddress;
+					{
+						// std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<HINSTANCE__ * const,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > > it;
+						{
+							// std::basic_string<char,std::char_traits<char>,std::allocator<char> > name;
+						}
+					}
+				}
+			}
+		}
+	}
+	// function call : __int32 (unsigned long, char const *, HINSTANCE__ **)
+	// function call : unsigned long (HINSTANCE__ *, char *, unsigned long)
+	todo("implement");
+	_sub_107A3850(this, e);
+}
+
+_extern void _sub_107A3E20(CDebugRandomTraceManager *const);
+_inline void CDebugRandomTraceManager::LogThreadProc() // 0x107A3E20
+{
+	// `anonymous-namespace'::CDebugRandomTraceManager::LogThreadProc
+	// static ...; // 0x107A3FC6
+	// static ...; // 0x107A3FC0
+	// static ...; // 0x107A3FA8
+	// static ...; // 0x107A3FA0
+	// CDebugRandomTraceManager *const this;
+	{
+		// std::unique_lock<std::mutex> lock;
+		// std::vector<CDebugRandomTraceManager::SRandomEvent,std::allocator<CDebugRandomTraceManager::SRandomEvent> > queue;
+		{
+			// std::vector<CDebugRandomTraceManager::SRandomEvent,std::allocator<CDebugRandomTraceManager::SRandomEvent> > &<range>$L0;
+			// CDebugRandomTraceManager::SRandomEvent *<begin>$L0;
+			// CDebugRandomTraceManager::SRandomEvent *<end>$L0;
+			{
+				// CDebugRandomTraceManager::SRandomEvent const &e;
+			}
+		}
+	}
+	todo("implement");
+	_sub_107A3E20(this);
+}
+
+_extern void _sub_107A7F10(s_simulation_update *);
+void simulation_record_update_hook(s_simulation_update *update) // 0x107A7F10
+{
+	// `anonymous-namespace'::simulation_record_update_hook
+	// s_simulation_update *update;
+	todo("implement");
+	_sub_107A7F10(update);
+}
+
+_extern unsigned long *_sub_107A7850();
+unsigned long *get_random_seed_address_hook() // 0x107A7850
+{
+	// `anonymous-namespace'::get_random_seed_address_hook
+	// procedure flags: nofpo
+	// unsigned long *seed_address;
+	todo("implement");
+	unsigned long * __result = _sub_107A7850();
+	return __result;
+}
+
+extern CDebugRandomTraceManager* _sub_107A1F50(CDebugRandomTraceManager *const);
+_inline CDebugRandomTraceManager::CDebugRandomTraceManager() // 0x107A1F50
+{
+	// `anonymous-namespace'::CDebugRandomTraceManager::CDebugRandomTraceManager
+	// CDebugRandomTraceManager *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_107A1F50(this);
+}
+
+extern CDebugRandomTraceManager::SRandomEvent* _sub_107A20A0(CDebugRandomTraceManager::SRandomEvent *const);
+_inline CDebugRandomTraceManager::SRandomEvent::SRandomEvent() // 0x107A20A0
+{
+	// `anonymous-namespace'::CDebugRandomTraceManager::SRandomEvent::SRandomEvent
+	// CDebugRandomTraceManager::SRandomEvent *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_107A20A0(this);
+}

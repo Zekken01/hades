@@ -2,9 +2,11 @@
 
 #include "hades/hades.h"
 
+#include "Blam/ai/actor.hpp"
 #include "Blam/cseries/cseries.hpp"
 #include "Blam/cseries/enums.inl"
 #include "Blam/cseries/flags.inl"
+#include "Blam/game/engine/game_engine_events.hpp"
 #include "Blam/game/engine/game_engine_option.hpp"
 #include "Blam/game/game_variant.hpp"
 #include "Blam/game/player_appearance.hpp"
@@ -17,8 +19,10 @@
 #include "Blam/objects/objects.hpp"
 #include "Blam/structures/cluster_reference.hpp"
 #include "Blam/tag_files/tag_groups.hpp"
+#include "ChatCommands/ChatCommandMap.hpp"
 #include "Patch.hpp"
 #include "Patches/Audio.hpp"
+#include "Patches/Events.hpp"
 #include "Pointer.hpp"
 
 #include <Windows.h>
@@ -48,6 +52,11 @@
 #include <typeinfo>
 #include <utility>
 #include <vector>
+
+/* ---------- forward declarations */
+
+struct s_game_engine_event_data;
+struct s_multiplayer_event_response_definition;
 
 namespace Utils {}
 using namespace ::Utils;
@@ -92,6 +101,12 @@ namespace Patches
 	}
 }
 
+void OnEvent(unsigned long player, s_game_engine_event_data const *event, s_multiplayer_event_response_definition const *definition);
+void chud_update_saber_medal_animation_hook(__int32 thisptr, void *unused, __int32 a2);
+void chud_update_h3_medal_animation_hook(__int32 thisptr, void *unused, __int32 a2);
+void sound_enqueue_announcer_sound_hook(unsigned __int32 sndTagIndex, __int32 delayTicks);
+void HeadshotHook();
+
 /* ---------- globals */
 
 /* ---------- private variables */
@@ -114,3 +129,73 @@ namespace Patches
 }
 
 /* ---------- private code */
+
+_extern void _sub_10A89ED0(unsigned long, s_game_engine_event_data const *, s_multiplayer_event_response_definition const *);
+void OnEvent(unsigned long player, s_game_engine_event_data const *event, s_multiplayer_event_response_definition const *definition) // 0x10A89ED0
+{
+	// `anonymous-namespace'::OnEvent
+	// s_multiplayer_event_response_definition const *definition;
+	{
+		// void (*const chud_show_medal)(__int32, __int32);
+	}
+	// function call : unsigned long (*const)(long)
+	// function call : void (*const)(__int32, __int32)
+	todo("implement");
+	_sub_10A89ED0(player, event, definition);
+}
+
+_extern void _sub_10A8A430(__int32, void *, __int32);
+void chud_update_saber_medal_animation_hook(__int32 thisptr, void *unused, __int32 a2) // 0x10A8A430
+{
+	// `anonymous-namespace'::chud_update_saber_medal_animation_hook
+	// __int32 a2;
+	todo("implement");
+	_sub_10A8A430(thisptr, unused, a2);
+}
+
+_extern void _sub_10A8A270(__int32, void *, __int32);
+void chud_update_h3_medal_animation_hook(__int32 thisptr, void *unused, __int32 a2) // 0x10A8A270
+{
+	// `anonymous-namespace'::chud_update_h3_medal_animation_hook
+	// __int32 a2;
+	// void (*const chud_update_h3_medal_animation)(__int32, __int32);
+	// chud_update_h3_medal_animation_hook::__l2::s_chud_h3_medal_state *medals;
+	// long const fadeOutDuration;
+	{
+		// __int32 i;
+		{
+			// long dt;
+			{
+				// float &opacity;
+				// long fadeOutDelta;
+			}
+		}
+	}
+	// function call : void (*const)(__int32, __int32)
+	// function call : long (*const)(float)
+	// function call : long (*const)()
+	todo("implement");
+	_sub_10A8A270(thisptr, unused, a2);
+}
+
+_extern void _sub_10A8A460(unsigned __int32, __int32);
+void sound_enqueue_announcer_sound_hook(unsigned __int32 sndTagIndex, __int32 delayTicks) // 0x10A8A460
+{
+	// `anonymous-namespace'::sound_enqueue_announcer_sound_hook
+	// __int32 delayTicks;
+	// void (*const sound_enqueue_announcer_sound)(unsigned __int32, __int32);
+	// function call : void (*const)(unsigned __int32, __int32)
+	todo("implement");
+	_sub_10A8A460(sndTagIndex, delayTicks);
+}
+
+extern void _sub_10A89EA0();
+__declspec(naked) void HeadshotHook() // 0x10A89EA0
+{
+	// `anonymous-namespace'::HeadshotHook
+	// procedure flags: nofpo
+// DEFAULT:
+// NO_MEDAL:
+	todo("implement");
+	_sub_10A89EA0();
+}

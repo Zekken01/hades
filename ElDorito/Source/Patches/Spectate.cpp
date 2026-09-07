@@ -16,10 +16,12 @@
 #include "Blam/game/player_configuration.inl"
 #include "Blam/game/players.hpp"
 #include "Blam/hs/hs.hpp"
+#include "Blam/interface/gui/gui_bitmap_widget.hpp"
 #include "Blam/interface/gui/gui_list_item_widget.hpp"
 #include "Blam/interface/gui/gui_list_widget.hpp"
 #include "Blam/interface/gui/gui_screen_widget.hpp"
 #include "Blam/interface/gui/gui_widget.hpp"
+#include "Blam/math/color_definitions.hpp"
 #include "Blam/math/real_math.inl"
 #include "Blam/math/real_math_definitions.hpp"
 #include "Blam/memory/bitstream.hpp"
@@ -29,7 +31,10 @@
 #include "Blam/tag_files/file_reference.inl"
 #include "Blam/tag_files/files.hpp"
 #include "Blam/tag_files/tag_groups.hpp"
+#include "ChatCommands/ChatCommandMap.hpp"
 #include "ElDorito.hpp"
+#include "Modules/ModuleInput.hpp"
+#include "Modules/ModuleSettings.hpp"
 #include "Patch.hpp"
 #include "Patches/Audio.hpp"
 #include "Pointer.hpp"
@@ -83,12 +88,32 @@
 
 /* ---------- forward declarations */
 
+class c_director;
+class c_gui_bitmap_widget;
+class c_gui_data;
+class c_gui_list_item_widget;
 class c_gui_screen_widget;
+class c_gui_widget;
+struct real_argb_color;
+struct s_player_datum;
 struct s_tag_data;
-namespace
+namespace Blam
+{
+	namespace Input
+	{
+		struct BindingsTable;
+	}
+}
+namespace Modules
+{
+	class ModuleInput;
+	class ModuleSettings;
+}
+namespace hades_file_local
 {
 	struct c_observer_camera_list_screen;
 }
+using namespace hades_file_local;
 
 namespace Utils {}
 using namespace ::Utils;
@@ -150,12 +175,17 @@ namespace Patches
 
 namespace Blam {}
 using namespace ::Blam;
+namespace Blam
+{
+	namespace Input {}
+	using namespace Blam::Input;
+}
 
 /* ---------- constants */
 
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	struct c_observer_camera_list_screen :
 		public c_gui_screen_widget
@@ -171,6 +201,7 @@ namespace
 	};
 	static_assert(sizeof(c_observer_camera_list_screen) == 6824, "Invalid c_observer_camera_list_screen size");
 }
+using namespace hades_file_local;
 //struct get_player_index_from_list_item::__l2::s_player_info
 //{
 //	long player_index; // 0x0
@@ -187,6 +218,14 @@ namespace Patches
 		extern void ApplyAll();
 	}
 }
+
+void GetObserverCameraSensitivityHook(__int32 localPlayerIndex, float *sensitivity);
+long c_director__player_switch_update__object_get_ultimate_parent_hook(long object_index);
+void c_director__player_switch_gui_create_or_update_hook(c_director *thisptr);
+long c_game_director__update_watched_player_when_unit_deleted_fix(long avoid_player_index, long starting_player_index, long a2, long direction, bool same_team, bool a6, bool a7, long *out_unit_index);
+long get_player_index_from_list_item(c_observer_camera_list_screen *screen, c_gui_list_item_widget *item);
+void c_observer_camera_list_screen__update_hook(c_observer_camera_list_screen *thisptr, void *__formal, unsigned long milliseconds);
+void c_observer_camera_list_screen__update_render_state_hook(c_observer_camera_list_screen *thisptr, void *__formal, unsigned long milliseconds);
 
 /* ---------- globals */
 
@@ -210,3 +249,135 @@ namespace Patches
 }
 
 /* ---------- private code */
+
+_extern void _sub_10AD08C0(__int32, float *);
+void GetObserverCameraSensitivityHook(__int32 localPlayerIndex, float *sensitivity) // 0x10AD08C0
+{
+	// `anonymous-namespace'::GetObserverCameraSensitivityHook
+	// float *sensitivity;
+	// Modules::ModuleSettings &moduleSettings;
+	// bool const isUsingController;
+	// Blam::Input::BindingsTable *bindings;
+	// Modules::ModuleInput &moduleInput;
+	// float sens;
+	todo("implement");
+	_sub_10AD08C0(localPlayerIndex, sensitivity);
+}
+
+_extern long _sub_10AD0CF0(long);
+long c_director__player_switch_update__object_get_ultimate_parent_hook(long object_index) // 0x10AD0CF0
+{
+	// `anonymous-namespace'::c_director__player_switch_update__object_get_ultimate_parent_hook
+	// long object_index;
+	todo("implement");
+	long __result = _sub_10AD0CF0(object_index);
+	return __result;
+}
+
+_extern void _sub_10AD0AC0(c_director *);
+void c_director__player_switch_gui_create_or_update_hook(c_director *thisptr) // 0x10AD0AC0
+{
+	// `anonymous-namespace'::c_director__player_switch_gui_create_or_update_hook
+	// c_director *thisptr;
+	// c_observer_camera_list_screen *camera_list_screen;
+	// long controller_index;
+	// long window_index;
+	{
+		// bool is_playback;
+	}
+	// function call : bool (*const)(char)
+	// function call : bool (*const)()
+	// function call : bool (*const)()
+	// function call : bool (*const)()
+	// function call : char (*const)(c_director *)
+	// function call : unsigned long (*const)(long)
+	// function call : long (*const)(long)
+	// function call : c_observer_camera_list_screen *(*const)(long)
+	// function call : bool (*const)(long)
+	// function call : c_observer_camera_list_screen *(*const)(long)
+	// function call : void (*const)(c_director *)
+	// function call : bool (*const)()
+	// function call : void (*const)(c_gui_widget *, bool)
+	// function call : void (*const)(c_gui_widget *, long, bool)
+	todo("implement");
+	_sub_10AD0AC0(thisptr);
+}
+
+_extern long _sub_10AD0D10(long, long, long, long, bool, bool, bool, long *);
+long c_game_director__update_watched_player_when_unit_deleted_fix(long avoid_player_index, long starting_player_index, long a2, long direction, bool same_team, bool a6, bool a7, long *out_unit_index) // 0x10AD0D10
+{
+	// `anonymous-namespace'::c_game_director__update_watched_player_when_unit_deleted_fix
+	// long *out_unit_index;
+	// void (*const c_director__set_watched_player)(c_director *, long);
+	// long (*const c_director__player_get_next_player_with_a_unit)(long, long, long, long, bool, bool, bool, long *);
+	// long next_player_index;
+	{
+		// long output_user_index;
+	}
+	// function call : long (*const)(long, long, long, long, bool, bool, bool, long *)
+	// function call : long (*const)(long)
+	// function call : c_director *(*const)(long)
+	// function call : void (*const)(c_director *, long)
+	todo("implement");
+	long __result = _sub_10AD0D10(avoid_player_index, starting_player_index, a2, direction, same_team, a6, a7, out_unit_index);
+	return __result;
+}
+
+_extern long _sub_10AD1160(c_observer_camera_list_screen *, c_gui_list_item_widget *);
+long get_player_index_from_list_item(c_observer_camera_list_screen *screen, c_gui_list_item_widget *item) // 0x10AD1160
+{
+	// `anonymous-namespace'::get_player_index_from_list_item
+	// static ...; // 0x10AD1220
+	// static ...; // 0x10AD1218
+	// c_observer_camera_list_screen *screen;
+	// c_gui_list_item_widget *item;
+	// c_gui_data *data;
+	// long element_handle;
+	// get_player_index_from_list_item::__l2::s_player_info player_info;
+	// function call : long ()
+	// function call : bool (long, void *, long)
+	todo("implement");
+	long __result = _sub_10AD1160(screen, item);
+	return __result;
+}
+
+_extern void _sub_10AD0E10(c_observer_camera_list_screen *, void *, unsigned long);
+void c_observer_camera_list_screen__update_hook(c_observer_camera_list_screen *thisptr, void *__formal, unsigned long milliseconds) // 0x10AD0E10
+{
+	// `anonymous-namespace'::c_observer_camera_list_screen__update_hook
+	// unsigned long milliseconds;
+	// long player_index;
+	// long player_idx;
+	// void (*const c_observer_camera_list_screen__update)(c_observer_camera_list_screen *, unsigned long);
+	// c_gui_bitmap_widget *player_emblem_widget;
+	// function call : void (*const)(c_observer_camera_list_screen *, unsigned long)
+	todo("implement");
+	_sub_10AD0E10(thisptr, __formal, milliseconds);
+}
+
+_extern void _sub_10AD0F40(c_observer_camera_list_screen *, void *, unsigned long);
+void c_observer_camera_list_screen__update_render_state_hook(c_observer_camera_list_screen *thisptr, void *__formal, unsigned long milliseconds) // 0x10AD0F40
+{
+	// `anonymous-namespace'::c_observer_camera_list_screen__update_render_state_hook
+	// static ...; // 0x10AD10D4
+	// c_observer_camera_list_screen *thisptr;
+	// void *__formal;
+	// unsigned long milliseconds;
+	// void (*const update_render_state)(c_gui_widget *, unsigned long);
+	// long player_index;
+	// c_gui_bitmap_widget *base_color_widget;
+	{
+		// s_player_datum *player;
+	}
+	{
+		// long player_idx;
+		// real_argb_color base_color;
+	}
+	// function call : void (*const)(c_gui_widget *, unsigned long)
+	// function call : bool (*const)()
+	// function call : void (*const)(c_gui_widget *, long, bool)
+	// function call : real_argb_color *(*const)(unsigned long, real_argb_color *)
+	// function call : void (*const)(c_gui_widget *, real_argb_color const *)
+	todo("implement");
+	_sub_10AD0F40(thisptr, __formal, milliseconds);
+}

@@ -17,6 +17,7 @@
 #include "Blam/math/real_math_definitions.hpp"
 #include "Blam/memory/bitstream.hpp"
 #include "Blam/memory/data_array.inl"
+#include "Blam/memory/tls.hpp"
 #include "Blam/objects/damage.hpp"
 #include "Blam/objects/objects.hpp"
 #include "Blam/structures/cluster_reference.hpp"
@@ -45,10 +46,19 @@
 /* ---------- forward declarations */
 
 struct lambda_1;
-namespace
+struct s_player_datum;
+namespace Blam
+{
+	namespace Network
+	{
+		struct Session;
+	}
+}
+namespace hades_file_local
 {
 	struct HsGlobalSyncState;
 }
+using namespace hades_file_local;
 
 namespace Utils {}
 using namespace ::Utils;
@@ -70,12 +80,17 @@ namespace Patches
 
 namespace Blam {}
 using namespace ::Blam;
+namespace Blam
+{
+	namespace Network {}
+	using namespace Blam::Network;
+}
 
 /* ---------- constants */
 
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	struct HsGlobalSyncState
 	{
@@ -85,6 +100,7 @@ namespace
 	static_assert(sizeof(HsGlobalSyncState) == 4, "Invalid HsGlobalSyncState size");
 
 }
+using namespace hades_file_local;
 //class Server::HsGlobalSync::Init::__l2::<lambda_1>
 //{
 //public:
@@ -110,15 +126,25 @@ namespace Server
 	}
 }
 
+__int32 FindGlobalSyncState(unsigned long globalIndex);
+namespace Server
+{
+	namespace HsGlobalSync
+	{
+		void SynchronizeGlobalInternal(HsGlobalSyncState *global);
+	}
+}
+
 /* ---------- globals */
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern unsigned __int32 lastSynchronizeTime; // 0x1134D8F0
 	extern std::function<void __cdecl(short,unsigned short)> sendGlobal; // 0x113882F8
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Server
@@ -225,3 +251,51 @@ namespace Server
 }
 
 /* ---------- private code */
+
+_extern __int32 _sub_1071FAC0(unsigned long);
+__int32 FindGlobalSyncState(unsigned long globalIndex) // 0x1071FAC0
+{
+	// `anonymous-namespace'::FindGlobalSyncState
+	// unsigned long globalIndex;
+	{
+		// unsigned __int32 i;
+	}
+	todo("implement");
+	__int32 __result = _sub_1071FAC0(globalIndex);
+	return __result;
+}
+
+namespace Server
+{
+	namespace HsGlobalSync
+	{
+		_extern void _sub_1071FF70(HsGlobalSyncState *);
+		void SynchronizeGlobalInternal(HsGlobalSyncState *global) // 0x1071FF70
+		{
+			// Server::HsGlobalSync::SynchronizeGlobalInternal
+			// HsGlobalSyncState *global;
+			// unsigned __int32 needsSyncPlayerMask;
+			// unsigned short syncPlayerMask;
+			// c_data_array<s_player_datum> *players;
+			// Blam::Network::Session *session;
+			// unsigned __int32 activePlayerMask;
+			{
+				// __int32 i;
+				{
+					// s_player_datum *player;
+					// __int32 playerIdx;
+				}
+			}
+			todo("implement");
+			_sub_1071FF70(global);
+		}
+	}
+}
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template s_player_datum * c_data_array<s_player_datum>::get_absolute(long);

@@ -14,6 +14,7 @@
 #include "Blam/tag_files/tag_groups.hpp"
 #include "ChatCommands/ChatCommandMap.hpp"
 #include "CommandMap.hpp"
+#include "Forge/ForgeUtil.hpp"
 #include "Forge/Geoemetry.hpp"
 #include "Forge/Magnets.hpp"
 #include "Modules/ModuleForge.hpp"
@@ -32,6 +33,8 @@
 #include <exception>
 #include <functional>
 #include <limits>
+#include <memory>
+#include <string>
 #include <tuple>
 #include <type_traits>
 #include <typeinfo>
@@ -46,6 +49,13 @@ struct real_point3d;
 struct real_quaternion;
 struct real_vector3d;
 struct s_RotationSnapState;
+namespace Blam
+{
+	namespace Input
+	{
+		struct ActionState;
+	}
+}
 namespace Modules
 {
 	class ModuleForge;
@@ -94,14 +104,18 @@ namespace Forge
 	}
 }
 
+void SetSnap(__int32 value);
+void HandleInput();
+
 /* ---------- globals */
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern float const SNAP_ANGLES[7]; // 0x1119ABF8
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Forge
@@ -183,3 +197,37 @@ namespace Forge
 }
 
 /* ---------- private code */
+
+_extern void _sub_109719E0(__int32);
+void SetSnap(__int32 value) // 0x109719E0
+{
+	// `anonymous-namespace'::SetSnap
+	// static ...; // 0x10971C01
+	// static ...; // 0x10971BFC
+	// static ...; // 0x10971BE4
+	// static ...; // 0x10971BDC
+	// __int32 value;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > prev;
+	// static void (*`SetSnap'::`2'::PrintKillFeedText)(unsigned __int32, wchar_t *, __int32); // 0x11353DC8
+	// static Modules::ModuleForge &`SetSnap'::`2'::moduleForge; // 0x1244FA50
+	// wchar_t buff[256];
+	// static __int32 `SetSnap'::`2'::$TSS0; // 0x1244FA54
+	// function call : void (*)(unsigned __int32, wchar_t *, __int32)
+	todo("implement");
+	_sub_109719E0(value);
+}
+
+_extern void _sub_10971350();
+void HandleInput() // 0x10971350
+{
+	// `anonymous-namespace'::HandleInput
+	// procedure flags: nofpo
+	// __int32 currentSnap;
+	// static Modules::ModuleForge &`HandleInput'::`2'::moduleForge; // 0x1244FA58
+	// Blam::Input::ActionState *uiLeftAction;
+	// Blam::Input::ActionState *uiRightAction;
+	// __int32 snapAngleCount;
+	// static __int32 `HandleInput'::`2'::$TSS0; // 0x1244FA5C
+	todo("implement");
+	_sub_10971350();
+}

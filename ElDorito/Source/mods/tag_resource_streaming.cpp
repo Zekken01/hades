@@ -37,16 +37,17 @@ struct s_cache_file_resource_shared_file;
 struct s_cache_file_tag_resource_table_runtime;
 struct s_indirect_cache_file_page;
 struct s_tag_resource;
-namespace
+namespace hades_file_local
 {
 	class c_tag_resource_stream_task;
 }
+using namespace hades_file_local;
 
 /* ---------- constants */
 
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	class c_tag_resource_stream_task
 	{
@@ -112,6 +113,7 @@ namespace
 	static_assert(sizeof(c_tag_resource_stream_task) == 96, "Invalid c_tag_resource_stream_task size");
 
 }
+using namespace hades_file_local;
 /* ---------- prototypes */
 
 extern long tag_resource_stream_async(long resource_handle, void *buffer, long buffer_size, c_async_completion_flag *completed);
@@ -152,3 +154,116 @@ long tag_resource_stream_async(long resource_handle, void *buffer, long buffer_s
 }
 
 /* ---------- private code */
+
+extern c_tag_resource_stream_task* _sub_10853DB0(c_tag_resource_stream_task *const);
+_inline c_tag_resource_stream_task::c_tag_resource_stream_task() // 0x10853DB0
+{
+	// `anonymous-namespace'::c_tag_resource_stream_task::c_tag_resource_stream_task
+	// c_tag_resource_stream_task *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10853DB0(this);
+}
+
+_extern bool _sub_10854290(c_tag_resource_stream_task::s_packet const *const);
+_inline bool c_tag_resource_stream_task::s_packet::is_filled() const // 0x10854290
+{
+	// `anonymous-namespace'::c_tag_resource_stream_task::s_packet::is_filled
+	// c_tag_resource_stream_task::s_packet const *const this;
+	todo("implement");
+	bool __result = _sub_10854290((c_tag_resource_stream_task::s_packet const *)this);
+	return __result;
+}
+
+_extern void _sub_108541A0(c_tag_resource_stream_task *const, void *, unsigned long, unsigned long, unsigned long, void *, unsigned long, c_async_completion_flag *);
+_inline void c_tag_resource_stream_task::initialize(void *file_handle, unsigned long file_offset, unsigned long compressed_size, unsigned long uncompressed_size, void *buffer, unsigned long buffer_size, c_async_completion_flag *completion_flag) // 0x108541A0
+{
+	// `anonymous-namespace'::c_tag_resource_stream_task::initialize
+	// c_async_completion_flag *completion_flag;
+	todo("implement");
+	_sub_108541A0(this, file_handle, file_offset, compressed_size, uncompressed_size, buffer, buffer_size, completion_flag);
+}
+
+_extern void _sub_10854030(c_tag_resource_stream_task *const);
+_inline void c_tag_resource_stream_task::dispose() // 0x10854030
+{
+	// `anonymous-namespace'::c_tag_resource_stream_task::dispose
+	// c_tag_resource_stream_task *const this;
+	todo("implement");
+	_sub_10854030(this);
+}
+
+_extern long _sub_108542F0(c_tag_resource_stream_task *const);
+_inline long c_tag_resource_stream_task::next_free_packet_index() // 0x108542F0
+{
+	// `anonymous-namespace'::c_tag_resource_stream_task::next_free_packet_index
+	// c_tag_resource_stream_task *const this;
+	{
+		// __int32 j;
+	}
+	todo("implement");
+	long __result = _sub_108542F0(this);
+	return __result;
+}
+
+_extern bool _sub_108547F0(c_tag_resource_stream_task *const);
+_inline bool c_tag_resource_stream_task::update() // 0x108547F0
+{
+	// `anonymous-namespace'::c_tag_resource_stream_task::update
+	// c_tag_resource_stream_task *const this;
+	{
+		// c_tag_resource_stream_task::s_lz_block_header *block_header;
+		{
+			// long packet_index;
+			// __int32 bRet;
+			// unsigned long err;
+		}
+		{
+			// __int32 j;
+			{
+				// long input_length;
+				// char *input_buffer;
+			}
+		}
+		{
+			// long overflow;
+		}
+	}
+	// function call : __int32 (void *, void *, unsigned long, unsigned long *, _OVERLAPPED *)
+	// function call : unsigned long ()
+	// function call : unsigned long ()
+	// function call : long (*const)(void *, void *, long)
+	todo("implement");
+	bool __result = _sub_108547F0(this);
+	return __result;
+}
+
+_extern void _sub_10853E80(c_tag_resource_stream_task *const, e_tag_resource_stream_abort_reason);
+_inline void c_tag_resource_stream_task::abort(e_tag_resource_stream_abort_reason reason) // 0x10853E80
+{
+	// `anonymous-namespace'::c_tag_resource_stream_task::abort
+	// e_tag_resource_stream_abort_reason reason;
+	todo("implement");
+	_sub_10853E80(this, reason);
+}
+
+extern e_async_completion _sub_10853FD0(c_tag_resource_stream_task *);
+_inline e_async_completion c_tag_resource_stream_task::async_callback(c_tag_resource_stream_task *task) // 0x10853FD0
+{
+	// `anonymous-namespace'::c_tag_resource_stream_task::async_callback
+	// c_tag_resource_stream_task *task;
+	todo("implement");
+	e_async_completion __result = _sub_10853FD0(task);
+	return __result;
+}
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template bool c_static_bit_vector<32>::test(long);
+template bool c_static_bit_vector<32>::valid_bit(long);
+template void c_static_bit_vector<32>::set(long);
+template void c_static_bit_vector<32>::unset(long);

@@ -9,6 +9,7 @@
 #include "ChatCommands/ChatCommandMap.hpp"
 #include "Forge/ForgeUndo.hpp"
 #include "Patches/Audio.hpp"
+#include "Patches/VirtualKeyboard.hpp"
 #include "ThirdParty/rapidjson/rapidjson.h"
 
 #include <functional>

@@ -96,11 +96,12 @@ namespace Player
 		struct ServiceRecord;
 	}
 }
-namespace
+namespace hades_file_local
 {
 	struct SPlayerInfo;
 	struct SPlayerEmblemInfo;
 }
+using namespace hades_file_local;
 
 namespace Utils {}
 using namespace ::Utils;
@@ -143,7 +144,7 @@ using namespace ::Blam;
 
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	struct SPlayerInfo
 	{
@@ -176,6 +177,7 @@ namespace
 	};
 	static_assert(sizeof(SPlayerEmblemInfo) == 40, "Invalid SPlayerEmblemInfo size");
 }
+using namespace hades_file_local;
 /* ---------- prototypes */
 
 namespace Player
@@ -186,17 +188,22 @@ namespace Player
 	extern void LifeCycleStateChanged(Blam::Network::LifeCycleState newState);
 }
 
+bool ValidNetworkPlayerIndex(__int32 networkPlayerIndex);
+void ClearCache();
+void ClearEmblemCache();
+
 /* ---------- globals */
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern bool isAvailable; // 0x1138F2C8
 	extern long long checkRankTime; // 0x1138F2D0
 	extern bool rankCheckGameStarted; // 0x1138F2C9
 	extern bool rankCheckGameEnded; // 0x1138F2CA
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Player
@@ -397,3 +404,109 @@ namespace Player
 }
 
 /* ---------- private code */
+
+_extern bool _sub_107EEF90(__int32);
+bool ValidNetworkPlayerIndex(__int32 networkPlayerIndex) // 0x107EEF90
+{
+	// `anonymous-namespace'::ValidNetworkPlayerIndex
+	// __int32 networkPlayerIndex;
+	todo("implement");
+	bool __result = _sub_107EEF90(networkPlayerIndex);
+	return __result;
+}
+
+_extern void _sub_107EDCB0();
+void ClearCache() // 0x107EDCB0
+{
+	// `anonymous-namespace'::ClearCache
+	// procedure flags: nofpo
+	{
+		// __int32 i;
+	}
+	todo("implement");
+	_sub_107EDCB0();
+}
+
+_extern void _sub_107EDD90();
+void ClearEmblemCache() // 0x107EDD90
+{
+	// `anonymous-namespace'::ClearEmblemCache
+	// procedure flags: nofpo
+	{
+		// __int32 i;
+	}
+	todo("implement");
+	_sub_107EDD90();
+}
+
+extern SPlayerEmblemInfo* _sub_107ED930(SPlayerEmblemInfo *const);
+_inline SPlayerEmblemInfo::SPlayerEmblemInfo() // 0x107ED930
+{
+	// `anonymous-namespace'::SPlayerEmblemInfo::SPlayerEmblemInfo
+	// SPlayerEmblemInfo *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_107ED930(this);
+}
+
+extern SPlayerInfo* _sub_107ED980(SPlayerInfo *const, SPlayerInfo const &);
+_inline SPlayerInfo::SPlayerInfo(SPlayerInfo const &__that) // 0x107ED980
+{
+	// `anonymous-namespace'::SPlayerInfo::SPlayerInfo
+	// SPlayerInfo const &__that;
+	compiler_generated();
+	todo("implement");
+	_sub_107ED980(this, __that);
+}
+
+extern SPlayerInfo* _sub_107EDA30(SPlayerInfo *const);
+_inline SPlayerInfo::SPlayerInfo() // 0x107EDA30
+{
+	// `anonymous-namespace'::SPlayerInfo::SPlayerInfo
+	// SPlayerInfo *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_107EDA30(this);
+}
+
+_extern void _sub_107EDB00(SPlayerEmblemInfo *const);
+_inline SPlayerEmblemInfo::~SPlayerEmblemInfo() // 0x107EDB00
+{
+	// `anonymous-namespace'::SPlayerEmblemInfo::~SPlayerEmblemInfo
+	// SPlayerEmblemInfo *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_107EDB00(this);
+}
+
+_extern void _sub_107EDB50(SPlayerInfo *const);
+_inline SPlayerInfo::~SPlayerInfo() // 0x107EDB50
+{
+	// `anonymous-namespace'::SPlayerInfo::~SPlayerInfo
+	// SPlayerInfo *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_107EDB50(this);
+}
+
+extern SPlayerEmblemInfo &_sub_107EDBA0(SPlayerEmblemInfo *const, SPlayerEmblemInfo &);
+_inline SPlayerEmblemInfo &SPlayerEmblemInfo::operator=(SPlayerEmblemInfo &__that) // 0x107EDBA0
+{
+	// `anonymous-namespace'::SPlayerEmblemInfo::operator=
+	// SPlayerEmblemInfo &__that;
+	compiler_generated();
+	todo("implement");
+	SPlayerEmblemInfo & __result = _sub_107EDBA0(this, __that);
+	return __result;
+}
+
+extern SPlayerInfo &_sub_107EDC10(SPlayerInfo *const, SPlayerInfo &);
+_inline SPlayerInfo &SPlayerInfo::operator=(SPlayerInfo &__that) // 0x107EDC10
+{
+	// `anonymous-namespace'::SPlayerInfo::operator=
+	// SPlayerInfo &__that;
+	compiler_generated();
+	todo("implement");
+	SPlayerInfo & __result = _sub_107EDC10(this, __that);
+	return __result;
+}

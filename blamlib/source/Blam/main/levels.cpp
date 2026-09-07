@@ -84,10 +84,11 @@ extern void (*const levels_get_map_name)(unsigned long, unsigned long, char *, _
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern s_levels_globals *g_level_globals; // 0x11359B84
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 _extern void _sub_10F07D10();

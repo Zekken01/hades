@@ -39,11 +39,12 @@ extern bool bink_prediction_queued_and_not_active();
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern __int32 *g_bink_frame_width; // 0x11359FE0
 	extern __int32 *g_bink_frame_height; // 0x11359FE4
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 _extern void _sub_10F18130(short_rectangle2d *);

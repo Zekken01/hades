@@ -201,3 +201,12 @@ _inline CForgeUndoManager::CForgeUndoManager() // 0x108647A0
 }
 
 /* ---------- private code */
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template CForgeUndoManager & Utils::Singleton<CForgeUndoManager>::Instance();
+template c_flags<enum e_variant_object_placement_flags,unsigned short>::c_flags();

@@ -53,10 +53,11 @@ extern bool (*const game_engine_is_sandbox)(); // 0x11248CAC
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern char const *k_game_engine_type_names[11]; // 0x1135965C
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 _extern __int32 _sub_10EFFC00(unsigned long);

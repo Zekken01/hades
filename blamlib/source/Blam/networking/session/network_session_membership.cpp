@@ -134,3 +134,12 @@ long c_network_session_membership::get_next_peer(long peer_index) // 0x10F00980
 }
 
 /* ---------- private code */
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template bool s_static_array<s_network_session_peer_channel,17>::valid(__int32);
+template s_network_session_peer_channel const & s_static_array<s_network_session_peer_channel,17>::operator[](long) const;

@@ -170,11 +170,12 @@ namespace Server
 {
 	namespace Voting
 	{
-		namespace
+		namespace hades_file_local_Server_Voting
 		{
 			extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > const DefaultTypes[8]; // 0x12468668
 			extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > const DefaultTypeNames[8]; // 0x12468758
 		}
+		using namespace hades_file_local_Server_Voting;
 	}
 }
 /* ---------- public code */

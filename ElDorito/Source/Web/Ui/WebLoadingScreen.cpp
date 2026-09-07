@@ -88,10 +88,11 @@ namespace Patches
 		struct LoadingScreenShowInfo;
 	}
 }
-namespace
+namespace hades_file_local
 {
 	class WebLoadingScreenUi;
 }
+using namespace hades_file_local;
 
 namespace Utils {}
 using namespace ::Utils;
@@ -163,7 +164,7 @@ namespace Blam
 
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	class WebLoadingScreenUi :
 		public Patches::LoadingScreen::LoadingScreenUi
@@ -191,6 +192,7 @@ namespace
 	};
 	static_assert(sizeof(WebLoadingScreenUi) == 72, "Invalid WebLoadingScreenUi size");
 }
+using namespace hades_file_local;
 /* ---------- prototypes */
 
 namespace Web
@@ -249,3 +251,98 @@ namespace Patches
 }
 
 /* ---------- private code */
+
+extern WebLoadingScreenUi* _sub_10CA9FE0(WebLoadingScreenUi *const);
+_inline WebLoadingScreenUi::WebLoadingScreenUi() // 0x10CA9FE0
+{
+	// `anonymous-namespace'::WebLoadingScreenUi::WebLoadingScreenUi
+	// WebLoadingScreenUi *const this;
+	todo("implement");
+	_sub_10CA9FE0(this);
+}
+
+_extern void _sub_10CAA170(WebLoadingScreenUi *const);
+_inline WebLoadingScreenUi::~WebLoadingScreenUi() // 0x10CAA170
+{
+	// `anonymous-namespace'::WebLoadingScreenUi::~WebLoadingScreenUi
+	// WebLoadingScreenUi *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10CAA170(this);
+}
+
+_extern void _sub_10CAAC00(WebLoadingScreenUi *const, Patches::LoadingScreen::LoadingScreenShowInfo const &);
+void WebLoadingScreenUi::Show(Patches::LoadingScreen::LoadingScreenShowInfo const &info) // 0x10CAAC00
+{
+	// `anonymous-namespace'::WebLoadingScreenUi::Show
+	// static ...; // 0x10CAB1CF
+	// static ...; // 0x10CAB1C4
+	// static ...; // 0x10CAB1A0
+	// static ...; // 0x10CAB198
+	// WebLoadingScreenUi *const this;
+	// Patches::LoadingScreen::LoadingScreenShowInfo const &info;
+	// unsigned __int32 separatorIndex;
+	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > mapName;
+	// static bool `WebLoadingScreenUi::Show'::`2'::firstShow; // 0x1247EDC8
+	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
+	{
+		// unsigned __int32 i;
+	}
+	todo("implement");
+	_sub_10CAAC00(this, info);
+}
+
+_extern void _sub_10CAA320(WebLoadingScreenUi *const, unsigned __int32);
+void WebLoadingScreenUi::Begin(unsigned __int32 totalBytes) // 0x10CAA320
+{
+	// `anonymous-namespace'::WebLoadingScreenUi::Begin
+	// unsigned __int32 totalBytes;
+	todo("implement");
+	_sub_10CAA320(this, totalBytes);
+}
+
+_extern void _sub_10CAB360(WebLoadingScreenUi *const, unsigned __int32);
+void WebLoadingScreenUi::UpdateProgress(unsigned __int32 bytes) // 0x10CAB360
+{
+	// `anonymous-namespace'::WebLoadingScreenUi::UpdateProgress
+	// static ...; // 0x10CAB59B
+	// static ...; // 0x10CAB590
+	// static ...; // 0x10CAB56C
+	// static ...; // 0x10CAB564
+	// WebLoadingScreenUi *const this;
+	// unsigned __int32 bytes;
+	// std::chrono::time_point<std::chrono::steady_clock,std::chrono::duration<__int64,std::ratio<1,1000000000> > > currentTime;
+	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
+	// long long elapsed;
+	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
+	todo("implement");
+	_sub_10CAB360(this, bytes);
+}
+
+_extern void _sub_10CAA3A0(WebLoadingScreenUi *const);
+void WebLoadingScreenUi::Hide() // 0x10CAA3A0
+{
+	// `anonymous-namespace'::WebLoadingScreenUi::Hide
+	// static ...; // 0x10CAA957
+	// static ...; // 0x10CAA952
+	// static ...; // 0x10CAA94C
+	// static ...; // 0x10CAA928
+	// static ...; // 0x10CAA920
+	// WebLoadingScreenUi *const this;
+	// float tag_memory_used;
+	// float used_data_memory_size;
+	// s_static_string<4096> stats;
+	// float physical_memory_percent;
+	// float used_resource_memory_size;
+	// char buff[256];
+	// double const k_mb;
+	// float loaded_tags_percent;
+	// float tag_memory_size;
+	// float physical_memory_total_size;
+	// float used_tag_memory_size;
+	// std::chrono::duration<double,std::ratio<1,1> > time_span;
+	// float physical_memory_used_size;
+	todo("implement");
+	_sub_10CAA3A0(this);
+}

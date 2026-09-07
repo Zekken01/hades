@@ -15,6 +15,7 @@
 #include "Patches/CustomPackets.hpp"
 #include "Patches/PlayerPropertiesExtension.hpp"
 #include "Utils/EventSink.hpp"
+#include "Utils/NameValueTable.hpp"
 #include "Utils/Singleton.hpp"
 
 #include <Windows.h>
@@ -256,6 +257,58 @@ namespace Http
 
 namespace Download
 {
+	_extern void _sub_1082CA90(Download::CSparseFileSegmentStore *const);
+	_inline CSparseFileSegmentStore::~CSparseFileSegmentStore() // 0x1082CA90
+	{
+		mangled_x86(MANGLED_TODO, "??1CSparseFileSegmentStore@Download@@UAE@XZ");
+		// static ...; // 0x1082CC1F
+		// static ...; // 0x1082CC1C
+		// static ...; // 0x1082CC04
+		// static ...; // 0x1082CBFC
+		// Download::CSparseFileSegmentStore *const this;
+		// std::scoped_lock<std::mutex> lock;
+		{
+			// std::_List_const_iterator<std::_List_val<std::_List_simple_types<std::pair<Download::CHttpFileDownload::SSegment * const,void *> > > > it;
+		}
+		// function call : __int32 (void *)
+		todo("implement");
+		_sub_1082CA90(this);
+	}
+
+	_extern bool _sub_1082E880(Download::CSparseFileSegmentStore *const, long long);
+	_inline bool CSparseFileSegmentStore::CheckAvailableSpace(long long size) // 0x1082E880
+	{
+		mangled_x86(MANGLED_TODO, "?CheckAvailableSpace@CSparseFileSegmentStore@Download@@UAE_N_J@Z");
+		// static ...; // 0x1082EA78
+		// static ...; // 0x1082EA60
+		// static ...; // 0x1082EA58
+		// Download::CSparseFileSegmentStore *const this;
+		// long long size;
+		// std::filesystem::space_info si;
+		// std::filesystem::path directory;
+		todo("implement");
+		bool __result = _sub_1082E880(this, size);
+		return __result;
+	}
+
+	_extern bool _sub_1082E090(Download::CSparseFileSegmentStore *const, long long);
+	_inline bool CSparseFileSegmentStore::AdviseFileSize(long long size) // 0x1082E090
+	{
+		mangled_x86(MANGLED_TODO, "?AdviseFileSize@CSparseFileSegmentStore@Download@@UAE_N_J@Z");
+		// static ...; // 0x1082E154
+		// static ...; // 0x1082E14C
+		// Download::CSparseFileSegmentStore *const this;
+		// long long size;
+		// unsigned long dw;
+		// void *hFile;
+		// function call : __int32 (void *, unsigned long, void *, unsigned long, void *, unsigned long, unsigned long *, _OVERLAPPED *)
+		// function call : __int32 (void *)
+		// function call : __int32 (void *)
+		todo("implement");
+		bool __result = _sub_1082E090(this, size);
+		return __result;
+	}
+
 	_extern void *_sub_10831540(Download::CSparseFileSegmentStore *const, bool);
 	_inline void *CSparseFileSegmentStore::OpenFile(bool overwrite) // 0x10831540
 	{
@@ -806,3 +859,13 @@ namespace Download
 }
 
 /* ---------- private code */
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template Modules::ModuleDownload & Utils::Singleton<Modules::ModuleDownload>::Instance();
+template void CEventSink<>::PostEvent();
+template void CEventSink<>::Reset();

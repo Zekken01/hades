@@ -158,16 +158,10 @@ using namespace ::Blam;
 
 /* ---------- prototypes */
 
-namespace Player
-{
-	namespace ServiceRecord
-	{
-		extern unsigned long __stdcall GetServiceRecord_Thread(void *lpParam);
-		extern ::Player::ServiceRecord::ServiceRecord getCachedServiceRecord(__int32 networkPlayerIndex);
-		extern void clearCache();
-		extern void requestPlayerServiceRecord(__int32 networkPlayerIndex);
-	}
-}
+void GetServiceRecordEndpoint();
+bool ValidNetworkPlayerIndex(__int32 networkPlayerIndex);
+std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > processNumber(__int32 num);
+void clearCachedServiceRecords();
 
 /* ---------- globals */
 
@@ -178,13 +172,14 @@ namespace Utils
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern ::Player::ServiceRecord::ServiceRecord ServiceRecords[16]; // 0x113861C8
 	extern ::Player::ServiceRecord::ServiceRecordPlayer currentDesiredRecord; // 0x11387948
 	extern bool threadActive; // 0x11387994
 	extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > serviceRecordEndpoint; // 0x11387978
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Player
@@ -460,3 +455,69 @@ namespace Player
 }
 
 /* ---------- private code */
+
+_extern void _sub_106C7200();
+void GetServiceRecordEndpoint() // 0x106C7200
+{
+	// `anonymous-namespace'::GetServiceRecordEndpoint
+	// procedure flags: nofpo
+	// static ...; // 0x106C733C
+	// static ...; // 0x106C7330
+	// static ...; // 0x106C7328
+	// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
+	{
+		// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &statsObject;
+	}
+	todo("implement");
+	_sub_106C7200();
+}
+
+_extern bool _sub_106C9A30(__int32);
+bool ValidNetworkPlayerIndex(__int32 networkPlayerIndex) // 0x106C9A30
+{
+	// `anonymous-namespace'::ValidNetworkPlayerIndex
+	// __int32 networkPlayerIndex;
+	todo("implement");
+	bool __result = _sub_106C9A30(networkPlayerIndex);
+	return __result;
+}
+
+extern std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > _sub_106CA7E0(__int32);
+std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > processNumber(__int32 num) // 0x106CA7E0
+{
+	// `anonymous-namespace'::processNumber
+	// static ...; // 0x106CAA18
+	// static ...; // 0x106CAA0C
+	// static ...; // 0x106CAA04
+	// __int32 num;
+	// std::basic_ostringstream<char,std::char_traits<char>,std::allocator<char> > oss;
+	{
+		// double numInK;
+	}
+	{
+		// double numInM;
+	}
+	todo("implement");
+	std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > __result = _sub_106CA7E0(num);
+	return __result;
+}
+
+_extern void _sub_106CA040();
+void clearCachedServiceRecords() // 0x106CA040
+{
+	// `anonymous-namespace'::clearCachedServiceRecords
+	// procedure flags: nofpo
+	{
+		// __int32 i;
+	}
+	todo("implement");
+	_sub_106CA040();
+}
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template Utils::DewritoReader & Utils::Singleton<Utils::DewritoReader>::Instance();

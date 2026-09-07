@@ -180,6 +180,16 @@ Mod::~Mod() // 0x1078BD60
 	_sub_1078BD60(this);
 }
 
+_extern void _sub_1078BE40(ModCache *const);
+_inline ModCache::~ModCache() // 0x1078BE40
+{
+	mangled_x86(MANGLED_TODO, "??1ModCache@@UAE@XZ");
+	// ModCache *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_1078BE40(this);
+}
+
 _extern void _sub_1078C9E0(Mod *const);
 void Mod::AddRef() // 0x1078C9E0
 {
@@ -379,3 +389,14 @@ void Mod::Finish() // 0x1078CA40
 }
 
 /* ---------- private code */
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template Ref<Mod>::Ref(Mod *);
+template Ref<Mod>::Ref(Ref<Mod> &);
+template Ref<Mod>::Ref(Ref<Mod> const &);
+template Ref<Mod>::~Ref();

@@ -586,3 +586,12 @@ extern "C" void get_package_author_uid(c_mod_package const *package, unsigned lo
 	todo("implement");
 	_sub_108A9EA0(package, uid);
 }
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template c_enum<enum e_file_reference_location,short> & c_enum<enum e_file_reference_location,short>::operator=(c_enum<enum e_file_reference_location,short> const &);
+template c_flags<enum e_file_reference_flags,unsigned short> & c_flags<enum e_file_reference_flags,unsigned short>::operator=(c_flags<enum e_file_reference_flags,unsigned short> const &);

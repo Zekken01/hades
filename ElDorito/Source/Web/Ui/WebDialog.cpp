@@ -60,11 +60,12 @@ namespace Web
 		}
 	}
 }
-namespace
+namespace hades_file_local
 {
 	struct SDialogCallbackInfo;
 	struct SDialogQueueInfo;
 }
+using namespace hades_file_local;
 
 namespace base
 {
@@ -110,7 +111,7 @@ namespace Web
 
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	struct SDialogCallbackInfo
 	{
@@ -141,6 +142,7 @@ namespace
 	};
 	static_assert(sizeof(SDialogQueueInfo) == 88, "Invalid SDialogQueueInfo size");
 }
+using namespace hades_file_local;
 namespace Web
 {
 	namespace Ui
@@ -153,10 +155,11 @@ namespace Web
 	}
 }
 
-namespace
+namespace hades_file_local
 {
 
 }
+using namespace hades_file_local;
 /* ---------- prototypes */
 
 namespace Web
@@ -177,10 +180,11 @@ namespace Web
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern __int32 idCounter; // 0x1247ED78
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Web
@@ -249,3 +253,84 @@ namespace Web
 }
 
 /* ---------- private code */
+
+extern SDialogCallbackInfo* _sub_10CA0890(SDialogCallbackInfo *const, SDialogCallbackInfo const &);
+_inline SDialogCallbackInfo::SDialogCallbackInfo(SDialogCallbackInfo const &__that) // 0x10CA0890
+{
+	// `anonymous-namespace'::SDialogCallbackInfo::SDialogCallbackInfo
+	// SDialogCallbackInfo const &__that;
+	compiler_generated();
+	todo("implement");
+	_sub_10CA0890(this, __that);
+}
+
+extern SDialogCallbackInfo* _sub_10CA0910(SDialogCallbackInfo *const);
+_inline SDialogCallbackInfo::SDialogCallbackInfo() // 0x10CA0910
+{
+	// `anonymous-namespace'::SDialogCallbackInfo::SDialogCallbackInfo
+	// SDialogCallbackInfo *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10CA0910(this);
+}
+
+extern SDialogQueueInfo* _sub_10CA0970(SDialogQueueInfo *const, SDialogQueueInfo &);
+_inline SDialogQueueInfo::SDialogQueueInfo(SDialogQueueInfo &__that) // 0x10CA0970
+{
+	// `anonymous-namespace'::SDialogQueueInfo::SDialogQueueInfo
+	// SDialogQueueInfo &__that;
+	compiler_generated();
+	todo("implement");
+	_sub_10CA0970(this, __that);
+}
+
+extern SDialogQueueInfo* _sub_10CA0A40(SDialogQueueInfo *const, SDialogQueueInfo const &);
+_inline SDialogQueueInfo::SDialogQueueInfo(SDialogQueueInfo const &__that) // 0x10CA0A40
+{
+	// `anonymous-namespace'::SDialogQueueInfo::SDialogQueueInfo
+	// SDialogQueueInfo const &__that;
+	compiler_generated();
+	todo("implement");
+	_sub_10CA0A40(this, __that);
+}
+
+extern SDialogQueueInfo* _sub_10CA0B50(SDialogQueueInfo *const);
+_inline SDialogQueueInfo::SDialogQueueInfo() // 0x10CA0B50
+{
+	// `anonymous-namespace'::SDialogQueueInfo::SDialogQueueInfo
+	// SDialogQueueInfo *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10CA0B50(this);
+}
+
+_extern void _sub_10CA0F50(SDialogCallbackInfo *const);
+_inline SDialogCallbackInfo::~SDialogCallbackInfo() // 0x10CA0F50
+{
+	// `anonymous-namespace'::SDialogCallbackInfo::~SDialogCallbackInfo
+	// SDialogCallbackInfo *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10CA0F50(this);
+}
+
+_extern void _sub_10CA0FA0(SDialogQueueInfo *const);
+_inline SDialogQueueInfo::~SDialogQueueInfo() // 0x10CA0FA0
+{
+	// `anonymous-namespace'::SDialogQueueInfo::~SDialogQueueInfo
+	// SDialogQueueInfo *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10CA0FA0(this);
+}
+
+extern SDialogQueueInfo &_sub_10CA1010(SDialogQueueInfo *const, SDialogQueueInfo &);
+_inline SDialogQueueInfo &SDialogQueueInfo::operator=(SDialogQueueInfo &__that) // 0x10CA1010
+{
+	// `anonymous-namespace'::SDialogQueueInfo::operator=
+	// SDialogQueueInfo &__that;
+	compiler_generated();
+	todo("implement");
+	SDialogQueueInfo & __result = _sub_10CA1010(this, __that);
+	return __result;
+}

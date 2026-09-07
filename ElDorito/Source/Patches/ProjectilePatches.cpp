@@ -6,11 +6,13 @@
 #include "Blam/cseries/enums.inl"
 #include "Blam/cseries/flags.inl"
 #include "Blam/hs/hs.hpp"
+#include "Blam/items/projectiles.hpp"
 #include "Blam/math/real_math_definitions.hpp"
 #include "Blam/objects/damage.hpp"
 #include "Blam/objects/objects.hpp"
 #include "Blam/structures/cluster_reference.hpp"
 #include "Blam/tag_files/tag_groups.hpp"
+#include "ChatCommands/ChatCommandMap.hpp"
 #include "Patch.hpp"
 #include "Patches/Audio.hpp"
 #include "Pointer.hpp"
@@ -43,6 +45,12 @@
 #include <utility>
 #include <vector>
 
+/* ---------- forward declarations */
+
+struct real_vector3d;
+struct s_projectile_data;
+struct s_projectile_definition;
+
 namespace Utils {}
 using namespace ::Utils;
 namespace Modules {}
@@ -69,14 +77,21 @@ namespace Patches
 	}
 }
 
+void projectile_translate_tick_delta(long projectile_index, bool force_30hz);
+float projectile_translate_game_tick_length_hook();
+void projectile_update_translate_hook(long projectile_index, real_vector3d *unswept_velocity);
+void projectile_initial_update_translate_hook(long projectile_index, real_vector3d *unswept_velocity);
+bool projectile_new_hook(long projectile_index, void *data);
+
 /* ---------- globals */
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern float g_projectile_translate_tick_delta; // 0x1138600C
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Patches
@@ -95,3 +110,73 @@ namespace Patches
 }
 
 /* ---------- private code */
+
+_extern void _sub_1069E640(long, bool);
+void projectile_translate_tick_delta(long projectile_index, bool force_30hz) // 0x1069E640
+{
+	// `anonymous-namespace'::projectile_translate_tick_delta
+	// bool force_30hz;
+	// float tick_delta;
+	// s_projectile_data *const projectile;
+	// s_projectile_definition *const definition;
+	// function call : float (*const)()
+	// function call : void *(*const)(unsigned long, long)
+	// function call : long (*const)()
+	// function call : long (*const)()
+	todo("implement");
+	_sub_1069E640(projectile_index, force_30hz);
+}
+
+_extern float _sub_1069E620();
+float projectile_translate_game_tick_length_hook() // 0x1069E620
+{
+	// `anonymous-namespace'::projectile_translate_game_tick_length_hook
+	// procedure flags: nofpo
+	todo("implement");
+	float __result = _sub_1069E620();
+	return __result;
+}
+
+_extern void _sub_1069E770(long, real_vector3d *);
+void projectile_update_translate_hook(long projectile_index, real_vector3d *unswept_velocity) // 0x1069E770
+{
+	// `anonymous-namespace'::projectile_update_translate_hook
+	// real_vector3d *unswept_velocity;
+	// function call : void (*const)(long, real_vector3d *)
+	todo("implement");
+	_sub_1069E770(projectile_index, unswept_velocity);
+}
+
+_extern void _sub_1069E4F0(long, real_vector3d *);
+void projectile_initial_update_translate_hook(long projectile_index, real_vector3d *unswept_velocity) // 0x1069E4F0
+{
+	// `anonymous-namespace'::projectile_initial_update_translate_hook
+	// real_vector3d *unswept_velocity;
+	// function call : void (*const)(long, real_vector3d *)
+	todo("implement");
+	_sub_1069E4F0(projectile_index, unswept_velocity);
+}
+
+_extern bool _sub_1069E560(long, void *);
+bool projectile_new_hook(long projectile_index, void *data) // 0x1069E560
+{
+	// `anonymous-namespace'::projectile_new_hook
+	// void *data;
+	// bool ret;
+	// char (*const projectile_new)(long, void *);
+	// s_projectile_data *const projectile;
+	// function call : char (*const)(long, void *)
+	// function call : long (*const)()
+	todo("implement");
+	bool __result = _sub_1069E560(projectile_index, data);
+	return __result;
+}
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template bool c_flags<enum e_projectile_definition_flags,long>::test(e_projectile_definition_flags) const;
+template void Pointer::Write<bool (__cdecl*)(long,void *)>(bool (*const value)(long, void *)) const;

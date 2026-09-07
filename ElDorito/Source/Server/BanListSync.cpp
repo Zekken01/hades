@@ -25,8 +25,10 @@
 #include "ChatCommands/ChatCommandMap.hpp"
 #include "Common/Http/HttpHeaders.hpp"
 #include "Common/Http/HttpRequest.hpp"
+#include "Patches/Core.hpp"
 #include "Server/BanList.hpp"
 #include "Server/StatsServerBanList.hpp"
+#include "ThirdParty/HttpRequest.hpp"
 #include "ThirdParty/rapidjson/allocators.h"
 #include "ThirdParty/rapidjson/document.h"
 #include "ThirdParty/rapidjson/encodedstream.h"
@@ -46,6 +48,7 @@
 #include "Utils/Macros.hpp"
 #include "Utils/Singleton.hpp"
 #include "Utils/String.hpp"
+#include "Utils/WebSocket.hpp"
 
 #include <boost/asio.hpp>
 #include <boost/assert.hpp>
@@ -100,6 +103,7 @@
 
 /* ---------- forward declarations */
 
+class HttpRequest;
 struct begin;
 struct end;
 struct s_sharedState;
@@ -107,6 +111,7 @@ namespace Blam
 {
 	namespace Network
 	{
+		struct PlayerSession;
 		struct Session;
 	}
 }
@@ -187,18 +192,26 @@ namespace Server
 	}
 }
 
+bool GetEndpoints();
+void CheckToBootPlayers();
+bool SyncBanList();
+unsigned long BanListSyncThreadProc(void *lpParam);
+void OnShutdown();
+bool TryParseSubnet(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &cidr, unsigned long *outNetwork, unsigned long *outMask);
+
 /* ---------- globals */
 
 /* ---------- private variables */
 
 namespace Server
 {
-	namespace
+	namespace hades_file_local_Server
 	{
 		extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > DefaultBanListPath; // 0x12467688
 	}
+	using namespace hades_file_local_Server;
 }
-namespace
+namespace hades_file_local
 {
 	extern long long lastSyncTime; // 0x124676A8
 	extern std::mutex mutex; // 0x12467620
@@ -207,6 +220,7 @@ namespace
 	extern bool banlistDirty; // 0x124676A5
 	extern std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > banlistUrls; // 0x12467650
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Server
@@ -286,3 +300,165 @@ namespace Server
 }
 
 /* ---------- private code */
+
+_extern bool _sub_10B18BA0();
+bool GetEndpoints() // 0x10B18BA0
+{
+	// `anonymous-namespace'::GetEndpoints
+	// procedure flags: nofpo
+	// static ...; // 0x10B18D94
+	// static ...; // 0x10B18D88
+	// static ...; // 0x10B18D80
+	// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
+	{
+		// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &urls;
+		{
+			// unsigned __int32 i;
+		}
+	}
+	todo("implement");
+	bool __result = _sub_10B18BA0();
+	return __result;
+}
+
+extern s_sharedState* _sub_10B17D40(s_sharedState *const);
+_inline s_sharedState::s_sharedState() // 0x10B17D40
+{
+	// `anonymous-namespace'::<unnamed-type-sharedState>::<unnamed-type-sharedState>
+	// s_sharedState *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10B17D40(this);
+}
+
+_extern void _sub_10B17E80(s_sharedState *const);
+_inline s_sharedState::~s_sharedState() // 0x10B17E80
+{
+	// `anonymous-namespace'::<unnamed-type-sharedState>::~<unnamed-type-sharedState>
+	// s_sharedState *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_10B17E80(this);
+}
+
+_extern void _sub_10B183A0();
+void CheckToBootPlayers() // 0x10B183A0
+{
+	// `anonymous-namespace'::CheckToBootPlayers
+	// procedure flags: nofpo
+	// static ...; // 0x10B188CF
+	// static ...; // 0x10B188C8
+	// static ...; // 0x10B188C1
+	// static ...; // 0x10B188BC
+	// static ...; // 0x10B1888C
+	// static ...; // 0x10B18884
+	// Blam::Network::Session *session;
+	// __int32 peerIdx;
+	{
+		// __int32 playerIdx;
+		{
+			// Blam::Network::PlayerSession *player;
+			// unsigned long long uid;
+			// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > stream;
+			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &ipString;
+			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > name;
+			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > hexUID;
+		}
+	}
+	todo("implement");
+	_sub_10B183A0();
+}
+
+_extern bool _sub_10B18F00();
+bool SyncBanList() // 0x10B18F00
+{
+	// `anonymous-namespace'::SyncBanList
+	// procedure flags: nofpo
+	// static ...; // 0x10B1978B
+	// static ...; // 0x10B19782
+	// static ...; // 0x10B1977D
+	// static ...; // 0x10B19778
+	// static ...; // 0x10B19748
+	// static ...; // 0x10B19740
+	{
+		// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > &<range>$L0;
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *<begin>$L0;
+		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *<end>$L0;
+		{
+			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &endpoint;
+			{
+				// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
+				// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > expected;
+				// HttpRequest req;
+				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > resp;
+				{
+					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &IPs;
+					{
+						// unsigned __int32 i;
+					}
+				}
+				{
+					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &UIDs;
+					{
+					}
+				}
+				{
+					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &Names;
+					{
+					}
+				}
+				{
+					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &Subnets;
+					{
+					}
+				}
+			}
+		}
+	}
+	todo("implement");
+	bool __result = _sub_10B18F00();
+	return __result;
+}
+
+_extern unsigned long _sub_10B18260(void *);
+unsigned long BanListSyncThreadProc(void *lpParam) // 0x10B18260
+{
+	// `anonymous-namespace'::BanListSyncThreadProc
+	// static ...; // 0x10B18354
+	// static ...; // 0x10B18348
+	// static ...; // 0x10B18340
+	// void *lpParam;
+	{
+		// std::unique_lock<std::mutex> lk;
+	}
+	todo("implement");
+	unsigned long __result = _sub_10B18260(lpParam);
+	return __result;
+}
+
+_extern void _sub_10B18EB0();
+void OnShutdown() // 0x10B18EB0
+{
+	// `anonymous-namespace'::OnShutdown
+	// procedure flags: nofpo
+	todo("implement");
+	_sub_10B18EB0();
+}
+
+_extern bool _sub_10B19ED0(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, unsigned long *, unsigned long *);
+bool TryParseSubnet(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &cidr, unsigned long *outNetwork, unsigned long *outMask) // 0x10B19ED0
+{
+	// `anonymous-namespace'::TryParseSubnet
+	// static ...; // 0x10B1A040
+	// static ...; // 0x10B1A038
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &cidr;
+	// unsigned long *outNetwork;
+	// unsigned long *outMask;
+	// __int32 bits;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > snetwork;
+	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > sbits;
+	// unsigned __int32 pos;
+	todo("implement");
+	bool __result = _sub_10B19ED0(cidr, outNetwork, outMask);
+	return __result;
+}

@@ -75,3 +75,12 @@ namespace Forge
 }
 
 /* ---------- private code */
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template s_player_datum * c_data_array<s_player_datum>::try_and_get(unsigned long);
+template s_screen_effect_datum * c_data_array<s_screen_effect_datum>::try_and_get(unsigned long);

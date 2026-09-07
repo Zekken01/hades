@@ -122,13 +122,14 @@ extern "C" bool render_object_is_third_person(long user_index, long object_index
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern real_vector3d global_zero3d; // 0x1118E940
 	extern real_rectangle2d global_null_rectangle2d; // 0x1118E970
 	extern float g_screen_effect_user_camera_shake[4]; // 0x1138E3B4
 	extern float &g_screen_effect_hud_alpha_scale; // 0x113523E0
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 _extern bool _sub_107C1E60(s_single_screen_effect_definition *const, float, long, long);
@@ -450,3 +451,26 @@ extern "C" bool render_object_is_third_person(long user_index, long object_index
 	bool __result = _sub_107C20E0(user_index, object_index);
 	return __result;
 }
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template bool c_enum<enum s_screen_effect_datum::e_type,char>::operator!=(s_screen_effect_datum::e_type const &) const;
+template bool c_enum<enum s_screen_effect_datum::e_type,char>::operator==(s_screen_effect_datum::e_type const &) const;
+template bool c_flags<enum s_area_screen_effect_definition::e_global_flags,unsigned short>::test(s_area_screen_effect_definition::e_global_flags) const;
+template bool c_flags<enum s_area_screen_effect_definition::e_global_hidden_flags,unsigned short>::test(s_area_screen_effect_definition::e_global_hidden_flags) const;
+template bool c_flags<enum s_screen_effect_datum::e_flags,unsigned char>::test(s_screen_effect_datum::e_flags) const;
+template bool c_flags<enum s_single_screen_effect_definition::e_flags,unsigned short>::test(s_single_screen_effect_definition::e_flags) const;
+template bool c_flags<enum s_single_screen_effect_definition::e_hidden_flags,unsigned short>::test(s_single_screen_effect_definition::e_hidden_flags) const;
+template bool c_tag_block<s_single_screen_effect_definition>::try_get_element(__int32, s_single_screen_effect_definition **) const;
+template c_enum<enum s_screen_effect_datum::e_type,char> & c_enum<enum s_screen_effect_datum::e_type,char>::operator=(s_screen_effect_datum::e_type const &);
+template c_flags<enum s_screen_effect_datum::e_flags,unsigned char> & c_flags<enum s_screen_effect_datum::e_flags,unsigned char>::operator&=(__int32 const);
+template c_flags<enum s_screen_effect_datum::e_flags,unsigned char> & c_flags<enum s_screen_effect_datum::e_flags,unsigned char>::operator=(unsigned char const &);
+template c_flags<enum s_screen_effect_datum::e_flags,unsigned char> & c_flags<enum s_screen_effect_datum::e_flags,unsigned char>::operator|=(__int32 const);
+template c_flags<enum s_single_screen_effect_definition::e_flags,unsigned short>::operator unsigned short() const;
+template s_screen_effect_datum & c_data_iterator<s_screen_effect_datum>::operator*();
+template s_single_screen_effect_definition & c_tag_block<s_single_screen_effect_definition>::operator[](__int32);
+template s_single_screen_effect_definition * c_tag_block<s_single_screen_effect_definition>::get_element(__int32) const;

@@ -898,3 +898,30 @@ namespace Player
 }
 
 /* ---------- private code */
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template bool c_tag_block<s_mod_globals_player_character_customization>::try_get_element(__int32, s_mod_globals_player_character_customization **) const;
+template bool c_tag_block<s_multiplayer_move_animations>::try_get_element(__int32, s_multiplayer_move_animations **) const;
+template bool c_tag_block<s_multiplayer_podium_animations>::try_get_element(__int32, s_multiplayer_podium_animations **) const;
+template bool c_tag_block<s_multiplayer_universal_globals_definition>::try_get_element(__int32, s_multiplayer_universal_globals_definition **) const;
+template bool c_tag_block<s_podium_biped>::try_get_element(__int32, s_podium_biped **) const;
+template bool c_tag_block<s_scenario_cutscene_camera_point>::try_get_element(__int32, s_scenario_cutscene_camera_point **) const;
+template c_enum<enum e_scenario_cutscene_camera_point_type,unsigned short>::c_enum(c_enum<enum e_scenario_cutscene_camera_point_type,unsigned short> const &);
+template c_enum<enum e_scenario_cutscene_camera_point_type,unsigned short>::c_enum(unsigned short const &);
+template s_mod_globals_player_character_customization & c_tag_block<s_mod_globals_player_character_customization>::operator[](__int32);
+template s_mod_globals_player_character_customization * c_tag_block<s_mod_globals_player_character_customization>::get_element(__int32) const;
+template s_multiplayer_move_animations & c_tag_block<s_multiplayer_move_animations>::operator[](__int32);
+template s_multiplayer_move_animations * c_tag_block<s_multiplayer_move_animations>::get_element(__int32) const;
+template s_multiplayer_podium_animations & c_tag_block<s_multiplayer_podium_animations>::operator[](__int32);
+template s_multiplayer_podium_animations * c_tag_block<s_multiplayer_podium_animations>::get_element(__int32) const;
+template s_multiplayer_universal_globals_definition * c_tag_block<s_multiplayer_universal_globals_definition>::get_element(__int32) const;
+template s_multiplayer_universal_globals_definition * c_tag_block<s_multiplayer_universal_globals_definition>::operator->();
+template s_podium_biped & c_tag_block<s_podium_biped>::operator[](__int32);
+template s_podium_biped * c_tag_block<s_podium_biped>::get_element(__int32) const;
+template s_scenario_cutscene_camera_point & c_tag_block<s_scenario_cutscene_camera_point>::operator[](__int32);
+template s_scenario_cutscene_camera_point * c_tag_block<s_scenario_cutscene_camera_point>::get_element(__int32) const;

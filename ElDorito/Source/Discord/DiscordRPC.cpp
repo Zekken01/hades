@@ -22,9 +22,13 @@
 #include "Blam/tag_files/tag_groups.hpp"
 #include "ChatCommands/ChatCommandMap.hpp"
 #include "CommandMap.hpp"
+#include "Common/Http/HttpHeaders.hpp"
 #include "Common/Http/HttpRequest.hpp"
 #include "Forge/Magnets.hpp"
+#include "mods/map_variant_loader.hpp"
+#include "Patches/Core.hpp"
 #include "Pointer.hpp"
+#include "ThirdParty/HttpRequest.hpp"
 #include "Utils/NameValueTable.hpp"
 #include "Utils/Singleton.hpp"
 #include "Utils/String.hpp"
@@ -79,6 +83,9 @@
 
 /* ---------- forward declarations */
 
+class HttpRequest;
+struct c_game_variant;
+struct s_map_variant;
 namespace Blam
 {
 	namespace Network
@@ -117,15 +124,26 @@ namespace Blam
 
 /* ---------- prototypes */
 
+void handleDiscordDisconnected(__int32 errorCode, char const *message);
+void handleDiscordError(__int32 errorCode, char const *message);
+void handleDiscordJoin(char const *joinSecret);
+void handleDiscordSpectate(char const *spectateSecret);
+void handleDiscordJoinRequest(DiscordJoinRequest const *joinRequest);
+void UpdateRichPresence();
+void handleDiscordReady();
+unsigned long DiscordRetrieveExternalIP_Thread(void *lpParam);
+void OnShutdown();
+
 /* ---------- globals */
 
 /* ---------- private variables */
 
-namespace
+namespace hades_file_local
 {
 	extern char const *APPLICATION_ID; // 0x11353AE0
 	extern std::pair<std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> >,bool> const ipGetter[3]; // 0x1240DA40
 }
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Discord
@@ -213,3 +231,113 @@ namespace Discord
 }
 
 /* ---------- private code */
+
+_extern void _sub_10954210(__int32, char const *);
+void handleDiscordDisconnected(__int32 errorCode, char const *message) // 0x10954210
+{
+	// `anonymous-namespace'::handleDiscordDisconnected
+	// char const *message;
+	todo("implement");
+	_sub_10954210(errorCode, message);
+}
+
+_extern void _sub_10954230(__int32, char const *);
+void handleDiscordError(__int32 errorCode, char const *message) // 0x10954230
+{
+	// `anonymous-namespace'::handleDiscordError
+	// char const *message;
+	todo("implement");
+	_sub_10954230(errorCode, message);
+}
+
+_extern void _sub_10954250(char const *);
+void handleDiscordJoin(char const *joinSecret) // 0x10954250
+{
+	// `anonymous-namespace'::handleDiscordJoin
+	// char const *joinSecret;
+	todo("implement");
+	_sub_10954250(joinSecret);
+}
+
+_extern void _sub_10954430(char const *);
+void handleDiscordSpectate(char const *spectateSecret) // 0x10954430
+{
+	// `anonymous-namespace'::handleDiscordSpectate
+	// char const *spectateSecret;
+	todo("implement");
+	_sub_10954430(spectateSecret);
+}
+
+_extern void _sub_10954380(DiscordJoinRequest const *);
+void handleDiscordJoinRequest(DiscordJoinRequest const *joinRequest) // 0x10954380
+{
+	// `anonymous-namespace'::handleDiscordJoinRequest
+	// DiscordJoinRequest const *joinRequest;
+	todo("implement");
+	_sub_10954380(joinRequest);
+}
+
+_extern void _sub_109533C0();
+void UpdateRichPresence() // 0x109533C0
+{
+	// `anonymous-namespace'::UpdateRichPresence
+	// procedure flags: nofpo
+	// static ...; // 0x10953C14
+	// static ...; // 0x10953C08
+	// static ...; // 0x10953C00
+	// Blam::Network::Session *session;
+	{
+		// c_game_variant *game;
+		// __int32 plyIndex;
+		// __int32 players;
+		// s_map_variant *map;
+		{
+			// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+		}
+	}
+	todo("implement");
+	_sub_109533C0();
+}
+
+_extern void _sub_109543E0();
+void handleDiscordReady() // 0x109543E0
+{
+	// `anonymous-namespace'::handleDiscordReady
+	// procedure flags: nofpo
+	todo("implement");
+	_sub_109543E0();
+}
+
+_extern unsigned long _sub_10952610(void *);
+unsigned long DiscordRetrieveExternalIP_Thread(void *lpParam) // 0x10952610
+{
+	// `anonymous-namespace'::DiscordRetrieveExternalIP_Thread
+	// static ...; // 0x10952D73
+	// static ...; // 0x10952D6A
+	// static ...; // 0x10952D62
+	// static ...; // 0x10952D5C
+	// static ...; // 0x10952D2C
+	// static ...; // 0x10952D24
+	// void *lpParam;
+	// HttpRequest req;
+	{
+		// __int32 i;
+		{
+			// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > respHdr;
+			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > extIp;
+			// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > expected;
+		}
+	}
+	todo("implement");
+	unsigned long __result = _sub_10952610(lpParam);
+	return __result;
+}
+
+_extern void _sub_10952F50();
+void OnShutdown() // 0x10952F50
+{
+	// `anonymous-namespace'::OnShutdown
+	// procedure flags: nofpo
+	todo("implement");
+	_sub_10952F50();
+}

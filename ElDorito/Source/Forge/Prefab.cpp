@@ -92,11 +92,12 @@ namespace Forge
 		struct PrefabHeader;
 	}
 }
-namespace
+namespace hades_file_local
 {
 	struct PrefabPlacement;
 	struct PrefabPaletteEntry;
 }
+using namespace hades_file_local;
 
 namespace Forge {}
 using namespace ::Forge;
@@ -112,7 +113,7 @@ namespace Forge
 
 /* ---------- definitions */
 
-namespace
+namespace hades_file_local
 {
 	#pragma pack(push, 4)
 	struct PrefabPlacement
@@ -138,6 +139,7 @@ namespace
 	};
 	static_assert(sizeof(PrefabPaletteEntry) == 256, "Invalid PrefabPaletteEntry size");
 }
+using namespace hades_file_local;
 /* ---------- prototypes */
 
 namespace Forge
@@ -150,11 +152,24 @@ namespace Forge
 	}
 }
 
+bool ReadHeader(std::basic_ifstream<char,std::char_traits<char> > &stream, Forge::Prefabs::PrefabHeader &header);
+
 /* ---------- globals */
 
 /* ---------- private variables */
 
 /* ---------- public code */
+
+extern s_map_variant_placement_properties &_sub_1096F790(s_map_variant_placement_properties *const, s_map_variant_placement_properties const &);
+_inline s_map_variant_placement_properties &s_map_variant_placement_properties::operator=(s_map_variant_placement_properties const &__that) // 0x1096F790
+{
+	mangled_x86(MANGLED_TODO, "??4s_map_variant_placement_properties@@QAEAAU0@ABU0@@Z");
+	// s_map_variant_placement_properties const &__that;
+	compiler_generated();
+	todo("implement");
+	s_map_variant_placement_properties & __result = _sub_1096F790(this, __that);
+	return __result;
+}
 
 namespace Forge
 {
@@ -213,24 +228,7 @@ namespace Forge
 			bool __result = _sub_10970530(author, name, path);
 			return __result;
 		}
-	}
-}
 
-extern s_map_variant_placement_properties &_sub_1096F790(s_map_variant_placement_properties *const, s_map_variant_placement_properties const &);
-_inline s_map_variant_placement_properties &s_map_variant_placement_properties::operator=(s_map_variant_placement_properties const &__that) // 0x1096F790
-{
-	mangled_x86(MANGLED_TODO, "??4s_map_variant_placement_properties@@QAEAAU0@ABU0@@Z");
-	// s_map_variant_placement_properties const &__that;
-	compiler_generated();
-	todo("implement");
-	s_map_variant_placement_properties & __result = _sub_1096F790(this, __that);
-	return __result;
-}
-
-namespace Forge
-{
-	namespace Prefabs
-	{
 		_extern bool _sub_1096FAB0(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
 		bool Load(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &path) // 0x1096FAB0
 		{
@@ -300,3 +298,32 @@ namespace Forge
 }
 
 /* ---------- private code */
+
+extern PrefabPlacement* _sub_1096F6D0(PrefabPlacement *const);
+_inline PrefabPlacement::PrefabPlacement() // 0x1096F6D0
+{
+	// `anonymous-namespace'::PrefabPlacement::PrefabPlacement
+	// PrefabPlacement *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_1096F6D0(this);
+}
+
+_extern bool _sub_10970330(std::basic_ifstream<char,std::char_traits<char> > &, Forge::Prefabs::PrefabHeader &);
+bool ReadHeader(std::basic_ifstream<char,std::char_traits<char> > &stream, Forge::Prefabs::PrefabHeader &header) // 0x10970330
+{
+	// `anonymous-namespace'::ReadHeader
+	// Forge::Prefabs::PrefabHeader &header;
+	todo("implement");
+	bool __result = _sub_10970330(stream, header);
+	return __result;
+}
+
+/* ---------- template instantiations */
+
+// Emitted so that the members the original object carried are in ours too.
+// Nothing calls them; an explicit instantiation is how a template member
+// reaches an object without being used. Generated - see build_instantiations.py.
+
+template c_enum<enum e_multiplayer_object_boundary_shape,char> & c_enum<enum e_multiplayer_object_boundary_shape,char>::operator=(c_enum<enum e_multiplayer_object_boundary_shape,char> const &);
+template c_flags<enum e_game_engine_type,unsigned short> & c_flags<enum e_game_engine_type,unsigned short>::operator=(c_flags<enum e_game_engine_type,unsigned short> const &);
