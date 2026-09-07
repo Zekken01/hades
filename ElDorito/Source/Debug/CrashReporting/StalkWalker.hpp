@@ -1,0 +1,204 @@
+#ifndef __DEBUG_CRASHREPORTING_STALKWALKER_HPP__
+#define __DEBUG_CRASHREPORTING_STALKWALKER_HPP__
+#pragma once
+
+/* ---------- headers */
+
+#include "hades/hades.h"
+
+#include "ChatCommands/ChatCommandMap.hpp"
+#include "Debug/CrashReporting/CrashReporter.hpp"
+
+/* ---------- forward declarations */
+
+namespace Debug
+{
+	namespace CrashReporting
+	{
+		class StackWalker;
+	}
+}
+
+/* ---------- constants */
+
+/* ---------- definitions */
+
+namespace Debug
+{
+	namespace CrashReporting
+	{
+		class StackWalker
+		{
+		private:
+			void *m_hProc; // 0x0
+			void *m_hThread; // 0x4
+			_CONTEXT m_context; // 0x8
+			_tagSTACKFRAME m_stackFrame; // 0x2D4
+			_IMAGEHLP_LINE m_line; // 0x378
+			char m_buffer[2088]; // 0x38C
+			bool m_hasLineInfo; // 0xBB4
+			bool m_hasSymbolInfo; // 0xBB5
+			unsigned char __pad0[2]; // 0xBB6
+			__int32 m_frameIndex; // 0xBB8
+			__int32 m_maxFrames; // 0xBBC
+		public:
+			_inline StackWalker(_CONTEXT context);
+			void SetMaxFrames(__int32);
+			_inline __int32 const GetLineNumber() const;
+			_inline unsigned __int32 GetPCAddress() const;
+			_inline char const *GetFileName() const;
+			_inline char const *GetFunctionName() const;
+			_inline bool HasSymbolInfo() const;
+			_inline bool HasLineInfo() const;
+			_inline bool Next();
+		private:
+			_inline _SYMBOL_INFO const *GetSymbol() const;
+		};
+		static_assert(sizeof(Debug::CrashReporting::StackWalker) == 3008, "Invalid Debug::CrashReporting::StackWalker size");
+	}
+}
+
+/* ---------- prototypes */
+
+/* ---------- globals */
+
+/* ---------- public code */
+
+namespace Debug
+{
+	namespace CrashReporting
+	{
+		extern StackWalker* _sub_1068D590(Debug::CrashReporting::StackWalker *const, _CONTEXT);
+		_inline StackWalker::StackWalker(_CONTEXT context) // 0x1068D590
+		{
+			mangled_x86(MANGLED_TODO, "??0StackWalker@CrashReporting@Debug@@QAE@U_CONTEXT@@@Z");
+			// _CONTEXT context;
+			// static bool symbolsInitialized; // 0x1137195C
+			// function call : void *()
+			// function call : __int32 (void *, char const *, __int32)
+			// function call : void *()
+			// function call : void *()
+			todo("implement");
+			_sub_1068D590(this, context);
+		}
+	}
+}
+
+extern __int32 const _sub_1068F470(Debug::CrashReporting::StackWalker const *const);
+namespace Debug
+{
+	namespace CrashReporting
+	{
+		_inline __int32 const StackWalker::GetLineNumber() const // 0x1068F470
+		{
+			mangled_x86(MANGLED_TODO, "?GetLineNumber@StackWalker@CrashReporting@Debug@@QBE?BHXZ");
+			// Debug::CrashReporting::StackWalker const *const this;
+			todo("implement");
+			__int32 const __result = _sub_1068F470((Debug::CrashReporting::StackWalker const *)this);
+			return __result;
+		}
+
+		_extern unsigned __int32 _sub_1068F6B0(Debug::CrashReporting::StackWalker const *const);
+		_inline unsigned __int32 StackWalker::GetPCAddress() const // 0x1068F6B0
+		{
+			mangled_x86(MANGLED_TODO, "?GetPCAddress@StackWalker@CrashReporting@Debug@@QBEIXZ");
+			// Debug::CrashReporting::StackWalker const *const this;
+			todo("implement");
+			unsigned __int32 __result = _sub_1068F6B0((Debug::CrashReporting::StackWalker const *)this);
+			return __result;
+		}
+	}
+}
+
+extern char const *_sub_1068F2A0(Debug::CrashReporting::StackWalker const *const);
+namespace Debug
+{
+	namespace CrashReporting
+	{
+		_inline char const *StackWalker::GetFileName() const // 0x1068F2A0
+		{
+			mangled_x86(MANGLED_TODO, "?GetFileName@StackWalker@CrashReporting@Debug@@QBEPBDXZ");
+			// Debug::CrashReporting::StackWalker const *const this;
+			todo("implement");
+			char const * __result = _sub_1068F2A0((Debug::CrashReporting::StackWalker const *)this);
+			return __result;
+		}
+	}
+}
+
+extern char const *_sub_1068F300(Debug::CrashReporting::StackWalker const *const);
+namespace Debug
+{
+	namespace CrashReporting
+	{
+		_inline char const *StackWalker::GetFunctionName() const // 0x1068F300
+		{
+			mangled_x86(MANGLED_TODO, "?GetFunctionName@StackWalker@CrashReporting@Debug@@QBEPBDXZ");
+			// Debug::CrashReporting::StackWalker const *const this;
+			todo("implement");
+			char const * __result = _sub_1068F300((Debug::CrashReporting::StackWalker const *)this);
+			return __result;
+		}
+
+		_extern bool _sub_1068F860(Debug::CrashReporting::StackWalker const *const);
+		_inline bool StackWalker::HasSymbolInfo() const // 0x1068F860
+		{
+			mangled_x86(MANGLED_TODO, "?HasSymbolInfo@StackWalker@CrashReporting@Debug@@QBE_NXZ");
+			// Debug::CrashReporting::StackWalker const *const this;
+			todo("implement");
+			bool __result = _sub_1068F860((Debug::CrashReporting::StackWalker const *)this);
+			return __result;
+		}
+
+		_extern bool _sub_1068F830(Debug::CrashReporting::StackWalker const *const);
+		_inline bool StackWalker::HasLineInfo() const // 0x1068F830
+		{
+			mangled_x86(MANGLED_TODO, "?HasLineInfo@StackWalker@CrashReporting@Debug@@QBE_NXZ");
+			// Debug::CrashReporting::StackWalker const *const this;
+			todo("implement");
+			bool __result = _sub_1068F830((Debug::CrashReporting::StackWalker const *)this);
+			return __result;
+		}
+
+		_extern bool _sub_106900C0(Debug::CrashReporting::StackWalker *const);
+		_inline bool StackWalker::Next() // 0x106900C0
+		{
+			mangled_x86(MANGLED_TODO, "?Next@StackWalker@CrashReporting@Debug@@QAE_NXZ");
+			// static ...; // 0x106902B1
+			// static ...; // 0x106902A0
+			// static ...; // 0x10690288
+			// static ...; // 0x10690280
+			// Debug::CrashReporting::StackWalker *const this;
+			// unsigned long lineDisplacement;
+			// unsigned long long symbolDisplacement;
+			// __int32 result;
+			// _SYMBOL_INFO *symbol;
+			// function call : __int32 (unsigned long, void *, void *, _tagSTACKFRAME *, void *, __int32 (*)(void *, unsigned long, void *, unsigned long, unsigned long *), void *(*)(void *, unsigned long), unsigned long (*)(void *, unsigned long), unsigned long (*)(void *, void *, _tagADDRESS *))
+			// function call : __int32 (void *, unsigned long long, unsigned long long *, _SYMBOL_INFO *)
+			// function call : __int32 (void *, unsigned long, unsigned long *, _IMAGEHLP_LINE *)
+			todo("implement");
+			bool __result = _sub_106900C0(this);
+			return __result;
+		}
+	}
+}
+
+extern _SYMBOL_INFO const *_sub_1068F7D0(Debug::CrashReporting::StackWalker const *const);
+namespace Debug
+{
+	namespace CrashReporting
+	{
+		_inline _SYMBOL_INFO const *StackWalker::GetSymbol() const // 0x1068F7D0
+		{
+			mangled_x86(MANGLED_TODO, "?GetSymbol@StackWalker@CrashReporting@Debug@@ABEPBU_SYMBOL_INFO@@XZ");
+			// Debug::CrashReporting::StackWalker const *const this;
+			todo("implement");
+			_SYMBOL_INFO const * __result = _sub_1068F7D0((Debug::CrashReporting::StackWalker const *)this);
+			return __result;
+		}
+	}
+}
+
+/* ---------- private code */
+
+#endif // __DEBUG_CRASHREPORTING_STALKWALKER_HPP__

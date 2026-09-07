@@ -1,0 +1,293 @@
+/* ---------- headers */
+
+#include "hades/hades.h"
+
+#include "Blam/BlamInput.hpp"
+#include "Blam/BlamNetwork.hpp"
+#include "Blam/cseries/cseries.hpp"
+#include "Blam/cseries/enums.inl"
+#include "Blam/cseries/flags.inl"
+#include "Blam/game/engine/game_engine_option.hpp"
+#include "Blam/game/game_variant.hpp"
+#include "Blam/game/player_appearance.hpp"
+#include "Blam/game/player_configuration.inl"
+#include "Blam/game/players.hpp"
+#include "Blam/hs/hs.hpp"
+#include "Blam/input/input.hpp"
+#include "Blam/math/real_math.inl"
+#include "Blam/math/real_math_definitions.hpp"
+#include "Blam/memory/bitstream.hpp"
+#include "Blam/objects/damage.hpp"
+#include "Blam/objects/objects.hpp"
+#include "Blam/structures/cluster_reference.hpp"
+#include "Blam/tag_files/tag_groups.hpp"
+#include "ChatCommands/ChatCommandMap.hpp"
+#include "Server/ServerChat.hpp"
+#include "ThirdParty/rapidjson/allocators.h"
+#include "ThirdParty/rapidjson/encodedstream.h"
+#include "ThirdParty/rapidjson/encodings.h"
+#include "ThirdParty/rapidjson/error/error.h"
+#include "ThirdParty/rapidjson/internal/biginteger.h"
+#include "ThirdParty/rapidjson/internal/diyfp.h"
+#include "ThirdParty/rapidjson/internal/dtoa.h"
+#include "ThirdParty/rapidjson/internal/ieee754.h"
+#include "ThirdParty/rapidjson/internal/itoa.h"
+#include "ThirdParty/rapidjson/internal/pow10.h"
+#include "ThirdParty/rapidjson/internal/stack.h"
+#include "ThirdParty/rapidjson/internal/strfunc.h"
+#include "ThirdParty/rapidjson/internal/strtod.h"
+#include "ThirdParty/rapidjson/memorystream.h"
+#include "ThirdParty/rapidjson/reader.h"
+#include "ThirdParty/rapidjson/stream.h"
+#include "ThirdParty/rapidjson/stringbuffer.h"
+#include "ThirdParty/rapidjson/writer.h"
+#include "Utils/String.hpp"
+#include "Web/Ui/Screen.hpp"
+#include "Web/Ui/ScreenLayer.hpp"
+
+#include <Windows.h>
+#include <stdio.h>
+#include <sys/stat.h>
+#include <time.h>
+#include <wchar.h>
+#include <atomic>
+#include <cmath>
+#include <cstddef>
+#include <cstdlib>
+#include <exception>
+#include <functional>
+#include <iomanip>
+#include <ios>
+#include <iosfwd>
+#include <istream>
+#include <iterator>
+#include <limits>
+#include <ostream>
+#include <sstream>
+#include <stdexcept>
+#include <streambuf>
+#include <system_error>
+#include <tuple>
+#include <type_traits>
+#include <typeinfo>
+#include <utility>
+
+/* ---------- forward declarations */
+
+namespace Blam
+{
+	namespace Network
+	{
+		struct Session;
+	}
+}
+namespace Server
+{
+	namespace Chat
+	{
+		class ChatHandler;
+		struct ChatMessage;
+	}
+}
+namespace
+{
+	class GameChatHandler;
+}
+
+namespace Utils {}
+using namespace ::Utils;
+namespace Server {}
+using namespace ::Server;
+namespace Server
+{
+	namespace Chat {}
+	using namespace Server::Chat;
+}
+
+namespace Player {}
+using namespace ::Player;
+namespace base
+{
+	namespace internal {}
+	using namespace base::internal;
+}
+
+namespace Web {}
+using namespace ::Web;
+namespace Web
+{
+	namespace Ui {}
+	using namespace Web::Ui;
+}
+
+namespace Web
+{
+	namespace Ui
+	{
+		namespace ScreenLayer {}
+		using namespace Web::Ui::ScreenLayer;
+		namespace WebChat {}
+		using namespace Web::Ui::WebChat;
+	}
+}
+
+namespace Web
+{
+	namespace Browser {}
+	using namespace Web::Browser;
+}
+
+namespace Web
+{
+	namespace Browser
+	{
+		namespace Bridge {}
+		using namespace Web::Browser::Bridge;
+	}
+}
+
+namespace Patches {}
+using namespace ::Patches;
+namespace Patches
+{
+	namespace Input {}
+	using namespace Patches::Input;
+}
+
+namespace Blam {}
+using namespace ::Blam;
+namespace Blam
+{
+	namespace Network {}
+	using namespace Blam::Network;
+}
+
+/* ---------- constants */
+
+/* ---------- definitions */
+
+namespace
+{
+	class GameChatHandler :
+		public Server::Chat::ChatHandler
+	{
+	public:
+		virtual void MessageSent(__int32, Server::Chat::ChatMessage *, bool *);
+		virtual void MessageReceived(Server::Chat::ChatMessage const &);
+		GameChatHandler(GameChatHandler &); /* compiler_generated() */
+		GameChatHandler(GameChatHandler const &); /* compiler_generated() */
+		GameChatHandler(); /* compiler_generated() */
+		virtual ~GameChatHandler(); /* compiler_generated() */
+		GameChatHandler &operator=(GameChatHandler &); /* compiler_generated() */
+		GameChatHandler &operator=(GameChatHandler const &); /* compiler_generated() */
+	};
+	static_assert(sizeof(GameChatHandler) == 4, "Invalid GameChatHandler size");
+}
+/* ---------- prototypes */
+
+namespace Web
+{
+	namespace Ui
+	{
+		namespace WebChat
+		{
+			extern void Init();
+			extern void Show(bool teamChat);
+			extern void Hide();
+			extern void SetChatBoxVisible(bool visible);
+			extern bool IsChatBoxVisible();
+		}
+	}
+}
+
+/* ---------- globals */
+
+/* ---------- private variables */
+
+namespace
+{
+	extern bool isChatBoxVisible; // 0x1247ED53
+}
+/* ---------- public code */
+
+namespace Web
+{
+	namespace Ui
+	{
+		namespace WebChat
+		{
+			_extern void _sub_10C9C760();
+			void Init() // 0x10C9C760
+			{
+				mangled_x86(MANGLED_TODO, "?Init@WebChat@Ui@Web@@YAXXZ");
+				// procedure flags: nofpo
+				todo("implement");
+				_sub_10C9C760();
+			}
+
+			_extern void _sub_10C9D080(bool);
+			void Show(bool teamChat) // 0x10C9D080
+			{
+				mangled_x86(MANGLED_TODO, "?Show@WebChat@Ui@Web@@YAX_N@Z");
+				// static ...; // 0x10C9D20B
+				// static ...; // 0x10C9D200
+				// static ...; // 0x10C9D1E8
+				// static ...; // 0x10C9D1E0
+				// bool teamChat;
+				// Blam::Network::Session *session;
+				{
+					// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
+					// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
+				}
+				todo("implement");
+				_sub_10C9D080(teamChat);
+			}
+
+			_extern void _sub_10C9C710();
+			void Hide() // 0x10C9C710
+			{
+				mangled_x86(MANGLED_TODO, "?Hide@WebChat@Ui@Web@@YAXXZ");
+				// procedure flags: nofpo
+				todo("implement");
+				_sub_10C9C710();
+			}
+
+			_extern void _sub_10C9D050(bool);
+			void SetChatBoxVisible(bool visible) // 0x10C9D050
+			{
+				mangled_x86(MANGLED_TODO, "?SetChatBoxVisible@WebChat@Ui@Web@@YAX_N@Z");
+				// bool visible;
+				todo("implement");
+				_sub_10C9D050(visible);
+			}
+
+			_extern bool _sub_10C9C860();
+			bool IsChatBoxVisible() // 0x10C9C860
+			{
+				mangled_x86(MANGLED_TODO, "?IsChatBoxVisible@WebChat@Ui@Web@@YA_NXZ");
+				// procedure flags: nofpo
+				todo("implement");
+				bool __result = _sub_10C9C860();
+				return __result;
+			}
+		}
+	}
+}
+
+namespace Server
+{
+	namespace Chat
+	{
+		extern ChatHandler* _sub_10C9C400(Server::Chat::ChatHandler *const);
+		_inline ChatHandler::ChatHandler() // 0x10C9C400
+		{
+			mangled_x86(MANGLED_TODO, "??0ChatHandler@Chat@Server@@QAE@XZ");
+			// Server::Chat::ChatHandler *const this;
+			compiler_generated();
+			todo("implement");
+			_sub_10C9C400(this);
+		}
+	}
+}
+
+/* ---------- private code */

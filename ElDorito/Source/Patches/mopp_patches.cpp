@@ -1,0 +1,134 @@
+/* ---------- headers */
+
+#include "hades/hades.h"
+
+#include "Blam/cache/cache_files.hpp"
+#include "Blam/cseries/cseries.hpp"
+#include "Blam/cseries/enums.inl"
+#include "Blam/cseries/flags.inl"
+#include "Blam/hs/hs.hpp"
+#include "Blam/math/real_math_definitions.hpp"
+#include "Blam/physics/havok_types.hpp"
+#include "Blam/rasterizer/rasterizer_geometry.hpp"
+#include "Blam/scenario/scenario.hpp"
+#include "Blam/scenario/scenario_definitions.hpp"
+#include "Blam/structures/cluster_reference.hpp"
+#include "Blam/structures/structure_bsp_definitions.hpp"
+#include "Blam/tag_files/file_reference.inl"
+#include "Blam/tag_files/files.hpp"
+#include "Blam/tag_files/tag_block.inl"
+#include "Blam/tag_files/tag_groups.hpp"
+#include "ChatCommands/ChatCommandMap.hpp"
+#include "Forge/Reforge.hpp"
+#include "Patch.hpp"
+#include "Patches/Audio.hpp"
+#include "Pointer.hpp"
+
+#include <Windows.h>
+#include <stdio.h>
+#include <sys/stat.h>
+#include <time.h>
+#include <wchar.h>
+#include <atomic>
+#include <cmath>
+#include <cstddef>
+#include <cstdlib>
+#include <exception>
+#include <initializer_list>
+#include <ios>
+#include <iosfwd>
+#include <istream>
+#include <iterator>
+#include <limits>
+#include <ostream>
+#include <sstream>
+#include <stdexcept>
+#include <streambuf>
+#include <system_error>
+#include <tuple>
+#include <type_traits>
+#include <typeinfo>
+#include <utility>
+#include <vector>
+
+/* ---------- forward declarations */
+
+struct s_scenario;
+struct s_scenario_structure_bsp;
+
+namespace Patches {}
+using namespace ::Patches;
+namespace Patches
+{
+	namespace Mopp {}
+	using namespace Patches::Mopp;
+}
+
+/* ---------- constants */
+
+/* ---------- definitions */
+
+/* ---------- prototypes */
+
+namespace Patches
+{
+	namespace Mopp
+	{
+		extern void InitializeForNewMap();
+		extern void ApplyAll();
+		extern void Tick();
+	}
+}
+
+/* ---------- globals */
+
+/* ---------- private variables */
+
+namespace
+{
+	extern bool ApplyRuntimeMoppFix; // 0x12464608
+}
+/* ---------- public code */
+
+namespace Patches
+{
+	namespace Mopp
+	{
+		_extern void _sub_10A8BC10();
+		void InitializeForNewMap() // 0x10A8BC10
+		{
+			mangled_x86(MANGLED_TODO, "?InitializeForNewMap@Mopp@Patches@@YAXXZ");
+			// procedure flags: nofpo
+			// s_scenario *scenario;
+			{
+				// long i;
+				{
+					// s_scenario_structure_bsp *sbsp;
+				}
+			}
+			// function call : void *(*const)(unsigned long, long)
+			todo("implement");
+			_sub_10A8BC10();
+		}
+
+		_extern void _sub_10A8B8E0();
+		void ApplyAll() // 0x10A8B8E0
+		{
+			mangled_x86(MANGLED_TODO, "?ApplyAll@Mopp@Patches@@YAXXZ");
+			// procedure flags: nofpo
+			todo("implement");
+			_sub_10A8B8E0();
+		}
+
+		_extern void _sub_10A8BD10();
+		void Tick() // 0x10A8BD10
+		{
+			mangled_x86(MANGLED_TODO, "?Tick@Mopp@Patches@@YAXXZ");
+			// procedure flags: nofpo
+			todo("implement");
+			_sub_10A8BD10();
+		}
+	}
+}
+
+/* ---------- private code */

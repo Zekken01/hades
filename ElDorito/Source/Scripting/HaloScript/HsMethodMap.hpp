@@ -1,0 +1,149 @@
+#ifndef __SCRIPTING_HALOSCRIPT_HSMETHODMAP_HPP__
+#define __SCRIPTING_HALOSCRIPT_HSMETHODMAP_HPP__
+#pragma once
+
+/* ---------- headers */
+
+#include "hades/hades.h"
+
+#include "Common/Http/HttpHeaders.hpp"
+#include "Patches/PlayerPropertiesExtension.hpp"
+#include "Utils/NameValueTable.hpp"
+#include "Utils/StlUtil.hpp"
+#include "Web/Bridge/WebRendererQueryHandler.hpp"
+
+#include <functional>
+#include <initializer_list>
+#include <memory>
+#include <string>
+#include <string_view>
+#include <unordered_map>
+#include <utility>
+#include <vector>
+
+/* ---------- forward declarations */
+
+namespace Scripting
+{
+	namespace HS
+	{
+		class ScriptMethodMap;
+		struct ScriptMethod;
+		struct ScriptParameter;
+	}
+}
+
+/* ---------- constants */
+
+/* ---------- definitions */
+
+#pragma pack(push, 4)
+namespace Scripting
+{
+	namespace HS
+	{
+		struct ScriptParameter
+		{
+			e_hs_type type; // 0x0
+			std::basic_string_view<char,std::char_traits<char> > name; // 0x4
+			std::basic_string_view<char,std::char_traits<char> > description; // 0xC
+			ScriptParameter(); /* compiler_generated() */
+		};
+	}
+}
+
+#pragma pack(pop)
+static_assert(sizeof(Scripting::HS::ScriptParameter) == 20, "Invalid Scripting::HS::ScriptParameter size");
+
+#pragma pack(push, 4)
+namespace Scripting
+{
+	namespace HS
+	{
+		struct ScriptMethod
+		{
+			Scripting::HS::ScriptMethodFlags flags; // 0x0
+			std::basic_string_view<char,std::char_traits<char> > name; // 0x4
+			std::basic_string_view<char,std::char_traits<char> > description; // 0xC
+			e_hs_type returnType; // 0x14
+			void (*evaluateProc)(short, long, bool); // 0x18
+			std::vector<Scripting::HS::ScriptParameter,std::allocator<Scripting::HS::ScriptParameter> > parameters; // 0x1C
+			ScriptMethod(Scripting::HS::ScriptMethod &); /* compiler_generated() */
+			_inline ScriptMethod(Scripting::HS::ScriptMethod const &__that); /* compiler_generated() */
+			ScriptMethod(); /* compiler_generated() */
+			_inline ~ScriptMethod(); /* compiler_generated() */
+			Scripting::HS::ScriptMethod &operator=(Scripting::HS::ScriptMethod &); /* compiler_generated() */
+			Scripting::HS::ScriptMethod &operator=(Scripting::HS::ScriptMethod const &); /* compiler_generated() */
+		};
+	}
+}
+
+#pragma pack(pop)
+static_assert(sizeof(Scripting::HS::ScriptMethod) == 44, "Invalid Scripting::HS::ScriptMethod size");
+
+#pragma pack(push, 4)
+namespace Scripting
+{
+	namespace HS
+	{
+		class ScriptMethodMap :
+			public Utils::Singleton<Scripting::HS::ScriptMethodMap>
+		{
+		private:
+			void AddMethod(Scripting::HS::ScriptMethod &&method);
+		public:
+			void AddMethod(std::basic_string_view<char,std::char_traits<char> > name, std::basic_string_view<char,std::char_traits<char> > description, Scripting::HS::ScriptMethodFlags flags, void (*evaluate)(short, long, bool), e_hs_type returnType, std::initializer_list<Scripting::HS::ScriptParameter> parameters);
+			Scripting::HS::ScriptMethod const *FindMethod(std::basic_string_view<char,std::char_traits<char> > name) const;
+			std::basic_string<char,std::char_traits<char>,std::allocator<char> > GenerateDocs() const;
+			std::basic_string<char,std::char_traits<char>,std::allocator<char> > GenerateHelp(Scripting::HS::ScriptMethod const *method);
+			std::basic_string<char,std::char_traits<char>,std::allocator<char> > GenerateMethodDeclaration(Scripting::HS::ScriptMethod const *method);
+			void Finalize();
+		private:
+			bool m_finalized; // 0x0
+			unsigned char __pad0[3]; // 0x1
+			std::unordered_map<std::basic_string_view<char,std::char_traits<char> >,Scripting::HS::ScriptMethod,std::hash<std::basic_string_view<char,std::char_traits<char> > >,std::equal_to<std::basic_string_view<char,std::char_traits<char> > >,std::allocator<std::pair<std::basic_string_view<char,std::char_traits<char> > const ,Scripting::HS::ScriptMethod> > > m_methods; // 0x4
+		public:
+			_inline ScriptMethodMap(); /* compiler_generated() */
+			~ScriptMethodMap(); /* compiler_generated() */
+		};
+	}
+}
+
+#pragma pack(pop)
+static_assert(sizeof(Scripting::HS::ScriptMethodMap) == 44, "Invalid Scripting::HS::ScriptMethodMap size");
+
+/* ---------- prototypes */
+
+namespace Scripting
+{
+	namespace HS
+	{
+		extern bool ValidIdentifier(std::basic_string_view<char,std::char_traits<char> > name);
+
+		extern _inline Scripting::HS::ScriptMethodFlags operator&(Scripting::HS::ScriptMethodFlags lhs, Scripting::HS::ScriptMethodFlags rhs);
+	}
+}
+
+/* ---------- globals */
+
+/* ---------- public code */
+
+namespace Scripting
+{
+	namespace HS
+	{
+		extern ScriptMethodFlags _sub_10701240(Scripting::HS::ScriptMethodFlags, Scripting::HS::ScriptMethodFlags);
+		_inline Scripting::HS::ScriptMethodFlags operator&(Scripting::HS::ScriptMethodFlags lhs, Scripting::HS::ScriptMethodFlags rhs) // 0x10701240
+		{
+			mangled_x86(MANGLED_TODO, "??IHS@Scripting@@YA?AW4ScriptMethodFlags@01@W4201@0@Z");
+			// Scripting::HS::ScriptMethodFlags rhs;
+			todo("implement");
+			Scripting::HS::ScriptMethodFlags __result = _sub_10701240(lhs, rhs);
+			return __result;
+		}
+	}
+}
+
+/* ---------- private code */
+
+#endif // __SCRIPTING_HALOSCRIPT_HSMETHODMAP_HPP__

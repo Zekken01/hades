@@ -1,0 +1,127 @@
+/* ---------- headers */
+
+#include "hades/hades.h"
+
+#include "ChatCommands/ChatCommandMap.hpp"
+#include "Forge/Magnets.hpp"
+#include "Forge/SelectionRenderer.hpp"
+#include "Job/JobDefinitions.hpp"
+#include "Job/JobManager.hpp"
+
+#include <Windows.h>
+#include <stdio.h>
+#include <sys/stat.h>
+#include <time.h>
+#include <wchar.h>
+#include <algorithm>
+#include <atomic>
+#include <cmath>
+#include <condition_variable>
+#include <cstddef>
+#include <cstdlib>
+#include <exception>
+#include <functional>
+#include <limits>
+#include <mutex>
+#include <queue>
+#include <ratio>
+#include <stdexcept>
+#include <stop_token>
+#include <system_error>
+#include <thread>
+#include <tuple>
+#include <type_traits>
+#include <typeinfo>
+#include <utility>
+#include <vector>
+
+/* ---------- forward declarations */
+
+class CJobManager;
+struct SJobCounter;
+
+/* ---------- constants */
+
+/* ---------- definitions */
+
+/* ---------- prototypes */
+
+namespace Job
+{
+	extern void RunJob(std::function<enum EJobResult __cdecl(void)> function, SJobCounter *counter, __int32 priority);
+	extern void Initialize();
+	extern void Dispose();
+}
+
+/* ---------- globals */
+
+/* ---------- private variables */
+
+namespace
+{
+	extern CJobManager jobManager; // 0x123AEE68
+	extern bool initialized; // 0x123AEEF0
+}
+/* ---------- public code */
+
+namespace Job
+{
+	_extern void _sub_1086CEA0(std::function<enum EJobResult __cdecl(void)>, SJobCounter *, __int32);
+	void RunJob(std::function<enum EJobResult __cdecl(void)> function, SJobCounter *counter, __int32 priority) // 0x1086CEA0
+	{
+		mangled_x86(MANGLED_TODO, "?RunJob@Job@@YAXV?$function@$$A6A?AW4EJobResult@@XZ@std@@PAUSJobCounter@@H@Z");
+		// __int32 priority;
+		todo("implement");
+		_sub_1086CEA0(function, counter, priority);
+	}
+
+	_extern void _sub_1086CE50();
+	void Initialize() // 0x1086CE50
+	{
+		mangled_x86(MANGLED_TODO, "?Initialize@Job@@YAXXZ");
+		// procedure flags: nofpo
+		todo("implement");
+		_sub_1086CE50();
+	}
+
+	_extern void _sub_1086CE00();
+	void Dispose() // 0x1086CE00
+	{
+		mangled_x86(MANGLED_TODO, "?Dispose@Job@@YAXXZ");
+		// procedure flags: nofpo
+		todo("implement");
+		_sub_1086CE00();
+	}
+}
+
+extern CJobManager* _sub_1086CA30(CJobManager *const);
+_inline CJobManager::CJobManager() // 0x1086CA30
+{
+	mangled_x86(MANGLED_TODO, "??0CJobManager@@QAE@XZ");
+	// CJobManager *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_1086CA30(this);
+}
+
+extern SJobCounter* _sub_1086CB20(SJobCounter *const);
+_inline SJobCounter::SJobCounter() // 0x1086CB20
+{
+	mangled_x86(MANGLED_TODO, "??0SJobCounter@@QAE@XZ");
+	// SJobCounter *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_1086CB20(this);
+}
+
+_extern void _sub_1086CD80(CJobManager *const);
+_inline CJobManager::~CJobManager() // 0x1086CD80
+{
+	mangled_x86(MANGLED_TODO, "??1CJobManager@@QAE@XZ");
+	// CJobManager *const this;
+	compiler_generated();
+	todo("implement");
+	_sub_1086CD80(this);
+}
+
+/* ---------- private code */

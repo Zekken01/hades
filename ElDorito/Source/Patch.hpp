@@ -1,0 +1,125 @@
+#ifndef __PATCH_HPP__
+#define __PATCH_HPP__
+#pragma once
+
+/* ---------- headers */
+
+#include "hades/hades.h"
+
+#include "Common/Http/HttpHeaders.hpp"
+#include "Pointer.hpp"
+
+#include <initializer_list>
+#include <memory>
+#include <vector>
+
+/* ---------- forward declarations */
+
+class Hook;
+class Patch;
+
+/* ---------- constants */
+
+/* ---------- definitions */
+
+#pragma pack(push, 4)
+class Patch
+{
+public:
+	typedef std::initializer_list<unsigned char> InitializerListType;
+	Patch(Patch &); /* compiler_generated() */
+	Patch(Patch const &); /* compiler_generated() */
+	Patch(unsigned __int32 Offset, unsigned __int32 byteValue, unsigned __int32 numBytes, Pointer base);
+	Patch(unsigned __int32 Offset, std::initializer_list<unsigned char> const &Data, Pointer base);
+	Patch(unsigned __int32 Offset, std::initializer_list<unsigned char> const &Data, std::initializer_list<unsigned char> const &Reset);
+	Patch();
+	_inline void Apply(bool revert, Pointer offset) const;
+	_inline void Reset(Pointer offset) const;
+	static _inline void NopFill(Pointer offset, unsigned __int32 length);
+private:
+	unsigned __int32 Offset; // 0x0
+	std::vector<unsigned char,std::allocator<unsigned char> > Data; // 0x4
+	std::vector<unsigned char,std::allocator<unsigned char> > Orig; // 0x14
+public:
+	_inline ~Patch(); /* compiler_generated() */
+	Patch &operator=(Patch &); /* compiler_generated() */
+	Patch &operator=(Patch const &); /* compiler_generated() */
+};
+#pragma pack(pop)
+static_assert(sizeof(Patch) == 36, "Invalid Patch size");
+
+#pragma pack(push, 4)
+class Hook
+{
+public:
+	Hook(Hook &); /* compiler_generated() */
+	Hook(Hook const &); /* compiler_generated() */
+	Hook(unsigned __int32 Offset, void *destFunc, __int32 flags, std::initializer_list<unsigned char> Reset);
+	Hook();
+	_inline void Apply(bool revert, Pointer offset) const;
+	_inline void Reset(Pointer offset) const;
+private:
+	unsigned __int32 Offset; // 0x0
+	void *DestFunc; // 0x4
+	__int32 const Flags; // 0x8
+	std::vector<unsigned char,std::allocator<unsigned char> > Orig; // 0xC
+public:
+	_inline ~Hook(); /* compiler_generated() */
+};
+#pragma pack(pop)
+static_assert(sizeof(Hook) == 28, "Invalid Hook size");
+
+/* ---------- prototypes */
+
+/* ---------- globals */
+
+/* ---------- public code */
+
+_extern void _sub_107A9530(Patch const *const, bool, Pointer);
+_inline void Patch::Apply(bool revert, Pointer offset) const // 0x107A9530
+{
+	mangled_x86(MANGLED_TODO, "?Apply@Patch@@QBEX_NVPointer@@@Z");
+	// Pointer offset;
+	todo("implement");
+	_sub_107A9530((Patch const *)this, revert, offset);
+}
+
+_extern void _sub_107AB3C0(Patch const *const, Pointer);
+_inline void Patch::Reset(Pointer offset) const // 0x107AB3C0
+{
+	mangled_x86(MANGLED_TODO, "?Reset@Patch@@QBEXVPointer@@@Z");
+	// Pointer offset;
+	todo("implement");
+	_sub_107AB3C0((Patch const *)this, offset);
+}
+
+_extern void _sub_108E4200(Pointer, unsigned __int32);
+_inline void Patch::NopFill(Pointer offset, unsigned __int32 length) // 0x108E4200
+{
+	mangled_x86(MANGLED_TODO, "?NopFill@Patch@@SAXVPointer@@I@Z");
+	// unsigned __int32 length;
+	todo("implement");
+	_sub_108E4200(offset, length);
+}
+
+_extern void _sub_10699840(Hook const *const, bool, Pointer);
+_inline void Hook::Apply(bool revert, Pointer offset) const // 0x10699840
+{
+	mangled_x86(MANGLED_TODO, "?Apply@Hook@@QBEX_NVPointer@@@Z");
+	// Pointer offset;
+	todo("implement");
+	_sub_10699840((Hook const *)this, revert, offset);
+}
+
+_extern void _sub_10699DE0(Hook const *const, Pointer);
+_inline void Hook::Reset(Pointer offset) const // 0x10699DE0
+{
+	mangled_x86(MANGLED_TODO, "?Reset@Hook@@QBEXVPointer@@@Z");
+	// Pointer offset;
+	todo("implement");
+	_sub_10699DE0((Hook const *)this, offset);
+}
+
+/* ---------- private code */
+
+#endif // __PATCH_HPP__

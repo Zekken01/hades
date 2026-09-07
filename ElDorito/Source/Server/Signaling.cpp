@@ -1,0 +1,563 @@
+/* ---------- headers */
+
+#include "hades/hades.h"
+
+#include "Blam/BitStream.hpp"
+#include "Blam/BlamNetwork.hpp"
+#include "Blam/cseries/cseries.hpp"
+#include "Blam/cseries/enums.inl"
+#include "Blam/cseries/flags.inl"
+#include "Blam/game/engine/game_engine_option.hpp"
+#include "Blam/game/game_variant.hpp"
+#include "Blam/game/player_appearance.hpp"
+#include "Blam/game/player_configuration.inl"
+#include "Blam/game/players.hpp"
+#include "Blam/hs/hs.hpp"
+#include "Blam/main/levels.hpp"
+#include "Blam/math/real_math.inl"
+#include "Blam/math/real_math_definitions.hpp"
+#include "Blam/memory/bitstream.hpp"
+#include "Blam/objects/damage.hpp"
+#include "Blam/objects/objects.hpp"
+#include "Blam/structures/cluster_reference.hpp"
+#include "Blam/tag_files/tag_groups.hpp"
+#include "ChatCommands/ChatCommandMap.hpp"
+#include "Common/Http/HttpHeaders.hpp"
+#include "Forge/Magnets.hpp"
+#include "Patches/CustomPackets.hpp"
+#include "Patches/Network.hpp"
+#include "ThirdParty/rapidjson/allocators.h"
+#include "ThirdParty/rapidjson/document.h"
+#include "ThirdParty/rapidjson/encodedstream.h"
+#include "ThirdParty/rapidjson/encodings.h"
+#include "ThirdParty/rapidjson/error/error.h"
+#include "ThirdParty/rapidjson/internal/biginteger.h"
+#include "ThirdParty/rapidjson/internal/diyfp.h"
+#include "ThirdParty/rapidjson/internal/dtoa.h"
+#include "ThirdParty/rapidjson/internal/ieee754.h"
+#include "ThirdParty/rapidjson/internal/itoa.h"
+#include "ThirdParty/rapidjson/internal/pow10.h"
+#include "ThirdParty/rapidjson/internal/stack.h"
+#include "ThirdParty/rapidjson/internal/strfunc.h"
+#include "ThirdParty/rapidjson/internal/strtod.h"
+#include "ThirdParty/rapidjson/memorystream.h"
+#include "ThirdParty/rapidjson/reader.h"
+#include "ThirdParty/rapidjson/stream.h"
+#include "ThirdParty/rapidjson/stringbuffer.h"
+#include "ThirdParty/rapidjson/writer.h"
+#include "Utils/Bits.hpp"
+#include "Utils/DewritoReader.hpp"
+#include "Utils/Macros.hpp"
+#include "Utils/NameValueTable.hpp"
+#include "Utils/Singleton.hpp"
+#include "Utils/String.hpp"
+#include "Utils/UPnP.hpp"
+#include "Utils/Uri.hpp"
+#include "Utils/WebSocket.hpp"
+#include "Web/Ui/Screen.hpp"
+
+#include <boost/asio.hpp>
+#include <boost/assert.hpp>
+#include <boost/bind/bind.hpp>
+#include <boost/date_time/gregorian/gregorian.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
+#include <boost/exception/all.hpp>
+#include <boost/lockfree/queue.hpp>
+#include <boost/numeric/conversion/converter_policies.hpp>
+#include <boost/parameter/aux_/use_default_tag.hpp>
+#include <boost/regex/v5/match_flags.hpp>
+#include <boost/smart_ptr.hpp>
+#include <boost/system/errc.hpp>
+#include <boost/system/error_code.hpp>
+#include <boost/system/system_error.hpp>
+#include <boost/throw_exception.hpp>
+#include <boost/winapi/error_handling.hpp>
+#include <websocketpp/base64/base64.hpp>
+#include <websocketpp/close.hpp>
+#include <websocketpp/common/asio.hpp>
+#include <websocketpp/common/md5.hpp>
+#include <websocketpp/config/asio_no_tls.hpp>
+#include <websocketpp/connection.hpp>
+#include <websocketpp/extensions/extension.hpp>
+#include <websocketpp/extensions/permessage_deflate/disabled.hpp>
+#include <websocketpp/frame.hpp>
+#include <websocketpp/http/constants.hpp>
+#include <websocketpp/http/parser.hpp>
+#include <websocketpp/http/request.hpp>
+#include <websocketpp/http/response.hpp>
+#include <websocketpp/message_buffer/alloc.hpp>
+#include <websocketpp/message_buffer/message.hpp>
+#include <websocketpp/processors/base.hpp>
+#include <websocketpp/processors/hybi00.hpp>
+#include <websocketpp/processors/hybi07.hpp>
+#include <websocketpp/processors/hybi08.hpp>
+#include <websocketpp/processors/hybi13.hpp>
+#include <websocketpp/processors/processor.hpp>
+#include <websocketpp/random/none.hpp>
+#include <websocketpp/roles/server_endpoint.hpp>
+#include <websocketpp/server.hpp>
+#include <websocketpp/sha1/sha1.hpp>
+#include <websocketpp/utf8_validator.hpp>
+#include <websocketpp/utilities.hpp>
+
+#include <WinSock2.h>
+#include <WS2tcpip.h>
+#include <Windows.h>
+#include <boost/align/detail/align_up.hpp>
+#include <boost/align/detail/is_alignment.hpp>
+#include <boost/current_function.hpp>
+#include <boost/mp11/algorithm.hpp>
+#include <boost/mp11/detail/mp_count.hpp>
+#include <boost/parameter/aux_/void.hpp>
+#include <boost/system/detail/throws.hpp>
+#include <mswsockdef.h>
+#include <pplcancellation_token.h>
+#include <pplinterface.h>
+#include <ppltasks.h>
+#include <ppltaskscheduler.h>
+#include <pplwin.h>
+#include <stdio.h>
+#include <sys/stat.h>
+#include <time.h>
+#include <wchar.h>
+#include <ws2ipdef.h>
+#include <algorithm>
+#include <any>
+#include <array>
+#include <atomic>
+#include <charconv>
+#include <chrono>
+#include <cmath>
+#include <condition_variable>
+#include <cstddef>
+#include <cstdlib>
+#include <deque>
+#include <exception>
+#include <forward_list>
+#include <functional>
+#include <future>
+#include <ios>
+#include <iosfwd>
+#include <istream>
+#include <iterator>
+#include <limits>
+#include <list>
+#include <locale>
+#include <map>
+#include <memory>
+#include <mutex>
+#include <optional>
+#include <ostream>
+#include <queue>
+#include <ratio>
+#include <sstream>
+#include <stdexcept>
+#include <stop_token>
+#include <streambuf>
+#include <string>
+#include <system_error>
+#include <thread>
+#include <tuple>
+#include <type_traits>
+#include <typeinfo>
+#include <utility>
+#include <vector>
+
+/* ---------- forward declarations */
+
+struct begin;
+struct end;
+namespace Blam
+{
+	class BitStream;
+}
+namespace Blam
+{
+	namespace Network
+	{
+		struct ObserverChannel;
+		struct Session;
+	}
+}
+namespace
+{
+	struct coninfo;
+	struct WebSocketPacketData;
+	class WebSocketPacketHandler;
+}
+
+namespace Utils {}
+using namespace ::Utils;
+namespace Utils
+{
+	namespace AntiCheat {}
+	using namespace Utils::AntiCheat;
+	namespace WebSocket {}
+	using namespace Utils::WebSocket;
+}
+
+namespace Server {}
+using namespace ::Server;
+namespace Server
+{
+	namespace Signaling {}
+	using namespace Server::Signaling;
+}
+
+namespace asio_require_fn {}
+using namespace ::asio_require_fn;
+namespace Modules {}
+using namespace ::Modules;
+namespace asio_query_fn {}
+using namespace ::asio_query_fn;
+namespace asio_require_concept_fn {}
+using namespace ::asio_require_concept_fn;
+namespace asio_execution_bulk_execute_fn {}
+using namespace ::asio_execution_bulk_execute_fn;
+namespace asio_execution_submit_fn {}
+using namespace ::asio_execution_submit_fn;
+namespace asio_execution_set_value_fn {}
+using namespace ::asio_execution_set_value_fn;
+namespace asio_prefer_fn {}
+using namespace ::asio_prefer_fn;
+namespace base
+{
+	namespace internal {}
+	using namespace base::internal;
+}
+
+namespace asio_execution_set_error_fn {}
+using namespace ::asio_execution_set_error_fn;
+namespace Web {}
+using namespace ::Web;
+namespace Web
+{
+	namespace Ui {}
+	using namespace Web::Ui;
+}
+
+namespace Web
+{
+	namespace Ui
+	{
+		namespace ScreenLayer {}
+		using namespace Web::Ui::ScreenLayer;
+	}
+}
+
+namespace Web
+{
+	namespace Browser {}
+	using namespace Web::Browser;
+}
+
+namespace Web
+{
+	namespace Browser
+	{
+		namespace Bridge {}
+		using namespace Web::Browser::Bridge;
+	}
+}
+
+namespace asio_execution_start_fn {}
+using namespace ::asio_execution_start_fn;
+namespace Patches {}
+using namespace ::Patches;
+namespace Patches
+{
+	namespace CustomPackets {}
+	using namespace Patches::CustomPackets;
+	namespace Core {}
+	using namespace Patches::Core;
+}
+
+namespace Blam
+{
+	namespace Network {}
+	using namespace Blam::Network;
+}
+
+namespace asio_execution_execute_fn {}
+using namespace ::asio_execution_execute_fn;
+namespace asio_execution_set_done_fn {}
+using namespace ::asio_execution_set_done_fn;
+namespace asio_execution_schedule_fn {}
+using namespace ::asio_execution_schedule_fn;
+namespace asio_execution_connect_fn {}
+using namespace ::asio_execution_connect_fn;
+namespace Blam {}
+using namespace ::Blam;
+
+/* ---------- constants */
+
+namespace
+{
+	enum RejectionReason
+	{
+		eBadPassword = 0,
+		eSessionHasBadInfo,
+		eNone,
+	};
+}
+/* ---------- definitions */
+
+namespace
+{
+	struct coninfo
+	{
+		std::basic_string<char,std::char_traits<char>,std::allocator<char> > uid; // 0x0
+		std::basic_string<char,std::char_traits<char>,std::allocator<char> > subprotocol; // 0x1C
+		bool authed; // 0x38
+		unsigned char __pad0[3]; // 0x39
+		__int32 peerIdx; // 0x3C
+		coninfo(coninfo &); /* compiler_generated() */
+		coninfo(coninfo const &); /* compiler_generated() */
+		coninfo(); /* compiler_generated() */
+		~coninfo(); /* compiler_generated() */
+		coninfo &operator=(coninfo &); /* compiler_generated() */
+		coninfo &operator=(coninfo const &); /* compiler_generated() */
+	};
+	static_assert(sizeof(coninfo) == 64, "Invalid coninfo size");
+
+	//@@anonymous-namespace@@
+	#pragma pack(push, 4)
+	struct WebSocketPacketData
+	{
+		char echoString[9]; // 0x0
+		unsigned char __pad0[1]; // 0x9
+		unsigned short serverPort; // 0xA
+	};
+	#pragma pack(pop)
+	static_assert(sizeof(WebSocketPacketData) == 12, "Invalid WebSocketPacketData size");
+
+	//@@anonymous-namespace@@
+
+	//@@anonymous-namespace@@
+
+	//@@anonymous-namespace@@
+	class WebSocketPacketHandler :
+		public Patches::CustomPackets::PacketHandler<WebSocketPacketData>
+	{
+	private:
+		virtual void Serialize(Blam::BitStream *, WebSocketPacketData const *);
+		virtual bool Deserialize(Blam::BitStream *, WebSocketPacketData *);
+		virtual void HandlePacket(Blam::Network::ObserverChannel *, Patches::CustomPackets::Packet<WebSocketPacketData> const *);
+	public:
+		WebSocketPacketHandler(WebSocketPacketHandler &); /* compiler_generated() */
+		WebSocketPacketHandler(WebSocketPacketHandler const &); /* compiler_generated() */
+		WebSocketPacketHandler(); /* compiler_generated() */
+		virtual ~WebSocketPacketHandler(); /* compiler_generated() */
+		WebSocketPacketHandler &operator=(WebSocketPacketHandler &); /* compiler_generated() */
+		WebSocketPacketHandler &operator=(WebSocketPacketHandler const &); /* compiler_generated() */
+	};
+	static_assert(sizeof(WebSocketPacketHandler) == 4, "Invalid WebSocketPacketHandler size");
+
+}
+typedef char const *LPCCH;
+typedef wchar_t const *LPCWCH;
+namespace Patches
+{
+	namespace CustomPackets
+	{
+		typedef Packet<WebSocketPacketData> WebSocketPacket;
+	}
+}
+
+/* ---------- prototypes */
+
+namespace Server
+{
+	namespace Signaling
+	{
+		extern void Initialize();
+		extern void StartServer();
+		extern void StopServer();
+		extern void Tick();
+		extern void SendPeerPassword(__int32 playerIndex);
+		extern void RemovePeer(__int32 peerIndex);
+		extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetPassword();
+		extern unsigned short GetPort();
+	}
+}
+
+/* ---------- globals */
+
+/* ---------- private variables */
+
+namespace
+{
+	extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > authStrings[17]; // 0x12468290
+	extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > currentPassword; // 0x12468268
+	extern unsigned short port; // 0x124684F4
+	extern websocketpp::server<Utils::WebSocket::Config> signalServer; // 0x12467F80
+	extern rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> iceServers; // 0x12468470
+}
+/* ---------- public code */
+
+namespace Server
+{
+	namespace Signaling
+	{
+		_extern void _sub_10C2E280();
+		void Initialize() // 0x10C2E280
+		{
+			mangled_x86(MANGLED_TODO, "?Initialize@Signaling@Server@@YAXXZ");
+			// procedure flags: nofpo
+			// static ...; // 0x10C2E5A4
+			// static ...; // 0x10C2E598
+			// static ...; // 0x10C2E590
+		// $LN17:
+			{
+				// websocketpp::exception const &e;
+			}
+			// function call : char const *() const
+			todo("implement");
+			_sub_10C2E280();
+		}
+
+		_extern void _sub_10C305F0();
+		void StartServer() // 0x10C305F0
+		{
+			mangled_x86(MANGLED_TODO, "?StartServer@Signaling@Server@@YAXXZ");
+			// procedure flags: nofpo
+			// static ...; // 0x10C308F6
+			// static ...; // 0x10C308F4
+			// static ...; // 0x10C308DC
+			// static ...; // 0x10C308D4
+		// $LN16:
+			// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> dewrito;
+			// Blam::Network::Session *session;
+			{
+				// websocketpp::exception const &e;
+			}
+			// function call : char const *() const
+			todo("implement");
+			_sub_10C305F0();
+		}
+
+		_extern void _sub_10C309D0();
+		void StopServer() // 0x10C309D0
+		{
+			mangled_x86(MANGLED_TODO, "?StopServer@Signaling@Server@@YAXXZ");
+			// procedure flags: nofpo
+			// static ...; // 0x10C30BA8
+			// static ...; // 0x10C30B9F
+			// static ...; // 0x10C30B98
+			// static ...; // 0x10C30B74
+			// static ...; // 0x10C30B6C
+			{
+				// std::map<std::weak_ptr<void>,coninfo,std::owner_less<std::weak_ptr<void> >,std::allocator<std::pair<std::weak_ptr<void> const ,coninfo> > > &<range>$L0;
+				// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > > <begin>$L0;
+				// std::_Default_sentinel <end>$L0;
+				{
+					// std::pair<std::weak_ptr<void> const ,coninfo> client;
+				}
+			}
+			todo("implement");
+			_sub_10C309D0();
+		}
+
+		_extern void _sub_10C30C30();
+		void Tick() // 0x10C30C30
+		{
+			mangled_x86(MANGLED_TODO, "?Tick@Signaling@Server@@YAXXZ");
+			// procedure flags: nofpo
+			todo("implement");
+			_sub_10C30C30();
+		}
+
+		_extern void _sub_10C2FC30(__int32);
+		void SendPeerPassword(__int32 playerIndex) // 0x10C2FC30
+		{
+			mangled_x86(MANGLED_TODO, "?SendPeerPassword@Signaling@Server@@YAXH@Z");
+			// static ...; // 0x10C2FD34
+			// static ...; // 0x10C2FD28
+			// static ...; // 0x10C2FD20
+			// __int32 playerIndex;
+			// Blam::Network::Session *session;
+			// Patches::CustomPackets::Packet<WebSocketPacketData> packet;
+			// __int32 peerIdx;
+			todo("implement");
+			_sub_10C2FC30(playerIndex);
+		}
+
+		_extern void _sub_10C2F520(__int32);
+		void RemovePeer(__int32 peerIndex) // 0x10C2F520
+		{
+			mangled_x86(MANGLED_TODO, "?RemovePeer@Signaling@Server@@YAXH@Z");
+			// static ...; // 0x10C2FA05
+			// static ...; // 0x10C2F9FA
+			// static ...; // 0x10C2F9F1
+			// static ...; // 0x10C2F9EA
+			// static ...; // 0x10C2F9E3
+			// static ...; // 0x10C2F9DC
+			// static ...; // 0x10C2F9D1
+			// static ...; // 0x10C2F9C8
+			// static ...; // 0x10C2F9BC
+			// static ...; // 0x10C2F9B8
+			// static ...; // 0x10C2F940
+			// static ...; // 0x10C2F938
+			// __int32 peerIndex;
+			// std::vector<std::weak_ptr<void>,std::allocator<std::weak_ptr<void> > > handlesToClose;
+			{
+				// std::map<std::weak_ptr<void>,coninfo,std::owner_less<std::weak_ptr<void> >,std::allocator<std::pair<std::weak_ptr<void> const ,coninfo> > > &<range>$L0;
+				// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > > <begin>$L0;
+				// std::_Default_sentinel <end>$L0;
+				{
+					// std::pair<std::weak_ptr<void> const ,coninfo> client;
+					{
+						// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
+						// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
+						{
+							// std::_Default_sentinel <end>$L1;
+							// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > > <begin>$L1;
+							// std::map<std::weak_ptr<void>,coninfo,std::owner_less<std::weak_ptr<void> >,std::allocator<std::pair<std::weak_ptr<void> const ,coninfo> > > &<range>$L1;
+							{
+								// std::pair<std::weak_ptr<void> const ,coninfo> otherClient;
+							}
+						}
+					}
+				}
+			}
+			{
+				// std::weak_ptr<void> *<end>$L2;
+				// std::vector<std::weak_ptr<void>,std::allocator<std::weak_ptr<void> > > &<range>$L2;
+				// std::weak_ptr<void> *<begin>$L2;
+				{
+					// std::weak_ptr<void> hdl;
+				}
+			}
+			todo("implement");
+			_sub_10C2F520(peerIndex);
+		}
+	}
+}
+
+extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10C2CEC0();
+namespace Server
+{
+	namespace Signaling
+	{
+		std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetPassword() // 0x10C2CEC0
+		{
+			mangled_x86(MANGLED_TODO, "?GetPassword@Signaling@Server@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
+			// procedure flags: nofpo
+			todo("implement");
+			std::string __result = _sub_10C2CEC0();
+			return __result;
+		}
+
+		_extern unsigned short _sub_10C2CF30();
+		unsigned short GetPort() // 0x10C2CF30
+		{
+			mangled_x86(MANGLED_TODO, "?GetPort@Signaling@Server@@YAGXZ");
+			// procedure flags: nofpo
+			todo("implement");
+			unsigned short __result = _sub_10C2CF30();
+			return __result;
+		}
+	}
+}
+
+/* ---------- private code */

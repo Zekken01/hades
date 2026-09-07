@@ -1,0 +1,170 @@
+/* ---------- headers */
+
+#include "hades/hades.h"
+
+#include "Blam/cache/cache_files.hpp"
+#include "Blam/cseries/cseries.hpp"
+#include "Blam/cseries/enums.inl"
+#include "Blam/cseries/flags.inl"
+#include "Blam/hs/hs.hpp"
+#include "Blam/math/real_math_definitions.hpp"
+#include "Blam/physics/havok_types.hpp"
+#include "Blam/rasterizer/rasterizer_geometry.hpp"
+#include "Blam/scenario/scenario.hpp"
+#include "Blam/scenario/scenario_definitions.hpp"
+#include "Blam/structures/cluster_reference.hpp"
+#include "Blam/tag_files/file_reference.inl"
+#include "Blam/tag_files/files.hpp"
+#include "Blam/tag_files/tag_block.inl"
+#include "Blam/tag_files/tag_groups.hpp"
+#include "Common/Http/HttpHeaders.hpp"
+#include "Scripting/HaloScript/HsMethodMap.hpp"
+#include "Utils/Singleton.hpp"
+
+#include <boost/asio.hpp>
+#include <boost/assert.hpp>
+#include <boost/exception/all.hpp>
+#include <boost/lockfree/queue.hpp>
+#include <boost/parameter/aux_/use_default_tag.hpp>
+#include <boost/throw_exception.hpp>
+
+#include <Windows.h>
+#include <boost/align/detail/align_up.hpp>
+#include <boost/align/detail/is_alignment.hpp>
+#include <boost/current_function.hpp>
+#include <boost/mp11/algorithm.hpp>
+#include <boost/mp11/detail/mp_count.hpp>
+#include <boost/parameter/aux_/void.hpp>
+#include <stdio.h>
+#include <sys/stat.h>
+#include <time.h>
+#include <wchar.h>
+#include <algorithm>
+#include <atomic>
+#include <charconv>
+#include <cmath>
+#include <cstddef>
+#include <cstdlib>
+#include <exception>
+#include <functional>
+#include <iterator>
+#include <limits>
+#include <list>
+#include <memory>
+#include <mutex>
+#include <ratio>
+#include <stdexcept>
+#include <stop_token>
+#include <string>
+#include <system_error>
+#include <thread>
+#include <tuple>
+#include <type_traits>
+#include <typeinfo>
+#include <unordered_map>
+#include <utility>
+#include <vector>
+
+/* ---------- forward declarations */
+
+struct begin;
+struct end;
+struct s_hs_script;
+struct s_hs_script_parameter;
+struct s_scenario;
+namespace Scripting
+{
+	namespace HS
+	{
+		class ScriptMethodMap;
+		struct ScriptMethod;
+		struct ScriptParameter;
+	}
+}
+
+namespace Utils {}
+using namespace ::Utils;
+namespace Scripting {}
+using namespace ::Scripting;
+namespace Scripting
+{
+	namespace HS {}
+	using namespace Scripting::HS;
+}
+
+/* ---------- constants */
+
+/* ---------- definitions */
+
+/* ---------- prototypes */
+
+namespace Scripting
+{
+	namespace HS
+	{
+		extern void ValidateExternScript(s_hs_script const *script, Scripting::HS::ScriptMethod const *method, std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > &errors);
+		extern void InitializeMethodsForNewMap();
+	}
+}
+
+/* ---------- globals */
+
+/* ---------- private variables */
+
+/* ---------- public code */
+
+namespace Scripting
+{
+	namespace HS
+	{
+		_extern void _sub_106EF0C0(s_hs_script const *, Scripting::HS::ScriptMethod const *, std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > &);
+		void ValidateExternScript(s_hs_script const *script, Scripting::HS::ScriptMethod const *method, std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > &errors) // 0x106EF0C0
+		{
+			mangled_x86(MANGLED_TODO, "?ValidateExternScript@HS@Scripting@@YAXPBUs_hs_script@@PBUScriptMethod@12@AAV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@@Z");
+			// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > &errors;
+			{
+				// __int32 i;
+				{
+					// s_hs_script_parameter const &scriptParam;
+					// Scripting::HS::ScriptParameter const &methodParam;
+				}
+			}
+			todo("implement");
+			_sub_106EF0C0(script, method, errors);
+		}
+
+		_extern void _sub_106EED90();
+		void InitializeMethodsForNewMap() // 0x106EED90
+		{
+			mangled_x86(MANGLED_TODO, "?InitializeMethodsForNewMap@HS@Scripting@@YAXXZ");
+			// procedure flags: nofpo
+			// static ...; // 0x106EF000
+			// static ...; // 0x106EEFF4
+			// static ...; // 0x106EEFEC
+			// Scripting::HS::ScriptMethodMap &methodMap;
+			// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > validationErrors;
+			// s_scenario *scnr;
+			{
+				// __int32 i;
+				{
+					// s_hs_script *script;
+					{
+						// Scripting::HS::ScriptMethod const *method;
+						{
+							// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > &<range>$L0;
+							// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *<begin>$L0;
+							// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *<end>$L0;
+							{
+								// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &error;
+							}
+						}
+					}
+				}
+			}
+			todo("implement");
+			_sub_106EED90();
+		}
+	}
+}
+
+/* ---------- private code */

@@ -1,0 +1,54 @@
+#ifndef __STEAM_STEAMLOADER_H__
+#define __STEAM_STEAMLOADER_H__
+#pragma once
+
+/* ---------- headers */
+
+#include "hades/hades.h"
+
+#include "Forge/Magnets.hpp"
+
+#include <memory>
+#include <string>
+
+/* ---------- forward declarations */
+
+namespace Steam
+{
+	class SteamLoader;
+}
+
+/* ---------- constants */
+
+/* ---------- definitions */
+
+namespace Steam
+{
+	class SteamLoader
+	{
+	private:
+		HINSTANCE__ *m_hSteamClient; // 0x0
+		unsigned __int32 GetSteamProcessId();
+		std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetSteamDllPath();
+		void LoadGameOverlayRenderer(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &baseDllPath);
+		void *GetProcAddressInternal(char const *name);
+	public:
+		void Initialize();
+		bool IsSteamRunning(bool ignoreCreateFunc);
+		void *(*GetCreateInterfaceFunc())(char const *, __int32 *);
+	};
+}
+
+// static_assert(sizeof(Steam::SteamLoader) == 4, "Invalid Steam::SteamLoader size");
+// Withheld: the type inventory does not describe this type, so its
+// padding could not be reconstructed.
+
+/* ---------- prototypes */
+
+/* ---------- globals */
+
+/* ---------- public code */
+
+/* ---------- private code */
+
+#endif // __STEAM_STEAMLOADER_H__

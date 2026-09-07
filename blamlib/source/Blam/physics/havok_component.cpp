@@ -1,0 +1,86 @@
+/* ---------- headers */
+
+#include "Blam/physics/havok_component.hpp"
+#include "hades/hades.h"
+
+#include "Blam/cseries/cseries.hpp"
+#include "Blam/cseries/cseries_memory.hpp"
+#include "Blam/math/real_math_definitions.hpp"
+#include "Blam/memory/data.hpp"
+#include "Blam/memory/data_array.inl"
+#include "Blam/memory/tls.hpp"
+#include "Blam/physics/havok_types.hpp"
+
+#include <Windows.h>
+#include <stdio.h>
+#include <sys/stat.h>
+#include <wchar.h>
+#include <cmath>
+#include <cstddef>
+#include <cstdlib>
+#include <limits>
+#include <type_traits>
+
+/* ---------- forward declarations */
+
+class c_havok_component;
+struct hkpEntity;
+
+/* ---------- constants */
+
+/* ---------- definitions */
+
+/* ---------- prototypes */
+
+extern c_data_array<c_havok_component> *havok_components_get();
+extern c_havok_component *havok_component_get(unsigned long havok_component_index);
+
+/* ---------- globals */
+
+extern long (*const havok_entity_get_havok_component_index)(hkpEntity const *); // 0x1124B6A8
+extern long (*const havok_entity_get_havok_component_rigid_body_index)(hkpEntity const *); // 0x1124B6AC
+
+/* ---------- private variables */
+
+/* ---------- public code */
+
+extern c_data_array<c_havok_component> *_sub_10F18A60();
+c_data_array<c_havok_component> *havok_components_get() // 0x10F18A60
+{
+	mangled_x86(MANGLED_TODO, "?havok_components_get@@YAPAV?$c_data_array@Vc_havok_component@@@@XZ");
+	// procedure flags: nofpo
+	todo("implement");
+	c_data_array<c_havok_component> * __result = _sub_10F18A60();
+	return __result;
+}
+
+extern c_havok_component *_sub_10F189F0(unsigned long);
+c_havok_component *havok_component_get(unsigned long havok_component_index) // 0x10F189F0
+{
+	mangled_x86(MANGLED_TODO, "?havok_component_get@@YAPAVc_havok_component@@K@Z");
+	// unsigned long havok_component_index;
+	todo("implement");
+	c_havok_component * __result = _sub_10F189F0(havok_component_index);
+	return __result;
+}
+
+_extern unsigned long _sub_10F18970(c_havok_component *const, long);
+unsigned long c_havok_component::get_rigid_body_collision_filter_info(long rigid_body_index) // 0x10F18970
+{
+	mangled_x86(MANGLED_TODO, "?get_rigid_body_collision_filter_info@c_havok_component@@QAEKJ@Z");
+	// long rigid_body_index;
+	todo("implement");
+	unsigned long __result = _sub_10F18970(this, rigid_body_index);
+	return __result;
+}
+
+_extern void _sub_10F18AB0(c_havok_component *const, long, unsigned long);
+void c_havok_component::set_rigid_body_collision_filter_info(long rigid_body_index, unsigned long info) // 0x10F18AB0
+{
+	mangled_x86(MANGLED_TODO, "?set_rigid_body_collision_filter_info@c_havok_component@@QAEXJK@Z");
+	// unsigned long info;
+	todo("implement");
+	_sub_10F18AB0(this, rigid_body_index, info);
+}
+
+/* ---------- private code */
