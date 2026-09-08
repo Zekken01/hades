@@ -129,14 +129,12 @@ namespace Scripting
 			_sub_10701260(this, method);
 		}
 
-		extern ScriptMethod* _sub_10700770(Scripting::HS::ScriptMethod *const, Scripting::HS::ScriptMethod const &);
 		_inline ScriptMethod::ScriptMethod(Scripting::HS::ScriptMethod const &__that) // 0x10700770
 		{
-			mangled_x86(MANGLED_TODO, "??0ScriptMethod@HS@Scripting@@QAE@ABU012@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0ScriptMethod@HS@Scripting@@QAE@ABU012@@Z");
 			// Scripting::HS::ScriptMethod const &__that;
+
 			compiler_generated();
-			todo("implement");
-			_sub_10700770(this, __that);
 		}
 
 		_extern void _sub_10701690(Scripting::HS::ScriptMethodMap *const, std::basic_string_view<char,std::char_traits<char> >, std::basic_string_view<char,std::char_traits<char> >, Scripting::HS::ScriptMethodFlags, void (*)(short, long, bool), e_hs_type, std::initializer_list<Scripting::HS::ScriptParameter>);

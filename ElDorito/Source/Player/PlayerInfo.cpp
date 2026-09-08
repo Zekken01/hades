@@ -439,54 +439,49 @@ void ClearEmblemCache() // 0x107EDD90
 	_sub_107EDD90();
 }
 
-extern SPlayerEmblemInfo* _sub_107ED930(SPlayerEmblemInfo *const);
 _inline SPlayerEmblemInfo::SPlayerEmblemInfo() // 0x107ED930
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0SPlayerEmblemInfo@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::SPlayerEmblemInfo::SPlayerEmblemInfo
 	// SPlayerEmblemInfo *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_107ED930(this);
 }
 
-extern SPlayerInfo* _sub_107ED980(SPlayerInfo *const, SPlayerInfo const &);
 _inline SPlayerInfo::SPlayerInfo(SPlayerInfo const &__that) // 0x107ED980
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0SPlayerInfo@hades_file_local@@QAE@ABU01@@Z");
 	// `anonymous-namespace'::SPlayerInfo::SPlayerInfo
 	// SPlayerInfo const &__that;
+
 	compiler_generated();
-	todo("implement");
-	_sub_107ED980(this, __that);
 }
 
-extern SPlayerInfo* _sub_107EDA30(SPlayerInfo *const);
 _inline SPlayerInfo::SPlayerInfo() // 0x107EDA30
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0SPlayerInfo@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::SPlayerInfo::SPlayerInfo
 	// SPlayerInfo *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_107EDA30(this);
 }
 
-_extern void _sub_107EDB00(SPlayerEmblemInfo *const);
 _inline SPlayerEmblemInfo::~SPlayerEmblemInfo() // 0x107EDB00
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1SPlayerEmblemInfo@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::SPlayerEmblemInfo::~SPlayerEmblemInfo
 	// SPlayerEmblemInfo *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_107EDB00(this);
 }
 
-_extern void _sub_107EDB50(SPlayerInfo *const);
 _inline SPlayerInfo::~SPlayerInfo() // 0x107EDB50
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1SPlayerInfo@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::SPlayerInfo::~SPlayerInfo
 	// SPlayerInfo *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_107EDB50(this);
 }
 
 extern SPlayerEmblemInfo &_sub_107EDBA0(SPlayerEmblemInfo *const, SPlayerEmblemInfo &);

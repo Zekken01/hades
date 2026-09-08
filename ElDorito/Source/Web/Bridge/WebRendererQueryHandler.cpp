@@ -183,24 +183,20 @@ namespace Web
 				return __result;
 			}
 
-			_extern void _sub_10C70100(Web::Browser::Bridge::WebRendererQueryHandler::PendingQuery *const);
 			_inline WebRendererQueryHandler::PendingQuery::~PendingQuery() // 0x10C70100
 			{
-				mangled_x86(MANGLED_TODO, "??1PendingQuery@WebRendererQueryHandler@Bridge@Browser@Web@@QAE@XZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "??1PendingQuery@WebRendererQueryHandler@Bridge@Browser@Web@@QAE@XZ");
 				// Web::Browser::Bridge::WebRendererQueryHandler::PendingQuery *const this;
+
 				compiler_generated();
-				todo("implement");
-				_sub_10C70100(this);
 			}
 
-			_extern void _sub_10C70170(Web::Browser::Bridge::WebRendererQueryHandler *const);
 			_inline WebRendererQueryHandler::~WebRendererQueryHandler() // 0x10C70170
 			{
-				mangled_x86(MANGLED_TODO, "??1WebRendererQueryHandler@Bridge@Browser@Web@@UAE@XZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "??1WebRendererQueryHandler@Bridge@Browser@Web@@UAE@XZ");
 				// Web::Browser::Bridge::WebRendererQueryHandler *const this;
+
 				compiler_generated();
-				todo("implement");
-				_sub_10C70170(this);
 			}
 
 			_extern void _sub_10C71F40(Web::Browser::Bridge::WebRendererQueryHandler *const, scoped_refptr<CefBrowser>, scoped_refptr<CefFrame>, long long);
@@ -243,14 +239,12 @@ namespace Web
 				_sub_10C721A0(this);
 			}
 
-			extern WebRendererQueryHandler::PendingQuery* _sub_10C6F190(Web::Browser::Bridge::WebRendererQueryHandler::PendingQuery *const);
 			_inline WebRendererQueryHandler::PendingQuery::PendingQuery() // 0x10C6F190
 			{
-				mangled_x86(MANGLED_TODO, "??0PendingQuery@WebRendererQueryHandler@Bridge@Browser@Web@@QAE@XZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "??0PendingQuery@WebRendererQueryHandler@Bridge@Browser@Web@@QAE@XZ");
 				// Web::Browser::Bridge::WebRendererQueryHandler::PendingQuery *const this;
+
 				compiler_generated();
-				todo("implement");
-				_sub_10C6F190(this);
 			}
 		}
 	}

@@ -251,14 +251,12 @@ namespace Player
 		return __result;
 	}
 
-	extern SPersistentCharacterCustomization* _sub_107D5200(Player::SPersistentCharacterCustomization *const, Player::SPersistentCharacterCustomization &);
 	_inline SPersistentCharacterCustomization::SPersistentCharacterCustomization(Player::SPersistentCharacterCustomization &&__that) // 0x107D5200
 	{
-		mangled_x86(MANGLED_TODO, "??0SPersistentCharacterCustomization@Player@@QAE@$$QAU01@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0SPersistentCharacterCustomization@Player@@QAE@$$QAU01@@Z");
 		// Player::SPersistentCharacterCustomization &__that;
+
 		compiler_generated();
-		todo("implement");
-		_sub_107D5200(this, __that);
 	}
 
 	_extern void _sub_107D80A0(rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::basic_ostream<char,std::char_traits<char> > >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &, std::map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::less<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > const &);

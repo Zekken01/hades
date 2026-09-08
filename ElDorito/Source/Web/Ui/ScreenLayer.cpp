@@ -725,14 +725,12 @@ namespace Patches
 {
 	namespace Input
 	{
-		extern InputContext* _sub_10C91350(Patches::Input::InputContext *const);
 		_inline InputContext::InputContext() // 0x10C91350
 		{
-			mangled_x86(MANGLED_TODO, "??0InputContext@Input@Patches@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0InputContext@Input@Patches@@QAE@XZ");
 			// Patches::Input::InputContext *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_10C91350(this);
 		}
 	}
 }
@@ -985,22 +983,20 @@ void NotifyVariablesUpdated() // 0x10C94C80
 	_sub_10C94C80();
 }
 
-extern WebOverlayInputContext* _sub_10C91390(WebOverlayInputContext *const);
 _inline WebOverlayInputContext::WebOverlayInputContext() // 0x10C91390
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0WebOverlayInputContext@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::WebOverlayInputContext::WebOverlayInputContext
 	// WebOverlayInputContext *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10C91390(this);
 }
 
-_extern void _sub_10C91DC0(WebOverlayInputContext *const);
 _inline WebOverlayInputContext::~WebOverlayInputContext() // 0x10C91DC0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1WebOverlayInputContext@hades_file_local@@UAE@XZ");
 	// `anonymous-namespace'::WebOverlayInputContext::~WebOverlayInputContext
 	// WebOverlayInputContext *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10C91DC0(this);
 }

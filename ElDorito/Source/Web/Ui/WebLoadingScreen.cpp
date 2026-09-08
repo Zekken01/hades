@@ -238,14 +238,12 @@ namespace Patches
 {
 	namespace LoadingScreen
 	{
-		extern LoadingScreenUi* _sub_10CA9FB0(Patches::LoadingScreen::LoadingScreenUi *const);
 		_inline LoadingScreenUi::LoadingScreenUi() // 0x10CA9FB0
 		{
-			mangled_x86(MANGLED_TODO, "??0LoadingScreenUi@LoadingScreen@Patches@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0LoadingScreenUi@LoadingScreen@Patches@@QAE@XZ");
 			// Patches::LoadingScreen::LoadingScreenUi *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_10CA9FB0(this);
 		}
 	}
 }
@@ -261,14 +259,13 @@ _inline WebLoadingScreenUi::WebLoadingScreenUi() // 0x10CA9FE0
 	_sub_10CA9FE0(this);
 }
 
-_extern void _sub_10CAA170(WebLoadingScreenUi *const);
 _inline WebLoadingScreenUi::~WebLoadingScreenUi() // 0x10CAA170
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1WebLoadingScreenUi@hades_file_local@@UAE@XZ");
 	// `anonymous-namespace'::WebLoadingScreenUi::~WebLoadingScreenUi
 	// WebLoadingScreenUi *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10CAA170(this);
 }
 
 _extern void _sub_10CAAC00(WebLoadingScreenUi *const, Patches::LoadingScreen::LoadingScreenShowInfo const &);

@@ -266,14 +266,12 @@ namespace Server
 			_sub_10C43480();
 		}
 
-		_extern void _sub_10C43260(Server::Voting::VotingSystem *const);
 		_inline VotingSystem::~VotingSystem() // 0x10C43260
 		{
-			mangled_x86(MANGLED_TODO, "??1VotingSystem@Voting@Server@@UAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??1VotingSystem@Voting@Server@@UAE@XZ");
 			// Server::Voting::VotingSystem *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_10C43260(this);
 		}
 
 		_extern bool _sub_10C43EA0(bool);

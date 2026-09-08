@@ -120,25 +120,21 @@ namespace Web
 			return __result;
 		}
 
-		extern WebEmblemResourceHandler* _sub_10CB61A0(Web::Browser::WebEmblemResourceHandler *const);
 		_inline WebEmblemResourceHandler::WebEmblemResourceHandler() // 0x10CB61A0
 		{
-			mangled_x86(MANGLED_TODO, "??0WebEmblemResourceHandler@Browser@Web@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0WebEmblemResourceHandler@Browser@Web@@QAE@XZ");
 			// Web::Browser::WebEmblemResourceHandler *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_10CB61A0(this);
 		}
 
-		_extern void _sub_10CB6470(Web::Browser::WebEmblemResourceHandler * const);
 		_inline WebEmblemResourceHandler::~WebEmblemResourceHandler() // 0x10CB6470
 		{
-			mangled_x86(MANGLED_TODO, "??1WebEmblemResourceHandler@Browser@Web@@UAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??1WebEmblemResourceHandler@Browser@Web@@UAE@XZ");
 			// __shifted(Web::Browser::WebEmblemResourceHandler, 32);
 			// Web::Browser::WebEmblemResourceHandler *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_10CB6470(this);
 		}
 	}
 }

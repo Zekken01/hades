@@ -134,44 +134,36 @@ void CJobManager::AddNewJob(std::function<enum EJobResult __cdecl(void)> functio
 	_sub_10869D00(this, function, priority, counter);
 }
 
-extern CJobManager::SJob* _sub_108692E0(CJobManager::SJob *const, CJobManager::SJob &);
 _inline CJobManager::SJob::SJob(CJobManager::SJob &&__that) // 0x108692E0
 {
-	mangled_x86(MANGLED_TODO, "??0SJob@CJobManager@@QAE@$$QAU01@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0SJob@CJobManager@@QAE@$$QAU01@@Z");
 	// CJobManager::SJob &__that;
+
 	compiler_generated();
-	todo("implement");
-	_sub_108692E0(this, __that);
 }
 
-extern CJobManager::SJob* _sub_10869380(CJobManager::SJob *const, CJobManager::SJob const &);
 _inline CJobManager::SJob::SJob(CJobManager::SJob const &__that) // 0x10869380
 {
-	mangled_x86(MANGLED_TODO, "??0SJob@CJobManager@@QAE@ABU01@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0SJob@CJobManager@@QAE@ABU01@@Z");
 	// CJobManager::SJob const &__that;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10869380(this, __that);
 }
 
-extern CJobManager::SJob* _sub_10869420(CJobManager::SJob *const);
 _inline CJobManager::SJob::SJob() // 0x10869420
 {
-	mangled_x86(MANGLED_TODO, "??0SJob@CJobManager@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0SJob@CJobManager@@QAE@XZ");
 	// CJobManager::SJob *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10869420(this);
 }
 
-_extern void _sub_10869750(CJobManager::SJob *const);
 _inline CJobManager::SJob::~SJob() // 0x10869750
 {
-	mangled_x86(MANGLED_TODO, "??1SJob@CJobManager@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1SJob@CJobManager@@QAE@XZ");
 	// CJobManager::SJob *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10869750(this);
 }
 
 extern CJobManager::SJob &_sub_108698D0(CJobManager::SJob *const, CJobManager::SJob &);

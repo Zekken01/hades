@@ -211,74 +211,60 @@ void CServerConnectStateHandler_QueryServer::OnUpdate() // 0x10B13020
 	_sub_10B13020(this);
 }
 
-extern SQueryInfoServerArgs* _sub_10B11D10(SQueryInfoServerArgs *const, SQueryInfoServerArgs &);
 _inline SQueryInfoServerArgs::SQueryInfoServerArgs(SQueryInfoServerArgs &&__that) // 0x10B11D10
 {
-	mangled_x86(MANGLED_TODO, "??0SQueryInfoServerArgs@@QAE@$$QAU0@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0SQueryInfoServerArgs@@QAE@$$QAU0@@Z");
 	// SQueryInfoServerArgs &__that;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10B11D10(this, __that);
 }
 
-extern SQueryInfoServerArgs* _sub_10B11DB0(SQueryInfoServerArgs *const, SQueryInfoServerArgs const &);
 _inline SQueryInfoServerArgs::SQueryInfoServerArgs(SQueryInfoServerArgs const &__that) // 0x10B11DB0
 {
-	mangled_x86(MANGLED_TODO, "??0SQueryInfoServerArgs@@QAE@ABU0@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0SQueryInfoServerArgs@@QAE@ABU0@@Z");
 	// SQueryInfoServerArgs const &__that;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10B11DB0(this, __that);
 }
 
-extern SQueryInfoServerArgs* _sub_10B11E90(SQueryInfoServerArgs *const);
 _inline SQueryInfoServerArgs::SQueryInfoServerArgs() // 0x10B11E90
 {
-	mangled_x86(MANGLED_TODO, "??0SQueryInfoServerArgs@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0SQueryInfoServerArgs@@QAE@XZ");
 	// SQueryInfoServerArgs *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10B11E90(this);
 }
 
-extern SServerConnectState::SRequiredMod* _sub_10B11EF0(SServerConnectState::SRequiredMod *const, SServerConnectState::SRequiredMod &);
 _inline SServerConnectState::SRequiredMod::SRequiredMod(SServerConnectState::SRequiredMod &&__that) // 0x10B11EF0
 {
-	mangled_x86(MANGLED_TODO, "??0SRequiredMod@SServerConnectState@@QAE@$$QAU01@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0SRequiredMod@SServerConnectState@@QAE@$$QAU01@@Z");
 	// SServerConnectState::SRequiredMod &__that;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10B11EF0(this, __that);
 }
 
-extern SServerConnectState::SRequiredMod* _sub_10B120D0(SServerConnectState::SRequiredMod *const, SServerConnectState::SRequiredMod const &);
 _inline SServerConnectState::SRequiredMod::SRequiredMod(SServerConnectState::SRequiredMod const &__that) // 0x10B120D0
 {
-	mangled_x86(MANGLED_TODO, "??0SRequiredMod@SServerConnectState@@QAE@ABU01@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0SRequiredMod@SServerConnectState@@QAE@ABU01@@Z");
 	// SServerConnectState::SRequiredMod const &__that;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10B120D0(this, __that);
 }
 
-extern SServerConnectState::SRequiredMod* _sub_10B12310(SServerConnectState::SRequiredMod *const);
 _inline SServerConnectState::SRequiredMod::SRequiredMod() // 0x10B12310
 {
-	mangled_x86(MANGLED_TODO, "??0SRequiredMod@SServerConnectState@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0SRequiredMod@SServerConnectState@@QAE@XZ");
 	// SServerConnectState::SRequiredMod *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10B12310(this);
 }
 
-_extern void _sub_10B12630(SQueryInfoServerArgs *const);
 _inline SQueryInfoServerArgs::~SQueryInfoServerArgs() // 0x10B12630
 {
-	mangled_x86(MANGLED_TODO, "??1SQueryInfoServerArgs@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1SQueryInfoServerArgs@@QAE@XZ");
 	// SQueryInfoServerArgs *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10B12630(this);
 }
 
 extern SQueryInfoServerData &_sub_10B128D0(SQueryInfoServerData *const, SQueryInfoServerData &);

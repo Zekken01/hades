@@ -121,14 +121,12 @@ namespace Objects
 		_sub_10799A00();
 	}
 
-	_extern void _sub_10799710(::Objects::ObjectMessageSystem *const);
 	_inline ObjectMessageSystem::~ObjectMessageSystem() // 0x10799710
 	{
-		mangled_x86(MANGLED_TODO, "??1ObjectMessageSystem@Objects@@UAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??1ObjectMessageSystem@Objects@@UAE@XZ");
 		// Objects::ObjectMessageSystem *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_10799710(this);
 	}
 }
 

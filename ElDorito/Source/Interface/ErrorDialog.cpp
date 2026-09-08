@@ -118,24 +118,22 @@ __int32 DialogProc(HWND__ *hWnd, unsigned __int32 msg, unsigned __int32 wParam, 
 	return __result;
 }
 
-extern DialogInitParams* _sub_10786AF0(DialogInitParams *const);
 _inline DialogInitParams::DialogInitParams() // 0x10786AF0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0DialogInitParams@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::DialogInitParams::DialogInitParams
 	// DialogInitParams *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10786AF0(this);
 }
 
-_extern void _sub_10786BD0(DialogInitParams *const);
 _inline DialogInitParams::~DialogInitParams() // 0x10786BD0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1DialogInitParams@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::DialogInitParams::~DialogInitParams
 	// DialogInitParams *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10786BD0(this);
 }
 
 extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10787040(std::string);

@@ -253,14 +253,12 @@ void CModBrowserManager::OnDownloadAborted(EModBrowserAbortReason reason) // 0x1
 	_sub_1070C750(this, reason);
 }
 
-extern CModBrowserStateManager* _sub_1070A870(CModBrowserStateManager *const);
 _inline CModBrowserStateManager::CModBrowserStateManager() // 0x1070A870
 {
-	mangled_x86(MANGLED_TODO, "??0CModBrowserStateManager@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0CModBrowserStateManager@@QAE@XZ");
 	// CModBrowserStateManager *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_1070A870(this);
 }
 
 namespace Web
@@ -269,27 +267,23 @@ namespace Web
 	{
 		namespace ScreenLayer
 		{
-			extern SDialogShowParams* _sub_1070AB50(Web::Ui::ScreenLayer::SDialogShowParams *const);
 			_inline SDialogShowParams::SDialogShowParams() // 0x1070AB50
 			{
-				mangled_x86(MANGLED_TODO, "??0SDialogShowParams@ScreenLayer@Ui@Web@@QAE@XZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "??0SDialogShowParams@ScreenLayer@Ui@Web@@QAE@XZ");
 				// Web::Ui::ScreenLayer::SDialogShowParams *const this;
+
 				compiler_generated();
-				todo("implement");
-				_sub_1070AB50(this);
 			}
 		}
 	}
 }
 
-_extern void _sub_1070B500(CModBrowserStateManager *const);
 _inline CModBrowserStateManager::~CModBrowserStateManager() // 0x1070B500
 {
-	mangled_x86(MANGLED_TODO, "??1CModBrowserStateManager@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1CModBrowserStateManager@@QAE@XZ");
 	// CModBrowserStateManager *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_1070B500(this);
 }
 
 namespace Web
@@ -298,37 +292,31 @@ namespace Web
 	{
 		namespace ScreenLayer
 		{
-			_extern void _sub_1070B5E0(Web::Ui::ScreenLayer::SDialogShowParams *const);
 			_inline SDialogShowParams::~SDialogShowParams() // 0x1070B5E0
 			{
-				mangled_x86(MANGLED_TODO, "??1SDialogShowParams@ScreenLayer@Ui@Web@@QAE@XZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "??1SDialogShowParams@ScreenLayer@Ui@Web@@QAE@XZ");
 				// Web::Ui::ScreenLayer::SDialogShowParams *const this;
+
 				compiler_generated();
-				todo("implement");
-				_sub_1070B5E0(this);
 			}
 		}
 	}
 }
 
-_extern void _sub_1070B670(SModBrowserState *const);
 _inline SModBrowserState::~SModBrowserState() // 0x1070B670
 {
-	mangled_x86(MANGLED_TODO, "??1SModBrowserState@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1SModBrowserState@@QAE@XZ");
 	// SModBrowserState *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_1070B670(this);
 }
 
-_extern void _sub_1070B700(SModBrowserState::SRequestedMod *const);
 _inline SModBrowserState::SRequestedMod::~SRequestedMod() // 0x1070B700
 {
-	mangled_x86(MANGLED_TODO, "??1SRequestedMod@SModBrowserState@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1SRequestedMod@SModBrowserState@@QAE@XZ");
 	// SModBrowserState::SRequestedMod *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_1070B700(this);
 }
 
 extern SModBrowserState &_sub_1070B930(SModBrowserState *const, SModBrowserState &);

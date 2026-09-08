@@ -107,14 +107,12 @@ namespace Modules
 		_sub_10A230D0(this);
 	}
 
-	_extern void _sub_10A233A0(Modules::ModuleUPnP::CachedIGD *const);
 	_inline ModuleUPnP::CachedIGD::~CachedIGD() // 0x10A233A0
 	{
-		mangled_x86(MANGLED_TODO, "??1CachedIGD@ModuleUPnP@Modules@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??1CachedIGD@ModuleUPnP@Modules@@QAE@XZ");
 		// Modules::ModuleUPnP::CachedIGD *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_10A233A0(this);
 	}
 
 	_extern void _sub_10A235C0(Modules::ModuleUPnP *const, bool, __int32, __int32, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
@@ -162,14 +160,12 @@ namespace Modules
 		return __result;
 	}
 
-	extern ModuleUPnP::CachedIGD* _sub_10A23070(Modules::ModuleUPnP::CachedIGD *const);
 	_inline ModuleUPnP::CachedIGD::CachedIGD() // 0x10A23070
 	{
-		mangled_x86(MANGLED_TODO, "??0CachedIGD@ModuleUPnP@Modules@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0CachedIGD@ModuleUPnP@Modules@@QAE@XZ");
 		// Modules::ModuleUPnP::CachedIGD *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_10A23070(this);
 	}
 }
 

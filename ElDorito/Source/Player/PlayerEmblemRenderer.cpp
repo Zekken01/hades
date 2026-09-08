@@ -134,34 +134,28 @@ namespace Player
 			_sub_107E6FB0(this);
 		}
 
-		extern PlayerEmblemRenderMetadata* _sub_107E7020(Player::Emblems::PlayerEmblemRenderMetadata *const);
 		_inline PlayerEmblemRenderMetadata::PlayerEmblemRenderMetadata() // 0x107E7020
 		{
-			mangled_x86(MANGLED_TODO, "??0PlayerEmblemRenderMetadata@Emblems@Player@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0PlayerEmblemRenderMetadata@Emblems@Player@@QAE@XZ");
 			// Player::Emblems::PlayerEmblemRenderMetadata *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_107E7020(this);
 		}
 
-		extern PlayerEmblemRenderTask* _sub_107E7070(Player::Emblems::PlayerEmblemRenderTask *const, Player::Emblems::PlayerEmblemRenderTask &);
 		_inline PlayerEmblemRenderTask::PlayerEmblemRenderTask(Player::Emblems::PlayerEmblemRenderTask &&__that) // 0x107E7070
 		{
-			mangled_x86(MANGLED_TODO, "??0PlayerEmblemRenderTask@Emblems@Player@@QAE@$$QAU012@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0PlayerEmblemRenderTask@Emblems@Player@@QAE@$$QAU012@@Z");
 			// Player::Emblems::PlayerEmblemRenderTask &__that;
+
 			compiler_generated();
-			todo("implement");
-			_sub_107E7070(this, __that);
 		}
 
-		extern PlayerEmblemRenderTask* _sub_107E7110(Player::Emblems::PlayerEmblemRenderTask *const, Player::Emblems::PlayerEmblemRenderTask const &);
 		_inline PlayerEmblemRenderTask::PlayerEmblemRenderTask(Player::Emblems::PlayerEmblemRenderTask const &__that) // 0x107E7110
 		{
-			mangled_x86(MANGLED_TODO, "??0PlayerEmblemRenderTask@Emblems@Player@@QAE@ABU012@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0PlayerEmblemRenderTask@Emblems@Player@@QAE@ABU012@@Z");
 			// Player::Emblems::PlayerEmblemRenderTask const &__that;
+
 			compiler_generated();
-			todo("implement");
-			_sub_107E7110(this, __that);
 		}
 
 		_extern void _sub_107E7620(Player::Emblems::PlayerEmblemFileStream *const);
@@ -173,50 +167,42 @@ namespace Player
 			_sub_107E7620(this);
 		}
 
-		extern PlayerEmblemRenderTask* _sub_107E71B0(Player::Emblems::PlayerEmblemRenderTask *const);
 		_inline PlayerEmblemRenderTask::PlayerEmblemRenderTask() // 0x107E71B0
 		{
-			mangled_x86(MANGLED_TODO, "??0PlayerEmblemRenderTask@Emblems@Player@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0PlayerEmblemRenderTask@Emblems@Player@@QAE@XZ");
 			// Player::Emblems::PlayerEmblemRenderTask *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_107E71B0(this);
 		}
 
-		_extern void _sub_107E76C0(Player::Emblems::PlayerEmblemRenderMetadata *const);
 		_inline PlayerEmblemRenderMetadata::~PlayerEmblemRenderMetadata() // 0x107E76C0
 		{
-			mangled_x86(MANGLED_TODO, "??1PlayerEmblemRenderMetadata@Emblems@Player@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??1PlayerEmblemRenderMetadata@Emblems@Player@@QAE@XZ");
 			// Player::Emblems::PlayerEmblemRenderMetadata *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_107E76C0(this);
 		}
 	}
 }
 
-extern s_player_emblem_configuration* _sub_107E7210(s_player_emblem_configuration *const);
 _inline s_player_emblem_configuration::s_player_emblem_configuration() // 0x107E7210
 {
-	mangled_x86(MANGLED_TODO, "??0s_player_emblem_configuration@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_player_emblem_configuration@@QAE@XZ");
 	// s_player_emblem_configuration *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_107E7210(this);
 }
 
 namespace Player
 {
 	namespace Emblems
 	{
-		_extern void _sub_107E7710(Player::Emblems::PlayerEmblemRenderTask *const);
 		_inline PlayerEmblemRenderTask::~PlayerEmblemRenderTask() // 0x107E7710
 		{
-			mangled_x86(MANGLED_TODO, "??1PlayerEmblemRenderTask@Emblems@Player@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??1PlayerEmblemRenderTask@Emblems@Player@@QAE@XZ");
 			// Player::Emblems::PlayerEmblemRenderTask *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_107E7710(this);
 		}
 
 		_extern void _sub_107E7BF0(Player::Emblems::PlayerEmblemFileStream *const);
@@ -238,14 +224,12 @@ namespace Player
 			return __result;
 		}
 
-		extern IPlayerEmblemStream* _sub_107E6E70(Player::Emblems::IPlayerEmblemStream *const);
 		_inline IPlayerEmblemStream::IPlayerEmblemStream() // 0x107E6E70
 		{
-			mangled_x86(MANGLED_TODO, "??0IPlayerEmblemStream@Emblems@Player@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0IPlayerEmblemStream@Emblems@Player@@QAE@XZ");
 			// Player::Emblems::IPlayerEmblemStream *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_107E6E70(this);
 		}
 
 		extern PlayerEmblemD3DXBufferStream* _sub_107E6EA0(Player::Emblems::PlayerEmblemD3DXBufferStream *const, ID3DXBuffer *, bool);

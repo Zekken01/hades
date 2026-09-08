@@ -106,24 +106,20 @@ c_mod_package::c_mod_package(char const *file_path) // 0x1089CF00
 	_sub_1089CF00(this, file_path);
 }
 
-extern s_file_reference* _sub_1089D0D0(s_file_reference *const, s_file_reference const &);
 _inline s_file_reference::s_file_reference(s_file_reference const &__that) // 0x1089D0D0
 {
-	mangled_x86(MANGLED_TODO, "??0s_file_reference@@QAE@ABU0@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_file_reference@@QAE@ABU0@@Z");
 	// s_file_reference const &__that;
+
 	compiler_generated();
-	todo("implement");
-	_sub_1089D0D0(this, __that);
 }
 
-extern s_mod_package_header* _sub_1089D1C0(s_mod_package_header *const);
 _inline s_mod_package_header::s_mod_package_header() // 0x1089D1C0
 {
-	mangled_x86(MANGLED_TODO, "??0s_mod_package_header@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_mod_package_header@@QAE@XZ");
 	// s_mod_package_header *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_1089D1C0(this);
 }
 
 _extern void _sub_1089D270(c_mod_package *const);
@@ -135,14 +131,12 @@ c_mod_package::~c_mod_package() // 0x1089D270
 	_sub_1089D270(this);
 }
 
-extern c_file_reference* _sub_1089CEA0(c_file_reference *const, c_file_reference const &);
 _inline c_file_reference::c_file_reference(c_file_reference const &__that) // 0x1089CEA0
 {
-	mangled_x86(MANGLED_TODO, "??0c_file_reference@@QAE@ABV0@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_file_reference@@QAE@ABV0@@Z");
 	// c_file_reference const &__that;
+
 	compiler_generated();
-	todo("implement");
-	_sub_1089CEA0(this, __that);
 }
 
 _extern void _sub_1089D8F0(c_mod_package *const);

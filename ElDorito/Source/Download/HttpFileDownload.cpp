@@ -115,14 +115,12 @@ namespace Utils
 
 namespace Download
 {
-	extern CDownloadStatCounter* _sub_1082B520(Download::CDownloadStatCounter *const);
 	_inline CDownloadStatCounter::CDownloadStatCounter() // 0x1082B520
 	{
-		mangled_x86(MANGLED_TODO, "??0CDownloadStatCounter@Download@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0CDownloadStatCounter@Download@@QAE@XZ");
 		// Download::CDownloadStatCounter *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_1082B520(this);
 	}
 
 	_extern long long _sub_10830210(Download::CHttpFileDownload::SSegment const *const);
@@ -173,26 +171,22 @@ namespace Download
 	}
 }
 
-_extern void _sub_1082CD00(CEventSink<>::SCallbackEntry *const);
 _inline CEventSink<>::SCallbackEntry::~SCallbackEntry() // 0x1082CD00
 {
-	mangled_x86(MANGLED_TODO, "??1SCallbackEntry@?$CEventSink@$$V@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1SCallbackEntry@?$CEventSink@$$V@@QAE@XZ");
 	// CEventSink<>::SCallbackEntry *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_1082CD00(this);
 }
 
 namespace Http
 {
-	_extern void _sub_1082CD50(Http::SContentRangeHeader *const);
 	_inline SContentRangeHeader::~SContentRangeHeader() // 0x1082CD50
 	{
-		mangled_x86(MANGLED_TODO, "??1SContentRangeHeader@Http@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??1SContentRangeHeader@Http@@QAE@XZ");
 		// Http::SContentRangeHeader *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_1082CD50(this);
 	}
 }
 
@@ -215,37 +209,31 @@ namespace Download
 		_sub_1082B8C0(this, filename);
 	}
 
-	extern IDownload* _sub_1082BA60(Download::IDownload *const);
 	_inline IDownload::IDownload() // 0x1082BA60
 	{
-		mangled_x86(MANGLED_TODO, "??0IDownload@Download@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0IDownload@Download@@QAE@XZ");
 		// Download::IDownload *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_1082BA60(this);
 	}
 
-	extern CHttpFileDownload::ISegmentStore* _sub_1082BAC0(Download::CHttpFileDownload::ISegmentStore *const);
 	_inline CHttpFileDownload::ISegmentStore::ISegmentStore() // 0x1082BAC0
 	{
-		mangled_x86(MANGLED_TODO, "??0ISegmentStore@CHttpFileDownload@Download@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0ISegmentStore@CHttpFileDownload@Download@@QAE@XZ");
 		// Download::CHttpFileDownload::ISegmentStore *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_1082BAC0(this);
 	}
 }
 
 namespace Http
 {
-	extern SContentRangeHeader* _sub_1082BAF0(Http::SContentRangeHeader *const);
 	_inline SContentRangeHeader::SContentRangeHeader() // 0x1082BAF0
 	{
-		mangled_x86(MANGLED_TODO, "??0SContentRangeHeader@Http@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0SContentRangeHeader@Http@@QAE@XZ");
 		// Http::SContentRangeHeader *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_1082BAF0(this);
 	}
 }
 
@@ -342,14 +330,12 @@ namespace Download
 
 namespace Http
 {
-	extern CHttpHeaders* _sub_1082B850(Http::CHttpHeaders *const, Http::CHttpHeaders &);
 	_inline CHttpHeaders::CHttpHeaders(Http::CHttpHeaders &&__that) // 0x1082B850
 	{
-		mangled_x86(MANGLED_TODO, "??0CHttpHeaders@Http@@QAE@$$QAV01@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0CHttpHeaders@Http@@QAE@$$QAV01@@Z");
 		// Http::CHttpHeaders &__that;
+
 		compiler_generated();
-		todo("implement");
-		_sub_1082B850(this, __that);
 	}
 }
 

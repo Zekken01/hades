@@ -249,44 +249,40 @@ bool ForwardReportToEndpoint(std::basic_string<char,std::char_traits<char>,std::
 	return __result;
 }
 
-extern ReportRequest* _sub_10B21560(ReportRequest *const, ReportRequest &);
 _inline ReportRequest::ReportRequest(ReportRequest &__that) // 0x10B21560
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0ReportRequest@hades_file_local@@QAE@AAU01@@Z");
 	// `anonymous-namespace'::ReportRequest::ReportRequest
 	// ReportRequest &__that;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10B21560(this, __that);
 }
 
-extern ReportRequest* _sub_10B215E0(ReportRequest *const, ReportRequest const &);
 _inline ReportRequest::ReportRequest(ReportRequest const &__that) // 0x10B215E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0ReportRequest@hades_file_local@@QAE@ABU01@@Z");
 	// `anonymous-namespace'::ReportRequest::ReportRequest
 	// ReportRequest const &__that;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10B215E0(this, __that);
 }
 
-extern ReportRequest* _sub_10B21660(ReportRequest *const);
 _inline ReportRequest::ReportRequest() // 0x10B21660
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0ReportRequest@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::ReportRequest::ReportRequest
 	// ReportRequest *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10B21660(this);
 }
 
-_extern void _sub_10B218B0(ReportRequest *const);
 _inline ReportRequest::~ReportRequest() // 0x10B218B0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1ReportRequest@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::ReportRequest::~ReportRequest
 	// ReportRequest *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10B218B0(this);
 }
 
 extern ReportRequest &_sub_10B219D0(ReportRequest *const, ReportRequest &);

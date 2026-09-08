@@ -509,24 +509,22 @@ std::basic_string<char,std::char_traits<char>,std::allocator<char> > BuildInfoSe
 	return __result;
 }
 
-extern HttpRequestLine* _sub_10B1ACC0(HttpRequestLine *const);
 _inline HttpRequestLine::HttpRequestLine() // 0x10B1ACC0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0HttpRequestLine@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::HttpRequestLine::HttpRequestLine
 	// HttpRequestLine *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10B1ACC0(this);
 }
 
-_extern void _sub_10B1AD30(HttpRequestLine *const);
 _inline HttpRequestLine::~HttpRequestLine() // 0x10B1AD30
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1HttpRequestLine@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::HttpRequestLine::~HttpRequestLine
 	// HttpRequestLine *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10B1AD30(this);
 }
 
 extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10B1D4F0(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);

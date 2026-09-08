@@ -124,14 +124,12 @@ c_mod_database::~c_mod_database() // 0x1084DB20
 	_sub_1084DB20(this);
 }
 
-_extern void _sub_1084DBD0(c_mod_database::s_record *const);
 _inline c_mod_database::s_record::~s_record() // 0x1084DBD0
 {
-	mangled_x86(MANGLED_TODO, "??1s_record@c_mod_database@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1s_record@c_mod_database@@QAE@XZ");
 	// c_mod_database::s_record *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_1084DBD0(this);
 }
 
 extern s_mod_origin_info &_sub_1084DE80(s_mod_origin_info *const, s_mod_origin_info const &);
@@ -361,54 +359,44 @@ void c_mod_database::purge_all_not_in_set(std::unordered_set<s_mod_package_id,st
 	_sub_10852DA0(this, set);
 }
 
-extern s_mod_origin_info* _sub_1084CC50(s_mod_origin_info *const, s_mod_origin_info &);
 _inline s_mod_origin_info::s_mod_origin_info(s_mod_origin_info &&__that) // 0x1084CC50
 {
-	mangled_x86(MANGLED_TODO, "??0s_mod_origin_info@@QAE@$$QAU0@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_mod_origin_info@@QAE@$$QAU0@@Z");
 	// s_mod_origin_info &__that;
+
 	compiler_generated();
-	todo("implement");
-	_sub_1084CC50(this, __that);
 }
 
-extern s_mod_origin_info* _sub_1084CD30(s_mod_origin_info *const, s_mod_origin_info const &);
 _inline s_mod_origin_info::s_mod_origin_info(s_mod_origin_info const &__that) // 0x1084CD30
 {
-	mangled_x86(MANGLED_TODO, "??0s_mod_origin_info@@QAE@ABU0@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_mod_origin_info@@QAE@ABU0@@Z");
 	// s_mod_origin_info const &__that;
+
 	compiler_generated();
-	todo("implement");
-	_sub_1084CD30(this, __that);
 }
 
-extern c_mod_database::s_record* _sub_1084CE60(c_mod_database::s_record *const, c_mod_database::s_record &);
 _inline c_mod_database::s_record::s_record(c_mod_database::s_record &&__that) // 0x1084CE60
 {
-	mangled_x86(MANGLED_TODO, "??0s_record@c_mod_database@@QAE@$$QAU01@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_record@c_mod_database@@QAE@$$QAU01@@Z");
 	// c_mod_database::s_record &__that;
+
 	compiler_generated();
-	todo("implement");
-	_sub_1084CE60(this, __that);
 }
 
-extern c_mod_database::s_record* _sub_1084CF40(c_mod_database::s_record *const, c_mod_database::s_record const &);
 _inline c_mod_database::s_record::s_record(c_mod_database::s_record const &__that) // 0x1084CF40
 {
-	mangled_x86(MANGLED_TODO, "??0s_record@c_mod_database@@QAE@ABU01@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_record@c_mod_database@@QAE@ABU01@@Z");
 	// c_mod_database::s_record const &__that;
+
 	compiler_generated();
-	todo("implement");
-	_sub_1084CF40(this, __that);
 }
 
-extern c_mod_database::s_record* _sub_1084D060(c_mod_database::s_record *const);
 _inline c_mod_database::s_record::s_record() // 0x1084D060
 {
-	mangled_x86(MANGLED_TODO, "??0s_record@c_mod_database@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_record@c_mod_database@@QAE@XZ");
 	// c_mod_database::s_record *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_1084D060(this);
 }
 
 /* ---------- private code */

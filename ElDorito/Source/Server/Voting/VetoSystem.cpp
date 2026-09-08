@@ -205,14 +205,12 @@ namespace Server
 			_sub_1073A8D0(this);
 		}
 
-		extern VotingJson* _sub_1073AA30(Server::Voting::VotingJson *const);
 		_inline VotingJson::VotingJson() // 0x1073AA30
 		{
-			mangled_x86(MANGLED_TODO, "??0VotingJson@Voting@Server@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0VotingJson@Voting@Server@@QAE@XZ");
 			// Server::Voting::VotingJson *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_1073AA30(this);
 		}
 
 		void VetoSystem::Init() // 0x1073D950
@@ -235,34 +233,28 @@ namespace Server
 			_sub_1073E4C0(this);
 		}
 
-		_extern void _sub_1073B780(Server::Voting::PlaylistItem *const);
 		_inline PlaylistItem::~PlaylistItem() // 0x1073B780
 		{
-			mangled_x86(MANGLED_TODO, "??1PlaylistItem@Voting@Server@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??1PlaylistItem@Voting@Server@@QAE@XZ");
 			// Server::Voting::PlaylistItem *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_1073B780(this);
 		}
 
-		_extern void _sub_1073B7F0(Server::Voting::VetoSystem *const);
 		_inline VetoSystem::~VetoSystem() // 0x1073B7F0
 		{
-			mangled_x86(MANGLED_TODO, "??1VetoSystem@Voting@Server@@UAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??1VetoSystem@Voting@Server@@UAE@XZ");
 			// Server::Voting::VetoSystem *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_1073B7F0(this);
 		}
 
-		_extern void _sub_1073B890(Server::Voting::VotingJson *const);
 		_inline VotingJson::~VotingJson() // 0x1073B890
 		{
-			mangled_x86(MANGLED_TODO, "??1VotingJson@Voting@Server@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??1VotingJson@Voting@Server@@QAE@XZ");
 			// Server::Voting::VotingJson *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_1073B890(this);
 		}
 
 		extern MapAndType _sub_1073CF30(Server::Voting::VetoSystem *const);
@@ -375,24 +367,20 @@ namespace Server
 			return __result;
 		}
 
-		extern AbstractVotingSystem* _sub_10739F90(Server::Voting::AbstractVotingSystem *const);
 		_inline AbstractVotingSystem::AbstractVotingSystem() : finalTally(todo_result<Server::Voting::VotingMessage>()) // 0x10739F90
 		{
-			mangled_x86(MANGLED_TODO, "??0AbstractVotingSystem@Voting@Server@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0AbstractVotingSystem@Voting@Server@@QAE@XZ");
 			// Server::Voting::AbstractVotingSystem *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_10739F90(this);
 		}
 
-		extern MapAndType* _sub_1073A550(Server::Voting::MapAndType *const, Server::Voting::MapAndType &);
 		_inline MapAndType::MapAndType(Server::Voting::MapAndType &&__that) // 0x1073A550
 		{
-			mangled_x86(MANGLED_TODO, "??0MapAndType@Voting@Server@@QAE@$$QAU012@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0MapAndType@Voting@Server@@QAE@$$QAU012@@Z");
 			// Server::Voting::MapAndType &__that;
+
 			compiler_generated();
-			todo("implement");
-			_sub_1073A550(this, __that);
 		}
 
 		_extern void _sub_10742160(Server::Voting::VetoSystem *const);

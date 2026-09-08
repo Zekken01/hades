@@ -194,34 +194,28 @@ namespace Server
 			return __result;
 		}
 
-		extern AllowedPlayerCount* _sub_107327F0(Server::Voting::AllowedPlayerCount *const);
 		_inline AllowedPlayerCount::AllowedPlayerCount() // 0x107327F0
 		{
-			mangled_x86(MANGLED_TODO, "??0AllowedPlayerCount@Voting@Server@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0AllowedPlayerCount@Voting@Server@@QAE@XZ");
 			// Server::Voting::AllowedPlayerCount *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_107327F0(this);
 		}
 
-		extern HaloType::CharacterOverride* _sub_10732830(Server::Voting::HaloType::CharacterOverride *const);
 		_inline HaloType::CharacterOverride::CharacterOverride() // 0x10732830
 		{
-			mangled_x86(MANGLED_TODO, "??0CharacterOverride@HaloType@Voting@Server@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0CharacterOverride@HaloType@Voting@Server@@QAE@XZ");
 			// Server::Voting::HaloType::CharacterOverride *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_10732830(this);
 		}
 
-		extern HaloMap* _sub_10732890(Server::Voting::HaloMap *const, Server::Voting::HaloMap &);
 		_inline HaloMap::HaloMap(Server::Voting::HaloMap &&__that) // 0x10732890
 		{
-			mangled_x86(MANGLED_TODO, "??0HaloMap@Voting@Server@@QAE@$$QAU012@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0HaloMap@Voting@Server@@QAE@$$QAU012@@Z");
 			// Server::Voting::HaloMap &__that;
+
 			compiler_generated();
-			todo("implement");
-			_sub_10732890(this, __that);
 		}
 
 		_extern void _sub_10733810(std::vector<Server::Voting::HaloType,std::allocator<Server::Voting::HaloType> > &, std::vector<Server::Voting::HaloType,std::allocator<Server::Voting::HaloType> > const &);
@@ -247,14 +241,12 @@ namespace Server
 			_sub_10733810(newTypes, allTypes);
 		}
 
-		extern HaloType* _sub_107329A0(Server::Voting::HaloType *const, Server::Voting::HaloType &);
 		_inline HaloType::HaloType(Server::Voting::HaloType &&__that) // 0x107329A0
 		{
-			mangled_x86(MANGLED_TODO, "??0HaloType@Voting@Server@@QAE@$$QAU012@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0HaloType@Voting@Server@@QAE@$$QAU012@@Z");
 			// Server::Voting::HaloType &__that;
+
 			compiler_generated();
-			todo("implement");
-			_sub_107329A0(this, __that);
 		}
 
 		extern HaloType::CharacterOverride &_sub_10732F60(Server::Voting::HaloType::CharacterOverride *const, Server::Voting::HaloType::CharacterOverride const &);

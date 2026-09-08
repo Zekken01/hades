@@ -214,45 +214,37 @@ namespace Forge
 
 namespace Forge
 {
-	extern ObjectSet* _sub_109734A0(Forge::ObjectSet *const);
 	_inline ObjectSet::ObjectSet() // 0x109734A0
 	{
-		mangled_x86(MANGLED_TODO, "??0ObjectSet@Forge@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0ObjectSet@Forge@@QAE@XZ");
 		// Forge::ObjectSet *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_109734A0(this);
 	}
 }
 
-extern c_object_identifier* _sub_109734F0(c_object_identifier *const, c_object_identifier const &);
 _inline c_object_identifier::c_object_identifier(c_object_identifier const &__that) // 0x109734F0
 {
-	mangled_x86(MANGLED_TODO, "??0c_object_identifier@@QAE@ABU0@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_object_identifier@@QAE@ABU0@@Z");
 	// c_object_identifier const &__that;
+
 	compiler_generated();
-	todo("implement");
-	_sub_109734F0(this, __that);
 }
 
-extern s_map_variant_placement_properties* _sub_109735C0(s_map_variant_placement_properties *const, s_map_variant_placement_properties const &);
 _inline s_map_variant_placement_properties::s_map_variant_placement_properties(s_map_variant_placement_properties const &__that) // 0x109735C0
 {
-	mangled_x86(MANGLED_TODO, "??0s_map_variant_placement_properties@@QAE@ABU0@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_map_variant_placement_properties@@QAE@ABU0@@Z");
 	// s_map_variant_placement_properties const &__that;
+
 	compiler_generated();
-	todo("implement");
-	_sub_109735C0(this, __that);
 }
 
-extern s_variant_datum* _sub_109736F0(s_variant_datum *const, s_variant_datum const &);
 _inline s_variant_datum::s_variant_datum(s_variant_datum const &__that) // 0x109736F0
 {
-	mangled_x86(MANGLED_TODO, "??0s_variant_datum@@QAE@ABU0@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_variant_datum@@QAE@ABU0@@Z");
 	// s_variant_datum const &__that;
+
 	compiler_generated();
-	todo("implement");
-	_sub_109736F0(this, __that);
 }
 
 namespace Forge

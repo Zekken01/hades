@@ -210,14 +210,12 @@ namespace Patches
 	}
 }
 
-extern s_compression_info* _sub_108DDBA0(s_compression_info *const, s_compression_info const &);
 _inline s_compression_info::s_compression_info(s_compression_info const &__that) // 0x108DDBA0
 {
-	mangled_x86(MANGLED_TODO, "??0s_compression_info@@QAE@ABU0@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_compression_info@@QAE@ABU0@@Z");
 	// s_compression_info const &__that;
+
 	compiler_generated();
-	todo("implement");
-	_sub_108DDBA0(this, __that);
 }
 
 namespace Patches

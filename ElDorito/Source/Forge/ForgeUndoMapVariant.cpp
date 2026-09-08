@@ -102,44 +102,36 @@ CForgeUndoMapVariant::CForgeUndoMapVariant(std::basic_string<char,std::char_trai
 	_sub_10864890(this, summary, mapVariant);
 }
 
-extern IForgeUndo* _sub_10864990(IForgeUndo *const);
 _inline IForgeUndo::IForgeUndo() // 0x10864990
 {
-	mangled_x86(MANGLED_TODO, "??0IForgeUndo@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0IForgeUndo@@QAE@XZ");
 	// IForgeUndo *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10864990(this);
 }
 
-extern s_map_variant* _sub_108649C0(s_map_variant *const);
 _inline s_map_variant::s_map_variant() // 0x108649C0
 {
-	mangled_x86(MANGLED_TODO, "??0s_map_variant@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_map_variant@@QAE@XZ");
 	// s_map_variant *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_108649C0(this);
 }
 
-extern s_variant_datum* _sub_10864A30(s_variant_datum *const);
 _inline s_variant_datum::s_variant_datum() // 0x10864A30
 {
-	mangled_x86(MANGLED_TODO, "??0s_variant_datum@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_variant_datum@@QAE@XZ");
 	// s_variant_datum *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10864A30(this);
 }
 
-_extern void _sub_10864C10(CForgeUndoMapVariant *const);
 _inline CForgeUndoMapVariant::~CForgeUndoMapVariant() // 0x10864C10
 {
-	mangled_x86(MANGLED_TODO, "??1CForgeUndoMapVariant@@UAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1CForgeUndoMapVariant@@UAE@XZ");
 	// CForgeUndoMapVariant *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10864C10(this);
 }
 
 _extern void _sub_10864F40(CForgeUndoMapVariant *const);
@@ -190,14 +182,12 @@ void CForgeUndoMapVariant::Undo() // 0x10864F40
 	_sub_10864F40(this);
 }
 
-extern CForgeUndoManager* _sub_108647A0(CForgeUndoManager *const);
 _inline CForgeUndoManager::CForgeUndoManager() // 0x108647A0
 {
-	mangled_x86(MANGLED_TODO, "??0CForgeUndoManager@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0CForgeUndoManager@@QAE@XZ");
 	// CForgeUndoManager *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_108647A0(this);
 }
 
 /* ---------- private code */

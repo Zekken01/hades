@@ -151,24 +151,20 @@ namespace Patches
 {
 	namespace Weapon
 	{
-		extern WeaponInfo* _sub_10A26530(Patches::Weapon::WeaponInfo *const);
 		_inline WeaponInfo::WeaponInfo() // 0x10A26530
 		{
-			mangled_x86(MANGLED_TODO, "??0WeaponInfo@Weapon@Patches@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0WeaponInfo@Weapon@Patches@@QAE@XZ");
 			// Patches::Weapon::WeaponInfo *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_10A26530(this);
 		}
 
-		_extern void _sub_10A26580(Patches::Weapon::WeaponInfo *const);
 		_inline WeaponInfo::~WeaponInfo() // 0x10A26580
 		{
-			mangled_x86(MANGLED_TODO, "??1WeaponInfo@Weapon@Patches@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??1WeaponInfo@Weapon@Patches@@QAE@XZ");
 			// Patches::Weapon::WeaponInfo *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_10A26580(this);
 		}
 
 		extern WeaponInfo &_sub_10A265D0(Patches::Weapon::WeaponInfo *const, Patches::Weapon::WeaponInfo &);

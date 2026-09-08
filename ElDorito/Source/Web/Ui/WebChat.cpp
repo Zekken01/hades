@@ -295,14 +295,12 @@ namespace Server
 {
 	namespace Chat
 	{
-		extern ChatHandler* _sub_10C9C400(Server::Chat::ChatHandler *const);
 		_inline ChatHandler::ChatHandler() // 0x10C9C400
 		{
-			mangled_x86(MANGLED_TODO, "??0ChatHandler@Chat@Server@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0ChatHandler@Chat@Server@@QAE@XZ");
 			// Server::Chat::ChatHandler *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_10C9C400(this);
 		}
 	}
 }
@@ -347,24 +345,22 @@ void GameChatHandler::MessageReceived(Server::Chat::ChatMessage const &message) 
 	_sub_10C9C880(this, message);
 }
 
-extern GameChatHandler* _sub_10C9C430(GameChatHandler *const);
 _inline GameChatHandler::GameChatHandler() // 0x10C9C430
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0GameChatHandler@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::GameChatHandler::GameChatHandler
 	// GameChatHandler *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10C9C430(this);
 }
 
-_extern void _sub_10C9C570(GameChatHandler *const);
 _inline GameChatHandler::~GameChatHandler() // 0x10C9C570
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1GameChatHandler@hades_file_local@@UAE@XZ");
 	// `anonymous-namespace'::GameChatHandler::~GameChatHandler
 	// GameChatHandler *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10C9C570(this);
 }
 
 _extern void _sub_10C9CEA0();

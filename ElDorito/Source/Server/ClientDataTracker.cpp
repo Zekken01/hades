@@ -267,14 +267,12 @@ namespace Patches
 {
 	namespace Network
 	{
-		extern NetworkSessionListener* _sub_10AFF1C0(Patches::Network::NetworkSessionListener *const);
 		_inline NetworkSessionListener::NetworkSessionListener() // 0x10AFF1C0
 		{
-			mangled_x86(MANGLED_TODO, "??0NetworkSessionListener@Network@Patches@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0NetworkSessionListener@Network@Patches@@QAE@XZ");
 			// Patches::Network::NetworkSessionListener *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_10AFF1C0(this);
 		}
 	}
 }
@@ -283,14 +281,12 @@ namespace Patches
 {
 	namespace CustomPackets
 	{
-		extern RawPacketHandler* _sub_10AFF250(Patches::CustomPackets::RawPacketHandler *const);
 		_inline RawPacketHandler::RawPacketHandler() // 0x10AFF250
 		{
-			mangled_x86(MANGLED_TODO, "??0RawPacketHandler@CustomPackets@Patches@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0RawPacketHandler@CustomPackets@Patches@@QAE@XZ");
 			// Patches::CustomPackets::RawPacketHandler *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_10AFF250(this);
 		}
 	}
 }
@@ -314,14 +310,12 @@ namespace Server
 			return __result;
 		}
 
-		_extern void _sub_10AFF830(Server::ClientDataTracker::MyNetworkSessionListener *const);
 		_inline MyNetworkSessionListener::~MyNetworkSessionListener() // 0x10AFF830
 		{
-			mangled_x86(MANGLED_TODO, "??1MyNetworkSessionListener@ClientDataTracker@Server@@UAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??1MyNetworkSessionListener@ClientDataTracker@Server@@UAE@XZ");
 			// Server::ClientDataTracker::MyNetworkSessionListener *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_10AFF830(this);
 		}
 	}
 }
@@ -391,24 +385,22 @@ bool SendClientMessage(Blam::Network::Session *session, Server::ClientDataTracke
 	return __result;
 }
 
-extern ClientInfoDataPacketHandler* _sub_10AFF100(ClientInfoDataPacketHandler *const);
 _inline ClientInfoDataPacketHandler::ClientInfoDataPacketHandler() // 0x10AFF100
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0ClientInfoDataPacketHandler@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::ClientInfoDataPacketHandler::ClientInfoDataPacketHandler
 	// ClientInfoDataPacketHandler *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10AFF100(this);
 }
 
-_extern void _sub_10AFF7E0(ClientInfoDataPacketHandler *const);
 _inline ClientInfoDataPacketHandler::~ClientInfoDataPacketHandler() // 0x10AFF7E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1ClientInfoDataPacketHandler@hades_file_local@@UAE@XZ");
 	// `anonymous-namespace'::ClientInfoDataPacketHandler::~ClientInfoDataPacketHandler
 	// ClientInfoDataPacketHandler *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10AFF7E0(this);
 }
 
 /* ---------- template instantiations */

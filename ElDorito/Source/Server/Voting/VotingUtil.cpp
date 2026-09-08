@@ -394,46 +394,38 @@ namespace Server
 			return __result;
 		}
 
-		extern SMapListItem* _sub_1074C140(Server::Voting::SMapListItem *const, Server::Voting::SMapListItem &);
 		_inline SMapListItem::SMapListItem(Server::Voting::SMapListItem &&__that) // 0x1074C140
 		{
-			mangled_x86(MANGLED_TODO, "??0SMapListItem@Voting@Server@@QAE@$$QAU012@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0SMapListItem@Voting@Server@@QAE@$$QAU012@@Z");
 			// Server::Voting::SMapListItem &__that;
+
 			compiler_generated();
-			todo("implement");
-			_sub_1074C140(this, __that);
 		}
 
-		extern SMapListItem* _sub_1074C1E0(Server::Voting::SMapListItem *const, Server::Voting::SMapListItem const &);
 		_inline SMapListItem::SMapListItem(Server::Voting::SMapListItem const &__that) // 0x1074C1E0
 		{
-			mangled_x86(MANGLED_TODO, "??0SMapListItem@Voting@Server@@QAE@ABU012@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0SMapListItem@Voting@Server@@QAE@ABU012@@Z");
 			// Server::Voting::SMapListItem const &__that;
+
 			compiler_generated();
-			todo("implement");
-			_sub_1074C1E0(this, __that);
 		}
 	}
 }
 
-extern s_blf_map_information* _sub_1074CA80(s_blf_map_information *const);
 _inline s_blf_map_information::s_blf_map_information() // 0x1074CA80
 {
-	mangled_x86(MANGLED_TODO, "??0s_blf_map_information@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_blf_map_information@@QAE@XZ");
 	// s_blf_map_information *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_1074CA80(this);
 }
 
-_extern void _sub_1074CD80(CMapFile *const);
 _inline CMapFile::~CMapFile() // 0x1074CD80
 {
-	mangled_x86(MANGLED_TODO, "??1CMapFile@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1CMapFile@@QAE@XZ");
 	// CMapFile *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_1074CD80(this);
 }
 
 namespace Server

@@ -104,14 +104,12 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- public code */
 
-extern c_network_session_parameter_base* _sub_10AA88D0(c_network_session_parameter_base *const);
 _inline c_network_session_parameter_base::c_network_session_parameter_base() // 0x10AA88D0
 {
-	mangled_x86(MANGLED_TODO, "??0c_network_session_parameter_base@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_network_session_parameter_base@@QAE@XZ");
 	// c_network_session_parameter_base *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10AA88D0(this);
 }
 
 _extern void _sub_10AA8F20(c_network_session_parameter_type_collection *);
@@ -125,14 +123,12 @@ void network__session_parameter_types_register_hook(c_network_session_parameter_
 	_sub_10AA8F20(collection);
 }
 
-extern c_network_session_parameter_mod* _sub_10AA8940(c_network_session_parameter_mod *const);
 _inline c_network_session_parameter_mod::c_network_session_parameter_mod() // 0x10AA8940
 {
-	mangled_x86(MANGLED_TODO, "??0c_network_session_parameter_mod@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_network_session_parameter_mod@@QAE@XZ");
 	// c_network_session_parameter_mod *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10AA8940(this);
 }
 
 _extern void _sub_10AA90D0();

@@ -299,14 +299,13 @@ namespace Forge
 
 /* ---------- private code */
 
-extern PrefabPlacement* _sub_1096F6D0(PrefabPlacement *const);
 _inline PrefabPlacement::PrefabPlacement() // 0x1096F6D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0PrefabPlacement@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::PrefabPlacement::PrefabPlacement
 	// PrefabPlacement *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_1096F6D0(this);
 }
 
 _extern bool _sub_10970330(std::basic_ifstream<char,std::char_traits<char> > &, Forge::Prefabs::PrefabHeader &);

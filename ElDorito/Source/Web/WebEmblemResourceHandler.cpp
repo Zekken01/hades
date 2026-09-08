@@ -138,14 +138,12 @@ namespace Web
 			_sub_10C826F0(this, callback);
 		}
 
-		_extern void _sub_10C83020(Web::Browser::WebEmblemRenderHandler *const);
 		_inline WebEmblemRenderHandler::~WebEmblemRenderHandler() // 0x10C83020
 		{
-			mangled_x86(MANGLED_TODO, "??1WebEmblemRenderHandler@Browser@Web@@UAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??1WebEmblemRenderHandler@Browser@Web@@UAE@XZ");
 			// Web::Browser::WebEmblemRenderHandler *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_10C83020(this);
 		}
 	}
 }
@@ -228,14 +226,12 @@ namespace Player
 {
 	namespace Emblems
 	{
-		extern IPlayerEmblemRenderCallbacks* _sub_10C826C0(Player::Emblems::IPlayerEmblemRenderCallbacks *const);
 		_inline IPlayerEmblemRenderCallbacks::IPlayerEmblemRenderCallbacks() // 0x10C826C0
 		{
-			mangled_x86(MANGLED_TODO, "??0IPlayerEmblemRenderCallbacks@Emblems@Player@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0IPlayerEmblemRenderCallbacks@Emblems@Player@@QAE@XZ");
 			// Player::Emblems::IPlayerEmblemRenderCallbacks *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_10C826C0(this);
 		}
 	}
 }

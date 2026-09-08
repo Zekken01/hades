@@ -451,61 +451,51 @@ namespace Web
 				_sub_10C7CE90();
 			}
 
-			extern CWebModDownloadSingleScreen* _sub_10C7B4E0(Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen *const);
 			_inline CWebModDownloadSingleScreen::CWebModDownloadSingleScreen() // 0x10C7B4E0
 			{
-				mangled_x86(MANGLED_TODO, "??0CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@QAE@XZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "??0CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@QAE@XZ");
 				// Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen *const this;
+
 				compiler_generated();
-				todo("implement");
-				_sub_10C7B4E0(this);
 			}
 		}
 	}
 }
 
-extern IModBrowserModDownloadUI* _sub_10C7B5E0(IModBrowserModDownloadUI *const);
 _inline IModBrowserModDownloadUI::IModBrowserModDownloadUI() // 0x10C7B5E0
 {
-	mangled_x86(MANGLED_TODO, "??0IModBrowserModDownloadUI@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0IModBrowserModDownloadUI@@QAE@XZ");
 	// IModBrowserModDownloadUI *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10C7B5E0(this);
 }
 
-extern SModBrowserState* _sub_10C7B610(SModBrowserState *const);
 _inline SModBrowserState::SModBrowserState() // 0x10C7B610
 {
-	mangled_x86(MANGLED_TODO, "??0SModBrowserState@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0SModBrowserState@@QAE@XZ");
 	// SModBrowserState *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10C7B610(this);
 }
 
-extern SModBrowserState::SRequestedMod* _sub_10C7B6A0(SModBrowserState::SRequestedMod *const);
 _inline SModBrowserState::SRequestedMod::SRequestedMod() // 0x10C7B6A0
 {
-	mangled_x86(MANGLED_TODO, "??0SRequestedMod@SModBrowserState@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0SRequestedMod@SModBrowserState@@QAE@XZ");
 	// SModBrowserState::SRequestedMod *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10C7B6A0(this);
 }
 
 namespace Web
 {
 	namespace Ui
 	{
-		extern WebScreen* _sub_10C7B770(Web::Ui::WebScreen *const);
 		_inline WebScreen::WebScreen() // 0x10C7B770
 		{
-			mangled_x86(MANGLED_TODO, "??0WebScreen@Ui@Web@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0WebScreen@Ui@Web@@QAE@XZ");
 			// Web::Ui::WebScreen *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_10C7B770(this);
 		}
 	}
 }
@@ -516,14 +506,12 @@ namespace Web
 	{
 		namespace WebServerModBrowser
 		{
-			_extern void _sub_10C7B8A0(Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen *const);
 			_inline CWebModDownloadSingleScreen::~CWebModDownloadSingleScreen() // 0x10C7B8A0
 			{
-				mangled_x86(MANGLED_TODO, "??1CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAE@XZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "??1CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAE@XZ");
 				// Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen *const this;
+
 				compiler_generated();
-				todo("implement");
-				_sub_10C7B8A0(this);
 			}
 		}
 	}
@@ -576,22 +564,20 @@ void NotifyDownloadError(std::basic_string<char,std::char_traits<char>,std::allo
 	_sub_10C7D030(reason);
 }
 
-extern DownloadStatusInfo* _sub_10C7B590(DownloadStatusInfo *const);
 _inline DownloadStatusInfo::DownloadStatusInfo() // 0x10C7B590
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0DownloadStatusInfo@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::DownloadStatusInfo::DownloadStatusInfo
 	// DownloadStatusInfo *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10C7B590(this);
 }
 
-_extern void _sub_10C7B930(DownloadStatusInfo *const);
 _inline DownloadStatusInfo::~DownloadStatusInfo() // 0x10C7B930
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1DownloadStatusInfo@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::DownloadStatusInfo::~DownloadStatusInfo
 	// DownloadStatusInfo *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10C7B930(this);
 }

@@ -234,54 +234,44 @@ namespace Server
 			return __result;
 		}
 
-		extern PlaylistItem* _sub_107459E0(Server::Voting::PlaylistItem *const, Server::Voting::PlaylistItem &);
 		_inline PlaylistItem::PlaylistItem(Server::Voting::PlaylistItem &&__that) // 0x107459E0
 		{
-			mangled_x86(MANGLED_TODO, "??0PlaylistItem@Voting@Server@@QAE@$$QAU012@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0PlaylistItem@Voting@Server@@QAE@$$QAU012@@Z");
 			// Server::Voting::PlaylistItem &__that;
+
 			compiler_generated();
-			todo("implement");
-			_sub_107459E0(this, __that);
 		}
 
-		extern PlaylistItem* _sub_10745AE0(Server::Voting::PlaylistItem *const, Server::Voting::PlaylistItem const &);
 		_inline PlaylistItem::PlaylistItem(Server::Voting::PlaylistItem const &__that) // 0x10745AE0
 		{
-			mangled_x86(MANGLED_TODO, "??0PlaylistItem@Voting@Server@@QAE@ABU012@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0PlaylistItem@Voting@Server@@QAE@ABU012@@Z");
 			// Server::Voting::PlaylistItem const &__that;
+
 			compiler_generated();
-			todo("implement");
-			_sub_10745AE0(this, __that);
 		}
 
-		extern PlaylistItem* _sub_10745BF0(Server::Voting::PlaylistItem *const);
 		_inline PlaylistItem::PlaylistItem() // 0x10745BF0
 		{
-			mangled_x86(MANGLED_TODO, "??0PlaylistItem@Voting@Server@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0PlaylistItem@Voting@Server@@QAE@XZ");
 			// Server::Voting::PlaylistItem *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_10745BF0(this);
 		}
 
-		extern SMapListItem* _sub_10745CB0(Server::Voting::SMapListItem *const);
 		_inline SMapListItem::SMapListItem() // 0x10745CB0
 		{
-			mangled_x86(MANGLED_TODO, "??0SMapListItem@Voting@Server@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0SMapListItem@Voting@Server@@QAE@XZ");
 			// Server::Voting::SMapListItem *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_10745CB0(this);
 		}
 
-		_extern void _sub_10745DE0(Server::Voting::SMapListItem *const);
 		_inline SMapListItem::~SMapListItem() // 0x10745DE0
 		{
-			mangled_x86(MANGLED_TODO, "??1SMapListItem@Voting@Server@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??1SMapListItem@Voting@Server@@QAE@XZ");
 			// Server::Voting::SMapListItem *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_10745DE0(this);
 		}
 
 		extern HaloType::CharacterOverride &_sub_10745E40(Server::Voting::HaloType::CharacterOverride *const, Server::Voting::HaloType::CharacterOverride &);

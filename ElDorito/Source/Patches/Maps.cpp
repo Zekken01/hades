@@ -276,24 +276,22 @@ bool levels_add_map_impl(s_file_reference *file_reference, char const *maps_path
 	return __result;
 }
 
-extern ModListener* _sub_10A875E0(ModListener *const);
 _inline ModListener::ModListener() // 0x10A875E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0ModListener@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::ModListener::ModListener
 	// ModListener *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10A875E0(this);
 }
 
-_extern void _sub_10A87640(ModListener *const);
 _inline ModListener::~ModListener() // 0x10A87640
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1ModListener@hades_file_local@@UAE@XZ");
 	// `anonymous-namespace'::ModListener::~ModListener
 	// ModListener *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10A87640(this);
 }
 
 _extern bool _sub_10A88E60(char const *, c_mod_package *);

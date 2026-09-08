@@ -201,28 +201,24 @@ _inline VotingOutputHandler::VotingOutputHandler() // 0x10C9A6B0
 	_sub_10C9A6B0(this);
 }
 
-_extern void _sub_10C9A7F0(VotingOutputHandler *const);
 _inline VotingOutputHandler::~VotingOutputHandler() // 0x10C9A7F0
 {
-	mangled_x86(MANGLED_TODO, "??1VotingOutputHandler@@UAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1VotingOutputHandler@@UAE@XZ");
 	// VotingOutputHandler *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10C9A7F0(this);
 }
 
 namespace Server
 {
 	namespace Voting
 	{
-		extern VotingMessageHandler* _sub_10C9A680(Server::Voting::VotingMessageHandler *const);
 		_inline VotingMessageHandler::VotingMessageHandler() // 0x10C9A680
 		{
-			mangled_x86(MANGLED_TODO, "??0VotingMessageHandler@Voting@Server@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0VotingMessageHandler@Voting@Server@@QAE@XZ");
 			// Server::Voting::VotingMessageHandler *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_10C9A680(this);
 		}
 	}
 }

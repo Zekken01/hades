@@ -259,74 +259,60 @@ namespace ChatCommands
 		_sub_1093AC40();
 	}
 
-	extern ChatCommand* _sub_10939590(ChatCommands::ChatCommand *const, ChatCommands::ChatCommand &);
 	_inline ChatCommand::ChatCommand(ChatCommands::ChatCommand &&__that) // 0x10939590
 	{
-		mangled_x86(MANGLED_TODO, "??0ChatCommand@ChatCommands@@QAE@$$QAU01@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0ChatCommand@ChatCommands@@QAE@$$QAU01@@Z");
 		// ChatCommands::ChatCommand &__that;
+
 		compiler_generated();
-		todo("implement");
-		_sub_10939590(this, __that);
 	}
 
-	extern ChatCommand* _sub_10939660(ChatCommands::ChatCommand *const);
 	_inline ChatCommand::ChatCommand() // 0x10939660
 	{
-		mangled_x86(MANGLED_TODO, "??0ChatCommand@ChatCommands@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0ChatCommand@ChatCommands@@QAE@XZ");
 		// ChatCommands::ChatCommand *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_10939660(this);
 	}
 
-	_extern void _sub_10939E40(ChatCommands::ChatCommand *const);
 	_inline ChatCommand::~ChatCommand() // 0x10939E40
 	{
-		mangled_x86(MANGLED_TODO, "??1ChatCommand@ChatCommands@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??1ChatCommand@ChatCommands@@QAE@XZ");
 		// ChatCommands::ChatCommand *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_10939E40(this);
 	}
 
-	_extern void _sub_10939EB0(ChatCommands::EndGameCommand *const);
 	_inline EndGameCommand::~EndGameCommand() // 0x10939EB0
 	{
-		mangled_x86(MANGLED_TODO, "??1EndGameCommand@ChatCommands@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??1EndGameCommand@ChatCommands@@QAE@XZ");
 		// ChatCommands::EndGameCommand *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_10939EB0(this);
 	}
 
-	_extern void _sub_10939F00(ChatCommands::EndRoundCommand *const);
 	_inline EndRoundCommand::~EndRoundCommand() // 0x10939F00
 	{
-		mangled_x86(MANGLED_TODO, "??1EndRoundCommand@ChatCommands@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??1EndRoundCommand@ChatCommands@@QAE@XZ");
 		// ChatCommands::EndRoundCommand *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_10939F00(this);
 	}
 
-	_extern void _sub_10939F50(ChatCommands::KickIndexCommand *const);
 	_inline KickIndexCommand::~KickIndexCommand() // 0x10939F50
 	{
-		mangled_x86(MANGLED_TODO, "??1KickIndexCommand@ChatCommands@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??1KickIndexCommand@ChatCommands@@QAE@XZ");
 		// ChatCommands::KickIndexCommand *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_10939F50(this);
 	}
 
-	_extern void _sub_10939FB0(ChatCommands::KickPlayerCommand *const);
 	_inline KickPlayerCommand::~KickPlayerCommand() // 0x10939FB0
 	{
-		mangled_x86(MANGLED_TODO, "??1KickPlayerCommand@ChatCommands@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??1KickPlayerCommand@ChatCommands@@QAE@XZ");
 		// ChatCommands::KickPlayerCommand *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_10939FB0(this);
 	}
 }
 
@@ -363,24 +349,20 @@ namespace ChatCommands
 		return __result;
 	}
 
-	_extern void _sub_1093A010(ChatCommands::ShuffleTeamsCommand *const);
 	_inline ShuffleTeamsCommand::~ShuffleTeamsCommand() // 0x1093A010
 	{
-		mangled_x86(MANGLED_TODO, "??1ShuffleTeamsCommand@ChatCommands@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??1ShuffleTeamsCommand@ChatCommands@@QAE@XZ");
 		// ChatCommands::ShuffleTeamsCommand *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_1093A010(this);
 	}
 
-	_extern void _sub_1093A060(ChatCommands::VotingChatCommand *const);
 	_inline VotingChatCommand::~VotingChatCommand() // 0x1093A060
 	{
-		mangled_x86(MANGLED_TODO, "??1VotingChatCommand@ChatCommands@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??1VotingChatCommand@ChatCommands@@QAE@XZ");
 		// ChatCommands::VotingChatCommand *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_1093A060(this);
 	}
 
 	_extern void _sub_1093AB00(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, ChatCommands::CommandFlags, std::function<bool __cdecl(int,std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &,std::basic_string<char,std::char_traits<char>,std::allocator<char> > &)> &);

@@ -118,14 +118,12 @@ namespace Modules
 	}
 }
 
-extern CEventSink<>::SCallbackEntry* _sub_10856850(CEventSink<>::SCallbackEntry *const, CEventSink<>::SCallbackEntry &);
 _inline CEventSink<>::SCallbackEntry::SCallbackEntry(CEventSink<>::SCallbackEntry &&__that) // 0x10856850
 {
-	mangled_x86(MANGLED_TODO, "??0SCallbackEntry@?$CEventSink@$$V@@QAE@$$QAU01@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0SCallbackEntry@?$CEventSink@$$V@@QAE@$$QAU01@@Z");
 	// CEventSink<>::SCallbackEntry &__that;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10856850(this, __that);
 }
 
 /* ---------- private code */

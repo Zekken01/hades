@@ -87,14 +87,12 @@ namespace Patches
 	}
 }
 
-_extern void _sub_10698FB0(Hook *const);
 _inline Hook::~Hook() // 0x10698FB0
 {
-	mangled_x86(MANGLED_TODO, "??1Hook@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1Hook@@QAE@XZ");
 	// Hook *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10698FB0(this);
 }
 
 /* ---------- private code */

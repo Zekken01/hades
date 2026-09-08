@@ -228,12 +228,11 @@ void OnGameInputUpdated() // 0x10CB53C0
 	_sub_10CB53C0();
 }
 
-extern WebSettingsScreen* _sub_10CB5130(WebSettingsScreen *const);
 _inline WebSettingsScreen::WebSettingsScreen() // 0x10CB5130
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0WebSettingsScreen@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::WebSettingsScreen::WebSettingsScreen
 	// WebSettingsScreen *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10CB5130(this);
 }

@@ -489,14 +489,13 @@ _inline ClientSpamStats::ClientSpamStats() // 0x10C1B230
 	_sub_10C1B230(this);
 }
 
-_extern void _sub_10C1BF30(ChatMessagePacketHandler *const);
 _inline ChatMessagePacketHandler::~ChatMessagePacketHandler() // 0x10C1BF30
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1ChatMessagePacketHandler@hades_file_local@@UAE@XZ");
 	// `anonymous-namespace'::ChatMessagePacketHandler::~ChatMessagePacketHandler
 	// ChatMessagePacketHandler *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10C1BF30(this);
 }
 
 _extern void _sub_10C204D0(ChatMessagePacketHandler *const, Blam::BitStream *, Server::Chat::ChatMessage const *);
@@ -947,14 +946,13 @@ bool SendClientMessage(Blam::Network::Session *session, Server::Chat::ChatMessag
 	return __result;
 }
 
-extern ChatMessagePacketHandler* _sub_10C1B1D0(ChatMessagePacketHandler *const);
 _inline ChatMessagePacketHandler::ChatMessagePacketHandler() // 0x10C1B1D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0ChatMessagePacketHandler@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::ChatMessagePacketHandler::ChatMessagePacketHandler
 	// ChatMessagePacketHandler *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10C1B1D0(this);
 }
 
 /* ---------- template instantiations */

@@ -156,14 +156,12 @@ void hs_set_team_character_type_evaluate(short op, long thread_index, bool initi
 
 /* ---------- public code */
 
-extern s_game_globals_player_character_type* _sub_106FA980(s_game_globals_player_character_type *const, s_game_globals_player_character_type const &);
 _inline s_game_globals_player_character_type::s_game_globals_player_character_type(s_game_globals_player_character_type const &__that) // 0x106FA980
 {
-	mangled_x86(MANGLED_TODO, "??0s_game_globals_player_character_type@@QAE@ABU0@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_game_globals_player_character_type@@QAE@ABU0@@Z");
 	// s_game_globals_player_character_type const &__that;
+
 	compiler_generated();
-	todo("implement");
-	_sub_106FA980(this, __that);
 }
 
 namespace Scripting

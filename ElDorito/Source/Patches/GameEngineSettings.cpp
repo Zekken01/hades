@@ -902,14 +902,13 @@ _inline c_user_interface_player_model_text_value_pair_proxy::c_user_interface_pl
 	_sub_10A9E910(this, data);
 }
 
-_extern void _sub_10A9E940(ModListener *const);
 _inline ModListener::~ModListener() // 0x10A9E940
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1ModListener@hades_file_local@@UAE@XZ");
 	// `anonymous-namespace'::ModListener::~ModListener
 	// ModListener *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10A9E940(this);
 }
 
 _extern void _sub_10AA82A0(c_user_interface_player_model_text_value_pair_proxy *const, c_gui_screen_game_options *);

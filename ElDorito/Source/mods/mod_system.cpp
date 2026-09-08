@@ -430,84 +430,68 @@ IModManager &c_mod_system::GetModManager() // 0x108B81C0
 	return __result;
 }
 
-extern c_mod_package_updater_blocking* _sub_108B6B30(c_mod_package_updater_blocking *const);
 _inline c_mod_package_updater_blocking::c_mod_package_updater_blocking() // 0x108B6B30
 {
-	mangled_x86(MANGLED_TODO, "??0c_mod_package_updater_blocking@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_mod_package_updater_blocking@@QAE@XZ");
 	// c_mod_package_updater_blocking *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_108B6B30(this);
 }
 
-extern s_mod_server_package_entry* _sub_108B6B90(s_mod_server_package_entry *const, s_mod_server_package_entry &);
 _inline s_mod_server_package_entry::s_mod_server_package_entry(s_mod_server_package_entry &&__that) // 0x108B6B90
 {
-	mangled_x86(MANGLED_TODO, "??0s_mod_server_package_entry@@QAE@$$QAU0@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_mod_server_package_entry@@QAE@$$QAU0@@Z");
 	// s_mod_server_package_entry &__that;
+
 	compiler_generated();
-	todo("implement");
-	_sub_108B6B90(this, __that);
 }
 
-extern s_mod_server_package_entry* _sub_108B6C40(s_mod_server_package_entry *const, s_mod_server_package_entry const &);
 _inline s_mod_server_package_entry::s_mod_server_package_entry(s_mod_server_package_entry const &__that) // 0x108B6C40
 {
-	mangled_x86(MANGLED_TODO, "??0s_mod_server_package_entry@@QAE@ABU0@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_mod_server_package_entry@@QAE@ABU0@@Z");
 	// s_mod_server_package_entry const &__that;
+
 	compiler_generated();
-	todo("implement");
-	_sub_108B6C40(this, __that);
 }
 
-extern s_mod_server_package_entry* _sub_108B6D40(s_mod_server_package_entry *const);
 _inline s_mod_server_package_entry::s_mod_server_package_entry() // 0x108B6D40
 {
-	mangled_x86(MANGLED_TODO, "??0s_mod_server_package_entry@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_mod_server_package_entry@@QAE@XZ");
 	// s_mod_server_package_entry *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_108B6D40(this);
 }
 
-extern s_mod_system_globals* _sub_108B6DB0(s_mod_system_globals *const);
 _inline s_mod_system_globals::s_mod_system_globals() // 0x108B6DB0
 {
-	mangled_x86(MANGLED_TODO, "??0s_mod_system_globals@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_mod_system_globals@@QAE@XZ");
 	// s_mod_system_globals *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_108B6DB0(this);
 }
 
-_extern void _sub_108B7790(c_mod_package_updater_blocking *const);
 _inline c_mod_package_updater_blocking::~c_mod_package_updater_blocking() // 0x108B7790
 {
-	mangled_x86(MANGLED_TODO, "??1c_mod_package_updater_blocking@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1c_mod_package_updater_blocking@@QAE@XZ");
 	// c_mod_package_updater_blocking *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_108B7790(this);
 }
 
-_extern void _sub_108B77F0(s_mod_server_package_entry *const);
 _inline s_mod_server_package_entry::~s_mod_server_package_entry() // 0x108B77F0
 {
-	mangled_x86(MANGLED_TODO, "??1s_mod_server_package_entry@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1s_mod_server_package_entry@@QAE@XZ");
 	// s_mod_server_package_entry *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_108B77F0(this);
 }
 
-_extern void _sub_108B7860(s_mod_system_globals *const);
 _inline s_mod_system_globals::~s_mod_system_globals() // 0x108B7860
 {
-	mangled_x86(MANGLED_TODO, "??1s_mod_system_globals@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1s_mod_system_globals@@QAE@XZ");
 	// s_mod_system_globals *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_108B7860(this);
 }
 
 extern s_mod_server_package_entry &_sub_108B79E0(s_mod_server_package_entry *const, s_mod_server_package_entry const &);

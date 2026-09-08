@@ -405,134 +405,108 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- public code */
 
-extern c_async_completion_flag* _sub_10921640(c_async_completion_flag *const);
 _inline c_async_completion_flag::c_async_completion_flag() // 0x10921640
 {
-	mangled_x86(MANGLED_TODO, "??0c_async_completion_flag@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_async_completion_flag@@QAE@XZ");
 	// c_async_completion_flag *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10921640(this);
 }
 
-extern c_game_variant* _sub_109216A0(c_game_variant *const);
 _inline c_game_variant::c_game_variant() // 0x109216A0
 {
-	mangled_x86(MANGLED_TODO, "??0c_game_variant@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_game_variant@@QAE@XZ");
 	// c_game_variant *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_109216A0(this);
 }
 
-extern c_map_load_crash_recovery_helper* _sub_109216F0(c_map_load_crash_recovery_helper *const);
 _inline c_map_load_crash_recovery_helper::c_map_load_crash_recovery_helper() // 0x109216F0
 {
-	mangled_x86(MANGLED_TODO, "??0c_map_load_crash_recovery_helper@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_map_load_crash_recovery_helper@@QAE@XZ");
 	// c_map_load_crash_recovery_helper *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_109216F0(this);
 }
 
-extern c_map_load_error_helper* _sub_10921770(c_map_load_error_helper *const);
 _inline c_map_load_error_helper::c_map_load_error_helper() // 0x10921770
 {
-	mangled_x86(MANGLED_TODO, "??0c_map_load_error_helper@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_map_load_error_helper@@QAE@XZ");
 	// c_map_load_error_helper *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10921770(this);
 }
 
-extern c_mod_cache_tag_remapper* _sub_109217C0(c_mod_cache_tag_remapper *const);
 _inline c_mod_cache_tag_remapper::c_mod_cache_tag_remapper() // 0x109217C0
 {
-	mangled_x86(MANGLED_TODO, "??0c_mod_cache_tag_remapper@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_mod_cache_tag_remapper@@QAE@XZ");
 	// c_mod_cache_tag_remapper *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_109217C0(this);
 }
 
-extern s_game_options* _sub_109219A0(s_game_options *const);
 _inline s_game_options::s_game_options() // 0x109219A0
 {
-	mangled_x86(MANGLED_TODO, "??0s_game_options@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_game_options@@QAE@XZ");
 	// s_game_options *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_109219A0(this);
 }
 
-extern s_game_player_options* _sub_10921A30(s_game_player_options *const);
 _inline s_game_player_options::s_game_player_options() // 0x10921A30
 {
-	mangled_x86(MANGLED_TODO, "??0s_game_player_options@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_game_player_options@@QAE@XZ");
 	// s_game_player_options *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10921A30(this);
 }
 
-extern s_player_appearance* _sub_10921A90(s_player_appearance *const);
 _inline s_player_appearance::s_player_appearance() // 0x10921A90
 {
-	mangled_x86(MANGLED_TODO, "??0s_player_appearance@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_player_appearance@@QAE@XZ");
 	// s_player_appearance *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10921A90(this);
 }
 
-extern s_player_configuration* _sub_10921AF0(s_player_configuration *const);
 _inline s_player_configuration::s_player_configuration() // 0x10921AF0
 {
-	mangled_x86(MANGLED_TODO, "??0s_player_configuration@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_player_configuration@@QAE@XZ");
 	// s_player_configuration *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10921AF0(this);
 }
 
-extern s_player_configuration_from_host* _sub_10921B50(s_player_configuration_from_host *const);
 _inline s_player_configuration_from_host::s_player_configuration_from_host() // 0x10921B50
 {
-	mangled_x86(MANGLED_TODO, "??0s_player_configuration_from_host@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_player_configuration_from_host@@QAE@XZ");
 	// s_player_configuration_from_host *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10921B50(this);
 }
 
-_extern void _sub_10922050(c_map_load_crash_recovery_helper *const);
 _inline c_map_load_crash_recovery_helper::~c_map_load_crash_recovery_helper() // 0x10922050
 {
-	mangled_x86(MANGLED_TODO, "??1c_map_load_crash_recovery_helper@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1c_map_load_crash_recovery_helper@@QAE@XZ");
 	// c_map_load_crash_recovery_helper *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10922050(this);
 }
 
-_extern void _sub_109220A0(c_map_load_error_helper *const);
 _inline c_map_load_error_helper::~c_map_load_error_helper() // 0x109220A0
 {
-	mangled_x86(MANGLED_TODO, "??1c_map_load_error_helper@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1c_map_load_error_helper@@QAE@XZ");
 	// c_map_load_error_helper *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_109220A0(this);
 }
 
-_extern void _sub_109220F0(c_mod_cache_tag_remapper *const);
 _inline c_mod_cache_tag_remapper::~c_mod_cache_tag_remapper() // 0x109220F0
 {
-	mangled_x86(MANGLED_TODO, "??1c_mod_cache_tag_remapper@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1c_mod_cache_tag_remapper@@QAE@XZ");
 	// c_mod_cache_tag_remapper *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_109220F0(this);
 }
 
 namespace Patches
@@ -1235,14 +1209,13 @@ void main_menu_launch_force_hook() // 0x10928C40
 	_sub_10928C40();
 }
 
-extern s_cache_file_loaded_state* _sub_109218B0(s_cache_file_loaded_state *const);
 _inline s_cache_file_loaded_state::s_cache_file_loaded_state() // 0x109218B0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_cache_file_loaded_state@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::s_cache_file_loaded_state::s_cache_file_loaded_state
 	// s_cache_file_loaded_state *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_109218B0(this);
 }
 
 _extern void _sub_10928DF0();
@@ -1260,14 +1233,13 @@ void main_menu_launch_hook() // 0x10928DF0
 	_sub_10928DF0();
 }
 
-_extern void _sub_10922160(s_cache_file_loaded_state *const);
 _inline s_cache_file_loaded_state::~s_cache_file_loaded_state() // 0x10922160
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1s_cache_file_loaded_state@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::s_cache_file_loaded_state::~s_cache_file_loaded_state
 	// s_cache_file_loaded_state *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10922160(this);
 }
 
 /* ---------- template instantiations */

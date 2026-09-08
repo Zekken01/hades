@@ -359,14 +359,12 @@ void CServerConnectStateHandler_AcquireMods::UpdateDownloading() // 0x109098D0
 	_sub_109098D0(this);
 }
 
-extern CServerConnectStateHandler* _sub_10906B40(CServerConnectStateHandler *const);
 _inline CServerConnectStateHandler::CServerConnectStateHandler() // 0x10906B40
 {
-	mangled_x86(MANGLED_TODO, "??0CServerConnectStateHandler@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0CServerConnectStateHandler@@QAE@XZ");
 	// CServerConnectStateHandler *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10906B40(this);
 }
 
 _extern void _sub_10909760(CServerConnectStateHandler_AcquireMods *const);

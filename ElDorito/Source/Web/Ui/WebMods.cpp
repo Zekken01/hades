@@ -495,27 +495,23 @@ namespace Web
 				_sub_10CAD540();
 			}
 
-			extern CWebModDownloadScreen* _sub_10CAC810(Web::Ui::WebMods::CWebModDownloadScreen *const);
 			_inline CWebModDownloadScreen::CWebModDownloadScreen() // 0x10CAC810
 			{
-				mangled_x86(MANGLED_TODO, "??0CWebModDownloadScreen@WebMods@Ui@Web@@QAE@XZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "??0CWebModDownloadScreen@WebMods@Ui@Web@@QAE@XZ");
 				// Web::Ui::WebMods::CWebModDownloadScreen *const this;
+
 				compiler_generated();
-				todo("implement");
-				_sub_10CAC810(this);
 			}
 		}
 	}
 }
 
-extern IServerConnectModDownloadUI* _sub_10CAC910(IServerConnectModDownloadUI *const);
 _inline IServerConnectModDownloadUI::IServerConnectModDownloadUI() // 0x10CAC910
 {
-	mangled_x86(MANGLED_TODO, "??0IServerConnectModDownloadUI@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0IServerConnectModDownloadUI@@QAE@XZ");
 	// IServerConnectModDownloadUI *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10CAC910(this);
 }
 
 namespace Web
@@ -524,14 +520,12 @@ namespace Web
 	{
 		namespace WebMods
 		{
-			_extern void _sub_10CACA50(Web::Ui::WebMods::CWebModDownloadScreen *const);
 			_inline CWebModDownloadScreen::~CWebModDownloadScreen() // 0x10CACA50
 			{
-				mangled_x86(MANGLED_TODO, "??1CWebModDownloadScreen@WebMods@Ui@Web@@UAE@XZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "??1CWebModDownloadScreen@WebMods@Ui@Web@@UAE@XZ");
 				// Web::Ui::WebMods::CWebModDownloadScreen *const this;
+
 				compiler_generated();
-				todo("implement");
-				_sub_10CACA50(this);
 			}
 		}
 	}
@@ -616,42 +610,38 @@ void NotifyDownloadError(std::basic_string<char,std::char_traits<char>,std::allo
 	_sub_10CAD780(reason);
 }
 
-extern DownloadStatusInfo* _sub_10CAC8C0(DownloadStatusInfo *const);
 _inline DownloadStatusInfo::DownloadStatusInfo() // 0x10CAC8C0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0DownloadStatusInfo@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::DownloadStatusInfo::DownloadStatusInfo
 	// DownloadStatusInfo *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10CAC8C0(this);
 }
 
-extern ModChangeListener* _sub_10CAC940(ModChangeListener *const);
 _inline ModChangeListener::ModChangeListener() // 0x10CAC940
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0ModChangeListener@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::ModChangeListener::ModChangeListener
 	// ModChangeListener *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10CAC940(this);
 }
 
-_extern void _sub_10CACAE0(DownloadStatusInfo *const);
 _inline DownloadStatusInfo::~DownloadStatusInfo() // 0x10CACAE0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1DownloadStatusInfo@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::DownloadStatusInfo::~DownloadStatusInfo
 	// DownloadStatusInfo *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10CACAE0(this);
 }
 
-_extern void _sub_10CACB50(ModChangeListener *const);
 _inline ModChangeListener::~ModChangeListener() // 0x10CACB50
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1ModChangeListener@hades_file_local@@UAE@XZ");
 	// `anonymous-namespace'::ModChangeListener::~ModChangeListener
 	// ModChangeListener *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10CACB50(this);
 }

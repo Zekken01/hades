@@ -61,24 +61,20 @@ c_gui_map_category_datasource::c_gui_map_category_datasource(wchar_t const *rece
 	_sub_10F1C5C0(this, recent_maps_item_name, recent_maps_item_description, file_share_item_name, file_share_item_description);
 }
 
-_extern void _sub_10F1C760(c_gui_map_category_datasource *const);
 _inline c_gui_map_category_datasource::~c_gui_map_category_datasource() // 0x10F1C760
 {
-	mangled_x86(MANGLED_TODO, "??1c_gui_map_category_datasource@@UAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1c_gui_map_category_datasource@@UAE@XZ");
 	// c_gui_map_category_datasource *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10F1C760(this);
 }
 
-_extern void _sub_10F1C7B0(c_gui_ordered_data *const);
 _inline c_gui_ordered_data::~c_gui_ordered_data() // 0x10F1C7B0
 {
-	mangled_x86(MANGLED_TODO, "??1c_gui_ordered_data@@UAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1c_gui_ordered_data@@UAE@XZ");
 	// c_gui_ordered_data *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10F1C7B0(this);
 }
 
 _extern bool _sub_10F1CEF0(c_gui_map_category_datasource *const, unsigned long);

@@ -221,44 +221,36 @@ namespace PersistentMemory
 		return __result;
 	}
 
-	extern SPersistentMemoryDB::SPersistantMute* _sub_106AF9A0(PersistentMemory::SPersistentMemoryDB::SPersistantMute *const, PersistentMemory::SPersistentMemoryDB::SPersistantMute &);
 	_inline SPersistentMemoryDB::SPersistantMute::SPersistantMute(PersistentMemory::SPersistentMemoryDB::SPersistantMute &&__that) // 0x106AF9A0
 	{
-		mangled_x86(MANGLED_TODO, "??0SPersistantMute@SPersistentMemoryDB@PersistentMemory@@QAE@$$QAU012@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0SPersistantMute@SPersistentMemoryDB@PersistentMemory@@QAE@$$QAU012@@Z");
 		// PersistentMemory::SPersistentMemoryDB::SPersistantMute &__that;
+
 		compiler_generated();
-		todo("implement");
-		_sub_106AF9A0(this, __that);
 	}
 
-	extern SPersistentMemoryDB::SPersistantMute* _sub_106AFA30(PersistentMemory::SPersistentMemoryDB::SPersistantMute *const, PersistentMemory::SPersistentMemoryDB::SPersistantMute const &);
 	_inline SPersistentMemoryDB::SPersistantMute::SPersistantMute(PersistentMemory::SPersistentMemoryDB::SPersistantMute const &__that) // 0x106AFA30
 	{
-		mangled_x86(MANGLED_TODO, "??0SPersistantMute@SPersistentMemoryDB@PersistentMemory@@QAE@ABU012@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0SPersistantMute@SPersistentMemoryDB@PersistentMemory@@QAE@ABU012@@Z");
 		// PersistentMemory::SPersistentMemoryDB::SPersistantMute const &__that;
+
 		compiler_generated();
-		todo("implement");
-		_sub_106AFA30(this, __that);
 	}
 
-	extern SPersistentMemoryDB* _sub_106AFB00(PersistentMemory::SPersistentMemoryDB *const, PersistentMemory::SPersistentMemoryDB &);
 	_inline SPersistentMemoryDB::SPersistentMemoryDB(PersistentMemory::SPersistentMemoryDB &&__that) // 0x106AFB00
 	{
-		mangled_x86(MANGLED_TODO, "??0SPersistentMemoryDB@PersistentMemory@@QAE@$$QAU01@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0SPersistentMemoryDB@PersistentMemory@@QAE@$$QAU01@@Z");
 		// PersistentMemory::SPersistentMemoryDB &__that;
+
 		compiler_generated();
-		todo("implement");
-		_sub_106AFB00(this, __that);
 	}
 
-	extern SPersistentMemoryDB* _sub_106AFC70(PersistentMemory::SPersistentMemoryDB *const);
 	_inline SPersistentMemoryDB::SPersistentMemoryDB() // 0x106AFC70
 	{
-		mangled_x86(MANGLED_TODO, "??0SPersistentMemoryDB@PersistentMemory@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0SPersistentMemoryDB@PersistentMemory@@QAE@XZ");
 		// PersistentMemory::SPersistentMemoryDB *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_106AFC70(this);
 	}
 
 	_extern bool _sub_106B5600(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
@@ -279,24 +271,20 @@ namespace PersistentMemory
 		return __result;
 	}
 
-	_extern void _sub_106B0E30(PersistentMemory::SPersistentMemoryDB::SPersistantMute *const);
 	_inline SPersistentMemoryDB::SPersistantMute::~SPersistantMute() // 0x106B0E30
 	{
-		mangled_x86(MANGLED_TODO, "??1SPersistantMute@SPersistentMemoryDB@PersistentMemory@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??1SPersistantMute@SPersistentMemoryDB@PersistentMemory@@QAE@XZ");
 		// PersistentMemory::SPersistentMemoryDB::SPersistantMute *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_106B0E30(this);
 	}
 
-	_extern void _sub_106B0E90(PersistentMemory::SPersistentMemoryDB *const);
 	_inline SPersistentMemoryDB::~SPersistentMemoryDB() // 0x106B0E90
 	{
-		mangled_x86(MANGLED_TODO, "??1SPersistentMemoryDB@PersistentMemory@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??1SPersistentMemoryDB@PersistentMemory@@QAE@XZ");
 		// PersistentMemory::SPersistentMemoryDB *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_106B0E90(this);
 	}
 
 	extern SPersistentMemoryDB::SPersistantMute &_sub_106B1300(PersistentMemory::SPersistentMemoryDB::SPersistantMute *const, PersistentMemory::SPersistentMemoryDB::SPersistantMute &);

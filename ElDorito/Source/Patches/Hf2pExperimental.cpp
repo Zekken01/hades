@@ -327,24 +327,22 @@ namespace Patches
 
 /* ---------- private code */
 
-extern s_session_player_ping* _sub_10A70810(s_session_player_ping *const);
 _inline s_session_player_ping::s_session_player_ping() // 0x10A70810
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_session_player_ping@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::s_session_player_ping::s_session_player_ping
 	// s_session_player_ping *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10A70810(this);
 }
 
-_extern void _sub_10A70860(s_session_player_ping *const);
 _inline s_session_player_ping::~s_session_player_ping() // 0x10A70860
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1s_session_player_ping@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::s_session_player_ping::~s_session_player_ping
 	// s_session_player_ping *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10A70860(this);
 }
 
 _extern void _sub_10A723E0();

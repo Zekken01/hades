@@ -813,54 +813,49 @@ void ResetPassword(__int32 peerIndex) // 0x10C2FB60
 	_sub_10C2FB60(peerIndex);
 }
 
-extern WebSocketPacketHandler* _sub_10C2B4F0(WebSocketPacketHandler *const);
 _inline WebSocketPacketHandler::WebSocketPacketHandler() // 0x10C2B4F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0WebSocketPacketHandler@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::WebSocketPacketHandler::WebSocketPacketHandler
 	// WebSocketPacketHandler *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10C2B4F0(this);
 }
 
-extern coninfo* _sub_10C2B550(coninfo *const, coninfo &);
 _inline coninfo::coninfo(coninfo &__that) // 0x10C2B550
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0coninfo@hades_file_local@@QAE@AAU01@@Z");
 	// `anonymous-namespace'::coninfo::coninfo
 	// coninfo &__that;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10C2B550(this, __that);
 }
 
-extern coninfo* _sub_10C2B600(coninfo *const, coninfo const &);
 _inline coninfo::coninfo(coninfo const &__that) // 0x10C2B600
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0coninfo@hades_file_local@@QAE@ABU01@@Z");
 	// `anonymous-namespace'::coninfo::coninfo
 	// coninfo const &__that;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10C2B600(this, __that);
 }
 
-_extern void _sub_10C2BF80(WebSocketPacketHandler *const);
 _inline WebSocketPacketHandler::~WebSocketPacketHandler() // 0x10C2BF80
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1WebSocketPacketHandler@hades_file_local@@UAE@XZ");
 	// `anonymous-namespace'::WebSocketPacketHandler::~WebSocketPacketHandler
 	// WebSocketPacketHandler *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10C2BF80(this);
 }
 
-_extern void _sub_10C2BFD0(coninfo *const);
 _inline coninfo::~coninfo() // 0x10C2BFD0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1coninfo@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::coninfo::~coninfo
 	// coninfo *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10C2BFD0(this);
 }
 
 /* ---------- template instantiations */

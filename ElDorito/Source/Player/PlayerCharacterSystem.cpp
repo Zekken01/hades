@@ -272,44 +272,36 @@ using namespace hades_file_local;
 
 namespace Player
 {
-	extern CPlayerCharacterCustomizationBuilder* _sub_10900CB0(::Player::CPlayerCharacterCustomizationBuilder *const);
 	_inline CPlayerCharacterCustomizationBuilder::CPlayerCharacterCustomizationBuilder() // 0x10900CB0
 	{
-		mangled_x86(MANGLED_TODO, "??0CPlayerCharacterCustomizationBuilder@Player@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0CPlayerCharacterCustomizationBuilder@Player@@QAE@XZ");
 		// Player::CPlayerCharacterCustomizationBuilder *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_10900CB0(this);
 	}
 
-	extern CPlayerCharacterCustomizationBuilder::SBaseCacheReference* _sub_10900DC0(::Player::CPlayerCharacterCustomizationBuilder::SBaseCacheReference *const);
 	_inline CPlayerCharacterCustomizationBuilder::SBaseCacheReference::SBaseCacheReference() // 0x10900DC0
 	{
-		mangled_x86(MANGLED_TODO, "??0SBaseCacheReference@CPlayerCharacterCustomizationBuilder@Player@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0SBaseCacheReference@CPlayerCharacterCustomizationBuilder@Player@@QAE@XZ");
 		// Player::CPlayerCharacterCustomizationBuilder::SBaseCacheReference *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_10900DC0(this);
 	}
 
-	_extern void _sub_10900F80(::Player::CPlayerCharacterCustomizationBuilder *const);
 	_inline CPlayerCharacterCustomizationBuilder::~CPlayerCharacterCustomizationBuilder() // 0x10900F80
 	{
-		mangled_x86(MANGLED_TODO, "??1CPlayerCharacterCustomizationBuilder@Player@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??1CPlayerCharacterCustomizationBuilder@Player@@QAE@XZ");
 		// Player::CPlayerCharacterCustomizationBuilder *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_10900F80(this);
 	}
 
-	_extern void _sub_10901050(::Player::CPlayerCharacterCustomizationBuilder::SBaseCacheReference *const);
 	_inline CPlayerCharacterCustomizationBuilder::SBaseCacheReference::~SBaseCacheReference() // 0x10901050
 	{
-		mangled_x86(MANGLED_TODO, "??1SBaseCacheReference@CPlayerCharacterCustomizationBuilder@Player@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??1SBaseCacheReference@CPlayerCharacterCustomizationBuilder@Player@@QAE@XZ");
 		// Player::CPlayerCharacterCustomizationBuilder::SBaseCacheReference *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_10901050(this);
 	}
 
 	_extern void _sub_109023F0();
@@ -563,24 +555,22 @@ __int32 GetPreferredCharacterType(__int32 playerIndex) // 0x109022A0
 	return __result;
 }
 
-extern ModListener* _sub_10900D60(ModListener *const);
 _inline ModListener::ModListener() // 0x10900D60
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0ModListener@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::ModListener::ModListener
 	// ModListener *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10900D60(this);
 }
 
-_extern void _sub_10901000(ModListener *const);
 _inline ModListener::~ModListener() // 0x10901000
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1ModListener@hades_file_local@@UAE@XZ");
 	// `anonymous-namespace'::ModListener::~ModListener
 	// ModListener *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10901000(this);
 }
 
 extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10901DF0();

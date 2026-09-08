@@ -519,22 +519,20 @@ namespace Player
 
 /* ---------- private code */
 
-_extern void _sub_108FC5B0(PlayerEmblem *const);
 _inline PlayerEmblem::~PlayerEmblem() // 0x108FC5B0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1PlayerEmblem@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::PlayerEmblem::~PlayerEmblem
 	// PlayerEmblem *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_108FC5B0(this);
 }
 
-extern PlayerEmblem* _sub_108FC400(PlayerEmblem *const);
 _inline PlayerEmblem::PlayerEmblem() // 0x108FC400
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0PlayerEmblem@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::PlayerEmblem::PlayerEmblem
 	// PlayerEmblem *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_108FC400(this);
 }

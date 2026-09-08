@@ -256,24 +256,22 @@ _inline SyncUpdateHandler::SyncUpdateHandler() // 0x10C3A1B0
 	_sub_10C3A1B0(this);
 }
 
-extern SynchronizationBinding* _sub_10C3A210(SynchronizationBinding *const);
 _inline SynchronizationBinding::SynchronizationBinding() // 0x10C3A210
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0SynchronizationBinding@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::SynchronizationBinding::SynchronizationBinding
 	// SynchronizationBinding *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10C3A210(this);
 }
 
-_extern void _sub_10C3AD10(SyncUpdateHandler *const);
 _inline SyncUpdateHandler::~SyncUpdateHandler() // 0x10C3AD10
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1SyncUpdateHandler@hades_file_local@@UAE@XZ");
 	// `anonymous-namespace'::SyncUpdateHandler::~SyncUpdateHandler
 	// SyncUpdateHandler *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10C3AD10(this);
 }
 
 _extern unsigned __int32 _sub_10C3C5F0(SynchronizationBinding const &);

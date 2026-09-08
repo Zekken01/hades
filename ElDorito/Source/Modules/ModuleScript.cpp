@@ -107,28 +107,24 @@ namespace Scripting
 {
 	namespace HS
 	{
-		extern ScriptMethodMap* _sub_106D3B40(Scripting::HS::ScriptMethodMap *const);
 		_inline ScriptMethodMap::ScriptMethodMap() // 0x106D3B40
 		{
-			mangled_x86(MANGLED_TODO, "??0ScriptMethodMap@HS@Scripting@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0ScriptMethodMap@HS@Scripting@@QAE@XZ");
 			// Scripting::HS::ScriptMethodMap *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_106D3B40(this);
 		}
 	}
 }
 
 namespace Modules
 {
-	_extern void _sub_106D3ED0(Modules::ModuleBase *const);
 	_inline ModuleBase::~ModuleBase() // 0x106D3ED0
 	{
-		mangled_x86(MANGLED_TODO, "??1ModuleBase@Modules@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??1ModuleBase@Modules@@QAE@XZ");
 		// Modules::ModuleBase *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_106D3ED0(this);
 	}
 }
 
@@ -136,14 +132,12 @@ namespace Scripting
 {
 	namespace HS
 	{
-		_extern void _sub_106D3F20(Scripting::HS::ScriptMethod *const);
 		_inline ScriptMethod::~ScriptMethod() // 0x106D3F20
 		{
-			mangled_x86(MANGLED_TODO, "??1ScriptMethod@HS@Scripting@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??1ScriptMethod@HS@Scripting@@QAE@XZ");
 			// Scripting::HS::ScriptMethod *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_106D3F20(this);
 		}
 	}
 }

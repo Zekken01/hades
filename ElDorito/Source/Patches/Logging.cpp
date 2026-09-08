@@ -392,14 +392,13 @@ void sslLogHook(char a1, __int32 a2, void *a3, void *a4, char a5) // 0x10A86ED0
 	_sub_10A86ED0(a1, a2, a3, a4, a5);
 }
 
-extern s_per_thread_exception_info* _sub_10A84A40(s_per_thread_exception_info *const);
 _inline s_per_thread_exception_info::s_per_thread_exception_info() // 0x10A84A40
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_per_thread_exception_info@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::s_per_thread_exception_info::s_per_thread_exception_info
 	// s_per_thread_exception_info *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10A84A40(this);
 }
 
 namespace Debug

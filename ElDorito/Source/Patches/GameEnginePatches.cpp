@@ -215,24 +215,20 @@ namespace Utils
 
 /* ---------- public code */
 
-extern s_game_engine_event_data* _sub_107A91F0(s_game_engine_event_data *const);
 _inline s_game_engine_event_data::s_game_engine_event_data() // 0x107A91F0
 {
-	mangled_x86(MANGLED_TODO, "??0s_game_engine_event_data@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_game_engine_event_data@@QAE@XZ");
 	// s_game_engine_event_data *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_107A91F0(this);
 }
 
-_extern void _sub_107A9240(Patch *const);
 _inline Patch::~Patch() // 0x107A9240
 {
-	mangled_x86(MANGLED_TODO, "??1Patch@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1Patch@@QAE@XZ");
 	// Patch *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_107A9240(this);
 }
 
 extern s_damage_reporting_info &_sub_107A92D0(s_damage_reporting_info *const, s_damage_reporting_info const &);

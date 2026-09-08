@@ -440,24 +440,22 @@ _inline void ModListener::OnModChanged(EModIndex index, IMod *mod) // 0x107BC190
 	_sub_107BC190(this, index, mod);
 }
 
-extern ModListener* _sub_107BBB20(ModListener *const);
 _inline ModListener::ModListener() // 0x107BBB20
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0ModListener@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::ModListener::ModListener
 	// ModListener *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_107BBB20(this);
 }
 
-_extern void _sub_107BBB80(ModListener *const);
 _inline ModListener::~ModListener() // 0x107BBB80
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1ModListener@hades_file_local@@UAE@XZ");
 	// `anonymous-namespace'::ModListener::~ModListener
 	// ModListener *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_107BBB80(this);
 }
 
 /* ---------- template instantiations */

@@ -170,14 +170,12 @@ namespace Web
 			_sub_10CE7C90(this, device9, window);
 		}
 
-		extern RenderHandlerOsr* _sub_10CE80C0(Web::Browser::RenderHandlerOsr *const);
 		_inline RenderHandlerOsr::RenderHandlerOsr() // 0x10CE80C0
 		{
-			mangled_x86(MANGLED_TODO, "??0RenderHandlerOsr@Browser@Web@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0RenderHandlerOsr@Browser@Web@@QAE@XZ");
 			// Web::Browser::RenderHandlerOsr *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_10CE80C0(this);
 		}
 
 		_extern void _sub_10CE95A0(Web::Browser::RenderHandlerCpu *const, scoped_refptr<CefBrowser>, CefRect const &);

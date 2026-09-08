@@ -366,22 +366,20 @@ unsigned long *get_random_seed_address_hook() // 0x107A7850
 	return __result;
 }
 
-extern CDebugRandomTraceManager* _sub_107A1F50(CDebugRandomTraceManager *const);
 _inline CDebugRandomTraceManager::CDebugRandomTraceManager() // 0x107A1F50
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0CDebugRandomTraceManager@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::CDebugRandomTraceManager::CDebugRandomTraceManager
 	// CDebugRandomTraceManager *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_107A1F50(this);
 }
 
-extern CDebugRandomTraceManager::SRandomEvent* _sub_107A20A0(CDebugRandomTraceManager::SRandomEvent *const);
 _inline CDebugRandomTraceManager::SRandomEvent::SRandomEvent() // 0x107A20A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0SRandomEvent@CDebugRandomTraceManager@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::CDebugRandomTraceManager::SRandomEvent::SRandomEvent
 	// CDebugRandomTraceManager::SRandomEvent *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_107A20A0(this);
 }

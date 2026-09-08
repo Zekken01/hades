@@ -95,34 +95,28 @@ namespace Job
 	}
 }
 
-extern CJobManager* _sub_1086CA30(CJobManager *const);
 _inline CJobManager::CJobManager() // 0x1086CA30
 {
-	mangled_x86(MANGLED_TODO, "??0CJobManager@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0CJobManager@@QAE@XZ");
 	// CJobManager *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_1086CA30(this);
 }
 
-extern SJobCounter* _sub_1086CB20(SJobCounter *const);
 _inline SJobCounter::SJobCounter() // 0x1086CB20
 {
-	mangled_x86(MANGLED_TODO, "??0SJobCounter@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0SJobCounter@@QAE@XZ");
 	// SJobCounter *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_1086CB20(this);
 }
 
-_extern void _sub_1086CD80(CJobManager *const);
 _inline CJobManager::~CJobManager() // 0x1086CD80
 {
-	mangled_x86(MANGLED_TODO, "??1CJobManager@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1CJobManager@@QAE@XZ");
 	// CJobManager *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_1086CD80(this);
 }
 
 /* ---------- private code */

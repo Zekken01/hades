@@ -247,44 +247,40 @@ _inline CHavokStatsDisplayOutputHandler::CHavokStatsDisplayOutputHandler() // 0x
 	_sub_1085E4F0(this);
 }
 
-extern CHavokStatsOutputHandler* _sub_1085E5F0(CHavokStatsOutputHandler *const);
 _inline CHavokStatsOutputHandler::CHavokStatsOutputHandler() // 0x1085E5F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0CHavokStatsOutputHandler@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::CHavokStatsOutputHandler::CHavokStatsOutputHandler
 	// CHavokStatsOutputHandler *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_1085E5F0(this);
 }
 
-extern CHavokStatsStringOutputHandler* _sub_1085E620(CHavokStatsStringOutputHandler *const);
 _inline CHavokStatsStringOutputHandler::CHavokStatsStringOutputHandler() // 0x1085E620
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0CHavokStatsStringOutputHandler@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::CHavokStatsStringOutputHandler::CHavokStatsStringOutputHandler
 	// CHavokStatsStringOutputHandler *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_1085E620(this);
 }
 
-_extern void _sub_1085E6A0(CHavokStatsDisplayOutputHandler *const);
 _inline CHavokStatsDisplayOutputHandler::~CHavokStatsDisplayOutputHandler() // 0x1085E6A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1CHavokStatsDisplayOutputHandler@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::CHavokStatsDisplayOutputHandler::~CHavokStatsDisplayOutputHandler
 	// CHavokStatsDisplayOutputHandler *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_1085E6A0(this);
 }
 
-_extern void _sub_1085E700(CHavokStatsStringOutputHandler *const);
 _inline CHavokStatsStringOutputHandler::~CHavokStatsStringOutputHandler() // 0x1085E700
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1CHavokStatsStringOutputHandler@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::CHavokStatsStringOutputHandler::~CHavokStatsStringOutputHandler
 	// CHavokStatsStringOutputHandler *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_1085E700(this);
 }
 
 _extern void _sub_1085F6C0(CHavokStatsDisplayOutputHandler *const, real_argb_color const *, char const *);

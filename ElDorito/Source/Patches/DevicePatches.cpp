@@ -148,34 +148,28 @@ namespace Patches
 	}
 }
 
-extern CForgeDeviceManager* _sub_108CE160(CForgeDeviceManager *const);
 _inline CForgeDeviceManager::CForgeDeviceManager() // 0x108CE160
 {
-	mangled_x86(MANGLED_TODO, "??0CForgeDeviceManager@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0CForgeDeviceManager@@QAE@XZ");
 	// CForgeDeviceManager *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_108CE160(this);
 }
 
-extern IGameSystem* _sub_108CE1C0(IGameSystem *const);
 _inline IGameSystem::IGameSystem() // 0x108CE1C0
 {
-	mangled_x86(MANGLED_TODO, "??0IGameSystem@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0IGameSystem@@QAE@XZ");
 	// IGameSystem *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_108CE1C0(this);
 }
 
-_extern void _sub_108CE1F0(CForgeDeviceManager *const);
 _inline CForgeDeviceManager::~CForgeDeviceManager() // 0x108CE1F0
 {
-	mangled_x86(MANGLED_TODO, "??1CForgeDeviceManager@@UAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1CForgeDeviceManager@@UAE@XZ");
 	// CForgeDeviceManager *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_108CE1F0(this);
 }
 
 /* ---------- private code */

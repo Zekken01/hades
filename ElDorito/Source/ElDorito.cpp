@@ -399,14 +399,12 @@ ElDorito::ElDorito() // 0x109638F0
 
 namespace Audio
 {
-	extern IAudioDeviceListener* _sub_10963A50(::Audio::IAudioDeviceListener *const);
 	_inline IAudioDeviceListener::IAudioDeviceListener() // 0x10963A50
 	{
-		mangled_x86(MANGLED_TODO, "??0IAudioDeviceListener@Audio@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0IAudioDeviceListener@Audio@@QAE@XZ");
 		// Audio::IAudioDeviceListener *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_10963A50(this);
 	}
 }
 
@@ -414,14 +412,12 @@ namespace Debug
 {
 	namespace CrashReporting
 	{
-		extern s_crash_info* _sub_10963A80(::Debug::CrashReporting::s_crash_info *const);
 		_inline s_crash_info::s_crash_info() // 0x10963A80
 		{
-			mangled_x86(MANGLED_TODO, "??0s_crash_info@CrashReporting@Debug@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0s_crash_info@CrashReporting@Debug@@QAE@XZ");
 			// Debug::CrashReporting::s_crash_info *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_10963A80(this);
 		}
 	}
 }
@@ -493,14 +489,12 @@ void ElDorito::Initialize() // 0x10965070
 
 namespace Server
 {
-	_extern void _sub_10963FE0(Server::BanList *const);
 	_inline BanList::~BanList() // 0x10963FE0
 	{
-		mangled_x86(MANGLED_TODO, "??1BanList@Server@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??1BanList@Server@@QAE@XZ");
 		// Server::BanList *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_10963FE0(this);
 	}
 }
 
@@ -508,36 +502,30 @@ namespace Debug
 {
 	namespace CrashReporting
 	{
-		_extern void _sub_10964050(::Debug::CrashReporting::s_crash_info *const);
 		_inline s_crash_info::~s_crash_info() // 0x10964050
 		{
-			mangled_x86(MANGLED_TODO, "??1s_crash_info@CrashReporting@Debug@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??1s_crash_info@CrashReporting@Debug@@QAE@XZ");
 			// Debug::CrashReporting::s_crash_info *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_10964050(this);
 		}
 	}
 }
 
-extern CModBrowserManager* _sub_10963850(CModBrowserManager *const);
 _inline CModBrowserManager::CModBrowserManager() // 0x10963850
 {
-	mangled_x86(MANGLED_TODO, "??0CModBrowserManager@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0CModBrowserManager@@QAE@XZ");
 	// CModBrowserManager *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10963850(this);
 }
 
-extern CServerConnectManager* _sub_109638A0(CServerConnectManager *const);
 _inline CServerConnectManager::CServerConnectManager() // 0x109638A0
 {
-	mangled_x86(MANGLED_TODO, "??0CServerConnectManager@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0CServerConnectManager@@QAE@XZ");
 	// CServerConnectManager *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_109638A0(this);
 }
 
 _extern void _sub_10966B70(ElDorito *const);

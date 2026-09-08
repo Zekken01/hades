@@ -358,22 +358,20 @@ bool SendVotingMessagePacket(Blam::Network::Session *session, __int32 peer, Serv
 	return __result;
 }
 
-extern VotingMessagePacketHandler* _sub_10C48030(VotingMessagePacketHandler *const);
 _inline VotingMessagePacketHandler::VotingMessagePacketHandler() // 0x10C48030
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0VotingMessagePacketHandler@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::VotingMessagePacketHandler::VotingMessagePacketHandler
 	// VotingMessagePacketHandler *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10C48030(this);
 }
 
-_extern void _sub_10C48430(VotingMessagePacketHandler *const);
 _inline VotingMessagePacketHandler::~VotingMessagePacketHandler() // 0x10C48430
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1VotingMessagePacketHandler@hades_file_local@@UAE@XZ");
 	// `anonymous-namespace'::VotingMessagePacketHandler::~VotingMessagePacketHandler
 	// VotingMessagePacketHandler *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10C48430(this);
 }

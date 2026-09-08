@@ -358,14 +358,12 @@ namespace Modules
 		_sub_10667D30(this);
 	}
 
-	extern CommandMap* _sub_1065D950(Modules::CommandMap *const);
 	_inline CommandMap::CommandMap() // 0x1065D950
 	{
-		mangled_x86(MANGLED_TODO, "??0CommandMap@Modules@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0CommandMap@Modules@@QAE@XZ");
 		// Modules::CommandMap *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_1065D950(this);
 	}
 }
 

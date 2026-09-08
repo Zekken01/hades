@@ -185,14 +185,12 @@ namespace Patches
 			_sub_10A840A0(ui);
 		}
 
-		_extern void _sub_10A827C0(Patches::LoadingScreen::LoadingScreenShowInfo *const);
 		_inline LoadingScreenShowInfo::~LoadingScreenShowInfo() // 0x10A827C0
 		{
-			mangled_x86(MANGLED_TODO, "??1LoadingScreenShowInfo@LoadingScreen@Patches@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??1LoadingScreenShowInfo@LoadingScreen@Patches@@QAE@XZ");
 			// Patches::LoadingScreen::LoadingScreenShowInfo *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_10A827C0(this);
 		}
 	}
 }

@@ -170,14 +170,12 @@ namespace Patches
 
 namespace Player
 {
-	extern PlayerCustomizationExtensions* _sub_108D8C10(::Player::PlayerCustomizationExtensions *const);
 	_inline PlayerCustomizationExtensions::PlayerCustomizationExtensions() // 0x108D8C10
 	{
-		mangled_x86(MANGLED_TODO, "??0PlayerCustomizationExtensions@Player@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0PlayerCustomizationExtensions@Player@@QAE@XZ");
 		// Player::PlayerCustomizationExtensions *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_108D8C10(this);
 	}
 }
 
@@ -185,38 +183,32 @@ namespace Patches
 {
 	namespace Network
 	{
-		extern PlayerPropertiesExtender* _sub_108D8C70(Patches::Network::PlayerPropertiesExtender *const);
 		_inline PlayerPropertiesExtender::PlayerPropertiesExtender() // 0x108D8C70
 		{
-			mangled_x86(MANGLED_TODO, "??0PlayerPropertiesExtender@Network@Patches@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0PlayerPropertiesExtender@Network@Patches@@QAE@XZ");
 			// Patches::Network::PlayerPropertiesExtender *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_108D8C70(this);
 		}
 
-		extern PlayerPropertiesExtensionBase* _sub_108D8CC0(Patches::Network::PlayerPropertiesExtensionBase *const);
 		_inline PlayerPropertiesExtensionBase::PlayerPropertiesExtensionBase() // 0x108D8CC0
 		{
-			mangled_x86(MANGLED_TODO, "??0PlayerPropertiesExtensionBase@Network@Patches@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0PlayerPropertiesExtensionBase@Network@Patches@@QAE@XZ");
 			// Patches::Network::PlayerPropertiesExtensionBase *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_108D8CC0(this);
 		}
 	}
 }
 
 namespace Player
 {
-	_extern void _sub_108D8ED0(::Player::PlayerCustomizationExtensions *const);
 	_inline PlayerCustomizationExtensions::~PlayerCustomizationExtensions() // 0x108D8ED0
 	{
-		mangled_x86(MANGLED_TODO, "??1PlayerCustomizationExtensions@Player@@UAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??1PlayerCustomizationExtensions@Player@@UAE@XZ");
 		// Player::PlayerCustomizationExtensions *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_108D8ED0(this);
 	}
 }
 

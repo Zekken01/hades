@@ -806,54 +806,44 @@ namespace Patches
 {
 	namespace Weapon
 	{
-		extern DefaultWeaponInfo* _sub_10AEF7F0(Patches::Weapon::DefaultWeaponInfo *const, Patches::Weapon::DefaultWeaponInfo &);
 		_inline DefaultWeaponInfo::DefaultWeaponInfo(Patches::Weapon::DefaultWeaponInfo &&__that) // 0x10AEF7F0
 		{
-			mangled_x86(MANGLED_TODO, "??0DefaultWeaponInfo@Weapon@Patches@@QAE@$$QAU012@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0DefaultWeaponInfo@Weapon@Patches@@QAE@$$QAU012@@Z");
 			// Patches::Weapon::DefaultWeaponInfo &__that;
+
 			compiler_generated();
-			todo("implement");
-			_sub_10AEF7F0(this, __that);
 		}
 
-		extern DefaultWeaponInfo* _sub_10AEF8E0(Patches::Weapon::DefaultWeaponInfo *const, Patches::Weapon::DefaultWeaponInfo const &);
 		_inline DefaultWeaponInfo::DefaultWeaponInfo(Patches::Weapon::DefaultWeaponInfo const &__that) // 0x10AEF8E0
 		{
-			mangled_x86(MANGLED_TODO, "??0DefaultWeaponInfo@Weapon@Patches@@QAE@ABU012@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0DefaultWeaponInfo@Weapon@Patches@@QAE@ABU012@@Z");
 			// Patches::Weapon::DefaultWeaponInfo const &__that;
+
 			compiler_generated();
-			todo("implement");
-			_sub_10AEF8E0(this, __that);
 		}
 
-		extern WeaponInfo* _sub_10AEFA10(Patches::Weapon::WeaponInfo *const, Patches::Weapon::WeaponInfo &);
 		_inline WeaponInfo::WeaponInfo(Patches::Weapon::WeaponInfo &&__that) // 0x10AEFA10
 		{
-			mangled_x86(MANGLED_TODO, "??0WeaponInfo@Weapon@Patches@@QAE@$$QAU012@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0WeaponInfo@Weapon@Patches@@QAE@$$QAU012@@Z");
 			// Patches::Weapon::WeaponInfo &__that;
+
 			compiler_generated();
-			todo("implement");
-			_sub_10AEFA10(this, __that);
 		}
 
-		extern WeaponInfo* _sub_10AEFAA0(Patches::Weapon::WeaponInfo *const, Patches::Weapon::WeaponInfo const &);
 		_inline WeaponInfo::WeaponInfo(Patches::Weapon::WeaponInfo const &__that) // 0x10AEFAA0
 		{
-			mangled_x86(MANGLED_TODO, "??0WeaponInfo@Weapon@Patches@@QAE@ABU012@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0WeaponInfo@Weapon@Patches@@QAE@ABU012@@Z");
 			// Patches::Weapon::WeaponInfo const &__that;
+
 			compiler_generated();
-			todo("implement");
-			_sub_10AEFAA0(this, __that);
 		}
 
-		_extern void _sub_10AEFDD0(Patches::Weapon::DefaultWeaponInfo *const);
 		_inline DefaultWeaponInfo::~DefaultWeaponInfo() // 0x10AEFDD0
 		{
-			mangled_x86(MANGLED_TODO, "??1DefaultWeaponInfo@Weapon@Patches@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??1DefaultWeaponInfo@Weapon@Patches@@QAE@XZ");
 			// Patches::Weapon::DefaultWeaponInfo *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_10AEFDD0(this);
 		}
 	}
 }

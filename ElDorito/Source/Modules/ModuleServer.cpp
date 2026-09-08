@@ -374,34 +374,28 @@ namespace Modules
 	}
 }
 
-extern SServerConnectOptions* _sub_10A06DC0(SServerConnectOptions *const);
 _inline SServerConnectOptions::SServerConnectOptions() // 0x10A06DC0
 {
-	mangled_x86(MANGLED_TODO, "??0SServerConnectOptions@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0SServerConnectOptions@@QAE@XZ");
 	// SServerConnectOptions *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10A06DC0(this);
 }
 
-_extern void _sub_10A07290(SServerConnectOptions *const);
 _inline SServerConnectOptions::~SServerConnectOptions() // 0x10A07290
 {
-	mangled_x86(MANGLED_TODO, "??1SServerConnectOptions@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1SServerConnectOptions@@QAE@XZ");
 	// SServerConnectOptions *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10A07290(this);
 }
 
-_extern void _sub_10A073C0(c_mod_package_manager::c_threadsafe_iterator *const);
 _inline c_mod_package_manager::c_threadsafe_iterator::~c_threadsafe_iterator() // 0x10A073C0
 {
-	mangled_x86(MANGLED_TODO, "??1c_threadsafe_iterator@c_mod_package_manager@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1c_threadsafe_iterator@c_mod_package_manager@@QAE@XZ");
 	// c_mod_package_manager::c_threadsafe_iterator *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10A073C0(this);
 }
 
 namespace Modules

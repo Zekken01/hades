@@ -1133,19 +1133,17 @@ _inline c_enum<t_type, t_storage_type>::c_enum(t_storage_type const &value)
 }
 
 template<typename t_type, typename t_storage_type>
-_inline c_enum<t_type, t_storage_type>::c_enum(t_type const &value)
+_inline c_enum<t_type, t_storage_type>::c_enum(t_type const &value) :
+	c_enum(static_cast<t_storage_type>(value))
 {
 	mangled_prefix_assert("??0?$c_enum@");
-
-	m_value = static_cast<t_storage_type>(value);
 }
 
 template<typename t_type, typename t_storage_type>
-_inline c_enum<t_type, t_storage_type>::c_enum(c_enum const &other)
+_inline c_enum<t_type, t_storage_type>::c_enum(c_enum const &other) :
+	c_enum(other.m_value)
 {
 	mangled_prefix_assert("??0?$c_enum@");
-
-	m_value = other.m_value;
 }
 
 template<typename t_type, typename t_storage_type>
@@ -1266,11 +1264,10 @@ _inline c_flags<t_type, t_storage_type>::c_flags(t_storage_type const &value)
 }
 
 template<typename t_type, typename t_storage_type>
-_inline c_flags<t_type, t_storage_type>::c_flags(c_flags const &other)
+_inline c_flags<t_type, t_storage_type>::c_flags(c_flags const &other) :
+	c_flags(other.m_value)
 {
 	mangled_prefix_assert("??0?$c_flags@");
-
-	m_value = other.m_value;
 }
 
 template<typename t_type, typename t_storage_type>
@@ -1450,7 +1447,9 @@ template<typename t_type, long k_count>
 _inline t_type & s_static_array<t_type, k_count>::operator[](long index)
 {
 
+#line 10 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\memory\\static_array.inl"
 	assert(valid(index));
+	#line 1456 "F:\\Project Hades\\Hades\\Source\\hades\\recovered_templates.h"
 	return m_elements[index];
 }
 
@@ -1458,7 +1457,9 @@ template<typename t_type, long k_count>
 _inline t_type const & s_static_array<t_type, k_count>::operator[](long index) const
 {
 
+#line 16 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\memory\\static_array.inl"
 	assert(valid(index));
+	#line 1466 "F:\\Project Hades\\Hades\\Source\\hades\\recovered_templates.h"
 	return m_elements[index];
 }
 
@@ -1498,11 +1499,10 @@ _inline c_tag_block_index<t_type, t_storage_type>::c_tag_block_index()
 }
 
 template<typename t_type, typename t_storage_type>
-_inline c_tag_block_index<t_type, t_storage_type>::c_tag_block_index(c_tag_block_index const &other)
+_inline c_tag_block_index<t_type, t_storage_type>::c_tag_block_index(c_tag_block_index const &other) :
+	c_tag_block_index(other.m_index)
 {
 	mangled_prefix_assert("??0?$c_tag_block_index@");
-
-	m_index = other.m_index;
 }
 
 template<typename t_type, typename t_storage_type>

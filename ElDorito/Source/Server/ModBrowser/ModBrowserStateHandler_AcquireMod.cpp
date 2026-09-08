@@ -289,14 +289,12 @@ CModBrowserStateHandler_AcquireMod::CModBrowserStateHandler_AcquireMod() // 0x10
 	_sub_107154D0(this);
 }
 
-extern SSignatureVerificationResult* _sub_10715680(SSignatureVerificationResult *const);
 _inline SSignatureVerificationResult::SSignatureVerificationResult() // 0x10715680
 {
-	mangled_x86(MANGLED_TODO, "??0SSignatureVerificationResult@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0SSignatureVerificationResult@@QAE@XZ");
 	// SSignatureVerificationResult *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10715680(this);
 }
 
 _extern void _sub_10715C90(CModBrowserStateHandler_AcquireMod *const);
@@ -308,24 +306,20 @@ CModBrowserStateHandler_AcquireMod::~CModBrowserStateHandler_AcquireMod() // 0x1
 	_sub_10715C90(this);
 }
 
-_extern void _sub_10715D80(SSignatureVerificationResult *const);
 _inline SSignatureVerificationResult::~SSignatureVerificationResult() // 0x10715D80
 {
-	mangled_x86(MANGLED_TODO, "??1SSignatureVerificationResult@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1SSignatureVerificationResult@@QAE@XZ");
 	// SSignatureVerificationResult *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10715D80(this);
 }
 
-_extern void _sub_10715DD0(SignatureVerificationJob *const);
 _inline SignatureVerificationJob::~SignatureVerificationJob() // 0x10715DD0
 {
-	mangled_x86(MANGLED_TODO, "??1SignatureVerificationJob@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1SignatureVerificationJob@@QAE@XZ");
 	// SignatureVerificationJob *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10715DD0(this);
 }
 
 extern SSignatureVerificationResult &_sub_10715F50(SSignatureVerificationResult *const, SSignatureVerificationResult const &);
@@ -437,14 +431,12 @@ void CModBrowserStateHandler_AcquireMod::UpdateDownloading() // 0x10719A90
 	_sub_10719A90(this);
 }
 
-extern CModBrowserStateHandler* _sub_107154A0(CModBrowserStateHandler *const);
 _inline CModBrowserStateHandler::CModBrowserStateHandler() // 0x107154A0
 {
-	mangled_x86(MANGLED_TODO, "??0CModBrowserStateHandler@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0CModBrowserStateHandler@@QAE@XZ");
 	// CModBrowserStateHandler *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_107154A0(this);
 }
 
 _extern void _sub_10719920(CModBrowserStateHandler_AcquireMod *const);

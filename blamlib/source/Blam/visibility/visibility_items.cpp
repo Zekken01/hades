@@ -56,14 +56,12 @@ void c_visible_items::pop_marker() // 0x10F0DDB0
 	_sub_10F0DDB0();
 }
 
-extern s_visible_items* _sub_10F0DB30(s_visible_items *const);
 _inline s_visible_items::s_visible_items() // 0x10F0DB30
 {
-	mangled_x86(MANGLED_TODO, "??0s_visible_items@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_visible_items@@QAE@XZ");
 	// s_visible_items *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10F0DB30(this);
 }
 
 _extern void _sub_10F0DC80();

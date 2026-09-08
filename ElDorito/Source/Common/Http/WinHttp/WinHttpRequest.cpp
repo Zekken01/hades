@@ -107,14 +107,12 @@ namespace Http
 
 namespace Http
 {
-	extern CHttpHeaders* _sub_10806D20(Http::CHttpHeaders *const, Http::CHttpHeaders const &);
 	_inline CHttpHeaders::CHttpHeaders(Http::CHttpHeaders const &__that) // 0x10806D20
 	{
-		mangled_x86(MANGLED_TODO, "??0CHttpHeaders@Http@@QAE@ABV01@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0CHttpHeaders@Http@@QAE@ABV01@@Z");
 		// Http::CHttpHeaders const &__that;
+
 		compiler_generated();
-		todo("implement");
-		_sub_10806D20(this, __that);
 	}
 
 	_extern bool _sub_10809540(Http::CWinHttpResponse *const, Http::CWinHttpRequest &);
@@ -137,44 +135,36 @@ namespace Http
 		_sub_10806DE0(this, winhttpManager);
 	}
 
-	extern CWinHttpResponse* _sub_10806F80(Http::CWinHttpResponse *const);
 	_inline CWinHttpResponse::CWinHttpResponse() // 0x10806F80
 	{
-		mangled_x86(MANGLED_TODO, "??0CWinHttpResponse@Http@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0CWinHttpResponse@Http@@QAE@XZ");
 		// Http::CWinHttpResponse *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_10806F80(this);
 	}
 
-	extern IHttpRequest* _sub_10807000(Http::IHttpRequest *const);
 	_inline IHttpRequest::IHttpRequest() // 0x10807000
 	{
-		mangled_x86(MANGLED_TODO, "??0IHttpRequest@Http@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0IHttpRequest@Http@@QAE@XZ");
 		// Http::IHttpRequest *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_10807000(this);
 	}
 
-	extern IHttpResponse* _sub_10807060(Http::IHttpResponse *const);
 	_inline IHttpResponse::IHttpResponse() // 0x10807060
 	{
-		mangled_x86(MANGLED_TODO, "??0IHttpResponse@Http@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0IHttpResponse@Http@@QAE@XZ");
 		// Http::IHttpResponse *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_10807060(this);
 	}
 
-	extern WinHttpErrorCategory* _sub_10807090(Http::WinHttpErrorCategory *const);
 	_inline WinHttpErrorCategory::WinHttpErrorCategory() // 0x10807090
 	{
-		mangled_x86(MANGLED_TODO, "??0WinHttpErrorCategory@Http@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0WinHttpErrorCategory@Http@@QAE@XZ");
 		// Http::WinHttpErrorCategory *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_10807090(this);
 	}
 
 	_extern bool _sub_108094E0(Http::CWinHttpRequest const *const);
@@ -187,14 +177,12 @@ namespace Http
 		return __result;
 	}
 
-	_extern void _sub_10807570(Http::CHttpHeaders *const);
 	_inline CHttpHeaders::~CHttpHeaders() // 0x10807570
 	{
-		mangled_x86(MANGLED_TODO, "??1CHttpHeaders@Http@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??1CHttpHeaders@Http@@QAE@XZ");
 		// Http::CHttpHeaders *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_10807570(this);
 	}
 }
 
@@ -210,34 +198,28 @@ namespace Http
 		return __result;
 	}
 
-	_extern void _sub_108075C0(Http::CWinHttpRequest *const);
 	_inline CWinHttpRequest::~CWinHttpRequest() // 0x108075C0
 	{
-		mangled_x86(MANGLED_TODO, "??1CWinHttpRequest@Http@@UAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??1CWinHttpRequest@Http@@UAE@XZ");
 		// Http::CWinHttpRequest *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_108075C0(this);
 	}
 
-	_extern void _sub_108076C0(Http::CWinHttpResponse *const);
 	_inline CWinHttpResponse::~CWinHttpResponse() // 0x108076C0
 	{
-		mangled_x86(MANGLED_TODO, "??1CWinHttpResponse@Http@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??1CWinHttpResponse@Http@@QAE@XZ");
 		// Http::CWinHttpResponse *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_108076C0(this);
 	}
 
-	_extern void _sub_10807760(Http::WinHttpErrorCategory *const);
 	_inline WinHttpErrorCategory::~WinHttpErrorCategory() // 0x10807760
 	{
-		mangled_x86(MANGLED_TODO, "??1WinHttpErrorCategory@Http@@UAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??1WinHttpErrorCategory@Http@@UAE@XZ");
 		// Http::WinHttpErrorCategory *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_10807760(this);
 	}
 
 	extern CHttpHeaders &_sub_10807C10(Http::CHttpHeaders *const, Http::CHttpHeaders const &);

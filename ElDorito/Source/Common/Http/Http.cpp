@@ -108,14 +108,12 @@ namespace Http
 		return __result;
 	}
 
-	_extern void _sub_107F7100(Http::CHttpManager *const);
 	_inline CHttpManager::~CHttpManager() // 0x107F7100
 	{
-		mangled_x86(MANGLED_TODO, "??1CHttpManager@Http@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??1CHttpManager@Http@@QAE@XZ");
 		// Http::CHttpManager *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_107F7100(this);
 	}
 }
 

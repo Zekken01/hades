@@ -101,14 +101,12 @@ ModManager::ModManager() : m_sessionManager(todo_result<ModSessionManager>()) //
 	_sub_10791060(this);
 }
 
-_extern void _sub_10791420(ModListenerSet *const);
 _inline ModListenerSet::~ModListenerSet() // 0x10791420
 {
-	mangled_x86(MANGLED_TODO, "??1ModListenerSet@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1ModListenerSet@@QAE@XZ");
 	// ModListenerSet *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10791420(this);
 }
 
 _extern void _sub_10791490(ModManager *const);
@@ -146,34 +144,28 @@ EModResult ModManager::SetMod(EModIndex index, char const *filename, bool async)
 	return __result;
 }
 
-extern Mod::IClient* _sub_10790F80(Mod::IClient *const);
 _inline Mod::IClient::IClient() // 0x10790F80
 {
-	mangled_x86(MANGLED_TODO, "??0IClient@Mod@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0IClient@Mod@@QAE@XZ");
 	// Mod::IClient *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10790F80(this);
 }
 
-extern IModManager* _sub_10790FB0(IModManager *const);
 _inline IModManager::IModManager() // 0x10790FB0
 {
-	mangled_x86(MANGLED_TODO, "??0IModManager@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0IModManager@@QAE@XZ");
 	// IModManager *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10790FB0(this);
 }
 
-extern ModListenerSet* _sub_10790FE0(ModListenerSet *const);
 _inline ModListenerSet::ModListenerSet() // 0x10790FE0
 {
-	mangled_x86(MANGLED_TODO, "??0ModListenerSet@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0ModListenerSet@@QAE@XZ");
 	// ModListenerSet *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10790FE0(this);
 }
 
 extern EModResult _sub_10792520(ModManager *const, EModIndex, __int32, bool);

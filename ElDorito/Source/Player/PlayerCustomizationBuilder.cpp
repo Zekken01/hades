@@ -187,34 +187,28 @@ namespace Player
 		return __result;
 	}
 
-	extern CPlayerCustomizationDB* _sub_107C95F0(Player::CPlayerCustomizationDB *const);
 	_inline CPlayerCustomizationDB::CPlayerCustomizationDB() // 0x107C95F0
 	{
-		mangled_x86(MANGLED_TODO, "??0CPlayerCustomizationDB@Player@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0CPlayerCustomizationDB@Player@@QAE@XZ");
 		// Player::CPlayerCustomizationDB *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_107C95F0(this);
 	}
 
-	extern SPersistentCharacterCustomization* _sub_107C96B0(Player::SPersistentCharacterCustomization *const);
 	_inline SPersistentCharacterCustomization::SPersistentCharacterCustomization() // 0x107C96B0
 	{
-		mangled_x86(MANGLED_TODO, "??0SPersistentCharacterCustomization@Player@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0SPersistentCharacterCustomization@Player@@QAE@XZ");
 		// Player::SPersistentCharacterCustomization *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_107C96B0(this);
 	}
 
-	_extern void _sub_107C9ED0(Player::SPersistentCharacterCustomization *const);
 	_inline SPersistentCharacterCustomization::~SPersistentCharacterCustomization() // 0x107C9ED0
 	{
-		mangled_x86(MANGLED_TODO, "??1SPersistentCharacterCustomization@Player@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??1SPersistentCharacterCustomization@Player@@QAE@XZ");
 		// Player::SPersistentCharacterCustomization *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_107C9ED0(this);
 	}
 
 	_extern bool _sub_107CAA20(Player::CPlayerCharacterCustomizationBuilder *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, s_player_appearance *);

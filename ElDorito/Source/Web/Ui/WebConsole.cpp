@@ -218,22 +218,20 @@ void OnGameInputUpdated() // 0x10C9DDE0
 	_sub_10C9DDE0();
 }
 
-extern WebConsoleOutputHandler* _sub_10C9DA50(WebConsoleOutputHandler *const);
 _inline WebConsoleOutputHandler::WebConsoleOutputHandler() // 0x10C9DA50
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0WebConsoleOutputHandler@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::WebConsoleOutputHandler::WebConsoleOutputHandler
 	// WebConsoleOutputHandler *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10C9DA50(this);
 }
 
-_extern void _sub_10C9DB60(WebConsoleOutputHandler *const);
 _inline WebConsoleOutputHandler::~WebConsoleOutputHandler() // 0x10C9DB60
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1WebConsoleOutputHandler@hades_file_local@@UAE@XZ");
 	// `anonymous-namespace'::WebConsoleOutputHandler::~WebConsoleOutputHandler
 	// WebConsoleOutputHandler *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10C9DB60(this);
 }

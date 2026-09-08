@@ -281,60 +281,50 @@ void CustomBitmapManager::UpdateRender() // 0x10785BD0
 	_sub_10785BD0(this);
 }
 
-extern CustomBitmapManager* _sub_10783290(CustomBitmapManager *const);
 _inline CustomBitmapManager::CustomBitmapManager() // 0x10783290
 {
-	mangled_x86(MANGLED_TODO, "??0CustomBitmapManager@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0CustomBitmapManager@@QAE@XZ");
 	// CustomBitmapManager *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10783290(this);
 }
 
-extern CustomBitmapManager::StorageItem* _sub_10783370(CustomBitmapManager::StorageItem *const);
 _inline CustomBitmapManager::StorageItem::StorageItem() // 0x10783370
 {
-	mangled_x86(MANGLED_TODO, "??0StorageItem@CustomBitmapManager@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0StorageItem@CustomBitmapManager@@QAE@XZ");
 	// CustomBitmapManager::StorageItem *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10783370(this);
 }
 
 namespace Utils
 {
 	namespace Uri
 	{
-		extern UriComponents* _sub_10783400(Utils::Uri::UriComponents *const);
 		_inline UriComponents::UriComponents() // 0x10783400
 		{
-			mangled_x86(MANGLED_TODO, "??0UriComponents@Uri@Utils@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0UriComponents@Uri@Utils@@QAE@XZ");
 			// Utils::Uri::UriComponents *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_10783400(this);
 		}
 	}
 }
 
-_extern void _sub_10783710(CustomBitmapManager *const);
 _inline CustomBitmapManager::~CustomBitmapManager() // 0x10783710
 {
-	mangled_x86(MANGLED_TODO, "??1CustomBitmapManager@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1CustomBitmapManager@@QAE@XZ");
 	// CustomBitmapManager *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10783710(this);
 }
 
-_extern void _sub_10783780(CustomBitmapManager::StorageItem *const);
 _inline CustomBitmapManager::StorageItem::~StorageItem() // 0x10783780
 {
-	mangled_x86(MANGLED_TODO, "??1StorageItem@CustomBitmapManager@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1StorageItem@CustomBitmapManager@@QAE@XZ");
 	// CustomBitmapManager::StorageItem *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10783780(this);
 }
 
 _extern __int32 _sub_10785AA0(CustomBitmapManager *const, unsigned short, unsigned short);

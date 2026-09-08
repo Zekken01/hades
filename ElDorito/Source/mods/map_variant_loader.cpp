@@ -261,24 +261,22 @@ e_map_variant_load_error c_map_variant_loader::get_last_error() // 0x1088AAF0
 
 /* ---------- private code */
 
-extern ModListener* _sub_1088A2D0(ModListener *const);
 _inline ModListener::ModListener() // 0x1088A2D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0ModListener@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::ModListener::ModListener
 	// ModListener *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_1088A2D0(this);
 }
 
-_extern void _sub_1088A330(ModListener *const);
 _inline ModListener::~ModListener() // 0x1088A330
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1ModListener@hades_file_local@@UAE@XZ");
 	// `anonymous-namespace'::ModListener::~ModListener
 	// ModListener *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_1088A330(this);
 }
 
 _extern void _sub_1088A3F0(ModListener *const, EModIndex, IMod *);

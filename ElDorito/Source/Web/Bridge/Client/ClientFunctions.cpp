@@ -576,14 +576,12 @@ namespace Web
 	}
 }
 
-extern s_map_variant* _sub_10C62AC0(s_map_variant *const, s_map_variant const &);
 _inline s_map_variant::s_map_variant(s_map_variant const &__that) // 0x10C62AC0
 {
-	mangled_x86(MANGLED_TODO, "??0s_map_variant@@QAE@ABU0@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_map_variant@@QAE@ABU0@@Z");
 	// s_map_variant const &__that;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10C62AC0(this, __that);
 }
 
 namespace Web

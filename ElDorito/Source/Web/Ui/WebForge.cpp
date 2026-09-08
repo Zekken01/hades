@@ -310,24 +310,20 @@ namespace Web
 
 namespace Forge
 {
-	extern CDeferredPropertySetter* _sub_10CA64C0(::Forge::CDeferredPropertySetter *const);
 	_inline CDeferredPropertySetter::CDeferredPropertySetter() // 0x10CA64C0
 	{
-		mangled_x86(MANGLED_TODO, "??0CDeferredPropertySetter@Forge@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0CDeferredPropertySetter@Forge@@QAE@XZ");
 		// Forge::CDeferredPropertySetter *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_10CA64C0(this);
 	}
 
-	_extern void _sub_10CA67C0(::Forge::CDeferredPropertySetter *const);
 	_inline CDeferredPropertySetter::~CDeferredPropertySetter() // 0x10CA67C0
 	{
-		mangled_x86(MANGLED_TODO, "??1CDeferredPropertySetter@Forge@@UAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??1CDeferredPropertySetter@Forge@@UAE@XZ");
 		// Forge::CDeferredPropertySetter *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_10CA67C0(this);
 	}
 }
 

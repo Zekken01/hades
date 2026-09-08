@@ -234,14 +234,12 @@ namespace Web
 	}
 }
 
-extern CModPackageFileSystemViewManager* _sub_1077C870(CModPackageFileSystemViewManager *const);
 _inline CModPackageFileSystemViewManager::CModPackageFileSystemViewManager() // 0x1077C870
 {
-	mangled_x86(MANGLED_TODO, "??0CModPackageFileSystemViewManager@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0CModPackageFileSystemViewManager@@QAE@XZ");
 	// CModPackageFileSystemViewManager *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_1077C870(this);
 }
 
 /* ---------- private code */

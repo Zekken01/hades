@@ -202,44 +202,36 @@ void shell_free_console(bool dedicated);
 
 /* ---------- public code */
 
-extern c_mod_package_updater_blocking::s_mod_package_description* _sub_108ADB90(c_mod_package_updater_blocking::s_mod_package_description *const, c_mod_package_updater_blocking::s_mod_package_description &);
 _inline c_mod_package_updater_blocking::s_mod_package_description::s_mod_package_description(c_mod_package_updater_blocking::s_mod_package_description &&__that) // 0x108ADB90
 {
-	mangled_x86(MANGLED_TODO, "??0s_mod_package_description@c_mod_package_updater_blocking@@QAE@$$QAU01@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_mod_package_description@c_mod_package_updater_blocking@@QAE@$$QAU01@@Z");
 	// c_mod_package_updater_blocking::s_mod_package_description &__that;
+
 	compiler_generated();
-	todo("implement");
-	_sub_108ADB90(this, __that);
 }
 
-extern c_mod_package_updater_blocking::s_mod_package_description* _sub_108ADCD0(c_mod_package_updater_blocking::s_mod_package_description *const, c_mod_package_updater_blocking::s_mod_package_description const &);
 _inline c_mod_package_updater_blocking::s_mod_package_description::s_mod_package_description(c_mod_package_updater_blocking::s_mod_package_description const &__that) // 0x108ADCD0
 {
-	mangled_x86(MANGLED_TODO, "??0s_mod_package_description@c_mod_package_updater_blocking@@QAE@ABU01@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_mod_package_description@c_mod_package_updater_blocking@@QAE@ABU01@@Z");
 	// c_mod_package_updater_blocking::s_mod_package_description const &__that;
+
 	compiler_generated();
-	todo("implement");
-	_sub_108ADCD0(this, __that);
 }
 
-extern c_mod_package_updater_blocking::s_mod_package_description* _sub_108ADE70(c_mod_package_updater_blocking::s_mod_package_description *const);
 _inline c_mod_package_updater_blocking::s_mod_package_description::s_mod_package_description() // 0x108ADE70
 {
-	mangled_x86(MANGLED_TODO, "??0s_mod_package_description@c_mod_package_updater_blocking@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_mod_package_description@c_mod_package_updater_blocking@@QAE@XZ");
 	// c_mod_package_updater_blocking::s_mod_package_description *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_108ADE70(this);
 }
 
-_extern void _sub_108ADFE0(c_mod_package_updater_blocking::s_mod_package_description *const);
 _inline c_mod_package_updater_blocking::s_mod_package_description::~s_mod_package_description() // 0x108ADFE0
 {
-	mangled_x86(MANGLED_TODO, "??1s_mod_package_description@c_mod_package_updater_blocking@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1s_mod_package_description@c_mod_package_updater_blocking@@QAE@XZ");
 	// c_mod_package_updater_blocking::s_mod_package_description *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_108ADFE0(this);
 }
 
 _extern void _sub_108B1070(c_mod_package_updater_blocking *const, bool, char const *, char const *);

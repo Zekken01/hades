@@ -198,14 +198,13 @@ namespace Patches
 
 /* ---------- private code */
 
-extern CustomPacket* _sub_10A4ED70(CustomPacket *const);
 _inline CustomPacket::CustomPacket() // 0x10A4ED70
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0CustomPacket@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::CustomPacket::CustomPacket
 	// CustomPacket *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10A4ED70(this);
 }
 
 _extern void _sub_10A500D0();
@@ -222,14 +221,13 @@ void InitializePacketsHook() // 0x10A500D0
 	_sub_10A500D0();
 }
 
-_extern void _sub_10A4F420(CustomPacket *const);
 _inline CustomPacket::~CustomPacket() // 0x10A4F420
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1CustomPacket@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::CustomPacket::~CustomPacket
 	// CustomPacket *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10A4F420(this);
 }
 
 extern CustomPacket &_sub_10A4F5E0(CustomPacket *const, CustomPacket const &);

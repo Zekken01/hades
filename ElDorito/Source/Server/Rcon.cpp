@@ -475,22 +475,20 @@ std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetLogStrin
 	return __result;
 }
 
-extern RconConsoleOutputHandler* _sub_10B95270(RconConsoleOutputHandler *const);
 _inline RconConsoleOutputHandler::RconConsoleOutputHandler() // 0x10B95270
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0RconConsoleOutputHandler@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::RconConsoleOutputHandler::RconConsoleOutputHandler
 	// RconConsoleOutputHandler *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10B95270(this);
 }
 
-_extern void _sub_10BA2FB0(RconConsoleOutputHandler *const);
 _inline RconConsoleOutputHandler::~RconConsoleOutputHandler() // 0x10BA2FB0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1RconConsoleOutputHandler@hades_file_local@@UAE@XZ");
 	// `anonymous-namespace'::RconConsoleOutputHandler::~RconConsoleOutputHandler
 	// RconConsoleOutputHandler *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10BA2FB0(this);
 }

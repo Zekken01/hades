@@ -276,90 +276,74 @@ namespace Player
 			return __result;
 		}
 
-		extern PlayerTopMedals* _sub_106C5D30(::Player::ServiceRecord::PlayerTopMedals *const, ::Player::ServiceRecord::PlayerTopMedals const &);
 		_inline PlayerTopMedals::PlayerTopMedals(::Player::ServiceRecord::PlayerTopMedals const &__that) // 0x106C5D30
 		{
-			mangled_x86(MANGLED_TODO, "??0PlayerTopMedals@ServiceRecord@Player@@QAE@ABU012@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0PlayerTopMedals@ServiceRecord@Player@@QAE@ABU012@@Z");
 			// Player::ServiceRecord::PlayerTopMedals const &__that;
+
 			compiler_generated();
-			todo("implement");
-			_sub_106C5D30(this, __that);
 		}
 
-		extern PlayerTopMedals* _sub_106C5DC0(::Player::ServiceRecord::PlayerTopMedals *const);
 		_inline PlayerTopMedals::PlayerTopMedals() // 0x106C5DC0
 		{
-			mangled_x86(MANGLED_TODO, "??0PlayerTopMedals@ServiceRecord@Player@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0PlayerTopMedals@ServiceRecord@Player@@QAE@XZ");
 			// Player::ServiceRecord::PlayerTopMedals *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_106C5DC0(this);
 		}
 
-		extern ServiceRecord* _sub_106C5E40(::Player::ServiceRecord::ServiceRecord *const, ::Player::ServiceRecord::ServiceRecord const &);
 		_inline ServiceRecord::ServiceRecord(::Player::ServiceRecord::ServiceRecord const &__that) // 0x106C5E40
 		{
-			mangled_x86(MANGLED_TODO, "??0ServiceRecord@0Player@@QAE@ABU001@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0ServiceRecord@0Player@@QAE@ABU001@@Z");
 			// Player::ServiceRecord::ServiceRecord const &__that;
+
 			compiler_generated();
-			todo("implement");
-			_sub_106C5E40(this, __that);
 		}
 
-		extern ServiceRecord* _sub_106C6000(::Player::ServiceRecord::ServiceRecord *const);
 		_inline ServiceRecord::ServiceRecord() // 0x106C6000
 		{
-			mangled_x86(MANGLED_TODO, "??0ServiceRecord@0Player@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0ServiceRecord@0Player@@QAE@XZ");
 			// Player::ServiceRecord::ServiceRecord *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_106C6000(this);
 		}
 
-		extern ServiceRecordPlayer* _sub_106C6170(::Player::ServiceRecord::ServiceRecordPlayer *const);
 		_inline ServiceRecordPlayer::ServiceRecordPlayer() // 0x106C6170
 		{
-			mangled_x86(MANGLED_TODO, "??0ServiceRecordPlayer@ServiceRecord@Player@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0ServiceRecordPlayer@ServiceRecord@Player@@QAE@XZ");
 			// Player::ServiceRecord::ServiceRecordPlayer *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_106C6170(this);
 		}
 	}
 }
 
-_extern void _sub_106C63A0(HttpRequest *const);
 _inline HttpRequest::~HttpRequest() // 0x106C63A0
 {
-	mangled_x86(MANGLED_TODO, "??1HttpRequest@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1HttpRequest@@QAE@XZ");
 	// HttpRequest *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_106C63A0(this);
 }
 
 namespace Player
 {
 	namespace ServiceRecord
 	{
-		_extern void _sub_106C6410(::Player::ServiceRecord::PlayerTopMedals *const);
 		_inline PlayerTopMedals::~PlayerTopMedals() // 0x106C6410
 		{
-			mangled_x86(MANGLED_TODO, "??1PlayerTopMedals@ServiceRecord@Player@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??1PlayerTopMedals@ServiceRecord@Player@@QAE@XZ");
 			// Player::ServiceRecord::PlayerTopMedals *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_106C6410(this);
 		}
 
-		_extern void _sub_106C6460(::Player::ServiceRecord::ServiceRecord *const);
 		_inline ServiceRecord::~ServiceRecord() // 0x106C6460
 		{
-			mangled_x86(MANGLED_TODO, "??1ServiceRecord@0Player@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??1ServiceRecord@0Player@@QAE@XZ");
 			// Player::ServiceRecord::ServiceRecord *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_106C6460(this);
 		}
 
 		extern PlayerTopMedals &_sub_106C6610(::Player::ServiceRecord::PlayerTopMedals *const, ::Player::ServiceRecord::PlayerTopMedals &);

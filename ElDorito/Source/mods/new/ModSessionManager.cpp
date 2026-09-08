@@ -145,14 +145,12 @@ void ModSessionManager::CheckSession() // 0x10793FC0
 	_sub_10793FC0(this);
 }
 
-extern IModListener* _sub_10793C90(IModListener *const);
 _inline IModListener::IModListener() // 0x10793C90
 {
-	mangled_x86(MANGLED_TODO, "??0IModListener@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0IModListener@@QAE@XZ");
 	// IModListener *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10793C90(this);
 }
 
 _extern bool _sub_107941D0(ModSessionManager *const, s_session_mod_options const &);

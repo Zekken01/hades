@@ -179,14 +179,12 @@ namespace Patches
 	}
 }
 
-extern s_widget_geometry_properties* _sub_10858300(s_widget_geometry_properties *const);
 _inline s_widget_geometry_properties::s_widget_geometry_properties() // 0x10858300
 {
-	mangled_x86(MANGLED_TODO, "??0s_widget_geometry_properties@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_widget_geometry_properties@@QAE@XZ");
 	// s_widget_geometry_properties *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10858300(this);
 }
 
 /* ---------- private code */

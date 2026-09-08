@@ -164,14 +164,12 @@ namespace Console
 		_sub_10950930(handler);
 	}
 
-	extern ConsoleOutputHandler* _sub_10950320(Console::ConsoleOutputHandler *const);
 	_inline ConsoleOutputHandler::ConsoleOutputHandler() // 0x10950320
 	{
-		mangled_x86(MANGLED_TODO, "??0ConsoleOutputHandler@Console@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0ConsoleOutputHandler@Console@@QAE@XZ");
 		// Console::ConsoleOutputHandler *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_10950320(this);
 	}
 }
 
@@ -186,22 +184,20 @@ void LogConsoleOutputHandler::WriteLine(std::basic_string<char,std::char_traits<
 	_sub_10950B80(this, line);
 }
 
-extern LogConsoleOutputHandler* _sub_10950350(LogConsoleOutputHandler *const);
 _inline LogConsoleOutputHandler::LogConsoleOutputHandler() // 0x10950350
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0LogConsoleOutputHandler@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::LogConsoleOutputHandler::LogConsoleOutputHandler
 	// LogConsoleOutputHandler *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10950350(this);
 }
 
-_extern void _sub_10950630(LogConsoleOutputHandler *const);
 _inline LogConsoleOutputHandler::~LogConsoleOutputHandler() // 0x10950630
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1LogConsoleOutputHandler@hades_file_local@@UAE@XZ");
 	// `anonymous-namespace'::LogConsoleOutputHandler::~LogConsoleOutputHandler
 	// LogConsoleOutputHandler *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10950630(this);
 }

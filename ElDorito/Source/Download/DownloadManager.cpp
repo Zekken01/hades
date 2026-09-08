@@ -120,14 +120,12 @@ namespace Download
 		return __result;
 	}
 
-	extern CHttpFileDownloadManager* _sub_10820020(Download::CHttpFileDownloadManager *const);
 	_inline CHttpFileDownloadManager::CHttpFileDownloadManager() // 0x10820020
 	{
-		mangled_x86(MANGLED_TODO, "??0CHttpFileDownloadManager@Download@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0CHttpFileDownloadManager@Download@@QAE@XZ");
 		// Download::CHttpFileDownloadManager *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_10820020(this);
 	}
 }
 

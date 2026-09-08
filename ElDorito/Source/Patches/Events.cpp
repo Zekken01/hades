@@ -216,24 +216,22 @@ void RunEventHook(unsigned long player, s_game_engine_event_data const *event, s
 	_sub_10A59BD0(player, event, definition);
 }
 
-extern s_suppressed_game_engine_event* _sub_10A58EA0(s_suppressed_game_engine_event *const);
 _inline s_suppressed_game_engine_event::s_suppressed_game_engine_event() // 0x10A58EA0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_suppressed_game_engine_event@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::s_suppressed_game_engine_event::s_suppressed_game_engine_event
 	// s_suppressed_game_engine_event *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10A58EA0(this);
 }
 
-extern s_suppressed_game_engine_event_collection* _sub_10A58F00(s_suppressed_game_engine_event_collection *const);
 _inline s_suppressed_game_engine_event_collection::s_suppressed_game_engine_event_collection() // 0x10A58F00
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_suppressed_game_engine_event_collection@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::s_suppressed_game_engine_event_collection::s_suppressed_game_engine_event_collection
 	// s_suppressed_game_engine_event_collection *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10A58F00(this);
 }
 
 _extern bool _sub_10A5B150(long);

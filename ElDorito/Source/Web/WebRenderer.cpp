@@ -270,14 +270,12 @@ namespace Web
 			_sub_10CBA660(this);
 		}
 
-		extern WebRendererApp* _sub_10CBA990(Web::Browser::WebRendererApp *const);
 		_inline WebRendererApp::WebRendererApp() // 0x10CBA990
 		{
-			mangled_x86(MANGLED_TODO, "??0WebRendererApp@Browser@Web@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0WebRendererApp@Browser@Web@@QAE@XZ");
 			// Web::Browser::WebRendererApp *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_10CBA990(this);
 		}
 	}
 }
@@ -298,25 +296,21 @@ namespace Web
 			return __result;
 		}
 
-		_extern void _sub_10CBB8A0(Web::Browser::WebEmblemSchemeHandlerFactory * const);
 		_inline WebEmblemSchemeHandlerFactory::~WebEmblemSchemeHandlerFactory() // 0x10CBB8A0
 		{
-			mangled_x86(MANGLED_TODO, "??1WebEmblemSchemeHandlerFactory@Browser@Web@@UAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??1WebEmblemSchemeHandlerFactory@Browser@Web@@UAE@XZ");
 			// __shifted(Web::Browser::WebEmblemSchemeHandlerFactory, 12);
 			// Web::Browser::WebEmblemSchemeHandlerFactory *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_10CBB8A0(this);
 		}
 
-		_extern void _sub_10CBB8F0(Web::Browser::WebRenderer *const);
 		_inline WebRenderer::~WebRenderer() // 0x10CBB8F0
 		{
-			mangled_x86(MANGLED_TODO, "??1WebRenderer@Browser@Web@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??1WebRenderer@Browser@Web@@QAE@XZ");
 			// Web::Browser::WebRenderer *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_10CBB8F0(this);
 		}
 	}
 }
@@ -719,14 +713,12 @@ namespace Web
 			return __result;
 		}
 
-		extern WebEmblemSchemeHandlerFactory* _sub_10CBA540(Web::Browser::WebEmblemSchemeHandlerFactory *const);
 		_inline WebEmblemSchemeHandlerFactory::WebEmblemSchemeHandlerFactory() // 0x10CBA540
 		{
-			mangled_x86(MANGLED_TODO, "??0WebEmblemSchemeHandlerFactory@Browser@Web@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0WebEmblemSchemeHandlerFactory@Browser@Web@@QAE@XZ");
 			// Web::Browser::WebEmblemSchemeHandlerFactory *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_10CBA540(this);
 		}
 	}
 }

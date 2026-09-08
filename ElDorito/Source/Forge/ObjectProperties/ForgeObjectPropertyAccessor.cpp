@@ -127,35 +127,29 @@ namespace Forge
 		_sub_1083AD10(this, playerIndex, objectIndex);
 	}
 
-	extern CObjectPropertyAccessor* _sub_1083AD90(::Forge::CObjectPropertyAccessor *const);
 	_inline CObjectPropertyAccessor::CObjectPropertyAccessor() // 0x1083AD90
 	{
-		mangled_x86(MANGLED_TODO, "??0CObjectPropertyAccessor@Forge@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0CObjectPropertyAccessor@Forge@@QAE@XZ");
 		// Forge::CObjectPropertyAccessor *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_1083AD90(this);
 	}
 }
 
-extern s_map_variant_placement_properties* _sub_1083AEF0(s_map_variant_placement_properties *const);
 _inline s_map_variant_placement_properties::s_map_variant_placement_properties() // 0x1083AEF0
 {
-	mangled_x86(MANGLED_TODO, "??0s_map_variant_placement_properties@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_map_variant_placement_properties@@QAE@XZ");
 	// s_map_variant_placement_properties *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_1083AEF0(this);
 }
 
-extern s_simulation_queue_sandbox_event_data* _sub_1083AF60(s_simulation_queue_sandbox_event_data *const);
 _inline s_simulation_queue_sandbox_event_data::s_simulation_queue_sandbox_event_data() // 0x1083AF60
 {
-	mangled_x86(MANGLED_TODO, "??0s_simulation_queue_sandbox_event_data@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_simulation_queue_sandbox_event_data@@QAE@XZ");
 	// s_simulation_queue_sandbox_event_data *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_1083AF60(this);
 }
 
 namespace Forge
@@ -182,14 +176,12 @@ namespace Forge
 		return __result;
 	}
 
-	_extern void _sub_1083B2A0(::Forge::CDefaultPropertyAccessor *const);
 	_inline CDefaultPropertyAccessor::~CDefaultPropertyAccessor() // 0x1083B2A0
 	{
-		mangled_x86(MANGLED_TODO, "??1CDefaultPropertyAccessor@Forge@@UAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??1CDefaultPropertyAccessor@Forge@@UAE@XZ");
 		// Forge::CDefaultPropertyAccessor *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_1083B2A0(this);
 	}
 
 	_extern void _sub_108407C0(::Forge::CDefaultPropertyAccessor *const, ::Forge::EObjectProperty, ::Forge::SPropertyValue);

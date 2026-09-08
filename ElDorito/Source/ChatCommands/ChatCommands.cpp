@@ -208,84 +208,68 @@ namespace ChatCommands
 	}
 }
 
-extern c_mod_package_manager::mod_type* _sub_106CD920(c_mod_package_manager::mod_type *const);
 _inline c_mod_package_manager::mod_type::mod_type() // 0x106CD920
 {
-	mangled_x86(MANGLED_TODO, "??0mod_type@c_mod_package_manager@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0mod_type@c_mod_package_manager@@QAE@XZ");
 	// c_mod_package_manager::mod_type *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_106CD920(this);
 }
 
-extern s_damage_data* _sub_106CD990(s_damage_data *const);
 _inline s_damage_data::s_damage_data() // 0x106CD990
 {
-	mangled_x86(MANGLED_TODO, "??0s_damage_data@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_damage_data@@QAE@XZ");
 	// s_damage_data *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_106CD990(this);
 }
 
-extern s_damage_reporting_info* _sub_106CD9F0(s_damage_reporting_info *const);
 _inline s_damage_reporting_info::s_damage_reporting_info() // 0x106CD9F0
 {
-	mangled_x86(MANGLED_TODO, "??0s_damage_reporting_info@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_damage_reporting_info@@QAE@XZ");
 	// s_damage_reporting_info *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_106CD9F0(this);
 }
 
-extern c_mod_package_manager::s_entry* _sub_106CDA40(c_mod_package_manager::s_entry *const);
 _inline c_mod_package_manager::s_entry::s_entry() // 0x106CDA40
 {
-	mangled_x86(MANGLED_TODO, "??0s_entry@c_mod_package_manager@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_entry@c_mod_package_manager@@QAE@XZ");
 	// c_mod_package_manager::s_entry *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_106CDA40(this);
 }
 
-extern s_file_reference* _sub_106CDAC0(s_file_reference *const);
 _inline s_file_reference::s_file_reference() // 0x106CDAC0
 {
-	mangled_x86(MANGLED_TODO, "??0s_file_reference@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_file_reference@@QAE@XZ");
 	// s_file_reference *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_106CDAC0(this);
 }
 
-extern s_mod_origin_info* _sub_106CDB20(s_mod_origin_info *const);
 _inline s_mod_origin_info::s_mod_origin_info() // 0x106CDB20
 {
-	mangled_x86(MANGLED_TODO, "??0s_mod_origin_info@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_mod_origin_info@@QAE@XZ");
 	// s_mod_origin_info *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_106CDB20(this);
 }
 
-_extern void _sub_106CDE70(c_mod_package_manager::s_entry *const);
 _inline c_mod_package_manager::s_entry::~s_entry() // 0x106CDE70
 {
-	mangled_x86(MANGLED_TODO, "??1s_entry@c_mod_package_manager@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1s_entry@c_mod_package_manager@@QAE@XZ");
 	// c_mod_package_manager::s_entry *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_106CDE70(this);
 }
 
-_extern void _sub_106CDED0(s_mod_origin_info *const);
 _inline s_mod_origin_info::~s_mod_origin_info() // 0x106CDED0
 {
-	mangled_x86(MANGLED_TODO, "??1s_mod_origin_info@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1s_mod_origin_info@@QAE@XZ");
 	// s_mod_origin_info *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_106CDED0(this);
 }
 
 /* ---------- private code */

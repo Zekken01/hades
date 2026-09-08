@@ -145,14 +145,12 @@ namespace Utils
 		return __result;
 	}
 
-	extern LogEntry* _sub_10C598D0(Utils::LogEntry *const);
 	_inline LogEntry::LogEntry() // 0x10C598D0
 	{
-		mangled_x86(MANGLED_TODO, "??0LogEntry@Utils@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0LogEntry@Utils@@QAE@XZ");
 		// Utils::LogEntry *const this;
+
 		compiler_generated();
-		todo("implement");
-		_sub_10C598D0(this);
 	}
 
 	_extern unsigned long _sub_10C5A5E0(void *);

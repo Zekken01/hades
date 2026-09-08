@@ -128,14 +128,12 @@ bool CModPackageFileSystemViewManager::ViewExists(std::basic_string<char,std::ch
 	return __result;
 }
 
-_extern void _sub_108859F0(CModPackageFileSystemView *const);
 _inline CModPackageFileSystemView::~CModPackageFileSystemView() // 0x108859F0
 {
-	mangled_x86(MANGLED_TODO, "??1CModPackageFileSystemView@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1CModPackageFileSystemView@@QAE@XZ");
 	// CModPackageFileSystemView *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_108859F0(this);
 }
 
 _extern void _sub_10886170(CModPackageFileSystemViewManager *const);

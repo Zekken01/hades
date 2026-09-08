@@ -486,14 +486,13 @@ void KeyboardUpdated() // 0x109D2900
 	_sub_109D2900();
 }
 
-extern CommandBinding* _sub_109C4B10(CommandBinding *const);
 _inline CommandBinding::CommandBinding() // 0x109C4B10
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0CommandBinding@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::CommandBinding::CommandBinding
 	// CommandBinding *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_109C4B10(this);
 }
 
 _extern bool _sub_109D36C0(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, Blam::Input::KeyCode *, Blam::Input::MouseButton *);
@@ -739,12 +738,11 @@ bool CommandSetMouseWheelEventTime(std::vector<std::basic_string<char,std::char_
 	return __result;
 }
 
-_extern void _sub_109C9F00(CommandBinding *const);
 _inline CommandBinding::~CommandBinding() // 0x109C9F00
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1CommandBinding@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::CommandBinding::~CommandBinding
 	// CommandBinding *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_109C9F00(this);
 }

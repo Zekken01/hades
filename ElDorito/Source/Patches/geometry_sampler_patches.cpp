@@ -211,14 +211,13 @@ _inline void s_structure_lighting_data::set_lightprobe_index(long index) // 0x10
 	_sub_1091F070(this, index);
 }
 
-extern s_structure_lighting_data* _sub_1091BB60(s_structure_lighting_data *const);
 _inline s_structure_lighting_data::s_structure_lighting_data() // 0x1091BB60
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_structure_lighting_data@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::s_structure_lighting_data::s_structure_lighting_data
 	// s_structure_lighting_data *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_1091BB60(this);
 }
 
 _extern long _sub_1091EE50(s_geometry_sample *, s_geometry_sample *, float, char);

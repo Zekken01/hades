@@ -731,14 +731,12 @@ CDebugDrawBackend::AttributeScope::AttributeScope() // 0x10817C00
 	_sub_10817C00(this);
 }
 
-extern CDebugDrawBackend::Attributes* _sub_10817CA0(CDebugDrawBackend::Attributes *const);
 _inline CDebugDrawBackend::Attributes::Attributes() : cacheKey(todo_result<DebugDrawKey>()) // 0x10817CA0
 {
-	mangled_x86(MANGLED_TODO, "??0Attributes@CDebugDrawBackend@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0Attributes@CDebugDrawBackend@@QAE@XZ");
 	// CDebugDrawBackend::Attributes *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10817CA0(this);
 }
 
 _extern void _sub_108181F0(CDebugDrawBackend::AttributeScope *const);
@@ -1082,22 +1080,20 @@ void DrawString3dInternal(real_point3d const &point, long color, char const *tex
 	_sub_1081B8C0(point, color, text, fontId, scale);
 }
 
-extern SCacehEntry* _sub_10817E60(SCacehEntry *const);
 _inline SCacehEntry::SCacehEntry() : cacheKey(todo_result<DebugDrawKey>()) // 0x10817E60
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0SCacehEntry@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::SCacehEntry::SCacehEntry
 	// SCacehEntry *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10817E60(this);
 }
 
-extern SRenderThreadMessage* _sub_10817F40(SRenderThreadMessage *const);
 _inline SRenderThreadMessage::SRenderThreadMessage() : cacheKey(todo_result<DebugDrawKey>()) // 0x10817F40
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0SRenderThreadMessage@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::SRenderThreadMessage::SRenderThreadMessage
 	// SRenderThreadMessage *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10817F40(this);
 }

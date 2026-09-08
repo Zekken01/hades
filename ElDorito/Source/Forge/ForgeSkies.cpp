@@ -129,34 +129,28 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- public code */
 
-extern c_object_identifier* _sub_1067D1D0(c_object_identifier *const);
 _inline c_object_identifier::c_object_identifier() // 0x1067D1D0
 {
-	mangled_x86(MANGLED_TODO, "??0c_object_identifier@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_object_identifier@@QAE@XZ");
 	// c_object_identifier *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_1067D1D0(this);
 }
 
-extern s_multiplayer_object_properties_definition* _sub_1067D240(s_multiplayer_object_properties_definition *const);
 _inline s_multiplayer_object_properties_definition::s_multiplayer_object_properties_definition() // 0x1067D240
 {
-	mangled_x86(MANGLED_TODO, "??0s_multiplayer_object_properties_definition@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_multiplayer_object_properties_definition@@QAE@XZ");
 	// s_multiplayer_object_properties_definition *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_1067D240(this);
 }
 
-extern s_object_placement_data* _sub_1067D2F0(s_object_placement_data *const);
 _inline s_object_placement_data::s_object_placement_data() // 0x1067D2F0
 {
-	mangled_x86(MANGLED_TODO, "??0s_object_placement_data@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_object_placement_data@@QAE@XZ");
 	// s_object_placement_data *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_1067D2F0(this);
 }
 
 namespace Forge

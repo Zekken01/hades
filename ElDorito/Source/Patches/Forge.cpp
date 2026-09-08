@@ -494,24 +494,20 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- public code */
 
-extern c_function_definition* _sub_10A5EEF0(c_function_definition *const);
 _inline c_function_definition::c_function_definition() // 0x10A5EEF0
 {
-	mangled_x86(MANGLED_TODO, "??0c_function_definition@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_function_definition@@QAE@XZ");
 	// c_function_definition *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10A5EEF0(this);
 }
 
-extern s_tag_data* _sub_10A5EF40(s_tag_data *const);
 _inline s_tag_data::s_tag_data() // 0x10A5EF40
 {
-	mangled_x86(MANGLED_TODO, "??0s_tag_data@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_tag_data@@QAE@XZ");
 	// s_tag_data *const this;
+
 	compiler_generated();
-	todo("implement");
-	_sub_10A5EF40(this);
 }
 
 namespace Patches

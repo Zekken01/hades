@@ -202,84 +202,68 @@ namespace Server
 			_sub_1072D4B0(this);
 		}
 
-		extern HaloType::CharacterOverride* _sub_1072C610(Server::Voting::HaloType::CharacterOverride *const, Server::Voting::HaloType::CharacterOverride const &);
 		_inline HaloType::CharacterOverride::CharacterOverride(Server::Voting::HaloType::CharacterOverride const &__that) // 0x1072C610
 		{
-			mangled_x86(MANGLED_TODO, "??0CharacterOverride@HaloType@Voting@Server@@QAE@ABU0123@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0CharacterOverride@HaloType@Voting@Server@@QAE@ABU0123@@Z");
 			// Server::Voting::HaloType::CharacterOverride const &__that;
+
 			compiler_generated();
-			todo("implement");
-			_sub_1072C610(this, __that);
 		}
 
-		extern HaloMap* _sub_1072C6E0(Server::Voting::HaloMap *const, Server::Voting::HaloMap const &);
 		_inline HaloMap::HaloMap(Server::Voting::HaloMap const &__that) // 0x1072C6E0
 		{
-			mangled_x86(MANGLED_TODO, "??0HaloMap@Voting@Server@@QAE@ABU012@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0HaloMap@Voting@Server@@QAE@ABU012@@Z");
 			// Server::Voting::HaloMap const &__that;
+
 			compiler_generated();
-			todo("implement");
-			_sub_1072C6E0(this, __that);
 		}
 
-		extern HaloType* _sub_1072C840(Server::Voting::HaloType *const, Server::Voting::HaloType const &);
 		_inline HaloType::HaloType(Server::Voting::HaloType const &__that) // 0x1072C840
 		{
-			mangled_x86(MANGLED_TODO, "??0HaloType@Voting@Server@@QAE@ABU012@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0HaloType@Voting@Server@@QAE@ABU012@@Z");
 			// Server::Voting::HaloType const &__that;
+
 			compiler_generated();
-			todo("implement");
-			_sub_1072C840(this, __that);
 		}
 
-		extern MapAndType* _sub_1072CAB0(Server::Voting::MapAndType *const, Server::Voting::MapAndType const &);
 		_inline MapAndType::MapAndType(Server::Voting::MapAndType const &__that) // 0x1072CAB0
 		{
-			mangled_x86(MANGLED_TODO, "??0MapAndType@Voting@Server@@QAE@ABU012@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0MapAndType@Voting@Server@@QAE@ABU012@@Z");
 			// Server::Voting::MapAndType const &__that;
+
 			compiler_generated();
-			todo("implement");
-			_sub_1072CAB0(this, __that);
 		}
 
-		_extern void _sub_1072D0B0(Server::Voting::HaloType::CharacterOverride *const);
 		_inline HaloType::CharacterOverride::~CharacterOverride() // 0x1072D0B0
 		{
-			mangled_x86(MANGLED_TODO, "??1CharacterOverride@HaloType@Voting@Server@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??1CharacterOverride@HaloType@Voting@Server@@QAE@XZ");
 			// Server::Voting::HaloType::CharacterOverride *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_1072D0B0(this);
 		}
 
-		_extern void _sub_1072D110(Server::Voting::HaloMap *const);
 		_inline HaloMap::~HaloMap() // 0x1072D110
 		{
-			mangled_x86(MANGLED_TODO, "??1HaloMap@Voting@Server@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??1HaloMap@Voting@Server@@QAE@XZ");
 			// Server::Voting::HaloMap *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_1072D110(this);
 		}
 
-		_extern void _sub_1072D190(Server::Voting::HaloType *const);
 		_inline HaloType::~HaloType() // 0x1072D190
 		{
-			mangled_x86(MANGLED_TODO, "??1HaloType@Voting@Server@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??1HaloType@Voting@Server@@QAE@XZ");
 			// Server::Voting::HaloType *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_1072D190(this);
 		}
 
-		_extern void _sub_1072D260(Server::Voting::MapAndType *const);
 		_inline MapAndType::~MapAndType() // 0x1072D260
 		{
-			mangled_x86(MANGLED_TODO, "??1MapAndType@Voting@Server@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??1MapAndType@Voting@Server@@QAE@XZ");
 			// Server::Voting::MapAndType *const this;
+
 			compiler_generated();
-			todo("implement");
-			_sub_1072D260(this);
 		}
 	}
 }
