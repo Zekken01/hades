@@ -120,13 +120,8 @@ namespace Web
 			return __result;
 		}
 
-		_inline WebEmblemResourceHandler::WebEmblemResourceHandler() // 0x10CB61A0
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0WebEmblemResourceHandler@Browser@Web@@QAE@XZ");
-			// Web::Browser::WebEmblemResourceHandler *const this;
-
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??0WebEmblemResourceHandler@Browser@Web@@QAE@XZ"); no body to assert in
+		_inline WebEmblemResourceHandler::WebEmblemResourceHandler() = default; // 0x10CB61A0
 
 		_inline WebEmblemResourceHandler::~WebEmblemResourceHandler() // 0x10CB6470
 		{

@@ -185,13 +185,8 @@ namespace Patches
 			_sub_10A840A0(ui);
 		}
 
-		_inline LoadingScreenShowInfo::~LoadingScreenShowInfo() // 0x10A827C0
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??1LoadingScreenShowInfo@LoadingScreen@Patches@@QAE@XZ");
-			// Patches::LoadingScreen::LoadingScreenShowInfo *const this;
-
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??1LoadingScreenShowInfo@LoadingScreen@Patches@@QAE@XZ"); no body to assert in
+		_inline LoadingScreenShowInfo::~LoadingScreenShowInfo() = default; // 0x10A827C0
 	}
 }
 

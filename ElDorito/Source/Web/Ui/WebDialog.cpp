@@ -254,76 +254,25 @@ namespace Web
 
 /* ---------- private code */
 
-_inline SDialogCallbackInfo::SDialogCallbackInfo(SDialogCallbackInfo const &__that) // 0x10CA0890
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0SDialogCallbackInfo@hades_file_local@@QAE@ABU01@@Z");
-	// `anonymous-namespace'::SDialogCallbackInfo::SDialogCallbackInfo
-	// SDialogCallbackInfo const &__that;
+// mangled_x86(MANGLED_DEFAULT, "??0SDialogCallbackInfo@hades_file_local@@QAE@ABU01@@Z"); no body to assert in
+_inline SDialogCallbackInfo::SDialogCallbackInfo(SDialogCallbackInfo const &__that) = default; // 0x10CA0890
 
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0SDialogCallbackInfo@hades_file_local@@QAE@XZ"); no body to assert in
+_inline SDialogCallbackInfo::SDialogCallbackInfo() = default; // 0x10CA0910
 
-_inline SDialogCallbackInfo::SDialogCallbackInfo() // 0x10CA0910
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0SDialogCallbackInfo@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::SDialogCallbackInfo::SDialogCallbackInfo
-	// SDialogCallbackInfo *const this;
+// mangled_x86(MANGLED_DEFAULT, "??0SDialogQueueInfo@hades_file_local@@QAE@AAU01@@Z"); no body to assert in
+_inline SDialogQueueInfo::SDialogQueueInfo(SDialogQueueInfo &__that) = default; // 0x10CA0970
 
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0SDialogQueueInfo@hades_file_local@@QAE@ABU01@@Z"); no body to assert in
+_inline SDialogQueueInfo::SDialogQueueInfo(SDialogQueueInfo const &__that) = default; // 0x10CA0A40
 
-_inline SDialogQueueInfo::SDialogQueueInfo(SDialogQueueInfo &__that) // 0x10CA0970
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0SDialogQueueInfo@hades_file_local@@QAE@AAU01@@Z");
-	// `anonymous-namespace'::SDialogQueueInfo::SDialogQueueInfo
-	// SDialogQueueInfo &__that;
+// mangled_x86(MANGLED_DEFAULT, "??0SDialogQueueInfo@hades_file_local@@QAE@XZ"); no body to assert in
+_inline SDialogQueueInfo::SDialogQueueInfo() = default; // 0x10CA0B50
 
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??1SDialogCallbackInfo@hades_file_local@@QAE@XZ"); no body to assert in
+_inline SDialogCallbackInfo::~SDialogCallbackInfo() = default; // 0x10CA0F50
 
-_inline SDialogQueueInfo::SDialogQueueInfo(SDialogQueueInfo const &__that) // 0x10CA0A40
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0SDialogQueueInfo@hades_file_local@@QAE@ABU01@@Z");
-	// `anonymous-namespace'::SDialogQueueInfo::SDialogQueueInfo
-	// SDialogQueueInfo const &__that;
+// mangled_x86(MANGLED_DEFAULT, "??1SDialogQueueInfo@hades_file_local@@QAE@XZ"); no body to assert in
+_inline SDialogQueueInfo::~SDialogQueueInfo() = default; // 0x10CA0FA0
 
-	compiler_generated();
-}
-
-_inline SDialogQueueInfo::SDialogQueueInfo() // 0x10CA0B50
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0SDialogQueueInfo@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::SDialogQueueInfo::SDialogQueueInfo
-	// SDialogQueueInfo *const this;
-
-	compiler_generated();
-}
-
-_inline SDialogCallbackInfo::~SDialogCallbackInfo() // 0x10CA0F50
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1SDialogCallbackInfo@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::SDialogCallbackInfo::~SDialogCallbackInfo
-	// SDialogCallbackInfo *const this;
-
-	compiler_generated();
-}
-
-_inline SDialogQueueInfo::~SDialogQueueInfo() // 0x10CA0FA0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1SDialogQueueInfo@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::SDialogQueueInfo::~SDialogQueueInfo
-	// SDialogQueueInfo *const this;
-
-	compiler_generated();
-}
-
-extern SDialogQueueInfo &_sub_10CA1010(SDialogQueueInfo *const, SDialogQueueInfo &);
-_inline SDialogQueueInfo &SDialogQueueInfo::operator=(SDialogQueueInfo &__that) // 0x10CA1010
-{
-	// `anonymous-namespace'::SDialogQueueInfo::operator=
-	// SDialogQueueInfo &__that;
-	compiler_generated();
-	todo("implement");
-	SDialogQueueInfo & __result = _sub_10CA1010(this, __that);
-	return __result;
-}
+_inline SDialogQueueInfo &SDialogQueueInfo::operator=(SDialogQueueInfo &__that) = default; // 0x10CA1010

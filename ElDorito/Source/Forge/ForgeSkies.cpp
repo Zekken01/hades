@@ -129,29 +129,14 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- public code */
 
-_inline c_object_identifier::c_object_identifier() // 0x1067D1D0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_object_identifier@@QAE@XZ");
-	// c_object_identifier *const this;
+// mangled_x86(MANGLED_DEFAULT, "??0c_object_identifier@@QAE@XZ"); no body to assert in
+_inline c_object_identifier::c_object_identifier() = default; // 0x1067D1D0
 
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0s_multiplayer_object_properties_definition@@QAE@XZ"); no body to assert in
+_inline s_multiplayer_object_properties_definition::s_multiplayer_object_properties_definition() = default; // 0x1067D240
 
-_inline s_multiplayer_object_properties_definition::s_multiplayer_object_properties_definition() // 0x1067D240
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_multiplayer_object_properties_definition@@QAE@XZ");
-	// s_multiplayer_object_properties_definition *const this;
-
-	compiler_generated();
-}
-
-_inline s_object_placement_data::s_object_placement_data() // 0x1067D2F0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_object_placement_data@@QAE@XZ");
-	// s_object_placement_data *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0s_object_placement_data@@QAE@XZ"); no body to assert in
+_inline s_object_placement_data::s_object_placement_data() = default; // 0x1067D2F0
 
 namespace Forge
 {

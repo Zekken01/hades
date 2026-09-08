@@ -194,29 +194,14 @@ namespace Server
 			return __result;
 		}
 
-		_inline AllowedPlayerCount::AllowedPlayerCount() // 0x107327F0
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0AllowedPlayerCount@Voting@Server@@QAE@XZ");
-			// Server::Voting::AllowedPlayerCount *const this;
+		// mangled_x86(MANGLED_DEFAULT, "??0AllowedPlayerCount@Voting@Server@@QAE@XZ"); no body to assert in
+		_inline AllowedPlayerCount::AllowedPlayerCount() = default; // 0x107327F0
 
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??0CharacterOverride@HaloType@Voting@Server@@QAE@XZ"); no body to assert in
+		_inline HaloType::CharacterOverride::CharacterOverride() = default; // 0x10732830
 
-		_inline HaloType::CharacterOverride::CharacterOverride() // 0x10732830
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0CharacterOverride@HaloType@Voting@Server@@QAE@XZ");
-			// Server::Voting::HaloType::CharacterOverride *const this;
-
-			compiler_generated();
-		}
-
-		_inline HaloMap::HaloMap(Server::Voting::HaloMap &&__that) // 0x10732890
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0HaloMap@Voting@Server@@QAE@$$QAU012@@Z");
-			// Server::Voting::HaloMap &__that;
-
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??0HaloMap@Voting@Server@@QAE@$$QAU012@@Z"); no body to assert in
+		_inline HaloMap::HaloMap(Server::Voting::HaloMap &&__that) = default; // 0x10732890
 
 		_extern void _sub_10733810(std::vector<Server::Voting::HaloType> &, std::vector<Server::Voting::HaloType> const &);
 		void HaloTypeInheritance::BuildHaloTypes(std::vector<Server::Voting::HaloType> &newTypes, std::vector<Server::Voting::HaloType> const &allTypes) // 0x10733810
@@ -241,24 +226,11 @@ namespace Server
 			_sub_10733810(newTypes, allTypes);
 		}
 
-		_inline HaloType::HaloType(Server::Voting::HaloType &&__that) // 0x107329A0
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0HaloType@Voting@Server@@QAE@$$QAU012@@Z");
-			// Server::Voting::HaloType &__that;
+		// mangled_x86(MANGLED_DEFAULT, "??0HaloType@Voting@Server@@QAE@$$QAU012@@Z"); no body to assert in
+		_inline HaloType::HaloType(Server::Voting::HaloType &&__that) = default; // 0x107329A0
 
-			compiler_generated();
-		}
-
-		extern HaloType::CharacterOverride &_sub_10732F60(Server::Voting::HaloType::CharacterOverride *const, Server::Voting::HaloType::CharacterOverride const &);
-		_inline Server::Voting::HaloType::CharacterOverride &HaloType::CharacterOverride::operator=(Server::Voting::HaloType::CharacterOverride const &__that) // 0x10732F60
-		{
-			mangled_x86(MANGLED_TODO, "??4CharacterOverride@HaloType@Voting@Server@@QAEAAU0123@ABU0123@@Z");
-			// Server::Voting::HaloType::CharacterOverride const &__that;
-			compiler_generated();
-			todo("implement");
-			Server::Voting::HaloType::CharacterOverride & __result = _sub_10732F60(this, __that);
-			return __result;
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??4CharacterOverride@HaloType@Voting@Server@@QAEAAU0123@ABU0123@@Z"); no body to assert in
+		_inline Server::Voting::HaloType::CharacterOverride &HaloType::CharacterOverride::operator=(Server::Voting::HaloType::CharacterOverride const &__that) = default; // 0x10732F60
 	}
 }
 

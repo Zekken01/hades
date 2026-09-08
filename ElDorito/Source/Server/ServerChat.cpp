@@ -946,14 +946,8 @@ bool SendClientMessage(Blam::Network::Session *session, Server::Chat::ChatMessag
 	return __result;
 }
 
-_inline ChatMessagePacketHandler::ChatMessagePacketHandler() // 0x10C1B1D0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0ChatMessagePacketHandler@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::ChatMessagePacketHandler::ChatMessagePacketHandler
-	// ChatMessagePacketHandler *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0ChatMessagePacketHandler@hades_file_local@@QAE@XZ"); no body to assert in
+_inline ChatMessagePacketHandler::ChatMessagePacketHandler() = default; // 0x10C1B1D0
 
 /* ---------- template instantiations */
 

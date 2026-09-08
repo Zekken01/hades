@@ -167,21 +167,11 @@ _inline unsigned __int32 s_name_lookup_key::s_hasher::operator()(s_name_lookup_k
 	return __result;
 }
 
-_inline s_mod_loading_state::s_mod_loading_state() // 0x1088E290
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_mod_loading_state@@QAE@XZ");
-	// s_mod_loading_state *const this;
+// mangled_x86(MANGLED_DEFAULT, "??0s_mod_loading_state@@QAE@XZ"); no body to assert in
+_inline s_mod_loading_state::s_mod_loading_state() = default; // 0x1088E290
 
-	compiler_generated();
-}
-
-_inline s_mod_loading_state::~s_mod_loading_state() // 0x1088E8D0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1s_mod_loading_state@@QAE@XZ");
-	// s_mod_loading_state *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??1s_mod_loading_state@@QAE@XZ"); no body to assert in
+_inline s_mod_loading_state::~s_mod_loading_state() = default; // 0x1088E8D0
 
 _extern bool _sub_10890DD0(unsigned char *, unsigned long, s_map_variant *);
 bool c_map_variant_tag_fixups::fixup_map_variant_in_memory(unsigned char *buffer, unsigned long buffer_size, s_map_variant *map_variant) // 0x10890DD0

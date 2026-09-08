@@ -132,14 +132,13 @@ namespace Forge
 		return __result;
 	}
 
-	_extern void _sub_10969F50(long, wchar_t const *, long);
 	void PrintKillFeedText(long user_index, wchar_t const *message, long unused) // 0x10969F50
 	{
-		mangled_x86(MANGLED_TODO, "?PrintKillFeedText@Forge@@YAXJPB_WJ@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?PrintKillFeedText@Forge@@YAXJPB_WJ@Z");
 		// long unused;
 		// function call : void (*const)(long, wchar_t const *, e_chud_message_context)
-		todo("implement");
-		_sub_10969F50(user_index, message, unused);
+
+		((void(__cdecl *const)(long, wchar_t const *, e_chud_message_context))0xa95920)(user_index, message, (e_chud_message_context)0);
 	}
 }
 
@@ -161,15 +160,16 @@ namespace Forge
 		return __result;
 	}
 
-	_extern void _sub_109695C0(long, long);
 	void DeleteObject(long player_index, long map_variant_index) // 0x109695C0
 	{
-		mangled_x86(MANGLED_TODO, "?DeleteObject@Forge@@YAXJJ@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?DeleteObject@Forge@@YAXJJ@Z");
 		// long map_variant_index;
 		// void (*const game_engine_sandbox_apply_delete_object)(long, long);
 		// function call : void (*const)(long, long)
-		todo("implement");
-		_sub_109695C0(player_index, map_variant_index);
+
+		void (__cdecl *const game_engine_sandbox_apply_delete_object)(long, long) = (void(__cdecl *const)(long, long))0x59cbe0;
+
+		game_engine_sandbox_apply_delete_object(player_index, map_variant_index);
 	}
 
 	_extern long _sub_10968A20(long, long, float, real_vector3d const &);

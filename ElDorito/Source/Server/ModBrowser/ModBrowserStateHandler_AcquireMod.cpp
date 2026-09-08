@@ -289,13 +289,8 @@ CModBrowserStateHandler_AcquireMod::CModBrowserStateHandler_AcquireMod() // 0x10
 	_sub_107154D0(this);
 }
 
-_inline SSignatureVerificationResult::SSignatureVerificationResult() // 0x10715680
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0SSignatureVerificationResult@@QAE@XZ");
-	// SSignatureVerificationResult *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0SSignatureVerificationResult@@QAE@XZ"); no body to assert in
+_inline SSignatureVerificationResult::SSignatureVerificationResult() = default; // 0x10715680
 
 _extern void _sub_10715C90(CModBrowserStateHandler_AcquireMod *const);
 CModBrowserStateHandler_AcquireMod::~CModBrowserStateHandler_AcquireMod() // 0x10715C90
@@ -306,35 +301,14 @@ CModBrowserStateHandler_AcquireMod::~CModBrowserStateHandler_AcquireMod() // 0x1
 	_sub_10715C90(this);
 }
 
-_inline SSignatureVerificationResult::~SSignatureVerificationResult() // 0x10715D80
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1SSignatureVerificationResult@@QAE@XZ");
-	// SSignatureVerificationResult *const this;
+// mangled_x86(MANGLED_DEFAULT, "??1SSignatureVerificationResult@@QAE@XZ"); no body to assert in
+_inline SSignatureVerificationResult::~SSignatureVerificationResult() = default; // 0x10715D80
 
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??1SignatureVerificationJob@@QAE@XZ"); no body to assert in
+_inline SignatureVerificationJob::~SignatureVerificationJob() = default; // 0x10715DD0
 
-_inline SignatureVerificationJob::~SignatureVerificationJob() // 0x10715DD0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1SignatureVerificationJob@@QAE@XZ");
-	// SignatureVerificationJob *const this;
-
-	compiler_generated();
-}
-
-extern SSignatureVerificationResult &_sub_10715F50(SSignatureVerificationResult *const, SSignatureVerificationResult const &);
-_inline SSignatureVerificationResult &SSignatureVerificationResult::operator=(SSignatureVerificationResult const &__that) // 0x10715F50
-{
-	mangled_x86(MANGLED_TODO, "??4SSignatureVerificationResult@@QAEAAU0@ABU0@@Z");
-	// SSignatureVerificationResult const &__that;
-	{
-		// unsigned __int32 $S11;
-	}
-	compiler_generated();
-	todo("implement");
-	SSignatureVerificationResult & __result = _sub_10715F50(this, __that);
-	return __result;
-}
+// mangled_x86(MANGLED_DEFAULT, "??4SSignatureVerificationResult@@QAEAAU0@ABU0@@Z"); no body to assert in
+_inline SSignatureVerificationResult &SSignatureVerificationResult::operator=(SSignatureVerificationResult const &__that) = default; // 0x10715F50
 
 _extern void _sub_10718D40(CModBrowserStateHandler_AcquireMod *const, std::shared_ptr<IModBrowserModDownloadUI> const &);
 void CModBrowserStateHandler_AcquireMod::SetUI(std::shared_ptr<IModBrowserModDownloadUI> const &ui) // 0x10718D40
@@ -431,13 +405,8 @@ void CModBrowserStateHandler_AcquireMod::UpdateDownloading() // 0x10719A90
 	_sub_10719A90(this);
 }
 
-_inline CModBrowserStateHandler::CModBrowserStateHandler() // 0x107154A0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0CModBrowserStateHandler@@QAE@XZ");
-	// CModBrowserStateHandler *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0CModBrowserStateHandler@@QAE@XZ"); no body to assert in
+_inline CModBrowserStateHandler::CModBrowserStateHandler() = default; // 0x107154A0
 
 _extern void _sub_10719920(CModBrowserStateHandler_AcquireMod *const);
 void CModBrowserStateHandler_AcquireMod::UpdateCancelling() // 0x10719920

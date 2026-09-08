@@ -238,77 +238,32 @@ void CServerConnectManager::OnConnectionAborted(EServerConnectAbortReason reason
 	_sub_10B07D80(this, reason);
 }
 
-_inline CServerConnectStateHandler_Connect::CServerConnectStateHandler_Connect() // 0x10B05F80
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0CServerConnectStateHandler_Connect@@QAE@XZ");
-	// CServerConnectStateHandler_Connect *const this;
+// mangled_x86(MANGLED_DEFAULT, "??0CServerConnectStateHandler_Connect@@QAE@XZ"); no body to assert in
+_inline CServerConnectStateHandler_Connect::CServerConnectStateHandler_Connect() = default; // 0x10B05F80
 
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0CServerConnectStateHandler_QueryServer@@QAE@XZ"); no body to assert in
+_inline CServerConnectStateHandler_QueryServer::CServerConnectStateHandler_QueryServer() = default; // 0x10B05FE0
 
-_inline CServerConnectStateHandler_QueryServer::CServerConnectStateHandler_QueryServer() // 0x10B05FE0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0CServerConnectStateHandler_QueryServer@@QAE@XZ");
-	// CServerConnectStateHandler_QueryServer *const this;
+// mangled_x86(MANGLED_DEFAULT, "??0CServerConnectStateManager@@QAE@XZ"); no body to assert in
+_inline CServerConnectStateManager::CServerConnectStateManager() = default; // 0x10B06080
 
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0SQueryInfoServerData@@QAE@XZ"); no body to assert in
+_inline SQueryInfoServerData::SQueryInfoServerData() = default; // 0x10B062C0
 
-_inline CServerConnectStateManager::CServerConnectStateManager() // 0x10B06080
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0CServerConnectStateManager@@QAE@XZ");
-	// CServerConnectStateManager *const this;
+// mangled_x86(MANGLED_DEFAULT, "??1CServerConnectStateHandler_QueryServer@@QAE@XZ"); no body to assert in
+_inline CServerConnectStateHandler_QueryServer::~CServerConnectStateHandler_QueryServer() = default; // 0x10B06C60
 
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??1CServerConnectStateManager@@QAE@XZ"); no body to assert in
+_inline CServerConnectStateManager::~CServerConnectStateManager() = default; // 0x10B06CD0
 
-_inline SQueryInfoServerData::SQueryInfoServerData() // 0x10B062C0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0SQueryInfoServerData@@QAE@XZ");
-	// SQueryInfoServerData *const this;
+// mangled_x86(MANGLED_DEFAULT, "??1SQueryInfoServerData@@QAE@XZ"); no body to assert in
+_inline SQueryInfoServerData::~SQueryInfoServerData() = default; // 0x10B06DB0
 
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??1SRequiredMod@SServerConnectState@@QAE@XZ"); no body to assert in
+_inline SServerConnectState::SRequiredMod::~SRequiredMod() = default; // 0x10B06E20
 
-_inline CServerConnectStateHandler_QueryServer::~CServerConnectStateHandler_QueryServer() // 0x10B06C60
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1CServerConnectStateHandler_QueryServer@@QAE@XZ");
-	// CServerConnectStateHandler_QueryServer *const this;
-
-	compiler_generated();
-}
-
-_inline CServerConnectStateManager::~CServerConnectStateManager() // 0x10B06CD0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1CServerConnectStateManager@@QAE@XZ");
-	// CServerConnectStateManager *const this;
-
-	compiler_generated();
-}
-
-_inline SQueryInfoServerData::~SQueryInfoServerData() // 0x10B06DB0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1SQueryInfoServerData@@QAE@XZ");
-	// SQueryInfoServerData *const this;
-
-	compiler_generated();
-}
-
-_inline SServerConnectState::SRequiredMod::~SRequiredMod() // 0x10B06E20
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1SRequiredMod@SServerConnectState@@QAE@XZ");
-	// SServerConnectState::SRequiredMod *const this;
-
-	compiler_generated();
-}
-
-_inline SServerConnectState::~SServerConnectState() // 0x10B06EF0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1SServerConnectState@@QAE@XZ");
-	// SServerConnectState *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??1SServerConnectState@@QAE@XZ"); no body to assert in
+_inline SServerConnectState::~SServerConnectState() = default; // 0x10B06EF0
 
 extern SServerConnectState &_sub_10B07090(SServerConnectState *const, SServerConnectState &);
 _inline SServerConnectState &SServerConnectState::operator=(SServerConnectState &&__that) // 0x10B07090

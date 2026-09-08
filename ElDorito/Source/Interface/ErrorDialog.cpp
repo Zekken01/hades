@@ -118,23 +118,11 @@ __int32 DialogProc(HWND__ *hWnd, unsigned __int32 msg, unsigned __int32 wParam, 
 	return __result;
 }
 
-_inline DialogInitParams::DialogInitParams() // 0x10786AF0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0DialogInitParams@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::DialogInitParams::DialogInitParams
-	// DialogInitParams *const this;
+// mangled_x86(MANGLED_DEFAULT, "??0DialogInitParams@hades_file_local@@QAE@XZ"); no body to assert in
+_inline DialogInitParams::DialogInitParams() = default; // 0x10786AF0
 
-	compiler_generated();
-}
-
-_inline DialogInitParams::~DialogInitParams() // 0x10786BD0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1DialogInitParams@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::DialogInitParams::~DialogInitParams
-	// DialogInitParams *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??1DialogInitParams@hades_file_local@@QAE@XZ"); no body to assert in
+_inline DialogInitParams::~DialogInitParams() = default; // 0x10786BD0
 
 extern std::string _sub_10787040(std::string);
 std::string NormalizeLineEndings(std::string input) // 0x10787040

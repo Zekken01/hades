@@ -321,25 +321,9 @@ bool GetEndpoints() // 0x10B18BA0
 	return __result;
 }
 
-extern s_sharedState* _sub_10B17D40(s_sharedState *const);
-_inline s_sharedState::s_sharedState() // 0x10B17D40
-{
-	// `anonymous-namespace'::<unnamed-type-sharedState>::<unnamed-type-sharedState>
-	// s_sharedState *const this;
-	compiler_generated();
-	todo("implement");
-	_sub_10B17D40(this);
-}
+_inline s_sharedState::s_sharedState() = default; // 0x10B17D40
 
-_extern void _sub_10B17E80(s_sharedState *const);
-_inline s_sharedState::~s_sharedState() // 0x10B17E80
-{
-	// `anonymous-namespace'::<unnamed-type-sharedState>::~<unnamed-type-sharedState>
-	// s_sharedState *const this;
-	compiler_generated();
-	todo("implement");
-	_sub_10B17E80(this);
-}
+_inline s_sharedState::~s_sharedState() = default; // 0x10B17E80
 
 _extern void _sub_10B183A0();
 void CheckToBootPlayers() // 0x10B183A0

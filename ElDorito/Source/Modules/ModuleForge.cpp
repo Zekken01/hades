@@ -475,23 +475,7 @@ bool CommandForgeRedo(std::vector<std::string> const &Arguments, std::string &re
 
 namespace Modules
 {
-	_extern void _sub_109841D0(Modules::ModuleForge::s_CommandState *const);
-	_inline ModuleForge::s_CommandState::~s_CommandState() // 0x109841D0
-	{
-		// Modules::ModuleForge::<unnamed-type-CommandState>::~<unnamed-type-CommandState>
-		// Modules::ModuleForge::s_CommandState *const this;
-		compiler_generated();
-		todo("implement");
-		_sub_109841D0(this);
-	}
+	_inline ModuleForge::s_CommandState::~s_CommandState() = default; // 0x109841D0
 
-	_extern void _sub_10984220(Modules::ModuleForge::s_CommandState::s_Prefabs *const);
-	_inline ModuleForge::s_CommandState::s_Prefabs::~s_Prefabs() // 0x10984220
-	{
-		// Modules::ModuleForge::<unnamed-type-CommandState>::<unnamed-type-Prefabs>::~<unnamed-type-Prefabs>
-		// Modules::ModuleForge::s_CommandState::s_Prefabs *const this;
-		compiler_generated();
-		todo("implement");
-		_sub_10984220(this);
-	}
+	_inline ModuleForge::s_CommandState::s_Prefabs::~s_Prefabs() = default; // 0x10984220
 }

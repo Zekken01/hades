@@ -247,41 +247,17 @@ _inline CHavokStatsDisplayOutputHandler::CHavokStatsDisplayOutputHandler() // 0x
 	_sub_1085E4F0(this);
 }
 
-_inline CHavokStatsOutputHandler::CHavokStatsOutputHandler() // 0x1085E5F0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0CHavokStatsOutputHandler@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::CHavokStatsOutputHandler::CHavokStatsOutputHandler
-	// CHavokStatsOutputHandler *const this;
+// mangled_x86(MANGLED_DEFAULT, "??0CHavokStatsOutputHandler@hades_file_local@@QAE@XZ"); no body to assert in
+_inline CHavokStatsOutputHandler::CHavokStatsOutputHandler() = default; // 0x1085E5F0
 
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0CHavokStatsStringOutputHandler@hades_file_local@@QAE@XZ"); no body to assert in
+_inline CHavokStatsStringOutputHandler::CHavokStatsStringOutputHandler() = default; // 0x1085E620
 
-_inline CHavokStatsStringOutputHandler::CHavokStatsStringOutputHandler() // 0x1085E620
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0CHavokStatsStringOutputHandler@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::CHavokStatsStringOutputHandler::CHavokStatsStringOutputHandler
-	// CHavokStatsStringOutputHandler *const this;
+// mangled_x86(MANGLED_DEFAULT, "??1CHavokStatsDisplayOutputHandler@hades_file_local@@QAE@XZ"); no body to assert in
+_inline CHavokStatsDisplayOutputHandler::~CHavokStatsDisplayOutputHandler() = default; // 0x1085E6A0
 
-	compiler_generated();
-}
-
-_inline CHavokStatsDisplayOutputHandler::~CHavokStatsDisplayOutputHandler() // 0x1085E6A0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1CHavokStatsDisplayOutputHandler@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::CHavokStatsDisplayOutputHandler::~CHavokStatsDisplayOutputHandler
-	// CHavokStatsDisplayOutputHandler *const this;
-
-	compiler_generated();
-}
-
-_inline CHavokStatsStringOutputHandler::~CHavokStatsStringOutputHandler() // 0x1085E700
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1CHavokStatsStringOutputHandler@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::CHavokStatsStringOutputHandler::~CHavokStatsStringOutputHandler
-	// CHavokStatsStringOutputHandler *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??1CHavokStatsStringOutputHandler@hades_file_local@@QAE@XZ"); no body to assert in
+_inline CHavokStatsStringOutputHandler::~CHavokStatsStringOutputHandler() = default; // 0x1085E700
 
 _extern void _sub_1085F6C0(CHavokStatsDisplayOutputHandler *const, real_argb_color const *, char const *);
 _inline void CHavokStatsDisplayOutputHandler::OutputLine(real_argb_color const *color, char const *line) // 0x1085F6C0

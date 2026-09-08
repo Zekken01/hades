@@ -475,14 +475,8 @@ std::string GetLogString(websocketpp::server<Utils::WebSocket::Config> *rconServ
 	return __result;
 }
 
-_inline RconConsoleOutputHandler::RconConsoleOutputHandler() // 0x10B95270
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0RconConsoleOutputHandler@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::RconConsoleOutputHandler::RconConsoleOutputHandler
-	// RconConsoleOutputHandler *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0RconConsoleOutputHandler@hades_file_local@@QAE@XZ"); no body to assert in
+_inline RconConsoleOutputHandler::RconConsoleOutputHandler() = default; // 0x10B95270
 
 _inline RconConsoleOutputHandler::~RconConsoleOutputHandler() // 0x10BA2FB0
 {

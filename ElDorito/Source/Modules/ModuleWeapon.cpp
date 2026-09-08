@@ -151,32 +151,14 @@ namespace Patches
 {
 	namespace Weapon
 	{
-		_inline WeaponInfo::WeaponInfo() // 0x10A26530
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0WeaponInfo@Weapon@Patches@@QAE@XZ");
-			// Patches::Weapon::WeaponInfo *const this;
+		// mangled_x86(MANGLED_DEFAULT, "??0WeaponInfo@Weapon@Patches@@QAE@XZ"); no body to assert in
+		_inline WeaponInfo::WeaponInfo() = default; // 0x10A26530
 
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??1WeaponInfo@Weapon@Patches@@QAE@XZ"); no body to assert in
+		_inline WeaponInfo::~WeaponInfo() = default; // 0x10A26580
 
-		_inline WeaponInfo::~WeaponInfo() // 0x10A26580
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??1WeaponInfo@Weapon@Patches@@QAE@XZ");
-			// Patches::Weapon::WeaponInfo *const this;
-
-			compiler_generated();
-		}
-
-		extern WeaponInfo &_sub_10A265D0(Patches::Weapon::WeaponInfo *const, Patches::Weapon::WeaponInfo &);
-		_inline Patches::Weapon::WeaponInfo &WeaponInfo::operator=(Patches::Weapon::WeaponInfo &&__that) // 0x10A265D0
-		{
-			mangled_x86(MANGLED_TODO, "??4WeaponInfo@Weapon@Patches@@QAEAAU012@$$QAU012@@Z");
-			// Patches::Weapon::WeaponInfo &__that;
-			compiler_generated();
-			todo("implement");
-			Patches::Weapon::WeaponInfo & __result = _sub_10A265D0(this, __that);
-			return __result;
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??4WeaponInfo@Weapon@Patches@@QAEAAU012@$$QAU012@@Z"); no body to assert in
+		_inline Patches::Weapon::WeaponInfo &WeaponInfo::operator=(Patches::Weapon::WeaponInfo &&__that) = default; // 0x10A265D0
 	}
 }
 

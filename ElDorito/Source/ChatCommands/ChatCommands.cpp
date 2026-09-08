@@ -208,69 +208,29 @@ namespace ChatCommands
 	}
 }
 
-_inline c_mod_package_manager::mod_type::mod_type() // 0x106CD920
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0mod_type@c_mod_package_manager@@QAE@XZ");
-	// c_mod_package_manager::mod_type *const this;
+// mangled_x86(MANGLED_DEFAULT, "??0mod_type@c_mod_package_manager@@QAE@XZ"); no body to assert in
+_inline c_mod_package_manager::mod_type::mod_type() = default; // 0x106CD920
 
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0s_damage_data@@QAE@XZ"); no body to assert in
+_inline s_damage_data::s_damage_data() = default; // 0x106CD990
 
-_inline s_damage_data::s_damage_data() // 0x106CD990
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_damage_data@@QAE@XZ");
-	// s_damage_data *const this;
+// mangled_x86(MANGLED_DEFAULT, "??0s_damage_reporting_info@@QAE@XZ"); no body to assert in
+_inline s_damage_reporting_info::s_damage_reporting_info() = default; // 0x106CD9F0
 
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0s_entry@c_mod_package_manager@@QAE@XZ"); no body to assert in
+_inline c_mod_package_manager::s_entry::s_entry() = default; // 0x106CDA40
 
-_inline s_damage_reporting_info::s_damage_reporting_info() // 0x106CD9F0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_damage_reporting_info@@QAE@XZ");
-	// s_damage_reporting_info *const this;
+// mangled_x86(MANGLED_DEFAULT, "??0s_file_reference@@QAE@XZ"); no body to assert in
+_inline s_file_reference::s_file_reference() = default; // 0x106CDAC0
 
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0s_mod_origin_info@@QAE@XZ"); no body to assert in
+_inline s_mod_origin_info::s_mod_origin_info() = default; // 0x106CDB20
 
-_inline c_mod_package_manager::s_entry::s_entry() // 0x106CDA40
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_entry@c_mod_package_manager@@QAE@XZ");
-	// c_mod_package_manager::s_entry *const this;
+// mangled_x86(MANGLED_DEFAULT, "??1s_entry@c_mod_package_manager@@QAE@XZ"); no body to assert in
+_inline c_mod_package_manager::s_entry::~s_entry() = default; // 0x106CDE70
 
-	compiler_generated();
-}
-
-_inline s_file_reference::s_file_reference() // 0x106CDAC0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_file_reference@@QAE@XZ");
-	// s_file_reference *const this;
-
-	compiler_generated();
-}
-
-_inline s_mod_origin_info::s_mod_origin_info() // 0x106CDB20
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_mod_origin_info@@QAE@XZ");
-	// s_mod_origin_info *const this;
-
-	compiler_generated();
-}
-
-_inline c_mod_package_manager::s_entry::~s_entry() // 0x106CDE70
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1s_entry@c_mod_package_manager@@QAE@XZ");
-	// c_mod_package_manager::s_entry *const this;
-
-	compiler_generated();
-}
-
-_inline s_mod_origin_info::~s_mod_origin_info() // 0x106CDED0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1s_mod_origin_info@@QAE@XZ");
-	// s_mod_origin_info *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??1s_mod_origin_info@@QAE@XZ"); no body to assert in
+_inline s_mod_origin_info::~s_mod_origin_info() = default; // 0x106CDED0
 
 /* ---------- private code */
 

@@ -270,13 +270,8 @@ namespace Web
 			_sub_10CBA660(this);
 		}
 
-		_inline WebRendererApp::WebRendererApp() // 0x10CBA990
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0WebRendererApp@Browser@Web@@QAE@XZ");
-			// Web::Browser::WebRendererApp *const this;
-
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??0WebRendererApp@Browser@Web@@QAE@XZ"); no body to assert in
+		_inline WebRendererApp::WebRendererApp() = default; // 0x10CBA990
 	}
 }
 
@@ -305,13 +300,8 @@ namespace Web
 			compiler_generated();
 		}
 
-		_inline WebRenderer::~WebRenderer() // 0x10CBB8F0
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??1WebRenderer@Browser@Web@@QAE@XZ");
-			// Web::Browser::WebRenderer *const this;
-
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??1WebRenderer@Browser@Web@@QAE@XZ"); no body to assert in
+		_inline WebRenderer::~WebRenderer() = default; // 0x10CBB8F0
 	}
 }
 
@@ -713,13 +703,8 @@ namespace Web
 			return __result;
 		}
 
-		_inline WebEmblemSchemeHandlerFactory::WebEmblemSchemeHandlerFactory() // 0x10CBA540
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0WebEmblemSchemeHandlerFactory@Browser@Web@@QAE@XZ");
-			// Web::Browser::WebEmblemSchemeHandlerFactory *const this;
-
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??0WebEmblemSchemeHandlerFactory@Browser@Web@@QAE@XZ"); no body to assert in
+		_inline WebEmblemSchemeHandlerFactory::WebEmblemSchemeHandlerFactory() = default; // 0x10CBA540
 	}
 }
 

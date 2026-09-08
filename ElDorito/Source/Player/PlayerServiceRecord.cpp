@@ -276,125 +276,47 @@ namespace Player
 			return __result;
 		}
 
-		_inline PlayerTopMedals::PlayerTopMedals(::Player::ServiceRecord::PlayerTopMedals const &__that) // 0x106C5D30
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0PlayerTopMedals@ServiceRecord@Player@@QAE@ABU012@@Z");
-			// Player::ServiceRecord::PlayerTopMedals const &__that;
+		// mangled_x86(MANGLED_DEFAULT, "??0PlayerTopMedals@ServiceRecord@Player@@QAE@ABU012@@Z"); no body to assert in
+		_inline PlayerTopMedals::PlayerTopMedals(::Player::ServiceRecord::PlayerTopMedals const &__that) = default; // 0x106C5D30
 
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??0PlayerTopMedals@ServiceRecord@Player@@QAE@XZ"); no body to assert in
+		_inline PlayerTopMedals::PlayerTopMedals() = default; // 0x106C5DC0
 
-		_inline PlayerTopMedals::PlayerTopMedals() // 0x106C5DC0
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0PlayerTopMedals@ServiceRecord@Player@@QAE@XZ");
-			// Player::ServiceRecord::PlayerTopMedals *const this;
+		// mangled_x86(MANGLED_DEFAULT, "??0ServiceRecord@0Player@@QAE@ABU001@@Z"); no body to assert in
+		_inline ServiceRecord::ServiceRecord(::Player::ServiceRecord::ServiceRecord const &__that) = default; // 0x106C5E40
 
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??0ServiceRecord@0Player@@QAE@XZ"); no body to assert in
+		_inline ServiceRecord::ServiceRecord() = default; // 0x106C6000
 
-		_inline ServiceRecord::ServiceRecord(::Player::ServiceRecord::ServiceRecord const &__that) // 0x106C5E40
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0ServiceRecord@0Player@@QAE@ABU001@@Z");
-			// Player::ServiceRecord::ServiceRecord const &__that;
-
-			compiler_generated();
-		}
-
-		_inline ServiceRecord::ServiceRecord() // 0x106C6000
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0ServiceRecord@0Player@@QAE@XZ");
-			// Player::ServiceRecord::ServiceRecord *const this;
-
-			compiler_generated();
-		}
-
-		_inline ServiceRecordPlayer::ServiceRecordPlayer() // 0x106C6170
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0ServiceRecordPlayer@ServiceRecord@Player@@QAE@XZ");
-			// Player::ServiceRecord::ServiceRecordPlayer *const this;
-
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??0ServiceRecordPlayer@ServiceRecord@Player@@QAE@XZ"); no body to assert in
+		_inline ServiceRecordPlayer::ServiceRecordPlayer() = default; // 0x106C6170
 	}
 }
 
-_inline HttpRequest::~HttpRequest() // 0x106C63A0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1HttpRequest@@QAE@XZ");
-	// HttpRequest *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??1HttpRequest@@QAE@XZ"); no body to assert in
+_inline HttpRequest::~HttpRequest() = default; // 0x106C63A0
 
 namespace Player
 {
 	namespace ServiceRecord
 	{
-		_inline PlayerTopMedals::~PlayerTopMedals() // 0x106C6410
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??1PlayerTopMedals@ServiceRecord@Player@@QAE@XZ");
-			// Player::ServiceRecord::PlayerTopMedals *const this;
+		// mangled_x86(MANGLED_DEFAULT, "??1PlayerTopMedals@ServiceRecord@Player@@QAE@XZ"); no body to assert in
+		_inline PlayerTopMedals::~PlayerTopMedals() = default; // 0x106C6410
 
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??1ServiceRecord@0Player@@QAE@XZ"); no body to assert in
+		_inline ServiceRecord::~ServiceRecord() = default; // 0x106C6460
 
-		_inline ServiceRecord::~ServiceRecord() // 0x106C6460
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??1ServiceRecord@0Player@@QAE@XZ");
-			// Player::ServiceRecord::ServiceRecord *const this;
+		// mangled_x86(MANGLED_DEFAULT, "??4PlayerTopMedals@ServiceRecord@Player@@QAEAAU012@$$QAU012@@Z"); no body to assert in
+		_inline ::Player::ServiceRecord::PlayerTopMedals &PlayerTopMedals::operator=(::Player::ServiceRecord::PlayerTopMedals &&__that) = default; // 0x106C6610
 
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??4PlayerTopMedals@ServiceRecord@Player@@QAEAAU012@ABU012@@Z"); no body to assert in
+		_inline ::Player::ServiceRecord::PlayerTopMedals &PlayerTopMedals::operator=(::Player::ServiceRecord::PlayerTopMedals const &__that) = default; // 0x106C6690
 
-		extern PlayerTopMedals &_sub_106C6610(::Player::ServiceRecord::PlayerTopMedals *const, ::Player::ServiceRecord::PlayerTopMedals &);
-		_inline ::Player::ServiceRecord::PlayerTopMedals &PlayerTopMedals::operator=(::Player::ServiceRecord::PlayerTopMedals &&__that) // 0x106C6610
-		{
-			mangled_x86(MANGLED_TODO, "??4PlayerTopMedals@ServiceRecord@Player@@QAEAAU012@$$QAU012@@Z");
-			// Player::ServiceRecord::PlayerTopMedals &__that;
-			compiler_generated();
-			todo("implement");
-			::Player::ServiceRecord::PlayerTopMedals & __result = _sub_106C6610(this, __that);
-			return __result;
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??4ServiceRecord@0Player@@QAEAAU001@$$QAU001@@Z"); no body to assert in
+		_inline ::Player::ServiceRecord::ServiceRecord &ServiceRecord::operator=(::Player::ServiceRecord::ServiceRecord &&__that) = default; // 0x106C6710
 
-		extern PlayerTopMedals &_sub_106C6690(::Player::ServiceRecord::PlayerTopMedals *const, ::Player::ServiceRecord::PlayerTopMedals const &);
-		_inline ::Player::ServiceRecord::PlayerTopMedals &PlayerTopMedals::operator=(::Player::ServiceRecord::PlayerTopMedals const &__that) // 0x106C6690
-		{
-			mangled_x86(MANGLED_TODO, "??4PlayerTopMedals@ServiceRecord@Player@@QAEAAU012@ABU012@@Z");
-			// Player::ServiceRecord::PlayerTopMedals const &__that;
-			compiler_generated();
-			todo("implement");
-			::Player::ServiceRecord::PlayerTopMedals & __result = _sub_106C6690(this, __that);
-			return __result;
-		}
-
-		extern ServiceRecord &_sub_106C6710(::Player::ServiceRecord::ServiceRecord *const, ::Player::ServiceRecord::ServiceRecord &);
-		_inline ::Player::ServiceRecord::ServiceRecord &ServiceRecord::operator=(::Player::ServiceRecord::ServiceRecord &&__that) // 0x106C6710
-		{
-			mangled_x86(MANGLED_TODO, "??4ServiceRecord@0Player@@QAEAAU001@$$QAU001@@Z");
-			// Player::ServiceRecord::ServiceRecord &__that;
-			{
-				// unsigned __int32 $S17;
-			}
-			compiler_generated();
-			todo("implement");
-			::Player::ServiceRecord::ServiceRecord & __result = _sub_106C6710(this, __that);
-			return __result;
-		}
-
-		extern ServiceRecord &_sub_106C6890(::Player::ServiceRecord::ServiceRecord *const, ::Player::ServiceRecord::ServiceRecord const &);
-		_inline ::Player::ServiceRecord::ServiceRecord &ServiceRecord::operator=(::Player::ServiceRecord::ServiceRecord const &__that) // 0x106C6890
-		{
-			mangled_x86(MANGLED_TODO, "??4ServiceRecord@0Player@@QAEAAU001@ABU001@@Z");
-			// Player::ServiceRecord::ServiceRecord const &__that;
-			{
-				// unsigned __int32 $S18;
-			}
-			compiler_generated();
-			todo("implement");
-			::Player::ServiceRecord::ServiceRecord & __result = _sub_106C6890(this, __that);
-			return __result;
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??4ServiceRecord@0Player@@QAEAAU001@ABU001@@Z"); no body to assert in
+		_inline ::Player::ServiceRecord::ServiceRecord &ServiceRecord::operator=(::Player::ServiceRecord::ServiceRecord const &__that) = default; // 0x106C6890
 
 		extern ServiceRecord _sub_106CA2C0(__int32);
 		::Player::ServiceRecord::ServiceRecord getCachedServiceRecord(__int32 networkPlayerIndex) // 0x106CA2C0

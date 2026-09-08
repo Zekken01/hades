@@ -148,21 +148,11 @@ namespace Patches
 	}
 }
 
-_inline CForgeDeviceManager::CForgeDeviceManager() // 0x108CE160
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0CForgeDeviceManager@@QAE@XZ");
-	// CForgeDeviceManager *const this;
+// mangled_x86(MANGLED_DEFAULT, "??0CForgeDeviceManager@@QAE@XZ"); no body to assert in
+_inline CForgeDeviceManager::CForgeDeviceManager() = default; // 0x108CE160
 
-	compiler_generated();
-}
-
-_inline IGameSystem::IGameSystem() // 0x108CE1C0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0IGameSystem@@QAE@XZ");
-	// IGameSystem *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0IGameSystem@@QAE@XZ"); no body to assert in
+_inline IGameSystem::IGameSystem() = default; // 0x108CE1C0
 
 _inline CForgeDeviceManager::~CForgeDeviceManager() // 0x108CE1F0
 {

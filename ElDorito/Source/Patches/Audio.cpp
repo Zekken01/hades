@@ -1147,6 +1147,7 @@ bool sound_cache_locked_block_proc(void *context, long block_index) // 0x10A3507
 _extern void _sub_10A35010();
 void sound_cache_idle_hook() // 0x10A35010
 {
+	mangled_x86(MANGLED_TODO, "?sound_cache_idle_hook@@YAXXZ");
 	// `anonymous-namespace'::sound_cache_idle_hook
 	// procedure flags: nofpo
 	// function call : void (*const)(s_lruv_cache *)

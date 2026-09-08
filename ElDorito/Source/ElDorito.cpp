@@ -399,26 +399,16 @@ ElDorito::ElDorito() // 0x109638F0
 
 namespace Audio
 {
-	_inline IAudioDeviceListener::IAudioDeviceListener() // 0x10963A50
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0IAudioDeviceListener@Audio@@QAE@XZ");
-		// Audio::IAudioDeviceListener *const this;
-
-		compiler_generated();
-	}
+	// mangled_x86(MANGLED_DEFAULT, "??0IAudioDeviceListener@Audio@@QAE@XZ"); no body to assert in
+	_inline IAudioDeviceListener::IAudioDeviceListener() = default; // 0x10963A50
 }
 
 namespace Debug
 {
 	namespace CrashReporting
 	{
-		_inline s_crash_info::s_crash_info() // 0x10963A80
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0s_crash_info@CrashReporting@Debug@@QAE@XZ");
-			// Debug::CrashReporting::s_crash_info *const this;
-
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??0s_crash_info@CrashReporting@Debug@@QAE@XZ"); no body to assert in
+		_inline s_crash_info::s_crash_info() = default; // 0x10963A80
 	}
 }
 
@@ -489,44 +479,24 @@ void ElDorito::Initialize() // 0x10965070
 
 namespace Server
 {
-	_inline BanList::~BanList() // 0x10963FE0
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??1BanList@Server@@QAE@XZ");
-		// Server::BanList *const this;
-
-		compiler_generated();
-	}
+	// mangled_x86(MANGLED_DEFAULT, "??1BanList@Server@@QAE@XZ"); no body to assert in
+	_inline BanList::~BanList() = default; // 0x10963FE0
 }
 
 namespace Debug
 {
 	namespace CrashReporting
 	{
-		_inline s_crash_info::~s_crash_info() // 0x10964050
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??1s_crash_info@CrashReporting@Debug@@QAE@XZ");
-			// Debug::CrashReporting::s_crash_info *const this;
-
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??1s_crash_info@CrashReporting@Debug@@QAE@XZ"); no body to assert in
+		_inline s_crash_info::~s_crash_info() = default; // 0x10964050
 	}
 }
 
-_inline CModBrowserManager::CModBrowserManager() // 0x10963850
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0CModBrowserManager@@QAE@XZ");
-	// CModBrowserManager *const this;
+// mangled_x86(MANGLED_DEFAULT, "??0CModBrowserManager@@QAE@XZ"); no body to assert in
+_inline CModBrowserManager::CModBrowserManager() = default; // 0x10963850
 
-	compiler_generated();
-}
-
-_inline CServerConnectManager::CServerConnectManager() // 0x109638A0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0CServerConnectManager@@QAE@XZ");
-	// CServerConnectManager *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0CServerConnectManager@@QAE@XZ"); no body to assert in
+_inline CServerConnectManager::CServerConnectManager() = default; // 0x109638A0
 
 _extern void _sub_10966B70(ElDorito *const);
 void ElDorito::Shutdown() // 0x10966B70
@@ -804,25 +774,9 @@ namespace Debug
 {
 	namespace CrashReporting
 	{
-		_extern void _sub_10963AF0(::Debug::CrashReporting::s_crash_info::s_exception *const);
-		_inline s_crash_info::s_exception::~s_exception() // 0x10963AF0
-		{
-			// Debug::CrashReporting::s_crash_info::<unnamed-type-exception>::~<unnamed-type-exception>
-			// Debug::CrashReporting::s_crash_info::s_exception *const this;
-			compiler_generated();
-			todo("implement");
-			_sub_10963AF0(this);
-		}
+		_inline s_crash_info::s_exception::~s_exception() = default; // 0x10963AF0
 
-		extern s_crash_info::s_exception* _sub_10963390(::Debug::CrashReporting::s_crash_info::s_exception *const);
-		_inline s_crash_info::s_exception::s_exception() // 0x10963390
-		{
-			// Debug::CrashReporting::s_crash_info::<unnamed-type-exception>::<unnamed-type-exception>
-			// Debug::CrashReporting::s_crash_info::s_exception *const this;
-			compiler_generated();
-			todo("implement");
-			_sub_10963390(this);
-		}
+		_inline s_crash_info::s_exception::s_exception() = default; // 0x10963390
 	}
 }
 

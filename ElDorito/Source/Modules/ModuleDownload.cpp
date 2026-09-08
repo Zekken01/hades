@@ -118,13 +118,8 @@ namespace Modules
 	}
 }
 
-_inline CEventSink<>::SCallbackEntry::SCallbackEntry(CEventSink<>::SCallbackEntry &&__that) // 0x10856850
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0SCallbackEntry@?$CEventSink@$$V@@QAE@$$QAU01@@Z");
-	// CEventSink<>::SCallbackEntry &__that;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0SCallbackEntry@?$CEventSink@$$V@@QAE@$$QAU01@@Z"); no body to assert in
+_inline CEventSink<>::SCallbackEntry::SCallbackEntry(CEventSink<>::SCallbackEntry &&__that) = default; // 0x10856850
 
 /* ---------- private code */
 

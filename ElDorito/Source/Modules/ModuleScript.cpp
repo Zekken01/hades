@@ -107,38 +107,23 @@ namespace Scripting
 {
 	namespace HS
 	{
-		_inline ScriptMethodMap::ScriptMethodMap() // 0x106D3B40
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0ScriptMethodMap@HS@Scripting@@QAE@XZ");
-			// Scripting::HS::ScriptMethodMap *const this;
-
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??0ScriptMethodMap@HS@Scripting@@QAE@XZ"); no body to assert in
+		_inline ScriptMethodMap::ScriptMethodMap() = default; // 0x106D3B40
 	}
 }
 
 namespace Modules
 {
-	_inline ModuleBase::~ModuleBase() // 0x106D3ED0
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??1ModuleBase@Modules@@QAE@XZ");
-		// Modules::ModuleBase *const this;
-
-		compiler_generated();
-	}
+	// mangled_x86(MANGLED_DEFAULT, "??1ModuleBase@Modules@@QAE@XZ"); no body to assert in
+	_inline ModuleBase::~ModuleBase() = default; // 0x106D3ED0
 }
 
 namespace Scripting
 {
 	namespace HS
 	{
-		_inline ScriptMethod::~ScriptMethod() // 0x106D3F20
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??1ScriptMethod@HS@Scripting@@QAE@XZ");
-			// Scripting::HS::ScriptMethod *const this;
-
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??1ScriptMethod@HS@Scripting@@QAE@XZ"); no body to assert in
+		_inline ScriptMethod::~ScriptMethod() = default; // 0x106D3F20
 	}
 }
 

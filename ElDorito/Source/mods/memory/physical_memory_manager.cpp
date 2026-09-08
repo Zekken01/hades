@@ -70,13 +70,8 @@ using namespace hades_file_local;
 
 /* ---------- public code */
 
-_inline c_virtual_page_memory_allocator::c_virtual_page_memory_allocator() // 0x108BDA90
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_virtual_page_memory_allocator@@QAE@XZ");
-	// c_virtual_page_memory_allocator *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0c_virtual_page_memory_allocator@@QAE@XZ"); no body to assert in
+_inline c_virtual_page_memory_allocator::c_virtual_page_memory_allocator() = default; // 0x108BDA90
 
 _extern bool _sub_108BE090(unsigned long);
 bool c_physical_memory_manager::initialize(unsigned long total_memory_size) // 0x108BE090
@@ -180,14 +175,8 @@ void c_physical_memory_manager::prepare_for_new_map() // 0x108BE2F0
 
 /* ---------- private code */
 
-_inline c_physical_memory_stack::c_physical_memory_stack() // 0x108BDA20
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_physical_memory_stack@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::c_physical_memory_stack::c_physical_memory_stack
-	// c_physical_memory_stack *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0c_physical_memory_stack@hades_file_local@@QAE@XZ"); no body to assert in
+_inline c_physical_memory_stack::c_physical_memory_stack() = default; // 0x108BDA20
 
 _extern unsigned long _sub_108BDEC0(c_physical_memory_stack *const, e_physical_memory_stage);
 _inline unsigned long c_physical_memory_stack::get_stage_used_size(e_physical_memory_stage stage) // 0x108BDEC0

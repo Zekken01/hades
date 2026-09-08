@@ -172,21 +172,11 @@ _inline void __cdecl CDebugTextPrinter::WriteLine(char const *format, ...) // 0x
 	_sub_10AC3F90(this, format);
 }
 
-_inline CDebugTextPrinter::CDebugTextPrinter() // 0x10AC39E0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0CDebugTextPrinter@@QAE@XZ");
-	// CDebugTextPrinter *const this;
+// mangled_x86(MANGLED_DEFAULT, "??0CDebugTextPrinter@@QAE@XZ"); no body to assert in
+_inline CDebugTextPrinter::CDebugTextPrinter() = default; // 0x10AC39E0
 
-	compiler_generated();
-}
-
-_inline CDebugTextPrinter::~CDebugTextPrinter() // 0x10AC3AD0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1CDebugTextPrinter@@QAE@XZ");
-	// CDebugTextPrinter *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??1CDebugTextPrinter@@QAE@XZ"); no body to assert in
+_inline CDebugTextPrinter::~CDebugTextPrinter() = default; // 0x10AC3AD0
 
 _extern void _sub_10AC61B0();
 void render_debug_visibility() // 0x10AC61B0

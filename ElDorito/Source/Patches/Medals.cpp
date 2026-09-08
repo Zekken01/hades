@@ -178,15 +178,17 @@ void chud_update_h3_medal_animation_hook(__int32 thisptr, void *unused, __int32 
 	_sub_10A8A270(thisptr, unused, a2);
 }
 
-_extern void _sub_10A8A460(unsigned __int32, __int32);
 void sound_enqueue_announcer_sound_hook(unsigned __int32 sndTagIndex, __int32 delayTicks) // 0x10A8A460
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?sound_enqueue_announcer_sound_hook@@YAXIH@Z");
 	// `anonymous-namespace'::sound_enqueue_announcer_sound_hook
 	// __int32 delayTicks;
 	// void (*const sound_enqueue_announcer_sound)(unsigned __int32, __int32);
 	// function call : void (*const)(unsigned __int32, __int32)
-	todo("implement");
-	_sub_10A8A460(sndTagIndex, delayTicks);
+
+	void (__cdecl *const sound_enqueue_announcer_sound)(unsigned __int32, __int32) = (void(__cdecl *const)(unsigned __int32, __int32))0x6e4630;
+
+	sound_enqueue_announcer_sound(sndTagIndex, delayTicks);
 }
 
 extern void _sub_10A89EA0();

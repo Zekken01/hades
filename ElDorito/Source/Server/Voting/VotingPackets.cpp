@@ -358,20 +358,8 @@ bool SendVotingMessagePacket(Blam::Network::Session *session, __int32 peer, Serv
 	return __result;
 }
 
-_inline VotingMessagePacketHandler::VotingMessagePacketHandler() // 0x10C48030
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0VotingMessagePacketHandler@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::VotingMessagePacketHandler::VotingMessagePacketHandler
-	// VotingMessagePacketHandler *const this;
+// mangled_x86(MANGLED_DEFAULT, "??0VotingMessagePacketHandler@hades_file_local@@QAE@XZ"); no body to assert in
+_inline VotingMessagePacketHandler::VotingMessagePacketHandler() = default; // 0x10C48030
 
-	compiler_generated();
-}
-
-_inline VotingMessagePacketHandler::~VotingMessagePacketHandler() // 0x10C48430
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1VotingMessagePacketHandler@hades_file_local@@UAE@XZ");
-	// `anonymous-namespace'::VotingMessagePacketHandler::~VotingMessagePacketHandler
-	// VotingMessagePacketHandler *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??1VotingMessagePacketHandler@hades_file_local@@UAE@XZ"); no body to assert in
+_inline VotingMessagePacketHandler::~VotingMessagePacketHandler() = default; // 0x10C48430

@@ -221,16 +221,8 @@ bool c_map_variant__is_valid_hook(s_map_variant *thisptr);
 
 /* ---------- public code */
 
-extern s_blf_chunk_end_of_file &_sub_10AC86D0(s_blf_chunk_end_of_file *const, s_blf_chunk_end_of_file &);
-_inline s_blf_chunk_end_of_file &s_blf_chunk_end_of_file::operator=(s_blf_chunk_end_of_file &&__that) // 0x10AC86D0
-{
-	mangled_x86(MANGLED_TODO, "??4s_blf_chunk_end_of_file@@QAEAAU0@$$QAU0@@Z");
-	// s_blf_chunk_end_of_file &__that;
-	compiler_generated();
-	todo("implement");
-	s_blf_chunk_end_of_file & __result = _sub_10AC86D0(this, __that);
-	return __result;
-}
+// mangled_x86(MANGLED_DEFAULT, "??4s_blf_chunk_end_of_file@@QAEAAU0@$$QAU0@@Z"); no body to assert in
+_inline s_blf_chunk_end_of_file &s_blf_chunk_end_of_file::operator=(s_blf_chunk_end_of_file &&__that) = default; // 0x10AC86D0
 
 _extern void _sub_10AC9930();
 void saved_game_patches_apply() // 0x10AC9930

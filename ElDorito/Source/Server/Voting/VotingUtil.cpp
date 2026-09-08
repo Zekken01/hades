@@ -394,54 +394,26 @@ namespace Server
 			return __result;
 		}
 
-		_inline SMapListItem::SMapListItem(Server::Voting::SMapListItem &&__that) // 0x1074C140
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0SMapListItem@Voting@Server@@QAE@$$QAU012@@Z");
-			// Server::Voting::SMapListItem &__that;
+		// mangled_x86(MANGLED_DEFAULT, "??0SMapListItem@Voting@Server@@QAE@$$QAU012@@Z"); no body to assert in
+		_inline SMapListItem::SMapListItem(Server::Voting::SMapListItem &&__that) = default; // 0x1074C140
 
-			compiler_generated();
-		}
-
-		_inline SMapListItem::SMapListItem(Server::Voting::SMapListItem const &__that) // 0x1074C1E0
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0SMapListItem@Voting@Server@@QAE@ABU012@@Z");
-			// Server::Voting::SMapListItem const &__that;
-
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??0SMapListItem@Voting@Server@@QAE@ABU012@@Z"); no body to assert in
+		_inline SMapListItem::SMapListItem(Server::Voting::SMapListItem const &__that) = default; // 0x1074C1E0
 	}
 }
 
-_inline s_blf_map_information::s_blf_map_information() // 0x1074CA80
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_blf_map_information@@QAE@XZ");
-	// s_blf_map_information *const this;
+// mangled_x86(MANGLED_DEFAULT, "??0s_blf_map_information@@QAE@XZ"); no body to assert in
+_inline s_blf_map_information::s_blf_map_information() = default; // 0x1074CA80
 
-	compiler_generated();
-}
-
-_inline CMapFile::~CMapFile() // 0x1074CD80
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1CMapFile@@QAE@XZ");
-	// CMapFile *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??1CMapFile@@QAE@XZ"); no body to assert in
+_inline CMapFile::~CMapFile() = default; // 0x1074CD80
 
 namespace Server
 {
 	namespace Voting
 	{
-		extern SMapListItem &_sub_1074D140(Server::Voting::SMapListItem *const, Server::Voting::SMapListItem const &);
-		_inline Server::Voting::SMapListItem &SMapListItem::operator=(Server::Voting::SMapListItem const &__that) // 0x1074D140
-		{
-			mangled_x86(MANGLED_TODO, "??4SMapListItem@Voting@Server@@QAEAAU012@ABU012@@Z");
-			// Server::Voting::SMapListItem const &__that;
-			compiler_generated();
-			todo("implement");
-			Server::Voting::SMapListItem & __result = _sub_1074D140(this, __that);
-			return __result;
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??4SMapListItem@Voting@Server@@QAEAAU012@ABU012@@Z"); no body to assert in
+		_inline Server::Voting::SMapListItem &SMapListItem::operator=(Server::Voting::SMapListItem const &__that) = default; // 0x1074D140
 	}
 }
 

@@ -725,13 +725,8 @@ namespace Patches
 {
 	namespace Input
 	{
-		_inline InputContext::InputContext() // 0x10C91350
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0InputContext@Input@Patches@@QAE@XZ");
-			// Patches::Input::InputContext *const this;
-
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??0InputContext@Input@Patches@@QAE@XZ"); no body to assert in
+		_inline InputContext::InputContext() = default; // 0x10C91350
 	}
 }
 
@@ -983,14 +978,8 @@ void NotifyVariablesUpdated() // 0x10C94C80
 	_sub_10C94C80();
 }
 
-_inline WebOverlayInputContext::WebOverlayInputContext() // 0x10C91390
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0WebOverlayInputContext@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::WebOverlayInputContext::WebOverlayInputContext
-	// WebOverlayInputContext *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0WebOverlayInputContext@hades_file_local@@QAE@XZ"); no body to assert in
+_inline WebOverlayInputContext::WebOverlayInputContext() = default; // 0x10C91390
 
 _inline WebOverlayInputContext::~WebOverlayInputContext() // 0x10C91DC0
 {

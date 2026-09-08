@@ -152,16 +152,8 @@ namespace Player
 {
 	namespace Emblems
 	{
-		extern PlayerEmblemRenderMetadata &_sub_10C832C0(Player::Emblems::PlayerEmblemRenderMetadata *const, Player::Emblems::PlayerEmblemRenderMetadata const &);
-		_inline Player::Emblems::PlayerEmblemRenderMetadata &PlayerEmblemRenderMetadata::operator=(Player::Emblems::PlayerEmblemRenderMetadata const &__that) // 0x10C832C0
-		{
-			mangled_x86(MANGLED_TODO, "??4PlayerEmblemRenderMetadata@Emblems@Player@@QAEAAU012@ABU012@@Z");
-			// Player::Emblems::PlayerEmblemRenderMetadata const &__that;
-			compiler_generated();
-			todo("implement");
-			Player::Emblems::PlayerEmblemRenderMetadata & __result = _sub_10C832C0(this, __that);
-			return __result;
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??4PlayerEmblemRenderMetadata@Emblems@Player@@QAEAAU012@ABU012@@Z"); no body to assert in
+		_inline Player::Emblems::PlayerEmblemRenderMetadata &PlayerEmblemRenderMetadata::operator=(Player::Emblems::PlayerEmblemRenderMetadata const &__that) = default; // 0x10C832C0
 	}
 }
 
@@ -226,13 +218,8 @@ namespace Player
 {
 	namespace Emblems
 	{
-		_inline IPlayerEmblemRenderCallbacks::IPlayerEmblemRenderCallbacks() // 0x10C826C0
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0IPlayerEmblemRenderCallbacks@Emblems@Player@@QAE@XZ");
-			// Player::Emblems::IPlayerEmblemRenderCallbacks *const this;
-
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??0IPlayerEmblemRenderCallbacks@Emblems@Player@@QAE@XZ"); no body to assert in
+		_inline IPlayerEmblemRenderCallbacks::IPlayerEmblemRenderCallbacks() = default; // 0x10C826C0
 	}
 }
 

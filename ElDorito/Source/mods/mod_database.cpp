@@ -124,35 +124,14 @@ c_mod_database::~c_mod_database() // 0x1084DB20
 	_sub_1084DB20(this);
 }
 
-_inline c_mod_database::s_record::~s_record() // 0x1084DBD0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1s_record@c_mod_database@@QAE@XZ");
-	// c_mod_database::s_record *const this;
+// mangled_x86(MANGLED_DEFAULT, "??1s_record@c_mod_database@@QAE@XZ"); no body to assert in
+_inline c_mod_database::s_record::~s_record() = default; // 0x1084DBD0
 
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??4s_mod_origin_info@@QAEAAU0@ABU0@@Z"); no body to assert in
+_inline s_mod_origin_info &s_mod_origin_info::operator=(s_mod_origin_info const &__that) = default; // 0x1084DE80
 
-extern s_mod_origin_info &_sub_1084DE80(s_mod_origin_info *const, s_mod_origin_info const &);
-_inline s_mod_origin_info &s_mod_origin_info::operator=(s_mod_origin_info const &__that) // 0x1084DE80
-{
-	mangled_x86(MANGLED_TODO, "??4s_mod_origin_info@@QAEAAU0@ABU0@@Z");
-	// s_mod_origin_info const &__that;
-	compiler_generated();
-	todo("implement");
-	s_mod_origin_info & __result = _sub_1084DE80(this, __that);
-	return __result;
-}
-
-extern c_mod_database::s_record &_sub_1084DF20(c_mod_database::s_record *const, c_mod_database::s_record const &);
-_inline c_mod_database::s_record &c_mod_database::s_record::operator=(c_mod_database::s_record const &__that) // 0x1084DF20
-{
-	mangled_x86(MANGLED_TODO, "??4s_record@c_mod_database@@QAEAAU01@ABU01@@Z");
-	// c_mod_database::s_record const &__that;
-	compiler_generated();
-	todo("implement");
-	c_mod_database::s_record & __result = _sub_1084DF20(this, __that);
-	return __result;
-}
+// mangled_x86(MANGLED_DEFAULT, "??4s_record@c_mod_database@@QAEAAU01@ABU01@@Z"); no body to assert in
+_inline c_mod_database::s_record &c_mod_database::s_record::operator=(c_mod_database::s_record const &__that) = default; // 0x1084DF20
 
 _extern bool _sub_10853630(c_mod_database *const, s_mod_package_id const &, c_mod_database::s_record **);
 bool c_mod_database::try_get_record(s_mod_package_id const &id, c_mod_database::s_record **record) // 0x10853630
@@ -359,44 +338,19 @@ void c_mod_database::purge_all_not_in_set(std::unordered_set<s_mod_package_id> s
 	_sub_10852DA0(this, set);
 }
 
-_inline s_mod_origin_info::s_mod_origin_info(s_mod_origin_info &&__that) // 0x1084CC50
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_mod_origin_info@@QAE@$$QAU0@@Z");
-	// s_mod_origin_info &__that;
+// mangled_x86(MANGLED_DEFAULT, "??0s_mod_origin_info@@QAE@$$QAU0@@Z"); no body to assert in
+_inline s_mod_origin_info::s_mod_origin_info(s_mod_origin_info &&__that) = default; // 0x1084CC50
 
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0s_mod_origin_info@@QAE@ABU0@@Z"); no body to assert in
+_inline s_mod_origin_info::s_mod_origin_info(s_mod_origin_info const &__that) = default; // 0x1084CD30
 
-_inline s_mod_origin_info::s_mod_origin_info(s_mod_origin_info const &__that) // 0x1084CD30
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_mod_origin_info@@QAE@ABU0@@Z");
-	// s_mod_origin_info const &__that;
+// mangled_x86(MANGLED_DEFAULT, "??0s_record@c_mod_database@@QAE@$$QAU01@@Z"); no body to assert in
+_inline c_mod_database::s_record::s_record(c_mod_database::s_record &&__that) = default; // 0x1084CE60
 
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0s_record@c_mod_database@@QAE@ABU01@@Z"); no body to assert in
+_inline c_mod_database::s_record::s_record(c_mod_database::s_record const &__that) = default; // 0x1084CF40
 
-_inline c_mod_database::s_record::s_record(c_mod_database::s_record &&__that) // 0x1084CE60
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_record@c_mod_database@@QAE@$$QAU01@@Z");
-	// c_mod_database::s_record &__that;
-
-	compiler_generated();
-}
-
-_inline c_mod_database::s_record::s_record(c_mod_database::s_record const &__that) // 0x1084CF40
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_record@c_mod_database@@QAE@ABU01@@Z");
-	// c_mod_database::s_record const &__that;
-
-	compiler_generated();
-}
-
-_inline c_mod_database::s_record::s_record() // 0x1084D060
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_record@c_mod_database@@QAE@XZ");
-	// c_mod_database::s_record *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0s_record@c_mod_database@@QAE@XZ"); no body to assert in
+_inline c_mod_database::s_record::s_record() = default; // 0x1084D060
 
 /* ---------- private code */

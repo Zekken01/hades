@@ -576,13 +576,8 @@ namespace Web
 	}
 }
 
-_inline s_map_variant::s_map_variant(s_map_variant const &__that) // 0x10C62AC0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_map_variant@@QAE@ABU0@@Z");
-	// s_map_variant const &__that;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0s_map_variant@@QAE@ABU0@@Z"); no body to assert in
+_inline s_map_variant::s_map_variant(s_map_variant const &__that) = default; // 0x10C62AC0
 
 namespace Web
 {

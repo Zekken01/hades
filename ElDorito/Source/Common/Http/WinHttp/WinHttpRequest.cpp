@@ -107,13 +107,8 @@ namespace Http
 
 namespace Http
 {
-	_inline CHttpHeaders::CHttpHeaders(Http::CHttpHeaders const &__that) // 0x10806D20
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0CHttpHeaders@Http@@QAE@ABV01@@Z");
-		// Http::CHttpHeaders const &__that;
-
-		compiler_generated();
-	}
+	// mangled_x86(MANGLED_DEFAULT, "??0CHttpHeaders@Http@@QAE@ABV01@@Z"); no body to assert in
+	_inline CHttpHeaders::CHttpHeaders(Http::CHttpHeaders const &__that) = default; // 0x10806D20
 
 	_extern bool _sub_10809540(Http::CWinHttpResponse *const, Http::CWinHttpRequest &);
 	bool CWinHttpResponse::Process(Http::CWinHttpRequest &request) // 0x10809540
@@ -135,37 +130,17 @@ namespace Http
 		_sub_10806DE0(this, winhttpManager);
 	}
 
-	_inline CWinHttpResponse::CWinHttpResponse() // 0x10806F80
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0CWinHttpResponse@Http@@QAE@XZ");
-		// Http::CWinHttpResponse *const this;
+	// mangled_x86(MANGLED_DEFAULT, "??0CWinHttpResponse@Http@@QAE@XZ"); no body to assert in
+	_inline CWinHttpResponse::CWinHttpResponse() = default; // 0x10806F80
 
-		compiler_generated();
-	}
+	// mangled_x86(MANGLED_DEFAULT, "??0IHttpRequest@Http@@QAE@XZ"); no body to assert in
+	_inline IHttpRequest::IHttpRequest() = default; // 0x10807000
 
-	_inline IHttpRequest::IHttpRequest() // 0x10807000
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0IHttpRequest@Http@@QAE@XZ");
-		// Http::IHttpRequest *const this;
+	// mangled_x86(MANGLED_DEFAULT, "??0IHttpResponse@Http@@QAE@XZ"); no body to assert in
+	_inline IHttpResponse::IHttpResponse() = default; // 0x10807060
 
-		compiler_generated();
-	}
-
-	_inline IHttpResponse::IHttpResponse() // 0x10807060
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0IHttpResponse@Http@@QAE@XZ");
-		// Http::IHttpResponse *const this;
-
-		compiler_generated();
-	}
-
-	_inline WinHttpErrorCategory::WinHttpErrorCategory() // 0x10807090
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0WinHttpErrorCategory@Http@@QAE@XZ");
-		// Http::WinHttpErrorCategory *const this;
-
-		compiler_generated();
-	}
+	// mangled_x86(MANGLED_DEFAULT, "??0WinHttpErrorCategory@Http@@QAE@XZ"); no body to assert in
+	_inline WinHttpErrorCategory::WinHttpErrorCategory() = default; // 0x10807090
 
 	_extern bool _sub_108094E0(Http::CWinHttpRequest const *const);
 	bool CWinHttpRequest::IsComplete() const // 0x108094E0
@@ -177,13 +152,8 @@ namespace Http
 		return __result;
 	}
 
-	_inline CHttpHeaders::~CHttpHeaders() // 0x10807570
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??1CHttpHeaders@Http@@QAE@XZ");
-		// Http::CHttpHeaders *const this;
-
-		compiler_generated();
-	}
+	// mangled_x86(MANGLED_DEFAULT, "??1CHttpHeaders@Http@@QAE@XZ"); no body to assert in
+	_inline CHttpHeaders::~CHttpHeaders() = default; // 0x10807570
 }
 
 extern std::shared_ptr<Http::IHttpResponse> _sub_10808A90(Http::CWinHttpRequest *const);
@@ -206,13 +176,8 @@ namespace Http
 		compiler_generated();
 	}
 
-	_inline CWinHttpResponse::~CWinHttpResponse() // 0x108076C0
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??1CWinHttpResponse@Http@@QAE@XZ");
-		// Http::CWinHttpResponse *const this;
-
-		compiler_generated();
-	}
+	// mangled_x86(MANGLED_DEFAULT, "??1CWinHttpResponse@Http@@QAE@XZ"); no body to assert in
+	_inline CWinHttpResponse::~CWinHttpResponse() = default; // 0x108076C0
 
 	_inline WinHttpErrorCategory::~WinHttpErrorCategory() // 0x10807760
 	{
@@ -222,16 +187,8 @@ namespace Http
 		compiler_generated();
 	}
 
-	extern CHttpHeaders &_sub_10807C10(Http::CHttpHeaders *const, Http::CHttpHeaders const &);
-	_inline Http::CHttpHeaders &CHttpHeaders::operator=(Http::CHttpHeaders const &__that) // 0x10807C10
-	{
-		mangled_x86(MANGLED_TODO, "??4CHttpHeaders@Http@@QAEAAV01@ABV01@@Z");
-		// Http::CHttpHeaders const &__that;
-		compiler_generated();
-		todo("implement");
-		Http::CHttpHeaders & __result = _sub_10807C10(this, __that);
-		return __result;
-	}
+	// mangled_x86(MANGLED_DEFAULT, "??4CHttpHeaders@Http@@QAEAAV01@ABV01@@Z"); no body to assert in
+	_inline Http::CHttpHeaders &CHttpHeaders::operator=(Http::CHttpHeaders const &__that) = default; // 0x10807C10
 
 	_extern void _sub_1080A540(Http::CWinHttpRequest *const, std::string);
 	void CWinHttpRequest::SetMethod(std::string method) // 0x1080A540

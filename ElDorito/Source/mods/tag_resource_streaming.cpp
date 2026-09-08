@@ -155,14 +155,8 @@ long tag_resource_stream_async(long resource_handle, void *buffer, long buffer_s
 
 /* ---------- private code */
 
-_inline c_tag_resource_stream_task::c_tag_resource_stream_task() // 0x10853DB0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_tag_resource_stream_task@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::c_tag_resource_stream_task::c_tag_resource_stream_task
-	// c_tag_resource_stream_task *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0c_tag_resource_stream_task@hades_file_local@@QAE@XZ"); no body to assert in
+_inline c_tag_resource_stream_task::c_tag_resource_stream_task() = default; // 0x10853DB0
 
 _extern bool _sub_10854290(c_tag_resource_stream_task::s_packet const *const);
 _inline bool c_tag_resource_stream_task::s_packet::is_filled() const // 0x10854290

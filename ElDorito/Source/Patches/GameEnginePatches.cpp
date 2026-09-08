@@ -215,32 +215,14 @@ namespace Utils
 
 /* ---------- public code */
 
-_inline s_game_engine_event_data::s_game_engine_event_data() // 0x107A91F0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_game_engine_event_data@@QAE@XZ");
-	// s_game_engine_event_data *const this;
+// mangled_x86(MANGLED_DEFAULT, "??0s_game_engine_event_data@@QAE@XZ"); no body to assert in
+_inline s_game_engine_event_data::s_game_engine_event_data() = default; // 0x107A91F0
 
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??1Patch@@QAE@XZ"); no body to assert in
+_inline Patch::~Patch() = default; // 0x107A9240
 
-_inline Patch::~Patch() // 0x107A9240
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1Patch@@QAE@XZ");
-	// Patch *const this;
-
-	compiler_generated();
-}
-
-extern s_damage_reporting_info &_sub_107A92D0(s_damage_reporting_info *const, s_damage_reporting_info const &);
-_inline s_damage_reporting_info &s_damage_reporting_info::operator=(s_damage_reporting_info const &__that) // 0x107A92D0
-{
-	mangled_x86(MANGLED_TODO, "??4s_damage_reporting_info@@QAEAAU0@ABU0@@Z");
-	// s_damage_reporting_info const &__that;
-	compiler_generated();
-	todo("implement");
-	s_damage_reporting_info & __result = _sub_107A92D0(this, __that);
-	return __result;
-}
+// mangled_x86(MANGLED_DEFAULT, "??4s_damage_reporting_info@@QAEAAU0@ABU0@@Z"); no body to assert in
+_inline s_damage_reporting_info &s_damage_reporting_info::operator=(s_damage_reporting_info const &__that) = default; // 0x107A92D0
 
 namespace Patches
 {

@@ -249,52 +249,19 @@ bool ForwardReportToEndpoint(std::string const &endpoint, std::string const &rep
 	return __result;
 }
 
-_inline ReportRequest::ReportRequest(ReportRequest &__that) // 0x10B21560
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0ReportRequest@hades_file_local@@QAE@AAU01@@Z");
-	// `anonymous-namespace'::ReportRequest::ReportRequest
-	// ReportRequest &__that;
+// mangled_x86(MANGLED_DEFAULT, "??0ReportRequest@hades_file_local@@QAE@AAU01@@Z"); no body to assert in
+_inline ReportRequest::ReportRequest(ReportRequest &__that) = default; // 0x10B21560
 
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0ReportRequest@hades_file_local@@QAE@ABU01@@Z"); no body to assert in
+_inline ReportRequest::ReportRequest(ReportRequest const &__that) = default; // 0x10B215E0
 
-_inline ReportRequest::ReportRequest(ReportRequest const &__that) // 0x10B215E0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0ReportRequest@hades_file_local@@QAE@ABU01@@Z");
-	// `anonymous-namespace'::ReportRequest::ReportRequest
-	// ReportRequest const &__that;
+// mangled_x86(MANGLED_DEFAULT, "??0ReportRequest@hades_file_local@@QAE@XZ"); no body to assert in
+_inline ReportRequest::ReportRequest() = default; // 0x10B21660
 
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??1ReportRequest@hades_file_local@@QAE@XZ"); no body to assert in
+_inline ReportRequest::~ReportRequest() = default; // 0x10B218B0
 
-_inline ReportRequest::ReportRequest() // 0x10B21660
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0ReportRequest@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::ReportRequest::ReportRequest
-	// ReportRequest *const this;
-
-	compiler_generated();
-}
-
-_inline ReportRequest::~ReportRequest() // 0x10B218B0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1ReportRequest@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::ReportRequest::~ReportRequest
-	// ReportRequest *const this;
-
-	compiler_generated();
-}
-
-extern ReportRequest &_sub_10B219D0(ReportRequest *const, ReportRequest &);
-_inline ReportRequest &ReportRequest::operator=(ReportRequest &__that) // 0x10B219D0
-{
-	// `anonymous-namespace'::ReportRequest::operator=
-	// ReportRequest &__that;
-	compiler_generated();
-	todo("implement");
-	ReportRequest & __result = _sub_10B219D0(this, __that);
-	return __result;
-}
+_inline ReportRequest &ReportRequest::operator=(ReportRequest &__that) = default; // 0x10B219D0
 
 _extern void _sub_10B227F0(std::string const &);
 void ForwardReportToEndpoints(std::string const &report) // 0x10B227F0

@@ -160,16 +160,8 @@ bool ReadHeader(std::ifstream &stream, Forge::Prefabs::PrefabHeader &header);
 
 /* ---------- public code */
 
-extern s_map_variant_placement_properties &_sub_1096F790(s_map_variant_placement_properties *const, s_map_variant_placement_properties const &);
-_inline s_map_variant_placement_properties &s_map_variant_placement_properties::operator=(s_map_variant_placement_properties const &__that) // 0x1096F790
-{
-	mangled_x86(MANGLED_TODO, "??4s_map_variant_placement_properties@@QAEAAU0@ABU0@@Z");
-	// s_map_variant_placement_properties const &__that;
-	compiler_generated();
-	todo("implement");
-	s_map_variant_placement_properties & __result = _sub_1096F790(this, __that);
-	return __result;
-}
+// mangled_x86(MANGLED_DEFAULT, "??4s_map_variant_placement_properties@@QAEAAU0@ABU0@@Z"); no body to assert in
+_inline s_map_variant_placement_properties &s_map_variant_placement_properties::operator=(s_map_variant_placement_properties const &__that) = default; // 0x1096F790
 
 namespace Forge
 {
@@ -299,14 +291,8 @@ namespace Forge
 
 /* ---------- private code */
 
-_inline PrefabPlacement::PrefabPlacement() // 0x1096F6D0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0PrefabPlacement@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::PrefabPlacement::PrefabPlacement
-	// PrefabPlacement *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0PrefabPlacement@hades_file_local@@QAE@XZ"); no body to assert in
+_inline PrefabPlacement::PrefabPlacement() = default; // 0x1096F6D0
 
 _extern bool _sub_10970330(std::ifstream &, Forge::Prefabs::PrefabHeader &);
 bool ReadHeader(std::ifstream &stream, Forge::Prefabs::PrefabHeader &header) // 0x10970330

@@ -267,13 +267,8 @@ namespace Patches
 {
 	namespace Network
 	{
-		_inline NetworkSessionListener::NetworkSessionListener() // 0x10AFF1C0
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0NetworkSessionListener@Network@Patches@@QAE@XZ");
-			// Patches::Network::NetworkSessionListener *const this;
-
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??0NetworkSessionListener@Network@Patches@@QAE@XZ"); no body to assert in
+		_inline NetworkSessionListener::NetworkSessionListener() = default; // 0x10AFF1C0
 	}
 }
 
@@ -281,13 +276,8 @@ namespace Patches
 {
 	namespace CustomPackets
 	{
-		_inline RawPacketHandler::RawPacketHandler() // 0x10AFF250
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0RawPacketHandler@CustomPackets@Patches@@QAE@XZ");
-			// Patches::CustomPackets::RawPacketHandler *const this;
-
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??0RawPacketHandler@CustomPackets@Patches@@QAE@XZ"); no body to assert in
+		_inline RawPacketHandler::RawPacketHandler() = default; // 0x10AFF250
 	}
 }
 
@@ -385,14 +375,8 @@ bool SendClientMessage(Blam::Network::Session *session, Server::ClientDataTracke
 	return __result;
 }
 
-_inline ClientInfoDataPacketHandler::ClientInfoDataPacketHandler() // 0x10AFF100
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0ClientInfoDataPacketHandler@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::ClientInfoDataPacketHandler::ClientInfoDataPacketHandler
-	// ClientInfoDataPacketHandler *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0ClientInfoDataPacketHandler@hades_file_local@@QAE@XZ"); no body to assert in
+_inline ClientInfoDataPacketHandler::ClientInfoDataPacketHandler() = default; // 0x10AFF100
 
 _inline ClientInfoDataPacketHandler::~ClientInfoDataPacketHandler() // 0x10AFF7E0
 {

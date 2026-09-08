@@ -405,109 +405,44 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- public code */
 
-_inline c_async_completion_flag::c_async_completion_flag() // 0x10921640
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_async_completion_flag@@QAE@XZ");
-	// c_async_completion_flag *const this;
+// mangled_x86(MANGLED_DEFAULT, "??0c_async_completion_flag@@QAE@XZ"); no body to assert in
+_inline c_async_completion_flag::c_async_completion_flag() = default; // 0x10921640
 
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0c_game_variant@@QAE@XZ"); no body to assert in
+_inline c_game_variant::c_game_variant() = default; // 0x109216A0
 
-_inline c_game_variant::c_game_variant() // 0x109216A0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_game_variant@@QAE@XZ");
-	// c_game_variant *const this;
+// mangled_x86(MANGLED_DEFAULT, "??0c_map_load_crash_recovery_helper@@QAE@XZ"); no body to assert in
+_inline c_map_load_crash_recovery_helper::c_map_load_crash_recovery_helper() = default; // 0x109216F0
 
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0c_map_load_error_helper@@QAE@XZ"); no body to assert in
+_inline c_map_load_error_helper::c_map_load_error_helper() = default; // 0x10921770
 
-_inline c_map_load_crash_recovery_helper::c_map_load_crash_recovery_helper() // 0x109216F0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_map_load_crash_recovery_helper@@QAE@XZ");
-	// c_map_load_crash_recovery_helper *const this;
+// mangled_x86(MANGLED_DEFAULT, "??0c_mod_cache_tag_remapper@@QAE@XZ"); no body to assert in
+_inline c_mod_cache_tag_remapper::c_mod_cache_tag_remapper() = default; // 0x109217C0
 
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0s_game_options@@QAE@XZ"); no body to assert in
+_inline s_game_options::s_game_options() = default; // 0x109219A0
 
-_inline c_map_load_error_helper::c_map_load_error_helper() // 0x10921770
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_map_load_error_helper@@QAE@XZ");
-	// c_map_load_error_helper *const this;
+// mangled_x86(MANGLED_DEFAULT, "??0s_game_player_options@@QAE@XZ"); no body to assert in
+_inline s_game_player_options::s_game_player_options() = default; // 0x10921A30
 
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0s_player_appearance@@QAE@XZ"); no body to assert in
+_inline s_player_appearance::s_player_appearance() = default; // 0x10921A90
 
-_inline c_mod_cache_tag_remapper::c_mod_cache_tag_remapper() // 0x109217C0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_mod_cache_tag_remapper@@QAE@XZ");
-	// c_mod_cache_tag_remapper *const this;
+// mangled_x86(MANGLED_DEFAULT, "??0s_player_configuration@@QAE@XZ"); no body to assert in
+_inline s_player_configuration::s_player_configuration() = default; // 0x10921AF0
 
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0s_player_configuration_from_host@@QAE@XZ"); no body to assert in
+_inline s_player_configuration_from_host::s_player_configuration_from_host() = default; // 0x10921B50
 
-_inline s_game_options::s_game_options() // 0x109219A0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_game_options@@QAE@XZ");
-	// s_game_options *const this;
+// mangled_x86(MANGLED_DEFAULT, "??1c_map_load_crash_recovery_helper@@QAE@XZ"); no body to assert in
+_inline c_map_load_crash_recovery_helper::~c_map_load_crash_recovery_helper() = default; // 0x10922050
 
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??1c_map_load_error_helper@@QAE@XZ"); no body to assert in
+_inline c_map_load_error_helper::~c_map_load_error_helper() = default; // 0x109220A0
 
-_inline s_game_player_options::s_game_player_options() // 0x10921A30
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_game_player_options@@QAE@XZ");
-	// s_game_player_options *const this;
-
-	compiler_generated();
-}
-
-_inline s_player_appearance::s_player_appearance() // 0x10921A90
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_player_appearance@@QAE@XZ");
-	// s_player_appearance *const this;
-
-	compiler_generated();
-}
-
-_inline s_player_configuration::s_player_configuration() // 0x10921AF0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_player_configuration@@QAE@XZ");
-	// s_player_configuration *const this;
-
-	compiler_generated();
-}
-
-_inline s_player_configuration_from_host::s_player_configuration_from_host() // 0x10921B50
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_player_configuration_from_host@@QAE@XZ");
-	// s_player_configuration_from_host *const this;
-
-	compiler_generated();
-}
-
-_inline c_map_load_crash_recovery_helper::~c_map_load_crash_recovery_helper() // 0x10922050
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1c_map_load_crash_recovery_helper@@QAE@XZ");
-	// c_map_load_crash_recovery_helper *const this;
-
-	compiler_generated();
-}
-
-_inline c_map_load_error_helper::~c_map_load_error_helper() // 0x109220A0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1c_map_load_error_helper@@QAE@XZ");
-	// c_map_load_error_helper *const this;
-
-	compiler_generated();
-}
-
-_inline c_mod_cache_tag_remapper::~c_mod_cache_tag_remapper() // 0x109220F0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1c_mod_cache_tag_remapper@@QAE@XZ");
-	// c_mod_cache_tag_remapper *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??1c_mod_cache_tag_remapper@@QAE@XZ"); no body to assert in
+_inline c_mod_cache_tag_remapper::~c_mod_cache_tag_remapper() = default; // 0x109220F0
 
 namespace Patches
 {
@@ -747,6 +682,7 @@ bool open_mod_package_resource_cache(char const *filepath) // 0x109294C0
 _extern void _sub_10926750();
 void close_mod_package_resource_cache() // 0x10926750
 {
+	mangled_x86(MANGLED_TODO, "?close_mod_package_resource_cache@@YAXXZ");
 	// `anonymous-namespace'::close_mod_package_resource_cache
 	// procedure flags: nofpo
 	// void (*const cached_map_file_close)(long);
@@ -1209,14 +1145,8 @@ void main_menu_launch_force_hook() // 0x10928C40
 	_sub_10928C40();
 }
 
-_inline s_cache_file_loaded_state::s_cache_file_loaded_state() // 0x109218B0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_cache_file_loaded_state@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::s_cache_file_loaded_state::s_cache_file_loaded_state
-	// s_cache_file_loaded_state *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0s_cache_file_loaded_state@hades_file_local@@QAE@XZ"); no body to assert in
+_inline s_cache_file_loaded_state::s_cache_file_loaded_state() = default; // 0x109218B0
 
 _extern void _sub_10928DF0();
 void main_menu_launch_hook() // 0x10928DF0
@@ -1233,14 +1163,8 @@ void main_menu_launch_hook() // 0x10928DF0
 	_sub_10928DF0();
 }
 
-_inline s_cache_file_loaded_state::~s_cache_file_loaded_state() // 0x10922160
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1s_cache_file_loaded_state@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::s_cache_file_loaded_state::~s_cache_file_loaded_state
-	// s_cache_file_loaded_state *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??1s_cache_file_loaded_state@hades_file_local@@QAE@XZ"); no body to assert in
+_inline s_cache_file_loaded_state::~s_cache_file_loaded_state() = default; // 0x10922160
 
 /* ---------- template instantiations */
 

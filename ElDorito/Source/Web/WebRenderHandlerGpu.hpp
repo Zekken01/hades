@@ -137,48 +137,47 @@ namespace Web
 			return m_PopupVisible;
 		}
 
-		_extern void _sub_10CEB620(CefBaseRefCounted * const);
 		_inline void RenderHandlerGpu::AddRef() const // 0x10CEB620
 		{
-			mangled_x86(MANGLED_TODO, "?AddRef@RenderHandlerGpu@Browser@Web@@UBEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?AddRef@RenderHandlerGpu@Browser@Web@@UBEXXZ");
 			// __shifted(Web::Browser::RenderHandlerGpu, 92);
 			// Web::Browser::RenderHandlerGpu const *const this;
-			todo("implement");
-			_sub_10CEB620((CefBaseRefCounted *)this);
+
+			ref_count_.AddRef();
 		}
 
-		_extern bool _sub_10CEB8B0(CefBaseRefCounted * const);
 		_inline bool RenderHandlerGpu::HasAtLeastOneRef() const // 0x10CEB8B0
 		{
-			mangled_x86(MANGLED_TODO, "?HasAtLeastOneRef@RenderHandlerGpu@Browser@Web@@UBE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?HasAtLeastOneRef@RenderHandlerGpu@Browser@Web@@UBE_NXZ");
 			// __shifted(Web::Browser::RenderHandlerGpu, 92);
 			// Web::Browser::RenderHandlerGpu const *const this;
-			todo("implement");
-			bool __result = _sub_10CEB8B0((CefBaseRefCounted *)this);
-			return __result;
+
+			return ref_count_.HasAtLeastOneRef();
 		}
 
-		_extern bool _sub_10CEB910(CefBaseRefCounted * const);
 		_inline bool RenderHandlerGpu::HasOneRef() const // 0x10CEB910
 		{
-			mangled_x86(MANGLED_TODO, "?HasOneRef@RenderHandlerGpu@Browser@Web@@UBE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?HasOneRef@RenderHandlerGpu@Browser@Web@@UBE_NXZ");
 			// __shifted(Web::Browser::RenderHandlerGpu, 92);
 			// Web::Browser::RenderHandlerGpu const *const this;
-			todo("implement");
-			bool __result = _sub_10CEB910((CefBaseRefCounted *)this);
-			return __result;
+
+			return ref_count_.HasOneRef();
 		}
 
-		_extern bool _sub_10CEC6E0(CefBaseRefCounted * const);
 		_inline bool RenderHandlerGpu::Release() const // 0x10CEC6E0
 		{
-			mangled_x86(MANGLED_TODO, "?Release@RenderHandlerGpu@Browser@Web@@UBE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Release@RenderHandlerGpu@Browser@Web@@UBE_NXZ");
 			// __shifted(Web::Browser::RenderHandlerGpu, 92);
 			// Web::Browser::RenderHandlerGpu const *const this;
 			// function call : void *(unsigned __int32)
-			todo("implement");
-			bool __result = _sub_10CEC6E0((CefBaseRefCounted *)this);
-			return __result;
+
+			if (ref_count_.Release())
+			{
+				delete static_cast<RenderHandlerGpu const *>(this);
+				return true;
+			}
+
+			return false;
 		}
 	}
 }

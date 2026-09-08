@@ -813,32 +813,14 @@ void ResetPassword(__int32 peerIndex) // 0x10C2FB60
 	_sub_10C2FB60(peerIndex);
 }
 
-_inline WebSocketPacketHandler::WebSocketPacketHandler() // 0x10C2B4F0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0WebSocketPacketHandler@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::WebSocketPacketHandler::WebSocketPacketHandler
-	// WebSocketPacketHandler *const this;
+// mangled_x86(MANGLED_DEFAULT, "??0WebSocketPacketHandler@hades_file_local@@QAE@XZ"); no body to assert in
+_inline WebSocketPacketHandler::WebSocketPacketHandler() = default; // 0x10C2B4F0
 
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0coninfo@hades_file_local@@QAE@AAU01@@Z"); no body to assert in
+_inline coninfo::coninfo(coninfo &__that) = default; // 0x10C2B550
 
-_inline coninfo::coninfo(coninfo &__that) // 0x10C2B550
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0coninfo@hades_file_local@@QAE@AAU01@@Z");
-	// `anonymous-namespace'::coninfo::coninfo
-	// coninfo &__that;
-
-	compiler_generated();
-}
-
-_inline coninfo::coninfo(coninfo const &__that) // 0x10C2B600
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0coninfo@hades_file_local@@QAE@ABU01@@Z");
-	// `anonymous-namespace'::coninfo::coninfo
-	// coninfo const &__that;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0coninfo@hades_file_local@@QAE@ABU01@@Z"); no body to assert in
+_inline coninfo::coninfo(coninfo const &__that) = default; // 0x10C2B600
 
 _inline WebSocketPacketHandler::~WebSocketPacketHandler() // 0x10C2BF80
 {
@@ -849,14 +831,8 @@ _inline WebSocketPacketHandler::~WebSocketPacketHandler() // 0x10C2BF80
 	compiler_generated();
 }
 
-_inline coninfo::~coninfo() // 0x10C2BFD0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1coninfo@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::coninfo::~coninfo
-	// coninfo *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??1coninfo@hades_file_local@@QAE@XZ"); no body to assert in
+_inline coninfo::~coninfo() = default; // 0x10C2BFD0
 
 /* ---------- template instantiations */
 

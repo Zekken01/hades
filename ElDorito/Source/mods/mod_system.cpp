@@ -430,80 +430,32 @@ IModManager &c_mod_system::GetModManager() // 0x108B81C0
 	return __result;
 }
 
-_inline c_mod_package_updater_blocking::c_mod_package_updater_blocking() // 0x108B6B30
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_mod_package_updater_blocking@@QAE@XZ");
-	// c_mod_package_updater_blocking *const this;
+// mangled_x86(MANGLED_DEFAULT, "??0c_mod_package_updater_blocking@@QAE@XZ"); no body to assert in
+_inline c_mod_package_updater_blocking::c_mod_package_updater_blocking() = default; // 0x108B6B30
 
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0s_mod_server_package_entry@@QAE@$$QAU0@@Z"); no body to assert in
+_inline s_mod_server_package_entry::s_mod_server_package_entry(s_mod_server_package_entry &&__that) = default; // 0x108B6B90
 
-_inline s_mod_server_package_entry::s_mod_server_package_entry(s_mod_server_package_entry &&__that) // 0x108B6B90
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_mod_server_package_entry@@QAE@$$QAU0@@Z");
-	// s_mod_server_package_entry &__that;
+// mangled_x86(MANGLED_DEFAULT, "??0s_mod_server_package_entry@@QAE@ABU0@@Z"); no body to assert in
+_inline s_mod_server_package_entry::s_mod_server_package_entry(s_mod_server_package_entry const &__that) = default; // 0x108B6C40
 
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0s_mod_server_package_entry@@QAE@XZ"); no body to assert in
+_inline s_mod_server_package_entry::s_mod_server_package_entry() = default; // 0x108B6D40
 
-_inline s_mod_server_package_entry::s_mod_server_package_entry(s_mod_server_package_entry const &__that) // 0x108B6C40
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_mod_server_package_entry@@QAE@ABU0@@Z");
-	// s_mod_server_package_entry const &__that;
+// mangled_x86(MANGLED_DEFAULT, "??0s_mod_system_globals@@QAE@XZ"); no body to assert in
+_inline s_mod_system_globals::s_mod_system_globals() = default; // 0x108B6DB0
 
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??1c_mod_package_updater_blocking@@QAE@XZ"); no body to assert in
+_inline c_mod_package_updater_blocking::~c_mod_package_updater_blocking() = default; // 0x108B7790
 
-_inline s_mod_server_package_entry::s_mod_server_package_entry() // 0x108B6D40
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_mod_server_package_entry@@QAE@XZ");
-	// s_mod_server_package_entry *const this;
+// mangled_x86(MANGLED_DEFAULT, "??1s_mod_server_package_entry@@QAE@XZ"); no body to assert in
+_inline s_mod_server_package_entry::~s_mod_server_package_entry() = default; // 0x108B77F0
 
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??1s_mod_system_globals@@QAE@XZ"); no body to assert in
+_inline s_mod_system_globals::~s_mod_system_globals() = default; // 0x108B7860
 
-_inline s_mod_system_globals::s_mod_system_globals() // 0x108B6DB0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_mod_system_globals@@QAE@XZ");
-	// s_mod_system_globals *const this;
-
-	compiler_generated();
-}
-
-_inline c_mod_package_updater_blocking::~c_mod_package_updater_blocking() // 0x108B7790
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1c_mod_package_updater_blocking@@QAE@XZ");
-	// c_mod_package_updater_blocking *const this;
-
-	compiler_generated();
-}
-
-_inline s_mod_server_package_entry::~s_mod_server_package_entry() // 0x108B77F0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1s_mod_server_package_entry@@QAE@XZ");
-	// s_mod_server_package_entry *const this;
-
-	compiler_generated();
-}
-
-_inline s_mod_system_globals::~s_mod_system_globals() // 0x108B7860
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1s_mod_system_globals@@QAE@XZ");
-	// s_mod_system_globals *const this;
-
-	compiler_generated();
-}
-
-extern s_mod_server_package_entry &_sub_108B79E0(s_mod_server_package_entry *const, s_mod_server_package_entry const &);
-_inline s_mod_server_package_entry &s_mod_server_package_entry::operator=(s_mod_server_package_entry const &__that) // 0x108B79E0
-{
-	mangled_x86(MANGLED_TODO, "??4s_mod_server_package_entry@@QAEAAU0@ABU0@@Z");
-	// s_mod_server_package_entry const &__that;
-	compiler_generated();
-	todo("implement");
-	s_mod_server_package_entry & __result = _sub_108B79E0(this, __that);
-	return __result;
-}
+// mangled_x86(MANGLED_DEFAULT, "??4s_mod_server_package_entry@@QAEAAU0@ABU0@@Z"); no body to assert in
+_inline s_mod_server_package_entry &s_mod_server_package_entry::operator=(s_mod_server_package_entry const &__that) = default; // 0x108B79E0
 
 /* ---------- private code */
 

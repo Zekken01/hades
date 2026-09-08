@@ -73,49 +73,79 @@ float c_player_trait_shield_vitality::get_damage_resistance_percentage() const /
 	return __result;
 }
 
-_extern void _sub_10F05AB0(c_player_trait_shield_vitality *const, c_player_trait_shield_vitality::e_damage_resistance_setting, bool);
 void c_player_trait_shield_vitality::set_damage_resistance_setting(c_player_trait_shield_vitality::e_damage_resistance_setting value, bool can_inherit) // 0x10F05AB0
 {
-	mangled_x86(MANGLED_TODO, "?set_damage_resistance_setting@c_player_trait_shield_vitality@@QAEXW4e_damage_resistance_setting@1@_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_damage_resistance_setting@c_player_trait_shield_vitality@@QAEXW4e_damage_resistance_setting@1@_N@Z");
 	// bool can_inherit;
-	todo("implement");
-	_sub_10F05AB0(this, value, can_inherit);
+
+	if (value < _damage_resistance_unchanged || value >= k_damage_resistance_setting_count)
+	{
+		return;
+	}
+	else if (value != _damage_resistance_unchanged || can_inherit)
+	{
+		damage_resistance = (unsigned char)value;
+	}
 }
 
-_extern void _sub_10F06310(c_player_trait_shield_vitality *const, c_player_trait_shield_vitality::e_shield_recharge_rate_setting, bool);
 void c_player_trait_shield_vitality::set_shield_recharge_rate_setting(c_player_trait_shield_vitality::e_shield_recharge_rate_setting value, bool can_inherit) // 0x10F06310
 {
-	mangled_x86(MANGLED_TODO, "?set_shield_recharge_rate_setting@c_player_trait_shield_vitality@@QAEXW4e_shield_recharge_rate_setting@1@_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_shield_recharge_rate_setting@c_player_trait_shield_vitality@@QAEXW4e_shield_recharge_rate_setting@1@_N@Z");
 	// bool can_inherit;
-	todo("implement");
-	_sub_10F06310(this, value, can_inherit);
+
+	if (value < _shield_recharge_rate_unchanged || value >= k_shield_recharge_rate_setting_count)
+	{
+		return;
+	}
+	else if (value != _shield_recharge_rate_unchanged || can_inherit)
+	{
+		shield_recharge_rate = (unsigned char)value;
+	}
 }
 
-_extern void _sub_10F06390(c_player_trait_shield_vitality *const, c_player_trait_shield_vitality::e_shield_vampirism_setting, bool);
 void c_player_trait_shield_vitality::set_shield_vampirism_setting(c_player_trait_shield_vitality::e_shield_vampirism_setting value, bool can_inherit) // 0x10F06390
 {
-	mangled_x86(MANGLED_TODO, "?set_shield_vampirism_setting@c_player_trait_shield_vitality@@QAEXW4e_shield_vampirism_setting@1@_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_shield_vampirism_setting@c_player_trait_shield_vitality@@QAEXW4e_shield_vampirism_setting@1@_N@Z");
 	// bool can_inherit;
-	todo("implement");
-	_sub_10F06390(this, value, can_inherit);
+
+	if (value < _shield_vampirism_unchanged || value >= k_shield_vampirism_setting_count)
+	{
+		return;
+	}
+	else if (value != _shield_vampirism_unchanged || can_inherit)
+	{
+		shield_vampirism = (unsigned char)value;
+	}
 }
 
-_extern void _sub_10F05C30(c_player_trait_shield_vitality *const, c_player_trait_shield_vitality::e_headshot_immunity_setting, bool);
 void c_player_trait_shield_vitality::set_headshot_immunity_setting(c_player_trait_shield_vitality::e_headshot_immunity_setting value, bool can_inherit) // 0x10F05C30
 {
-	mangled_x86(MANGLED_TODO, "?set_headshot_immunity_setting@c_player_trait_shield_vitality@@QAEXW4e_headshot_immunity_setting@1@_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_headshot_immunity_setting@c_player_trait_shield_vitality@@QAEXW4e_headshot_immunity_setting@1@_N@Z");
 	// bool can_inherit;
-	todo("implement");
-	_sub_10F05C30(this, value, can_inherit);
+
+	if (value < _headshot_immunity_unchanged || value >= k_headshot_immunity_setting_count)
+	{
+		return;
+	}
+	else if (value != _headshot_immunity_unchanged || can_inherit)
+	{
+		headshot_immunity = (unsigned char)value;
+	}
 }
 
-_extern void _sub_10F06290(c_player_trait_shield_vitality *const, c_player_trait_shield_vitality::e_shield_multiplier_setting, bool);
 void c_player_trait_shield_vitality::set_shield_multiplier_setting(c_player_trait_shield_vitality::e_shield_multiplier_setting value, bool can_inherit) // 0x10F06290
 {
-	mangled_x86(MANGLED_TODO, "?set_shield_multiplier_setting@c_player_trait_shield_vitality@@QAEXW4e_shield_multiplier_setting@1@_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_shield_multiplier_setting@c_player_trait_shield_vitality@@QAEXW4e_shield_multiplier_setting@1@_N@Z");
 	// bool can_inherit;
-	todo("implement");
-	_sub_10F06290(this, value, can_inherit);
+
+	if (value < _shield_multiplier_unchanged || value >= k_shield_multiplier_setting_count)
+	{
+		return;
+	}
+	else if (value != _shield_multiplier_unchanged || can_inherit)
+	{
+		shield_multiplier = (unsigned char)value;
+	}
 }
 
 _extern void _sub_10F04230(c_player_trait_shield_vitality const *const, c_bitstream *);
@@ -164,13 +194,19 @@ void c_player_trait_weapons::set(c_player_trait_weapons const *traits, bool can_
 	_sub_10F05750(this, traits, can_inherit);
 }
 
-_extern void _sub_10F05D30(c_player_trait_weapons *const, c_player_trait_weapons::e_grenade_count_setting, bool);
 void c_player_trait_weapons::set_initial_grenade_count_setting(c_player_trait_weapons::e_grenade_count_setting value, bool can_inherit) // 0x10F05D30
 {
-	mangled_x86(MANGLED_TODO, "?set_initial_grenade_count_setting@c_player_trait_weapons@@QAEXW4e_grenade_count_setting@1@_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_initial_grenade_count_setting@c_player_trait_weapons@@QAEXW4e_grenade_count_setting@1@_N@Z");
 	// bool can_inherit;
-	todo("implement");
-	_sub_10F05D30(this, value, can_inherit);
+
+	if (value < _grenade_count_unchanged || value >= k_grenade_count_setting_count)
+	{
+		return;
+	}
+	else if (value != _grenade_count_unchanged || can_inherit)
+	{
+		initial_grenade_count = (unsigned short)value;
+	}
 }
 
 _extern void _sub_10F05DC0(c_player_trait_weapons *const, char, bool);
@@ -191,40 +227,64 @@ void c_player_trait_weapons::set_initial_secondary_weapon_absolute_index(char in
 	_sub_10F05E80(this, index, can_inherit);
 }
 
-_extern void _sub_10F05A30(c_player_trait_weapons *const, c_player_trait_weapons::e_damage_modifier_setting, bool);
 void c_player_trait_weapons::set_damage_modifier_setting(c_player_trait_weapons::e_damage_modifier_setting value, bool can_inherit) // 0x10F05A30
 {
-	mangled_x86(MANGLED_TODO, "?set_damage_modifier_setting@c_player_trait_weapons@@QAEXW4e_damage_modifier_setting@1@_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_damage_modifier_setting@c_player_trait_weapons@@QAEXW4e_damage_modifier_setting@1@_N@Z");
 	// bool can_inherit;
-	todo("implement");
-	_sub_10F05A30(this, value, can_inherit);
+
+	if (value < _damage_modifier_unchanged || value >= k_damage_modifier_setting_count)
+	{
+		return;
+	}
+	else if (value != _damage_modifier_unchanged || can_inherit)
+	{
+		damage_modifier = (unsigned char)value;
+	}
 }
 
-_extern void _sub_10F06210(c_player_trait_weapons *const, c_player_trait_weapons::e_recharging_grenades_setting, bool);
 void c_player_trait_weapons::set_recharging_grenades_setting(c_player_trait_weapons::e_recharging_grenades_setting value, bool can_inherit) // 0x10F06210
 {
-	mangled_x86(MANGLED_TODO, "?set_recharging_grenades_setting@c_player_trait_weapons@@QAEXW4e_recharging_grenades_setting@1@_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_recharging_grenades_setting@c_player_trait_weapons@@QAEXW4e_recharging_grenades_setting@1@_N@Z");
 	// bool can_inherit;
-	todo("implement");
-	_sub_10F06210(this, value, can_inherit);
+
+	if (value < _recharging_grenades_unchanged || value >= k_recharging_grenades_setting_count)
+	{
+		return;
+	}
+	else if (value != _recharging_grenades_unchanged || can_inherit)
+	{
+		recharging_grenades = (unsigned char)value;
+	}
 }
 
-_extern void _sub_10F05CB0(c_player_trait_weapons *const, c_player_trait_weapons::e_infinite_ammo_setting, bool);
 void c_player_trait_weapons::set_infinite_ammo_setting(c_player_trait_weapons::e_infinite_ammo_setting value, bool can_inherit) // 0x10F05CB0
 {
-	mangled_x86(MANGLED_TODO, "?set_infinite_ammo_setting@c_player_trait_weapons@@QAEXW4e_infinite_ammo_setting@1@_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_infinite_ammo_setting@c_player_trait_weapons@@QAEXW4e_infinite_ammo_setting@1@_N@Z");
 	// bool can_inherit;
-	todo("implement");
-	_sub_10F05CB0(this, value, can_inherit);
+
+	if (value < _infinite_ammo_unchanged || value >= k_infinite_ammo_setting_setting_count)
+	{
+		return;
+	}
+	else if (value != _infinite_ammo_unchanged || can_inherit)
+	{
+		infinite_ammo = (unsigned char)value;
+	}
 }
 
-_extern void _sub_10F066D0(c_player_trait_weapons *const, c_player_trait_weapons::e_weapon_pickup_setting, bool);
 void c_player_trait_weapons::set_weapon_pickup_setting(c_player_trait_weapons::e_weapon_pickup_setting value, bool can_inherit) // 0x10F066D0
 {
-	mangled_x86(MANGLED_TODO, "?set_weapon_pickup_setting@c_player_trait_weapons@@QAEXW4e_weapon_pickup_setting@1@_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_weapon_pickup_setting@c_player_trait_weapons@@QAEXW4e_weapon_pickup_setting@1@_N@Z");
 	// bool can_inherit;
-	todo("implement");
-	_sub_10F066D0(this, value, can_inherit);
+
+	if (value < _weapon_pickup_unchanged || value >= k_weapon_pickup_setting_count)
+	{
+		return;
+	}
+	else if (value != _weapon_pickup_unchanged || can_inherit)
+	{
+		weapon_pickup = (unsigned char)value;
+	}
 }
 
 _extern void _sub_10F04310(c_player_trait_weapons const *const, c_bitstream *);
@@ -314,31 +374,49 @@ float c_player_trait_movement::get_gravity() const // 0x10F04D90
 	return __result;
 }
 
-_extern void _sub_10F06410(c_player_trait_movement *const, c_player_trait_movement::e_speed_setting, bool);
 void c_player_trait_movement::set_speed_setting(c_player_trait_movement::e_speed_setting value, bool can_inherit) // 0x10F06410
 {
-	mangled_x86(MANGLED_TODO, "?set_speed_setting@c_player_trait_movement@@QAEXW4e_speed_setting@1@_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_speed_setting@c_player_trait_movement@@QAEXW4e_speed_setting@1@_N@Z");
 	// bool can_inherit;
-	todo("implement");
-	_sub_10F06410(this, value, can_inherit);
+
+	if (value < _speed_unchanged || value >= k_player_speed_setting_count)
+	{
+		return;
+	}
+	else if (value != _speed_unchanged || can_inherit)
+	{
+		player_speed = (unsigned char)value;
+	}
 }
 
-_extern void _sub_10F05BB0(c_player_trait_movement *const, c_player_trait_movement::e_gravity_setting, bool);
 void c_player_trait_movement::set_gravity_setting(c_player_trait_movement::e_gravity_setting value, bool can_inherit) // 0x10F05BB0
 {
-	mangled_x86(MANGLED_TODO, "?set_gravity_setting@c_player_trait_movement@@QAEXW4e_gravity_setting@1@_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_gravity_setting@c_player_trait_movement@@QAEXW4e_gravity_setting@1@_N@Z");
 	// bool can_inherit;
-	todo("implement");
-	_sub_10F05BB0(this, value, can_inherit);
+
+	if (value < _gravity_unchanged || value >= k_player_gravity_setting_count)
+	{
+		return;
+	}
+	else if (value != _gravity_unchanged || can_inherit)
+	{
+		player_gravity = (unsigned char)value;
+	}
 }
 
-_extern void _sub_10F065D0(c_player_trait_movement *const, c_player_trait_movement::e_vehicle_usage_setting, bool);
 void c_player_trait_movement::set_vehicle_usage_setting(c_player_trait_movement::e_vehicle_usage_setting value, bool can_inherit) // 0x10F065D0
 {
-	mangled_x86(MANGLED_TODO, "?set_vehicle_usage_setting@c_player_trait_movement@@QAEXW4e_vehicle_usage_setting@1@_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_vehicle_usage_setting@c_player_trait_movement@@QAEXW4e_vehicle_usage_setting@1@_N@Z");
 	// bool can_inherit;
-	todo("implement");
-	_sub_10F065D0(this, value, can_inherit);
+
+	if (value < _vehicle_usage_unchanged || value >= k_vehicle_usage_setting_count)
+	{
+		return;
+	}
+	else if (value != _vehicle_usage_unchanged || can_inherit)
+	{
+		vehicle_usage = (unsigned char)value;
+	}
 }
 
 _extern void _sub_10F040F0(c_player_trait_movement const *const, c_bitstream *);
@@ -387,40 +465,64 @@ void c_player_trait_appearance::set(c_player_trait_appearance const *traits, boo
 	_sub_10F05390(this, traits, can_inherit);
 }
 
-_extern void _sub_10F059B0(c_player_trait_appearance *const, c_player_trait_appearance::e_active_camo_setting, bool);
 void c_player_trait_appearance::set_active_camo_setting(c_player_trait_appearance::e_active_camo_setting value, bool can_inherit) // 0x10F059B0
 {
-	mangled_x86(MANGLED_TODO, "?set_active_camo_setting@c_player_trait_appearance@@QAEXW4e_active_camo_setting@1@_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_active_camo_setting@c_player_trait_appearance@@QAEXW4e_active_camo_setting@1@_N@Z");
 	// bool can_inherit;
-	todo("implement");
-	_sub_10F059B0(this, value, can_inherit);
+
+	if (value < _active_camo_unchanged || value >= k_active_camo_setting_count)
+	{
+		return;
+	}
+	else if (value != _active_camo_unchanged || can_inherit)
+	{
+		active_camo = (unsigned char)value;
+	}
 }
 
-_extern void _sub_10F06650(c_player_trait_appearance *const, c_player_trait_appearance::e_waypoint_setting, bool);
 void c_player_trait_appearance::set_waypoint_setting(c_player_trait_appearance::e_waypoint_setting value, bool can_inherit) // 0x10F06650
 {
-	mangled_x86(MANGLED_TODO, "?set_waypoint_setting@c_player_trait_appearance@@QAEXW4e_waypoint_setting@1@_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_waypoint_setting@c_player_trait_appearance@@QAEXW4e_waypoint_setting@1@_N@Z");
 	// bool can_inherit;
-	todo("implement");
-	_sub_10F06650(this, value, can_inherit);
+
+	if (value < _waypoint_unchanged || value >= k_waypoint_setting_count)
+	{
+		return;
+	}
+	else if (value != _waypoint_unchanged || can_inherit)
+	{
+		waypoint = (unsigned char)value;
+	}
 }
 
-_extern void _sub_10F06190(c_player_trait_appearance *const, c_player_trait_appearance::e_player_size_setting, bool);
 void c_player_trait_appearance::set_player_size_setting(c_player_trait_appearance::e_player_size_setting value, bool can_inherit) // 0x10F06190
 {
-	mangled_x86(MANGLED_TODO, "?set_player_size_setting@c_player_trait_appearance@@QAEXW4e_player_size_setting@1@_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_player_size_setting@c_player_trait_appearance@@QAEXW4e_player_size_setting@1@_N@Z");
 	// bool can_inherit;
-	todo("implement");
-	_sub_10F06190(this, value, can_inherit);
+
+	if (value < _player_size_unchanged || value >= k_player_size_setting_count)
+	{
+		return;
+	}
+	else if (value != _player_size_unchanged || can_inherit)
+	{
+		aura = (unsigned char)value;
+	}
 }
 
-_extern void _sub_10F05B30(c_player_trait_appearance *const, c_player_trait_appearance::e_forced_change_color_setting, bool);
 void c_player_trait_appearance::set_forced_change_color_setting(c_player_trait_appearance::e_forced_change_color_setting value, bool can_inherit) // 0x10F05B30
 {
-	mangled_x86(MANGLED_TODO, "?set_forced_change_color_setting@c_player_trait_appearance@@QAEXW4e_forced_change_color_setting@1@_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_forced_change_color_setting@c_player_trait_appearance@@QAEXW4e_forced_change_color_setting@1@_N@Z");
 	// bool can_inherit;
-	todo("implement");
-	_sub_10F05B30(this, value, can_inherit);
+
+	if (value < _forced_change_color_unchanged || value >= k_forced_change_color_setting_count)
+	{
+		return;
+	}
+	else if (value != _forced_change_color_unchanged || can_inherit)
+	{
+		forced_color = (unsigned char)value;
+	}
 }
 
 _extern void _sub_10F03F30(c_player_trait_appearance const *const, c_bitstream *);
@@ -469,22 +571,34 @@ void c_player_trait_sensors::set(c_player_trait_sensors const *traits, bool can_
 	_sub_10F055E0(this, traits, can_inherit);
 }
 
-_extern void _sub_10F05FD0(c_player_trait_sensors *const, c_player_trait_sensors::e_motion_tracker_setting, bool);
 void c_player_trait_sensors::set_motion_tracker_setting(c_player_trait_sensors::e_motion_tracker_setting value, bool can_inherit) // 0x10F05FD0
 {
-	mangled_x86(MANGLED_TODO, "?set_motion_tracker_setting@c_player_trait_sensors@@QAEXW4e_motion_tracker_setting@1@_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_motion_tracker_setting@c_player_trait_sensors@@QAEXW4e_motion_tracker_setting@1@_N@Z");
 	// bool can_inherit;
-	todo("implement");
-	_sub_10F05FD0(this, value, can_inherit);
+
+	if (value < _motion_tracker_unchanged || value >= k_motion_tracker_setting_count)
+	{
+		return;
+	}
+	else if (value != _motion_tracker_unchanged || can_inherit)
+	{
+		motion_tracker_mode = (unsigned short)value;
+	}
 }
 
-_extern void _sub_10F05F40(c_player_trait_sensors *const, c_player_trait_sensors::e_motion_tracker_range_setting, bool);
 void c_player_trait_sensors::set_motion_tracker_range_setting(c_player_trait_sensors::e_motion_tracker_range_setting value, bool can_inherit) // 0x10F05F40
 {
-	mangled_x86(MANGLED_TODO, "?set_motion_tracker_range_setting@c_player_trait_sensors@@QAEXW4e_motion_tracker_range_setting@1@_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_motion_tracker_range_setting@c_player_trait_sensors@@QAEXW4e_motion_tracker_range_setting@1@_N@Z");
 	// bool can_inherit;
-	todo("implement");
-	_sub_10F05F40(this, value, can_inherit);
+
+	if (value < _motion_tracker_range_unchanged || value >= k_motion_tracker_range_setting_count)
+	{
+		return;
+	}
+	else if (value != _motion_tracker_range_unchanged || can_inherit)
+	{
+		motion_tracker_range = (unsigned short)value;
+	}
 }
 
 _extern void _sub_10F041A0(c_player_trait_sensors const *const, c_bitstream *);
@@ -551,22 +665,34 @@ void c_player_trait_extended::set_player_model_set_absolute_index(unsigned char 
 	_sub_10F060F0(this, index, can_inherit);
 }
 
-_extern void _sub_10F06490(c_player_trait_extended *const, c_player_trait_extended::e_sprint_setting, bool);
 void c_player_trait_extended::set_sprint_setting(c_player_trait_extended::e_sprint_setting value, bool can_inherit) // 0x10F06490
 {
-	mangled_x86(MANGLED_TODO, "?set_sprint_setting@c_player_trait_extended@@QAEXW4e_sprint_setting@1@_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_sprint_setting@c_player_trait_extended@@QAEXW4e_sprint_setting@1@_N@Z");
 	// bool can_inherit;
-	todo("implement");
-	_sub_10F06490(this, value, can_inherit);
+
+	if (value < _sprint_unchanged || value >= k_sprint_setting_count)
+	{
+		return;
+	}
+	else if (value != _sprint_unchanged || can_inherit)
+	{
+		sprint_allowed = (unsigned char)value;
+	}
 }
 
-_extern void _sub_10F06530(c_player_trait_extended *const, c_player_trait_extended::e_third_person_camera, bool);
 void c_player_trait_extended::set_third_person_camera_setting(c_player_trait_extended::e_third_person_camera value, bool can_inherit) // 0x10F06530
 {
-	mangled_x86(MANGLED_TODO, "?set_third_person_camera_setting@c_player_trait_extended@@QAEXW4e_third_person_camera@1@_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_third_person_camera_setting@c_player_trait_extended@@QAEXW4e_third_person_camera@1@_N@Z");
 	// bool can_inherit;
-	todo("implement");
-	_sub_10F06530(this, value, can_inherit);
+
+	if (value < _third_person_camera_unchanged || value >= k_third_person_camera_setting_count)
+	{
+		return;
+	}
+	else if (value != _third_person_camera_unchanged || can_inherit)
+	{
+		use_third_person_camera = (unsigned char)value;
+	}
 }
 
 _extern void _sub_10F04000(c_player_trait_extended const *const, c_bitstream *);

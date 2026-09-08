@@ -259,61 +259,26 @@ namespace ChatCommands
 		_sub_1093AC40();
 	}
 
-	_inline ChatCommand::ChatCommand(ChatCommands::ChatCommand &&__that) // 0x10939590
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0ChatCommand@ChatCommands@@QAE@$$QAU01@@Z");
-		// ChatCommands::ChatCommand &__that;
+	// mangled_x86(MANGLED_DEFAULT, "??0ChatCommand@ChatCommands@@QAE@$$QAU01@@Z"); no body to assert in
+	_inline ChatCommand::ChatCommand(ChatCommands::ChatCommand &&__that) = default; // 0x10939590
 
-		compiler_generated();
-	}
+	// mangled_x86(MANGLED_DEFAULT, "??0ChatCommand@ChatCommands@@QAE@XZ"); no body to assert in
+	_inline ChatCommand::ChatCommand() = default; // 0x10939660
 
-	_inline ChatCommand::ChatCommand() // 0x10939660
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0ChatCommand@ChatCommands@@QAE@XZ");
-		// ChatCommands::ChatCommand *const this;
+	// mangled_x86(MANGLED_DEFAULT, "??1ChatCommand@ChatCommands@@QAE@XZ"); no body to assert in
+	_inline ChatCommand::~ChatCommand() = default; // 0x10939E40
 
-		compiler_generated();
-	}
+	// mangled_x86(MANGLED_DEFAULT, "??1EndGameCommand@ChatCommands@@QAE@XZ"); no body to assert in
+	_inline EndGameCommand::~EndGameCommand() = default; // 0x10939EB0
 
-	_inline ChatCommand::~ChatCommand() // 0x10939E40
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??1ChatCommand@ChatCommands@@QAE@XZ");
-		// ChatCommands::ChatCommand *const this;
+	// mangled_x86(MANGLED_DEFAULT, "??1EndRoundCommand@ChatCommands@@QAE@XZ"); no body to assert in
+	_inline EndRoundCommand::~EndRoundCommand() = default; // 0x10939F00
 
-		compiler_generated();
-	}
+	// mangled_x86(MANGLED_DEFAULT, "??1KickIndexCommand@ChatCommands@@QAE@XZ"); no body to assert in
+	_inline KickIndexCommand::~KickIndexCommand() = default; // 0x10939F50
 
-	_inline EndGameCommand::~EndGameCommand() // 0x10939EB0
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??1EndGameCommand@ChatCommands@@QAE@XZ");
-		// ChatCommands::EndGameCommand *const this;
-
-		compiler_generated();
-	}
-
-	_inline EndRoundCommand::~EndRoundCommand() // 0x10939F00
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??1EndRoundCommand@ChatCommands@@QAE@XZ");
-		// ChatCommands::EndRoundCommand *const this;
-
-		compiler_generated();
-	}
-
-	_inline KickIndexCommand::~KickIndexCommand() // 0x10939F50
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??1KickIndexCommand@ChatCommands@@QAE@XZ");
-		// ChatCommands::KickIndexCommand *const this;
-
-		compiler_generated();
-	}
-
-	_inline KickPlayerCommand::~KickPlayerCommand() // 0x10939FB0
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??1KickPlayerCommand@ChatCommands@@QAE@XZ");
-		// ChatCommands::KickPlayerCommand *const this;
-
-		compiler_generated();
-	}
+	// mangled_x86(MANGLED_DEFAULT, "??1KickPlayerCommand@ChatCommands@@QAE@XZ"); no body to assert in
+	_inline KickPlayerCommand::~KickPlayerCommand() = default; // 0x10939FB0
 }
 
 extern std::vector<std::string> _sub_1093D450();
@@ -349,21 +314,11 @@ namespace ChatCommands
 		return __result;
 	}
 
-	_inline ShuffleTeamsCommand::~ShuffleTeamsCommand() // 0x1093A010
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??1ShuffleTeamsCommand@ChatCommands@@QAE@XZ");
-		// ChatCommands::ShuffleTeamsCommand *const this;
+	// mangled_x86(MANGLED_DEFAULT, "??1ShuffleTeamsCommand@ChatCommands@@QAE@XZ"); no body to assert in
+	_inline ShuffleTeamsCommand::~ShuffleTeamsCommand() = default; // 0x1093A010
 
-		compiler_generated();
-	}
-
-	_inline VotingChatCommand::~VotingChatCommand() // 0x1093A060
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??1VotingChatCommand@ChatCommands@@QAE@XZ");
-		// ChatCommands::VotingChatCommand *const this;
-
-		compiler_generated();
-	}
+	// mangled_x86(MANGLED_DEFAULT, "??1VotingChatCommand@ChatCommands@@QAE@XZ"); no body to assert in
+	_inline VotingChatCommand::~VotingChatCommand() = default; // 0x1093A060
 
 	_extern void _sub_1093AB00(std::string const &, std::string const &, ChatCommands::CommandFlags, std::function<bool __cdecl(int,std::vector<std::string> const &,std::string &)> &);
 	void RegisterCommand(std::string const &name, std::string const &description, ChatCommands::CommandFlags flags, std::function<bool __cdecl(int,std::vector<std::string> const &,std::string &)> &&handler) // 0x1093AB00

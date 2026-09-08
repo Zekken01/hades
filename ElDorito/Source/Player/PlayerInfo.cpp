@@ -439,69 +439,21 @@ void ClearEmblemCache() // 0x107EDD90
 	_sub_107EDD90();
 }
 
-_inline SPlayerEmblemInfo::SPlayerEmblemInfo() // 0x107ED930
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0SPlayerEmblemInfo@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::SPlayerEmblemInfo::SPlayerEmblemInfo
-	// SPlayerEmblemInfo *const this;
+// mangled_x86(MANGLED_DEFAULT, "??0SPlayerEmblemInfo@hades_file_local@@QAE@XZ"); no body to assert in
+_inline SPlayerEmblemInfo::SPlayerEmblemInfo() = default; // 0x107ED930
 
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0SPlayerInfo@hades_file_local@@QAE@ABU01@@Z"); no body to assert in
+_inline SPlayerInfo::SPlayerInfo(SPlayerInfo const &__that) = default; // 0x107ED980
 
-_inline SPlayerInfo::SPlayerInfo(SPlayerInfo const &__that) // 0x107ED980
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0SPlayerInfo@hades_file_local@@QAE@ABU01@@Z");
-	// `anonymous-namespace'::SPlayerInfo::SPlayerInfo
-	// SPlayerInfo const &__that;
+// mangled_x86(MANGLED_DEFAULT, "??0SPlayerInfo@hades_file_local@@QAE@XZ"); no body to assert in
+_inline SPlayerInfo::SPlayerInfo() = default; // 0x107EDA30
 
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??1SPlayerEmblemInfo@hades_file_local@@QAE@XZ"); no body to assert in
+_inline SPlayerEmblemInfo::~SPlayerEmblemInfo() = default; // 0x107EDB00
 
-_inline SPlayerInfo::SPlayerInfo() // 0x107EDA30
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0SPlayerInfo@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::SPlayerInfo::SPlayerInfo
-	// SPlayerInfo *const this;
+// mangled_x86(MANGLED_DEFAULT, "??1SPlayerInfo@hades_file_local@@QAE@XZ"); no body to assert in
+_inline SPlayerInfo::~SPlayerInfo() = default; // 0x107EDB50
 
-	compiler_generated();
-}
+_inline SPlayerEmblemInfo &SPlayerEmblemInfo::operator=(SPlayerEmblemInfo &__that) = default; // 0x107EDBA0
 
-_inline SPlayerEmblemInfo::~SPlayerEmblemInfo() // 0x107EDB00
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1SPlayerEmblemInfo@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::SPlayerEmblemInfo::~SPlayerEmblemInfo
-	// SPlayerEmblemInfo *const this;
-
-	compiler_generated();
-}
-
-_inline SPlayerInfo::~SPlayerInfo() // 0x107EDB50
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1SPlayerInfo@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::SPlayerInfo::~SPlayerInfo
-	// SPlayerInfo *const this;
-
-	compiler_generated();
-}
-
-extern SPlayerEmblemInfo &_sub_107EDBA0(SPlayerEmblemInfo *const, SPlayerEmblemInfo &);
-_inline SPlayerEmblemInfo &SPlayerEmblemInfo::operator=(SPlayerEmblemInfo &__that) // 0x107EDBA0
-{
-	// `anonymous-namespace'::SPlayerEmblemInfo::operator=
-	// SPlayerEmblemInfo &__that;
-	compiler_generated();
-	todo("implement");
-	SPlayerEmblemInfo & __result = _sub_107EDBA0(this, __that);
-	return __result;
-}
-
-extern SPlayerInfo &_sub_107EDC10(SPlayerInfo *const, SPlayerInfo &);
-_inline SPlayerInfo &SPlayerInfo::operator=(SPlayerInfo &__that) // 0x107EDC10
-{
-	// `anonymous-namespace'::SPlayerInfo::operator=
-	// SPlayerInfo &__that;
-	compiler_generated();
-	todo("implement");
-	SPlayerInfo & __result = _sub_107EDC10(this, __that);
-	return __result;
-}
+_inline SPlayerInfo &SPlayerInfo::operator=(SPlayerInfo &__that) = default; // 0x107EDC10

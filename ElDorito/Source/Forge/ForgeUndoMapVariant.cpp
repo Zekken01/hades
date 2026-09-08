@@ -102,29 +102,14 @@ CForgeUndoMapVariant::CForgeUndoMapVariant(std::string const &summary, s_map_var
 	_sub_10864890(this, summary, mapVariant);
 }
 
-_inline IForgeUndo::IForgeUndo() // 0x10864990
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0IForgeUndo@@QAE@XZ");
-	// IForgeUndo *const this;
+// mangled_x86(MANGLED_DEFAULT, "??0IForgeUndo@@QAE@XZ"); no body to assert in
+_inline IForgeUndo::IForgeUndo() = default; // 0x10864990
 
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0s_map_variant@@QAE@XZ"); no body to assert in
+_inline s_map_variant::s_map_variant() = default; // 0x108649C0
 
-_inline s_map_variant::s_map_variant() // 0x108649C0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_map_variant@@QAE@XZ");
-	// s_map_variant *const this;
-
-	compiler_generated();
-}
-
-_inline s_variant_datum::s_variant_datum() // 0x10864A30
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_variant_datum@@QAE@XZ");
-	// s_variant_datum *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0s_variant_datum@@QAE@XZ"); no body to assert in
+_inline s_variant_datum::s_variant_datum() = default; // 0x10864A30
 
 _inline CForgeUndoMapVariant::~CForgeUndoMapVariant() // 0x10864C10
 {
@@ -182,13 +167,8 @@ void CForgeUndoMapVariant::Undo() // 0x10864F40
 	_sub_10864F40(this);
 }
 
-_inline CForgeUndoManager::CForgeUndoManager() // 0x108647A0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0CForgeUndoManager@@QAE@XZ");
-	// CForgeUndoManager *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0CForgeUndoManager@@QAE@XZ"); no body to assert in
+_inline CForgeUndoManager::CForgeUndoManager() = default; // 0x108647A0
 
 /* ---------- private code */
 

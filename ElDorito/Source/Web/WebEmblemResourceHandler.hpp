@@ -75,48 +75,47 @@ namespace Web
 {
 	namespace Browser
 	{
-		_extern void _sub_10CB6770(CefBaseRefCounted * const);
 		_inline void WebEmblemResourceHandler::AddRef() const // 0x10CB6770
 		{
-			mangled_x86(MANGLED_TODO, "?AddRef@WebEmblemResourceHandler@Browser@Web@@UBEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?AddRef@WebEmblemResourceHandler@Browser@Web@@UBEXXZ");
 			// __shifted(Web::Browser::WebEmblemResourceHandler, 32);
 			// Web::Browser::WebEmblemResourceHandler const *const this;
-			todo("implement");
-			_sub_10CB6770((CefBaseRefCounted *)this);
+
+			ref_count_.AddRef();
 		}
 
-		_extern bool _sub_10CB6A40(CefBaseRefCounted * const);
 		_inline bool WebEmblemResourceHandler::HasAtLeastOneRef() const // 0x10CB6A40
 		{
-			mangled_x86(MANGLED_TODO, "?HasAtLeastOneRef@WebEmblemResourceHandler@Browser@Web@@UBE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?HasAtLeastOneRef@WebEmblemResourceHandler@Browser@Web@@UBE_NXZ");
 			// __shifted(Web::Browser::WebEmblemResourceHandler, 32);
 			// Web::Browser::WebEmblemResourceHandler const *const this;
-			todo("implement");
-			bool __result = _sub_10CB6A40((CefBaseRefCounted *)this);
-			return __result;
+
+			return ref_count_.HasAtLeastOneRef();
 		}
 
-		_extern bool _sub_10CB6AE0(CefBaseRefCounted * const);
 		_inline bool WebEmblemResourceHandler::HasOneRef() const // 0x10CB6AE0
 		{
-			mangled_x86(MANGLED_TODO, "?HasOneRef@WebEmblemResourceHandler@Browser@Web@@UBE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?HasOneRef@WebEmblemResourceHandler@Browser@Web@@UBE_NXZ");
 			// __shifted(Web::Browser::WebEmblemResourceHandler, 32);
 			// Web::Browser::WebEmblemResourceHandler const *const this;
-			todo("implement");
-			bool __result = _sub_10CB6AE0((CefBaseRefCounted *)this);
-			return __result;
+
+			return ref_count_.HasOneRef();
 		}
 
-		_extern bool _sub_10CB7030(CefBaseRefCounted * const);
 		_inline bool WebEmblemResourceHandler::Release() const // 0x10CB7030
 		{
-			mangled_x86(MANGLED_TODO, "?Release@WebEmblemResourceHandler@Browser@Web@@UBE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Release@WebEmblemResourceHandler@Browser@Web@@UBE_NXZ");
 			// __shifted(Web::Browser::WebEmblemResourceHandler, 32);
 			// Web::Browser::WebEmblemResourceHandler const *const this;
 			// function call : void *(unsigned __int32)
-			todo("implement");
-			bool __result = _sub_10CB7030((CefBaseRefCounted *)this);
-			return __result;
+
+			if (ref_count_.Release())
+			{
+				delete static_cast<WebEmblemResourceHandler const *>(this);
+				return true;
+			}
+
+			return false;
 		}
 	}
 }

@@ -195,14 +195,13 @@ hs_value const *hs_evaluate_arguments2(short op, long thread_index, bool initial
 	return __result;
 }
 
-_extern void _sub_10F03380(long, hs_value);
 void hs_return2(long thread_index, hs_value value) // 0x10F03380
 {
-	mangled_x86(MANGLED_TODO, "?hs_return2@@YAXJUhs_value@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_return2@@YAXJUhs_value@@@Z");
 	// hs_value value;
 	// function call : void (*const)(long, hs_value)
-	todo("implement");
-	_sub_10F03380(thread_index, value);
+
+	((void(__cdecl *const)(long, hs_value))0x5974e0)(thread_index, value);
 }
 
 extern char const *_sub_10F03050(e_hs_type);

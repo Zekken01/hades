@@ -358,13 +358,8 @@ namespace Modules
 		_sub_10667D30(this);
 	}
 
-	_inline CommandMap::CommandMap() // 0x1065D950
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0CommandMap@Modules@@QAE@XZ");
-		// Modules::CommandMap *const this;
-
-		compiler_generated();
-	}
+	// mangled_x86(MANGLED_DEFAULT, "??0CommandMap@Modules@@QAE@XZ"); no body to assert in
+	_inline CommandMap::CommandMap() = default; // 0x1065D950
 }
 
 /* ---------- private code */

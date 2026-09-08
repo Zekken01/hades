@@ -151,21 +151,11 @@ Mod::Mod(Mod::IClient *client, EModIndex index, char const *filename) : m_pakLoa
 	_sub_1078B5A0(this, client, index, filename);
 }
 
-_inline ModCache::ModCache() // 0x1078B730
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0ModCache@@QAE@XZ");
-	// ModCache *const this;
+// mangled_x86(MANGLED_DEFAULT, "??0ModCache@@QAE@XZ"); no body to assert in
+_inline ModCache::ModCache() = default; // 0x1078B730
 
-	compiler_generated();
-}
-
-_inline c_cache_file_interface::c_cache_file_interface() // 0x1078B7B0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_cache_file_interface@@QAE@XZ");
-	// c_cache_file_interface *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0c_cache_file_interface@@QAE@XZ"); no body to assert in
+_inline c_cache_file_interface::c_cache_file_interface() = default; // 0x1078B7B0
 
 _extern void _sub_1078BD60(Mod *const);
 Mod::~Mod() // 0x1078BD60
@@ -345,13 +335,8 @@ EModResult Mod::FinishLoadCache(EModResult error) // 0x1078CAB0
 	return __result;
 }
 
-_inline IMod::IMod() // 0x1078B570
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0IMod@@QAE@XZ");
-	// IMod *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0IMod@@QAE@XZ"); no body to assert in
+_inline IMod::IMod() = default; // 0x1078B570
 
 extern EModResult _sub_1078D2F0(Mod *const, __int32);
 EModResult Mod::LoadCacheBlocking(__int32 cacheIndex) // 0x1078D2F0

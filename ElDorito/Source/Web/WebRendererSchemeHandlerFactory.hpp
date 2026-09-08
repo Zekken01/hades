@@ -63,48 +63,47 @@ namespace Web
 {
 	namespace Browser
 	{
-		_extern void _sub_10CE0110(CefBaseRefCounted * const);
 		_inline void WebRendererSchemeHandlerFactory::AddRef() const // 0x10CE0110
 		{
-			mangled_x86(MANGLED_TODO, "?AddRef@WebRendererSchemeHandlerFactory@Browser@Web@@UBEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?AddRef@WebRendererSchemeHandlerFactory@Browser@Web@@UBEXXZ");
 			// __shifted(Web::Browser::WebRendererSchemeHandlerFactory, 72);
 			// Web::Browser::WebRendererSchemeHandlerFactory const *const this;
-			todo("implement");
-			_sub_10CE0110((CefBaseRefCounted *)this);
+
+			ref_count_.AddRef();
 		}
 
-		_extern bool _sub_10CE2DF0(CefBaseRefCounted * const);
 		_inline bool WebRendererSchemeHandlerFactory::HasAtLeastOneRef() const // 0x10CE2DF0
 		{
-			mangled_x86(MANGLED_TODO, "?HasAtLeastOneRef@WebRendererSchemeHandlerFactory@Browser@Web@@UBE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?HasAtLeastOneRef@WebRendererSchemeHandlerFactory@Browser@Web@@UBE_NXZ");
 			// __shifted(Web::Browser::WebRendererSchemeHandlerFactory, 72);
 			// Web::Browser::WebRendererSchemeHandlerFactory const *const this;
-			todo("implement");
-			bool __result = _sub_10CE2DF0((CefBaseRefCounted *)this);
-			return __result;
+
+			return ref_count_.HasAtLeastOneRef();
 		}
 
-		_extern bool _sub_10CE2E50(CefBaseRefCounted * const);
 		_inline bool WebRendererSchemeHandlerFactory::HasOneRef() const // 0x10CE2E50
 		{
-			mangled_x86(MANGLED_TODO, "?HasOneRef@WebRendererSchemeHandlerFactory@Browser@Web@@UBE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?HasOneRef@WebRendererSchemeHandlerFactory@Browser@Web@@UBE_NXZ");
 			// __shifted(Web::Browser::WebRendererSchemeHandlerFactory, 72);
 			// Web::Browser::WebRendererSchemeHandlerFactory const *const this;
-			todo("implement");
-			bool __result = _sub_10CE2E50((CefBaseRefCounted *)this);
-			return __result;
+
+			return ref_count_.HasOneRef();
 		}
 
-		_extern bool _sub_10CE3630(CefBaseRefCounted * const);
 		_inline bool WebRendererSchemeHandlerFactory::Release() const // 0x10CE3630
 		{
-			mangled_x86(MANGLED_TODO, "?Release@WebRendererSchemeHandlerFactory@Browser@Web@@UBE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Release@WebRendererSchemeHandlerFactory@Browser@Web@@UBE_NXZ");
 			// __shifted(Web::Browser::WebRendererSchemeHandlerFactory, 72);
 			// Web::Browser::WebRendererSchemeHandlerFactory const *const this;
 			// function call : void *(unsigned __int32)
-			todo("implement");
-			bool __result = _sub_10CE3630((CefBaseRefCounted *)this);
-			return __result;
+
+			if (ref_count_.Release())
+			{
+				delete static_cast<WebRendererSchemeHandlerFactory const *>(this);
+				return true;
+			}
+
+			return false;
 		}
 	}
 }

@@ -508,6 +508,7 @@ unsigned long Network_managed_session_create_session_internalHook(__int32 a1, __
 _extern void _sub_10A9E630(c_network_session *, void *, long, long, long, long, void const *);
 void network_session_send_peer_establish_hook(c_network_session *thisPtr, void *unused, long transmission_type, long peer_index, long message_type, long data_length, void const *data) // 0x10A9E630
 {
+	mangled_x86(MANGLED_TODO, "?network_session_send_peer_establish_hook@@YAXPAVc_network_session@@PAXJJJJPBX@Z");
 	// `anonymous-namespace'::network_session_send_peer_establish_hook
 	// void const *data;
 	// constexpr void (*const `network_session_send_peer_establish_hook'::`2'::c_network_session__send_message_to_peer)(c_network_session *, long, long, long, long, void const *); // constant == 4582224

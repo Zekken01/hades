@@ -1234,7 +1234,7 @@ _inline bool c_enum<t_type, t_storage_type>::operator==(t_type const &other) con
 {
 	mangled_prefix_assert("??8?$c_enum@");
 
-	return m_value == other;
+	return m_value == (t_storage_type)other;
 }
 
 template<typename t_type, typename t_storage_type>
@@ -1408,7 +1408,7 @@ _inline t_type & Utils::Singleton<t_type>::Instance()
 {
 	mangled_prefix_assert("?Instance@?$Singleton@");
 
-	return *(m_instance ? m_instance : m_instance = new t_type());
+	return m_instance ? *m_instance : *(m_instance = new t_type());
 }
 
 /* ---------- s_static_array members (67 instantiations folded) */

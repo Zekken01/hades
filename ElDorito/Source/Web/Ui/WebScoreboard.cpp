@@ -555,42 +555,16 @@ namespace Web
 
 /* ---------- private code */
 
-extern s_globals* _sub_10CAFEF0(s_globals *const);
-_inline s_globals::s_globals() // 0x10CAFEF0
-{
-	// `anonymous-namespace'::<unnamed-type-globals>::<unnamed-type-globals>
-	// s_globals *const this;
-	compiler_generated();
-	todo("implement");
-	_sub_10CAFEF0(this);
-}
+_inline s_globals::s_globals() = default; // 0x10CAFEF0
 
-_inline s_scoreboard_update::~s_scoreboard_update() // 0x10CB0080
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1s_scoreboard_update@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::s_scoreboard_update::~s_scoreboard_update
-	// s_scoreboard_update *const this;
+// mangled_x86(MANGLED_DEFAULT, "??1s_scoreboard_update@hades_file_local@@QAE@XZ"); no body to assert in
+_inline s_scoreboard_update::~s_scoreboard_update() = default; // 0x10CB0080
 
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??1s_session_player@hades_file_local@@QAE@XZ"); no body to assert in
+_inline s_session_player::~s_session_player() = default; // 0x10CB00D0
 
-_inline s_session_player::~s_session_player() // 0x10CB00D0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1s_session_player@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::s_session_player::~s_session_player
-	// s_session_player *const this;
-
-	compiler_generated();
-}
-
-_inline s_session_update::~s_session_update() // 0x10CB0140
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1s_session_update@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::s_session_update::~s_session_update
-	// s_session_update *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??1s_session_update@hades_file_local@@QAE@XZ"); no body to assert in
+_inline s_session_update::~s_session_update() = default; // 0x10CB0140
 
 _extern void _sub_10CB4150(rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &, s_session_player const &);
 void serialize_session_player(rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, s_session_player const &player) // 0x10CB4150

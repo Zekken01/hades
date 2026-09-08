@@ -183,13 +183,8 @@ namespace Web
 				return __result;
 			}
 
-			_inline WebRendererQueryHandler::PendingQuery::~PendingQuery() // 0x10C70100
-			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "??1PendingQuery@WebRendererQueryHandler@Bridge@Browser@Web@@QAE@XZ");
-				// Web::Browser::Bridge::WebRendererQueryHandler::PendingQuery *const this;
-
-				compiler_generated();
-			}
+			// mangled_x86(MANGLED_DEFAULT, "??1PendingQuery@WebRendererQueryHandler@Bridge@Browser@Web@@QAE@XZ"); no body to assert in
+			_inline WebRendererQueryHandler::PendingQuery::~PendingQuery() = default; // 0x10C70100
 
 			_inline WebRendererQueryHandler::~WebRendererQueryHandler() // 0x10C70170
 			{
@@ -239,13 +234,8 @@ namespace Web
 				_sub_10C721A0(this);
 			}
 
-			_inline WebRendererQueryHandler::PendingQuery::PendingQuery() // 0x10C6F190
-			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "??0PendingQuery@WebRendererQueryHandler@Bridge@Browser@Web@@QAE@XZ");
-				// Web::Browser::Bridge::WebRendererQueryHandler::PendingQuery *const this;
-
-				compiler_generated();
-			}
+			// mangled_x86(MANGLED_DEFAULT, "??0PendingQuery@WebRendererQueryHandler@Bridge@Browser@Web@@QAE@XZ"); no body to assert in
+			_inline WebRendererQueryHandler::PendingQuery::PendingQuery() = default; // 0x10C6F190
 		}
 	}
 }

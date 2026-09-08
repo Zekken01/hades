@@ -25,16 +25,16 @@ class c_gui_list_item_widget;
 
 /* ---------- public code */
 
-_extern long _sub_10F139D0(c_gui_list_item_widget const *const);
 long c_gui_list_item_widget::get_data_item_index() const // 0x10F139D0
 {
-	mangled_x86(MANGLED_TODO, "?get_data_item_index@c_gui_list_item_widget@@QBEJXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_data_item_index@c_gui_list_item_widget@@QBEJXZ");
 	// c_gui_list_item_widget const *const this;
 	// long (*const get_selected_item_data_index)(c_gui_list_item_widget const *);
 	// function call : long (*const)(c_gui_list_item_widget const *)
-	todo("implement");
-	long __result = _sub_10F139D0((c_gui_list_item_widget const *)this);
-	return __result;
+
+	long (__thiscall *const get_selected_item_data_index)(c_gui_list_item_widget const *) = (long(__thiscall *const)(c_gui_list_item_widget const *))0xb184a0;
+
+	return get_selected_item_data_index(this);
 }
 
 /* ---------- private code */

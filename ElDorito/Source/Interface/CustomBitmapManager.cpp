@@ -281,51 +281,26 @@ void CustomBitmapManager::UpdateRender() // 0x10785BD0
 	_sub_10785BD0(this);
 }
 
-_inline CustomBitmapManager::CustomBitmapManager() // 0x10783290
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0CustomBitmapManager@@QAE@XZ");
-	// CustomBitmapManager *const this;
+// mangled_x86(MANGLED_DEFAULT, "??0CustomBitmapManager@@QAE@XZ"); no body to assert in
+_inline CustomBitmapManager::CustomBitmapManager() = default; // 0x10783290
 
-	compiler_generated();
-}
-
-_inline CustomBitmapManager::StorageItem::StorageItem() // 0x10783370
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0StorageItem@CustomBitmapManager@@QAE@XZ");
-	// CustomBitmapManager::StorageItem *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0StorageItem@CustomBitmapManager@@QAE@XZ"); no body to assert in
+_inline CustomBitmapManager::StorageItem::StorageItem() = default; // 0x10783370
 
 namespace Utils
 {
 	namespace Uri
 	{
-		_inline UriComponents::UriComponents() // 0x10783400
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0UriComponents@Uri@Utils@@QAE@XZ");
-			// Utils::Uri::UriComponents *const this;
-
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??0UriComponents@Uri@Utils@@QAE@XZ"); no body to assert in
+		_inline UriComponents::UriComponents() = default; // 0x10783400
 	}
 }
 
-_inline CustomBitmapManager::~CustomBitmapManager() // 0x10783710
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1CustomBitmapManager@@QAE@XZ");
-	// CustomBitmapManager *const this;
+// mangled_x86(MANGLED_DEFAULT, "??1CustomBitmapManager@@QAE@XZ"); no body to assert in
+_inline CustomBitmapManager::~CustomBitmapManager() = default; // 0x10783710
 
-	compiler_generated();
-}
-
-_inline CustomBitmapManager::StorageItem::~StorageItem() // 0x10783780
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1StorageItem@CustomBitmapManager@@QAE@XZ");
-	// CustomBitmapManager::StorageItem *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??1StorageItem@CustomBitmapManager@@QAE@XZ"); no body to assert in
+_inline CustomBitmapManager::StorageItem::~StorageItem() = default; // 0x10783780
 
 _extern __int32 _sub_10785AA0(CustomBitmapManager *const, unsigned short, unsigned short);
 __int32 CustomBitmapManager::MakeHandle(unsigned short salt, unsigned short index) // 0x10785AA0

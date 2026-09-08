@@ -272,37 +272,17 @@ using namespace hades_file_local;
 
 namespace Player
 {
-	_inline CPlayerCharacterCustomizationBuilder::CPlayerCharacterCustomizationBuilder() // 0x10900CB0
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0CPlayerCharacterCustomizationBuilder@Player@@QAE@XZ");
-		// Player::CPlayerCharacterCustomizationBuilder *const this;
+	// mangled_x86(MANGLED_DEFAULT, "??0CPlayerCharacterCustomizationBuilder@Player@@QAE@XZ"); no body to assert in
+	_inline CPlayerCharacterCustomizationBuilder::CPlayerCharacterCustomizationBuilder() = default; // 0x10900CB0
 
-		compiler_generated();
-	}
+	// mangled_x86(MANGLED_DEFAULT, "??0SBaseCacheReference@CPlayerCharacterCustomizationBuilder@Player@@QAE@XZ"); no body to assert in
+	_inline CPlayerCharacterCustomizationBuilder::SBaseCacheReference::SBaseCacheReference() = default; // 0x10900DC0
 
-	_inline CPlayerCharacterCustomizationBuilder::SBaseCacheReference::SBaseCacheReference() // 0x10900DC0
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0SBaseCacheReference@CPlayerCharacterCustomizationBuilder@Player@@QAE@XZ");
-		// Player::CPlayerCharacterCustomizationBuilder::SBaseCacheReference *const this;
+	// mangled_x86(MANGLED_DEFAULT, "??1CPlayerCharacterCustomizationBuilder@Player@@QAE@XZ"); no body to assert in
+	_inline CPlayerCharacterCustomizationBuilder::~CPlayerCharacterCustomizationBuilder() = default; // 0x10900F80
 
-		compiler_generated();
-	}
-
-	_inline CPlayerCharacterCustomizationBuilder::~CPlayerCharacterCustomizationBuilder() // 0x10900F80
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??1CPlayerCharacterCustomizationBuilder@Player@@QAE@XZ");
-		// Player::CPlayerCharacterCustomizationBuilder *const this;
-
-		compiler_generated();
-	}
-
-	_inline CPlayerCharacterCustomizationBuilder::SBaseCacheReference::~SBaseCacheReference() // 0x10901050
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??1SBaseCacheReference@CPlayerCharacterCustomizationBuilder@Player@@QAE@XZ");
-		// Player::CPlayerCharacterCustomizationBuilder::SBaseCacheReference *const this;
-
-		compiler_generated();
-	}
+	// mangled_x86(MANGLED_DEFAULT, "??1SBaseCacheReference@CPlayerCharacterCustomizationBuilder@Player@@QAE@XZ"); no body to assert in
+	_inline CPlayerCharacterCustomizationBuilder::SBaseCacheReference::~SBaseCacheReference() = default; // 0x10901050
 
 	_extern void _sub_109023F0();
 	void CPlayerCharacterSystem::Init() // 0x109023F0
@@ -555,14 +535,8 @@ __int32 GetPreferredCharacterType(__int32 playerIndex) // 0x109022A0
 	return __result;
 }
 
-_inline ModListener::ModListener() // 0x10900D60
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0ModListener@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::ModListener::ModListener
-	// ModListener *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0ModListener@hades_file_local@@QAE@XZ"); no body to assert in
+_inline ModListener::ModListener() = default; // 0x10900D60
 
 _inline ModListener::~ModListener() // 0x10901000
 {

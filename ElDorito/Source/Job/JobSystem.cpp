@@ -95,28 +95,13 @@ namespace Job
 	}
 }
 
-_inline CJobManager::CJobManager() // 0x1086CA30
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0CJobManager@@QAE@XZ");
-	// CJobManager *const this;
+// mangled_x86(MANGLED_DEFAULT, "??0CJobManager@@QAE@XZ"); no body to assert in
+_inline CJobManager::CJobManager() = default; // 0x1086CA30
 
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0SJobCounter@@QAE@XZ"); no body to assert in
+_inline SJobCounter::SJobCounter() = default; // 0x1086CB20
 
-_inline SJobCounter::SJobCounter() // 0x1086CB20
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0SJobCounter@@QAE@XZ");
-	// SJobCounter *const this;
-
-	compiler_generated();
-}
-
-_inline CJobManager::~CJobManager() // 0x1086CD80
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1CJobManager@@QAE@XZ");
-	// CJobManager *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??1CJobManager@@QAE@XZ"); no body to assert in
+_inline CJobManager::~CJobManager() = default; // 0x1086CD80
 
 /* ---------- private code */

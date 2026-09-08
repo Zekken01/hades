@@ -253,13 +253,8 @@ void CModBrowserManager::OnDownloadAborted(EModBrowserAbortReason reason) // 0x1
 	_sub_1070C750(this, reason);
 }
 
-_inline CModBrowserStateManager::CModBrowserStateManager() // 0x1070A870
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0CModBrowserStateManager@@QAE@XZ");
-	// CModBrowserStateManager *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0CModBrowserStateManager@@QAE@XZ"); no body to assert in
+_inline CModBrowserStateManager::CModBrowserStateManager() = default; // 0x1070A870
 
 namespace Web
 {
@@ -267,24 +262,14 @@ namespace Web
 	{
 		namespace ScreenLayer
 		{
-			_inline SDialogShowParams::SDialogShowParams() // 0x1070AB50
-			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "??0SDialogShowParams@ScreenLayer@Ui@Web@@QAE@XZ");
-				// Web::Ui::ScreenLayer::SDialogShowParams *const this;
-
-				compiler_generated();
-			}
+			// mangled_x86(MANGLED_DEFAULT, "??0SDialogShowParams@ScreenLayer@Ui@Web@@QAE@XZ"); no body to assert in
+			_inline SDialogShowParams::SDialogShowParams() = default; // 0x1070AB50
 		}
 	}
 }
 
-_inline CModBrowserStateManager::~CModBrowserStateManager() // 0x1070B500
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1CModBrowserStateManager@@QAE@XZ");
-	// CModBrowserStateManager *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??1CModBrowserStateManager@@QAE@XZ"); no body to assert in
+_inline CModBrowserStateManager::~CModBrowserStateManager() = default; // 0x1070B500
 
 namespace Web
 {
@@ -292,32 +277,17 @@ namespace Web
 	{
 		namespace ScreenLayer
 		{
-			_inline SDialogShowParams::~SDialogShowParams() // 0x1070B5E0
-			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "??1SDialogShowParams@ScreenLayer@Ui@Web@@QAE@XZ");
-				// Web::Ui::ScreenLayer::SDialogShowParams *const this;
-
-				compiler_generated();
-			}
+			// mangled_x86(MANGLED_DEFAULT, "??1SDialogShowParams@ScreenLayer@Ui@Web@@QAE@XZ"); no body to assert in
+			_inline SDialogShowParams::~SDialogShowParams() = default; // 0x1070B5E0
 		}
 	}
 }
 
-_inline SModBrowserState::~SModBrowserState() // 0x1070B670
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1SModBrowserState@@QAE@XZ");
-	// SModBrowserState *const this;
+// mangled_x86(MANGLED_DEFAULT, "??1SModBrowserState@@QAE@XZ"); no body to assert in
+_inline SModBrowserState::~SModBrowserState() = default; // 0x1070B670
 
-	compiler_generated();
-}
-
-_inline SModBrowserState::SRequestedMod::~SRequestedMod() // 0x1070B700
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1SRequestedMod@SModBrowserState@@QAE@XZ");
-	// SModBrowserState::SRequestedMod *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??1SRequestedMod@SModBrowserState@@QAE@XZ"); no body to assert in
+_inline SModBrowserState::SRequestedMod::~SRequestedMod() = default; // 0x1070B700
 
 extern SModBrowserState &_sub_1070B930(SModBrowserState *const, SModBrowserState &);
 _inline SModBrowserState &SModBrowserState::operator=(SModBrowserState &&__that) // 0x1070B930
@@ -336,26 +306,10 @@ _inline SModBrowserState &SModBrowserState::operator=(SModBrowserState &&__that)
 	return __result;
 }
 
-extern SModBrowserState::SRequestedMod &_sub_1070BAC0(SModBrowserState::SRequestedMod *const, SModBrowserState::SRequestedMod &);
-_inline SModBrowserState::SRequestedMod &SModBrowserState::SRequestedMod::operator=(SModBrowserState::SRequestedMod &&__that) // 0x1070BAC0
-{
-	mangled_x86(MANGLED_TODO, "??4SRequestedMod@SModBrowserState@@QAEAAU01@$$QAU01@@Z");
-	// SModBrowserState::SRequestedMod &__that;
-	compiler_generated();
-	todo("implement");
-	SModBrowserState::SRequestedMod & __result = _sub_1070BAC0(this, __that);
-	return __result;
-}
+// mangled_x86(MANGLED_DEFAULT, "??4SRequestedMod@SModBrowserState@@QAEAAU01@$$QAU01@@Z"); no body to assert in
+_inline SModBrowserState::SRequestedMod &SModBrowserState::SRequestedMod::operator=(SModBrowserState::SRequestedMod &&__that) = default; // 0x1070BAC0
 
-extern SModBrowserState::SRequestedMod &_sub_1070BC10(SModBrowserState::SRequestedMod *const, SModBrowserState::SRequestedMod const &);
-_inline SModBrowserState::SRequestedMod &SModBrowserState::SRequestedMod::operator=(SModBrowserState::SRequestedMod const &__that) // 0x1070BC10
-{
-	mangled_x86(MANGLED_TODO, "??4SRequestedMod@SModBrowserState@@QAEAAU01@ABU01@@Z");
-	// SModBrowserState::SRequestedMod const &__that;
-	compiler_generated();
-	todo("implement");
-	SModBrowserState::SRequestedMod & __result = _sub_1070BC10(this, __that);
-	return __result;
-}
+// mangled_x86(MANGLED_DEFAULT, "??4SRequestedMod@SModBrowserState@@QAEAAU01@ABU01@@Z"); no body to assert in
+_inline SModBrowserState::SRequestedMod &SModBrowserState::SRequestedMod::operator=(SModBrowserState::SRequestedMod const &__that) = default; // 0x1070BC10
 
 /* ---------- private code */

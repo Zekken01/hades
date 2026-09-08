@@ -103,29 +103,14 @@ void CForgeUndoManager::AddUndo(std::string const &summary, std::shared_ptr<IFor
 	_sub_108626A0(this, summary, undo);
 }
 
-_inline CForgeUndoManager::SUndoEntry::SUndoEntry(CForgeUndoManager::SUndoEntry const &__that) // 0x10862260
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0SUndoEntry@CForgeUndoManager@@QAE@ABU01@@Z");
-	// CForgeUndoManager::SUndoEntry const &__that;
+// mangled_x86(MANGLED_DEFAULT, "??0SUndoEntry@CForgeUndoManager@@QAE@ABU01@@Z"); no body to assert in
+_inline CForgeUndoManager::SUndoEntry::SUndoEntry(CForgeUndoManager::SUndoEntry const &__that) = default; // 0x10862260
 
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0SUndoEntry@CForgeUndoManager@@QAE@XZ"); no body to assert in
+_inline CForgeUndoManager::SUndoEntry::SUndoEntry() = default; // 0x10862300
 
-_inline CForgeUndoManager::SUndoEntry::SUndoEntry() // 0x10862300
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0SUndoEntry@CForgeUndoManager@@QAE@XZ");
-	// CForgeUndoManager::SUndoEntry *const this;
-
-	compiler_generated();
-}
-
-_inline CForgeUndoManager::SUndoEntry::~SUndoEntry() // 0x10862540
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1SUndoEntry@CForgeUndoManager@@QAE@XZ");
-	// CForgeUndoManager::SUndoEntry *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??1SUndoEntry@CForgeUndoManager@@QAE@XZ"); no body to assert in
+_inline CForgeUndoManager::SUndoEntry::~SUndoEntry() = default; // 0x10862540
 
 _extern void _sub_10862F70(CForgeUndoManager *const);
 void CForgeUndoManager::Update() // 0x10862F70

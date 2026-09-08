@@ -107,13 +107,8 @@ namespace Modules
 		_sub_10A230D0(this);
 	}
 
-	_inline ModuleUPnP::CachedIGD::~CachedIGD() // 0x10A233A0
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??1CachedIGD@ModuleUPnP@Modules@@QAE@XZ");
-		// Modules::ModuleUPnP::CachedIGD *const this;
-
-		compiler_generated();
-	}
+	// mangled_x86(MANGLED_DEFAULT, "??1CachedIGD@ModuleUPnP@Modules@@QAE@XZ"); no body to assert in
+	_inline ModuleUPnP::CachedIGD::~CachedIGD() = default; // 0x10A233A0
 
 	_extern void _sub_10A235C0(Modules::ModuleUPnP *const, bool, __int32, __int32, std::string const &);
 	void ModuleUPnP::UPnPForwardPort(bool tcp, __int32 externalport, __int32 internalport, std::string const &ruleName) // 0x10A235C0
@@ -160,13 +155,8 @@ namespace Modules
 		return __result;
 	}
 
-	_inline ModuleUPnP::CachedIGD::CachedIGD() // 0x10A23070
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0CachedIGD@ModuleUPnP@Modules@@QAE@XZ");
-		// Modules::ModuleUPnP::CachedIGD *const this;
-
-		compiler_generated();
-	}
+	// mangled_x86(MANGLED_DEFAULT, "??0CachedIGD@ModuleUPnP@Modules@@QAE@XZ"); no body to assert in
+	_inline ModuleUPnP::CachedIGD::CachedIGD() = default; // 0x10A23070
 }
 
 /* ---------- private code */

@@ -56,13 +56,8 @@ void c_visible_items::pop_marker() // 0x10F0DDB0
 	_sub_10F0DDB0();
 }
 
-_inline s_visible_items::s_visible_items() // 0x10F0DB30
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_visible_items@@QAE@XZ");
-	// s_visible_items *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0s_visible_items@@QAE@XZ"); no body to assert in
+_inline s_visible_items::s_visible_items() = default; // 0x10F0DB30
 
 _extern void _sub_10F0DC80();
 void c_visible_items::clear_all() // 0x10F0DC80

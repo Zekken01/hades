@@ -104,13 +104,8 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- public code */
 
-_inline c_network_session_parameter_base::c_network_session_parameter_base() // 0x10AA88D0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_network_session_parameter_base@@QAE@XZ");
-	// c_network_session_parameter_base *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0c_network_session_parameter_base@@QAE@XZ"); no body to assert in
+_inline c_network_session_parameter_base::c_network_session_parameter_base() = default; // 0x10AA88D0
 
 _extern void _sub_10AA8F20(c_network_session_parameter_type_collection *);
 void network__session_parameter_types_register_hook(c_network_session_parameter_type_collection *collection) // 0x10AA8F20
@@ -123,13 +118,8 @@ void network__session_parameter_types_register_hook(c_network_session_parameter_
 	_sub_10AA8F20(collection);
 }
 
-_inline c_network_session_parameter_mod::c_network_session_parameter_mod() // 0x10AA8940
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_network_session_parameter_mod@@QAE@XZ");
-	// c_network_session_parameter_mod *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0c_network_session_parameter_mod@@QAE@XZ"); no body to assert in
+_inline c_network_session_parameter_mod::c_network_session_parameter_mod() = default; // 0x10AA8940
 
 _extern void _sub_10AA90D0();
 void network_session_parameter_patches_apply() // 0x10AA90D0

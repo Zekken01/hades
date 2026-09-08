@@ -262,13 +262,8 @@ namespace Web
 			_sub_10CEAAB0(this, device9, window);
 		}
 
-		_inline RenderHandlerGpu::GpuAcceleratedSurface::~GpuAcceleratedSurface() // 0x10CEB050
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??1GpuAcceleratedSurface@RenderHandlerGpu@Browser@Web@@QAE@XZ");
-			// Web::Browser::RenderHandlerGpu::GpuAcceleratedSurface *const this;
-
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??1GpuAcceleratedSurface@RenderHandlerGpu@Browser@Web@@QAE@XZ"); no body to assert in
+		_inline RenderHandlerGpu::GpuAcceleratedSurface::~GpuAcceleratedSurface() = default; // 0x10CEB050
 
 		_extern void _sub_10CEC410(Web::Browser::RenderHandlerGpu *const, scoped_refptr<CefBrowser>, bool);
 		void RenderHandlerGpu::OnPopupShow(scoped_refptr<CefBrowser> browser, bool show) // 0x10CEC410
@@ -359,13 +354,8 @@ namespace Web
 			return __result;
 		}
 
-		_inline RenderHandlerGpu::GpuAcceleratedSurface::GpuAcceleratedSurface() // 0x10CEAA10
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0GpuAcceleratedSurface@RenderHandlerGpu@Browser@Web@@QAE@XZ");
-			// Web::Browser::RenderHandlerGpu::GpuAcceleratedSurface *const this;
-
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??0GpuAcceleratedSurface@RenderHandlerGpu@Browser@Web@@QAE@XZ"); no body to assert in
+		_inline RenderHandlerGpu::GpuAcceleratedSurface::GpuAcceleratedSurface() = default; // 0x10CEAA10
 
 		_extern bool _sub_10CEC8C0(Web::Browser::RenderHandlerGpu *const);
 		bool RenderHandlerGpu::Render() // 0x10CEC8C0

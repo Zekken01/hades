@@ -46,15 +46,16 @@ namespace Blam
 		_sub_1092A3E0(this, data, sizeBytes);
 	}
 
-	_extern void _sub_1092A370(Blam::BitStream *const, Blam::BitStream::State);
 	void BitStream::Reset(Blam::BitStream::State state) // 0x1092A370
 	{
-		mangled_x86(MANGLED_TODO, "?Reset@BitStream@Blam@@AAEXW4State@12@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Reset@BitStream@Blam@@AAEXW4State@12@@Z");
 		// Blam::BitStream::State state;
 		// void (*const Reset)(Blam::BitStream *, Blam::BitStream::State);
 		// function call : void (*const)(Blam::BitStream *, Blam::BitStream::State)
-		todo("implement");
-		_sub_1092A370(this, state);
+
+		void (__thiscall *const Reset)(Blam::BitStream *, Blam::BitStream::State) = (void(__thiscall *const)(Blam::BitStream *, Blam::BitStream::State))0x559be0;
+
+		Reset(this, state);
 	}
 
 	_extern void _sub_10929F40(Blam::BitStream *const, __int32);
@@ -66,15 +67,16 @@ namespace Blam
 		_sub_10929F40(this, alignmentsBits);
 	}
 
-	_extern void _sub_1092A150(Blam::BitStream *const, __int32 *);
 	void BitStream::FinishWriting(__int32 *bitsWritten) // 0x1092A150
 	{
-		mangled_x86(MANGLED_TODO, "?FinishWriting@BitStream@Blam@@QAEXPAH@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?FinishWriting@BitStream@Blam@@QAEXPAH@Z");
 		// __int32 *bitsWritten;
 		// void (*const FinishWriting)(Blam::BitStream *, __int32 *);
 		// function call : void (*const)(Blam::BitStream *, __int32 *)
-		todo("implement");
-		_sub_1092A150(this, bitsWritten);
+
+		void (__thiscall *const FinishWriting)(Blam::BitStream *, __int32 *) = (void(__thiscall *const)(Blam::BitStream *, __int32 *))0x5580d0;
+
+		FinishWriting(this, bitsWritten);
 	}
 
 	_extern void _sub_10929EF0(Blam::BitStream *const, __int32);
@@ -86,15 +88,16 @@ namespace Blam
 		_sub_10929EF0(this, alignmentsBits);
 	}
 
-	_extern void _sub_1092A0E0(Blam::BitStream *const);
 	void BitStream::FinishReading() // 0x1092A0E0
 	{
-		mangled_x86(MANGLED_TODO, "?FinishReading@BitStream@Blam@@QAEXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?FinishReading@BitStream@Blam@@QAEXXZ");
 		// Blam::BitStream *const this;
 		// void (*const FinishReading)(Blam::BitStream *);
 		// function call : void (*const)(Blam::BitStream *)
-		todo("implement");
-		_sub_1092A0E0(this);
+
+		void (__thiscall *const FinishReading)(Blam::BitStream *) = (void(__thiscall *const)(Blam::BitStream *))0x5580c0;
+
+		FinishReading(this);
 	}
 
 	_extern bool _sub_10929E90(Blam::BitStream *const, __int32);
@@ -107,15 +110,16 @@ namespace Blam
 		return __result;
 	}
 
-	_extern void _sub_1092A070(Blam::BitStream *const);
 	void BitStream::FinishConsistencyCheck() // 0x1092A070
 	{
-		mangled_x86(MANGLED_TODO, "?FinishConsistencyCheck@BitStream@Blam@@QAEXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?FinishConsistencyCheck@BitStream@Blam@@QAEXXZ");
 		// Blam::BitStream *const this;
 		// void (*const FinishConistencyCheck)(Blam::BitStream *);
 		// function call : void (*const)(Blam::BitStream *)
-		todo("implement");
-		_sub_1092A070(this);
+
+		void (__thiscall *const FinishConistencyCheck)(Blam::BitStream *) = (void(__thiscall *const)(Blam::BitStream *))0x5580b0;
+
+		FinishConistencyCheck(this);
 	}
 
 	_extern void _sub_1092A020(Blam::BitStream *const);
@@ -127,16 +131,16 @@ namespace Blam
 		_sub_1092A020(this);
 	}
 
-	_extern bool _sub_1092A1F0(Blam::BitStream *const);
 	bool BitStream::ReadBit() // 0x1092A1F0
 	{
-		mangled_x86(MANGLED_TODO, "?ReadBit@BitStream@Blam@@AAE_NXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?ReadBit@BitStream@Blam@@AAE_NXZ");
 		// Blam::BitStream *const this;
 		// bool (*const ReadBit)(Blam::BitStream *);
 		// function call : bool (*const)(Blam::BitStream *)
-		todo("implement");
-		bool __result = _sub_1092A1F0(this);
-		return __result;
+
+		bool (__thiscall *const ReadBit)(Blam::BitStream *) = (bool(__thiscall *const)(Blam::BitStream *))0x558570;
+
+		return ReadBit(this);
 	}
 
 	_extern unsigned long long _sub_1092A260(Blam::BitStream *const, __int32);
@@ -169,15 +173,16 @@ namespace Blam
 		_sub_1092A460(this, val, bits);
 	}
 
-	_extern void _sub_1092A300(Blam::BitStream *const, unsigned __int32, unsigned char *);
 	void BitStream::ReadBlock(unsigned __int32 bits, unsigned char *out) // 0x1092A300
 	{
-		mangled_x86(MANGLED_TODO, "?ReadBlock@BitStream@Blam@@QAEXIPAE@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?ReadBlock@BitStream@Blam@@QAEXIPAE@Z");
 		// unsigned char *out;
 		// void (*const ReadBlock)(Blam::BitStream *, unsigned char *, unsigned __int32);
 		// function call : void (*const)(Blam::BitStream *, unsigned char *, unsigned __int32)
-		todo("implement");
-		_sub_1092A300(this, bits, out);
+
+		void (__thiscall *const ReadBlock)(Blam::BitStream *, unsigned char *, unsigned __int32) = (void(__thiscall *const)(Blam::BitStream *, unsigned char *, unsigned __int32))0x558740;
+
+		ReadBlock(this, out, bits);
 	}
 
 	_extern void _sub_1092A580(Blam::BitStream *const, unsigned __int32, unsigned char const *);

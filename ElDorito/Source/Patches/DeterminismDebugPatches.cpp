@@ -366,20 +366,8 @@ unsigned long *get_random_seed_address_hook() // 0x107A7850
 	return __result;
 }
 
-_inline CDebugRandomTraceManager::CDebugRandomTraceManager() // 0x107A1F50
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0CDebugRandomTraceManager@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::CDebugRandomTraceManager::CDebugRandomTraceManager
-	// CDebugRandomTraceManager *const this;
+// mangled_x86(MANGLED_DEFAULT, "??0CDebugRandomTraceManager@hades_file_local@@QAE@XZ"); no body to assert in
+_inline CDebugRandomTraceManager::CDebugRandomTraceManager() = default; // 0x107A1F50
 
-	compiler_generated();
-}
-
-_inline CDebugRandomTraceManager::SRandomEvent::SRandomEvent() // 0x107A20A0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0SRandomEvent@CDebugRandomTraceManager@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::CDebugRandomTraceManager::SRandomEvent::SRandomEvent
-	// CDebugRandomTraceManager::SRandomEvent *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0SRandomEvent@CDebugRandomTraceManager@hades_file_local@@QAE@XZ"); no body to assert in
+_inline CDebugRandomTraceManager::SRandomEvent::SRandomEvent() = default; // 0x107A20A0

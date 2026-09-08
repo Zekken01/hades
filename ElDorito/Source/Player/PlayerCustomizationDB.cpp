@@ -251,13 +251,8 @@ namespace Player
 		return __result;
 	}
 
-	_inline SPersistentCharacterCustomization::SPersistentCharacterCustomization(Player::SPersistentCharacterCustomization &&__that) // 0x107D5200
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0SPersistentCharacterCustomization@Player@@QAE@$$QAU01@@Z");
-		// Player::SPersistentCharacterCustomization &__that;
-
-		compiler_generated();
-	}
+	// mangled_x86(MANGLED_DEFAULT, "??0SPersistentCharacterCustomization@Player@@QAE@$$QAU01@@Z"); no body to assert in
+	_inline SPersistentCharacterCustomization::SPersistentCharacterCustomization(Player::SPersistentCharacterCustomization &&__that) = default; // 0x107D5200
 
 	_extern void _sub_107D80A0(rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::ostream >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &, std::map<std::string,std::string> const &);
 	void SavePreferredCharacters(rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::ostream >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, std::map<std::string,std::string> const &preferredCharacters) // 0x107D80A0
@@ -281,16 +276,8 @@ namespace Player
 		_sub_107D80A0(writer, preferredCharacters);
 	}
 
-	extern SPersistentCharacterCustomization &_sub_107D5C70(Player::SPersistentCharacterCustomization *const, Player::SPersistentCharacterCustomization const &);
-	_inline Player::SPersistentCharacterCustomization &SPersistentCharacterCustomization::operator=(Player::SPersistentCharacterCustomization const &__that) // 0x107D5C70
-	{
-		mangled_x86(MANGLED_TODO, "??4SPersistentCharacterCustomization@Player@@QAEAAU01@ABU01@@Z");
-		// Player::SPersistentCharacterCustomization const &__that;
-		compiler_generated();
-		todo("implement");
-		Player::SPersistentCharacterCustomization & __result = _sub_107D5C70(this, __that);
-		return __result;
-	}
+	// mangled_x86(MANGLED_DEFAULT, "??4SPersistentCharacterCustomization@Player@@QAEAAU01@ABU01@@Z"); no body to assert in
+	_inline Player::SPersistentCharacterCustomization &SPersistentCharacterCustomization::operator=(Player::SPersistentCharacterCustomization const &__that) = default; // 0x107D5C70
 
 	_extern bool _sub_107D6D00(Player::CPlayerCustomizationDB *const, std::string const &);
 	bool CPlayerCustomizationDB::Load(std::string const &filename) // 0x107D6D00

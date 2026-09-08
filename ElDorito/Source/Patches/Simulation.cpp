@@ -389,26 +389,30 @@ void simulation_game_build_motion_data_from_action_hook(s_player_action *action,
 	_sub_10ACFE90(action, unit_index, motion_data);
 }
 
-_extern void _sub_10ACF770(long, long, long, long, long, void *);
 void simulation_damage_aftermath_hook(long event_type, long a2, long a3, long player_index, long data_size, void *data) // 0x10ACF770
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?simulation_damage_aftermath_hook@@YAXJJJJJPAX@Z");
 	// `anonymous-namespace'::simulation_damage_aftermath_hook
 	// void *data;
 	// constexpr void (*const `simulation_damage_aftermath_hook'::`2'::simulation_event_generate_for_clients)(long, long, long, long, long, void *); // constant == 5134896
 	// function call : void (*const)(long, long, long, long, long, void *)
-	todo("implement");
-	_sub_10ACF770(event_type, a2, a3, player_index, data_size, data);
+
+	void (__cdecl *const simulation_event_generate_for_clients)(long, long, long, long, long, void *) = (void(__cdecl *const)(long, long, long, long, long, void *))0x4e5a30;
+
+	simulation_event_generate_for_clients(event_type, a2, a3, player_index, data_size, data);
 }
 
-_extern void _sub_10ACF020(long, void *);
 void ragdoll_object_damage_aftermath_hook(long object_index, void *damage_data) // 0x10ACF020
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ragdoll_object_damage_aftermath_hook@@YAXJPAX@Z");
 	// `anonymous-namespace'::ragdoll_object_damage_aftermath_hook
 	// void *damage_data;
 	// void (*const object_deal_damage)(__int32, void *);
 	// function call : void (*const)(__int32, void *)
-	todo("implement");
-	_sub_10ACF020(object_index, damage_data);
+
+	void (__cdecl *const object_deal_damage)(__int32, void *) = (void(__cdecl *const)(__int32, void *))0xb52c50;
+
+	object_deal_damage(object_index, damage_data);
 }
 
 _extern void _sub_10ACE780(c_simulation_game_engine_event_definition *, void *, long, s_game_engine_event_data const *, Blam::BitStream *, bool);

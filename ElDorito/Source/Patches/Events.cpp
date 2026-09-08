@@ -184,16 +184,8 @@ namespace Patches
 	}
 }
 
-extern s_game_engine_event_data &_sub_10A591B0(s_game_engine_event_data *const, s_game_engine_event_data const &);
-_inline s_game_engine_event_data &s_game_engine_event_data::operator=(s_game_engine_event_data const &__that) // 0x10A591B0
-{
-	mangled_x86(MANGLED_TODO, "??4s_game_engine_event_data@@QAEAAU0@ABU0@@Z");
-	// s_game_engine_event_data const &__that;
-	compiler_generated();
-	todo("implement");
-	s_game_engine_event_data & __result = _sub_10A591B0(this, __that);
-	return __result;
-}
+// mangled_x86(MANGLED_DEFAULT, "??4s_game_engine_event_data@@QAEAAU0@ABU0@@Z"); no body to assert in
+_inline s_game_engine_event_data &s_game_engine_event_data::operator=(s_game_engine_event_data const &__that) = default; // 0x10A591B0
 
 /* ---------- private code */
 
@@ -216,23 +208,11 @@ void RunEventHook(unsigned long player, s_game_engine_event_data const *event, s
 	_sub_10A59BD0(player, event, definition);
 }
 
-_inline s_suppressed_game_engine_event::s_suppressed_game_engine_event() // 0x10A58EA0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_suppressed_game_engine_event@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::s_suppressed_game_engine_event::s_suppressed_game_engine_event
-	// s_suppressed_game_engine_event *const this;
+// mangled_x86(MANGLED_DEFAULT, "??0s_suppressed_game_engine_event@hades_file_local@@QAE@XZ"); no body to assert in
+_inline s_suppressed_game_engine_event::s_suppressed_game_engine_event() = default; // 0x10A58EA0
 
-	compiler_generated();
-}
-
-_inline s_suppressed_game_engine_event_collection::s_suppressed_game_engine_event_collection() // 0x10A58F00
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_suppressed_game_engine_event_collection@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::s_suppressed_game_engine_event_collection::s_suppressed_game_engine_event_collection
-	// s_suppressed_game_engine_event_collection *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0s_suppressed_game_engine_event_collection@hades_file_local@@QAE@XZ"); no body to assert in
+_inline s_suppressed_game_engine_event_collection::s_suppressed_game_engine_event_collection() = default; // 0x10A58F00
 
 _extern bool _sub_10A5B150(long);
 bool player_has_name(long player_index) // 0x10A5B150
@@ -245,16 +225,7 @@ bool player_has_name(long player_index) // 0x10A5B150
 	return __result;
 }
 
-extern s_suppressed_game_engine_event &_sub_10A59290(s_suppressed_game_engine_event *const, s_suppressed_game_engine_event const &);
-_inline s_suppressed_game_engine_event &s_suppressed_game_engine_event::operator=(s_suppressed_game_engine_event const &__that) // 0x10A59290
-{
-	// `anonymous-namespace'::s_suppressed_game_engine_event::operator=
-	// s_suppressed_game_engine_event const &__that;
-	compiler_generated();
-	todo("implement");
-	s_suppressed_game_engine_event & __result = _sub_10A59290(this, __that);
-	return __result;
-}
+_inline s_suppressed_game_engine_event &s_suppressed_game_engine_event::operator=(s_suppressed_game_engine_event const &__that) = default; // 0x10A59290
 
 _extern void _sub_10A5AAA0();
 void game_engine_update_game_events_hook() // 0x10A5AAA0

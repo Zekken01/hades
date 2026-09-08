@@ -68,48 +68,47 @@ namespace Web
 {
 	namespace Browser
 	{
-		_extern void _sub_10CB7970(CefBaseRefCounted * const);
 		_inline void CWebFileReadHandler::AddRef() const // 0x10CB7970
 		{
-			mangled_x86(MANGLED_TODO, "?AddRef@CWebFileReadHandler@Browser@Web@@UBEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?AddRef@CWebFileReadHandler@Browser@Web@@UBEXXZ");
 			// __shifted(Web::Browser::CWebFileReadHandler, 228);
 			// Web::Browser::CWebFileReadHandler const *const this;
-			todo("implement");
-			_sub_10CB7970((CefBaseRefCounted *)this);
+
+			ref_count_.AddRef();
 		}
 
-		_extern bool _sub_10CB7AB0(CefBaseRefCounted * const);
 		_inline bool CWebFileReadHandler::HasAtLeastOneRef() const // 0x10CB7AB0
 		{
-			mangled_x86(MANGLED_TODO, "?HasAtLeastOneRef@CWebFileReadHandler@Browser@Web@@UBE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?HasAtLeastOneRef@CWebFileReadHandler@Browser@Web@@UBE_NXZ");
 			// __shifted(Web::Browser::CWebFileReadHandler, 228);
 			// Web::Browser::CWebFileReadHandler const *const this;
-			todo("implement");
-			bool __result = _sub_10CB7AB0((CefBaseRefCounted *)this);
-			return __result;
+
+			return ref_count_.HasAtLeastOneRef();
 		}
 
-		_extern bool _sub_10CB7B10(CefBaseRefCounted * const);
 		_inline bool CWebFileReadHandler::HasOneRef() const // 0x10CB7B10
 		{
-			mangled_x86(MANGLED_TODO, "?HasOneRef@CWebFileReadHandler@Browser@Web@@UBE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?HasOneRef@CWebFileReadHandler@Browser@Web@@UBE_NXZ");
 			// __shifted(Web::Browser::CWebFileReadHandler, 228);
 			// Web::Browser::CWebFileReadHandler const *const this;
-			todo("implement");
-			bool __result = _sub_10CB7B10((CefBaseRefCounted *)this);
-			return __result;
+
+			return ref_count_.HasOneRef();
 		}
 
-		_extern bool _sub_10CB7C90(CefBaseRefCounted * const);
 		_inline bool CWebFileReadHandler::Release() const // 0x10CB7C90
 		{
-			mangled_x86(MANGLED_TODO, "?Release@CWebFileReadHandler@Browser@Web@@UBE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Release@CWebFileReadHandler@Browser@Web@@UBE_NXZ");
 			// __shifted(Web::Browser::CWebFileReadHandler, 228);
 			// Web::Browser::CWebFileReadHandler const *const this;
 			// function call : void *(unsigned __int32)
-			todo("implement");
-			bool __result = _sub_10CB7C90((CefBaseRefCounted *)this);
-			return __result;
+
+			if (ref_count_.Release())
+			{
+				delete static_cast<CWebFileReadHandler const *>(this);
+				return true;
+			}
+
+			return false;
 		}
 	}
 }

@@ -96,25 +96,11 @@ namespace Audio
 			_sub_106CAEB0(this, buffer, length);
 		}
 
-		extern IReadStream* _sub_106CAF30(Audio::FMOD::IReadStream *const);
-		_inline IReadStream::IReadStream() // 0x106CAF30
-		{
-			mangled_x86(MANGLED_TODO, "??0IReadStream@FMOD@Audio@@QAE@XZ");
-			// Audio::FMOD::IReadStream *const this;
-			compiler_generated();
-			todo("implement");
-			_sub_106CAF30(this);
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??0IReadStream@FMOD@Audio@@QAE@XZ"); no body to assert in
+		_inline IReadStream::IReadStream() = default; // 0x106CAF30
 
-		_extern void _sub_106CAF60(Audio::FMOD::CMemoryReadStream *const);
-		_inline CMemoryReadStream::~CMemoryReadStream() // 0x106CAF60
-		{
-			mangled_x86(MANGLED_TODO, "??1CMemoryReadStream@FMOD@Audio@@UAE@XZ");
-			// Audio::FMOD::CMemoryReadStream *const this;
-			compiler_generated();
-			todo("implement");
-			_sub_106CAF60(this);
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??1CMemoryReadStream@FMOD@Audio@@UAE@XZ"); no body to assert in
+		_inline CMemoryReadStream::~CMemoryReadStream() = default; // 0x106CAF60
 
 		_extern __int32 _sub_106CB890(Audio::FMOD::CMemoryReadStream *const, void *, __int32);
 		_inline __int32 CMemoryReadStream::Read(void *buffer, __int32 bytes) // 0x106CB890

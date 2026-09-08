@@ -457,13 +457,8 @@ namespace Player
 	}
 }
 
-_inline s_scenario_cutscene_camera_point::s_scenario_cutscene_camera_point(s_scenario_cutscene_camera_point const &__that) // 0x106DCED0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_scenario_cutscene_camera_point@@QAE@ABU0@@Z");
-	// s_scenario_cutscene_camera_point const &__that;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0s_scenario_cutscene_camera_point@@QAE@ABU0@@Z"); no body to assert in
+_inline s_scenario_cutscene_camera_point::s_scenario_cutscene_camera_point(s_scenario_cutscene_camera_point const &__that) = default; // 0x106DCED0
 
 namespace Player
 {

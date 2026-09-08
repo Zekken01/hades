@@ -154,13 +154,8 @@ bool c_cache_file_tags::open_tag_cache() // 0x10879F70
 	return __result;
 }
 
-_inline c_tag_names_csv_file_reader::~c_tag_names_csv_file_reader() // 0x10877FB0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1c_tag_names_csv_file_reader@@QAE@XZ");
-	// c_tag_names_csv_file_reader *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??1c_tag_names_csv_file_reader@@QAE@XZ"); no body to assert in
+_inline c_tag_names_csv_file_reader::~c_tag_names_csv_file_reader() = default; // 0x10877FB0
 
 _extern void _sub_108799C0();
 void c_cache_file_tags::close_tag_cache() // 0x108799C0

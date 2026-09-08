@@ -151,13 +151,8 @@ namespace Audio
 		return __result;
 	}
 
-	_inline CAudioDeviceManager::CAudioDeviceManagerImpl::CAudioDeviceManagerImpl() // 0x107F12F0
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0CAudioDeviceManagerImpl@CAudioDeviceManager@Audio@@QAE@XZ");
-		// Audio::CAudioDeviceManager::CAudioDeviceManagerImpl *const this;
-
-		compiler_generated();
-	}
+	// mangled_x86(MANGLED_DEFAULT, "??0CAudioDeviceManagerImpl@CAudioDeviceManager@Audio@@QAE@XZ"); no body to assert in
+	_inline CAudioDeviceManager::CAudioDeviceManagerImpl::CAudioDeviceManagerImpl() = default; // 0x107F12F0
 }
 
 extern HRESULT _sub_107F2070(Audio::CAudioDeviceManager::CAudioDeviceManagerImpl *const, wchar_t const *, unsigned long);

@@ -409,17 +409,8 @@ MethodList(
 	_sub_426AF0(this);
 }
 
-_extern void _sub_427690(App * const);
-_inline App::~App() // 0x427690
-{
-	mangled_x86(MANGLED_TODO, "??1App@@UAE@XZ");
-	// __shifted(App, 28);
-	// App *const this; // local
-	// App *const this; // r18
-	compiler_generated();
-	todo("implement");
-	_sub_427690(this);
-}
+// mangled_x86(MANGLED_DEFAULT, "??1App@@UAE@XZ"); no body to assert in
+_inline App::~App() = default; // 0x427690
 
 extern scoped_refptr<CefRenderProcessHandler> _sub_427F50(App *const);
 scoped_refptr<CefRenderProcessHandler> App::GetRenderProcessHandler() // 0x427F50

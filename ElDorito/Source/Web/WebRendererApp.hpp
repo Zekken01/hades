@@ -75,48 +75,47 @@ namespace Web
 			_sub_10CBB980(this);
 		}
 
-		_extern void _sub_10CBD420(CefBaseRefCounted * const);
 		_inline void WebRendererApp::AddRef() const // 0x10CBD420
 		{
-			mangled_x86(MANGLED_TODO, "?AddRef@WebRendererApp@Browser@Web@@UBEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?AddRef@WebRendererApp@Browser@Web@@UBEXXZ");
 			// __shifted(Web::Browser::WebRendererApp, 32);
 			// Web::Browser::WebRendererApp const *const this;
-			todo("implement");
-			_sub_10CBD420((CefBaseRefCounted *)this);
+
+			ref_count_.AddRef();
 		}
 
-		_extern bool _sub_10CBE420(CefBaseRefCounted * const);
 		_inline bool WebRendererApp::HasAtLeastOneRef() const // 0x10CBE420
 		{
-			mangled_x86(MANGLED_TODO, "?HasAtLeastOneRef@WebRendererApp@Browser@Web@@UBE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?HasAtLeastOneRef@WebRendererApp@Browser@Web@@UBE_NXZ");
 			// __shifted(Web::Browser::WebRendererApp, 32);
 			// Web::Browser::WebRendererApp const *const this;
-			todo("implement");
-			bool __result = _sub_10CBE420((CefBaseRefCounted *)this);
-			return __result;
+
+			return ref_count_.HasAtLeastOneRef();
 		}
 
-		_extern bool _sub_10CBE4D0(CefBaseRefCounted * const);
 		_inline bool WebRendererApp::HasOneRef() const // 0x10CBE4D0
 		{
-			mangled_x86(MANGLED_TODO, "?HasOneRef@WebRendererApp@Browser@Web@@UBE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?HasOneRef@WebRendererApp@Browser@Web@@UBE_NXZ");
 			// __shifted(Web::Browser::WebRendererApp, 32);
 			// Web::Browser::WebRendererApp const *const this;
-			todo("implement");
-			bool __result = _sub_10CBE4D0((CefBaseRefCounted *)this);
-			return __result;
+
+			return ref_count_.HasOneRef();
 		}
 
-		_extern bool _sub_10CC2240(CefBaseRefCounted * const);
 		_inline bool WebRendererApp::Release() const // 0x10CC2240
 		{
-			mangled_x86(MANGLED_TODO, "?Release@WebRendererApp@Browser@Web@@UBE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Release@WebRendererApp@Browser@Web@@UBE_NXZ");
 			// __shifted(Web::Browser::WebRendererApp, 32);
 			// Web::Browser::WebRendererApp const *const this;
 			// function call : void *(unsigned __int32)
-			todo("implement");
-			bool __result = _sub_10CC2240((CefBaseRefCounted *)this);
-			return __result;
+
+			if (ref_count_.Release())
+			{
+				delete static_cast<WebRendererApp const *>(this);
+				return true;
+			}
+
+			return false;
 		}
 	}
 }

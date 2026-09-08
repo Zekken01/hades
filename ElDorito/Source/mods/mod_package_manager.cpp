@@ -133,16 +133,8 @@ c_mod_package_manager::~c_mod_package_manager() // 0x108A56B0
 	_sub_108A56B0(this);
 }
 
-extern c_file_reference &_sub_108A5830(c_file_reference *const, c_file_reference const &);
-_inline c_file_reference &c_file_reference::operator=(c_file_reference const &__that) // 0x108A5830
-{
-	mangled_x86(MANGLED_TODO, "??4c_file_reference@@QAEAAV0@ABV0@@Z");
-	// c_file_reference const &__that;
-	compiler_generated();
-	todo("implement");
-	c_file_reference & __result = _sub_108A5830(this, __that);
-	return __result;
-}
+// mangled_x86(MANGLED_DEFAULT, "??4c_file_reference@@QAEAAV0@ABV0@@Z"); no body to assert in
+_inline c_file_reference &c_file_reference::operator=(c_file_reference const &__that) = default; // 0x108A5830
 
 extern c_mod_package_manager::s_entry &_sub_108A5890(c_mod_package_manager::s_entry *const, c_mod_package_manager::s_entry const &);
 _inline c_mod_package_manager::s_entry &c_mod_package_manager::s_entry::operator=(c_mod_package_manager::s_entry const &__that) // 0x108A5890
@@ -170,19 +162,8 @@ _inline c_mod_package_manager::s_entry &c_mod_package_manager::s_entry::operator
 	return __result;
 }
 
-extern s_file_reference &_sub_108A5B60(s_file_reference *const, s_file_reference const &);
-_inline s_file_reference &s_file_reference::operator=(s_file_reference const &__that) // 0x108A5B60
-{
-	mangled_x86(MANGLED_TODO, "??4s_file_reference@@QAEAAU0@ABU0@@Z");
-	// s_file_reference const &__that;
-	{
-		// unsigned __int32 $S11;
-	}
-	compiler_generated();
-	todo("implement");
-	s_file_reference & __result = _sub_108A5B60(this, __that);
-	return __result;
-}
+// mangled_x86(MANGLED_DEFAULT, "??4s_file_reference@@QAEAAU0@ABU0@@Z"); no body to assert in
+_inline s_file_reference &s_file_reference::operator=(s_file_reference const &__that) = default; // 0x108A5B60
 
 _extern void _sub_108AA150(c_mod_package_manager *const, char const *);
 void c_mod_package_manager::initialize(char const *package_directory) // 0x108AA150
@@ -404,21 +385,11 @@ c_mod_package_manager::c_threadsafe_iterator::c_threadsafe_iterator(c_mod_packag
 	_sub_108A4C20(this, manager);
 }
 
-_inline c_mod_package_manager::s_entry::s_entry(c_mod_package_manager::s_entry &&__that) // 0x108A4CB0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_entry@c_mod_package_manager@@QAE@$$QAU01@@Z");
-	// c_mod_package_manager::s_entry &__that;
+// mangled_x86(MANGLED_DEFAULT, "??0s_entry@c_mod_package_manager@@QAE@$$QAU01@@Z"); no body to assert in
+_inline c_mod_package_manager::s_entry::s_entry(c_mod_package_manager::s_entry &&__that) = default; // 0x108A4CB0
 
-	compiler_generated();
-}
-
-_inline c_mod_package_manager::s_entry::s_entry(c_mod_package_manager::s_entry const &__that) // 0x108A4F10
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_entry@c_mod_package_manager@@QAE@ABU01@@Z");
-	// c_mod_package_manager::s_entry const &__that;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0s_entry@c_mod_package_manager@@QAE@ABU01@@Z"); no body to assert in
+_inline c_mod_package_manager::s_entry::s_entry(c_mod_package_manager::s_entry const &__that) = default; // 0x108A4F10
 
 _extern bool _sub_108AA7F0(c_mod_package_manager::c_threadsafe_iterator *const);
 bool c_mod_package_manager::c_threadsafe_iterator::next() // 0x108AA7F0

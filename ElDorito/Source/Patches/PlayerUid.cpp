@@ -248,14 +248,8 @@ _inline void UidExtension::Deserialize(Blam::BitStream *stream, unsigned long lo
 	_sub_10AB4270(this, stream, out);
 }
 
-_inline UidExtension::UidExtension() // 0x10AB39F0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0UidExtension@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::UidExtension::UidExtension
-	// UidExtension *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0UidExtension@hades_file_local@@QAE@XZ"); no body to assert in
+_inline UidExtension::UidExtension() = default; // 0x10AB39F0
 
 _inline UidExtension::~UidExtension() // 0x10AB3B50
 {

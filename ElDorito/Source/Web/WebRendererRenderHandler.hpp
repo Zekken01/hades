@@ -94,48 +94,47 @@ namespace Web
 			_sub_10CD0560(this);
 		}
 
-		_extern void _sub_10CD0B80(CefBaseRefCounted * const);
 		_inline void WebRendererRenderHandler::AddRef() const // 0x10CD0B80
 		{
-			mangled_x86(MANGLED_TODO, "?AddRef@WebRendererRenderHandler@Browser@Web@@UBEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?AddRef@WebRendererRenderHandler@Browser@Web@@UBEXXZ");
 			// __shifted(Web::Browser::WebRendererRenderHandler, 32);
 			// Web::Browser::WebRendererRenderHandler const *const this;
-			todo("implement");
-			_sub_10CD0B80((CefBaseRefCounted *)this);
+
+			ref_count_.AddRef();
 		}
 
-		_extern bool _sub_10CD12A0(CefBaseRefCounted * const);
 		_inline bool WebRendererRenderHandler::HasAtLeastOneRef() const // 0x10CD12A0
 		{
-			mangled_x86(MANGLED_TODO, "?HasAtLeastOneRef@WebRendererRenderHandler@Browser@Web@@UBE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?HasAtLeastOneRef@WebRendererRenderHandler@Browser@Web@@UBE_NXZ");
 			// __shifted(Web::Browser::WebRendererRenderHandler, 32);
 			// Web::Browser::WebRendererRenderHandler const *const this;
-			todo("implement");
-			bool __result = _sub_10CD12A0((CefBaseRefCounted *)this);
-			return __result;
+
+			return ref_count_.HasAtLeastOneRef();
 		}
 
-		_extern bool _sub_10CD1300(CefBaseRefCounted * const);
 		_inline bool WebRendererRenderHandler::HasOneRef() const // 0x10CD1300
 		{
-			mangled_x86(MANGLED_TODO, "?HasOneRef@WebRendererRenderHandler@Browser@Web@@UBE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?HasOneRef@WebRendererRenderHandler@Browser@Web@@UBE_NXZ");
 			// __shifted(Web::Browser::WebRendererRenderHandler, 32);
 			// Web::Browser::WebRendererRenderHandler const *const this;
-			todo("implement");
-			bool __result = _sub_10CD1300((CefBaseRefCounted *)this);
-			return __result;
+
+			return ref_count_.HasOneRef();
 		}
 
-		_extern bool _sub_10CD2270(CefBaseRefCounted * const);
 		_inline bool WebRendererRenderHandler::Release() const // 0x10CD2270
 		{
-			mangled_x86(MANGLED_TODO, "?Release@WebRendererRenderHandler@Browser@Web@@UBE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Release@WebRendererRenderHandler@Browser@Web@@UBE_NXZ");
 			// __shifted(Web::Browser::WebRendererRenderHandler, 32);
 			// Web::Browser::WebRendererRenderHandler const *const this;
 			// function call : void *(unsigned __int32)
-			todo("implement");
-			bool __result = _sub_10CD2270((CefBaseRefCounted *)this);
-			return __result;
+
+			if (ref_count_.Release())
+			{
+				delete static_cast<WebRendererRenderHandler const *>(this);
+				return true;
+			}
+
+			return false;
 		}
 	}
 }

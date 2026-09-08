@@ -115,48 +115,47 @@ namespace Web
 			// Web::Browser::RenderHandlerCpu *const this;
 		}
 
-		_extern void _sub_10CE8880(CefBaseRefCounted * const);
 		_inline void RenderHandlerCpu::AddRef() const // 0x10CE8880
 		{
-			mangled_x86(MANGLED_TODO, "?AddRef@RenderHandlerCpu@Browser@Web@@UBEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?AddRef@RenderHandlerCpu@Browser@Web@@UBEXXZ");
 			// __shifted(Web::Browser::RenderHandlerCpu, 168);
 			// Web::Browser::RenderHandlerCpu const *const this;
-			todo("implement");
-			_sub_10CE8880((CefBaseRefCounted *)this);
+
+			ref_count_.AddRef();
 		}
 
-		_extern bool _sub_10CE89B0(CefBaseRefCounted * const);
 		_inline bool RenderHandlerCpu::HasAtLeastOneRef() const // 0x10CE89B0
 		{
-			mangled_x86(MANGLED_TODO, "?HasAtLeastOneRef@RenderHandlerCpu@Browser@Web@@UBE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?HasAtLeastOneRef@RenderHandlerCpu@Browser@Web@@UBE_NXZ");
 			// __shifted(Web::Browser::RenderHandlerCpu, 168);
 			// Web::Browser::RenderHandlerCpu const *const this;
-			todo("implement");
-			bool __result = _sub_10CE89B0((CefBaseRefCounted *)this);
-			return __result;
+
+			return ref_count_.HasAtLeastOneRef();
 		}
 
-		_extern bool _sub_10CE8A10(CefBaseRefCounted * const);
 		_inline bool RenderHandlerCpu::HasOneRef() const // 0x10CE8A10
 		{
-			mangled_x86(MANGLED_TODO, "?HasOneRef@RenderHandlerCpu@Browser@Web@@UBE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?HasOneRef@RenderHandlerCpu@Browser@Web@@UBE_NXZ");
 			// __shifted(Web::Browser::RenderHandlerCpu, 168);
 			// Web::Browser::RenderHandlerCpu const *const this;
-			todo("implement");
-			bool __result = _sub_10CE8A10((CefBaseRefCounted *)this);
-			return __result;
+
+			return ref_count_.HasOneRef();
 		}
 
-		_extern bool _sub_10CE9890(CefBaseRefCounted * const);
 		_inline bool RenderHandlerCpu::Release() const // 0x10CE9890
 		{
-			mangled_x86(MANGLED_TODO, "?Release@RenderHandlerCpu@Browser@Web@@UBE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Release@RenderHandlerCpu@Browser@Web@@UBE_NXZ");
 			// __shifted(Web::Browser::RenderHandlerCpu, 168);
 			// Web::Browser::RenderHandlerCpu const *const this;
 			// function call : void *(unsigned __int32)
-			todo("implement");
-			bool __result = _sub_10CE9890((CefBaseRefCounted *)this);
-			return __result;
+
+			if (ref_count_.Release())
+			{
+				delete static_cast<RenderHandlerCpu const *>(this);
+				return true;
+			}
+
+			return false;
 		}
 	}
 }

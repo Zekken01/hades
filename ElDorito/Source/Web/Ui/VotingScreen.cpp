@@ -213,13 +213,8 @@ namespace Server
 {
 	namespace Voting
 	{
-		_inline VotingMessageHandler::VotingMessageHandler() // 0x10C9A680
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0VotingMessageHandler@Voting@Server@@QAE@XZ");
-			// Server::Voting::VotingMessageHandler *const this;
-
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??0VotingMessageHandler@Voting@Server@@QAE@XZ"); no body to assert in
+		_inline VotingMessageHandler::VotingMessageHandler() = default; // 0x10C9A680
 	}
 }
 

@@ -374,29 +374,14 @@ namespace Modules
 	}
 }
 
-_inline SServerConnectOptions::SServerConnectOptions() // 0x10A06DC0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0SServerConnectOptions@@QAE@XZ");
-	// SServerConnectOptions *const this;
+// mangled_x86(MANGLED_DEFAULT, "??0SServerConnectOptions@@QAE@XZ"); no body to assert in
+_inline SServerConnectOptions::SServerConnectOptions() = default; // 0x10A06DC0
 
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??1SServerConnectOptions@@QAE@XZ"); no body to assert in
+_inline SServerConnectOptions::~SServerConnectOptions() = default; // 0x10A07290
 
-_inline SServerConnectOptions::~SServerConnectOptions() // 0x10A07290
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1SServerConnectOptions@@QAE@XZ");
-	// SServerConnectOptions *const this;
-
-	compiler_generated();
-}
-
-_inline c_mod_package_manager::c_threadsafe_iterator::~c_threadsafe_iterator() // 0x10A073C0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1c_threadsafe_iterator@c_mod_package_manager@@QAE@XZ");
-	// c_mod_package_manager::c_threadsafe_iterator *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??1c_threadsafe_iterator@c_mod_package_manager@@QAE@XZ"); no body to assert in
+_inline c_mod_package_manager::c_threadsafe_iterator::~c_threadsafe_iterator() = default; // 0x10A073C0
 
 namespace Modules
 {

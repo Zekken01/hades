@@ -369,15 +369,7 @@ namespace Debug
 {
 	namespace CrashReporting
 	{
-		extern s_crash_info::s_exception* _sub_10A849A0(::Debug::CrashReporting::s_crash_info::s_exception *const);
-		_inline s_crash_info::s_exception::s_exception() // 0x10A849A0
-		{
-			// Debug::CrashReporting::s_crash_info::<unnamed-type-exception>::<unnamed-type-exception>
-			// Debug::CrashReporting::s_crash_info::s_exception *const this;
-			compiler_generated();
-			todo("implement");
-			_sub_10A849A0(this);
-		}
+		_inline s_crash_info::s_exception::s_exception() = default; // 0x10A849A0
 	}
 }
 
@@ -392,28 +384,14 @@ void sslLogHook(char a1, __int32 a2, void *a3, void *a4, char a5) // 0x10A86ED0
 	_sub_10A86ED0(a1, a2, a3, a4, a5);
 }
 
-_inline s_per_thread_exception_info::s_per_thread_exception_info() // 0x10A84A40
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_per_thread_exception_info@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::s_per_thread_exception_info::s_per_thread_exception_info
-	// s_per_thread_exception_info *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0s_per_thread_exception_info@hades_file_local@@QAE@XZ"); no body to assert in
+_inline s_per_thread_exception_info::s_per_thread_exception_info() = default; // 0x10A84A40
 
 namespace Debug
 {
 	namespace CrashReporting
 	{
-		_extern void _sub_10A84A90(::Debug::CrashReporting::s_crash_info::s_exception *const);
-		_inline s_crash_info::s_exception::~s_exception() // 0x10A84A90
-		{
-			// Debug::CrashReporting::s_crash_info::<unnamed-type-exception>::~<unnamed-type-exception>
-			// Debug::CrashReporting::s_crash_info::s_exception *const this;
-			compiler_generated();
-			todo("implement");
-			_sub_10A84A90(this);
-		}
+		_inline s_crash_info::s_exception::~s_exception() = default; // 0x10A84A90
 	}
 }
 

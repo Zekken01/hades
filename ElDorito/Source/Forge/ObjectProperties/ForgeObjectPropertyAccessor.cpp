@@ -127,30 +127,15 @@ namespace Forge
 		_sub_1083AD10(this, playerIndex, objectIndex);
 	}
 
-	_inline CObjectPropertyAccessor::CObjectPropertyAccessor() // 0x1083AD90
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0CObjectPropertyAccessor@Forge@@QAE@XZ");
-		// Forge::CObjectPropertyAccessor *const this;
-
-		compiler_generated();
-	}
+	// mangled_x86(MANGLED_DEFAULT, "??0CObjectPropertyAccessor@Forge@@QAE@XZ"); no body to assert in
+	_inline CObjectPropertyAccessor::CObjectPropertyAccessor() = default; // 0x1083AD90
 }
 
-_inline s_map_variant_placement_properties::s_map_variant_placement_properties() // 0x1083AEF0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_map_variant_placement_properties@@QAE@XZ");
-	// s_map_variant_placement_properties *const this;
+// mangled_x86(MANGLED_DEFAULT, "??0s_map_variant_placement_properties@@QAE@XZ"); no body to assert in
+_inline s_map_variant_placement_properties::s_map_variant_placement_properties() = default; // 0x1083AEF0
 
-	compiler_generated();
-}
-
-_inline s_simulation_queue_sandbox_event_data::s_simulation_queue_sandbox_event_data() // 0x1083AF60
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_simulation_queue_sandbox_event_data@@QAE@XZ");
-	// s_simulation_queue_sandbox_event_data *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0s_simulation_queue_sandbox_event_data@@QAE@XZ"); no body to assert in
+_inline s_simulation_queue_sandbox_event_data::s_simulation_queue_sandbox_event_data() = default; // 0x1083AF60
 
 namespace Forge
 {

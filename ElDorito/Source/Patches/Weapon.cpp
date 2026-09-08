@@ -806,45 +806,20 @@ namespace Patches
 {
 	namespace Weapon
 	{
-		_inline DefaultWeaponInfo::DefaultWeaponInfo(Patches::Weapon::DefaultWeaponInfo &&__that) // 0x10AEF7F0
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0DefaultWeaponInfo@Weapon@Patches@@QAE@$$QAU012@@Z");
-			// Patches::Weapon::DefaultWeaponInfo &__that;
+		// mangled_x86(MANGLED_DEFAULT, "??0DefaultWeaponInfo@Weapon@Patches@@QAE@$$QAU012@@Z"); no body to assert in
+		_inline DefaultWeaponInfo::DefaultWeaponInfo(Patches::Weapon::DefaultWeaponInfo &&__that) = default; // 0x10AEF7F0
 
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??0DefaultWeaponInfo@Weapon@Patches@@QAE@ABU012@@Z"); no body to assert in
+		_inline DefaultWeaponInfo::DefaultWeaponInfo(Patches::Weapon::DefaultWeaponInfo const &__that) = default; // 0x10AEF8E0
 
-		_inline DefaultWeaponInfo::DefaultWeaponInfo(Patches::Weapon::DefaultWeaponInfo const &__that) // 0x10AEF8E0
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0DefaultWeaponInfo@Weapon@Patches@@QAE@ABU012@@Z");
-			// Patches::Weapon::DefaultWeaponInfo const &__that;
+		// mangled_x86(MANGLED_DEFAULT, "??0WeaponInfo@Weapon@Patches@@QAE@$$QAU012@@Z"); no body to assert in
+		_inline WeaponInfo::WeaponInfo(Patches::Weapon::WeaponInfo &&__that) = default; // 0x10AEFA10
 
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??0WeaponInfo@Weapon@Patches@@QAE@ABU012@@Z"); no body to assert in
+		_inline WeaponInfo::WeaponInfo(Patches::Weapon::WeaponInfo const &__that) = default; // 0x10AEFAA0
 
-		_inline WeaponInfo::WeaponInfo(Patches::Weapon::WeaponInfo &&__that) // 0x10AEFA10
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0WeaponInfo@Weapon@Patches@@QAE@$$QAU012@@Z");
-			// Patches::Weapon::WeaponInfo &__that;
-
-			compiler_generated();
-		}
-
-		_inline WeaponInfo::WeaponInfo(Patches::Weapon::WeaponInfo const &__that) // 0x10AEFAA0
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0WeaponInfo@Weapon@Patches@@QAE@ABU012@@Z");
-			// Patches::Weapon::WeaponInfo const &__that;
-
-			compiler_generated();
-		}
-
-		_inline DefaultWeaponInfo::~DefaultWeaponInfo() // 0x10AEFDD0
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??1DefaultWeaponInfo@Weapon@Patches@@QAE@XZ");
-			// Patches::Weapon::DefaultWeaponInfo *const this;
-
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??1DefaultWeaponInfo@Weapon@Patches@@QAE@XZ"); no body to assert in
+		_inline DefaultWeaponInfo::~DefaultWeaponInfo() = default; // 0x10AEFDD0
 	}
 }
 

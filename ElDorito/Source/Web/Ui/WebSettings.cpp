@@ -228,11 +228,5 @@ void OnGameInputUpdated() // 0x10CB53C0
 	_sub_10CB53C0();
 }
 
-_inline WebSettingsScreen::WebSettingsScreen() // 0x10CB5130
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0WebSettingsScreen@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::WebSettingsScreen::WebSettingsScreen
-	// WebSettingsScreen *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0WebSettingsScreen@hades_file_local@@QAE@XZ"); no body to assert in
+_inline WebSettingsScreen::WebSettingsScreen() = default; // 0x10CB5130

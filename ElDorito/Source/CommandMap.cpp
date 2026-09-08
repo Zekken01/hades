@@ -147,13 +147,8 @@ namespace Modules
 		_sub_10944CB0(this);
 	}
 
-	_inline CommandScriptStack::CommandScriptStack() // 0x10944F60
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0CommandScriptStack@Modules@@QAE@XZ");
-		// Modules::CommandScriptStack *const this;
-
-		compiler_generated();
-	}
+	// mangled_x86(MANGLED_DEFAULT, "??0CommandScriptStack@Modules@@QAE@XZ"); no body to assert in
+	_inline CommandScriptStack::CommandScriptStack() = default; // 0x10944F60
 }
 
 extern std::string _sub_10949150(Modules::Command *const);
@@ -199,56 +194,23 @@ namespace Modules
 		return __result;
 	}
 
-	_inline Command::~Command() // 0x10945510
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??1Command@Modules@@QAE@XZ");
-		// Modules::Command *const this;
+	// mangled_x86(MANGLED_DEFAULT, "??1Command@Modules@@QAE@XZ"); no body to assert in
+	_inline Command::~Command() = default; // 0x10945510
 
-		compiler_generated();
-	}
+	// mangled_x86(MANGLED_DEFAULT, "??1CommandScript@Modules@@QAE@XZ"); no body to assert in
+	_inline CommandScript::~CommandScript() = default; // 0x109455E0
 
-	_inline CommandScript::~CommandScript() // 0x109455E0
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??1CommandScript@Modules@@QAE@XZ");
-		// Modules::CommandScript *const this;
+	// mangled_x86(MANGLED_DEFAULT, "??1CommandScriptStack@Modules@@QAE@XZ"); no body to assert in
+	_inline CommandScriptStack::~CommandScriptStack() = default; // 0x10945660
 
-		compiler_generated();
-	}
+	// mangled_x86(MANGLED_DEFAULT, "??4Command@Modules@@QAEAAU01@$$QAU01@@Z"); no body to assert in
+	_inline Modules::Command &Command::operator=(Modules::Command &&__that) = default; // 0x109456B0
 
-	_inline CommandScriptStack::~CommandScriptStack() // 0x10945660
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??1CommandScriptStack@Modules@@QAE@XZ");
-		// Modules::CommandScriptStack *const this;
+	// mangled_x86(MANGLED_DEFAULT, "??0Command@Modules@@QAE@$$QAU01@@Z"); no body to assert in
+	_inline Command::Command(Modules::Command &&__that) = default; // 0x109445D0
 
-		compiler_generated();
-	}
-
-	extern Command &_sub_109456B0(Modules::Command *const, Modules::Command &);
-	_inline Modules::Command &Command::operator=(Modules::Command &&__that) // 0x109456B0
-	{
-		mangled_x86(MANGLED_TODO, "??4Command@Modules@@QAEAAU01@$$QAU01@@Z");
-		// Modules::Command &__that;
-		compiler_generated();
-		todo("implement");
-		Modules::Command & __result = _sub_109456B0(this, __that);
-		return __result;
-	}
-
-	_inline Command::Command(Modules::Command &&__that) // 0x109445D0
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0Command@Modules@@QAE@$$QAU01@@Z");
-		// Modules::Command &__that;
-
-		compiler_generated();
-	}
-
-	_inline Command::Command(Modules::Command const &__that) // 0x10944910
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0Command@Modules@@QAE@ABU01@@Z");
-		// Modules::Command const &__that;
-
-		compiler_generated();
-	}
+	// mangled_x86(MANGLED_DEFAULT, "??0Command@Modules@@QAE@ABU01@@Z"); no body to assert in
+	_inline Command::Command(Modules::Command const &__that) = default; // 0x10944910
 
 	extern Command *_sub_10948CA0(Modules::CommandMap *const, std::string const &);
 	Modules::Command *CommandMap::FindCommand(std::string const &name) // 0x10948CA0

@@ -2584,6 +2584,7 @@ void c_gui_custom_bitmap_widget__assemble_render_data_hook(c_gui_custom_bitmap_w
 _extern bool _sub_10ADFB40(c_draw_string *, void *, void *, char const *);
 bool c_draw_string__draw_internal_hook(c_draw_string *thisptr, void *unused, void *cache, char const *utf32_text) // 0x10ADFB40
 {
+	mangled_x86(MANGLED_TODO, "?c_draw_string__draw_internal_hook@@YA_NPAUc_draw_string@@PAX1PBD@Z");
 	// `anonymous-namespace'::c_draw_string__draw_internal_hook
 	// char const *utf32_text;
 	// bool (*const c_draw_string__draw_internal)(c_draw_string *, void *, char const *);

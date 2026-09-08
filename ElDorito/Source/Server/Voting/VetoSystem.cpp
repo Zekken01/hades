@@ -205,13 +205,8 @@ namespace Server
 			_sub_1073A8D0(this);
 		}
 
-		_inline VotingJson::VotingJson() // 0x1073AA30
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0VotingJson@Voting@Server@@QAE@XZ");
-			// Server::Voting::VotingJson *const this;
-
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??0VotingJson@Voting@Server@@QAE@XZ"); no body to assert in
+		_inline VotingJson::VotingJson() = default; // 0x1073AA30
 
 		void VetoSystem::Init() // 0x1073D950
 		{
@@ -233,13 +228,8 @@ namespace Server
 			_sub_1073E4C0(this);
 		}
 
-		_inline PlaylistItem::~PlaylistItem() // 0x1073B780
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??1PlaylistItem@Voting@Server@@QAE@XZ");
-			// Server::Voting::PlaylistItem *const this;
-
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??1PlaylistItem@Voting@Server@@QAE@XZ"); no body to assert in
+		_inline PlaylistItem::~PlaylistItem() = default; // 0x1073B780
 
 		_inline VetoSystem::~VetoSystem() // 0x1073B7F0
 		{
@@ -249,13 +239,8 @@ namespace Server
 			compiler_generated();
 		}
 
-		_inline VotingJson::~VotingJson() // 0x1073B890
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??1VotingJson@Voting@Server@@QAE@XZ");
-			// Server::Voting::VotingJson *const this;
-
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??1VotingJson@Voting@Server@@QAE@XZ"); no body to assert in
+		_inline VotingJson::~VotingJson() = default; // 0x1073B890
 
 		extern MapAndType _sub_1073CF30(Server::Voting::VetoSystem *const);
 		Server::Voting::MapAndType VetoSystem::GenerateVotingOption() // 0x1073CF30
@@ -282,71 +267,23 @@ namespace Server
 			return __result;
 		}
 
-		extern HaloMap &_sub_1073BDA0(Server::Voting::HaloMap *const, Server::Voting::HaloMap &);
-		_inline Server::Voting::HaloMap &HaloMap::operator=(Server::Voting::HaloMap &&__that) // 0x1073BDA0
-		{
-			mangled_x86(MANGLED_TODO, "??4HaloMap@Voting@Server@@QAEAAU012@$$QAU012@@Z");
-			// Server::Voting::HaloMap &__that;
-			compiler_generated();
-			todo("implement");
-			Server::Voting::HaloMap & __result = _sub_1073BDA0(this, __that);
-			return __result;
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??4HaloMap@Voting@Server@@QAEAAU012@$$QAU012@@Z"); no body to assert in
+		_inline Server::Voting::HaloMap &HaloMap::operator=(Server::Voting::HaloMap &&__that) = default; // 0x1073BDA0
 
-		extern HaloMap &_sub_1073BE80(Server::Voting::HaloMap *const, Server::Voting::HaloMap const &);
-		_inline Server::Voting::HaloMap &HaloMap::operator=(Server::Voting::HaloMap const &__that) // 0x1073BE80
-		{
-			mangled_x86(MANGLED_TODO, "??4HaloMap@Voting@Server@@QAEAAU012@ABU012@@Z");
-			// Server::Voting::HaloMap const &__that;
-			compiler_generated();
-			todo("implement");
-			Server::Voting::HaloMap & __result = _sub_1073BE80(this, __that);
-			return __result;
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??4HaloMap@Voting@Server@@QAEAAU012@ABU012@@Z"); no body to assert in
+		_inline Server::Voting::HaloMap &HaloMap::operator=(Server::Voting::HaloMap const &__that) = default; // 0x1073BE80
 
-		extern HaloType &_sub_1073BF60(Server::Voting::HaloType *const, Server::Voting::HaloType &);
-		_inline Server::Voting::HaloType &HaloType::operator=(Server::Voting::HaloType &&__that) // 0x1073BF60
-		{
-			mangled_x86(MANGLED_TODO, "??4HaloType@Voting@Server@@QAEAAU012@$$QAU012@@Z");
-			// Server::Voting::HaloType &__that;
-			compiler_generated();
-			todo("implement");
-			Server::Voting::HaloType & __result = _sub_1073BF60(this, __that);
-			return __result;
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??4HaloType@Voting@Server@@QAEAAU012@$$QAU012@@Z"); no body to assert in
+		_inline Server::Voting::HaloType &HaloType::operator=(Server::Voting::HaloType &&__that) = default; // 0x1073BF60
 
-		extern HaloType &_sub_1073C0E0(Server::Voting::HaloType *const, Server::Voting::HaloType const &);
-		_inline Server::Voting::HaloType &HaloType::operator=(Server::Voting::HaloType const &__that) // 0x1073C0E0
-		{
-			mangled_x86(MANGLED_TODO, "??4HaloType@Voting@Server@@QAEAAU012@ABU012@@Z");
-			// Server::Voting::HaloType const &__that;
-			compiler_generated();
-			todo("implement");
-			Server::Voting::HaloType & __result = _sub_1073C0E0(this, __that);
-			return __result;
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??4HaloType@Voting@Server@@QAEAAU012@ABU012@@Z"); no body to assert in
+		_inline Server::Voting::HaloType &HaloType::operator=(Server::Voting::HaloType const &__that) = default; // 0x1073C0E0
 
-		extern MapAndType &_sub_1073C260(Server::Voting::MapAndType *const, Server::Voting::MapAndType &);
-		_inline Server::Voting::MapAndType &MapAndType::operator=(Server::Voting::MapAndType &&__that) // 0x1073C260
-		{
-			mangled_x86(MANGLED_TODO, "??4MapAndType@Voting@Server@@QAEAAU012@$$QAU012@@Z");
-			// Server::Voting::MapAndType &__that;
-			compiler_generated();
-			todo("implement");
-			Server::Voting::MapAndType & __result = _sub_1073C260(this, __that);
-			return __result;
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??4MapAndType@Voting@Server@@QAEAAU012@$$QAU012@@Z"); no body to assert in
+		_inline Server::Voting::MapAndType &MapAndType::operator=(Server::Voting::MapAndType &&__that) = default; // 0x1073C260
 
-		extern MapAndType &_sub_1073C350(Server::Voting::MapAndType *const, Server::Voting::MapAndType const &);
-		_inline Server::Voting::MapAndType &MapAndType::operator=(Server::Voting::MapAndType const &__that) // 0x1073C350
-		{
-			mangled_x86(MANGLED_TODO, "??4MapAndType@Voting@Server@@QAEAAU012@ABU012@@Z");
-			// Server::Voting::MapAndType const &__that;
-			compiler_generated();
-			todo("implement");
-			Server::Voting::MapAndType & __result = _sub_1073C350(this, __that);
-			return __result;
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??4MapAndType@Voting@Server@@QAEAAU012@ABU012@@Z"); no body to assert in
+		_inline Server::Voting::MapAndType &MapAndType::operator=(Server::Voting::MapAndType const &__that) = default; // 0x1073C350
 
 		extern VotingMessage _sub_1073D4E0(Server::Voting::VetoSystem *const, bool);
 		Server::Voting::VotingMessage VetoSystem::GenerateVotingOptionsMessage(bool updateTime) // 0x1073D4E0
@@ -369,19 +306,16 @@ namespace Server
 
 		_inline AbstractVotingSystem::AbstractVotingSystem() : finalTally(todo_result<Server::Voting::VotingMessage>()) // 0x10739F90
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0AbstractVotingSystem@Voting@Server@@QAE@XZ");
-			// Server::Voting::AbstractVotingSystem *const this;
-
+			mangled_x86(MANGLED_TODO, "??0AbstractVotingSystem@Voting@Server@@QAE@XZ");
 			compiler_generated();
+			// Cannot be `= default` while `finalTally` is initialised from
+			// `todo_result`: VotingMessage has no default constructor to
+			// reconstruct, so a defaulted constructor would be deleted.
+			todo("implement");
 		}
 
-		_inline MapAndType::MapAndType(Server::Voting::MapAndType &&__that) // 0x1073A550
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0MapAndType@Voting@Server@@QAE@$$QAU012@@Z");
-			// Server::Voting::MapAndType &__that;
-
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??0MapAndType@Voting@Server@@QAE@$$QAU012@@Z"); no body to assert in
+		_inline MapAndType::MapAndType(Server::Voting::MapAndType &&__that) = default; // 0x1073A550
 
 		_extern void _sub_10742160(Server::Voting::VetoSystem *const);
 		void VetoSystem::countVotes() // 0x10742160

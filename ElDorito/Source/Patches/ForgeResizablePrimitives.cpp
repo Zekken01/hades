@@ -171,17 +171,18 @@ real_vector3d get_test_dimensions() // 0x10917FF0
 	return __result;
 }
 
-_extern bool _sub_10917EB0(collision_model_instance *, unsigned long, real_vector3d *, real_vector3d *, collision_model_test_vector_result *);
 bool collision_model_test_vector_hook(collision_model_instance *instance, unsigned long flags, real_vector3d *origin, real_vector3d *vector, collision_model_test_vector_result *out_result) // 0x10917EB0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?collision_model_test_vector_hook@@YA_NPAUcollision_model_instance@@KPAUreal_vector3d@@1PAUcollision_model_test_vector_result@@@Z");
 	// `anonymous-namespace'::collision_model_test_vector_hook
 	// collision_model_test_vector_result *out_result;
 	// constexpr bool (*const `collision_model_test_vector_hook'::`2'::collision_model_test_vector)(collision_model_instance *, unsigned long, real_vector3d *, real_vector3d *, collision_model_test_vector_result *); // constant == 9965856
 	// bool result;
 	// function call : bool (*const)(collision_model_instance *, unsigned long, real_vector3d *, real_vector3d *, collision_model_test_vector_result *)
-	todo("implement");
-	bool __result = _sub_10917EB0(instance, flags, origin, vector, out_result);
-	return __result;
+
+	bool (__cdecl *const collision_model_test_vector)(collision_model_instance *, unsigned long, real_vector3d *, real_vector3d *, collision_model_test_vector_result *) = (bool(__cdecl *const)(collision_model_instance *, unsigned long, real_vector3d *, real_vector3d *, collision_model_test_vector_result *))0x981120;
+
+	return collision_model_test_vector(instance, flags, origin, vector, out_result);
 }
 
 _extern bool _sub_10917E00(struct collision_bsp *, s_collision_materials_extant_flags *, short, s_breakable_surface_set *, real_vector3d *, real_vector3d *, long, long, float, bool);
@@ -221,6 +222,7 @@ real_matrix4x3 *object_compute_render_time_node_matrices_hook(long object_index,
 _extern bool _sub_10917F30(real_vector3d *, real_vector3d *, real_vector3d *, float);
 bool fast_vector_intersects_sphere_hook(real_vector3d *origin, real_vector3d *vector, real_vector3d *p, float r) // 0x10917F30
 {
+	mangled_x86(MANGLED_TODO, "?fast_vector_intersects_sphere_hook@@YA_NPAUreal_vector3d@@00M@Z");
 	// `anonymous-namespace'::fast_vector_intersects_sphere_hook
 	// float r;
 	// constexpr bool (*const `fast_vector_intersects_sphere_hook'::`2'::fast_vector_intersects_sphere)(real_vector3d *, real_vector3d *, real_vector3d *, float); // constant == 5183792

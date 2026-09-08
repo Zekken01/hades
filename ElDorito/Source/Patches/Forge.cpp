@@ -494,21 +494,11 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- public code */
 
-_inline c_function_definition::c_function_definition() // 0x10A5EEF0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_function_definition@@QAE@XZ");
-	// c_function_definition *const this;
+// mangled_x86(MANGLED_DEFAULT, "??0c_function_definition@@QAE@XZ"); no body to assert in
+_inline c_function_definition::c_function_definition() = default; // 0x10A5EEF0
 
-	compiler_generated();
-}
-
-_inline s_tag_data::s_tag_data() // 0x10A5EF40
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_tag_data@@QAE@XZ");
-	// s_tag_data *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0s_tag_data@@QAE@XZ"); no body to assert in
+_inline s_tag_data::s_tag_data() = default; // 0x10A5EF40
 
 namespace Patches
 {
@@ -1733,25 +1723,9 @@ __declspec(naked) void light_intensity_function_hook() // 0x10A6F140
 	}
 }
 
-extern s_selectionState* _sub_10A5E590(s_selectionState *const);
-_inline s_selectionState::s_selectionState() // 0x10A5E590
-{
-	// `anonymous-namespace'::<unnamed-type-selectionState>::<unnamed-type-selectionState>
-	// s_selectionState *const this;
-	compiler_generated();
-	todo("implement");
-	_sub_10A5E590(this);
-}
+_inline s_selectionState::s_selectionState() = default; // 0x10A5E590
 
-extern s_selectionState::ChildInfo* _sub_10A5EE30(s_selectionState::ChildInfo *const);
-_inline s_selectionState::ChildInfo::ChildInfo() // 0x10A5EE30
-{
-	// `anonymous-namespace'::<unnamed-type-selectionState>::ChildInfo::ChildInfo
-	// s_selectionState::ChildInfo *const this;
-	compiler_generated();
-	todo("implement");
-	_sub_10A5EE30(this);
-}
+_inline s_selectionState::ChildInfo::ChildInfo() = default; // 0x10A5EE30
 
 __declspec(naked) void light_color_function_hook() // 0x10A6EDA0
 {
@@ -1765,26 +1739,9 @@ __declspec(naked) void light_color_function_hook() // 0x10A6EDA0
 	}
 }
 
-_extern void _sub_10A5EFA0(s_selectionState *const);
-_inline s_selectionState::~s_selectionState() // 0x10A5EFA0
-{
-	// `anonymous-namespace'::<unnamed-type-selectionState>::~<unnamed-type-selectionState>
-	// s_selectionState *const this;
-	compiler_generated();
-	todo("implement");
-	_sub_10A5EFA0(this);
-}
+_inline s_selectionState::~s_selectionState() = default; // 0x10A5EFA0
 
-extern s_selectionState &_sub_10A5F740(s_selectionState *const, s_selectionState &);
-_inline s_selectionState &s_selectionState::operator=(s_selectionState &__that) // 0x10A5F740
-{
-	// `anonymous-namespace'::<unnamed-type-selectionState>::operator=
-	// s_selectionState &__that;
-	compiler_generated();
-	todo("implement");
-	s_selectionState & __result = _sub_10A5F740(this, __that);
-	return __result;
-}
+_inline s_selectionState &s_selectionState::operator=(s_selectionState &__that) = default; // 0x10A5F740
 
 _extern void _sub_10A6A160(long, long, float, c_lights_view *);
 void add_simple_light_callback_hook(long light_index, long user_index, float intensity, c_lights_view *lights_view) // 0x10A6A160

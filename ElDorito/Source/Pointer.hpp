@@ -156,7 +156,18 @@ template<typename t_arg0>
 _inline void Pointer::Write(t_arg0 const value) const
 {
 	mangled_prefix_assert("??$Write@");
-	todo("implement");
+
+	DWORD temp;
+	DWORD temp2;
+	if (!VirtualProtect(_Pointer, sizeof(t_arg0), PAGE_READWRITE, &temp))
+	{
+		std::stringstream ss;
+		ss << "Failed to set protection on memory address " << std::hex << _Pointer;
+		OutputDebugString(ss.str().c_str());
+		return;
+	}
+	*((t_arg0 *)_Pointer) = value;
+	VirtualProtect(_Pointer, sizeof(t_arg0), temp, &temp2);
 }
 
 _extern void _sub_10699F40(Pointer const *const, void const *, unsigned __int32);

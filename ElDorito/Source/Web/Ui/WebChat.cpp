@@ -295,13 +295,8 @@ namespace Server
 {
 	namespace Chat
 	{
-		_inline ChatHandler::ChatHandler() // 0x10C9C400
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0ChatHandler@Chat@Server@@QAE@XZ");
-			// Server::Chat::ChatHandler *const this;
-
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??0ChatHandler@Chat@Server@@QAE@XZ"); no body to assert in
+		_inline ChatHandler::ChatHandler() = default; // 0x10C9C400
 	}
 }
 
@@ -345,14 +340,8 @@ void GameChatHandler::MessageReceived(Server::Chat::ChatMessage const &message) 
 	_sub_10C9C880(this, message);
 }
 
-_inline GameChatHandler::GameChatHandler() // 0x10C9C430
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0GameChatHandler@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::GameChatHandler::GameChatHandler
-	// GameChatHandler *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0GameChatHandler@hades_file_local@@QAE@XZ"); no body to assert in
+_inline GameChatHandler::GameChatHandler() = default; // 0x10C9C430
 
 _inline GameChatHandler::~GameChatHandler() // 0x10C9C570
 {

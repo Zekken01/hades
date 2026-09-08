@@ -202,69 +202,29 @@ namespace Server
 			_sub_1072D4B0(this);
 		}
 
-		_inline HaloType::CharacterOverride::CharacterOverride(Server::Voting::HaloType::CharacterOverride const &__that) // 0x1072C610
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0CharacterOverride@HaloType@Voting@Server@@QAE@ABU0123@@Z");
-			// Server::Voting::HaloType::CharacterOverride const &__that;
+		// mangled_x86(MANGLED_DEFAULT, "??0CharacterOverride@HaloType@Voting@Server@@QAE@ABU0123@@Z"); no body to assert in
+		_inline HaloType::CharacterOverride::CharacterOverride(Server::Voting::HaloType::CharacterOverride const &__that) = default; // 0x1072C610
 
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??0HaloMap@Voting@Server@@QAE@ABU012@@Z"); no body to assert in
+		_inline HaloMap::HaloMap(Server::Voting::HaloMap const &__that) = default; // 0x1072C6E0
 
-		_inline HaloMap::HaloMap(Server::Voting::HaloMap const &__that) // 0x1072C6E0
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0HaloMap@Voting@Server@@QAE@ABU012@@Z");
-			// Server::Voting::HaloMap const &__that;
+		// mangled_x86(MANGLED_DEFAULT, "??0HaloType@Voting@Server@@QAE@ABU012@@Z"); no body to assert in
+		_inline HaloType::HaloType(Server::Voting::HaloType const &__that) = default; // 0x1072C840
 
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??0MapAndType@Voting@Server@@QAE@ABU012@@Z"); no body to assert in
+		_inline MapAndType::MapAndType(Server::Voting::MapAndType const &__that) = default; // 0x1072CAB0
 
-		_inline HaloType::HaloType(Server::Voting::HaloType const &__that) // 0x1072C840
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0HaloType@Voting@Server@@QAE@ABU012@@Z");
-			// Server::Voting::HaloType const &__that;
+		// mangled_x86(MANGLED_DEFAULT, "??1CharacterOverride@HaloType@Voting@Server@@QAE@XZ"); no body to assert in
+		_inline HaloType::CharacterOverride::~CharacterOverride() = default; // 0x1072D0B0
 
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??1HaloMap@Voting@Server@@QAE@XZ"); no body to assert in
+		_inline HaloMap::~HaloMap() = default; // 0x1072D110
 
-		_inline MapAndType::MapAndType(Server::Voting::MapAndType const &__that) // 0x1072CAB0
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0MapAndType@Voting@Server@@QAE@ABU012@@Z");
-			// Server::Voting::MapAndType const &__that;
+		// mangled_x86(MANGLED_DEFAULT, "??1HaloType@Voting@Server@@QAE@XZ"); no body to assert in
+		_inline HaloType::~HaloType() = default; // 0x1072D190
 
-			compiler_generated();
-		}
-
-		_inline HaloType::CharacterOverride::~CharacterOverride() // 0x1072D0B0
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??1CharacterOverride@HaloType@Voting@Server@@QAE@XZ");
-			// Server::Voting::HaloType::CharacterOverride *const this;
-
-			compiler_generated();
-		}
-
-		_inline HaloMap::~HaloMap() // 0x1072D110
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??1HaloMap@Voting@Server@@QAE@XZ");
-			// Server::Voting::HaloMap *const this;
-
-			compiler_generated();
-		}
-
-		_inline HaloType::~HaloType() // 0x1072D190
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??1HaloType@Voting@Server@@QAE@XZ");
-			// Server::Voting::HaloType *const this;
-
-			compiler_generated();
-		}
-
-		_inline MapAndType::~MapAndType() // 0x1072D260
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??1MapAndType@Voting@Server@@QAE@XZ");
-			// Server::Voting::MapAndType *const this;
-
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??1MapAndType@Voting@Server@@QAE@XZ"); no body to assert in
+		_inline MapAndType::~MapAndType() = default; // 0x1072D260
 	}
 }
 

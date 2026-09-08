@@ -89,26 +89,28 @@ _inline float c_particle_system::real_internal_random_range(float min, float max
 	return __result;
 }
 
-_extern void _sub_10913C60(c_particle_system *const, real_vector3d *);
 _inline void c_particle_system::internal_random_direction3d(real_vector3d *direction) // 0x10913C60
 {
-	mangled_x86(MANGLED_TODO, "?internal_random_direction3d@c_particle_system@@QAEXPAUreal_vector3d@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?internal_random_direction3d@c_particle_system@@QAEXPAUreal_vector3d@@@Z");
 	// real_vector3d *direction;
 	// void (*const c_particle_system__internal_random_direction3d)(c_particle_system *, real_vector3d *);
 	// function call : void (*const)(c_particle_system *, real_vector3d *)
-	todo("implement");
-	_sub_10913C60(this, direction);
+
+	void (__thiscall *const c_particle_system__internal_random_direction3d)(c_particle_system *, real_vector3d *) = (void(__thiscall *const)(c_particle_system *, real_vector3d *))0x9ee030;
+
+	c_particle_system__internal_random_direction3d(this, direction);
 }
 
-_extern void _sub_109131A0(c_particle_system *const, void *, c_particle *);
 _inline void c_particle_system::initialize_particle(void *state_list, c_particle *particle) // 0x109131A0
 {
-	mangled_x86(MANGLED_TODO, "?initialize_particle@c_particle_system@@QAEXPAXPAUc_particle@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?initialize_particle@c_particle_system@@QAEXPAXPAUc_particle@@@Z");
 	// c_particle *particle;
 	// void (*const c_particle_system__initialize_particle)(c_particle_system *, void *, c_particle *);
 	// function call : void (*const)(c_particle_system *, void *, c_particle *)
-	todo("implement");
-	_sub_109131A0(this, state_list, particle);
+
+	void (__thiscall *const c_particle_system__initialize_particle)(c_particle_system *, void *, c_particle *) = (void(__thiscall *const)(c_particle_system *, void *, c_particle *))0x74f540;
+
+	c_particle_system__initialize_particle(this, state_list, particle);
 }
 
 /* ---------- private code */

@@ -210,13 +210,8 @@ namespace Patches
 	}
 }
 
-_inline s_compression_info::s_compression_info(s_compression_info const &__that) // 0x108DDBA0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_compression_info@@QAE@ABU0@@Z");
-	// s_compression_info const &__that;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0s_compression_info@@QAE@ABU0@@Z"); no body to assert in
+_inline s_compression_info::s_compression_info(s_compression_info const &__that) = default; // 0x108DDBA0
 
 namespace Patches
 {

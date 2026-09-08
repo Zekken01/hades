@@ -62,48 +62,47 @@ namespace Web
 {
 	namespace Browser
 	{
-		_extern void _sub_10CBD3C0(CefBaseRefCounted * const);
 		_inline void WebEmblemSchemeHandlerFactory::AddRef() const // 0x10CBD3C0
 		{
-			mangled_x86(MANGLED_TODO, "?AddRef@WebEmblemSchemeHandlerFactory@Browser@Web@@UBEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?AddRef@WebEmblemSchemeHandlerFactory@Browser@Web@@UBEXXZ");
 			// __shifted(Web::Browser::WebEmblemSchemeHandlerFactory, 12);
 			// Web::Browser::WebEmblemSchemeHandlerFactory const *const this;
-			todo("implement");
-			_sub_10CBD3C0((CefBaseRefCounted *)this);
+
+			ref_count_.AddRef();
 		}
 
-		_extern bool _sub_10CBE3C0(CefBaseRefCounted * const);
 		_inline bool WebEmblemSchemeHandlerFactory::HasAtLeastOneRef() const // 0x10CBE3C0
 		{
-			mangled_x86(MANGLED_TODO, "?HasAtLeastOneRef@WebEmblemSchemeHandlerFactory@Browser@Web@@UBE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?HasAtLeastOneRef@WebEmblemSchemeHandlerFactory@Browser@Web@@UBE_NXZ");
 			// __shifted(Web::Browser::WebEmblemSchemeHandlerFactory, 12);
 			// Web::Browser::WebEmblemSchemeHandlerFactory const *const this;
-			todo("implement");
-			bool __result = _sub_10CBE3C0((CefBaseRefCounted *)this);
-			return __result;
+
+			return ref_count_.HasAtLeastOneRef();
 		}
 
-		_extern bool _sub_10CBE470(CefBaseRefCounted * const);
 		_inline bool WebEmblemSchemeHandlerFactory::HasOneRef() const // 0x10CBE470
 		{
-			mangled_x86(MANGLED_TODO, "?HasOneRef@WebEmblemSchemeHandlerFactory@Browser@Web@@UBE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?HasOneRef@WebEmblemSchemeHandlerFactory@Browser@Web@@UBE_NXZ");
 			// __shifted(Web::Browser::WebEmblemSchemeHandlerFactory, 12);
 			// Web::Browser::WebEmblemSchemeHandlerFactory const *const this;
-			todo("implement");
-			bool __result = _sub_10CBE470((CefBaseRefCounted *)this);
-			return __result;
+
+			return ref_count_.HasOneRef();
 		}
 
-		_extern bool _sub_10CC2140(CefBaseRefCounted * const);
 		_inline bool WebEmblemSchemeHandlerFactory::Release() const // 0x10CC2140
 		{
-			mangled_x86(MANGLED_TODO, "?Release@WebEmblemSchemeHandlerFactory@Browser@Web@@UBE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Release@WebEmblemSchemeHandlerFactory@Browser@Web@@UBE_NXZ");
 			// __shifted(Web::Browser::WebEmblemSchemeHandlerFactory, 12);
 			// Web::Browser::WebEmblemSchemeHandlerFactory const *const this;
 			// function call : void *(unsigned __int32)
-			todo("implement");
-			bool __result = _sub_10CC2140((CefBaseRefCounted *)this);
-			return __result;
+
+			if (ref_count_.Release())
+			{
+				delete static_cast<WebEmblemSchemeHandlerFactory const *>(this);
+				return true;
+			}
+
+			return false;
 		}
 	}
 }

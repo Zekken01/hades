@@ -256,14 +256,8 @@ _inline SyncUpdateHandler::SyncUpdateHandler() // 0x10C3A1B0
 	_sub_10C3A1B0(this);
 }
 
-_inline SynchronizationBinding::SynchronizationBinding() // 0x10C3A210
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0SynchronizationBinding@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::SynchronizationBinding::SynchronizationBinding
-	// SynchronizationBinding *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0SynchronizationBinding@hades_file_local@@QAE@XZ"); no body to assert in
+_inline SynchronizationBinding::SynchronizationBinding() = default; // 0x10C3A210
 
 _inline SyncUpdateHandler::~SyncUpdateHandler() // 0x10C3AD10
 {

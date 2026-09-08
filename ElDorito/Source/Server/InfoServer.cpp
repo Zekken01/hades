@@ -509,23 +509,11 @@ std::string BuildInfoServerResponse(std::string const &rawRequest) // 0x10B1D250
 	return __result;
 }
 
-_inline HttpRequestLine::HttpRequestLine() // 0x10B1ACC0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0HttpRequestLine@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::HttpRequestLine::HttpRequestLine
-	// HttpRequestLine *const this;
+// mangled_x86(MANGLED_DEFAULT, "??0HttpRequestLine@hades_file_local@@QAE@XZ"); no body to assert in
+_inline HttpRequestLine::HttpRequestLine() = default; // 0x10B1ACC0
 
-	compiler_generated();
-}
-
-_inline HttpRequestLine::~HttpRequestLine() // 0x10B1AD30
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1HttpRequestLine@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::HttpRequestLine::~HttpRequestLine
-	// HttpRequestLine *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??1HttpRequestLine@hades_file_local@@QAE@XZ"); no body to assert in
+_inline HttpRequestLine::~HttpRequestLine() = default; // 0x10B1AD30
 
 extern std::string _sub_10B1D4F0(std::string const &);
 std::string BuildModsServerResponse(std::string const &rawRequest) // 0x10B1D4F0

@@ -451,52 +451,27 @@ namespace Web
 				_sub_10C7CE90();
 			}
 
-			_inline CWebModDownloadSingleScreen::CWebModDownloadSingleScreen() // 0x10C7B4E0
-			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "??0CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@QAE@XZ");
-				// Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen *const this;
-
-				compiler_generated();
-			}
+			// mangled_x86(MANGLED_DEFAULT, "??0CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@QAE@XZ"); no body to assert in
+			_inline CWebModDownloadSingleScreen::CWebModDownloadSingleScreen() = default; // 0x10C7B4E0
 		}
 	}
 }
 
-_inline IModBrowserModDownloadUI::IModBrowserModDownloadUI() // 0x10C7B5E0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0IModBrowserModDownloadUI@@QAE@XZ");
-	// IModBrowserModDownloadUI *const this;
+// mangled_x86(MANGLED_DEFAULT, "??0IModBrowserModDownloadUI@@QAE@XZ"); no body to assert in
+_inline IModBrowserModDownloadUI::IModBrowserModDownloadUI() = default; // 0x10C7B5E0
 
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0SModBrowserState@@QAE@XZ"); no body to assert in
+_inline SModBrowserState::SModBrowserState() = default; // 0x10C7B610
 
-_inline SModBrowserState::SModBrowserState() // 0x10C7B610
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0SModBrowserState@@QAE@XZ");
-	// SModBrowserState *const this;
-
-	compiler_generated();
-}
-
-_inline SModBrowserState::SRequestedMod::SRequestedMod() // 0x10C7B6A0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0SRequestedMod@SModBrowserState@@QAE@XZ");
-	// SModBrowserState::SRequestedMod *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0SRequestedMod@SModBrowserState@@QAE@XZ"); no body to assert in
+_inline SModBrowserState::SRequestedMod::SRequestedMod() = default; // 0x10C7B6A0
 
 namespace Web
 {
 	namespace Ui
 	{
-		_inline WebScreen::WebScreen() // 0x10C7B770
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0WebScreen@Ui@Web@@QAE@XZ");
-			// Web::Ui::WebScreen *const this;
-
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??0WebScreen@Ui@Web@@QAE@XZ"); no body to assert in
+		_inline WebScreen::WebScreen() = default; // 0x10C7B770
 	}
 }
 
@@ -564,20 +539,8 @@ void NotifyDownloadError(std::string const &reason) // 0x10C7D030
 	_sub_10C7D030(reason);
 }
 
-_inline DownloadStatusInfo::DownloadStatusInfo() // 0x10C7B590
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0DownloadStatusInfo@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::DownloadStatusInfo::DownloadStatusInfo
-	// DownloadStatusInfo *const this;
+// mangled_x86(MANGLED_DEFAULT, "??0DownloadStatusInfo@hades_file_local@@QAE@XZ"); no body to assert in
+_inline DownloadStatusInfo::DownloadStatusInfo() = default; // 0x10C7B590
 
-	compiler_generated();
-}
-
-_inline DownloadStatusInfo::~DownloadStatusInfo() // 0x10C7B930
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1DownloadStatusInfo@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::DownloadStatusInfo::~DownloadStatusInfo
-	// DownloadStatusInfo *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??1DownloadStatusInfo@hades_file_local@@QAE@XZ"); no body to assert in
+_inline DownloadStatusInfo::~DownloadStatusInfo() = default; // 0x10C7B930

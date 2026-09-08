@@ -495,24 +495,14 @@ namespace Web
 				_sub_10CAD540();
 			}
 
-			_inline CWebModDownloadScreen::CWebModDownloadScreen() // 0x10CAC810
-			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "??0CWebModDownloadScreen@WebMods@Ui@Web@@QAE@XZ");
-				// Web::Ui::WebMods::CWebModDownloadScreen *const this;
-
-				compiler_generated();
-			}
+			// mangled_x86(MANGLED_DEFAULT, "??0CWebModDownloadScreen@WebMods@Ui@Web@@QAE@XZ"); no body to assert in
+			_inline CWebModDownloadScreen::CWebModDownloadScreen() = default; // 0x10CAC810
 		}
 	}
 }
 
-_inline IServerConnectModDownloadUI::IServerConnectModDownloadUI() // 0x10CAC910
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0IServerConnectModDownloadUI@@QAE@XZ");
-	// IServerConnectModDownloadUI *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0IServerConnectModDownloadUI@@QAE@XZ"); no body to assert in
+_inline IServerConnectModDownloadUI::IServerConnectModDownloadUI() = default; // 0x10CAC910
 
 namespace Web
 {
@@ -531,16 +521,8 @@ namespace Web
 	}
 }
 
-extern SServerConnectState::SRequiredMod &_sub_10CACC30(SServerConnectState::SRequiredMod *const, SServerConnectState::SRequiredMod const &);
-_inline SServerConnectState::SRequiredMod &SServerConnectState::SRequiredMod::operator=(SServerConnectState::SRequiredMod const &__that) // 0x10CACC30
-{
-	mangled_x86(MANGLED_TODO, "??4SRequiredMod@SServerConnectState@@QAEAAU01@ABU01@@Z");
-	// SServerConnectState::SRequiredMod const &__that;
-	compiler_generated();
-	todo("implement");
-	SServerConnectState::SRequiredMod & __result = _sub_10CACC30(this, __that);
-	return __result;
-}
+// mangled_x86(MANGLED_DEFAULT, "??4SRequiredMod@SServerConnectState@@QAEAAU01@ABU01@@Z"); no body to assert in
+_inline SServerConnectState::SRequiredMod &SServerConnectState::SRequiredMod::operator=(SServerConnectState::SRequiredMod const &__that) = default; // 0x10CACC30
 
 /* ---------- private code */
 
@@ -610,32 +592,14 @@ void NotifyDownloadError(std::string const &reason) // 0x10CAD780
 	_sub_10CAD780(reason);
 }
 
-_inline DownloadStatusInfo::DownloadStatusInfo() // 0x10CAC8C0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0DownloadStatusInfo@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::DownloadStatusInfo::DownloadStatusInfo
-	// DownloadStatusInfo *const this;
+// mangled_x86(MANGLED_DEFAULT, "??0DownloadStatusInfo@hades_file_local@@QAE@XZ"); no body to assert in
+_inline DownloadStatusInfo::DownloadStatusInfo() = default; // 0x10CAC8C0
 
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0ModChangeListener@hades_file_local@@QAE@XZ"); no body to assert in
+_inline ModChangeListener::ModChangeListener() = default; // 0x10CAC940
 
-_inline ModChangeListener::ModChangeListener() // 0x10CAC940
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0ModChangeListener@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::ModChangeListener::ModChangeListener
-	// ModChangeListener *const this;
-
-	compiler_generated();
-}
-
-_inline DownloadStatusInfo::~DownloadStatusInfo() // 0x10CACAE0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1DownloadStatusInfo@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::DownloadStatusInfo::~DownloadStatusInfo
-	// DownloadStatusInfo *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??1DownloadStatusInfo@hades_file_local@@QAE@XZ"); no body to assert in
+_inline DownloadStatusInfo::~DownloadStatusInfo() = default; // 0x10CACAE0
 
 _inline ModChangeListener::~ModChangeListener() // 0x10CACB50
 {

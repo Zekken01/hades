@@ -198,14 +198,8 @@ namespace Patches
 
 /* ---------- private code */
 
-_inline CustomPacket::CustomPacket() // 0x10A4ED70
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0CustomPacket@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::CustomPacket::CustomPacket
-	// CustomPacket *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0CustomPacket@hades_file_local@@QAE@XZ"); no body to assert in
+_inline CustomPacket::CustomPacket() = default; // 0x10A4ED70
 
 _extern void _sub_10A500D0();
 void InitializePacketsHook() // 0x10A500D0
@@ -221,25 +215,10 @@ void InitializePacketsHook() // 0x10A500D0
 	_sub_10A500D0();
 }
 
-_inline CustomPacket::~CustomPacket() // 0x10A4F420
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1CustomPacket@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::CustomPacket::~CustomPacket
-	// CustomPacket *const this;
+// mangled_x86(MANGLED_DEFAULT, "??1CustomPacket@hades_file_local@@QAE@XZ"); no body to assert in
+_inline CustomPacket::~CustomPacket() = default; // 0x10A4F420
 
-	compiler_generated();
-}
-
-extern CustomPacket &_sub_10A4F5E0(CustomPacket *const, CustomPacket const &);
-_inline CustomPacket &CustomPacket::operator=(CustomPacket const &__that) // 0x10A4F5E0
-{
-	// `anonymous-namespace'::CustomPacket::operator=
-	// CustomPacket const &__that;
-	compiler_generated();
-	todo("implement");
-	CustomPacket & __result = _sub_10A4F5E0(this, __that);
-	return __result;
-}
+_inline CustomPacket &CustomPacket::operator=(CustomPacket const &__that) = default; // 0x10A4F5E0
 
 extern CustomPacket *_sub_10A50360(unsigned __int32);
 CustomPacket *LookUpPacketType(unsigned __int32 guid) // 0x10A50360

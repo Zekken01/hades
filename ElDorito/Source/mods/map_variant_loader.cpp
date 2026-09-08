@@ -261,14 +261,8 @@ e_map_variant_load_error c_map_variant_loader::get_last_error() // 0x1088AAF0
 
 /* ---------- private code */
 
-_inline ModListener::ModListener() // 0x1088A2D0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0ModListener@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::ModListener::ModListener
-	// ModListener *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0ModListener@hades_file_local@@QAE@XZ"); no body to assert in
+_inline ModListener::ModListener() = default; // 0x1088A2D0
 
 _inline ModListener::~ModListener() // 0x1088A330
 {

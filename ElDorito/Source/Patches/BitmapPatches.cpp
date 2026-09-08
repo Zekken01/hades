@@ -87,13 +87,8 @@ namespace Patches
 	}
 }
 
-_inline Hook::~Hook() // 0x10698FB0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1Hook@@QAE@XZ");
-	// Hook *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??1Hook@@QAE@XZ"); no body to assert in
+_inline Hook::~Hook() = default; // 0x10698FB0
 
 /* ---------- private code */
 

@@ -198,14 +198,14 @@ long effect_new_from_object__effect_new_from_creation_data_hook(s_effect_creatio
 	return __result;
 }
 
-_extern void _sub_10960290(s_damage_data *, unsigned __int32, __int32);
 void MeleeDamageHook(s_damage_data *damageData, unsigned __int32 unitObjectIndex, __int32 predictability) // 0x10960290
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?MeleeDamageHook@@YAXPAUs_damage_data@@IH@Z");
 	// `anonymous-namespace'::MeleeDamageHook
 	// __int32 predictability;
 	// function call : void (*const)(s_damage_data *, long, long)
-	todo("implement");
-	_sub_10960290(damageData, unitObjectIndex, predictability);
+
+	((void(__cdecl *const)(s_damage_data *, long, long))0xb542a0)(damageData, unitObjectIndex, predictability);
 }
 
 _extern void _sub_10960490(s_damage_data *, long, short, short, short, long);

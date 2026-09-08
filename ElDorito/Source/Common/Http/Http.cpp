@@ -108,13 +108,8 @@ namespace Http
 		return __result;
 	}
 
-	_inline CHttpManager::~CHttpManager() // 0x107F7100
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??1CHttpManager@Http@@QAE@XZ");
-		// Http::CHttpManager *const this;
-
-		compiler_generated();
-	}
+	// mangled_x86(MANGLED_DEFAULT, "??1CHttpManager@Http@@QAE@XZ"); no body to assert in
+	_inline CHttpManager::~CHttpManager() = default; // 0x107F7100
 }
 
 /* ---------- private code */

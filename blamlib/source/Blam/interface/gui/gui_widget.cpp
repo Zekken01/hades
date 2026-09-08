@@ -130,15 +130,16 @@ c_gui_list_item_widget *c_gui_widget::get_child_text_widget(unsigned long name) 
 	return __result;
 }
 
-_extern void _sub_10F13510(c_gui_widget *const, unsigned long, wchar_t const *);
 void c_gui_widget::set_text_widget_text(unsigned long name, wchar_t const *text) // 0x10F13510
 {
-	mangled_x86(MANGLED_TODO, "?set_text_widget_text@c_gui_widget@@QAEXKPB_W@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_text_widget_text@c_gui_widget@@QAEXKPB_W@Z");
 	// wchar_t const *text;
 	// __int32 (*const c_gui_screen_widget__set_text_widget_text)(void *, unsigned long, wchar_t const *);
 	// function call : __int32 (*const)(void *, unsigned long, wchar_t const *)
-	todo("implement");
-	_sub_10F13510(this, name, text);
+
+	__int32 (__thiscall *const c_gui_screen_widget__set_text_widget_text)(void *, unsigned long, wchar_t const *) = (__int32(__thiscall *const)(void *, unsigned long, wchar_t const *))0xab23e0;
+
+	c_gui_screen_widget__set_text_widget_text(this, name, text);
 }
 
 /* ---------- private code */

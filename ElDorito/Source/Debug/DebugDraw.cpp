@@ -733,10 +733,12 @@ CDebugDrawBackend::AttributeScope::AttributeScope() // 0x10817C00
 
 _inline CDebugDrawBackend::Attributes::Attributes() : cacheKey(todo_result<DebugDrawKey>()) // 0x10817CA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0Attributes@CDebugDrawBackend@@QAE@XZ");
-	// CDebugDrawBackend::Attributes *const this;
-
+	mangled_x86(MANGLED_TODO, "??0Attributes@CDebugDrawBackend@@QAE@XZ");
 	compiler_generated();
+	// Cannot be `= default` while `cacheKey` is initialised from `todo_result`:
+	// the generator writes that because DebugDrawKey has no default constructor
+	// to reconstruct, and a defaulted constructor would be implicitly deleted.
+	todo("implement");
 }
 
 _extern void _sub_108181F0(CDebugDrawBackend::AttributeScope *const);
@@ -748,49 +750,17 @@ CDebugDrawBackend::AttributeScope::~AttributeScope() // 0x108181F0
 	_sub_108181F0(this);
 }
 
-extern CDebugDrawBackend::AttributeScope &_sub_10818430(CDebugDrawBackend::AttributeScope *const, CDebugDrawBackend::AttributeScope const &);
-_inline CDebugDrawBackend::AttributeScope &CDebugDrawBackend::AttributeScope::operator=(CDebugDrawBackend::AttributeScope const &__that) // 0x10818430
-{
-	mangled_x86(MANGLED_TODO, "??4AttributeScope@CDebugDrawBackend@@QAEAAU01@ABU01@@Z");
-	// CDebugDrawBackend::AttributeScope const &__that;
-	compiler_generated();
-	todo("implement");
-	CDebugDrawBackend::AttributeScope & __result = _sub_10818430(this, __that);
-	return __result;
-}
+// mangled_x86(MANGLED_DEFAULT, "??4AttributeScope@CDebugDrawBackend@@QAEAAU01@ABU01@@Z"); no body to assert in
+_inline CDebugDrawBackend::AttributeScope &CDebugDrawBackend::AttributeScope::operator=(CDebugDrawBackend::AttributeScope const &__that) = default; // 0x10818430
 
-extern CDebugDraw &_sub_10818470(CDebugDraw *const, CDebugDraw const &);
-_inline CDebugDraw &CDebugDraw::operator=(CDebugDraw const &__that) // 0x10818470
-{
-	mangled_x86(MANGLED_TODO, "??4CDebugDraw@@QAEAAV0@ABV0@@Z");
-	// CDebugDraw const &__that;
-	compiler_generated();
-	todo("implement");
-	CDebugDraw & __result = _sub_10818470(this, __that);
-	return __result;
-}
+// mangled_x86(MANGLED_DEFAULT, "??4CDebugDraw@@QAEAAV0@ABV0@@Z"); no body to assert in
+_inline CDebugDraw &CDebugDraw::operator=(CDebugDraw const &__that) = default; // 0x10818470
 
-extern CDebugDrawBackend &_sub_108184C0(CDebugDrawBackend *const, CDebugDrawBackend &);
-_inline CDebugDrawBackend &CDebugDrawBackend::operator=(CDebugDrawBackend &&__that) // 0x108184C0
-{
-	mangled_x86(MANGLED_TODO, "??4CDebugDrawBackend@@QAEAAU0@$$QAU0@@Z");
-	// CDebugDrawBackend &__that;
-	compiler_generated();
-	todo("implement");
-	CDebugDrawBackend & __result = _sub_108184C0(this, __that);
-	return __result;
-}
+// mangled_x86(MANGLED_DEFAULT, "??4CDebugDrawBackend@@QAEAAU0@$$QAU0@@Z"); no body to assert in
+_inline CDebugDrawBackend &CDebugDrawBackend::operator=(CDebugDrawBackend &&__that) = default; // 0x108184C0
 
-extern CDebugDrawBackend &_sub_108184F0(CDebugDrawBackend *const, CDebugDrawBackend const &);
-_inline CDebugDrawBackend &CDebugDrawBackend::operator=(CDebugDrawBackend const &__that) // 0x108184F0
-{
-	mangled_x86(MANGLED_TODO, "??4CDebugDrawBackend@@QAEAAU0@ABU0@@Z");
-	// CDebugDrawBackend const &__that;
-	compiler_generated();
-	todo("implement");
-	CDebugDrawBackend & __result = _sub_108184F0(this, __that);
-	return __result;
-}
+// mangled_x86(MANGLED_DEFAULT, "??4CDebugDrawBackend@@QAEAAU0@ABU0@@Z"); no body to assert in
+_inline CDebugDrawBackend &CDebugDrawBackend::operator=(CDebugDrawBackend const &__that) = default; // 0x108184F0
 
 _extern void _sub_1081CB70(CDebugDrawBackend::AttributeScope *const, float);
 void CDebugDrawBackend::AttributeScope::SetLifetime(float lifetime) // 0x1081CB70
@@ -1082,18 +1052,20 @@ void DrawString3dInternal(real_point3d const &point, long color, char const *tex
 
 _inline SCacehEntry::SCacehEntry() : cacheKey(todo_result<DebugDrawKey>()) // 0x10817E60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0SCacehEntry@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::SCacehEntry::SCacehEntry
-	// SCacehEntry *const this;
-
+	mangled_x86(MANGLED_TODO, "??0SCacehEntry@hades_file_local@@QAE@XZ");
 	compiler_generated();
+	// Cannot be `= default` while `cacheKey` is initialised from `todo_result`:
+	// DebugDrawKey has no default constructor to reconstruct, so a defaulted
+	// constructor would be implicitly deleted.
+	todo("implement");
 }
 
 _inline SRenderThreadMessage::SRenderThreadMessage() : cacheKey(todo_result<DebugDrawKey>()) // 0x10817F40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0SRenderThreadMessage@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::SRenderThreadMessage::SRenderThreadMessage
-	// SRenderThreadMessage *const this;
-
+	mangled_x86(MANGLED_TODO, "??0SRenderThreadMessage@hades_file_local@@QAE@XZ");
 	compiler_generated();
+	// Cannot be `= default` while `cacheKey` is initialised from `todo_result`:
+	// DebugDrawKey has no default constructor to reconstruct, so a defaulted
+	// constructor would be implicitly deleted.
+	todo("implement");
 }

@@ -134,29 +134,14 @@ namespace Player
 			_sub_107E6FB0(this);
 		}
 
-		_inline PlayerEmblemRenderMetadata::PlayerEmblemRenderMetadata() // 0x107E7020
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0PlayerEmblemRenderMetadata@Emblems@Player@@QAE@XZ");
-			// Player::Emblems::PlayerEmblemRenderMetadata *const this;
+		// mangled_x86(MANGLED_DEFAULT, "??0PlayerEmblemRenderMetadata@Emblems@Player@@QAE@XZ"); no body to assert in
+		_inline PlayerEmblemRenderMetadata::PlayerEmblemRenderMetadata() = default; // 0x107E7020
 
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??0PlayerEmblemRenderTask@Emblems@Player@@QAE@$$QAU012@@Z"); no body to assert in
+		_inline PlayerEmblemRenderTask::PlayerEmblemRenderTask(Player::Emblems::PlayerEmblemRenderTask &&__that) = default; // 0x107E7070
 
-		_inline PlayerEmblemRenderTask::PlayerEmblemRenderTask(Player::Emblems::PlayerEmblemRenderTask &&__that) // 0x107E7070
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0PlayerEmblemRenderTask@Emblems@Player@@QAE@$$QAU012@@Z");
-			// Player::Emblems::PlayerEmblemRenderTask &__that;
-
-			compiler_generated();
-		}
-
-		_inline PlayerEmblemRenderTask::PlayerEmblemRenderTask(Player::Emblems::PlayerEmblemRenderTask const &__that) // 0x107E7110
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0PlayerEmblemRenderTask@Emblems@Player@@QAE@ABU012@@Z");
-			// Player::Emblems::PlayerEmblemRenderTask const &__that;
-
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??0PlayerEmblemRenderTask@Emblems@Player@@QAE@ABU012@@Z"); no body to assert in
+		_inline PlayerEmblemRenderTask::PlayerEmblemRenderTask(Player::Emblems::PlayerEmblemRenderTask const &__that) = default; // 0x107E7110
 
 		_extern void _sub_107E7620(Player::Emblems::PlayerEmblemFileStream *const);
 		_inline PlayerEmblemFileStream::~PlayerEmblemFileStream() // 0x107E7620
@@ -167,43 +152,23 @@ namespace Player
 			_sub_107E7620(this);
 		}
 
-		_inline PlayerEmblemRenderTask::PlayerEmblemRenderTask() // 0x107E71B0
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0PlayerEmblemRenderTask@Emblems@Player@@QAE@XZ");
-			// Player::Emblems::PlayerEmblemRenderTask *const this;
+		// mangled_x86(MANGLED_DEFAULT, "??0PlayerEmblemRenderTask@Emblems@Player@@QAE@XZ"); no body to assert in
+		_inline PlayerEmblemRenderTask::PlayerEmblemRenderTask() = default; // 0x107E71B0
 
-			compiler_generated();
-		}
-
-		_inline PlayerEmblemRenderMetadata::~PlayerEmblemRenderMetadata() // 0x107E76C0
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??1PlayerEmblemRenderMetadata@Emblems@Player@@QAE@XZ");
-			// Player::Emblems::PlayerEmblemRenderMetadata *const this;
-
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??1PlayerEmblemRenderMetadata@Emblems@Player@@QAE@XZ"); no body to assert in
+		_inline PlayerEmblemRenderMetadata::~PlayerEmblemRenderMetadata() = default; // 0x107E76C0
 	}
 }
 
-_inline s_player_emblem_configuration::s_player_emblem_configuration() // 0x107E7210
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_player_emblem_configuration@@QAE@XZ");
-	// s_player_emblem_configuration *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0s_player_emblem_configuration@@QAE@XZ"); no body to assert in
+_inline s_player_emblem_configuration::s_player_emblem_configuration() = default; // 0x107E7210
 
 namespace Player
 {
 	namespace Emblems
 	{
-		_inline PlayerEmblemRenderTask::~PlayerEmblemRenderTask() // 0x107E7710
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??1PlayerEmblemRenderTask@Emblems@Player@@QAE@XZ");
-			// Player::Emblems::PlayerEmblemRenderTask *const this;
-
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??1PlayerEmblemRenderTask@Emblems@Player@@QAE@XZ"); no body to assert in
+		_inline PlayerEmblemRenderTask::~PlayerEmblemRenderTask() = default; // 0x107E7710
 
 		_extern void _sub_107E7BF0(Player::Emblems::PlayerEmblemFileStream *const);
 		_inline void PlayerEmblemFileStream::Close() // 0x107E7BF0
@@ -224,13 +189,8 @@ namespace Player
 			return __result;
 		}
 
-		_inline IPlayerEmblemStream::IPlayerEmblemStream() // 0x107E6E70
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0IPlayerEmblemStream@Emblems@Player@@QAE@XZ");
-			// Player::Emblems::IPlayerEmblemStream *const this;
-
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??0IPlayerEmblemStream@Emblems@Player@@QAE@XZ"); no body to assert in
+		_inline IPlayerEmblemStream::IPlayerEmblemStream() = default; // 0x107E6E70
 
 		extern PlayerEmblemD3DXBufferStream* _sub_107E6EA0(Player::Emblems::PlayerEmblemD3DXBufferStream *const, ID3DXBuffer *, bool);
 		_inline PlayerEmblemD3DXBufferStream::PlayerEmblemD3DXBufferStream(ID3DXBuffer *buff, bool owner) // 0x107E6EA0

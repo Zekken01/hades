@@ -327,23 +327,11 @@ namespace Patches
 
 /* ---------- private code */
 
-_inline s_session_player_ping::s_session_player_ping() // 0x10A70810
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_session_player_ping@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::s_session_player_ping::s_session_player_ping
-	// s_session_player_ping *const this;
+// mangled_x86(MANGLED_DEFAULT, "??0s_session_player_ping@hades_file_local@@QAE@XZ"); no body to assert in
+_inline s_session_player_ping::s_session_player_ping() = default; // 0x10A70810
 
-	compiler_generated();
-}
-
-_inline s_session_player_ping::~s_session_player_ping() // 0x10A70860
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1s_session_player_ping@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::s_session_player_ping::~s_session_player_ping
-	// s_session_player_ping *const this;
-
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??1s_session_player_ping@hades_file_local@@QAE@XZ"); no body to assert in
+_inline s_session_player_ping::~s_session_player_ping() = default; // 0x10A70860
 
 _extern void _sub_10A723E0();
 void Hf2pInitHook() // 0x10A723E0

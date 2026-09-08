@@ -144,15 +144,17 @@ bool object_type_new_hook(long object_index, s_object_placement_data &placement_
 	return __result;
 }
 
-_extern void _sub_108D72C0(__int32);
 void objects_handle_deleted_object_hook(__int32 object_index) // 0x108D72C0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?objects_handle_deleted_object_hook@@YAXH@Z");
 	// `anonymous-namespace'::objects_handle_deleted_object_hook
 	// __int32 object_index;
 	// void (*const objects_handle_deleted_object)(__int32);
 	// function call : void (*const)(__int32)
-	todo("implement");
-	_sub_108D72C0(object_index);
+
+	void (__cdecl *const objects_handle_deleted_object)(__int32) = (void(__cdecl *const)(__int32))0xb35870;
+
+	objects_handle_deleted_object(object_index);
 }
 
 _extern void _sub_108D7320();

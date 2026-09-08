@@ -194,7 +194,7 @@ namespace Blam
 			return __result;
 		}
 
-		_extern void _sub_1092ABB0(__int32, Blam::Input::GameAction);
+		_extern void _sub_1092ABB0(__int32, char);
 		void PostUiAction(__int32 localPlayerIndex, Blam::Input::GameAction action) // 0x1092ABB0
 		{
 			mangled_x86(MANGLED_TODO, "?PostUiAction@Input@Blam@@YAXHW4GameAction@12@@Z");

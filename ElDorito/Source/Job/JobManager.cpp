@@ -134,48 +134,20 @@ void CJobManager::AddNewJob(std::function<enum EJobResult __cdecl(void)> functio
 	_sub_10869D00(this, function, priority, counter);
 }
 
-_inline CJobManager::SJob::SJob(CJobManager::SJob &&__that) // 0x108692E0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0SJob@CJobManager@@QAE@$$QAU01@@Z");
-	// CJobManager::SJob &__that;
+// mangled_x86(MANGLED_DEFAULT, "??0SJob@CJobManager@@QAE@$$QAU01@@Z"); no body to assert in
+_inline CJobManager::SJob::SJob(CJobManager::SJob &&__that) = default; // 0x108692E0
 
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??0SJob@CJobManager@@QAE@ABU01@@Z"); no body to assert in
+_inline CJobManager::SJob::SJob(CJobManager::SJob const &__that) = default; // 0x10869380
 
-_inline CJobManager::SJob::SJob(CJobManager::SJob const &__that) // 0x10869380
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0SJob@CJobManager@@QAE@ABU01@@Z");
-	// CJobManager::SJob const &__that;
+// mangled_x86(MANGLED_DEFAULT, "??0SJob@CJobManager@@QAE@XZ"); no body to assert in
+_inline CJobManager::SJob::SJob() = default; // 0x10869420
 
-	compiler_generated();
-}
+// mangled_x86(MANGLED_DEFAULT, "??1SJob@CJobManager@@QAE@XZ"); no body to assert in
+_inline CJobManager::SJob::~SJob() = default; // 0x10869750
 
-_inline CJobManager::SJob::SJob() // 0x10869420
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0SJob@CJobManager@@QAE@XZ");
-	// CJobManager::SJob *const this;
-
-	compiler_generated();
-}
-
-_inline CJobManager::SJob::~SJob() // 0x10869750
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1SJob@CJobManager@@QAE@XZ");
-	// CJobManager::SJob *const this;
-
-	compiler_generated();
-}
-
-extern CJobManager::SJob &_sub_108698D0(CJobManager::SJob *const, CJobManager::SJob &);
-_inline CJobManager::SJob &CJobManager::SJob::operator=(CJobManager::SJob &&__that) // 0x108698D0
-{
-	mangled_x86(MANGLED_TODO, "??4SJob@CJobManager@@QAEAAU01@$$QAU01@@Z");
-	// CJobManager::SJob &__that;
-	compiler_generated();
-	todo("implement");
-	CJobManager::SJob & __result = _sub_108698D0(this, __that);
-	return __result;
-}
+// mangled_x86(MANGLED_DEFAULT, "??4SJob@CJobManager@@QAEAAU01@$$QAU01@@Z"); no body to assert in
+_inline CJobManager::SJob &CJobManager::SJob::operator=(CJobManager::SJob &&__that) = default; // 0x108698D0
 
 _extern bool _sub_1086A250(CJobManager *const);
 bool CJobManager::RunJobs() // 0x1086A250

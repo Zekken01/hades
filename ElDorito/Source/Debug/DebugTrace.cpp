@@ -209,12 +209,4 @@ void InitializeIfNeeded() // 0x1081E010
 	_sub_1081E010();
 }
 
-extern s_buff* _sub_1081DA60(s_buff *const);
-_inline s_buff::s_buff() // 0x1081DA60
-{
-	// `anonymous-namespace'::<unnamed-type-buff>::<unnamed-type-buff>
-	// s_buff *const this;
-	compiler_generated();
-	todo("implement");
-	_sub_1081DA60(this);
-}
+_inline s_buff::s_buff() = default; // 0x1081DA60

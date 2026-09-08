@@ -935,15 +935,7 @@ _inline void c_user_interface_player_model_text_value_pair_proxy::update(c_gui_s
 	_sub_10AA82A0(this, screen);
 }
 
-extern ModListener* _sub_10A9E880(ModListener *const);
-_inline ModListener::ModListener() // 0x10A9E880
-{
-	// `anonymous-namespace'::ModListener::ModListener
-	// ModListener *const this;
-	compiler_generated();
-	todo("implement");
-	_sub_10A9E880(this);
-}
+_inline ModListener::ModListener() = default; // 0x10A9E880
 
 _extern bool _sub_10AA7DF0(c_user_interface_player_model_text_value_pair_proxy *const, unsigned long, wchar_t *);
 _inline bool c_user_interface_player_model_text_value_pair_proxy::try_get_string(unsigned long id, wchar_t *out_value) // 0x10AA7DF0

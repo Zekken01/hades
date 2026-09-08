@@ -174,84 +174,76 @@ void c_bitstream::set_data(unsigned char *data, long data_length) // 0x10F02080
 	_sub_10F02080(this, data, data_length);
 }
 
-_extern void _sub_10F01160(c_bitstream *const);
 void c_bitstream::begin_reading() // 0x10F01160
 {
-	mangled_x86(MANGLED_TODO, "?begin_reading@c_bitstream@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?begin_reading@c_bitstream@@QAEXXZ");
 	// c_bitstream *const this;
 	// function call : void (*const)(c_bitstream *)
-	todo("implement");
-	_sub_10F01160(this);
+
+	((void(__thiscall *const)(c_bitstream *const))0x5574a0)(this);
 }
 
-_extern void _sub_10F010F0(c_bitstream *const);
 void c_bitstream::begin_consistency_check() // 0x10F010F0
 {
-	mangled_x86(MANGLED_TODO, "?begin_consistency_check@c_bitstream@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?begin_consistency_check@c_bitstream@@QAEXXZ");
 	// c_bitstream *const this;
 	// function call : bool (*const)(c_bitstream *)
-	todo("implement");
-	_sub_10F010F0(this);
+
+	((void(__thiscall *const)(c_bitstream *const))0x557490)(this);
 }
 
-_extern void _sub_10F011D0(c_bitstream *const, long);
 void c_bitstream::begin_writing(long data_size_alignment) // 0x10F011D0
 {
-	mangled_x86(MANGLED_TODO, "?begin_writing@c_bitstream@@QAEXJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?begin_writing@c_bitstream@@QAEXJ@Z");
 	// long data_size_alignment;
 	// function call : void (*const)(c_bitstream *, long)
-	todo("implement");
-	_sub_10F011D0(this, data_size_alignment);
+
+	((void(__thiscall *const)(c_bitstream *, long))0x5574b0)(this, data_size_alignment);
 }
 
-_extern void _sub_10F013C0(c_bitstream *const);
 void c_bitstream::finish_reading() // 0x10F013C0
 {
-	mangled_x86(MANGLED_TODO, "?finish_reading@c_bitstream@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?finish_reading@c_bitstream@@QAEXXZ");
 	// c_bitstream *const this;
 	// function call : void (*const)(c_bitstream *)
-	todo("implement");
-	_sub_10F013C0(this);
+
+	((void(__thiscall *const)(c_bitstream *const))0x5580c0)(this);
 }
 
-_extern void _sub_10F01350(c_bitstream *const);
 void c_bitstream::finish_consistency_check() // 0x10F01350
 {
-	mangled_x86(MANGLED_TODO, "?finish_consistency_check@c_bitstream@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?finish_consistency_check@c_bitstream@@QAEXXZ");
 	// c_bitstream *const this;
 	// function call : void (*const)(c_bitstream *)
-	todo("implement");
-	_sub_10F01350(this);
+
+	((void(__thiscall *const)(c_bitstream *const))0x5580c0)(this);
 }
 
-_extern void _sub_10F01430(c_bitstream *const, long *);
 void c_bitstream::finish_writing(long *out_size) // 0x10F01430
 {
-	mangled_x86(MANGLED_TODO, "?finish_writing@c_bitstream@@QAEXPAJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?finish_writing@c_bitstream@@QAEXPAJ@Z");
 	// long *out_size;
 	// function call : void (*const)(c_bitstream *, long *)
-	todo("implement");
-	_sub_10F01430(this, out_size);
+
+	((void(__thiscall *const)(c_bitstream *, long *))0x5580d0)(this, out_size);
 }
 
-_extern void _sub_10F01240(c_bitstream *const);
 void c_bitstream::discard_remaining_data() // 0x10F01240
 {
-	mangled_x86(MANGLED_TODO, "?discard_remaining_data@c_bitstream@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?discard_remaining_data@c_bitstream@@QAEXXZ");
 	// c_bitstream *const this;
 	// function call : void (*const)(c_bitstream *)
-	todo("implement");
-	_sub_10F01240(this);
+
+	((void(__thiscall *const)(c_bitstream *const))0x557f60)(this);
 }
 
-_extern void _sub_10F02010(c_bitstream *const, c_bitstream::e_state);
 void c_bitstream::reset(c_bitstream::e_state state) // 0x10F02010
 {
-	mangled_x86(MANGLED_TODO, "?reset@c_bitstream@@QAEXW4e_state@1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?reset@c_bitstream@@QAEXW4e_state@1@@Z");
 	// c_bitstream::e_state state;
 	// function call : void (*const)(c_bitstream *, long)
-	todo("implement");
-	_sub_10F02010(this, state);
+
+	((void(__thiscall *const)(c_bitstream *, long))0x559be0)(this, state);
 }
 
 _extern void _sub_10F02210(c_bitstream *const, char const *, unsigned long, long);
@@ -286,14 +278,13 @@ void c_bitstream::write_qword(unsigned long long value, long size_in_bits) // 0x
 	_sub_10F02400(this, value, size_in_bits);
 }
 
-_extern void _sub_10F02190(c_bitstream *const, char const *, bool);
 void c_bitstream::write_bool(char const *name, bool value) // 0x10F02190
 {
-	mangled_x86(MANGLED_TODO, "?write_bool@c_bitstream@@QAEXPBD_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?write_bool@c_bitstream@@QAEXPBD_N@Z");
 	// bool value;
 	// function call : void (*const)(c_bitstream *, char const *, bool)
-	todo("implement");
-	_sub_10F02190(this, name, value);
+
+	((void(__thiscall *const)(c_bitstream *const, char const *, bool))0x444b30)(this, name, value);
 }
 
 _extern void _sub_10F024F0(c_bitstream *const, char const *, void const *, long);
@@ -306,34 +297,31 @@ void c_bitstream::write_raw_data(char const *name, void const *data, long data_l
 	_sub_10F024F0(this, name, data, data_length);
 }
 
-_extern void _sub_10F02670(c_bitstream *const, char const *, char const *, long);
 void c_bitstream::write_string(char const *name, char const *str, long max_string_size) // 0x10F02670
 {
-	mangled_x86(MANGLED_TODO, "?write_string@c_bitstream@@QAEXPBD0J@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?write_string@c_bitstream@@QAEXPBD0J@Z");
 	// long max_string_size;
 	// function call : void (*const)(c_bitstream *, char const *, char const *, long)
-	todo("implement");
-	_sub_10F02670(this, name, str, max_string_size);
+
+	((void(__thiscall *const)(c_bitstream *, char const *, char const *, long))0x55a430)(this, name, str, max_string_size);
 }
 
-_extern void _sub_10F026F0(c_bitstream *const, char const *, utf8 const *, long);
 void c_bitstream::write_string_utf8(char const *name, utf8 const *str, long max_string_size) // 0x10F026F0
 {
-	mangled_x86(MANGLED_TODO, "?write_string_utf8@c_bitstream@@QAEXPBDPBUutf8@@J@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?write_string_utf8@c_bitstream@@QAEXPBDPBUutf8@@J@Z");
 	// long max_string_size;
 	// function call : void (*const)(c_bitstream *, char const *, utf8 const *, long)
-	todo("implement");
-	_sub_10F026F0(this, name, str, max_string_size);
+
+	((void(__thiscall *const)(c_bitstream *, char const *, utf8 const *, long))0x55a650)(this, name, str, max_string_size);
 }
 
-_extern void _sub_10F02770(c_bitstream *const, char const *, wchar_t const *, long);
 void c_bitstream::write_string_wchar(char const *name, wchar_t const *str, long max_string_size) // 0x10F02770
 {
-	mangled_x86(MANGLED_TODO, "?write_string_wchar@c_bitstream@@QAEXPBDPB_WJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?write_string_wchar@c_bitstream@@QAEXPBDPB_WJ@Z");
 	// long max_string_size;
 	// function call : void (*const)(c_bitstream *, char const *, wchar_t const *, long)
-	todo("implement");
-	_sub_10F02770(this, name, str, max_string_size);
+
+	((void(__thiscall *const)(c_bitstream *, char const *, wchar_t const *, long))0x55a6d0)(this, name, str, max_string_size);
 }
 
 _extern void _sub_10F02870(c_bitstream *const, char const *, real_vector3d const *, float, float, __int32, __int32);
@@ -346,24 +334,22 @@ void c_bitstream::write_vector(char const *name, real_vector3d const *vector, fl
 	_sub_10F02870(this, name, vector, magnitude_min, magnitude_max, size_in_bits_min, size_in_bits_max);
 }
 
-_extern void _sub_10F027F0(c_bitstream *const, char const *, real_vector3d const *, __int32);
 void c_bitstream::write_unit_vector(char const *name, real_vector3d const *vector, __int32 size_in_bits) // 0x10F027F0
 {
-	mangled_x86(MANGLED_TODO, "?write_unit_vector@c_bitstream@@QAEXPBDPBUreal_vector3d@@H@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?write_unit_vector@c_bitstream@@QAEXPBDPBUreal_vector3d@@H@Z");
 	// __int32 size_in_bits;
 	// function call : void (*const)(c_bitstream *, char const *, real_vector3d const *, long)
-	todo("implement");
-	_sub_10F027F0(this, name, vector, size_in_bits);
+
+	((void(__thiscall *const)(c_bitstream *, char const *, real_vector3d const *, long))0x55a750)(this, name, vector, size_in_bits);
 }
 
-_extern void _sub_10F022D0(c_bitstream *const, char const *, real_point3d const *, long);
 void c_bitstream::write_point3d(char const *name, real_point3d const *point, long axis_encoding_size_in_bits) // 0x10F022D0
 {
-	mangled_x86(MANGLED_TODO, "?write_point3d@c_bitstream@@QAEXPBDPBUreal_point3d@@J@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?write_point3d@c_bitstream@@QAEXPBDPBUreal_point3d@@J@Z");
 	// long axis_encoding_size_in_bits;
 	// function call : void (*const)(c_bitstream *, char const *, real_point3d const *, long)
-	todo("implement");
-	_sub_10F022D0(this, name, point, axis_encoding_size_in_bits);
+
+	((void(__thiscall *const)(c_bitstream *, char const *, real_point3d const *, long))0x55a1e0)(this, name, point, axis_encoding_size_in_bits);
 }
 
 _extern void _sub_10F02350(c_bitstream *const, char const *, float, float, float, __int32, bool, bool);
@@ -376,88 +362,76 @@ void c_bitstream::write_quantized_real(char const *name, float value, float min_
 	_sub_10F02350(this, name, value, min_value, max_value, size_in_bits, exact_midpoint, unknown);
 }
 
-_extern unsigned long _sub_10F01980(c_bitstream *const, char const *, long);
 unsigned long c_bitstream::read_integer(char const *name, long size_in_bits) // 0x10F01980
 {
-	mangled_x86(MANGLED_TODO, "?read_integer@c_bitstream@@QAEKPBDJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?read_integer@c_bitstream@@QAEKPBDJ@Z");
 	// long size_in_bits;
 	// function call : unsigned long (*const)(c_bitstream *, long)
-	todo("implement");
-	unsigned long __result = _sub_10F01980(this, name, size_in_bits);
-	return __result;
+
+	return ((unsigned long(__thiscall *const)(c_bitstream *, long))0x5589a0)(this, size_in_bits);
 }
 
-_extern long _sub_10F01C80(c_bitstream *const, char const *, long);
 long c_bitstream::read_signed_integer(char const *name, long size_in_bits) // 0x10F01C80
 {
-	mangled_x86(MANGLED_TODO, "?read_signed_integer@c_bitstream@@QAEJPBDJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?read_signed_integer@c_bitstream@@QAEJPBDJ@Z");
 	// long size_in_bits;
 	// function call : unsigned long (*const)(c_bitstream *, long)
-	todo("implement");
-	long __result = _sub_10F01C80(this, name, size_in_bits);
-	return __result;
+
+	return ((unsigned long(__thiscall *const)(c_bitstream *, long))0x5589a0)(this, size_in_bits);
 }
 
-_extern unsigned long long _sub_10F01B90(c_bitstream *const, char const *, long);
 unsigned long long c_bitstream::read_qword(char const *name, long size_in_bits) // 0x10F01B90
 {
-	mangled_x86(MANGLED_TODO, "?read_qword@c_bitstream@@QAE_KPBDJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?read_qword@c_bitstream@@QAE_KPBDJ@Z");
 	// long size_in_bits;
 	// function call : unsigned long long (*const)(c_bitstream *, long)
-	todo("implement");
-	unsigned long long __result = _sub_10F01B90(this, name, size_in_bits);
-	return __result;
+
+	return ((unsigned long long(__thiscall *const)(c_bitstream *, long))0x559160)(this, size_in_bits);
 }
 
-_extern bool _sub_10F01910(c_bitstream *const, char const *);
 bool c_bitstream::read_bool(char const *name) // 0x10F01910
 {
-	mangled_x86(MANGLED_TODO, "?read_bool@c_bitstream@@QAE_NPBD@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?read_bool@c_bitstream@@QAE_NPBD@Z");
 	// char const *name;
 	// function call : bool (*const)(c_bitstream *)
-	todo("implement");
-	bool __result = _sub_10F01910(this, name);
-	return __result;
+
+	return ((bool(__thiscall *const)(c_bitstream *))0x558570)(this);
 }
 
-_extern void _sub_10F01C00(c_bitstream *const, char const *, void *, long);
 void c_bitstream::read_raw_data(char const *name, void *buffer, long size_in_bits) // 0x10F01C00
 {
-	mangled_x86(MANGLED_TODO, "?read_raw_data@c_bitstream@@QAEXPBDPAXJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?read_raw_data@c_bitstream@@QAEXPBDPAXJ@Z");
 	// long size_in_bits;
 	// function call : void (*const)(c_bitstream *, void *, long)
-	todo("implement");
-	_sub_10F01C00(this, name, buffer, size_in_bits);
+
+	((void(__thiscall *const)(c_bitstream *, void *, long))0x558740)(this, buffer, size_in_bits);
 }
 
-_extern void _sub_10F01CF0(c_bitstream *const, char const *, char *, long);
 void c_bitstream::read_string(char const *name, char *buffer, long max_string_size) // 0x10F01CF0
 {
-	mangled_x86(MANGLED_TODO, "?read_string@c_bitstream@@QAEXPBDPADJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?read_string@c_bitstream@@QAEXPBDPADJ@Z");
 	// long max_string_size;
 	// function call : void (*const)(c_bitstream *, char const *, char *, long)
-	todo("implement");
-	_sub_10F01CF0(this, name, buffer, max_string_size);
+
+	((void(__thiscall *const)(c_bitstream *, char const *, char *, long))0x559380)(this, name, buffer, max_string_size);
 }
 
-_extern void _sub_10F01D70(c_bitstream *const, char const *, utf8 *, long);
 void c_bitstream::read_string_utf8(char const *name, utf8 *buffer, long max_string_size) // 0x10F01D70
 {
-	mangled_x86(MANGLED_TODO, "?read_string_utf8@c_bitstream@@QAEXPBDPAUutf8@@J@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?read_string_utf8@c_bitstream@@QAEXPBDPAUutf8@@J@Z");
 	// long max_string_size;
 	// function call : void (*const)(c_bitstream *, char const *, utf8 *, long)
-	todo("implement");
-	_sub_10F01D70(this, name, buffer, max_string_size);
+
+	((void(__thiscall *const)(c_bitstream *, char const *, utf8 *, long))0x559670)(this, name, buffer, max_string_size);
 }
 
-_extern void _sub_10F01DF0(c_bitstream *const, char const *, wchar_t *, long);
 void c_bitstream::read_string_wchar(char const *name, wchar_t *buffer, long max_string_size) // 0x10F01DF0
 {
-	mangled_x86(MANGLED_TODO, "?read_string_wchar@c_bitstream@@QAEXPBDPA_WJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?read_string_wchar@c_bitstream@@QAEXPBDPA_WJ@Z");
 	// long max_string_size;
 	// function call : void (*const)(c_bitstream *, char const *, wchar_t *, long)
-	todo("implement");
-	_sub_10F01DF0(this, name, buffer, max_string_size);
+
+	((void(__thiscall *const)(c_bitstream *, char const *, wchar_t *, long))0x559880)(this, name, buffer, max_string_size);
 }
 
 _extern void _sub_10F01EF0(c_bitstream *const, char const *, real_vector3d *, float, float, long, long);
@@ -481,24 +455,22 @@ float c_bitstream::read_quantized_real(char const *name, float min_value, float 
 	return __result;
 }
 
-_extern void _sub_10F01E70(c_bitstream *const, char const *, real_vector3d *, long);
 void c_bitstream::read_unit_vector(char const *name, real_vector3d *vector, long size_in_bits) // 0x10F01E70
 {
-	mangled_x86(MANGLED_TODO, "?read_unit_vector@c_bitstream@@QAEXPBDPAUreal_vector3d@@J@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?read_unit_vector@c_bitstream@@QAEXPBDPAUreal_vector3d@@J@Z");
 	// long size_in_bits;
 	// function call : void (*const)(c_bitstream *, char const *, real_vector3d *, long)
-	todo("implement");
-	_sub_10F01E70(this, name, vector, size_in_bits);
+
+	((void(__thiscall *const)(c_bitstream *, char const *, real_vector3d *, long))0x559a90)(this, name, vector, size_in_bits);
 }
 
-_extern void _sub_10F01A70(c_bitstream *const, char const *, real_point3d *, long);
 void c_bitstream::read_point3d(char const *name, real_point3d *point, long axis_encoding_size_in_bits) // 0x10F01A70
 {
-	mangled_x86(MANGLED_TODO, "?read_point3d@c_bitstream@@QAEXPBDPAUreal_point3d@@J@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?read_point3d@c_bitstream@@QAEXPBDPAUreal_point3d@@J@Z");
 	// long axis_encoding_size_in_bits;
 	// function call : long (*const)(c_bitstream *, char const *, real_point3d *, long)
-	todo("implement");
-	_sub_10F01A70(this, name, point, axis_encoding_size_in_bits);
+
+	((long(__thiscall *const)(c_bitstream *, char const *, real_point3d *, long))0x558c50)(this, name, point, axis_encoding_size_in_bits);
 }
 
 _extern void _sub_10F01810(c_bitstream *const);

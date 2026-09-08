@@ -310,13 +310,8 @@ namespace Web
 
 namespace Forge
 {
-	_inline CDeferredPropertySetter::CDeferredPropertySetter() // 0x10CA64C0
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0CDeferredPropertySetter@Forge@@QAE@XZ");
-		// Forge::CDeferredPropertySetter *const this;
-
-		compiler_generated();
-	}
+	// mangled_x86(MANGLED_DEFAULT, "??0CDeferredPropertySetter@Forge@@QAE@XZ"); no body to assert in
+	_inline CDeferredPropertySetter::CDeferredPropertySetter() = default; // 0x10CA64C0
 
 	_inline CDeferredPropertySetter::~CDeferredPropertySetter() // 0x10CA67C0
 	{

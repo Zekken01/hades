@@ -234,56 +234,23 @@ namespace Server
 			return __result;
 		}
 
-		_inline PlaylistItem::PlaylistItem(Server::Voting::PlaylistItem &&__that) // 0x107459E0
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0PlaylistItem@Voting@Server@@QAE@$$QAU012@@Z");
-			// Server::Voting::PlaylistItem &__that;
+		// mangled_x86(MANGLED_DEFAULT, "??0PlaylistItem@Voting@Server@@QAE@$$QAU012@@Z"); no body to assert in
+		_inline PlaylistItem::PlaylistItem(Server::Voting::PlaylistItem &&__that) = default; // 0x107459E0
 
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??0PlaylistItem@Voting@Server@@QAE@ABU012@@Z"); no body to assert in
+		_inline PlaylistItem::PlaylistItem(Server::Voting::PlaylistItem const &__that) = default; // 0x10745AE0
 
-		_inline PlaylistItem::PlaylistItem(Server::Voting::PlaylistItem const &__that) // 0x10745AE0
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0PlaylistItem@Voting@Server@@QAE@ABU012@@Z");
-			// Server::Voting::PlaylistItem const &__that;
+		// mangled_x86(MANGLED_DEFAULT, "??0PlaylistItem@Voting@Server@@QAE@XZ"); no body to assert in
+		_inline PlaylistItem::PlaylistItem() = default; // 0x10745BF0
 
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??0SMapListItem@Voting@Server@@QAE@XZ"); no body to assert in
+		_inline SMapListItem::SMapListItem() = default; // 0x10745CB0
 
-		_inline PlaylistItem::PlaylistItem() // 0x10745BF0
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0PlaylistItem@Voting@Server@@QAE@XZ");
-			// Server::Voting::PlaylistItem *const this;
+		// mangled_x86(MANGLED_DEFAULT, "??1SMapListItem@Voting@Server@@QAE@XZ"); no body to assert in
+		_inline SMapListItem::~SMapListItem() = default; // 0x10745DE0
 
-			compiler_generated();
-		}
-
-		_inline SMapListItem::SMapListItem() // 0x10745CB0
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0SMapListItem@Voting@Server@@QAE@XZ");
-			// Server::Voting::SMapListItem *const this;
-
-			compiler_generated();
-		}
-
-		_inline SMapListItem::~SMapListItem() // 0x10745DE0
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??1SMapListItem@Voting@Server@@QAE@XZ");
-			// Server::Voting::SMapListItem *const this;
-
-			compiler_generated();
-		}
-
-		extern HaloType::CharacterOverride &_sub_10745E40(Server::Voting::HaloType::CharacterOverride *const, Server::Voting::HaloType::CharacterOverride &);
-		_inline Server::Voting::HaloType::CharacterOverride &HaloType::CharacterOverride::operator=(Server::Voting::HaloType::CharacterOverride &&__that) // 0x10745E40
-		{
-			mangled_x86(MANGLED_TODO, "??4CharacterOverride@HaloType@Voting@Server@@QAEAAU0123@$$QAU0123@@Z");
-			// Server::Voting::HaloType::CharacterOverride &__that;
-			compiler_generated();
-			todo("implement");
-			Server::Voting::HaloType::CharacterOverride & __result = _sub_10745E40(this, __that);
-			return __result;
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??4CharacterOverride@HaloType@Voting@Server@@QAEAAU0123@$$QAU0123@@Z"); no body to assert in
+		_inline Server::Voting::HaloType::CharacterOverride &HaloType::CharacterOverride::operator=(Server::Voting::HaloType::CharacterOverride &&__that) = default; // 0x10745E40
 
 		_extern bool _sub_107477D0(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, Server::Voting::PlaylistItem &, std::vector<Server::Voting::HaloType> const &);
 		bool LoadPlaylistItem(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &c, Server::Voting::PlaylistItem &item, std::vector<Server::Voting::HaloType> const &types) // 0x107477D0

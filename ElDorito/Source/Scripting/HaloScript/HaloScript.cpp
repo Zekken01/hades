@@ -301,21 +301,11 @@ namespace Scripting
 			_sub_106E8790(scriptIndex, arguments);
 		}
 
-		_inline ScriptHook::ScriptHook() // 0x106E7570
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0ScriptHook@HS@Scripting@@QAE@XZ");
-			// Scripting::HS::ScriptHook *const this;
+		// mangled_x86(MANGLED_DEFAULT, "??0ScriptHook@HS@Scripting@@QAE@XZ"); no body to assert in
+		_inline ScriptHook::ScriptHook() = default; // 0x106E7570
 
-			compiler_generated();
-		}
-
-		_inline ScriptHook::~ScriptHook() // 0x106E7CC0
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??1ScriptHook@HS@Scripting@@QAE@XZ");
-			// Scripting::HS::ScriptHook *const this;
-
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??1ScriptHook@HS@Scripting@@QAE@XZ"); no body to assert in
+		_inline ScriptHook::~ScriptHook() = default; // 0x106E7CC0
 
 		_extern void _sub_106E8880(std::string_view, std::span<hs_value const>);
 		void ExecuteScript(std::string_view name, std::span<hs_value const> arguments) // 0x106E8880

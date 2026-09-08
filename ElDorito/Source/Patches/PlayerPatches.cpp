@@ -170,34 +170,19 @@ namespace Patches
 
 namespace Player
 {
-	_inline PlayerCustomizationExtensions::PlayerCustomizationExtensions() // 0x108D8C10
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0PlayerCustomizationExtensions@Player@@QAE@XZ");
-		// Player::PlayerCustomizationExtensions *const this;
-
-		compiler_generated();
-	}
+	// mangled_x86(MANGLED_DEFAULT, "??0PlayerCustomizationExtensions@Player@@QAE@XZ"); no body to assert in
+	_inline PlayerCustomizationExtensions::PlayerCustomizationExtensions() = default; // 0x108D8C10
 }
 
 namespace Patches
 {
 	namespace Network
 	{
-		_inline PlayerPropertiesExtender::PlayerPropertiesExtender() // 0x108D8C70
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0PlayerPropertiesExtender@Network@Patches@@QAE@XZ");
-			// Patches::Network::PlayerPropertiesExtender *const this;
+		// mangled_x86(MANGLED_DEFAULT, "??0PlayerPropertiesExtender@Network@Patches@@QAE@XZ"); no body to assert in
+		_inline PlayerPropertiesExtender::PlayerPropertiesExtender() = default; // 0x108D8C70
 
-			compiler_generated();
-		}
-
-		_inline PlayerPropertiesExtensionBase::PlayerPropertiesExtensionBase() // 0x108D8CC0
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0PlayerPropertiesExtensionBase@Network@Patches@@QAE@XZ");
-			// Patches::Network::PlayerPropertiesExtensionBase *const this;
-
-			compiler_generated();
-		}
+		// mangled_x86(MANGLED_DEFAULT, "??0PlayerPropertiesExtensionBase@Network@Patches@@QAE@XZ"); no body to assert in
+		_inline PlayerPropertiesExtensionBase::PlayerPropertiesExtensionBase() = default; // 0x108D8CC0
 	}
 }
 
@@ -323,15 +308,17 @@ bool player_in_multiplayer_object_boundary(long player_index, s_multiplayer_obje
 	return __result;
 }
 
-_extern void _sub_108DBE50(long);
 void game_engine_player_died_hook(long player_index) // 0x108DBE50
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_player_died_hook@@YAXJ@Z");
 	// `anonymous-namespace'::game_engine_player_died_hook
 	// long player_index;
 	// constexpr void (*const `game_engine_player_died_hook'::`2'::game_engine_player_died)(long); // constant == 5481264
 	// function call : void (*const)(long)
-	todo("implement");
-	_sub_108DBE50(player_index);
+
+	void (__cdecl *const game_engine_player_died)(long) = (void(__cdecl *const)(long))0x53a330;
+
+	game_engine_player_died(player_index);
 }
 
 _extern void _sub_108DBEB0(long, long);
