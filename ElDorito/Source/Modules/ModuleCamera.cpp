@@ -119,14 +119,14 @@ namespace Blam
 
 /* ---------- prototypes */
 
-bool VariableCameraFovUpdate(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool VariableCameraHideHudUpdate(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool VariableCameraHideKillFeedUpdate(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool VariableCameraSpeedUpdate(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool VariableCameraPositionUpdate(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool VariableCameraModeUpdate(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool VariableCameraShowCoordinatesUpdate(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool VariableOldViewOffsetScaleUpdate(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
+bool VariableCameraFovUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool VariableCameraHideHudUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool VariableCameraHideKillFeedUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool VariableCameraSpeedUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool VariableCameraPositionUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool VariableCameraModeUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool VariableCameraShowCoordinatesUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool VariableOldViewOffsetScaleUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo);
 
 /* ---------- globals */
 
@@ -172,8 +172,8 @@ namespace Modules
 
 /* ---------- private code */
 
-_extern bool _sub_10979E70(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableCameraFovUpdate(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x10979E70
+_extern bool _sub_10979E70(std::vector<std::string> const &, std::string &);
+bool VariableCameraFovUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10979E70
 {
 	// `anonymous-namespace'::VariableCameraFovUpdate
 	// std::string &returnInfo;
@@ -184,13 +184,13 @@ bool VariableCameraFovUpdate(std::vector<std::string,std::allocator<std::string>
 	return __result;
 }
 
-_extern bool _sub_1097A000(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableCameraHideHudUpdate(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x1097A000
+_extern bool _sub_1097A000(std::vector<std::string> const &, std::string &);
+bool VariableCameraHideHudUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1097A000
 {
 	// `anonymous-namespace'::VariableCameraHideHudUpdate
 	// static ...; // 0x1097A1C4
 	// static ...; // 0x1097A1BC
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// bool statusBool;
 	// std::string status;
@@ -200,13 +200,13 @@ bool VariableCameraHideHudUpdate(std::vector<std::string,std::allocator<std::str
 	return __result;
 }
 
-_extern bool _sub_1097A250(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableCameraHideKillFeedUpdate(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x1097A250
+_extern bool _sub_1097A250(std::vector<std::string> const &, std::string &);
+bool VariableCameraHideKillFeedUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1097A250
 {
 	// `anonymous-namespace'::VariableCameraHideKillFeedUpdate
 	// static ...; // 0x1097A414
 	// static ...; // 0x1097A40C
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// bool statusBool;
 	// std::string status;
@@ -216,23 +216,23 @@ bool VariableCameraHideKillFeedUpdate(std::vector<std::string,std::allocator<std
 	return __result;
 }
 
-_extern bool _sub_1097AD40(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableCameraSpeedUpdate(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x1097AD40
+_extern bool _sub_1097AD40(std::vector<std::string> const &, std::string &);
+bool VariableCameraSpeedUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1097AD40
 {
 	// `anonymous-namespace'::VariableCameraSpeedUpdate
 	// static ...; // 0x1097AE6C
 	// static ...; // 0x1097AE64
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// float speed;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	todo("implement");
 	bool __result = _sub_1097AD40(Arguments, returnInfo);
 	return __result;
 }
 
-_extern bool _sub_1097A670(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableCameraPositionUpdate(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x1097A670
+_extern bool _sub_1097A670(std::vector<std::string> const &, std::string &);
+bool VariableCameraPositionUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1097A670
 {
 	// `anonymous-namespace'::VariableCameraPositionUpdate
 	// static ...; // 0x1097AA77
@@ -241,14 +241,14 @@ bool VariableCameraPositionUpdate(std::vector<std::string,std::allocator<std::st
 	// static ...; // 0x1097AA64
 	// static ...; // 0x1097AA28
 	// static ...; // 0x1097AA20
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// c_director *director;
 	// c_camera *camera;
 	// real_point3d pos;
 	{
 		// s_observer_result const *observer_camera;
-		// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+		// std::stringstream ss;
 		// real_euler_angles3d euler;
 	}
 	{
@@ -265,13 +265,13 @@ bool VariableCameraPositionUpdate(std::vector<std::string,std::allocator<std::st
 	return __result;
 }
 
-_extern bool _sub_1097A4A0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableCameraModeUpdate(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x1097A4A0
+_extern bool _sub_1097A4A0(std::vector<std::string> const &, std::string &);
+bool VariableCameraModeUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1097A4A0
 {
 	// `anonymous-namespace'::VariableCameraModeUpdate
 	// static ...; // 0x1097A5FC
 	// static ...; // 0x1097A5F4
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// constexpr bool (*const `VariableCameraModeUpdate'::`2'::player_terminal_chud_set)(bool); // constant == 11050832
 	// bool result;
@@ -282,13 +282,13 @@ bool VariableCameraModeUpdate(std::vector<std::string,std::allocator<std::string
 	return __result;
 }
 
-_extern bool _sub_1097AB90(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableCameraShowCoordinatesUpdate(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x1097AB90
+_extern bool _sub_1097AB90(std::vector<std::string> const &, std::string &);
+bool VariableCameraShowCoordinatesUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1097AB90
 {
 	// `anonymous-namespace'::VariableCameraShowCoordinatesUpdate
 	// static ...; // 0x1097ACD0
 	// static ...; // 0x1097ACC8
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// Blam::Network::Session *session;
 	// std::string status;
@@ -297,8 +297,8 @@ bool VariableCameraShowCoordinatesUpdate(std::vector<std::string,std::allocator<
 	return __result;
 }
 
-_extern bool _sub_1097AED0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableOldViewOffsetScaleUpdate(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x1097AED0
+_extern bool _sub_1097AED0(std::vector<std::string> const &, std::string &);
+bool VariableOldViewOffsetScaleUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1097AED0
 {
 	// `anonymous-namespace'::VariableOldViewOffsetScaleUpdate
 	// std::string &returnInfo;

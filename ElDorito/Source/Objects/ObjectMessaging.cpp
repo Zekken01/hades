@@ -61,7 +61,7 @@ namespace Patches
 namespace Objects
 {
 	extern ::Objects::ObjectMessageSystem system; // 0x1134DCDC
-	extern std::queue<std::function<void __cdecl(void)>,std::deque<std::function<void __cdecl(void)>,std::allocator<std::function<void __cdecl(void)> > > > queuedActions; // 0x1138DD58
+	extern std::queue<std::function<void __cdecl(void)> > queuedActions; // 0x1138DD58
 }
 
 /* ---------- private variables */

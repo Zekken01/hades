@@ -4988,7 +4988,7 @@ class CModBrowserStateManager
 	EModBrowserState m_currentState; // 0x1EC
 	EModBrowserState m_requestedState; // 0x1F0
 	unsigned char m_currentHandler[8]; // 0x1F4, std::shared_ptr<CModBrowserStateHandler>
-	unsigned char m_stateHandlers[40]; // 0x1FC, std::unordered_map<enum EModBrowserState,std::shared_ptr<CModBrowserStateHandler>>
+	unsigned char m_stateHandlers[40]; // 0x1FC, std::unordered_map<enum EModBrowserState,std::shared_ptr<CModBrowserStateHandler> >
 	EModBrowserAbortReason m_abortReason; // 0x224
 public:
 	void Update();
@@ -5785,7 +5785,7 @@ private:
 public:
 	bool read_map_file_into_buffer(c_file_reference &, long, unsigned long, void *);
 	bool read_font_package_blocking(c_file_reference &, unsigned long, unsigned long, void *);
-	std::unordered_map<int,std::string,std::hash<int>,std::equal_to<int>,std::allocator<std::pair<int const ,std::string> > > read_tag_names(c_file_reference &, int);
+	std::unordered_map<int,std::string> read_tag_names(c_file_reference &, int);
 public:
 	c_mod_package();
 };

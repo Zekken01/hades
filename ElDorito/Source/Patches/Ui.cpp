@@ -629,7 +629,7 @@ namespace Patches
 	{
 		extern bool HasAttractBinks; // 0x12467422
 		extern bool isPttSoundPlaying; // 0x12467423
-		extern std::vector<std::string,std::allocator<std::string> > speakingPlayers; // 0x12467478
+		extern std::vector<std::string> speakingPlayers; // 0x12467478
 		extern char16_t chud_talking_player_name[32]; // 0x12467428
 		extern bool enableCustomHUDColors; // 0x12467420
 		extern bool enableAllyBlueWaypointsFix; // 0x12467421
@@ -646,7 +646,7 @@ namespace hades_file_local
 	extern bool (*IsMapLoading)(); // 0x11354C84
 	extern bool tagsInitiallyLoaded; // 0x1246748C
 	extern __int32 localDesiredTeam; // 0x11354C88
-	extern std::vector<std::function<void __cdecl(HWND__ *)>,std::allocator<std::function<void __cdecl(HWND__ *)> > > createWindowCallbacks; // 0x12467468
+	extern std::vector<std::function<void __cdecl(HWND__ *)> > createWindowCallbacks; // 0x12467468
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -829,7 +829,7 @@ bool isValidUrl(std::string const &url) // 0x10AE8D10
 	// static ...; // 0x10AE8DD4
 	// static ...; // 0x10AE8DCC
 	// std::string const &url;
-	// std::basic_regex<char,std::regex_traits<char> > url_regex;
+	// std::regex url_regex;
 	todo("implement");
 	bool __result = _sub_10AE8D10(url);
 	return __result;
@@ -1826,7 +1826,7 @@ HWND__ *CreateGameWindowHook() // 0x10ADB990
 	{
 		// HWND__ *(*const CreateGameWindow)();
 		{
-			// std::vector<std::function<void __cdecl(HWND__ *)>,std::allocator<std::function<void __cdecl(HWND__ *)> > > &<range>$L0;
+			// std::vector<std::function<void __cdecl(HWND__ *)> > &<range>$L0;
 			// std::function<void __cdecl(HWND__ *)> *<begin>$L0;
 			// std::function<void __cdecl(HWND__ *)> *<end>$L0;
 			{

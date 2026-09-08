@@ -143,11 +143,11 @@ namespace Server
 	namespace Voting
 	{
 		extern bool LoadVotingJson(std::string const &filename, Server::Voting::VotingJson &voting);
-		extern bool LoadPlaylistItem(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &c, Server::Voting::PlaylistItem &item, std::vector<Server::Voting::HaloType,std::allocator<Server::Voting::HaloType> > const &types);
+		extern bool LoadPlaylistItem(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &c, Server::Voting::PlaylistItem &item, std::vector<Server::Voting::HaloType> const &types);
 		extern bool LoadHaloMap(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &mapObject, std::string const &modPack, Server::Voting::HaloMap &map);
 		extern bool LoadHaloType(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &c, Server::Voting::HaloType &ht);
 
-		unsigned __int32 FindTypeByName(std::vector<Server::Voting::HaloType,std::allocator<Server::Voting::HaloType> > const &types, std::string const &name);
+		unsigned __int32 FindTypeByName(std::vector<Server::Voting::HaloType> const &types, std::string const &name);
 	}
 }
 
@@ -190,7 +190,7 @@ namespace Server
 			// static ...; // 0x10748340
 			// std::string const &filename;
 			// Server::Voting::VotingJson &voting;
-			// std::basic_ifstream<char,std::char_traits<char> > in;
+			// std::ifstream in;
 			// std::string contents;
 			// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> document;
 			{
@@ -285,8 +285,8 @@ namespace Server
 			return __result;
 		}
 
-		_extern bool _sub_107477D0(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, Server::Voting::PlaylistItem &, std::vector<Server::Voting::HaloType,std::allocator<Server::Voting::HaloType> > const &);
-		bool LoadPlaylistItem(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &c, Server::Voting::PlaylistItem &item, std::vector<Server::Voting::HaloType,std::allocator<Server::Voting::HaloType> > const &types) // 0x107477D0
+		_extern bool _sub_107477D0(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, Server::Voting::PlaylistItem &, std::vector<Server::Voting::HaloType> const &);
+		bool LoadPlaylistItem(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &c, Server::Voting::PlaylistItem &item, std::vector<Server::Voting::HaloType> const &types) // 0x107477D0
 		{
 			mangled_x86(MANGLED_TODO, "?LoadPlaylistItem@Voting@Server@@YA_NABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@AAUPlaylistItem@12@ABV?$vector@UHaloType@Voting@Server@@V?$allocator@UHaloType@Voting@Server@@@std@@@std@@@Z");
 			// static ...; // 0x10747B0D
@@ -295,7 +295,7 @@ namespace Server
 			// static ...; // 0x10747ACC
 			// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &c;
 			// Server::Voting::PlaylistItem &item;
-			// std::vector<Server::Voting::HaloType,std::allocator<Server::Voting::HaloType> > const &types;
+			// std::vector<Server::Voting::HaloType> const &types;
 			// std::string modPack;
 			{
 				// std::string errorMsg;
@@ -386,8 +386,8 @@ namespace Server
 {
 	namespace Voting
 	{
-		_extern unsigned __int32 _sub_10746060(std::vector<Server::Voting::HaloType,std::allocator<Server::Voting::HaloType> > const &, std::string const &);
-		unsigned __int32 FindTypeByName(std::vector<Server::Voting::HaloType,std::allocator<Server::Voting::HaloType> > const &types, std::string const &name) // 0x10746060
+		_extern unsigned __int32 _sub_10746060(std::vector<Server::Voting::HaloType> const &, std::string const &);
+		unsigned __int32 FindTypeByName(std::vector<Server::Voting::HaloType> const &types, std::string const &name) // 0x10746060
 		{
 			// Server::Voting::FindTypeByName
 			// std::string const &name;

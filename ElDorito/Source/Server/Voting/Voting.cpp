@@ -157,10 +157,10 @@ namespace Server
 {
 	namespace Voting
 	{
-		extern std::vector<Server::Voting::AbstractVotingSystem *,std::allocator<Server::Voting::AbstractVotingSystem *> > VotingSystems; // 0x12468748
+		extern std::vector<Server::Voting::AbstractVotingSystem *> VotingSystems; // 0x12468748
 		extern Server::Voting::VotingSystem votingSystem; // 0x12468848
 		extern Server::Voting::VetoSystem vetoSystem; // 0x12469AC0
-		extern std::vector<std::function<void __cdecl(Server::Voting::MapAndType)>,std::allocator<std::function<void __cdecl(Server::Voting::MapAndType)> > > votePassedCallbacks; // 0x12468838
+		extern std::vector<std::function<void __cdecl(Server::Voting::MapAndType)> > votePassedCallbacks; // 0x12468838
 	}
 }
 
@@ -199,7 +199,7 @@ namespace Server
 			mangled_x86(MANGLED_TODO, "?NotifyVotePassed@Voting@Server@@YAXABUMapAndType@12@@Z");
 			// Server::Voting::MapAndType const &winner;
 			{
-				// std::vector<std::function<void __cdecl(Server::Voting::MapAndType)>,std::allocator<std::function<void __cdecl(Server::Voting::MapAndType)> > > &<range>$L0;
+				// std::vector<std::function<void __cdecl(Server::Voting::MapAndType)> > &<range>$L0;
 				// std::function<void __cdecl(Server::Voting::MapAndType)> *<begin>$L0;
 				// std::function<void __cdecl(Server::Voting::MapAndType)> *<end>$L0;
 				{
@@ -225,7 +225,7 @@ namespace Server
 			mangled_x86(MANGLED_TODO, "?LifeCycleStateChanged@Voting@Server@@YAXW4LifeCycleState@Network@Blam@@@Z");
 			// Blam::Network::LifeCycleState newState;
 			{
-				// std::vector<Server::Voting::AbstractVotingSystem *,std::allocator<Server::Voting::AbstractVotingSystem *> > &<range>$L0;
+				// std::vector<Server::Voting::AbstractVotingSystem *> &<range>$L0;
 				// Server::Voting::AbstractVotingSystem **<begin>$L0;
 				// Server::Voting::AbstractVotingSystem **<end>$L0;
 				{
@@ -235,7 +235,7 @@ namespace Server
 			{
 				// Server::Voting::AbstractVotingSystem **<end>$L1;
 				// Server::Voting::AbstractVotingSystem **<begin>$L1;
-				// std::vector<Server::Voting::AbstractVotingSystem *,std::allocator<Server::Voting::AbstractVotingSystem *> > &<range>$L1;
+				// std::vector<Server::Voting::AbstractVotingSystem *> &<range>$L1;
 				{
 				}
 			}
@@ -254,7 +254,7 @@ namespace Server
 			mangled_x86(MANGLED_TODO, "?Init@Voting@Server@@YAXXZ");
 			// procedure flags: nofpo
 			{
-				// std::vector<Server::Voting::AbstractVotingSystem *,std::allocator<Server::Voting::AbstractVotingSystem *> > &<range>$L0;
+				// std::vector<Server::Voting::AbstractVotingSystem *> &<range>$L0;
 				// Server::Voting::AbstractVotingSystem **<begin>$L0;
 				// Server::Voting::AbstractVotingSystem **<end>$L0;
 				{
@@ -301,7 +301,7 @@ namespace Server
 			// procedure flags: nofpo
 			// Blam::Network::Session *session;
 			{
-				// std::vector<Server::Voting::AbstractVotingSystem *,std::allocator<Server::Voting::AbstractVotingSystem *> > &<range>$L0;
+				// std::vector<Server::Voting::AbstractVotingSystem *> &<range>$L0;
 				// Server::Voting::AbstractVotingSystem **<begin>$L0;
 				// Server::Voting::AbstractVotingSystem **<end>$L0;
 				{
@@ -322,7 +322,7 @@ namespace Server
 			// Blam::Network::Session *session;
 			// __int32 peerIdx;
 			{
-				// std::vector<Server::Voting::AbstractVotingSystem *,std::allocator<Server::Voting::AbstractVotingSystem *> > &<range>$L0;
+				// std::vector<Server::Voting::AbstractVotingSystem *> &<range>$L0;
 				// Server::Voting::AbstractVotingSystem **<begin>$L0;
 				// Server::Voting::AbstractVotingSystem **<end>$L0;
 				{
@@ -357,7 +357,7 @@ namespace Server
 			// procedure flags: nofpo
 			// Blam::Network::Session *session;
 			{
-				// std::vector<Server::Voting::AbstractVotingSystem *,std::allocator<Server::Voting::AbstractVotingSystem *> > &<range>$L0;
+				// std::vector<Server::Voting::AbstractVotingSystem *> &<range>$L0;
 				// Server::Voting::AbstractVotingSystem **<begin>$L0;
 				// Server::Voting::AbstractVotingSystem **<end>$L0;
 				{
@@ -378,7 +378,7 @@ namespace Server
 			// procedure flags: nofpo
 			// Blam::Network::Session *session;
 			{
-				// std::vector<Server::Voting::AbstractVotingSystem *,std::allocator<Server::Voting::AbstractVotingSystem *> > &<range>$L0;
+				// std::vector<Server::Voting::AbstractVotingSystem *> &<range>$L0;
 				// Server::Voting::AbstractVotingSystem **<begin>$L0;
 				// Server::Voting::AbstractVotingSystem **<end>$L0;
 				{
@@ -399,7 +399,7 @@ namespace Server
 			// std::string name;
 			// Blam::Network::Session *session;
 			{
-				// std::vector<Server::Voting::AbstractVotingSystem *,std::allocator<Server::Voting::AbstractVotingSystem *> > &<range>$L0;
+				// std::vector<Server::Voting::AbstractVotingSystem *> &<range>$L0;
 				// Server::Voting::AbstractVotingSystem **<begin>$L0;
 				// Server::Voting::AbstractVotingSystem **<end>$L0;
 				{

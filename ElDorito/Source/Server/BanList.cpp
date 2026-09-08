@@ -140,13 +140,13 @@ namespace Server
 		// static ...; // 0x10AFA824
 		// Server::BanList *const this;
 		// std::string const &path;
-		// std::basic_ifstream<char,std::char_traits<char> > stream;
+		// std::ifstream stream;
 		todo("implement");
 		_sub_10AFA740(this, path);
 	}
 
-	_extern void _sub_10AFB320(Server::BanList *const, std::basic_istream<char,std::char_traits<char> > &);
-	void BanList::Read(std::basic_istream<char,std::char_traits<char> > &stream) // 0x10AFB320
+	_extern void _sub_10AFB320(Server::BanList *const, std::istream &);
+	void BanList::Read(std::istream &stream) // 0x10AFB320
 	{
 		mangled_x86(MANGLED_TODO, "?Read@BanList@Server@@AAEXAAV?$basic_istream@DU?$char_traits@D@std@@@std@@@Z");
 		// static ...; // 0x10AFB604
@@ -154,10 +154,10 @@ namespace Server
 		// static ...; // 0x10AFB5DC
 		// static ...; // 0x10AFB5D4
 		// Server::BanList *const this;
-		// std::basic_istream<char,std::char_traits<char> > &stream;
+		// std::istream &stream;
 		{
 			// std::string line;
-			// std::vector<std::string,std::allocator<std::string> > components;
+			// std::vector<std::string> components;
 			// unsigned __int32 commentStart;
 			{
 				// unsigned long long uid;
@@ -167,8 +167,8 @@ namespace Server
 		_sub_10AFB320(this, stream);
 	}
 
-	_extern void _sub_10AFB6E0(Server::BanList const *const, std::basic_ostream<char,std::char_traits<char> > &);
-	void BanList::Save(std::basic_ostream<char,std::char_traits<char> > &stream) const // 0x10AFB6E0
+	_extern void _sub_10AFB6E0(Server::BanList const *const, std::ostream &);
+	void BanList::Save(std::ostream &stream) const // 0x10AFB6E0
 	{
 		mangled_x86(MANGLED_TODO, "?Save@BanList@Server@@QBEXAAV?$basic_ostream@DU?$char_traits@D@std@@@std@@@Z");
 		// static ...; // 0x10AFBAF8
@@ -181,9 +181,9 @@ namespace Server
 		// static ...; // 0x10AFBA68
 		// static ...; // 0x10AFBA60
 		// Server::BanList const *const this;
-		// std::basic_ostream<char,std::char_traits<char> > &stream;
+		// std::ostream &stream;
 		{
-			// std::unordered_set<std::string,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::string> > const &<range>$L0;
+			// std::unordered_set<std::string> const &<range>$L0;
 			// std::_List_unchecked_const_iterator<std::_List_val<std::_List_simple_types<std::string> >,std::_Iterator_base0> <begin>$L0;
 			// std::_List_unchecked_const_iterator<std::_List_val<std::_List_simple_types<std::string> >,std::_Iterator_base0> <end>$L0;
 			{
@@ -193,14 +193,14 @@ namespace Server
 		{
 			// std::_List_unchecked_const_iterator<std::_List_val<std::_List_simple_types<std::string> >,std::_Iterator_base0> <end>$L1;
 			// std::_List_unchecked_const_iterator<std::_List_val<std::_List_simple_types<std::string> >,std::_Iterator_base0> <begin>$L1;
-			// std::unordered_set<std::string,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::string> > const &<range>$L1;
+			// std::unordered_set<std::string> const &<range>$L1;
 			{
 				// std::string ip;
 			}
 		}
 		{
 			// std::_List_unchecked_const_iterator<std::_List_val<std::_List_simple_types<unsigned __int64> >,std::_Iterator_base0> <end>$L2;
-			// std::unordered_set<unsigned __int64,std::hash<unsigned __int64>,std::equal_to<unsigned __int64>,std::allocator<unsigned __int64> > const &<range>$L2;
+			// std::unordered_set<unsigned __int64> const &<range>$L2;
 			// std::_List_unchecked_const_iterator<std::_List_val<std::_List_simple_types<unsigned __int64> >,std::_Iterator_base0> <begin>$L2;
 			{
 				// unsigned long long uid;
@@ -218,7 +218,7 @@ namespace Server
 		// static ...; // 0x10AFBCD4
 		// Server::BanList const *const this;
 		// std::string const &path;
-		// std::basic_ofstream<char,std::char_traits<char> > stream;
+		// std::ofstream stream;
 		todo("implement");
 		_sub_10AFBC20((Server::BanList const *)this, path);
 	}
@@ -231,7 +231,7 @@ namespace Server
 		// static ...; // 0x10AFB2C8
 		// static ...; // 0x10AFB2BC
 		// static ...; // 0x10AFB2B4
-		// std::basic_ifstream<char,std::char_traits<char> > file;
+		// std::ifstream file;
 		todo("implement");
 		Server::BanList __result = _sub_10AFB1A0();
 		return __result;

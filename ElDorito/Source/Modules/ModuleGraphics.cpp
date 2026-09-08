@@ -142,17 +142,17 @@ namespace Patches
 
 /* ---------- prototypes */
 
-bool VariableSaturationUpdate(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool VariableRedHueUpdate(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool VariableGreenHueUpdate(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool VariableBlueHueUpdate(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool VariableGammaPowerUpdate(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool VariableDepthOfFieldUpdate(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool VariableLetterboxUpdate(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool VariableUIScalingUpdate(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool VariableCustomHUDColorsEnabledUpdate(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool VariableCustomHUDColorsUpdate(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool CommandSupportedResolutions(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
+bool VariableSaturationUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool VariableRedHueUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool VariableGreenHueUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool VariableBlueHueUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool VariableGammaPowerUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool VariableDepthOfFieldUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool VariableLetterboxUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool VariableUIScalingUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool VariableCustomHUDColorsEnabledUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool VariableCustomHUDColorsUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool CommandSupportedResolutions(std::vector<std::string> const &Arguments, std::string &returnInfo);
 
 /* ---------- globals */
 
@@ -176,96 +176,96 @@ namespace Modules
 
 /* ---------- private code */
 
-_extern bool _sub_109A7060(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableSaturationUpdate(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x109A7060
+_extern bool _sub_109A7060(std::vector<std::string> const &, std::string &);
+bool VariableSaturationUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109A7060
 {
 	// `anonymous-namespace'::VariableSaturationUpdate
 	// static ...; // 0x109A71B4
 	// static ...; // 0x109A71AC
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// s_hue_saturation_control *hue_saturation_control;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// float saturation;
 	todo("implement");
 	bool __result = _sub_109A7060(Arguments, returnInfo);
 	return __result;
 }
 
-_extern bool _sub_109A6EA0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableRedHueUpdate(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x109A6EA0
+_extern bool _sub_109A6EA0(std::vector<std::string> const &, std::string &);
+bool VariableRedHueUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109A6EA0
 {
 	// `anonymous-namespace'::VariableRedHueUpdate
 	// static ...; // 0x109A6FF4
 	// static ...; // 0x109A6FEC
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// s_hue_saturation_control *hue_saturation_control;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// float redHue;
 	todo("implement");
 	bool __result = _sub_109A6EA0(Arguments, returnInfo);
 	return __result;
 }
 
-_extern bool _sub_109A6AE0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableGreenHueUpdate(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x109A6AE0
+_extern bool _sub_109A6AE0(std::vector<std::string> const &, std::string &);
+bool VariableGreenHueUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109A6AE0
 {
 	// `anonymous-namespace'::VariableGreenHueUpdate
 	// static ...; // 0x109A6C34
 	// static ...; // 0x109A6C2C
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// s_hue_saturation_control *hue_saturation_control;
 	// float greenHue;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	todo("implement");
 	bool __result = _sub_109A6AE0(Arguments, returnInfo);
 	return __result;
 }
 
-_extern bool _sub_109A61F0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableBlueHueUpdate(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x109A61F0
+_extern bool _sub_109A61F0(std::vector<std::string> const &, std::string &);
+bool VariableBlueHueUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109A61F0
 {
 	// `anonymous-namespace'::VariableBlueHueUpdate
 	// static ...; // 0x109A6344
 	// static ...; // 0x109A633C
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// s_hue_saturation_control *hue_saturation_control;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// float blueHue;
 	todo("implement");
 	bool __result = _sub_109A61F0(Arguments, returnInfo);
 	return __result;
 }
 
-_extern bool _sub_109A6930(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableGammaPowerUpdate(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x109A6930
+_extern bool _sub_109A6930(std::vector<std::string> const &, std::string &);
+bool VariableGammaPowerUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109A6930
 {
 	// `anonymous-namespace'::VariableGammaPowerUpdate
 	// static ...; // 0x109A6A74
 	// static ...; // 0x109A6A6C
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// float gamma;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// float max;
 	todo("implement");
 	bool __result = _sub_109A6930(Arguments, returnInfo);
 	return __result;
 }
 
-_extern bool _sub_109A6760(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableDepthOfFieldUpdate(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x109A6760
+_extern bool _sub_109A6760(std::vector<std::string> const &, std::string &);
+bool VariableDepthOfFieldUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109A6760
 {
 	// `anonymous-namespace'::VariableDepthOfFieldUpdate
 	// static ...; // 0x109A68C0
 	// static ...; // 0x109A68B8
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// float dof;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// s_depth_of_field *globals;
 	// function call : s_depth_of_field *(*)()
 	todo("implement");
@@ -273,24 +273,24 @@ bool VariableDepthOfFieldUpdate(std::vector<std::string,std::allocator<std::stri
 	return __result;
 }
 
-_extern bool _sub_109A6CA0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableLetterboxUpdate(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x109A6CA0
+_extern bool _sub_109A6CA0(std::vector<std::string> const &, std::string &);
+bool VariableLetterboxUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109A6CA0
 {
 	// `anonymous-namespace'::VariableLetterboxUpdate
 	// static ...; // 0x109A6E20
 	// static ...; // 0x109A6E18
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// unsigned long enabled;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// s_cinematic_globals *globals;
 	todo("implement");
 	bool __result = _sub_109A6CA0(Arguments, returnInfo);
 	return __result;
 }
 
-_extern bool _sub_109A7220(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableUIScalingUpdate(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x109A7220
+_extern bool _sub_109A7220(std::vector<std::string> const &, std::string &);
+bool VariableUIScalingUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109A7220
 {
 	// `anonymous-namespace'::VariableUIScalingUpdate
 	// std::string &returnInfo;
@@ -299,8 +299,8 @@ bool VariableUIScalingUpdate(std::vector<std::string,std::allocator<std::string>
 	return __result;
 }
 
-_extern bool _sub_109A63B0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableCustomHUDColorsEnabledUpdate(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x109A63B0
+_extern bool _sub_109A63B0(std::vector<std::string> const &, std::string &);
+bool VariableCustomHUDColorsEnabledUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109A63B0
 {
 	// `anonymous-namespace'::VariableCustomHUDColorsEnabledUpdate
 	// std::string &returnInfo;
@@ -309,37 +309,37 @@ bool VariableCustomHUDColorsEnabledUpdate(std::vector<std::string,std::allocator
 	return __result;
 }
 
-_extern bool _sub_109A6410(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableCustomHUDColorsUpdate(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x109A6410
+_extern bool _sub_109A6410(std::vector<std::string> const &, std::string &);
+bool VariableCustomHUDColorsUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109A6410
 {
 	// `anonymous-namespace'::VariableCustomHUDColorsUpdate
 	// static ...; // 0x109A66A4
 	// static ...; // 0x109A668C
 	// static ...; // 0x109A6684
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
-	// std::basic_regex<char,std::regex_traits<char> > expression;
+	// std::regex expression;
 	// std::match_results<char const *,std::allocator<std::sub_match<char const *> > > what;
 	todo("implement");
 	bool __result = _sub_109A6410(Arguments, returnInfo);
 	return __result;
 }
 
-_extern bool _sub_109A5EA0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandSupportedResolutions(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x109A5EA0
+_extern bool _sub_109A5EA0(std::vector<std::string> const &, std::string &);
+bool CommandSupportedResolutions(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109A5EA0
 {
 	// `anonymous-namespace'::CommandSupportedResolutions
 	// static ...; // 0x109A6136
 	// static ...; // 0x109A6128
 	// static ...; // 0x109A6104
 	// static ...; // 0x109A60FC
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
 	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
 	// __int32 adapterIndex;
 	{
-		// std::vector<Common::D3DAdapters::DisplayMode,std::allocator<Common::D3DAdapters::DisplayMode> > const &<range>$L0;
+		// std::vector<Common::D3DAdapters::DisplayMode> const &<range>$L0;
 		// Common::D3DAdapters::DisplayMode const *<begin>$L0;
 		// Common::D3DAdapters::DisplayMode const *<end>$L0;
 		{

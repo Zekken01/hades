@@ -735,7 +735,7 @@ namespace Forge
 		// long objectIndex;
 		// Forge::CDefaultPropertyAccessor accessor;
 		{
-			// std::unordered_map<enum Forge::EObjectProperty,Forge::SPropertyValue,std::hash<enum Forge::EObjectProperty>,std::equal_to<enum Forge::EObjectProperty>,std::allocator<std::pair<enum Forge::EObjectProperty const ,Forge::SPropertyValue> > > &<range>$L0;
+			// std::unordered_map<enum Forge::EObjectProperty,Forge::SPropertyValue> &<range>$L0;
 			// std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<enum Forge::EObjectProperty const ,Forge::SPropertyValue> > > > <begin>$L0;
 			// std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<enum Forge::EObjectProperty const ,Forge::SPropertyValue> > > > <end>$L0;
 			{

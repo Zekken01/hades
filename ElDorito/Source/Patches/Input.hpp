@@ -69,7 +69,7 @@ namespace Patches
 		extern void PushContext(std::shared_ptr<Patches::Input::InputContext> context);
 		extern void RegisterDefaultInputHandler(void (*func)());
 		extern void RegisterMenuUIInputHandler(void (*func)());
-		extern void SetKeyboardSettingsMenu(std::vector<Blam::Input::ConfigurableAction,std::allocator<Blam::Input::ConfigurableAction> > const &infantrySettings, std::vector<Blam::Input::ConfigurableAction,std::allocator<Blam::Input::ConfigurableAction> > const &vehicleSettings);
+		extern void SetKeyboardSettingsMenu(std::vector<Blam::Input::ConfigurableAction> const &infantrySettings, std::vector<Blam::Input::ConfigurableAction> const &vehicleSettings);
 		extern void TestControllerVibration(float durationSeconds);
 		extern void InvalidateBindings();
 	}

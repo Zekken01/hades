@@ -275,8 +275,8 @@ namespace hades_file_local
 	extern std::shared_ptr<Patches::CustomPackets::PacketSender<Server::Chat::ChatMessage> > PacketSender; // 0x12467F38
 	extern unsigned long LastTimeMs; // 0x12467F40
 	extern unsigned long SpamUpdateMs; // 0x12467F44
-	extern std::vector<std::shared_ptr<Server::Chat::ChatHandler>,std::allocator<std::shared_ptr<Server::Chat::ChatHandler> > > chatHandlers; // 0x12467EF4
-	extern std::list<unsigned int,std::allocator<unsigned int> > MutedPlayers; // 0x12467F04
+	extern std::vector<std::shared_ptr<Server::Chat::ChatHandler> > chatHandlers; // 0x12467EF4
+	extern std::list<unsigned int> MutedPlayers; // 0x12467F04
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -553,7 +553,7 @@ bool BroadcastMessage(Blam::Network::Session *session, __int32 senderPeer, Serve
 	// Blam::Network::SessionMembership *membership;
 	// bool ignore;
 	{
-		// std::vector<std::shared_ptr<Server::Chat::ChatHandler>,std::allocator<std::shared_ptr<Server::Chat::ChatHandler> > > &<range>$L0;
+		// std::vector<std::shared_ptr<Server::Chat::ChatHandler> > &<range>$L0;
 		// std::shared_ptr<Server::Chat::ChatHandler> *<begin>$L0;
 		// std::shared_ptr<Server::Chat::ChatHandler> *<end>$L0;
 		{
@@ -655,7 +655,7 @@ bool ChangePlayerMuteStatus(Blam::Network::Session *session, __int32 peer, bool 
 	// bool playerInList;
 	// unsigned __int32 ip;
 	{
-		// std::list<unsigned int,std::allocator<unsigned int> > &<range>$L0;
+		// std::list<unsigned int> &<range>$L0;
 		// std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<unsigned int> > > <begin>$L0;
 		// std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<unsigned int> > > <end>$L0;
 		{
@@ -690,7 +690,7 @@ void UnmuteAllPlayers(Blam::Network::Session *session) // 0x10C209E0
 	// static ...; // 0x10C20C30
 	// Blam::Network::Session *session;
 	{
-		// std::list<unsigned int,std::allocator<unsigned int> > &<range>$L0;
+		// std::list<unsigned int> &<range>$L0;
 		// std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<unsigned int> > > <begin>$L0;
 		// std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<unsigned int> > > <end>$L0;
 		{
@@ -749,7 +749,7 @@ std::string GetLogString(Blam::Network::Session *session, __int32 peer, Server::
 	// __int32 peer;
 	// Server::Chat::ChatMessage const &message;
 	// unsigned long long uid;
-	// std::basic_ostringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::ostringstream ss;
 	// long long time;
 	// std::string sender;
 	// __int32 playerIndex;
@@ -775,7 +775,7 @@ void LogMessage(Blam::Network::Session *session, __int32 peer, Server::Chat::Cha
 	// Server::Chat::ChatMessage const &message;
 	// std::filesystem::path parentDirectory;
 	// std::string chatLogFile;
-	// std::basic_ofstream<char,std::char_traits<char> > logFile;
+	// std::ofstream logFile;
 	// std::filesystem::path logFilePath;
 	// Modules::ModuleServer &serverModule;
 	todo("implement");
@@ -846,14 +846,14 @@ char *handleWordFilter(char const *input) // 0x10C255D0
 	// static ...; // 0x10C25A7C
 // $LN30:
 	// char const *input;
-	// std::unordered_set<std::string,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::string> > FilteredWords;
+	// std::unordered_set<std::string> FilteredWords;
 	// std::string FilterReplacementWord;
 	// char *output;
-	// std::unordered_set<std::string,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::string> > FilteredPatterns;
+	// std::unordered_set<std::string> FilteredPatterns;
 	// std::string strInput;
 	// unsigned __int32 len;
 	{
-		// std::unordered_set<std::string,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::string> > &<range>$L0;
+		// std::unordered_set<std::string> &<range>$L0;
 		// std::_List_unchecked_const_iterator<std::_List_val<std::_List_simple_types<std::string> >,std::_Iterator_base0> <begin>$L0;
 		// std::_List_unchecked_const_iterator<std::_List_val<std::_List_simple_types<std::string> >,std::_Iterator_base0> <end>$L0;
 		{
@@ -866,13 +866,13 @@ char *handleWordFilter(char const *input) // 0x10C255D0
 		{
 			// std::_List_unchecked_const_iterator<std::_List_val<std::_List_simple_types<std::string> >,std::_Iterator_base0> <end>$L1;
 			// std::_List_unchecked_const_iterator<std::_List_val<std::_List_simple_types<std::string> >,std::_Iterator_base0> <begin>$L1;
-			// std::unordered_set<std::string,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::string> > &<range>$L1;
+			// std::unordered_set<std::string> &<range>$L1;
 			{
 				// std::string const &pat;
 			}
 		}
 		{
-			// std::basic_regex<char,std::regex_traits<char> > regex;
+			// std::regex regex;
 		}
 	}
 	todo("implement");
@@ -899,7 +899,7 @@ bool HostReceivedMessage(Blam::Network::Session *session, __int32 peer, Server::
 	{
 		// unsigned __int32 ip;
 		{
-			// std::list<unsigned int,std::allocator<unsigned int> > &<range>$L0;
+			// std::list<unsigned int> &<range>$L0;
 			// std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<unsigned int> > > <begin>$L0;
 			// std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<unsigned int> > > <end>$L0;
 			{
@@ -924,7 +924,7 @@ void ClientReceivedMessage(Server::Chat::ChatMessage const &message) // 0x10C1DD
 	// `anonymous-namespace'::ClientReceivedMessage
 	// Server::Chat::ChatMessage const &message;
 	{
-		// std::vector<std::shared_ptr<Server::Chat::ChatHandler>,std::allocator<std::shared_ptr<Server::Chat::ChatHandler> > > &<range>$L0;
+		// std::vector<std::shared_ptr<Server::Chat::ChatHandler> > &<range>$L0;
 		// std::shared_ptr<Server::Chat::ChatHandler> *<begin>$L0;
 		// std::shared_ptr<Server::Chat::ChatHandler> *<end>$L0;
 		{

@@ -146,9 +146,9 @@ using namespace ::Blam;
 
 /* ---------- prototypes */
 
-bool UpdateVoip(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
+bool UpdateVoip(std::vector<std::string> const &Arguments, std::string &returnInfo);
 void RendererStarted(char const *map);
-bool VariableListenToMicrophone(std::vector<std::string,std::allocator<std::string> > const &arguments, std::string &returnInfo);
+bool VariableListenToMicrophone(std::vector<std::string> const &arguments, std::string &returnInfo);
 
 /* ---------- globals */
 
@@ -215,14 +215,14 @@ namespace Modules
 
 /* ---------- private code */
 
-_extern bool _sub_10A25520(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool UpdateVoip(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x10A25520
+_extern bool _sub_10A25520(std::vector<std::string> const &, std::string &);
+bool UpdateVoip(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A25520
 {
 	// `anonymous-namespace'::UpdateVoip
 	// static ...; // 0x10A257F8
 	// static ...; // 0x10A257E0
 	// static ...; // 0x10A257D8
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
 	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
@@ -240,14 +240,14 @@ void RendererStarted(char const *map) // 0x10A24DC0
 	_sub_10A24DC0(map);
 }
 
-_extern bool _sub_10A258C0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableListenToMicrophone(std::vector<std::string,std::allocator<std::string> > const &arguments, std::string &returnInfo) // 0x10A258C0
+_extern bool _sub_10A258C0(std::vector<std::string> const &, std::string &);
+bool VariableListenToMicrophone(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x10A258C0
 {
 	// `anonymous-namespace'::VariableListenToMicrophone
 	// static ...; // 0x10A25A5C
 	// static ...; // 0x10A25A44
 	// static ...; // 0x10A25A3C
-	// std::vector<std::string,std::allocator<std::string> > const &arguments;
+	// std::vector<std::string> const &arguments;
 	// std::string &returnInfo;
 	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
 	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;

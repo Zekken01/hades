@@ -46,7 +46,7 @@ _inline void CEventSink<>::PostEvent() // 0x108315F0
 	mangled_x86(MANGLED_TODO, "?PostEvent@?$CEventSink@$$V@@QAEXXZ");
 	// CEventSink<> *const this;
 	{
-		// std::vector<CEventSink<>::SCallbackEntry,std::allocator<CEventSink<>::SCallbackEntry> > &<range>$L0;
+		// std::vector<CEventSink<>::SCallbackEntry> &<range>$L0;
 		// CEventSink<>::SCallbackEntry *<begin>$L0;
 		// CEventSink<>::SCallbackEntry *<end>$L0;
 		{

@@ -80,7 +80,7 @@ namespace Scripting
 		class HsThreadStorageManager
 		{
 		private:
-			std::unordered_map<int,Scripting::HS::HsThreadStorage,std::hash<int>,std::equal_to<int>,std::allocator<std::pair<int const ,Scripting::HS::HsThreadStorage> > > m_threadStorage; // 0x0
+			std::unordered_map<int,Scripting::HS::HsThreadStorage> m_threadStorage; // 0x0
 			unsigned __int32 m_lastCollectionTime; // 0x28
 		public:
 			HsThreadStorageManager(Scripting::HS::HsThreadStorageManager &);

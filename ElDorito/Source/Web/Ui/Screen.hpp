@@ -72,7 +72,7 @@ namespace Web
 				};
 				public:
 				boost::lockfree::queue<PendingQuery *> m_Queries; // 0x8
-				std::unordered_map<std::string,std::function<enum Web::Browser::Bridge::QueryError __cdecl(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &,std::string *)>,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::pair<std::string const ,std::function<enum Web::Browser::Bridge::QueryError __cdecl(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &,std::string *)> > > > m_Methods; // 0x90
+				std::unordered_map<std::string,std::function<enum Web::Browser::Bridge::QueryError __cdecl(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &,std::string *)> > m_Methods; // 0x90
 			public:
 				WebRendererQueryHandler();
 				virtual bool OnQuery(scoped_refptr<CefBrowser> browser, scoped_refptr<CefFrame> frame, long long queryId, CefStringBase<CefStringTraitsUTF16> const &request, bool persistent, scoped_refptr<CefMessageRouterBrowserSide::Callback> callback);

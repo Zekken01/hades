@@ -84,7 +84,7 @@ private:
 	__int32 m_queryModsResult; // 0xBC
 	__int32 m_addressLookupResult; // 0xC0
 	unsigned __int32 m_addressLookupAddress; // 0xC4
-	std::vector<SServerConnectState::SRequiredMod,std::allocator<SServerConnectState::SRequiredMod> > m_requiredMods; // 0xC8
+	std::vector<SServerConnectState::SRequiredMod> m_requiredMods; // 0xC8
 public:
 	_inline CServerConnectStateHandler_QueryServer(); /* compiler_generated() */
 	_inline ~CServerConnectStateHandler_QueryServer(); /* compiler_generated() */

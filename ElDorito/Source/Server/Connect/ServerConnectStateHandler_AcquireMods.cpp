@@ -277,14 +277,14 @@ void CServerConnectStateHandler_AcquireMods::OnEnter() // 0x109084C0
 	// CServerConnectStateHandler_AcquireMods *const this;
 	// SServerConnectState &state;
 	{
-		// std::vector<SServerConnectState::SRequiredMod,std::allocator<SServerConnectState::SRequiredMod> > &<range>$L0;
+		// std::vector<SServerConnectState::SRequiredMod> &<range>$L0;
 		// SServerConnectState::SRequiredMod *<begin>$L0;
 		// SServerConnectState::SRequiredMod *<end>$L0;
 		{
 			// SServerConnectState::SRequiredMod &mod;
 		}
 	}
-	// function call : void (std::vector<SServerConnectState::SRequiredMod *,std::allocator<SServerConnectState::SRequiredMod *> > const &)
+	// function call : void (std::vector<SServerConnectState::SRequiredMod *> const &)
 	todo("implement");
 	_sub_109084C0(this);
 }

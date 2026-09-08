@@ -182,7 +182,7 @@ bool SendVotingMessagePacket(Blam::Network::Session *session, __int32 peer, Serv
 namespace hades_file_local
 {
 	extern std::shared_ptr<Patches::CustomPackets::PacketSender<Server::Voting::VotingMessage> > VotingPacketSender; // 0x1246B6A8
-	extern std::vector<std::shared_ptr<Server::Voting::VotingMessageHandler>,std::allocator<std::shared_ptr<Server::Voting::VotingMessageHandler> > > votingMessageHandlers; // 0x1246B698
+	extern std::vector<std::shared_ptr<Server::Voting::VotingMessageHandler> > votingMessageHandlers; // 0x1246B698
 }
 using namespace hades_file_local;
 namespace Server
@@ -332,7 +332,7 @@ void ReceivedVotingMessage(Blam::Network::Session *session, __int32 peer, Server
 		// std::string name;
 	}
 	{
-		// std::vector<std::shared_ptr<Server::Voting::VotingMessageHandler>,std::allocator<std::shared_ptr<Server::Voting::VotingMessageHandler> > > &<range>$L0;
+		// std::vector<std::shared_ptr<Server::Voting::VotingMessageHandler> > &<range>$L0;
 		// std::shared_ptr<Server::Voting::VotingMessageHandler> *<begin>$L0;
 		// std::shared_ptr<Server::Voting::VotingMessageHandler> *<end>$L0;
 		{

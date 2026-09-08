@@ -33,8 +33,8 @@ namespace Web
 	{
 		struct AssetService
 		{
-			static std::string FindAssetInModVfs(std::string const &modIdentifier, std::string const &path, std::vector<std::string_view,std::allocator<std::string_view> > const &fileTypes);
-			static std::string FindAssetInBaseDir(std::string const &path, std::vector<std::string_view,std::allocator<std::string_view> > const &fileTypes);
+			static std::string FindAssetInModVfs(std::string const &modIdentifier, std::string const &path, std::vector<std::string_view> const &fileTypes);
+			static std::string FindAssetInBaseDir(std::string const &path, std::vector<std::string_view> const &fileTypes);
 		};
 		static_assert(sizeof(Web::Ui::AssetService) == 1, "Invalid Web::Ui::AssetService size");
 	}

@@ -39,9 +39,9 @@ namespace Server
 	{
 		struct VotingJson
 		{
-			std::vector<Server::Voting::HaloType,std::allocator<Server::Voting::HaloType> > types; // 0x0
-			std::vector<Server::Voting::HaloMap,std::allocator<Server::Voting::HaloMap> > maps; // 0x10
-			std::vector<Server::Voting::PlaylistItem,std::allocator<Server::Voting::PlaylistItem> > vetoPlaylist; // 0x20
+			std::vector<Server::Voting::HaloType> types; // 0x0
+			std::vector<Server::Voting::HaloMap> maps; // 0x10
+			std::vector<Server::Voting::PlaylistItem> vetoPlaylist; // 0x20
 			VotingJson(Server::Voting::VotingJson &); /* compiler_generated() */
 			VotingJson(Server::Voting::VotingJson const &); /* compiler_generated() */
 			_inline VotingJson(); /* compiler_generated() */
@@ -60,7 +60,7 @@ namespace Server
 	namespace Voting
 	{
 		extern bool LoadVotingJson(std::string const &filename, Server::Voting::VotingJson &voting);
-		extern bool LoadPlaylistItem(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &c, Server::Voting::PlaylistItem &item, std::vector<Server::Voting::HaloType,std::allocator<Server::Voting::HaloType> > const &types);
+		extern bool LoadPlaylistItem(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &c, Server::Voting::PlaylistItem &item, std::vector<Server::Voting::HaloType> const &types);
 		extern bool LoadHaloMap(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &mapObject, std::string const &modPack, Server::Voting::HaloMap &map);
 		extern bool LoadHaloType(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &c, Server::Voting::HaloType &ht);
 	}

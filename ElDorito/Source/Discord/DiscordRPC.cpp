@@ -289,7 +289,7 @@ void UpdateRichPresence() // 0x109533C0
 		// __int32 players;
 		// s_map_variant *map;
 		{
-			// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+			// std::stringstream ss;
 		}
 	}
 	todo("implement");

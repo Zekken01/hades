@@ -38,8 +38,8 @@ public:
 	static _inline void NopFill(Pointer offset, unsigned __int32 length);
 private:
 	unsigned __int32 Offset; // 0x0
-	std::vector<unsigned char,std::allocator<unsigned char> > Data; // 0x4
-	std::vector<unsigned char,std::allocator<unsigned char> > Orig; // 0x14
+	std::vector<unsigned char> Data; // 0x4
+	std::vector<unsigned char> Orig; // 0x14
 public:
 	_inline ~Patch(); /* compiler_generated() */
 	Patch &operator=(Patch &); /* compiler_generated() */
@@ -62,7 +62,7 @@ private:
 	unsigned __int32 Offset; // 0x0
 	void *DestFunc; // 0x4
 	__int32 const Flags; // 0x8
-	std::vector<unsigned char,std::allocator<unsigned char> > Orig; // 0xC
+	std::vector<unsigned char> Orig; // 0xC
 public:
 	_inline ~Hook(); /* compiler_generated() */
 };

@@ -124,47 +124,47 @@ namespace Patches
 
 /* ---------- prototypes */
 
-bool VariableSettingsAntialiasingUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo);
-bool VariableSettingsAutoCenteringUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo);
-bool VariableSettingsBrightnessUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo);
-bool VariableSettingsContrastUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo);
-bool VariableSettingsDetailsQualityUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo);
-bool VariableSettingsDisplayHintsUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo);
-bool VariableSettingsEffectsQualityUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo);
-bool VariableSettingsFullscreenUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo);
-bool VariableSettingsHUDShakeUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo);
-bool VariableSettingsInvertLookUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo);
-bool VariableSettingsInvertMouseUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo);
-bool VariableSettingsLightingQualityUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo);
-bool VariableSettingsLookSensitivityUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo);
-bool VariableSettingsMotionBlurUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo);
-bool VariableSettingsMotionBlurStrengthUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo);
-bool VariableSettingsSsaoUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo);
-bool VariableSettingsMotionBlurAlwaysUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo);
-bool VariableSettingsMouseAccelerationUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo);
-bool VariableSettingsMouseSensitivityHorizontalUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo);
-bool VariableSettingsMouseSensitivityVerticalUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo);
-bool VariableSettingsMouseSensitivityVehicleHorizontalUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo);
-bool VariableSettingsMouseSensitivityVehicleVerticalUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo);
-bool VariableSettingsPlayerMarkerColorsUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo);
-bool VariableSettingsPostprocessingQualityUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo);
-bool VariableSettingsShadowQualityUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo);
-bool VariableSettingsShadowResolutionUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo);
-bool VariableSettingsTextureFilteringQualityUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo);
-bool VariableSettingsTextureResolutionUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo);
-bool VariableSettingsToggleCrouchUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo);
-bool VariableSettingsVSyncUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo);
-bool VariableSettingsScreenResolutionUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo);
+bool VariableSettingsAntialiasingUpdate(std::vector<std::string> const &args, std::string &returnInfo);
+bool VariableSettingsAutoCenteringUpdate(std::vector<std::string> const &args, std::string &returnInfo);
+bool VariableSettingsBrightnessUpdate(std::vector<std::string> const &args, std::string &returnInfo);
+bool VariableSettingsContrastUpdate(std::vector<std::string> const &args, std::string &returnInfo);
+bool VariableSettingsDetailsQualityUpdate(std::vector<std::string> const &args, std::string &returnInfo);
+bool VariableSettingsDisplayHintsUpdate(std::vector<std::string> const &args, std::string &returnInfo);
+bool VariableSettingsEffectsQualityUpdate(std::vector<std::string> const &args, std::string &returnInfo);
+bool VariableSettingsFullscreenUpdate(std::vector<std::string> const &args, std::string &returnInfo);
+bool VariableSettingsHUDShakeUpdate(std::vector<std::string> const &args, std::string &returnInfo);
+bool VariableSettingsInvertLookUpdate(std::vector<std::string> const &args, std::string &returnInfo);
+bool VariableSettingsInvertMouseUpdate(std::vector<std::string> const &args, std::string &returnInfo);
+bool VariableSettingsLightingQualityUpdate(std::vector<std::string> const &args, std::string &returnInfo);
+bool VariableSettingsLookSensitivityUpdate(std::vector<std::string> const &args, std::string &returnInfo);
+bool VariableSettingsMotionBlurUpdate(std::vector<std::string> const &args, std::string &returnInfo);
+bool VariableSettingsMotionBlurStrengthUpdate(std::vector<std::string> const &args, std::string &returnInfo);
+bool VariableSettingsSsaoUpdate(std::vector<std::string> const &args, std::string &returnInfo);
+bool VariableSettingsMotionBlurAlwaysUpdate(std::vector<std::string> const &args, std::string &returnInfo);
+bool VariableSettingsMouseAccelerationUpdate(std::vector<std::string> const &args, std::string &returnInfo);
+bool VariableSettingsMouseSensitivityHorizontalUpdate(std::vector<std::string> const &args, std::string &returnInfo);
+bool VariableSettingsMouseSensitivityVerticalUpdate(std::vector<std::string> const &args, std::string &returnInfo);
+bool VariableSettingsMouseSensitivityVehicleHorizontalUpdate(std::vector<std::string> const &args, std::string &returnInfo);
+bool VariableSettingsMouseSensitivityVehicleVerticalUpdate(std::vector<std::string> const &args, std::string &returnInfo);
+bool VariableSettingsPlayerMarkerColorsUpdate(std::vector<std::string> const &args, std::string &returnInfo);
+bool VariableSettingsPostprocessingQualityUpdate(std::vector<std::string> const &args, std::string &returnInfo);
+bool VariableSettingsShadowQualityUpdate(std::vector<std::string> const &args, std::string &returnInfo);
+bool VariableSettingsShadowResolutionUpdate(std::vector<std::string> const &args, std::string &returnInfo);
+bool VariableSettingsTextureFilteringQualityUpdate(std::vector<std::string> const &args, std::string &returnInfo);
+bool VariableSettingsTextureResolutionUpdate(std::vector<std::string> const &args, std::string &returnInfo);
+bool VariableSettingsToggleCrouchUpdate(std::vector<std::string> const &args, std::string &returnInfo);
+bool VariableSettingsVSyncUpdate(std::vector<std::string> const &args, std::string &returnInfo);
+bool VariableSettingsScreenResolutionUpdate(std::vector<std::string> const &args, std::string &returnInfo);
 bool SoundSystemInitialized();
-bool VariableSettingsMasterVolumeUpdated(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo);
-bool VariableSettingsSfxVolumeUpdated(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo);
-bool VariableSettingsMainMenuMusicVolumeUpdated(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo);
-bool VariableSettingsMusicVolumeUpdated(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo);
-bool VariableAudioOutputDeviceUpdated(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo);
-bool CommandAudioOutputDeviceList(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo);
-bool VariableSettingsAnisotropicFilteringUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo);
-bool VariableSettingsSubtitlesUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo);
-bool CommandResetSettings(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo);
+bool VariableSettingsMasterVolumeUpdated(std::vector<std::string> const &args, std::string &returnInfo);
+bool VariableSettingsSfxVolumeUpdated(std::vector<std::string> const &args, std::string &returnInfo);
+bool VariableSettingsMainMenuMusicVolumeUpdated(std::vector<std::string> const &args, std::string &returnInfo);
+bool VariableSettingsMusicVolumeUpdated(std::vector<std::string> const &args, std::string &returnInfo);
+bool VariableAudioOutputDeviceUpdated(std::vector<std::string> const &args, std::string &returnInfo);
+bool CommandAudioOutputDeviceList(std::vector<std::string> const &args, std::string &returnInfo);
+bool VariableSettingsAnisotropicFilteringUpdate(std::vector<std::string> const &args, std::string &returnInfo);
+bool VariableSettingsSubtitlesUpdate(std::vector<std::string> const &args, std::string &returnInfo);
+bool CommandResetSettings(std::vector<std::string> const &args, std::string &returnInfo);
 void UpdateScreenResolution();
 bool TryParseInt(std::string const &str, __int32 *value);
 bool TryParseResolutionString(std::string const &str, __int32 *width, __int32 *height);
@@ -239,15 +239,15 @@ namespace Modules
 
 /* ---------- private code */
 
-_extern bool _sub_10A1D1E0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableSettingsAntialiasingUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo) // 0x10A1D1E0
+_extern bool _sub_10A1D1E0(std::vector<std::string> const &, std::string &);
+bool VariableSettingsAntialiasingUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1D1E0
 {
 	// `anonymous-namespace'::VariableSettingsAntialiasingUpdate
 	// static ...; // 0x10A1D3D4
 	// static ...; // 0x10A1D3CC
-	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::vector<std::string> const &args;
 	// std::string &returnInfo;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// bool statusBool;
 	// unsigned long value;
 	// function call : __int32 (*)(bool)
@@ -256,15 +256,15 @@ bool VariableSettingsAntialiasingUpdate(std::vector<std::string,std::allocator<s
 	return __result;
 }
 
-_extern bool _sub_10A1D470(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableSettingsAutoCenteringUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo) // 0x10A1D470
+_extern bool _sub_10A1D470(std::vector<std::string> const &, std::string &);
+bool VariableSettingsAutoCenteringUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1D470
 {
 	// `anonymous-namespace'::VariableSettingsAutoCenteringUpdate
 	// static ...; // 0x10A1D60C
 	// static ...; // 0x10A1D604
-	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::vector<std::string> const &args;
 	// std::string &returnInfo;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// bool statusBool;
 	// unsigned long value;
 	// function call : __int32 (*)(bool)
@@ -273,30 +273,30 @@ bool VariableSettingsAutoCenteringUpdate(std::vector<std::string,std::allocator<
 	return __result;
 }
 
-_extern bool _sub_10A1D690(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableSettingsBrightnessUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo) // 0x10A1D690
+_extern bool _sub_10A1D690(std::vector<std::string> const &, std::string &);
+bool VariableSettingsBrightnessUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1D690
 {
 	// `anonymous-namespace'::VariableSettingsBrightnessUpdate
 	// static ...; // 0x10A1D7D8
 	// static ...; // 0x10A1D7D0
-	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::vector<std::string> const &args;
 	// std::string &returnInfo;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// unsigned long value;
 	todo("implement");
 	bool __result = _sub_10A1D690(args, returnInfo);
 	return __result;
 }
 
-_extern bool _sub_10A1D840(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableSettingsContrastUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo) // 0x10A1D840
+_extern bool _sub_10A1D840(std::vector<std::string> const &, std::string &);
+bool VariableSettingsContrastUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1D840
 {
 	// `anonymous-namespace'::VariableSettingsContrastUpdate
 	// static ...; // 0x10A1D9A0
 	// static ...; // 0x10A1D998
-	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::vector<std::string> const &args;
 	// std::string &returnInfo;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// unsigned long value;
 	// function call : __int32 (*)(__int32)
 	todo("implement");
@@ -304,16 +304,16 @@ bool VariableSettingsContrastUpdate(std::vector<std::string,std::allocator<std::
 	return __result;
 }
 
-_extern bool _sub_10A1DA10(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableSettingsDetailsQualityUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo) // 0x10A1DA10
+_extern bool _sub_10A1DA10(std::vector<std::string> const &, std::string &);
+bool VariableSettingsDetailsQualityUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1DA10
 {
 	// `anonymous-namespace'::VariableSettingsDetailsQualityUpdate
 	// static ...; // 0x10A1DC54
 	// static ...; // 0x10A1DC3C
 	// static ...; // 0x10A1DC34
-	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::vector<std::string> const &args;
 	// std::string &returnInfo;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// std::string value;
 	// __int32 intValue;
 	// function call : __int32 (*)(__int32)
@@ -322,15 +322,15 @@ bool VariableSettingsDetailsQualityUpdate(std::vector<std::string,std::allocator
 	return __result;
 }
 
-_extern bool _sub_10A1DCF0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableSettingsDisplayHintsUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo) // 0x10A1DCF0
+_extern bool _sub_10A1DCF0(std::vector<std::string> const &, std::string &);
+bool VariableSettingsDisplayHintsUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1DCF0
 {
 	// `anonymous-namespace'::VariableSettingsDisplayHintsUpdate
 	// static ...; // 0x10A1DE8C
 	// static ...; // 0x10A1DE84
-	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::vector<std::string> const &args;
 	// std::string &returnInfo;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// bool statusBool;
 	// unsigned long value;
 	// function call : __int32 (*)(bool)
@@ -339,16 +339,16 @@ bool VariableSettingsDisplayHintsUpdate(std::vector<std::string,std::allocator<s
 	return __result;
 }
 
-_extern bool _sub_10A1DF10(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableSettingsEffectsQualityUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo) // 0x10A1DF10
+_extern bool _sub_10A1DF10(std::vector<std::string> const &, std::string &);
+bool VariableSettingsEffectsQualityUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1DF10
 {
 	// `anonymous-namespace'::VariableSettingsEffectsQualityUpdate
 	// static ...; // 0x10A1E15C
 	// static ...; // 0x10A1E144
 	// static ...; // 0x10A1E13C
-	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::vector<std::string> const &args;
 	// std::string &returnInfo;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// std::string value;
 	// __int32 intValue;
 	// function call : __int32 (*)(__int32)
@@ -357,16 +357,16 @@ bool VariableSettingsEffectsQualityUpdate(std::vector<std::string,std::allocator
 	return __result;
 }
 
-_extern bool _sub_10A1E200(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableSettingsFullscreenUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo) // 0x10A1E200
+_extern bool _sub_10A1E200(std::vector<std::string> const &, std::string &);
+bool VariableSettingsFullscreenUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1E200
 {
 	// `anonymous-namespace'::VariableSettingsFullscreenUpdate
 	// static ...; // 0x10A1E3A8
 	// static ...; // 0x10A1E3A0
-	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::vector<std::string> const &args;
 	// std::string &returnInfo;
 	// Modules::ModuleSettings const &moduleSettings;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// bool statusBool;
 	// unsigned long value;
 	// function call : __int32 (*)(__int32)
@@ -375,15 +375,15 @@ bool VariableSettingsFullscreenUpdate(std::vector<std::string,std::allocator<std
 	return __result;
 }
 
-_extern bool _sub_10A1E430(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableSettingsHUDShakeUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo) // 0x10A1E430
+_extern bool _sub_10A1E430(std::vector<std::string> const &, std::string &);
+bool VariableSettingsHUDShakeUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1E430
 {
 	// `anonymous-namespace'::VariableSettingsHUDShakeUpdate
 	// static ...; // 0x10A1E5CC
 	// static ...; // 0x10A1E5C4
-	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::vector<std::string> const &args;
 	// std::string &returnInfo;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// bool statusBool;
 	// unsigned long value;
 	// function call : __int32 (*)(bool)
@@ -392,15 +392,15 @@ bool VariableSettingsHUDShakeUpdate(std::vector<std::string,std::allocator<std::
 	return __result;
 }
 
-_extern bool _sub_10A1E650(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableSettingsInvertLookUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo) // 0x10A1E650
+_extern bool _sub_10A1E650(std::vector<std::string> const &, std::string &);
+bool VariableSettingsInvertLookUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1E650
 {
 	// `anonymous-namespace'::VariableSettingsInvertLookUpdate
 	// static ...; // 0x10A1E7EC
 	// static ...; // 0x10A1E7E4
-	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::vector<std::string> const &args;
 	// std::string &returnInfo;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// bool statusBool;
 	// unsigned long value;
 	// function call : __int32 (*)(bool)
@@ -409,15 +409,15 @@ bool VariableSettingsInvertLookUpdate(std::vector<std::string,std::allocator<std
 	return __result;
 }
 
-_extern bool _sub_10A1E870(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableSettingsInvertMouseUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo) // 0x10A1E870
+_extern bool _sub_10A1E870(std::vector<std::string> const &, std::string &);
+bool VariableSettingsInvertMouseUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1E870
 {
 	// `anonymous-namespace'::VariableSettingsInvertMouseUpdate
 	// static ...; // 0x10A1EA0C
 	// static ...; // 0x10A1EA04
-	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::vector<std::string> const &args;
 	// std::string &returnInfo;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// bool statusBool;
 	// unsigned long value;
 	// function call : __int32 (*)(bool)
@@ -426,16 +426,16 @@ bool VariableSettingsInvertMouseUpdate(std::vector<std::string,std::allocator<st
 	return __result;
 }
 
-_extern bool _sub_10A1EA90(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableSettingsLightingQualityUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo) // 0x10A1EA90
+_extern bool _sub_10A1EA90(std::vector<std::string> const &, std::string &);
+bool VariableSettingsLightingQualityUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1EA90
 {
 	// `anonymous-namespace'::VariableSettingsLightingQualityUpdate
 	// static ...; // 0x10A1ECD4
 	// static ...; // 0x10A1ECBC
 	// static ...; // 0x10A1ECB4
-	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::vector<std::string> const &args;
 	// std::string &returnInfo;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// std::string value;
 	// __int32 intValue;
 	// function call : __int32 (*)(__int32)
@@ -444,15 +444,15 @@ bool VariableSettingsLightingQualityUpdate(std::vector<std::string,std::allocato
 	return __result;
 }
 
-_extern bool _sub_10A1ED70(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableSettingsLookSensitivityUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo) // 0x10A1ED70
+_extern bool _sub_10A1ED70(std::vector<std::string> const &, std::string &);
+bool VariableSettingsLookSensitivityUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1ED70
 {
 	// `anonymous-namespace'::VariableSettingsLookSensitivityUpdate
 	// static ...; // 0x10A1EED0
 	// static ...; // 0x10A1EEC8
-	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::vector<std::string> const &args;
 	// std::string &returnInfo;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// unsigned long value;
 	// function call : __int32 (*)(__int32)
 	todo("implement");
@@ -460,15 +460,15 @@ bool VariableSettingsLookSensitivityUpdate(std::vector<std::string,std::allocato
 	return __result;
 }
 
-_extern bool _sub_10A1F6D0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableSettingsMotionBlurUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo) // 0x10A1F6D0
+_extern bool _sub_10A1F6D0(std::vector<std::string> const &, std::string &);
+bool VariableSettingsMotionBlurUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1F6D0
 {
 	// `anonymous-namespace'::VariableSettingsMotionBlurUpdate
 	// static ...; // 0x10A1F86C
 	// static ...; // 0x10A1F864
-	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::vector<std::string> const &args;
 	// std::string &returnInfo;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// bool statusBool;
 	// unsigned long value;
 	// function call : __int32 (*)(bool)
@@ -477,60 +477,60 @@ bool VariableSettingsMotionBlurUpdate(std::vector<std::string,std::allocator<std
 	return __result;
 }
 
-_extern bool _sub_10A1F530(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableSettingsMotionBlurStrengthUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo) // 0x10A1F530
+_extern bool _sub_10A1F530(std::vector<std::string> const &, std::string &);
+bool VariableSettingsMotionBlurStrengthUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1F530
 {
 	// `anonymous-namespace'::VariableSettingsMotionBlurStrengthUpdate
 	// static ...; // 0x10A1F668
 	// static ...; // 0x10A1F660
-	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::vector<std::string> const &args;
 	// std::string &returnInfo;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// float value;
 	todo("implement");
 	bool __result = _sub_10A1F530(args, returnInfo);
 	return __result;
 }
 
-_extern bool _sub_10A213B0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableSettingsSsaoUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo) // 0x10A213B0
+_extern bool _sub_10A213B0(std::vector<std::string> const &, std::string &);
+bool VariableSettingsSsaoUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A213B0
 {
 	// `anonymous-namespace'::VariableSettingsSsaoUpdate
 	// static ...; // 0x10A214F4
 	// static ...; // 0x10A214EC
-	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::vector<std::string> const &args;
 	// std::string &returnInfo;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// __int32 value;
 	todo("implement");
 	bool __result = _sub_10A213B0(args, returnInfo);
 	return __result;
 }
 
-_extern bool _sub_10A1F340(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableSettingsMotionBlurAlwaysUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo) // 0x10A1F340
+_extern bool _sub_10A1F340(std::vector<std::string> const &, std::string &);
+bool VariableSettingsMotionBlurAlwaysUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1F340
 {
 	// `anonymous-namespace'::VariableSettingsMotionBlurAlwaysUpdate
 	// static ...; // 0x10A1F4BC
 	// static ...; // 0x10A1F4B4
-	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::vector<std::string> const &args;
 	// std::string &returnInfo;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// bool value;
 	todo("implement");
 	bool __result = _sub_10A1F340(args, returnInfo);
 	return __result;
 }
 
-_extern bool _sub_10A1F8F0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableSettingsMouseAccelerationUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo) // 0x10A1F8F0
+_extern bool _sub_10A1F8F0(std::vector<std::string> const &, std::string &);
+bool VariableSettingsMouseAccelerationUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1F8F0
 {
 	// `anonymous-namespace'::VariableSettingsMouseAccelerationUpdate
 	// static ...; // 0x10A1FA50
 	// static ...; // 0x10A1FA48
-	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::vector<std::string> const &args;
 	// std::string &returnInfo;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// unsigned long value;
 	// function call : __int32 (*)(__int32)
 	todo("implement");
@@ -538,15 +538,15 @@ bool VariableSettingsMouseAccelerationUpdate(std::vector<std::string,std::alloca
 	return __result;
 }
 
-_extern bool _sub_10A1FAC0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableSettingsMouseSensitivityHorizontalUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo) // 0x10A1FAC0
+_extern bool _sub_10A1FAC0(std::vector<std::string> const &, std::string &);
+bool VariableSettingsMouseSensitivityHorizontalUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1FAC0
 {
 	// `anonymous-namespace'::VariableSettingsMouseSensitivityHorizontalUpdate
 	// static ...; // 0x10A1FC20
 	// static ...; // 0x10A1FC18
-	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::vector<std::string> const &args;
 	// std::string &returnInfo;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// unsigned long value;
 	// function call : __int32 (*)(__int32)
 	todo("implement");
@@ -554,15 +554,15 @@ bool VariableSettingsMouseSensitivityHorizontalUpdate(std::vector<std::string,st
 	return __result;
 }
 
-_extern bool _sub_10A20030(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableSettingsMouseSensitivityVerticalUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo) // 0x10A20030
+_extern bool _sub_10A20030(std::vector<std::string> const &, std::string &);
+bool VariableSettingsMouseSensitivityVerticalUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A20030
 {
 	// `anonymous-namespace'::VariableSettingsMouseSensitivityVerticalUpdate
 	// static ...; // 0x10A20190
 	// static ...; // 0x10A20188
-	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::vector<std::string> const &args;
 	// std::string &returnInfo;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// unsigned long value;
 	// function call : __int32 (*)(__int32)
 	todo("implement");
@@ -570,15 +570,15 @@ bool VariableSettingsMouseSensitivityVerticalUpdate(std::vector<std::string,std:
 	return __result;
 }
 
-_extern bool _sub_10A1FC90(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableSettingsMouseSensitivityVehicleHorizontalUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo) // 0x10A1FC90
+_extern bool _sub_10A1FC90(std::vector<std::string> const &, std::string &);
+bool VariableSettingsMouseSensitivityVehicleHorizontalUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1FC90
 {
 	// `anonymous-namespace'::VariableSettingsMouseSensitivityVehicleHorizontalUpdate
 	// static ...; // 0x10A1FDF0
 	// static ...; // 0x10A1FDE8
-	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::vector<std::string> const &args;
 	// std::string &returnInfo;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// unsigned long value;
 	// function call : __int32 (*)(__int32)
 	todo("implement");
@@ -586,15 +586,15 @@ bool VariableSettingsMouseSensitivityVehicleHorizontalUpdate(std::vector<std::st
 	return __result;
 }
 
-_extern bool _sub_10A1FE60(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableSettingsMouseSensitivityVehicleVerticalUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo) // 0x10A1FE60
+_extern bool _sub_10A1FE60(std::vector<std::string> const &, std::string &);
+bool VariableSettingsMouseSensitivityVehicleVerticalUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1FE60
 {
 	// `anonymous-namespace'::VariableSettingsMouseSensitivityVehicleVerticalUpdate
 	// static ...; // 0x10A1FFC0
 	// static ...; // 0x10A1FFB8
-	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::vector<std::string> const &args;
 	// std::string &returnInfo;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// unsigned long value;
 	// function call : __int32 (*)(__int32)
 	todo("implement");
@@ -602,16 +602,16 @@ bool VariableSettingsMouseSensitivityVehicleVerticalUpdate(std::vector<std::stri
 	return __result;
 }
 
-_extern bool _sub_10A20420(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableSettingsPlayerMarkerColorsUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo) // 0x10A20420
+_extern bool _sub_10A20420(std::vector<std::string> const &, std::string &);
+bool VariableSettingsPlayerMarkerColorsUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A20420
 {
 	// `anonymous-namespace'::VariableSettingsPlayerMarkerColorsUpdate
 	// static ...; // 0x10A20694
 	// static ...; // 0x10A2067C
 	// static ...; // 0x10A20674
-	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::vector<std::string> const &args;
 	// std::string &returnInfo;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// std::string value;
 	// __int32 intValue;
 	// function call : __int32 (*)(__int32)
@@ -621,16 +621,16 @@ bool VariableSettingsPlayerMarkerColorsUpdate(std::vector<std::string,std::alloc
 	return __result;
 }
 
-_extern bool _sub_10A20740(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableSettingsPostprocessingQualityUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo) // 0x10A20740
+_extern bool _sub_10A20740(std::vector<std::string> const &, std::string &);
+bool VariableSettingsPostprocessingQualityUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A20740
 {
 	// `anonymous-namespace'::VariableSettingsPostprocessingQualityUpdate
 	// static ...; // 0x10A20984
 	// static ...; // 0x10A2096C
 	// static ...; // 0x10A20964
-	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::vector<std::string> const &args;
 	// std::string &returnInfo;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// std::string value;
 	// __int32 intValue;
 	// function call : __int32 (*)(__int32)
@@ -639,16 +639,16 @@ bool VariableSettingsPostprocessingQualityUpdate(std::vector<std::string,std::al
 	return __result;
 }
 
-_extern bool _sub_10A20E60(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableSettingsShadowQualityUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo) // 0x10A20E60
+_extern bool _sub_10A20E60(std::vector<std::string> const &, std::string &);
+bool VariableSettingsShadowQualityUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A20E60
 {
 	// `anonymous-namespace'::VariableSettingsShadowQualityUpdate
 	// static ...; // 0x10A210A4
 	// static ...; // 0x10A2108C
 	// static ...; // 0x10A21084
-	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::vector<std::string> const &args;
 	// std::string &returnInfo;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// std::string value;
 	// __int32 intValue;
 	// function call : __int32 (*)(__int32)
@@ -657,34 +657,34 @@ bool VariableSettingsShadowQualityUpdate(std::vector<std::string,std::allocator<
 	return __result;
 }
 
-_extern bool _sub_10A21140(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableSettingsShadowResolutionUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo) // 0x10A21140
+_extern bool _sub_10A21140(std::vector<std::string> const &, std::string &);
+bool VariableSettingsShadowResolutionUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A21140
 {
 	// `anonymous-namespace'::VariableSettingsShadowResolutionUpdate
 	// static ...; // 0x10A2131C
 	// static ...; // 0x10A21314
-	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::vector<std::string> const &args;
 	// std::string &returnInfo;
 	// long const shadow_texture_resolution;
 	// s_surface_group_description *shadow_surface;
 	// s_surface_group_description *shadow_color_surface;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// unsigned long value;
 	todo("implement");
 	bool __result = _sub_10A21140(args, returnInfo);
 	return __result;
 }
 
-_extern bool _sub_10A215E0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableSettingsTextureFilteringQualityUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo) // 0x10A215E0
+_extern bool _sub_10A215E0(std::vector<std::string> const &, std::string &);
+bool VariableSettingsTextureFilteringQualityUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A215E0
 {
 	// `anonymous-namespace'::VariableSettingsTextureFilteringQualityUpdate
 	// static ...; // 0x10A21828
 	// static ...; // 0x10A21810
 	// static ...; // 0x10A21808
-	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::vector<std::string> const &args;
 	// std::string &returnInfo;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// std::string value;
 	// __int32 intValue;
 	// function call : __int32 (*)(__int32)
@@ -693,16 +693,16 @@ bool VariableSettingsTextureFilteringQualityUpdate(std::vector<std::string,std::
 	return __result;
 }
 
-_extern bool _sub_10A218D0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableSettingsTextureResolutionUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo) // 0x10A218D0
+_extern bool _sub_10A218D0(std::vector<std::string> const &, std::string &);
+bool VariableSettingsTextureResolutionUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A218D0
 {
 	// `anonymous-namespace'::VariableSettingsTextureResolutionUpdate
 	// static ...; // 0x10A21B18
 	// static ...; // 0x10A21B00
 	// static ...; // 0x10A21AF8
-	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::vector<std::string> const &args;
 	// std::string &returnInfo;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// std::string value;
 	// __int32 intValue;
 	// function call : __int32 (*)(__int32)
@@ -711,15 +711,15 @@ bool VariableSettingsTextureResolutionUpdate(std::vector<std::string,std::alloca
 	return __result;
 }
 
-_extern bool _sub_10A21BC0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableSettingsToggleCrouchUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo) // 0x10A21BC0
+_extern bool _sub_10A21BC0(std::vector<std::string> const &, std::string &);
+bool VariableSettingsToggleCrouchUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A21BC0
 {
 	// `anonymous-namespace'::VariableSettingsToggleCrouchUpdate
 	// static ...; // 0x10A21D60
 	// static ...; // 0x10A21D58
-	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::vector<std::string> const &args;
 	// std::string &returnInfo;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// bool statusBool;
 	// unsigned long value;
 	// function call : __int32 (*)(__int32)
@@ -728,15 +728,15 @@ bool VariableSettingsToggleCrouchUpdate(std::vector<std::string,std::allocator<s
 	return __result;
 }
 
-_extern bool _sub_10A21DE0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableSettingsVSyncUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo) // 0x10A21DE0
+_extern bool _sub_10A21DE0(std::vector<std::string> const &, std::string &);
+bool VariableSettingsVSyncUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A21DE0
 {
 	// `anonymous-namespace'::VariableSettingsVSyncUpdate
 	// static ...; // 0x10A21F84
 	// static ...; // 0x10A21F7C
-	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::vector<std::string> const &args;
 	// std::string &returnInfo;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// bool statusBool;
 	// unsigned long value;
 	// function call : __int32 (*)(__int32)
@@ -745,8 +745,8 @@ bool VariableSettingsVSyncUpdate(std::vector<std::string,std::allocator<std::str
 	return __result;
 }
 
-_extern bool _sub_10A20A20(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableSettingsScreenResolutionUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo) // 0x10A20A20
+_extern bool _sub_10A20A20(std::vector<std::string> const &, std::string &);
+bool VariableSettingsScreenResolutionUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A20A20
 {
 	// `anonymous-namespace'::VariableSettingsScreenResolutionUpdate
 	// static ...; // 0x10A20BF6
@@ -754,10 +754,10 @@ bool VariableSettingsScreenResolutionUpdate(std::vector<std::string,std::allocat
 	// static ...; // 0x10A20BEC
 	// static ...; // 0x10A20BBC
 	// static ...; // 0x10A20BB4
-	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::vector<std::string> const &args;
 	// std::string &returnInfo;
 	// Modules::ModuleSettings const &moduleSettings;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// __int32 width;
 	// std::string value;
 	// __int32 height;
@@ -776,15 +776,15 @@ bool SoundSystemInitialized() // 0x10A1C910
 	return __result;
 }
 
-_extern bool _sub_10A1F160(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableSettingsMasterVolumeUpdated(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo) // 0x10A1F160
+_extern bool _sub_10A1F160(std::vector<std::string> const &, std::string &);
+bool VariableSettingsMasterVolumeUpdated(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1F160
 {
 	// `anonymous-namespace'::VariableSettingsMasterVolumeUpdated
 	// static ...; // 0x10A1F2D0
 	// static ...; // 0x10A1F2C8
-	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::vector<std::string> const &args;
 	// std::string &returnInfo;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// unsigned long value;
 	// function call : __int32 (*)(__int32, char)
 	todo("implement");
@@ -792,15 +792,15 @@ bool VariableSettingsMasterVolumeUpdated(std::vector<std::string,std::allocator<
 	return __result;
 }
 
-_extern bool _sub_10A20C80(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableSettingsSfxVolumeUpdated(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo) // 0x10A20C80
+_extern bool _sub_10A20C80(std::vector<std::string> const &, std::string &);
+bool VariableSettingsSfxVolumeUpdated(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A20C80
 {
 	// `anonymous-namespace'::VariableSettingsSfxVolumeUpdated
 	// static ...; // 0x10A20DF0
 	// static ...; // 0x10A20DE8
-	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::vector<std::string> const &args;
 	// std::string &returnInfo;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// unsigned long value;
 	// function call : __int32 (*)(__int32, bool)
 	todo("implement");
@@ -808,15 +808,15 @@ bool VariableSettingsSfxVolumeUpdated(std::vector<std::string,std::allocator<std
 	return __result;
 }
 
-_extern bool _sub_10A1EF40(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableSettingsMainMenuMusicVolumeUpdated(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo) // 0x10A1EF40
+_extern bool _sub_10A1EF40(std::vector<std::string> const &, std::string &);
+bool VariableSettingsMainMenuMusicVolumeUpdated(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1EF40
 {
 	// `anonymous-namespace'::VariableSettingsMainMenuMusicVolumeUpdated
 	// static ...; // 0x10A1F0E0
 	// static ...; // 0x10A1F0D8
-	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::vector<std::string> const &args;
 	// std::string &returnInfo;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// unsigned long value;
 	// function call : bool (*const)()
 	// function call : bool (*const)()
@@ -826,15 +826,15 @@ bool VariableSettingsMainMenuMusicVolumeUpdated(std::vector<std::string,std::all
 	return __result;
 }
 
-_extern bool _sub_10A20200(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableSettingsMusicVolumeUpdated(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo) // 0x10A20200
+_extern bool _sub_10A20200(std::vector<std::string> const &, std::string &);
+bool VariableSettingsMusicVolumeUpdated(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A20200
 {
 	// `anonymous-namespace'::VariableSettingsMusicVolumeUpdated
 	// static ...; // 0x10A203A0
 	// static ...; // 0x10A20398
-	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::vector<std::string> const &args;
 	// std::string &returnInfo;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// unsigned long value;
 	// function call : bool (*const)()
 	// function call : bool (*const)()
@@ -844,31 +844,31 @@ bool VariableSettingsMusicVolumeUpdated(std::vector<std::string,std::allocator<s
 	return __result;
 }
 
-_extern bool _sub_10A1CD50(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableAudioOutputDeviceUpdated(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo) // 0x10A1CD50
+_extern bool _sub_10A1CD50(std::vector<std::string> const &, std::string &);
+bool VariableAudioOutputDeviceUpdated(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1CD50
 {
 	// `anonymous-namespace'::VariableAudioOutputDeviceUpdated
 	// static ...; // 0x10A1CF04
 	// static ...; // 0x10A1CEEC
 	// static ...; // 0x10A1CEE4
-	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::vector<std::string> const &args;
 	// std::string &returnInfo;
 	// __int32 device;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	todo("implement");
 	bool __result = _sub_10A1CD50(args, returnInfo);
 	return __result;
 }
 
-_extern bool _sub_10A1C260(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandAudioOutputDeviceList(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo) // 0x10A1C260
+_extern bool _sub_10A1C260(std::vector<std::string> const &, std::string &);
+bool CommandAudioOutputDeviceList(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1C260
 {
 	// `anonymous-namespace'::CommandAudioOutputDeviceList
 	// static ...; // 0x10A1C3E5
 	// static ...; // 0x10A1C3E0
 	// static ...; // 0x10A1C3BC
 	// static ...; // 0x10A1C3B4
-	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::vector<std::string> const &args;
 	// std::string &returnInfo;
 	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
 	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
@@ -881,25 +881,25 @@ bool CommandAudioOutputDeviceList(std::vector<std::string,std::allocator<std::st
 	return __result;
 }
 
-_extern bool _sub_10A1CF80(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableSettingsAnisotropicFilteringUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo) // 0x10A1CF80
+_extern bool _sub_10A1CF80(std::vector<std::string> const &, std::string &);
+bool VariableSettingsAnisotropicFilteringUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1CF80
 {
 	// `anonymous-namespace'::VariableSettingsAnisotropicFilteringUpdate
 	// static ...; // 0x10A1D13C
 	// static ...; // 0x10A1D124
 	// static ...; // 0x10A1D11C
-	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::vector<std::string> const &args;
 	// std::string &returnInfo;
 	// Pointer anisotropic_filtering_level;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// __int32 value;
 	todo("implement");
 	bool __result = _sub_10A1CF80(args, returnInfo);
 	return __result;
 }
 
-_extern bool _sub_10A21560(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableSettingsSubtitlesUpdate(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo) // 0x10A21560
+_extern bool _sub_10A21560(std::vector<std::string> const &, std::string &);
+bool VariableSettingsSubtitlesUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A21560
 {
 	// `anonymous-namespace'::VariableSettingsSubtitlesUpdate
 	// std::string &returnInfo;
@@ -910,8 +910,8 @@ bool VariableSettingsSubtitlesUpdate(std::vector<std::string,std::allocator<std:
 	return __result;
 }
 
-_extern bool _sub_10A1C460(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandResetSettings(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnInfo) // 0x10A1C460
+_extern bool _sub_10A1C460(std::vector<std::string> const &, std::string &);
+bool CommandResetSettings(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1C460
 {
 	// `anonymous-namespace'::CommandResetSettings
 	// static ...; // 0x10A1C740
@@ -919,12 +919,12 @@ bool CommandResetSettings(std::vector<std::string,std::allocator<std::string> > 
 	// static ...; // 0x10A1C72C
 	// static ...; // 0x10A1C6FC
 	// static ...; // 0x10A1C6F4
-	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::vector<std::string> const &args;
 	// std::string &returnInfo;
 	// std::string previous;
 	// Modules::CommandMap &commandMap;
 	{
-		// std::deque<Modules::Command,std::allocator<Modules::Command> > &<range>$L0;
+		// std::deque<Modules::Command> &<range>$L0;
 		// std::_Deque_unchecked_iterator<std::_Deque_val<std::_Deque_simple_types<Modules::Command> > > <begin>$L0;
 		// std::_Deque_unchecked_iterator<std::_Deque_val<std::_Deque_simple_types<Modules::Command> > > <end>$L0;
 		{
@@ -934,7 +934,7 @@ bool CommandResetSettings(std::vector<std::string,std::allocator<std::string> > 
 			}
 		}
 	}
-	// function call : bool (*)(std::vector<std::string,std::allocator<std::string> > const &, std::string &)
+	// function call : bool (*)(std::vector<std::string> const &, std::string &)
 	todo("implement");
 	bool __result = _sub_10A1C460(args, returnInfo);
 	return __result;

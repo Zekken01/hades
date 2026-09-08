@@ -67,8 +67,8 @@ namespace Server
 			long long startime; // 0xF58
 			bool willSetMap; // 0xF60
 			unsigned char __pad0[3]; // 0xF61
-			std::vector<Server::Voting::MapAndType,std::allocator<Server::Voting::MapAndType> > currentPlaylist; // 0xF64
-			std::vector<Server::Voting::MapAndType,std::allocator<Server::Voting::MapAndType> > entirePlaylist; // 0xF74
+			std::vector<Server::Voting::MapAndType> currentPlaylist; // 0xF64
+			std::vector<Server::Voting::MapAndType> entirePlaylist; // 0xF74
 			Server::Voting::MapAndType currentVetoOption; // 0xF84
 			__int32 numberOfVetosUsed; // 0x10E8
 			__int32 currentNumberOfVotes; // 0x10EC

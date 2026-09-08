@@ -54,12 +54,12 @@ public:
 	public:
 	void initialize(bool dedicated, char const *package_list_filename, char const *package_directory);
 	bool update_packages_blocking();
-	_inline std::vector<s_mod_package_description,std::allocator<s_mod_package_description> > const &get_package_list() const;
+	_inline std::vector<s_mod_package_description> const &get_package_list() const;
 private:
 	bool m_dedicated; // 0x0
 	unsigned char __pad0[3]; // 0x1
-	std::queue<s_mod_package_description,std::deque<s_mod_package_description,std::allocator<s_mod_package_description> > > m_download_queue; // 0x4
-	std::vector<s_mod_package_description,std::allocator<s_mod_package_description> > m_packages; // 0x18
+	std::queue<s_mod_package_description> m_download_queue; // 0x4
+	std::vector<s_mod_package_description> m_packages; // 0x18
 	s_static_string<256> m_package_directory; // 0x28
 	s_static_string<256> m_package_list_filename; // 0x128
 	bool process_queue();
@@ -85,13 +85,13 @@ extern bool download_mod_package_header(char const *url, s_mod_package_header *o
 
 /* ---------- public code */
 
-extern std::vector<c_mod_package_updater_blocking::s_mod_package_description,std::allocator<c_mod_package_updater_blocking::s_mod_package_description> > const &_sub_108BC820(c_mod_package_updater_blocking const *const);
-_inline std::vector<c_mod_package_updater_blocking::s_mod_package_description,std::allocator<c_mod_package_updater_blocking::s_mod_package_description> > const &c_mod_package_updater_blocking::get_package_list() const // 0x108BC820
+extern std::vector<c_mod_package_updater_blocking::s_mod_package_description> const &_sub_108BC820(c_mod_package_updater_blocking const *const);
+_inline std::vector<c_mod_package_updater_blocking::s_mod_package_description> const &c_mod_package_updater_blocking::get_package_list() const // 0x108BC820
 {
 	mangled_x86(MANGLED_TODO, "?get_package_list@c_mod_package_updater_blocking@@QBEABV?$vector@Us_mod_package_description@c_mod_package_updater_blocking@@V?$allocator@Us_mod_package_description@c_mod_package_updater_blocking@@@std@@@std@@XZ");
 	// c_mod_package_updater_blocking const *const this;
 	todo("implement");
-	std::vector<c_mod_package_updater_blocking::s_mod_package_description,std::allocator<c_mod_package_updater_blocking::s_mod_package_description> > const & __result = _sub_108BC820((c_mod_package_updater_blocking const *)this);
+	std::vector<c_mod_package_updater_blocking::s_mod_package_description> const & __result = _sub_108BC820((c_mod_package_updater_blocking const *)this);
 	return __result;
 }
 

@@ -35,14 +35,14 @@ namespace Scripting
 		extern void InitializeForNewMap();
 		extern void Init();
 		extern void Tick();
-		extern void PushScript(long threadIndex, short scriptIndex, long **outReturnValueAddr, std::span<hs_value const ,4294967295> arguments);
-		extern void ExecuteScript(__int32 scriptIndex, std::span<hs_value const ,4294967295> arguments);
-		extern void ExecuteScript(std::string_view name, std::span<hs_value const ,4294967295> arguments);
-		extern hs_value ExecuteScriptWithReturn(short scriptIndex, std::span<hs_value const ,4294967295> arguments);
-		extern hs_value ExecuteScriptWithReturn(std::string_view name, std::span<hs_value const ,4294967295> arguments);
+		extern void PushScript(long threadIndex, short scriptIndex, long **outReturnValueAddr, std::span<hs_value const> arguments);
+		extern void ExecuteScript(__int32 scriptIndex, std::span<hs_value const> arguments);
+		extern void ExecuteScript(std::string_view name, std::span<hs_value const> arguments);
+		extern hs_value ExecuteScriptWithReturn(short scriptIndex, std::span<hs_value const> arguments);
+		extern hs_value ExecuteScriptWithReturn(std::string_view name, std::span<hs_value const> arguments);
 		extern void AddHookCallback(std::string_view name, short callbackScriptIndex);
 		extern void RemoveHookCallback(std::string_view name, short callbackScriptIndex);
-		extern void CallHook(std::string_view name, std::span<hs_value const ,4294967295> arguments);
+		extern void CallHook(std::string_view name, std::span<hs_value const> arguments);
 	}
 }
 

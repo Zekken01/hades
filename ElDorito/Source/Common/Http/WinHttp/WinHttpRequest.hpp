@@ -109,7 +109,7 @@ namespace Http
 		std::atomic<bool> m_bIsCompleted; // 0x80
 		unsigned char __pad0[3]; // 0x81
 		std::shared_ptr<Http::CWinHttpResponse> m_response; // 0x84
-		std::vector<char,std::allocator<char> > m_receiveBuffer; // 0x8C
+		std::vector<char> m_receiveBuffer; // 0x8C
 		unsigned char __pad1[4]; // 0x9C
 		std::function<bool __cdecl(char const *,unsigned int)> m_contentReceiver; // 0xA0
 		std::function<void __cdecl(std::shared_ptr<Http::IHttpRequest>,bool)> m_completedCallback; // 0xC8

@@ -156,7 +156,7 @@ namespace hades_file_local
 	static_assert(sizeof(WebSettingsScreen) == 4, "Invalid WebSettingsScreen size");
 }
 using namespace hades_file_local;
-typedef bool (*CommandUpdateFunc)(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
+typedef bool (*CommandUpdateFunc)(std::vector<std::string> const &, std::string &);
 namespace Patches
 {
 	namespace Input

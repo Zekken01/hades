@@ -149,9 +149,9 @@ namespace Download
 		unsigned char __pad0[2]; // 0x9A
 		std::atomic<enum EAbortReason> m_abortReason; // 0x9C
 		ISegmentStore *m_segmentStore; // 0xA0
-		std::vector<SSegment *,std::allocator<SSegment *> > m_segments; // 0xA4
-		std::vector<SSegment *,std::allocator<SSegment *> > m_completedSegments; // 0xB4
-		std::vector<SSegment *,std::allocator<SSegment *> > m_failedSegments; // 0xC4
+		std::vector<SSegment *> m_segments; // 0xA4
+		std::vector<SSegment *> m_completedSegments; // 0xB4
+		std::vector<SSegment *> m_failedSegments; // 0xC4
 		unsigned char __pad1[4]; // 0xD4
 		std::chrono::time_point<std::chrono::steady_clock,std::chrono::duration<__int64,std::ratio<1,1000000000> > > m_lastUpdateTime; // 0xD8
 		std::chrono::time_point<std::chrono::steady_clock,std::chrono::duration<__int64,std::ratio<1,1000000000> > > m_startTime; // 0xE0
@@ -179,7 +179,7 @@ namespace Download
 		_inline void AddDownload(std::shared_ptr<Download::CHttpFileDownload> download);
 		_inline void RemoveDownload(std::shared_ptr<Download::CHttpFileDownload> download);
 	private:
-		std::vector<std::shared_ptr<Download::CHttpFileDownload>,std::allocator<std::shared_ptr<Download::CHttpFileDownload> > > m_downloads; // 0x0
+		std::vector<std::shared_ptr<Download::CHttpFileDownload> > m_downloads; // 0x0
 	public:
 		_inline CHttpFileDownloadManager(); /* compiler_generated() */
 		~CHttpFileDownloadManager(); /* compiler_generated() */
@@ -251,7 +251,7 @@ namespace Download
 		mangled_x86(MANGLED_TODO, "?Shutdown@CHttpFileDownloadManager@Download@@QAEXXZ");
 		// Download::CHttpFileDownloadManager *const this;
 		{
-			// std::vector<std::shared_ptr<Download::CHttpFileDownload>,std::allocator<std::shared_ptr<Download::CHttpFileDownload> > > &<range>$L0;
+			// std::vector<std::shared_ptr<Download::CHttpFileDownload> > &<range>$L0;
 			// std::shared_ptr<Download::CHttpFileDownload> *<begin>$L0;
 			// std::shared_ptr<Download::CHttpFileDownload> *<end>$L0;
 			{
@@ -271,9 +271,9 @@ namespace Download
 		// static ...; // 0x10820770
 		// static ...; // 0x10820768
 		// Download::CHttpFileDownloadManager *const this;
-		// std::vector<std::shared_ptr<Download::CHttpFileDownload>,std::allocator<std::shared_ptr<Download::CHttpFileDownload> > > downloads;
+		// std::vector<std::shared_ptr<Download::CHttpFileDownload> > downloads;
 		{
-			// std::vector<std::shared_ptr<Download::CHttpFileDownload>,std::allocator<std::shared_ptr<Download::CHttpFileDownload> > > &<range>$L0;
+			// std::vector<std::shared_ptr<Download::CHttpFileDownload> > &<range>$L0;
 			// std::shared_ptr<Download::CHttpFileDownload> *<begin>$L0;
 			// std::shared_ptr<Download::CHttpFileDownload> *<end>$L0;
 			{

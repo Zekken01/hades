@@ -39,10 +39,10 @@ namespace Server
 		extern __int32 getCustomMapID(std::string mapName);
 		extern bool findMapInfoInModPackage(__int32 mapId, std::string const &mapName, std::string const &identifier, Server::Voting::SMapListItem *info);
 		extern bool getMapInfo(std::string const &mapName, std::string const &modpack, Server::Voting::SMapListItem *info);
-		extern unsigned __int32 FindMapByName(std::vector<Server::Voting::HaloMap,std::allocator<Server::Voting::HaloMap> > const &maps, std::string const &name);
-		extern unsigned __int32 FindTypeByName(std::vector<Server::Voting::HaloType,std::allocator<Server::Voting::HaloType> > const &types, std::string const &name);
-		extern void BuildRandomPlaylist(std::vector<Server::Voting::MapAndType,std::allocator<Server::Voting::MapAndType> > &playlist, unsigned __int32 size, std::vector<Server::Voting::HaloType,std::allocator<Server::Voting::HaloType> > const &types, std::vector<Server::Voting::HaloMap,std::allocator<Server::Voting::HaloMap> > const &maps);
-		extern std::vector<Server::Voting::SMapListItem,std::allocator<Server::Voting::SMapListItem> > const &GetDefaultMapList();
+		extern unsigned __int32 FindMapByName(std::vector<Server::Voting::HaloMap> const &maps, std::string const &name);
+		extern unsigned __int32 FindTypeByName(std::vector<Server::Voting::HaloType> const &types, std::string const &name);
+		extern void BuildRandomPlaylist(std::vector<Server::Voting::MapAndType> &playlist, unsigned __int32 size, std::vector<Server::Voting::HaloType> const &types, std::vector<Server::Voting::HaloMap> const &maps);
+		extern std::vector<Server::Voting::SMapListItem> const &GetDefaultMapList();
 	}
 }
 

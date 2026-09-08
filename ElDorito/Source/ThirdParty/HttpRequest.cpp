@@ -92,12 +92,12 @@ __int32 HttpRequest::SendRequest(std::wstring const &uri, std::wstring const &me
 	// unsigned long headerSize;
 	// std::wstring scheme;
 	{
-		// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+		// std::stringstream ss;
 	}
 	{
 		// unsigned long dwOffset;
 		{
-			// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+			// std::stringstream ss;
 		}
 	}
 	// function call : __int32 (wchar_t const *, unsigned long, unsigned long, _WINHTTP_URL_COMPONENTS *)

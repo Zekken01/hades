@@ -93,7 +93,7 @@ namespace hades_file_local
 		std::string GetString() const;
 	private:
 		unsigned char __pad0[4]; // 0x4
-		std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > m_buffer; // 0x8
+		std::stringstream m_buffer; // 0x8
 	public:
 		CHavokStatsStringOutputHandler(CHavokStatsStringOutputHandler &); /* compiler_generated() */
 		CHavokStatsStringOutputHandler(); /* compiler_generated() */

@@ -102,7 +102,7 @@ namespace Debug
 				// unsigned char *bits;
 				// tagRECT rc;
 				// __int32 sx;
-				// std::vector<unsigned char,std::allocator<unsigned char> > buf;
+				// std::vector<unsigned char> buf;
 				// __int32 sy;
 				// HDC__ *dcSrc;
 				// HDC__ *dcDst;

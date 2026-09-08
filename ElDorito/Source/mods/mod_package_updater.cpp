@@ -257,10 +257,10 @@ bool c_mod_package_updater_blocking::locate_packages() // 0x108B1190
 	// static ...; // 0x108B1630
 	// c_mod_package_updater_blocking *const this;
 	// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> doc;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// std::string src;
 	// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &mods;
-	// std::basic_ifstream<char,std::char_traits<char> > ifs;
+	// std::ifstream ifs;
 	{
 		// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > it;
 		{

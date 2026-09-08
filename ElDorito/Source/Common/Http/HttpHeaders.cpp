@@ -196,7 +196,7 @@ namespace Http
 		// static ...; // 0x107FC2F8
 		// static ...; // 0x107FC2F0
 		// Http::CHttpHeaders const *const this;
-		// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+		// std::stringstream ss;
 		{
 			// std::string const &last;
 			{
@@ -215,10 +215,10 @@ namespace Http
 	}
 }
 
-extern std::vector<std::tuple<std::string,std::string>,std::allocator<std::tuple<std::string,std::string> > > _sub_107FB940(Http::CHttpHeaders *const);
+extern std::vector<std::tuple<std::string,std::string> > _sub_107FB940(Http::CHttpHeaders *const);
 namespace Http
 {
-	std::vector<std::tuple<std::string,std::string>,std::allocator<std::tuple<std::string,std::string> > > CHttpHeaders::GetHeaders() // 0x107FB940
+	std::vector<std::tuple<std::string,std::string> > CHttpHeaders::GetHeaders() // 0x107FB940
 	{
 		mangled_x86(MANGLED_TODO, "?GetHeaders@CHttpHeaders@Http@@QAE?AV?$vector@V?$tuple@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@@std@@V?$allocator@V?$tuple@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@@std@@@2@@std@@XZ");
 		// static ...; // 0x107FBAB4
@@ -227,9 +227,9 @@ namespace Http
 		// static ...; // 0x107FBA7C
 		// static ...; // 0x107FBA74
 		// Http::CHttpHeaders *const this;
-		// std::vector<std::tuple<std::string,std::string>,std::allocator<std::tuple<std::string,std::string> > > headers;
+		// std::vector<std::tuple<std::string,std::string> > headers;
 		{
-			// std::map<std::string,std::string,Http::CHttpHeaders::SHeaderKeyComparator,std::allocator<std::pair<std::string const ,std::string> > > &<range>$L0;
+			// std::map<std::string,std::string,Http::CHttpHeaders::SHeaderKeyComparator> &<range>$L0;
 			// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::string> > > > <begin>$L0;
 			// std::_Default_sentinel <end>$L0;
 			{
@@ -238,7 +238,7 @@ namespace Http
 			}
 		}
 		todo("implement");
-		std::vector<std::tuple<std::string,std::string>,std::allocator<std::tuple<std::string,std::string> > > __result = _sub_107FB940(this);
+		std::vector<std::tuple<std::string,std::string> > __result = _sub_107FB940(this);
 		return __result;
 	}
 }

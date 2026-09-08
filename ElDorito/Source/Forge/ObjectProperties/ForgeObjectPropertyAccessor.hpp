@@ -102,7 +102,7 @@ namespace Forge
 		void Reset();
 		void Apply(long playerIndex, long objectIndex);
 	private:
-		std::unordered_map<enum Forge::EObjectProperty,Forge::SPropertyValue,std::hash<enum Forge::EObjectProperty>,std::equal_to<enum Forge::EObjectProperty>,std::allocator<std::pair<enum Forge::EObjectProperty const ,Forge::SPropertyValue> > > m_values; // 0x4
+		std::unordered_map<enum Forge::EObjectProperty,Forge::SPropertyValue> m_values; // 0x4
 	public:
 		CDeferredPropertySetter(Forge::CDeferredPropertySetter &); /* compiler_generated() */
 		CDeferredPropertySetter(Forge::CDeferredPropertySetter const &); /* compiler_generated() */

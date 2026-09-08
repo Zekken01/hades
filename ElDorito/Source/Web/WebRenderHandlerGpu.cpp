@@ -292,8 +292,8 @@ namespace Web
 			_sub_10CEC470(this, browser, rect);
 		}
 
-		_extern void _sub_10CEC320(Web::Browser::RenderHandlerGpu *const, scoped_refptr<CefBrowser>, cef_paint_element_type_t, std::vector<CefRect,std::allocator<CefRect> > const &, void *);
-		void RenderHandlerGpu::OnAcceleratedPaint(scoped_refptr<CefBrowser> browser, cef_paint_element_type_t type, std::vector<CefRect,std::allocator<CefRect> > const &dirtyRects, void *sharedHandle) // 0x10CEC320
+		_extern void _sub_10CEC320(Web::Browser::RenderHandlerGpu *const, scoped_refptr<CefBrowser>, cef_paint_element_type_t, std::vector<CefRect> const &, void *);
+		void RenderHandlerGpu::OnAcceleratedPaint(scoped_refptr<CefBrowser> browser, cef_paint_element_type_t type, std::vector<CefRect> const &dirtyRects, void *sharedHandle) // 0x10CEC320
 		{
 			mangled_x86(MANGLED_TODO, "?OnAcceleratedPaint@RenderHandlerGpu@Browser@Web@@EAEXV?$scoped_refptr@VCefBrowser@@@@W4cef_paint_element_type_t@@ABV?$vector@VCefRect@@V?$allocator@VCefRect@@@std@@@std@@PAX@Z");
 			// void *sharedHandle;

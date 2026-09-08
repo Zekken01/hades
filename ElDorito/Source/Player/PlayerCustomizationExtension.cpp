@@ -136,7 +136,7 @@ namespace Player
 		// static ...; // 0x107DB584
 		// static ...; // 0x107DB57C
 		// std::string const &value;
-		// std::basic_regex<char,std::regex_traits<char> > expression;
+		// std::regex expression;
 		// std::match_results<char const *,std::allocator<std::sub_match<char const *> > > what;
 		todo("implement");
 		unsigned __int32 __result = _sub_107DB3F0(value);

@@ -164,7 +164,7 @@ namespace hades_file_local
 {
 	extern char const *const k_mods_mainmenu_virtual_path; // 0x111B0700
 	extern char const *const k_mods_game_virtual_path; // 0x111B0704
-	extern std::vector<unsigned char,std::allocator<unsigned char> > map_file_buffer; // 0x12458E90
+	extern std::vector<unsigned char> map_file_buffer; // 0x12458E90
 }
 using namespace hades_file_local;
 /* ---------- public code */

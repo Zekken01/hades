@@ -43,7 +43,7 @@ public:
 	std::wstring const GetDescription(__int32 language) const;
 	s_map_variant const *GetMapVariant() const;
 private:
-	void LoadFromFile(std::basic_ifstream<char,std::char_traits<char> > &stream);
+	void LoadFromFile(std::ifstream &stream);
 	void LoadFromBuffer(unsigned char const *data, unsigned __int32 size);
 	unsigned char const *m_data; // 0x0
 	unsigned __int32 m_dataSize; // 0x4

@@ -198,15 +198,15 @@ namespace Web
 			_sub_10CE93E0(this, browser, show);
 		}
 
-		_extern void _sub_10CE8D70(Web::Browser::RenderHandlerCpu *const, scoped_refptr<CefBrowser>, cef_paint_element_type_t, std::vector<CefRect,std::allocator<CefRect> > const &, void const *, __int32, __int32);
-		void RenderHandlerCpu::OnPaint(scoped_refptr<CefBrowser> browser, cef_paint_element_type_t type, std::vector<CefRect,std::allocator<CefRect> > const &dirtyRects, void const *buffer, __int32 width, __int32 height) // 0x10CE8D70
+		_extern void _sub_10CE8D70(Web::Browser::RenderHandlerCpu *const, scoped_refptr<CefBrowser>, cef_paint_element_type_t, std::vector<CefRect> const &, void const *, __int32, __int32);
+		void RenderHandlerCpu::OnPaint(scoped_refptr<CefBrowser> browser, cef_paint_element_type_t type, std::vector<CefRect> const &dirtyRects, void const *buffer, __int32 width, __int32 height) // 0x10CE8D70
 		{
 			mangled_x86(MANGLED_TODO, "?OnPaint@RenderHandlerCpu@Browser@Web@@EAEXV?$scoped_refptr@VCefBrowser@@@@W4cef_paint_element_type_t@@ABV?$vector@VCefRect@@V?$allocator@VCefRect@@@std@@@std@@PBXHH@Z");
 			// static ...; // 0x10CE91D0
 			// Web::Browser::RenderHandlerCpu *const this;
 			// scoped_refptr<CefBrowser> browser;
 			// cef_paint_element_type_t type;
-			// std::vector<CefRect,std::allocator<CefRect> > const &dirtyRects;
+			// std::vector<CefRect> const &dirtyRects;
 			// void const *buffer;
 			// __int32 width;
 			// __int32 height;
@@ -214,7 +214,7 @@ namespace Web
 			// __int32 stride;
 			// Utils::Rectangle popupDirtyRect;
 			{
-				// std::vector<CefRect,std::allocator<CefRect> > const &<range>$L0;
+				// std::vector<CefRect> const &<range>$L0;
 				// CefRect const *<begin>$L0;
 				// CefRect const *<end>$L0;
 				{

@@ -176,12 +176,12 @@ namespace Modules
 	// $LN10:
 	// $LN9:
 		// Modules::Command *const this;
-		// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+		// std::stringstream ss;
 		{
 			// std::string paramDescs;
-			// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > paramStream;
+			// std::stringstream paramStream;
 			{
-				// std::vector<std::string,std::allocator<std::string> > &<range>$L0;
+				// std::vector<std::string> &<range>$L0;
 				// std::string *<begin>$L0;
 				// std::string *<end>$L0;
 				{
@@ -289,32 +289,32 @@ namespace Modules
 		// Modules::CommandMap *const this;
 		// std::string previousValue;
 		{
-			// std::deque<Modules::Command,std::allocator<Modules::Command> > &<range>$L0;
+			// std::deque<Modules::Command> &<range>$L0;
 			// std::_Deque_unchecked_iterator<std::_Deque_val<std::_Deque_simple_types<Modules::Command> > > <begin>$L0;
 			// std::_Deque_unchecked_iterator<std::_Deque_val<std::_Deque_simple_types<Modules::Command> > > <end>$L0;
 			{
 				// Modules::Command command;
 			}
 		}
-		// function call : bool (*)(std::vector<std::string,std::allocator<std::string> > const &, std::string &)
+		// function call : bool (*)(std::vector<std::string> const &, std::string &)
 		todo("implement");
 		_sub_10948EF0(this);
 	}
 }
 
-extern std::string _sub_10946DC0(Modules::CommandMap *const, std::vector<std::string,std::allocator<std::string> >, bool);
+extern std::string _sub_10946DC0(Modules::CommandMap *const, std::vector<std::string>, bool);
 namespace Modules
 {
-	std::string CommandMap::ExecuteCommand(std::vector<std::string,std::allocator<std::string> > command, bool isUserInput) // 0x10946DC0
+	std::string CommandMap::ExecuteCommand(std::vector<std::string> command, bool isUserInput) // 0x10946DC0
 	{
 		mangled_x86(MANGLED_TODO, "?ExecuteCommand@CommandMap@Modules@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@4@_N@Z");
 		// static ...; // 0x10946FE4
 		// static ...; // 0x10946FC0
 		// static ...; // 0x10946FB8
 		// Modules::CommandMap *const this;
-		// std::vector<std::string,std::allocator<std::string> > command;
+		// std::vector<std::string> command;
 		// bool isUserInput;
-		// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > buff;
+		// std::stringstream buff;
 		// std::_Vector_iterator<std::_Vector_val<std::_Simple_types<std::string> > > commandEnd;
 		{
 			// std::_Vector_iterator<std::_Vector_val<std::_Simple_types<std::string> > > it;
@@ -341,7 +341,7 @@ namespace Modules
 		// VariableSetReturnValue updateRet;
 		// std::string previousValue;
 		// Modules::Command *cmd;
-		// std::vector<std::string,std::allocator<std::string> > argsVect;
+		// std::vector<std::string> argsVect;
 		// bool SkipHostCheck;
 		{
 			// Blam::Network::Session *session;
@@ -357,9 +357,9 @@ namespace Modules
 		}
 		// function call : bool (*const)()
 		// function call : bool (*const)()
-		// function call : bool (*)(std::vector<std::string,std::allocator<std::string> > const &, std::string &)
-		// function call : bool (*)(std::vector<std::string,std::allocator<std::string> > const &, std::string &)
-		// function call : bool (*)(std::vector<std::string,std::allocator<std::string> > const &, std::string &)
+		// function call : bool (*)(std::vector<std::string> const &, std::string &)
+		// function call : bool (*)(std::vector<std::string> const &, std::string &)
+		// function call : bool (*)(std::vector<std::string> const &, std::string &)
 		todo("implement");
 		bool __result = _sub_10947090(this, command, isUserInput, output);
 		return __result;
@@ -586,11 +586,11 @@ namespace Modules
 		// static ...; // 0x10949CB8
 		// Modules::CommandMap *const this;
 		// std::string moduleFilter;
-		// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
-		// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > hasParent;
-		// std::deque<Modules::Command,std::allocator<Modules::Command> > tempCommands;
+		// std::stringstream ss;
+		// std::stringstream hasParent;
+		// std::deque<Modules::Command> tempCommands;
 		{
-			// std::deque<Modules::Command,std::allocator<Modules::Command> > &<range>$L0;
+			// std::deque<Modules::Command> &<range>$L0;
 			// std::_Deque_unchecked_iterator<std::_Deque_val<std::_Deque_simple_types<Modules::Command> > > <begin>$L0;
 			// std::_Deque_unchecked_iterator<std::_Deque_val<std::_Deque_simple_types<Modules::Command> > > <end>$L0;
 			{
@@ -618,9 +618,9 @@ namespace Modules
 		// static ...; // 0x1094A9CC
 		// static ...; // 0x1094A9C4
 		// Modules::CommandMap *const this;
-		// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+		// std::stringstream ss;
 		{
-			// std::deque<Modules::Command,std::allocator<Modules::Command> > &<range>$L0;
+			// std::deque<Modules::Command> &<range>$L0;
 			// std::_Deque_unchecked_iterator<std::_Deque_val<std::_Deque_simple_types<Modules::Command> > > <begin>$L0;
 			// std::_Deque_unchecked_iterator<std::_Deque_val<std::_Deque_simple_types<Modules::Command> > > <end>$L0;
 			{
@@ -646,9 +646,9 @@ namespace Modules
 		// static ...; // 0x1094A66C
 		// static ...; // 0x1094A664
 		// Modules::CommandMap *const this;
-		// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+		// std::stringstream ss;
 		{
-			// std::deque<Modules::Command,std::allocator<Modules::Command> > &<range>$L0;
+			// std::deque<Modules::Command> &<range>$L0;
 			// std::_Deque_unchecked_iterator<std::_Deque_val<std::_Deque_simple_types<Modules::Command> > > <begin>$L0;
 			// std::_Deque_unchecked_iterator<std::_Deque_val<std::_Deque_simple_types<Modules::Command> > > <end>$L0;
 			{
@@ -689,9 +689,9 @@ namespace Modules
 		// static ...; // 0x10948BFC
 		// static ...; // 0x10948BF4
 		// Modules::CommandMap *const this;
-		// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+		// std::stringstream ss;
 		{
-			// std::vector<std::string,std::allocator<std::string> > &<range>$L0;
+			// std::vector<std::string> &<range>$L0;
 			// std::string *<begin>$L0;
 			// std::string *<end>$L0;
 			{
@@ -709,7 +709,7 @@ namespace Modules
 		mangled_x86(MANGLED_TODO, "?NotifyVariableUpdated@CommandMap@Modules@@QAEXPBUCommand@2@@Z");
 		// Modules::Command const *command;
 		{
-			// std::vector<std::function<void __cdecl(Modules::Command const *)>,std::allocator<std::function<void __cdecl(Modules::Command const *)> > > &<range>$L0;
+			// std::vector<std::function<void __cdecl(Modules::Command const *)> > &<range>$L0;
 			// std::function<void __cdecl(Modules::Command const *)> *<begin>$L0;
 			// std::function<void __cdecl(Modules::Command const *)> *<end>$L0;
 			{
@@ -739,7 +739,7 @@ namespace Modules
 		// static ...; // 0x10946BD8
 		// Modules::CommandMap *const this;
 		{
-			// std::deque<Modules::Command,std::allocator<Modules::Command> > &<range>$L0;
+			// std::deque<Modules::Command> &<range>$L0;
 			// std::_Deque_unchecked_iterator<std::_Deque_val<std::_Deque_simple_types<Modules::Command> > > <begin>$L0;
 			// std::_Deque_unchecked_iterator<std::_Deque_val<std::_Deque_simple_types<Modules::Command> > > <end>$L0;
 			{

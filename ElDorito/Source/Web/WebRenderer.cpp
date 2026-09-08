@@ -782,7 +782,7 @@ namespace Web
 			// static ...; // 0x10CBD8C0
 			// Web::Browser::WebRenderer *const this;
 			// std::unique_lock<std::mutex> lock;
-			// std::queue<std::function<void __cdecl(void)>,std::deque<std::function<void __cdecl(void)>,std::allocator<std::function<void __cdecl(void)> > > > tasks;
+			// std::queue<std::function<void __cdecl(void)> > tasks;
 			todo("implement");
 			_sub_10CBD780(this);
 		}

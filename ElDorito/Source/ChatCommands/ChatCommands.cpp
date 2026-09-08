@@ -171,11 +171,11 @@ namespace ChatCommands
 
 __int32 FindPlayerInGameWithIdentifier(s_player_identifier const &identifier);
 __int32 FindNetworkPlayerInGame(char networkPlayerIndex);
-bool CommandHelp(__int32 peer, std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnValue);
-bool ComamndListPlayers(__int32 peer, std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnValue);
-bool CommandReportPlayer(__int32 peer, std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnValue);
-bool CommandKill(__int32 peer, std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnValue);
-bool ComamndModInfo(__int32 peer, std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnValue);
+bool CommandHelp(__int32 peer, std::vector<std::string> const &args, std::string &returnValue);
+bool ComamndListPlayers(__int32 peer, std::vector<std::string> const &args, std::string &returnValue);
+bool CommandReportPlayer(__int32 peer, std::vector<std::string> const &args, std::string &returnValue);
+bool CommandKill(__int32 peer, std::vector<std::string> const &args, std::string &returnValue);
+bool ComamndModInfo(__int32 peer, std::vector<std::string> const &args, std::string &returnValue);
 
 /* ---------- globals */
 
@@ -309,17 +309,17 @@ __int32 FindNetworkPlayerInGame(char networkPlayerIndex) // 0x106CF690
 	return __result;
 }
 
-_extern bool _sub_106CF180(__int32, std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandHelp(__int32 peer, std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnValue) // 0x106CF180
+_extern bool _sub_106CF180(__int32, std::vector<std::string> const &, std::string &);
+bool CommandHelp(__int32 peer, std::vector<std::string> const &args, std::string &returnValue) // 0x106CF180
 {
 	// `anonymous-namespace'::CommandHelp
 	// static ...; // 0x106CF280
 	// static ...; // 0x106CF278
 	// __int32 peer;
-	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::vector<std::string> const &args;
 	// std::string &returnValue;
 	{
-		// std::vector<std::string,std::allocator<std::string> > &<range>$L0;
+		// std::vector<std::string> &<range>$L0;
 		// std::string *<begin>$L0;
 		// std::string *<end>$L0;
 		{
@@ -331,8 +331,8 @@ bool CommandHelp(__int32 peer, std::vector<std::string,std::allocator<std::strin
 	return __result;
 }
 
-_extern bool _sub_106CE6E0(__int32, std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool ComamndListPlayers(__int32 peer, std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnValue) // 0x106CE6E0
+_extern bool _sub_106CE6E0(__int32, std::vector<std::string> const &, std::string &);
+bool ComamndListPlayers(__int32 peer, std::vector<std::string> const &args, std::string &returnValue) // 0x106CE6E0
 {
 	// `anonymous-namespace'::ComamndListPlayers
 	// std::string &returnValue;
@@ -349,8 +349,8 @@ bool ComamndListPlayers(__int32 peer, std::vector<std::string,std::allocator<std
 	return __result;
 }
 
-_extern bool _sub_106CF550(__int32, std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandReportPlayer(__int32 peer, std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnValue) // 0x106CF550
+_extern bool _sub_106CF550(__int32, std::vector<std::string> const &, std::string &);
+bool CommandReportPlayer(__int32 peer, std::vector<std::string> const &args, std::string &returnValue) // 0x106CF550
 {
 	// `anonymous-namespace'::CommandReportPlayer
 	// std::string &returnValue;
@@ -359,8 +359,8 @@ bool CommandReportPlayer(__int32 peer, std::vector<std::string,std::allocator<st
 	return __result;
 }
 
-_extern bool _sub_106CF2F0(__int32, std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandKill(__int32 peer, std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnValue) // 0x106CF2F0
+_extern bool _sub_106CF2F0(__int32, std::vector<std::string> const &, std::string &);
+bool CommandKill(__int32 peer, std::vector<std::string> const &args, std::string &returnValue) // 0x106CF2F0
 {
 	// `anonymous-namespace'::CommandKill
 	// std::string &returnValue;
@@ -376,8 +376,8 @@ bool CommandKill(__int32 peer, std::vector<std::string,std::allocator<std::strin
 	return __result;
 }
 
-_extern bool _sub_106CEA80(__int32, std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool ComamndModInfo(__int32 peer, std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnValue) // 0x106CEA80
+_extern bool _sub_106CEA80(__int32, std::vector<std::string> const &, std::string &);
+bool ComamndModInfo(__int32 peer, std::vector<std::string> const &args, std::string &returnValue) // 0x106CEA80
 {
 	// `anonymous-namespace'::ComamndModInfo
 	// static ...; // 0x106CEFF9
@@ -386,7 +386,7 @@ bool ComamndModInfo(__int32 peer, std::vector<std::string,std::allocator<std::st
 	// static ...; // 0x106CEFB0
 	// static ...; // 0x106CEFA8
 	// __int32 peer;
-	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::vector<std::string> const &args;
 	// std::string &returnValue;
 	// char buffer[32];
 	// std::string desc;

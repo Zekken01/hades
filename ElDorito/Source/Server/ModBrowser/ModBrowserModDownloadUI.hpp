@@ -38,7 +38,7 @@ public:
 	virtual void OnDownloadFinished(SModBrowserState const &) = 0;
 	virtual void OnDownloadFinalizing() = 0;
 	virtual void OnDownloadProgress(SModBrowserState::SRequestedMod const &, __int32, long long, long long, __int32) = 0;
-	virtual void ShowConfirmation(std::vector<SModBrowserState::SRequestedMod *,std::allocator<SModBrowserState::SRequestedMod *> > const &) = 0;
+	virtual void ShowConfirmation(std::vector<SModBrowserState::SRequestedMod *> const &) = 0;
 	virtual void Hide() = 0;
 	IModBrowserModDownloadUI(IModBrowserModDownloadUI const &); /* compiler_generated() */
 	_inline IModBrowserModDownloadUI(); /* compiler_generated() */

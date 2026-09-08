@@ -91,7 +91,7 @@ namespace Server
 			public:
 			bool isTemplate; // 0x0
 			unsigned char __pad0[3]; // 0x1
-			std::vector<Server::Voting::HaloMap,std::allocator<Server::Voting::HaloMap> > specificMaps; // 0x4
+			std::vector<Server::Voting::HaloMap> specificMaps; // 0x4
 			std::string inherits; // 0x14
 			std::string typeName; // 0x30
 			std::string typeDisplayName; // 0x4C
@@ -99,9 +99,9 @@ namespace Server
 			std::string modPack; // 0x84
 			float randomChance; // 0xA0
 			Server::Voting::AllowedPlayerCount allowedPlayerCount; // 0xA4
-			std::vector<std::string,std::allocator<std::string> > commands; // 0xAC
-			std::vector<std::string,std::allocator<std::string> > endOfMatchCommands; // 0xBC
-			std::map<std::string,CharacterOverride,std::less<std::string>,std::allocator<std::pair<std::string const ,CharacterOverride> > > characterOverrides; // 0xCC
+			std::vector<std::string> commands; // 0xAC
+			std::vector<std::string> endOfMatchCommands; // 0xBC
+			std::map<std::string,CharacterOverride> characterOverrides; // 0xCC
 			_inline HaloType(Server::Voting::HaloType &&__that); /* compiler_generated() */
 			_inline HaloType(Server::Voting::HaloType const &__that); /* compiler_generated() */
 			_inline HaloType(std::string t, std::string dn);

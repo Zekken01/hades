@@ -474,7 +474,7 @@ std::wstring processNumber(__int32 num) // 0x106CA7E0
 	// static ...; // 0x106CAA0C
 	// static ...; // 0x106CAA04
 	// __int32 num;
-	// std::basic_ostringstream<char,std::char_traits<char>,std::allocator<char> > oss;
+	// std::ostringstream oss;
 	{
 		// double numInK;
 	}

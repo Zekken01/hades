@@ -36,10 +36,10 @@ namespace Utils
 		extern std::string ThinString(std::wstring_view wide_string);
 		extern std::string ToLower(std::string const &str);
 		extern std::string TitleCase(std::string const &str);
-		extern std::vector<std::string,std::allocator<std::string> > SplitString(std::string const &stringToSplit, char delim);
+		extern std::vector<std::string> SplitString(std::string const &stringToSplit, char delim);
 		extern std::string &TrimInline(std::string &string);
 		extern std::string Trim(std::string const &string, bool fromEnd);
-		extern std::vector<std::string,std::allocator<std::string> > Wrap(std::string const &string, unsigned __int32 lineLength);
+		extern std::vector<std::string> Wrap(std::string const &string, unsigned __int32 lineLength);
 
 		extern _inline unsigned __int32 GetLineFromOffset(std::string_view source, unsigned __int32 offset);
 	}

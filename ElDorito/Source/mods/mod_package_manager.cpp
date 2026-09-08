@@ -297,10 +297,10 @@ void c_mod_package_manager::enumerate_blocking_internal() // 0x108A8A20
 	// static ...; // 0x108A93BC
 	// static ...; // 0x108A93B4
 	// c_mod_package_manager *const this;
-	// std::vector<c_mod_package_manager::s_entry,std::allocator<c_mod_package_manager::s_entry> > entries;
+	// std::vector<c_mod_package_manager::s_entry> entries;
 	// std::filesystem::directory_iterator endit;
 	// std::filesystem::path p;
-	// std::unordered_set<s_mod_package_id,std::hash<s_mod_package_id>,std::equal_to<s_mod_package_id>,std::allocator<s_mod_package_id> > found;
+	// std::unordered_set<s_mod_package_id> found;
 	{
 		// std::filesystem::directory_iterator it;
 		{
@@ -338,7 +338,7 @@ bool c_mod_package_manager::find_package_by_hash_internal(unsigned char const (&
 	mangled_x86(MANGLED_TODO, "?find_package_by_hash_internal@c_mod_package_manager@@ABE_NAAY0BE@$$CBEPAUs_entry@1@@Z");
 	// c_mod_package_manager::s_entry *out_entry;
 	{
-		// std::vector<c_mod_package_manager::s_entry,std::allocator<c_mod_package_manager::s_entry> > const &<range>$L0;
+		// std::vector<c_mod_package_manager::s_entry> const &<range>$L0;
 		// c_mod_package_manager::s_entry const *<begin>$L0;
 		// c_mod_package_manager::s_entry const *<end>$L0;
 		{
@@ -356,7 +356,7 @@ bool c_mod_package_manager::find_package_by_filename_internal(char const *filena
 	mangled_x86(MANGLED_TODO, "?find_package_by_filename_internal@c_mod_package_manager@@ABE_NPBDPAUs_entry@1@@Z");
 	// c_mod_package_manager::s_entry *out_entry;
 	{
-		// std::vector<c_mod_package_manager::s_entry,std::allocator<c_mod_package_manager::s_entry> > const &<range>$L0;
+		// std::vector<c_mod_package_manager::s_entry> const &<range>$L0;
 		// c_mod_package_manager::s_entry const *<begin>$L0;
 		// c_mod_package_manager::s_entry const *<end>$L0;
 		{

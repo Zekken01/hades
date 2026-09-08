@@ -166,7 +166,7 @@ using namespace hades_file_local;
 
 /* ---------- prototypes */
 
-EQueryModsResult QueryModsBlocking(SQueryInfoServerArgs const &args, std::vector<SServerConnectState::SRequiredMod,std::allocator<SServerConnectState::SRequiredMod> > *outPackages);
+EQueryModsResult QueryModsBlocking(SQueryInfoServerArgs const &args, std::vector<SServerConnectState::SRequiredMod> *outPackages);
 EQueryInfoServerResult QueryInfoServerBlocking(SQueryInfoServerArgs const &args, SQueryInfoServerData *result);
 
 /* ---------- globals */
@@ -328,7 +328,7 @@ EJobResult CServerConnectStateHandler_QueryServer::QueryModsJobCallback(SQueryIn
 	// CServerConnectStateHandler_QueryServer *const this;
 	// SQueryInfoServerArgs const &args;
 	// std::scoped_lock<std::mutex> lock;
-	// std::vector<SServerConnectState::SRequiredMod,std::allocator<SServerConnectState::SRequiredMod> > requiredMods;
+	// std::vector<SServerConnectState::SRequiredMod> requiredMods;
 	// EQueryModsResult result;
 	todo("implement");
 	EJobResult __result = _sub_10B15C50(this, args);
@@ -337,8 +337,8 @@ EJobResult CServerConnectStateHandler_QueryServer::QueryModsJobCallback(SQueryIn
 
 /* ---------- private code */
 
-extern EQueryModsResult _sub_10B14B30(SQueryInfoServerArgs const &, std::vector<SServerConnectState::SRequiredMod,std::allocator<SServerConnectState::SRequiredMod> > *);
-EQueryModsResult QueryModsBlocking(SQueryInfoServerArgs const &args, std::vector<SServerConnectState::SRequiredMod,std::allocator<SServerConnectState::SRequiredMod> > *outPackages) // 0x10B14B30
+extern EQueryModsResult _sub_10B14B30(SQueryInfoServerArgs const &, std::vector<SServerConnectState::SRequiredMod> *);
+EQueryModsResult QueryModsBlocking(SQueryInfoServerArgs const &args, std::vector<SServerConnectState::SRequiredMod> *outPackages) // 0x10B14B30
 {
 	// `anonymous-namespace'::QueryModsBlocking
 	// static ...; // 0x10B158CD
@@ -352,7 +352,7 @@ EQueryModsResult QueryModsBlocking(SQueryInfoServerArgs const &args, std::vector
 	// static ...; // 0x10B1582C
 	// static ...; // 0x10B15824
 	// SQueryInfoServerArgs const &args;
-	// std::vector<SServerConnectState::SRequiredMod,std::allocator<SServerConnectState::SRequiredMod> > *outPackages;
+	// std::vector<SServerConnectState::SRequiredMod> *outPackages;
 	// std::wstring respHdr;
 	// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
 	// std::wstring expected;

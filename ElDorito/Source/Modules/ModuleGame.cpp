@@ -269,9 +269,9 @@ namespace Blam
 //public:
 //	void operator()(s_level_datum *) const;
 //	<lambda_1>(GetMapNameList::__l2::<lambda_1> &);
-//	<lambda_1>(std::vector<std::string,std::allocator<std::string> > &);
+//	<lambda_1>(std::vector<std::string> &);
 //private:
-//	std::vector<std::string,std::allocator<std::string> > &mapNames; // 0x0
+//	std::vector<std::string> &mapNames; // 0x0
 //public:
 //	GetMapNameList::__l2::<lambda_1> &operator=(GetMapNameList::__l2::<lambda_1> const &);
 //};
@@ -294,62 +294,62 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
-void GetMapNameList(std::vector<std::string,std::allocator<std::string> > &mapNames);
-bool CommandGameLogLevel(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool CommandGameLogTypes(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool CommandGameLogFilter(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool CommandGameInfo(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool CommandGameExit(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool CommandGameRestart(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool CommandGameForceLoad(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool CommandGameShowUI(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-unsigned __int32 GetFileSize(std::basic_ifstream<char,std::char_traits<char> > &file);
+void GetMapNameList(std::vector<std::string> &mapNames);
+bool CommandGameLogLevel(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool CommandGameLogTypes(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool CommandGameLogFilter(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool CommandGameInfo(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool CommandGameExit(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool CommandGameRestart(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool CommandGameForceLoad(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool CommandGameShowUI(std::vector<std::string> const &Arguments, std::string &returnInfo);
+unsigned __int32 GetFileSize(std::ifstream &file);
 __int32 GetMapId(std::string const &mapName);
 bool LoadDefaultMapVariant(std::string const &mapName, unsigned char *out);
 __int32 GetUiGameMode();
 void SetOwnedContentData(s_owned_content_item *content_item, bool built_in, char const *file_path);
 void SaveMapVariantToPreferences(unsigned char const *data, bool built_in, char const *file_path);
 void SaveGameVariantToPreferences(unsigned char const *data, bool built_in, char const *file_path);
-bool CommandGameLoadMap(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool LoadGameVariant(std::basic_ifstream<char,std::char_traits<char> > &file, unsigned char *out);
+bool CommandGameLoadMap(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool LoadGameVariant(std::ifstream &file, unsigned char *out);
 __int32 FindDefaultGameVariant(s_game_engine_settings_definition const *wezr, e_game_engine_type type, std::string const &name);
 bool LoadDefaultGameVariant(std::string const &name, unsigned char *out);
-bool CommandAnnoucementViewedDate(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool CommandGameType(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool CommandGameStart(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool CommandGameStartCountdown(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool CommandGameStop(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool CommandGameLeave(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool CommandGameEnd(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool CommandGameEndRound(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool CommandGameVersion(std::vector<std::string,std::allocator<std::string> > const &arguments, std::string &returnInfo);
-bool CommandListMaps(std::vector<std::string,std::allocator<std::string> > const &arguments, std::string &returnInfo);
-bool CommandShowScreen(std::vector<std::string,std::allocator<std::string> > const &arguments, std::string &returnInfo);
-bool CommandPlayUiSound(std::vector<std::string,std::allocator<std::string> > const &arguments, std::string &returnInfo);
-bool CommandPlaySound(std::vector<std::string,std::allocator<std::string> > const &arguments, std::string &returnInfo);
-bool CommandPlayLoopingSound(std::vector<std::string,std::allocator<std::string> > const &arguments, std::string &returnInfo);
-bool CommandStopLoopingSound(std::vector<std::string,std::allocator<std::string> > const &arguments, std::string &returnInfo);
-bool CommandGameTakeScreenshot(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool CommandExecuteScenarioScript(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool CommandExecutePrintScript(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool CommandGetTagAddress(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool CommandDisableScreenEffect(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool VariableLanguageUpdated(std::vector<std::string,std::allocator<std::string> > const &arguments, std::string &returnInfo);
+bool CommandAnnoucementViewedDate(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool CommandGameType(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool CommandGameStart(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool CommandGameStartCountdown(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool CommandGameStop(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool CommandGameLeave(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool CommandGameEnd(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool CommandGameEndRound(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool CommandGameVersion(std::vector<std::string> const &arguments, std::string &returnInfo);
+bool CommandListMaps(std::vector<std::string> const &arguments, std::string &returnInfo);
+bool CommandShowScreen(std::vector<std::string> const &arguments, std::string &returnInfo);
+bool CommandPlayUiSound(std::vector<std::string> const &arguments, std::string &returnInfo);
+bool CommandPlaySound(std::vector<std::string> const &arguments, std::string &returnInfo);
+bool CommandPlayLoopingSound(std::vector<std::string> const &arguments, std::string &returnInfo);
+bool CommandStopLoopingSound(std::vector<std::string> const &arguments, std::string &returnInfo);
+bool CommandGameTakeScreenshot(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool CommandExecuteScenarioScript(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool CommandExecutePrintScript(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool CommandGetTagAddress(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool CommandDisableScreenEffect(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool VariableLanguageUpdated(std::vector<std::string> const &arguments, std::string &returnInfo);
 bool ShowTickrate();
-bool CommandShowTickrate(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool CommandGameUpdate(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool CommandFullScreenBlurLayer(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool CommandFontPackage(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool CommandSetMainMenuMod(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool CommandSetCampaignMod(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool CommandSetFirefightMod(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool CommandSetMultiplayerMod(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool CommandCloseStartMenu(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool CommandShowLocalServersUI(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool CommandShowModBrowser(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool CommandShowServerModBrowser(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool CommandShowModInfo(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool CommandVersionCompat(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
+bool CommandShowTickrate(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool CommandGameUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool CommandFullScreenBlurLayer(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool CommandFontPackage(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool CommandSetMainMenuMod(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool CommandSetCampaignMod(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool CommandSetFirefightMod(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool CommandSetMultiplayerMod(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool CommandCloseStartMenu(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool CommandShowLocalServersUI(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool CommandShowModBrowser(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool CommandShowServerModBrowser(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool CommandShowModInfo(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool CommandVersionCompat(std::vector<std::string> const &Arguments, std::string &returnInfo);
 
 /* ---------- globals */
 
@@ -358,7 +358,7 @@ bool CommandVersionCompat(std::vector<std::string,std::allocator<std::string> > 
 namespace hades_file_local
 {
 	extern std::string const GameTypeExtensions[9]; // 0x12454D80
-	extern std::map<std::string,bool,std::less<std::string>,std::allocator<std::pair<std::string const ,bool> > > layerBlurMap; // 0x12454D70
+	extern std::map<std::string,bool> layerBlurMap; // 0x12454D70
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -377,29 +377,29 @@ namespace Modules
 
 /* ---------- private code */
 
-_extern void _sub_1099C4E0(std::vector<std::string,std::allocator<std::string> > &);
-void GetMapNameList(std::vector<std::string,std::allocator<std::string> > &mapNames) // 0x1099C4E0
+_extern void _sub_1099C4E0(std::vector<std::string> &);
+void GetMapNameList(std::vector<std::string> &mapNames) // 0x1099C4E0
 {
 	// `anonymous-namespace'::GetMapNameList
 	// static ...; // 0x1099C578
 	// static ...; // 0x1099C56C
 	// static ...; // 0x1099C564
-	// std::vector<std::string,std::allocator<std::string> > &mapNames;
+	// std::vector<std::string> &mapNames;
 	// GetMapNameList::__l2::<lambda_1> addMap;
 	todo("implement");
 	_sub_1099C4E0(mapNames);
 }
 
-_extern bool _sub_10997E90(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandGameLogLevel(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x10997E90
+_extern bool _sub_10997E90(std::vector<std::string> const &, std::string &);
+bool CommandGameLogLevel(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10997E90
 {
 	// `anonymous-namespace'::CommandGameLogLevel
 	// static ...; // 0x109980E8
 	// static ...; // 0x109980E0
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	{
-		// std::vector<std::string,std::allocator<std::string> > const &<range>$L0;
+		// std::vector<std::string> const &<range>$L0;
 		// std::string const *<begin>$L0;
 		// std::string const *<end>$L0;
 		{
@@ -411,17 +411,17 @@ bool CommandGameLogLevel(std::vector<std::string,std::allocator<std::string> > c
 	return __result;
 }
 
-_extern bool _sub_109981A0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandGameLogTypes(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x109981A0
+_extern bool _sub_109981A0(std::vector<std::string> const &, std::string &);
+bool CommandGameLogTypes(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109981A0
 {
 	// `anonymous-namespace'::CommandGameLogTypes
 	// static ...; // 0x1099842C
 	// static ...; // 0x10998424
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// unsigned __int32 types;
 	{
-		// std::vector<std::string,std::allocator<std::string> > const &<range>$L0;
+		// std::vector<std::string> const &<range>$L0;
 		// std::string const *<begin>$L0;
 		// std::string const *<end>$L0;
 		{
@@ -433,8 +433,8 @@ bool CommandGameLogTypes(std::vector<std::string,std::allocator<std::string> > c
 	return __result;
 }
 
-_extern bool _sub_109974D0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandGameLogFilter(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x109974D0
+_extern bool _sub_109974D0(std::vector<std::string> const &, std::string &);
+bool CommandGameLogFilter(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109974D0
 {
 	// `anonymous-namespace'::CommandGameLogFilter
 	// static ...; // 0x10997C96
@@ -443,21 +443,21 @@ bool CommandGameLogFilter(std::vector<std::string,std::allocator<std::string> > 
 	// static ...; // 0x10997C84
 	// static ...; // 0x10997C48
 	// static ...; // 0x10997C40
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	{
 		// bool remove;
 		// std::string str;
 		// bool exists;
 		// bool exclude;
-		// std::vector<std::string,std::allocator<std::string> > *vect;
+		// std::vector<std::string> *vect;
 		{
 			// std::_Vector_iterator<std::_Vector_val<std::_Simple_types<std::string> > > pos;
 		}
 	}
 	{
-		// std::vector<std::string,std::allocator<std::string> > &<range>$L0;
+		// std::vector<std::string> &<range>$L0;
 		// std::string *<begin>$L0;
 		// std::string *<end>$L0;
 		{
@@ -467,7 +467,7 @@ bool CommandGameLogFilter(std::vector<std::string,std::allocator<std::string> > 
 	{
 		// std::string *<end>$L1;
 		// std::string *<begin>$L1;
-		// std::vector<std::string,std::allocator<std::string> > &<range>$L1;
+		// std::vector<std::string> &<range>$L1;
 		{
 		}
 	}
@@ -476,8 +476,8 @@ bool CommandGameLogFilter(std::vector<std::string,std::allocator<std::string> > 
 	return __result;
 }
 
-_extern bool _sub_10994D20(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandGameInfo(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x10994D20
+_extern bool _sub_10994D20(std::vector<std::string> const &, std::string &);
+bool CommandGameInfo(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10994D20
 {
 	// `anonymous-namespace'::CommandGameInfo
 	// static ...; // 0x1099662B
@@ -494,14 +494,14 @@ bool CommandGameInfo(std::vector<std::string,std::allocator<std::string> > const
 	// static ...; // 0x109965BC
 	// static ...; // 0x10996520
 	// static ...; // 0x10996518
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// std::string Build;
 	// std::string FlashVersion;
 	// std::string DevKitVersion;
 	// std::string ArgList;
 	// std::string SystemID;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// std::string SessionID;
 	// std::string Xnaddr;
 	// std::string LocalSecureKey;
@@ -514,8 +514,8 @@ bool CommandGameInfo(std::vector<std::string,std::allocator<std::string> > const
 	return __result;
 }
 
-_extern bool _sub_10993FF0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandGameExit(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x10993FF0
+_extern bool _sub_10993FF0(std::vector<std::string> const &, std::string &);
+bool CommandGameExit(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10993FF0
 {
 	// `anonymous-namespace'::CommandGameExit
 	// std::string &returnInfo;
@@ -524,15 +524,15 @@ bool CommandGameExit(std::vector<std::string,std::allocator<std::string> > const
 	return __result;
 }
 
-_extern bool _sub_109984F0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandGameRestart(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x109984F0
+_extern bool _sub_109984F0(std::vector<std::string> const &, std::string &);
+bool CommandGameRestart(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109984F0
 {
 	// `anonymous-namespace'::CommandGameRestart
 	// static ...; // 0x1099875B
 	// static ...; // 0x10998758
 	// static ...; // 0x10998734
 	// static ...; // 0x1099872C
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// bool ret;
 	// std::string str;
@@ -548,8 +548,8 @@ bool CommandGameRestart(std::vector<std::string,std::allocator<std::string> > co
 	return __result;
 }
 
-_extern bool _sub_10994020(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandGameForceLoad(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x10994020
+_extern bool _sub_10994020(std::vector<std::string> const &, std::string &);
+bool CommandGameForceLoad(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10994020
 {
 	// `anonymous-namespace'::CommandGameForceLoad
 	// static ...; // 0x10994A76
@@ -557,18 +557,18 @@ bool CommandGameForceLoad(std::vector<std::string,std::allocator<std::string> > 
 	// static ...; // 0x10994A68
 	// static ...; // 0x10994A38
 	// static ...; // 0x10994A30
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// char const *gameTypeStr;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// std::string mapName;
 	// s_level_datum level;
 	// e_game_mode gameMode;
 	// e_game_engine_type gameType;
 	{
-		// std::vector<std::string,std::allocator<std::string> > mapNames;
+		// std::vector<std::string> mapNames;
 		{
-			// std::vector<std::string,std::allocator<std::string> > &<range>$L0;
+			// std::vector<std::string> &<range>$L0;
 			// std::string *<begin>$L0;
 			// std::string *<end>$L0;
 			{
@@ -591,8 +591,8 @@ bool CommandGameForceLoad(std::vector<std::string,std::allocator<std::string> > 
 	return __result;
 }
 
-_extern bool _sub_10998800(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandGameShowUI(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x10998800
+_extern bool _sub_10998800(std::vector<std::string> const &, std::string &);
+bool CommandGameShowUI(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10998800
 {
 	// `anonymous-namespace'::CommandGameShowUI
 	// static ...; // 0x10998BD4
@@ -601,7 +601,7 @@ bool CommandGameShowUI(std::vector<std::string,std::allocator<std::string> > con
 // $LN26:
 // $LN28:
 // $LN27:
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// __int32 dialogArg1;
 	// unsigned __int32 dialogParentStringId;
@@ -618,14 +618,14 @@ bool CommandGameShowUI(std::vector<std::string,std::allocator<std::string> > con
 	return __result;
 }
 
-_extern unsigned __int32 _sub_1099C310(std::basic_ifstream<char,std::char_traits<char> > &);
-unsigned __int32 GetFileSize(std::basic_ifstream<char,std::char_traits<char> > &file) // 0x1099C310
+_extern unsigned __int32 _sub_1099C310(std::ifstream &);
+unsigned __int32 GetFileSize(std::ifstream &file) // 0x1099C310
 {
 	// `anonymous-namespace'::GetFileSize
 	// static ...; // 0x1099C3CC
 	// static ...; // 0x1099C3C0
 	// static ...; // 0x1099C3B8
-	// std::basic_ifstream<char,std::char_traits<char> > &file;
+	// std::ifstream &file;
 	// std::fpos<_Mbstatet> originalPos;
 	// unsigned __int32 size;
 	todo("implement");
@@ -708,8 +708,8 @@ void SaveGameVariantToPreferences(unsigned char const *data, bool built_in, char
 	_sub_1099D830(data, built_in, file_path);
 }
 
-_extern bool _sub_10996D90(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandGameLoadMap(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x10996D90
+_extern bool _sub_10996D90(std::vector<std::string> const &, std::string &);
+bool CommandGameLoadMap(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10996D90
 {
 	// `anonymous-namespace'::CommandGameLoadMap
 	// static ...; // 0x10997345
@@ -718,13 +718,13 @@ bool CommandGameLoadMap(std::vector<std::string,std::allocator<std::string> > co
 	// static ...; // 0x10997324
 	// static ...; // 0x109972E8
 	// static ...; // 0x109972E0
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// __int32 lobbyType;
 	// unsigned char variantData[57488];
 	// std::string mapName;
 	// std::string variantFileName;
-	// std::basic_ifstream<char,std::char_traits<char> > mapVariant;
+	// std::ifstream mapVariant;
 	// bool (*LoadMapVariant)(unsigned char *, void *);
 	// bool built_in;
 	{
@@ -736,13 +736,13 @@ bool CommandGameLoadMap(std::vector<std::string,std::allocator<std::string> > co
 	return __result;
 }
 
-_extern bool _sub_1099CF20(std::basic_ifstream<char,std::char_traits<char> > &, unsigned char *);
-bool LoadGameVariant(std::basic_ifstream<char,std::char_traits<char> > &file, unsigned char *out) // 0x1099CF20
+_extern bool _sub_1099CF20(std::ifstream &, unsigned char *);
+bool LoadGameVariant(std::ifstream &file, unsigned char *out) // 0x1099CF20
 {
 	// `anonymous-namespace'::LoadGameVariant
 	// static ...; // 0x1099CFE4
 	// static ...; // 0x1099CFDC
-	// std::basic_ifstream<char,std::char_traits<char> > &file;
+	// std::ifstream &file;
 	// unsigned char *out;
 	// bool (*ParseGameVariant)(void *, unsigned char *, bool *);
 	// unsigned char blfData[956];
@@ -790,13 +790,13 @@ bool LoadDefaultGameVariant(std::string const &name, unsigned char *out) // 0x10
 	return __result;
 }
 
-_extern bool _sub_109931F0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandAnnoucementViewedDate(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x109931F0
+_extern bool _sub_109931F0(std::vector<std::string> const &, std::string &);
+bool CommandAnnoucementViewedDate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109931F0
 {
 	// `anonymous-namespace'::CommandAnnoucementViewedDate
 	// static ...; // 0x109932F4
 	// static ...; // 0x109932EC
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	{
 		// std::string date;
@@ -806,8 +806,8 @@ bool CommandAnnoucementViewedDate(std::vector<std::string,std::allocator<std::st
 	return __result;
 }
 
-_extern bool _sub_10999240(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandGameType(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x10999240
+_extern bool _sub_10999240(std::vector<std::string> const &, std::string &);
+bool CommandGameType(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10999240
 {
 	// `anonymous-namespace'::CommandGameType
 	// static ...; // 0x109997A0
@@ -815,11 +815,11 @@ bool CommandGameType(std::vector<std::string,std::allocator<std::string> > const
 	// static ...; // 0x10999784
 	// static ...; // 0x10999754
 	// static ...; // 0x1099974C
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// unsigned char variantData[612];
 	// std::string variantFileName;
-	// std::basic_ifstream<char,std::char_traits<char> > gameVariant;
+	// std::ifstream gameVariant;
 	// std::string name;
 	// bool (*LoadGameVariant)(unsigned char *);
 	// bool built_in;
@@ -837,8 +837,8 @@ bool CommandGameType(std::vector<std::string,std::allocator<std::string> > const
 	return __result;
 }
 
-_extern bool _sub_10998CE0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandGameStart(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x10998CE0
+_extern bool _sub_10998CE0(std::vector<std::string> const &, std::string &);
+bool CommandGameStart(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10998CE0
 {
 	// `anonymous-namespace'::CommandGameStart
 	// std::string &returnInfo;
@@ -848,8 +848,8 @@ bool CommandGameStart(std::vector<std::string,std::allocator<std::string> > cons
 	return __result;
 }
 
-_extern bool _sub_10998D80(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandGameStartCountdown(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x10998D80
+_extern bool _sub_10998D80(std::vector<std::string> const &, std::string &);
+bool CommandGameStartCountdown(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10998D80
 {
 	// `anonymous-namespace'::CommandGameStartCountdown
 	// std::string &returnInfo;
@@ -860,8 +860,8 @@ bool CommandGameStartCountdown(std::vector<std::string,std::allocator<std::strin
 	return __result;
 }
 
-_extern bool _sub_10998E20(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandGameStop(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x10998E20
+_extern bool _sub_10998E20(std::vector<std::string> const &, std::string &);
+bool CommandGameStop(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10998E20
 {
 	// `anonymous-namespace'::CommandGameStop
 	// std::string &returnInfo;
@@ -871,13 +871,13 @@ bool CommandGameStop(std::vector<std::string,std::allocator<std::string> > const
 	return __result;
 }
 
-_extern bool _sub_10996C80(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandGameLeave(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x10996C80
+_extern bool _sub_10996C80(std::vector<std::string> const &, std::string &);
+bool CommandGameLeave(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10996C80
 {
 	// `anonymous-namespace'::CommandGameLeave
 	// static ...; // 0x10996D40
 	// static ...; // 0x10996D38
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// void (*const c_network_session__leave_session_and_disconnect)(c_network_session *);
 	// c_network_session *session;
@@ -888,8 +888,8 @@ bool CommandGameLeave(std::vector<std::string,std::allocator<std::string> > cons
 	return __result;
 }
 
-_extern bool _sub_10993DE0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandGameEnd(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x10993DE0
+_extern bool _sub_10993DE0(std::vector<std::string> const &, std::string &);
+bool CommandGameEnd(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10993DE0
 {
 	// `anonymous-namespace'::CommandGameEnd
 	// std::string &returnInfo;
@@ -903,8 +903,8 @@ bool CommandGameEnd(std::vector<std::string,std::allocator<std::string> > const 
 	return __result;
 }
 
-_extern bool _sub_10993F10(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandGameEndRound(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x10993F10
+_extern bool _sub_10993F10(std::vector<std::string> const &, std::string &);
+bool CommandGameEndRound(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10993F10
 {
 	// `anonymous-namespace'::CommandGameEndRound
 	// std::string &returnInfo;
@@ -916,8 +916,8 @@ bool CommandGameEndRound(std::vector<std::string,std::allocator<std::string> > c
 	return __result;
 }
 
-_extern bool _sub_10999BD0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandGameVersion(std::vector<std::string,std::allocator<std::string> > const &arguments, std::string &returnInfo) // 0x10999BD0
+_extern bool _sub_10999BD0(std::vector<std::string> const &, std::string &);
+bool CommandGameVersion(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x10999BD0
 {
 	// `anonymous-namespace'::CommandGameVersion
 	// std::string &returnInfo;
@@ -926,17 +926,17 @@ bool CommandGameVersion(std::vector<std::string,std::allocator<std::string> > co
 	return __result;
 }
 
-_extern bool _sub_10999F30(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandListMaps(std::vector<std::string,std::allocator<std::string> > const &arguments, std::string &returnInfo) // 0x10999F30
+_extern bool _sub_10999F30(std::vector<std::string> const &, std::string &);
+bool CommandListMaps(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x10999F30
 {
 	// `anonymous-namespace'::CommandListMaps
 	// static ...; // 0x1099A034
 	// static ...; // 0x1099A02C
-	// std::vector<std::string,std::allocator<std::string> > const &arguments;
+	// std::vector<std::string> const &arguments;
 	// std::string &returnInfo;
-	// std::vector<std::string,std::allocator<std::string> > mapNames;
+	// std::vector<std::string> mapNames;
 	{
-		// std::vector<std::string,std::allocator<std::string> > &<range>$L0;
+		// std::vector<std::string> &<range>$L0;
 		// std::string *<begin>$L0;
 		// std::string *<end>$L0;
 		{
@@ -948,8 +948,8 @@ bool CommandListMaps(std::vector<std::string,std::allocator<std::string> > const
 	return __result;
 }
 
-_extern bool _sub_1099B0D0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandShowScreen(std::vector<std::string,std::allocator<std::string> > const &arguments, std::string &returnInfo) // 0x1099B0D0
+_extern bool _sub_1099B0D0(std::vector<std::string> const &, std::string &);
+bool CommandShowScreen(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x1099B0D0
 {
 	// `anonymous-namespace'::CommandShowScreen
 	// static ...; // 0x1099B428
@@ -957,7 +957,7 @@ bool CommandShowScreen(std::vector<std::string,std::allocator<std::string> > con
 	// static ...; // 0x1099B41C
 	// static ...; // 0x1099B3EC
 	// static ...; // 0x1099B3E4
-	// std::vector<std::string,std::allocator<std::string> > const &arguments;
+	// std::vector<std::string> const &arguments;
 	// std::string &returnInfo;
 	// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> doc;
 	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buff;
@@ -969,13 +969,13 @@ bool CommandShowScreen(std::vector<std::string,std::allocator<std::string> > con
 	return __result;
 }
 
-_extern bool _sub_1099A270(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandPlayUiSound(std::vector<std::string,std::allocator<std::string> > const &arguments, std::string &returnInfo) // 0x1099A270
+_extern bool _sub_1099A270(std::vector<std::string> const &, std::string &);
+bool CommandPlayUiSound(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x1099A270
 {
 	// `anonymous-namespace'::CommandPlayUiSound
 	// static ...; // 0x1099A348
 	// static ...; // 0x1099A340
-	// std::vector<std::string,std::allocator<std::string> > const &arguments;
+	// std::vector<std::string> const &arguments;
 	// std::string &returnInfo;
 	// char *endp;
 	// long index;
@@ -985,8 +985,8 @@ bool CommandPlayUiSound(std::vector<std::string,std::allocator<std::string> > co
 	return __result;
 }
 
-_extern bool _sub_1099A180(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandPlaySound(std::vector<std::string,std::allocator<std::string> > const &arguments, std::string &returnInfo) // 0x1099A180
+_extern bool _sub_1099A180(std::vector<std::string> const &, std::string &);
+bool CommandPlaySound(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x1099A180
 {
 	// `anonymous-namespace'::CommandPlaySound
 	// std::string &returnInfo;
@@ -998,8 +998,8 @@ bool CommandPlaySound(std::vector<std::string,std::allocator<std::string> > cons
 	return __result;
 }
 
-_extern bool _sub_1099A090(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandPlayLoopingSound(std::vector<std::string,std::allocator<std::string> > const &arguments, std::string &returnInfo) // 0x1099A090
+_extern bool _sub_1099A090(std::vector<std::string> const &, std::string &);
+bool CommandPlayLoopingSound(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x1099A090
 {
 	// `anonymous-namespace'::CommandPlayLoopingSound
 	// std::string &returnInfo;
@@ -1011,8 +1011,8 @@ bool CommandPlayLoopingSound(std::vector<std::string,std::allocator<std::string>
 	return __result;
 }
 
-_extern bool _sub_1099B7F0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandStopLoopingSound(std::vector<std::string,std::allocator<std::string> > const &arguments, std::string &returnInfo) // 0x1099B7F0
+_extern bool _sub_1099B7F0(std::vector<std::string> const &, std::string &);
+bool CommandStopLoopingSound(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x1099B7F0
 {
 	// `anonymous-namespace'::CommandStopLoopingSound
 	// std::string &returnInfo;
@@ -1024,8 +1024,8 @@ bool CommandStopLoopingSound(std::vector<std::string,std::allocator<std::string>
 	return __result;
 }
 
-_extern bool _sub_10998EC0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandGameTakeScreenshot(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x10998EC0
+_extern bool _sub_10998EC0(std::vector<std::string> const &, std::string &);
+bool CommandGameTakeScreenshot(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10998EC0
 {
 	// `anonymous-namespace'::CommandGameTakeScreenshot
 	// static ...; // 0x10999166
@@ -1033,7 +1033,7 @@ bool CommandGameTakeScreenshot(std::vector<std::string,std::allocator<std::strin
 	// static ...; // 0x10999150
 	// static ...; // 0x10999120
 	// static ...; // 0x10999118
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// wchar_t *(*TakeScreenshotImpl)();
 	// wchar_t *path;
@@ -1050,8 +1050,8 @@ bool CommandGameTakeScreenshot(std::vector<std::string,std::allocator<std::strin
 	return __result;
 }
 
-_extern bool _sub_10993800(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandExecuteScenarioScript(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x10993800
+_extern bool _sub_10993800(std::vector<std::string> const &, std::string &);
+bool CommandExecuteScenarioScript(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10993800
 {
 	// `anonymous-namespace'::CommandExecuteScenarioScript
 	// std::string &returnInfo;
@@ -1068,8 +1068,8 @@ bool CommandExecuteScenarioScript(std::vector<std::string,std::allocator<std::st
 	return __result;
 }
 
-_extern bool _sub_109936A0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandExecutePrintScript(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x109936A0
+_extern bool _sub_109936A0(std::vector<std::string> const &, std::string &);
+bool CommandExecutePrintScript(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109936A0
 {
 	// `anonymous-namespace'::CommandExecutePrintScript
 	// std::string &returnInfo;
@@ -1088,18 +1088,18 @@ bool CommandExecutePrintScript(std::vector<std::string,std::allocator<std::strin
 	return __result;
 }
 
-_extern bool _sub_10999C70(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandGetTagAddress(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x10999C70
+_extern bool _sub_10999C70(std::vector<std::string> const &, std::string &);
+bool CommandGetTagAddress(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10999C70
 {
 	// `anonymous-namespace'::CommandGetTagAddress
 	// static ...; // 0x10999E90
 	// static ...; // 0x10999E88
 // $LN10:
 // $LN5:
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// void *(*GetTagAddressImpl)(__int32, unsigned __int32);
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// __int32 tagIndex;
 	// void *address;
 	// function call : void *(*)(__int32, unsigned __int32)
@@ -1108,11 +1108,11 @@ bool CommandGetTagAddress(std::vector<std::string,std::allocator<std::string> > 
 	return __result;
 }
 
-_extern bool _sub_109933F0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandDisableScreenEffect(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x109933F0
+_extern bool _sub_109933F0(std::vector<std::string> const &, std::string &);
+bool CommandDisableScreenEffect(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109933F0
 {
 	// `anonymous-namespace'::CommandDisableScreenEffect
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// __int32 index;
 	// s_scenario const *scnr;
@@ -1125,16 +1125,16 @@ bool CommandDisableScreenEffect(std::vector<std::string,std::allocator<std::stri
 	return __result;
 }
 
-_extern bool _sub_1099DD90(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VariableLanguageUpdated(std::vector<std::string,std::allocator<std::string> > const &arguments, std::string &returnInfo) // 0x1099DD90
+_extern bool _sub_1099DD90(std::vector<std::string> const &, std::string &);
+bool VariableLanguageUpdated(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x1099DD90
 {
 	// `anonymous-namespace'::VariableLanguageUpdated
 	// static ...; // 0x1099E13C
 	// static ...; // 0x1099E134
-	// std::vector<std::string,std::allocator<std::string> > const &arguments;
+	// std::vector<std::string> const &arguments;
 	// std::string &returnInfo;
 	// std::_List_const_iterator<std::_List_val<std::_List_simple_types<std::pair<std::string const ,int> > > > it;
-	// static std::unordered_map<std::string,int,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::pair<std::string const ,int> > > `VariableLanguageUpdated'::`2'::languageIds; // 0x12454E7C
+	// static std::unordered_map<std::string,int> `VariableLanguageUpdated'::`2'::languageIds; // 0x12454E7C
 	// static __int32 `VariableLanguageUpdated'::`2'::$TSS0; // 0x12454D7C
 	todo("implement");
 	bool __result = _sub_1099DD90(arguments, returnInfo);
@@ -1155,22 +1155,22 @@ bool ShowTickrate() // 0x1099DB70
 	return __result;
 }
 
-_extern bool _sub_1099B650(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandShowTickrate(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x1099B650
+_extern bool _sub_1099B650(std::vector<std::string> const &, std::string &);
+bool CommandShowTickrate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1099B650
 {
 	// `anonymous-namespace'::CommandShowTickrate
 	// static ...; // 0x1099B78C
 	// static ...; // 0x1099B784
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	todo("implement");
 	bool __result = _sub_1099B650(Arguments, returnInfo);
 	return __result;
 }
 
-_extern bool _sub_10999910(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandGameUpdate(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x10999910
+_extern bool _sub_10999910(std::vector<std::string> const &, std::string &);
+bool CommandGameUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10999910
 {
 	// `anonymous-namespace'::CommandGameUpdate
 	// static ...; // 0x10999B33
@@ -1178,7 +1178,7 @@ bool CommandGameUpdate(std::vector<std::string,std::allocator<std::string> > con
 	// static ...; // 0x10999B28
 	// static ...; // 0x10999AF8
 	// static ...; // 0x10999AF0
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// std::wstring args;
 	// _PROCESS_INFORMATION pi;
@@ -1199,8 +1199,8 @@ bool CommandGameUpdate(std::vector<std::string,std::allocator<std::string> > con
 	return __result;
 }
 
-_extern bool _sub_10993A10(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandFullScreenBlurLayer(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x10993A10
+_extern bool _sub_10993A10(std::vector<std::string> const &, std::string &);
+bool CommandFullScreenBlurLayer(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10993A10
 {
 	// `anonymous-namespace'::CommandFullScreenBlurLayer
 	// static ...; // 0x10993D00
@@ -1208,13 +1208,13 @@ bool CommandFullScreenBlurLayer(std::vector<std::string,std::allocator<std::stri
 	// static ...; // 0x10993CEC
 	// static ...; // 0x10993CBC
 	// static ...; // 0x10993CB4
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// std::string layerName;
 	// std::string toggle;
 	// bool blurEnabled;
 	{
-		// std::map<std::string,bool,std::less<std::string>,std::allocator<std::pair<std::string const ,bool> > > &<range>$L0;
+		// std::map<std::string,bool> &<range>$L0;
 		// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,bool> > > > <begin>$L0;
 		// std::_Default_sentinel <end>$L0;
 		{
@@ -1226,8 +1226,8 @@ bool CommandFullScreenBlurLayer(std::vector<std::string,std::allocator<std::stri
 	return __result;
 }
 
-_extern bool _sub_109939A0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandFontPackage(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x109939A0
+_extern bool _sub_109939A0(std::vector<std::string> const &, std::string &);
+bool CommandFontPackage(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109939A0
 {
 	// `anonymous-namespace'::CommandFontPackage
 	// std::string &returnInfo;
@@ -1236,13 +1236,13 @@ bool CommandFontPackage(std::vector<std::string,std::allocator<std::string> > co
 	return __result;
 }
 
-_extern bool _sub_1099A820(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandSetMainMenuMod(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x1099A820
+_extern bool _sub_1099A820(std::vector<std::string> const &, std::string &);
+bool CommandSetMainMenuMod(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1099A820
 {
 	// `anonymous-namespace'::CommandSetMainMenuMod
 	// static ...; // 0x1099AAEC
 	// static ...; // 0x1099AAE4
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// bool (*const game_is_mainmenu)();
 	// std::filesystem::path filename;
@@ -1258,14 +1258,14 @@ bool CommandSetMainMenuMod(std::vector<std::string,std::allocator<std::string> >
 	return __result;
 }
 
-_extern bool _sub_1099A3A0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandSetCampaignMod(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x1099A3A0
+_extern bool _sub_1099A3A0(std::vector<std::string> const &, std::string &);
+bool CommandSetCampaignMod(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1099A3A0
 {
 	// `anonymous-namespace'::CommandSetCampaignMod
 	// static ...; // 0x1099A550
 	// static ...; // 0x1099A538
 	// static ...; // 0x1099A530
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// bool (*const game_is_mainmenu)();
 	// __int32 lobbyType;
@@ -1280,14 +1280,14 @@ bool CommandSetCampaignMod(std::vector<std::string,std::allocator<std::string> >
 	return __result;
 }
 
-_extern bool _sub_1099A5E0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandSetFirefightMod(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x1099A5E0
+_extern bool _sub_1099A5E0(std::vector<std::string> const &, std::string &);
+bool CommandSetFirefightMod(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1099A5E0
 {
 	// `anonymous-namespace'::CommandSetFirefightMod
 	// static ...; // 0x1099A790
 	// static ...; // 0x1099A778
 	// static ...; // 0x1099A770
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// bool (*const game_is_mainmenu)();
 	// __int32 lobbyType;
@@ -1302,14 +1302,14 @@ bool CommandSetFirefightMod(std::vector<std::string,std::allocator<std::string> 
 	return __result;
 }
 
-_extern bool _sub_1099ABC0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandSetMultiplayerMod(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x1099ABC0
+_extern bool _sub_1099ABC0(std::vector<std::string> const &, std::string &);
+bool CommandSetMultiplayerMod(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1099ABC0
 {
 	// `anonymous-namespace'::CommandSetMultiplayerMod
 	// static ...; // 0x1099AD78
 	// static ...; // 0x1099AD60
 	// static ...; // 0x1099AD58
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// bool (*const game_is_mainmenu)();
 	// __int32 lobbyType;
@@ -1324,8 +1324,8 @@ bool CommandSetMultiplayerMod(std::vector<std::string,std::allocator<std::string
 	return __result;
 }
 
-_extern bool _sub_10993350(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandCloseStartMenu(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x10993350
+_extern bool _sub_10993350(std::vector<std::string> const &, std::string &);
+bool CommandCloseStartMenu(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10993350
 {
 	// `anonymous-namespace'::CommandCloseStartMenu
 	// std::string &returnInfo;
@@ -1336,8 +1336,8 @@ bool CommandCloseStartMenu(std::vector<std::string,std::allocator<std::string> >
 	return __result;
 }
 
-_extern bool _sub_1099AE10(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandShowLocalServersUI(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x1099AE10
+_extern bool _sub_1099AE10(std::vector<std::string> const &, std::string &);
+bool CommandShowLocalServersUI(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1099AE10
 {
 	// `anonymous-namespace'::CommandShowLocalServersUI
 	// std::string &returnInfo;
@@ -1348,8 +1348,8 @@ bool CommandShowLocalServersUI(std::vector<std::string,std::allocator<std::strin
 	return __result;
 }
 
-_extern bool _sub_1099AE90(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandShowModBrowser(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x1099AE90
+_extern bool _sub_1099AE90(std::vector<std::string> const &, std::string &);
+bool CommandShowModBrowser(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1099AE90
 {
 	// `anonymous-namespace'::CommandShowModBrowser
 	// std::string &returnInfo;
@@ -1360,8 +1360,8 @@ bool CommandShowModBrowser(std::vector<std::string,std::allocator<std::string> >
 	return __result;
 }
 
-_extern bool _sub_1099B510(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandShowServerModBrowser(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x1099B510
+_extern bool _sub_1099B510(std::vector<std::string> const &, std::string &);
+bool CommandShowServerModBrowser(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1099B510
 {
 	// `anonymous-namespace'::CommandShowServerModBrowser
 	// std::string &returnInfo;
@@ -1372,8 +1372,8 @@ bool CommandShowServerModBrowser(std::vector<std::string,std::allocator<std::str
 	return __result;
 }
 
-_extern bool _sub_1099AFD0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandShowModInfo(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x1099AFD0
+_extern bool _sub_1099AFD0(std::vector<std::string> const &, std::string &);
+bool CommandShowModInfo(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1099AFD0
 {
 	// `anonymous-namespace'::CommandShowModInfo
 	// std::string &returnInfo;
@@ -1382,8 +1382,8 @@ bool CommandShowModInfo(std::vector<std::string,std::allocator<std::string> > co
 	return __result;
 }
 
-_extern bool _sub_1099B8D0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandVersionCompat(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x1099B8D0
+_extern bool _sub_1099B8D0(std::vector<std::string> const &, std::string &);
+bool CommandVersionCompat(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1099B8D0
 {
 	// `anonymous-namespace'::CommandVersionCompat
 	// std::string &returnInfo;

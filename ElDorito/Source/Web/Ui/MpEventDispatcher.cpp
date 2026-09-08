@@ -143,7 +143,7 @@ std::string GetEventName(unsigned __int32 stringId);
 
 namespace hades_file_local
 {
-	extern std::unordered_map<unsigned int,std::string,std::hash<unsigned int>,std::equal_to<unsigned int>,std::allocator<std::pair<unsigned int const ,std::string> > > EventNames; // 0x1247ECA0
+	extern std::unordered_map<unsigned int,std::string> EventNames; // 0x1247ECA0
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -198,7 +198,7 @@ std::string GetEventName(unsigned __int32 stringId) // 0x10C8A3E0
 	// static ...; // 0x10C8A5DC
 	// unsigned __int32 stringId;
 	// std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,std::string> > > > it;
-	// std::basic_ostringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::ostringstream ss;
 	// std::string name;
 	todo("implement");
 	std::string __result = _sub_10C8A3E0(stringId);

@@ -80,8 +80,8 @@ namespace Modules
 		Modules::Command *VarMultiplayerMod; // 0xC0
 		Modules::Command *VarTickRate; // 0xC4
 		Modules::Command *VarTickRateClient; // 0xC8
-		std::vector<std::string,std::allocator<std::string> > FiltersExclude; // 0xCC
-		std::vector<std::string,std::allocator<std::string> > FiltersInclude; // 0xDC
+		std::vector<std::string> FiltersExclude; // 0xCC
+		std::vector<std::string> FiltersInclude; // 0xDC
 		ModuleGame();
 		~ModuleGame(); /* compiler_generated() */
 	};

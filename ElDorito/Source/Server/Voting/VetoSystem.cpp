@@ -393,7 +393,7 @@ namespace Server
 			// static ...; // 0x10742220
 			// Server::Voting::VetoSystem *const this;
 			{
-				// std::map<std::string,int,std::less<std::string>,std::allocator<std::pair<std::string const ,int> > > &<range>$L0;
+				// std::map<std::string,int> &<range>$L0;
 				// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,int> > > > <begin>$L0;
 				// std::_Default_sentinel <end>$L0;
 				{
@@ -429,7 +429,7 @@ namespace Server
 			mangled_x86(MANGLED_TODO, "?StartVoting@VetoSystem@Voting@Server@@UAEXXZ");
 			// Server::Voting::VetoSystem *const this;
 			{
-				// std::vector<std::string,std::allocator<std::string> > &<range>$L0;
+				// std::vector<std::string> &<range>$L0;
 				// std::string *<begin>$L0;
 				// std::string *<end>$L0;
 				{
@@ -457,7 +457,7 @@ namespace Server
 			mangled_x86(MANGLED_TODO, "?SetGameAndMap@VetoSystem@Voting@Server@@AAEXXZ");
 			// Server::Voting::VetoSystem *const this;
 			{
-				// std::vector<std::string,std::allocator<std::string> > &<range>$L0;
+				// std::vector<std::string> &<range>$L0;
 				// std::string *<begin>$L0;
 				// std::string *<end>$L0;
 				{
@@ -502,7 +502,7 @@ namespace Server
 			mangled_x86(MANGLED_TODO, "?onExit@VetoSystem@Voting@Server@@UAEXXZ");
 			// Server::Voting::VetoSystem *const this;
 			{
-				// std::vector<std::string,std::allocator<std::string> > &<range>$L0;
+				// std::vector<std::string> &<range>$L0;
 				// std::string *<begin>$L0;
 				// std::string *<end>$L0;
 				{
@@ -523,10 +523,10 @@ namespace Server
 			// static ...; // 0x1073DDC8
 			// Server::Voting::VetoSystem *const this;
 			// std::string filename;
-			// std::vector<Server::Voting::HaloType,std::allocator<Server::Voting::HaloType> > gameTypes;
+			// std::vector<Server::Voting::HaloType> gameTypes;
 			// Server::Voting::VotingJson voting;
 			{
-				// std::vector<Server::Voting::PlaylistItem,std::allocator<Server::Voting::PlaylistItem> > &<range>$L0;
+				// std::vector<Server::Voting::PlaylistItem> &<range>$L0;
 				// Server::Voting::PlaylistItem *<begin>$L0;
 				// Server::Voting::PlaylistItem *<end>$L0;
 				{
@@ -622,11 +622,11 @@ namespace Server
 			// static ...; // 0x10742CB4
 			// static ...; // 0x10742CAC
 			// Server::Voting::VetoSystem *const this;
-			// std::vector<Server::Voting::HaloType,std::allocator<Server::Voting::HaloType> > gameTypes;
+			// std::vector<Server::Voting::HaloType> gameTypes;
 			// __int32 index;
-			// std::vector<Server::Voting::HaloMap,std::allocator<Server::Voting::HaloMap> > haloMaps;
+			// std::vector<Server::Voting::HaloMap> haloMaps;
 			{
-				// std::vector<Server::Voting::SMapListItem,std::allocator<Server::Voting::SMapListItem> > const &<range>$L0;
+				// std::vector<Server::Voting::SMapListItem> const &<range>$L0;
 				// Server::Voting::SMapListItem const *<begin>$L0;
 				// Server::Voting::SMapListItem const *<end>$L0;
 				{

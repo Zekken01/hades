@@ -122,11 +122,11 @@ namespace hades_file_local
 		__int32 m_outOfSync; // 0x4
 		unsigned __int32 m_currentUpdateNumber; // 0x8
 		__int32 m_callCounter; // 0xC
-		std::basic_ofstream<char,std::char_traits<char> > m_file; // 0x10
+		std::ofstream m_file; // 0x10
 		std::mutex m_mutex; // 0xC0
 		std::condition_variable m_logThreadWakeEvent; // 0xF0
-		std::vector<SRandomEvent,std::allocator<SRandomEvent> > m_queue; // 0x118
-		std::unordered_map<HINSTANCE__ *,std::string,std::hash<HINSTANCE__ *>,std::equal_to<HINSTANCE__ *>,std::allocator<std::pair<HINSTANCE__ * const,std::string> > > m_moduleNames; // 0x128
+		std::vector<SRandomEvent> m_queue; // 0x118
+		std::unordered_map<HINSTANCE__ *,std::string> m_moduleNames; // 0x128
 		std::thread m_thread; // 0x150
 		std::string m_currentMapName; // 0x158
 		char m_logLineBuffer[16384]; // 0x174
@@ -332,9 +332,9 @@ _inline void CDebugRandomTraceManager::LogThreadProc() // 0x107A3E20
 	// CDebugRandomTraceManager *const this;
 	{
 		// std::unique_lock<std::mutex> lock;
-		// std::vector<CDebugRandomTraceManager::SRandomEvent,std::allocator<CDebugRandomTraceManager::SRandomEvent> > queue;
+		// std::vector<CDebugRandomTraceManager::SRandomEvent> queue;
 		{
-			// std::vector<CDebugRandomTraceManager::SRandomEvent,std::allocator<CDebugRandomTraceManager::SRandomEvent> > &<range>$L0;
+			// std::vector<CDebugRandomTraceManager::SRandomEvent> &<range>$L0;
 			// CDebugRandomTraceManager::SRandomEvent *<begin>$L0;
 			// CDebugRandomTraceManager::SRandomEvent *<end>$L0;
 			{

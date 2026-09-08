@@ -114,11 +114,11 @@ namespace base
 namespace Player
 {
 	extern Player::SPersistentCharacterCustomization LoadCustomization(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &value);
-	extern std::map<std::string,Player::SPersistentCharacterCustomization,std::less<std::string>,std::allocator<std::pair<std::string const ,Player::SPersistentCharacterCustomization> > > LoadCustomizations(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &value);
-	extern void SaveCustomization(rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::basic_ostream<char,std::char_traits<char> > >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, Player::SPersistentCharacterCustomization const &customization);
-	extern void SaveCustomizations(rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::basic_ostream<char,std::char_traits<char> > >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, std::map<std::string,Player::SPersistentCharacterCustomization,std::less<std::string>,std::allocator<std::pair<std::string const ,Player::SPersistentCharacterCustomization> > > const &customizations);
-	extern std::map<std::string,std::string,std::less<std::string>,std::allocator<std::pair<std::string const ,std::string> > > LoadPreferredCharacters(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &value);
-	extern void SavePreferredCharacters(rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::basic_ostream<char,std::char_traits<char> > >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, std::map<std::string,std::string,std::less<std::string>,std::allocator<std::pair<std::string const ,std::string> > > const &preferredCharacters);
+	extern std::map<std::string,Player::SPersistentCharacterCustomization> LoadCustomizations(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &value);
+	extern void SaveCustomization(rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::ostream >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, Player::SPersistentCharacterCustomization const &customization);
+	extern void SaveCustomizations(rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::ostream >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, std::map<std::string,Player::SPersistentCharacterCustomization> const &customizations);
+	extern std::map<std::string,std::string> LoadPreferredCharacters(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &value);
+	extern void SavePreferredCharacters(rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::ostream >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, std::map<std::string,std::string> const &preferredCharacters);
 }
 
 /* ---------- globals */
@@ -155,10 +155,10 @@ namespace Player
 	}
 }
 
-extern std::map<std::string,Player::SPersistentCharacterCustomization,std::less<std::string>,std::allocator<std::pair<std::string const ,Player::SPersistentCharacterCustomization> > > _sub_107D7470(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &);
+extern std::map<std::string,Player::SPersistentCharacterCustomization> _sub_107D7470(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &);
 namespace Player
 {
-	std::map<std::string,Player::SPersistentCharacterCustomization,std::less<std::string>,std::allocator<std::pair<std::string const ,Player::SPersistentCharacterCustomization> > > LoadCustomizations(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &value) // 0x107D7470
+	std::map<std::string,Player::SPersistentCharacterCustomization> LoadCustomizations(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &value) // 0x107D7470
 	{
 		mangled_x86(MANGLED_TODO, "?LoadCustomizations@Player@@YA?AV?$map@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@USPersistentCharacterCustomization@Player@@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@USPersistentCharacterCustomization@Player@@@std@@@2@@std@@AAV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@@Z");
 		// static ...; // 0x107D764F
@@ -166,17 +166,17 @@ namespace Player
 		// static ...; // 0x107D7634
 		// static ...; // 0x107D762C
 		// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &value;
-		// std::map<std::string,Player::SPersistentCharacterCustomization,std::less<std::string>,std::allocator<std::pair<std::string const ,Player::SPersistentCharacterCustomization> > > customizations;
+		// std::map<std::string,Player::SPersistentCharacterCustomization> customizations;
 		{
 			// rapidjson::GenericMemberIterator<0,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > it;
 		}
 		todo("implement");
-		std::map<std::string,Player::SPersistentCharacterCustomization,std::less<std::string>,std::allocator<std::pair<std::string const ,Player::SPersistentCharacterCustomization> > > __result = _sub_107D7470(value);
+		std::map<std::string,Player::SPersistentCharacterCustomization> __result = _sub_107D7470(value);
 		return __result;
 	}
 
-	_extern void _sub_107D7CA0(rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::basic_ostream<char,std::char_traits<char> > >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &, Player::SPersistentCharacterCustomization const &);
-	void SaveCustomization(rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::basic_ostream<char,std::char_traits<char> > >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, Player::SPersistentCharacterCustomization const &customization) // 0x107D7CA0
+	_extern void _sub_107D7CA0(rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::ostream >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &, Player::SPersistentCharacterCustomization const &);
+	void SaveCustomization(rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::ostream >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, Player::SPersistentCharacterCustomization const &customization) // 0x107D7CA0
 	{
 		mangled_x86(MANGLED_TODO, "?SaveCustomization@Player@@YAXAAV?$PrettyWriter@V?$BasicOStreamWrapper@V?$basic_ostream@DU?$char_traits@D@std@@@std@@@rapidjson@@U?$UTF8@D@2@U32@VCrtAllocator@2@$0A@@rapidjson@@ABUSPersistentCharacterCustomization@1@@Z");
 		// static ...; // 0x107D7E9C
@@ -184,10 +184,10 @@ namespace Player
 		// static ...; // 0x107D7E88
 		// static ...; // 0x107D7E58
 		// static ...; // 0x107D7E50
-		// rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::basic_ostream<char,std::char_traits<char> > >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer;
+		// rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::ostream >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer;
 		// Player::SPersistentCharacterCustomization const &customization;
 		{
-			// std::map<std::string,std::string,std::less<std::string>,std::allocator<std::pair<std::string const ,std::string> > > const &<range>$L0;
+			// std::map<std::string,std::string> const &<range>$L0;
 			// std::_Tree_unchecked_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::string> > >,std::_Iterator_base0> <begin>$L0;
 			// std::_Default_sentinel <end>$L0;
 			{
@@ -198,7 +198,7 @@ namespace Player
 		{
 			// std::_Default_sentinel <end>$L1;
 			// std::_Tree_unchecked_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::string> > >,std::_Iterator_base0> <begin>$L1;
-			// std::map<std::string,std::string,std::less<std::string>,std::allocator<std::pair<std::string const ,std::string> > > const &<range>$L1;
+			// std::map<std::string,std::string> const &<range>$L1;
 			{
 				// std::string const &colorName;
 				// std::string const &colorValue;
@@ -208,17 +208,17 @@ namespace Player
 		_sub_107D7CA0(writer, customization);
 	}
 
-	_extern void _sub_107D7F40(rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::basic_ostream<char,std::char_traits<char> > >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &, std::map<std::string,Player::SPersistentCharacterCustomization,std::less<std::string>,std::allocator<std::pair<std::string const ,Player::SPersistentCharacterCustomization> > > const &);
-	void SaveCustomizations(rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::basic_ostream<char,std::char_traits<char> > >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, std::map<std::string,Player::SPersistentCharacterCustomization,std::less<std::string>,std::allocator<std::pair<std::string const ,Player::SPersistentCharacterCustomization> > > const &customizations) // 0x107D7F40
+	_extern void _sub_107D7F40(rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::ostream >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &, std::map<std::string,Player::SPersistentCharacterCustomization> const &);
+	void SaveCustomizations(rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::ostream >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, std::map<std::string,Player::SPersistentCharacterCustomization> const &customizations) // 0x107D7F40
 	{
 		mangled_x86(MANGLED_TODO, "?SaveCustomizations@Player@@YAXAAV?$PrettyWriter@V?$BasicOStreamWrapper@V?$basic_ostream@DU?$char_traits@D@std@@@std@@@rapidjson@@U?$UTF8@D@2@U32@VCrtAllocator@2@$0A@@rapidjson@@ABV?$map@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@USPersistentCharacterCustomization@Player@@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@USPersistentCharacterCustomization@Player@@@std@@@2@@std@@@Z");
 		// static ...; // 0x107D803C
 		// static ...; // 0x107D8024
 		// static ...; // 0x107D801C
-		// rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::basic_ostream<char,std::char_traits<char> > >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer;
-		// std::map<std::string,Player::SPersistentCharacterCustomization,std::less<std::string>,std::allocator<std::pair<std::string const ,Player::SPersistentCharacterCustomization> > > const &customizations;
+		// rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::ostream >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer;
+		// std::map<std::string,Player::SPersistentCharacterCustomization> const &customizations;
 		{
-			// std::map<std::string,Player::SPersistentCharacterCustomization,std::less<std::string>,std::allocator<std::pair<std::string const ,Player::SPersistentCharacterCustomization> > > const &<range>$L0;
+			// std::map<std::string,Player::SPersistentCharacterCustomization> const &<range>$L0;
 			// std::_Tree_unchecked_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,Player::SPersistentCharacterCustomization> > >,std::_Iterator_base0> <begin>$L0;
 			// std::_Default_sentinel <end>$L0;
 			{
@@ -231,10 +231,10 @@ namespace Player
 	}
 }
 
-extern std::map<std::string,std::string,std::less<std::string>,std::allocator<std::pair<std::string const ,std::string> > > _sub_107D76E0(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &);
+extern std::map<std::string,std::string> _sub_107D76E0(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &);
 namespace Player
 {
-	std::map<std::string,std::string,std::less<std::string>,std::allocator<std::pair<std::string const ,std::string> > > LoadPreferredCharacters(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &value) // 0x107D76E0
+	std::map<std::string,std::string> LoadPreferredCharacters(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &value) // 0x107D76E0
 	{
 		mangled_x86(MANGLED_TODO, "?LoadPreferredCharacters@Player@@YA?AV?$map@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@@std@@@2@@std@@AAV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@@Z");
 		// static ...; // 0x107D7887
@@ -242,12 +242,12 @@ namespace Player
 		// static ...; // 0x107D786C
 		// static ...; // 0x107D7864
 		// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &value;
-		// std::map<std::string,std::string,std::less<std::string>,std::allocator<std::pair<std::string const ,std::string> > > results;
+		// std::map<std::string,std::string> results;
 		{
 			// rapidjson::GenericMemberIterator<0,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > it;
 		}
 		todo("implement");
-		std::map<std::string,std::string,std::less<std::string>,std::allocator<std::pair<std::string const ,std::string> > > __result = _sub_107D76E0(value);
+		std::map<std::string,std::string> __result = _sub_107D76E0(value);
 		return __result;
 	}
 
@@ -259,17 +259,17 @@ namespace Player
 		compiler_generated();
 	}
 
-	_extern void _sub_107D80A0(rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::basic_ostream<char,std::char_traits<char> > >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &, std::map<std::string,std::string,std::less<std::string>,std::allocator<std::pair<std::string const ,std::string> > > const &);
-	void SavePreferredCharacters(rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::basic_ostream<char,std::char_traits<char> > >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, std::map<std::string,std::string,std::less<std::string>,std::allocator<std::pair<std::string const ,std::string> > > const &preferredCharacters) // 0x107D80A0
+	_extern void _sub_107D80A0(rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::ostream >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &, std::map<std::string,std::string> const &);
+	void SavePreferredCharacters(rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::ostream >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, std::map<std::string,std::string> const &preferredCharacters) // 0x107D80A0
 	{
 		mangled_x86(MANGLED_TODO, "?SavePreferredCharacters@Player@@YAXAAV?$PrettyWriter@V?$BasicOStreamWrapper@V?$basic_ostream@DU?$char_traits@D@std@@@std@@@rapidjson@@U?$UTF8@D@2@U32@VCrtAllocator@2@$0A@@rapidjson@@ABV?$map@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@@std@@@2@@std@@@Z");
 		// static ...; // 0x107D819C
 		// static ...; // 0x107D8184
 		// static ...; // 0x107D817C
-		// rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::basic_ostream<char,std::char_traits<char> > >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer;
-		// std::map<std::string,std::string,std::less<std::string>,std::allocator<std::pair<std::string const ,std::string> > > const &preferredCharacters;
+		// rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::ostream >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer;
+		// std::map<std::string,std::string> const &preferredCharacters;
 		{
-			// std::map<std::string,std::string,std::less<std::string>,std::allocator<std::pair<std::string const ,std::string> > > const &<range>$L0;
+			// std::map<std::string,std::string> const &<range>$L0;
 			// std::_Tree_unchecked_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::string> > >,std::_Iterator_base0> <begin>$L0;
 			// std::_Default_sentinel <end>$L0;
 			{
@@ -305,8 +305,8 @@ namespace Player
 		// std::string const &filename;
 		// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> doc;
 		// rapidjson::GenericObject<0,rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > > const &root;
-		// std::basic_ifstream<char,std::char_traits<char> > stream;
-		// rapidjson::BasicIStreamWrapper<std::basic_istream<char,std::char_traits<char> > > isw;
+		// std::ifstream stream;
+		// rapidjson::BasicIStreamWrapper<std::istream > isw;
 		todo("implement");
 		bool __result = _sub_107D6D00(this, filename);
 		return __result;
@@ -331,9 +331,9 @@ namespace Player
 		// static ...; // 0x107D7BE0
 		// static ...; // 0x107D7BD8
 		// Player::CPlayerCustomizationDB *const this;
-		// rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::basic_ostream<char,std::char_traits<char> > >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-		// std::basic_ofstream<char,std::char_traits<char> > stream;
-		// rapidjson::BasicOStreamWrapper<std::basic_ostream<char,std::char_traits<char> > > isw;
+		// rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::ostream >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
+		// std::ofstream stream;
+		// rapidjson::BasicOStreamWrapper<std::ostream > isw;
 		todo("implement");
 		_sub_107D7A10(this);
 	}
@@ -432,10 +432,10 @@ namespace Player
 	}
 }
 
-extern std::vector<std::string,std::allocator<std::string> > _sub_107D67A0(Player::CPlayerCustomizationDB *const);
+extern std::vector<std::string> _sub_107D67A0(Player::CPlayerCustomizationDB *const);
 namespace Player
 {
-	std::vector<std::string,std::allocator<std::string> > CPlayerCustomizationDB::GetCharacters() // 0x107D67A0
+	std::vector<std::string> CPlayerCustomizationDB::GetCharacters() // 0x107D67A0
 	{
 		mangled_x86(MANGLED_TODO, "?GetCharacters@CPlayerCustomizationDB@Player@@QAE?AV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@XZ");
 		// static ...; // 0x107D6924
@@ -444,9 +444,9 @@ namespace Player
 		// static ...; // 0x107D68EC
 		// static ...; // 0x107D68E4
 		// Player::CPlayerCustomizationDB *const this;
-		// std::vector<std::string,std::allocator<std::string> > characterNames;
+		// std::vector<std::string> characterNames;
 		{
-			// std::map<std::string,Player::SPersistentCharacterCustomization,std::less<std::string>,std::allocator<std::pair<std::string const ,Player::SPersistentCharacterCustomization> > > &<range>$L0;
+			// std::map<std::string,Player::SPersistentCharacterCustomization> &<range>$L0;
 			// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,Player::SPersistentCharacterCustomization> > > > <begin>$L0;
 			// std::_Default_sentinel <end>$L0;
 			{
@@ -455,7 +455,7 @@ namespace Player
 			}
 		}
 		todo("implement");
-		std::vector<std::string,std::allocator<std::string> > __result = _sub_107D67A0(this);
+		std::vector<std::string> __result = _sub_107D67A0(this);
 		return __result;
 	}
 }

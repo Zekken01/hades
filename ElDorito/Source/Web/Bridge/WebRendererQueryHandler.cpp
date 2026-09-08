@@ -229,7 +229,7 @@ namespace Web
 				// Web::Browser::Bridge::WebRendererQueryHandler *const this;
 				// Web::Browser::Bridge::WebRendererQueryHandler::PendingQuery *pendingQuery;
 				{
-					// std::unique_ptr<Web::Browser::Bridge::WebRendererQueryHandler::PendingQuery,std::default_delete<Web::Browser::Bridge::WebRendererQueryHandler::PendingQuery> > query;
+					// std::unique_ptr<Web::Browser::Bridge::WebRendererQueryHandler::PendingQuery> query;
 					// Web::Browser::Bridge::QueryError errorCode;
 					// std::string result;
 				}

@@ -119,9 +119,9 @@ namespace Blam
 
 /* ---------- prototypes */
 
-bool ReloadJson(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool VarVotingSystemUpdated(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool CommandServerCancelVote(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
+bool ReloadJson(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool VarVotingSystemUpdated(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool CommandServerCancelVote(std::vector<std::string> const &Arguments, std::string &returnInfo);
 
 /* ---------- globals */
 
@@ -160,8 +160,8 @@ namespace Modules
 
 /* ---------- private code */
 
-_extern bool _sub_106D6110(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool ReloadJson(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x106D6110
+_extern bool _sub_106D6110(std::vector<std::string> const &, std::string &);
+bool ReloadJson(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x106D6110
 {
 	// `anonymous-namespace'::ReloadJson
 	// std::string &returnInfo;
@@ -172,8 +172,8 @@ bool ReloadJson(std::vector<std::string,std::allocator<std::string> > const &Arg
 	return __result;
 }
 
-_extern bool _sub_106D6210(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool VarVotingSystemUpdated(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x106D6210
+_extern bool _sub_106D6210(std::vector<std::string> const &, std::string &);
+bool VarVotingSystemUpdated(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x106D6210
 {
 	// `anonymous-namespace'::VarVotingSystemUpdated
 	// std::string &returnInfo;
@@ -184,8 +184,8 @@ bool VarVotingSystemUpdated(std::vector<std::string,std::allocator<std::string> 
 	return __result;
 }
 
-_extern bool _sub_106D5F80(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandServerCancelVote(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x106D5F80
+_extern bool _sub_106D5F80(std::vector<std::string> const &, std::string &);
+bool CommandServerCancelVote(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x106D5F80
 {
 	// `anonymous-namespace'::CommandServerCancelVote
 	// std::string &returnInfo;

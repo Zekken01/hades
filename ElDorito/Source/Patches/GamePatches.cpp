@@ -78,7 +78,7 @@ void unused_update_hook();
 
 namespace hades_file_local
 {
-	extern std::vector<IGameSystem *,std::allocator<IGameSystem *> > eldewritoGameSystems; // 0x12408340
+	extern std::vector<IGameSystem *> eldewritoGameSystems; // 0x12408340
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -115,7 +115,7 @@ void unused_initialize_hook() // 0x108D1590
 	// `anonymous-namespace'::unused_initialize_hook
 	// procedure flags: nofpo
 	{
-		// std::vector<IGameSystem *,std::allocator<IGameSystem *> > &<range>$L0;
+		// std::vector<IGameSystem *> &<range>$L0;
 		// IGameSystem **<begin>$L0;
 		// IGameSystem **<end>$L0;
 		{
@@ -133,7 +133,7 @@ void unused_dispose_hook() // 0x108D14F0
 	// `anonymous-namespace'::unused_dispose_hook
 	// procedure flags: nofpo
 	{
-		// std::vector<IGameSystem *,std::allocator<IGameSystem *> > &<range>$L0;
+		// std::vector<IGameSystem *> &<range>$L0;
 		// IGameSystem **<begin>$L0;
 		// IGameSystem **<end>$L0;
 		{
@@ -151,7 +151,7 @@ void unused_intialize_for_new_map_hook() // 0x108D1630
 	// `anonymous-namespace'::unused_intialize_for_new_map_hook
 	// procedure flags: nofpo
 	{
-		// std::vector<IGameSystem *,std::allocator<IGameSystem *> > &<range>$L0;
+		// std::vector<IGameSystem *> &<range>$L0;
 		// IGameSystem **<begin>$L0;
 		// IGameSystem **<end>$L0;
 		{
@@ -169,7 +169,7 @@ void unused_dispose_from_old_map_hook() // 0x108D1450
 	// `anonymous-namespace'::unused_dispose_from_old_map_hook
 	// procedure flags: nofpo
 	{
-		// std::vector<IGameSystem *,std::allocator<IGameSystem *> > &<range>$L0;
+		// std::vector<IGameSystem *> &<range>$L0;
 		// IGameSystem **<begin>$L0;
 		// IGameSystem **<end>$L0;
 		{
@@ -187,7 +187,7 @@ void unused_update_hook() // 0x108D16D0
 	// `anonymous-namespace'::unused_update_hook
 	// procedure flags: nofpo
 	{
-		// std::vector<IGameSystem *,std::allocator<IGameSystem *> > &<range>$L0;
+		// std::vector<IGameSystem *> &<range>$L0;
 		// IGameSystem **<begin>$L0;
 		// IGameSystem **<end>$L0;
 		{

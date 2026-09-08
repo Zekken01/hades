@@ -95,7 +95,7 @@ namespace Utils
 			// bool isPrivateKey;
 			// std::string key;
 			// std::string returnKey;
-			// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+			// std::stringstream ss;
 			// unsigned __int32 pos;
 			// std::string keyType;
 			{
@@ -273,7 +273,7 @@ namespace Utils
 			// __int32 length;
 			// std::string const &chars;
 			// std::string &out;
-			// std::unique_ptr<unsigned char [0],std::default_delete<unsigned char [0]> > bytes;
+			// std::unique_ptr<unsigned char [0]> bytes;
 			{
 				// __int32 i;
 				{

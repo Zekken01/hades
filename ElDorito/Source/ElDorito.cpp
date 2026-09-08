@@ -456,8 +456,8 @@ void ElDorito::Initialize() // 0x10965070
 		}
 	}
 	{
-		// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
-		// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > keystream;
+		// std::stringstream ss;
+		// std::stringstream keystream;
 	}
 	{
 	}
@@ -476,7 +476,7 @@ void ElDorito::Initialize() // 0x10965070
 		}
 	}
 	{
-		// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > connectString;
+		// std::stringstream connectString;
 	}
 	// function call : HRESULT (void *)
 	// function call : unsigned long ()

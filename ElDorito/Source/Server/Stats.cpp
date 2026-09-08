@@ -218,11 +218,11 @@ namespace Server
 {
 	namespace Stats
 	{
-		extern void GetStatsEndpoints(std::vector<std::string,std::allocator<std::string> > &destVect);
+		extern void GetStatsEndpoints(std::vector<std::string> &destVect);
 		extern void GetPlayersInfoEndpoint();
 		extern void GetStatsPublicKey(std::string &dest);
 		extern unsigned long __stdcall GetPlayersInfo_Thread(void *lpParam);
-		extern bool AnnounceStats(std::string payload, std::vector<std::string,std::allocator<std::string> > endpoints);
+		extern bool AnnounceStats(std::string payload, std::vector<std::string> endpoints);
 		extern std::string GetStatsPayload();
 		extern void LifeCycleStateChanged(Blam::Network::LifeCycleState newState);
 		extern void OnGameStart();
@@ -260,14 +260,14 @@ namespace Server
 {
 	namespace Stats
 	{
-		_extern void _sub_10B28760(std::vector<std::string,std::allocator<std::string> > &);
-		void GetStatsEndpoints(std::vector<std::string,std::allocator<std::string> > &destVect) // 0x10B28760
+		_extern void _sub_10B28760(std::vector<std::string> &);
+		void GetStatsEndpoints(std::vector<std::string> &destVect) // 0x10B28760
 		{
 			mangled_x86(MANGLED_TODO, "?GetStatsEndpoints@Stats@Server@@YAXAAV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@@Z");
 			// static ...; // 0x10B288F8
 			// static ...; // 0x10B288EC
 			// static ...; // 0x10B288E4
-			// std::vector<std::string,std::allocator<std::string> > &destVect;
+			// std::vector<std::string> &destVect;
 			// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
 			{
 				// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &statsObject;
@@ -357,8 +357,8 @@ namespace Server
 			return __result;
 		}
 
-		_extern bool _sub_10B26B90(std::string, std::vector<std::string,std::allocator<std::string> >);
-		bool AnnounceStats(std::string payload, std::vector<std::string,std::allocator<std::string> > endpoints) // 0x10B26B90
+		_extern bool _sub_10B26B90(std::string, std::vector<std::string>);
+		bool AnnounceStats(std::string payload, std::vector<std::string> endpoints) // 0x10B26B90
 		{
 			mangled_x86(MANGLED_TODO, "?AnnounceStats@Stats@Server@@YA_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@4@@Z");
 			// static ...; // 0x10B27010
@@ -366,9 +366,9 @@ namespace Server
 			// static ...; // 0x10B26FF0
 		// $LN29:
 			// std::string payload;
-			// std::vector<std::string,std::allocator<std::string> > endpoints;
+			// std::vector<std::string> endpoints;
 			{
-				// std::vector<std::string,std::allocator<std::string> > &<range>$L0;
+				// std::vector<std::string> &<range>$L0;
 				// std::string *<begin>$L0;
 				// std::string *<end>$L0;
 				{
@@ -450,7 +450,7 @@ namespace Server
 				// __int32 peerIdx;
 				{
 					// Blam::Network::PlayerSession *player;
-					// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > color;
+					// std::stringstream color;
 					// __int32 nemesisIdx;
 					// __int32 playerIdx;
 					// char ipStr[22];
@@ -544,8 +544,8 @@ namespace Server
 			// static ...; // 0x10B2C700
 			// static ...; // 0x10B2C6F8
 			// std::filesystem::path parentDirectory;
-			// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
-			// std::basic_ofstream<char,std::char_traits<char> > logFile;
+			// std::stringstream ss;
+			// std::ofstream logFile;
 			// long long time;
 			// std::filesystem::path logFilePath;
 			// Blam::Network::Session *session;
@@ -559,7 +559,7 @@ namespace Server
 					// Blam::Network::PlayerSession *player;
 					// unsigned long long uid;
 					// unsigned __int32 ip;
-					// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > stream;
+					// std::stringstream stream;
 					// std::string name;
 					// std::string hexUID;
 				}
@@ -621,7 +621,7 @@ namespace Server
 			{
 				// long long elapsed;
 				{
-					// std::vector<std::string,std::allocator<std::string> > statsEndpoints;
+					// std::vector<std::string> statsEndpoints;
 					{
 						// std::string statsPayload;
 						{

@@ -422,8 +422,8 @@ namespace hades_file_local
 	extern bool InputCaptured; // 0x1247ED2C
 	extern bool PointerCaptured; // 0x1247ED2D
 	extern unsigned __int32 lastVariableUpdateTicks; // 0x1247ED30
-	extern std::vector<Modules::Command const *,std::allocator<Modules::Command const *> > lastVariableUpdates; // 0x1247ED18
-	extern std::map<std::string,std::shared_ptr<Web::Ui::WebScreen>,std::less<std::string>,std::allocator<std::pair<std::string const ,std::shared_ptr<Web::Ui::WebScreen> > > > registeredScreens; // 0x1247ECD0
+	extern std::vector<Modules::Command const *> lastVariableUpdates; // 0x1247ED18
+	extern std::map<std::string,std::shared_ptr<Web::Ui::WebScreen> > registeredScreens; // 0x1247ECD0
 	extern __int32 g_last_mouse_x; // 0x1247ED34
 	extern __int32 g_last_mouse_y; // 0x1247ED38
 	extern char const *ScreenIdString[16]; // 0x11355298
@@ -456,7 +456,7 @@ namespace Web
 				// static ...; // 0x10C9703C
 				// static ...; // 0x10C97034
 				{
-					// std::map<std::string,std::shared_ptr<Web::Ui::WebScreen>,std::less<std::string>,std::allocator<std::pair<std::string const ,std::shared_ptr<Web::Ui::WebScreen> > > > &<range>$L0;
+					// std::map<std::string,std::shared_ptr<Web::Ui::WebScreen> > &<range>$L0;
 					// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::shared_ptr<Web::Ui::WebScreen> > > > > <begin>$L0;
 					// std::_Default_sentinel <end>$L0;
 					{
@@ -706,7 +706,7 @@ namespace Web
 				// scoped_refptr<Web::Browser::WebRendererHandler> renderHandler;
 				// std::shared_ptr<Web::Browser::Bridge::WebRendererQueryHandler> queryHandler;
 				{
-					// std::map<std::string,std::shared_ptr<Web::Ui::WebScreen>,std::less<std::string>,std::allocator<std::pair<std::string const ,std::shared_ptr<Web::Ui::WebScreen> > > > &<range>$L0;
+					// std::map<std::string,std::shared_ptr<Web::Ui::WebScreen> > &<range>$L0;
 					// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::shared_ptr<Web::Ui::WebScreen> > > > > <begin>$L0;
 					// std::_Default_sentinel <end>$L0;
 					{
@@ -831,7 +831,7 @@ void ShutdownRenderer() // 0x10C96D40
 	// static ...; // 0x10C96E78
 	// static ...; // 0x10C96E70
 	{
-		// std::map<std::string,std::shared_ptr<Web::Ui::WebScreen>,std::less<std::string>,std::allocator<std::pair<std::string const ,std::shared_ptr<Web::Ui::WebScreen> > > > &<range>$L0;
+		// std::map<std::string,std::shared_ptr<Web::Ui::WebScreen> > &<range>$L0;
 		// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::shared_ptr<Web::Ui::WebScreen> > > > > <begin>$L0;
 		// std::_Default_sentinel <end>$L0;
 		{

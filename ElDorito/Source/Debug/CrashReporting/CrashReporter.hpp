@@ -63,7 +63,7 @@ namespace Debug
 			_CONTEXT *ctx; // 0x0
 			std::string info; // 0x4
 			s_exception exception; // 0x20
-			std::vector<std::string,std::allocator<std::string> > tag_history; // 0x4C
+			std::vector<std::string> tag_history; // 0x4C
 			s_crash_info(Debug::CrashReporting::s_crash_info &); /* compiler_generated() */
 			s_crash_info(Debug::CrashReporting::s_crash_info const &); /* compiler_generated() */
 			_inline s_crash_info(); /* compiler_generated() */

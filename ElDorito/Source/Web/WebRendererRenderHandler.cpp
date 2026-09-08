@@ -273,22 +273,22 @@ namespace Web
 			_sub_10CD1D70(this, browser, rect);
 		}
 
-		_extern void _sub_10CD1940(Web::Browser::WebRendererRenderHandler *const, scoped_refptr<CefBrowser>, cef_paint_element_type_t, std::vector<CefRect,std::allocator<CefRect> > const &, void *);
-		void WebRendererRenderHandler::OnAcceleratedPaint(scoped_refptr<CefBrowser> browser, cef_paint_element_type_t type, std::vector<CefRect,std::allocator<CefRect> > const &dirtyRects, void *sharedHandle) // 0x10CD1940
+		_extern void _sub_10CD1940(Web::Browser::WebRendererRenderHandler *const, scoped_refptr<CefBrowser>, cef_paint_element_type_t, std::vector<CefRect> const &, void *);
+		void WebRendererRenderHandler::OnAcceleratedPaint(scoped_refptr<CefBrowser> browser, cef_paint_element_type_t type, std::vector<CefRect> const &dirtyRects, void *sharedHandle) // 0x10CD1940
 		{
 			mangled_x86(MANGLED_TODO, "?OnAcceleratedPaint@WebRendererRenderHandler@Browser@Web@@EAEXV?$scoped_refptr@VCefBrowser@@@@W4cef_paint_element_type_t@@ABV?$vector@VCefRect@@V?$allocator@VCefRect@@@std@@@std@@PAX@Z");
 			// void *sharedHandle;
-			// function call : void (scoped_refptr<CefBrowser>, cef_paint_element_type_t, std::vector<CefRect,std::allocator<CefRect> > const &, void *)
+			// function call : void (scoped_refptr<CefBrowser>, cef_paint_element_type_t, std::vector<CefRect> const &, void *)
 			todo("implement");
 			_sub_10CD1940(this, browser, type, dirtyRects, sharedHandle);
 		}
 
-		_extern void _sub_10CD1AE0(Web::Browser::WebRendererRenderHandler *const, scoped_refptr<CefBrowser>, cef_paint_element_type_t, std::vector<CefRect,std::allocator<CefRect> > const &, void const *, __int32, __int32);
-		void WebRendererRenderHandler::OnPaint(scoped_refptr<CefBrowser> browser, cef_paint_element_type_t type, std::vector<CefRect,std::allocator<CefRect> > const &dirtyRects, void const *buffer, __int32 width, __int32 height) // 0x10CD1AE0
+		_extern void _sub_10CD1AE0(Web::Browser::WebRendererRenderHandler *const, scoped_refptr<CefBrowser>, cef_paint_element_type_t, std::vector<CefRect> const &, void const *, __int32, __int32);
+		void WebRendererRenderHandler::OnPaint(scoped_refptr<CefBrowser> browser, cef_paint_element_type_t type, std::vector<CefRect> const &dirtyRects, void const *buffer, __int32 width, __int32 height) // 0x10CD1AE0
 		{
 			mangled_x86(MANGLED_TODO, "?OnPaint@WebRendererRenderHandler@Browser@Web@@EAEXV?$scoped_refptr@VCefBrowser@@@@W4cef_paint_element_type_t@@ABV?$vector@VCefRect@@V?$allocator@VCefRect@@@std@@@std@@PBXHH@Z");
 			// __int32 height;
-			// function call : void (scoped_refptr<CefBrowser>, cef_paint_element_type_t, std::vector<CefRect,std::allocator<CefRect> > const &, void const *, __int32, __int32)
+			// function call : void (scoped_refptr<CefBrowser>, cef_paint_element_type_t, std::vector<CefRect> const &, void const *, __int32, __int32)
 			todo("implement");
 			_sub_10CD1AE0(this, browser, type, dirtyRects, buffer, width, height);
 		}

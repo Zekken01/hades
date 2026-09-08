@@ -29,10 +29,10 @@ class c_tag_name_dictionary
 public:
 	_inline c_tag_name_dictionary(c_tag_name_dictionary &&__that);
 	c_tag_name_dictionary(c_tag_name_dictionary const &);
-	_inline c_tag_name_dictionary(std::unordered_map<int,std::string,std::hash<int>,std::equal_to<int>,std::allocator<std::pair<int const ,std::string> > > &&names);
+	_inline c_tag_name_dictionary(std::unordered_map<int,std::string> &&names);
 	_inline c_tag_name_dictionary();
 private:
-	c_tag_name_dictionary(std::unordered_map<int,std::string,std::hash<int>,std::equal_to<int>,std::allocator<std::pair<int const ,std::string> > > const &);
+	c_tag_name_dictionary(std::unordered_map<int,std::string> const &);
 public:
 	_inline ~c_tag_name_dictionary();
 	c_tag_name_dictionary &operator=(c_tag_name_dictionary &);
@@ -42,7 +42,7 @@ public:
 	_inline char const *get_name(long index) const;
 	bool contains(long) const;
 	c_tag_name_dictionary clone();
-	std::unordered_map<int,std::string,std::hash<int>,std::equal_to<int>,std::allocator<std::pair<int const ,std::string> > > m_index_to_name; // 0x0
+	std::unordered_map<int,std::string> m_index_to_name; // 0x0
 };
 static_assert(sizeof(c_tag_name_dictionary) == 40, "Invalid c_tag_name_dictionary size");
 
@@ -61,11 +61,11 @@ _inline c_tag_name_dictionary::c_tag_name_dictionary() // 0x10877860
 	_sub_10877860(this);
 }
 
-extern c_tag_name_dictionary* _sub_1089D060(c_tag_name_dictionary *const, std::unordered_map<int,std::string,std::hash<int>,std::equal_to<int>,std::allocator<std::pair<int const ,std::string> > > &);
-_inline c_tag_name_dictionary::c_tag_name_dictionary(std::unordered_map<int,std::string,std::hash<int>,std::equal_to<int>,std::allocator<std::pair<int const ,std::string> > > &&names) // 0x1089D060
+extern c_tag_name_dictionary* _sub_1089D060(c_tag_name_dictionary *const, std::unordered_map<int,std::string> &);
+_inline c_tag_name_dictionary::c_tag_name_dictionary(std::unordered_map<int,std::string> &&names) // 0x1089D060
 {
 	mangled_x86(MANGLED_TODO, "??0c_tag_name_dictionary@@QAE@$$QAV?$unordered_map@HV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@U?$hash@H@2@U?$equal_to@H@2@V?$allocator@U?$pair@$$CBHV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@std@@@2@@std@@@Z");
-	// std::unordered_map<int,std::string,std::hash<int>,std::equal_to<int>,std::allocator<std::pair<int const ,std::string> > > &names;
+	// std::unordered_map<int,std::string> &names;
 	todo("implement");
 	_sub_1089D060(this, names);
 }

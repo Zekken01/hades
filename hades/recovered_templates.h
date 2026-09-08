@@ -441,7 +441,7 @@ public:
 	void Reset();
 private:
 	std::atomic<int> m_nextId; // 0x0
-	std::vector<CEventSink::SCallbackEntry,std::allocator<CEventSink::SCallbackEntry> > m_callbacks; // 0x4
+	std::vector<CEventSink::SCallbackEntry> m_callbacks; // 0x4
 public:
 	_inline CEventSink(); /* compiler_generated() */
 	_inline ~CEventSink(); /* compiler_generated() */
@@ -533,10 +533,10 @@ namespace Utils
 		_inline std::_Vector_const_iterator<std::_Vector_val<std::_Simple_types<std::pair<std::string,t_arg0> > > > begin() const;
 		_inline std::_Vector_const_iterator<std::_Vector_val<std::_Simple_types<std::pair<std::string,t_arg0> > > > end() const;
 	private:
-		std::vector<std::pair<std::string,t_arg0>,std::allocator<std::pair<std::string,t_arg0> > > valuesInOrder; // 0x0
-		std::unordered_map<std::string,t_arg0,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::pair<std::string const ,t_arg0> > > valuesByName; // 0x10
-		std::unordered_map<std::string,t_arg0,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::pair<std::string const ,t_arg0> > > valuesByLowercaseName; // 0x38
-		std::unordered_map<t_arg0,std::string,std::hash<t_arg0>,std::equal_to<t_arg0>,std::allocator<std::pair<t_arg0 const ,std::string> > > valueNames; // 0x60
+		std::vector<std::pair<std::string,t_arg0> > valuesInOrder; // 0x0
+		std::unordered_map<std::string,t_arg0> valuesByName; // 0x10
+		std::unordered_map<std::string,t_arg0> valuesByLowercaseName; // 0x38
+		std::unordered_map<t_arg0,std::string> valueNames; // 0x60
 	public:
 		_inline ~NameValueTable(); /* compiler_generated() */
 		NameValueTable &operator=(NameValueTable &); /* compiler_generated() */

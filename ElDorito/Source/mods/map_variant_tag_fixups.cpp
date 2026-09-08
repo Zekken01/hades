@@ -286,7 +286,7 @@ extern "C" bool fixup_map_variant_internal(s_blf_chunk_mapv_tag_names const *fix
 	// static ...; // 0x10891720
 	// s_blf_chunk_mapv_tag_names const *fixup_data;
 	// s_map_variant *map_variant;
-	// std::unordered_map<s_name_lookup_key,long,s_name_lookup_key::s_hasher,std::equal_to<s_name_lookup_key>,std::allocator<std::pair<s_name_lookup_key const ,long> > > runtime_tags_by_name;
+	// std::unordered_map<s_name_lookup_key,long,s_name_lookup_key::s_hasher> runtime_tags_by_name;
 	// std::shared_ptr<c_cache_file_tag_cache> base_cache;
 	// IMod *mod;
 	// bool succeeded;

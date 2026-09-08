@@ -462,7 +462,7 @@ namespace Server
 			// static ...; // 0x10C30B74
 			// static ...; // 0x10C30B6C
 			{
-				// std::map<std::weak_ptr<void>,coninfo,std::owner_less<std::weak_ptr<void> >,std::allocator<std::pair<std::weak_ptr<void> const ,coninfo> > > &<range>$L0;
+				// std::map<std::weak_ptr<void>,coninfo,std::owner_less<std::weak_ptr<void> > > &<range>$L0;
 				// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > > <begin>$L0;
 				// std::_Default_sentinel <end>$L0;
 				{
@@ -514,9 +514,9 @@ namespace Server
 			// static ...; // 0x10C2F940
 			// static ...; // 0x10C2F938
 			// __int32 peerIndex;
-			// std::vector<std::weak_ptr<void>,std::allocator<std::weak_ptr<void> > > handlesToClose;
+			// std::vector<std::weak_ptr<void> > handlesToClose;
 			{
-				// std::map<std::weak_ptr<void>,coninfo,std::owner_less<std::weak_ptr<void> >,std::allocator<std::pair<std::weak_ptr<void> const ,coninfo> > > &<range>$L0;
+				// std::map<std::weak_ptr<void>,coninfo,std::owner_less<std::weak_ptr<void> > > &<range>$L0;
 				// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > > <begin>$L0;
 				// std::_Default_sentinel <end>$L0;
 				{
@@ -527,7 +527,7 @@ namespace Server
 						{
 							// std::_Default_sentinel <end>$L1;
 							// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > > <begin>$L1;
-							// std::map<std::weak_ptr<void>,coninfo,std::owner_less<std::weak_ptr<void> >,std::allocator<std::pair<std::weak_ptr<void> const ,coninfo> > > &<range>$L1;
+							// std::map<std::weak_ptr<void>,coninfo,std::owner_less<std::weak_ptr<void> > > &<range>$L1;
 							{
 								// std::pair<std::weak_ptr<void> const ,coninfo> otherClient;
 							}
@@ -537,7 +537,7 @@ namespace Server
 			}
 			{
 				// std::weak_ptr<void> *<end>$L2;
-				// std::vector<std::weak_ptr<void>,std::allocator<std::weak_ptr<void> > > &<range>$L2;
+				// std::vector<std::weak_ptr<void> > &<range>$L2;
 				// std::weak_ptr<void> *<begin>$L2;
 				{
 					// std::weak_ptr<void> hdl;
@@ -654,7 +654,7 @@ bool OnValidate(websocketpp::server<Utils::WebSocket::Config> *signalServer, std
 	// static ...; // 0x10C2EF3C
 	// websocketpp::server<Utils::WebSocket::Config> *signalServer;
 	// std::weak_ptr<void> hdl;
-	// std::vector<std::string,std::allocator<std::string> > subprotocols;
+	// std::vector<std::string> subprotocols;
 	// coninfo info;
 	// std::shared_ptr<websocketpp::connection<Utils::WebSocket::Config> > connection;
 	todo("implement");
@@ -702,7 +702,7 @@ void HandleMessage(websocketpp::server<Utils::WebSocket::Config> *signalServer, 
 		// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > setUid;
 		// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
 		{
-			// std::map<std::weak_ptr<void>,coninfo,std::owner_less<std::weak_ptr<void> >,std::allocator<std::pair<std::weak_ptr<void> const ,coninfo> > > &<range>$L0;
+			// std::map<std::weak_ptr<void>,coninfo,std::owner_less<std::weak_ptr<void> > > &<range>$L0;
 			// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > > <begin>$L0;
 			// std::_Default_sentinel <end>$L0;
 			{
@@ -714,7 +714,7 @@ void HandleMessage(websocketpp::server<Utils::WebSocket::Config> *signalServer, 
 		{
 			// std::_Default_sentinel <end>$L1;
 			// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > > <begin>$L1;
-			// std::map<std::weak_ptr<void>,coninfo,std::owner_less<std::weak_ptr<void> >,std::allocator<std::pair<std::weak_ptr<void> const ,coninfo> > > &<range>$L1;
+			// std::map<std::weak_ptr<void>,coninfo,std::owner_less<std::weak_ptr<void> > > &<range>$L1;
 			{
 			}
 		}
@@ -759,7 +759,7 @@ void OnClose(websocketpp::server<Utils::WebSocket::Config> *signalServer, std::w
 	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
 	// std::string subproto;
 	{
-		// std::map<std::weak_ptr<void>,coninfo,std::owner_less<std::weak_ptr<void> >,std::allocator<std::pair<std::weak_ptr<void> const ,coninfo> > > &<range>$L0;
+		// std::map<std::weak_ptr<void>,coninfo,std::owner_less<std::weak_ptr<void> > > &<range>$L0;
 		// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > > <begin>$L0;
 		// std::_Default_sentinel <end>$L0;
 		{
@@ -784,7 +784,7 @@ RejectionReason ProcessPassword(char const *echo, coninfo &info) // 0x10C2F010
 	// __int32 peerIdx;
 	{
 		// char uid[17];
-		// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+		// std::stringstream ss;
 		// std::string name;
 	}
 	todo("implement");

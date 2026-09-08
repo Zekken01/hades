@@ -138,8 +138,8 @@ bool ShowLoadingScreenHook(s_game_options &options);
 void BeginLoadingHook(unsigned __int32 totalBytes);
 void UpdateLoadingProgressHook(unsigned __int32 bytes);
 void HideLoadingScreenHook();
-std::vector<std::string,std::allocator<std::string> > GetActiveSkullsForDisplay(unsigned long primarySkulls, unsigned long secondarySkulls);
-std::vector<std::string,std::allocator<std::string> > GetActiveSkullsForDisplay();
+std::vector<std::string> GetActiveSkullsForDisplay(unsigned long primarySkulls, unsigned long secondarySkulls);
+std::vector<std::string> GetActiveSkullsForDisplay();
 std::string camapgin_difficulty_level_to_string(long level);
 bool BuildLoadingScreenShowInfo(s_game_options &gameOptions, Patches::LoadingScreen::LoadingScreenShowInfo &outInfo);
 
@@ -251,25 +251,25 @@ void HideLoadingScreenHook() // 0x10A84000
 	_sub_10A84000();
 }
 
-extern std::vector<std::string,std::allocator<std::string> > _sub_10A83D50(unsigned long, unsigned long);
-std::vector<std::string,std::allocator<std::string> > GetActiveSkullsForDisplay(unsigned long primarySkulls, unsigned long secondarySkulls) // 0x10A83D50
+extern std::vector<std::string> _sub_10A83D50(unsigned long, unsigned long);
+std::vector<std::string> GetActiveSkullsForDisplay(unsigned long primarySkulls, unsigned long secondarySkulls) // 0x10A83D50
 {
 	// `anonymous-namespace'::GetActiveSkullsForDisplay
 	// static ...; // 0x10A83E6C
 	// static ...; // 0x10A83E64
 	// unsigned long primarySkulls;
 	// unsigned long secondarySkulls;
-	// std::vector<std::string,std::allocator<std::string> > skulls;
+	// std::vector<std::string> skulls;
 	{
 		// __int32 i;
 	}
 	todo("implement");
-	std::vector<std::string,std::allocator<std::string> > __result = _sub_10A83D50(primarySkulls, secondarySkulls);
+	std::vector<std::string> __result = _sub_10A83D50(primarySkulls, secondarySkulls);
 	return __result;
 }
 
-extern std::vector<std::string,std::allocator<std::string> > _sub_10A83ED0();
-std::vector<std::string,std::allocator<std::string> > GetActiveSkullsForDisplay() // 0x10A83ED0
+extern std::vector<std::string> _sub_10A83ED0();
+std::vector<std::string> GetActiveSkullsForDisplay() // 0x10A83ED0
 {
 	// `anonymous-namespace'::GetActiveSkullsForDisplay
 	// procedure flags: nofpo
@@ -282,7 +282,7 @@ std::vector<std::string,std::allocator<std::string> > GetActiveSkullsForDisplay(
 	// function call : unsigned long *(*const)(unsigned long *)
 	// function call : unsigned long *(*const)(unsigned long *)
 	todo("implement");
-	std::vector<std::string,std::allocator<std::string> > __result = _sub_10A83ED0();
+	std::vector<std::string> __result = _sub_10A83ED0();
 	return __result;
 }
 

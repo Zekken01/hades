@@ -178,7 +178,7 @@ namespace Server
 {
 	namespace ClientDataTracker
 	{
-		extern std::unordered_map<int,Server::ClientDataTracker::ClientData,std::hash<int>,std::equal_to<int>,std::allocator<std::pair<int const ,Server::ClientDataTracker::ClientData> > > dataMap; // 0x124675A0
+		extern std::unordered_map<int,Server::ClientDataTracker::ClientData> dataMap; // 0x124675A0
 	}
 }
 

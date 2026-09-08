@@ -90,7 +90,7 @@ namespace Player
 typedef IDirect3DBaseTexture9 *LPDIRECT3DBASETEXTURE9;
 namespace Player
 {
-	typedef rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::basic_ostream<char,std::char_traits<char> > >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> JsonWriter;
+	typedef rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::ostream >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> JsonWriter;
 }
 
 // Player::Emblems::PlayerEmblemD3DXBufferStream is defined in hades/recovered_types.h, which the synthesised
@@ -112,7 +112,7 @@ namespace Player
 {
 	namespace Emblems
 	{
-		extern std::queue<Player::Emblems::PlayerEmblemRenderTask,std::deque<Player::Emblems::PlayerEmblemRenderTask,std::allocator<Player::Emblems::PlayerEmblemRenderTask> > > g_renderTaskQueue; // 0x1138E3D4
+		extern std::queue<Player::Emblems::PlayerEmblemRenderTask> g_renderTaskQueue; // 0x1138E3D4
 		extern std::mutex g_renderTaskQueueMutex; // 0x1138E3E8
 	}
 }
@@ -316,7 +316,7 @@ namespace Player
 			// static ...; // 0x107E7D90
 			// static ...; // 0x107E7D6C
 			// static ...; // 0x107E7D64
-			// std::queue<Player::Emblems::PlayerEmblemRenderTask,std::deque<Player::Emblems::PlayerEmblemRenderTask,std::allocator<Player::Emblems::PlayerEmblemRenderTask> > > queue;
+			// std::queue<Player::Emblems::PlayerEmblemRenderTask> queue;
 			{
 				// std::scoped_lock<std::mutex> lock;
 			}

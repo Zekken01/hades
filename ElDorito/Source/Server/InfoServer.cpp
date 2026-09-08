@@ -407,7 +407,7 @@ std::string BuildInfoServerPayload(std::string const &inDataBuffer) // 0x10B1B3F
 				// Blam::Network::PlayerSession *player;
 				// s_player_emblem_configuration config;
 				// std::string emblem;
-				// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > color;
+				// std::stringstream color;
 				// unsigned char alive;
 				// char uid[17];
 				// s_game_results_player_statistics *player_stats;
@@ -469,7 +469,7 @@ bool ParseHttpRequestLine(std::string const &rawline, HttpRequestLine *outReques
 	// HttpRequestLine *outRequestLine;
 	// constexpr ParseHttpRequestLine::__l2::s_state STATE_PROTOCOL_VERSION; // constant == 2
 	// constexpr ParseHttpRequestLine::__l2::s_state STATE_END; // constant == 3
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > buff;
+	// std::stringstream buff;
 	// ParseHttpRequestLine::__l2::s_state state;
 	// constexpr ParseHttpRequestLine::__l2::s_state STATE_METHOD_TOKEN; // constant == 0
 	// constexpr ParseHttpRequestLine::__l2::s_state STATE_REQUEST_URI; // constant == 1

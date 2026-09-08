@@ -108,7 +108,7 @@ void CJobManager::Dispose() // 0x10869F80
 	// CJobManager *const this;
 	// std::unique_lock<std::mutex> lock;
 	{
-		// std::vector<std::thread,std::allocator<std::thread> > &<range>$L0;
+		// std::vector<std::thread> &<range>$L0;
 		// std::thread *<begin>$L0;
 		// std::thread *<end>$L0;
 		{

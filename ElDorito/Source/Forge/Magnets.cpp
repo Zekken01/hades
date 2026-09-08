@@ -192,7 +192,7 @@ namespace hades_file_local
 		Forge::Magnets::MagnetPair m_MagnetPairing; // 0xC
 		Forge::Magnets::Magnet m_SourceMagnets[512]; // 0x18
 		Forge::Magnets::Magnet m_DestMagnets[2048]; // 0x1818
-		void GetObjectMarkers(unsigned __int32, std::vector<real_point3d,std::allocator<real_point3d> > &);
+		void GetObjectMarkers(unsigned __int32, std::vector<real_point3d> &);
 		void AddSourceObject(unsigned __int32);
 		void AddDestObject(unsigned __int32);
 		void PerformPairing();
@@ -219,7 +219,7 @@ bool MagnetsEnabled();
 bool MagnetsVisible();
 unsigned short GetPlasmaShaderTagIndex();
 __int32 FindMagnetMarkerGroup(s_render_model const *renderModel);
-void GetMagnetsFromCollisionModel(unsigned __int32 objectIndex, std::vector<real_point3d,std::allocator<real_point3d> > &markers);
+void GetMagnetsFromCollisionModel(unsigned __int32 objectIndex, std::vector<real_point3d> &markers);
 
 /* ---------- globals */
 
@@ -500,8 +500,8 @@ __int32 FindMagnetMarkerGroup(s_render_model const *renderModel) // 0x1096CAA0
 	return __result;
 }
 
-_extern void _sub_1096CC00(unsigned __int32, std::vector<real_point3d,std::allocator<real_point3d> > &);
-void GetMagnetsFromCollisionModel(unsigned __int32 objectIndex, std::vector<real_point3d,std::allocator<real_point3d> > &markers) // 0x1096CC00
+_extern void _sub_1096CC00(unsigned __int32, std::vector<real_point3d> &);
+void GetMagnetsFromCollisionModel(unsigned __int32 objectIndex, std::vector<real_point3d> &markers) // 0x1096CC00
 {
 	// `anonymous-namespace'::GetMagnetsFromCollisionModel
 	// static ...; // 0x1096CDAD
@@ -510,7 +510,7 @@ void GetMagnetsFromCollisionModel(unsigned __int32 objectIndex, std::vector<real
 	// static ...; // 0x1096CD6C
 	// static ...; // 0x1096CD64
 	// unsigned __int32 objectIndex;
-	// std::vector<real_point3d,std::allocator<real_point3d> > &markers;
+	// std::vector<real_point3d> &markers;
 	{
 		// collision_model_instance instance;
 		{
@@ -536,11 +536,11 @@ void GetMagnetsFromCollisionModel(unsigned __int32 objectIndex, std::vector<real
 	_sub_1096CC00(objectIndex, markers);
 }
 
-_extern void _sub_1096CE30(MagnetManager *const, unsigned __int32, std::vector<real_point3d,std::allocator<real_point3d> > &);
-void MagnetManager::GetObjectMarkers(unsigned __int32 objectIndex, std::vector<real_point3d,std::allocator<real_point3d> > &markers) // 0x1096CE30
+_extern void _sub_1096CE30(MagnetManager *const, unsigned __int32, std::vector<real_point3d> &);
+void MagnetManager::GetObjectMarkers(unsigned __int32 objectIndex, std::vector<real_point3d> &markers) // 0x1096CE30
 {
 	// `anonymous-namespace'::MagnetManager::GetObjectMarkers
-	// std::vector<real_point3d,std::allocator<real_point3d> > &markers;
+	// std::vector<real_point3d> &markers;
 	// __int32 const markerGroupIndex;
 	// s_object_data *object;
 	// s_object_definition *objectDef;
@@ -572,7 +572,7 @@ void MagnetManager::AddSourceObject(unsigned __int32 objectIndex) // 0x1096C880
 	// MagnetManager *const this;
 	// unsigned __int32 objectIndex;
 	// s_object_data *const object;
-	// static std::vector<real_point3d,std::allocator<real_point3d> > `MagnetManager::AddSourceObject'::`2'::markers; // 0x1240FB68
+	// static std::vector<real_point3d> `MagnetManager::AddSourceObject'::`2'::markers; // 0x1240FB68
 	// real_matrix4x3 objectTransform;
 	// static __int32 `MagnetManager::AddSourceObject'::`2'::$TSS0; // 0x1240FB78
 	{
@@ -592,7 +592,7 @@ void MagnetManager::AddDestObject(unsigned __int32 objectIndex) // 0x1096C650
 	// MagnetManager *const this;
 	// unsigned __int32 objectIndex;
 	// s_object_data *object;
-	// static std::vector<real_point3d,std::allocator<real_point3d> > `MagnetManager::AddDestObject'::`2'::markers; // 0x1240FB7C
+	// static std::vector<real_point3d> `MagnetManager::AddDestObject'::`2'::markers; // 0x1240FB7C
 	// real_matrix4x3 objectTransform;
 	// static __int32 `MagnetManager::AddDestObject'::`2'::$TSS0; // 0x1240FB8C
 	{

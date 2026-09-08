@@ -151,7 +151,7 @@ using namespace ::Blam;
 
 namespace ChatCommands
 {
-	typedef std::function<bool __cdecl(int,std::vector<std::string,std::allocator<std::string> > const &,std::string &)> ChatCommandHandler;
+	typedef std::function<bool __cdecl(int,std::vector<std::string> const &,std::string &)> ChatCommandHandler;
 }
 
 /* ---------- prototypes */
@@ -162,8 +162,8 @@ namespace ChatCommands
 	extern void Init();
 	extern bool addToVoteTimes(unsigned long long sender);
 	extern void Tick();
-	extern std::vector<std::string,std::allocator<std::string> > getHelpText();
-	extern void RegisterCommand(std::string const &name, std::string const &description, ChatCommands::CommandFlags flags, std::function<bool __cdecl(int,std::vector<std::string,std::allocator<std::string> > const &,std::string &)> &&handler);
+	extern std::vector<std::string> getHelpText();
+	extern void RegisterCommand(std::string const &name, std::string const &description, ChatCommands::CommandFlags flags, std::function<bool __cdecl(int,std::vector<std::string> const &,std::string &)> &&handler);
 	extern ChatCommands::ChatCommand *FindChatCommand(std::string const &name);
 	extern bool handleChatMessage(Server::Chat::ChatMessage const &message, __int32 peer);
 }
@@ -172,15 +172,15 @@ namespace ChatCommands
 
 namespace ChatCommands
 {
-	extern std::vector<ChatCommands::ChatCommand,std::allocator<ChatCommands::ChatCommand> > chatCommands; // 0x1240D76C
+	extern std::vector<ChatCommands::ChatCommand> chatCommands; // 0x1240D76C
 	extern bool chatCommandsActive; // 0x1240D6F0
-	extern std::map<unsigned __int64,__int64,std::less<unsigned __int64>,std::allocator<std::pair<unsigned __int64 const ,__int64> > > voteTimes; // 0x1240D760
+	extern std::map<unsigned __int64,__int64> voteTimes; // 0x1240D760
 	extern ChatCommands::KickPlayerCommand kickPlayerCommand; // 0x1240D780
 	extern ChatCommands::KickIndexCommand kickIndexCommand; // 0x1240D808
 	extern ChatCommands::EndGameCommand endGameCommand; // 0x1240D8A0
 	extern ChatCommands::EndRoundCommand endRoundCommand; // 0x1240D908
 	extern ChatCommands::ShuffleTeamsCommand shuffleTeamsCommand; // 0x1240D6F8
-	extern std::vector<ChatCommands::VotingChatCommand *,std::allocator<ChatCommands::VotingChatCommand *> > votingCommands; // 0x1240D890
+	extern std::vector<ChatCommands::VotingChatCommand *> votingCommands; // 0x1240D890
 }
 
 /* ---------- private variables */
@@ -204,7 +204,7 @@ namespace ChatCommands
 		// Blam::Network::LifeCycleState newState;
 		// Blam::Network::Session *session;
 		{
-			// std::vector<ChatCommands::VotingChatCommand *,std::allocator<ChatCommands::VotingChatCommand *> > &<range>$L0;
+			// std::vector<ChatCommands::VotingChatCommand *> &<range>$L0;
 			// ChatCommands::VotingChatCommand **<begin>$L0;
 			// ChatCommands::VotingChatCommand **<end>$L0;
 			{
@@ -248,7 +248,7 @@ namespace ChatCommands
 		// procedure flags: nofpo
 		// Blam::Network::Session *session;
 		{
-			// std::vector<ChatCommands::VotingChatCommand *,std::allocator<ChatCommands::VotingChatCommand *> > &<range>$L0;
+			// std::vector<ChatCommands::VotingChatCommand *> &<range>$L0;
 			// ChatCommands::VotingChatCommand **<begin>$L0;
 			// ChatCommands::VotingChatCommand **<end>$L0;
 			{
@@ -316,19 +316,19 @@ namespace ChatCommands
 	}
 }
 
-extern std::vector<std::string,std::allocator<std::string> > _sub_1093D450();
+extern std::vector<std::string> _sub_1093D450();
 namespace ChatCommands
 {
-	std::vector<std::string,std::allocator<std::string> > getHelpText() // 0x1093D450
+	std::vector<std::string> getHelpText() // 0x1093D450
 	{
 		mangled_x86(MANGLED_TODO, "?getHelpText@ChatCommands@@YA?AV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@XZ");
 		// procedure flags: nofpo
 		// static ...; // 0x1093D800
 		// static ...; // 0x1093D7F4
 		// static ...; // 0x1093D7EC
-		// std::vector<std::string,std::allocator<std::string> > helpText;
+		// std::vector<std::string> helpText;
 		{
-			// std::vector<ChatCommands::VotingChatCommand *,std::allocator<ChatCommands::VotingChatCommand *> > &<range>$L0;
+			// std::vector<ChatCommands::VotingChatCommand *> &<range>$L0;
 			// ChatCommands::VotingChatCommand **<begin>$L0;
 			// ChatCommands::VotingChatCommand **<end>$L0;
 			{
@@ -338,14 +338,14 @@ namespace ChatCommands
 		{
 			// ChatCommands::ChatCommand *<end>$L1;
 			// ChatCommands::ChatCommand *<begin>$L1;
-			// std::vector<ChatCommands::ChatCommand,std::allocator<ChatCommands::ChatCommand> > &<range>$L1;
+			// std::vector<ChatCommands::ChatCommand> &<range>$L1;
 			{
 				// ChatCommands::ChatCommand const &command;
 			}
 		}
 		// function call : bool ()
 		todo("implement");
-		std::vector<std::string,std::allocator<std::string> > __result = _sub_1093D450();
+		std::vector<std::string> __result = _sub_1093D450();
 		return __result;
 	}
 
@@ -365,14 +365,14 @@ namespace ChatCommands
 		compiler_generated();
 	}
 
-	_extern void _sub_1093AB00(std::string const &, std::string const &, ChatCommands::CommandFlags, std::function<bool __cdecl(int,std::vector<std::string,std::allocator<std::string> > const &,std::string &)> &);
-	void RegisterCommand(std::string const &name, std::string const &description, ChatCommands::CommandFlags flags, std::function<bool __cdecl(int,std::vector<std::string,std::allocator<std::string> > const &,std::string &)> &&handler) // 0x1093AB00
+	_extern void _sub_1093AB00(std::string const &, std::string const &, ChatCommands::CommandFlags, std::function<bool __cdecl(int,std::vector<std::string> const &,std::string &)> &);
+	void RegisterCommand(std::string const &name, std::string const &description, ChatCommands::CommandFlags flags, std::function<bool __cdecl(int,std::vector<std::string> const &,std::string &)> &&handler) // 0x1093AB00
 	{
 		mangled_x86(MANGLED_TODO, "?RegisterCommand@ChatCommands@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0W4CommandFlags@1@$$QAV?$function@$$A6A_NHABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z@3@@Z");
 		// std::string const &name;
 		// std::string const &description;
 		// ChatCommands::CommandFlags flags;
-		// std::function<bool __cdecl(int,std::vector<std::string,std::allocator<std::string> > const &,std::string &)> &handler;
+		// std::function<bool __cdecl(int,std::vector<std::string> const &,std::string &)> &handler;
 		// ChatCommands::ChatCommand command;
 		todo("implement");
 		_sub_1093AB00(name, description, flags, handler);
@@ -406,7 +406,7 @@ namespace ChatCommands
 		// Server::Chat::ChatMessage const &message;
 		// __int32 peer;
 		// __int32 numArgs;
-		// std::vector<std::string,std::allocator<std::string> > args;
+		// std::vector<std::string> args;
 		// CommandLineArgs cmdArgs;
 		// std::string line;
 		// std::string cmd;
@@ -420,7 +420,7 @@ namespace ChatCommands
 			}
 		}
 		{
-			// std::vector<ChatCommands::VotingChatCommand *,std::allocator<ChatCommands::VotingChatCommand *> > &<range>$L0;
+			// std::vector<ChatCommands::VotingChatCommand *> &<range>$L0;
 			// ChatCommands::VotingChatCommand **<begin>$L0;
 			// ChatCommands::VotingChatCommand **<end>$L0;
 			{
@@ -430,12 +430,12 @@ namespace ChatCommands
 		{
 			// ChatCommands::VotingChatCommand **<end>$L1;
 			// ChatCommands::VotingChatCommand **<begin>$L1;
-			// std::vector<ChatCommands::VotingChatCommand *,std::allocator<ChatCommands::VotingChatCommand *> > &<range>$L1;
+			// std::vector<ChatCommands::VotingChatCommand *> &<range>$L1;
 			{
 				{
 					// std::string name;
 					{
-						// std::vector<std::string,std::allocator<std::string> > argsVect;
+						// std::vector<std::string> argsVect;
 						{
 							// __int32 i;
 						}

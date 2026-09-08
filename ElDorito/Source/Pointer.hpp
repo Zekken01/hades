@@ -172,7 +172,7 @@ _inline void Pointer::Write(void const *data, unsigned __int32 size) const // 0x
 	// unsigned long temp;
 	// unsigned long temp2;
 	{
-		// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+		// std::stringstream ss;
 	}
 	// function call : __int32 (void *, unsigned long, unsigned long, unsigned long *)
 	// function call : void (char const *)
@@ -199,7 +199,7 @@ _inline void Pointer::WriteCall(void *newFunction, bool isIndirect) const // 0x1
 	// unsigned long temp2;
 	// unsigned char tempJMP[6];
 	{
-		// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+		// std::stringstream ss;
 	}
 	// function call : __int32 (void *, unsigned long, unsigned long, unsigned long *)
 	// function call : void (char const *)
@@ -228,7 +228,7 @@ _inline void Pointer::WriteJump(void *newFunction, __int32 jmpFlags) const // 0x
 	// unsigned long temp2;
 	// unsigned char tempJMP[5];
 	{
-		// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+		// std::stringstream ss;
 	}
 	// function call : __int32 (void *, unsigned long, unsigned long, unsigned long *)
 	// function call : void (char const *)

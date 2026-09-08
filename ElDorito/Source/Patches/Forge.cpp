@@ -346,7 +346,7 @@ struct s_selectionState
 	public:
 	real_point3d initialPosition; // 0x0
 	float initialScale; // 0xC
-	std::unordered_map<int,ChildInfo,std::hash<int>,std::equal_to<int>,std::allocator<std::pair<int const ,ChildInfo> > > children; // 0x10
+	std::unordered_map<int,ChildInfo> children; // 0x10
 	s_selectionState(s_selectionState &); /* compiler_generated() */
 	s_selectionState(s_selectionState const &); /* compiler_generated() */
 	s_selectionState(); /* compiler_generated() */
@@ -488,7 +488,7 @@ namespace hades_file_local
 	extern float const HELDOBJECT_DISTANCE_CHANGE_MULTIPLIER; // 0x111AFB8C
 	extern float const MONITOR_MOVEMENT_SPEEDS[7]; // 0x111AFB90
 	extern wchar_t const *MONITOR_MOVEMENT_SPEED_NAMES[7]; // 0x11354370
-	extern std::vector<void (__cdecl*)(unsigned int),std::allocator<void (__cdecl*)(unsigned int)> > s_ItemSpawnedCallbacks; // 0x124584C0
+	extern std::vector<void (__cdecl*)(unsigned int)> s_ItemSpawnedCallbacks; // 0x124584C0
 	extern real_vector3d global_zero3d; // 0x111AFB58
 }
 using namespace hades_file_local;
@@ -1261,7 +1261,7 @@ void game_engine_sandbox_stop_editing_object_hook(long map_variant_index, float 
 	// float force;
 	// bool activate_physics;
 	// s_object_data *droppedObject;
-	// std::stack<unsigned int,std::deque<unsigned int,std::allocator<unsigned int> > > detachStack;
+	// std::stack<unsigned int> detachStack;
 	// Forge::ObjectSet &selection;
 	// void (*const game_engine_sandbox_stop_editing_object)(long, float, bool);
 	// Forge::Magnets::MagnetPair const &magnetPair;
@@ -1634,7 +1634,7 @@ long place_object_hook(s_map_variant *thisptr, void *__formal, long tag_index, l
 	// unsigned short flags;
 	// long object_index;
 	{
-		// std::vector<void (__cdecl*)(unsigned int),std::allocator<void (__cdecl*)(unsigned int)> > &<range>$L0;
+		// std::vector<void (__cdecl*)(unsigned int)> &<range>$L0;
 		// void (**<begin>$L0)(unsigned __int32);
 		// void (**<end>$L0)(unsigned __int32);
 		{

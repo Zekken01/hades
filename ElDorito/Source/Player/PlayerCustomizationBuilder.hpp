@@ -84,8 +84,8 @@ namespace Player
 		std::shared_ptr<Blam::Cache::StringIDCache> m_stringCache; // 0x4
 		s_multiplayer_globals_definition *m_mulg; // 0xC
 		s_mod_globals_definition *m_modg; // 0x10
-		std::vector<char,std::allocator<char> > m_mulgData; // 0x14
-		std::vector<char,std::allocator<char> > m_modgData; // 0x24
+		std::vector<char> m_mulgData; // 0x14
+		std::vector<char> m_modgData; // 0x24
 		SBaseCacheReference m_actualBaseCache; // 0x34
 	public:
 		CPlayerCharacterCustomizationBuilder(Player::CPlayerCharacterCustomizationBuilder &); /* compiler_generated() */
@@ -104,7 +104,7 @@ static_assert(sizeof(Player::CPlayerCharacterCustomizationBuilder) == 68, "Inval
 
 namespace Player
 {
-	extern void BuildChangeColors(unsigned long *changeColors, std::map<std::string,std::string,std::less<std::string>,std::allocator<std::pair<std::string const ,std::string> > > const &colors);
+	extern void BuildChangeColors(unsigned long *changeColors, std::map<std::string,std::string> const &colors);
 }
 
 /* ---------- globals */

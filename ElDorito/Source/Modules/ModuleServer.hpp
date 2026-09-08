@@ -142,13 +142,13 @@ namespace Modules
 		Modules::Command *VarCameraAllowedOnClientsClient; // 0x1B8
 		Modules::Command *VarDebugAllowedOnClients; // 0x1BC
 		Modules::Command *VarDebugAllowedOnClientsClient; // 0x1C0
-		std::unordered_set<std::string,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::string> > NonAllowedNames; // 0x1C4
-		std::unordered_set<std::string,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::string> > FilteredWords; // 0x1EC
-		std::unordered_set<std::string,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::string> > FilteredPatterns; // 0x214
+		std::unordered_set<std::string> NonAllowedNames; // 0x1C4
+		std::unordered_set<std::string> FilteredWords; // 0x1EC
+		std::unordered_set<std::string> FilteredPatterns; // 0x214
 		std::string FilterReplacementWord; // 0x23C
 		void refreshServerFilters();
-		std::unordered_set<std::string,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::string> > GetFilteredWordsList();
-		std::unordered_set<std::string,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::string> > GetFilteredPatternsList();
+		std::unordered_set<std::string> GetFilteredWordsList();
+		std::unordered_set<std::string> GetFilteredPatternsList();
 		std::string GetFilterReplacementWord();
 		ModuleServer();
 		~ModuleServer(); /* compiler_generated() */

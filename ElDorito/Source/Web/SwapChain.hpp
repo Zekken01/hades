@@ -86,8 +86,8 @@ namespace Web
 			unsigned __int32 m_bufferVersion; // 0x8
 			std::mutex m_mutex; // 0xC
 			std::condition_variable m_emptyCond; // 0x3C
-			std::queue<Buffer *,std::deque<Buffer *,std::allocator<Buffer *> > > m_queue; // 0x64
-			std::stack<Buffer *,std::deque<Buffer *,std::allocator<Buffer *> > > m_pool; // 0x78
+			std::queue<Buffer *> m_queue; // 0x64
+			std::stack<Buffer *> m_pool; // 0x78
 			Buffer *m_frontBuffer; // 0x8C
 			bool m_released; // 0x90
 		unsigned char __pad0[3]; // 0x91

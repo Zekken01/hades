@@ -42,7 +42,7 @@ namespace Modules
 	{
 	public:
 		CommandScript(Modules::CommandScript &); /* compiler_generated() */
-		_inline CommandScript(std::unique_ptr<std::basic_istream<char,std::char_traits<char> >,std::default_delete<std::basic_istream<char,std::char_traits<char> > > > stream, bool isUserInput, bool stopOnFirstError);
+		_inline CommandScript(std::unique_ptr<std::istream> stream, bool isUserInput, bool stopOnFirstError);
 		void Execute();
 		void Complete();
 		bool IsFinished() const;
@@ -57,12 +57,12 @@ namespace Modules
 		bool m_finished; // 0x1
 		bool m_stopOnFirstError; // 0x2
 		unsigned char __pad0[1]; // 0x3
-		std::unique_ptr<std::basic_istream<char,std::char_traits<char> >,std::default_delete<std::basic_istream<char,std::char_traits<char> > > > m_stream; // 0x4
+		std::unique_ptr<std::istream> m_stream; // 0x4
 		std::string m_line; // 0x8
 		__int32 m_lineNum; // 0x24
 		bool m_hasError; // 0x28
 		unsigned char __pad1[7]; // 0x29
-		std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > m_error; // 0x30
+		std::stringstream m_error; // 0x30
 		std::function<bool __cdecl(void)> m_wakeCond; // 0xE0
 	public:
 		_inline ~CommandScript(); /* compiler_generated() */
@@ -80,7 +80,7 @@ namespace Modules
 		void PushScript(std::shared_ptr<Modules::CommandScript> script);
 		void Update();
 	private:
-		std::stack<std::shared_ptr<Modules::CommandScript>,std::deque<std::shared_ptr<Modules::CommandScript>,std::allocator<std::shared_ptr<Modules::CommandScript> > > > m_stack; // 0x0
+		std::stack<std::shared_ptr<Modules::CommandScript> > m_stack; // 0x0
 	public:
 		CommandScriptStack(Modules::CommandScriptStack &); /* compiler_generated() */
 		CommandScriptStack(Modules::CommandScriptStack const &); /* compiler_generated() */
@@ -102,8 +102,8 @@ static_assert(sizeof(Modules::CommandScriptStack) == 20, "Invalid Modules::Comma
 
 namespace Modules
 {
-	extern CommandScript* _sub_10944E20(Modules::CommandScript *const, std::unique_ptr<std::basic_istream<char,std::char_traits<char> >,std::default_delete<std::basic_istream<char,std::char_traits<char> > > >, bool, bool);
-	_inline CommandScript::CommandScript(std::unique_ptr<std::basic_istream<char,std::char_traits<char> >,std::default_delete<std::basic_istream<char,std::char_traits<char> > > > stream, bool isUserInput, bool stopOnFirstError) // 0x10944E20
+	extern CommandScript* _sub_10944E20(Modules::CommandScript *const, std::unique_ptr<std::istream>, bool, bool);
+	_inline CommandScript::CommandScript(std::unique_ptr<std::istream> stream, bool isUserInput, bool stopOnFirstError) // 0x10944E20
 	{
 		mangled_x86(MANGLED_TODO, "??0CommandScript@Modules@@QAE@V?$unique_ptr@V?$basic_istream@DU?$char_traits@D@std@@@std@@U?$default_delete@V?$basic_istream@DU?$char_traits@D@std@@@std@@@2@@std@@_N1@Z");
 		// bool stopOnFirstError;

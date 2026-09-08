@@ -62,7 +62,7 @@ namespace Web
 		private:
 			virtual void OnPopupSize(scoped_refptr<CefBrowser> browser, CefRect const &rect);
 			virtual void OnPopupShow(scoped_refptr<CefBrowser> browser, bool show);
-			virtual void OnPaint(scoped_refptr<CefBrowser> browser, cef_paint_element_type_t type, std::vector<CefRect,std::allocator<CefRect> > const &dirtyRects, void const *buffer, __int32 width, __int32 height);
+			virtual void OnPaint(scoped_refptr<CefBrowser> browser, cef_paint_element_type_t type, std::vector<CefRect> const &dirtyRects, void const *buffer, __int32 width, __int32 height);
 			void ResetTextureDirtyRect();
 			Utils::Rectangle GetTextureDirtyRect() const;
 			HWND__ *m_Window; // 0x8
@@ -71,10 +71,10 @@ namespace Web
 			Microsoft::WRL::ComPtr<IDirect3DTexture9> m_Texture; // 0x20
 			Microsoft::WRL::ComPtr<ID3DXSprite> m_Sprite; // 0x24
 			std::mutex m_TextureLock; // 0x28
-			std::vector<unsigned char,std::allocator<unsigned char> > m_TextureData; // 0x58
+			std::vector<unsigned char> m_TextureData; // 0x58
 			unsigned __int32 m_TextureStride; // 0x68
 			Utils::Rectangle m_DirtyRect; // 0x6C
-			std::vector<unsigned char,std::allocator<unsigned char> > m_PopupData; // 0x7C
+			std::vector<unsigned char> m_PopupData; // 0x7C
 			Utils::Rectangle m_PopupRect; // 0x8C
 			bool m_PopupVisible; // 0x9C
 			bool m_PopupValid; // 0x9D

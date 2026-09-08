@@ -338,7 +338,7 @@ void WebLoadingScreenUi::Hide() // 0x10CAA3A0
 	// float tag_memory_size;
 	// float physical_memory_total_size;
 	// float used_tag_memory_size;
-	// std::chrono::duration<double,std::ratio<1,1> > time_span;
+	// std::chrono::duration<double,std::ratio<1> > time_span;
 	// float physical_memory_used_size;
 	todo("implement");
 	_sub_10CAA3A0(this);

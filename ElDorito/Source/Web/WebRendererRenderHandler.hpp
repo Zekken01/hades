@@ -57,8 +57,8 @@ namespace Web
 			virtual void GetViewRect(scoped_refptr<CefBrowser> browser, CefRect &rect);
 			virtual bool GetScreenInfo(scoped_refptr<CefBrowser> browser, CefScreenInfo &screenInfo);
 			virtual bool GetScreenPoint(scoped_refptr<CefBrowser> browser, __int32 viewX, __int32 viewY, __int32 &screenX, __int32 &screenY);
-			virtual void OnPaint(scoped_refptr<CefBrowser> browser, cef_paint_element_type_t type, std::vector<CefRect,std::allocator<CefRect> > const &dirtyRects, void const *buffer, __int32 width, __int32 height);
-			virtual void OnAcceleratedPaint(scoped_refptr<CefBrowser> browser, cef_paint_element_type_t type, std::vector<CefRect,std::allocator<CefRect> > const &dirtyRects, void *sharedHandle);
+			virtual void OnPaint(scoped_refptr<CefBrowser> browser, cef_paint_element_type_t type, std::vector<CefRect> const &dirtyRects, void const *buffer, __int32 width, __int32 height);
+			virtual void OnAcceleratedPaint(scoped_refptr<CefBrowser> browser, cef_paint_element_type_t type, std::vector<CefRect> const &dirtyRects, void *sharedHandle);
 			Microsoft::WRL::ComPtr<IDirect3DDevice9> m_Device; // 0x8
 			bool m_GpuEnable; // 0xC
 			HWND__ *m_Window; // 0x10

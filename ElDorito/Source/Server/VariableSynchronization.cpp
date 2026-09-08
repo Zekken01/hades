@@ -189,9 +189,9 @@ void SetVariable(Modules::Command *var, Modules::Command const *value);
 void SetVariable(Modules::Command *var, SyncUpdatePacketVar const *value);
 void TickBinding(SynchronizationBinding *binding);
 void TickBindings();
-std::vector<SynchronizationBinding *,std::allocator<SynchronizationBinding *> > FindOutOfDateBindings(__int32 peerIndex);
+std::vector<SynchronizationBinding *> FindOutOfDateBindings(__int32 peerIndex);
 void BuildVariableUpdate(SynchronizationBinding const *binding, SyncUpdatePacketVar *result);
-std::shared_ptr<Patches::CustomPackets::VariadicPacket<SyncUpdatePacketData,SyncUpdatePacketVar> > BuildUpdatePacket(std::vector<SynchronizationBinding *,std::allocator<SynchronizationBinding *> > const &bindings);
+std::shared_ptr<Patches::CustomPackets::VariadicPacket<SyncUpdatePacketData,SyncUpdatePacketVar> > BuildUpdatePacket(std::vector<SynchronizationBinding *> const &bindings);
 void SynchronizePeer(__int32 peerIndex);
 bool IsPeerReady(Blam::Network::Session *session, __int32 peerIndex);
 void SynchronizePeers(Blam::Network::Session *session);
@@ -330,7 +330,7 @@ void SetVariable(Modules::Command *var, Modules::Command const *value) // 0x10C3
 	{
 		// std::string returnInfo;
 	}
-	// function call : bool (*)(std::vector<std::string,std::allocator<std::string> > const &, std::string &)
+	// function call : bool (*)(std::vector<std::string> const &, std::string &)
 	todo("implement");
 	_sub_10C3D1A0(var, value);
 }
@@ -351,7 +351,7 @@ void SetVariable(Modules::Command *var, SyncUpdatePacketVar const *value) // 0x1
 	{
 		// std::string returnInfo;
 	}
-	// function call : bool (*)(std::vector<std::string,std::allocator<std::string> > const &, std::string &)
+	// function call : bool (*)(std::vector<std::string> const &, std::string &)
 	todo("implement");
 	_sub_10C3D4F0(var, value);
 }
@@ -375,7 +375,7 @@ void TickBindings() // 0x10C3DF10
 	// static ...; // 0x10C3DFB0
 	// static ...; // 0x10C3DFA8
 	{
-		// std::unordered_map<unsigned int,SynchronizationBinding,std::hash<unsigned int>,std::equal_to<unsigned int>,std::allocator<std::pair<unsigned int const ,SynchronizationBinding> > > &<range>$L0;
+		// std::unordered_map<unsigned int,SynchronizationBinding> &<range>$L0;
 		// std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,SynchronizationBinding> > > > <begin>$L0;
 		// std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,SynchronizationBinding> > > > <end>$L0;
 		{
@@ -386,8 +386,8 @@ void TickBindings() // 0x10C3DF10
 	_sub_10C3DF10();
 }
 
-extern std::vector<SynchronizationBinding *,std::allocator<SynchronizationBinding *> > _sub_10C3C370(__int32);
-std::vector<SynchronizationBinding *,std::allocator<SynchronizationBinding *> > FindOutOfDateBindings(__int32 peerIndex) // 0x10C3C370
+extern std::vector<SynchronizationBinding *> _sub_10C3C370(__int32);
+std::vector<SynchronizationBinding *> FindOutOfDateBindings(__int32 peerIndex) // 0x10C3C370
 {
 	// `anonymous-namespace'::FindOutOfDateBindings
 	// static ...; // 0x10C3C540
@@ -396,9 +396,9 @@ std::vector<SynchronizationBinding *,std::allocator<SynchronizationBinding *> > 
 	// static ...; // 0x10C3C508
 	// static ...; // 0x10C3C500
 	// __int32 peerIndex;
-	// std::vector<SynchronizationBinding *,std::allocator<SynchronizationBinding *> > result;
+	// std::vector<SynchronizationBinding *> result;
 	{
-		// std::unordered_map<unsigned int,SynchronizationBinding,std::hash<unsigned int>,std::equal_to<unsigned int>,std::allocator<std::pair<unsigned int const ,SynchronizationBinding> > > &<range>$L0;
+		// std::unordered_map<unsigned int,SynchronizationBinding> &<range>$L0;
 		// std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,SynchronizationBinding> > > > <begin>$L0;
 		// std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,SynchronizationBinding> > > > <end>$L0;
 		{
@@ -406,7 +406,7 @@ std::vector<SynchronizationBinding *,std::allocator<SynchronizationBinding *> > 
 		}
 	}
 	todo("implement");
-	std::vector<SynchronizationBinding *,std::allocator<SynchronizationBinding *> > __result = _sub_10C3C370(peerIndex);
+	std::vector<SynchronizationBinding *> __result = _sub_10C3C370(peerIndex);
 	return __result;
 }
 
@@ -425,14 +425,14 @@ void BuildVariableUpdate(SynchronizationBinding const *binding, SyncUpdatePacket
 	_sub_10C3BCB0(binding, result);
 }
 
-extern std::shared_ptr<Patches::CustomPackets::VariadicPacket<SyncUpdatePacketData,SyncUpdatePacketVar> > _sub_10C3BB00(std::vector<SynchronizationBinding *,std::allocator<SynchronizationBinding *> > const &);
-std::shared_ptr<Patches::CustomPackets::VariadicPacket<SyncUpdatePacketData,SyncUpdatePacketVar> > BuildUpdatePacket(std::vector<SynchronizationBinding *,std::allocator<SynchronizationBinding *> > const &bindings) // 0x10C3BB00
+extern std::shared_ptr<Patches::CustomPackets::VariadicPacket<SyncUpdatePacketData,SyncUpdatePacketVar> > _sub_10C3BB00(std::vector<SynchronizationBinding *> const &);
+std::shared_ptr<Patches::CustomPackets::VariadicPacket<SyncUpdatePacketData,SyncUpdatePacketVar> > BuildUpdatePacket(std::vector<SynchronizationBinding *> const &bindings) // 0x10C3BB00
 {
 	// `anonymous-namespace'::BuildUpdatePacket
 	// static ...; // 0x10C3BC48
 	// static ...; // 0x10C3BC3C
 	// static ...; // 0x10C3BC34
-	// std::vector<SynchronizationBinding *,std::allocator<SynchronizationBinding *> > const &bindings;
+	// std::vector<SynchronizationBinding *> const &bindings;
 	// std::shared_ptr<Patches::CustomPackets::VariadicPacket<SyncUpdatePacketData,SyncUpdatePacketVar> > result;
 	{
 		// unsigned __int32 i;
@@ -455,10 +455,10 @@ void SynchronizePeer(__int32 peerIndex) // 0x10C3DA00
 	// static ...; // 0x10C3DB88
 	// static ...; // 0x10C3DB80
 	// __int32 peerIndex;
-	// std::vector<SynchronizationBinding *,std::allocator<SynchronizationBinding *> > outOfDateBindings;
+	// std::vector<SynchronizationBinding *> outOfDateBindings;
 	// std::shared_ptr<Patches::CustomPackets::VariadicPacket<SyncUpdatePacketData,SyncUpdatePacketVar> > packet;
 	{
-		// std::vector<SynchronizationBinding *,std::allocator<SynchronizationBinding *> > &<range>$L0;
+		// std::vector<SynchronizationBinding *> &<range>$L0;
 		// SynchronizationBinding **<begin>$L0;
 		// SynchronizationBinding **<end>$L0;
 		{
@@ -497,7 +497,7 @@ void SynchronizePeers(Blam::Network::Session *session) // 0x10C3DC30
 		// __int32 peer;
 	}
 	{
-		// std::unordered_map<unsigned int,SynchronizationBinding,std::hash<unsigned int>,std::equal_to<unsigned int>,std::allocator<std::pair<unsigned int const ,SynchronizationBinding> > > &<range>$L0;
+		// std::unordered_map<unsigned int,SynchronizationBinding> &<range>$L0;
 		// std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,SynchronizationBinding> > > > <begin>$L0;
 		// std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,SynchronizationBinding> > > > <end>$L0;
 		{

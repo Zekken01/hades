@@ -98,7 +98,7 @@ using namespace ::Http;
 
 /* ---------- prototypes */
 
-bool CommandDownloadHttp(std::vector<std::string,std::allocator<std::string> > const &args, std::string &retValue);
+bool CommandDownloadHttp(std::vector<std::string> const &args, std::string &retValue);
 
 /* ---------- globals */
 
@@ -128,14 +128,14 @@ _inline CEventSink<>::SCallbackEntry::SCallbackEntry(CEventSink<>::SCallbackEntr
 
 /* ---------- private code */
 
-_extern bool _sub_10856F10(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandDownloadHttp(std::vector<std::string,std::allocator<std::string> > const &args, std::string &retValue) // 0x10856F10
+_extern bool _sub_10856F10(std::vector<std::string> const &, std::string &);
+bool CommandDownloadHttp(std::vector<std::string> const &args, std::string &retValue) // 0x10856F10
 {
 	// `anonymous-namespace'::CommandDownloadHttp
 	// static ...; // 0x10857144
 	// static ...; // 0x1085712C
 	// static ...; // 0x10857124
-	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::vector<std::string> const &args;
 	// std::string &retValue;
 	// std::shared_ptr<Download::CHttpFileDownload> download;
 	// std::shared_ptr<`CommandDownloadHttp'::`2'::ScopedDebugTrace> debugTrace;

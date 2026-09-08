@@ -56,13 +56,13 @@ public:
 private:
 	void WorkerThreadProc();
 	__int32 m_jobId; // 0x0
-	std::priority_queue<SJob,std::vector<SJob,std::allocator<SJob> >,std::less<SJob> > m_jobs; // 0x4
+	std::priority_queue<SJob> m_jobs; // 0x4
 	std::mutex m_mutex; // 0x18
 	std::condition_variable m_emptyCondition; // 0x48
 	SJobCounter m_jobCounter; // 0x70
 	bool m_disposing; // 0x74
 	unsigned char __pad0[3]; // 0x75
-	std::vector<std::thread,std::allocator<std::thread> > m_workerThreads; // 0x78
+	std::vector<std::thread> m_workerThreads; // 0x78
 public:
 	_inline CJobManager(); /* compiler_generated() */
 	_inline ~CJobManager(); /* compiler_generated() */

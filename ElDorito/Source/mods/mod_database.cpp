@@ -99,9 +99,9 @@ namespace base
 //{
 //public:
 //	<lambda_1>(c_mod_database::purge_all_not_in_set::__l2::<lambda_1> &);
-//	<lambda_1>(std::unordered_set<s_mod_package_id,std::hash<s_mod_package_id>,std::equal_to<s_mod_package_id>,std::allocator<s_mod_package_id> > &);
+//	<lambda_1>(std::unordered_set<s_mod_package_id> &);
 //private:
-//	std::unordered_set<s_mod_package_id,std::hash<s_mod_package_id>,std::equal_to<s_mod_package_id>,std::allocator<s_mod_package_id> > &set; // 0x0
+//	std::unordered_set<s_mod_package_id> &set; // 0x0
 //public:
 //	c_mod_database::purge_all_not_in_set::__l2::<lambda_1> &operator=(c_mod_database::purge_all_not_in_set::__l2::<lambda_1> const &);
 //};
@@ -272,10 +272,10 @@ bool c_mod_database::load(std::string const &filename) // 0x108522A0
 	// c_mod_database *const this;
 	// std::string const &filename;
 	// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> d;
-	// std::unordered_map<s_mod_package_id,c_mod_database::s_record,std::hash<s_mod_package_id>,std::equal_to<s_mod_package_id>,std::allocator<std::pair<s_mod_package_id const ,c_mod_database::s_record> > > tmp;
+	// std::unordered_map<s_mod_package_id,c_mod_database::s_record> tmp;
 	// rapidjson::GenericMemberIterator<0,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > records_member;
-	// std::basic_ifstream<char,std::char_traits<char> > ifs;
-	// rapidjson::BasicIStreamWrapper<std::basic_istream<char,std::char_traits<char> > > isw;
+	// std::ifstream ifs;
+	// rapidjson::BasicIStreamWrapper<std::istream > isw;
 	{
 		// rapidjson::GenericObject<0,rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > > &<range>$L0;
 		// rapidjson::GenericMemberIterator<0,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > <begin>$L0;
@@ -307,11 +307,11 @@ bool c_mod_database::save() // 0x108530E0
 	// static ...; // 0x1085345C
 	// static ...; // 0x10853454
 	// c_mod_database *const this;
-	// rapidjson::BasicOStreamWrapper<std::basic_ostream<char,std::char_traits<char> > > osw;
-	// std::basic_ofstream<char,std::char_traits<char> > ofs;
-	// rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::basic_ostream<char,std::char_traits<char> > >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
+	// rapidjson::BasicOStreamWrapper<std::ostream > osw;
+	// std::ofstream ofs;
+	// rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::ostream >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
 	{
-		// std::unordered_map<s_mod_package_id,c_mod_database::s_record,std::hash<s_mod_package_id>,std::equal_to<s_mod_package_id>,std::allocator<std::pair<s_mod_package_id const ,c_mod_database::s_record> > > &<range>$L0;
+		// std::unordered_map<s_mod_package_id,c_mod_database::s_record> &<range>$L0;
 		// std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<s_mod_package_id const ,c_mod_database::s_record> > > > <begin>$L0;
 		// std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<s_mod_package_id const ,c_mod_database::s_record> > > > <end>$L0;
 		{
@@ -350,11 +350,11 @@ void c_mod_database::purge_any(std::function<bool __cdecl(s_mod_package_id const
 	_sub_10852E70(this, predicate);
 }
 
-_extern void _sub_10852DA0(c_mod_database *const, std::unordered_set<s_mod_package_id,std::hash<s_mod_package_id>,std::equal_to<s_mod_package_id>,std::allocator<s_mod_package_id> >);
-void c_mod_database::purge_all_not_in_set(std::unordered_set<s_mod_package_id,std::hash<s_mod_package_id>,std::equal_to<s_mod_package_id>,std::allocator<s_mod_package_id> > set) // 0x10852DA0
+_extern void _sub_10852DA0(c_mod_database *const, std::unordered_set<s_mod_package_id>);
+void c_mod_database::purge_all_not_in_set(std::unordered_set<s_mod_package_id> set) // 0x10852DA0
 {
 	mangled_x86(MANGLED_TODO, "?purge_all_not_in_set@c_mod_database@@QAEXV?$unordered_set@Us_mod_package_id@@U?$hash@Us_mod_package_id@@@std@@U?$equal_to@Us_mod_package_id@@@3@V?$allocator@Us_mod_package_id@@@3@@std@@@Z");
-	// std::unordered_set<s_mod_package_id,std::hash<s_mod_package_id>,std::equal_to<s_mod_package_id>,std::allocator<s_mod_package_id> > set;
+	// std::unordered_set<s_mod_package_id> set;
 	todo("implement");
 	_sub_10852DA0(this, set);
 }

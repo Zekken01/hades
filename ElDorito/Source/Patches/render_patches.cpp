@@ -262,7 +262,7 @@ typedef unsigned __int32 U32;
 /* ---------- prototypes */
 
 extern void render_patches_apply();
-extern void render_patches_set_customization_biped(std::vector<int,std::allocator<int> > characterBipeds);
+extern void render_patches_set_customization_biped(std::vector<int> characterBipeds);
 extern void render_patches_tick();
 
 void get_extern_constant_hook(long render_method_extern, real_vector4d *out_constant);
@@ -341,7 +341,7 @@ namespace hades_file_local
 	extern bool &g_invalidate_render_cache; // 0x11352ED8
 	extern __int32 *g_bink_frame_width; // 0x11352EE0
 	extern __int32 *g_bink_frame_height; // 0x11352EE4
-	extern std::vector<int,std::allocator<int> > customization_biped_index_array; // 0x124083B0
+	extern std::vector<int> customization_biped_index_array; // 0x124083B0
 	extern float g_lod_distance_scale; // 0x11352EE8
 	extern float g_decorator_distance_scale; // 0x11352EEC
 	extern bool &render_static_lighting_enabled; // 0x11352EF0
@@ -368,11 +368,11 @@ void render_patches_apply() // 0x108F1E10
 	_sub_108F1E10();
 }
 
-_extern void _sub_108F5A80(std::vector<int,std::allocator<int> >);
-void render_patches_set_customization_biped(std::vector<int,std::allocator<int> > characterBipeds) // 0x108F5A80
+_extern void _sub_108F5A80(std::vector<int>);
+void render_patches_set_customization_biped(std::vector<int> characterBipeds) // 0x108F5A80
 {
 	mangled_x86(MANGLED_TODO, "?render_patches_set_customization_biped@@YAXV?$vector@HV?$allocator@H@std@@@std@@@Z");
-	// std::vector<int,std::allocator<int> > characterBipeds;
+	// std::vector<int> characterBipeds;
 	todo("implement");
 	_sub_108F5A80(characterBipeds);
 }

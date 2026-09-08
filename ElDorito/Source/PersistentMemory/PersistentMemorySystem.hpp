@@ -54,7 +54,7 @@ namespace PersistentMemory
 		std::string lastMultiplayerMod; // 0x58
 		std::string lastCampaignMod; // 0x74
 		std::string lastFirefightMod; // 0x90
-		std::vector<SPersistantMute,std::allocator<SPersistantMute> > mutedVoipPlayers; // 0xAC
+		std::vector<SPersistantMute> mutedVoipPlayers; // 0xAC
 		_inline SPersistentMemoryDB(PersistentMemory::SPersistentMemoryDB &&__that); /* compiler_generated() */
 		SPersistentMemoryDB(PersistentMemory::SPersistentMemoryDB const &); /* compiler_generated() */
 		_inline SPersistentMemoryDB(); /* compiler_generated() */

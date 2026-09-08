@@ -51,7 +51,7 @@ namespace Patches
 			void SerializeData(Blam::BitStream *stream, void const *data);
 			void DeserializeData(Blam::BitStream *stream, void *out);
 		private:
-			std::vector<std::shared_ptr<Patches::Network::PlayerPropertiesExtensionBase>,std::allocator<std::shared_ptr<Patches::Network::PlayerPropertiesExtensionBase> > > extensions; // 0x0
+			std::vector<std::shared_ptr<Patches::Network::PlayerPropertiesExtensionBase> > extensions; // 0x0
 		public:
 			_inline PlayerPropertiesExtender(); /* compiler_generated() */
 			~PlayerPropertiesExtender(); /* compiler_generated() */

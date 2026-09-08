@@ -75,7 +75,7 @@ void ErrorDialog::Show(std::string const &title, std::string const &message) // 
 	// static ...; // 0x107872DC
 	// std::string const &title;
 	// std::string const &message;
-	// std::unique_ptr<DialogInitParams,std::default_delete<DialogInitParams> > initParams;
+	// std::unique_ptr<DialogInitParams> initParams;
 	// HINSTANCE__ *hModule;
 	// function call : HINSTANCE__ *(char const *)
 	// function call : __int32 (HINSTANCE__ *, char const *, HWND__ *, __int32 (*)(HWND__ *, unsigned __int32, unsigned __int32, long), long)
@@ -97,7 +97,7 @@ __int32 DialogProc(HWND__ *hWnd, unsigned __int32 msg, unsigned __int32 wParam, 
 	// long lParam;
 	{
 		// tagRECT ec;
-		// std::unique_ptr<DialogInitParams,std::default_delete<DialogInitParams> > initParams;
+		// std::unique_ptr<DialogInitParams> initParams;
 		// HRESULT hr;
 		// __int32 const margin;
 		// HICON__ *hIcon;

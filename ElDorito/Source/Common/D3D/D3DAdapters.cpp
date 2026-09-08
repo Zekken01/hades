@@ -79,7 +79,7 @@ namespace Common
 	namespace D3DAdapters
 	{
 		extern void EnumerateDisplayModes();
-		extern std::vector<Common::D3DAdapters::DisplayMode,std::allocator<Common::D3DAdapters::DisplayMode> > const &GetAdapterDisplayModes(__int32 adapterIndex);
+		extern std::vector<Common::D3DAdapters::DisplayMode> const &GetAdapterDisplayModes(__int32 adapterIndex);
 		extern Common::D3DAdapters::DisplayMode GetClosestSupportedDisplayMode(__int32 preferredWidth, __int32 preferredHeight);
 		extern __int32 GetCurrentAdapterIndex();
 	}
@@ -93,7 +93,7 @@ void FatalError(char const *message);
 
 namespace hades_file_local
 {
-	extern std::vector<std::vector<Common::D3DAdapters::DisplayMode,std::allocator<Common::D3DAdapters::DisplayMode> >,std::allocator<std::vector<Common::D3DAdapters::DisplayMode,std::allocator<Common::D3DAdapters::DisplayMode> > > > adapterModes; // 0x11371944
+	extern std::vector<std::vector<Common::D3DAdapters::DisplayMode> > adapterModes; // 0x11371944
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -119,7 +119,7 @@ namespace Common
 			{
 				// __int32 adapterIndex;
 				{
-					// std::vector<Common::D3DAdapters::DisplayMode,std::allocator<Common::D3DAdapters::DisplayMode> > &modes;
+					// std::vector<Common::D3DAdapters::DisplayMode> &modes;
 					// __int32 numModes;
 					{
 						// __int32 modeIndex;
@@ -143,17 +143,17 @@ namespace Common
 	}
 }
 
-extern std::vector<Common::D3DAdapters::DisplayMode,std::allocator<Common::D3DAdapters::DisplayMode> > const &_sub_10687970(__int32);
+extern std::vector<Common::D3DAdapters::DisplayMode> const &_sub_10687970(__int32);
 namespace Common
 {
 	namespace D3DAdapters
 	{
-		std::vector<Common::D3DAdapters::DisplayMode,std::allocator<Common::D3DAdapters::DisplayMode> > const &GetAdapterDisplayModes(__int32 adapterIndex) // 0x10687970
+		std::vector<Common::D3DAdapters::DisplayMode> const &GetAdapterDisplayModes(__int32 adapterIndex) // 0x10687970
 		{
 			mangled_x86(MANGLED_TODO, "?GetAdapterDisplayModes@D3DAdapters@Common@@YAABV?$vector@UDisplayMode@D3DAdapters@Common@@V?$allocator@UDisplayMode@D3DAdapters@Common@@@std@@@std@@H@Z");
 			// __int32 adapterIndex;
 			todo("implement");
-			std::vector<Common::D3DAdapters::DisplayMode,std::allocator<Common::D3DAdapters::DisplayMode> > const & __result = _sub_10687970(adapterIndex);
+			std::vector<Common::D3DAdapters::DisplayMode> const & __result = _sub_10687970(adapterIndex);
 			return __result;
 		}
 
@@ -170,7 +170,7 @@ namespace Common
 			{
 				// unsigned __int32 i;
 				{
-					// std::vector<Common::D3DAdapters::DisplayMode,std::allocator<Common::D3DAdapters::DisplayMode> > &<range>$L0;
+					// std::vector<Common::D3DAdapters::DisplayMode> &<range>$L0;
 					// Common::D3DAdapters::DisplayMode *<begin>$L0;
 					// Common::D3DAdapters::DisplayMode *<end>$L0;
 					{

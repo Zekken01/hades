@@ -264,8 +264,8 @@ namespace PersistentMemory
 		// static ...; // 0x106B581C
 		// std::string const &filename;
 		// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> doc;
-		// std::basic_ifstream<char,std::char_traits<char> > stream;
-		// rapidjson::BasicIStreamWrapper<std::basic_istream<char,std::char_traits<char> > > isw;
+		// std::ifstream stream;
+		// rapidjson::BasicIStreamWrapper<std::istream > isw;
 		todo("implement");
 		bool __result = _sub_106B5600(filename);
 		return __result;
@@ -319,11 +319,11 @@ namespace PersistentMemory
 		// static ...; // 0x106B7958
 		// static ...; // 0x106B7934
 		// static ...; // 0x106B792C
-		// rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::basic_ostream<char,std::char_traits<char> > >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-		// std::basic_ofstream<char,std::char_traits<char> > stream;
-		// rapidjson::BasicOStreamWrapper<std::basic_ostream<char,std::char_traits<char> > > isw;
+		// rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::ostream >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
+		// std::ofstream stream;
+		// rapidjson::BasicOStreamWrapper<std::ostream > isw;
 		{
-			// std::vector<PersistentMemory::SPersistentMemoryDB::SPersistantMute,std::allocator<PersistentMemory::SPersistentMemoryDB::SPersistantMute> > &<range>$L0;
+			// std::vector<PersistentMemory::SPersistentMemoryDB::SPersistantMute> &<range>$L0;
 			// PersistentMemory::SPersistentMemoryDB::SPersistantMute *<begin>$L0;
 			// PersistentMemory::SPersistentMemoryDB::SPersistantMute *<end>$L0;
 			{
@@ -345,7 +345,7 @@ namespace PersistentMemory
 		// static ...; // 0x106B4E30
 		// std::string prefsName;
 		{
-			// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+			// std::stringstream ss;
 		}
 		todo("implement");
 		_sub_106B4BC0();

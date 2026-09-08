@@ -35,7 +35,7 @@ public:
 	c_tag_names_csv_file_reader(char const *filename);
 	bool read_next(s_tag_name_entry *entry);
 private:
-	std::basic_ifstream<char,std::char_traits<char> > m_filestream; // 0x0
+	std::ifstream m_filestream; // 0x0
 	bool parse_line(std::string const &line, s_tag_name_entry *entry);
 public:
 	_inline ~c_tag_names_csv_file_reader(); /* compiler_generated() */

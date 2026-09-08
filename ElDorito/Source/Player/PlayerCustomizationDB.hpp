@@ -40,8 +40,8 @@ namespace Player
 {
 	struct SPersistentCharacterCustomization
 	{
-		std::map<std::string,std::string,std::less<std::string>,std::allocator<std::pair<std::string const ,std::string> > > colors; // 0x0
-		std::map<std::string,std::string,std::less<std::string>,std::allocator<std::pair<std::string const ,std::string> > > permutations; // 0xC
+		std::map<std::string,std::string> colors; // 0x0
+		std::map<std::string,std::string> permutations; // 0xC
 		_inline SPersistentCharacterCustomization(Player::SPersistentCharacterCustomization &&__that); /* compiler_generated() */
 		SPersistentCharacterCustomization(Player::SPersistentCharacterCustomization const &); /* compiler_generated() */
 		_inline SPersistentCharacterCustomization(); /* compiler_generated() */
@@ -64,7 +64,7 @@ namespace Player
 		void Save(std::string const &filename);
 		void Reload();
 		void Reset();
-		std::vector<std::string,std::allocator<std::string> > GetCharacters();
+		std::vector<std::string> GetCharacters();
 		std::string GetPreferredCharacter(std::string const &target) const;
 		bool SetPreferredCharacter(std::string const &target, std::string const &characterName);
 		bool GetCharacterCustomization(std::string const &characterName, Player::SPersistentCharacterCustomization &customization) const;
@@ -73,8 +73,8 @@ namespace Player
 		bool SetCharacterColor(std::string const &characterName, std::string const &colorName, std::string const &colorValue);
 	private:
 		std::string m_fileName; // 0x0
-		std::map<std::string,Player::SPersistentCharacterCustomization,std::less<std::string>,std::allocator<std::pair<std::string const ,Player::SPersistentCharacterCustomization> > > m_customizations; // 0x1C
-		std::map<std::string,std::string,std::less<std::string>,std::allocator<std::pair<std::string const ,std::string> > > m_preferredCharacters; // 0x28
+		std::map<std::string,Player::SPersistentCharacterCustomization> m_customizations; // 0x1C
+		std::map<std::string,std::string> m_preferredCharacters; // 0x28
 	public:
 		_inline CPlayerCustomizationDB(); /* compiler_generated() */
 		~CPlayerCustomizationDB(); /* compiler_generated() */
@@ -89,11 +89,11 @@ static_assert(sizeof(Player::CPlayerCustomizationDB) == 52, "Invalid Player::CPl
 namespace Player
 {
 	extern Player::SPersistentCharacterCustomization LoadCustomization(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &value);
-	extern std::map<std::string,Player::SPersistentCharacterCustomization,std::less<std::string>,std::allocator<std::pair<std::string const ,Player::SPersistentCharacterCustomization> > > LoadCustomizations(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &value);
-	extern void SaveCustomization(rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::basic_ostream<char,std::char_traits<char> > >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, Player::SPersistentCharacterCustomization const &customization);
-	extern void SaveCustomizations(rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::basic_ostream<char,std::char_traits<char> > >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, std::map<std::string,Player::SPersistentCharacterCustomization,std::less<std::string>,std::allocator<std::pair<std::string const ,Player::SPersistentCharacterCustomization> > > const &customizations);
-	extern std::map<std::string,std::string,std::less<std::string>,std::allocator<std::pair<std::string const ,std::string> > > LoadPreferredCharacters(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &value);
-	extern void SavePreferredCharacters(rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::basic_ostream<char,std::char_traits<char> > >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, std::map<std::string,std::string,std::less<std::string>,std::allocator<std::pair<std::string const ,std::string> > > const &preferredCharacters);
+	extern std::map<std::string,Player::SPersistentCharacterCustomization> LoadCustomizations(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &value);
+	extern void SaveCustomization(rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::ostream >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, Player::SPersistentCharacterCustomization const &customization);
+	extern void SaveCustomizations(rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::ostream >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, std::map<std::string,Player::SPersistentCharacterCustomization> const &customizations);
+	extern std::map<std::string,std::string> LoadPreferredCharacters(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &value);
+	extern void SavePreferredCharacters(rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::ostream >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, std::map<std::string,std::string> const &preferredCharacters);
 }
 
 /* ---------- globals */

@@ -69,13 +69,13 @@ public:
 	bool delete_record(s_mod_package_id const &id);
 	void notify_record_changed(s_mod_package_id const &id);
 	_inline bool is_dirty() const;
-	void purge_all_not_in_set(std::unordered_set<s_mod_package_id,std::hash<s_mod_package_id>,std::equal_to<s_mod_package_id>,std::allocator<s_mod_package_id> > set);
+	void purge_all_not_in_set(std::unordered_set<s_mod_package_id> set);
 	void purge_any(std::function<bool __cdecl(s_mod_package_id const &,s_record const &)> predicate);
 private:
 	bool m_dirty; // 0x0
 	unsigned char __pad0[3]; // 0x1
 	std::string m_filename; // 0x4
-	std::unordered_map<s_mod_package_id,s_record,std::hash<s_mod_package_id>,std::equal_to<s_mod_package_id>,std::allocator<std::pair<s_mod_package_id const ,s_record> > > m_records; // 0x20
+	std::unordered_map<s_mod_package_id,s_record> m_records; // 0x20
 };
 static_assert(sizeof(c_mod_database) == 72, "Invalid c_mod_database size");
 

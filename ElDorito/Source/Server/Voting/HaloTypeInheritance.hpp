@@ -34,9 +34,9 @@ namespace Server
 	{
 		struct HaloTypeInheritance
 		{
-			static void MergeMaps(std::vector<Server::Voting::HaloMap,std::allocator<Server::Voting::HaloMap> > &maps, std::vector<Server::Voting::HaloMap,std::allocator<Server::Voting::HaloMap> > const &newMaps);
-			static bool BuildHaloType(Server::Voting::HaloType &newType, Server::Voting::HaloType const &currentType, std::vector<Server::Voting::HaloType,std::allocator<Server::Voting::HaloType> > const &types);
-			static void BuildHaloTypes(std::vector<Server::Voting::HaloType,std::allocator<Server::Voting::HaloType> > &newTypes, std::vector<Server::Voting::HaloType,std::allocator<Server::Voting::HaloType> > const &allTypes);
+			static void MergeMaps(std::vector<Server::Voting::HaloMap> &maps, std::vector<Server::Voting::HaloMap> const &newMaps);
+			static bool BuildHaloType(Server::Voting::HaloType &newType, Server::Voting::HaloType const &currentType, std::vector<Server::Voting::HaloType> const &types);
+			static void BuildHaloTypes(std::vector<Server::Voting::HaloType> &newTypes, std::vector<Server::Voting::HaloType> const &allTypes);
 		};
 		static_assert(sizeof(Server::Voting::HaloTypeInheritance) == 1, "Invalid Server::Voting::HaloTypeInheritance size");
 	}

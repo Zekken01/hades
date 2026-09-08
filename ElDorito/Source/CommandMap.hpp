@@ -40,7 +40,7 @@ namespace Modules
 		std::string Description; // 0x54
 		CommandFlags Flags; // 0x70
 		Modules::CommandType Type; // 0x74
-		bool (*UpdateEvent)(std::vector<std::string,std::allocator<std::string> > const &, std::string &); // 0x78
+		bool (*UpdateEvent)(std::vector<std::string> const &, std::string &); // 0x78
 		unsigned long ValueInt; // 0x7C
 		unsigned long long ValueInt64; // 0x80
 		float ValueFloat; // 0x88
@@ -60,7 +60,7 @@ namespace Modules
 		unsigned char __pad1[3]; // 0xF9
 		std::string DirtyValue; // 0xFC
 		std::string CommittedValue; // 0x118
-		std::vector<std::string,std::allocator<std::string> > CommandArgs; // 0x134
+		std::vector<std::string> CommandArgs; // 0x134
 		_inline Command(Modules::Command &&__that); /* compiler_generated() */
 		_inline Command(Modules::Command const &__that); /* compiler_generated() */
 		Command();
@@ -80,16 +80,16 @@ namespace Modules
 		public Utils::Singleton<Modules::CommandMap>
 	{
 	public:
-		std::deque<Modules::Command,std::allocator<Modules::Command> > Commands; // 0x0
+		std::deque<Modules::Command> Commands; // 0x0
 	private:
-		std::vector<std::string,std::allocator<std::string> > queuedCommands; // 0x14
-		std::vector<std::function<void __cdecl(Modules::Command const *)>,std::allocator<std::function<void __cdecl(Modules::Command const *)> > > variableUpdateCallbacks; // 0x24
+		std::vector<std::string> queuedCommands; // 0x14
+		std::vector<std::function<void __cdecl(Modules::Command const *)> > variableUpdateCallbacks; // 0x24
 	public:
 		Modules::Command *AddCommand(Modules::Command command);
 		void FinishAddCommands();
 		Modules::Command *FindCommand(std::string const &name);
 		std::string ExecuteCommand(std::string command, bool isUserInput);
-		std::string ExecuteCommand(std::vector<std::string,std::allocator<std::string> > command, bool isUserInput);
+		std::string ExecuteCommand(std::vector<std::string> command, bool isUserInput);
 		std::string ExecuteCommands(std::string &commands, bool isUserInput, bool stopOnFirstError);
 		bool ExecuteCommandWithStatus(std::string command, bool isUserInput, std::string *output);
 		std::string ExecuteQueue();

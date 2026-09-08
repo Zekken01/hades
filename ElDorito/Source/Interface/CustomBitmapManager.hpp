@@ -44,7 +44,7 @@ public:
 		unsigned short loadTaskId; // 0x6
 		std::string path; // 0x8
 		std::string fallbackPath; // 0x24
-		std::vector<unsigned char,std::allocator<unsigned char> > buffer; // 0x40
+		std::vector<unsigned char> buffer; // 0x40
 		std::shared_mutex bufferLock; // 0x50
 		Microsoft::WRL::ComPtr<IDirect3DTexture9> texture; // 0x54
 		bool createTextureFailed; // 0x58
@@ -71,7 +71,7 @@ private:
 	__int32 GetFreeStorageItem();
 	StorageItem *GetStorageItem(__int32 handle);
 	void DeleteStorageItem(__int32 index);
-	bool LoadFileIntoBufferBlocking(std::string const &url, std::vector<unsigned char,std::allocator<unsigned char> > &buffer);
+	bool LoadFileIntoBufferBlocking(std::string const &url, std::vector<unsigned char> &buffer);
 	__int32 FindStorageItemWithPath(std::string const &path);
 	std::shared_mutex m_lock; // 0x0
 	std::array<StorageItem,32> m_storageItems; // 0x4

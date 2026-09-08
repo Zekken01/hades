@@ -131,8 +131,8 @@ namespace Utils
 		// static ...; // 0x10C5AEC4
 		// Utils::LogTypes types;
 		{
-			// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
-			// std::vector<std::string,std::allocator<std::string> > bits;
+			// std::stringstream ss;
+			// std::vector<std::string> bits;
 			{
 				// __int32 bit;
 			}
@@ -194,7 +194,7 @@ namespace Utils
 		// std::filesystem::path parentDirectory;
 		// std::lock_guard<std::mutex> lock;
 		// Modules::ModuleGame &gameModule;
-		// std::basic_ofstream<char,std::char_traits<char> > outfile;
+		// std::ofstream outfile;
 		// std::filesystem::path logFilePath;
 		// Utils::LogEntry entry;
 		{
@@ -202,7 +202,7 @@ namespace Utils
 			// tm ourLocalTime;
 			// std::string message;
 			{
-				// std::vector<std::string,std::allocator<std::string> > &<range>$L0;
+				// std::vector<std::string> &<range>$L0;
 				// std::string *<begin>$L0;
 				// std::string *<end>$L0;
 				{
@@ -212,7 +212,7 @@ namespace Utils
 			{
 				// std::string *<end>$L1;
 				// std::string *<begin>$L1;
-				// std::vector<std::string,std::allocator<std::string> > &<range>$L1;
+				// std::vector<std::string> &<range>$L1;
 				{
 				}
 			}

@@ -386,8 +386,8 @@ CustomBitmapManager::StorageItem *CustomBitmapManager::GetStorageItem(__int32 ha
 	return __result;
 }
 
-_extern bool _sub_107850A0(CustomBitmapManager *const, std::string const &, std::vector<unsigned char,std::allocator<unsigned char> > &);
-bool CustomBitmapManager::LoadFileIntoBufferBlocking(std::string const &url, std::vector<unsigned char,std::allocator<unsigned char> > &buffer) // 0x107850A0
+_extern bool _sub_107850A0(CustomBitmapManager *const, std::string const &, std::vector<unsigned char> &);
+bool CustomBitmapManager::LoadFileIntoBufferBlocking(std::string const &url, std::vector<unsigned char> &buffer) // 0x107850A0
 {
 	mangled_x86(MANGLED_TODO, "?LoadFileIntoBufferBlocking@CustomBitmapManager@@AAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAV?$vector@EV?$allocator@E@std@@@3@@Z");
 	// static ...; // 0x10785889
@@ -398,11 +398,11 @@ bool CustomBitmapManager::LoadFileIntoBufferBlocking(std::string const &url, std
 	// static ...; // 0x10785828
 	// CustomBitmapManager *const this;
 	// std::string const &url;
-	// std::vector<unsigned char,std::allocator<unsigned char> > &buffer;
+	// std::vector<unsigned char> &buffer;
 	// std::filesystem::path fpath;
 	// long long fileSize;
 	// long long fileOffset;
-	// std::basic_ifstream<char,std::char_traits<char> > ifs;
+	// std::ifstream ifs;
 	{
 		// Utils::Uri::UriComponents uric;
 		// std::shared_ptr<CModPackageFileSystemView> fsView;

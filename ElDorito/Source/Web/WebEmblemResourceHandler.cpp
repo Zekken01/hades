@@ -254,10 +254,10 @@ namespace Web
 			// scoped_refptr<CefCallback> callback;
 			// std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<CefStringBase<CefStringTraitsUTF16> const ,CefStringBase<CefStringTraitsUTF16> > > > > it;
 			// s_player_emblem_configuration config;
-			// std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16>,std::less<CefStringBase<CefStringTraitsUTF16> >,std::allocator<std::pair<CefStringBase<CefStringTraitsUTF16> const ,CefStringBase<CefStringTraitsUTF16> > > > requestHeaders;
+			// std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16> > requestHeaders;
 			// std::string url;
 			// CefStringBase<CefStringTraitsUTF16> origin;
-			// function call : void (std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16>,std::less<CefStringBase<CefStringTraitsUTF16> >,std::allocator<std::pair<CefStringBase<CefStringTraitsUTF16> const ,CefStringBase<CefStringTraitsUTF16> > > > &)
+			// function call : void (std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16> > &)
 			// function call : CefStringBase<CefStringTraitsUTF16> ()
 			// function call : void ()
 			todo("implement");
@@ -270,7 +270,7 @@ namespace Web
 		{
 			mangled_x86(MANGLED_TODO, "?GetResponseHeaders@WebEmblemResourceHandler@Browser@Web@@UAEXV?$scoped_refptr@VCefResponse@@@@AA_JAAV?$CefStringBase@UCefStringTraitsUTF16@@@@@Z");
 			// CefStringBase<CefStringTraitsUTF16> &redirectUrl;
-			// function call : void (std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16>,std::less<CefStringBase<CefStringTraitsUTF16> >,std::allocator<std::pair<CefStringBase<CefStringTraitsUTF16> const ,CefStringBase<CefStringTraitsUTF16> > > > const &)
+			// function call : void (std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16> > const &)
 			// function call : void (__int32)
 			// function call : void (CefStringBase<CefStringTraitsUTF16> const &)
 			// function call : void (__int32)

@@ -46,7 +46,7 @@ namespace Http
 			Coalesce,
 		};
 		public:
-		typedef std::map<std::string,std::string,SHeaderKeyComparator,std::allocator<std::pair<std::string const ,std::string> > > TMap;
+		typedef std::map<std::string,std::string,SHeaderKeyComparator> TMap;
 		typedef std::pair<std::string,std::string> THeaderPair;
 		_inline std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::string> > > > begin() const;
 		_inline std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::string> > > > end() const;
@@ -62,11 +62,11 @@ namespace Http
 		bool Remove(std::string const &headerKey);
 		static void Parse(std::string const &str, Http::CHttpHeaders &headers);
 		std::string ToString() const;
-		std::vector<std::tuple<std::string,std::string>,std::allocator<std::tuple<std::string,std::string> > > GetHeaders();
+		std::vector<std::tuple<std::string,std::string> > GetHeaders();
 		_inline std::string operator[](std::string const &headerKey) const;
 		std::string &operator[](std::string const &);
 	private:
-		std::map<std::string,std::string,SHeaderKeyComparator,std::allocator<std::pair<std::string const ,std::string> > > m_map; // 0x0
+		std::map<std::string,std::string,SHeaderKeyComparator> m_map; // 0x0
 	public:
 		_inline ~CHttpHeaders(); /* compiler_generated() */
 		Http::CHttpHeaders &operator=(Http::CHttpHeaders &); /* compiler_generated() */

@@ -73,10 +73,10 @@ namespace Utils
 		extern std::string ThinString(std::wstring_view wide_string);
 		extern std::string ToLower(std::string const &str);
 		extern std::string TitleCase(std::string const &str);
-		extern std::vector<std::string,std::allocator<std::string> > SplitString(std::string const &stringToSplit, char delim);
+		extern std::vector<std::string> SplitString(std::string const &stringToSplit, char delim);
 		extern std::string &TrimInline(std::string &string);
 		extern std::string Trim(std::string const &string, bool fromEnd);
-		extern std::vector<std::string,std::allocator<std::string> > Wrap(std::string const &string, unsigned __int32 lineLength);
+		extern std::vector<std::string> Wrap(std::string const &string, unsigned __int32 lineLength);
 	}
 }
 
@@ -195,7 +195,7 @@ namespace Utils
 			// void *const data;
 			// unsigned __int32 length;
 			// unsigned char *byteData;
-			// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > hexStringStream;
+			// std::stringstream hexStringStream;
 			{
 				// unsigned __int32 dataIndex;
 				// unsigned __int32 strIndex;
@@ -217,7 +217,7 @@ namespace Utils
 			// unsigned __int32 const dataLength;
 			// std::string &dest;
 			// unsigned char const *byteData;
-			// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > hexStringStream;
+			// std::stringstream hexStringStream;
 			{
 				// unsigned __int32 index;
 			}
@@ -343,12 +343,12 @@ namespace Utils
 	}
 }
 
-extern std::vector<std::string,std::allocator<std::string> > _sub_10C5EC80(std::string const &, char);
+extern std::vector<std::string> _sub_10C5EC80(std::string const &, char);
 namespace Utils
 {
 	namespace String
 	{
-		std::vector<std::string,std::allocator<std::string> > SplitString(std::string const &stringToSplit, char delim) // 0x10C5EC80
+		std::vector<std::string> SplitString(std::string const &stringToSplit, char delim) // 0x10C5EC80
 		{
 			mangled_x86(MANGLED_TODO, "?SplitString@String@Utils@@YA?AV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@4@D@Z");
 			// static ...; // 0x10C5EE09
@@ -357,11 +357,11 @@ namespace Utils
 			// static ...; // 0x10C5EDD8
 			// std::string const &stringToSplit;
 			// char delim;
-			// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+			// std::stringstream ss;
 			// std::string item;
-			// std::vector<std::string,std::allocator<std::string> > retValue;
+			// std::vector<std::string> retValue;
 			todo("implement");
-			std::vector<std::string,std::allocator<std::string> > __result = _sub_10C5EC80(stringToSplit, delim);
+			std::vector<std::string> __result = _sub_10C5EC80(stringToSplit, delim);
 			return __result;
 		}
 	}
@@ -403,12 +403,12 @@ namespace Utils
 	}
 }
 
-extern std::vector<std::string,std::allocator<std::string> > _sub_10C5F940(std::string const &, unsigned __int32);
+extern std::vector<std::string> _sub_10C5F940(std::string const &, unsigned __int32);
 namespace Utils
 {
 	namespace String
 	{
-		std::vector<std::string,std::allocator<std::string> > Wrap(std::string const &string, unsigned __int32 lineLength) // 0x10C5F940
+		std::vector<std::string> Wrap(std::string const &string, unsigned __int32 lineLength) // 0x10C5F940
 		{
 			mangled_x86(MANGLED_TODO, "?Wrap@String@Utils@@YA?AV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@4@I@Z");
 			// static ...; // 0x10C5FC9D
@@ -419,9 +419,9 @@ namespace Utils
 			// static ...; // 0x10C5FC38
 			// std::string const &string;
 			// unsigned __int32 lineLength;
-			// std::vector<std::string,std::allocator<std::string> > retValue;
-			// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > sstream;
-			// std::vector<std::string,std::allocator<std::string> > lines;
+			// std::vector<std::string> retValue;
+			// std::stringstream sstream;
+			// std::vector<std::string> lines;
 			{
 				// std::string currentLine;
 			}
@@ -435,7 +435,7 @@ namespace Utils
 				}
 			}
 			todo("implement");
-			std::vector<std::string,std::allocator<std::string> > __result = _sub_10C5F940(string, lineLength);
+			std::vector<std::string> __result = _sub_10C5F940(string, lineLength);
 			return __result;
 		}
 	}

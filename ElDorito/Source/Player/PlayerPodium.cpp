@@ -411,7 +411,7 @@ namespace Player
 			// c_network_session *session;
 			{
 				// c_game_statborg *scoreboard;
-				// std::vector<Player::PlayerPodium::PlayerPlace,std::allocator<Player::PlayerPodium::PlayerPlace> > player_places;
+				// std::vector<Player::PlayerPodium::PlayerPlace> player_places;
 				{
 					// long i;
 					{
@@ -710,7 +710,7 @@ namespace Player
 			// long (*const game_engine_get_player_place)(long);
 			// c_network_session *session;
 			{
-				// std::vector<Player::PlayerPodium::PlayerPlace,std::allocator<Player::PlayerPodium::PlayerPlace> > player_places;
+				// std::vector<Player::PlayerPodium::PlayerPlace> player_places;
 				{
 					// long i;
 					{

@@ -40,7 +40,7 @@ namespace Http
 		virtual std::shared_ptr<Http::IHttpRequest> CreateRequest() = 0;
 	private:
 		std::mutex m_mutex; // 0x4
-		std::vector<std::shared_ptr<Http::IHttpRequest>,std::allocator<std::shared_ptr<Http::IHttpRequest> > > m_activeRequests; // 0x34
+		std::vector<std::shared_ptr<Http::IHttpRequest> > m_activeRequests; // 0x34
 	public:
 		_inline ~CHttpManager(); /* compiler_generated() */
 	};

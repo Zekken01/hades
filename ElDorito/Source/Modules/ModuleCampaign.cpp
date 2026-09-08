@@ -122,16 +122,16 @@ std::string camapgin_difficulty_level_to_string(long level);
 long camapgin_difficulty_level_from_string(std::string const &str);
 std::string camapgin_metagame_scoring_option_to_string(long level);
 long camapgin_metagame_scoring_option_from_string(std::string const &str);
-bool CommandCampaignInsertionPoint(std::vector<std::string,std::allocator<std::string> > const &arguments, std::string &returnInfo);
-bool CommandCampaignDifficultyLevel(std::vector<std::string,std::allocator<std::string> > const &arguments, std::string &returnInfo);
-bool CommandCampaginMetagameScoring(std::vector<std::string,std::allocator<std::string> > const &arguments, std::string &returnInfo);
+bool CommandCampaignInsertionPoint(std::vector<std::string> const &arguments, std::string &returnInfo);
+bool CommandCampaignDifficultyLevel(std::vector<std::string> const &arguments, std::string &returnInfo);
+bool CommandCampaginMetagameScoring(std::vector<std::string> const &arguments, std::string &returnInfo);
 std::string GetActiveSkullsForDisplay(unsigned long primarySkulls, unsigned long secondarySkulls);
 std::string GetActiveSkullsForDisplay();
-bool CommandCampaignListRallyPoints(std::vector<std::string,std::allocator<std::string> > const &arguments, std::string &returninfo);
-bool CommandCampaignSkulls(std::vector<std::string,std::allocator<std::string> > const &arguments, std::string &returnInfo);
-bool CommandCampaignSave(std::vector<std::string,std::allocator<std::string> > const &arguments, std::string &returnInfo);
-bool CommandCampaignRevert(std::vector<std::string,std::allocator<std::string> > const &arguments, std::string &returnInfo);
-bool CommandCampaignKillEnemies(std::vector<std::string,std::allocator<std::string> > const &arguments, std::string &returnInfo);
+bool CommandCampaignListRallyPoints(std::vector<std::string> const &arguments, std::string &returninfo);
+bool CommandCampaignSkulls(std::vector<std::string> const &arguments, std::string &returnInfo);
+bool CommandCampaignSave(std::vector<std::string> const &arguments, std::string &returnInfo);
+bool CommandCampaignRevert(std::vector<std::string> const &arguments, std::string &returnInfo);
+bool CommandCampaignKillEnemies(std::vector<std::string> const &arguments, std::string &returnInfo);
 
 /* ---------- globals */
 
@@ -203,15 +203,15 @@ long camapgin_metagame_scoring_option_from_string(std::string const &str) // 0x1
 	return __result;
 }
 
-_extern bool _sub_108C51A0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandCampaignInsertionPoint(std::vector<std::string,std::allocator<std::string> > const &arguments, std::string &returnInfo) // 0x108C51A0
+_extern bool _sub_108C51A0(std::vector<std::string> const &, std::string &);
+bool CommandCampaignInsertionPoint(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x108C51A0
 {
 	// `anonymous-namespace'::CommandCampaignInsertionPoint
 	// static ...; // 0x108C54E0
 	// static ...; // 0x108C54D8
 // $LN18:
 // $LN9:
-	// std::vector<std::string,std::allocator<std::string> > const &arguments;
+	// std::vector<std::string> const &arguments;
 	// std::string &returnInfo;
 	// long previous_value;
 	// c_network_session *session;
@@ -224,13 +224,13 @@ bool CommandCampaignInsertionPoint(std::vector<std::string,std::allocator<std::s
 	return __result;
 }
 
-_extern bool _sub_108C4E00(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandCampaignDifficultyLevel(std::vector<std::string,std::allocator<std::string> > const &arguments, std::string &returnInfo) // 0x108C4E00
+_extern bool _sub_108C4E00(std::vector<std::string> const &, std::string &);
+bool CommandCampaignDifficultyLevel(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x108C4E00
 {
 	// `anonymous-namespace'::CommandCampaignDifficultyLevel
 	// static ...; // 0x108C50C8
 	// static ...; // 0x108C50C0
-	// std::vector<std::string,std::allocator<std::string> > const &arguments;
+	// std::vector<std::string> const &arguments;
 	// std::string &returnInfo;
 	// long previous_value;
 	// c_network_session *session;
@@ -243,15 +243,15 @@ bool CommandCampaignDifficultyLevel(std::vector<std::string,std::allocator<std::
 	return __result;
 }
 
-_extern bool _sub_108C49E0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandCampaginMetagameScoring(std::vector<std::string,std::allocator<std::string> > const &arguments, std::string &returnInfo) // 0x108C49E0
+_extern bool _sub_108C49E0(std::vector<std::string> const &, std::string &);
+bool CommandCampaginMetagameScoring(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x108C49E0
 {
 	// `anonymous-namespace'::CommandCampaginMetagameScoring
 	// static ...; // 0x108C4D14
 	// static ...; // 0x108C4D0C
 // $LN17:
 // $LN8:
-	// std::vector<std::string,std::allocator<std::string> > const &arguments;
+	// std::vector<std::string> const &arguments;
 	// std::string &returnInfo;
 	// long previous_value;
 	// c_network_session *session;
@@ -273,8 +273,8 @@ std::string GetActiveSkullsForDisplay(unsigned long primarySkulls, unsigned long
 	// static ...; // 0x108C62EC
 	// unsigned long primarySkulls;
 	// unsigned long secondarySkulls;
-	// std::vector<std::string,std::allocator<std::string> > skulls;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::vector<std::string> skulls;
+	// std::stringstream ss;
 	{
 		// __int32 i;
 	}
@@ -304,8 +304,8 @@ std::string GetActiveSkullsForDisplay() // 0x108C6390
 	return __result;
 }
 
-_extern bool _sub_108C56D0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandCampaignListRallyPoints(std::vector<std::string,std::allocator<std::string> > const &arguments, std::string &returninfo) // 0x108C56D0
+_extern bool _sub_108C56D0(std::vector<std::string> const &, std::string &);
+bool CommandCampaignListRallyPoints(std::vector<std::string> const &arguments, std::string &returninfo) // 0x108C56D0
 {
 	// `anonymous-namespace'::CommandCampaignListRallyPoints
 	// static ...; // 0x108C5985
@@ -315,7 +315,7 @@ bool CommandCampaignListRallyPoints(std::vector<std::string,std::allocator<std::
 	// static ...; // 0x108C5960
 	// static ...; // 0x108C5918
 	// static ...; // 0x108C5910
-	// std::vector<std::string,std::allocator<std::string> > const &arguments;
+	// std::vector<std::string> const &arguments;
 	// std::string &returninfo;
 	// long campaignId;
 	// long mapId;
@@ -339,8 +339,8 @@ bool CommandCampaignListRallyPoints(std::vector<std::string,std::allocator<std::
 	return __result;
 }
 
-_extern bool _sub_108C5B70(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandCampaignSkulls(std::vector<std::string,std::allocator<std::string> > const &arguments, std::string &returnInfo) // 0x108C5B70
+_extern bool _sub_108C5B70(std::vector<std::string> const &, std::string &);
+bool CommandCampaignSkulls(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x108C5B70
 {
 	// `anonymous-namespace'::CommandCampaignSkulls
 	// std::string &returnInfo;
@@ -362,8 +362,8 @@ bool CommandCampaignSkulls(std::vector<std::string,std::allocator<std::string> >
 	return __result;
 }
 
-_extern bool _sub_108C5AE0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandCampaignSave(std::vector<std::string,std::allocator<std::string> > const &arguments, std::string &returnInfo) // 0x108C5AE0
+_extern bool _sub_108C5AE0(std::vector<std::string> const &, std::string &);
+bool CommandCampaignSave(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x108C5AE0
 {
 	// `anonymous-namespace'::CommandCampaignSave
 	// std::string &returnInfo;
@@ -375,8 +375,8 @@ bool CommandCampaignSave(std::vector<std::string,std::allocator<std::string> > c
 	return __result;
 }
 
-_extern bool _sub_108C5A50(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandCampaignRevert(std::vector<std::string,std::allocator<std::string> > const &arguments, std::string &returnInfo) // 0x108C5A50
+_extern bool _sub_108C5A50(std::vector<std::string> const &, std::string &);
+bool CommandCampaignRevert(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x108C5A50
 {
 	// `anonymous-namespace'::CommandCampaignRevert
 	// std::string &returnInfo;
@@ -388,8 +388,8 @@ bool CommandCampaignRevert(std::vector<std::string,std::allocator<std::string> >
 	return __result;
 }
 
-_extern bool _sub_108C55D0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandCampaignKillEnemies(std::vector<std::string,std::allocator<std::string> > const &arguments, std::string &returnInfo) // 0x108C55D0
+_extern bool _sub_108C55D0(std::vector<std::string> const &, std::string &);
+bool CommandCampaignKillEnemies(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x108C55D0
 {
 	// `anonymous-namespace'::CommandCampaignKillEnemies
 	// std::string &returnInfo;

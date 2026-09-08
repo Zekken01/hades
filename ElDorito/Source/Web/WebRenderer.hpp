@@ -56,7 +56,7 @@ namespace Web
 			scoped_refptr<Web::Browser::WebRendererApp> m_App; // 0x8
 			Web::Browser::RendererState m_State; // 0xC
 			HWND__ *m_HostWindow; // 0x10
-			std::queue<std::function<void __cdecl(void)>,std::deque<std::function<void __cdecl(void)>,std::allocator<std::function<void __cdecl(void)> > > > m_DomTasks; // 0x14
+			std::queue<std::function<void __cdecl(void)> > m_DomTasks; // 0x14
 			std::atomic<bool> m_MainFrameLoaded; // 0x28
 			unsigned char __pad0[3]; // 0x29
 			std::mutex m_mutex; // 0x2C

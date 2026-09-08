@@ -622,7 +622,7 @@ namespace Download
 		mangled_x86(MANGLED_TODO, "?CancelAllSegmentRequests@CHttpFileDownload@Download@@AAEXXZ");
 		// Download::CHttpFileDownload *const this;
 		{
-			// std::vector<Download::CHttpFileDownload::SSegment *,std::allocator<Download::CHttpFileDownload::SSegment *> > &<range>$L0;
+			// std::vector<Download::CHttpFileDownload::SSegment *> &<range>$L0;
 			// Download::CHttpFileDownload::SSegment **<begin>$L0;
 			// Download::CHttpFileDownload::SSegment **<end>$L0;
 			{
@@ -642,9 +642,9 @@ namespace Download
 		// static ...; // 0x1082FA84
 		// Download::CHttpFileDownload *const this;
 		// bool success;
-		// std::vector<Download::CHttpFileDownload::SSegment *,std::allocator<Download::CHttpFileDownload::SSegment *> > segments;
+		// std::vector<Download::CHttpFileDownload::SSegment *> segments;
 		{
-			// std::vector<Download::CHttpFileDownload::SSegment *,std::allocator<Download::CHttpFileDownload::SSegment *> > &<range>$L0;
+			// std::vector<Download::CHttpFileDownload::SSegment *> &<range>$L0;
 			// Download::CHttpFileDownload::SSegment **<begin>$L0;
 			// Download::CHttpFileDownload::SSegment **<end>$L0;
 			{
@@ -665,9 +665,9 @@ namespace Download
 		// static ...; // 0x108306C8
 		// static ...; // 0x108306C0
 		// Download::CHttpFileDownload *const this;
-		// std::vector<Download::CHttpFileDownload::SSegment *,std::allocator<Download::CHttpFileDownload::SSegment *> > failed;
+		// std::vector<Download::CHttpFileDownload::SSegment *> failed;
 		{
-			// std::vector<Download::CHttpFileDownload::SSegment *,std::allocator<Download::CHttpFileDownload::SSegment *> > &<range>$L0;
+			// std::vector<Download::CHttpFileDownload::SSegment *> &<range>$L0;
 			// Download::CHttpFileDownload::SSegment **<begin>$L0;
 			// Download::CHttpFileDownload::SSegment **<end>$L0;
 			{
@@ -689,9 +689,9 @@ namespace Download
 		// static ...; // 0x10830494
 		// static ...; // 0x1083048C
 		// Download::CHttpFileDownload *const this;
-		// std::vector<Download::CHttpFileDownload::SSegment *,std::allocator<Download::CHttpFileDownload::SSegment *> > completed;
+		// std::vector<Download::CHttpFileDownload::SSegment *> completed;
 		{
-			// std::vector<Download::CHttpFileDownload::SSegment *,std::allocator<Download::CHttpFileDownload::SSegment *> > &<range>$L0;
+			// std::vector<Download::CHttpFileDownload::SSegment *> &<range>$L0;
 			// Download::CHttpFileDownload::SSegment **<begin>$L0;
 			// Download::CHttpFileDownload::SSegment **<end>$L0;
 			{
@@ -748,7 +748,7 @@ namespace Download
 		// long long maxSegmentRemaining;
 		// __int32 started;
 		{
-			// std::vector<Download::CHttpFileDownload::SSegment *,std::allocator<Download::CHttpFileDownload::SSegment *> > &<range>$L0;
+			// std::vector<Download::CHttpFileDownload::SSegment *> &<range>$L0;
 			// Download::CHttpFileDownload::SSegment **<begin>$L0;
 			// Download::CHttpFileDownload::SSegment **<end>$L0;
 			{
@@ -809,7 +809,7 @@ namespace Download
 		// long long total;
 		// std::chrono::time_point<std::chrono::steady_clock,std::chrono::duration<__int64,std::ratio<1,1000000000> > > now;
 		{
-			// std::vector<Download::CHttpFileDownload::SSegment *,std::allocator<Download::CHttpFileDownload::SSegment *> > &<range>$L0;
+			// std::vector<Download::CHttpFileDownload::SSegment *> &<range>$L0;
 			// Download::CHttpFileDownload::SSegment **<begin>$L0;
 			// Download::CHttpFileDownload::SSegment **<end>$L0;
 			{

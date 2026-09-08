@@ -181,7 +181,7 @@ void CServerConnectStateHandler_Connect::OnEnter() // 0x1090BE70
 	// CServerConnectStateHandler_Connect *const this;
 	// Web::Ui::ScreenLayer::SDialogShowParams params;
 	// s_transport_address inaddr;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > discordStringStream;
+	// std::stringstream discordStringStream;
 	// SServerConnectState const &state;
 	// s_network_session_remote_join_data *join_data;
 	// function call : void (*const)()

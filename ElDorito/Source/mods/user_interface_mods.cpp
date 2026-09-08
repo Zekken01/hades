@@ -149,7 +149,7 @@ bool c_user_interface_mods_player_character_data::build_from_mod_package() // 0x
 	// std::shared_ptr<c_cache_file_tag_cache> tag_cache;
 	// long map_id;
 	// long modg_tag_index;
-	// std::unique_ptr<unsigned char,std::default_delete<unsigned char> > tag_memory;
+	// std::unique_ptr<unsigned char> tag_memory;
 	// std::shared_ptr<c_cache_file_interface> mod_cache;
 	// c_file_reference file;
 	// IMod *mod;

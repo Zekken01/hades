@@ -48,9 +48,9 @@ namespace Server
 		_inline bool RemoveIp(std::string const &ip);
 		void decrementDuration();
 		_inline void ClearList();
-		_inline std::map<std::string,int,std::less<std::string>,std::allocator<std::pair<std::string const ,int> > > TempBannedList();
+		_inline std::map<std::string,int> TempBannedList();
 	private:
-		std::map<std::string,int,std::less<std::string>,std::allocator<std::pair<std::string const ,int> > > ipAddresses; // 0x0
+		std::map<std::string,int> ipAddresses; // 0x0
 	public:
 		~TempBanList(); /* compiler_generated() */
 	};
@@ -75,7 +75,7 @@ namespace Server
 		BanList(Server::BanList &); /* compiler_generated() */
 		BanList(Server::BanList const &); /* compiler_generated() */
 		BanList(std::string const &path);
-		_inline BanList(std::basic_istream<char,std::char_traits<char> > &stream);
+		_inline BanList(std::istream &stream);
 		_inline BanList();
 		_inline void AddIp(std::string const &ip);
 		_inline bool ContainsIp(std::string const &ip) const;
@@ -87,13 +87,13 @@ namespace Server
 		_inline bool ContainsName(std::string const &name);
 		_inline bool RemoveName(std::string const &name);
 		void Save(std::string const &path) const;
-		void Save(std::basic_ostream<char,std::char_traits<char> > &stream) const;
+		void Save(std::ostream &stream) const;
 		_inline BanType IsBanned(std::string const &ip);
 	private:
-		void Read(std::basic_istream<char,std::char_traits<char> > &stream);
-		std::unordered_set<std::string,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::string> > ipAddresses; // 0x0
-		std::unordered_set<unsigned __int64,std::hash<unsigned __int64>,std::equal_to<unsigned __int64>,std::allocator<unsigned __int64> > uids; // 0x28
-		std::unordered_set<std::string,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::string> > names; // 0x50
+		void Read(std::istream &stream);
+		std::unordered_set<std::string> ipAddresses; // 0x0
+		std::unordered_set<unsigned __int64> uids; // 0x28
+		std::unordered_set<std::string> names; // 0x50
 	public:
 		_inline ~BanList(); /* compiler_generated() */
 		Server::BanList &operator=(Server::BanList &); /* compiler_generated() */
@@ -155,15 +155,15 @@ namespace Server
 	}
 }
 
-extern std::map<std::string,int,std::less<std::string>,std::allocator<std::pair<std::string const ,int> > > _sub_10A141C0(Server::TempBanList *const);
+extern std::map<std::string,int> _sub_10A141C0(Server::TempBanList *const);
 namespace Server
 {
-	_inline std::map<std::string,int,std::less<std::string>,std::allocator<std::pair<std::string const ,int> > > TempBanList::TempBannedList() // 0x10A141C0
+	_inline std::map<std::string,int> TempBanList::TempBannedList() // 0x10A141C0
 	{
 		mangled_x86(MANGLED_TODO, "?TempBannedList@TempBanList@Server@@QAE?AV?$map@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@HU?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@H@std@@@2@@std@@XZ");
 		// Server::TempBanList *const this;
 		todo("implement");
-		std::map<std::string,int,std::less<std::string>,std::allocator<std::pair<std::string const ,int> > > __result = _sub_10A141C0(this);
+		std::map<std::string,int> __result = _sub_10A141C0(this);
 		return __result;
 	}
 
@@ -176,11 +176,11 @@ namespace Server
 		_sub_10AFA880(this);
 	}
 
-	extern BanList* _sub_10AFA670(Server::BanList *const, std::basic_istream<char,std::char_traits<char> > &);
-	_inline BanList::BanList(std::basic_istream<char,std::char_traits<char> > &stream) // 0x10AFA670
+	extern BanList* _sub_10AFA670(Server::BanList *const, std::istream &);
+	_inline BanList::BanList(std::istream &stream) // 0x10AFA670
 	{
 		mangled_x86(MANGLED_TODO, "??0BanList@Server@@QAE@AAV?$basic_istream@DU?$char_traits@D@std@@@std@@@Z");
-		// std::basic_istream<char,std::char_traits<char> > &stream;
+		// std::istream &stream;
 		todo("implement");
 		_sub_10AFA670(this, stream);
 	}

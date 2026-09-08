@@ -76,8 +76,8 @@ private:
 	void OnUIActionRetry();
 	void OnDownloadSingleFinished();
 	EState m_state; // 0x8
-	std::vector<SModBrowserState::SRequestedMod *,std::allocator<SModBrowserState::SRequestedMod *> > m_downloadQueue; // 0xC
-	std::vector<SSignatureVerificationResult,std::allocator<SSignatureVerificationResult> > m_verificationResults; // 0x1C
+	std::vector<SModBrowserState::SRequestedMod *> m_downloadQueue; // 0xC
+	std::vector<SSignatureVerificationResult> m_verificationResults; // 0x1C
 	__int32 m_queueIndex; // 0x2C
 	bool m_downloadStarted; // 0x30
 	bool m_cancelled; // 0x31

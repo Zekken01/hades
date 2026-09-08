@@ -65,7 +65,7 @@ namespace Patches
 			std::string VariantDescription; // 0xCC
 			std::string ServerName; // 0xE8
 			std::string ServerMessage; // 0x104
-			std::vector<std::string,std::allocator<std::string> > Skulls; // 0x120
+			std::vector<std::string> Skulls; // 0x120
 			std::string Difficulty; // 0x130
 			std::string modHash; // 0x14C
 			std::string modAuthor; // 0x168

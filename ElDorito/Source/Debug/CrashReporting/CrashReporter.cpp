@@ -331,7 +331,7 @@ namespace Debug
 			{
 			}
 			{
-				// std::vector<std::string,std::allocator<std::string> > const &<range>$L0;
+				// std::vector<std::string> const &<range>$L0;
 				// std::string const *<begin>$L0;
 				// std::string const *<end>$L0;
 				{
@@ -384,7 +384,7 @@ namespace Debug
 			// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
 			// std::string ReporterPath;
 			// std::string LaunchCommand;
-			// std::basic_ofstream<char,std::char_traits<char> > crash_dump;
+			// std::ofstream crash_dump;
 			// std::string CrashDumpPath;
 			todo("implement");
 			_sub_10690840(crash);

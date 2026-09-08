@@ -117,7 +117,7 @@ namespace Blam
 			// long long baseOffset;
 			// long long dataOffset;
 			// __int32 *stringOffsets;
-			// std::basic_ifstream<char,std::char_traits<char> > stream;
+			// std::ifstream stream;
 			{
 				// __int32 i;
 			}

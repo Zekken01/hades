@@ -91,8 +91,8 @@ namespace Utils
 		// static ...; // 0x10C56378
 		// __int32 framesToSkip;
 		// __int32 framesToCapture;
-		// std::vector<unsigned int,std::allocator<unsigned int> > backTrace;
-		// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+		// std::vector<unsigned int> backTrace;
+		// std::stringstream ss;
 		// __int32 capturedFrames;
 		{
 			// __int32 i;

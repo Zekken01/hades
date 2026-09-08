@@ -58,7 +58,7 @@ namespace Utils
 {
 	namespace hades_file_local_Utils
 	{
-		extern std::basic_regex<char,std::regex_traits<char> > kPattern; // 0x1138CE6C
+		extern std::regex kPattern; // 0x1138CE6C
 	}
 	using namespace hades_file_local_Utils;
 }

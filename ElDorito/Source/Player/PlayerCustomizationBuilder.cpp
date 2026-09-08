@@ -101,7 +101,7 @@ namespace Blam
 
 namespace Player
 {
-	extern void BuildChangeColors(unsigned long *changeColors, std::map<std::string,std::string,std::less<std::string>,std::allocator<std::pair<std::string const ,std::string> > > const &colors);
+	extern void BuildChangeColors(unsigned long *changeColors, std::map<std::string,std::string> const &colors);
 }
 
 unsigned __int32 ParseColor(std::string const &value);
@@ -119,8 +119,8 @@ namespace Utils
 
 namespace Player
 {
-	_extern void _sub_107CA700(unsigned long *, std::map<std::string,std::string,std::less<std::string>,std::allocator<std::pair<std::string const ,std::string> > > const &);
-	void BuildChangeColors(unsigned long *changeColors, std::map<std::string,std::string,std::less<std::string>,std::allocator<std::pair<std::string const ,std::string> > > const &colors) // 0x107CA700
+	_extern void _sub_107CA700(unsigned long *, std::map<std::string,std::string> const &);
+	void BuildChangeColors(unsigned long *changeColors, std::map<std::string,std::string> const &colors) // 0x107CA700
 	{
 		mangled_x86(MANGLED_TODO, "?BuildChangeColors@Player@@YAXPAKABV?$map@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@@std@@@2@@std@@@Z");
 		// static ...; // 0x107CA961
@@ -128,9 +128,9 @@ namespace Player
 		// static ...; // 0x107CA938
 		// static ...; // 0x107CA930
 		// unsigned long *changeColors;
-		// std::map<std::string,std::string,std::less<std::string>,std::allocator<std::pair<std::string const ,std::string> > > const &colors;
+		// std::map<std::string,std::string> const &colors;
 		{
-			// std::map<std::string,std::string,std::less<std::string>,std::allocator<std::pair<std::string const ,std::string> > > const &<range>$L0;
+			// std::map<std::string,std::string> const &<range>$L0;
 			// std::_Tree_unchecked_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::string> > >,std::_Iterator_base0> <begin>$L0;
 			// std::_Default_sentinel <end>$L0;
 			{
@@ -168,7 +168,7 @@ namespace Player
 			}
 		}
 		{
-			// std::map<std::string,std::string,std::less<std::string>,std::allocator<std::pair<std::string const ,std::string> > > &<range>$L0;
+			// std::map<std::string,std::string> &<range>$L0;
 			// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::string> > > > <begin>$L0;
 			// std::_Default_sentinel <end>$L0;
 			{
@@ -338,7 +338,7 @@ unsigned __int32 ParseColor(std::string const &value) // 0x107CBD20
 	// static ...; // 0x107CBEB4
 	// static ...; // 0x107CBEAC
 	// std::string const &value;
-	// std::basic_regex<char,std::regex_traits<char> > expression;
+	// std::regex expression;
 	// std::match_results<char const *,std::allocator<std::sub_match<char const *> > > what;
 	todo("implement");
 	unsigned __int32 __result = _sub_107CBD20(value);

@@ -115,7 +115,7 @@ namespace Utils
 			// Utils::Uri::UriComponents relativeComponents;
 			// Utils::Uri::UriComponents baseComponents;
 			{
-				// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+				// std::stringstream ss;
 				{
 					// std::string path;
 				}

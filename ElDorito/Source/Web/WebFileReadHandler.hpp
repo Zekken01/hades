@@ -43,7 +43,7 @@ namespace Web
 			virtual __int32 Eof();
 			virtual bool MayBlock();
 		private:
-			std::basic_ifstream<char,std::char_traits<char> > m_stream; // 0x8
+			std::ifstream m_stream; // 0x8
 			long long m_baseOffset; // 0xC0
 			long long m_length; // 0xC8
 			long long m_position; // 0xD0

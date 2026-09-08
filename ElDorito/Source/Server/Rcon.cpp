@@ -257,7 +257,7 @@ std::string GetLogString(websocketpp::server<Utils::WebSocket::Config> *rconServ
 namespace hades_file_local
 {
 	extern websocketpp::server<Utils::WebSocket::Config> rconServer; // 0x12467AA8
-	extern std::set<std::weak_ptr<void>,std::owner_less<std::weak_ptr<void> >,std::allocator<std::weak_ptr<void> > > authenticatedConnections; // 0x12467A94
+	extern std::set<std::weak_ptr<void>,std::owner_less<std::weak_ptr<void> > > authenticatedConnections; // 0x12467A94
 	extern char const *ProtocolName; // 0x11354EA8
 	extern char const *AcceptMessage; // 0x11354EAC
 	extern char const *DenyMessage; // 0x11354EB0
@@ -290,7 +290,7 @@ namespace Server
 		// $LN14:
 			// std::string message;
 			{
-				// std::set<std::weak_ptr<void>,std::owner_less<std::weak_ptr<void> >,std::allocator<std::weak_ptr<void> > > &<range>$L0;
+				// std::set<std::weak_ptr<void>,std::owner_less<std::weak_ptr<void> > > &<range>$L0;
 				// std::_Tree_unchecked_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::weak_ptr<void> > >,std::_Iterator_base0> <begin>$L0;
 				// std::_Default_sentinel <end>$L0;
 				{
@@ -365,7 +365,7 @@ bool OnValidate(websocketpp::server<Utils::WebSocket::Config> *rconServer, std::
 	// static ...; // 0x10BB4D74
 	// websocketpp::server<Utils::WebSocket::Config> *rconServer;
 	// std::weak_ptr<void> hdl;
-	// std::vector<std::string,std::allocator<std::string> > subprotocols;
+	// std::vector<std::string> subprotocols;
 	// std::shared_ptr<websocketpp::connection<Utils::WebSocket::Config> > connection;
 	todo("implement");
 	bool __result = _sub_10BB4B10(rconServer, hdl);
@@ -441,7 +441,7 @@ void LogMessage(websocketpp::server<Utils::WebSocket::Config> *rconServer, std::
 	// std::weak_ptr<void> hdl;
 	// std::string message;
 	// std::filesystem::path parentDirectory;
-	// std::basic_ofstream<char,std::char_traits<char> > logFile;
+	// std::ofstream logFile;
 	// std::filesystem::path logFilePath;
 	// std::string rconLogFile;
 	// Modules::ModuleServer &serverModule;
@@ -464,7 +464,7 @@ std::string GetLogString(websocketpp::server<Utils::WebSocket::Config> *rconServ
 	// std::weak_ptr<void> hdl;
 	// std::string message;
 	// std::string client;
-	// std::basic_ostringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::ostringstream ss;
 	// long long time;
 	// std::shared_ptr<websocketpp::connection<Utils::WebSocket::Config> > connection;
 	// std::string trimedIP;

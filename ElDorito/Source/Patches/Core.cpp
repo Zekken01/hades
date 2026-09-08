@@ -171,9 +171,9 @@ namespace hades_file_local
 	extern std::string TexturesBPath; // 0x124583F4
 	extern std::string AudioPath; // 0x12458390
 	extern std::string FontsPath; // 0x12458364
-	extern std::vector<std::function<void __cdecl(char const *)>,std::allocator<std::function<void __cdecl(char const *)> > > mapLoadedCallbacks; // 0x12458290
-	extern std::vector<std::function<void __cdecl(void)>,std::allocator<std::function<void __cdecl(void)> > > gameStartCallbacks; // 0x12458380
-	extern std::vector<std::function<void __cdecl(void)>,std::allocator<std::function<void __cdecl(void)> > > shutdownCallbacks; // 0x124583E4
+	extern std::vector<std::function<void __cdecl(char const *)> > mapLoadedCallbacks; // 0x12458290
+	extern std::vector<std::function<void __cdecl(void)> > gameStartCallbacks; // 0x12458380
+	extern std::vector<std::function<void __cdecl(void)> > shutdownCallbacks; // 0x124583E4
 	extern std::string mainLoadMapPath; // 0x12458310
 	extern long long cpuFrequencyMs; // 0x12458410
 	extern _LARGE_INTEGER startTime; // 0x12458418
@@ -228,7 +228,7 @@ namespace Patches
 			mangled_x86(MANGLED_TODO, "?ExecuteShutdownCallbacks@Core@Patches@@YAXXZ");
 			// procedure flags: nofpo
 			{
-				// std::vector<std::function<void __cdecl(void)>,std::allocator<std::function<void __cdecl(void)> > > &<range>$L0;
+				// std::vector<std::function<void __cdecl(void)> > &<range>$L0;
 				// std::function<void __cdecl(void)> *<begin>$L0;
 				// std::function<void __cdecl(void)> *<end>$L0;
 				{
@@ -300,7 +300,7 @@ bool LoadMapHook(void *data) // 0x10A48DF0
 	// void *data;
 	// bool (*LoadMap)(void *);
 	{
-		// std::vector<std::function<void __cdecl(char const *)>,std::allocator<std::function<void __cdecl(char const *)> > > &<range>$L0;
+		// std::vector<std::function<void __cdecl(char const *)> > &<range>$L0;
 		// std::function<void __cdecl(char const *)> *<begin>$L0;
 		// std::function<void __cdecl(char const *)> *<end>$L0;
 		{
@@ -350,7 +350,7 @@ void GameStartHook() // 0x10A48740
 	// procedure flags: nofpo
 	// void (*GameStart)();
 	{
-		// std::vector<std::function<void __cdecl(void)>,std::allocator<std::function<void __cdecl(void)> > > &<range>$L0;
+		// std::vector<std::function<void __cdecl(void)> > &<range>$L0;
 		// std::function<void __cdecl(void)> *<begin>$L0;
 		// std::function<void __cdecl(void)> *<end>$L0;
 		{

@@ -84,7 +84,7 @@ namespace Player
 	namespace Emblems
 	{
 		extern bool ParseQueryParameter(std::string_view const &str, std::string_view &name, std::string_view &value);
-		extern bool ParseQuery(std::string_view const &query, std::vector<std::pair<std::string_view,std::string_view>,std::allocator<std::pair<std::string_view,std::string_view> > > &parameters);
+		extern bool ParseQuery(std::string_view const &query, std::vector<std::pair<std::string_view,std::string_view> > &parameters);
 		extern bool ParseHex(std::string_view const &str, unsigned __int32 &value);
 		extern bool ParseBool(std::string_view const &str, bool &value);
 		extern bool ParseURL(std::string const &url, s_player_emblem_configuration &config);
@@ -114,8 +114,8 @@ namespace Player
 			return __result;
 		}
 
-		_extern bool _sub_107DF3D0(std::string_view const &, std::vector<std::pair<std::string_view,std::string_view>,std::allocator<std::pair<std::string_view,std::string_view> > > &);
-		bool ParseQuery(std::string_view const &query, std::vector<std::pair<std::string_view,std::string_view>,std::allocator<std::pair<std::string_view,std::string_view> > > &parameters) // 0x107DF3D0
+		_extern bool _sub_107DF3D0(std::string_view const &, std::vector<std::pair<std::string_view,std::string_view> > &);
+		bool ParseQuery(std::string_view const &query, std::vector<std::pair<std::string_view,std::string_view> > &parameters) // 0x107DF3D0
 		{
 			mangled_x86(MANGLED_TODO, "?ParseQuery@Emblems@Player@@YA_NABV?$basic_string_view@DU?$char_traits@D@std@@@std@@AAV?$vector@U?$pair@V?$basic_string_view@DU?$char_traits@D@std@@@std@@V12@@std@@V?$allocator@U?$pair@V?$basic_string_view@DU?$char_traits@D@std@@@std@@V12@@std@@@2@@4@@Z");
 			// static ...; // 0x107DF4F6
@@ -123,7 +123,7 @@ namespace Player
 			// static ...; // 0x107DF4CC
 			// static ...; // 0x107DF4C4
 			// std::string_view const &query;
-			// std::vector<std::pair<std::string_view,std::string_view>,std::allocator<std::pair<std::string_view,std::string_view> > > &parameters;
+			// std::vector<std::pair<std::string_view,std::string_view> > &parameters;
 			// __int32 pos;
 			// __int32 len;
 			{
@@ -145,7 +145,7 @@ namespace Player
 			// static ...; // 0x107DF36C
 			// std::string_view const &str;
 			// unsigned __int32 &value;
-			// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+			// std::stringstream ss;
 			todo("implement");
 			bool __result = _sub_107DF260(str, value);
 			return __result;
@@ -175,9 +175,9 @@ namespace Player
 			// std::string const &url;
 			// s_player_emblem_configuration &config;
 			// Utils::Uri::UriComponents uric;
-			// std::vector<std::pair<std::string_view,std::string_view>,std::allocator<std::pair<std::string_view,std::string_view> > > params;
+			// std::vector<std::pair<std::string_view,std::string_view> > params;
 			{
-				// std::vector<std::pair<std::string_view,std::string_view>,std::allocator<std::pair<std::string_view,std::string_view> > > &<range>$L0;
+				// std::vector<std::pair<std::string_view,std::string_view> > &<range>$L0;
 				// std::pair<std::string_view,std::string_view> *<begin>$L0;
 				// std::pair<std::string_view,std::string_view> *<end>$L0;
 				{
@@ -205,7 +205,7 @@ namespace Player
 			// static ...; // 0x107DF0D8
 			// __int32 hexValue;
 			// __int32 green;
-			// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > hex;
+			// std::stringstream hex;
 			// __int32 blue;
 			// __int32 red;
 			todo("implement");

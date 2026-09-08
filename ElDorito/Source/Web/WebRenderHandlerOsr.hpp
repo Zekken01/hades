@@ -45,8 +45,8 @@ namespace Web
 			virtual _inline ~RenderHandlerOsr();
 			virtual _inline void OnPopupShow(scoped_refptr<CefBrowser> browser, bool show);
 			virtual _inline void OnPopupSize(scoped_refptr<CefBrowser> browser, CefRect const &rect);
-			virtual _inline void OnPaint(scoped_refptr<CefBrowser> browser, cef_paint_element_type_t type, std::vector<CefRect,std::allocator<CefRect> > const &dirtyRects, void const *buffer, __int32 width, __int32 height);
-			virtual _inline void OnAcceleratedPaint(scoped_refptr<CefBrowser> browser, cef_paint_element_type_t type, std::vector<CefRect,std::allocator<CefRect> > const &dirtyRects, void *sharedHandle);
+			virtual _inline void OnPaint(scoped_refptr<CefBrowser> browser, cef_paint_element_type_t type, std::vector<CefRect> const &dirtyRects, void const *buffer, __int32 width, __int32 height);
+			virtual _inline void OnAcceleratedPaint(scoped_refptr<CefBrowser> browser, cef_paint_element_type_t type, std::vector<CefRect> const &dirtyRects, void *sharedHandle);
 			virtual _inline bool InitRenderer();
 			virtual _inline bool Resize(unsigned __int32 width, unsigned __int32 height);
 			virtual _inline bool Render();
@@ -96,8 +96,8 @@ namespace Web
 			_sub_10CE96D0(this, browser, rect);
 		}
 
-		_extern void _sub_10CE9390(Web::Browser::RenderHandlerOsr *const, scoped_refptr<CefBrowser>, cef_paint_element_type_t, std::vector<CefRect,std::allocator<CefRect> > const &, void const *, __int32, __int32);
-		_inline void RenderHandlerOsr::OnPaint(scoped_refptr<CefBrowser> browser, cef_paint_element_type_t type, std::vector<CefRect,std::allocator<CefRect> > const &dirtyRects, void const *buffer, __int32 width, __int32 height) // 0x10CE9390
+		_extern void _sub_10CE9390(Web::Browser::RenderHandlerOsr *const, scoped_refptr<CefBrowser>, cef_paint_element_type_t, std::vector<CefRect> const &, void const *, __int32, __int32);
+		_inline void RenderHandlerOsr::OnPaint(scoped_refptr<CefBrowser> browser, cef_paint_element_type_t type, std::vector<CefRect> const &dirtyRects, void const *buffer, __int32 width, __int32 height) // 0x10CE9390
 		{
 			mangled_x86(MANGLED_TODO, "?OnPaint@RenderHandlerOsr@Browser@Web@@UAEXV?$scoped_refptr@VCefBrowser@@@@W4cef_paint_element_type_t@@ABV?$vector@VCefRect@@V?$allocator@VCefRect@@@std@@@std@@PBXHH@Z");
 			// __int32 height;
@@ -105,8 +105,8 @@ namespace Web
 			_sub_10CE9390(this, browser, type, dirtyRects, buffer, width, height);
 		}
 
-		_extern void _sub_10CE8D20(Web::Browser::RenderHandlerOsr *const, scoped_refptr<CefBrowser>, cef_paint_element_type_t, std::vector<CefRect,std::allocator<CefRect> > const &, void *);
-		_inline void RenderHandlerOsr::OnAcceleratedPaint(scoped_refptr<CefBrowser> browser, cef_paint_element_type_t type, std::vector<CefRect,std::allocator<CefRect> > const &dirtyRects, void *sharedHandle) // 0x10CE8D20
+		_extern void _sub_10CE8D20(Web::Browser::RenderHandlerOsr *const, scoped_refptr<CefBrowser>, cef_paint_element_type_t, std::vector<CefRect> const &, void *);
+		_inline void RenderHandlerOsr::OnAcceleratedPaint(scoped_refptr<CefBrowser> browser, cef_paint_element_type_t type, std::vector<CefRect> const &dirtyRects, void *sharedHandle) // 0x10CE8D20
 		{
 			mangled_x86(MANGLED_TODO, "?OnAcceleratedPaint@RenderHandlerOsr@Browser@Web@@UAEXV?$scoped_refptr@VCefBrowser@@@@W4cef_paint_element_type_t@@ABV?$vector@VCefRect@@V?$allocator@VCefRect@@@std@@@std@@PAX@Z");
 			// void *sharedHandle;

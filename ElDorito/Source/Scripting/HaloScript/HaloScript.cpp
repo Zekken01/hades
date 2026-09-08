@@ -113,14 +113,14 @@ namespace Scripting
 		extern void InitializeForNewMap();
 		extern void Init();
 		extern void Tick();
-		extern void PushScript(long threadIndex, short scriptIndex, long **outReturnValueAddr, std::span<hs_value const ,4294967295> arguments);
-		extern void ExecuteScript(__int32 scriptIndex, std::span<hs_value const ,4294967295> arguments);
-		extern void ExecuteScript(std::string_view name, std::span<hs_value const ,4294967295> arguments);
-		extern hs_value ExecuteScriptWithReturn(short scriptIndex, std::span<hs_value const ,4294967295> arguments);
-		extern hs_value ExecuteScriptWithReturn(std::string_view name, std::span<hs_value const ,4294967295> arguments);
+		extern void PushScript(long threadIndex, short scriptIndex, long **outReturnValueAddr, std::span<hs_value const> arguments);
+		extern void ExecuteScript(__int32 scriptIndex, std::span<hs_value const> arguments);
+		extern void ExecuteScript(std::string_view name, std::span<hs_value const> arguments);
+		extern hs_value ExecuteScriptWithReturn(short scriptIndex, std::span<hs_value const> arguments);
+		extern hs_value ExecuteScriptWithReturn(std::string_view name, std::span<hs_value const> arguments);
 		extern void AddHookCallback(std::string_view name, short callbackScriptIndex);
 		extern void RemoveHookCallback(std::string_view name, short callbackScriptIndex);
-		extern void CallHook(std::string_view name, std::span<hs_value const ,4294967295> arguments);
+		extern void CallHook(std::string_view name, std::span<hs_value const> arguments);
 	}
 }
 
@@ -130,7 +130,7 @@ namespace Scripting
 {
 	namespace HS
 	{
-		extern std::unordered_map<std::string_view,Scripting::HS::ScriptHook,std::hash<std::string_view>,std::equal_to<std::string_view>,std::allocator<std::pair<std::string_view const ,Scripting::HS::ScriptHook> > > hooks; // 0x1138827C
+		extern std::unordered_map<std::string_view,Scripting::HS::ScriptHook> hooks; // 0x1138827C
 	}
 }
 
@@ -257,15 +257,15 @@ namespace Scripting
 			_sub_106E9390();
 		}
 
-		_extern void _sub_106E8EE0(long, short, long **, std::span<hs_value const ,4294967295>);
-		void PushScript(long threadIndex, short scriptIndex, long **outReturnValueAddr, std::span<hs_value const ,4294967295> arguments) // 0x106E8EE0
+		_extern void _sub_106E8EE0(long, short, long **, std::span<hs_value const>);
+		void PushScript(long threadIndex, short scriptIndex, long **outReturnValueAddr, std::span<hs_value const> arguments) // 0x106E8EE0
 		{
 			mangled_x86(MANGLED_TODO, "?PushScript@HS@Scripting@@YAXJFPAPAJV?$span@$$CBUhs_value@@$0PPPPPPPP@@std@@@Z");
 			// static ...; // 0x106E9108
 			// long threadIndex;
 			// short scriptIndex;
 			// long **outReturnValueAddr;
-			// std::span<hs_value const ,4294967295> arguments;
+			// std::span<hs_value const> arguments;
 			// long *return_value;
 			// long *arg_count;
 			// long *args;
@@ -288,11 +288,11 @@ namespace Scripting
 			_sub_106E8EE0(threadIndex, scriptIndex, outReturnValueAddr, arguments);
 		}
 
-		_extern void _sub_106E8790(__int32, std::span<hs_value const ,4294967295>);
-		void ExecuteScript(__int32 scriptIndex, std::span<hs_value const ,4294967295> arguments) // 0x106E8790
+		_extern void _sub_106E8790(__int32, std::span<hs_value const>);
+		void ExecuteScript(__int32 scriptIndex, std::span<hs_value const> arguments) // 0x106E8790
 		{
 			mangled_x86(MANGLED_TODO, "?ExecuteScript@HS@Scripting@@YAXHV?$span@$$CBUhs_value@@$0PPPPPPPP@@std@@@Z");
-			// std::span<hs_value const ,4294967295> arguments;
+			// std::span<hs_value const> arguments;
 			// long thread_index;
 			// s_hs_script const *script;
 			// s_scenario const *scnr;
@@ -317,11 +317,11 @@ namespace Scripting
 			compiler_generated();
 		}
 
-		_extern void _sub_106E8880(std::string_view, std::span<hs_value const ,4294967295>);
-		void ExecuteScript(std::string_view name, std::span<hs_value const ,4294967295> arguments) // 0x106E8880
+		_extern void _sub_106E8880(std::string_view, std::span<hs_value const>);
+		void ExecuteScript(std::string_view name, std::span<hs_value const> arguments) // 0x106E8880
 		{
 			mangled_x86(MANGLED_TODO, "?ExecuteScript@HS@Scripting@@YAXV?$basic_string_view@DU?$char_traits@D@std@@@std@@V?$span@$$CBUhs_value@@$0PPPPPPPP@@4@@Z");
-			// std::span<hs_value const ,4294967295> arguments;
+			// std::span<hs_value const> arguments;
 			// __int32 scriptIndex;
 			todo("implement");
 			_sub_106E8880(name, arguments);
@@ -329,18 +329,18 @@ namespace Scripting
 	}
 }
 
-extern hs_value _sub_106E8900(short, std::span<hs_value const ,4294967295>);
+extern hs_value _sub_106E8900(short, std::span<hs_value const>);
 namespace Scripting
 {
 	namespace HS
 	{
-		hs_value ExecuteScriptWithReturn(short scriptIndex, std::span<hs_value const ,4294967295> arguments) // 0x106E8900
+		hs_value ExecuteScriptWithReturn(short scriptIndex, std::span<hs_value const> arguments) // 0x106E8900
 		{
 			mangled_x86(MANGLED_TODO, "?ExecuteScriptWithReturn@HS@Scripting@@YA?AUhs_value@@FV?$span@$$CBUhs_value@@$0PPPPPPPP@@std@@@Z");
 			// static ...; // 0x106E8A84
 			// static ...; // 0x106E8A7C
 			// short scriptIndex;
-			// std::span<hs_value const ,4294967295> arguments;
+			// std::span<hs_value const> arguments;
 			// long thread_index;
 			// long *retValueAddr;
 			// s_hs_script const *script;
@@ -355,15 +355,15 @@ namespace Scripting
 	}
 }
 
-extern hs_value _sub_106E8B10(std::string_view, std::span<hs_value const ,4294967295>);
+extern hs_value _sub_106E8B10(std::string_view, std::span<hs_value const>);
 namespace Scripting
 {
 	namespace HS
 	{
-		hs_value ExecuteScriptWithReturn(std::string_view name, std::span<hs_value const ,4294967295> arguments) // 0x106E8B10
+		hs_value ExecuteScriptWithReturn(std::string_view name, std::span<hs_value const> arguments) // 0x106E8B10
 		{
 			mangled_x86(MANGLED_TODO, "?ExecuteScriptWithReturn@HS@Scripting@@YA?AUhs_value@@V?$basic_string_view@DU?$char_traits@D@std@@@std@@V?$span@$$CBUhs_value@@$0PPPPPPPP@@5@@Z");
-			// std::span<hs_value const ,4294967295> arguments;
+			// std::span<hs_value const> arguments;
 			// __int32 scriptIndex;
 			todo("implement");
 			hs_value __result = _sub_106E8B10(name, arguments);
@@ -388,13 +388,13 @@ namespace Scripting
 			_sub_106E9320(name, callbackScriptIndex);
 		}
 
-		_extern void _sub_106E86E0(std::string_view, std::span<hs_value const ,4294967295>);
-		void CallHook(std::string_view name, std::span<hs_value const ,4294967295> arguments) // 0x106E86E0
+		_extern void _sub_106E86E0(std::string_view, std::span<hs_value const>);
+		void CallHook(std::string_view name, std::span<hs_value const> arguments) // 0x106E86E0
 		{
 			mangled_x86(MANGLED_TODO, "?CallHook@HS@Scripting@@YAXV?$basic_string_view@DU?$char_traits@D@std@@@std@@V?$span@$$CBUhs_value@@$0PPPPPPPP@@4@@Z");
-			// std::span<hs_value const ,4294967295> arguments;
+			// std::span<hs_value const> arguments;
 			{
-				// std::vector<short,std::allocator<short> > &<range>$L0;
+				// std::vector<short> &<range>$L0;
 				// short *<begin>$L0;
 				// short *<end>$L0;
 				{

@@ -119,9 +119,9 @@ namespace Blam
 
 /* ---------- prototypes */
 
-bool CommandHelp(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool CommandExecute(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool CommandWriteConfig(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
+bool CommandHelp(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool CommandExecute(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool CommandWriteConfig(std::vector<std::string> const &Arguments, std::string &returnInfo);
 
 /* ---------- globals */
 
@@ -154,14 +154,14 @@ namespace Modules
 
 /* ---------- private code */
 
-_extern bool _sub_108BF6A0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandHelp(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x108BF6A0
+_extern bool _sub_108BF6A0(std::vector<std::string> const &, std::string &);
+bool CommandHelp(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x108BF6A0
 {
 	// `anonymous-namespace'::CommandHelp
 	// static ...; // 0x108BF9B4
 	// static ...; // 0x108BF99C
 	// static ...; // 0x108BF994
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// Modules::CommandMap &commandMap;
 	{
@@ -179,16 +179,16 @@ bool CommandHelp(std::vector<std::string,std::allocator<std::string> > const &Ar
 	return __result;
 }
 
-_extern bool _sub_108BF290(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandExecute(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x108BF290
+_extern bool _sub_108BF290(std::vector<std::string> const &, std::string &);
+bool CommandExecute(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x108BF290
 {
 	// `anonymous-namespace'::CommandExecute
 	// static ...; // 0x108BF5C0
 	// static ...; // 0x108BF5A8
 	// static ...; // 0x108BF5A0
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
-	// std::basic_ifstream<char,std::char_traits<char> > in;
+	// std::ifstream in;
 	{
 		// bool stopOnFirstError;
 		// std::string contents;
@@ -198,8 +198,8 @@ bool CommandExecute(std::vector<std::string,std::allocator<std::string> > const 
 	return __result;
 }
 
-_extern bool _sub_108BFA90(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandWriteConfig(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x108BFA90
+_extern bool _sub_108BFA90(std::vector<std::string> const &, std::string &);
+bool CommandWriteConfig(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x108BFA90
 {
 	// `anonymous-namespace'::CommandWriteConfig
 	// static ...; // 0x108C045F
@@ -214,19 +214,19 @@ bool CommandWriteConfig(std::vector<std::string,std::allocator<std::string> > co
 	// static ...; // 0x108C0418
 	// static ...; // 0x108C0394
 	// static ...; // 0x108C038C
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// std::wstring wide_ed_appdata;
-	// std::basic_ofstream<char,std::char_traits<char> > outKeys;
+	// std::ofstream outKeys;
 	// std::string prefsFile;
 	// std::string prefsName;
 	// wchar_t *localAppdata;
-	// std::basic_ofstream<char,std::char_traits<char> > outFile;
+	// std::ofstream outFile;
 	// std::string ed_appdata;
 	// std::string keyFile;
 	{
-		// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
-		// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > keystream;
+		// std::stringstream ss;
+		// std::stringstream keystream;
 	}
 	{
 	}

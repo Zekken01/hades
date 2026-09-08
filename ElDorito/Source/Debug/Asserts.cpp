@@ -63,7 +63,7 @@ namespace Debug
 		// char const *msg;
 		// __int32 msgLen;
 		// char messageBuff[8192];
-		// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+		// std::stringstream ss;
 		// unsigned long decision;
 		{
 			// char *va;

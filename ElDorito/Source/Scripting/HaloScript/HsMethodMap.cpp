@@ -118,7 +118,7 @@ namespace Scripting
 			mangled_x86(MANGLED_TODO, "?AddMethod@ScriptMethodMap@HS@Scripting@@AAEX$$QAUScriptMethod@23@@Z");
 			// Scripting::HS::ScriptMethod &method;
 			{
-				// std::vector<Scripting::HS::ScriptParameter,std::allocator<Scripting::HS::ScriptParameter> > &<range>$L0;
+				// std::vector<Scripting::HS::ScriptParameter> &<range>$L0;
 				// Scripting::HS::ScriptParameter *<begin>$L0;
 				// Scripting::HS::ScriptParameter *<end>$L0;
 				{
@@ -202,7 +202,7 @@ namespace Scripting
 			// Scripting::HS::ScriptMethod const *method;
 			// std::string_view returnType;
 			{
-				// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+				// std::stringstream ss;
 				// std::string parameters;
 				{
 					// unsigned __int32 i;
@@ -233,10 +233,10 @@ namespace Scripting
 			// static ...; // 0x10701CF8
 			// static ...; // 0x10701CF0
 			// Scripting::HS::ScriptMethodMap const *const this;
-			// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > docs;
+			// std::stringstream docs;
 			// Scripting::HS::ScriptMethodMap &methods;
 			{
-				// std::unordered_map<std::string_view,Scripting::HS::ScriptMethod,std::hash<std::string_view>,std::equal_to<std::string_view>,std::allocator<std::pair<std::string_view const ,Scripting::HS::ScriptMethod> > > &<range>$L0;
+				// std::unordered_map<std::string_view,Scripting::HS::ScriptMethod> &<range>$L0;
 				// std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<std::string_view const ,Scripting::HS::ScriptMethod> > > > <begin>$L0;
 				// std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<std::string_view const ,Scripting::HS::ScriptMethod> > > > <end>$L0;
 				{

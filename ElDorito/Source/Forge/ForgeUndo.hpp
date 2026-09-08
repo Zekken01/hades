@@ -77,8 +77,8 @@ private:
 	bool m_undoing; // 0x17
 	bool m_redoing; // 0x18
 	unsigned char __pad0[3]; // 0x19
-	std::list<SUndoEntry,std::allocator<SUndoEntry> > m_undoStack; // 0x1C
-	std::list<SUndoEntry,std::allocator<SUndoEntry> > m_redoStack; // 0x28
+	std::list<SUndoEntry> m_undoStack; // 0x1C
+	std::list<SUndoEntry> m_redoStack; // 0x28
 	void PerformUndo();
 	void PerformRedo();
 public:

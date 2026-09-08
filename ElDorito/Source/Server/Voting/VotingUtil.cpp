@@ -190,10 +190,10 @@ namespace Server
 		extern __int32 getCustomMapID(std::string mapName);
 		extern bool findMapInfoInModPackage(__int32 mapId, std::string const &mapName, std::string const &identifier, Server::Voting::SMapListItem *info);
 		extern bool getMapInfo(std::string const &mapName, std::string const &modpack, Server::Voting::SMapListItem *info);
-		extern unsigned __int32 FindMapByName(std::vector<Server::Voting::HaloMap,std::allocator<Server::Voting::HaloMap> > const &maps, std::string const &name);
-		extern unsigned __int32 FindTypeByName(std::vector<Server::Voting::HaloType,std::allocator<Server::Voting::HaloType> > const &types, std::string const &name);
-		extern void BuildRandomPlaylist(std::vector<Server::Voting::MapAndType,std::allocator<Server::Voting::MapAndType> > &playlist, unsigned __int32 size, std::vector<Server::Voting::HaloType,std::allocator<Server::Voting::HaloType> > const &types, std::vector<Server::Voting::HaloMap,std::allocator<Server::Voting::HaloMap> > const &maps);
-		extern std::vector<Server::Voting::SMapListItem,std::allocator<Server::Voting::SMapListItem> > const &GetDefaultMapList();
+		extern unsigned __int32 FindMapByName(std::vector<Server::Voting::HaloMap> const &maps, std::string const &name);
+		extern unsigned __int32 FindTypeByName(std::vector<Server::Voting::HaloType> const &types, std::string const &name);
+		extern void BuildRandomPlaylist(std::vector<Server::Voting::MapAndType> &playlist, unsigned __int32 size, std::vector<Server::Voting::HaloType> const &types, std::vector<Server::Voting::HaloMap> const &maps);
+		extern std::vector<Server::Voting::SMapListItem> const &GetDefaultMapList();
 	}
 }
 
@@ -203,7 +203,7 @@ namespace Server
 {
 	namespace Voting
 	{
-		extern std::vector<Server::Voting::SMapListItem,std::allocator<Server::Voting::SMapListItem> > MapList; // 0x11389018
+		extern std::vector<Server::Voting::SMapListItem> MapList; // 0x11389018
 		extern bool MapListValid; // 0x11388E50
 	}
 }
@@ -244,7 +244,7 @@ namespace Server
 			// static ...; // 0x10751C70
 			// std::string mapName;
 			// std::string variantFileName;
-			// std::basic_ifstream<char,std::char_traits<char> > mapVariant;
+			// std::ifstream mapVariant;
 			{
 				// __int32 mapId;
 			}
@@ -296,7 +296,7 @@ namespace Server
 			// std::string const &modpack;
 			// Server::Voting::SMapListItem *info;
 			// Modules::ModuleGame const &moduleGame;
-			// std::vector<Server::Voting::SMapListItem,std::allocator<Server::Voting::SMapListItem> > const &defaultMaps;
+			// std::vector<Server::Voting::SMapListItem> const &defaultMaps;
 			// __int32 mapId;
 			{
 				// std::_Vector_const_iterator<std::_Vector_val<std::_Simple_types<Server::Voting::SMapListItem> > > it;
@@ -308,8 +308,8 @@ namespace Server
 			return __result;
 		}
 
-		_extern unsigned __int32 _sub_1074DDB0(std::vector<Server::Voting::HaloMap,std::allocator<Server::Voting::HaloMap> > const &, std::string const &);
-		unsigned __int32 FindMapByName(std::vector<Server::Voting::HaloMap,std::allocator<Server::Voting::HaloMap> > const &maps, std::string const &name) // 0x1074DDB0
+		_extern unsigned __int32 _sub_1074DDB0(std::vector<Server::Voting::HaloMap> const &, std::string const &);
+		unsigned __int32 FindMapByName(std::vector<Server::Voting::HaloMap> const &maps, std::string const &name) // 0x1074DDB0
 		{
 			mangled_x86(MANGLED_TODO, "?FindMapByName@Voting@Server@@YAIABV?$vector@UHaloMap@Voting@Server@@V?$allocator@UHaloMap@Voting@Server@@@std@@@std@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@4@@Z");
 			// std::string const &name;
@@ -321,8 +321,8 @@ namespace Server
 			return __result;
 		}
 
-		_extern unsigned __int32 _sub_1074DE50(std::vector<Server::Voting::HaloType,std::allocator<Server::Voting::HaloType> > const &, std::string const &);
-		unsigned __int32 FindTypeByName(std::vector<Server::Voting::HaloType,std::allocator<Server::Voting::HaloType> > const &types, std::string const &name) // 0x1074DE50
+		_extern unsigned __int32 _sub_1074DE50(std::vector<Server::Voting::HaloType> const &, std::string const &);
+		unsigned __int32 FindTypeByName(std::vector<Server::Voting::HaloType> const &types, std::string const &name) // 0x1074DE50
 		{
 			mangled_x86(MANGLED_TODO, "?FindTypeByName@Voting@Server@@YAIABV?$vector@UHaloType@Voting@Server@@V?$allocator@UHaloType@Voting@Server@@@std@@@std@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@4@@Z");
 			// std::string const &name;
@@ -334,17 +334,17 @@ namespace Server
 			return __result;
 		}
 
-		_extern void _sub_1074DA70(std::vector<Server::Voting::MapAndType,std::allocator<Server::Voting::MapAndType> > &, unsigned __int32, std::vector<Server::Voting::HaloType,std::allocator<Server::Voting::HaloType> > const &, std::vector<Server::Voting::HaloMap,std::allocator<Server::Voting::HaloMap> > const &);
-		void BuildRandomPlaylist(std::vector<Server::Voting::MapAndType,std::allocator<Server::Voting::MapAndType> > &playlist, unsigned __int32 size, std::vector<Server::Voting::HaloType,std::allocator<Server::Voting::HaloType> > const &types, std::vector<Server::Voting::HaloMap,std::allocator<Server::Voting::HaloMap> > const &maps) // 0x1074DA70
+		_extern void _sub_1074DA70(std::vector<Server::Voting::MapAndType> &, unsigned __int32, std::vector<Server::Voting::HaloType> const &, std::vector<Server::Voting::HaloMap> const &);
+		void BuildRandomPlaylist(std::vector<Server::Voting::MapAndType> &playlist, unsigned __int32 size, std::vector<Server::Voting::HaloType> const &types, std::vector<Server::Voting::HaloMap> const &maps) // 0x1074DA70
 		{
 			mangled_x86(MANGLED_TODO, "?BuildRandomPlaylist@Voting@Server@@YAXAAV?$vector@UMapAndType@Voting@Server@@V?$allocator@UMapAndType@Voting@Server@@@std@@@std@@IABV?$vector@UHaloType@Voting@Server@@V?$allocator@UHaloType@Voting@Server@@@std@@@4@ABV?$vector@UHaloMap@Voting@Server@@V?$allocator@UHaloMap@Voting@Server@@@std@@@4@@Z");
 			// static ...; // 0x1074DCFC
 			// static ...; // 0x1074DCCC
 			// static ...; // 0x1074DCC4
-			// std::vector<Server::Voting::MapAndType,std::allocator<Server::Voting::MapAndType> > &playlist;
+			// std::vector<Server::Voting::MapAndType> &playlist;
 			// unsigned __int32 size;
-			// std::vector<Server::Voting::HaloType,std::allocator<Server::Voting::HaloType> > const &types;
-			// std::vector<Server::Voting::HaloMap,std::allocator<Server::Voting::HaloMap> > const &maps;
+			// std::vector<Server::Voting::HaloType> const &types;
+			// std::vector<Server::Voting::HaloMap> const &maps;
 			// std::random_device rd;
 			// std::mersenne_twister_engine<unsigned int,32,624,397,31,2567483615,11,4294967295,7,2636928640,15,4022730752,18,1812433253> g;
 			{
@@ -360,12 +360,12 @@ namespace Server
 	}
 }
 
-extern std::vector<Server::Voting::SMapListItem,std::allocator<Server::Voting::SMapListItem> > const &_sub_1074DEF0();
+extern std::vector<Server::Voting::SMapListItem> const &_sub_1074DEF0();
 namespace Server
 {
 	namespace Voting
 	{
-		std::vector<Server::Voting::SMapListItem,std::allocator<Server::Voting::SMapListItem> > const &GetDefaultMapList() // 0x1074DEF0
+		std::vector<Server::Voting::SMapListItem> const &GetDefaultMapList() // 0x1074DEF0
 		{
 			mangled_x86(MANGLED_TODO, "?GetDefaultMapList@Voting@Server@@YAABV?$vector@USMapListItem@Voting@Server@@V?$allocator@USMapListItem@Voting@Server@@@std@@@std@@XZ");
 			// procedure flags: nofpo
@@ -390,7 +390,7 @@ namespace Server
 				}
 			}
 			todo("implement");
-			std::vector<Server::Voting::SMapListItem,std::allocator<Server::Voting::SMapListItem> > const & __result = _sub_1074DEF0();
+			std::vector<Server::Voting::SMapListItem> const & __result = _sub_1074DEF0();
 			return __result;
 		}
 

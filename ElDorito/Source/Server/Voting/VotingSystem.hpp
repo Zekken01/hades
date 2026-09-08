@@ -61,7 +61,7 @@ namespace Server
 			virtual bool LoadJson(std::string filename);
 			virtual void loadDefaultMapsAndTypes();
 			virtual Server::Voting::MapAndType GenerateVotingOption();
-			std::vector<Server::Voting::MapAndType,std::allocator<Server::Voting::MapAndType> > countQuickVotes();
+			std::vector<Server::Voting::MapAndType> countQuickVotes();
 			void countVotes();
 			void FindWinner();
 			long long winnerChosenTime; // 0xF58
@@ -74,9 +74,9 @@ namespace Server
 			unsigned char __pad0[2]; // 0xF7A
 			Server::Voting::MapAndType previousWinner; // 0xF7C
 			Server::Voting::MapAndType winningVotingOption; // 0x10E0
-			std::vector<Server::Voting::MapAndType,std::allocator<Server::Voting::MapAndType> > currentVotingOptions; // 0x1244
-			std::vector<Server::Voting::HaloType,std::allocator<Server::Voting::HaloType> > gameTypes; // 0x1254
-			std::vector<Server::Voting::HaloMap,std::allocator<Server::Voting::HaloMap> > haloMaps; // 0x1264
+			std::vector<Server::Voting::MapAndType> currentVotingOptions; // 0x1244
+			std::vector<Server::Voting::HaloType> gameTypes; // 0x1254
+			std::vector<Server::Voting::HaloMap> haloMaps; // 0x1264
 		public:
 			virtual _inline ~VotingSystem(); /* compiler_generated() */
 			Server::Voting::VotingSystem &operator=(Server::Voting::VotingSystem &); /* compiler_generated() */

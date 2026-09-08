@@ -146,9 +146,9 @@ namespace Utils
 		// static ...; // 0x10C57910
 		// Utils::DewritoReader *const this;
 		// char const *path;
-		// std::basic_ifstream<char,std::char_traits<char> > in;
+		// std::ifstream in;
 		// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
-		// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+		// std::stringstream ss;
 		{
 			// char const *error;
 		}

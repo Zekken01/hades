@@ -38,7 +38,7 @@ public:
 	void Flush();
 private:
 	std::mutex m_mutex; // 0x0
-	std::unordered_map<std::string,std::shared_ptr<CModPackageFileSystemView>,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::pair<std::string const ,std::shared_ptr<CModPackageFileSystemView> > > > m_views; // 0x30
+	std::unordered_map<std::string,std::shared_ptr<CModPackageFileSystemView> > m_views; // 0x30
 public:
 	_inline CModPackageFileSystemViewManager(); /* compiler_generated() */
 	~CModPackageFileSystemViewManager(); /* compiler_generated() */

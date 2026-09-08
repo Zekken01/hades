@@ -75,7 +75,7 @@ void player_format_uid(char *string, unsigned long long id) // 0x10F00140
 	// static ...; // 0x10F00324
 	// char *string;
 	// unsigned long long id;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	todo("implement");
 	_sub_10F00140(string, id);
 }

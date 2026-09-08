@@ -822,7 +822,7 @@ void render_debug_trigger_volumes() // 0x108CD6E0
 	// static ...; // 0x108CDAA0
 	// static ...; // 0x108CDA64
 	// static ...; // 0x108CDA5C
-	// std::vector<short,std::allocator<short> > usedIndices;
+	// std::vector<short> usedIndices;
 	// s_scenario *scenario;
 	{
 		// long i;

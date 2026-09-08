@@ -52,7 +52,7 @@ namespace Web
 		private:
 			CefRefCount ref_count_; // 0x8
 			std::shared_ptr<Web::Browser::WebEmblemRenderHandler> m_emblemRender; // 0xC
-			std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16>,std::less<CefStringBase<CefStringTraitsUTF16> >,std::allocator<std::pair<CefStringBase<CefStringTraitsUTF16> const ,CefStringBase<CefStringTraitsUTF16> > > > m_responseHeaders; // 0x14
+			std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16> > m_responseHeaders; // 0x14
 		public:
 			_inline WebEmblemResourceHandler(); /* compiler_generated() */
 			virtual _inline ~WebEmblemResourceHandler(); /* compiler_generated() */

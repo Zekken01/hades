@@ -67,14 +67,14 @@ namespace Modules
 		_sub_109776C0(this, moduleName);
 	}
 
-	extern Command *_sub_10977780(Modules::ModuleBase *const, std::string const &, std::string const &, std::string const &, CommandFlags, bool (*)(std::vector<std::string,std::allocator<std::string> > const &, std::string &), std::initializer_list<std::string>);
-	Modules::Command *ModuleBase::AddCommand(std::string const &name, std::string const &shortName, std::string const &description, CommandFlags flags, bool (*updateEvent)(std::vector<std::string,std::allocator<std::string> > const &, std::string &), std::initializer_list<std::string> arguments) // 0x10977780
+	extern Command *_sub_10977780(Modules::ModuleBase *const, std::string const &, std::string const &, std::string const &, CommandFlags, bool (*)(std::vector<std::string> const &, std::string &), std::initializer_list<std::string>);
+	Modules::Command *ModuleBase::AddCommand(std::string const &name, std::string const &shortName, std::string const &description, CommandFlags flags, bool (*updateEvent)(std::vector<std::string> const &, std::string &), std::initializer_list<std::string> arguments) // 0x10977780
 	{
 		mangled_x86(MANGLED_TODO, "?AddCommand@ModuleBase@Modules@@IAEPAUCommand@2@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@00W4CommandFlags@@P6A_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@5@AAV45@@ZV?$initializer_list@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@5@@Z");
 		// std::string const &shortName;
 		// std::string const &description;
 		// CommandFlags flags;
-		// bool (*updateEvent)(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
+		// bool (*updateEvent)(std::vector<std::string> const &, std::string &);
 		// std::initializer_list<std::string> arguments;
 		// Modules::Command command;
 		{
@@ -90,56 +90,56 @@ namespace Modules
 		return __result;
 	}
 
-	extern Command *_sub_10978080(Modules::ModuleBase *const, std::string const &, std::string const &, std::string const &, CommandFlags, unsigned long, bool (*)(std::vector<std::string,std::allocator<std::string> > const &, std::string &));
-	Modules::Command *ModuleBase::AddVariableInt(std::string const &name, std::string const &shortName, std::string const &description, CommandFlags flags, unsigned long defaultValue, bool (*updateEvent)(std::vector<std::string,std::allocator<std::string> > const &, std::string &)) // 0x10978080
+	extern Command *_sub_10978080(Modules::ModuleBase *const, std::string const &, std::string const &, std::string const &, CommandFlags, unsigned long, bool (*)(std::vector<std::string> const &, std::string &));
+	Modules::Command *ModuleBase::AddVariableInt(std::string const &name, std::string const &shortName, std::string const &description, CommandFlags flags, unsigned long defaultValue, bool (*updateEvent)(std::vector<std::string> const &, std::string &)) // 0x10978080
 	{
 		mangled_x86(MANGLED_TODO, "?AddVariableInt@ModuleBase@Modules@@IAEPAUCommand@2@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@00W4CommandFlags@@KP6A_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@5@AAV45@@Z@Z");
 		// std::string const &description;
 		// CommandFlags flags;
 		// unsigned long defaultValue;
-		// bool (*updateEvent)(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
+		// bool (*updateEvent)(std::vector<std::string> const &, std::string &);
 		// Modules::Command command;
 		todo("implement");
 		Modules::Command * __result = _sub_10978080(this, name, shortName, description, flags, defaultValue, updateEvent);
 		return __result;
 	}
 
-	extern Command *_sub_10977D90(Modules::ModuleBase *const, std::string const &, std::string const &, std::string const &, CommandFlags, unsigned long long, bool (*)(std::vector<std::string,std::allocator<std::string> > const &, std::string &));
-	Modules::Command *ModuleBase::AddVariableInt64(std::string const &name, std::string const &shortName, std::string const &description, CommandFlags flags, unsigned long long defaultValue, bool (*updateEvent)(std::vector<std::string,std::allocator<std::string> > const &, std::string &)) // 0x10977D90
+	extern Command *_sub_10977D90(Modules::ModuleBase *const, std::string const &, std::string const &, std::string const &, CommandFlags, unsigned long long, bool (*)(std::vector<std::string> const &, std::string &));
+	Modules::Command *ModuleBase::AddVariableInt64(std::string const &name, std::string const &shortName, std::string const &description, CommandFlags flags, unsigned long long defaultValue, bool (*updateEvent)(std::vector<std::string> const &, std::string &)) // 0x10977D90
 	{
 		mangled_x86(MANGLED_TODO, "?AddVariableInt64@ModuleBase@Modules@@IAEPAUCommand@2@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@00W4CommandFlags@@_KP6A_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@5@AAV45@@Z@Z");
 		// std::string const &description;
 		// CommandFlags flags;
 		// unsigned long long defaultValue;
-		// bool (*updateEvent)(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
+		// bool (*updateEvent)(std::vector<std::string> const &, std::string &);
 		// Modules::Command command;
 		todo("implement");
 		Modules::Command * __result = _sub_10977D90(this, name, shortName, description, flags, defaultValue, updateEvent);
 		return __result;
 	}
 
-	extern Command *_sub_10977AA0(Modules::ModuleBase *const, std::string const &, std::string const &, std::string const &, CommandFlags, float, bool (*)(std::vector<std::string,std::allocator<std::string> > const &, std::string &));
-	Modules::Command *ModuleBase::AddVariableFloat(std::string const &name, std::string const &shortName, std::string const &description, CommandFlags flags, float defaultValue, bool (*updateEvent)(std::vector<std::string,std::allocator<std::string> > const &, std::string &)) // 0x10977AA0
+	extern Command *_sub_10977AA0(Modules::ModuleBase *const, std::string const &, std::string const &, std::string const &, CommandFlags, float, bool (*)(std::vector<std::string> const &, std::string &));
+	Modules::Command *ModuleBase::AddVariableFloat(std::string const &name, std::string const &shortName, std::string const &description, CommandFlags flags, float defaultValue, bool (*updateEvent)(std::vector<std::string> const &, std::string &)) // 0x10977AA0
 	{
 		mangled_x86(MANGLED_TODO, "?AddVariableFloat@ModuleBase@Modules@@IAEPAUCommand@2@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@00W4CommandFlags@@MP6A_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@5@AAV45@@Z@Z");
 		// std::string const &description;
 		// CommandFlags flags;
 		// float defaultValue;
-		// bool (*updateEvent)(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
+		// bool (*updateEvent)(std::vector<std::string> const &, std::string &);
 		// Modules::Command command;
 		todo("implement");
 		Modules::Command * __result = _sub_10977AA0(this, name, shortName, description, flags, defaultValue, updateEvent);
 		return __result;
 	}
 
-	extern Command *_sub_10978350(Modules::ModuleBase *const, std::string const &, std::string const &, std::string const &, CommandFlags, std::string, bool (*)(std::vector<std::string,std::allocator<std::string> > const &, std::string &));
-	Modules::Command *ModuleBase::AddVariableString(std::string const &name, std::string const &shortName, std::string const &description, CommandFlags flags, std::string defaultValue, bool (*updateEvent)(std::vector<std::string,std::allocator<std::string> > const &, std::string &)) // 0x10978350
+	extern Command *_sub_10978350(Modules::ModuleBase *const, std::string const &, std::string const &, std::string const &, CommandFlags, std::string, bool (*)(std::vector<std::string> const &, std::string &));
+	Modules::Command *ModuleBase::AddVariableString(std::string const &name, std::string const &shortName, std::string const &description, CommandFlags flags, std::string defaultValue, bool (*updateEvent)(std::vector<std::string> const &, std::string &)) // 0x10978350
 	{
 		mangled_x86(MANGLED_TODO, "?AddVariableString@ModuleBase@Modules@@IAEPAUCommand@2@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@00W4CommandFlags@@V45@P6A_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@5@AAV45@@Z@Z");
 		// std::string const &description;
 		// CommandFlags flags;
 		// std::string defaultValue;
-		// bool (*updateEvent)(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
+		// bool (*updateEvent)(std::vector<std::string> const &, std::string &);
 		// Modules::Command command;
 		todo("implement");
 		Modules::Command * __result = _sub_10978350(this, name, shortName, description, flags, defaultValue, updateEvent);

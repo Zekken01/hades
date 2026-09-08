@@ -205,7 +205,7 @@ namespace Patches
 		extern void PushContext(std::shared_ptr<Patches::Input::InputContext> context);
 		extern void RegisterDefaultInputHandler(void (*func)());
 		extern void RegisterMenuUIInputHandler(void (*func)());
-		extern void SetKeyboardSettingsMenu(std::vector<Blam::Input::ConfigurableAction,std::allocator<Blam::Input::ConfigurableAction> > const &infantrySettings, std::vector<Blam::Input::ConfigurableAction,std::allocator<Blam::Input::ConfigurableAction> > const &vehicleSettings);
+		extern void SetKeyboardSettingsMenu(std::vector<Blam::Input::ConfigurableAction> const &infantrySettings, std::vector<Blam::Input::ConfigurableAction> const &vehicleSettings);
 		extern void TestControllerVibration(float durationSeconds);
 		extern void InvalidateBindings();
 	}
@@ -270,12 +270,12 @@ c_gui_screen_widget *(*c_gui_location_manager::get_location_gui_screen)(); // 0x
 
 namespace hades_file_local
 {
-	extern std::stack<std::shared_ptr<Patches::Input::InputContext>,std::deque<std::shared_ptr<Patches::Input::InputContext>,std::allocator<std::shared_ptr<Patches::Input::InputContext> > > > contextStack; // 0x12458880
-	extern std::vector<void (__cdecl*)(void),std::allocator<void (__cdecl*)(void)> > defaultHandlers; // 0x12458850
-	extern std::vector<void (__cdecl*)(void),std::allocator<void (__cdecl*)(void)> > uiHandlers; // 0x12458870
+	extern std::stack<std::shared_ptr<Patches::Input::InputContext> > contextStack; // 0x12458880
+	extern std::vector<void (__cdecl*)(void)> defaultHandlers; // 0x12458850
+	extern std::vector<void (__cdecl*)(void)> uiHandlers; // 0x12458870
 	extern bool contextDone; // 0x12458894
 	extern bool blockStates[3]; // 0x124588A0
-	extern std::vector<Blam::Input::ConfigurableAction,std::allocator<Blam::Input::ConfigurableAction> > settings; // 0x12458860
+	extern std::vector<Blam::Input::ConfigurableAction> settings; // 0x12458860
 	extern Blam::Input::InputType actionInputTypes[63]; // 0x11354458
 	extern Blam::Input::BindingsTable s_ForgeMonitorModeBindings; // 0x124588A8
 	extern unsigned __int32 s_ControllerVibrationTestTicks; // 0x124588A4
@@ -345,8 +345,8 @@ namespace Patches
 			_sub_10A7AD80(func);
 		}
 
-		_extern void _sub_10A7AEB0(std::vector<Blam::Input::ConfigurableAction,std::allocator<Blam::Input::ConfigurableAction> > const &, std::vector<Blam::Input::ConfigurableAction,std::allocator<Blam::Input::ConfigurableAction> > const &);
-		void SetKeyboardSettingsMenu(std::vector<Blam::Input::ConfigurableAction,std::allocator<Blam::Input::ConfigurableAction> > const &infantrySettings, std::vector<Blam::Input::ConfigurableAction,std::allocator<Blam::Input::ConfigurableAction> > const &vehicleSettings) // 0x10A7AEB0
+		_extern void _sub_10A7AEB0(std::vector<Blam::Input::ConfigurableAction> const &, std::vector<Blam::Input::ConfigurableAction> const &);
+		void SetKeyboardSettingsMenu(std::vector<Blam::Input::ConfigurableAction> const &infantrySettings, std::vector<Blam::Input::ConfigurableAction> const &vehicleSettings) // 0x10A7AEB0
 		{
 			mangled_x86(MANGLED_TODO, "?SetKeyboardSettingsMenu@Input@Patches@@YAXABV?$vector@UConfigurableAction@Input@Blam@@V?$allocator@UConfigurableAction@Input@Blam@@@std@@@std@@0@Z");
 			// static ...; // 0x10A7B567
@@ -355,8 +355,8 @@ namespace Patches
 			// static ...; // 0x10A7B530
 			// static ...; // 0x10A7B4F4
 			// static ...; // 0x10A7B4EC
-			// std::vector<Blam::Input::ConfigurableAction,std::allocator<Blam::Input::ConfigurableAction> > const &infantrySettings;
-			// std::vector<Blam::Input::ConfigurableAction,std::allocator<Blam::Input::ConfigurableAction> > const &vehicleSettings;
+			// std::vector<Blam::Input::ConfigurableAction> const &infantrySettings;
+			// std::vector<Blam::Input::ConfigurableAction> const &vehicleSettings;
 			// unsigned __int32 vehiclePointers[5];
 			// unsigned __int32 endPointers[1];
 			// unsigned __int32 infantryCountPointers[3];
@@ -459,7 +459,7 @@ void UpdateInputHook() // 0x10A7B9C0
 	// static ...; // 0x10A7BD1C
 	// bool allowHandlers;
 	{
-		// std::vector<void (__cdecl*)(void),std::allocator<void (__cdecl*)(void)> > &<range>$L0;
+		// std::vector<void (__cdecl*)(void)> &<range>$L0;
 		// void (**<begin>$L0)();
 		// void (**<end>$L0)();
 		{
@@ -469,12 +469,12 @@ void UpdateInputHook() // 0x10A7B9C0
 	{
 		// void (**<end>$L1)();
 		// void (**<begin>$L1)();
-		// std::vector<void (__cdecl*)(void),std::allocator<void (__cdecl*)(void)> > &<range>$L1;
+		// std::vector<void (__cdecl*)(void)> &<range>$L1;
 		{
 		}
 	}
 	{
-		// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+		// std::stringstream ss;
 		// unsigned long value;
 	}
 	// function call : void ()
@@ -650,7 +650,7 @@ void UpdateUiControllerInputHook(__int32 a0) // 0x10A7BE10
 	// c_gui_screen_widget *screen;
 	// void (*UiUpdateControllerInput)(__int32);
 	{
-		// std::chrono::duration<double,std::ratio<1,1> > elapsedTime;
+		// std::chrono::duration<double,std::ratio<1> > elapsedTime;
 		// float const rotationRate;
 		// float angleIncrement;
 		// __int32 rotateAmount;
@@ -666,7 +666,7 @@ void UpdateUiControllerInputHook(__int32 a0) // 0x10A7BE10
 		}
 	}
 	{
-		// std::vector<void (__cdecl*)(void),std::allocator<void (__cdecl*)(void)> > &<range>$L0;
+		// std::vector<void (__cdecl*)(void)> &<range>$L0;
 		// void (**<begin>$L0)();
 		// void (**<end>$L0)();
 		{

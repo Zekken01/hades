@@ -338,7 +338,7 @@ void GameChatHandler::MessageReceived(Server::Chat::ChatMessage const &message) 
 	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
 	{
 		// Blam::Network::PlayerSession player;
-		// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > color;
+		// std::stringstream color;
 		// char uid[17];
 	}
 	todo("implement");

@@ -947,7 +947,7 @@ void set_customization_bipeds() // 0x10ABADC0
 	// static ...; // 0x10ABAF60
 	// static ...; // 0x10ABAF54
 	// static ...; // 0x10ABAF4C
-	// std::vector<int,std::allocator<int> > characterBipeds;
+	// std::vector<int> characterBipeds;
 	// s_mod_globals_definition *modg;
 	{
 		// __int32 i;

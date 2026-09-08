@@ -108,13 +108,13 @@ bool CModPackageFileSystemView::GetFileEntry(std::string const &virtualPath, CMo
 	return __result;
 }
 
-extern std::unordered_map<std::string,CModPackageFileSystemView::SFileEntry,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::pair<std::string const ,CModPackageFileSystemView::SFileEntry> > > _sub_10881310(CModPackageFileSystemView *const);
-std::unordered_map<std::string,CModPackageFileSystemView::SFileEntry,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::pair<std::string const ,CModPackageFileSystemView::SFileEntry> > > CModPackageFileSystemView::GetFileList() // 0x10881310
+extern std::unordered_map<std::string,CModPackageFileSystemView::SFileEntry> _sub_10881310(CModPackageFileSystemView *const);
+std::unordered_map<std::string,CModPackageFileSystemView::SFileEntry> CModPackageFileSystemView::GetFileList() // 0x10881310
 {
 	mangled_x86(MANGLED_TODO, "?GetFileList@CModPackageFileSystemView@@QAE?AV?$unordered_map@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@USFileEntry@CModPackageFileSystemView@@U?$hash@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@U?$equal_to@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@USFileEntry@CModPackageFileSystemView@@@std@@@2@@std@@XZ");
 	// CModPackageFileSystemView *const this;
 	todo("implement");
-	std::unordered_map<std::string,CModPackageFileSystemView::SFileEntry,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::pair<std::string const ,CModPackageFileSystemView::SFileEntry> > > __result = _sub_10881310(this);
+	std::unordered_map<std::string,CModPackageFileSystemView::SFileEntry> __result = _sub_10881310(this);
 	return __result;
 }
 
@@ -126,13 +126,13 @@ void CModPackageFileSystemView::Initialize() // 0x10881390
 	// static ...; // 0x1088144C
 	// static ...; // 0x10881444
 	// CModPackageFileSystemView *const this;
-	// std::basic_ifstream<char,std::char_traits<char> > stream;
+	// std::ifstream stream;
 	todo("implement");
 	_sub_10881390(this);
 }
 
-_extern bool _sub_108814A0(CModPackageFileSystemView *const, std::basic_istream<char,std::char_traits<char> > &);
-bool CModPackageFileSystemView::ReadFileTable(std::basic_istream<char,std::char_traits<char> > &stream) // 0x108814A0
+_extern bool _sub_108814A0(CModPackageFileSystemView *const, std::istream &);
+bool CModPackageFileSystemView::ReadFileTable(std::istream &stream) // 0x108814A0
 {
 	mangled_x86(MANGLED_TODO, "?ReadFileTable@CModPackageFileSystemView@@AAE_NAAV?$basic_istream@DU?$char_traits@D@std@@@std@@@Z");
 	// static ...; // 0x10881937
@@ -142,7 +142,7 @@ bool CModPackageFileSystemView::ReadFileTable(std::basic_istream<char,std::char_
 	// static ...; // 0x108818DC
 	// static ...; // 0x108818D4
 	// CModPackageFileSystemView *const this;
-	// std::basic_istream<char,std::char_traits<char> > &stream;
+	// std::istream &stream;
 	// long long sectionSize;
 	// s_mod_package_section_header sectionHeaders[10];
 	// s_mod_package_header packageHeader;

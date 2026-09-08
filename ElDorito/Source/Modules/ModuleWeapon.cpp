@@ -114,14 +114,14 @@ namespace Blam
 
 /* ---------- prototypes */
 
-bool CommandWeaponOffset(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool CommandWeaponOffsetReset(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool CommandLoadWeaponsJSON(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool CommandSaveWeaponsJSON(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool CommandNewWeaponsJSON(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool CommandDeleteWeaponsJSON(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool CommandGetEquippedWeaponInfo(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
-bool CommandListWeaponConfigsJSON(std::vector<std::string,std::allocator<std::string> > const &arguments, std::string &returnInfo);
+bool CommandWeaponOffset(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool CommandWeaponOffsetReset(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool CommandLoadWeaponsJSON(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool CommandSaveWeaponsJSON(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool CommandNewWeaponsJSON(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool CommandDeleteWeaponsJSON(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool CommandGetEquippedWeaponInfo(std::vector<std::string> const &Arguments, std::string &returnInfo);
+bool CommandListWeaponConfigsJSON(std::vector<std::string> const &arguments, std::string &returnInfo);
 real_vector3d ToOffset(std::string I, std::string J, std::string K);
 
 /* ---------- globals */
@@ -182,8 +182,8 @@ namespace Patches
 
 /* ---------- private code */
 
-_extern bool _sub_10A27430(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandWeaponOffset(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x10A27430
+_extern bool _sub_10A27430(std::vector<std::string> const &, std::string &);
+bool CommandWeaponOffset(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A27430
 {
 	// `anonymous-namespace'::CommandWeaponOffset
 	// static ...; // 0x10A27A0C
@@ -193,9 +193,9 @@ bool CommandWeaponOffset(std::vector<std::string,std::allocator<std::string> > c
 	// static ...; // 0x10A279EC
 	// static ...; // 0x10A279A4
 	// static ...; // 0x10A2799C
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// real_vector3d offset;
 	// Patches::Weapon::WeaponInfo weapon;
 	{
@@ -210,17 +210,17 @@ bool CommandWeaponOffset(std::vector<std::string,std::allocator<std::string> > c
 	return __result;
 }
 
-_extern bool _sub_10A27BA0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandWeaponOffsetReset(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x10A27BA0
+_extern bool _sub_10A27BA0(std::vector<std::string> const &, std::string &);
+bool CommandWeaponOffsetReset(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A27BA0
 {
 	// `anonymous-namespace'::CommandWeaponOffsetReset
 	// static ...; // 0x10A27E5F
 	// static ...; // 0x10A27E5C
 	// static ...; // 0x10A27E38
 	// static ...; // 0x10A27E30
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
-	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+	// std::stringstream ss;
 	// Patches::Weapon::WeaponInfo weapon;
 	{
 		// std::string type;
@@ -231,18 +231,18 @@ bool CommandWeaponOffsetReset(std::vector<std::string,std::allocator<std::string
 	return __result;
 }
 
-_extern bool _sub_10A26E70(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandLoadWeaponsJSON(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x10A26E70
+_extern bool _sub_10A26E70(std::vector<std::string> const &, std::string &);
+bool CommandLoadWeaponsJSON(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A26E70
 {
 	// `anonymous-namespace'::CommandLoadWeaponsJSON
 	// static ...; // 0x10A27048
 	// static ...; // 0x10A27040
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// bool changeJson;
 	// std::string file;
 	{
-		// std::vector<std::string,std::allocator<std::string> > &<range>$L0;
+		// std::vector<std::string> &<range>$L0;
 		// std::string *<begin>$L0;
 		// std::string *<end>$L0;
 		{
@@ -254,8 +254,8 @@ bool CommandLoadWeaponsJSON(std::vector<std::string,std::allocator<std::string> 
 	return __result;
 }
 
-_extern bool _sub_10A27390(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandSaveWeaponsJSON(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x10A27390
+_extern bool _sub_10A27390(std::vector<std::string> const &, std::string &);
+bool CommandSaveWeaponsJSON(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A27390
 {
 	// `anonymous-namespace'::CommandSaveWeaponsJSON
 	// std::string &returnInfo;
@@ -265,18 +265,18 @@ bool CommandSaveWeaponsJSON(std::vector<std::string,std::allocator<std::string> 
 	return __result;
 }
 
-_extern bool _sub_10A270E0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandNewWeaponsJSON(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x10A270E0
+_extern bool _sub_10A270E0(std::vector<std::string> const &, std::string &);
+bool CommandNewWeaponsJSON(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A270E0
 {
 	// `anonymous-namespace'::CommandNewWeaponsJSON
 	// static ...; // 0x10A272F0
 	// static ...; // 0x10A272D8
 	// static ...; // 0x10A272D0
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// std::string newConfigName;
 	{
-		// std::basic_regex<char,std::regex_traits<char> > pattern;
+		// std::regex pattern;
 	}
 	// function call : bool (*)()
 	todo("implement");
@@ -284,18 +284,18 @@ bool CommandNewWeaponsJSON(std::vector<std::string,std::allocator<std::string> >
 	return __result;
 }
 
-_extern bool _sub_10A26650(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandDeleteWeaponsJSON(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x10A26650
+_extern bool _sub_10A26650(std::vector<std::string> const &, std::string &);
+bool CommandDeleteWeaponsJSON(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A26650
 {
 	// `anonymous-namespace'::CommandDeleteWeaponsJSON
 	// static ...; // 0x10A268A4
 	// static ...; // 0x10A2688C
 	// static ...; // 0x10A26884
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// std::string newConfigName;
 	{
-		// std::basic_regex<char,std::regex_traits<char> > pattern;
+		// std::regex pattern;
 	}
 	// function call : bool (*)()
 	todo("implement");
@@ -303,8 +303,8 @@ bool CommandDeleteWeaponsJSON(std::vector<std::string,std::allocator<std::string
 	return __result;
 }
 
-_extern bool _sub_10A26960(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandGetEquippedWeaponInfo(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x10A26960
+_extern bool _sub_10A26960(std::vector<std::string> const &, std::string &);
+bool CommandGetEquippedWeaponInfo(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A26960
 {
 	// `anonymous-namespace'::CommandGetEquippedWeaponInfo
 	// static ...; // 0x10A26CAE
@@ -312,7 +312,7 @@ bool CommandGetEquippedWeaponInfo(std::vector<std::string,std::allocator<std::st
 	// static ...; // 0x10A26C98
 	// static ...; // 0x10A26C68
 	// static ...; // 0x10A26C60
-	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// Patches::Weapon::WeaponInfo equippedWeapon;
 	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
@@ -324,13 +324,13 @@ bool CommandGetEquippedWeaponInfo(std::vector<std::string,std::allocator<std::st
 	return __result;
 }
 
-_extern bool _sub_10A26DB0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandListWeaponConfigsJSON(std::vector<std::string,std::allocator<std::string> > const &arguments, std::string &returnInfo) // 0x10A26DB0
+_extern bool _sub_10A26DB0(std::vector<std::string> const &, std::string &);
+bool CommandListWeaponConfigsJSON(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x10A26DB0
 {
 	// `anonymous-namespace'::CommandListWeaponConfigsJSON
 	// std::string &returnInfo;
 	{
-		// std::vector<std::string,std::allocator<std::string> > &<range>$L0;
+		// std::vector<std::string> &<range>$L0;
 		// std::string *<begin>$L0;
 		// std::string *<end>$L0;
 		{

@@ -155,7 +155,7 @@ void game_event_set_cause_player_hook(long player_index, s_game_engine_event_dat
 
 namespace hades_file_local
 {
-	extern std::vector<std::function<void __cdecl(unsigned long,s_game_engine_event_data const *,s_multiplayer_event_response_definition const *)>,std::allocator<std::function<void __cdecl(unsigned long,s_game_engine_event_data const *,s_multiplayer_event_response_definition const *)> > > OnEventCallbacks; // 0x124584AC
+	extern std::vector<std::function<void __cdecl(unsigned long,s_game_engine_event_data const *,s_multiplayer_event_response_definition const *)> > OnEventCallbacks; // 0x124584AC
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -204,7 +204,7 @@ void RunEventHook(unsigned long player, s_game_engine_event_data const *event, s
 	// s_multiplayer_event_response_definition const *definition;
 	// void (*RunEvent)(unsigned long, s_game_engine_event_data const *, s_multiplayer_event_response_definition const *);
 	{
-		// std::vector<std::function<void __cdecl(unsigned long,s_game_engine_event_data const *,s_multiplayer_event_response_definition const *)>,std::allocator<std::function<void __cdecl(unsigned long,s_game_engine_event_data const *,s_multiplayer_event_response_definition const *)> > > &<range>$L0;
+		// std::vector<std::function<void __cdecl(unsigned long,s_game_engine_event_data const *,s_multiplayer_event_response_definition const *)> > &<range>$L0;
 		// std::function<void __cdecl(unsigned long,s_game_engine_event_data const *,s_multiplayer_event_response_definition const *)> *<begin>$L0;
 		// std::function<void __cdecl(unsigned long,s_game_engine_event_data const *,s_multiplayer_event_response_definition const *)> *<end>$L0;
 		{

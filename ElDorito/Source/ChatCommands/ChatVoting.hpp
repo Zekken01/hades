@@ -60,7 +60,7 @@ namespace ChatCommands
 		bool currentlyVoting; // 0x48
 		unsigned char __pad0[7]; // 0x49
 		long long voteTimeStarted; // 0x50
-		std::vector<unsigned __int64,std::allocator<unsigned __int64> > yesVoters; // 0x58
+		std::vector<unsigned __int64> yesVoters; // 0x58
 	public:
 		_inline ~VotingChatCommand(); /* compiler_generated() */
 		ChatCommands::VotingChatCommand &operator=(ChatCommands::VotingChatCommand &); /* compiler_generated() */

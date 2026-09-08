@@ -317,7 +317,7 @@ EModResult Mod::LoadPakBlocking() // 0x1078D6C0
 	// static ...; // 0x1078D87C
 	// Mod *const this;
 	// c_mod_package::e_error err;
-	// std::unique_ptr<c_mod_package,std::default_delete<c_mod_package> > pak;
+	// std::unique_ptr<c_mod_package> pak;
 	todo("implement");
 	EModResult __result = _sub_1078D6C0(this);
 	return __result;

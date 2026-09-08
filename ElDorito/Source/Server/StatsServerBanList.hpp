@@ -56,10 +56,10 @@ namespace Server
 		bool RemoveIp(std::string const &);
 		_inline void ClearList();
 	private:
-		std::vector<Subnet,std::allocator<Subnet> > subnets; // 0x0
-		std::unordered_set<std::string,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::string> > ipAddresses; // 0x10
-		std::unordered_set<std::string,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::string> > uids; // 0x38
-		std::unordered_set<std::string,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::string> > names; // 0x60
+		std::vector<Subnet> subnets; // 0x0
+		std::unordered_set<std::string> ipAddresses; // 0x10
+		std::unordered_set<std::string> uids; // 0x38
+		std::unordered_set<std::string> names; // 0x60
 	public:
 		~StatsServersBanList(); /* compiler_generated() */
 	};
@@ -136,7 +136,7 @@ namespace Server
 		// std::string ip;
 		// unsigned long addr;
 		{
-			// std::vector<Server::StatsServersBanList::Subnet,std::allocator<Server::StatsServersBanList::Subnet> > &<range>$L0;
+			// std::vector<Server::StatsServersBanList::Subnet> &<range>$L0;
 			// Server::StatsServersBanList::Subnet *<begin>$L0;
 			// Server::StatsServersBanList::Subnet *<end>$L0;
 			{

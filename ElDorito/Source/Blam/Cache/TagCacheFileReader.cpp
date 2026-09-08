@@ -83,11 +83,11 @@ namespace Blam
 {
 	namespace Cache
 	{
-		_extern bool _sub_107F4F10(Blam::Cache::CTagCacheFileReader *const, std::string const &, long long, std::unordered_map<int,std::string,std::hash<int>,std::equal_to<int>,std::allocator<std::pair<int const ,std::string> > > &);
-		bool CTagCacheFileReader::Open(std::string const &filename, long long baseOffset, std::unordered_map<int,std::string,std::hash<int>,std::equal_to<int>,std::allocator<std::pair<int const ,std::string> > > &&tagNames) // 0x107F4F10
+		_extern bool _sub_107F4F10(Blam::Cache::CTagCacheFileReader *const, std::string const &, long long, std::unordered_map<int,std::string> &);
+		bool CTagCacheFileReader::Open(std::string const &filename, long long baseOffset, std::unordered_map<int,std::string> &&tagNames) // 0x107F4F10
 		{
 			mangled_x86(MANGLED_TODO, "?Open@CTagCacheFileReader@Cache@Blam@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@_J$$QAV?$unordered_map@HV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@U?$hash@H@2@U?$equal_to@H@2@V?$allocator@U?$pair@$$CBHV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@std@@@2@@5@@Z");
-			// std::unordered_map<int,std::string,std::hash<int>,std::equal_to<int>,std::allocator<std::pair<int const ,std::string> > > &tagNames;
+			// std::unordered_map<int,std::string> &tagNames;
 			todo("implement");
 			bool __result = _sub_107F4F10(this, filename, baseOffset, tagNames);
 			return __result;
@@ -124,25 +124,25 @@ namespace Blam
 			return __result;
 		}
 
-		_extern bool _sub_107F5140(Blam::Cache::CTagCacheFileReader *const, __int32, std::vector<char,std::allocator<char> > &);
-		bool CTagCacheFileReader::ReadTag(__int32 index, std::vector<char,std::allocator<char> > &buffer) // 0x107F5140
+		_extern bool _sub_107F5140(Blam::Cache::CTagCacheFileReader *const, __int32, std::vector<char> &);
+		bool CTagCacheFileReader::ReadTag(__int32 index, std::vector<char> &buffer) // 0x107F5140
 		{
 			mangled_x86(MANGLED_TODO, "?ReadTag@CTagCacheFileReader@Cache@Blam@@QAE_NHAAV?$vector@DV?$allocator@D@std@@@std@@@Z");
 			// static ...; // 0x107F51E4
 			// Blam::Cache::CTagCacheFileReader *const this;
 			// __int32 index;
-			// std::vector<char,std::allocator<char> > &buffer;
+			// std::vector<char> &buffer;
 			// s_cache_tag_instance header;
 			todo("implement");
 			bool __result = _sub_107F5140(this, index, buffer);
 			return __result;
 		}
 
-		_extern bool _sub_107F5040(Blam::Cache::CTagCacheFileReader *const, __int32, std::vector<char,std::allocator<char> > &);
-		bool CTagCacheFileReader::ReadAndFixupTag(__int32 index, std::vector<char,std::allocator<char> > &buffer) // 0x107F5040
+		_extern bool _sub_107F5040(Blam::Cache::CTagCacheFileReader *const, __int32, std::vector<char> &);
+		bool CTagCacheFileReader::ReadAndFixupTag(__int32 index, std::vector<char> &buffer) // 0x107F5040
 		{
 			mangled_x86(MANGLED_TODO, "?ReadAndFixupTag@CTagCacheFileReader@Cache@Blam@@QAE_NHAAV?$vector@DV?$allocator@D@std@@@std@@@Z");
-			// std::vector<char,std::allocator<char> > &buffer;
+			// std::vector<char> &buffer;
 			// s_cache_tag_instance *instance;
 			// unsigned __int32 *fixups;
 			{

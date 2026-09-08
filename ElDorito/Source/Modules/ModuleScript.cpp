@@ -76,9 +76,9 @@ namespace Scripting
 
 /* ---------- prototypes */
 
-bool CommandGenerateMethodDecl(std::vector<std::string,std::allocator<std::string> > const &args, std::string &retValue);
-bool CommandScriptHelp(std::vector<std::string,std::allocator<std::string> > const &args, std::string &retValue);
-bool CommandGenerateDoc(std::vector<std::string,std::allocator<std::string> > const &args, std::string &retValue);
+bool CommandGenerateMethodDecl(std::vector<std::string> const &args, std::string &retValue);
+bool CommandScriptHelp(std::vector<std::string> const &args, std::string &retValue);
+bool CommandGenerateDoc(std::vector<std::string> const &args, std::string &retValue);
 
 /* ---------- globals */
 
@@ -144,8 +144,8 @@ namespace Scripting
 
 /* ---------- private code */
 
-_extern bool _sub_106D4200(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandGenerateMethodDecl(std::vector<std::string,std::allocator<std::string> > const &args, std::string &retValue) // 0x106D4200
+_extern bool _sub_106D4200(std::vector<std::string> const &, std::string &);
+bool CommandGenerateMethodDecl(std::vector<std::string> const &args, std::string &retValue) // 0x106D4200
 {
 	// `anonymous-namespace'::CommandGenerateMethodDecl
 	// std::string &retValue;
@@ -156,8 +156,8 @@ bool CommandGenerateMethodDecl(std::vector<std::string,std::allocator<std::strin
 	return __result;
 }
 
-_extern bool _sub_106D4330(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandScriptHelp(std::vector<std::string,std::allocator<std::string> > const &args, std::string &retValue) // 0x106D4330
+_extern bool _sub_106D4330(std::vector<std::string> const &, std::string &);
+bool CommandScriptHelp(std::vector<std::string> const &args, std::string &retValue) // 0x106D4330
 {
 	// `anonymous-namespace'::CommandScriptHelp
 	// std::string &retValue;
@@ -168,17 +168,17 @@ bool CommandScriptHelp(std::vector<std::string,std::allocator<std::string> > con
 	return __result;
 }
 
-_extern bool _sub_106D3FE0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CommandGenerateDoc(std::vector<std::string,std::allocator<std::string> > const &args, std::string &retValue) // 0x106D3FE0
+_extern bool _sub_106D3FE0(std::vector<std::string> const &, std::string &);
+bool CommandGenerateDoc(std::vector<std::string> const &args, std::string &retValue) // 0x106D3FE0
 {
 	// `anonymous-namespace'::CommandGenerateDoc
 	// static ...; // 0x106D4174
 	// static ...; // 0x106D415C
 	// static ...; // 0x106D4154
-	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::vector<std::string> const &args;
 	// std::string &retValue;
 	// std::string documentation;
-	// std::basic_ofstream<char,std::char_traits<char> > outFile;
+	// std::ofstream outFile;
 	// Scripting::HS::ScriptMethodMap &methods;
 	todo("implement");
 	bool __result = _sub_106D3FE0(args, retValue);

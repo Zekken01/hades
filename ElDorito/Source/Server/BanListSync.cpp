@@ -166,10 +166,10 @@ namespace Blam
 
 struct s_sharedState
 {
-	std::vector<std::string,std::allocator<std::string> > Subnets; // 0x0
-	std::vector<std::string,std::allocator<std::string> > Names; // 0x10
-	std::vector<std::string,std::allocator<std::string> > Uids; // 0x20
-	std::vector<std::string,std::allocator<std::string> > Ips; // 0x30
+	std::vector<std::string> Subnets; // 0x0
+	std::vector<std::string> Names; // 0x10
+	std::vector<std::string> Uids; // 0x20
+	std::vector<std::string> Ips; // 0x30
 	s_sharedState(s_sharedState &); /* compiler_generated() */
 	s_sharedState(s_sharedState const &); /* compiler_generated() */
 	s_sharedState(); /* compiler_generated() */
@@ -218,7 +218,7 @@ namespace hades_file_local
 	extern std::condition_variable syncSignal; // 0x12467660
 	extern bool shouldExit; // 0x124676A4
 	extern bool banlistDirty; // 0x124676A5
-	extern std::vector<std::string,std::allocator<std::string> > banlistUrls; // 0x12467650
+	extern std::vector<std::string> banlistUrls; // 0x12467650
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -256,7 +256,7 @@ namespace Server
 				{
 					// Server::StatsServersBanList &statsserverBanList;
 					{
-						// std::vector<std::string,std::allocator<std::string> > &<range>$L0;
+						// std::vector<std::string> &<range>$L0;
 						// std::string *<begin>$L0;
 						// std::string *<end>$L0;
 						{
@@ -266,21 +266,21 @@ namespace Server
 					{
 						// std::string *<end>$L1;
 						// std::string *<begin>$L1;
-						// std::vector<std::string,std::allocator<std::string> > &<range>$L1;
+						// std::vector<std::string> &<range>$L1;
 						{
 							// std::string const &uid;
 						}
 					}
 					{
 						// std::string *<end>$L2;
-						// std::vector<std::string,std::allocator<std::string> > &<range>$L2;
+						// std::vector<std::string> &<range>$L2;
 						// std::string *<begin>$L2;
 						{
 							// std::string const &name;
 						}
 					}
 					{
-						// std::vector<std::string,std::allocator<std::string> > &<range>$L3;
+						// std::vector<std::string> &<range>$L3;
 						// std::string *<begin>$L3;
 						// std::string *<end>$L3;
 						{
@@ -359,7 +359,7 @@ void CheckToBootPlayers() // 0x10B183A0
 		{
 			// Blam::Network::PlayerSession *player;
 			// unsigned long long uid;
-			// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > stream;
+			// std::stringstream stream;
 			// std::string const &ipString;
 			// std::string name;
 			// std::string hexUID;
@@ -381,7 +381,7 @@ bool SyncBanList() // 0x10B18F00
 	// static ...; // 0x10B19748
 	// static ...; // 0x10B19740
 	{
-		// std::vector<std::string,std::allocator<std::string> > &<range>$L0;
+		// std::vector<std::string> &<range>$L0;
 		// std::string *<begin>$L0;
 		// std::string *<end>$L0;
 		{

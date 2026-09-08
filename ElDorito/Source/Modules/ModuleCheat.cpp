@@ -135,11 +135,11 @@ using namespace ::Objects;
 
 void cheat_objects(long const *objects, __int32 count);
 bool cheat_all_objects(long group_tag, bool everything);
-bool CheatAllWeapons(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnValue);
-bool CheatAllVehicles(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnValue);
-bool CheatAllEquipment(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnValue);
-bool CheatDeleteWeapons(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnValue);
-bool CheatSpawn(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnValue);
+bool CheatAllWeapons(std::vector<std::string> const &args, std::string &returnValue);
+bool CheatAllVehicles(std::vector<std::string> const &args, std::string &returnValue);
+bool CheatAllEquipment(std::vector<std::string> const &args, std::string &returnValue);
+bool CheatDeleteWeapons(std::vector<std::string> const &args, std::string &returnValue);
+bool CheatSpawn(std::vector<std::string> const &args, std::string &returnValue);
 
 /* ---------- globals */
 
@@ -241,8 +241,8 @@ bool cheat_all_objects(long group_tag, bool everything) // 0x107971D0
 	return __result;
 }
 
-_extern bool _sub_10796430(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CheatAllWeapons(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnValue) // 0x10796430
+_extern bool _sub_10796430(std::vector<std::string> const &, std::string &);
+bool CheatAllWeapons(std::vector<std::string> const &args, std::string &returnValue) // 0x10796430
 {
 	// `anonymous-namespace'::CheatAllWeapons
 	// std::string &returnValue;
@@ -251,8 +251,8 @@ bool CheatAllWeapons(std::vector<std::string,std::allocator<std::string> > const
 	return __result;
 }
 
-_extern bool _sub_10796390(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CheatAllVehicles(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnValue) // 0x10796390
+_extern bool _sub_10796390(std::vector<std::string> const &, std::string &);
+bool CheatAllVehicles(std::vector<std::string> const &args, std::string &returnValue) // 0x10796390
 {
 	// `anonymous-namespace'::CheatAllVehicles
 	// std::string &returnValue;
@@ -261,8 +261,8 @@ bool CheatAllVehicles(std::vector<std::string,std::allocator<std::string> > cons
 	return __result;
 }
 
-_extern bool _sub_107962F0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CheatAllEquipment(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnValue) // 0x107962F0
+_extern bool _sub_107962F0(std::vector<std::string> const &, std::string &);
+bool CheatAllEquipment(std::vector<std::string> const &args, std::string &returnValue) // 0x107962F0
 {
 	// `anonymous-namespace'::CheatAllEquipment
 	// std::string &returnValue;
@@ -271,8 +271,8 @@ bool CheatAllEquipment(std::vector<std::string,std::allocator<std::string> > con
 	return __result;
 }
 
-_extern bool _sub_107964D0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CheatDeleteWeapons(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnValue) // 0x107964D0
+_extern bool _sub_107964D0(std::vector<std::string> const &, std::string &);
+bool CheatDeleteWeapons(std::vector<std::string> const &args, std::string &returnValue) // 0x107964D0
 {
 	// `anonymous-namespace'::CheatDeleteWeapons
 	// std::string &returnValue;
@@ -281,8 +281,8 @@ bool CheatDeleteWeapons(std::vector<std::string,std::allocator<std::string> > co
 	return __result;
 }
 
-_extern bool _sub_107965A0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
-bool CheatSpawn(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnValue) // 0x107965A0
+_extern bool _sub_107965A0(std::vector<std::string> const &, std::string &);
+bool CheatSpawn(std::vector<std::string> const &args, std::string &returnValue) // 0x107965A0
 {
 	// `anonymous-namespace'::CheatSpawn
 	// static ...; // 0x10796950
@@ -290,7 +290,7 @@ bool CheatSpawn(std::vector<std::string,std::allocator<std::string> > const &arg
 	// static ...; // 0x1079693C
 	// static ...; // 0x1079690C
 	// static ...; // 0x10796904
-	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::vector<std::string> const &args;
 	// std::string &returnValue;
 	// long tag_index;
 	// unsigned long group_tag;

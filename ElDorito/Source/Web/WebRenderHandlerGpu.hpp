@@ -82,7 +82,7 @@ namespace Web
 		private:
 			virtual void OnPopupShow(scoped_refptr<CefBrowser> browser, bool show);
 			virtual void OnPopupSize(scoped_refptr<CefBrowser> browser, CefRect const &rect);
-			virtual void OnAcceleratedPaint(scoped_refptr<CefBrowser> browser, cef_paint_element_type_t type, std::vector<CefRect,std::allocator<CefRect> > const &dirtyRects, void *sharedHandle);
+			virtual void OnAcceleratedPaint(scoped_refptr<CefBrowser> browser, cef_paint_element_type_t type, std::vector<CefRect> const &dirtyRects, void *sharedHandle);
 			_inline bool PopupIsVisible() const;
 			HWND__ *m_Window; // 0x8
 			CefSize m_ViewSize; // 0xC
@@ -96,8 +96,8 @@ namespace Web
 			__int32 m_GpuBufferCount; // 0x40
 			bool m_GpuVsyncEnable; // 0x44
 			void *m_GpuWaitEvent; // 0x48
-			std::unique_ptr<GpuAcceleratedSurface,std::default_delete<GpuAcceleratedSurface> > m_ViewSurface; // 0x4C
-			std::unique_ptr<GpuAcceleratedSurface,std::default_delete<GpuAcceleratedSurface> > m_PopupSurface; // 0x50
+			std::unique_ptr<GpuAcceleratedSurface> m_ViewSurface; // 0x4C
+			std::unique_ptr<GpuAcceleratedSurface> m_PopupSurface; // 0x50
 			CefRefCount ref_count_; // 0x54
 		public:
 			virtual _inline void AddRef() const;

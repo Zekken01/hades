@@ -75,10 +75,10 @@ private:
 	unsigned char __pad0[3]; // 0x1
 	c_file_reference m_file; // 0x4
 	unsigned long const m_base_offset; // 0x114
-	std::vector<unsigned long,std::allocator<unsigned long> > m_tag_offsets; // 0x118
-	std::vector<s_cache_tag_instance,std::allocator<s_cache_tag_instance> > m_tags; // 0x128
-	std::vector<long,std::allocator<long> > m_index_to_absolute_index; // 0x138
-	std::vector<long,std::allocator<long> > m_absolute_index_to_index; // 0x148
+	std::vector<unsigned long> m_tag_offsets; // 0x118
+	std::vector<s_cache_tag_instance> m_tags; // 0x128
+	std::vector<long> m_index_to_absolute_index; // 0x138
+	std::vector<long> m_absolute_index_to_index; // 0x148
 	c_tag_name_dictionary const m_tag_names; // 0x158
 };
 static_assert(sizeof(c_cache_file_tag_cache) == 384, "Invalid c_cache_file_tag_cache size");

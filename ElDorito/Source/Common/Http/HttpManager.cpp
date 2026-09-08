@@ -106,7 +106,7 @@ namespace Http
 		// Http::IHttpRequest *request;
 		// std::scoped_lock<std::mutex> lock;
 		{
-			// std::vector<std::shared_ptr<Http::IHttpRequest>,std::allocator<std::shared_ptr<Http::IHttpRequest> > > &<range>$L0;
+			// std::vector<std::shared_ptr<Http::IHttpRequest> > &<range>$L0;
 			// std::shared_ptr<Http::IHttpRequest> *<begin>$L0;
 			// std::shared_ptr<Http::IHttpRequest> *<end>$L0;
 			{
@@ -127,10 +127,10 @@ namespace Http
 		// static ...; // 0x108003E8
 		// static ...; // 0x108003E0
 		// Http::CHttpManager *const this;
-		// std::vector<std::shared_ptr<Http::IHttpRequest>,std::allocator<std::shared_ptr<Http::IHttpRequest> > > list;
+		// std::vector<std::shared_ptr<Http::IHttpRequest> > list;
 		// std::unique_lock<std::mutex> lock;
 		{
-			// std::vector<std::shared_ptr<Http::IHttpRequest>,std::allocator<std::shared_ptr<Http::IHttpRequest> > > &<range>$L0;
+			// std::vector<std::shared_ptr<Http::IHttpRequest> > &<range>$L0;
 			// std::shared_ptr<Http::IHttpRequest> *<begin>$L0;
 			// std::shared_ptr<Http::IHttpRequest> *<end>$L0;
 			{

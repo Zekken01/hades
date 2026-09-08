@@ -109,7 +109,7 @@ namespace Console
 
 namespace hades_file_local
 {
-	extern std::vector<std::shared_ptr<Console::ConsoleOutputHandler>,std::allocator<std::shared_ptr<Console::ConsoleOutputHandler> > > Handlers; // 0x1240DA2C
+	extern std::vector<std::shared_ptr<Console::ConsoleOutputHandler> > Handlers; // 0x1240DA2C
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -133,9 +133,9 @@ namespace Console
 		// static ...; // 0x10950B18
 		// static ...; // 0x10950B10
 		// std::string const &line;
-		// std::vector<std::string,std::allocator<std::string> > lines;
+		// std::vector<std::string> lines;
 		{
-			// std::vector<std::string,std::allocator<std::string> > &<range>$L0;
+			// std::vector<std::string> &<range>$L0;
 			// std::string *<begin>$L0;
 			// std::string *<end>$L0;
 			{
@@ -143,7 +143,7 @@ namespace Console
 				{
 					// std::shared_ptr<Console::ConsoleOutputHandler> *<end>$L1;
 					// std::shared_ptr<Console::ConsoleOutputHandler> *<begin>$L1;
-					// std::vector<std::shared_ptr<Console::ConsoleOutputHandler>,std::allocator<std::shared_ptr<Console::ConsoleOutputHandler> > > &<range>$L1;
+					// std::vector<std::shared_ptr<Console::ConsoleOutputHandler> > &<range>$L1;
 					{
 						// std::shared_ptr<Console::ConsoleOutputHandler> &handler;
 					}

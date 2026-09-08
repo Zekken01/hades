@@ -409,7 +409,7 @@ namespace Forge
 			// real_point3d const &crosshairPoint;
 			// unsigned __int32 (*const spawn_object)(s_map_variant *, long, long, long, real_point3d const *, real_vector3d const *, real_vector3d const *, long, long, s_map_variant_placement_properties const *, unsigned short);
 			// unsigned long playerHandle;
-			// std::stack<unsigned int,std::deque<unsigned int,std::allocator<unsigned int> > > cloneStack;
+			// std::stack<unsigned int> cloneStack;
 			// s_map_variant *mapv;
 			// real_point3d const &referencePoint;
 			{

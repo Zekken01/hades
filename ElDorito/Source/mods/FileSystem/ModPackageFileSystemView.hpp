@@ -41,15 +41,15 @@ public:
 	CModPackageFileSystemView(CModPackageFileSystemView const &); /* compiler_generated() */
 	CModPackageFileSystemView(std::string const &filePath);
 	bool GetFileEntry(std::string const &virtualPath, SFileEntry *outEntry);
-	std::unordered_map<std::string,SFileEntry,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::pair<std::string const ,SFileEntry> > > GetFileList();
+	std::unordered_map<std::string,SFileEntry> GetFileList();
 	_inline std::string const &GetFilePath() const;
 	_inline long long GetBaseOffset() const;
 private:
 	void Initialize();
-	bool ReadFileTable(std::basic_istream<char,std::char_traits<char> > &stream);
+	bool ReadFileTable(std::istream &stream);
 	long long m_baseOffset; // 0x0
 	std::string m_filePath; // 0x8
-	std::unordered_map<std::string,SFileEntry,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::pair<std::string const ,SFileEntry> > > m_files; // 0x24
+	std::unordered_map<std::string,SFileEntry> m_files; // 0x24
 public:
 	_inline ~CModPackageFileSystemView(); /* compiler_generated() */
 	CModPackageFileSystemView &operator=(CModPackageFileSystemView &); /* compiler_generated() */

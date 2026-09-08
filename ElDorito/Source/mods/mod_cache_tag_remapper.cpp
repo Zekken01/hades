@@ -81,7 +81,7 @@ long c_mod_cache_tag_remapper::get_mod_tag_index(long runtime_index) const // 0x
 	// static ...; // 0x1089B214
 	// c_mod_cache_tag_remapper const *const this;
 	// long runtime_index;
-	// std::unordered_map<long,long,std::hash<long>,std::equal_to<long>,std::allocator<std::pair<long const ,long> > > const &map;
+	// std::unordered_map<long,long> const &map;
 	{
 		// std::_List_const_iterator<std::_List_val<std::_List_simple_types<std::pair<long const ,long> > > > it;
 	}
@@ -98,7 +98,7 @@ long c_mod_cache_tag_remapper::get_runtime_tag_index(long mod_index) const // 0x
 	// static ...; // 0x1089B3E4
 	// c_mod_cache_tag_remapper const *const this;
 	// long mod_index;
-	// std::unordered_map<long,long,std::hash<long>,std::equal_to<long>,std::allocator<std::pair<long const ,long> > > const &map;
+	// std::unordered_map<long,long> const &map;
 	{
 		// std::_List_const_iterator<std::_List_val<std::_List_simple_types<std::pair<long const ,long> > > > it;
 	}

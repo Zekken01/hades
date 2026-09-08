@@ -81,7 +81,7 @@ CMapFile::CMapFile(std::string const &filePath) // 0x1085FEF0
 	// static ...; // 0x1086000C
 	// CMapFile *const this;
 	// std::string const &filePath;
-	// std::basic_ifstream<char,std::char_traits<char> > stream;
+	// std::ifstream stream;
 	todo("implement");
 	_sub_1085FEF0(this, filePath);
 }
@@ -185,11 +185,11 @@ __int32 CMapFile::GetMapId() const // 0x108603D0
 	return __result;
 }
 
-_extern void _sub_10860B10(CMapFile *const, std::basic_ifstream<char,std::char_traits<char> > &);
-void CMapFile::LoadFromFile(std::basic_ifstream<char,std::char_traits<char> > &stream) // 0x10860B10
+_extern void _sub_10860B10(CMapFile *const, std::ifstream &);
+void CMapFile::LoadFromFile(std::ifstream &stream) // 0x10860B10
 {
 	mangled_x86(MANGLED_TODO, "?LoadFromFile@CMapFile@@AAEXAAV?$basic_ifstream@DU?$char_traits@D@std@@@std@@@Z");
-	// std::basic_ifstream<char,std::char_traits<char> > &stream;
+	// std::ifstream &stream;
 	todo("implement");
 	_sub_10860B10(this, stream);
 }

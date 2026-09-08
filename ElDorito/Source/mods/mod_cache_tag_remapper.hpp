@@ -64,10 +64,10 @@ private:
 	unsigned char __pad0[3]; // 0x1
 	unsigned long m_runtime_memory_size; // 0x4
 	long m_runtime_tag_count; // 0x8
-	std::unordered_map<long,long,std::hash<long>,std::equal_to<long>,std::allocator<std::pair<long const ,long> > > m_runtime_tag_index_to_mod_tag_index; // 0xC
-	std::unordered_map<long,long,std::hash<long>,std::equal_to<long>,std::allocator<std::pair<long const ,long> > > m_mod_tag_index_to_runtime_index; // 0x34
+	std::unordered_map<long,long> m_runtime_tag_index_to_mod_tag_index; // 0xC
+	std::unordered_map<long,long> m_mod_tag_index_to_runtime_index; // 0x34
 	c_cache_file_tag_cache *m_base_cache; // 0x5C
-	std::unordered_map<s_name_lookup_key,long,c_mod_cache_tag_remapper::s_name_lookup_key::s_hasher,std::equal_to<s_name_lookup_key>,std::allocator<std::pair<s_name_lookup_key const ,long> > > m_base_tags_by_name; // 0x60
+	std::unordered_map<s_name_lookup_key,long,c_mod_cache_tag_remapper::s_name_lookup_key::s_hasher> m_base_tags_by_name; // 0x60
 public:
 	c_mod_cache_tag_remapper(c_mod_cache_tag_remapper &); /* compiler_generated() */
 	c_mod_cache_tag_remapper(c_mod_cache_tag_remapper const &); /* compiler_generated() */

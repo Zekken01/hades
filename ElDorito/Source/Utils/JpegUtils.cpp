@@ -80,7 +80,7 @@ namespace hades_file_local
 	struct stdvector_destination_mgr
 	{
 		jpeg_destination_mgr pub; // 0x0
-		std::vector<unsigned char,std::allocator<unsigned char> > *vec; // 0x14
+		std::vector<unsigned char> *vec; // 0x14
 		stdvector_destination_mgr(); /* compiler_generated() */
 	};
 	static_assert(sizeof(stdvector_destination_mgr) == 24, "Invalid stdvector_destination_mgr size");
@@ -92,7 +92,7 @@ namespace Utils
 {
 	namespace Jpeg
 	{
-		extern void CompressBuf(std::vector<unsigned char,std::allocator<unsigned char> > &dest, __int32 quality, unsigned char const *srcBits, __int32 width, __int32 height);
+		extern void CompressBuf(std::vector<unsigned char> &dest, __int32 quality, unsigned char const *srcBits, __int32 width, __int32 height);
 		extern void CompressFile(std::wstring destFilename, __int32 quality, unsigned char const *srcBits, __int32 width, __int32 height);
 	}
 }
@@ -100,7 +100,7 @@ namespace Utils
 void init_stdvector_destination(jpeg_compress_struct *__formal);
 bool empty_stdvector_output_buffer(jpeg_compress_struct *cinfo);
 void term_stdvector_destination(jpeg_compress_struct *cinfo);
-void jpeg_stdvector_dest(jpeg_compress_struct *cinfo, std::vector<unsigned char,std::allocator<unsigned char> > &vec);
+void jpeg_stdvector_dest(jpeg_compress_struct *cinfo, std::vector<unsigned char> &vec);
 
 /* ---------- globals */
 
@@ -112,20 +112,20 @@ namespace Utils
 {
 	namespace Jpeg
 	{
-		_extern void _sub_10753AD0(std::vector<unsigned char,std::allocator<unsigned char> > &, __int32, unsigned char const *, __int32, __int32);
-		void CompressBuf(std::vector<unsigned char,std::allocator<unsigned char> > &dest, __int32 quality, unsigned char const *srcBits, __int32 width, __int32 height) // 0x10753AD0
+		_extern void _sub_10753AD0(std::vector<unsigned char> &, __int32, unsigned char const *, __int32, __int32);
+		void CompressBuf(std::vector<unsigned char> &dest, __int32 quality, unsigned char const *srcBits, __int32 width, __int32 height) // 0x10753AD0
 		{
 			mangled_x86(MANGLED_TODO, "?CompressBuf@Jpeg@Utils@@YAXAAV?$vector@EV?$allocator@E@std@@@std@@HPBEHH@Z");
 			// static ...; // 0x10753DD0
 			// static ...; // 0x10753DC8
-			// std::vector<unsigned char,std::allocator<unsigned char> > &dest;
+			// std::vector<unsigned char> &dest;
 			// __int32 quality;
 			// unsigned char const *srcBits;
 			// __int32 width;
 			// __int32 height;
 			// unsigned char *row;
 			// char err_mgr[132];
-			// std::unique_ptr<unsigned char [0],std::default_delete<unsigned char [0]> > row_buf;
+			// std::unique_ptr<unsigned char [0]> row_buf;
 			// jpeg_compress_struct cinfo;
 			{
 				// unsigned char const *src;
@@ -190,11 +190,11 @@ void term_stdvector_destination(jpeg_compress_struct *cinfo) // 0x10754950
 	_sub_10754950(cinfo);
 }
 
-_extern void _sub_10754730(jpeg_compress_struct *, std::vector<unsigned char,std::allocator<unsigned char> > &);
-void jpeg_stdvector_dest(jpeg_compress_struct *cinfo, std::vector<unsigned char,std::allocator<unsigned char> > &vec) // 0x10754730
+_extern void _sub_10754730(jpeg_compress_struct *, std::vector<unsigned char> &);
+void jpeg_stdvector_dest(jpeg_compress_struct *cinfo, std::vector<unsigned char> &vec) // 0x10754730
 {
 	// `anonymous-namespace'::jpeg_stdvector_dest
-	// std::vector<unsigned char,std::allocator<unsigned char> > &vec;
+	// std::vector<unsigned char> &vec;
 	// stdvector_destination_mgr *dest;
 	// function call : void *(*)(void *, __int32, unsigned __int32)
 	todo("implement");

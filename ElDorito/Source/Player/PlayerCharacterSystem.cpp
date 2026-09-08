@@ -261,7 +261,7 @@ namespace Server
 }
 namespace hades_file_local
 {
-	extern std::map<std::string,Server::Voting::HaloType::CharacterOverride,std::less<std::string>,std::allocator<std::pair<std::string const ,Server::Voting::HaloType::CharacterOverride> > > votingCharacterOverrides; // 0x124091B8
+	extern std::map<std::string,Server::Voting::HaloType::CharacterOverride> votingCharacterOverrides; // 0x124091B8
 	extern __int32 prevUpdateNumber; // 0x124091C4
 	extern __int32 currentUpdateNumber; // 0x124091C8
 	extern std::shared_ptr<c_cache_file_tag_cache> globalBaseTagCache; // 0x124091CC
@@ -316,7 +316,7 @@ namespace Player
 		{
 			// std::string prefsName;
 			{
-				// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+				// std::stringstream ss;
 			}
 		}
 		// function call : void (IModListener *)

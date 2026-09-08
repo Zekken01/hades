@@ -352,8 +352,8 @@ namespace Server
 }
 namespace hades_file_local
 {
-	extern std::vector<std::function<void __cdecl(Blam::Network::NetworkAddress const &,unsigned int,unsigned short,unsigned int)>,std::allocator<std::function<void __cdecl(Blam::Network::NetworkAddress const &,unsigned int,unsigned short,unsigned int)> > > pongCallbacks; // 0x124647E0
-	extern std::vector<std::function<void __cdecl(s_map_variant *)>,std::allocator<std::function<void __cdecl(s_map_variant *)> > > mapVariantRequestChangeCallbacks; // 0x124647F0
+	extern std::vector<std::function<void __cdecl(Blam::Network::NetworkAddress const &,unsigned int,unsigned short,unsigned int)> > pongCallbacks; // 0x124647E0
+	extern std::vector<std::function<void __cdecl(s_map_variant *)> > mapVariantRequestChangeCallbacks; // 0x124647F0
 }
 using namespace hades_file_local;
 namespace Server
@@ -370,7 +370,7 @@ namespace Server
 }
 namespace hades_file_local
 {
-	extern std::vector<std::function<void __cdecl(enum Blam::Network::LifeCycleState)>,std::allocator<std::function<void __cdecl(enum Blam::Network::LifeCycleState)> > > lifeCycleStateChangedCallbacks; // 0x124647D0
+	extern std::vector<std::function<void __cdecl(enum Blam::Network::LifeCycleState)> > lifeCycleStateChangedCallbacks; // 0x124647D0
 	extern std::shared_ptr<Patches::Network::NetworkSessionListener> sessionObserver; // 0x1246481C
 }
 using namespace hades_file_local;
@@ -397,7 +397,7 @@ namespace Patches
 			// unsigned __int32 verNum;
 			// unsigned long temp2;
 			{
-				// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
+				// std::stringstream ss;
 			}
 			{
 			}
@@ -570,7 +570,7 @@ bool IsNameNotAllowed(std::string name) // 0x10A98410
 	// static ...; // 0x10A98540
 	// std::string name;
 	{
-		// std::unordered_set<std::string,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::string> > &<range>$L0;
+		// std::unordered_set<std::string> &<range>$L0;
 		// std::_List_unchecked_const_iterator<std::_List_val<std::_List_simple_types<std::string> >,std::_Iterator_base0> <begin>$L0;
 		// std::_List_unchecked_const_iterator<std::_List_val<std::_List_simple_types<std::string> >,std::_Iterator_base0> <end>$L0;
 		{
@@ -744,12 +744,12 @@ bool PeerRequestPlayerDesiredPropertiesUpdateHook(Blam::Network::Session *thisPt
 	// Blam::Network::SessionMembership *membership;
 	// unsigned __int32 extendedSize;
 	// __int32 playerIndex;
-	// std::unique_ptr<unsigned char [0],std::default_delete<unsigned char [0]> > extendedProperties;
+	// std::unique_ptr<unsigned char [0]> extendedProperties;
 	{
 		// __int32 channelIndex;
 		// void (*InitPacket)(__int32, void *);
 		// __int32 hostPeer;
-		// std::unique_ptr<unsigned char [0],std::default_delete<unsigned char [0]> > packet;
+		// std::unique_ptr<unsigned char [0]> packet;
 	}
 	// function call : void (*)(__int32, void *)
 	todo("implement");
@@ -859,7 +859,7 @@ void PongReceivedHookImpl(Blam::Network::NetworkAddress const &from, Blam::Netwo
 	// `anonymous-namespace'::PongReceivedHookImpl
 	// unsigned __int32 latency;
 	{
-		// std::vector<std::function<void __cdecl(Blam::Network::NetworkAddress const &,unsigned int,unsigned short,unsigned int)>,std::allocator<std::function<void __cdecl(Blam::Network::NetworkAddress const &,unsigned int,unsigned short,unsigned int)> > > &<range>$L0;
+		// std::vector<std::function<void __cdecl(Blam::Network::NetworkAddress const &,unsigned int,unsigned short,unsigned int)> > &<range>$L0;
 		// std::function<void __cdecl(Blam::Network::NetworkAddress const &,unsigned int,unsigned short,unsigned int)> *<begin>$L0;
 		// std::function<void __cdecl(Blam::Network::NetworkAddress const &,unsigned int,unsigned short,unsigned int)> *<end>$L0;
 		{
@@ -900,7 +900,7 @@ void LifeCycleStateChangedHookImpl(Blam::Network::LifeCycleState newState) // 0x
 		// std::string previousValue;
 	}
 	{
-		// std::vector<std::function<void __cdecl(enum Blam::Network::LifeCycleState)>,std::allocator<std::function<void __cdecl(enum Blam::Network::LifeCycleState)> > > &<range>$L0;
+		// std::vector<std::function<void __cdecl(enum Blam::Network::LifeCycleState)> > &<range>$L0;
 		// std::function<void __cdecl(enum Blam::Network::LifeCycleState)> *<begin>$L0;
 		// std::function<void __cdecl(enum Blam::Network::LifeCycleState)> *<end>$L0;
 		{
@@ -1058,7 +1058,7 @@ bool c_network_session_parameter_map_variant__request_change_hook(void *thisptr,
 	// bool (*const c_network_session_parameter_map_variant__request_change)(void *, s_map_variant *);
 	// bool ret;
 	{
-		// std::vector<std::function<void __cdecl(s_map_variant *)>,std::allocator<std::function<void __cdecl(s_map_variant *)> > > &<range>$L0;
+		// std::vector<std::function<void __cdecl(s_map_variant *)> > &<range>$L0;
 		// std::function<void __cdecl(s_map_variant *)> *<begin>$L0;
 		// std::function<void __cdecl(s_map_variant *)> *<end>$L0;
 		{

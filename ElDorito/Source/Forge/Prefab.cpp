@@ -152,7 +152,7 @@ namespace Forge
 	}
 }
 
-bool ReadHeader(std::basic_ifstream<char,std::char_traits<char> > &stream, Forge::Prefabs::PrefabHeader &header);
+bool ReadHeader(std::ifstream &stream, Forge::Prefabs::PrefabHeader &header);
 
 /* ---------- globals */
 
@@ -191,9 +191,9 @@ namespace Forge
 			// std::string &name;
 			// std::string const &path;
 			// static PrefabPlacement placements[640]; // 0x1240FBA0
-			// std::basic_ofstream<char,std::char_traits<char> > fs;
+			// std::ofstream fs;
 			// long placementCount;
-			// std::unordered_map<long,long,std::hash<long>,std::equal_to<long>,std::allocator<std::pair<long const ,long> > > tagIndexToPaletteIndex;
+			// std::unordered_map<long,long> tagIndexToPaletteIndex;
 			// Forge::ObjectSet &objectSet;
 			// real_point3d const &crosshairPoint;
 			// unsigned long playerHandle;
@@ -245,7 +245,7 @@ namespace Forge
 			// std::string const &path;
 			// static PrefabPlacement placements[640]; // 0x1242A5A8
 			// long paletteTagIndices[256];
-			// std::basic_ifstream<char,std::char_traits<char> > fs;
+			// std::ifstream fs;
 			// Forge::ObjectSet &objectSet;
 			// real_point3d const &crosshairPoint;
 			// __int32 remainingObjects;
@@ -289,7 +289,7 @@ namespace Forge
 			// static ...; // 0x109704D0
 			// std::string const &path;
 			// Forge::Prefabs::PrefabHeader &header;
-			// std::basic_ifstream<char,std::char_traits<char> > fs;
+			// std::ifstream fs;
 			todo("implement");
 			bool __result = _sub_109703E0(path, header);
 			return __result;
@@ -308,8 +308,8 @@ _inline PrefabPlacement::PrefabPlacement() // 0x1096F6D0
 	compiler_generated();
 }
 
-_extern bool _sub_10970330(std::basic_ifstream<char,std::char_traits<char> > &, Forge::Prefabs::PrefabHeader &);
-bool ReadHeader(std::basic_ifstream<char,std::char_traits<char> > &stream, Forge::Prefabs::PrefabHeader &header) // 0x10970330
+_extern bool _sub_10970330(std::ifstream &, Forge::Prefabs::PrefabHeader &);
+bool ReadHeader(std::ifstream &stream, Forge::Prefabs::PrefabHeader &header) // 0x10970330
 {
 	// `anonymous-namespace'::ReadHeader
 	// Forge::Prefabs::PrefabHeader &header;

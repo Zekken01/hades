@@ -356,7 +356,7 @@ void CModBrowserStateHandler_AcquireMod::OnEnter() // 0x10718400
 	// CModBrowserStateHandler_AcquireMod *const this;
 	// SModBrowserState &state;
 	// SModBrowserState::SRequestedMod &mod;
-	// function call : void (std::vector<SModBrowserState::SRequestedMod *,std::allocator<SModBrowserState::SRequestedMod *> > const &)
+	// function call : void (std::vector<SModBrowserState::SRequestedMod *> const &)
 	todo("implement");
 	_sub_10718400(this);
 }

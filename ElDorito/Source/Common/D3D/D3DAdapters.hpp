@@ -46,7 +46,7 @@ namespace Common
 	namespace D3DAdapters
 	{
 		extern void EnumerateDisplayModes();
-		extern std::vector<Common::D3DAdapters::DisplayMode,std::allocator<Common::D3DAdapters::DisplayMode> > const &GetAdapterDisplayModes(__int32 adapterIndex);
+		extern std::vector<Common::D3DAdapters::DisplayMode> const &GetAdapterDisplayModes(__int32 adapterIndex);
 		extern Common::D3DAdapters::DisplayMode GetClosestSupportedDisplayMode(__int32 preferredWidth, __int32 preferredHeight);
 		extern __int32 GetCurrentAdapterIndex();
 

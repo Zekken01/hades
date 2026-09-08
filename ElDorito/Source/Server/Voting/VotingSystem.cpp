@@ -290,7 +290,7 @@ namespace Server
 				// long long elapsed2;
 			}
 			{
-				// std::vector<Server::Voting::MapAndType,std::allocator<Server::Voting::MapAndType> > &<range>$L0;
+				// std::vector<Server::Voting::MapAndType> &<range>$L0;
 				// Server::Voting::MapAndType *<begin>$L0;
 				// Server::Voting::MapAndType *<end>$L0;
 				{
@@ -313,7 +313,7 @@ namespace Server
 			// Server::Voting::VotingSystem *const this;
 			// __int32 index;
 			{
-				// std::vector<Server::Voting::SMapListItem,std::allocator<Server::Voting::SMapListItem> > const &<range>$L0;
+				// std::vector<Server::Voting::SMapListItem> const &<range>$L0;
 				// Server::Voting::SMapListItem const *<begin>$L0;
 				// Server::Voting::SMapListItem const *<end>$L0;
 				{
@@ -371,7 +371,7 @@ namespace Server
 			// float maps_sum_of_weights;
 			// Server::Voting::HaloMap map;
 			// __int32 playerCount;
-			// std::vector<Server::Voting::HaloMap,std::allocator<Server::Voting::HaloMap> > mapsToSearch;
+			// std::vector<Server::Voting::HaloMap> mapsToSearch;
 			// float pMap;
 			{
 				// unsigned __int32 i;
@@ -411,7 +411,7 @@ namespace Server
 			// Server::Voting::VotingMessage newmessage;
 			// long long curTime;
 			{
-				// std::vector<Server::Voting::MapAndType,std::allocator<Server::Voting::MapAndType> > &<range>$L0;
+				// std::vector<Server::Voting::MapAndType> &<range>$L0;
 				// Server::Voting::MapAndType *<begin>$L0;
 				// Server::Voting::MapAndType *<end>$L0;
 				{
@@ -428,12 +428,12 @@ namespace Server
 	}
 }
 
-extern std::vector<Server::Voting::MapAndType,std::allocator<Server::Voting::MapAndType> > _sub_10C50E80(Server::Voting::VotingSystem *const);
+extern std::vector<Server::Voting::MapAndType> _sub_10C50E80(Server::Voting::VotingSystem *const);
 namespace Server
 {
 	namespace Voting
 	{
-		std::vector<Server::Voting::MapAndType,std::allocator<Server::Voting::MapAndType> > VotingSystem::countQuickVotes() // 0x10C50E80
+		std::vector<Server::Voting::MapAndType> VotingSystem::countQuickVotes() // 0x10C50E80
 		{
 			mangled_x86(MANGLED_TODO, "?countQuickVotes@VotingSystem@Voting@Server@@AAE?AV?$vector@UMapAndType@Voting@Server@@V?$allocator@UMapAndType@Voting@Server@@@std@@@std@@XZ");
 			// static ...; // 0x10C51018
@@ -442,9 +442,9 @@ namespace Server
 			// static ...; // 0x10C50FE0
 			// static ...; // 0x10C50FD8
 			// Server::Voting::VotingSystem *const this;
-			// std::vector<Server::Voting::MapAndType,std::allocator<Server::Voting::MapAndType> > tmp;
+			// std::vector<Server::Voting::MapAndType> tmp;
 			{
-				// std::map<std::string,int,std::less<std::string>,std::allocator<std::pair<std::string const ,int> > > &<range>$L0;
+				// std::map<std::string,int> &<range>$L0;
 				// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,int> > > > <begin>$L0;
 				// std::_Default_sentinel <end>$L0;
 				{
@@ -452,7 +452,7 @@ namespace Server
 				}
 			}
 			todo("implement");
-			std::vector<Server::Voting::MapAndType,std::allocator<Server::Voting::MapAndType> > __result = _sub_10C50E80(this);
+			std::vector<Server::Voting::MapAndType> __result = _sub_10C50E80(this);
 			return __result;
 		}
 
@@ -466,7 +466,7 @@ namespace Server
 			// static ...; // 0x10C51188
 			// Server::Voting::VotingSystem *const this;
 			{
-				// std::map<std::string,int,std::less<std::string>,std::allocator<std::pair<std::string const ,int> > > &<range>$L0;
+				// std::map<std::string,int> &<range>$L0;
 				// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,int> > > > <begin>$L0;
 				// std::_Default_sentinel <end>$L0;
 				{
@@ -489,10 +489,10 @@ namespace Server
 			// Server::Voting::VotingSystem *const this;
 			// Server::Voting::VotingMessage newmessage;
 			// __int32 optionIndex;
-			// std::vector<Server::Voting::MapAndType,std::allocator<Server::Voting::MapAndType> > finalVotingOptions;
+			// std::vector<Server::Voting::MapAndType> finalVotingOptions;
 			// Server::Voting::VotingMessage voteTally;
 			{
-				// std::vector<Server::Voting::MapAndType,std::allocator<Server::Voting::MapAndType> > &<range>$L0;
+				// std::vector<Server::Voting::MapAndType> &<range>$L0;
 				// Server::Voting::MapAndType *<begin>$L0;
 				// Server::Voting::MapAndType *<end>$L0;
 				{
@@ -502,7 +502,7 @@ namespace Server
 			{
 				// std::string *<end>$L1;
 				// std::string *<begin>$L1;
-				// std::vector<std::string,std::allocator<std::string> > &<range>$L1;
+				// std::vector<std::string> &<range>$L1;
 				{
 					// std::string const &command;
 				}
@@ -532,7 +532,7 @@ namespace Server
 				}
 			}
 			{
-				// std::vector<std::string,std::allocator<std::string> > &<range>$L0;
+				// std::vector<std::string> &<range>$L0;
 				// std::string *<begin>$L0;
 				// std::string *<end>$L0;
 				{
@@ -588,7 +588,7 @@ namespace Server
 			{
 				// __int32 playerCount;
 				{
-					// std::vector<Server::Voting::MapAndType,std::allocator<Server::Voting::MapAndType> > voteCounts;
+					// std::vector<Server::Voting::MapAndType> voteCounts;
 					// Server::Voting::MapAndType const &winningOption;
 				}
 			}
@@ -607,7 +607,7 @@ namespace Server
 			mangled_x86(MANGLED_TODO, "?onExit@VotingSystem@Voting@Server@@UAEXXZ");
 			// Server::Voting::VotingSystem *const this;
 			{
-				// std::vector<std::string,std::allocator<std::string> > &<range>$L0;
+				// std::vector<std::string> &<range>$L0;
 				// std::string *<begin>$L0;
 				// std::string *<end>$L0;
 				{
@@ -628,7 +628,7 @@ namespace Server
 			// std::string filename;
 			// Server::Voting::VotingJson voting;
 			{
-				// std::vector<Server::Voting::HaloMap,std::allocator<Server::Voting::HaloMap> > &<range>$L0;
+				// std::vector<Server::Voting::HaloMap> &<range>$L0;
 				// Server::Voting::HaloMap *<begin>$L0;
 				// Server::Voting::HaloMap *<end>$L0;
 				{

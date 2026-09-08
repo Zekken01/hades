@@ -73,7 +73,7 @@ private:
 	EModResult m_error; // 0x8
 	WaitEvent m_pakLoadEvent; // 0xC
 	WaitEvent m_cacheLoadEvent; // 0x10
-	std::unique_ptr<c_mod_package,std::default_delete<c_mod_package> > m_pak; // 0x14
+	std::unique_ptr<c_mod_package> m_pak; // 0x14
 	std::shared_ptr<c_cache_file_interface> m_cache; // 0x18
 	EModIndex m_index; // 0x20
 	IClient *m_client; // 0x24

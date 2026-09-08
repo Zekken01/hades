@@ -38,7 +38,7 @@ public:
 	virtual void OnDownloadFinished(SServerConnectState const &) = 0;
 	virtual void OnDownloadFinalizing() = 0;
 	virtual void OnDownloadProgress(SServerConnectState::SRequiredMod const &, __int32, long long, long long, __int32) = 0;
-	virtual void ShowConfirmation(std::vector<SServerConnectState::SRequiredMod *,std::allocator<SServerConnectState::SRequiredMod *> > const &) = 0;
+	virtual void ShowConfirmation(std::vector<SServerConnectState::SRequiredMod *> const &) = 0;
 	virtual void Hide() = 0;
 	IServerConnectModDownloadUI(IServerConnectModDownloadUI const &); /* compiler_generated() */
 	_inline IServerConnectModDownloadUI(); /* compiler_generated() */

@@ -67,7 +67,7 @@ namespace Scripting
 			std::string_view description; // 0xC
 			e_hs_type returnType; // 0x14
 			void (*evaluateProc)(short, long, bool); // 0x18
-			std::vector<Scripting::HS::ScriptParameter,std::allocator<Scripting::HS::ScriptParameter> > parameters; // 0x1C
+			std::vector<Scripting::HS::ScriptParameter> parameters; // 0x1C
 			ScriptMethod(Scripting::HS::ScriptMethod &); /* compiler_generated() */
 			_inline ScriptMethod(Scripting::HS::ScriptMethod const &__that); /* compiler_generated() */
 			ScriptMethod(); /* compiler_generated() */
@@ -101,7 +101,7 @@ namespace Scripting
 		private:
 			bool m_finalized; // 0x0
 			unsigned char __pad0[3]; // 0x1
-			std::unordered_map<std::string_view,Scripting::HS::ScriptMethod,std::hash<std::string_view>,std::equal_to<std::string_view>,std::allocator<std::pair<std::string_view const ,Scripting::HS::ScriptMethod> > > m_methods; // 0x4
+			std::unordered_map<std::string_view,Scripting::HS::ScriptMethod> m_methods; // 0x4
 		public:
 			_inline ScriptMethodMap(); /* compiler_generated() */
 			~ScriptMethodMap(); /* compiler_generated() */

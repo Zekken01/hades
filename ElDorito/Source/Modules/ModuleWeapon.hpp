@@ -36,7 +36,7 @@ namespace Modules
 	{
 	public:
 		Modules::Command *VarWeaponJSON; // 0x1C
-		std::vector<std::string,std::allocator<std::string> > WeaponsJSONList; // 0x20
+		std::vector<std::string> WeaponsJSONList; // 0x20
 		ModuleWeapon();
 		~ModuleWeapon(); /* compiler_generated() */
 	};

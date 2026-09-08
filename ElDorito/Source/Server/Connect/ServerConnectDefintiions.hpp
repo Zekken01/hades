@@ -77,7 +77,7 @@ struct SServerConnectState
 	unsigned __int32 address; // 0x7C
 	unsigned char xnkid[16]; // 0x80
 	unsigned char xnaddr[16]; // 0x90
-	std::vector<SRequiredMod,std::allocator<SRequiredMod> > requiredMods; // 0xA0
+	std::vector<SRequiredMod> requiredMods; // 0xA0
 	bool modDownloadConfirmed; // 0xB0
 	SServerConnectState(SServerConnectState &); /* compiler_generated() */
 	SServerConnectState(SServerConnectState const &); /* compiler_generated() */

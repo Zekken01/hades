@@ -29,8 +29,8 @@ public:
 	_inline void Add(IModListener *listener);
 	_inline void Remove(IModListener *listener);
 private:
-	std::vector<IModListener *,std::allocator<IModListener *> > m_listeners; // 0x0
-	std::vector<IModListener *,std::allocator<IModListener *> > m_dirtyListeners; // 0x10
+	std::vector<IModListener *> m_listeners; // 0x0
+	std::vector<IModListener *> m_dirtyListeners; // 0x10
 	bool m_dirty; // 0x20
 	unsigned char __pad0[3]; // 0x21
 	std::shared_mutex m_lock; // 0x24

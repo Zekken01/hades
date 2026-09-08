@@ -159,7 +159,7 @@ namespace hades_file_local
 {
 	extern std::mutex mutex; // 0x12467960
 	extern std::condition_variable signal; // 0x12467990
-	extern std::vector<std::string,std::allocator<std::string> > playerReportUrls; // 0x124679B8
+	extern std::vector<std::string> playerReportUrls; // 0x124679B8
 	extern bool shouldExit; // 0x124679D8
 }
 using namespace hades_file_local;
@@ -243,7 +243,7 @@ bool ForwardReportToEndpoint(std::string const &endpoint, std::string const &rep
 	// HttpRequest req;
 	// std::wstring statusCode;
 	// std::string resp;
-	// std::basic_ofstream<char,std::char_traits<char> > logfile;
+	// std::ofstream logfile;
 	todo("implement");
 	bool __result = _sub_10B21ED0(endpoint, report);
 	return __result;
@@ -302,7 +302,7 @@ void ForwardReportToEndpoints(std::string const &report) // 0x10B227F0
 	// `anonymous-namespace'::ForwardReportToEndpoints
 	// std::string const &report;
 	{
-		// std::vector<std::string,std::allocator<std::string> > &<range>$L0;
+		// std::vector<std::string> &<range>$L0;
 		// std::string *<begin>$L0;
 		// std::string *<end>$L0;
 		{
@@ -332,7 +332,7 @@ bool HandleReport(std::string const &token) // 0x10B22BE0
 	// HttpRequest req;
 	// std::wstring statusCode;
 	// std::string resp;
-	// std::basic_ofstream<char,std::char_traits<char> > logfile;
+	// std::ofstream logfile;
 	{
 		// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> dewrito;
 	}

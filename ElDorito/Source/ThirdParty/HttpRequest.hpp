@@ -28,7 +28,7 @@ private:
 public:
 	__int32 lastError; // 0x1C
 	std::wstring responseHeader; // 0x20
-	std::vector<unsigned char,std::allocator<unsigned char> > responseBody; // 0x3C
+	std::vector<unsigned char> responseBody; // 0x3C
 	HttpRequest(HttpRequest &); /* compiler_generated() */
 	HttpRequest(HttpRequest const &); /* compiler_generated() */
 	HttpRequest(std::wstring const &userAgent, std::wstring const &proxyIp, std::wstring const &proxyPort);

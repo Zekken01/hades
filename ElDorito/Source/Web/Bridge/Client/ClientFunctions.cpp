@@ -481,7 +481,7 @@ namespace Web
 					// Modules::CommandMap &commandMap;
 					// bool save;
 					// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > variablesMember;
-					// std::vector<std::pair<std::string,enum VariableSetReturnValue>,std::allocator<std::pair<std::string,enum VariableSetReturnValue> > > failed;
+					// std::vector<std::pair<std::string,enum VariableSetReturnValue> > failed;
 					// rapidjson::GenericObject<1,rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > > const &jsonVariableMap;
 					{
 						// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > it;
@@ -494,7 +494,7 @@ namespace Web
 						// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
 						// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuff;
 						{
-							// std::vector<std::pair<std::string,enum VariableSetReturnValue>,std::allocator<std::pair<std::string,enum VariableSetReturnValue> > > &<range>$L0;
+							// std::vector<std::pair<std::string,enum VariableSetReturnValue> > &<range>$L0;
 							// std::pair<std::string,enum VariableSetReturnValue> *<begin>$L0;
 							// std::pair<std::string,enum VariableSetReturnValue> *<end>$L0;
 							{
@@ -548,7 +548,7 @@ namespace Web
 					// std::string *p_Result;
 					// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > fileTypesMember;
 					// std::string path;
-					// std::vector<std::string_view,std::allocator<std::string_view> > fileTypes;
+					// std::vector<std::string_view> fileTypes;
 					// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > pathMember;
 					// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > searchBaseAssetsMember;
 					// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > pakMember;
@@ -976,7 +976,7 @@ namespace Web
 					// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
 					// Modules::CommandMap const &commandMap;
 					{
-						// std::deque<Modules::Command,std::allocator<Modules::Command> > const &<range>$L0;
+						// std::deque<Modules::Command> const &<range>$L0;
 						// std::_Deque_unchecked_const_iterator<std::_Deque_val<std::_Deque_simple_types<Modules::Command> > > <begin>$L0;
 						// std::_Deque_unchecked_const_iterator<std::_Deque_val<std::_Deque_simple_types<Modules::Command> > > <end>$L0;
 						{
@@ -984,7 +984,7 @@ namespace Web
 							{
 								// std::string const *<end>$L1;
 								// std::string const *<begin>$L1;
-								// std::vector<std::string,std::allocator<std::string> > const &<range>$L1;
+								// std::vector<std::string> const &<range>$L1;
 								{
 									// std::string const &arg;
 								}

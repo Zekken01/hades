@@ -40,8 +40,8 @@ namespace ChatCommands
 	extern void Init();
 	extern bool addToVoteTimes(unsigned long long sender);
 	extern void Tick();
-	extern std::vector<std::string,std::allocator<std::string> > getHelpText();
-	extern void RegisterCommand(std::string const &name, std::string const &description, ChatCommands::CommandFlags flags, std::function<bool __cdecl(int,std::vector<std::string,std::allocator<std::string> > const &,std::string &)> &&handler);
+	extern std::vector<std::string> getHelpText();
+	extern void RegisterCommand(std::string const &name, std::string const &description, ChatCommands::CommandFlags flags, std::function<bool __cdecl(int,std::vector<std::string> const &,std::string &)> &&handler);
 	extern ChatCommands::ChatCommand *FindChatCommand(std::string const &name);
 	extern bool handleChatMessage(Server::Chat::ChatMessage const &message, __int32 peer);
 }

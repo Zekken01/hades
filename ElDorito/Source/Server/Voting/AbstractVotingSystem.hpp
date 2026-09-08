@@ -61,7 +61,7 @@ namespace Server
 			unsigned char __pad0[7]; // 0x9
 			std::function<void __cdecl(Server::Voting::MapAndType)> votePassedCallback; // 0x10
 		protected:
-			std::map<std::string,int,std::less<std::string>,std::allocator<std::pair<std::string const ,int> > > mapVotes; // 0x38
+			std::map<std::string,int> mapVotes; // 0x38
 			unsigned char __pad1[4]; // 0x44
 			long long voteStartedTime; // 0x48
 			Server::Voting::VotingMessage finalTally; // 0x50

@@ -160,12 +160,12 @@ namespace Utils
 
 /* ---------- public code */
 
-extern std::string _sub_1077E320(std::string const &, std::string const &, std::vector<std::string_view,std::allocator<std::string_view> > const &);
+extern std::string _sub_1077E320(std::string const &, std::string const &, std::vector<std::string_view> const &);
 namespace Web
 {
 	namespace Ui
 	{
-		std::string AssetService::FindAssetInModVfs(std::string const &modIdentifier, std::string const &path, std::vector<std::string_view,std::allocator<std::string_view> > const &fileTypes) // 0x1077E320
+		std::string AssetService::FindAssetInModVfs(std::string const &modIdentifier, std::string const &path, std::vector<std::string_view> const &fileTypes) // 0x1077E320
 		{
 			mangled_x86(MANGLED_TODO, "?FindAssetInModVfs@AssetService@Ui@Web@@SA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV45@0ABV?$vector@V?$basic_string_view@DU?$char_traits@D@std@@@std@@V?$allocator@V?$basic_string_view@DU?$char_traits@D@std@@@std@@@2@@5@@Z");
 			// static ...; // 0x1077E815
@@ -175,14 +175,14 @@ namespace Web
 			// static ...; // 0x1077E7C0
 			// std::string const &modIdentifier;
 			// std::string const &path;
-			// std::vector<std::string_view,std::allocator<std::string_view> > const &fileTypes;
-			// std::vector<std::string_view,std::allocator<std::string_view> > const &actualFileTypes;
+			// std::vector<std::string_view> const &fileTypes;
+			// std::vector<std::string_view> const &actualFileTypes;
 			// std::string vfsId;
 			// std::shared_ptr<CModPackageFileSystemView> vfs;
 			{
 				// CModPackageFileSystemView::SFileEntry entry;
 				{
-					// std::vector<std::string_view,std::allocator<std::string_view> > const &<range>$L0;
+					// std::vector<std::string_view> const &<range>$L0;
 					// std::string_view const *<begin>$L0;
 					// std::string_view const *<end>$L0;
 					{
@@ -200,12 +200,12 @@ namespace Web
 	}
 }
 
-extern std::string _sub_1077DCA0(std::string const &, std::vector<std::string_view,std::allocator<std::string_view> > const &);
+extern std::string _sub_1077DCA0(std::string const &, std::vector<std::string_view> const &);
 namespace Web
 {
 	namespace Ui
 	{
-		std::string AssetService::FindAssetInBaseDir(std::string const &path, std::vector<std::string_view,std::allocator<std::string_view> > const &fileTypes) // 0x1077DCA0
+		std::string AssetService::FindAssetInBaseDir(std::string const &path, std::vector<std::string_view> const &fileTypes) // 0x1077DCA0
 		{
 			mangled_x86(MANGLED_TODO, "?FindAssetInBaseDir@AssetService@Ui@Web@@SA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV45@ABV?$vector@V?$basic_string_view@DU?$char_traits@D@std@@@std@@V?$allocator@V?$basic_string_view@DU?$char_traits@D@std@@@std@@@2@@5@@Z");
 			// static ...; // 0x1077E1C3
@@ -213,11 +213,11 @@ namespace Web
 			// static ...; // 0x1077E194
 			// static ...; // 0x1077E18C
 			// std::string const &path;
-			// std::vector<std::string_view,std::allocator<std::string_view> > const &fileTypes;
-			// std::vector<std::string_view,std::allocator<std::string_view> > const &actualFileTypes;
+			// std::vector<std::string_view> const &fileTypes;
+			// std::vector<std::string_view> const &actualFileTypes;
 			// std::filesystem::path baseDir;
 			{
-				// std::vector<std::string_view,std::allocator<std::string_view> > const &<range>$L0;
+				// std::vector<std::string_view> const &<range>$L0;
 				// std::string_view const *<begin>$L0;
 				// std::string_view const *<end>$L0;
 				{

@@ -65,7 +65,7 @@ struct c_mod_system
 	static bool find_server_package_by_hash(std::string const &hash, s_mod_server_package_entry *entry);
 	static bool find_server_package_by_name(char const *name, s_mod_server_package_entry *entry);
 	static bool has_server_package_list();
-	static std::unordered_map<std::string,CModPackageFileSystemView::SFileEntry,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::pair<std::string const ,CModPackageFileSystemView::SFileEntry> > > get_package_file_list(std::string hash);
+	static std::unordered_map<std::string,CModPackageFileSystemView::SFileEntry> get_package_file_list(std::string hash);
 	static std::string GetNewPackageFilename(std::string name, std::string hash, std::string version);
 };
 static_assert(sizeof(c_mod_system) == 1, "Invalid c_mod_system size");
