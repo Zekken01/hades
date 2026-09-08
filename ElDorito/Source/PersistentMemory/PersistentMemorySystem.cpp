@@ -123,33 +123,33 @@ using namespace ::PersistentMemory;
 namespace PersistentMemory
 {
 	extern PersistentMemory::SPersistentMemoryDB LoadPersistentMemory(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &value);
-	extern bool Load(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &filename);
+	extern bool Load(std::string const &filename);
 	extern void Save();
 	extern void Init();
-	extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetLastAnnoucementViewedDate();
-	extern void SetLastAnnoucementViewedDate(std::basic_string<char,std::char_traits<char>,std::allocator<char> > annoucementViewedDate);
+	extern std::string GetLastAnnoucementViewedDate();
+	extern void SetLastAnnoucementViewedDate(std::string annoucementViewedDate);
 	extern __int32 GetLastMapID();
 	extern void SetLastMapID(__int32 mapID);
-	extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetLastMapName();
-	extern void SetLastMapName(std::basic_string<char,std::char_traits<char>,std::allocator<char> > mapName);
-	extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetLastGameType();
-	extern void SetLastGameType(std::basic_string<char,std::char_traits<char>,std::allocator<char> > gameType);
-	extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetLastMultiplayerMod();
-	extern void SetLastMultiplayerMod(std::basic_string<char,std::char_traits<char>,std::allocator<char> > multiplayerMod);
-	extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetLastCampaignMod();
-	extern void SetLastCampaignMod(std::basic_string<char,std::char_traits<char>,std::allocator<char> > campaignMod);
-	extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetLastFirefightMod();
-	extern void SetLastFirefightMod(std::basic_string<char,std::char_traits<char>,std::allocator<char> > firefightMod);
-	extern void AddMutedVoipPlayer(std::basic_string<char,std::char_traits<char>,std::allocator<char> > name, std::basic_string<char,std::char_traits<char>,std::allocator<char> > uid);
-	extern bool RemoveMutedVoipPlayer(std::basic_string<char,std::char_traits<char>,std::allocator<char> > uid);
-	extern bool PlayerIsVoipMuted(std::basic_string<char,std::char_traits<char>,std::allocator<char> > uid);
+	extern std::string GetLastMapName();
+	extern void SetLastMapName(std::string mapName);
+	extern std::string GetLastGameType();
+	extern void SetLastGameType(std::string gameType);
+	extern std::string GetLastMultiplayerMod();
+	extern void SetLastMultiplayerMod(std::string multiplayerMod);
+	extern std::string GetLastCampaignMod();
+	extern void SetLastCampaignMod(std::string campaignMod);
+	extern std::string GetLastFirefightMod();
+	extern void SetLastFirefightMod(std::string firefightMod);
+	extern void AddMutedVoipPlayer(std::string name, std::string uid);
+	extern bool RemoveMutedVoipPlayer(std::string uid);
+	extern bool PlayerIsVoipMuted(std::string uid);
 }
 
 /* ---------- globals */
 
 namespace PersistentMemory
 {
-	extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > persistentMemoryPath; // 0x11386164
+	extern std::string persistentMemoryPath; // 0x11386164
 	extern PersistentMemory::SPersistentMemoryDB persistentMemoryDB; // 0x113860A8
 }
 
@@ -253,8 +253,8 @@ namespace PersistentMemory
 		compiler_generated();
 	}
 
-	_extern bool _sub_106B5600(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-	bool Load(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &filename) // 0x106B5600
+	_extern bool _sub_106B5600(std::string const &);
+	bool Load(std::string const &filename) // 0x106B5600
 	{
 		mangled_x86(MANGLED_TODO, "?Load@PersistentMemory@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 		// static ...; // 0x106B5850
@@ -262,7 +262,7 @@ namespace PersistentMemory
 		// static ...; // 0x106B5848
 		// static ...; // 0x106B5824
 		// static ...; // 0x106B581C
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &filename;
+		// std::string const &filename;
 		// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> doc;
 		// std::basic_ifstream<char,std::char_traits<char> > stream;
 		// rapidjson::BasicIStreamWrapper<std::basic_istream<char,std::char_traits<char> > > isw;
@@ -343,7 +343,7 @@ namespace PersistentMemory
 		// static ...; // 0x106B4E50
 		// static ...; // 0x106B4E38
 		// static ...; // 0x106B4E30
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > prefsName;
+		// std::string prefsName;
 		{
 			// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
 		}
@@ -352,10 +352,10 @@ namespace PersistentMemory
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_106B4570();
+extern std::string _sub_106B4570();
 namespace PersistentMemory
 {
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetLastAnnoucementViewedDate() // 0x106B4570
+	std::string GetLastAnnoucementViewedDate() // 0x106B4570
 	{
 		mangled_x86(MANGLED_TODO, "?GetLastAnnoucementViewedDate@PersistentMemory@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 		// procedure flags: nofpo
@@ -365,10 +365,10 @@ namespace PersistentMemory
 	}
 
 	_extern void _sub_106B7C00(std::string);
-	void SetLastAnnoucementViewedDate(std::basic_string<char,std::char_traits<char>,std::allocator<char> > annoucementViewedDate) // 0x106B7C00
+	void SetLastAnnoucementViewedDate(std::string annoucementViewedDate) // 0x106B7C00
 	{
 		mangled_x86(MANGLED_TODO, "?SetLastAnnoucementViewedDate@PersistentMemory@@YAXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > annoucementViewedDate;
+		// std::string annoucementViewedDate;
 		todo("implement");
 		_sub_106B7C00(annoucementViewedDate);
 	}
@@ -393,10 +393,10 @@ namespace PersistentMemory
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_106B4750();
+extern std::string _sub_106B4750();
 namespace PersistentMemory
 {
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetLastMapName() // 0x106B4750
+	std::string GetLastMapName() // 0x106B4750
 	{
 		mangled_x86(MANGLED_TODO, "?GetLastMapName@PersistentMemory@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 		// procedure flags: nofpo
@@ -406,19 +406,19 @@ namespace PersistentMemory
 	}
 
 	_extern void _sub_106B7EB0(std::string);
-	void SetLastMapName(std::basic_string<char,std::char_traits<char>,std::allocator<char> > mapName) // 0x106B7EB0
+	void SetLastMapName(std::string mapName) // 0x106B7EB0
 	{
 		mangled_x86(MANGLED_TODO, "?SetLastMapName@PersistentMemory@@YAXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > mapName;
+		// std::string mapName;
 		todo("implement");
 		_sub_106B7EB0(mapName);
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_106B46C0();
+extern std::string _sub_106B46C0();
 namespace PersistentMemory
 {
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetLastGameType() // 0x106B46C0
+	std::string GetLastGameType() // 0x106B46C0
 	{
 		mangled_x86(MANGLED_TODO, "?GetLastGameType@PersistentMemory@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 		// procedure flags: nofpo
@@ -428,19 +428,19 @@ namespace PersistentMemory
 	}
 
 	_extern void _sub_106B7DE0(std::string);
-	void SetLastGameType(std::basic_string<char,std::char_traits<char>,std::allocator<char> > gameType) // 0x106B7DE0
+	void SetLastGameType(std::string gameType) // 0x106B7DE0
 	{
 		mangled_x86(MANGLED_TODO, "?SetLastGameType@PersistentMemory@@YAXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > gameType;
+		// std::string gameType;
 		todo("implement");
 		_sub_106B7DE0(gameType);
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_106B47C0();
+extern std::string _sub_106B47C0();
 namespace PersistentMemory
 {
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetLastMultiplayerMod() // 0x106B47C0
+	std::string GetLastMultiplayerMod() // 0x106B47C0
 	{
 		mangled_x86(MANGLED_TODO, "?GetLastMultiplayerMod@PersistentMemory@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 		// procedure flags: nofpo
@@ -450,19 +450,19 @@ namespace PersistentMemory
 	}
 
 	_extern void _sub_106B7F50(std::string);
-	void SetLastMultiplayerMod(std::basic_string<char,std::char_traits<char>,std::allocator<char> > multiplayerMod) // 0x106B7F50
+	void SetLastMultiplayerMod(std::string multiplayerMod) // 0x106B7F50
 	{
 		mangled_x86(MANGLED_TODO, "?SetLastMultiplayerMod@PersistentMemory@@YAXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > multiplayerMod;
+		// std::string multiplayerMod;
 		todo("implement");
 		_sub_106B7F50(multiplayerMod);
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_106B45E0();
+extern std::string _sub_106B45E0();
 namespace PersistentMemory
 {
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetLastCampaignMod() // 0x106B45E0
+	std::string GetLastCampaignMod() // 0x106B45E0
 	{
 		mangled_x86(MANGLED_TODO, "?GetLastCampaignMod@PersistentMemory@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 		// procedure flags: nofpo
@@ -472,19 +472,19 @@ namespace PersistentMemory
 	}
 
 	_extern void _sub_106B7CA0(std::string);
-	void SetLastCampaignMod(std::basic_string<char,std::char_traits<char>,std::allocator<char> > campaignMod) // 0x106B7CA0
+	void SetLastCampaignMod(std::string campaignMod) // 0x106B7CA0
 	{
 		mangled_x86(MANGLED_TODO, "?SetLastCampaignMod@PersistentMemory@@YAXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > campaignMod;
+		// std::string campaignMod;
 		todo("implement");
 		_sub_106B7CA0(campaignMod);
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_106B4650();
+extern std::string _sub_106B4650();
 namespace PersistentMemory
 {
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetLastFirefightMod() // 0x106B4650
+	std::string GetLastFirefightMod() // 0x106B4650
 	{
 		mangled_x86(MANGLED_TODO, "?GetLastFirefightMod@PersistentMemory@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 		// procedure flags: nofpo
@@ -494,35 +494,35 @@ namespace PersistentMemory
 	}
 
 	_extern void _sub_106B7D40(std::string);
-	void SetLastFirefightMod(std::basic_string<char,std::char_traits<char>,std::allocator<char> > firefightMod) // 0x106B7D40
+	void SetLastFirefightMod(std::string firefightMod) // 0x106B7D40
 	{
 		mangled_x86(MANGLED_TODO, "?SetLastFirefightMod@PersistentMemory@@YAXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > firefightMod;
+		// std::string firefightMod;
 		todo("implement");
 		_sub_106B7D40(firefightMod);
 	}
 
 	_extern void _sub_106B2B50(std::string, std::string);
-	void AddMutedVoipPlayer(std::basic_string<char,std::char_traits<char>,std::allocator<char> > name, std::basic_string<char,std::char_traits<char>,std::allocator<char> > uid) // 0x106B2B50
+	void AddMutedVoipPlayer(std::string name, std::string uid) // 0x106B2B50
 	{
 		mangled_x86(MANGLED_TODO, "?AddMutedVoipPlayer@PersistentMemory@@YAXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z");
 		// static ...; // 0x106B2C2C
 		// static ...; // 0x106B2C24
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > name;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > uid;
+		// std::string name;
+		// std::string uid;
 		// PersistentMemory::SPersistentMemoryDB::SPersistantMute muted;
 		todo("implement");
 		_sub_106B2B50(name, uid);
 	}
 
 	_extern bool _sub_106B7410(std::string);
-	bool RemoveMutedVoipPlayer(std::basic_string<char,std::char_traits<char>,std::allocator<char> > uid) // 0x106B7410
+	bool RemoveMutedVoipPlayer(std::string uid) // 0x106B7410
 	{
 		mangled_x86(MANGLED_TODO, "?RemoveMutedVoipPlayer@PersistentMemory@@YA_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 		// static ...; // 0x106B7578
 		// static ...; // 0x106B756C
 		// static ...; // 0x106B7564
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > uid;
+		// std::string uid;
 		{
 			// std::_Vector_iterator<std::_Vector_val<std::_Simple_types<PersistentMemory::SPersistentMemoryDB::SPersistantMute> > > it;
 		}
@@ -532,13 +532,13 @@ namespace PersistentMemory
 	}
 
 	_extern bool _sub_106B6A70(std::string);
-	bool PlayerIsVoipMuted(std::basic_string<char,std::char_traits<char>,std::allocator<char> > uid) // 0x106B6A70
+	bool PlayerIsVoipMuted(std::string uid) // 0x106B6A70
 	{
 		mangled_x86(MANGLED_TODO, "?PlayerIsVoipMuted@PersistentMemory@@YA_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 		// static ...; // 0x106B6BA4
 		// static ...; // 0x106B6B98
 		// static ...; // 0x106B6B90
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > uid;
+		// std::string uid;
 		{
 			// std::_Vector_iterator<std::_Vector_val<std::_Simple_types<PersistentMemory::SPersistentMemoryDB::SPersistantMute> > > it;
 		}

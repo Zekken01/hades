@@ -115,7 +115,7 @@ namespace hades_file_local
 	#pragma pack(push, 4)
 	struct CustomPacket
 	{
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > Name; // 0x0
+		std::string Name; // 0x0
 		std::shared_ptr<Patches::CustomPackets::RawPacketHandler> Handler; // 0x1C
 		CustomPacket(CustomPacket &); /* compiler_generated() */
 		CustomPacket(CustomPacket const &); /* compiler_generated() */
@@ -137,7 +137,7 @@ namespace Patches
 	{
 		extern void ApplyAll();
 		extern void SendPacket(__int32 targetPeer, void const *packet, __int32 packetSize);
-		extern unsigned __int32 RegisterPacketImpl(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name, std::shared_ptr<Patches::CustomPackets::RawPacketHandler> handler);
+		extern unsigned __int32 RegisterPacketImpl(std::string const &name, std::shared_ptr<Patches::CustomPackets::RawPacketHandler> handler);
 	}
 }
 
@@ -178,14 +178,14 @@ namespace Patches
 			_sub_10A50660(targetPeer, packet, packetSize);
 		}
 
-		_extern unsigned __int32 _sub_10A50480(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, std::shared_ptr<Patches::CustomPackets::RawPacketHandler>);
-		unsigned __int32 RegisterPacketImpl(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name, std::shared_ptr<Patches::CustomPackets::RawPacketHandler> handler) // 0x10A50480
+		_extern unsigned __int32 _sub_10A50480(std::string const &, std::shared_ptr<Patches::CustomPackets::RawPacketHandler>);
+		unsigned __int32 RegisterPacketImpl(std::string const &name, std::shared_ptr<Patches::CustomPackets::RawPacketHandler> handler) // 0x10A50480
 		{
 			mangled_x86(MANGLED_TODO, "?RegisterPacketImpl@CustomPackets@Patches@@YAIABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$shared_ptr@VRawPacketHandler@CustomPackets@Patches@@@4@@Z");
 			// static ...; // 0x10A505F0
 			// static ...; // 0x10A505D8
 			// static ...; // 0x10A505D0
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name;
+			// std::string const &name;
 			// std::shared_ptr<Patches::CustomPackets::RawPacketHandler> handler;
 			// unsigned __int32 guid;
 			// CustomPacket packet;

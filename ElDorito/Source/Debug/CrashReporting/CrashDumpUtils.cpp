@@ -64,9 +64,9 @@ namespace Debug
 	{
 		extern bool IsRunningUnderProton();
 		extern bool GetOSVersionInfo(_OSVERSIONINFOW *info);
-		extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetFriendlyOSName();
-		extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetCPUName();
-		extern bool GetGPUInfo(std::basic_string<char,std::char_traits<char>,std::allocator<char> > &description, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &driverVersion);
+		extern std::string GetFriendlyOSName();
+		extern std::string GetCPUName();
+		extern bool GetGPUInfo(std::string &description, std::string &driverVersion);
 	}
 }
 
@@ -108,12 +108,12 @@ namespace Debug
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_1068A260();
+extern std::string _sub_1068A260();
 namespace Debug
 {
 	namespace CrashReporting
 	{
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetFriendlyOSName() // 0x1068A260
+		std::string GetFriendlyOSName() // 0x1068A260
 		{
 			mangled_x86(MANGLED_TODO, "?GetFriendlyOSName@CrashReporting@Debug@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 			// procedure flags: nofpo
@@ -130,12 +130,12 @@ namespace Debug
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_1068A060();
+extern std::string _sub_1068A060();
 namespace Debug
 {
 	namespace CrashReporting
 	{
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetCPUName() // 0x1068A060
+		std::string GetCPUName() // 0x1068A060
 		{
 			mangled_x86(MANGLED_TODO, "?GetCPUName@CrashReporting@Debug@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 			// procedure flags: nofpo
@@ -157,8 +157,8 @@ namespace Debug
 			return __result;
 		}
 
-		_extern bool _sub_1068A4F0(std::basic_string<char,std::char_traits<char>,std::allocator<char> > &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
-		bool GetGPUInfo(std::basic_string<char,std::char_traits<char>,std::allocator<char> > &description, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &driverVersion) // 0x1068A4F0
+		_extern bool _sub_1068A4F0(std::string &, std::string &);
+		bool GetGPUInfo(std::string &description, std::string &driverVersion) // 0x1068A4F0
 		{
 			mangled_x86(MANGLED_TODO, "?GetGPUInfo@CrashReporting@Debug@@YA_NAAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z");
 			// static ...; // 0x1068A68D
@@ -166,8 +166,8 @@ namespace Debug
 			// static ...; // 0x1068A67C
 			// static ...; // 0x1068A64C
 			// static ...; // 0x1068A644
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &description;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &driverVersion;
+			// std::string &description;
+			// std::string &driverVersion;
 			// __int32 Build;
 			// __int32 currentGpuAdapterIndex;
 			// _D3DADAPTER_IDENTIFIER9 *adapter;

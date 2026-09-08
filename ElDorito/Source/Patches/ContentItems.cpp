@@ -206,9 +206,9 @@ namespace Patches
 }
 
 bool AddContentItem(wchar_t *itemPath);
-bool AddContentItem(std::basic_string<char,std::char_traits<char>,std::allocator<char> > itemPath);
+bool AddContentItem(std::string itemPath);
 void GetFilePathForItem(wchar_t *dest, unsigned __int32 MaxCount, wchar_t *variantName, __int32 variantType);
-void AddAllBLFContentItems(std::basic_string<char,std::char_traits<char>,std::allocator<char> > path);
+void AddAllBLFContentItems(std::string path);
 char CallsXEnumerateHook();
 char FS_GetFiloForContentItemHook(c_content_item *contentItem, void *unused, void *filo);
 wchar_t *FS_GetFilePathForContentItemHook(c_content_item *contentItem, void *unused, wchar_t *dest, unsigned __int32 MaxCount);
@@ -272,7 +272,7 @@ bool AddContentItem(wchar_t *itemPath) // 0x10A3A620
 	// wchar_t *itemPath;
 	// __int32 dataIdx;
 	// __int32 (*globalsArrayPush)(void *);
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > path;
+	// std::string path;
 	// unsigned char *dataBasePtr;
 	// long fileSize;
 	// _iobuf *file;
@@ -293,14 +293,14 @@ bool AddContentItem(wchar_t *itemPath) // 0x10A3A620
 }
 
 _extern bool _sub_10A3AAF0(std::string);
-bool AddContentItem(std::basic_string<char,std::char_traits<char>,std::allocator<char> > itemPath) // 0x10A3AAF0
+bool AddContentItem(std::string itemPath) // 0x10A3AAF0
 {
 	// `anonymous-namespace'::AddContentItem
 	// static ...; // 0x10A3ABE0
 	// static ...; // 0x10A3ABD4
 	// static ...; // 0x10A3ABCC
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > itemPath;
-	// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > unicode;
+	// std::string itemPath;
+	// std::wstring unicode;
 	todo("implement");
 	bool __result = _sub_10A3AAF0(itemPath);
 	return __result;
@@ -326,17 +326,17 @@ void GetFilePathForItem(wchar_t *dest, unsigned __int32 MaxCount, wchar_t *varia
 }
 
 _extern void _sub_10A3A2F0(std::string);
-void AddAllBLFContentItems(std::basic_string<char,std::char_traits<char>,std::allocator<char> > path) // 0x10A3A2F0
+void AddAllBLFContentItems(std::string path) // 0x10A3A2F0
 {
 	// `anonymous-namespace'::AddAllBLFContentItems
 	// static ...; // 0x10A3A56C
 	// static ...; // 0x10A3A560
 	// static ...; // 0x10A3A558
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > path;
+	// std::string path;
 	// dirent *entry;
 	// DIR *dp;
 	{
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > filePath;
+		// std::string filePath;
 	}
 	todo("implement");
 	_sub_10A3A2F0(path);
@@ -352,9 +352,9 @@ char CallsXEnumerateHook() // 0x10A3C6B0
 	// static ...; // 0x10A3C964
 	// static ...; // 0x10A3C940
 	// static ...; // 0x10A3C938
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > mapsPath;
+	// std::string mapsPath;
 	// char currentDir[128];
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > variantPath;
+	// std::string variantPath;
 	// function call : unsigned long (unsigned long, char *)
 	todo("implement");
 	char __result = _sub_10A3C6B0();
@@ -371,7 +371,7 @@ char FS_GetFiloForContentItemHook(c_content_item *contentItem, void *unused, voi
 	// void *unused;
 	// void *filo;
 	// std::filesystem::path path;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > relativePath;
+	// std::string relativePath;
 	// void *(*fsCallsSetupFiloStruct2)(void *, wchar_t const *, char);
 	// function call : void *(*)(void *, wchar_t const *, char)
 	todo("implement");
@@ -389,7 +389,7 @@ wchar_t *FS_GetFilePathForContentItemHook(c_content_item *contentItem, void *unu
 	// wchar_t *dest;
 	// unsigned __int32 MaxCount;
 	// std::filesystem::path path;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > relativePath;
+	// std::string relativePath;
 	todo("implement");
 	wchar_t * __result = _sub_10A3CEF0(contentItem, unused, dest, MaxCount);
 	return __result;
@@ -409,10 +409,10 @@ bool ContainsForbiddenCharacters(wchar_t *namePtr) // 0x10A3CA40
 	// static ...; // 0x10A3CD70
 	// wchar_t *namePtr;
 	// std::initializer_list<char> illegalChars;
-	// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > temp;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > current_directory;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > name;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > parent_directory;
+	// std::wstring temp;
+	// std::string current_directory;
+	// std::string name;
+	// std::string parent_directory;
 	{
 		// std::initializer_list<char> &<range>$L0;
 		// char const *<begin>$L0;
@@ -450,7 +450,7 @@ bool c_content_item__init_hook(c_content_item *thisptr, void *unused, __int32 co
 	// __int32 a7;
 	// __int32 (*const sub_5244C0)(__int32);
 	// wchar_t buff[128];
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > itemPath;
+	// std::string itemPath;
 	// std::filesystem::path relativePath;
 	// function call : __int32 (*const)(__int32)
 	todo("implement");

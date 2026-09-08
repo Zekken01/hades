@@ -144,10 +144,10 @@ namespace Server
 		extern bool ReloadVetoJson(bool loadFileFromDisc);
 		extern void Tick();
 		extern void PlayerJoinedVoteInProgress(__int32 playerIndex);
-		extern void PlayerLeftVoting(std::basic_string<char,std::char_traits<char>,std::allocator<char> > name);
+		extern void PlayerLeftVoting(std::string name);
 		extern void StartNewVote();
 		extern bool CancelVoteInProgress();
-		extern void LogVote(Server::Voting::VotingMessage const &message, std::basic_string<char,std::char_traits<char>,std::allocator<char> > name);
+		extern void LogVote(Server::Voting::VotingMessage const &message, std::string name);
 	}
 }
 
@@ -172,8 +172,8 @@ namespace Server
 	{
 		namespace hades_file_local_Server_Voting
 		{
-			extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > const DefaultTypes[8]; // 0x12468668
-			extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > const DefaultTypeNames[8]; // 0x12468758
+			extern std::string const DefaultTypes[8]; // 0x12468668
+			extern std::string const DefaultTypeNames[8]; // 0x12468758
 		}
 		using namespace hades_file_local_Server_Voting;
 	}
@@ -337,13 +337,13 @@ namespace Server
 		}
 
 		_extern void _sub_10C43C90(std::string);
-		void PlayerLeftVoting(std::basic_string<char,std::char_traits<char>,std::allocator<char> > name) // 0x10C43C90
+		void PlayerLeftVoting(std::string name) // 0x10C43C90
 		{
 			mangled_x86(MANGLED_TODO, "?PlayerLeftVoting@Voting@Server@@YAXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 			// static ...; // 0x10C43DB4
 			// static ...; // 0x10C43DA8
 			// static ...; // 0x10C43DA0
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > name;
+			// std::string name;
 			// Blam::Network::Session *session;
 			// Server::Voting::VotingMessage message;
 			todo("implement");
@@ -393,10 +393,10 @@ namespace Server
 		}
 
 		_extern void _sub_10C43800(Server::Voting::VotingMessage const &, std::string);
-		void LogVote(Server::Voting::VotingMessage const &message, std::basic_string<char,std::char_traits<char>,std::allocator<char> > name) // 0x10C43800
+		void LogVote(Server::Voting::VotingMessage const &message, std::string name) // 0x10C43800
 		{
 			mangled_x86(MANGLED_TODO, "?LogVote@Voting@Server@@YAXABUVotingMessage@12@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > name;
+			// std::string name;
 			// Blam::Network::Session *session;
 			{
 				// std::vector<Server::Voting::AbstractVotingSystem *,std::allocator<Server::Voting::AbstractVotingSystem *> > &<range>$L0;

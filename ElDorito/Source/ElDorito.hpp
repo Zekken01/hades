@@ -33,27 +33,27 @@ private:
 	bool isBotClient; // 0x3
 	bool isHighPriority; // 0x4
 	unsigned char __pad0[3]; // 0x5
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > mapsFolder; // 0x8
+	std::string mapsFolder; // 0x8
 	bool webDebugging; // 0x24
 	bool webDebugLogging; // 0x25
 	unsigned char __pad1[2]; // 0x26
 	__int32 webdebugPort; // 0x28
 	bool connectToServer; // 0x2C
 	unsigned char __pad2[3]; // 0x2D
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > serverAddress; // 0x30
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > serverPassword; // 0x4C
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > instanceName; // 0x68
+	std::string serverAddress; // 0x30
+	std::string serverPassword; // 0x4C
+	std::string instanceName; // 0x68
 public:
 	static _inline void SetMainThreadID(unsigned __int32 ThreadID);
 	static _inline unsigned __int32 GetMainThreadID();
 	ElDorito();
 	~ElDorito();
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetDirectory();
+	std::string GetDirectory();
 	void Initialize();
 	void Shutdown();
 	void Tick();
 	void OnMainMenuShown();
-	_inline std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetMapsFolder() const;
+	_inline std::string GetMapsFolder() const;
 	_inline bool IsWebDebuggingEnabled() const;
 	_inline __int32 GetWebDebugPort() const;
 	_inline bool IsWebDebugLoggingEnabled() const;
@@ -62,12 +62,12 @@ public:
 	_inline bool IsHeadless() const;
 	_inline bool IsHighPriority() const;
 	_inline bool IsConnectingToServer() const;
-	_inline std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetInstanceName() const;
+	_inline std::string GetInstanceName() const;
 private:
 	static unsigned __int32 MainThreadID;
 	static bool (*Video_InitD3D)(bool, bool);
-	void setWatermarkText(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &Message);
-	void SetMapsFolder(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &path);
+	void setWatermarkText(std::string const &Message);
+	void SetMapsFolder(std::string const &path);
 };
 #pragma pack(pop)
 static_assert(sizeof(ElDorito) == 132, "Invalid ElDorito size");
@@ -76,7 +76,7 @@ static_assert(sizeof(ElDorito) == 132, "Invalid ElDorito size");
 
 extern bool CanAccessFolder(char const *folderName, unsigned long genericAccessRights);
 extern bool EnsureChildProcessTermination();
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetExceptionMessage(_EXCEPTION_RECORD const &exceptionRecord);
+extern std::string GetExceptionMessage(_EXCEPTION_RECORD const &exceptionRecord);
 extern long __stdcall TopLevelExceptionFilter(_EXCEPTION_POINTERS *ExceptionInfo);
 extern __int32 __stdcall WinMainHook(HINSTANCE__ *hInstance, HINSTANCE__ *hPrevInstance, char *lpCmdLine, __int32 nCmdShow);
 extern __int32 InitInstance(HINSTANCE__ *hModule);
@@ -107,8 +107,8 @@ _inline unsigned __int32 ElDorito::GetMainThreadID() // 0x10923830
 	return __result;
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_1074E5C0(ElDorito const *const);
-_inline std::basic_string<char,std::char_traits<char>,std::allocator<char> > ElDorito::GetMapsFolder() const // 0x1074E5C0
+extern std::string _sub_1074E5C0(ElDorito const *const);
+_inline std::string ElDorito::GetMapsFolder() const // 0x1074E5C0
 {
 	mangled_x86(MANGLED_TODO, "?GetMapsFolder@ElDorito@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 	// ElDorito const *const this;
@@ -183,8 +183,8 @@ _inline bool ElDorito::IsConnectingToServer() const // 0x10CAABD0
 	return connectToServer;
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_106B4470(ElDorito const *const);
-_inline std::basic_string<char,std::char_traits<char>,std::allocator<char> > ElDorito::GetInstanceName() const // 0x106B4470
+extern std::string _sub_106B4470(ElDorito const *const);
+_inline std::string ElDorito::GetInstanceName() const // 0x106B4470
 {
 	mangled_x86(MANGLED_TODO, "?GetInstanceName@ElDorito@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 	// ElDorito const *const this;

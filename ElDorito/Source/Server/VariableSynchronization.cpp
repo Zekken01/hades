@@ -283,7 +283,7 @@ unsigned __int32 GenerateID(SynchronizationBinding const &binding) // 0x10C3C5F0
 	// static ...; // 0x10C3C6E8
 	// static ...; // 0x10C3C6E0
 	// SynchronizationBinding const &binding;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > str;
+	// std::string str;
 	// unsigned __int32 result;
 	todo("implement");
 	unsigned __int32 __result = _sub_10C3C5F0(binding);
@@ -328,9 +328,9 @@ void SetVariable(Modules::Command *var, Modules::Command const *value) // 0x10C3
 	// Modules::Command *var;
 	// Modules::Command const *value;
 	{
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > returnInfo;
+		// std::string returnInfo;
 	}
-	// function call : bool (*)(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &)
+	// function call : bool (*)(std::vector<std::string,std::allocator<std::string> > const &, std::string &)
 	todo("implement");
 	_sub_10C3D1A0(var, value);
 }
@@ -349,9 +349,9 @@ void SetVariable(Modules::Command *var, SyncUpdatePacketVar const *value) // 0x1
 	// Modules::Command *var;
 	// SyncUpdatePacketVar const *value;
 	{
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > returnInfo;
+		// std::string returnInfo;
 	}
-	// function call : bool (*)(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &)
+	// function call : bool (*)(std::vector<std::string,std::allocator<std::string> > const &, std::string &)
 	todo("implement");
 	_sub_10C3D4F0(var, value);
 }

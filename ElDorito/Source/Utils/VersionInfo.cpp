@@ -45,9 +45,9 @@ namespace Utils
 	namespace Version
 	{
 		extern unsigned __int32 GetVersionInt();
-		extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetVersionString();
-		extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetCompatibleVersionString();
-		extern bool IsVersionCompatible(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &versionString);
+		extern std::string GetVersionString();
+		extern std::string GetCompatibleVersionString();
+		extern bool IsVersionCompatible(std::string const &versionString);
 	}
 }
 
@@ -71,12 +71,12 @@ namespace Utils
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10C60DB0();
+extern std::string _sub_10C60DB0();
 namespace Utils
 {
 	namespace Version
 	{
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetVersionString() // 0x10C60DB0
+		std::string GetVersionString() // 0x10C60DB0
 		{
 			mangled_x86(MANGLED_TODO, "?GetVersionString@Version@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 			// procedure flags: nofpo
@@ -87,12 +87,12 @@ namespace Utils
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10C60D20();
+extern std::string _sub_10C60D20();
 namespace Utils
 {
 	namespace Version
 	{
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetCompatibleVersionString() // 0x10C60D20
+		std::string GetCompatibleVersionString() // 0x10C60D20
 		{
 			mangled_x86(MANGLED_TODO, "?GetCompatibleVersionString@Version@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 			// procedure flags: nofpo
@@ -101,8 +101,8 @@ namespace Utils
 			return __result;
 		}
 
-		_extern bool _sub_10C60E20(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-		bool IsVersionCompatible(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &versionString) // 0x10C60E20
+		_extern bool _sub_10C60E20(std::string const &);
+		bool IsVersionCompatible(std::string const &versionString) // 0x10C60E20
 		{
 			mangled_x86(MANGLED_TODO, "?IsVersionCompatible@Version@Utils@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 			// static ...; // 0x10C61086
@@ -110,7 +110,7 @@ namespace Utils
 			// static ...; // 0x10C61070
 			// static ...; // 0x10C6104C
 			// static ...; // 0x10C61044
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &versionString;
+			// std::string const &versionString;
 			// Utils::SemanticVersion version;
 			// Utils::SemanticVersion minVersion;
 			// Utils::SemanticVersion maxVersion;

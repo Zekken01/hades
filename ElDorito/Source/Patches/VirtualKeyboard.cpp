@@ -143,12 +143,12 @@ namespace Blam
 //class WebVirtualKeyboardHandler::__l2::<lambda_1>
 //{
 //public:
-//	void operator()(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &) const;
+//	void operator()(std::string const &) const;
 //	<lambda_1>(WebVirtualKeyboardHandler::__l2::<lambda_1> &);
 //	<lambda_1>(WebVirtualKeyboardHandler::__l2::<lambda_1> const &);
-//	<lambda_1>(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+//	<lambda_1>(std::string const &);
 //private:
-//	std::basic_string<char,std::char_traits<char>,std::allocator<char> > defaultValue; // 0x0
+//	std::string defaultValue; // 0x0
 //public:
 //	WebVirtualKeyboardHandler::__l2::<lambda_1> &operator=(WebVirtualKeyboardHandler::__l2::<lambda_1> const &);
 //	~<lambda_1>(); /* compiler_generated() */
@@ -294,10 +294,10 @@ void WebVirtualKeyboardHandler(Blam::Input::VirtualKeyboard *keyboard) // 0x10AE
 	// static ...; // 0x10AEC2C4
 	// Blam::Input::VirtualKeyboard *keyboard;
 	// Web::Ui::ScreenLayer::SDialogShowParams params;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > defaultValue;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > description;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > templateName;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > title;
+	// std::string defaultValue;
+	// std::string description;
+	// std::string templateName;
+	// std::string title;
 	todo("implement");
 	_sub_10AEC080(keyboard);
 }

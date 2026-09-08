@@ -52,8 +52,8 @@ namespace Steam
 		// Steam::SteamLoader *const this;
 		{
 			// static char pathBuffer[65536]; // 0x1246B930
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > steamDllPath;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > steamDirectory;
+			// std::string steamDllPath;
+			// std::string steamDirectory;
 		}
 		// function call : unsigned long (char const *, char *, unsigned long)
 		// function call : __int32 (char const *, char const *)
@@ -122,10 +122,10 @@ namespace Steam
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10C52300(Steam::SteamLoader *const);
+extern std::string _sub_10C52300(Steam::SteamLoader *const);
 namespace Steam
 {
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > SteamLoader::GetSteamDllPath() // 0x10C52300
+	std::string SteamLoader::GetSteamDllPath() // 0x10C52300
 	{
 		mangled_x86(MANGLED_TODO, "?GetSteamDllPath@SteamLoader@Steam@@AAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 		// static ...; // 0x10C52417
@@ -141,15 +141,15 @@ namespace Steam
 		return __result;
 	}
 
-	_extern void _sub_10C52820(Steam::SteamLoader *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-	void SteamLoader::LoadGameOverlayRenderer(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &baseDllPath) // 0x10C52820
+	_extern void _sub_10C52820(Steam::SteamLoader *const, std::string const &);
+	void SteamLoader::LoadGameOverlayRenderer(std::string const &baseDllPath) // 0x10C52820
 	{
 		mangled_x86(MANGLED_TODO, "?LoadGameOverlayRenderer@SteamLoader@Steam@@AAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 		// static ...; // 0x10C52928
 		// static ...; // 0x10C52920
 		// Steam::SteamLoader *const this;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &baseDllPath;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > overlayDllPath;
+		// std::string const &baseDllPath;
+		// std::string overlayDllPath;
 		// function call : HINSTANCE__ *(char const *)
 		todo("implement");
 		_sub_10C52820(this, baseDllPath);

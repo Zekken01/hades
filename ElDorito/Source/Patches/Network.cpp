@@ -298,7 +298,7 @@ void network_session_send_peer_establish_hook(c_network_session *thisPtr, void *
 char *Network_GetIPStringFromInAddr(void *inaddr);
 unsigned __int32 GetPlayerPropertiesPacketSize();
 void RegisterPlayerPropertiesPacketHook(void *thisPtr, void *unused, __int32 packetId, char const *packetName, __int32 arg8, __int32 size1, __int32 size2, void *serializeFunc, void *deserializeFunc, __int32 arg1C, __int32 arg20);
-bool IsNameNotAllowed(std::basic_string<char,std::char_traits<char>,std::allocator<char> > name);
+bool IsNameNotAllowed(std::string name);
 void SanitizePlayerName(wchar_t *name);
 void ApplyPlayerPropertiesExtended(Blam::Network::SessionMembership *thisPtr, void *unused, __int32 playerIndex, unsigned __int32 arg4, unsigned __int32 arg8, unsigned char *data, unsigned __int32 arg10);
 bool Network_leader_request_boot_machineHook(void *thisPtr, void *unused, Blam::Network::PeerInfo *peer, __int32 reason);
@@ -346,7 +346,7 @@ namespace Server
 {
 	namespace hades_file_local_Server
 	{
-		extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > DefaultBanListPath; // 0x12464800
+		extern std::string DefaultBanListPath; // 0x12464800
 	}
 	using namespace hades_file_local_Server;
 }
@@ -362,8 +362,8 @@ namespace Server
 	{
 		namespace hades_file_local_Server_Voting
 		{
-			extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > const DefaultTypes[8]; // 0x12464610
-			extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > const DefaultTypeNames[8]; // 0x124646F0
+			extern std::string const DefaultTypes[8]; // 0x12464610
+			extern std::string const DefaultTypeNames[8]; // 0x124646F0
 		}
 		using namespace hades_file_local_Server_Voting;
 	}
@@ -560,7 +560,7 @@ void RegisterPlayerPropertiesPacketHook(void *thisPtr, void *unused, __int32 pac
 }
 
 _extern bool _sub_10A98410(std::string);
-bool IsNameNotAllowed(std::basic_string<char,std::char_traits<char>,std::allocator<char> > name) // 0x10A98410
+bool IsNameNotAllowed(std::string name) // 0x10A98410
 {
 	// `anonymous-namespace'::IsNameNotAllowed
 	// static ...; // 0x10A98577
@@ -568,13 +568,13 @@ bool IsNameNotAllowed(std::basic_string<char,std::char_traits<char>,std::allocat
 	// static ...; // 0x10A9856C
 	// static ...; // 0x10A98548
 	// static ...; // 0x10A98540
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > name;
+	// std::string name;
 	{
-		// std::unordered_set<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::hash<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::equal_to<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > &<range>$L0;
-		// std::_List_unchecked_const_iterator<std::_List_val<std::_List_simple_types<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > >,std::_Iterator_base0> <begin>$L0;
-		// std::_List_unchecked_const_iterator<std::_List_val<std::_List_simple_types<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > >,std::_Iterator_base0> <end>$L0;
+		// std::unordered_set<std::string,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::string> > &<range>$L0;
+		// std::_List_unchecked_const_iterator<std::_List_val<std::_List_simple_types<std::string> >,std::_Iterator_base0> <begin>$L0;
+		// std::_List_unchecked_const_iterator<std::_List_val<std::_List_simple_types<std::string> >,std::_Iterator_base0> <end>$L0;
 		{
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > s;
+			// std::string s;
 		}
 	}
 	todo("implement");
@@ -597,7 +597,7 @@ void SanitizePlayerName(wchar_t *name) // 0x10A9ABC0
 		// bool allowed;
 	}
 	{
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > lowercasename;
+		// std::string lowercasename;
 	}
 	todo("implement");
 	_sub_10A9ABC0(name);
@@ -623,8 +623,8 @@ void ApplyPlayerPropertiesExtended(Blam::Network::SessionMembership *thisPtr, vo
 	// bool isNewMember;
 	// s_player_configuration *properties;
 	// Blam::Network::Session *session;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > uidStr;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > name;
+	// std::string uidStr;
+	// std::string name;
 	// void (*const ApplyPlayerProperties)(void *, __int32, unsigned __int32, unsigned __int32, void *, unsigned __int32);
 	{
 		// long currentTeamIndex;
@@ -671,7 +671,7 @@ bool Network_leader_request_boot_machineHook(void *thisPtr, void *unused, Blam::
 	// void *unused;
 	// Blam::Network::PeerInfo *peer;
 	// __int32 reason;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > playerName;
+	// std::string playerName;
 	// Blam::Network::SessionMembership *membership;
 	// __int32 playerIndex;
 	// __int32 peerIndex;
@@ -782,7 +782,7 @@ char Network_Session_Membership_Remove_Peer_Hook(c_network_session_membership *t
 	// long peer_index;
 	// constexpr char (*const `Network_Session_Membership_Remove_Peer_Hook'::`2'::c_network_session_membership__remove_peer)(c_network_session_membership *, long); // constant == 4521520
 	{
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > playerName;
+		// std::string playerName;
 		// __int32 playerIdx;
 		// Blam::Network::SessionMembership *membership;
 	}
@@ -897,7 +897,7 @@ void LifeCycleStateChangedHookImpl(Blam::Network::LifeCycleState newState) // 0x
 	// static ...; // 0x10A98AE0
 	// Blam::Network::LifeCycleState newState;
 	{
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > previousValue;
+		// std::string previousValue;
 	}
 	{
 		// std::vector<std::function<void __cdecl(enum Blam::Network::LifeCycleState)>,std::allocator<std::function<void __cdecl(enum Blam::Network::LifeCycleState)> > > &<range>$L0;

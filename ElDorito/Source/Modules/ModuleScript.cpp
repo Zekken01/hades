@@ -76,9 +76,9 @@ namespace Scripting
 
 /* ---------- prototypes */
 
-bool CommandGenerateMethodDecl(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &retValue);
-bool CommandScriptHelp(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &retValue);
-bool CommandGenerateDoc(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &retValue);
+bool CommandGenerateMethodDecl(std::vector<std::string,std::allocator<std::string> > const &args, std::string &retValue);
+bool CommandScriptHelp(std::vector<std::string,std::allocator<std::string> > const &args, std::string &retValue);
+bool CommandGenerateDoc(std::vector<std::string,std::allocator<std::string> > const &args, std::string &retValue);
 
 /* ---------- globals */
 
@@ -94,7 +94,7 @@ namespace Utils
 namespace Modules
 {
 	extern ModuleScript* _sub_106D3590(Modules::ModuleScript *const);
-	ModuleScript::ModuleScript() : ModuleBase(todo_result<std::basic_string<char,std::char_traits<char>,std::allocator<char> >>()) // 0x106D3590
+	ModuleScript::ModuleScript() : ModuleBase(todo_result<std::string>()) // 0x106D3590
 	{
 		mangled_x86(MANGLED_TODO, "??0ModuleScript@Modules@@QAE@XZ");
 		// Modules::ModuleScript *const this;
@@ -144,11 +144,11 @@ namespace Scripting
 
 /* ---------- private code */
 
-_extern bool _sub_106D4200(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
-bool CommandGenerateMethodDecl(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &retValue) // 0x106D4200
+_extern bool _sub_106D4200(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
+bool CommandGenerateMethodDecl(std::vector<std::string,std::allocator<std::string> > const &args, std::string &retValue) // 0x106D4200
 {
 	// `anonymous-namespace'::CommandGenerateMethodDecl
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &retValue;
+	// std::string &retValue;
 	// Scripting::HS::ScriptMethod const *method;
 	// Scripting::HS::ScriptMethodMap &methods;
 	todo("implement");
@@ -156,11 +156,11 @@ bool CommandGenerateMethodDecl(std::vector<std::basic_string<char,std::char_trai
 	return __result;
 }
 
-_extern bool _sub_106D4330(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
-bool CommandScriptHelp(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &retValue) // 0x106D4330
+_extern bool _sub_106D4330(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
+bool CommandScriptHelp(std::vector<std::string,std::allocator<std::string> > const &args, std::string &retValue) // 0x106D4330
 {
 	// `anonymous-namespace'::CommandScriptHelp
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &retValue;
+	// std::string &retValue;
 	// Scripting::HS::ScriptMethod const *method;
 	// Scripting::HS::ScriptMethodMap &methods;
 	todo("implement");
@@ -168,16 +168,16 @@ bool CommandScriptHelp(std::vector<std::basic_string<char,std::char_traits<char>
 	return __result;
 }
 
-_extern bool _sub_106D3FE0(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
-bool CommandGenerateDoc(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &retValue) // 0x106D3FE0
+_extern bool _sub_106D3FE0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
+bool CommandGenerateDoc(std::vector<std::string,std::allocator<std::string> > const &args, std::string &retValue) // 0x106D3FE0
 {
 	// `anonymous-namespace'::CommandGenerateDoc
 	// static ...; // 0x106D4174
 	// static ...; // 0x106D415C
 	// static ...; // 0x106D4154
-	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &args;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &retValue;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > documentation;
+	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::string &retValue;
+	// std::string documentation;
 	// std::basic_ofstream<char,std::char_traits<char> > outFile;
 	// Scripting::HS::ScriptMethodMap &methods;
 	todo("implement");

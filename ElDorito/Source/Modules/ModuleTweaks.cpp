@@ -72,7 +72,7 @@ namespace Patches
 namespace Modules
 {
 	extern ModuleTweaks* _sub_10A223E0(Modules::ModuleTweaks *const);
-	ModuleTweaks::ModuleTweaks() : ModuleBase(todo_result<std::basic_string<char,std::char_traits<char>,std::allocator<char> >>()) // 0x10A223E0
+	ModuleTweaks::ModuleTweaks() : ModuleBase(todo_result<std::string>()) // 0x10A223E0
 	{
 		mangled_x86(MANGLED_TODO, "??0ModuleTweaks@Modules@@QAE@XZ");
 		// Modules::ModuleTweaks *const this;

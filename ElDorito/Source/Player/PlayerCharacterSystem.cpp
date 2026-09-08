@@ -232,11 +232,11 @@ using namespace hades_file_local;
 long game_engine_get_random_global_player_character_type_index(long character_set_index);
 long game_engine_get_random_global_player_character_set_index();
 long game_engine_get_player_character_type_index(long character_set_index, long index);
-std::basic_string<char,std::char_traits<char>,std::allocator<char> > const GetPlayerTeamDesginatorName(__int32 playerIndex);
+std::string const GetPlayerTeamDesginatorName(__int32 playerIndex);
 long game_engine_get_player_character_type_index(long player_index);
 void *GetCharacterChudGlobals(__int32 characterTypeIndex);
 __int32 GetPreferredCharacterType(__int32 playerIndex);
-std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetPreferredCharacterName();
+std::string GetPreferredCharacterName();
 __int32 OverridePlayerCharacter(__int32 playerIndex);
 void OnLifeCycleChanged(Blam::Network::LifeCycleState newState);
 void OnServerVotePassed(Server::Voting::MapAndType const &winner);
@@ -253,15 +253,15 @@ namespace Server
 	{
 		namespace hades_file_local_Server_Voting
 		{
-			extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > const DefaultTypes[8]; // 0x12408FF8
-			extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > const DefaultTypeNames[8]; // 0x124090D8
+			extern std::string const DefaultTypes[8]; // 0x12408FF8
+			extern std::string const DefaultTypeNames[8]; // 0x124090D8
 		}
 		using namespace hades_file_local_Server_Voting;
 	}
 }
 namespace hades_file_local
 {
-	extern std::map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,Server::Voting::HaloType::CharacterOverride,std::less<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,Server::Voting::HaloType::CharacterOverride> > > votingCharacterOverrides; // 0x124091B8
+	extern std::map<std::string,Server::Voting::HaloType::CharacterOverride,std::less<std::string>,std::allocator<std::pair<std::string const ,Server::Voting::HaloType::CharacterOverride> > > votingCharacterOverrides; // 0x124091B8
 	extern __int32 prevUpdateNumber; // 0x124091C4
 	extern __int32 currentUpdateNumber; // 0x124091C8
 	extern std::shared_ptr<c_cache_file_tag_cache> globalBaseTagCache; // 0x124091CC
@@ -314,7 +314,7 @@ namespace Player
 		// static ...; // 0x1090274C
 		// static ...; // 0x10902744
 		{
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > prefsName;
+			// std::string prefsName;
 			{
 				// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
 			}
@@ -410,14 +410,14 @@ namespace Player
 		_sub_10902F20(playerIndex);
 	}
 
-	_extern bool _sub_109018B0(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, s_player_model_customization &);
-	bool CPlayerCharacterSystem::BuildCharacterCustomization(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &characterName, s_player_model_customization &customization) // 0x109018B0
+	_extern bool _sub_109018B0(std::string const &, s_player_model_customization &);
+	bool CPlayerCharacterSystem::BuildCharacterCustomization(std::string const &characterName, s_player_model_customization &customization) // 0x109018B0
 	{
 		mangled_x86(MANGLED_TODO, "?BuildCharacterCustomization@CPlayerCharacterSystem@Player@@SA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAUs_player_model_customization@@@Z");
 		// static ...; // 0x109019C4
 		// static ...; // 0x109019AC
 		// static ...; // 0x109019A4
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &characterName;
+		// std::string const &characterName;
 		// s_player_model_customization &customization;
 		// Player::CPlayerCharacterCustomizationBuilder builder;
 		// s_player_character_customiztion tmp;
@@ -496,8 +496,8 @@ long game_engine_get_player_character_type_index(long character_set_index, long 
 	return __result;
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > const _sub_10901C20(__int32);
-std::basic_string<char,std::char_traits<char>,std::allocator<char> > const GetPlayerTeamDesginatorName(__int32 playerIndex) // 0x10901C20
+extern std::string const _sub_10901C20(__int32);
+std::string const GetPlayerTeamDesginatorName(__int32 playerIndex) // 0x10901C20
 {
 	// `anonymous-namespace'::GetPlayerTeamDesginatorName
 	// __int32 playerIndex;
@@ -507,7 +507,7 @@ std::basic_string<char,std::char_traits<char>,std::allocator<char> > const GetPl
 	// function call : c_game_engine *(*const)()
 	// function call : long (*)(c_game_engine *, __int32)
 	todo("implement");
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > const __result = _sub_10901C20(playerIndex);
+	std::string const __result = _sub_10901C20(playerIndex);
 	return __result;
 }
 
@@ -573,8 +573,8 @@ _inline ModListener::~ModListener() // 0x10901000
 	compiler_generated();
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10901DF0();
-std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetPreferredCharacterName() // 0x10901DF0
+extern std::string _sub_10901DF0();
+std::string GetPreferredCharacterName() // 0x10901DF0
 {
 	// `anonymous-namespace'::GetPreferredCharacterName
 	// procedure flags: nofpo
@@ -585,14 +585,14 @@ std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetPreferre
 	// static ...; // 0x10902178
 	// static ...; // 0x1090213C
 	// static ...; // 0x10902134
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > modHash;
+	// std::string modHash;
 	// Player::CPlayerCustomizationDB &customizationDB;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > preferredCharacter;
+	// std::string preferredCharacter;
 	{
 		// c_mod_package_manager::s_entry entry;
 		// unsigned char hash[20];
 		{
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > filename;
+			// std::string filename;
 		}
 	}
 	todo("implement");
@@ -609,9 +609,9 @@ __int32 OverridePlayerCharacter(__int32 playerIndex) // 0x10902BE0
 	// static ...; // 0x10902E48
 	// static ...; // 0x10902E40
 	// __int32 playerIndex;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > teamDesignator;
+	// std::string teamDesignator;
 	{
-		// std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,Server::Voting::HaloType::CharacterOverride> > > > it;
+		// std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,Server::Voting::HaloType::CharacterOverride> > > > it;
 		{
 			// __int32 characterSetIndex;
 			{

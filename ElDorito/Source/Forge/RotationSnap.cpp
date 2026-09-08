@@ -207,7 +207,7 @@ void SetSnap(__int32 value) // 0x109719E0
 	// static ...; // 0x10971BE4
 	// static ...; // 0x10971BDC
 	// __int32 value;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > prev;
+	// std::string prev;
 	// static void (*`SetSnap'::`2'::PrintKillFeedText)(unsigned __int32, wchar_t *, __int32); // 0x11353DC8
 	// static Modules::ModuleForge &`SetSnap'::`2'::moduleForge; // 0x1244FA50
 	// wchar_t buff[256];

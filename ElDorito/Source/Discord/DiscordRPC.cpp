@@ -141,7 +141,7 @@ void OnShutdown();
 namespace hades_file_local
 {
 	extern char const *APPLICATION_ID; // 0x11353AE0
-	extern std::pair<std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> >,bool> const ipGetter[3]; // 0x1240DA40
+	extern std::pair<std::wstring,bool> const ipGetter[3]; // 0x1240DA40
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -149,10 +149,10 @@ using namespace hades_file_local;
 namespace Discord
 {
 	_extern void _sub_10953000(Discord::DiscordRPC *const, std::string);
-	void DiscordRPC::SetJoinString(std::basic_string<char,std::char_traits<char>,std::allocator<char> > join) // 0x10953000
+	void DiscordRPC::SetJoinString(std::string join) // 0x10953000
 	{
 		mangled_x86(MANGLED_TODO, "?SetJoinString@DiscordRPC@Discord@@QAEXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > join;
+		// std::string join;
 		todo("implement");
 		_sub_10953000(this, join);
 	}
@@ -320,9 +320,9 @@ unsigned long DiscordRetrieveExternalIP_Thread(void *lpParam) // 0x10952610
 	{
 		// __int32 i;
 		{
-			// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > respHdr;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > extIp;
-			// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > expected;
+			// std::wstring respHdr;
+			// std::string extIp;
+			// std::wstring expected;
 		}
 	}
 	todo("implement");

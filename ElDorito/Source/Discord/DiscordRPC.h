@@ -31,17 +31,17 @@ namespace Discord
 	{
 	public:
 		DiscordRichPresence discordPresence; // 0x0
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > detailString; // 0x48
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > mapString; // 0x64
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > gameTypeString; // 0x80
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > matchSecret; // 0x9C
+		std::string detailString; // 0x48
+		std::string mapString; // 0x64
+		std::string gameTypeString; // 0x80
+		std::string matchSecret; // 0x9C
 		std::mutex joinMtx; // 0xB8
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > joinString; // 0xE8
+		std::string joinString; // 0xE8
 	private:
 		long long lastUpdate; // 0x108
 		long long const discordUpdateTime; // 0x110
 	public:
-		void SetJoinString(std::basic_string<char,std::char_traits<char>,std::allocator<char> > join);
+		void SetJoinString(std::string join);
 		void Update();
 		void UpdatePresence(__int32 networkMode);
 		void UpdatePresence();

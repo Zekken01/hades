@@ -420,7 +420,7 @@ void CServerConnectStateHandler_AcquireMods::EnterFailedState(Download::EDownloa
 {
 	mangled_x86(MANGLED_TODO, "?EnterFailedState@CServerConnectStateHandler_AcquireMods@@AAEXW4EDownloadError@Download@@@Z");
 	// Download::EDownloadError error;
-	// function call : void (std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &)
+	// function call : void (std::string const &)
 	todo("implement");
 	_sub_10907340(this, error);
 }
@@ -477,7 +477,7 @@ void CServerConnectStateHandler_AcquireMods::HandleSignatureVerificationResult(S
 	// s_mod_package_id hash;
 	// s_mod_origin_info origin;
 	{
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &identifier;
+		// std::string const &identifier;
 		// std::error_code err;
 	}
 	todo("implement");

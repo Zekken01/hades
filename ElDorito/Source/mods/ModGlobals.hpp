@@ -51,8 +51,8 @@ namespace Mods
 {
 	struct CModGlobals
 	{
-		static __int32 FindCharacterSet(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name);
-		static __int32 FindCharacterInSet(__int32 characterSetIndex, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name);
+		static __int32 FindCharacterSet(std::string const &name);
+		static __int32 FindCharacterInSet(__int32 characterSetIndex, std::string const &name);
 		static __int32 GetCharacterVisionModeGlobals(__int32 characterTypeIndex);
 		static __int32 GetCharacterHudGlobals(__int32 characterTypeIndex);
 		static bool GetCharacterDefaultColors(__int32 characterTypeIndex, unsigned long *colors);

@@ -51,9 +51,9 @@ namespace Forge
 {
 	namespace Prefabs
 	{
-		extern bool Save(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &author, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &name, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &path);
-		extern bool Load(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &path);
-		extern bool ReadHeader(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &path, Forge::Prefabs::PrefabHeader &header);
+		extern bool Save(std::string const &author, std::string &name, std::string const &path);
+		extern bool Load(std::string const &path);
+		extern bool ReadHeader(std::string const &path, Forge::Prefabs::PrefabHeader &header);
 	}
 }
 

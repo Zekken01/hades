@@ -88,8 +88,8 @@ namespace Modules
 		ModuleInput();
 		static Blam::Input::BindingsTable *GetBindings();
 		static void UpdateBindings();
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > ExportBindings() const;
-		bool IsCommandBound(std::basic_string<char,std::char_traits<char>,std::allocator<char> > command);
+		std::string ExportBindings() const;
+		bool IsCommandBound(std::string command);
 		~ModuleInput(); /* compiler_generated() */
 	};
 }

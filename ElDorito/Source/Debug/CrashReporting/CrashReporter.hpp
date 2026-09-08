@@ -44,7 +44,7 @@ namespace Debug
 			public:
 			struct s_exception
 			{
-				std::basic_string<char,std::char_traits<char>,std::allocator<char> > msg; // 0x0
+				std::string msg; // 0x0
 				unsigned __int32 code; // 0x1C
 				unsigned __int32 flags; // 0x20
 				unsigned __int32 address; // 0x24
@@ -61,9 +61,9 @@ namespace Debug
 			// padding could not be reconstructed.
 			public:
 			_CONTEXT *ctx; // 0x0
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > info; // 0x4
+			std::string info; // 0x4
 			s_exception exception; // 0x20
-			std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > tag_history; // 0x4C
+			std::vector<std::string,std::allocator<std::string> > tag_history; // 0x4C
 			s_crash_info(Debug::CrashReporting::s_crash_info &); /* compiler_generated() */
 			s_crash_info(Debug::CrashReporting::s_crash_info const &); /* compiler_generated() */
 			_inline s_crash_info(); /* compiler_generated() */
@@ -89,7 +89,7 @@ namespace Debug
 		extern void BuildStackTraceJSON(_CONTEXT const &ctx, rapidjson::PrettyWriter<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer);
 		extern void AddSystemInfo(rapidjson::PrettyWriter<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer);
 		extern void WriteDumpForCrashReporter(rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> &buffer, Debug::CrashReporting::s_crash_info const &crash);
-		extern bool LaunchExternalCrashReporter(std::basic_string<char,std::char_traits<char>,std::allocator<char> > &LaunchCommand);
+		extern bool LaunchExternalCrashReporter(std::string &LaunchCommand);
 		extern void ReportCrash(Debug::CrashReporting::s_crash_info const &crash);
 	}
 }

@@ -107,12 +107,12 @@ namespace Download
 		virtual _inline __int32 GetDownloadSpeed() const;
 		virtual Download::EDownloadStatus GetStatus() const;
 		virtual Download::EDownloadError GetError() const;
-		virtual std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetFilePath() const;
+		virtual std::string GetFilePath() const;
 		virtual float GetProgress() const;
 		virtual void Start();
 		virtual void Cancel();
-		void SetUrl(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &url);
-		void SetDestinationFile(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &filepath);
+		void SetUrl(std::string const &url);
+		void SetDestinationFile(std::string const &filepath);
 		void SetMaxConnections(__int32 num);
 		void SetReceiveBufferSize(__int32 size);
 		void SetMaxRetries(__int32 count);
@@ -137,8 +137,8 @@ namespace Download
 		void OnHttpResponse(SSegment *segment, std::shared_ptr<Http::IHttpRequest> request);
 		void OnHttpRequestComplete(SSegment *segment, std::shared_ptr<Http::IHttpRequest> request, bool success);
 		bool OnHttpReadData(SSegment *segment, std::shared_ptr<Http::IHttpRequest> request, char const *buffer, unsigned __int32 length);
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > m_destinationFilePath; // 0x20
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > m_url; // 0x3C
+		std::string m_destinationFilePath; // 0x20
+		std::string m_url; // 0x3C
 		__int32 m_maxConnections; // 0x58
 		__int32 m_minSegmentSize; // 0x5C
 		__int32 m_maxSegmentRetryCount; // 0x60
@@ -162,8 +162,8 @@ namespace Download
 		unsigned char __pad2[4]; // 0xFC
 		long long m_downloadedBytes; // 0x100
 		long long m_totalBytes; // 0x108
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > m_etag; // 0x110
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > m_lastModified; // 0x12C
+		std::string m_etag; // 0x110
+		std::string m_lastModified; // 0x12C
 		std::atomic<bool> m_supportsSegmentation; // 0x148
 	unsigned char __pad3[7]; // 0x149
 	};

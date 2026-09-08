@@ -83,38 +83,38 @@ namespace Blam
 
 /* ---------- public code */
 
-extern CModPackageFileSystemView* _sub_10880470(CModPackageFileSystemView *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-CModPackageFileSystemView::CModPackageFileSystemView(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &filePath) // 0x10880470
+extern CModPackageFileSystemView* _sub_10880470(CModPackageFileSystemView *const, std::string const &);
+CModPackageFileSystemView::CModPackageFileSystemView(std::string const &filePath) // 0x10880470
 {
 	mangled_x86(MANGLED_TODO, "??0CModPackageFileSystemView@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &filePath;
+	// std::string const &filePath;
 	todo("implement");
 	_sub_10880470(this, filePath);
 }
 
-_extern bool _sub_10881150(CModPackageFileSystemView *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, CModPackageFileSystemView::SFileEntry *);
-bool CModPackageFileSystemView::GetFileEntry(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &virtualPath, CModPackageFileSystemView::SFileEntry *outEntry) // 0x10881150
+_extern bool _sub_10881150(CModPackageFileSystemView *const, std::string const &, CModPackageFileSystemView::SFileEntry *);
+bool CModPackageFileSystemView::GetFileEntry(std::string const &virtualPath, CModPackageFileSystemView::SFileEntry *outEntry) // 0x10881150
 {
 	mangled_x86(MANGLED_TODO, "?GetFileEntry@CModPackageFileSystemView@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAUSFileEntry@1@@Z");
 	// static ...; // 0x10881298
 	// CModPackageFileSystemView *const this;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &virtualPath;
+	// std::string const &virtualPath;
 	// CModPackageFileSystemView::SFileEntry *outEntry;
 	{
-		// std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,CModPackageFileSystemView::SFileEntry> > > > it;
+		// std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<std::string const ,CModPackageFileSystemView::SFileEntry> > > > it;
 	}
 	todo("implement");
 	bool __result = _sub_10881150(this, virtualPath, outEntry);
 	return __result;
 }
 
-extern std::unordered_map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,CModPackageFileSystemView::SFileEntry,std::hash<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::equal_to<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,CModPackageFileSystemView::SFileEntry> > > _sub_10881310(CModPackageFileSystemView *const);
-std::unordered_map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,CModPackageFileSystemView::SFileEntry,std::hash<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::equal_to<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,CModPackageFileSystemView::SFileEntry> > > CModPackageFileSystemView::GetFileList() // 0x10881310
+extern std::unordered_map<std::string,CModPackageFileSystemView::SFileEntry,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::pair<std::string const ,CModPackageFileSystemView::SFileEntry> > > _sub_10881310(CModPackageFileSystemView *const);
+std::unordered_map<std::string,CModPackageFileSystemView::SFileEntry,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::pair<std::string const ,CModPackageFileSystemView::SFileEntry> > > CModPackageFileSystemView::GetFileList() // 0x10881310
 {
 	mangled_x86(MANGLED_TODO, "?GetFileList@CModPackageFileSystemView@@QAE?AV?$unordered_map@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@USFileEntry@CModPackageFileSystemView@@U?$hash@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@U?$equal_to@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@USFileEntry@CModPackageFileSystemView@@@std@@@2@@std@@XZ");
 	// CModPackageFileSystemView *const this;
 	todo("implement");
-	std::unordered_map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,CModPackageFileSystemView::SFileEntry,std::hash<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::equal_to<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,CModPackageFileSystemView::SFileEntry> > > __result = _sub_10881310(this);
+	std::unordered_map<std::string,CModPackageFileSystemView::SFileEntry,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::pair<std::string const ,CModPackageFileSystemView::SFileEntry> > > __result = _sub_10881310(this);
 	return __result;
 }
 

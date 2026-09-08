@@ -119,9 +119,9 @@ namespace Blam
 
 /* ---------- prototypes */
 
-bool CommandHelp(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
-bool CommandExecute(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
-bool CommandWriteConfig(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool CommandHelp(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
+bool CommandExecute(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
+bool CommandWriteConfig(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
 
 /* ---------- globals */
 
@@ -143,7 +143,7 @@ namespace Utils
 namespace Modules
 {
 	extern ElModules* _sub_108BE780(Modules::ElModules *const);
-	ElModules::ElModules() : ModuleBase(todo_result<std::basic_string<char,std::char_traits<char>,std::allocator<char> >>()) // 0x108BE780
+	ElModules::ElModules() : ModuleBase(todo_result<std::string>()) // 0x108BE780
 	{
 		mangled_x86(MANGLED_TODO, "??0ElModules@Modules@@QAE@XZ");
 		// Modules::ElModules *const this;
@@ -154,18 +154,18 @@ namespace Modules
 
 /* ---------- private code */
 
-_extern bool _sub_108BF6A0(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
-bool CommandHelp(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x108BF6A0
+_extern bool _sub_108BF6A0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
+bool CommandHelp(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x108BF6A0
 {
 	// `anonymous-namespace'::CommandHelp
 	// static ...; // 0x108BF9B4
 	// static ...; // 0x108BF99C
 	// static ...; // 0x108BF994
-	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::string &returnInfo;
 	// Modules::CommandMap &commandMap;
 	{
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > cmdName;
+		// std::string cmdName;
 		// Modules::Command *cmd;
 		{
 			// bool isModule;
@@ -179,27 +179,27 @@ bool CommandHelp(std::vector<std::basic_string<char,std::char_traits<char>,std::
 	return __result;
 }
 
-_extern bool _sub_108BF290(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
-bool CommandExecute(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x108BF290
+_extern bool _sub_108BF290(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
+bool CommandExecute(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x108BF290
 {
 	// `anonymous-namespace'::CommandExecute
 	// static ...; // 0x108BF5C0
 	// static ...; // 0x108BF5A8
 	// static ...; // 0x108BF5A0
-	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::string &returnInfo;
 	// std::basic_ifstream<char,std::char_traits<char> > in;
 	{
 		// bool stopOnFirstError;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > contents;
+		// std::string contents;
 	}
 	todo("implement");
 	bool __result = _sub_108BF290(Arguments, returnInfo);
 	return __result;
 }
 
-_extern bool _sub_108BFA90(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
-bool CommandWriteConfig(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x108BFA90
+_extern bool _sub_108BFA90(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
+bool CommandWriteConfig(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x108BFA90
 {
 	// `anonymous-namespace'::CommandWriteConfig
 	// static ...; // 0x108C045F
@@ -214,16 +214,16 @@ bool CommandWriteConfig(std::vector<std::basic_string<char,std::char_traits<char
 	// static ...; // 0x108C0418
 	// static ...; // 0x108C0394
 	// static ...; // 0x108C038C
-	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
-	// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > wide_ed_appdata;
+	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::string &returnInfo;
+	// std::wstring wide_ed_appdata;
 	// std::basic_ofstream<char,std::char_traits<char> > outKeys;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > prefsFile;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > prefsName;
+	// std::string prefsFile;
+	// std::string prefsName;
 	// wchar_t *localAppdata;
 	// std::basic_ofstream<char,std::char_traits<char> > outFile;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > ed_appdata;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > keyFile;
+	// std::string ed_appdata;
+	// std::string keyFile;
 	{
 		// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
 		// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > keystream;

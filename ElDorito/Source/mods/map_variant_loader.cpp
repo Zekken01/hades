@@ -133,7 +133,7 @@ using namespace hades_file_local;
 
 namespace hades_file_local
 {
-	extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > stored_blf; // 0x123B8A40
+	extern std::string stored_blf; // 0x123B8A40
 	extern e_map_variant_load_error last_error; // 0x123B8A5C
 }
 using namespace hades_file_local;
@@ -189,7 +189,7 @@ bool c_map_variant_loader::load_from_file(char const *filename, s_map_variant *o
 	// char const *filename;
 	// s_map_variant *out_map_variant;
 	// char logmessage[4096];
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > buffer;
+	// std::string buffer;
 	// c_file_reference file;
 	// unsigned long file_size;
 	// c_file_open_scope scope;
@@ -217,7 +217,7 @@ bool c_map_variant_loader::load_default(long map_id, s_map_variant *out_map_vari
 	// static ...; // 0x1088B208
 	// long map_id;
 	// s_map_variant *out_map_variant;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > map_file_buffer;
+	// std::string map_file_buffer;
 	// unsigned long map_blf_offset;
 	// unsigned char *map_blf;
 	// unsigned long map_blf_size;

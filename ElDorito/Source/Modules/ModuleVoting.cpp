@@ -119,9 +119,9 @@ namespace Blam
 
 /* ---------- prototypes */
 
-bool ReloadJson(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
-bool VarVotingSystemUpdated(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
-bool CommandServerCancelVote(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool ReloadJson(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
+bool VarVotingSystemUpdated(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
+bool CommandServerCancelVote(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
 
 /* ---------- globals */
 
@@ -138,8 +138,8 @@ namespace Server
 	{
 		namespace hades_file_local_Server_Voting
 		{
-			extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > const DefaultTypes[8]; // 0x11387E88
-			extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > const DefaultTypeNames[8]; // 0x11387F68
+			extern std::string const DefaultTypes[8]; // 0x11387E88
+			extern std::string const DefaultTypeNames[8]; // 0x11387F68
 		}
 		using namespace hades_file_local_Server_Voting;
 	}
@@ -149,7 +149,7 @@ namespace Server
 namespace Modules
 {
 	extern ModuleVoting* _sub_106D5100(Modules::ModuleVoting *const);
-	ModuleVoting::ModuleVoting() : ModuleBase(todo_result<std::basic_string<char,std::char_traits<char>,std::allocator<char> >>()) // 0x106D5100
+	ModuleVoting::ModuleVoting() : ModuleBase(todo_result<std::string>()) // 0x106D5100
 	{
 		mangled_x86(MANGLED_TODO, "??0ModuleVoting@Modules@@QAE@XZ");
 		// Modules::ModuleVoting *const this;
@@ -160,11 +160,11 @@ namespace Modules
 
 /* ---------- private code */
 
-_extern bool _sub_106D6110(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
-bool ReloadJson(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x106D6110
+_extern bool _sub_106D6110(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
+bool ReloadJson(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x106D6110
 {
 	// `anonymous-namespace'::ReloadJson
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// std::string &returnInfo;
 	// unsigned long VotingType;
 	// bool loadFileFromDisc;
 	todo("implement");
@@ -172,11 +172,11 @@ bool ReloadJson(std::vector<std::basic_string<char,std::char_traits<char>,std::a
 	return __result;
 }
 
-_extern bool _sub_106D6210(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
-bool VarVotingSystemUpdated(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x106D6210
+_extern bool _sub_106D6210(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
+bool VarVotingSystemUpdated(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x106D6210
 {
 	// `anonymous-namespace'::VarVotingSystemUpdated
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// std::string &returnInfo;
 	// Blam::Network::Session *session;
 	// function call : bool (*const)()
 	todo("implement");
@@ -184,11 +184,11 @@ bool VarVotingSystemUpdated(std::vector<std::basic_string<char,std::char_traits<
 	return __result;
 }
 
-_extern bool _sub_106D5F80(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
-bool CommandServerCancelVote(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x106D5F80
+_extern bool _sub_106D5F80(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
+bool CommandServerCancelVote(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x106D5F80
 {
 	// `anonymous-namespace'::CommandServerCancelVote
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// std::string &returnInfo;
 	todo("implement");
 	bool __result = _sub_106D5F80(Arguments, returnInfo);
 	return __result;

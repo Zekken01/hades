@@ -77,14 +77,14 @@ namespace Blam
 
 namespace Mods
 {
-	_extern __int32 _sub_10788160(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-	__int32 CModGlobals::FindCharacterSet(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name) // 0x10788160
+	_extern __int32 _sub_10788160(std::string const &);
+	__int32 CModGlobals::FindCharacterSet(std::string const &name) // 0x10788160
 	{
 		mangled_x86(MANGLED_TODO, "?FindCharacterSet@CModGlobals@Mods@@SAHABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 		// static ...; // 0x107882EC
 		// static ...; // 0x107882E0
 		// static ...; // 0x107882D8
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name;
+		// std::string const &name;
 		// s_mod_globals_definition *modg;
 		// std::shared_ptr<Blam::Cache::StringIDCache> stringCache;
 		{
@@ -98,14 +98,14 @@ namespace Mods
 		return __result;
 	}
 
-	_extern __int32 _sub_10787EF0(__int32, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-	__int32 CModGlobals::FindCharacterInSet(__int32 characterSetIndex, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name) // 0x10787EF0
+	_extern __int32 _sub_10787EF0(__int32, std::string const &);
+	__int32 CModGlobals::FindCharacterInSet(__int32 characterSetIndex, std::string const &name) // 0x10787EF0
 	{
 		mangled_x86(MANGLED_TODO, "?FindCharacterInSet@CModGlobals@Mods@@SAHHABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 		// static ...; // 0x107880C8
 		// static ...; // 0x107880C0
 		// __int32 characterSetIndex;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name;
+		// std::string const &name;
 		// s_mod_globals_player_character_set const &set;
 		// s_mod_globals_definition *modg;
 		// std::shared_ptr<Blam::Cache::StringIDCache> stringCache;

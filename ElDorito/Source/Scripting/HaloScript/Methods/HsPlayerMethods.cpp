@@ -203,7 +203,7 @@ void hs_player_get_uid_evaluate(short op, long thread_index, bool initial) // 0x
 				// Blam::Network::Session *session;
 				{
 					// Blam::Network::PlayerSession &playerSession;
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > buff;
+					// std::string buff;
 				}
 			}
 		}
@@ -231,7 +231,7 @@ void hs_player_name_evaluate(short op, long thread_index, bool initial) // 0x106
 				// Blam::Network::Session *session;
 				{
 					// Blam::Network::PlayerSession &playerSession;
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > name;
+					// std::string name;
 				}
 			}
 		}

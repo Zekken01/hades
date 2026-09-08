@@ -25,7 +25,7 @@ namespace Http
 {
 	struct SContentRangeHeader
 	{
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > unit; // 0x0
+		std::string unit; // 0x0
 		unsigned char __pad0[4]; // 0x1C
 		long long rangeStart; // 0x20
 		long long rangeEnd; // 0x28
@@ -44,8 +44,8 @@ namespace Http
 
 namespace Http
 {
-	extern bool ParseSize(std::basic_string_view<char,std::char_traits<char> > s, long long &value);
-	extern bool ParseContentRangeHeader(std::basic_string_view<char,std::char_traits<char> > header, Http::SContentRangeHeader &parsedHeader);
+	extern bool ParseSize(std::string_view s, long long &value);
+	extern bool ParseContentRangeHeader(std::string_view header, Http::SContentRangeHeader &parsedHeader);
 }
 
 /* ---------- globals */

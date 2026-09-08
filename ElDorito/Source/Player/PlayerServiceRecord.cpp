@@ -160,7 +160,7 @@ using namespace ::Blam;
 
 void GetServiceRecordEndpoint();
 bool ValidNetworkPlayerIndex(__int32 networkPlayerIndex);
-std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > processNumber(__int32 num);
+std::wstring processNumber(__int32 num);
 void clearCachedServiceRecords();
 
 /* ---------- globals */
@@ -177,7 +177,7 @@ namespace hades_file_local
 	extern ::Player::ServiceRecord::ServiceRecord ServiceRecords[16]; // 0x113861C8
 	extern ::Player::ServiceRecord::ServiceRecordPlayer currentDesiredRecord; // 0x11387948
 	extern bool threadActive; // 0x11387994
-	extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > serviceRecordEndpoint; // 0x11387978
+	extern std::string serviceRecordEndpoint; // 0x11387978
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -215,9 +215,9 @@ namespace Player
 			// Player::ServiceRecord::ServiceRecordPlayer playerRecord;
 			{
 				// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > sendObject;
-				// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > expected;
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > resp;
+				// std::string sendObject;
+				// std::wstring expected;
+				// std::string resp;
 				{
 					// __int32 id;
 				}
@@ -466,8 +466,8 @@ bool ValidNetworkPlayerIndex(__int32 networkPlayerIndex) // 0x106C9A30
 	return __result;
 }
 
-extern std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > _sub_106CA7E0(__int32);
-std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > processNumber(__int32 num) // 0x106CA7E0
+extern std::wstring _sub_106CA7E0(__int32);
+std::wstring processNumber(__int32 num) // 0x106CA7E0
 {
 	// `anonymous-namespace'::processNumber
 	// static ...; // 0x106CAA18
@@ -482,7 +482,7 @@ std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > pr
 		// double numInM;
 	}
 	todo("implement");
-	std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > __result = _sub_106CA7E0(num);
+	std::wstring __result = _sub_106CA7E0(num);
 	return __result;
 }
 

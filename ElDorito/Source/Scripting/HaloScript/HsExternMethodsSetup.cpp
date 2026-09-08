@@ -102,7 +102,7 @@ namespace Scripting
 {
 	namespace HS
 	{
-		extern void ValidateExternScript(s_hs_script const *script, Scripting::HS::ScriptMethod const *method, std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > &errors);
+		extern void ValidateExternScript(s_hs_script const *script, Scripting::HS::ScriptMethod const *method, std::vector<std::string,std::allocator<std::string> > &errors);
 		extern void InitializeMethodsForNewMap();
 	}
 }
@@ -117,11 +117,11 @@ namespace Scripting
 {
 	namespace HS
 	{
-		_extern void _sub_106EF0C0(s_hs_script const *, Scripting::HS::ScriptMethod const *, std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > &);
-		void ValidateExternScript(s_hs_script const *script, Scripting::HS::ScriptMethod const *method, std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > &errors) // 0x106EF0C0
+		_extern void _sub_106EF0C0(s_hs_script const *, Scripting::HS::ScriptMethod const *, std::vector<std::string,std::allocator<std::string> > &);
+		void ValidateExternScript(s_hs_script const *script, Scripting::HS::ScriptMethod const *method, std::vector<std::string,std::allocator<std::string> > &errors) // 0x106EF0C0
 		{
 			mangled_x86(MANGLED_TODO, "?ValidateExternScript@HS@Scripting@@YAXPBUs_hs_script@@PBUScriptMethod@12@AAV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@@Z");
-			// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > &errors;
+			// std::vector<std::string,std::allocator<std::string> > &errors;
 			{
 				// __int32 i;
 				{
@@ -142,7 +142,7 @@ namespace Scripting
 			// static ...; // 0x106EEFF4
 			// static ...; // 0x106EEFEC
 			// Scripting::HS::ScriptMethodMap &methodMap;
-			// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > validationErrors;
+			// std::vector<std::string,std::allocator<std::string> > validationErrors;
 			// s_scenario *scnr;
 			{
 				// __int32 i;
@@ -151,11 +151,11 @@ namespace Scripting
 					{
 						// Scripting::HS::ScriptMethod const *method;
 						{
-							// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > &<range>$L0;
-							// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *<begin>$L0;
-							// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *<end>$L0;
+							// std::vector<std::string,std::allocator<std::string> > &<range>$L0;
+							// std::string *<begin>$L0;
+							// std::string *<end>$L0;
 							{
-								// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &error;
+								// std::string const &error;
 							}
 						}
 					}

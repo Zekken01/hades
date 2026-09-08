@@ -196,17 +196,17 @@ namespace Web
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > const _sub_10C83F20(Web::Browser::WebEmblemRenderHandler const *const);
+extern std::string const _sub_10C83F20(Web::Browser::WebEmblemRenderHandler const *const);
 namespace Web
 {
 	namespace Browser
 	{
-		_inline std::basic_string<char,std::char_traits<char>,std::allocator<char> > const WebEmblemRenderHandler::GetMimeType() const // 0x10C83F20
+		_inline std::string const WebEmblemRenderHandler::GetMimeType() const // 0x10C83F20
 		{
 			mangled_x86(MANGLED_TODO, "?GetMimeType@WebEmblemRenderHandler@Browser@Web@@QBE?BV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 			// Web::Browser::WebEmblemRenderHandler const *const this;
 			todo("implement");
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > const __result = _sub_10C83F20((Web::Browser::WebEmblemRenderHandler const *)this);
+			std::string const __result = _sub_10C83F20((Web::Browser::WebEmblemRenderHandler const *)this);
 			return __result;
 		}
 
@@ -255,7 +255,7 @@ namespace Web
 			// std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<CefStringBase<CefStringTraitsUTF16> const ,CefStringBase<CefStringTraitsUTF16> > > > > it;
 			// s_player_emblem_configuration config;
 			// std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16>,std::less<CefStringBase<CefStringTraitsUTF16> >,std::allocator<std::pair<CefStringBase<CefStringTraitsUTF16> const ,CefStringBase<CefStringTraitsUTF16> > > > requestHeaders;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > url;
+			// std::string url;
 			// CefStringBase<CefStringTraitsUTF16> origin;
 			// function call : void (std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16>,std::less<CefStringBase<CefStringTraitsUTF16> >,std::allocator<std::pair<CefStringBase<CefStringTraitsUTF16> const ,CefStringBase<CefStringTraitsUTF16> > > > &)
 			// function call : CefStringBase<CefStringTraitsUTF16> ()

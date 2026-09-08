@@ -248,7 +248,7 @@ void CModBrowserManager::OnDownloadAborted(EModBrowserAbortReason reason) // 0x1
 	// CModBrowserManager *const this;
 	// EModBrowserAbortReason reason;
 	// Web::Ui::ScreenLayer::SDialogShowParams dialogParams;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > message;
+	// std::string message;
 	todo("implement");
 	_sub_1070C750(this, reason);
 }

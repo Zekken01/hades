@@ -168,10 +168,10 @@ namespace Web
 				// Web::Browser::Bridge::WebRendererQueryHandler::PendingQuery *query;
 				// char const *method;
 				// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> &json;
-				// std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::function<enum Web::Browser::Bridge::QueryError __cdecl(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &,std::basic_string<char,std::char_traits<char>,std::allocator<char> > *)> > > > > methodIt;
+				// std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<std::string const ,std::function<enum Web::Browser::Bridge::QueryError __cdecl(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &,std::string *)> > > > > methodIt;
 				// rapidjson::GenericMemberIterator<0,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > s_MethodMember;
 				// rapidjson::GenericMemberIterator<0,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > argsMember;
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > s_RequestStr;
+				// std::string s_RequestStr;
 				// function call : void (__int32, CefStringBase<CefStringTraitsUTF16> const &)
 				// function call : void (__int32, CefStringBase<CefStringTraitsUTF16> const &)
 				// function call : void (__int32, CefStringBase<CefStringTraitsUTF16> const &)
@@ -208,11 +208,11 @@ namespace Web
 				_sub_10C71F40(this, browser, frame, queryId);
 			}
 
-			_extern void _sub_10C70ED0(Web::Browser::Bridge::WebRendererQueryHandler *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, std::function<enum Web::Browser::Bridge::QueryError __cdecl(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &,std::basic_string<char,std::char_traits<char>,std::allocator<char> > *)> const &);
-			void WebRendererQueryHandler::AddMethod(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name, std::function<enum Web::Browser::Bridge::QueryError __cdecl(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &,std::basic_string<char,std::char_traits<char>,std::allocator<char> > *)> const &method) // 0x10C70ED0
+			_extern void _sub_10C70ED0(Web::Browser::Bridge::WebRendererQueryHandler *const, std::string const &, std::function<enum Web::Browser::Bridge::QueryError __cdecl(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &,std::string *)> const &);
+			void WebRendererQueryHandler::AddMethod(std::string const &name, std::function<enum Web::Browser::Bridge::QueryError __cdecl(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &,std::string *)> const &method) // 0x10C70ED0
 			{
 				mangled_x86(MANGLED_TODO, "?AddMethod@WebRendererQueryHandler@Bridge@Browser@Web@@QAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV?$function@$$A6A?AW4QueryError@Bridge@Browser@Web@@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z@6@@Z");
-				// std::function<enum Web::Browser::Bridge::QueryError __cdecl(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &,std::basic_string<char,std::char_traits<char>,std::allocator<char> > *)> const &method;
+				// std::function<enum Web::Browser::Bridge::QueryError __cdecl(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &,std::string *)> const &method;
 				todo("implement");
 				_sub_10C70ED0(this, name, method);
 			}
@@ -231,7 +231,7 @@ namespace Web
 				{
 					// std::unique_ptr<Web::Browser::Bridge::WebRendererQueryHandler::PendingQuery,std::default_delete<Web::Browser::Bridge::WebRendererQueryHandler::PendingQuery> > query;
 					// Web::Browser::Bridge::QueryError errorCode;
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > result;
+					// std::string result;
 				}
 				// function call : void (CefStringBase<CefStringTraitsUTF16> const &)
 				// function call : void (__int32, CefStringBase<CefStringTraitsUTF16> const &)

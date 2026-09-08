@@ -308,8 +308,8 @@ namespace hades_file_local
 {
 	struct coninfo
 	{
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > uid; // 0x0
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > subprotocol; // 0x1C
+		std::string uid; // 0x0
+		std::string subprotocol; // 0x1C
 		bool authed; // 0x38
 		unsigned char __pad0[3]; // 0x39
 		__int32 peerIdx; // 0x3C
@@ -379,13 +379,13 @@ namespace Server
 		extern void Tick();
 		extern void SendPeerPassword(__int32 playerIndex);
 		extern void RemovePeer(__int32 peerIndex);
-		extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetPassword();
+		extern std::string GetPassword();
 		extern unsigned short GetPort();
 	}
 }
 
 void LifeCycleChanged(Blam::Network::LifeCycleState state);
-std::basic_string<char,std::char_traits<char>,std::allocator<char> > ServerPortJson();
+std::string ServerPortJson();
 void ForceStopServer();
 bool OnValidate(websocketpp::server<Utils::WebSocket::Config> *signalServer, std::weak_ptr<void> hdl);
 void HandleMessage(websocketpp::server<Utils::WebSocket::Config> *signalServer, std::weak_ptr<void> hdl, std::shared_ptr<websocketpp::message_buffer::message<websocketpp::message_buffer::alloc::con_msg_manager> > msg);
@@ -401,8 +401,8 @@ void ResetPassword(__int32 peerIndex);
 
 namespace hades_file_local
 {
-	extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > authStrings[17]; // 0x12468290
-	extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > currentPassword; // 0x12468268
+	extern std::string authStrings[17]; // 0x12468290
+	extern std::string currentPassword; // 0x12468268
 	extern unsigned short port; // 0x124684F4
 	extern websocketpp::server<Utils::WebSocket::Config> signalServer; // 0x12467F80
 	extern rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> iceServers; // 0x12468470
@@ -549,12 +549,12 @@ namespace Server
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10C2CEC0();
+extern std::string _sub_10C2CEC0();
 namespace Server
 {
 	namespace Signaling
 	{
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetPassword() // 0x10C2CEC0
+		std::string GetPassword() // 0x10C2CEC0
 		{
 			mangled_x86(MANGLED_TODO, "?GetPassword@Signaling@Server@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 			// procedure flags: nofpo
@@ -616,8 +616,8 @@ void WebSocketPacketHandler::HandlePacket(Blam::Network::ObserverChannel *sender
 	_sub_10C2E030(this, sender, packet);
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10C2FE80();
-std::basic_string<char,std::char_traits<char>,std::allocator<char> > ServerPortJson() // 0x10C2FE80
+extern std::string _sub_10C2FE80();
+std::string ServerPortJson() // 0x10C2FE80
 {
 	// `anonymous-namespace'::ServerPortJson
 	// procedure flags: nofpo
@@ -628,7 +628,7 @@ std::basic_string<char,std::char_traits<char>,std::allocator<char> > ServerPortJ
 	// static ...; // 0x10C30304
 	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
 	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > ip;
+	// std::string ip;
 	// Blam::Network::Session *session;
 	todo("implement");
 	std::string __result = _sub_10C2FE80();
@@ -654,7 +654,7 @@ bool OnValidate(websocketpp::server<Utils::WebSocket::Config> *signalServer, std
 	// static ...; // 0x10C2EF3C
 	// websocketpp::server<Utils::WebSocket::Config> *signalServer;
 	// std::weak_ptr<void> hdl;
-	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > subprotocols;
+	// std::vector<std::string,std::allocator<std::string> > subprotocols;
 	// coninfo info;
 	// std::shared_ptr<websocketpp::connection<Utils::WebSocket::Config> > connection;
 	todo("implement");
@@ -688,7 +688,7 @@ void HandleMessage(websocketpp::server<Utils::WebSocket::Config> *signalServer, 
 	// std::shared_ptr<websocketpp::message_buffer::message<websocketpp::message_buffer::alloc::con_msg_manager> > msg;
 	// std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > > it;
 	// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> doc;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > proto;
+	// std::string proto;
 	// rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> &allocator;
 	{
 		// RejectionReason reject;
@@ -757,7 +757,7 @@ void OnClose(websocketpp::server<Utils::WebSocket::Config> *signalServer, std::w
 	// std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > > it;
 	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
 	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > subproto;
+	// std::string subproto;
 	{
 		// std::map<std::weak_ptr<void>,coninfo,std::owner_less<std::weak_ptr<void> >,std::allocator<std::pair<std::weak_ptr<void> const ,coninfo> > > &<range>$L0;
 		// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > > <begin>$L0;
@@ -785,7 +785,7 @@ RejectionReason ProcessPassword(char const *echo, coninfo &info) // 0x10C2F010
 	{
 		// char uid[17];
 		// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > name;
+		// std::string name;
 	}
 	todo("implement");
 	RejectionReason __result = _sub_10C2F010(echo, info);

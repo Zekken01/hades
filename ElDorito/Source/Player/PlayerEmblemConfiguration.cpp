@@ -83,13 +83,13 @@ namespace Player
 {
 	namespace Emblems
 	{
-		extern bool ParseQueryParameter(std::basic_string_view<char,std::char_traits<char> > const &str, std::basic_string_view<char,std::char_traits<char> > &name, std::basic_string_view<char,std::char_traits<char> > &value);
-		extern bool ParseQuery(std::basic_string_view<char,std::char_traits<char> > const &query, std::vector<std::pair<std::basic_string_view<char,std::char_traits<char> >,std::basic_string_view<char,std::char_traits<char> > >,std::allocator<std::pair<std::basic_string_view<char,std::char_traits<char> >,std::basic_string_view<char,std::char_traits<char> > > > > &parameters);
-		extern bool ParseHex(std::basic_string_view<char,std::char_traits<char> > const &str, unsigned __int32 &value);
-		extern bool ParseBool(std::basic_string_view<char,std::char_traits<char> > const &str, bool &value);
-		extern bool ParseURL(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &url, s_player_emblem_configuration &config);
-		extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > HexToStrHex(__int32 hexValue);
-		extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > BuildUrl(s_player_emblem_configuration config);
+		extern bool ParseQueryParameter(std::string_view const &str, std::string_view &name, std::string_view &value);
+		extern bool ParseQuery(std::string_view const &query, std::vector<std::pair<std::string_view,std::string_view>,std::allocator<std::pair<std::string_view,std::string_view> > > &parameters);
+		extern bool ParseHex(std::string_view const &str, unsigned __int32 &value);
+		extern bool ParseBool(std::string_view const &str, bool &value);
+		extern bool ParseURL(std::string const &url, s_player_emblem_configuration &config);
+		extern std::string HexToStrHex(__int32 hexValue);
+		extern std::string BuildUrl(s_player_emblem_configuration config);
 	}
 }
 
@@ -103,47 +103,47 @@ namespace Player
 {
 	namespace Emblems
 	{
-		_extern bool _sub_107DF560(std::basic_string_view<char,std::char_traits<char> > const &, std::basic_string_view<char,std::char_traits<char> > &, std::basic_string_view<char,std::char_traits<char> > &);
-		bool ParseQueryParameter(std::basic_string_view<char,std::char_traits<char> > const &str, std::basic_string_view<char,std::char_traits<char> > &name, std::basic_string_view<char,std::char_traits<char> > &value) // 0x107DF560
+		_extern bool _sub_107DF560(std::string_view const &, std::string_view &, std::string_view &);
+		bool ParseQueryParameter(std::string_view const &str, std::string_view &name, std::string_view &value) // 0x107DF560
 		{
 			mangled_x86(MANGLED_TODO, "?ParseQueryParameter@Emblems@Player@@YA_NABV?$basic_string_view@DU?$char_traits@D@std@@@std@@AAV34@1@Z");
-			// std::basic_string_view<char,std::char_traits<char> > &value;
+			// std::string_view &value;
 			// __int32 separatorPos;
 			todo("implement");
 			bool __result = _sub_107DF560(str, name, value);
 			return __result;
 		}
 
-		_extern bool _sub_107DF3D0(std::basic_string_view<char,std::char_traits<char> > const &, std::vector<std::pair<std::basic_string_view<char,std::char_traits<char> >,std::basic_string_view<char,std::char_traits<char> > >,std::allocator<std::pair<std::basic_string_view<char,std::char_traits<char> >,std::basic_string_view<char,std::char_traits<char> > > > > &);
-		bool ParseQuery(std::basic_string_view<char,std::char_traits<char> > const &query, std::vector<std::pair<std::basic_string_view<char,std::char_traits<char> >,std::basic_string_view<char,std::char_traits<char> > >,std::allocator<std::pair<std::basic_string_view<char,std::char_traits<char> >,std::basic_string_view<char,std::char_traits<char> > > > > &parameters) // 0x107DF3D0
+		_extern bool _sub_107DF3D0(std::string_view const &, std::vector<std::pair<std::string_view,std::string_view>,std::allocator<std::pair<std::string_view,std::string_view> > > &);
+		bool ParseQuery(std::string_view const &query, std::vector<std::pair<std::string_view,std::string_view>,std::allocator<std::pair<std::string_view,std::string_view> > > &parameters) // 0x107DF3D0
 		{
 			mangled_x86(MANGLED_TODO, "?ParseQuery@Emblems@Player@@YA_NABV?$basic_string_view@DU?$char_traits@D@std@@@std@@AAV?$vector@U?$pair@V?$basic_string_view@DU?$char_traits@D@std@@@std@@V12@@std@@V?$allocator@U?$pair@V?$basic_string_view@DU?$char_traits@D@std@@@std@@V12@@std@@@2@@4@@Z");
 			// static ...; // 0x107DF4F6
 			// static ...; // 0x107DF4F0
 			// static ...; // 0x107DF4CC
 			// static ...; // 0x107DF4C4
-			// std::basic_string_view<char,std::char_traits<char> > const &query;
-			// std::vector<std::pair<std::basic_string_view<char,std::char_traits<char> >,std::basic_string_view<char,std::char_traits<char> > >,std::allocator<std::pair<std::basic_string_view<char,std::char_traits<char> >,std::basic_string_view<char,std::char_traits<char> > > > > &parameters;
+			// std::string_view const &query;
+			// std::vector<std::pair<std::string_view,std::string_view>,std::allocator<std::pair<std::string_view,std::string_view> > > &parameters;
 			// __int32 pos;
 			// __int32 len;
 			{
-				// std::basic_string_view<char,std::char_traits<char> > parameter;
+				// std::string_view parameter;
 				// __int32 nextPos;
-				// std::basic_string_view<char,std::char_traits<char> > name;
-				// std::basic_string_view<char,std::char_traits<char> > value;
+				// std::string_view name;
+				// std::string_view value;
 			}
 			todo("implement");
 			bool __result = _sub_107DF3D0(query, parameters);
 			return __result;
 		}
 
-		_extern bool _sub_107DF260(std::basic_string_view<char,std::char_traits<char> > const &, unsigned __int32 &);
-		bool ParseHex(std::basic_string_view<char,std::char_traits<char> > const &str, unsigned __int32 &value) // 0x107DF260
+		_extern bool _sub_107DF260(std::string_view const &, unsigned __int32 &);
+		bool ParseHex(std::string_view const &str, unsigned __int32 &value) // 0x107DF260
 		{
 			mangled_x86(MANGLED_TODO, "?ParseHex@Emblems@Player@@YA_NABV?$basic_string_view@DU?$char_traits@D@std@@@std@@AAI@Z");
 			// static ...; // 0x107DF374
 			// static ...; // 0x107DF36C
-			// std::basic_string_view<char,std::char_traits<char> > const &str;
+			// std::string_view const &str;
 			// unsigned __int32 &value;
 			// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
 			todo("implement");
@@ -151,13 +151,13 @@ namespace Player
 			return __result;
 		}
 
-		_extern bool _sub_107DF190(std::basic_string_view<char,std::char_traits<char> > const &, bool &);
-		bool ParseBool(std::basic_string_view<char,std::char_traits<char> > const &str, bool &value) // 0x107DF190
+		_extern bool _sub_107DF190(std::string_view const &, bool &);
+		bool ParseBool(std::string_view const &str, bool &value) // 0x107DF190
 		{
 			mangled_x86(MANGLED_TODO, "?ParseBool@Emblems@Player@@YA_NABV?$basic_string_view@DU?$char_traits@D@std@@@std@@AA_N@Z");
 			// static ...; // 0x107DF21C
 			// static ...; // 0x107DF214
-			// std::basic_string_view<char,std::char_traits<char> > const &str;
+			// std::string_view const &str;
 			// bool &value;
 			// char val;
 			todo("implement");
@@ -165,24 +165,24 @@ namespace Player
 			return __result;
 		}
 
-		_extern bool _sub_107DF620(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, s_player_emblem_configuration &);
-		bool ParseURL(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &url, s_player_emblem_configuration &config) // 0x107DF620
+		_extern bool _sub_107DF620(std::string const &, s_player_emblem_configuration &);
+		bool ParseURL(std::string const &url, s_player_emblem_configuration &config) // 0x107DF620
 		{
 			mangled_x86(MANGLED_TODO, "?ParseURL@Emblems@Player@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAUs_player_emblem_configuration@@@Z");
 			// static ...; // 0x107DFAFC
 			// static ...; // 0x107DFAE4
 			// static ...; // 0x107DFADC
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &url;
+			// std::string const &url;
 			// s_player_emblem_configuration &config;
 			// Utils::Uri::UriComponents uric;
-			// std::vector<std::pair<std::basic_string_view<char,std::char_traits<char> >,std::basic_string_view<char,std::char_traits<char> > >,std::allocator<std::pair<std::basic_string_view<char,std::char_traits<char> >,std::basic_string_view<char,std::char_traits<char> > > > > params;
+			// std::vector<std::pair<std::string_view,std::string_view>,std::allocator<std::pair<std::string_view,std::string_view> > > params;
 			{
-				// std::vector<std::pair<std::basic_string_view<char,std::char_traits<char> >,std::basic_string_view<char,std::char_traits<char> > >,std::allocator<std::pair<std::basic_string_view<char,std::char_traits<char> >,std::basic_string_view<char,std::char_traits<char> > > > > &<range>$L0;
-				// std::pair<std::basic_string_view<char,std::char_traits<char> >,std::basic_string_view<char,std::char_traits<char> > > *<begin>$L0;
-				// std::pair<std::basic_string_view<char,std::char_traits<char> >,std::basic_string_view<char,std::char_traits<char> > > *<end>$L0;
+				// std::vector<std::pair<std::string_view,std::string_view>,std::allocator<std::pair<std::string_view,std::string_view> > > &<range>$L0;
+				// std::pair<std::string_view,std::string_view> *<begin>$L0;
+				// std::pair<std::string_view,std::string_view> *<end>$L0;
 				{
-					// std::basic_string_view<char,std::char_traits<char> > const &name;
-					// std::basic_string_view<char,std::char_traits<char> > const &value;
+					// std::string_view const &name;
+					// std::string_view const &value;
 				}
 			}
 			todo("implement");
@@ -192,12 +192,12 @@ namespace Player
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_107DEE70(__int32);
+extern std::string _sub_107DEE70(__int32);
 namespace Player
 {
 	namespace Emblems
 	{
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > HexToStrHex(__int32 hexValue) // 0x107DEE70
+		std::string HexToStrHex(__int32 hexValue) // 0x107DEE70
 		{
 			mangled_x86(MANGLED_TODO, "?HexToStrHex@Emblems@Player@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@H@Z");
 			// static ...; // 0x107DF0EC
@@ -215,19 +215,19 @@ namespace Player
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_107DE4E0(s_player_emblem_configuration);
+extern std::string _sub_107DE4E0(s_player_emblem_configuration);
 namespace Player
 {
 	namespace Emblems
 	{
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > BuildUrl(s_player_emblem_configuration config) // 0x107DE4E0
+		std::string BuildUrl(s_player_emblem_configuration config) // 0x107DE4E0
 		{
 			mangled_x86(MANGLED_TODO, "?BuildUrl@Emblems@Player@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@Us_player_emblem_configuration@@@Z");
 			// static ...; // 0x107DEC7C
 			// static ...; // 0x107DEC70
 			// static ...; // 0x107DEC68
 			// s_player_emblem_configuration config;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > emblem;
+			// std::string emblem;
 			todo("implement");
 			std::string __result = _sub_107DE4E0(config);
 			return __result;

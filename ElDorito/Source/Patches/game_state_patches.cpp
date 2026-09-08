@@ -117,7 +117,7 @@ extern void game_state_patches_apply();
 
 bool file_read_from_path(wchar_t const *path, unsigned long size, void *buffer);
 bool file_write_to_path(wchar_t const *path, unsigned long size, void *buffer);
-std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > get_save_location(wchar_t const *filename);
+std::wstring get_save_location(wchar_t const *filename);
 bool game_state_read_file_from_storage(long storage_index, long flags);
 bool game_state_read_from_persistent_storage_blocking(long controller_index, void *buffer, unsigned long size);
 void game_state_write_file_to_storage();
@@ -201,8 +201,8 @@ bool file_write_to_path(wchar_t const *path, unsigned long size, void *buffer) /
 	return __result;
 }
 
-extern std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > _sub_1091AE50(wchar_t const *);
-std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > get_save_location(wchar_t const *filename) // 0x1091AE50
+extern std::wstring _sub_1091AE50(wchar_t const *);
+std::wstring get_save_location(wchar_t const *filename) // 0x1091AE50
 {
 	// `anonymous-namespace'::get_save_location
 	// static ...; // 0x1091B270
@@ -214,15 +214,15 @@ std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > ge
 	// static ...; // 0x1091B204
 	// wchar_t const *filename;
 	// bool hasModSet;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > modhash;
-	// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > combined;
+	// std::string modhash;
+	// std::wstring combined;
 	// c_mod_package_manager::s_entry mod_package;
 	{
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > modName;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > mod_version;
+		// std::string modName;
+		// std::string mod_version;
 	}
 	todo("implement");
-	std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > __result = _sub_1091AE50(filename);
+	std::wstring __result = _sub_1091AE50(filename);
 	return __result;
 }
 

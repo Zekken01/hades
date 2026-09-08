@@ -123,7 +123,7 @@ namespace Server
 {
 	namespace hades_file_local_Server
 	{
-		extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > DefaultBanListPath; // 0x11388338
+		extern std::string DefaultBanListPath; // 0x11388338
 	}
 	using namespace hades_file_local_Server;
 }
@@ -188,7 +188,7 @@ void UpdateMenu() // 0x10729260
 	// static ...; // 0x107293F8
 	// static ...; // 0x107293EC
 	// static ...; // 0x107293E4
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > serverName;
+	// std::string serverName;
 	// function call : __int32 (HMENU__ *, unsigned __int32, unsigned __int32, unsigned __int32, char const *)
 	todo("implement");
 	_sub_10729260();

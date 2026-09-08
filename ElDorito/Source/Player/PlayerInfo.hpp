@@ -31,9 +31,9 @@ namespace Player
 		static bool IsAvailable();
 		static __int32 GetRank(__int32 networkPlayerIndex);
 		static __int32 GetSkill(__int32 networkPlayerIndex);
-		static std::basic_string<char,std::char_traits<char>,std::allocator<char> > GeEmblemUrl(__int32 networkPlayerIndex);
-		static std::basic_string<char,std::char_traits<char>,std::allocator<char> > GeneratePlayerInfo();
-		static void Update(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &payload);
+		static std::string GeEmblemUrl(__int32 networkPlayerIndex);
+		static std::string GeneratePlayerInfo();
+		static void Update(std::string const &payload);
 		static void Init();
 		static void Tick();
 	};
@@ -46,7 +46,7 @@ namespace Player
 {
 	extern bool GetRankedUpRecently();
 	extern void ClearRankUp();
-	extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > getLocalEmblem(__int32 networkPlayerIndex);
+	extern std::string getLocalEmblem(__int32 networkPlayerIndex);
 	extern void LifeCycleStateChanged(Blam::Network::LifeCycleState newState);
 }
 

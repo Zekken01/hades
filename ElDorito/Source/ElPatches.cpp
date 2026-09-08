@@ -262,7 +262,7 @@ namespace Patches
 		{
 			// __int32 i;
 			{
-				// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > arg;
+				// std::wstring arg;
 			}
 		}
 		// function call : wchar_t *()

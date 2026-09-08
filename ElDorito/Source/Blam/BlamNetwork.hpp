@@ -171,7 +171,7 @@ namespace Blam
 			__int32 GetPeerPlayer(__int32 peer) const;
 			__int32 GetPlayerPeer(__int32 player) const;
 			__int32 GetPeerTeam(__int32 peer) const;
-			__int32 FindPlayerByName(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name);
+			__int32 FindPlayerByName(std::string const &name);
 			Blam::Network::PlayerSession GetLocalPlayerSession() const;
 			void Update();
 			SessionMembership(); /* compiler_generated() */
@@ -249,8 +249,8 @@ namespace Blam
 			unsigned short AddressSize; // 0x12
 			static _inline Blam::Network::NetworkAddress FromInAddr(unsigned long address, unsigned short port);
 			_inline unsigned long ToInAddr() const;
-			static bool Parse(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &addr, unsigned short port, Blam::Network::NetworkAddress *result);
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > ToString() const;
+			static bool Parse(std::string const &addr, unsigned short port, Blam::Network::NetworkAddress *result);
+			std::string ToString() const;
 		};
 	}
 }

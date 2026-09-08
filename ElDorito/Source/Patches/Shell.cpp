@@ -167,7 +167,7 @@ namespace Server
 {
 	namespace hades_file_local_Server
 	{
-		extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > DefaultBanListPath; // 0x124673EC
+		extern std::string DefaultBanListPath; // 0x124673EC
 	}
 	using namespace hades_file_local_Server;
 }
@@ -276,7 +276,7 @@ HWND__ *CreateGameWindowHook() // 0x10ACB3C0
 	// bool is_fullscreen;
 	// tagWNDCLASSEXA wc;
 	// bool (*const global_preferences_get_fullscreen)();
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > windowTitle;
+	// std::string windowTitle;
 	// unsigned long window_style;
 	// long *resolution;
 	// long *client_resolution;

@@ -225,7 +225,7 @@ namespace Web
 	{
 		namespace Bridge
 		{
-			typedef std::function<enum Web::Browser::Bridge::QueryError __cdecl(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &,std::basic_string<char,std::char_traits<char>,std::allocator<char> > *)> WebRendererQuery;
+			typedef std::function<enum Web::Browser::Bridge::QueryError __cdecl(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &,std::string *)> WebRendererQuery;
 		}
 	}
 }
@@ -349,7 +349,7 @@ namespace Web
 			// CefStructBase<CefBrowserSettingsTraits> &settings;
 			// scoped_refptr<CefDictionaryValue> &extra_info;
 			// bool *no_javascript_access;
-			// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > s_UrlStr;
+			// std::wstring s_UrlStr;
 			// function call : HINSTANCE__ *(HWND__ *, wchar_t const *, wchar_t const *, wchar_t const *, wchar_t const *, __int32)
 			todo("implement");
 			bool __result = _sub_10CCD5B0((CefLifeSpanHandler *)this, browser, frame, target_url, target_frame_name, target_disposition, user_gesture, popupFeatures, windowInfo, client, settings, extra_info, no_javascript_access);

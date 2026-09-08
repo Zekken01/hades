@@ -78,7 +78,7 @@ private:
 	EModIndex m_index; // 0x20
 	IClient *m_client; // 0x24
 	__int32 m_cacheIndex; // 0x28
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > m_filename; // 0x2C
+	std::string m_filename; // 0x2C
 	std::thread m_loadThread; // 0x48
 };
 // static_assert(sizeof(Mod) == 80, "Invalid Mod size");

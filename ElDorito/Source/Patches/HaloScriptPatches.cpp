@@ -1339,7 +1339,7 @@ void hs_debug_macro_function_evaluate(long thread_index, long *evaluated_argumen
 		// s_hs_script_op const *function;
 		// s_static_string<8> expr_index_buff;
 		{
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &scriptFilter;
+			// std::string &scriptFilter;
 		}
 		{
 			// __int32 i;
@@ -1348,7 +1348,7 @@ void hs_debug_macro_function_evaluate(long thread_index, long *evaluated_argumen
 			}
 		}
 		{
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &traceFile;
+			// std::string &traceFile;
 			{
 				// static _iobuf *`hs_debug_macro_function_evaluate'::`24'::fp; // 0x1138DE9C
 				{

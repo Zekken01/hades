@@ -60,7 +60,7 @@ using namespace ::Modules;
 namespace Modules
 {
 	extern ModuleTime* _sub_10A22130(Modules::ModuleTime *const);
-	ModuleTime::ModuleTime() : ModuleBase(todo_result<std::basic_string<char,std::char_traits<char>,std::allocator<char> >>()) // 0x10A22130
+	ModuleTime::ModuleTime() : ModuleBase(todo_result<std::string>()) // 0x10A22130
 	{
 		mangled_x86(MANGLED_TODO, "??0ModuleTime@Modules@@QAE@XZ");
 		// Modules::ModuleTime *const this;

@@ -190,7 +190,7 @@ namespace Debug
 		extern void BuildStackTraceJSON(_CONTEXT const &ctx, rapidjson::PrettyWriter<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer);
 		extern void AddSystemInfo(rapidjson::PrettyWriter<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer);
 		extern void WriteDumpForCrashReporter(rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> &buffer, ::Debug::CrashReporting::s_crash_info const &crash);
-		extern bool LaunchExternalCrashReporter(std::basic_string<char,std::char_traits<char>,std::allocator<char> > &LaunchCommand);
+		extern bool LaunchExternalCrashReporter(std::string &LaunchCommand);
 		extern void ReportCrash(::Debug::CrashReporting::s_crash_info const &crash);
 	}
 }
@@ -269,7 +269,7 @@ namespace Debug
 			// rapidjson::PrettyWriter<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer;
 			// Debug::CrashReporting::StackWalker stackWalker;
 			{
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > moduleName;
+				// std::string moduleName;
 				// s_static_string<256> address_line;
 				// HINSTANCE__ *hModule;
 				{
@@ -292,9 +292,9 @@ namespace Debug
 			// static ...; // 0x1068E888
 			// static ...; // 0x1068E880
 			// rapidjson::PrettyWriter<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > gpuDriverVersion;
+			// std::string gpuDriverVersion;
 			// _MEMORYSTATUSEX memInfo;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > gpuName;
+			// std::string gpuName;
 			// function call : __int32 (_MEMORYSTATUSEX *)
 			todo("implement");
 			_sub_1068E610(writer);
@@ -331,11 +331,11 @@ namespace Debug
 			{
 			}
 			{
-				// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &<range>$L0;
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const *<begin>$L0;
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const *<end>$L0;
+				// std::vector<std::string,std::allocator<std::string> > const &<range>$L0;
+				// std::string const *<begin>$L0;
+				// std::string const *<end>$L0;
 				{
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &tag_name;
+					// std::string const &tag_name;
 				}
 			}
 			// function call : bool (*const)()
@@ -349,15 +349,15 @@ namespace Debug
 			_sub_106913E0(buffer, crash);
 		}
 
-		_extern bool _sub_1068FF20(std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
-		bool LaunchExternalCrashReporter(std::basic_string<char,std::char_traits<char>,std::allocator<char> > &LaunchCommand) // 0x1068FF20
+		_extern bool _sub_1068FF20(std::string &);
+		bool LaunchExternalCrashReporter(std::string &LaunchCommand) // 0x1068FF20
 		{
 			mangled_x86(MANGLED_TODO, "?LaunchExternalCrashReporter@CrashReporting@Debug@@YA_NAAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 			// static ...; // 0x10690060
 			// static ...; // 0x10690054
 			// static ...; // 0x1069003C
 			// static ...; // 0x10690034
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &LaunchCommand;
+			// std::string &LaunchCommand;
 			// _PROCESS_INFORMATION processInfo;
 			// _STARTUPINFOA info;
 			// function call : __int32 (char const *, char *, _SECURITY_ATTRIBUTES *, _SECURITY_ATTRIBUTES *, __int32, unsigned long, void *, char const *, _STARTUPINFOA *, _PROCESS_INFORMATION *)
@@ -382,10 +382,10 @@ namespace Debug
 			// static ...; // 0x10690BF4
 			// Debug::CrashReporting::s_crash_info const &crash;
 			// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > ReporterPath;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > LaunchCommand;
+			// std::string ReporterPath;
+			// std::string LaunchCommand;
 			// std::basic_ofstream<char,std::char_traits<char> > crash_dump;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > CrashDumpPath;
+			// std::string CrashDumpPath;
 			todo("implement");
 			_sub_10690840(crash);
 		}

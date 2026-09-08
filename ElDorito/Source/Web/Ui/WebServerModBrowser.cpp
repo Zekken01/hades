@@ -255,7 +255,7 @@ using namespace hades_file_local;
 //class Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen::OnCreate::__l2::<lambda_1>
 //{
 //public:
-//	Web::Browser::Bridge::QueryError operator()(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *) const;
+//	Web::Browser::Bridge::QueryError operator()(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::string *) const;
 //	<lambda_1>(Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen::OnCreate::__l2::<lambda_1> &);
 //	<lambda_1>(Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen *);
 //private:
@@ -268,7 +268,7 @@ using namespace hades_file_local;
 //class Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen::OnCreate::__l2::<lambda_2>
 //{
 //public:
-//	Web::Browser::Bridge::QueryError operator()(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *) const;
+//	Web::Browser::Bridge::QueryError operator()(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::string *) const;
 //};
 //static_assert(sizeof(Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen::OnCreate::__l2::<lambda_2>) == 1, "Invalid Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen::OnCreate::__l2::<lambda_2> size");
 
@@ -286,9 +286,9 @@ namespace Web
 	}
 }
 
-void NotifyDownloadStateChanged(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &fromState, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &toState);
+void NotifyDownloadStateChanged(std::string const &fromState, std::string const &toState);
 void NotifyDownloadStatus(DownloadStatusInfo const &info);
-void NotifyDownloadError(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &reason);
+void NotifyDownloadError(std::string const &reason);
 
 /* ---------- globals */
 
@@ -378,12 +378,12 @@ namespace Web
 				_sub_10C7DE90((IModBrowserModDownloadUI *)this);
 			}
 
-			_extern void _sub_10C7D990(IModBrowserModDownloadUI * const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-			void CWebModDownloadSingleScreen::OnDownloadFailed(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &message) // 0x10C7D990
+			_extern void _sub_10C7D990(IModBrowserModDownloadUI * const, std::string const &);
+			void CWebModDownloadSingleScreen::OnDownloadFailed(std::string const &message) // 0x10C7D990
 			{
 				mangled_x86(MANGLED_TODO, "?OnDownloadFailed@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 				// __shifted(Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen, 4);
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &message;
+				// std::string const &message;
 				todo("implement");
 				_sub_10C7D990((IModBrowserModDownloadUI *)this, message);
 			}
@@ -519,15 +519,15 @@ namespace Web
 
 /* ---------- private code */
 
-_extern void _sub_10C7D210(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-void NotifyDownloadStateChanged(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &fromState, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &toState) // 0x10C7D210
+_extern void _sub_10C7D210(std::string const &, std::string const &);
+void NotifyDownloadStateChanged(std::string const &fromState, std::string const &toState) // 0x10C7D210
 {
 	// `anonymous-namespace'::NotifyDownloadStateChanged
 	// static ...; // 0x10C7D3A0
 	// static ...; // 0x10C7D388
 	// static ...; // 0x10C7D380
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &fromState;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &toState;
+	// std::string const &fromState;
+	// std::string const &toState;
 	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buff;
 	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
 	todo("implement");
@@ -549,15 +549,15 @@ void NotifyDownloadStatus(DownloadStatusInfo const &info) // 0x10C7D420
 	_sub_10C7D420(info);
 }
 
-_extern void _sub_10C7D030(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-void NotifyDownloadError(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &reason) // 0x10C7D030
+_extern void _sub_10C7D030(std::string const &);
+void NotifyDownloadError(std::string const &reason) // 0x10C7D030
 {
 	// `anonymous-namespace'::NotifyDownloadError
 	// static ...; // 0x10C7D1AB
 	// static ...; // 0x10C7D1A4
 	// static ...; // 0x10C7D18C
 	// static ...; // 0x10C7D184
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &reason;
+	// std::string const &reason;
 	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buff;
 	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
 	todo("implement");

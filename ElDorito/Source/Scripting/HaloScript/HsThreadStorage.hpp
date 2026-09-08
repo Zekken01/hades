@@ -113,7 +113,7 @@ namespace Scripting
 	{
 		extern bool HsThreadIsDead(__int32 threadIndex);
 
-		extern _inline char const *HsThreadString(long thread_index, std::basic_string_view<char,std::char_traits<char> > str);
+		extern _inline char const *HsThreadString(long thread_index, std::string_view str);
 	}
 }
 
@@ -163,15 +163,15 @@ namespace Scripting
 	}
 }
 
-extern char const *_sub_106FAAF0(long, std::basic_string_view<char,std::char_traits<char> >);
+extern char const *_sub_106FAAF0(long, std::string_view);
 namespace Scripting
 {
 	namespace HS
 	{
-		_inline char const *HsThreadString(long thread_index, std::basic_string_view<char,std::char_traits<char> > str) // 0x106FAAF0
+		_inline char const *HsThreadString(long thread_index, std::string_view str) // 0x106FAAF0
 		{
 			mangled_x86(MANGLED_TODO, "?HsThreadString@HS@Scripting@@YAPBDJV?$basic_string_view@DU?$char_traits@D@std@@@std@@@Z");
-			// std::basic_string_view<char,std::char_traits<char> > str;
+			// std::string_view str;
 			// char *mem;
 			todo("implement");
 			char const * __result = _sub_106FAAF0(thread_index, str);

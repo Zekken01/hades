@@ -131,8 +131,8 @@ EModResult ModManager::SetMod(EModIndex index, char const *filename, bool async)
 	// Mod const *oldMod;
 	// EModResult result;
 	{
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > path;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > file_name;
+		// std::string path;
+		// std::string file_name;
 		// Ref<Mod> mod;
 		// c_mod_package_manager &package_manager;
 		// unsigned __int32 lastSeparatorIndex;

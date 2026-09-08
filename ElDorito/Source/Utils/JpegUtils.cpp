@@ -93,7 +93,7 @@ namespace Utils
 	namespace Jpeg
 	{
 		extern void CompressBuf(std::vector<unsigned char,std::allocator<unsigned char> > &dest, __int32 quality, unsigned char const *srcBits, __int32 width, __int32 height);
-		extern void CompressFile(std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > destFilename, __int32 quality, unsigned char const *srcBits, __int32 width, __int32 height);
+		extern void CompressFile(std::wstring destFilename, __int32 quality, unsigned char const *srcBits, __int32 width, __int32 height);
 	}
 }
 
@@ -146,8 +146,8 @@ namespace Utils
 			_sub_10753AD0(dest, quality, srcBits, width, height);
 		}
 
-		_extern void _sub_10753EF0(std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> >, __int32, unsigned char const *, __int32, __int32);
-		void CompressFile(std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > destFilename, __int32 quality, unsigned char const *srcBits, __int32 width, __int32 height) // 0x10753EF0
+		_extern void _sub_10753EF0(std::wstring, __int32, unsigned char const *, __int32, __int32);
+		void CompressFile(std::wstring destFilename, __int32 quality, unsigned char const *srcBits, __int32 width, __int32 height) // 0x10753EF0
 		{
 			mangled_x86(MANGLED_TODO, "?CompressFile@Jpeg@Utils@@YAXV?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@HPBEHH@Z");
 			// __int32 height;

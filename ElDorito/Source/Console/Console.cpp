@@ -83,7 +83,7 @@ namespace hades_file_local
 		public Console::ConsoleOutputHandler
 	{
 	public:
-		virtual void WriteLine(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+		virtual void WriteLine(std::string const &);
 		LogConsoleOutputHandler(LogConsoleOutputHandler &); /* compiler_generated() */
 		LogConsoleOutputHandler(LogConsoleOutputHandler const &); /* compiler_generated() */
 		LogConsoleOutputHandler(); /* compiler_generated() */
@@ -99,7 +99,7 @@ using namespace hades_file_local;
 namespace Console
 {
 	extern void Init();
-	extern void WriteLine(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &line);
+	extern void WriteLine(std::string const &line);
 	extern void RegisterHandler(std::shared_ptr<Console::ConsoleOutputHandler> handler);
 }
 
@@ -125,21 +125,21 @@ namespace Console
 		_sub_10950840();
 	}
 
-	_extern void _sub_109509D0(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-	void WriteLine(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &line) // 0x109509D0
+	_extern void _sub_109509D0(std::string const &);
+	void WriteLine(std::string const &line) // 0x109509D0
 	{
 		mangled_x86(MANGLED_TODO, "?WriteLine@Console@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 		// static ...; // 0x10950B24
 		// static ...; // 0x10950B18
 		// static ...; // 0x10950B10
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &line;
-		// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > lines;
+		// std::string const &line;
+		// std::vector<std::string,std::allocator<std::string> > lines;
 		{
-			// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > &<range>$L0;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *<begin>$L0;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *<end>$L0;
+			// std::vector<std::string,std::allocator<std::string> > &<range>$L0;
+			// std::string *<begin>$L0;
+			// std::string *<end>$L0;
 			{
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &lineToPrint;
+				// std::string &lineToPrint;
 				{
 					// std::shared_ptr<Console::ConsoleOutputHandler> *<end>$L1;
 					// std::shared_ptr<Console::ConsoleOutputHandler> *<begin>$L1;
@@ -150,7 +150,7 @@ namespace Console
 				}
 			}
 		}
-		// function call : void (std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &)
+		// function call : void (std::string const &)
 		todo("implement");
 		_sub_109509D0(line);
 	}
@@ -175,11 +175,11 @@ namespace Console
 
 /* ---------- private code */
 
-_extern void _sub_10950B80(LogConsoleOutputHandler *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-void LogConsoleOutputHandler::WriteLine(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &line) // 0x10950B80
+_extern void _sub_10950B80(LogConsoleOutputHandler *const, std::string const &);
+void LogConsoleOutputHandler::WriteLine(std::string const &line) // 0x10950B80
 {
 	// `anonymous-namespace'::LogConsoleOutputHandler::WriteLine
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &line;
+	// std::string const &line;
 	todo("implement");
 	_sub_10950B80(this, line);
 }

@@ -60,8 +60,8 @@ namespace Utils
 
 namespace Utils
 {
-	extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > LogLevelToString(Utils::LogLevel level);
-	extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > LogTypesToString(Utils::LogTypes types);
+	extern std::string LogLevelToString(Utils::LogLevel level);
+	extern std::string LogTypesToString(Utils::LogTypes types);
 }
 
 /* ---------- globals */

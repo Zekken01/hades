@@ -121,7 +121,7 @@ namespace Blam
 
 namespace Modules
 {
-	extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetDefaultValueString(Modules::Command *command);
+	extern std::string GetDefaultValueString(Modules::Command *command);
 	extern bool compare_commands(Modules::Command const &lhs, Modules::Command const &rhs);
 }
 
@@ -156,10 +156,10 @@ namespace Modules
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10949150(Modules::Command *const);
+extern std::string _sub_10949150(Modules::Command *const);
 namespace Modules
 {
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > Command::GenerateHelpText() // 0x10949150
+	std::string Command::GenerateHelpText() // 0x10949150
 	{
 		mangled_x86(MANGLED_TODO, "?GenerateHelpText@Command@Modules@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 		// static ...; // 0x10949720
@@ -178,18 +178,18 @@ namespace Modules
 		// Modules::Command *const this;
 		// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
 		{
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > paramDescs;
+			// std::string paramDescs;
 			// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > paramStream;
 			{
-				// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > &<range>$L0;
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *<begin>$L0;
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *<end>$L0;
+				// std::vector<std::string,std::allocator<std::string> > &<range>$L0;
+				// std::string *<begin>$L0;
+				// std::string *<end>$L0;
 				{
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > arg;
+					// std::string arg;
 					{
-						// std::basic_string<char,std::char_traits<char>,std::allocator<char> > argdesc;
+						// std::string argdesc;
 						// unsigned __int32 nameEnd;
-						// std::basic_string<char,std::char_traits<char>,std::allocator<char> > argname;
+						// std::string argname;
 					}
 				}
 			}
@@ -250,14 +250,14 @@ namespace Modules
 		compiler_generated();
 	}
 
-	extern Command *_sub_10948CA0(Modules::CommandMap *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-	Modules::Command *CommandMap::FindCommand(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name) // 0x10948CA0
+	extern Command *_sub_10948CA0(Modules::CommandMap *const, std::string const &);
+	Modules::Command *CommandMap::FindCommand(std::string const &name) // 0x10948CA0
 	{
 		mangled_x86(MANGLED_TODO, "?FindCommand@CommandMap@Modules@@QAEPAUCommand@2@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 		// static ...; // 0x10948E60
 		// static ...; // 0x10948E58
 		// Modules::CommandMap *const this;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name;
+		// std::string const &name;
 		{
 			// std::_Deque_iterator<std::_Deque_val<std::_Deque_simple_types<Modules::Command> > > it;
 		}
@@ -287,7 +287,7 @@ namespace Modules
 		// static ...; // 0x10949078
 		// static ...; // 0x10949070
 		// Modules::CommandMap *const this;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > previousValue;
+		// std::string previousValue;
 		{
 			// std::deque<Modules::Command,std::allocator<Modules::Command> > &<range>$L0;
 			// std::_Deque_unchecked_iterator<std::_Deque_val<std::_Deque_simple_types<Modules::Command> > > <begin>$L0;
@@ -296,52 +296,52 @@ namespace Modules
 				// Modules::Command command;
 			}
 		}
-		// function call : bool (*)(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &)
+		// function call : bool (*)(std::vector<std::string,std::allocator<std::string> > const &, std::string &)
 		todo("implement");
 		_sub_10948EF0(this);
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10946DC0(Modules::CommandMap *const, std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > >, bool);
+extern std::string _sub_10946DC0(Modules::CommandMap *const, std::vector<std::string,std::allocator<std::string> >, bool);
 namespace Modules
 {
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > CommandMap::ExecuteCommand(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > command, bool isUserInput) // 0x10946DC0
+	std::string CommandMap::ExecuteCommand(std::vector<std::string,std::allocator<std::string> > command, bool isUserInput) // 0x10946DC0
 	{
 		mangled_x86(MANGLED_TODO, "?ExecuteCommand@CommandMap@Modules@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@4@_N@Z");
 		// static ...; // 0x10946FE4
 		// static ...; // 0x10946FC0
 		// static ...; // 0x10946FB8
 		// Modules::CommandMap *const this;
-		// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > command;
+		// std::vector<std::string,std::allocator<std::string> > command;
 		// bool isUserInput;
 		// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > buff;
-		// std::_Vector_iterator<std::_Vector_val<std::_Simple_types<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > commandEnd;
+		// std::_Vector_iterator<std::_Vector_val<std::_Simple_types<std::string> > > commandEnd;
 		{
-			// std::_Vector_iterator<std::_Vector_val<std::_Simple_types<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > it;
+			// std::_Vector_iterator<std::_Vector_val<std::_Simple_types<std::string> > > it;
 		}
 		todo("implement");
 		std::string __result = _sub_10946DC0(this, command, isUserInput);
 		return __result;
 	}
 
-	_extern bool _sub_10947090(Modules::CommandMap *const, std::string, bool, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *);
-	bool CommandMap::ExecuteCommandWithStatus(std::basic_string<char,std::char_traits<char>,std::allocator<char> > command, bool isUserInput, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *output) // 0x10947090
+	_extern bool _sub_10947090(Modules::CommandMap *const, std::string, bool, std::string *);
+	bool CommandMap::ExecuteCommandWithStatus(std::string command, bool isUserInput, std::string *output) // 0x10947090
 	{
 		mangled_x86(MANGLED_TODO, "?ExecuteCommandWithStatus@CommandMap@Modules@@QAE_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@_NPAV34@@Z");
 		// static ...; // 0x10948228
 		// static ...; // 0x10948220
 		// Modules::CommandMap *const this;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > command;
+		// std::string command;
 		// bool isUserInput;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *output;
+		// std::string *output;
 		// bool ret;
 		// bool opReset;
 		// __int32 numArgs;
 		// CommandLineArgs cmdArgs;
 		// VariableSetReturnValue updateRet;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > previousValue;
+		// std::string previousValue;
 		// Modules::Command *cmd;
-		// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > argsVect;
+		// std::vector<std::string,std::allocator<std::string> > argsVect;
 		// bool SkipHostCheck;
 		{
 			// Blam::Network::Session *session;
@@ -357,19 +357,19 @@ namespace Modules
 		}
 		// function call : bool (*const)()
 		// function call : bool (*const)()
-		// function call : bool (*)(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &)
-		// function call : bool (*)(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &)
-		// function call : bool (*)(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &)
+		// function call : bool (*)(std::vector<std::string,std::allocator<std::string> > const &, std::string &)
+		// function call : bool (*)(std::vector<std::string,std::allocator<std::string> > const &, std::string &)
+		// function call : bool (*)(std::vector<std::string,std::allocator<std::string> > const &, std::string &)
 		todo("implement");
 		bool __result = _sub_10947090(this, command, isUserInput, output);
 		return __result;
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10949E80(Modules::Command *);
+extern std::string _sub_10949E80(Modules::Command *);
 namespace Modules
 {
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetDefaultValueString(Modules::Command *command) // 0x10949E80
+	std::string GetDefaultValueString(Modules::Command *command) // 0x10949E80
 	{
 		mangled_x86(MANGLED_TODO, "?GetDefaultValueString@Modules@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAUCommand@1@@Z");
 		// Modules::Command *command;
@@ -379,10 +379,10 @@ namespace Modules
 	}
 }
 
-extern VariableSetReturnValue _sub_1094A370(Modules::CommandMap *const, Modules::Command *, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &, bool);
+extern VariableSetReturnValue _sub_1094A370(Modules::CommandMap *const, Modules::Command *, std::string &, bool);
 namespace Modules
 {
-	VariableSetReturnValue CommandMap::ResetVariable(Modules::Command *command, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &previousValue, bool markDirty) // 0x1094A370
+	VariableSetReturnValue CommandMap::ResetVariable(Modules::Command *command, std::string &previousValue, bool markDirty) // 0x1094A370
 	{
 		mangled_x86(MANGLED_TODO, "?ResetVariable@CommandMap@Modules@@QAE?AW4VariableSetReturnValue@@PAUCommand@2@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@_N@Z");
 		// bool markDirty;
@@ -392,24 +392,24 @@ namespace Modules
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10946C60(Modules::CommandMap *const, std::string, bool);
+extern std::string _sub_10946C60(Modules::CommandMap *const, std::string, bool);
 namespace Modules
 {
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > CommandMap::ExecuteCommand(std::basic_string<char,std::char_traits<char>,std::allocator<char> > command, bool isUserInput) // 0x10946C60
+	std::string CommandMap::ExecuteCommand(std::string command, bool isUserInput) // 0x10946C60
 	{
 		mangled_x86(MANGLED_TODO, "?ExecuteCommand@CommandMap@Modules@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V34@_N@Z");
 		// static ...; // 0x10946D5C
 		// Modules::CommandMap *const this;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > command;
+		// std::string command;
 		// bool isUserInput;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > output;
+		// std::string output;
 		todo("implement");
 		std::string __result = _sub_10946C60(this, command, isUserInput);
 		return __result;
 	}
 
-	_extern bool _sub_1094A100(Modules::CommandMap *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, unsigned long &);
-	bool CommandMap::GetVariableInt(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name, unsigned long &value) // 0x1094A100
+	_extern bool _sub_1094A100(Modules::CommandMap *const, std::string const &, unsigned long &);
+	bool CommandMap::GetVariableInt(std::string const &name, unsigned long &value) // 0x1094A100
 	{
 		mangled_x86(MANGLED_TODO, "?GetVariableInt@CommandMap@Modules@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAK@Z");
 		// unsigned long &value;
@@ -419,8 +419,8 @@ namespace Modules
 		return __result;
 	}
 
-	_extern bool _sub_1094A070(Modules::CommandMap *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, unsigned long long &);
-	bool CommandMap::GetVariableInt64(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name, unsigned long long &value) // 0x1094A070
+	_extern bool _sub_1094A070(Modules::CommandMap *const, std::string const &, unsigned long long &);
+	bool CommandMap::GetVariableInt64(std::string const &name, unsigned long long &value) // 0x1094A070
 	{
 		mangled_x86(MANGLED_TODO, "?GetVariableInt64@CommandMap@Modules@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AA_K@Z");
 		// unsigned long long &value;
@@ -430,8 +430,8 @@ namespace Modules
 		return __result;
 	}
 
-	_extern bool _sub_10949FE0(Modules::CommandMap *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, float &);
-	bool CommandMap::GetVariableFloat(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name, float &value) // 0x10949FE0
+	_extern bool _sub_10949FE0(Modules::CommandMap *const, std::string const &, float &);
+	bool CommandMap::GetVariableFloat(std::string const &name, float &value) // 0x10949FE0
 	{
 		mangled_x86(MANGLED_TODO, "?GetVariableFloat@CommandMap@Modules@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAM@Z");
 		// float &value;
@@ -441,11 +441,11 @@ namespace Modules
 		return __result;
 	}
 
-	_extern bool _sub_1094A180(Modules::CommandMap *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
-	bool CommandMap::GetVariableString(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &value) // 0x1094A180
+	_extern bool _sub_1094A180(Modules::CommandMap *const, std::string const &, std::string &);
+	bool CommandMap::GetVariableString(std::string const &name, std::string &value) // 0x1094A180
 	{
 		mangled_x86(MANGLED_TODO, "?GetVariableString@CommandMap@Modules@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAV34@@Z");
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &value;
+		// std::string &value;
 		// Modules::Command *command;
 		todo("implement");
 		bool __result = _sub_1094A180(this, name, value);
@@ -453,27 +453,27 @@ namespace Modules
 	}
 }
 
-extern VariableSetReturnValue _sub_1094B130(Modules::CommandMap *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, bool);
+extern VariableSetReturnValue _sub_1094B130(Modules::CommandMap *const, std::string const &, std::string const &, bool);
 namespace Modules
 {
-	VariableSetReturnValue CommandMap::SetVariable(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &value, bool markDirty) // 0x1094B130
+	VariableSetReturnValue CommandMap::SetVariable(std::string const &name, std::string const &value, bool markDirty) // 0x1094B130
 	{
 		mangled_x86(MANGLED_TODO, "?SetVariable@CommandMap@Modules@@QAE?AW4VariableSetReturnValue@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0_N@Z");
 		// Modules::CommandMap *const this;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &value;
+		// std::string const &name;
+		// std::string const &value;
 		// bool markDirty;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > previousValue;
+		// std::string previousValue;
 		todo("implement");
 		VariableSetReturnValue __result = _sub_1094B130(this, name, value, markDirty);
 		return __result;
 	}
 }
 
-extern VariableSetReturnValue _sub_1094B0A0(Modules::CommandMap *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &, bool);
+extern VariableSetReturnValue _sub_1094B0A0(Modules::CommandMap *const, std::string const &, std::string const &, std::string &, bool);
 namespace Modules
 {
-	VariableSetReturnValue CommandMap::SetVariable(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &value, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &previousValue, bool markDirty) // 0x1094B0A0
+	VariableSetReturnValue CommandMap::SetVariable(std::string const &name, std::string const &value, std::string &previousValue, bool markDirty) // 0x1094B0A0
 	{
 		mangled_x86(MANGLED_TODO, "?SetVariable@CommandMap@Modules@@QAE?AW4VariableSetReturnValue@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0AAV45@_N@Z");
 		// bool markDirty;
@@ -484,27 +484,27 @@ namespace Modules
 	}
 }
 
-extern VariableSetReturnValue _sub_1094B880(Modules::CommandMap *const, Modules::Command *, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, bool);
+extern VariableSetReturnValue _sub_1094B880(Modules::CommandMap *const, Modules::Command *, std::string const &, bool);
 namespace Modules
 {
-	VariableSetReturnValue CommandMap::SetVariable(Modules::Command *command, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &value, bool markDirty) // 0x1094B880
+	VariableSetReturnValue CommandMap::SetVariable(Modules::Command *command, std::string const &value, bool markDirty) // 0x1094B880
 	{
 		mangled_x86(MANGLED_TODO, "?SetVariable@CommandMap@Modules@@QAE?AW4VariableSetReturnValue@@PAUCommand@2@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@_N@Z");
 		// Modules::CommandMap *const this;
 		// Modules::Command *command;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &value;
+		// std::string const &value;
 		// bool markDirty;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > previousValue;
+		// std::string previousValue;
 		todo("implement");
 		VariableSetReturnValue __result = _sub_1094B880(this, command, value, markDirty);
 		return __result;
 	}
 }
 
-extern VariableSetReturnValue _sub_1094B250(Modules::CommandMap *const, Modules::Command *, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &, bool);
+extern VariableSetReturnValue _sub_1094B250(Modules::CommandMap *const, Modules::Command *, std::string const &, std::string &, bool);
 namespace Modules
 {
-	VariableSetReturnValue CommandMap::SetVariable(Modules::Command *command, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &value, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &previousValue, bool markDirty) // 0x1094B250
+	VariableSetReturnValue CommandMap::SetVariable(Modules::Command *command, std::string const &value, std::string &previousValue, bool markDirty) // 0x1094B250
 	{
 		mangled_x86(MANGLED_TODO, "?SetVariable@CommandMap@Modules@@QAE?AW4VariableSetReturnValue@@PAUCommand@2@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAV56@_N@Z");
 	// $LN15:
@@ -513,8 +513,8 @@ namespace Modules
 	// $LN6:
 		// Modules::CommandMap *const this;
 		// Modules::Command *command;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &value;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &previousValue;
+		// std::string const &value;
+		// std::string &previousValue;
 		// bool markDirty;
 		{
 			// unsigned long newValue;
@@ -531,10 +531,10 @@ namespace Modules
 	}
 }
 
-extern VariableSetReturnValue _sub_1094AAC0(Modules::CommandMap *const, Modules::Command *, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+extern VariableSetReturnValue _sub_1094AAC0(Modules::CommandMap *const, Modules::Command *, std::string const &, std::string &);
 namespace Modules
 {
-	VariableSetReturnValue CommandMap::SetVariable2(Modules::Command *command, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &value, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &previousValue) // 0x1094AAC0
+	VariableSetReturnValue CommandMap::SetVariable2(Modules::Command *command, std::string const &value, std::string &previousValue) // 0x1094AAC0
 	{
 		mangled_x86(MANGLED_TODO, "?SetVariable2@CommandMap@Modules@@QAE?AW4VariableSetReturnValue@@PAUCommand@2@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAV56@@Z");
 	// $LN14:
@@ -543,8 +543,8 @@ namespace Modules
 	// $LN5:
 		// Modules::CommandMap *const this;
 		// Modules::Command *command;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &value;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &previousValue;
+		// std::string const &value;
+		// std::string &previousValue;
 		{
 			// unsigned long newValue;
 		}
@@ -570,10 +570,10 @@ namespace Modules
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_109498B0(Modules::CommandMap *const, std::string);
+extern std::string _sub_109498B0(Modules::CommandMap *const, std::string);
 namespace Modules
 {
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > CommandMap::GenerateHelpText(std::basic_string<char,std::char_traits<char>,std::allocator<char> > moduleFilter) // 0x109498B0
+	std::string CommandMap::GenerateHelpText(std::string moduleFilter) // 0x109498B0
 	{
 		mangled_x86(MANGLED_TODO, "?GenerateHelpText@CommandMap@Modules@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V34@@Z");
 		// static ...; // 0x10949D3F
@@ -585,7 +585,7 @@ namespace Modules
 		// static ...; // 0x10949CC0
 		// static ...; // 0x10949CB8
 		// Modules::CommandMap *const this;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > moduleFilter;
+		// std::string moduleFilter;
 		// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
 		// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > hasParent;
 		// std::deque<Modules::Command,std::allocator<Modules::Command> > tempCommands;
@@ -596,7 +596,7 @@ namespace Modules
 			{
 				// Modules::Command cmd;
 				{
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > helpText;
+					// std::string helpText;
 				}
 			}
 		}
@@ -606,10 +606,10 @@ namespace Modules
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_1094A750(Modules::CommandMap *const);
+extern std::string _sub_1094A750(Modules::CommandMap *const);
 namespace Modules
 {
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > CommandMap::SaveVariables() // 0x1094A750
+	std::string CommandMap::SaveVariables() // 0x1094A750
 	{
 		mangled_x86(MANGLED_TODO, "?SaveVariables@CommandMap@Modules@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 		// static ...; // 0x1094AA04
@@ -633,10 +633,10 @@ namespace Modules
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_1094A480(Modules::CommandMap *const);
+extern std::string _sub_1094A480(Modules::CommandMap *const);
 namespace Modules
 {
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > CommandMap::SaveKeys() // 0x1094A480
+	std::string CommandMap::SaveKeys() // 0x1094A480
 	{
 		mangled_x86(MANGLED_TODO, "?SaveKeys@CommandMap@Modules@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 		// static ...; // 0x1094A6B4
@@ -661,14 +661,14 @@ namespace Modules
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_109486F0(Modules::CommandMap *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &, bool, bool);
+extern std::string _sub_109486F0(Modules::CommandMap *const, std::string &, bool, bool);
 namespace Modules
 {
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > CommandMap::ExecuteCommands(std::basic_string<char,std::char_traits<char>,std::allocator<char> > &commands, bool isUserInput, bool stopOnFirstError) // 0x109486F0
+	std::string CommandMap::ExecuteCommands(std::string &commands, bool isUserInput, bool stopOnFirstError) // 0x109486F0
 	{
 		mangled_x86(MANGLED_TODO, "?ExecuteCommands@CommandMap@Modules@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAV34@_N1@Z");
 		// Modules::CommandMap *const this;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &commands;
+		// std::string &commands;
 		// bool isUserInput;
 		// bool stopOnFirstError;
 		// std::shared_ptr<Modules::CommandScript> script;
@@ -678,10 +678,10 @@ namespace Modules
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10948A20(Modules::CommandMap *const);
+extern std::string _sub_10948A20(Modules::CommandMap *const);
 namespace Modules
 {
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > CommandMap::ExecuteQueue() // 0x10948A20
+	std::string CommandMap::ExecuteQueue() // 0x10948A20
 	{
 		mangled_x86(MANGLED_TODO, "?ExecuteQueue@CommandMap@Modules@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 		// static ...; // 0x10948C18
@@ -691,11 +691,11 @@ namespace Modules
 		// Modules::CommandMap *const this;
 		// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
 		{
-			// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > &<range>$L0;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *<begin>$L0;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *<end>$L0;
+			// std::vector<std::string,std::allocator<std::string> > &<range>$L0;
+			// std::string *<begin>$L0;
+			// std::string *<end>$L0;
 			{
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > cmd;
+				// std::string cmd;
 			}
 		}
 		todo("implement");

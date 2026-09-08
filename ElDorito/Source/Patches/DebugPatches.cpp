@@ -203,8 +203,8 @@ namespace hades_file_local
 		static void Update();
 		static void UpdateInternal();
 		static void Render();
-		static std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetHitDescription(s_collision_result const &);
-		static std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetFriendlyTagName(long);
+		static std::string GetHitDescription(s_collision_result const &);
+		static std::string GetFriendlyTagName(long);
 		static void ResetForNewMap();
 	private:
 		static bool m_collisionResultValid;
@@ -360,7 +360,7 @@ _inline void CRenderDebugCollisionTest::Render() // 0x108C9010
 	// static ...; // 0x108C9290
 	// static ...; // 0x108C9248
 	// static ...; // 0x108C9240
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > description;
+	// std::string description;
 	// short_rectangle2d bounds;
 	// c_rasterizer_draw_string drawstr;
 	// c_font_cache_mt_safe cache;
@@ -373,8 +373,8 @@ _inline void CRenderDebugCollisionTest::Render() // 0x108C9010
 	_sub_108C9010();
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_108C7FA0(s_collision_result const &);
-_inline std::basic_string<char,std::char_traits<char>,std::allocator<char> > CRenderDebugCollisionTest::GetHitDescription(s_collision_result const &hit) // 0x108C7FA0
+extern std::string _sub_108C7FA0(s_collision_result const &);
+_inline std::string CRenderDebugCollisionTest::GetHitDescription(s_collision_result const &hit) // 0x108C7FA0
 {
 	// `anonymous-namespace'::CRenderDebugCollisionTest::GetHitDescription
 	// static ...; // 0x108C8A44
@@ -393,22 +393,22 @@ _inline std::basic_string<char,std::char_traits<char>,std::allocator<char> > CRe
 	// static ...; // 0x108C8928
 	// s_collision_result const &hit;
 	// real_euler_angles3d object_angles;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > sbspName;
+	// std::string sbspName;
 	// real_point3d cameraPos;
 	// long scnrIndex;
 	// long renderMaterialIndex;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > collisionMaterialName;
+	// std::string collisionMaterialName;
 	// char info[8224];
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > renderMaterialName;
+	// std::string renderMaterialName;
 	// long (*const find_render_method_index_from_collision)(long, __int32, long, long);
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > objectName;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > hitType;
+	// std::string objectName;
+	// std::string hitType;
 	// s_scenario *scenario;
 	// char bspIndex;
 	// long mapvPlacementIndex;
 	// float distance;
 	// long unitIndex;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > global_material_name;
+	// std::string global_material_name;
 	// s_global_material_definition *(*const global_get_material)(short);
 	// real_point3d object_pos;
 	{
@@ -443,8 +443,8 @@ _inline std::basic_string<char,std::char_traits<char>,std::allocator<char> > CRe
 	return __result;
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_108C7E20(long);
-_inline std::basic_string<char,std::char_traits<char>,std::allocator<char> > CRenderDebugCollisionTest::GetFriendlyTagName(long tagindex) // 0x108C7E20
+extern std::string _sub_108C7E20(long);
+_inline std::string CRenderDebugCollisionTest::GetFriendlyTagName(long tagindex) // 0x108C7E20
 {
 	// `anonymous-namespace'::CRenderDebugCollisionTest::GetFriendlyTagName
 	// static ...; // 0x108C7F3D
@@ -657,7 +657,7 @@ void render_debug_object_markers(long object_index) // 0x108CC380
 	// static ...; // 0x108CC9AC
 	// long object_index;
 	// s_object_data *object;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &groupFilter;
+	// std::string const &groupFilter;
 	// s_object_marker markers[64];
 	// s_object_definition *object_def;
 	// s_model_definition *model;

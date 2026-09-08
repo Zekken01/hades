@@ -38,7 +38,7 @@ namespace Forge
 		_inline SPropertyValue();
 		static _inline Forge::SPropertyValue Integer(__int32 val);
 		static _inline Forge::SPropertyValue Real(float val);
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > ToString();
+		std::string ToString();
 	};
 	static_assert(sizeof(Forge::SPropertyValue) == 8, "Invalid Forge::SPropertyValue size");
 }

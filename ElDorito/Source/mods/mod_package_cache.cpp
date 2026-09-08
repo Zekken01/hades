@@ -496,8 +496,8 @@ bool c_mod_package::read_font_package_blocking(c_file_reference &file, unsigned 
 	return __result;
 }
 
-extern std::unordered_map<int,std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::hash<int>,std::equal_to<int>,std::allocator<std::pair<int const ,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > _sub_1089F960(c_mod_package *const, c_file_reference &, __int32);
-std::unordered_map<int,std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::hash<int>,std::equal_to<int>,std::allocator<std::pair<int const ,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > c_mod_package::read_tag_names(c_file_reference &file, __int32 tag_cache_index) // 0x1089F960
+extern std::unordered_map<int,std::string,std::hash<int>,std::equal_to<int>,std::allocator<std::pair<int const ,std::string> > > _sub_1089F960(c_mod_package *const, c_file_reference &, __int32);
+std::unordered_map<int,std::string,std::hash<int>,std::equal_to<int>,std::allocator<std::pair<int const ,std::string> > > c_mod_package::read_tag_names(c_file_reference &file, __int32 tag_cache_index) // 0x1089F960
 {
 	mangled_x86(MANGLED_TODO, "?read_tag_names@c_mod_package@@QAE?AV?$unordered_map@HV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@U?$hash@H@2@U?$equal_to@H@2@V?$allocator@U?$pair@$$CBHV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@std@@@2@@std@@AAVc_file_reference@@H@Z");
 	// static ...; // 0x1089FDB2
@@ -509,7 +509,7 @@ std::unordered_map<int,std::basic_string<char,std::char_traits<char>,std::alloca
 	// c_mod_package *const this;
 	// c_file_reference &file;
 	// __int32 tag_cache_index;
-	// std::unordered_map<int,std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::hash<int>,std::equal_to<int>,std::allocator<std::pair<int const ,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > tag_names;
+	// std::unordered_map<int,std::string,std::hash<int>,std::equal_to<int>,std::allocator<std::pair<int const ,std::string> > > tag_names;
 	// unsigned long offset;
 	// s_mod_package_generic_table_entry tag_name_file_entry;
 	// s_mod_package_generic_section_entry tag_name_table;
@@ -522,7 +522,7 @@ std::unordered_map<int,std::basic_string<char,std::char_traits<char>,std::alloca
 		}
 	}
 	todo("implement");
-	std::unordered_map<int,std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::hash<int>,std::equal_to<int>,std::allocator<std::pair<int const ,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > __result = _sub_1089F960(this, file, tag_cache_index);
+	std::unordered_map<int,std::string,std::hash<int>,std::equal_to<int>,std::allocator<std::pair<int const ,std::string> > > __result = _sub_1089F960(this, file, tag_cache_index);
 	return __result;
 }
 

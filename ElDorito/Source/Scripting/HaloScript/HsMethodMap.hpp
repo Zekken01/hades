@@ -45,8 +45,8 @@ namespace Scripting
 		struct ScriptParameter
 		{
 			e_hs_type type; // 0x0
-			std::basic_string_view<char,std::char_traits<char> > name; // 0x4
-			std::basic_string_view<char,std::char_traits<char> > description; // 0xC
+			std::string_view name; // 0x4
+			std::string_view description; // 0xC
 			ScriptParameter(); /* compiler_generated() */
 		};
 	}
@@ -63,8 +63,8 @@ namespace Scripting
 		struct ScriptMethod
 		{
 			Scripting::HS::ScriptMethodFlags flags; // 0x0
-			std::basic_string_view<char,std::char_traits<char> > name; // 0x4
-			std::basic_string_view<char,std::char_traits<char> > description; // 0xC
+			std::string_view name; // 0x4
+			std::string_view description; // 0xC
 			e_hs_type returnType; // 0x14
 			void (*evaluateProc)(short, long, bool); // 0x18
 			std::vector<Scripting::HS::ScriptParameter,std::allocator<Scripting::HS::ScriptParameter> > parameters; // 0x1C
@@ -92,16 +92,16 @@ namespace Scripting
 		private:
 			void AddMethod(Scripting::HS::ScriptMethod &&method);
 		public:
-			void AddMethod(std::basic_string_view<char,std::char_traits<char> > name, std::basic_string_view<char,std::char_traits<char> > description, Scripting::HS::ScriptMethodFlags flags, void (*evaluate)(short, long, bool), e_hs_type returnType, std::initializer_list<Scripting::HS::ScriptParameter> parameters);
-			Scripting::HS::ScriptMethod const *FindMethod(std::basic_string_view<char,std::char_traits<char> > name) const;
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > GenerateDocs() const;
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > GenerateHelp(Scripting::HS::ScriptMethod const *method);
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > GenerateMethodDeclaration(Scripting::HS::ScriptMethod const *method);
+			void AddMethod(std::string_view name, std::string_view description, Scripting::HS::ScriptMethodFlags flags, void (*evaluate)(short, long, bool), e_hs_type returnType, std::initializer_list<Scripting::HS::ScriptParameter> parameters);
+			Scripting::HS::ScriptMethod const *FindMethod(std::string_view name) const;
+			std::string GenerateDocs() const;
+			std::string GenerateHelp(Scripting::HS::ScriptMethod const *method);
+			std::string GenerateMethodDeclaration(Scripting::HS::ScriptMethod const *method);
 			void Finalize();
 		private:
 			bool m_finalized; // 0x0
 			unsigned char __pad0[3]; // 0x1
-			std::unordered_map<std::basic_string_view<char,std::char_traits<char> >,Scripting::HS::ScriptMethod,std::hash<std::basic_string_view<char,std::char_traits<char> > >,std::equal_to<std::basic_string_view<char,std::char_traits<char> > >,std::allocator<std::pair<std::basic_string_view<char,std::char_traits<char> > const ,Scripting::HS::ScriptMethod> > > m_methods; // 0x4
+			std::unordered_map<std::string_view,Scripting::HS::ScriptMethod,std::hash<std::string_view>,std::equal_to<std::string_view>,std::allocator<std::pair<std::string_view const ,Scripting::HS::ScriptMethod> > > m_methods; // 0x4
 		public:
 			_inline ScriptMethodMap(); /* compiler_generated() */
 			~ScriptMethodMap(); /* compiler_generated() */
@@ -118,7 +118,7 @@ namespace Scripting
 {
 	namespace HS
 	{
-		extern bool ValidIdentifier(std::basic_string_view<char,std::char_traits<char> > name);
+		extern bool ValidIdentifier(std::string_view name);
 
 		extern _inline Scripting::HS::ScriptMethodFlags operator&(Scripting::HS::ScriptMethodFlags lhs, Scripting::HS::ScriptMethodFlags rhs);
 	}

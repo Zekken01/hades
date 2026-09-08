@@ -66,7 +66,7 @@ namespace Web
 		public:
 			WebRenderer();
 			static std::shared_ptr<Web::Browser::WebRenderer> GetInstance();
-			bool Init(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &url, bool debugEnable);
+			bool Init(std::string const &url, bool debugEnable);
 			bool InitRenderer(IDirect3DDevice9 *device);
 			bool Render(IDirect3DDevice9 *device);
 			bool Update();
@@ -79,17 +79,17 @@ namespace Web
 			bool SendMouseWheelEvent(CefStructBase<CefMouseEventTraits> const &event, __int32 deltaX, __int32 deltaY);
 			bool SendPlatformEvent(CefStructBase<CefPlatformEventTraits> const &event);
 			bool SendKeyEvent(CefStructBase<CefKeyEventTraits> const &p_Event);
-			bool OpenUrl(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &p_Url);
+			bool OpenUrl(std::string const &p_Url);
 			bool Reload(bool p_IgnoreCache);
-			bool RegisterScheme(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &p_Name, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &p_Directory);
-			bool ExecuteJavascript(std::basic_string<char,std::char_traits<char>,std::allocator<char> > p_Code, bool deferIfNeeded);
+			bool RegisterScheme(std::string const &p_Name, std::string const &p_Directory);
+			bool ExecuteJavascript(std::string p_Code, bool deferIfNeeded);
 			void EnqueueDOMTask(std::function<void __cdecl(void)> &&task);
 			bool PreReset();
 			bool PostReset();
 			bool Shutdown();
 			bool SetState(Web::Browser::RendererState p_State);
 			Web::Browser::RendererState GetState();
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetUIDirectory();
+			std::string GetUIDirectory();
 			bool IsAccelerated() const;
 			scoped_refptr<Web::Browser::WebRendererHandler> GetClientHandler() const;
 			scoped_refptr<Web::Browser::WebRendererRenderHandler> GetRenderHandler() const;

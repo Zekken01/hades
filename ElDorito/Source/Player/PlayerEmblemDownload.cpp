@@ -168,7 +168,7 @@ namespace hades_file_local
 	struct PlayerEmblem
 	{
 		std::mutex mutex; // 0x0
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > data; // 0x30
+		std::string data; // 0x30
 		IDirect3DTexture9 *texture; // 0x4C
 		bool active; // 0x50
 		unsigned char __pad0[3]; // 0x51
@@ -177,7 +177,7 @@ namespace hades_file_local
 		unsigned short player_join_number; // 0x60
 		unsigned short attempts; // 0x62
 		long attemptTick; // 0x64
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > generatedEmblemUrl; // 0x68
+		std::string generatedEmblemUrl; // 0x68
 		s_player_emblem_configuration emblemConfig; // 0x84
 		PlayerEmblem(); /* compiler_generated() */
 		~PlayerEmblem(); /* compiler_generated() */
@@ -214,7 +214,7 @@ namespace Http
 
 namespace Player
 {
-	extern void StartImageDownload(std::basic_string<char,std::char_traits<char>,std::allocator<char> > url, __int32 player_index);
+	extern void StartImageDownload(std::string url, __int32 player_index);
 	extern void ResetCosmeticSlot(__int32 player_index);
 	extern void InvalidateCosmeticSlot(__int32 player_index);
 	extern void DXInitEmblem(__int32 player_index);
@@ -238,12 +238,12 @@ namespace Player
 namespace Player
 {
 	_extern void _sub_108FE180(std::string, __int32);
-	void StartImageDownload(std::basic_string<char,std::char_traits<char>,std::allocator<char> > url, __int32 player_index) // 0x108FE180
+	void StartImageDownload(std::string url, __int32 player_index) // 0x108FE180
 	{
 		mangled_x86(MANGLED_TODO, "?StartImageDownload@Player@@YAXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@H@Z");
 		// static ...; // 0x108FE5CC
 		// static ...; // 0x108FE5C4
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > url;
+		// std::string url;
 		// __int32 player_index;
 		// std::shared_ptr<Http::IHttpRequest> req;
 		// function call : void (std::string)
@@ -307,7 +307,7 @@ namespace Player
 		// static ...; // 0x108FCAFC
 		// static ...; // 0x108FCAF4
 		// __int32 player_index;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > url;
+		// std::string url;
 		{
 			// s_player_emblem_configuration tempConfig;
 		}
@@ -325,7 +325,7 @@ namespace Player
 		// __int32 player_index;
 		// bool is_customization_biped;
 		// unsigned short player_slot_join_number;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > url;
+		// std::string url;
 		{
 			// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> dewrito;
 			{
@@ -474,7 +474,7 @@ namespace Player
 		// std::shared_ptr<Http::IHttpResponse> response;
 		{
 			// std::unique_lock<std::mutex> lock;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *data;
+			// std::string *data;
 		}
 		// function call : std::shared_ptr<Http::IHttpResponse> ()
 		// function call : __int32 () const
@@ -495,7 +495,7 @@ namespace Player
 		// bool success;
 		// std::unique_lock<std::mutex> lock;
 		{
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *data;
+			// std::string *data;
 		}
 		todo("implement");
 		_sub_108FD490(this, player_index, request, success);
@@ -510,7 +510,7 @@ namespace Player
 		// char const *buffer;
 		// unsigned __int32 length;
 		// std::unique_lock<std::mutex> lock;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *data;
+		// std::string *data;
 		todo("implement");
 		bool __result = _sub_108FDC80(this, player_index, buffer, length);
 		return __result;

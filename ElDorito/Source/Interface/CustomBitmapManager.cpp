@@ -176,14 +176,14 @@ CustomBitmapManager *CustomBitmapManager::Get() // 0x10784CB0
 	return __result;
 }
 
-_extern __int32 _sub_10784900(CustomBitmapManager *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-__int32 CustomBitmapManager::FindOrAllocateBitmap(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &path) // 0x10784900
+_extern __int32 _sub_10784900(CustomBitmapManager *const, std::string const &);
+__int32 CustomBitmapManager::FindOrAllocateBitmap(std::string const &path) // 0x10784900
 {
 	mangled_x86(MANGLED_TODO, "?FindOrAllocateBitmap@CustomBitmapManager@@QAEHABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 	// static ...; // 0x10784AFC
 	// static ...; // 0x10784AF4
 	// CustomBitmapManager *const this;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &path;
+	// std::string const &path;
 	// std::scoped_lock<std::shared_mutex> lock;
 	// CustomBitmapManager::StorageItem *item;
 	// __int32 itemIndex;
@@ -224,16 +224,16 @@ void CustomBitmapManager::BitmapRelease(__int32 handle) // 0x10784720
 }
 
 _extern void _sub_10784400(CustomBitmapManager *const, __int32, std::string, std::string);
-void CustomBitmapManager::BitmapLoadFromFileAsync(__int32 handle, std::basic_string<char,std::char_traits<char>,std::allocator<char> > path, std::basic_string<char,std::char_traits<char>,std::allocator<char> > fallbackPath) // 0x10784400
+void CustomBitmapManager::BitmapLoadFromFileAsync(__int32 handle, std::string path, std::string fallbackPath) // 0x10784400
 {
 	mangled_x86(MANGLED_TODO, "?BitmapLoadFromFileAsync@CustomBitmapManager@@QAEXHV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z");
 	// static ...; // 0x10784644
 	// CustomBitmapManager *const this;
 	// __int32 handle;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > path;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > fallbackPath;
+	// std::string path;
+	// std::string fallbackPath;
 	// std::scoped_lock<std::shared_mutex> lock;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > currentModHash;
+	// std::string currentModHash;
 	// CustomBitmapManager::StorageItem *item;
 	todo("implement");
 	_sub_10784400(this, handle, path, fallbackPath);
@@ -347,11 +347,11 @@ unsigned short CustomBitmapManager::NextSalt() // 0x10785AD0
 	return __result;
 }
 
-_extern __int32 _sub_10784B90(CustomBitmapManager *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-__int32 CustomBitmapManager::FindStorageItemWithPath(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &path) // 0x10784B90
+_extern __int32 _sub_10784B90(CustomBitmapManager *const, std::string const &);
+__int32 CustomBitmapManager::FindStorageItemWithPath(std::string const &path) // 0x10784B90
 {
 	mangled_x86(MANGLED_TODO, "?FindStorageItemWithPath@CustomBitmapManager@@AAEHABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &path;
+	// std::string const &path;
 	{
 		// unsigned __int32 i;
 	}
@@ -386,8 +386,8 @@ CustomBitmapManager::StorageItem *CustomBitmapManager::GetStorageItem(__int32 ha
 	return __result;
 }
 
-_extern bool _sub_107850A0(CustomBitmapManager *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, std::vector<unsigned char,std::allocator<unsigned char> > &);
-bool CustomBitmapManager::LoadFileIntoBufferBlocking(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &url, std::vector<unsigned char,std::allocator<unsigned char> > &buffer) // 0x107850A0
+_extern bool _sub_107850A0(CustomBitmapManager *const, std::string const &, std::vector<unsigned char,std::allocator<unsigned char> > &);
+bool CustomBitmapManager::LoadFileIntoBufferBlocking(std::string const &url, std::vector<unsigned char,std::allocator<unsigned char> > &buffer) // 0x107850A0
 {
 	mangled_x86(MANGLED_TODO, "?LoadFileIntoBufferBlocking@CustomBitmapManager@@AAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAV?$vector@EV?$allocator@E@std@@@3@@Z");
 	// static ...; // 0x10785889
@@ -397,7 +397,7 @@ bool CustomBitmapManager::LoadFileIntoBufferBlocking(std::basic_string<char,std:
 	// static ...; // 0x10785830
 	// static ...; // 0x10785828
 	// CustomBitmapManager *const this;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &url;
+	// std::string const &url;
 	// std::vector<unsigned char,std::allocator<unsigned char> > &buffer;
 	// std::filesystem::path fpath;
 	// long long fileSize;
@@ -406,7 +406,7 @@ bool CustomBitmapManager::LoadFileIntoBufferBlocking(std::basic_string<char,std:
 	{
 		// Utils::Uri::UriComponents uric;
 		// std::shared_ptr<CModPackageFileSystemView> fsView;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > path;
+		// std::string path;
 		// CModPackageFileSystemView::SFileEntry fsEntry;
 	}
 	todo("implement");

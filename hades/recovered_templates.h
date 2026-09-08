@@ -523,20 +523,20 @@ namespace Utils
 		NameValueTable() = default;
 		NameValueTable(NameValueTable &); /* compiler_generated() */
 		NameValueTable(NameValueTable const &); /* compiler_generated() */
-		_inline NameValueTable(std::initializer_list<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,t_arg0> > pairs);
-		bool FindValue(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, t_arg0 *) const;
-		_inline bool FindValueIgnoreCase(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name, t_arg0 *result) const;
-		_inline bool FindName(t_arg0 value, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *result) const;
-		bool ContainsName(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &) const;
-		bool ContainsNameIgnoreCase(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &) const;
+		_inline NameValueTable(std::initializer_list<std::pair<std::string,t_arg0> > pairs);
+		bool FindValue(std::string const &, t_arg0 *) const;
+		_inline bool FindValueIgnoreCase(std::string const &name, t_arg0 *result) const;
+		_inline bool FindName(t_arg0 value, std::string *result) const;
+		bool ContainsName(std::string const &) const;
+		bool ContainsNameIgnoreCase(std::string const &) const;
 		bool ContainsValue(t_arg0) const;
-		_inline std::_Vector_const_iterator<std::_Vector_val<std::_Simple_types<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,t_arg0> > > > begin() const;
-		_inline std::_Vector_const_iterator<std::_Vector_val<std::_Simple_types<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,t_arg0> > > > end() const;
+		_inline std::_Vector_const_iterator<std::_Vector_val<std::_Simple_types<std::pair<std::string,t_arg0> > > > begin() const;
+		_inline std::_Vector_const_iterator<std::_Vector_val<std::_Simple_types<std::pair<std::string,t_arg0> > > > end() const;
 	private:
-		std::vector<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,t_arg0>,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,t_arg0> > > valuesInOrder; // 0x0
-		std::unordered_map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,t_arg0,std::hash<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::equal_to<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,t_arg0> > > valuesByName; // 0x10
-		std::unordered_map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,t_arg0,std::hash<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::equal_to<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,t_arg0> > > valuesByLowercaseName; // 0x38
-		std::unordered_map<t_arg0,std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::hash<t_arg0>,std::equal_to<t_arg0>,std::allocator<std::pair<t_arg0 const ,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > valueNames; // 0x60
+		std::vector<std::pair<std::string,t_arg0>,std::allocator<std::pair<std::string,t_arg0> > > valuesInOrder; // 0x0
+		std::unordered_map<std::string,t_arg0,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::pair<std::string const ,t_arg0> > > valuesByName; // 0x10
+		std::unordered_map<std::string,t_arg0,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::pair<std::string const ,t_arg0> > > valuesByLowercaseName; // 0x38
+		std::unordered_map<t_arg0,std::string,std::hash<t_arg0>,std::equal_to<t_arg0>,std::allocator<std::pair<t_arg0 const ,std::string> > > valueNames; // 0x60
 	public:
 		_inline ~NameValueTable(); /* compiler_generated() */
 		NameValueTable &operator=(NameValueTable &); /* compiler_generated() */
@@ -794,7 +794,7 @@ namespace Utils
 			_inline void set_channels(unsigned __int32 channels);
 			_inline void clear_channels(unsigned __int32 channels);
 			_inline void write(unsigned __int32 channel, char const *msg);
-			_inline void write(unsigned __int32 channel, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &msg);
+			_inline void write(unsigned __int32 channel, std::string const &msg);
 			_inline bool static_test(unsigned __int32 channel) const;
 			_inline bool dynamic_test(unsigned __int32 const channel);
 		private:
@@ -1824,7 +1824,7 @@ _inline CSimpleMessageQueue<t_arg0, t_arg1>::SQueueEntry::~SQueueEntry()
 /* ---------- Utils::NameValueTable members (14 instantiations folded) */
 
 template<typename t_arg0>
-_inline bool Utils::NameValueTable<t_arg0>::FindName(t_arg0 value, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *result) const
+_inline bool Utils::NameValueTable<t_arg0>::FindName(t_arg0 value, std::string *result) const
 {
 	mangled_prefix_assert("?FindName@?$NameValueTable@");
 	todo("implement");
@@ -1832,7 +1832,7 @@ _inline bool Utils::NameValueTable<t_arg0>::FindName(t_arg0 value, std::basic_st
 }
 
 template<typename t_arg0>
-_inline bool Utils::NameValueTable<t_arg0>::FindValueIgnoreCase(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name, t_arg0 *result) const
+_inline bool Utils::NameValueTable<t_arg0>::FindValueIgnoreCase(std::string const &name, t_arg0 *result) const
 {
 	mangled_prefix_assert("?FindValueIgnoreCase@?$NameValueTable@");
 	todo("implement");
@@ -1840,26 +1840,26 @@ _inline bool Utils::NameValueTable<t_arg0>::FindValueIgnoreCase(std::basic_strin
 }
 
 template<typename t_arg0>
-_inline Utils::NameValueTable<t_arg0>::NameValueTable(std::initializer_list<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,t_arg0> > pairs)
+_inline Utils::NameValueTable<t_arg0>::NameValueTable(std::initializer_list<std::pair<std::string,t_arg0> > pairs)
 {
 	mangled_prefix_assert("??0?$NameValueTable@");
 	todo("implement");
 }
 
 template<typename t_arg0>
-_inline std::_Vector_const_iterator<std::_Vector_val<std::_Simple_types<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,t_arg0> > > > Utils::NameValueTable<t_arg0>::begin() const
+_inline std::_Vector_const_iterator<std::_Vector_val<std::_Simple_types<std::pair<std::string,t_arg0> > > > Utils::NameValueTable<t_arg0>::begin() const
 {
 	mangled_prefix_assert("?begin@?$NameValueTable@");
 	todo("implement");
-	return todo_result<std::_Vector_const_iterator<std::_Vector_val<std::_Simple_types<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,t_arg0> > > >>();
+	return todo_result<std::_Vector_const_iterator<std::_Vector_val<std::_Simple_types<std::pair<std::string,t_arg0> > > >>();
 }
 
 template<typename t_arg0>
-_inline std::_Vector_const_iterator<std::_Vector_val<std::_Simple_types<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,t_arg0> > > > Utils::NameValueTable<t_arg0>::end() const
+_inline std::_Vector_const_iterator<std::_Vector_val<std::_Simple_types<std::pair<std::string,t_arg0> > > > Utils::NameValueTable<t_arg0>::end() const
 {
 	mangled_prefix_assert("?end@?$NameValueTable@");
 	todo("implement");
-	return todo_result<std::_Vector_const_iterator<std::_Vector_val<std::_Simple_types<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,t_arg0> > > >>();
+	return todo_result<std::_Vector_const_iterator<std::_Vector_val<std::_Simple_types<std::pair<std::string,t_arg0> > > >>();
 }
 
 /* ---------- Patches::CustomPackets::Packet members (4 instantiations folded) */
@@ -2093,7 +2093,7 @@ _inline bool Utils::WebSocket::Logger<t_arg0, t_arg1>::static_test(unsigned __in
 }
 
 template<typename t_arg0, typename t_arg1>
-_inline void Utils::WebSocket::Logger<t_arg0, t_arg1>::write(unsigned __int32 channel, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &msg)
+_inline void Utils::WebSocket::Logger<t_arg0, t_arg1>::write(unsigned __int32 channel, std::string const &msg)
 {
 	mangled_prefix_assert("?write@?$Logger@");
 	todo("implement");

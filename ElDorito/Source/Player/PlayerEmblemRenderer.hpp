@@ -38,7 +38,7 @@ namespace Player
 	{
 		struct PlayerEmblemRenderMetadata
 		{
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > mimeType; // 0x0
+			std::string mimeType; // 0x0
 			PlayerEmblemRenderMetadata(Player::Emblems::PlayerEmblemRenderMetadata &); /* compiler_generated() */
 			PlayerEmblemRenderMetadata(Player::Emblems::PlayerEmblemRenderMetadata const &); /* compiler_generated() */
 			_inline PlayerEmblemRenderMetadata(); /* compiler_generated() */

@@ -98,7 +98,7 @@ namespace Server
 {
 	namespace hades_file_local_Server
 	{
-		extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > DefaultBanListPath; // 0x1246757C
+		extern std::string DefaultBanListPath; // 0x1246757C
 	}
 	using namespace hades_file_local_Server;
 }
@@ -106,15 +106,15 @@ namespace Server
 
 namespace Server
 {
-	_extern void _sub_10AFAF10(Server::TempBanList *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const);
-	void TempBanList::AddIp(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ip) // 0x10AFAF10
+	_extern void _sub_10AFAF10(Server::TempBanList *const, std::string const);
+	void TempBanList::AddIp(std::string const ip) // 0x10AFAF10
 	{
 		mangled_x86(MANGLED_TODO, "?AddIp@TempBanList@Server@@QAEXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 		// static ...; // 0x10AFB108
 		// static ...; // 0x10AFB100
 		// Server::TempBanList *const this;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > ip;
-		// std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,int> > > > it;
+		// std::string ip;
+		// std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,int> > > > it;
 		todo("implement");
 		_sub_10AFAF10(this, ip);
 	}
@@ -127,19 +127,19 @@ namespace Server
 		// static ...; // 0x10AFC32C
 		// static ...; // 0x10AFC324
 		// Server::TempBanList *const this;
-		// std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,int> > > > it;
+		// std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,int> > > > it;
 		todo("implement");
 		_sub_10AFC1B0(this);
 	}
 
-	extern BanList* _sub_10AFA740(Server::BanList *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-	BanList::BanList(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &path) // 0x10AFA740
+	extern BanList* _sub_10AFA740(Server::BanList *const, std::string const &);
+	BanList::BanList(std::string const &path) // 0x10AFA740
 	{
 		mangled_x86(MANGLED_TODO, "??0BanList@Server@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 		// static ...; // 0x10AFA82C
 		// static ...; // 0x10AFA824
 		// Server::BanList *const this;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &path;
+		// std::string const &path;
 		// std::basic_ifstream<char,std::char_traits<char> > stream;
 		todo("implement");
 		_sub_10AFA740(this, path);
@@ -156,8 +156,8 @@ namespace Server
 		// Server::BanList *const this;
 		// std::basic_istream<char,std::char_traits<char> > &stream;
 		{
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > line;
-			// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > components;
+			// std::string line;
+			// std::vector<std::string,std::allocator<std::string> > components;
 			// unsigned __int32 commentStart;
 			{
 				// unsigned long long uid;
@@ -183,19 +183,19 @@ namespace Server
 		// Server::BanList const *const this;
 		// std::basic_ostream<char,std::char_traits<char> > &stream;
 		{
-			// std::unordered_set<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::hash<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::equal_to<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &<range>$L0;
-			// std::_List_unchecked_const_iterator<std::_List_val<std::_List_simple_types<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > >,std::_Iterator_base0> <begin>$L0;
-			// std::_List_unchecked_const_iterator<std::_List_val<std::_List_simple_types<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > >,std::_Iterator_base0> <end>$L0;
+			// std::unordered_set<std::string,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::string> > const &<range>$L0;
+			// std::_List_unchecked_const_iterator<std::_List_val<std::_List_simple_types<std::string> >,std::_Iterator_base0> <begin>$L0;
+			// std::_List_unchecked_const_iterator<std::_List_val<std::_List_simple_types<std::string> >,std::_Iterator_base0> <end>$L0;
 			{
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > name;
+				// std::string name;
 			}
 		}
 		{
-			// std::_List_unchecked_const_iterator<std::_List_val<std::_List_simple_types<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > >,std::_Iterator_base0> <end>$L1;
-			// std::_List_unchecked_const_iterator<std::_List_val<std::_List_simple_types<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > >,std::_Iterator_base0> <begin>$L1;
-			// std::unordered_set<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::hash<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::equal_to<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &<range>$L1;
+			// std::_List_unchecked_const_iterator<std::_List_val<std::_List_simple_types<std::string> >,std::_Iterator_base0> <end>$L1;
+			// std::_List_unchecked_const_iterator<std::_List_val<std::_List_simple_types<std::string> >,std::_Iterator_base0> <begin>$L1;
+			// std::unordered_set<std::string,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::string> > const &<range>$L1;
 			{
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > ip;
+				// std::string ip;
 			}
 		}
 		{
@@ -210,14 +210,14 @@ namespace Server
 		_sub_10AFB6E0((Server::BanList const *)this, stream);
 	}
 
-	_extern void _sub_10AFBC20(Server::BanList const *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-	void BanList::Save(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &path) const // 0x10AFBC20
+	_extern void _sub_10AFBC20(Server::BanList const *const, std::string const &);
+	void BanList::Save(std::string const &path) const // 0x10AFBC20
 	{
 		mangled_x86(MANGLED_TODO, "?Save@BanList@Server@@QBEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 		// static ...; // 0x10AFBCDC
 		// static ...; // 0x10AFBCD4
 		// Server::BanList const *const this;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &path;
+		// std::string const &path;
 		// std::basic_ofstream<char,std::char_traits<char> > stream;
 		todo("implement");
 		_sub_10AFBC20((Server::BanList const *)this, path);

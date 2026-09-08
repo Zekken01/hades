@@ -43,14 +43,14 @@ namespace Server
 	{
 	public:
 		_inline TempBanList();
-		void AddIp(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ip);
-		_inline bool ContainsIp(std::basic_string<char,std::char_traits<char>,std::allocator<char> > ip);
-		_inline bool RemoveIp(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &ip);
+		void AddIp(std::string const ip);
+		_inline bool ContainsIp(std::string ip);
+		_inline bool RemoveIp(std::string const &ip);
 		void decrementDuration();
 		_inline void ClearList();
-		_inline std::map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,int,std::less<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,int> > > TempBannedList();
+		_inline std::map<std::string,int,std::less<std::string>,std::allocator<std::pair<std::string const ,int> > > TempBannedList();
 	private:
-		std::map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,int,std::less<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,int> > > ipAddresses; // 0x0
+		std::map<std::string,int,std::less<std::string>,std::allocator<std::pair<std::string const ,int> > > ipAddresses; // 0x0
 	public:
 		~TempBanList(); /* compiler_generated() */
 	};
@@ -74,26 +74,26 @@ namespace Server
 		public:
 		BanList(Server::BanList &); /* compiler_generated() */
 		BanList(Server::BanList const &); /* compiler_generated() */
-		BanList(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &path);
+		BanList(std::string const &path);
 		_inline BanList(std::basic_istream<char,std::char_traits<char> > &stream);
 		_inline BanList();
-		_inline void AddIp(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &ip);
-		_inline bool ContainsIp(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &ip) const;
-		_inline bool RemoveIp(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &ip);
+		_inline void AddIp(std::string const &ip);
+		_inline bool ContainsIp(std::string const &ip) const;
+		_inline bool RemoveIp(std::string const &ip);
 		_inline void AddUid(unsigned long long uid);
 		_inline bool ContainsUid(unsigned long long uid);
 		_inline bool RemoveUid(unsigned long long uid);
-		_inline void AddName(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name);
-		_inline bool ContainsName(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name);
-		_inline bool RemoveName(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name);
-		void Save(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &path) const;
+		_inline void AddName(std::string const &name);
+		_inline bool ContainsName(std::string const &name);
+		_inline bool RemoveName(std::string const &name);
+		void Save(std::string const &path) const;
 		void Save(std::basic_ostream<char,std::char_traits<char> > &stream) const;
-		_inline BanType IsBanned(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &ip);
+		_inline BanType IsBanned(std::string const &ip);
 	private:
 		void Read(std::basic_istream<char,std::char_traits<char> > &stream);
-		std::unordered_set<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::hash<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::equal_to<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > ipAddresses; // 0x0
+		std::unordered_set<std::string,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::string> > ipAddresses; // 0x0
 		std::unordered_set<unsigned __int64,std::hash<unsigned __int64>,std::equal_to<unsigned __int64>,std::allocator<unsigned __int64> > uids; // 0x28
-		std::unordered_set<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::hash<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::equal_to<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > names; // 0x50
+		std::unordered_set<std::string,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::string> > names; // 0x50
 	public:
 		_inline ~BanList(); /* compiler_generated() */
 		Server::BanList &operator=(Server::BanList &); /* compiler_generated() */
@@ -126,20 +126,20 @@ namespace Server
 	}
 
 	_extern bool _sub_10A94290(Server::TempBanList *const, std::string);
-	_inline bool TempBanList::ContainsIp(std::basic_string<char,std::char_traits<char>,std::allocator<char> > ip) // 0x10A94290
+	_inline bool TempBanList::ContainsIp(std::string ip) // 0x10A94290
 	{
 		mangled_x86(MANGLED_TODO, "?ContainsIp@TempBanList@Server@@QAE_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > ip;
+		// std::string ip;
 		todo("implement");
 		bool __result = _sub_10A94290(this, ip);
 		return __result;
 	}
 
-	_extern bool _sub_10A13F30(Server::TempBanList *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-	_inline bool TempBanList::RemoveIp(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &ip) // 0x10A13F30
+	_extern bool _sub_10A13F30(Server::TempBanList *const, std::string const &);
+	_inline bool TempBanList::RemoveIp(std::string const &ip) // 0x10A13F30
 	{
 		mangled_x86(MANGLED_TODO, "?RemoveIp@TempBanList@Server@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &ip;
+		// std::string const &ip;
 		todo("implement");
 		bool __result = _sub_10A13F30(this, ip);
 		return __result;
@@ -155,15 +155,15 @@ namespace Server
 	}
 }
 
-extern std::map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,int,std::less<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,int> > > _sub_10A141C0(Server::TempBanList *const);
+extern std::map<std::string,int,std::less<std::string>,std::allocator<std::pair<std::string const ,int> > > _sub_10A141C0(Server::TempBanList *const);
 namespace Server
 {
-	_inline std::map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,int,std::less<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,int> > > TempBanList::TempBannedList() // 0x10A141C0
+	_inline std::map<std::string,int,std::less<std::string>,std::allocator<std::pair<std::string const ,int> > > TempBanList::TempBannedList() // 0x10A141C0
 	{
 		mangled_x86(MANGLED_TODO, "?TempBannedList@TempBanList@Server@@QAE?AV?$map@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@HU?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@H@std@@@2@@std@@XZ");
 		// Server::TempBanList *const this;
 		todo("implement");
-		std::map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,int,std::less<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,int> > > __result = _sub_10A141C0(this);
+		std::map<std::string,int,std::less<std::string>,std::allocator<std::pair<std::string const ,int> > > __result = _sub_10A141C0(this);
 		return __result;
 	}
 
@@ -185,30 +185,30 @@ namespace Server
 		_sub_10AFA670(this, stream);
 	}
 
-	_extern void _sub_10A07830(Server::BanList *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-	_inline void BanList::AddIp(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &ip) // 0x10A07830
+	_extern void _sub_10A07830(Server::BanList *const, std::string const &);
+	_inline void BanList::AddIp(std::string const &ip) // 0x10A07830
 	{
 		mangled_x86(MANGLED_TODO, "?AddIp@BanList@Server@@QAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &ip;
+		// std::string const &ip;
 		todo("implement");
 		_sub_10A07830(this, ip);
 	}
 
-	_extern bool _sub_10A93FE0(Server::BanList const *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-	_inline bool BanList::ContainsIp(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &ip) const // 0x10A93FE0
+	_extern bool _sub_10A93FE0(Server::BanList const *const, std::string const &);
+	_inline bool BanList::ContainsIp(std::string const &ip) const // 0x10A93FE0
 	{
 		mangled_x86(MANGLED_TODO, "?ContainsIp@BanList@Server@@QBE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &ip;
+		// std::string const &ip;
 		todo("implement");
 		bool __result = _sub_10A93FE0((Server::BanList const *)this, ip);
 		return __result;
 	}
 
-	_extern bool _sub_10A13EA0(Server::BanList *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-	_inline bool BanList::RemoveIp(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &ip) // 0x10A13EA0
+	_extern bool _sub_10A13EA0(Server::BanList *const, std::string const &);
+	_inline bool BanList::RemoveIp(std::string const &ip) // 0x10A13EA0
 	{
 		mangled_x86(MANGLED_TODO, "?RemoveIp@BanList@Server@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &ip;
+		// std::string const &ip;
 		todo("implement");
 		bool __result = _sub_10A13EA0(this, ip);
 		return __result;
@@ -243,40 +243,40 @@ namespace Server
 		return __result;
 	}
 
-	_extern void _sub_10A078B0(Server::BanList *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-	_inline void BanList::AddName(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name) // 0x10A078B0
+	_extern void _sub_10A078B0(Server::BanList *const, std::string const &);
+	_inline void BanList::AddName(std::string const &name) // 0x10A078B0
 	{
 		mangled_x86(MANGLED_TODO, "?AddName@BanList@Server@@QAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name;
+		// std::string const &name;
 		todo("implement");
 		_sub_10A078B0(this, name);
 	}
 
-	_extern bool _sub_10A94410(Server::BanList *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-	_inline bool BanList::ContainsName(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name) // 0x10A94410
+	_extern bool _sub_10A94410(Server::BanList *const, std::string const &);
+	_inline bool BanList::ContainsName(std::string const &name) // 0x10A94410
 	{
 		mangled_x86(MANGLED_TODO, "?ContainsName@BanList@Server@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name;
+		// std::string const &name;
 		todo("implement");
 		bool __result = _sub_10A94410(this, name);
 		return __result;
 	}
 
-	_extern bool _sub_10A13FC0(Server::BanList *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-	_inline bool BanList::RemoveName(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name) // 0x10A13FC0
+	_extern bool _sub_10A13FC0(Server::BanList *const, std::string const &);
+	_inline bool BanList::RemoveName(std::string const &name) // 0x10A13FC0
 	{
 		mangled_x86(MANGLED_TODO, "?RemoveName@BanList@Server@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name;
+		// std::string const &name;
 		todo("implement");
 		bool __result = _sub_10A13FC0(this, name);
 		return __result;
 	}
 
-	extern BanList::BanType _sub_10A98300(Server::BanList *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-	_inline Server::BanList::BanType BanList::IsBanned(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &ip) // 0x10A98300
+	extern BanList::BanType _sub_10A98300(Server::BanList *const, std::string const &);
+	_inline Server::BanList::BanType BanList::IsBanned(std::string const &ip) // 0x10A98300
 	{
 		mangled_x86(MANGLED_TODO, "?IsBanned@BanList@Server@@QAE?AW4BanType@12@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &ip;
+		// std::string const &ip;
 		todo("implement");
 		Server::BanList::BanType __result = _sub_10A98300(this, ip);
 		return __result;

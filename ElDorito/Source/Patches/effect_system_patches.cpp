@@ -387,7 +387,7 @@ void c_effect_messaging_queue__post_message_hook(void *queue, void *unused, s_ef
 	// `anonymous-namespace'::c_effect_messaging_queue__post_message_hook
 	// s_effect_message const *message;
 	{
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &particle_filter;
+		// std::string const &particle_filter;
 	}
 	// function call : void (*)(void *, s_effect_message const *)
 	todo("implement");

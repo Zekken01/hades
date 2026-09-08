@@ -258,7 +258,7 @@ bool c_mod_package_updater_blocking::locate_packages() // 0x108B1190
 	// c_mod_package_updater_blocking *const this;
 	// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> doc;
 	// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > src;
+	// std::string src;
 	// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &mods;
 	// std::basic_ifstream<char,std::char_traits<char> > ifs;
 	{
@@ -387,10 +387,10 @@ bool c_mod_package_updater_blocking::update_package(c_mod_package_updater_blocki
 		// s_static_string<256> temp_filename;
 		// c_mod_package::e_error err;
 		// c_mod_package package;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > hash_str;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > mod_version;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > mod_name;
-		// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > ws;
+		// std::string hash_str;
+		// std::string mod_version;
+		// std::string mod_name;
+		// std::wstring ws;
 		// s_static_string<256> new_name;
 		// s_file_reference temp_file_reference;
 	}

@@ -44,7 +44,7 @@ namespace Download
 		virtual bool IsComplete() const = 0;
 		virtual Download::EDownloadStatus GetStatus() const = 0;
 		virtual Download::EDownloadError GetError() const = 0;
-		virtual std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetFilePath() const = 0;
+		virtual std::string GetFilePath() const = 0;
 		virtual long long GetDownloadedBytes() const = 0;
 		virtual long long GetTotalBytes() const = 0;
 		virtual __int32 GetDownloadSpeed() const = 0;

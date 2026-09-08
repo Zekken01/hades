@@ -237,10 +237,10 @@ namespace Web
 //	void operator()() const;
 //	<lambda_1>(Web::Browser::WebRenderer::ExecuteJavascript::__l7::<lambda_1> &);
 //	<lambda_1>(Web::Browser::WebRenderer::ExecuteJavascript::__l7::<lambda_1> const &);
-//	<lambda_1>(Web::Browser::WebRenderer *, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
+//	<lambda_1>(Web::Browser::WebRenderer *, std::string &);
 //private:
 //	Web::Browser::WebRenderer *__this; // 0x0
-//	std::basic_string<char,std::char_traits<char>,std::allocator<char> > code; // 0x4
+//	std::string code; // 0x4
 //public:
 //	Web::Browser::WebRenderer::ExecuteJavascript::__l7::<lambda_1> &operator=(Web::Browser::WebRenderer::ExecuteJavascript::__l7::<lambda_1> const &);
 //	~<lambda_1>(); /* compiler_generated() */
@@ -315,12 +315,12 @@ namespace Web
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10CBE270(Web::Browser::WebRenderer *const);
+extern std::string _sub_10CBE270(Web::Browser::WebRenderer *const);
 namespace Web
 {
 	namespace Browser
 	{
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > WebRenderer::GetUIDirectory() // 0x10CBE270
+		std::string WebRenderer::GetUIDirectory() // 0x10CBE270
 		{
 			mangled_x86(MANGLED_TODO, "?GetUIDirectory@WebRenderer@Browser@Web@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 			// Web::Browser::WebRenderer *const this;
@@ -339,8 +339,8 @@ namespace Web
 			return __result;
 		}
 
-		_extern bool _sub_10CBE930(Web::Browser::WebRenderer *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, bool);
-		bool WebRenderer::Init(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &url, bool debugEnable) // 0x10CBE930
+		_extern bool _sub_10CBE930(Web::Browser::WebRenderer *const, std::string const &, bool);
+		bool WebRenderer::Init(std::string const &url, bool debugEnable) // 0x10CBE930
 		{
 			mangled_x86(MANGLED_TODO, "?Init@WebRenderer@Browser@Web@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@_N@Z");
 			// static ...; // 0x10CC0279
@@ -357,13 +357,13 @@ namespace Web
 			// static ...; // 0x10CC0184
 			// static ...; // 0x10CC017C
 			// Web::Browser::WebRenderer *const this;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &url;
+			// std::string const &url;
 			// bool debugEnable;
 			// std::error_code ec;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > uiDirectory;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > logFile;
+			// std::string uiDirectory;
+			// std::string logFile;
 			// std::filesystem::path cefCache;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > containerPath;
+			// std::string containerPath;
 			// __int32 res;
 			// CefWindowInfo windowInfo;
 			// std::filesystem::path log_dir;
@@ -578,14 +578,14 @@ namespace Web
 			return __result;
 		}
 
-		_extern bool _sub_10CC1500(Web::Browser::WebRenderer *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-		bool WebRenderer::OpenUrl(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &p_Url) // 0x10CC1500
+		_extern bool _sub_10CC1500(Web::Browser::WebRenderer *const, std::string const &);
+		bool WebRenderer::OpenUrl(std::string const &p_Url) // 0x10CC1500
 		{
 			mangled_x86(MANGLED_TODO, "?OpenUrl@WebRenderer@Browser@Web@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 			// static ...; // 0x10CC16D8
 			// static ...; // 0x10CC16D0
 			// Web::Browser::WebRenderer *const this;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &p_Url;
+			// std::string const &p_Url;
 			// scoped_refptr<CefBrowser> browser;
 			// function call : scoped_refptr<CefFrame> ()
 			// function call : void (CefStringBase<CefStringTraitsUTF16> const &)
@@ -610,11 +610,11 @@ namespace Web
 			return __result;
 		}
 
-		_extern bool _sub_10CC1910(Web::Browser::WebRenderer *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-		bool WebRenderer::RegisterScheme(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &p_Name, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &p_Directory) // 0x10CC1910
+		_extern bool _sub_10CC1910(Web::Browser::WebRenderer *const, std::string const &, std::string const &);
+		bool WebRenderer::RegisterScheme(std::string const &p_Name, std::string const &p_Directory) // 0x10CC1910
 		{
 			mangled_x86(MANGLED_TODO, "?RegisterScheme@WebRenderer@Browser@Web@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z");
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &p_Directory;
+			// std::string const &p_Directory;
 			// Web::Browser::WebRendererSchemeHandlerFactory *schemeHandlerFactory;
 			todo("implement");
 			bool __result = _sub_10CC1910(this, p_Name, p_Directory);
@@ -622,12 +622,12 @@ namespace Web
 		}
 
 		_extern bool _sub_10CBD950(Web::Browser::WebRenderer *const, std::string, bool);
-		bool WebRenderer::ExecuteJavascript(std::basic_string<char,std::char_traits<char>,std::allocator<char> > p_Code, bool deferIfNeeded) // 0x10CBD950
+		bool WebRenderer::ExecuteJavascript(std::string p_Code, bool deferIfNeeded) // 0x10CBD950
 		{
 			mangled_x86(MANGLED_TODO, "?ExecuteJavascript@WebRenderer@Browser@Web@@QAE_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@_N@Z");
 			// static ...; // 0x10CBDC1C
 			// Web::Browser::WebRenderer *const this;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > p_Code;
+			// std::string p_Code;
 			// bool deferIfNeeded;
 			// scoped_refptr<CefBrowser> browser;
 			{

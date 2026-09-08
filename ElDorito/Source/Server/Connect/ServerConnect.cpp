@@ -163,7 +163,7 @@ namespace Blam
 //class CServerConnectManager::OnConnectionAborted::__l2::<lambda_1>
 //{
 //public:
-//	void operator()(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &) const;
+//	void operator()(std::string const &) const;
 //	<lambda_1>(CServerConnectManager::OnConnectionAborted::__l2::<lambda_1> &);
 //	<lambda_1>(CServerConnectManager *);
 //private:
@@ -233,7 +233,7 @@ void CServerConnectManager::OnConnectionAborted(EServerConnectAbortReason reason
 	// EServerConnectAbortReason reason;
 	// Web::Ui::ScreenLayer::SDialogShowParams dialogParams;
 	// bool allowRetry;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > message;
+	// std::string message;
 	todo("implement");
 	_sub_10B07D80(this, reason);
 }

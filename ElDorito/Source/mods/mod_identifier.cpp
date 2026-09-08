@@ -59,28 +59,28 @@ s_mod_package_id::s_mod_package_id(unsigned char const (&hash)[20]) // 0x108539C
 	_sub_108539C0(this, hash);
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > const _sub_10853BF0(s_mod_package_id const *const);
-std::basic_string<char,std::char_traits<char>,std::allocator<char> > const s_mod_package_id::to_string() const // 0x10853BF0
+extern std::string const _sub_10853BF0(s_mod_package_id const *const);
+std::string const s_mod_package_id::to_string() const // 0x10853BF0
 {
 	mangled_x86(MANGLED_TODO, "?to_string@s_mod_package_id@@QBE?BV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 	// static ...; // 0x10853CDC
 	// static ...; // 0x10853CD0
 	// static ...; // 0x10853CC8
 	// s_mod_package_id const *const this;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > result;
+	// std::string result;
 	todo("implement");
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > const __result = _sub_10853BF0((s_mod_package_id const *)this);
+	std::string const __result = _sub_10853BF0((s_mod_package_id const *)this);
 	return __result;
 }
 
-extern s_mod_package_id _sub_10853B10(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-s_mod_package_id s_mod_package_id::from_string(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &str) // 0x10853B10
+extern s_mod_package_id _sub_10853B10(std::string const &);
+s_mod_package_id s_mod_package_id::from_string(std::string const &str) // 0x10853B10
 {
 	mangled_x86(MANGLED_TODO, "?from_string@s_mod_package_id@@SA?AU1@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 	// static ...; // 0x10853BB8
 	// static ...; // 0x10853BAC
 	// static ...; // 0x10853BA4
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &str;
+	// std::string const &str;
 	// s_mod_package_id result;
 	todo("implement");
 	s_mod_package_id __result = _sub_10853B10(str);

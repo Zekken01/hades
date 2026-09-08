@@ -43,8 +43,8 @@ namespace Modules
 		struct CachedIGD
 		{
 			char lanaddr[16]; // 0x0
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > controlUrl; // 0x10
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > serviceType; // 0x2C
+			std::string controlUrl; // 0x10
+			std::string serviceType; // 0x2C
 			CachedIGD(CachedIGD &); /* compiler_generated() */
 			CachedIGD(CachedIGD const &); /* compiler_generated() */
 			_inline CachedIGD(); /* compiler_generated() */
@@ -63,8 +63,8 @@ namespace Modules
 		CachedIGD cachedIGD; // 0x5C
 	public:
 		ModuleUPnP();
-		Utils::UPnPResult UPnPForwardPort_Blocking(bool tcp, __int32 externalport, __int32 internalport, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &ruleName);
-		void UPnPForwardPort(bool tcp, __int32 externalport, __int32 internalport, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &ruleName);
+		Utils::UPnPResult UPnPForwardPort_Blocking(bool tcp, __int32 externalport, __int32 internalport, std::string const &ruleName);
+		void UPnPForwardPort(bool tcp, __int32 externalport, __int32 internalport, std::string const &ruleName);
 		~ModuleUPnP(); /* compiler_generated() */
 	unsigned char __pad0[4]; // 0xA4
 	};

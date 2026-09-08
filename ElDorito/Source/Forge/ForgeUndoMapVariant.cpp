@@ -93,8 +93,8 @@ namespace Utils
 
 /* ---------- public code */
 
-extern CForgeUndoMapVariant* _sub_10864890(CForgeUndoMapVariant *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, s_map_variant const &);
-CForgeUndoMapVariant::CForgeUndoMapVariant(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &summary, s_map_variant const &mapVariant) // 0x10864890
+extern CForgeUndoMapVariant* _sub_10864890(CForgeUndoMapVariant *const, std::string const &, s_map_variant const &);
+CForgeUndoMapVariant::CForgeUndoMapVariant(std::string const &summary, s_map_variant const &mapVariant) // 0x10864890
 {
 	mangled_x86(MANGLED_TODO, "??0CForgeUndoMapVariant@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABUs_map_variant@@@Z");
 	// s_map_variant const &mapVariant;

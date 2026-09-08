@@ -36,7 +36,7 @@ namespace Http
 		public:
 		struct SHeaderKeyComparator
 		{
-			bool operator()(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &) const;
+			bool operator()(std::string const &, std::string const &) const;
 		};
 		static_assert(sizeof(SHeaderKeyComparator) == 1, "Invalid SHeaderKeyComparator size");
 		enum ECollisionOp
@@ -46,27 +46,27 @@ namespace Http
 			Coalesce,
 		};
 		public:
-		typedef std::map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::basic_string<char,std::char_traits<char>,std::allocator<char> >,SHeaderKeyComparator,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > TMap;
-		typedef std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > THeaderPair;
-		_inline std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > > begin() const;
-		_inline std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > > end() const;
+		typedef std::map<std::string,std::string,SHeaderKeyComparator,std::allocator<std::pair<std::string const ,std::string> > > TMap;
+		typedef std::pair<std::string,std::string> THeaderPair;
+		_inline std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::string> > > > begin() const;
+		_inline std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::string> > > > end() const;
 		_inline CHttpHeaders(Http::CHttpHeaders &&__that); /* compiler_generated() */
 		_inline CHttpHeaders(Http::CHttpHeaders const &__that); /* compiler_generated() */
-		CHttpHeaders(std::initializer_list<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &values);
+		CHttpHeaders(std::initializer_list<std::pair<std::string,std::string> > const &values);
 		_inline CHttpHeaders();
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > const Get(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &headerKey) const;
-		bool GetInt(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &headerKey, long long &value) const;
+		std::string const Get(std::string const &headerKey) const;
+		bool GetInt(std::string const &headerKey, long long &value) const;
 		__int32 GetCount() const;
-		bool Contains(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &headerKey) const;
-		bool Add(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &headerKey, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &headerValue, ECollisionOp collisionOp);
-		bool Remove(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &headerKey);
-		static void Parse(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &str, Http::CHttpHeaders &headers);
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > ToString() const;
-		std::vector<std::tuple<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::tuple<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > GetHeaders();
-		_inline std::basic_string<char,std::char_traits<char>,std::allocator<char> > operator[](std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &headerKey) const;
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > &operator[](std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+		bool Contains(std::string const &headerKey) const;
+		bool Add(std::string const &headerKey, std::string const &headerValue, ECollisionOp collisionOp);
+		bool Remove(std::string const &headerKey);
+		static void Parse(std::string const &str, Http::CHttpHeaders &headers);
+		std::string ToString() const;
+		std::vector<std::tuple<std::string,std::string>,std::allocator<std::tuple<std::string,std::string> > > GetHeaders();
+		_inline std::string operator[](std::string const &headerKey) const;
+		std::string &operator[](std::string const &);
 	private:
-		std::map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::basic_string<char,std::char_traits<char>,std::allocator<char> >,SHeaderKeyComparator,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > m_map; // 0x0
+		std::map<std::string,std::string,SHeaderKeyComparator,std::allocator<std::pair<std::string const ,std::string> > > m_map; // 0x0
 	public:
 		_inline ~CHttpHeaders(); /* compiler_generated() */
 		Http::CHttpHeaders &operator=(Http::CHttpHeaders &); /* compiler_generated() */
@@ -85,39 +85,39 @@ static_assert(sizeof(Http::CHttpHeaders) == 12, "Invalid Http::CHttpHeaders size
 
 namespace Http
 {
-	_extern bool _sub_107FB130(Http::CHttpHeaders::SHeaderKeyComparator const *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-	_inline bool CHttpHeaders::SHeaderKeyComparator::operator()(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &s1, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &s2) const // 0x107FB130
+	_extern bool _sub_107FB130(Http::CHttpHeaders::SHeaderKeyComparator const *const, std::string const &, std::string const &);
+	_inline bool CHttpHeaders::SHeaderKeyComparator::operator()(std::string const &s1, std::string const &s2) const // 0x107FB130
 	{
 		mangled_x86(MANGLED_TODO, "??RSHeaderKeyComparator@CHttpHeaders@Http@@QBE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z");
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &s2;
+		// std::string const &s2;
 		todo("implement");
 		bool __result = _sub_107FB130((Http::CHttpHeaders::SHeaderKeyComparator const *)this, s1, s2);
 		return __result;
 	}
 }
 
-extern std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > > _sub_107FD840(Http::CHttpHeaders const *const);
+extern std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::string> > > > _sub_107FD840(Http::CHttpHeaders const *const);
 namespace Http
 {
-	_inline std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > > CHttpHeaders::begin() const // 0x107FD840
+	_inline std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::string> > > > CHttpHeaders::begin() const // 0x107FD840
 	{
 		mangled_x86(MANGLED_TODO, "?begin@CHttpHeaders@Http@@QBE?AV?$_Tree_const_iterator@V?$_Tree_val@U?$_Tree_simple_types@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@@std@@@std@@@std@@@std@@XZ");
 		// Http::CHttpHeaders const *const this;
 		todo("implement");
-		std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > > __result = _sub_107FD840((Http::CHttpHeaders const *)this);
+		std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::string> > > > __result = _sub_107FD840((Http::CHttpHeaders const *)this);
 		return __result;
 	}
 }
 
-extern std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > > _sub_107FDB00(Http::CHttpHeaders const *const);
+extern std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::string> > > > _sub_107FDB00(Http::CHttpHeaders const *const);
 namespace Http
 {
-	_inline std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > > CHttpHeaders::end() const // 0x107FDB00
+	_inline std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::string> > > > CHttpHeaders::end() const // 0x107FDB00
 	{
 		mangled_x86(MANGLED_TODO, "?end@CHttpHeaders@Http@@QBE?AV?$_Tree_const_iterator@V?$_Tree_val@U?$_Tree_simple_types@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@@std@@@std@@@std@@@std@@XZ");
 		// Http::CHttpHeaders const *const this;
 		todo("implement");
-		std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > > __result = _sub_107FDB00((Http::CHttpHeaders const *)this);
+		std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::string> > > > __result = _sub_107FDB00((Http::CHttpHeaders const *)this);
 		return __result;
 	}
 
@@ -131,18 +131,18 @@ namespace Http
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_1082D190(Http::CHttpHeaders const *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+extern std::string _sub_1082D190(Http::CHttpHeaders const *const, std::string const &);
 namespace Http
 {
-	_inline std::basic_string<char,std::char_traits<char>,std::allocator<char> > CHttpHeaders::operator[](std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &headerKey) const // 0x1082D190
+	_inline std::string CHttpHeaders::operator[](std::string const &headerKey) const // 0x1082D190
 	{
 		mangled_x86(MANGLED_TODO, "??ACHttpHeaders@Http@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV23@@Z");
 		// static ...; // 0x1082D314
 		// static ...; // 0x1082D30C
 		// Http::CHttpHeaders const *const this;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &headerKey;
+		// std::string const &headerKey;
 		{
-			// std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > > it;
+			// std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::string> > > > it;
 		}
 		todo("implement");
 		std::string __result = _sub_1082D190((Http::CHttpHeaders const *)this, headerKey);

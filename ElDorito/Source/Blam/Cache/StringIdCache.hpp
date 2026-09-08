@@ -48,9 +48,9 @@ namespace Blam
 			StringIDCache(Blam::Cache::StringIDCache const &);
 			StringIDCache();
 			~StringIDCache();
-			bool Load(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &path, long long baseOffset);
+			bool Load(std::string const &path, long long baseOffset);
 			char *GetString(unsigned __int32 const StringID) const;
-			unsigned __int32 GetStringId(std::basic_string_view<char,std::char_traits<char> > str) const;
+			unsigned __int32 GetStringId(std::string_view str) const;
 			static void SetCurrent(std::shared_ptr<Blam::Cache::StringIDCache> cache);
 			static std::shared_ptr<Blam::Cache::StringIDCache> GetCurrent();
 		private:

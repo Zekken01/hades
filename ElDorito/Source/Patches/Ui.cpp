@@ -391,12 +391,12 @@ using namespace hades_file_local;
 //class c_gui_player_select_screen_widget__show_service_record_hook::__l11::<lambda_1>
 //{
 //public:
-//	void operator()(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &) const;
+//	void operator()(std::string const &) const;
 //	<lambda_1>(c_gui_player_select_screen_widget__show_service_record_hook::__l11::<lambda_1> &);
 //	<lambda_1>(c_gui_player_select_screen_widget__show_service_record_hook::__l11::<lambda_1> const &);
-//	<lambda_1>(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+//	<lambda_1>(std::string const &);
 //private:
-//	std::basic_string<char,std::char_traits<char>,std::allocator<char> > profileUrl; // 0x0
+//	std::string profileUrl; // 0x0
 //public:
 //	c_gui_player_select_screen_widget__show_service_record_hook::__l11::<lambda_1> &operator=(c_gui_player_select_screen_widget__show_service_record_hook::__l11::<lambda_1> const &);
 //	~<lambda_1>(); /* compiler_generated() */
@@ -406,7 +406,7 @@ using namespace hades_file_local;
 //class c_main_menu_screen_widget_handle_list_item_chosen_hook::__l25::<lambda_1>
 //{
 //public:
-//	void operator()(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &) const;
+//	void operator()(std::string const &) const;
 //};
 //static_assert(sizeof(c_main_menu_screen_widget_handle_list_item_chosen_hook::__l25::<lambda_1>) == 1, "Invalid c_main_menu_screen_widget_handle_list_item_chosen_hook::__l25::<lambda_1> size");
 
@@ -420,7 +420,7 @@ using namespace hades_file_local;
 //class OnUiInputUpdated::__l19::<lambda_1>
 //{
 //public:
-//	void operator()(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &) const;
+//	void operator()(std::string const &) const;
 //};
 //static_assert(sizeof(OnUiInputUpdated::__l19::<lambda_1>) == 1, "Invalid OnUiInputUpdated::__l19::<lambda_1> size");
 
@@ -537,7 +537,7 @@ namespace Patches
 		extern void *ShowDialog(unsigned long const p_DialogID, __int32 const p_Arg1, __int32 const p_Flags, unsigned long const p_ParentID);
 		extern void OnCreateWindow(std::function<void __cdecl(HWND__ *)> callback);
 		extern void TogglePTTSound(bool enabled);
-		extern void ToggleSpeakingPlayerName(std::basic_string<char,std::char_traits<char>,std::allocator<char> > name, bool speaking);
+		extern void ToggleSpeakingPlayerName(std::string name, bool speaking);
 		extern void ApplyUIResolution();
 		extern void ShowLanBrowser();
 	}
@@ -545,14 +545,14 @@ namespace Patches
 
 void c_gui_map_category_datasource__ctor_hook(c_gui_map_category_datasource *thisptr, void *__formal, wchar_t const *recent_maps_item_title, wchar_t const *recent_maps_item_description, wchar_t const *file_share_item_title, wchar_t const *file_share_item_description);
 void c_gui_player_select_screen_widget__set_mute_hook(void *thisPtr, void *unused, bool muted);
-bool isValidUrl(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &url);
+bool isValidUrl(std::string const &url);
 void c_gui_player_select_screen_widget__show_service_record_hook(void *thisPtr, void *unused, bool muted);
 bool UserInterfaceSquadSetMap_hook(__int32 a1, __int32 a2, char a3, __int32 a4, __int32 a5, __int32 a6);
 bool AttractShouldStartHook();
 __int32 GetPlayerRankIndex(__int32 networkPlayerIndex);
 __int32 GetPlayerSkillIndex(__int32 networkPlayerIndex);
-std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > GetRankName(__int32 rankIndex);
-std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > GetRankGradeName(__int32 rankIndex);
+std::wstring GetRankName(__int32 rankIndex);
+std::wstring GetRankGradeName(__int32 rankIndex);
 void c_gui_location_manager__change_location_hook(c_gui_location_manager *thisptr, void *__formal, unsigned long screen_name);
 bool c_gui_screen_pregame_lobby__handle_controller_input_message_fallback_hook(c_gui_screen_widget *thisptr, void *__formal, c_controller_input_message *message);
 bool c_start_menu_settings_handle_list_item_chosen_hook(void *thisptr, void *unused, void *message, unsigned long list_name, c_gui_list_item_widget const *list_item, c_gui_data *data);
@@ -629,7 +629,7 @@ namespace Patches
 	{
 		extern bool HasAttractBinks; // 0x12467422
 		extern bool isPttSoundPlaying; // 0x12467423
-		extern std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > speakingPlayers; // 0x12467478
+		extern std::vector<std::string,std::allocator<std::string> > speakingPlayers; // 0x12467478
 		extern char16_t chud_talking_player_name[32]; // 0x12467428
 		extern bool enableCustomHUDColors; // 0x12467420
 		extern bool enableAllyBlueWaypointsFix; // 0x12467421
@@ -723,18 +723,18 @@ namespace Patches
 		}
 
 		_extern void _sub_10ADD620(std::string, bool);
-		void ToggleSpeakingPlayerName(std::basic_string<char,std::char_traits<char>,std::allocator<char> > name, bool speaking) // 0x10ADD620
+		void ToggleSpeakingPlayerName(std::string name, bool speaking) // 0x10ADD620
 		{
 			mangled_x86(MANGLED_TODO, "?ToggleSpeakingPlayerName@Ui@Patches@@YAXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@_N@Z");
 			// static ...; // 0x10ADD884
 			// static ...; // 0x10ADD87C
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > name;
+			// std::string name;
 			// bool speaking;
 			{
 				// unsigned __int32 i;
 			}
 			{
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > hud_name;
+				// std::string hud_name;
 				{
 					// unsigned __int32 i;
 				}
@@ -821,14 +821,14 @@ void c_gui_player_select_screen_widget__set_mute_hook(void *thisPtr, void *unuse
 	_sub_10AE10C0(thisPtr, unused, muted);
 }
 
-_extern bool _sub_10AE8D10(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-bool isValidUrl(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &url) // 0x10AE8D10
+_extern bool _sub_10AE8D10(std::string const &);
+bool isValidUrl(std::string const &url) // 0x10AE8D10
 {
 	// `anonymous-namespace'::isValidUrl
 	// static ...; // 0x10AE8DE0
 	// static ...; // 0x10AE8DD4
 	// static ...; // 0x10AE8DCC
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &url;
+	// std::string const &url;
 	// std::basic_regex<char,std::regex_traits<char> > url_regex;
 	todo("implement");
 	bool __result = _sub_10AE8D10(url);
@@ -859,7 +859,7 @@ void c_gui_player_select_screen_widget__show_service_record_hook(void *thisPtr, 
 		// Web::Ui::ScreenLayer::SDialogShowParams params;
 		// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
 		// __int32 statsPlayerID;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > profileUrl;
+		// std::string profileUrl;
 		{
 			// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &statsObject;
 		}
@@ -924,8 +924,8 @@ __int32 GetPlayerSkillIndex(__int32 networkPlayerIndex) // 0x10ADC1D0
 	return __result;
 }
 
-extern std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > _sub_10ADC830(__int32);
-std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > GetRankName(__int32 rankIndex) // 0x10ADC830
+extern std::wstring _sub_10ADC830(__int32);
+std::wstring GetRankName(__int32 rankIndex) // 0x10ADC830
 {
 	// `anonymous-namespace'::GetRankName
 	// static ...; // 0x10ADCA1F
@@ -943,12 +943,12 @@ std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > Ge
 	// function call : bool (long, unsigned long, unsigned long *)
 	// function call : bool (*const)(unsigned long, wchar_t (&)[1024])
 	todo("implement");
-	std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > __result = _sub_10ADC830(rankIndex);
+	std::wstring __result = _sub_10ADC830(rankIndex);
 	return __result;
 }
 
-extern std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > _sub_10ADC5B0(__int32);
-std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > GetRankGradeName(__int32 rankIndex) // 0x10ADC5B0
+extern std::wstring _sub_10ADC5B0(__int32);
+std::wstring GetRankGradeName(__int32 rankIndex) // 0x10ADC5B0
 {
 	// `anonymous-namespace'::GetRankGradeName
 	// static ...; // 0x10ADC79F
@@ -966,7 +966,7 @@ std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > Ge
 	// function call : bool (long, unsigned long, unsigned long *)
 	// function call : bool (*const)(unsigned long, wchar_t (&)[1024])
 	todo("implement");
-	std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > __result = _sub_10ADC5B0(rankIndex);
+	std::wstring __result = _sub_10ADC5B0(rankIndex);
 	return __result;
 }
 
@@ -1219,7 +1219,7 @@ void c_gui_spartan_rank_widget__update_sub_hook(c_gui_widget *widget, long in_ra
 	// c_gui_bitmap_widget *rank_image;
 	// void (*UI_Widget_MultiplyColor)(void *, __int32, float *);
 	{
-		// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > rank_name;
+		// std::wstring rank_name;
 	}
 	{
 	}
@@ -1296,7 +1296,7 @@ bool c_gui_screen_pregame_lobby__squad_party_leader_hook(void *thisptr, wchar_t 
 	// __int32 (*const user_interface_squad_leader_get_player_index)();
 	// wchar_t *(*const ustrnzcpy)(wchar_t *, wchar_t const *, long);
 	// s_player_configuration *(*const user_interface_squad_get_player_data)(__int32);
-	// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > host_name;
+	// std::wstring host_name;
 	{
 		// s_player_configuration *player;
 		// __int32 host_index;
@@ -1437,13 +1437,13 @@ void c_player_select_screen_widget__update_hook(c_gui_screen_widget *thisptr, vo
 	// __int32 player_index;
 	// c_gui_list_item_widget *service_record_medals;
 	// c_gui_list_item_widget *medal_1_count;
-	// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > rank_grade_name;
+	// std::wstring rank_grade_name;
 	// c_gui_list_item_widget *service_record_wins;
 	// c_gui_list_item_widget *service_record_deaths;
 	// c_gui_bitmap_widget *medal_1;
 	// c_gui_bitmap_widget *medal_6;
 	// c_gui_bitmap_widget *emblem_widget;
-	// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > rank_name;
+	// std::wstring rank_name;
 	// c_gui_list_item_widget *service_record_streak;
 	// c_gui_bitmap_widget *medal_2;
 	// c_gui_list_item_widget *medal_2_count;
@@ -1473,34 +1473,34 @@ void c_player_select_screen_widget__update_hook(c_gui_screen_widget *thisptr, vo
 	// c_gui_bitmap_widget *loading_ring_2;
 	// Player::ServiceRecord::ServiceRecord service_record;
 	{
-		// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > exp;
+		// std::wstring exp;
 	}
 	{
-		// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > skill;
+		// std::wstring skill;
 	}
 	{
-		// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > games;
+		// std::wstring games;
 	}
 	{
-		// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > wins;
+		// std::wstring wins;
 	}
 	{
-		// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > kills;
+		// std::wstring kills;
 	}
 	{
-		// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > deaths;
+		// std::wstring deaths;
 	}
 	{
-		// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > medals;
+		// std::wstring medals;
 	}
 	{
-		// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > streak;
+		// std::wstring streak;
 	}
 	{
-		// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > value_column;
+		// std::wstring value_column;
 	}
 	{
-		// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > count;
+		// std::wstring count;
 	}
 	{
 	}
@@ -1593,18 +1593,18 @@ void c_gui_roster_list_widget_update_hook(c_gui_screen_widget *thisptr, void *un
 				// s_multilingual_unicode_string_list_group_header *team_names_unic;
 				{
 					// wchar_t rightBumper[8];
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > s;
-					// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > wTeamName;
+					// std::string s;
+					// std::wstring wTeamName;
 					// char *teamName;
 					// wchar_t leftBumper[8];
-					// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > newPlayerName;
+					// std::wstring newPlayerName;
 					// unsigned long stringid;
 				}
 			}
 		}
 		{
 			{
-				// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > joining;
+				// std::wstring joining;
 			}
 		}
 	}
@@ -1639,7 +1639,7 @@ void c_gui_custom_bitmap_widget__set_map_image_hook(c_gui_custom_bitmap_widget *
 	// bool a4;
 	// s_level_datum level;
 	{
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > fpath;
+		// std::string fpath;
 	}
 	// function call : bool (*const)(long, s_level_datum *)
 	// function call : bool (*const)(long, s_level_datum *)
@@ -2108,7 +2108,7 @@ void c_gui_alert_manager__show(void *thisptr, void *unused, unsigned __int32 nam
 				// char const *body;
 				// char const *title;
 				{
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > customMessageStr;
+					// std::string customMessageStr;
 				}
 			}
 		}

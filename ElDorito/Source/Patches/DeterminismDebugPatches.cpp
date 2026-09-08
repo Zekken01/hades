@@ -109,9 +109,9 @@ namespace hades_file_local
 		};
 		static_assert(sizeof(SRandomEvent) == 112, "Invalid SRandomEvent size");
 		public:
-		bool StartTrace(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+		bool StartTrace(std::string const &);
 		bool StopTrace();
-		void InitializeForNewMap(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+		void InitializeForNewMap(std::string const &);
 		void RecordSimulationUpdate(s_simulation_update const &);
 		void RecordRandomSeed(unsigned __int32);
 	private:
@@ -126,9 +126,9 @@ namespace hades_file_local
 		std::mutex m_mutex; // 0xC0
 		std::condition_variable m_logThreadWakeEvent; // 0xF0
 		std::vector<SRandomEvent,std::allocator<SRandomEvent> > m_queue; // 0x118
-		std::unordered_map<HINSTANCE__ *,std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::hash<HINSTANCE__ *>,std::equal_to<HINSTANCE__ *>,std::allocator<std::pair<HINSTANCE__ * const,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > m_moduleNames; // 0x128
+		std::unordered_map<HINSTANCE__ *,std::string,std::hash<HINSTANCE__ *>,std::equal_to<HINSTANCE__ *>,std::allocator<std::pair<HINSTANCE__ * const,std::string> > > m_moduleNames; // 0x128
 		std::thread m_thread; // 0x150
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > m_currentMapName; // 0x158
+		std::string m_currentMapName; // 0x158
 		char m_logLineBuffer[16384]; // 0x174
 	public:
 		CDebugRandomTraceManager(); /* compiler_generated() */
@@ -160,7 +160,7 @@ namespace Patches
 	namespace DeterminismDebug
 	{
 		extern void ApplyAll();
-		extern bool StartRandomTrace(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &filePath);
+		extern bool StartRandomTrace(std::string const &filePath);
 		extern bool StopRandomTrace();
 	}
 }
@@ -187,11 +187,11 @@ namespace Patches
 			_sub_107A32D0();
 		}
 
-		_extern bool _sub_107A4390(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-		bool StartRandomTrace(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &filePath) // 0x107A4390
+		_extern bool _sub_107A4390(std::string const &);
+		bool StartRandomTrace(std::string const &filePath) // 0x107A4390
 		{
 			mangled_x86(MANGLED_TODO, "?StartRandomTrace@DeterminismDebug@Patches@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &filePath;
+			// std::string const &filePath;
 			todo("implement");
 			bool __result = _sub_107A4390(filePath);
 			return __result;
@@ -211,11 +211,11 @@ namespace Patches
 
 /* ---------- private code */
 
-_extern bool _sub_107A43F0(CDebugRandomTraceManager *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-_inline bool CDebugRandomTraceManager::StartTrace(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &filePath) // 0x107A43F0
+_extern bool _sub_107A43F0(CDebugRandomTraceManager *const, std::string const &);
+_inline bool CDebugRandomTraceManager::StartTrace(std::string const &filePath) // 0x107A43F0
 {
 	// `anonymous-namespace'::CDebugRandomTraceManager::StartTrace
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &filePath;
+	// std::string const &filePath;
 	todo("implement");
 	bool __result = _sub_107A43F0(this, filePath);
 	return __result;
@@ -235,16 +235,16 @@ _inline bool CDebugRandomTraceManager::StopTrace() // 0x107A45E0
 	return __result;
 }
 
-_extern void _sub_107A3560(CDebugRandomTraceManager *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-_inline void CDebugRandomTraceManager::InitializeForNewMap(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &mapPath) // 0x107A3560
+_extern void _sub_107A3560(CDebugRandomTraceManager *const, std::string const &);
+_inline void CDebugRandomTraceManager::InitializeForNewMap(std::string const &mapPath) // 0x107A3560
 {
 	// `anonymous-namespace'::CDebugRandomTraceManager::InitializeForNewMap
 	// static ...; // 0x107A3694
 	// static ...; // 0x107A368C
 	// CDebugRandomTraceManager *const this;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &mapPath;
+	// std::string const &mapPath;
 	// __int32 lastPathSeparator;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > name;
+	// std::string name;
 	todo("implement");
 	_sub_107A3560(this, mapPath);
 }
@@ -300,15 +300,15 @@ _inline void CDebugRandomTraceManager::LogEvent(CDebugRandomTraceManager::SRando
 	{
 		// __int32 i;
 		{
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > moduleName;
+			// std::string moduleName;
 			{
 				// HINSTANCE__ *hModule;
 				{
 					// unsigned __int32 relativeAddress;
 					{
-						// std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<HINSTANCE__ * const,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > > it;
+						// std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<HINSTANCE__ * const,std::string> > > > it;
 						{
-							// std::basic_string<char,std::char_traits<char>,std::allocator<char> > name;
+							// std::string name;
 						}
 					}
 				}

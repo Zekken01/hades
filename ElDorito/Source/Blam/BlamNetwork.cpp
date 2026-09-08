@@ -233,16 +233,16 @@ namespace Blam
 			return __result;
 		}
 
-		_extern __int32 _sub_1092B760(Blam::Network::SessionMembership *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-		__int32 SessionMembership::FindPlayerByName(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name) // 0x1092B760
+		_extern __int32 _sub_1092B760(Blam::Network::SessionMembership *const, std::string const &);
+		__int32 SessionMembership::FindPlayerByName(std::string const &name) // 0x1092B760
 		{
 			mangled_x86(MANGLED_TODO, "?FindPlayerByName@SessionMembership@Network@Blam@@QAEHABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 			// static ...; // 0x1092B8D0
 			// static ...; // 0x1092B8C8
 			// Blam::Network::SessionMembership *const this;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name;
+			// std::string const &name;
 			// __int32 playerIdx;
-			// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > wideName;
+			// std::wstring wideName;
 			// Blam::Network::Session *session;
 			todo("implement");
 			__int32 __result = _sub_1092B760(this, name);
@@ -597,12 +597,12 @@ namespace Blam
 			_sub_1092C440();
 		}
 
-		_extern bool _sub_1092C600(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, unsigned short, Blam::Network::NetworkAddress *);
-		bool NetworkAddress::Parse(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &addr, unsigned short port, Blam::Network::NetworkAddress *result) // 0x1092C600
+		_extern bool _sub_1092C600(std::string const &, unsigned short, Blam::Network::NetworkAddress *);
+		bool NetworkAddress::Parse(std::string const &addr, unsigned short port, Blam::Network::NetworkAddress *result) // 0x1092C600
 		{
 			mangled_x86(MANGLED_TODO, "?Parse@NetworkAddress@Network@Blam@@SA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@GPAU123@@Z");
 			// static ...; // 0x1092C6F0
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &addr;
+			// std::string const &addr;
 			// unsigned short port;
 			// Blam::Network::NetworkAddress *result;
 			// in_addr inAddr;
@@ -614,12 +614,12 @@ namespace Blam
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_1092CDA0(Blam::Network::NetworkAddress const *const);
+extern std::string _sub_1092CDA0(Blam::Network::NetworkAddress const *const);
 namespace Blam
 {
 	namespace Network
 	{
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > NetworkAddress::ToString() const // 0x1092CDA0
+		std::string NetworkAddress::ToString() const // 0x1092CDA0
 		{
 			mangled_x86(MANGLED_TODO, "?ToString@NetworkAddress@Network@Blam@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 			// static ...; // 0x1092CE8A

@@ -47,7 +47,7 @@ namespace Forge
 		char const *GetPropertyName(Forge::EObjectProperty property);
 	private:
 		std::array<Forge::SPropertyDefinition,90> m_registeredProperties; // 0x0
-		std::unordered_map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,enum Forge::EObjectProperty,std::hash<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::equal_to<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,enum Forge::EObjectProperty> > > m_nameLookup; // 0x438
+		std::unordered_map<std::string,enum Forge::EObjectProperty,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::pair<std::string const ,enum Forge::EObjectProperty> > > m_nameLookup; // 0x438
 		void Register(Forge::EPropertyValueType valueType, char const *name, Forge::EObjectProperty property);
 	public:
 		~CObjectPropertyManager(); /* compiler_generated() */

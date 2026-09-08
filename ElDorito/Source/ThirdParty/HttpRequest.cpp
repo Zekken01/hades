@@ -50,17 +50,17 @@ class HttpRequest;
 
 /* ---------- public code */
 
-extern HttpRequest* _sub_10C52A20(HttpRequest *const, std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > const &, std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > const &, std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > const &);
-HttpRequest::HttpRequest(std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > const &userAgent, std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > const &proxyIp, std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > const &proxyPort) // 0x10C52A20
+extern HttpRequest* _sub_10C52A20(HttpRequest *const, std::wstring const &, std::wstring const &, std::wstring const &);
+HttpRequest::HttpRequest(std::wstring const &userAgent, std::wstring const &proxyIp, std::wstring const &proxyPort) // 0x10C52A20
 {
 	mangled_x86(MANGLED_TODO, "??0HttpRequest@@QAE@ABV?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@00@Z");
-	// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > const &proxyPort;
+	// std::wstring const &proxyPort;
 	todo("implement");
 	_sub_10C52A20(this, userAgent, proxyIp, proxyPort);
 }
 
-_extern __int32 _sub_10C52B70(HttpRequest *const, std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > const &, std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > const &, std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > const &, std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > const &, std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > const &, void *, unsigned long);
-__int32 HttpRequest::SendRequest(std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > const &uri, std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > const &method, std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > const &username, std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > const &password, std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > const &headers, void *body, unsigned long bodySize) // 0x10C52B70
+_extern __int32 _sub_10C52B70(HttpRequest *const, std::wstring const &, std::wstring const &, std::wstring const &, std::wstring const &, std::wstring const &, void *, unsigned long);
+__int32 HttpRequest::SendRequest(std::wstring const &uri, std::wstring const &method, std::wstring const &username, std::wstring const &password, std::wstring const &headers, void *body, unsigned long bodySize) // 0x10C52B70
 {
 	mangled_x86(MANGLED_TODO, "?SendRequest@HttpRequest@@QAEHABV?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@0000PAXK@Z");
 	// static ...; // 0x10C5359F
@@ -68,17 +68,17 @@ __int32 HttpRequest::SendRequest(std::basic_string<wchar_t,std::char_traits<wcha
 	// static ...; // 0x10C53530
 	// static ...; // 0x10C53528
 	// HttpRequest *const this;
-	// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > const &uri;
-	// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > const &method;
-	// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > const &username;
-	// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > const &password;
-	// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > const &headers;
+	// std::wstring const &uri;
+	// std::wstring const &method;
+	// std::wstring const &username;
+	// std::wstring const &password;
+	// std::wstring const &headers;
 	// void *body;
 	// unsigned long bodySize;
 	// void *hConnect;
 	// unsigned long dwSize;
 	// unsigned long dwAccessType;
-	// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > path;
+	// std::wstring path;
 	// wchar_t const *pszProxyBypassW;
 	// unsigned long length;
 	// _WINHTTP_URL_COMPONENTS urlComp;
@@ -87,10 +87,10 @@ __int32 HttpRequest::SendRequest(std::basic_string<wchar_t,std::char_traits<wcha
 	// __int32 bResults;
 	// void *hSession;
 	// void *hRequest;
-	// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > hostname;
+	// std::wstring hostname;
 	// unsigned long dwDownloaded;
 	// unsigned long headerSize;
-	// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > scheme;
+	// std::wstring scheme;
 	{
 		// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
 	}

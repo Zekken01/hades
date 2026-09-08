@@ -52,7 +52,7 @@ namespace Server
 	{
 		struct ChatMessage
 		{
-			ChatMessage(Server::Chat::ChatMessageType type, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &body);
+			ChatMessage(Server::Chat::ChatMessageType type, std::string const &body);
 			_inline ChatMessage();
 			Server::Chat::ChatMessageType Type; // 0x0
 			unsigned char SenderPlayer; // 0x4
@@ -84,16 +84,16 @@ namespace Server
 	{
 		extern void Initialize();
 		extern void Tick();
-		extern bool SendGlobalMessage(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &body);
-		extern bool SendServerMessage(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &body);
-		extern bool SendTeamMessage(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &body);
+		extern bool SendGlobalMessage(std::string const &body);
+		extern bool SendServerMessage(std::string const &body);
+		extern bool SendTeamMessage(std::string const &body);
 		extern bool SetPlayerMuteStatus(__int32 peer, bool muted);
 		extern void ClearAllPlayersMuteStatus();
-		extern bool SendAndLogServerMessage(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &body);
-		extern bool SendServerMessage(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &body, __int32 peer);
-		extern bool SendServerMessage(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &body, std::bitset<17> peers);
+		extern bool SendAndLogServerMessage(std::string const &body);
+		extern bool SendServerMessage(std::string const &body, __int32 peer);
+		extern bool SendServerMessage(std::string const &body, std::bitset<17> peers);
 		extern void AddHandler(std::shared_ptr<Server::Chat::ChatHandler> handler);
-		extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetSenderName(Server::Chat::ChatMessage const &message);
+		extern std::string GetSenderName(Server::Chat::ChatMessage const &message);
 	}
 }
 

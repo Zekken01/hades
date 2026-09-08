@@ -224,7 +224,7 @@ namespace Web
 				// static ...; // 0x10CA5584
 				// static ...; // 0x10CA557C
 				// s_player_datum *player;
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > modHash;
+				// std::string modHash;
 				// bool enabled;
 				// s_game_globals const *matg;
 				// tagRECT rect;

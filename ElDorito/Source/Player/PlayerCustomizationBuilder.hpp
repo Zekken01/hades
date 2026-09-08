@@ -71,13 +71,13 @@ namespace Player
 		public:
 		void SetIgnoreSession(bool);
 		bool BuildCustomizationFromPlayerModel(__int32 playerModelIndex, s_player_character_customiztion *data);
-		bool BuildCharacterCustomizations(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &preferredCharacterName, s_player_appearance *data);
-		bool BuildSingleCharacterCustomization(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &characterName, s_player_character_customiztion *data);
+		bool BuildCharacterCustomizations(std::string const &preferredCharacterName, s_player_appearance *data);
+		bool BuildSingleCharacterCustomization(std::string const &characterName, s_player_character_customiztion *data);
 		void SetBaseCache(std::shared_ptr<c_cache_file_tag_cache>, std::shared_ptr<Blam::Cache::StringIDCache>);
 	private:
 		bool Initialize();
-		std::pair<int,int> FindPlayerModelPermutation(s_model_customization_selection const &selection, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &regionName, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &permutationName);
-		__int32 FindPlayerModel(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &characterName);
+		std::pair<int,int> FindPlayerModelPermutation(s_model_customization_selection const &selection, std::string const &regionName, std::string const &permutationName);
+		__int32 FindPlayerModel(std::string const &characterName);
 		bool m_initialized; // 0x0
 		bool m_ignoreSession; // 0x1
 		unsigned char __pad0[2]; // 0x2
@@ -104,7 +104,7 @@ static_assert(sizeof(Player::CPlayerCharacterCustomizationBuilder) == 68, "Inval
 
 namespace Player
 {
-	extern void BuildChangeColors(unsigned long *changeColors, std::map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::less<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > const &colors);
+	extern void BuildChangeColors(unsigned long *changeColors, std::map<std::string,std::string,std::less<std::string>,std::allocator<std::pair<std::string const ,std::string> > > const &colors);
 }
 
 /* ---------- globals */

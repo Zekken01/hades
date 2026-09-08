@@ -763,7 +763,7 @@ bool do_load_main_menu_mod_package() // 0x10926D30
 	// static ...; // 0x10926F4C
 	// static ...; // 0x10926F40
 	// static ...; // 0x10926F38
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &MainMenuMod;
+	// std::string &MainMenuMod;
 	// s_static_string<256> file_path;
 	// EModResult result;
 	// function call : EModResult (EModIndex, char const *, bool)

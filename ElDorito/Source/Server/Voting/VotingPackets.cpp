@@ -191,8 +191,8 @@ namespace Server
 	{
 		namespace hades_file_local_Server_Voting
 		{
-			extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > const DefaultTypes[8]; // 0x1246B4D8
-			extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > const DefaultTypeNames[8]; // 0x1246B5B8
+			extern std::string const DefaultTypes[8]; // 0x1246B4D8
+			extern std::string const DefaultTypeNames[8]; // 0x1246B5B8
 		}
 		using namespace hades_file_local_Server_Voting;
 	}
@@ -329,7 +329,7 @@ void ReceivedVotingMessage(Blam::Network::Session *session, __int32 peer, Server
 	{
 		// Blam::Network::PlayerSession &player;
 		// Blam::Network::SessionMembership &membership;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > name;
+		// std::string name;
 	}
 	{
 		// std::vector<std::shared_ptr<Server::Voting::VotingMessageHandler>,std::allocator<std::shared_ptr<Server::Voting::VotingMessageHandler> > > &<range>$L0;

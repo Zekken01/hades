@@ -36,7 +36,7 @@ namespace Patches
 	{
 		struct WeaponInfo
 		{
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > weapon_type; // 0x0
+			std::string weapon_type; // 0x0
 			real_vector3d offset; // 0x1C
 			_inline WeaponInfo(Patches::Weapon::WeaponInfo &&__that); /* compiler_generated() */
 			_inline WeaponInfo(Patches::Weapon::WeaponInfo const &__that); /* compiler_generated() */
@@ -58,8 +58,8 @@ namespace Patches
 		{
 			unsigned short index; // 0x0
 			unsigned char __pad0[2]; // 0x2
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > display_name; // 0x4
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > weapon_type; // 0x20
+			std::string display_name; // 0x4
+			std::string weapon_type; // 0x20
 			real_vector3d offset; // 0x3C
 			real_vector3d centered_offset; // 0x48
 			_inline DefaultWeaponInfo(Patches::Weapon::DefaultWeaponInfo &&__that); /* compiler_generated() */
@@ -85,14 +85,14 @@ namespace Patches
 		extern void ApplyAll();
 		extern void SetBottomlessClip(bool enable);
 		extern void ApplyAfterTagsLoaded();
-		extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > ResolveString(unsigned __int32 unicTagIndex, unsigned __int32 strindId);
-		extern Patches::Weapon::WeaponInfo GetWeaponByType(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &weaponType);
-		extern real_vector3d GetOffsetByType(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &weaponType);
+		extern std::string ResolveString(unsigned __int32 unicTagIndex, unsigned __int32 strindId);
+		extern Patches::Weapon::WeaponInfo GetWeaponByType(std::string const &weaponType);
+		extern real_vector3d GetOffsetByType(std::string const &weaponType);
 		extern Patches::Weapon::WeaponInfo GetEquippedWeapon();
 		extern void UseDefaultOffsets();
 		extern bool InitializeOffsetDefaults();
-		extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetTypeDisplayName(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &weaponType);
-		extern bool SetTypeOffset(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &weaponType, real_vector3d const &weaponOffset);
+		extern std::string GetTypeDisplayName(std::string const &weaponType);
+		extern bool SetTypeOffset(std::string const &weaponType, real_vector3d const &weaponOffset);
 	}
 }
 
@@ -103,10 +103,10 @@ namespace Patches
 		namespace Config
 		{
 			extern bool CreateList();
-			extern bool LoadJSON(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &Name);
-			extern bool ConfigExists(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &Name);
-			extern bool SaveJSON(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &Name);
-			extern bool DeleteJSON(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &Name);
+			extern bool LoadJSON(std::string const &Name);
+			extern bool ConfigExists(std::string const &Name);
+			extern bool SaveJSON(std::string const &Name);
+			extern bool DeleteJSON(std::string const &Name);
 		}
 	}
 }

@@ -55,23 +55,23 @@ namespace Patches
 			short NumberOfRounds; // 0x2
 			short ScoreToWin; // 0x4
 			short TimeLimit; // 0x6
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > MapPath; // 0x8
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > MapName; // 0x24
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > MapAuthor; // 0x40
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > MapDescription; // 0x5C
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > InsertionName; // 0x78
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > InsertionDescription; // 0x94
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > VariantName; // 0xB0
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > VariantDescription; // 0xCC
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > ServerName; // 0xE8
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > ServerMessage; // 0x104
-			std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > Skulls; // 0x120
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > Difficulty; // 0x130
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > modHash; // 0x14C
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > modAuthor; // 0x168
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > modDescription; // 0x184
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > modName; // 0x1A0
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > modVersion; // 0x1BC
+			std::string MapPath; // 0x8
+			std::string MapName; // 0x24
+			std::string MapAuthor; // 0x40
+			std::string MapDescription; // 0x5C
+			std::string InsertionName; // 0x78
+			std::string InsertionDescription; // 0x94
+			std::string VariantName; // 0xB0
+			std::string VariantDescription; // 0xCC
+			std::string ServerName; // 0xE8
+			std::string ServerMessage; // 0x104
+			std::vector<std::string,std::allocator<std::string> > Skulls; // 0x120
+			std::string Difficulty; // 0x130
+			std::string modHash; // 0x14C
+			std::string modAuthor; // 0x168
+			std::string modDescription; // 0x184
+			std::string modName; // 0x1A0
+			std::string modVersion; // 0x1BC
 			LoadingScreenShowInfo(Patches::LoadingScreen::LoadingScreenShowInfo &); /* compiler_generated() */
 			LoadingScreenShowInfo(Patches::LoadingScreen::LoadingScreenShowInfo const &); /* compiler_generated() */
 			LoadingScreenShowInfo(); /* compiler_generated() */

@@ -54,9 +54,9 @@ namespace Server
 			virtual void StartVoting();
 			virtual Server::Voting::VotingMessage GenerateVotingOptionsMessage(bool updateTime);
 			virtual bool isEnabled();
-			virtual void LogVote(Server::Voting::VotingMessage const &message, std::basic_string<char,std::char_traits<char>,std::allocator<char> > name);
+			virtual void LogVote(Server::Voting::VotingMessage const &message, std::string name);
 		private:
-			virtual bool LoadJson(std::basic_string<char,std::char_traits<char>,std::allocator<char> > filename);
+			virtual bool LoadJson(std::string filename);
 			virtual Server::Voting::MapAndType GenerateVotingOption();
 			void SetGameAndMap();
 			void SetStartTimer();

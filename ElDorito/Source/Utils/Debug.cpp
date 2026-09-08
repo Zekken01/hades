@@ -68,10 +68,10 @@ using namespace ::Utils;
 
 namespace Utils
 {
-	extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetStackTraceString(__int32 framesToSkip, __int32 framesToCapture);
+	extern std::string GetStackTraceString(__int32 framesToSkip, __int32 framesToCapture);
 	extern void LogEthernetAdapterInfo();
 	extern char const *GetLastErrorToText(unsigned long lastError);
-	extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetLastErrorToString(unsigned long lastError);
+	extern std::string GetLastErrorToString(unsigned long lastError);
 }
 
 /* ---------- globals */
@@ -80,10 +80,10 @@ namespace Utils
 
 /* ---------- public code */
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10C56120(__int32, __int32);
+extern std::string _sub_10C56120(__int32, __int32);
 namespace Utils
 {
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetStackTraceString(__int32 framesToSkip, __int32 framesToCapture) // 0x10C56120
+	std::string GetStackTraceString(__int32 framesToSkip, __int32 framesToCapture) // 0x10C56120
 	{
 		mangled_x86(MANGLED_TODO, "?GetStackTraceString@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@HH@Z");
 		// static ...; // 0x10C56398
@@ -140,10 +140,10 @@ namespace Utils
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10C55F40(unsigned long);
+extern std::string _sub_10C55F40(unsigned long);
 namespace Utils
 {
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetLastErrorToString(unsigned long lastError) // 0x10C55F40
+	std::string GetLastErrorToString(unsigned long lastError) // 0x10C55F40
 	{
 		mangled_x86(MANGLED_TODO, "?GetLastErrorToString@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@K@Z");
 		// unsigned long lastError;

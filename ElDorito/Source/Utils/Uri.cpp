@@ -58,8 +58,8 @@ namespace Utils
 {
 	namespace Uri
 	{
-		extern bool ParseUriComponents(std::basic_string_view<char,std::char_traits<char> > uri, Utils::Uri::UriComponents &components);
-		extern bool ResolveUrl(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &baseUri, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &relativeUri, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &result);
+		extern bool ParseUriComponents(std::string_view uri, Utils::Uri::UriComponents &components);
+		extern bool ResolveUrl(std::string const &baseUri, std::string const &relativeUri, std::string &result);
 	}
 }
 
@@ -73,15 +73,15 @@ namespace Utils
 {
 	namespace Uri
 	{
-		_extern bool _sub_10C60260(std::basic_string_view<char,std::char_traits<char> >, Utils::Uri::UriComponents &);
-		bool ParseUriComponents(std::basic_string_view<char,std::char_traits<char> > uri, Utils::Uri::UriComponents &components) // 0x10C60260
+		_extern bool _sub_10C60260(std::string_view, Utils::Uri::UriComponents &);
+		bool ParseUriComponents(std::string_view uri, Utils::Uri::UriComponents &components) // 0x10C60260
 		{
 			mangled_x86(MANGLED_TODO, "?ParseUriComponents@Uri@Utils@@YA_NV?$basic_string_view@DU?$char_traits@D@std@@@std@@AAUUriComponents@12@@Z");
 			// static ...; // 0x10C60758
 			// static ...; // 0x10C60750
 			// static ...; // 0x10C6072C
 			// static ...; // 0x10C60724
-			// std::basic_string_view<char,std::char_traits<char> > uri;
+			// std::string_view uri;
 			// Utils::Uri::UriComponents &components;
 			// std::_String_view_iterator<std::char_traits<char> > it;
 			// std::_String_view_iterator<std::char_traits<char> > endit;
@@ -100,8 +100,8 @@ namespace Utils
 			return __result;
 		}
 
-		_extern bool _sub_10C608B0(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
-		bool ResolveUrl(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &baseUri, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &relativeUri, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &result) // 0x10C608B0
+		_extern bool _sub_10C608B0(std::string const &, std::string const &, std::string &);
+		bool ResolveUrl(std::string const &baseUri, std::string const &relativeUri, std::string &result) // 0x10C608B0
 		{
 			mangled_x86(MANGLED_TODO, "?ResolveUrl@Uri@Utils@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0AAV34@@Z");
 			// static ...; // 0x10C60BD6
@@ -109,15 +109,15 @@ namespace Utils
 			// static ...; // 0x10C60BCC
 			// static ...; // 0x10C60B90
 			// static ...; // 0x10C60B88
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &baseUri;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &relativeUri;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &result;
+			// std::string const &baseUri;
+			// std::string const &relativeUri;
+			// std::string &result;
 			// Utils::Uri::UriComponents relativeComponents;
 			// Utils::Uri::UriComponents baseComponents;
 			{
 				// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
 				{
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > path;
+					// std::string path;
 				}
 				{
 					// unsigned __int32 filenamePos;

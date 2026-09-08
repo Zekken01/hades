@@ -40,7 +40,7 @@ namespace Utils
 {
 	namespace Network
 	{
-		extern Utils::Network::EResolveAddressResult ResolveAddress(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &hostname, unsigned __int32 *outAddr);
+		extern Utils::Network::EResolveAddressResult ResolveAddress(std::string const &hostname, unsigned __int32 *outAddr);
 	}
 }
 
@@ -54,13 +54,13 @@ namespace Utils
 {
 	namespace Network
 	{
-		extern EResolveAddressResult _sub_1090D620(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, unsigned __int32 *);
-		Utils::Network::EResolveAddressResult ResolveAddress(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &hostname, unsigned __int32 *outAddr) // 0x1090D620
+		extern EResolveAddressResult _sub_1090D620(std::string const &, unsigned __int32 *);
+		Utils::Network::EResolveAddressResult ResolveAddress(std::string const &hostname, unsigned __int32 *outAddr) // 0x1090D620
 		{
 			mangled_x86(MANGLED_TODO, "?ResolveAddress@Network@Utils@@YA?AW4EResolveAddressResult@12@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAI@Z");
 			// static ...; // 0x1090D768
 			// static ...; // 0x1090D760
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &hostname;
+			// std::string const &hostname;
 			// unsigned __int32 *outAddr;
 			// __int32 retval;
 			// addrinfo *ptr;

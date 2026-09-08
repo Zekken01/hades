@@ -40,11 +40,11 @@ char **CommandLineToArgvA(char *CmdLine, __int32 *_argc);
 
 /* ---------- public code */
 
-extern CommandLineArgs* _sub_106D12C0(CommandLineArgs *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-CommandLineArgs::CommandLineArgs(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &line) // 0x106D12C0
+extern CommandLineArgs* _sub_106D12C0(CommandLineArgs *const, std::string const &);
+CommandLineArgs::CommandLineArgs(std::string const &line) // 0x106D12C0
 {
 	mangled_x86(MANGLED_TODO, "??0CommandLineArgs@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &line;
+	// std::string const &line;
 	todo("implement");
 	_sub_106D12C0(this, line);
 }

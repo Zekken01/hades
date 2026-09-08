@@ -34,7 +34,7 @@ namespace Utils
 {
 	namespace Network
 	{
-		extern Utils::Network::EResolveAddressResult ResolveAddress(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &hostname, unsigned __int32 *outAddr);
+		extern Utils::Network::EResolveAddressResult ResolveAddress(std::string const &hostname, unsigned __int32 *outAddr);
 	}
 }
 

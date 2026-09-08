@@ -235,16 +235,16 @@ namespace Server
 	{
 		extern void Initialize();
 		extern void Tick();
-		extern bool SendGlobalMessage(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &body);
-		extern bool SendServerMessage(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &body);
-		extern bool SendTeamMessage(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &body);
+		extern bool SendGlobalMessage(std::string const &body);
+		extern bool SendServerMessage(std::string const &body);
+		extern bool SendTeamMessage(std::string const &body);
 		extern bool SetPlayerMuteStatus(__int32 peer, bool muted);
 		extern void ClearAllPlayersMuteStatus();
-		extern bool SendAndLogServerMessage(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &body);
-		extern bool SendServerMessage(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &body, __int32 peer);
-		extern bool SendServerMessage(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &body, std::bitset<17> peers);
+		extern bool SendAndLogServerMessage(std::string const &body);
+		extern bool SendServerMessage(std::string const &body, __int32 peer);
+		extern bool SendServerMessage(std::string const &body, std::bitset<17> peers);
 		extern void AddHandler(std::shared_ptr<Server::Chat::ChatHandler> handler);
-		extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetSenderName(Server::Chat::ChatMessage const &message);
+		extern std::string GetSenderName(Server::Chat::ChatMessage const &message);
 	}
 }
 
@@ -252,15 +252,15 @@ bool SendMessagePacket(__int32 peer, Server::Chat::ChatMessage const &message);
 bool BroadcastMessage(Blam::Network::Session *session, __int32 senderPeer, Server::Chat::ChatMessage *message, std::bitset<17> peers);
 bool GetTeamPeers(Blam::Network::Session *session, __int32 senderPeer, std::bitset<17> *result);
 bool GetMessagePeers(Blam::Network::Session *session, __int32 senderPeer, Server::Chat::ChatMessage const &message, std::bitset<17> *result);
-std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetSenderName(Blam::Network::Session *session, Server::Chat::ChatMessage const &message);
+std::string GetSenderName(Blam::Network::Session *session, Server::Chat::ChatMessage const &message);
 __int32 CalculateSpamScore(unsigned __int32 ip, ClientSpamStats *stats, Server::Chat::ChatMessage const &message);
 bool ChangePlayerMuteStatus(Blam::Network::Session *session, __int32 peer, bool mute);
 void UnmuteAllPlayers(Blam::Network::Session *session);
 bool FloodFilterMessage(Blam::Network::Session *session, __int32 peer, Server::Chat::ChatMessage const &message);
-std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetLogString(Blam::Network::Session *session, __int32 peer, Server::Chat::ChatMessage const &message);
+std::string GetLogString(Blam::Network::Session *session, __int32 peer, Server::Chat::ChatMessage const &message);
 void LogMessage(Blam::Network::Session *session, __int32 peer, Server::Chat::ChatMessage const &message);
-std::basic_string<char,std::char_traits<char>,std::allocator<char> > toLower(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &str);
-std::basic_string<char,std::char_traits<char>,std::allocator<char> > replaceAllCaseInsensitive(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &str, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &find, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &replace);
+std::string toLower(std::string const &str);
+std::string replaceAllCaseInsensitive(std::string const &str, std::string const &find, std::string const &replace);
 char *handleWordFilter(char const *input);
 bool HostReceivedMessage(Blam::Network::Session *session, __int32 peer, Server::Chat::ChatMessage const &message);
 void ClientReceivedMessage(Server::Chat::ChatMessage const &message);
@@ -319,14 +319,14 @@ namespace Server
 			_sub_10C206C0();
 		}
 
-		_extern bool _sub_10C1FDB0(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-		bool SendGlobalMessage(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &body) // 0x10C1FDB0
+		_extern bool _sub_10C1FDB0(std::string const &);
+		bool SendGlobalMessage(std::string const &body) // 0x10C1FDB0
 		{
 			mangled_x86(MANGLED_TODO, "?SendGlobalMessage@Chat@Server@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 			// static ...; // 0x10C1FE60
 			// static ...; // 0x10C1FE54
 			// static ...; // 0x10C1FE4C
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &body;
+			// std::string const &body;
 			// Blam::Network::Session *session;
 			// Server::Chat::ChatMessage message;
 			todo("implement");
@@ -334,15 +334,15 @@ namespace Server
 			return __result;
 		}
 
-		_extern bool _sub_10C1FFB0(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-		bool SendServerMessage(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &body) // 0x10C1FFB0
+		_extern bool _sub_10C1FFB0(std::string const &);
+		bool SendServerMessage(std::string const &body) // 0x10C1FFB0
 		{
 			mangled_x86(MANGLED_TODO, "?SendServerMessage@Chat@Server@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 			// static ...; // 0x10C200A4
 			// static ...; // 0x10C2009C
 			// static ...; // 0x10C20084
 			// static ...; // 0x10C2007C
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &body;
+			// std::string const &body;
 			// std::bitset<17> p;
 			// Blam::Network::Session *session;
 			// Server::Chat::ChatMessage message;
@@ -351,14 +351,14 @@ namespace Server
 			return __result;
 		}
 
-		_extern bool _sub_10C20340(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-		bool SendTeamMessage(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &body) // 0x10C20340
+		_extern bool _sub_10C20340(std::string const &);
+		bool SendTeamMessage(std::string const &body) // 0x10C20340
 		{
 			mangled_x86(MANGLED_TODO, "?SendTeamMessage@Chat@Server@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 			// static ...; // 0x10C2046C
 			// static ...; // 0x10C20460
 			// static ...; // 0x10C20458
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &body;
+			// std::string const &body;
 			// Blam::Network::Session *session;
 			// Server::Chat::ChatMessage message;
 			// s_game_options *(*const game_options_get)();
@@ -393,15 +393,15 @@ namespace Server
 			_sub_10C1DD10();
 		}
 
-		_extern bool _sub_10C1FB70(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-		bool SendAndLogServerMessage(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &body) // 0x10C1FB70
+		_extern bool _sub_10C1FB70(std::string const &);
+		bool SendAndLogServerMessage(std::string const &body) // 0x10C1FB70
 		{
 			mangled_x86(MANGLED_TODO, "?SendAndLogServerMessage@Chat@Server@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 			// static ...; // 0x10C1FCC4
 			// static ...; // 0x10C1FCBC
 			// static ...; // 0x10C1FCA4
 			// static ...; // 0x10C1FC9C
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &body;
+			// std::string const &body;
 			// std::bitset<17> p;
 			// Blam::Network::Session *session;
 			// Server::Chat::ChatMessage message;
@@ -410,14 +410,14 @@ namespace Server
 			return __result;
 		}
 
-		_extern bool _sub_10C200F0(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, __int32);
-		bool SendServerMessage(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &body, __int32 peer) // 0x10C200F0
+		_extern bool _sub_10C200F0(std::string const &, __int32);
+		bool SendServerMessage(std::string const &body, __int32 peer) // 0x10C200F0
 		{
 			mangled_x86(MANGLED_TODO, "?SendServerMessage@Chat@Server@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@H@Z");
 			// static ...; // 0x10C201E0
 			// static ...; // 0x10C201C8
 			// static ...; // 0x10C201C0
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &body;
+			// std::string const &body;
 			// __int32 peer;
 			// std::bitset<17> peers;
 			// Blam::Network::Session *session;
@@ -427,13 +427,13 @@ namespace Server
 			return __result;
 		}
 
-		_extern bool _sub_10C20230(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, std::bitset<17>);
-		bool SendServerMessage(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &body, std::bitset<17> peers) // 0x10C20230
+		_extern bool _sub_10C20230(std::string const &, std::bitset<17>);
+		bool SendServerMessage(std::string const &body, std::bitset<17> peers) // 0x10C20230
 		{
 			mangled_x86(MANGLED_TODO, "?SendServerMessage@Chat@Server@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$bitset@$0BB@@4@@Z");
 			// static ...; // 0x10C202F4
 			// static ...; // 0x10C202EC
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &body;
+			// std::string const &body;
 			// std::bitset<17> peers;
 			// Blam::Network::Session *session;
 			// Server::Chat::ChatMessage message;
@@ -453,12 +453,12 @@ namespace Server
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10C1EBA0(Server::Chat::ChatMessage const &);
+extern std::string _sub_10C1EBA0(Server::Chat::ChatMessage const &);
 namespace Server
 {
 	namespace Chat
 	{
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetSenderName(Server::Chat::ChatMessage const &message) // 0x10C1EBA0
+		std::string GetSenderName(Server::Chat::ChatMessage const &message) // 0x10C1EBA0
 		{
 			mangled_x86(MANGLED_TODO, "?GetSenderName@Chat@Server@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABUChatMessage@12@@Z");
 			// Server::Chat::ChatMessage const &message;
@@ -467,11 +467,11 @@ namespace Server
 			return __result;
 		}
 
-		extern ChatMessage* _sub_10C1B120(Server::Chat::ChatMessage *const, Server::Chat::ChatMessageType, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-		ChatMessage::ChatMessage(Server::Chat::ChatMessageType type, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &body) // 0x10C1B120
+		extern ChatMessage* _sub_10C1B120(Server::Chat::ChatMessage *const, Server::Chat::ChatMessageType, std::string const &);
+		ChatMessage::ChatMessage(Server::Chat::ChatMessageType type, std::string const &body) // 0x10C1B120
 		{
 			mangled_x86(MANGLED_TODO, "??0ChatMessage@Chat@Server@@QAE@W4ChatMessageType@12@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &body;
+			// std::string const &body;
 			todo("implement");
 			_sub_10C1B120(this, type, body);
 		}
@@ -614,8 +614,8 @@ bool GetMessagePeers(Blam::Network::Session *session, __int32 senderPeer, Server
 	return __result;
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10C1EAA0(Blam::Network::Session *, Server::Chat::ChatMessage const &);
-std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetSenderName(Blam::Network::Session *session, Server::Chat::ChatMessage const &message) // 0x10C1EAA0
+extern std::string _sub_10C1EAA0(Blam::Network::Session *, Server::Chat::ChatMessage const &);
+std::string GetSenderName(Blam::Network::Session *session, Server::Chat::ChatMessage const &message) // 0x10C1EAA0
 {
 	// `anonymous-namespace'::GetSenderName
 	// Server::Chat::ChatMessage const &message;
@@ -735,8 +735,8 @@ bool FloodFilterMessage(Blam::Network::Session *session, __int32 peer, Server::C
 	return __result;
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10C1E500(Blam::Network::Session *, __int32, Server::Chat::ChatMessage const &);
-std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetLogString(Blam::Network::Session *session, __int32 peer, Server::Chat::ChatMessage const &message) // 0x10C1E500
+extern std::string _sub_10C1E500(Blam::Network::Session *, __int32, Server::Chat::ChatMessage const &);
+std::string GetLogString(Blam::Network::Session *session, __int32 peer, Server::Chat::ChatMessage const &message) // 0x10C1E500
 {
 	// `anonymous-namespace'::GetLogString
 	// static ...; // 0x10C1E8A1
@@ -751,7 +751,7 @@ std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetLogStrin
 	// unsigned long long uid;
 	// std::basic_ostringstream<char,std::char_traits<char>,std::allocator<char> > ss;
 	// long long time;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > sender;
+	// std::string sender;
 	// __int32 playerIndex;
 	// unsigned __int32 ip;
 	// char uidStr[17];
@@ -774,7 +774,7 @@ void LogMessage(Blam::Network::Session *session, __int32 peer, Server::Chat::Cha
 	// __int32 peer;
 	// Server::Chat::ChatMessage const &message;
 	// std::filesystem::path parentDirectory;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > chatLogFile;
+	// std::string chatLogFile;
 	// std::basic_ofstream<char,std::char_traits<char> > logFile;
 	// std::filesystem::path logFilePath;
 	// Modules::ModuleServer &serverModule;
@@ -782,17 +782,17 @@ void LogMessage(Blam::Network::Session *session, __int32 peer, Server::Chat::Cha
 	_sub_10C1F730(session, peer, message);
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10C26790(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-std::basic_string<char,std::char_traits<char>,std::allocator<char> > toLower(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &str) // 0x10C26790
+extern std::string _sub_10C26790(std::string const &);
+std::string toLower(std::string const &str) // 0x10C26790
 {
 	// `anonymous-namespace'::toLower
 	// static ...; // 0x10C268B0
 	// static ...; // 0x10C268A4
 	// static ...; // 0x10C2689C
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &str;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > lowerStr;
+	// std::string const &str;
+	// std::string lowerStr;
 	{
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &<range>$L0;
+		// std::string const &<range>$L0;
 		// char const *<begin>$L0;
 		// char const *<end>$L0;
 		{
@@ -804,21 +804,21 @@ std::basic_string<char,std::char_traits<char>,std::allocator<char> > toLower(std
 	return __result;
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10C26230(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-std::basic_string<char,std::char_traits<char>,std::allocator<char> > replaceAllCaseInsensitive(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &str, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &find, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &replace) // 0x10C26230
+extern std::string _sub_10C26230(std::string const &, std::string const &, std::string const &);
+std::string replaceAllCaseInsensitive(std::string const &str, std::string const &find, std::string const &replace) // 0x10C26230
 {
 	// `anonymous-namespace'::replaceAllCaseInsensitive
 	// static ...; // 0x10C264AC
 	// static ...; // 0x10C26488
 	// static ...; // 0x10C26480
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &str;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &find;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &replace;
+	// std::string const &str;
+	// std::string const &find;
+	// std::string const &replace;
 	// unsigned __int32 replaceLen;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > lowerStr;
+	// std::string lowerStr;
 	// unsigned __int32 findLen;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > lowerFind;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > result;
+	// std::string lowerFind;
+	// std::string result;
 	// unsigned __int32 startPos;
 	{
 		// unsigned __int32 pos;
@@ -846,29 +846,29 @@ char *handleWordFilter(char const *input) // 0x10C255D0
 	// static ...; // 0x10C25A7C
 // $LN30:
 	// char const *input;
-	// std::unordered_set<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::hash<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::equal_to<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > FilteredWords;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > FilterReplacementWord;
+	// std::unordered_set<std::string,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::string> > FilteredWords;
+	// std::string FilterReplacementWord;
 	// char *output;
-	// std::unordered_set<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::hash<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::equal_to<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > FilteredPatterns;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > strInput;
+	// std::unordered_set<std::string,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::string> > FilteredPatterns;
+	// std::string strInput;
 	// unsigned __int32 len;
 	{
-		// std::unordered_set<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::hash<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::equal_to<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > &<range>$L0;
-		// std::_List_unchecked_const_iterator<std::_List_val<std::_List_simple_types<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > >,std::_Iterator_base0> <begin>$L0;
-		// std::_List_unchecked_const_iterator<std::_List_val<std::_List_simple_types<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > >,std::_Iterator_base0> <end>$L0;
+		// std::unordered_set<std::string,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::string> > &<range>$L0;
+		// std::_List_unchecked_const_iterator<std::_List_val<std::_List_simple_types<std::string> >,std::_Iterator_base0> <begin>$L0;
+		// std::_List_unchecked_const_iterator<std::_List_val<std::_List_simple_types<std::string> >,std::_Iterator_base0> <end>$L0;
 		{
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &word;
+			// std::string const &word;
 		}
 	}
 	{
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > pattern;
+		// std::string pattern;
 		// bool first;
 		{
-			// std::_List_unchecked_const_iterator<std::_List_val<std::_List_simple_types<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > >,std::_Iterator_base0> <end>$L1;
-			// std::_List_unchecked_const_iterator<std::_List_val<std::_List_simple_types<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > >,std::_Iterator_base0> <begin>$L1;
-			// std::unordered_set<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::hash<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::equal_to<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > &<range>$L1;
+			// std::_List_unchecked_const_iterator<std::_List_val<std::_List_simple_types<std::string> >,std::_Iterator_base0> <end>$L1;
+			// std::_List_unchecked_const_iterator<std::_List_val<std::_List_simple_types<std::string> >,std::_Iterator_base0> <begin>$L1;
+			// std::unordered_set<std::string,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::string> > &<range>$L1;
 			{
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &pat;
+				// std::string const &pat;
 			}
 		}
 		{

@@ -56,7 +56,7 @@ namespace Http
 		virtual void SetMethod(std::string) = 0;
 		virtual void SetUrl(std::string) = 0;
 		virtual void SetMaxRedirects(__int32) = 0;
-		virtual void SetBody(std::basic_string<char,std::char_traits<char>,std::allocator<char> > &) = 0;
+		virtual void SetBody(std::string &) = 0;
 		virtual void SetHeaders(Http::CHttpHeaders) = 0;
 		virtual void SetReceiver(std::function<bool __cdecl(char const *,unsigned int)> &) = 0;
 		virtual void SetReceiveBufferSize(unsigned __int32) = 0;

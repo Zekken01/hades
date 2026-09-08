@@ -301,15 +301,15 @@ EJobResult CServerConnectStateHandler_QueryServer::QueryInfoServerJobCallback(SQ
 	return __result;
 }
 
-extern EJobResult _sub_10B15DD0(CServerConnectStateHandler_QueryServer *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-EJobResult CServerConnectStateHandler_QueryServer::ResolveAddressJobCallback(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &hostname) // 0x10B15DD0
+extern EJobResult _sub_10B15DD0(CServerConnectStateHandler_QueryServer *const, std::string const &);
+EJobResult CServerConnectStateHandler_QueryServer::ResolveAddressJobCallback(std::string const &hostname) // 0x10B15DD0
 {
 	mangled_x86(MANGLED_TODO, "?ResolveAddressJobCallback@CServerConnectStateHandler_QueryServer@@AAE?AW4EJobResult@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 	// static ...; // 0x10B15E90
 	// static ...; // 0x10B15E78
 	// static ...; // 0x10B15E70
 	// CServerConnectStateHandler_QueryServer *const this;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &hostname;
+	// std::string const &hostname;
 	// std::scoped_lock<std::mutex> lock;
 	// Utils::Network::EResolveAddressResult result;
 	// unsigned __int32 address;
@@ -353,13 +353,13 @@ EQueryModsResult QueryModsBlocking(SQueryInfoServerArgs const &args, std::vector
 	// static ...; // 0x10B15824
 	// SQueryInfoServerArgs const &args;
 	// std::vector<SServerConnectState::SRequiredMod,std::allocator<SServerConnectState::SRequiredMod> > *outPackages;
-	// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > respHdr;
+	// std::wstring respHdr;
 	// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
-	// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > expected;
+	// std::wstring expected;
 	// HttpRequest req;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > endpoint;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > resp;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > authString;
+	// std::string endpoint;
+	// std::string resp;
+	// std::string authString;
 	{
 		// rapidjson::GenericMemberIterator<0,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > it;
 		{
@@ -392,19 +392,19 @@ EQueryInfoServerResult QueryInfoServerBlocking(SQueryInfoServerArgs const &args,
 	// static ...; // 0x10B1441C
 	// SQueryInfoServerArgs const &args;
 	// SQueryInfoServerData *result;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > xnkid;
-	// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > respHdr;
+	// std::string xnkid;
+	// std::wstring respHdr;
 	// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > gameVer;
-	// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > usernameStr;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > ourEdVer;
-	// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > passwordStr;
-	// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > expected;
+	// std::string gameVer;
+	// std::wstring usernameStr;
+	// std::string ourEdVer;
+	// std::wstring passwordStr;
+	// std::wstring expected;
 	// HttpRequest req;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > xnaddr;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > resp;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > edVer;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > gameVersion;
+	// std::string xnaddr;
+	// std::string resp;
+	// std::string edVer;
+	// std::string gameVersion;
 	// function call : unsigned long ()
 	todo("implement");
 	EQueryInfoServerResult __result = _sub_10B13380(args, result);

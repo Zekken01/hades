@@ -44,8 +44,8 @@ namespace Modules
 			{
 				bool SavePrefab; // 0x0
 				bool LoadPrefab; // 0x1
-				std::basic_string<char,std::char_traits<char>,std::allocator<char> > Path; // 0x4
-				std::basic_string<char,std::char_traits<char>,std::allocator<char> > Name; // 0x20
+				std::string Path; // 0x4
+				std::string Name; // 0x20
 				s_Prefabs(s_Prefabs &); /* compiler_generated() */
 				s_Prefabs(s_Prefabs const &); /* compiler_generated() */
 				s_Prefabs(); /* compiler_generated() */
@@ -78,8 +78,8 @@ namespace Modules
 		{
 			bool SavePrefab; // 0x0
 			bool LoadPrefab; // 0x1
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > Path; // 0x4
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > Name; // 0x20
+			std::string Path; // 0x4
+			std::string Name; // 0x20
 			s_Prefabs(Modules::ModuleForge::s_CommandState::s_Prefabs &); /* compiler_generated() */
 			s_Prefabs(Modules::ModuleForge::s_CommandState::s_Prefabs const &); /* compiler_generated() */
 			s_Prefabs(); /* compiler_generated() */

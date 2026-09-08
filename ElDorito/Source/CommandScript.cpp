@@ -197,7 +197,7 @@ namespace Blam
 
 namespace Modules
 {
-	bool ParseInt(std::basic_string<char,std::char_traits<char>,std::allocator<char> > s, __int32 &delay);
+	bool ParseInt(std::string s, __int32 &delay);
 }
 
 /* ---------- globals */
@@ -225,9 +225,9 @@ namespace Modules
 		// Modules::CommandScript *const this;
 		{
 			// CommandLineArgs args;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > commandName;
+			// std::string commandName;
 			{
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > output;
+				// std::string output;
 			}
 		}
 		todo("implement");
@@ -245,7 +245,7 @@ namespace Modules
 		// static ...; // 0x10667460
 		// Modules::CommandScript *const this;
 		// CommandLineArgs const &args;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > condition;
+		// std::string condition;
 		{
 		}
 		{
@@ -301,11 +301,11 @@ namespace Modules
 		_sub_10666920(this);
 	}
 
-	_extern void _sub_106677A0(Modules::CommandScript *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-	void CommandScript::HandleError(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &message) // 0x106677A0
+	_extern void _sub_106677A0(Modules::CommandScript *const, std::string const &);
+	void CommandScript::HandleError(std::string const &message) // 0x106677A0
 	{
 		mangled_x86(MANGLED_TODO, "?HandleError@CommandScript@Modules@@AAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &message;
+		// std::string const &message;
 		todo("implement");
 		_sub_106677A0(this, message);
 	}
@@ -319,10 +319,10 @@ namespace Modules
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10667710(Modules::CommandScript const *const);
+extern std::string _sub_10667710(Modules::CommandScript const *const);
 namespace Modules
 {
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > CommandScript::GetErrorMessage() const // 0x10667710
+	std::string CommandScript::GetErrorMessage() const // 0x10667710
 	{
 		mangled_x86(MANGLED_TODO, "?GetErrorMessage@CommandScript@Modules@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 		// Modules::CommandScript const *const this;
@@ -372,12 +372,12 @@ namespace Modules
 namespace Modules
 {
 	_extern bool _sub_10667A30(std::string, __int32 &);
-	bool ParseInt(std::basic_string<char,std::char_traits<char>,std::allocator<char> > s, __int32 &delay) // 0x10667A30
+	bool ParseInt(std::string s, __int32 &delay) // 0x10667A30
 	{
 		// Modules::ParseInt
 		// static ...; // 0x10667B04
 		// static ...; // 0x10667AFC
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > s;
+		// std::string s;
 		// __int32 &delay;
 		// std::errc ec;
 		// std::from_chars_result $S15;

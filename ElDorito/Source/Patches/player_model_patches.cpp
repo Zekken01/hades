@@ -185,9 +185,9 @@ extern void player_model_customize(s_player_model_customization const *customiza
 extern void model_permutation_possibility_set(long permutation_index, s_model_permutation_possibility *possibility);
 extern void model_select_initial_permutation(long model_definition_index, long variant_index, unsigned char *region_permutation_indices, s_object_region_information *region_info, unsigned long discard_mask, s_model_customization_region_permutation *region_permutations, long region_permutation_count);
 extern long find_player_character_by_name(char const *name);
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetCurrentPreferredCharacter();
+extern std::string GetCurrentPreferredCharacter();
 extern void clearCachedCharacter();
-extern s_mod_globals_player_character_customization *try_get_customization_character(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name);
+extern s_mod_globals_player_character_customization *try_get_customization_character(std::string const &name);
 extern long scenario_find_named_object(long name_index);
 extern long user_interface_find_model_customization_biped();
 extern long user_interface_find_char_platform();
@@ -477,8 +477,8 @@ long find_player_character_by_name(char const *name) // 0x10AB7CD0
 	return __result;
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10AB6C90();
-std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetCurrentPreferredCharacter() // 0x10AB6C90
+extern std::string _sub_10AB6C90();
+std::string GetCurrentPreferredCharacter() // 0x10AB6C90
 {
 	mangled_x86(MANGLED_TODO, "?GetCurrentPreferredCharacter@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 	// procedure flags: nofpo
@@ -489,14 +489,14 @@ std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetCurrentP
 	// static ...; // 0x10AB7138
 	// static ...; // 0x10AB70FC
 	// static ...; // 0x10AB70F4
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > modHash;
+	// std::string modHash;
 	// s_game_globals const *game_globals;
 	// bool modIsCharacterType;
 	// s_mod_globals_definition const *mod_globals;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > loadedMod;
+	// std::string loadedMod;
 	// c_mod_package_manager::s_entry entry;
 	// unsigned char hash[20];
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > character;
+	// std::string character;
 	{
 		// __int32 i;
 		{
@@ -521,11 +521,11 @@ void clearCachedCharacter() // 0x10AB7C70
 	_sub_10AB7C70();
 }
 
-extern s_mod_globals_player_character_customization *_sub_10ABB0E0(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-s_mod_globals_player_character_customization *try_get_customization_character(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name) // 0x10ABB0E0
+extern s_mod_globals_player_character_customization *_sub_10ABB0E0(std::string const &);
+s_mod_globals_player_character_customization *try_get_customization_character(std::string const &name) // 0x10ABB0E0
 {
 	mangled_x86(MANGLED_TODO, "?try_get_customization_character@@YAPAUs_mod_globals_player_character_customization@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name;
+	// std::string const &name;
 	{
 		// long character_type_index;
 	}
@@ -700,7 +700,7 @@ long ui_get_player_model_id_hook() // 0x10ABB170
 	// static ...; // 0x10ABB454
 	// static ...; // 0x10ABB448
 	// static ...; // 0x10ABB440
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > preferredCharacterName;
+	// std::string preferredCharacterName;
 	// s_game_globals *matg;
 	// s_mod_globals_definition *modg;
 	{

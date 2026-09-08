@@ -58,7 +58,7 @@ namespace Player
 namespace Player
 {
 	extern bool ValidServiceTag(wchar_t (&tag)[5]);
-	extern unsigned __int32 ParseColor(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &value);
+	extern unsigned __int32 ParseColor(std::string const &value);
 	extern void SanitizeModelCustomization(s_player_model_customization *customization);
 }
 

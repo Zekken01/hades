@@ -135,11 +135,11 @@ using namespace ::Objects;
 
 void cheat_objects(long const *objects, __int32 count);
 bool cheat_all_objects(long group_tag, bool everything);
-bool CheatAllWeapons(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnValue);
-bool CheatAllVehicles(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnValue);
-bool CheatAllEquipment(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnValue);
-bool CheatDeleteWeapons(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnValue);
-bool CheatSpawn(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnValue);
+bool CheatAllWeapons(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnValue);
+bool CheatAllVehicles(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnValue);
+bool CheatAllEquipment(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnValue);
+bool CheatDeleteWeapons(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnValue);
+bool CheatSpawn(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnValue);
 
 /* ---------- globals */
 
@@ -150,7 +150,7 @@ bool CheatSpawn(std::vector<std::basic_string<char,std::char_traits<char>,std::a
 namespace Modules
 {
 	extern ModuleCheat* _sub_107955E0(Modules::ModuleCheat *const);
-	ModuleCheat::ModuleCheat() : ModuleBase(todo_result<std::basic_string<char,std::char_traits<char>,std::allocator<char> >>()) // 0x107955E0
+	ModuleCheat::ModuleCheat() : ModuleBase(todo_result<std::string>()) // 0x107955E0
 	{
 		mangled_x86(MANGLED_TODO, "??0ModuleCheat@Modules@@QAE@XZ");
 		// Modules::ModuleCheat *const this;
@@ -241,48 +241,48 @@ bool cheat_all_objects(long group_tag, bool everything) // 0x107971D0
 	return __result;
 }
 
-_extern bool _sub_10796430(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
-bool CheatAllWeapons(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnValue) // 0x10796430
+_extern bool _sub_10796430(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
+bool CheatAllWeapons(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnValue) // 0x10796430
 {
 	// `anonymous-namespace'::CheatAllWeapons
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnValue;
+	// std::string &returnValue;
 	todo("implement");
 	bool __result = _sub_10796430(args, returnValue);
 	return __result;
 }
 
-_extern bool _sub_10796390(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
-bool CheatAllVehicles(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnValue) // 0x10796390
+_extern bool _sub_10796390(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
+bool CheatAllVehicles(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnValue) // 0x10796390
 {
 	// `anonymous-namespace'::CheatAllVehicles
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnValue;
+	// std::string &returnValue;
 	todo("implement");
 	bool __result = _sub_10796390(args, returnValue);
 	return __result;
 }
 
-_extern bool _sub_107962F0(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
-bool CheatAllEquipment(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnValue) // 0x107962F0
+_extern bool _sub_107962F0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
+bool CheatAllEquipment(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnValue) // 0x107962F0
 {
 	// `anonymous-namespace'::CheatAllEquipment
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnValue;
+	// std::string &returnValue;
 	todo("implement");
 	bool __result = _sub_107962F0(args, returnValue);
 	return __result;
 }
 
-_extern bool _sub_107964D0(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
-bool CheatDeleteWeapons(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnValue) // 0x107964D0
+_extern bool _sub_107964D0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
+bool CheatDeleteWeapons(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnValue) // 0x107964D0
 {
 	// `anonymous-namespace'::CheatDeleteWeapons
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnValue;
+	// std::string &returnValue;
 	todo("implement");
 	bool __result = _sub_107964D0(args, returnValue);
 	return __result;
 }
 
-_extern bool _sub_107965A0(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
-bool CheatSpawn(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnValue) // 0x107965A0
+_extern bool _sub_107965A0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
+bool CheatSpawn(std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnValue) // 0x107965A0
 {
 	// `anonymous-namespace'::CheatSpawn
 	// static ...; // 0x10796950
@@ -290,15 +290,15 @@ bool CheatSpawn(std::vector<std::basic_string<char,std::char_traits<char>,std::a
 	// static ...; // 0x1079693C
 	// static ...; // 0x1079690C
 	// static ...; // 0x10796904
-	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &args;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnValue;
+	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::string &returnValue;
 	// long tag_index;
 	// unsigned long group_tag;
 	// static CheatSpawn::__l2::s_group `CheatSpawn'::`2'::groups[18]; // 0x1134DC20
 	// __int32 index;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > group_name;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &specifier;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > name;
+	// std::string group_name;
+	// std::string const &specifier;
+	// std::string name;
 	// unsigned __int32 pos;
 	{
 		// __int32 i;

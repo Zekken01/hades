@@ -51,9 +51,9 @@ public:
 	_inline void WriteCall(void *newFunction, bool isIndirect) const;
 	_inline void WriteJump(void *newFunction, __int32 jmpFlags) const;
 	_inline void Read(void *Dest, unsigned __int32 size) const;
-	static Pointer const Base(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, unsigned __int32, unsigned __int32);
+	static Pointer const Base(std::string const &, unsigned __int32, unsigned __int32);
 	static _inline Pointer const Base(unsigned __int32 Offset, unsigned __int32 Stride);
-	static Pointer const Rebase(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, unsigned __int32);
+	static Pointer const Rebase(std::string const &, unsigned __int32);
 	static Pointer const Rebase(unsigned __int32);
 private:
 	void *_Pointer; // 0x0
@@ -72,7 +72,7 @@ static_assert(sizeof(Pointer) == 4, "Invalid Pointer size");
 extern unsigned __int32 GetMainThreadId();
 extern unsigned __int32 GetMainThreadId(unsigned __int32 ProcessId);
 extern void *GetModuleBase();
-extern void *GetModuleBase(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &ModuleName);
+extern void *GetModuleBase(std::string const &ModuleName);
 extern void SetPageAccess(unsigned __int32 Offset, unsigned __int32 Size, unsigned __int32 AccessFlags);
 
 extern _inline void *GetBasePointer();

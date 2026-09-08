@@ -166,10 +166,10 @@ namespace Blam
 
 struct s_sharedState
 {
-	std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > Subnets; // 0x0
-	std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > Names; // 0x10
-	std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > Uids; // 0x20
-	std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > Ips; // 0x30
+	std::vector<std::string,std::allocator<std::string> > Subnets; // 0x0
+	std::vector<std::string,std::allocator<std::string> > Names; // 0x10
+	std::vector<std::string,std::allocator<std::string> > Uids; // 0x20
+	std::vector<std::string,std::allocator<std::string> > Ips; // 0x30
 	s_sharedState(s_sharedState &); /* compiler_generated() */
 	s_sharedState(s_sharedState const &); /* compiler_generated() */
 	s_sharedState(); /* compiler_generated() */
@@ -197,7 +197,7 @@ void CheckToBootPlayers();
 bool SyncBanList();
 unsigned long BanListSyncThreadProc(void *lpParam);
 void OnShutdown();
-bool TryParseSubnet(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &cidr, unsigned long *outNetwork, unsigned long *outMask);
+bool TryParseSubnet(std::string const &cidr, unsigned long *outNetwork, unsigned long *outMask);
 
 /* ---------- globals */
 
@@ -207,7 +207,7 @@ namespace Server
 {
 	namespace hades_file_local_Server
 	{
-		extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > DefaultBanListPath; // 0x12467688
+		extern std::string DefaultBanListPath; // 0x12467688
 	}
 	using namespace hades_file_local_Server;
 }
@@ -218,7 +218,7 @@ namespace hades_file_local
 	extern std::condition_variable syncSignal; // 0x12467660
 	extern bool shouldExit; // 0x124676A4
 	extern bool banlistDirty; // 0x124676A5
-	extern std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > banlistUrls; // 0x12467650
+	extern std::vector<std::string,std::allocator<std::string> > banlistUrls; // 0x12467650
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -256,35 +256,35 @@ namespace Server
 				{
 					// Server::StatsServersBanList &statsserverBanList;
 					{
-						// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > &<range>$L0;
-						// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *<begin>$L0;
-						// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *<end>$L0;
+						// std::vector<std::string,std::allocator<std::string> > &<range>$L0;
+						// std::string *<begin>$L0;
+						// std::string *<end>$L0;
 						{
-							// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &ip;
+							// std::string const &ip;
 						}
 					}
 					{
-						// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *<end>$L1;
-						// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *<begin>$L1;
-						// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > &<range>$L1;
+						// std::string *<end>$L1;
+						// std::string *<begin>$L1;
+						// std::vector<std::string,std::allocator<std::string> > &<range>$L1;
 						{
-							// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &uid;
+							// std::string const &uid;
 						}
 					}
 					{
-						// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *<end>$L2;
-						// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > &<range>$L2;
-						// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *<begin>$L2;
+						// std::string *<end>$L2;
+						// std::vector<std::string,std::allocator<std::string> > &<range>$L2;
+						// std::string *<begin>$L2;
 						{
-							// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name;
+							// std::string const &name;
 						}
 					}
 					{
-						// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > &<range>$L3;
-						// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *<begin>$L3;
-						// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *<end>$L3;
+						// std::vector<std::string,std::allocator<std::string> > &<range>$L3;
+						// std::string *<begin>$L3;
+						// std::string *<end>$L3;
 						{
-							// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &subnet;
+							// std::string const &subnet;
 							{
 								// unsigned long mask;
 								// unsigned long network;
@@ -360,9 +360,9 @@ void CheckToBootPlayers() // 0x10B183A0
 			// Blam::Network::PlayerSession *player;
 			// unsigned long long uid;
 			// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > stream;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &ipString;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > name;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > hexUID;
+			// std::string const &ipString;
+			// std::string name;
+			// std::string hexUID;
 		}
 	}
 	todo("implement");
@@ -381,16 +381,16 @@ bool SyncBanList() // 0x10B18F00
 	// static ...; // 0x10B19748
 	// static ...; // 0x10B19740
 	{
-		// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > &<range>$L0;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *<begin>$L0;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *<end>$L0;
+		// std::vector<std::string,std::allocator<std::string> > &<range>$L0;
+		// std::string *<begin>$L0;
+		// std::string *<end>$L0;
 		{
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &endpoint;
+			// std::string &endpoint;
 			{
 				// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
-				// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > expected;
+				// std::wstring expected;
 				// HttpRequest req;
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > resp;
+				// std::string resp;
 				{
 					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &IPs;
 					{
@@ -445,18 +445,18 @@ void OnShutdown() // 0x10B18EB0
 	_sub_10B18EB0();
 }
 
-_extern bool _sub_10B19ED0(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, unsigned long *, unsigned long *);
-bool TryParseSubnet(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &cidr, unsigned long *outNetwork, unsigned long *outMask) // 0x10B19ED0
+_extern bool _sub_10B19ED0(std::string const &, unsigned long *, unsigned long *);
+bool TryParseSubnet(std::string const &cidr, unsigned long *outNetwork, unsigned long *outMask) // 0x10B19ED0
 {
 	// `anonymous-namespace'::TryParseSubnet
 	// static ...; // 0x10B1A040
 	// static ...; // 0x10B1A038
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &cidr;
+	// std::string const &cidr;
 	// unsigned long *outNetwork;
 	// unsigned long *outMask;
 	// __int32 bits;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > snetwork;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > sbits;
+	// std::string snetwork;
+	// std::string sbits;
 	// unsigned __int32 pos;
 	todo("implement");
 	bool __result = _sub_10B19ED0(cidr, outNetwork, outMask);

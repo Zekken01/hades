@@ -146,9 +146,9 @@ namespace Forge
 {
 	namespace Prefabs
 	{
-		extern bool Save(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &author, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &name, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &path);
-		extern bool Load(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &path);
-		extern bool ReadHeader(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &path, Forge::Prefabs::PrefabHeader &header);
+		extern bool Save(std::string const &author, std::string &name, std::string const &path);
+		extern bool Load(std::string const &path);
+		extern bool ReadHeader(std::string const &path, Forge::Prefabs::PrefabHeader &header);
 	}
 }
 
@@ -175,8 +175,8 @@ namespace Forge
 {
 	namespace Prefabs
 	{
-		_extern bool _sub_10970530(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-		bool Save(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &author, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &name, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &path) // 0x10970530
+		_extern bool _sub_10970530(std::string const &, std::string &, std::string const &);
+		bool Save(std::string const &author, std::string &name, std::string const &path) // 0x10970530
 		{
 			mangled_x86(MANGLED_TODO, "?Save@Prefabs@Forge@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAV34@0@Z");
 			// static ...; // 0x10970D28
@@ -187,9 +187,9 @@ namespace Forge
 			// static ...; // 0x10970CF4
 			// static ...; // 0x10970C94
 			// static ...; // 0x10970C8C
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &author;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &name;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &path;
+			// std::string const &author;
+			// std::string &name;
+			// std::string const &path;
 			// static PrefabPlacement placements[640]; // 0x1240FBA0
 			// std::basic_ofstream<char,std::char_traits<char> > fs;
 			// long placementCount;
@@ -229,8 +229,8 @@ namespace Forge
 			return __result;
 		}
 
-		_extern bool _sub_1096FAB0(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-		bool Load(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &path) // 0x1096FAB0
+		_extern bool _sub_1096FAB0(std::string const &);
+		bool Load(std::string const &path) // 0x1096FAB0
 		{
 			mangled_x86(MANGLED_TODO, "?Load@Prefabs@Forge@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 			// static ...; // 0x1097016F
@@ -242,7 +242,7 @@ namespace Forge
 			// static ...; // 0x10970134
 			// static ...; // 0x109700E0
 			// static ...; // 0x109700D8
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &path;
+			// std::string const &path;
 			// static PrefabPlacement placements[640]; // 0x1242A5A8
 			// long paletteTagIndices[256];
 			// std::basic_ifstream<char,std::char_traits<char> > fs;
@@ -281,13 +281,13 @@ namespace Forge
 			return __result;
 		}
 
-		_extern bool _sub_109703E0(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, Forge::Prefabs::PrefabHeader &);
-		bool ReadHeader(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &path, Forge::Prefabs::PrefabHeader &header) // 0x109703E0
+		_extern bool _sub_109703E0(std::string const &, Forge::Prefabs::PrefabHeader &);
+		bool ReadHeader(std::string const &path, Forge::Prefabs::PrefabHeader &header) // 0x109703E0
 		{
 			mangled_x86(MANGLED_TODO, "?ReadHeader@Prefabs@Forge@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAUPrefabHeader@12@@Z");
 			// static ...; // 0x109704D8
 			// static ...; // 0x109704D0
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &path;
+			// std::string const &path;
 			// Forge::Prefabs::PrefabHeader &header;
 			// std::basic_ifstream<char,std::char_traits<char> > fs;
 			todo("implement");

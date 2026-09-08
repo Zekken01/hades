@@ -60,7 +60,7 @@ namespace Player
 
 namespace Player
 {
-	extern void StartImageDownload(std::basic_string<char,std::char_traits<char>,std::allocator<char> > url, __int32 player_index);
+	extern void StartImageDownload(std::string url, __int32 player_index);
 	extern void ResetCosmeticSlot(__int32 player_index);
 	extern void InvalidateCosmeticSlot(__int32 player_index);
 	extern void DXInitEmblem(__int32 player_index);

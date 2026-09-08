@@ -160,21 +160,21 @@ unsigned long render_thread_loop(void *lpParam);
 
 namespace hades_file_local
 {
-	extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > MapsFolder; // 0x124582F4
-	extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > MapFormatString; // 0x1245832C
-	extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > StringIdsPath; // 0x124582D8
-	extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > TagsPath; // 0x124582A0
-	extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > TagListPath; // 0x124582BC
-	extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > ResourcesPath; // 0x124583C8
-	extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > ResourcesBPath; // 0x12458348
-	extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > TexturesPath; // 0x124583AC
-	extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > TexturesBPath; // 0x124583F4
-	extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > AudioPath; // 0x12458390
-	extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > FontsPath; // 0x12458364
+	extern std::string MapsFolder; // 0x124582F4
+	extern std::string MapFormatString; // 0x1245832C
+	extern std::string StringIdsPath; // 0x124582D8
+	extern std::string TagsPath; // 0x124582A0
+	extern std::string TagListPath; // 0x124582BC
+	extern std::string ResourcesPath; // 0x124583C8
+	extern std::string ResourcesBPath; // 0x12458348
+	extern std::string TexturesPath; // 0x124583AC
+	extern std::string TexturesBPath; // 0x124583F4
+	extern std::string AudioPath; // 0x12458390
+	extern std::string FontsPath; // 0x12458364
 	extern std::vector<std::function<void __cdecl(char const *)>,std::allocator<std::function<void __cdecl(char const *)> > > mapLoadedCallbacks; // 0x12458290
 	extern std::vector<std::function<void __cdecl(void)>,std::allocator<std::function<void __cdecl(void)> > > gameStartCallbacks; // 0x12458380
 	extern std::vector<std::function<void __cdecl(void)>,std::allocator<std::function<void __cdecl(void)> > > shutdownCallbacks; // 0x124583E4
-	extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > mainLoadMapPath; // 0x12458310
+	extern std::string mainLoadMapPath; // 0x12458310
 	extern long long cpuFrequencyMs; // 0x12458410
 	extern _LARGE_INTEGER startTime; // 0x12458418
 }
@@ -208,7 +208,7 @@ namespace Patches
 			// static ...; // 0x10A4585C
 			// static ...; // 0x10A45850
 			// static ...; // 0x10A45848
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > path;
+			// std::string path;
 			todo("implement");
 			_sub_10A44ED0();
 		}
@@ -459,7 +459,7 @@ void GetScreenshotFolderHook(wchar_t *path) // 0x10A48920
 	// wchar_t *path;
 	// std::wstring_convert<std::codecvt_utf8<wchar_t,1114111,0>,wchar_t,std::allocator<wchar_t>,std::allocator<char> > wstring_to_string;
 	// unsigned long return_code;
-	// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > unprocessed_path;
+	// std::wstring unprocessed_path;
 	// std::filesystem::path dir;
 	{
 		// static void (*`GetScreenshotFolderHook'::`5'::GetScreenshotsFolder)(wchar_t *); // 0x11354268

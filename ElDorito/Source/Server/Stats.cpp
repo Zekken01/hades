@@ -218,12 +218,12 @@ namespace Server
 {
 	namespace Stats
 	{
-		extern void GetStatsEndpoints(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > &destVect);
+		extern void GetStatsEndpoints(std::vector<std::string,std::allocator<std::string> > &destVect);
 		extern void GetPlayersInfoEndpoint();
-		extern void GetStatsPublicKey(std::basic_string<char,std::char_traits<char>,std::allocator<char> > &dest);
+		extern void GetStatsPublicKey(std::string &dest);
 		extern unsigned long __stdcall GetPlayersInfo_Thread(void *lpParam);
-		extern bool AnnounceStats(std::basic_string<char,std::char_traits<char>,std::allocator<char> > payload, std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > endpoints);
-		extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetStatsPayload();
+		extern bool AnnounceStats(std::string payload, std::vector<std::string,std::allocator<std::string> > endpoints);
+		extern std::string GetStatsPayload();
 		extern void LifeCycleStateChanged(Blam::Network::LifeCycleState newState);
 		extern void OnGameStart();
 		extern unsigned __int32 GetPeerIp(Blam::Network::Session *session, __int32 peer);
@@ -247,7 +247,7 @@ namespace Server
 		extern long long sendStatsTime; // 0x12467A08
 		extern long long listPlayersTime; // 0x12467A10
 		extern bool postMatch; // 0x12467A18
-		extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > playersInfoEndpoint; // 0x12467A1C
+		extern std::string playersInfoEndpoint; // 0x12467A1C
 		extern __int32 numberOfRounds; // 0x11354E40
 	}
 }
@@ -260,14 +260,14 @@ namespace Server
 {
 	namespace Stats
 	{
-		_extern void _sub_10B28760(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > &);
-		void GetStatsEndpoints(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > &destVect) // 0x10B28760
+		_extern void _sub_10B28760(std::vector<std::string,std::allocator<std::string> > &);
+		void GetStatsEndpoints(std::vector<std::string,std::allocator<std::string> > &destVect) // 0x10B28760
 		{
 			mangled_x86(MANGLED_TODO, "?GetStatsEndpoints@Stats@Server@@YAXAAV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@@Z");
 			// static ...; // 0x10B288F8
 			// static ...; // 0x10B288EC
 			// static ...; // 0x10B288E4
-			// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > &destVect;
+			// std::vector<std::string,std::allocator<std::string> > &destVect;
 			// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
 			{
 				// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &statsObject;
@@ -298,14 +298,14 @@ namespace Server
 			_sub_10B271C0();
 		}
 
-		_extern void _sub_10B2BE60(std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
-		void GetStatsPublicKey(std::basic_string<char,std::char_traits<char>,std::allocator<char> > &dest) // 0x10B2BE60
+		_extern void _sub_10B2BE60(std::string &);
+		void GetStatsPublicKey(std::string &dest) // 0x10B2BE60
 		{
 			mangled_x86(MANGLED_TODO, "?GetStatsPublicKey@Stats@Server@@YAXAAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 			// static ...; // 0x10B2BF98
 			// static ...; // 0x10B2BF8C
 			// static ...; // 0x10B2BF84
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &dest;
+			// std::string &dest;
 			// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
 			{
 				// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &statsObject;
@@ -348,31 +348,31 @@ namespace Server
 			}
 			{
 				// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > sendObject;
-				// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > expected;
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > resp;
+				// std::string sendObject;
+				// std::wstring expected;
+				// std::string resp;
 			}
 			todo("implement");
 			unsigned long __result = _sub_10B27360(lpParam);
 			return __result;
 		}
 
-		_extern bool _sub_10B26B90(std::string, std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > >);
-		bool AnnounceStats(std::basic_string<char,std::char_traits<char>,std::allocator<char> > payload, std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > endpoints) // 0x10B26B90
+		_extern bool _sub_10B26B90(std::string, std::vector<std::string,std::allocator<std::string> >);
+		bool AnnounceStats(std::string payload, std::vector<std::string,std::allocator<std::string> > endpoints) // 0x10B26B90
 		{
 			mangled_x86(MANGLED_TODO, "?AnnounceStats@Stats@Server@@YA_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@4@@Z");
 			// static ...; // 0x10B27010
 			// static ...; // 0x10B26FF8
 			// static ...; // 0x10B26FF0
 		// $LN29:
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > payload;
-			// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > endpoints;
+			// std::string payload;
+			// std::vector<std::string,std::allocator<std::string> > endpoints;
 			{
-				// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > &<range>$L0;
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *<begin>$L0;
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *<end>$L0;
+				// std::vector<std::string,std::allocator<std::string> > &<range>$L0;
+				// std::string *<begin>$L0;
+				// std::string *<end>$L0;
 				{
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > server;
+					// std::string server;
 					{
 						// HttpRequest req;
 					}
@@ -385,12 +385,12 @@ namespace Server
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10B28970();
+extern std::string _sub_10B28970();
 namespace Server
 {
 	namespace Stats
 	{
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetStatsPayload() // 0x10B28970
+		std::string GetStatsPayload() // 0x10B28970
 		{
 			mangled_x86(MANGLED_TODO, "?GetStatsPayload@Stats@Server@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 			// procedure flags: nofpo
@@ -415,25 +415,25 @@ namespace Server
 			// static ...; // 0x10B2B328
 			// static ...; // 0x10B2B244
 			// static ...; // 0x10B2B23C
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > modHash;
+			// std::string modHash;
 			// char const *const sig;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > pubKey;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > signature;
+			// std::string pubKey;
+			// std::string signature;
 			// char uid[17];
 			// __int32 matchLengthSeconds;
 			// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> s;
 			// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > mapName;
+			// std::string mapName;
 			// c_mod_package_manager::s_entry packageEntry;
 			// c_game_statborg *scoreboard;
 			// e_game_engine_type variantType;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > encryptedString;
+			// std::string encryptedString;
 			// char buf[42];
 			// Blam::Network::Session *session;
 			// unsigned __int32 TeamMode;
 			// tm *now_tm;
-			// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > mapVariantName;
-			// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > variantName;
+			// std::wstring mapVariantName;
+			// std::wstring variantName;
 			// __int32 roundCount;
 			// e_game_mode gameMode;
 			// long long now;
@@ -549,7 +549,7 @@ namespace Server
 			// long long time;
 			// std::filesystem::path logFilePath;
 			// Blam::Network::Session *session;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > listPlayersLogFile;
+			// std::string listPlayersLogFile;
 			// tm gmTime;
 			// std::chrono::time_point<std::chrono::system_clock,std::chrono::duration<__int64,std::ratio<1,10000000> > > now;
 			// __int32 peerIdx;
@@ -560,8 +560,8 @@ namespace Server
 					// unsigned long long uid;
 					// unsigned __int32 ip;
 					// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > stream;
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > name;
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > hexUID;
+					// std::string name;
+					// std::string hexUID;
 				}
 			}
 			todo("implement");
@@ -621,9 +621,9 @@ namespace Server
 			{
 				// long long elapsed;
 				{
-					// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > statsEndpoints;
+					// std::vector<std::string,std::allocator<std::string> > statsEndpoints;
 					{
-						// std::basic_string<char,std::char_traits<char>,std::allocator<char> > statsPayload;
+						// std::string statsPayload;
 						{
 							// std::thread SendStats;
 						}

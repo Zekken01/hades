@@ -131,8 +131,8 @@ namespace Server
 	{
 		namespace hades_file_local_Server_Voting
 		{
-			extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > const DefaultTypes[8]; // 0x113885D0
-			extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > const DefaultTypeNames[8]; // 0x113886B0
+			extern std::string const DefaultTypes[8]; // 0x113885D0
+			extern std::string const DefaultTypeNames[8]; // 0x113886B0
 		}
 		using namespace hades_file_local_Server_Voting;
 	}
@@ -144,7 +144,7 @@ namespace Server
 	namespace Voting
 	{
 		_extern bool _sub_1072D740(Server::Voting::AbstractVotingSystem *const, std::string, bool);
-		bool AbstractVotingSystem::ReloadVotingJson(std::basic_string<char,std::char_traits<char>,std::allocator<char> > fileName, bool loadFileFromDisc) // 0x1072D740
+		bool AbstractVotingSystem::ReloadVotingJson(std::string fileName, bool loadFileFromDisc) // 0x1072D740
 		{
 			mangled_x86(MANGLED_TODO, "?ReloadVotingJson@AbstractVotingSystem@Voting@Server@@QAE_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@_N@Z");
 			// bool loadFileFromDisc;

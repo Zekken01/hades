@@ -341,7 +341,7 @@ typedef unsigned long SECURITY_INFORMATION;
 
 extern bool CanAccessFolder(char const *folderName, unsigned long genericAccessRights);
 extern bool EnsureChildProcessTermination();
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetExceptionMessage(_EXCEPTION_RECORD const &exceptionRecord);
+extern std::string GetExceptionMessage(_EXCEPTION_RECORD const &exceptionRecord);
 extern long __stdcall TopLevelExceptionFilter(_EXCEPTION_POINTERS *ExceptionInfo);
 extern __int32 __stdcall WinMainHook(HINSTANCE__ *hInstance, HINSTANCE__ *hPrevInstance, char *lpCmdLine, __int32 nCmdShow);
 extern __int32 InitInstance(HINSTANCE__ *hModule);
@@ -372,8 +372,8 @@ namespace Server
 	{
 		namespace hades_file_local_Server_Voting
 		{
-			extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > const DefaultTypes[8]; // 0x1240F698
-			extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > const DefaultTypeNames[8]; // 0x1240F778
+			extern std::string const DefaultTypes[8]; // 0x1240F698
+			extern std::string const DefaultTypeNames[8]; // 0x1240F778
 		}
 		using namespace hades_file_local_Server_Voting;
 	}
@@ -382,7 +382,7 @@ namespace Server
 {
 	namespace hades_file_local_Server
 	{
-		extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > DefaultBanListPath; // 0x1240F858
+		extern std::string DefaultBanListPath; // 0x1240F858
 	}
 	using namespace hades_file_local_Server;
 }
@@ -444,15 +444,15 @@ void ElDorito::Initialize() // 0x10965070
 	// static ...; // 0x109660FC
 	// static ...; // 0x109660F4
 	// ElDorito *const this;
-	// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > wide_ed_appdata;
+	// std::wstring wide_ed_appdata;
 	// __int32 numArgs;
 	// CommandLineArgs cmdArgs;
 	// wchar_t *localAppdata;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > ed_appdata;
+	// std::string ed_appdata;
 	{
 		// __int32 i;
 		{
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > arg;
+			// std::string arg;
 		}
 	}
 	{
@@ -463,15 +463,15 @@ void ElDorito::Initialize() // 0x10965070
 	}
 	{
 		{
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > argvalue;
+			// std::string argvalue;
 			// unsigned __int32 pos;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > argname;
+			// std::string argname;
 			{
 				// __int32 proc;
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > command;
+				// std::string command;
 			}
 			{
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > filePath;
+				// std::string filePath;
 			}
 		}
 	}
@@ -537,11 +537,11 @@ void ElDorito::Shutdown() // 0x10966B70
 	_sub_10966B70(this);
 }
 
-_extern void _sub_10966B50(ElDorito *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-void ElDorito::SetMapsFolder(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &path) // 0x10966B50
+_extern void _sub_10966B50(ElDorito *const, std::string const &);
+void ElDorito::SetMapsFolder(std::string const &path) // 0x10966B50
 {
 	mangled_x86(MANGLED_TODO, "?SetMapsFolder@ElDorito@@AAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &path;
+	// std::string const &path;
 	todo("implement");
 	_sub_10966B50(this, path);
 }
@@ -565,8 +565,8 @@ void ElDorito::Tick() // 0x10966BD0
 	_sub_10966BD0(this);
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10964690(ElDorito *const);
-std::basic_string<char,std::char_traits<char>,std::allocator<char> > ElDorito::GetDirectory() // 0x10964690
+extern std::string _sub_10964690(ElDorito *const);
+std::string ElDorito::GetDirectory() // 0x10964690
 {
 	mangled_x86(MANGLED_TODO, "?GetDirectory@ElDorito@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 	// static ...; // 0x1096493D
@@ -577,7 +577,7 @@ std::basic_string<char,std::char_traits<char>,std::allocator<char> > ElDorito::G
 	// ElDorito *const this;
 	// HINSTANCE__ *hMod;
 	// char Path[260];
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > Dir;
+	// std::string Dir;
 	{
 		// __int32 Error;
 	}
@@ -599,16 +599,16 @@ void ElDorito::OnMainMenuShown() // 0x10966AA0
 	_sub_10966AA0(this);
 }
 
-_extern void _sub_10967AF0(ElDorito *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-void ElDorito::setWatermarkText(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &Message) // 0x10967AF0
+_extern void _sub_10967AF0(ElDorito *const, std::string const &);
+void ElDorito::setWatermarkText(std::string const &Message) // 0x10967AF0
 {
 	mangled_x86(MANGLED_TODO, "?setWatermarkText@ElDorito@@AAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 	// static ...; // 0x10967D3C
 	// static ...; // 0x10967D34
 	// ElDorito *const this;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &Message;
+	// std::string const &Message;
 	// static wchar_t msgBuf[256]; // 0x1240F878
-	// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > msgUnicode;
+	// std::wstring msgUnicode;
 	todo("implement");
 	_sub_10967AF0(this, Message);
 }
@@ -682,8 +682,8 @@ bool EnsureChildProcessTermination() // 0x10964530
 	return __result;
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10964A30(_EXCEPTION_RECORD const &);
-std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetExceptionMessage(_EXCEPTION_RECORD const &exceptionRecord) // 0x10964A30
+extern std::string _sub_10964A30(_EXCEPTION_RECORD const &);
+std::string GetExceptionMessage(_EXCEPTION_RECORD const &exceptionRecord) // 0x10964A30
 {
 	mangled_x86(MANGLED_TODO, "?GetExceptionMessage@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABU_EXCEPTION_RECORD@@@Z");
 	// static ...; // 0x10964C5C
@@ -710,11 +710,11 @@ long __stdcall TopLevelExceptionFilter(_EXCEPTION_POINTERS *ExceptionInfo) // 0x
 	// static ...; // 0x109670A4
 	// _EXCEPTION_POINTERS *ExceptionInfo;
 	// HINSTANCE__ *hMod;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > moduleName;
+	// std::string moduleName;
 	// static bool handling; // 0x1240F695
 	// char info[1024];
 	// Debug::CrashReporting::s_crash_info crashInfo;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > msg;
+	// std::string msg;
 	todo("implement");
 	long __result = _sub_10966E80(ExceptionInfo);
 	return __result;
@@ -742,7 +742,7 @@ __int32 InitInstance(HINSTANCE__ *hModule) // 0x10964D10
 	// static ...; // 0x10964F94
 	// static ...; // 0x10964F8C
 	// HINSTANCE__ *hModule;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > EDPath;
+	// std::string EDPath;
 	// char appPath[260];
 	// function call : __int32 (HINSTANCE__ *)
 	// function call : __int32 ()
@@ -786,7 +786,7 @@ extern "C" __int32 __stdcall DllMain(HINSTANCE__ *hModule, unsigned long Reason,
 	// unsigned long Reason;
 	// void *Misc;
 	{
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > str;
+		// std::string str;
 		// __int32 offset;
 		// char *cmd;
 	}

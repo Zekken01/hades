@@ -32,14 +32,14 @@ namespace Utils
 	{
 	public:
 		DewritoReader();
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetDewritoString();
+		std::string GetDewritoString();
 		rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> GetDewritoJson();
 		_inline bool IsValid();
 	private:
 		bool ReadFile(char const *path);
 		bool m_isValid; // 0x0
 		unsigned char __pad0[3]; // 0x1
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > m_dewrito_string; // 0x4
+		std::string m_dewrito_string; // 0x4
 		rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> m_dewrito_json; // 0x20
 		char const *dewrito_json_filepath; // 0x58
 		char const *dewrito_json_user_filepath; // 0x5C

@@ -214,11 +214,11 @@ namespace Web
 	{
 		namespace WebForge
 		{
-			extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > BuildForgePaletteJSON();
+			extern std::string BuildForgePaletteJSON();
 			extern void OnItemSpawned(unsigned __int32 objectIndex);
 			extern void ShowObjectProperties(unsigned __int32 objectIndex);
 			extern void ShowObjectCreation();
-			extern Web::Browser::Bridge::QueryError ProcessAction(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result);
+			extern Web::Browser::Bridge::QueryError ProcessAction(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result);
 		}
 	}
 }
@@ -230,7 +230,7 @@ bool IsForgeLight(unsigned __int32 objectIndex);
 bool IsForgeScreenEffectObject(unsigned __int32 objectIndex);
 long ObjectGetChangeColors(long objectIndex, real_rgb_color *outColors);
 void SerializeObjectProperties(rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, ::Forge::CObjectPropertyAccessor &accessor);
-std::basic_string<char,std::char_traits<char>,std::allocator<char> > SerializeObjectProperties(short placementIndex);
+std::string SerializeObjectProperties(short placementIndex);
 void DeserializeObjectProperties(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &json, ::Forge::CObjectPropertyAccessor &sink);
 
 /* ---------- globals */
@@ -250,14 +250,14 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- public code */
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10CA6A10();
+extern std::string _sub_10CA6A10();
 namespace Web
 {
 	namespace Ui
 	{
 		namespace WebForge
 		{
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > BuildForgePaletteJSON() // 0x10CA6A10
+			std::string BuildForgePaletteJSON() // 0x10CA6A10
 			{
 				mangled_x86(MANGLED_TODO, "?BuildForgePaletteJSON@WebForge@Ui@Web@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 				// procedure flags: nofpo
@@ -394,7 +394,7 @@ namespace Web
 	{
 		namespace Bridge
 		{
-			extern QueryError _sub_10CA79A0(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *);
+			extern QueryError _sub_10CA79A0(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::string *);
 		}
 	}
 }
@@ -405,7 +405,7 @@ namespace Web
 	{
 		namespace WebForge
 		{
-			Web::Browser::Bridge::QueryError ProcessAction(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result) // 0x10CA79A0
+			Web::Browser::Bridge::QueryError ProcessAction(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10CA79A0
 			{
 				mangled_x86(MANGLED_TODO, "?ProcessAction@WebForge@Ui@Web@@YA?AW4QueryError@Bridge@Browser@3@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 				// static ...; // 0x10CA7BDD
@@ -413,7 +413,7 @@ namespace Web
 				// static ...; // 0x10CA7BB4
 				// static ...; // 0x10CA7BAC
 				// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args;
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result;
+				// std::string *p_Result;
 				// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > data;
 				// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > type;
 				{
@@ -550,8 +550,8 @@ void SerializeObjectProperties(rapidjson::Writer<rapidjson::GenericStringBuffer<
 	_sub_10CA8900(writer, accessor);
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10CA7C80(short);
-std::basic_string<char,std::char_traits<char>,std::allocator<char> > SerializeObjectProperties(short placementIndex) // 0x10CA7C80
+extern std::string _sub_10CA7C80(short);
+std::string SerializeObjectProperties(short placementIndex) // 0x10CA7C80
 {
 	// `anonymous-namespace'::SerializeObjectProperties
 	// static ...; // 0x10CA8674

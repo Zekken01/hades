@@ -42,7 +42,7 @@
 extern unsigned __int32 GetMainThreadId();
 extern unsigned __int32 GetMainThreadId(unsigned __int32 ProcessId);
 extern void *GetModuleBase();
-extern void *GetModuleBase(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &ModuleName);
+extern void *GetModuleBase(std::string const &ModuleName);
 extern void SetPageAccess(unsigned __int32 Offset, unsigned __int32 Size, unsigned __int32 AccessFlags);
 
 /* ---------- globals */
@@ -116,14 +116,14 @@ void *GetModuleBase() // 0x10AF9010
 	return __result;
 }
 
-_extern void *_sub_10AF8EA0(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-void *GetModuleBase(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &ModuleName) // 0x10AF8EA0
+_extern void *_sub_10AF8EA0(std::string const &);
+void *GetModuleBase(std::string const &ModuleName) // 0x10AF8EA0
 {
 	mangled_x86(MANGLED_TODO, "?GetModuleBase@@YAPAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 	// static ...; // 0x10AF8FB8
 	// static ...; // 0x10AF8FAC
 	// static ...; // 0x10AF8FA4
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &ModuleName;
+	// std::string const &ModuleName;
 	// void *hSnapShot;
 	// __int32 bModule;
 	// tagMODULEENTRY32 lpModuleEntry;

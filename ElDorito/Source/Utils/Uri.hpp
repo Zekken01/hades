@@ -30,11 +30,11 @@ namespace Utils
 	{
 		struct UriComponents
 		{
-			std::basic_string_view<char,std::char_traits<char> > scheme; // 0x0
-			std::basic_string_view<char,std::char_traits<char> > authority; // 0x8
-			std::basic_string_view<char,std::char_traits<char> > path; // 0x10
-			std::basic_string_view<char,std::char_traits<char> > query; // 0x18
-			std::basic_string_view<char,std::char_traits<char> > fragment; // 0x20
+			std::string_view scheme; // 0x0
+			std::string_view authority; // 0x8
+			std::string_view path; // 0x10
+			std::string_view query; // 0x18
+			std::string_view fragment; // 0x20
 			_inline UriComponents(); /* compiler_generated() */
 		};
 		static_assert(sizeof(Utils::Uri::UriComponents) == 40, "Invalid Utils::Uri::UriComponents size");
@@ -47,8 +47,8 @@ namespace Utils
 {
 	namespace Uri
 	{
-		extern bool ParseUriComponents(std::basic_string_view<char,std::char_traits<char> > uri, Utils::Uri::UriComponents &components);
-		extern bool ResolveUrl(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &baseUri, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &relativeUri, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &result);
+		extern bool ParseUriComponents(std::string_view uri, Utils::Uri::UriComponents &components);
+		extern bool ResolveUrl(std::string const &baseUri, std::string const &relativeUri, std::string &result);
 	}
 }
 

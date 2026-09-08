@@ -29,7 +29,7 @@ namespace Console
 	{
 	public:
 		virtual _inline ~ConsoleOutputHandler();
-		virtual void WriteLine(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &) = 0;
+		virtual void WriteLine(std::string const &) = 0;
 		ConsoleOutputHandler(Console::ConsoleOutputHandler const &); /* compiler_generated() */
 		_inline ConsoleOutputHandler(); /* compiler_generated() */
 		Console::ConsoleOutputHandler &operator=(Console::ConsoleOutputHandler const &); /* compiler_generated() */
@@ -42,7 +42,7 @@ namespace Console
 namespace Console
 {
 	extern void Init();
-	extern void WriteLine(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &line);
+	extern void WriteLine(std::string const &line);
 	extern void RegisterHandler(std::shared_ptr<Console::ConsoleOutputHandler> handler);
 }
 

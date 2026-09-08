@@ -94,7 +94,7 @@ namespace Forge
 		// Forge::CObjectPropertyManager *const this;
 		// char const *name;
 		{
-			// std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,enum Forge::EObjectProperty> > > > it;
+			// std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<std::string const ,enum Forge::EObjectProperty> > > > it;
 		}
 		todo("implement");
 		Forge::EObjectProperty __result = _sub_10846A60(this, name);

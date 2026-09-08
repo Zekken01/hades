@@ -116,8 +116,8 @@ namespace Server
 	{
 		namespace hades_file_local_Server_Voting
 		{
-			extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > const DefaultTypes[8]; // 0x113887F0
-			extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > const DefaultTypeNames[8]; // 0x113888D0
+			extern std::string const DefaultTypes[8]; // 0x113887F0
+			extern std::string const DefaultTypeNames[8]; // 0x113888D0
 		}
 		using namespace hades_file_local_Server_Voting;
 	}
@@ -158,26 +158,26 @@ namespace Server
 				// unsigned __int32 baseTypeIndex;
 			}
 			{
-				// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &<range>$L0;
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const *<begin>$L0;
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const *<end>$L0;
+				// std::vector<std::string,std::allocator<std::string> > const &<range>$L0;
+				// std::string const *<begin>$L0;
+				// std::string const *<end>$L0;
 				{
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &cmd;
+					// std::string const &cmd;
 				}
 			}
 			{
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const *<end>$L1;
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const *<begin>$L1;
-				// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &<range>$L1;
+				// std::string const *<end>$L1;
+				// std::string const *<begin>$L1;
+				// std::vector<std::string,std::allocator<std::string> > const &<range>$L1;
 				{
 				}
 			}
 			{
 				// std::_Default_sentinel <end>$L2;
-				// std::map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,Server::Voting::HaloType::CharacterOverride,std::less<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,Server::Voting::HaloType::CharacterOverride> > > const &<range>$L2;
-				// std::_Tree_unchecked_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,Server::Voting::HaloType::CharacterOverride> > >,std::_Iterator_base0> <begin>$L2;
+				// std::map<std::string,Server::Voting::HaloType::CharacterOverride,std::less<std::string>,std::allocator<std::pair<std::string const ,Server::Voting::HaloType::CharacterOverride> > > const &<range>$L2;
+				// std::_Tree_unchecked_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,Server::Voting::HaloType::CharacterOverride> > >,std::_Iterator_base0> <begin>$L2;
 				{
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &k;
+					// std::string const &k;
 					// Server::Voting::HaloType::CharacterOverride const &v;
 				}
 			}

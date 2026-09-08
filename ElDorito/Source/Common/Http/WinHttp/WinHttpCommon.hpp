@@ -30,7 +30,7 @@ namespace Http
 	{
 		static _inline Http::WinHttpErrorCategory &Get();
 		virtual _inline char const *name() const noexcept;
-		virtual _inline std::basic_string<char,std::char_traits<char>,std::allocator<char> > message(__int32 error) const;
+		virtual _inline std::string message(__int32 error) const;
 		_inline WinHttpErrorCategory(); /* compiler_generated() */
 		virtual _inline ~WinHttpErrorCategory(); /* compiler_generated() */
 	};
@@ -76,10 +76,10 @@ namespace Http
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_1080BE40(Http::WinHttpErrorCategory const *const, __int32);
+extern std::string _sub_1080BE40(Http::WinHttpErrorCategory const *const, __int32);
 namespace Http
 {
-	_inline std::basic_string<char,std::char_traits<char>,std::allocator<char> > WinHttpErrorCategory::message(__int32 error) const // 0x1080BE40
+	_inline std::string WinHttpErrorCategory::message(__int32 error) const // 0x1080BE40
 	{
 		mangled_x86(MANGLED_TODO, "?message@WinHttpErrorCategory@Http@@UBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@H@Z");
 		// static ...; // 0x1080C054
@@ -88,7 +88,7 @@ namespace Http
 		// Http::WinHttpErrorCategory const *const this;
 		// __int32 error;
 		// char *buffer;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > result;
+		// std::string result;
 		// HINSTANCE__ *hInst;
 		// unsigned long dwChars;
 		// function call : HINSTANCE__ *(char const *)

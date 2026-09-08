@@ -59,9 +59,9 @@ namespace Server
 {
 	namespace Voting
 	{
-		extern bool LoadVotingJson(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &filename, Server::Voting::VotingJson &voting);
+		extern bool LoadVotingJson(std::string const &filename, Server::Voting::VotingJson &voting);
 		extern bool LoadPlaylistItem(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &c, Server::Voting::PlaylistItem &item, std::vector<Server::Voting::HaloType,std::allocator<Server::Voting::HaloType> > const &types);
-		extern bool LoadHaloMap(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &mapObject, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &modPack, Server::Voting::HaloMap &map);
+		extern bool LoadHaloMap(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &mapObject, std::string const &modPack, Server::Voting::HaloMap &map);
 		extern bool LoadHaloType(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &c, Server::Voting::HaloType &ht);
 	}
 }

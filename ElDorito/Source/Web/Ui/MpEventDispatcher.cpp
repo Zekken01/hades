@@ -135,7 +135,7 @@ namespace Web
 }
 
 void OnEvent(unsigned long player, s_game_engine_event_data const *event, s_multiplayer_event_response_definition const *definition);
-std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetEventName(unsigned __int32 stringId);
+std::string GetEventName(unsigned __int32 stringId);
 
 /* ---------- globals */
 
@@ -143,7 +143,7 @@ std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetEventNam
 
 namespace hades_file_local
 {
-	extern std::unordered_map<unsigned int,std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::hash<unsigned int>,std::equal_to<unsigned int>,std::allocator<std::pair<unsigned int const ,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > EventNames; // 0x1247ECA0
+	extern std::unordered_map<unsigned int,std::string,std::hash<unsigned int>,std::equal_to<unsigned int>,std::allocator<std::pair<unsigned int const ,std::string> > > EventNames; // 0x1247ECA0
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -179,7 +179,7 @@ void OnEvent(unsigned long player, s_game_engine_event_data const *event, s_mult
 	// s_game_engine_event_data const *event;
 	// s_multiplayer_event_response_definition const *definition;
 	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > eventName;
+	// std::string eventName;
 	// unsigned __int32 (*GetLocalPlayer)(__int32);
 	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
 	// function call : unsigned __int32 (*)(__int32)
@@ -187,8 +187,8 @@ void OnEvent(unsigned long player, s_game_engine_event_data const *event, s_mult
 	_sub_10C8A700(player, event, definition);
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10C8A3E0(unsigned __int32);
-std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetEventName(unsigned __int32 stringId) // 0x10C8A3E0
+extern std::string _sub_10C8A3E0(unsigned __int32);
+std::string GetEventName(unsigned __int32 stringId) // 0x10C8A3E0
 {
 	// `anonymous-namespace'::GetEventName
 	// static ...; // 0x10C8A60E
@@ -197,9 +197,9 @@ std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetEventNam
 	// static ...; // 0x10C8A5E4
 	// static ...; // 0x10C8A5DC
 	// unsigned __int32 stringId;
-	// std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > > it;
+	// std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,std::string> > > > it;
 	// std::basic_ostringstream<char,std::char_traits<char>,std::allocator<char> > ss;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > name;
+	// std::string name;
 	todo("implement");
 	std::string __result = _sub_10C8A3E0(stringId);
 	return __result;

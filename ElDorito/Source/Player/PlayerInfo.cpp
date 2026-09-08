@@ -150,7 +150,7 @@ namespace hades_file_local
 	{
 		__int32 rank; // 0x0
 		__int32 skill; // 0x4
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > emblemUrl; // 0x8
+		std::string emblemUrl; // 0x8
 		bool rankup; // 0x24
 		bool set; // 0x25
 		SPlayerInfo(SPlayerInfo &); /* compiler_generated() */
@@ -165,7 +165,7 @@ namespace hades_file_local
 
 	struct SPlayerEmblemInfo
 	{
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > emblemUrl; // 0x0
+		std::string emblemUrl; // 0x0
 		unsigned char __pad0[4]; // 0x1C
 		unsigned long long uid; // 0x20
 		SPlayerEmblemInfo(SPlayerEmblemInfo &); /* compiler_generated() */
@@ -184,7 +184,7 @@ namespace Player
 {
 	extern bool GetRankedUpRecently();
 	extern void ClearRankUp();
-	extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > getLocalEmblem(__int32 networkPlayerIndex);
+	extern std::string getLocalEmblem(__int32 networkPlayerIndex);
 	extern void LifeCycleStateChanged(Blam::Network::LifeCycleState newState);
 }
 
@@ -231,10 +231,10 @@ namespace Player
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_107EE0C0();
+extern std::string _sub_107EE0C0();
 namespace Player
 {
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > CPlayersInfo::GeneratePlayerInfo() // 0x107EE0C0
+	std::string CPlayersInfo::GeneratePlayerInfo() // 0x107EE0C0
 	{
 		mangled_x86(MANGLED_TODO, "?GeneratePlayerInfo@CPlayersInfo@Player@@SA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 		// procedure flags: nofpo
@@ -294,10 +294,10 @@ namespace Player
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_107EF4E0(__int32);
+extern std::string _sub_107EF4E0(__int32);
 namespace Player
 {
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > getLocalEmblem(__int32 networkPlayerIndex) // 0x107EF4E0
+	std::string getLocalEmblem(__int32 networkPlayerIndex) // 0x107EF4E0
 	{
 		mangled_x86(MANGLED_TODO, "?getLocalEmblem@Player@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@H@Z");
 		// static ...; // 0x107EF723
@@ -315,10 +315,10 @@ namespace Player
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_107EDEA0(__int32);
+extern std::string _sub_107EDEA0(__int32);
 namespace Player
 {
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > CPlayersInfo::GeEmblemUrl(__int32 networkPlayerIndex) // 0x107EDEA0
+	std::string CPlayersInfo::GeEmblemUrl(__int32 networkPlayerIndex) // 0x107EDEA0
 	{
 		mangled_x86(MANGLED_TODO, "?GeEmblemUrl@CPlayersInfo@Player@@SA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@H@Z");
 		// static ...; // 0x107EE044
@@ -331,20 +331,20 @@ namespace Player
 		return __result;
 	}
 
-	_extern void _sub_107EE980(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-	void CPlayersInfo::Update(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &payload) // 0x107EE980
+	_extern void _sub_107EE980(std::string const &);
+	void CPlayersInfo::Update(std::string const &payload) // 0x107EE980
 	{
 		mangled_x86(MANGLED_TODO, "?Update@CPlayersInfo@Player@@SAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 		// static ...; // 0x107EEE54
 		// static ...; // 0x107EEE50
 		// static ...; // 0x107EEE38
 		// static ...; // 0x107EEE30
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &payload;
+		// std::string const &payload;
 		// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
 		{
 			// __int32 i;
 			{
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > key;
+				// std::string key;
 				{
 					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &info;
 					{

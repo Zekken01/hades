@@ -34,7 +34,7 @@ namespace Player
 		{
 			__int32 id; // 0x0
 			__int32 count; // 0x4
-			std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > countStr; // 0x8
+			std::wstring countStr; // 0x8
 			PlayerTopMedals(Player::ServiceRecord::PlayerTopMedals &); /* compiler_generated() */
 			_inline PlayerTopMedals(Player::ServiceRecord::PlayerTopMedals const &__that); /* compiler_generated() */
 			_inline PlayerTopMedals(); /* compiler_generated() */
@@ -55,7 +55,7 @@ namespace Player
 		struct ServiceRecord
 		{
 			__int32 playerId; // 0x0
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > name; // 0x4
+			std::string name; // 0x4
 			unsigned long long uid; // 0x20
 			bool Empty; // 0x28
 			unsigned char __pad0[3]; // 0x29

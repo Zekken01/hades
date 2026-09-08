@@ -212,8 +212,8 @@ bool c_mod_system::unload_current_package() // 0x108BD4F0
 	return __result;
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_108BC040(char const *);
-std::basic_string<char,std::char_traits<char>,std::allocator<char> > c_mod_system::get_mod_hash_by_identifier(char const *identifier) // 0x108BC040
+extern std::string _sub_108BC040(char const *);
+std::string c_mod_system::get_mod_hash_by_identifier(char const *identifier) // 0x108BC040
 {
 	mangled_x86(MANGLED_TODO, "?get_mod_hash_by_identifier@c_mod_system@@SA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PBD@Z");
 	// static ...; // 0x108BC2B9
@@ -227,7 +227,7 @@ std::basic_string<char,std::char_traits<char>,std::allocator<char> > c_mod_syste
 		// c_mod_package_manager::s_entry packageEntry;
 		// c_mod_package_manager const &manager;
 		{
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > hashstr;
+			// std::string hashstr;
 		}
 	}
 	todo("implement");
@@ -258,7 +258,7 @@ bool c_mod_system::get_mod_info_by_identifier(char const *identifier, c_mod_pack
 	// static ...; // 0x108BC57C
 	// char const *identifier;
 	// c_mod_package_manager::s_entry *package_entry;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > hash_str;
+	// std::string hash_str;
 	todo("implement");
 	bool __result = _sub_108BC490(identifier, package_entry);
 	return __result;
@@ -281,23 +281,23 @@ bool c_mod_system::load_package_by_identifier(char const *identifier) // 0x108BC
 	return __result;
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_108BBEC0();
-std::basic_string<char,std::char_traits<char>,std::allocator<char> > c_mod_system::get_current_package_hash() // 0x108BBEC0
+extern std::string _sub_108BBEC0();
+std::string c_mod_system::get_current_package_hash() // 0x108BBEC0
 {
 	mangled_x86(MANGLED_TODO, "?get_current_package_hash@c_mod_system@@SA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 	// procedure flags: nofpo
 	// static ...; // 0x108BBFE0
 	// static ...; // 0x108BBFD4
 	// static ...; // 0x108BBFCC
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > hashstr;
+	// std::string hashstr;
 	// s_session_mod_options const *mod_options;
 	todo("implement");
 	std::string __result = _sub_108BBEC0();
 	return __result;
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_108BB9A0();
-std::basic_string<char,std::char_traits<char>,std::allocator<char> > c_mod_system::get_current_mainmenu_package_hash() // 0x108BB9A0
+extern std::string _sub_108BB9A0();
+std::string c_mod_system::get_current_mainmenu_package_hash() // 0x108BB9A0
 {
 	mangled_x86(MANGLED_TODO, "?get_current_mainmenu_package_hash@c_mod_system@@SA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 	// procedure flags: nofpo
@@ -307,7 +307,7 @@ std::basic_string<char,std::char_traits<char>,std::allocator<char> > c_mod_syste
 	// IMod *mod;
 	{
 		// c_mod_package *package;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > hash_str;
+		// std::string hash_str;
 	}
 	// function call : IMod *(EModIndex) const
 	// function call : c_mod_package *(bool) const
@@ -316,8 +316,8 @@ std::basic_string<char,std::char_traits<char>,std::allocator<char> > c_mod_syste
 	return __result;
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_108BBBB0(EModIndex);
-std::basic_string<char,std::char_traits<char>,std::allocator<char> > c_mod_system::get_current_package_filename(EModIndex package_type) // 0x108BBBB0
+extern std::string _sub_108BBBB0(EModIndex);
+std::string c_mod_system::get_current_package_filename(EModIndex package_type) // 0x108BBBB0
 {
 	mangled_x86(MANGLED_TODO, "?get_current_package_filename@c_mod_system@@SA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@W4EModIndex@@@Z");
 	// static ...; // 0x108BBE1C
@@ -346,16 +346,16 @@ c_mod_package_manager &c_mod_system::get_package_manager() // 0x108BC850
 	return __result;
 }
 
-_extern bool _sub_108BB5C0(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, s_mod_server_package_entry *);
-bool c_mod_system::find_server_package_by_hash(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &hash, s_mod_server_package_entry *entry) // 0x108BB5C0
+_extern bool _sub_108BB5C0(std::string const &, s_mod_server_package_entry *);
+bool c_mod_system::find_server_package_by_hash(std::string const &hash, s_mod_server_package_entry *entry) // 0x108BB5C0
 {
 	mangled_x86(MANGLED_TODO, "?find_server_package_by_hash@c_mod_system@@SA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAUs_mod_server_package_entry@@@Z");
 	// static ...; // 0x108BB6F8
 	// static ...; // 0x108BB6F0
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &hash;
+	// std::string const &hash;
 	// s_mod_server_package_entry *entry;
 	{
-		// std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,s_mod_server_package_entry> > > > it;
+		// std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<std::string const ,s_mod_server_package_entry> > > > it;
 	}
 	todo("implement");
 	bool __result = _sub_108BB5C0(hash, entry);
@@ -370,7 +370,7 @@ bool c_mod_system::find_server_package_by_name(char const *name, s_mod_server_pa
 	// static ...; // 0x108BB90C
 	// char const *name;
 	// s_mod_server_package_entry *entry;
-	// std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,s_mod_server_package_entry> > > > it;
+	// std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<std::string const ,s_mod_server_package_entry> > > > it;
 	todo("implement");
 	bool __result = _sub_108BB760(name, entry);
 	return __result;
@@ -386,32 +386,32 @@ bool c_mod_system::has_server_package_list() // 0x108BC870
 	return __result;
 }
 
-extern std::unordered_map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,CModPackageFileSystemView::SFileEntry,std::hash<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::equal_to<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,CModPackageFileSystemView::SFileEntry> > > _sub_108BC600(std::string);
-std::unordered_map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,CModPackageFileSystemView::SFileEntry,std::hash<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::equal_to<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,CModPackageFileSystemView::SFileEntry> > > c_mod_system::get_package_file_list(std::basic_string<char,std::char_traits<char>,std::allocator<char> > hash) // 0x108BC600
+extern std::unordered_map<std::string,CModPackageFileSystemView::SFileEntry,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::pair<std::string const ,CModPackageFileSystemView::SFileEntry> > > _sub_108BC600(std::string);
+std::unordered_map<std::string,CModPackageFileSystemView::SFileEntry,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::pair<std::string const ,CModPackageFileSystemView::SFileEntry> > > c_mod_system::get_package_file_list(std::string hash) // 0x108BC600
 {
 	mangled_x86(MANGLED_TODO, "?get_package_file_list@c_mod_system@@SA?AV?$unordered_map@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@USFileEntry@CModPackageFileSystemView@@U?$hash@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@U?$equal_to@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@USFileEntry@CModPackageFileSystemView@@@std@@@2@@std@@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@3@@Z");
 	// static ...; // 0x108BC7A5
 	// static ...; // 0x108BC7A0
 	// static ...; // 0x108BC788
 	// static ...; // 0x108BC780
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > hash;
-	// std::unordered_map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,CModPackageFileSystemView::SFileEntry,std::hash<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::equal_to<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,CModPackageFileSystemView::SFileEntry> > > fileList;
+	// std::string hash;
+	// std::unordered_map<std::string,CModPackageFileSystemView::SFileEntry,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::pair<std::string const ,CModPackageFileSystemView::SFileEntry> > > fileList;
 	{
 		// std::shared_ptr<CModPackageFileSystemView> view;
 	}
 	todo("implement");
-	std::unordered_map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,CModPackageFileSystemView::SFileEntry,std::hash<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::equal_to<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,CModPackageFileSystemView::SFileEntry> > > __result = _sub_108BC600(hash);
+	std::unordered_map<std::string,CModPackageFileSystemView::SFileEntry,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::pair<std::string const ,CModPackageFileSystemView::SFileEntry> > > __result = _sub_108BC600(hash);
 	return __result;
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_108B82B0(std::string, std::string, std::string);
-std::basic_string<char,std::char_traits<char>,std::allocator<char> > c_mod_system::GetNewPackageFilename(std::basic_string<char,std::char_traits<char>,std::allocator<char> > name, std::basic_string<char,std::char_traits<char>,std::allocator<char> > hash, std::basic_string<char,std::char_traits<char>,std::allocator<char> > version) // 0x108B82B0
+extern std::string _sub_108B82B0(std::string, std::string, std::string);
+std::string c_mod_system::GetNewPackageFilename(std::string name, std::string hash, std::string version) // 0x108B82B0
 {
 	mangled_x86(MANGLED_TODO, "?GetNewPackageFilename@c_mod_system@@SA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V23@00@Z");
 	// static ...; // 0x108B859C
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > name;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > hash;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > version;
+	// std::string name;
+	// std::string hash;
+	// std::string version;
 	// char buff[32];
 	todo("implement");
 	std::string __result = _sub_108B82B0(name, hash, version);
@@ -520,7 +520,7 @@ extern "C" bool update_packages() // 0x108BD630
 	// static ...; // 0x108BD8E8
 	// c_file_reference package_list;
 	// c_mod_package_updater_blocking updater;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > package_list_filename;
+	// std::string package_list_filename;
 	{
 		// std::vector<c_mod_package_updater_blocking::s_mod_package_description,std::allocator<c_mod_package_updater_blocking::s_mod_package_description> > const &<range>$L0;
 		// c_mod_package_updater_blocking::s_mod_package_description const *<begin>$L0;

@@ -277,7 +277,7 @@ namespace Forge
 	{
 		mangled_x86(MANGLED_TODO, "?OnActivate@CForgeVisionRenderer@Forge@@CAXXZ");
 		// procedure flags: nofpo
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &color;
+		// std::string const &color;
 		todo("implement");
 		_sub_108387E0();
 	}

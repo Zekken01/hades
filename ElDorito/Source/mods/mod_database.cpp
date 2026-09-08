@@ -234,28 +234,28 @@ bool c_mod_database::update_record(s_mod_package_id const &id, c_mod_database::s
 	return __result;
 }
 
-_extern bool _sub_108516B0(c_mod_database *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-bool c_mod_database::create(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &filename) // 0x108516B0
+_extern bool _sub_108516B0(c_mod_database *const, std::string const &);
+bool c_mod_database::create(std::string const &filename) // 0x108516B0
 {
 	mangled_x86(MANGLED_TODO, "?create@c_mod_database@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &filename;
+	// std::string const &filename;
 	todo("implement");
 	bool __result = _sub_108516B0(this, filename);
 	return __result;
 }
 
-_extern bool _sub_10852AD0(c_mod_database *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-bool c_mod_database::load_or_create(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &filename) // 0x10852AD0
+_extern bool _sub_10852AD0(c_mod_database *const, std::string const &);
+bool c_mod_database::load_or_create(std::string const &filename) // 0x10852AD0
 {
 	mangled_x86(MANGLED_TODO, "?load_or_create@c_mod_database@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &filename;
+	// std::string const &filename;
 	todo("implement");
 	bool __result = _sub_10852AD0(this, filename);
 	return __result;
 }
 
-_extern bool _sub_108522A0(c_mod_database *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-bool c_mod_database::load(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &filename) // 0x108522A0
+_extern bool _sub_108522A0(c_mod_database *const, std::string const &);
+bool c_mod_database::load(std::string const &filename) // 0x108522A0
 {
 	mangled_x86(MANGLED_TODO, "?load@c_mod_database@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 	// static ...; // 0x1085291A
@@ -270,7 +270,7 @@ bool c_mod_database::load(std::basic_string<char,std::char_traits<char>,std::all
 	// static ...; // 0x10852868
 	// static ...; // 0x10852860
 	// c_mod_database *const this;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &filename;
+	// std::string const &filename;
 	// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> d;
 	// std::unordered_map<s_mod_package_id,c_mod_database::s_record,std::hash<s_mod_package_id>,std::equal_to<s_mod_package_id>,std::allocator<std::pair<s_mod_package_id const ,c_mod_database::s_record> > > tmp;
 	// rapidjson::GenericMemberIterator<0,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > records_member;
@@ -317,7 +317,7 @@ bool c_mod_database::save() // 0x108530E0
 		{
 			// std::pair<s_mod_package_id const ,c_mod_database::s_record> &record;
 			{
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > key;
+				// std::string key;
 			}
 		}
 	}

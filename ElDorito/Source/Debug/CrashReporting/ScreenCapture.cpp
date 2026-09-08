@@ -71,7 +71,7 @@ namespace Debug
 {
 	namespace CrashReporting
 	{
-		extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > TakeScreenshot();
+		extern std::string TakeScreenshot();
 	}
 }
 
@@ -81,12 +81,12 @@ namespace Debug
 
 /* ---------- public code */
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_106978B0();
+extern std::string _sub_106978B0();
 namespace Debug
 {
 	namespace CrashReporting
 	{
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > TakeScreenshot() // 0x106978B0
+		std::string TakeScreenshot() // 0x106978B0
 		{
 			mangled_x86(MANGLED_TODO, "?TakeScreenshot@CrashReporting@Debug@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 			// procedure flags: nofpo

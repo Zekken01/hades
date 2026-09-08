@@ -44,7 +44,7 @@ private:
 	struct SUndoEntry
 	{
 		long time; // 0x0
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > summary; // 0x4
+		std::string summary; // 0x4
 		std::shared_ptr<IForgeUndo> undo; // 0x20
 		SUndoEntry(SUndoEntry &); /* compiler_generated() */
 		_inline SUndoEntry(SUndoEntry const &__that); /* compiler_generated() */
@@ -61,14 +61,14 @@ public:
 	bool CanRedo();
 	void RequestUndo();
 	void RequestRedo();
-	void AddUndo(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &summary, std::shared_ptr<IForgeUndo> undo);
+	void AddUndo(std::string const &summary, std::shared_ptr<IForgeUndo> undo);
 	void Update();
 	void Clear();
 	bool IsRecording() const;
 	void StopRecording();
 	void StartRecording();
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetNextUndoSummary() const;
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetNextRedoSummary() const;
+	std::string GetNextUndoSummary() const;
+	std::string GetNextRedoSummary() const;
 	CEventSink<> completedEvent; // 0x0
 private:
 	bool m_undoRequested; // 0x14

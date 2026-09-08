@@ -191,14 +191,14 @@ namespace Patches
 		extern void ApplyAll();
 		extern void SetBottomlessClip(bool enable);
 		extern void ApplyAfterTagsLoaded();
-		extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > ResolveString(unsigned __int32 unicTagIndex, unsigned __int32 strindId);
-		extern Patches::Weapon::WeaponInfo GetWeaponByType(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &weaponType);
-		extern real_vector3d GetOffsetByType(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &weaponType);
+		extern std::string ResolveString(unsigned __int32 unicTagIndex, unsigned __int32 strindId);
+		extern Patches::Weapon::WeaponInfo GetWeaponByType(std::string const &weaponType);
+		extern real_vector3d GetOffsetByType(std::string const &weaponType);
 		extern Patches::Weapon::WeaponInfo GetEquippedWeapon();
 		extern void UseDefaultOffsets();
 		extern bool InitializeOffsetDefaults();
-		extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetTypeDisplayName(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &weaponType);
-		extern bool SetTypeOffset(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &weaponType, real_vector3d const &weaponOffset);
+		extern std::string GetTypeDisplayName(std::string const &weaponType);
+		extern bool SetTypeOffset(std::string const &weaponType, real_vector3d const &weaponOffset);
 	}
 }
 
@@ -209,10 +209,10 @@ namespace Patches
 		namespace Config
 		{
 			extern bool CreateList();
-			extern bool LoadJSON(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &Name);
-			extern bool ConfigExists(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &Name);
-			extern bool SaveJSON(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &Name);
-			extern bool DeleteJSON(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &Name);
+			extern bool LoadJSON(std::string const &Name);
+			extern bool ConfigExists(std::string const &Name);
+			extern bool SaveJSON(std::string const &Name);
+			extern bool DeleteJSON(std::string const &Name);
 		}
 	}
 }
@@ -245,7 +245,7 @@ namespace Patches
 	namespace Weapon
 	{
 		extern std::vector<Patches::Weapon::DefaultWeaponInfo,std::allocator<Patches::Weapon::DefaultWeaponInfo> > default_weapon_infos; // 0x12467530
-		extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > JSONName; // 0x12467550
+		extern std::string JSONName; // 0x12467550
 		extern bool IsMainMenu; // 0x1246752C
 		extern std::vector<Patches::Weapon::WeaponInfo,std::allocator<Patches::Weapon::WeaponInfo> > weapon_infos; // 0x12467540
 	}
@@ -274,8 +274,8 @@ namespace Patches
 			// static ...; // 0x10AF3E2C
 			// char const *mapPath;
 			// unsigned __int32 separatorIndex;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > currentMap;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > mapName;
+			// std::string currentMap;
+			// std::string mapName;
 			todo("implement");
 			_sub_10AF3CD0(mapPath);
 		}
@@ -306,12 +306,12 @@ namespace Patches
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10AF3ED0(unsigned __int32, unsigned __int32);
+extern std::string _sub_10AF3ED0(unsigned __int32, unsigned __int32);
 namespace Patches
 {
 	namespace Weapon
 	{
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > ResolveString(unsigned __int32 unicTagIndex, unsigned __int32 strindId) // 0x10AF3ED0
+		std::string ResolveString(unsigned __int32 unicTagIndex, unsigned __int32 strindId) // 0x10AF3ED0
 		{
 			mangled_x86(MANGLED_TODO, "?ResolveString@Weapon@Patches@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@II@Z");
 			// unsigned __int32 strindId;
@@ -325,14 +325,14 @@ namespace Patches
 			return __result;
 		}
 
-		extern WeaponInfo _sub_10AF2EF0(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-		Patches::Weapon::WeaponInfo GetWeaponByType(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &weaponType) // 0x10AF2EF0
+		extern WeaponInfo _sub_10AF2EF0(std::string const &);
+		Patches::Weapon::WeaponInfo GetWeaponByType(std::string const &weaponType) // 0x10AF2EF0
 		{
 			mangled_x86(MANGLED_TODO, "?GetWeaponByType@Weapon@Patches@@YA?AUWeaponInfo@12@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 			// static ...; // 0x10AF30F8
 			// static ...; // 0x10AF30EC
 			// static ...; // 0x10AF30E4
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &weaponType;
+			// std::string const &weaponType;
 			{
 				// std::vector<Patches::Weapon::WeaponInfo,std::allocator<Patches::Weapon::WeaponInfo> > &<range>$L0;
 				// Patches::Weapon::WeaponInfo *<begin>$L0;
@@ -359,15 +359,15 @@ namespace Patches
 	}
 }
 
-extern real_vector3d _sub_10AF2C40(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+extern real_vector3d _sub_10AF2C40(std::string const &);
 namespace Patches
 {
 	namespace Weapon
 	{
-		real_vector3d GetOffsetByType(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &weaponType) // 0x10AF2C40
+		real_vector3d GetOffsetByType(std::string const &weaponType) // 0x10AF2C40
 		{
 			mangled_x86(MANGLED_TODO, "?GetOffsetByType@Weapon@Patches@@YA?AUreal_vector3d@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &weaponType;
+			// std::string const &weaponType;
 			{
 				// std::vector<Patches::Weapon::WeaponInfo,std::allocator<Patches::Weapon::WeaponInfo> > &<range>$L0;
 				// Patches::Weapon::WeaponInfo *<begin>$L0;
@@ -394,7 +394,7 @@ namespace Patches
 			// long weaponIndex;
 			// char inventoryIndex;
 			// s_object_data *weaponObject;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > weapon_type_name_string;
+			// std::string weapon_type_name_string;
 			// s_weapon_definition *weapon_definition;
 			// Patches::Weapon::WeaponInfo weapon;
 			// __int32 unitIndex;
@@ -415,7 +415,7 @@ namespace Patches
 			// static ...; // 0x10AF53FC
 			// static ...; // 0x10AF53F0
 			// static ...; // 0x10AF53E8
-			// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > updatedTypeList;
+			// std::vector<std::string,std::allocator<std::string> > updatedTypeList;
 			{
 				// std::vector<Patches::Weapon::DefaultWeaponInfo,std::allocator<Patches::Weapon::DefaultWeaponInfo> > &<range>$L0;
 				// Patches::Weapon::DefaultWeaponInfo *<begin>$L0;
@@ -425,11 +425,11 @@ namespace Patches
 					{
 						// bool duplicate;
 						{
-							// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *<end>$L1;
-							// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *<begin>$L1;
-							// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > &<range>$L1;
+							// std::string *<end>$L1;
+							// std::string *<begin>$L1;
+							// std::vector<std::string,std::allocator<std::string> > &<range>$L1;
 							{
-								// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &type;
+								// std::string &type;
 							}
 						}
 					}
@@ -468,7 +468,7 @@ namespace Patches
 					{
 						// long const weapon_names_unic;
 						// real_vector3d centered_offset;
-						// std::basic_string<char,std::char_traits<char>,std::allocator<char> > weapon_type_name_string;
+						// std::string weapon_type_name_string;
 						// real_vector3d offset;
 						// Patches::Weapon::DefaultWeaponInfo default_weapon;
 					}
@@ -484,15 +484,15 @@ namespace Patches
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10AF2DF0(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+extern std::string _sub_10AF2DF0(std::string const &);
 namespace Patches
 {
 	namespace Weapon
 	{
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetTypeDisplayName(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &weaponType) // 0x10AF2DF0
+		std::string GetTypeDisplayName(std::string const &weaponType) // 0x10AF2DF0
 		{
 			mangled_x86(MANGLED_TODO, "?GetTypeDisplayName@Weapon@Patches@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV34@@Z");
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &weaponType;
+			// std::string const &weaponType;
 			{
 				// std::vector<Patches::Weapon::DefaultWeaponInfo,std::allocator<Patches::Weapon::DefaultWeaponInfo> > &<range>$L0;
 				// Patches::Weapon::DefaultWeaponInfo *<begin>$L0;
@@ -506,13 +506,13 @@ namespace Patches
 			return __result;
 		}
 
-		_extern bool _sub_10AF4E80(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, real_vector3d const &);
-		bool SetTypeOffset(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &weaponType, real_vector3d const &weaponOffset) // 0x10AF4E80
+		_extern bool _sub_10AF4E80(std::string const &, real_vector3d const &);
+		bool SetTypeOffset(std::string const &weaponType, real_vector3d const &weaponOffset) // 0x10AF4E80
 		{
 			mangled_x86(MANGLED_TODO, "?SetTypeOffset@Weapon@Patches@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABUreal_vector3d@@@Z");
 			// static ...; // 0x10AF5158
 			// static ...; // 0x10AF5150
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &weaponType;
+			// std::string const &weaponType;
 			// real_vector3d const &weaponOffset;
 			// bool found;
 			{
@@ -574,14 +574,14 @@ namespace Patches
 					// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
 				}
 				{
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > contents;
+					// std::string contents;
 					// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> document;
 					{
 						// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &offsets;
 						{
 							// unsigned __int32 i;
 							{
-								// std::basic_string<char,std::char_traits<char>,std::allocator<char> > offsetId;
+								// std::string offsetId;
 								// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &offsetObject;
 							}
 						}
@@ -592,8 +592,8 @@ namespace Patches
 				return __result;
 			}
 
-			_extern bool _sub_10AF3710(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-			bool LoadJSON(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &Name) // 0x10AF3710
+			_extern bool _sub_10AF3710(std::string const &);
+			bool LoadJSON(std::string const &Name) // 0x10AF3710
 			{
 				mangled_x86(MANGLED_TODO, "?LoadJSON@Config@Weapon@Patches@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 				// static ...; // 0x10AF3BA2
@@ -601,9 +601,9 @@ namespace Patches
 				// static ...; // 0x10AF3B90
 				// static ...; // 0x10AF3B6C
 				// static ...; // 0x10AF3B64
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &Name;
+				// std::string const &Name;
 				// std::basic_ifstream<char,std::char_traits<char> > in;
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > contents;
+				// std::string contents;
 				// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> document;
 				{
 					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &weaps;
@@ -621,21 +621,21 @@ namespace Patches
 				return __result;
 			}
 
-			_extern bool _sub_10AF11B0(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-			bool ConfigExists(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &Name) // 0x10AF11B0
+			_extern bool _sub_10AF11B0(std::string const &);
+			bool ConfigExists(std::string const &Name) // 0x10AF11B0
 			{
 				mangled_x86(MANGLED_TODO, "?ConfigExists@Config@Weapon@Patches@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 				// static ...; // 0x10AF1344
 				// static ...; // 0x10AF1338
 				// static ...; // 0x10AF1330
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &Name;
+				// std::string const &Name;
 				// bool IsCreated;
 				{
-					// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > &<range>$L0;
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *<begin>$L0;
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *<end>$L0;
+					// std::vector<std::string,std::allocator<std::string> > &<range>$L0;
+					// std::string *<begin>$L0;
+					// std::string *<end>$L0;
 					{
-						// std::basic_string<char,std::char_traits<char>,std::allocator<char> > offsetName;
+						// std::string offsetName;
 					}
 				}
 				todo("implement");
@@ -643,8 +643,8 @@ namespace Patches
 				return __result;
 			}
 
-			_extern bool _sub_10AF4070(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-			bool SaveJSON(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &Name) // 0x10AF4070
+			_extern bool _sub_10AF4070(std::string const &);
+			bool SaveJSON(std::string const &Name) // 0x10AF4070
 			{
 				mangled_x86(MANGLED_TODO, "?SaveJSON@Config@Weapon@Patches@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 				// static ...; // 0x10AF4B58
@@ -660,15 +660,15 @@ namespace Patches
 				// static ...; // 0x10AF4B00
 				// static ...; // 0x10AF4A7C
 				// static ...; // 0x10AF4A74
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &Name;
+				// std::string const &Name;
 				// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
 				// std::basic_ofstream<char,std::char_traits<char> > out;
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > filePath;
+				// std::string filePath;
 				// rapidjson::PrettyWriter<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
 				{
 					// std::basic_ifstream<char,std::char_traits<char> > in;
 					{
-						// std::basic_string<char,std::char_traits<char>,std::allocator<char> > contents;
+						// std::string contents;
 						// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> document;
 						{
 							// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
@@ -678,7 +678,7 @@ namespace Patches
 							{
 								// unsigned __int32 i;
 								{
-									// std::basic_string<char,std::char_traits<char>,std::allocator<char> > offsetId;
+									// std::string offsetId;
 									// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &offsetObject;
 								}
 							}
@@ -698,8 +698,8 @@ namespace Patches
 				return __result;
 			}
 
-			_extern bool _sub_10AF1CB0(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-			bool DeleteJSON(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &Name) // 0x10AF1CB0
+			_extern bool _sub_10AF1CB0(std::string const &);
+			bool DeleteJSON(std::string const &Name) // 0x10AF1CB0
 			{
 				mangled_x86(MANGLED_TODO, "?DeleteJSON@Config@Weapon@Patches@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 				// static ...; // 0x10AF24F3
@@ -714,13 +714,13 @@ namespace Patches
 				// static ...; // 0x10AF2440
 				// static ...; // 0x10AF2438
 			// $LN32:
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &Name;
+				// std::string const &Name;
 				// std::filesystem::path fullPath;
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > fileName;
+				// std::string fileName;
 				{
 					// std::basic_ifstream<char,std::char_traits<char> > in;
 					{
-						// std::basic_string<char,std::char_traits<char>,std::allocator<char> > contents;
+						// std::string contents;
 						// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> document;
 						{
 							// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
@@ -730,7 +730,7 @@ namespace Patches
 							{
 								// unsigned __int32 i;
 								{
-									// std::basic_string<char,std::char_traits<char>,std::allocator<char> > offsetId;
+									// std::string offsetId;
 									// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &offsetObject;
 								}
 							}

@@ -164,7 +164,7 @@ namespace Server
 	{
 		extern void Tick();
 		extern void Initialize();
-		extern bool BroadcastClientInfoData(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &body);
+		extern bool BroadcastClientInfoData(std::string const &body);
 	}
 }
 
@@ -252,11 +252,11 @@ namespace Server
 			_sub_10B000B0();
 		}
 
-		extern ClientInfoData* _sub_10AFF060(Server::ClientDataTracker::ClientInfoData *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-		ClientInfoData::ClientInfoData(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &body) // 0x10AFF060
+		extern ClientInfoData* _sub_10AFF060(Server::ClientDataTracker::ClientInfoData *const, std::string const &);
+		ClientInfoData::ClientInfoData(std::string const &body) // 0x10AFF060
 		{
 			mangled_x86(MANGLED_TODO, "??0ClientInfoData@ClientDataTracker@Server@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &body;
+			// std::string const &body;
 			todo("implement");
 			_sub_10AFF060(this, body);
 		}
@@ -295,14 +295,14 @@ namespace Server
 {
 	namespace ClientDataTracker
 	{
-		_extern bool _sub_10AFFCF0(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-		bool BroadcastClientInfoData(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &body) // 0x10AFFCF0
+		_extern bool _sub_10AFFCF0(std::string const &);
+		bool BroadcastClientInfoData(std::string const &body) // 0x10AFFCF0
 		{
 			mangled_x86(MANGLED_TODO, "?BroadcastClientInfoData@ClientDataTracker@Server@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 			// static ...; // 0x10AFFDA4
 			// static ...; // 0x10AFFD98
 			// static ...; // 0x10AFFD90
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &body;
+			// std::string const &body;
 			// Blam::Network::Session *session;
 			// Server::ClientDataTracker::ClientInfoData message;
 			todo("implement");

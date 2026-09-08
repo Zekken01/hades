@@ -25,18 +25,18 @@ struct SModBrowserState
 #pragma pack(push, 4)
 	struct SRequestedMod
 	{
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > localName; // 0x0
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > name; // 0x1C
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > author; // 0x38
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > description; // 0x54
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > hash; // 0x70
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > packageUrl; // 0x8C
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > version; // 0xA8
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > website; // 0xC4
+		std::string localName; // 0x0
+		std::string name; // 0x1C
+		std::string author; // 0x38
+		std::string description; // 0x54
+		std::string hash; // 0x70
+		std::string packageUrl; // 0x8C
+		std::string version; // 0xA8
+		std::string website; // 0xC4
 		unsigned __int32 fileSize; // 0xE0
 		bool verificationFailed; // 0xE4
 		unsigned char __pad0[3]; // 0xE5
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > downloadPath; // 0xE8
+		std::string downloadPath; // 0xE8
 		SRequestedMod(SRequestedMod &); /* compiler_generated() */
 		SRequestedMod(SRequestedMod const &); /* compiler_generated() */
 		_inline SRequestedMod(); /* compiler_generated() */
@@ -47,10 +47,10 @@ struct SModBrowserState
 #pragma pack(pop)
 	static_assert(sizeof(SRequestedMod) == 260, "Invalid SRequestedMod size");
 	public:
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > serverName; // 0x0
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > serverHost; // 0x1C
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > hostname; // 0x38
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > password; // 0x54
+	std::string serverName; // 0x0
+	std::string serverHost; // 0x1C
+	std::string hostname; // 0x38
+	std::string password; // 0x54
 	__int32 port; // 0x70
 	__int32 gamePort; // 0x74
 	__int32 fileServerPort; // 0x78

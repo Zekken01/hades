@@ -234,19 +234,19 @@ namespace Http
 	}
 
 	_extern void _sub_1080A540(Http::CWinHttpRequest *const, std::string);
-	void CWinHttpRequest::SetMethod(std::basic_string<char,std::char_traits<char>,std::allocator<char> > method) // 0x1080A540
+	void CWinHttpRequest::SetMethod(std::string method) // 0x1080A540
 	{
 		mangled_x86(MANGLED_TODO, "?SetMethod@CWinHttpRequest@Http@@UAEXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > method;
+		// std::string method;
 		todo("implement");
 		_sub_1080A540(this, method);
 	}
 
 	_extern void _sub_1080A840(Http::CWinHttpRequest *const, std::string);
-	void CWinHttpRequest::SetUrl(std::basic_string<char,std::char_traits<char>,std::allocator<char> > url) // 0x1080A840
+	void CWinHttpRequest::SetUrl(std::string url) // 0x1080A840
 	{
 		mangled_x86(MANGLED_TODO, "?SetUrl@CWinHttpRequest@Http@@UAEXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > url;
+		// std::string url;
 		todo("implement");
 		_sub_1080A840(this, url);
 	}
@@ -260,11 +260,11 @@ namespace Http
 		_sub_1080A510(this, count);
 	}
 
-	_extern void _sub_1080A3F0(Http::CWinHttpRequest *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
-	void CWinHttpRequest::SetBody(std::basic_string<char,std::char_traits<char>,std::allocator<char> > &&body) // 0x1080A3F0
+	_extern void _sub_1080A3F0(Http::CWinHttpRequest *const, std::string &);
+	void CWinHttpRequest::SetBody(std::string &&body) // 0x1080A3F0
 	{
 		mangled_x86(MANGLED_TODO, "?SetBody@CWinHttpRequest@Http@@UAEX$$QAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &body;
+		// std::string &body;
 		todo("implement");
 		_sub_1080A3F0(this, body);
 	}
@@ -309,14 +309,14 @@ namespace Http
 		// static ...; // 0x1080A184
 		// static ...; // 0x1080A17C
 		// Http::CWinHttpRequest *const this;
-		// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > method;
+		// std::wstring method;
 		// Http::CHttpHeaders headers;
-		// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > wideUrl;
+		// std::wstring wideUrl;
 		// void *sessHandle;
-		// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > serializedHeaders;
+		// std::wstring serializedHeaders;
 		// unsigned long requestFlags;
 		// _WINHTTP_URL_COMPONENTS uc;
-		// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > hostname;
+		// std::wstring hostname;
 		// function call : __int32 (wchar_t const *, unsigned long, unsigned long, _WINHTTP_URL_COMPONENTS *)
 		// function call : void *(void *, wchar_t const *, unsigned short, unsigned long)
 		// function call : void *(void *, wchar_t const *, wchar_t const *, wchar_t const *, wchar_t const *, wchar_t const **, unsigned long)
@@ -411,8 +411,8 @@ namespace Http
 		// __int32 responseCode;
 		// std::shared_ptr<Http::IHttpRequest> self;
 		{
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > location;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > redirectUrl;
+			// std::string location;
+			// std::string redirectUrl;
 		}
 		// function call : __int32 () const
 		// function call : Http::CHttpHeaders const &() const
@@ -514,7 +514,7 @@ namespace Http
 		// Http::CHttpHeaders &headers;
 		// bool request;
 		// unsigned long flags;
-		// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > buffer;
+		// std::wstring buffer;
 		// unsigned long bytesNeeded;
 		// unsigned long headerIndex;
 		// function call : __int32 (void *, unsigned long, wchar_t const *, void *, unsigned long *, unsigned long *)

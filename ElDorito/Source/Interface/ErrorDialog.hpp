@@ -22,7 +22,7 @@ class ErrorDialog;
 class ErrorDialog
 {
 public:
-	static void Show(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &title, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &message);
+	static void Show(std::string const &title, std::string const &message);
 };
 static_assert(sizeof(ErrorDialog) == 1, "Invalid ErrorDialog size");
 

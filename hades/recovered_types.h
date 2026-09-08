@@ -5067,7 +5067,7 @@ namespace Download
 		std::mutex m_mutex; // 0x20
 		unsigned char m_streams[40]; // 0x50, std::unordered_map<Download::CHttpFileDownload::SSegment *,void *>
 	public:
-		CSparseFileSegmentStore(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+		CSparseFileSegmentStore(std::string const &);
 	private:
 		void * OpenFile(bool);
 		void SeekFile(void *, __int64);
@@ -5452,7 +5452,7 @@ struct SignatureVerificationJob
 public:
 	bool Update();
 	void Complete();
-	SignatureVerificationJob(int, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+	SignatureVerificationJob(int, std::string const &);
 	SSignatureVerificationResult const & GetResult();
 	~SignatureVerificationJob();
 public:
@@ -5515,7 +5515,7 @@ namespace Utils
 		Logger();
 		void set_channels(unsigned int);
 		void clear_channels(unsigned int);
-		void write(unsigned int, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+		void write(unsigned int, std::string const &);
 		void write(unsigned int, char const *);
 		bool static_test(unsigned int) const;
 		bool dynamic_test(unsigned int);
@@ -5549,7 +5549,7 @@ namespace Web
 			__int64 GetLength() const;
 			WebEmblemRenderHandler(scoped_refptr<CefCallback>);
 			void SetCefContinuation(scoped_refptr<CefCallback>);
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > const GetMimeType() const;
+			std::string const GetMimeType() const;
 		public:
 			WebEmblemRenderHandler();
 		};
@@ -5582,7 +5582,7 @@ namespace Web
 				virtual void SetCancelCallback(std::function<void __cdecl(void)>);
 				virtual void SetJoinServerCallback(std::function<void __cdecl(void)>);
 				virtual void OnDownloadStart();
-				virtual void OnDownloadFailed(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+				virtual void OnDownloadFailed(std::string const &);
 				virtual void OnDownloadFinalizing();
 				virtual void OnDownloadFinished(SServerConnectState const &);
 				CWebModDownloadScreen();
@@ -5617,7 +5617,7 @@ namespace Web
 				virtual void SetRetryCallback(std::function<void __cdecl(void)>);
 				virtual void SetCancelCallback(std::function<void __cdecl(void)>);
 				virtual void OnDownloadStart();
-				virtual void OnDownloadFailed(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+				virtual void OnDownloadFailed(std::string const &);
 				virtual void OnDownloadFinalizing();
 				virtual void OnDownloadFinished(SModBrowserState const &);
 				virtual void SetDownloadSingleFinishedCallback(std::function<void __cdecl(void)>);
@@ -5785,7 +5785,7 @@ private:
 public:
 	bool read_map_file_into_buffer(c_file_reference &, long, unsigned long, void *);
 	bool read_font_package_blocking(c_file_reference &, unsigned long, unsigned long, void *);
-	std::unordered_map<int,std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::hash<int>,std::equal_to<int>,std::allocator<std::pair<int const ,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > read_tag_names(c_file_reference &, int);
+	std::unordered_map<int,std::string,std::hash<int>,std::equal_to<int>,std::allocator<std::pair<int const ,std::string> > > read_tag_names(c_file_reference &, int);
 public:
 	c_mod_package();
 };

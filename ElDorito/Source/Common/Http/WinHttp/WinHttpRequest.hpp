@@ -74,10 +74,10 @@ namespace Http
 		_inline void *GetRequestHandle();
 		virtual bool IsComplete() const;
 		virtual std::shared_ptr<Http::IHttpResponse> GetResponse();
-		virtual void SetMethod(std::basic_string<char,std::char_traits<char>,std::allocator<char> > method);
-		virtual void SetUrl(std::basic_string<char,std::char_traits<char>,std::allocator<char> > url);
+		virtual void SetMethod(std::string method);
+		virtual void SetUrl(std::string url);
 		virtual void SetMaxRedirects(__int32 count);
-		virtual void SetBody(std::basic_string<char,std::char_traits<char>,std::allocator<char> > &&body);
+		virtual void SetBody(std::string &&body);
 		virtual void SetHeaders(Http::CHttpHeaders headers);
 		virtual void SetReceiver(std::function<bool __cdecl(char const *,unsigned int)> &&receiver);
 		virtual void SetReceiveBufferSize(unsigned __int32 size);
@@ -100,9 +100,9 @@ namespace Http
 		Http::CWinHttpManager &m_winhttpManager; // 0xC
 		std::unique_ptr<void *,Http::WinHttpHandlerDeleter> m_connHandle; // 0x10
 		std::unique_ptr<void *,Http::WinHttpHandlerDeleter> m_reqHandle; // 0x14
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > m_method; // 0x18
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > m_url; // 0x34
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > m_body; // 0x50
+		std::string m_method; // 0x18
+		std::string m_url; // 0x34
+		std::string m_body; // 0x50
 		Http::CHttpHeaders m_headers; // 0x6C
 		__int32 m_maxRedirects; // 0x78
 		__int32 m_redirectCount; // 0x7C

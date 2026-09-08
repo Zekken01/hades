@@ -107,13 +107,13 @@ namespace Blam
 			_sub_1092D0E0(this);
 		}
 
-		_extern bool _sub_1092D5E0(Blam::Cache::StringIDCache *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, long long);
-		bool StringIDCache::Load(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &path, long long baseOffset) // 0x1092D5E0
+		_extern bool _sub_1092D5E0(Blam::Cache::StringIDCache *const, std::string const &, long long);
+		bool StringIDCache::Load(std::string const &path, long long baseOffset) // 0x1092D5E0
 		{
 			mangled_x86(MANGLED_TODO, "?Load@StringIDCache@Cache@Blam@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@_J@Z");
 			// static ...; // 0x1092D900
 			// Blam::Cache::StringIDCache *const this;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &path;
+			// std::string const &path;
 			// long long baseOffset;
 			// long long dataOffset;
 			// __int32 *stringOffsets;
@@ -169,11 +169,11 @@ namespace Blam
 			return __result;
 		}
 
-		_extern unsigned __int32 _sub_1092D310(Blam::Cache::StringIDCache const *const, std::basic_string_view<char,std::char_traits<char> >);
-		unsigned __int32 StringIDCache::GetStringId(std::basic_string_view<char,std::char_traits<char> > str) const // 0x1092D310
+		_extern unsigned __int32 _sub_1092D310(Blam::Cache::StringIDCache const *const, std::string_view);
+		unsigned __int32 StringIDCache::GetStringId(std::string_view str) const // 0x1092D310
 		{
 			mangled_x86(MANGLED_TODO, "?GetStringId@StringIDCache@Cache@Blam@@QBEIV?$basic_string_view@DU?$char_traits@D@std@@@std@@@Z");
-			// std::basic_string_view<char,std::char_traits<char> > str;
+			// std::string_view str;
 			{
 				// __int32 i;
 			}

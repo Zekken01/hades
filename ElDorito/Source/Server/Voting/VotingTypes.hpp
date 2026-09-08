@@ -56,17 +56,17 @@ namespace Server
 		struct HaloMap
 		{
 			__int32 mapId; // 0x0
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > scnrName; // 0x4
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > mapName; // 0x20
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > mapDisplayName; // 0x3C
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > imageUri; // 0x58
+			std::string scnrName; // 0x4
+			std::string mapName; // 0x20
+			std::string mapDisplayName; // 0x3C
+			std::string imageUri; // 0x58
 			float randomChance; // 0x74
 			Server::Voting::AllowedPlayerCount allowedPlayerCount; // 0x78
 			_inline HaloMap(Server::Voting::HaloMap &&__that); /* compiler_generated() */
 			_inline HaloMap(Server::Voting::HaloMap const &__that); /* compiler_generated() */
-			_inline HaloMap(std::basic_string<char,std::char_traits<char>,std::allocator<char> > sn, std::basic_string<char,std::char_traits<char>,std::allocator<char> > m, std::basic_string<char,std::char_traits<char>,std::allocator<char> > dn, std::basic_string<char,std::char_traits<char>,std::allocator<char> > img, __int32 id, float rc, Server::Voting::AllowedPlayerCount apc);
+			_inline HaloMap(std::string sn, std::string m, std::string dn, std::string img, __int32 id, float rc, Server::Voting::AllowedPlayerCount apc);
 			_inline HaloMap();
-			_inline void SetMembers(std::basic_string<char,std::char_traits<char>,std::allocator<char> > sn, std::basic_string<char,std::char_traits<char>,std::allocator<char> > m, std::basic_string<char,std::char_traits<char>,std::allocator<char> > dn, std::basic_string<char,std::char_traits<char>,std::allocator<char> > img, __int32 id, float rc, Server::Voting::AllowedPlayerCount apc);
+			_inline void SetMembers(std::string sn, std::string m, std::string dn, std::string img, __int32 id, float rc, Server::Voting::AllowedPlayerCount apc);
 			_inline ~HaloMap(); /* compiler_generated() */
 			_inline Server::Voting::HaloMap &operator=(Server::Voting::HaloMap &&__that); /* compiler_generated() */
 			_inline Server::Voting::HaloMap &operator=(Server::Voting::HaloMap const &__that); /* compiler_generated() */
@@ -78,8 +78,8 @@ namespace Server
 			public:
 			struct CharacterOverride
 			{
-				std::basic_string<char,std::char_traits<char>,std::allocator<char> > characterSetName; // 0x0
-				std::basic_string<char,std::char_traits<char>,std::allocator<char> > characterName; // 0x1C
+				std::string characterSetName; // 0x0
+				std::string characterName; // 0x1C
 				CharacterOverride(CharacterOverride &); /* compiler_generated() */
 				_inline CharacterOverride(CharacterOverride const &__that); /* compiler_generated() */
 				_inline CharacterOverride(); /* compiler_generated() */
@@ -92,19 +92,19 @@ namespace Server
 			bool isTemplate; // 0x0
 			unsigned char __pad0[3]; // 0x1
 			std::vector<Server::Voting::HaloMap,std::allocator<Server::Voting::HaloMap> > specificMaps; // 0x4
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > inherits; // 0x14
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > typeName; // 0x30
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > typeDisplayName; // 0x4C
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > modDisplayName; // 0x68
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > modPack; // 0x84
+			std::string inherits; // 0x14
+			std::string typeName; // 0x30
+			std::string typeDisplayName; // 0x4C
+			std::string modDisplayName; // 0x68
+			std::string modPack; // 0x84
 			float randomChance; // 0xA0
 			Server::Voting::AllowedPlayerCount allowedPlayerCount; // 0xA4
-			std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > commands; // 0xAC
-			std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > endOfMatchCommands; // 0xBC
-			std::map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,CharacterOverride,std::less<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,CharacterOverride> > > characterOverrides; // 0xCC
+			std::vector<std::string,std::allocator<std::string> > commands; // 0xAC
+			std::vector<std::string,std::allocator<std::string> > endOfMatchCommands; // 0xBC
+			std::map<std::string,CharacterOverride,std::less<std::string>,std::allocator<std::pair<std::string const ,CharacterOverride> > > characterOverrides; // 0xCC
 			_inline HaloType(Server::Voting::HaloType &&__that); /* compiler_generated() */
 			_inline HaloType(Server::Voting::HaloType const &__that); /* compiler_generated() */
-			_inline HaloType(std::basic_string<char,std::char_traits<char>,std::allocator<char> > t, std::basic_string<char,std::char_traits<char>,std::allocator<char> > dn);
+			_inline HaloType(std::string t, std::string dn);
 			_inline HaloType();
 			_inline ~HaloType(); /* compiler_generated() */
 			_inline Server::Voting::HaloType &operator=(Server::Voting::HaloType &&__that); /* compiler_generated() */
@@ -114,7 +114,7 @@ namespace Server
 
 		struct PlaylistItem
 		{
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > typeName; // 0x0
+			std::string typeName; // 0x0
 			std::optional<Server::Voting::HaloType> type; // 0x1C
 			Server::Voting::HaloMap map; // 0xF8
 			_inline PlaylistItem(Server::Voting::PlaylistItem &&__that); /* compiler_generated() */
@@ -166,8 +166,8 @@ namespace Server
 	{
 		struct SMapListItem
 		{
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > name; // 0x0
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > displayName; // 0x1C
+			std::string name; // 0x0
+			std::string displayName; // 0x1C
 			__int32 mapId; // 0x38
 			_inline SMapListItem(Server::Voting::SMapListItem &&__that); /* compiler_generated() */
 			_inline SMapListItem(Server::Voting::SMapListItem const &__that); /* compiler_generated() */
@@ -202,7 +202,7 @@ namespace Server
 		}
 
 		_extern void _sub_1073E880(Server::Voting::HaloMap *const, std::string, std::string, std::string, std::string, __int32, float, Server::Voting::AllowedPlayerCount);
-		_inline void HaloMap::SetMembers(std::basic_string<char,std::char_traits<char>,std::allocator<char> > sn, std::basic_string<char,std::char_traits<char>,std::allocator<char> > m, std::basic_string<char,std::char_traits<char>,std::allocator<char> > dn, std::basic_string<char,std::char_traits<char>,std::allocator<char> > img, __int32 id, float rc, Server::Voting::AllowedPlayerCount apc) // 0x1073E880
+		_inline void HaloMap::SetMembers(std::string sn, std::string m, std::string dn, std::string img, __int32 id, float rc, Server::Voting::AllowedPlayerCount apc) // 0x1073E880
 		{
 			mangled_x86(MANGLED_TODO, "?SetMembers@HaloMap@Voting@Server@@QAEXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@000HMUAllowedPlayerCount@23@@Z");
 			// Server::Voting::AllowedPlayerCount apc;
@@ -211,7 +211,7 @@ namespace Server
 		}
 
 		extern HaloMap* _sub_1073A090(Server::Voting::HaloMap *const, std::string, std::string, std::string, std::string, __int32, float, Server::Voting::AllowedPlayerCount);
-		_inline HaloMap::HaloMap(std::basic_string<char,std::char_traits<char>,std::allocator<char> > sn, std::basic_string<char,std::char_traits<char>,std::allocator<char> > m, std::basic_string<char,std::char_traits<char>,std::allocator<char> > dn, std::basic_string<char,std::char_traits<char>,std::allocator<char> > img, __int32 id, float rc, Server::Voting::AllowedPlayerCount apc) // 0x1073A090
+		_inline HaloMap::HaloMap(std::string sn, std::string m, std::string dn, std::string img, __int32 id, float rc, Server::Voting::AllowedPlayerCount apc) // 0x1073A090
 		{
 			mangled_x86(MANGLED_TODO, "??0HaloMap@Voting@Server@@QAE@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@000HMUAllowedPlayerCount@12@@Z");
 			// Server::Voting::AllowedPlayerCount apc;
@@ -229,10 +229,10 @@ namespace Server
 		}
 
 		extern HaloType* _sub_1073A330(Server::Voting::HaloType *const, std::string, std::string);
-		_inline HaloType::HaloType(std::basic_string<char,std::char_traits<char>,std::allocator<char> > t, std::basic_string<char,std::char_traits<char>,std::allocator<char> > dn) // 0x1073A330
+		_inline HaloType::HaloType(std::string t, std::string dn) // 0x1073A330
 		{
 			mangled_x86(MANGLED_TODO, "??0HaloType@Voting@Server@@QAE@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z");
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > dn;
+			// std::string dn;
 			todo("implement");
 			_sub_1073A330(this, t, dn);
 		}

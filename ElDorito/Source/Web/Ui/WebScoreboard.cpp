@@ -244,9 +244,9 @@ namespace hades_file_local
 		long team_index; // 0x8
 		unsigned long color; // 0xC
 		unsigned long long uid; // 0x10
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > player_name; // 0x18
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > service_tag; // 0x34
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > emblem; // 0x50
+		std::string player_name; // 0x18
+		std::string service_tag; // 0x34
+		std::string emblem; // 0x50
 		s_session_player(s_session_player &); /* compiler_generated() */
 		s_session_player(s_session_player const &); /* compiler_generated() */
 		s_session_player(); /* compiler_generated() */
@@ -271,14 +271,14 @@ namespace hades_file_local
 		unsigned long long game_id; // 0x10
 		s_static_array<s_session_player,16> players; // 0x18
 		long player_count; // 0x718
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > players_info; // 0x71C
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > players_ping_info; // 0x738
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > map_variant_name; // 0x754
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > game_variant_name; // 0x770
+		std::string players_info; // 0x71C
+		std::string players_ping_info; // 0x738
+		std::string map_variant_name; // 0x754
+		std::string game_variant_name; // 0x770
 		long sessionMaxPlayers; // 0x78C
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > mod_name; // 0x790
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > mod_author; // 0x7AC
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > mod_version; // 0x7C8
+		std::string mod_name; // 0x790
+		std::string mod_author; // 0x7AC
+		std::string mod_version; // 0x7C8
 		s_session_update(s_session_update &); /* compiler_generated() */
 		s_session_update(s_session_update const &); /* compiler_generated() */
 		s_session_update(); /* compiler_generated() */
@@ -392,7 +392,7 @@ namespace Web
 			extern void Show(bool locked, bool pregame, bool animate);
 			extern void Hide();
 			extern void Tick();
-			extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > getScoreboard();
+			extern std::string getScoreboard();
 		}
 	}
 }
@@ -526,14 +526,14 @@ namespace Web
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10CB37C0();
+extern std::string _sub_10CB37C0();
 namespace Web
 {
 	namespace Ui
 	{
 		namespace WebScoreboard
 		{
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > getScoreboard() // 0x10CB37C0
+			std::string getScoreboard() // 0x10CB37C0
 			{
 				mangled_x86(MANGLED_TODO, "?getScoreboard@WebScoreboard@Ui@Web@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 				// procedure flags: nofpo
@@ -718,8 +718,8 @@ void build_session_update(s_session_update &update) // 0x10CB27C0
 	// s_session_update &update;
 	// s_game_options *game_options;
 	// bool hasModSet;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > playersInfo;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > modhash;
+	// std::string playersInfo;
+	// std::string modhash;
 	// c_network_session *session;
 	// c_mod_package_manager::s_entry mod_package;
 	{

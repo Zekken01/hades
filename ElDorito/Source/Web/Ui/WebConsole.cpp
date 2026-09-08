@@ -122,7 +122,7 @@ namespace hades_file_local
 		public Console::ConsoleOutputHandler
 	{
 	public:
-		virtual void WriteLine(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+		virtual void WriteLine(std::string const &);
 		WebConsoleOutputHandler(WebConsoleOutputHandler &); /* compiler_generated() */
 		WebConsoleOutputHandler(WebConsoleOutputHandler const &); /* compiler_generated() */
 		WebConsoleOutputHandler(); /* compiler_generated() */
@@ -194,15 +194,15 @@ namespace Web
 
 /* ---------- private code */
 
-_extern void _sub_10C9DF20(WebConsoleOutputHandler *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-void WebConsoleOutputHandler::WriteLine(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &line) // 0x10C9DF20
+_extern void _sub_10C9DF20(WebConsoleOutputHandler *const, std::string const &);
+void WebConsoleOutputHandler::WriteLine(std::string const &line) // 0x10C9DF20
 {
 	// `anonymous-namespace'::WebConsoleOutputHandler::WriteLine
 	// static ...; // 0x10C9E098
 	// static ...; // 0x10C9E080
 	// static ...; // 0x10C9E078
 	// WebConsoleOutputHandler *const this;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &line;
+	// std::string const &line;
 	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
 	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
 	todo("implement");

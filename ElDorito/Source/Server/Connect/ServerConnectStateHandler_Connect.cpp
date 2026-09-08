@@ -151,7 +151,7 @@ using namespace ::Console;
 //class CServerConnectStateHandler_Connect::OnEnter::__l2::<lambda_1>
 //{
 //public:
-//	void operator()(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &) const;
+//	void operator()(std::string const &) const;
 //};
 //static_assert(sizeof(CServerConnectStateHandler_Connect::OnEnter::__l2::<lambda_1>) == 1, "Invalid CServerConnectStateHandler_Connect::OnEnter::__l2::<lambda_1> size");
 

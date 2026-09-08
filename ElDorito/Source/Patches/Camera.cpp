@@ -185,7 +185,7 @@ namespace Patches
 	{
 		extern void ApplyAll();
 		extern void ApplyAfterTagsLoaded();
-		extern bool SetForcedCameraMode(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const mode);
+		extern bool SetForcedCameraMode(std::string const mode);
 		extern e_camera_mode GetForcedCameraMode();
 	}
 }
@@ -256,11 +256,11 @@ namespace Patches
 			// procedure flags: nofpo
 		}
 
-		_extern bool _sub_10958AF0(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const);
-		bool SetForcedCameraMode(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const mode) // 0x10958AF0
+		_extern bool _sub_10958AF0(std::string const);
+		bool SetForcedCameraMode(std::string const mode) // 0x10958AF0
 		{
 			mangled_x86(MANGLED_TODO, "?SetForcedCameraMode@Camera@Patches@@YA_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > mode;
+			// std::string mode;
 			// constexpr bool (*const `Patches::Camera::SetForcedCameraMode'::`2'::player_terminal_chud_set)(bool); // constant == 11050832
 			{
 				// e_camera_mode currentMode;

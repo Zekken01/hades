@@ -83,11 +83,11 @@ namespace Blam
 {
 	namespace Cache
 	{
-		_extern bool _sub_107F4F10(Blam::Cache::CTagCacheFileReader *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, long long, std::unordered_map<int,std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::hash<int>,std::equal_to<int>,std::allocator<std::pair<int const ,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > &);
-		bool CTagCacheFileReader::Open(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &filename, long long baseOffset, std::unordered_map<int,std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::hash<int>,std::equal_to<int>,std::allocator<std::pair<int const ,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > &&tagNames) // 0x107F4F10
+		_extern bool _sub_107F4F10(Blam::Cache::CTagCacheFileReader *const, std::string const &, long long, std::unordered_map<int,std::string,std::hash<int>,std::equal_to<int>,std::allocator<std::pair<int const ,std::string> > > &);
+		bool CTagCacheFileReader::Open(std::string const &filename, long long baseOffset, std::unordered_map<int,std::string,std::hash<int>,std::equal_to<int>,std::allocator<std::pair<int const ,std::string> > > &&tagNames) // 0x107F4F10
 		{
 			mangled_x86(MANGLED_TODO, "?Open@CTagCacheFileReader@Cache@Blam@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@_J$$QAV?$unordered_map@HV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@U?$hash@H@2@U?$equal_to@H@2@V?$allocator@U?$pair@$$CBHV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@std@@@2@@5@@Z");
-			// std::unordered_map<int,std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::hash<int>,std::equal_to<int>,std::allocator<std::pair<int const ,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > &tagNames;
+			// std::unordered_map<int,std::string,std::hash<int>,std::equal_to<int>,std::allocator<std::pair<int const ,std::string> > > &tagNames;
 			todo("implement");
 			bool __result = _sub_107F4F10(this, filename, baseOffset, tagNames);
 			return __result;
@@ -102,8 +102,8 @@ namespace Blam
 			_sub_107F4A30(this);
 		}
 
-		_extern __int32 _sub_107F4A80(Blam::Cache::CTagCacheFileReader *const, __int32, std::basic_string_view<char,std::char_traits<char> >);
-		__int32 CTagCacheFileReader::FindTagByName(__int32 group, std::basic_string_view<char,std::char_traits<char> > name) // 0x107F4A80
+		_extern __int32 _sub_107F4A80(Blam::Cache::CTagCacheFileReader *const, __int32, std::string_view);
+		__int32 CTagCacheFileReader::FindTagByName(__int32 group, std::string_view name) // 0x107F4A80
 		{
 			mangled_x86(MANGLED_TODO, "?FindTagByName@CTagCacheFileReader@Cache@Blam@@QAEHHV?$basic_string_view@DU?$char_traits@D@std@@@std@@@Z");
 			// static ...; // 0x107F4CE4
@@ -111,11 +111,11 @@ namespace Blam
 			// static ...; // 0x107F4CB8
 			// Blam::Cache::CTagCacheFileReader *const this;
 			// __int32 group;
-			// std::basic_string_view<char,std::char_traits<char> > name;
+			// std::string_view name;
 			{
 				// __int32 i;
 				{
-					// std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<int const ,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > > nameIt;
+					// std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<int const ,std::string> > > > nameIt;
 					// s_cache_tag_instance header;
 				}
 			}

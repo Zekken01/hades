@@ -132,12 +132,12 @@ namespace Web
 {
 	namespace Browser
 	{
-		extern CWebFileReadHandler* _sub_10CB7280(Web::Browser::CWebFileReadHandler *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, long long, long long);
-		CWebFileReadHandler::CWebFileReadHandler(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &filepath, long long offset, long long length) // 0x10CB7280
+		extern CWebFileReadHandler* _sub_10CB7280(Web::Browser::CWebFileReadHandler *const, std::string const &, long long, long long);
+		CWebFileReadHandler::CWebFileReadHandler(std::string const &filepath, long long offset, long long length) // 0x10CB7280
 		{
 			mangled_x86(MANGLED_TODO, "??0CWebFileReadHandler@Browser@Web@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@_J1@Z");
 			// Web::Browser::CWebFileReadHandler *const this;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &filepath;
+			// std::string const &filepath;
 			// long long offset;
 			// long long length;
 			{

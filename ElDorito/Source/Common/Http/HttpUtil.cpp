@@ -46,8 +46,8 @@ namespace Http
 
 namespace Http
 {
-	extern bool ParseSize(std::basic_string_view<char,std::char_traits<char> > s, long long &value);
-	extern bool ParseContentRangeHeader(std::basic_string_view<char,std::char_traits<char> > header, Http::SContentRangeHeader &parsedHeader);
+	extern bool ParseSize(std::string_view s, long long &value);
+	extern bool ParseContentRangeHeader(std::string_view header, Http::SContentRangeHeader &parsedHeader);
 }
 
 /* ---------- globals */
@@ -58,13 +58,13 @@ namespace Http
 
 namespace Http
 {
-	_extern bool _sub_10802510(std::basic_string_view<char,std::char_traits<char> >, long long &);
-	bool ParseSize(std::basic_string_view<char,std::char_traits<char> > s, long long &value) // 0x10802510
+	_extern bool _sub_10802510(std::string_view, long long &);
+	bool ParseSize(std::string_view s, long long &value) // 0x10802510
 	{
 		mangled_x86(MANGLED_TODO, "?ParseSize@Http@@YA_NV?$basic_string_view@DU?$char_traits@D@std@@@std@@AA_J@Z");
 		// static ...; // 0x10802620
 		// static ...; // 0x10802618
-		// std::basic_string_view<char,std::char_traits<char> > s;
+		// std::string_view s;
 		// long long &value;
 		// std::errc ec;
 		// char const *_;
@@ -74,8 +74,8 @@ namespace Http
 		return __result;
 	}
 
-	_extern bool _sub_10801F40(std::basic_string_view<char,std::char_traits<char> >, Http::SContentRangeHeader &);
-	bool ParseContentRangeHeader(std::basic_string_view<char,std::char_traits<char> > header, Http::SContentRangeHeader &parsedHeader) // 0x10801F40
+	_extern bool _sub_10801F40(std::string_view, Http::SContentRangeHeader &);
+	bool ParseContentRangeHeader(std::string_view header, Http::SContentRangeHeader &parsedHeader) // 0x10801F40
 	{
 		mangled_x86(MANGLED_TODO, "?ParseContentRangeHeader@Http@@YA_NV?$basic_string_view@DU?$char_traits@D@std@@@std@@AAUSContentRangeHeader@1@@Z");
 		// static ...; // 0x108023DF
@@ -86,16 +86,16 @@ namespace Http
 		// static ...; // 0x108023C0
 		// static ...; // 0x1080236C
 		// static ...; // 0x10802364
-		// std::basic_string_view<char,std::char_traits<char> > header;
+		// std::string_view header;
 		// Http::SContentRangeHeader &parsedHeader;
 		// std::_String_view_iterator<std::char_traits<char> > it;
-		// std::basic_string_view<char,std::char_traits<char> > sizePart;
+		// std::string_view sizePart;
 		// std::_String_view_iterator<std::char_traits<char> > start;
 		// std::_String_view_iterator<std::char_traits<char> > end;
-		// std::basic_string_view<char,std::char_traits<char> > rangePart;
+		// std::string_view rangePart;
 		{
-			// std::basic_string_view<char,std::char_traits<char> > v1;
-			// std::basic_string_view<char,std::char_traits<char> > v2;
+			// std::string_view v1;
+			// std::string_view v2;
 		}
 		todo("implement");
 		bool __result = _sub_10801F40(header, parsedHeader);

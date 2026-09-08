@@ -253,36 +253,36 @@ namespace Web
 		{
 			namespace ClientFunctions
 			{
-				extern Web::Browser::Bridge::QueryError OnShow(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result);
-				extern Web::Browser::Bridge::QueryError OnHide(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result);
-				extern Web::Browser::Bridge::QueryError OnScreenState(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result);
-				extern Web::Browser::Bridge::QueryError OnCommand(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result);
-				extern Web::Browser::Bridge::QueryError OnSetVariables(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *result);
-				extern Web::Browser::Bridge::QueryError OnGetAssetUrl(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result);
-				extern Web::Browser::Bridge::QueryError OnPing(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result);
-				extern Web::Browser::Bridge::QueryError OnCaptureInput(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result);
-				extern Web::Browser::Bridge::QueryError OnVersion(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result);
-				extern Web::Browser::Bridge::QueryError OnMapVariantInfo(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result);
-				extern Web::Browser::Bridge::QueryError OnScoreboard(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result);
-				extern Web::Browser::Bridge::QueryError OnShowScoreboard(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result);
-				extern Web::Browser::Bridge::QueryError OnScoreboardHide(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result);
-				extern Web::Browser::Bridge::QueryError OnGameVariantInfo(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result);
-				extern Web::Browser::Bridge::QueryError OnCommands(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result);
-				extern Web::Browser::Bridge::QueryError OnSendChat(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result);
-				extern Web::Browser::Bridge::QueryError OnChatBoxOpened(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result);
-				extern Web::Browser::Bridge::QueryError OnSessionInfo(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result);
-				extern Web::Browser::Bridge::QueryError OnStats(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result);
-				extern Web::Browser::Bridge::QueryError OnVoIPSpeakingChanged(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result);
-				extern Web::Browser::Bridge::QueryError OnVoIPConnectedChanged(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result);
-				extern Web::Browser::Bridge::QueryError OnVoIPPlayerVoipLevelChanged(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result);
-				extern Web::Browser::Bridge::QueryError OnVoIPPlayerSpeakingChanged(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result);
-				extern Web::Browser::Bridge::QueryError OnVoIPPlayerVoipJoined(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result);
-				extern Web::Browser::Bridge::QueryError OnIsMapLoading(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result);
-				extern Web::Browser::Bridge::QueryError OnForgeAction(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result);
-				extern Web::Browser::Bridge::QueryError OnForgePalette(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result);
-				extern Web::Browser::Bridge::QueryError OnShowLan(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result);
-				extern Web::Browser::Bridge::QueryError OnPlayerReportInfo(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result);
-				extern Web::Browser::Bridge::QueryError OnSubmitDialogResult(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result);
+				extern Web::Browser::Bridge::QueryError OnShow(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result);
+				extern Web::Browser::Bridge::QueryError OnHide(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result);
+				extern Web::Browser::Bridge::QueryError OnScreenState(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result);
+				extern Web::Browser::Bridge::QueryError OnCommand(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result);
+				extern Web::Browser::Bridge::QueryError OnSetVariables(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &args, std::string *result);
+				extern Web::Browser::Bridge::QueryError OnGetAssetUrl(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result);
+				extern Web::Browser::Bridge::QueryError OnPing(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result);
+				extern Web::Browser::Bridge::QueryError OnCaptureInput(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result);
+				extern Web::Browser::Bridge::QueryError OnVersion(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result);
+				extern Web::Browser::Bridge::QueryError OnMapVariantInfo(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result);
+				extern Web::Browser::Bridge::QueryError OnScoreboard(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result);
+				extern Web::Browser::Bridge::QueryError OnShowScoreboard(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result);
+				extern Web::Browser::Bridge::QueryError OnScoreboardHide(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result);
+				extern Web::Browser::Bridge::QueryError OnGameVariantInfo(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result);
+				extern Web::Browser::Bridge::QueryError OnCommands(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result);
+				extern Web::Browser::Bridge::QueryError OnSendChat(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result);
+				extern Web::Browser::Bridge::QueryError OnChatBoxOpened(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result);
+				extern Web::Browser::Bridge::QueryError OnSessionInfo(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result);
+				extern Web::Browser::Bridge::QueryError OnStats(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result);
+				extern Web::Browser::Bridge::QueryError OnVoIPSpeakingChanged(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result);
+				extern Web::Browser::Bridge::QueryError OnVoIPConnectedChanged(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result);
+				extern Web::Browser::Bridge::QueryError OnVoIPPlayerVoipLevelChanged(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result);
+				extern Web::Browser::Bridge::QueryError OnVoIPPlayerSpeakingChanged(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result);
+				extern Web::Browser::Bridge::QueryError OnVoIPPlayerVoipJoined(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result);
+				extern Web::Browser::Bridge::QueryError OnIsMapLoading(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result);
+				extern Web::Browser::Bridge::QueryError OnForgeAction(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result);
+				extern Web::Browser::Bridge::QueryError OnForgePalette(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result);
+				extern Web::Browser::Bridge::QueryError OnShowLan(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result);
+				extern Web::Browser::Bridge::QueryError OnPlayerReportInfo(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result);
+				extern Web::Browser::Bridge::QueryError OnSubmitDialogResult(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result);
 			}
 		}
 	}
@@ -308,7 +308,7 @@ namespace Web
 	{
 		namespace Bridge
 		{
-			extern QueryError _sub_10C67820(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *);
+			extern QueryError _sub_10C67820(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::string *);
 		}
 	}
 }
@@ -321,10 +321,10 @@ namespace Web
 		{
 			namespace ClientFunctions
 			{
-				Web::Browser::Bridge::QueryError OnShow(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result) // 0x10C67820
+				Web::Browser::Bridge::QueryError OnShow(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C67820
 				{
 					mangled_x86(MANGLED_TODO, "?OnShow@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result;
+					// std::string *p_Result;
 					todo("implement");
 					Web::Browser::Bridge::QueryError __result = _sub_10C67820(p_Args, p_Result);
 					return __result;
@@ -340,7 +340,7 @@ namespace Web
 	{
 		namespace Bridge
 		{
-			extern QueryError _sub_10C64FA0(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *);
+			extern QueryError _sub_10C64FA0(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::string *);
 		}
 	}
 }
@@ -353,10 +353,10 @@ namespace Web
 		{
 			namespace ClientFunctions
 			{
-				Web::Browser::Bridge::QueryError OnHide(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result) // 0x10C64FA0
+				Web::Browser::Bridge::QueryError OnHide(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C64FA0
 				{
 					mangled_x86(MANGLED_TODO, "?OnHide@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result;
+					// std::string *p_Result;
 					todo("implement");
 					Web::Browser::Bridge::QueryError __result = _sub_10C64FA0(p_Args, p_Result);
 					return __result;
@@ -372,7 +372,7 @@ namespace Web
 	{
 		namespace Bridge
 		{
-			extern QueryError _sub_10C66730(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *);
+			extern QueryError _sub_10C66730(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::string *);
 		}
 	}
 }
@@ -385,14 +385,14 @@ namespace Web
 		{
 			namespace ClientFunctions
 			{
-				Web::Browser::Bridge::QueryError OnScreenState(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result) // 0x10C66730
+				Web::Browser::Bridge::QueryError OnScreenState(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C66730
 				{
 					mangled_x86(MANGLED_TODO, "?OnScreenState@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 					// static ...; // 0x10C668F0
 					// static ...; // 0x10C668D8
 					// static ...; // 0x10C668D0
 					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args;
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result;
+					// std::string *p_Result;
 					// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > screenIdMember;
 					// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > stateMember;
 					todo("implement");
@@ -410,7 +410,7 @@ namespace Web
 	{
 		namespace Bridge
 		{
-			extern QueryError _sub_10C63390(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *);
+			extern QueryError _sub_10C63390(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::string *);
 		}
 	}
 }
@@ -423,14 +423,14 @@ namespace Web
 		{
 			namespace ClientFunctions
 			{
-				Web::Browser::Bridge::QueryError OnCommand(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result) // 0x10C63390
+				Web::Browser::Bridge::QueryError OnCommand(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C63390
 				{
 					mangled_x86(MANGLED_TODO, "?OnCommand@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 					// static ...; // 0x10C63530
 					// static ...; // 0x10C63518
 					// static ...; // 0x10C63510
 					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args;
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result;
+					// std::string *p_Result;
 					// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > s_CommandValue;
 					// bool s_IsInternal;
 					// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > s_InternalValue;
@@ -449,7 +449,7 @@ namespace Web
 	{
 		namespace Bridge
 		{
-			extern QueryError _sub_10C67130(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *);
+			extern QueryError _sub_10C67130(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::string *);
 		}
 	}
 }
@@ -462,7 +462,7 @@ namespace Web
 		{
 			namespace ClientFunctions
 			{
-				Web::Browser::Bridge::QueryError OnSetVariables(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *result) // 0x10C67130
+				Web::Browser::Bridge::QueryError OnSetVariables(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &args, std::string *result) // 0x10C67130
 				{
 					mangled_x86(MANGLED_TODO, "?OnSetVariables@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 					// static ...; // 0x10C67697
@@ -476,12 +476,12 @@ namespace Web
 					// static ...; // 0x10C675E8
 					// static ...; // 0x10C675E0
 					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &args;
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *result;
+					// std::string *result;
 					// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > saveMember;
 					// Modules::CommandMap &commandMap;
 					// bool save;
 					// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > variablesMember;
-					// std::vector<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,enum VariableSetReturnValue>,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,enum VariableSetReturnValue> > > failed;
+					// std::vector<std::pair<std::string,enum VariableSetReturnValue>,std::allocator<std::pair<std::string,enum VariableSetReturnValue> > > failed;
 					// rapidjson::GenericObject<1,rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > > const &jsonVariableMap;
 					{
 						// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > it;
@@ -494,11 +494,11 @@ namespace Web
 						// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
 						// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuff;
 						{
-							// std::vector<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,enum VariableSetReturnValue>,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,enum VariableSetReturnValue> > > &<range>$L0;
-							// std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,enum VariableSetReturnValue> *<begin>$L0;
-							// std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,enum VariableSetReturnValue> *<end>$L0;
+							// std::vector<std::pair<std::string,enum VariableSetReturnValue>,std::allocator<std::pair<std::string,enum VariableSetReturnValue> > > &<range>$L0;
+							// std::pair<std::string,enum VariableSetReturnValue> *<begin>$L0;
+							// std::pair<std::string,enum VariableSetReturnValue> *<end>$L0;
 							{
-								// std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,enum VariableSetReturnValue> const &pair;
+								// std::pair<std::string,enum VariableSetReturnValue> const &pair;
 							}
 						}
 					}
@@ -517,7 +517,7 @@ namespace Web
 	{
 		namespace Bridge
 		{
-			extern QueryError _sub_10C64770(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *);
+			extern QueryError _sub_10C64770(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::string *);
 		}
 	}
 }
@@ -530,7 +530,7 @@ namespace Web
 		{
 			namespace ClientFunctions
 			{
-				Web::Browser::Bridge::QueryError OnGetAssetUrl(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result) // 0x10C64770
+				Web::Browser::Bridge::QueryError OnGetAssetUrl(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C64770
 				{
 					mangled_x86(MANGLED_TODO, "?OnGetAssetUrl@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 					// static ...; // 0x10C64DE8
@@ -545,15 +545,15 @@ namespace Web
 					// static ...; // 0x10C64D24
 					// static ...; // 0x10C64D1C
 					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args;
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result;
+					// std::string *p_Result;
 					// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > fileTypesMember;
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > path;
-					// std::vector<std::basic_string_view<char,std::char_traits<char> >,std::allocator<std::basic_string_view<char,std::char_traits<char> > > > fileTypes;
+					// std::string path;
+					// std::vector<std::string_view,std::allocator<std::string_view> > fileTypes;
 					// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > pathMember;
 					// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > searchBaseAssetsMember;
 					// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > pakMember;
 					// bool searchBaseAssets;
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > pak;
+					// std::string pak;
 					{
 						// rapidjson::GenericArray<1,rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > > &<range>$L0;
 						// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const *<begin>$L0;
@@ -563,7 +563,7 @@ namespace Web
 						}
 					}
 					{
-						// std::basic_string<char,std::char_traits<char>,std::allocator<char> > url;
+						// std::string url;
 					}
 					{
 					}
@@ -590,7 +590,7 @@ namespace Web
 	{
 		namespace Bridge
 		{
-			extern QueryError _sub_10C65960(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *);
+			extern QueryError _sub_10C65960(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::string *);
 		}
 	}
 }
@@ -603,7 +603,7 @@ namespace Web
 		{
 			namespace ClientFunctions
 			{
-				Web::Browser::Bridge::QueryError OnPing(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result) // 0x10C65960
+				Web::Browser::Bridge::QueryError OnPing(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C65960
 				{
 					mangled_x86(MANGLED_TODO, "?OnPing@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 					// static ...; // 0x10C65C08
@@ -611,7 +611,7 @@ namespace Web
 					// static ...; // 0x10C65BD8
 					// static ...; // 0x10C65BD0
 					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args;
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result;
+					// std::string *p_Result;
 					// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > s_AddressValue;
 					// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > s_port;
 					// Blam::Network::Session *session;
@@ -631,7 +631,7 @@ namespace Web
 	{
 		namespace Bridge
 		{
-			extern QueryError _sub_10C63080(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *);
+			extern QueryError _sub_10C63080(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::string *);
 		}
 	}
 }
@@ -644,14 +644,14 @@ namespace Web
 		{
 			namespace ClientFunctions
 			{
-				Web::Browser::Bridge::QueryError OnCaptureInput(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result) // 0x10C63080
+				Web::Browser::Bridge::QueryError OnCaptureInput(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C63080
 				{
 					mangled_x86(MANGLED_TODO, "?OnCaptureInput@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 					// static ...; // 0x10C631C8
 					// static ...; // 0x10C631B0
 					// static ...; // 0x10C631A8
 					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args;
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result;
+					// std::string *p_Result;
 					// bool capturePointer;
 					// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > s_CaptureValue;
 					// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > s_CapturePointerValue;
@@ -670,7 +670,7 @@ namespace Web
 	{
 		namespace Bridge
 		{
-			extern QueryError _sub_10C687E0(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *);
+			extern QueryError _sub_10C687E0(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::string *);
 		}
 	}
 }
@@ -683,10 +683,10 @@ namespace Web
 		{
 			namespace ClientFunctions
 			{
-				Web::Browser::Bridge::QueryError OnVersion(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result) // 0x10C687E0
+				Web::Browser::Bridge::QueryError OnVersion(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C687E0
 				{
 					mangled_x86(MANGLED_TODO, "?OnVersion@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result;
+					// std::string *p_Result;
 					todo("implement");
 					Web::Browser::Bridge::QueryError __result = _sub_10C687E0(p_Args, p_Result);
 					return __result;
@@ -702,7 +702,7 @@ namespace Web
 	{
 		namespace Bridge
 		{
-			extern QueryError _sub_10C65180(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *);
+			extern QueryError _sub_10C65180(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::string *);
 		}
 	}
 }
@@ -715,7 +715,7 @@ namespace Web
 		{
 			namespace ClientFunctions
 			{
-				Web::Browser::Bridge::QueryError OnMapVariantInfo(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result) // 0x10C65180
+				Web::Browser::Bridge::QueryError OnMapVariantInfo(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C65180
 				{
 					mangled_x86(MANGLED_TODO, "?OnMapVariantInfo@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 					// static ...; // 0x10C657C1
@@ -730,7 +730,7 @@ namespace Web
 					// static ...; // 0x10C6570C
 					// static ...; // 0x10C65704
 					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args;
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result;
+					// std::string *p_Result;
 					// __int32 lobbyType;
 					// Blam::Network::Session *session;
 					{
@@ -741,7 +741,7 @@ namespace Web
 						// unsigned char *mapVariant;
 						// s_level_datum map_level;
 						// s_map_variant map;
-						// std::basic_string<char,std::char_traits<char>,std::allocator<char> > name;
+						// std::string name;
 						// unsigned __int32 mapId;
 					}
 					{
@@ -768,7 +768,7 @@ namespace Web
 	{
 		namespace Bridge
 		{
-			extern QueryError _sub_10C66620(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *);
+			extern QueryError _sub_10C66620(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::string *);
 		}
 	}
 }
@@ -781,10 +781,10 @@ namespace Web
 		{
 			namespace ClientFunctions
 			{
-				Web::Browser::Bridge::QueryError OnScoreboard(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result) // 0x10C66620
+				Web::Browser::Bridge::QueryError OnScoreboard(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C66620
 				{
 					mangled_x86(MANGLED_TODO, "?OnScoreboard@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result;
+					// std::string *p_Result;
 					// Blam::Network::Session *session;
 					todo("implement");
 					Web::Browser::Bridge::QueryError __result = _sub_10C66620(p_Args, p_Result);
@@ -801,7 +801,7 @@ namespace Web
 	{
 		namespace Bridge
 		{
-			extern QueryError _sub_10C678B0(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *);
+			extern QueryError _sub_10C678B0(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::string *);
 		}
 	}
 }
@@ -814,7 +814,7 @@ namespace Web
 		{
 			namespace ClientFunctions
 			{
-				Web::Browser::Bridge::QueryError OnShowScoreboard(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result) // 0x10C678B0
+				Web::Browser::Bridge::QueryError OnShowScoreboard(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C678B0
 				{
 					mangled_x86(MANGLED_TODO, "?OnShowScoreboard@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 					// static ...; // 0x10C67A88
@@ -822,7 +822,7 @@ namespace Web
 					// static ...; // 0x10C67A5C
 					// static ...; // 0x10C67A54
 					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args;
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result;
+					// std::string *p_Result;
 					// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > animate;
 					// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > locked;
 					// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > pregame;
@@ -841,7 +841,7 @@ namespace Web
 	{
 		namespace Bridge
 		{
-			extern QueryError _sub_10C666F0(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *);
+			extern QueryError _sub_10C666F0(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::string *);
 		}
 	}
 }
@@ -854,10 +854,10 @@ namespace Web
 		{
 			namespace ClientFunctions
 			{
-				Web::Browser::Bridge::QueryError OnScoreboardHide(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result) // 0x10C666F0
+				Web::Browser::Bridge::QueryError OnScoreboardHide(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C666F0
 				{
 					mangled_x86(MANGLED_TODO, "?OnScoreboardHide@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result;
+					// std::string *p_Result;
 					todo("implement");
 					Web::Browser::Bridge::QueryError __result = _sub_10C666F0(p_Args, p_Result);
 					return __result;
@@ -873,7 +873,7 @@ namespace Web
 	{
 		namespace Bridge
 		{
-			extern QueryError _sub_10C63FE0(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *);
+			extern QueryError _sub_10C63FE0(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::string *);
 		}
 	}
 }
@@ -886,7 +886,7 @@ namespace Web
 		{
 			namespace ClientFunctions
 			{
-				Web::Browser::Bridge::QueryError OnGameVariantInfo(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result) // 0x10C63FE0
+				Web::Browser::Bridge::QueryError OnGameVariantInfo(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C63FE0
 				{
 					mangled_x86(MANGLED_TODO, "?OnGameVariantInfo@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 					// static ...; // 0x10C645BC
@@ -904,7 +904,7 @@ namespace Web
 				// $LN11:
 				// $LN10:
 					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args;
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result;
+					// std::string *p_Result;
 					// __int32 lobbyType;
 					// Blam::Network::Session *session;
 					{
@@ -918,7 +918,7 @@ namespace Web
 						// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
 						// unsigned char rounds;
 						// c_game_variant *gameVariant;
-						// std::basic_string<char,std::char_traits<char>,std::allocator<char> > name;
+						// std::string name;
 						// unsigned char timeLimit;
 						// e_game_engine_type mode;
 					}
@@ -944,7 +944,7 @@ namespace Web
 	{
 		namespace Bridge
 		{
-			extern QueryError _sub_10C635C0(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *);
+			extern QueryError _sub_10C635C0(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::string *);
 		}
 	}
 }
@@ -957,7 +957,7 @@ namespace Web
 		{
 			namespace ClientFunctions
 			{
-				Web::Browser::Bridge::QueryError OnCommands(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result) // 0x10C635C0
+				Web::Browser::Bridge::QueryError OnCommands(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C635C0
 				{
 					mangled_x86(MANGLED_TODO, "?OnCommands@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 					// static ...; // 0x10C63CFB
@@ -971,7 +971,7 @@ namespace Web
 				// $LN11:
 				// $LN10:
 					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args;
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result;
+					// std::string *p_Result;
 					// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
 					// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
 					// Modules::CommandMap const &commandMap;
@@ -982,11 +982,11 @@ namespace Web
 						{
 							// Modules::Command const &command;
 							{
-								// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const *<end>$L1;
-								// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const *<begin>$L1;
-								// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &<range>$L1;
+								// std::string const *<end>$L1;
+								// std::string const *<begin>$L1;
+								// std::vector<std::string,std::allocator<std::string> > const &<range>$L1;
 								{
-									// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &arg;
+									// std::string const &arg;
 								}
 							}
 						}
@@ -1006,7 +1006,7 @@ namespace Web
 	{
 		namespace Bridge
 		{
-			extern QueryError _sub_10C66990(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *);
+			extern QueryError _sub_10C66990(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::string *);
 		}
 	}
 }
@@ -1019,14 +1019,14 @@ namespace Web
 		{
 			namespace ClientFunctions
 			{
-				Web::Browser::Bridge::QueryError OnSendChat(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result) // 0x10C66990
+				Web::Browser::Bridge::QueryError OnSendChat(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C66990
 				{
 					mangled_x86(MANGLED_TODO, "?OnSendChat@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 					// static ...; // 0x10C66BB0
 					// static ...; // 0x10C66B98
 					// static ...; // 0x10C66B90
 					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args;
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result;
+					// std::string *p_Result;
 					// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > teamChat;
 					// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > message;
 					todo("implement");
@@ -1044,7 +1044,7 @@ namespace Web
 	{
 		namespace Bridge
 		{
-			extern QueryError _sub_10C63250(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *);
+			extern QueryError _sub_10C63250(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::string *);
 		}
 	}
 }
@@ -1057,13 +1057,13 @@ namespace Web
 		{
 			namespace ClientFunctions
 			{
-				Web::Browser::Bridge::QueryError OnChatBoxOpened(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result) // 0x10C63250
+				Web::Browser::Bridge::QueryError OnChatBoxOpened(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C63250
 				{
 					mangled_x86(MANGLED_TODO, "?OnChatBoxOpened@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 					// static ...; // 0x10C63334
 					// static ...; // 0x10C6332C
 					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args;
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result;
+					// std::string *p_Result;
 					// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > opened;
 					todo("implement");
 					Web::Browser::Bridge::QueryError __result = _sub_10C63250(p_Args, p_Result);
@@ -1080,7 +1080,7 @@ namespace Web
 	{
 		namespace Bridge
 		{
-			extern QueryError _sub_10C66C50(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *);
+			extern QueryError _sub_10C66C50(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::string *);
 		}
 	}
 }
@@ -1093,7 +1093,7 @@ namespace Web
 		{
 			namespace ClientFunctions
 			{
-				Web::Browser::Bridge::QueryError OnSessionInfo(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result) // 0x10C66C50
+				Web::Browser::Bridge::QueryError OnSessionInfo(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C66C50
 				{
 					mangled_x86(MANGLED_TODO, "?OnSessionInfo@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 					// static ...; // 0x10C67020
@@ -1101,7 +1101,7 @@ namespace Web
 					// static ...; // 0x10C66FF8
 					// static ...; // 0x10C66FF0
 					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args;
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result;
+					// std::string *p_Result;
 					// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
 					// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
 					// Blam::Network::Session *session;
@@ -1123,7 +1123,7 @@ namespace Web
 	{
 		namespace Bridge
 		{
-			extern QueryError _sub_10C67B10(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *);
+			extern QueryError _sub_10C67B10(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::string *);
 		}
 	}
 }
@@ -1136,7 +1136,7 @@ namespace Web
 		{
 			namespace ClientFunctions
 			{
-				Web::Browser::Bridge::QueryError OnStats(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result) // 0x10C67B10
+				Web::Browser::Bridge::QueryError OnStats(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C67B10
 				{
 					mangled_x86(MANGLED_TODO, "?OnStats@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 					// static ...; // 0x10C68372
@@ -1148,7 +1148,7 @@ namespace Web
 					// static ...; // 0x10C68308
 					// static ...; // 0x10C68300
 					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args;
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result;
+					// std::string *p_Result;
 					// __int32 playerIdx;
 					// Blam::Network::Session *session;
 					// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > name;
@@ -1195,7 +1195,7 @@ namespace Web
 	{
 		namespace Bridge
 		{
-			extern QueryError _sub_10C69820(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *);
+			extern QueryError _sub_10C69820(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::string *);
 		}
 	}
 }
@@ -1208,13 +1208,13 @@ namespace Web
 		{
 			namespace ClientFunctions
 			{
-				Web::Browser::Bridge::QueryError OnVoIPSpeakingChanged(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result) // 0x10C69820
+				Web::Browser::Bridge::QueryError OnVoIPSpeakingChanged(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C69820
 				{
 					mangled_x86(MANGLED_TODO, "?OnVoIPSpeakingChanged@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 					// static ...; // 0x10C69A28
 					// static ...; // 0x10C69A20
 					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args;
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result;
+					// std::string *p_Result;
 					// __int32 player_index;
 					// Blam::Network::Session *session;
 					// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > value;
@@ -1233,7 +1233,7 @@ namespace Web
 	{
 		namespace Bridge
 		{
-			extern QueryError _sub_10C68880(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *);
+			extern QueryError _sub_10C68880(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::string *);
 		}
 	}
 }
@@ -1246,13 +1246,13 @@ namespace Web
 		{
 			namespace ClientFunctions
 			{
-				Web::Browser::Bridge::QueryError OnVoIPConnectedChanged(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result) // 0x10C68880
+				Web::Browser::Bridge::QueryError OnVoIPConnectedChanged(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C68880
 				{
 					mangled_x86(MANGLED_TODO, "?OnVoIPConnectedChanged@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 					// static ...; // 0x10C68950
 					// static ...; // 0x10C68948
 					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args;
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result;
+					// std::string *p_Result;
 					// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > value;
 					todo("implement");
 					Web::Browser::Bridge::QueryError __result = _sub_10C68880(p_Args, p_Result);
@@ -1269,7 +1269,7 @@ namespace Web
 	{
 		namespace Bridge
 		{
-			extern QueryError _sub_10C69180(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *);
+			extern QueryError _sub_10C69180(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::string *);
 		}
 	}
 }
@@ -1282,7 +1282,7 @@ namespace Web
 		{
 			namespace ClientFunctions
 			{
-				Web::Browser::Bridge::QueryError OnVoIPPlayerVoipLevelChanged(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result) // 0x10C69180
+				Web::Browser::Bridge::QueryError OnVoIPPlayerVoipLevelChanged(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C69180
 				{
 					mangled_x86(MANGLED_TODO, "?OnVoIPPlayerVoipLevelChanged@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 					// static ...; // 0x10C696B8
@@ -1291,7 +1291,7 @@ namespace Web
 					// static ...; // 0x10C69670
 					// static ...; // 0x10C69668
 					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args;
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result;
+					// std::string *p_Result;
 					// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > currentVolume;
 					// __int32 player_index;
 					// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > uid;
@@ -1316,7 +1316,7 @@ namespace Web
 	{
 		namespace Bridge
 		{
-			extern QueryError _sub_10C689A0(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *);
+			extern QueryError _sub_10C689A0(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::string *);
 		}
 	}
 }
@@ -1329,14 +1329,14 @@ namespace Web
 		{
 			namespace ClientFunctions
 			{
-				Web::Browser::Bridge::QueryError OnVoIPPlayerSpeakingChanged(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result) // 0x10C689A0
+				Web::Browser::Bridge::QueryError OnVoIPPlayerSpeakingChanged(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C689A0
 				{
 					mangled_x86(MANGLED_TODO, "?OnVoIPPlayerSpeakingChanged@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 					// static ...; // 0x10C68CD8
 					// static ...; // 0x10C68CC0
 					// static ...; // 0x10C68CB8
 					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args;
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result;
+					// std::string *p_Result;
 					// __int32 player_index;
 					// Blam::Network::Session *session;
 					// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > name;
@@ -1356,7 +1356,7 @@ namespace Web
 	{
 		namespace Bridge
 		{
-			extern QueryError _sub_10C68DC0(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *);
+			extern QueryError _sub_10C68DC0(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::string *);
 		}
 	}
 }
@@ -1369,7 +1369,7 @@ namespace Web
 		{
 			namespace ClientFunctions
 			{
-				Web::Browser::Bridge::QueryError OnVoIPPlayerVoipJoined(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result) // 0x10C68DC0
+				Web::Browser::Bridge::QueryError OnVoIPPlayerVoipJoined(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C68DC0
 				{
 					mangled_x86(MANGLED_TODO, "?OnVoIPPlayerVoipJoined@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 					// static ...; // 0x10C690B2
@@ -1378,7 +1378,7 @@ namespace Web
 					// static ...; // 0x10C6906C
 					// static ...; // 0x10C69064
 					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args;
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result;
+					// std::string *p_Result;
 					// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > uid;
 					// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > name;
 					{
@@ -1400,7 +1400,7 @@ namespace Web
 	{
 		namespace Bridge
 		{
-			extern QueryError _sub_10C64FF0(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *);
+			extern QueryError _sub_10C64FF0(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::string *);
 		}
 	}
 }
@@ -1413,14 +1413,14 @@ namespace Web
 		{
 			namespace ClientFunctions
 			{
-				Web::Browser::Bridge::QueryError OnIsMapLoading(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result) // 0x10C64FF0
+				Web::Browser::Bridge::QueryError OnIsMapLoading(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C64FF0
 				{
 					mangled_x86(MANGLED_TODO, "?OnIsMapLoading@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 					// static ...; // 0x10C6511C
 					// static ...; // 0x10C65104
 					// static ...; // 0x10C650FC
 					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args;
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result;
+					// std::string *p_Result;
 					// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
 					// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
 					// static bool (*IsMapLoading)(); // 0x11355190
@@ -1440,7 +1440,7 @@ namespace Web
 	{
 		namespace Bridge
 		{
-			extern QueryError _sub_10C63EF0(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *);
+			extern QueryError _sub_10C63EF0(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::string *);
 		}
 	}
 }
@@ -1453,10 +1453,10 @@ namespace Web
 		{
 			namespace ClientFunctions
 			{
-				Web::Browser::Bridge::QueryError OnForgeAction(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result) // 0x10C63EF0
+				Web::Browser::Bridge::QueryError OnForgeAction(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C63EF0
 				{
 					mangled_x86(MANGLED_TODO, "?OnForgeAction@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result;
+					// std::string *p_Result;
 					todo("implement");
 					Web::Browser::Bridge::QueryError __result = _sub_10C63EF0(p_Args, p_Result);
 					return __result;
@@ -1472,7 +1472,7 @@ namespace Web
 	{
 		namespace Bridge
 		{
-			extern QueryError _sub_10C63F40(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *);
+			extern QueryError _sub_10C63F40(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::string *);
 		}
 	}
 }
@@ -1485,10 +1485,10 @@ namespace Web
 		{
 			namespace ClientFunctions
 			{
-				Web::Browser::Bridge::QueryError OnForgePalette(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result) // 0x10C63F40
+				Web::Browser::Bridge::QueryError OnForgePalette(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C63F40
 				{
 					mangled_x86(MANGLED_TODO, "?OnForgePalette@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result;
+					// std::string *p_Result;
 					todo("implement");
 					Web::Browser::Bridge::QueryError __result = _sub_10C63F40(p_Args, p_Result);
 					return __result;
@@ -1504,7 +1504,7 @@ namespace Web
 	{
 		namespace Bridge
 		{
-			extern QueryError _sub_10C67870(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *);
+			extern QueryError _sub_10C67870(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::string *);
 		}
 	}
 }
@@ -1517,10 +1517,10 @@ namespace Web
 		{
 			namespace ClientFunctions
 			{
-				Web::Browser::Bridge::QueryError OnShowLan(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result) // 0x10C67870
+				Web::Browser::Bridge::QueryError OnShowLan(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C67870
 				{
 					mangled_x86(MANGLED_TODO, "?OnShowLan@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result;
+					// std::string *p_Result;
 					todo("implement");
 					Web::Browser::Bridge::QueryError __result = _sub_10C67870(p_Args, p_Result);
 					return __result;
@@ -1536,7 +1536,7 @@ namespace Web
 	{
 		namespace Bridge
 		{
-			extern QueryError _sub_10C65CD0(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *);
+			extern QueryError _sub_10C65CD0(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::string *);
 		}
 	}
 }
@@ -1549,7 +1549,7 @@ namespace Web
 		{
 			namespace ClientFunctions
 			{
-				Web::Browser::Bridge::QueryError OnPlayerReportInfo(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result) // 0x10C65CD0
+				Web::Browser::Bridge::QueryError OnPlayerReportInfo(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C65CD0
 				{
 					mangled_x86(MANGLED_TODO, "?OnPlayerReportInfo@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 					// static ...; // 0x10C6641A
@@ -1561,7 +1561,7 @@ namespace Web
 					// static ...; // 0x10C66394
 					// static ...; // 0x10C6638C
 					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args;
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result;
+					// std::string *p_Result;
 					// char offenderUid[17];
 					// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
 					// char senderUid[17];
@@ -1589,7 +1589,7 @@ namespace Web
 	{
 		namespace Bridge
 		{
-			extern QueryError _sub_10C685A0(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *);
+			extern QueryError _sub_10C685A0(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::string *);
 		}
 	}
 }
@@ -1602,14 +1602,14 @@ namespace Web
 		{
 			namespace ClientFunctions
 			{
-				Web::Browser::Bridge::QueryError OnSubmitDialogResult(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result) // 0x10C685A0
+				Web::Browser::Bridge::QueryError OnSubmitDialogResult(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C685A0
 				{
 					mangled_x86(MANGLED_TODO, "?OnSubmitDialogResult@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 					// static ...; // 0x10C68754
 					// static ...; // 0x10C6873C
 					// static ...; // 0x10C68734
 					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args;
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *p_Result;
+					// std::string *p_Result;
 					// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > idMember;
 					// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > resultMember;
 					todo("implement");
@@ -1631,7 +1631,7 @@ void PongReceived(Blam::Network::NetworkAddress const &from, unsigned __int32 ti
 	// unsigned __int32 timestamp;
 	// unsigned short id;
 	// unsigned __int32 latency;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > data;
+	// std::string data;
 	todo("implement");
 	_sub_10C69AC0(from, timestamp, id, latency);
 }

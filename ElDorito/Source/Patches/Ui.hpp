@@ -28,7 +28,7 @@ namespace Patches
 		extern void *ShowDialog(unsigned long const p_DialogID, __int32 const p_Arg1, __int32 const p_Flags, unsigned long const p_ParentID);
 		extern void OnCreateWindow(std::function<void __cdecl(HWND__ *)> callback);
 		extern void TogglePTTSound(bool enabled);
-		extern void ToggleSpeakingPlayerName(std::basic_string<char,std::char_traits<char>,std::allocator<char> > name, bool speaking);
+		extern void ToggleSpeakingPlayerName(std::string name, bool speaking);
 		extern void ApplyUIResolution();
 		extern void ShowLanBrowser();
 	}

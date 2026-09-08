@@ -147,7 +147,7 @@ namespace Blam
 
 /* ---------- prototypes */
 
-std::shared_ptr<CModPackageFileSystemView> GetModVFS(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &identifier, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &vfsId);
+std::shared_ptr<CModPackageFileSystemView> GetModVFS(std::string const &identifier, std::string &vfsId);
 
 /* ---------- globals */
 
@@ -160,12 +160,12 @@ namespace Utils
 
 /* ---------- public code */
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_1077E320(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, std::vector<std::basic_string_view<char,std::char_traits<char> >,std::allocator<std::basic_string_view<char,std::char_traits<char> > > > const &);
+extern std::string _sub_1077E320(std::string const &, std::string const &, std::vector<std::string_view,std::allocator<std::string_view> > const &);
 namespace Web
 {
 	namespace Ui
 	{
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > AssetService::FindAssetInModVfs(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &modIdentifier, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &path, std::vector<std::basic_string_view<char,std::char_traits<char> >,std::allocator<std::basic_string_view<char,std::char_traits<char> > > > const &fileTypes) // 0x1077E320
+		std::string AssetService::FindAssetInModVfs(std::string const &modIdentifier, std::string const &path, std::vector<std::string_view,std::allocator<std::string_view> > const &fileTypes) // 0x1077E320
 		{
 			mangled_x86(MANGLED_TODO, "?FindAssetInModVfs@AssetService@Ui@Web@@SA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV45@0ABV?$vector@V?$basic_string_view@DU?$char_traits@D@std@@@std@@V?$allocator@V?$basic_string_view@DU?$char_traits@D@std@@@std@@@2@@5@@Z");
 			// static ...; // 0x1077E815
@@ -173,22 +173,22 @@ namespace Web
 			// static ...; // 0x1077E804
 			// static ...; // 0x1077E7C8
 			// static ...; // 0x1077E7C0
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &modIdentifier;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &path;
-			// std::vector<std::basic_string_view<char,std::char_traits<char> >,std::allocator<std::basic_string_view<char,std::char_traits<char> > > > const &fileTypes;
-			// std::vector<std::basic_string_view<char,std::char_traits<char> >,std::allocator<std::basic_string_view<char,std::char_traits<char> > > > const &actualFileTypes;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > vfsId;
+			// std::string const &modIdentifier;
+			// std::string const &path;
+			// std::vector<std::string_view,std::allocator<std::string_view> > const &fileTypes;
+			// std::vector<std::string_view,std::allocator<std::string_view> > const &actualFileTypes;
+			// std::string vfsId;
 			// std::shared_ptr<CModPackageFileSystemView> vfs;
 			{
 				// CModPackageFileSystemView::SFileEntry entry;
 				{
-					// std::vector<std::basic_string_view<char,std::char_traits<char> >,std::allocator<std::basic_string_view<char,std::char_traits<char> > > > const &<range>$L0;
-					// std::basic_string_view<char,std::char_traits<char> > const *<begin>$L0;
-					// std::basic_string_view<char,std::char_traits<char> > const *<end>$L0;
+					// std::vector<std::string_view,std::allocator<std::string_view> > const &<range>$L0;
+					// std::string_view const *<begin>$L0;
+					// std::string_view const *<end>$L0;
 					{
-						// std::basic_string_view<char,std::char_traits<char> > const &ext;
+						// std::string_view const &ext;
 						{
-							// std::basic_string<char,std::char_traits<char>,std::allocator<char> > actualPath;
+							// std::string actualPath;
 						}
 					}
 				}
@@ -200,30 +200,30 @@ namespace Web
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_1077DCA0(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, std::vector<std::basic_string_view<char,std::char_traits<char> >,std::allocator<std::basic_string_view<char,std::char_traits<char> > > > const &);
+extern std::string _sub_1077DCA0(std::string const &, std::vector<std::string_view,std::allocator<std::string_view> > const &);
 namespace Web
 {
 	namespace Ui
 	{
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > AssetService::FindAssetInBaseDir(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &path, std::vector<std::basic_string_view<char,std::char_traits<char> >,std::allocator<std::basic_string_view<char,std::char_traits<char> > > > const &fileTypes) // 0x1077DCA0
+		std::string AssetService::FindAssetInBaseDir(std::string const &path, std::vector<std::string_view,std::allocator<std::string_view> > const &fileTypes) // 0x1077DCA0
 		{
 			mangled_x86(MANGLED_TODO, "?FindAssetInBaseDir@AssetService@Ui@Web@@SA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV45@ABV?$vector@V?$basic_string_view@DU?$char_traits@D@std@@@std@@V?$allocator@V?$basic_string_view@DU?$char_traits@D@std@@@std@@@2@@5@@Z");
 			// static ...; // 0x1077E1C3
 			// static ...; // 0x1077E1B8
 			// static ...; // 0x1077E194
 			// static ...; // 0x1077E18C
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &path;
-			// std::vector<std::basic_string_view<char,std::char_traits<char> >,std::allocator<std::basic_string_view<char,std::char_traits<char> > > > const &fileTypes;
-			// std::vector<std::basic_string_view<char,std::char_traits<char> >,std::allocator<std::basic_string_view<char,std::char_traits<char> > > > const &actualFileTypes;
+			// std::string const &path;
+			// std::vector<std::string_view,std::allocator<std::string_view> > const &fileTypes;
+			// std::vector<std::string_view,std::allocator<std::string_view> > const &actualFileTypes;
 			// std::filesystem::path baseDir;
 			{
-				// std::vector<std::basic_string_view<char,std::char_traits<char> >,std::allocator<std::basic_string_view<char,std::char_traits<char> > > > const &<range>$L0;
-				// std::basic_string_view<char,std::char_traits<char> > const *<begin>$L0;
-				// std::basic_string_view<char,std::char_traits<char> > const *<end>$L0;
+				// std::vector<std::string_view,std::allocator<std::string_view> > const &<range>$L0;
+				// std::string_view const *<begin>$L0;
+				// std::string_view const *<end>$L0;
 				{
-					// std::basic_string_view<char,std::char_traits<char> > const &ext;
+					// std::string_view const &ext;
 					{
-						// std::basic_string<char,std::char_traits<char>,std::allocator<char> > actualPath;
+						// std::string actualPath;
 					}
 				}
 			}
@@ -244,20 +244,20 @@ _inline CModPackageFileSystemViewManager::CModPackageFileSystemViewManager() // 
 
 /* ---------- private code */
 
-extern std::shared_ptr<CModPackageFileSystemView> _sub_1077E970(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
-std::shared_ptr<CModPackageFileSystemView> GetModVFS(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &identifier, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &vfsId) // 0x1077E970
+extern std::shared_ptr<CModPackageFileSystemView> _sub_1077E970(std::string const &, std::string &);
+std::shared_ptr<CModPackageFileSystemView> GetModVFS(std::string const &identifier, std::string &vfsId) // 0x1077E970
 {
 	// `anonymous-namespace'::GetModVFS
 	// static ...; // 0x1077EC0C
 	// static ...; // 0x1077EBF4
 	// static ...; // 0x1077EBEC
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &identifier;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &vfsId;
+	// std::string const &identifier;
+	// std::string &vfsId;
 	// EModIndex modIndex;
 	{
 		// Ref<IMod> mod;
 		{
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > hashStr;
+			// std::string hashStr;
 			// c_mod_package const *pak;
 		}
 	}

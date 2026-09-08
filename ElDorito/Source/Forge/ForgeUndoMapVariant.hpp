@@ -27,9 +27,9 @@ struct CForgeUndoMapVariant :
 {
 	CForgeUndoMapVariant(CForgeUndoMapVariant &); /* compiler_generated() */
 	CForgeUndoMapVariant(CForgeUndoMapVariant const &); /* compiler_generated() */
-	CForgeUndoMapVariant(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &summary, s_map_variant const &mapVariant);
+	CForgeUndoMapVariant(std::string const &summary, s_map_variant const &mapVariant);
 private:
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > m_summary; // 0x4
+	std::string m_summary; // 0x4
 	s_map_variant m_storedMapVariant; // 0x20
 	virtual void Undo();
 	virtual _inline EForgeUndoType GetType();

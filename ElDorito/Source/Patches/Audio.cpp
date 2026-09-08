@@ -453,7 +453,7 @@ bool SoundQueueFilter(s_sound_tag_data const *request) // 0x10A322B0
 {
 	// `anonymous-namespace'::SoundQueueFilter
 	// s_sound_tag_data const *request;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &filterStr;
+	// std::string &filterStr;
 	todo("implement");
 	bool __result = _sub_10A322B0(request);
 	return __result;

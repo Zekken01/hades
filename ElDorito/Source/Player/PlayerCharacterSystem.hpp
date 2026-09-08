@@ -73,7 +73,7 @@ namespace Player
 		static void PlayerCharacterEditor(__int32 playerIndex);
 		static void UpdateLocalPlayerHudGlobals();
 		static bool BuildCustomizations(s_player_appearance &appearance);
-		static bool BuildCharacterCustomization(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &characterName, s_player_model_customization &customization);
+		static bool BuildCharacterCustomization(std::string const &characterName, s_player_model_customization &customization);
 		static void ReloadCustomizations();
 	};
 	static_assert(sizeof(Player::CPlayerCharacterSystem) == 1, "Invalid Player::CPlayerCharacterSystem size");

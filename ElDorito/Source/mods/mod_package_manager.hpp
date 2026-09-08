@@ -100,7 +100,7 @@ public:
 	CEventSink<> enumerated; // 0x0
 private:
 	std::mutex m_mutex; // 0x14
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > m_package_directory; // 0x44
+	std::string m_package_directory; // 0x44
 	std::vector<s_entry,std::allocator<s_entry> > m_entries; // 0x60
 	std::atomic<bool> m_enumeration_requested; // 0x70
 	std::atomic<bool> m_enumeraton_in_progress; // 0x71

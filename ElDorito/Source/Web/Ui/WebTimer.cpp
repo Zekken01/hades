@@ -94,7 +94,7 @@ namespace Web
 	{
 		namespace WebTimer
 		{
-			extern void Start(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &type, __int32 initialValue);
+			extern void Start(std::string const &type, __int32 initialValue);
 			extern void Update(__int32 value);
 			extern void End();
 		}
@@ -113,14 +113,14 @@ namespace Web
 	{
 		namespace WebTimer
 		{
-			_extern void _sub_10CB5BB0(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, __int32);
-			void Start(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &type, __int32 initialValue) // 0x10CB5BB0
+			_extern void _sub_10CB5BB0(std::string const &, __int32);
+			void Start(std::string const &type, __int32 initialValue) // 0x10CB5BB0
 			{
 				mangled_x86(MANGLED_TODO, "?Start@WebTimer@Ui@Web@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@H@Z");
 				// static ...; // 0x10CB5D5C
 				// static ...; // 0x10CB5D44
 				// static ...; // 0x10CB5D3C
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &type;
+				// std::string const &type;
 				// __int32 initialValue;
 				// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
 				// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;

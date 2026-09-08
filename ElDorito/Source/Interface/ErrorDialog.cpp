@@ -43,8 +43,8 @@ namespace hades_file_local
 {
 	struct DialogInitParams
 	{
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > message; // 0x0
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > title; // 0x1C
+		std::string message; // 0x0
+		std::string title; // 0x1C
 		DialogInitParams(DialogInitParams &); /* compiler_generated() */
 		DialogInitParams(DialogInitParams const &); /* compiler_generated() */
 		DialogInitParams(); /* compiler_generated() */
@@ -59,7 +59,7 @@ using namespace hades_file_local;
 /* ---------- prototypes */
 
 __int32 DialogProc(HWND__ *hWnd, unsigned __int32 msg, unsigned __int32 wParam, long lParam);
-std::basic_string<char,std::char_traits<char>,std::allocator<char> > NormalizeLineEndings(std::basic_string<char,std::char_traits<char>,std::allocator<char> > input);
+std::string NormalizeLineEndings(std::string input);
 
 /* ---------- globals */
 
@@ -67,14 +67,14 @@ std::basic_string<char,std::char_traits<char>,std::allocator<char> > NormalizeLi
 
 /* ---------- public code */
 
-_extern void _sub_10787170(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-void ErrorDialog::Show(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &title, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &message) // 0x10787170
+_extern void _sub_10787170(std::string const &, std::string const &);
+void ErrorDialog::Show(std::string const &title, std::string const &message) // 0x10787170
 {
 	mangled_x86(MANGLED_TODO, "?Show@ErrorDialog@@SAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z");
 	// static ...; // 0x107872E4
 	// static ...; // 0x107872DC
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &title;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &message;
+	// std::string const &title;
+	// std::string const &message;
 	// std::unique_ptr<DialogInitParams,std::default_delete<DialogInitParams> > initParams;
 	// HINSTANCE__ *hModule;
 	// function call : HINSTANCE__ *(char const *)
@@ -136,11 +136,11 @@ _inline DialogInitParams::~DialogInitParams() // 0x10786BD0
 	compiler_generated();
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10787040(std::string);
-std::basic_string<char,std::char_traits<char>,std::allocator<char> > NormalizeLineEndings(std::basic_string<char,std::char_traits<char>,std::allocator<char> > input) // 0x10787040
+extern std::string _sub_10787040(std::string);
+std::string NormalizeLineEndings(std::string input) // 0x10787040
 {
 	// `anonymous-namespace'::NormalizeLineEndings
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > input;
+	// std::string input;
 	// unsigned __int32 pos;
 	todo("implement");
 	std::string __result = _sub_10787040(input);

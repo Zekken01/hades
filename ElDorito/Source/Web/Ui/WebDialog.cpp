@@ -117,7 +117,7 @@ namespace hades_file_local
 	{
 		__int32 id; // 0x0
 		unsigned char __pad0[4]; // 0x4
-		std::function<void __cdecl(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &)> callback; // 0x8
+		std::function<void __cdecl(std::string const &)> callback; // 0x8
 		SDialogCallbackInfo(SDialogCallbackInfo &); /* compiler_generated() */
 		SDialogCallbackInfo(SDialogCallbackInfo const &); /* compiler_generated() */
 		SDialogCallbackInfo(); /* compiler_generated() */
@@ -130,9 +130,9 @@ namespace hades_file_local
 	struct SDialogQueueInfo
 	{
 		__int32 id; // 0x0
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > title; // 0x4
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > body; // 0x20
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > templateName; // 0x3C
+		std::string title; // 0x4
+		std::string body; // 0x20
+		std::string templateName; // 0x3C
 		SDialogQueueInfo(SDialogQueueInfo &); /* compiler_generated() */
 		SDialogQueueInfo(SDialogQueueInfo const &); /* compiler_generated() */
 		SDialogQueueInfo(); /* compiler_generated() */
@@ -150,7 +150,7 @@ namespace Web
 		namespace ScreenLayer
 		{
 			typedef std::function<void __cdecl(Web::Ui::ScreenLayer::SDialogShowParams const &)> TDialogHandler;
-			typedef std::function<void __cdecl(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &)> TDialogResultCallback;
+			typedef std::function<void __cdecl(std::string const &)> TDialogResultCallback;
 		}
 	}
 }
@@ -170,7 +170,7 @@ namespace Web
 		{
 			extern void HandleDialogShowRequest(Web::Ui::ScreenLayer::SDialogShowParams const &params);
 			extern void Init();
-			extern void SubmitDialogResult(__int32 id, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &result);
+			extern void SubmitDialogResult(__int32 id, std::string const &result);
 			extern void Clear();
 		}
 	}
@@ -224,14 +224,14 @@ namespace Web
 				_sub_10CA1CD0();
 			}
 
-			_extern void _sub_10CA1DE0(__int32, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-			void SubmitDialogResult(__int32 id, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &result) // 0x10CA1DE0
+			_extern void _sub_10CA1DE0(__int32, std::string const &);
+			void SubmitDialogResult(__int32 id, std::string const &result) // 0x10CA1DE0
 			{
 				mangled_x86(MANGLED_TODO, "?SubmitDialogResult@WebDialog@Ui@Web@@YAXHABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 				// static ...; // 0x10CA1FE4
 				// static ...; // 0x10CA1FDC
 				// __int32 id;
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &result;
+				// std::string const &result;
 				// SDialogCallbackInfo nextCallback;
 				{
 					// unsigned __int32 i;

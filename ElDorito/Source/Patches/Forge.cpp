@@ -668,7 +668,7 @@ void TryUndo() // 0x10A676D0
 	// static ...; // 0x10A67854
 	// static ...; // 0x10A6784C
 	// CForgeUndoManager &undoManager;
-	// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > message;
+	// std::wstring message;
 	todo("implement");
 	_sub_10A676D0();
 }
@@ -682,7 +682,7 @@ void TryRedo() // 0x10A674D0
 	// static ...; // 0x10A67654
 	// static ...; // 0x10A6764C
 	// CForgeUndoManager &undoManager;
-	// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > message;
+	// std::wstring message;
 	todo("implement");
 	_sub_10A674D0();
 }
@@ -925,7 +925,7 @@ void HandleMonitorInput(long playerIndex) // 0x10A65AF0
 	}
 	{
 		// Modules::CommandMap &commandMap;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > previousValueStr;
+		// std::string previousValueStr;
 		// unsigned long prevValue;
 	}
 	// function call : bool (*const)(long, long *, long *)

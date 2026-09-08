@@ -72,12 +72,12 @@ namespace Web
 				};
 				public:
 				boost::lockfree::queue<PendingQuery *> m_Queries; // 0x8
-				std::unordered_map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::function<enum Web::Browser::Bridge::QueryError __cdecl(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &,std::basic_string<char,std::char_traits<char>,std::allocator<char> > *)>,std::hash<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::equal_to<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::function<enum Web::Browser::Bridge::QueryError __cdecl(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &,std::basic_string<char,std::char_traits<char>,std::allocator<char> > *)> > > > m_Methods; // 0x90
+				std::unordered_map<std::string,std::function<enum Web::Browser::Bridge::QueryError __cdecl(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &,std::string *)>,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::pair<std::string const ,std::function<enum Web::Browser::Bridge::QueryError __cdecl(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &,std::string *)> > > > m_Methods; // 0x90
 			public:
 				WebRendererQueryHandler();
 				virtual bool OnQuery(scoped_refptr<CefBrowser> browser, scoped_refptr<CefFrame> frame, long long queryId, CefStringBase<CefStringTraitsUTF16> const &request, bool persistent, scoped_refptr<CefMessageRouterBrowserSide::Callback> callback);
 				virtual void OnQueryCanceled(scoped_refptr<CefBrowser> browser, scoped_refptr<CefFrame> frame, long long queryId);
-				void AddMethod(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name, std::function<enum Web::Browser::Bridge::QueryError __cdecl(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &,std::basic_string<char,std::char_traits<char>,std::allocator<char> > *)> const &method);
+				void AddMethod(std::string const &name, std::function<enum Web::Browser::Bridge::QueryError __cdecl(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &,std::string *)> const &method);
 				void Update();
 				virtual _inline ~WebRendererQueryHandler(); /* compiler_generated() */
 			};
@@ -99,7 +99,7 @@ namespace Web
 			virtual _inline void OnHide();
 			virtual _inline void OnUpdate();
 		protected:
-			void Notify(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &event, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &data);
+			void Notify(std::string const &event, std::string const &data);
 		public:
 			WebScreen(Web::Ui::WebScreen &); /* compiler_generated() */
 			WebScreen(Web::Ui::WebScreen const &); /* compiler_generated() */

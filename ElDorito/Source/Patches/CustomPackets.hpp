@@ -45,7 +45,7 @@ namespace Patches
 	{
 		extern void ApplyAll();
 		extern void SendPacket(__int32 targetPeer, void const *packet, __int32 packetSize);
-		extern unsigned __int32 RegisterPacketImpl(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &name, std::shared_ptr<Patches::CustomPackets::RawPacketHandler> handler);
+		extern unsigned __int32 RegisterPacketImpl(std::string const &name, std::shared_ptr<Patches::CustomPackets::RawPacketHandler> handler);
 	}
 }
 

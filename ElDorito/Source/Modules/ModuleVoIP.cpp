@@ -146,9 +146,9 @@ using namespace ::Blam;
 
 /* ---------- prototypes */
 
-bool UpdateVoip(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool UpdateVoip(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo);
 void RendererStarted(char const *map);
-bool VariableListenToMicrophone(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+bool VariableListenToMicrophone(std::vector<std::string,std::allocator<std::string> > const &arguments, std::string &returnInfo);
 
 /* ---------- globals */
 
@@ -194,7 +194,7 @@ namespace Modules
 	}
 
 	extern ModuleVoIP* _sub_10A24050(Modules::ModuleVoIP *const);
-	ModuleVoIP::ModuleVoIP() : ModuleBase(todo_result<std::basic_string<char,std::char_traits<char>,std::allocator<char> >>()) // 0x10A24050
+	ModuleVoIP::ModuleVoIP() : ModuleBase(todo_result<std::string>()) // 0x10A24050
 	{
 		mangled_x86(MANGLED_TODO, "??0ModuleVoIP@Modules@@QAE@XZ");
 		// Modules::ModuleVoIP *const this;
@@ -215,15 +215,15 @@ namespace Modules
 
 /* ---------- private code */
 
-_extern bool _sub_10A25520(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
-bool UpdateVoip(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A25520
+_extern bool _sub_10A25520(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
+bool UpdateVoip(std::vector<std::string,std::allocator<std::string> > const &Arguments, std::string &returnInfo) // 0x10A25520
 {
 	// `anonymous-namespace'::UpdateVoip
 	// static ...; // 0x10A257F8
 	// static ...; // 0x10A257E0
 	// static ...; // 0x10A257D8
-	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &Arguments;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// std::vector<std::string,std::allocator<std::string> > const &Arguments;
+	// std::string &returnInfo;
 	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
 	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
 	todo("implement");
@@ -240,15 +240,15 @@ void RendererStarted(char const *map) // 0x10A24DC0
 	_sub_10A24DC0(map);
 }
 
-_extern bool _sub_10A258C0(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
-bool VariableListenToMicrophone(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &arguments, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo) // 0x10A258C0
+_extern bool _sub_10A258C0(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
+bool VariableListenToMicrophone(std::vector<std::string,std::allocator<std::string> > const &arguments, std::string &returnInfo) // 0x10A258C0
 {
 	// `anonymous-namespace'::VariableListenToMicrophone
 	// static ...; // 0x10A25A5C
 	// static ...; // 0x10A25A44
 	// static ...; // 0x10A25A3C
-	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &arguments;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo;
+	// std::vector<std::string,std::allocator<std::string> > const &arguments;
+	// std::string &returnInfo;
 	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
 	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
 	todo("implement");

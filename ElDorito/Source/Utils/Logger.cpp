@@ -90,8 +90,8 @@ using namespace ::Modules;
 
 namespace Utils
 {
-	extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > LogLevelToString(Utils::LogLevel level);
-	extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > LogTypesToString(Utils::LogTypes types);
+	extern std::string LogLevelToString(Utils::LogLevel level);
+	extern std::string LogTypesToString(Utils::LogTypes types);
 }
 
 /* ---------- globals */
@@ -100,10 +100,10 @@ namespace Utils
 
 /* ---------- public code */
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10C5A850(Utils::LogLevel);
+extern std::string _sub_10C5A850(Utils::LogLevel);
 namespace Utils
 {
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > LogLevelToString(Utils::LogLevel level) // 0x10C5A850
+	std::string LogLevelToString(Utils::LogLevel level) // 0x10C5A850
 	{
 		mangled_x86(MANGLED_TODO, "?LogLevelToString@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@W4LogLevel@1@@Z");
 		// static ...; // 0x10C5A978
@@ -119,10 +119,10 @@ namespace Utils
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10C5A9E0(Utils::LogTypes);
+extern std::string _sub_10C5A9E0(Utils::LogTypes);
 namespace Utils
 {
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > LogTypesToString(Utils::LogTypes types) // 0x10C5A9E0
+	std::string LogTypesToString(Utils::LogTypes types) // 0x10C5A9E0
 	{
 		mangled_x86(MANGLED_TODO, "?LogTypesToString@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@W4LogTypes@1@@Z");
 		// static ...; // 0x10C5AEE7
@@ -132,7 +132,7 @@ namespace Utils
 		// Utils::LogTypes types;
 		{
 			// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
-			// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > bits;
+			// std::vector<std::string,std::allocator<std::string> > bits;
 			{
 				// __int32 bit;
 			}
@@ -200,19 +200,19 @@ namespace Utils
 		{
 			// long long t;
 			// tm ourLocalTime;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > message;
+			// std::string message;
 			{
-				// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > &<range>$L0;
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *<begin>$L0;
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *<end>$L0;
+				// std::vector<std::string,std::allocator<std::string> > &<range>$L0;
+				// std::string *<begin>$L0;
+				// std::string *<end>$L0;
 				{
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > filter;
+					// std::string filter;
 				}
 			}
 			{
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *<end>$L1;
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *<begin>$L1;
-				// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > &<range>$L1;
+				// std::string *<end>$L1;
+				// std::string *<begin>$L1;
+				// std::vector<std::string,std::allocator<std::string> > &<range>$L1;
 				{
 				}
 			}

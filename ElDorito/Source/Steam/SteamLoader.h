@@ -29,8 +29,8 @@ namespace Steam
 	private:
 		HINSTANCE__ *m_hSteamClient; // 0x0
 		unsigned __int32 GetSteamProcessId();
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetSteamDllPath();
-		void LoadGameOverlayRenderer(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &baseDllPath);
+		std::string GetSteamDllPath();
+		void LoadGameOverlayRenderer(std::string const &baseDllPath);
 		void *GetProcAddressInternal(char const *name);
 	public:
 		void Initialize();

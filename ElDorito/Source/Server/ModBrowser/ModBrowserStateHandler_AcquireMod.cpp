@@ -236,11 +236,11 @@ namespace Blam
 
 /* ---------- public code */
 
-extern SignatureVerificationJob* _sub_107156E0(SignatureVerificationJob *const, __int32, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-_inline SignatureVerificationJob::SignatureVerificationJob(__int32 queueIndex, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &path) // 0x107156E0
+extern SignatureVerificationJob* _sub_107156E0(SignatureVerificationJob *const, __int32, std::string const &);
+_inline SignatureVerificationJob::SignatureVerificationJob(__int32 queueIndex, std::string const &path) // 0x107156E0
 {
 	mangled_x86(MANGLED_TODO, "??0SignatureVerificationJob@@QAE@HABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &path;
+	// std::string const &path;
 	todo("implement");
 	_sub_107156E0(this, queueIndex, path);
 }
@@ -492,7 +492,7 @@ void CModBrowserStateHandler_AcquireMod::EnterFailedState(Download::EDownloadErr
 {
 	mangled_x86(MANGLED_TODO, "?EnterFailedState@CModBrowserStateHandler_AcquireMod@@AAEXW4EDownloadError@Download@@@Z");
 	// Download::EDownloadError error;
-	// function call : void (std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &)
+	// function call : void (std::string const &)
 	todo("implement");
 	_sub_10717060(this, error);
 }
@@ -549,7 +549,7 @@ void CModBrowserStateHandler_AcquireMod::HandleSignatureVerificationResult(SSign
 	// s_mod_package_id hash;
 	// s_mod_origin_info origin;
 	{
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &identifier;
+		// std::string const &identifier;
 		// std::error_code err;
 	}
 	todo("implement");

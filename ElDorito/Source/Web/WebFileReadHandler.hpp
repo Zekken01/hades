@@ -35,7 +35,7 @@ namespace Web
 			public virtual CefBaseRefCounted
 		{
 		public:
-			CWebFileReadHandler(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &filepath, long long offset, long long length);
+			CWebFileReadHandler(std::string const &filepath, long long offset, long long length);
 			virtual ~CWebFileReadHandler();
 			virtual unsigned __int32 Read(void *ptr, unsigned __int32 size, unsigned __int32 n);
 			virtual __int32 Seek(long long offset, __int32 whence);

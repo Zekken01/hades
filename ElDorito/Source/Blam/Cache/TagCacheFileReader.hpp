@@ -44,9 +44,9 @@ namespace Blam
 		public:
 			_inline bool ValidTagIndex(__int32 index) const;
 			__int32 GetTagCount() const;
-			bool Open(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &filename, long long baseOffset, std::unordered_map<int,std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::hash<int>,std::equal_to<int>,std::allocator<std::pair<int const ,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > &&tagNames);
+			bool Open(std::string const &filename, long long baseOffset, std::unordered_map<int,std::string,std::hash<int>,std::equal_to<int>,std::allocator<std::pair<int const ,std::string> > > &&tagNames);
 			void Close();
-			__int32 FindTagByName(__int32 group, std::basic_string_view<char,std::char_traits<char> > name);
+			__int32 FindTagByName(__int32 group, std::string_view name);
 			bool ReadTag(__int32 index, std::vector<char,std::allocator<char> > &buffer);
 			bool ReadAndFixupTag(__int32 index, std::vector<char,std::allocator<char> > &buffer);
 			bool ReadTagData(__int32 index, void *buffer, unsigned __int32 offset, __int32 size);
@@ -56,7 +56,7 @@ namespace Blam
 			long long m_baseOffset; // 0xB8
 			unsigned __int32 m_tagTableOffset; // 0xC0
 			__int32 m_tagCount; // 0xC4
-			std::unordered_map<int,std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::hash<int>,std::equal_to<int>,std::allocator<std::pair<int const ,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > m_tagNames; // 0xC8
+			std::unordered_map<int,std::string,std::hash<int>,std::equal_to<int>,std::allocator<std::pair<int const ,std::string> > > m_tagNames; // 0xC8
 		public:
 			CTagCacheFileReader(Blam::Cache::CTagCacheFileReader &); /* compiler_generated() */
 			CTagCacheFileReader(); /* compiler_generated() */

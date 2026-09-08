@@ -257,7 +257,7 @@ long save_map_variant_hook(long controller_index, long content_item_index, long 
 	// unsigned char *data;
 	// unsigned long size;
 	// c_async_completion_flag completion_flag;
-	// static std::basic_string<char,std::char_traits<char>,std::allocator<char> > `save_map_variant_hook'::`2'::buffer; // 0x12467378
+	// static std::string `save_map_variant_hook'::`2'::buffer; // 0x12467378
 	// unsigned char const *chunk_data;
 	// c_blf_writer blf_writer;
 	// s_blf_chunk_header chunk_header;
@@ -330,7 +330,7 @@ bool read_mod_package_metadata(s_file_reference file, short *out_version, s_mod_
 	// s_file_reference file;
 	// short *out_version;
 	// s_mod_package_reference *metadata;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > buffer;
+	// std::string buffer;
 	// unsigned char const *chunk_data;
 	// unsigned long err;
 	// s_blf_chunk_header chunk_header;

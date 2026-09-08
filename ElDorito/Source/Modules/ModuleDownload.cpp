@@ -98,7 +98,7 @@ using namespace ::Http;
 
 /* ---------- prototypes */
 
-bool CommandDownloadHttp(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &retValue);
+bool CommandDownloadHttp(std::vector<std::string,std::allocator<std::string> > const &args, std::string &retValue);
 
 /* ---------- globals */
 
@@ -109,7 +109,7 @@ bool CommandDownloadHttp(std::vector<std::basic_string<char,std::char_traits<cha
 namespace Modules
 {
 	extern ModuleDownload* _sub_108563E0(Modules::ModuleDownload *const);
-	ModuleDownload::ModuleDownload() : ModuleBase(todo_result<std::basic_string<char,std::char_traits<char>,std::allocator<char> >>()) // 0x108563E0
+	ModuleDownload::ModuleDownload() : ModuleBase(todo_result<std::string>()) // 0x108563E0
 	{
 		mangled_x86(MANGLED_TODO, "??0ModuleDownload@Modules@@QAE@XZ");
 		// Modules::ModuleDownload *const this;
@@ -128,15 +128,15 @@ _inline CEventSink<>::SCallbackEntry::SCallbackEntry(CEventSink<>::SCallbackEntr
 
 /* ---------- private code */
 
-_extern bool _sub_10856F10(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
-bool CommandDownloadHttp(std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &retValue) // 0x10856F10
+_extern bool _sub_10856F10(std::vector<std::string,std::allocator<std::string> > const &, std::string &);
+bool CommandDownloadHttp(std::vector<std::string,std::allocator<std::string> > const &args, std::string &retValue) // 0x10856F10
 {
 	// `anonymous-namespace'::CommandDownloadHttp
 	// static ...; // 0x10857144
 	// static ...; // 0x1085712C
 	// static ...; // 0x10857124
-	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &args;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &retValue;
+	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::string &retValue;
 	// std::shared_ptr<Download::CHttpFileDownload> download;
 	// std::shared_ptr<`CommandDownloadHttp'::`2'::ScopedDebugTrace> debugTrace;
 	// function call : void ()

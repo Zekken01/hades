@@ -35,11 +35,11 @@ namespace Web
 			public virtual CefBaseRefCounted
 		{
 		private:
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > const m_Directory; // 0x8
-			std::basic_string<char,std::char_traits<char>,std::allocator<char> > const m_Scheme; // 0x24
+			std::string const m_Directory; // 0x8
+			std::string const m_Scheme; // 0x24
 			CefRefCount ref_count_; // 0x40
 		public:
-			WebRendererSchemeHandlerFactory(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &scheme, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &directory);
+			WebRendererSchemeHandlerFactory(std::string const &scheme, std::string const &directory);
 		protected:
 			virtual scoped_refptr<CefResourceHandler> Create(scoped_refptr<CefBrowser> browser, scoped_refptr<CefFrame> frame, CefStringBase<CefStringTraitsUTF16> const &schemeName, scoped_refptr<CefRequest> request);
 		public:

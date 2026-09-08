@@ -198,11 +198,11 @@ namespace Download
 		// Download::CHttpFileDownload::SSegment *segment;
 	}
 
-	extern CSparseFileSegmentStore* _sub_1082B8C0(Download::CSparseFileSegmentStore *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-	_inline CSparseFileSegmentStore::CSparseFileSegmentStore(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &filename) // 0x1082B8C0
+	extern CSparseFileSegmentStore* _sub_1082B8C0(Download::CSparseFileSegmentStore *const, std::string const &);
+	_inline CSparseFileSegmentStore::CSparseFileSegmentStore(std::string const &filename) // 0x1082B8C0
 	{
 		mangled_x86(MANGLED_TODO, "??0CSparseFileSegmentStore@Download@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &filename;
+		// std::string const &filename;
 		// void *hFile;
 		// function call : __int32 (void *)
 		todo("implement");
@@ -351,20 +351,20 @@ namespace Download
 		_sub_1082C910(this);
 	}
 
-	_extern void _sub_10831EE0(Download::CHttpFileDownload *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-	void CHttpFileDownload::SetUrl(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &url) // 0x10831EE0
+	_extern void _sub_10831EE0(Download::CHttpFileDownload *const, std::string const &);
+	void CHttpFileDownload::SetUrl(std::string const &url) // 0x10831EE0
 	{
 		mangled_x86(MANGLED_TODO, "?SetUrl@CHttpFileDownload@Download@@QAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &url;
+		// std::string const &url;
 		todo("implement");
 		_sub_10831EE0(this, url);
 	}
 
-	_extern void _sub_10831D80(Download::CHttpFileDownload *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-	void CHttpFileDownload::SetDestinationFile(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &filepath) // 0x10831D80
+	_extern void _sub_10831D80(Download::CHttpFileDownload *const, std::string const &);
+	void CHttpFileDownload::SetDestinationFile(std::string const &filepath) // 0x10831D80
 	{
 		mangled_x86(MANGLED_TODO, "?SetDestinationFile@CHttpFileDownload@Download@@QAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &filepath;
+		// std::string const &filepath;
 		todo("implement");
 		_sub_10831D80(this, filepath);
 	}
@@ -448,10 +448,10 @@ namespace Download
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_1082FD00(Download::CHttpFileDownload const *const);
+extern std::string _sub_1082FD00(Download::CHttpFileDownload const *const);
 namespace Download
 {
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > CHttpFileDownload::GetFilePath() const // 0x1082FD00
+	std::string CHttpFileDownload::GetFilePath() const // 0x1082FD00
 	{
 		mangled_x86(MANGLED_TODO, "?GetFilePath@CHttpFileDownload@Download@@UBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 		// Download::CHttpFileDownload const *const this;

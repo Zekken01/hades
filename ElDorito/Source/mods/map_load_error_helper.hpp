@@ -35,12 +35,12 @@ struct c_map_load_error_helper
 	_inline void failed_to_allocate_tag_resource_memory();
 	_inline void failed_to_initialize_font_cache();
 	_inline void failed_to_open_mod_package_map_file(char const *mod_file, char const *map_path);
-	_inline std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &get_last_error() const;
-	_inline void set_last_error(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &message);
+	_inline std::string const &get_last_error() const;
+	_inline void set_last_error(std::string const &message);
 	_inline void reset();
 private:
 	_inline char const *tag_filename(char *buff, unsigned long group, char const *name);
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > m_last_error; // 0x0
+	std::string m_last_error; // 0x0
 public:
 	c_map_load_error_helper(c_map_load_error_helper &); /* compiler_generated() */
 	c_map_load_error_helper(c_map_load_error_helper const &); /* compiler_generated() */
@@ -152,21 +152,21 @@ _inline void c_map_load_error_helper::failed_to_open_mod_package_map_file(char c
 	_sub_10927670(this, mod_file, map_path);
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &_sub_10927BF0(c_map_load_error_helper const *const);
-_inline std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &c_map_load_error_helper::get_last_error() const // 0x10927BF0
+extern std::string const &_sub_10927BF0(c_map_load_error_helper const *const);
+_inline std::string const &c_map_load_error_helper::get_last_error() const // 0x10927BF0
 {
 	mangled_x86(MANGLED_TODO, "?get_last_error@c_map_load_error_helper@@QBEABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 	// c_map_load_error_helper const *const this;
 	todo("implement");
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > const & __result = _sub_10927BF0((c_map_load_error_helper const *)this);
+	std::string const & __result = _sub_10927BF0((c_map_load_error_helper const *)this);
 	return __result;
 }
 
-_extern void _sub_10929A90(c_map_load_error_helper *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-_inline void c_map_load_error_helper::set_last_error(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &message) // 0x10929A90
+_extern void _sub_10929A90(c_map_load_error_helper *const, std::string const &);
+_inline void c_map_load_error_helper::set_last_error(std::string const &message) // 0x10929A90
 {
 	mangled_x86(MANGLED_TODO, "?set_last_error@c_map_load_error_helper@@QAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &message;
+	// std::string const &message;
 	todo("implement");
 	_sub_10929A90(this, message);
 }

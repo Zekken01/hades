@@ -132,8 +132,8 @@ namespace Patches
 	{
 		extern void ApplyAll();
 		extern unsigned long long Get();
-		extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetFormattedPrivKey();
-		extern bool ParseUid(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &str, unsigned long long *out);
+		extern std::string GetFormattedPrivKey();
+		extern bool ParseUid(std::string const &str, unsigned long long *out);
 	}
 }
 
@@ -177,12 +177,12 @@ namespace Patches
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10AB49F0();
+extern std::string _sub_10AB49F0();
 namespace Patches
 {
 	namespace PlayerUid
 	{
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetFormattedPrivKey() // 0x10AB49F0
+		std::string GetFormattedPrivKey() // 0x10AB49F0
 		{
 			mangled_x86(MANGLED_TODO, "?GetFormattedPrivKey@PlayerUid@Patches@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 			// procedure flags: nofpo
@@ -191,14 +191,14 @@ namespace Patches
 			return __result;
 		}
 
-		_extern bool _sub_10AB4AE0(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, unsigned long long *);
-		bool ParseUid(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &str, unsigned long long *out) // 0x10AB4AE0
+		_extern bool _sub_10AB4AE0(std::string const &, unsigned long long *);
+		bool ParseUid(std::string const &str, unsigned long long *out) // 0x10AB4AE0
 		{
 			mangled_x86(MANGLED_TODO, "?ParseUid@PlayerUid@Patches@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PA_K@Z");
 			// static ...; // 0x10AB4BE4
 			// static ...; // 0x10AB4BDC
 		// $LN9:
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &str;
+			// std::string const &str;
 			// unsigned long long *out;
 			{
 				// unsigned __int32 end;
@@ -279,12 +279,12 @@ void EnsureValidUid() // 0x10AB42D0
 	// static ...; // 0x10AB47B0
 	// static ...; // 0x10AB47A8
 	// Modules::ModulePlayer &playerVars;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > pubKey;
+	// std::string pubKey;
 	// unsigned long long uid;
 	// SHA256state_st sha256;
 	// unsigned char hash[32];
 	{
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > privKey;
+		// std::string privKey;
 	}
 	todo("implement");
 	_sub_10AB42D0();

@@ -32,8 +32,8 @@ struct SServerConnectState;
 #pragma pack(push, 4)
 struct SQueryInfoServerArgs
 {
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > hostname; // 0x0
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > password; // 0x1C
+	std::string hostname; // 0x0
+	std::string password; // 0x1C
 	__int32 port; // 0x38
 	_inline SQueryInfoServerArgs(SQueryInfoServerArgs &&__that); /* compiler_generated() */
 	_inline SQueryInfoServerArgs(SQueryInfoServerArgs const &__that); /* compiler_generated() */
@@ -50,9 +50,9 @@ struct SQueryInfoServerData
 {
 	bool success; // 0x0
 	unsigned char __pad0[3]; // 0x1
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > serverName; // 0x4
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > serverHost; // 0x20
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > message; // 0x3C
+	std::string serverName; // 0x4
+	std::string serverHost; // 0x20
+	std::string message; // 0x3C
 	unsigned short gamePort; // 0x58
 	unsigned short fileServerPort; // 0x5A
 	unsigned char xnkid[16]; // 0x5C
@@ -76,7 +76,7 @@ private:
 	virtual void OnUpdate();
 	EJobResult QueryInfoServerJobCallback(SQueryInfoServerArgs const &args);
 	EJobResult QueryModsJobCallback(SQueryInfoServerArgs const &args);
-	EJobResult ResolveAddressJobCallback(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &hostname);
+	EJobResult ResolveAddressJobCallback(std::string const &hostname);
 	std::mutex m_mutex; // 0x8
 	SJobCounter m_jobCounter; // 0x38
 	SQueryInfoServerData m_infoServerData; // 0x3C

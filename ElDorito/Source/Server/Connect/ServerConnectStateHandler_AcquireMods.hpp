@@ -47,7 +47,7 @@ struct SSignatureVerificationResult
 	__int32 queueIndex; // 0x4
 	bool verified; // 0x8
 	unsigned char __pad0[3]; // 0x9
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > tempFilePath; // 0xC
+	std::string tempFilePath; // 0xC
 	unsigned char computedHash[20]; // 0x28
 	SSignatureVerificationResult(SSignatureVerificationResult &); /* compiler_generated() */
 	SSignatureVerificationResult(SSignatureVerificationResult const &); /* compiler_generated() */

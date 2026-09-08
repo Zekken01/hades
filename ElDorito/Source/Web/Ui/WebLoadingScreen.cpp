@@ -176,7 +176,7 @@ namespace hades_file_local
 		std::chrono::time_point<std::chrono::steady_clock,std::chrono::duration<__int64,std::ratio<1,1000000000> > > lastUpdateTime; // 0x10
 		std::chrono::time_point<std::chrono::steady_clock,std::chrono::duration<__int64,std::ratio<1,1000000000> > > benchmark_start; // 0x18
 		std::chrono::time_point<std::chrono::steady_clock,std::chrono::duration<__int64,std::ratio<1,1000000000> > > benchmark_end; // 0x20
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > benchmarkMapName; // 0x28
+		std::string benchmarkMapName; // 0x28
 	public:
 		WebLoadingScreenUi(WebLoadingScreenUi &); /* compiler_generated() */
 		WebLoadingScreenUi(WebLoadingScreenUi const &); /* compiler_generated() */
@@ -280,7 +280,7 @@ void WebLoadingScreenUi::Show(Patches::LoadingScreen::LoadingScreenShowInfo cons
 	// Patches::LoadingScreen::LoadingScreenShowInfo const &info;
 	// unsigned __int32 separatorIndex;
 	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > mapName;
+	// std::string mapName;
 	// static bool `WebLoadingScreenUi::Show'::`2'::firstShow; // 0x1247EDC8
 	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
 	{

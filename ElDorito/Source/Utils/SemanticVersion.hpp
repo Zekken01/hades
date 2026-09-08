@@ -29,25 +29,25 @@ namespace Utils
 		__int32 major; // 0x0
 		__int32 minor; // 0x4
 		__int32 patch; // 0x8
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > prerelease; // 0xC
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > build; // 0x28
+		std::string prerelease; // 0xC
+		std::string build; // 0x28
 		SemanticVersion(Utils::SemanticVersion &);
 		SemanticVersion(Utils::SemanticVersion const &);
-		SemanticVersion(__int32 major, __int32 minor, __int32 patch, std::basic_string<char,std::char_traits<char>,std::allocator<char> > prerelease, std::basic_string<char,std::char_traits<char>,std::allocator<char> > build);
+		SemanticVersion(__int32 major, __int32 minor, __int32 patch, std::string prerelease, std::string build);
 		_inline Utils::SemanticVersion &operator=(Utils::SemanticVersion &&__that);
 		Utils::SemanticVersion &operator=(Utils::SemanticVersion const &);
 		_inline ~SemanticVersion();
-		static bool TryParse(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &input, Utils::SemanticVersion &outVersion);
-		static Utils::SemanticVersion Parse(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &input);
+		static bool TryParse(std::string const &input, Utils::SemanticVersion &outVersion);
+		static Utils::SemanticVersion Parse(std::string const &input);
 	private:
 		static __int32 Compare(Utils::SemanticVersion const &a, Utils::SemanticVersion const &b);
 	public:
 		__int32 Compare(Utils::SemanticVersion const &) const;
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > ToString() const;
+		std::string ToString() const;
 	private:
-		static __int32 ComparePrerelease(std::basic_string_view<char,std::char_traits<char> > const &a, std::basic_string_view<char,std::char_traits<char> > const &b);
-		static __int32 CompareIdentifier(std::basic_string_view<char,std::char_traits<char> > const &a, std::basic_string_view<char,std::char_traits<char> > const &b);
-		static bool ParseNumericIdentifier(std::basic_string_view<char,std::char_traits<char> > const &input, __int32 &value);
+		static __int32 ComparePrerelease(std::string_view const &a, std::string_view const &b);
+		static __int32 CompareIdentifier(std::string_view const &a, std::string_view const &b);
+		static bool ParseNumericIdentifier(std::string_view const &input, __int32 &value);
 	public:
 		void __dflt_ctor_closure(); /* compiler_generated() */
 	};

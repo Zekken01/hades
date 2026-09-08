@@ -28,8 +28,8 @@ struct s_mod_package_id
 	unsigned char hash[20]; // 0x0
 	s_mod_package_id(unsigned char const (&hash)[20]);
 	_inline s_mod_package_id();
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > const to_string() const;
-	static s_mod_package_id from_string(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &str);
+	std::string const to_string() const;
+	static s_mod_package_id from_string(std::string const &str);
 	bool operator==(s_mod_package_id const &rhs) const;
 };
 #pragma pack(pop)

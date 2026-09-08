@@ -45,7 +45,7 @@ public:
 		static_assert(sizeof(s_hasher) == 1, "Invalid s_hasher size");
 		public:
 		unsigned __int32 group_tag; // 0x0
-		std::basic_string_view<char,std::char_traits<char> > name; // 0x4
+		std::string_view name; // 0x4
 		s_name_lookup_key(); /* compiler_generated() */
 	};
 #pragma pack(pop)

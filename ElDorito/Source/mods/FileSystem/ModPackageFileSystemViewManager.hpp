@@ -33,12 +33,12 @@ class CModPackageFileSystemViewManager :
 	public Utils::Singleton<CModPackageFileSystemViewManager>
 {
 public:
-	std::shared_ptr<CModPackageFileSystemView> GetView(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &identifier);
-	bool ViewExists(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &identifier);
+	std::shared_ptr<CModPackageFileSystemView> GetView(std::string const &identifier);
+	bool ViewExists(std::string const &identifier);
 	void Flush();
 private:
 	std::mutex m_mutex; // 0x0
-	std::unordered_map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::shared_ptr<CModPackageFileSystemView>,std::hash<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::equal_to<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::shared_ptr<CModPackageFileSystemView> > > > m_views; // 0x30
+	std::unordered_map<std::string,std::shared_ptr<CModPackageFileSystemView>,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::pair<std::string const ,std::shared_ptr<CModPackageFileSystemView> > > > m_views; // 0x30
 public:
 	_inline CModPackageFileSystemViewManager(); /* compiler_generated() */
 	~CModPackageFileSystemViewManager(); /* compiler_generated() */

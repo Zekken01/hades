@@ -32,15 +32,15 @@ public:
 	CMapFile(CMapFile &); /* compiler_generated() */
 	CMapFile(CMapFile const &); /* compiler_generated() */
 	CMapFile(void const *data, unsigned __int32 size);
-	CMapFile(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &filePath);
+	CMapFile(std::string const &filePath);
 	bool IsValid() const;
 	bool HasMapInfo() const;
 	bool HasMapVariant() const;
 	__int32 GetMapId() const;
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > const GetScenarioPath() const;
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > const GetScenarioName() const;
-	std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > const GetDisplayName(__int32 language) const;
-	std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > const GetDescription(__int32 language) const;
+	std::string const GetScenarioPath() const;
+	std::string const GetScenarioName() const;
+	std::wstring const GetDisplayName(__int32 language) const;
+	std::wstring const GetDescription(__int32 language) const;
 	s_map_variant const *GetMapVariant() const;
 private:
 	void LoadFromFile(std::basic_ifstream<char,std::char_traits<char> > &stream);
@@ -50,7 +50,7 @@ private:
 	s_blf_map_information const *m_mapInfo; // 0x8
 	s_cache_file_header const *m_cacheFileHeader; // 0xC
 	s_map_variant const *m_mapVariant; // 0x10
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > m_buffer; // 0x14
+	std::string m_buffer; // 0x14
 public:
 	_inline ~CMapFile(); /* compiler_generated() */
 	CMapFile &operator=(CMapFile &); /* compiler_generated() */

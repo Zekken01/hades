@@ -253,7 +253,7 @@ namespace hades_file_local
 	#pragma pack(push, 4)
 	struct s_session_player_ping
 	{
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > ip; // 0x0
+		std::string ip; // 0x0
 		unsigned short port; // 0x1C
 		unsigned char __pad0[2]; // 0x1E
 		long ping; // 0x20
@@ -282,11 +282,11 @@ void Hf2pInitHook();
 void Hf2pShutdownHook();
 void SystemMenu();
 __int32 GetSecondsRemainingUntilPlayerSpawn();
-bool PingPlayer(std::basic_string<char,std::char_traits<char>,std::allocator<char> > ip, unsigned short port);
+bool PingPlayer(std::string ip, unsigned short port);
 void PongReceived(Blam::Network::NetworkAddress const &from, unsigned __int32 timestamp, unsigned short id, unsigned __int32 latency);
 void BuildPlayerPing();
 void Hf2pTickHook();
-s_global_preferences_settings::e_level LevelStringToSetting(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &value);
+s_global_preferences_settings::e_level LevelStringToSetting(std::string const &value);
 void Hf2pLoadPreferencesHook();
 void c_game_engine_object_runtime_manager__update_hook(void *thisptr, void *unused);
 void ApplyDefaultScreenFx();
@@ -400,12 +400,12 @@ __int32 GetSecondsRemainingUntilPlayerSpawn() // 0x10A721B0
 }
 
 _extern bool _sub_10A734F0(std::string, unsigned short);
-bool PingPlayer(std::basic_string<char,std::char_traits<char>,std::allocator<char> > ip, unsigned short port) // 0x10A734F0
+bool PingPlayer(std::string ip, unsigned short port) // 0x10A734F0
 {
 	// `anonymous-namespace'::PingPlayer
 	// static ...; // 0x10A73648
 	// static ...; // 0x10A73640
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > ip;
+	// std::string ip;
 	// unsigned short port;
 	// Blam::Network::Session *session;
 	{
@@ -537,11 +537,11 @@ void Hf2pTickHook() // 0x10A72BB0
 	_sub_10A72BB0();
 }
 
-extern s_global_preferences_settings::e_level _sub_10A73430(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-s_global_preferences_settings::e_level LevelStringToSetting(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &value) // 0x10A73430
+extern s_global_preferences_settings::e_level _sub_10A73430(std::string const &);
+s_global_preferences_settings::e_level LevelStringToSetting(std::string const &value) // 0x10A73430
 {
 	// `anonymous-namespace'::LevelStringToSetting
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &value;
+	// std::string const &value;
 	todo("implement");
 	s_global_preferences_settings::e_level __result = _sub_10A73430(value);
 	return __result;

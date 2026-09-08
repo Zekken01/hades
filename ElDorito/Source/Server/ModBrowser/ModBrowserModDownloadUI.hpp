@@ -34,7 +34,7 @@ public:
 	virtual void SetCancelCallback(std::function<void __cdecl(void)>) = 0;
 	virtual void SetDownloadSingleFinishedCallback(std::function<void __cdecl(void)>) = 0;
 	virtual void OnDownloadStart() = 0;
-	virtual void OnDownloadFailed(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &) = 0;
+	virtual void OnDownloadFailed(std::string const &) = 0;
 	virtual void OnDownloadFinished(SModBrowserState const &) = 0;
 	virtual void OnDownloadFinalizing() = 0;
 	virtual void OnDownloadProgress(SModBrowserState::SRequestedMod const &, __int32, long long, long long, __int32) = 0;

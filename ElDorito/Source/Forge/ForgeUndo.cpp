@@ -89,13 +89,13 @@ void CForgeUndoManager::RequestRedo() // 0x10862EB0
 	_sub_10862EB0(this);
 }
 
-_extern void _sub_108626A0(CForgeUndoManager *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, std::shared_ptr<IForgeUndo>);
-void CForgeUndoManager::AddUndo(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &summary, std::shared_ptr<IForgeUndo> undo) // 0x108626A0
+_extern void _sub_108626A0(CForgeUndoManager *const, std::string const &, std::shared_ptr<IForgeUndo>);
+void CForgeUndoManager::AddUndo(std::string const &summary, std::shared_ptr<IForgeUndo> undo) // 0x108626A0
 {
 	mangled_x86(MANGLED_TODO, "?AddUndo@CForgeUndoManager@@QAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$shared_ptr@UIForgeUndo@@@3@@Z");
 	// static ...; // 0x1086281C
 	// CForgeUndoManager *const this;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &summary;
+	// std::string const &summary;
 	// std::shared_ptr<IForgeUndo> undo;
 	// CForgeUndoManager::SUndoEntry entry;
 	// function call : long (*const)()
@@ -203,8 +203,8 @@ void CForgeUndoManager::StartRecording() // 0x10862F10
 	_sub_10862F10(this);
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10862B00(CForgeUndoManager const *const);
-std::basic_string<char,std::char_traits<char>,std::allocator<char> > CForgeUndoManager::GetNextUndoSummary() const // 0x10862B00
+extern std::string _sub_10862B00(CForgeUndoManager const *const);
+std::string CForgeUndoManager::GetNextUndoSummary() const // 0x10862B00
 {
 	mangled_x86(MANGLED_TODO, "?GetNextUndoSummary@CForgeUndoManager@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 	// CForgeUndoManager const *const this;
@@ -213,8 +213,8 @@ std::basic_string<char,std::char_traits<char>,std::allocator<char> > CForgeUndoM
 	return __result;
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10862A40(CForgeUndoManager const *const);
-std::basic_string<char,std::char_traits<char>,std::allocator<char> > CForgeUndoManager::GetNextRedoSummary() const // 0x10862A40
+extern std::string _sub_10862A40(CForgeUndoManager const *const);
+std::string CForgeUndoManager::GetNextRedoSummary() const // 0x10862A40
 {
 	mangled_x86(MANGLED_TODO, "?GetNextRedoSummary@CForgeUndoManager@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 	// CForgeUndoManager const *const this;

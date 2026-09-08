@@ -101,10 +101,10 @@ namespace Blam
 
 namespace Player
 {
-	extern void BuildChangeColors(unsigned long *changeColors, std::map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::less<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > const &colors);
+	extern void BuildChangeColors(unsigned long *changeColors, std::map<std::string,std::string,std::less<std::string>,std::allocator<std::pair<std::string const ,std::string> > > const &colors);
 }
 
-unsigned __int32 ParseColor(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &value);
+unsigned __int32 ParseColor(std::string const &value);
 
 /* ---------- globals */
 
@@ -119,8 +119,8 @@ namespace Utils
 
 namespace Player
 {
-	_extern void _sub_107CA700(unsigned long *, std::map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::less<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > const &);
-	void BuildChangeColors(unsigned long *changeColors, std::map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::less<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > const &colors) // 0x107CA700
+	_extern void _sub_107CA700(unsigned long *, std::map<std::string,std::string,std::less<std::string>,std::allocator<std::pair<std::string const ,std::string> > > const &);
+	void BuildChangeColors(unsigned long *changeColors, std::map<std::string,std::string,std::less<std::string>,std::allocator<std::pair<std::string const ,std::string> > > const &colors) // 0x107CA700
 	{
 		mangled_x86(MANGLED_TODO, "?BuildChangeColors@Player@@YAXPAKABV?$map@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@@std@@@2@@std@@@Z");
 		// static ...; // 0x107CA961
@@ -128,15 +128,15 @@ namespace Player
 		// static ...; // 0x107CA938
 		// static ...; // 0x107CA930
 		// unsigned long *changeColors;
-		// std::map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::less<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > const &colors;
+		// std::map<std::string,std::string,std::less<std::string>,std::allocator<std::pair<std::string const ,std::string> > > const &colors;
 		{
-			// std::map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::less<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > const &<range>$L0;
-			// std::_Tree_unchecked_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > >,std::_Iterator_base0> <begin>$L0;
+			// std::map<std::string,std::string,std::less<std::string>,std::allocator<std::pair<std::string const ,std::string> > > const &<range>$L0;
+			// std::_Tree_unchecked_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::string> > >,std::_Iterator_base0> <begin>$L0;
 			// std::_Default_sentinel <end>$L0;
 			{
-				// std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > $S10;
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &changeColorAscii;
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &colorValue;
+				// std::pair<std::string const ,std::string> $S10;
+				// std::string const &changeColorAscii;
+				// std::string const &colorValue;
 			}
 		}
 		todo("implement");
@@ -168,13 +168,13 @@ namespace Player
 			}
 		}
 		{
-			// std::map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::less<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > &<range>$L0;
-			// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > > > <begin>$L0;
+			// std::map<std::string,std::string,std::less<std::string>,std::allocator<std::pair<std::string const ,std::string> > > &<range>$L0;
+			// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::string> > > > <begin>$L0;
 			// std::_Default_sentinel <end>$L0;
 			{
-				// std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > $S11;
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &regionName;
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &permutationName;
+				// std::pair<std::string const ,std::string> $S11;
+				// std::string const &regionName;
+				// std::string const &permutationName;
 				{
 					// std::pair<int,int> $S12;
 					// __int32 &region_index;
@@ -211,14 +211,14 @@ namespace Player
 		compiler_generated();
 	}
 
-	_extern bool _sub_107CAA20(Player::CPlayerCharacterCustomizationBuilder *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, s_player_appearance *);
-	bool CPlayerCharacterCustomizationBuilder::BuildCharacterCustomizations(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &preferredCharacterName, s_player_appearance *data) // 0x107CAA20
+	_extern bool _sub_107CAA20(Player::CPlayerCharacterCustomizationBuilder *const, std::string const &, s_player_appearance *);
+	bool CPlayerCharacterCustomizationBuilder::BuildCharacterCustomizations(std::string const &preferredCharacterName, s_player_appearance *data) // 0x107CAA20
 	{
 		mangled_x86(MANGLED_TODO, "?BuildCharacterCustomizations@CPlayerCharacterCustomizationBuilder@Player@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAUs_player_appearance@@@Z");
 		// static ...; // 0x107CAECC
 		// static ...; // 0x107CAEC4
 		// Player::CPlayerCharacterCustomizationBuilder *const this;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &preferredCharacterName;
+		// std::string const &preferredCharacterName;
 		// s_player_appearance *data;
 		// bool preferredCharacterCustomized;
 		{
@@ -249,8 +249,8 @@ namespace Player
 		return __result;
 	}
 
-	_extern bool _sub_107CB5C0(Player::CPlayerCharacterCustomizationBuilder *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, s_player_character_customiztion *);
-	bool CPlayerCharacterCustomizationBuilder::BuildSingleCharacterCustomization(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &characterName, s_player_character_customiztion *data) // 0x107CB5C0
+	_extern bool _sub_107CB5C0(Player::CPlayerCharacterCustomizationBuilder *const, std::string const &, s_player_character_customiztion *);
+	bool CPlayerCharacterCustomizationBuilder::BuildSingleCharacterCustomization(std::string const &characterName, s_player_character_customiztion *data) // 0x107CB5C0
 	{
 		mangled_x86(MANGLED_TODO, "?BuildSingleCharacterCustomization@CPlayerCharacterCustomizationBuilder@Player@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAUs_player_character_customiztion@@@Z");
 		// s_player_character_customiztion *data;
@@ -280,17 +280,17 @@ namespace Player
 	}
 }
 
-extern std::pair<int,int> _sub_107CB790(Player::CPlayerCharacterCustomizationBuilder *const, s_model_customization_selection const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+extern std::pair<int,int> _sub_107CB790(Player::CPlayerCharacterCustomizationBuilder *const, s_model_customization_selection const &, std::string const &, std::string const &);
 namespace Player
 {
-	std::pair<int,int> CPlayerCharacterCustomizationBuilder::FindPlayerModelPermutation(s_model_customization_selection const &selection, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &regionName, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &permutationName) // 0x107CB790
+	std::pair<int,int> CPlayerCharacterCustomizationBuilder::FindPlayerModelPermutation(s_model_customization_selection const &selection, std::string const &regionName, std::string const &permutationName) // 0x107CB790
 	{
 		mangled_x86(MANGLED_TODO, "?FindPlayerModelPermutation@CPlayerCharacterCustomizationBuilder@Player@@AAE?AU?$pair@HH@std@@ABUs_model_customization_selection@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@4@1@Z");
 		// static ...; // 0x107CB97C
 		// Player::CPlayerCharacterCustomizationBuilder *const this;
 		// s_model_customization_selection const &selection;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &regionName;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &permutationName;
+		// std::string const &regionName;
+		// std::string const &permutationName;
 		{
 			// __int32 i;
 			{
@@ -310,11 +310,11 @@ namespace Player
 		return __result;
 	}
 
-	_extern __int32 _sub_107CB680(Player::CPlayerCharacterCustomizationBuilder *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-	__int32 CPlayerCharacterCustomizationBuilder::FindPlayerModel(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &characterName) // 0x107CB680
+	_extern __int32 _sub_107CB680(Player::CPlayerCharacterCustomizationBuilder *const, std::string const &);
+	__int32 CPlayerCharacterCustomizationBuilder::FindPlayerModel(std::string const &characterName) // 0x107CB680
 	{
 		mangled_x86(MANGLED_TODO, "?FindPlayerModel@CPlayerCharacterCustomizationBuilder@Player@@AAEHABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &characterName;
+		// std::string const &characterName;
 		{
 			// __int32 i;
 			{
@@ -329,15 +329,15 @@ namespace Player
 
 /* ---------- private code */
 
-_extern unsigned __int32 _sub_107CBD20(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-unsigned __int32 ParseColor(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &value) // 0x107CBD20
+_extern unsigned __int32 _sub_107CBD20(std::string const &);
+unsigned __int32 ParseColor(std::string const &value) // 0x107CBD20
 {
 	// `anonymous-namespace'::ParseColor
 	// static ...; // 0x107CBED7
 	// static ...; // 0x107CBECC
 	// static ...; // 0x107CBEB4
 	// static ...; // 0x107CBEAC
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &value;
+	// std::string const &value;
 	// std::basic_regex<char,std::regex_traits<char> > expression;
 	// std::match_results<char const *,std::allocator<std::sub_match<char const *> > > what;
 	todo("implement");

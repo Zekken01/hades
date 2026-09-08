@@ -278,7 +278,7 @@ using namespace hades_file_local;
 //class Web::Ui::WebMods::CWebModDownloadScreen::OnCreate::__l2::<lambda_1>
 //{
 //public:
-//	Web::Browser::Bridge::QueryError operator()(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > *) const;
+//	Web::Browser::Bridge::QueryError operator()(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::string *) const;
 //	<lambda_1>(Web::Ui::WebMods::CWebModDownloadScreen::OnCreate::__l2::<lambda_1> &);
 //	<lambda_1>(Web::Ui::WebMods::CWebModDownloadScreen *);
 //private:
@@ -310,9 +310,9 @@ namespace Web
 	}
 }
 
-void NotifyDownloadStateChanged(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &fromState, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &toState);
+void NotifyDownloadStateChanged(std::string const &fromState, std::string const &toState);
 void NotifyDownloadStatus(DownloadStatusInfo const &info);
-void NotifyDownloadError(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &reason);
+void NotifyDownloadError(std::string const &reason);
 
 /* ---------- globals */
 
@@ -402,12 +402,12 @@ namespace Web
 				_sub_10CAE620((IServerConnectModDownloadUI *)this);
 			}
 
-			_extern void _sub_10CAE020(IServerConnectModDownloadUI * const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-			void CWebModDownloadScreen::OnDownloadFailed(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &message) // 0x10CAE020
+			_extern void _sub_10CAE020(IServerConnectModDownloadUI * const, std::string const &);
+			void CWebModDownloadScreen::OnDownloadFailed(std::string const &message) // 0x10CAE020
 			{
 				mangled_x86(MANGLED_TODO, "?OnDownloadFailed@CWebModDownloadScreen@WebMods@Ui@Web@@UAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 				// __shifted(Web::Ui::WebMods::CWebModDownloadScreen, 4);
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &message;
+				// std::string const &message;
 				todo("implement");
 				_sub_10CAE020((IServerConnectModDownloadUI *)this, message);
 			}
@@ -557,7 +557,7 @@ _inline void ModChangeListener::OnModChanged(EModIndex index, IMod *mod) // 0x10
 	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buff;
 	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
 	{
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > hash_str;
+		// std::string hash_str;
 		// c_mod_package *pak;
 	}
 	// function call : c_mod_package *(bool) const
@@ -565,15 +565,15 @@ _inline void ModChangeListener::OnModChanged(EModIndex index, IMod *mod) // 0x10
 	_sub_10CAEA00(this, index, mod);
 }
 
-_extern void _sub_10CAD960(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-void NotifyDownloadStateChanged(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &fromState, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &toState) // 0x10CAD960
+_extern void _sub_10CAD960(std::string const &, std::string const &);
+void NotifyDownloadStateChanged(std::string const &fromState, std::string const &toState) // 0x10CAD960
 {
 	// `anonymous-namespace'::NotifyDownloadStateChanged
 	// static ...; // 0x10CADAF0
 	// static ...; // 0x10CADAD8
 	// static ...; // 0x10CADAD0
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &fromState;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &toState;
+	// std::string const &fromState;
+	// std::string const &toState;
 	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buff;
 	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
 	todo("implement");
@@ -595,15 +595,15 @@ void NotifyDownloadStatus(DownloadStatusInfo const &info) // 0x10CADB70
 	_sub_10CADB70(info);
 }
 
-_extern void _sub_10CAD780(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-void NotifyDownloadError(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &reason) // 0x10CAD780
+_extern void _sub_10CAD780(std::string const &);
+void NotifyDownloadError(std::string const &reason) // 0x10CAD780
 {
 	// `anonymous-namespace'::NotifyDownloadError
 	// static ...; // 0x10CAD8FB
 	// static ...; // 0x10CAD8F4
 	// static ...; // 0x10CAD8DC
 	// static ...; // 0x10CAD8D4
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &reason;
+	// std::string const &reason;
 	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buff;
 	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
 	todo("implement");

@@ -73,14 +73,14 @@ struct s_map_variant;
 
 /* ---------- public code */
 
-extern CMapFile* _sub_1085FEF0(CMapFile *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-CMapFile::CMapFile(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &filePath) // 0x1085FEF0
+extern CMapFile* _sub_1085FEF0(CMapFile *const, std::string const &);
+CMapFile::CMapFile(std::string const &filePath) // 0x1085FEF0
 {
 	mangled_x86(MANGLED_TODO, "??0CMapFile@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 	// static ...; // 0x10860014
 	// static ...; // 0x1086000C
 	// CMapFile *const this;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &filePath;
+	// std::string const &filePath;
 	// std::basic_ifstream<char,std::char_traits<char> > stream;
 	todo("implement");
 	_sub_1085FEF0(this, filePath);
@@ -135,43 +135,43 @@ s_map_variant const *CMapFile::GetMapVariant() const // 0x10860460
 	return __result;
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > const _sub_10860690(CMapFile const *const);
-std::basic_string<char,std::char_traits<char>,std::allocator<char> > const CMapFile::GetScenarioPath() const // 0x10860690
+extern std::string const _sub_10860690(CMapFile const *const);
+std::string const CMapFile::GetScenarioPath() const // 0x10860690
 {
 	mangled_x86(MANGLED_TODO, "?GetScenarioPath@CMapFile@@QBE?BV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 	// CMapFile const *const this;
 	todo("implement");
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > const __result = _sub_10860690((CMapFile const *)this);
+	std::string const __result = _sub_10860690((CMapFile const *)this);
 	return __result;
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > const _sub_108604E0(CMapFile const *const);
-std::basic_string<char,std::char_traits<char>,std::allocator<char> > const CMapFile::GetScenarioName() const // 0x108604E0
+extern std::string const _sub_108604E0(CMapFile const *const);
+std::string const CMapFile::GetScenarioName() const // 0x108604E0
 {
 	mangled_x86(MANGLED_TODO, "?GetScenarioName@CMapFile@@QBE?BV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 	// CMapFile const *const this;
 	todo("implement");
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > const __result = _sub_108604E0((CMapFile const *)this);
+	std::string const __result = _sub_108604E0((CMapFile const *)this);
 	return __result;
 }
 
-extern std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > const _sub_108602A0(CMapFile const *const, __int32);
-std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > const CMapFile::GetDisplayName(__int32 language) const // 0x108602A0
+extern std::wstring const _sub_108602A0(CMapFile const *const, __int32);
+std::wstring const CMapFile::GetDisplayName(__int32 language) const // 0x108602A0
 {
 	mangled_x86(MANGLED_TODO, "?GetDisplayName@CMapFile@@QBE?BV?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@H@Z");
 	// __int32 language;
 	todo("implement");
-	std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > const __result = _sub_108602A0((CMapFile const *)this, language);
+	std::wstring const __result = _sub_108602A0((CMapFile const *)this, language);
 	return __result;
 }
 
-extern std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > const _sub_10860170(CMapFile const *const, __int32);
-std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > const CMapFile::GetDescription(__int32 language) const // 0x10860170
+extern std::wstring const _sub_10860170(CMapFile const *const, __int32);
+std::wstring const CMapFile::GetDescription(__int32 language) const // 0x10860170
 {
 	mangled_x86(MANGLED_TODO, "?GetDescription@CMapFile@@QBE?BV?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@H@Z");
 	// __int32 language;
 	todo("implement");
-	std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > const __result = _sub_10860170((CMapFile const *)this, language);
+	std::wstring const __result = _sub_10860170((CMapFile const *)this, language);
 	return __result;
 }
 

@@ -39,7 +39,7 @@ public:
 	{
 		long long date_added; // 0x0
 		long long date_last_used; // 0x8
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > mod_name; // 0x10
+		std::string mod_name; // 0x10
 		s_mod_origin_info origin; // 0x2C
 		bool signature_verified; // 0x9C
 		_inline s_record(s_record &&__that); /* compiler_generated() */
@@ -58,9 +58,9 @@ public:
 	~c_mod_database();
 	c_mod_database &operator=(c_mod_database &);
 	c_mod_database &operator=(c_mod_database const &);
-	bool create(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &filename);
-	bool load(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &filename);
-	bool load_or_create(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &filename);
+	bool create(std::string const &filename);
+	bool load(std::string const &filename);
+	bool load_or_create(std::string const &filename);
 	bool save();
 	bool try_get_record(s_mod_package_id const &id, s_record **record);
 	bool get_or_create_record(s_mod_package_id const &id, s_record **record);
@@ -74,7 +74,7 @@ public:
 private:
 	bool m_dirty; // 0x0
 	unsigned char __pad0[3]; // 0x1
-	std::basic_string<char,std::char_traits<char>,std::allocator<char> > m_filename; // 0x4
+	std::string m_filename; // 0x4
 	std::unordered_map<s_mod_package_id,s_record,std::hash<s_mod_package_id>,std::equal_to<s_mod_package_id>,std::allocator<std::pair<s_mod_package_id const ,s_record> > > m_records; // 0x20
 };
 static_assert(sizeof(c_mod_database) == 72, "Invalid c_mod_database size");

@@ -35,28 +35,28 @@ namespace ChatCommands
 	public:
 		virtual void doOnVotePass(std::string) = 0;
 		virtual void doOnVoteStart(std::string) = 0;
-		virtual bool isValidArgument(std::string, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &) = 0;
+		virtual bool isValidArgument(std::string, std::string &) = 0;
 		virtual void doOnVoteFail() = 0;
 		virtual bool isEnabled() = 0;
-		void processMessage(unsigned char sender, std::basic_string<char,std::char_traits<char>,std::allocator<char> > argument);
+		void processMessage(unsigned char sender, std::string argument);
 		void StartVote();
 		void enable();
 		void disable();
 		void tick();
 		void endVoting();
 		bool isCurrentlyVoting();
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > getName();
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > getDescription();
+		std::string getName();
+		std::string getDescription();
 		VotingChatCommand(ChatCommands::VotingChatCommand &); /* compiler_generated() */
 		VotingChatCommand(ChatCommands::VotingChatCommand const &); /* compiler_generated() */
-		VotingChatCommand(std::basic_string<char,std::char_traits<char>,std::allocator<char> > n, std::basic_string<char,std::char_traits<char>,std::allocator<char> > d);
-		void processVote(unsigned char sender, std::basic_string<char,std::char_traits<char>,std::allocator<char> > message);
+		VotingChatCommand(std::string n, std::string d);
+		void processVote(unsigned char sender, std::string message);
 	protected:
 		__int32 starterIndex; // 0x8
 		unsigned __int32 votesNeeded; // 0xC
 	private:
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > name; // 0x10
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > description; // 0x2C
+		std::string name; // 0x10
+		std::string description; // 0x2C
 		bool currentlyVoting; // 0x48
 		unsigned char __pad0[7]; // 0x49
 		long long voteTimeStarted; // 0x50
@@ -72,10 +72,10 @@ namespace ChatCommands
 		public ChatCommands::VotingChatCommand
 	{
 	public:
-		virtual void doOnVoteStart(std::basic_string<char,std::char_traits<char>,std::allocator<char> > starterName);
-		virtual void doOnVotePass(std::basic_string<char,std::char_traits<char>,std::allocator<char> > name);
+		virtual void doOnVoteStart(std::string starterName);
+		virtual void doOnVotePass(std::string name);
 		virtual void doOnVoteFail();
-		virtual bool isValidArgument(std::basic_string<char,std::char_traits<char>,std::allocator<char> > s, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+		virtual bool isValidArgument(std::string s, std::string &returnInfo);
 		virtual bool isEnabled();
 		EndGameCommand(ChatCommands::EndGameCommand &); /* compiler_generated() */
 		EndGameCommand(ChatCommands::EndGameCommand const &); /* compiler_generated() */
@@ -90,10 +90,10 @@ namespace ChatCommands
 		public ChatCommands::VotingChatCommand
 	{
 	public:
-		virtual void doOnVoteStart(std::basic_string<char,std::char_traits<char>,std::allocator<char> > starterName);
-		virtual void doOnVotePass(std::basic_string<char,std::char_traits<char>,std::allocator<char> > name);
+		virtual void doOnVoteStart(std::string starterName);
+		virtual void doOnVotePass(std::string name);
 		virtual void doOnVoteFail();
-		virtual bool isValidArgument(std::basic_string<char,std::char_traits<char>,std::allocator<char> > s, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+		virtual bool isValidArgument(std::string s, std::string &returnInfo);
 		virtual bool isEnabled();
 		EndRoundCommand(ChatCommands::EndRoundCommand &); /* compiler_generated() */
 		EndRoundCommand(ChatCommands::EndRoundCommand const &); /* compiler_generated() */
@@ -108,10 +108,10 @@ namespace ChatCommands
 		public ChatCommands::VotingChatCommand
 	{
 	public:
-		virtual void doOnVoteStart(std::basic_string<char,std::char_traits<char>,std::allocator<char> > starterName);
-		virtual void doOnVotePass(std::basic_string<char,std::char_traits<char>,std::allocator<char> > name);
+		virtual void doOnVoteStart(std::string starterName);
+		virtual void doOnVotePass(std::string name);
 		virtual void doOnVoteFail();
-		virtual bool isValidArgument(std::basic_string<char,std::char_traits<char>,std::allocator<char> > s, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+		virtual bool isValidArgument(std::string s, std::string &returnInfo);
 		virtual bool isEnabled();
 		ShuffleTeamsCommand(ChatCommands::ShuffleTeamsCommand &); /* compiler_generated() */
 		ShuffleTeamsCommand(ChatCommands::ShuffleTeamsCommand const &); /* compiler_generated() */
@@ -126,16 +126,16 @@ namespace ChatCommands
 		public ChatCommands::VotingChatCommand
 	{
 	public:
-		virtual void doOnVoteStart(std::basic_string<char,std::char_traits<char>,std::allocator<char> > starterName);
-		virtual void doOnVotePass(std::basic_string<char,std::char_traits<char>,std::allocator<char> > name);
+		virtual void doOnVoteStart(std::string starterName);
+		virtual void doOnVotePass(std::string name);
 		virtual void doOnVoteFail();
 		virtual bool isEnabled();
-		virtual bool isValidArgument(std::basic_string<char,std::char_traits<char>,std::allocator<char> > s, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+		virtual bool isValidArgument(std::string s, std::string &returnInfo);
 		KickPlayerCommand(ChatCommands::KickPlayerCommand &); /* compiler_generated() */
 		KickPlayerCommand(ChatCommands::KickPlayerCommand const &); /* compiler_generated() */
 		KickPlayerCommand();
 	private:
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > playerName; // 0x68
+		std::string playerName; // 0x68
 	public:
 		_inline ~KickPlayerCommand(); /* compiler_generated() */
 		ChatCommands::KickPlayerCommand &operator=(ChatCommands::KickPlayerCommand &); /* compiler_generated() */
@@ -148,16 +148,16 @@ namespace ChatCommands
 		public ChatCommands::VotingChatCommand
 	{
 	public:
-		virtual void doOnVoteStart(std::basic_string<char,std::char_traits<char>,std::allocator<char> > starterName);
-		virtual void doOnVotePass(std::basic_string<char,std::char_traits<char>,std::allocator<char> > name);
+		virtual void doOnVoteStart(std::string starterName);
+		virtual void doOnVotePass(std::string name);
 		virtual void doOnVoteFail();
 		virtual bool isEnabled();
-		virtual bool isValidArgument(std::basic_string<char,std::char_traits<char>,std::allocator<char> > s, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnInfo);
+		virtual bool isValidArgument(std::string s, std::string &returnInfo);
 		KickIndexCommand(ChatCommands::KickIndexCommand &); /* compiler_generated() */
 		KickIndexCommand(ChatCommands::KickIndexCommand const &); /* compiler_generated() */
 		KickIndexCommand();
 	private:
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > playerName; // 0x68
+		std::string playerName; // 0x68
 	public:
 		_inline ~KickIndexCommand(); /* compiler_generated() */
 		ChatCommands::KickIndexCommand &operator=(ChatCommands::KickIndexCommand &); /* compiler_generated() */

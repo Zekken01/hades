@@ -56,12 +56,12 @@ namespace Server
 			virtual Server::Voting::VotingMessage GenerateVotingOptionsMessage(bool) = 0;
 			virtual void LogVote(Server::Voting::VotingMessage const &, std::string) = 0;
 			virtual __int32 getVoteNeededToPass();
-			bool ReloadVotingJson(std::basic_string<char,std::char_traits<char>,std::allocator<char> > fileName, bool loadFileFromDisc);
+			bool ReloadVotingJson(std::string fileName, bool loadFileFromDisc);
 			bool AllowShuffle; // 0x8
 			unsigned char __pad0[7]; // 0x9
 			std::function<void __cdecl(Server::Voting::MapAndType)> votePassedCallback; // 0x10
 		protected:
-			std::map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,int,std::less<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,int> > > mapVotes; // 0x38
+			std::map<std::string,int,std::less<std::string>,std::allocator<std::pair<std::string const ,int> > > mapVotes; // 0x38
 			unsigned char __pad1[4]; // 0x44
 			long long voteStartedTime; // 0x48
 			Server::Voting::VotingMessage finalTally; // 0x50

@@ -365,22 +365,22 @@ namespace Web
 			extern void Tick();
 			extern void Resize();
 			extern void Show(bool show);
-			extern void Show(Web::Ui::ScreenLayer::ScreenId screenId, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &data);
-			extern void Show(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &screenId, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &data);
+			extern void Show(Web::Ui::ScreenLayer::ScreenId screenId, std::string const &data);
+			extern void Show(std::string const &screenId, std::string const &data);
 			extern void Hide(Web::Ui::ScreenLayer::ScreenId screenId);
-			extern void Hide(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &screenId);
-			extern void Notify(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &event, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &data, bool broadcast);
-			extern void NotifyScreen(Web::Ui::ScreenLayer::ScreenId screenId, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &event, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &data);
-			extern void NotifyScreen(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &screenId, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &event, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &data);
-			extern void NotifyScreenStateChanged(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &screenId, Web::Ui::ScreenLayer::EScreenState state);
+			extern void Hide(std::string const &screenId);
+			extern void Notify(std::string const &event, std::string const &data, bool broadcast);
+			extern void NotifyScreen(Web::Ui::ScreenLayer::ScreenId screenId, std::string const &event, std::string const &data);
+			extern void NotifyScreen(std::string const &screenId, std::string const &event, std::string const &data);
+			extern void NotifyScreenStateChanged(std::string const &screenId, Web::Ui::ScreenLayer::EScreenState state);
 			extern void CaptureInput(bool capture, bool pointerCapture);
-			extern void ShowAlert(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &title, std::basic_string<char,std::char_traits<char>,std::allocator<char> > body, Web::Ui::ScreenLayer::AlertIcon icon, float height);
-			extern void RegisterScreen(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &screenId, std::shared_ptr<Web::Ui::WebScreen> const &screen);
+			extern void ShowAlert(std::string const &title, std::string body, Web::Ui::ScreenLayer::AlertIcon icon, float height);
+			extern void RegisterScreen(std::string const &screenId, std::shared_ptr<Web::Ui::WebScreen> const &screen);
 			extern void RegisterScreen(Web::Ui::ScreenLayer::ScreenId id, std::shared_ptr<Web::Ui::WebScreen> const &screen);
-			extern std::shared_ptr<Web::Ui::WebScreen> GetScreen(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &stringId);
+			extern std::shared_ptr<Web::Ui::WebScreen> GetScreen(std::string const &stringId);
 			extern void SetDialogHandler(std::function<void __cdecl(Web::Ui::ScreenLayer::SDialogShowParams const &)> const &handler);
 			extern void ShowDialog(Web::Ui::ScreenLayer::SDialogShowParams const &params);
-			extern void ShowDialog(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &templateName, std::function<void __cdecl(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &)> callback);
+			extern void ShowDialog(std::string const &templateName, std::function<void __cdecl(std::string const &)> callback);
 			extern void CreateScreens();
 		}
 	}
@@ -423,7 +423,7 @@ namespace hades_file_local
 	extern bool PointerCaptured; // 0x1247ED2D
 	extern unsigned __int32 lastVariableUpdateTicks; // 0x1247ED30
 	extern std::vector<Modules::Command const *,std::allocator<Modules::Command const *> > lastVariableUpdates; // 0x1247ED18
-	extern std::map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::shared_ptr<Web::Ui::WebScreen>,std::less<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::shared_ptr<Web::Ui::WebScreen> > > > registeredScreens; // 0x1247ECD0
+	extern std::map<std::string,std::shared_ptr<Web::Ui::WebScreen>,std::less<std::string>,std::allocator<std::pair<std::string const ,std::shared_ptr<Web::Ui::WebScreen> > > > registeredScreens; // 0x1247ECD0
 	extern __int32 g_last_mouse_x; // 0x1247ED34
 	extern __int32 g_last_mouse_y; // 0x1247ED38
 	extern char const *ScreenIdString[16]; // 0x11355298
@@ -456,11 +456,11 @@ namespace Web
 				// static ...; // 0x10C9703C
 				// static ...; // 0x10C97034
 				{
-					// std::map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::shared_ptr<Web::Ui::WebScreen>,std::less<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::shared_ptr<Web::Ui::WebScreen> > > > &<range>$L0;
-					// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::shared_ptr<Web::Ui::WebScreen> > > > > <begin>$L0;
+					// std::map<std::string,std::shared_ptr<Web::Ui::WebScreen>,std::less<std::string>,std::allocator<std::pair<std::string const ,std::shared_ptr<Web::Ui::WebScreen> > > > &<range>$L0;
+					// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::shared_ptr<Web::Ui::WebScreen> > > > > <begin>$L0;
 					// std::_Default_sentinel <end>$L0;
 					{
-						// std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::shared_ptr<Web::Ui::WebScreen> > &screen;
+						// std::pair<std::string const ,std::shared_ptr<Web::Ui::WebScreen> > &screen;
 					}
 				}
 				// function call : void ()
@@ -491,24 +491,24 @@ namespace Web
 				_sub_10C966B0(show);
 			}
 
-			_extern void _sub_10C965D0(Web::Ui::ScreenLayer::ScreenId, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-			void Show(Web::Ui::ScreenLayer::ScreenId screenId, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &data) // 0x10C965D0
+			_extern void _sub_10C965D0(Web::Ui::ScreenLayer::ScreenId, std::string const &);
+			void Show(Web::Ui::ScreenLayer::ScreenId screenId, std::string const &data) // 0x10C965D0
 			{
 				mangled_x86(MANGLED_TODO, "?Show@ScreenLayer@Ui@Web@@YAXW4ScreenId@123@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &data;
+				// std::string const &data;
 				todo("implement");
 				_sub_10C965D0(screenId, data);
 			}
 
-			_extern void _sub_10C96350(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-			void Show(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &screenId, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &data) // 0x10C96350
+			_extern void _sub_10C96350(std::string const &, std::string const &);
+			void Show(std::string const &screenId, std::string const &data) // 0x10C96350
 			{
 				mangled_x86(MANGLED_TODO, "?Show@ScreenLayer@Ui@Web@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z");
 				// static ...; // 0x10C96538
 				// static ...; // 0x10C96530
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &screenId;
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &data;
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > js;
+				// std::string const &screenId;
+				// std::string const &data;
+				// std::string js;
 				todo("implement");
 				_sub_10C96350(screenId, data);
 			}
@@ -522,66 +522,66 @@ namespace Web
 				_sub_10C93E40(screenId);
 			}
 
-			_extern void _sub_10C93B60(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-			void Hide(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &screenId) // 0x10C93B60
+			_extern void _sub_10C93B60(std::string const &);
+			void Hide(std::string const &screenId) // 0x10C93B60
 			{
 				mangled_x86(MANGLED_TODO, "?Hide@ScreenLayer@Ui@Web@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 				// static ...; // 0x10C93DA3
 				// static ...; // 0x10C93D9C
 				// static ...; // 0x10C93D84
 				// static ...; // 0x10C93D7C
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &screenId;
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > js;
+				// std::string const &screenId;
+				// std::string js;
 				{
-					// std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::shared_ptr<Web::Ui::WebScreen> > > > > screen;
+					// std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::shared_ptr<Web::Ui::WebScreen> > > > > screen;
 				}
 				// function call : void ()
 				todo("implement");
 				_sub_10C93B60(screenId);
 			}
 
-			_extern void _sub_10C943A0(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, bool);
-			void Notify(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &event, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &data, bool broadcast) // 0x10C943A0
+			_extern void _sub_10C943A0(std::string const &, std::string const &, bool);
+			void Notify(std::string const &event, std::string const &data, bool broadcast) // 0x10C943A0
 			{
 				mangled_x86(MANGLED_TODO, "?Notify@ScreenLayer@Ui@Web@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0_N@Z");
 				// static ...; // 0x10C94620
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &event;
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &data;
+				// std::string const &event;
+				// std::string const &data;
 				// bool broadcast;
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > js;
+				// std::string js;
 				todo("implement");
 				_sub_10C943A0(event, data, broadcast);
 			}
 
-			_extern void _sub_10C94A00(Web::Ui::ScreenLayer::ScreenId, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-			void NotifyScreen(Web::Ui::ScreenLayer::ScreenId screenId, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &event, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &data) // 0x10C94A00
+			_extern void _sub_10C94A00(Web::Ui::ScreenLayer::ScreenId, std::string const &, std::string const &);
+			void NotifyScreen(Web::Ui::ScreenLayer::ScreenId screenId, std::string const &event, std::string const &data) // 0x10C94A00
 			{
 				mangled_x86(MANGLED_TODO, "?NotifyScreen@ScreenLayer@Ui@Web@@YAXW4ScreenId@123@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@1@Z");
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &data;
+				// std::string const &data;
 				todo("implement");
 				_sub_10C94A00(screenId, event, data);
 			}
 
-			_extern void _sub_10C946E0(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-			void NotifyScreen(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &screenId, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &event, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &data) // 0x10C946E0
+			_extern void _sub_10C946E0(std::string const &, std::string const &, std::string const &);
+			void NotifyScreen(std::string const &screenId, std::string const &event, std::string const &data) // 0x10C946E0
 			{
 				mangled_x86(MANGLED_TODO, "?NotifyScreen@ScreenLayer@Ui@Web@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@00@Z");
 				// static ...; // 0x10C94940
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &screenId;
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &event;
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &data;
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > js;
+				// std::string const &screenId;
+				// std::string const &event;
+				// std::string const &data;
+				// std::string js;
 				todo("implement");
 				_sub_10C946E0(screenId, event, data);
 			}
 
-			_extern void _sub_10C94AE0(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, Web::Ui::ScreenLayer::EScreenState);
-			void NotifyScreenStateChanged(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &screenId, Web::Ui::ScreenLayer::EScreenState state) // 0x10C94AE0
+			_extern void _sub_10C94AE0(std::string const &, Web::Ui::ScreenLayer::EScreenState);
+			void NotifyScreenStateChanged(std::string const &screenId, Web::Ui::ScreenLayer::EScreenState state) // 0x10C94AE0
 			{
 				mangled_x86(MANGLED_TODO, "?NotifyScreenStateChanged@ScreenLayer@Ui@Web@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@W4EScreenState@123@@Z");
 				// static ...; // 0x10C94C10
 				// static ...; // 0x10C94C08
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &screenId;
+				// std::string const &screenId;
 				// Web::Ui::ScreenLayer::EScreenState state;
 				// std::shared_ptr<Web::Ui::WebScreen> screen;
 				// function call : void ()
@@ -605,12 +605,12 @@ namespace Web
 				_sub_10C92B20(capture, pointerCapture);
 			}
 
-			_extern void _sub_10C96800(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, std::string, Web::Ui::ScreenLayer::AlertIcon, float);
-			void ShowAlert(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &title, std::basic_string<char,std::char_traits<char>,std::allocator<char> > body, Web::Ui::ScreenLayer::AlertIcon icon, float height) // 0x10C96800
+			_extern void _sub_10C96800(std::string const &, std::string, Web::Ui::ScreenLayer::AlertIcon, float);
+			void ShowAlert(std::string const &title, std::string body, Web::Ui::ScreenLayer::AlertIcon icon, float height) // 0x10C96800
 			{
 				mangled_x86(MANGLED_TODO, "?ShowAlert@ScreenLayer@Ui@Web@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V45@W4AlertIcon@123@M@Z");
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &title;
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > body;
+				// std::string const &title;
+				// std::string body;
 				// Web::Ui::ScreenLayer::AlertIcon icon;
 				// float height;
 				// Web::Ui::ScreenLayer::SDialogShowParams params;
@@ -618,8 +618,8 @@ namespace Web
 				_sub_10C96800(title, body, icon, height);
 			}
 
-			_extern void _sub_10C95DE0(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, std::shared_ptr<Web::Ui::WebScreen> const &);
-			void RegisterScreen(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &screenId, std::shared_ptr<Web::Ui::WebScreen> const &screen) // 0x10C95DE0
+			_extern void _sub_10C95DE0(std::string const &, std::shared_ptr<Web::Ui::WebScreen> const &);
+			void RegisterScreen(std::string const &screenId, std::shared_ptr<Web::Ui::WebScreen> const &screen) // 0x10C95DE0
 			{
 				mangled_x86(MANGLED_TODO, "?RegisterScreen@ScreenLayer@Ui@Web@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV?$shared_ptr@VWebScreen@Ui@Web@@@5@@Z");
 				// std::shared_ptr<Web::Ui::WebScreen> const &screen;
@@ -639,22 +639,22 @@ namespace Web
 	}
 }
 
-extern std::shared_ptr<Web::Ui::WebScreen> _sub_10C93690(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+extern std::shared_ptr<Web::Ui::WebScreen> _sub_10C93690(std::string const &);
 namespace Web
 {
 	namespace Ui
 	{
 		namespace ScreenLayer
 		{
-			std::shared_ptr<Web::Ui::WebScreen> GetScreen(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &stringId) // 0x10C93690
+			std::shared_ptr<Web::Ui::WebScreen> GetScreen(std::string const &stringId) // 0x10C93690
 			{
 				mangled_x86(MANGLED_TODO, "?GetScreen@ScreenLayer@Ui@Web@@YA?AV?$shared_ptr@VWebScreen@Ui@Web@@@std@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@5@@Z");
 				// static ...; // 0x10C937FC
 				// static ...; // 0x10C937F0
 				// static ...; // 0x10C937E8
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &stringId;
+				// std::string const &stringId;
 				{
-					// std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::shared_ptr<Web::Ui::WebScreen> > > > > it;
+					// std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::shared_ptr<Web::Ui::WebScreen> > > > > it;
 				}
 				todo("implement");
 				std::shared_ptr<Web::Ui::WebScreen> __result = _sub_10C93690(stringId);
@@ -679,14 +679,14 @@ namespace Web
 				_sub_10C96A60(params);
 			}
 
-			_extern void _sub_10C96C00(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &, std::function<void __cdecl(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &)>);
-			void ShowDialog(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &templateName, std::function<void __cdecl(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &)> callback) // 0x10C96C00
+			_extern void _sub_10C96C00(std::string const &, std::function<void __cdecl(std::string const &)>);
+			void ShowDialog(std::string const &templateName, std::function<void __cdecl(std::string const &)> callback) // 0x10C96C00
 			{
 				mangled_x86(MANGLED_TODO, "?ShowDialog@ScreenLayer@Ui@Web@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$function@$$A6AXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z@5@@Z");
 				// static ...; // 0x10C96CE4
 				// static ...; // 0x10C96CDC
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &templateName;
-				// std::function<void __cdecl(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &)> callback;
+				// std::string const &templateName;
+				// std::function<void __cdecl(std::string const &)> callback;
 				// Web::Ui::ScreenLayer::SDialogShowParams params;
 				todo("implement");
 				_sub_10C96C00(templateName, callback);
@@ -706,11 +706,11 @@ namespace Web
 				// scoped_refptr<Web::Browser::WebRendererHandler> renderHandler;
 				// std::shared_ptr<Web::Browser::Bridge::WebRendererQueryHandler> queryHandler;
 				{
-					// std::map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::shared_ptr<Web::Ui::WebScreen>,std::less<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::shared_ptr<Web::Ui::WebScreen> > > > &<range>$L0;
-					// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::shared_ptr<Web::Ui::WebScreen> > > > > <begin>$L0;
+					// std::map<std::string,std::shared_ptr<Web::Ui::WebScreen>,std::less<std::string>,std::allocator<std::pair<std::string const ,std::shared_ptr<Web::Ui::WebScreen> > > > &<range>$L0;
+					// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::shared_ptr<Web::Ui::WebScreen> > > > > <begin>$L0;
 					// std::_Default_sentinel <end>$L0;
 					{
-						// std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::shared_ptr<Web::Ui::WebScreen> > &screen;
+						// std::pair<std::string const ,std::shared_ptr<Web::Ui::WebScreen> > &screen;
 					}
 				}
 				// function call : void (Web::Browser::Bridge::WebRendererQueryHandler &)
@@ -831,11 +831,11 @@ void ShutdownRenderer() // 0x10C96D40
 	// static ...; // 0x10C96E78
 	// static ...; // 0x10C96E70
 	{
-		// std::map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::shared_ptr<Web::Ui::WebScreen>,std::less<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::shared_ptr<Web::Ui::WebScreen> > > > &<range>$L0;
-		// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::shared_ptr<Web::Ui::WebScreen> > > > > <begin>$L0;
+		// std::map<std::string,std::shared_ptr<Web::Ui::WebScreen>,std::less<std::string>,std::allocator<std::pair<std::string const ,std::shared_ptr<Web::Ui::WebScreen> > > > &<range>$L0;
+		// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::shared_ptr<Web::Ui::WebScreen> > > > > <begin>$L0;
 		// std::_Default_sentinel <end>$L0;
 		{
-			// std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::shared_ptr<Web::Ui::WebScreen> > &screen;
+			// std::pair<std::string const ,std::shared_ptr<Web::Ui::WebScreen> > &screen;
 		}
 	}
 	// function call : void ()
@@ -937,7 +937,7 @@ void OnUIInputUpdated() // 0x10C95510
 	// Modules::ModuleInput &moduleInput;
 	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
 	// OnUIInputUpdated::__l2::ControllerAxes &controllerAxes;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > js;
+	// std::string js;
 	{
 		// __int32 i;
 		{

@@ -52,7 +52,7 @@ namespace Utils
 		// char const *file;
 		// char const *fnc;
 		// long line;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > file_name;
+		// std::string file_name;
 		// char messageBuffer[2048];
 		// function call : __int32 (HWND__ *, char const *, char const *, unsigned __int32)
 		todo("implement");

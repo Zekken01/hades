@@ -171,11 +171,11 @@ namespace ChatCommands
 
 __int32 FindPlayerInGameWithIdentifier(s_player_identifier const &identifier);
 __int32 FindNetworkPlayerInGame(char networkPlayerIndex);
-bool CommandHelp(__int32 peer, std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnValue);
-bool ComamndListPlayers(__int32 peer, std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnValue);
-bool CommandReportPlayer(__int32 peer, std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnValue);
-bool CommandKill(__int32 peer, std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnValue);
-bool ComamndModInfo(__int32 peer, std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnValue);
+bool CommandHelp(__int32 peer, std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnValue);
+bool ComamndListPlayers(__int32 peer, std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnValue);
+bool CommandReportPlayer(__int32 peer, std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnValue);
+bool CommandKill(__int32 peer, std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnValue);
+bool ComamndModInfo(__int32 peer, std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnValue);
 
 /* ---------- globals */
 
@@ -190,7 +190,7 @@ namespace Server
 {
 	namespace hades_file_local_Server
 	{
-		extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > DefaultBanListPath; // 0x11387E58
+		extern std::string DefaultBanListPath; // 0x11387E58
 	}
 	using namespace hades_file_local_Server;
 }
@@ -309,21 +309,21 @@ __int32 FindNetworkPlayerInGame(char networkPlayerIndex) // 0x106CF690
 	return __result;
 }
 
-_extern bool _sub_106CF180(__int32, std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
-bool CommandHelp(__int32 peer, std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnValue) // 0x106CF180
+_extern bool _sub_106CF180(__int32, std::vector<std::string,std::allocator<std::string> > const &, std::string &);
+bool CommandHelp(__int32 peer, std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnValue) // 0x106CF180
 {
 	// `anonymous-namespace'::CommandHelp
 	// static ...; // 0x106CF280
 	// static ...; // 0x106CF278
 	// __int32 peer;
-	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &args;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnValue;
+	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::string &returnValue;
 	{
-		// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > &<range>$L0;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *<begin>$L0;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > *<end>$L0;
+		// std::vector<std::string,std::allocator<std::string> > &<range>$L0;
+		// std::string *<begin>$L0;
+		// std::string *<end>$L0;
 		{
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > i;
+			// std::string i;
 		}
 	}
 	todo("implement");
@@ -331,11 +331,11 @@ bool CommandHelp(__int32 peer, std::vector<std::basic_string<char,std::char_trai
 	return __result;
 }
 
-_extern bool _sub_106CE6E0(__int32, std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
-bool ComamndListPlayers(__int32 peer, std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnValue) // 0x106CE6E0
+_extern bool _sub_106CE6E0(__int32, std::vector<std::string,std::allocator<std::string> > const &, std::string &);
+bool ComamndListPlayers(__int32 peer, std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnValue) // 0x106CE6E0
 {
 	// `anonymous-namespace'::ComamndListPlayers
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnValue;
+	// std::string &returnValue;
 	// Blam::Network::Session *session;
 	// __int32 peerIdx;
 	{
@@ -349,21 +349,21 @@ bool ComamndListPlayers(__int32 peer, std::vector<std::basic_string<char,std::ch
 	return __result;
 }
 
-_extern bool _sub_106CF550(__int32, std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
-bool CommandReportPlayer(__int32 peer, std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnValue) // 0x106CF550
+_extern bool _sub_106CF550(__int32, std::vector<std::string,std::allocator<std::string> > const &, std::string &);
+bool CommandReportPlayer(__int32 peer, std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnValue) // 0x106CF550
 {
 	// `anonymous-namespace'::CommandReportPlayer
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnValue;
+	// std::string &returnValue;
 	todo("implement");
 	bool __result = _sub_106CF550(peer, args, returnValue);
 	return __result;
 }
 
-_extern bool _sub_106CF2F0(__int32, std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
-bool CommandKill(__int32 peer, std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnValue) // 0x106CF2F0
+_extern bool _sub_106CF2F0(__int32, std::vector<std::string,std::allocator<std::string> > const &, std::string &);
+bool CommandKill(__int32 peer, std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnValue) // 0x106CF2F0
 {
 	// `anonymous-namespace'::CommandKill
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnValue;
+	// std::string &returnValue;
 	// s_player_datum *player;
 	// __int32 playerIndex;
 	// __int32 networkPlayerIndex;
@@ -376,8 +376,8 @@ bool CommandKill(__int32 peer, std::vector<std::basic_string<char,std::char_trai
 	return __result;
 }
 
-_extern bool _sub_106CEA80(__int32, std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &);
-bool ComamndModInfo(__int32 peer, std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &args, std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnValue) // 0x106CEA80
+_extern bool _sub_106CEA80(__int32, std::vector<std::string,std::allocator<std::string> > const &, std::string &);
+bool ComamndModInfo(__int32 peer, std::vector<std::string,std::allocator<std::string> > const &args, std::string &returnValue) // 0x106CEA80
 {
 	// `anonymous-namespace'::ComamndModInfo
 	// static ...; // 0x106CEFF9
@@ -386,14 +386,14 @@ bool ComamndModInfo(__int32 peer, std::vector<std::basic_string<char,std::char_t
 	// static ...; // 0x106CEFB0
 	// static ...; // 0x106CEFA8
 	// __int32 peer;
-	// std::vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > const &args;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > &returnValue;
+	// std::vector<std::string,std::allocator<std::string> > const &args;
+	// std::string &returnValue;
 	// char buffer[32];
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > desc;
+	// std::string desc;
 	// bool hasModSet;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > modhash;
+	// std::string modhash;
 	// c_mod_package_manager::s_entry mod_package;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > message;
+	// std::string message;
 	// tm *convertedLocal;
 	todo("implement");
 	bool __result = _sub_106CEA80(peer, args, returnValue);

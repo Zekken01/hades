@@ -21,7 +21,7 @@ class CommandLineArgs
 {
 public:
 	CommandLineArgs(CommandLineArgs const &);
-	CommandLineArgs(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &line);
+	CommandLineArgs(std::string const &line);
 	~CommandLineArgs();
 	CommandLineArgs &operator=(CommandLineArgs &);
 	_inline __int32 GetArgCount() const;

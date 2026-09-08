@@ -85,7 +85,7 @@ namespace Scripting
 {
 	namespace HS
 	{
-		extern bool ValidIdentifier(std::basic_string_view<char,std::char_traits<char> > name);
+		extern bool ValidIdentifier(std::string_view name);
 	}
 }
 
@@ -99,11 +99,11 @@ namespace Scripting
 {
 	namespace HS
 	{
-		_extern bool _sub_10702520(std::basic_string_view<char,std::char_traits<char> >);
-		bool ValidIdentifier(std::basic_string_view<char,std::char_traits<char> > name) // 0x10702520
+		_extern bool _sub_10702520(std::string_view);
+		bool ValidIdentifier(std::string_view name) // 0x10702520
 		{
 			mangled_x86(MANGLED_TODO, "?ValidIdentifier@HS@Scripting@@YA_NV?$basic_string_view@DU?$char_traits@D@std@@@std@@@Z");
-			// std::basic_string_view<char,std::char_traits<char> > name;
+			// std::string_view name;
 			{
 				// unsigned __int32 i;
 			}
@@ -137,8 +137,8 @@ namespace Scripting
 			compiler_generated();
 		}
 
-		_extern void _sub_10701690(Scripting::HS::ScriptMethodMap *const, std::basic_string_view<char,std::char_traits<char> >, std::basic_string_view<char,std::char_traits<char> >, Scripting::HS::ScriptMethodFlags, void (*)(short, long, bool), e_hs_type, std::initializer_list<Scripting::HS::ScriptParameter>);
-		void ScriptMethodMap::AddMethod(std::basic_string_view<char,std::char_traits<char> > name, std::basic_string_view<char,std::char_traits<char> > description, Scripting::HS::ScriptMethodFlags flags, void (*evaluate)(short, long, bool), e_hs_type returnType, std::initializer_list<Scripting::HS::ScriptParameter> parameters) // 0x10701690
+		_extern void _sub_10701690(Scripting::HS::ScriptMethodMap *const, std::string_view, std::string_view, Scripting::HS::ScriptMethodFlags, void (*)(short, long, bool), e_hs_type, std::initializer_list<Scripting::HS::ScriptParameter>);
+		void ScriptMethodMap::AddMethod(std::string_view name, std::string_view description, Scripting::HS::ScriptMethodFlags flags, void (*evaluate)(short, long, bool), e_hs_type returnType, std::initializer_list<Scripting::HS::ScriptParameter> parameters) // 0x10701690
 		{
 			mangled_x86(MANGLED_TODO, "?AddMethod@ScriptMethodMap@HS@Scripting@@QAEXV?$basic_string_view@DU?$char_traits@D@std@@@std@@0W4ScriptMethodFlags@23@P6AXFJ_N@ZW4e_hs_type@@V?$initializer_list@UScriptParameter@HS@Scripting@@@5@@Z");
 			// Scripting::HS::ScriptMethodFlags flags;
@@ -150,16 +150,16 @@ namespace Scripting
 			_sub_10701690(this, name, description, flags, evaluate, returnType, parameters);
 		}
 
-		extern ScriptMethod const *_sub_10701880(Scripting::HS::ScriptMethodMap const *const, std::basic_string_view<char,std::char_traits<char> >);
-		Scripting::HS::ScriptMethod const *ScriptMethodMap::FindMethod(std::basic_string_view<char,std::char_traits<char> > name) const // 0x10701880
+		extern ScriptMethod const *_sub_10701880(Scripting::HS::ScriptMethodMap const *const, std::string_view);
+		Scripting::HS::ScriptMethod const *ScriptMethodMap::FindMethod(std::string_view name) const // 0x10701880
 		{
 			mangled_x86(MANGLED_TODO, "?FindMethod@ScriptMethodMap@HS@Scripting@@QBEPBUScriptMethod@23@V?$basic_string_view@DU?$char_traits@D@std@@@std@@@Z");
 			// static ...; // 0x107019BC
 			// static ...; // 0x107019B4
 			// Scripting::HS::ScriptMethodMap const *const this;
-			// std::basic_string_view<char,std::char_traits<char> > name;
+			// std::string_view name;
 			{
-				// std::_List_const_iterator<std::_List_val<std::_List_simple_types<std::pair<std::basic_string_view<char,std::char_traits<char> > const ,Scripting::HS::ScriptMethod> > > > it;
+				// std::_List_const_iterator<std::_List_val<std::_List_simple_types<std::pair<std::string_view const ,Scripting::HS::ScriptMethod> > > > it;
 			}
 			todo("implement");
 			Scripting::HS::ScriptMethod const * __result = _sub_10701880((Scripting::HS::ScriptMethodMap const *)this, name);
@@ -168,12 +168,12 @@ namespace Scripting
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10701E00(Scripting::HS::ScriptMethodMap *const, Scripting::HS::ScriptMethod const *);
+extern std::string _sub_10701E00(Scripting::HS::ScriptMethodMap *const, Scripting::HS::ScriptMethod const *);
 namespace Scripting
 {
 	namespace HS
 	{
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > ScriptMethodMap::GenerateHelp(Scripting::HS::ScriptMethod const *method) // 0x10701E00
+		std::string ScriptMethodMap::GenerateHelp(Scripting::HS::ScriptMethod const *method) // 0x10701E00
 		{
 			mangled_x86(MANGLED_TODO, "?GenerateHelp@ScriptMethodMap@HS@Scripting@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PBUScriptMethod@23@@Z");
 			// Scripting::HS::ScriptMethod const *method;
@@ -184,12 +184,12 @@ namespace Scripting
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10701E90(Scripting::HS::ScriptMethodMap *const, Scripting::HS::ScriptMethod const *);
+extern std::string _sub_10701E90(Scripting::HS::ScriptMethodMap *const, Scripting::HS::ScriptMethod const *);
 namespace Scripting
 {
 	namespace HS
 	{
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > ScriptMethodMap::GenerateMethodDeclaration(Scripting::HS::ScriptMethod const *method) // 0x10701E90
+		std::string ScriptMethodMap::GenerateMethodDeclaration(Scripting::HS::ScriptMethod const *method) // 0x10701E90
 		{
 			mangled_x86(MANGLED_TODO, "?GenerateMethodDeclaration@ScriptMethodMap@HS@Scripting@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PBUScriptMethod@23@@Z");
 			// static ...; // 0x107023BC
@@ -200,15 +200,15 @@ namespace Scripting
 			// static ...; // 0x10702360
 			// Scripting::HS::ScriptMethodMap *const this;
 			// Scripting::HS::ScriptMethod const *method;
-			// std::basic_string_view<char,std::char_traits<char> > returnType;
+			// std::string_view returnType;
 			{
 				// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > ss;
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > parameters;
+				// std::string parameters;
 				{
 					// unsigned __int32 i;
 					{
-						// std::basic_string<char,std::char_traits<char>,std::allocator<char> > typeStr;
-						// std::basic_string_view<char,std::char_traits<char> > type;
+						// std::string typeStr;
+						// std::string_view type;
 					}
 				}
 			}
@@ -219,12 +219,12 @@ namespace Scripting
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_10701A20(Scripting::HS::ScriptMethodMap const *const);
+extern std::string _sub_10701A20(Scripting::HS::ScriptMethodMap const *const);
 namespace Scripting
 {
 	namespace HS
 	{
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > ScriptMethodMap::GenerateDocs() const // 0x10701A20
+		std::string ScriptMethodMap::GenerateDocs() const // 0x10701A20
 		{
 			mangled_x86(MANGLED_TODO, "?GenerateDocs@ScriptMethodMap@HS@Scripting@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 			// static ...; // 0x10701D30
@@ -236,12 +236,12 @@ namespace Scripting
 			// std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > docs;
 			// Scripting::HS::ScriptMethodMap &methods;
 			{
-				// std::unordered_map<std::basic_string_view<char,std::char_traits<char> >,Scripting::HS::ScriptMethod,std::hash<std::basic_string_view<char,std::char_traits<char> > >,std::equal_to<std::basic_string_view<char,std::char_traits<char> > >,std::allocator<std::pair<std::basic_string_view<char,std::char_traits<char> > const ,Scripting::HS::ScriptMethod> > > &<range>$L0;
-				// std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<std::basic_string_view<char,std::char_traits<char> > const ,Scripting::HS::ScriptMethod> > > > <begin>$L0;
-				// std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<std::basic_string_view<char,std::char_traits<char> > const ,Scripting::HS::ScriptMethod> > > > <end>$L0;
+				// std::unordered_map<std::string_view,Scripting::HS::ScriptMethod,std::hash<std::string_view>,std::equal_to<std::string_view>,std::allocator<std::pair<std::string_view const ,Scripting::HS::ScriptMethod> > > &<range>$L0;
+				// std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<std::string_view const ,Scripting::HS::ScriptMethod> > > > <begin>$L0;
+				// std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<std::string_view const ,Scripting::HS::ScriptMethod> > > > <end>$L0;
 				{
 					// Scripting::HS::ScriptMethod const &method;
-					// std::basic_string_view<char,std::char_traits<char> > const &name;
+					// std::string_view const &name;
 				}
 			}
 			todo("implement");

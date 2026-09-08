@@ -47,10 +47,10 @@ namespace Modules
 		void Complete();
 		bool IsFinished() const;
 		bool HasError() const;
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetErrorMessage() const;
+		std::string GetErrorMessage() const;
 	private:
 		bool ReadNextLine();
-		void HandleError(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &message);
+		void HandleError(std::string const &message);
 		void ExecuteSleep(CommandLineArgs const &args);
 		void ExecuteWaitFor(CommandLineArgs const &args);
 		bool m_isUserInput; // 0x0
@@ -58,7 +58,7 @@ namespace Modules
 		bool m_stopOnFirstError; // 0x2
 		unsigned char __pad0[1]; // 0x3
 		std::unique_ptr<std::basic_istream<char,std::char_traits<char> >,std::default_delete<std::basic_istream<char,std::char_traits<char> > > > m_stream; // 0x4
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > m_line; // 0x8
+		std::string m_line; // 0x8
 		__int32 m_lineNum; // 0x24
 		bool m_hasError; // 0x28
 		unsigned char __pad1[7]; // 0x29

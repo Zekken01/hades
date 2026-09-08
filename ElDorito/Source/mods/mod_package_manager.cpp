@@ -306,7 +306,7 @@ void c_mod_package_manager::enumerate_blocking_internal() // 0x108A8A20
 		{
 			// s_file_time date;
 			// c_mod_package::e_error err;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > thin_path;
+			// std::string thin_path;
 			// s_mod_package_metadata const *const metadata;
 			// c_mod_package_manager::s_entry entry;
 			// _FILETIME builtTime;
@@ -576,7 +576,7 @@ extern "C" void get_package_author_uid(c_mod_package const *package, unsigned lo
 	// static ...; // 0x108A9F8C
 	// c_mod_package const *package;
 	// unsigned long long *uid;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > public_key_base64;
+	// std::string public_key_base64;
 	// SHA256state_st sha256;
 	// unsigned char public_key_digest[32];
 	todo("implement");

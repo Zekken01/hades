@@ -102,7 +102,7 @@ namespace Blam
 namespace Player
 {
 	extern bool ValidServiceTag(wchar_t (&tag)[5]);
-	extern unsigned __int32 ParseColor(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &value);
+	extern unsigned __int32 ParseColor(std::string const &value);
 	extern void SanitizeModelCustomization(s_player_model_customization *customization);
 }
 
@@ -127,15 +127,15 @@ namespace Player
 		return __result;
 	}
 
-	_extern unsigned __int32 _sub_107DB3F0(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-	unsigned __int32 ParseColor(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &value) // 0x107DB3F0
+	_extern unsigned __int32 _sub_107DB3F0(std::string const &);
+	unsigned __int32 ParseColor(std::string const &value) // 0x107DB3F0
 	{
 		mangled_x86(MANGLED_TODO, "?ParseColor@Player@@YAIABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 		// static ...; // 0x107DB5A7
 		// static ...; // 0x107DB59C
 		// static ...; // 0x107DB584
 		// static ...; // 0x107DB57C
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &value;
+		// std::string const &value;
 		// std::basic_regex<char,std::regex_traits<char> > expression;
 		// std::match_results<char const *,std::allocator<std::sub_match<char const *> > > what;
 		todo("implement");

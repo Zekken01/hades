@@ -211,7 +211,7 @@ namespace hades_file_local
 {
 	struct ModuleInfo
 	{
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > Path; // 0x0
+		std::string Path; // 0x0
 		unsigned __int32 Address; // 0x1C
 		unsigned __int32 Size; // 0x20
 		unsigned __int32 EntryPoint; // 0x24
@@ -359,7 +359,7 @@ void networkLogHook(char *format, ...) // 0x10A86440
 	// static ...; // 0x10A866FC
 	// char *format;
 	// char *args;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > formatStr;
+	// std::string formatStr;
 	// char dstBuf[4096];
 	todo("implement");
 	_sub_10A86440(format);
@@ -488,7 +488,7 @@ void ExceptionHook(char *msg) // 0x10A85990
 	// static ...; // 0x10A85B94
 	// char *msg;
 	// HINSTANCE__ *hMod;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > moduleName;
+	// std::string moduleName;
 	// s_exception_information *except;
 	// char info[1024];
 	// Debug::CrashReporting::s_crash_info crash_info;

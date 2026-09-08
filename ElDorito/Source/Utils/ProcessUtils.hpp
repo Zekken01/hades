@@ -22,7 +22,7 @@ namespace Utils
 	namespace ProcessUtils
 	{
 		extern _inline HINSTANCE__ *GetModuleFromAddress(void *address);
-		extern _inline std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetModuleNameForDisplay(HINSTANCE__ *hMod);
+		extern _inline std::string GetModuleNameForDisplay(HINSTANCE__ *hMod);
 	}
 }
 
@@ -51,12 +51,12 @@ namespace Utils
 	}
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_1068F570(HINSTANCE__ *);
+extern std::string _sub_1068F570(HINSTANCE__ *);
 namespace Utils
 {
 	namespace ProcessUtils
 	{
-		_inline std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetModuleNameForDisplay(HINSTANCE__ *hMod) // 0x1068F570
+		_inline std::string GetModuleNameForDisplay(HINSTANCE__ *hMod) // 0x1068F570
 		{
 			mangled_x86(MANGLED_TODO, "?GetModuleNameForDisplay@ProcessUtils@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAUHINSTANCE__@@@Z");
 			// static ...; // 0x1068F660

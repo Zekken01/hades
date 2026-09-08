@@ -78,8 +78,8 @@ namespace Blam
 
 /* ---------- public code */
 
-extern std::shared_ptr<CModPackageFileSystemView> _sub_10886210(CModPackageFileSystemViewManager *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-std::shared_ptr<CModPackageFileSystemView> CModPackageFileSystemViewManager::GetView(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &identifier) // 0x10886210
+extern std::shared_ptr<CModPackageFileSystemView> _sub_10886210(CModPackageFileSystemViewManager *const, std::string const &);
+std::shared_ptr<CModPackageFileSystemView> CModPackageFileSystemViewManager::GetView(std::string const &identifier) // 0x10886210
 {
 	mangled_x86(MANGLED_TODO, "?GetView@CModPackageFileSystemViewManager@@QAE?AV?$shared_ptr@VCModPackageFileSystemView@@@std@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@3@@Z");
 	// static ...; // 0x1088652A
@@ -88,12 +88,12 @@ std::shared_ptr<CModPackageFileSystemView> CModPackageFileSystemViewManager::Get
 	// static ...; // 0x108864E8
 	// static ...; // 0x108864E0
 	// CModPackageFileSystemViewManager *const this;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &identifier;
+	// std::string const &identifier;
 	// std::scoped_lock<std::mutex> lock;
 	// c_mod_package_manager::s_entry packageEntry;
 	// c_mod_package_manager const &manager;
 	{
-		// std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::shared_ptr<CModPackageFileSystemView> > > > > it;
+		// std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<std::string const ,std::shared_ptr<CModPackageFileSystemView> > > > > it;
 	}
 	{
 		// unsigned char hash[20];
@@ -103,8 +103,8 @@ std::shared_ptr<CModPackageFileSystemView> CModPackageFileSystemViewManager::Get
 	return __result;
 }
 
-_extern bool _sub_10886600(CModPackageFileSystemViewManager *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-bool CModPackageFileSystemViewManager::ViewExists(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &identifier) // 0x10886600
+_extern bool _sub_10886600(CModPackageFileSystemViewManager *const, std::string const &);
+bool CModPackageFileSystemViewManager::ViewExists(std::string const &identifier) // 0x10886600
 {
 	mangled_x86(MANGLED_TODO, "?ViewExists@CModPackageFileSystemViewManager@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 	// static ...; // 0x10886866
@@ -113,12 +113,12 @@ bool CModPackageFileSystemViewManager::ViewExists(std::basic_string<char,std::ch
 	// static ...; // 0x10886824
 	// static ...; // 0x1088681C
 	// CModPackageFileSystemViewManager *const this;
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &identifier;
+	// std::string const &identifier;
 	// std::scoped_lock<std::mutex> lock;
 	// c_mod_package_manager::s_entry packageEntry;
 	// c_mod_package_manager const &manager;
 	{
-		// std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::shared_ptr<CModPackageFileSystemView> > > > > it;
+		// std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<std::string const ,std::shared_ptr<CModPackageFileSystemView> > > > > it;
 	}
 	{
 		// unsigned char hash[20];

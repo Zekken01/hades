@@ -164,7 +164,7 @@ namespace Patches
 	}
 }
 
-void LoadDefaultModPackageAsync(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &id);
+void LoadDefaultModPackageAsync(std::string const &id);
 void c_gui_pregame_setup_manager__initialize_game_mode_hook(c_gui_pregame_setup_manager *thisptr, void *unused, long ui_game_mode, long a3);
 void c_gui_pregame_setup_manager__handle_item_chosen_hook(c_gui_pregame_setup_manager *thisptr, void *__formal, long controller_index, c_gui_selected_item *item, char arg8, long screen_index);
 void c_gui_pregame_setup_manager__update_hook(c_gui_pregame_setup_manager *thisptr);
@@ -211,11 +211,11 @@ namespace Patches
 
 /* ---------- private code */
 
-_extern void _sub_107BC140(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-void LoadDefaultModPackageAsync(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &id) // 0x107BC140
+_extern void _sub_107BC140(std::string const &);
+void LoadDefaultModPackageAsync(std::string const &id) // 0x107BC140
 {
 	// `anonymous-namespace'::LoadDefaultModPackageAsync
-	// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &id;
+	// std::string const &id;
 	todo("implement");
 	_sub_107BC140(id);
 }
@@ -243,8 +243,8 @@ void c_gui_pregame_setup_manager__initialize_game_mode_hook(c_gui_pregame_setup_
 	// long ui_game_mode;
 	// long a3;
 	{
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > CampaignPakName;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > lastMod;
+		// std::string CampaignPakName;
+		// std::string lastMod;
 		{
 			// c_mod_package_manager::s_entry defaultSetMod;
 			{
@@ -256,7 +256,7 @@ void c_gui_pregame_setup_manager__initialize_game_mode_hook(c_gui_pregame_setup_
 		}
 	}
 	{
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > FireFightPakName;
+		// std::string FireFightPakName;
 		{
 			{
 			}
@@ -265,7 +265,7 @@ void c_gui_pregame_setup_manager__initialize_game_mode_hook(c_gui_pregame_setup_
 		}
 	}
 	{
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > MultiplayerPakName;
+		// std::string MultiplayerPakName;
 		{
 			{
 			}
@@ -311,13 +311,13 @@ void c_gui_pregame_setup_manager__handle_item_chosen_hook(c_gui_pregame_setup_ma
 				// char *const path;
 				// std::filesystem::path dir;
 				{
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > parent;
+					// std::string parent;
 				}
 			}
 			{
 				// wchar_t *const gameType;
-				// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > GameTypeWString;
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > gameTypeString;
+				// std::wstring GameTypeWString;
+				// std::string gameTypeString;
 			}
 		}
 		{
@@ -327,13 +327,13 @@ void c_gui_pregame_setup_manager__handle_item_chosen_hook(c_gui_pregame_setup_ma
 				}
 			}
 			{
-				// std::basic_string<char,std::char_traits<char>,std::allocator<char> > mapNameString;
-				// std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> > MapNameWString;
+				// std::string mapNameString;
+				// std::wstring MapNameWString;
 				// wchar_t *const mapName;
 				{
 					// s_level_datum map_level;
 					{
-						// std::basic_string<char,std::char_traits<char>,std::allocator<char> > mapName;
+						// std::string mapName;
 						// std::filesystem::path dir;
 					}
 				}
@@ -363,8 +363,8 @@ void c_gui_pregame_setup_manager__update_hook(c_gui_pregame_setup_manager *thisp
 		}
 		{
 			// __int32 const lobbyType;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > lastGameType;
-			// std::basic_string<char,std::char_traits<char>,std::allocator<char> > lastMap;
+			// std::string lastGameType;
+			// std::string lastMap;
 		}
 	}
 	// function call : bool (*const)()

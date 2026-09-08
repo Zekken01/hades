@@ -33,8 +33,8 @@ namespace Web
 	{
 		struct AssetService
 		{
-			static std::basic_string<char,std::char_traits<char>,std::allocator<char> > FindAssetInModVfs(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &modIdentifier, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &path, std::vector<std::basic_string_view<char,std::char_traits<char> >,std::allocator<std::basic_string_view<char,std::char_traits<char> > > > const &fileTypes);
-			static std::basic_string<char,std::char_traits<char>,std::allocator<char> > FindAssetInBaseDir(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &path, std::vector<std::basic_string_view<char,std::char_traits<char> >,std::allocator<std::basic_string_view<char,std::char_traits<char> > > > const &fileTypes);
+			static std::string FindAssetInModVfs(std::string const &modIdentifier, std::string const &path, std::vector<std::string_view,std::allocator<std::string_view> > const &fileTypes);
+			static std::string FindAssetInBaseDir(std::string const &path, std::vector<std::string_view,std::allocator<std::string_view> > const &fileTypes);
 		};
 		static_assert(sizeof(Web::Ui::AssetService) == 1, "Invalid Web::Ui::AssetService size");
 	}

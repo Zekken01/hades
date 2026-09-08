@@ -34,14 +34,14 @@ public:
 	public:
 	struct s_mod_package_description
 	{
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > local_name; // 0x0
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > hash; // 0x1C
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > package_url; // 0x38
+		std::string local_name; // 0x0
+		std::string hash; // 0x1C
+		std::string package_url; // 0x38
 		unsigned char __pad0[4]; // 0x54
 		unsigned long long package_size; // 0x58
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > mod_name; // 0x60
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > mod_author; // 0x7C
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > mod_description; // 0x98
+		std::string mod_name; // 0x60
+		std::string mod_author; // 0x7C
+		std::string mod_description; // 0x98
 		_inline s_mod_package_description(s_mod_package_description &&__that); /* compiler_generated() */
 		_inline s_mod_package_description(s_mod_package_description const &__that); /* compiler_generated() */
 		_inline s_mod_package_description(); /* compiler_generated() */

@@ -90,7 +90,7 @@ namespace hades_file_local
 		public CHavokStatsOutputHandler
 	{
 		virtual void OutputLine(real_argb_color const *, char const *);
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetString() const;
+		std::string GetString() const;
 	private:
 		unsigned char __pad0[4]; // 0x4
 		std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> > m_buffer; // 0x8
@@ -227,8 +227,8 @@ _inline void CHavokStatsStringOutputHandler::OutputLine(real_argb_color const *c
 	_sub_1085F900(this, color, line);
 }
 
-extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_1085F630(CHavokStatsStringOutputHandler const *const);
-_inline std::basic_string<char,std::char_traits<char>,std::allocator<char> > CHavokStatsStringOutputHandler::GetString() const // 0x1085F630
+extern std::string _sub_1085F630(CHavokStatsStringOutputHandler const *const);
+_inline std::string CHavokStatsStringOutputHandler::GetString() const // 0x1085F630
 {
 	// `anonymous-namespace'::CHavokStatsStringOutputHandler::GetString
 	// CHavokStatsStringOutputHandler const *const this;

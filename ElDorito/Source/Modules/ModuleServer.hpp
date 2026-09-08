@@ -142,14 +142,14 @@ namespace Modules
 		Modules::Command *VarCameraAllowedOnClientsClient; // 0x1B8
 		Modules::Command *VarDebugAllowedOnClients; // 0x1BC
 		Modules::Command *VarDebugAllowedOnClientsClient; // 0x1C0
-		std::unordered_set<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::hash<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::equal_to<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > NonAllowedNames; // 0x1C4
-		std::unordered_set<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::hash<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::equal_to<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > FilteredWords; // 0x1EC
-		std::unordered_set<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::hash<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::equal_to<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > FilteredPatterns; // 0x214
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > FilterReplacementWord; // 0x23C
+		std::unordered_set<std::string,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::string> > NonAllowedNames; // 0x1C4
+		std::unordered_set<std::string,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::string> > FilteredWords; // 0x1EC
+		std::unordered_set<std::string,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::string> > FilteredPatterns; // 0x214
+		std::string FilterReplacementWord; // 0x23C
 		void refreshServerFilters();
-		std::unordered_set<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::hash<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::equal_to<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > GetFilteredWordsList();
-		std::unordered_set<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::hash<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::equal_to<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > GetFilteredPatternsList();
-		std::basic_string<char,std::char_traits<char>,std::allocator<char> > GetFilterReplacementWord();
+		std::unordered_set<std::string,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::string> > GetFilteredWordsList();
+		std::unordered_set<std::string,std::hash<std::string>,std::equal_to<std::string>,std::allocator<std::string> > GetFilteredPatternsList();
+		std::string GetFilterReplacementWord();
 		ModuleServer();
 		~ModuleServer(); /* compiler_generated() */
 	};

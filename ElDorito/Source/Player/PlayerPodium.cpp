@@ -424,7 +424,7 @@ namespace Player
 				}
 				{
 					// s_player_datum *extra_stats_player;
-					// std::basic_string<char,std::char_traits<char>,std::allocator<char> > playersInfo;
+					// std::string playersInfo;
 					{
 						// short player_session_idx;
 						{

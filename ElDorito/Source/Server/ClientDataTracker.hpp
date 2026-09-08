@@ -42,7 +42,7 @@ namespace Server
 	{
 		struct ClientInfoData
 		{
-			ClientInfoData(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &body);
+			ClientInfoData(std::string const &body);
 			_inline ClientInfoData();
 			char Body[4096]; // 0x0
 		};
@@ -88,7 +88,7 @@ namespace Server
 	{
 		extern void Tick();
 		extern void Initialize();
-		extern bool BroadcastClientInfoData(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &body);
+		extern bool BroadcastClientInfoData(std::string const &body);
 	}
 }
 

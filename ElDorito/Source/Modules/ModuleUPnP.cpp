@@ -75,13 +75,13 @@ using namespace ::Modules;
 //	EJobResult operator()() const;
 //	<lambda_1>(Modules::ModuleUPnP::UPnPForwardPort::__l2::<lambda_1> &);
 //	<lambda_1>(Modules::ModuleUPnP::UPnPForwardPort::__l2::<lambda_1> const &);
-//	<lambda_1>(Modules::ModuleUPnP *, bool const &, __int32 const &, __int32 const &, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+//	<lambda_1>(Modules::ModuleUPnP *, bool const &, __int32 const &, __int32 const &, std::string const &);
 //private:
 //	Modules::ModuleUPnP *__this; // 0x0
 //	bool tcp; // 0x4
 //	__int32 externalport; // 0x8
 //	__int32 internalport; // 0xC
-//	std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ruleName; // 0x10
+//	std::string const ruleName; // 0x10
 //public:
 //	Modules::ModuleUPnP::UPnPForwardPort::__l2::<lambda_1> &operator=(Modules::ModuleUPnP::UPnPForwardPort::__l2::<lambda_1> const &);
 //	~<lambda_1>(); /* compiler_generated() */
@@ -99,7 +99,7 @@ using namespace ::Modules;
 namespace Modules
 {
 	extern ModuleUPnP* _sub_10A230D0(Modules::ModuleUPnP *const);
-	ModuleUPnP::ModuleUPnP() : ModuleBase(todo_result<std::basic_string<char,std::char_traits<char>,std::allocator<char> >>()) // 0x10A230D0
+	ModuleUPnP::ModuleUPnP() : ModuleBase(todo_result<std::string>()) // 0x10A230D0
 	{
 		mangled_x86(MANGLED_TODO, "??0ModuleUPnP@Modules@@QAE@XZ");
 		// Modules::ModuleUPnP *const this;
@@ -115,11 +115,11 @@ namespace Modules
 		compiler_generated();
 	}
 
-	_extern void _sub_10A235C0(Modules::ModuleUPnP *const, bool, __int32, __int32, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
-	void ModuleUPnP::UPnPForwardPort(bool tcp, __int32 externalport, __int32 internalport, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &ruleName) // 0x10A235C0
+	_extern void _sub_10A235C0(Modules::ModuleUPnP *const, bool, __int32, __int32, std::string const &);
+	void ModuleUPnP::UPnPForwardPort(bool tcp, __int32 externalport, __int32 internalport, std::string const &ruleName) // 0x10A235C0
 	{
 		mangled_x86(MANGLED_TODO, "?UPnPForwardPort@ModuleUPnP@Modules@@QAEX_NHHABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &ruleName;
+		// std::string const &ruleName;
 		todo("implement");
 		_sub_10A235C0(this, tcp, externalport, internalport, ruleName);
 	}
@@ -127,12 +127,12 @@ namespace Modules
 
 namespace Utils
 {
-	extern UPnPResult _sub_10A23670(Modules::ModuleUPnP *const, bool, __int32, __int32, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);
+	extern UPnPResult _sub_10A23670(Modules::ModuleUPnP *const, bool, __int32, __int32, std::string const &);
 }
 
 namespace Modules
 {
-	Utils::UPnPResult ModuleUPnP::UPnPForwardPort_Blocking(bool tcp, __int32 externalport, __int32 internalport, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &ruleName) // 0x10A23670
+	Utils::UPnPResult ModuleUPnP::UPnPForwardPort_Blocking(bool tcp, __int32 externalport, __int32 internalport, std::string const &ruleName) // 0x10A23670
 	{
 		mangled_x86(MANGLED_TODO, "?UPnPForwardPort_Blocking@ModuleUPnP@Modules@@QAE?AUUPnPResult@Utils@@_NHHABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 		// static ...; // 0x10A23C1C
@@ -142,7 +142,7 @@ namespace Modules
 		// bool tcp;
 		// __int32 externalport;
 		// __int32 internalport;
-		// std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &ruleName;
+		// std::string const &ruleName;
 		// std::unique_lock<std::mutex> lock;
 		// char const *protocol;
 		// __int32 ret;
