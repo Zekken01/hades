@@ -214,14 +214,11 @@ namespace Web
 			return __result;
 		}
 
-		_extern void _sub_10CC5F70(CefBrowserProcessHandler * const);
 		void WebRendererApp::OnContextInitialized() // 0x10CC5F70
 		{
-			mangled_x86(MANGLED_TODO, "?OnContextInitialized@WebRendererApp@Browser@Web@@UAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnContextInitialized@WebRendererApp@Browser@Web@@UAEXXZ");
 			// __shifted(Web::Browser::WebRendererApp, 8);
 			// Web::Browser::WebRendererApp *const this;
-			todo("implement");
-			_sub_10CC5F70((CefBrowserProcessHandler *)this);
 		}
 
 		_extern void _sub_10CC5F00(CefRenderProcessHandler * const, scoped_refptr<CefBrowser>, scoped_refptr<CefFrame>, scoped_refptr<CefV8Context>);

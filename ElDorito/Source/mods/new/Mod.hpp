@@ -91,13 +91,10 @@ private:
 
 /* ---------- public code */
 
-_extern void _sub_107913E0(Mod::IClient *const);
 _inline Mod::IClient::~IClient() // 0x107913E0
 {
-	mangled_x86(MANGLED_TODO, "??1IClient@Mod@@UAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1IClient@Mod@@UAE@XZ");
 	// Mod::IClient *const this;
-	todo("implement");
-	_sub_107913E0(this);
 }
 
 /* ---------- private code */

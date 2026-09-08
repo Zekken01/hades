@@ -722,14 +722,13 @@ __int32 Network_GetMaxPlayersHook() // 0x10A98FA0
 	return __result;
 }
 
-_extern __int32 _sub_10A9AA90();
 __int32 Pregame_Lobby_Max_Player_Count_Offline_hook() // 0x10A9AA90
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Pregame_Lobby_Max_Player_Count_Offline_hook@@YAHXZ");
 	// `anonymous-namespace'::Pregame_Lobby_Max_Player_Count_Offline_hook
 	// procedure flags: nofpo
-	todo("implement");
-	__int32 __result = _sub_10A9AA90();
-	return __result;
+
+	return 1;
 }
 
 _extern bool _sub_10A9A570(Blam::Network::Session *, void *, unsigned __int32, unsigned __int32, s_player_configuration_from_client *, unsigned __int32);
@@ -871,13 +870,22 @@ void PongReceivedHookImpl(Blam::Network::NetworkAddress const &from, Blam::Netwo
 	_sub_10A9A9E0(from, pong, latency);
 }
 
-extern void _sub_10A9A9C0();
 __declspec(naked) void PongReceivedHook() // 0x10A9A9C0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?PongReceivedHook@@YAXXZ");
 	// `anonymous-namespace'::PongReceivedHook
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10A9A9C0();
+
+	__asm
+	{
+		push esi
+		push edi
+		push dword ptr [ebp + 8]
+		call PongReceivedHookImpl
+		add esp, 0Ch
+		push 049D9FAh
+		ret
+	}
 }
 
 _extern void _sub_10A98600(Blam::Network::LifeCycleState);
@@ -903,23 +911,44 @@ void LifeCycleStateChangedHookImpl(Blam::Network::LifeCycleState newState) // 0x
 	_sub_10A98600(newState);
 }
 
-extern void _sub_10A985E0();
 __declspec(naked) void LifeCycleStateChangedHook() // 0x10A985E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?LifeCycleStateChangedHook@@YAXXZ");
 	// `anonymous-namespace'::LifeCycleStateChangedHook
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10A985E0();
+
+	__asm
+	{
+		pop esi
+		mov ecx, edi
+		call dword ptr [eax + 8]
+		push dword ptr [ebx]
+		call LifeCycleStateChangedHookImpl
+		add esp, 4
+		jmp esi
+	}
 }
 
-extern void _sub_10A981B0();
 __declspec(naked) void GetTextureDimensionsHook() // 0x10A981B0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetTextureDimensionsHook@@YAXXZ");
 	// `anonymous-namespace'::GetTextureDimensionsHook
 	// procedure flags: nofpo
-// resume:
-	todo("implement");
-	_sub_10A981B0();
+	// resume:
+
+	__asm
+	{
+		cmp ecx, [eax + 34h]
+		jl Lfound
+		xor edx, edx
+		push 0A6E9B0h
+		ret
+		Lfound:
+		mov eax, [eax + 44h]
+		lea eax, [eax + ecx * 8]
+		push 0A6E988h
+		ret
+	}
 }
 
 _extern bool _sub_10A98C50(char *, void *);
@@ -1120,14 +1149,13 @@ void c_network_message_handler__handle_delegate_leadership_hook(c_network_messag
 	_sub_10A9D840(__formal, __formal1, channel, message);
 }
 
-_extern bool _sub_10A9E6B0(long);
 bool network_squad_session_delegate_leadership_hook(long playerIndex) // 0x10A9E6B0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?network_squad_session_delegate_leadership_hook@@YA_NJ@Z");
 	// `anonymous-namespace'::network_squad_session_delegate_leadership_hook
 	// long playerIndex;
-	todo("implement");
-	bool __result = _sub_10A9E6B0(playerIndex);
-	return __result;
+
+	return false;
 }
 
 /* ---------- template instantiations */

@@ -502,14 +502,13 @@ char *AllocateGameGlobalMemory2Hook(char *Src, __int32 a2, __int32 a3, char a4, 
 	return __result;
 }
 
-_extern bool _sub_10A3D4D0();
 bool IsProfileAvailable() // 0x10A3D4D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?IsProfileAvailable@@YA_NXZ");
 	// `anonymous-namespace'::IsProfileAvailable
 	// procedure flags: nofpo
-	todo("implement");
-	bool __result = _sub_10A3D4D0();
-	return __result;
+
+	return true;
 }
 
 _extern wchar_t *_sub_10A3D270(wchar_t *, wchar_t *, __int32);

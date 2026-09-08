@@ -88,24 +88,20 @@ _inline bool c_structure_surface::sanity_check() const // 0x1091EF50
 	return __result;
 }
 
-_extern bool _sub_1091EEE0(c_structure_surface const *const);
 _inline bool c_structure_surface::is_valid() const // 0x1091EEE0
 {
-	mangled_x86(MANGLED_TODO, "?is_valid@c_structure_surface@@QBE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?is_valid@c_structure_surface@@QBE_NXZ");
 	// c_structure_surface const *const this;
-	todo("implement");
-	bool __result = _sub_1091EEE0((c_structure_surface const *)this);
-	return __result;
+
+	return m_valid;
 }
 
-_extern long _sub_1091EA40(c_structure_surface const *const);
 _inline long c_structure_surface::get_surface_index() const // 0x1091EA40
 {
-	mangled_x86(MANGLED_TODO, "?get_surface_index@c_structure_surface@@QBEJXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_surface_index@c_structure_surface@@QBEJXZ");
 	// c_structure_surface const *const this;
-	todo("implement");
-	long __result = _sub_1091EA40((c_structure_surface const *)this);
-	return __result;
+
+	return m_surface_index;
 }
 
 _extern long _sub_1091EC90(c_structure_surface const *const);
@@ -178,14 +174,12 @@ _inline long c_structure_surface::get_compression_info_index() const // 0x1091DF
 	return __result;
 }
 
-extern s_structure_instanced_geometry_definition const *_sub_1091E4F0(c_structure_surface const *const);
 _inline s_structure_instanced_geometry_definition const *c_structure_surface::get_instance_definition() const // 0x1091E4F0
 {
-	mangled_x86(MANGLED_TODO, "?get_instance_definition@c_structure_surface@@QBEPBUs_structure_instanced_geometry_definition@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_instance_definition@c_structure_surface@@QBEPBUs_structure_instanced_geometry_definition@@XZ");
 	// c_structure_surface const *const this;
-	todo("implement");
-	s_structure_instanced_geometry_definition const * __result = _sub_1091E4F0((c_structure_surface const *)this);
-	return __result;
+
+	return m_instance_definition;
 }
 
 _extern void _sub_1091DE10(c_structure_surface const *const, c_collision_bsp_reference *);

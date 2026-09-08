@@ -57,24 +57,20 @@ using namespace ::Utils;
 
 /* ---------- public code */
 
-_extern bool _sub_1089B630(c_mod_cache_tag_remapper const *const);
 bool c_mod_cache_tag_remapper::is_valid() const // 0x1089B630
 {
-	mangled_x86(MANGLED_TODO, "?is_valid@c_mod_cache_tag_remapper@@QBE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?is_valid@c_mod_cache_tag_remapper@@QBE_NXZ");
 	// c_mod_cache_tag_remapper const *const this;
-	todo("implement");
-	bool __result = _sub_1089B630((c_mod_cache_tag_remapper const *)this);
-	return __result;
+
+	return m_valid;
 }
 
-_extern long _sub_1089B280(c_mod_cache_tag_remapper const *const);
 long c_mod_cache_tag_remapper::get_runtime_tag_count() const // 0x1089B280
 {
-	mangled_x86(MANGLED_TODO, "?get_runtime_tag_count@c_mod_cache_tag_remapper@@QBEJXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_runtime_tag_count@c_mod_cache_tag_remapper@@QBEJXZ");
 	// c_mod_cache_tag_remapper const *const this;
-	todo("implement");
-	long __result = _sub_1089B280((c_mod_cache_tag_remapper const *)this);
-	return __result;
+
+	return m_runtime_tag_count;
 }
 
 _extern long _sub_1089B0E0(c_mod_cache_tag_remapper const *const, long);

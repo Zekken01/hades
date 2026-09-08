@@ -125,13 +125,17 @@ namespace Patches
 
 /* ---------- private code */
 
-extern void _sub_10916880();
 __declspec(naked) void first_person_weapon_offset_hook1_hook() // 0x10916880
 {
-	// `anonymous-namespace'::first_person_weapon_offset_hook1_hook
+	mangled_x86(MANGLED_KNOWN_GOOD, "?first_person_weapon_offset_hook1_hook@@YAXXZ");
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10916880();
+
+	__asm
+	{
+		add eax, g_first_weapon_offset_field_offset
+		push 0xA9B88F
+		ret
+	}
 }
 
 extern void _sub_10916890();

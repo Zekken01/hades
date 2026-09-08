@@ -322,13 +322,10 @@ namespace Web
 			_sub_10CEC640(this);
 		}
 
-		_extern void _sub_10CEC620(Web::Browser::RenderHandlerGpu *const);
 		void RenderHandlerGpu::OnPostResetDevice() // 0x10CEC620
 		{
-			mangled_x86(MANGLED_TODO, "?OnPostResetDevice@RenderHandlerGpu@Browser@Web@@UAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnPostResetDevice@RenderHandlerGpu@Browser@Web@@UAEXXZ");
 			// Web::Browser::RenderHandlerGpu *const this;
-			todo("implement");
-			_sub_10CEC620(this);
 		}
 
 		_extern bool _sub_10CEB960(Web::Browser::RenderHandlerGpu *const);
@@ -422,13 +419,10 @@ namespace Web
 			return __result;
 		}
 
-		_extern void _sub_10CED5C0(Web::Browser::RenderHandlerGpu *const);
 		void RenderHandlerGpu::Shutdown() // 0x10CED5C0
 		{
-			mangled_x86(MANGLED_TODO, "?Shutdown@RenderHandlerGpu@Browser@Web@@UAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Shutdown@RenderHandlerGpu@Browser@Web@@UAEXXZ");
 			// Web::Browser::RenderHandlerGpu *const this;
-			todo("implement");
-			_sub_10CED5C0(this);
 		}
 	}
 }

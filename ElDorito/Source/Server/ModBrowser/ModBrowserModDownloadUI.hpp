@@ -52,13 +52,10 @@ static_assert(sizeof(IModBrowserModDownloadUI) == 4, "Invalid IModBrowserModDown
 
 /* ---------- public code */
 
-_extern void _sub_10C7B980(IModBrowserModDownloadUI *const);
 _inline IModBrowserModDownloadUI::~IModBrowserModDownloadUI() // 0x10C7B980
 {
-	mangled_x86(MANGLED_TODO, "??1IModBrowserModDownloadUI@@UAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1IModBrowserModDownloadUI@@UAE@XZ");
 	// IModBrowserModDownloadUI *const this;
-	todo("implement");
-	_sub_10C7B980(this);
 }
 
 /* ---------- private code */

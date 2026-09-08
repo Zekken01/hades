@@ -242,14 +242,13 @@ _inline void *c_physical_memory_stack::get_current_address() // 0x108BDDD0
 	return __result;
 }
 
-extern e_physical_memory_stage _sub_108BDE40(c_physical_memory_stack const *const);
 _inline e_physical_memory_stage c_physical_memory_stack::get_current_stage() const // 0x108BDE40
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_current_stage@c_physical_memory_stack@hades_file_local@@QBE?AW4e_physical_memory_stage@@XZ");
 	// `anonymous-namespace'::c_physical_memory_stack::get_current_stage
 	// c_physical_memory_stack const *const this;
-	todo("implement");
-	e_physical_memory_stage __result = _sub_108BDE40((c_physical_memory_stack const *)this);
-	return __result;
+
+	return static_cast<e_physical_memory_stage>(m_current_stage);
 }
 
 _extern void _sub_108BE3C0(c_physical_memory_stack *const, e_physical_memory_stage);

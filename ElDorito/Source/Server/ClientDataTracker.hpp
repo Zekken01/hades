@@ -100,13 +100,11 @@ namespace Server
 {
 	namespace ClientDataTracker
 	{
-		extern ClientInfoData* _sub_10AFF0E0(Server::ClientDataTracker::ClientInfoData *const);
 		_inline ClientInfoData::ClientInfoData() // 0x10AFF0E0
 		{
-			mangled_x86(MANGLED_TODO, "??0ClientInfoData@ClientDataTracker@Server@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0ClientInfoData@ClientDataTracker@Server@@QAE@XZ");
 			// Server::ClientDataTracker::ClientInfoData *const this;
-			todo("implement");
-			_sub_10AFF0E0(this);
+
 		}
 
 		extern MyNetworkSessionListener* _sub_10AFF160(Server::ClientDataTracker::MyNetworkSessionListener *const);

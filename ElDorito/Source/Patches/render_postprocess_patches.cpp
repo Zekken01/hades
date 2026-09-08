@@ -256,13 +256,18 @@ void render_objects_shadow_generate_hook(long pass, unsigned long flags) // 0x10
 	_sub_10AC2120(pass, flags);
 }
 
-extern void _sub_10AC21A0();
 __declspec(naked) void render_post_process_reflections_enabled_hook() // 0x10AC21A0
 {
-	// `anonymous-namespace'::render_post_process_reflections_enabled_hook
+	mangled_x86(MANGLED_KNOWN_GOOD, "?render_post_process_reflections_enabled_hook@@YAXXZ");
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10AC21A0();
+
+	__asm
+	{
+		mov al, reflections_enabled
+		test al, al
+		push 0xA62418
+		ret
+	}
 }
 
 _extern void _sub_10AC1FE0(long, long);

@@ -191,13 +191,10 @@ namespace Patches
 			return __result;
 		}
 
-		_extern void _sub_10A8AF70();
 		void ExpandRenderGlobals() // 0x10A8AF70
 		{
-			mangled_x86(MANGLED_TODO, "?ExpandRenderGlobals@Memory@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ExpandRenderGlobals@Memory@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_10A8AF70();
 		}
 
 		_extern void _sub_10A8AEC0();

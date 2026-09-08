@@ -195,67 +195,46 @@ namespace Server
 {
 	namespace ClientDataTracker
 	{
-		_extern void _sub_10B00680(Server::ClientDataTracker::MyNetworkSessionListener *const);
 		void MyNetworkSessionListener::SessionCreated() // 0x10B00680
 		{
-			mangled_x86(MANGLED_TODO, "?SessionCreated@MyNetworkSessionListener@ClientDataTracker@Server@@UAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?SessionCreated@MyNetworkSessionListener@ClientDataTracker@Server@@UAEXXZ");
 			// Server::ClientDataTracker::MyNetworkSessionListener *const this;
-			todo("implement");
-			_sub_10B00680(this);
 		}
 
-		_extern void _sub_10B006A0(Server::ClientDataTracker::MyNetworkSessionListener *const);
 		void MyNetworkSessionListener::SessionDestroyed() // 0x10B006A0
 		{
-			mangled_x86(MANGLED_TODO, "?SessionDestroyed@MyNetworkSessionListener@ClientDataTracker@Server@@UAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?SessionDestroyed@MyNetworkSessionListener@ClientDataTracker@Server@@UAEXXZ");
 			// Server::ClientDataTracker::MyNetworkSessionListener *const this;
-			todo("implement");
-			_sub_10B006A0(this);
 		}
 
-		_extern void _sub_10B00300(Server::ClientDataTracker::MyNetworkSessionListener *const, __int32);
 		void MyNetworkSessionListener::PeerAdded(__int32 peerIndex) // 0x10B00300
 		{
-			mangled_x86(MANGLED_TODO, "?PeerAdded@MyNetworkSessionListener@ClientDataTracker@Server@@UAEXH@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?PeerAdded@MyNetworkSessionListener@ClientDataTracker@Server@@UAEXH@Z");
 			// __int32 peerIndex;
-			todo("implement");
-			_sub_10B00300(this, peerIndex);
 		}
 
-		_extern void _sub_10B00320(Server::ClientDataTracker::MyNetworkSessionListener *const, __int32);
 		void MyNetworkSessionListener::PeerRemoved(__int32 peerIndex) // 0x10B00320
 		{
-			mangled_x86(MANGLED_TODO, "?PeerRemoved@MyNetworkSessionListener@ClientDataTracker@Server@@UAEXH@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?PeerRemoved@MyNetworkSessionListener@ClientDataTracker@Server@@UAEXH@Z");
 			// __int32 peerIndex;
-			todo("implement");
-			_sub_10B00320(this, peerIndex);
 		}
 
-		_extern void _sub_10B00340(Server::ClientDataTracker::MyNetworkSessionListener *const, __int32);
 		void MyNetworkSessionListener::PlayerAdded(__int32 playerIndex) // 0x10B00340
 		{
-			mangled_x86(MANGLED_TODO, "?PlayerAdded@MyNetworkSessionListener@ClientDataTracker@Server@@UAEXH@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?PlayerAdded@MyNetworkSessionListener@ClientDataTracker@Server@@UAEXH@Z");
 			// __int32 playerIndex;
-			todo("implement");
-			_sub_10B00340(this, playerIndex);
 		}
 
-		_extern void _sub_10B00360(Server::ClientDataTracker::MyNetworkSessionListener *const, __int32);
 		void MyNetworkSessionListener::PlayerRemoved(__int32 playerIndex) // 0x10B00360
 		{
-			mangled_x86(MANGLED_TODO, "?PlayerRemoved@MyNetworkSessionListener@ClientDataTracker@Server@@UAEXH@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?PlayerRemoved@MyNetworkSessionListener@ClientDataTracker@Server@@UAEXH@Z");
 			// __int32 playerIndex;
-			todo("implement");
-			_sub_10B00360(this, playerIndex);
 		}
 
-		_extern void _sub_10B006C0();
 		void Tick() // 0x10B006C0
 		{
-			mangled_x86(MANGLED_TODO, "?Tick@ClientDataTracker@Server@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@ClientDataTracker@Server@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_10B006C0();
 		}
 
 		_extern void _sub_10B000B0();
@@ -393,14 +372,13 @@ bool SendMessagePacket(__int32 peer, Server::ClientDataTracker::ClientInfoData c
 	return __result;
 }
 
-_extern bool _sub_10B00090(Blam::Network::Session *, __int32, Server::ClientDataTracker::ClientInfoData const &);
 bool HostReceivedMessage(Blam::Network::Session *session, __int32 peer, Server::ClientDataTracker::ClientInfoData const &message) // 0x10B00090
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?HostReceivedMessage@@YA_NPAUSession@Network@Blam@@HABUClientInfoData@ClientDataTracker@Server@@@Z");
 	// `anonymous-namespace'::HostReceivedMessage
 	// Server::ClientDataTracker::ClientInfoData const &message;
-	todo("implement");
-	bool __result = _sub_10B00090(session, peer, message);
-	return __result;
+
+	return true;
 }
 
 _extern bool _sub_10B003E0(Blam::Network::Session *, Server::ClientDataTracker::ClientInfoData const &);

@@ -587,14 +587,24 @@ void unit_toss_item_object_detach_hook(long item_index) // 0x10A576D0
 	_sub_10A576D0(item_index);
 }
 
-extern void _sub_10A550B0();
 __declspec(naked) void TankModeCrashFixHook() // 0x10A550B0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?TankModeCrashFixHook@@YAXXZ");
 	// `anonymous-namespace'::TankModeCrashFixHook
 	// procedure flags: nofpo
-// invalid_player:
-	todo("implement");
-	_sub_10A550B0();
+	// invalid_player:
+
+	__asm
+	{
+		cmp ecx, 10h
+		jge Loutside
+		imul ecx, 2F08h
+		push 0B3D09Fh
+		ret
+		Loutside:
+		push 0B3D0BFh
+		ret
+	}
 }
 
 _extern bool _sub_10A55110(void *, void *, long, long *, long, s_simulation_unit_pickup_event_data *);

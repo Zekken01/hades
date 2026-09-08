@@ -151,14 +151,13 @@ namespace Patches
 
 /* ---------- private code */
 
-_extern bool _sub_10918450(long);
 bool object_is_resizable_box_primitive(long object_index) // 0x10918450
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?object_is_resizable_box_primitive@@YA_NJ@Z");
 	// `anonymous-namespace'::object_is_resizable_box_primitive
 	// long object_index;
-	todo("implement");
-	bool __result = _sub_10918450(object_index);
-	return __result;
+
+	return false;
 }
 
 extern real_vector3d _sub_10917FF0();

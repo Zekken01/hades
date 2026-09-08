@@ -166,14 +166,13 @@ void player_find_player_character_unit_and_variant_info(long player_index, long 
 	_sub_10ABE740(player_index, character_type_index, out_unit_definition_index, out_variant_name);
 }
 
-_extern bool _sub_10ABC180();
 bool find_best_starting_location_index__game_is_survival_hook() // 0x10ABC180
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?find_best_starting_location_index__game_is_survival_hook@@YA_NXZ");
 	// `anonymous-namespace'::find_best_starting_location_index__game_is_survival_hook
 	// procedure flags: nofpo
-	todo("implement");
-	bool __result = _sub_10ABC180();
-	return __result;
+
+	return false;
 }
 
 _extern bool _sub_10ABE530(long, real_point3d *, float *, float *, bool, bool);
@@ -265,31 +264,43 @@ s_weapon_first_person_block *weapon_definition_get_first_person_interface_by_cha
 	return __result;
 }
 
-extern void _sub_10ABECC0();
 __declspec(naked) void player_submit_actions_53E2B2() // 0x10ABECC0
 {
-	// `anonymous-namespace'::player_submit_actions_53E2B2
+	mangled_x86(MANGLED_KNOWN_GOOD, "?player_submit_actions_53E2B2@@YAXXZ");
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10ABECC0();
+
+	__asm
+	{
+		mov ecx, g_temp_global_player_control
+		push 0x53E2B8
+		ret
+	}
 }
 
-extern void _sub_10ABECD0();
 __declspec(naked) void player_submit_actions_53E4F6() // 0x10ABECD0
 {
-	// `anonymous-namespace'::player_submit_actions_53E4F6
+	mangled_x86(MANGLED_KNOWN_GOOD, "?player_submit_actions_53E4F6@@YAXXZ");
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10ABECD0();
+
+	__asm
+	{
+		mov ecx, g_temp_global_player_control
+		push 0x53E4FC
+		ret
+	}
 }
 
-extern void _sub_10ABECE0();
 __declspec(naked) void player_submit_actions_53EA06() // 0x10ABECE0
 {
-	// `anonymous-namespace'::player_submit_actions_53EA06
+	mangled_x86(MANGLED_KNOWN_GOOD, "?player_submit_actions_53EA06@@YAXXZ");
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10ABECE0();
+
+	__asm
+	{
+		mov ecx, g_temp_global_player_information
+		push 0x53EA0C
+		ret
+	}
 }
 
 _extern bool _sub_10ABEBE0(long);

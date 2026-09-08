@@ -39,34 +39,28 @@ static_assert(sizeof(c_virtual_page_memory_allocator) == 16, "Invalid c_virtual_
 
 /* ---------- public code */
 
-_extern void *_sub_108BDD50(c_virtual_page_memory_allocator *const);
 _inline void *c_virtual_page_memory_allocator::get_base_address() // 0x108BDD50
 {
-	mangled_x86(MANGLED_TODO, "?get_base_address@c_virtual_page_memory_allocator@@QAEPAXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_base_address@c_virtual_page_memory_allocator@@QAEPAXXZ");
 	// c_virtual_page_memory_allocator *const this;
-	todo("implement");
-	void * __result = _sub_108BDD50(this);
-	return __result;
+
+	return m_memory;
 }
 
-_extern unsigned long _sub_108BE060(c_virtual_page_memory_allocator const *const);
 _inline unsigned long c_virtual_page_memory_allocator::get_used_size() const // 0x108BE060
 {
-	mangled_x86(MANGLED_TODO, "?get_used_size@c_virtual_page_memory_allocator@@QBEKXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_used_size@c_virtual_page_memory_allocator@@QBEKXZ");
 	// c_virtual_page_memory_allocator const *const this;
-	todo("implement");
-	unsigned long __result = _sub_108BE060((c_virtual_page_memory_allocator const *)this);
-	return __result;
+
+	return m_current_size;
 }
 
-_extern unsigned long _sub_108BDF90(c_virtual_page_memory_allocator const *const);
 _inline unsigned long c_virtual_page_memory_allocator::get_total_size() const // 0x108BDF90
 {
-	mangled_x86(MANGLED_TODO, "?get_total_size@c_virtual_page_memory_allocator@@QBEKXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_total_size@c_virtual_page_memory_allocator@@QBEKXZ");
 	// c_virtual_page_memory_allocator const *const this;
-	todo("implement");
-	unsigned long __result = _sub_108BDF90((c_virtual_page_memory_allocator const *)this);
-	return __result;
+
+	return m_total_size;
 }
 
 /* ---------- private code */

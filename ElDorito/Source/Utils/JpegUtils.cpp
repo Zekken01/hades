@@ -159,13 +159,12 @@ namespace Utils
 
 /* ---------- private code */
 
-_extern void _sub_10754710(jpeg_compress_struct *);
 void init_stdvector_destination(jpeg_compress_struct *__formal) // 0x10754710
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?init_stdvector_destination@@YAXPAUjpeg_compress_struct@hades_file_local@@@Z");
+	// the original is empty
 	// `anonymous-namespace'::init_stdvector_destination
 	// jpeg_compress_struct *__formal;
-	todo("implement");
-	_sub_10754710(__formal);
 }
 
 _extern bool _sub_10754630(jpeg_compress_struct *);

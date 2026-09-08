@@ -129,14 +129,12 @@ namespace Web
 			_sub_10CEB0B0(this);
 		}
 
-		_extern bool _sub_10CEC6B0(Web::Browser::RenderHandlerGpu const *const);
 		_inline bool RenderHandlerGpu::PopupIsVisible() const // 0x10CEC6B0
 		{
-			mangled_x86(MANGLED_TODO, "?PopupIsVisible@RenderHandlerGpu@Browser@Web@@ABE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?PopupIsVisible@RenderHandlerGpu@Browser@Web@@ABE_NXZ");
 			// Web::Browser::RenderHandlerGpu const *const this;
-			todo("implement");
-			bool __result = _sub_10CEC6B0((Web::Browser::RenderHandlerGpu const *)this);
-			return __result;
+
+			return m_PopupVisible;
 		}
 
 		_extern void _sub_10CEB620(CefBaseRefCounted * const);

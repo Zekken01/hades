@@ -157,14 +157,12 @@ _inline c_mod_package_manager::c_mod_package_manager() // 0x108B6A60
 	_sub_108B6A60(this);
 }
 
-extern c_mod_package_manager::s_entry const *_sub_10A182C0(c_mod_package_manager::c_threadsafe_iterator const *const);
 _inline c_mod_package_manager::s_entry const *c_mod_package_manager::c_threadsafe_iterator::get() const // 0x10A182C0
 {
-	mangled_x86(MANGLED_TODO, "?get@c_threadsafe_iterator@c_mod_package_manager@@QBEPBUs_entry@2@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get@c_threadsafe_iterator@c_mod_package_manager@@QBEPBUs_entry@2@XZ");
 	// c_mod_package_manager::c_threadsafe_iterator const *const this;
-	todo("implement");
-	c_mod_package_manager::s_entry const * __result = _sub_10A182C0((c_mod_package_manager::c_threadsafe_iterator const *)this);
-	return __result;
+
+	return m_entry;
 }
 
 extern c_mod_package_manager::s_entry const *_sub_10A074B0(c_mod_package_manager::c_threadsafe_iterator const *const);

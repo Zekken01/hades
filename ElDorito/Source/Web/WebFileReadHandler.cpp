@@ -199,14 +199,12 @@ namespace Web
 			return __result;
 		}
 
-		_extern bool _sub_10CB7B60(Web::Browser::CWebFileReadHandler *const);
 		bool CWebFileReadHandler::MayBlock() // 0x10CB7B60
 		{
-			mangled_x86(MANGLED_TODO, "?MayBlock@CWebFileReadHandler@Browser@Web@@UAE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?MayBlock@CWebFileReadHandler@Browser@Web@@UAE_NXZ");
 			// Web::Browser::CWebFileReadHandler *const this;
-			todo("implement");
-			bool __result = _sub_10CB7B60(this);
-			return __result;
+
+			return true;
 		}
 	}
 }

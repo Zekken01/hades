@@ -309,13 +309,12 @@ namespace Server
 
 /* ---------- private code */
 
-_extern void _sub_10C9CE80(GameChatHandler *const, __int32, Server::Chat::ChatMessage *, bool *);
 void GameChatHandler::MessageSent(__int32 senderPeer, Server::Chat::ChatMessage *message, bool *ignore) // 0x10C9CE80
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?MessageSent@GameChatHandler@hades_file_local@@UAEXHPAUChatMessage@Chat@Server@@PA_N@Z");
+	// the original is empty
 	// `anonymous-namespace'::GameChatHandler::MessageSent
 	// bool *ignore;
-	todo("implement");
-	_sub_10C9CE80(this, senderPeer, message, ignore);
 }
 
 _extern void _sub_10C9C880(GameChatHandler *const, Server::Chat::ChatMessage const &);

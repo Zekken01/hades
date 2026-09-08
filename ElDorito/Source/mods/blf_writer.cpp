@@ -21,17 +21,15 @@ class c_blf_writer;
 
 /* ---------- public code */
 
+_extern void *_sub_1086D800(c_blf_writer *const, unsigned long);
 void *c_blf_writer::allocate_chunk(unsigned long size) // 0x1086D800
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?allocate_chunk@c_blf_writer@@QAEPAXK@Z");
-
-	unsigned char *head = &m_buffer[m_position];
-	if (&head[size] > &m_buffer[m_buffer_size])
-	{
-		return nullptr;
-	}
-	m_position += size;
-	return head;
+	mangled_x86(MANGLED_TODO, "?allocate_chunk@c_blf_writer@@QAEPAXK@Z");
+	// unsigned long size;
+	// unsigned char *head;
+	todo("implement");
+	void * __result = _sub_1086D800(this, size);
+	return __result;
 }
 
 /* ---------- private code */

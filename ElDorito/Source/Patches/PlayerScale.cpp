@@ -530,40 +530,68 @@ void *GetBipedPhysicsShape(unsigned __int32 bipedObjectIndex, s_biped_physics *b
 	return __result;
 }
 
-extern void _sub_10AB0460();
 __declspec(naked) void BipedPhysicsHook_4B10E0() // 0x10AB0460
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?BipedPhysicsHook_4B10E0@@YAXXZ");
 	// `anonymous-namespace'::BipedPhysicsHook_4B10E0
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10AB0460();
+
+	__asm
+	{
+		mov eax, [ebx + 8]
+		push eax
+		call GetBipedPhysicsShape
+		push 04B10E5h
+		ret 4
+	}
 }
 
-extern void _sub_10AB0480();
 __declspec(naked) void BipedPhysicsHook_5E23BC() // 0x10AB0480
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?BipedPhysicsHook_5E23BC@@YAXXZ");
 	// `anonymous-namespace'::BipedPhysicsHook_5E23BC
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10AB0480();
+
+	__asm
+	{
+		mov eax, [edx + 8]
+		push eax
+		call GetBipedPhysicsShape
+		push 05E23C1h
+		ret 4
+	}
 }
 
-extern void _sub_10AB04A0();
 __declspec(naked) void BipedPhysicsHook_B7156F() // 0x10AB04A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?BipedPhysicsHook_B7156F@@YAXXZ");
 	// `anonymous-namespace'::BipedPhysicsHook_B7156F
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10AB04A0();
+
+	__asm
+	{
+		mov eax, [ebx + 8]
+		push eax
+		call GetBipedPhysicsShape
+		push 0B71574h
+		ret 4
+	}
 }
 
-extern void _sub_10AB04C0();
 __declspec(naked) void BipedPhysicsHook_BAF4CF() // 0x10AB04C0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?BipedPhysicsHook_BAF4CF@@YAXXZ");
 	// `anonymous-namespace'::BipedPhysicsHook_BAF4CF
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10AB04C0();
+
+	__asm
+	{
+		mov eax, [ebp + 8]
+		push eax
+		call GetBipedPhysicsShape
+		push 0BAF4D4h
+		ret 4
+	}
 }
 
 _extern bool _sub_10AB2830(long, real_point3d *, bool);
@@ -758,13 +786,21 @@ void ScaleCollisionDamage(unsigned __int32 objectIndex, unsigned char *damageDat
 	_sub_10AB1CD0(objectIndex, damageData);
 }
 
-extern void _sub_10AB0710();
 __declspec(naked) void CollisionDamageHook() // 0x10AB0710
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CollisionDamageHook@@YAXXZ");
 	// `anonymous-namespace'::CollisionDamageHook
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10AB0710();
+
+	__asm
+	{
+		push dword ptr [ebp + 0Ch]
+		push dword ptr [ebp + 8]
+		call ScaleCollisionDamage
+		add esp, 8
+		push 07636F6h
+		ret
+	}
 }
 
 _extern void _sub_10AAFEA0(s_biped_physics_data1 *, __int32, char, char, char, char, __int32, float);
@@ -833,13 +869,18 @@ float PlayerPersonalGravity(void *traits, unsigned __int32 unitObjectIndex) // 0
 	return __result;
 }
 
-extern void _sub_10AB1600();
 __declspec(naked) void PlayerPersonalGravityHook() // 0x10AB1600
 {
-	// `anonymous-namespace'::PlayerPersonalGravityHook
+	mangled_x86(MANGLED_KNOWN_GOOD, "?PlayerPersonalGravityHook@@YAXXZ");
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10AB1600();
+
+	__asm
+	{
+		mov edx, [ebp + 8]
+		call PlayerPersonalGravity
+		push 0xBAF505
+		ret
+	}
 }
 
 _extern void *_sub_10AAFD10(void *, void *, s_biped_physics *, __int32, __int32, unsigned __int32, __int32, bool, char);

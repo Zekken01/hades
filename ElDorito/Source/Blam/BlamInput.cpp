@@ -271,74 +271,60 @@ namespace Blam
 			_sub_1092A660(this, file, line, arg2, arg3, arg4, arg5, maxLength, arg7, arg8);
 		}
 
-		_extern __int32 _sub_1092AFC0(Blam::Input::VirtualKeyboard *const);
 		__int32 VirtualKeyboard::Stub0() // 0x1092AFC0
 		{
-			mangled_x86(MANGLED_TODO, "?Stub0@VirtualKeyboard@Input@Blam@@UAEHXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Stub0@VirtualKeyboard@Input@Blam@@UAEHXZ");
 			// Blam::Input::VirtualKeyboard *const this;
-			todo("implement");
-			__int32 __result = _sub_1092AFC0(this);
-			return __result;
+
+			return 0;
 		}
 
-		_extern __int32 _sub_1092B060(Blam::Input::VirtualKeyboard *const);
 		__int32 VirtualKeyboard::Stub4() // 0x1092B060
 		{
-			mangled_x86(MANGLED_TODO, "?Stub4@VirtualKeyboard@Input@Blam@@UAEHXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Stub4@VirtualKeyboard@Input@Blam@@UAEHXZ");
 			// Blam::Input::VirtualKeyboard *const this;
-			todo("implement");
-			__int32 __result = _sub_1092B060(this);
-			return __result;
+
+			return 0;
 		}
 
-		_extern __int32 _sub_1092B080(Blam::Input::VirtualKeyboard *const);
 		__int32 VirtualKeyboard::Stub8() // 0x1092B080
 		{
-			mangled_x86(MANGLED_TODO, "?Stub8@VirtualKeyboard@Input@Blam@@UAEHXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Stub8@VirtualKeyboard@Input@Blam@@UAEHXZ");
 			// Blam::Input::VirtualKeyboard *const this;
-			todo("implement");
-			__int32 __result = _sub_1092B080(this);
-			return __result;
+
+			return 0;
 		}
 
-		_extern __int32 _sub_1092B0A0(Blam::Input::VirtualKeyboard *const);
 		__int32 VirtualKeyboard::StubC() // 0x1092B0A0
 		{
-			mangled_x86(MANGLED_TODO, "?StubC@VirtualKeyboard@Input@Blam@@UAEHXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?StubC@VirtualKeyboard@Input@Blam@@UAEHXZ");
 			// Blam::Input::VirtualKeyboard *const this;
-			todo("implement");
-			__int32 __result = _sub_1092B0A0(this);
-			return __result;
+
+			return 0;
 		}
 
-		_extern __int32 _sub_1092AFE0(Blam::Input::VirtualKeyboard *const);
 		__int32 VirtualKeyboard::Stub10() // 0x1092AFE0
 		{
-			mangled_x86(MANGLED_TODO, "?Stub10@VirtualKeyboard@Input@Blam@@UAEHXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Stub10@VirtualKeyboard@Input@Blam@@UAEHXZ");
 			// Blam::Input::VirtualKeyboard *const this;
-			todo("implement");
-			__int32 __result = _sub_1092AFE0(this);
-			return __result;
+
+			return 0;
 		}
 
-		_extern __int32 _sub_1092B000(Blam::Input::VirtualKeyboard *const);
 		__int32 VirtualKeyboard::Stub14() // 0x1092B000
 		{
-			mangled_x86(MANGLED_TODO, "?Stub14@VirtualKeyboard@Input@Blam@@UAEHXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Stub14@VirtualKeyboard@Input@Blam@@UAEHXZ");
 			// Blam::Input::VirtualKeyboard *const this;
-			todo("implement");
-			__int32 __result = _sub_1092B000(this);
-			return __result;
+
+			return 0;
 		}
 
-		_extern __int32 _sub_1092B020(Blam::Input::VirtualKeyboard *const);
 		__int32 VirtualKeyboard::Stub18() // 0x1092B020
 		{
-			mangled_x86(MANGLED_TODO, "?Stub18@VirtualKeyboard@Input@Blam@@UAEHXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Stub18@VirtualKeyboard@Input@Blam@@UAEHXZ");
 			// Blam::Input::VirtualKeyboard *const this;
-			todo("implement");
-			__int32 __result = _sub_1092B020(this);
-			return __result;
+
+			return 0;
 		}
 
 		_extern void _sub_1092AC90(Blam::Input::VirtualKeyboard *const);
@@ -350,14 +336,12 @@ namespace Blam
 			_sub_1092AC90(this);
 		}
 
-		_extern __int32 _sub_1092B040(Blam::Input::VirtualKeyboard *const);
 		__int32 VirtualKeyboard::Stub20() // 0x1092B040
 		{
-			mangled_x86(MANGLED_TODO, "?Stub20@VirtualKeyboard@Input@Blam@@UAEHXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Stub20@VirtualKeyboard@Input@Blam@@UAEHXZ");
 			// Blam::Input::VirtualKeyboard *const this;
-			todo("implement");
-			__int32 __result = _sub_1092B040(this);
-			return __result;
+
+			return 0;
 		}
 
 		_extern void _sub_1092AE70(Blam::Input::VirtualKeyboard *const, wchar_t const *);

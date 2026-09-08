@@ -49,14 +49,12 @@ static_assert(sizeof(c_gui_list_item_widget) == 284, "Invalid c_gui_list_item_wi
 
 /* ---------- public code */
 
-_extern long _sub_108D5E90(c_gui_list_item_widget const *const);
 _inline long c_gui_list_item_widget::get_item_index() const // 0x108D5E90
 {
-	mangled_x86(MANGLED_TODO, "?get_item_index@c_gui_list_item_widget@@QBEJXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_item_index@c_gui_list_item_widget@@QBEJXZ");
 	// c_gui_list_item_widget const *const this;
-	todo("implement");
-	long __result = _sub_108D5E90((c_gui_list_item_widget const *)this);
-	return __result;
+
+	return item_index;
 }
 
 extern c_gui_list_item_widget *_sub_108D5D70(c_gui_list_item_widget *const);

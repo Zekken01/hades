@@ -149,13 +149,10 @@ void c_map_variant_loader::initialzie() // 0x1088AB10
 	_sub_1088AB10();
 }
 
-_extern void _sub_1088BB60();
 void c_map_variant_loader::update() // 0x1088BB60
 {
-	mangled_x86(MANGLED_TODO, "?update@c_map_variant_loader@@SAXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?update@c_map_variant_loader@@SAXXZ");
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_1088BB60();
 }
 
 _extern bool _sub_1088B4B0(long, unsigned char const *, s_map_variant *);

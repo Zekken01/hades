@@ -215,13 +215,10 @@ namespace Server
 			_sub_1073AA30(this);
 		}
 
-		_extern void _sub_1073D950(Server::Voting::VetoSystem *const);
 		void VetoSystem::Init() // 0x1073D950
 		{
-			mangled_x86(MANGLED_TODO, "?Init@VetoSystem@Voting@Server@@UAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Init@VetoSystem@Voting@Server@@UAEXXZ");
 			// Server::Voting::VetoSystem *const this;
-			todo("implement");
-			_sub_1073D950(this);
 		}
 
 		_extern void _sub_1073E4C0(Server::Voting::VetoSystem *const);

@@ -310,14 +310,12 @@ namespace Modules
 		_sub_106677A0(this, message);
 	}
 
-	_extern bool _sub_10667890(Modules::CommandScript const *const);
 	bool CommandScript::HasError() const // 0x10667890
 	{
-		mangled_x86(MANGLED_TODO, "?HasError@CommandScript@Modules@@QBE_NXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?HasError@CommandScript@Modules@@QBE_NXZ");
 		// Modules::CommandScript const *const this;
-		todo("implement");
-		bool __result = _sub_10667890((Modules::CommandScript const *)this);
-		return __result;
+
+		return m_hasError;
 	}
 }
 
@@ -333,14 +331,12 @@ namespace Modules
 		return __result;
 	}
 
-	_extern bool _sub_10667A00(Modules::CommandScript const *const);
 	bool CommandScript::IsFinished() const // 0x10667A00
 	{
-		mangled_x86(MANGLED_TODO, "?IsFinished@CommandScript@Modules@@QBE_NXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?IsFinished@CommandScript@Modules@@QBE_NXZ");
 		// Modules::CommandScript const *const this;
-		todo("implement");
-		bool __result = _sub_10667A00((Modules::CommandScript const *)this);
-		return __result;
+
+		return m_finished;
 	}
 
 	_extern void _sub_10667B50(Modules::CommandScriptStack *const, std::shared_ptr<Modules::CommandScript>);

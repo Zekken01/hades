@@ -94,13 +94,10 @@ static_assert(sizeof(CForgeUndoManager) == 52, "Invalid CForgeUndoManager size")
 
 /* ---------- public code */
 
-_extern void _sub_10864C70(IForgeUndo *const);
 _inline IForgeUndo::~IForgeUndo() // 0x10864C70
 {
-	mangled_x86(MANGLED_TODO, "??1IForgeUndo@@UAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1IForgeUndo@@UAE@XZ");
 	// IForgeUndo *const this;
-	todo("implement");
-	_sub_10864C70(this);
 }
 
 /* ---------- private code */

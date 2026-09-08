@@ -104,13 +104,10 @@ namespace Audio
 
 namespace Audio
 {
-	_extern void _sub_107F1780(Audio::IAudioDeviceListener *const);
 	_inline IAudioDeviceListener::~IAudioDeviceListener() // 0x107F1780
 	{
-		mangled_x86(MANGLED_TODO, "??1IAudioDeviceListener@Audio@@UAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??1IAudioDeviceListener@Audio@@UAE@XZ");
 		// Audio::IAudioDeviceListener *const this;
-		todo("implement");
-		_sub_107F1780(this);
 	}
 
 	extern CAudioDeviceManager* _sub_109637D0(Audio::CAudioDeviceManager *const);

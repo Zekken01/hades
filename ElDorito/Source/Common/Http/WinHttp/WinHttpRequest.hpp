@@ -128,14 +128,12 @@ namespace Http
 
 namespace Http
 {
-	_extern __int32 _sub_10808B10(Http::CWinHttpResponse const *const);
 	_inline __int32 CWinHttpResponse::GetResponseCode() const // 0x10808B10
 	{
-		mangled_x86(MANGLED_TODO, "?GetResponseCode@CWinHttpResponse@Http@@UBEHXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetResponseCode@CWinHttpResponse@Http@@UBEHXZ");
 		// Http::CWinHttpResponse const *const this;
-		todo("implement");
-		__int32 __result = _sub_10808B10((Http::CWinHttpResponse const *)this);
-		return __result;
+
+		return m_responseCode;
 	}
 
 	extern CHttpHeaders const &_sub_10808A10(Http::CWinHttpResponse const *const);

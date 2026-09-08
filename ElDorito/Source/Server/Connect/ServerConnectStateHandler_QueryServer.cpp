@@ -189,13 +189,10 @@ void CServerConnectStateHandler_QueryServer::OnEnter() // 0x10B12D20
 	_sub_10B12D20(this);
 }
 
-_extern void _sub_10B13000(CServerConnectStateHandler_QueryServer *const);
 void CServerConnectStateHandler_QueryServer::OnExit() // 0x10B13000
 {
-	mangled_x86(MANGLED_TODO, "?OnExit@CServerConnectStateHandler_QueryServer@@EAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnExit@CServerConnectStateHandler_QueryServer@@EAEXXZ");
 	// CServerConnectStateHandler_QueryServer *const this;
-	todo("implement");
-	_sub_10B13000(this);
 }
 
 _extern void _sub_10B13020(CServerConnectStateHandler_QueryServer *const);

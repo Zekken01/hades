@@ -298,13 +298,10 @@ namespace Patches
 			_sub_10AF4E20(enable);
 		}
 
-		_extern void _sub_10AEFF70();
 		void ApplyAfterTagsLoaded() // 0x10AEFF70
 		{
-			mangled_x86(MANGLED_TODO, "?ApplyAfterTagsLoaded@Weapon@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAfterTagsLoaded@Weapon@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_10AEFF70();
 		}
 	}
 }
@@ -955,14 +952,13 @@ void weapon_apply_turning_penalty_hook(unsigned __int32 weaponObjectIndex, __int
 	_sub_10AF7350(weaponObjectIndex, barrelIndex);
 }
 
-_extern bool _sub_10AF5230(__int32);
 bool SupportWeaponStartHook(__int32 weaponObjectIndex) // 0x10AF5230
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SupportWeaponStartHook@@YA_NH@Z");
 	// `anonymous-namespace'::SupportWeaponStartHook
 	// __int32 weaponObjectIndex;
-	todo("implement");
-	bool __result = _sub_10AF5230(weaponObjectIndex);
-	return __result;
+
+	return false;
 }
 
 _extern float _sub_10AF7AE0(unsigned __int32, __int32, bool, unsigned char, float);
@@ -1034,14 +1030,13 @@ unsigned __int32 weapon_barrel_update_hook(unsigned __int32 weaponObjectIndex, _
 	return __result;
 }
 
-_extern bool _sub_10AF7AC0(unsigned __int32, __int32);
 bool weapon_bloom_decay_hook(unsigned __int32 weaponObjectIndex, __int32 barrelIndex) // 0x10AF7AC0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?weapon_bloom_decay_hook@@YA_NIH@Z");
 	// `anonymous-namespace'::weapon_bloom_decay_hook
 	// __int32 barrelIndex;
-	todo("implement");
-	bool __result = _sub_10AF7AC0(weaponObjectIndex, barrelIndex);
-	return __result;
+
+	return false;
 }
 
 _extern bool _sub_10AF7FB0(long, unsigned long, long, float *, bool *, bool *);

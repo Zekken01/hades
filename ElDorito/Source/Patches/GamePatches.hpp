@@ -48,58 +48,40 @@ namespace Patches
 
 /* ---------- public code */
 
-_extern void _sub_107996F0(IGameSystem *const);
 _inline IGameSystem::~IGameSystem() // 0x107996F0
 {
-	mangled_x86(MANGLED_TODO, "??1IGameSystem@@UAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1IGameSystem@@UAE@XZ");
 	// IGameSystem *const this;
-	todo("implement");
-	_sub_107996F0(this);
 }
 
-_extern void _sub_10798210(IGameSystem *const);
 _inline void IGameSystem::Initialize() // 0x10798210
 {
-	mangled_x86(MANGLED_TODO, "?Initialize@IGameSystem@@UAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@IGameSystem@@UAEXXZ");
 	// IGameSystem *const this;
-	todo("implement");
-	_sub_10798210(this);
 }
 
-_extern void _sub_10798230(IGameSystem *const);
 _inline void IGameSystem::InitializeForNewMap() // 0x10798230
 {
-	mangled_x86(MANGLED_TODO, "?InitializeForNewMap@IGameSystem@@UAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeForNewMap@IGameSystem@@UAEXXZ");
 	// IGameSystem *const this;
-	todo("implement");
-	_sub_10798230(this);
 }
 
-_extern void _sub_108CEC20(IGameSystem *const);
 _inline void IGameSystem::DisposeFromOldMap() // 0x108CEC20
 {
-	mangled_x86(MANGLED_TODO, "?DisposeFromOldMap@IGameSystem@@UAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?DisposeFromOldMap@IGameSystem@@UAEXXZ");
 	// IGameSystem *const this;
-	todo("implement");
-	_sub_108CEC20(this);
 }
 
-_extern void _sub_10798250(IGameSystem *const);
 _inline void IGameSystem::Dispose() // 0x10798250
 {
-	mangled_x86(MANGLED_TODO, "?Dispose@IGameSystem@@UAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Dispose@IGameSystem@@UAEXXZ");
 	// IGameSystem *const this;
-	todo("implement");
-	_sub_10798250(this);
 }
 
-_extern void _sub_10798270(IGameSystem *const);
 _inline void IGameSystem::Update() // 0x10798270
 {
-	mangled_x86(MANGLED_TODO, "?Update@IGameSystem@@UAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Update@IGameSystem@@UAEXXZ");
 	// IGameSystem *const this;
-	todo("implement");
-	_sub_10798270(this);
 }
 
 /* ---------- private code */

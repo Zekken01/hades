@@ -46,14 +46,12 @@ class CServerConnectStateManager;
 
 /* ---------- public code */
 
-extern CServerConnectStateManager *_sub_10B0A9E0(CServerConnectStateHandler *const);
 CServerConnectStateManager *CServerConnectStateHandler::GetManager() // 0x10B0A9E0
 {
-	mangled_x86(MANGLED_TODO, "?GetManager@CServerConnectStateHandler@@QAEPAVCServerConnectStateManager@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetManager@CServerConnectStateHandler@@QAEPAVCServerConnectStateManager@@XZ");
 	// CServerConnectStateHandler *const this;
-	todo("implement");
-	CServerConnectStateManager * __result = _sub_10B0A9E0(this);
-	return __result;
+
+	return static_cast<CServerConnectStateManager *>(m_manager);
 }
 
 _extern void _sub_10B0AA80(CServerConnectStateHandler *const, CServerConnectStateManager *);

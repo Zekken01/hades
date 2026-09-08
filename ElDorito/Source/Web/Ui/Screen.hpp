@@ -121,49 +121,34 @@ namespace Web
 {
 	namespace Ui
 	{
-		_extern void _sub_10C7D930(Web::Ui::WebScreen *const, Web::Browser::Bridge::WebRendererQueryHandler &);
 		_inline void WebScreen::OnCreate(Web::Browser::Bridge::WebRendererQueryHandler &queryHandler) // 0x10C7D930
 		{
-			mangled_x86(MANGLED_TODO, "?OnCreate@WebScreen@Ui@Web@@UAEXAAVWebRendererQueryHandler@Bridge@Browser@3@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnCreate@WebScreen@Ui@Web@@UAEXAAVWebRendererQueryHandler@Bridge@Browser@3@@Z");
 			// Web::Browser::Bridge::WebRendererQueryHandler &queryHandler;
-			todo("implement");
-			_sub_10C7D930(this, queryHandler);
 		}
 
-		_extern void _sub_10C7D970(Web::Ui::WebScreen *const);
 		_inline void WebScreen::OnDestroy() // 0x10C7D970
 		{
-			mangled_x86(MANGLED_TODO, "?OnDestroy@WebScreen@Ui@Web@@UAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnDestroy@WebScreen@Ui@Web@@UAEXXZ");
 			// Web::Ui::WebScreen *const this;
-			todo("implement");
-			_sub_10C7D970(this);
 		}
 
-		_extern void _sub_10C7DFF0(Web::Ui::WebScreen *const);
 		_inline void WebScreen::OnShow() // 0x10C7DFF0
 		{
-			mangled_x86(MANGLED_TODO, "?OnShow@WebScreen@Ui@Web@@UAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnShow@WebScreen@Ui@Web@@UAEXXZ");
 			// Web::Ui::WebScreen *const this;
-			todo("implement");
-			_sub_10C7DFF0(this);
 		}
 
-		_extern void _sub_10C7DFB0(Web::Ui::WebScreen *const);
 		_inline void WebScreen::OnHide() // 0x10C7DFB0
 		{
-			mangled_x86(MANGLED_TODO, "?OnHide@WebScreen@Ui@Web@@UAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnHide@WebScreen@Ui@Web@@UAEXXZ");
 			// Web::Ui::WebScreen *const this;
-			todo("implement");
-			_sub_10C7DFB0(this);
 		}
 
-		_extern void _sub_10C7E030(Web::Ui::WebScreen *const);
 		_inline void WebScreen::OnUpdate() // 0x10C7E030
 		{
-			mangled_x86(MANGLED_TODO, "?OnUpdate@WebScreen@Ui@Web@@UAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnUpdate@WebScreen@Ui@Web@@UAEXXZ");
 			// Web::Ui::WebScreen *const this;
-			todo("implement");
-			_sub_10C7E030(this);
 		}
 	}
 }

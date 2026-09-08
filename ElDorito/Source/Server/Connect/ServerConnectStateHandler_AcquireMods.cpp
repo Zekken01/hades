@@ -331,13 +331,10 @@ void CServerConnectStateHandler_AcquireMods::OnUpdate() // 0x10908CF0
 	_sub_10908CF0(this);
 }
 
-_extern void _sub_109098B0(CServerConnectStateHandler_AcquireMods *const);
 void CServerConnectStateHandler_AcquireMods::UpdateConfirmation() // 0x109098B0
 {
-	mangled_x86(MANGLED_TODO, "?UpdateConfirmation@CServerConnectStateHandler_AcquireMods@@AAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateConfirmation@CServerConnectStateHandler_AcquireMods@@AAEXXZ");
 	// CServerConnectStateHandler_AcquireMods *const this;
-	todo("implement");
-	_sub_109098B0(this);
 }
 
 _extern void _sub_109098D0(CServerConnectStateHandler_AcquireMods *const);

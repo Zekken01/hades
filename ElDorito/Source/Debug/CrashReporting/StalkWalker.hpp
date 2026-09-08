@@ -140,24 +140,20 @@ namespace Debug
 			return __result;
 		}
 
-		_extern bool _sub_1068F860(Debug::CrashReporting::StackWalker const *const);
 		_inline bool StackWalker::HasSymbolInfo() const // 0x1068F860
 		{
-			mangled_x86(MANGLED_TODO, "?HasSymbolInfo@StackWalker@CrashReporting@Debug@@QBE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?HasSymbolInfo@StackWalker@CrashReporting@Debug@@QBE_NXZ");
 			// Debug::CrashReporting::StackWalker const *const this;
-			todo("implement");
-			bool __result = _sub_1068F860((Debug::CrashReporting::StackWalker const *)this);
-			return __result;
+
+			return m_hasSymbolInfo;
 		}
 
-		_extern bool _sub_1068F830(Debug::CrashReporting::StackWalker const *const);
 		_inline bool StackWalker::HasLineInfo() const // 0x1068F830
 		{
-			mangled_x86(MANGLED_TODO, "?HasLineInfo@StackWalker@CrashReporting@Debug@@QBE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?HasLineInfo@StackWalker@CrashReporting@Debug@@QBE_NXZ");
 			// Debug::CrashReporting::StackWalker const *const this;
-			todo("implement");
-			bool __result = _sub_1068F830((Debug::CrashReporting::StackWalker const *)this);
-			return __result;
+
+			return m_hasLineInfo;
 		}
 
 		_extern bool _sub_106900C0(Debug::CrashReporting::StackWalker *const);

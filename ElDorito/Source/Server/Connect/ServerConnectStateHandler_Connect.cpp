@@ -191,22 +191,16 @@ void CServerConnectStateHandler_Connect::OnEnter() // 0x1090BE70
 	_sub_1090BE70(this);
 }
 
-_extern void _sub_1090C2F0(CServerConnectStateHandler_Connect *const);
 void CServerConnectStateHandler_Connect::OnExit() // 0x1090C2F0
 {
-	mangled_x86(MANGLED_TODO, "?OnExit@CServerConnectStateHandler_Connect@@EAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnExit@CServerConnectStateHandler_Connect@@EAEXXZ");
 	// CServerConnectStateHandler_Connect *const this;
-	todo("implement");
-	_sub_1090C2F0(this);
 }
 
-_extern void _sub_1090C310(CServerConnectStateHandler_Connect *const);
 void CServerConnectStateHandler_Connect::OnUpdate() // 0x1090C310
 {
-	mangled_x86(MANGLED_TODO, "?OnUpdate@CServerConnectStateHandler_Connect@@EAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnUpdate@CServerConnectStateHandler_Connect@@EAEXXZ");
 	// CServerConnectStateHandler_Connect *const this;
-	todo("implement");
-	_sub_1090C310(this);
 }
 
 /* ---------- private code */

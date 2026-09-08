@@ -166,13 +166,10 @@ namespace Download
 		_sub_1082CDA0(this);
 	}
 
-	_extern void _sub_1082CCE0(Download::CHttpFileDownload::ISegmentStore *const);
 	_inline CHttpFileDownload::ISegmentStore::~ISegmentStore() // 0x1082CCE0
 	{
-		mangled_x86(MANGLED_TODO, "??1ISegmentStore@CHttpFileDownload@Download@@UAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??1ISegmentStore@CHttpFileDownload@Download@@UAE@XZ");
 		// Download::CHttpFileDownload::ISegmentStore *const this;
-		todo("implement");
-		_sub_1082CCE0(this);
 	}
 }
 
@@ -201,13 +198,10 @@ namespace Http
 
 namespace Download
 {
-	_extern void _sub_1082E2B0(Download::CHttpFileDownload::ISegmentStore *const, Download::CHttpFileDownload::SSegment *);
 	_inline void CHttpFileDownload::ISegmentStore::BeforeStartSegment(Download::CHttpFileDownload::SSegment *segment) // 0x1082E2B0
 	{
-		mangled_x86(MANGLED_TODO, "?BeforeStartSegment@ISegmentStore@CHttpFileDownload@Download@@UAEXPAUSSegment@23@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?BeforeStartSegment@ISegmentStore@CHttpFileDownload@Download@@UAEXPAUSSegment@23@@Z");
 		// Download::CHttpFileDownload::SSegment *segment;
-		todo("implement");
-		_sub_1082E2B0(this, segment);
 	}
 
 	extern CSparseFileSegmentStore* _sub_1082B8C0(Download::CSparseFileSegmentStore *const, std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &);

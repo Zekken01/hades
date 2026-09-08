@@ -154,13 +154,10 @@ namespace Utils
 			return __result;
 		}
 
-		_extern void _sub_10C53C20();
 		void OnTickCheck() // 0x10C53C20
 		{
-			mangled_x86(MANGLED_TODO, "?OnTickCheck@AntiCheat@Utils@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnTickCheck@AntiCheat@Utils@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_10C53C20();
 		}
 	}
 }

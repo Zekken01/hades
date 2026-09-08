@@ -108,22 +108,16 @@ namespace Player
 {
 	namespace Emblems
 	{
-		_extern void _sub_107E7530(Player::Emblems::IPlayerEmblemStream *const);
 		_inline IPlayerEmblemStream::~IPlayerEmblemStream() // 0x107E7530
 		{
-			mangled_x86(MANGLED_TODO, "??1IPlayerEmblemStream@Emblems@Player@@UAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??1IPlayerEmblemStream@Emblems@Player@@UAE@XZ");
 			// Player::Emblems::IPlayerEmblemStream *const this;
-			todo("implement");
-			_sub_107E7530(this);
 		}
 
-		_extern void _sub_10C83000(Player::Emblems::IPlayerEmblemRenderCallbacks *const);
 		_inline IPlayerEmblemRenderCallbacks::~IPlayerEmblemRenderCallbacks() // 0x10C83000
 		{
-			mangled_x86(MANGLED_TODO, "??1IPlayerEmblemRenderCallbacks@Emblems@Player@@UAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??1IPlayerEmblemRenderCallbacks@Emblems@Player@@UAE@XZ");
 			// Player::Emblems::IPlayerEmblemRenderCallbacks *const this;
-			todo("implement");
-			_sub_10C83000(this);
 		}
 	}
 }

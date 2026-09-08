@@ -34,14 +34,12 @@ static_assert(sizeof(c_network_channel_owner) == 4, "Invalid c_network_channel_o
 
 /* ---------- public code */
 
-_extern long _sub_10903E10(c_network_session const *const);
 _inline long c_network_session::get_index() const // 0x10903E10
 {
-	mangled_x86(MANGLED_TODO, "?get_index@c_network_session@@QBEJXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_index@c_network_session@@QBEJXZ");
 	// c_network_session const *const this;
-	todo("implement");
-	long __result = _sub_10903E10((c_network_session const *)this);
-	return __result;
+
+	return m_session_index;
 }
 
 /* ---------- private code */

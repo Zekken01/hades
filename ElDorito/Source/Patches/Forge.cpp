@@ -537,13 +537,10 @@ namespace Patches
 			_sub_10A603E0();
 		}
 
-		_extern void _sub_10A674B0();
 		void Tick() // 0x10A674B0
 		{
-			mangled_x86(MANGLED_TODO, "?Tick@Forge@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@Forge@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_10A674B0();
 		}
 
 		_extern void _sub_10A66A20(void (*)(unsigned __int32));
@@ -1612,13 +1609,26 @@ void c_map_variant__rebuild_quotas_from_hook(s_map_variant *thisptr, void *__for
 	_sub_10A6AFC0(thisptr, __formal, other);
 }
 
-extern void _sub_10A6AC90();
 __declspec(naked) void c_map_variant__create_object_jump_hook() // 0x10A6AC90
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_map_variant__create_object_jump_hook@@YAXXZ");
 	// `anonymous-namespace'::c_map_variant__create_object_jump_hook
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10A6AC90();
+
+	__asm
+	{
+		push ebp
+		mov ebp, esp
+		sub esp, 194h
+		pushad
+		push dword ptr [ebp + 8]
+		push ecx
+		call CreateOrGetBudgetForItem
+		add esp, 8
+		popad
+		mov eax, 0582119h
+		jmp eax
+	}
 }
 
 _extern long _sub_10A6F800(s_map_variant *, void *, long, long, long, real_point3d const *, real_vector3d const *, real_vector3d const *, long, e_object_type, s_map_variant_placement_properties *, unsigned short);
@@ -1715,13 +1725,16 @@ void light_color_function_evaluate(c_function_definition *thisptr, long light_in
 	_sub_10A6EB50(thisptr, light_index, input, range, color);
 }
 
-extern void _sub_10A6F140();
 __declspec(naked) void light_intensity_function_hook() // 0x10A6F140
 {
-	// `anonymous-namespace'::light_intensity_function_hook
+	mangled_x86(MANGLED_KNOWN_GOOD, "?light_intensity_function_hook@@YAXXZ");
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10A6F140();
+
+	__asm
+	{
+		mov edx, [ebp + 8]
+		jmp light_intensity_function_evaluate
+	}
 }
 
 extern s_selectionState* _sub_10A5E590(s_selectionState *const);
@@ -1744,13 +1757,16 @@ _inline s_selectionState::ChildInfo::ChildInfo() // 0x10A5EE30
 	_sub_10A5EE30(this);
 }
 
-extern void _sub_10A6EDA0();
 __declspec(naked) void light_color_function_hook() // 0x10A6EDA0
 {
-	// `anonymous-namespace'::light_color_function_hook
+	mangled_x86(MANGLED_KNOWN_GOOD, "?light_color_function_hook@@YAXXZ");
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10A6EDA0();
+
+	__asm
+	{
+		mov edx, [ebp + 8]
+		jmp light_color_function_evaluate
+	}
 }
 
 _extern void _sub_10A5EFA0(s_selectionState *const);

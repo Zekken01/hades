@@ -375,13 +375,20 @@ bool main_load_map_hook(long campaign_id, long map_id, char const *map_path) // 
 	return __result;
 }
 
-extern void _sub_10A48720();
 __declspec(naked) void FovHook() // 0x10A48720
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?FovHook@@YAXXZ");
 	// `anonymous-namespace'::FovHook
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10A48720();
+
+	__asm
+	{
+		mov eax, ds:[0189D42Ch]
+		mov ds:[02301D98h], eax
+		mov ecx, [edi + 18h]
+		push 050CA08h
+		ret
+	}
 }
 
 _extern bool _sub_10A4C430();

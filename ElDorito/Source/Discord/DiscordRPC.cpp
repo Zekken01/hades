@@ -232,22 +232,20 @@ namespace Discord
 
 /* ---------- private code */
 
-_extern void _sub_10954210(__int32, char const *);
 void handleDiscordDisconnected(__int32 errorCode, char const *message) // 0x10954210
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?handleDiscordDisconnected@@YAXHPBD@Z");
+	// the original is empty
 	// `anonymous-namespace'::handleDiscordDisconnected
 	// char const *message;
-	todo("implement");
-	_sub_10954210(errorCode, message);
 }
 
-_extern void _sub_10954230(__int32, char const *);
 void handleDiscordError(__int32 errorCode, char const *message) // 0x10954230
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?handleDiscordError@@YAXHPBD@Z");
+	// the original is empty
 	// `anonymous-namespace'::handleDiscordError
 	// char const *message;
-	todo("implement");
-	_sub_10954230(errorCode, message);
 }
 
 _extern void _sub_10954250(char const *);
@@ -259,13 +257,12 @@ void handleDiscordJoin(char const *joinSecret) // 0x10954250
 	_sub_10954250(joinSecret);
 }
 
-_extern void _sub_10954430(char const *);
 void handleDiscordSpectate(char const *spectateSecret) // 0x10954430
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?handleDiscordSpectate@@YAXPBD@Z");
+	// the original is empty
 	// `anonymous-namespace'::handleDiscordSpectate
 	// char const *spectateSecret;
-	todo("implement");
-	_sub_10954430(spectateSecret);
 }
 
 _extern void _sub_10954380(DiscordJoinRequest const *);

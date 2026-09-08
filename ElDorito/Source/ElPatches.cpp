@@ -280,13 +280,10 @@ namespace Patches
 		_sub_10968120();
 	}
 
-	_extern void _sub_10968220();
 	void ApplyOnFirstTick() // 0x10968220
 	{
-		mangled_x86(MANGLED_TODO, "?ApplyOnFirstTick@Patches@@YAXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyOnFirstTick@Patches@@YAXXZ");
 		// procedure flags: nofpo
-		todo("implement");
-		_sub_10968220();
 	}
 
 	_extern void _sub_109681B0();

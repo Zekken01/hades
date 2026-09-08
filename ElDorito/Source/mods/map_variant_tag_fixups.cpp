@@ -228,13 +228,10 @@ bool c_map_variant_tag_fixups::fixup_map_variant_from_file(s_file_reference *fil
 	return __result;
 }
 
-_extern void _sub_10891BF0();
 void c_map_variant_tag_fixups::initialize() // 0x10891BF0
 {
-	mangled_x86(MANGLED_TODO, "?initialize@c_map_variant_tag_fixups@@SAXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?initialize@c_map_variant_tag_fixups@@SAXXZ");
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10891BF0();
 }
 
 /* ---------- private code */

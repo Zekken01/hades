@@ -171,13 +171,10 @@ namespace Web
 {
 	namespace Browser
 	{
-		_extern void _sub_10C842D0(Web::Browser::WebEmblemRenderHandler *const);
 		_inline void WebEmblemRenderHandler::OnRenderComplete() // 0x10C842D0
 		{
-			mangled_x86(MANGLED_TODO, "?OnRenderComplete@WebEmblemRenderHandler@Browser@Web@@UAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnRenderComplete@WebEmblemRenderHandler@Browser@Web@@UAEXXZ");
 			// Web::Browser::WebEmblemRenderHandler *const this;
-			todo("implement");
-			_sub_10C842D0(this);
 		}
 
 		_extern void _sub_10C842F0(Web::Browser::WebEmblemRenderHandler *const);
@@ -298,13 +295,10 @@ namespace Web
 			return __result;
 		}
 
-		_extern void _sub_10C83E20(Web::Browser::WebEmblemResourceHandler *const);
 		void WebEmblemResourceHandler::Cancel() // 0x10C83E20
 		{
-			mangled_x86(MANGLED_TODO, "?Cancel@WebEmblemResourceHandler@Browser@Web@@UAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Cancel@WebEmblemResourceHandler@Browser@Web@@UAEXXZ");
 			// Web::Browser::WebEmblemResourceHandler *const this;
-			todo("implement");
-			_sub_10C83E20(this);
 		}
 	}
 }

@@ -221,14 +221,13 @@ bool verify_against_multiplayer_levels_hook(wchar_t const *name) // 0x10A893B0
 	return __result;
 }
 
-_extern unsigned long _sub_10A88E40();
 unsigned long levels_get_available_map_mask_hook() // 0x10A88E40
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?levels_get_available_map_mask_hook@@YAKXZ");
 	// `anonymous-namespace'::levels_get_available_map_mask_hook
 	// procedure flags: nofpo
-	todo("implement");
-	unsigned long __result = _sub_10A88E40();
-	return __result;
+
+	return 0;
 }
 
 _extern void _sub_10A88290(s_map_variant *, void *, long);

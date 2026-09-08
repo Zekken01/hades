@@ -228,14 +228,24 @@ void player_control_update_player_hook(long player_index, long input_user_index,
 	_sub_108DCFD0(player_index, input_user_index, controller_index, world_delta, game_delta);
 }
 
-extern void _sub_108DD080();
 __declspec(naked) void player_control_zoom_hold_timer_fix1_hook() // 0x108DD080
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?player_control_zoom_hold_timer_fix1_hook@@YAXXZ");
 	// `anonymous-namespace'::player_control_zoom_hold_timer_fix1_hook
 	// procedure flags: nofpo
-// skip:
-	todo("implement");
-	_sub_108DD080();
+	// skip:
+
+	__asm
+	{
+		cmp ax, 7FFFh
+		jge Lcapped
+		add eax, g_player_control_delta_msec
+		push 05D5109h
+		ret
+		Lcapped:
+		push 05D5145h
+		ret
+	}
 }
 
 extern void _sub_108DD0A0();
@@ -247,21 +257,36 @@ __declspec(naked) void player_control_zoom_hold_timer_fix2_hook() // 0x108DD0A0
 	_sub_108DD0A0();
 }
 
-extern void _sub_108DCF80();
 __declspec(naked) void player_control_crouch_hold_timer_fix1_hook() // 0x108DCF80
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?player_control_crouch_hold_timer_fix1_hook@@YAXXZ");
 	// `anonymous-namespace'::player_control_crouch_hold_timer_fix1_hook
 	// procedure flags: nofpo
-// skip:
-	todo("implement");
-	_sub_108DCF80();
+	// skip:
+
+	__asm
+	{
+		movsx eax, word ptr [esi + edx + 3CEh]
+		cmp ax, 7FFFh
+		jge Lcapped
+		add eax, g_player_control_delta_msec
+		mov [esi + edx + 3CEh], ax
+		Lcapped:
+		push 05D1CD7h
+		ret
+	}
 }
 
-extern void _sub_108DCFB0();
 __declspec(naked) void player_control_crouch_hold_timer_fix2_hook() // 0x108DCFB0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?player_control_crouch_hold_timer_fix2_hook@@YAXXZ");
 	// `anonymous-namespace'::player_control_crouch_hold_timer_fix2_hook
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_108DCFB0();
+
+	__asm
+	{
+		cmp word ptr [esi + edx + 3CEh], 0FAh
+		push 05D1C2Dh
+		ret
+	}
 }

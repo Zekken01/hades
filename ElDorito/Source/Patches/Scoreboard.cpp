@@ -161,22 +161,39 @@ PlayerNameString *GetPlayerName(s_player_datum *playerData, __int32 index) // 0x
 	return __result;
 }
 
-extern void _sub_10ACAD50();
 __declspec(naked) void GLScoreboardPlayerAllocatorHook() // 0x10ACAD50
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GLScoreboardPlayerAllocatorHook@@YAXXZ");
 	// `anonymous-namespace'::GLScoreboardPlayerAllocatorHook
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10ACAD50();
+
+	__asm
+	{
+		push 88h
+		push 0701A4Eh
+		mov edx, 0D87130h
+		jmp edx
+	}
 }
 
-extern void _sub_10ACAD70();
 __declspec(naked) void GLScoreboardPlayerConstructorHook() // 0x10ACAD70
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GLScoreboardPlayerConstructorHook@@YAXXZ");
 	// `anonymous-namespace'::GLScoreboardPlayerConstructorHook
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10ACAD70();
+
+	__asm
+	{
+		push esi
+		lea ecx, [esi + 7Ch]
+		mov byte ptr [ebp - 4], 0Bh
+		mov edx, 06B1590h
+		call edx
+		mov ecx, [ebp - 0Ch]
+		mov eax, esi
+		mov edx, 06F8EDCh
+		jmp edx
+	}
 }
 
 extern void _sub_10ACAFC0();

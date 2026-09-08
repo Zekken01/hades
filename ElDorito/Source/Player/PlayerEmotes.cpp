@@ -511,22 +511,20 @@ _inline void CPlayerEmoteAction::ActionFinished(long unit_index, e_action action
 	_sub_107EA4F0(unit_index, action_type);
 }
 
-_extern void _sub_107EA5D0(long, e_action);
 _inline void CPlayerEmoteAction::ActionInterrupt(long unit_index, e_action action_type) // 0x107EA5D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ActionInterrupt@CPlayerEmoteAction@hades_file_local@@SAXJW4e_action@@@Z");
+	// the original is empty
 	// `anonymous-namespace'::CPlayerEmoteAction::ActionInterrupt
 	// e_action action_type;
-	todo("implement");
-	_sub_107EA5D0(unit_index, action_type);
 }
 
-_extern void _sub_107EA5F0(long, e_action, unsigned long);
 _inline void CPlayerEmoteAction::ActionAnimationEvent(long unit_index, e_action action_type, unsigned long flags) // 0x107EA5F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ActionAnimationEvent@CPlayerEmoteAction@hades_file_local@@SAXJW4e_action@@K@Z");
+	// the original is empty
 	// `anonymous-namespace'::CPlayerEmoteAction::ActionAnimationEvent
 	// unsigned long flags;
-	todo("implement");
-	_sub_107EA5F0(unit_index, action_type, flags);
 }
 
 _extern bool _sub_107EC2F0(long, unsigned long, unsigned long);
@@ -555,64 +553,58 @@ _inline e_simulation_event_type c_simulation_player_emote_event_definition::even
 	return __result;
 }
 
-extern char const *_sub_107EA640(c_simulation_player_emote_event_definition const *const);
 _inline char const *c_simulation_player_emote_event_definition::event_name() const // 0x107EA640
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?event_name@c_simulation_player_emote_event_definition@hades_file_local@@EBEPBDXZ");
 	// `anonymous-namespace'::c_simulation_player_emote_event_definition::event_name
 	// c_simulation_player_emote_event_definition const *const this;
-	todo("implement");
-	char const * __result = _sub_107EA640((c_simulation_player_emote_event_definition const *)this);
-	return __result;
+
+	return "emote";
 }
 
-_extern long _sub_107EA670(c_simulation_player_emote_event_definition const *const);
 _inline long c_simulation_player_emote_event_definition::payload_size() const // 0x107EA670
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?payload_size@c_simulation_player_emote_event_definition@hades_file_local@@EBEJXZ");
 	// `anonymous-namespace'::c_simulation_player_emote_event_definition::payload_size
 	// c_simulation_player_emote_event_definition const *const this;
-	todo("implement");
-	long __result = _sub_107EA670((c_simulation_player_emote_event_definition const *)this);
-	return __result;
+
+	return 0xC;
 }
 
-_extern long _sub_107EA6A0(c_simulation_player_emote_event_definition const *const);
 _inline long c_simulation_player_emote_event_definition::number_of_entity_references() const // 0x107EA6A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?number_of_entity_references@c_simulation_player_emote_event_definition@hades_file_local@@EBEJXZ");
 	// `anonymous-namespace'::c_simulation_player_emote_event_definition::number_of_entity_references
 	// c_simulation_player_emote_event_definition const *const this;
-	todo("implement");
-	long __result = _sub_107EA6A0((c_simulation_player_emote_event_definition const *)this);
-	return __result;
+
+	return 0;
 }
 
-_extern bool _sub_107EA6C0(c_simulation_player_emote_event_definition const *const);
 _inline bool c_simulation_player_emote_event_definition::reference_delays_entity_deletion() const // 0x107EA6C0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?reference_delays_entity_deletion@c_simulation_player_emote_event_definition@hades_file_local@@EBE_NXZ");
 	// `anonymous-namespace'::c_simulation_player_emote_event_definition::reference_delays_entity_deletion
 	// c_simulation_player_emote_event_definition const *const this;
-	todo("implement");
-	bool __result = _sub_107EA6C0((c_simulation_player_emote_event_definition const *)this);
-	return __result;
+
+	return false;
 }
 
-_extern bool _sub_107EA6E0(c_simulation_player_emote_event_definition const *const, c_replication_outgoing_event const *, s_simulation_view_telemetry_data const *);
 _inline bool c_simulation_player_emote_event_definition::event_can_be_transmitted(c_replication_outgoing_event const *__formal, s_simulation_view_telemetry_data const *__formal1) const // 0x107EA6E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?event_can_be_transmitted@c_simulation_player_emote_event_definition@hades_file_local@@EBE_NPBUc_replication_outgoing_event@@PBUs_simulation_view_telemetry_data@@@Z");
 	// `anonymous-namespace'::c_simulation_player_emote_event_definition::event_can_be_transmitted
 	// s_simulation_view_telemetry_data const *__formal;
-	todo("implement");
-	bool __result = _sub_107EA6E0((c_simulation_player_emote_event_definition const *)this, __formal, __formal1);
-	return __result;
+
+	return true;
 }
 
-_extern long _sub_107EA700(c_simulation_player_emote_event_definition const *const, c_replication_outgoing_event const *, s_simulation_view_telemetry_data const *, long *);
 _inline long c_simulation_player_emote_event_definition::minimum_required_bits(c_replication_outgoing_event const *__formal, s_simulation_view_telemetry_data const *__formal1, long *__formal2) const // 0x107EA700
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?minimum_required_bits@c_simulation_player_emote_event_definition@hades_file_local@@EBEJPBUc_replication_outgoing_event@@PBUs_simulation_view_telemetry_data@@PAJ@Z");
 	// `anonymous-namespace'::c_simulation_player_emote_event_definition::minimum_required_bits
 	// long *__formal;
-	todo("implement");
-	long __result = _sub_107EA700((c_simulation_player_emote_event_definition const *)this, __formal, __formal1, __formal2);
-	return __result;
+
+	return 0x38;
 }
 
 _extern float _sub_107EA730(c_simulation_player_emote_event_definition const *const, c_replication_outgoing_event const *, s_simulation_view_telemetry_data const *, float);
@@ -667,13 +659,12 @@ _inline bool c_simulation_player_emote_event_definition::event_payload_decode(lo
 	return __result;
 }
 
-_extern void _sub_107EA980(c_simulation_player_emote_event_definition *const, long, void *);
 _inline void c_simulation_player_emote_event_definition::prepare_event_data_for_gameworld(long payload_size, void *payload) // 0x107EA980
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?prepare_event_data_for_gameworld@c_simulation_player_emote_event_definition@hades_file_local@@EAEXJPAX@Z");
+	// the original is empty
 	// `anonymous-namespace'::c_simulation_player_emote_event_definition::prepare_event_data_for_gameworld
 	// void *payload;
-	todo("implement");
-	_sub_107EA980(this, payload_size, payload);
 }
 
 _extern bool _sub_107EA9A0(c_simulation_player_emote_event_definition *const, long, long const *, long, void const *);

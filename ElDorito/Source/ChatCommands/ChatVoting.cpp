@@ -492,14 +492,12 @@ namespace ChatCommands
 		_sub_1092F830(this, n, d);
 	}
 
-	_extern bool _sub_10933220(ChatCommands::VotingChatCommand *const);
 	bool VotingChatCommand::isCurrentlyVoting() // 0x10933220
 	{
-		mangled_x86(MANGLED_TODO, "?isCurrentlyVoting@VotingChatCommand@ChatCommands@@QAE_NXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?isCurrentlyVoting@VotingChatCommand@ChatCommands@@QAE_NXZ");
 		// ChatCommands::VotingChatCommand *const this;
-		todo("implement");
-		bool __result = _sub_10933220(this);
-		return __result;
+
+		return currentlyVoting;
 	}
 
 	_extern void _sub_10934EB0(ChatCommands::VotingChatCommand *const);

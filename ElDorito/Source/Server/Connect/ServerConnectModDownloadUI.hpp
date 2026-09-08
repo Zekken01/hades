@@ -52,13 +52,10 @@ static_assert(sizeof(IServerConnectModDownloadUI) == 4, "Invalid IServerConnectM
 
 /* ---------- public code */
 
-_extern void _sub_10CACB30(IServerConnectModDownloadUI *const);
 _inline IServerConnectModDownloadUI::~IServerConnectModDownloadUI() // 0x10CACB30
 {
-	mangled_x86(MANGLED_TODO, "??1IServerConnectModDownloadUI@@UAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1IServerConnectModDownloadUI@@UAE@XZ");
 	// IServerConnectModDownloadUI *const this;
-	todo("implement");
-	_sub_10CACB30(this);
 }
 
 /* ---------- private code */

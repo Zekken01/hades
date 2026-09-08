@@ -45,13 +45,10 @@ static_assert(sizeof(c_cache_file_interface) == 4, "Invalid c_cache_file_interfa
 
 /* ---------- public code */
 
-_extern void _sub_1078BEB0(c_cache_file_interface *const);
 _inline c_cache_file_interface::~c_cache_file_interface() // 0x1078BEB0
 {
-	mangled_x86(MANGLED_TODO, "??1c_cache_file_interface@@UAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1c_cache_file_interface@@UAE@XZ");
 	// c_cache_file_interface *const this;
-	todo("implement");
-	_sub_1078BEB0(this);
 }
 
 /* ---------- private code */

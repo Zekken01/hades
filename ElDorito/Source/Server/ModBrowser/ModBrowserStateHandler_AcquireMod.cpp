@@ -409,13 +409,10 @@ void CModBrowserStateHandler_AcquireMod::OnUpdate() // 0x10718B80
 	_sub_10718B80(this);
 }
 
-_extern void _sub_10719A70(CModBrowserStateHandler_AcquireMod *const);
 void CModBrowserStateHandler_AcquireMod::UpdateConfirmation() // 0x10719A70
 {
-	mangled_x86(MANGLED_TODO, "?UpdateConfirmation@CModBrowserStateHandler_AcquireMod@@AAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateConfirmation@CModBrowserStateHandler_AcquireMod@@AAEXXZ");
 	// CModBrowserStateHandler_AcquireMod *const this;
-	todo("implement");
-	_sub_10719A70(this);
 }
 
 _extern void _sub_10719A90(CModBrowserStateHandler_AcquireMod *const);

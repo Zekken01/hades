@@ -39,14 +39,12 @@ static_assert(sizeof(CommandLineArgs) == 8, "Invalid CommandLineArgs size");
 
 /* ---------- public code */
 
-_extern __int32 _sub_106676E0(CommandLineArgs const *const);
 _inline __int32 CommandLineArgs::GetArgCount() const // 0x106676E0
 {
-	mangled_x86(MANGLED_TODO, "?GetArgCount@CommandLineArgs@@QBEHXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetArgCount@CommandLineArgs@@QBEHXZ");
 	// CommandLineArgs const *const this;
-	todo("implement");
-	__int32 __result = _sub_106676E0((CommandLineArgs const *)this);
-	return __result;
+
+	return m_numArgs;
 }
 
 extern char const *_sub_10667640(CommandLineArgs const *const, __int32);

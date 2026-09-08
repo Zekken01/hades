@@ -685,14 +685,12 @@ namespace Web
 			return __result;
 		}
 
-		extern RendererState _sub_10CBE240(Web::Browser::WebRenderer *const);
 		Web::Browser::RendererState WebRenderer::GetState() // 0x10CBE240
 		{
-			mangled_x86(MANGLED_TODO, "?GetState@WebRenderer@Browser@Web@@QAE?AW4RendererState@23@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetState@WebRenderer@Browser@Web@@QAE?AW4RendererState@23@XZ");
 			// Web::Browser::WebRenderer *const this;
-			todo("implement");
-			Web::Browser::RendererState __result = _sub_10CBE240(this);
-			return __result;
+
+			return m_State;
 		}
 
 		_extern bool _sub_10CC3730(Web::Browser::WebRenderer *const, Web::Browser::RendererState);

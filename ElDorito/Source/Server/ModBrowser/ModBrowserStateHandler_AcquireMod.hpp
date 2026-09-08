@@ -96,14 +96,12 @@ static_assert(sizeof(CModBrowserStateHandler_AcquireMod) == 352, "Invalid CModBr
 
 /* ---------- public code */
 
-extern CModBrowserStateHandler_AcquireMod::EState _sub_107172E0(CModBrowserStateHandler_AcquireMod *const);
 _inline CModBrowserStateHandler_AcquireMod::EState CModBrowserStateHandler_AcquireMod::GetLocalState() // 0x107172E0
 {
-	mangled_x86(MANGLED_TODO, "?GetLocalState@CModBrowserStateHandler_AcquireMod@@QAE?AW4EState@1@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetLocalState@CModBrowserStateHandler_AcquireMod@@QAE?AW4EState@1@XZ");
 	// CModBrowserStateHandler_AcquireMod *const this;
-	todo("implement");
-	CModBrowserStateHandler_AcquireMod::EState __result = _sub_107172E0(this);
-	return __result;
+
+	return m_state;
 }
 
 /* ---------- private code */

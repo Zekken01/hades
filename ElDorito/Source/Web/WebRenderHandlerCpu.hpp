@@ -109,13 +109,10 @@ namespace Web
 			_sub_10CE8280(this);
 		}
 
-		_extern void _sub_10CEA280(Web::Browser::RenderHandlerCpu *const);
 		_inline void RenderHandlerCpu::Shutdown() // 0x10CEA280
 		{
-			mangled_x86(MANGLED_TODO, "?Shutdown@RenderHandlerCpu@Browser@Web@@UAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Shutdown@RenderHandlerCpu@Browser@Web@@UAEXXZ");
 			// Web::Browser::RenderHandlerCpu *const this;
-			todo("implement");
-			_sub_10CEA280(this);
 		}
 
 		_extern void _sub_10CE8880(CefBaseRefCounted * const);

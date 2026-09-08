@@ -1899,14 +1899,29 @@ bool GetBoundMouseButtonName(__int32 code, wchar_t *buff) // 0x10ADBCA0
 	return __result;
 }
 
-extern void _sub_10ADBC70();
 __declspec(naked) void GetActionButtonNameHook() // 0x10ADBC70
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetActionButtonNameHook@@YAXXZ");
 	// `anonymous-namespace'::GetActionButtonNameHook
 	// procedure flags: nofpo
-// DEFAULT:
-	todo("implement");
-	_sub_10ADBC70();
+	// DEFAULT:
+
+	__asm
+	{
+		push dword ptr [ebp + 14h]
+		push dword ptr [ebp + 10h]
+		call GetBoundMouseButtonName
+		add esp, 8
+		test al, al
+		je Lpatched
+		pop ebx
+		mov esp, ebp
+		pop ebp
+		ret
+		Lpatched:
+		mov eax, 0ABCA79h
+		jmp eax
+	}
 }
 
 _extern void _sub_10AE8270(void *, void *);
@@ -2057,13 +2072,18 @@ void OnLobbySwitchNetworkMode() // 0x10ADCD70
 	_sub_10ADCD70();
 }
 
-extern void _sub_10AE44B0();
 __declspec(naked) void c_gui_screen_pregame_lobby_switch_network_hook() // 0x10AE44B0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_screen_pregame_lobby_switch_network_hook@@YAXXZ");
 	// `anonymous-namespace'::c_gui_screen_pregame_lobby_switch_network_hook
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10AE44B0();
+
+	__asm
+	{
+		call OnLobbySwitchNetworkMode
+		mov eax, 0B21F5Bh
+		jmp eax
+	}
 }
 
 _extern void _sub_10ADFDE0(void *, void *, unsigned __int32, __int32, wchar_t *, __int32, bool, __int32);

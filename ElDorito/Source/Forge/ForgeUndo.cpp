@@ -183,14 +183,12 @@ void CForgeUndoManager::Clear() // 0x108629A0
 	_sub_108629A0(this);
 }
 
-_extern bool _sub_10862BC0(CForgeUndoManager const *const);
 bool CForgeUndoManager::IsRecording() const // 0x10862BC0
 {
-	mangled_x86(MANGLED_TODO, "?IsRecording@CForgeUndoManager@@QBE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?IsRecording@CForgeUndoManager@@QBE_NXZ");
 	// CForgeUndoManager const *const this;
-	todo("implement");
-	bool __result = _sub_10862BC0((CForgeUndoManager const *)this);
-	return __result;
+
+	return m_recording;
 }
 
 _extern void _sub_10862F40(CForgeUndoManager *const);

@@ -416,64 +416,58 @@ _inline e_simulation_event_type c_simulation_hs_script_wake_event_definition::ev
 	return __result;
 }
 
-extern char const *_sub_107B0AA0(c_simulation_hs_script_wake_event_definition const *const);
 _inline char const *c_simulation_hs_script_wake_event_definition::event_name() const // 0x107B0AA0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?event_name@c_simulation_hs_script_wake_event_definition@hades_file_local@@EBEPBDXZ");
 	// `anonymous-namespace'::c_simulation_hs_script_wake_event_definition::event_name
 	// c_simulation_hs_script_wake_event_definition const *const this;
-	todo("implement");
-	char const * __result = _sub_107B0AA0((c_simulation_hs_script_wake_event_definition const *)this);
-	return __result;
+
+	return "hs_wake_script";
 }
 
-_extern long _sub_107B0AD0(c_simulation_hs_script_wake_event_definition const *const);
 _inline long c_simulation_hs_script_wake_event_definition::payload_size() const // 0x107B0AD0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?payload_size@c_simulation_hs_script_wake_event_definition@hades_file_local@@EBEJXZ");
 	// `anonymous-namespace'::c_simulation_hs_script_wake_event_definition::payload_size
 	// c_simulation_hs_script_wake_event_definition const *const this;
-	todo("implement");
-	long __result = _sub_107B0AD0((c_simulation_hs_script_wake_event_definition const *)this);
-	return __result;
+
+	return 2;
 }
 
-_extern long _sub_107B0B00(c_simulation_hs_script_wake_event_definition const *const);
 _inline long c_simulation_hs_script_wake_event_definition::number_of_entity_references() const // 0x107B0B00
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?number_of_entity_references@c_simulation_hs_script_wake_event_definition@hades_file_local@@EBEJXZ");
 	// `anonymous-namespace'::c_simulation_hs_script_wake_event_definition::number_of_entity_references
 	// c_simulation_hs_script_wake_event_definition const *const this;
-	todo("implement");
-	long __result = _sub_107B0B00((c_simulation_hs_script_wake_event_definition const *)this);
-	return __result;
+
+	return 0;
 }
 
-_extern bool _sub_107B0B20(c_simulation_hs_script_wake_event_definition const *const);
 _inline bool c_simulation_hs_script_wake_event_definition::reference_delays_entity_deletion() const // 0x107B0B20
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?reference_delays_entity_deletion@c_simulation_hs_script_wake_event_definition@hades_file_local@@EBE_NXZ");
 	// `anonymous-namespace'::c_simulation_hs_script_wake_event_definition::reference_delays_entity_deletion
 	// c_simulation_hs_script_wake_event_definition const *const this;
-	todo("implement");
-	bool __result = _sub_107B0B20((c_simulation_hs_script_wake_event_definition const *)this);
-	return __result;
+
+	return false;
 }
 
-_extern bool _sub_107B0B40(c_simulation_hs_script_wake_event_definition const *const, c_replication_outgoing_event const *, s_simulation_view_telemetry_data const *);
 _inline bool c_simulation_hs_script_wake_event_definition::event_can_be_transmitted(c_replication_outgoing_event const *__formal, s_simulation_view_telemetry_data const *__formal1) const // 0x107B0B40
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?event_can_be_transmitted@c_simulation_hs_script_wake_event_definition@hades_file_local@@EBE_NPBUc_replication_outgoing_event@@PBUs_simulation_view_telemetry_data@@@Z");
 	// `anonymous-namespace'::c_simulation_hs_script_wake_event_definition::event_can_be_transmitted
 	// s_simulation_view_telemetry_data const *__formal;
-	todo("implement");
-	bool __result = _sub_107B0B40((c_simulation_hs_script_wake_event_definition const *)this, __formal, __formal1);
-	return __result;
+
+	return true;
 }
 
-_extern long _sub_107B0B60(c_simulation_hs_script_wake_event_definition const *const, c_replication_outgoing_event const *, s_simulation_view_telemetry_data const *, long *);
 _inline long c_simulation_hs_script_wake_event_definition::minimum_required_bits(c_replication_outgoing_event const *__formal, s_simulation_view_telemetry_data const *__formal1, long *__formal2) const // 0x107B0B60
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?minimum_required_bits@c_simulation_hs_script_wake_event_definition@hades_file_local@@EBEJPBUc_replication_outgoing_event@@PBUs_simulation_view_telemetry_data@@PAJ@Z");
 	// `anonymous-namespace'::c_simulation_hs_script_wake_event_definition::minimum_required_bits
 	// long *__formal;
-	todo("implement");
-	long __result = _sub_107B0B60((c_simulation_hs_script_wake_event_definition const *)this, __formal, __formal1, __formal2);
-	return __result;
+
+	return 0x4A;
 }
 
 _extern float _sub_107B0B90(c_simulation_hs_script_wake_event_definition const *const, c_replication_outgoing_event const *, s_simulation_view_telemetry_data const *, float);
@@ -486,13 +480,12 @@ _inline float c_simulation_hs_script_wake_event_definition::calculate_relevance(
 	return __result;
 }
 
-_extern void _sub_107B0BB0(c_simulation_hs_script_wake_event_definition const *const, c_replication_outgoing_event const *, s_simulation_view_telemetry_data const *, float, long, char *);
 _inline void c_simulation_hs_script_wake_event_definition::write_description_to_string(c_replication_outgoing_event const *__formal, s_simulation_view_telemetry_data const *__formal1, float __formal2, long __formal3, char *__formal4) const // 0x107B0BB0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?write_description_to_string@c_simulation_hs_script_wake_event_definition@hades_file_local@@EBEXPBUc_replication_outgoing_event@@PBUs_simulation_view_telemetry_data@@MJPAD@Z");
+	// the original is empty
 	// `anonymous-namespace'::c_simulation_hs_script_wake_event_definition::write_description_to_string
 	// char *__formal;
-	todo("implement");
-	_sub_107B0BB0((c_simulation_hs_script_wake_event_definition const *)this, __formal, __formal1, __formal2, __formal3, __formal4);
 }
 
 extern simulation_event_definition_return_value *_sub_107B0BD0(c_simulation_hs_script_wake_event_definition const *const, simulation_event_definition_return_value *, c_replication_outgoing_event const *, s_simulation_view_telemetry_data const *);
@@ -528,13 +521,12 @@ _inline bool c_simulation_hs_script_wake_event_definition::event_payload_decode(
 	return __result;
 }
 
-_extern void _sub_107B0D10(c_simulation_hs_script_wake_event_definition *const, long, void *);
 _inline void c_simulation_hs_script_wake_event_definition::prepare_event_data_for_gameworld(long payload_size, void *payload) // 0x107B0D10
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?prepare_event_data_for_gameworld@c_simulation_hs_script_wake_event_definition@hades_file_local@@EAEXJPAX@Z");
+	// the original is empty
 	// `anonymous-namespace'::c_simulation_hs_script_wake_event_definition::prepare_event_data_for_gameworld
 	// void *payload;
-	todo("implement");
-	_sub_107B0D10(this, payload_size, payload);
 }
 
 _extern bool _sub_107B0D30(c_simulation_hs_script_wake_event_definition *const, long, long const *, long, void const *);
@@ -562,64 +554,58 @@ _inline e_simulation_event_type c_simulation_hs_sync_global_event_definition::ev
 	return __result;
 }
 
-extern char const *_sub_107B0E30(c_simulation_hs_sync_global_event_definition const *const);
 _inline char const *c_simulation_hs_sync_global_event_definition::event_name() const // 0x107B0E30
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?event_name@c_simulation_hs_sync_global_event_definition@hades_file_local@@EBEPBDXZ");
 	// `anonymous-namespace'::c_simulation_hs_sync_global_event_definition::event_name
 	// c_simulation_hs_sync_global_event_definition const *const this;
-	todo("implement");
-	char const * __result = _sub_107B0E30((c_simulation_hs_sync_global_event_definition const *)this);
-	return __result;
+
+	return "hs_sync_global";
 }
 
-_extern long _sub_107B0E60(c_simulation_hs_sync_global_event_definition const *const);
 _inline long c_simulation_hs_sync_global_event_definition::payload_size() const // 0x107B0E60
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?payload_size@c_simulation_hs_sync_global_event_definition@hades_file_local@@EBEJXZ");
 	// `anonymous-namespace'::c_simulation_hs_sync_global_event_definition::payload_size
 	// c_simulation_hs_sync_global_event_definition const *const this;
-	todo("implement");
-	long __result = _sub_107B0E60((c_simulation_hs_sync_global_event_definition const *)this);
-	return __result;
+
+	return 8;
 }
 
-_extern long _sub_107B0E90(c_simulation_hs_sync_global_event_definition const *const);
 _inline long c_simulation_hs_sync_global_event_definition::number_of_entity_references() const // 0x107B0E90
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?number_of_entity_references@c_simulation_hs_sync_global_event_definition@hades_file_local@@EBEJXZ");
 	// `anonymous-namespace'::c_simulation_hs_sync_global_event_definition::number_of_entity_references
 	// c_simulation_hs_sync_global_event_definition const *const this;
-	todo("implement");
-	long __result = _sub_107B0E90((c_simulation_hs_sync_global_event_definition const *)this);
-	return __result;
+
+	return 0;
 }
 
-_extern bool _sub_107B0EB0(c_simulation_hs_sync_global_event_definition const *const);
 _inline bool c_simulation_hs_sync_global_event_definition::reference_delays_entity_deletion() const // 0x107B0EB0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?reference_delays_entity_deletion@c_simulation_hs_sync_global_event_definition@hades_file_local@@EBE_NXZ");
 	// `anonymous-namespace'::c_simulation_hs_sync_global_event_definition::reference_delays_entity_deletion
 	// c_simulation_hs_sync_global_event_definition const *const this;
-	todo("implement");
-	bool __result = _sub_107B0EB0((c_simulation_hs_sync_global_event_definition const *)this);
-	return __result;
+
+	return false;
 }
 
-_extern bool _sub_107B0ED0(c_simulation_hs_sync_global_event_definition const *const, c_replication_outgoing_event const *, s_simulation_view_telemetry_data const *);
 _inline bool c_simulation_hs_sync_global_event_definition::event_can_be_transmitted(c_replication_outgoing_event const *__formal, s_simulation_view_telemetry_data const *__formal1) const // 0x107B0ED0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?event_can_be_transmitted@c_simulation_hs_sync_global_event_definition@hades_file_local@@EBE_NPBUc_replication_outgoing_event@@PBUs_simulation_view_telemetry_data@@@Z");
 	// `anonymous-namespace'::c_simulation_hs_sync_global_event_definition::event_can_be_transmitted
 	// s_simulation_view_telemetry_data const *__formal;
-	todo("implement");
-	bool __result = _sub_107B0ED0((c_simulation_hs_sync_global_event_definition const *)this, __formal, __formal1);
-	return __result;
+
+	return true;
 }
 
-_extern long _sub_107B0EF0(c_simulation_hs_sync_global_event_definition const *const, c_replication_outgoing_event const *, s_simulation_view_telemetry_data const *, long *);
 _inline long c_simulation_hs_sync_global_event_definition::minimum_required_bits(c_replication_outgoing_event const *__formal, s_simulation_view_telemetry_data const *__formal1, long *__formal2) const // 0x107B0EF0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?minimum_required_bits@c_simulation_hs_sync_global_event_definition@hades_file_local@@EBEJPBUc_replication_outgoing_event@@PBUs_simulation_view_telemetry_data@@PAJ@Z");
 	// `anonymous-namespace'::c_simulation_hs_sync_global_event_definition::minimum_required_bits
 	// long *__formal;
-	todo("implement");
-	long __result = _sub_107B0EF0((c_simulation_hs_sync_global_event_definition const *)this, __formal, __formal1, __formal2);
-	return __result;
+
+	return 0x4A;
 }
 
 _extern float _sub_107B0F20(c_simulation_hs_sync_global_event_definition const *const, c_replication_outgoing_event const *, s_simulation_view_telemetry_data const *, float);
@@ -632,13 +618,12 @@ _inline float c_simulation_hs_sync_global_event_definition::calculate_relevance(
 	return __result;
 }
 
-_extern void _sub_107B0F40(c_simulation_hs_sync_global_event_definition const *const, c_replication_outgoing_event const *, s_simulation_view_telemetry_data const *, float, long, char *);
 _inline void c_simulation_hs_sync_global_event_definition::write_description_to_string(c_replication_outgoing_event const *__formal, s_simulation_view_telemetry_data const *__formal1, float __formal2, long __formal3, char *__formal4) const // 0x107B0F40
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?write_description_to_string@c_simulation_hs_sync_global_event_definition@hades_file_local@@EBEXPBUc_replication_outgoing_event@@PBUs_simulation_view_telemetry_data@@MJPAD@Z");
+	// the original is empty
 	// `anonymous-namespace'::c_simulation_hs_sync_global_event_definition::write_description_to_string
 	// char *__formal;
-	todo("implement");
-	_sub_107B0F40((c_simulation_hs_sync_global_event_definition const *)this, __formal, __formal1, __formal2, __formal3, __formal4);
 }
 
 extern simulation_event_definition_return_value *_sub_107B0F60(c_simulation_hs_sync_global_event_definition const *const, simulation_event_definition_return_value *, c_replication_outgoing_event const *, s_simulation_view_telemetry_data const *);
@@ -674,13 +659,12 @@ _inline bool c_simulation_hs_sync_global_event_definition::event_payload_decode(
 	return __result;
 }
 
-_extern void _sub_107B10C0(c_simulation_hs_sync_global_event_definition *const, long, void *);
 _inline void c_simulation_hs_sync_global_event_definition::prepare_event_data_for_gameworld(long payload_size, void *payload) // 0x107B10C0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?prepare_event_data_for_gameworld@c_simulation_hs_sync_global_event_definition@hades_file_local@@EAEXJPAX@Z");
+	// the original is empty
 	// `anonymous-namespace'::c_simulation_hs_sync_global_event_definition::prepare_event_data_for_gameworld
 	// void *payload;
-	todo("implement");
-	_sub_107B10C0(this, payload_size, payload);
 }
 
 _extern bool _sub_107B10E0(c_simulation_hs_sync_global_event_definition *const, long, long const *, long, void const *);

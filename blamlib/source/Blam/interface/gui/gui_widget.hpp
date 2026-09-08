@@ -195,34 +195,28 @@ _inline c_gui_widget *c_gui_widget::get_next_sibling() const // 0x108D5EF0
 	return __result;
 }
 
-_extern unsigned long _sub_108D5EC0(c_gui_widget const *const);
 _inline unsigned long c_gui_widget::get_name_string_id() const // 0x108D5EC0
 {
-	mangled_x86(MANGLED_TODO, "?get_name_string_id@c_gui_widget@@QBEKXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_name_string_id@c_gui_widget@@QBEKXZ");
 	// c_gui_widget const *const this;
-	todo("implement");
-	unsigned long __result = _sub_108D5EC0((c_gui_widget const *)this);
-	return __result;
+
+	return m_name;
 }
 
-extern e_gui_widget _sub_108D5F80(c_gui_widget const *const);
 _inline e_gui_widget c_gui_widget::get_type() const // 0x108D5F80
 {
-	mangled_x86(MANGLED_TODO, "?get_type@c_gui_widget@@QBE?AW4e_gui_widget@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_type@c_gui_widget@@QBE?AW4e_gui_widget@@XZ");
 	// c_gui_widget const *const this;
-	todo("implement");
-	e_gui_widget __result = _sub_108D5F80((c_gui_widget const *)this);
-	return __result;
+
+	return static_cast<e_gui_widget>(m_type);
 }
 
-_extern bool _sub_108D5FB0(c_gui_widget const *const);
 _inline bool c_gui_widget::is_visible() const // 0x108D5FB0
 {
-	mangled_x86(MANGLED_TODO, "?is_visible@c_gui_widget@@QBE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?is_visible@c_gui_widget@@QBE_NXZ");
 	// c_gui_widget const *const this;
-	todo("implement");
-	bool __result = _sub_108D5FB0((c_gui_widget const *)this);
-	return __result;
+
+	return m_visible;
 }
 
 /* ---------- private code */

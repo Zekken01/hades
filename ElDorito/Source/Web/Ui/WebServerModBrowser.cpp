@@ -418,40 +418,28 @@ namespace Web
 				_sub_10C7CD00((IModBrowserModDownloadUI *)this);
 			}
 
-			_extern void _sub_10C7D950(Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen *const);
 			void CWebModDownloadSingleScreen::OnDestroy() // 0x10C7D950
 			{
-				mangled_x86(MANGLED_TODO, "?OnDestroy@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXXZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?OnDestroy@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXXZ");
 				// Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen *const this;
-				todo("implement");
-				_sub_10C7D950(this);
 			}
 
-			_extern void _sub_10C7DFD0(Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen *const);
 			void CWebModDownloadSingleScreen::OnShow() // 0x10C7DFD0
 			{
-				mangled_x86(MANGLED_TODO, "?OnShow@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXXZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?OnShow@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXXZ");
 				// Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen *const this;
-				todo("implement");
-				_sub_10C7DFD0(this);
 			}
 
-			_extern void _sub_10C7DF90(Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen *const);
 			void CWebModDownloadSingleScreen::OnHide() // 0x10C7DF90
 			{
-				mangled_x86(MANGLED_TODO, "?OnHide@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXXZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?OnHide@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXXZ");
 				// Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen *const this;
-				todo("implement");
-				_sub_10C7DF90(this);
 			}
 
-			_extern void _sub_10C7E010(Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen *const);
 			void CWebModDownloadSingleScreen::OnUpdate() // 0x10C7E010
 			{
-				mangled_x86(MANGLED_TODO, "?OnUpdate@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXXZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?OnUpdate@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXXZ");
 				// Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen *const this;
-				todo("implement");
-				_sub_10C7E010(this);
 			}
 
 			_extern void _sub_10C7CE90();

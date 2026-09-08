@@ -58,14 +58,12 @@ extern c_havok_component *havok_component_get(unsigned long havok_component_inde
 
 /* ---------- public code */
 
-_extern long _sub_10917FC0(c_havok_component const *const);
 _inline long c_havok_component::get_object_index() const // 0x10917FC0
 {
-	mangled_x86(MANGLED_TODO, "?get_object_index@c_havok_component@@QBEJXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_object_index@c_havok_component@@QBEJXZ");
 	// c_havok_component const *const this;
-	todo("implement");
-	long __result = _sub_10917FC0((c_havok_component const *)this);
-	return __result;
+
+	return m_object_index;
 }
 
 /* ---------- private code */

@@ -122,14 +122,12 @@ static_assert(sizeof(CServerConnectStateHandler_AcquireMods) == 352, "Invalid CS
 
 /* ---------- public code */
 
-extern CServerConnectStateHandler_AcquireMods::EState _sub_10907530(CServerConnectStateHandler_AcquireMods *const);
 _inline CServerConnectStateHandler_AcquireMods::EState CServerConnectStateHandler_AcquireMods::GetLocalState() // 0x10907530
 {
-	mangled_x86(MANGLED_TODO, "?GetLocalState@CServerConnectStateHandler_AcquireMods@@QAE?AW4EState@1@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetLocalState@CServerConnectStateHandler_AcquireMods@@QAE?AW4EState@1@XZ");
 	// CServerConnectStateHandler_AcquireMods *const this;
-	todo("implement");
-	CServerConnectStateHandler_AcquireMods::EState __result = _sub_10907530(this);
-	return __result;
+
+	return m_state;
 }
 
 /* ---------- private code */

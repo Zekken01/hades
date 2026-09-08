@@ -36,14 +36,12 @@ bool c_virtual_page_memory_allocator::reserve_memory(unsigned long total_size) /
 	return __result;
 }
 
-_extern unsigned long _sub_10892300(c_virtual_page_memory_allocator const *const);
 unsigned long c_virtual_page_memory_allocator::get_marker() const // 0x10892300
 {
-	mangled_x86(MANGLED_TODO, "?get_marker@c_virtual_page_memory_allocator@@QBEKXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_marker@c_virtual_page_memory_allocator@@QBEKXZ");
 	// c_virtual_page_memory_allocator const *const this;
-	todo("implement");
-	unsigned long __result = _sub_10892300((c_virtual_page_memory_allocator const *)this);
-	return __result;
+
+	return m_current_size;
 }
 
 _extern void *_sub_108920D0(c_virtual_page_memory_allocator *const, unsigned long, long, unsigned long *);

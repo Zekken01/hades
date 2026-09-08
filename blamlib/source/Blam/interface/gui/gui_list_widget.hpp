@@ -61,24 +61,20 @@ static_assert(sizeof(c_gui_list_widget) == 332, "Invalid c_gui_list_widget size"
 
 /* ---------- public code */
 
-_extern long _sub_108D5F50(c_gui_list_widget const *const);
 _inline long c_gui_list_widget::get_selected_index() const // 0x108D5F50
 {
-	mangled_x86(MANGLED_TODO, "?get_selected_index@c_gui_list_widget@@QBEJXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_selected_index@c_gui_list_widget@@QBEJXZ");
 	// c_gui_list_widget const *const this;
-	todo("implement");
-	long __result = _sub_108D5F50((c_gui_list_widget const *)this);
-	return __result;
+
+	return selected_index;
 }
 
-extern unsigned long const _sub_108D5E60(c_gui_list_widget const *const);
 _inline unsigned long const c_gui_list_widget::get_item_datasource_name() const // 0x108D5E60
 {
-	mangled_x86(MANGLED_TODO, "?get_item_datasource_name@c_gui_list_widget@@QBE?BKXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_item_datasource_name@c_gui_list_widget@@QBE?BKXZ");
 	// c_gui_list_widget const *const this;
-	todo("implement");
-	unsigned long const __result = _sub_108D5E60((c_gui_list_widget const *)this);
-	return __result;
+
+	return data_source_name;
 }
 
 /* ---------- private code */

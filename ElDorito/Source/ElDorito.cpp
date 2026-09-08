@@ -766,14 +766,12 @@ __int32 InitInstance(HINSTANCE__ *hModule) // 0x10964D10
 	return __result;
 }
 
-_extern __int32 _sub_10964670();
 __int32 ExitInstance() // 0x10964670
 {
-	mangled_x86(MANGLED_TODO, "?ExitInstance@@YAHXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ExitInstance@@YAHXZ");
 	// procedure flags: nofpo
-	todo("implement");
-	__int32 __result = _sub_10964670();
-	return __result;
+
+	return 1;
 }
 
 _extern __int32 _sub_109649F0();
@@ -840,13 +838,12 @@ namespace Debug
 	}
 }
 
-_extern void _sub_10964CF0();
 void HandleFinder() // 0x10964CF0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleFinder@@YAXXZ");
+	// the original is empty
 	// `anonymous-namespace'::HandleFinder
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10964CF0();
 }
 
 /* ---------- template instantiations */

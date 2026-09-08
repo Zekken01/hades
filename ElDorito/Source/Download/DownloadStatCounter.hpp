@@ -45,14 +45,12 @@ namespace Download
 
 namespace Download
 {
-	_extern __int32 _sub_108301E0(Download::CDownloadStatCounter const *const);
 	_inline __int32 CDownloadStatCounter::GetRate() const // 0x108301E0
 	{
-		mangled_x86(MANGLED_TODO, "?GetRate@CDownloadStatCounter@Download@@QBEHXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetRate@CDownloadStatCounter@Download@@QBEHXZ");
 		// Download::CDownloadStatCounter const *const this;
-		todo("implement");
-		__int32 __result = _sub_108301E0((Download::CDownloadStatCounter const *)this);
-		return __result;
+
+		return m_average;
 	}
 
 	_extern void _sub_10831BC0(Download::CDownloadStatCounter *const, __int32);

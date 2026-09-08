@@ -92,58 +92,40 @@ static_assert(sizeof(IModManager) == 4, "Invalid IModManager size");
 
 /* ---------- public code */
 
-_extern void _sub_1078BD40(IMod *const);
 _inline IMod::~IMod() // 0x1078BD40
 {
-	mangled_x86(MANGLED_TODO, "??1IMod@@UAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1IMod@@UAE@XZ");
 	// IMod *const this;
-	todo("implement");
-	_sub_1078BD40(this);
 }
 
-_extern void _sub_10793DE0(IModListener *const);
 _inline IModListener::~IModListener() // 0x10793DE0
 {
-	mangled_x86(MANGLED_TODO, "??1IModListener@@UAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1IModListener@@UAE@XZ");
 	// IModListener *const this;
-	todo("implement");
-	_sub_10793DE0(this);
 }
 
-_extern void _sub_10794400(IModListener *const, EModIndex, IMod *);
 _inline void IModListener::OnModChanged(EModIndex index, IMod *mod) // 0x10794400
 {
-	mangled_x86(MANGLED_TODO, "?OnModChanged@IModListener@@UAEXW4EModIndex@@PAVIMod@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnModChanged@IModListener@@UAEXW4EModIndex@@PAVIMod@@@Z");
 	// IMod *mod;
-	todo("implement");
-	_sub_10794400(this, index, mod);
 }
 
-_extern void _sub_107943E0(IModListener *const, EModIndex, IMod *);
 _inline void IModListener::OnModCacheChanged(EModIndex index, IMod *mod) // 0x107943E0
 {
-	mangled_x86(MANGLED_TODO, "?OnModCacheChanged@IModListener@@UAEXW4EModIndex@@PAVIMod@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnModCacheChanged@IModListener@@UAEXW4EModIndex@@PAVIMod@@@Z");
 	// IMod *mod;
-	todo("implement");
-	_sub_107943E0(this, index, mod);
 }
 
-_extern void _sub_10794610(IModListener *const, EModIndex, IMod *);
 _inline void IModListener::OnModLoadStateChangedAsync(EModIndex index, IMod *mod) // 0x10794610
 {
-	mangled_x86(MANGLED_TODO, "?OnModLoadStateChangedAsync@IModListener@@UAEXW4EModIndex@@PAVIMod@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnModLoadStateChangedAsync@IModListener@@UAEXW4EModIndex@@PAVIMod@@@Z");
 	// IMod *mod;
-	todo("implement");
-	_sub_10794610(this, index, mod);
 }
 
-_extern void _sub_10791400(IModManager *const);
 _inline IModManager::~IModManager() // 0x10791400
 {
-	mangled_x86(MANGLED_TODO, "??1IModManager@@UAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1IModManager@@UAE@XZ");
 	// IModManager *const this;
-	todo("implement");
-	_sub_10791400(this);
 }
 
 /* ---------- private code */

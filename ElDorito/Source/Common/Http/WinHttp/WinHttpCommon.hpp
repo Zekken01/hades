@@ -69,11 +69,10 @@ namespace Http
 {
 	_inline char const *WinHttpErrorCategory::name() const noexcept // 0x1080C0F0
 	{
-		mangled_x86(MANGLED_TODO, "?name@WinHttpErrorCategory@Http@@UBEPBDXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?name@WinHttpErrorCategory@Http@@UBEPBDXZ");
 		// Http::WinHttpErrorCategory const *const this;
-		todo("implement");
-		char const * __result = _sub_1080C0F0((Http::WinHttpErrorCategory const *)this);
-		return __result;
+
+		return "WinHttp";
 	}
 }
 

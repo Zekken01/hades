@@ -326,14 +326,13 @@ bool game_state_header_matches_current_network_session_settings_hook(s_game_stat
 	return __result;
 }
 
-_extern bool _sub_1091B390(void *, unsigned long, bool, void *, void *);
 bool hash_verification(void *data, unsigned long size, bool a3, void *input_hash, void *output_hash) // 0x1091B390
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?hash_verification@@YA_NPAXK_N00@Z");
 	// `anonymous-namespace'::hash_verification
 	// void *output_hash;
-	todo("implement");
-	bool __result = _sub_1091B390(data, size, a3, input_hash, output_hash);
-	return __result;
+
+	return true;
 }
 
 _extern void _sub_10918EE0();

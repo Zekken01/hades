@@ -117,54 +117,44 @@ _inline std::basic_string<char,std::char_traits<char>,std::allocator<char> > ElD
 	return __result;
 }
 
-_extern bool _sub_10961AD0(ElDorito const *const);
 _inline bool ElDorito::IsWebDebuggingEnabled() const // 0x10961AD0
 {
-	mangled_x86(MANGLED_TODO, "?IsWebDebuggingEnabled@ElDorito@@QBE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?IsWebDebuggingEnabled@ElDorito@@QBE_NXZ");
 	// ElDorito const *const this;
-	todo("implement");
-	bool __result = _sub_10961AD0((ElDorito const *)this);
-	return __result;
+
+	return webDebugging;
 }
 
-_extern __int32 _sub_10C93860(ElDorito const *const);
 _inline __int32 ElDorito::GetWebDebugPort() const // 0x10C93860
 {
-	mangled_x86(MANGLED_TODO, "?GetWebDebugPort@ElDorito@@QBEHXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetWebDebugPort@ElDorito@@QBEHXZ");
 	// ElDorito const *const this;
-	todo("implement");
-	__int32 __result = _sub_10C93860((ElDorito const *)this);
-	return __result;
+
+	return webdebugPort;
 }
 
-_extern bool _sub_10CC0EA0(ElDorito const *const);
 _inline bool ElDorito::IsWebDebugLoggingEnabled() const // 0x10CC0EA0
 {
-	mangled_x86(MANGLED_TODO, "?IsWebDebugLoggingEnabled@ElDorito@@QBE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?IsWebDebugLoggingEnabled@ElDorito@@QBE_NXZ");
 	// ElDorito const *const this;
-	todo("implement");
-	bool __result = _sub_10CC0EA0((ElDorito const *)this);
-	return __result;
+
+	return webDebugLogging;
 }
 
-_extern bool _sub_1068FE20(ElDorito const *const);
 _inline bool ElDorito::IsDedicated() const // 0x1068FE20
 {
-	mangled_x86(MANGLED_TODO, "?IsDedicated@ElDorito@@QBE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?IsDedicated@ElDorito@@QBE_NXZ");
 	// ElDorito const *const this;
-	todo("implement");
-	bool __result = _sub_1068FE20((ElDorito const *)this);
-	return __result;
+
+	return isDedicated;
 }
 
-_extern bool _sub_109685D0(ElDorito const *const);
 _inline bool ElDorito::IsBotClient() const // 0x109685D0
 {
-	mangled_x86(MANGLED_TODO, "?IsBotClient@ElDorito@@QBE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?IsBotClient@ElDorito@@QBE_NXZ");
 	// ElDorito const *const this;
-	todo("implement");
-	bool __result = _sub_109685D0((ElDorito const *)this);
-	return __result;
+
+	return isBotClient;
 }
 
 _extern bool _sub_10923850(ElDorito const *const);
@@ -177,24 +167,20 @@ _inline bool ElDorito::IsHeadless() const // 0x10923850
 	return __result;
 }
 
-_extern bool _sub_10A48D10(ElDorito const *const);
 _inline bool ElDorito::IsHighPriority() const // 0x10A48D10
 {
-	mangled_x86(MANGLED_TODO, "?IsHighPriority@ElDorito@@QBE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?IsHighPriority@ElDorito@@QBE_NXZ");
 	// ElDorito const *const this;
-	todo("implement");
-	bool __result = _sub_10A48D10((ElDorito const *)this);
-	return __result;
+
+	return isHighPriority;
 }
 
-_extern bool _sub_10CAABD0(ElDorito const *const);
 _inline bool ElDorito::IsConnectingToServer() const // 0x10CAABD0
 {
-	mangled_x86(MANGLED_TODO, "?IsConnectingToServer@ElDorito@@QBE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?IsConnectingToServer@ElDorito@@QBE_NXZ");
 	// ElDorito const *const this;
-	todo("implement");
-	bool __result = _sub_10CAABD0((ElDorito const *)this);
-	return __result;
+
+	return connectToServer;
 }
 
 extern std::basic_string<char,std::char_traits<char>,std::allocator<char> > _sub_106B4470(ElDorito const *const);

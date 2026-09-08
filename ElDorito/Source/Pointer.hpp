@@ -109,13 +109,10 @@ _inline Pointer::Pointer(unsigned __int32 Offset) // 0x10698D50
 	_sub_10698D50(this, Offset);
 }
 
-_extern void _sub_10699000(Pointer *const);
 _inline Pointer::~Pointer() // 0x10699000
 {
-	mangled_x86(MANGLED_TODO, "??1Pointer@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1Pointer@@QAE@XZ");
 	// Pointer *const this;
-	todo("implement");
-	_sub_10699000(this);
 }
 
 extern Pointer _sub_10992670(Pointer const *const, __int32 const);
@@ -147,14 +144,12 @@ _inline void Pointer::operator=(Pointer Pointer) // 0x10A90100
 	_sub_10A90100(this, Pointer);
 }
 
-_extern void *_sub_108E4020(Pointer const *const);
 _inline Pointer::operator void *() const // 0x108E4020
 {
-	mangled_x86(MANGLED_TODO, "??BPointer@@QBEPAXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??BPointer@@QBEPAXXZ");
 	// Pointer const *const this;
-	todo("implement");
-	void * __result = _sub_108E4020((Pointer const *)this);
-	return __result;
+
+	return _Pointer;
 }
 
 template<typename t_arg0>

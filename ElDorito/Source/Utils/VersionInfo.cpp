@@ -61,14 +61,12 @@ namespace Utils
 {
 	namespace Version
 	{
-		_extern unsigned __int32 _sub_10C60D90();
 		unsigned __int32 GetVersionInt() // 0x10C60D90
 		{
-			mangled_x86(MANGLED_TODO, "?GetVersionInt@Version@Utils@@YAIXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetVersionInt@Version@Utils@@YAIXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			unsigned __int32 __result = _sub_10C60D90();
-			return __result;
+
+			return 0x70000;
 		}
 	}
 }

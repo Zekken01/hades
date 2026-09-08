@@ -127,13 +127,10 @@ namespace Patches
 			_sub_10A8B8E0();
 		}
 
-		_extern void _sub_10A8BD10();
 		void Tick() // 0x10A8BD10
 		{
-			mangled_x86(MANGLED_TODO, "?Tick@Mopp@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@Mopp@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_10A8BD10();
 		}
 	}
 }
@@ -150,29 +147,56 @@ __declspec(naked) void fixMoppAddress() // 0x10A8BD30
 	_sub_10A8BD30();
 }
 
-extern void _sub_10A8BD90();
 __declspec(naked) void loc_D0E9E3_hook() // 0x10A8BD90
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?loc_D0E9E3_hook@@YAXXZ");
 	// `anonymous-namespace'::loc_D0E9E3_hook
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10A8BD90();
+
+	__asm
+	{
+		mov esi, [esi + 2Ch]
+		add esi, ecx
+		call fixMoppAddress
+		mov eax, [ebp + 10h]
+		push 0D0E9EBh
+		ret
+	}
 }
 
-extern void _sub_10A8BD60();
 __declspec(naked) void loc_D0D919_hook() // 0x10A8BD60
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?loc_D0D919_hook@@YAXXZ");
 	// `anonymous-namespace'::loc_D0D919_hook
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10A8BD60();
+
+	__asm
+	{
+		mov ecx, [ebp + 8]
+		mov esi, [ecx + 18h]
+		mov ecx, [ebx + 64h]
+		mov edx, [ecx]
+		mov edx, [edx + 14h]
+		add esi, eax
+		call fixMoppAddress
+		push 0D0D929h
+		ret
+	}
 }
 
-extern void _sub_10A8BDB0();
 __declspec(naked) void loc_D0F505_hook() // 0x10A8BDB0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?loc_D0F505_hook@@YAXXZ");
 	// `anonymous-namespace'::loc_D0F505_hook
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10A8BDB0();
+
+	__asm
+	{
+		mov esi, [esi + 1Ch]
+		mov ebp, [ebp]
+		add esi, eax
+		call fixMoppAddress
+		push 0D0F50Dh
+		ret
+	}
 }

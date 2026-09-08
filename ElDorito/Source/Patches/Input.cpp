@@ -427,13 +427,12 @@ namespace Patches
 
 /* ---------- private code */
 
-_extern void _sub_10A81040();
 void null_stub() // 0x10A81040
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?null_stub@@YAXXZ");
+	// the original is empty
 	// `anonymous-namespace'::null_stub
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10A81040();
 }
 
 _extern void _sub_10A7A430();
@@ -582,13 +581,19 @@ void GetDefaultBindingsHook(__int32 type, Blam::Input::BindingsTable *result) //
 	_sub_10A793F0(type, result);
 }
 
-extern void _sub_10A794B0();
 __declspec(naked) void GetKeyboardActionTypeHook() // 0x10A794B0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetKeyboardActionTypeHook@@YAXXZ");
 	// `anonymous-namespace'::GetKeyboardActionTypeHook
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10A794B0();
+
+	__asm
+	{
+		mov eax, dword ptr actionInputTypes[ecx * 4]
+		xor ecx, ecx
+		push 060C51Eh
+		ret
+	}
 }
 
 _extern bool _sub_10A79A00();

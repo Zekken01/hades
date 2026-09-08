@@ -105,13 +105,11 @@ namespace Server
 {
 	namespace Chat
 	{
-		extern ChatMessage* _sub_10C1B1B0(Server::Chat::ChatMessage *const);
 		_inline ChatMessage::ChatMessage() // 0x10C1B1B0
 		{
-			mangled_x86(MANGLED_TODO, "??0ChatMessage@Chat@Server@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0ChatMessage@Chat@Server@@QAE@XZ");
 			// Server::Chat::ChatMessage *const this;
-			todo("implement");
-			_sub_10C1B1B0(this);
+
 		}
 
 		_extern void _sub_10C9C540(Server::Chat::ChatHandler *const);

@@ -375,14 +375,12 @@ namespace Web
 			_sub_10CD25D0(this);
 		}
 
-		_extern bool _sub_10CD18C0(Web::Browser::WebRendererRenderHandler const *const);
 		bool WebRendererRenderHandler::IsAccelerated() const // 0x10CD18C0
 		{
-			mangled_x86(MANGLED_TODO, "?IsAccelerated@WebRendererRenderHandler@Browser@Web@@QBE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?IsAccelerated@WebRendererRenderHandler@Browser@Web@@QBE_NXZ");
 			// Web::Browser::WebRendererRenderHandler const *const this;
-			todo("implement");
-			bool __result = _sub_10CD18C0((Web::Browser::WebRendererRenderHandler const *)this);
-			return __result;
+
+			return m_GpuEnable;
 		}
 	}
 }

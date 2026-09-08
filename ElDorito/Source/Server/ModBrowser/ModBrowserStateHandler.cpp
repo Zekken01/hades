@@ -46,14 +46,12 @@ class CModBrowserStateManager;
 
 /* ---------- public code */
 
-extern CModBrowserStateManager *_sub_10721C00(CModBrowserStateHandler *const);
 CModBrowserStateManager *CModBrowserStateHandler::GetManager() // 0x10721C00
 {
-	mangled_x86(MANGLED_TODO, "?GetManager@CModBrowserStateHandler@@QAEPAVCModBrowserStateManager@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetManager@CModBrowserStateHandler@@QAEPAVCModBrowserStateManager@@XZ");
 	// CModBrowserStateHandler *const this;
-	todo("implement");
-	CModBrowserStateManager * __result = _sub_10721C00(this);
-	return __result;
+
+	return m_manager;
 }
 
 _extern void _sub_10721CA0(CModBrowserStateHandler *const, CModBrowserStateManager *);

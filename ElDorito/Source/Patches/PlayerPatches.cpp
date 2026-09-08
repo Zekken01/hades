@@ -222,14 +222,13 @@ namespace Player
 
 /* ---------- private code */
 
-_extern bool _sub_108DC840(s_player_datum *, long);
 bool s3d_player_has_gameplay_modifier(s_player_datum *playerdatum, long index) // 0x108DC840
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?s3d_player_has_gameplay_modifier@@YA_NPAUs_player_datum@@J@Z");
 	// `anonymous-namespace'::s3d_player_has_gameplay_modifier
 	// long index;
-	todo("implement");
-	bool __result = _sub_108DC840(playerdatum, index);
-	return __result;
+
+	return false;
 }
 
 _extern long _sub_108DC800(s_player_datum *, long, long);
@@ -262,13 +261,12 @@ bool BeforePlayerSpawn(long playerIndex) // 0x108DB000
 	return __result;
 }
 
-_extern void _sub_108D93E0(long);
 void AfterPlayerSpawn(long playerIndex) // 0x108D93E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?AfterPlayerSpawn@@YAXJ@Z");
+	// the original is empty
 	// `anonymous-namespace'::AfterPlayerSpawn
 	// long playerIndex;
-	todo("implement");
-	_sub_108D93E0(playerIndex);
 }
 
 _extern bool _sub_108DC5F0(long);

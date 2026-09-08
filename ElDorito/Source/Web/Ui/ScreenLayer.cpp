@@ -739,22 +739,20 @@ namespace Patches
 
 /* ---------- private code */
 
-_extern void _sub_10C92B00(WebOverlayInputContext *const);
 _inline void WebOverlayInputContext::Activated() // 0x10C92B00
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Activated@WebOverlayInputContext@hades_file_local@@UAEXXZ");
+	// the original is empty
 	// `anonymous-namespace'::WebOverlayInputContext::Activated
 	// WebOverlayInputContext *const this;
-	todo("implement");
-	_sub_10C92B00(this);
 }
 
-_extern void _sub_10C93180(WebOverlayInputContext *const);
 _inline void WebOverlayInputContext::Deactivated() // 0x10C93180
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Deactivated@WebOverlayInputContext@hades_file_local@@UAEXXZ");
+	// the original is empty
 	// `anonymous-namespace'::WebOverlayInputContext::Deactivated
 	// WebOverlayInputContext *const this;
-	todo("implement");
-	_sub_10C93180(this);
 }
 
 _extern bool _sub_10C931A0(WebOverlayInputContext *const);

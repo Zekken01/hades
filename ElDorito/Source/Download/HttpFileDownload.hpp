@@ -195,14 +195,12 @@ namespace Download
 
 namespace Download
 {
-	_extern bool _sub_108308B0(Download::CHttpFileDownload const *const);
 	_inline bool CHttpFileDownload::IsComplete() const // 0x108308B0
 	{
-		mangled_x86(MANGLED_TODO, "?IsComplete@CHttpFileDownload@Download@@UBE_NXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?IsComplete@CHttpFileDownload@Download@@UBE_NXZ");
 		// Download::CHttpFileDownload const *const this;
-		todo("implement");
-		bool __result = _sub_108308B0((Download::CHttpFileDownload const *)this);
-		return __result;
+
+		return m_bFinished;
 	}
 
 	_extern long long _sub_1082FB60(Download::CHttpFileDownload const *const);
@@ -225,33 +223,26 @@ namespace Download
 		return __result;
 	}
 
-	_extern __int32 _sub_1082FB30(Download::CHttpFileDownload const *const);
 	_inline __int32 CHttpFileDownload::GetDownloadSpeed() const // 0x1082FB30
 	{
-		mangled_x86(MANGLED_TODO, "?GetDownloadSpeed@CHttpFileDownload@Download@@UBEHXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetDownloadSpeed@CHttpFileDownload@Download@@UBEHXZ");
 		// Download::CHttpFileDownload const *const this;
-		todo("implement");
-		__int32 __result = _sub_1082FB30((Download::CHttpFileDownload const *)this);
-		return __result;
+
+		return m_downloadSpeed;
 	}
 
-	_extern __int32 _sub_10857280(Download::CHttpFileDownload const *const);
 	_inline __int32 CHttpFileDownload::GetTotalRequests() const // 0x10857280
 	{
-		mangled_x86(MANGLED_TODO, "?GetTotalRequests@CHttpFileDownload@Download@@QBEHXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetTotalRequests@CHttpFileDownload@Download@@QBEHXZ");
 		// Download::CHttpFileDownload const *const this;
-		todo("implement");
-		__int32 __result = _sub_10857280((Download::CHttpFileDownload const *)this);
-		return __result;
+
+		return m_totalRequestsMade;
 	}
 
-	_extern void _sub_10820420(Download::CHttpFileDownloadManager *const);
 	_inline void CHttpFileDownloadManager::Init() // 0x10820420
 	{
-		mangled_x86(MANGLED_TODO, "?Init@CHttpFileDownloadManager@Download@@QAEXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Init@CHttpFileDownloadManager@Download@@QAEXXZ");
 		// Download::CHttpFileDownloadManager *const this;
-		todo("implement");
-		_sub_10820420(this);
 	}
 
 	_extern void _sub_10820580(Download::CHttpFileDownloadManager *const);

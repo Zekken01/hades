@@ -448,40 +448,28 @@ namespace Web
 				_sub_10CAD3B0((IServerConnectModDownloadUI *)this);
 			}
 
-			_extern void _sub_10CAE000(Web::Ui::WebMods::CWebModDownloadScreen *const);
 			void CWebModDownloadScreen::OnDestroy() // 0x10CAE000
 			{
-				mangled_x86(MANGLED_TODO, "?OnDestroy@CWebModDownloadScreen@WebMods@Ui@Web@@UAEXXZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?OnDestroy@CWebModDownloadScreen@WebMods@Ui@Web@@UAEXXZ");
 				// Web::Ui::WebMods::CWebModDownloadScreen *const this;
-				todo("implement");
-				_sub_10CAE000(this);
 			}
 
-			_extern void _sub_10CAED00(Web::Ui::WebMods::CWebModDownloadScreen *const);
 			void CWebModDownloadScreen::OnShow() // 0x10CAED00
 			{
-				mangled_x86(MANGLED_TODO, "?OnShow@CWebModDownloadScreen@WebMods@Ui@Web@@UAEXXZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?OnShow@CWebModDownloadScreen@WebMods@Ui@Web@@UAEXXZ");
 				// Web::Ui::WebMods::CWebModDownloadScreen *const this;
-				todo("implement");
-				_sub_10CAED00(this);
 			}
 
-			_extern void _sub_10CAE9E0(Web::Ui::WebMods::CWebModDownloadScreen *const);
 			void CWebModDownloadScreen::OnHide() // 0x10CAE9E0
 			{
-				mangled_x86(MANGLED_TODO, "?OnHide@CWebModDownloadScreen@WebMods@Ui@Web@@UAEXXZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?OnHide@CWebModDownloadScreen@WebMods@Ui@Web@@UAEXXZ");
 				// Web::Ui::WebMods::CWebModDownloadScreen *const this;
-				todo("implement");
-				_sub_10CAE9E0(this);
 			}
 
-			_extern void _sub_10CAED20(Web::Ui::WebMods::CWebModDownloadScreen *const);
 			void CWebModDownloadScreen::OnUpdate() // 0x10CAED20
 			{
-				mangled_x86(MANGLED_TODO, "?OnUpdate@CWebModDownloadScreen@WebMods@Ui@Web@@UAEXXZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?OnUpdate@CWebModDownloadScreen@WebMods@Ui@Web@@UAEXXZ");
 				// Web::Ui::WebMods::CWebModDownloadScreen *const this;
-				todo("implement");
-				_sub_10CAED20(this);
 			}
 
 			_extern void _sub_10CAE720();

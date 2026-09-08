@@ -71,14 +71,11 @@ namespace Web
 {
 	namespace Browser
 	{
-		_extern void _sub_10CE8350(Web::Browser::RenderHandlerOsr * const);
 		_inline RenderHandlerOsr::~RenderHandlerOsr() // 0x10CE8350
 		{
-			mangled_x86(MANGLED_TODO, "??1RenderHandlerOsr@Browser@Web@@UAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??1RenderHandlerOsr@Browser@Web@@UAE@XZ");
 			// __shifted(Web::Browser::RenderHandlerOsr, 8);
 			// Web::Browser::RenderHandlerOsr *const this;
-			todo("implement");
-			_sub_10CE8350(this);
 		}
 
 		_extern void _sub_10CE9550(Web::Browser::RenderHandlerOsr *const, scoped_refptr<CefBrowser>, bool);
@@ -117,61 +114,46 @@ namespace Web
 			_sub_10CE8D20(this, browser, type, dirtyRects, sharedHandle);
 		}
 
-		_extern bool _sub_10CE8C30(Web::Browser::RenderHandlerOsr *const);
 		_inline bool RenderHandlerOsr::InitRenderer() // 0x10CE8C30
 		{
-			mangled_x86(MANGLED_TODO, "?InitRenderer@RenderHandlerOsr@Browser@Web@@UAE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?InitRenderer@RenderHandlerOsr@Browser@Web@@UAE_NXZ");
 			// Web::Browser::RenderHandlerOsr *const this;
-			todo("implement");
-			bool __result = _sub_10CE8C30(this);
-			return __result;
+
+			return true;
 		}
 
-		_extern bool _sub_10CEA180(Web::Browser::RenderHandlerOsr *const, unsigned __int32, unsigned __int32);
 		_inline bool RenderHandlerOsr::Resize(unsigned __int32 width, unsigned __int32 height) // 0x10CEA180
 		{
-			mangled_x86(MANGLED_TODO, "?Resize@RenderHandlerOsr@Browser@Web@@UAE_NII@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Resize@RenderHandlerOsr@Browser@Web@@UAE_NII@Z");
 			// unsigned __int32 height;
-			todo("implement");
-			bool __result = _sub_10CEA180(this, width, height);
-			return __result;
+
+			return true;
 		}
 
-		_extern bool _sub_10CE9DB0(Web::Browser::RenderHandlerOsr *const);
 		_inline bool RenderHandlerOsr::Render() // 0x10CE9DB0
 		{
-			mangled_x86(MANGLED_TODO, "?Render@RenderHandlerOsr@Browser@Web@@UAE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Render@RenderHandlerOsr@Browser@Web@@UAE_NXZ");
 			// Web::Browser::RenderHandlerOsr *const this;
-			todo("implement");
-			bool __result = _sub_10CE9DB0(this);
-			return __result;
+
+			return true;
 		}
 
-		_extern void _sub_10CE9860(Web::Browser::RenderHandlerOsr *const);
 		_inline void RenderHandlerOsr::OnPreResetDevice() // 0x10CE9860
 		{
-			mangled_x86(MANGLED_TODO, "?OnPreResetDevice@RenderHandlerOsr@Browser@Web@@UAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnPreResetDevice@RenderHandlerOsr@Browser@Web@@UAEXXZ");
 			// Web::Browser::RenderHandlerOsr *const this;
-			todo("implement");
-			_sub_10CE9860(this);
 		}
 
-		_extern void _sub_10CE97B0(Web::Browser::RenderHandlerOsr *const);
 		_inline void RenderHandlerOsr::OnPostResetDevice() // 0x10CE97B0
 		{
-			mangled_x86(MANGLED_TODO, "?OnPostResetDevice@RenderHandlerOsr@Browser@Web@@UAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnPostResetDevice@RenderHandlerOsr@Browser@Web@@UAEXXZ");
 			// Web::Browser::RenderHandlerOsr *const this;
-			todo("implement");
-			_sub_10CE97B0(this);
 		}
 
-		_extern void _sub_10CEA2A0(Web::Browser::RenderHandlerOsr *const);
 		_inline void RenderHandlerOsr::Shutdown() // 0x10CEA2A0
 		{
-			mangled_x86(MANGLED_TODO, "?Shutdown@RenderHandlerOsr@Browser@Web@@UAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Shutdown@RenderHandlerOsr@Browser@Web@@UAEXXZ");
 			// Web::Browser::RenderHandlerOsr *const this;
-			todo("implement");
-			_sub_10CEA2A0(this);
 		}
 	}
 }

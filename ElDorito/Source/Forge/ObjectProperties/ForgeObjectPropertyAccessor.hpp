@@ -124,13 +124,10 @@ static_assert(sizeof(Forge::CDeferredPropertySetter) == 44, "Invalid Forge::CDef
 
 namespace Forge
 {
-	_extern void _sub_1083B2F0(Forge::CObjectPropertyAccessor *const);
 	_inline CObjectPropertyAccessor::~CObjectPropertyAccessor() // 0x1083B2F0
 	{
-		mangled_x86(MANGLED_TODO, "??1CObjectPropertyAccessor@Forge@@UAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??1CObjectPropertyAccessor@Forge@@UAE@XZ");
 		// Forge::CObjectPropertyAccessor *const this;
-		todo("implement");
-		_sub_1083B2F0(this);
 	}
 }
 

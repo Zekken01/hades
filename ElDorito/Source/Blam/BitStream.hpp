@@ -121,24 +121,20 @@ namespace Blam
 
 namespace Blam
 {
-	_extern __int32 _sub_10ACE5C0(Blam::BitStream const *const);
 	_inline __int32 BitStream::SizeBytes() const // 0x10ACE5C0
 	{
-		mangled_x86(MANGLED_TODO, "?SizeBytes@BitStream@Blam@@QBEHXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?SizeBytes@BitStream@Blam@@QBEHXZ");
 		// Blam::BitStream const *const this;
-		todo("implement");
-		__int32 __result = _sub_10ACE5C0((Blam::BitStream const *)this);
-		return __result;
+
+		return m_dataSizeBytes;
 	}
 
-	_extern __int32 _sub_10ACE5F0(Blam::BitStream const *const);
 	_inline __int32 BitStream::StreamBitPosition() const // 0x10ACE5F0
 	{
-		mangled_x86(MANGLED_TODO, "?StreamBitPosition@BitStream@Blam@@QBEHXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?StreamBitPosition@BitStream@Blam@@QBEHXZ");
 		// Blam::BitStream const *const this;
-		todo("implement");
-		__int32 __result = _sub_10ACE5F0((Blam::BitStream const *)this);
-		return __result;
+
+		return m_currentStreamBitPosition;
 	}
 
 	_extern bool _sub_107F00A0(Blam::BitStream *const);

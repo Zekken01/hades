@@ -194,14 +194,12 @@ s_mod_package_metadata const *c_mod_package::get_metadata() const // 0x1089DD50
 	return __result;
 }
 
-_extern long _sub_1089DCA0(c_mod_package const *const);
 long c_mod_package::get_map_count() const // 0x1089DCA0
 {
-	mangled_x86(MANGLED_TODO, "?get_map_count@c_mod_package@@QBEJXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_map_count@c_mod_package@@QBEJXZ");
 	// c_mod_package const *const this;
-	todo("implement");
-	long __result = _sub_1089DCA0((c_mod_package const *)this);
-	return __result;
+
+	return m_map_file_count;
 }
 
 extern s_mod_package_map_file_entry const *_sub_1089DCD0(c_mod_package const *const, long);
@@ -415,14 +413,12 @@ unsigned long c_mod_package::get_tag_cache_offset(__int32 tag_cache_index) const
 	return __result;
 }
 
-_extern unsigned long _sub_1089DDE0(c_mod_package const *const);
 unsigned long c_mod_package::get_resource_cache_offset() const // 0x1089DDE0
 {
-	mangled_x86(MANGLED_TODO, "?get_resource_cache_offset@c_mod_package@@QBEKXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_resource_cache_offset@c_mod_package@@QBEKXZ");
 	// c_mod_package const *const this;
-	todo("implement");
-	unsigned long __result = _sub_1089DDE0((c_mod_package const *)this);
-	return __result;
+
+	return m_resource_cache_offset;
 }
 
 extern std::shared_ptr<c_cache_file_tag_cache> _sub_1089E770(c_mod_package *const, c_file_reference &, long);

@@ -250,13 +250,10 @@ namespace Patches
 			_sub_10956FE0();
 		}
 
-		_extern void _sub_10956FC0();
 		void ApplyAfterTagsLoaded() // 0x10956FC0
 		{
-			mangled_x86(MANGLED_TODO, "?ApplyAfterTagsLoaded@Camera@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAfterTagsLoaded@Camera@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_10956FC0();
 		}
 
 		_extern bool _sub_10958AF0(std::basic_string<char,std::char_traits<char>,std::allocator<char> > const);

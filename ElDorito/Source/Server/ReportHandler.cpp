@@ -186,13 +186,10 @@ namespace Server
 			_sub_10B22A80(token);
 		}
 
-		_extern void _sub_10B23BF0();
 		void Tick() // 0x10B23BF0
 		{
-			mangled_x86(MANGLED_TODO, "?Tick@ReportHandler@Server@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@ReportHandler@Server@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_10B23BF0();
 		}
 
 		_extern void _sub_10B23B10();

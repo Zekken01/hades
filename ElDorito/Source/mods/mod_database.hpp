@@ -94,14 +94,12 @@ _inline c_mod_database::c_mod_database() // 0x108A4B70
 	_sub_108A4B70(this);
 }
 
-_extern bool _sub_108AA470(c_mod_database const *const);
 _inline bool c_mod_database::is_dirty() const // 0x108AA470
 {
-	mangled_x86(MANGLED_TODO, "?is_dirty@c_mod_database@@QBE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?is_dirty@c_mod_database@@QBE_NXZ");
 	// c_mod_database const *const this;
-	todo("implement");
-	bool __result = _sub_108AA470((c_mod_database const *)this);
-	return __result;
+
+	return m_dirty;
 }
 
 /* ---------- private code */

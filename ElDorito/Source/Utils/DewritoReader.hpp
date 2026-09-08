@@ -57,14 +57,12 @@ namespace Utils
 
 namespace Utils
 {
-	_extern bool _sub_106C9270(Utils::DewritoReader *const);
 	_inline bool DewritoReader::IsValid() // 0x106C9270
 	{
-		mangled_x86(MANGLED_TODO, "?IsValid@DewritoReader@Utils@@QAE_NXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?IsValid@DewritoReader@Utils@@QAE_NXZ");
 		// Utils::DewritoReader *const this;
-		todo("implement");
-		bool __result = _sub_106C9270(this);
-		return __result;
+
+		return m_isValid;
 	}
 }
 
