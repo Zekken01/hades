@@ -63,24 +63,26 @@ namespace Common
 {
 	namespace D3DAdapters
 	{
-		_extern bool _sub_10687350(Common::D3DAdapters::DisplayMode const &, Common::D3DAdapters::DisplayMode const &);
 		_inline bool operator<(Common::D3DAdapters::DisplayMode const &lhs, Common::D3DAdapters::DisplayMode const &rhs) // 0x10687350
 		{
-			mangled_x86(MANGLED_TODO, "??MD3DAdapters@Common@@YA_NABUDisplayMode@01@0@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??MD3DAdapters@Common@@YA_NABUDisplayMode@01@0@Z");
 			// Common::D3DAdapters::DisplayMode const &rhs;
-			todo("implement");
-			bool __result = _sub_10687350(lhs, rhs);
-			return __result;
+
+			if (lhs.adapterIndex != rhs.adapterIndex)
+				return lhs.adapterIndex < rhs.adapterIndex;
+
+			if (lhs.width != rhs.width)
+				return lhs.width < rhs.width;
+
+			return lhs.height < rhs.height;
 		}
 
-		_extern bool _sub_10687070(Common::D3DAdapters::DisplayMode const &, Common::D3DAdapters::DisplayMode const &);
 		_inline bool operator==(Common::D3DAdapters::DisplayMode const &lhs, Common::D3DAdapters::DisplayMode const &rhs) // 0x10687070
 		{
-			mangled_x86(MANGLED_TODO, "??8D3DAdapters@Common@@YA_NABUDisplayMode@01@0@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??8D3DAdapters@Common@@YA_NABUDisplayMode@01@0@Z");
 			// Common::D3DAdapters::DisplayMode const &rhs;
-			todo("implement");
-			bool __result = _sub_10687070(lhs, rhs);
-			return __result;
+
+			return lhs.adapterIndex == rhs.adapterIndex && lhs.width == rhs.width && lhs.height == rhs.height;
 		}
 	}
 }

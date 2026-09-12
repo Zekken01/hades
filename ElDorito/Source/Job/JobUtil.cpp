@@ -47,13 +47,15 @@ namespace Job
 
 namespace Job
 {
-	_extern void _sub_1086D2A0(SJobCounter const *);
 	void WaitForCounter(SJobCounter const *counter) // 0x1086D2A0
 	{
-		mangled_x86(MANGLED_TODO, "?WaitForCounter@Job@@YAXPBUSJobCounter@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?WaitForCounter@Job@@YAXPBUSJobCounter@@@Z");
 		// SJobCounter const *counter;
-		todo("implement");
-		_sub_1086D2A0(counter);
+
+		while (counter->GetValue())
+		{
+			std::this_thread::yield();
+		}
 	}
 }
 

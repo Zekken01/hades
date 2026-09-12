@@ -201,10 +201,10 @@ void camera_globals_initialize_from_tags_hook();
 void CameraModeReset();
 void OnMapLoaded(char const *mapPath);
 float GetScriptedCameraFovHook();
-void c_following_camera__update_hook(void *thisptr, void *unused, __int32 localPlayerIndex, __int32 a4, unsigned char *state);
+void __fastcall c_following_camera__update_hook(void *thisptr, void *unused, __int32 localPlayerIndex, __int32 a4, unsigned char *state);
 __int32 unit_use_third_person_camera(unsigned long object_index, __int32 *a2);
 bool director_scripting_get_hook();
-bool c_director__set_camera_mode_internal_hook(void *thisPtr, void *unused, __int32 camera_mode, float camera_speed, bool a4);
+bool __fastcall c_director__set_camera_mode_internal_hook(void *thisPtr, void *unused, __int32 camera_mode, float camera_speed, bool a4);
 __int32 scripted_camera__player_mapping_get_input_controller_hook(short a1);
 void debug_teleport_to_camera();
 void director_game_tick_hook();
@@ -217,7 +217,7 @@ void slerp_rotational_vectors(real_vector3d *out_f, real_vector3d *out_up, real_
 void build_interpolated_camera_frame(s_camera_frame *out_frame, s_camera_frame *a, s_camera_frame *b, float s);
 void observer_set_camera_frame(s_observer_command *observer_command, real_matrix4x3 *camera_matrix, s_camera_frame *frame);
 void scripted_camera_update_call_hook(void *a1, void *camera_control, s_observer_command *observer_command);
-void c_flying_camera__update_hook(c_flying_camera *thisptr, void *__formal, long user_index, float dt, s_observer_command *result);
+void __fastcall c_flying_camera__update_hook(c_flying_camera *thisptr, void *__formal, long user_index, float dt, s_observer_command *result);
 void player_effect_apply_camera_effect_matrix_hook(long output_user_index, real_matrix4x3 *camera_matrix);
 void observer_compute_result_hook(long output_user_index, s_focus_and_distance *focus_and_distance);
 void observer_compute_view_offset_matrix_hook(long output_user_index, real_matrix4x3 *view_matrix);
@@ -314,11 +314,10 @@ namespace Patches
 	{
 		e_camera_mode GetForcedCameraMode() // 0x109589A0
 		{
-			mangled_x86(MANGLED_TODO, "?GetForcedCameraMode@Camera@Patches@@YA?AW4e_camera_mode@@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetForcedCameraMode@Camera@Patches@@YA?AW4e_camera_mode@@XZ");
 			// procedure flags: nofpo
-			todo("implement");
-			e_camera_mode __result = _sub_109589A0();
-			return __result;
+
+			return cameraMode;
 		}
 	}
 }
@@ -469,33 +468,47 @@ void CameraModeReset() // 0x10958800
 	_sub_10958800();
 }
 
-_extern void _sub_10958AB0(char const *);
 void OnMapLoaded(char const *mapPath) // 0x10958AB0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnMapLoaded@@YAXPBD@Z");
 	// `anonymous-namespace'::OnMapLoaded
 	// char const *mapPath;
-	todo("implement");
-	_sub_10958AB0(mapPath);
+
+	CameraModeReset();
 }
 
-_extern float _sub_109589C0();
 float GetScriptedCameraFovHook() // 0x109589C0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetScriptedCameraFovHook@@YAMXZ");
 	// `anonymous-namespace'::GetScriptedCameraFovHook
 	// procedure flags: nofpo
 	// bool (*const game_is_mainmenu)();
 	// float fov;
-	{
 		// float scriptedCameraFov;
-	}
 	// function call : bool (*const)()
-	todo("implement");
-	float __result = _sub_109589C0();
-	return __result;
+
+	const auto game_is_mainmenu = (bool(*)())(0x00531E90);
+
+	auto fov = 0.0f;
+
+	if (game_is_mainmenu())
+	{
+		fov = 70.0f;
+	}
+	else
+	{
+		auto scriptedCameraFov = *(float*)0x018ECE00;
+		if (scriptedCameraFov == 0.0f)
+			fov = *(float*)0x18BB1C8;
+		else
+			fov = scriptedCameraFov;
+	}
+
+	return fov * 0.017453292f;
 }
 
 _extern void _sub_10959C60(void *, void *, __int32, __int32, unsigned char *);
-void c_following_camera__update_hook(void *thisptr, void *unused, __int32 localPlayerIndex, __int32 a4, unsigned char *state) // 0x10959C60
+void __fastcall c_following_camera__update_hook(void *thisptr, void *unused, __int32 localPlayerIndex, __int32 a4, unsigned char *state) // 0x10959C60
 {
 	// `anonymous-namespace'::c_following_camera__update_hook
 	// unsigned char *state;
@@ -566,28 +579,30 @@ __int32 unit_use_third_person_camera(unsigned long object_index, __int32 *a2) //
 	return __result;
 }
 
-_extern bool _sub_1095B0B0();
 bool director_scripting_get_hook() // 0x1095B0B0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?director_scripting_get_hook@@YA_NXZ");
 	// `anonymous-namespace'::director_scripting_get_hook
 	// procedure flags: nofpo
 	// constexpr bool (*const `director_scripting_get_hook'::`2'::director_scripting_get)(); // constant == 5839744
 	// function call : bool (*const)()
-	todo("implement");
-	bool __result = _sub_1095B0B0();
-	return __result;
+
+	if (Patches::Camera::GetForcedCameraMode() == _camera_mode_flying)
+		return true;
+	return ((bool(__cdecl *)())0x591b80)();
 }
 
-_extern bool _sub_10959450(void *, void *, __int32, float, bool);
-bool c_director__set_camera_mode_internal_hook(void *thisPtr, void *unused, __int32 camera_mode, float camera_speed, bool a4) // 0x10959450
+bool __fastcall c_director__set_camera_mode_internal_hook(void *thisPtr, void *unused, __int32 camera_mode, float camera_speed, bool a4) // 0x10959450
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_director__set_camera_mode_internal_hook@@YI_NPAX0HM_N@Z");
 	// `anonymous-namespace'::c_director__set_camera_mode_internal_hook
 	// bool a4;
 	// constexpr bool (*const `c_director__set_camera_mode_internal_hook'::`2'::c_director__set_camera_mode_internal)(void *, __int32, float, bool); // constant == 5845520
 	// function call : bool (*const)(void *, __int32, float, bool)
-	todo("implement");
-	bool __result = _sub_10959450(thisPtr, unused, camera_mode, camera_speed, a4);
-	return __result;
+
+	if (Patches::Camera::GetForcedCameraMode() == _camera_mode_flying || Patches::Camera::GetForcedCameraMode() == _camera_mode_static)
+		return false;
+	return ((bool(__thiscall *const)(void *, __int32, float, bool))0x593210)(thisPtr, camera_mode, camera_speed, a4);
 }
 
 _extern __int32 _sub_1095D2A0(short);
@@ -675,13 +690,15 @@ void director_render_hook() // 0x1095ACD0
 	_sub_1095ACD0();
 }
 
-_extern void _sub_1095CCF0(real_point3d *, real_vector3d *, float);
 void offset_and_scale_position_easing_type_one(real_point3d *position, real_vector3d *offset, float scale) // 0x1095CCF0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?offset_and_scale_position_easing_type_one@@YAXPAUreal_point3d@@PAUreal_vector3d@@M@Z");
 	// `anonymous-namespace'::offset_and_scale_position_easing_type_one
 	// float scale;
-	todo("implement");
-	_sub_1095CCF0(position, offset, scale);
+
+	position->x = (position->x - offset->i) * scale + offset->i;
+	position->y = (position->y - offset->j) * scale + offset->j;
+	position->z = (position->z - offset->k) * scale + offset->k;
 }
 
 _extern void _sub_1095CD90(real_point3d *, real_vector3d *, real_vector3d *, float);
@@ -695,13 +712,15 @@ void offset_and_scale_position_easing_type_two(real_point3d *position, real_vect
 	_sub_1095CD90(position, offset, offset_2, scale);
 }
 
-_extern void _sub_1095B720(real_vector3d *, real_vector3d *, real_vector3d *, float);
 void lerp_vector(real_vector3d *out_vec, real_vector3d *vec1, real_vector3d *vec2, float s) // 0x1095B720
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?lerp_vector@@YAXPAUreal_vector3d@@00M@Z");
 	// `anonymous-namespace'::lerp_vector
 	// float s;
-	todo("implement");
-	_sub_1095B720(out_vec, vec1, vec2, s);
+
+	out_vec->i = s * vec2->i + (1.0f - s) * vec1->i;
+	out_vec->j = s * vec2->j + (1.0f - s) * vec1->j;
+	out_vec->k = s * vec2->k + (1.0f - s) * vec1->k;
 }
 
 _extern void _sub_1095B6D0(float *, float, float, float);
@@ -911,7 +930,7 @@ void scripted_camera_update_call_hook(void *a1, void *camera_control, s_observer
 }
 
 _extern void _sub_109594F0(c_flying_camera *, void *, long, float, s_observer_command *);
-void c_flying_camera__update_hook(c_flying_camera *thisptr, void *__formal, long user_index, float dt, s_observer_command *result) // 0x109594F0
+void __fastcall c_flying_camera__update_hook(c_flying_camera *thisptr, void *__formal, long user_index, float dt, s_observer_command *result) // 0x109594F0
 {
 	// `anonymous-namespace'::c_flying_camera__update_hook
 	// static ...; // 0x10959A9C

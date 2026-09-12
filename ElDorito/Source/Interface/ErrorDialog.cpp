@@ -58,7 +58,7 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
-__int32 DialogProc(HWND__ *hWnd, unsigned __int32 msg, unsigned __int32 wParam, long lParam);
+__int32 __stdcall DialogProc(HWND__ *hWnd, unsigned __int32 msg, unsigned __int32 wParam, long lParam);
 std::string NormalizeLineEndings(std::string input);
 
 /* ---------- globals */
@@ -86,7 +86,7 @@ void ErrorDialog::Show(std::string const &title, std::string const &message) // 
 /* ---------- private code */
 
 _extern __int32 _sub_10786D50(HWND__ *, unsigned __int32, unsigned __int32, long);
-__int32 DialogProc(HWND__ *hWnd, unsigned __int32 msg, unsigned __int32 wParam, long lParam) // 0x10786D50
+__int32 __stdcall DialogProc(HWND__ *hWnd, unsigned __int32 msg, unsigned __int32 wParam, long lParam) // 0x10786D50
 {
 	// `anonymous-namespace'::DialogProc
 	// static ...; // 0x10786F68

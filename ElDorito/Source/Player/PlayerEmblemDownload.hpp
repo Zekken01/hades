@@ -51,7 +51,6 @@ namespace Player
 		long server_join_tick; // 0x0
 		bool failedInit; // 0x4
 		bool emblemUpdate; // 0x5
-	unsigned char __pad0[2]; // 0x6
 	};
 	static_assert(sizeof(Player::PlayerEmblemDownload) == 8, "Invalid Player::PlayerEmblemDownload size");
 }
@@ -76,14 +75,12 @@ namespace Player
 
 namespace Player
 {
-	_extern bool _sub_107F0C00(Player::PlayerEmblemDownload *const);
 	_inline bool PlayerEmblemDownload::IsAvailable() // 0x107F0C00
 	{
-		mangled_x86(MANGLED_TODO, "?IsAvailable@PlayerEmblemDownload@Player@@QAE_NXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?IsAvailable@PlayerEmblemDownload@Player@@QAE_NXZ");
 		// Player::PlayerEmblemDownload *const this;
-		todo("implement");
-		bool __result = _sub_107F0C00(this);
-		return __result;
+
+		return !failedInit;
 	}
 }
 

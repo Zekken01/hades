@@ -245,14 +245,12 @@ _inline HALO_CHANNEL *HALO_SOUND_SYSTEM::FindChannel(__int32 id) // 0x10A2F840
 	return __result;
 }
 
-extern HALO_SOUND_SYSTEM *_sub_10A2F8F0();
 _inline HALO_SOUND_SYSTEM *HALO_SOUND_SYSTEM::Get() // 0x10A2F8F0
 {
-	mangled_x86(MANGLED_TODO, "?Get@HALO_SOUND_SYSTEM@@SAPAU1@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Get@HALO_SOUND_SYSTEM@@SAPAU1@XZ");
 	// procedure flags: nofpo
-	todo("implement");
-	HALO_SOUND_SYSTEM * __result = _sub_10A2F8F0();
-	return __result;
+
+	return *(HALO_SOUND_SYSTEM * *)0x18bc9c8;
 }
 
 /* ---------- private code */

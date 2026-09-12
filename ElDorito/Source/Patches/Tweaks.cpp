@@ -137,13 +137,12 @@ namespace Patches
 			_sub_10AD2060();
 		}
 
-		_extern void _sub_10AD22B0(bool);
 		void EnableHitmarkers(bool enabled) // 0x10AD22B0
 		{
-			mangled_x86(MANGLED_TODO, "?EnableHitmarkers@Tweaks@Patches@@YAX_N@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?EnableHitmarkers@Tweaks@Patches@@YAX_N@Z");
 			// bool enabled;
-			todo("implement");
-			_sub_10AD22B0(enabled);
+
+			EnableHitmarkersInternal(enabled);
 		}
 	}
 }

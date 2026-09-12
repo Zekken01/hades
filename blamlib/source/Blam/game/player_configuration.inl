@@ -24,14 +24,12 @@ extern _inline bool operator==(s_player_identifier const &a, s_player_identifier
 
 /* ---------- public code */
 
-_extern bool _sub_106CE000(s_player_identifier const &, s_player_identifier const &);
 _inline bool operator==(s_player_identifier const &a, s_player_identifier const &b) // 0x106CE000
 {
-	mangled_x86(MANGLED_TODO, "??8@YA_NABUs_player_identifier@@0@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??8@YA_NABUs_player_identifier@@0@Z");
 	// s_player_identifier const &b;
-	todo("implement");
-	bool __result = _sub_106CE000(a, b);
-	return __result;
+
+	return a.value1 == b.value1 && a.value2 == b.value2;
 }
 
 /* ---------- private code */

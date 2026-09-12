@@ -39,7 +39,6 @@ namespace Forge
 			char Author[16]; // 0x20
 			unsigned short ObjectCount; // 0x30
 			unsigned short PaletteCount; // 0x32
-			unsigned char __pad0[4]; // 0x34
 		};
 		static_assert(sizeof(Forge::Prefabs::PrefabHeader) == 56, "Invalid Forge::Prefabs::PrefabHeader size");
 	}

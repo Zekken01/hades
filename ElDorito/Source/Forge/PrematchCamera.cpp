@@ -135,23 +135,20 @@ namespace Forge
 			_sub_10956500(team);
 		}
 
-		_extern bool _sub_109564E0();
 		bool IsForgePrematchCameraDisabled() // 0x109564E0
 		{
-			mangled_x86(MANGLED_TODO, "?IsForgePrematchCameraDisabled@PrematchCamera@Forge@@YA_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?IsForgePrematchCameraDisabled@PrematchCamera@Forge@@YA_NXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			bool __result = _sub_109564E0();
-			return __result;
+
+			return prematchCameraDisabled;
 		}
 
-		_extern void _sub_10956820(bool);
 		void SetForgePrematchCameraDisabled(bool disabled) // 0x10956820
 		{
-			mangled_x86(MANGLED_TODO, "?SetForgePrematchCameraDisabled@PrematchCamera@Forge@@YAX_N@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?SetForgePrematchCameraDisabled@PrematchCamera@Forge@@YAX_N@Z");
 			// bool disabled;
-			todo("implement");
-			_sub_10956820(disabled);
+
+			prematchCameraDisabled = disabled;
 		}
 	}
 }

@@ -1,6 +1,7 @@
 /* ---------- headers */
 
 #include "hades/hades.h"
+#include "mods/mod_system.hpp"
 
 #include "Blam/cseries/cseries.hpp"
 #include "Blam/cseries/enums.inl"
@@ -206,28 +207,28 @@ namespace Patches
 	}
 }
 
-float c_player_health_traits__get_damage_resistance_hook(c_player_trait_shield_vitality *thisptr, void *__formal);
-float c_player_movement_traits__get_walking_speed_hook(c_player_trait_movement *thisptr, void *__formal);
-float c_player_movement_traits__get_personal_gravity_hook(c_player_trait_movement *thisptr, void *__formal);
-void c_player_traits__encode_hook(c_player_traits &traits, void *unused, c_bitstream *stream);
-void c_player_traits__decode_hook(c_player_traits &traits, void *unused, c_bitstream *stream);
-void c_player_trait_shield_vitality__encode_hook(c_player_trait_shield_vitality *traits, void *unused, c_bitstream *stream);
-void c_player_trait_shield_vitality__decode_hook(c_player_trait_shield_vitality *traits, void *unused, c_bitstream *stream);
-void c_player_trait_weapons__encode_hook(c_player_trait_weapons &traits, void *unused, c_bitstream *stream);
-void c_player_trait_weapons__decode_hook(c_player_trait_weapons &traits, void *unused, c_bitstream *stream);
-void c_player_trait_movement__encode_hook(c_player_trait_movement &traits, void *unused, c_bitstream *stream);
-void c_player_trait_movement__decode_hook(c_player_trait_movement &traits, void *unused, c_bitstream *stream);
-void c_player_trait_appearance__encode_hook(c_player_trait_appearance &traits, void *unused, c_bitstream *stream);
-void c_player_trait_appearance__decode_hook(c_player_trait_appearance &traits, void *unused, c_bitstream *stream);
-void c_player_trait_sensors__encode_hook(c_player_trait_sensors &traits, void *unused, c_bitstream *stream);
-void c_player_trait_sensors__decode_hook(c_player_trait_sensors &traits, void *unused, c_bitstream *stream);
-void c_player_traits__initialize_hook(c_player_traits *thisptr);
-void c_player_traits__set_hook(c_player_traits *thisptr, void *__formal, c_player_traits *traits, bool can_inherit);
-void c_player_trait_shield_vitality__set_hook(c_player_trait_shield_vitality *thisptr, void *__formal, c_player_trait_shield_vitality const *traits, bool can_inherit);
-void c_player_trait_weapons__set_hook(c_player_trait_weapons *thisptr, void *__formal, c_player_trait_weapons const *traits, bool can_inherit);
-void c_player_trait_movement__set_hook(c_player_trait_movement *thisptr, void *__formal, c_player_trait_movement const *traits, bool can_inherit);
-void c_player_trait_appearance__set_hook(c_player_trait_appearance *thisptr, void *__formal, c_player_trait_appearance const *traits, bool can_inherit);
-void c_player_trait_sensors__set_hook(c_player_trait_sensors *thisptr, void *__formal, c_player_trait_sensors const *traits, bool can_inherit);
+float __fastcall c_player_health_traits__get_damage_resistance_hook(c_player_trait_shield_vitality *thisptr, void *__formal);
+float __fastcall c_player_movement_traits__get_walking_speed_hook(c_player_trait_movement *thisptr, void *__formal);
+float __fastcall c_player_movement_traits__get_personal_gravity_hook(c_player_trait_movement *thisptr, void *__formal);
+void __fastcall c_player_traits__encode_hook(c_player_traits &traits, void *unused, c_bitstream *stream);
+void __fastcall c_player_traits__decode_hook(c_player_traits &traits, void *unused, c_bitstream *stream);
+void __fastcall c_player_trait_shield_vitality__encode_hook(c_player_trait_shield_vitality *traits, void *unused, c_bitstream *stream);
+void __fastcall c_player_trait_shield_vitality__decode_hook(c_player_trait_shield_vitality *traits, void *unused, c_bitstream *stream);
+void __fastcall c_player_trait_weapons__encode_hook(c_player_trait_weapons &traits, void *unused, c_bitstream *stream);
+void __fastcall c_player_trait_weapons__decode_hook(c_player_trait_weapons &traits, void *unused, c_bitstream *stream);
+void __fastcall c_player_trait_movement__encode_hook(c_player_trait_movement &traits, void *unused, c_bitstream *stream);
+void __fastcall c_player_trait_movement__decode_hook(c_player_trait_movement &traits, void *unused, c_bitstream *stream);
+void __fastcall c_player_trait_appearance__encode_hook(c_player_trait_appearance &traits, void *unused, c_bitstream *stream);
+void __fastcall c_player_trait_appearance__decode_hook(c_player_trait_appearance &traits, void *unused, c_bitstream *stream);
+void __fastcall c_player_trait_sensors__encode_hook(c_player_trait_sensors &traits, void *unused, c_bitstream *stream);
+void __fastcall c_player_trait_sensors__decode_hook(c_player_trait_sensors &traits, void *unused, c_bitstream *stream);
+void __fastcall c_player_traits__initialize_hook(c_player_traits *thisptr);
+void __fastcall c_player_traits__set_hook(c_player_traits *thisptr, void *__formal, c_player_traits *traits, bool can_inherit);
+void __fastcall c_player_trait_shield_vitality__set_hook(c_player_trait_shield_vitality *thisptr, void *__formal, c_player_trait_shield_vitality const *traits, bool can_inherit);
+void __fastcall c_player_trait_weapons__set_hook(c_player_trait_weapons *thisptr, void *__formal, c_player_trait_weapons const *traits, bool can_inherit);
+void __fastcall c_player_trait_movement__set_hook(c_player_trait_movement *thisptr, void *__formal, c_player_trait_movement const *traits, bool can_inherit);
+void __fastcall c_player_trait_appearance__set_hook(c_player_trait_appearance *thisptr, void *__formal, c_player_trait_appearance const *traits, bool can_inherit);
+void __fastcall c_player_trait_sensors__set_hook(c_player_trait_sensors *thisptr, void *__formal, c_player_trait_sensors const *traits, bool can_inherit);
 void game_engine_apply_extended_traits(long player_index, c_player_trait_extended const *traits);
 void try_force_weapon_set(s_player_datum *player, c_player_trait_weapons const *traits);
 void game_engine_apply_weapons_traits_new(long player_index, c_player_trait_weapons const *traits);
@@ -235,17 +236,17 @@ void game_engine_apply_player_traits_hook(long player_index, c_player_traits con
 void game_engine_apply_respawn_traits_hook(long player_index, c_player_traits *traits);
 void game_engine_apply_powerup_traits_hook(long player_index, c_player_traits *traits);
 long game_variant_get_parameter_value_type(long parameter_type);
-bool c_game_variant__get_game_engine_setting_hook(c_game_variant *thisptr, void *unused, e_game_variant_parameter parameter_type, char value_type, unsigned long *out_value);
-bool c_game_variant__set_game_engine_setting_hook(c_game_variant *thisptr, void *unused, long parameter_type, char value_type, unsigned long value);
+bool __fastcall c_game_variant__get_game_engine_setting_hook(c_game_variant *thisptr, void *unused, e_game_variant_parameter parameter_type, char value_type, unsigned long *out_value);
+bool __fastcall c_game_variant__set_game_engine_setting_hook(c_game_variant *thisptr, void *unused, long parameter_type, char value_type, unsigned long value);
 long game_variant_get_parameter_type_for_category_hook(long category, long parameter_type);
 long c_gui_screen_game_options__get_category_index(c_gui_screen_game_options *screen);
 long c_gui_screen_game_options__get_parameter_type_for_current_category(c_gui_screen_game_options *screen, long parameter_type);
 bool c_gui_screen_game_options__try_and_get_parameter_value(c_gui_screen_game_options *screen, long parameter_type, unsigned long *out_value);
 bool c_gui_screen_game_options__try_set_parameter_value(c_gui_screen_game_options *screen, long parameter_type, unsigned long value);
 s_text_value_pair_definition *text_value_pair_definition_try_and_get_hook(s_multiplayer_variant_settings_interface_definition *definition, long parameter_type);
-bool c_gui_screen_game_options__get_string_value_hook(c_gui_screen_widget *thisptr, void *unused, unsigned long id, wchar_t *out_value);
-void c_gui_screen_game_options__begin_transition_hook(c_gui_screen_game_options *thisptr);
-bool gui_screen_game_options_set_variant_parameter_hook(c_game_variant *thisptr, void *unused, long parameter_type, unsigned long value);
+bool __fastcall c_gui_screen_game_options__get_string_value_hook(c_gui_screen_widget *thisptr, void *unused, unsigned long id, wchar_t *out_value);
+void __fastcall c_gui_screen_game_options__begin_transition_hook(c_gui_screen_game_options *thisptr);
+bool __fastcall gui_screen_game_options_set_variant_parameter_hook(c_game_variant *thisptr, void *unused, long parameter_type, unsigned long value);
 
 /* ---------- globals */
 
@@ -253,8 +254,10 @@ bool gui_screen_game_options_set_variant_parameter_hook(c_game_variant *thisptr,
 
 namespace hades_file_local
 {
-	extern c_user_interface_mods_player_character_data g_player_characte_data; // 0x12464BA8
 	extern bool g_player_model_proxy_dirty; // 0x113547A0
+	extern c_user_interface_player_model_text_value_pair_proxy g_player_model_options_proxy; // 0x124648E8
+	extern c_user_interface_player_model_set_text_value_pair_proxy g_player_model_set_options_proxy; // 0x12464A48
+	extern c_user_interface_mods_player_character_data g_player_characte_data; // 0x12464BA8
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -266,216 +269,291 @@ namespace Patches
 		_extern void _sub_10A9EA80();
 		void ApplyAll() // 0x10A9EA80
 		{
-			mangled_x86(MANGLED_TODO, "?ApplyAll@GameEngineSettings@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@GameEngineSettings@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			// function call : void (IModListener *)
-			todo("implement");
-			_sub_10A9EA80();
+
+			Patch(0x1CB9A3, { 0x03 }).Apply();
+			Patch(0x1CBF34, { 0x03 }).Apply();
+			Patch(0x1CE01C, { 0x03 }).Apply();
+			Patch(0x1CD588, { 0x03 }).Apply();
+			Patch(0x1CCBEF, { 0x03 }).Apply();
+			Patch(0x1CB59C, { 0x05 }).Apply();
+			Patch(0x1CDEF8, { 0x05 }).Apply();
+			Patch(0x1CBA17, { 0x05 }).Apply();
+			Patch(0x1CC69B, { 0x05 }).Apply();
+			Patch(0x1CCE55, { 0x05 }).Apply();
+			Patch(0x1CB8D0, { 0x0F }).Apply();
+			Patch(0x1CDB76, { 0x0F }).Apply();
+			Patch(0x1CD2C8, { 0x0F }).Apply();
+			Patch(0x1CC94F, { 0x0F }).Apply();
+			Patch(0x1CBD70, { 0x0F }).Apply();
+			Hook(0x1CC110, c_player_health_traits__get_damage_resistance_hook).Apply();
+			Patch(0x1CB9D3, { 0x0F }).Apply();
+			Patch(0x1CD7B4, { 0x0F }).Apply();
+			Patch(0x1CDD88, { 0x0F }).Apply();
+			Patch(0x1CC77F, { 0x0F }).Apply();
+			Patch(0x1CB733, { 0x0F }).Apply();
+			Hook(0x1CC480, c_player_movement_traits__get_walking_speed_hook).Apply();
+			Patch(0x1CB9E3, { 0x0A }).Apply();
+			Patch(0x1CD7C7, { 0x0A }).Apply();
+			Patch(0x1CD4C8, { 0x0A }).Apply();
+			Patch(0x1CC79B, { 0x0A }).Apply();
+			Patch(0x1CB767, { 0x0A }).Apply();
+			Hook(0x1CC200, c_player_movement_traits__get_personal_gravity_hook).Apply();
+			Patch(0x1CB5BB, { 0x12 }).Apply();
+			Patch(0x1CBA27, { 0x12 }).Apply();
+			Patch(0x1CCEB8, { 0x12 }).Apply();
+			Patch(0x1CC6B9, { 0x12 }).Apply();
+			Patch(0x1CCE68, { 0x12 }).Apply();
+			Patch(0x14F3B6, 0x90, 6).Apply();
+			Patch(0x14F3BD, 0x90, 2).Apply();
+			Hook(0x1CB4F0, c_player_traits__encode_hook).Apply();
+			Hook(0x1CAEB0, c_player_traits__decode_hook).Apply();
+			Hook(0x1CD360, c_player_traits__initialize_hook).Apply();
+			Hook(0x1CCD30, c_player_traits__set_hook).Apply();
+			Hook(0x1CAD20, c_player_trait_shield_vitality__decode_hook).Apply();
+			Hook(0x1CB1D0, c_player_trait_shield_vitality__encode_hook).Apply();
+			Hook(0x1CADB0, c_player_trait_weapons__decode_hook).Apply();
+			Hook(0x1CB320, c_player_trait_weapons__encode_hook).Apply();
+			Hook(0x1CAC80, c_player_trait_movement__decode_hook).Apply();
+			Hook(0x1CB060, c_player_trait_movement__encode_hook).Apply();
+			Hook(0x1CAC10, c_player_trait_appearance__decode_hook).Apply();
+			Hook(0x1CAF50, c_player_trait_appearance__encode_hook).Apply();
+			Hook(0x1CACE0, c_player_trait_sensors__decode_hook).Apply();
+			Hook(0x1CB130, c_player_trait_sensors__encode_hook).Apply();
+			Hook(0x1CC940, c_player_trait_shield_vitality__set_hook).Apply();
+			Hook(0x1CCB30, c_player_trait_weapons__set_hook).Apply();
+			Hook(0x1CC770, c_player_trait_movement__set_hook).Apply();
+			Hook(0x1CC670, c_player_trait_appearance__set_hook).Apply();
+			Hook(0x1CC830, c_player_trait_sensors__set_hook).Apply();
+			Patch::NopFill(0xB0C7D9, 6);
+			Patch::NopFill(0xB0B603, 2);
+			Patch::NopFill(0xB0DFFF, 2);
+			Patch::NopFill(0x5CC9D6, 4);
+			Patch::NopFill(0x5CC9DA, 3);
+			Patch::NopFill(0x5CC9EB, 4);
+			Patch::NopFill(0x5CC9EF, 3);
+			Patch::NopFill(0x5CB91B, 4);
+			Patch::NopFill(0x5CBB38, 4);
+			Hook(0x1CC001, game_engine_apply_player_traits_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x1CBFF7, game_engine_apply_respawn_traits_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x1CBFED, game_engine_apply_powerup_traits_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x71FBC0, game_variant_get_parameter_type_for_category_hook).Apply();
+			Hook(0x1799EB, c_game_variant__get_game_engine_setting_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x17A0BB, c_game_variant__get_game_engine_setting_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x18072B, c_game_variant__set_game_engine_setting_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x18093B, c_game_variant__set_game_engine_setting_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x70C86D, game_variant_get_parameter_value_type, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x71FE2A, game_variant_get_parameter_value_type, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x72001A, text_value_pair_definition_try_and_get_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x7200C4, text_value_pair_definition_try_and_get_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x720111, text_value_pair_definition_try_and_get_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x71FED8, text_value_pair_definition_try_and_get_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Pointer(0x16A50AC).Write<unsigned long>(0x0);
+			Pointer(0x16A5028).Write<unsigned long>(0x0);
+			Hook(0x70C975, gui_screen_game_options_set_variant_parameter_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			c_mod_system::GetModManager().AddListener(new ModListener());
 		}
 	}
 }
 
 /* ---------- private code */
 
-_extern float _sub_10AA5F10(c_player_trait_shield_vitality *, void *);
-float c_player_health_traits__get_damage_resistance_hook(c_player_trait_shield_vitality *thisptr, void *__formal) // 0x10AA5F10
+float __fastcall c_player_health_traits__get_damage_resistance_hook(c_player_trait_shield_vitality *thisptr, void *__formal) // 0x10AA5F10
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_health_traits__get_damage_resistance_hook@@YIMPAUc_player_trait_shield_vitality@@PAX@Z");
 	// `anonymous-namespace'::c_player_health_traits__get_damage_resistance_hook
 	// void *__formal;
-	todo("implement");
-	float __result = _sub_10AA5F10(thisptr, __formal);
-	return __result;
+
+	return thisptr->get_damage_resistance_percentage();
 }
 
-_extern float _sub_10AA5FB0(c_player_trait_movement *, void *);
-float c_player_movement_traits__get_walking_speed_hook(c_player_trait_movement *thisptr, void *__formal) // 0x10AA5FB0
+float __fastcall c_player_movement_traits__get_walking_speed_hook(c_player_trait_movement *thisptr, void *__formal) // 0x10AA5FB0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_movement_traits__get_walking_speed_hook@@YIMPAUc_player_trait_movement@@PAX@Z");
 	// `anonymous-namespace'::c_player_movement_traits__get_walking_speed_hook
 	// void *__formal;
-	todo("implement");
-	float __result = _sub_10AA5FB0(thisptr, __formal);
-	return __result;
+
+	return thisptr->get_speed();
 }
 
-_extern float _sub_10AA5F60(c_player_trait_movement *, void *);
-float c_player_movement_traits__get_personal_gravity_hook(c_player_trait_movement *thisptr, void *__formal) // 0x10AA5F60
+float __fastcall c_player_movement_traits__get_personal_gravity_hook(c_player_trait_movement *thisptr, void *__formal) // 0x10AA5F60
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_movement_traits__get_personal_gravity_hook@@YIMPAUc_player_trait_movement@@PAX@Z");
 	// `anonymous-namespace'::c_player_movement_traits__get_personal_gravity_hook
 	// void *__formal;
-	todo("implement");
-	float __result = _sub_10AA5F60(thisptr, __formal);
-	return __result;
+
+	return thisptr->get_gravity();
 }
 
-_extern void _sub_10AA6600(c_player_traits &, void *, c_bitstream *);
-void c_player_traits__encode_hook(c_player_traits &traits, void *unused, c_bitstream *stream) // 0x10AA6600
+void __fastcall c_player_traits__encode_hook(c_player_traits &traits, void *unused, c_bitstream *stream) // 0x10AA6600
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_traits__encode_hook@@YIXAAUc_player_traits@@PAXPAVc_bitstream@@@Z");
 	// `anonymous-namespace'::c_player_traits__encode_hook
 	// c_bitstream *stream;
-	todo("implement");
-	_sub_10AA6600(traits, unused, stream);
+
+	traits.encode(stream);
 }
 
-_extern void _sub_10AA65A0(c_player_traits &, void *, c_bitstream *);
-void c_player_traits__decode_hook(c_player_traits &traits, void *unused, c_bitstream *stream) // 0x10AA65A0
+void __fastcall c_player_traits__decode_hook(c_player_traits &traits, void *unused, c_bitstream *stream) // 0x10AA65A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_traits__decode_hook@@YIXAAUc_player_traits@@PAXPAVc_bitstream@@@Z");
 	// `anonymous-namespace'::c_player_traits__decode_hook
 	// c_bitstream *stream;
-	todo("implement");
-	_sub_10AA65A0(traits, unused, stream);
+
+	traits.decode(stream);
 }
 
-_extern void _sub_10AA63C0(c_player_trait_shield_vitality *, void *, c_bitstream *);
-void c_player_trait_shield_vitality__encode_hook(c_player_trait_shield_vitality *traits, void *unused, c_bitstream *stream) // 0x10AA63C0
+void __fastcall c_player_trait_shield_vitality__encode_hook(c_player_trait_shield_vitality *traits, void *unused, c_bitstream *stream) // 0x10AA63C0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_trait_shield_vitality__encode_hook@@YIXPAUc_player_trait_shield_vitality@@PAXPAVc_bitstream@@@Z");
 	// `anonymous-namespace'::c_player_trait_shield_vitality__encode_hook
 	// c_bitstream *stream;
-	todo("implement");
-	_sub_10AA63C0(traits, unused, stream);
+
+	traits->encode(stream);
 }
 
-_extern void _sub_10AA6360(c_player_trait_shield_vitality *, void *, c_bitstream *);
-void c_player_trait_shield_vitality__decode_hook(c_player_trait_shield_vitality *traits, void *unused, c_bitstream *stream) // 0x10AA6360
+void __fastcall c_player_trait_shield_vitality__decode_hook(c_player_trait_shield_vitality *traits, void *unused, c_bitstream *stream) // 0x10AA6360
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_trait_shield_vitality__decode_hook@@YIXPAUc_player_trait_shield_vitality@@PAXPAVc_bitstream@@@Z");
 	// `anonymous-namespace'::c_player_trait_shield_vitality__decode_hook
 	// c_bitstream *stream;
-	todo("implement");
-	_sub_10AA6360(traits, unused, stream);
+
+	traits->decode(stream);
 }
 
-_extern void _sub_10AA64E0(c_player_trait_weapons &, void *, c_bitstream *);
-void c_player_trait_weapons__encode_hook(c_player_trait_weapons &traits, void *unused, c_bitstream *stream) // 0x10AA64E0
+void __fastcall c_player_trait_weapons__encode_hook(c_player_trait_weapons &traits, void *unused, c_bitstream *stream) // 0x10AA64E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_trait_weapons__encode_hook@@YIXAAUc_player_trait_weapons@@PAXPAVc_bitstream@@@Z");
 	// `anonymous-namespace'::c_player_trait_weapons__encode_hook
 	// c_bitstream *stream;
-	todo("implement");
-	_sub_10AA64E0(traits, unused, stream);
+
+	traits.encode(stream);
 }
 
-_extern void _sub_10AA6480(c_player_trait_weapons &, void *, c_bitstream *);
-void c_player_trait_weapons__decode_hook(c_player_trait_weapons &traits, void *unused, c_bitstream *stream) // 0x10AA6480
+void __fastcall c_player_trait_weapons__decode_hook(c_player_trait_weapons &traits, void *unused, c_bitstream *stream) // 0x10AA6480
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_trait_weapons__decode_hook@@YIXAAUc_player_trait_weapons@@PAXPAVc_bitstream@@@Z");
 	// `anonymous-namespace'::c_player_trait_weapons__decode_hook
 	// c_bitstream *stream;
-	todo("implement");
-	_sub_10AA6480(traits, unused, stream);
+
+	traits.decode(stream);
 }
 
-_extern void _sub_10AA6180(c_player_trait_movement &, void *, c_bitstream *);
-void c_player_trait_movement__encode_hook(c_player_trait_movement &traits, void *unused, c_bitstream *stream) // 0x10AA6180
+void __fastcall c_player_trait_movement__encode_hook(c_player_trait_movement &traits, void *unused, c_bitstream *stream) // 0x10AA6180
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_trait_movement__encode_hook@@YIXAAUc_player_trait_movement@@PAXPAVc_bitstream@@@Z");
 	// `anonymous-namespace'::c_player_trait_movement__encode_hook
 	// c_bitstream *stream;
-	todo("implement");
-	_sub_10AA6180(traits, unused, stream);
+
+	traits.encode(stream);
 }
 
-_extern void _sub_10AA6120(c_player_trait_movement &, void *, c_bitstream *);
-void c_player_trait_movement__decode_hook(c_player_trait_movement &traits, void *unused, c_bitstream *stream) // 0x10AA6120
+void __fastcall c_player_trait_movement__decode_hook(c_player_trait_movement &traits, void *unused, c_bitstream *stream) // 0x10AA6120
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_trait_movement__decode_hook@@YIXAAUc_player_trait_movement@@PAXPAVc_bitstream@@@Z");
 	// `anonymous-namespace'::c_player_trait_movement__decode_hook
 	// c_bitstream *stream;
-	todo("implement");
-	_sub_10AA6120(traits, unused, stream);
+
+	traits.decode(stream);
 }
 
-_extern void _sub_10AA6060(c_player_trait_appearance &, void *, c_bitstream *);
-void c_player_trait_appearance__encode_hook(c_player_trait_appearance &traits, void *unused, c_bitstream *stream) // 0x10AA6060
+void __fastcall c_player_trait_appearance__encode_hook(c_player_trait_appearance &traits, void *unused, c_bitstream *stream) // 0x10AA6060
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_trait_appearance__encode_hook@@YIXAAUc_player_trait_appearance@@PAXPAVc_bitstream@@@Z");
 	// `anonymous-namespace'::c_player_trait_appearance__encode_hook
 	// c_bitstream *stream;
-	todo("implement");
-	_sub_10AA6060(traits, unused, stream);
+
+	traits.encode(stream);
 }
 
-_extern void _sub_10AA6000(c_player_trait_appearance &, void *, c_bitstream *);
-void c_player_trait_appearance__decode_hook(c_player_trait_appearance &traits, void *unused, c_bitstream *stream) // 0x10AA6000
+void __fastcall c_player_trait_appearance__decode_hook(c_player_trait_appearance &traits, void *unused, c_bitstream *stream) // 0x10AA6000
 {
 	// `anonymous-namespace'::c_player_trait_appearance__decode_hook
 	// c_bitstream *stream;
-	todo("implement");
-	_sub_10AA6000(traits, unused, stream);
+
+	traits.decode(stream);
 }
 
-_extern void _sub_10AA62A0(c_player_trait_sensors &, void *, c_bitstream *);
-void c_player_trait_sensors__encode_hook(c_player_trait_sensors &traits, void *unused, c_bitstream *stream) // 0x10AA62A0
+void __fastcall c_player_trait_sensors__encode_hook(c_player_trait_sensors &traits, void *unused, c_bitstream *stream) // 0x10AA62A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_trait_sensors__encode_hook@@YIXAAUc_player_trait_sensors@@PAXPAVc_bitstream@@@Z");
 	// `anonymous-namespace'::c_player_trait_sensors__encode_hook
 	// c_bitstream *stream;
-	todo("implement");
-	_sub_10AA62A0(traits, unused, stream);
+
+	traits.encode(stream);
 }
 
-_extern void _sub_10AA6240(c_player_trait_sensors &, void *, c_bitstream *);
-void c_player_trait_sensors__decode_hook(c_player_trait_sensors &traits, void *unused, c_bitstream *stream) // 0x10AA6240
+void __fastcall c_player_trait_sensors__decode_hook(c_player_trait_sensors &traits, void *unused, c_bitstream *stream) // 0x10AA6240
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_trait_sensors__decode_hook@@YIXAAUc_player_trait_sensors@@PAXPAVc_bitstream@@@Z");
 	// `anonymous-namespace'::c_player_trait_sensors__decode_hook
 	// c_bitstream *stream;
-	todo("implement");
-	_sub_10AA6240(traits, unused, stream);
+
+	traits.decode(stream);
 }
 
-_extern void _sub_10AA6660(c_player_traits *);
-void c_player_traits__initialize_hook(c_player_traits *thisptr) // 0x10AA6660
+void __fastcall c_player_traits__initialize_hook(c_player_traits *thisptr) // 0x10AA6660
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_traits__initialize_hook@@YIXPAUc_player_traits@@@Z");
 	// `anonymous-namespace'::c_player_traits__initialize_hook
 	// c_player_traits *thisptr;
-	todo("implement");
-	_sub_10AA6660(thisptr);
+
+	thisptr->initialize();
 }
 
-_extern void _sub_10AA66B0(c_player_traits *, void *, c_player_traits *, bool);
-void c_player_traits__set_hook(c_player_traits *thisptr, void *__formal, c_player_traits *traits, bool can_inherit) // 0x10AA66B0
+void __fastcall c_player_traits__set_hook(c_player_traits *thisptr, void *__formal, c_player_traits *traits, bool can_inherit) // 0x10AA66B0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_traits__set_hook@@YIXPAUc_player_traits@@PAX0_N@Z");
 	// `anonymous-namespace'::c_player_traits__set_hook
 	// bool can_inherit;
-	todo("implement");
-	_sub_10AA66B0(thisptr, __formal, traits, can_inherit);
+
+	thisptr->set(traits, can_inherit);
 }
 
-_extern void _sub_10AA6420(c_player_trait_shield_vitality *, void *, c_player_trait_shield_vitality const *, bool);
-void c_player_trait_shield_vitality__set_hook(c_player_trait_shield_vitality *thisptr, void *__formal, c_player_trait_shield_vitality const *traits, bool can_inherit) // 0x10AA6420
+void __fastcall c_player_trait_shield_vitality__set_hook(c_player_trait_shield_vitality *thisptr, void *__formal, c_player_trait_shield_vitality const *traits, bool can_inherit) // 0x10AA6420
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_trait_shield_vitality__set_hook@@YIXPAUc_player_trait_shield_vitality@@PAXPBU1@_N@Z");
 	// `anonymous-namespace'::c_player_trait_shield_vitality__set_hook
 	// bool can_inherit;
-	todo("implement");
-	_sub_10AA6420(thisptr, __formal, traits, can_inherit);
+
+	thisptr->set(traits, can_inherit);
 }
 
-_extern void _sub_10AA6540(c_player_trait_weapons *, void *, c_player_trait_weapons const *, bool);
-void c_player_trait_weapons__set_hook(c_player_trait_weapons *thisptr, void *__formal, c_player_trait_weapons const *traits, bool can_inherit) // 0x10AA6540
+void __fastcall c_player_trait_weapons__set_hook(c_player_trait_weapons *thisptr, void *__formal, c_player_trait_weapons const *traits, bool can_inherit) // 0x10AA6540
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_trait_weapons__set_hook@@YIXPAUc_player_trait_weapons@@PAXPBU1@_N@Z");
 	// `anonymous-namespace'::c_player_trait_weapons__set_hook
 	// bool can_inherit;
-	todo("implement");
-	_sub_10AA6540(thisptr, __formal, traits, can_inherit);
+
+	thisptr->set(traits, can_inherit);
 }
 
-_extern void _sub_10AA61E0(c_player_trait_movement *, void *, c_player_trait_movement const *, bool);
-void c_player_trait_movement__set_hook(c_player_trait_movement *thisptr, void *__formal, c_player_trait_movement const *traits, bool can_inherit) // 0x10AA61E0
+void __fastcall c_player_trait_movement__set_hook(c_player_trait_movement *thisptr, void *__formal, c_player_trait_movement const *traits, bool can_inherit) // 0x10AA61E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_trait_movement__set_hook@@YIXPAUc_player_trait_movement@@PAXPBU1@_N@Z");
 	// `anonymous-namespace'::c_player_trait_movement__set_hook
 	// bool can_inherit;
-	todo("implement");
-	_sub_10AA61E0(thisptr, __formal, traits, can_inherit);
+
+	thisptr->set(traits, can_inherit);
 }
 
-_extern void _sub_10AA60C0(c_player_trait_appearance *, void *, c_player_trait_appearance const *, bool);
-void c_player_trait_appearance__set_hook(c_player_trait_appearance *thisptr, void *__formal, c_player_trait_appearance const *traits, bool can_inherit) // 0x10AA60C0
+void __fastcall c_player_trait_appearance__set_hook(c_player_trait_appearance *thisptr, void *__formal, c_player_trait_appearance const *traits, bool can_inherit) // 0x10AA60C0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_trait_appearance__set_hook@@YIXPAUc_player_trait_appearance@@PAXPBU1@_N@Z");
 	// `anonymous-namespace'::c_player_trait_appearance__set_hook
 	// bool can_inherit;
-	todo("implement");
-	_sub_10AA60C0(thisptr, __formal, traits, can_inherit);
+
+	thisptr->set(traits, can_inherit);
 }
 
-_extern void _sub_10AA6300(c_player_trait_sensors *, void *, c_player_trait_sensors const *, bool);
-void c_player_trait_sensors__set_hook(c_player_trait_sensors *thisptr, void *__formal, c_player_trait_sensors const *traits, bool can_inherit) // 0x10AA6300
+void __fastcall c_player_trait_sensors__set_hook(c_player_trait_sensors *thisptr, void *__formal, c_player_trait_sensors const *traits, bool can_inherit) // 0x10AA6300
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_trait_sensors__set_hook@@YIXPAUc_player_trait_sensors@@PAXPBU1@_N@Z");
 	// `anonymous-namespace'::c_player_trait_sensors__set_hook
 	// bool can_inherit;
-	todo("implement");
-	_sub_10AA6300(thisptr, __formal, traits, can_inherit);
+
+	thisptr->set(traits, can_inherit);
 }
 
 _extern void _sub_10AA6710(long, c_player_trait_extended const *);
@@ -606,21 +684,27 @@ void game_engine_apply_powerup_traits_hook(long player_index, c_player_traits *t
 	_sub_10AA6AB0(player_index, traits);
 }
 
-_extern long _sub_10AA7790(long);
 long game_variant_get_parameter_value_type(long parameter_type) // 0x10AA7790
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_variant_get_parameter_value_type@@YAJJ@Z");
 	// `anonymous-namespace'::game_variant_get_parameter_value_type
 	// long parameter_type;
 	// constexpr long (*const `game_variant_get_parameter_value_type'::`2'::game_variant_get_parameter_value_type)(long); // constant == 5716384
 	// bool extended;
 	// function call : long (*const)(long)
-	todo("implement");
-	long __result = _sub_10AA7790(parameter_type);
-	return __result;
+
+	bool valid = parameter_type >= 626;
+
+	if (valid && parameter_type >= 627)
+	{
+		return 0;
+	}
+
+	return ((long(__cdecl *)(long))0x5739a0)(parameter_type);
 }
 
 _extern bool _sub_10AA3BC0(c_game_variant *, void *, e_game_variant_parameter, char, unsigned long *);
-bool c_game_variant__get_game_engine_setting_hook(c_game_variant *thisptr, void *unused, e_game_variant_parameter parameter_type, char value_type, unsigned long *out_value) // 0x10AA3BC0
+bool __fastcall c_game_variant__get_game_engine_setting_hook(c_game_variant *thisptr, void *unused, e_game_variant_parameter parameter_type, char value_type, unsigned long *out_value) // 0x10AA3BC0
 {
 	// `anonymous-namespace'::c_game_variant__get_game_engine_setting_hook
 // $LN84:
@@ -718,7 +802,7 @@ bool c_game_variant__get_game_engine_setting_hook(c_game_variant *thisptr, void 
 }
 
 _extern bool _sub_10AA4A10(c_game_variant *, void *, long, char, unsigned long);
-bool c_game_variant__set_game_engine_setting_hook(c_game_variant *thisptr, void *unused, long parameter_type, char value_type, unsigned long value) // 0x10AA4A10
+bool __fastcall c_game_variant__set_game_engine_setting_hook(c_game_variant *thisptr, void *unused, long parameter_type, char value_type, unsigned long value) // 0x10AA4A10
 {
 	// `anonymous-namespace'::c_game_variant__set_game_engine_setting_hook
 // $LN84:
@@ -848,27 +932,32 @@ long game_variant_get_parameter_type_for_category_hook(long category, long param
 	return __result;
 }
 
-_extern long _sub_10AA5C10(c_gui_screen_game_options *);
 long c_gui_screen_game_options__get_category_index(c_gui_screen_game_options *screen) // 0x10AA5C10
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_screen_game_options__get_category_index@@YAJPAUc_gui_screen_game_options@@@Z");
 	// `anonymous-namespace'::c_gui_screen_game_options__get_category_index
 	// c_gui_screen_game_options *screen;
 	// long index;
 	// long category_index;
-	todo("implement");
-	long __result = _sub_10AA5C10(screen);
-	return __result;
+
+	long result = -1;
+	long index = *(long *)((char *)screen + 0x202C);
+	if (index < 0 || index >= 16)
+		result = -1;
+	else
+		result = *(long *)((char *)screen + 12 * index + 0x1F6C);
+	return result;
 }
 
-_extern long _sub_10AA5C80(c_gui_screen_game_options *, long);
 long c_gui_screen_game_options__get_parameter_type_for_current_category(c_gui_screen_game_options *screen, long parameter_type) // 0x10AA5C80
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_screen_game_options__get_parameter_type_for_current_category@@YAJPAUc_gui_screen_game_options@@J@Z");
 	// `anonymous-namespace'::c_gui_screen_game_options__get_parameter_type_for_current_category
 	// long parameter_type;
 	// long category_index;
-	todo("implement");
-	long __result = _sub_10AA5C80(screen, parameter_type);
-	return __result;
+
+	long category_index = c_gui_screen_game_options__get_category_index(screen);
+	return game_variant_get_parameter_type_for_category_hook(category_index, parameter_type);
 }
 
 _extern bool _sub_10AA5DF0(c_gui_screen_game_options *, long, unsigned long *);
@@ -882,24 +971,27 @@ bool c_gui_screen_game_options__try_and_get_parameter_value(c_gui_screen_game_op
 	return __result;
 }
 
-_extern bool _sub_10AA5E80(c_gui_screen_game_options *, long, unsigned long);
 bool c_gui_screen_game_options__try_set_parameter_value(c_gui_screen_game_options *screen, long parameter_type, unsigned long value) // 0x10AA5E80
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_screen_game_options__try_set_parameter_value@@YA_NPAUc_gui_screen_game_options@@JK@Z");
 	// `anonymous-namespace'::c_gui_screen_game_options__try_set_parameter_value
 	// unsigned long value;
 	// c_game_variant *variant;
-	todo("implement");
-	bool __result = _sub_10AA5E80(screen, parameter_type, value);
-	return __result;
+
+	parameter_type = c_gui_screen_game_options__get_parameter_type_for_current_category(screen, parameter_type);
+	if (parameter_type == -1)
+		return false;
+	c_game_variant *variant = (c_game_variant *)((char *)screen + 0x1AA0);
+	return c_game_variant__set_game_engine_setting_hook(variant, nullptr, parameter_type, 0, value);
 }
 
-extern c_user_interface_player_model_text_value_pair_proxy* _sub_10A9E910(c_user_interface_player_model_text_value_pair_proxy *const, c_user_interface_mods_player_character_data *);
 _inline c_user_interface_player_model_text_value_pair_proxy::c_user_interface_player_model_text_value_pair_proxy(c_user_interface_mods_player_character_data *data) // 0x10A9E910
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_user_interface_player_model_text_value_pair_proxy@hades_file_local@@QAE@PAVc_user_interface_mods_player_character_data@@@Z");
 	// `anonymous-namespace'::c_user_interface_player_model_text_value_pair_proxy::c_user_interface_player_model_text_value_pair_proxy
 	// c_user_interface_mods_player_character_data *data;
-	todo("implement");
-	_sub_10A9E910(this, data);
+
+	m_data = data;
 }
 
 _inline ModListener::~ModListener() // 0x10A9E940
@@ -956,13 +1048,13 @@ _inline bool c_user_interface_player_model_text_value_pair_proxy::try_get_string
 	return __result;
 }
 
-extern c_user_interface_player_model_set_text_value_pair_proxy* _sub_10A9E8E0(c_user_interface_player_model_set_text_value_pair_proxy *const, c_user_interface_mods_player_character_data *);
 _inline c_user_interface_player_model_set_text_value_pair_proxy::c_user_interface_player_model_set_text_value_pair_proxy(c_user_interface_mods_player_character_data *data) // 0x10A9E8E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_user_interface_player_model_set_text_value_pair_proxy@hades_file_local@@QAE@PAVc_user_interface_mods_player_character_data@@@Z");
 	// `anonymous-namespace'::c_user_interface_player_model_set_text_value_pair_proxy::c_user_interface_player_model_set_text_value_pair_proxy
 	// c_user_interface_mods_player_character_data *data;
-	todo("implement");
-	_sub_10A9E8E0(this, data);
+
+	m_data = data;
 }
 
 _extern void _sub_10AA7F90(c_user_interface_player_model_set_text_value_pair_proxy *const, c_gui_screen_game_options *);
@@ -1009,7 +1101,7 @@ s_text_value_pair_definition *text_value_pair_definition_try_and_get_hook(s_mult
 }
 
 _extern bool _sub_10AA5CF0(c_gui_screen_widget *, void *, unsigned long, wchar_t *);
-bool c_gui_screen_game_options__get_string_value_hook(c_gui_screen_widget *thisptr, void *unused, unsigned long id, wchar_t *out_value) // 0x10AA5CF0
+bool __fastcall c_gui_screen_game_options__get_string_value_hook(c_gui_screen_widget *thisptr, void *unused, unsigned long id, wchar_t *out_value) // 0x10AA5CF0
 {
 	// `anonymous-namespace'::c_gui_screen_game_options__get_string_value_hook
 	// wchar_t *out_value;
@@ -1023,19 +1115,26 @@ bool c_gui_screen_game_options__get_string_value_hook(c_gui_screen_widget *thisp
 	return __result;
 }
 
-_extern void _sub_10AA5B70(c_gui_screen_game_options *);
-void c_gui_screen_game_options__begin_transition_hook(c_gui_screen_game_options *thisptr) // 0x10AA5B70
+void __fastcall c_gui_screen_game_options__begin_transition_hook(c_gui_screen_game_options *thisptr) // 0x10AA5B70
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_screen_game_options__begin_transition_hook@@YIXPAUc_gui_screen_game_options@@@Z");
 	// `anonymous-namespace'::c_gui_screen_game_options__begin_transition_hook
 	// c_gui_screen_game_options *thisptr;
 	// constexpr void (*const `c_gui_screen_game_options__begin_transition_hook'::`2'::c_gui_screen_widget__begin_transition)(void *); // constant == 11587296
 	// function call : void (*const)(void *)
-	todo("implement");
-	_sub_10AA5B70(thisptr);
+
+	if (g_player_model_proxy_dirty)
+	{
+		g_player_model_proxy_dirty = false;
+		g_player_characte_data.update();
+	}
+	g_player_model_options_proxy.update(thisptr);
+	g_player_model_set_options_proxy.update(thisptr);
+	((void(__thiscall *)(c_gui_screen_game_options *))0xb0cee0)(thisptr);
 }
 
 _extern bool _sub_10AA78A0(c_game_variant *, void *, long, unsigned long);
-bool gui_screen_game_options_set_variant_parameter_hook(c_game_variant *thisptr, void *unused, long parameter_type, unsigned long value) // 0x10AA78A0
+bool __fastcall gui_screen_game_options_set_variant_parameter_hook(c_game_variant *thisptr, void *unused, long parameter_type, unsigned long value) // 0x10AA78A0
 {
 	// `anonymous-namespace'::gui_screen_game_options_set_variant_parameter_hook
 	// unsigned long value;

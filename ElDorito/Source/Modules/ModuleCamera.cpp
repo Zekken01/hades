@@ -151,37 +151,38 @@ namespace Modules
 		_sub_10978AE0(this);
 	}
 
-	_extern void _sub_10979E30(Modules::ModuleCamera *const, real_euler_angles2d const *);
 	void ModuleCamera::SetInputAngularVelocity(real_euler_angles2d const *velocity) // 0x10979E30
 	{
-		mangled_x86(MANGLED_TODO, "?SetInputAngularVelocity@ModuleCamera@Modules@@QAEXPBUreal_euler_angles2d@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?SetInputAngularVelocity@ModuleCamera@Modules@@QAEXPBUreal_euler_angles2d@@@Z");
 		// real_euler_angles2d const *velocity;
-		todo("implement");
-		_sub_10979E30(this, velocity);
+
+		inputAngularVelocity = *velocity;
 	}
 
-	_extern void _sub_10979DF0(Modules::ModuleCamera const *const, real_euler_angles2d *);
 	void ModuleCamera::GetInputAngularVelocity(real_euler_angles2d *velocity) const // 0x10979DF0
 	{
-		mangled_x86(MANGLED_TODO, "?GetInputAngularVelocity@ModuleCamera@Modules@@QBEXPAUreal_euler_angles2d@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetInputAngularVelocity@ModuleCamera@Modules@@QBEXPAUreal_euler_angles2d@@@Z");
 		// real_euler_angles2d *velocity;
-		todo("implement");
-		_sub_10979DF0((Modules::ModuleCamera const *)this, velocity);
+
+		*velocity = inputAngularVelocity;
 	}
 }
 
 /* ---------- private code */
 
-_extern bool _sub_10979E70(std::vector<std::string> const &, std::string &);
 bool VariableCameraFovUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10979E70
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableCameraFovUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::VariableCameraFovUpdate
 	// std::string &returnInfo;
 	// Modules::ModuleCamera &moduleCamera;
 	// float value;
-	todo("implement");
-	bool __result = _sub_10979E70(Arguments, returnInfo);
-	return __result;
+
+	auto &moduleCamera = Modules::ModuleCamera::Instance();
+	float value = moduleCamera.VarCameraFov->ValueFloat;
+	Pointer::Base(0x1F01D98).Write(value);
+	Pointer::Base(0x149D42C).Write(value);
+	return true;
 }
 
 _extern bool _sub_1097A000(std::vector<std::string> const &, std::string &);
@@ -216,9 +217,9 @@ bool VariableCameraHideKillFeedUpdate(std::vector<std::string> const &Arguments,
 	return __result;
 }
 
-_extern bool _sub_1097AD40(std::vector<std::string> const &, std::string &);
 bool VariableCameraSpeedUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1097AD40
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableCameraSpeedUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::VariableCameraSpeedUpdate
 	// static ...; // 0x1097AE6C
 	// static ...; // 0x1097AE64
@@ -226,9 +227,14 @@ bool VariableCameraSpeedUpdate(std::vector<std::string> const &Arguments, std::s
 	// std::string &returnInfo;
 	// float speed;
 	// std::stringstream ss;
-	todo("implement");
-	bool __result = _sub_1097AD40(Arguments, returnInfo);
-	return __result;
+
+	float speed = Modules::ModuleCamera::Instance().VarCameraSpeed->ValueFloat;
+
+	std::stringstream ss;
+	ss << "Camera speed set to " << speed;
+	returnInfo = ss.str();
+
+	return true;
 }
 
 _extern bool _sub_1097A670(std::vector<std::string> const &, std::string &);

@@ -66,9 +66,7 @@ namespace Download
 			bool started : 1; // 0x0
 			bool finished : 1; // 0x0
 			bool retrying : 1; // 0x0
-			unsigned char __pad0[3]; // 0x1
 			std::mutex lock; // 0x4
-			unsigned char __pad1[4]; // 0x34
 			long long const offset; // 0x38
 			long long length; // 0x40
 			long long downloaded; // 0x48
@@ -76,7 +74,6 @@ namespace Download
 			std::chrono::time_point<std::chrono::steady_clock,std::chrono::duration<__int64,std::ratio<1,1000000000> > > startTime; // 0x60
 			std::shared_ptr<Http::IHttpRequest> request; // 0x68
 			__int32 retryCount; // 0x70
-			unsigned char __pad2[4]; // 0x74
 			std::chrono::time_point<std::chrono::steady_clock,std::chrono::duration<__int64,std::ratio<1,1000000000> > > retryAt; // 0x78
 			_inline long long GetRemaining() const;
 			_inline SSegment *Split();
@@ -84,10 +81,13 @@ namespace Download
 			_inline ~SSegment();
 		};
 		static_assert(sizeof(SSegment) == 128, "Invalid SSegment size");
+		static_assert(offsetof(SSegment, lock) == 0x4, "SSegment::lock moved when its reconstructed padding was removed");
+		static_assert(offsetof(SSegment, offset) == 0x38, "SSegment::offset moved when its reconstructed padding was removed");
+		static_assert(offsetof(SSegment, retryAt) == 0x78, "SSegment::retryAt moved when its reconstructed padding was removed");
 		class ISegmentStore
 		{
 		public:
-			virtual _inline ~ISegmentStore();
+			virtual _inline ~ISegmentStore() = default; // 0x1082CCE0
 			virtual bool CheckAvailableSpace(long long) = 0;
 			virtual bool AdviseFileSize(long long) = 0;
 			virtual bool WriteData(SSegment *, char const *, unsigned __int32) = 0;
@@ -165,7 +165,6 @@ namespace Download
 		std::string m_etag; // 0x110
 		std::string m_lastModified; // 0x12C
 		std::atomic<bool> m_supportsSegmentation; // 0x148
-	unsigned char __pad3[7]; // 0x149
 	};
 	static_assert(sizeof(Download::CHttpFileDownload) == 336, "Invalid Download::CHttpFileDownload size");
 
@@ -181,7 +180,7 @@ namespace Download
 	private:
 		std::vector<std::shared_ptr<Download::CHttpFileDownload> > m_downloads; // 0x0
 	public:
-		_inline CHttpFileDownloadManager(); /* compiler_generated() */
+		_inline CHttpFileDownloadManager() = default; /* compiler_generated() */
 		~CHttpFileDownloadManager(); /* compiler_generated() */
 	};
 	static_assert(sizeof(Download::CHttpFileDownloadManager) == 16, "Invalid Download::CHttpFileDownloadManager size");
@@ -203,24 +202,20 @@ namespace Download
 		return m_bFinished;
 	}
 
-	_extern long long _sub_1082FB60(Download::CHttpFileDownload const *const);
 	_inline long long CHttpFileDownload::GetDownloadedBytes() const // 0x1082FB60
 	{
-		mangled_x86(MANGLED_TODO, "?GetDownloadedBytes@CHttpFileDownload@Download@@UBE_JXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetDownloadedBytes@CHttpFileDownload@Download@@UBE_JXZ");
 		// Download::CHttpFileDownload const *const this;
-		todo("implement");
-		long long __result = _sub_1082FB60((Download::CHttpFileDownload const *)this);
-		return __result;
+
+		return m_downloadedBytes;
 	}
 
-	_extern long long _sub_10830370(Download::CHttpFileDownload const *const);
 	_inline long long CHttpFileDownload::GetTotalBytes() const // 0x10830370
 	{
-		mangled_x86(MANGLED_TODO, "?GetTotalBytes@CHttpFileDownload@Download@@UBE_JXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetTotalBytes@CHttpFileDownload@Download@@UBE_JXZ");
 		// Download::CHttpFileDownload const *const this;
-		todo("implement");
-		long long __result = _sub_10830370((Download::CHttpFileDownload const *)this);
-		return __result;
+
+		return m_totalBytes;
 	}
 
 	_inline __int32 CHttpFileDownload::GetDownloadSpeed() const // 0x1082FB30

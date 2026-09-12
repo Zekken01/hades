@@ -45,7 +45,6 @@ public:
 		_inline ~SJob(); /* compiler_generated() */
 		_inline SJob &operator=(SJob &&__that); /* compiler_generated() */
 		SJob &operator=(SJob const &); /* compiler_generated() */
-		unsigned char __pad0[4]; // 0x34
 	};
 	static_assert(sizeof(SJob) == 56, "Invalid SJob size");
 	public:

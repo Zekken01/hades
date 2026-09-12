@@ -56,6 +56,12 @@ struct s_levels_globals;
 
 /* ---------- prototypes */
 
+const bool levels_find_map_by_name_internal(s_data_array *level_data_array, char const *name, s_level_datum *out_level);  // hades: added for 0X10F07490
+
+extern void (*const critical_section_enter)(e_critical_section);  // hades: added for 0X10F06B60
+extern void (*const critical_section_leave)(e_critical_section);  // hades: added for 0X10F06B60
+extern void (*const data_delete_all)(s_data_array *);  // hades: added for 0X10F06B60
+
 extern void levels_yield_until_enumerate_done();
 extern bool const levels_find_map_by_name_internal(s_data_array *level_data, char const *name, s_level_datum *out_level);
 extern bool levels_find_level_by_map_id_internal(s_data_array *level_array, long map_id, s_level_datum *out_level);
@@ -91,14 +97,16 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- public code */
 
-_extern void _sub_10F07D10();
 void levels_yield_until_enumerate_done() // 0x10F07D10
 {
-	mangled_x86(MANGLED_TODO, "?levels_yield_until_enumerate_done@@YAXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?levels_yield_until_enumerate_done@@YAXXZ");
 	// procedure flags: nofpo
 	// function call : void (*const)(c_async_completion_flag *, bool, bool)
-	todo("implement");
-	_sub_10F07D10();
+
+	if (g_level_globals->enumeration_async_task_id != -1)
+	{
+		((void(__cdecl *const)(c_async_completion_flag *, bool, bool))0x508a40)((c_async_completion_flag *)0x189ece4, false, false);
+	}
 }
 
 extern bool const _sub_10F07550(s_data_array *, char const *, s_level_datum *);
@@ -222,27 +230,28 @@ bool levels_find_by_path_internal(s_data_array *level_data, char const *path, s_
 	return __result;
 }
 
-_extern bool _sub_10F07490(char const *, s_level_datum *);
 bool levels_find_map_by_name(char const *name, s_level_datum *out_level) // 0x10F07490
 {
-	mangled_x86(MANGLED_TODO, "?levels_find_map_by_name@@YA_NPBDPAUs_level_datum@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?levels_find_map_by_name@@YA_NPBDPAUs_level_datum@@@Z");
 	// s_level_datum *out_level;
-	todo("implement");
-	bool __result = _sub_10F07490(name, out_level);
-	return __result;
+
+	return levels_find_map_by_name_internal(g_level_globals->multiplayer_levels, name, out_level)
+		|| levels_find_map_by_name_internal(g_level_globals->campaign_levels, name, out_level);
 }
 
-_extern bool _sub_10F07890(char const *, s_level_datum *);
 bool levels_find_map_by_path(char const *path, s_level_datum *out_level) // 0x10F07890
 {
-	mangled_x86(MANGLED_TODO, "?levels_find_map_by_path@@YA_NPBDPAUs_level_datum@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?levels_find_map_by_path@@YA_NPBDPAUs_level_datum@@@Z");
 	// s_level_datum *out_level;
 	// bool found;
 	// function call : void (*const)(e_critical_section)
 	// function call : void (*const)(e_critical_section)
-	todo("implement");
-	bool __result = _sub_10F07890(path, out_level);
-	return __result;
+
+	critical_section_enter(_critical_section_levels);
+	bool result = levels_find_by_path_internal(g_level_globals->multiplayer_levels, path, out_level)
+		|| levels_find_by_path_internal(g_level_globals->campaign_levels, path, out_level);
+	critical_section_leave(_critical_section_levels);
+	return result;
 }
 
 _extern void _sub_10F06C30(char const *);
@@ -289,16 +298,17 @@ void levels_close_map_internal(s_data_array *level_data, long map_id) // 0x10F06
 	_sub_10F06EB0(level_data, map_id);
 }
 
-_extern void _sub_10F06B60();
 void levels_close_all_campaigns() // 0x10F06B60
 {
-	mangled_x86(MANGLED_TODO, "?levels_close_all_campaigns@@YAXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?levels_close_all_campaigns@@YAXXZ");
 	// procedure flags: nofpo
 	// function call : void (*const)(e_critical_section)
 	// function call : void (*const)(s_data_array *)
 	// function call : void (*const)(e_critical_section)
-	todo("implement");
-	_sub_10F06B60();
+
+	critical_section_enter(_critical_section_levels);
+	data_delete_all(g_level_globals->campaigns);
+	critical_section_leave(_critical_section_levels);
 }
 
 _extern void _sub_10F07040(long);

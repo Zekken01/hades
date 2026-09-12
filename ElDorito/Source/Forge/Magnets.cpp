@@ -203,6 +203,8 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+long tag_find_by_name(unsigned long group_tag, char const *name);  // hades: added for 0X1096D120
+
 namespace Forge
 {
 	namespace Magnets
@@ -228,6 +230,7 @@ void GetMagnetsFromCollisionModel(unsigned __int32 objectIndex, std::vector<real
 namespace hades_file_local
 {
 	extern char const *MARKER_GROUP_NAME; // 0x11353D3C
+	extern std::unique_ptr<MagnetManager> s_MagnetManager; // 0x1240FB54
 	extern unsigned long markerGroupName; // 0x1240FB58
 }
 using namespace hades_file_local;
@@ -265,13 +268,16 @@ namespace Forge
 			_sub_1096E210();
 		}
 
-		_extern void _sub_1096D8C0();
 		void Render() // 0x1096D8C0
 		{
-			mangled_x86(MANGLED_TODO, "?Render@Magnets@Forge@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Render@Magnets@Forge@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_1096D8C0();
+
+			if (!MagnetsEnabled() || !MagnetsVisible())
+				return;
+
+			if (s_MagnetManager)
+				s_MagnetManager->Render();
 		}
 
 		extern MagnetPair const &_sub_1096CB80();
@@ -289,13 +295,15 @@ namespace Forge
 
 /* ---------- private code */
 
-extern MagnetManager* _sub_1096C1A0(MagnetManager *const);
 _inline MagnetManager::MagnetManager() // 0x1096C1A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0MagnetManager@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::MagnetManager::MagnetManager
 	// MagnetManager *const this;
-	todo("implement");
-	_sub_1096C1A0(this);
+
+	m_LastCheck = 0;
+	m_NumSourceMagnets = 0;
+	m_NumDestMagnets = 0;
 }
 
 namespace Forge
@@ -308,11 +316,11 @@ namespace Forge
 
 _inline Forge::Magnets::MagnetPair const &MagnetManager::GetMagnetPair() const // 0x1096CB50
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetMagnetPair@MagnetManager@hades_file_local@@QBEABUMagnetPair@Magnets@Forge@@XZ");
 	// `anonymous-namespace'::MagnetManager::GetMagnetPair
 	// MagnetManager const *const this;
-	todo("implement");
-	Forge::Magnets::MagnetPair const & __result = _sub_1096CB50((MagnetManager const *)this);
-	return __result;
+
+	return m_MagnetPairing;
 }
 
 _extern bool _sub_1096D360();
@@ -454,16 +462,24 @@ void MagnetManager::RenderMagnet(Forge::Magnets::Magnet const &magnet) // 0x1096
 	_sub_1096D940(this, magnet);
 }
 
-_extern unsigned short _sub_1096D120();
 unsigned short GetPlasmaShaderTagIndex() // 0x1096D120
 {
 	// `anonymous-namespace'::GetPlasmaShaderTagIndex
 	// procedure flags: nofpo
 	// static long `GetPlasmaShaderTagIndex'::`2'::tagIndex; // 0x11353D44
 	// static bool `GetPlasmaShaderTagIndex'::`2'::tagLookup; // 0x11353D40
-	todo("implement");
-	unsigned short __result = _sub_1096D120();
-	return __result;
+
+	static bool tagLookup = true;
+	static long tagIndex = -1;
+
+	if (tagLookup && tagIndex == -1)
+	{
+		tagIndex = tag_find_by_name(0x726D7368, "objects\\multi\\shaders\\multiplayer_object_plasma");
+		if (tagIndex == -1)
+			tagLookup = false;
+	}
+
+	return tagIndex;
 }
 
 _extern void _sub_1096D750(MagnetManager *const);

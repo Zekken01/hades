@@ -74,13 +74,10 @@ namespace Utils
 		return __result;
 	}
 
-	_extern void _sub_10764570(Utils::SemanticVersion *const);
 	_inline SemanticVersion::~SemanticVersion() // 0x10764570
 	{
-		mangled_x86(MANGLED_TODO, "??1SemanticVersion@Utils@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??1SemanticVersion@Utils@@QAE@XZ");
 		// Utils::SemanticVersion *const this;
-		todo("implement");
-		_sub_10764570(this);
 	}
 }
 

@@ -176,6 +176,9 @@ namespace Blam
 
 /* ---------- prototypes */
 
+extern void *(__cdecl *const tag_get)(unsigned long, long);  // hades: added for 0X10ABB040
+extern long (__cdecl *const tag_get_first_in_group)(unsigned long);  // hades: added for 0X10ABB040
+
 extern s_game_globals *try_and_get_game_globals();
 extern long get_multiplayer_player_model_customization_block_index(long unit_index);
 extern s_player_model_customization const *player_get_model_customization(s_player_datum *player);
@@ -228,16 +231,14 @@ extern UiPlayerModelState s_UiPlayerModelState; // 0x12467330
 
 /* ---------- public code */
 
-extern s_game_globals *_sub_10ABB040();
 s_game_globals *try_and_get_game_globals() // 0x10ABB040
 {
-	mangled_x86(MANGLED_TODO, "?try_and_get_game_globals@@YAPAUs_game_globals@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?try_and_get_game_globals@@YAPAUs_game_globals@@XZ");
 	// procedure flags: nofpo
 	// function call : long (*const)(unsigned long)
 	// function call : void *(*const)(unsigned long, long)
-	todo("implement");
-	s_game_globals * __result = _sub_10ABB040();
-	return __result;
+
+	return (s_game_globals *)tag_get(0x6D617467, tag_get_first_in_group(0x6D617467));
 }
 
 _extern long _sub_10AB8400(long);
@@ -396,13 +397,18 @@ void player_model_customize(s_player_model_customization const *customization_da
 	_sub_10AB8F00(customization_data, unit_index);
 }
 
-_extern void _sub_10AB8690(long, s_model_permutation_possibility *);
 void model_permutation_possibility_set(long permutation_index, s_model_permutation_possibility *possibility) // 0x10AB8690
 {
-	mangled_x86(MANGLED_TODO, "?model_permutation_possibility_set@@YAXJPAUs_model_permutation_possibility@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?model_permutation_possibility_set@@YAXJPAUs_model_permutation_possibility@@@Z");
 	// s_model_permutation_possibility *possibility;
-	todo("implement");
-	_sub_10AB8690(permutation_index, possibility);
+
+	possibility->runtime_permutation_index = permutation_index;
+	possibility->variant_permutation_index = -1;
+	possibility->state = 0;
+	possibility->property_flags = 0;
+	possibility->looping_effect_index = -1;
+	possibility->looping_effect_marker = 0;
+	possibility->probability = 1.0f;
 }
 
 _extern void _sub_10AB8700(long, long, unsigned char *, s_object_region_information *, unsigned long, s_model_customization_region_permutation *, long);
@@ -512,13 +518,13 @@ std::string GetCurrentPreferredCharacter() // 0x10AB6C90
 	return __result;
 }
 
-_extern void _sub_10AB7C70();
 void clearCachedCharacter() // 0x10AB7C70
 {
-	mangled_x86(MANGLED_TODO, "?clearCachedCharacter@@YAXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?clearCachedCharacter@@YAXXZ");
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10AB7C70();
+
+	customization_biped_index = -1;
+	customization_char_platform_index = -1;
 }
 
 extern s_mod_globals_player_character_customization *_sub_10ABB0E0(std::string const &);
@@ -728,22 +734,32 @@ void player_model_patches_apply() // 0x10AB9BC0
 	_sub_10AB9BC0();
 }
 
-_extern void _sub_10AB7390();
 void RefreshUiPlayer() // 0x10AB7390
 {
-	mangled_x86(MANGLED_TODO, "?RefreshUiPlayer@@YAXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?RefreshUiPlayer@@YAXXZ");
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10AB7390();
+
+	updateUiPlayerArmor = true;
 }
 
-extern void _sub_10AB7370(unsigned __int32, unsigned __int32);
 __declspec(naked) void PoseWithWeapon(unsigned __int32 unit, unsigned __int32 weaponTag) // 0x10AB7370
 {
-	mangled_x86(MANGLED_TODO, "?PoseWithWeapon@@YAXII@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?PoseWithWeapon@@YAXII@Z");
 	// unsigned __int32 weaponTag;
-	todo("implement");
-	_sub_10AB7370(unit, weaponTag);
+
+	__asm
+	{
+		push ebp
+		mov ebp, esp
+		sub esp, 18Ch
+		push esi
+		push edi
+		sub esp, 8
+		mov esi, [ebp + 8]
+		mov edi, [ebp + 0Ch]
+		push 7B77DAh
+		ret
+	}
 }
 
 _extern __int32 _sub_10AB96A0(__int32, char const *, char const *);
@@ -1001,32 +1017,38 @@ void UpdateUiPlayerModelArmor() // 0x10AB7470
 	_sub_10AB7470();
 }
 
-_extern bool _sub_10AB63A0(__int32);
 bool CharacterHasFlag(__int32 flag) // 0x10AB63A0
 {
-	mangled_x86(MANGLED_TODO, "?CharacterHasFlag@@YA_NH@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CharacterHasFlag@@YA_NH@Z");
 	// __int32 flag;
-	todo("implement");
-	bool __result = _sub_10AB63A0(flag);
-	return __result;
+
+	if ((1 << flag) & customization_biped_flags)
+	{
+		return true;
+	}
+
+	return false;
 }
 
-_extern void _sub_10AB73B0(real_vector3d const *);
 void SetUiPlayerModelPosition(real_vector3d const *newPosition) // 0x10AB73B0
 {
-	mangled_x86(MANGLED_TODO, "?SetUiPlayerModelPosition@@YAXPBUreal_vector3d@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SetUiPlayerModelPosition@@YAXPBUreal_vector3d@@@Z");
 	// real_vector3d const *newPosition;
-	todo("implement");
-	_sub_10AB73B0(newPosition);
+
+	*(real_vector3d *)s_UiPlayerModelState.Position = *newPosition;
+	s_UiPlayerModelState.Flags |= 2;
 }
 
-_extern void _sub_10AB7400(float, float);
 void SetUiPlayerModelRotation(float angleDegrees, float seconds) // 0x10AB7400
 {
-	mangled_x86(MANGLED_TODO, "?SetUiPlayerModelRotation@@YAXMM@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SetUiPlayerModelRotation@@YAXMM@Z");
 	// float seconds;
-	todo("implement");
-	_sub_10AB7400(angleDegrees, seconds);
+
+	s_UiPlayerModelState.StartRotationAngle = customzation_biped_angle_degrees;
+	s_UiPlayerModelState.EndRotationAngle = angleDegrees;
+	s_UiPlayerModelState.RotationTicks = 0;
+	s_UiPlayerModelState.RotationDuration = seconds;
+	s_UiPlayerModelState.Flags |= 1;
 }
 
 /* ---------- private code */

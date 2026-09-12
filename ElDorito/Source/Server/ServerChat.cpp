@@ -229,6 +229,8 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+namespace Blam::Network { Session *GetActiveSession(); }  // hades: added for 0X10C20620
+
 namespace Server
 {
 	namespace Chat
@@ -272,11 +274,12 @@ bool SendClientMessage(Blam::Network::Session *session, Server::Chat::ChatMessag
 
 namespace hades_file_local
 {
+	extern std::vector<std::shared_ptr<Server::Chat::ChatHandler> > chatHandlers; // 0x12467EF4
+	extern std::list<unsigned int> MutedPlayers; // 0x12467F04
+	extern std::unordered_map<unsigned int,ClientSpamStats> SpamStats; // 0x12467F10
 	extern std::shared_ptr<Patches::CustomPackets::PacketSender<Server::Chat::ChatMessage> > PacketSender; // 0x12467F38
 	extern unsigned long LastTimeMs; // 0x12467F40
 	extern unsigned long SpamUpdateMs; // 0x12467F44
-	extern std::vector<std::shared_ptr<Server::Chat::ChatHandler> > chatHandlers; // 0x12467EF4
-	extern std::list<unsigned int> MutedPlayers; // 0x12467F04
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -372,15 +375,16 @@ namespace Server
 			return __result;
 		}
 
-		_extern bool _sub_10C20620(__int32, bool);
 		bool SetPlayerMuteStatus(__int32 peer, bool muted) // 0x10C20620
 		{
-			mangled_x86(MANGLED_TODO, "?SetPlayerMuteStatus@Chat@Server@@YA_NH_N@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?SetPlayerMuteStatus@Chat@Server@@YA_NH_N@Z");
 			// bool muted;
 			// Blam::Network::Session *session;
-			todo("implement");
-			bool __result = _sub_10C20620(peer, muted);
-			return __result;
+
+			Blam::Network::Session *session = Blam::Network::GetActiveSession();
+			if (!session || !session->IsEstablished() || !session->IsHost())
+				return false;
+			return ChangePlayerMuteStatus(session, peer, muted);
 		}
 
 		_extern void _sub_10C1DD10();
@@ -480,13 +484,16 @@ namespace Server
 
 /* ---------- private code */
 
-extern ClientSpamStats* _sub_10C1B230(ClientSpamStats *const);
 _inline ClientSpamStats::ClientSpamStats() // 0x10C1B230
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0ClientSpamStats@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::ClientSpamStats::ClientSpamStats
 	// ClientSpamStats *const this;
-	todo("implement");
-	_sub_10C1B230(this);
+
+	SpamScore = 0;
+	TimeoutSeconds = 0;
+	NextTimeoutSeconds = 0;
+	TimeoutResetSeconds = 0;
 }
 
 _inline ChatMessagePacketHandler::~ChatMessagePacketHandler() // 0x10C1BF30
@@ -517,15 +524,24 @@ _inline bool ChatMessagePacketHandler::Deserialize(Blam::BitStream *stream, Serv
 	return __result;
 }
 
-_extern void _sub_10C1EF20(ChatMessagePacketHandler *const, Blam::Network::ObserverChannel *, Patches::CustomPackets::Packet<Server::Chat::ChatMessage> const *);
 _inline void ChatMessagePacketHandler::HandlePacket(Blam::Network::ObserverChannel *sender, Patches::CustomPackets::Packet<Server::Chat::ChatMessage> const *packet) // 0x10C1EF20
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?HandlePacket@ChatMessagePacketHandler@hades_file_local@@UAEXPAUObserverChannel@Network@Blam@@PBU?$Packet@UChatMessage@Chat@Server@@@CustomPackets@Patches@@@Z");
 	// `anonymous-namespace'::ChatMessagePacketHandler::HandlePacket
 	// Patches::CustomPackets::Packet<Server::Chat::ChatMessage> const *packet;
 	// __int32 peer;
 	// Blam::Network::Session *session;
-	todo("implement");
-	_sub_10C1EF20(this, sender, packet);
+
+	auto session = Blam::Network::GetActiveSession();
+	if (!session)
+		return;
+	auto peer = session->GetChannelPeer(sender);
+	if (peer < 0)
+		return;
+	if (session->IsHost())
+		HostReceivedMessage(session, peer, packet->Data);
+	else if (peer == session->MembershipInfo.HostPeerIndex)
+		ClientReceivedMessage(packet->Data);
 }
 
 _extern bool _sub_10C1FEA0(__int32, Server::Chat::ChatMessage const &);
@@ -604,14 +620,25 @@ bool GetTeamPeers(Blam::Network::Session *session, __int32 senderPeer, std::bits
 	return __result;
 }
 
-_extern bool _sub_10C1E9D0(Blam::Network::Session *, __int32, Server::Chat::ChatMessage const &, std::bitset<17> *);
 bool GetMessagePeers(Blam::Network::Session *session, __int32 senderPeer, Server::Chat::ChatMessage const &message, std::bitset<17> *result) // 0x10C1E9D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetMessagePeers@@YA_NPAUSession@Network@Blam@@HABUChatMessage@Chat@Server@@PAV?$bitset@$0BB@@std@@@Z");
 	// `anonymous-namespace'::GetMessagePeers
 	// std::bitset<17> *result;
-	todo("implement");
-	bool __result = _sub_10C1E9D0(session, senderPeer, message, result);
-	return __result;
+
+	switch (message.Type)
+	{
+	case ChatMessageType::Global:
+		result->set();
+		break;
+	case ChatMessageType::Team:
+		GetTeamPeers(session, senderPeer, result);
+		break;
+	// TODO: ChatMessageType::Whisper
+	default:
+		return false;
+	}
+	return true;
 }
 
 extern std::string _sub_10C1EAA0(Blam::Network::Session *, Server::Chat::ChatMessage const &);
@@ -626,17 +653,20 @@ std::string GetSenderName(Blam::Network::Session *session, Server::Chat::ChatMes
 	return __result;
 }
 
-_extern __int32 _sub_10C1D740(unsigned __int32, ClientSpamStats *, Server::Chat::ChatMessage const &);
 __int32 CalculateSpamScore(unsigned __int32 ip, ClientSpamStats *stats, Server::Chat::ChatMessage const &message) // 0x10C1D740
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CalculateSpamScore@@YAHIPAUClientSpamStats@hades_file_local@@ABUChatMessage@Chat@Server@@@Z");
 	// `anonymous-namespace'::CalculateSpamScore
 	// Server::Chat::ChatMessage const &message;
 	// unsigned long shortScore;
 	// unsigned long longScore;
 	// Modules::ModuleServer &serverModule;
-	todo("implement");
-	__int32 __result = _sub_10C1D740(ip, stats, message);
-	return __result;
+
+	auto &serverModule = Modules::ModuleServer::Instance();
+	int shortScore = serverModule.VarFloodMessageScoreShort->ValueInt;
+	int longScore = serverModule.VarFloodMessageScoreLong->ValueInt;
+
+	return shortScore + strlen(message.Body) * (longScore + 1 - shortScore) / 0x101;
 }
 
 _extern bool _sub_10C1D7E0(Blam::Network::Session *, __int32, bool);
@@ -936,14 +966,18 @@ void ClientReceivedMessage(Server::Chat::ChatMessage const &message) // 0x10C1DD
 	_sub_10C1DDA0(message);
 }
 
-_extern bool _sub_10C1FD20(Blam::Network::Session *, Server::Chat::ChatMessage const &);
 bool SendClientMessage(Blam::Network::Session *session, Server::Chat::ChatMessage const &message) // 0x10C1FD20
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SendClientMessage@@YA_NPAUSession@Network@Blam@@ABUChatMessage@Chat@Server@@@Z");
 	// `anonymous-namespace'::SendClientMessage
 	// Server::Chat::ChatMessage const &message;
-	todo("implement");
-	bool __result = _sub_10C1FD20(session, message);
-	return __result;
+
+	if (session->IsHost())
+	{
+		return HostReceivedMessage(session, session->MembershipInfo.LocalPeerIndex, message);
+	}
+
+	return SendMessagePacket(session->MembershipInfo.HostPeerIndex, message);
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0ChatMessagePacketHandler@hades_file_local@@QAE@XZ"); no body to assert in

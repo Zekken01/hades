@@ -24,16 +24,22 @@ struct c_virtual_page_memory_allocator;
 
 /* ---------- public code */
 
-_extern bool _sub_10892330(c_virtual_page_memory_allocator *const, unsigned long);
 bool c_virtual_page_memory_allocator::reserve_memory(unsigned long total_size) // 0x10892330
 {
-	mangled_x86(MANGLED_TODO, "?reserve_memory@c_virtual_page_memory_allocator@@QAE_NK@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?reserve_memory@c_virtual_page_memory_allocator@@QAE_NK@Z");
 	// unsigned long total_size;
 	// unsigned long aligned_total_size;
 	// function call : void *(void *, unsigned long, unsigned long, unsigned long)
-	todo("implement");
-	bool __result = _sub_10892330(this, total_size);
-	return __result;
+
+	unsigned long aligned_size = (total_size + 4095) & 0xFFFFF000;
+	m_memory = (unsigned char *)VirtualAlloc(nullptr, aligned_size, 0x2000, 1);
+	if (!m_memory)
+	{
+		return false;
+	}
+	m_total_size = aligned_size;
+	m_current_size = 0;
+	return true;
 }
 
 unsigned long c_virtual_page_memory_allocator::get_marker() const // 0x10892300

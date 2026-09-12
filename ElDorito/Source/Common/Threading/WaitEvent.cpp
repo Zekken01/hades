@@ -21,31 +21,30 @@ class WaitEvent;
 
 /* ---------- public code */
 
-extern WaitEvent* _sub_106D1640(WaitEvent *const, bool);
 WaitEvent::WaitEvent(bool initialValue) // 0x106D1640
 {
-	mangled_x86(MANGLED_TODO, "??0WaitEvent@@QAE@_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0WaitEvent@@QAE@_N@Z");
 	// bool initialValue;
-	todo("implement");
-	_sub_106D1640(this, initialValue);
+
+	m_value = initialValue;
 }
 
-_extern void _sub_106D16D0(WaitEvent *const);
 void WaitEvent::Set() // 0x106D16D0
 {
-	mangled_x86(MANGLED_TODO, "?Set@WaitEvent@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Set@WaitEvent@@QAEXXZ");
 	// WaitEvent *const this;
-	todo("implement");
-	_sub_106D16D0(this);
+
+	if (!_InterlockedExchange(&m_value, 1))
+		WakeByAddressAll(this);
 }
 
-_extern void _sub_106D1670(WaitEvent *const);
 void WaitEvent::Reset() // 0x106D1670
 {
-	mangled_x86(MANGLED_TODO, "?Reset@WaitEvent@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Reset@WaitEvent@@QAEXXZ");
 	// WaitEvent *const this;
-	todo("implement");
-	_sub_106D1670(this);
+
+	if (InterlockedExchange(&m_value, 0) == 1)
+		WakeByAddressAll(this);
 }
 
 _extern bool _sub_106D1730(WaitEvent const *const, __int32);

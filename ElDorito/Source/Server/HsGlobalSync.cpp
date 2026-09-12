@@ -142,6 +142,7 @@ namespace Server
 namespace hades_file_local
 {
 	extern unsigned __int32 lastSynchronizeTime; // 0x1134D8F0
+	extern std::vector<HsGlobalSyncState> registeredGlobals; // 0x113882E8
 	extern std::function<void __cdecl(short,unsigned short)> sendGlobal; // 0x113882F8
 }
 using namespace hades_file_local;

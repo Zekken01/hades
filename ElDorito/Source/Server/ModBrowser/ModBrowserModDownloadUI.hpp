@@ -28,7 +28,7 @@ struct SModBrowserState;
 class IModBrowserModDownloadUI
 {
 public:
-	virtual _inline ~IModBrowserModDownloadUI();
+	virtual _inline ~IModBrowserModDownloadUI() = default; // 0x10C7B980
 	virtual void SetConfirmCallback(std::function<void __cdecl(void)>) = 0;
 	virtual void SetRetryCallback(std::function<void __cdecl(void)>) = 0;
 	virtual void SetCancelCallback(std::function<void __cdecl(void)>) = 0;
@@ -51,12 +51,6 @@ static_assert(sizeof(IModBrowserModDownloadUI) == 4, "Invalid IModBrowserModDown
 /* ---------- globals */
 
 /* ---------- public code */
-
-_inline IModBrowserModDownloadUI::~IModBrowserModDownloadUI() // 0x10C7B980
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1IModBrowserModDownloadUI@@UAE@XZ");
-	// IModBrowserModDownloadUI *const this;
-}
 
 /* ---------- private code */
 

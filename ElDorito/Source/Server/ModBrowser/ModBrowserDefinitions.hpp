@@ -65,7 +65,6 @@ struct SModBrowserState
 	_inline ~SModBrowserState(); /* compiler_generated() */
 	_inline SModBrowserState &operator=(SModBrowserState &&__that); /* compiler_generated() */
 	SModBrowserState &operator=(SModBrowserState const &); /* compiler_generated() */
-	unsigned char __pad0[3]; // 0x1A5
 };
 static_assert(sizeof(SModBrowserState) == 424, "Invalid SModBrowserState size");
 

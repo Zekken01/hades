@@ -301,17 +301,23 @@ bool campaign_save_exists(__int32 __formal) // 0x109192C0
 	return __result;
 }
 
-extern c_content_catalogue *_sub_10919460(long);
 c_content_catalogue *content_catalogue_get_for_game_state_hook(long controller_index) // 0x10919460
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?content_catalogue_get_for_game_state_hook@@YAPAUc_content_catalogue@@J@Z");
 	// `anonymous-namespace'::content_catalogue_get_for_game_state_hook
 	// long controller_index;
 	// c_content_catalogue *catalogue;
 	// c_content_catalogue *(*const content_catalog_get)(long);
 	// function call : c_content_catalogue *(*const)(long)
-	todo("implement");
-	c_content_catalogue * __result = _sub_10919460(controller_index);
-	return __result;
+
+	c_content_catalogue *(__cdecl *const content_catalogue_get)(long) = (c_content_catalogue *(__cdecl *const)(long))0x5a5600;
+
+	c_content_catalogue *catalogue = content_catalogue_get(controller_index);
+	if (campaign_save_exists(0))
+	{
+		*(unsigned long *)offset_pointer(catalogue, 680) |= 2;
+	}
+	return catalogue;
 }
 
 _extern bool _sub_10919B70(s_game_state_header *);

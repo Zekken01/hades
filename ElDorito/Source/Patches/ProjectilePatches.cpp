@@ -127,34 +127,35 @@ void projectile_translate_tick_delta(long projectile_index, bool force_30hz) // 
 	_sub_1069E640(projectile_index, force_30hz);
 }
 
-_extern float _sub_1069E620();
 float projectile_translate_game_tick_length_hook() // 0x1069E620
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?projectile_translate_game_tick_length_hook@@YAMXZ");
 	// `anonymous-namespace'::projectile_translate_game_tick_length_hook
 	// procedure flags: nofpo
-	todo("implement");
-	float __result = _sub_1069E620();
-	return __result;
+
+	return g_projectile_translate_tick_delta;
 }
 
-_extern void _sub_1069E770(long, real_vector3d *);
 void projectile_update_translate_hook(long projectile_index, real_vector3d *unswept_velocity) // 0x1069E770
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?projectile_update_translate_hook@@YAXJPAUreal_vector3d@@@Z");
 	// `anonymous-namespace'::projectile_update_translate_hook
 	// real_vector3d *unswept_velocity;
 	// function call : void (*const)(long, real_vector3d *)
-	todo("implement");
-	_sub_1069E770(projectile_index, unswept_velocity);
+
+	projectile_translate_tick_delta(projectile_index, 0);
+	((void(__cdecl *)(long, real_vector3d *))0xb7e800)(projectile_index, unswept_velocity);
 }
 
-_extern void _sub_1069E4F0(long, real_vector3d *);
 void projectile_initial_update_translate_hook(long projectile_index, real_vector3d *unswept_velocity) // 0x1069E4F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?projectile_initial_update_translate_hook@@YAXJPAUreal_vector3d@@@Z");
 	// `anonymous-namespace'::projectile_initial_update_translate_hook
 	// real_vector3d *unswept_velocity;
 	// function call : void (*const)(long, real_vector3d *)
-	todo("implement");
-	_sub_1069E4F0(projectile_index, unswept_velocity);
+
+	projectile_translate_tick_delta(projectile_index, 1);
+	((void(__cdecl *)(long, real_vector3d *))0xb7e800)(projectile_index, unswept_velocity);
 }
 
 _extern bool _sub_1069E560(long, void *);

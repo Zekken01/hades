@@ -120,11 +120,11 @@ namespace Blam
 		struct PeerChannel
 		{
 			bool Unavailable; // 0x0
-			unsigned char __pad0[3]; // 0x1
 			__int32 ChannelIndex; // 0x4
 			__int32 Unknown8; // 0x8
 		};
 		static_assert(sizeof(Blam::Network::PeerChannel) == 12, "Invalid Blam::Network::PeerChannel size");
+		static_assert(offsetof(Blam::Network::PeerChannel, ChannelIndex) == 0x4, "Blam::Network::PeerChannel::ChannelIndex moved when its reconstructed padding was removed");
 
 		struct PlayerSession
 		{
@@ -341,21 +341,20 @@ namespace Blam
 		struct PingPacket
 		{
 			unsigned short ID; // 0x0
-			unsigned char __pad0[2]; // 0x2
 			unsigned __int32 Timestamp; // 0x4
 			bool QosResponse; // 0x8
-			unsigned char __pad1[3]; // 0x9
 		};
 		static_assert(sizeof(Blam::Network::PingPacket) == 12, "Invalid Blam::Network::PingPacket size");
+		static_assert(offsetof(Blam::Network::PingPacket, Timestamp) == 0x4, "Blam::Network::PingPacket::Timestamp moved when its reconstructed padding was removed");
 
 		struct PongPacket
 		{
 			unsigned short ID; // 0x0
-			unsigned char __pad0[2]; // 0x2
 			unsigned __int32 Timestamp; // 0x4
 			__int32 Unknown8; // 0x8
 		};
 		static_assert(sizeof(Blam::Network::PongPacket) == 12, "Invalid Blam::Network::PongPacket size");
+		static_assert(offsetof(Blam::Network::PongPacket, Timestamp) == 0x4, "Blam::Network::PongPacket::Timestamp moved when its reconstructed padding was removed");
 
 		struct Observer
 		{
@@ -444,28 +443,28 @@ namespace Blam
 			return __result;
 		}
 
-		extern NetworkAddress _sub_1092B950(unsigned long, unsigned short);
 		_inline Blam::Network::NetworkAddress NetworkAddress::FromInAddr(unsigned long address, unsigned short port) // 0x1092B950
 		{
-			mangled_x86(MANGLED_TODO, "?FromInAddr@NetworkAddress@Network@Blam@@SA?AU123@KG@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?FromInAddr@NetworkAddress@Network@Blam@@SA?AU123@KG@Z");
 			// static ...; // 0x1092B9F0
 			// static ...; // 0x1092B9E8
 			// unsigned long address;
 			// unsigned short port;
 			// Blam::Network::NetworkAddress result;
-			todo("implement");
-			Blam::Network::NetworkAddress __result = _sub_1092B950(address, port);
-			return __result;
+
+			NetworkAddress addr;
+			addr.Address.IPv4 = _byteswap_ulong(address);
+			addr.Port = port;
+			addr.AddressSize = 4;
+			return addr;
 		}
 
-		_extern unsigned long _sub_1092CD40(Blam::Network::NetworkAddress const *const);
 		_inline unsigned long NetworkAddress::ToInAddr() const // 0x1092CD40
 		{
-			mangled_x86(MANGLED_TODO, "?ToInAddr@NetworkAddress@Network@Blam@@QBEKXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ToInAddr@NetworkAddress@Network@Blam@@QBEKXZ");
 			// Blam::Network::NetworkAddress const *const this;
-			todo("implement");
-			unsigned long __result = _sub_1092CD40((Blam::Network::NetworkAddress const *)this);
-			return __result;
+
+			return _byteswap_ulong(Address.IPv4);
 		}
 
 		_extern bool _sub_106CFA00(Blam::Network::Session const *const);
@@ -478,14 +477,12 @@ namespace Blam
 			return __result;
 		}
 
-		_extern bool _sub_106CFA50(Blam::Network::Session const *const);
 		_inline bool Session::IsHost() const // 0x106CFA50
 		{
-			mangled_x86(MANGLED_TODO, "?IsHost@Session@Network@Blam@@QBE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?IsHost@Session@Network@Blam@@QBE_NXZ");
 			// Blam::Network::Session const *const this;
-			todo("implement");
-			bool __result = _sub_106CFA50((Blam::Network::Session const *)this);
-			return __result;
+
+			return Type == 6 || Type == 7;
 		}
 	}
 }

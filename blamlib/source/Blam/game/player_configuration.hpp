@@ -37,12 +37,12 @@ struct s_player_configuration_from_client
 {
 	wchar_t player_name[16]; // 0x0
 	unsigned char multiplayer_team; // 0x20
-	unsigned char __pad0[3]; // 0x21
 	unsigned long hopper_access_flags; // 0x24
 	unsigned long cheating_flags; // 0x28
 	unsigned long user_experience_flags; // 0x2C
 };
 static_assert(sizeof(s_player_configuration_from_client) == 48, "Invalid s_player_configuration_from_client size");
+static_assert(offsetof(s_player_configuration_from_client, hopper_access_flags) == 0x24, "s_player_configuration_from_client::hopper_access_flags moved when its reconstructed padding was removed");
 
 struct s_player_configuration_from_host
 {

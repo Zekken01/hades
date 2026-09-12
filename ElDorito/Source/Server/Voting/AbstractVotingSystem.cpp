@@ -121,6 +121,8 @@ namespace Blam
 
 /* ---------- prototypes */
 
+namespace Blam::Network { __int32 GetNumPlayers(); }  // hades: added for 0X1072E450
+
 /* ---------- globals */
 
 /* ---------- private variables */
@@ -158,20 +160,17 @@ namespace Server
 			return __result;
 		}
 
-		_extern __int32 _sub_1072E450(Server::Voting::AbstractVotingSystem *const);
 		__int32 AbstractVotingSystem::getVoteNeededToPass() // 0x1072E450
 		{
-			mangled_x86(MANGLED_TODO, "?getVoteNeededToPass@AbstractVotingSystem@Voting@Server@@UAEHXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?getVoteNeededToPass@AbstractVotingSystem@Voting@Server@@UAEHXZ");
 			// Server::Voting::AbstractVotingSystem *const this;
-			todo("implement");
-			__int32 __result = _sub_1072E450(this);
-			return __result;
+
+			return (Blam::Network::GetNumPlayers() - 1) * Modules::ModuleVoting::Instance().VarVetoVotePassPercentage->ValueInt / 100 + 1;
 		}
 
-		_extern void _sub_1072D550(Server::Voting::AbstractVotingSystem *const, __int32);
 		void AbstractVotingSystem::GenerateVotingOptionsMessage(__int32 peer) // 0x1072D550
 		{
-			mangled_x86(MANGLED_TODO, "?GenerateVotingOptionsMessage@AbstractVotingSystem@Voting@Server@@QAEXH@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GenerateVotingOptionsMessage@AbstractVotingSystem@Voting@Server@@QAEXH@Z");
 			// static ...; // 0x1072D654
 			// static ...; // 0x1072D64C
 			// Server::Voting::AbstractVotingSystem *const this;
@@ -180,8 +179,13 @@ namespace Server
 			// Blam::Network::Session *session;
 			// function call : bool ()
 			// function call : Server::Voting::VotingMessage (bool)
-			todo("implement");
-			_sub_1072D550(this, peer);
+
+			auto* session = Blam::Network::GetActiveSession();
+			if (!(session && session->IsEstablished() && session->IsHost() && session->Parameters.GetSessionMode() == 1 && isEnabled()))
+				return;
+
+			VotingMessage newmessage = GenerateVotingOptionsMessage(true);
+			SendVotingMessageToPeer(newmessage, peer);
 		}
 
 		_extern void _sub_1072D6C0(Server::Voting::AbstractVotingSystem *const, Server::Voting::MapAndType const &);

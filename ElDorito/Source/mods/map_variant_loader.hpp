@@ -40,11 +40,9 @@ struct s_map_variant
 	float spent_budget; // 0x124
 	bool showing_helpers; // 0x128
 	bool built_in; // 0x129
-	unsigned char __pad0[2]; // 0x12A
 	long cache_checksum; // 0x12C
 	s_variant_datum objects[640]; // 0x130
 	short object_type_start_index[15]; // 0xD330
-	unsigned char __pad1[2]; // 0xD34E
 	s_variant_quota object_quotas[256]; // 0xD350
 	char simulation_state[320]; // 0xDF50
 	static long (*const create_object)(s_map_variant *, long, long, long, real_point3d const *, real_vector3d const *, real_vector3d const *, long, long, s_map_variant_placement_properties const *, short);
@@ -56,6 +54,8 @@ struct s_map_variant
 	s_map_variant &operator=(s_map_variant const &); /* compiler_generated() */
 };
 static_assert(sizeof(s_map_variant) == 57488, "Invalid s_map_variant size");
+static_assert(offsetof(s_map_variant, cache_checksum) == 0x12C, "s_map_variant::cache_checksum moved when its reconstructed padding was removed");
+static_assert(offsetof(s_map_variant, object_quotas) == 0xD350, "s_map_variant::object_quotas moved when its reconstructed padding was removed");
 
 struct c_map_variant_loader
 {

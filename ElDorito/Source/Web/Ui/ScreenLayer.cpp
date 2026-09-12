@@ -394,7 +394,7 @@ CefStructBase<CefPlatformEventTraits> MakeCefPlatformEvent(tagMSG *msg);
 void HandleMouseMessage(tagMSG *msg);
 void HandleKeyMessage(tagMSG *msg);
 void GetMsgHookImpl(__int32 code, unsigned __int32 wParam, long lParam);
-long GetMsgHook(__int32 code, unsigned __int32 wParam, long lParam);
+long __stdcall GetMsgHook(__int32 code, unsigned __int32 wParam, long lParam);
 void OnGameInputUpdated();
 void OnUIInputUpdated();
 void OnVariableUpdate(Modules::Command const *command);
@@ -468,27 +468,31 @@ namespace Web
 				_sub_10C96F00();
 			}
 
-			_extern void _sub_10C96130();
 			void Resize() // 0x10C96130
 			{
-				mangled_x86(MANGLED_TODO, "?Resize@ScreenLayer@Ui@Web@@YAXXZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?Resize@ScreenLayer@Ui@Web@@YAXXZ");
 				// procedure flags: nofpo
 				// __int32 *windowResolution;
-				todo("implement");
-				_sub_10C96130();
+
+				auto *windowResolution = reinterpret_cast<int *>(0x19106E4);
+				WebRenderer::GetInstance()->Resize(windowResolution[0], windowResolution[1]);
 			}
 
-			_extern void _sub_10C966B0(bool);
 			void Show(bool show) // 0x10C966B0
 			{
-				mangled_x86(MANGLED_TODO, "?Show@ScreenLayer@Ui@Web@@YAX_N@Z");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?Show@ScreenLayer@Ui@Web@@YAX_N@Z");
 				// static ...; // 0x10C967B0
 				// static ...; // 0x10C967A4
 				// static ...; // 0x10C9679C
 				// bool show;
 				// std::shared_ptr<Web::Browser::WebRenderer> webRenderer;
-				todo("implement");
-				_sub_10C966B0(show);
+
+				if (ElDorito::Instance().IsHeadless())
+					return;
+				auto webRenderer = WebRenderer::GetInstance();
+				if (show == webRenderer->IsRendering())
+					return;
+				webRenderer->ShowRenderer(show, true);
 			}
 
 			_extern void _sub_10C965D0(Web::Ui::ScreenLayer::ScreenId, std::string const &);
@@ -513,13 +517,12 @@ namespace Web
 				_sub_10C96350(screenId, data);
 			}
 
-			_extern void _sub_10C93E40(Web::Ui::ScreenLayer::ScreenId);
 			void Hide(Web::Ui::ScreenLayer::ScreenId screenId) // 0x10C93E40
 			{
-				mangled_x86(MANGLED_TODO, "?Hide@ScreenLayer@Ui@Web@@YAXW4ScreenId@123@@Z");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?Hide@ScreenLayer@Ui@Web@@YAXW4ScreenId@123@@Z");
 				// Web::Ui::ScreenLayer::ScreenId screenId;
-				todo("implement");
-				_sub_10C93E40(screenId);
+
+				Web::Ui::ScreenLayer::Hide(ScreenIdString[screenId]);
 			}
 
 			_extern void _sub_10C93B60(std::string const &);
@@ -748,14 +751,16 @@ _inline void WebOverlayInputContext::Deactivated() // 0x10C93180
 	// WebOverlayInputContext *const this;
 }
 
-_extern bool _sub_10C931A0(WebOverlayInputContext *const);
 _inline bool WebOverlayInputContext::GameInputTick() // 0x10C931A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GameInputTick@WebOverlayInputContext@hades_file_local@@UAE_NXZ");
 	// `anonymous-namespace'::WebOverlayInputContext::GameInputTick
 	// WebOverlayInputContext *const this;
-	todo("implement");
-	bool __result = _sub_10C931A0(this);
-	return __result;
+
+	OnGameInputUpdated();
+	if (!WebRenderer::GetInstance()->IsRendering())
+		InputCaptured = false;
+	return InputCaptured || PointerCaptured;
 }
 
 _extern bool _sub_10C970D0(WebOverlayInputContext *const);
@@ -768,52 +773,59 @@ _inline bool WebOverlayInputContext::UiInputTick() // 0x10C970D0
 	return __result;
 }
 
-_extern void _sub_10C94110(WebOverlayInputContext *const);
 _inline void WebOverlayInputContext::InputBlock() // 0x10C94110
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?InputBlock@WebOverlayInputContext@hades_file_local@@UAEXXZ");
 	// `anonymous-namespace'::WebOverlayInputContext::InputBlock
 	// WebOverlayInputContext *const this;
-	todo("implement");
-	_sub_10C94110(this);
+
+	if (!InputCaptured && PointerCaptured)
+	{
+		QuickUnblockInput();
+		return;
+	}
+	QuickBlockInput();
 }
 
-_extern void _sub_10C941E0(WebOverlayInputContext *const);
 _inline void WebOverlayInputContext::InputUnblock() // 0x10C941E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?InputUnblock@WebOverlayInputContext@hades_file_local@@UAEXXZ");
 	// `anonymous-namespace'::WebOverlayInputContext::InputUnblock
 	// WebOverlayInputContext *const this;
-	todo("implement");
-	_sub_10C941E0(this);
+
+	QuickUnblockInput();
 }
 
-_extern void _sub_10C95D40();
 void QuickBlockInput() // 0x10C95D40
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?QuickBlockInput@@YAXXZ");
 	// `anonymous-namespace'::QuickBlockInput
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10C95D40();
+
+	memset((void *)0x238DBEB, 1, 3);
 }
 
-_extern void _sub_10C95D90();
 void QuickUnblockInput() // 0x10C95D90
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?QuickUnblockInput@@YAXXZ");
 	// `anonymous-namespace'::QuickUnblockInput
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10C95D90();
+
+	memset((bool *)0x238DBEB, 0, 3);
 }
 
-_extern void _sub_10C972C0(HWND__ *);
 void WindowCreated(HWND__ *window) // 0x10C972C0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?WindowCreated@@YAXPAUHWND__@@@Z");
 	// `anonymous-namespace'::WindowCreated
 	// HWND__ *window;
 	// unsigned long threadId;
 	// function call : unsigned long (HWND__ *, unsigned long *)
 	// function call : HHOOK__ *(__int32, long (*)(__int32, unsigned __int32, long), HINSTANCE__ *, unsigned long)
-	todo("implement");
-	_sub_10C972C0(window);
+
+	Web::Ui::ScreenLayer::Resize();
+	unsigned int threadId = GetWindowThreadProcessId(window, nullptr);
+	MessageHook = SetWindowsHookExA(WH_GETMESSAGE, GetMsgHook, nullptr, threadId);
 }
 
 _extern void _sub_10C96D40();
@@ -870,9 +882,9 @@ void HandleKeyMessage(tagMSG *msg) // 0x10C93890
 	_sub_10C93890(msg);
 }
 
-_extern void _sub_10C933A0(__int32, unsigned __int32, long);
 void GetMsgHookImpl(__int32 code, unsigned __int32 wParam, long lParam) // 0x10C933A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetMsgHookImpl@@YAXHIJ@Z");
 	// `anonymous-namespace'::GetMsgHookImpl
 	// static ...; // 0x10C9352C
 	// static ...; // 0x10C93520
@@ -884,19 +896,54 @@ void GetMsgHookImpl(__int32 code, unsigned __int32 wParam, long lParam) // 0x10C
 	// long lParam;
 	// std::shared_ptr<Web::Browser::WebRenderer> webRenderer;
 	// tagMSG *msg;
-	todo("implement");
-	_sub_10C933A0(code, wParam, lParam);
+
+	// Ignore messages not sent to a window
+	auto msg = reinterpret_cast<LPMSG>(lParam);
+	if (!msg->hwnd)
+		return;
+
+	// Ignore messages if the web renderer isn't active or if input isn't captured
+	auto webRenderer = WebRenderer::GetInstance();
+	if ((!InputCaptured && !PointerCaptured) || !webRenderer->IsRendering())
+		return;
+
+	switch (msg->message)
+	{
+	case WM_MOUSEMOVE:
+	case WM_LBUTTONDOWN:
+	case WM_LBUTTONUP:
+	case WM_MBUTTONDOWN:
+	case WM_MBUTTONUP:
+	case WM_RBUTTONDOWN:
+	case WM_RBUTTONUP:
+	case WM_MOUSEWHEEL:
+	case WM_MOUSEHWHEEL:
+		HandleMouseMessage(msg);
+		break;
+
+	case WM_CHAR:
+	case WM_KEYDOWN:
+	case WM_KEYUP:
+	case WM_SYSCHAR:
+	case WM_SYSKEYDOWN:
+	case WM_SYSKEYUP:
+		if(InputCaptured)
+			HandleKeyMessage(msg);
+		break;
+	}
 }
 
-_extern long _sub_10C93310(__int32, unsigned __int32, long);
-long GetMsgHook(__int32 code, unsigned __int32 wParam, long lParam) // 0x10C93310
+long __stdcall GetMsgHook(__int32 code, unsigned __int32 wParam, long lParam) // 0x10C93310
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetMsgHook@@YGJHIJ@Z");
 	// `anonymous-namespace'::GetMsgHook
 	// long lParam;
 	// function call : long (HHOOK__ *, __int32, unsigned __int32, long)
-	todo("implement");
-	long __result = _sub_10C93310(code, wParam, lParam);
-	return __result;
+
+	if (code >= 0)
+		GetMsgHookImpl(code, wParam, lParam);
+
+	return CallNextHookEx(MessageHook, code, wParam, lParam);
 }
 
 _extern void _sub_10C950F0();
@@ -945,13 +992,13 @@ void OnUIInputUpdated() // 0x10C95510
 	_sub_10C95510();
 }
 
-_extern void _sub_10C95CF0(Modules::Command const *);
 void OnVariableUpdate(Modules::Command const *command) // 0x10C95CF0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnVariableUpdate@@YAXPBUCommand@Modules@@@Z");
 	// `anonymous-namespace'::OnVariableUpdate
 	// Modules::Command const *command;
-	todo("implement");
-	_sub_10C95CF0(command);
+
+	lastVariableUpdates.push_back(command);
 }
 
 _extern void _sub_10C94C80();

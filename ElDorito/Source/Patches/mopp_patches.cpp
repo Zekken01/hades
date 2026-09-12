@@ -137,14 +137,30 @@ namespace Patches
 
 /* ---------- private code */
 
-extern void _sub_10A8BD30();
 __declspec(naked) void fixMoppAddress() // 0x10A8BD30
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?fixMoppAddress@@YAXXZ");
 	// `anonymous-namespace'::fixMoppAddress
 	// procedure flags: nofpo
 // skip_fixup:
-	todo("implement");
-	_sub_10A8BD30();
+
+	__asm
+	{
+		push eax
+		mov eax, esi
+		and eax, 10000h
+		shr eax, 10h
+		cmp eax, 1
+		jne Lskip_fixup
+		mov al, ApplyRuntimeMoppFix
+		test al, al
+		je Lskip_fixup
+		and esi, 0FF00FFFFh
+		add esi, 4000000h
+		Lskip_fixup:
+		pop eax
+		ret
+	}
 }
 
 __declspec(naked) void loc_D0E9E3_hook() // 0x10A8BD90

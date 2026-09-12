@@ -75,16 +75,17 @@ void *(*Steam::SteamLoader::GetCreateInterfaceFunc())(char const *, __int32 *) /
 
 namespace Steam
 {
-	_extern void *_sub_10C52280(Steam::SteamLoader *const, char const *);
 	void *SteamLoader::GetProcAddressInternal(char const *name) // 0x10C52280
 	{
-		mangled_x86(MANGLED_TODO, "?GetProcAddressInternal@SteamLoader@Steam@@AAEPAXPBD@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetProcAddressInternal@SteamLoader@Steam@@AAEPAXPBD@Z");
 		// char const *name;
 		// void *func;
 		// function call : __int32 (*(HINSTANCE__ *, char const *))()
-		todo("implement");
-		void * __result = _sub_10C52280(this, name);
-		return __result;
+
+		void *func = nullptr;
+		if (m_hSteamClient)
+			func = GetProcAddress(m_hSteamClient, name);
+		return func;
 	}
 
 	_extern bool _sub_10C52750(Steam::SteamLoader *const, bool);

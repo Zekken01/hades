@@ -118,7 +118,7 @@ namespace Patches
 }
 
 void physical_memory_initialize_hook();
-long c_restricted_memory__add_member_hook(c_restricted_memory *thisptr, void *unused, char const *name, char const *type, unsigned long size_in_bytes, unsigned char alignment_bits, void *allocate_function, void *update_function, void *free_function);
+long __fastcall c_restricted_memory__add_member_hook(c_restricted_memory *thisptr, void *unused, char const *name, char const *type, unsigned long size_in_bytes, unsigned char alignment_bits, void *allocate_function, void *update_function, void *free_function);
 
 /* ---------- globals */
 
@@ -208,13 +208,12 @@ namespace Patches
 			_sub_10A8AEC0();
 		}
 
-		_extern void _sub_10A8B140(char const *);
 		void OnMapLoadCallback(char const *mapName) // 0x10A8B140
 		{
-			mangled_x86(MANGLED_TODO, "?OnMapLoadCallback@Memory@Patches@@YAXPBD@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnMapLoadCallback@Memory@Patches@@YAXPBD@Z");
 			// char const *mapName;
-			todo("implement");
-			_sub_10A8B140(mapName);
+
+			c_debug_game_state_allocation::end();
 		}
 
 		_extern void _sub_10A8A510();
@@ -226,13 +225,12 @@ namespace Patches
 			_sub_10A8A510();
 		}
 
-		_extern void _sub_10A8A4D0();
 		void ApplyAfterInit() // 0x10A8A4D0
 		{
-			mangled_x86(MANGLED_TODO, "?ApplyAfterInit@Memory@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAfterInit@Memory@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_10A8A4D0();
+
+			Patches::Memory::ExpandMainGlobalMemoryMap();
 		}
 	}
 }
@@ -300,7 +298,7 @@ void physical_memory_initialize_hook() // 0x10A8B650
 }
 
 _extern long _sub_10A8B310(c_restricted_memory *, void *, char const *, char const *, unsigned long, unsigned char, void *, void *, void *);
-long c_restricted_memory__add_member_hook(c_restricted_memory *thisptr, void *unused, char const *name, char const *type, unsigned long size_in_bytes, unsigned char alignment_bits, void *allocate_function, void *update_function, void *free_function) // 0x10A8B310
+long __fastcall c_restricted_memory__add_member_hook(c_restricted_memory *thisptr, void *unused, char const *name, char const *type, unsigned long size_in_bytes, unsigned char alignment_bits, void *allocate_function, void *update_function, void *free_function) // 0x10A8B310
 {
 	// `anonymous-namespace'::c_restricted_memory__add_member_hook
 	// void *free_function;

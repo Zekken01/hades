@@ -119,6 +119,24 @@ namespace base
 
 /* ---------- prototypes */
 
+namespace Forge::Selection { void Delete(); }  // hades: added for 0x109842D0
+
+namespace Forge::Selection { void Clear(); }  // hades: added for 0x10984590
+
+namespace Forge::Selection { void DeselectAllOf(); }  // hades: added for 0x109845D0
+
+namespace Forge::Selection { void SelectAll(); }  // hades: added for 0x10985880
+
+namespace Forge::Selection { void SelectAllMaterial(); }  // hades: added for 0x109858C0
+
+namespace Forge::Selection { void SelectEverything(); }  // hades: added for 0x10985900
+
+namespace Forge::Selection { void Invert(); }  // hades: added for 0x10985040
+
+namespace Server { namespace VariableSynchronization {
+	extern void Synchronize(Modules::Command *serverVariable, Modules::Command *clientVariable);
+} }  // hades: added for 0x10C3D8F0, declared only inside VariableSynchronization.cpp
+
 bool CommandDeleteAll(std::vector<std::string> const &Arguments, std::string &returnInfo);
 bool CommandCanvas(std::vector<std::string> const &Arguments, std::string &returnInfo);
 bool CommandDeselectAll(std::vector<std::string> const &Arguments, std::string &returnInfo);
@@ -156,87 +174,143 @@ using namespace hades_file_local;
 
 namespace Modules
 {
-	extern ModuleForge* _sub_10982310(Modules::ModuleForge *const);
-	ModuleForge::ModuleForge() : ModuleBase(todo_result<std::string>()) // 0x10982310
+	ModuleForge::ModuleForge() : ModuleBase("Forge") /* hades-mem-init: : ModuleBase(todo_result<std::string>()) */ // 0x10982310
 	{
-		mangled_x86(MANGLED_TODO, "??0ModuleForge@Modules@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0ModuleForge@Modules@@QAE@XZ");
 		// Modules::ModuleForge *const this;
-		todo("implement");
-		_sub_10982310(this);
+
+		VarCloneDepth = AddVariableFloat("CloneDepth", "forge_clone_depth", "Depth at which the object will be cloned", eCommandFlagsNone, 1.0f);
+		VarCloneMultiplier = AddVariableInt("CloneMultiplier", "forge_clone_multiplier", "Number of consecutive times the object will be cloned", eCommandFlagsNone, 1);
+		VarRotationSnap = AddVariableInt("RotationSnap", "forge_rotation_snap", "Angle at which object rotation will be snapped", eCommandFlagsArchived, 0);
+		VarRotationSnap->ValueIntMin = 0;
+		VarRotationSnap->ValueIntMax = 6;
+		VarRotationSensitivity = AddVariableFloat("RotationSensitivity", "forge_rotation_sensitivity", "Controls the sensitivity of object rotation", eCommandFlagsArchived, 1.0f);
+		VarMonitorSpeed = AddVariableInt("MonitorSpeed", "forge_monitor_speed", "Controls the movement speed of the monitor", eCommandFlagsArchived, 3);
+		VarMonitorSpeed->ValueIntMin = 0;
+		VarMonitorSpeed->ValueIntMax = 6;
+		VarMonitorNoclip = AddVariableInt("MonitorNoclip", "forge_monitor_noclip", "Allows the monitor to pass through bsp and other objects", CommandFlags(eCommandFlagsHostOnly | eCommandFlagsArchived), 0);
+		VarSelectionRenderer = AddVariableInt("SelectionRenderer", "forge_selection_renderer", "Set the selection renderer to use", eCommandFlagsArchived, 0);
+		VarSelectionRenderer->ValueIntMin = 0;
+		VarSelectionRenderer->ValueIntMax = 1;
+		VarMagnetsEnabled = AddVariableInt("Magnets", "forge_magnets", "Controls whether magnets are enabled (1) or disabled (0)", eCommandFlagsArchived, 0);
+		VarMagnetsEnabled->ValueIntMin = 0;
+		VarMagnetsEnabled->ValueIntMax = 1;
+		VarMagnetsVisible = AddVariableInt("MagnetsVisible", "forge_magnets_visible", "Controls whether magnets are shown (1) or hidden (0)", eCommandFlagsArchived, 1);
+		VarMagnetsVisible->ValueIntMin = 0;
+		VarMagnetsVisible->ValueIntMax = 1;
+		VarMagnetAutogen = AddVariableInt("MagnetAutogen", "forge_magnet_autogen", "Generates forge magnets from the collision model", eCommandFlagsArchived, 0);
+		VarMagnetAutogen->ValueIntMin = 0;
+		VarMagnetAutogen->ValueIntMax = 1;
+		VarMaxGrabDistance = AddVariableFloat("GrabDistance", "forge_grab_distance", "Controls the maximum distance from which objects can be grabbed", eCommandFlagsArchived, 5.0f);
+		VarMagnetsStrength = AddVariableFloat("MagnetsStrength", "forge_magnets_strength", "Controls the minimum distance at which magnets snap", eCommandFlagsArchived, 0.3f);
+		VarShowInvisibles = AddVariableInt("ShowInvisibles", "forge_show_invisibles", "When enabled forces invisible materials to be visible", CommandFlags(eCommandFlagsHostOnly | eCommandFlagsReplicated), 0);
+		VarShowInvisibles->ValueIntMin = 0;
+		VarShowInvisibles->ValueIntMax = 1;
+		VarShowInvisiblesClient = AddVariableInt("ShowInvisiblesClient", "forge_show_invisibles_client", "When enabled forces invisible materials to be visible", eCommandFlagsInternal, 0);
+		Server::VariableSynchronization::Synchronize(VarShowInvisibles, VarShowInvisiblesClient);
+		VarShowWorldBounds = AddVariableInt("ShowWorldBounds", "forge_show_world_bounds", "Show the bsp world bounds", CommandFlags(eCommandFlagsHostOnly | eCommandFlagsReplicated), 0);
+		VarShowWorldBounds->ValueIntMin = 0;
+		VarShowWorldBounds->ValueIntMax = 1;
+		VarShowWorldBoundsClient = AddVariableInt("ShowWorldBoundsClient", "forge_show_world_bounds_client", "Show the bsp world bounds", eCommandFlagsInternal, 0);
+		Server::VariableSynchronization::Synchronize(VarShowWorldBounds, VarShowWorldBoundsClient);
+		VarSelectionColor = AddVariableString("SelectionColor", "forge_selection_color", "Controls the forge selection color", eCommandFlagsArchived, "#7FF31F");
+
+		AddCommand("DeleteAll", "forge_delete_all", "Delete all objects that are the same as the object under the crosshair", CommandFlags(eCommandFlagsHostOnly | eCommandFlagsForge), CommandDeleteAll);
+		AddCommand("Canvas", "forge_canvas", "Delete all objects on the map", CommandFlags(eCommandFlagsHostOnly | eCommandFlagsForge), CommandCanvas);
+		AddCommand("ResetRuntime", "forge_reset_runtime", "Respawn any abandoned/despawned objects", CommandFlags(eCommandFlagsHostOnly | eCommandFlagsForge), CommandResetRuntime);
+		AddCommand("SelectAll", "forge_select_all", "Select all objects that are the same as the object under the crosshair", CommandFlags(eCommandFlagsHostOnly | eCommandFlagsForge), CommandSelectAll);
+		AddCommand("SelectAllMaterial", "forge_select_all_material", "Select all objects with the same material", CommandFlags(eCommandFlagsHostOnly | eCommandFlagsForge), CommandSelectAllMaterial);
+		AddCommand("SelectEverything", "forge_select_everything", "Select all objects on the map", CommandFlags(eCommandFlagsHostOnly | eCommandFlagsForge), CommandSelectEverything);
+		AddCommand("ExpandSelection", "forge_expand_selection", "Expand the selection by a given radius", CommandFlags(eCommandFlagsHostOnly | eCommandFlagsForge), CommandExpandSelection);
+		AddCommand("InvertSelection", "forge_invert_selection", "Invert the current selection", CommandFlags(eCommandFlagsHostOnly | eCommandFlagsForge), CommandInvertSelection);
+		AddCommand("DeselectAll", "forge_deselect_all", "Deselect all selected objects", eCommandFlagsForge, CommandDeselectAll);
+		AddCommand("DeselectAllOf", "forge_deselect_all_of", "Deselect all selected objects that are the same as the object under the crosshair", CommandFlags(eCommandFlagsHostOnly | eCommandFlagsForge), CommandDeselectAllOf);
+		AddCommand("SavePrefab", "forge_prefab_save", "Save prefab to a file", CommandFlags(eCommandFlagsHostOnly | eCommandFlagsForge), CommandSavePrefab);
+		AddCommand("LoadPrefab", "forge_prefab_load", "Load prefab from a file", CommandFlags(eCommandFlagsHostOnly | eCommandFlagsForge), CommandLoadPrefab);
+		AddCommand("DumpPrefabs", "forge_prefab_dump", "Dump a list of saved prefabs in json", eCommandFlagsForge, CommandDumpPrefabs);
+		AddCommand("DeletePrefab", "forge_prefab_delete", "Delete a saved prefab", eCommandFlagsForge, CommandDeletePrefab);
+		AddCommand("SpawnItem", "forge_spawn", "Spawn an item from the forge palette", eCommandFlagsForge, CommandSpawnItem);
+		AddCommand("Budget", "forge_budget", "Displays information about remaining objects", eCommandFlagsForge, CommandForgeBudget);
+		AddCommand("MapOptions", "forge_map_options", "Opens map modifier object properties", eCommandFlagsForge, CommandMapOptions);
+		AddCommand("SetPrematchCamera", "forge_set_prematch_camera", "Set the position/orientation of the prematch camera", CommandFlags(eCommandFlagsHostOnly | eCommandFlagsForge), CommandPrematchCamera);
+		AddCommand("Undo", "forge_undo", "Undo the last action", CommandFlags(eCommandFlagsHostOnly | eCommandFlagsForge), CommandForgeUndo);
+		AddCommand("Redo", "forge_redo", "Redo the undone action", CommandFlags(eCommandFlagsHostOnly | eCommandFlagsForge), CommandForgeRedo);
 	}
 }
 
 /* ---------- private code */
 
-_extern bool _sub_109842D0(std::vector<std::string> const &, std::string &);
 bool CommandDeleteAll(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109842D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandDeleteAll@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandDeleteAll
 	// std::string &returnInfo;
-	todo("implement");
-	bool __result = _sub_109842D0(Arguments, returnInfo);
-	return __result;
+
+	Forge::Selection::Delete();
+	return true;
 }
 
-_extern bool _sub_10984280(std::vector<std::string> const &, std::string &);
 bool CommandCanvas(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10984280
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandCanvas@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandCanvas
 	// std::string &returnInfo;
 	// Modules::ModuleForge &moduleForge;
-	todo("implement");
-	bool __result = _sub_10984280(Arguments, returnInfo);
-	return __result;
+
+	Modules::ModuleForge &moduleForge = Modules::ModuleForge::Instance();
+
+	moduleForge.CommandState.MapCanvas = true;
+	return true;
 }
 
-_extern bool _sub_10984590(std::vector<std::string> const &, std::string &);
 bool CommandDeselectAll(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10984590
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandDeselectAll@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandDeselectAll
 	// std::string &returnInfo;
-	todo("implement");
-	bool __result = _sub_10984590(Arguments, returnInfo);
-	return __result;
+
+	Forge::Selection::Clear();
+	return true;
 }
 
-_extern bool _sub_109845D0(std::vector<std::string> const &, std::string &);
 bool CommandDeselectAllOf(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109845D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandDeselectAllOf@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandDeselectAllOf
 	// std::string &returnInfo;
-	todo("implement");
-	bool __result = _sub_109845D0(Arguments, returnInfo);
-	return __result;
+
+	Forge::Selection::DeselectAllOf();
+	return true;
 }
 
-_extern bool _sub_10985880(std::vector<std::string> const &, std::string &);
 bool CommandSelectAll(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10985880
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandSelectAll@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandSelectAll
 	// std::string &returnInfo;
-	todo("implement");
-	bool __result = _sub_10985880(Arguments, returnInfo);
-	return __result;
+
+	Forge::Selection::SelectAll();
+	return true;
 }
 
-_extern bool _sub_109858C0(std::vector<std::string> const &, std::string &);
 bool CommandSelectAllMaterial(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109858C0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandSelectAllMaterial@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandSelectAllMaterial
 	// std::string &returnInfo;
-	todo("implement");
-	bool __result = _sub_109858C0(Arguments, returnInfo);
-	return __result;
+
+	Forge::Selection::SelectAllMaterial();
+	return true;
 }
 
-_extern bool _sub_10985900(std::vector<std::string> const &, std::string &);
 bool CommandSelectEverything(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10985900
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandSelectEverything@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandSelectEverything
 	// std::string &returnInfo;
-	todo("implement");
-	bool __result = _sub_10985900(Arguments, returnInfo);
-	return __result;
+
+	Forge::Selection::SelectEverything();
+	return true;
 }
 
 _extern bool _sub_10984C40(std::vector<std::string> const &, std::string &);
@@ -254,14 +328,14 @@ bool CommandExpandSelection(std::vector<std::string> const &Arguments, std::stri
 	return __result;
 }
 
-_extern bool _sub_10985040(std::vector<std::string> const &, std::string &);
 bool CommandInvertSelection(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10985040
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandInvertSelection@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandInvertSelection
 	// std::string &returnInfo;
-	todo("implement");
-	bool __result = _sub_10985040(Arguments, returnInfo);
-	return __result;
+
+	Forge::Selection::Invert();
+	return true;
 }
 
 _extern bool _sub_10985550(std::vector<std::string> const &, std::string &);
@@ -351,9 +425,9 @@ bool CommandDeletePrefab(std::vector<std::string> const &Arguments, std::string 
 	return __result;
 }
 
-_extern bool _sub_10985B00(std::string const &, unsigned __int32 *);
 bool TryParseTagIndex(std::string const &str, unsigned __int32 *value) // 0x10985B00
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?TryParseTagIndex@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAI@Z");
 	// `anonymous-namespace'::TryParseTagIndex
 	// static ...; // 0x10985BA0
 	// static ...; // 0x10985B98
@@ -361,14 +435,21 @@ bool TryParseTagIndex(std::string const &str, unsigned __int32 *value) // 0x1098
 	// unsigned __int32 *value;
 	// char const *c_str;
 	// char *endp;
-	todo("implement");
-	bool __result = _sub_10985B00(str, value);
-	return __result;
+
+	if (str.length() == 0)
+		return false;
+
+	auto c_str = str.c_str();
+	char* endp;
+
+	*value = std::strtol(c_str, &endp, 16);
+
+	return endp != c_str;
 }
 
-_extern bool _sub_10985940(std::vector<std::string> const &, std::string &);
 bool CommandSpawnItem(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10985940
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandSpawnItem@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandSpawnItem
 	// static ...; // 0x109859D8
 	// static ...; // 0x109859D0
@@ -376,9 +457,16 @@ bool CommandSpawnItem(std::vector<std::string> const &Arguments, std::string &re
 	// std::string &returnInfo;
 	// Modules::ModuleForge &moduleForge;
 	// unsigned __int32 tagIndex;
-	todo("implement");
-	bool __result = _sub_10985940(Arguments, returnInfo);
-	return __result;
+
+	uint32_t tagIndex;
+	if (Arguments.size() < 1 || !TryParseTagIndex(Arguments[0], &tagIndex)) {
+		returnInfo = "Invalid tag index";
+		return false;
+	}
+
+	auto &moduleForge = Modules::ModuleForge::Instance();
+	moduleForge.CommandState.SpawnItem = tagIndex;
+	return true;
 }
 
 _extern bool _sub_10985A20(std::string const &, __int32 *);
@@ -413,20 +501,22 @@ bool CommandPrematchCamera(std::vector<std::string> const &Arguments, std::strin
 	return __result;
 }
 
-_extern bool _sub_10985500(std::vector<std::string> const &, std::string &);
 bool CommandResetRuntime(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10985500
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandResetRuntime@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandResetRuntime
 	// std::string &returnInfo;
 	// Modules::ModuleForge &moduleForge;
-	todo("implement");
-	bool __result = _sub_10985500(Arguments, returnInfo);
-	return __result;
+
+	Modules::ModuleForge &moduleForge = Modules::ModuleForge::Instance();
+
+	moduleForge.CommandState.RuntimeReset = true;
+	return true;
 }
 
-_extern bool _sub_10984D30(std::vector<std::string> const &, std::string &);
 bool CommandForgeBudget(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10984D30
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandForgeBudget@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandForgeBudget
 	// static ...; // 0x10984EBF
 	// static ...; // 0x10984EB8
@@ -437,20 +527,36 @@ bool CommandForgeBudget(std::vector<std::string> const &Arguments, std::string &
 	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
 	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
 	// Forge::ForgeObjectQuota const &quota;
-	todo("implement");
-	bool __result = _sub_10984D30(Arguments, returnInfo);
-	return __result;
+
+	const auto &quota = Forge::CalculateObjectQuota();
+
+	rapidjson::StringBuffer buffer;
+	rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+
+	writer.StartObject();
+	writer.Key("total_used");
+	writer.Int(quota.TotalObjectsUsed);
+	writer.Key("total_available");
+	writer.Int(quota.TotalObjectsAvailable);
+	writer.Key("total_remaining");
+	writer.Int(quota.TotalObjectsAvailable - quota.TotalObjectsUsed);
+	writer.EndObject();
+
+	returnInfo = buffer.GetString();
+	return true;
 }
 
-_extern bool _sub_10985380(std::vector<std::string> const &, std::string &);
 bool CommandMapOptions(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10985380
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandMapOptions@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandMapOptions
 	// std::string &returnInfo;
 	// Modules::ModuleForge &moduleForge;
-	todo("implement");
-	bool __result = _sub_10985380(Arguments, returnInfo);
-	return __result;
+
+	Modules::ModuleForge &moduleForge = Modules::ModuleForge::Instance();
+
+	moduleForge.CommandState.OpenMapOptions = true;
+	return true;
 }
 
 _extern bool _sub_10984FC0(std::vector<std::string> const &, std::string &);
@@ -463,14 +569,20 @@ bool CommandForgeUndo(std::vector<std::string> const &Arguments, std::string &re
 	return __result;
 }
 
-_extern bool _sub_10984F40(std::vector<std::string> const &, std::string &);
 bool CommandForgeRedo(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10984F40
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandForgeRedo@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandForgeRedo
 	// std::string &returnInfo;
-	todo("implement");
-	bool __result = _sub_10984F40(Arguments, returnInfo);
-	return __result;
+
+	if (!CForgeUndoManager::Instance().CanRedo())
+	{
+		returnInfo = "Nothing to redo";
+		return false;
+	}
+
+	CForgeUndoManager::Instance().RequestRedo();
+	return true;
 }
 
 namespace Modules

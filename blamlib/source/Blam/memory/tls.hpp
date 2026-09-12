@@ -429,14 +429,12 @@ extern _inline tls_data &tls_getd();
 
 /* ---------- public code */
 
-extern tls_data &_sub_1067CE40();
 _inline tls_data &tls_getd() // 0x1067CE40
 {
-	mangled_x86(MANGLED_TODO, "?tls_getd@@YAAAUtls_data@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?tls_getd@@YAAAUtls_data@@XZ");
 	// procedure flags: nofpo
-	todo("implement");
-	tls_data & __result = _sub_1067CE40();
-	return __result;
+
+	return *(tls_data *)tls_get(0);
 }
 
 /* ---------- private code */

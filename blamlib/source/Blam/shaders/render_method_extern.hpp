@@ -83,7 +83,6 @@ struct s_extern_description
 	long unknown_0C; // 0x8
 	bool m_vertex_shader; // 0xC
 	bool m_texture_unknown; // 0xD
-	unsigned char __pad0[2]; // 0xE
 	char const *m_record_in_command_buffer; // 0x10
 };
 static_assert(sizeof(s_extern_description) == 20, "Invalid s_extern_description size");

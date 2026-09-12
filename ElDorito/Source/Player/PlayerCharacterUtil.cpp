@@ -69,6 +69,8 @@ using namespace ::Modules;
 
 /* ---------- prototypes */
 
+s_game_globals *game_globals_get();  // hades: added for 0X106BEC20
+
 extern long get_player_character_representation_index(s_game_globals_player_character_type const &character_type);
 extern long player_find_character_type_by_name(unsigned long name);
 extern long get_player_character_representation_index(long character_type_index);
@@ -158,15 +160,16 @@ long unit_get_player_character_type_block_index(long unit_index) // 0x106BE970
 	return __result;
 }
 
-_extern bool _sub_106BEC20(long, s_game_globals_player_character_type **);
 bool unit_try_get_global_player_character_type(long unit_index, s_game_globals_player_character_type **out_player_character) // 0x106BEC20
 {
-	mangled_x86(MANGLED_TODO, "?unit_try_get_global_player_character_type@@YA_NJPAPAUs_game_globals_player_character_type@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_try_get_global_player_character_type@@YA_NJPAPAUs_game_globals_player_character_type@@@Z");
 	// s_game_globals_player_character_type **out_player_character;
 	// long index;
-	todo("implement");
-	bool __result = _sub_106BEC20(unit_index, out_player_character);
-	return __result;
+
+	long index = unit_get_player_character_type_block_index(unit_index);
+	if (index == -1)
+		return false;
+	return game_globals_get()->player_character_types.try_get_element(index, out_player_character);
 }
 
 _extern long _sub_106BE8B0(long);
@@ -186,32 +189,40 @@ long unit_get_global_player_representation_block_index(long unit_index) // 0x106
 	return __result;
 }
 
-_extern long _sub_106BE7F0(long);
 long unit_get_global_player_information_block_index(long unit_index) // 0x106BE7F0
 {
-	mangled_x86(MANGLED_TODO, "?unit_get_global_player_information_block_index@@YAJJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_get_global_player_information_block_index@@YAJJ@Z");
 	// static ...; // 0x106BE870
 	// static ...; // 0x106BE864
 	// static ...; // 0x106BE85C
 	// long unit_index;
 	// s_game_globals_player_character_type *player_character;
-	todo("implement");
-	long __result = _sub_106BE7F0(unit_index);
-	return __result;
+
+	s_game_globals_player_character_type *player_character;
+
+	if (unit_try_get_global_player_character_type(unit_index, &player_character))
+	{
+		return player_character->player_information_block_index;
+	}
+
+	return 0;
 }
 
-_extern long _sub_106BE730(long);
 long unit_get_global_player_control_block_index(long unit_index) // 0x106BE730
 {
-	mangled_x86(MANGLED_TODO, "?unit_get_global_player_control_block_index@@YAJJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_get_global_player_control_block_index@@YAJJ@Z");
 	// static ...; // 0x106BE7B0
 	// static ...; // 0x106BE7A4
 	// static ...; // 0x106BE79C
 	// long unit_index;
 	// s_game_globals_player_character_type *player_character;
-	todo("implement");
-	long __result = _sub_106BE730(unit_index);
-	return __result;
+
+	s_game_globals_player_character_type *player_character;
+
+	if (unit_try_get_global_player_character_type(unit_index, &player_character))
+		return player_character->player_control_block_index;
+
+	return 0;
 }
 
 /* ---------- private code */

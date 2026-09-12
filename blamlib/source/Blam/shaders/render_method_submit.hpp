@@ -54,12 +54,12 @@ static_assert(sizeof(s_destination_info) == 4, "Invalid s_destination_info size"
 struct s_render_submit_cache
 {
 	bool m_unknown; // 0x0
-	unsigned char __pad0[3]; // 0x1
 	c_render_method *m_render_method; // 0x4
 	long m_vertex_type; // 0x8
 	long m_entry_point; // 0xC
 };
 static_assert(sizeof(s_render_submit_cache) == 16, "Invalid s_render_submit_cache size");
+static_assert(offsetof(s_render_submit_cache, m_vertex_type) == 0x8, "s_render_submit_cache::m_vertex_type moved when its reconstructed padding was removed");
 
 class s_tag_block_index
 {

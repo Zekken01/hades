@@ -86,6 +86,7 @@ void UpdateDevice(unsigned long objectIndex);
 
 namespace hades_file_local
 {
+	extern std::array<SDeviceChannel,32> channels; // 0x123AC6C8
 	extern bool shouldReset; // 0x123AC7C8
 }
 using namespace hades_file_local;

@@ -31,7 +31,6 @@ struct s_network_session_remote_join_data
 	long session_class; // 0x4C
 	long join_result; // 0x50
 	bool join_to_public_slots; // 0x54
-	unsigned char __pad0[3]; // 0x55
 };
 static_assert(sizeof(s_network_session_remote_join_data) == 88, "Invalid s_network_session_remote_join_data size");
 

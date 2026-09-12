@@ -29,7 +29,6 @@ struct s_infection_globals
 	long player_unknown_count[16]; // 0x4CC
 	long player_zombie_kill_count[16]; // 0x50C
 	bool last_man_standing; // 0x54C
-	unsigned char __pad0[3]; // 0x54D
 };
 static_assert(sizeof(s_infection_globals) == 1360, "Invalid s_infection_globals size");
 

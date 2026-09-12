@@ -48,7 +48,6 @@ public:
 		_inline ~s_record(); /* compiler_generated() */
 		s_record &operator=(s_record &); /* compiler_generated() */
 		_inline s_record &operator=(s_record const &__that); /* compiler_generated() */
-		unsigned char __pad0[3]; // 0x9D
 	};
 	static_assert(sizeof(s_record) == 160, "Invalid s_record size");
 	public:

@@ -58,7 +58,6 @@ namespace Server
 			unsigned char SenderPlayer; // 0x4
 			unsigned char TargetPlayer; // 0x5
 			char Body[257]; // 0x6
-			unsigned char __pad0[1]; // 0x107
 		};
 		static_assert(sizeof(Server::Chat::ChatMessage) == 264, "Invalid Server::Chat::ChatMessage size");
 
@@ -112,13 +111,10 @@ namespace Server
 
 		}
 
-		_extern void _sub_10C9C540(Server::Chat::ChatHandler *const);
 		_inline ChatHandler::~ChatHandler() // 0x10C9C540
 		{
-			mangled_x86(MANGLED_TODO, "??1ChatHandler@Chat@Server@@UAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??1ChatHandler@Chat@Server@@UAE@XZ");
 			// Server::Chat::ChatHandler *const this;
-			todo("implement");
-			_sub_10C9C540(this);
 		}
 	}
 }

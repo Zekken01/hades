@@ -41,34 +41,28 @@ extern s_game_results_events *game_results_get_event(__int32 event_index);
 
 /* ---------- public code */
 
-extern s_game_results_player_statistics *_sub_10F1D300(__int32);
 s_game_results_player_statistics *game_results_get_player_stats(__int32 player_index) // 0x10F1D300
 {
-	mangled_x86(MANGLED_TODO, "?game_results_get_player_stats@@YAPAUs_game_results_player_statistics@@H@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_results_get_player_stats@@YAPAUs_game_results_player_statistics@@H@Z");
 	// __int32 player_index;
-	todo("implement");
-	s_game_results_player_statistics * __result = _sub_10F1D300(player_index);
-	return __result;
+
+	return &((s_game_results_player_statistics *)0x23F1718)[player_index];
 }
 
-extern s_game_results_player_vs_player_statistics *_sub_10F1D360(__int32);
 s_game_results_player_vs_player_statistics *game_results_get_player_vs_player_stats(__int32 player_index) // 0x10F1D360
 {
-	mangled_x86(MANGLED_TODO, "?game_results_get_player_vs_player_stats@@YAPAUs_game_results_player_vs_player_statistics@@H@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_results_get_player_vs_player_stats@@YAPAUs_game_results_player_vs_player_statistics@@H@Z");
 	// __int32 player_index;
-	todo("implement");
-	s_game_results_player_vs_player_statistics * __result = _sub_10F1D360(player_index);
-	return __result;
+
+	return &((s_game_results_player_vs_player_statistics *)0x23F5A98)[player_index];
 }
 
-extern s_game_results_events *_sub_10F1D2B0(__int32);
 s_game_results_events *game_results_get_event(__int32 event_index) // 0x10F1D2B0
 {
-	mangled_x86(MANGLED_TODO, "?game_results_get_event@@YAPAUs_game_results_events@@H@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_results_get_event@@YAPAUs_game_results_events@@H@Z");
 	// __int32 event_index;
-	todo("implement");
-	s_game_results_events * __result = _sub_10F1D2B0(event_index);
-	return __result;
+
+	return &((s_game_results_events *)0x23F64F8)[event_index];
 }
 
 /* ---------- private code */

@@ -27,31 +27,35 @@ struct s_blf_chunk_start_of_file;
 
 /* ---------- public code */
 
-_extern void _sub_10F0D870(s_blf_chunk_header *const, unsigned long, unsigned long, short, short);
 void s_blf_chunk_header::setup(unsigned long signature, unsigned long size, short version_major, short version_minor) // 0x10F0D870
 {
-	mangled_x86(MANGLED_TODO, "?setup@s_blf_chunk_header@@QAEXKKFF@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?setup@s_blf_chunk_header@@QAEXKKFF@Z");
 	// short version_minor;
-	todo("implement");
-	_sub_10F0D870(this, signature, size, version_major, version_minor);
+
+	this->signature = signature;
+	this->size = size;
+	this->version_major = version_major;
+	this->version_minor = version_minor;
 }
 
-extern s_blf_chunk_start_of_file* _sub_10F0D780(s_blf_chunk_start_of_file *const);
 s_blf_chunk_start_of_file::s_blf_chunk_start_of_file() // 0x10F0D780
 {
-	mangled_x86(MANGLED_TODO, "??0s_blf_chunk_start_of_file@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_blf_chunk_start_of_file@@QAE@XZ");
 	// s_blf_chunk_start_of_file *const this;
-	todo("implement");
-	_sub_10F0D780(this);
+
+	setup(0x5F626C66, 48, 1, 2);
+	byte_order_marker = -2;
+	memset(&internal_name, 0, sizeof(internal_name));
 }
 
-extern s_blf_chunk_end_of_file* _sub_10F0D6D0(s_blf_chunk_end_of_file *const);
 s_blf_chunk_end_of_file::s_blf_chunk_end_of_file() // 0x10F0D6D0
 {
-	mangled_x86(MANGLED_TODO, "??0s_blf_chunk_end_of_file@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_blf_chunk_end_of_file@@QAE@XZ");
 	// s_blf_chunk_end_of_file *const this;
-	todo("implement");
-	_sub_10F0D6D0(this);
+
+	setup(0x5F656F66, 17, 1, 1);
+	authentication_data_size = 0;
+	authentication_type = 0;
 }
 
 /* ---------- private code */

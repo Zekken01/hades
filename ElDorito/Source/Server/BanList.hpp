@@ -116,13 +116,10 @@ namespace Server
 
 namespace Server
 {
-	extern TempBanList* _sub_10728080(Server::TempBanList *const);
 	_inline TempBanList::TempBanList() // 0x10728080
 	{
-		mangled_x86(MANGLED_TODO, "??0TempBanList@Server@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0TempBanList@Server@@QAE@XZ");
 		// Server::TempBanList *const this;
-		todo("implement");
-		_sub_10728080(this);
 	}
 
 	_extern bool _sub_10A94290(Server::TempBanList *const, std::string);
@@ -145,13 +142,12 @@ namespace Server
 		return __result;
 	}
 
-	_extern void _sub_10728340(Server::TempBanList *const);
 	_inline void TempBanList::ClearList() // 0x10728340
 	{
-		mangled_x86(MANGLED_TODO, "?ClearList@TempBanList@Server@@QAEXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?ClearList@TempBanList@Server@@QAEXXZ");
 		// Server::TempBanList *const this;
-		todo("implement");
-		_sub_10728340(this);
+
+		ipAddresses.clear();
 	}
 }
 
@@ -167,13 +163,10 @@ namespace Server
 		return __result;
 	}
 
-	extern BanList* _sub_10AFA880(Server::BanList *const);
 	_inline BanList::BanList() // 0x10AFA880
 	{
-		mangled_x86(MANGLED_TODO, "??0BanList@Server@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0BanList@Server@@QAE@XZ");
 		// Server::BanList *const this;
-		todo("implement");
-		_sub_10AFA880(this);
 	}
 
 	extern BanList* _sub_10AFA670(Server::BanList *const, std::istream &);
@@ -214,13 +207,12 @@ namespace Server
 		return __result;
 	}
 
-	_extern void _sub_10A07930(Server::BanList *const, unsigned long long);
 	_inline void BanList::AddUid(unsigned long long uid) // 0x10A07930
 	{
-		mangled_x86(MANGLED_TODO, "?AddUid@BanList@Server@@QAEX_K@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?AddUid@BanList@Server@@QAEX_K@Z");
 		// unsigned long long uid;
-		todo("implement");
-		_sub_10A07930(this, uid);
+
+		uids.insert(uid);
 	}
 
 	_extern bool _sub_10A94840(Server::BanList *const, unsigned long long);
@@ -233,14 +225,12 @@ namespace Server
 		return __result;
 	}
 
-	_extern bool _sub_10A14050(Server::BanList *const, unsigned long long);
 	_inline bool BanList::RemoveUid(unsigned long long uid) // 0x10A14050
 	{
-		mangled_x86(MANGLED_TODO, "?RemoveUid@BanList@Server@@QAE_N_K@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?RemoveUid@BanList@Server@@QAE_N_K@Z");
 		// unsigned long long uid;
-		todo("implement");
-		bool __result = _sub_10A14050(this, uid);
-		return __result;
+
+		return uids.erase(uid) == 1;
 	}
 
 	_extern void _sub_10A078B0(Server::BanList *const, std::string const &);

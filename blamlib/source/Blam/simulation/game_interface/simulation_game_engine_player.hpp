@@ -51,7 +51,6 @@ enum e_simulation_game_engine_player_components
 struct s_simulation_player_netdebug_data
 {
 	bool is_host; // 0x0
-	unsigned char __pad0[1]; // 0x1
 	short host_estimated_bps; // 0x2
 	short host_transmission_rate; // 0x4
 	short host_transmission_bps; // 0x6
@@ -61,6 +60,7 @@ struct s_simulation_player_netdebug_data
 	short packet_loss_average; // 0xE
 };
 static_assert(sizeof(s_simulation_player_netdebug_data) == 16, "Invalid s_simulation_player_netdebug_data size");
+static_assert(offsetof(s_simulation_player_netdebug_data, host_estimated_bps) == 0x2, "s_simulation_player_netdebug_data::host_estimated_bps moved when its reconstructed padding was removed");
 
 #pragma pack(push, 4)
 struct s_simulation_game_engine_player_state_data

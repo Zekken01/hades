@@ -108,13 +108,14 @@ namespace Web
 {
 	namespace Browser
 	{
-		extern SwapChain::Buffer* _sub_10C77670(Web::Browser::SwapChain::Buffer *const);
 		_inline SwapChain::Buffer::Buffer() // 0x10C77670
 		{
-			mangled_x86(MANGLED_TODO, "??0Buffer@SwapChain@Browser@Web@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0Buffer@SwapChain@Browser@Web@@QAE@XZ");
 			// Web::Browser::SwapChain::Buffer *const this;
-			todo("implement");
-			_sub_10C77670(this);
+
+			version = 0;
+			texture = nullptr;
+			handle = nullptr;
 		}
 
 		_extern void _sub_10C77A40(Web::Browser::SwapChain::Buffer *const);
@@ -127,22 +128,22 @@ namespace Web
 			_sub_10C77A40(this);
 		}
 
-		extern SwapChain::BufferHolder* _sub_10C776C0(Web::Browser::SwapChain::BufferHolder *const, Web::Browser::SwapChain *, Web::Browser::SwapChain::Buffer *);
 		_inline SwapChain::BufferHolder::BufferHolder(Web::Browser::SwapChain *owner, Web::Browser::SwapChain::Buffer *buffer) // 0x10C776C0
 		{
-			mangled_x86(MANGLED_TODO, "??0BufferHolder@SwapChain@Browser@Web@@QAE@PAV123@PAUBuffer@123@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0BufferHolder@SwapChain@Browser@Web@@QAE@PAV123@PAUBuffer@123@@Z");
 			// Web::Browser::SwapChain::Buffer *buffer;
-			todo("implement");
-			_sub_10C776C0(this, owner, buffer);
+
+			m_owner = owner;
+			m_buffer = (Buffer *)buffer;
 		}
 
-		extern SwapChain::BufferHolder* _sub_10C77700(Web::Browser::SwapChain::BufferHolder *const);
 		_inline SwapChain::BufferHolder::BufferHolder() // 0x10C77700
 		{
-			mangled_x86(MANGLED_TODO, "??0BufferHolder@SwapChain@Browser@Web@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0BufferHolder@SwapChain@Browser@Web@@QAE@XZ");
 			// Web::Browser::SwapChain::BufferHolder *const this;
-			todo("implement");
-			_sub_10C77700(this);
+
+			m_owner = nullptr;
+			m_buffer = nullptr;
 		}
 	}
 }

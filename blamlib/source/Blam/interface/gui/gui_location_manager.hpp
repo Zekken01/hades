@@ -20,15 +20,15 @@ struct c_gui_location_manager;
 struct c_gui_location_manager
 {
 	bool initialized; // 0x0
-	unsigned char __pad0[3]; // 0x1
 	long state; // 0x4
 	char launching_main_menu; // 0x8
-	unsigned char __pad1[3]; // 0x9
 	long last_update_milliseconds; // 0xC
 	long last_change_location_milliseconds; // 0x10
 	static c_gui_screen_widget *(*get_location_gui_screen)();
 };
 static_assert(sizeof(c_gui_location_manager) == 20, "Invalid c_gui_location_manager size");
+static_assert(offsetof(c_gui_location_manager, state) == 0x4, "c_gui_location_manager::state moved when its reconstructed padding was removed");
+static_assert(offsetof(c_gui_location_manager, last_update_milliseconds) == 0xC, "c_gui_location_manager::last_update_milliseconds moved when its reconstructed padding was removed");
 
 /* ---------- prototypes */
 

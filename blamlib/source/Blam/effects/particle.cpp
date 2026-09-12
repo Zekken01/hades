@@ -25,14 +25,12 @@ extern c_data_array<c_particle> *particles_get();
 
 /* ---------- public code */
 
-extern c_data_array<c_particle> *_sub_10F18890();
 c_data_array<c_particle> *particles_get() // 0x10F18890
 {
-	mangled_x86(MANGLED_TODO, "?particles_get@@YAPAV?$c_data_array@Uc_particle@@@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?particles_get@@YAPAV?$c_data_array@Uc_particle@@@@XZ");
 	// procedure flags: nofpo
-	todo("implement");
-	c_data_array<c_particle> * __result = _sub_10F18890();
-	return __result;
+
+	return tls_getd().particles;
 }
 
 /* ---------- private code */

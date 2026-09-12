@@ -55,24 +55,21 @@ class c_gui_bitmap_widget;
 
 /* ---------- public code */
 
-_extern short _sub_10F1C4F0(c_gui_bitmap_widget *const);
 short c_gui_bitmap_widget::get_sprite_frame_count() // 0x10F1C4F0
 {
-	mangled_x86(MANGLED_TODO, "?get_sprite_frame_count@c_gui_bitmap_widget@@QAEFXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_sprite_frame_count@c_gui_bitmap_widget@@QAEFXZ");
 	// c_gui_bitmap_widget *const this;
 	// function call : short (*)(c_gui_bitmap_widget *)
-	todo("implement");
-	short __result = _sub_10F1C4F0(this);
-	return __result;
+
+	return ((short(__thiscall *)(c_gui_bitmap_widget *))0xb16e10)(this);
 }
 
-_extern void _sub_10F1C560(c_gui_bitmap_widget *const, long);
 void c_gui_bitmap_widget::set_sprite_frame_index(long frame_index) // 0x10F1C560
 {
-	mangled_x86(MANGLED_TODO, "?set_sprite_frame_index@c_gui_bitmap_widget@@QAEXJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_sprite_frame_index@c_gui_bitmap_widget@@QAEXJ@Z");
 	// long frame_index;
-	todo("implement");
-	_sub_10F1C560(this, frame_index);
+
+	bitmap_index = frame_index;
 }
 
 /* ---------- private code */

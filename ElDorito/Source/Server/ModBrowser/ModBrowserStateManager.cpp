@@ -79,31 +79,28 @@ void CModBrowserStateManager::Update() // 0x10724E30
 	_sub_10724E30(this);
 }
 
-_extern void _sub_10724BF0(CModBrowserStateManager *const, EModBrowserState);
 void CModBrowserStateManager::RequestStateChange(EModBrowserState state) // 0x10724BF0
 {
-	mangled_x86(MANGLED_TODO, "?RequestStateChange@CModBrowserStateManager@@QAEXW4EModBrowserState@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?RequestStateChange@CModBrowserStateManager@@QAEXW4EModBrowserState@@@Z");
 	// EModBrowserState state;
-	todo("implement");
-	_sub_10724BF0(this, state);
+
+	m_requestedState = state;
 }
 
-_extern void _sub_10724830(CModBrowserStateManager *const, EModBrowserAbortReason);
 void CModBrowserStateManager::Abort(EModBrowserAbortReason reason) // 0x10724830
 {
-	mangled_x86(MANGLED_TODO, "?Abort@CModBrowserStateManager@@QAEXW4EModBrowserAbortReason@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Abort@CModBrowserStateManager@@QAEXW4EModBrowserAbortReason@@@Z");
 	// EModBrowserAbortReason reason;
-	todo("implement");
-	_sub_10724830(this, reason);
+
+	m_abortReason = reason;
 }
 
-_extern void _sub_10724860(CModBrowserStateManager *const);
 void CModBrowserStateManager::Complete() // 0x10724860
 {
-	mangled_x86(MANGLED_TODO, "?Complete@CModBrowserStateManager@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Complete@CModBrowserStateManager@@QAEXXZ");
 	// CModBrowserStateManager *const this;
-	todo("implement");
-	_sub_10724860(this);
+
+	SetStateInternal((EModBrowserState)0);
 }
 
 _extern void _sub_10724C20(CModBrowserStateManager *const, EModBrowserState);

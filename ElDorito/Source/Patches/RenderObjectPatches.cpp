@@ -161,6 +161,12 @@ namespace Patches
 
 /* ---------- prototypes */
 
+namespace Forge::Reforge { bool IsReforgeObject(long objectIndex); }  // hades: added for 0X108DF640
+namespace Forge { bool ObjectIsForgeScenery(long objectIndex); }  // hades: added for 0X108DF640
+
+extern void *(__cdecl *const tag_get)(unsigned long, long);  // hades: added for 0X108E1E10
+extern long (__cdecl *const tag_get_first_in_group)(unsigned long);  // hades: added for 0X108E1E10
+
 namespace Patches
 {
 	namespace RenderObject
@@ -217,27 +223,25 @@ namespace Patches
 {
 	namespace RenderObject
 	{
-		_extern bool _sub_108DEC70();
 		bool GetPRTDisabled() // 0x108DEC70
 		{
-			mangled_x86(MANGLED_TODO, "?GetPRTDisabled@RenderObject@Patches@@YA_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetPRTDisabled@RenderObject@Patches@@YA_NXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			bool __result = _sub_108DEC70();
-			return __result;
+
+			return g_prt_disabled;
 		}
 	}
 }
 
 /* ---------- private code */
 
-_extern void _sub_108E06E0(long, void *);
 void render_object_set_shield_impact(long element_index, void *definition) // 0x108E06E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?render_object_set_shield_impact@@YAXJPAX@Z");
 	// `anonymous-namespace'::render_object_set_shield_impact
 	// void *definition;
-	todo("implement");
-	_sub_108E06E0(element_index, definition);
+
+	render_object_globals_get()->parts[element_index].shield_definition = definition;
 }
 
 _extern bool _sub_108DF6D0(long);
@@ -389,14 +393,13 @@ void render_object_mesh_part_hook(s_render_object_mesh_part *element, long entry
 	_sub_108E0540(element, entry_point, entry_point_flags, a4);
 }
 
-_extern bool _sub_108DF640(long);
 bool object_sh_lightmap_sampling_disabled(long object_index) // 0x108DF640
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?object_sh_lightmap_sampling_disabled@@YA_NJ@Z");
 	// `anonymous-namespace'::object_sh_lightmap_sampling_disabled
 	// long object_index;
-	todo("implement");
-	bool __result = _sub_108DF640(object_index);
-	return __result;
+
+	return Forge::Reforge::IsReforgeObject(object_index) || Forge::ObjectIsForgeScenery(object_index);
 }
 
 _extern long _sub_108DF570(real_point3d *, real_vector3d *, __int32, long, char, char, s_geometry_sample *);
@@ -411,16 +414,15 @@ long object_lighting_geometry_sample_hook(real_point3d *origin, real_vector3d *d
 	return __result;
 }
 
-extern s_game_globals *_sub_108E1E10();
 s_game_globals *try_and_get_game_globals() // 0x108E1E10
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?try_and_get_game_globals@@YAPAUs_game_globals@@XZ");
 	// `anonymous-namespace'::try_and_get_game_globals
 	// procedure flags: nofpo
 	// function call : long (*const)(unsigned long)
 	// function call : void *(*const)(unsigned long, long)
-	todo("implement");
-	s_game_globals * __result = _sub_108E1E10();
-	return __result;
+
+	return (s_game_globals *)tag_get(0x6D617467, tag_get_first_in_group(0x6D617467));
 }
 
 extern real_rgb_color *_sub_108DF2B0(real_rgb_color *, long);

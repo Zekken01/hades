@@ -70,13 +70,12 @@ namespace Download
 
 namespace Download
 {
-	_extern void _sub_1082CC90(Download::IDownload *const);
 	_inline IDownload::~IDownload() // 0x1082CC90
 	{
-		mangled_x86(MANGLED_TODO, "??1IDownload@Download@@UAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??1IDownload@Download@@UAE@XZ");
 		// Download::IDownload *const this;
-		todo("implement");
-		_sub_1082CC90(this);
+
+		Completed.~CEventSink<>();
 	}
 }
 

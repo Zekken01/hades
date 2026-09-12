@@ -37,13 +37,15 @@ using namespace ::Blam;
 
 namespace Blam
 {
-	_extern void _sub_1092A3E0(Blam::BitStream *const, unsigned char *, __int32);
 	void BitStream::SetData(unsigned char *data, __int32 sizeBytes) // 0x1092A3E0
 	{
-		mangled_x86(MANGLED_TODO, "?SetData@BitStream@Blam@@QAEXPAEH@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?SetData@BitStream@Blam@@QAEXPAEH@Z");
 		// __int32 sizeBytes;
-		todo("implement");
-		_sub_1092A3E0(this, data, sizeBytes);
+
+		m_dataStart = data;
+		m_dataEnd = data + sizeBytes;
+		m_dataSizeBytes = sizeBytes;
+		Reset(None);
 	}
 
 	void BitStream::Reset(Blam::BitStream::State state) // 0x1092A370
@@ -58,13 +60,13 @@ namespace Blam
 		Reset(this, state);
 	}
 
-	_extern void _sub_10929F40(Blam::BitStream *const, __int32);
 	void BitStream::BeginWriting(__int32 alignmentsBits) // 0x10929F40
 	{
-		mangled_x86(MANGLED_TODO, "?BeginWriting@BitStream@Blam@@QAEXH@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?BeginWriting@BitStream@Blam@@QAEXH@Z");
 		// __int32 alignmentsBits;
-		todo("implement");
-		_sub_10929F40(this, alignmentsBits);
+
+		m_dataAlignmentBits = alignmentsBits;
+		Reset(Writing);
 	}
 
 	void BitStream::FinishWriting(__int32 *bitsWritten) // 0x1092A150
@@ -79,13 +81,12 @@ namespace Blam
 		FinishWriting(this, bitsWritten);
 	}
 
-	_extern void _sub_10929EF0(Blam::BitStream *const, __int32);
 	void BitStream::BeginReading(__int32 alignmentsBits) // 0x10929EF0
 	{
-		mangled_x86(MANGLED_TODO, "?BeginReading@BitStream@Blam@@QAEXH@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?BeginReading@BitStream@Blam@@QAEXH@Z");
 		// __int32 alignmentsBits;
-		todo("implement");
-		_sub_10929EF0(this, alignmentsBits);
+
+		Reset(Reading);
 	}
 
 	void BitStream::FinishReading() // 0x1092A0E0
@@ -100,14 +101,13 @@ namespace Blam
 		FinishReading(this);
 	}
 
-	_extern bool _sub_10929E90(Blam::BitStream *const, __int32);
 	bool BitStream::BeginConsistencyCheck(__int32 alignmentsBits) // 0x10929E90
 	{
-		mangled_x86(MANGLED_TODO, "?BeginConsistencyCheck@BitStream@Blam@@QAE_NH@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?BeginConsistencyCheck@BitStream@Blam@@QAE_NH@Z");
 		// __int32 alignmentsBits;
-		todo("implement");
-		bool __result = _sub_10929E90(this, alignmentsBits);
-		return __result;
+
+		Reset(ConsistencyCheck);
+		return true;
 	}
 
 	void BitStream::FinishConsistencyCheck() // 0x1092A070
@@ -122,13 +122,14 @@ namespace Blam
 		FinishConistencyCheck(this);
 	}
 
-	_extern void _sub_1092A020(Blam::BitStream *const);
 	void BitStream::DiscardRemainingData() // 0x1092A020
 	{
-		mangled_x86(MANGLED_TODO, "?DiscardRemainingData@BitStream@Blam@@QAEXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?DiscardRemainingData@BitStream@Blam@@QAEXXZ");
 		// Blam::BitStream *const this;
-		todo("implement");
-		_sub_1092A020(this);
+
+		m_currentMemoryBitPosition = m_dataSizeBytes * 8;
+		m_accumulator = 0;
+		m_accumulatorBitsUsed = 0;
 	}
 
 	bool BitStream::ReadBit() // 0x1092A1F0
@@ -185,15 +186,16 @@ namespace Blam
 		ReadBlock(this, out, bits);
 	}
 
-	_extern void _sub_1092A580(Blam::BitStream *const, unsigned __int32, unsigned char const *);
 	void BitStream::WriteBlock(unsigned __int32 bits, unsigned char const *data) // 0x1092A580
 	{
-		mangled_x86(MANGLED_TODO, "?WriteBlock@BitStream@Blam@@QAEXIPBE@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?WriteBlock@BitStream@Blam@@QAEXIPBE@Z");
 		// unsigned char const *data;
 		// void (*const WriteBlock)(Blam::BitStream *, unsigned char const *, unsigned __int32, __int32);
 		// function call : void (*const)(Blam::BitStream *, unsigned char const *, unsigned __int32, __int32)
-		todo("implement");
-		_sub_1092A580(this, bits, data);
+
+		void (__thiscall *const WriteBlockImpl)(BitStream *, unsigned char const *, unsigned __int32, __int32) = (void(__thiscall *const)(BitStream *, unsigned char const *, unsigned __int32, __int32))0x55a000;
+
+		WriteBlockImpl(this, data, bits, 0);
 	}
 }
 

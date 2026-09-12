@@ -117,6 +117,9 @@ using namespace ::Console;
 
 /* ---------- prototypes */
 
+namespace Patches { void ApplyAfterTagsLoaded(); }  // hades: added for 0X10A4AC90
+namespace Patches { namespace Mopp { void InitializeForNewMap(); } }  // hades: added for 0X10A4AC90
+
 namespace Patches
 {
 	namespace Core
@@ -188,16 +191,64 @@ namespace Patches
 		_extern void _sub_10A45AD0();
 		void ApplyAll() // 0x10A45AD0
 		{
-			mangled_x86(MANGLED_TODO, "?ApplyAll@Core@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Core@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			// static ...; // 0x10A47D68
-			// static ...; // 0x10A47D5C
-			// static ...; // 0x10A47D54
-			// _LARGE_INTEGER cpuFreq;
-			// function call : __int32 (_LARGE_INTEGER *)
-			// function call : __int32 (_LARGE_INTEGER *)
-			todo("implement");
-			_sub_10A45AD0();
+
+			QueryPerformanceCounter(&startTime);
+			_LARGE_INTEGER cpuFreq;
+			QueryPerformanceFrequency(&cpuFreq);
+			cpuFrequencyMs = cpuFreq.QuadPart / 1000;
+
+			Patch(0x101A5B, { 0xEB }).Apply();
+			Patch::NopFill(Pointer::Base(0x102874), 2);
+			Patch::NopFill(Pointer::Base(0x1030AA), 2);
+			Patch(0x43731A, { 0xEB, 0x0E }).Apply();
+			Patch(0x4373AD, { 0xEB, 0x03 }).Apply();
+			Patch(0x3B8810, { 0xC3 }).Apply();
+			Patch::NopFill(Pointer::Base(0x10C99A), 6);
+			Patch::NopFill(Pointer::Base(0x1033321), 2);
+			Hook(0x101FC0, GetMapsFolderHook).Apply();
+			Hook(0x2EBD7, ShutdownHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x10FC2C, LoadMapHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x1671BE, LoadMapHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x167B4F, LoadMapHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x14C7FF, LoadLevelHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x152C15, GameStartHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x14EB62, GameStartHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x14EB54, GameStartHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Patch::NopFill(Pointer::Base(0x167101), 13);
+			Patch(0x1671E8, { 0x4A, 0x71, 0x56, 0x00, 0x4A, 0x71, 0x56, 0x00, 0x4A, 0x71, 0x56, 0x00 }).Apply();
+			Hook(0x167300, levels_get_campaign_next_map_id_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x105ABA, GameTickHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x105AD7, GameTickHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x1063E6, GameTickHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x1679B5, main_load_map_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Patch::NopFill(Pointer::Base(0x25FA79), 10);
+			Patch::NopFill(Pointer::Base(0x25FA86), 5);
+			Hook(0x10CA02, FovHook).Apply();
+			Hook(0x663B36, ActiveCamoViewModelClipHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Patch(0x66B0CE, 0x90, 6).Apply();
+			Hook(0x6648C9, AspectRatioHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x216487, AspectRatioHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Patch::NopFill(Pointer::Base(0x62217D), 2);
+			Patch::NopFill(Pointer::Base(0x622183), 6);
+			Patch::NopFill(Pointer::Base(0x10BF1B), 2);
+			Patch::NopFill(Pointer::Base(0x10BF21), 6);
+			Pointer::Base(0x1A315F).Write<unsigned char>(0xEB);
+			Pointer::Base(0x1A31A4).Write<unsigned char>(0xEB);
+			Hook(0x10590B, GetBinkVideoPathHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x20F4AD, GetScreenshotFolderHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x20F44B, GetScreenshotFolderHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x1BD006, sub_757890_call_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x105CBA, main_time_update_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Pointer(0x22AE4F2).Write<unsigned char>(0x01);
+			Hook(0x32FE9A, HsPrintHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Patch(0x5D882F, 0x90, 6).Apply();
+			Patch(0x386AAD, { 0xEB }).Apply();
+			Hook(0x279670, hs_seconds_to_ticks_hook).Apply();
+			Hook(0xEC110, system_milliseconds_hook).Apply();
+			Hook(0x1059E0, main_loop).Apply();
+			Hook(0x1075A0, render_thread_loop).Apply();
 		}
 
 		_extern void _sub_10A44ED0();
@@ -261,67 +312,82 @@ namespace Patches
 
 /* ---------- private code */
 
-_extern void _sub_10A487F0();
 void GameTickHook() // 0x10A487F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GameTickHook@@YAXXZ");
 	// `anonymous-namespace'::GameTickHook
 	// procedure flags: nofpo
 	// void (*sub_5547F0)();
 	// function call : void (*)()
-	todo("implement");
-	_sub_10A487F0();
+
+	ElDorito::Instance().Tick();
+
+	void (*GameTick)() = (void(*)())0x5547f0;
+
+	GameTick();
 }
 
-_extern void _sub_10A490B0();
 void ShutdownHook() // 0x10A490B0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ShutdownHook@@YAXXZ");
 	// `anonymous-namespace'::ShutdownHook
 	// procedure flags: nofpo
 	// void (*EngineShutdown)();
 	// function call : void (*)()
-	todo("implement");
-	_sub_10A490B0();
+
+	ElDorito::Instance().Shutdown();
+	Patches::Core::ExecuteShutdownCallbacks();
+	void (*ShutdownGame)() = (void (*)())0x42e410;
+
+	ShutdownGame();
 }
 
-extern char const *_sub_10A488D0();
 char const *GetMapsFolderHook() // 0x10A488D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetMapsFolderHook@@YAPBDXZ");
 	// `anonymous-namespace'::GetMapsFolderHook
 	// procedure flags: nofpo
-	todo("implement");
-	char const * __result = _sub_10A488D0();
-	return __result;
+
+	return MapsFolder.c_str();
 }
 
-_extern bool _sub_10A48DF0(void *);
 bool LoadMapHook(void *data) // 0x10A48DF0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?LoadMapHook@@YA_NPAX@Z");
 	// `anonymous-namespace'::LoadMapHook
 	// void *data;
 	// bool (*LoadMap)(void *);
-	{
 		// std::vector<std::function<void __cdecl(char const *)> > &<range>$L0;
 		// std::function<void __cdecl(char const *)> *<begin>$L0;
 		// std::function<void __cdecl(char const *)> *<end>$L0;
-		{
 			// std::function<void __cdecl(char const *)> &callback;
-		}
-	}
 	// function call : bool (*)(void *)
-	todo("implement");
-	bool __result = _sub_10A48DF0(data);
-	return __result;
+
+	typedef bool(*LoadMapPtr)(void *data);
+	auto LoadMap = reinterpret_cast<LoadMapPtr>(0x566EF0);
+	if (!LoadMap(data))
+		return false;
+
+	for (auto &&callback : mapLoadedCallbacks)
+		callback(static_cast<const char*>(data) + 0x24); // hax
+
+	return true;
 }
 
-_extern void _sub_10A48D40(unsigned char *, char, __int32, __int32);
 void LoadLevelHook(unsigned char *data, char n2, __int32 n3, __int32 n4) // 0x10A48D40
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?LoadLevelHook@@YAXPAEDHH@Z");
 	// `anonymous-namespace'::LoadLevelHook
 	// __int32 n4;
 	// __int32 (*LoadLevel)(unsigned char *, char, __int32, __int32);
 	// function call : __int32 (*)(unsigned char *, char, __int32, __int32)
-	todo("implement");
-	_sub_10A48D40(data, n2, n3, n4);
+
+	void (__cdecl *LoadLevel)(unsigned char *, unsigned char, __int32, __int32) = (void(__cdecl *)(unsigned char *, unsigned char, __int32, __int32))0x54A6C0;
+
+	*(unsigned int *)(data + 0x111C) = 0x8081002;
+	*(unsigned int *)(data + 0x1120) = 0x8080808;
+	*(unsigned int *)(data + 0x1124) = 0x8080808;
+	LoadLevel(data, n2, n3, n4);
 }
 
 _extern __int32 _sub_10A4AAF0(__int32, __int32);
@@ -362,17 +428,24 @@ void GameStartHook() // 0x10A48740
 	_sub_10A48740();
 }
 
-_extern bool _sub_10A4AC90(long, long, char const *);
 bool main_load_map_hook(long campaign_id, long map_id, char const *map_path) // 0x10A4AC90
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?main_load_map_hook@@YA_NJJPBD@Z");
 	// `anonymous-namespace'::main_load_map_hook
 	// char const *map_path;
 	// bool loaded;
 	// constexpr bool (*const `main_load_map_hook'::`2'::main_load_map)(long, long, char const *); // constant == 5154272
 	// function call : bool (*const)(long, long, char const *)
-	todo("implement");
-	bool __result = _sub_10A4AC90(campaign_id, map_id, map_path);
-	return __result;
+
+	mainLoadMapPath = map_path;
+	bool loaded = ((bool(__cdecl *)(long, long, char const *))0x4ea5e0)(campaign_id, map_id, map_path);
+	if (loaded)
+	{
+		mainLoadMapPath = "";
+		Patches::ApplyAfterTagsLoaded();
+		Patches::Mopp::InitializeForNewMap();
+	}
+	return loaded;
 }
 
 __declspec(naked) void FovHook() // 0x10A48720
@@ -425,15 +498,15 @@ void ActiveCamoViewModelClipHook(float *nearPlane, float *farPlane) // 0x10A44CB
 	_sub_10A44CB0(nearPlane, farPlane);
 }
 
-_extern double _sub_10A48620();
 double AspectRatioHook() // 0x10A48620
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?AspectRatioHook@@YANXZ");
 	// `anonymous-namespace'::AspectRatioHook
 	// procedure flags: nofpo
 	// __int32 *gameResolution;
-	todo("implement");
-	double __result = _sub_10A48620();
-	return __result;
+
+	int* gameResolution = reinterpret_cast<int*>(0x19106C0);
+	return ((double)gameResolution[0] / (double)gameResolution[1]);
 }
 
 _extern char _sub_10A48860(__int32, char *);

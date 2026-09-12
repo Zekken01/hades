@@ -282,30 +282,36 @@ namespace Forge
 		return __result;
 	}
 
-	_extern bool _sub_10969E50(real_point3d const &);
 	bool PointInWorldBounds(real_point3d const &point) // 0x10969E50
 	{
-		mangled_x86(MANGLED_TODO, "?PointInWorldBounds@Forge@@YA_NABUreal_point3d@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?PointInWorldBounds@Forge@@YA_NABUreal_point3d@@@Z");
 		// real_point3d const &point;
 		// s_map_variant *mapv;
-		todo("implement");
-		bool __result = _sub_10969E50(point);
-		return __result;
+
+		s_map_variant *mapv = Forge::GetMapVariant();
+		return point.x >= mapv->world_bounds.x0
+			&& mapv->world_bounds.x1 >= point.x
+			&& point.y >= mapv->world_bounds.y0
+			&& mapv->world_bounds.y1 >= point.y
+			&& point.z >= mapv->world_bounds.z0
+			&& mapv->world_bounds.z1 >= point.z;
 	}
 
-	_extern bool _sub_10969C30(long);
 	bool ObjectInWorldBounds(long objectIndex) // 0x10969C30
 	{
-		mangled_x86(MANGLED_TODO, "?ObjectInWorldBounds@Forge@@YA_NJ@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?ObjectInWorldBounds@Forge@@YA_NJ@Z");
 		// static ...; // 0x10969CC0
 		// static ...; // 0x10969CB4
 		// static ...; // 0x10969CAC
 		// long objectIndex;
 		// real_point3d worldPos;
 		// function call : void (*const)(long, real_point3d *)
-		todo("implement");
-		bool __result = _sub_10969C30(objectIndex);
-		return __result;
+
+		real_point3d worldPos;
+
+		((void(__cdecl *const)(long, real_point3d *))0xb2e5a0)(objectIndex, &worldPos);
+
+		return Forge::PointInWorldBounds(worldPos);
 	}
 
 	_extern void _sub_1096A0F0(long, Forge::EForgeObjectPhysics, bool);

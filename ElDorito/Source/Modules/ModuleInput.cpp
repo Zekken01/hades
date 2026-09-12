@@ -150,6 +150,10 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+namespace Patches { namespace Input { void SetKeyboardSettingsMenu(const std::vector<Blam::Input::ConfigurableAction> &, const std::vector<Blam::Input::ConfigurableAction> &); } }  // hades: added for 0X109CD830
+
+namespace Blam::Input { unsigned char GetKeyTicks(KeyCode key, InputType type); }  // hades: added for 0X109D2850
+
 void CopyBinding(Blam::Input::GameAction sourceAction, Blam::Input::GameAction destAction);
 void LoadDefaultBindings();
 __int32 GetDefaultSettingsKey(__int32 action, Blam::Input::KeyCode *keys, Blam::Input::MouseButton *mouseButtons);
@@ -181,12 +185,13 @@ bool CommandSetMouseWheelEventTime(std::vector<std::string> const &Arguments, st
 
 namespace hades_file_local
 {
-	extern Utils::NameValueTable<enum Blam::Input::ControllerButton> controllerButtons; // 0x124550A0
-	extern Utils::NameValueTable<enum Blam::Input::KeyCode> keyCodes; // 0x12454F08
-	extern Utils::NameValueTable<enum Blam::Input::MouseButton> mouseButtons; // 0x12455018
-	extern Utils::NameValueTable<enum Blam::Input::GameAction> gameActions; // 0x12454F90
-	extern std::vector<Blam::Input::ConfigurableAction> infantryControls; // 0x12454EF8
 	extern std::vector<Blam::Input::ConfigurableAction> vehicleControls; // 0x12454EE8
+	extern std::vector<Blam::Input::ConfigurableAction> infantryControls; // 0x12454EF8
+	extern Utils::NameValueTable<enum Blam::Input::KeyCode> keyCodes; // 0x12454F08
+	extern Utils::NameValueTable<enum Blam::Input::GameAction> gameActions; // 0x12454F90
+	extern Utils::NameValueTable<enum Blam::Input::MouseButton> mouseButtons; // 0x12455018
+	extern Utils::NameValueTable<enum Blam::Input::ControllerButton> controllerButtons; // 0x124550A0
+	extern CommandBinding commandBindings[109]; // 0x12455128
 	extern Blam::Input::BindingsTable bindings; // 0x124559B0
 }
 using namespace hades_file_local;
@@ -216,11 +221,10 @@ namespace Modules
 {
 	Blam::Input::BindingsTable *ModuleInput::GetBindings() // 0x109D23F0
 	{
-		mangled_x86(MANGLED_TODO, "?GetBindings@ModuleInput@Modules@@SAPAUBindingsTable@Input@Blam@@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetBindings@ModuleInput@Modules@@SAPAUBindingsTable@Input@Blam@@XZ");
 		// procedure flags: nofpo
-		todo("implement");
-		Blam::Input::BindingsTable * __result = _sub_109D23F0();
-		return __result;
+
+		return &bindings;
 	}
 
 	_extern void _sub_109D39A0();
@@ -327,13 +331,18 @@ namespace Modules
 
 /* ---------- private code */
 
-_extern void _sub_109D04A0(Blam::Input::GameAction, Blam::Input::GameAction);
 void CopyBinding(Blam::Input::GameAction sourceAction, Blam::Input::GameAction destAction) // 0x109D04A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CopyBinding@@YAXW4GameAction@Input@Blam@@0@Z");
 	// `anonymous-namespace'::CopyBinding
 	// Blam::Input::GameAction destAction;
-	todo("implement");
-	_sub_109D04A0(sourceAction, destAction);
+
+	bindings.ControllerButtons[(unsigned char)destAction] = bindings.ControllerButtons[(unsigned char)sourceAction];
+	bindings.ControllerHoldButtons[(unsigned char)destAction] = bindings.ControllerHoldButtons[(unsigned char)sourceAction];
+	bindings.PrimaryKeys[(unsigned char)destAction] = bindings.PrimaryKeys[(unsigned char)sourceAction];
+	bindings.SecondaryKeys[(unsigned char)destAction] = bindings.SecondaryKeys[(unsigned char)sourceAction];
+	bindings.PrimaryMouseButtons[(unsigned char)destAction] = bindings.PrimaryMouseButtons[(unsigned char)sourceAction];
+	bindings.SecondaryMouseButtons[(unsigned char)destAction] = bindings.SecondaryMouseButtons[(unsigned char)sourceAction];
 }
 
 _extern void _sub_109D2C10();
@@ -350,47 +359,54 @@ void LoadDefaultBindings() // 0x109D2C10
 	_sub_109D2C10();
 }
 
-_extern __int32 _sub_109D2410(__int32, Blam::Input::KeyCode *, Blam::Input::MouseButton *);
 __int32 GetDefaultSettingsKey(__int32 action, Blam::Input::KeyCode *keys, Blam::Input::MouseButton *mouseButtons) // 0x109D2410
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetDefaultSettingsKey@@YAHHPAW4KeyCode@Input@Blam@@PAW4MouseButton@23@@Z");
 	// `anonymous-namespace'::GetDefaultSettingsKey
 	// Blam::Input::MouseButton *mouseButtons;
 	// Blam::Input::KeyCode primaryKey;
 	// Blam::Input::MouseButton mouseButton;
-	todo("implement");
-	__int32 __result = _sub_109D2410(action, keys, mouseButtons);
-	return __result;
+
+	Blam::Input::KeyCode primaryKey = keys[action];
+	if (primaryKey != Blam::Input::eKeyCode_None)
+		return primaryKey;
+	Blam::Input::MouseButton mouseButton = mouseButtons[action];
+	if ((unsigned char)mouseButton != (unsigned char)Blam::Input::eMouseButton_None)
+		return ((unsigned char)mouseButton + 1) << 8;
+	return -1;
 }
 
-_extern void _sub_109D3810(std::vector<Blam::Input::ConfigurableAction> *);
 void PopulateDefaultKeys(std::vector<Blam::Input::ConfigurableAction> *actions) // 0x109D3810
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?PopulateDefaultKeys@@YAXPAV?$vector@UConfigurableAction@Input@Blam@@V?$allocator@UConfigurableAction@Input@Blam@@@std@@@std@@@Z");
 	// `anonymous-namespace'::PopulateDefaultKeys
 	// std::vector<Blam::Input::ConfigurableAction> *actions;
-	{
 		// std::vector<Blam::Input::ConfigurableAction> &<range>$L0;
 		// Blam::Input::ConfigurableAction *<begin>$L0;
 		// Blam::Input::ConfigurableAction *<end>$L0;
-		{
 			// Blam::Input::ConfigurableAction &configAction;
-		}
+
+	for (auto &configAction : *actions)
+	{
+		configAction.DefaultPrimaryKey = GetDefaultSettingsKey(configAction.Action, bindings.PrimaryKeys, bindings.PrimaryMouseButtons);
+		configAction.DefaultSecondaryKey = GetDefaultSettingsKey(configAction.Action, bindings.SecondaryKeys, bindings.SecondaryMouseButtons);
 	}
-	todo("implement");
-	_sub_109D3810(actions);
 }
 
-_extern void _sub_109CD830();
 void BuildSettingsMenu() // 0x109CD830
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?BuildSettingsMenu@@YAXXZ");
 	// `anonymous-namespace'::BuildSettingsMenu
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_109CD830();
+
+	PopulateDefaultKeys(&infantryControls);
+	PopulateDefaultKeys(&vehicleControls);
+	Patches::Input::SetKeyboardSettingsMenu(infantryControls, vehicleControls);
 }
 
-_extern bool _sub_109D3C30(std::vector<std::string> const &, std::string &);
 bool VariableInputRawInputUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109D3C30
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableInputRawInputUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::VariableInputRawInputUpdate
 	// static ...; // 0x109D3D60
 	// static ...; // 0x109D3D58
@@ -399,14 +415,21 @@ bool VariableInputRawInputUpdate(std::vector<std::string> const &Arguments, std:
 	// bool statusBool;
 	// std::string status;
 	// unsigned long value;
-	todo("implement");
-	bool __result = _sub_109D3C30(Arguments, returnInfo);
-	return __result;
+
+	unsigned long value = Modules::ModuleInput::Instance().VarInputRawInput->ValueInt;
+
+	std::string status = "disabled.";
+	bool statusBool = value != 0;
+	if (statusBool)
+		status = "enabled.";
+
+	returnInfo = "Raw input " + status;
+	return true;
 }
 
-_extern bool _sub_109CD8A0(std::vector<std::string> const &, std::string &);
 bool CommandBind(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109CD8A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandBind@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandBind
 	// static ...; // 0x109CE21F
 	// static ...; // 0x109CE217
@@ -428,39 +451,107 @@ bool CommandBind(std::vector<std::string> const &Arguments, std::string &returnI
 	// Blam::Input::KeyCode keyCode;
 	// std::_String_const_iterator<std::_String_val<std::_Simple_types<char> > > partStart;
 	// constexpr CommandBind::__l2::s_state COMMAND_HOLD_PART; // constant == 1
-	{
 		// std::_String_const_iterator<std::_String_val<std::_Simple_types<char> > > it;
-		{
 			// bool isEnd;
 			// char ch;
-			{
 				// std::_String_const_iterator<std::_String_val<std::_Simple_types<char> > > partEnd;
+
+	if (Arguments.size() < 1)
+	{
+		returnInfo =  "Usage: Bind <key> [[+]command] [arguments]\n";
+		returnInfo += "If the command starts with a +, then it will be ";
+		returnInfo += "passed an argument of 1 on key down and 0 on key ";
+		returnInfo += "up. Omit the command to unbind the key.";
+		return false;
+	}
+
+	const auto& rawArguments = Arguments[0];
+	auto partStart = rawArguments.begin();
+
+	std::string keyName, command;
+	KeyCode keyCode;
+	bool isHold = false;
+
+	enum { KEYNAME_PART, COMMAND_HOLD_PART, COMMAND_PART, } state = KEYNAME_PART;
+
+	for (auto it = rawArguments.begin(); it != rawArguments.end(); ++it)
+	{
+		auto isEnd = it == rawArguments.end() - 1;
+		auto ch = *it;
+
+		switch (state)
+		{
+		case KEYNAME_PART:
+			if (ch == ' ' || isEnd)
+			{
+				keyName = std::string(partStart, isEnd ? it + 1 : it);
+				if (keyName.length() == 0 || !keyCodes.FindValueIgnoreCase(keyName, &keyCode))
+				{
+					returnInfo = "Unrecognized key name: " + keyName;
+					return false;
+				}
+				state = COMMAND_HOLD_PART;
+				partStart = it + 1;
+				break;
 			}
+			break;
+		case COMMAND_HOLD_PART:
+			partStart = it--;
+			isHold = ch == '+';
+			if (isHold)
+				partStart++;
+			state = COMMAND_PART;
+			break;
+		case COMMAND_PART:
+			if (ch == ' ' || isEnd)
+			{
+				auto partEnd = isEnd ? it + 1 : it;
+				command = std::string(partStart, partEnd);
+				partStart = it + 1;
+				it = rawArguments.end() - 1;
+			}
+			break;
 		}
 	}
-	todo("implement");
-	bool __result = _sub_109CD8A0(Arguments, returnInfo);
-	return __result;
+
+	auto binding = &commandBindings[keyCode];
+
+	// If no command was specified, unset the binding
+	if (command.length() == 0)
+	{
+		binding->command.clear();
+		returnInfo = "Binding cleared.";
+		return true;
+	}
+
+	// Set the binding
+	binding->isHold = isHold;
+	binding->command.clear();
+	binding->command.push_back(command);
+	binding->command.push_back(std::string(partStart, rawArguments.end()));
+
+	returnInfo = "Binding set.";
+	return true;
 }
 
-_extern bool _sub_109D2850();
 bool IsModifierKeyDown() // 0x109D2850
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?IsModifierKeyDown@@YA_NXZ");
 	// `anonymous-namespace'::IsModifierKeyDown
 	// procedure flags: nofpo
-	todo("implement");
-	bool __result = _sub_109D2850();
-	return __result;
+
+	return Blam::Input::GetKeyTicks(Blam::Input::eKeyCodeCtrl, Blam::Input::eInputTypeSpecial) > 0
+		|| Blam::Input::GetKeyTicks(Blam::Input::eKeyCodeAlt, Blam::Input::eInputTypeSpecial) > 0
+		|| Blam::Input::GetKeyTicks(Blam::Input::eKeyCodeShift, Blam::Input::eInputTypeSpecial) > 0;
 }
 
-_extern bool _sub_109D27F0(Blam::Input::KeyCode);
 bool IsModifierKey(Blam::Input::KeyCode code) // 0x109D27F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?IsModifierKey@@YA_NW4KeyCode@Input@Blam@@@Z");
 	// `anonymous-namespace'::IsModifierKey
 	// Blam::Input::KeyCode code;
-	todo("implement");
-	bool __result = _sub_109D27F0(code);
-	return __result;
+
+	return code == Blam::Input::eKeyCodeCtrl || code == Blam::Input::eKeyCodeAlt || code == Blam::Input::eKeyCodeShift;
 }
 
 _extern void _sub_109D2900();
@@ -489,29 +580,36 @@ void KeyboardUpdated() // 0x109D2900
 // mangled_x86(MANGLED_DEFAULT, "??0CommandBinding@hades_file_local@@QAE@XZ"); no body to assert in
 _inline CommandBinding::CommandBinding() = default; // 0x109C4B10
 
-_extern bool _sub_109D36C0(std::string const &, Blam::Input::KeyCode *, Blam::Input::MouseButton *);
 bool ParseKeyOrMouseButton(std::string const &name, Blam::Input::KeyCode *resultKey, Blam::Input::MouseButton *resultMouse) // 0x109D36C0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ParseKeyOrMouseButton@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAW4KeyCode@Input@Blam@@PAW4MouseButton@45@@Z");
 	// `anonymous-namespace'::ParseKeyOrMouseButton
 	// Blam::Input::MouseButton *resultMouse;
-	todo("implement");
-	bool __result = _sub_109D36C0(name, resultKey, resultMouse);
-	return __result;
+
+	*resultKey = eKeyCode_None;
+	*resultMouse = eMouseButton_None;
+	if (Utils::String::ToLower(name) == "none")
+		return true;
+	if (keyCodes.FindValueIgnoreCase(name, resultKey))
+		return true;
+	return mouseButtons.FindValueIgnoreCase(name, resultMouse);
 }
 
-_extern bool _sub_109D35A0(std::string const &, Blam::Input::ControllerButton *);
 bool ParseControllerButton(std::string const &name, Blam::Input::ControllerButton *result) // 0x109D35A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ParseControllerButton@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAW4ControllerButton@Input@Blam@@@Z");
 	// `anonymous-namespace'::ParseControllerButton
 	// Blam::Input::ControllerButton *result;
-	todo("implement");
-	bool __result = _sub_109D35A0(name, result);
-	return __result;
+
+	*result = eControllerButton_None;
+	if (Utils::String::ToLower(name) == "none")
+		return true;
+	return controllerButtons.FindValueIgnoreCase(name, result);
 }
 
-_extern bool _sub_109CE4A0(std::vector<std::string> const &, std::string &);
 bool CommandBindControllerAction(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109CE4A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandBindControllerAction@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandBindControllerAction
 	// static ...; // 0x109CE74E
 	// static ...; // 0x109CE747
@@ -523,12 +621,46 @@ bool CommandBindControllerAction(std::vector<std::string> const &Arguments, std:
 	// Blam::Input::GameAction action;
 	// Blam::Input::ControllerButton button;
 	// std::string actionName;
-	{
 		// std::string buttonName;
+
+	if (Arguments.size() < 1 || Arguments.size() > 2)
+		return false;
+
+	// Parse the action name
+	auto actionName = Arguments[0];
+	GameAction action;
+	if (!gameActions.FindValueIgnoreCase(actionName, &action))
+	{
+		returnInfo = "Unrecognized action name: " + actionName;
+		return false;
 	}
-	todo("implement");
-	bool __result = _sub_109CE4A0(Arguments, returnInfo);
-	return __result;
+	if (action >= eGameAction_ControllerCount)
+	{
+		returnInfo = "Movement actions cannot be bound to controller buttons.";
+		return false;
+	}
+
+	// If a button name was passed, parse it
+	auto button = eControllerButton_None;
+	if (Arguments.size() > 1)
+	{
+		auto buttonName = Arguments[1];
+		if (!ParseControllerButton(buttonName, &button))
+		{
+			returnInfo = "Unrecognized button name: " + buttonName;
+			return false;
+		}
+	}
+
+	// Update the bindings table!
+	bindings.ControllerButtons[action] = button;
+
+	Modules::ModuleInput::UpdateBindings();
+	if (button != eKeyCode_None)
+		returnInfo = "Action binding set.";
+	else
+		returnInfo = "Action binding cleared.";
+	return true;
 }
 
 _extern bool _sub_109CE810(std::vector<std::string> const &, std::string &);
@@ -563,48 +695,54 @@ bool CommandBindKeyboardAction(std::vector<std::string> const &Arguments, std::s
 	return __result;
 }
 
-_extern bool _sub_109D3A00(std::vector<std::string> const &, std::string &);
 bool VariableControllerSensitivityXUpdated(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109D3A00
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableControllerSensitivityXUpdated@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::VariableControllerSensitivityXUpdated
 	// static ...; // 0x109D3A94
 	// static ...; // 0x109D3A8C
 	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// float newSensitivity;
-	todo("implement");
-	bool __result = _sub_109D3A00(Arguments, returnInfo);
-	return __result;
+
+	auto newSensitivity = Modules::ModuleInput::Instance().VarControllerSensitivityX->ValueFloat;
+	bindings.ControllerSensitivityX = std::max(1.f, newSensitivity);
+	Modules::ModuleInput::UpdateBindings();
+	return true;
 }
 
-_extern bool _sub_109D3AE0(std::vector<std::string> const &, std::string &);
 bool VariableControllerSensitivityYUpdated(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109D3AE0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableControllerSensitivityYUpdated@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::VariableControllerSensitivityYUpdated
 	// static ...; // 0x109D3B74
 	// static ...; // 0x109D3B6C
 	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// float newSensitivity;
-	todo("implement");
-	bool __result = _sub_109D3AE0(Arguments, returnInfo);
-	return __result;
+
+	auto newSensitivity = Modules::ModuleInput::Instance().VarControllerSensitivityY->ValueFloat;
+	bindings.ControllerSensitivityY = std::max(1.f, newSensitivity);
+	Modules::ModuleInput::UpdateBindings();
+	return true;
 }
 
-_extern bool _sub_109D3BC0(std::vector<std::string> const &, std::string &);
 bool VariableControllerStickLayoutUpdated(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109D3BC0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableControllerStickLayoutUpdated@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::VariableControllerStickLayoutUpdated
 	// std::string &returnInfo;
 	// unsigned long layout;
-	todo("implement");
-	bool __result = _sub_109D3BC0(Arguments, returnInfo);
-	return __result;
+
+	auto layout = Modules::ModuleInput::Instance().VarControllerStickLayout->ValueInt;
+	bindings.JoystickLayout = layout;
+	Modules::ModuleInput::UpdateBindings();
+	return true;
 }
 
-_extern bool _sub_109CF820(std::vector<std::string> const &, std::string &);
 bool CommandDumpBindingsJson(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109CF820
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandDumpBindingsJson@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandDumpBindingsJson
 	// static ...; // 0x109CFD74
 	// static ...; // 0x109CFD6D
@@ -617,21 +755,69 @@ bool CommandDumpBindingsJson(std::vector<std::string> const &Arguments, std::str
 	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
 	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
 	// Blam::Input::BindingsTable currentBindings;
-	{
 		// __int32 i;
-		{
 			// std::string names[6];
 			// std::string actionName;
+
+	returnInfo = "";
+	BindingsTable currentBindings;
+	GetBindings(0, &currentBindings);
+	rapidjson::StringBuffer buffer;
+	rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+	writer.StartArray();
+	for (auto i = 0; i < eGameAction_KeyboardMouseCount; i++)
+	{
+		std::string names[6] = { "none", "n/a", "none", "none", "none", "none" };
+		if (i < eGameAction_ControllerCount)
+		{
+			controllerButtons.FindName(currentBindings.ControllerButtons[i], &names[0]);
+			names[1] = currentBindings.ControllerHoldButtons[i] ? "true" : "false";
 		}
+		keyCodes.FindName(currentBindings.PrimaryKeys[i], &names[2]);
+		keyCodes.FindName(currentBindings.SecondaryKeys[i], &names[3]);
+		mouseButtons.FindName(currentBindings.PrimaryMouseButtons[i], &names[4]);
+		mouseButtons.FindName(currentBindings.SecondaryMouseButtons[i], &names[5]);
+		writer.StartObject();
+
+		std::string actionName;
+		if (gameActions.FindName(static_cast<GameAction>(i), &actionName))
+		{
+			writer.Key("actionName");
+			writer.String(actionName.c_str());
+		}
+		else{
+			writer.Key("actionName");
+			writer.String(std::to_string(i).c_str());
+		}
+		writer.Key("controllerButton");
+		writer.String(names[0].c_str());
+
+		writer.Key("controllerHoldButton");
+		writer.String(names[1].c_str());
+
+		writer.Key("primaryKey");
+		writer.String(names[2].c_str());
+
+		writer.Key("secondaryKey");
+		writer.String(names[3].c_str());
+
+		writer.Key("primaryMouseButton");
+		writer.String(names[4].c_str());
+
+		writer.Key("secondaryMouseButton");
+		writer.String(names[5].c_str());
+		writer.EndObject();
+
 	}
-	todo("implement");
-	bool __result = _sub_109CF820(Arguments, returnInfo);
-	return __result;
+	writer.EndArray();
+	returnInfo += buffer.GetString();
+
+	return true;
 }
 
-_extern bool _sub_109CFEF0(std::vector<std::string> const &, std::string &);
 bool CommandFindKeybdBinding(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109CFEF0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandFindKeybdBinding@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandFindKeybdBinding
 	// static ...; // 0x109D0258
 	// static ...; // 0x109D0251
@@ -644,26 +830,44 @@ bool CommandFindKeybdBinding(std::vector<std::string> const &Arguments, std::str
 	// std::string search_for;
 	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
 	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-	{
 		// __int32 i;
-		{
 			// __int32 k;
-			{
 				// std::string command_part;
-				{
 					// std::string key;
-				}
+
+	if (Arguments.size() < 1)
+	{
+		returnInfo = "Not enough arguments";
+		return false;
+	}
+	std::string search_for = Arguments[0];
+	std::transform(search_for.begin(), search_for.end(), search_for.begin(), ::tolower);
+	rapidjson::StringBuffer buffer;
+	rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+
+	writer.StartArray();
+	for (int i = 0; i < eKeyCode_Count; i++)
+	{
+		for (int k = 0; k < commandBindings[i].command.size(); k++)
+		{
+			std::string command_part = commandBindings[i].command[k];
+			std::transform(command_part.begin(), command_part.end(), command_part.begin(), ::tolower);
+			if (command_part.compare(search_for) == 0)
+			{
+				std::string key;
+				keyCodes.FindName((Blam::Input::KeyCode)i, &key);
+				writer.String(key.c_str());
 			}
 		}
 	}
-	todo("implement");
-	bool __result = _sub_109CFEF0(Arguments, returnInfo);
-	return __result;
+	writer.EndArray();
+	returnInfo = buffer.GetString();
+	return true;
 }
 
-_extern bool _sub_109CEF20(std::vector<std::string> const &, std::string &);
 bool CommandDumpBindings(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109CEF20
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandDumpBindings@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandDumpBindings
 	// static ...; // 0x109CF637
 	// static ...; // 0x109CF62C
@@ -672,26 +876,43 @@ bool CommandDumpBindings(std::vector<std::string> const &Arguments, std::string 
 	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// Blam::Input::BindingsTable currentBindings;
-	{
 		// __int32 i;
-		{
 			// std::string names[6];
 			// std::string actionName;
+
+	returnInfo = "";
+	BindingsTable currentBindings;
+	GetBindings(0, &currentBindings);
+	for (auto i = 0; i < eGameAction_KeyboardMouseCount; i++)
+	{
+		std::string names[6] = { "none", "n/a", "none", "none", "none", "none" };
+		if (i < eGameAction_ControllerCount)
+		{
+			controllerButtons.FindName(currentBindings.ControllerButtons[i], &names[0]);
+			names[1] = currentBindings.ControllerHoldButtons[i] ? "true" : "false";
 		}
+		keyCodes.FindName(currentBindings.PrimaryKeys[i], &names[2]);
+		keyCodes.FindName(currentBindings.SecondaryKeys[i], &names[3]);
+		mouseButtons.FindName(currentBindings.PrimaryMouseButtons[i], &names[4]);
+		mouseButtons.FindName(currentBindings.SecondaryMouseButtons[i], &names[5]);
+		returnInfo += std::to_string(i);
+		std::string actionName;
+		if (gameActions.FindName(static_cast<GameAction>(i), &actionName))
+			returnInfo += " (" + actionName + ")";
+		returnInfo += ": " + names[0] + " " + names[1] + " " + names[2] + " " + names[3] + " " + names[4] + " " + names[5] + "\n";
 	}
-	todo("implement");
-	bool __result = _sub_109CEF20(Arguments, returnInfo);
-	return __result;
+	return true;
 }
 
-_extern bool _sub_109D0350(std::vector<std::string> const &, std::string &);
 bool CommandResetBindings(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109D0350
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandResetBindings@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandResetBindings
 	// std::string &returnInfo;
-	todo("implement");
-	bool __result = _sub_109D0350(Arguments, returnInfo);
-	return __result;
+
+	LoadDefaultBindings();
+	returnInfo = "Default bindings restored";
+	return true;
 }
 
 _extern bool _sub_109D38E0(char const *, float *);

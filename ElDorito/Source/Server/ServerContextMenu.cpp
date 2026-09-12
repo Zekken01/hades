@@ -106,7 +106,7 @@ void UpdateMenu();
 void InitNotifyIconData();
 void OnShutdown();
 void HandleMenuAction(unsigned __int32 action);
-long ContextMenuWindowProc(HWND__ *hWnd, unsigned __int32 msg, unsigned __int32 wParam, long lParam);
+long __stdcall ContextMenuWindowProc(HWND__ *hWnd, unsigned __int32 msg, unsigned __int32 wParam, long lParam);
 void ContextMenuThreadProc();
 void Initialize(void *parentHwnd);
 
@@ -239,7 +239,7 @@ void HandleMenuAction(unsigned __int32 action) // 0x10728990
 }
 
 _extern long _sub_10728460(HWND__ *, unsigned __int32, unsigned __int32, long);
-long ContextMenuWindowProc(HWND__ *hWnd, unsigned __int32 msg, unsigned __int32 wParam, long lParam) // 0x10728460
+long __stdcall ContextMenuWindowProc(HWND__ *hWnd, unsigned __int32 msg, unsigned __int32 wParam, long lParam) // 0x10728460
 {
 	// `anonymous-namespace'::ContextMenuWindowProc
 	// HWND__ *hWnd;

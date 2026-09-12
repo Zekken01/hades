@@ -221,11 +221,11 @@ namespace Patches
 
 void GetObserverCameraSensitivityHook(__int32 localPlayerIndex, float *sensitivity);
 long c_director__player_switch_update__object_get_ultimate_parent_hook(long object_index);
-void c_director__player_switch_gui_create_or_update_hook(c_director *thisptr);
+void __fastcall c_director__player_switch_gui_create_or_update_hook(c_director *thisptr);
 long c_game_director__update_watched_player_when_unit_deleted_fix(long avoid_player_index, long starting_player_index, long a2, long direction, bool same_team, bool a6, bool a7, long *out_unit_index);
 long get_player_index_from_list_item(c_observer_camera_list_screen *screen, c_gui_list_item_widget *item);
-void c_observer_camera_list_screen__update_hook(c_observer_camera_list_screen *thisptr, void *__formal, unsigned long milliseconds);
-void c_observer_camera_list_screen__update_render_state_hook(c_observer_camera_list_screen *thisptr, void *__formal, unsigned long milliseconds);
+void __fastcall c_observer_camera_list_screen__update_hook(c_observer_camera_list_screen *thisptr, void *__formal, unsigned long milliseconds);
+void __fastcall c_observer_camera_list_screen__update_render_state_hook(c_observer_camera_list_screen *thisptr, void *__formal, unsigned long milliseconds);
 
 /* ---------- globals */
 
@@ -250,9 +250,9 @@ namespace Patches
 
 /* ---------- private code */
 
-_extern void _sub_10AD08C0(__int32, float *);
 void GetObserverCameraSensitivityHook(__int32 localPlayerIndex, float *sensitivity) // 0x10AD08C0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetObserverCameraSensitivityHook@@YAXHPAM@Z");
 	// `anonymous-namespace'::GetObserverCameraSensitivityHook
 	// float *sensitivity;
 	// Modules::ModuleSettings &moduleSettings;
@@ -260,22 +260,39 @@ void GetObserverCameraSensitivityHook(__int32 localPlayerIndex, float *sensitivi
 	// Blam::Input::BindingsTable *bindings;
 	// Modules::ModuleInput &moduleInput;
 	// float sens;
-	todo("implement");
-	_sub_10AD08C0(localPlayerIndex, sensitivity);
+
+	auto& moduleInput = Modules::ModuleInput::Instance();
+	auto& moduleSettings = Modules::ModuleSettings::Instance();
+	auto bindings = moduleInput.GetBindings();
+
+	float sens = moduleInput.VarSpectateSensitivity->ValueFloat;
+
+	// the controller defaults are unreasonably sensitive
+	const auto isUsingController = *(bool*)0x0244DE98;
+	if (isUsingController)
+	{
+		sens *= 0.015f;
+		sensitivity[0] = bindings->ControllerSensitivityX * 0.017453292f * sens;
+		sensitivity[1] = bindings->ControllerSensitivityY * 0.017453292f * sens;
+	}
+	else
+	{
+		sensitivity[0] = (moduleSettings.VarMouseSensitivityHorizontal->ValueInt / 100.0f * 360.0f) * 0.017453294f * sens;
+		sensitivity[1] = (moduleSettings.VarMouseSensitivityVertical->ValueInt / 100.0f * 360.0f) * 0.017453294f * sens;
+	}
 }
 
-_extern long _sub_10AD0CF0(long);
 long c_director__player_switch_update__object_get_ultimate_parent_hook(long object_index) // 0x10AD0CF0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_director__player_switch_update__object_get_ultimate_parent_hook@@YAJJ@Z");
 	// `anonymous-namespace'::c_director__player_switch_update__object_get_ultimate_parent_hook
 	// long object_index;
-	todo("implement");
-	long __result = _sub_10AD0CF0(object_index);
-	return __result;
+
+	return object_index;
 }
 
 _extern void _sub_10AD0AC0(c_director *);
-void c_director__player_switch_gui_create_or_update_hook(c_director *thisptr) // 0x10AD0AC0
+void __fastcall c_director__player_switch_gui_create_or_update_hook(c_director *thisptr) // 0x10AD0AC0
 {
 	// `anonymous-namespace'::c_director__player_switch_gui_create_or_update_hook
 	// c_director *thisptr;
@@ -342,7 +359,7 @@ long get_player_index_from_list_item(c_observer_camera_list_screen *screen, c_gu
 }
 
 _extern void _sub_10AD0E10(c_observer_camera_list_screen *, void *, unsigned long);
-void c_observer_camera_list_screen__update_hook(c_observer_camera_list_screen *thisptr, void *__formal, unsigned long milliseconds) // 0x10AD0E10
+void __fastcall c_observer_camera_list_screen__update_hook(c_observer_camera_list_screen *thisptr, void *__formal, unsigned long milliseconds) // 0x10AD0E10
 {
 	// `anonymous-namespace'::c_observer_camera_list_screen__update_hook
 	// unsigned long milliseconds;
@@ -356,7 +373,7 @@ void c_observer_camera_list_screen__update_hook(c_observer_camera_list_screen *t
 }
 
 _extern void _sub_10AD0F40(c_observer_camera_list_screen *, void *, unsigned long);
-void c_observer_camera_list_screen__update_render_state_hook(c_observer_camera_list_screen *thisptr, void *__formal, unsigned long milliseconds) // 0x10AD0F40
+void __fastcall c_observer_camera_list_screen__update_render_state_hook(c_observer_camera_list_screen *thisptr, void *__formal, unsigned long milliseconds) // 0x10AD0F40
 {
 	// `anonymous-namespace'::c_observer_camera_list_screen__update_render_state_hook
 	// static ...; // 0x10AD10D4

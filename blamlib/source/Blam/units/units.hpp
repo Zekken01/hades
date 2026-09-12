@@ -267,7 +267,6 @@ struct s_unit_seat_source
 {
 	long parent_unit_index; // 0x0
 	short seat_index; // 0x4
-	unsigned char __pad0[2]; // 0x6
 	s_unit_seat_definition *seat; // 0x8
 };
 static_assert(sizeof(s_unit_seat_source) == 12, "Invalid s_unit_seat_source size");

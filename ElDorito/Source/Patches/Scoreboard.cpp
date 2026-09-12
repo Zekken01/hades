@@ -121,13 +121,30 @@ namespace Patches
 {
 	namespace Scoreboard
 	{
-		_extern void _sub_10ACA2A0();
 		void ApplyAll() // 0x10ACA2A0
 		{
-			mangled_x86(MANGLED_TODO, "?ApplyAll@Scoreboard@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Scoreboard@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_10ACA2A0();
+
+			// Scoreboard hooks
+			Hook(0x301A47, GLScoreboardPlayerAllocatorHook).Apply();
+			Hook(0x2F8ED7, GLScoreboardPlayerConstructorHook).Apply();
+			Hook(0x310163, ScoreboardUpdateHook).Apply();
+
+			// Local player UID hook (can probably safely be removed)
+			// Hook(0x18A1D6, SetLocalPlayerHook).Apply();
+
+			// Set scoreboard UIDs to player datum indexes
+			Patch(0x31000F, { 0x3E, 0x8B, 0x4D, 0xC4 }).Apply(); // mov ecx, [ebp - 0x3C]
+			Patch::NopFill(Pointer::Base(0x310013), 2);          // nop out leftover data
+			Patch(0x310018, { 0x31, 0xC9 }).Apply();             // xor ecx, ecx
+			Patch::NopFill(Pointer::Base(0x31001A), 4);          // nop out leftover data
+
+			// Set podium UIDs to player datum indexes
+			Patch(0x2E323E, { 0x8B, 0x47, 0x08 }).Apply(); // mov eax, [edi + 8]
+			Patch::NopFill(Pointer::Base(0x2E3241), 4);    // nop out leftover data
+			Patch(0x2E3248, { 0x31, 0xC0 }).Apply();       // xor eax, eax
+			Patch::NopFill(Pointer::Base(0x2E324A), 5);    // nop out leftover data
 		}
 	}
 }
@@ -196,12 +213,40 @@ __declspec(naked) void GLScoreboardPlayerConstructorHook() // 0x10ACAD70
 	}
 }
 
-extern void _sub_10ACAFC0();
 __declspec(naked) void ScoreboardUpdateHook() // 0x10ACAFC0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ScoreboardUpdateHook@@YAXXZ");
 	// `anonymous-namespace'::ScoreboardUpdateHook
 	// procedure flags: nofpo
 // done:
-	todo("implement");
-	_sub_10ACAFC0();
+
+	__asm
+	{
+		movzx eax, word ptr [ebp - 3Ch]
+		push eax
+		push esi
+		call GetPlayerName
+		add esp, 8
+		test eax, eax
+		je Ldone
+		mov [ebp - 14h], eax
+		lea eax, [ebp - 14h]
+		push eax
+		mov eax, [eax]
+		inc byte ptr [eax]
+		lea ecx, [edi + 7Ch]
+		mov eax, 06C4B30h
+		call eax
+		mov ecx, eax
+		mov edx, 06AC840h
+		call edx
+		mov eax, [ebp - 14h]
+		dec byte ptr [eax]
+		Ldone:
+		lea eax, [ebp - 40h]
+		push eax
+		push 071016Ch
+		mov edx, 055AE30h
+		jmp edx
+	}
 }

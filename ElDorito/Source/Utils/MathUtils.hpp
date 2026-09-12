@@ -30,35 +30,37 @@ namespace Utils
 {
 	namespace Math
 	{
-		_extern float _sub_10AB72A0(float);
 		float NormalizeAngle(float a) // 0x10AB72A0
 		{
-			mangled_x86(MANGLED_TODO, "?NormalizeAngle@Math@Utils@@YAMM@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?NormalizeAngle@Math@Utils@@YAMM@Z");
 			// float a;
-			todo("implement");
-			float __result = _sub_10AB72A0(a);
-			return __result;
+
+			a = fmodf(a, 360.0f);
+			a = fmodf(a + 360.0f, 360.0f);
+			if (a > 180.0f)
+				a -= 360.0f;
+			return a;
 		}
 
-		_extern float _sub_10AB6B50(float, float);
 		float DeltaAngle(float a, float b) // 0x10AB6B50
 		{
-			mangled_x86(MANGLED_TODO, "?DeltaAngle@Math@Utils@@YAMMM@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?DeltaAngle@Math@Utils@@YAMMM@Z");
 			// float b;
 			// float d;
-			todo("implement");
-			float __result = _sub_10AB6B50(a, b);
-			return __result;
+
+			float d = Utils::Math::NormalizeAngle(a - b);
+			if (180.0f >= d)
+				return d;
+			else
+				return d - 360.0f;
 		}
 
-		_extern float _sub_10AB6BF0(float);
 		float EaseOutCubic(float x) // 0x10AB6BF0
 		{
-			mangled_x86(MANGLED_TODO, "?EaseOutCubic@Math@Utils@@YAMM@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?EaseOutCubic@Math@Utils@@YAMM@Z");
 			// float x;
-			todo("implement");
-			float __result = _sub_10AB6BF0(x);
-			return __result;
+
+			return (float)(1.0 - pow(1.0f - x, 3));
 		}
 	}
 }

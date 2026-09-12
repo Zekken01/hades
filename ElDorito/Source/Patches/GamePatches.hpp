@@ -48,11 +48,8 @@ namespace Patches
 
 /* ---------- public code */
 
-_inline IGameSystem::~IGameSystem() // 0x107996F0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1IGameSystem@@UAE@XZ");
-	// IGameSystem *const this;
-}
+// mangled_x86(MANGLED_DEFAULT, "??1IGameSystem@@UAE@XZ"); no body to assert in
+_inline IGameSystem::~IGameSystem() = default; // 0x107996F0
 
 _inline void IGameSystem::Initialize() // 0x10798210
 {

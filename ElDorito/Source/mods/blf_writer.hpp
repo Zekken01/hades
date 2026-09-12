@@ -36,13 +36,14 @@ static_assert(sizeof(c_blf_writer) == 12, "Invalid c_blf_writer size");
 
 /* ---------- public code */
 
-extern c_blf_writer* _sub_10AC8590(c_blf_writer *const, unsigned long, void *);
 _inline c_blf_writer::c_blf_writer(unsigned long buffer_size, void *buffer) // 0x10AC8590
 {
-	mangled_x86(MANGLED_TODO, "??0c_blf_writer@@QAE@KPAX@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_blf_writer@@QAE@KPAX@Z");
 	// void *buffer;
-	todo("implement");
-	_sub_10AC8590(this, buffer_size, buffer);
+
+	m_position = 0;
+	m_buffer_size = buffer_size;
+	m_buffer = (unsigned char *)buffer;
 }
 
 template<typename t_arg0>

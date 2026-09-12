@@ -150,7 +150,7 @@ namespace Patches
 
 bool verify_against_multiplayer_levels_hook(wchar_t const *name);
 unsigned long levels_get_available_map_mask_hook();
-void c_map_variant_initialize_default_hook(s_map_variant *thisptr, void *unused, long mapId);
+void __fastcall c_map_variant_initialize_default_hook(s_map_variant *thisptr, void *unused, long mapId);
 bool levels_add_map_impl(s_file_reference *file_reference, char const *maps_path);
 bool load_mod_package_campaigns(char const *virtual_path, c_mod_package *mod_package);
 bool load_mod_package_maps(char const *virtual_path, c_mod_package *mod_package, __int32 type_mask);
@@ -187,13 +187,13 @@ namespace Patches
 
 /* ---------- private code */
 
-_extern void _sub_10A88240(ModListener *const, EModIndex, IMod *);
 _inline void ModListener::OnModChanged(EModIndex index, IMod *mod) // 0x10A88240
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnModChanged@ModListener@hades_file_local@@UAEXW4EModIndex@@PAVIMod@@@Z");
 	// `anonymous-namespace'::ModListener::OnModChanged
 	// IMod *mod;
-	todo("implement");
-	_sub_10A88240(this, index, mod);
+
+	levels_clear_and_enumerate_async();
 }
 
 _extern bool _sub_10A893B0(wchar_t const *);
@@ -230,13 +230,13 @@ unsigned long levels_get_available_map_mask_hook() // 0x10A88E40
 	return 0;
 }
 
-_extern void _sub_10A88290(s_map_variant *, void *, long);
-void c_map_variant_initialize_default_hook(s_map_variant *thisptr, void *unused, long mapId) // 0x10A88290
+void __fastcall c_map_variant_initialize_default_hook(s_map_variant *thisptr, void *unused, long mapId) // 0x10A88290
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_map_variant_initialize_default_hook@@YIXPAUs_map_variant@@PAXJ@Z");
 	// `anonymous-namespace'::c_map_variant_initialize_default_hook
 	// long mapId;
-	todo("implement");
-	_sub_10A88290(thisptr, unused, mapId);
+
+	c_map_variant_loader::load_default(mapId, thisptr);
 }
 
 _extern bool _sub_10A882F0(s_file_reference *, char const *);

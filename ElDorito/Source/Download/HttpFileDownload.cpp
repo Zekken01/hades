@@ -118,14 +118,12 @@ namespace Download
 	// mangled_x86(MANGLED_DEFAULT, "??0CDownloadStatCounter@Download@@QAE@XZ"); no body to assert in
 	_inline CDownloadStatCounter::CDownloadStatCounter() = default; // 0x1082B520
 
-	_extern long long _sub_10830210(Download::CHttpFileDownload::SSegment const *const);
 	_inline long long CHttpFileDownload::SSegment::GetRemaining() const // 0x10830210
 	{
-		mangled_x86(MANGLED_TODO, "?GetRemaining@SSegment@CHttpFileDownload@Download@@QBE_JXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetRemaining@SSegment@CHttpFileDownload@Download@@QBE_JXZ");
 		// Download::CHttpFileDownload::SSegment const *const this;
-		todo("implement");
-		long long __result = _sub_10830210((Download::CHttpFileDownload::SSegment const *)this);
-		return __result;
+
+		return length - downloaded;
 	}
 
 	extern CHttpFileDownload::SSegment *_sub_10831F40(Download::CHttpFileDownload::SSegment *const);
@@ -150,20 +148,12 @@ namespace Download
 		_sub_1082BB40(this, offset, length);
 	}
 
-	_extern void _sub_1082CDA0(Download::CHttpFileDownload::SSegment *const);
 	_inline CHttpFileDownload::SSegment::~SSegment() // 0x1082CDA0
 	{
-		mangled_x86(MANGLED_TODO, "??1SSegment@CHttpFileDownload@Download@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??1SSegment@CHttpFileDownload@Download@@QAE@XZ");
 		// Download::CHttpFileDownload::SSegment *const this;
-		todo("implement");
-		_sub_1082CDA0(this);
 	}
 
-	_inline CHttpFileDownload::ISegmentStore::~ISegmentStore() // 0x1082CCE0
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??1ISegmentStore@CHttpFileDownload@Download@@UAE@XZ");
-		// Download::CHttpFileDownload::ISegmentStore *const this;
-	}
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??1SCallbackEntry@?$CEventSink@$$V@@QAE@XZ"); no body to assert in
@@ -261,15 +251,13 @@ namespace Download
 		return __result;
 	}
 
-	_extern void *_sub_10831540(Download::CSparseFileSegmentStore *const, bool);
 	_inline void *CSparseFileSegmentStore::OpenFile(bool overwrite) // 0x10831540
 	{
-		mangled_x86(MANGLED_TODO, "?OpenFile@CSparseFileSegmentStore@Download@@AAEPAX_N@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?OpenFile@CSparseFileSegmentStore@Download@@AAEPAX_N@Z");
 		// bool overwrite;
 		// function call : void *(char const *, unsigned long, unsigned long, _SECURITY_ATTRIBUTES *, unsigned long, unsigned long, void *)
-		todo("implement");
-		void * __result = _sub_10831540(this, overwrite);
-		return __result;
+
+		return CreateFileA(m_filename.c_str(), GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr, overwrite ? CREATE_ALWAYS : OPEN_ALWAYS, 0, nullptr);
 	}
 
 	_extern void _sub_10831CC0(Download::CSparseFileSegmentStore *const, void *, long long);
@@ -334,31 +322,28 @@ namespace Download
 		_sub_10831D80(this, filepath);
 	}
 
-	_extern void _sub_10831DE0(Download::CHttpFileDownload *const, __int32);
 	void CHttpFileDownload::SetMaxConnections(__int32 num) // 0x10831DE0
 	{
-		mangled_x86(MANGLED_TODO, "?SetMaxConnections@CHttpFileDownload@Download@@QAEXH@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?SetMaxConnections@CHttpFileDownload@Download@@QAEXH@Z");
 		// __int32 num;
-		todo("implement");
-		_sub_10831DE0(this, num);
+
+		m_maxConnections = num;
 	}
 
-	_extern void _sub_10831E10(Download::CHttpFileDownload *const, __int32);
 	void CHttpFileDownload::SetMaxRetries(__int32 count) // 0x10831E10
 	{
-		mangled_x86(MANGLED_TODO, "?SetMaxRetries@CHttpFileDownload@Download@@QAEXH@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?SetMaxRetries@CHttpFileDownload@Download@@QAEXH@Z");
 		// __int32 count;
-		todo("implement");
-		_sub_10831E10(this, count);
+
+		m_maxSegmentRetryCount = count;
 	}
 
-	_extern void _sub_10831E40(Download::CHttpFileDownload *const, __int32);
 	void CHttpFileDownload::SetReceiveBufferSize(__int32 size) // 0x10831E40
 	{
-		mangled_x86(MANGLED_TODO, "?SetReceiveBufferSize@CHttpFileDownload@Download@@QAEXH@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?SetReceiveBufferSize@CHttpFileDownload@Download@@QAEXH@Z");
 		// __int32 size;
-		todo("implement");
-		_sub_10831E40(this, size);
+
+		m_receiveBufferSize = size;
 	}
 
 	_extern void _sub_108320C0(Download::CHttpFileDownload *const);
@@ -374,14 +359,12 @@ namespace Download
 		_sub_108320C0(this);
 	}
 
-	_extern __int32 _sub_1082FB90(Download::CHttpFileDownload const *const);
 	__int32 CHttpFileDownload::GetElapsedSeconds() const // 0x1082FB90
 	{
-		mangled_x86(MANGLED_TODO, "?GetElapsedSeconds@CHttpFileDownload@Download@@QBEHXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetElapsedSeconds@CHttpFileDownload@Download@@QBEHXZ");
 		// Download::CHttpFileDownload const *const this;
-		todo("implement");
-		__int32 __result = _sub_1082FB90((Download::CHttpFileDownload const *)this);
-		return __result;
+
+		return std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - m_startTime).count();
 	}
 
 	extern EDownloadError _sub_1082FC20(Download::CHttpFileDownload const *const);
@@ -425,23 +408,20 @@ namespace Download
 		return __result;
 	}
 
-	_extern float _sub_108300D0(Download::CHttpFileDownload const *const);
 	float CHttpFileDownload::GetProgress() const // 0x108300D0
 	{
-		mangled_x86(MANGLED_TODO, "?GetProgress@CHttpFileDownload@Download@@UBEMXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetProgress@CHttpFileDownload@Download@@UBEMXZ");
 		// Download::CHttpFileDownload const *const this;
-		todo("implement");
-		float __result = _sub_108300D0((Download::CHttpFileDownload const *)this);
-		return __result;
+
+		return (float)(m_totalBytes <= 0 ? 0.0 : m_downloadedBytes * 1.0 / m_totalBytes);
 	}
 
-	_extern void _sub_1082E2D0(Download::CHttpFileDownload *const);
 	void CHttpFileDownload::Cancel() // 0x1082E2D0
 	{
-		mangled_x86(MANGLED_TODO, "?Cancel@CHttpFileDownload@Download@@UAEXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Cancel@CHttpFileDownload@Download@@UAEXXZ");
 		// Download::CHttpFileDownload *const this;
-		todo("implement");
-		_sub_1082E2D0(this);
+
+		Abort(Cancelled);
 	}
 
 	_extern void _sub_10830E90(Download::CHttpFileDownload *const, Download::CHttpFileDownload::SSegment *, std::shared_ptr<Http::IHttpRequest>);
@@ -549,23 +529,20 @@ namespace Download
 		return __result;
 	}
 
-	_extern void _sub_10831E70(Download::CHttpFileDownload *const, bool);
 	void CHttpFileDownload::SetSupportsSegmentation(bool support) // 0x10831E70
 	{
-		mangled_x86(MANGLED_TODO, "?SetSupportsSegmentation@CHttpFileDownload@Download@@AAEX_N@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?SetSupportsSegmentation@CHttpFileDownload@Download@@AAEX_N@Z");
 		// bool support;
-		todo("implement");
-		_sub_10831E70(this, support);
+
+		m_supportsSegmentation.store(support);
 	}
 
-	_extern bool _sub_10830310(Download::CHttpFileDownload *const);
 	bool CHttpFileDownload::GetSupportsSegmentation() // 0x10830310
 	{
-		mangled_x86(MANGLED_TODO, "?GetSupportsSegmentation@CHttpFileDownload@Download@@AAE_NXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetSupportsSegmentation@CHttpFileDownload@Download@@AAE_NXZ");
 		// Download::CHttpFileDownload *const this;
-		todo("implement");
-		bool __result = _sub_10830310(this);
-		return __result;
+
+		return m_supportsSegmentation.load();
 	}
 
 	_extern void _sub_1082DDF0(Download::CHttpFileDownload *const, Download::CHttpFileDownload::EAbortReason);
@@ -667,17 +644,19 @@ namespace Download
 		_sub_108303A0(this);
 	}
 
-	_extern void _sub_1082E440(Download::CHttpFileDownload *const);
 	void CHttpFileDownload::CheckAndHandleSegments() // 0x1082E440
 	{
-		mangled_x86(MANGLED_TODO, "?CheckAndHandleSegments@CHttpFileDownload@Download@@AAEXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?CheckAndHandleSegments@CHttpFileDownload@Download@@AAEXXZ");
 		// static ...; // 0x1082E4F8
 		// static ...; // 0x1082E4EC
 		// static ...; // 0x1082E4E4
 		// Download::CHttpFileDownload *const this;
 		// std::scoped_lock<std::mutex> lock;
-		todo("implement");
-		_sub_1082E440(this);
+
+		std::scoped_lock<std::mutex> lock(m_mutex);
+
+		HandleFailedSegments();
+		HandleCompletedSegments();
 	}
 
 	_extern void _sub_1082E530(Download::CHttpFileDownload *const, Download::CHttpFileDownload::SSegment *);

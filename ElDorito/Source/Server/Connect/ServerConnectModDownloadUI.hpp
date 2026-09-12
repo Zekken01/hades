@@ -28,7 +28,7 @@ struct SServerConnectState;
 class IServerConnectModDownloadUI
 {
 public:
-	virtual _inline ~IServerConnectModDownloadUI();
+	virtual _inline ~IServerConnectModDownloadUI() = default; // 0x10CACB30
 	virtual void SetConfirmCallback(std::function<void __cdecl(void)>) = 0;
 	virtual void SetRetryCallback(std::function<void __cdecl(void)>) = 0;
 	virtual void SetCancelCallback(std::function<void __cdecl(void)>) = 0;
@@ -51,12 +51,6 @@ static_assert(sizeof(IServerConnectModDownloadUI) == 4, "Invalid IServerConnectM
 /* ---------- globals */
 
 /* ---------- public code */
-
-_inline IServerConnectModDownloadUI::~IServerConnectModDownloadUI() // 0x10CACB30
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1IServerConnectModDownloadUI@@UAE@XZ");
-	// IServerConnectModDownloadUI *const this;
-}
 
 /* ---------- private code */
 

@@ -62,7 +62,6 @@ namespace Player
 			bool cancelled : 1; // 0x6
 			bool playedExit : 1; // 0x6
 			void Reset();
-			unsigned char __pad0[1]; // 0x7
 		};
 		static_assert(sizeof(SActionStateData) == 8, "Invalid SActionStateData size");
 		public:

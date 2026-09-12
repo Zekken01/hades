@@ -194,13 +194,12 @@ void CServerConnectManager::Initialize() // 0x10B079E0
 	_sub_10B079E0(this);
 }
 
-_extern void _sub_10B08170(CServerConnectManager *const);
 void CServerConnectManager::Update() // 0x10B08170
 {
-	mangled_x86(MANGLED_TODO, "?Update@CServerConnectManager@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CServerConnectManager@@QAEXXZ");
 	// CServerConnectManager *const this;
-	todo("implement");
-	_sub_10B08170(this);
+
+	m_stateManager->Update();
 }
 
 _extern bool _sub_10B07780(CServerConnectManager *const, SServerConnectOptions const &);

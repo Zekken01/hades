@@ -101,14 +101,12 @@ namespace Forge
 		return __result;
 	}
 
-	extern SPropertyDefinition const *_sub_10846C90(Forge::CObjectPropertyManager const *const, Forge::EObjectProperty);
 	Forge::SPropertyDefinition const *CObjectPropertyManager::GetProperty(Forge::EObjectProperty property) const // 0x10846C90
 	{
-		mangled_x86(MANGLED_TODO, "?GetProperty@CObjectPropertyManager@Forge@@QBEPBUSPropertyDefinition@2@W4EObjectProperty@2@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetProperty@CObjectPropertyManager@Forge@@QBEPBUSPropertyDefinition@2@W4EObjectProperty@2@@Z");
 		// Forge::EObjectProperty property;
-		todo("implement");
-		Forge::SPropertyDefinition const * __result = _sub_10846C90((Forge::CObjectPropertyManager const *)this, property);
-		return __result;
+
+		return &m_registeredProperties[property];
 	}
 }
 
@@ -117,11 +115,10 @@ namespace Forge
 {
 	char const *CObjectPropertyManager::GetPropertyName(Forge::EObjectProperty property) // 0x10846D00
 	{
-		mangled_x86(MANGLED_TODO, "?GetPropertyName@CObjectPropertyManager@Forge@@QAEPBDW4EObjectProperty@2@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetPropertyName@CObjectPropertyManager@Forge@@QAEPBDW4EObjectProperty@2@@Z");
 		// Forge::EObjectProperty property;
-		todo("implement");
-		char const * __result = _sub_10846D00(this, property);
-		return __result;
+
+		return m_registeredProperties[property].name;
 	}
 }
 

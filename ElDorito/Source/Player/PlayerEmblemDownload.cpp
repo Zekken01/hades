@@ -365,14 +365,15 @@ namespace Player
 		_sub_108FC480(this);
 	}
 
-	_extern void _sub_108FD420(::Player::PlayerEmblemDownload *const, IDirect3DDevice9 *);
 	void PlayerEmblemDownload::LoadGenericEmblem(IDirect3DDevice9 *device) // 0x108FD420
 	{
-		mangled_x86(MANGLED_TODO, "?LoadGenericEmblem@PlayerEmblemDownload@Player@@QAEXPAUIDirect3DDevice9@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?LoadGenericEmblem@PlayerEmblemDownload@Player@@QAEXPAUIDirect3DDevice9@@@Z");
 		// IDirect3DDevice9 *device;
 		// HRESULT res;
-		todo("implement");
-		_sub_108FD420(this, device);
+
+		HRESULT result = D3DXCreateTextureFromFileA(device, "ui/assets/emblems/generic.png", &generic_emblem);
+		if (result)
+			failedInit = true;
 	}
 
 	_extern void _sub_108FE700(::Player::PlayerEmblemDownload *const);
@@ -421,22 +422,20 @@ namespace Player
 		_sub_108FDAE0(this, device);
 	}
 
-	_extern void _sub_108FEBD0(::Player::PlayerEmblemDownload *const);
 	void PlayerEmblemDownload::UpdateLocalEmblem() // 0x108FEBD0
 	{
-		mangled_x86(MANGLED_TODO, "?UpdateLocalEmblem@PlayerEmblemDownload@Player@@QAEXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateLocalEmblem@PlayerEmblemDownload@Player@@QAEXXZ");
 		// Player::PlayerEmblemDownload *const this;
-		todo("implement");
-		_sub_108FEBD0(this);
+
+		emblemUpdate = true;
 	}
 
-	_extern void _sub_108FE150(::Player::PlayerEmblemDownload *const, long);
 	void PlayerEmblemDownload::SetLastJoinTime(long time) // 0x108FE150
 	{
-		mangled_x86(MANGLED_TODO, "?SetLastJoinTime@PlayerEmblemDownload@Player@@QAEXJ@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?SetLastJoinTime@PlayerEmblemDownload@Player@@QAEXJ@Z");
 		// long time;
-		todo("implement");
-		_sub_108FE150(this, time);
+
+		server_join_tick = time;
 	}
 }
 

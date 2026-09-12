@@ -242,22 +242,20 @@ namespace Web
 				_sub_10C9BB40();
 			}
 
-			_extern void _sub_10C9A990();
 			void Hide() // 0x10C9A990
 			{
-				mangled_x86(MANGLED_TODO, "?Hide@Voting@Ui@Web@@YAXXZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?Hide@Voting@Ui@Web@@YAXXZ");
 				// procedure flags: nofpo
-				todo("implement");
-				_sub_10C9A990();
+
+				ScreenLayer::Hide(ScreenLayer::Voting);
 			}
 
-			_extern void _sub_10C9BC10();
 			void VotingEnded() // 0x10C9BC10
 			{
-				mangled_x86(MANGLED_TODO, "?VotingEnded@Voting@Ui@Web@@YAXXZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?VotingEnded@Voting@Ui@Web@@YAXXZ");
 				// procedure flags: nofpo
-				todo("implement");
-				_sub_10C9BC10();
+
+				currentlyVoting = false;
 			}
 		}
 	}
@@ -265,13 +263,20 @@ namespace Web
 
 /* ---------- private code */
 
-_extern void _sub_10C9AB00(Blam::Network::LifeCycleState);
 void LifeCycleStateChanged(Blam::Network::LifeCycleState newState) // 0x10C9AB00
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?LifeCycleStateChanged@@YAXW4LifeCycleState@Network@Blam@@@Z");
 	// `anonymous-namespace'::LifeCycleStateChanged
 	// Blam::Network::LifeCycleState newState;
-	todo("implement");
-	_sub_10C9AB00(newState);
+
+	switch (newState)
+	{
+	case Blam::Network::eLifeCycleStateNone:
+	case Blam::Network::eLifeCycleStateStartGame:
+	case Blam::Network::eLifeCycleStateLeaving:
+		OnVotingEnded();
+		break;
+	}
 }
 
 _extern void _sub_10C9B850();
@@ -293,11 +298,13 @@ void OnUiInputUpdate() // 0x10C9B850
 	_sub_10C9B850();
 }
 
-_extern void _sub_10C9BA30();
 void OnVotingEnded() // 0x10C9BA30
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnVotingEnded@@YAXXZ");
 	// `anonymous-namespace'::OnVotingEnded
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10C9BA30();
+
+	currentlyVoting = false;
+	Web::Ui::ScreenLayer::Notify("VoteEnded", "{}", true);
+	Web::Ui::Voting::Hide();
 }

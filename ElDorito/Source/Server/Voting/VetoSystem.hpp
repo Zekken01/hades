@@ -76,7 +76,7 @@ namespace Server
 			unsigned char __pad1[3]; // 0x10F1
 			Server::Voting::MapAndType previousWinner; // 0x10F4
 		public:
-			virtual _inline ~VetoSystem(); /* compiler_generated() */
+			virtual _inline ~VetoSystem() = default; /* compiler_generated() */ // 0x1073B7F0
 			Server::Voting::VetoSystem &operator=(Server::Voting::VetoSystem &); /* compiler_generated() */
 			Server::Voting::VetoSystem &operator=(Server::Voting::VetoSystem const &); /* compiler_generated() */
 		};

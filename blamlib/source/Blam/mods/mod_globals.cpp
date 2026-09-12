@@ -18,6 +18,9 @@ struct s_mod_globals_definition;
 
 /* ---------- prototypes */
 
+extern void *(__cdecl *const tag_get)(unsigned long, long);  // hades: added for 0X10F02990
+extern long (__cdecl *const tag_get_first_in_group)(unsigned long);  // hades: added for 0X10F02990
+
 extern s_mod_globals_definition *mod_globals_get_definition();
 
 /* ---------- globals */
@@ -26,16 +29,14 @@ extern s_mod_globals_definition *mod_globals_get_definition();
 
 /* ---------- public code */
 
-extern s_mod_globals_definition *_sub_10F02990();
 s_mod_globals_definition *mod_globals_get_definition() // 0x10F02990
 {
-	mangled_x86(MANGLED_TODO, "?mod_globals_get_definition@@YAPAUs_mod_globals_definition@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?mod_globals_get_definition@@YAPAUs_mod_globals_definition@@XZ");
 	// procedure flags: nofpo
 	// function call : long (*const)(unsigned long)
 	// function call : void *(*const)(unsigned long, long)
-	todo("implement");
-	s_mod_globals_definition * __result = _sub_10F02990();
-	return __result;
+
+	return (s_mod_globals_definition *)tag_get(0x6D6F6467, tag_get_first_in_group(0x6D6F6467));
 }
 
 /* ---------- private code */

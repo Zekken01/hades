@@ -236,15 +236,23 @@ bool CommandLoadWeaponsJSON(std::vector<std::string> const &Arguments, std::stri
 	return __result;
 }
 
-_extern bool _sub_10A27390(std::vector<std::string> const &, std::string &);
 bool CommandSaveWeaponsJSON(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A27390
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandSaveWeaponsJSON@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandSaveWeaponsJSON
 	// std::string &returnInfo;
 	// function call : bool (*)()
-	todo("implement");
-	bool __result = _sub_10A27390(Arguments, returnInfo);
-	return __result;
+
+	if (IsMainMenu())
+	{
+		returnInfo = "This command is unavailable at the moment, please try again when not on the mainmenu.";
+		return false;
+	}
+
+	Patches::Weapon::Config::SaveJSON(Modules::ModuleWeapon::Instance().VarWeaponJSON->ValueString);
+
+	returnInfo = "Weapons json saved successfully.";
+	return true;
 }
 
 _extern bool _sub_10A270E0(std::vector<std::string> const &, std::string &);

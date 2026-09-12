@@ -210,13 +210,14 @@ namespace Server
 			_sub_10C43A00(winner);
 		}
 
-		_extern void _sub_10C43990(char const *);
 		void MapLoadedCallback(char const *mapPath) // 0x10C43990
 		{
-			mangled_x86(MANGLED_TODO, "?MapLoadedCallback@Voting@Server@@YAXPBD@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?MapLoadedCallback@Voting@Server@@YAXPBD@Z");
 			// char const *mapPath;
-			todo("implement");
-			_sub_10C43990(mapPath);
+
+			if(Blam::Network::GetActiveSession()->Parameters.GetSessionMode() == 1 && Blam::Network::GetNetworkMode() == 3){
+				StartNewVote();
+			}
 		}
 
 		_extern void _sub_10C435D0(Blam::Network::LifeCycleState);
@@ -266,14 +267,6 @@ namespace Server
 			_sub_10C43480();
 		}
 
-		_inline VotingSystem::~VotingSystem() // 0x10C43260
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??1VotingSystem@Voting@Server@@UAE@XZ");
-			// Server::Voting::VotingSystem *const this;
-
-			compiler_generated();
-		}
-
 		_extern bool _sub_10C43EA0(bool);
 		bool ReloadVotingJson(bool loadFileFromDisc) // 0x10C43EA0
 		{
@@ -294,46 +287,62 @@ namespace Server
 			return __result;
 		}
 
-		_extern void _sub_10C44070();
 		void Tick() // 0x10C44070
 		{
-			mangled_x86(MANGLED_TODO, "?Tick@Voting@Server@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@Voting@Server@@YAXXZ");
 			// procedure flags: nofpo
 			// Blam::Network::Session *session;
-			{
 				// std::vector<Server::Voting::AbstractVotingSystem *> &<range>$L0;
 				// Server::Voting::AbstractVotingSystem **<begin>$L0;
 				// Server::Voting::AbstractVotingSystem **<end>$L0;
-				{
 					// Server::Voting::AbstractVotingSystem *elem;
-				}
-			}
 			// function call : bool ()
 			// function call : void ()
-			todo("implement");
-			_sub_10C44070();
+
+			auto* session = Blam::Network::GetActiveSession();
+			if (!(session && session->IsEstablished() && session->IsHost()))
+				return;
+
+			for (auto elem : VotingSystems)
+			{
+				if (elem->isEnabled()) {
+					elem->Tick();
+				}
+			}
 		}
 
-		_extern void _sub_10C43B10(__int32);
 		void PlayerJoinedVoteInProgress(__int32 playerIndex) // 0x10C43B10
 		{
-			mangled_x86(MANGLED_TODO, "?PlayerJoinedVoteInProgress@Voting@Server@@YAXH@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?PlayerJoinedVoteInProgress@Voting@Server@@YAXH@Z");
 			// __int32 playerIndex;
 			// Blam::Network::Session *session;
 			// __int32 peerIdx;
-			{
 				// std::vector<Server::Voting::AbstractVotingSystem *> &<range>$L0;
 				// Server::Voting::AbstractVotingSystem **<begin>$L0;
 				// Server::Voting::AbstractVotingSystem **<end>$L0;
-				{
 					// Server::Voting::AbstractVotingSystem *elem;
-				}
-			}
 			// function call : bool ()
 			// function call : bool ()
 			// function call : void ()
-			todo("implement");
-			_sub_10C43B10(playerIndex);
+
+			//if we aren't in a vote or voting isn't enabled, then do nothing
+			auto* session = Blam::Network::GetActiveSession();
+			if (!(session && session->IsEstablished() && session->IsHost() && Blam::Network::GetLobbyType() == 2))
+				return;
+
+			auto peerIdx = session->MembershipInfo.GetPlayerPeer(playerIndex);
+			if (peerIdx != session->MembershipInfo.LocalPeerIndex)
+			{
+
+				for (auto elem : VotingSystems)
+				{
+					if (elem->isEnabled()) {
+						elem->GenerateVotingOptionsMessage(peerIdx);
+						if(elem->ShouldSendVotingOptions())
+							elem->SendVoteCountsToEveryone();
+					}
+				}
+			}
 		}
 
 		_extern void _sub_10C43C90(std::string);

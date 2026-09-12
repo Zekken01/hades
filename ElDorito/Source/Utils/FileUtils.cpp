@@ -89,12 +89,12 @@ namespace Utils
 	{
 		char const *GetName(char const *filename) // 0x10C57EA0
 		{
-			mangled_x86(MANGLED_TODO, "?GetName@FileUtils@Utils@@YAPBDPBD@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetName@FileUtils@Utils@@YAPBDPBD@Z");
 			// char const *filename;
 			// char const *name;
-			todo("implement");
-			char const * __result = _sub_10C57EA0(filename);
-			return __result;
+
+			char const *lastSlash = strrchr(filename, '\\');
+			return lastSlash ? lastSlash + 1 : filename;
 		}
 	}
 }

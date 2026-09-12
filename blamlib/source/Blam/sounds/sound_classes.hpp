@@ -50,7 +50,6 @@ struct s_sound_class_definition
 	c_enum<enum e_sound_cache_miss_mode,char> cache_miss_mode; // 0xE
 	c_flags<enum e_sound_accoustics_flags,char> bind_to_accoustics; // 0xF
 	c_flags<enum e_sound_spatial_suppression_flags,char> suppress_spatialization; // 0x10
-	unsigned char __pad0[3]; // 0x11
 	s_sound_propagation air_propogation; // 0x14
 	s_sound_propagation underwater_propogation; // 0x24
 	float override_speaker_gain; // 0x34
@@ -63,7 +62,6 @@ struct s_sound_class_definition
 	float cortana_effect_unknown; // 0x80
 	float doppler_factor; // 0x84
 	char stero_playback_type; // 0x88
-	unsigned char __pad1[3]; // 0x89
 	float transmission_multiplier; // 0x8C
 	float obstruction_max_bend; // 0x90
 	float occlusion_max_bend; // 0x94
@@ -75,6 +73,8 @@ struct s_sound_class_definition
 	unsigned char __pad2[8]; // 0x98
 };
 static_assert(sizeof(s_sound_class_definition) == 160, "Invalid s_sound_class_definition size");
+static_assert(offsetof(s_sound_class_definition, air_propogation) == 0x14, "s_sound_class_definition::air_propogation moved when its reconstructed padding was removed");
+static_assert(offsetof(s_sound_class_definition, transmission_multiplier) == 0x8C, "s_sound_class_definition::transmission_multiplier moved when its reconstructed padding was removed");
 
 /* ---------- prototypes */
 

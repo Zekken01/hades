@@ -34,6 +34,8 @@ struct real_vector3d;
 
 /* ---------- prototypes */
 
+extern "C" float __cdecl atan2f(float _Y, float _X);  // hades: added for 0X10EF97E0
+
 extern float real_pin(float x, float min, float max);
 extern float real_pin_0_1(float x);
 extern float square_root(float x);
@@ -98,179 +100,163 @@ extern void rectangle3d_build_faces(real_rectangle3d const &bounds, real_point3d
 
 /* ---------- public code */
 
-_extern float _sub_10EFA880(float, float, float);
 float real_pin(float x, float min, float max) // 0x10EFA880
 {
-	mangled_x86(MANGLED_TODO, "?real_pin@@YAMMMM@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?real_pin@@YAMMMM@Z");
 	// float max;
-	todo("implement");
-	float __result = _sub_10EFA880(x, min, max);
-	return __result;
+
+	return min > x ? min : (x > max ? max : x);
 }
 
-_extern float _sub_10EFA940(float);
 float real_pin_0_1(float x) // 0x10EFA940
 {
-	mangled_x86(MANGLED_TODO, "?real_pin_0_1@@YAMM@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?real_pin_0_1@@YAMM@Z");
 	// float x;
-	todo("implement");
-	float __result = _sub_10EFA940(x);
-	return __result;
+
+	return real_pin(x, 0.0f, 1.0f);
 }
 
-_extern float _sub_10EFB9E0(float);
 float square_root(float x) // 0x10EFB9E0
 {
-	mangled_x86(MANGLED_TODO, "?square_root@@YAMM@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?square_root@@YAMM@Z");
 	// float x;
-	todo("implement");
-	float __result = _sub_10EFB9E0(x);
-	return __result;
+
+	return sqrtf(x);
 }
 
-_extern float _sub_10EFA9C0(float);
 float reciprocal_square_root(float x) // 0x10EFA9C0
 {
-	mangled_x86(MANGLED_TODO, "?reciprocal_square_root@@YAMM@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?reciprocal_square_root@@YAMM@Z");
 	// float x;
-	todo("implement");
-	float __result = _sub_10EFA9C0(x);
-	return __result;
+
+	return 1.0f / square_root(x);
 }
 
-_extern float _sub_10EF9850(float);
 float cosine(float x) // 0x10EF9850
 {
-	mangled_x86(MANGLED_TODO, "?cosine@@YAMM@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?cosine@@YAMM@Z");
 	// float x;
-	todo("implement");
-	float __result = _sub_10EF9850(x);
-	return __result;
+
+	return cosf(x);
 }
 
-_extern float _sub_10EFB980(float);
 float sine(float x) // 0x10EFB980
 {
-	mangled_x86(MANGLED_TODO, "?sine@@YAMM@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?sine@@YAMM@Z");
 	// float x;
-	todo("implement");
-	float __result = _sub_10EFB980(x);
-	return __result;
+
+	return sinf(x);
 }
 
-_extern float _sub_10EFBB60(float);
 float tangent(float x) // 0x10EFBB60
 {
-	mangled_x86(MANGLED_TODO, "?tangent@@YAMM@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?tangent@@YAMM@Z");
 	// float x;
-	todo("implement");
-	float __result = _sub_10EFBB60(x);
-	return __result;
+
+	return tanf(x);
 }
 
-_extern float _sub_10EF9780(float);
 float arcsine(float x) // 0x10EF9780
 {
-	mangled_x86(MANGLED_TODO, "?arcsine@@YAMM@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?arcsine@@YAMM@Z");
 	// float x;
-	todo("implement");
-	float __result = _sub_10EF9780(x);
-	return __result;
+
+	return asinf(x);
 }
 
-_extern float _sub_10EF9720(float);
 float arccosine(float x) // 0x10EF9720
 {
-	mangled_x86(MANGLED_TODO, "?arccosine@@YAMM@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?arccosine@@YAMM@Z");
 	// float x;
-	todo("implement");
-	float __result = _sub_10EF9720(x);
-	return __result;
+
+	return acosf(x);
 }
 
-_extern float _sub_10EF97E0(float, float);
 float arctangent(float y, float x) // 0x10EF97E0
 {
-	mangled_x86(MANGLED_TODO, "?arctangent@@YAMMM@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?arctangent@@YAMMM@Z");
 	// float x;
-	todo("implement");
-	float __result = _sub_10EF97E0(y, x);
-	return __result;
+
+	return atan2f(y, x);
 }
 
-_extern float _sub_10EFA2E0(real_vector3d *);
 float normalize3d(real_vector3d *v) // 0x10EFA2E0
 {
-	mangled_x86(MANGLED_TODO, "?normalize3d@@YAMPAUreal_vector3d@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?normalize3d@@YAMPAUreal_vector3d@@@Z");
 	// real_vector3d *v;
 	// float m;
-	todo("implement");
-	float __result = _sub_10EFA2E0(v);
-	return __result;
+
+	float m = magnitude3d(v);
+
+	if (m < 0.00001f)
+	{
+		return 0.0f;
+	}
+	else
+	{
+		scale_vector3d(v, 1.0f / m, v);
+	}
+
+	return m;
 }
 
-_extern float _sub_10EFA070(real_vector3d const *);
 float magnitude_squared3d(real_vector3d const *v) // 0x10EFA070
 {
-	mangled_x86(MANGLED_TODO, "?magnitude_squared3d@@YAMPBUreal_vector3d@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?magnitude_squared3d@@YAMPBUreal_vector3d@@@Z");
 	// real_vector3d const *v;
-	todo("implement");
-	float __result = _sub_10EFA070(v);
-	return __result;
+
+	return v->i * v->i + v->j * v->j + v->k * v->k;
 }
 
-_extern float _sub_10EFA010(real_vector3d const *);
 float magnitude3d(real_vector3d const *v) // 0x10EFA010
 {
-	mangled_x86(MANGLED_TODO, "?magnitude3d@@YAMPBUreal_vector3d@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?magnitude3d@@YAMPBUreal_vector3d@@@Z");
 	// real_vector3d const *v;
-	todo("implement");
-	float __result = _sub_10EFA010(v);
-	return __result;
+
+	return square_root(magnitude_squared3d(v));
 }
 
-_extern float _sub_10EF9AA0(real_point3d const *, real_point3d const *);
 float distance_squared3d(real_point3d const *p1, real_point3d const *p2) // 0x10EF9AA0
 {
-	mangled_x86(MANGLED_TODO, "?distance_squared3d@@YAMPBUreal_point3d@@0@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?distance_squared3d@@YAMPBUreal_point3d@@0@Z");
 	// static ...; // 0x10EF9B28
 	// static ...; // 0x10EF9B20
 	// real_point3d const *p1;
 	// real_point3d const *p2;
 	// real_vector3d v;
-	todo("implement");
-	float __result = _sub_10EF9AA0(p1, p2);
-	return __result;
+
+	real_vector3d v;
+
+	vector_from_points3d(p1, p2, &v);
+	return magnitude_squared3d(&v);
 }
 
-_extern float _sub_10EF9A30(real_point3d const *, real_point3d const *);
 float distance3d(real_point3d const *p1, real_point3d const *p2) // 0x10EF9A30
 {
-	mangled_x86(MANGLED_TODO, "?distance3d@@YAMPBUreal_point3d@@0@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?distance3d@@YAMPBUreal_point3d@@0@Z");
 	// real_point3d const *p2;
-	todo("implement");
-	float __result = _sub_10EF9A30(p1, p2);
-	return __result;
+
+	return square_root(distance_squared3d(p1, p2));
 }
 
-_extern float _sub_10EF9BF0(real_vector3d const *, real_vector3d const *);
 float dot_product3d(real_vector3d const *v1, real_vector3d const *v2) // 0x10EF9BF0
 {
-	mangled_x86(MANGLED_TODO, "?dot_product3d@@YAMPBUreal_vector3d@@0@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?dot_product3d@@YAMPBUreal_vector3d@@0@Z");
 	// real_vector3d const *v2;
-	todo("implement");
-	float __result = _sub_10EF9BF0(v1, v2);
-	return __result;
+
+	return v1->i * v2->i + v1->j * v2->j + v1->k * v2->k;
 }
 
-extern real_vector3d *_sub_10EF9940(real_vector3d const *, real_vector3d const *, real_vector3d *);
 real_vector3d *cross_product3d(real_vector3d const *v1, real_vector3d const *v2, real_vector3d *result) // 0x10EF9940
 {
-	mangled_x86(MANGLED_TODO, "?cross_product3d@@YAPAUreal_vector3d@@PBU1@0PAU1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?cross_product3d@@YAPAUreal_vector3d@@PBU1@0PAU1@@Z");
 	// real_vector3d *result;
-	todo("implement");
-	real_vector3d * __result = _sub_10EF9940(v1, v2, result);
-	return __result;
+
+	result->i = v1->j * v2->k - v1->k * v2->j;
+	result->j = v1->k * v2->i - v1->i * v2->k;
+	result->k = v1->i * v2->j - v1->j * v2->i;
+
+	return result;
 }
 
 extern real_vector3d *_sub_10EFA390(real_vector3d const *, real_vector3d *);
@@ -286,64 +272,74 @@ real_vector3d *perpendicular3d(real_vector3d const *v, real_vector3d *result) //
 	return __result;
 }
 
-extern real_vector3d *_sub_10EFB810(real_vector3d *, float, float, float);
 real_vector3d *set_real_vector3d(real_vector3d *result, float i, float j, float k) // 0x10EFB810
 {
-	mangled_x86(MANGLED_TODO, "?set_real_vector3d@@YAPAUreal_vector3d@@PAU1@MMM@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_real_vector3d@@YAPAUreal_vector3d@@PAU1@MMM@Z");
 	// float k;
-	todo("implement");
-	real_vector3d * __result = _sub_10EFB810(result, i, j, k);
-	return __result;
+
+	result->i = i;
+	result->j = j;
+	result->k = k;
+	return result;
 }
 
-extern real_vector3d *_sub_10EF9280(real_vector3d const *, real_vector3d const *, real_vector3d *);
 real_vector3d *add_vectors3d(real_vector3d const *v1, real_vector3d const *v2, real_vector3d *result) // 0x10EF9280
 {
-	mangled_x86(MANGLED_TODO, "?add_vectors3d@@YAPAUreal_vector3d@@PBU1@0PAU1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?add_vectors3d@@YAPAUreal_vector3d@@PBU1@0PAU1@@Z");
 	// real_vector3d *result;
-	todo("implement");
-	real_vector3d * __result = _sub_10EF9280(v1, v2, result);
-	return __result;
+
+	result->i = v1->i + v2->i;
+	result->j = v1->j + v2->j;
+	result->k = v1->k + v2->k;
+
+	return result;
 }
 
-extern real_vector3d *_sub_10EFBAC0(real_vector3d const *, real_vector3d const *, real_vector3d *);
 real_vector3d *subtract_vectors3d(real_vector3d const *v1, real_vector3d const *v2, real_vector3d *result) // 0x10EFBAC0
 {
-	mangled_x86(MANGLED_TODO, "?subtract_vectors3d@@YAPAUreal_vector3d@@PBU1@0PAU1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?subtract_vectors3d@@YAPAUreal_vector3d@@PBU1@0PAU1@@Z");
 	// real_vector3d *result;
-	todo("implement");
-	real_vector3d * __result = _sub_10EFBAC0(v1, v2, result);
-	return __result;
+
+	result->i = v1->i - v2->i;
+	result->j = v1->j - v2->j;
+	result->k = v1->k - v2->k;
+	return result;
 }
 
-extern real_vector3d *_sub_10EFB610(real_vector3d const *, float, real_vector3d *);
 real_vector3d *scale_vector3d(real_vector3d const *v1, float scale, real_vector3d *result) // 0x10EFB610
 {
-	mangled_x86(MANGLED_TODO, "?scale_vector3d@@YAPAUreal_vector3d@@PBU1@MPAU1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?scale_vector3d@@YAPAUreal_vector3d@@PBU1@MPAU1@@Z");
 	// real_vector3d *result;
-	todo("implement");
-	real_vector3d * __result = _sub_10EFB610(v1, scale, result);
-	return __result;
+
+	result->i = scale * v1->i;
+	result->j = scale * v1->j;
+	result->k = scale * v1->k;
+
+	return result;
 }
 
-extern real_vector3d *_sub_10EFA190(real_vector3d const *, real_vector3d *);
 real_vector3d *negate_vector3d(real_vector3d const *v, real_vector3d *result) // 0x10EFA190
 {
-	mangled_x86(MANGLED_TODO, "?negate_vector3d@@YAPAUreal_vector3d@@PBU1@PAU1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?negate_vector3d@@YAPAUreal_vector3d@@PBU1@PAU1@@Z");
 	// real_vector3d *result;
-	todo("implement");
-	real_vector3d * __result = _sub_10EFA190(v, result);
-	return __result;
+
+	result->i = -v->i;
+	result->j = -v->j;
+	result->k = -v->k;
+
+	return result;
 }
 
-extern real_vector3d *_sub_10EFBD50(real_point3d const *, real_point3d const *, real_vector3d *);
 real_vector3d *vector_from_points3d(real_point3d const *p1, real_point3d const *p2, real_vector3d *result) // 0x10EFBD50
 {
-	mangled_x86(MANGLED_TODO, "?vector_from_points3d@@YAPAUreal_vector3d@@PBUreal_point3d@@0PAU1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?vector_from_points3d@@YAPAUreal_vector3d@@PBUreal_point3d@@0PAU1@@Z");
 	// real_vector3d *result;
-	todo("implement");
-	real_vector3d * __result = _sub_10EFBD50(p1, p2, result);
-	return __result;
+
+	result->i = p2->x - p1->x;
+	result->j = p2->y - p1->y;
+	result->k = p2->z - p1->z;
+
+	return result;
 }
 
 extern real_vector3d *_sub_10EF9DE0(real_vector3d const *, real_vector3d *);
@@ -360,15 +356,17 @@ real_vector3d *generate_up_vector3d(real_vector3d const *forward, real_vector3d 
 	return __result;
 }
 
-extern real_vector3d *_sub_10EFBBC0(real_vector3d *, real_euler_angles2d const *);
 real_vector3d *vector3d_from_euler_angles2d(real_vector3d *result, real_euler_angles2d const *angles) // 0x10EFBBC0
 {
-	mangled_x86(MANGLED_TODO, "?vector3d_from_euler_angles2d@@YAPAUreal_vector3d@@PAU1@PBUreal_euler_angles2d@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?vector3d_from_euler_angles2d@@YAPAUreal_vector3d@@PAU1@PBUreal_euler_angles2d@@@Z");
 	// real_euler_angles2d const *angles;
 	// float cos_pitch;
-	todo("implement");
-	real_vector3d * __result = _sub_10EFBBC0(result, angles);
-	return __result;
+
+	float cos_pitch = cosine(angles->pitch);
+	result->i = cosine(angles->yaw) * cos_pitch;
+	result->j = sine(angles->yaw) * cos_pitch;
+	result->k = sine(angles->pitch);
+	return result;
 }
 
 extern real_euler_angles3d *_sub_10EF9C90(real_euler_angles3d *, real_vector3d const *, real_vector3d const *);
@@ -395,44 +393,46 @@ real_vector3d *vector_from_yaw_and_pitch(float yaw, float pitch, real_vector3d *
 	return __result;
 }
 
-extern real_point3d *_sub_10EFA7D0(real_point3d const *, real_vector3d const *, float, real_point3d *);
 real_point3d *point_from_line3d(real_point3d const *origin, real_vector3d const *vector, float t, real_point3d *result) // 0x10EFA7D0
 {
-	mangled_x86(MANGLED_TODO, "?point_from_line3d@@YAPAUreal_point3d@@PBU1@PBUreal_vector3d@@MPAU1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?point_from_line3d@@YAPAUreal_point3d@@PBU1@PBUreal_vector3d@@MPAU1@@Z");
 	// real_point3d *result;
-	todo("implement");
-	real_point3d * __result = _sub_10EFA7D0(origin, vector, t, result);
-	return __result;
+
+	result->x = vector->i * t + origin->x;
+	result->y = vector->j * t + origin->y;
+	result->z = vector->k * t + origin->z;
+
+	return result;
 }
 
-extern real_point3d *_sub_10EFB720(real_point3d *, float, float, float);
 real_point3d *set_real_point3d(real_point3d *point, float x, float y, float z) // 0x10EFB720
 {
-	mangled_x86(MANGLED_TODO, "?set_real_point3d@@YAPAUreal_point3d@@PAU1@MMM@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_real_point3d@@YAPAUreal_point3d@@PAU1@MMM@Z");
 	// float z;
-	todo("implement");
-	real_point3d * __result = _sub_10EFB720(point, x, y, z);
-	return __result;
+
+	point->x = x;
+	point->y = y;
+	point->z = z;
+	return point;
 }
 
-extern real_vector3d *_sub_10EFC050(real_vector3d const *, real_vector3d const *, float, real_vector3d *);
 real_vector3d *vectors_interpolate(real_vector3d const *v1, real_vector3d const *v2, float t, real_vector3d *result) // 0x10EFC050
 {
-	mangled_x86(MANGLED_TODO, "?vectors_interpolate@@YAPAUreal_vector3d@@PBU1@0MPAU1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?vectors_interpolate@@YAPAUreal_vector3d@@PBU1@0MPAU1@@Z");
 	// real_vector3d *result;
-	todo("implement");
-	real_vector3d * __result = _sub_10EFC050(v1, v2, t, result);
-	return __result;
+
+	result->i = (1.0f - t) * v1->i + t * v2->i;
+	result->j = (1.0f - t) * v1->j + t * v2->j;
+	result->k = (1.0f - t) * v1->k + t * v2->k;
+	return result;
 }
 
-_extern float _sub_10EF9320(real_vector3d const *, real_vector3d const *);
 float angle_between_normalized_vectors3d(real_vector3d const *v1, real_vector3d const *v2) // 0x10EF9320
 {
-	mangled_x86(MANGLED_TODO, "?angle_between_normalized_vectors3d@@YAMPBUreal_vector3d@@0@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?angle_between_normalized_vectors3d@@YAMPBUreal_vector3d@@0@Z");
 	// real_vector3d const *v2;
-	todo("implement");
-	float __result = _sub_10EF9320(v1, v2);
-	return __result;
+
+	return arccosine(real_pin(dot_product3d(v1, v2), -1.0f, 1.0f));
 }
 
 _extern float _sub_10EF9570(real_vector3d const *, real_vector3d const *);
@@ -462,34 +462,33 @@ real_vector3d *rotate_vector_about_axis(real_vector3d *vector, real_vector3d con
 	return __result;
 }
 
-extern real_plane3d *_sub_10EFA640(real_plane3d *, real_point3d const *, real_vector3d const *);
 real_plane3d *plane3d_from_point_and_normal(real_plane3d *plane, real_point3d const *point, real_vector3d const *normal) // 0x10EFA640
 {
-	mangled_x86(MANGLED_TODO, "?plane3d_from_point_and_normal@@YAPAUreal_plane3d@@PAU1@PBUreal_point3d@@PBUreal_vector3d@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?plane3d_from_point_and_normal@@YAPAUreal_plane3d@@PAU1@PBUreal_point3d@@PBUreal_vector3d@@@Z");
 	// real_vector3d const *normal;
-	todo("implement");
-	real_plane3d * __result = _sub_10EFA640(plane, point, normal);
-	return __result;
+
+	plane->normal = *normal;
+	plane->d = dot_product3d((real_vector3d const *)point, normal);
+
+	return plane;
 }
 
-extern real_plane3d *_sub_10EFA6C0(real_plane3d const *, real_plane3d *);
 real_plane3d *plane3d_negate(real_plane3d const *plane, real_plane3d *result) // 0x10EFA6C0
 {
-	mangled_x86(MANGLED_TODO, "?plane3d_negate@@YAPAUreal_plane3d@@PBU1@PAU1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?plane3d_negate@@YAPAUreal_plane3d@@PBU1@PAU1@@Z");
 	// real_plane3d *result;
-	todo("implement");
-	real_plane3d * __result = _sub_10EFA6C0(plane, result);
-	return __result;
+
+	negate_vector3d(&plane->normal, &result->normal);
+	result->d = -plane->d;
+	return result;
 }
 
-_extern float _sub_10EFA590(real_plane3d const *, real_point3d const *);
 float plane3d_distance_to_point(real_plane3d const *plane, real_point3d const *point) // 0x10EFA590
 {
-	mangled_x86(MANGLED_TODO, "?plane3d_distance_to_point@@YAMPBUreal_plane3d@@PBUreal_point3d@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?plane3d_distance_to_point@@YAMPBUreal_plane3d@@PBUreal_point3d@@@Z");
 	// real_point3d const *point;
-	todo("implement");
-	float __result = _sub_10EFA590(plane, point);
-	return __result;
+
+	return point->x * plane->normal.i + point->y * plane->normal.j + point->z * plane->normal.k - plane->d;
 }
 
 _extern void _sub_10EFBF40(real_vector3d *, real_vector3d *, real_euler_angles3d const *);
@@ -507,74 +506,77 @@ void vectors3d_from_euler_angles3d(real_vector3d *forward, real_vector3d *up, re
 	_sub_10EFBF40(forward, up, angles);
 }
 
-extern real_vector2d *_sub_10EFB590(real_vector2d const *, float, real_vector2d *);
 real_vector2d *scale_vector2d(real_vector2d const *v, float scale, real_vector2d *result) // 0x10EFB590
 {
-	mangled_x86(MANGLED_TODO, "?scale_vector2d@@YAPAUreal_vector2d@@PBU1@MPAU1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?scale_vector2d@@YAPAUreal_vector2d@@PBU1@MPAU1@@Z");
 	// real_vector2d *result;
-	todo("implement");
-	real_vector2d * __result = _sub_10EFB590(v, scale, result);
-	return __result;
+
+	result->i = scale * v->i;
+	result->j = scale * v->j;
+
+	return result;
 }
 
-extern real_vector2d *_sub_10EFA110(real_vector2d const *, real_vector2d *);
 real_vector2d *negate_vector2d(real_vector2d const *v, real_vector2d *result) // 0x10EFA110
 {
-	mangled_x86(MANGLED_TODO, "?negate_vector2d@@YAPAUreal_vector2d@@PBU1@PAU1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?negate_vector2d@@YAPAUreal_vector2d@@PBU1@PAU1@@Z");
 	// real_vector2d *result;
-	todo("implement");
-	real_vector2d * __result = _sub_10EFA110(v, result);
-	return __result;
+
+	result->i = -v->i;
+	result->j = -v->j;
+
+	return result;
 }
 
-extern real_vector2d *_sub_10EF9200(real_vector2d const *, real_vector2d const *, real_vector2d *);
 real_vector2d *add_vectors2d(real_vector2d const *v1, real_vector2d const *v2, real_vector2d *result) // 0x10EF9200
 {
-	mangled_x86(MANGLED_TODO, "?add_vectors2d@@YAPAUreal_vector2d@@PBU1@0PAU1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?add_vectors2d@@YAPAUreal_vector2d@@PBU1@0PAU1@@Z");
 	// real_vector2d *result;
-	todo("implement");
-	real_vector2d * __result = _sub_10EF9200(v1, v2, result);
-	return __result;
+
+	result->i = v1->i + v2->i;
+	result->j = v1->j + v2->j;
+	return result;
 }
 
-extern real_vector2d *_sub_10EFB7A0(real_vector2d *, float, float);
 real_vector2d *set_real_vector2d(real_vector2d *result, float i, float j) // 0x10EFB7A0
 {
-	mangled_x86(MANGLED_TODO, "?set_real_vector2d@@YAPAUreal_vector2d@@PAU1@MM@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_real_vector2d@@YAPAUreal_vector2d@@PAU1@MM@Z");
 	// float j;
-	todo("implement");
-	real_vector2d * __result = _sub_10EFB7A0(result, i, j);
-	return __result;
+
+	result->i = i;
+	result->j = j;
+
+	return result;
 }
 
-extern real_vector2d *_sub_10EFBA40(real_vector2d const *, real_vector2d const *, real_vector2d *);
 real_vector2d *subract_vectors2d(real_vector2d const *v1, real_vector2d const *v2, real_vector2d *result) // 0x10EFBA40
 {
-	mangled_x86(MANGLED_TODO, "?subract_vectors2d@@YAPAUreal_vector2d@@PBU1@0PAU1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?subract_vectors2d@@YAPAUreal_vector2d@@PBU1@0PAU1@@Z");
 	// real_vector2d *result;
-	todo("implement");
-	real_vector2d * __result = _sub_10EFBA40(v1, v2, result);
-	return __result;
+
+	result->i = v1->i - v2->i;
+	result->j = v1->j - v2->j;
+	return result;
 }
 
-extern real_vector2d *_sub_10EFB310(real_vector2d const *, float, float, real_vector2d *);
 real_vector2d *rotate_vector2d(real_vector2d const *v, float sin_y, float cos_x, real_vector2d *result) // 0x10EFB310
 {
-	mangled_x86(MANGLED_TODO, "?rotate_vector2d@@YAPAUreal_vector2d@@PBU1@MMPAU1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?rotate_vector2d@@YAPAUreal_vector2d@@PBU1@MMPAU1@@Z");
 	// real_vector2d *result;
-	todo("implement");
-	real_vector2d * __result = _sub_10EFB310(v, sin_y, cos_x, result);
-	return __result;
+
+	result->i = cos_x * v->i - sin_y * v->j;
+	result->j = sin_y * v->i + cos_x * v->j;
+	return result;
 }
 
-extern real_vector2d *_sub_10EFBCD0(real_point2d const *, real_point2d const *, real_vector2d *);
 real_vector2d *vector_from_points2d(real_point2d const *p1, real_point2d const *p2, real_vector2d *result) // 0x10EFBCD0
 {
-	mangled_x86(MANGLED_TODO, "?vector_from_points2d@@YAPAUreal_vector2d@@PBUreal_point2d@@0PAU1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?vector_from_points2d@@YAPAUreal_vector2d@@PBUreal_point2d@@0PAU1@@Z");
 	// real_vector2d *result;
-	todo("implement");
-	real_vector2d * __result = _sub_10EFBCD0(p1, p2, result);
-	return __result;
+
+	result->i = p2->x - p1->x;
+	result->j = p2->y - p1->y;
+	return result;
 }
 
 _extern float _sub_10EF93C0(real_vector2d const *, real_vector2d const *);
@@ -604,44 +606,42 @@ float signed_angle_between_vectors2d(real_vector2d const *v1, real_vector2d cons
 	return __result;
 }
 
-extern real_point2d *_sub_10EFA740(real_point2d const *, real_vector2d const *, float, real_point2d *);
 real_point2d *point_from_line2d(real_point2d const *origin, real_vector2d const *vector, float t, real_point2d *result) // 0x10EFA740
 {
-	mangled_x86(MANGLED_TODO, "?point_from_line2d@@YAPAUreal_point2d@@PBU1@PBUreal_vector2d@@MPAU1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?point_from_line2d@@YAPAUreal_point2d@@PBU1@PBUreal_vector2d@@MPAU1@@Z");
 	// real_point2d *result;
-	todo("implement");
-	real_point2d * __result = _sub_10EFA740(origin, vector, t, result);
-	return __result;
+
+	result->x = vector->i * t + origin->x;
+	result->y = vector->j * t + origin->y;
+
+	return result;
 }
 
-extern real_point2d *_sub_10EFB6B0(real_point2d *, float, float);
 real_point2d *set_real_point2d(real_point2d *point, float x, float y) // 0x10EFB6B0
 {
-	mangled_x86(MANGLED_TODO, "?set_real_point2d@@YAPAUreal_point2d@@PAU1@MM@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_real_point2d@@YAPAUreal_point2d@@PAU1@MM@Z");
 	// float y;
-	todo("implement");
-	real_point2d * __result = _sub_10EFB6B0(point, x, y);
-	return __result;
+
+	point->x = x;
+	point->y = y;
+
+	return point;
 }
 
-_extern float _sub_10EF9F80(real_vector2d const *);
 float magnitude2d_squared(real_vector2d const *v) // 0x10EF9F80
 {
-	mangled_x86(MANGLED_TODO, "?magnitude2d_squared@@YAMPBUreal_vector2d@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?magnitude2d_squared@@YAMPBUreal_vector2d@@@Z");
 	// real_vector2d const *v;
-	todo("implement");
-	float __result = _sub_10EF9F80(v);
-	return __result;
+
+	return v->i * v->i + v->j * v->j;
 }
 
-_extern float _sub_10EF9F20(real_vector2d const *);
 float magnitude2d(real_vector2d const *v) // 0x10EF9F20
 {
-	mangled_x86(MANGLED_TODO, "?magnitude2d@@YAMPBUreal_vector2d@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?magnitude2d@@YAMPBUreal_vector2d@@@Z");
 	// real_vector2d const *v;
-	todo("implement");
-	float __result = _sub_10EF9F20(v);
-	return __result;
+
+	return square_root(magnitude2d_squared(v));
 }
 
 _extern float _sub_10EFA230(real_vector2d *);
@@ -655,24 +655,20 @@ float normalize2d(real_vector2d *v) // 0x10EFA230
 	return __result;
 }
 
-_extern float _sub_10EF9B60(real_vector2d const *, real_vector2d const *);
 float dot_product2d(real_vector2d const *v1, real_vector2d const *v2) // 0x10EF9B60
 {
-	mangled_x86(MANGLED_TODO, "?dot_product2d@@YAMPBUreal_vector2d@@0@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?dot_product2d@@YAMPBUreal_vector2d@@0@Z");
 	// real_vector2d const *v2;
-	todo("implement");
-	float __result = _sub_10EF9B60(v1, v2);
-	return __result;
+
+	return v1->i * v2->i + v1->j * v2->j;
 }
 
-_extern float _sub_10EF98B0(real_vector2d const *, real_vector2d const *);
 float cross_product2d(real_vector2d const *v1, real_vector2d const *v2) // 0x10EF98B0
 {
-	mangled_x86(MANGLED_TODO, "?cross_product2d@@YAMPBUreal_vector2d@@0@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?cross_product2d@@YAMPBUreal_vector2d@@0@Z");
 	// real_vector2d const *v2;
-	todo("implement");
-	float __result = _sub_10EF98B0(v1, v2);
-	return __result;
+
+	return v1->i * v2->j - v1->j * v2->i;
 }
 
 _extern long _sub_10EFB080(real_rectangle3d const &, long, real_point3d (&)[8]);

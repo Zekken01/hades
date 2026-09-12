@@ -214,13 +214,14 @@ _inline c_mod_package_updater_blocking::s_mod_package_description::s_mod_package
 // mangled_x86(MANGLED_DEFAULT, "??1s_mod_package_description@c_mod_package_updater_blocking@@QAE@XZ"); no body to assert in
 _inline c_mod_package_updater_blocking::s_mod_package_description::~s_mod_package_description() = default; // 0x108ADFE0
 
-_extern void _sub_108B1070(c_mod_package_updater_blocking *const, bool, char const *, char const *);
 void c_mod_package_updater_blocking::initialize(bool dedicated, char const *package_list_filename, char const *package_directory) // 0x108B1070
 {
-	mangled_x86(MANGLED_TODO, "?initialize@c_mod_package_updater_blocking@@QAEX_NPBD1@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?initialize@c_mod_package_updater_blocking@@QAEX_NPBD1@Z");
 	// char const *package_directory;
-	todo("implement");
-	_sub_108B1070(this, dedicated, package_list_filename, package_directory);
+
+	m_dedicated = dedicated;
+	m_package_list_filename.set(package_list_filename);
+	m_package_directory.set(package_directory);
 }
 
 _extern bool _sub_108B1190(c_mod_package_updater_blocking *const);
@@ -398,15 +399,19 @@ bool c_mod_package_updater_blocking::process_queue() // 0x108B1BF0
 	return __result;
 }
 
-_extern bool _sub_108B2EF0(c_mod_package_updater_blocking *const);
 bool c_mod_package_updater_blocking::update_packages_blocking() // 0x108B2EF0
 {
-	mangled_x86(MANGLED_TODO, "?update_packages_blocking@c_mod_package_updater_blocking@@QAE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?update_packages_blocking@c_mod_package_updater_blocking@@QAE_NXZ");
 	// c_mod_package_updater_blocking *const this;
 	// bool result;
-	todo("implement");
-	bool __result = _sub_108B2EF0(this);
-	return __result;
+
+	shell_allocate_console();
+	printf("updating mods...\n");
+	bool result = locate_packages();
+	result &= process_queue();
+	printf("starting game...\n");
+	shell_free_console(m_dedicated);
+	return result;
 }
 
 /* ---------- private code */

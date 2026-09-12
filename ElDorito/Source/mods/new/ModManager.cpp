@@ -186,50 +186,44 @@ IMod *ModManager::GetMod(EModIndex index) const // 0x10791CF0
 	return __result;
 }
 
-_extern void _sub_10791C50(ModManager *const, IModListener *);
 void ModManager::AddListener(IModListener *listener) // 0x10791C50
 {
-	mangled_x86(MANGLED_TODO, "?AddListener@ModManager@@UAEXPAVIModListener@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?AddListener@ModManager@@UAEXPAVIModListener@@@Z");
 	// IModListener *listener;
-	todo("implement");
-	_sub_10791C50(this, listener);
+
+	m_listeners.Add(listener);
 }
 
-_extern void _sub_10792040(ModManager *const, IModListener *);
 void ModManager::RemoveListener(IModListener *listener) // 0x10792040
 {
-	mangled_x86(MANGLED_TODO, "?RemoveListener@ModManager@@UAEXPAVIModListener@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?RemoveListener@ModManager@@UAEXPAVIModListener@@@Z");
 	// IModListener *listener;
-	todo("implement");
-	_sub_10792040(this, listener);
+
+	m_listeners.Remove(listener);
 }
 
-_extern void _sub_107920B0(ModManager *const);
 void ModManager::SetMainThread() // 0x107920B0
 {
-	mangled_x86(MANGLED_TODO, "?SetMainThread@ModManager@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SetMainThread@ModManager@@QAEXXZ");
 	// ModManager *const this;
-	todo("implement");
-	_sub_107920B0(this);
+
+	m_mainThreadId = std::this_thread::get_id();
 }
 
-_extern bool _sub_10791E10(ModManager const *const);
 bool ModManager::IsMainThread() const // 0x10791E10
 {
-	mangled_x86(MANGLED_TODO, "?IsMainThread@ModManager@@QBE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?IsMainThread@ModManager@@QBE_NXZ");
 	// ModManager const *const this;
-	todo("implement");
-	bool __result = _sub_10791E10((ModManager const *)this);
-	return __result;
+
+	return std::this_thread::get_id() == m_mainThreadId;
 }
 
-_extern void _sub_107926C0(ModManager *const);
 void ModManager::Tick() // 0x107926C0
 {
-	mangled_x86(MANGLED_TODO, "?Tick@ModManager@@UAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@ModManager@@UAEXXZ");
 	// ModManager *const this;
-	todo("implement");
-	_sub_107926C0(this);
+
+	m_sessionManager.Tick();
 }
 
 _extern void _sub_10791EA0(Mod::IClient * const, Mod *);

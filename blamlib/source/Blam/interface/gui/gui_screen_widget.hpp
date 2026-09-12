@@ -108,7 +108,6 @@ public:
 	long field_EC; // 0xEC
 	c_gui_widget *focused_widget; // 0xF0
 	bool screen_disabled; // 0xF4
-	unsigned char __pad0[3]; // 0xF5
 	long field_F8; // 0xF8
 	long field_FC; // 0xFC
 	long field_100; // 0x100
@@ -117,7 +116,6 @@ public:
 	long field_10C; // 0x10C
 	bool m_reload_next_frame; // 0x110
 	bool unknown_flag; // 0x111
-	unsigned char __pad1[2]; // 0x112
 	unsigned long screen_name; // 0x114
 	unsigned long initial_focus_list_widget_name; // 0x118
 	long initial_focus_unknown; // 0x11C
@@ -137,6 +135,8 @@ public:
 	void __autoclassinit2(unsigned __int32); /* compiler_generated() */
 };
 static_assert(sizeof(c_gui_screen_widget) == 6816, "Invalid c_gui_screen_widget size");
+static_assert(offsetof(c_gui_screen_widget, field_F8) == 0xF8, "c_gui_screen_widget::field_F8 moved when its reconstructed padding was removed");
+static_assert(offsetof(c_gui_screen_widget, screen_name) == 0x114, "c_gui_screen_widget::screen_name moved when its reconstructed padding was removed");
 
 /* ---------- prototypes */
 

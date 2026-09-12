@@ -276,6 +276,8 @@ using namespace hades_file_local;
 
 /* ---------- prototypes */
 
+struct s_object_data *object_get(unsigned long objectIndex);  // hades: added for 0X10AB1CD0
+
 namespace Patches
 {
 	namespace PlayerScale
@@ -308,11 +310,11 @@ void MeleeRangeHook(unsigned __int32 unitObjectIndex, unsigned __int32 name, __i
 void ScaleCollisionDamage(unsigned __int32 objectIndex, unsigned char *damageData);
 void CollisionDamageHook();
 void BipedMovementPhysics(s_biped_physics_data1 *data, __int32 a2, char a3, char a4, char a5, char a6, __int32 a7, float sneak);
-bool WalkAnimationHook(void *thisptr, void *unused, unsigned __int32 unitObjectIndex, real_vector3d *a3, bool a4);
+bool __fastcall WalkAnimationHook(void *thisptr, void *unused, unsigned __int32 unitObjectIndex, real_vector3d *a3, bool a4);
 void JumpVelocityScaleHook(unsigned __int32 bipedObjectIndex);
-float PlayerPersonalGravity(void *traits, unsigned __int32 unitObjectIndex);
+float __fastcall PlayerPersonalGravity(void *traits, unsigned __int32 unitObjectIndex);
 void PlayerPersonalGravityHook();
-void *BipedCreateRigidBodyHook(void *thisptr, void *unused, s_biped_physics *bipedPhysics, __int32 a4, __int32 a5, unsigned __int32 collisionFilter_, __int32 shapeIndex, bool hasFriction, char a9);
+void *__fastcall BipedCreateRigidBodyHook(void *thisptr, void *unused, s_biped_physics *bipedPhysics, __int32 a4, __int32 a5, unsigned __int32 collisionFilter_, __int32 shapeIndex, bool hasFriction, char a9);
 bool PlayerCollisionDamageHook(unsigned __int32 bipedObjectIndex, unsigned __int32 otherBipedObjectIndex);
 void LandingDamageResponseHook(unsigned __int32 unitObjectIndex, unsigned __int32 a2, unsigned __int32 damageEffectTagIndex, real_vector3d *a4, real_vector3d *a5, float a6, float responseScale, __int32 a8);
 void DamageResponsePlayerEffectsHook(unsigned __int32 uintObjectIndex, __int32 localPlayerIndex, unsigned __int32 damageResponseTagIndex, __int32 a4, real_vector3d *a5, float a6, float scale, bool a8);
@@ -328,7 +330,6 @@ void BipedPhysicsHook1(__int32 objectIndex);
 namespace hades_file_local
 {
 	extern float const kPlayerScales[17]; // 0x111B1140
-	extern float const kMaxPlayerScale; // 0x12466758
 	extern float kSpeedExp; // 0x113548A4
 	extern float kMeleeRangeExp; // 0x113548A8
 	extern float kMassExp; // 0x113548AC
@@ -336,6 +337,8 @@ namespace hades_file_local
 	extern float kJumpVelocityExp; // 0x113548B4
 	extern float kAirborneAccelerationScale; // 0x113548B8
 	extern float kGroundAccelerationScale; // 0x113548BC
+	extern float const kMaxPlayerScale; // 0x12466758
+	extern s_state state; // 0x12466760
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -353,44 +356,62 @@ namespace Patches
 			_sub_10AAE0C0();
 		}
 
-		_extern void _sub_10AB2060();
 		void Tick() // 0x10AB2060
 		{
-			mangled_x86(MANGLED_TODO, "?Tick@PlayerScale@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@PlayerScale@Patches@@YAXXZ");
 			// procedure flags: nofpo
 			// bool (*const game_options_is_valid)();
-			{
 				// __int32 i;
-				{
 					// PlayerState &playerState;
+			// function call : bool (*const)()
+
+			const auto game_options_is_valid = (bool(*)())(0x00532650);
+			if (!game_options_is_valid())
+			{
+				state.IsValid = false;
+			}
+			else
+			{
+				if (!state.IsValid)
+				{
+					memset(&state, 0, sizeof(state));
+					for (auto i = 0; i < 16; i++)
+					{
+						auto &playerState = state.Players[i];
+						playerState.UnitObjectIndex = -1;
+						playerState.IsValid = false;
+					}
+					state.IsValid = true;
 				}
 			}
-			// function call : bool (*const)()
-			todo("implement");
-			_sub_10AB2060();
 		}
 
-		_extern void _sub_10AB2150(__int32);
 		void UpdatePlayerScale(__int32 playerIndex) // 0x10AB2150
 		{
-			mangled_x86(MANGLED_TODO, "?UpdatePlayerScale@PlayerScale@Patches@@YAXH@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?UpdatePlayerScale@PlayerScale@Patches@@YAXH@Z");
 			// __int32 playerIndex;
-			todo("implement");
-			_sub_10AB2150(playerIndex);
+
+			UpdatePlayerSize(playerIndex);
 		}
 	}
 }
 
 /* ---------- private code */
 
-_extern float _sub_10AB1E60(float, float, float, float);
 float SmoothStep(float from, float to, float t, float max) // 0x10AB1E60
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SmoothStep@@YAMMMMM@Z");
 	// `anonymous-namespace'::SmoothStep
 	// float max;
-	todo("implement");
-	float __result = _sub_10AB1E60(from, to, t, max);
-	return __result;
+
+	if (t > 1.0f)
+		t = 1.0f;
+	if (t < 0.0f)
+		t = 0.0f;
+	t = -2.0f * t * t * t + 3.0f * t * t;
+	if (t > max)
+		t = max;
+	return to * t + (1.0f - t) * from;
 }
 
 _extern void _sub_10AB10D0(unsigned __int32);
@@ -453,15 +474,17 @@ void UpdatePlayerSize(unsigned __int32 playerIndex) // 0x10AB21A0
 	_sub_10AB21A0(playerIndex);
 }
 
-_extern bool _sub_10AB2780(long);
 bool biped_can_ragdoll(long biped_index) // 0x10AB2780
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?biped_can_ragdoll@@YA_NJ@Z");
 	// `anonymous-namespace'::biped_can_ragdoll
 	// long biped_index;
 	// s_object_data *biped;
-	todo("implement");
-	bool __result = _sub_10AB2780(biped_index);
-	return __result;
+
+	s_object_data *biped = object_get(biped_index);
+	if (!biped)
+		return false;
+	return biped->scale >= 1.0f && biped->scale < 3.0f;
 }
 
 _extern bool _sub_10AB2B60(long, bool);
@@ -776,14 +799,19 @@ void MeleeRangeHook(unsigned __int32 unitObjectIndex, unsigned __int32 name, __i
 	_sub_10AB0DB0(unitObjectIndex, name, a3, damageData);
 }
 
-_extern void _sub_10AB1CD0(unsigned __int32, unsigned char *);
 void ScaleCollisionDamage(unsigned __int32 objectIndex, unsigned char *damageData) // 0x10AB1CD0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ScaleCollisionDamage@@YAXIPAE@Z");
 	// `anonymous-namespace'::ScaleCollisionDamage
 	// unsigned char *damageData;
 	// s_object_data *bipedObject;
-	todo("implement");
-	_sub_10AB1CD0(objectIndex, damageData);
+
+	s_object_data *bipedObject = object_get(objectIndex);
+	if (bipedObject)
+	{
+		*(float *)damageData = *(float *)damageData * bipedObject->scale;
+		*(float *)(damageData + 4) = *(float *)(damageData + 4) * bipedObject->scale;
+	}
 }
 
 __declspec(naked) void CollisionDamageHook() // 0x10AB0710
@@ -825,7 +853,7 @@ void BipedMovementPhysics(s_biped_physics_data1 *data, __int32 a2, char a3, char
 }
 
 _extern bool _sub_10AB2680(void *, void *, unsigned __int32, real_vector3d *, bool);
-bool WalkAnimationHook(void *thisptr, void *unused, unsigned __int32 unitObjectIndex, real_vector3d *a3, bool a4) // 0x10AB2680
+bool __fastcall WalkAnimationHook(void *thisptr, void *unused, unsigned __int32 unitObjectIndex, real_vector3d *a3, bool a4) // 0x10AB2680
 {
 	// `anonymous-namespace'::WalkAnimationHook
 	// bool a4;
@@ -856,7 +884,7 @@ void JumpVelocityScaleHook(unsigned __int32 bipedObjectIndex) // 0x10AB0BB0
 }
 
 _extern float _sub_10AB1510(void *, unsigned __int32);
-float PlayerPersonalGravity(void *traits, unsigned __int32 unitObjectIndex) // 0x10AB1510
+float __fastcall PlayerPersonalGravity(void *traits, unsigned __int32 unitObjectIndex) // 0x10AB1510
 {
 	// `anonymous-namespace'::PlayerPersonalGravity
 	// unsigned __int32 unitObjectIndex;
@@ -884,7 +912,7 @@ __declspec(naked) void PlayerPersonalGravityHook() // 0x10AB1600
 }
 
 _extern void *_sub_10AAFD10(void *, void *, s_biped_physics *, __int32, __int32, unsigned __int32, __int32, bool, char);
-void *BipedCreateRigidBodyHook(void *thisptr, void *unused, s_biped_physics *bipedPhysics, __int32 a4, __int32 a5, unsigned __int32 collisionFilter_, __int32 shapeIndex, bool hasFriction, char a9) // 0x10AAFD10
+void *__fastcall BipedCreateRigidBodyHook(void *thisptr, void *unused, s_biped_physics *bipedPhysics, __int32 a4, __int32 a5, unsigned __int32 collisionFilter_, __int32 shapeIndex, bool hasFriction, char a9) // 0x10AAFD10
 {
 	// `anonymous-namespace'::BipedCreateRigidBodyHook
 	// char a9;
@@ -923,15 +951,19 @@ bool PlayerCollisionDamageHook(unsigned __int32 bipedObjectIndex, unsigned __int
 	return __result;
 }
 
-_extern void _sub_10AB0D00(unsigned __int32, unsigned __int32, unsigned __int32, real_vector3d *, real_vector3d *, float, float, __int32);
 void LandingDamageResponseHook(unsigned __int32 unitObjectIndex, unsigned __int32 a2, unsigned __int32 damageEffectTagIndex, real_vector3d *a4, real_vector3d *a5, float a6, float responseScale, __int32 a8) // 0x10AB0D00
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?LandingDamageResponseHook@@YAXIIIPAUreal_vector3d@@0MMH@Z");
 	// `anonymous-namespace'::LandingDamageResponseHook
 	// __int32 a8;
 	// void (*const LandingDamageResponse)(unsigned __int32, unsigned __int32, unsigned __int32, real_vector3d *, real_vector3d *, float, float, __int32);
 	// function call : void (*const)(unsigned __int32, unsigned __int32, unsigned __int32, real_vector3d *, real_vector3d *, float, float, __int32)
-	todo("implement");
-	_sub_10AB0D00(unitObjectIndex, a2, damageEffectTagIndex, a4, a5, a6, responseScale, a8);
+
+	void (__cdecl *const LandingDamageResponse)(unsigned __int32, unsigned __int32, unsigned __int32, real_vector3d *, real_vector3d *, float, float, __int32) = (void(__cdecl *const)(unsigned __int32, unsigned __int32, unsigned __int32, real_vector3d *, real_vector3d *, float, float, __int32))0x684df0;
+
+	state.IsLandingDamage = true;
+	LandingDamageResponse(unitObjectIndex, a2, damageEffectTagIndex, a4, a5, a6, responseScale, a8);
+	state.IsLandingDamage = false;
 }
 
 _extern void _sub_10AB0730(unsigned __int32, __int32, unsigned __int32, __int32, real_vector3d *, float, float, bool);

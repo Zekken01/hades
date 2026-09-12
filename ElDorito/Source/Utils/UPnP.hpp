@@ -47,13 +47,13 @@ namespace Utils
 
 namespace Utils
 {
-	extern UPnPResult* _sub_10A232C0(Utils::UPnPResult *const, Utils::UPnPErrorType, __int32);
 	_inline UPnPResult::UPnPResult(Utils::UPnPErrorType type, __int32 code) // 0x10A232C0
 	{
-		mangled_x86(MANGLED_TODO, "??0UPnPResult@Utils@@QAE@W4UPnPErrorType@1@H@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0UPnPResult@Utils@@QAE@W4UPnPErrorType@1@H@Z");
 		// __int32 code;
-		todo("implement");
-		_sub_10A232C0(this, type, code);
+
+		ErrorType = type;
+		ErrorCode = code;
 	}
 }
 

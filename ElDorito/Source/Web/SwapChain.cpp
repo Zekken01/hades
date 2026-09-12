@@ -107,13 +107,12 @@ namespace Web
 			_sub_10C77740(this, device, bufferCount);
 		}
 
-		_extern void _sub_10C77AF0(Web::Browser::SwapChain *const);
 		SwapChain::~SwapChain() // 0x10C77AF0
 		{
-			mangled_x86(MANGLED_TODO, "??1SwapChain@Browser@Web@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??1SwapChain@Browser@Web@@QAE@XZ");
 			// Web::Browser::SwapChain *const this;
-			todo("implement");
-			_sub_10C77AF0(this);
+
+			DeleteBuffers();
 		}
 
 		extern SwapChain::Buffer *_sub_10C78200(Web::Browser::SwapChain *const);
@@ -148,17 +147,18 @@ namespace Web
 			return __result;
 		}
 
-		_extern void _sub_10C788C0(Web::Browser::SwapChain *const, Web::Browser::SwapChain::Buffer *);
 		void SwapChain::ReturnBuffer(Web::Browser::SwapChain::Buffer *buffer) // 0x10C788C0
 		{
-			mangled_x86(MANGLED_TODO, "?ReturnBuffer@SwapChain@Browser@Web@@QAEXPAUBuffer@123@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ReturnBuffer@SwapChain@Browser@Web@@QAEXPAUBuffer@123@@Z");
 			// static ...; // 0x10C7896C
 			// static ...; // 0x10C78964
 			// Web::Browser::SwapChain *const this;
 			// Web::Browser::SwapChain::Buffer *buffer;
 			// std::scoped_lock<std::mutex> lock;
-			todo("implement");
-			_sub_10C788C0(this, buffer);
+
+			std::scoped_lock<std::mutex> lock(m_mutex);
+
+			ReturnBufferLocked(buffer);
 		}
 
 		_extern void _sub_10C783A0(Web::Browser::SwapChain *const, Web::Browser::SwapChain::Buffer *);
@@ -174,14 +174,12 @@ namespace Web
 			_sub_10C783A0(this, buffer);
 		}
 
-		_extern bool _sub_10C78000(Web::Browser::SwapChain const *const, Web::Browser::SwapChain::Buffer const *);
 		bool SwapChain::BufferIsValid(Web::Browser::SwapChain::Buffer const *buffer) const // 0x10C78000
 		{
-			mangled_x86(MANGLED_TODO, "?BufferIsValid@SwapChain@Browser@Web@@QBE_NPBUBuffer@123@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?BufferIsValid@SwapChain@Browser@Web@@QBE_NPBUBuffer@123@@Z");
 			// Web::Browser::SwapChain::Buffer const *buffer;
-			todo("implement");
-			bool __result = _sub_10C78000((Web::Browser::SwapChain const *)this, buffer);
-			return __result;
+
+			return !m_released && buffer->version == m_bufferVersion;
 		}
 
 		_extern void _sub_10C78610(Web::Browser::SwapChain *const, __int32, __int32);
@@ -206,13 +204,21 @@ namespace Web
 			_sub_10C78610(this, width, height);
 		}
 
-		_extern void _sub_10C789B0(Web::Browser::SwapChain *const, Web::Browser::SwapChain::Buffer *);
 		void SwapChain::ReturnBufferLocked(Web::Browser::SwapChain::Buffer *buffer) // 0x10C789B0
 		{
-			mangled_x86(MANGLED_TODO, "?ReturnBufferLocked@SwapChain@Browser@Web@@AAEXPAUBuffer@123@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ReturnBufferLocked@SwapChain@Browser@Web@@AAEXPAUBuffer@123@@Z");
 			// Web::Browser::SwapChain::Buffer *buffer;
-			todo("implement");
-			_sub_10C789B0(this, buffer);
+
+			if (buffer->version != m_bufferVersion)
+			{
+				delete buffer;
+			}
+			else
+			{
+				m_pool.push(buffer);
+			}
+
+			m_emptyCond.notify_one();
 		}
 
 		_extern void _sub_10C78070(Web::Browser::SwapChain *const);

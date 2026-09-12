@@ -488,25 +488,28 @@ _inline void c_simulation_hs_script_wake_event_definition::write_description_to_
 	// char *__formal;
 }
 
-extern simulation_event_definition_return_value *_sub_107B0BD0(c_simulation_hs_script_wake_event_definition const *const, simulation_event_definition_return_value *, c_replication_outgoing_event const *, s_simulation_view_telemetry_data const *);
 _inline simulation_event_definition_return_value *c_simulation_hs_script_wake_event_definition::gather_requirements_data(simulation_event_definition_return_value *data, c_replication_outgoing_event const *__formal, s_simulation_view_telemetry_data const *__formal1) const // 0x107B0BD0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?gather_requirements_data@c_simulation_hs_script_wake_event_definition@hades_file_local@@EBEPAUsimulation_event_definition_return_value@@PAU3@PBUc_replication_outgoing_event@@PBUs_simulation_view_telemetry_data@@@Z");
 	// `anonymous-namespace'::c_simulation_hs_script_wake_event_definition::gather_requirements_data
 	// s_simulation_view_telemetry_data const *__formal;
-	todo("implement");
-	simulation_event_definition_return_value * __result = _sub_107B0BD0((c_simulation_hs_script_wake_event_definition const *)this, data, __formal, __formal1);
-	return __result;
+
+	data->value = data->value & 0xFFFFFF01 | 0x101;
+	data->value = data->value & 0x1FF | 0x9400;
+	return data;
 }
 
-_extern void _sub_107B0C30(c_simulation_hs_script_wake_event_definition const *const, long, void const *, c_bitstream *, bool);
 _inline void c_simulation_hs_script_wake_event_definition::event_payload_encode(long payload_size, void const *payload, c_bitstream *packet, bool predicted) const // 0x107B0C30
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?event_payload_encode@c_simulation_hs_script_wake_event_definition@hades_file_local@@EBEXJPBXPAVc_bitstream@@_N@Z");
 	// `anonymous-namespace'::c_simulation_hs_script_wake_event_definition::event_payload_encode
 	// bool predicted;
 	// s_simulation_hs_script_wake_event_data *data;
 	// Blam::BitStream *packet_impl;
-	todo("implement");
-	_sub_107B0C30((c_simulation_hs_script_wake_event_definition const *)this, payload_size, payload, packet, predicted);
+
+	Blam::BitStream *stream = (Blam::BitStream *)packet;
+	short const *value = (short const *)payload;
+	stream->Write<short>(*value, 10);
 }
 
 _extern bool _sub_107B0CA0(c_simulation_hs_script_wake_event_definition const *const, long, void *, c_bitstream *, bool);
@@ -626,14 +629,15 @@ _inline void c_simulation_hs_sync_global_event_definition::write_description_to_
 	// char *__formal;
 }
 
-extern simulation_event_definition_return_value *_sub_107B0F60(c_simulation_hs_sync_global_event_definition const *const, simulation_event_definition_return_value *, c_replication_outgoing_event const *, s_simulation_view_telemetry_data const *);
 _inline simulation_event_definition_return_value *c_simulation_hs_sync_global_event_definition::gather_requirements_data(simulation_event_definition_return_value *data, c_replication_outgoing_event const *__formal, s_simulation_view_telemetry_data const *__formal1) const // 0x107B0F60
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?gather_requirements_data@c_simulation_hs_sync_global_event_definition@hades_file_local@@EBEPAUsimulation_event_definition_return_value@@PAU3@PBUc_replication_outgoing_event@@PBUs_simulation_view_telemetry_data@@@Z");
 	// `anonymous-namespace'::c_simulation_hs_sync_global_event_definition::gather_requirements_data
 	// s_simulation_view_telemetry_data const *__formal;
-	todo("implement");
-	simulation_event_definition_return_value * __result = _sub_107B0F60((c_simulation_hs_sync_global_event_definition const *)this, data, __formal, __formal1);
-	return __result;
+
+	data->value = (data->value & 0xFFFFFF01) | 0x101;
+	data->value = (data->value & 0x1FF) | 0x9400;
+	return data;
 }
 
 _extern void _sub_107B0FC0(c_simulation_hs_sync_global_event_definition const *const, long, void const *, c_bitstream *, bool);
@@ -811,16 +815,21 @@ void hs_cinematic_scripting_start_animation_legacy(long cine_index, long scene_i
 	_sub_107B6A10(cine_index, scene_index, cine_object_index, object_index, animation_id);
 }
 
-_extern void _sub_107B6DD0(short, __int32, char);
 void hs_cinematic_scripting_start_animation_legacy_evaluate(short a1, __int32 a2, char a3) // 0x107B6DD0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_cinematic_scripting_start_animation_legacy_evaluate@@YAXFHD@Z");
 	// `anonymous-namespace'::hs_cinematic_scripting_start_animation_legacy_evaluate
 	// char a3;
 	// long const args;
 	// function call : hs_value *(*const)(short, long, bool)
 	// function call : void (*const)(long, hs_value)
-	todo("implement");
-	_sub_107B6DD0(a1, a2, a3);
+
+	int args = ((int(__cdecl *)(unsigned short, int, bool))0x5972f0)(a1, a2, a3);
+	if (args)
+	{
+		hs_cinematic_scripting_start_animation_legacy(*(int *)args, *(int *)(args + 4), *(int *)(args + 8), *(int *)(args + 12), *(int *)(args + 16));
+		((void(__cdecl *)(int, int))0x5974e0)(a2, hs_value::from_long(0).long_value);
+	}
 }
 
 _extern void _sub_107B6340(long, long, long, short);
@@ -854,16 +863,21 @@ void hs_cinematic_scripting_create_object_legacy(long cine_index, long scene_ind
 	_sub_107B6340(cine_index, scene_index, cine_object_index, object_name_index);
 }
 
-_extern void _sub_107B65B0(short, __int32, char);
 void hs_cinematic_scripting_create_object_legacy_evaluate(short a1, __int32 a2, char a3) // 0x107B65B0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_cinematic_scripting_create_object_legacy_evaluate@@YAXFHD@Z");
 	// `anonymous-namespace'::hs_cinematic_scripting_create_object_legacy_evaluate
 	// char a3;
 	// long const args;
 	// function call : hs_value *(*const)(short, long, bool)
 	// function call : void (*const)(long, hs_value)
-	todo("implement");
-	_sub_107B65B0(a1, a2, a3);
+
+	int args = ((int(__cdecl *)(unsigned short, int, bool))0x5972F0)(a1, a2, (bool)a3);
+	if (args)
+	{
+		hs_cinematic_scripting_create_object_legacy(*(long *)args, *(long *)(args + 4), *(long *)(args + 8), *(unsigned short *)(args + 12));
+		((void(__cdecl *)(int, long))0x5974E0)(a2, hs_value::from_long(0).long_value);
+	}
 }
 
 _extern long _sub_107B4120(long, long, long);
@@ -1005,34 +1019,39 @@ void hs_cinematic_scripting_create_and_animate_object_legacy_evaluate(short a1, 
 	_sub_107B60B0(a1, a2, a3);
 }
 
-_extern void _sub_107B61C0(long, long, long, short, long, bool);
 void hs_cinematic_scripting_create_and_animate_object_no_animation_legacy(long cine_index, long scene_index, long cine_object_index, short object_name_index, long object_index, bool a5) // 0x107B61C0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_cinematic_scripting_create_and_animate_object_no_animation_legacy@@YAXJJJFJ_N@Z");
 	// `anonymous-namespace'::hs_cinematic_scripting_create_and_animate_object_no_animation_legacy
 	// bool a5;
-	todo("implement");
-	_sub_107B61C0(cine_index, scene_index, cine_object_index, object_name_index, object_index, a5);
+
+	hs_cinematic_scripting_create_and_animate_object_legacy(cine_index, scene_index, cine_object_index, object_name_index, object_index, 0, a5);
 }
 
-_extern void _sub_107B6230(short, __int32, char);
 void hs_cinematic_scripting_create_and_animate_object_no_animation_legacy_evaluate(short a1, __int32 a2, char a3) // 0x107B6230
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_cinematic_scripting_create_and_animate_object_no_animation_legacy_evaluate@@YAXFHD@Z");
 	// `anonymous-namespace'::hs_cinematic_scripting_create_and_animate_object_no_animation_legacy_evaluate
 	// char a3;
 	// long const args;
 	// function call : hs_value *(*const)(short, long, bool)
 	// function call : void (*const)(long, hs_value)
-	todo("implement");
-	_sub_107B6230(a1, a2, a3);
+
+	long const args = (long)((hs_value const *(__cdecl *)(unsigned short, long, bool))0x5972f0)(a1, a2, a3);
+	if (args)
+	{
+		hs_cinematic_scripting_create_and_animate_object_no_animation_legacy(*(long *)args, *(long *)(args + 4), *(long *)(args + 8), *(unsigned short *)(args + 12), *(long *)(args + 16), *(bool *)(args + 20));
+		((void(__cdecl *const)(long, hs_value))0x5974e0)(a2, hs_value::from_long(0));
+	}
 }
 
-_extern void _sub_107B5970(long, long, long, long, unsigned long, bool);
 void hs_cinematic_scripting_create_and_animate_cinematic_object_legacy(long cine_index, long scene_index, long cine_object_index, long object_index, unsigned long animation_id, bool a5) // 0x107B5970
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_cinematic_scripting_create_and_animate_cinematic_object_legacy@@YAXJJJJK_N@Z");
 	// `anonymous-namespace'::hs_cinematic_scripting_create_and_animate_cinematic_object_legacy
 	// bool a5;
-	todo("implement");
-	_sub_107B5970(cine_index, scene_index, cine_object_index, object_index, animation_id, a5);
+
+	hs_cinematic_scripting_create_and_animate_object_legacy(cine_index, scene_index, cine_object_index, -1, object_index, animation_id, a5);
 }
 
 _extern void _sub_107B59E0(short, __int32, char);
@@ -1077,16 +1096,21 @@ void hs_cinematic_scripting_destroy_object_legacy(long cine_index, long scene_in
 	_sub_107B66B0(cine_index, scene_index, cine_object_index, object_index);
 }
 
-_extern void _sub_107B6910(short, __int32, char);
 void hs_cinematic_scripting_destroy_object_legacy_evaluate(short a1, __int32 a2, char a3) // 0x107B6910
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_cinematic_scripting_destroy_object_legacy_evaluate@@YAXFHD@Z");
 	// `anonymous-namespace'::hs_cinematic_scripting_destroy_object_legacy_evaluate
 	// char a3;
 	// long const args;
 	// function call : hs_value *(*const)(short, long, bool)
 	// function call : void (*const)(long, hs_value)
-	todo("implement");
-	_sub_107B6910(a1, a2, a3);
+
+	int *args = ((int *(__cdecl *)(unsigned short, int, bool))0x5972f0)(a1, a2, a3);
+	if (args)
+	{
+		hs_cinematic_scripting_destroy_object_legacy(*args, *(args + 1), *(args + 2), *(args + 3));
+		((void(__cdecl *)(int, int))0x5974e0)(a2, hs_value::from_long(0).long_value);
+	}
 }
 
 _extern void _sub_107B4FD0(short, __int32, char);

@@ -79,31 +79,28 @@ void CServerConnectStateManager::Update() // 0x10B0DC10
 	_sub_10B0DC10(this);
 }
 
-_extern void _sub_10B0D9D0(CServerConnectStateManager *const, EServerConnectState);
 void CServerConnectStateManager::RequestStateChange(EServerConnectState state) // 0x10B0D9D0
 {
-	mangled_x86(MANGLED_TODO, "?RequestStateChange@CServerConnectStateManager@@QAEXW4EServerConnectState@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?RequestStateChange@CServerConnectStateManager@@QAEXW4EServerConnectState@@@Z");
 	// EServerConnectState state;
-	todo("implement");
-	_sub_10B0D9D0(this, state);
+
+	m_requestedState = state;
 }
 
-_extern void _sub_10B0D610(CServerConnectStateManager *const, EServerConnectAbortReason);
 void CServerConnectStateManager::Abort(EServerConnectAbortReason reason) // 0x10B0D610
 {
-	mangled_x86(MANGLED_TODO, "?Abort@CServerConnectStateManager@@QAEXW4EServerConnectAbortReason@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Abort@CServerConnectStateManager@@QAEXW4EServerConnectAbortReason@@@Z");
 	// EServerConnectAbortReason reason;
-	todo("implement");
-	_sub_10B0D610(this, reason);
+
+	m_abortReason = reason;
 }
 
-_extern void _sub_10B0D640(CServerConnectStateManager *const);
 void CServerConnectStateManager::Complete() // 0x10B0D640
 {
-	mangled_x86(MANGLED_TODO, "?Complete@CServerConnectStateManager@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Complete@CServerConnectStateManager@@QAEXXZ");
 	// CServerConnectStateManager *const this;
-	todo("implement");
-	_sub_10B0D640(this);
+
+	SetStateInternal((EServerConnectState)0);
 }
 
 _extern void _sub_10B0DA00(CServerConnectStateManager *const, EServerConnectState);

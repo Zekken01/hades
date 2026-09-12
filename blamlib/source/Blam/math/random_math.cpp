@@ -15,6 +15,8 @@ typedef bool (*__acrt_uninitialize_pft)(bool);
 
 /* ---------- prototypes */
 
+extern unsigned long *(__cdecl *get_random_seed_address)();  // hades: added for 0X10F036C0
+
 extern float real_random_range(float minimum, float maximum);
 extern float real_random_range(long *random_seed_address, float minimum, float maximum);
 extern float real_random_local();
@@ -28,41 +30,46 @@ extern unsigned long *(*get_random_seed_address)(); // 0x11359AFC
 
 /* ---------- public code */
 
-_extern float _sub_10F036C0(float, float);
 float real_random_range(float minimum, float maximum) // 0x10F036C0
 {
-	mangled_x86(MANGLED_TODO, "?real_random_range@@YAMMM@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?real_random_range@@YAMMM@Z");
 	// float maximum;
 	// unsigned long *random_seed_address;
 	// unsigned long next_value;
 	// function call : unsigned long *(*)()
-	todo("implement");
-	float __result = _sub_10F036C0(minimum, maximum);
-	return __result;
+
+	unsigned long *random_seed_address = get_random_seed_address();
+	unsigned int next_value = 1664525 * *random_seed_address + 1013904223;
+	*random_seed_address = next_value;
+	next_value >>= 16;
+	return (float)next_value / 65535.0f * (maximum - minimum) + minimum;
 }
 
-_extern float _sub_10F037C0(long *, float, float);
 float real_random_range(long *random_seed_address, float minimum, float maximum) // 0x10F037C0
 {
-	mangled_x86(MANGLED_TODO, "?real_random_range@@YAMPAJMM@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?real_random_range@@YAMPAJMM@Z");
 	// float maximum;
 	// unsigned long next_value;
-	todo("implement");
-	float __result = _sub_10F037C0(random_seed_address, minimum, maximum);
-	return __result;
+
+	unsigned int next_value = 1664525 * *random_seed_address + 1013904223;
+	*random_seed_address = next_value;
+	next_value >>= 16;
+	return (float)next_value / 65535.0f * (maximum - minimum) + minimum;
 }
 
-_extern float _sub_10F035D0();
 float real_random_local() // 0x10F035D0
 {
-	mangled_x86(MANGLED_TODO, "?real_random_local@@YAMXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?real_random_local@@YAMXZ");
 	// procedure flags: nofpo
 	// unsigned long *random_seed_address;
 	// unsigned long next_value;
 	// function call : unsigned long *(*)()
-	todo("implement");
-	float __result = _sub_10F035D0();
-	return __result;
+
+	unsigned long *random_seed_address = get_local_random_seed_address();
+	unsigned long next_value = 0x19660D * *random_seed_address + 0x3C6EF35F;
+	*random_seed_address = next_value;
+	next_value = next_value >> 16;
+	return (float)next_value / 65535.0f;
 }
 
 /* ---------- private code */

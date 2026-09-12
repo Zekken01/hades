@@ -202,14 +202,13 @@ void cache_file_tags_optimize(long runtime_tag_index, s_cache_tag_instance *tag_
 
 /* ---------- private code */
 
-extern s_game_options *_sub_1087B0F0();
 extern "C" s_game_options *get_intermediate_game_options() // 0x1087B0F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "_get_intermediate_game_options");
 	// get_intermediate_game_options
 	// procedure flags: nofpo
-	todo("implement");
-	s_game_options * __result = _sub_1087B0F0();
-	return __result;
+
+	return (s_game_options *)0x2391800;
 }
 
 _extern void _sub_1087B110(s_cache_tag_instance *, c_static_bit_vector<65535> *);

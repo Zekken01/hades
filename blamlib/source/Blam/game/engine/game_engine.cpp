@@ -60,37 +60,31 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- public code */
 
-_extern __int32 _sub_10EFFC00(unsigned long);
 __int32 game_engine_get_player_assists(unsigned long player_index) // 0x10EFFC00
 {
-	mangled_x86(MANGLED_TODO, "?game_engine_get_player_assists@@YAHK@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_get_player_assists@@YAHK@Z");
 	// unsigned long player_index;
 	// function call : __int32 (*)(unsigned long)
-	todo("implement");
-	__int32 __result = _sub_10EFFC00(player_index);
-	return __result;
+
+	return ((__int32(__cdecl *)(unsigned long))0x5504e0)(player_index);
 }
 
-_extern __int32 _sub_10EFFC60(unsigned long);
 __int32 game_engine_get_player_deaths(unsigned long player_index) // 0x10EFFC60
 {
-	mangled_x86(MANGLED_TODO, "?game_engine_get_player_deaths@@YAHK@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_get_player_deaths@@YAHK@Z");
 	// unsigned long player_index;
 	// function call : __int32 (*)(unsigned long)
-	todo("implement");
-	__int32 __result = _sub_10EFFC60(player_index);
-	return __result;
+
+	return ((__int32(__cdecl *const)(unsigned long))0x550580)(player_index);
 }
 
-_extern __int32 _sub_10EFFCC0(unsigned long);
 __int32 game_engine_get_player_kills(unsigned long player_index) // 0x10EFFCC0
 {
-	mangled_x86(MANGLED_TODO, "?game_engine_get_player_kills@@YAHK@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_get_player_kills@@YAHK@Z");
 	// unsigned long player_index;
 	// function call : __int32 (*)(unsigned long)
-	todo("implement");
-	__int32 __result = _sub_10EFFCC0(player_index);
-	return __result;
+
+	return ((__int32(__cdecl *)(unsigned long))0x550620)(player_index);
 }
 
 _extern __int32 _sub_10EFFD20(unsigned long);

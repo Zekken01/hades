@@ -88,14 +88,12 @@ static_assert(sizeof(c_game_engine_map_override_options) == 124, "Invalid c_game
 
 /* ---------- public code */
 
-_extern bool _sub_1092D000(c_game_engine_miscellaneous_options const *const);
 _inline bool c_game_engine_miscellaneous_options::teams_enabled() const // 0x1092D000
 {
-	mangled_x86(MANGLED_TODO, "?teams_enabled@c_game_engine_miscellaneous_options@@QBE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?teams_enabled@c_game_engine_miscellaneous_options@@QBE_NXZ");
 	// c_game_engine_miscellaneous_options const *const this;
-	todo("implement");
-	bool __result = _sub_1092D000((c_game_engine_miscellaneous_options const *)this);
-	return __result;
+
+	return flags.test(_teams_enabled_bit);
 }
 
 /* ---------- private code */

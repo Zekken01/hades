@@ -55,18 +55,15 @@ public:
 		short version_minor; // 0x116
 		bool verified; // 0x118
 		unsigned char hash[20]; // 0x119
-		unsigned char __pad0[1]; // 0x12D
 		wchar_t name[32]; // 0x12E
 		char author[32]; // 0x16E
 		char description[512]; // 0x18E
 		char website[512]; // 0x38E
-		unsigned char __pad1[2]; // 0x58E
 		unsigned long long author_uid; // 0x590
 		long long dateAdded; // 0x598
 		long long lastUsed; // 0x5A0
 		long long dateBuilt; // 0x5A8
 		mod_type modtype; // 0x5B0
-		unsigned char __pad2[3]; // 0x5B1
 		s_mod_origin_info origin; // 0x5B4
 		_inline s_entry(s_entry &&__that); /* compiler_generated() */
 		_inline s_entry(s_entry const &__that); /* compiler_generated() */
@@ -74,9 +71,11 @@ public:
 		_inline ~s_entry(); /* compiler_generated() */
 		s_entry &operator=(s_entry &); /* compiler_generated() */
 		_inline s_entry &operator=(s_entry const &__that); /* compiler_generated() */
-		unsigned char __pad3[4]; // 0x624
 	};
 	static_assert(sizeof(s_entry) == 1576, "Invalid s_entry size");
+	static_assert(offsetof(s_entry, name) == 0x12E, "s_entry::name moved when its reconstructed padding was removed");
+	static_assert(offsetof(s_entry, author_uid) == 0x590, "s_entry::author_uid moved when its reconstructed padding was removed");
+	static_assert(offsetof(s_entry, origin) == 0x5B4, "s_entry::origin moved when its reconstructed padding was removed");
 #pragma pack(push, 4)
 	class c_threadsafe_iterator
 	{
@@ -165,14 +164,12 @@ _inline c_mod_package_manager::s_entry const *c_mod_package_manager::c_threadsaf
 	return m_entry;
 }
 
-extern c_mod_package_manager::s_entry const *_sub_10A074B0(c_mod_package_manager::c_threadsafe_iterator const *const);
 _inline c_mod_package_manager::s_entry const *c_mod_package_manager::c_threadsafe_iterator::operator->() const // 0x10A074B0
 {
-	mangled_x86(MANGLED_TODO, "??Cc_threadsafe_iterator@c_mod_package_manager@@QBEPBUs_entry@1@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??Cc_threadsafe_iterator@c_mod_package_manager@@QBEPBUs_entry@1@XZ");
 	// c_mod_package_manager::c_threadsafe_iterator const *const this;
-	todo("implement");
-	c_mod_package_manager::s_entry const * __result = _sub_10A074B0((c_mod_package_manager::c_threadsafe_iterator const *)this);
-	return __result;
+
+	return get();
 }
 
 /* ---------- private code */

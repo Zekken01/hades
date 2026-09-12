@@ -345,6 +345,8 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+bool font_initialize_for_new_map(s_game_options *options);  // hades: added for 0X10928950
+
 namespace Patches
 {
 	namespace ModSync
@@ -376,14 +378,14 @@ bool open_mod_package_map_file(EModIndex index, IMod *mod, long map_file_index, 
 bool cache_file_open_internal_hook(long map_file_index, char *map_file_path);
 void cache_file_tag_resource_table_read(s_cache_file_tag_resource_table *out_table);
 s_tag_resource_data *cache_file_tag_load_resource_table_hook();
-bool c_cache_file_tag_resource_runtime_manager__get_page_hook(c_indirect_cache_file_location_atlas *thisptr, void *unused, long index, long a4, s_indirect_cache_file_page *out_location);
+bool __fastcall c_cache_file_tag_resource_runtime_manager__get_page_hook(c_indirect_cache_file_location_atlas *thisptr, void *unused, long index, long a4, s_indirect_cache_file_page *out_location);
 void display_dirty_disk();
 void main_menu_launch_safe();
 void dirty_disk_hook();
 c_basic_buffer<void> *cache_file_tag_resource_runtime_manager__allocate_memory_buffer_hook(c_basic_buffer<void> *buffer);
 bool main_game_initialize_for_new_map_hook(bool a1, s_game_options *options);
 void scenario_tags_mark_necessary_bitmaps();
-void begin_tracking_resource_hook(void *thisptr, void *unused, tag_resource_tracking_setup *setup);
+void __fastcall begin_tracking_resource_hook(void *thisptr, void *unused, tag_resource_tracking_setup *setup);
 void OnMapLoaded(char const *mapPath);
 void OnShutdown();
 void main_menu_launch_force_hook();
@@ -397,10 +399,12 @@ namespace hades_file_local
 {
 	extern char const *const k_mods_mainmenu_virtual_path; // 0x11197DC0
 	extern char const *const k_mods_game_virtual_path; // 0x11197DC4
-	extern c_map_load_error_helper error_helper; // 0x12409584
-	extern c_map_load_crash_recovery_helper crash_recovery_helper; // 0x12409560
-	extern Ref<IMod> current_mod; // 0x1240985C
 	extern s_static_array<s_cached_map_file,15> &g_cached_map_files; // 0x113534AC
+	extern c_map_load_crash_recovery_helper crash_recovery_helper; // 0x12409560
+	extern c_map_load_error_helper error_helper; // 0x12409584
+	extern s_cache_file_loaded_state loader_state; // 0x124095A0
+	extern Ref<IMod> current_mod; // 0x1240985C
+	extern s_resource_loaded_state resource_loader_state; // 0x12409860
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -457,13 +461,12 @@ namespace Patches
 			_sub_10922620();
 		}
 
-		_extern void _sub_10923950();
 		void Tick() // 0x10923950
 		{
-			mangled_x86(MANGLED_TODO, "?Tick@ModSync@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@ModSync@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_10923950();
+
+			crash_recovery_helper.tick();
 		}
 	}
 }
@@ -679,16 +682,17 @@ bool open_mod_package_resource_cache(char const *filepath) // 0x109294C0
 	return __result;
 }
 
-_extern void _sub_10926750();
 void close_mod_package_resource_cache() // 0x10926750
 {
-	mangled_x86(MANGLED_TODO, "?close_mod_package_resource_cache@@YAXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?close_mod_package_resource_cache@@YAXXZ");
 	// `anonymous-namespace'::close_mod_package_resource_cache
 	// procedure flags: nofpo
 	// void (*const cached_map_file_close)(long);
 	// function call : void (*const)(long)
-	todo("implement");
-	_sub_10926750();
+
+	void (__cdecl *const close_resource_cache)(int) = (void(__cdecl *const)(int))0x5ab630;
+
+	close_resource_cache(6);
 }
 
 _extern bool _sub_10926D30();
@@ -944,7 +948,7 @@ s_tag_resource_data *cache_file_tag_load_resource_table_hook() // 0x10925930
 }
 
 _extern bool _sub_10924330(c_indirect_cache_file_location_atlas *, void *, long, long, s_indirect_cache_file_page *);
-bool c_cache_file_tag_resource_runtime_manager__get_page_hook(c_indirect_cache_file_location_atlas *thisptr, void *unused, long index, long a4, s_indirect_cache_file_page *out_location) // 0x10924330
+bool __fastcall c_cache_file_tag_resource_runtime_manager__get_page_hook(c_indirect_cache_file_location_atlas *thisptr, void *unused, long index, long a4, s_indirect_cache_file_page *out_location) // 0x10924330
 {
 	// `anonymous-namespace'::c_cache_file_tag_resource_runtime_manager__get_page_hook
 	// s_indirect_cache_file_page *out_location;
@@ -973,9 +977,9 @@ void display_dirty_disk() // 0x10926A30
 	_sub_10926A30();
 }
 
-_extern void _sub_10928EB0();
 void main_menu_launch_safe() // 0x10928EB0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?main_menu_launch_safe@@YAXXZ");
 	// `anonymous-namespace'::main_menu_launch_safe
 	// procedure flags: nofpo
 	// void (*const network_life_cycle_end)();
@@ -985,8 +989,21 @@ void main_menu_launch_safe() // 0x10928EB0
 	// function call : void (*const)(__int32)
 	// function call : void (*const)()
 	// function call : void (*const)()
-	todo("implement");
-	_sub_10928EB0();
+
+	bool (*const main_menu_is_loaded)() = (bool(*const)())0x454db0;
+	void (*const main_menu_launch)(int) = (void(*const)(int))0x455260;
+	void (*const main_menu_reset)() = (void(*const)())0x454b40;
+
+	if (main_menu_is_loaded())
+	{
+		main_menu_launch(0);
+	}
+	else
+	{
+		main_menu_reset();
+	}
+
+	((void(*)())0x5680e0)();
 }
 
 _extern void _sub_109267B0();
@@ -1019,16 +1036,23 @@ c_basic_buffer<void> *cache_file_tag_resource_runtime_manager__allocate_memory_b
 	return __result;
 }
 
-_extern bool _sub_10928950(bool, s_game_options *);
 bool main_game_initialize_for_new_map_hook(bool a1, s_game_options *options) // 0x10928950
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?main_game_initialize_for_new_map_hook@@YA_N_NPAUs_game_options@@@Z");
 	// `anonymous-namespace'::main_game_initialize_for_new_map_hook
 	// s_game_options *options;
 	// bool (*const main_game_initialize_for_new_map)(bool, s_game_options *);
 	// function call : bool (*const)(bool, s_game_options *)
-	todo("implement");
-	bool __result = _sub_10928950(a1, options);
-	return __result;
+
+	bool (*const main_game_initialize_for_new_map)(bool, s_game_options *) = (bool(*const)(bool, s_game_options *))0x567560;
+
+	if (!a1 && !font_initialize_for_new_map(options))
+	{
+		error_helper.failed_to_initialize_font_cache();
+		return false;
+	}
+
+	return main_game_initialize_for_new_map(a1, options);
 }
 
 _extern void _sub_10929660();
@@ -1084,7 +1108,7 @@ void scenario_tags_mark_necessary_bitmaps() // 0x10929660
 }
 
 _extern void _sub_10924170(void *, void *, tag_resource_tracking_setup *);
-void begin_tracking_resource_hook(void *thisptr, void *unused, tag_resource_tracking_setup *setup) // 0x10924170
+void __fastcall begin_tracking_resource_hook(void *thisptr, void *unused, tag_resource_tracking_setup *setup) // 0x10924170
 {
 	// `anonymous-namespace'::begin_tracking_resource_hook
 	// tag_resource_tracking_setup *setup;
@@ -1104,22 +1128,22 @@ void begin_tracking_resource_hook(void *thisptr, void *unused, tag_resource_trac
 	_sub_10924170(thisptr, unused, setup);
 }
 
-_extern void _sub_109238B0(char const *);
 void OnMapLoaded(char const *mapPath) // 0x109238B0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnMapLoaded@@YAXPBD@Z");
 	// `anonymous-namespace'::OnMapLoaded
 	// char const *mapPath;
-	todo("implement");
-	_sub_109238B0(mapPath);
+
+	crash_recovery_helper.map_load_end();
 }
 
-_extern void _sub_10923900();
 void OnShutdown() // 0x10923900
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnShutdown@@YAXXZ");
 	// `anonymous-namespace'::OnShutdown
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10923900();
+
+	crash_recovery_helper.shutdown();
 }
 
 _extern void _sub_10928C40();
@@ -1148,9 +1172,9 @@ void main_menu_launch_force_hook() // 0x10928C40
 // mangled_x86(MANGLED_DEFAULT, "??0s_cache_file_loaded_state@hades_file_local@@QAE@XZ"); no body to assert in
 _inline s_cache_file_loaded_state::s_cache_file_loaded_state() = default; // 0x109218B0
 
-_extern void _sub_10928DF0();
 void main_menu_launch_hook() // 0x10928DF0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?main_menu_launch_hook@@YAXXZ");
 	// `anonymous-namespace'::main_menu_launch_hook
 	// procedure flags: nofpo
 	// char (*const main_halted_with_errors)();
@@ -1159,8 +1183,21 @@ void main_menu_launch_hook() // 0x10928DF0
 	// function call : bool (*const)()
 	// function call : bool (*const)()
 	// function call : long (*const)()
-	todo("implement");
-	_sub_10928DF0();
+
+	char (*const main_menu_launch_safe_func)() = (char (*const)())0x505860;
+	void (*const main_menu_launch_func)() = (void (*const)())0xa84330;
+
+	if (!main_menu_launch_safe_func())
+	{
+		if (((bool (*const)())0x5314b0)() && ((bool (*const)())0x531e90)())
+		{
+			main_menu_launch_func();
+		}
+		else
+		{
+			main_menu_launch_force_hook();
+		}
+	}
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??1s_cache_file_loaded_state@hades_file_local@@QAE@XZ"); no body to assert in

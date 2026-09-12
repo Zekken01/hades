@@ -102,13 +102,10 @@ namespace Patches
 {
 	namespace LoadingScreen
 	{
-		_extern void _sub_10CAA140(Patches::LoadingScreen::LoadingScreenUi *const);
 		_inline LoadingScreenUi::~LoadingScreenUi() // 0x10CAA140
 		{
-			mangled_x86(MANGLED_TODO, "??1LoadingScreenUi@LoadingScreen@Patches@@UAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??1LoadingScreenUi@LoadingScreen@Patches@@UAE@XZ");
 			// Patches::LoadingScreen::LoadingScreenUi *const this;
-			todo("implement");
-			_sub_10CAA140(this);
 		}
 	}
 }

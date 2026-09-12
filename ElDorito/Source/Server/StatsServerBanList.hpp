@@ -74,13 +74,10 @@ namespace Server
 
 namespace Server
 {
-	extern StatsServersBanList* _sub_10A8F940(Server::StatsServersBanList *const);
 	_inline StatsServersBanList::StatsServersBanList() // 0x10A8F940
 	{
-		mangled_x86(MANGLED_TODO, "??0StatsServersBanList@Server@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0StatsServersBanList@Server@@QAE@XZ");
 		// Server::StatsServersBanList *const this;
-		todo("implement");
-		_sub_10A8F940(this);
 	}
 
 	_extern void _sub_10B17F70(Server::StatsServersBanList *const, std::string const);
@@ -168,13 +165,15 @@ namespace Server
 		return __result;
 	}
 
-	_extern void _sub_10B18A30(Server::StatsServersBanList *const);
 	_inline void StatsServersBanList::ClearList() // 0x10B18A30
 	{
-		mangled_x86(MANGLED_TODO, "?ClearList@StatsServersBanList@Server@@QAEXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?ClearList@StatsServersBanList@Server@@QAEXXZ");
 		// Server::StatsServersBanList *const this;
-		todo("implement");
-		_sub_10B18A30(this);
+
+		subnets.clear();
+		ipAddresses.clear();
+		uids.clear();
+		names.clear();
 	}
 }
 

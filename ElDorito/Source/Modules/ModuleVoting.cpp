@@ -119,6 +119,9 @@ namespace Blam
 
 /* ---------- prototypes */
 
+namespace Server::Voting { bool ReloadVotingJson(bool loadFileFromDisc); }  // hades: added for 0X106D6110
+namespace Server::Voting { bool ReloadVetoJson(bool loadFileFromDisc); }  // hades: added for 0X106D6110
+
 bool ReloadJson(std::vector<std::string> const &Arguments, std::string &returnInfo);
 bool VarVotingSystemUpdated(std::vector<std::string> const &Arguments, std::string &returnInfo);
 bool CommandServerCancelVote(std::vector<std::string> const &Arguments, std::string &returnInfo);
@@ -160,16 +163,30 @@ namespace Modules
 
 /* ---------- private code */
 
-_extern bool _sub_106D6110(std::vector<std::string> const &, std::string &);
 bool ReloadJson(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x106D6110
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ReloadJson@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::ReloadJson
 	// std::string &returnInfo;
 	// unsigned long VotingType;
 	// bool loadFileFromDisc;
-	todo("implement");
-	bool __result = _sub_106D6110(Arguments, returnInfo);
-	return __result;
+
+	bool loadFileFromDisc = true;
+	if (Arguments.size() == 1)
+	{
+		if (Arguments[0] == "0")
+		{
+			loadFileFromDisc = false;
+		}
+	}
+	unsigned int VotingType = Modules::ModuleVoting::Instance().VarServerVotingType->ValueInt;
+	if ((VotingType == 1 && !Server::Voting::ReloadVotingJson(loadFileFromDisc)) || (VotingType == 2 && !Server::Voting::ReloadVetoJson(loadFileFromDisc)))
+	{
+		returnInfo = "Failed - Defaults used instead - Check log.";
+		return false;
+	}
+	returnInfo = "Success";
+	return true;
 }
 
 _extern bool _sub_106D6210(std::vector<std::string> const &, std::string &);

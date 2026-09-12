@@ -22,14 +22,19 @@ class c_network_session_parameter_session_size;
 
 /* ---------- public code */
 
-_extern long _sub_10F1D420(c_network_session_parameter_session_size const *const);
 long c_network_session_parameter_session_size::get_max_player_count() const // 0x10F1D420
 {
-	mangled_x86(MANGLED_TODO, "?get_max_player_count@c_network_session_parameter_session_size@@QBEJXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_max_player_count@c_network_session_parameter_session_size@@QBEJXZ");
 	// c_network_session_parameter_session_size const *const this;
-	todo("implement");
-	long __result = _sub_10F1D420((c_network_session_parameter_session_size const *)this);
-	return __result;
+
+	if (get_allowed())
+	{
+		return m_data.max_player_count;
+	}
+	else
+	{
+		return 16;
+	}
 }
 
 /* ---------- private code */

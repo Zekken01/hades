@@ -37,16 +37,18 @@ namespace Utils
 	{
 		_inline HINSTANCE__ *GetModuleFromAddress(void *address) // 0x1068F4D0
 		{
-			mangled_x86(MANGLED_TODO, "?GetModuleFromAddress@ProcessUtils@Utils@@YAPAUHINSTANCE__@@PAX@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetModuleFromAddress@ProcessUtils@Utils@@YAPAUHINSTANCE__@@PAX@Z");
 			// static ...; // 0x1068F548
 			// static ...; // 0x1068F53C
 			// static ...; // 0x1068F534
 			// void *address;
 			// HINSTANCE__ *hMod;
 			// function call : __int32 (unsigned long, char const *, HINSTANCE__ **)
-			todo("implement");
-			HINSTANCE__ * __result = _sub_1068F4D0(address);
-			return __result;
+
+			HMODULE hMod;
+			if (!GetModuleHandleExA(6, (LPCSTR)address, &hMod))
+				return nullptr;
+			return hMod;
 		}
 	}
 }

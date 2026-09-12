@@ -37,34 +37,28 @@ static_assert(sizeof(SJobCounter) == 4, "Invalid SJobCounter size");
 
 /* ---------- public code */
 
-_extern __int32 _sub_1086D250(SJobCounter const *const);
 _inline __int32 SJobCounter::GetValue() const // 0x1086D250
 {
-	mangled_x86(MANGLED_TODO, "?GetValue@SJobCounter@@QBEHXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetValue@SJobCounter@@QBEHXZ");
 	// SJobCounter const *const this;
-	todo("implement");
-	__int32 __result = _sub_1086D250((SJobCounter const *)this);
-	return __result;
+
+	return m_value.load();
 }
 
-_extern __int32 _sub_1086A0D0(SJobCounter *const);
 _inline __int32 SJobCounter::Increment() // 0x1086A0D0
 {
-	mangled_x86(MANGLED_TODO, "?Increment@SJobCounter@@QAEHXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Increment@SJobCounter@@QAEHXZ");
 	// SJobCounter *const this;
-	todo("implement");
-	__int32 __result = _sub_1086A0D0(this);
-	return __result;
+
+	return m_value.fetch_add(1);
 }
 
-_extern __int32 _sub_10869F20(SJobCounter *const);
 _inline __int32 SJobCounter::Decrement() // 0x10869F20
 {
-	mangled_x86(MANGLED_TODO, "?Decrement@SJobCounter@@QAEHXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Decrement@SJobCounter@@QAEHXZ");
 	// SJobCounter *const this;
-	todo("implement");
-	__int32 __result = _sub_10869F20(this);
-	return __result;
+
+	return m_value.fetch_sub(1);
 }
 
 /* ---------- private code */

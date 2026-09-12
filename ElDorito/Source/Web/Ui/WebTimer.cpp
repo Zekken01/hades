@@ -128,10 +128,9 @@ namespace Web
 				_sub_10CB5BB0(type, initialValue);
 			}
 
-			_extern void _sub_10CB5DF0(__int32);
 			void Update(__int32 value) // 0x10CB5DF0
 			{
-				mangled_x86(MANGLED_TODO, "?Update@WebTimer@Ui@Web@@YAXH@Z");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?Update@WebTimer@Ui@Web@@YAXH@Z");
 				// static ...; // 0x10CB5F67
 				// static ...; // 0x10CB5F5C
 				// static ...; // 0x10CB5F44
@@ -139,14 +138,21 @@ namespace Web
 				// __int32 value;
 				// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
 				// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
-				todo("implement");
-				_sub_10CB5DF0(value);
+
+				rapidjson::StringBuffer jsonBuffer;
+				rapidjson::Writer<rapidjson::StringBuffer> jsonWriter(jsonBuffer);
+
+				jsonWriter.StartObject();
+				jsonWriter.Key("value");
+				jsonWriter.Int(value);
+				jsonWriter.EndObject();
+
+				Web::Ui::ScreenLayer::Notify("timerUpdate", jsonBuffer.GetString(), true);
 			}
 
-			_extern void _sub_10CB5A00();
 			void End() // 0x10CB5A00
 			{
-				mangled_x86(MANGLED_TODO, "?End@WebTimer@Ui@Web@@YAXXZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?End@WebTimer@Ui@Web@@YAXXZ");
 				// procedure flags: nofpo
 				// static ...; // 0x10CB5B4B
 				// static ...; // 0x10CB5B40
@@ -154,8 +160,11 @@ namespace Web
 				// static ...; // 0x10CB5B20
 				// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
 				// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
-				todo("implement");
-				_sub_10CB5A00();
+
+				rapidjson::StringBuffer jsonBuffer;
+				rapidjson::Writer<rapidjson::StringBuffer> jsonWriter(jsonBuffer);
+
+				Web::Ui::ScreenLayer::Notify("timerEnd", "{}", true);
 			}
 		}
 	}

@@ -113,6 +113,8 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+long tag_find_by_name(unsigned long group_tag, char const *name);  // hades: added for 0X10976940
+
 namespace Forge
 {
 	namespace SelectionRenderer
@@ -136,11 +138,12 @@ void RasterizeImplicitGeometryHook();
 
 namespace hades_file_local
 {
+	extern long volatile s_VisionMaskBitmap; // 0x11353E4C
 	extern __int32 s_RendererType; // 0x1244FBA8
 	extern bool s_Enabled; // 0x1244FBAC
 	extern __int32 volatile s_NumActiveItems; // 0x1244FBB0
 	extern float s_SelectionColorCounter; // 0x1244FBB4
-	extern long volatile s_VisionMaskBitmap; // 0x11353E4C
+	extern SelectionItem s_items[256]; // 0x1244FBB8
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -183,41 +186,44 @@ namespace Forge
 			_sub_10977300();
 		}
 
-		_extern void _sub_10976F60(bool);
 		void SetEnabled(bool enabled) // 0x10976F60
 		{
-			mangled_x86(MANGLED_TODO, "?SetEnabled@SelectionRenderer@Forge@@YAX_N@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?SetEnabled@SelectionRenderer@Forge@@YAX_N@Z");
 			// bool enabled;
-			todo("implement");
-			_sub_10976F60(enabled);
+
+			s_Enabled = enabled;
+
+			if (!enabled)
+			{
+				s_NumActiveItems = 0;
+			}
 		}
 
-		_extern void _sub_10976FA0(Forge::SelectionRenderer::RendererImplementationType);
 		void SetRendererType(Forge::SelectionRenderer::RendererImplementationType type) // 0x10976FA0
 		{
-			mangled_x86(MANGLED_TODO, "?SetRendererType@SelectionRenderer@Forge@@YAXW4RendererImplementationType@12@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?SetRendererType@SelectionRenderer@Forge@@YAXW4RendererImplementationType@12@@Z");
 			// Forge::SelectionRenderer::RendererImplementationType type;
-			todo("implement");
-			_sub_10976FA0(type);
+
+			s_RendererType = type;
 		}
 
-		_extern void _sub_10976940();
 		void Initialize() // 0x10976940
 		{
-			mangled_x86(MANGLED_TODO, "?Initialize@SelectionRenderer@Forge@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@SelectionRenderer@Forge@@YAXXZ");
 			// procedure flags: nofpo
 			// s_forge_globals_definition *forgeGlobals;
-			todo("implement");
-			_sub_10976940();
+
+			auto *forge_globals = forge_globals_get_definition();
+			if (forge_globals)
+				s_VisionMaskBitmap = tag_find_by_name(0x6269746D, "shaders\\default_bitmaps\\bitmaps\\alpha_white");
 		}
 
-		_extern void _sub_10976910();
 		void Dispose() // 0x10976910
 		{
-			mangled_x86(MANGLED_TODO, "?Dispose@SelectionRenderer@Forge@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Dispose@SelectionRenderer@Forge@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_10976910();
+
+			s_NumActiveItems = 0;
 		}
 	}
 }
@@ -311,13 +317,20 @@ void RenderImplicit() // 0x10976A10
 	_sub_10976A10();
 }
 
-_extern void _sub_109769B0();
 void RasterizeImplicitGeometryHook() // 0x109769B0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?RasterizeImplicitGeometryHook@@YAXXZ");
 	// `anonymous-namespace'::RasterizeImplicitGeometryHook
 	// procedure flags: nofpo
 	// constexpr void (*const `RasterizeImplicitGeometryHook'::`2'::RasterizeImplicitGeometry)(); // constant == 10961840
 	// function call : void (*const)()
-	todo("implement");
-	_sub_109769B0();
+
+	((void (*)())0xa743b0)();
+
+	if (!s_Enabled)
+	{
+		return;
+	}
+
+	RenderImplicit();
 }

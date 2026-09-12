@@ -108,7 +108,6 @@ namespace Scripting
 	namespace HS
 	{
 		// mangled_x86(MANGLED_DEFAULT, "??0ScriptMethodMap@HS@Scripting@@QAE@XZ"); no body to assert in
-		_inline ScriptMethodMap::ScriptMethodMap() = default; // 0x106D3B40
 	}
 }
 

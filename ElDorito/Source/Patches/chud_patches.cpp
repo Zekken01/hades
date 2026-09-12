@@ -143,14 +143,14 @@ namespace Patches
 	}
 }
 
-void c_chud_persistent_user_data__update_from_update_data_hook(void *thisptr, void *__formal, long output_user_index, c_chud_update_user_data *hudData);
-void c_chud_persistent_user_data__reset_hook(void *thisptr);
-unsigned long c_chud_update_user_data__get_sound_flags_hook(c_chud_update_user_data *thisptr);
+void __fastcall c_chud_persistent_user_data__update_from_update_data_hook(void *thisptr, void *__formal, long output_user_index, c_chud_update_user_data *hudData);
+void __fastcall c_chud_persistent_user_data__reset_hook(void *thisptr);
+unsigned long __fastcall c_chud_update_user_data__get_sound_flags_hook(c_chud_update_user_data *thisptr);
 bool sub_AC59F0_hook(s_hud_shader_info *a1, bool fancy);
 bool chud_draw_begin_hook(long output_user_index, float alpha, bool a3, bool curve_flag);
 bool chud_bitmap_widget_compute_geometry_hook(s_chud_draw_widget_data *draw_data, s_chud_widget_geometry<s_widget_geometry_quad_simple> *geometry);
-void c_chud_navpoint_manager__draw_hook(c_chud_navpoint_manager *thisptr, void *__formal, long output_user_index);
-void c_chud_update_user_data__compute_weapon_update_hook(void *thisptr, void *unused, long weapon_index, long interface_index, s_aim_assist_targeting_result *targeting_result);
+void __fastcall c_chud_navpoint_manager__draw_hook(c_chud_navpoint_manager *thisptr, void *__formal, long output_user_index);
+void __fastcall c_chud_update_user_data__compute_weapon_update_hook(void *thisptr, void *unused, long weapon_index, long interface_index, s_aim_assist_targeting_result *targeting_result);
 void chud_get_target_tracking_render_point_hook(c_aim_target_object *aim_target_object, real_point3d *point);
 
 /* ---------- globals */
@@ -185,7 +185,7 @@ _inline s_widget_geometry_properties::s_widget_geometry_properties() = default; 
 /* ---------- private code */
 
 _extern void _sub_1085AAB0(void *, void *, long, c_chud_update_user_data *);
-void c_chud_persistent_user_data__update_from_update_data_hook(void *thisptr, void *__formal, long output_user_index, c_chud_update_user_data *hudData) // 0x1085AAB0
+void __fastcall c_chud_persistent_user_data__update_from_update_data_hook(void *thisptr, void *__formal, long output_user_index, c_chud_update_user_data *hudData) // 0x1085AAB0
 {
 	// `anonymous-namespace'::c_chud_persistent_user_data__update_from_update_data_hook
 	// c_chud_update_user_data *hudData;
@@ -200,7 +200,7 @@ void c_chud_persistent_user_data__update_from_update_data_hook(void *thisptr, vo
 }
 
 _extern void _sub_1085A9E0(void *);
-void c_chud_persistent_user_data__reset_hook(void *thisptr) // 0x1085A9E0
+void __fastcall c_chud_persistent_user_data__reset_hook(void *thisptr) // 0x1085A9E0
 {
 	// `anonymous-namespace'::c_chud_persistent_user_data__reset_hook
 	// void *thisptr;
@@ -213,7 +213,7 @@ void c_chud_persistent_user_data__reset_hook(void *thisptr) // 0x1085A9E0
 }
 
 _extern unsigned long _sub_1085ACC0(c_chud_update_user_data *);
-unsigned long c_chud_update_user_data__get_sound_flags_hook(c_chud_update_user_data *thisptr) // 0x1085ACC0
+unsigned long __fastcall c_chud_update_user_data__get_sound_flags_hook(c_chud_update_user_data *thisptr) // 0x1085ACC0
 {
 	// `anonymous-namespace'::c_chud_update_user_data__get_sound_flags_hook
 	// c_chud_update_user_data *thisptr;
@@ -493,7 +493,7 @@ bool chud_bitmap_widget_compute_geometry_hook(s_chud_draw_widget_data *draw_data
 }
 
 _extern void _sub_10859B30(c_chud_navpoint_manager *, void *, long);
-void c_chud_navpoint_manager__draw_hook(c_chud_navpoint_manager *thisptr, void *__formal, long output_user_index) // 0x10859B30
+void __fastcall c_chud_navpoint_manager__draw_hook(c_chud_navpoint_manager *thisptr, void *__formal, long output_user_index) // 0x10859B30
 {
 	// `anonymous-namespace'::c_chud_navpoint_manager__draw_hook
 	// static ...; // 0x1085A6CA
@@ -576,7 +576,7 @@ void c_chud_navpoint_manager__draw_hook(c_chud_navpoint_manager *thisptr, void *
 }
 
 _extern void _sub_1085ABE0(void *, void *, long, long, s_aim_assist_targeting_result *);
-void c_chud_update_user_data__compute_weapon_update_hook(void *thisptr, void *unused, long weapon_index, long interface_index, s_aim_assist_targeting_result *targeting_result) // 0x1085ABE0
+void __fastcall c_chud_update_user_data__compute_weapon_update_hook(void *thisptr, void *unused, long weapon_index, long interface_index, s_aim_assist_targeting_result *targeting_result) // 0x1085ABE0
 {
 	// `anonymous-namespace'::c_chud_update_user_data__compute_weapon_update_hook
 	// s_aim_assist_targeting_result *targeting_result;

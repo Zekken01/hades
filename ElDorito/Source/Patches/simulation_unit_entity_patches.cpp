@@ -106,10 +106,10 @@ namespace Patches
 	}
 }
 
-void c_simulation_unit_entity_definition__build_object_creation_data_hook(void *thisptr, void *__formal, long unit_index, long creation_data_size, s_simulation_unit_creation_data *creation_data);
-long c_simulation_unit_entity_definition__create_object_hook(void *thisptr, void *__formal, long creation_data_size, s_simulation_unit_creation_data *creation_data, unsigned long long *flags, long state_data_size, s_simulation_unit_state_data *state_data);
-void c_simulation_unit_entity_definition__entity_creation_encode_hook(void *thisptr, void *__formal, long creation_data_size, s_simulation_unit_creation_data *creation_data, s_simulation_view_telemetry_data *telemetry_data, c_bitstream *bitstream, bool unknown);
-bool c_simulation_unit_entity_definition__entity_creation_decode_hook(void *thisptr, void *__formal, long creation_data_size, s_simulation_unit_creation_data *data, c_bitstream *bitstream, bool a4);
+void __fastcall c_simulation_unit_entity_definition__build_object_creation_data_hook(void *thisptr, void *__formal, long unit_index, long creation_data_size, s_simulation_unit_creation_data *creation_data);
+long __fastcall c_simulation_unit_entity_definition__create_object_hook(void *thisptr, void *__formal, long creation_data_size, s_simulation_unit_creation_data *creation_data, unsigned long long *flags, long state_data_size, s_simulation_unit_state_data *state_data);
+void __fastcall c_simulation_unit_entity_definition__entity_creation_encode_hook(void *thisptr, void *__formal, long creation_data_size, s_simulation_unit_creation_data *creation_data, s_simulation_view_telemetry_data *telemetry_data, c_bitstream *bitstream, bool unknown);
+bool __fastcall c_simulation_unit_entity_definition__entity_creation_decode_hook(void *thisptr, void *__formal, long creation_data_size, s_simulation_unit_creation_data *data, c_bitstream *bitstream, bool a4);
 
 /* ---------- globals */
 
@@ -135,7 +135,7 @@ namespace Patches
 /* ---------- private code */
 
 _extern void _sub_106D71E0(void *, void *, long, long, s_simulation_unit_creation_data *);
-void c_simulation_unit_entity_definition__build_object_creation_data_hook(void *thisptr, void *__formal, long unit_index, long creation_data_size, s_simulation_unit_creation_data *creation_data) // 0x106D71E0
+void __fastcall c_simulation_unit_entity_definition__build_object_creation_data_hook(void *thisptr, void *__formal, long unit_index, long creation_data_size, s_simulation_unit_creation_data *creation_data) // 0x106D71E0
 {
 	// `anonymous-namespace'::c_simulation_unit_entity_definition__build_object_creation_data_hook
 	// s_simulation_unit_creation_data *creation_data;
@@ -153,7 +153,7 @@ void c_simulation_unit_entity_definition__build_object_creation_data_hook(void *
 }
 
 _extern long _sub_106D7380(void *, void *, long, s_simulation_unit_creation_data *, unsigned long long *, long, s_simulation_unit_state_data *);
-long c_simulation_unit_entity_definition__create_object_hook(void *thisptr, void *__formal, long creation_data_size, s_simulation_unit_creation_data *creation_data, unsigned long long *flags, long state_data_size, s_simulation_unit_state_data *state_data) // 0x106D7380
+long __fastcall c_simulation_unit_entity_definition__create_object_hook(void *thisptr, void *__formal, long creation_data_size, s_simulation_unit_creation_data *creation_data, unsigned long long *flags, long state_data_size, s_simulation_unit_state_data *state_data) // 0x106D7380
 {
 	// `anonymous-namespace'::c_simulation_unit_entity_definition__create_object_hook
 	// void *__formal;
@@ -200,7 +200,7 @@ long c_simulation_unit_entity_definition__create_object_hook(void *thisptr, void
 }
 
 _extern void _sub_106D7BB0(void *, void *, long, s_simulation_unit_creation_data *, s_simulation_view_telemetry_data *, c_bitstream *, bool);
-void c_simulation_unit_entity_definition__entity_creation_encode_hook(void *thisptr, void *__formal, long creation_data_size, s_simulation_unit_creation_data *creation_data, s_simulation_view_telemetry_data *telemetry_data, c_bitstream *bitstream, bool unknown) // 0x106D7BB0
+void __fastcall c_simulation_unit_entity_definition__entity_creation_encode_hook(void *thisptr, void *__formal, long creation_data_size, s_simulation_unit_creation_data *creation_data, s_simulation_view_telemetry_data *telemetry_data, c_bitstream *bitstream, bool unknown) // 0x106D7BB0
 {
 	// `anonymous-namespace'::c_simulation_unit_entity_definition__entity_creation_encode_hook
 	// bool unknown;
@@ -218,7 +218,7 @@ void c_simulation_unit_entity_definition__entity_creation_encode_hook(void *this
 }
 
 _extern bool _sub_106D7980(void *, void *, long, s_simulation_unit_creation_data *, c_bitstream *, bool);
-bool c_simulation_unit_entity_definition__entity_creation_decode_hook(void *thisptr, void *__formal, long creation_data_size, s_simulation_unit_creation_data *data, c_bitstream *bitstream, bool a4) // 0x106D7980
+bool __fastcall c_simulation_unit_entity_definition__entity_creation_decode_hook(void *thisptr, void *__formal, long creation_data_size, s_simulation_unit_creation_data *data, c_bitstream *bitstream, bool a4) // 0x106D7980
 {
 	// `anonymous-namespace'::c_simulation_unit_entity_definition__entity_creation_decode_hook
 	// bool a4;

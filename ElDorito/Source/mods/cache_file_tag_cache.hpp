@@ -98,13 +98,10 @@ _inline c_cache_file_tag_cache::c_instance_iterator::c_instance_iterator(c_cache
 	_sub_108716A0(this, in_cache, in_group_filter);
 }
 
-_extern void _sub_10877EB0(c_cache_file_tag_cache *const);
 _inline c_cache_file_tag_cache::~c_cache_file_tag_cache() // 0x10877EB0
 {
-	mangled_x86(MANGLED_TODO, "??1c_cache_file_tag_cache@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1c_cache_file_tag_cache@@QAE@XZ");
 	// c_cache_file_tag_cache *const this;
-	todo("implement");
-	_sub_10877EB0(this);
 }
 
 _extern bool _sub_10875680(c_cache_file_tag_cache const *const, long);
@@ -117,24 +114,20 @@ _inline bool c_cache_file_tag_cache::valid_index(long index) const // 0x10875680
 	return __result;
 }
 
-_extern bool _sub_10892020(c_cache_file_tag_cache const *const, long);
 _inline bool c_cache_file_tag_cache::valid_tag(long index) const // 0x10892020
 {
-	mangled_x86(MANGLED_TODO, "?valid_tag@c_cache_file_tag_cache@@QBE_NJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?valid_tag@c_cache_file_tag_cache@@QBE_NJ@Z");
 	// long index;
-	todo("implement");
-	bool __result = _sub_10892020((c_cache_file_tag_cache const *)this, index);
-	return __result;
+
+	return valid_index(index) && ((std::vector<unsigned long> &)m_tag_offsets)[index];
 }
 
-_extern long _sub_10891AA0(c_cache_file_tag_cache const *const);
 _inline long c_cache_file_tag_cache::get_tag_count() const // 0x10891AA0
 {
-	mangled_x86(MANGLED_TODO, "?get_tag_count@c_cache_file_tag_cache@@QBEJXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_tag_count@c_cache_file_tag_cache@@QBEJXZ");
 	// c_cache_file_tag_cache const *const this;
-	todo("implement");
-	long __result = _sub_10891AA0((c_cache_file_tag_cache const *)this);
-	return __result;
+
+	return m_tag_offsets.size();
 }
 
 extern s_cache_tag_instance const *_sub_10874160(c_cache_file_tag_cache const *const, long);
@@ -148,24 +141,20 @@ _inline s_cache_tag_instance const *c_cache_file_tag_cache::get_instance(long in
 	return __result;
 }
 
-extern char const *_sub_10891B00(c_cache_file_tag_cache const *const, long);
 _inline char const *c_cache_file_tag_cache::get_tag_name(long index) const // 0x10891B00
 {
-	mangled_x86(MANGLED_TODO, "?get_tag_name@c_cache_file_tag_cache@@QBEPBDJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_tag_name@c_cache_file_tag_cache@@QBEPBDJ@Z");
 	// long index;
-	todo("implement");
-	char const * __result = _sub_10891B00((c_cache_file_tag_cache const *)this, index);
-	return __result;
+
+	return m_tag_names.get_name(index);
 }
 
-extern c_cache_file_tag_cache::c_instance_iterator _sub_10873C60(c_cache_file_tag_cache const *const, unsigned long);
 _inline c_cache_file_tag_cache::c_instance_iterator c_cache_file_tag_cache::create_iterator(unsigned long group_filter) const // 0x10873C60
 {
-	mangled_x86(MANGLED_TODO, "?create_iterator@c_cache_file_tag_cache@@QBE?AUc_instance_iterator@1@K@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?create_iterator@c_cache_file_tag_cache@@QBE?AUc_instance_iterator@1@K@Z");
 	// unsigned long group_filter;
-	todo("implement");
-	c_cache_file_tag_cache::c_instance_iterator __result = _sub_10873C60((c_cache_file_tag_cache const *)this, group_filter);
-	return __result;
+
+	return c_instance_iterator(this, group_filter);
 }
 
 extern c_file_reference _sub_108C2EE0(c_cache_file_tag_cache const *const);

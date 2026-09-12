@@ -34,7 +34,6 @@ struct s_tag_reference;
 struct s_chud_globals_attributes
 {
 	c_flags<enum e_chud_resolution_flags,unsigned char> resolution_flags; // 0x0
-	unsigned char __pad0[3]; // 0x1
 	float warp_angle; // 0x4
 	float warp_amount; // 0x8
 	float warp_direction; // 0xC
@@ -78,6 +77,7 @@ struct s_chud_globals_attributes
 	s_chud_globals_attributes &operator=(s_chud_globals_attributes const &); /* compiler_generated() */
 };
 static_assert(sizeof(s_chud_globals_attributes) == 232, "Invalid s_chud_globals_attributes size");
+static_assert(offsetof(s_chud_globals_attributes, warp_angle) == 0x4, "s_chud_globals_attributes::warp_angle moved when its reconstructed padding was removed");
 
 #pragma pack(push, 4)
 struct s_chud_sound
@@ -104,7 +104,6 @@ static_assert(sizeof(s_chud_shaders) == 32, "Invalid s_chud_shaders size");
 struct s_chud_per_character_globals
 {
 	c_enum<enum e_chud_character_type,unsigned char> character_type; // 0x0
-	unsigned char __pad0[3]; // 0x1
 	s_static_array<unsigned long,37> colors; // 0x4
 	c_tag_block<s_chud_globals_attributes> attributes; // 0x98
 	c_tag_block<s_chud_sound> sounds; // 0xA4
@@ -160,6 +159,7 @@ struct s_chud_per_character_globals
 	s_chud_per_character_globals &operator=(s_chud_per_character_globals const &); /* compiler_generated() */
 };
 static_assert(sizeof(s_chud_per_character_globals) == 688, "Invalid s_chud_per_character_globals size");
+static_assert(offsetof(s_chud_per_character_globals, colors) == 0x4, "s_chud_per_character_globals::colors moved when its reconstructed padding was removed");
 
 struct s_chud_player_training_definition
 {
@@ -175,7 +175,6 @@ struct s_chud_player_training_definition
 	s_chud_player_training_definition(); /* compiler_generated() */
 	s_chud_player_training_definition &operator=(s_chud_player_training_definition &); /* compiler_generated() */
 	s_chud_player_training_definition &operator=(s_chud_player_training_definition const &); /* compiler_generated() */
-	unsigned char __pad0[3]; // 0x11
 };
 static_assert(sizeof(s_chud_player_training_definition) == 20, "Invalid s_chud_player_training_definition size");
 
@@ -254,14 +253,12 @@ extern _inline s_chud_globals_definition *chud_globals_definition_get();
 
 /* ---------- public code */
 
-extern s_chud_globals_definition *_sub_1085DBB0();
 _inline s_chud_globals_definition *chud_globals_definition_get() // 0x1085DBB0
 {
-	mangled_x86(MANGLED_TODO, "?chud_globals_definition_get@@YAPAUs_chud_globals_definition@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?chud_globals_definition_get@@YAPAUs_chud_globals_definition@@XZ");
 	// procedure flags: nofpo
-	todo("implement");
-	s_chud_globals_definition * __result = _sub_1085DBB0();
-	return __result;
+
+	return *(s_chud_globals_definition * *)0x5257c40;
 }
 
 /* ---------- private code */

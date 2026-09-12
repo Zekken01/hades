@@ -215,6 +215,8 @@ using namespace hades_file_local;
 
 /* ---------- prototypes */
 
+s_player_datum *player_get(unsigned long player_index);  // hades: added for 0X107EB8D0
+
 bool PlayerCanEmote(__int32 playerIndex, __int32 definitionIndex, short emoteIndex);
 void PlayerStartEmote(__int32 playerIndex, long definitionIndex, long emoteIndex);
 void PlayerStopEmote(__int32 playerIndex);
@@ -279,30 +281,34 @@ namespace Player
 		_sub_107EC1B0();
 	}
 
-	_extern bool _sub_107EB8D0(__int32);
 	bool CPlayerEmotes::PlayerIsEmoting(__int32 playerIndex) // 0x107EB8D0
 	{
-		mangled_x86(MANGLED_TODO, "?PlayerIsEmoting@CPlayerEmotes@Player@@SA_NH@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?PlayerIsEmoting@CPlayerEmotes@Player@@SA_NH@Z");
 		// __int32 playerIndex;
 		// s_player_datum *player;
 		// function call : bool (*const)(long, e_action)
-		todo("implement");
-		bool __result = _sub_107EB8D0(playerIndex);
-		return __result;
+
+		s_player_datum *player = player_get(playerIndex);
+		return player && player->unit_index != -1 && ((bool(__cdecl *)(long, int))0xb69ba0)(player->unit_index, 87);
 	}
 
-	_extern bool _sub_107EC7E0(__int32);
 	bool CPlayerEmotes::UnitRequiresThirdPersonCamera(__int32 unitIndex) // 0x107EC7E0
 	{
-		mangled_x86(MANGLED_TODO, "?UnitRequiresThirdPersonCamera@CPlayerEmotes@Player@@SA_NH@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?UnitRequiresThirdPersonCamera@CPlayerEmotes@Player@@SA_NH@Z");
 		// __int32 unitIndex;
 		// s_mod_player_action *actionDef;
 		// s_mod_player_actions_set_definition *actionSet;
 		// Player::CPlayerEmotes::SActionStateData *stateData;
 		// function call : bool (*const)(long, e_action)
-		todo("implement");
-		bool __result = _sub_107EC7E0(unitIndex);
-		return __result;
+
+		if (!((bool(__cdecl *)(int, int))0xb69ba0)(unitIndex, 87))
+			return false;
+		SActionStateData *stateData = Player::CPlayerEmotes::GetUnitActionState(unitIndex);
+		if (!stateData || stateData->definitionIndex == -1)
+			return false;
+		s_mod_player_actions_set_definition *definition = s_mod_player_actions_set_definition::get(stateData->definitionIndex);
+		s_mod_player_action &action = definition->actions[stateData->emoteIndex];
+		return (action.flags & 2) != 0;
 	}
 
 	_extern bool _sub_107EC4B0(__int32);
@@ -319,18 +325,23 @@ namespace Player
 		return __result;
 	}
 
-	_extern bool _sub_107EC6D0(__int32);
 	bool CPlayerEmotes::UnitMovementInhibited(__int32 unitIndex) // 0x107EC6D0
 	{
-		mangled_x86(MANGLED_TODO, "?UnitMovementInhibited@CPlayerEmotes@Player@@SA_NH@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?UnitMovementInhibited@CPlayerEmotes@Player@@SA_NH@Z");
 		// __int32 unitIndex;
 		// s_mod_player_action *actionDef;
 		// s_mod_player_actions_set_definition *actionSet;
 		// Player::CPlayerEmotes::SActionStateData *stateData;
 		// function call : bool (*const)(long, e_action)
-		todo("implement");
-		bool __result = _sub_107EC6D0(unitIndex);
-		return __result;
+
+		if (!((bool (__cdecl *)(int, int))0xb69ba0)(unitIndex, 87))
+			return false;
+		SActionStateData *stateData = Player::CPlayerEmotes::GetUnitActionState(unitIndex);
+		if (!stateData || stateData->definitionIndex == -1)
+			return false;
+		s_mod_player_actions_set_definition *definition = s_mod_player_actions_set_definition::get(stateData->definitionIndex);
+		s_mod_player_action *action = &definition->actions[stateData->emoteIndex];
+		return (action->flags & 4) != 0;
 	}
 
 	_extern bool _sub_107EC5C0(__int32);
@@ -347,18 +358,32 @@ namespace Player
 		return __result;
 	}
 
-	_extern bool _sub_107EB640(__int32, s_unit_camera_definition **);
 	bool CPlayerEmotes::GetUnitCamera(__int32 unitIndex, s_unit_camera_definition **camera) // 0x107EB640
 	{
-		mangled_x86(MANGLED_TODO, "?GetUnitCamera@CPlayerEmotes@Player@@SA_NHPAPAUs_unit_camera_definition@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetUnitCamera@CPlayerEmotes@Player@@SA_NHPAPAUs_unit_camera_definition@@@Z");
 		// s_unit_camera_definition **camera;
 		// s_mod_player_action *actionDef;
 		// s_mod_player_actions_set_definition *actionSet;
 		// Player::CPlayerEmotes::SActionStateData *stateData;
 		// function call : bool (*const)(long, e_action)
-		todo("implement");
-		bool __result = _sub_107EB640(unitIndex, camera);
-		return __result;
+
+		if (!((bool(__cdecl *)(long, long))0xb69ba0)(unitIndex, 87))
+		{
+			return false;
+		}
+		SActionStateData *stateData = Player::CPlayerEmotes::GetUnitActionState(unitIndex);
+		if (!stateData || stateData->definitionIndex == -1)
+		{
+			return false;
+		}
+		s_mod_player_actions_set_definition *definition = s_mod_player_actions_set_definition::get(stateData->definitionIndex);
+		s_mod_player_action *actionDef = &definition->actions[stateData->emoteIndex];
+		if (actionDef->override_camera.address)
+		{
+			*camera = &actionDef->override_camera[0];
+			return true;
+		}
+		return false;
 	}
 
 	extern CPlayerEmotes::SActionStateData *_sub_107EB590(__int32);
@@ -386,23 +411,26 @@ namespace Player
 
 /* ---------- private code */
 
-extern CPlayerEmoteAction::SActionRequest* _sub_107EB2F0(CPlayerEmoteAction::SActionRequest *const, __int32, __int32);
 _inline CPlayerEmoteAction::SActionRequest::SActionRequest(__int32 definitionIndex, __int32 emoteIndex) // 0x107EB2F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0SActionRequest@CPlayerEmoteAction@hades_file_local@@QAE@HH@Z");
 	// `anonymous-namespace'::CPlayerEmoteAction::SActionRequest::SActionRequest
 	// __int32 emoteIndex;
-	todo("implement");
-	_sub_107EB2F0(this, definitionIndex, emoteIndex);
+
+	this->definitionIndex = definitionIndex;
+	this->emoteIndex = emoteIndex;
+	action_type = _action_player_emote;
 }
 
-_extern void _sub_107EC430(CPlayerEmoteAction::SActionRequest *const, long);
 _inline void CPlayerEmoteAction::SActionRequest::Submit(long unit_index) // 0x107EC430
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Submit@SActionRequest@CPlayerEmoteAction@hades_file_local@@QAEXJ@Z");
 	// `anonymous-namespace'::CPlayerEmoteAction::SActionRequest::Submit
 	// long unit_index;
 	// function call : bool (*const)(long, s_action_request *)
-	todo("implement");
-	_sub_107EC430(this, unit_index);
+
+	((bool(__cdecl *const)(long, s_action_request *))0xb69c50)(unit_index, this);
+	submit_unit_holograms(unit_index);
 }
 
 _extern void _sub_107ECF90(CPlayerEmoteAction::SActionRequest *const, __int32);
@@ -626,14 +654,15 @@ _inline void c_simulation_player_emote_event_definition::write_description_to_st
 	_sub_107EA750((c_simulation_player_emote_event_definition const *)this, __formal, __formal1, __formal2, __formal3, description);
 }
 
-extern simulation_event_definition_return_value *_sub_107EA7B0(c_simulation_player_emote_event_definition const *const, simulation_event_definition_return_value *, c_replication_outgoing_event const *, s_simulation_view_telemetry_data const *);
 _inline simulation_event_definition_return_value *c_simulation_player_emote_event_definition::gather_requirements_data(simulation_event_definition_return_value *data, c_replication_outgoing_event const *e, s_simulation_view_telemetry_data const *telemetry) const // 0x107EA7B0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?gather_requirements_data@c_simulation_player_emote_event_definition@hades_file_local@@EBEPAUsimulation_event_definition_return_value@@PAU3@PBUc_replication_outgoing_event@@PBUs_simulation_view_telemetry_data@@@Z");
 	// `anonymous-namespace'::c_simulation_player_emote_event_definition::gather_requirements_data
 	// s_simulation_view_telemetry_data const *telemetry;
-	todo("implement");
-	simulation_event_definition_return_value * __result = _sub_107EA7B0((c_simulation_player_emote_event_definition const *)this, data, e, telemetry);
-	return __result;
+
+	data->value = data->value & 0xFFFFFF01 | 0x101;
+	data->value = data->value & 0x1FF | 0xA800;
+	return data;
 }
 
 _extern void _sub_107EA810(c_simulation_player_emote_event_definition const *const, long, void const *, c_bitstream *, bool);

@@ -231,14 +231,6 @@ namespace Server
 		// mangled_x86(MANGLED_DEFAULT, "??1PlaylistItem@Voting@Server@@QAE@XZ"); no body to assert in
 		_inline PlaylistItem::~PlaylistItem() = default; // 0x1073B780
 
-		_inline VetoSystem::~VetoSystem() // 0x1073B7F0
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??1VetoSystem@Voting@Server@@UAE@XZ");
-			// Server::Voting::VetoSystem *const this;
-
-			compiler_generated();
-		}
-
 		// mangled_x86(MANGLED_DEFAULT, "??1VotingJson@Voting@Server@@QAE@XZ"); no body to assert in
 		_inline VotingJson::~VotingJson() = default; // 0x1073B890
 
@@ -317,35 +309,35 @@ namespace Server
 		// mangled_x86(MANGLED_DEFAULT, "??0MapAndType@Voting@Server@@QAE@$$QAU012@@Z"); no body to assert in
 		_inline MapAndType::MapAndType(Server::Voting::MapAndType &&__that) = default; // 0x1073A550
 
-		_extern void _sub_10742160(Server::Voting::VetoSystem *const);
 		void VetoSystem::countVotes() // 0x10742160
 		{
-			mangled_x86(MANGLED_TODO, "?countVotes@VetoSystem@Voting@Server@@AAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?countVotes@VetoSystem@Voting@Server@@AAEXXZ");
 			// static ...; // 0x10742249
 			// static ...; // 0x10742240
 			// static ...; // 0x10742228
 			// static ...; // 0x10742220
 			// Server::Voting::VetoSystem *const this;
-			{
 				// std::map<std::string,int> &<range>$L0;
 				// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,int> > > > <begin>$L0;
 				// std::_Default_sentinel <end>$L0;
-				{
 					// std::pair<std::string const ,int> const &vote;
-				}
+
+			currentNumberOfVotes = 0;
+			for (auto const &vote : mapVotes)
+			{
+				//in case someone modifies the js and sends something other than a valid vote.
+				if (vote.second != 1)
+					continue;
+				currentNumberOfVotes++;
 			}
-			todo("implement");
-			_sub_10742160(this);
 		}
 
-		_extern bool _sub_10742780(Server::Voting::VetoSystem *const);
 		bool VetoSystem::isEnabled() // 0x10742780
 		{
-			mangled_x86(MANGLED_TODO, "?isEnabled@VetoSystem@Voting@Server@@UAE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?isEnabled@VetoSystem@Voting@Server@@UAE_NXZ");
 			// Server::Voting::VetoSystem *const this;
-			todo("implement");
-			bool __result = _sub_10742780(this);
-			return __result;
+
+			return Modules::ModuleVoting::Instance().VarServerVotingType->ValueInt == 2;
 		}
 
 		_extern void _sub_1073E3C0(Server::Voting::VetoSystem *const);
@@ -375,14 +367,25 @@ namespace Server
 			_sub_1073EC30(this);
 		}
 
-		_extern void _sub_1073CE60(Server::Voting::VetoSystem *const);
 		void VetoSystem::FindWinner() // 0x1073CE60
 		{
-			mangled_x86(MANGLED_TODO, "?FindWinner@VetoSystem@Voting@Server@@AAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?FindWinner@VetoSystem@Voting@Server@@AAEXXZ");
 			// Server::Voting::VetoSystem *const this;
 			// function call : __int32 ()
-			todo("implement");
-			_sub_1073CE60(this);
+
+			countVotes();
+
+			if (currentNumberOfVotes >= getVoteNeededToPass()){
+				revoteFlag = true;
+			}
+			else {
+				currentVetoOption.canveto = false;
+				SetStartTimer();
+				NotifyVotePassed(currentVetoOption);
+			}
+
+			voteStartedTime = 0;
+			mapVotes.clear();
 		}
 
 		_extern void _sub_1073E5E0(Server::Voting::VetoSystem *const);
@@ -402,18 +405,19 @@ namespace Server
 			_sub_1073E5E0(this);
 		}
 
-		_extern void _sub_1073EA30(Server::Voting::VetoSystem *const);
 		void VetoSystem::SetStartTimer() // 0x1073EA30
 		{
-			mangled_x86(MANGLED_TODO, "?SetStartTimer@VetoSystem@Voting@Server@@AAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?SetStartTimer@VetoSystem@Voting@Server@@AAEXXZ");
 			// static ...; // 0x1073EAF0
 			// static ...; // 0x1073EAE4
 			// static ...; // 0x1073EADC
 			// Server::Voting::VetoSystem *const this;
 			// Server::Voting::VotingMessage message;
 			// function call : Server::Voting::VotingMessage (bool)
-			todo("implement");
-			_sub_1073EA30(this);
+
+			auto message = GenerateVotingOptionsMessage(false);
+			BroadcastVotingMessage(message);
+			time(&startime);
 		}
 
 		_extern void _sub_1073EB30(Server::Voting::VetoSystem *const);

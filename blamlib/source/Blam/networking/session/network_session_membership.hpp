@@ -71,7 +71,6 @@ struct s_network_session_peer
 	c_enum<enum e_network_session_peer_state,long> connection_state; // 0x10
 	long network_version; // 0x14
 	unsigned long creation_timestamp; // 0x18
-	unsigned char __pad0[4]; // 0x1C
 	s_network_session_peer_properties properties; // 0x20
 	unsigned long long party_nonce; // 0xE0
 	unsigned long long join_nonce; // 0xE8
@@ -81,9 +80,9 @@ struct s_network_session_peer
 	s_network_session_peer(); /* compiler_generated() */
 	s_network_session_peer &operator=(s_network_session_peer &); /* compiler_generated() */
 	s_network_session_peer &operator=(s_network_session_peer const &); /* compiler_generated() */
-	unsigned char __pad1[4]; // 0xF4
 };
 static_assert(sizeof(s_network_session_peer) == 248, "Invalid s_network_session_peer size");
+static_assert(offsetof(s_network_session_peer, properties) == 0x20, "s_network_session_peer::properties moved when its reconstructed padding was removed");
 
 struct s_network_session_player
 {
@@ -151,44 +150,36 @@ static_assert(sizeof(s_network_session_shared_membership) == 95528, "Invalid s_n
 
 /* ---------- public code */
 
-_extern bool _sub_10A9E1F0(c_network_session_membership const *const);
 _inline bool c_network_session_membership::has_membership() const // 0x10A9E1F0
 {
-	mangled_x86(MANGLED_TODO, "?has_membership@c_network_session_membership@@QBE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?has_membership@c_network_session_membership@@QBE_NXZ");
 	// c_network_session_membership const *const this;
-	todo("implement");
-	bool __result = _sub_10A9E1F0((c_network_session_membership const *)this);
-	return __result;
+
+	return update_number() != -1;
 }
 
-_extern long _sub_10A9E850(c_network_session_membership const *const);
 _inline long c_network_session_membership::update_number() const // 0x10A9E850
 {
-	mangled_x86(MANGLED_TODO, "?update_number@c_network_session_membership@@QBEJXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?update_number@c_network_session_membership@@QBEJXZ");
 	// c_network_session_membership const *const this;
-	todo("implement");
-	long __result = _sub_10A9E850((c_network_session_membership const *)this);
-	return __result;
+
+	return ((s_network_session_shared_membership const *)m_shared_network_membership)->update_number;
 }
 
-_extern long _sub_10EF8720(c_network_session_membership const *const);
 _inline long c_network_session_membership::local_peer_index() const // 0x10EF8720
 {
-	mangled_x86(MANGLED_TODO, "?local_peer_index@c_network_session_membership@@QBEJXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?local_peer_index@c_network_session_membership@@QBEJXZ");
 	// c_network_session_membership const *const this;
-	todo("implement");
-	long __result = _sub_10EF8720((c_network_session_membership const *)this);
-	return __result;
+
+	return m_local_peer_index;
 }
 
-_extern long _sub_10A9E270(c_network_session_membership const *const);
 _inline long c_network_session_membership::host_peer_index() const // 0x10A9E270
 {
-	mangled_x86(MANGLED_TODO, "?host_peer_index@c_network_session_membership@@QBEJXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?host_peer_index@c_network_session_membership@@QBEJXZ");
 	// c_network_session_membership const *const this;
-	todo("implement");
-	long __result = _sub_10A9E270((c_network_session_membership const *)this);
-	return __result;
+
+	return ((s_network_session_shared_membership const *)m_shared_network_membership)->host_peer_index;
 }
 
 _extern long _sub_10693C50(c_network_session_membership const *const);
@@ -201,14 +192,12 @@ _inline long c_network_session_membership::get_player_count() const // 0x10693C5
 	return __result;
 }
 
-extern s_network_session_shared_membership const *_sub_10A9E1C0(c_network_session_membership const *const);
 _inline s_network_session_shared_membership const *c_network_session_membership::get_current_membership() const // 0x10A9E1C0
 {
-	mangled_x86(MANGLED_TODO, "?get_current_membership@c_network_session_membership@@QBEPBUs_network_session_shared_membership@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_current_membership@c_network_session_membership@@QBEPBUs_network_session_shared_membership@@XZ");
 	// c_network_session_membership const *const this;
-	todo("implement");
-	s_network_session_shared_membership const * __result = _sub_10A9E1C0((c_network_session_membership const *)this);
-	return __result;
+
+	return (s_network_session_shared_membership const *)m_shared_network_membership;
 }
 
 /* ---------- private code */

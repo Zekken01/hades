@@ -138,19 +138,21 @@ static_assert(sizeof(s_render_method_postprocess_definition) == 132, "Invalid s_
 
 /* ---------- prototypes */
 
+unsigned long tag_get_group_tag(long index);  // hades: added for 0X108EFD00
+
+extern void *(__cdecl *const tag_get)(unsigned long, long);  // hades: added for 0X108DED70
+
 /* ---------- globals */
 
 /* ---------- public code */
 
-extern c_render_method *_sub_108DED70(long);
 _inline c_render_method *c_render_method::get(long index) // 0x108DED70
 {
-	mangled_x86(MANGLED_TODO, "?get@c_render_method@@SAPAV1@J@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get@c_render_method@@SAPAV1@J@Z");
 	// long index;
 	// function call : void *(*const)(unsigned long, long)
-	todo("implement");
-	c_render_method * __result = _sub_108DED70(index);
-	return __result;
+
+	return (c_render_method *)tag_get(0x726D2020, index);
 }
 
 _extern bool _sub_108EFD80(long);
@@ -163,14 +165,12 @@ _inline bool c_render_method::get_is_transparent(long index) // 0x108EFD80
 	return __result;
 }
 
-_extern bool _sub_108EFD00(long);
 _inline bool c_render_method::get_is_decal(long index) // 0x108EFD00
 {
-	mangled_x86(MANGLED_TODO, "?get_is_decal@c_render_method@@SA_NJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_is_decal@c_render_method@@SA_NJ@Z");
 	// long index;
-	todo("implement");
-	bool __result = _sub_108EFD00(index);
-	return __result;
+
+	return index != -1 && tag_get_group_tag(index) == 0x726D6420;
 }
 
 /* ---------- private code */

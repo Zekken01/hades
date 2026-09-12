@@ -137,14 +137,12 @@ namespace Blam
 		return m_currentStreamBitPosition;
 	}
 
-	_extern bool _sub_107F00A0(Blam::BitStream *const);
 	_inline bool BitStream::ReadBool() // 0x107F00A0
 	{
-		mangled_x86(MANGLED_TODO, "?ReadBool@BitStream@Blam@@QAE_NXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?ReadBool@BitStream@Blam@@QAE_NXZ");
 		// Blam::BitStream *const this;
-		todo("implement");
-		bool __result = _sub_107F00A0(this);
-		return __result;
+
+		return ReadBit();
 	}
 }
 
@@ -166,33 +164,28 @@ _inline t_arg0 Blam::BitStream::ReadUnsigned(t_arg0 minValue, t_arg0 maxValue)
 
 namespace Blam
 {
-	_extern void _sub_107F00F0(Blam::BitStream *const, bool);
 	_inline void BitStream::WriteBool(bool b) // 0x107F00F0
 	{
-		mangled_x86(MANGLED_TODO, "?WriteBool@BitStream@Blam@@QAEX_N@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?WriteBool@BitStream@Blam@@QAEX_N@Z");
 		// bool b;
-		todo("implement");
-		_sub_107F00F0(this, b);
+
+		WriteUnsigned(b, 1);
 	}
 
-	_extern __int32 _sub_1092A1C0(Blam::BitStream const *const);
 	_inline __int32 BitStream::GetAvailableBits() const // 0x1092A1C0
 	{
-		mangled_x86(MANGLED_TODO, "?GetAvailableBits@BitStream@Blam@@ABEHXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetAvailableBits@BitStream@Blam@@ABEHXZ");
 		// Blam::BitStream const *const this;
-		todo("implement");
-		__int32 __result = _sub_1092A1C0((Blam::BitStream const *)this);
-		return __result;
+
+		return 64 - m_accumulatorBitsUsed;
 	}
 
-	_extern bool _sub_10929FA0(Blam::BitStream const *const, __int32);
 	_inline bool BitStream::BitsAvailable(__int32 bits) const // 0x10929FA0
 	{
-		mangled_x86(MANGLED_TODO, "?BitsAvailable@BitStream@Blam@@ABE_NH@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?BitsAvailable@BitStream@Blam@@ABE_NH@Z");
 		// __int32 bits;
-		todo("implement");
-		bool __result = _sub_10929FA0((Blam::BitStream const *)this, bits);
-		return __result;
+
+		return bits <= GetAvailableBits();
 	}
 }
 

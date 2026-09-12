@@ -118,17 +118,17 @@ std::unordered_map<std::string,CModPackageFileSystemView::SFileEntry> CModPackag
 	return __result;
 }
 
-_extern void _sub_10881390(CModPackageFileSystemView *const);
 void CModPackageFileSystemView::Initialize() // 0x10881390
 {
-	mangled_x86(MANGLED_TODO, "?Initialize@CModPackageFileSystemView@@AAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@CModPackageFileSystemView@@AAEXXZ");
 	// static ...; // 0x10881458
 	// static ...; // 0x1088144C
 	// static ...; // 0x10881444
 	// CModPackageFileSystemView *const this;
 	// std::ifstream stream;
-	todo("implement");
-	_sub_10881390(this);
+
+	std::ifstream stream(m_filePath, std::ios::binary);
+	ReadFileTable(stream);
 }
 
 _extern bool _sub_108814A0(CModPackageFileSystemView *const, std::istream &);

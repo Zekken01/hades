@@ -151,10 +151,12 @@ using namespace hades_file_local;
 
 /* ---------- prototypes */
 
+void *csmemmove(void *dest, const void *src, unsigned long size);  // hades: added for 0X10913080
+
 extern void effect_system_patches_apply();
 extern void effect_system_patches_tick();
 
-void c_contrail_gpu__render_hook(s_contrail_gpu_datum *gpu_datum, void *unused, s_contrail_states *states);
+void __fastcall c_contrail_gpu__render_hook(s_contrail_gpu_datum *gpu_datum, void *unused, s_contrail_states *states);
 void gpu_vertex_stream_submit(c_rasterizer_vertex_buffer *vertex_buffer, s_gpu_vertex_stream *stream);
 void beam_gpu_vertex_stream_submit_hook();
 void contrail_gpu_vertex_stream_submit_hook();
@@ -162,7 +164,7 @@ void light_volume_gpu_vertex_stream_submit_hook();
 void particle_emitter_gpu_vertex_stream_submit_hook();
 void event_add_particle_system_location_hook(s_effect_message *message);
 void render_visible_decals_hook(long pass);
-void c_effect_messaging_queue__post_message_hook(void *queue, void *unused, s_effect_message const *message);
+void __fastcall c_effect_messaging_queue__post_message_hook(void *queue, void *unused, s_effect_message const *message);
 void set_effect_message_filter(e_effect_message_type type, bool filtered);
 void s_gpu_storage_2x16un__pack_call_hook(char *buffer_dblptr, real_vector4d *data);
 void s_gpu_storage_2x16un__unpack_call_hook(char *buffer_dblptr, real_vector4d *data);
@@ -174,7 +176,7 @@ _inline void initialize_particle_cylinder(s_particle_system_emitter *_this, void
 _inline void initialize_particle_unweighted_line(s_particle_system_emitter *_this, void *state_list, c_particle *particle, c_particle_emitter *emitter, c_particle_system *system);
 _inline void initialize_particle_planar_orbit(s_particle_system_emitter *_this, void *state_list, c_particle *particle, c_particle_emitter *emitter, c_particle_system *system);
 _inline void initialize_particle_sphere_orbit(s_particle_system_emitter *_this, void *state_list, c_particle *particle, c_particle_emitter *emitter, c_particle_system *system);
-void c_particle_emitter_definition__initialize_particle_call_hook(s_particle_system_emitter *_this, void *_, void *particle_state_list, c_particle *particle, c_particle_emitter *emitter, c_particle_system *system, void *particle_movement_definition);
+void __fastcall c_particle_emitter_definition__initialize_particle_call_hook(s_particle_system_emitter *_this, void *_, void *particle_state_list, c_particle *particle, c_particle_emitter *emitter, c_particle_system *system, void *particle_movement_definition);
 
 /* ---------- globals */
 
@@ -197,20 +199,23 @@ void effect_system_patches_apply() // 0x10911EE0
 	_sub_10911EE0();
 }
 
-_extern void _sub_10912BB0();
 void effect_system_patches_tick() // 0x10912BB0
 {
-	mangled_x86(MANGLED_TODO, "?effect_system_patches_tick@@YAXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?effect_system_patches_tick@@YAXXZ");
 	// procedure flags: nofpo
 	// Modules::ModuleGraphics &graphics_module;
-	todo("implement");
-	_sub_10912BB0();
+
+	auto &graphics_module = Utils::Singleton<Modules::ModuleGraphics>::Instance();
+
+	set_effect_message_filter(_effect_message_type_create_contrail_system, graphics_module.VarContrailsEnabled->ValueInt == 0);
+	set_effect_message_filter(_effect_message_type_create_decal_system, graphics_module.VarDecalsEnabled->ValueInt == 0);
+	set_effect_message_filter(_effect_message_type_create_particle_system, graphics_module.VarParticlesEnabled->ValueInt == 0);
 }
 
 /* ---------- private code */
 
 _extern void _sub_10910260(s_contrail_gpu_datum *, void *, s_contrail_states *);
-void c_contrail_gpu__render_hook(s_contrail_gpu_datum *gpu_datum, void *unused, s_contrail_states *states) // 0x10910260
+void __fastcall c_contrail_gpu__render_hook(s_contrail_gpu_datum *gpu_datum, void *unused, s_contrail_states *states) // 0x10910260
 {
 	// `anonymous-namespace'::c_contrail_gpu__render_hook
 	// static ...; // 0x10910954
@@ -286,53 +291,76 @@ void c_contrail_gpu__render_hook(s_contrail_gpu_datum *gpu_datum, void *unused, 
 	_sub_10910260(gpu_datum, unused, states);
 }
 
-_extern void _sub_10913080(c_rasterizer_vertex_buffer *, s_gpu_vertex_stream *);
 void gpu_vertex_stream_submit(c_rasterizer_vertex_buffer *vertex_buffer, s_gpu_vertex_stream *stream) // 0x10913080
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?gpu_vertex_stream_submit@@YAXPAVc_rasterizer_vertex_buffer@@PAUs_gpu_vertex_stream@hades_file_local@@@Z");
 	// `anonymous-namespace'::gpu_vertex_stream_submit
 	// s_gpu_vertex_stream *stream;
 	// void *data;
 	// long vertex_data_size;
 	// function call : void *(*const)(c_rasterizer_vertex_buffer *, long, long, bool)
 	// function call : bool (*const)(c_rasterizer_vertex_buffer *)
-	todo("implement");
-	_sub_10913080(vertex_buffer, stream);
+
+	unsigned int vertex_data_size;
+	void *data;
+
+	if (stream->vertex_count < 1)
+	{
+		return;
+	}
+
+	vertex_data_size = stream->vertex_count * vertex_buffer->get_vertex_stride();
+	stream->offset = 0;
+	data = ((void *(__thiscall *)(c_rasterizer_vertex_buffer *, int, unsigned int, int))0xa5dd60)(vertex_buffer, 0, vertex_data_size, 1);
+	if (data)
+	{
+		csmemmove(data, stream->vertex_data, vertex_data_size);
+		stream->previous_offset = stream->offset;
+		stream->offset += vertex_data_size;
+		stream->vertex_count = 0;
+	}
+	else
+	{
+		stream->previous_offset = 0;
+		stream->vertex_count = 0;
+	}
+	((void (__thiscall *)(c_rasterizer_vertex_buffer *))0xa5de30)(vertex_buffer);
 }
 
-_extern void _sub_10910210();
 void beam_gpu_vertex_stream_submit_hook() // 0x10910210
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?beam_gpu_vertex_stream_submit_hook@@YAXXZ");
 	// `anonymous-namespace'::beam_gpu_vertex_stream_submit_hook
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10910210();
+
+	gpu_vertex_stream_submit((c_rasterizer_vertex_buffer *)0x1916754, (s_gpu_vertex_stream *)0x510F99C);
 }
 
-_extern void _sub_10911650();
 void contrail_gpu_vertex_stream_submit_hook() // 0x10911650
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?contrail_gpu_vertex_stream_submit_hook@@YAXXZ");
 	// `anonymous-namespace'::contrail_gpu_vertex_stream_submit_hook
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10911650();
+
+	gpu_vertex_stream_submit((c_rasterizer_vertex_buffer *)0x191736C, (s_gpu_vertex_stream *)0x510FD48);
 }
 
-_extern void _sub_10913D40();
 void light_volume_gpu_vertex_stream_submit_hook() // 0x10913D40
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?light_volume_gpu_vertex_stream_submit_hook@@YAXXZ");
 	// `anonymous-namespace'::light_volume_gpu_vertex_stream_submit_hook
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10913D40();
+
+	gpu_vertex_stream_submit((c_rasterizer_vertex_buffer *)0x19177AC, (s_gpu_vertex_stream *)0x5115A90);
 }
 
-_extern void _sub_10913D90();
 void particle_emitter_gpu_vertex_stream_submit_hook() // 0x10913D90
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?particle_emitter_gpu_vertex_stream_submit_hook@@YAXXZ");
 	// `anonymous-namespace'::particle_emitter_gpu_vertex_stream_submit_hook
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10913D90();
+
+	gpu_vertex_stream_submit((c_rasterizer_vertex_buffer *)0x1916194, (s_gpu_vertex_stream *)0x510ED80);
 }
 
 _extern void _sub_10912CB0(s_effect_message *);
@@ -382,7 +410,7 @@ void render_visible_decals_hook(long pass) // 0x10913E60
 }
 
 _extern void _sub_10910B40(void *, void *, s_effect_message const *);
-void c_effect_messaging_queue__post_message_hook(void *queue, void *unused, s_effect_message const *message) // 0x10910B40
+void __fastcall c_effect_messaging_queue__post_message_hook(void *queue, void *unused, s_effect_message const *message) // 0x10910B40
 {
 	// `anonymous-namespace'::c_effect_messaging_queue__post_message_hook
 	// s_effect_message const *message;
@@ -413,14 +441,17 @@ void s_gpu_storage_2x16un__pack_call_hook(char *buffer_dblptr, real_vector4d *da
 	_sub_10914050(buffer_dblptr, data);
 }
 
-_extern void _sub_109140E0(char *, real_vector4d *);
 void s_gpu_storage_2x16un__unpack_call_hook(char *buffer_dblptr, real_vector4d *data) // 0x109140E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?s_gpu_storage_2x16un__unpack_call_hook@@YAXPADPAUreal_vector4d@@@Z");
 	// `anonymous-namespace'::s_gpu_storage_2x16un__unpack_call_hook
 	// real_vector4d *data;
 	// short *buffer;
-	todo("implement");
-	_sub_109140E0(buffer_dblptr, data);
+
+	short *buffer = *(short **)buffer_dblptr;
+	data->i = (*buffer + 32767.0f) / 65535.0f;
+	data->j = (*(buffer + 1) + 32767.0f) / 65535.0f;
+	*buffer_dblptr += 4;
 }
 
 _extern bool _sub_10913CD0(s_effect_event const *);
@@ -586,7 +617,7 @@ _inline void initialize_particle_sphere_orbit(s_particle_system_emitter *_this, 
 }
 
 _extern void _sub_10910CA0(s_particle_system_emitter *, void *, void *, c_particle *, c_particle_emitter *, c_particle_system *, void *);
-void c_particle_emitter_definition__initialize_particle_call_hook(s_particle_system_emitter *_this, void *_, void *particle_state_list, c_particle *particle, c_particle_emitter *emitter, c_particle_system *system, void *particle_movement_definition) // 0x10910CA0
+void __fastcall c_particle_emitter_definition__initialize_particle_call_hook(s_particle_system_emitter *_this, void *_, void *particle_state_list, c_particle *particle, c_particle_emitter *emitter, c_particle_system *system, void *particle_movement_definition) // 0x10910CA0
 {
 	// `anonymous-namespace'::c_particle_emitter_definition__initialize_particle_call_hook
 // $LN18:

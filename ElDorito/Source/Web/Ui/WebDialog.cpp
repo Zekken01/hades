@@ -182,6 +182,8 @@ namespace Web
 
 namespace hades_file_local
 {
+	extern std::vector<SDialogQueueInfo> queueList; // 0x1247ED54
+	extern std::queue<SDialogCallbackInfo> callbacks; // 0x1247ED64
 	extern __int32 idCounter; // 0x1247ED78
 }
 using namespace hades_file_local;

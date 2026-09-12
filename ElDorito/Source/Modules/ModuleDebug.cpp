@@ -311,6 +311,8 @@ namespace Blam
 
 /* ---------- prototypes */
 
+namespace Patches::DeterminismDebug { bool StartRandomTrace(std::string const &); }  // hades: added for 0X10981370
+
 bool CommandCrash(std::vector<std::string> const &Arguments, std::string &returnInfo);
 bool CommandNuke(std::vector<std::string> const &Arguments, std::string &returnInfo);
 bool CommandDumpTags(std::vector<std::string> const &Arguments, std::string &returnInfo);
@@ -455,14 +457,14 @@ bool CommandRasterizerSetZPlanes(std::vector<std::string> const &Arguments, std:
 	return __result;
 }
 
-_extern bool _sub_10981480(std::vector<std::string> const &, std::string &);
 bool CommandTeleportToCamera(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10981480
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandTeleportToCamera@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandTeleportToCamera
 	// std::string &returnInfo;
-	todo("implement");
-	bool __result = _sub_10981480(Arguments, returnInfo);
-	return __result;
+
+	Modules::ModuleDebug::Instance().teleportToCamera = true;
+	return true;
 }
 
 _extern bool _sub_10981050(std::vector<std::string> const &, std::string &);
@@ -483,14 +485,28 @@ bool CommandReflectionDebug(std::vector<std::string> const &Arguments, std::stri
 	return __result;
 }
 
-_extern bool _sub_10981370(std::vector<std::string> const &, std::string &);
 bool CommandStartRandomTrace(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10981370
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandStartRandomTrace@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandStartRandomTrace
 	// std::string &returnInfo;
-	todo("implement");
-	bool __result = _sub_10981370(Arguments, returnInfo);
-	return __result;
+
+	if (Arguments.size() < 1)
+	{
+		returnInfo = "Expected path to trace file";
+		return false;
+	}
+
+	if (Patches::DeterminismDebug::StartRandomTrace(Arguments[0]))
+	{
+		returnInfo = "Random trace started.";
+		return true;
+	}
+	else
+	{
+		returnInfo = "Failed to start random trace! Check the path exists and the file is not locked!";
+		return false;
+	}
 }
 
 _extern bool _sub_10981420(std::vector<std::string> const &, std::string &);

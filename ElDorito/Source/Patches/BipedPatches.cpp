@@ -136,15 +136,17 @@ namespace Patches
 			_sub_1079BA00(biped_index);
 		}
 
-		_extern void _sub_1079C000(long);
 		void biped_update_sub1_hook(long biped_index) // 0x1079C000
 		{
-			mangled_x86(MANGLED_TODO, "?biped_update_sub1_hook@Biped@Patches@@YAXJ@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?biped_update_sub1_hook@Biped@Patches@@YAXJ@Z");
 			// long biped_index;
 			// void (*const biped_update_sub1)(long);
 			// function call : void (*const)(long)
-			todo("implement");
-			_sub_1079C000(biped_index);
+
+			void (__cdecl *const biped_update_sub1)(long) = (void(__cdecl *const)(long))0xb72280;
+
+			biped_update_sub1(biped_index);
+			Patches::Biped::biped_update_boots_off_the_ground(biped_index);
 		}
 
 		_extern bool _sub_1079B990();

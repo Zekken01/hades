@@ -150,13 +150,13 @@ namespace Patches
 {
 	namespace RawInput
 	{
-		_extern void _sub_10ABEF90();
 		void ApplyAll() // 0x10ABEF90
 		{
-			mangled_x86(MANGLED_TODO, "?ApplyAll@RawInput@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@RawInput@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_10ABEF90();
+			// Hook the input handling routine to fix mouse acceleration
+
+			Hook(0x2E7A9, RawInputHook, 1).Apply();
 		}
 
 		_extern void _sub_10ABF8E0(float, float, float &, float &);

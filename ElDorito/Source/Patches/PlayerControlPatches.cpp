@@ -248,13 +248,18 @@ __declspec(naked) void player_control_zoom_hold_timer_fix1_hook() // 0x108DD080
 	}
 }
 
-extern void _sub_108DD0A0();
 __declspec(naked) void player_control_zoom_hold_timer_fix2_hook() // 0x108DD0A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?player_control_zoom_hold_timer_fix2_hook@@YAXXZ");
 	// `anonymous-namespace'::player_control_zoom_hold_timer_fix2_hook
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_108DD0A0();
+
+	__asm
+	{
+		cmp word ptr [edi + esi + 3D4h], 0FAh
+		push 05D5126h
+		ret
+	}
 }
 
 __declspec(naked) void player_control_crouch_hold_timer_fix1_hook() // 0x108DCF80

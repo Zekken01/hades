@@ -271,13 +271,12 @@ _inline bool SignatureVerificationJob::Update() // 0x107196F0
 	return __result;
 }
 
-_extern void _sub_10716F80(SignatureVerificationJob *const);
 _inline void SignatureVerificationJob::Complete() // 0x10716F80
 {
-	mangled_x86(MANGLED_TODO, "?Complete@SignatureVerificationJob@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Complete@SignatureVerificationJob@@QAEXXZ");
 	// SignatureVerificationJob *const this;
-	todo("implement");
-	_sub_10716F80(this);
+
+	m_finished = true;
 }
 
 extern CModBrowserStateHandler_AcquireMod* _sub_107154D0(CModBrowserStateHandler_AcquireMod *const);
@@ -292,13 +291,10 @@ CModBrowserStateHandler_AcquireMod::CModBrowserStateHandler_AcquireMod() // 0x10
 // mangled_x86(MANGLED_DEFAULT, "??0SSignatureVerificationResult@@QAE@XZ"); no body to assert in
 _inline SSignatureVerificationResult::SSignatureVerificationResult() = default; // 0x10715680
 
-_extern void _sub_10715C90(CModBrowserStateHandler_AcquireMod *const);
 CModBrowserStateHandler_AcquireMod::~CModBrowserStateHandler_AcquireMod() // 0x10715C90
 {
-	mangled_x86(MANGLED_TODO, "??1CModBrowserStateHandler_AcquireMod@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1CModBrowserStateHandler_AcquireMod@@QAE@XZ");
 	// CModBrowserStateHandler_AcquireMod *const this;
-	todo("implement");
-	_sub_10715C90(this);
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??1SSignatureVerificationResult@@QAE@XZ"); no body to assert in
@@ -436,13 +432,12 @@ void CModBrowserStateHandler_AcquireMod::UpdateFinalizing() // 0x10719D50
 	_sub_10719D50(this);
 }
 
-_extern void _sub_10719F20(CModBrowserStateHandler_AcquireMod *const);
 void CModBrowserStateHandler_AcquireMod::UpdateFinished() // 0x10719F20
 {
-	mangled_x86(MANGLED_TODO, "?UpdateFinished@CModBrowserStateHandler_AcquireMod@@AAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateFinished@CModBrowserStateHandler_AcquireMod@@AAEXXZ");
 	// CModBrowserStateHandler_AcquireMod *const this;
-	todo("implement");
-	_sub_10719F20(this);
+
+	Complete();
 }
 
 _extern void _sub_107171C0(CModBrowserStateHandler_AcquireMod *const);
@@ -466,13 +461,12 @@ void CModBrowserStateHandler_AcquireMod::EnterFailedState(Download::EDownloadErr
 	_sub_10717060(this, error);
 }
 
-_extern void _sub_10718D10(CModBrowserStateHandler_AcquireMod *const, CModBrowserStateHandler_AcquireMod::EState);
 void CModBrowserStateHandler_AcquireMod::SetLocalState(CModBrowserStateHandler_AcquireMod::EState state) // 0x10718D10
 {
-	mangled_x86(MANGLED_TODO, "?SetLocalState@CModBrowserStateHandler_AcquireMod@@AAEXW4EState@1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SetLocalState@CModBrowserStateHandler_AcquireMod@@AAEXW4EState@1@@Z");
 	// CModBrowserStateHandler_AcquireMod::EState state;
-	todo("implement");
-	_sub_10718D10(this, state);
+
+	m_state = state;
 }
 
 _extern void _sub_107191A0(CModBrowserStateHandler_AcquireMod *const);
@@ -598,23 +592,27 @@ void CModBrowserStateHandler_AcquireMod::OnUIActionCancel() // 0x107189B0
 	_sub_107189B0(this);
 }
 
-_extern void _sub_10718B10(CModBrowserStateHandler_AcquireMod *const);
 void CModBrowserStateHandler_AcquireMod::OnUIActionRetry() // 0x10718B10
 {
-	mangled_x86(MANGLED_TODO, "?OnUIActionRetry@CModBrowserStateHandler_AcquireMod@@AAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnUIActionRetry@CModBrowserStateHandler_AcquireMod@@AAEXXZ");
 	// CModBrowserStateHandler_AcquireMod *const this;
-	todo("implement");
-	_sub_10718B10(this);
+
+	if (GetLocalState() == EState::DownloadFailed)
+	{
+		m_downloadStarted = false;
+		SetLocalState(EState::Downloading);
+	}
 }
 
-_extern void _sub_10718390(CModBrowserStateHandler_AcquireMod *const);
 void CModBrowserStateHandler_AcquireMod::OnDownloadSingleFinished() // 0x10718390
 {
-	mangled_x86(MANGLED_TODO, "?OnDownloadSingleFinished@CModBrowserStateHandler_AcquireMod@@AAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnDownloadSingleFinished@CModBrowserStateHandler_AcquireMod@@AAEXXZ");
 	// CModBrowserStateHandler_AcquireMod *const this;
 	// CModBrowserStateHandler_AcquireMod::EState curState;
-	todo("implement");
-	_sub_10718390(this);
+
+	EState state = GetLocalState();
+	if (state == WaitingOnUser)
+		SetLocalState(finished);
 }
 
 /* ---------- private code */

@@ -40,61 +40,56 @@ using namespace hades_file_local;
 
 namespace Forge
 {
-	_extern void _sub_1067C130();
 	void CForgeMapBarriers::InitializeForNewMap() // 0x1067C130
 	{
-		mangled_x86(MANGLED_TODO, "?InitializeForNewMap@CForgeMapBarriers@Forge@@SAXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeForNewMap@CForgeMapBarriers@Forge@@SAXXZ");
 		// procedure flags: nofpo
-		todo("implement");
-		_sub_1067C130();
+
+		Reset();
 	}
 
-	_extern void _sub_1067C1E0(long, Forge::ForgeMapModifierProperties &);
 	void CForgeMapBarriers::Update(long mapModifierIndex, Forge::ForgeMapModifierProperties &mapModifierProperties) // 0x1067C1E0
 	{
-		mangled_x86(MANGLED_TODO, "?Update@CForgeMapBarriers@Forge@@SAXJAAUForgeMapModifierProperties@2@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CForgeMapBarriers@Forge@@SAXJAAUForgeMapModifierProperties@2@@Z");
 		// Forge::ForgeMapModifierProperties &mapModifierProperties;
-		todo("implement");
-		_sub_1067C1E0(mapModifierIndex, mapModifierProperties);
+
+		killBarrierDisabled = (mapModifierProperties.Flags & 2) != 0;
+		pushBarrierDisabled = (mapModifierProperties.Flags & 1) != 0;
 	}
 
-	_extern void _sub_1067C0F0();
 	void CForgeMapBarriers::HandleMapModifierDeleted() // 0x1067C0F0
 	{
-		mangled_x86(MANGLED_TODO, "?HandleMapModifierDeleted@CForgeMapBarriers@Forge@@SAXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?HandleMapModifierDeleted@CForgeMapBarriers@Forge@@SAXXZ");
 		// procedure flags: nofpo
-		todo("implement");
-		_sub_1067C0F0();
+
+		Reset();
 	}
 
-	_extern bool _sub_1067C170();
 	bool CForgeMapBarriers::KillBarrierDisabled() // 0x1067C170
 	{
-		mangled_x86(MANGLED_TODO, "?KillBarrierDisabled@CForgeMapBarriers@Forge@@SA_NXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?KillBarrierDisabled@CForgeMapBarriers@Forge@@SA_NXZ");
 		// procedure flags: nofpo
-		todo("implement");
-		bool __result = _sub_1067C170();
-		return __result;
+
+		return killBarrierDisabled;
 	}
 
-	_extern bool _sub_1067C190();
 	bool CForgeMapBarriers::PushBarrierDisabled() // 0x1067C190
 	{
-		mangled_x86(MANGLED_TODO, "?PushBarrierDisabled@CForgeMapBarriers@Forge@@SA_NXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?PushBarrierDisabled@CForgeMapBarriers@Forge@@SA_NXZ");
 		// procedure flags: nofpo
-		todo("implement");
-		bool __result = _sub_1067C190();
-		return __result;
+
+		return pushBarrierDisabled;
 	}
 }
 
 /* ---------- private code */
 
-_extern void _sub_1067C1B0();
 void Reset() // 0x1067C1B0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Reset@@YAXXZ");
 	// `anonymous-namespace'::Reset
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_1067C1B0();
+
+	killBarrierDisabled = false;
+	pushBarrierDisabled = false;
 }

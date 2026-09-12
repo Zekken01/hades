@@ -64,14 +64,17 @@ extern _inline long count_bits(unsigned long x);
 
 /* ---------- public code */
 
-_extern long _sub_10EFC220(unsigned long);
 _inline long count_bits(unsigned long x) // 0x10EFC220
 {
-	mangled_x86(MANGLED_TODO, "?count_bits@@YAJK@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?count_bits@@YAJK@Z");
 	// unsigned long x;
-	todo("implement");
-	long __result = _sub_10EFC220(x);
-	return __result;
+
+	x = (x & 0x55555555) + ((x >> 1) & 0x55555555);
+	x = (x & 0x33333333) + ((x >> 2) & 0x33333333);
+	x = (x & 0xF0F0F0F) + ((x >> 4) & 0xF0F0F0F);
+	x = (x & 0xFF00FF) + ((x >> 8) & 0xFF00FF);
+	x = (x & 0xFFFF) + ((x >> 16) & 0xFFFF);
+	return x;
 }
 
 /* ---------- private code */

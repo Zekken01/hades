@@ -268,31 +268,28 @@ _inline hkpShape *__fastcall c_decomposed_poop_shape_impl::getChildShape(hkShape
 	return __result;
 }
 
-_extern void _sub_10F1B820(c_scaled_convex_vertices_shape *, c_convex_vertices_shape_with_material *, float);
 void c_scaled_convex_vertices_shape::fixup(c_scaled_convex_vertices_shape *definition, c_convex_vertices_shape_with_material *child, float scale) // 0x10F1B820
 {
-	mangled_x86(MANGLED_TODO, "?fixup@c_scaled_convex_vertices_shape@@SAXPAU1@PAUc_convex_vertices_shape_with_material@@M@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?fixup@c_scaled_convex_vertices_shape@@SAXPAU1@PAUc_convex_vertices_shape_with_material@@M@Z");
 	// float scale;
-	todo("implement");
-	_sub_10F1B820(definition, child, scale);
+
+	c_scaled_convex_vertices_shape_impl::fixup(definition, child, scale);
 }
 
-_extern void _sub_10F1B710(c_decomposed_poop_shape *, s_structure_instanced_geometry_definition *);
 void c_decomposed_poop_shape::fixup(c_decomposed_poop_shape *definition, s_structure_instanced_geometry_definition *instance_definition) // 0x10F1B710
 {
-	mangled_x86(MANGLED_TODO, "?fixup@c_decomposed_poop_shape@@SAXPAU1@PAUs_structure_instanced_geometry_definition@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?fixup@c_decomposed_poop_shape@@SAXPAU1@PAUs_structure_instanced_geometry_definition@@@Z");
 	// s_structure_instanced_geometry_definition *instance_definition;
-	todo("implement");
-	_sub_10F1B710(definition, instance_definition);
+
+	c_decomposed_poop_shape_impl::fixup(definition, instance_definition);
 }
 
-_extern void _sub_10F1B550(c_convex_vertices_shape_with_material *, s_structure_instanced_geometry_definition *);
 void c_convex_vertices_shape_with_material::fixup(c_convex_vertices_shape_with_material *definition, s_structure_instanced_geometry_definition *instance_definition) // 0x10F1B550
 {
-	mangled_x86(MANGLED_TODO, "?fixup@c_convex_vertices_shape_with_material@@SAXPAU1@PAUs_structure_instanced_geometry_definition@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?fixup@c_convex_vertices_shape_with_material@@SAXPAU1@PAUs_structure_instanced_geometry_definition@@@Z");
 	// s_structure_instanced_geometry_definition *instance_definition;
-	todo("implement");
-	_sub_10F1B550(definition, instance_definition);
+
+	c_convex_vertices_shape_with_material_impl::fixup(definition, instance_definition);
 }
 
 /* ---------- private code */

@@ -199,6 +199,11 @@ void ui_draw_bitmap_widget_hook(s_gui_bitmap_widget_render_info *data, short_rec
 
 /* ---------- private variables */
 
+namespace hades_file_local
+{
+	extern CRenderFullScreenBlur g_fullscreenMenuBlur; // 0x12408354
+}
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Patches
@@ -214,22 +219,21 @@ namespace Patches
 			_sub_108D17D0();
 		}
 
-		_extern void _sub_108D1FE0();
 		void Tick() // 0x108D1FE0
 		{
-			mangled_x86(MANGLED_TODO, "?Tick@MenuBlur@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@MenuBlur@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_108D1FE0();
+
+			g_fullscreenMenuBlur.Update();
 		}
 
-		_extern void _sub_108D1F80();
 		void RenderUIPostProcess() // 0x108D1F80
 		{
-			mangled_x86(MANGLED_TODO, "?RenderUIPostProcess@MenuBlur@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?RenderUIPostProcess@MenuBlur@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_108D1F80();
+
+			g_fullscreenMenuBlur.Render();
+			CustomBitmapManager::Get()->UpdateRender();
 		}
 	}
 }

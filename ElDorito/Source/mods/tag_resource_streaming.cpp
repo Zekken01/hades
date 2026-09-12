@@ -168,13 +168,29 @@ _inline bool c_tag_resource_stream_task::s_packet::is_filled() const // 0x108542
 	return __result;
 }
 
-_extern void _sub_108541A0(c_tag_resource_stream_task *const, void *, unsigned long, unsigned long, unsigned long, void *, unsigned long, c_async_completion_flag *);
 _inline void c_tag_resource_stream_task::initialize(void *file_handle, unsigned long file_offset, unsigned long compressed_size, unsigned long uncompressed_size, void *buffer, unsigned long buffer_size, c_async_completion_flag *completion_flag) // 0x108541A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?initialize@c_tag_resource_stream_task@hades_file_local@@QAEXPAXKKK0KPAUc_async_completion_flag@@@Z");
 	// `anonymous-namespace'::c_tag_resource_stream_task::initialize
 	// c_async_completion_flag *completion_flag;
-	todo("implement");
-	_sub_108541A0(this, file_handle, file_offset, compressed_size, uncompressed_size, buffer, buffer_size, completion_flag);
+
+	m_file_handle = file_handle;
+	m_file_offset = file_offset;
+	m_compressed_size = compressed_size;
+	m_uncompressed_size = uncompressed_size;
+	m_destination_buffer = (char *)buffer;
+	m_destination_buffer_size = buffer_size;
+	m_initialized = true;
+	m_inflight_packets = 0;
+	m_next_in_block_index = 0;
+	m_next_out_block_index = 0;
+	m_block_pos = 0;
+	m_total_bytes_decompressed = 0;
+	m_total_bytes_processed = 0;
+	m_total_bytes_read = 0;
+	m_dest_ptr = (char *)buffer;
+	m_block_buffer = nullptr;
+	m_completion_flag = completion_flag;
 }
 
 _extern void _sub_10854030(c_tag_resource_stream_task *const);
@@ -231,23 +247,29 @@ _inline bool c_tag_resource_stream_task::update() // 0x108547F0
 	return __result;
 }
 
-_extern void _sub_10853E80(c_tag_resource_stream_task *const, e_tag_resource_stream_abort_reason);
 _inline void c_tag_resource_stream_task::abort(e_tag_resource_stream_abort_reason reason) // 0x10853E80
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?abort@c_tag_resource_stream_task@hades_file_local@@QAEXW4e_tag_resource_stream_abort_reason@@@Z");
 	// `anonymous-namespace'::c_tag_resource_stream_task::abort
 	// e_tag_resource_stream_abort_reason reason;
-	todo("implement");
-	_sub_10853E80(this, reason);
+
+	m_completion_flag->set_internal_data(reason);
+	m_aborted = true;
 }
 
-extern e_async_completion _sub_10853FD0(c_tag_resource_stream_task *);
 _inline e_async_completion c_tag_resource_stream_task::async_callback(c_tag_resource_stream_task *task) // 0x10853FD0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?async_callback@c_tag_resource_stream_task@hades_file_local@@SA?AW4e_async_completion@@PAV12@@Z");
 	// `anonymous-namespace'::c_tag_resource_stream_task::async_callback
 	// c_tag_resource_stream_task *task;
-	todo("implement");
-	e_async_completion __result = _sub_10853FD0(task);
-	return __result;
+
+	if (!task->update())
+	{
+		return (e_async_completion)0;
+	}
+
+	task->dispose();
+	return (e_async_completion)1;
 }
 
 /* ---------- template instantiations */

@@ -330,6 +330,12 @@ static_warning("TODO: fix threadLocalAttributes declaration");
 
 /* ---------- private variables */
 
+namespace hades_file_local
+{
+	extern CSimpleMessageQueue<SRenderThreadMessage,4096> renderThreadQueue; // 0x1138F548
+	extern SCacehEntry persistentCache[4096]; // 0x114C7560
+}
+using namespace hades_file_local;
 /* ---------- public code */
 
 _extern __int32 _sub_10818DD0();
@@ -358,14 +364,15 @@ __int32 FindCacheEntry(char const *group, DebugDrawKey cacheKey) // 0x1081C0D0
 	return __result;
 }
 
-_extern void _sub_1081C060(char const *, DebugDrawKey);
 void EvictCacheEntry(char const *group, DebugDrawKey cacheKey) // 0x1081C060
 {
-	mangled_x86(MANGLED_TODO, "?EvictCacheEntry@@YAXPBDUDebugDrawKey@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?EvictCacheEntry@@YAXPBDUDebugDrawKey@@@Z");
 	// DebugDrawKey cacheKey;
 	// long index;
-	todo("implement");
-	_sub_1081C060(group, cacheKey);
+
+	int index = FindCacheEntry(group, cacheKey);
+	if (index != -1)
+		persistentCache[index].valid = false;
 }
 
 _extern void _sub_1081AB70(real_point3d const &, float, long);
@@ -552,13 +559,15 @@ void CDebugDrawBackend::DrawSphereOutline(real_point3d const &center, float radi
 	_sub_1081AE30(center, radius, color);
 }
 
-_extern void _sub_1081B200(real_point2d const &, long, long, float, char const *, ...);
 void CDebugDrawBackend::DrawString2d(real_point2d const &point, long color, long fontId, float scale, char const *format, ...) // 0x1081B200
 {
-	mangled_x86(MANGLED_TODO, "?DrawString2d@CDebugDrawBackend@@SAXABUreal_point2d@@JJMPBDZZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawString2d@CDebugDrawBackend@@SAXABUreal_point2d@@JJMPBDZZ");
 	// char *va;
-	todo("implement");
-	_sub_1081B200(point, color, fontId, scale, format);
+
+	va_list va;
+	va_start(va, format);
+	CDebugDrawBackend::DrawString2d(point, color, fontId, scale, format, va);
+	va_end(va);
 }
 
 _extern void _sub_1081B110(real_point2d const &, long, long, float, char const *, char *);
@@ -574,26 +583,30 @@ void CDebugDrawBackend::DrawString2d(real_point2d const &point, long color, long
 	_sub_1081B110(point, color, fontId, scale, format, va);
 }
 
-_extern void _sub_1081B840(real_point3d const &, long, long, float, char const *, ...);
 void CDebugDrawBackend::DrawString3d(real_point3d const &point, long color, long fontId, float scale, char const *format, ...) // 0x1081B840
 {
-	mangled_x86(MANGLED_TODO, "?DrawString3d@CDebugDrawBackend@@SAXABUreal_point3d@@JJMPBDZZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawString3d@CDebugDrawBackend@@SAXABUreal_point3d@@JJMPBDZZ");
 	// char *va;
-	todo("implement");
-	_sub_1081B840(point, color, fontId, scale, format);
+
+	va_list va;
+	va_start(va, format);
+	CDebugDrawBackend::DrawString3d(point, color, fontId, scale, format, va);
+	va_end(va);
 }
 
-_extern void _sub_1081B750(real_point3d const &, long, long, float, char const *, char *);
 void CDebugDrawBackend::DrawString3d(real_point3d const &point, long color, long fontId, float scale, char const *format, char *va) // 0x1081B750
 {
-	mangled_x86(MANGLED_TODO, "?DrawString3d@CDebugDrawBackend@@SAXABUreal_point3d@@JJMPBDPAD@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawString3d@CDebugDrawBackend@@SAXABUreal_point3d@@JJMPBDPAD@Z");
 	// long fontId;
 	// float scale;
 	// char const *format;
 	// char *va;
 	// char buffer[256];
-	todo("implement");
-	_sub_1081B750(point, color, fontId, scale, format, va);
+
+	char buffer[256];
+
+	vsnprintf(buffer, 256, format, va);
+	DrawString3dInternal(point, color, buffer, fontId, scale);
 }
 
 _extern void _sub_1081A880(real_point3d const &, real_vector3d const &, float, long);
@@ -807,10 +820,9 @@ void CDebugDrawBackend::AttributeScope::SetDepthTest(bool enable) // 0x1081C9D0
 	_sub_1081C9D0(this, enable);
 }
 
-_extern float _sub_1081C220(CDebugDraw const *const, __int32);
 float CDebugDraw::GetLineHeight(__int32 fontId) const // 0x1081C220
 {
-	mangled_x86(MANGLED_TODO, "?GetLineHeight@CDebugDraw@@QBEMH@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetLineHeight@CDebugDraw@@QBEMH@Z");
 	// __int32 fontId;
 	// s_font_header *(*const font_get_header)(long);
 	// long (*const font_get_line_height)(s_font_header *);
@@ -818,9 +830,13 @@ float CDebugDraw::GetLineHeight(__int32 fontId) const // 0x1081C220
 	// float height;
 	// function call : s_font_header *(*const)(long)
 	// function call : long (*const)(s_font_header *)
-	todo("implement");
-	float __result = _sub_1081C220((CDebugDraw const *)this, fontId);
-	return __result;
+
+	void *(__cdecl *const GetFontHeader)(__int32) = (void *(__cdecl *const)(__int32))0x5092f0;
+	__int32 (__cdecl *const GetFontHeaderLineHeight)(void *) = (__int32(__cdecl *const)(void *))0x65b5e0;
+
+	void *header = GetFontHeader(fontId);
+	float lineHeight = (float)GetFontHeaderLineHeight(header);
+	return lineHeight;
 }
 
 /* ---------- private code */
@@ -958,13 +974,13 @@ _inline void SPayloadVisitor::operator()(SDrawPhysicsShapeCapsuleMessage const &
 	_sub_108188F0(this, payload);
 }
 
-_extern void _sub_108185D0(SPayloadVisitor *const, SClearMessage const &);
 _inline void SPayloadVisitor::operator()(SClearMessage const &payload) // 0x108185D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??RSPayloadVisitor@hades_file_local@@QAEXABUSClearMessage@1@@Z");
 	// SPayloadVisitor::operator()
 	// SClearMessage const &payload;
-	todo("implement");
-	_sub_108185D0(this, payload);
+
+	CDebugDrawBackend::Clear(payload.group, payload.cacheKey);
 }
 
 _extern void _sub_1081C5C0(SRenderThreadMessage &);

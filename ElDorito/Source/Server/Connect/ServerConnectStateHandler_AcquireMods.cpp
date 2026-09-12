@@ -390,13 +390,12 @@ void CServerConnectStateHandler_AcquireMods::UpdateFinalizing() // 0x10909B90
 	_sub_10909B90(this);
 }
 
-_extern void _sub_10909D60(CServerConnectStateHandler_AcquireMods *const);
 void CServerConnectStateHandler_AcquireMods::UpdateFinished() // 0x10909D60
 {
-	mangled_x86(MANGLED_TODO, "?UpdateFinished@CServerConnectStateHandler_AcquireMods@@AAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateFinished@CServerConnectStateHandler_AcquireMods@@AAEXXZ");
 	// CServerConnectStateHandler_AcquireMods *const this;
-	todo("implement");
-	_sub_10909D60(this);
+
+	RequestStateChange(Connect);
 }
 
 _extern void _sub_109074A0(CServerConnectStateHandler_AcquireMods *const);
@@ -420,13 +419,12 @@ void CServerConnectStateHandler_AcquireMods::EnterFailedState(Download::EDownloa
 	_sub_10907340(this, error);
 }
 
-_extern void _sub_10908E10(CServerConnectStateHandler_AcquireMods *const, CServerConnectStateHandler_AcquireMods::EState);
 void CServerConnectStateHandler_AcquireMods::SetLocalState(CServerConnectStateHandler_AcquireMods::EState state) // 0x10908E10
 {
-	mangled_x86(MANGLED_TODO, "?SetLocalState@CServerConnectStateHandler_AcquireMods@@AAEXW4EState@1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SetLocalState@CServerConnectStateHandler_AcquireMods@@AAEXW4EState@1@@Z");
 	// CServerConnectStateHandler_AcquireMods::EState state;
-	todo("implement");
-	_sub_10908E10(this, state);
+
+	m_state = state;
 }
 
 _extern void _sub_109092A0(CServerConnectStateHandler_AcquireMods *const);
@@ -552,22 +550,25 @@ void CServerConnectStateHandler_AcquireMods::OnUIActionCancel() // 0x10908AC0
 	_sub_10908AC0(this);
 }
 
-_extern void _sub_10908C80(CServerConnectStateHandler_AcquireMods *const);
 void CServerConnectStateHandler_AcquireMods::OnUIActionRetry() // 0x10908C80
 {
-	mangled_x86(MANGLED_TODO, "?OnUIActionRetry@CServerConnectStateHandler_AcquireMods@@AAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnUIActionRetry@CServerConnectStateHandler_AcquireMods@@AAEXXZ");
 	// CServerConnectStateHandler_AcquireMods *const this;
-	todo("implement");
-	_sub_10908C80(this);
+
+	if (GetLocalState() == EState::DownloadFailed)
+	{
+		m_downloadStarted = false;
+		SetLocalState(EState::Downloading);
+	}
 }
 
-_extern void _sub_10908C20(CServerConnectStateHandler_AcquireMods *const);
 void CServerConnectStateHandler_AcquireMods::OnUIActionJoinServer() // 0x10908C20
 {
-	mangled_x86(MANGLED_TODO, "?OnUIActionJoinServer@CServerConnectStateHandler_AcquireMods@@AAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnUIActionJoinServer@CServerConnectStateHandler_AcquireMods@@AAEXXZ");
 	// CServerConnectStateHandler_AcquireMods *const this;
-	todo("implement");
-	_sub_10908C20(this);
+
+	if (GetLocalState() == WaitingOnUser)
+		SetLocalState(finished);
 }
 
 /* ---------- private code */

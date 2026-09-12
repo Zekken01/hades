@@ -101,7 +101,6 @@ struct s_mod_package_header
 	_inline s_mod_package_header(); /* compiler_generated() */
 	s_mod_package_header &operator=(s_mod_package_header &); /* compiler_generated() */
 	s_mod_package_header &operator=(s_mod_package_header const &); /* compiler_generated() */
-	unsigned char __pad0[2]; // 0x456
 };
 static_assert(sizeof(s_mod_package_header) == 1112, "Invalid s_mod_package_header size");
 

@@ -110,12 +110,11 @@ namespace Http
 		unsigned char __pad0[3]; // 0x81
 		std::shared_ptr<Http::CWinHttpResponse> m_response; // 0x84
 		std::vector<char> m_receiveBuffer; // 0x8C
-		unsigned char __pad1[4]; // 0x9C
 		std::function<bool __cdecl(char const *,unsigned int)> m_contentReceiver; // 0xA0
 		std::function<void __cdecl(std::shared_ptr<Http::IHttpRequest>,bool)> m_completedCallback; // 0xC8
 		std::function<void __cdecl(std::shared_ptr<Http::IHttpRequest>)> m_responseCallback; // 0xF0
 	public:
-		virtual _inline ~CWinHttpRequest(); /* compiler_generated() */
+		virtual _inline ~CWinHttpRequest() = default; /* compiler_generated() */ // 0x108075C0
 	};
 	static_assert(sizeof(Http::CWinHttpRequest) == 280, "Invalid Http::CWinHttpRequest size");
 }
@@ -136,24 +135,20 @@ namespace Http
 		return m_responseCode;
 	}
 
-	extern CHttpHeaders const &_sub_10808A10(Http::CWinHttpResponse const *const);
 	_inline Http::CHttpHeaders const &CWinHttpResponse::GetHeaders() const // 0x10808A10
 	{
-		mangled_x86(MANGLED_TODO, "?GetHeaders@CWinHttpResponse@Http@@UBEABVCHttpHeaders@2@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetHeaders@CWinHttpResponse@Http@@UBEABVCHttpHeaders@2@XZ");
 		// Http::CWinHttpResponse const *const this;
-		todo("implement");
-		Http::CHttpHeaders const & __result = _sub_10808A10((Http::CWinHttpResponse const *)this);
-		return __result;
+
+		return m_headers;
 	}
 
-	_extern void *_sub_10808A40(Http::CWinHttpRequest *const);
 	_inline void *CWinHttpRequest::GetRequestHandle() // 0x10808A40
 	{
-		mangled_x86(MANGLED_TODO, "?GetRequestHandle@CWinHttpRequest@Http@@QAEPAXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetRequestHandle@CWinHttpRequest@Http@@QAEPAXXZ");
 		// Http::CWinHttpRequest *const this;
-		todo("implement");
-		void * __result = _sub_10808A40(this);
-		return __result;
+
+		return m_reqHandle.get();
 	}
 
 	_extern void _sub_1080A5F0(Http::CWinHttpRequest *const, std::function<void __cdecl(std::shared_ptr<Http::IHttpRequest>,bool)> &);

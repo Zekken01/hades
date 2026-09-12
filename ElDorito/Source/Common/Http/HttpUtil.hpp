@@ -26,7 +26,6 @@ namespace Http
 	struct SContentRangeHeader
 	{
 		std::string unit; // 0x0
-		unsigned char __pad0[4]; // 0x1C
 		long long rangeStart; // 0x20
 		long long rangeEnd; // 0x28
 		long long totalSize; // 0x30
@@ -38,6 +37,7 @@ namespace Http
 		Http::SContentRangeHeader &operator=(Http::SContentRangeHeader const &); /* compiler_generated() */
 	};
 	static_assert(sizeof(Http::SContentRangeHeader) == 56, "Invalid Http::SContentRangeHeader size");
+	static_assert(offsetof(Http::SContentRangeHeader, rangeStart) == 0x20, "Http::SContentRangeHeader::rangeStart moved when its reconstructed padding was removed");
 }
 
 /* ---------- prototypes */

@@ -49,7 +49,6 @@ struct s_hs_global
 {
 	tag_string name; // 0x0
 	c_enum<enum e_hs_type,short> type; // 0x20
-	unsigned char __pad0[2]; // 0x22
 	unsigned long root_expression_index; // 0x24
 	s_hs_global(s_hs_global &); /* compiler_generated() */
 	s_hs_global(s_hs_global const &); /* compiler_generated() */
@@ -58,6 +57,7 @@ struct s_hs_global
 	s_hs_global &operator=(s_hs_global const &); /* compiler_generated() */
 };
 static_assert(sizeof(s_hs_global) == 40, "Invalid s_hs_global size");
+static_assert(offsetof(s_hs_global, root_expression_index) == 0x24, "s_hs_global::root_expression_index moved when its reconstructed padding was removed");
 
 #pragma pack(push, 4)
 struct s_hs_script_parameter
@@ -110,7 +110,6 @@ struct s_hs_syntax_node :
 	s_hs_syntax_node(); /* compiler_generated() */
 	s_hs_syntax_node &operator=(s_hs_syntax_node &); /* compiler_generated() */
 	s_hs_syntax_node &operator=(s_hs_syntax_node const &); /* compiler_generated() */
-	unsigned char __pad0[2]; // 0x16
 };
 static_assert(sizeof(s_hs_syntax_node) == 24, "Invalid s_hs_syntax_node size");
 
@@ -223,7 +222,6 @@ static_assert(sizeof($s_hs_script_op$_extraBytes_0) == 16, "Invalid $s_hs_script
 struct s_hs_script_op
 {
 	c_enum<enum e_hs_type,short> return_type; // 0x0
-	unsigned char __pad0[2]; // 0x2
 	void (*callback)(short, __int32, char); // 0x4
 	char const *special_syntax; // 0x8
 	short argument_count; // 0xC
@@ -232,10 +230,11 @@ struct s_hs_script_op
 	s_hs_script_op(); /* compiler_generated() */
 	s_hs_script_op &operator=(s_hs_script_op &); /* compiler_generated() */
 	s_hs_script_op &operator=(s_hs_script_op const &); /* compiler_generated() */
-	unsigned char __pad1[2]; // 0xE
 	c_enum<enum e_hs_type,short> args[0]; // 0xE
 };
 static_assert(sizeof(s_hs_script_op) == 16, "Invalid s_hs_script_op size");
+static_assert(offsetof(s_hs_script_op, argument_count) == 0xC, "s_hs_script_op::argument_count moved when its reconstructed padding was removed");
+static_assert(offsetof(s_hs_script_op, args) == 0xE, "s_hs_script_op::args moved when its reconstructed padding was removed");
 
 #pragma pack(push, 4)
 struct s_hs_thread :
@@ -262,10 +261,10 @@ static_assert(sizeof(s_hs_thread) == 1316, "Invalid s_hs_thread size");
 struct s_hs_global_runtime :
 	public s_datum
 {
-	unsigned char __pad0[2]; // 0x2
 	long value; // 0x4
 };
 static_assert(sizeof(s_hs_global_runtime) == 8, "Invalid s_hs_global_runtime size");
+static_assert(offsetof(s_hs_global_runtime, value) == 0x4, "s_hs_global_runtime::value moved when its reconstructed padding was removed");
 
 struct s_hs_global_external
 {
@@ -287,7 +286,6 @@ struct hs_stack_frame
 	short parameters; // 0xC
 	short parent_stack_frame; // 0xE
 	short frame_size; // 0x10
-	unsigned char __pad0[2]; // 0x12
 };
 static_assert(sizeof(hs_stack_frame) == 20, "Invalid hs_stack_frame size");
 

@@ -53,7 +53,7 @@ namespace Patches
 		private:
 			std::vector<std::shared_ptr<Patches::Network::PlayerPropertiesExtensionBase> > extensions; // 0x0
 		public:
-			_inline PlayerPropertiesExtender(); /* compiler_generated() */
+			_inline PlayerPropertiesExtender() = default; /* compiler_generated() */
 			~PlayerPropertiesExtender(); /* compiler_generated() */
 		};
 		static_assert(sizeof(Patches::Network::PlayerPropertiesExtender) == 16, "Invalid Patches::Network::PlayerPropertiesExtender size");
@@ -70,13 +70,10 @@ namespace Patches
 {
 	namespace Network
 	{
-		_extern void _sub_108D8F20(Patches::Network::PlayerPropertiesExtensionBase *const);
 		_inline PlayerPropertiesExtensionBase::~PlayerPropertiesExtensionBase() // 0x108D8F20
 		{
-			mangled_x86(MANGLED_TODO, "??1PlayerPropertiesExtensionBase@Network@Patches@@UAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??1PlayerPropertiesExtensionBase@Network@Patches@@UAE@XZ");
 			// Patches::Network::PlayerPropertiesExtensionBase *const this;
-			todo("implement");
-			_sub_108D8F20(this);
 		}
 
 		_extern void _sub_108D9320(Patches::Network::PlayerPropertiesExtender *const, std::shared_ptr<Patches::Network::PlayerPropertiesExtensionBase>);

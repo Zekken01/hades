@@ -79,7 +79,7 @@ namespace Web
 				virtual void OnQueryCanceled(scoped_refptr<CefBrowser> browser, scoped_refptr<CefFrame> frame, long long queryId);
 				void AddMethod(std::string const &name, std::function<enum Web::Browser::Bridge::QueryError __cdecl(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &,std::string *)> const &method);
 				void Update();
-				virtual _inline ~WebRendererQueryHandler(); /* compiler_generated() */
+				virtual _inline ~WebRendererQueryHandler() = default; /* compiler_generated() */ // 0x10C70170
 			};
 			static_assert(sizeof(Web::Browser::Bridge::WebRendererQueryHandler) == 184, "Invalid Web::Browser::Bridge::WebRendererQueryHandler size");
 		}

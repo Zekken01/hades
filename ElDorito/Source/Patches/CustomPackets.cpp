@@ -152,6 +152,11 @@ void HandlePacketHook();
 
 /* ---------- private variables */
 
+namespace hades_file_local
+{
+	extern std::unordered_map<unsigned int,CustomPacket> customPackets; // 0x12458470
+}
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Patches
@@ -220,18 +225,20 @@ _inline CustomPacket::~CustomPacket() = default; // 0x10A4F420
 
 _inline CustomPacket &CustomPacket::operator=(CustomPacket const &__that) = default; // 0x10A4F5E0
 
-extern CustomPacket *_sub_10A50360(unsigned __int32);
 CustomPacket *LookUpPacketType(unsigned __int32 guid) // 0x10A50360
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?LookUpPacketType@@YAPAUCustomPacket@hades_file_local@@I@Z");
 	// `anonymous-namespace'::LookUpPacketType
 	// static ...; // 0x10A50444
 	// static ...; // 0x10A50438
 	// static ...; // 0x10A50430
 	// unsigned __int32 guid;
 	// std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,CustomPacket> > > > it;
-	todo("implement");
-	CustomPacket * __result = _sub_10A50360(guid);
-	return __result;
+
+	auto it = customPackets.find(guid);
+	if (it == customPackets.end())
+		return nullptr;
+	return &it->second;
 }
 
 _extern void _sub_10A50710(Blam::BitStream *, __int32, void const *);
@@ -280,12 +287,30 @@ bool HandleCustomPacket(__int32 id, Blam::Network::ObserverChannel *sender, void
 	return __result;
 }
 
-extern void _sub_10A50090();
 __declspec(naked) void HandlePacketHook() // 0x10A50090
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?HandlePacketHook@@YAXXZ");
 	// `anonymous-namespace'::HandlePacketHook
 	// procedure flags: nofpo
 // failed:
-	todo("implement");
-	_sub_10A50090();
+
+	__asm
+	{
+		mov edx, [ebp + 8]
+		cmp dword ptr [edx + 0A10h], 5
+		jne Lfailed
+		push dword ptr [ebp + 14h]
+		push edx
+		push edi
+		call HandleCustomPacket
+		test al, al
+		je Lfailed
+		push 049CB14h
+		ret
+		Lfailed:
+		mov ecx, [esi + 8]
+		push 0
+		push 049CAFFh
+		ret
+	}
 }

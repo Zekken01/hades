@@ -41,12 +41,12 @@ static_assert(sizeof(s_key_state) == 4, "Invalid s_key_state size");
 struct s_key_stroke
 {
 	unsigned char flags; // 0x0
-	unsigned char __pad0[3]; // 0x1
 	long type; // 0x4
 	long field_8; // 0x8
 	long field_C; // 0xC
 };
 static_assert(sizeof(s_key_stroke) == 16, "Invalid s_key_stroke size");
+static_assert(offsetof(s_key_stroke, type) == 0x4, "s_key_stroke::type moved when its reconstructed padding was removed");
 
 struct s_mouse_event
 {

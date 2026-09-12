@@ -34,7 +34,7 @@ private:
 	virtual void Undo();
 	virtual _inline EForgeUndoType GetType();
 public:
-	virtual _inline ~CForgeUndoMapVariant(); /* compiler_generated() */
+	virtual _inline ~CForgeUndoMapVariant() = default; /* compiler_generated() */ // 0x10864C10
 	CForgeUndoMapVariant &operator=(CForgeUndoMapVariant &); /* compiler_generated() */
 	CForgeUndoMapVariant &operator=(CForgeUndoMapVariant const &); /* compiler_generated() */
 };

@@ -20,11 +20,11 @@ struct s_breakable_surface_set
 {
 	long first_broken_event_index; // 0x0
 	bool is_broken; // 0x4
-	unsigned char __pad0[3]; // 0x5
 	unsigned long subpart_visibility[8]; // 0x8
 	unsigned char impct_decal_indices[16]; // 0x28
 };
 static_assert(sizeof(s_breakable_surface_set) == 56, "Invalid s_breakable_surface_set size");
+static_assert(offsetof(s_breakable_surface_set, subpart_visibility) == 0x8, "s_breakable_surface_set::subpart_visibility moved when its reconstructed padding was removed");
 
 #pragma pack(push, 4)
 struct s_breakable_surface_impact_decal
@@ -45,7 +45,6 @@ struct s_breakable_surface_globals
 	bool enabled; // 0x0
 	bool unknown_flag; // 0x1
 	bool havok_geometry_dirty; // 0x2
-	unsigned char __pad0[1]; // 0x3
 	long next_breakable_surface_set_index; // 0x4
 	unsigned long active_bsp_mask; // 0x8
 	long impact_decal_next_index; // 0xC
@@ -56,6 +55,7 @@ struct s_breakable_surface_globals
 	short instanced_geometry_mapping_table[16][4096]; // 0x1CE18
 };
 static_assert(sizeof(s_breakable_surface_globals) == 249368, "Invalid s_breakable_surface_globals size");
+static_assert(offsetof(s_breakable_surface_globals, next_breakable_surface_set_index) == 0x4, "s_breakable_surface_globals::next_breakable_surface_set_index moved when its reconstructed padding was removed");
 
 /* ---------- prototypes */
 

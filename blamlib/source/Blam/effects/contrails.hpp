@@ -47,7 +47,6 @@ public:
 	s_contrail_function_definition(); /* compiler_generated() */
 	s_contrail_function_definition &operator=(s_contrail_function_definition &); /* compiler_generated() */
 	s_contrail_function_definition &operator=(s_contrail_function_definition const &); /* compiler_generated() */
-unsigned char __pad0[3]; // 0x1D
 };
 static_assert(sizeof(s_contrail_function_definition) == 32, "Invalid s_contrail_function_definition size");
 
@@ -168,25 +167,25 @@ static_assert(sizeof(s_contrail_states) == 88, "Invalid s_contrail_states size")
 struct s_contrail_gpu_row :
 	public s_datum
 {
-	unsigned char __pad0[2]; // 0x2
 	long previous_row_datum_index; // 0x4
 	long next_row_datum_index; // 0x8
 	short index; // 0xC
-	unsigned char __pad1[2]; // 0xE
 	float time; // 0x10
 };
 static_assert(sizeof(s_contrail_gpu_row) == 20, "Invalid s_contrail_gpu_row size");
+static_assert(offsetof(s_contrail_gpu_row, previous_row_datum_index) == 0x4, "s_contrail_gpu_row::previous_row_datum_index moved when its reconstructed padding was removed");
+static_assert(offsetof(s_contrail_gpu_row, time) == 0x10, "s_contrail_gpu_row::time moved when its reconstructed padding was removed");
 
 struct s_contrail_gpu_datum :
 	public s_datum
 {
-	unsigned char __pad0[2]; // 0x2
 	long parent_contrail_index; // 0x4
 	long gpu_row_datum_index; // 0x8
 	short field_C; // 0xC
 	unsigned short flags; // 0xE
 };
 static_assert(sizeof(s_contrail_gpu_datum) == 16, "Invalid s_contrail_gpu_datum size");
+static_assert(offsetof(s_contrail_gpu_datum, parent_contrail_index) == 0x4, "s_contrail_gpu_datum::parent_contrail_index moved when its reconstructed padding was removed");
 
 /* ---------- prototypes */
 

@@ -368,14 +368,13 @@ namespace Web
 				_sub_10C7E1B0((IModBrowserModDownloadUI *)this, callback);
 			}
 
-			_extern void _sub_10C7DE90(IModBrowserModDownloadUI * const);
 			void CWebModDownloadSingleScreen::OnDownloadStart() // 0x10C7DE90
 			{
-				mangled_x86(MANGLED_TODO, "?OnDownloadStart@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXXZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?OnDownloadStart@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXXZ");
 				// __shifted(Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen, 4);
 				// Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen *const this;
-				todo("implement");
-				_sub_10C7DE90((IModBrowserModDownloadUI *)this);
+
+				NotifyDownloadStateChanged("downloading", "downloading");
 			}
 
 			_extern void _sub_10C7D990(IModBrowserModDownloadUI * const, std::string const &);
@@ -388,14 +387,13 @@ namespace Web
 				_sub_10C7D990((IModBrowserModDownloadUI *)this, message);
 			}
 
-			_extern void _sub_10C7DAB0(IModBrowserModDownloadUI * const);
 			void CWebModDownloadSingleScreen::OnDownloadFinalizing() // 0x10C7DAB0
 			{
-				mangled_x86(MANGLED_TODO, "?OnDownloadFinalizing@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXXZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?OnDownloadFinalizing@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXXZ");
 				// __shifted(Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen, 4);
 				// Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen *const this;
-				todo("implement");
-				_sub_10C7DAB0((IModBrowserModDownloadUI *)this);
+
+				NotifyDownloadStateChanged("downloading", "download_finalizing");
 			}
 
 			_extern void _sub_10C7DBB0(IModBrowserModDownloadUI * const, SModBrowserState const &);

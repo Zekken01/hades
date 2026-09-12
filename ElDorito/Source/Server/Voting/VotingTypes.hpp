@@ -90,7 +90,6 @@ namespace Server
 			static_assert(sizeof(CharacterOverride) == 56, "Invalid CharacterOverride size");
 			public:
 			bool isTemplate; // 0x0
-			unsigned char __pad0[3]; // 0x1
 			std::vector<Server::Voting::HaloMap> specificMaps; // 0x4
 			std::string inherits; // 0x14
 			std::string typeName; // 0x30
@@ -111,6 +110,7 @@ namespace Server
 			_inline Server::Voting::HaloType &operator=(Server::Voting::HaloType const &__that); /* compiler_generated() */
 		};
 		static_assert(sizeof(Server::Voting::HaloType) == 216, "Invalid Server::Voting::HaloType size");
+		static_assert(offsetof(Server::Voting::HaloType, specificMaps) == 0x4, "Server::Voting::HaloType::specificMaps moved when its reconstructed padding was removed");
 
 		struct PlaylistItem
 		{
@@ -237,13 +237,16 @@ namespace Server
 			_sub_1073A330(this, t, dn);
 		}
 
-		extern MapAndType* _sub_1073A7E0(Server::Voting::MapAndType *const);
 		_inline MapAndType::MapAndType() // 0x1073A7E0
 		{
-			mangled_x86(MANGLED_TODO, "??0MapAndType@Voting@Server@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0MapAndType@Voting@Server@@QAE@XZ");
 			// Server::Voting::MapAndType *const this;
-			todo("implement");
-			_sub_1073A7E0(this);
+
+			index = -1;
+			canveto = false;
+			isRevoteOption = false;
+			isRematchOption = false;
+			Count = 0;
 		}
 
 		extern MapAndType* _sub_1073A6A0(Server::Voting::MapAndType *const, Server::Voting::HaloMap, Server::Voting::HaloType);

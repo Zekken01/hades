@@ -25,7 +25,6 @@ struct s_ctf_engine_globals
 	s_static_array<c_area_set<c_area,3>,9> attacker_goal_zones; // 0xB1C
 	bool field_1638; // 0x1638
 	bool field_1639; // 0x1639
-	unsigned char __pad0[2]; // 0x163A
 	long defensive_team; // 0x163C
 	long flag_swap_timer; // 0x1640
 	long field_1644; // 0x1644
@@ -34,15 +33,16 @@ struct s_ctf_engine_globals
 	long touch_return_timers[9]; // 0x164C
 	short flag_reset_timers[9]; // 0x1670
 	char field_1682[9]; // 0x1682
-	unsigned char __pad1[1]; // 0x168B
 	long field_168C[7]; // 0x168C
 	unsigned char flag_weapon_flags[9]; // 0x16A8
-	unsigned char __pad2[1]; // 0x16B1
 	short unknown_timers1[9]; // 0x16B2
 	short unknown_timers2[9]; // 0x16C4
 	short field_16D6; // 0x16D6
 };
 static_assert(sizeof(s_ctf_engine_globals) == 5848, "Invalid s_ctf_engine_globals size");
+static_assert(offsetof(s_ctf_engine_globals, defensive_team) == 0x163C, "s_ctf_engine_globals::defensive_team moved when its reconstructed padding was removed");
+static_assert(offsetof(s_ctf_engine_globals, field_168C) == 0x168C, "s_ctf_engine_globals::field_168C moved when its reconstructed padding was removed");
+static_assert(offsetof(s_ctf_engine_globals, unknown_timers1) == 0x16B2, "s_ctf_engine_globals::unknown_timers1 moved when its reconstructed padding was removed");
 
 /* ---------- prototypes */
 

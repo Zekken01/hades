@@ -62,20 +62,23 @@ bool GetTextureInternal(__int32 index, IDirect3DTexture9 **texture);
 
 /* ---------- private variables */
 
+namespace hades_file_local
+{
+	extern CachedTexture g_emblemTexture[256]; // 0x1138E428
+}
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Player
 {
 	namespace Emblems
 	{
-		_extern bool _sub_107E9EC0(__int32, IDirect3DTexture9 **);
 		bool PlayerEmblemTextureCache::GetEmblemTexture(__int32 index, IDirect3DTexture9 **texture) // 0x107E9EC0
 		{
-			mangled_x86(MANGLED_TODO, "?GetEmblemTexture@PlayerEmblemTextureCache@Emblems@Player@@SA_NHPAPAUIDirect3DTexture9@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetEmblemTexture@PlayerEmblemTextureCache@Emblems@Player@@SA_NHPAPAUIDirect3DTexture9@@@Z");
 			// IDirect3DTexture9 **texture;
-			todo("implement");
-			bool __result = _sub_107E9EC0(index, texture);
-			return __result;
+
+			return GetTextureInternal(index, texture);
 		}
 	}
 }
@@ -96,13 +99,22 @@ bool LoadEmblemTexture(__int32 index, IDirect3DTexture9 **texture) // 0x107E9FC0
 	return __result;
 }
 
-_extern bool _sub_107E9F10(__int32, IDirect3DTexture9 **);
 bool GetTextureInternal(__int32 index, IDirect3DTexture9 **texture) // 0x107E9F10
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetTextureInternal@@YA_NHPAPAUIDirect3DTexture9@@@Z");
 	// `anonymous-namespace'::GetTextureInternal
 	// IDirect3DTexture9 **texture;
 	// CachedTexture &cachedTexture;
-	todo("implement");
-	bool __result = _sub_107E9F10(index, texture);
-	return __result;
+
+	if (index < 0 || index >= 256)
+		return false;
+
+	CachedTexture *cachedTexture = &g_emblemTexture[index];
+	if (!cachedTexture->valid)
+		cachedTexture->valid = LoadEmblemTexture(index, &cachedTexture->texture);
+
+	if (cachedTexture->valid)
+		*texture = cachedTexture->texture;
+
+	return cachedTexture->valid;
 }

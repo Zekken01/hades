@@ -136,42 +136,36 @@ namespace Patches
 			_sub_10AD1270();
 		}
 
-		_extern void _sub_10AD15D0(__int32);
 		void SetState(__int32 state) // 0x10AD15D0
 		{
-			mangled_x86(MANGLED_TODO, "?SetState@Sprint@Patches@@YAXH@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?SetState@Sprint@Patches@@YAXH@Z");
 			// __int32 state;
-			todo("implement");
-			_sub_10AD15D0(state);
+
+			sprintState = state;
 		}
 
-		_extern __int32 _sub_10AD14B0();
 		__int32 GetState() // 0x10AD14B0
 		{
-			mangled_x86(MANGLED_TODO, "?GetState@Sprint@Patches@@YAHXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetState@Sprint@Patches@@YAHXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			__int32 __result = _sub_10AD14B0();
-			return __result;
+
+			return sprintState;
 		}
 
-		_extern void _sub_10AD1600(bool);
 		void SetUnlimited(bool unlimited) // 0x10AD1600
 		{
-			mangled_x86(MANGLED_TODO, "?SetUnlimited@Sprint@Patches@@YAX_N@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?SetUnlimited@Sprint@Patches@@YAX_N@Z");
 			// bool unlimited;
-			todo("implement");
-			_sub_10AD1600(unlimited);
+
+			sprintUnlimited = unlimited;
 		}
 
-		_extern bool _sub_10AD1580(long);
 		bool PlayerHasSprintTrait(long player_index) // 0x10AD1580
 		{
-			mangled_x86(MANGLED_TODO, "?PlayerHasSprintTrait@Sprint@Patches@@YA_NJ@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?PlayerHasSprintTrait@Sprint@Patches@@YA_NJ@Z");
 			// long player_index;
-			todo("implement");
-			bool __result = _sub_10AD1580(player_index);
-			return __result;
+
+			return HasSprintPlayerTrait(player_index);
 		}
 
 		_extern void _sub_10AD1630();
@@ -268,15 +262,18 @@ bool player_can_sprint(long player_index) // 0x10AD1980
 	return __result;
 }
 
-_extern void _sub_10AD1B00(long, long, s_player_action *);
 void player_examine_action_hook(long player_index, long unit_index, s_player_action *action) // 0x10AD1B00
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?player_examine_action_hook@@YAXJJPAUs_player_action@@@Z");
 	// `anonymous-namespace'::player_examine_action_hook
 	// s_player_action *action;
 	// constexpr void (*const `player_examine_action_hook'::`2'::player_examine_action)(long, long, s_player_action *); // constant == 5494048
 	// function call : void (*const)(long, long, s_player_action *)
-	todo("implement");
-	_sub_10AD1B00(player_index, unit_index, action);
+
+	if (!player_can_sprint(player_index))
+		action->control_flags &= -257;
+
+	((void(__cdecl *)(long, long, s_player_action *))0x53d520)(player_index, unit_index, action);
 }
 
 _extern void _sub_10AD1E10(long, e_unit_messages);

@@ -102,6 +102,8 @@ namespace Patches
 
 /* ---------- prototypes */
 
+unsigned long system_milliseconds();  // hades: added for 0X106E9390
+
 namespace Scripting
 {
 	namespace HS
@@ -229,13 +231,13 @@ namespace Scripting
 			return __result;
 		}
 
-		_extern void _sub_106E8CF0();
 		void InitializeForNewMap() // 0x106E8CF0
 		{
-			mangled_x86(MANGLED_TODO, "?InitializeForNewMap@HS@Scripting@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeForNewMap@HS@Scripting@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_106E8CF0();
+
+			Scripting::HS::HsThreadStorageManager::Get()->Reset();
+			Scripting::HS::hooks.clear();
 		}
 
 		_extern void _sub_106E8C80();
@@ -247,14 +249,14 @@ namespace Scripting
 			_sub_106E8C80();
 		}
 
-		_extern void _sub_106E9390();
 		void Tick() // 0x106E9390
 		{
-			mangled_x86(MANGLED_TODO, "?Tick@HS@Scripting@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@HS@Scripting@@YAXXZ");
 			// procedure flags: nofpo
 			// unsigned __int32 time;
-			todo("implement");
-			_sub_106E9390();
+
+			unsigned int time = system_milliseconds();
+			Scripting::HS::HsThreadStorageManager::Get()->Update(time);
 		}
 
 		_extern void _sub_106E8EE0(long, short, long **, std::span<hs_value const>);

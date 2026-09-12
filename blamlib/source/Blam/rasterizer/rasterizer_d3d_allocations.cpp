@@ -50,95 +50,143 @@ long c_d3d_resource_tracker::m_num_of_allocated_vertex_declarations; // 0x12562F
 
 /* ---------- public code */
 
-extern HRESULT _sub_10F0EF20(unsigned __int32, unsigned __int32, unsigned long, _D3DFORMAT, unsigned long, IDirect3DCubeTexture9 **, long, long, long, char const *);
 HRESULT c_d3d_resource_allocator::create_cube_texture(unsigned __int32 edge_length, unsigned __int32 levels, unsigned long usage, _D3DFORMAT hardware_format, unsigned long pool, IDirect3DCubeTexture9 **cube_texture, long debug_1, long debug_2, long debug_3, char const *debug_label) // 0x10F0EF20
 {
-	mangled_x86(MANGLED_TODO, "?create_cube_texture@c_d3d_resource_allocator@@SAJIIKW4_D3DFORMAT@@KPAPAUIDirect3DCubeTexture9@@JJJPBD@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?create_cube_texture@c_d3d_resource_allocator@@SAJIIKW4_D3DFORMAT@@KPAPAUIDirect3DCubeTexture9@@JJJPBD@Z");
 	// char const *debug_label;
 	// unsigned long d3d_usage;
 	// _D3DPOOL d3d_pool;
 	// HRESULT hr;
 	// function call : HRESULT (unsigned __int32, unsigned __int32, unsigned long, _D3DFORMAT, _D3DPOOL, IDirect3DCubeTexture9 **, void **)
-	todo("implement");
-	HRESULT __result = _sub_10F0EF20(edge_length, levels, usage, hardware_format, pool, cube_texture, debug_1, debug_2, debug_3, debug_label);
-	return __result;
+
+	if (!m_d3d_device_ptr)
+	{
+		return 0;
+	}
+	unsigned long d3d_pool = pool;
+	unsigned long d3d_usage = usage;
+	if (c_rasterizer::g_d3d9ex && pool == D3DPOOL_MANAGED)
+	{
+		d3d_pool = D3DPOOL_DEFAULT;
+		d3d_usage |= 0x200;
+	}
+	HRESULT hr = m_d3d_device_ptr->CreateCubeTexture(edge_length, levels, d3d_usage, hardware_format, (D3DPOOL)d3d_pool, cube_texture, nullptr);
+	c_d3d_resource_tracker::add_texture(*cube_texture);
+	return hr;
 }
 
-extern HRESULT _sub_10F0F040(unsigned __int32, unsigned long, _D3DFORMAT, _D3DPOOL, IDirect3DIndexBuffer9 **, void **);
 HRESULT c_d3d_resource_allocator::create_d3d_index_buffer(unsigned __int32 length, unsigned long usage, _D3DFORMAT hardware_format, _D3DPOOL pool, IDirect3DIndexBuffer9 **index_buffer, void **shared_handle) // 0x10F0F040
 {
-	mangled_x86(MANGLED_TODO, "?create_d3d_index_buffer@c_d3d_resource_allocator@@SAJIKW4_D3DFORMAT@@W4_D3DPOOL@@PAPAUIDirect3DIndexBuffer9@@PAPAX@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?create_d3d_index_buffer@c_d3d_resource_allocator@@SAJIKW4_D3DFORMAT@@W4_D3DPOOL@@PAPAUIDirect3DIndexBuffer9@@PAPAX@Z");
 	// void **shared_handle;
 	// unsigned long d3d_usage;
 	// _D3DPOOL d3d_pool;
 	// HRESULT hr;
 	// function call : HRESULT (unsigned __int32, unsigned long, _D3DFORMAT, _D3DPOOL, IDirect3DIndexBuffer9 **, void **)
-	todo("implement");
-	HRESULT __result = _sub_10F0F040(length, usage, hardware_format, pool, index_buffer, shared_handle);
-	return __result;
+
+	if (!m_d3d_device_ptr)
+		return 0;
+
+	_D3DPOOL d3d_pool = pool;
+	unsigned long d3d_usage = usage;
+	if (c_rasterizer::g_d3d9ex && pool == D3DPOOL_MANAGED)
+	{
+		d3d_pool = D3DPOOL_DEFAULT;
+		d3d_usage = 8;
+	}
+
+	HRESULT hr = m_d3d_device_ptr->CreateIndexBuffer(length, d3d_usage, hardware_format, d3d_pool, index_buffer, shared_handle);
+	c_d3d_resource_tracker::add_index_buffer(*index_buffer);
+	return hr;
 }
 
-extern HRESULT _sub_10F0F150(unsigned __int32, unsigned long, _D3DFORMAT, unsigned long, IDirect3DVertexBuffer9 **, void **);
 HRESULT c_d3d_resource_allocator::create_d3d_vertex_buffer(unsigned __int32 length, unsigned long usage, _D3DFORMAT hardware_format, unsigned long pool, IDirect3DVertexBuffer9 **vertex_buffer, void **shared_handle) // 0x10F0F150
 {
-	mangled_x86(MANGLED_TODO, "?create_d3d_vertex_buffer@c_d3d_resource_allocator@@SAJIKW4_D3DFORMAT@@KPAPAUIDirect3DVertexBuffer9@@PAPAX@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?create_d3d_vertex_buffer@c_d3d_resource_allocator@@SAJIKW4_D3DFORMAT@@KPAPAUIDirect3DVertexBuffer9@@PAPAX@Z");
 	// void **shared_handle;
 	// unsigned long d3d_usage;
 	// _D3DPOOL d3d_pool;
 	// HRESULT hr;
 	// function call : HRESULT (unsigned __int32, unsigned long, unsigned long, _D3DPOOL, IDirect3DVertexBuffer9 **, void **)
-	todo("implement");
-	HRESULT __result = _sub_10F0F150(length, usage, hardware_format, pool, vertex_buffer, shared_handle);
-	return __result;
+
+	if (!m_d3d_device_ptr)
+		return 0;
+
+	_D3DPOOL d3d_pool = (_D3DPOOL)pool;
+	unsigned long d3d_usage = usage;
+	if (c_rasterizer::g_d3d9ex && pool == D3DPOOL_MANAGED)
+	{
+		d3d_pool = D3DPOOL_DEFAULT;
+		d3d_usage = 8;
+	}
+
+	HRESULT hr = m_d3d_device_ptr->CreateVertexBuffer(length, d3d_usage, hardware_format, d3d_pool, vertex_buffer, shared_handle);
+	c_d3d_resource_tracker::add_vertex_buffer(*vertex_buffer);
+	return hr;
 }
 
-extern HRESULT _sub_10F0F260(unsigned __int32, unsigned __int32, _D3DFORMAT, unsigned long, unsigned long, __int32, IDirect3DSurface9 **, long, char const *);
 HRESULT c_d3d_resource_allocator::create_depth_stencil_surface(unsigned __int32 width, unsigned __int32 height, _D3DFORMAT hardware_format, unsigned long multisample_type, unsigned long multisample_quality, __int32 discard, IDirect3DSurface9 **surface, long debug_1, char const *debug_label) // 0x10F0F260
 {
-	mangled_x86(MANGLED_TODO, "?create_depth_stencil_surface@c_d3d_resource_allocator@@SAJIIW4_D3DFORMAT@@KKHPAPAUIDirect3DSurface9@@JPBD@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?create_depth_stencil_surface@c_d3d_resource_allocator@@SAJIIW4_D3DFORMAT@@KKHPAPAUIDirect3DSurface9@@JPBD@Z");
 	// char const *debug_label;
 	// HRESULT hr;
 	// _D3DMULTISAMPLE_TYPE d3d_multisample_type;
 	// function call : HRESULT (unsigned __int32, unsigned __int32, _D3DFORMAT, _D3DMULTISAMPLE_TYPE, unsigned long, __int32, IDirect3DSurface9 **, void **)
-	todo("implement");
-	HRESULT __result = _sub_10F0F260(width, height, hardware_format, multisample_type, multisample_quality, discard, surface, debug_1, debug_label);
-	return __result;
+
+	if (!m_d3d_device_ptr)
+		return 0;
+
+	_D3DMULTISAMPLE_TYPE d3d_multisample_type = D3DMULTISAMPLE_NONE;
+	HRESULT hr = m_d3d_device_ptr->CreateDepthStencilSurface(width, height, hardware_format, d3d_multisample_type, multisample_quality, discard, surface, nullptr);
+	c_d3d_resource_tracker::add_surface(*surface);
+	return hr;
 }
 
-extern HRESULT _sub_10F0F350(unsigned __int32, unsigned __int32, _D3DFORMAT, IDirect3DSurface9 **, char const *);
 HRESULT c_d3d_resource_allocator::create_off_screen_plain_surface(unsigned __int32 width, unsigned __int32 height, _D3DFORMAT hardware_format, IDirect3DSurface9 **surface, char const *debug_label) // 0x10F0F350
 {
-	mangled_x86(MANGLED_TODO, "?create_off_screen_plain_surface@c_d3d_resource_allocator@@SAJIIW4_D3DFORMAT@@PAPAUIDirect3DSurface9@@PBD@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?create_off_screen_plain_surface@c_d3d_resource_allocator@@SAJIIW4_D3DFORMAT@@PAPAUIDirect3DSurface9@@PBD@Z");
 	// char const *debug_label;
 	// HRESULT hr;
 	// function call : HRESULT (unsigned __int32, unsigned __int32, _D3DFORMAT, _D3DPOOL, IDirect3DSurface9 **, void **)
-	todo("implement");
-	HRESULT __result = _sub_10F0F350(width, height, hardware_format, surface, debug_label);
-	return __result;
+
+	if (!m_d3d_device_ptr)
+		return 0;
+
+	HRESULT hr = m_d3d_device_ptr->CreateOffscreenPlainSurface(width, height, hardware_format, D3DPOOL_SYSTEMMEM, surface, nullptr);
+	c_d3d_resource_tracker::add_surface(*surface);
+	return hr;
 }
 
-extern HRESULT _sub_10F0F430(unsigned long const *, IDirect3DPixelShader9 **);
 HRESULT c_d3d_resource_allocator::create_pixel_shader(unsigned long const *function, IDirect3DPixelShader9 **pixel_shader) // 0x10F0F430
 {
-	mangled_x86(MANGLED_TODO, "?create_pixel_shader@c_d3d_resource_allocator@@SAJPBKPAPAUIDirect3DPixelShader9@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?create_pixel_shader@c_d3d_resource_allocator@@SAJPBKPAPAUIDirect3DPixelShader9@@@Z");
 	// IDirect3DPixelShader9 **pixel_shader;
 	// HRESULT hr;
 	// function call : HRESULT (unsigned long const *, IDirect3DPixelShader9 **)
-	todo("implement");
-	HRESULT __result = _sub_10F0F430(function, pixel_shader);
-	return __result;
+
+	if (!m_d3d_device_ptr)
+		return 0;
+
+	HRESULT hr = m_d3d_device_ptr->CreatePixelShader(function, pixel_shader);
+	c_d3d_resource_tracker::add_pixel_shader(*pixel_shader);
+	return hr;
 }
 
-extern HRESULT _sub_10F0F500(unsigned __int32, unsigned __int32, _D3DFORMAT, unsigned long, unsigned long, __int32, IDirect3DSurface9 **, char const *);
 HRESULT c_d3d_resource_allocator::create_render_target(unsigned __int32 width, unsigned __int32 height, _D3DFORMAT hardware_format, unsigned long multisample_type, unsigned long multisample_quality, __int32 lockable, IDirect3DSurface9 **surface, char const *debug_label) // 0x10F0F500
 {
-	mangled_x86(MANGLED_TODO, "?create_render_target@c_d3d_resource_allocator@@SAJIIW4_D3DFORMAT@@KKHPAPAUIDirect3DSurface9@@PBD@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?create_render_target@c_d3d_resource_allocator@@SAJIIW4_D3DFORMAT@@KKHPAPAUIDirect3DSurface9@@PBD@Z");
 	// char const *debug_label;
 	// HRESULT hr;
 	// function call : HRESULT (unsigned __int32, unsigned __int32, _D3DFORMAT, _D3DMULTISAMPLE_TYPE, unsigned long, __int32, IDirect3DSurface9 **, void **)
-	todo("implement");
-	HRESULT __result = _sub_10F0F500(width, height, hardware_format, multisample_type, multisample_quality, lockable, surface, debug_label);
-	return __result;
+
+	if (!m_d3d_device_ptr)
+	{
+		return 0;
+	}
+
+	HRESULT hr = m_d3d_device_ptr->CreateRenderTarget(width, height, hardware_format, (_D3DMULTISAMPLE_TYPE)multisample_type, multisample_quality, lockable, surface, nullptr);
+	c_d3d_resource_tracker::add_surface(*surface);
+	return hr;
 }
 
 extern HRESULT _sub_10F0F5E0(unsigned __int32, unsigned __int32, unsigned __int32, unsigned long, _D3DFORMAT, unsigned long, IDirect3DTexture9 **, long, long, long, char const *);
@@ -157,42 +205,61 @@ HRESULT c_d3d_resource_allocator::create_texture(unsigned __int32 width, unsigne
 	return __result;
 }
 
-extern HRESULT _sub_10F0F780(_D3DVERTEXELEMENT9 const *, IDirect3DVertexDeclaration9 **);
 HRESULT c_d3d_resource_allocator::create_vertex_declaration(_D3DVERTEXELEMENT9 const *elements, IDirect3DVertexDeclaration9 **vertex_declaration) // 0x10F0F780
 {
-	mangled_x86(MANGLED_TODO, "?create_vertex_declaration@c_d3d_resource_allocator@@SAJPBU_D3DVERTEXELEMENT9@@PAPAUIDirect3DVertexDeclaration9@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?create_vertex_declaration@c_d3d_resource_allocator@@SAJPBU_D3DVERTEXELEMENT9@@PAPAUIDirect3DVertexDeclaration9@@@Z");
 	// IDirect3DVertexDeclaration9 **vertex_declaration;
 	// HRESULT hr;
 	// function call : HRESULT (_D3DVERTEXELEMENT9 const *, IDirect3DVertexDeclaration9 **)
-	todo("implement");
-	HRESULT __result = _sub_10F0F780(elements, vertex_declaration);
-	return __result;
+
+	if (!m_d3d_device_ptr)
+		return 0;
+
+	HRESULT hr = m_d3d_device_ptr->CreateVertexDeclaration(elements, vertex_declaration);
+	c_d3d_resource_tracker::add_vertex_declaration(*vertex_declaration);
+	return hr;
 }
 
-extern HRESULT _sub_10F0F850(unsigned long const *, IDirect3DVertexShader9 **);
 HRESULT c_d3d_resource_allocator::create_vertex_shader(unsigned long const *function, IDirect3DVertexShader9 **vertex_shader) // 0x10F0F850
 {
-	mangled_x86(MANGLED_TODO, "?create_vertex_shader@c_d3d_resource_allocator@@SAJPBKPAPAUIDirect3DVertexShader9@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?create_vertex_shader@c_d3d_resource_allocator@@SAJPBKPAPAUIDirect3DVertexShader9@@@Z");
 	// IDirect3DVertexShader9 **vertex_shader;
 	// HRESULT hr;
 	// function call : HRESULT (unsigned long const *, IDirect3DVertexShader9 **)
-	todo("implement");
-	HRESULT __result = _sub_10F0F850(function, vertex_shader);
-	return __result;
+
+	if (!m_d3d_device_ptr)
+		return 0;
+
+	HRESULT hr = m_d3d_device_ptr->CreateVertexShader(function, vertex_shader);
+	c_d3d_resource_tracker::add_vertex_shader(*vertex_shader);
+	return hr;
 }
 
-extern HRESULT _sub_10F0F920(unsigned __int32, unsigned __int32, unsigned __int32, unsigned __int32, unsigned long, _D3DFORMAT, unsigned long, IDirect3DVolumeTexture9 **, long, long, long, char const *);
 HRESULT c_d3d_resource_allocator::create_volume_texture(unsigned __int32 width, unsigned __int32 height, unsigned __int32 depth, unsigned __int32 levels, unsigned long usage, _D3DFORMAT hardware_format, unsigned long pool, IDirect3DVolumeTexture9 **volume_texture, long debug_1, long debug_2, long debug_3, char const *debug_label) // 0x10F0F920
 {
-	mangled_x86(MANGLED_TODO, "?create_volume_texture@c_d3d_resource_allocator@@SAJIIIIKW4_D3DFORMAT@@KPAPAUIDirect3DVolumeTexture9@@JJJPBD@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?create_volume_texture@c_d3d_resource_allocator@@SAJIIIIKW4_D3DFORMAT@@KPAPAUIDirect3DVolumeTexture9@@JJJPBD@Z");
 	// char const *debug_label;
 	// unsigned long d3d_usage;
 	// _D3DPOOL d3d_pool;
 	// HRESULT hr;
 	// function call : HRESULT (unsigned __int32, unsigned __int32, unsigned __int32, unsigned __int32, unsigned long, _D3DFORMAT, _D3DPOOL, IDirect3DVolumeTexture9 **, void **)
-	todo("implement");
-	HRESULT __result = _sub_10F0F920(width, height, depth, levels, usage, hardware_format, pool, volume_texture, debug_1, debug_2, debug_3, debug_label);
-	return __result;
+
+	if (!m_d3d_device_ptr)
+	{
+		return 0;
+	}
+
+	unsigned long d3d_pool = pool;
+	unsigned long d3d_usage = usage;
+	if (c_rasterizer::g_d3d9ex && pool == D3DPOOL_MANAGED)
+	{
+		d3d_pool = D3DPOOL_DEFAULT;
+		d3d_usage |= 0x200;
+	}
+
+	HRESULT hr = m_d3d_device_ptr->CreateVolumeTexture(width, height, depth, levels, d3d_usage, hardware_format, (_D3DPOOL)d3d_pool, volume_texture, nullptr);
+	c_d3d_resource_tracker::add_texture(*volume_texture);
+	return hr;
 }
 
 extern HRESULT _sub_10F10330();
@@ -216,15 +283,19 @@ HRESULT c_d3d_resource_allocator::release_index_buffer(IDirect3DIndexBuffer9 *in
 	return __result;
 }
 
-extern HRESULT _sub_10F10600(IDirect3DVertexBuffer9 *);
 HRESULT c_d3d_resource_allocator::release_vertex_buffer(IDirect3DVertexBuffer9 *vertex_buffer) // 0x10F10600
 {
-	mangled_x86(MANGLED_TODO, "?release_vertex_buffer@c_d3d_resource_allocator@@SAJPAUIDirect3DVertexBuffer9@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?release_vertex_buffer@c_d3d_resource_allocator@@SAJPAUIDirect3DVertexBuffer9@@@Z");
 	// IDirect3DVertexBuffer9 *vertex_buffer;
 	// function call : unsigned long ()
-	todo("implement");
-	HRESULT __result = _sub_10F10600(vertex_buffer);
-	return __result;
+
+	if (!vertex_buffer || *(bool *)0x2446530)
+	{
+		return 0;
+	}
+
+	c_d3d_resource_tracker::remove_vertex_buffer(vertex_buffer);
+	return vertex_buffer->Release();
 }
 
 extern HRESULT _sub_10F10450(IDirect3DPixelShader9 *);
@@ -282,24 +353,21 @@ HRESULT c_d3d_resource_allocator::release_vertex_shader(IDirect3DVertexShader9 *
 	return __result;
 }
 
-_extern void _sub_10F10A50(IDirect3DDevice9 *);
 void c_d3d_resource_allocator::set_d3d_device(IDirect3DDevice9 *device) // 0x10F10A50
 {
-	mangled_x86(MANGLED_TODO, "?set_d3d_device@c_d3d_resource_allocator@@SAXPAUIDirect3DDevice9@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_d3d_device@c_d3d_resource_allocator@@SAXPAUIDirect3DDevice9@@@Z");
 	// IDirect3DDevice9 *device;
-	todo("implement");
-	_sub_10F10A50(device);
+
+	m_d3d_device_ptr = device;
 }
 
-extern HRESULT _sub_10F10AA0(IDirect3DBaseTexture9 *, IDirect3DBaseTexture9 *);
 HRESULT c_d3d_resource_allocator::update_texture(IDirect3DBaseTexture9 *source, IDirect3DBaseTexture9 *destination) // 0x10F10AA0
 {
-	mangled_x86(MANGLED_TODO, "?update_texture@c_d3d_resource_allocator@@SAJPAUIDirect3DBaseTexture9@@0@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?update_texture@c_d3d_resource_allocator@@SAJPAUIDirect3DBaseTexture9@@0@Z");
 	// IDirect3DBaseTexture9 *destination;
 	// function call : HRESULT (IDirect3DBaseTexture9 *, IDirect3DBaseTexture9 *)
-	todo("implement");
-	HRESULT __result = _sub_10F10AA0(source, destination);
-	return __result;
+
+	return m_d3d_device_ptr->UpdateTexture(source, destination);
 }
 
 _extern long _sub_10F0EC90(IDirect3DPixelShader9 *);
@@ -547,13 +615,31 @@ HRESULT c_d3d_resource_tracker::release_all_allocated_vertex_declarations() // 0
 	return __result;
 }
 
-_extern void _sub_10F0FC30(long *, long *, long *, long *, long *, long *, long *);
 void c_d3d_resource_tracker::get_allocated_resource_counts(long *num_allocated_pixel_shaders, long *num_allocated_vertex_shaders, long *num_allocated_vertex_buffers, long *num_allocated_index_buffers, long *num_allocated_surfaces, long *num_allocated_textures, long *num_allocated_vertex_declarations) // 0x10F0FC30
 {
-	mangled_x86(MANGLED_TODO, "?get_allocated_resource_counts@c_d3d_resource_tracker@@SAXPAJ000000@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_allocated_resource_counts@c_d3d_resource_tracker@@SAXPAJ000000@Z");
 	// long *num_allocated_vertex_declarations;
-	todo("implement");
-	_sub_10F0FC30(num_allocated_pixel_shaders, num_allocated_vertex_shaders, num_allocated_vertex_buffers, num_allocated_index_buffers, num_allocated_surfaces, num_allocated_textures, num_allocated_vertex_declarations);
+
+	if (num_allocated_pixel_shaders)
+		*num_allocated_pixel_shaders = m_num_of_allocated_pixel_shaders;
+
+	if (num_allocated_vertex_shaders)
+		*num_allocated_vertex_shaders = m_num_of_allocated_vertex_shaders;
+
+	if (num_allocated_vertex_buffers)
+		*num_allocated_vertex_buffers = m_num_of_allocated_vertex_buffers;
+
+	if (num_allocated_index_buffers)
+		*num_allocated_index_buffers = m_num_of_allocated_index_buffers;
+
+	if (num_allocated_surfaces)
+		*num_allocated_surfaces = m_num_of_allocated_surfaces;
+
+	if (num_allocated_textures)
+		*num_allocated_textures = m_num_of_allocated_textures;
+
+	if (num_allocated_vertex_declarations)
+		*num_allocated_vertex_declarations = m_num_of_allocated_vertex_declarations;
 }
 
 template<typename t_arg0>

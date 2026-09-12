@@ -38,23 +38,20 @@ extern void (*const game_time_set_paused)(bool, c_enum<enum e_game_time_pause_re
 
 /* ---------- public code */
 
-extern s_game_time_globals *_sub_10F003C0();
 s_game_time_globals *game_time_get_globals() // 0x10F003C0
 {
-	mangled_x86(MANGLED_TODO, "?game_time_get_globals@@YAPAUs_game_time_globals@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_time_get_globals@@YAPAUs_game_time_globals@@XZ");
 	// procedure flags: nofpo
-	todo("implement");
-	s_game_time_globals * __result = _sub_10F003C0();
-	return __result;
+
+	return tls_getd().game_time;
 }
 
-_extern void _sub_10F00410(float);
 void game_time_set_speed(float speed) // 0x10F00410
 {
-	mangled_x86(MANGLED_TODO, "?game_time_set_speed@@YAXM@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_time_set_speed@@YAXM@Z");
 	// float speed;
-	todo("implement");
-	_sub_10F00410(speed);
+
+	game_time_get_globals()->game_speed = speed;
 }
 
 /* ---------- private code */

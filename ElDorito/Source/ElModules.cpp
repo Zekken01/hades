@@ -198,9 +198,9 @@ bool CommandExecute(std::vector<std::string> const &Arguments, std::string &retu
 	return __result;
 }
 
-_extern bool _sub_108BFA90(std::vector<std::string> const &, std::string &);
 bool CommandWriteConfig(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x108BFA90
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandWriteConfig@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandWriteConfig
 	// static ...; // 0x108C045F
 	// static ...; // 0x108C0454
@@ -224,15 +224,58 @@ bool CommandWriteConfig(std::vector<std::string> const &Arguments, std::string &
 	// std::ofstream outFile;
 	// std::string ed_appdata;
 	// std::string keyFile;
-	{
 		// std::stringstream ss;
 		// std::stringstream keystream;
-	}
+
+	PWSTR localAppdata;
+	SHGetKnownFolderPath(FOLDERID_LocalAppData, NULL, NULL, &localAppdata);
+	auto wide_ed_appdata = std::wstring(localAppdata);
+	auto ed_appdata = Utils::String::ThinString(wide_ed_appdata);
+	ed_appdata += "\\ElDewrito";
+
+	std::string keyFile;
+	std::string prefsName = "dewrito_prefs.cfg";
+	if (ElDorito::Instance().GetInstanceName() != "")
 	{
+		std::stringstream ss;
+		ss << "dewrito_prefs_" << ElDorito::Instance().GetInstanceName() << ".cfg";
+		prefsName = ss.str();
+		std::stringstream keystream;
+		keystream << ed_appdata << "\\keys_" << ElDorito::Instance().GetInstanceName() << ".cfg";
+		keyFile = keystream.str();
 	}
-	todo("implement");
-	bool __result = _sub_108BFA90(Arguments, returnInfo);
-	return __result;
+	else
+	{
+		std::stringstream ss;
+		ss << ed_appdata << "\\keys.cfg";
+		keyFile = ss.str();
+	}
+	std::string prefsFile;
+	if (Arguments.size() > 0)
+		prefsFile = Arguments[0];
+	else
+		prefsFile = "data/" + prefsName;
+
+	std::ofstream outFile(prefsFile, std::ios::trunc);
+	if (outFile.fail())
+	{
+		returnInfo = "Failed to write config to " + prefsFile + "!";
+		return false;
+	}
+	outFile << Modules::CommandMap::Instance().SaveVariables();
+	outFile << "\n" << Modules::ModuleInput::Instance().ExportBindings();
+
+	std::ofstream outKeys(keyFile, std::ios::trunc);
+	if (outKeys.fail())
+	{
+		returnInfo += "\nFailed to write keys to " + keyFile;
+		return false;
+	}
+	outKeys << Modules::CommandMap::Instance().SaveKeys();
+
+
+	returnInfo = "Wrote config to " + prefsName + "\n" + "Wrote Key File to " + keyFile;
+	return true;
 }
 
 /* ---------- template instantiations */

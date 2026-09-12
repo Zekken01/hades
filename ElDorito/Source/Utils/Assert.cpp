@@ -43,10 +43,9 @@ namespace Utils
 
 namespace Utils
 {
-	extern FailBehavior _sub_10C53CB0(char const *, char const *, char const *, char const *, long);
 	Utils::FailBehavior ReportFailure(char const *condition, char const *msg, char const *file, char const *fnc, long line) // 0x10C53CB0
 	{
-		mangled_x86(MANGLED_TODO, "?ReportFailure@Utils@@YA?AW4FailBehavior@1@PBD000J@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?ReportFailure@Utils@@YA?AW4FailBehavior@1@PBD000J@Z");
 		// char const *condition;
 		// char const *msg;
 		// char const *file;
@@ -55,9 +54,19 @@ namespace Utils
 		// std::string file_name;
 		// char messageBuffer[2048];
 		// function call : __int32 (HWND__ *, char const *, char const *, unsigned __int32)
-		todo("implement");
-		Utils::FailBehavior __result = _sub_10C53CB0(condition, msg, file, fnc, line);
-		return __result;
+
+		// Parse file name
+		std::string file_name(file);
+
+		char messageBuffer[2048];
+		sprintf_s(messageBuffer, "%s\nFile: %s\nFunction: %s\nLine: %d\nCondition: '%s'", msg, file_name.c_str(), fnc, line, condition);
+
+		if( MessageBox(NULL, "Assertion", messageBuffer, MB_ICONERROR | MB_YESNO | MB_DEFBUTTON1) == IDYES )
+		{
+			return Utils::FailBehavior::Halt;
+		}
+
+		return Utils::FailBehavior::Continue;
 	}
 }
 

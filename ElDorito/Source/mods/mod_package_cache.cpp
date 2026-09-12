@@ -143,14 +143,12 @@ bool c_mod_package::valid() const // 0x108A0080
 	return __result;
 }
 
-extern char const *_sub_1089DBE0(c_mod_package const *const);
 char const *c_mod_package::get_file_name() const // 0x1089DBE0
 {
-	mangled_x86(MANGLED_TODO, "?get_file_name@c_mod_package@@QBEPBDXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_file_name@c_mod_package@@QBEPBDXZ");
 	// c_mod_package const *const this;
-	todo("implement");
-	char const * __result = _sub_1089DBE0((c_mod_package const *)this);
-	return __result;
+
+	return ((c_file_reference const *)m_file)->filename;
 }
 
 extern s_mod_package_header const *_sub_1089DC10(c_mod_package const *const);
@@ -181,24 +179,25 @@ long c_mod_package::get_map_count() const // 0x1089DCA0
 	return m_map_file_count;
 }
 
-extern s_mod_package_map_file_entry const *_sub_1089DCD0(c_mod_package const *const, long);
 s_mod_package_map_file_entry const *c_mod_package::get_map_file_entry(long index) const // 0x1089DCD0
 {
-	mangled_x86(MANGLED_TODO, "?get_map_file_entry@c_mod_package@@QBEPBUs_mod_package_map_file_entry@@J@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_map_file_entry@c_mod_package@@QBEPBUs_mod_package_map_file_entry@@J@Z");
 	// long index;
-	todo("implement");
-	s_mod_package_map_file_entry const * __result = _sub_1089DCD0((c_mod_package const *)this, index);
-	return __result;
+
+	if (!valid_map_file_index(index))
+	{
+		return nullptr;
+	}
+
+	return &((s_mod_package_map_file_entry const *)m_map_files)[index];
 }
 
-_extern bool _sub_108A00D0(c_mod_package const *const, long);
 bool c_mod_package::valid_map_file_index(long map_file_index) const // 0x108A00D0
 {
-	mangled_x86(MANGLED_TODO, "?valid_map_file_index@c_mod_package@@QBE_NJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?valid_map_file_index@c_mod_package@@QBE_NJ@Z");
 	// long map_file_index;
-	todo("implement");
-	bool __result = _sub_108A00D0((c_mod_package const *)this, map_file_index);
-	return __result;
+
+	return map_file_index >= 0 && map_file_index < m_map_file_count;
 }
 
 _extern long _sub_1089D9C0(c_mod_package *const, long, unsigned long *);
@@ -331,14 +330,27 @@ bool c_mod_package::verify_hash(unsigned char const (&hash)[20]) const // 0x108A
 	return __result;
 }
 
-_extern bool _sub_1089E480(s_mod_package_header const *);
 bool mod_package_header_valid(s_mod_package_header const *header) // 0x1089E480
 {
-	mangled_x86(MANGLED_TODO, "?mod_package_header_valid@@YA_NPBUs_mod_package_header@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?mod_package_header_valid@@YA_NPBUs_mod_package_header@@@Z");
 	// s_mod_package_header const *header;
-	todo("implement");
-	bool __result = _sub_1089E480(header);
-	return __result;
+
+	if (header->signature != 0x6D6F6421)
+	{
+		return false;
+	}
+
+	if (header->version_major != _mod_package_current_major_version)
+	{
+		return false;
+	}
+
+	if (header->section_table.count > k_number_of_mod_package_sections)
+	{
+		return false;
+	}
+
+	return true;
 }
 
 _extern bool _sub_1089F610(c_mod_package *const, s_mod_package_metadata *);

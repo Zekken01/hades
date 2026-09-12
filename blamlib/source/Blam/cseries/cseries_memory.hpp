@@ -21,44 +21,36 @@ extern _inline void const *offset_pointer(void const *pointer, long offset);
 
 /* ---------- public code */
 
-_extern unsigned long _sub_1069C260(void const *);
 _inline unsigned long address_from_pointer(void const *pointer) // 0x1069C260
 {
-	mangled_x86(MANGLED_TODO, "?address_from_pointer@@YAKPBX@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?address_from_pointer@@YAKPBX@Z");
 	// void const *pointer;
-	todo("implement");
-	unsigned long __result = _sub_1069C260(pointer);
-	return __result;
+
+	return (unsigned long)pointer;
 }
 
-extern void const *_sub_1069D890(unsigned long);
 _inline void const *pointer_from_address(unsigned long address) // 0x1069D890
 {
-	mangled_x86(MANGLED_TODO, "?pointer_from_address@@YAPBXK@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?pointer_from_address@@YAPBXK@Z");
 	// unsigned long address;
-	todo("implement");
-	void const * __result = _sub_1069D890(address);
-	return __result;
+
+	return (void const *)address;
 }
 
-_extern void *_sub_1069D830(void *, long);
 _inline void *offset_pointer(void *pointer, long offset) // 0x1069D830
 {
-	mangled_x86(MANGLED_TODO, "?offset_pointer@@YAPAXPAXJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?offset_pointer@@YAPAXPAXJ@Z");
 	// long offset;
-	todo("implement");
-	void * __result = _sub_1069D830(pointer, offset);
-	return __result;
+
+	return (void *)pointer_from_address(address_from_pointer(pointer) + offset);
 }
 
-extern void const *_sub_107A7D90(void const *, long);
 _inline void const *offset_pointer(void const *pointer, long offset) // 0x107A7D90
 {
-	mangled_x86(MANGLED_TODO, "?offset_pointer@@YAPBXPBXJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?offset_pointer@@YAPBXPBXJ@Z");
 	// long offset;
-	todo("implement");
-	void const * __result = _sub_107A7D90(pointer, offset);
-	return __result;
+
+	return pointer_from_address(address_from_pointer(pointer) + offset);
 }
 
 /* ---------- private code */

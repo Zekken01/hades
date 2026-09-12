@@ -207,34 +207,32 @@ void *havok_memory_init_runtime_pool_hook(void *buff) // 0x1085FCB0
 	return __result;
 }
 
-_extern void *_sub_1085FC40(void *, void *, __int32);
 void *havok_memory_init_overflow_pool_hook(void *pool, void *buff, __int32 buff_size) // 0x1085FC40
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?havok_memory_init_overflow_pool_hook@@YAPAXPAX0H@Z");
 	// `anonymous-namespace'::havok_memory_init_overflow_pool_hook
 	// __int32 buff_size;
 	// function call : void *(*)(void *, void *, __int32)
-	todo("implement");
-	void * __result = _sub_1085FC40(pool, buff, buff_size);
-	return __result;
+
+	return ((void *(__cdecl *)(void *, void *, __int32))0x9f8480)(pool, (char *)buff - 0x384E10, 0x384E10);
 }
 
-_extern void _sub_1085F900(CHavokStatsStringOutputHandler *const, real_argb_color const *, char const *);
 _inline void CHavokStatsStringOutputHandler::OutputLine(real_argb_color const *color, char const *line) // 0x1085F900
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OutputLine@CHavokStatsStringOutputHandler@hades_file_local@@UAEXPBUreal_argb_color@@PBD@Z");
 	// `anonymous-namespace'::CHavokStatsStringOutputHandler::OutputLine
 	// char const *line;
-	todo("implement");
-	_sub_1085F900(this, color, line);
+
+	m_buffer << line << "\r\n";
 }
 
-extern std::string _sub_1085F630(CHavokStatsStringOutputHandler const *const);
 _inline std::string CHavokStatsStringOutputHandler::GetString() const // 0x1085F630
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetString@CHavokStatsStringOutputHandler@hades_file_local@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 	// `anonymous-namespace'::CHavokStatsStringOutputHandler::GetString
 	// CHavokStatsStringOutputHandler const *const this;
-	todo("implement");
-	std::string __result = _sub_1085F630((CHavokStatsStringOutputHandler const *)this);
-	return __result;
+
+	return m_buffer.str();
 }
 
 extern CHavokStatsDisplayOutputHandler* _sub_1085E4F0(CHavokStatsDisplayOutputHandler *const);

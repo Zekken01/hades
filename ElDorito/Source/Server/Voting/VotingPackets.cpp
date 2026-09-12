@@ -203,13 +203,13 @@ namespace Server
 {
 	namespace Voting
 	{
-		extern VotingMessage* _sub_10C47FC0(Server::Voting::VotingMessage *const, Server::Voting::VotingMessageType);
 		VotingMessage::VotingMessage(Server::Voting::VotingMessageType type) // 0x10C47FC0
 		{
-			mangled_x86(MANGLED_TODO, "??0VotingMessage@Voting@Server@@QAE@W4VotingMessageType@12@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0VotingMessage@Voting@Server@@QAE@W4VotingMessageType@12@@Z");
 			// Server::Voting::VotingMessageType type;
-			todo("implement");
-			_sub_10C47FC0(this, type);
+
+			memset(this, 0, sizeof(VotingMessage));
+			Type = type;
 		}
 
 		_extern void _sub_10C48740(std::shared_ptr<Server::Voting::VotingMessageHandler>);
@@ -249,15 +249,14 @@ namespace Server
 			return __result;
 		}
 
-		_extern bool _sub_10C49400(Server::Voting::VotingMessage &, __int32);
 		bool SendVotingMessageToPeer(Server::Voting::VotingMessage &message, __int32 peer) // 0x10C49400
 		{
-			mangled_x86(MANGLED_TODO, "?SendVotingMessageToPeer@Voting@Server@@YA_NAAUVotingMessage@12@H@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?SendVotingMessageToPeer@Voting@Server@@YA_NAAUVotingMessage@12@H@Z");
 			// __int32 peer;
 			// Blam::Network::Session *session;
-			todo("implement");
-			bool __result = _sub_10C49400(message, peer);
-			return __result;
+
+			Blam::Network::Session *session = Blam::Network::GetActiveSession();
+			return SendVotingMessagePacket(session, peer, message);
 		}
 
 		_extern bool _sub_10C491C0(__int32 const);
@@ -308,14 +307,19 @@ _inline bool VotingMessagePacketHandler::Deserialize(Blam::BitStream *stream, Se
 	return __result;
 }
 
-_extern void _sub_10C48C70(VotingMessagePacketHandler *const, Blam::Network::ObserverChannel *, Patches::CustomPackets::Packet<Server::Voting::VotingMessage> const *);
 _inline void VotingMessagePacketHandler::HandlePacket(Blam::Network::ObserverChannel *sender, Patches::CustomPackets::Packet<Server::Voting::VotingMessage> const *packet) // 0x10C48C70
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?HandlePacket@VotingMessagePacketHandler@hades_file_local@@UAEXPAUObserverChannel@Network@Blam@@PBU?$Packet@UVotingMessage@Voting@Server@@@CustomPackets@Patches@@@Z");
 	// `anonymous-namespace'::VotingMessagePacketHandler::HandlePacket
 	// Patches::CustomPackets::Packet<Server::Voting::VotingMessage> const *packet;
 	// Blam::Network::Session *session;
-	todo("implement");
-	_sub_10C48C70(this, sender, packet);
+
+	auto session = Blam::Network::GetActiveSession();
+	if (!session)
+		return;
+
+	//at this level, it doesnt matter if we are the host or not. If we receive any sort of voting message, handle it
+	ReceivedVotingMessage(session, session->GetChannelPeer(sender), packet->Data);
 }
 
 _extern void _sub_10C48F50(Blam::Network::Session *, __int32, Server::Voting::VotingMessage const &);

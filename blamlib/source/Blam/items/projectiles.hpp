@@ -181,7 +181,6 @@ struct s_projectile_data :
 {
 	long projectile_flags; // 0x178
 	char action; // 0x17C
-	unsigned char __pad0[1]; // 0x17D
 	unsigned short hit_global_material_type; // 0x17E
 	real_vector3d hit_normal; // 0x180
 	long ignore_object_index_a; // 0x18C
@@ -219,6 +218,7 @@ struct s_projectile_data :
 	s_projectile_data &operator=(s_projectile_data const &); /* compiler_generated() */
 };
 static_assert(sizeof(s_projectile_data) == 536, "Invalid s_projectile_data size");
+static_assert(offsetof(s_projectile_data, hit_global_material_type) == 0x17E, "s_projectile_data::hit_global_material_type moved when its reconstructed padding was removed");
 
 /* ---------- prototypes */
 

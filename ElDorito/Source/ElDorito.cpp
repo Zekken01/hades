@@ -339,6 +339,8 @@ typedef unsigned long SECURITY_INFORMATION;
 
 /* ---------- prototypes */
 
+namespace Patches { void ApplyAfterInit(); }  // hades: added for 0X109671A0
+
 extern bool CanAccessFolder(char const *folderName, unsigned long genericAccessRights);
 extern bool EnsureChildProcessTermination();
 extern std::string GetExceptionMessage(_EXCEPTION_RECORD const &exceptionRecord);
@@ -493,10 +495,8 @@ namespace Debug
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0CModBrowserManager@@QAE@XZ"); no body to assert in
-_inline CModBrowserManager::CModBrowserManager() = default; // 0x10963850
 
 // mangled_x86(MANGLED_DEFAULT, "??0CServerConnectManager@@QAE@XZ"); no body to assert in
-_inline CServerConnectManager::CServerConnectManager() = default; // 0x109638A0
 
 _extern void _sub_10966B70(ElDorito *const);
 void ElDorito::Shutdown() // 0x10966B70
@@ -583,10 +583,9 @@ void ElDorito::setWatermarkText(std::string const &Message) // 0x10967AF0
 	_sub_10967AF0(this, Message);
 }
 
-_extern bool _sub_10964160(char const *, unsigned long);
 bool CanAccessFolder(char const *folderName, unsigned long genericAccessRights) // 0x10964160
 {
-	mangled_x86(MANGLED_TODO, "?CanAccessFolder@@YA_NPBDK@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CanAccessFolder@@YA_NPBDK@Z");
 	// static ...; // 0x1096445C
 	// static ...; // 0x10964449
 	// static ...; // 0x10964441
@@ -600,22 +599,14 @@ bool CanAccessFolder(char const *folderName, unsigned long genericAccessRights) 
 	// unsigned long genericAccessRights;
 	// bool bRet;
 	// unsigned long length;
-	{
 		// void *security;
-		{
 			// void *hToken;
-			{
 				// void *hImpersonatedToken;
-				{
 					// unsigned long privilegesLength;
 					// unsigned long grantedAccess;
 					// _GENERIC_MAPPING mapping;
 					// __int32 result;
 					// _PRIVILEGE_SET privileges;
-				}
-			}
-		}
-	}
 	// function call : __int32 (char const *, unsigned long, void *, unsigned long, unsigned long *)
 	// function call : unsigned long ()
 	// function call : __int32 (char const *, unsigned long, void *, unsigned long, unsigned long *)
@@ -626,9 +617,44 @@ bool CanAccessFolder(char const *folderName, unsigned long genericAccessRights) 
 	// function call : __int32 (void *, void *, unsigned long, _GENERIC_MAPPING *, _PRIVILEGE_SET *, unsigned long *, unsigned long *, __int32 *)
 	// function call : __int32 (void *)
 	// function call : __int32 (void *)
-	todo("implement");
-	bool __result = _sub_10964160(folderName, genericAccessRights);
-	return __result;
+
+	bool bRet = false;
+	DWORD length = 0;
+	if (!::GetFileSecurity(folderName, OWNER_SECURITY_INFORMATION | GROUP_SECURITY_INFORMATION
+		| DACL_SECURITY_INFORMATION, NULL, NULL, &length) &&
+		ERROR_INSUFFICIENT_BUFFER == ::GetLastError()) {
+		PSECURITY_DESCRIPTOR security = static_cast< PSECURITY_DESCRIPTOR >(::malloc(length));
+		if (security && ::GetFileSecurity(folderName, OWNER_SECURITY_INFORMATION | GROUP_SECURITY_INFORMATION
+			| DACL_SECURITY_INFORMATION, security, length, &length)) {
+			HANDLE hToken = NULL;
+			if (::OpenProcessToken(::GetCurrentProcess(), TOKEN_IMPERSONATE | TOKEN_QUERY |
+				TOKEN_DUPLICATE | STANDARD_RIGHTS_READ, &hToken)) {
+				HANDLE hImpersonatedToken = NULL;
+				if (::DuplicateToken(hToken, SecurityImpersonation, &hImpersonatedToken)) {
+					GENERIC_MAPPING mapping = { 0xFFFFFFFF };
+					PRIVILEGE_SET privileges = { 0 };
+					DWORD grantedAccess = 0, privilegesLength = sizeof(privileges);
+					BOOL result = FALSE;
+
+					mapping.GenericRead = FILE_GENERIC_READ;
+					mapping.GenericWrite = FILE_GENERIC_WRITE;
+					mapping.GenericExecute = FILE_GENERIC_EXECUTE;
+					mapping.GenericAll = FILE_ALL_ACCESS;
+
+					::MapGenericMask(&genericAccessRights, &mapping);
+					if (::AccessCheck(security, hImpersonatedToken, genericAccessRights,
+						&mapping, &privileges, &privilegesLength, &grantedAccess, &result)) {
+						bRet = (result == TRUE);
+					}
+					::CloseHandle(hImpersonatedToken);
+				}
+				::CloseHandle(hToken);
+			}
+			::free(security);
+		}
+	}
+
+	return bRet;
 }
 
 _extern bool _sub_10964530();
@@ -690,17 +716,20 @@ long __stdcall TopLevelExceptionFilter(_EXCEPTION_POINTERS *ExceptionInfo) // 0x
 	return __result;
 }
 
-_extern __int32 _sub_109671A0(HINSTANCE__ *, HINSTANCE__ *, char *, __int32);
 __int32 __stdcall WinMainHook(HINSTANCE__ *hInstance, HINSTANCE__ *hPrevInstance, char *lpCmdLine, __int32 nCmdShow) // 0x109671A0
 {
-	mangled_x86(MANGLED_TODO, "?WinMainHook@@YGHPAUHINSTANCE__@@0PADH@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?WinMainHook@@YGHPAUHINSTANCE__@@0PADH@Z");
 	// __int32 nCmdShow;
 	// __int32 (*const WinMain)(HINSTANCE__ *, HINSTANCE__ *, char *, __int32);
 	// function call : long (*(long (*)(_EXCEPTION_POINTERS *)))(_EXCEPTION_POINTERS *)
 	// function call : __int32 (*const)(HINSTANCE__ *, HINSTANCE__ *, char *, __int32)
-	todo("implement");
-	__int32 __result = _sub_109671A0(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
-	return __result;
+
+	__int32 (__stdcall *const WinMainPtr)(HINSTANCE__ *, HINSTANCE__ *, char *, __int32) = (__int32(__stdcall *const)(HINSTANCE__ *, HINSTANCE__ *, char *, __int32))0x42eb10;
+
+	SetUnhandledExceptionFilter(TopLevelExceptionFilter);
+	Utils::Singleton<ElDorito>::Instance().Initialize();
+	Patches::ApplyAfterInit();
+	return WinMainPtr(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
 }
 
 _extern __int32 _sub_10964D10(HINSTANCE__ *);

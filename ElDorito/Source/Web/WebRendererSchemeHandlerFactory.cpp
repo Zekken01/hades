@@ -285,18 +285,24 @@ namespace Web
 
 /* ---------- private code */
 
-extern std::string _sub_10CE1B50(std::string);
 std::string GetMimeType(std::string extension) // 0x10CE1B50
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetMimeType@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@@Z");
 	// `anonymous-namespace'::GetMimeType
 	// static ...; // 0x10CE1CF8
 	// static ...; // 0x10CE1CEC
 	// static ...; // 0x10CE1CE4
 	// std::string extension;
 	// std::_List_const_iterator<std::_List_val<std::_List_simple_types<std::pair<std::string const ,std::string> > > > it;
-	todo("implement");
-	std::string __result = _sub_10CE1B50(extension);
-	return __result;
+
+	if (extension.empty())
+		return kDefaultMimetype;
+
+	auto it = kExtensionMimeTypeMap.find(extension);
+	if (it == kExtensionMimeTypeMap.end())
+		return kDefaultMimetype;
+
+	return it->second;
 }
 
 extern scoped_refptr<CefResourceHandler> _sub_10CE17D0(scoped_refptr<CefRequest>, __int32, std::string const &);
@@ -315,9 +321,9 @@ scoped_refptr<CefResourceHandler> CreateError(scoped_refptr<CefRequest> request,
 	return __result;
 }
 
-_extern bool _sub_10CE2680(std::string const &, scoped_refptr<CefStreamReader>, std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16> > &, long long &);
 bool HandleContentRange(std::string const &range_query, scoped_refptr<CefStreamReader> stream, std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16> > &header_map, long long &content_length) // 0x10CE2680
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleContentRange@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$scoped_refptr@VCefStreamReader@@@@AAV?$multimap@V?$CefStringBase@UCefStringTraitsUTF16@@@@V1@U?$less@V?$CefStringBase@UCefStringTraitsUTF16@@@@@std@@V?$allocator@U?$pair@$$CBV?$CefStringBase@UCefStringTraitsUTF16@@@@V1@@std@@@3@@2@AA_J@Z");
 	// `anonymous-namespace'::HandleContentRange
 	// static ...; // 0x10CE2C20
 	// std::string const &range_query;
@@ -329,15 +335,63 @@ bool HandleContentRange(std::string const &range_query, scoped_refptr<CefStreamR
 	// long long range_end;
 	// std::stringstream content_length_ss;
 	// std::stringstream content_range_ss;
-	{
 		// unsigned __int32 hyphen_pos;
-	}
 	// function call : __int32 (long long, __int32)
 	// function call : long long ()
 	// function call : __int32 (long long, __int32)
-	todo("implement");
-	bool __result = _sub_10CE2680(range_query, stream, header_map, content_length);
-	return __result;
+
+	int64 total_bytes = 0;
+	std::stringstream content_range_ss;
+	std::stringstream content_length_ss;
+	int64 range_begin = 0;
+	int64 range_end = 0;
+
+	if (range_query.find("bytes=") != 0 ||
+		range_query.find(",") != std::string::npos) {
+		// Multiple range headers are not supported.
+		return false;
+	}
+	else {
+		// Further parse |range_query| and find hyphen.
+		std::size_t hyphen_pos = range_query.find("-");
+		if (hyphen_pos != std::string::npos) {
+			// Skip "bytes=" prefix (offset = 6).
+			range_begin = atoll(range_query.substr(6, hyphen_pos - 6).c_str());
+			range_end = atoll(range_query.substr(hyphen_pos + 1).c_str());
+		}
+		else {
+			return false;
+		}
+	}
+
+	if (stream->Seek(0, SEEK_END) == 0) {
+		total_bytes = stream->Tell();
+		if (total_bytes > 0) {
+			if (range_end == 0) {
+				range_end = (total_bytes - 1);
+			}
+			if (range_begin > range_end) {
+				return false;
+			}
+			else
+			{
+				content_range_ss << "bytes "
+					<< range_begin << "-" << range_end << "/"
+					<< total_bytes;
+				content_length = total_bytes - range_begin;
+				content_length_ss << content_length;
+				header_map.insert(std::pair<CefString, CefString>(
+					"Content-Range", content_range_ss.str()));
+				header_map.insert(std::pair<CefString, CefString>(
+					"Content-Length", content_length_ss.str()));
+			}
+		}
+
+		// Set stream cursor to range begin.
+		stream->Seek(range_begin, SEEK_SET);
+	}
+
+	return true;
 }
 
 _extern bool _sub_10CE3180(scoped_refptr<CefRequest> const &, std::string &, std::string &, std::string &);
@@ -357,9 +411,9 @@ bool ParseRequestUri(scoped_refptr<CefRequest> const &request, std::string &sche
 	return __result;
 }
 
-_extern void _sub_10CE0160(scoped_refptr<CefRequest> const &, std::string const &, scoped_refptr<CefStreamReader> const &, std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16> > &);
 void BuildResponseHeaders(scoped_refptr<CefRequest> const &request, std::string const &contentType, scoped_refptr<CefStreamReader> const &stream, std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16> > &headers) // 0x10CE0160
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?BuildResponseHeaders@@YAXABV?$scoped_refptr@VCefRequest@@@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV?$scoped_refptr@VCefStreamReader@@@@AAV?$multimap@V?$CefStringBase@UCefStringTraitsUTF16@@@@V1@U?$less@V?$CefStringBase@UCefStringTraitsUTF16@@@@@std@@V?$allocator@U?$pair@$$CBV?$CefStringBase@UCefStringTraitsUTF16@@@@V1@@std@@@3@@3@@Z");
 	// `anonymous-namespace'::BuildResponseHeaders
 	// static ...; // 0x10CE0398
 	// static ...; // 0x10CE0390
@@ -371,13 +425,22 @@ void BuildResponseHeaders(scoped_refptr<CefRequest> const &request, std::string 
 	// std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16> > requestHeaders;
 	// CefStringBase<CefStringTraitsUTF16> origin;
 	// function call : void (std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16> > &)
-	todo("implement");
-	_sub_10CE0160(request, contentType, stream, headers);
+
+	CefResponse::HeaderMap requestHeaders;
+	request->GetHeaderMap(requestHeaders);
+
+	CefString origin = "";
+	auto it = requestHeaders.find("Origin");
+	if (it != requestHeaders.end())
+		origin = it->second;
+
+	headers.insert(std::make_pair("Access-Control-Allow-Origin", origin));
+	headers.insert(std::make_pair("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept"));
 }
 
-_extern bool _sub_10CE2EA0(scoped_refptr<CefRequest>, std::string &);
 bool ParseRequestRange(scoped_refptr<CefRequest> request, std::string &range) // 0x10CE2EA0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ParseRequestRange@@YA_NV?$scoped_refptr@VCefRequest@@@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 	// `anonymous-namespace'::ParseRequestRange
 	// static ...; // 0x10CE30D0
 	// static ...; // 0x10CE30B8
@@ -387,12 +450,19 @@ bool ParseRequestRange(scoped_refptr<CefRequest> request, std::string &range) //
 	// std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16> > headers;
 	// std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<CefStringBase<CefStringTraitsUTF16> const ,CefStringBase<CefStringTraitsUTF16> > > > > findRange;
 	// function call : void (std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16> > &)
-	todo("implement");
-	bool __result = _sub_10CE2EA0(request, range);
-	return __result;
+
+	CefRequest::HeaderMap headers;
+	request->GetHeaderMap(headers);
+
+	auto findRange = headers.find("Range");
+	if (findRange != headers.end()) {
+		range = findRange->second.ToString();
+		return true;
+	}
+
+	return false;
 }
 
-extern scoped_refptr<CefStreamResourceHandler> _sub_10CE1D70(scoped_refptr<CefRequest>, std::string const &, std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16> > &, scoped_refptr<CefStreamReader>);
 scoped_refptr<CefStreamResourceHandler> GetStreamResourceHandler(scoped_refptr<CefRequest> request, std::string const &mimeType, std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16> > &headers, scoped_refptr<CefStreamReader> stream) // 0x10CE1D70
 {
 	// `anonymous-namespace'::GetStreamResourceHandler
@@ -404,10 +474,37 @@ scoped_refptr<CefStreamResourceHandler> GetStreamResourceHandler(scoped_refptr<C
 	// scoped_refptr<CefStreamReader> stream;
 	// scoped_refptr<CefStreamResourceHandler> handler;
 	// std::string range;
-	{
 		// long long content_length;
+
+	DCHECK(request);
+	DCHECK(stream);
+
+	CefRefPtr<CefStreamResourceHandler> handler;
+
+	std::string range;
+	if (ParseRequestRange(request, range)) {
+
+		int64 content_length = -1;
+		if (HandleContentRange(range, stream, headers, content_length)) {
+			handler = new CefStreamResourceHandler(
+				206,
+				"Partial Content",
+				mimeType,
+				headers,
+				stream);
+		}
+		else {
+			handler = new CefStreamResourceHandler(
+				416,
+				"Requested Range Not Satisfiable",
+				mimeType,
+				headers,
+				stream);
+		}
 	}
-	todo("implement");
-	scoped_refptr<CefStreamResourceHandler> __result = _sub_10CE1D70(request, mimeType, headers, stream);
-	return __result;
+	else {
+		handler = new CefStreamResourceHandler(200, "OK", mimeType, headers, stream);
+	}
+
+	return handler;
 }

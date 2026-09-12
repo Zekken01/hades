@@ -235,13 +235,13 @@ namespace Web
 			return __result;
 		}
 
-		_extern void _sub_10CED360(Web::Browser::RenderHandlerGpu::GpuAcceleratedSurface *const);
 		_inline void RenderHandlerGpu::GpuAcceleratedSurface::Reset() // 0x10CED360
 		{
-			mangled_x86(MANGLED_TODO, "?Reset@GpuAcceleratedSurface@RenderHandlerGpu@Browser@Web@@QAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Reset@GpuAcceleratedSurface@RenderHandlerGpu@Browser@Web@@QAEXXZ");
 			// Web::Browser::RenderHandlerGpu::GpuAcceleratedSurface *const this;
-			todo("implement");
-			_sub_10CED360(this);
+
+			m_texture = nullptr;
+			m_handle = nullptr;
 		}
 
 		_extern void _sub_10CED3C0(Web::Browser::RenderHandlerGpu::GpuAcceleratedSurface *const, unsigned __int32, unsigned __int32);
@@ -306,13 +306,13 @@ namespace Web
 			return __result;
 		}
 
-		_extern void _sub_10CEC640(Web::Browser::RenderHandlerGpu *const);
 		void RenderHandlerGpu::OnPreResetDevice() // 0x10CEC640
 		{
-			mangled_x86(MANGLED_TODO, "?OnPreResetDevice@RenderHandlerGpu@Browser@Web@@UAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnPreResetDevice@RenderHandlerGpu@Browser@Web@@UAEXXZ");
 			// Web::Browser::RenderHandlerGpu *const this;
-			todo("implement");
-			_sub_10CEC640(this);
+
+			m_ViewSurface->Reset();
+			m_PopupSurface->Reset();
 		}
 
 		void RenderHandlerGpu::OnPostResetDevice() // 0x10CEC620

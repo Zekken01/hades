@@ -208,12 +208,12 @@ extern void saved_game_patches_apply();
 long save_map_variant_hook(long controller_index, long content_item_index, long content_type, unsigned char *data, unsigned long size, c_async_completion_flag completion_flag);
 char const *map_variant_load_error_string(e_map_variant_load_error error);
 bool read_mod_package_metadata(s_file_reference file, short *out_version, s_mod_package_reference *metadata);
-bool c_gui_map_selected_item__get_map_variant_hook(_c_gui_map_selected_item *thisptr, void *unused, s_map_variant *map_variant);
-void s_blf_header__setup_hook(s_blf_chunk_header *header, void *unused, unsigned long signature, unsigned long size, short version_major, short version_minor);
-void s_blf_chunk_start_of_file__ctor_hook(s_blf_chunk_start_of_file *chunk);
-void s_blf_chunk_end_of_file__ctor_hook(s_blf_chunk_end_of_file *chunk);
-void s_blf_chunk_content_header__initialize_hook(s_blf_chunk_content_header *chunk);
-bool c_map_variant__is_valid_hook(s_map_variant *thisptr);
+bool __fastcall c_gui_map_selected_item__get_map_variant_hook(_c_gui_map_selected_item *thisptr, void *unused, s_map_variant *map_variant);
+void __fastcall s_blf_header__setup_hook(s_blf_chunk_header *header, void *unused, unsigned long signature, unsigned long size, short version_major, short version_minor);
+void __fastcall s_blf_chunk_start_of_file__ctor_hook(s_blf_chunk_start_of_file *chunk);
+void __fastcall s_blf_chunk_end_of_file__ctor_hook(s_blf_chunk_end_of_file *chunk);
+void __fastcall s_blf_chunk_content_header__initialize_hook(s_blf_chunk_content_header *chunk);
+bool __fastcall c_map_variant__is_valid_hook(s_map_variant *thisptr);
 
 /* ---------- globals */
 
@@ -342,7 +342,7 @@ bool read_mod_package_metadata(s_file_reference file, short *out_version, s_mod_
 }
 
 _extern bool _sub_10AC8760(_c_gui_map_selected_item *, void *, s_map_variant *);
-bool c_gui_map_selected_item__get_map_variant_hook(_c_gui_map_selected_item *thisptr, void *unused, s_map_variant *map_variant) // 0x10AC8760
+bool __fastcall c_gui_map_selected_item__get_map_variant_hook(_c_gui_map_selected_item *thisptr, void *unused, s_map_variant *map_variant) // 0x10AC8760
 {
 	// `anonymous-namespace'::c_gui_map_selected_item__get_map_variant_hook
 	// static ...; // 0x10AC8A14
@@ -366,35 +366,35 @@ bool c_gui_map_selected_item__get_map_variant_hook(_c_gui_map_selected_item *thi
 	return __result;
 }
 
-_extern void _sub_10AC91C0(s_blf_chunk_header *, void *, unsigned long, unsigned long, short, short);
-void s_blf_header__setup_hook(s_blf_chunk_header *header, void *unused, unsigned long signature, unsigned long size, short version_major, short version_minor) // 0x10AC91C0
+void __fastcall s_blf_header__setup_hook(s_blf_chunk_header *header, void *unused, unsigned long signature, unsigned long size, short version_major, short version_minor) // 0x10AC91C0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?s_blf_header__setup_hook@@YIXPAUs_blf_chunk_header@@PAXKKFF@Z");
 	// `anonymous-namespace'::s_blf_header__setup_hook
 	// short version_minor;
-	todo("implement");
-	_sub_10AC91C0(header, unused, signature, size, version_major, version_minor);
+
+	header->setup(signature, size, version_major, version_minor);
 }
 
-_extern void _sub_10AC9140(s_blf_chunk_start_of_file *);
-void s_blf_chunk_start_of_file__ctor_hook(s_blf_chunk_start_of_file *chunk) // 0x10AC9140
+void __fastcall s_blf_chunk_start_of_file__ctor_hook(s_blf_chunk_start_of_file *chunk) // 0x10AC9140
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?s_blf_chunk_start_of_file__ctor_hook@@YIXPAUs_blf_chunk_start_of_file@@@Z");
 	// `anonymous-namespace'::s_blf_chunk_start_of_file__ctor_hook
 	// s_blf_chunk_start_of_file *chunk;
-	todo("implement");
-	_sub_10AC9140(chunk);
+
+	*chunk = s_blf_chunk_start_of_file();
 }
 
-_extern void _sub_10AC90C0(s_blf_chunk_end_of_file *);
-void s_blf_chunk_end_of_file__ctor_hook(s_blf_chunk_end_of_file *chunk) // 0x10AC90C0
+void __fastcall s_blf_chunk_end_of_file__ctor_hook(s_blf_chunk_end_of_file *chunk) // 0x10AC90C0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?s_blf_chunk_end_of_file__ctor_hook@@YIXPAUs_blf_chunk_end_of_file@@@Z");
 	// `anonymous-namespace'::s_blf_chunk_end_of_file__ctor_hook
 	// s_blf_chunk_end_of_file *chunk;
-	todo("implement");
-	_sub_10AC90C0(chunk);
+
+	*chunk = s_blf_chunk_end_of_file();
 }
 
 _extern void _sub_10AC9040(s_blf_chunk_content_header *);
-void s_blf_chunk_content_header__initialize_hook(s_blf_chunk_content_header *chunk) // 0x10AC9040
+void __fastcall s_blf_chunk_content_header__initialize_hook(s_blf_chunk_content_header *chunk) // 0x10AC9040
 {
 	// `anonymous-namespace'::s_blf_chunk_content_header__initialize_hook
 	// s_blf_chunk_content_header *chunk;
@@ -403,7 +403,7 @@ void s_blf_chunk_content_header__initialize_hook(s_blf_chunk_content_header *chu
 }
 
 _extern bool _sub_10AC8AF0(s_map_variant *);
-bool c_map_variant__is_valid_hook(s_map_variant *thisptr) // 0x10AC8AF0
+bool __fastcall c_map_variant__is_valid_hook(s_map_variant *thisptr) // 0x10AC8AF0
 {
 	// `anonymous-namespace'::c_map_variant__is_valid_hook
 	// s_map_variant *thisptr;

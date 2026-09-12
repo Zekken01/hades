@@ -17,11 +17,11 @@ struct s_simulation_unit_pickup_event_data;
 struct s_simulation_unit_pickup_event_data
 {
 	short type; // 0x0
-	unsigned char __pad0[2]; // 0x2
 	long definition_index; // 0x4
 	long unknown; // 0x8
 };
 static_assert(sizeof(s_simulation_unit_pickup_event_data) == 12, "Invalid s_simulation_unit_pickup_event_data size");
+static_assert(offsetof(s_simulation_unit_pickup_event_data, definition_index) == 0x4, "s_simulation_unit_pickup_event_data::definition_index moved when its reconstructed padding was removed");
 
 /* ---------- prototypes */
 

@@ -93,13 +93,12 @@ namespace Blam
 			return __result;
 		}
 
-		_extern void _sub_107F4A30(Blam::Cache::CTagCacheFileReader *const);
 		void CTagCacheFileReader::Close() // 0x107F4A30
 		{
-			mangled_x86(MANGLED_TODO, "?Close@CTagCacheFileReader@Cache@Blam@@QAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Close@CTagCacheFileReader@Cache@Blam@@QAEXXZ");
 			// Blam::Cache::CTagCacheFileReader *const this;
-			todo("implement");
-			_sub_107F4A30(this);
+
+			m_stream.close();
 		}
 
 		_extern __int32 _sub_107F4A80(Blam::Cache::CTagCacheFileReader *const, __int32, std::string_view);

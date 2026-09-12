@@ -46,7 +46,7 @@ namespace Player
 		PlayerCustomizationExtensions(Player::PlayerCustomizationExtensions &); /* compiler_generated() */
 		PlayerCustomizationExtensions(Player::PlayerCustomizationExtensions const &); /* compiler_generated() */
 		_inline PlayerCustomizationExtensions(); /* compiler_generated() */
-		virtual _inline ~PlayerCustomizationExtensions(); /* compiler_generated() */
+		virtual _inline ~PlayerCustomizationExtensions() = default; /* compiler_generated() */ // 0x108D8ED0
 		Player::PlayerCustomizationExtensions &operator=(Player::PlayerCustomizationExtensions &); /* compiler_generated() */
 		Player::PlayerCustomizationExtensions &operator=(Player::PlayerCustomizationExtensions const &); /* compiler_generated() */
 	};

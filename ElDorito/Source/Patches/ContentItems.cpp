@@ -210,21 +210,21 @@ bool AddContentItem(std::string itemPath);
 void GetFilePathForItem(wchar_t *dest, unsigned __int32 MaxCount, wchar_t *variantName, __int32 variantType);
 void AddAllBLFContentItems(std::string path);
 char CallsXEnumerateHook();
-char FS_GetFiloForContentItemHook(c_content_item *contentItem, void *unused, void *filo);
-wchar_t *FS_GetFilePathForContentItemHook(c_content_item *contentItem, void *unused, wchar_t *dest, unsigned __int32 MaxCount);
-bool ContainsForbiddenCharacters(wchar_t *namePtr);
-bool SaveFileGetNameHook(unsigned char *blfStart, void *unused, __int32 a2, wchar_t *Src, unsigned __int32 MaxCount);
-bool c_content_item__init_hook(c_content_item *thisptr, void *unused, __int32 contentType, c_content_catalog *catalog, wchar_t *name, wchar_t *dashMetadata, __int32 a5, __int32 a6, __int32 a7);
-char PackageMountHook(__int32 a1, __int32 a2, __int32 a3, __int32 a4);
+char __fastcall FS_GetFiloForContentItemHook(c_content_item *contentItem, void *unused, void *filo);
+wchar_t *__fastcall FS_GetFilePathForContentItemHook(c_content_item *contentItem, void *unused, wchar_t *dest, unsigned __int32 MaxCount);
+bool __fastcall ContainsForbiddenCharacters(wchar_t *namePtr);
+bool __fastcall SaveFileGetNameHook(unsigned char *blfStart, void *unused, __int32 a2, wchar_t *Src, unsigned __int32 MaxCount);
+bool __fastcall c_content_item__init_hook(c_content_item *thisptr, void *unused, __int32 contentType, c_content_catalog *catalog, wchar_t *name, wchar_t *dashMetadata, __int32 a5, __int32 a6, __int32 a7);
+char __stdcall PackageMountHook(__int32 a1, __int32 a2, __int32 a3, __int32 a4);
 unsigned __int32 PackageMountHook2(__int32 localProfileIndex, wchar_t *name, __int32 contentType, long volatile *pStatus, long volatile *pState, long volatile *pContentItemDatumIndex);
 char *AllocateGameGlobalMemory2Hook(char *Src, __int32 a2, __int32 a3, char a4, void *a5);
 bool IsProfileAvailable();
 wchar_t *GetDirectoryPathW(wchar_t *path, wchar_t *buff, __int32 bufflen);
 __int32 content_item_overlapped_task_execute_hook(c_content_item_overlapped_task *task);
-void c_content_item_delete_hook(c_content_item *thisptr, void *unused, __int32 a1);
-void c_gui_screen_pregame_selection__overlapped_task_update_hook(unsigned char *thisptr, void *unused);
-bool c_gui_map_selected_item__get_file_path_hook(void *thisptr, void *unused, char *buff, __int32 bufflen);
-bool c_gui_game_variant_selected_item__get_file_path_hook(void *thisptr, void *unused, char *buff, __int32 bufflen);
+void __fastcall c_content_item_delete_hook(c_content_item *thisptr, void *unused, __int32 a1);
+void __fastcall c_gui_screen_pregame_selection__overlapped_task_update_hook(unsigned char *thisptr, void *unused);
+bool __fastcall c_gui_map_selected_item__get_file_path_hook(void *thisptr, void *unused, char *buff, __int32 bufflen);
+bool __fastcall c_gui_game_variant_selected_item__get_file_path_hook(void *thisptr, void *unused, char *buff, __int32 bufflen);
 __int32 file_write_overlapped_task_execute_hook(unsigned char *task);
 bool game_variant_description_override_hook(__int32 chud_handle, __int32 a2, __int32 stringid, __int32 *a4, __int32 length);
 
@@ -235,8 +235,9 @@ bool game_variant_description_override_hook(__int32 chud_handle, __int32 a2, __i
 namespace hades_file_local
 {
 	extern bool saving_new_gametype; // 0x12458148
-	extern unsigned char *contentItemsGlobal; // 0x12458254
 	extern bool enumerated; // 0x12458149
+	extern s_ContentItemRenameState s_ContentItemRenameState; // 0x12458150
+	extern unsigned char *contentItemsGlobal; // 0x12458254
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -362,7 +363,7 @@ char CallsXEnumerateHook() // 0x10A3C6B0
 }
 
 _extern char _sub_10A3D0A0(c_content_item *, void *, void *);
-char FS_GetFiloForContentItemHook(c_content_item *contentItem, void *unused, void *filo) // 0x10A3D0A0
+char __fastcall FS_GetFiloForContentItemHook(c_content_item *contentItem, void *unused, void *filo) // 0x10A3D0A0
 {
 	// `anonymous-namespace'::FS_GetFiloForContentItemHook
 	// static ...; // 0x10A3D1E8
@@ -380,7 +381,7 @@ char FS_GetFiloForContentItemHook(c_content_item *contentItem, void *unused, voi
 }
 
 _extern wchar_t *_sub_10A3CEF0(c_content_item *, void *, wchar_t *, unsigned __int32);
-wchar_t *FS_GetFilePathForContentItemHook(c_content_item *contentItem, void *unused, wchar_t *dest, unsigned __int32 MaxCount) // 0x10A3CEF0
+wchar_t *__fastcall FS_GetFilePathForContentItemHook(c_content_item *contentItem, void *unused, wchar_t *dest, unsigned __int32 MaxCount) // 0x10A3CEF0
 {
 	// `anonymous-namespace'::FS_GetFilePathForContentItemHook
 	// static ...; // 0x10A3D018
@@ -396,7 +397,7 @@ wchar_t *FS_GetFilePathForContentItemHook(c_content_item *contentItem, void *unu
 }
 
 _extern bool _sub_10A3CA40(wchar_t *);
-bool ContainsForbiddenCharacters(wchar_t *namePtr) // 0x10A3CA40
+bool __fastcall ContainsForbiddenCharacters(wchar_t *namePtr) // 0x10A3CA40
 {
 	// `anonymous-namespace'::ContainsForbiddenCharacters
 	// static ...; // 0x10A3CDF1
@@ -426,20 +427,23 @@ bool ContainsForbiddenCharacters(wchar_t *namePtr) // 0x10A3CA40
 	return __result;
 }
 
-_extern bool _sub_10A3D630(unsigned char *, void *, __int32, wchar_t *, unsigned __int32);
-bool SaveFileGetNameHook(unsigned char *blfStart, void *unused, __int32 a2, wchar_t *Src, unsigned __int32 MaxCount) // 0x10A3D630
+bool __fastcall SaveFileGetNameHook(unsigned char *blfStart, void *unused, __int32 a2, wchar_t *Src, unsigned __int32 MaxCount) // 0x10A3D630
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SaveFileGetNameHook@@YI_NPAEPAXHPA_WI@Z");
 	// `anonymous-namespace'::SaveFileGetNameHook
 	// unsigned __int32 MaxCount;
 	// __int32 variantType;
 	// wchar_t *variantName;
-	todo("implement");
-	bool __result = _sub_10A3D630(blfStart, unused, a2, Src, MaxCount);
-	return __result;
+
+	wchar_t *name = (wchar_t *)(blfStart + 0x48);
+	unsigned __int32 uid = *(unsigned __int32 *)(blfStart + 0xF8);
+
+	GetFilePathForItem(Src, MaxCount, name, uid);
+	return true;
 }
 
 _extern bool _sub_10A3E990(c_content_item *, void *, __int32, c_content_catalog *, wchar_t *, wchar_t *, __int32, __int32, __int32);
-bool c_content_item__init_hook(c_content_item *thisptr, void *unused, __int32 contentType, c_content_catalog *catalog, wchar_t *name, wchar_t *dashMetadata, __int32 a5, __int32 a6, __int32 a7) // 0x10A3E990
+bool __fastcall c_content_item__init_hook(c_content_item *thisptr, void *unused, __int32 contentType, c_content_catalog *catalog, wchar_t *name, wchar_t *dashMetadata, __int32 a5, __int32 a6, __int32 a7) // 0x10A3E990
 {
 	// `anonymous-namespace'::c_content_item__init_hook
 	// c_content_catalog *catalog;
@@ -459,7 +463,7 @@ bool c_content_item__init_hook(c_content_item *thisptr, void *unused, __int32 co
 }
 
 _extern char _sub_10A3D610(__int32, __int32, __int32, __int32);
-char PackageMountHook(__int32 a1, __int32 a2, __int32 a3, __int32 a4) // 0x10A3D610
+char __stdcall PackageMountHook(__int32 a1, __int32 a2, __int32 a3, __int32 a4) // 0x10A3D610
 {
 	// `anonymous-namespace'::PackageMountHook
 	// __int32 a4;
@@ -489,17 +493,26 @@ unsigned __int32 PackageMountHook2(__int32 localProfileIndex, wchar_t *name, __i
 	return __result;
 }
 
-_extern char *_sub_10A3AC30(char *, __int32, __int32, char, void *);
 char *AllocateGameGlobalMemory2Hook(char *Src, __int32 a2, __int32 a3, char a4, void *a5) // 0x10A3AC30
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?AllocateGameGlobalMemory2Hook@@YAPADPADHHDPAX@Z");
 	// `anonymous-namespace'::AllocateGameGlobalMemory2Hook
 	// void *a5;
 	// char *(*allocateGlobal)(char *, __int32, __int32, char, void *);
 	// char *retData;
 	// function call : char *(*)(char *, __int32, __int32, char, void *)
-	todo("implement");
-	char * __result = _sub_10A3AC30(Src, a2, a3, a4, a5);
-	return __result;
+
+	char *(__cdecl *AllocateGameGlobalMemory2)(char *, __int32, __int32, char, void *) = (char *(__cdecl *)(char *, __int32, __int32, char, void *))0x55afa0;
+	char *retData = AllocateGameGlobalMemory2(Src, a2, a3, a4, a5);
+
+	*(unsigned short *)(retData + 42) = 3;
+	if (Src == (char *)0x165B170)
+	{
+		*(retData + 41) = 1;
+		*(__int32 *)(retData + 64) = 1;
+		contentItemsGlobal = (unsigned char *)retData;
+	}
+	return retData;
 }
 
 bool IsProfileAvailable() // 0x10A3D4D0
@@ -511,15 +524,21 @@ bool IsProfileAvailable() // 0x10A3D4D0
 	return true;
 }
 
-_extern wchar_t *_sub_10A3D270(wchar_t *, wchar_t *, __int32);
 wchar_t *GetDirectoryPathW(wchar_t *path, wchar_t *buff, __int32 bufflen) // 0x10A3D270
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetDirectoryPathW@@YAPA_WPA_W0H@Z");
 	// `anonymous-namespace'::GetDirectoryPathW
 	// __int32 bufflen;
 	// wchar_t *filePart;
-	todo("implement");
-	wchar_t * __result = _sub_10A3D270(path, buff, bufflen);
-	return __result;
+
+	wcscpy_s(buff, bufflen, path);
+	wchar_t *filePart = wcsrchr(buff, L'\\');
+	if (filePart != nullptr)
+	{
+		*filePart = 0;
+		return buff;
+	}
+	return nullptr;
 }
 
 _extern __int32 _sub_10A3F470(c_content_item_overlapped_task *);
@@ -576,7 +595,7 @@ __int32 content_item_overlapped_task_execute_hook(c_content_item_overlapped_task
 }
 
 _extern void _sub_10A3EC60(c_content_item *, void *, __int32);
-void c_content_item_delete_hook(c_content_item *thisptr, void *unused, __int32 a1) // 0x10A3EC60
+void __fastcall c_content_item_delete_hook(c_content_item *thisptr, void *unused, __int32 a1) // 0x10A3EC60
 {
 	// `anonymous-namespace'::c_content_item_delete_hook
 	// static ...; // 0x10A3EE84
@@ -593,7 +612,7 @@ void c_content_item_delete_hook(c_content_item *thisptr, void *unused, __int32 a
 }
 
 _extern void _sub_10A3F010(unsigned char *, void *);
-void c_gui_screen_pregame_selection__overlapped_task_update_hook(unsigned char *thisptr, void *unused) // 0x10A3F010
+void __fastcall c_gui_screen_pregame_selection__overlapped_task_update_hook(unsigned char *thisptr, void *unused) // 0x10A3F010
 {
 	// `anonymous-namespace'::c_gui_screen_pregame_selection__overlapped_task_update_hook
 	// static ...; // 0x10A3F294
@@ -630,24 +649,24 @@ void c_gui_screen_pregame_selection__overlapped_task_update_hook(unsigned char *
 	_sub_10A3F010(thisptr, unused);
 }
 
-_extern bool _sub_10A3EFA0(void *, void *, char *, __int32);
-bool c_gui_map_selected_item__get_file_path_hook(void *thisptr, void *unused, char *buff, __int32 bufflen) // 0x10A3EFA0
+bool __fastcall c_gui_map_selected_item__get_file_path_hook(void *thisptr, void *unused, char *buff, __int32 bufflen) // 0x10A3EFA0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_map_selected_item__get_file_path_hook@@YI_NPAX0PADH@Z");
 	// `anonymous-namespace'::c_gui_map_selected_item__get_file_path_hook
 	// __int32 bufflen;
-	todo("implement");
-	bool __result = _sub_10A3EFA0(thisptr, unused, buff, bufflen);
-	return __result;
+
+	strcpy_s(buff, bufflen, (char *)thisptr + 412);
+	return true;
 }
 
-_extern bool _sub_10A3EF30(void *, void *, char *, __int32);
-bool c_gui_game_variant_selected_item__get_file_path_hook(void *thisptr, void *unused, char *buff, __int32 bufflen) // 0x10A3EF30
+bool __fastcall c_gui_game_variant_selected_item__get_file_path_hook(void *thisptr, void *unused, char *buff, __int32 bufflen) // 0x10A3EF30
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_game_variant_selected_item__get_file_path_hook@@YI_NPAX0PADH@Z");
 	// `anonymous-namespace'::c_gui_game_variant_selected_item__get_file_path_hook
 	// __int32 bufflen;
-	todo("implement");
-	bool __result = _sub_10A3EF30(thisptr, unused, buff, bufflen);
-	return __result;
+
+	strcpy_s(buff, bufflen, (char *)thisptr + 416);
+	return true;
 }
 
 _extern __int32 _sub_10A3FE10(unsigned char *);
@@ -667,14 +686,23 @@ __int32 file_write_overlapped_task_execute_hook(unsigned char *task) // 0x10A3FE
 	return __result;
 }
 
-_extern bool _sub_10A3FF20(__int32, __int32, __int32, __int32 *, __int32);
 bool game_variant_description_override_hook(__int32 chud_handle, __int32 a2, __int32 stringid, __int32 *a4, __int32 length) // 0x10A3FF20
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_variant_description_override_hook@@YA_NHHHPAHH@Z");
 	// `anonymous-namespace'::game_variant_description_override_hook
 	// __int32 length;
 	// bool (*const sub_AA59B0)(__int32, __int32, __int32, void *, __int32);
 	// function call : bool (*const)(__int32, __int32, __int32, void *, __int32)
-	todo("implement");
-	bool __result = _sub_10A3FF20(chud_handle, a2, stringid, a4, length);
-	return __result;
+
+	bool (__cdecl *const chud_get_string)(__int32, __int32, __int32, __int32 *, __int32) = (bool(__cdecl *const)(__int32, __int32, __int32, __int32 *, __int32))0xaa59b0;
+
+	if (saving_new_gametype)
+	{
+		saving_new_gametype = false;
+		return chud_get_string(chud_handle, a2, stringid, a4, length);
+	}
+	else
+	{
+		return false;
+	}
 }

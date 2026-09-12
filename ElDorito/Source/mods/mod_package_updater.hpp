@@ -37,7 +37,6 @@ public:
 		std::string local_name; // 0x0
 		std::string hash; // 0x1C
 		std::string package_url; // 0x38
-		unsigned char __pad0[4]; // 0x54
 		unsigned long long package_size; // 0x58
 		std::string mod_name; // 0x60
 		std::string mod_author; // 0x7C
@@ -48,9 +47,9 @@ public:
 		_inline ~s_mod_package_description(); /* compiler_generated() */
 		s_mod_package_description &operator=(s_mod_package_description &); /* compiler_generated() */
 		s_mod_package_description &operator=(s_mod_package_description const &); /* compiler_generated() */
-		unsigned char __pad1[4]; // 0xB4
 	};
 	static_assert(sizeof(s_mod_package_description) == 184, "Invalid s_mod_package_description size");
+	static_assert(offsetof(s_mod_package_description, package_size) == 0x58, "s_mod_package_description::package_size moved when its reconstructed padding was removed");
 	public:
 	void initialize(bool dedicated, char const *package_list_filename, char const *package_directory);
 	bool update_packages_blocking();

@@ -57,13 +57,12 @@ _inline void CEventSink<>::PostEvent() // 0x108315F0
 	_sub_108315F0((CEventSink<> *)this);
 }
 
-_extern void _sub_10831B70(CEventSink<> *const);
 _inline void CEventSink<>::Reset() // 0x10831B70
 {
-	mangled_x86(MANGLED_TODO, "?Reset@?$CEventSink@$$V@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Reset@?$CEventSink@$$V@@QAEXXZ");
 	// CEventSink<> *const this;
-	todo("implement");
-	_sub_10831B70((CEventSink<> *)this);
+
+	m_callbacks.clear();
 }
 
 /* ---------- private code */

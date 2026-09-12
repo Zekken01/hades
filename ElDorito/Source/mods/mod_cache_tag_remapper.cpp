@@ -149,13 +149,17 @@ bool c_mod_cache_tag_remapper::add_mod(c_cache_file_tag_cache const *mod_cache) 
 	return __result;
 }
 
-_extern void _sub_1089BA60(c_mod_cache_tag_remapper *const);
 void c_mod_cache_tag_remapper::reset() // 0x1089BA60
 {
-	mangled_x86(MANGLED_TODO, "?reset@c_mod_cache_tag_remapper@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?reset@c_mod_cache_tag_remapper@@QAEXXZ");
 	// c_mod_cache_tag_remapper *const this;
-	todo("implement");
-	_sub_1089BA60(this);
+
+	m_valid = false;
+	m_runtime_tag_count = 0;
+	m_mod_tag_index_to_runtime_index.clear();
+	m_runtime_tag_index_to_mod_tag_index.clear();
+	m_base_tags_by_name.clear();
+	m_base_cache = nullptr;
 }
 
 /* ---------- private code */

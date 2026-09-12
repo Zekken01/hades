@@ -140,7 +140,6 @@ namespace ChatCommands
 		_inline ~KickPlayerCommand(); /* compiler_generated() */
 		ChatCommands::KickPlayerCommand &operator=(ChatCommands::KickPlayerCommand &); /* compiler_generated() */
 		ChatCommands::KickPlayerCommand &operator=(ChatCommands::KickPlayerCommand const &); /* compiler_generated() */
-	unsigned char __pad0[4]; // 0x84
 	};
 	static_assert(sizeof(ChatCommands::KickPlayerCommand) == 136, "Invalid ChatCommands::KickPlayerCommand size");
 
@@ -162,7 +161,6 @@ namespace ChatCommands
 		_inline ~KickIndexCommand(); /* compiler_generated() */
 		ChatCommands::KickIndexCommand &operator=(ChatCommands::KickIndexCommand &); /* compiler_generated() */
 		ChatCommands::KickIndexCommand &operator=(ChatCommands::KickIndexCommand const &); /* compiler_generated() */
-	unsigned char __pad0[4]; // 0x84
 	};
 	static_assert(sizeof(ChatCommands::KickIndexCommand) == 136, "Invalid ChatCommands::KickIndexCommand size");
 }

@@ -66,7 +66,6 @@ namespace Modules
 		Utils::UPnPResult UPnPForwardPort_Blocking(bool tcp, __int32 externalport, __int32 internalport, std::string const &ruleName);
 		void UPnPForwardPort(bool tcp, __int32 externalport, __int32 internalport, std::string const &ruleName);
 		~ModuleUPnP(); /* compiler_generated() */
-	unsigned char __pad0[4]; // 0xA4
 	};
 	static_assert(sizeof(Modules::ModuleUPnP) == 168, "Invalid Modules::ModuleUPnP size");
 }

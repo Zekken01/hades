@@ -89,22 +89,31 @@ namespace Blam
 {
 	namespace Cache
 	{
-		extern StringIDCache* _sub_1092D090(Blam::Cache::StringIDCache *const);
-		StringIDCache::StringIDCache() // 0x1092D090
+		StringIDCache::StringIDCache() :
+			Header() // 0x1092D090
 		{
-			mangled_x86(MANGLED_TODO, "??0StringIDCache@Cache@Blam@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0StringIDCache@Cache@Blam@@QAE@XZ");
 			// Blam::Cache::StringIDCache *const this;
-			todo("implement");
-			_sub_1092D090(this);
+
+			Data = nullptr;
+			Strings = nullptr;
 		}
 
-		_extern void _sub_1092D0E0(Blam::Cache::StringIDCache *const);
 		StringIDCache::~StringIDCache() // 0x1092D0E0
 		{
-			mangled_x86(MANGLED_TODO, "??1StringIDCache@Cache@Blam@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??1StringIDCache@Cache@Blam@@QAE@XZ");
 			// Blam::Cache::StringIDCache *const this;
-			todo("implement");
-			_sub_1092D0E0(this);
+
+			if (Strings)
+			{
+				delete[] Strings;
+				Strings = nullptr;
+			}
+			if (Data)
+			{
+				delete[] Data;
+				Data = nullptr;
+			}
 		}
 
 		_extern bool _sub_1092D5E0(Blam::Cache::StringIDCache *const, std::string const &, long long);
@@ -146,16 +155,28 @@ namespace Blam
 			return __result;
 		}
 
-		_extern __int32 _sub_1092D3E0(unsigned __int32);
 		__int32 GetStringIndex(unsigned __int32 StringId) // 0x1092D3E0
 		{
-			mangled_x86(MANGLED_TODO, "?GetStringIndex@Cache@Blam@@YAHI@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetStringIndex@Cache@Blam@@YAHI@Z");
 			// unsigned __int32 StringId;
 			// __int32 set;
 			// __int32 index;
-			todo("implement");
-			__int32 __result = _sub_1092D3E0(StringId);
-			return __result;
+
+			__int32 set = Blam::Cache::GetSet(StringId);
+			__int32 index = Blam::Cache::GetIndex(StringId);
+			if (set == 0 && (index < setMin || index > setMax))
+			{
+				return index;
+			}
+			if (set < 0 || set >= 9)
+			{
+				return -1;
+			}
+			if (set == 0)
+			{
+				index -= setMin;
+			}
+			return index + setOffsets[set];
 		}
 
 		_extern char *_sub_1092D290(Blam::Cache::StringIDCache const *const, unsigned __int32 const);

@@ -194,11 +194,11 @@ namespace Patches
 	}
 }
 
-void c_simulation_generic_entity_definition__entity_creation_encode_hook(void *thisptr, void *unused, __int32 a1, s_simulation_generic_creation_data_v2 *creation_data, unsigned long long *mask, Blam::BitStream *stream, __int32 creation_data_size);
-bool c_simulation_generic_entity_definition__entity_creation_decode_hook(void *thisptr, void *unused, __int32 creation_data_size, s_simulation_generic_creation_data_v2 *creation_data, Blam::BitStream *bitstream, long a5);
-long c_simulation_generic_entity_definition__create_object_hook(void *thisptr, void *unused, s_simulation_generic_creation_data_v2 *creation_data, s_simulation_generic_creation_data *object_state_data, long a4, s_object_placement_data *placement_data);
-long c_simulation_device_entity_definition__create_object_hook(void *thisptr, void *unused, s_simulation_generic_creation_data_v2 *creation_data, s_simulation_device_state_data *state_data, long a4, s_object_placement_data *placement_data);
-void c_simulation_generic_entity_definition__build_object_creation_data_hook(void *thisptr, void *unused, long object_index, long creation_data_size, s_simulation_generic_creation_data_v2 *creation_data);
+void __fastcall c_simulation_generic_entity_definition__entity_creation_encode_hook(void *thisptr, void *unused, __int32 a1, s_simulation_generic_creation_data_v2 *creation_data, unsigned long long *mask, Blam::BitStream *stream, __int32 creation_data_size);
+bool __fastcall c_simulation_generic_entity_definition__entity_creation_decode_hook(void *thisptr, void *unused, __int32 creation_data_size, s_simulation_generic_creation_data_v2 *creation_data, Blam::BitStream *bitstream, long a5);
+long __fastcall c_simulation_generic_entity_definition__create_object_hook(void *thisptr, void *unused, s_simulation_generic_creation_data_v2 *creation_data, s_simulation_generic_creation_data *object_state_data, long a4, s_object_placement_data *placement_data);
+long __fastcall c_simulation_device_entity_definition__create_object_hook(void *thisptr, void *unused, s_simulation_generic_creation_data_v2 *creation_data, s_simulation_device_state_data *state_data, long a4, s_object_placement_data *placement_data);
+void __fastcall c_simulation_generic_entity_definition__build_object_creation_data_hook(void *thisptr, void *unused, long object_index, long creation_data_size, s_simulation_generic_creation_data_v2 *creation_data);
 bool object_physics_has_powered_chains(long object_definition_index);
 bool should_attach_projectile_to_object(long object_index, long projectile_index);
 void projectile_attach_to_object_hook();
@@ -206,12 +206,12 @@ void simulation_game_build_action_from_motion_data_hook(s_player_motion *motion_
 void simulation_game_build_motion_data_from_action_hook(s_player_action *action, long unit_index, s_player_motion *motion_data);
 void simulation_damage_aftermath_hook(long event_type, long a2, long a3, long player_index, long data_size, void *data);
 void ragdoll_object_damage_aftermath_hook(long object_index, void *damage_data);
-void c_simulation_game_engine_event_definition__event_payload_encode_hook(c_simulation_game_engine_event_definition *thisptr, void *unused, long a2, s_game_engine_event_data const *event_data, Blam::BitStream *bitstream, bool a5);
+void __fastcall c_simulation_game_engine_event_definition__event_payload_encode_hook(c_simulation_game_engine_event_definition *thisptr, void *unused, long a2, s_game_engine_event_data const *event_data, Blam::BitStream *bitstream, bool a5);
 long simulation_entity_type_from_object_creation_ex(long object_definition_index, long parent_object_index, bool is_garbage);
 void simulation_action_object_create_build_entity_types(long object_index, long parent_object_index, long max_entity_count, long *out_entity_count, long *out_entity_types, long *out_object_indices);
 void simulation_action_object_recapture_creation_data_hook(long object_index);
 void simulation_game_register_types_hook(c_simulation_type_collection *type_collection, __int32 *entity_type_count, __int32 *event_type_count);
-void c_simulation_event_handler__send_event_hook(void *thisptr, void *unused, e_simulation_event_type event_type, long num_entity_references, long *entity_references, long recipient_peer_mask, long payload_size, void const *payload, long grief_time);
+void __fastcall c_simulation_event_handler__send_event_hook(void *thisptr, void *unused, e_simulation_event_type event_type, long num_entity_references, long *entity_references, long recipient_peer_mask, long payload_size, void const *payload, long grief_time);
 bool player_action_decode_validate_hook(s_player_action *action);
 real_rectangle3d *simulation_encoding_get_world_bounds_hook(real_rectangle3d *out_world_bounds);
 void simulation_encoding_get_world_bounds__object_handle_update_hook(real_rectangle3d *out_world_bounds);
@@ -245,7 +245,7 @@ namespace Patches
 /* ---------- private code */
 
 _extern void _sub_10ACECE0(void *, void *, __int32, s_simulation_generic_creation_data_v2 *, unsigned long long *, Blam::BitStream *, __int32);
-void c_simulation_generic_entity_definition__entity_creation_encode_hook(void *thisptr, void *unused, __int32 a1, s_simulation_generic_creation_data_v2 *creation_data, unsigned long long *mask, Blam::BitStream *stream, __int32 creation_data_size) // 0x10ACECE0
+void __fastcall c_simulation_generic_entity_definition__entity_creation_encode_hook(void *thisptr, void *unused, __int32 a1, s_simulation_generic_creation_data_v2 *creation_data, unsigned long long *mask, Blam::BitStream *stream, __int32 creation_data_size) // 0x10ACECE0
 {
 	// `anonymous-namespace'::c_simulation_generic_entity_definition__entity_creation_encode_hook
 	// __int32 creation_data_size;
@@ -259,7 +259,7 @@ void c_simulation_generic_entity_definition__entity_creation_encode_hook(void *t
 }
 
 _extern bool _sub_10ACEBC0(void *, void *, __int32, s_simulation_generic_creation_data_v2 *, Blam::BitStream *, long);
-bool c_simulation_generic_entity_definition__entity_creation_decode_hook(void *thisptr, void *unused, __int32 creation_data_size, s_simulation_generic_creation_data_v2 *creation_data, Blam::BitStream *bitstream, long a5) // 0x10ACEBC0
+bool __fastcall c_simulation_generic_entity_definition__entity_creation_decode_hook(void *thisptr, void *unused, __int32 creation_data_size, s_simulation_generic_creation_data_v2 *creation_data, Blam::BitStream *bitstream, long a5) // 0x10ACEBC0
 {
 	// `anonymous-namespace'::c_simulation_generic_entity_definition__entity_creation_decode_hook
 	// long a5;
@@ -276,7 +276,7 @@ bool c_simulation_generic_entity_definition__entity_creation_decode_hook(void *t
 }
 
 _extern long _sub_10ACEA10(void *, void *, s_simulation_generic_creation_data_v2 *, s_simulation_generic_creation_data *, long, s_object_placement_data *);
-long c_simulation_generic_entity_definition__create_object_hook(void *thisptr, void *unused, s_simulation_generic_creation_data_v2 *creation_data, s_simulation_generic_creation_data *object_state_data, long a4, s_object_placement_data *placement_data) // 0x10ACEA10
+long __fastcall c_simulation_generic_entity_definition__create_object_hook(void *thisptr, void *unused, s_simulation_generic_creation_data_v2 *creation_data, s_simulation_generic_creation_data *object_state_data, long a4, s_object_placement_data *placement_data) // 0x10ACEA10
 {
 	// `anonymous-namespace'::c_simulation_generic_entity_definition__create_object_hook
 	// s_object_placement_data *placement_data;
@@ -295,7 +295,7 @@ long c_simulation_generic_entity_definition__create_object_hook(void *thisptr, v
 }
 
 _extern long _sub_10ACE620(void *, void *, s_simulation_generic_creation_data_v2 *, s_simulation_device_state_data *, long, s_object_placement_data *);
-long c_simulation_device_entity_definition__create_object_hook(void *thisptr, void *unused, s_simulation_generic_creation_data_v2 *creation_data, s_simulation_device_state_data *state_data, long a4, s_object_placement_data *placement_data) // 0x10ACE620
+long __fastcall c_simulation_device_entity_definition__create_object_hook(void *thisptr, void *unused, s_simulation_generic_creation_data_v2 *creation_data, s_simulation_device_state_data *state_data, long a4, s_object_placement_data *placement_data) // 0x10ACE620
 {
 	// `anonymous-namespace'::c_simulation_device_entity_definition__create_object_hook
 	// s_object_placement_data *placement_data;
@@ -308,7 +308,7 @@ long c_simulation_device_entity_definition__create_object_hook(void *thisptr, vo
 }
 
 _extern void _sub_10ACE850(void *, void *, long, long, s_simulation_generic_creation_data_v2 *);
-void c_simulation_generic_entity_definition__build_object_creation_data_hook(void *thisptr, void *unused, long object_index, long creation_data_size, s_simulation_generic_creation_data_v2 *creation_data) // 0x10ACE850
+void __fastcall c_simulation_generic_entity_definition__build_object_creation_data_hook(void *thisptr, void *unused, long object_index, long creation_data_size, s_simulation_generic_creation_data_v2 *creation_data) // 0x10ACE850
 {
 	// `anonymous-namespace'::c_simulation_generic_entity_definition__build_object_creation_data_hook
 	// s_simulation_generic_creation_data_v2 *creation_data;
@@ -357,14 +357,29 @@ bool should_attach_projectile_to_object(long object_index, long projectile_index
 	return __result;
 }
 
-extern void _sub_10ACEFF0();
 __declspec(naked) void projectile_attach_to_object_hook() // 0x10ACEFF0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?projectile_attach_to_object_hook@@YAXXZ");
 	// `anonymous-namespace'::projectile_attach_to_object_hook
 	// procedure flags: nofpo
 // ATTACH:
-	todo("implement");
-	_sub_10ACEFF0();
+
+	__asm
+	{
+		pushad
+		push dword ptr [ebp + 8]
+		push dword ptr [ebp + 0Ch]
+		call should_attach_projectile_to_object
+		add esp, 8
+		test al, al
+		popad
+		jne LATTACH
+		mov eax, 0B786C8h
+		jmp eax
+		LATTACH:
+		mov eax, 0B78630h
+		jmp eax
+	}
 }
 
 _extern void _sub_10ACFE00(s_player_motion *, s_player_action *);
@@ -416,7 +431,7 @@ void ragdoll_object_damage_aftermath_hook(long object_index, void *damage_data) 
 }
 
 _extern void _sub_10ACE780(c_simulation_game_engine_event_definition *, void *, long, s_game_engine_event_data const *, Blam::BitStream *, bool);
-void c_simulation_game_engine_event_definition__event_payload_encode_hook(c_simulation_game_engine_event_definition *thisptr, void *unused, long a2, s_game_engine_event_data const *event_data, Blam::BitStream *bitstream, bool a5) // 0x10ACE780
+void __fastcall c_simulation_game_engine_event_definition__event_payload_encode_hook(c_simulation_game_engine_event_definition *thisptr, void *unused, long a2, s_game_engine_event_data const *event_data, Blam::BitStream *bitstream, bool a5) // 0x10ACE780
 {
 	// `anonymous-namespace'::c_simulation_game_engine_event_definition__event_payload_encode_hook
 	// bool a5;
@@ -527,20 +542,27 @@ void simulation_game_register_types_hook(c_simulation_type_collection *type_coll
 	_sub_10ACFF60(type_collection, entity_type_count, event_type_count);
 }
 
-_extern void _sub_10ACE6E0(void *, void *, e_simulation_event_type, long, long *, long, long, void const *, long);
-void c_simulation_event_handler__send_event_hook(void *thisptr, void *unused, e_simulation_event_type event_type, long num_entity_references, long *entity_references, long recipient_peer_mask, long payload_size, void const *payload, long grief_time) // 0x10ACE6E0
+void __fastcall c_simulation_event_handler__send_event_hook(void *thisptr, void *unused, e_simulation_event_type event_type, long num_entity_references, long *entity_references, long recipient_peer_mask, long payload_size, void const *payload, long grief_time) // 0x10ACE6E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_simulation_event_handler__send_event_hook@@YIXPAX0W4e_simulation_event_type@@JPAJJJPBXJ@Z");
 	// `anonymous-namespace'::c_simulation_event_handler__send_event_hook
 	// long grief_time;
 	// void (*const send_event)(void *, e_simulation_event_type, long, long *, long, long, void const *, long);
 	// function call : void (*const)(void *, e_simulation_event_type, long, long *, long, long, void const *, long)
-	todo("implement");
-	_sub_10ACE6E0(thisptr, unused, event_type, num_entity_references, entity_references, recipient_peer_mask, payload_size, payload, grief_time);
+
+	void (__thiscall *const c_simulation_event_handler__send_event)(void *, e_simulation_event_type, long, long *, long, long, void const *, long) = (void(__thiscall *const)(void *, e_simulation_event_type, long, long *, long, long, void const *, long))0x4a7500;
+
+	if (event_type >= _simulation_event_type_hs_wake_script)
+	{
+		grief_time = 5000;
+	}
+
+	c_simulation_event_handler__send_event(thisptr, event_type, num_entity_references, entity_references, recipient_peer_mask, payload_size, payload, grief_time);
 }
 
-_extern bool _sub_10ACEF30(s_player_action *);
 bool player_action_decode_validate_hook(s_player_action *action) // 0x10ACEF30
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?player_action_decode_validate_hook@@YA_NPAUs_player_action@@@Z");
 	// `anonymous-namespace'::player_action_decode_validate_hook
 	// s_player_action *action;
 	// bool (*const aim_assist_targeting_valid)(s_aim_assist_targeting_result *);
@@ -549,9 +571,17 @@ bool player_action_decode_validate_hook(s_player_action *action) // 0x10ACEF30
 	// function call : bool (*const)(s_aim_assist_targeting_result *)
 	// function call : void (*const)(s_aim_assist_targeting_result *)
 	// function call : bool (*const)(s_player_action *)
-	todo("implement");
-	bool __result = _sub_10ACEF30(action);
-	return __result;
+
+	bool (__cdecl *const player_action_decode_validate)(s_player_action *) = (bool(__cdecl *const)(s_player_action *))0x537ab0;
+	bool (__cdecl *const aim_assist_targeting_result_valid)(void *) = (bool(__cdecl *const)(void *))0x58cf40;
+	void (__cdecl *const aim_assist_targeting_result_build_default)(void *) = (void(__cdecl *const)(void *))0x58cc50;
+
+	if (!aim_assist_targeting_result_valid(&action->aim_assist_targeting_result))
+	{
+		aim_assist_targeting_result_build_default(&action->aim_assist_targeting_result);
+	}
+
+	return player_action_decode_validate(action);
 }
 
 extern real_rectangle3d *_sub_10ACF880(real_rectangle3d *);

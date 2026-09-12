@@ -132,6 +132,8 @@ namespace Blam
 
 /* ---------- prototypes */
 
+namespace Server::Chat { bool SendServerMessage(const std::string &message); }  // hades: added for 0X10930A70
+
 namespace ChatCommands
 {
 	extern __int32 findNumberOfPlayersInGame();
@@ -145,23 +147,31 @@ namespace ChatCommands
 
 namespace ChatCommands
 {
-	_extern __int32 _sub_10933000();
 	__int32 findNumberOfPlayersInGame() // 0x10933000
 	{
-		mangled_x86(MANGLED_TODO, "?findNumberOfPlayersInGame@ChatCommands@@YAHXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?findNumberOfPlayersInGame@ChatCommands@@YAHXZ");
 		// procedure flags: nofpo
 		// Blam::Network::SessionMembership *membership;
 		// __int32 numberOfPlayers;
 		// Blam::Network::Session *session;
-		{
 			// __int32 peerIdx;
-			{
 				// __int32 playerIdx;
-			}
+
+		auto* session = Blam::Network::GetActiveSession();
+		if (!session || !session->IsEstablished() || !session->IsHost())
+			return 0;
+
+		int numberOfPlayers = 0;
+		auto membership = &session->MembershipInfo;
+		for (auto peerIdx = membership->FindFirstPeer(); peerIdx >= 0; peerIdx = membership->FindNextPeer(peerIdx))
+		{
+			auto playerIdx = session->MembershipInfo.GetPeerPlayer(peerIdx);
+			if (playerIdx == -1 || !session->MembershipInfo.Peers[peerIdx].IsEstablished())
+				continue;
+
+			numberOfPlayers++;
 		}
-		todo("implement");
-		__int32 __result = _sub_10933000();
-		return __result;
+		return numberOfPlayers;
 	}
 
 	extern ShuffleTeamsCommand* _sub_1092F740(ChatCommands::ShuffleTeamsCommand *const);
@@ -192,13 +202,12 @@ namespace ChatCommands
 		return __result;
 	}
 
-	_extern void _sub_10930D00(ChatCommands::ShuffleTeamsCommand *const);
 	void ShuffleTeamsCommand::doOnVoteFail() // 0x10930D00
 	{
-		mangled_x86(MANGLED_TODO, "?doOnVoteFail@ShuffleTeamsCommand@ChatCommands@@UAEXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?doOnVoteFail@ShuffleTeamsCommand@ChatCommands@@UAEXXZ");
 		// ChatCommands::ShuffleTeamsCommand *const this;
-		todo("implement");
-		_sub_10930D00(this);
+
+		Server::Chat::SendServerMessage("Vote has not passed.");
 	}
 
 	_extern void _sub_109328A0(ChatCommands::ShuffleTeamsCommand *const, std::string);
@@ -252,13 +261,12 @@ namespace ChatCommands
 		return __result;
 	}
 
-	_extern void _sub_109309A0(ChatCommands::EndGameCommand *const);
 	void EndGameCommand::doOnVoteFail() // 0x109309A0
 	{
-		mangled_x86(MANGLED_TODO, "?doOnVoteFail@EndGameCommand@ChatCommands@@UAEXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?doOnVoteFail@EndGameCommand@ChatCommands@@UAEXXZ");
 		// ChatCommands::EndGameCommand *const this;
-		todo("implement");
-		_sub_109309A0(this);
+
+		Server::Chat::SendServerMessage("Vote has not passed.");
 	}
 
 	_extern void _sub_109317E0(ChatCommands::EndGameCommand *const, std::string);
@@ -313,13 +321,12 @@ namespace ChatCommands
 		return __result;
 	}
 
-	_extern void _sub_10930A70(ChatCommands::EndRoundCommand *const);
 	void EndRoundCommand::doOnVoteFail() // 0x10930A70
 	{
-		mangled_x86(MANGLED_TODO, "?doOnVoteFail@EndRoundCommand@ChatCommands@@UAEXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?doOnVoteFail@EndRoundCommand@ChatCommands@@UAEXXZ");
 		// ChatCommands::EndRoundCommand *const this;
-		todo("implement");
-		_sub_10930A70(this);
+
+		Server::Chat::SendServerMessage("Vote has not passed.");
 	}
 
 	_extern void _sub_10931BC0(ChatCommands::EndRoundCommand *const, std::string);
@@ -364,13 +371,13 @@ namespace ChatCommands
 		_sub_10931130(this, name);
 	}
 
-	_extern void _sub_10930B40(ChatCommands::KickIndexCommand *const);
 	void KickIndexCommand::doOnVoteFail() // 0x10930B40
 	{
-		mangled_x86(MANGLED_TODO, "?doOnVoteFail@KickIndexCommand@ChatCommands@@UAEXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?doOnVoteFail@KickIndexCommand@ChatCommands@@UAEXXZ");
 		// ChatCommands::KickIndexCommand *const this;
-		todo("implement");
-		_sub_10930B40(this);
+
+		playerName = "";
+		Server::Chat::SendServerMessage("Vote has not passed.");
 	}
 
 	_extern bool _sub_10933350(ChatCommands::KickIndexCommand *const);
@@ -432,13 +439,13 @@ namespace ChatCommands
 		_sub_109313B0(this, name);
 	}
 
-	_extern void _sub_10930C20(ChatCommands::KickPlayerCommand *const);
 	void KickPlayerCommand::doOnVoteFail() // 0x10930C20
 	{
-		mangled_x86(MANGLED_TODO, "?doOnVoteFail@KickPlayerCommand@ChatCommands@@UAEXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?doOnVoteFail@KickPlayerCommand@ChatCommands@@UAEXXZ");
 		// ChatCommands::KickPlayerCommand *const this;
-		todo("implement");
-		_sub_10930C20(this);
+
+		playerName = "";
+		Server::Chat::SendServerMessage("Vote has not passed.");
 	}
 
 	_extern bool _sub_109333D0(ChatCommands::KickPlayerCommand *const);

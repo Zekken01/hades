@@ -143,9 +143,9 @@ namespace Patches
 
 /* ---------- prototypes */
 
-__int32 WndProcHook(HWND__ *hWnd, unsigned __int32 msg, unsigned __int32 wParam, long lParam);
+__int32 __stdcall WndProcHook(HWND__ *hWnd, unsigned __int32 msg, unsigned __int32 wParam, long lParam);
 void EnableImmersiveDarkMode(HWND__ *hWnd);
-__int32 SetWindowPosHook(HWND__ *hWnd, HWND__ *hWndInsertAfter, __int32 x, __int32 y, __int32 cx, __int32 cy, unsigned __int32 uFlags);
+__int32 __stdcall SetWindowPosHook(HWND__ *hWnd, HWND__ *hWndInsertAfter, __int32 x, __int32 y, __int32 cx, __int32 cy, unsigned __int32 uFlags);
 void DisplayCreateWindowError();
 HWND__ *CreateGameWindowHook();
 
@@ -176,7 +176,7 @@ namespace Server
 /* ---------- private code */
 
 _extern __int32 _sub_10ACBDE0(HWND__ *, unsigned __int32, unsigned __int32, long);
-__int32 WndProcHook(HWND__ *hWnd, unsigned __int32 msg, unsigned __int32 wParam, long lParam) // 0x10ACBDE0
+__int32 __stdcall WndProcHook(HWND__ *hWnd, unsigned __int32 msg, unsigned __int32 wParam, long lParam) // 0x10ACBDE0
 {
 	// `anonymous-namespace'::WndProcHook
 	// static ...; // 0x10ACC06C
@@ -225,7 +225,7 @@ void EnableImmersiveDarkMode(HWND__ *hWnd) // 0x10ACBBA0
 }
 
 _extern __int32 _sub_10ACBCC0(HWND__ *, HWND__ *, __int32, __int32, __int32, __int32, unsigned __int32);
-__int32 SetWindowPosHook(HWND__ *hWnd, HWND__ *hWndInsertAfter, __int32 x, __int32 y, __int32 cx, __int32 cy, unsigned __int32 uFlags) // 0x10ACBCC0
+__int32 __stdcall SetWindowPosHook(HWND__ *hWnd, HWND__ *hWndInsertAfter, __int32 x, __int32 y, __int32 cx, __int32 cy, unsigned __int32 uFlags) // 0x10ACBCC0
 {
 	// `anonymous-namespace'::SetWindowPosHook
 	// __int32 y;

@@ -53,7 +53,6 @@ namespace Patches
 			InputContext(Patches::Input::InputContext const &); /* compiler_generated() */
 			_inline InputContext(); /* compiler_generated() */
 			Patches::Input::InputContext &operator=(Patches::Input::InputContext const &); /* compiler_generated() */
-		unsigned char __pad0[3]; // 0x5
 		};
 		static_assert(sizeof(Patches::Input::InputContext) == 8, "Invalid Patches::Input::InputContext size");
 	}
@@ -83,31 +82,26 @@ namespace Patches
 {
 	namespace Input
 	{
-		_extern void _sub_10C91D90(Patches::Input::InputContext *const);
 		_inline InputContext::~InputContext() // 0x10C91D90
 		{
-			mangled_x86(MANGLED_TODO, "??1InputContext@Input@Patches@@UAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??1InputContext@Input@Patches@@UAE@XZ");
 			// Patches::Input::InputContext *const this;
-			todo("implement");
-			_sub_10C91D90(this);
 		}
 
-		_extern void _sub_10C940B0(Patches::Input::InputContext *const);
 		_inline void InputContext::InputBlock() // 0x10C940B0
 		{
-			mangled_x86(MANGLED_TODO, "?InputBlock@InputContext@Input@Patches@@UAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?InputBlock@InputContext@Input@Patches@@UAEXXZ");
 			// Patches::Input::InputContext *const this;
-			todo("implement");
-			_sub_10C940B0(this);
+
+			memset((void *)0x238DBEB, 1, 3);
 		}
 
-		_extern void _sub_10C94180(Patches::Input::InputContext *const);
 		_inline void InputContext::InputUnblock() // 0x10C94180
 		{
-			mangled_x86(MANGLED_TODO, "?InputUnblock@InputContext@Input@Patches@@UAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?InputUnblock@InputContext@Input@Patches@@UAEXXZ");
 			// Patches::Input::InputContext *const this;
-			todo("implement");
-			_sub_10C94180(this);
+
+			memset((bool *)0x238DBEB, 0, 3);
 		}
 	}
 }

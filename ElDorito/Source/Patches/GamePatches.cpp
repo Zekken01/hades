@@ -96,13 +96,12 @@ namespace Patches
 			_sub_108D0640();
 		}
 
-		_extern void _sub_108D0950(IGameSystem *);
 		void RegisterGameSystem(IGameSystem *system) // 0x108D0950
 		{
-			mangled_x86(MANGLED_TODO, "?RegisterGameSystem@Game@Patches@@YAXPAUIGameSystem@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?RegisterGameSystem@Game@Patches@@YAXPAUIGameSystem@@@Z");
 			// IGameSystem *system;
-			todo("implement");
-			_sub_108D0950(system);
+
+			eldewritoGameSystems.push_back(system);
 		}
 	}
 }

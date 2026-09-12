@@ -79,6 +79,11 @@ typedef unsigned long POOL_NODE_REQUIREMENT;
 
 /* ---------- private variables */
 
+namespace hades_file_local
+{
+	extern ForgeCameraFxState state; // 0x11371830
+}
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Forge
@@ -102,13 +107,12 @@ namespace Forge
 		_sub_1067BE20(mapModifierIndex, mapModifierProperties);
 	}
 
-	_extern void _sub_1067BBA0();
 	void CForgeCameraFx::HandleMapModifierDeleted() // 0x1067BBA0
 	{
-		mangled_x86(MANGLED_TODO, "?HandleMapModifierDeleted@CForgeCameraFx@Forge@@SAXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?HandleMapModifierDeleted@CForgeCameraFx@Forge@@SAXXZ");
 		// procedure flags: nofpo
-		todo("implement");
-		_sub_1067BBA0();
+
+		state.Enabled = false;
 	}
 
 	_extern void _sub_1067BC80(c_player_view *, float);
@@ -120,24 +124,20 @@ namespace Forge
 		_sub_1067BC80(player_view, exposure_boost);
 	}
 
-	_extern bool _sub_1067BC60();
 	bool CForgeCameraFx::IsActive() // 0x1067BC60
 	{
-		mangled_x86(MANGLED_TODO, "?IsActive@CForgeCameraFx@Forge@@SA_NXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?IsActive@CForgeCameraFx@Forge@@SA_NXZ");
 		// procedure flags: nofpo
-		todo("implement");
-		bool __result = _sub_1067BC60();
-		return __result;
+
+		return state.Enabled;
 	}
 
-	_extern float _sub_1067BB80();
 	float CForgeCameraFx::GetBloomIntensity() // 0x1067BB80
 	{
-		mangled_x86(MANGLED_TODO, "?GetBloomIntensity@CForgeCameraFx@Forge@@SAMXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetBloomIntensity@CForgeCameraFx@Forge@@SAMXZ");
 		// procedure flags: nofpo
-		todo("implement");
-		float __result = _sub_1067BB80();
-		return __result;
+
+		return state.BloomIntensity;
 	}
 }
 

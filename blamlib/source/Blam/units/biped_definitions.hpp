@@ -266,7 +266,6 @@ struct s_biped_definition :
 	c_flags<enum e_biped_lock_on_flag_bits,long> lockon_flags; // 0x46C
 	float lockon_distance; // 0x470
 	short physics_control_node_index; // 0x474
-	unsigned char __pad0[2]; // 0x476
 	float runtime_cosine_stationary_turning_threshold; // 0x478
 	float runtime_crouch_transition_velocity; // 0x47C
 	float runtime_camera_height_velocity; // 0x480
@@ -287,7 +286,6 @@ struct s_biped_definition :
 	s_tag_reference transformation_muffin; // 0x5A0
 	s_tag_reference death_spawn_character; // 0x5B0
 	short death_spawn_count; // 0x5C0
-	unsigned char __pad1[2]; // 0x5C2
 	s_biped_leaping_data leaping_data; // 0x5C4
 	s_biped_ground_fitting_data ground_fitting_data; // 0x5F4
 	s_biped_pivot_data pivot_data; // 0x610
@@ -298,6 +296,8 @@ struct s_biped_definition :
 	s_biped_definition &operator=(s_biped_definition const &); /* compiler_generated() */
 };
 static_assert(sizeof(s_biped_definition) == 1576, "Invalid s_biped_definition size");
+static_assert(offsetof(s_biped_definition, runtime_cosine_stationary_turning_threshold) == 0x478, "s_biped_definition::runtime_cosine_stationary_turning_threshold moved when its reconstructed padding was removed");
+static_assert(offsetof(s_biped_definition, leaping_data) == 0x5C4, "s_biped_definition::leaping_data moved when its reconstructed padding was removed");
 
 /* ---------- prototypes */
 

@@ -252,17 +252,17 @@ namespace Patches
 }
 
 void dbglog(char const *module, char const *format, ...);
-void debuglog_string(char *name, char *value);
-void debuglog_int(char *name, __int32 value);
-void debuglog_float(char *name, float value);
+void __stdcall debuglog_string(char *name, char *value);
+void __stdcall debuglog_int(char *name, __int32 value);
+void __stdcall debuglog_float(char *name, float value);
 void networkLogHook(char *format, ...);
 void sslLogHook(char a1, __int32 a2, void *a3, void *a4, char a5);
 void uiLogHook(char a1, __int32 a2, void *a3, void *a4, char a5);
-bool packetRecvHook(void *thisPtr, __int32 unused, Blam::BitStream *stream, __int32 *packetIdOut, __int32 *packetSizeOut, void *packetBuffer);
-void packetSendHook(void *thisPtr, __int32 unused, Blam::BitStream *stream, __int32 packetId, __int32 packetSize, void *packetBuffer);
+bool __fastcall packetRecvHook(void *thisPtr, __int32 unused, Blam::BitStream *stream, __int32 *packetIdOut, __int32 *packetSizeOut, void *packetBuffer);
+void __fastcall packetSendHook(void *thisPtr, __int32 unused, Blam::BitStream *stream, __int32 packetId, __int32 packetSize, void *packetBuffer);
 void build_tag_history_for_crash_report(::Debug::CrashReporting::s_crash_info &crash_info);
 void ExceptionHook(char *msg);
-void *virtualAllocHook(void *address, unsigned __int32 size, unsigned __int32 allocationType, unsigned __int32 protect);
+void *__stdcall virtualAllocHook(void *address, unsigned __int32 size, unsigned __int32 allocationType, unsigned __int32 protect);
 void notify_tag_get_failed(long cause_group, long cause_tag_index, e_tag_get_failed_reason reason);
 void *tag_get_hook(unsigned long group, long index);
 void system_build_exception_information_hook(_EXCEPTION_POINTERS const *exception_pointers, s_exception_information *out_info);
@@ -275,14 +275,15 @@ extern std::atomic_flag g_gameIsCrashed; // 0x12458D5C
 
 namespace hades_file_local
 {
-	extern Hook NetworkLogHook; // 0x12458E08
+	extern Hook DebugLogStringHook; // 0x12458D60
+	extern Hook DebugLogIntHook; // 0x12458D7C
+	extern Hook DebugLogFloatHook; // 0x12458D98
+	extern Hook Game1Hook; // 0x12458DB4
 	extern Hook SSLHook; // 0x12458DD0
 	extern Hook UIHook; // 0x12458DEC
-	extern Hook Game1Hook; // 0x12458DB4
-	extern Hook DebugLogFloatHook; // 0x12458D98
-	extern Hook DebugLogIntHook; // 0x12458D7C
-	extern Hook DebugLogStringHook; // 0x12458D60
+	extern Hook NetworkLogHook; // 0x12458E08
 	extern unsigned __int32 origVirtualAllocAddress; // 0x12458E24
+	extern s_extra_exception_info g_extra_exception_info; // 0x12458E28
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -324,7 +325,7 @@ void dbglog(char const *module, char const *format, ...) // 0x10A85ED0
 }
 
 _extern void _sub_10A86160(char *, char *);
-void debuglog_string(char *name, char *value) // 0x10A86160
+void __stdcall debuglog_string(char *name, char *value) // 0x10A86160
 {
 	// `anonymous-namespace'::debuglog_string
 	// char *value;
@@ -333,7 +334,7 @@ void debuglog_string(char *name, char *value) // 0x10A86160
 }
 
 _extern void _sub_10A860D0(char *, __int32);
-void debuglog_int(char *name, __int32 value) // 0x10A860D0
+void __stdcall debuglog_int(char *name, __int32 value) // 0x10A860D0
 {
 	// `anonymous-namespace'::debuglog_int
 	// __int32 value;
@@ -342,7 +343,7 @@ void debuglog_int(char *name, __int32 value) // 0x10A860D0
 }
 
 _extern void _sub_10A86030(char *, float);
-void debuglog_float(char *name, float value) // 0x10A86030
+void __stdcall debuglog_float(char *name, float value) // 0x10A86030
 {
 	// `anonymous-namespace'::debuglog_float
 	// float value;
@@ -406,7 +407,7 @@ void uiLogHook(char a1, __int32 a2, void *a3, void *a4, char a5) // 0x10A87380
 }
 
 _extern bool _sub_10A86C90(void *, __int32, Blam::BitStream *, __int32 *, __int32 *, void *);
-bool packetRecvHook(void *thisPtr, __int32 unused, Blam::BitStream *stream, __int32 *packetIdOut, __int32 *packetSizeOut, void *packetBuffer) // 0x10A86C90
+bool __fastcall packetRecvHook(void *thisPtr, __int32 unused, Blam::BitStream *stream, __int32 *packetIdOut, __int32 *packetSizeOut, void *packetBuffer) // 0x10A86C90
 {
 	// `anonymous-namespace'::packetRecvHook
 	// void *packetBuffer;
@@ -420,7 +421,7 @@ bool packetRecvHook(void *thisPtr, __int32 unused, Blam::BitStream *stream, __in
 }
 
 _extern void _sub_10A86DC0(void *, __int32, Blam::BitStream *, __int32, __int32, void *);
-void packetSendHook(void *thisPtr, __int32 unused, Blam::BitStream *stream, __int32 packetId, __int32 packetSize, void *packetBuffer) // 0x10A86DC0
+void __fastcall packetSendHook(void *thisPtr, __int32 unused, Blam::BitStream *stream, __int32 packetId, __int32 packetSize, void *packetBuffer) // 0x10A86DC0
 {
 	// `anonymous-namespace'::packetSendHook
 	// void *packetBuffer;
@@ -475,7 +476,7 @@ void ExceptionHook(char *msg) // 0x10A85990
 }
 
 _extern void *_sub_10A87430(void *, unsigned __int32, unsigned __int32, unsigned __int32);
-void *virtualAllocHook(void *address, unsigned __int32 size, unsigned __int32 allocationType, unsigned __int32 protect) // 0x10A87430
+void *__stdcall virtualAllocHook(void *address, unsigned __int32 size, unsigned __int32 allocationType, unsigned __int32 protect) // 0x10A87430
 {
 	// `anonymous-namespace'::virtualAllocHook
 	// unsigned __int32 protect;

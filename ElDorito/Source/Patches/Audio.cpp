@@ -219,19 +219,19 @@ FMOD_RESULT FMOD_CheckError(FMOD_RESULT err, char const *func_name);
 void debug_display_sound_system();
 void debug_display_fmod_stats();
 bool SYSTEM_FMOD_InitEventSystem(SYSTEM_FMOD *thisptr);
-bool SYSTEM_FMOD_Init_Hook(char *thisptr, void *unused, __int32 a2, __int32 a3);
+bool __fastcall SYSTEM_FMOD_Init_Hook(char *thisptr, void *unused, __int32 a2, __int32 a3);
 long long MapSamples(FMOD_CHANNEL *channel, unsigned __int32 samples);
 long GetQueuedSoundCount(HALO_CHANNEL const *channel);
 void DelayPermutation(HALO_CHANNEL *channel, __int32 index, bool sync_time);
 void HALO_CHANNEL_PlaySound(HALO_CHANNEL *channel, __int32 i);
-void HALO_CHANNEL_Update(HALO_CHANNEL *channel);
+void __fastcall HALO_CHANNEL_Update(HALO_CHANNEL *channel);
 short HALO_SOUND_SYSTEM_GetChannelState(long source_index);
-void HALO_SOUND_SYSTEM_Update_Hook(HALO_SOUND_SYSTEM *sound_system);
+void __fastcall HALO_SOUND_SYSTEM_Update_Hook(HALO_SOUND_SYSTEM *sound_system);
 bool sound_plays_when_paused(long definition_index);
-void HALO_SOUND_SYSTEM_Pause(HALO_SOUND_SYSTEM *thisptr, void *unused, bool paused);
-void HALO_CHANNEL_Queue(HALO_CHANNEL *channel, void *unused, s_sound_tag_data *request);
-void HALO_PERM_SOUND_InitChannelProperties(HALO_PERM_SOUND *thisptr, void *unused, HALO_CHANNEL_PROPERTIES *channel_properties);
-void HALO_PERM_SOUND_UpdateChannelProperties(HALO_PERM_SOUND *thisptr, void *unused, HALO_CHANNEL_PROPERTIES *channel_properties);
+void __fastcall HALO_SOUND_SYSTEM_Pause(HALO_SOUND_SYSTEM *thisptr, void *unused, bool paused);
+void __fastcall HALO_CHANNEL_Queue(HALO_CHANNEL *channel, void *unused, s_sound_tag_data *request);
+void __fastcall HALO_PERM_SOUND_InitChannelProperties(HALO_PERM_SOUND *thisptr, void *unused, HALO_CHANNEL_PROPERTIES *channel_properties);
+void __fastcall HALO_PERM_SOUND_UpdateChannelProperties(HALO_PERM_SOUND *thisptr, void *unused, HALO_CHANNEL_PROPERTIES *channel_properties);
 FMOD_RESULT CreateSoundHook(s_sound_tag_data *request, FMOD_SOUND **sound, void **out_data);
 FMOD_RESULT FMOD_Sound_ReleaseSub_Hook(FMOD_SOUND *sound, FMOD_SYSTEM **out_system);
 __int32 sound_permutation_get_unique_id(s_sound_permutation *permutation);
@@ -305,26 +305,30 @@ namespace Patches
 			_sub_10A2C1E0();
 		}
 
-		_extern bool _sub_10A32220(__int32);
 		bool SetOutputDevice(__int32 deviceIndex) // 0x10A32220
 		{
-			mangled_x86(MANGLED_TODO, "?SetOutputDevice@Audio@Patches@@YA_NH@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?SetOutputDevice@Audio@Patches@@YA_NH@Z");
 			// __int32 deviceIndex;
 			// HALO_SOUND_SYSTEM *soundSystem;
-			todo("implement");
-			bool __result = _sub_10A32220(deviceIndex);
-			return __result;
+
+			HALO_SOUND_SYSTEM *soundSystem = HALO_SOUND_SYSTEM::Get();
+			if (soundSystem == nullptr)
+			{
+				return false;
+			}
+			return FMOD_System_SetDriver(soundSystem->fmod_system, deviceIndex) == FMOD_OK;
 		}
 
-		_extern bool _sub_10A2F9D0(__int32, Patches::Audio::SAudioDeviceInfo *);
 		bool GetDeviceInfo(__int32 deviceIndex, Patches::Audio::SAudioDeviceInfo *outInfo) // 0x10A2F9D0
 		{
-			mangled_x86(MANGLED_TODO, "?GetDeviceInfo@Audio@Patches@@YA_NHPAUSAudioDeviceInfo@12@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetDeviceInfo@Audio@Patches@@YA_NHPAUSAudioDeviceInfo@12@@Z");
 			// Patches::Audio::SAudioDeviceInfo *outInfo;
 			// HALO_SOUND_SYSTEM *soundSystem;
-			todo("implement");
-			bool __result = _sub_10A2F9D0(deviceIndex, outInfo);
-			return __result;
+
+			HALO_SOUND_SYSTEM *soundSystem = HALO_SOUND_SYSTEM::Get();
+			if (soundSystem == nullptr)
+				return false;
+			return FMOD_System_GetDriverInfo(soundSystem->fmod_system, deviceIndex, outInfo->name, 512, nullptr) == FMOD_OK;
 		}
 
 		_extern __int32 _sub_10A2F910();
@@ -342,45 +346,46 @@ namespace Patches
 			return __result;
 		}
 
-		_extern void _sub_10A324F0();
 		void Tick() // 0x10A324F0
 		{
-			mangled_x86(MANGLED_TODO, "?Tick@Audio@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@Audio@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_10A324F0();
+
+			debug_display_sound_system();
+			debug_display_fmod_stats();
 		}
 	}
 }
 
 /* ---------- private code */
 
-extern c_large_integer* _sub_10A2BAF0(c_large_integer *const, unsigned long long);
 _inline c_large_integer::c_large_integer(unsigned long long value) // 0x10A2BAF0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_large_integer@hades_file_local@@QAE@_K@Z");
 	// `anonymous-namespace'::c_large_integer::c_large_integer
 	// unsigned long long value;
-	todo("implement");
-	_sub_10A2BAF0(this, value);
+
+	hi = (unsigned int)(value >> 32);
+	lo = (unsigned int)value;
 }
 
-extern c_large_integer* _sub_10A2BAB0(c_large_integer *const, unsigned __int32, unsigned __int32);
 _inline c_large_integer::c_large_integer(unsigned __int32 hi, unsigned __int32 lo) // 0x10A2BAB0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_large_integer@hades_file_local@@QAE@II@Z");
 	// `anonymous-namespace'::c_large_integer::c_large_integer
 	// unsigned __int32 lo;
-	todo("implement");
-	_sub_10A2BAB0(this, hi, lo);
+
+	this->hi = hi;
+	this->lo = lo;
 }
 
-_extern unsigned long long _sub_10A362D0(c_large_integer const *const);
 _inline unsigned long long c_large_integer::value() const // 0x10A362D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?value@c_large_integer@hades_file_local@@QBE_KXZ");
 	// `anonymous-namespace'::c_large_integer::value
 	// c_large_integer const *const this;
-	todo("implement");
-	unsigned long long __result = _sub_10A362D0((c_large_integer const *)this);
-	return __result;
+
+	return ((unsigned long long)hi << 32) | lo;
 }
 
 extern c_large_integer _sub_10A2C0A0(c_large_integer const &, c_large_integer const &);
@@ -397,27 +402,29 @@ _inline c_large_integer operator+(c_large_integer const &lhs, c_large_integer co
 	return __result;
 }
 
-extern c_large_integer &_sub_10A2C160(c_large_integer *const, c_large_integer const &);
 _inline c_large_integer &c_large_integer::operator+=(c_large_integer const &rhs) // 0x10A2C160
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??Yc_large_integer@hades_file_local@@QAEAAU01@ABU01@@Z");
 	// `anonymous-namespace'::c_large_integer::operator+=
 	// c_large_integer const &rhs;
-	todo("implement");
-	c_large_integer & __result = _sub_10A2C160(this, rhs);
-	return __result;
+
+	return *this = *this + rhs;
 }
 
-extern c_sound_debug_printer* _sub_10A2BB60(c_sound_debug_printer *const, __int32, __int32);
 _inline c_sound_debug_printer::c_sound_debug_printer(__int32 xoffset, __int32 yoffset) // 0x10A2BB60
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_sound_debug_printer@hades_file_local@@QAE@HH@Z");
 	// `anonymous-namespace'::c_sound_debug_printer::c_sound_debug_printer
 	// __int32 yoffset;
-	todo("implement");
-	_sub_10A2BB60(this, xoffset, yoffset);
+
+	m_yOffset = 0.0f;
+	m_xOffset = 0.0f;
+	m_xOffset = (float)xoffset;
+	m_yOffset = (float)yoffset;
 }
 
 _extern void _sub_10A345D0(c_sound_debug_printer *const, long, char const *, ...);
-_inline void c_sound_debug_printer::print_line(long color, char const *format, ...) // 0x10A345D0
+_inline void __cdecl c_sound_debug_printer::print_line(long color, char const *format, ...) // 0x10A345D0
 {
 	// `anonymous-namespace'::c_sound_debug_printer::print_line
 	// c_sound_debug_printer *const this;
@@ -429,13 +436,13 @@ _inline void c_sound_debug_printer::print_line(long color, char const *format, .
 	_sub_10A345D0(this, color, format);
 }
 
-_extern void _sub_10A34B00(c_sound_debug_printer *const);
 _inline void c_sound_debug_printer::skip_line() // 0x10A34B00
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?skip_line@c_sound_debug_printer@hades_file_local@@QAEXXZ");
 	// `anonymous-namespace'::c_sound_debug_printer::skip_line
 	// c_sound_debug_printer *const this;
-	todo("implement");
-	_sub_10A34B00(this);
+
+	m_yOffset += 16.0f;
 }
 
 _extern bool _sub_10A32370();
@@ -577,7 +584,7 @@ bool SYSTEM_FMOD_InitEventSystem(SYSTEM_FMOD *thisptr) // 0x10A31E20
 }
 
 _extern bool _sub_10A32060(char *, void *, __int32, __int32);
-bool SYSTEM_FMOD_Init_Hook(char *thisptr, void *unused, __int32 a2, __int32 a3) // 0x10A32060
+bool __fastcall SYSTEM_FMOD_Init_Hook(char *thisptr, void *unused, __int32 a2, __int32 a3) // 0x10A32060
 {
 	// `anonymous-namespace'::SYSTEM_FMOD_Init_Hook
 	// __int32 a3;
@@ -671,7 +678,7 @@ void HALO_CHANNEL_PlaySound(HALO_CHANNEL *channel, __int32 i) // 0x10A2FAE0
 }
 
 _extern void _sub_10A2FF60(HALO_CHANNEL *);
-void HALO_CHANNEL_Update(HALO_CHANNEL *channel) // 0x10A2FF60
+void __fastcall HALO_CHANNEL_Update(HALO_CHANNEL *channel) // 0x10A2FF60
 {
 	// `anonymous-namespace'::HALO_CHANNEL_Update
 	// static ...; // 0x10A30327
@@ -720,7 +727,7 @@ short HALO_SOUND_SYSTEM_GetChannelState(long source_index) // 0x10A31640
 }
 
 _extern void _sub_10A31BA0(HALO_SOUND_SYSTEM *);
-void HALO_SOUND_SYSTEM_Update_Hook(HALO_SOUND_SYSTEM *sound_system) // 0x10A31BA0
+void __fastcall HALO_SOUND_SYSTEM_Update_Hook(HALO_SOUND_SYSTEM *sound_system) // 0x10A31BA0
 {
 	// `anonymous-namespace'::HALO_SOUND_SYSTEM_Update_Hook
 	// HALO_SOUND_SYSTEM *sound_system;
@@ -743,7 +750,7 @@ bool sound_plays_when_paused(long definition_index) // 0x10A35F20
 }
 
 _extern void _sub_10A31720(HALO_SOUND_SYSTEM *, void *, bool);
-void HALO_SOUND_SYSTEM_Pause(HALO_SOUND_SYSTEM *thisptr, void *unused, bool paused) // 0x10A31720
+void __fastcall HALO_SOUND_SYSTEM_Pause(HALO_SOUND_SYSTEM *thisptr, void *unused, bool paused) // 0x10A31720
 {
 	// `anonymous-namespace'::HALO_SOUND_SYSTEM_Pause
 	// static ...; // 0x10A31AA2
@@ -785,7 +792,7 @@ void HALO_SOUND_SYSTEM_Pause(HALO_SOUND_SYSTEM *thisptr, void *unused, bool paus
 }
 
 _extern void _sub_10A2FC60(HALO_CHANNEL *, void *, s_sound_tag_data *);
-void HALO_CHANNEL_Queue(HALO_CHANNEL *channel, void *unused, s_sound_tag_data *request) // 0x10A2FC60
+void __fastcall HALO_CHANNEL_Queue(HALO_CHANNEL *channel, void *unused, s_sound_tag_data *request) // 0x10A2FC60
 {
 	// `anonymous-namespace'::HALO_CHANNEL_Queue
 	// static ...; // 0x10A2FEA0
@@ -806,7 +813,7 @@ void HALO_CHANNEL_Queue(HALO_CHANNEL *channel, void *unused, s_sound_tag_data *r
 }
 
 _extern void _sub_10A30430(HALO_PERM_SOUND *, void *, HALO_CHANNEL_PROPERTIES *);
-void HALO_PERM_SOUND_InitChannelProperties(HALO_PERM_SOUND *thisptr, void *unused, HALO_CHANNEL_PROPERTIES *channel_properties) // 0x10A30430
+void __fastcall HALO_PERM_SOUND_InitChannelProperties(HALO_PERM_SOUND *thisptr, void *unused, HALO_CHANNEL_PROPERTIES *channel_properties) // 0x10A30430
 {
 	// `anonymous-namespace'::HALO_PERM_SOUND_InitChannelProperties
 	// static ...; // 0x10A30EF7
@@ -830,7 +837,7 @@ void HALO_PERM_SOUND_InitChannelProperties(HALO_PERM_SOUND *thisptr, void *unuse
 }
 
 _extern void _sub_10A311D0(HALO_PERM_SOUND *, void *, HALO_CHANNEL_PROPERTIES *);
-void HALO_PERM_SOUND_UpdateChannelProperties(HALO_PERM_SOUND *thisptr, void *unused, HALO_CHANNEL_PROPERTIES *channel_properties) // 0x10A311D0
+void __fastcall HALO_PERM_SOUND_UpdateChannelProperties(HALO_PERM_SOUND *thisptr, void *unused, HALO_CHANNEL_PROPERTIES *channel_properties) // 0x10A311D0
 {
 	// `anonymous-namespace'::HALO_PERM_SOUND_UpdateChannelProperties
 	// static ...; // 0x10A3153A
@@ -916,14 +923,13 @@ FMOD_RESULT FMOD_Sound_ReleaseSub_Hook(FMOD_SOUND *sound, FMOD_SYSTEM **out_syst
 	return __result;
 }
 
-_extern __int32 _sub_10A35F00(s_sound_permutation *);
 __int32 sound_permutation_get_unique_id(s_sound_permutation *permutation) // 0x10A35F00
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?sound_permutation_get_unique_id@@YAHPAUs_sound_permutation@@@Z");
 	// `anonymous-namespace'::sound_permutation_get_unique_id
 	// s_sound_permutation *permutation;
-	todo("implement");
-	__int32 __result = _sub_10A35F00(permutation);
-	return __result;
+
+	return (__int32)permutation;
 }
 
 _extern void _sub_10A34370(long, bool, __int32, float, long);
@@ -1009,15 +1015,19 @@ void build_channel_transmission_sources_hook(void *listener, void *voices, void 
 	_sub_10A330C0(listener, voices, sources);
 }
 
-_extern void _sub_10A36230(void *, void *);
 void update_hardware_channels_hook(void *a1, void *a2) // 0x10A36230
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?update_hardware_channels_hook@@YAXPAX0@Z");
 	// `anonymous-namespace'::update_hardware_channels_hook
 	// void *a2;
 	// void (*const update_hardware_channels)(void *, void *);
 	// function call : void (*const)(void *, void *)
-	todo("implement");
-	_sub_10A36230(a1, a2);
+
+	void (__cdecl *const update_hardware_channels)(void *, void *) = (void(__cdecl *const)(void *, void *))0x51b7d0;
+
+	memset(&g_channel_transmission_sources1, 0, 896);
+	memset(&g_channel_transmission_sources2, 0, 896);
+	update_hardware_channels(&g_channel_transmission_sources1, &g_channel_transmission_sources2);
 }
 
 _extern short _sub_10A35CD0(s_sound_definition *, float, short);
@@ -1144,15 +1154,14 @@ bool sound_cache_locked_block_proc(void *context, long block_index) // 0x10A3507
 	return __result;
 }
 
-_extern void _sub_10A35010();
 void sound_cache_idle_hook() // 0x10A35010
 {
-	mangled_x86(MANGLED_TODO, "?sound_cache_idle_hook@@YAXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?sound_cache_idle_hook@@YAXXZ");
 	// `anonymous-namespace'::sound_cache_idle_hook
 	// procedure flags: nofpo
 	// function call : void (*const)(s_lruv_cache *)
-	todo("implement");
-	_sub_10A35010();
+
+	((void(__cdecl *const)(s_lruv_cache *))0x9677b0)(g_xbox_sound_cache);
 }
 
 _extern void _sub_10A35120();

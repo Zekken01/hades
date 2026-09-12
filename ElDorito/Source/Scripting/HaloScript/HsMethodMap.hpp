@@ -103,7 +103,9 @@ namespace Scripting
 			unsigned char __pad0[3]; // 0x1
 			std::unordered_map<std::string_view,Scripting::HS::ScriptMethod> m_methods; // 0x4
 		public:
-			_inline ScriptMethodMap(); /* compiler_generated() */
+			_inline ScriptMethodMap() = default; /* compiler_generated() - defaulted on its
+			    first declaration, so it is NOT user-provided and `new ScriptMethodMap()`
+			    zero-initializes before constructing, as the original does. */
 			~ScriptMethodMap(); /* compiler_generated() */
 		};
 	}
@@ -132,14 +134,12 @@ namespace Scripting
 {
 	namespace HS
 	{
-		extern ScriptMethodFlags _sub_10701240(Scripting::HS::ScriptMethodFlags, Scripting::HS::ScriptMethodFlags);
 		_inline Scripting::HS::ScriptMethodFlags operator&(Scripting::HS::ScriptMethodFlags lhs, Scripting::HS::ScriptMethodFlags rhs) // 0x10701240
 		{
-			mangled_x86(MANGLED_TODO, "??IHS@Scripting@@YA?AW4ScriptMethodFlags@01@W4201@0@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??IHS@Scripting@@YA?AW4ScriptMethodFlags@01@W4201@0@Z");
 			// Scripting::HS::ScriptMethodFlags rhs;
-			todo("implement");
-			Scripting::HS::ScriptMethodFlags __result = _sub_10701240(lhs, rhs);
-			return __result;
+
+			return static_cast<Scripting::HS::ScriptMethodFlags>(static_cast<int>(lhs) & static_cast<int>(rhs));
 		}
 	}
 }

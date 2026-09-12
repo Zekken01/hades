@@ -79,14 +79,12 @@ namespace Patches
 
 /* ---------- public code */
 
-_extern float _sub_1090D930();
 float animation_get_frames_per_second() // 0x1090D930
 {
-	mangled_x86(MANGLED_TODO, "?animation_get_frames_per_second@@YAMXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?animation_get_frames_per_second@@YAMXZ");
 	// procedure flags: nofpo
-	todo("implement");
-	float __result = _sub_1090D930();
-	return __result;
+
+	return *(float *)0x1615f34;
 }
 
 _extern bool _sub_1090D950(c_animation_channel *, void const *, c_animation_manager *, float, float);

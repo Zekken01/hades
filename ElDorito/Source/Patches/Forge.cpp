@@ -1,6 +1,8 @@
 /* ---------- headers */
 
 #include "hades/hades.h"
+#include "Forge/SelectionRenderer.hpp"
+#include "Forge/ForgeMapModifier.hpp"
 
 #include "Blam/ai/actor.hpp"
 #include "Blam/BlamInput.hpp"
@@ -380,6 +382,11 @@ namespace Patches
 
 /* ---------- prototypes */
 
+s_object_data *object_get(unsigned long object_index);  // hades: added for 0X10A6F470
+s_forge_globals_definition *forge_globals_get_definition();  // hades: added for 0X10A6F470
+
+void *tag_try_and_get_and_verify_group(unsigned long group_tag, long tag_index);  // hades: added for 0X10A6ABD0
+
 namespace Patches
 {
 	namespace Forge
@@ -422,12 +429,12 @@ void RecalculateMapVariantBudget();
 void ObjectOutOfWorldBoundsError();
 bool TestBarrierTestProjectile(long barrierObjectIndex, long projectileObjectIndex);
 void OnMonitorModeChange(bool isMonitor);
-float c_map_variant__get_budget_fraction_hook(s_map_variant *thisptr, void *__formal, float *budget_spent, float *budget_max);
-bool c_sandbox_engine__initialize_for_new_map_hook(c_sandbox_engine *thisptr, void *__formal);
-void c_sandbox_engine__dispose_from_old_map_hook(c_sandbox_engine *thisptr, void *__formal);
-void c_sandbox_engine__update_hook(c_sandbox_engine *thisptr, void *__formal);
-void c_sandbox_engine__rotate_object_hook(c_sandbox_engine *thisptr, void *__formal, long playerIndex, long objectIndex, float yaw, float pitch, float roll);
-void c_sandbox_engine__handle_deleted_object_hook(c_sandbox_engine *thisptr, void *__formal, long object_index);
+float __fastcall c_map_variant__get_budget_fraction_hook(s_map_variant *thisptr, void *__formal, float *budget_spent, float *budget_max);
+bool __fastcall c_sandbox_engine__initialize_for_new_map_hook(c_sandbox_engine *thisptr, void *__formal);
+void __fastcall c_sandbox_engine__dispose_from_old_map_hook(c_sandbox_engine *thisptr, void *__formal);
+void __fastcall c_sandbox_engine__update_hook(c_sandbox_engine *thisptr, void *__formal);
+void __fastcall c_sandbox_engine__rotate_object_hook(c_sandbox_engine *thisptr, void *__formal, long playerIndex, long objectIndex, float yaw, float pitch, float roll);
+void __fastcall c_sandbox_engine__handle_deleted_object_hook(c_sandbox_engine *thisptr, void *__formal, long object_index);
 void game_engine_sandox_apply_grab_object_hook2(long player_index, long object_index);
 void game_engine_sandox_apply_grab_object_hook(long player_index, long map_variant_index);
 void game_engine_sandbox_stop_editing_object_hook(long map_variant_index, float force, bool activate_physics);
@@ -441,41 +448,41 @@ bool shoot_probe_for_player_test_vector_hook(unsigned long flags, unsigned long 
 void *object_properties_user_interface_allocate_hook(long size);
 void *object_creation_user_interface_allocate_hook(long size);
 bool shoot_probe_for_player_hook(long player_index, long *out_object_index);
-void c_map_variant__apply_multiplayer_properties_hook(s_map_variant *thisptr, void *__formal, s_map_variant_placement_properties *properties, long object_index);
+void __fastcall c_map_variant__apply_multiplayer_properties_hook(s_map_variant *thisptr, void *__formal, s_map_variant_placement_properties *properties, long object_index);
 void c_map_variant__setup_object_properties_hook(s_variant_datum *placement);
-void c_map_variant__initialize_from_scenario_hook(s_map_variant *thisptr, void *unused);
-void c_map_variant__recalculate_quota_hook(s_map_variant *thisptr, void *unused, __int32 budgetIndex, char arg_4);
-void c_map_variant__rebuild_quotas_from_hook(s_map_variant *thisptr, void *__formal, s_map_variant *other);
+void __fastcall c_map_variant__initialize_from_scenario_hook(s_map_variant *thisptr, void *unused);
+void __fastcall c_map_variant__recalculate_quota_hook(s_map_variant *thisptr, void *unused, __int32 budgetIndex, char arg_4);
+void __fastcall c_map_variant__rebuild_quotas_from_hook(s_map_variant *thisptr, void *__formal, s_map_variant *other);
 void c_map_variant__create_object_jump_hook();
-long place_object_hook(s_map_variant *thisptr, void *__formal, long tag_index, long creation_type, long map_variant_index, real_point3d const *position, real_vector3d const *forward, real_vector3d const *up, long scenario_object_index, e_object_type object_type, s_map_variant_placement_properties *properties, unsigned short flags);
+long __fastcall place_object_hook(s_map_variant *thisptr, void *__formal, long tag_index, long creation_type, long map_variant_index, real_point3d const *position, real_vector3d const *forward, real_vector3d const *up, long scenario_object_index, e_object_type object_type, s_map_variant_placement_properties *properties, unsigned short flags);
 bool can_place_object_at_hook(long tag_index, real_point3d *position, long player_unit_index);
-float light_intensity_function_evaluate(c_function_definition *thisptr, long light_index, float input, float range);
-void light_color_function_evaluate(c_function_definition *thisptr, long light_index, float input, float range, real_rgb_color *color);
+float __fastcall light_intensity_function_evaluate(c_function_definition *thisptr, long light_index, float input, float range);
+void __fastcall light_color_function_evaluate(c_function_definition *thisptr, long light_index, float input, float range, real_rgb_color *color);
 void light_intensity_function_hook();
 void light_color_function_hook();
 void add_simple_light_callback_hook(long light_index, long user_index, float intensity, c_lights_view *lights_view);
-void c_map_variant__quantize_hook(s_map_variant *thisptr, void *unused);
+void __fastcall c_map_variant__quantize_hook(s_map_variant *thisptr, void *unused);
 void game_engine_update_hook();
 bool game_engine_game_object_has_fallen_too_far_hook(long object_index);
 bool collision_test_object_hook(long object_index, s_object_header *object_header, s_object_data *object, unsigned long test_flags, long object_type_mask, long ignore_object_index_1, long ignore_object_index_2, long ignore_object_index_3);
 void multiplayer_object_submit_boundary_hook(s_multiplayer_object_boundary_geometry_data *boundary, real_argb_color *color, long object_index);
-void c_multiplayer_candy_monitor_manager__monitor_object_hook(c_multiplayer_candy_monitor_manager *thisptr, void *__formal, long map_variant_index, long object_index);
+void __fastcall c_multiplayer_candy_monitor_manager__monitor_object_hook(c_multiplayer_candy_monitor_manager *thisptr, void *__formal, long map_variant_index, long object_index);
 void shield_impact_bloom_intensity_hook(long id, long count, float *data);
 void game_sound_update_acoustics_hook(float dt);
 void object_placement_create_active_zone_set_skies_hook(long scenario_index, unsigned long bsp_mask);
 bool IgnoreRigidBodyNode(unsigned __int32 objectIndex, __int32 nodeIndex);
-void rigid_body_hack_hook(c_runtime_node_to_physics_model_rigid_body_index_mapping *thisptr, void *__formal, long object_index, bool force);
+void __fastcall rigid_body_hack_hook(c_runtime_node_to_physics_model_rigid_body_index_mapping *thisptr, void *__formal, long object_index, bool force);
 long havok_cull_objects_filter_rigid_body_hook(hkpEntity *entity);
-void c_havok_component__connect_to_havok_world_hook(c_havok_component *thisptr, void *unused);
+void __fastcall c_havok_component__connect_to_havok_world_hook(c_havok_component *thisptr, void *unused);
 void game_engine_garbage_collect_for_round_switch_object_delete_hook(long object_index);
 s_multiplayer_object_properties *game_engine_find_available_spawn_location_objects_filter_hook(long object_index);
-bool c_havok_contact_point__is_climbable_surface_hook(c_havok_contact_point *contact_point);
+bool __fastcall c_havok_contact_point__is_climbable_surface_hook(c_havok_contact_point *contact_point);
 void map_variant_register_object_hook(long object_index, long map_variant_index, char registration_type);
-void c_sandbox_engine__update_local_player_hook(c_sandbox_engine *thisptr, void *__formal, long player_index);
-long c_map_variant__create_object_hook(s_map_variant *thisptr, void *__formal, long object_definition_index, long creation_type, long map_variant_index, real_point3d *position, real_vector3d *forward, real_vector3d *up, long scenario_datum_index, long object_type, s_map_variant_placement_properties *variant_properties, unsigned short object_placement_flags);
-void c_map_variant__register_scenario_object_hook(s_map_variant *thisptr, void *__formal, long object_index, bool edited);
-bool c_map_variant__update_scenario_object_properties_hook(s_map_variant *thisptr, void *__formal, long object_index);
-long c_map_variant__get_scenario_placement_map_variant_index_hook(s_map_variant *thisptr, void *__formal, long object_type, long scenario_datum_index);
+void __fastcall c_sandbox_engine__update_local_player_hook(c_sandbox_engine *thisptr, void *__formal, long player_index);
+long __fastcall c_map_variant__create_object_hook(s_map_variant *thisptr, void *__formal, long object_definition_index, long creation_type, long map_variant_index, real_point3d *position, real_vector3d *forward, real_vector3d *up, long scenario_datum_index, long object_type, s_map_variant_placement_properties *variant_properties, unsigned short object_placement_flags);
+void __fastcall c_map_variant__register_scenario_object_hook(s_map_variant *thisptr, void *__formal, long object_index, bool edited);
+bool __fastcall c_map_variant__update_scenario_object_properties_hook(s_map_variant *thisptr, void *__formal, long object_index);
+long __fastcall c_map_variant__get_scenario_placement_map_variant_index_hook(s_map_variant *thisptr, void *__formal, long object_type, long scenario_datum_index);
 bool c_candy_spawner__spawn_object__new_from_scenario_object_hook(long object_type, long scenario_datum_index, void *scenario_object, s_tag_block *palette_block, char create_at_rest, char flags, s_object_placement_data *placement_data);
 
 /* ---------- globals */
@@ -484,12 +491,14 @@ bool c_candy_spawner__spawn_object__new_from_scenario_object_hook(long object_ty
 
 namespace hades_file_local
 {
+	extern real_vector3d global_zero3d; // 0x111AFB58
 	extern float const HELDOBJECT_DISTANCE_MIN; // 0x111AFB88
 	extern float const HELDOBJECT_DISTANCE_CHANGE_MULTIPLIER; // 0x111AFB8C
 	extern float const MONITOR_MOVEMENT_SPEEDS[7]; // 0x111AFB90
 	extern wchar_t const *MONITOR_MOVEMENT_SPEED_NAMES[7]; // 0x11354370
+	extern s_monitorState monitorState; // 0x1135438C
 	extern std::vector<void (__cdecl*)(unsigned int)> s_ItemSpawnedCallbacks; // 0x124584C0
-	extern real_vector3d global_zero3d; // 0x111AFB58
+	extern s_selectionState selectionState; // 0x124584D0
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -507,11 +516,90 @@ namespace Patches
 		_extern void _sub_10A60560();
 		void ApplyAll() // 0x10A60560
 		{
-			mangled_x86(MANGLED_TODO, "?ApplyAll@Forge@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Forge@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			// CForgeDeviceManager *forgeDeviceManager;
-			todo("implement");
-			_sub_10A60560();
+
+			Hook(0x1337F1, game_engine_update_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Pointer(0x165AB54).Write<unsigned int>(reinterpret_cast<unsigned int>(c_sandbox_engine__update_hook));
+			Pointer(0x165AB94).Write<unsigned int>(reinterpret_cast<unsigned int>(c_sandbox_engine__handle_deleted_object_hook));
+			Pointer(0x165AB04).Write<unsigned int>(reinterpret_cast<unsigned int>(c_sandbox_engine__initialize_for_new_map_hook));
+			Pointer(0x165AB08).Write<unsigned int>(reinterpret_cast<unsigned int>(c_sandbox_engine__dispose_from_old_map_hook));
+			Hook(0x19D482, c_sandbox_engine__update_local_player_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x19FA69, c_sandbox_engine__rotate_object_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x7350A, game_engine_sandox_apply_grab_object_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x19B14D, game_engine_sandox_apply_grab_object_hook2, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x7356F, game_engine_sandbox_stop_editing_object_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x734FC, game_engine_sandbox_delete_object_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x73527, game_engine_sandbox_update_variant_object_properties_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x734EE, game_engine_sandbox_place_object_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x7AF758, character_physics_update_input_datum_initialize_flying_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x19CAFC, update_edited_object_transform_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x19F4CA, shoot_probe_for_player_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0xAD4DD, c_map_variant__apply_multiplayer_properties_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x180E66, c_map_variant__apply_multiplayer_properties_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x181326, c_map_variant__apply_multiplayer_properties_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x1824EA, c_map_variant__apply_multiplayer_properties_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x185BBD, c_map_variant__apply_multiplayer_properties_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x186680, c_map_variant__setup_object_properties_hook).Apply();
+			Hook(0x6E25A0, object_properties_user_interface_allocate_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x6E26C1, object_properties_user_interface_allocate_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x6E2729, object_creation_user_interface_allocate_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Patch(0x6EAADD, { 0xEB }).Apply();
+			Patch(0x6EAA37, { 0xEB }).Apply();
+			Pointer(0x59FA99).Write<float const *>(&HELDOBJECT_DISTANCE_MIN);
+			Pointer(0x59FA7E).Write<float const *>(&HELDOBJECT_DISTANCE_CHANGE_MULTIPLIER);
+			Patch(0x19FACC, { 0x90, 0x90 }).Apply();
+			Hook(0x19E8AD, shoot_probe_for_player_test_vector_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Patch::NopFill(Pointer::Base(0x6E4796), 102);
+			Hook(0x151506, c_map_variant__initialize_from_scenario_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x185DC1, c_map_variant__recalculate_quota_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x182110, c_map_variant__create_object_jump_hook).Apply();
+			Hook(0x181F30, c_map_variant__create_object_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x186071, c_map_variant__create_object_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x19AEE6, place_object_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x19AEBA, can_place_object_at_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Pointer(0xA669E5).Write<unsigned int>(reinterpret_cast<unsigned int>(add_simple_light_callback_hook));
+			Hook(0x79E1A9, light_intensity_function_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x79E186, light_color_function_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x181CC0, c_map_variant__rebuild_quotas_from_hook).Apply();
+			Patch(0x18676E, { 0x90, 0x90 }).Apply();
+			Hook(0x184CF0, c_map_variant__quantize_hook).Apply();
+			Hook(0x58028E, game_engine_game_object_has_fallen_too_far_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x5D4CD5, game_engine_game_object_has_fallen_too_far_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x2D8F48, collision_test_object_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x19F0B8, multiplayer_object_submit_boundary_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x653D77, shield_impact_bloom_intensity_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Patch(0x317265, { 0xBA, 0x07, 0x00, 0x00, 0x00 }).Apply();
+			Patch(0x7D8A59, { 0xEB }).Apply();
+			Hook(0x1D9BBE, game_sound_update_acoustics_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x7591E4, object_placement_create_active_zone_set_skies_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x1E41CA, rigid_body_hack_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x757490, rigid_body_hack_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x1C4E3A, havok_cull_objects_filter_rigid_body_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x731E5F, c_havok_component__connect_to_havok_world_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x14F139, game_engine_garbage_collect_for_round_switch_object_delete_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x1A38A8, game_engine_find_available_spawn_location_objects_filter_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x3238EA, c_havok_contact_point__is_climbable_surface_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x183250, c_map_variant__get_budget_fraction_hook).Apply();
+			Hook(0xAD4EA, map_variant_register_object_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x190DB1, c_candy_spawner__spawn_object__new_from_scenario_object_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x19004E, c_multiplayer_candy_monitor_manager__monitor_object_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Patch(0x181C90, { 0xB0, 0x01, 0xC3 }).Apply();
+			Patch::NopFill(Pointer::Base(0x185655), 6);
+			Patch::NopFill(Pointer::Base(0x1858E2), 6);
+			Patch::NopFill(Pointer::Base(0x186C75), 2);
+			Hook(0x184829, c_map_variant__register_scenario_object_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x184811, c_map_variant__update_scenario_object_properties_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x1834E0, c_map_variant__get_scenario_placement_map_variant_index_hook).Apply();
+			Pointer(0x58FFFD).Write<int>(0x280F);
+			Pointer(0x590638).Write<int>(0x280F);
+			Pointer(0x590C87).Write<int>(0x280F);
+			Pointer(0x54ECA1).Write<int>(0x280F);
+			Pointer(0x59E8A4).Write<int>(0x531D);
+			::Forge::SelectionRenderer::ApplyPatches();
+			CForgeDeviceManager &deviceManager = CForgeDeviceManager::Instance();
+			::Patches::Game::RegisterGameSystem(&deviceManager);
+			CForgeUndoManager::Instance().completedEvent.Subscribe(::Forge::CForgeMapModifier::OnUndoRedoCompleted);
 		}
 
 		_extern void _sub_10A603E0();
@@ -769,24 +857,35 @@ void DoClone(long player_index, long cursor_object_index) // 0x10A65280
 	_sub_10A65280(player_index, cursor_object_index);
 }
 
-_extern void _sub_10A667D0();
 void HandleRuntimeReset() // 0x10A667D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleRuntimeReset@@YAXXZ");
 	// `anonymous-namespace'::HandleRuntimeReset
 	// procedure flags: nofpo
 	// Modules::ModuleForge &moduleForge;
-	todo("implement");
-	_sub_10A667D0();
+
+	auto &moduleForge = Utils::Singleton<Modules::ModuleForge>::Instance();
+	if (moduleForge.CommandState.RuntimeReset)
+	{
+		ResetRuntime();
+		moduleForge.CommandState.RuntimeReset = false;
+	}
 }
 
-_extern void _sub_10A65A80();
 void HandleMapCanvas() // 0x10A65A80
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleMapCanvas@@YAXXZ");
 	// `anonymous-namespace'::HandleMapCanvas
 	// procedure flags: nofpo
 	// Modules::ModuleForge &moduleForge;
-	todo("implement");
-	_sub_10A65A80();
+
+	Modules::ModuleForge *moduleForge = &Utils::Singleton<Modules::ModuleForge>::Instance();
+	if (moduleForge->CommandState.MapCanvas)
+	{
+		ResetRuntime();
+		CanvasMap();
+		moduleForge->CommandState.MapCanvas = false;
+	}
 }
 
 _extern void _sub_10A66840();
@@ -799,15 +898,22 @@ void HandleSetPrematchCamera() // 0x10A66840
 	_sub_10A66840();
 }
 
-_extern void _sub_10A668C0();
 void HandleSpawnItem() // 0x10A668C0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleSpawnItem@@YAXXZ");
 	// `anonymous-namespace'::HandleSpawnItem
 	// procedure flags: nofpo
 	// Modules::ModuleForge &moduleForge;
 	// long &itemTagIndex;
-	todo("implement");
-	_sub_10A668C0();
+
+	Modules::ModuleForge &moduleForge = Modules::ModuleForge::Instance();
+	long &itemTagIndex = moduleForge.CommandState.SpawnItem;
+
+	if (itemTagIndex != -1)
+	{
+		SpawnItem(itemTagIndex);
+		itemTagIndex = -1;
+	}
 }
 
 _extern void _sub_10A66460();
@@ -822,13 +928,18 @@ void HandleOpenMapOptions() // 0x10A66460
 	_sub_10A66460();
 }
 
-_extern void _sub_10A65A20();
 void HandleCommands() // 0x10A65A20
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleCommands@@YAXXZ");
 	// `anonymous-namespace'::HandleCommands
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10A65A20();
+
+	HandleMapCanvas();
+	HandleRuntimeReset();
+	HandleSpawnItem();
+	HandleSetPrematchCamera();
+	HandlePrefabCommands();
+	HandleOpenMapOptions();
 }
 
 _extern void _sub_10A66650();
@@ -1118,7 +1229,7 @@ void OnMonitorModeChange(bool isMonitor) // 0x10A66A70
 }
 
 _extern float _sub_10A6ACC0(s_map_variant *, void *, float *, float *);
-float c_map_variant__get_budget_fraction_hook(s_map_variant *thisptr, void *__formal, float *budget_spent, float *budget_max) // 0x10A6ACC0
+float __fastcall c_map_variant__get_budget_fraction_hook(s_map_variant *thisptr, void *__formal, float *budget_spent, float *budget_max) // 0x10A6ACC0
 {
 	// `anonymous-namespace'::c_map_variant__get_budget_fraction_hook
 	// float *budget_max;
@@ -1130,7 +1241,7 @@ float c_map_variant__get_budget_fraction_hook(s_map_variant *thisptr, void *__fo
 }
 
 _extern bool _sub_10A6BA90(c_sandbox_engine *, void *);
-bool c_sandbox_engine__initialize_for_new_map_hook(c_sandbox_engine *thisptr, void *__formal) // 0x10A6BA90
+bool __fastcall c_sandbox_engine__initialize_for_new_map_hook(c_sandbox_engine *thisptr, void *__formal) // 0x10A6BA90
 {
 	// `anonymous-namespace'::c_sandbox_engine__initialize_for_new_map_hook
 	// void *__formal;
@@ -1142,7 +1253,7 @@ bool c_sandbox_engine__initialize_for_new_map_hook(c_sandbox_engine *thisptr, vo
 }
 
 _extern void _sub_10A6B960(c_sandbox_engine *, void *);
-void c_sandbox_engine__dispose_from_old_map_hook(c_sandbox_engine *thisptr, void *__formal) // 0x10A6B960
+void __fastcall c_sandbox_engine__dispose_from_old_map_hook(c_sandbox_engine *thisptr, void *__formal) // 0x10A6B960
 {
 	// `anonymous-namespace'::c_sandbox_engine__dispose_from_old_map_hook
 	// void *__formal;
@@ -1153,7 +1264,7 @@ void c_sandbox_engine__dispose_from_old_map_hook(c_sandbox_engine *thisptr, void
 }
 
 _extern void _sub_10A6C2E0(c_sandbox_engine *, void *);
-void c_sandbox_engine__update_hook(c_sandbox_engine *thisptr, void *__formal) // 0x10A6C2E0
+void __fastcall c_sandbox_engine__update_hook(c_sandbox_engine *thisptr, void *__formal) // 0x10A6C2E0
 {
 	// `anonymous-namespace'::c_sandbox_engine__update_hook
 	// static ...; // 0x10A6C56C
@@ -1178,7 +1289,7 @@ void c_sandbox_engine__update_hook(c_sandbox_engine *thisptr, void *__formal) //
 }
 
 _extern void _sub_10A6BC10(c_sandbox_engine *, void *, long, long, float, float, float);
-void c_sandbox_engine__rotate_object_hook(c_sandbox_engine *thisptr, void *__formal, long playerIndex, long objectIndex, float yaw, float pitch, float roll) // 0x10A6BC10
+void __fastcall c_sandbox_engine__rotate_object_hook(c_sandbox_engine *thisptr, void *__formal, long playerIndex, long objectIndex, float yaw, float pitch, float roll) // 0x10A6BC10
 {
 	// `anonymous-namespace'::c_sandbox_engine__rotate_object_hook
 	// long objectIndex;
@@ -1207,7 +1318,7 @@ void c_sandbox_engine__rotate_object_hook(c_sandbox_engine *thisptr, void *__for
 }
 
 _extern void _sub_10A6BA00(c_sandbox_engine *, void *, long);
-void c_sandbox_engine__handle_deleted_object_hook(c_sandbox_engine *thisptr, void *__formal, long object_index) // 0x10A6BA00
+void __fastcall c_sandbox_engine__handle_deleted_object_hook(c_sandbox_engine *thisptr, void *__formal, long object_index) // 0x10A6BA00
 {
 	// `anonymous-namespace'::c_sandbox_engine__handle_deleted_object_hook
 	// long object_index;
@@ -1217,9 +1328,9 @@ void c_sandbox_engine__handle_deleted_object_hook(c_sandbox_engine *thisptr, voi
 	_sub_10A6BA00(thisptr, __formal, object_index);
 }
 
-_extern void _sub_10A6E2A0(long, long);
 void game_engine_sandox_apply_grab_object_hook2(long player_index, long object_index) // 0x10A6E2A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_sandox_apply_grab_object_hook2@@YAXJJ@Z");
 	// `anonymous-namespace'::game_engine_sandox_apply_grab_object_hook2
 	// long object_index;
 	// void (*const havok_object_rebuild_immediate)(long);
@@ -1227,17 +1338,26 @@ void game_engine_sandox_apply_grab_object_hook2(long player_index, long object_i
 	// function call : void (*const)(long)
 	// function call : unsigned long (*const)(long)
 	// function call : void (*const)(long, long)
-	todo("implement");
-	_sub_10A6E2A0(player_index, object_index);
+
+	void (__cdecl *const sub_59CF50)(long, long) = (void(__cdecl *const)(long, long))0x59cf50;
+	void (__cdecl *const sub_5C7360)(long) = (void(__cdecl *const)(long))0x5c7360;
+
+	sub_5C7360(object_index);
+	if (player_index == ((long(__cdecl *const)(long))0x589c30)(0))
+	{
+		monitorState.HeldObjectIndex = object_index;
+		monitorState.HeldObjectRootNode = FindComplexObjectRigidBodyRootNode(object_index);
+	}
+	sub_59CF50(player_index, object_index);
 }
 
-_extern void _sub_10A6E370(long, long);
 void game_engine_sandox_apply_grab_object_hook(long player_index, long map_variant_index) // 0x10A6E370
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_sandox_apply_grab_object_hook@@YAXJJ@Z");
 	// `anonymous-namespace'::game_engine_sandox_apply_grab_object_hook
 	// long map_variant_index;
-	todo("implement");
-	_sub_10A6E370(player_index, map_variant_index);
+
+	GrabObject(player_index, map_variant_index);
 }
 
 _extern void _sub_10A6DC20(long, float, bool);
@@ -1439,16 +1559,20 @@ void update_edited_object_transform_hook(bool apply_gravity, long object_index, 
 	_sub_10A70320(apply_gravity, object_index, position, forward, up);
 }
 
-_extern bool _sub_10A70080(unsigned long, unsigned long, real_point3d const *, real_vector3d const *, __int32, __int32, s_collision_result *);
 bool shoot_probe_for_player_test_vector_hook(unsigned long flags, unsigned long test_object_flags, real_point3d const *origin, real_vector3d const *vector, __int32 ignore_object_index1, __int32 ignore_object_index2, s_collision_result *results) // 0x10A70080
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?shoot_probe_for_player_test_vector_hook@@YA_NKKPBUreal_point3d@@PBUreal_vector3d@@HHPAUs_collision_result@@@Z");
 	// `anonymous-namespace'::shoot_probe_for_player_test_vector_hook
 	// s_collision_result *results;
 	// bool (*const collision_test_vector)(unsigned long, unsigned long, real_point3d const *, real_vector3d const *, long, long, s_collision_result *);
 	// function call : bool (*const)(unsigned long, unsigned long, real_point3d const *, real_vector3d const *, long, long, s_collision_result *)
-	todo("implement");
-	bool __result = _sub_10A70080(flags, test_object_flags, origin, vector, ignore_object_index1, ignore_object_index2, results);
-	return __result;
+
+	bool (__cdecl *const shoot_probe_for_player_test_vector)(unsigned long, unsigned long, real_point3d const *, real_vector3d const *, __int32, __int32, s_collision_result *) = (bool(__cdecl *const)(unsigned long, unsigned long, real_point3d const *, real_vector3d const *, __int32, __int32, s_collision_result *))0x6d7160;
+
+	if (ignore_object_index1 != -1 && Modules::ModuleForge::Instance().VarMonitorNoclip->ValueInt)
+		return false;
+
+	return shoot_probe_for_player_test_vector(flags, test_object_flags, origin, vector, ignore_object_index1, ignore_object_index2, results);
 }
 
 _extern void *_sub_10A6F670(long);
@@ -1507,7 +1631,7 @@ bool shoot_probe_for_player_hook(long player_index, long *out_object_index) // 0
 }
 
 _extern void _sub_10A6A9B0(s_map_variant *, void *, s_map_variant_placement_properties *, long);
-void c_map_variant__apply_multiplayer_properties_hook(s_map_variant *thisptr, void *__formal, s_map_variant_placement_properties *properties, long object_index) // 0x10A6A9B0
+void __fastcall c_map_variant__apply_multiplayer_properties_hook(s_map_variant *thisptr, void *__formal, s_map_variant_placement_properties *properties, long object_index) // 0x10A6A9B0
 {
 	// `anonymous-namespace'::c_map_variant__apply_multiplayer_properties_hook
 	// s_map_variant *thisptr;
@@ -1548,7 +1672,7 @@ void c_map_variant__setup_object_properties_hook(s_variant_datum *placement) // 
 }
 
 _extern void _sub_10A6AE40(s_map_variant *, void *);
-void c_map_variant__initialize_from_scenario_hook(s_map_variant *thisptr, void *unused) // 0x10A6AE40
+void __fastcall c_map_variant__initialize_from_scenario_hook(s_map_variant *thisptr, void *unused) // 0x10A6AE40
 {
 	// `anonymous-namespace'::c_map_variant__initialize_from_scenario_hook
 	// void *unused;
@@ -1561,7 +1685,7 @@ void c_map_variant__initialize_from_scenario_hook(s_map_variant *thisptr, void *
 }
 
 _extern void _sub_10A6B0A0(s_map_variant *, void *, __int32, char);
-void c_map_variant__recalculate_quota_hook(s_map_variant *thisptr, void *unused, __int32 budgetIndex, char arg_4) // 0x10A6B0A0
+void __fastcall c_map_variant__recalculate_quota_hook(s_map_variant *thisptr, void *unused, __int32 budgetIndex, char arg_4) // 0x10A6B0A0
 {
 	// `anonymous-namespace'::c_map_variant__recalculate_quota_hook
 	// char arg_4;
@@ -1578,7 +1702,7 @@ void c_map_variant__recalculate_quota_hook(s_map_variant *thisptr, void *unused,
 }
 
 _extern void _sub_10A6AFC0(s_map_variant *, void *, s_map_variant *);
-void c_map_variant__rebuild_quotas_from_hook(s_map_variant *thisptr, void *__formal, s_map_variant *other) // 0x10A6AFC0
+void __fastcall c_map_variant__rebuild_quotas_from_hook(s_map_variant *thisptr, void *__formal, s_map_variant *other) // 0x10A6AFC0
 {
 	// `anonymous-namespace'::c_map_variant__rebuild_quotas_from_hook
 	// s_map_variant *other;
@@ -1618,7 +1742,7 @@ __declspec(naked) void c_map_variant__create_object_jump_hook() // 0x10A6AC90
 }
 
 _extern long _sub_10A6F800(s_map_variant *, void *, long, long, long, real_point3d const *, real_vector3d const *, real_vector3d const *, long, e_object_type, s_map_variant_placement_properties *, unsigned short);
-long place_object_hook(s_map_variant *thisptr, void *__formal, long tag_index, long creation_type, long map_variant_index, real_point3d const *position, real_vector3d const *forward, real_vector3d const *up, long scenario_object_index, e_object_type object_type, s_map_variant_placement_properties *properties, unsigned short flags) // 0x10A6F800
+long __fastcall place_object_hook(s_map_variant *thisptr, void *__formal, long tag_index, long creation_type, long map_variant_index, real_point3d const *position, real_vector3d const *forward, real_vector3d const *up, long scenario_object_index, e_object_type object_type, s_map_variant_placement_properties *properties, unsigned short flags) // 0x10A6F800
 {
 	// `anonymous-namespace'::place_object_hook
 	// unsigned short flags;
@@ -1662,7 +1786,7 @@ bool can_place_object_at_hook(long tag_index, real_point3d *position, long playe
 }
 
 _extern float _sub_10A6EDB0(c_function_definition *, long, float, float);
-float light_intensity_function_evaluate(c_function_definition *thisptr, long light_index, float input, float range) // 0x10A6EDB0
+float __fastcall light_intensity_function_evaluate(c_function_definition *thisptr, long light_index, float input, float range) // 0x10A6EDB0
 {
 	// `anonymous-namespace'::light_intensity_function_evaluate
 	// c_function_definition *thisptr;
@@ -1689,7 +1813,7 @@ float light_intensity_function_evaluate(c_function_definition *thisptr, long lig
 }
 
 _extern void _sub_10A6EB50(c_function_definition *, long, float, float, real_rgb_color *);
-void light_color_function_evaluate(c_function_definition *thisptr, long light_index, float input, float range, real_rgb_color *color) // 0x10A6EB50
+void __fastcall light_color_function_evaluate(c_function_definition *thisptr, long light_index, float input, float range, real_rgb_color *color) // 0x10A6EB50
 {
 	// `anonymous-namespace'::light_color_function_evaluate
 	// real_rgb_color *color;
@@ -1777,7 +1901,7 @@ void add_simple_light_callback_hook(long light_index, long user_index, float int
 }
 
 _extern void _sub_10A6AFA0(s_map_variant *, void *);
-void c_map_variant__quantize_hook(s_map_variant *thisptr, void *unused) // 0x10A6AFA0
+void __fastcall c_map_variant__quantize_hook(s_map_variant *thisptr, void *unused) // 0x10A6AFA0
 {
 	// `anonymous-namespace'::c_map_variant__quantize_hook
 	// void *unused;
@@ -1832,21 +1956,36 @@ bool collision_test_object_hook(long object_index, s_object_header *object_heade
 	return __result;
 }
 
-_extern void _sub_10A6F470(s_multiplayer_object_boundary_geometry_data *, real_argb_color *, long);
 void multiplayer_object_submit_boundary_hook(s_multiplayer_object_boundary_geometry_data *boundary, real_argb_color *color, long object_index) // 0x10A6F470
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?multiplayer_object_submit_boundary_hook@@YAXPAUs_multiplayer_object_boundary_geometry_data@@PAUreal_argb_color@@J@Z");
 	// `anonymous-namespace'::multiplayer_object_submit_boundary_hook
 	// long object_index;
 	// void (*const multiplayer_object_submit_boundary)(s_multiplayer_object_boundary_geometry_data *, real_argb_color *, long);
 	// s_object_data *object;
 	// s_forge_globals_definition *forge_globals;
 	// function call : void (*const)(s_multiplayer_object_boundary_geometry_data *, real_argb_color *, long)
-	todo("implement");
-	_sub_10A6F470(boundary, color, object_index);
+
+	void (__cdecl *const multiplayer_object_submit_boundary)(s_multiplayer_object_boundary_geometry_data *, real_argb_color *, long) = (void(__cdecl *const)(s_multiplayer_object_boundary_geometry_data *, real_argb_color *, long))0xba0fc0;
+
+	s_object_data *object = object_get(object_index);
+	if (!object)
+	{
+		return;
+	}
+
+	s_forge_globals_definition *forge_globals = forge_globals_get_definition();
+	if (object->definition_index == forge_globals->garbage_volume_object.index
+		|| object->definition_index == forge_globals->kill_volume_object.index)
+	{
+		return;
+	}
+
+	multiplayer_object_submit_boundary(boundary, color, object_index);
 }
 
 _extern void _sub_10A6B8B0(c_multiplayer_candy_monitor_manager *, void *, long, long);
-void c_multiplayer_candy_monitor_manager__monitor_object_hook(c_multiplayer_candy_monitor_manager *thisptr, void *__formal, long map_variant_index, long object_index) // 0x10A6B8B0
+void __fastcall c_multiplayer_candy_monitor_manager__monitor_object_hook(c_multiplayer_candy_monitor_manager *thisptr, void *__formal, long map_variant_index, long object_index) // 0x10A6B8B0
 {
 	// `anonymous-namespace'::c_multiplayer_candy_monitor_manager__monitor_object_hook
 	// long object_index;
@@ -1893,18 +2032,20 @@ void object_placement_create_active_zone_set_skies_hook(long scenario_index, uns
 	_sub_10A6F5D0(scenario_index, bsp_mask);
 }
 
-_extern bool _sub_10A66940(unsigned __int32, __int32);
 bool IgnoreRigidBodyNode(unsigned __int32 objectIndex, __int32 nodeIndex) // 0x10A66940
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?IgnoreRigidBodyNode@@YA_NIH@Z");
 	// `anonymous-namespace'::IgnoreRigidBodyNode
 	// __int32 nodeIndex;
-	todo("implement");
-	bool __result = _sub_10A66940(objectIndex, nodeIndex);
-	return __result;
+
+	return monitorState.HeldObjectIndex != -1
+		&& monitorState.HeldObjectIndex == objectIndex
+		&& monitorState.HeldObjectRootNode != -1
+		&& nodeIndex != monitorState.HeldObjectRootNode;
 }
 
 _extern void _sub_10A6FA00(c_runtime_node_to_physics_model_rigid_body_index_mapping *, void *, long, bool);
-void rigid_body_hack_hook(c_runtime_node_to_physics_model_rigid_body_index_mapping *thisptr, void *__formal, long object_index, bool force) // 0x10A6FA00
+void __fastcall rigid_body_hack_hook(c_runtime_node_to_physics_model_rigid_body_index_mapping *thisptr, void *__formal, long object_index, bool force) // 0x10A6FA00
 {
 	// `anonymous-namespace'::rigid_body_hack_hook
 	// static ...; // 0x10A6FC6C
@@ -1953,7 +2094,7 @@ long havok_cull_objects_filter_rigid_body_hook(hkpEntity *entity) // 0x10A6E6D0
 }
 
 _extern void _sub_10A6A770(c_havok_component *, void *);
-void c_havok_component__connect_to_havok_world_hook(c_havok_component *thisptr, void *unused) // 0x10A6A770
+void __fastcall c_havok_component__connect_to_havok_world_hook(c_havok_component *thisptr, void *unused) // 0x10A6A770
 {
 	// `anonymous-namespace'::c_havok_component__connect_to_havok_world_hook
 	// void *unused;
@@ -2002,7 +2143,7 @@ s_multiplayer_object_properties *game_engine_find_available_spawn_location_objec
 }
 
 _extern bool _sub_10A6A8A0(c_havok_contact_point *);
-bool c_havok_contact_point__is_climbable_surface_hook(c_havok_contact_point *contact_point) // 0x10A6A8A0
+bool __fastcall c_havok_contact_point__is_climbable_surface_hook(c_havok_contact_point *contact_point) // 0x10A6A8A0
 {
 	// `anonymous-namespace'::c_havok_contact_point__is_climbable_surface_hook
 	// c_havok_contact_point *contact_point;
@@ -2031,7 +2172,7 @@ void map_variant_register_object_hook(long object_index, long map_variant_index,
 }
 
 _extern void _sub_10A6C650(c_sandbox_engine *, void *, long);
-void c_sandbox_engine__update_local_player_hook(c_sandbox_engine *thisptr, void *__formal, long player_index) // 0x10A6C650
+void __fastcall c_sandbox_engine__update_local_player_hook(c_sandbox_engine *thisptr, void *__formal, long player_index) // 0x10A6C650
 {
 	// `anonymous-namespace'::c_sandbox_engine__update_local_player_hook
 	// long player_index;
@@ -2042,20 +2183,26 @@ void c_sandbox_engine__update_local_player_hook(c_sandbox_engine *thisptr, void 
 	_sub_10A6C650(thisptr, __formal, player_index);
 }
 
-_extern long _sub_10A6ABD0(s_map_variant *, void *, long, long, long, real_point3d *, real_vector3d *, real_vector3d *, long, long, s_map_variant_placement_properties *, unsigned short);
-long c_map_variant__create_object_hook(s_map_variant *thisptr, void *__formal, long object_definition_index, long creation_type, long map_variant_index, real_point3d *position, real_vector3d *forward, real_vector3d *up, long scenario_datum_index, long object_type, s_map_variant_placement_properties *variant_properties, unsigned short object_placement_flags) // 0x10A6ABD0
+long __fastcall c_map_variant__create_object_hook(s_map_variant *thisptr, void *__formal, long object_definition_index, long creation_type, long map_variant_index, real_point3d *position, real_vector3d *forward, real_vector3d *up, long scenario_datum_index, long object_type, s_map_variant_placement_properties *variant_properties, unsigned short object_placement_flags) // 0x10A6ABD0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_map_variant__create_object_hook@@YIJPAUs_map_variant@@PAXJJJPAUreal_point3d@@PAUreal_vector3d@@3JJPAUs_map_variant_placement_properties@@G@Z");
 	// `anonymous-namespace'::c_map_variant__create_object_hook
 	// unsigned short object_placement_flags;
 	// long (*const c_map_variant__create_object)(s_map_variant *, void *, long, long, long, real_point3d *, real_vector3d *, real_vector3d *, long, long, s_map_variant_placement_properties *, unsigned short);
 	// function call : long (*const)(s_map_variant *, void *, long, long, long, real_point3d *, real_vector3d *, real_vector3d *, long, long, s_map_variant_placement_properties *, unsigned short)
-	todo("implement");
-	long __result = _sub_10A6ABD0(thisptr, __formal, object_definition_index, creation_type, map_variant_index, position, forward, up, scenario_datum_index, object_type, variant_properties, object_placement_flags);
-	return __result;
+
+	long (__fastcall *const c_map_variant__create_object)(s_map_variant *, void *, long, long, long, real_point3d *, real_vector3d *, real_vector3d *, long, long, s_map_variant_placement_properties *, unsigned short) = (long(__fastcall *const)(s_map_variant *, void *, long, long, long, real_point3d *, real_vector3d *, real_vector3d *, long, long, s_map_variant_placement_properties *, unsigned short))0x582110;
+
+	if (!tag_try_and_get_and_verify_group(0x6F626A65, object_definition_index))
+	{
+		return -1;
+	}
+
+	return c_map_variant__create_object(thisptr, nullptr, object_definition_index, creation_type, map_variant_index, position, forward, up, scenario_datum_index, object_type, variant_properties, object_placement_flags);
 }
 
 _extern void _sub_10A6B220(s_map_variant *, void *, long, bool);
-void c_map_variant__register_scenario_object_hook(s_map_variant *thisptr, void *__formal, long object_index, bool edited) // 0x10A6B220
+void __fastcall c_map_variant__register_scenario_object_hook(s_map_variant *thisptr, void *__formal, long object_index, bool edited) // 0x10A6B220
 {
 	// `anonymous-namespace'::c_map_variant__register_scenario_object_hook
 	// bool edited;
@@ -2067,7 +2214,7 @@ void c_map_variant__register_scenario_object_hook(s_map_variant *thisptr, void *
 }
 
 _extern bool _sub_10A6B810(s_map_variant *, void *, long);
-bool c_map_variant__update_scenario_object_properties_hook(s_map_variant *thisptr, void *__formal, long object_index) // 0x10A6B810
+bool __fastcall c_map_variant__update_scenario_object_properties_hook(s_map_variant *thisptr, void *__formal, long object_index) // 0x10A6B810
 {
 	// `anonymous-namespace'::c_map_variant__update_scenario_object_properties_hook
 	// long object_index;
@@ -2080,7 +2227,7 @@ bool c_map_variant__update_scenario_object_properties_hook(s_map_variant *thispt
 }
 
 _extern long _sub_10A6ADE0(s_map_variant *, void *, long, long);
-long c_map_variant__get_scenario_placement_map_variant_index_hook(s_map_variant *thisptr, void *__formal, long object_type, long scenario_datum_index) // 0x10A6ADE0
+long __fastcall c_map_variant__get_scenario_placement_map_variant_index_hook(s_map_variant *thisptr, void *__formal, long object_type, long scenario_datum_index) // 0x10A6ADE0
 {
 	// `anonymous-namespace'::c_map_variant__get_scenario_placement_map_variant_index_hook
 	// long scenario_datum_index;

@@ -249,14 +249,12 @@ namespace Server
 {
 	namespace InfoServer
 	{
-		_extern bool _sub_10B1E450();
 		bool IsInfoSocketOpen() // 0x10B1E450
 		{
-			mangled_x86(MANGLED_TODO, "?IsInfoSocketOpen@InfoServer@Server@@YA_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?IsInfoSocketOpen@InfoServer@Server@@YA_NXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			bool __result = _sub_10B1E450();
-			return __result;
+
+			return infoSocketOpen;
 		}
 
 		_extern bool _sub_10B1E850();

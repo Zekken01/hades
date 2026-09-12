@@ -170,13 +170,16 @@ namespace Player
 		// mangled_x86(MANGLED_DEFAULT, "??1PlayerEmblemRenderTask@Emblems@Player@@QAE@XZ"); no body to assert in
 		_inline PlayerEmblemRenderTask::~PlayerEmblemRenderTask() = default; // 0x107E7710
 
-		_extern void _sub_107E7BF0(Player::Emblems::PlayerEmblemFileStream *const);
 		_inline void PlayerEmblemFileStream::Close() // 0x107E7BF0
 		{
-			mangled_x86(MANGLED_TODO, "?Close@PlayerEmblemFileStream@Emblems@Player@@QAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Close@PlayerEmblemFileStream@Emblems@Player@@QAEXXZ");
 			// Player::Emblems::PlayerEmblemFileStream *const this;
-			todo("implement");
-			_sub_107E7BF0(this);
+
+			if (m_fp)
+			{
+				fclose(m_fp);
+				m_fp = nullptr;
+			}
 		}
 
 		_extern bool _sub_107E8130(Player::Emblems::PlayerEmblemFileStream *const, void *, __int32, __int32 *);
@@ -213,15 +216,17 @@ namespace Player
 			_sub_107E7550(this);
 		}
 
-		_extern bool _sub_107E8070(Player::Emblems::PlayerEmblemD3DXBufferStream *const, void *, __int32, __int32 *);
 		_inline bool PlayerEmblemD3DXBufferStream::Read(void *data, __int32 bytesToRead, __int32 *bytesRead) // 0x107E8070
 		{
-			mangled_x86(MANGLED_TODO, "?Read@PlayerEmblemD3DXBufferStream@Emblems@Player@@UAE_NPAXHPAH@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Read@PlayerEmblemD3DXBufferStream@Emblems@Player@@UAE_NPAXHPAH@Z");
 			// __int32 *bytesRead;
 			// __int32 n;
-			todo("implement");
-			bool __result = _sub_107E8070(this, data, bytesToRead, bytesRead);
-			return __result;
+
+			int n = std::min(bytesToRead, m_size - m_pos);
+			memcpy(data, m_data, n);
+			*bytesRead = n;
+			m_pos += n;
+			return true;
 		}
 
 		_extern void _sub_107E7DF0(Player::Emblems::PlayerEmblemRenderTask const &);

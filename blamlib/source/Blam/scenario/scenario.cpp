@@ -52,15 +52,15 @@ extern long (*const global_structure_bsp_next_active_index_get)(long); // 0x1124
 
 /* ---------- public code */
 
-_extern long _sub_10EFC310(unsigned long, long);
 long scenario_pvs_bsp_pvs_index_get(unsigned long bsp_zone_flags, long bsp_index) // 0x10EFC310
 {
-	mangled_x86(MANGLED_TODO, "?scenario_pvs_bsp_pvs_index_get@@YAJKJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?scenario_pvs_bsp_pvs_index_get@@YAJKJ@Z");
 	// long bsp_index;
 	// unsigned long mask;
-	todo("implement");
-	long __result = _sub_10EFC310(bsp_zone_flags, bsp_index);
-	return __result;
+
+	unsigned long mask = (1 << (bsp_index + 1)) - 1;
+
+	return count_bits(mask & bsp_zone_flags) - 1;
 }
 
 /* ---------- private code */

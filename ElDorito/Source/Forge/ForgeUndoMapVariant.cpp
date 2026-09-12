@@ -111,14 +111,6 @@ _inline s_map_variant::s_map_variant() = default; // 0x108649C0
 // mangled_x86(MANGLED_DEFAULT, "??0s_variant_datum@@QAE@XZ"); no body to assert in
 _inline s_variant_datum::s_variant_datum() = default; // 0x10864A30
 
-_inline CForgeUndoMapVariant::~CForgeUndoMapVariant() // 0x10864C10
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1CForgeUndoMapVariant@@UAE@XZ");
-	// CForgeUndoMapVariant *const this;
-
-	compiler_generated();
-}
-
 _extern void _sub_10864F40(CForgeUndoMapVariant *const);
 void CForgeUndoMapVariant::Undo() // 0x10864F40
 {
@@ -168,7 +160,6 @@ void CForgeUndoMapVariant::Undo() // 0x10864F40
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0CForgeUndoManager@@QAE@XZ"); no body to assert in
-_inline CForgeUndoManager::CForgeUndoManager() = default; // 0x108647A0
 
 /* ---------- private code */
 

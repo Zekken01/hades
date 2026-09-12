@@ -300,13 +300,6 @@ namespace Server
 			return __result;
 		}
 
-		_inline MyNetworkSessionListener::~MyNetworkSessionListener() // 0x10AFF830
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??1MyNetworkSessionListener@ClientDataTracker@Server@@UAE@XZ");
-			// Server::ClientDataTracker::MyNetworkSessionListener *const this;
-
-			compiler_generated();
-		}
 	}
 }
 
@@ -365,14 +358,17 @@ bool HostReceivedMessage(Blam::Network::Session *session, __int32 peer, Server::
 	return true;
 }
 
-_extern bool _sub_10B003E0(Blam::Network::Session *, Server::ClientDataTracker::ClientInfoData const &);
 bool SendClientMessage(Blam::Network::Session *session, Server::ClientDataTracker::ClientInfoData const &message) // 0x10B003E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SendClientMessage@@YA_NPAUSession@Network@Blam@@ABUClientInfoData@ClientDataTracker@Server@@@Z");
 	// `anonymous-namespace'::SendClientMessage
 	// Server::ClientDataTracker::ClientInfoData const &message;
-	todo("implement");
-	bool __result = _sub_10B003E0(session, message);
-	return __result;
+
+	if (session->IsHost())
+	{
+		return HostReceivedMessage(session, session->MembershipInfo.LocalPeerIndex, message);
+	}
+	return SendMessagePacket(session->MembershipInfo.HostPeerIndex, message);
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0ClientInfoDataPacketHandler@hades_file_local@@QAE@XZ"); no body to assert in

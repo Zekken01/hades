@@ -36,11 +36,11 @@ struct s_camera_pan_navigator
 	__int32 ticks_elapsed; // 0x0
 	float field_4; // 0x4
 	short easing_type; // 0x8
-	unsigned char __pad0[2]; // 0xA
 	float end_time; // 0xC
 	real_quaternion rotation; // 0x10
 };
 static_assert(sizeof(s_camera_pan_navigator) == 32, "Invalid s_camera_pan_navigator size");
+static_assert(offsetof(s_camera_pan_navigator, end_time) == 0xC, "s_camera_pan_navigator::end_time moved when its reconstructed padding was removed");
 
 struct s_scripted_camera_globals
 {
@@ -62,10 +62,8 @@ struct s_scripted_camera_globals
 	__int32 frame_index_rounded; // 0x4C
 	__int32 cutscene_flag_index; // 0x50
 	bool cinematic_is_anchored; // 0x54
-	unsigned char __pad0[3]; // 0x55
 	unsigned long extra_camera_shot_name; // 0x58
 	bool render_texture_camera_active; // 0x5C
-	unsigned char __pad1[3]; // 0x5D
 	s_camera_pan_navigator pan_navigator; // 0x60
 	real_quaternion unknown_rotation; // 0x80
 	real_vector3d position_offset; // 0x90
@@ -93,6 +91,8 @@ struct s_scripted_camera_globals
 	s_scripted_camera_globals &operator=(s_scripted_camera_globals const &); /* compiler_generated() */
 };
 static_assert(sizeof(s_scripted_camera_globals) == 240, "Invalid s_scripted_camera_globals size");
+static_assert(offsetof(s_scripted_camera_globals, extra_camera_shot_name) == 0x58, "s_scripted_camera_globals::extra_camera_shot_name moved when its reconstructed padding was removed");
+static_assert(offsetof(s_scripted_camera_globals, pan_navigator) == 0x60, "s_scripted_camera_globals::pan_navigator moved when its reconstructed padding was removed");
 
 /* ---------- prototypes */
 

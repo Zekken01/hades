@@ -23,7 +23,6 @@ struct c_gui_pregame_setup_manager
 	bool restore_requested; // 0x24E94
 	static void (*const restore_from_last)(c_gui_pregame_setup_manager *, e_gui_game_mode);
 	static c_gui_pregame_setup_manager *(*const get)();
-	unsigned char __pad0[3]; // 0x24E95
 };
 static_assert(sizeof(c_gui_pregame_setup_manager) == 151192, "Invalid c_gui_pregame_setup_manager size");
 

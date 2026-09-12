@@ -197,6 +197,10 @@ using namespace ::Blam;
 
 /* ---------- prototypes */
 
+extern long(__cdecl *const game_seconds_to_ticks_round)(float);  // hades: added for 0X10A7B740
+
+namespace Blam::Input { void BlockInput(InputType type, bool block); }  // hades: added for 0X10A79380
+
 namespace Patches
 {
 	namespace Input
@@ -220,13 +224,7 @@ void QuickUpdateUiInputHook();
 void BlockInputHook(Blam::Input::InputType type, bool blocked);
 void UpdateForgeMonitorBindings();
 void InitBindingsHook(Blam::Input::BindingsTable *bindings);
-namespace Blam
-{
-	namespace Input
-	{
-		BindingsPreferences *PreferencesGetKeyBindingsHook(Blam::Input::BindingsPreferences *result);
-	}
-}
+Blam::Input::BindingsPreferences *PreferencesGetKeyBindingsHook(Blam::Input::BindingsPreferences *result);
 
 void PreferencesSetKeyBindingsHook(Blam::Input::BindingsPreferences newBindings);
 void GetDefaultBindingsHook(__int32 type, Blam::Input::BindingsTable *result);
@@ -404,23 +402,21 @@ namespace Patches
 			_sub_10A7AEB0(infantrySettings, vehicleSettings);
 		}
 
-		_extern void _sub_10A7B740(float);
 		void TestControllerVibration(float durationSeconds) // 0x10A7B740
 		{
-			mangled_x86(MANGLED_TODO, "?TestControllerVibration@Input@Patches@@YAXM@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?TestControllerVibration@Input@Patches@@YAXM@Z");
 			// float durationSeconds;
 			// function call : long (*const)(float)
-			todo("implement");
-			_sub_10A7B740(durationSeconds);
+
+			s_ControllerVibrationTestTicks = game_seconds_to_ticks_round(durationSeconds);
 		}
 
-		_extern void _sub_10A79CA0();
 		void InvalidateBindings() // 0x10A79CA0
 		{
-			mangled_x86(MANGLED_TODO, "?InvalidateBindings@Input@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?InvalidateBindings@Input@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_10A79CA0();
+
+			bindingsNextUpdateTicks = 100;
 		}
 	}
 }
@@ -435,18 +431,28 @@ void null_stub() // 0x10A81040
 	// procedure flags: nofpo
 }
 
-_extern void _sub_10A7A430();
 void PopContext() // 0x10A7A430
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?PopContext@@YAXXZ");
 	// `anonymous-namespace'::PopContext
 	// procedure flags: nofpo
-	{
 		// __int32 i;
+	// function call : void ()
+	// function call : void ()
+
+	contextStack.top()->Deactivated();
+	contextStack.pop();
+	if (!contextStack.empty())
+	{
+		// Activate the previous context
+		contextStack.top()->Activated();
 	}
-	// function call : void ()
-	// function call : void ()
-	todo("implement");
-	_sub_10A7A430();
+	else
+	{
+		// Restore the game's input block states
+		for (auto i = 0; i < eInputType_Count; i++)
+			BlockInput(static_cast<InputType>(i), blockStates[i]);
+	}
 }
 
 _extern void _sub_10A7B9C0();
@@ -486,99 +492,120 @@ void UpdateInputHook() // 0x10A7B9C0
 	_sub_10A7B9C0();
 }
 
-_extern void _sub_10A7B7C0();
 void UiInputTick() // 0x10A7B7C0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?UiInputTick@@YAXXZ");
 	// `anonymous-namespace'::UiInputTick
 	// procedure flags: nofpo
 	// function call : void ()
 	// function call : bool ()
 	// function call : void ()
-	todo("implement");
-	_sub_10A7B7C0();
+
+	if (contextStack.empty())
+		return;
+
+	// Tick the active context
+	contextStack.top()->InputUnblock();
+	if (!contextStack.top()->UiInputTick())
+		contextDone = true;
+	contextStack.top()->InputBlock();
 }
 
-_extern void _sub_10A7AB30();
 void ProcessUiInputHook() // 0x10A7AB30
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ProcessUiInputHook@@YAXXZ");
 	// `anonymous-namespace'::ProcessUiInputHook
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10A7AB30();
+
+	UiInputTick();
 }
 
-_extern void _sub_10A7ACD0();
 void QuickUpdateUiInputHook() // 0x10A7ACD0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?QuickUpdateUiInputHook@@YAXXZ");
 	// `anonymous-namespace'::QuickUpdateUiInputHook
 	// procedure flags: nofpo
 	// void (*QuickPumpMessages)();
 	// function call : void (*)()
-	todo("implement");
-	_sub_10A7ACD0();
+
+	void (*QuickPumpMessages)() = (void(*)())0x42e940;
+
+	QuickPumpMessages();
+	UiInputTick();
 }
 
-_extern void _sub_10A79380(Blam::Input::InputType, bool);
 void BlockInputHook(Blam::Input::InputType type, bool blocked) // 0x10A79380
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?BlockInputHook@@YAXW4InputType@Input@Blam@@_N@Z");
 	// `anonymous-namespace'::BlockInputHook
 	// bool blocked;
-	todo("implement");
-	_sub_10A79380(type, blocked);
+
+	if (contextStack.empty())
+		Blam::Input::BlockInput(type, blocked);
+	blockStates[type] = blocked;
 }
 
-_extern void _sub_10A7B8F0();
 void UpdateForgeMonitorBindings() // 0x10A7B8F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateForgeMonitorBindings@@YAXXZ");
 	// `anonymous-namespace'::UpdateForgeMonitorBindings
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10A7B8F0();
+
+	// TODO: move these into ModuleInput and possibly add them to the config
+	s_ForgeMonitorModeBindings = *Modules::ModuleInput::GetBindings();
+
+	// prevent moving while using rotation snap
+	s_ForgeMonitorModeBindings.SecondaryKeys[eGameActionMoveLeft] = eKeyCode_None;
+	s_ForgeMonitorModeBindings.SecondaryKeys[eGameActionMoveRight] = eKeyCode_None;
+	s_ForgeMonitorModeBindings.SecondaryKeys[eGameActionMoveForward] = eKeyCode_None;
+	s_ForgeMonitorModeBindings.SecondaryKeys[eGameActionMoveBack] = eKeyCode_None;
+	s_ForgeMonitorModeBindings.PrimaryKeys[eGameActionUiB] = eKeyCodeC; // Clone
 }
 
-_extern void _sub_10A79A80(Blam::Input::BindingsTable *);
 void InitBindingsHook(Blam::Input::BindingsTable *bindings) // 0x10A79A80
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?InitBindingsHook@@YAXPAUBindingsTable@Input@Blam@@@Z");
 	// `anonymous-namespace'::InitBindingsHook
 	// Blam::Input::BindingsTable *bindings;
-	todo("implement");
-	_sub_10A79A80(bindings);
+
+	*bindings = *Modules::ModuleInput::GetBindings();
+	bindingsNextUpdateTicks = 100;
 }
 
-namespace Blam
+extern Blam::Input::BindingsPreferences *_sub_10A7A550(Blam::Input::BindingsPreferences *);
+Blam::Input::BindingsPreferences *PreferencesGetKeyBindingsHook(Blam::Input::BindingsPreferences *result) // 0x10A7A550
 {
-	namespace Input
-	{
-		extern BindingsPreferences *_sub_10A7A550(Blam::Input::BindingsPreferences *);
-		BindingsPreferences *PreferencesGetKeyBindingsHook(Blam::Input::BindingsPreferences *result) // 0x10A7A550
-		{
-			// `anonymous-namespace'::PreferencesGetKeyBindingsHook
-			// Blam::Input::BindingsPreferences *result;
-			// Blam::Input::BindingsTable *bindings;
-			todo("implement");
-			Blam::Input::BindingsPreferences * __result = _sub_10A7A550(result);
-			return __result;
-		}
-	}
+	// `anonymous-namespace'::PreferencesGetKeyBindingsHook
+	// Blam::Input::BindingsPreferences *result;
+	// Blam::Input::BindingsTable *bindings;
+	todo("implement");
+	Blam::Input::BindingsPreferences * __result = _sub_10A7A550(result);
+	return __result;
 }
 
-_extern void _sub_10A7A620(Blam::Input::BindingsPreferences);
 void PreferencesSetKeyBindingsHook(Blam::Input::BindingsPreferences newBindings) // 0x10A7A620
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?PreferencesSetKeyBindingsHook@@YAXUBindingsPreferences@Input@Blam@@@Z");
 	// `anonymous-namespace'::PreferencesSetKeyBindingsHook
 	// Blam::Input::BindingsPreferences newBindings;
 	// Blam::Input::BindingsTable *bindings;
-	todo("implement");
-	_sub_10A7A620(newBindings);
+
+	auto bindings = Modules::ModuleInput::GetBindings();
+	memcpy(bindings->PrimaryKeys, newBindings.PrimaryKeys, sizeof(bindings->PrimaryKeys));
+	memcpy(bindings->PrimaryMouseButtons, newBindings.PrimaryMouseButtons, sizeof(bindings->PrimaryMouseButtons));
+	memcpy(bindings->SecondaryKeys, newBindings.SecondaryKeys, sizeof(bindings->SecondaryKeys));
+	memcpy(bindings->SecondaryMouseButtons, newBindings.SecondaryMouseButtons, sizeof(bindings->SecondaryMouseButtons));
+	Modules::ModuleInput::UpdateBindings();
+	Modules::CommandMap::Instance().ExecuteCommand("WriteConfig");
 }
 
-_extern void _sub_10A793F0(__int32, Blam::Input::BindingsTable *);
 void GetDefaultBindingsHook(__int32 type, Blam::Input::BindingsTable *result) // 0x10A793F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetDefaultBindingsHook@@YAXHPAUBindingsTable@Input@Blam@@@Z");
 	// `anonymous-namespace'::GetDefaultBindingsHook
 	// Blam::Input::BindingsTable *result;
-	todo("implement");
-	_sub_10A793F0(type, result);
+
+	*result = *Modules::ModuleInput::GetBindings();
 }
 
 __declspec(naked) void GetKeyboardActionTypeHook() // 0x10A794B0
@@ -624,19 +651,22 @@ void ProcessKeyBindingsHook(Blam::Input::BindingsTable const &bindings, Blam::In
 	_sub_10A7A760(bindings, actions);
 }
 
-_extern void _sub_10A7AA80(Blam::Input::BindingsTable const &, Blam::Input::ActionState *);
 void ProcessMouseBindingsHook(Blam::Input::BindingsTable const &bindings, Blam::Input::ActionState *actions) // 0x10A7AA80
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ProcessMouseBindingsHook@@YAXABUBindingsTable@Input@Blam@@PAUActionState@23@@Z");
 	// `anonymous-namespace'::ProcessMouseBindingsHook
 	// Blam::Input::ActionState *actions;
 	// static void (*`ProcessMouseBindingsHook'::`2'::ProcessMouseBindings)(Blam::Input::BindingsTable const &, Blam::Input::ActionState *); // 0x11354558
 	// function call : void (*)(Blam::Input::BindingsTable const &, Blam::Input::ActionState *)
 	// function call : void (*)(Blam::Input::BindingsTable const &, Blam::Input::ActionState *)
-	todo("implement");
-	_sub_10A7AA80(bindings, actions);
+
+	static auto ProcessMouseBindings = (void(*)(const BindingsTable &bindings, ActionState *actions))(0x60CE70);
+	if (InMonitorMode())
+		ProcessMouseBindings(s_ForgeMonitorModeBindings, actions);
+	else
+		ProcessMouseBindings(bindings, actions);
 }
 
-_extern void _sub_10A7BE10(__int32);
 void UpdateUiControllerInputHook(__int32 a0) // 0x10A7BE10
 {
 	// `anonymous-namespace'::UpdateUiControllerInputHook
@@ -649,7 +679,6 @@ void UpdateUiControllerInputHook(__int32 a0) // 0x10A7BE10
 	// void (*UpdateCharPlatform)();
 	// c_gui_screen_widget *screen;
 	// void (*UiUpdateControllerInput)(__int32);
-	{
 		// std::chrono::duration<double,std::ratio<1> > elapsedTime;
 		// float const rotationRate;
 		// float angleIncrement;
@@ -661,18 +690,11 @@ void UpdateUiControllerInputHook(__int32 a0) // 0x10A7BE10
 		// Blam::Input::ActionState *rightAction;
 		// bool rotateRight;
 		// std::chrono::time_point<std::chrono::steady_clock,std::chrono::duration<__int64,std::ratio<1,1000000000> > > now;
-		{
 			// float angle;
-		}
-	}
-	{
 		// std::vector<void (__cdecl*)(void)> &<range>$L0;
 		// void (**<begin>$L0)();
 		// void (**<end>$L0)();
-		{
 			// void (*&handler)();
-		}
-	}
 	// function call : c_gui_screen_widget *(*)()
 	// function call : void (*)(__int32)
 	// function call : bool (*const)()
@@ -680,20 +702,81 @@ void UpdateUiControllerInputHook(__int32 a0) // 0x10A7BE10
 	// function call : long ()
 	// function call : void (*)()
 	// function call : void (*)()
-	todo("implement");
-	_sub_10A7BE10(a0);
+
+	typedef void(*UiUpdateControllerInputPtr)(int a0);
+	auto UiUpdateControllerInput = reinterpret_cast<UiUpdateControllerInputPtr>(0xA93A50);
+	typedef bool(*IsMainMenuPtr)();
+	auto IsMainMenu = reinterpret_cast<IsMainMenuPtr>(0x531E90);
+	typedef float(*UiGetTimeDeltaPtr)();
+	auto UiGetTimeDelta = reinterpret_cast<UiGetTimeDeltaPtr>(0xA844E0);
+	typedef void(*UpdateCharPlatformPtr)();
+	auto UpdateCharPlatform = reinterpret_cast<UpdateCharPlatformPtr>(0xBB5F00);
+	typedef void(*RotateCharPlatformPtr)(float timeDelta, float amount);
+	auto RotateCharPlatform = reinterpret_cast<RotateCharPlatformPtr>(0xBB5DA0);
+
+	UiUpdateControllerInput(a0);
+
+	// Handle char_platform controls
+	//
+	// This spices things up a bit compared to the default implementation
+	// by making the platform automatically rotate slowly until the player
+	// manually rotates it.
+
+	static auto firstRotate = true;
+	if (!IsMainMenu())
+	{
+		// char_platform is only on the main menu
+		firstRotate = true;
+		return;
+	}
+	if (firstRotate)
+	{
+		// Rotate it to the left a bit initially so that you can see the
+		// front of your Spartan at the start
+		RotateCharPlatform(1.0f, -0.25f);
+		firstRotate = false;
+		return;
+	}
+	auto leftAction = GetActionState(eGameActionUiLeft);
+	auto rightAction = GetActionState(eGameActionUiRight);
+	auto rotateLeft = (!(leftAction->Flags & eActionStateFlagsHandled) && leftAction->Ticks != 0);
+	auto rotateRight = (!(rightAction->Flags & eActionStateFlagsHandled) && rightAction->Ticks != 0);
+	auto rotateAmount = static_cast<int>(rotateRight) - static_cast<int>(rotateLeft);
+	if (rotateAmount)
+	{
+		RotateCharPlatform(UiGetTimeDelta(), rotateAmount * 1.0f);
+	}
+	else
+	{
+		UpdateCharPlatform();
+	}
+
+	//main menu ui handlers
+	for (auto &&handler : uiHandlers)
+		handler();
 }
 
-_extern void _sub_10A7ADD0(__int32, unsigned short, unsigned short);
 void SetControllerVibrationHook(__int32 controllerIndex, unsigned short leftMotorSpeed, unsigned short rightMotorSpeed) // 0x10A7ADD0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SetControllerVibrationHook@@YAXHGG@Z");
 	// `anonymous-namespace'::SetControllerVibrationHook
 	// unsigned short rightMotorSpeed;
 	// Modules::ModuleInput const &moduleInput;
 	// SetControllerVibrationHook::__l2::CONTROLLER_VIBRATION &vibration;
 	// float intensity;
-	todo("implement");
-	_sub_10A7ADD0(controllerIndex, leftMotorSpeed, rightMotorSpeed);
+
+	Modules::ModuleInput &moduleInput = Modules::ModuleInput::Instance();
+	float intensity = moduleInput.VarControllerVibrationIntensity->ValueFloat;
+	if (s_ControllerVibrationTestTicks > 0)
+	{
+		leftMotorSpeed = 0xFFFF;
+		rightMotorSpeed = 0xFFFF;
+	}
+	leftMotorSpeed = (unsigned short)(leftMotorSpeed * intensity);
+	rightMotorSpeed = (unsigned short)(rightMotorSpeed * intensity);
+	unsigned short *vibration = (unsigned short *)(4 * controllerIndex + 0x238e840);
+	*vibration = leftMotorSpeed;
+	*(vibration + 1) = rightMotorSpeed;
 }
 
 _extern bool _sub_10A79CD0();
@@ -708,19 +791,16 @@ bool IsDualWielding() // 0x10A79CD0
 	return __result;
 }
 
-_extern bool _sub_10A794D0(Blam::Input::GameAction, Blam::Input::GameAction, Blam::Input::InputType);
 bool HasEqualBindingsDown(Blam::Input::GameAction action1, Blam::Input::GameAction action2, Blam::Input::InputType inputType) // 0x10A794D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?HasEqualBindingsDown@@YA_NW4GameAction@Input@Blam@@0W4InputType@23@@Z");
 	// `anonymous-namespace'::HasEqualBindingsDown
 	// Blam::Input::InputType inputType;
 	// bool isUsingController;
 	// Blam::Input::BindingsTable *bindings;
 	// Modules::ModuleInput &moduleInput;
-	{
 		// Blam::Input::ActionState *action2State;
 		// Blam::Input::ActionState *action1State;
-	}
-	{
 		// Blam::Input::KeyCode action1SecondaryKey;
 		// Blam::Input::MouseButton action1SecondaryMouseButton;
 		// Blam::Input::KeyCode action1PrimaryKey;
@@ -737,10 +817,83 @@ bool HasEqualBindingsDown(Blam::Input::GameAction action1, Blam::Input::GameActi
 		// Blam::Input::MouseButton action2SecondaryMouseButton;
 		// Blam::Input::KeyCode action2SecondaryKey;
 		// Blam::Input::MouseButton action2PrimaryMouseButton;
+
+	auto isUsingController = *(bool*)0x0244DE98;
+	auto& moduleInput = Modules::ModuleInput::Instance();
+	auto bindings = moduleInput.GetBindings();
+
+	//Controller's easy, so check that first.
+	if (isUsingController)
+	{
+		auto action1State = GetActionState(action1);
+		auto action2State = GetActionState(action2);
+
+		if (action1State->Ticks != 0 && action2State->Ticks != 0)
+			return true;
 	}
-	todo("implement");
-	bool __result = _sub_10A794D0(action1, action2, inputType);
-	return __result;
+	else
+	{
+		//Check keyboard first, with the most bindings it's most likely.
+
+		//Find all keyboard/mouse bindings for the two actions
+		KeyCode action1PrimaryKey = bindings->PrimaryKeys[action1];
+		KeyCode action1SecondaryKey = bindings->SecondaryKeys[action1];
+
+		KeyCode action2PrimaryKey = bindings->PrimaryKeys[action2];
+		KeyCode action2SecondaryKey = bindings->SecondaryKeys[action2];
+
+		//Find which bindings are active
+		bool action1PrimaryKeyDown = GetKeyTicks(action1PrimaryKey, inputType) != 0;
+		bool action1SecondaryKeyDown = GetKeyTicks(action1SecondaryKey, inputType) != 0;
+
+		bool action2PrimaryKeyDown = GetKeyTicks(action2PrimaryKey, inputType) != 0;
+		bool action2SecondaryKeyDown = GetKeyTicks(action2SecondaryKey, inputType) != 0;
+
+		if (action1PrimaryKeyDown)
+		{
+			if (action1PrimaryKey == action2PrimaryKey && action2PrimaryKeyDown)
+				return true;
+			if (action1PrimaryKey == action1SecondaryKey && action1SecondaryKeyDown)
+				return true;
+		}
+		if(action1SecondaryKeyDown)
+		{
+			if (action1SecondaryKey == action2PrimaryKey && action2PrimaryKeyDown)
+				return true;
+			if (action1SecondaryKey == action1SecondaryKey && action1SecondaryKeyDown)
+				return true;
+		}
+
+		//Now check mouse bindings.
+
+		MouseButton action1PrimaryMouseButton = bindings->PrimaryMouseButtons[action1];
+		MouseButton action1SecondaryMouseButton = bindings->SecondaryMouseButtons[action1];
+
+		MouseButton action2PrimaryMouseButton = bindings->PrimaryMouseButtons[action2];
+		MouseButton action2SecondaryMouseButton = bindings->SecondaryMouseButtons[action2];
+
+		bool action1PrimaryMouseButtonDown = GetMouseButtonTicks(action1PrimaryMouseButton, inputType) != 0;
+		bool action1SecondaryMouseButtonDown = GetMouseButtonTicks(action1SecondaryMouseButton, inputType) != 0;
+
+		bool action2PrimaryMouseButtonDown = GetMouseButtonTicks(action2PrimaryMouseButton, inputType) != 0;
+		bool action2SecondaryMouseButtonDown = GetMouseButtonTicks(action2SecondaryMouseButton, inputType) != 0;
+
+		if (action1PrimaryMouseButtonDown)
+		{
+			if (action1PrimaryMouseButton == action2PrimaryMouseButton && action2PrimaryMouseButton)
+				return true;
+			if (action1PrimaryMouseButton == action2SecondaryMouseButton && action2SecondaryMouseButton)
+				return true;
+		}
+		if (action1SecondaryMouseButtonDown)
+		{
+			if (action1SecondaryMouseButton == action2PrimaryMouseButton && action2PrimaryMouseButton)
+				return true;
+			if (action1SecondaryMouseButton == action2SecondaryMouseButton && action2SecondaryMouseButton)
+				return true;
+		}
+	}
+	return false;
 }
 
 _extern void _sub_10A81060(long, s_player_control_input *);
@@ -822,13 +975,34 @@ bool InitializeDirectInput() // 0x10A79AE0
 	return __result;
 }
 
-_extern void _sub_10A81A40(Blam::Input::KeyState *, bool, long);
 void update_key_state(Blam::Input::KeyState *key, bool is_down, long delta_msec) // 0x10A81A40
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?update_key_state@@YAXPAUKeyState@Input@Blam@@_NJ@Z");
 	// `anonymous-namespace'::update_key_state
 	// long delta_msec;
-	todo("implement");
-	_sub_10A81A40(key, is_down, delta_msec);
+
+	if (!key->unknown || !is_down)
+	{
+		key->unknown = 0;
+		if (is_down)
+		{
+			if (key->Ticks < 255)
+				++key->Ticks;
+		}
+		else
+		{
+			key->Ticks = 0;
+		}
+		if (is_down)
+		{
+			if (key->Msec + delta_msec < 0xFFFF)
+				key->Msec += delta_msec;
+		}
+		else
+		{
+			key->Msec = 0;
+		}
+	}
 }
 
 _extern void _sub_10A81B00(long, bool, bool *);
@@ -896,13 +1070,22 @@ void input_update_keyboard(long delta_milliseconds, bool enabled, bool *out_inpu
 	_sub_10A7FB10(delta_milliseconds, enabled, out_input_detected);
 }
 
-_extern void _sub_10A81970(unsigned char *, unsigned short *, bool, unsigned long);
 void update_button(unsigned char *frames, unsigned short *milliseconds, bool is_pressed, unsigned long delta_milliseconds) // 0x10A81970
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?update_button@@YAXPAEPAG_NK@Z");
 	// `anonymous-namespace'::update_button
 	// unsigned long delta_milliseconds;
-	todo("implement");
-	_sub_10A81970(frames, milliseconds, is_pressed, delta_milliseconds);
+
+	if (is_pressed)
+	{
+		*frames = *frames + 1 >= 255 ? 255 : *frames + 1;
+		*milliseconds = *milliseconds + delta_milliseconds >= 0xFFFF ? (unsigned short)0xFFFF : (unsigned short)(*milliseconds + delta_milliseconds);
+	}
+	else
+	{
+		*frames = 0;
+		*milliseconds = 0;
+	}
 }
 
 _extern void _sub_10A81E60(unsigned char *, bool, unsigned char);
@@ -934,14 +1117,21 @@ void apply_radial_deadzone(float &x, float &y, float deadzone) // 0x10A7E350
 	_sub_10A7E350(x, y, deadzone);
 }
 
-_extern float _sub_10A7E120(float, float);
 float apply_axial_deadzone(float x, float deadzone) // 0x10A7E120
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?apply_axial_deadzone@@YAMMM@Z");
 	// `anonymous-namespace'::apply_axial_deadzone
 	// float deadzone;
-	todo("implement");
-	float __result = _sub_10A7E120(x, deadzone);
-	return __result;
+
+	if (x > deadzone)
+	{
+		return (x - deadzone) / (1.0f - deadzone);
+	}
+	else if (x < -deadzone)
+	{
+		return (x + deadzone) / (1.0f - deadzone);
+	}
+	return 0.0f;
 }
 
 _extern void _sub_10A7E1D0(short_point_2d *, short, short, float, float);

@@ -59,7 +59,7 @@ namespace Player
 		class IPlayerEmblemStream
 		{
 		public:
-			virtual _inline ~IPlayerEmblemStream();
+			virtual _inline ~IPlayerEmblemStream() = default; // 0x107E7530
 			virtual bool Read(void *, __int32, __int32 *) = 0;
 			IPlayerEmblemStream(Player::Emblems::IPlayerEmblemStream const &); /* compiler_generated() */
 			_inline IPlayerEmblemStream(); /* compiler_generated() */
@@ -70,7 +70,7 @@ namespace Player
 		class IPlayerEmblemRenderCallbacks
 		{
 		public:
-			virtual _inline ~IPlayerEmblemRenderCallbacks();
+			virtual _inline ~IPlayerEmblemRenderCallbacks() = default; // 0x10C83000
 			virtual void OnRenderStart(Player::Emblems::PlayerEmblemRenderMetadata const &, std::shared_ptr<Player::Emblems::IPlayerEmblemStream>) = 0;
 			virtual void OnRenderComplete() = 0;
 			virtual void OnRenderDataAvailable() = 0;
@@ -108,17 +108,6 @@ namespace Player
 {
 	namespace Emblems
 	{
-		_inline IPlayerEmblemStream::~IPlayerEmblemStream() // 0x107E7530
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??1IPlayerEmblemStream@Emblems@Player@@UAE@XZ");
-			// Player::Emblems::IPlayerEmblemStream *const this;
-		}
-
-		_inline IPlayerEmblemRenderCallbacks::~IPlayerEmblemRenderCallbacks() // 0x10C83000
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??1IPlayerEmblemRenderCallbacks@Emblems@Player@@UAE@XZ");
-			// Player::Emblems::IPlayerEmblemRenderCallbacks *const this;
-		}
 	}
 }
 

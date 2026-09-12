@@ -53,7 +53,6 @@ struct c_abstract_button
 	_inline void unlatch();
 private:
 	_inline void set_latched_bit(bool value);
-	unsigned char __pad0[2]; // 0xA
 };
 static_assert(sizeof(c_abstract_button) == 12, "Invalid c_abstract_button size");
 
@@ -71,11 +70,11 @@ struct s_game_input_preferences
 	bool pitch_inverted; // 0x1FA
 	bool vehicle_pitch_inverted; // 0x1FB
 	short camera_panning; // 0x1FC
-	unsigned char __pad0[2]; // 0x1FE
 	float camera_speed; // 0x200
 	float camera_thrust; // 0x204
 };
 static_assert(sizeof(s_game_input_preferences) == 520, "Invalid s_game_input_preferences size");
+static_assert(offsetof(s_game_input_preferences, camera_speed) == 0x200, "s_game_input_preferences::camera_speed moved when its reconstructed padding was removed");
 
 struct s_game_input_state
 {
@@ -126,31 +125,32 @@ static_assert(sizeof(s_input_abstraction_globals) == 5396, "Invalid s_input_abst
 
 /* ---------- public code */
 
-_extern void _sub_10A818D0(c_abstract_button *const, unsigned short, unsigned char, unsigned char);
 _inline void c_abstract_button::update(unsigned short msec, unsigned char frames, unsigned char amount) // 0x10A818D0
 {
-	mangled_x86(MANGLED_TODO, "?update@c_abstract_button@@QAEXGEE@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?update@c_abstract_button@@QAEXGEE@Z");
 	// unsigned char amount;
-	todo("implement");
-	_sub_10A818D0(this, msec, frames, amount);
+
+	down_msec = msec;
+	down_frames = frames;
+	down_amount = amount / 255.0f;
+	if (!down_frames)
+		set_latched_bit(false);
 }
 
-_extern void _sub_10A81870(c_abstract_button *const);
 _inline void c_abstract_button::unlatch() // 0x10A81870
 {
-	mangled_x86(MANGLED_TODO, "?unlatch@c_abstract_button@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?unlatch@c_abstract_button@@QAEXXZ");
 	// c_abstract_button *const this;
-	todo("implement");
-	_sub_10A81870(this);
+
+	update(0, 0, 0);
 }
 
-_extern void _sub_10A81750(c_abstract_button *const, bool);
 _inline void c_abstract_button::set_latched_bit(bool value) // 0x10A81750
 {
-	mangled_x86(MANGLED_TODO, "?set_latched_bit@c_abstract_button@@AAEX_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_latched_bit@c_abstract_button@@AAEX_N@Z");
 	// bool value;
-	todo("implement");
-	_sub_10A81750(this, value);
+
+	value ? flags |= 1 : flags &= ~1;
 }
 
 /* ---------- private code */

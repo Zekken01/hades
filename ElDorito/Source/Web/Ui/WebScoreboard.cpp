@@ -379,6 +379,8 @@ struct s_globals
 
 /* ---------- prototypes */
 
+namespace Patches::Input { void RegisterDefaultInputHandler(void (*func)()); }  // hades: added for 0X10CB08F0
+
 namespace Web
 {
 	namespace Ui
@@ -410,6 +412,11 @@ void check_to_send_update();
 
 /* ---------- private variables */
 
+namespace hades_file_local
+{
+	extern s_globals globals; // 0x1247EDDC
+}
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Web
@@ -462,13 +469,14 @@ namespace Web
 				_sub_10CB0990(player, event, definition);
 			}
 
-			_extern void _sub_10CB08F0();
 			void Init() // 0x10CB08F0
 			{
-				mangled_x86(MANGLED_TODO, "?Init@WebScoreboard@Ui@Web@@YAXXZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?Init@WebScoreboard@Ui@Web@@YAXXZ");
 				// procedure flags: nofpo
-				todo("implement");
-				_sub_10CB08F0();
+
+				Patches::Input::RegisterDefaultInputHandler(OnGameInputUpdated);
+				Patches::Network::OnLifeCycleStateChanged(OnLifeCycleStateChanged);
+				Patches::Events::OnEvent(OnEvent);
 			}
 
 			_extern void _sub_10CB1200(bool, bool, bool);
@@ -488,13 +496,14 @@ namespace Web
 				_sub_10CB1200(locked, pregame, animate);
 			}
 
-			_extern void _sub_10CB0810();
 			void Hide() // 0x10CB0810
 			{
-				mangled_x86(MANGLED_TODO, "?Hide@WebScoreboard@Ui@Web@@YAXXZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?Hide@WebScoreboard@Ui@Web@@YAXXZ");
 				// procedure flags: nofpo
-				todo("implement");
-				_sub_10CB0810();
+
+				globals.shown = false;
+				globals.was_tapped_last_tick = false;
+				Web::Ui::ScreenLayer::Hide("scoreboard");
 			}
 
 			_extern void _sub_10CB15A0();
@@ -609,13 +618,24 @@ void serialize_scores_update(rapidjson::Writer<rapidjson::GenericStringBuffer<ra
 	_sub_10CB3AF0(writer, update);
 }
 
-_extern void _sub_10CB4760(rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &, s_scoreboard_update const &);
 void serialize_update(rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, s_scoreboard_update const &update) // 0x10CB4760
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?serialize_update@@YAXAAV?$Writer@V?$GenericStringBuffer@U?$UTF8@D@rapidjson@@VCrtAllocator@2@@rapidjson@@U?$UTF8@D@2@U32@VCrtAllocator@2@$0A@@rapidjson@@ABUs_scoreboard_update@hades_file_local@@@Z");
 	// `anonymous-namespace'::serialize_update
 	// s_scoreboard_update const &update;
-	todo("implement");
-	_sub_10CB4760(writer, update);
+
+	writer.StartObject();
+	if (update.session_update.valid)
+	{
+		writer.Key("session");
+		serialize_session_update(writer, update.session_update);
+	}
+	if (update.scores_update.valid)
+	{
+		writer.Key("scores");
+		serialize_scores_update(writer, update.scores_update);
+	}
+	writer.EndObject(0);
 }
 
 _extern void _sub_10CB1DE0(s_scores_update &);
@@ -715,13 +735,14 @@ void build_session_update(s_session_update &update) // 0x10CB27C0
 	_sub_10CB27C0(update);
 }
 
-_extern void _sub_10CB1D80(s_scoreboard_update &);
 void build_full_update(s_scoreboard_update &update) // 0x10CB1D80
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?build_full_update@@YAXAAUs_scoreboard_update@hades_file_local@@@Z");
 	// `anonymous-namespace'::build_full_update
 	// s_scoreboard_update &update;
-	todo("implement");
-	_sub_10CB1D80(update);
+
+	build_session_update(update.session_update);
+	build_score_update(update.scores_update);
 }
 
 _extern void _sub_10CB3270();

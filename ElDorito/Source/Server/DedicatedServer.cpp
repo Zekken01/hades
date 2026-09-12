@@ -55,6 +55,10 @@ using namespace ::Blam;
 
 /* ---------- prototypes */
 
+namespace Blam::Network { int GetLobbyType(); }  // hades: added for 0X10B1ABC0
+namespace Blam::Network { bool SetNetworkMode(int mode); }  // hades: added for 0X10B1ABC0
+namespace Blam::Network { bool SetLobbyType(int type); }  // hades: added for 0X10B1ABC0
+
 namespace Server
 {
 	namespace DedicatedServer
@@ -82,22 +86,30 @@ namespace Server
 {
 	namespace DedicatedServer
 	{
-		_extern void _sub_10B1AB70();
 		void Init() // 0x10B1AB70
 		{
-			mangled_x86(MANGLED_TODO, "?Init@DedicatedServer@Server@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Init@DedicatedServer@Server@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_10B1AB70();
+
+			Blam::Network::SetLobbyType(2);
+			needToSetMode = true;
 		}
 
-		_extern void _sub_10B1ABC0();
 		void Tick() // 0x10B1ABC0
 		{
-			mangled_x86(MANGLED_TODO, "?Tick@DedicatedServer@Server@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@DedicatedServer@Server@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_10B1ABC0();
+
+			if (!needToSetMode)
+			{
+				if (Blam::Network::GetLobbyType() != 2)
+				{
+					Blam::Network::SetLobbyType(2);
+					needToSetMode = true;
+				}
+			}
+			else if (Blam::Network::GetLobbyType() == 2 && Blam::Network::SetNetworkMode(3))
+				needToSetMode = false;
 		}
 	}
 }

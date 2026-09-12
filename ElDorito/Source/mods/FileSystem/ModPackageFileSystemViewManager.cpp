@@ -131,17 +131,17 @@ bool CModPackageFileSystemViewManager::ViewExists(std::string const &identifier)
 // mangled_x86(MANGLED_DEFAULT, "??1CModPackageFileSystemView@@QAE@XZ"); no body to assert in
 _inline CModPackageFileSystemView::~CModPackageFileSystemView() = default; // 0x108859F0
 
-_extern void _sub_10886170(CModPackageFileSystemViewManager *const);
 void CModPackageFileSystemViewManager::Flush() // 0x10886170
 {
-	mangled_x86(MANGLED_TODO, "?Flush@CModPackageFileSystemViewManager@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Flush@CModPackageFileSystemViewManager@@QAEXXZ");
 	// static ...; // 0x108861E8
 	// static ...; // 0x108861DC
 	// static ...; // 0x108861D4
 	// CModPackageFileSystemViewManager *const this;
 	// std::scoped_lock<std::mutex> lock;
-	todo("implement");
-	_sub_10886170(this);
+
+	std::scoped_lock<std::mutex> lock(m_mutex);
+	m_views.clear();
 }
 
 /* ---------- private code */

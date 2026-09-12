@@ -81,7 +81,6 @@ namespace Server
 			virtual _inline ~VotingSystem(); /* compiler_generated() */
 			Server::Voting::VotingSystem &operator=(Server::Voting::VotingSystem &); /* compiler_generated() */
 			Server::Voting::VotingSystem &operator=(Server::Voting::VotingSystem const &); /* compiler_generated() */
-		unsigned char __pad1[4]; // 0x1274
 		};
 		static_assert(sizeof(Server::Voting::VotingSystem) == 4728, "Invalid Server::Voting::VotingSystem size");
 	}
@@ -101,6 +100,15 @@ namespace Server
 /* ---------- globals */
 
 /* ---------- public code */
+
+namespace Server
+{
+	namespace Voting
+	{
+		// mangled_x86(MANGLED_DEFAULT, "??1VotingSystem@Voting@Server@@UAE@XZ"); no body to assert in
+		_inline VotingSystem::~VotingSystem() = default; // 0x10C43260
+	}
+}
 
 /* ---------- private code */
 

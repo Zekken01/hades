@@ -30,22 +30,28 @@ struct c_player_traits;
 
 /* ---------- public code */
 
-_extern void _sub_10F051E0(c_player_trait_shield_vitality *const);
 void c_player_trait_shield_vitality::initialize() // 0x10F051E0
 {
-	mangled_x86(MANGLED_TODO, "?initialize@c_player_trait_shield_vitality@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?initialize@c_player_trait_shield_vitality@@QAEXXZ");
 	// c_player_trait_shield_vitality *const this;
-	todo("implement");
-	_sub_10F051E0(this);
+
+	damage_resistance = 4;
+	shield_recharge_rate = 7;
+	shield_vampirism = 1;
+	headshot_immunity = 2;
+	shield_multiplier = 2;
 }
 
-_extern void _sub_10F05670(c_player_trait_shield_vitality *const, c_player_trait_shield_vitality const *, bool);
 void c_player_trait_shield_vitality::set(c_player_trait_shield_vitality const *traits, bool can_inherit) // 0x10F05670
 {
-	mangled_x86(MANGLED_TODO, "?set@c_player_trait_shield_vitality@@QAEXPBU1@_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set@c_player_trait_shield_vitality@@QAEXPBU1@_N@Z");
 	// bool can_inherit;
-	todo("implement");
-	_sub_10F05670(this, traits, can_inherit);
+
+	set_damage_resistance_setting((e_damage_resistance_setting)traits->damage_resistance, can_inherit);
+	set_shield_recharge_rate_setting((e_shield_recharge_rate_setting)traits->shield_recharge_rate, can_inherit);
+	set_shield_vampirism_setting((e_shield_vampirism_setting)traits->shield_vampirism, can_inherit);
+	set_headshot_immunity_setting((e_headshot_immunity_setting)traits->headshot_immunity, can_inherit);
+	set_shield_multiplier_setting((e_shield_multiplier_setting)traits->shield_multiplier, can_inherit);
 }
 
 _extern float _sub_10F04C20(c_player_trait_shield_vitality const *const);
@@ -148,50 +154,64 @@ void c_player_trait_shield_vitality::set_shield_multiplier_setting(c_player_trai
 	}
 }
 
-_extern void _sub_10F04230(c_player_trait_shield_vitality const *const, c_bitstream *);
 void c_player_trait_shield_vitality::encode(c_bitstream *packet) const // 0x10F04230
 {
-	mangled_x86(MANGLED_TODO, "?encode@c_player_trait_shield_vitality@@QBEXPAVc_bitstream@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?encode@c_player_trait_shield_vitality@@QBEXPAVc_bitstream@@@Z");
 	// c_bitstream *packet;
-	todo("implement");
-	_sub_10F04230((c_player_trait_shield_vitality const *)this, packet);
+
+	packet->write_integer("player-trait-damage-resistance", damage_resistance, 4);
+	packet->write_integer("player-trait-shield-recharge-rate", shield_recharge_rate, 4);
+	packet->write_integer("player-trait-vampirism", shield_vampirism, 3);
+	packet->write_integer("player-traits-headshot-immunity", headshot_immunity, 2);
+	packet->write_integer("player-trait-shield-multiplier", shield_multiplier, 3);
 }
 
-_extern void _sub_10F03BD0(c_player_trait_shield_vitality *const, c_bitstream *);
 void c_player_trait_shield_vitality::decode(c_bitstream *packet) // 0x10F03BD0
 {
-	mangled_x86(MANGLED_TODO, "?decode@c_player_trait_shield_vitality@@QAEXPAVc_bitstream@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?decode@c_player_trait_shield_vitality@@QAEXPAVc_bitstream@@@Z");
 	// c_bitstream *packet;
-	todo("implement");
-	_sub_10F03BD0(this, packet);
+
+	set_damage_resistance_setting((e_damage_resistance_setting)packet->read_integer("player-trait-damage-resistance", 4), true);
+	set_shield_recharge_rate_setting((e_shield_recharge_rate_setting)packet->read_integer("player-trait-shield-recharge-rate", 4), true);
+	set_shield_vampirism_setting((e_shield_vampirism_setting)packet->read_integer("player-trait-vampirism", 3), true);
+	set_headshot_immunity_setting((e_headshot_immunity_setting)packet->read_integer("player-traits-headshot-immunity", 2), true);
+	set_shield_multiplier_setting((e_shield_multiplier_setting)packet->read_integer("player-trait-shield-multiplier", 3), true);
 }
 
-_extern bool _sub_10F04890(c_player_trait_shield_vitality const *const, c_player_trait_shield_vitality const *);
 bool c_player_trait_shield_vitality::equivalent(c_player_trait_shield_vitality const *traits) const // 0x10F04890
 {
-	mangled_x86(MANGLED_TODO, "?equivalent@c_player_trait_shield_vitality@@QBE_NPBU1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?equivalent@c_player_trait_shield_vitality@@QBE_NPBU1@@Z");
 	// c_player_trait_shield_vitality const *traits;
-	todo("implement");
-	bool __result = _sub_10F04890((c_player_trait_shield_vitality const *)this, traits);
-	return __result;
+
+	return damage_resistance == traits->damage_resistance && shield_recharge_rate == traits->shield_recharge_rate && shield_vampirism == traits->shield_vampirism && headshot_immunity == traits->headshot_immunity && shield_multiplier == traits->shield_multiplier;
 }
 
-_extern void _sub_10F05260(c_player_trait_weapons *const);
 void c_player_trait_weapons::initialize() // 0x10F05260
 {
-	mangled_x86(MANGLED_TODO, "?initialize@c_player_trait_weapons@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?initialize@c_player_trait_weapons@@QAEXXZ");
 	// c_player_trait_weapons *const this;
-	todo("implement");
-	_sub_10F05260(this);
+
+	initial_grenade_count = 1;
+	initial_primary_weapon = -1;
+	initial_secondary_weapon = -1;
+	damage_modifier = 6;
+	recharging_grenades = 2;
+	infinite_ammo = 1;
+	weapon_pickup = 1;
 }
 
-_extern void _sub_10F05750(c_player_trait_weapons *const, c_player_trait_weapons const *, bool);
 void c_player_trait_weapons::set(c_player_trait_weapons const *traits, bool can_inherit) // 0x10F05750
 {
-	mangled_x86(MANGLED_TODO, "?set@c_player_trait_weapons@@QAEXPBU1@_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set@c_player_trait_weapons@@QAEXPBU1@_N@Z");
 	// bool can_inherit;
-	todo("implement");
-	_sub_10F05750(this, traits, can_inherit);
+
+	set_initial_grenade_count_setting((e_grenade_count_setting)traits->initial_grenade_count, can_inherit);
+	set_initial_primary_weapon_absolute_index(traits->initial_primary_weapon, can_inherit);
+	set_initial_secondary_weapon_absolute_index(traits->initial_secondary_weapon, can_inherit);
+	set_damage_modifier_setting((e_damage_modifier_setting)traits->damage_modifier, can_inherit);
+	set_recharging_grenades_setting((e_recharging_grenades_setting)traits->recharging_grenades, can_inherit);
+	set_infinite_ammo_setting((e_infinite_ammo_setting)traits->infinite_ammo, can_inherit);
+	set_weapon_pickup_setting((e_weapon_pickup_setting)traits->weapon_pickup, can_inherit);
 }
 
 void c_player_trait_weapons::set_initial_grenade_count_setting(c_player_trait_weapons::e_grenade_count_setting value, bool can_inherit) // 0x10F05D30
@@ -209,22 +229,38 @@ void c_player_trait_weapons::set_initial_grenade_count_setting(c_player_trait_we
 	}
 }
 
-_extern void _sub_10F05DC0(c_player_trait_weapons *const, char, bool);
 void c_player_trait_weapons::set_initial_primary_weapon_absolute_index(char index, bool can_inherit) // 0x10F05DC0
 {
-	mangled_x86(MANGLED_TODO, "?set_initial_primary_weapon_absolute_index@c_player_trait_weapons@@QAEXD_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_initial_primary_weapon_absolute_index@c_player_trait_weapons@@QAEXD_N@Z");
 	// bool can_inherit;
-	todo("implement");
-	_sub_10F05DC0(this, index, can_inherit);
+
+	if (index == -1 || index == -2 || index == -3 || index >= 0)
+	{
+		if (index != -2 || can_inherit)
+		{
+			initial_primary_weapon = index;
+		}
+	}
+	else if (can_inherit)
+	{
+		initial_primary_weapon = -2;
+	}
 }
 
-_extern void _sub_10F05E80(c_player_trait_weapons *const, char, bool);
 void c_player_trait_weapons::set_initial_secondary_weapon_absolute_index(char index, bool can_inherit) // 0x10F05E80
 {
-	mangled_x86(MANGLED_TODO, "?set_initial_secondary_weapon_absolute_index@c_player_trait_weapons@@QAEXD_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_initial_secondary_weapon_absolute_index@c_player_trait_weapons@@QAEXD_N@Z");
 	// bool can_inherit;
-	todo("implement");
-	_sub_10F05E80(this, index, can_inherit);
+
+	if (index == -1 || index == -2 || index == -3 || index >= 0)
+	{
+		if (index != -2 || can_inherit)
+			initial_secondary_weapon = index;
+	}
+	else if (can_inherit)
+	{
+		initial_secondary_weapon = -2;
+	}
 }
 
 void c_player_trait_weapons::set_damage_modifier_setting(c_player_trait_weapons::e_damage_modifier_setting value, bool can_inherit) // 0x10F05A30
@@ -287,13 +323,18 @@ void c_player_trait_weapons::set_weapon_pickup_setting(c_player_trait_weapons::e
 	}
 }
 
-_extern void _sub_10F04310(c_player_trait_weapons const *const, c_bitstream *);
 void c_player_trait_weapons::encode(c_bitstream *packet) const // 0x10F04310
 {
-	mangled_x86(MANGLED_TODO, "?encode@c_player_trait_weapons@@QBEXPAVc_bitstream@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?encode@c_player_trait_weapons@@QBEXPAVc_bitstream@@@Z");
 	// c_bitstream *packet;
-	todo("implement");
-	_sub_10F04310((c_player_trait_weapons const *)this, packet);
+
+	packet->write_integer("player-trait-damage-modifier", damage_modifier, 4);
+	packet->write_signed_integer("player-trait-initial-primary-weapon", initial_primary_weapon, 8);
+	packet->write_signed_integer("player-trait-initial-secondary-weapon", initial_secondary_weapon, 8);
+	packet->write_integer("player-trait-initial-grenade-count", initial_grenade_count, 2);
+	packet->write_integer("player-traits-infinite-ammo-setting", infinite_ammo, 2);
+	packet->write_integer("player-traits-recharging-grenades", recharging_grenades, 2);
+	packet->write_integer("player-traits-weapon-pickup-allowed", weapon_pickup, 2);
 }
 
 _extern void _sub_10F03CD0(c_player_trait_weapons *const, c_bitstream *);
@@ -305,32 +346,34 @@ void c_player_trait_weapons::decode(c_bitstream *packet) // 0x10F03CD0
 	_sub_10F03CD0(this, packet);
 }
 
-_extern bool _sub_10F04980(c_player_trait_weapons const *const, c_player_trait_weapons const *);
 bool c_player_trait_weapons::equivalent(c_player_trait_weapons const *traits) const // 0x10F04980
 {
-	mangled_x86(MANGLED_TODO, "?equivalent@c_player_trait_weapons@@QBE_NPBU1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?equivalent@c_player_trait_weapons@@QBE_NPBU1@@Z");
 	// c_player_trait_weapons const *traits;
-	todo("implement");
-	bool __result = _sub_10F04980((c_player_trait_weapons const *)this, traits);
-	return __result;
+
+	return initial_grenade_count == traits->initial_grenade_count && initial_primary_weapon == traits->initial_primary_weapon && initial_secondary_weapon == traits->initial_secondary_weapon && damage_modifier == traits->damage_modifier && recharging_grenades == traits->recharging_grenades && infinite_ammo == traits->infinite_ammo && weapon_pickup == traits->weapon_pickup;
 }
 
-_extern void _sub_10F05100(c_player_trait_movement *const);
 void c_player_trait_movement::initialize() // 0x10F05100
 {
-	mangled_x86(MANGLED_TODO, "?initialize@c_player_trait_movement@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?initialize@c_player_trait_movement@@QAEXXZ");
 	// c_player_trait_movement *const this;
-	todo("implement");
-	_sub_10F05100(this);
+
+	player_speed = 5;
+	player_gravity = 3;
+	vehicle_usage = 3;
+	unused = 0;
 }
 
-_extern void _sub_10F05530(c_player_trait_movement *const, c_player_trait_movement const *, bool);
 void c_player_trait_movement::set(c_player_trait_movement const *traits, bool can_inherit) // 0x10F05530
 {
-	mangled_x86(MANGLED_TODO, "?set@c_player_trait_movement@@QAEXPBU1@_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set@c_player_trait_movement@@QAEXPBU1@_N@Z");
 	// bool can_inherit;
-	todo("implement");
-	_sub_10F05530(this, traits, can_inherit);
+
+	set_speed_setting((e_speed_setting)traits->player_speed, can_inherit);
+	set_gravity_setting((e_gravity_setting)traits->player_gravity, can_inherit);
+	set_vehicle_usage_setting((e_vehicle_usage_setting)traits->vehicle_usage, can_inherit);
+	unused = 0;
 }
 
 _extern float _sub_10F04EB0(c_player_trait_movement const *const);
@@ -419,50 +462,56 @@ void c_player_trait_movement::set_vehicle_usage_setting(c_player_trait_movement:
 	}
 }
 
-_extern void _sub_10F040F0(c_player_trait_movement const *const, c_bitstream *);
 void c_player_trait_movement::encode(c_bitstream *packet) const // 0x10F040F0
 {
-	mangled_x86(MANGLED_TODO, "?encode@c_player_trait_movement@@QBEXPAVc_bitstream@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?encode@c_player_trait_movement@@QBEXPAVc_bitstream@@@Z");
 	// c_bitstream *packet;
-	todo("implement");
-	_sub_10F040F0((c_player_trait_movement const *)this, packet);
+
+	packet->write_integer("player-traits-movement-speed", player_speed, 4);
+	packet->write_integer("player-traits-movement-gravity", player_gravity, 4);
+	packet->write_integer("player-traits-movement-vehicle-usage", vehicle_usage, 2);
 }
 
-_extern void _sub_10F03A70(c_player_trait_movement *const, c_bitstream *);
 void c_player_trait_movement::decode(c_bitstream *packet) // 0x10F03A70
 {
-	mangled_x86(MANGLED_TODO, "?decode@c_player_trait_movement@@QAEXPAVc_bitstream@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?decode@c_player_trait_movement@@QAEXPAVc_bitstream@@@Z");
 	// c_bitstream *packet;
-	todo("implement");
-	_sub_10F03A70(this, packet);
+
+	set_speed_setting((e_speed_setting)packet->read_integer("player-traits-movement-speed", 4), true);
+	set_gravity_setting((e_gravity_setting)packet->read_integer("player-traits-movement-gravity", 4), true);
+	set_vehicle_usage_setting((e_vehicle_usage_setting)packet->read_integer("player-traits-movement-vehicle-usage", 2), true);
 }
 
-_extern bool _sub_10F04730(c_player_trait_movement const *const, c_player_trait_movement const *);
 bool c_player_trait_movement::equivalent(c_player_trait_movement const *traits) const // 0x10F04730
 {
-	mangled_x86(MANGLED_TODO, "?equivalent@c_player_trait_movement@@QBE_NPBU1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?equivalent@c_player_trait_movement@@QBE_NPBU1@@Z");
 	// c_player_trait_movement const *traits;
-	todo("implement");
-	bool __result = _sub_10F04730((c_player_trait_movement const *)this, traits);
-	return __result;
+
+	return player_speed == traits->player_speed
+		&& player_gravity == traits->player_gravity
+		&& vehicle_usage == traits->vehicle_usage;
 }
 
-_extern void _sub_10F04FE0(c_player_trait_appearance *const);
 void c_player_trait_appearance::initialize() // 0x10F04FE0
 {
-	mangled_x86(MANGLED_TODO, "?initialize@c_player_trait_appearance@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?initialize@c_player_trait_appearance@@QAEXXZ");
 	// c_player_trait_appearance *const this;
-	todo("implement");
-	_sub_10F04FE0(this);
+
+	active_camo = 1;
+	waypoint = 2;
+	aura = 1;
+	forced_color = 1;
 }
 
-_extern void _sub_10F05390(c_player_trait_appearance *const, c_player_trait_appearance const *, bool);
 void c_player_trait_appearance::set(c_player_trait_appearance const *traits, bool can_inherit) // 0x10F05390
 {
-	mangled_x86(MANGLED_TODO, "?set@c_player_trait_appearance@@QAEXPBU1@_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set@c_player_trait_appearance@@QAEXPBU1@_N@Z");
 	// bool can_inherit;
-	todo("implement");
-	_sub_10F05390(this, traits, can_inherit);
+
+	set_active_camo_setting((e_active_camo_setting)traits->active_camo, can_inherit);
+	set_waypoint_setting((e_waypoint_setting)traits->waypoint, can_inherit);
+	set_player_size_setting((e_player_size_setting)traits->aura, can_inherit);
+	set_forced_change_color_setting((e_forced_change_color_setting)traits->forced_color, can_inherit);
 }
 
 void c_player_trait_appearance::set_active_camo_setting(c_player_trait_appearance::e_active_camo_setting value, bool can_inherit) // 0x10F059B0
@@ -525,50 +574,55 @@ void c_player_trait_appearance::set_forced_change_color_setting(c_player_trait_a
 	}
 }
 
-_extern void _sub_10F03F30(c_player_trait_appearance const *const, c_bitstream *);
 void c_player_trait_appearance::encode(c_bitstream *packet) const // 0x10F03F30
 {
-	mangled_x86(MANGLED_TODO, "?encode@c_player_trait_appearance@@QBEXPAVc_bitstream@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?encode@c_player_trait_appearance@@QBEXPAVc_bitstream@@@Z");
 	// c_bitstream *packet;
-	todo("implement");
-	_sub_10F03F30((c_player_trait_appearance const *)this, packet);
+
+	packet->write_integer("player-traits-appearance-active-camo", active_camo, 3);
+	packet->write_integer("player-traits-appearance-waypoint", waypoint, 3);
+	packet->write_integer("player-traits-appearance-aura", aura, 5);
+	packet->write_integer("player-traits-appearance-forced-change-color", forced_color, 4);
 }
 
-_extern void _sub_10F038B0(c_player_trait_appearance *const, c_bitstream *);
 void c_player_trait_appearance::decode(c_bitstream *packet) // 0x10F038B0
 {
-	mangled_x86(MANGLED_TODO, "?decode@c_player_trait_appearance@@QAEXPAVc_bitstream@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?decode@c_player_trait_appearance@@QAEXPAVc_bitstream@@@Z");
 	// c_bitstream *packet;
-	todo("implement");
-	_sub_10F038B0(this, packet);
+
+	set_active_camo_setting((e_active_camo_setting)packet->read_integer("player-traits-appearance-active-camo", 3), true);
+	set_waypoint_setting((e_waypoint_setting)packet->read_integer("player-traits-appearance-waypoint", 3), true);
+	set_player_size_setting((e_player_size_setting)packet->read_integer("player-traits-player-size", 5), true);
+	set_forced_change_color_setting((e_forced_change_color_setting)packet->read_integer("player-traits-appearance-forced-change-color", 4), true);
 }
 
-_extern bool _sub_10F04550(c_player_trait_appearance const *const, c_player_trait_appearance const *);
 bool c_player_trait_appearance::equivalent(c_player_trait_appearance const *traits) const // 0x10F04550
 {
-	mangled_x86(MANGLED_TODO, "?equivalent@c_player_trait_appearance@@QBE_NPBU1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?equivalent@c_player_trait_appearance@@QBE_NPBU1@@Z");
 	// c_player_trait_appearance const *traits;
-	todo("implement");
-	bool __result = _sub_10F04550((c_player_trait_appearance const *)this, traits);
-	return __result;
+
+	return active_camo == traits->active_camo
+		&& waypoint == traits->waypoint
+		&& aura == traits->aura
+		&& forced_color == traits->forced_color;
 }
 
-_extern void _sub_10F05170(c_player_trait_sensors *const);
 void c_player_trait_sensors::initialize() // 0x10F05170
 {
-	mangled_x86(MANGLED_TODO, "?initialize@c_player_trait_sensors@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?initialize@c_player_trait_sensors@@QAEXXZ");
 	// c_player_trait_sensors *const this;
-	todo("implement");
-	_sub_10F05170(this);
+
+	motion_tracker_mode = 3;
+	motion_tracker_range = 3;
 }
 
-_extern void _sub_10F055E0(c_player_trait_sensors *const, c_player_trait_sensors const *, bool);
 void c_player_trait_sensors::set(c_player_trait_sensors const *traits, bool can_inherit) // 0x10F055E0
 {
-	mangled_x86(MANGLED_TODO, "?set@c_player_trait_sensors@@QAEXPBU1@_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set@c_player_trait_sensors@@QAEXPBU1@_N@Z");
 	// bool can_inherit;
-	todo("implement");
-	_sub_10F055E0(this, traits, can_inherit);
+
+	set_motion_tracker_setting((e_motion_tracker_setting)traits->motion_tracker_mode, can_inherit);
+	set_motion_tracker_range_setting((e_motion_tracker_range_setting)traits->motion_tracker_range, can_inherit);
 }
 
 void c_player_trait_sensors::set_motion_tracker_setting(c_player_trait_sensors::e_motion_tracker_setting value, bool can_inherit) // 0x10F05FD0
@@ -601,68 +655,82 @@ void c_player_trait_sensors::set_motion_tracker_range_setting(c_player_trait_sen
 	}
 }
 
-_extern void _sub_10F041A0(c_player_trait_sensors const *const, c_bitstream *);
 void c_player_trait_sensors::encode(c_bitstream *packet) const // 0x10F041A0
 {
-	mangled_x86(MANGLED_TODO, "?encode@c_player_trait_sensors@@QBEXPAVc_bitstream@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?encode@c_player_trait_sensors@@QBEXPAVc_bitstream@@@Z");
 	// c_bitstream *packet;
-	todo("implement");
-	_sub_10F041A0((c_player_trait_sensors const *)this, packet);
+
+	packet->write_integer("player-traits-sensors-motion-tracker", motion_tracker_mode, 3);
+	packet->write_integer("player-traits-sensors-motion-tracker-range", motion_tracker_range, 3);
 }
 
-_extern void _sub_10F03B30(c_player_trait_sensors *const, c_bitstream *);
 void c_player_trait_sensors::decode(c_bitstream *packet) // 0x10F03B30
 {
-	mangled_x86(MANGLED_TODO, "?decode@c_player_trait_sensors@@QAEXPAVc_bitstream@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?decode@c_player_trait_sensors@@QAEXPAVc_bitstream@@@Z");
 	// c_bitstream *packet;
-	todo("implement");
-	_sub_10F03B30(this, packet);
+
+	set_motion_tracker_setting((e_motion_tracker_setting)packet->read_integer("player-traits-sensors-motion-tracker", 3), true);
+	set_motion_tracker_range_setting((e_motion_tracker_range_setting)packet->read_integer("player-traits-sensors-motion-tracker-range", 3), true);
 }
 
-_extern bool _sub_10F047F0(c_player_trait_sensors const *const, c_player_trait_sensors const *);
 bool c_player_trait_sensors::equivalent(c_player_trait_sensors const *traits) const // 0x10F047F0
 {
-	mangled_x86(MANGLED_TODO, "?equivalent@c_player_trait_sensors@@QBE_NPBU1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?equivalent@c_player_trait_sensors@@QBE_NPBU1@@Z");
 	// c_player_trait_sensors const *traits;
-	todo("implement");
-	bool __result = _sub_10F047F0((c_player_trait_sensors const *)this, traits);
-	return __result;
+
+	return motion_tracker_mode == traits->motion_tracker_mode && motion_tracker_range == traits->motion_tracker_range;
 }
 
-_extern void _sub_10F05050(c_player_trait_extended *const);
 void c_player_trait_extended::initialize() // 0x10F05050
 {
-	mangled_x86(MANGLED_TODO, "?initialize@c_player_trait_extended@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?initialize@c_player_trait_extended@@QAEXXZ");
 	// c_player_trait_extended *const this;
-	todo("implement");
-	_sub_10F05050(this);
+
+	player_model = 1;
+	player_model_set = 1;
+	sprint_allowed = 2;
+	use_third_person_camera = 2;
 }
 
-_extern void _sub_10F05450(c_player_trait_extended *const, c_player_trait_extended const *, bool);
 void c_player_trait_extended::set(c_player_trait_extended const *traits, bool can_inherit) // 0x10F05450
 {
-	mangled_x86(MANGLED_TODO, "?set@c_player_trait_extended@@QAEXPBU1@_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set@c_player_trait_extended@@QAEXPBU1@_N@Z");
 	// bool can_inherit;
-	todo("implement");
-	_sub_10F05450(this, traits, can_inherit);
+
+	set_player_model_absolute_index(traits->player_model, can_inherit);
+	set_player_model_set_absolute_index(traits->player_model_set, can_inherit);
+	set_sprint_setting((e_sprint_setting)traits->sprint_allowed, can_inherit);
+	set_third_person_camera_setting((e_third_person_camera)traits->use_third_person_camera, can_inherit);
 }
 
-_extern void _sub_10F06060(c_player_trait_extended *const, unsigned char, bool);
 void c_player_trait_extended::set_player_model_absolute_index(unsigned char index, bool can_inherit) // 0x10F06060
 {
-	mangled_x86(MANGLED_TODO, "?set_player_model_absolute_index@c_player_trait_extended@@QAEXE_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_player_model_absolute_index@c_player_trait_extended@@QAEXE_N@Z");
 	// bool can_inherit;
-	todo("implement");
-	_sub_10F06060(this, index, can_inherit);
+
+	if (index >= 16)
+	{
+		return;
+	}
+	else if (index != 0 || can_inherit)
+	{
+		player_model = index;
+	}
 }
 
-_extern void _sub_10F060F0(c_player_trait_extended *const, unsigned char, bool);
 void c_player_trait_extended::set_player_model_set_absolute_index(unsigned char index, bool can_inherit) // 0x10F060F0
 {
-	mangled_x86(MANGLED_TODO, "?set_player_model_set_absolute_index@c_player_trait_extended@@QAEXE_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_player_model_set_absolute_index@c_player_trait_extended@@QAEXE_N@Z");
 	// bool can_inherit;
-	todo("implement");
-	_sub_10F060F0(this, index, can_inherit);
+
+	if (index >= 8)
+	{
+		return;
+	}
+	else if (index != 0 || can_inherit)
+	{
+		player_model_set = index;
+	}
 }
 
 void c_player_trait_extended::set_sprint_setting(c_player_trait_extended::e_sprint_setting value, bool can_inherit) // 0x10F06490
@@ -695,41 +763,47 @@ void c_player_trait_extended::set_third_person_camera_setting(c_player_trait_ext
 	}
 }
 
-_extern void _sub_10F04000(c_player_trait_extended const *const, c_bitstream *);
 void c_player_trait_extended::encode(c_bitstream *packet) const // 0x10F04000
 {
-	mangled_x86(MANGLED_TODO, "?encode@c_player_trait_extended@@QBEXPAVc_bitstream@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?encode@c_player_trait_extended@@QBEXPAVc_bitstream@@@Z");
 	// c_bitstream *packet;
-	todo("implement");
-	_sub_10F04000((c_player_trait_extended const *)this, packet);
+
+	packet->write_integer("player-traits-extended-player-model", player_model, 4);
+	packet->write_integer("player-traits-extended-player-model-set", player_model_set, 3);
+	packet->write_integer("player-traits-extended-sprint", sprint_allowed, 2);
+	packet->write_integer("player-traits-extended-third-person-camera", use_third_person_camera, 2);
 }
 
-_extern void _sub_10F03990(c_player_trait_extended *const, c_bitstream *);
 void c_player_trait_extended::decode(c_bitstream *packet) // 0x10F03990
 {
-	mangled_x86(MANGLED_TODO, "?decode@c_player_trait_extended@@QAEXPAVc_bitstream@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?decode@c_player_trait_extended@@QAEXPAVc_bitstream@@@Z");
 	// c_bitstream *packet;
-	todo("implement");
-	_sub_10F03990(this, packet);
+
+	set_player_model_absolute_index(packet->read_integer("player-traits-extended-player-model", 4), true);
+	set_player_model_set_absolute_index(packet->read_integer("player-traits-extended-player-model-set", 3), true);
+	set_sprint_setting((e_sprint_setting)packet->read_integer("player-traits-extended-sprint", 2), true);
+	set_third_person_camera_setting((e_third_person_camera)packet->read_integer("player-traits-extended-third-person-camera", 2), true);
 }
 
-_extern bool _sub_10F04620(c_player_trait_extended const *const, c_player_trait_extended const *);
 bool c_player_trait_extended::equivalent(c_player_trait_extended const *traits) const // 0x10F04620
 {
-	mangled_x86(MANGLED_TODO, "?equivalent@c_player_trait_extended@@QBE_NPBU1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?equivalent@c_player_trait_extended@@QBE_NPBU1@@Z");
 	// c_player_trait_extended const *traits;
-	todo("implement");
-	bool __result = _sub_10F04620((c_player_trait_extended const *)this, traits);
-	return __result;
+
+	return player_model == traits->player_model && player_model_set == traits->player_model_set && sprint_allowed == traits->sprint_allowed && use_third_person_camera == traits->use_third_person_camera;
 }
 
-_extern void _sub_10F052F0(c_player_traits *const);
 void c_player_traits::initialize() // 0x10F052F0
 {
-	mangled_x86(MANGLED_TODO, "?initialize@c_player_traits@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?initialize@c_player_traits@@QAEXXZ");
 	// c_player_traits *const this;
-	todo("implement");
-	_sub_10F052F0(this);
+
+	vitality.initialize();
+	extended.initialize();
+	weapons.initialize();
+	movement.initialize();
+	appearance.initialize();
+	sensors.initialize();
 }
 
 _extern void _sub_10F05860(c_player_traits *const, c_player_traits const *, bool);
@@ -741,22 +815,30 @@ void c_player_traits::set(c_player_traits const *traits, bool can_inherit) // 0x
 	_sub_10F05860(this, traits, can_inherit);
 }
 
-_extern void _sub_10F04430(c_player_traits const *const, c_bitstream *);
 void c_player_traits::encode(c_bitstream *packet) const // 0x10F04430
 {
-	mangled_x86(MANGLED_TODO, "?encode@c_player_traits@@QBEXPAVc_bitstream@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?encode@c_player_traits@@QBEXPAVc_bitstream@@@Z");
 	// c_bitstream *packet;
-	todo("implement");
-	_sub_10F04430((c_player_traits const *)this, packet);
+
+	vitality.encode(packet);
+	extended.encode(packet);
+	weapons.encode(packet);
+	movement.encode(packet);
+	appearance.encode(packet);
+	sensors.encode(packet);
 }
 
-_extern void _sub_10F03E10(c_player_traits *const, c_bitstream *);
 void c_player_traits::decode(c_bitstream *packet) // 0x10F03E10
 {
-	mangled_x86(MANGLED_TODO, "?decode@c_player_traits@@QAEXPAVc_bitstream@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?decode@c_player_traits@@QAEXPAVc_bitstream@@@Z");
 	// c_bitstream *packet;
-	todo("implement");
-	_sub_10F03E10(this, packet);
+
+	vitality.decode(packet);
+	extended.decode(packet);
+	weapons.decode(packet);
+	movement.decode(packet);
+	appearance.decode(packet);
+	sensors.decode(packet);
 }
 
 _extern bool _sub_10F04A90(c_player_traits const *const, c_player_traits const *);

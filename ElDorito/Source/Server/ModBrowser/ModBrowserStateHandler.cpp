@@ -54,40 +54,36 @@ CModBrowserStateManager *CModBrowserStateHandler::GetManager() // 0x10721C00
 	return m_manager;
 }
 
-_extern void _sub_10721CA0(CModBrowserStateHandler *const, CModBrowserStateManager *);
 void CModBrowserStateHandler::SetManager(CModBrowserStateManager *manager) // 0x10721CA0
 {
-	mangled_x86(MANGLED_TODO, "?SetManager@CModBrowserStateHandler@@QAEXPAVCModBrowserStateManager@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SetManager@CModBrowserStateHandler@@QAEXPAVCModBrowserStateManager@@@Z");
 	// CModBrowserStateManager *manager;
-	todo("implement");
-	_sub_10721CA0(this, manager);
+
+	m_manager = manager;
 }
 
-_extern void _sub_10721C30(CModBrowserStateHandler *const, EModBrowserState);
 void CModBrowserStateHandler::RequestStateChange(EModBrowserState state) // 0x10721C30
 {
-	mangled_x86(MANGLED_TODO, "?RequestStateChange@CModBrowserStateHandler@@IAEXW4EModBrowserState@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?RequestStateChange@CModBrowserStateHandler@@IAEXW4EModBrowserState@@@Z");
 	// EModBrowserState state;
-	todo("implement");
-	_sub_10721C30(this, state);
+
+	m_manager->RequestStateChange(state);
 }
 
-_extern void _sub_10721B40(CModBrowserStateHandler *const, EModBrowserAbortReason);
 void CModBrowserStateHandler::Abort(EModBrowserAbortReason reason) // 0x10721B40
 {
-	mangled_x86(MANGLED_TODO, "?Abort@CModBrowserStateHandler@@IAEXW4EModBrowserAbortReason@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Abort@CModBrowserStateHandler@@IAEXW4EModBrowserAbortReason@@@Z");
 	// EModBrowserAbortReason reason;
-	todo("implement");
-	_sub_10721B40(this, reason);
+
+	m_manager->Abort(reason);
 }
 
-_extern void _sub_10721BB0(CModBrowserStateHandler *const);
 void CModBrowserStateHandler::Complete() // 0x10721BB0
 {
-	mangled_x86(MANGLED_TODO, "?Complete@CModBrowserStateHandler@@IAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Complete@CModBrowserStateHandler@@IAEXXZ");
 	// CModBrowserStateHandler *const this;
-	todo("implement");
-	_sub_10721BB0(this);
+
+	m_manager->Complete();
 }
 
 /* ---------- private code */

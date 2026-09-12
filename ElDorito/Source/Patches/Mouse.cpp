@@ -83,24 +83,44 @@ namespace Patches
 
 /* ---------- private code */
 
-extern void _sub_10A8BDD0();
 __declspec(naked) void AimAssistHook() // 0x10A8BDD0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?AimAssistHook@@YAXXZ");
 	// `anonymous-namespace'::AimAssistHook
 	// procedure flags: nofpo
 // controller:
-	todo("implement");
-	_sub_10A8BDD0();
+
+	__asm
+	{
+		mov edx, 0244DE98h
+		mov edx, [edx]
+		test edx, edx
+		jne Lcontroller
+		xor edx, edx
+		mov [edi + 14h], edx
+		mov edx, 058AA23h
+		jmp edx
+		Lcontroller:
+		movss xmm0, dword ptr [ebx + 388h]
+		mov edx, 058AA1Fh
+		jmp edx
+	}
 }
 
-_extern unsigned __int32 _sub_10A8C040(unsigned __int32, short);
 unsigned __int32 DualAimAssistHook(unsigned __int32 unitObject, short weaponIndex) // 0x10A8C040
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?DualAimAssistHook@@YAIIF@Z");
 	// `anonymous-namespace'::DualAimAssistHook
 	// short weaponIndex;
 	// unsigned __int32 (*UnitGetWeapon)(unsigned __int32, short);
 	// function call : unsigned __int32 (*)(unsigned __int32, short)
-	todo("implement");
-	unsigned __int32 __result = _sub_10A8C040(unitObject, weaponIndex);
-	return __result;
+
+	// If using a mouse, report that there's no weapon being dual wielded
+	if (!Pointer::Base(0x204DE98).Read<uint32_t>())
+		return 0xFFFFFFFF;
+
+	// Otherwise, get the weapon datum index normally
+	typedef uint32_t(*UnitGetWeaponPtr)(uint32_t unitObject, short weaponIndex);
+	auto UnitGetWeapon = reinterpret_cast<UnitGetWeaponPtr>(0xB454D0);
+	return UnitGetWeapon(unitObject, weaponIndex);
 }

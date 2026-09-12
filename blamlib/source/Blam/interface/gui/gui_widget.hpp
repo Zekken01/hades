@@ -165,34 +165,28 @@ static_assert(sizeof(c_gui_widget) == 220, "Invalid c_gui_widget size");
 
 /* ---------- public code */
 
-extern c_gui_widget *_sub_108D5F20(c_gui_widget const *const);
 _inline c_gui_widget *c_gui_widget::get_parent() const // 0x108D5F20
 {
-	mangled_x86(MANGLED_TODO, "?get_parent@c_gui_widget@@QBEPAV1@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_parent@c_gui_widget@@QBEPAV1@XZ");
 	// c_gui_widget const *const this;
-	todo("implement");
-	c_gui_widget * __result = _sub_108D5F20((c_gui_widget const *)this);
-	return __result;
+
+	return m_parent.widget;
 }
 
-extern c_gui_widget *_sub_108D5E30(c_gui_widget const *const);
 _inline c_gui_widget *c_gui_widget::get_first_child() const // 0x108D5E30
 {
-	mangled_x86(MANGLED_TODO, "?get_first_child@c_gui_widget@@QBEPAV1@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_first_child@c_gui_widget@@QBEPAV1@XZ");
 	// c_gui_widget const *const this;
-	todo("implement");
-	c_gui_widget * __result = _sub_108D5E30((c_gui_widget const *)this);
-	return __result;
+
+	return m_first_child.widget;
 }
 
-extern c_gui_widget *_sub_108D5EF0(c_gui_widget const *const);
 _inline c_gui_widget *c_gui_widget::get_next_sibling() const // 0x108D5EF0
 {
-	mangled_x86(MANGLED_TODO, "?get_next_sibling@c_gui_widget@@QBEPAV1@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_next_sibling@c_gui_widget@@QBEPAV1@XZ");
 	// c_gui_widget const *const this;
-	todo("implement");
-	c_gui_widget * __result = _sub_108D5EF0((c_gui_widget const *)this);
-	return __result;
+
+	return m_next_sibling.widget;
 }
 
 _inline unsigned long c_gui_widget::get_name_string_id() const // 0x108D5EC0

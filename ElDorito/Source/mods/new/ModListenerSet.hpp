@@ -59,17 +59,18 @@ _inline void ModListenerSet::Add(IModListener *listener) // 0x107919F0
 	_sub_107919F0(this, listener);
 }
 
-_extern void _sub_10791F40(ModListenerSet *const, IModListener *);
 _inline void ModListenerSet::Remove(IModListener *listener) // 0x10791F40
 {
-	mangled_x86(MANGLED_TODO, "?Remove@ModListenerSet@@QAEXPAVIModListener@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Remove@ModListenerSet@@QAEXPAVIModListener@@@Z");
 	// static ...; // 0x10791FF8
 	// static ...; // 0x10791FF0
 	// ModListenerSet *const this;
 	// IModListener *listener;
 	// std::scoped_lock<std::shared_mutex> lock;
-	todo("implement");
-	_sub_10791F40(this, listener);
+
+	std::scoped_lock<std::shared_mutex> lock(m_lock);
+	std::erase(m_dirtyListeners, listener);
+	m_dirty = true;
 }
 
 /* ---------- private code */

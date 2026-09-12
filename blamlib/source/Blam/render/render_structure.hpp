@@ -73,7 +73,6 @@ struct s_render_cluster_part
 	s_cluster_reference cluster_reference; // 0x4
 	unsigned short mesh_index; // 0x6
 	unsigned short part_index; // 0x8
-	unsigned char __pad0[2]; // 0xA
 };
 static_assert(sizeof(s_render_cluster_part) == 12, "Invalid s_render_cluster_part size");
 
@@ -85,7 +84,6 @@ struct s_render_instance_part
 	short mesh_index; // 0x8
 	short mesh_part_index; // 0xA
 	unsigned char lod; // 0xC
-	unsigned char __pad0[3]; // 0xD
 };
 static_assert(sizeof(s_render_instance_part) == 16, "Invalid s_render_instance_part size");
 

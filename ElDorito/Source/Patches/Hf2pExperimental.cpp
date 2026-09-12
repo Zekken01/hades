@@ -288,7 +288,7 @@ void BuildPlayerPing();
 void Hf2pTickHook();
 s_global_preferences_settings::e_level LevelStringToSetting(std::string const &value);
 void Hf2pLoadPreferencesHook();
-void c_game_engine_object_runtime_manager__update_hook(void *thisptr, void *unused);
+void __fastcall c_game_engine_object_runtime_manager__update_hook(void *thisptr, void *unused);
 void ApplyDefaultScreenFx();
 void game_initialize_for_new_map_call_hook(s_game_options *game_options);
 bool game_finish_should_mute_sounds();
@@ -303,6 +303,7 @@ bool game_engine_in_round_hook();
 
 namespace hades_file_local
 {
+	extern s_session_player_ping players_ping[16]; // 0x12458580
 	extern unsigned short PingId; // 0x124587C0
 	extern long long game_end_time; // 0x124587C8
 	extern long long last_ping_time; // 0x124587D0
@@ -343,14 +344,14 @@ void Hf2pInitHook() // 0x10A723E0
 	_sub_10A723E0();
 }
 
-_extern void _sub_10A72B60();
 void Hf2pShutdownHook() // 0x10A72B60
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Hf2pShutdownHook@@YAXXZ");
 	// `anonymous-namespace'::Hf2pShutdownHook
 	// procedure flags: nofpo
 	// function call : void (*)()
-	todo("implement");
-	_sub_10A72B60();
+
+	((void(__cdecl *const)())0x652ee0)();
 }
 
 _extern void _sub_10A73850();
@@ -525,14 +526,13 @@ void Hf2pTickHook() // 0x10A72BB0
 	_sub_10A72BB0();
 }
 
-extern s_global_preferences_settings::e_level _sub_10A73430(std::string const &);
 s_global_preferences_settings::e_level LevelStringToSetting(std::string const &value) // 0x10A73430
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?LevelStringToSetting@@YA?AW4e_level@s_global_preferences_settings@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 	// `anonymous-namespace'::LevelStringToSetting
 	// std::string const &value;
-	todo("implement");
-	s_global_preferences_settings::e_level __result = _sub_10A73430(value);
-	return __result;
+
+	return value == "low" ? (s_global_preferences_settings::e_level)0 : value == "medium" ? (s_global_preferences_settings::e_level)1 : (s_global_preferences_settings::e_level)2;
 }
 
 _extern void _sub_10A72490();
@@ -559,16 +559,19 @@ void Hf2pLoadPreferencesHook() // 0x10A72490
 	_sub_10A72490();
 }
 
-_extern void _sub_10A739D0(void *, void *);
-void c_game_engine_object_runtime_manager__update_hook(void *thisptr, void *unused) // 0x10A739D0
+void __fastcall c_game_engine_object_runtime_manager__update_hook(void *thisptr, void *unused) // 0x10A739D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_game_engine_object_runtime_manager__update_hook@@YIXPAX0@Z");
 	// `anonymous-namespace'::c_game_engine_object_runtime_manager__update_hook
 	// void *unused;
 	// void (*const c_game_engine_object_runtime_manager__update)(void *);
 	// function call : bool (*const)(char)
 	// function call : void (*const)(void *)
-	todo("implement");
-	_sub_10A739D0(thisptr, unused);
+
+	void (__thiscall *const c_game_engine_object_runtime_manager__update)(void *) = (void(__thiscall *const)(void *))0x5913e0;
+
+	if (!((bool(__cdecl *const)(int))0x5523a0)(4))
+		c_game_engine_object_runtime_manager__update(thisptr);
 }
 
 _extern void _sub_10A71BC0();

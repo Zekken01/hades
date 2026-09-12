@@ -124,6 +124,7 @@ void ReplaceForgeSky(s_forge_sky_definition *desiredSky);
 namespace hades_file_local
 {
 	extern real_rectangle2d global_null_rectangle2d; // 0x11172F9C
+	extern ForgeSkyState state; // 0x1134D10C
 	extern s_forge_sky_definition mapDefaultSky; // 0x11371850
 }
 using namespace hades_file_local;
@@ -201,14 +202,12 @@ namespace Forge
 		_sub_1067DBE0();
 	}
 
-	_extern bool _sub_1067E1C0();
 	bool CForgeSkies::IsActive() // 0x1067E1C0
 	{
-		mangled_x86(MANGLED_TODO, "?IsActive@CForgeSkies@Forge@@SA_NXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?IsActive@CForgeSkies@Forge@@SA_NXZ");
 		// procedure flags: nofpo
-		todo("implement");
-		bool __result = _sub_1067E1C0();
-		return __result;
+
+		return GetForgeSky() != nullptr;
 	}
 }
 

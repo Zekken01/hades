@@ -183,6 +183,8 @@ using namespace hades_file_local;
 
 /* ---------- prototypes */
 
+extern bool (__cdecl *const unit_is_dual_wielding)(unsigned long);  // hades: added for 0X10AF7190
+
 namespace Patches
 {
 	namespace Weapon
@@ -289,13 +291,12 @@ namespace Patches
 			_sub_10AEFF90();
 		}
 
-		_extern void _sub_10AF4E20(bool);
 		void SetBottomlessClip(bool enable) // 0x10AF4E20
 		{
-			mangled_x86(MANGLED_TODO, "?SetBottomlessClip@Weapon@Patches@@YAX_N@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?SetBottomlessClip@Weapon@Patches@@YAX_N@Z");
 			// bool enable;
-			todo("implement");
-			_sub_10AF4E20(enable);
+
+			cheat_bottomless_clip = enable;
 		}
 
 		void ApplyAfterTagsLoaded() // 0x10AEFF70
@@ -777,10 +778,9 @@ void bottomless_clip_restore(long weapon_index, short barrel_index, bottomless_c
 	_sub_10AF6820(weapon_index, barrel_index, state);
 }
 
-_extern void _sub_10AF73E0(long, short, bool);
 void weapon_barrel_fire(long weapon_index, short barrel_index, bool simulated) // 0x10AF73E0
 {
-	mangled_x86(MANGLED_TODO, "?weapon_barrel_fire@@YAXJF_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?weapon_barrel_fire@@YAXJF_N@Z");
 	// static ...; // 0x10AF7488
 	// long weapon_index;
 	// short barrel_index;
@@ -788,8 +788,13 @@ void weapon_barrel_fire(long weapon_index, short barrel_index, bool simulated) /
 	// void (*const weapon_barrel_fire)(long, short, bool);
 	// bottomless_clip_state bottomless_clip;
 	// function call : void (*const)(long, short, bool)
-	todo("implement");
-	_sub_10AF73E0(weapon_index, barrel_index, simulated);
+
+	void (__cdecl *const weapon_barrel_fire)(long, short, bool) = (void(__cdecl *const)(long, short, bool))0xB5F860;
+	bottomless_clip_state bottomless_clip;
+
+	bottomless_clip_apply(weapon_index, barrel_index, &bottomless_clip);
+	weapon_barrel_fire(weapon_index, barrel_index, simulated);
+	bottomless_clip_restore(weapon_index, barrel_index, &bottomless_clip);
 }
 
 _extern bool _sub_10AF6F60(long);
@@ -853,17 +858,21 @@ bool weapon_can_be_dual_wielded_hook(long weapon_index) // 0x10AF7E70
 	return __result;
 }
 
-_extern short _sub_10AF7190(long, short);
 short unit_rotate_zoom_level_hook(long unit_index, short level) // 0x10AF7190
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_rotate_zoom_level_hook@@YAFJF@Z");
 	// `anonymous-namespace'::unit_rotate_zoom_level_hook
 	// short level;
 	// short (*const unit_rotate_zoom_level)(long, short);
 	// function call : bool (*const)(unsigned long)
 	// function call : short (*const)(long, short)
-	todo("implement");
-	short __result = _sub_10AF7190(unit_index, level);
-	return __result;
+
+	short (__cdecl *const unit_rotate_zoom_level)(long, unsigned short) = (short(__cdecl *const)(long, unsigned short))0xb47630;
+
+	if (unit_is_dual_wielding(unit_index))
+		return -1;
+
+	return unit_rotate_zoom_level(unit_index, level);
 }
 
 _extern bool _sub_10AF8330(unsigned __int32, __int32, ProjectilePenaltyType);
@@ -884,37 +893,52 @@ bool weapon_should_apply_bloom(unsigned __int32 weaponObjectIndex, __int32 barre
 	return __result;
 }
 
-_extern void _sub_10AF7230(unsigned __int32, __int32);
 void weapon_apply_firing_penalty_hook(unsigned __int32 weaponObjectIndex, __int32 barrelIndex) // 0x10AF7230
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?weapon_apply_firing_penalty_hook@@YAXIH@Z");
 	// `anonymous-namespace'::weapon_apply_firing_penalty_hook
 	// __int32 barrelIndex;
 	// void (*const weapon_apply_firing_penalty)(unsigned __int32, __int32);
 	// function call : void (*const)(unsigned __int32, __int32)
-	todo("implement");
-	_sub_10AF7230(weaponObjectIndex, barrelIndex);
+
+	void (__cdecl *const weapon_apply_firing_penalty)(unsigned __int32, __int32) = (void(__cdecl *const)(unsigned __int32, __int32))0xb5c2e0;
+
+	if (weapon_should_apply_bloom(weaponObjectIndex, barrelIndex, eProjectilePenalty_Firing))
+	{
+		weapon_apply_firing_penalty(weaponObjectIndex, barrelIndex);
+	}
 }
 
-_extern void _sub_10AF72C0(unsigned __int32, __int32);
 void weapon_apply_movement_penalty_hook(unsigned __int32 weaponObjectIndex, __int32 barrelIndex) // 0x10AF72C0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?weapon_apply_movement_penalty_hook@@YAXIH@Z");
 	// `anonymous-namespace'::weapon_apply_movement_penalty_hook
 	// __int32 barrelIndex;
 	// void (*const weapon_apply_movement_penalty)(unsigned __int32, __int32);
 	// function call : void (*const)(unsigned __int32, __int32)
-	todo("implement");
-	_sub_10AF72C0(weaponObjectIndex, barrelIndex);
+
+	void (__cdecl *const weapon_apply_movement_penalty)(unsigned __int32, __int32) = (void(__cdecl *const)(unsigned __int32, __int32))0xb5c450;
+
+	if (weapon_should_apply_bloom(weaponObjectIndex, barrelIndex, eProjectilePenalty_Moving))
+	{
+		weapon_apply_movement_penalty(weaponObjectIndex, barrelIndex);
+	}
 }
 
-_extern void _sub_10AF7350(unsigned __int32, __int32);
 void weapon_apply_turning_penalty_hook(unsigned __int32 weaponObjectIndex, __int32 barrelIndex) // 0x10AF7350
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?weapon_apply_turning_penalty_hook@@YAXIH@Z");
 	// `anonymous-namespace'::weapon_apply_turning_penalty_hook
 	// __int32 barrelIndex;
 	// void (*const weapon_apply_turning_penalty)(unsigned __int32, __int32);
 	// function call : void (*const)(unsigned __int32, __int32)
-	todo("implement");
-	_sub_10AF7350(weaponObjectIndex, barrelIndex);
+
+	void (__cdecl *const weapon_apply_turning_penalty)(unsigned __int32, __int32) = (void(__cdecl *const)(unsigned __int32, __int32))0xb5c630;
+
+	if (weapon_should_apply_bloom(weaponObjectIndex, barrelIndex, eProjectilePenalty_Turning))
+	{
+		weapon_apply_turning_penalty(weaponObjectIndex, barrelIndex);
+	}
 }
 
 bool SupportWeaponStartHook(__int32 weaponObjectIndex) // 0x10AF5230
@@ -1040,14 +1064,21 @@ bool weapon_has_infinite_ammo_hook(long weapon_index) // 0x10AF8260
 	return __result;
 }
 
-_extern bool _sub_10AF7000(long);
 bool player_has_infinite_ammo_hook(long player_index) // 0x10AF7000
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?player_has_infinite_ammo_hook@@YA_NJ@Z");
 	// `anonymous-namespace'::player_has_infinite_ammo_hook
 	// long player_index;
-	todo("implement");
-	bool __result = _sub_10AF7000(player_index);
-	return __result;
+
+	if (player_index == -1)
+	{
+		return false;
+	}
+	if (cheat_bottomless_clip)
+	{
+		return true;
+	}
+	return player_get(player_index)->traits.weapons.infinite_ammo >= 2;
 }
 
 _extern void _sub_10AF74E0(long, float, float);

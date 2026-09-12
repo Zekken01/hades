@@ -21,7 +21,6 @@ struct s_rasterizer_game_states
 	bool render_patchy_fog_enabled; // 0x2
 	bool render_weather_enabled; // 0x3
 	bool render_cinematic_motion_blur_enabled; // 0x4
-	unsigned char __pad0[3]; // 0x5
 	long weather_effects[64]; // 0x8
 	static void (*motion_blur)(bool);
 	static void (*render_atmosphere_fog)(bool);
@@ -35,6 +34,7 @@ struct s_rasterizer_game_states
 	static bool get_render_cinematic_motion_blur();
 };
 static_assert(sizeof(s_rasterizer_game_states) == 264, "Invalid s_rasterizer_game_states size");
+static_assert(offsetof(s_rasterizer_game_states, weather_effects) == 0x8, "s_rasterizer_game_states::weather_effects moved when its reconstructed padding was removed");
 
 /* ---------- prototypes */
 

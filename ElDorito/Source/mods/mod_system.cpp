@@ -191,25 +191,22 @@ void c_mod_system::update() // 0x108BD580
 	_sub_108BD580();
 }
 
-extern char const *_sub_108BC5E0();
 char const *c_mod_system::get_package_directory() // 0x108BC5E0
 {
-	mangled_x86(MANGLED_TODO, "?get_package_directory@c_mod_system@@SAPBDXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_package_directory@c_mod_system@@SAPBDXZ");
 	// procedure flags: nofpo
-	todo("implement");
-	char const * __result = _sub_108BC5E0();
-	return __result;
+
+	return k_package_directory;
 }
 
-_extern bool _sub_108BD4F0();
 bool c_mod_system::unload_current_package() // 0x108BD4F0
 {
-	mangled_x86(MANGLED_TODO, "?unload_current_package@c_mod_system@@SA_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?unload_current_package@c_mod_system@@SA_NXZ");
 	// procedure flags: nofpo
 	// function call : EModResult (EModIndex, char const *, bool)
-	todo("implement");
-	bool __result = _sub_108BD4F0();
-	return __result;
+
+	c_mod_system::GetModManager().SetMod(kGame, nullptr, true);
+	return true;
 }
 
 extern std::string _sub_108BC040(char const *);
@@ -336,14 +333,12 @@ std::string c_mod_system::get_current_package_filename(EModIndex package_type) /
 	return __result;
 }
 
-extern c_mod_package_manager &_sub_108BC850();
 c_mod_package_manager &c_mod_system::get_package_manager() // 0x108BC850
 {
-	mangled_x86(MANGLED_TODO, "?get_package_manager@c_mod_system@@SAAAVc_mod_package_manager@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_package_manager@c_mod_system@@SAAAVc_mod_package_manager@@XZ");
 	// procedure flags: nofpo
-	todo("implement");
-	c_mod_package_manager & __result = _sub_108BC850();
-	return __result;
+
+	return *(c_mod_package_manager *)g_mod_system_globals.package_manager;
 }
 
 _extern bool _sub_108BB5C0(std::string const &, s_mod_server_package_entry *);

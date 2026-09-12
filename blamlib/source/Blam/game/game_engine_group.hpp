@@ -274,10 +274,10 @@ struct s_game_engine_king_variant_definition :
 	char outside_hill_points; // 0x67
 	char uncontested_hill_bonus_points; // 0x68
 	char points_per_kill; // 0x69
-	unsigned char __pad0[2]; // 0x6A
 	unsigned long inside_hill_traits_name; // 0x6C
 };
 static_assert(sizeof(s_game_engine_king_variant_definition) == 112, "Invalid s_game_engine_king_variant_definition size");
+static_assert(offsetof(s_game_engine_king_variant_definition, inside_hill_traits_name) == 0x6C, "s_game_engine_king_variant_definition::inside_hill_traits_name moved when its reconstructed padding was removed");
 
 #pragma pack(push, 4)
 struct s_game_engine_territories_variant_definition :

@@ -18,7 +18,6 @@ struct s_main_time_globals
 {
 	bool unknown1; // 0x0
 	bool unknown2; // 0x1
-	unsigned char __pad0[2]; // 0x2
 	long last_game_time; // 0x4
 	long long last_milliseconds; // 0x8
 	long long last_cpu_ticks; // 0x10
@@ -29,6 +28,7 @@ struct s_main_time_globals
 	long long publishing_end_time; // 0x38
 };
 static_assert(sizeof(s_main_time_globals) == 64, "Invalid s_main_time_globals size");
+static_assert(offsetof(s_main_time_globals, last_game_time) == 0x4, "s_main_time_globals::last_game_time moved when its reconstructed padding was removed");
 
 /* ---------- prototypes */
 

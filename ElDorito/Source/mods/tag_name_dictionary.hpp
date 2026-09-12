@@ -52,13 +52,10 @@ static_assert(sizeof(c_tag_name_dictionary) == 40, "Invalid c_tag_name_dictionar
 
 /* ---------- public code */
 
-extern c_tag_name_dictionary* _sub_10877860(c_tag_name_dictionary *const);
 _inline c_tag_name_dictionary::c_tag_name_dictionary() // 0x10877860
 {
-	mangled_x86(MANGLED_TODO, "??0c_tag_name_dictionary@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_tag_name_dictionary@@QAE@XZ");
 	// c_tag_name_dictionary *const this;
-	todo("implement");
-	_sub_10877860(this);
 }
 
 extern c_tag_name_dictionary* _sub_1089D060(c_tag_name_dictionary *const, std::unordered_map<int,std::string> &);
@@ -79,22 +76,18 @@ _inline c_tag_name_dictionary::c_tag_name_dictionary(c_tag_name_dictionary &&__t
 	_sub_10871760(this, __that);
 }
 
-_extern void _sub_10877F60(c_tag_name_dictionary *const);
 _inline c_tag_name_dictionary::~c_tag_name_dictionary() // 0x10877F60
 {
-	mangled_x86(MANGLED_TODO, "??1c_tag_name_dictionary@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1c_tag_name_dictionary@@QAE@XZ");
 	// c_tag_name_dictionary *const this;
-	todo("implement");
-	_sub_10877F60(this);
 }
 
-_extern void _sub_10879940(c_tag_name_dictionary *const, long, char const *);
 _inline void c_tag_name_dictionary::add(long index, char const *name) // 0x10879940
 {
-	mangled_x86(MANGLED_TODO, "?add@c_tag_name_dictionary@@QAEXJPBD@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?add@c_tag_name_dictionary@@QAEXJPBD@Z");
 	// char const *name;
-	todo("implement");
-	_sub_10879940(this, index, name);
+
+	m_index_to_name[index] = name;
 }
 
 extern char const *_sub_10874230(c_tag_name_dictionary const *const, long);

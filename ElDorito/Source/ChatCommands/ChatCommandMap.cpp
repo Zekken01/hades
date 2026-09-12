@@ -225,10 +225,9 @@ namespace ChatCommands
 		_sub_1093A890();
 	}
 
-	_extern bool _sub_1093CB80(unsigned long long);
 	bool addToVoteTimes(unsigned long long sender) // 0x1093CB80
 	{
-		mangled_x86(MANGLED_TODO, "?addToVoteTimes@ChatCommands@@YA_N_K@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?addToVoteTimes@ChatCommands@@YA_N_K@Z");
 		// static ...; // 0x1093CD6F
 		// static ...; // 0x1093CD6C
 		// static ...; // 0x1093CD54
@@ -236,9 +235,21 @@ namespace ChatCommands
 		// unsigned long long sender;
 		// std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<unsigned __int64 const ,__int64> > > > it;
 		// long long curTime;
-		todo("implement");
-		bool __result = _sub_1093CB80(sender);
-		return __result;
+
+		time_t curTime;
+		time(&curTime);
+		//check if the person is spamming voting
+		std::map<uint64_t, time_t>::iterator it = voteTimes.find(sender);
+		if (it != voteTimes.end())
+		{
+			//Now we know that the user has started a vote recently. Check to see if it's under 90 seconds ago.
+			if (curTime - it->second < 90)
+				return false;
+			it->second = curTime;
+		}
+		else
+			voteTimes.insert(std::make_pair(sender, curTime));
+		return true;
 	}
 
 	_extern void _sub_1093AC40();

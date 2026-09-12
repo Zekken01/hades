@@ -23,13 +23,13 @@ struct s_aim_assist_targeting_result;
 struct c_aim_target_object
 {
 	unsigned char type; // 0x0
-	unsigned char __pad0[3]; // 0x1
 	long model_target_index; // 0x4
 	long object_index; // 0x8
 	static bool (*const setup)(c_aim_target_object *, c_aim_target_simulation_entity *);
 	static bool (*const is_valid)(c_aim_target_object *);
 };
 static_assert(sizeof(c_aim_target_object) == 12, "Invalid c_aim_target_object size");
+static_assert(offsetof(c_aim_target_object, model_target_index) == 0x4, "c_aim_target_object::model_target_index moved when its reconstructed padding was removed");
 
 struct s_aim_assist_targeting_result
 {
@@ -54,16 +54,16 @@ static_assert(sizeof(c_aim_target_predicted) == 12, "Invalid c_aim_target_predic
 struct c_aim_target_simulation_entity
 {
 	char type; // 0x0
-	unsigned char __pad0[3]; // 0x1
 	long target_model_index; // 0x4
 	unsigned char flags; // 0x8
-	unsigned char __pad1[3]; // 0x9
 	long entity_index; // 0xC
 	long gamestate_index; // 0x10
 	static bool (*const setup)(c_aim_target_simulation_entity *, c_aim_target_object *);
 	static char (*const is_valid)(c_aim_target_simulation_entity *);
 };
 static_assert(sizeof(c_aim_target_simulation_entity) == 20, "Invalid c_aim_target_simulation_entity size");
+static_assert(offsetof(c_aim_target_simulation_entity, target_model_index) == 0x4, "c_aim_target_simulation_entity::target_model_index moved when its reconstructed padding was removed");
+static_assert(offsetof(c_aim_target_simulation_entity, entity_index) == 0xC, "c_aim_target_simulation_entity::entity_index moved when its reconstructed padding was removed");
 
 /* ---------- prototypes */
 

@@ -412,14 +412,13 @@ namespace Web
 				_sub_10CAE020((IServerConnectModDownloadUI *)this, message);
 			}
 
-			_extern void _sub_10CAE140(IServerConnectModDownloadUI * const);
 			void CWebModDownloadScreen::OnDownloadFinalizing() // 0x10CAE140
 			{
-				mangled_x86(MANGLED_TODO, "?OnDownloadFinalizing@CWebModDownloadScreen@WebMods@Ui@Web@@UAEXXZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?OnDownloadFinalizing@CWebModDownloadScreen@WebMods@Ui@Web@@UAEXXZ");
 				// __shifted(Web::Ui::WebMods::CWebModDownloadScreen, 4);
 				// Web::Ui::WebMods::CWebModDownloadScreen *const this;
-				todo("implement");
-				_sub_10CAE140((IServerConnectModDownloadUI *)this);
+
+				NotifyDownloadStateChanged("downloading", "download_finalizing");
 			}
 
 			_extern void _sub_10CAE240(IServerConnectModDownloadUI * const, SServerConnectState const &);

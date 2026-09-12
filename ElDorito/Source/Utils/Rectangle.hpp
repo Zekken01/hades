@@ -47,32 +47,34 @@ namespace Utils
 
 namespace Utils
 {
-	extern Rectangle* _sub_10C5C800(Utils::Rectangle *const);
 	_inline Rectangle::Rectangle() // 0x10C5C800
 	{
-		mangled_x86(MANGLED_TODO, "??0Rectangle@Utils@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0Rectangle@Utils@@QAE@XZ");
 		// Utils::Rectangle *const this;
-		todo("implement");
-		_sub_10C5C800(this);
+
+		X = 0;
+		Y = 0;
+		Width = 0;
+		Height = 0;
 	}
 
-	extern Rectangle* _sub_10C5C7B0(Utils::Rectangle *const, __int32, __int32, __int32, __int32);
 	_inline Rectangle::Rectangle(__int32 x, __int32 y, __int32 width, __int32 height) // 0x10C5C7B0
 	{
-		mangled_x86(MANGLED_TODO, "??0Rectangle@Utils@@QAE@HHHH@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0Rectangle@Utils@@QAE@HHHH@Z");
 		// __int32 height;
-		todo("implement");
-		_sub_10C5C7B0(this, x, y, width, height);
+
+		X = x;
+		Y = y;
+		Width = width;
+		Height = height;
 	}
 
-	_extern bool _sub_10CEB160(Utils::Rectangle const *const, Utils::Rectangle const &);
 	_inline bool Rectangle::operator==(Utils::Rectangle const &other) const // 0x10CEB160
 	{
-		mangled_x86(MANGLED_TODO, "??8Rectangle@Utils@@QBE_NABU01@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??8Rectangle@Utils@@QBE_NABU01@@Z");
 		// Utils::Rectangle const &other;
-		todo("implement");
-		bool __result = _sub_10CEB160((Utils::Rectangle const *)this, other);
-		return __result;
+
+		return X == other.X && Y == other.Y && Width == other.Width && Height == other.Height;
 	}
 }
 

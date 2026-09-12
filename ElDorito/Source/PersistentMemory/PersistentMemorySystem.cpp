@@ -327,23 +327,20 @@ namespace PersistentMemory
 		_sub_106B7C00(annoucementViewedDate);
 	}
 
-	_extern __int32 _sub_106B4730();
 	__int32 GetLastMapID() // 0x106B4730
 	{
-		mangled_x86(MANGLED_TODO, "?GetLastMapID@PersistentMemory@@YAHXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetLastMapID@PersistentMemory@@YAHXZ");
 		// procedure flags: nofpo
-		todo("implement");
-		__int32 __result = _sub_106B4730();
-		return __result;
+
+		return persistentMemoryDB.lastMapID;
 	}
 
-	_extern void _sub_106B7E80(__int32);
 	void SetLastMapID(__int32 mapID) // 0x106B7E80
 	{
-		mangled_x86(MANGLED_TODO, "?SetLastMapID@PersistentMemory@@YAXH@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?SetLastMapID@PersistentMemory@@YAXH@Z");
 		// __int32 mapID;
-		todo("implement");
-		_sub_106B7E80(mapID);
+
+		persistentMemoryDB.lastMapID = mapID;
 	}
 }
 

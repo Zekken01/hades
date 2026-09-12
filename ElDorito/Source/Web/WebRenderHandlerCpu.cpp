@@ -259,40 +259,42 @@ namespace Web
 	{
 		Utils::Rectangle RenderHandlerCpu::GetTextureDirtyRect() const // 0x10CE8950
 		{
-			mangled_x86(MANGLED_TODO, "?GetTextureDirtyRect@RenderHandlerCpu@Browser@Web@@ABE?AURectangle@Utils@@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetTextureDirtyRect@RenderHandlerCpu@Browser@Web@@ABE?AURectangle@Utils@@XZ");
 			// Web::Browser::RenderHandlerCpu const *const this;
-			todo("implement");
-			Utils::Rectangle __result = _sub_10CE8950((Web::Browser::RenderHandlerCpu const *)this);
-			return __result;
+
+			return m_DirtyRect;
 		}
 
-		_extern void _sub_10CE9DD0(Web::Browser::RenderHandlerCpu *const);
 		void RenderHandlerCpu::ResetTextureDirtyRect() // 0x10CE9DD0
 		{
-			mangled_x86(MANGLED_TODO, "?ResetTextureDirtyRect@RenderHandlerCpu@Browser@Web@@AAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ResetTextureDirtyRect@RenderHandlerCpu@Browser@Web@@AAEXXZ");
 			// Web::Browser::RenderHandlerCpu *const this;
-			todo("implement");
-			_sub_10CE9DD0(this);
+
+			m_DirtyRect = Utils::Rectangle();
 		}
 
-		_extern void _sub_10CE97D0(Web::Browser::RenderHandlerCpu *const);
 		void RenderHandlerCpu::OnPreResetDevice() // 0x10CE97D0
 		{
-			mangled_x86(MANGLED_TODO, "?OnPreResetDevice@RenderHandlerCpu@Browser@Web@@UAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnPreResetDevice@RenderHandlerCpu@Browser@Web@@UAEXXZ");
 			// Web::Browser::RenderHandlerCpu *const this;
 			// function call : HRESULT ()
-			todo("implement");
-			_sub_10CE97D0(this);
+
+			if (m_Sprite)
+			{
+				m_Sprite->OnLostDevice();
+			}
 		}
 
-		_extern void _sub_10CE9720(Web::Browser::RenderHandlerCpu *const);
 		void RenderHandlerCpu::OnPostResetDevice() // 0x10CE9720
 		{
-			mangled_x86(MANGLED_TODO, "?OnPostResetDevice@RenderHandlerCpu@Browser@Web@@UAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnPostResetDevice@RenderHandlerCpu@Browser@Web@@UAEXXZ");
 			// Web::Browser::RenderHandlerCpu *const this;
 			// function call : HRESULT ()
-			todo("implement");
-			_sub_10CE9720(this);
+
+			if (m_Sprite)
+			{
+				m_Sprite->OnResetDevice();
+			}
 		}
 
 		_extern bool _sub_10CE99D0(Web::Browser::RenderHandlerCpu *const);

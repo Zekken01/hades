@@ -147,14 +147,12 @@ extern s_mod_loading_state g_mod_loading_state; // 0x12407830
 
 /* ---------- public code */
 
-_extern bool _sub_1088EA80(s_name_lookup_key const &, s_name_lookup_key const &);
 _inline bool operator==(s_name_lookup_key const &lhs, s_name_lookup_key const &rhs) // 0x1088EA80
 {
-	mangled_x86(MANGLED_TODO, "??8@YA_NABUs_name_lookup_key@@0@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??8@YA_NABUs_name_lookup_key@@0@Z");
 	// s_name_lookup_key const &rhs;
-	todo("implement");
-	bool __result = _sub_1088EA80(lhs, rhs);
-	return __result;
+
+	return lhs.group_tag == rhs.group_tag && lhs.name == rhs.name;
 }
 
 _extern unsigned __int32 _sub_1088EF80(s_name_lookup_key::s_hasher const *const, s_name_lookup_key const &);
@@ -222,14 +220,13 @@ void c_map_variant_tag_fixups::initialize() // 0x10891BF0
 
 /* ---------- private code */
 
-_extern bool _sub_10891B70(s_tag_group const &, long);
 extern "C" bool in_tag_group(s_tag_group const &group, long needle) // 0x10891B70
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "_in_tag_group");
 	// in_tag_group
 	// long needle;
-	todo("implement");
-	bool __result = _sub_10891B70(group, needle);
-	return __result;
+
+	return group.tags[0] == needle || group.tags[1] == needle || group.tags[2] == needle;
 }
 
 _extern void _sub_10891C10(char const *);

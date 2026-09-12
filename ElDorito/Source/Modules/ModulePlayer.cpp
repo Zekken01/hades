@@ -420,14 +420,15 @@ bool VariablePlayerArmorUpdate(std::vector<std::string> const &Arguments, std::s
 	return __result;
 }
 
-_extern bool _sub_109F7390(std::vector<std::string> const &, std::string &);
 bool VariablePlayerEmblem(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109F7390
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?VariablePlayerEmblem@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::VariablePlayerEmblem
 	// std::string &returnInfo;
-	todo("implement");
-	bool __result = _sub_109F7390(Arguments, returnInfo);
-	return __result;
+
+	Player::PlayerEmblemDownload::Instance().UpdateLocalEmblem();
+
+	return true;
 }
 
 _extern bool _sub_109F74A0(std::vector<std::string> const &, std::string &);
@@ -477,14 +478,18 @@ bool VariablePlayerServiceTagUpdate(std::vector<std::string> const &Arguments, s
 	return __result;
 }
 
-_extern bool _sub_109F73E0(std::vector<std::string> const &, std::string &);
 bool VariablePlayerGenderUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109F73E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?VariablePlayerGenderUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::VariablePlayerGenderUpdate
 	// std::string &returnInfo;
-	todo("implement");
-	bool __result = _sub_109F73E0(Arguments, returnInfo);
-	return __result;
+
+	if (Arguments.size() == 0 || (Arguments[0].compare("male") != 0 && Arguments[0].compare("female") != 0))
+		return false;
+
+	UpdateLocalRepresentation();
+
+	return true;
 }
 
 _extern bool _sub_109F1C00(std::vector<std::string> const &, std::string &);
@@ -847,28 +852,33 @@ bool GenerateTimestamp(std::vector<std::string> const &Arguments, std::string &r
 	return __result;
 }
 
-extern std::string _sub_109F5180();
 std::string GenerateRandomServiceTag() // 0x109F5180
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GenerateRandomServiceTag@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 	// `anonymous-namespace'::GenerateRandomServiceTag
 	// procedure flags: nofpo
 	// static ...; // 0x109F52C4
 	// static ...; // 0x109F52B8
 	// static ...; // 0x109F52B0
 	// std::string tag;
-	todo("implement");
-	std::string __result = _sub_109F5180();
-	return __result;
+
+	std::string tag(4, 0);
+	tag[0] = rand() % 26 + 'A';
+	tag[1] = rand() % 10 + '0';
+	tag[2] = rand() % 10 + '0';
+	tag[3] = rand() % 10 + '0';
+	return tag;
 }
 
-_extern bool _sub_109F2730(std::vector<std::string> const &, std::string &);
 bool CommandReloadCustomization(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109F2730
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandReloadCustomization@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandReloadCustomization
 	// std::string &returnInfo;
-	todo("implement");
-	bool __result = _sub_109F2730(Arguments, returnInfo);
-	return __result;
+
+	Player::CPlayerCharacterSystem::ReloadCustomizations();
+
+	return true;
 }
 
 _extern bool _sub_109F4A50(std::vector<std::string> const &, std::string &);

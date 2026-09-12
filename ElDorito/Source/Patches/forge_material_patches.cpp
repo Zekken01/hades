@@ -97,7 +97,7 @@ extern void forge_material_patches_apply();
 
 bool object_is_reforge_object(long object_index);
 bool reforge_get_object_global_material_override(long object_index, s_forge_material_type **out_type);
-long sub_5E0EA0_hook(void *thisptr, void *unused, short a2, char a3, char a4, __int32 a5, __int32 a6, long object_index, bool a8, long a9, long a10, float a11, float a12, c_global_material_type global_material_type_a, c_global_material_type global_material_type_b);
+long __fastcall sub_5E0EA0_hook(void *thisptr, void *unused, short a2, char a3, char a4, __int32 a5, __int32 a6, long object_index, bool a8, long a9, long a10, float a11, float a12, c_global_material_type global_material_type_a, c_global_material_type global_material_type_b);
 c_global_material_type *collision_get_global_material_index(c_global_material_type *global_material_type, long object_index, long material_index);
 void calculate_havok_shape_properties_hook2(hkpShape *shape, hkpEntity *rigidbody, real_vector3d *position, __int32 a4, float *out_friction, float *out_restitution, c_global_material_type *out_global_material_type);
 
@@ -144,7 +144,7 @@ bool reforge_get_object_global_material_override(long object_index, s_forge_mate
 }
 
 _extern long _sub_10918C90(void *, void *, short, char, char, __int32, __int32, long, bool, long, long, float, float, c_global_material_type, c_global_material_type);
-long sub_5E0EA0_hook(void *thisptr, void *unused, short a2, char a3, char a4, __int32 a5, __int32 a6, long object_index, bool a8, long a9, long a10, float a11, float a12, c_global_material_type global_material_type_a, c_global_material_type global_material_type_b) // 0x10918C90
+long __fastcall sub_5E0EA0_hook(void *thisptr, void *unused, short a2, char a3, char a4, __int32 a5, __int32 a6, long object_index, bool a8, long a9, long a10, float a11, float a12, c_global_material_type global_material_type_a, c_global_material_type global_material_type_b) // 0x10918C90
 {
 	// `anonymous-namespace'::sub_5E0EA0_hook
 	// float a11;

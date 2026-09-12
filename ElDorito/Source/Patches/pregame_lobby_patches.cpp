@@ -165,9 +165,9 @@ namespace Patches
 }
 
 void LoadDefaultModPackageAsync(std::string const &id);
-void c_gui_pregame_setup_manager__initialize_game_mode_hook(c_gui_pregame_setup_manager *thisptr, void *unused, long ui_game_mode, long a3);
-void c_gui_pregame_setup_manager__handle_item_chosen_hook(c_gui_pregame_setup_manager *thisptr, void *__formal, long controller_index, c_gui_selected_item *item, char arg8, long screen_index);
-void c_gui_pregame_setup_manager__update_hook(c_gui_pregame_setup_manager *thisptr);
+void __fastcall c_gui_pregame_setup_manager__initialize_game_mode_hook(c_gui_pregame_setup_manager *thisptr, void *unused, long ui_game_mode, long a3);
+void __fastcall c_gui_pregame_setup_manager__handle_item_chosen_hook(c_gui_pregame_setup_manager *thisptr, void *__formal, long controller_index, c_gui_selected_item *item, char arg8, long screen_index);
+void __fastcall c_gui_pregame_setup_manager__update_hook(c_gui_pregame_setup_manager *thisptr);
 void notify_mod_package_opened_or_closed(EModIndex index);
 void notify_lobby_changed();
 void lobby_update();
@@ -198,13 +198,12 @@ namespace Patches
 			_sub_107BBC90();
 		}
 
-		_extern void _sub_107BC1F0();
 		void Tick() // 0x107BC1F0
 		{
-			mangled_x86(MANGLED_TODO, "?Tick@PregameLobby@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@PregameLobby@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_107BC1F0();
+
+			lobby_update();
 		}
 	}
 }
@@ -221,7 +220,7 @@ void LoadDefaultModPackageAsync(std::string const &id) // 0x107BC140
 }
 
 _extern void _sub_107BCE00(c_gui_pregame_setup_manager *, void *, long, long);
-void c_gui_pregame_setup_manager__initialize_game_mode_hook(c_gui_pregame_setup_manager *thisptr, void *unused, long ui_game_mode, long a3) // 0x107BCE00
+void __fastcall c_gui_pregame_setup_manager__initialize_game_mode_hook(c_gui_pregame_setup_manager *thisptr, void *unused, long ui_game_mode, long a3) // 0x107BCE00
 {
 	// `anonymous-namespace'::c_gui_pregame_setup_manager__initialize_game_mode_hook
 	// static ...; // 0x107BD935
@@ -279,7 +278,7 @@ void c_gui_pregame_setup_manager__initialize_game_mode_hook(c_gui_pregame_setup_
 }
 
 _extern void _sub_107BC3F0(c_gui_pregame_setup_manager *, void *, long, c_gui_selected_item *, char, long);
-void c_gui_pregame_setup_manager__handle_item_chosen_hook(c_gui_pregame_setup_manager *thisptr, void *__formal, long controller_index, c_gui_selected_item *item, char arg8, long screen_index) // 0x107BC3F0
+void __fastcall c_gui_pregame_setup_manager__handle_item_chosen_hook(c_gui_pregame_setup_manager *thisptr, void *__formal, long controller_index, c_gui_selected_item *item, char arg8, long screen_index) // 0x107BC3F0
 {
 	// `anonymous-namespace'::c_gui_pregame_setup_manager__handle_item_chosen_hook
 	// static ...; // 0x107BCBC2
@@ -346,7 +345,7 @@ void c_gui_pregame_setup_manager__handle_item_chosen_hook(c_gui_pregame_setup_ma
 }
 
 _extern void _sub_107BDC50(c_gui_pregame_setup_manager *);
-void c_gui_pregame_setup_manager__update_hook(c_gui_pregame_setup_manager *thisptr) // 0x107BDC50
+void __fastcall c_gui_pregame_setup_manager__update_hook(c_gui_pregame_setup_manager *thisptr) // 0x107BDC50
 {
 	// `anonymous-namespace'::c_gui_pregame_setup_manager__update_hook
 	// static ...; // 0x107BE02D
@@ -431,13 +430,14 @@ void clear_mod_cached_map_files() // 0x107BE130
 	_sub_107BE130();
 }
 
-_extern void _sub_107BC190(ModListener *const, EModIndex, IMod *);
 _inline void ModListener::OnModChanged(EModIndex index, IMod *mod) // 0x107BC190
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnModChanged@ModListener@hades_file_local@@EAEXW4EModIndex@@PAVIMod@@@Z");
 	// `anonymous-namespace'::ModListener::OnModChanged
 	// IMod *mod;
-	todo("implement");
-	_sub_107BC190(this, index, mod);
+
+	clear_mod_cached_map_files();
+	notify_mod_package_opened_or_closed(index);
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0ModListener@hades_file_local@@QAE@XZ"); no body to assert in

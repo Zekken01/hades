@@ -209,7 +209,7 @@ namespace Patches
 }
 
 void simulation_action_weapon_fire_hook(long weapon_index, long barrel_index, bool barrel_should_recover, long tracked_gamestate_index, float projectile_error, short unit_zoom_level, s_simulation_action_projectile_fire_result *projectile_results, long projectile_result_count, bool generated_from_host_live_fire);
-void c_simulation_weapon_fire_event_definition__apply_game_event_hook(void *thisptr, void *__formal, long a1, long const *object_references, long object_reference_count, s_weapon_fire_event_sending_data *payload);
+void __fastcall c_simulation_weapon_fire_event_definition__apply_game_event_hook(void *thisptr, void *__formal, long a1, long const *object_references, long object_reference_count, s_weapon_fire_event_sending_data *payload);
 
 /* ---------- globals */
 
@@ -305,7 +305,7 @@ void simulation_action_weapon_fire_hook(long weapon_index, long barrel_index, bo
 }
 
 _extern void _sub_1069EF80(void *, void *, long, long const *, long, s_weapon_fire_event_sending_data *);
-void c_simulation_weapon_fire_event_definition__apply_game_event_hook(void *thisptr, void *__formal, long a1, long const *object_references, long object_reference_count, s_weapon_fire_event_sending_data *payload) // 0x1069EF80
+void __fastcall c_simulation_weapon_fire_event_definition__apply_game_event_hook(void *thisptr, void *__formal, long a1, long const *object_references, long object_reference_count, s_weapon_fire_event_sending_data *payload) // 0x1069EF80
 {
 	// `anonymous-namespace'::c_simulation_weapon_fire_event_definition__apply_game_event_hook
 	// static ...; // 0x1069F984

@@ -235,7 +235,6 @@ namespace Web
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0CModPackageFileSystemViewManager@@QAE@XZ"); no body to assert in
-_inline CModPackageFileSystemViewManager::CModPackageFileSystemViewManager() = default; // 0x1077C870
 
 /* ---------- private code */
 

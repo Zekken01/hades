@@ -22,24 +22,20 @@
 
 /* ---------- public code */
 
-_extern bool _sub_108FC620(s_player_emblem_configuration const *const, s_player_emblem_configuration const &);
 _inline bool s_player_emblem_configuration::operator==(s_player_emblem_configuration const &val) const // 0x108FC620
 {
-	mangled_x86(MANGLED_TODO, "??8s_player_emblem_configuration@@QBE_NABU0@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??8s_player_emblem_configuration@@QBE_NABU0@@Z");
 	// s_player_emblem_configuration const &val;
-	todo("implement");
-	bool __result = _sub_108FC620((s_player_emblem_configuration const *)this, val);
-	return __result;
+
+	return foregroundIndex == val.foregroundIndex && backgroundIndex == val.backgroundIndex && backgroundColor == val.backgroundColor && secondaryColor == val.secondaryColor && primaryColor == val.primaryColor && iconEnabled == val.iconEnabled && backgroundHex == val.backgroundHex && secondaryHex == val.secondaryHex && primaryHex == val.primaryHex;
 }
 
-_extern bool _sub_108FF880(s_player_emblem_configuration *const);
 _inline bool s_player_emblem_configuration::isUninitialized() // 0x108FF880
 {
-	mangled_x86(MANGLED_TODO, "?isUninitialized@s_player_emblem_configuration@@QAE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?isUninitialized@s_player_emblem_configuration@@QAE_NXZ");
 	// s_player_emblem_configuration *const this;
-	todo("implement");
-	bool __result = _sub_108FF880(this);
-	return __result;
+
+	return !foregroundIndex && !backgroundIndex && !backgroundColor && !secondaryColor && !primaryColor && !iconEnabled && !backgroundHex && !secondaryHex && !primaryHex;
 }
 
 /* ---------- private code */

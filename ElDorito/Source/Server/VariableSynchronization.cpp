@@ -172,6 +172,8 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+namespace Blam::Network { Session *GetActiveSession(); }  // hades: added for 0X10C3DE10
+
 namespace Server
 {
 	namespace VariableSynchronization
@@ -201,6 +203,12 @@ void HostTick(Blam::Network::Session *session);
 
 /* ---------- private variables */
 
+namespace hades_file_local
+{
+	extern std::unordered_map<unsigned int,SynchronizationBinding> syncBindings; // 0x1246862C
+	extern std::shared_ptr<Patches::CustomPackets::VariadicPacketSender<SyncUpdatePacketData,SyncUpdatePacketVar> > updateSender; // 0x12468654
+}
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Server
@@ -220,27 +228,40 @@ namespace Server
 			_sub_10C3CB00();
 		}
 
-		_extern void _sub_10C3D8F0(Modules::Command *, Modules::Command *);
 		void Synchronize(Modules::Command *serverVariable, Modules::Command *clientVariable) // 0x10C3D8F0
 		{
-			mangled_x86(MANGLED_TODO, "?Synchronize@VariableSynchronization@Server@@YAXPAUCommand@Modules@@0@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Synchronize@VariableSynchronization@Server@@YAXPAUCommand@Modules@@0@Z");
 			// static ...; // 0x10C3D9B4
 			// static ...; // 0x10C3D9AC
 			// Modules::Command *serverVariable;
 			// Modules::Command *clientVariable;
 			// SynchronizationBinding binding;
-			todo("implement");
-			_sub_10C3D8F0(serverVariable, clientVariable);
+
+			if (serverVariable->Type != clientVariable->Type)
+			{
+				throw std::runtime_error("Server and client variable types do not match");
+			}
+
+			SynchronizationBinding binding;
+			binding.ServerVariable = serverVariable;
+			binding.ClientVariable = clientVariable;
+			binding.ID = GenerateID(binding);
+			binding.SynchronizedPeers.reset();
+			AddBinding(binding);
 		}
 
-		_extern void _sub_10C3DE10();
 		void Tick() // 0x10C3DE10
 		{
-			mangled_x86(MANGLED_TODO, "?Tick@VariableSynchronization@Server@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@VariableSynchronization@Server@@YAXXZ");
 			// procedure flags: nofpo
 			// Blam::Network::Session *session;
-			todo("implement");
-			_sub_10C3DE10();
+
+			auto session = Blam::Network::GetActiveSession();
+			if (session)
+			{
+				if (session->IsHost())
+					HostTick(session);
+			}
 		}
 	}
 }
@@ -293,9 +314,9 @@ void AddBinding(SynchronizationBinding const &binding) // 0x10C3B810
 	_sub_10C3B810(binding);
 }
 
-_extern bool _sub_10C3BEE0(Modules::Command const *, Modules::Command const *);
 bool CompareVariables(Modules::Command const *lhs, Modules::Command const *rhs) // 0x10C3BEE0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CompareVariables@@YA_NPBUCommand@Modules@@0@Z");
 	// `anonymous-namespace'::CompareVariables
 // $LN8:
 // $LN7:
@@ -303,9 +324,22 @@ bool CompareVariables(Modules::Command const *lhs, Modules::Command const *rhs) 
 // $LN5:
 	// Modules::Command const *lhs;
 	// Modules::Command const *rhs;
-	todo("implement");
-	bool __result = _sub_10C3BEE0(lhs, rhs);
-	return __result;
+
+	if (lhs->Type != rhs->Type)
+		throw std::runtime_error("Cannot compare variables of different types");
+	switch (lhs->Type)
+	{
+	case eCommandTypeVariableInt:
+		return lhs->ValueInt == rhs->ValueInt;
+	case eCommandTypeVariableInt64:
+		return lhs->ValueInt64 == rhs->ValueInt64;
+	case eCommandTypeVariableFloat:
+		return lhs->ValueFloat == rhs->ValueFloat;
+	case eCommandTypeVariableString:
+		return lhs->ValueString == rhs->ValueString;
+	default:
+		throw std::runtime_error("Unsupported variable type");
+	}
 }
 
 _extern void _sub_10C3D1A0(Modules::Command *, Modules::Command const *);
@@ -463,16 +497,21 @@ void SynchronizePeer(__int32 peerIndex) // 0x10C3DA00
 	_sub_10C3DA00(peerIndex);
 }
 
-_extern bool _sub_10C3CC90(Blam::Network::Session *, __int32);
 bool IsPeerReady(Blam::Network::Session *session, __int32 peerIndex) // 0x10C3CC90
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?IsPeerReady@@YA_NPAUSession@Network@Blam@@H@Z");
 	// `anonymous-namespace'::IsPeerReady
 	// __int32 peerIndex;
 	// Blam::Network::PeerChannel *channelInfo;
 	// Blam::Network::SessionMembership *membership;
-	todo("implement");
-	bool __result = _sub_10C3CC90(session, peerIndex);
-	return __result;
+
+	auto *membership = &session->MembershipInfo;
+	if (peerIndex == membership->LocalPeerIndex || !membership->Peers[peerIndex].IsEstablished())
+	{
+		return false;
+	}
+	auto &channel = membership->PeerChannels[peerIndex];
+	return !channel.Unavailable && channel.ChannelIndex >= 0;
 }
 
 _extern void _sub_10C3DC30(Blam::Network::Session *);
@@ -502,13 +541,14 @@ void SynchronizePeers(Blam::Network::Session *session) // 0x10C3DC30
 	_sub_10C3DC30(session);
 }
 
-_extern void _sub_10C3CAB0(Blam::Network::Session *);
 void HostTick(Blam::Network::Session *session) // 0x10C3CAB0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?HostTick@@YAXPAUSession@Network@Blam@@@Z");
 	// `anonymous-namespace'::HostTick
 	// Blam::Network::Session *session;
-	todo("implement");
-	_sub_10C3CAB0(session);
+
+	TickBindings();
+	SynchronizePeers(session);
 }
 
 _extern void _sub_10C3CF10(SyncUpdateHandler *const, Blam::BitStream *, SyncUpdatePacketData const *, __int32, SyncUpdatePacketVar const *);

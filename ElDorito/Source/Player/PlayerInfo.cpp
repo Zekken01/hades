@@ -198,24 +198,24 @@ void ClearEmblemCache();
 
 namespace hades_file_local
 {
+	extern SPlayerInfo infoCache[16]; // 0x1138EDC8
+	extern SPlayerEmblemInfo localEmblemCache[16]; // 0x1138F048
 	extern bool isAvailable; // 0x1138F2C8
-	extern long long checkRankTime; // 0x1138F2D0
 	extern bool rankCheckGameStarted; // 0x1138F2C9
 	extern bool rankCheckGameEnded; // 0x1138F2CA
+	extern long long checkRankTime; // 0x1138F2D0
 }
 using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Player
 {
-	_extern bool _sub_107EE670();
 	bool CPlayersInfo::IsAvailable() // 0x107EE670
 	{
-		mangled_x86(MANGLED_TODO, "?IsAvailable@CPlayersInfo@Player@@SA_NXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?IsAvailable@CPlayersInfo@Player@@SA_NXZ");
 		// procedure flags: nofpo
-		todo("implement");
-		bool __result = _sub_107EE670();
-		return __result;
+
+		return isAvailable;
 	}
 
 	_extern bool _sub_107EE500();

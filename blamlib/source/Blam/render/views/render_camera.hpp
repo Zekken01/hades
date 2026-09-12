@@ -43,7 +43,6 @@ struct s_render_camera
 	real_vector3d forward; // 0xC
 	real_vector3d up; // 0x18
 	char field_24; // 0x24
-	unsigned char __pad0[3]; // 0x25
 	float vertical_field_of_view; // 0x28
 	float horizontal_field_of_view; // 0x2C
 	short_rectangle2d window_pixel_bounds; // 0x30
@@ -56,13 +55,14 @@ struct s_render_camera
 	float z_far; // 0x60
 	real_plane3d plane; // 0x64
 	bool far_flag; // 0x74
-	unsigned char __pad1[3]; // 0x75
 	float field_78; // 0x78
 	float field_7C; // 0x7C
 	float x_scale; // 0x80
 	float y_scale; // 0x84
 };
 static_assert(sizeof(s_render_camera) == 136, "Invalid s_render_camera size");
+static_assert(offsetof(s_render_camera, vertical_field_of_view) == 0x28, "s_render_camera::vertical_field_of_view moved when its reconstructed padding was removed");
+static_assert(offsetof(s_render_camera, field_78) == 0x78, "s_render_camera::field_78 moved when its reconstructed padding was removed");
 
 /* ---------- prototypes */
 

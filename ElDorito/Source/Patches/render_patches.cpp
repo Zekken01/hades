@@ -278,7 +278,7 @@ void rasterizer_get_z_planes_hook(float *near_clip, float *far_clip);
 bool depth_stencil_format_is_float(_D3DFORMAT format);
 void c_surface__set_depth_stencil(e_surface surface);
 void c_surface__set_depth_stencil_surface(IDirect3DSurface9 *surface);
-void c_first_person_view__override_projection(c_first_person_view *thisptr, void *unused, bool a2);
+void __fastcall c_first_person_view__override_projection(c_first_person_view *thisptr, void *unused, bool a2);
 s_observer_result *observer_get_camera__call_hook(long output_user_index);
 void post_render_player_view_hook();
 void render_underwater_fog_hook();
@@ -293,7 +293,7 @@ void c_structure_renderer__render_decorators_hook();
 void c_object_renderer__submit_object_mesh_parts_for_active_camo_hook(s_render_object *render_object, s_visible_object *visible_object, bool a3, __int32 is_first_person);
 void c_water_renderer__render_water_part_hook(s_render_geometry *geometry, __int32 mesh_index, __int32 part_index, e_entry_point entry_point, s_geometry_material *materials);
 void c_water_renderer__update_water_structure_part_list_hook(long *water_part_indices, long *out_count);
-void s_render_shield_parts__render_hook(s_render_shield_parts *thisptr, void *unused, s_visible_object *visible_object, char flags);
+void __fastcall s_render_shield_parts__render_hook(s_render_shield_parts *thisptr, void *unused, s_visible_object *visible_object, char flags);
 void c_object_renderer__render_object_context_instances_hook(s_render_object_mesh_part *render_part, e_entry_point entry_point, unsigned long *subpart_visibility, s_lod_alphas alphas);
 void c_object_renderer__render_object_context_mesh_part_hook(s_render_object_mesh_part *mesh_part, e_entry_point entry_point, long mesh_part_mask, bool a4);
 void render_mesh_part_no_material(s_render_geometry *geometry, __int32 mesh_index, __int32 part_index);
@@ -304,15 +304,15 @@ bool mesh_get_data_hook(s_render_geometry *render_geometry, long mesh_index, voi
 bool render_method_submit_particle_gpu_emitter_render_hook(long tag_index, c_render_method const *render_method, e_vertex_type vertex_type, e_prt_vertex_type prt_type, e_entry_point entry_point, bool a6);
 bool sub_610230__ssao_call_hook();
 void c_render_shield__render_object_internal_hook(s_render_object_info *info, s_render_object_mesh_part *data, shield_impact_definition *shield_impact, float recent_shield_damage, float current_shield_damage, float unknown_amount, float overshield_amount, float t);
-void c_dynamic_cubemap_sample__search_for_cubemap_sample_in_cluster_hook(c_dynamic_cubemap_sample *thisptr, void *__formal, s_cluster_reference test_location, real_point3d *test_point, float tolerance);
+void __fastcall c_dynamic_cubemap_sample__search_for_cubemap_sample_in_cluster_hook(c_dynamic_cubemap_sample *thisptr, void *__formal, s_cluster_reference test_location, real_point3d *test_point, float tolerance);
 float render_projection_sphere_diameter_in_pixels_hook(s_render_projection const *render_projection, real_point3d const *center, float radius);
 void bink_playback_allocate_framebuffers_hook();
-void c_player_view__render_hook(c_player_view *view);
-void c_player_view__render_lightmap_shadows_hook(c_player_view *_this, void *__savedreg);
-void c_texture_camera_view__render_hook(c_texture_camera_view *thisptr);
-void c_player_view__render_static_lighting(c_player_view *_this, void *_savedreg);
-void c_lightmap_shadows_view__render_shadow_apply_call_hook(void *_this, void *_savedreg, float shadow_alpha, float quality_scale);
-void c_lightmap_shadows_view__submit_visibility_and_render_call_hook(void *_this, void *_savedreg, float shadow_alpha, float quality_scale, long object_index, long model_tag_index);
+void __fastcall c_player_view__render_hook(c_player_view *view);
+void __fastcall c_player_view__render_lightmap_shadows_hook(c_player_view *_this, void *__savedreg);
+void __fastcall c_texture_camera_view__render_hook(c_texture_camera_view *thisptr);
+void __fastcall c_player_view__render_static_lighting(c_player_view *_this, void *_savedreg);
+void __fastcall c_lightmap_shadows_view__render_shadow_apply_call_hook(void *_this, void *_savedreg, float shadow_alpha, float quality_scale);
+void __fastcall c_lightmap_shadows_view__submit_visibility_and_render_call_hook(void *_this, void *_savedreg, float shadow_alpha, float quality_scale, long object_index, long model_tag_index);
 void rasterizer_wait_for_device_query_hook(long index);
 void c_rasterizer__draw_primitive_up_hook(e_primitive_type primitive_type, unsigned long primitive_count, void const *vertex_data, unsigned long stride);
 void c_rasterizer__end_frame_set_surface_as_texture_call_hook(long sampler, e_surface surface);
@@ -362,10 +362,75 @@ using namespace hades_file_local;
 _extern void _sub_108F1E10();
 void render_patches_apply() // 0x108F1E10
 {
-	mangled_x86(MANGLED_TODO, "?render_patches_apply@@YAXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?render_patches_apply@@YAXXZ");
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_108F1E10();
+
+	Hook(0x639960, c_player_view__render_hook).Apply();
+	Hook(0x670950, c_texture_camera_view__render_hook).Apply();
+	Hook(0x63CFFD, get_extern_constant_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+	Hook(0x63D060, get_extern_constant_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+	Hook(0x63D0F8, get_extern_constant_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+	Hook(0x63D222, get_extern_constant_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+	Hook(0x63C9A0, render_get_extern_volatility_level_hook).Apply();
+	Hook(0x63CF00, render_method_submit_externs_hook).Apply();
+	Hook(0x63D200, render_method_submit_single_extern_hook).Apply();
+	Hook(0x63CDE1, render_method_submit_set_bsp_call_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+	Hook(0x63E430, update_constants_hook).Apply();
+	Hook(0x625AA0, rasterizer_get_z_planes_hook).Apply();
+	Hook(0x628DA0, c_first_person_view__override_projection).Apply();
+	Hook(0x648C70, c_surface__set_depth_stencil_surface).Apply();
+	Hook(0x648CB0, c_surface__set_depth_stencil).Apply();
+	Patch::NopFill(0xA399F4, 8);
+	Hook(0x6399CB, observer_get_camera__call_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+	Hook(0x636580, render_underwater_fog_hook).Apply();
+	Hook(0x10E4169, sub_14E3A00_vision_call_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+	Hook(0x10E583F, sub_14E3A00_vision_call_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+	Hook(0x63C040, evaluate_function_hook).Apply();
+	Hook(0x64DE9C, render_method_submit_particle_gpu_emitter_render_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+	Hook(0x63A151, sub_610230__ssao_call_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+	Hook(0x20473B, post_render_player_view_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+	Hook(0x670CC0, c_player_view__render_lightmap_shadows_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+	Hook(0x639BC3, c_player_view__render_lightmap_shadows_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+	Hook(0x668E6D, c_lightmap_shadows_view__render_shadow_apply_call_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+	Hook(0x668E32, c_lightmap_shadows_view__submit_visibility_and_render_call_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+	Hook(0x6475E0, render_mesh_part_default_hook).Apply();
+	Hook(0x62F0D0, c_structure_renderer__render_cluster_mesh_part_hook).Apply();
+	Hook(0x62F8C0, c_structure_renderer__render_instance_mesh_part_hook).Apply();
+	Hook(0x630290, c_structure_renderer__submit_visibility_hook).Apply();
+	Hook(0x62F340, c_structure_renderer__render_decorators_hook).Apply();
+	Hook(0x67A280, c_object_renderer__submit_object_mesh_parts_for_active_camo_hook).Apply();
+	Hook(0x636660, c_water_renderer__render_water_part_hook).Apply();
+	Hook(0x630990, c_water_renderer__update_water_structure_part_list_hook).Apply();
+	Hook(0x653880, s_render_shield_parts__render_hook).Apply();
+	Hook(0x6786B0, c_object_renderer__render_object_context_instances_hook).Apply();
+	Hook(0x678940, c_object_renderer__render_object_context_mesh_part_hook).Apply();
+	Hook(0x647820, render_mesh_part_no_material).Apply();
+	Hook(0x350810, c_geometry_sampler__find_render_method_index_from_collision_hook).Apply();
+	Hook(0x647430, part_is_renderable_hook).Apply();
+	Hook(0x7C7320, muffins_render_opaque).Apply();
+	Hook(0x1F3070, mesh_get_data_hook).Apply();
+	Hook(0x679051, c_render_shield__render_object_internal_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+	Patch(0x654620, { 0x10 }).Apply();
+	Hook(0x67A670, c_dynamic_cubemap_sample__search_for_cubemap_sample_in_cluster_hook).Apply();
+	Hook(0x665E30, render_projection_sphere_diameter_in_pixels_hook).Apply();
+	Hook(0x216250, bink_display_frame).Apply();
+	Hook(0x216B62, bink_playback_allocate_framebuffers_hook).Apply();
+	Patch(0x1292D88, { 0x9A, 0x99, 0x19, 0x3E }).Apply();
+	Patch(0x1292D8C, { 0x9A, 0x99, 0x99, 0x3E }).Apply();
+	Patch(0x1292D90, { 0x33, 0x33, 0xB3, 0x3E }).Apply();
+	Hook(0x63A8C0, c_player_view__render_static_lighting).Apply();
+	c_player_view::render_debug_depth_render_scale_r = 7.0f;
+	c_player_view::render_debug_depth_render_scale_g = 7.0f;
+	c_player_view::render_debug_depth_render_scale_b = 8.0f;
+	Patch(0x62508C, { 0x90, 0x90, 0x8A, 0x45, 0x08, 0x84, 0xC0, 0x75, 0x09 }).Apply();
+	Patch(0x6250A9, { 0xCC, 0x94, 0x6C, 0x00 }).Apply();
+	Hook(0x660040, rasterizer_wait_for_device_query_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+	Hook(0x628330, c_rasterizer__draw_primitive_up_hook).Apply();
+	Hook(0x62165E, c_rasterizer__end_frame_set_surface_as_texture_call_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+	Hook(0x621748, c_rasterizer__end_frame_set_sampler_texture_call_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+	Hook(0x6203B9, c_rasterizer__initialize_after_device_creation_or_reset_call_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+	Hook(0x6226B1, c_rasterizer__initialize_after_device_creation_or_reset_call_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+	Hook(0x6227EE, c_rasterizer__initialize_after_device_creation_or_reset_call_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 }
 
 _extern void _sub_108F5A80(std::vector<int>);
@@ -377,14 +442,15 @@ void render_patches_set_customization_biped(std::vector<int> characterBipeds) //
 	_sub_108F5A80(characterBipeds);
 }
 
-_extern void _sub_108F5B20();
 void render_patches_tick() // 0x108F5B20
 {
-	mangled_x86(MANGLED_TODO, "?render_patches_tick@@YAXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?render_patches_tick@@YAXXZ");
 	// procedure flags: nofpo
 	// Modules::ModuleSettings const &settingsModule;
-	todo("implement");
-	_sub_108F5B20();
+
+	auto *settingsModule = &Utils::Singleton<Modules::ModuleSettings>::Instance();
+	g_decorator_distance_scale = settingsModule->VarDecoratorDistance->ValueFloat;
+	g_lod_distance_scale = settingsModule->VarLODDistance->ValueFloat;
 }
 
 /* ---------- private code */
@@ -414,14 +480,13 @@ void get_extern_constant_hook(long render_method_extern, real_vector4d *out_cons
 	_sub_108EFA30(render_method_extern, out_constant);
 }
 
-extern long const _sub_108F09F0(long);
 _inline long const render_get_extern_volatility_level_hook(long render_method_extern) // 0x108F09F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?render_get_extern_volatility_level_hook@@YA?BJJ@Z");
 	// `anonymous-namespace'::render_get_extern_volatility_level_hook
 	// long render_method_extern;
-	todo("implement");
-	long const __result = _sub_108F09F0(render_method_extern);
-	return __result;
+
+	return g_new_extern_descriptions[render_method_extern].m_volatility_level;
 }
 
 _extern void _sub_108F6D50(void *, long, long, long);
@@ -701,7 +766,7 @@ void c_surface__set_depth_stencil_surface(IDirect3DSurface9 *surface) // 0x108EB
 }
 
 _extern void _sub_108E4F90(c_first_person_view *, void *, bool);
-void c_first_person_view__override_projection(c_first_person_view *thisptr, void *unused, bool a2) // 0x108E4F90
+void __fastcall c_first_person_view__override_projection(c_first_person_view *thisptr, void *unused, bool a2) // 0x108E4F90
 {
 	// `anonymous-namespace'::c_first_person_view__override_projection
 	// static ...; // 0x108E53E8
@@ -1102,13 +1167,14 @@ void c_structure_renderer__submit_instance_visibility(bool include_transparent) 
 	_sub_108EAEA0(include_transparent);
 }
 
-_extern void _sub_108EB870(bool);
 void c_structure_renderer__submit_visibility_hook(bool include_transparent) // 0x108EB870
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_structure_renderer__submit_visibility_hook@@YAX_N@Z");
 	// `anonymous-namespace'::c_structure_renderer__submit_visibility_hook
 	// bool include_transparent;
-	todo("implement");
-	_sub_108EB870(include_transparent);
+
+	c_structure_renderer__submit_cluster_visibility(include_transparent);
+	c_structure_renderer__submit_instance_visibility(include_transparent);
 }
 
 _extern void _sub_108E9110();
@@ -1391,7 +1457,7 @@ void c_water_renderer__update_water_structure_part_list_hook(long *water_part_in
 }
 
 _extern void _sub_108F6670(s_render_shield_parts *, void *, s_visible_object *, char);
-void s_render_shield_parts__render_hook(s_render_shield_parts *thisptr, void *unused, s_visible_object *visible_object, char flags) // 0x108F6670
+void __fastcall s_render_shield_parts__render_hook(s_render_shield_parts *thisptr, void *unused, s_visible_object *visible_object, char flags) // 0x108F6670
 {
 	// `anonymous-namespace'::s_render_shield_parts__render_hook
 	// s_render_shield_parts *thisptr;
@@ -1544,14 +1610,23 @@ long c_geometry_sampler__find_render_method_index_from_collision_hook(long struc
 	return __result;
 }
 
-_extern bool _sub_108F06E0(s_part const *, s_geometry_material const *);
 bool part_is_renderable_hook(s_part const *part, s_geometry_material const *materials) // 0x108F06E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?part_is_renderable_hook@@YA_NPBUs_part@@PBUs_geometry_material@@@Z");
 	// `anonymous-namespace'::part_is_renderable_hook
 	// s_geometry_material const *materials;
-	todo("implement");
-	bool __result = _sub_108F06E0(part, materials);
-	return __result;
+
+	if (part->material_index == -1 || materials[part->material_index].render_method.index == -1)
+	{
+		return false;
+	}
+
+	if (part->type == _part_type_lightmap_only || part->type == _part_type_unknown6)
+	{
+		return false;
+	}
+
+	return true;
 }
 
 _extern void _sub_108F0190(short, e_entry_point);
@@ -1604,9 +1679,9 @@ void muffins_render_opaque(short datum_index, e_entry_point entry_point) // 0x10
 	_sub_108F0190(datum_index, entry_point);
 }
 
-_extern bool _sub_108F0070(s_render_geometry *, long, void const **, void const **, unsigned char *, long *, long *);
 bool mesh_get_data_hook(s_render_geometry *render_geometry, long mesh_index, void const **out_vertex_data, void const **out_index_data, unsigned char *out_vertex_stride, long *out_vertex_count, long *out_index_count) // 0x108F0070
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?mesh_get_data_hook@@YA_NPAUs_render_geometry@@JPAPBX1PAEPAJ3@Z");
 	// `anonymous-namespace'::mesh_get_data_hook
 	// long *out_index_count;
 	// c_rasterizer_vertex_buffer *vertex_buffer;
@@ -1614,9 +1689,16 @@ bool mesh_get_data_hook(s_render_geometry *render_geometry, long mesh_index, voi
 	// s_mesh *mesh;
 	// function call : c_rasterizer_vertex_buffer *(*const)(s_render_geometry const *, long)
 	// function call : c_rasterizer_index_buffer *(*const)(s_render_geometry const *, long)
-	todo("implement");
-	bool __result = _sub_108F0070(render_geometry, mesh_index, out_vertex_data, out_index_data, out_vertex_stride, out_vertex_count, out_index_count);
-	return __result;
+
+	s_mesh *mesh = &render_geometry->meshes[mesh_index];
+	c_rasterizer_vertex_buffer *vertex_buffer = ((c_rasterizer_vertex_buffer *(__cdecl *)(s_render_geometry *, long))0x78c930)(render_geometry, mesh->vertex_buffer_indices[0]);
+	c_rasterizer_index_buffer *index_buffer = ((c_rasterizer_index_buffer *(__cdecl *)(s_render_geometry *, long))0x78c870)(render_geometry, mesh->index_buffer_indices[0]);
+	*out_vertex_data = vertex_buffer->get_data();
+	*out_vertex_stride = vertex_buffer->get_vertex_stride();
+	*out_vertex_count = vertex_buffer->get_vertex_count();
+	*out_index_data = index_buffer->get_data();
+	*out_index_count = index_buffer->get_index_count();
+	return false;
 }
 
 _extern bool _sub_108F16F0(long, c_render_method const *, e_vertex_type, e_prt_vertex_type, e_entry_point, bool);
@@ -1643,16 +1725,24 @@ bool render_method_submit_particle_gpu_emitter_render_hook(long tag_index, c_ren
 	return __result;
 }
 
-_extern bool _sub_108F6CD0();
 bool sub_610230__ssao_call_hook() // 0x108F6CD0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?sub_610230__ssao_call_hook@@YA_NXZ");
 	// `anonymous-namespace'::sub_610230__ssao_call_hook
 	// procedure flags: nofpo
 	// bool (*const sub_610230)();
 	// function call : bool (*const)()
-	todo("implement");
-	bool __result = _sub_108F6CD0();
-	return __result;
+
+	bool (__cdecl *const sub_610230)() = (bool(__cdecl *const)())0x610230;
+
+	if (!Modules::ModuleSettings::Instance().VarSsao->ValueInt)
+	{
+		return true;
+	}
+	else
+	{
+		return sub_610230();
+	}
 }
 
 _extern void _sub_108E8BE0(s_render_object_info *, s_render_object_mesh_part *, shield_impact_definition *, float, float, float, float, float);
@@ -1671,7 +1761,7 @@ void c_render_shield__render_object_internal_hook(s_render_object_info *info, s_
 }
 
 _extern void _sub_108E4A80(c_dynamic_cubemap_sample *, void *, s_cluster_reference, real_point3d *, float);
-void c_dynamic_cubemap_sample__search_for_cubemap_sample_in_cluster_hook(c_dynamic_cubemap_sample *thisptr, void *__formal, s_cluster_reference test_location, real_point3d *test_point, float tolerance) // 0x108E4A80
+void __fastcall c_dynamic_cubemap_sample__search_for_cubemap_sample_in_cluster_hook(c_dynamic_cubemap_sample *thisptr, void *__formal, s_cluster_reference test_location, real_point3d *test_point, float tolerance) // 0x108E4A80
 {
 	// `anonymous-namespace'::c_dynamic_cubemap_sample__search_for_cubemap_sample_in_cluster_hook
 	// float tolerance;
@@ -1731,7 +1821,7 @@ void bink_playback_allocate_framebuffers_hook() // 0x108E49D0
 }
 
 _extern void _sub_108E6C50(c_player_view *);
-void c_player_view__render_hook(c_player_view *view) // 0x108E6C50
+void __fastcall c_player_view__render_hook(c_player_view *view) // 0x108E6C50
 {
 	// `anonymous-namespace'::c_player_view__render_hook
 	// static ...; // 0x108E7CB7
@@ -1861,7 +1951,7 @@ void c_player_view__render_hook(c_player_view *view) // 0x108E6C50
 }
 
 _extern void _sub_108E80F0(c_player_view *, void *);
-void c_player_view__render_lightmap_shadows_hook(c_player_view *_this, void *__savedreg) // 0x108E80F0
+void __fastcall c_player_view__render_lightmap_shadows_hook(c_player_view *_this, void *__savedreg) // 0x108E80F0
 {
 	// `anonymous-namespace'::c_player_view__render_lightmap_shadows_hook
 	// static ...; // 0x108E81FC
@@ -1878,7 +1968,7 @@ void c_player_view__render_lightmap_shadows_hook(c_player_view *_this, void *__s
 }
 
 _extern void _sub_108EBB90(c_texture_camera_view *);
-void c_texture_camera_view__render_hook(c_texture_camera_view *thisptr) // 0x108EBB90
+void __fastcall c_texture_camera_view__render_hook(c_texture_camera_view *thisptr) // 0x108EBB90
 {
 	// `anonymous-namespace'::c_texture_camera_view__render_hook
 	// static ...; // 0x108ED776
@@ -2070,7 +2160,7 @@ void c_texture_camera_view__render_hook(c_texture_camera_view *thisptr) // 0x108
 }
 
 _extern void _sub_108E8270(c_player_view *, void *);
-void c_player_view__render_static_lighting(c_player_view *_this, void *_savedreg) // 0x108E8270
+void __fastcall c_player_view__render_static_lighting(c_player_view *_this, void *_savedreg) // 0x108E8270
 {
 	// `anonymous-namespace'::c_player_view__render_static_lighting
 	// static ...; // 0x108E8704
@@ -2112,20 +2202,25 @@ void c_player_view__render_static_lighting(c_player_view *_this, void *_savedreg
 	_sub_108E8270(_this, _savedreg);
 }
 
-_extern void _sub_108E5A10(void *, void *, float, float);
-void c_lightmap_shadows_view__render_shadow_apply_call_hook(void *_this, void *_savedreg, float shadow_alpha, float quality_scale) // 0x108E5A10
+void __fastcall c_lightmap_shadows_view__render_shadow_apply_call_hook(void *_this, void *_savedreg, float shadow_alpha, float quality_scale) // 0x108E5A10
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_lightmap_shadows_view__render_shadow_apply_call_hook@@YIXPAX0MM@Z");
 	// `anonymous-namespace'::c_lightmap_shadows_view__render_shadow_apply_call_hook
 	// float quality_scale;
 	// void (*const c_lightmap_shadows_view__render_shadow_apply)(void *, float, float);
 	// function call : void (*const)(void *, float, float)
 	// function call : void (*const)(void *, float, float)
-	todo("implement");
-	_sub_108E5A10(_this, _savedreg, shadow_alpha, quality_scale);
+
+	void (__thiscall *const render_shadow_apply)(void *, float, float) = (void(__thiscall *const)(void *, float, float))0xa6b4b0;
+
+	if (Modules::ModuleSettings::Instance().VarShadowResolution->ValueInt > 0x200)
+		render_shadow_apply(_this, shadow_alpha, 1.0f);
+	else
+		render_shadow_apply(_this, shadow_alpha, quality_scale);
 }
 
 _extern void _sub_108E5AF0(void *, void *, float, float, long, long);
-void c_lightmap_shadows_view__submit_visibility_and_render_call_hook(void *_this, void *_savedreg, float shadow_alpha, float quality_scale, long object_index, long model_tag_index) // 0x108E5AF0
+void __fastcall c_lightmap_shadows_view__submit_visibility_and_render_call_hook(void *_this, void *_savedreg, float shadow_alpha, float quality_scale, long object_index, long model_tag_index) // 0x108E5AF0
 {
 	// `anonymous-namespace'::c_lightmap_shadows_view__submit_visibility_and_render_call_hook
 	// long model_tag_index;

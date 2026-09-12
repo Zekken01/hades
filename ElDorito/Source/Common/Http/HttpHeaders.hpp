@@ -121,13 +121,10 @@ namespace Http
 		return __result;
 	}
 
-	extern CHttpHeaders* _sub_10806D90(Http::CHttpHeaders *const);
 	_inline CHttpHeaders::CHttpHeaders() // 0x10806D90
 	{
-		mangled_x86(MANGLED_TODO, "??0CHttpHeaders@Http@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0CHttpHeaders@Http@@QAE@XZ");
 		// Http::CHttpHeaders *const this;
-		todo("implement");
-		_sub_10806D90(this);
 	}
 }
 

@@ -22,7 +22,6 @@ struct s_content_item_metadata
 	char author[16]; // 0xA8
 	unsigned long content_type; // 0xB8
 	bool user_is_online; // 0xBC
-	unsigned char __pad0[3]; // 0xBD
 	unsigned long long user_id; // 0xC0
 	unsigned long long content_size; // 0xC8
 	unsigned long long timestamp; // 0xD0
@@ -33,10 +32,11 @@ struct s_content_item_metadata
 	unsigned long campaign_difficulty; // 0xE8
 	unsigned char campaign_insertion_point; // 0xEC
 	bool is_survival; // 0xED
-	unsigned char __pad1[2]; // 0xEE
 	unsigned long long map_checksum; // 0xF0
 };
 static_assert(sizeof(s_content_item_metadata) == 248, "Invalid s_content_item_metadata size");
+static_assert(offsetof(s_content_item_metadata, user_id) == 0xC0, "s_content_item_metadata::user_id moved when its reconstructed padding was removed");
+static_assert(offsetof(s_content_item_metadata, map_checksum) == 0xF0, "s_content_item_metadata::map_checksum moved when its reconstructed padding was removed");
 
 /* ---------- prototypes */
 

@@ -39,7 +39,6 @@ struct s_simulation_queue_sandbox_event_data
 	float object_throw_force; // 0x10
 	unsigned char quota_min; // 0x14
 	unsigned char quota_max; // 0x15
-	unsigned char __pad0[2]; // 0x16
 	real_point3d position; // 0x18
 	long game_engine_type; // 0x24
 	s_map_variant_placement_properties object_properties; // 0x28
@@ -50,6 +49,7 @@ struct s_simulation_queue_sandbox_event_data
 	s_simulation_queue_sandbox_event_data &operator=(s_simulation_queue_sandbox_event_data const &); /* compiler_generated() */
 };
 static_assert(sizeof(s_simulation_queue_sandbox_event_data) == 64, "Invalid s_simulation_queue_sandbox_event_data size");
+static_assert(offsetof(s_simulation_queue_sandbox_event_data, position) == 0x18, "s_simulation_queue_sandbox_event_data::position moved when its reconstructed padding was removed");
 
 /* ---------- prototypes */
 

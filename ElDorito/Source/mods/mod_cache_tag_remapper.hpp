@@ -86,14 +86,12 @@ extern _inline bool operator==(c_mod_cache_tag_remapper::s_name_lookup_key const
 
 /* ---------- public code */
 
-_extern bool _sub_10896F70(c_mod_cache_tag_remapper::s_name_lookup_key const &, c_mod_cache_tag_remapper::s_name_lookup_key const &);
 _inline bool operator==(c_mod_cache_tag_remapper::s_name_lookup_key const &lhs, c_mod_cache_tag_remapper::s_name_lookup_key const &rhs) // 0x10896F70
 {
-	mangled_x86(MANGLED_TODO, "??8@YA_NABUs_name_lookup_key@c_mod_cache_tag_remapper@@0@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??8@YA_NABUs_name_lookup_key@c_mod_cache_tag_remapper@@0@Z");
 	// c_mod_cache_tag_remapper::s_name_lookup_key const &rhs;
-	todo("implement");
-	bool __result = _sub_10896F70(lhs, rhs);
-	return __result;
+
+	return lhs.group_tag == rhs.group_tag && lhs.name == rhs.name;
 }
 
 _extern unsigned __int32 _sub_10897780(c_mod_cache_tag_remapper::s_name_lookup_key::s_hasher const *const, c_mod_cache_tag_remapper::s_name_lookup_key const &);

@@ -116,14 +116,35 @@ void c_screen_postprocess::render_screen_effect_blur(float x_blur, float y_blur)
 	_sub_10F113D0(x_blur, y_blur);
 }
 
-_extern bool _sub_10F116D0(long, long);
 bool c_screen_postprocess::smaa_initialize(long resolution_x, long resolution_y) // 0x10F116D0
 {
-	mangled_x86(MANGLED_TODO, "?smaa_initialize@c_screen_postprocess@@SA_NJJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?smaa_initialize@c_screen_postprocess@@SA_NJJ@Z");
 	// long resolution_y;
-	todo("implement");
-	bool __result = _sub_10F116D0(resolution_x, resolution_y);
-	return __result;
+
+	if (smaa_globals.valid && !smaa_globals.reinit_next_frame)
+	{
+		return true;
+	}
+	else if (!smaa_globals.valid && smaa_globals.reinit_next_frame)
+	{
+		smaa_globals.destroy_surfaces();
+		smaa_globals.reinit_next_frame = false;
+		return false;
+	}
+	else
+	{
+		smaa_globals.valid = false;
+		smaa_globals.reinit_next_frame = false;
+		smaa_globals.temporal_valid = false;
+		smaa_globals.temporal_enabled = true;
+		smaa_globals.set_resolution(resolution_x, resolution_y);
+		smaa_globals.depth_threshold = 0.005f;
+		if (smaa_globals.init_surfaces(c_rasterizer::get_device()))
+		{
+			smaa_globals.valid = true;
+		}
+		return smaa_globals.valid;
+	}
 }
 
 _extern void _sub_10F12980(IDirect3DDevice9 *, e_surface, long);

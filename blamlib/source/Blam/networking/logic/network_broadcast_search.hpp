@@ -21,11 +21,11 @@ struct s_available_session
 {
 	bool valid; // 0x0
 	char unknown[52]; // 0x1
-	unsigned char __pad0[3]; // 0x35
 	s_network_session_status_data status; // 0x38
 	s_available_session(); /* compiler_generated() */
 };
 static_assert(sizeof(s_available_session) == 91384, "Invalid s_available_session size");
+static_assert(offsetof(s_available_session, status) == 0x38, "s_available_session::status moved when its reconstructed padding was removed");
 
 /* ---------- prototypes */
 

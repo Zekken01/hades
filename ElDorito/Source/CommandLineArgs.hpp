@@ -57,14 +57,12 @@ _inline char const *CommandLineArgs::GetArg(__int32 index) const // 0x10667640
 	return __result;
 }
 
-extern char const *_sub_106609F0(CommandLineArgs const *const, __int32);
 _inline char const *CommandLineArgs::operator[](__int32 index) const // 0x106609F0
 {
-	mangled_x86(MANGLED_TODO, "??ACommandLineArgs@@QBEPBDH@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??ACommandLineArgs@@QBEPBDH@Z");
 	// __int32 index;
-	todo("implement");
-	char const * __result = _sub_106609F0((CommandLineArgs const *)this, index);
-	return __result;
+
+	return GetArg(index);
 }
 
 /* ---------- private code */

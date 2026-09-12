@@ -84,7 +84,6 @@ namespace Server
 			unsigned char votesNeededToPass; // 0xEFD
 			public:
 			VotingMessage(Server::Voting::VotingMessageType type);
-			unsigned char __pad0[2]; // 0xEFE
 		};
 		static_assert(sizeof(Server::Voting::VotingMessage) == 3840, "Invalid Server::Voting::VotingMessage size");
 
@@ -123,13 +122,10 @@ namespace Server
 {
 	namespace Voting
 	{
-		_extern void _sub_10C9A7C0(Server::Voting::VotingMessageHandler *const);
 		_inline VotingMessageHandler::~VotingMessageHandler() // 0x10C9A7C0
 		{
-			mangled_x86(MANGLED_TODO, "??1VotingMessageHandler@Voting@Server@@UAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??1VotingMessageHandler@Voting@Server@@UAE@XZ");
 			// Server::Voting::VotingMessageHandler *const this;
-			todo("implement");
-			_sub_10C9A7C0(this);
 		}
 	}
 }

@@ -56,7 +56,6 @@ static_assert(sizeof(bsp2d_node) == 16, "Invalid bsp2d_node size");
 struct collision_leaf
 {
 	c_flags<enum e_collision_leaf_flags,unsigned char> flags; // 0x0
-	unsigned char __pad0[1]; // 0x1
 	unsigned short bsp2d_reference_count; // 0x2
 	unsigned long first_bsp2d_reference; // 0x4
 	collision_leaf(collision_leaf &); /* compiler_generated() */
@@ -66,6 +65,7 @@ struct collision_leaf
 	collision_leaf &operator=(collision_leaf const &); /* compiler_generated() */
 };
 static_assert(sizeof(collision_leaf) == 8, "Invalid collision_leaf size");
+static_assert(offsetof(collision_leaf, bsp2d_reference_count) == 0x2, "collision_leaf::bsp2d_reference_count moved when its reconstructed padding was removed");
 
 struct collision_surface
 {

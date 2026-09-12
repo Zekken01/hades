@@ -147,26 +147,27 @@ namespace Web
 			_sub_10CB7280(this, filepath, offset, length);
 		}
 
-		_extern void _sub_10CB7690(Web::Browser::CWebFileReadHandler * const);
 		CWebFileReadHandler::~CWebFileReadHandler() // 0x10CB7690
 		{
-			mangled_x86(MANGLED_TODO, "??1CWebFileReadHandler@Browser@Web@@UAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??1CWebFileReadHandler@Browser@Web@@UAE@XZ");
 			// __shifted(Web::Browser::CWebFileReadHandler, 228);
 			// Web::Browser::CWebFileReadHandler *const this;
-			todo("implement");
-			_sub_10CB7690(this);
 		}
 
-		_extern unsigned __int32 _sub_10CB7B80(Web::Browser::CWebFileReadHandler *const, void *, unsigned __int32, unsigned __int32);
 		unsigned __int32 CWebFileReadHandler::Read(void *ptr, unsigned __int32 size, unsigned __int32 n) // 0x10CB7B80
 		{
-			mangled_x86(MANGLED_TODO, "?Read@CWebFileReadHandler@Browser@Web@@UAEIPAXII@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Read@CWebFileReadHandler@Browser@Web@@UAEIPAXII@Z");
 			// unsigned __int32 n;
 			// long long chunkBytes;
 			// long long remainingBytes;
-			todo("implement");
-			unsigned __int32 __result = _sub_10CB7B80(this, ptr, size, n);
-			return __result;
+
+			long long remaining = m_length - m_position;
+			long long chunkBytes = size * n;
+			if (chunkBytes > remaining)
+				chunkBytes = remaining;
+			m_stream.read((char *)ptr, chunkBytes);
+			m_position += chunkBytes;
+			return (unsigned __int32)chunkBytes;
 		}
 
 		_extern __int32 _sub_10CB7D80(Web::Browser::CWebFileReadHandler *const, long long, __int32);
@@ -179,24 +180,20 @@ namespace Web
 			return __result;
 		}
 
-		_extern long long _sub_10CB7EB0(Web::Browser::CWebFileReadHandler *const);
 		long long CWebFileReadHandler::Tell() // 0x10CB7EB0
 		{
-			mangled_x86(MANGLED_TODO, "?Tell@CWebFileReadHandler@Browser@Web@@UAE_JXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Tell@CWebFileReadHandler@Browser@Web@@UAE_JXZ");
 			// Web::Browser::CWebFileReadHandler *const this;
-			todo("implement");
-			long long __result = _sub_10CB7EB0(this);
-			return __result;
+
+			return m_position;
 		}
 
-		_extern __int32 _sub_10CB79C0(Web::Browser::CWebFileReadHandler *const);
 		__int32 CWebFileReadHandler::Eof() // 0x10CB79C0
 		{
-			mangled_x86(MANGLED_TODO, "?Eof@CWebFileReadHandler@Browser@Web@@UAEHXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Eof@CWebFileReadHandler@Browser@Web@@UAEHXZ");
 			// Web::Browser::CWebFileReadHandler *const this;
-			todo("implement");
-			__int32 __result = _sub_10CB79C0(this);
-			return __result;
+
+			return m_position >= m_length || m_stream.eof();
 		}
 
 		bool CWebFileReadHandler::MayBlock() // 0x10CB7B60

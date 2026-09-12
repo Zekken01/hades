@@ -47,7 +47,6 @@ struct s_multiplayer_consumable
 	unsigned long name; // 0x0
 	s_tag_reference object; // 0x4
 	short consumable_type; // 0x14
-	unsigned char __pad0[2]; // 0x16
 };
 static_assert(sizeof(s_multiplayer_consumable) == 24, "Invalid s_multiplayer_consumable size");
 

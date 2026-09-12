@@ -95,12 +95,10 @@ struct s_bink_globals
 				IDirect3DTexture9 *a_plane; // 0xC
 				__int32 field_10; // 0x10
 				char displayed; // 0x14
-				unsigned char __pad0[3]; // 0x15
 			};
 			static_assert(sizeof(s_bink_frame_texture) == 24, "Invalid s_bink_frame_texture size");
 			public:
 			char texture_available[2]; // 0x0
-			unsigned char __pad0[2]; // 0x2
 			s_bink_frame_texture textures[2]; // 0x4
 			BINKFRAMEBUFFERS framebuffers; // 0x34
 			__int32 textures_unknown[2]; // 0xAC
@@ -113,6 +111,7 @@ struct s_bink_globals
 			__int32 frame_height; // 0xCC
 		};
 		static_assert(sizeof(s_bink_video_frame) == 208, "Invalid s_bink_video_frame size");
+		static_assert(offsetof(s_bink_video_frame, textures) == 0x4, "s_bink_video_frame::textures moved when its reconstructed padding was removed");
 		public:
 		bool field_00; // 0x0
 		bool field_01; // 0x1

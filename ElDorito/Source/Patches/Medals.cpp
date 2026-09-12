@@ -102,8 +102,8 @@ namespace Patches
 }
 
 void OnEvent(unsigned long player, s_game_engine_event_data const *event, s_multiplayer_event_response_definition const *definition);
-void chud_update_saber_medal_animation_hook(__int32 thisptr, void *unused, __int32 a2);
-void chud_update_h3_medal_animation_hook(__int32 thisptr, void *unused, __int32 a2);
+void __fastcall chud_update_saber_medal_animation_hook(__int32 thisptr, void *unused, __int32 a2);
+void __fastcall chud_update_h3_medal_animation_hook(__int32 thisptr, void *unused, __int32 a2);
 void sound_enqueue_announcer_sound_hook(unsigned __int32 sndTagIndex, __int32 delayTicks);
 void HeadshotHook();
 
@@ -145,7 +145,7 @@ void OnEvent(unsigned long player, s_game_engine_event_data const *event, s_mult
 }
 
 _extern void _sub_10A8A430(__int32, void *, __int32);
-void chud_update_saber_medal_animation_hook(__int32 thisptr, void *unused, __int32 a2) // 0x10A8A430
+void __fastcall chud_update_saber_medal_animation_hook(__int32 thisptr, void *unused, __int32 a2) // 0x10A8A430
 {
 	// `anonymous-namespace'::chud_update_saber_medal_animation_hook
 	// __int32 a2;
@@ -154,7 +154,7 @@ void chud_update_saber_medal_animation_hook(__int32 thisptr, void *unused, __int
 }
 
 _extern void _sub_10A8A270(__int32, void *, __int32);
-void chud_update_h3_medal_animation_hook(__int32 thisptr, void *unused, __int32 a2) // 0x10A8A270
+void __fastcall chud_update_h3_medal_animation_hook(__int32 thisptr, void *unused, __int32 a2) // 0x10A8A270
 {
 	// `anonymous-namespace'::chud_update_h3_medal_animation_hook
 	// __int32 a2;
@@ -191,13 +191,29 @@ void sound_enqueue_announcer_sound_hook(unsigned __int32 sndTagIndex, __int32 de
 	sound_enqueue_announcer_sound(sndTagIndex, delayTicks);
 }
 
-extern void _sub_10A89EA0();
 __declspec(naked) void HeadshotHook() // 0x10A89EA0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?HeadshotHook@@YAXXZ");
 	// `anonymous-namespace'::HeadshotHook
 	// procedure flags: nofpo
 // DEFAULT:
 // NO_MEDAL:
-	todo("implement");
-	_sub_10A89EA0();
+
+	__asm
+	{
+		cmp eax, 1
+		jnz LNO_MEDAL
+		mov eax, [ebp + 18h]
+		mov ax, word ptr [eax]
+		cmp ax, 10h
+		jz LDEFAULT
+		cmp ax, 11h
+		jz LDEFAULT
+		LNO_MEDAL:
+		push 5A1ED5h
+		ret
+		LDEFAULT:
+		push 5A1E75h
+		ret
+	}
 }

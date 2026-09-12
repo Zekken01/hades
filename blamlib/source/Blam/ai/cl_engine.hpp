@@ -55,7 +55,6 @@ struct s_cs_point_set
 	s_cs_point_set(); /* compiler_generated() */
 	s_cs_point_set &operator=(s_cs_point_set &); /* compiler_generated() */
 	s_cs_point_set &operator=(s_cs_point_set const &); /* compiler_generated() */
-	unsigned char __pad0[2]; // 0x36
 };
 static_assert(sizeof(s_cs_point_set) == 56, "Invalid s_cs_point_set size");
 

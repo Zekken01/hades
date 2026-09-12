@@ -157,14 +157,13 @@ bool motor_animation_task_busy_hook(long object_index, c_motor_task *task, long 
 	return __result;
 }
 
-extern s_action_definition *_sub_107BADF0(e_action);
 s_action_definition *action_get_definition_hook(e_action action_type) // 0x107BADF0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?action_get_definition_hook@@YAPAUs_action_definition@@W4e_action@@@Z");
 	// `anonymous-namespace'::action_get_definition_hook
 	// e_action action_type;
-	todo("implement");
-	s_action_definition * __result = _sub_107BADF0(action_type);
-	return __result;
+
+	return g_action_definitions[action_type];
 }
 
 _extern bool _sub_107BAE20(long, s_action_request *);
@@ -187,14 +186,17 @@ bool action_submit_hook(long motor_index, s_action_request *request) // 0x107BAE
 	return __result;
 }
 
-_extern void _sub_107BAD60(long, e_action);
 void action_finished_hook(long motor_index, e_action action_type) // 0x107BAD60
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?action_finished_hook@@YAXJW4e_action@@@Z");
 	// `anonymous-namespace'::action_finished_hook
 	// e_action action_type;
 	// function call : void (*)(long, e_action)
-	todo("implement");
-	_sub_107BAD60(motor_index, action_type);
+
+	if (g_action_definitions[action_type]->finished)
+	{
+		g_action_definitions[action_type]->finished(motor_index, action_type);
+	}
 }
 
 _extern bool _sub_107BAF80(long);
@@ -231,15 +233,21 @@ bool unit_movement_inhibited_hook(long unit_index) // 0x107BB2A0
 	return __result;
 }
 
-_extern bool _sub_107BB0B0(long, e_action, long);
 bool custom_animation_submit_motor_task_allow_hook(long motor_index, e_action action, long mask) // 0x107BB0B0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?custom_animation_submit_motor_task_allow_hook@@YA_NJW4e_action@@J@Z");
 	// `anonymous-namespace'::custom_animation_submit_motor_task_allow_hook
 	// long mask;
 	// bool (*const motor_task_allow)(long, e_action, long);
 	// function call : bool (*const)(long, e_action)
 	// function call : bool (*const)(long, e_action, long)
-	todo("implement");
-	bool __result = _sub_107BB0B0(motor_index, action, mask);
-	return __result;
+
+	bool (__cdecl *const custom_animation_submit_motor_task_allow)(long, e_action, long) = (bool(__cdecl *const)(long, e_action, long))0xb90c80;
+
+	if (((bool(__cdecl *)(long, int))0xb69ba0)(motor_index, 87))
+	{
+		return false;
+	}
+
+	return custom_animation_submit_motor_task_allow(motor_index, action, mask);
 }

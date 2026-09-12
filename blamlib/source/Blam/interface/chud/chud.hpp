@@ -93,7 +93,6 @@ struct s_chud_animation_function
 {
 	c_flags<enum e_chud_animation_flags,unsigned char> flags; // 0x0
 	c_enum<enum e_chud_animation_input_type,unsigned char> input_type; // 0x1
-	unsigned char __pad0[2]; // 0x2
 	s_tag_reference definition; // 0x4
 	s_chud_animation_function(s_chud_animation_function &); /* compiler_generated() */
 	s_chud_animation_function(s_chud_animation_function const &); /* compiler_generated() */
@@ -103,6 +102,7 @@ struct s_chud_animation_function
 	unsigned char __pad1[4]; // 0x14
 };
 static_assert(sizeof(s_chud_animation_function) == 24, "Invalid s_chud_animation_function size");
+static_assert(offsetof(s_chud_animation_function, definition) == 0x4, "s_chud_animation_function::definition moved when its reconstructed padding was removed");
 
 struct s_chud_widget_animation
 {
@@ -143,7 +143,6 @@ struct s_chud_widget
 {
 	unsigned long name; // 0x0
 	c_enum<enum e_chud_widget_type,unsigned short> special_hud_type; // 0x4
-	unsigned char __pad0[2]; // 0x6
 	s_tag_block state_flags; // 0x8
 	c_tag_block<s_chud_widget_placement> placement; // 0x14
 	c_tag_block<s_chud_widget_animation> animations; // 0x20
@@ -155,6 +154,7 @@ struct s_chud_widget
 	s_chud_widget &operator=(s_chud_widget const &); /* compiler_generated() */
 };
 static_assert(sizeof(s_chud_widget) == 56, "Invalid s_chud_widget size");
+static_assert(offsetof(s_chud_widget, state_flags) == 0x8, "s_chud_widget::state_flags moved when its reconstructed padding was removed");
 
 #pragma pack(push, 4)
 struct s_chud_bitmap_widget :
@@ -180,7 +180,6 @@ struct s_chud_text_widget :
 	long widget_index; // 0x38
 	unsigned long flags; // 0x3C
 	unsigned short font_type; // 0x40
-	unsigned char __pad0[2]; // 0x42
 	unsigned long value; // 0x44
 	s_chud_text_widget(s_chud_text_widget &); /* compiler_generated() */
 	s_chud_text_widget(s_chud_text_widget const &); /* compiler_generated() */
@@ -189,6 +188,7 @@ struct s_chud_text_widget :
 	s_chud_text_widget &operator=(s_chud_text_widget const &); /* compiler_generated() */
 };
 static_assert(sizeof(s_chud_text_widget) == 72, "Invalid s_chud_text_widget size");
+static_assert(offsetof(s_chud_text_widget, value) == 0x44, "s_chud_text_widget::value moved when its reconstructed padding was removed");
 
 struct s_chud_widget_collection :
 	public s_chud_widget
@@ -264,12 +264,10 @@ struct s_chud_shared_persistent_user_data
 	float warp_modifier; // 0xD14
 	char gapD18; // 0xD18
 	char use_pointer_tracker1; // 0xD19
-	unsigned char __pad0[2]; // 0xD1A
 	real_point3d unknown_pooint1; // 0xD1C
 	c_chud_point_tracker point_tracker; // 0xD28
 	char gapD54[708]; // 0xD54
 	char use_pointer_tracker2; // 0x1018
-	unsigned char __pad1[3]; // 0x1019
 	real_point3d unknown_point2; // 0x101C
 	c_chud_point_tracker pointer_tracker2; // 0x1028
 	char gap1054[80]; // 0x1054
@@ -280,6 +278,8 @@ struct s_chud_shared_persistent_user_data
 	long resolution_setting; // 0x10E4
 };
 static_assert(sizeof(s_chud_shared_persistent_user_data) == 4328, "Invalid s_chud_shared_persistent_user_data size");
+static_assert(offsetof(s_chud_shared_persistent_user_data, unknown_pooint1) == 0xD1C, "s_chud_shared_persistent_user_data::unknown_pooint1 moved when its reconstructed padding was removed");
+static_assert(offsetof(s_chud_shared_persistent_user_data, unknown_point2) == 0x101C, "s_chud_shared_persistent_user_data::unknown_point2 moved when its reconstructed padding was removed");
 
 struct s_chud_bitmap_info
 {
@@ -325,10 +325,10 @@ struct s_chud_navpoint
 	unsigned long flags; // 0x10
 	float opacity; // 0x14
 	wchar_t service_tag[5]; // 0x18
-	unsigned char __pad0[2]; // 0x22
 	real_point3d position; // 0x24
 };
 static_assert(sizeof(s_chud_navpoint) == 48, "Invalid s_chud_navpoint size");
+static_assert(offsetof(s_chud_navpoint, position) == 0x24, "s_chud_navpoint::position moved when its reconstructed padding was removed");
 
 #pragma pack(push, 4)
 struct s_chud_managed_navpoint
@@ -351,7 +351,6 @@ struct c_chud_navpoint_manager
 	s_chud_managed_navpoint m_navpoints[20]; // 0x0
 	long m_reveal_player_index; // 0x910
 	wchar_t m_player_name[17]; // 0x914
-	unsigned char __pad0[2]; // 0x936
 	float m_name_reveal; // 0x938
 	float m_name_reveal_width; // 0x93C
 	long m_name_navpoint_index; // 0x940
@@ -376,6 +375,7 @@ struct c_chud_navpoint_manager
 	static unsigned long (*const get_managed_navpoint_text_color)(s_chud_managed_navpoint *);
 };
 static_assert(sizeof(c_chud_navpoint_manager) == 2456, "Invalid c_chud_navpoint_manager size");
+static_assert(offsetof(c_chud_navpoint_manager, m_name_reveal) == 0x938, "c_chud_navpoint_manager::m_name_reveal moved when its reconstructed padding was removed");
 
 #pragma pack(push, 4)
 struct s_chud_render_data
@@ -463,7 +463,6 @@ struct c_chud_update_user_data
 	long unit_index; // 0x8
 	long field_C; // 0xC
 	bool field_10; // 0x10
-	unsigned char __pad0[3]; // 0x11
 	s_interface_state interfaces[15]; // 0x14
 	unsigned short game_engine_flags; // 0x578
 	unsigned short player_type_flags; // 0x57A
@@ -482,35 +481,28 @@ struct c_chud_update_user_data
 	short field_598; // 0x598
 	unsigned short field_59A; // 0x59A
 	unsigned short field_59C; // 0x59C
-	unsigned char __pad1[2]; // 0x59E
 	unsigned long unit_general_flags; // 0x5A0
 	unsigned long shield_flags; // 0x5A4
 	unsigned short unknown_flags; // 0x5A8
-	unsigned char __pad2[2]; // 0x5AA
 	unsigned long consumable_flags; // 0x5AC
 	unsigned long consumable_energy_flags; // 0x5B0
 	bool field_5B4; // 0x5B4
-	unsigned char __pad3[3]; // 0x5B5
 	float primary_auto_aim; // 0x5B8
 	float secondary_auto_aim; // 0x5BC
 	float body_vitality; // 0x5C0
 	float shield_vitality; // 0x5C4
 	float max_shield_vitality; // 0x5C8
 	unsigned char shield_damage_decay_timer; // 0x5CC
-	unsigned char __pad4[3]; // 0x5CD
 	long selected_grenade; // 0x5D0
 	long grenade_counts[4]; // 0x5D4
 	short field_5E4; // 0x5E4
-	unsigned char __pad5[2]; // 0x5E6
 	long zoom_level; // 0x5E8
 	bool field_5EC; // 0x5EC
-	unsigned char __pad6[3]; // 0x5ED
 	long frag_grenade_count; // 0x5F0
 	long plasma_grenade_count; // 0x5F4
 	unsigned long damage_flags; // 0x5F8
 	bool field_5FC; // 0x5FC
 	bool should_draw_motion_sensor; // 0x5FD
-	unsigned char __pad7[2]; // 0x5FE
 	float motion_sensor_range; // 0x600
 	bool field_604; // 0x604
 	bool has_shield; // 0x605
@@ -518,20 +510,16 @@ struct c_chud_update_user_data
 	char unknown_tracking2; // 0x607
 	bool being_tracked; // 0x608
 	bool hologram_target_available; // 0x609
-	unsigned char __pad8[2]; // 0x60A
 	real_point3d hologram_target_point; // 0x60C
 	char tank_mode_active; // 0x618
-	unsigned char __pad9[3]; // 0x619
 	long field_d61C; // 0x61C
 	c_aim_target_object aim_target_object; // 0x620
 	bool carrying_objective; // 0x62C
-	unsigned char __pad10[1]; // 0x62D
 	short consumable_icons[4]; // 0x62E
 	short consumable_cooldown_text; // 0x636
 	float comsumable_cooldown_meter; // 0x638
 	__int32 consumable_slot_index; // 0x63C
 	bool consumable_meter_visible; // 0x640
-	unsigned char __pad11[3]; // 0x641
 	float consumable_remaining_time; // 0x644
 	float consumable_remaining_fraction; // 0x648
 	s_consumable_state consumables[4]; // 0x64C
@@ -547,34 +535,46 @@ struct c_chud_update_user_data
 	char netdebug[16]; // 0x900
 };
 static_assert(sizeof(c_chud_update_user_data) == 2320, "Invalid c_chud_update_user_data size");
+static_assert(offsetof(c_chud_update_user_data, interfaces) == 0x14, "c_chud_update_user_data::interfaces moved when its reconstructed padding was removed");
+static_assert(offsetof(c_chud_update_user_data, unit_general_flags) == 0x5A0, "c_chud_update_user_data::unit_general_flags moved when its reconstructed padding was removed");
+static_assert(offsetof(c_chud_update_user_data, consumable_flags) == 0x5AC, "c_chud_update_user_data::consumable_flags moved when its reconstructed padding was removed");
+static_assert(offsetof(c_chud_update_user_data, primary_auto_aim) == 0x5B8, "c_chud_update_user_data::primary_auto_aim moved when its reconstructed padding was removed");
+static_assert(offsetof(c_chud_update_user_data, selected_grenade) == 0x5D0, "c_chud_update_user_data::selected_grenade moved when its reconstructed padding was removed");
+static_assert(offsetof(c_chud_update_user_data, zoom_level) == 0x5E8, "c_chud_update_user_data::zoom_level moved when its reconstructed padding was removed");
+static_assert(offsetof(c_chud_update_user_data, frag_grenade_count) == 0x5F0, "c_chud_update_user_data::frag_grenade_count moved when its reconstructed padding was removed");
+static_assert(offsetof(c_chud_update_user_data, motion_sensor_range) == 0x600, "c_chud_update_user_data::motion_sensor_range moved when its reconstructed padding was removed");
+static_assert(offsetof(c_chud_update_user_data, hologram_target_point) == 0x60C, "c_chud_update_user_data::hologram_target_point moved when its reconstructed padding was removed");
+static_assert(offsetof(c_chud_update_user_data, field_d61C) == 0x61C, "c_chud_update_user_data::field_d61C moved when its reconstructed padding was removed");
+static_assert(offsetof(c_chud_update_user_data, consumable_icons) == 0x62E, "c_chud_update_user_data::consumable_icons moved when its reconstructed padding was removed");
+static_assert(offsetof(c_chud_update_user_data, consumable_remaining_time) == 0x644, "c_chud_update_user_data::consumable_remaining_time moved when its reconstructed padding was removed");
 
 struct c_chud_global_scripting
 {
 	bool show; // 0x0
 	bool field_149[4]; // 0x1
 	bool widget_show[4][13]; // 0x5
-	unsigned char __pad0[3]; // 0x39
 	float widget_alpha[4][13]; // 0x3C
 	float widget_unknown1[4][13]; // 0x10C
 	long widget_unknown2[4][13]; // 0x1DC
 	bool bonus_round_show_timer; // 0x2AC
 	bool bonus_round_start_timer; // 0x2AD
-	unsigned char __pad1[2]; // 0x2AE
 	long bonus_round_set_timer; // 0x2B0
 	long bonus_round_target_score; // 0x2B4
 };
 static_assert(sizeof(c_chud_global_scripting) == 696, "Invalid c_chud_global_scripting size");
+static_assert(offsetof(c_chud_global_scripting, widget_alpha) == 0x3C, "c_chud_global_scripting::widget_alpha moved when its reconstructed padding was removed");
+static_assert(offsetof(c_chud_global_scripting, bonus_round_set_timer) == 0x2B0, "c_chud_global_scripting::bonus_round_set_timer moved when its reconstructed padding was removed");
 
 struct c_chud_persistent_global_data
 {
 	char field_0[8][40]; // 0x0
 	long field_140; // 0x140
 	char field_144; // 0x144
-	unsigned char __pad0[3]; // 0x145
 	c_chud_global_scripting m_scripting; // 0x148
 	char player_data[16][28]; // 0x400
 };
 static_assert(sizeof(c_chud_persistent_global_data) == 1472, "Invalid c_chud_persistent_global_data size");
+static_assert(offsetof(c_chud_persistent_global_data, m_scripting) == 0x148, "c_chud_persistent_global_data::m_scripting moved when its reconstructed padding was removed");
 
 /* ---------- prototypes */
 

@@ -58,13 +58,12 @@ static_assert(sizeof(c_map_load_error_helper) == 28, "Invalid c_map_load_error_h
 
 /* ---------- public code */
 
-_extern void _sub_10927C10(c_map_load_error_helper *const);
 _inline void c_map_load_error_helper::invalid_tag_index() // 0x10927C10
 {
-	mangled_x86(MANGLED_TODO, "?invalid_tag_index@c_map_load_error_helper@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?invalid_tag_index@c_map_load_error_helper@@QAEXXZ");
 	// c_map_load_error_helper *const this;
-	todo("implement");
-	_sub_10927C10(this);
+
+	set_last_error(std::format("Tried to load tag dependency with an invalid tag index"));
 }
 
 _extern void _sub_109272A0(c_map_load_error_helper *const, c_file_reference const *, s_cache_tag_instance const *, char const *);
@@ -80,76 +79,68 @@ _inline void c_map_load_error_helper::failed_to_find_mod_tag_in_base(c_file_refe
 	_sub_109272A0(this, mod_file, tag_header, tag_name);
 }
 
-_extern void _sub_10927440(c_map_load_error_helper *const, c_file_reference const *, long);
 _inline void c_map_load_error_helper::failed_to_find_tag(c_file_reference const *cache_file, long cache_tag_index) // 0x10927440
 {
-	mangled_x86(MANGLED_TODO, "?failed_to_find_tag@c_map_load_error_helper@@QAEXPBVc_file_reference@@J@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?failed_to_find_tag@c_map_load_error_helper@@QAEXPBVc_file_reference@@J@Z");
 	// long cache_tag_index;
-	todo("implement");
-	_sub_10927440(this, cache_file, cache_tag_index);
+
+	set_last_error(std::format("Failed to find tag in cache.\n\nCache: {}\nTagIndex: 0x{:04X}", cache_file->filename, cache_tag_index));
 }
 
-_extern void _sub_10928F70(c_map_load_error_helper *const, c_file_reference const *, long);
 _inline void c_map_load_error_helper::missing_tag_name(c_file_reference const *cache_file, long cache_tag_index) // 0x10928F70
 {
-	mangled_x86(MANGLED_TODO, "?missing_tag_name@c_map_load_error_helper@@QAEXPBVc_file_reference@@J@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?missing_tag_name@c_map_load_error_helper@@QAEXPBVc_file_reference@@J@Z");
 	// long cache_tag_index;
-	todo("implement");
-	_sub_10928F70(this, cache_file, cache_tag_index);
+
+	set_last_error(std::format("Tried to load unnamed tag. Tags must be named!\n\nCache: {}\nTagIndex: 0x{:04X}", cache_file->filename, cache_tag_index));
 }
 
-_extern void _sub_10927D20(c_map_load_error_helper *const, c_file_reference const *, char const *);
 _inline void c_map_load_error_helper::invalid_tag_size(c_file_reference const *cache_file, char const *tag_name) // 0x10927D20
 {
-	mangled_x86(MANGLED_TODO, "?invalid_tag_size@c_map_load_error_helper@@QAEXPBVc_file_reference@@PBD@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?invalid_tag_size@c_map_load_error_helper@@QAEXPBVc_file_reference@@PBD@Z");
 	// char const *tag_name;
-	todo("implement");
-	_sub_10927D20(this, cache_file, tag_name);
+
+	set_last_error(std::format("Tag had an invalid size.\n\nCache: {}\nTag: {}", cache_file->filename, tag_name));
 }
 
-_extern void _sub_10927070(c_map_load_error_helper *const, c_file_reference const *, char const *);
 _inline void c_map_load_error_helper::failed_to_allocate_memory_for_tag(c_file_reference const *cache_file, char const *tag_name) // 0x10927070
 {
-	mangled_x86(MANGLED_TODO, "?failed_to_allocate_memory_for_tag@c_map_load_error_helper@@QAEXPBVc_file_reference@@PBD@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?failed_to_allocate_memory_for_tag@c_map_load_error_helper@@QAEXPBVc_file_reference@@PBD@Z");
 	// char const *tag_name;
-	todo("implement");
-	_sub_10927070(this, cache_file, tag_name);
+
+	set_last_error(std::format("Failed to allocate memory for tag.\n\nCache: {}\nTag: {}", cache_file->filename, tag_name));
 }
 
-_extern void _sub_10927790(c_map_load_error_helper *const, c_file_reference const *, char const *);
 _inline void c_map_load_error_helper::failed_to_read_tag_data(c_file_reference const *cache_file, char const *tag_name) // 0x10927790
 {
-	mangled_x86(MANGLED_TODO, "?failed_to_read_tag_data@c_map_load_error_helper@@QAEXPBVc_file_reference@@PBD@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?failed_to_read_tag_data@c_map_load_error_helper@@QAEXPBVc_file_reference@@PBD@Z");
 	// char const *tag_name;
-	todo("implement");
-	_sub_10927790(this, cache_file, tag_name);
+
+	set_last_error(std::format("Failed to allocate memory for tag.\n\nCache: {}\nTag: {}", cache_file->filename, tag_name));
 }
 
-_extern void _sub_10927190(c_map_load_error_helper *const);
 _inline void c_map_load_error_helper::failed_to_allocate_tag_resource_memory() // 0x10927190
 {
-	mangled_x86(MANGLED_TODO, "?failed_to_allocate_tag_resource_memory@c_map_load_error_helper@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?failed_to_allocate_tag_resource_memory@c_map_load_error_helper@@QAEXXZ");
 	// c_map_load_error_helper *const this;
-	todo("implement");
-	_sub_10927190(this);
+
+	set_last_error(std::format("Failed to allocate memory for tag resources"));
 }
 
-_extern void _sub_10927560(c_map_load_error_helper *const);
 _inline void c_map_load_error_helper::failed_to_initialize_font_cache() // 0x10927560
 {
-	mangled_x86(MANGLED_TODO, "?failed_to_initialize_font_cache@c_map_load_error_helper@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?failed_to_initialize_font_cache@c_map_load_error_helper@@QAEXXZ");
 	// c_map_load_error_helper *const this;
-	todo("implement");
-	_sub_10927560(this);
+
+	set_last_error(std::format("Failed to initialize font cache"));
 }
 
-_extern void _sub_10927670(c_map_load_error_helper *const, char const *, char const *);
 _inline void c_map_load_error_helper::failed_to_open_mod_package_map_file(char const *mod_file, char const *map_path) // 0x10927670
 {
-	mangled_x86(MANGLED_TODO, "?failed_to_open_mod_package_map_file@c_map_load_error_helper@@QAEXPBD0@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?failed_to_open_mod_package_map_file@c_map_load_error_helper@@QAEXPBD0@Z");
 	// char const *map_path;
-	todo("implement");
-	_sub_10927670(this, mod_file, map_path);
+
+	set_last_error(std::format("Failed to open mod package map file\n\nMod: {}\nMap: {}", mod_file, map_path));
 }
 
 extern std::string const &_sub_10927BF0(c_map_load_error_helper const *const);
@@ -171,13 +162,12 @@ _inline void c_map_load_error_helper::set_last_error(std::string const &message)
 	_sub_10929A90(this, message);
 }
 
-_extern void _sub_10929590(c_map_load_error_helper *const);
 _inline void c_map_load_error_helper::reset() // 0x10929590
 {
-	mangled_x86(MANGLED_TODO, "?reset@c_map_load_error_helper@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?reset@c_map_load_error_helper@@QAEXXZ");
 	// c_map_load_error_helper *const this;
-	todo("implement");
-	_sub_10929590(this);
+
+	set_last_error("An unknown error has occured.");
 }
 
 extern char const *_sub_10929B40(c_map_load_error_helper *const, char *, unsigned long, char const *);

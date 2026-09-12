@@ -76,22 +76,21 @@ namespace Job
 		_sub_1086CEA0(function, counter, priority);
 	}
 
-	_extern void _sub_1086CE50();
 	void Initialize() // 0x1086CE50
 	{
-		mangled_x86(MANGLED_TODO, "?Initialize@Job@@YAXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@Job@@YAXXZ");
 		// procedure flags: nofpo
-		todo("implement");
-		_sub_1086CE50();
+
+		initialized = true;
+		jobManager.Initialize();
 	}
 
-	_extern void _sub_1086CE00();
 	void Dispose() // 0x1086CE00
 	{
-		mangled_x86(MANGLED_TODO, "?Dispose@Job@@YAXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Dispose@Job@@YAXXZ");
 		// procedure flags: nofpo
-		todo("implement");
-		_sub_1086CE00();
+
+		jobManager.Dispose();
 	}
 }
 

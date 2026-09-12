@@ -173,13 +173,18 @@ bool c_user_interface_mods_player_character_data::build_from_mod_package() // 0x
 	return __result;
 }
 
-_extern void _sub_108C2F60(c_user_interface_mods_player_character_data *const);
 void c_user_interface_mods_player_character_data::update() // 0x108C2F60
 {
-	mangled_x86(MANGLED_TODO, "?update@c_user_interface_mods_player_character_data@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?update@c_user_interface_mods_player_character_data@@QAEXXZ");
 	// c_user_interface_mods_player_character_data *const this;
-	todo("implement");
-	_sub_108C2F60(this);
+
+	if (build_from_mod_package())
+	{
+	}
+	else
+	{
+		build_from_cache();
+	}
 }
 
 /* ---------- private code */

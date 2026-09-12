@@ -40,7 +40,7 @@ enum EModResult
 class IMod
 {
 public:
-	virtual _inline ~IMod();
+	virtual _inline ~IMod() = default; // 0x1078BD40
 	virtual void AddRef() = 0;
 	virtual void Release() = 0;
 	virtual char const *GetFilename() const = 0;
@@ -58,7 +58,7 @@ static_assert(sizeof(IMod) == 4, "Invalid IMod size");
 class IModListener
 {
 public:
-	virtual _inline ~IModListener();
+	virtual _inline ~IModListener() = default; // 0x10793DE0
 	virtual _inline void OnModChanged(EModIndex index, IMod *mod);
 	virtual _inline void OnModCacheChanged(EModIndex index, IMod *mod);
 	virtual _inline void OnModLoadStateChangedAsync(EModIndex index, IMod *mod);
@@ -71,7 +71,7 @@ static_assert(sizeof(IModListener) == 4, "Invalid IModListener size");
 class IModManager
 {
 public:
-	virtual _inline ~IModManager();
+	virtual _inline ~IModManager() = default; // 0x10791400
 	virtual EModResult SetMod(EModIndex, char const *, bool) = 0;
 	virtual EModResult SetModCache(EModIndex, __int32, bool) = 0;
 	virtual IMod *GetMod(EModIndex) const = 0;
@@ -92,18 +92,6 @@ static_assert(sizeof(IModManager) == 4, "Invalid IModManager size");
 
 /* ---------- public code */
 
-_inline IMod::~IMod() // 0x1078BD40
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1IMod@@UAE@XZ");
-	// IMod *const this;
-}
-
-_inline IModListener::~IModListener() // 0x10793DE0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1IModListener@@UAE@XZ");
-	// IModListener *const this;
-}
-
 _inline void IModListener::OnModChanged(EModIndex index, IMod *mod) // 0x10794400
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnModChanged@IModListener@@UAEXW4EModIndex@@PAVIMod@@@Z");
@@ -120,12 +108,6 @@ _inline void IModListener::OnModLoadStateChangedAsync(EModIndex index, IMod *mod
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnModLoadStateChangedAsync@IModListener@@UAEXW4EModIndex@@PAVIMod@@@Z");
 	// IMod *mod;
-}
-
-_inline IModManager::~IModManager() // 0x10791400
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1IModManager@@UAE@XZ");
-	// IModManager *const this;
 }
 
 /* ---------- private code */

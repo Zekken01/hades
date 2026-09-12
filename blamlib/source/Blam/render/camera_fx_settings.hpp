@@ -55,7 +55,6 @@ struct s_scripted_exposure_globals;
 struct s_camera_fx_exposure_struct
 {
 	unsigned short flags; // 0x0
-	unsigned char __pad0[2]; // 0x2
 	float exposure; // 0x4
 	float maximum_change; // 0x8
 	float blend_speed; // 0xC
@@ -65,106 +64,107 @@ struct s_camera_fx_exposure_struct
 	float autoexposure_delay; // 0x1C
 };
 static_assert(sizeof(s_camera_fx_exposure_struct) == 32, "Invalid s_camera_fx_exposure_struct size");
+static_assert(offsetof(s_camera_fx_exposure_struct, exposure) == 0x4, "s_camera_fx_exposure_struct::exposure moved when its reconstructed padding was removed");
 
 struct s_camera_fx_exposure_sensitivity_struct
 {
 	unsigned short flags; // 0x0
-	unsigned char __pad0[2]; // 0x2
 	float sensitivity_01; // 0x4
 };
 static_assert(sizeof(s_camera_fx_exposure_sensitivity_struct) == 8, "Invalid s_camera_fx_exposure_sensitivity_struct size");
+static_assert(offsetof(s_camera_fx_exposure_sensitivity_struct, sensitivity_01) == 0x4, "s_camera_fx_exposure_sensitivity_struct::sensitivity_01 moved when its reconstructed padding was removed");
 
 struct s_camera_fx_exposure_anti_bloom_struct
 {
 	unsigned short flags; // 0x0
-	unsigned char __pad0[2]; // 0x2
 	float antibloom_01; // 0x4
 };
 static_assert(sizeof(s_camera_fx_exposure_anti_bloom_struct) == 8, "Invalid s_camera_fx_exposure_anti_bloom_struct size");
+static_assert(offsetof(s_camera_fx_exposure_anti_bloom_struct, antibloom_01) == 0x4, "s_camera_fx_exposure_anti_bloom_struct::antibloom_01 moved when its reconstructed padding was removed");
 
 struct s_camera_fx_bloom_point_struct
 {
 	unsigned short flags; // 0x0
-	unsigned char __pad0[2]; // 0x2
 	float bloom_point; // 0x4
 	float maximum_change; // 0x8
 	float blend_speed; // 0xC
 };
 static_assert(sizeof(s_camera_fx_bloom_point_struct) == 16, "Invalid s_camera_fx_bloom_point_struct size");
+static_assert(offsetof(s_camera_fx_bloom_point_struct, bloom_point) == 0x4, "s_camera_fx_bloom_point_struct::bloom_point moved when its reconstructed padding was removed");
 
 struct s_camera_fx_bloom_inherent_struct
 {
 	unsigned short flags; // 0x0
-	unsigned char __pad0[2]; // 0x2
 	float inherent_bloom; // 0x4
 	float maximum_change; // 0x8
 	float blend_speed; // 0xC
 };
 static_assert(sizeof(s_camera_fx_bloom_inherent_struct) == 16, "Invalid s_camera_fx_bloom_inherent_struct size");
+static_assert(offsetof(s_camera_fx_bloom_inherent_struct, inherent_bloom) == 0x4, "s_camera_fx_bloom_inherent_struct::inherent_bloom moved when its reconstructed padding was removed");
 
 struct s_camera_fx_bloom_intensity_struct
 {
 	unsigned short flags; // 0x0
-	unsigned char __pad0[2]; // 0x2
 	float bloom_intensity; // 0x4
 	float maximum_change; // 0x8
 	float blend_speed; // 0xC
 };
 static_assert(sizeof(s_camera_fx_bloom_intensity_struct) == 16, "Invalid s_camera_fx_bloom_intensity_struct size");
+static_assert(offsetof(s_camera_fx_bloom_intensity_struct, bloom_intensity) == 0x4, "s_camera_fx_bloom_intensity_struct::bloom_intensity moved when its reconstructed padding was removed");
 
 struct s_camera_fx_bloom_large_color_struct
 {
 	unsigned short flags; // 0x0
-	unsigned char __pad0[2]; // 0x2
 	real_rgb_color large_color; // 0x4
 };
 static_assert(sizeof(s_camera_fx_bloom_large_color_struct) == 16, "Invalid s_camera_fx_bloom_large_color_struct size");
+static_assert(offsetof(s_camera_fx_bloom_large_color_struct, large_color) == 0x4, "s_camera_fx_bloom_large_color_struct::large_color moved when its reconstructed padding was removed");
 
 struct s_camera_fx_bloom_medium_color_struct
 {
 	unsigned short flags; // 0x0
-	unsigned char __pad0[2]; // 0x2
 	real_rgb_color medium_color; // 0x4
 };
 static_assert(sizeof(s_camera_fx_bloom_medium_color_struct) == 16, "Invalid s_camera_fx_bloom_medium_color_struct size");
+static_assert(offsetof(s_camera_fx_bloom_medium_color_struct, medium_color) == 0x4, "s_camera_fx_bloom_medium_color_struct::medium_color moved when its reconstructed padding was removed");
 
 struct s_camera_fx_bloom_small_color_struct
 {
 	unsigned short flags; // 0x0
-	unsigned char __pad0[2]; // 0x2
 	real_rgb_color small_color; // 0x4
 };
 static_assert(sizeof(s_camera_fx_bloom_small_color_struct) == 16, "Invalid s_camera_fx_bloom_small_color_struct size");
+static_assert(offsetof(s_camera_fx_bloom_small_color_struct, small_color) == 0x4, "s_camera_fx_bloom_small_color_struct::small_color moved when its reconstructed padding was removed");
 
 struct s_camera_fx_bling_intensity_struct
 {
 	unsigned short flags; // 0x0
-	unsigned char __pad0[2]; // 0x2
 	float bling_intensity; // 0x4
 	float maximum_change; // 0x8
 	float blend_speed; // 0xC
 };
 static_assert(sizeof(s_camera_fx_bling_intensity_struct) == 16, "Invalid s_camera_fx_bling_intensity_struct size");
+static_assert(offsetof(s_camera_fx_bling_intensity_struct, bling_intensity) == 0x4, "s_camera_fx_bling_intensity_struct::bling_intensity moved when its reconstructed padding was removed");
 
 struct s_camera_fx_bling_size_struct
 {
 	unsigned short flags; // 0x0
-	unsigned char __pad0[2]; // 0x2
 	float bling_length; // 0x4
 	float maximum_change; // 0x8
 	float blend_speed; // 0xC
 };
 static_assert(sizeof(s_camera_fx_bling_size_struct) == 16, "Invalid s_camera_fx_bling_size_struct size");
+static_assert(offsetof(s_camera_fx_bling_size_struct, bling_length) == 0x4, "s_camera_fx_bling_size_struct::bling_length moved when its reconstructed padding was removed");
 
 struct s_camera_fx_bling_angle_struct
 {
 	unsigned short flags; // 0x0
-	unsigned char __pad0[2]; // 0x2
 	float bling_angle; // 0x4
 	float maximum_change; // 0x8
 	float blend_speed; // 0xC
 };
 static_assert(sizeof(s_camera_fx_bling_angle_struct) == 16, "Invalid s_camera_fx_bling_angle_struct size");
+static_assert(offsetof(s_camera_fx_bling_angle_struct, bling_angle) == 0x4, "s_camera_fx_bling_angle_struct::bling_angle moved when its reconstructed padding was removed");
 
 struct s_camera_fx_bling_count_struct
 {
@@ -176,22 +176,22 @@ static_assert(sizeof(s_camera_fx_bling_count_struct) == 4, "Invalid s_camera_fx_
 struct s_camera_fx_self_illum_preferred_struct
 {
 	unsigned short flags; // 0x0
-	unsigned char __pad0[2]; // 0x2
 	float preferred_exposure; // 0x4
 	float maximum_change; // 0x8
 	float blend_speed; // 0xC
 };
 static_assert(sizeof(s_camera_fx_self_illum_preferred_struct) == 16, "Invalid s_camera_fx_self_illum_preferred_struct size");
+static_assert(offsetof(s_camera_fx_self_illum_preferred_struct, preferred_exposure) == 0x4, "s_camera_fx_self_illum_preferred_struct::preferred_exposure moved when its reconstructed padding was removed");
 
 struct s_camera_fx_self_illum_scale_struct
 {
 	unsigned short flags; // 0x0
-	unsigned char __pad0[2]; // 0x2
 	float exposure_change; // 0x4
 	float maximum_change; // 0x8
 	float blend_speed; // 0xC
 };
 static_assert(sizeof(s_camera_fx_self_illum_scale_struct) == 16, "Invalid s_camera_fx_self_illum_scale_struct size");
+static_assert(offsetof(s_camera_fx_self_illum_scale_struct, exposure_change) == 0x4, "s_camera_fx_self_illum_scale_struct::exposure_change moved when its reconstructed padding was removed");
 
 struct s_camera_fx_ssao_struct
 {
@@ -416,19 +416,19 @@ static_assert(sizeof(s_scripted_exposure_globals) == 52, "Invalid s_scripted_exp
 
 /* ---------- prototypes */
 
+extern void *(__cdecl *const tag_get)(unsigned long group, long index);  // hades: added for 0X108EEF00
+
 /* ---------- globals */
 
 /* ---------- public code */
 
-extern c_camera_fx_settings *_sub_108EEF00(long);
 _inline c_camera_fx_settings *c_camera_fx_settings::get(long index) // 0x108EEF00
 {
-	mangled_x86(MANGLED_TODO, "?get@c_camera_fx_settings@@SAPAU1@J@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get@c_camera_fx_settings@@SAPAU1@J@Z");
 	// long index;
 	// function call : void *(*const)(unsigned long, long)
-	todo("implement");
-	c_camera_fx_settings * __result = _sub_108EEF00(index);
-	return __result;
+
+	return (c_camera_fx_settings *)tag_get(0x63667873, index);
 }
 
 /* ---------- private code */

@@ -91,21 +91,18 @@ namespace Debug
 	{
 		_inline __int32 const StackWalker::GetLineNumber() const // 0x1068F470
 		{
-			mangled_x86(MANGLED_TODO, "?GetLineNumber@StackWalker@CrashReporting@Debug@@QBE?BHXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetLineNumber@StackWalker@CrashReporting@Debug@@QBE?BHXZ");
 			// Debug::CrashReporting::StackWalker const *const this;
-			todo("implement");
-			__int32 const __result = _sub_1068F470((Debug::CrashReporting::StackWalker const *)this);
-			return __result;
+
+			return m_hasLineInfo ? m_line.LineNumber : 0;
 		}
 
-		_extern unsigned __int32 _sub_1068F6B0(Debug::CrashReporting::StackWalker const *const);
 		_inline unsigned __int32 StackWalker::GetPCAddress() const // 0x1068F6B0
 		{
-			mangled_x86(MANGLED_TODO, "?GetPCAddress@StackWalker@CrashReporting@Debug@@QBEIXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetPCAddress@StackWalker@CrashReporting@Debug@@QBEIXZ");
 			// Debug::CrashReporting::StackWalker const *const this;
-			todo("implement");
-			unsigned __int32 __result = _sub_1068F6B0((Debug::CrashReporting::StackWalker const *)this);
-			return __result;
+
+			return m_stackFrame.AddrPC.Offset;
 		}
 	}
 }
@@ -117,11 +114,10 @@ namespace Debug
 	{
 		_inline char const *StackWalker::GetFileName() const // 0x1068F2A0
 		{
-			mangled_x86(MANGLED_TODO, "?GetFileName@StackWalker@CrashReporting@Debug@@QBEPBDXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetFileName@StackWalker@CrashReporting@Debug@@QBEPBDXZ");
 			// Debug::CrashReporting::StackWalker const *const this;
-			todo("implement");
-			char const * __result = _sub_1068F2A0((Debug::CrashReporting::StackWalker const *)this);
-			return __result;
+
+			return m_hasLineInfo ? m_line.FileName : nullptr;
 		}
 	}
 }
@@ -133,11 +129,10 @@ namespace Debug
 	{
 		_inline char const *StackWalker::GetFunctionName() const // 0x1068F300
 		{
-			mangled_x86(MANGLED_TODO, "?GetFunctionName@StackWalker@CrashReporting@Debug@@QBEPBDXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetFunctionName@StackWalker@CrashReporting@Debug@@QBEPBDXZ");
 			// Debug::CrashReporting::StackWalker const *const this;
-			todo("implement");
-			char const * __result = _sub_1068F300((Debug::CrashReporting::StackWalker const *)this);
-			return __result;
+
+			return m_hasSymbolInfo ? GetSymbol()->Name : nullptr;
 		}
 
 		_inline bool StackWalker::HasSymbolInfo() const // 0x1068F860
@@ -186,11 +181,10 @@ namespace Debug
 	{
 		_inline _SYMBOL_INFO const *StackWalker::GetSymbol() const // 0x1068F7D0
 		{
-			mangled_x86(MANGLED_TODO, "?GetSymbol@StackWalker@CrashReporting@Debug@@ABEPBU_SYMBOL_INFO@@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetSymbol@StackWalker@CrashReporting@Debug@@ABEPBU_SYMBOL_INFO@@XZ");
 			// Debug::CrashReporting::StackWalker const *const this;
-			todo("implement");
-			_SYMBOL_INFO const * __result = _sub_1068F7D0((Debug::CrashReporting::StackWalker const *)this);
-			return __result;
+
+			return m_hasSymbolInfo ? (_SYMBOL_INFO const *)m_buffer : nullptr;
 		}
 	}
 }

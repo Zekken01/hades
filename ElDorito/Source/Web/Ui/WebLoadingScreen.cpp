@@ -285,13 +285,15 @@ void WebLoadingScreenUi::Show(Patches::LoadingScreen::LoadingScreenShowInfo cons
 	_sub_10CAAC00(this, info);
 }
 
-_extern void _sub_10CAA320(WebLoadingScreenUi *const, unsigned __int32);
 void WebLoadingScreenUi::Begin(unsigned __int32 totalBytes) // 0x10CAA320
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Begin@WebLoadingScreenUi@hades_file_local@@UAEXI@Z");
 	// `anonymous-namespace'::WebLoadingScreenUi::Begin
 	// unsigned __int32 totalBytes;
-	todo("implement");
-	_sub_10CAA320(this, totalBytes);
+
+	currentBytes = 0;
+	this->totalBytes = totalBytes;
+	lastUpdateTime = std::chrono::steady_clock::now();
 }
 
 _extern void _sub_10CAB360(WebLoadingScreenUi *const, unsigned __int32);

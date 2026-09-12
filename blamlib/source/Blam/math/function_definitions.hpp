@@ -50,7 +50,6 @@ struct s_function_definition_internal
 	char type; // 0x0
 	unsigned char flags; // 0x1
 	char color_graph_type; // 0x2
-	unsigned char __pad0[1]; // 0x3
 	union
 	{
 		struct
@@ -65,6 +64,7 @@ struct s_function_definition_internal
 	long data_size; // 0x1C
 };
 static_assert(sizeof(s_function_definition_internal) == 32, "Invalid s_function_definition_internal size");
+static_assert(offsetof(s_function_definition_internal, clamp_range_min) == 0x4, "s_function_definition_internal::clamp_range_min moved when its reconstructed padding was removed");
 
 struct c_periodic_function_compact
 {

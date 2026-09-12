@@ -185,7 +185,6 @@ struct s_squad_patrol_waypoint_definition
 	s_squad_patrol_waypoint_definition(); /* compiler_generated() */
 	s_squad_patrol_waypoint_definition &operator=(s_squad_patrol_waypoint_definition &); /* compiler_generated() */
 	s_squad_patrol_waypoint_definition &operator=(s_squad_patrol_waypoint_definition const &); /* compiler_generated() */
-	unsigned char __pad0[2]; // 0x36
 };
 static_assert(sizeof(s_squad_patrol_waypoint_definition) == 56, "Invalid s_squad_patrol_waypoint_definition size");
 
@@ -253,7 +252,6 @@ struct s_spawn_point_definition
 	s_ai_conditions place_on; // 0x0
 	unsigned long name; // 0xC
 	c_tag_block_index<s_cell_definition,short> cell; // 0x10
-	unsigned char __pad0[2]; // 0x12
 	c_ai_point3d point; // 0x14
 	real_euler_angles2d facing; // 0x24
 	float roll; // 0x2C
@@ -266,7 +264,6 @@ struct s_spawn_point_definition
 	c_enum<enum e_squad_seat_type,short> seat_type; // 0x3C
 	c_enum<enum e_squad_grenade_type,short> initial_grenade_type; // 0x3E
 	short swarm_count; // 0x40
-	unsigned char __pad1[2]; // 0x42
 	unsigned long actor_variant; // 0x44
 	unsigned long vehicle_variant; // 0x48
 	float initial_movement_distance; // 0x4C
@@ -276,7 +273,6 @@ struct s_spawn_point_definition
 	short emitter_biped; // 0x56
 	tag_string placement_script_name; // 0x58
 	c_tag_block_index<s_hs_script,short> placement_script; // 0x78
-	unsigned char __pad2[2]; // 0x7A
 	unsigned long activity_name; // 0x7C
 	c_tag_block_index<s_cs_point_set,short> point_set; // 0x80
 	c_enum<enum e_squad_patrol_mode,short> patrol_mode; // 0x82
@@ -288,6 +284,9 @@ struct s_spawn_point_definition
 	s_spawn_point_definition &operator=(s_spawn_point_definition const &); /* compiler_generated() */
 };
 static_assert(sizeof(s_spawn_point_definition) == 144, "Invalid s_spawn_point_definition size");
+static_assert(offsetof(s_spawn_point_definition, point) == 0x14, "s_spawn_point_definition::point moved when its reconstructed padding was removed");
+static_assert(offsetof(s_spawn_point_definition, actor_variant) == 0x44, "s_spawn_point_definition::actor_variant moved when its reconstructed padding was removed");
+static_assert(offsetof(s_spawn_point_definition, activity_name) == 0x7C, "s_spawn_point_definition::activity_name moved when its reconstructed padding was removed");
 
 struct s_squad_group_definition
 {

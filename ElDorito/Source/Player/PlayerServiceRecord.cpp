@@ -328,13 +328,12 @@ namespace Player
 			return __result;
 		}
 
-		_extern void _sub_106CA000();
 		void clearCache() // 0x106CA000
 		{
-			mangled_x86(MANGLED_TODO, "?clearCache@ServiceRecord@Player@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?clearCache@ServiceRecord@Player@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_106CA000();
+
+			clearCachedServiceRecords();
 		}
 
 		_extern void _sub_106CAB50(__int32);
@@ -378,14 +377,13 @@ void GetServiceRecordEndpoint() // 0x106C7200
 	_sub_106C7200();
 }
 
-_extern bool _sub_106C9A30(__int32);
 bool ValidNetworkPlayerIndex(__int32 networkPlayerIndex) // 0x106C9A30
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ValidNetworkPlayerIndex@@YA_NH@Z");
 	// `anonymous-namespace'::ValidNetworkPlayerIndex
 	// __int32 networkPlayerIndex;
-	todo("implement");
-	bool __result = _sub_106C9A30(networkPlayerIndex);
-	return __result;
+
+	return networkPlayerIndex >= 0 && networkPlayerIndex < 16;
 }
 
 extern std::wstring _sub_106CA7E0(__int32);

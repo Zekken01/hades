@@ -42,7 +42,7 @@ namespace Audio
 	struct IAudioDeviceListener
 	{
 		Audio::IAudioDeviceListener *next; // 0x4
-		virtual _inline ~IAudioDeviceListener();
+		virtual _inline ~IAudioDeviceListener() = default; // 0x107F1780
 		virtual void OnEvent(Audio::SAudioDeviceEvent const &) = 0;
 		IAudioDeviceListener(Audio::IAudioDeviceListener const &); /* compiler_generated() */
 		_inline IAudioDeviceListener(); /* compiler_generated() */
@@ -104,12 +104,6 @@ namespace Audio
 
 namespace Audio
 {
-	_inline IAudioDeviceListener::~IAudioDeviceListener() // 0x107F1780
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??1IAudioDeviceListener@Audio@@UAE@XZ");
-		// Audio::IAudioDeviceListener *const this;
-	}
-
 	extern CAudioDeviceManager* _sub_109637D0(Audio::CAudioDeviceManager *const);
 	_inline CAudioDeviceManager::CAudioDeviceManager() // 0x109637D0
 	{

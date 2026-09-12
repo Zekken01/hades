@@ -157,17 +157,11 @@ namespace Blam
 
 /* ---------- prototypes */
 
-namespace Blam
-{
-	namespace Input
-	{
-		VirtualKeyboard *CreateVirtualKeyboard(char const *file, __int32 line, __int32 unk2, __int32 unk3, __int32 unk4, __int32 unk5, __int32 maxLength, __int32 unk7, __int32 unk8);
-	}
-}
+Blam::Input::VirtualKeyboard *CreateVirtualKeyboard(char const *file, __int32 line, __int32 unk2, __int32 unk3, __int32 unk4, __int32 unk5, __int32 maxLength, __int32 unk7, __int32 unk8);
 
-void SetVirtualKeyboardDefaultValue(Blam::Input::VirtualKeyboard *keyboard, void *unused, wchar_t *newDefaultValue);
-void SetVirtualKeyboardTitle(Blam::Input::VirtualKeyboard *keyboard, void *unused, wchar_t *newTitle);
-void SetVirtualKeyboardDescription(Blam::Input::VirtualKeyboard *keyboard, void *unused, wchar_t *newDescription);
+void __fastcall SetVirtualKeyboardDefaultValue(Blam::Input::VirtualKeyboard *keyboard, void *unused, wchar_t *newDefaultValue);
+void __fastcall SetVirtualKeyboardTitle(Blam::Input::VirtualKeyboard *keyboard, void *unused, wchar_t *newTitle);
+void __fastcall SetVirtualKeyboardDescription(Blam::Input::VirtualKeyboard *keyboard, void *unused, wchar_t *newDescription);
 bool ShowVirtualKeyboard(Blam::Input::VirtualKeyboard *keyboard, char const *file, __int32 line);
 void WebVirtualKeyboardHandler(Blam::Input::VirtualKeyboard *keyboard);
 
@@ -196,13 +190,17 @@ namespace Patches
 			_sub_10AEBE10();
 		}
 
-		_extern void _sub_10AEB800();
 		void ApplyAll() // 0x10AEB800
 		{
-			mangled_x86(MANGLED_TODO, "?ApplyAll@VirtualKeyboard@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@VirtualKeyboard@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_10AEB800();
+
+			// Implement virtual keyboard stubs
+			Hook(0xE1840, CreateVirtualKeyboard).Apply();
+			Hook(0xE19A0, SetVirtualKeyboardDefaultValue).Apply();
+			Hook(0xE19D0, SetVirtualKeyboardTitle).Apply();
+			Hook(0xE19B0, SetVirtualKeyboardDescription).Apply();
+			Hook(0x1A8F40, ShowVirtualKeyboard).Apply();
 		}
 
 		_extern void _sub_10AEBE70(std::function<void __cdecl(Blam::Input::VirtualKeyboard *)>);
@@ -228,57 +226,51 @@ namespace Patches
 //	_sub_10AEB510(this, keyboard);
 //}
 
-namespace Blam
+extern Blam::Input::VirtualKeyboard *_sub_10AEBD00(char const *, __int32, __int32, __int32, __int32, __int32, __int32, __int32, __int32);
+Blam::Input::VirtualKeyboard *CreateVirtualKeyboard(char const *file, __int32 line, __int32 unk2, __int32 unk3, __int32 unk4, __int32 unk5, __int32 maxLength, __int32 unk7, __int32 unk8) // 0x10AEBD00
 {
-	namespace Input
-	{
-		extern VirtualKeyboard *_sub_10AEBD00(char const *, __int32, __int32, __int32, __int32, __int32, __int32, __int32, __int32);
-		VirtualKeyboard *CreateVirtualKeyboard(char const *file, __int32 line, __int32 unk2, __int32 unk3, __int32 unk4, __int32 unk5, __int32 maxLength, __int32 unk7, __int32 unk8) // 0x10AEBD00
-		{
-			// `anonymous-namespace'::CreateVirtualKeyboard
-			// __int32 unk8;
-			todo("implement");
-			Blam::Input::VirtualKeyboard * __result = _sub_10AEBD00(file, line, unk2, unk3, unk4, unk5, maxLength, unk7, unk8);
-			return __result;
-		}
-	}
+	// `anonymous-namespace'::CreateVirtualKeyboard
+	// __int32 unk8;
+	todo("implement");
+	Blam::Input::VirtualKeyboard * __result = _sub_10AEBD00(file, line, unk2, unk3, unk4, unk5, maxLength, unk7, unk8);
+	return __result;
 }
 
-_extern void _sub_10AEBF10(Blam::Input::VirtualKeyboard *, void *, wchar_t *);
-void SetVirtualKeyboardDefaultValue(Blam::Input::VirtualKeyboard *keyboard, void *unused, wchar_t *newDefaultValue) // 0x10AEBF10
+void __fastcall SetVirtualKeyboardDefaultValue(Blam::Input::VirtualKeyboard *keyboard, void *unused, wchar_t *newDefaultValue) // 0x10AEBF10
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SetVirtualKeyboardDefaultValue@@YIXPAVVirtualKeyboard@Input@Blam@@PAXPA_W@Z");
 	// `anonymous-namespace'::SetVirtualKeyboardDefaultValue
 	// wchar_t *newDefaultValue;
-	todo("implement");
-	_sub_10AEBF10(keyboard, unused, newDefaultValue);
+
+	keyboard->SetDefaultValue(newDefaultValue);
 }
 
-_extern void _sub_10AEBFD0(Blam::Input::VirtualKeyboard *, void *, wchar_t *);
-void SetVirtualKeyboardTitle(Blam::Input::VirtualKeyboard *keyboard, void *unused, wchar_t *newTitle) // 0x10AEBFD0
+void __fastcall SetVirtualKeyboardTitle(Blam::Input::VirtualKeyboard *keyboard, void *unused, wchar_t *newTitle) // 0x10AEBFD0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SetVirtualKeyboardTitle@@YIXPAVVirtualKeyboard@Input@Blam@@PAXPA_W@Z");
 	// `anonymous-namespace'::SetVirtualKeyboardTitle
 	// wchar_t *newTitle;
-	todo("implement");
-	_sub_10AEBFD0(keyboard, unused, newTitle);
+
+	keyboard->SetTitle(newTitle);
 }
 
-_extern void _sub_10AEBF70(Blam::Input::VirtualKeyboard *, void *, wchar_t *);
-void SetVirtualKeyboardDescription(Blam::Input::VirtualKeyboard *keyboard, void *unused, wchar_t *newDescription) // 0x10AEBF70
+void __fastcall SetVirtualKeyboardDescription(Blam::Input::VirtualKeyboard *keyboard, void *unused, wchar_t *newDescription) // 0x10AEBF70
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SetVirtualKeyboardDescription@@YIXPAVVirtualKeyboard@Input@Blam@@PAXPA_W@Z");
 	// `anonymous-namespace'::SetVirtualKeyboardDescription
 	// wchar_t *newDescription;
-	todo("implement");
-	_sub_10AEBF70(keyboard, unused, newDescription);
+
+	keyboard->SetDescription(newDescription);
 }
 
-_extern bool _sub_10AEC030(Blam::Input::VirtualKeyboard *, char const *, __int32);
 bool ShowVirtualKeyboard(Blam::Input::VirtualKeyboard *keyboard, char const *file, __int32 line) // 0x10AEC030
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ShowVirtualKeyboard@@YA_NPAVVirtualKeyboard@Input@Blam@@PBDH@Z");
 	// `anonymous-namespace'::ShowVirtualKeyboard
 	// __int32 line;
-	todo("implement");
-	bool __result = _sub_10AEC030(keyboard, file, line);
-	return __result;
+
+	KeyboardHandler(keyboard);
+	return true;
 }
 
 _extern void _sub_10AEC080(Blam::Input::VirtualKeyboard *);

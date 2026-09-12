@@ -102,7 +102,6 @@ struct c_editable_property
 	c_editable_property(); /* compiler_generated() */
 	c_editable_property &operator=(c_editable_property &); /* compiler_generated() */
 	c_editable_property &operator=(c_editable_property const &); /* compiler_generated() */
-	unsigned char __pad0[3]; // 0x1D
 };
 static_assert(sizeof(c_editable_property) == 32, "Invalid c_editable_property size");
 
@@ -150,7 +149,6 @@ struct s_particle_emitter_movement_data_movement
 {
 	c_enum<enum e_particle_emitter_movement_data_movement_type,short> type; // 0x0
 	c_flags<enum e_particle_emitter_movement_data_movement_flags,char> flags; // 0x2
-	unsigned char __pad0[1]; // 0x3
 	c_tag_block<s_particle_emitter_particle_movement_data_movement_parameter> parameters; // 0x4
 	long runtime_m_constant_parameters; // 0x10
 	long runtime_m_used_particle_states; // 0x14
@@ -161,6 +159,7 @@ struct s_particle_emitter_movement_data_movement
 	s_particle_emitter_movement_data_movement &operator=(s_particle_emitter_movement_data_movement const &); /* compiler_generated() */
 };
 static_assert(sizeof(s_particle_emitter_movement_data_movement) == 24, "Invalid s_particle_emitter_movement_data_movement size");
+static_assert(offsetof(s_particle_emitter_movement_data_movement, parameters) == 0x4, "s_particle_emitter_movement_data_movement::parameters moved when its reconstructed padding was removed");
 
 struct s_particle_emitter_movement_data
 {

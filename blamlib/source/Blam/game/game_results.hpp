@@ -227,13 +227,11 @@ static_assert(sizeof(s_game_results_events) == 36, "Invalid s_game_results_event
 struct s_game_results_player_data
 {
 	bool exists; // 0x0
-	unsigned char __pad0[3]; // 0x1
 	long field_4; // 0x4
 	long field_8; // 0x8
 	long field_C; // 0xC
 	s_player_configuration configuration; // 0x10
 	char standing; // 0x1630
-	unsigned char __pad1[3]; // 0x1631
 	long field_1634; // 0x1634
 	long field_1638; // 0x1638
 	short score; // 0x163C
@@ -241,6 +239,8 @@ struct s_game_results_player_data
 	s_game_results_player_data(); /* compiler_generated() */
 };
 static_assert(sizeof(s_game_results_player_data) == 5696, "Invalid s_game_results_player_data size");
+static_assert(offsetof(s_game_results_player_data, field_4) == 0x4, "s_game_results_player_data::field_4 moved when its reconstructed padding was removed");
+static_assert(offsetof(s_game_results_player_data, field_1634) == 0x1634, "s_game_results_player_data::field_1634 moved when its reconstructed padding was removed");
 
 struct s_game_results_team_data
 {
@@ -262,10 +262,10 @@ struct s_game_results_machine_data
 	char field_16; // 0x16
 	char field_17; // 0x17
 	char field_18; // 0x18
-	unsigned char __pad0[3]; // 0x19
 	long field_1C; // 0x1C
 };
 static_assert(sizeof(s_game_results_machine_data) == 32, "Invalid s_game_results_machine_data size");
+static_assert(offsetof(s_game_results_machine_data, field_1C) == 0x1C, "s_game_results_machine_data::field_1C moved when its reconstructed padding was removed");
 
 struct s_game_results_statistics
 {
@@ -298,22 +298,17 @@ struct c_game_results
 	bool initialized; // 0x0
 	bool finalized; // 0x1
 	bool unreliable; // 0x2
-	unsigned char __pad0[1]; // 0x3
 	s_game_results_hopper hopper; // 0x4
 	bool team_based; // 0x60
-	unsigned char __pad1[7]; // 0x61
 	unsigned long long game_id; // 0x68
 	c_game_variant game_variant; // 0x70
 	wchar_t map_variant_name[32]; // 0x2D4
 	long map_id; // 0x314
 	char scenario_path[260]; // 0x318
 	bool started; // 0x41C
-	unsigned char __pad2[3]; // 0x41D
 	unsigned long start_time; // 0x420
 	bool finished; // 0x424
-	unsigned char __pad3[3]; // 0x425
 	unsigned long finished_time; // 0x428
-	unsigned char __pad4[4]; // 0x42C
 	s_game_results_player_data players[16]; // 0x430
 	s_game_results_team_data teams[16]; // 0x16830
 	s_game_results_statistics statistics; // 0x16870
@@ -321,6 +316,11 @@ struct c_game_results
 	s_game_results_machine_data machines[17]; // 0x242F0
 };
 static_assert(sizeof(c_game_results) == 148752, "Invalid c_game_results size");
+static_assert(offsetof(c_game_results, hopper) == 0x4, "c_game_results::hopper moved when its reconstructed padding was removed");
+static_assert(offsetof(c_game_results, game_id) == 0x68, "c_game_results::game_id moved when its reconstructed padding was removed");
+static_assert(offsetof(c_game_results, start_time) == 0x420, "c_game_results::start_time moved when its reconstructed padding was removed");
+static_assert(offsetof(c_game_results, finished_time) == 0x428, "c_game_results::finished_time moved when its reconstructed padding was removed");
+static_assert(offsetof(c_game_results, players) == 0x430, "c_game_results::players moved when its reconstructed padding was removed");
 
 /* ---------- prototypes */
 
@@ -334,14 +334,12 @@ extern _inline c_game_results *game_results_get_current_results();
 
 /* ---------- public code */
 
-extern c_game_results *_sub_10B2D590();
 _inline c_game_results *game_results_get_current_results() // 0x10B2D590
 {
-	mangled_x86(MANGLED_TODO, "?game_results_get_current_results@@YAPAUc_game_results@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_results_get_current_results@@YAPAUc_game_results@@XZ");
 	// procedure flags: nofpo
-	todo("implement");
-	c_game_results * __result = _sub_10B2D590();
-	return __result;
+
+	return (c_game_results *)0x23DAEA8;
 }
 
 /* ---------- private code */

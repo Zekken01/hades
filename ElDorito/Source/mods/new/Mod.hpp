@@ -41,7 +41,7 @@ public:
 	class IClient
 	{
 	public:
-		virtual _inline ~IClient();
+		virtual _inline ~IClient() = default; // 0x107913E0
 		virtual void OnModLoadStateChanged(Mod *) = 0;
 		IClient(IClient const &); /* compiler_generated() */
 		_inline IClient(); /* compiler_generated() */
@@ -90,12 +90,6 @@ private:
 /* ---------- globals */
 
 /* ---------- public code */
-
-_inline Mod::IClient::~IClient() // 0x107913E0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1IClient@Mod@@UAE@XZ");
-	// Mod::IClient *const this;
-}
 
 /* ---------- private code */
 

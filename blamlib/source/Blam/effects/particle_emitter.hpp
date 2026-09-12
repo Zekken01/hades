@@ -62,10 +62,10 @@ struct c_particle_emitter_gpu :
 		long next_row; // 0x8
 		short row_datum; // 0xC
 		char m_used_count; // 0xE
-		unsigned char __pad0[1]; // 0xF
 		float field_10; // 0x10
 	};
 	static_assert(sizeof(s_row) == 20, "Invalid s_row size");
+	static_assert(offsetof(s_row, field_10) == 0x10, "s_row::field_10 moved when its reconstructed padding was removed");
 	struct s_gpu_storage
 	{
 		void *_vftable; // 0x0
@@ -255,7 +255,6 @@ struct c_particle_emitter_gpu :
 	static void (*set_shader_render_state)(c_particle_emitter_gpu *, void *, long);
 	static s_queued_buffer_system *x_queued_buffer_system;
 	static c_particle_system *get_particle_system(c_particle_emitter_gpu *);
-	unsigned char __pad0[2]; // 0x16
 };
 static_assert(sizeof(c_particle_emitter_gpu) == 24, "Invalid c_particle_emitter_gpu size");
 

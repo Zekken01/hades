@@ -119,17 +119,29 @@ namespace Server
 		_sub_10AFAF10(this, ip);
 	}
 
-	_extern void _sub_10AFC1B0(Server::TempBanList *const);
 	void TempBanList::decrementDuration() // 0x10AFC1B0
 	{
-		mangled_x86(MANGLED_TODO, "?decrementDuration@TempBanList@Server@@QAEXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?decrementDuration@TempBanList@Server@@QAEXXZ");
 		// static ...; // 0x10AFC338
 		// static ...; // 0x10AFC32C
 		// static ...; // 0x10AFC324
 		// Server::TempBanList *const this;
 		// std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,int> > > > it;
-		todo("implement");
-		_sub_10AFC1B0(this);
+
+		auto it = ipAddresses.begin();
+		while (it != ipAddresses.end())
+		{
+			if (it->second < 2)
+			{
+				//remove this Ip if its duration has finished.
+				it = ipAddresses.erase(it);
+			}
+			else
+			{
+				it->second--;
+				++it;
+			}
+		}
 	}
 
 	extern BanList* _sub_10AFA740(Server::BanList *const, std::string const &);
@@ -223,18 +235,19 @@ namespace Server
 		_sub_10AFBC20((Server::BanList const *)this, path);
 	}
 
-	extern BanList _sub_10AFB1A0();
 	Server::BanList LoadDefaultBanList() // 0x10AFB1A0
 	{
-		mangled_x86(MANGLED_TODO, "?LoadDefaultBanList@Server@@YA?AVBanList@1@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?LoadDefaultBanList@Server@@YA?AVBanList@1@XZ");
 		// procedure flags: nofpo
 		// static ...; // 0x10AFB2C8
 		// static ...; // 0x10AFB2BC
 		// static ...; // 0x10AFB2B4
 		// std::ifstream file;
-		todo("implement");
-		Server::BanList __result = _sub_10AFB1A0();
-		return __result;
+
+		std::ifstream file(DefaultBanListPath);
+		if (file)
+			return BanList(file);
+		return BanList();
 	}
 
 	_extern void _sub_10AFBD30(Server::BanList const &);

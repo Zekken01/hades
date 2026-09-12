@@ -37,11 +37,11 @@ struct s_player_control_input
 	unsigned long unit_control_flags; // 0x18
 	unsigned long player_control_flags; // 0x1C
 	unsigned short player_action_flags; // 0x20
-	unsigned char __pad0[2]; // 0x22
 	float field_24; // 0x24
 	s_aim_assist_targeting_result aim_assist; // 0x28
 };
 static_assert(sizeof(s_player_control_input) == 80, "Invalid s_player_control_input size");
+static_assert(offsetof(s_player_control_input, field_24) == 0x24, "s_player_control_input::field_24 moved when its reconstructed padding was removed");
 
 #pragma pack(push, 4)
 struct s_player_control_state

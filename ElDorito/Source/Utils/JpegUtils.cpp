@@ -167,27 +167,33 @@ void init_stdvector_destination(jpeg_compress_struct *__formal) // 0x10754710
 	// jpeg_compress_struct *__formal;
 }
 
-_extern bool _sub_10754630(jpeg_compress_struct *);
 bool empty_stdvector_output_buffer(jpeg_compress_struct *cinfo) // 0x10754630
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?empty_stdvector_output_buffer@@YA_NPAUjpeg_compress_struct@hades_file_local@@@Z");
 	// `anonymous-namespace'::empty_stdvector_output_buffer
 	// jpeg_compress_struct *cinfo;
 	// unsigned __int32 const currentSize;
 	// stdvector_destination_mgr *dest;
-	todo("implement");
-	bool __result = _sub_10754630(cinfo);
-	return __result;
+
+	stdvector_destination_mgr *dest = (stdvector_destination_mgr *)cinfo->dest;
+	unsigned int currentSize = dest->vec->size();
+	dest->vec->resize(2 * currentSize);
+	dest->pub.next_output_byte = &dest->vec->data()[currentSize];
+	dest->pub.free_in_buffer = currentSize;
+	return true;
 }
 
-_extern void _sub_10754950(jpeg_compress_struct *);
 void term_stdvector_destination(jpeg_compress_struct *cinfo) // 0x10754950
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?term_stdvector_destination@@YAXPAUjpeg_compress_struct@hades_file_local@@@Z");
 	// `anonymous-namespace'::term_stdvector_destination
 	// jpeg_compress_struct *cinfo;
 	// stdvector_destination_mgr *dest;
 	// unsigned __int32 const used_bytes;
-	todo("implement");
-	_sub_10754950(cinfo);
+
+	stdvector_destination_mgr *dest = (stdvector_destination_mgr *)cinfo->dest;
+	size_t newSize = dest->vec->capacity() - dest->pub.free_in_buffer;
+	dest->vec->resize(newSize);
 }
 
 _extern void _sub_10754730(jpeg_compress_struct *, std::vector<unsigned char> &);

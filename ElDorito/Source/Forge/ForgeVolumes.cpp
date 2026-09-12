@@ -245,6 +245,8 @@ struct s_state
 
 /* ---------- prototypes */
 
+s_forge_globals_definition *forge_globals_get_definition();  // hades: added for 0X10954DA0
+
 namespace Forge
 {
 	namespace Volumes
@@ -276,6 +278,7 @@ void RenderVolumes();
 namespace hades_file_local
 {
 	extern float const kGarbageCollectionIntervals[4]; // 0x11199D78
+	extern s_state state; // 0x1240DAB8
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -299,13 +302,12 @@ namespace Forge
 			_sub_10954D00();
 		}
 
-		_extern void _sub_109548F0();
 		void DisposeFromOldRound() // 0x109548F0
 		{
-			mangled_x86(MANGLED_TODO, "?DisposeFromOldRound@Volumes@Forge@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?DisposeFromOldRound@Volumes@Forge@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_109548F0();
+
+			state.IsValid = false;
 		}
 
 		_extern void _sub_109556B0();
@@ -578,15 +580,15 @@ void FindVolumes() // 0x109549C0
 	_sub_109549C0();
 }
 
-_extern bool _sub_10954DA0(__int32);
 bool ObjectIsVolume(__int32 tagIndex) // 0x10954DA0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ObjectIsVolume@@YA_NH@Z");
 	// `anonymous-namespace'::ObjectIsVolume
 	// __int32 tagIndex;
 	// s_forge_globals_definition *forge_globals;
-	todo("implement");
-	bool __result = _sub_10954DA0(tagIndex);
-	return __result;
+
+	s_forge_globals_definition *forge_globals = forge_globals_get_definition();
+	return tagIndex == forge_globals->kill_volume_object.index || tagIndex == forge_globals->garbage_volume_object.index;
 }
 
 _extern void _sub_10956160();

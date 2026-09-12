@@ -50,13 +50,12 @@ using namespace hades_file_local;
 
 namespace Forge
 {
-	_extern void _sub_10680200();
 	void CForgeWeather::InitializeForNewMap() // 0x10680200
 	{
-		mangled_x86(MANGLED_TODO, "?InitializeForNewMap@CForgeWeather@Forge@@SAXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeForNewMap@CForgeWeather@Forge@@SAXXZ");
 		// procedure flags: nofpo
-		todo("implement");
-		_sub_10680200();
+
+		currentWeatherIndex = -1;
 	}
 
 	_extern void _sub_10680140();

@@ -114,6 +114,7 @@ void HandleInput();
 namespace hades_file_local
 {
 	extern float const SNAP_ANGLES[7]; // 0x1119ABF8
+	extern s_RotationSnapState s_RotationSnapState; // 0x1244FA10
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -217,7 +218,6 @@ void SetSnap(__int32 value) // 0x109719E0
 	_sub_109719E0(value);
 }
 
-_extern void _sub_10971350();
 void HandleInput() // 0x10971350
 {
 	// `anonymous-namespace'::HandleInput
@@ -228,6 +228,31 @@ void HandleInput() // 0x10971350
 	// Blam::Input::ActionState *uiRightAction;
 	// __int32 snapAngleCount;
 	// static __int32 `HandleInput'::`2'::$TSS0; // 0x1244FA5C
-	todo("implement");
-	_sub_10971350();
+
+	using namespace Blam::Input;
+
+	static auto& moduleForge = Modules::ModuleForge::Instance();
+
+	auto uiLeftAction = GetActionState(eGameActionUiLeft);
+	auto uiRightAction = GetActionState(eGameActionUiRight);
+
+	int snapAngleCount = sizeof(SNAP_ANGLES) / sizeof(SNAP_ANGLES[0]);
+	auto currentSnap = static_cast<int>(moduleForge.VarRotationSnap->ValueInt);
+
+	if (!(uiLeftAction->Flags & eActionStateFlagsHandled) && uiLeftAction->Ticks == 1)
+	{
+		if (--currentSnap < 0)
+			currentSnap = snapAngleCount - 1;
+
+		uiLeftAction->Flags |= eActionStateFlagsHandled;
+		SetSnap(currentSnap);
+	}
+	if (!(uiRightAction->Flags & eActionStateFlagsHandled) &&  uiRightAction->Ticks == 1)
+	{
+		if (++currentSnap >= snapAngleCount)
+			currentSnap = 0;
+
+		uiRightAction->Flags |= eActionStateFlagsHandled;
+		SetSnap(currentSnap);
+	}
 }

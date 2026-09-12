@@ -135,8 +135,10 @@ void InitializeIfNeeded();
 
 namespace hades_file_local
 {
+	extern s_buff buff; // 0x1168F568
 	extern std::atomic<bool> initialized; // 0x116A3614
 	extern std::atomic<bool> clearRequested; // 0x116A3615
+	extern CSimpleMessageQueue<STraceLine,128> queue; // 0x116A3618
 }
 using namespace hades_file_local;
 /* ---------- public code */

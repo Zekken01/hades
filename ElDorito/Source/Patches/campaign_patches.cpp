@@ -104,6 +104,15 @@ namespace Patches
 
 /* ---------- prototypes */
 
+extern long (__cdecl *const game_time_get)();  // hades: added for 0X1090FA30
+
+extern long (*campaign_metagame_globals_initialize_for_new_map)();  // hades: added for 0X1090F060
+
+extern long (*game_get_current_engine)();  // hades: added for 0X1090F0E0
+extern bool (*game_is_campaign)();  // hades: added for 0X1090F0E0
+extern long *(*survival_mode_get_scoreboard)();  // hades: added for 0X1090F0E0
+void *tls_get(unsigned long index);  // hades: added for 0X1090F0E0
+
 namespace Patches
 {
 	namespace campaign_patches
@@ -152,30 +161,37 @@ namespace Patches
 			_sub_1090F9E0();
 		}
 
-		_extern long _sub_1090F060();
 		long campaign_metagame_globals_initialize_for_new_map_patch() // 0x1090F060
 		{
-			mangled_x86(MANGLED_TODO, "?campaign_metagame_globals_initialize_for_new_map_patch@campaign_patches@Patches@@YAJXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?campaign_metagame_globals_initialize_for_new_map_patch@campaign_patches@Patches@@YAJXZ");
 			// procedure flags: nofpo
 			// long result;
 			// function call : long (*)()
 			// function call : bool (*)()
-			todo("implement");
-			long __result = _sub_1090F060();
-			return __result;
+
+			long result = campaign_metagame_globals_initialize_for_new_map();
+			if (game_is_campaign())
+				Patches::campaign_patches::fixup_campaign_metagame_flags();
+			return result;
 		}
 
-		_extern long *_sub_1090F0E0();
 		long *campaign_scoreboard_patch() // 0x1090F0E0
 		{
-			mangled_x86(MANGLED_TODO, "?campaign_scoreboard_patch@campaign_patches@Patches@@YAPAJXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?campaign_scoreboard_patch@campaign_patches@Patches@@YAPAJXZ");
 			// procedure flags: nofpo
 			// function call : long (*)()
 			// function call : bool (*)()
 			// function call : long *(*)()
-			todo("implement");
-			long * __result = _sub_1090F0E0();
-			return __result;
+
+			if (game_get_current_engine())
+			{
+				return (long *)(*(long *)tls_get(0x48) + 0xFEB0);
+			}
+			if (game_is_campaign())
+			{
+				return survival_mode_get_scoreboard();
+			}
+			return nullptr;
 		}
 
 		_extern void _sub_1090EE60(unsigned long);
@@ -266,18 +282,21 @@ namespace Patches
 			return __result;
 		}
 
-		_extern bool _sub_1090FA30();
 		bool game_reverted_hook() // 0x1090FA30
 		{
-			mangled_x86(MANGLED_TODO, "?game_reverted_hook@campaign_patches@Patches@@YA_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?game_reverted_hook@campaign_patches@Patches@@YA_NXZ");
 			// procedure flags: nofpo
 			// __int32 game_state_revert_time;
 			// function call : long (*const)()
 			// function call : long (*const)()
 			// function call : long (*const)()
-			todo("implement");
-			bool __result = _sub_1090FA30();
-			return __result;
+
+			int game_state_revert_time = *(int *)0x238db14;
+			if (game_state_revert_time != -1 && (game_state_revert_time == game_time_get() - 1 || game_state_revert_time == game_time_get() + 1))
+			{
+				return true;
+			}
+			return game_state_revert_time == game_time_get();
 		}
 
 		_extern bool _sub_1090EBC0(long);

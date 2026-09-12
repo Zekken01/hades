@@ -40,28 +40,34 @@ using namespace ::Utils;
 
 namespace Utils
 {
-	_extern bool _sub_10C5CF40(Utils::Rectangle const *const);
 	bool Rectangle::IsEmpty() const // 0x10C5CF40
 	{
-		mangled_x86(MANGLED_TODO, "?IsEmpty@Rectangle@Utils@@QBE_NXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?IsEmpty@Rectangle@Utils@@QBE_NXZ");
 		// Utils::Rectangle const *const this;
-		todo("implement");
-		bool __result = _sub_10C5CF40((Utils::Rectangle const *)this);
-		return __result;
+
+		return Width == 0 || Height == 0;
 	}
 
-	_extern bool _sub_10C5CE20(Utils::Rectangle const *const, Utils::Rectangle const &);
 	bool Rectangle::Intersects(Utils::Rectangle const &other) const // 0x10C5CE20
 	{
-		mangled_x86(MANGLED_TODO, "?Intersects@Rectangle@Utils@@QBE_NABU12@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Intersects@Rectangle@Utils@@QBE_NABU12@@Z");
 		// Utils::Rectangle const &other;
 		// __int32 right;
 		// __int32 otherBottom;
 		// __int32 bottom;
 		// __int32 otherRight;
-		todo("implement");
-		bool __result = _sub_10C5CE20((Utils::Rectangle const *)this, other);
-		return __result;
+
+		if (IsEmpty() || other.IsEmpty())
+		{
+			return false;
+		}
+
+		int right = X + Width;
+		int bottom = Y + Height;
+		int otherRight = other.X + other.Width;
+		int otherBottom = other.Y + other.Height;
+
+		return X < otherRight && right > other.X && Y < otherBottom && bottom > other.Y;
 	}
 
 	extern Rectangle _sub_10C5CC20(Utils::Rectangle const *const, Utils::Rectangle const &);
@@ -80,24 +86,20 @@ namespace Utils
 		return __result;
 	}
 
-	extern Rectangle _sub_10C5CFA0(Utils::Rectangle const *const, __int32, __int32);
 	Utils::Rectangle Rectangle::Translate(__int32 x, __int32 y) const // 0x10C5CFA0
 	{
-		mangled_x86(MANGLED_TODO, "?Translate@Rectangle@Utils@@QBE?AU12@HH@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Translate@Rectangle@Utils@@QBE?AU12@HH@Z");
 		// __int32 y;
-		todo("implement");
-		Utils::Rectangle __result = _sub_10C5CFA0((Utils::Rectangle const *)this, x, y);
-		return __result;
+
+		return Rectangle(X + x, Y + y, Width, Height);
 	}
 
-	extern Rectangle _sub_10C5CA70(Utils::Rectangle const *const, __int32, __int32, __int32, __int32);
 	Utils::Rectangle Rectangle::Add(__int32 x, __int32 y, __int32 width, __int32 height) const // 0x10C5CA70
 	{
-		mangled_x86(MANGLED_TODO, "?Add@Rectangle@Utils@@QBE?AU12@HHHH@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Add@Rectangle@Utils@@QBE?AU12@HHHH@Z");
 		// __int32 height;
-		todo("implement");
-		Utils::Rectangle __result = _sub_10C5CA70((Utils::Rectangle const *)this, x, y, width, height);
-		return __result;
+
+		return Add(Utils::Rectangle(x, y, width, height));
 	}
 
 	extern Rectangle _sub_10C5C850(Utils::Rectangle const *const, Utils::Rectangle const &);

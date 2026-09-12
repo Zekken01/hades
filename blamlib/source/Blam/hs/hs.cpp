@@ -49,6 +49,8 @@ struct s_scenario;
 
 /* ---------- prototypes */
 
+s_hs_thread *hs_thread_get(unsigned long thread_index);  // hades: added for 0X10F03460
+
 extern void *hs_get_node_data(unsigned long script_index);
 extern s_hs_thread *hs_thread_get(unsigned long index);
 extern void hs_find_dormant_script(char const *script_name, long *out_script_index);
@@ -89,14 +91,12 @@ void *hs_get_node_data(unsigned long script_index) // 0x10F02FA0
 	return __result;
 }
 
-extern s_hs_thread *_sub_10F033F0(unsigned long);
 s_hs_thread *hs_thread_get(unsigned long index) // 0x10F033F0
 {
-	mangled_x86(MANGLED_TODO, "?hs_thread_get@@YAPAUs_hs_thread@@K@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_thread_get@@YAPAUs_hs_thread@@K@Z");
 	// unsigned long index;
-	todo("implement");
-	s_hs_thread * __result = _sub_10F033F0(index);
-	return __result;
+
+	return tls_getd().hs_thread_deterministic_data->try_and_get(index);
 }
 
 _extern void _sub_10F02E90(char const *, long *);
@@ -114,25 +114,26 @@ void hs_find_dormant_script(char const *script_name, long *out_script_index) // 
 	_sub_10F02E90(script_name, out_script_index);
 }
 
-extern hs_stack_frame *_sub_10F03460(long);
 hs_stack_frame *hs_thread_stack(long thread_index) // 0x10F03460
 {
-	mangled_x86(MANGLED_TODO, "?hs_thread_stack@@YAPAUhs_stack_frame@@J@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_thread_stack@@YAPAUhs_stack_frame@@J@Z");
 	// long thread_index;
 	// s_hs_thread *thread;
-	todo("implement");
-	hs_stack_frame * __result = _sub_10F03460(thread_index);
-	return __result;
+
+	s_hs_thread *thread = hs_thread_get(thread_index);
+	if (thread == nullptr)
+	{
+		return nullptr;
+	}
+	return (hs_stack_frame *)&thread->stack[thread->stack_offset];
 }
 
-extern s_hs_global_external *_sub_10F030A0(short);
 s_hs_global_external *hs_global_external_get(short index) // 0x10F030A0
 {
-	mangled_x86(MANGLED_TODO, "?hs_global_external_get@@YAPAUs_hs_global_external@@F@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_global_external_get@@YAPAUs_hs_global_external@@F@Z");
 	// short index;
-	todo("implement");
-	s_hs_global_external * __result = _sub_10F030A0(index);
-	return __result;
+
+	return g_hs_global_externals[index];
 }
 
 extern e_hs_type _sub_10F03220(short);
@@ -152,26 +153,35 @@ e_hs_type hs_global_get_type(short global_index) // 0x10F03220
 	return __result;
 }
 
-extern char const *_sub_10F03100(short);
 char const *hs_global_get_name(short global_index) // 0x10F03100
 {
-	mangled_x86(MANGLED_TODO, "?hs_global_get_name@@YAPBDF@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_global_get_name@@YAPBDF@Z");
 	// short global_index;
 	// short absolute_index;
-	todo("implement");
-	char const * __result = _sub_10F03100(global_index);
-	return __result;
+
+	short masked_index = global_index & 0x7FFF;
+	if (global_index & 0x8000)
+	{
+		return "<unknown>";
+	}
+	else
+	{
+		return (char const *)&global_scenario_get()->script_globals[masked_index];
+	}
 }
 
-_extern short _sub_10F031A0(short);
 short hs_global_get_runtime_index(short global_index) // 0x10F031A0
 {
-	mangled_x86(MANGLED_TODO, "?hs_global_get_runtime_index@@YAFF@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_global_get_runtime_index@@YAFF@Z");
 	// short global_index;
 	// short runtime_index;
-	todo("implement");
-	short __result = _sub_10F031A0(global_index);
-	return __result;
+
+	short runtime_index = global_index & 0x7FFF;
+	if ((global_index & 0x8000) == 0)
+	{
+		runtime_index += 1315;
+	}
+	return runtime_index;
 }
 
 extern s_hs_global_runtime *_sub_10F032F0(short);
@@ -184,15 +194,13 @@ s_hs_global_runtime *hs_global_runtime_get(short global_index) // 0x10F032F0
 	return __result;
 }
 
-extern hs_value const *_sub_10F02E20(short, long, bool);
 hs_value const *hs_evaluate_arguments2(short op, long thread_index, bool initial) // 0x10F02E20
 {
-	mangled_x86(MANGLED_TODO, "?hs_evaluate_arguments2@@YAPBUhs_value@@FJ_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_evaluate_arguments2@@YAPBUhs_value@@FJ_N@Z");
 	// bool initial;
 	// function call : hs_value *(*const)(short, long, bool)
-	todo("implement");
-	hs_value const * __result = _sub_10F02E20(op, thread_index, initial);
-	return __result;
+
+	return ((hs_value const *(__cdecl *)(unsigned short, long, bool))0x5972f0)(op, thread_index, initial);
 }
 
 void hs_return2(long thread_index, hs_value value) // 0x10F03380
@@ -204,14 +212,12 @@ void hs_return2(long thread_index, hs_value value) // 0x10F03380
 	((void(__cdecl *const)(long, hs_value))0x5974e0)(thread_index, value);
 }
 
-extern char const *_sub_10F03050(e_hs_type);
 char const *hs_get_type_name(e_hs_type type) // 0x10F03050
 {
-	mangled_x86(MANGLED_TODO, "?hs_get_type_name@@YAPBDW4e_hs_type@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_get_type_name@@YAPBDW4e_hs_type@@@Z");
 	// e_hs_type type;
-	todo("implement");
-	char const * __result = _sub_10F03050(type);
-	return __result;
+
+	return ((char const **)0x18BEC98)[(short)type];
 }
 
 extern hs_value _sub_10F02A90(e_hs_type);

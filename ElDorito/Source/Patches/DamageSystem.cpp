@@ -183,9 +183,9 @@ long event_generate_part_object_new_hook(s_object_placement_data *placement_data
 	return __result;
 }
 
-_extern long _sub_10960300(s_effect_creation_data *);
 long effect_new_from_object__effect_new_from_creation_data_hook(s_effect_creation_data *creation_data) // 0x10960300
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?effect_new_from_object__effect_new_from_creation_data_hook@@YAJPAUs_effect_creation_data@@@Z");
 	// `anonymous-namespace'::effect_new_from_object__effect_new_from_creation_data_hook
 	// s_effect_creation_data *creation_data;
 	// long object_index;
@@ -193,9 +193,17 @@ long effect_new_from_object__effect_new_from_creation_data_hook(s_effect_creatio
 	// s_damage_owner *damage_owner;
 	// function call : void (*const)(long, s_damage_owner *)
 	// function call : long (*const)(s_effect_creation_data *)
-	todo("implement");
-	long __result = _sub_10960300(creation_data);
-	return __result;
+
+	long (__cdecl *const effect_new_from_creation_data)(s_effect_creation_data *) = (long(__cdecl *const)(s_effect_creation_data *))0x5b7fc0;
+
+	long object_index = *(long *)offset_pointer(creation_data, 8);
+	s_damage_owner *damage_owner = (s_damage_owner *)offset_pointer(creation_data, 12);
+	if (damage_owner->object_index == -1)
+	{
+		((void(__cdecl *const)(long, s_damage_owner *))0xb770e0)(object_index, damage_owner);
+	}
+
+	return effect_new_from_creation_data(creation_data);
 }
 
 void MeleeDamageHook(s_damage_data *damageData, unsigned __int32 unitObjectIndex, __int32 predictability) // 0x10960290

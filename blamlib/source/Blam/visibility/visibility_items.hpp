@@ -48,7 +48,6 @@ struct s_visible_object_hierarchy
 	long first_index; // 0x4
 	short count; // 0x8
 	s_lod_alphas lod_alphas; // 0xA
-	unsigned char __pad0[2]; // 0xE
 };
 static_assert(sizeof(s_visible_object_hierarchy) == 16, "Invalid s_visible_object_hierarchy size");
 
@@ -70,7 +69,6 @@ struct s_visible_instance
 	short structure_bsp_index; // 0x4
 	short group_index; // 0x6
 	unsigned short alpha; // 0x8
-	unsigned char __pad0[2]; // 0xA
 	unsigned long *mesh_part_visibility; // 0xC
 };
 static_assert(sizeof(s_visible_instance) == 16, "Invalid s_visible_instance size");
@@ -82,7 +80,6 @@ struct s_visible_cluster
 	short unknown; // 0x4
 	short region_cluster_index; // 0x6
 	short mesh_index; // 0x8
-	unsigned char __pad0[2]; // 0xA
 	unsigned long *mesh_part_visibility; // 0xC
 };
 static_assert(sizeof(s_visible_cluster) == 16, "Invalid s_visible_cluster size");
@@ -141,14 +138,12 @@ static_assert(sizeof(c_visible_items) == 1, "Invalid c_visible_items size");
 
 /* ---------- public code */
 
-extern s_visible_items &_sub_108CAC20();
 _inline s_visible_items &c_visible_items::get_global_items() // 0x108CAC20
 {
-	mangled_x86(MANGLED_TODO, "?get_global_items@c_visible_items@@SAAAUs_visible_items@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_global_items@c_visible_items@@SAAAUs_visible_items@@XZ");
 	// procedure flags: nofpo
-	todo("implement");
-	s_visible_items & __result = _sub_108CAC20();
-	return __result;
+
+	return m_items;
 }
 
 /* ---------- private code */

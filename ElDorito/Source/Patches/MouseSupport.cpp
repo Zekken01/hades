@@ -221,16 +221,20 @@ namespace Patches
 			_sub_108D3B60();
 		}
 
-		_extern void _sub_108D5390(__int32, __int32);
 		void NotifyMouseMove(__int32 x, __int32 y) // 0x108D5390
 		{
-			mangled_x86(MANGLED_TODO, "?NotifyMouseMove@MouseSupport@Patches@@YAXHH@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?NotifyMouseMove@MouseSupport@Patches@@YAXHH@Z");
 			// __int32 y;
 			// float deltaSquared;
 			// __int32 deltaX;
 			// __int32 deltaY;
-			todo("implement");
-			_sub_108D5390(x, y);
+
+			int deltaX = abs(x - globalMouseX);
+			int deltaY = abs(y - globalMouseY);
+			float distance = (float)(deltaX * deltaX + deltaY * deltaY);
+			globalMouseMoveDelta += distance * 1.0f / 60.0f;
+			globalMouseX = x;
+			globalMouseY = y;
 		}
 	}
 }
@@ -447,12 +451,11 @@ void MapWidgetBoundsToWindowCoords(real_rectangle2d const &windowBounds, real_re
 	_sub_108D4BE0(windowBounds, widgetBounds);
 }
 
-_extern bool _sub_108D5460(real_rectangle2d const &, real_point2d const &);
 bool RectangleContainsPoint(real_rectangle2d const &rect, real_point2d const &point) // 0x108D5460
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?RectangleContainsPoint@@YA_NABUreal_rectangle2d@@ABUreal_point2d@@@Z");
 	// `anonymous-namespace'::RectangleContainsPoint
 	// real_point2d const &point;
-	todo("implement");
-	bool __result = _sub_108D5460(rect, point);
-	return __result;
+
+	return point.x >= rect.x0 && rect.x1 >= point.x && point.y >= rect.y0 && rect.y1 >= point.y;
 }

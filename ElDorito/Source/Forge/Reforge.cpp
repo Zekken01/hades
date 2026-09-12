@@ -99,6 +99,16 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+struct s_object_data *object_get(unsigned long objectIndex);  // hades: added for 0X108660A0
+
+struct s_forge_globals_definition *forge_globals_get_definition();  // hades: added for 0X10865E90
+struct s_object_data *object_get(unsigned long object_index);  // hades: added for 0X10865E90
+
+s_object_data *object_get(unsigned long object_index);  // hades: added for 0X10865F40
+
+s_forge_globals_definition *forge_globals_get_definition();  // hades: added for 0X10865D30
+s_object_data *object_get(unsigned long objectIndex);  // hades: added for 0X10865D30
+
 namespace Forge
 {
 	namespace Reforge
@@ -128,6 +138,11 @@ s_render_model *GeObjectRenderModel(long objectTagIndex);
 
 /* ---------- private variables */
 
+namespace hades_file_local
+{
+	extern SReforgeGlobals reforgeGlobals; // 0x123AC800
+}
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Forge
@@ -155,15 +170,18 @@ namespace Forge
 			_sub_10865AD0();
 		}
 
-		_extern bool _sub_108660A0(long);
 		bool IsReforgeObject(long objectIndex) // 0x108660A0
 		{
-			mangled_x86(MANGLED_TODO, "?IsReforgeObject@Reforge@Forge@@YA_NJ@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?IsReforgeObject@Reforge@Forge@@YA_NJ@Z");
 			// long objectIndex;
 			// s_object_data *object;
-			todo("implement");
-			bool __result = _sub_108660A0(objectIndex);
-			return __result;
+
+			s_object_data *object = object_get(objectIndex);
+			if (!object)
+			{
+				return false;
+			}
+			return reforgeGlobals.ReforgeObjects.test(object->definition_index);
 		}
 
 		_extern bool _sub_10865CC0(long);
@@ -198,64 +216,84 @@ namespace Forge
 			return __result;
 		}
 
-		_extern bool _sub_10865E90(long);
 		bool IsMapModifierObject(long objectIndex) // 0x10865E90
 		{
-			mangled_x86(MANGLED_TODO, "?IsMapModifierObject@Reforge@Forge@@YA_NJ@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?IsMapModifierObject@Reforge@Forge@@YA_NJ@Z");
 			// long objectIndex;
 			// s_forge_globals_definition *forgeGlobals;
 			// s_object_data *object;
-			todo("implement");
-			bool __result = _sub_10865E90(objectIndex);
-			return __result;
+
+			s_forge_globals_definition *forgeGlobals = forge_globals_get_definition();
+			if (!forgeGlobals)
+				return false;
+			s_object_data *object = object_get(objectIndex);
+			if (!object)
+				return false;
+			return object->definition_index == forgeGlobals->map_modifier_object.index;
 		}
 
-		_extern bool _sub_10865D30(long);
 		bool IsGarbageCollectionObject(long objectIndex) // 0x10865D30
 		{
-			mangled_x86(MANGLED_TODO, "?IsGarbageCollectionObject@Reforge@Forge@@YA_NJ@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?IsGarbageCollectionObject@Reforge@Forge@@YA_NJ@Z");
 			// long objectIndex;
 			// s_forge_globals_definition *forgeGlobals;
 			// s_object_data *object;
-			todo("implement");
-			bool __result = _sub_10865D30(objectIndex);
-			return __result;
+
+			s_forge_globals_definition *forgeGlobals = forge_globals_get_definition();
+			if (!forgeGlobals)
+				return false;
+			s_object_data *object = object_get(objectIndex);
+			if (!object)
+				return false;
+			return object->definition_index == forgeGlobals->garbage_volume_object.index;
 		}
 
-		_extern bool _sub_10865DE0(long);
 		bool IsKillVolumeObject(long objectIndex) // 0x10865DE0
 		{
-			mangled_x86(MANGLED_TODO, "?IsKillVolumeObject@Reforge@Forge@@YA_NJ@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?IsKillVolumeObject@Reforge@Forge@@YA_NJ@Z");
 			// long objectIndex;
 			// s_forge_globals_definition *forgeGlobals;
 			// s_object_data *object;
-			todo("implement");
-			bool __result = _sub_10865DE0(objectIndex);
-			return __result;
+
+			s_forge_globals_definition *forgeGlobals = forge_globals_get_definition();
+			if (!forgeGlobals)
+				return false;
+			s_object_data *object = object_get(objectIndex);
+			if (!object)
+				return false;
+			return object->definition_index == forgeGlobals->kill_volume_object.index;
 		}
 
-		_extern bool _sub_10865FF0(long);
 		bool IsPrematchCameraObject(long objectIndex) // 0x10865FF0
 		{
-			mangled_x86(MANGLED_TODO, "?IsPrematchCameraObject@Reforge@Forge@@YA_NJ@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?IsPrematchCameraObject@Reforge@Forge@@YA_NJ@Z");
 			// long objectIndex;
 			// s_forge_globals_definition *forgeGlobals;
 			// s_object_data *object;
-			todo("implement");
-			bool __result = _sub_10865FF0(objectIndex);
-			return __result;
+
+			s_forge_globals_definition *forgeGlobals = forge_globals_get_definition();
+			if (!forgeGlobals)
+				return false;
+			s_object_data *object = object_get(objectIndex);
+			if (!object)
+				return false;
+			return object->definition_index == forgeGlobals->prematch_camera_object.index;
 		}
 
-		_extern bool _sub_10865F40(long);
 		bool IsPodiumPointObject(long objectIndex) // 0x10865F40
 		{
-			mangled_x86(MANGLED_TODO, "?IsPodiumPointObject@Reforge@Forge@@YA_NJ@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?IsPodiumPointObject@Reforge@Forge@@YA_NJ@Z");
 			// long objectIndex;
 			// s_forge_globals_definition *forgeGlobals;
 			// s_object_data *object;
-			todo("implement");
-			bool __result = _sub_10865F40(objectIndex);
-			return __result;
+
+			s_forge_globals_definition *forgeGlobals = forge_globals_get_definition();
+			if (!forgeGlobals)
+				return false;
+			s_object_data *object = object_get(objectIndex);
+			if (!object)
+				return false;
+			return object->definition_index == forgeGlobals->podium_placement_object.index;
 		}
 
 		_extern bool _sub_10865C00(long);

@@ -125,7 +125,7 @@ void force_sampler_filter_mode_hook(long sampler, long e_sampler_filter_mode);
 void set_postprocess_gamma_hook(long index, long count, real_vector4d const *constant);
 void set_motion_blur_parameters_hook();
 void c_screen_postprocess__postprocess_player_view_hook(c_camera_fx_values *camera_fx_values, s_render_projection *projection, s_render_camera *camera, s_screen_effect_settings *screen_effect_settings, long splitscreen_res, s_observer_depth_of_field *depth_of_field, long output_user_index);
-void c_camera_fx_settings__s_real_exposure_parameter__calculate_new_value_hook(s_camera_fx_exposure_struct *_this, void *_, c_camera_fx_values *camera_fx, __int32 flags, float forced_exposure, float forced_auto_exposure, float min, float max);
+void __fastcall c_camera_fx_settings__s_real_exposure_parameter__calculate_new_value_hook(s_camera_fx_exposure_struct *_this, void *_, c_camera_fx_values *camera_fx, __int32 flags, float forced_exposure, float forced_auto_exposure, float min, float max);
 long c_screen_postprocess__downsample_generate_call_hook(e_surface source_surface, c_camera_fx_values *camera_fx, e_surface a3, e_surface a4);
 
 /* ---------- globals */
@@ -214,10 +214,9 @@ long detect_driver_forced_msaa() // 0x10AC1880
 	return __result;
 }
 
-_extern void _sub_10AC2E10();
 void render_postprocess_patches_apply_after_init() // 0x10AC2E10
 {
-	mangled_x86(MANGLED_TODO, "?render_postprocess_patches_apply_after_init@@YAXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?render_postprocess_patches_apply_after_init@@YAXXZ");
 	// procedure flags: nofpo
 	// static ...; // 0x10AC2ED4
 	// static ...; // 0x10AC2EC8
@@ -226,8 +225,12 @@ void render_postprocess_patches_apply_after_init() // 0x10AC2E10
 	// IDirect3DTexture9 *dup_exposure_tex;
 	// function call : HRESULT (unsigned __int32, unsigned __int32, unsigned __int32, unsigned long, _D3DFORMAT, _D3DPOOL, IDirect3DTexture9 **, void **)
 	// function call : HRESULT (unsigned __int32, IDirect3DSurface9 **)
-	todo("implement");
-	_sub_10AC2E10();
+
+	driver_forced_msaa_value = detect_driver_forced_msaa();
+	IDirect3DDevice9Ex *device = c_rasterizer::get_device();
+	IDirect3DTexture9 *dup_exposure_tex;
+	device->CreateTexture(1, 1, 1, 512, D3DFMT_R32F, D3DPOOL_SYSTEMMEM, &dup_exposure_tex, nullptr);
+	dup_exposure_tex->GetSurfaceLevel(0, &g_exposure_dup_surface);
 }
 
 _extern void _sub_10AC21B0();
@@ -245,15 +248,16 @@ void render_postprocess_patches_apply() // 0x10AC21B0
 
 /* ---------- private code */
 
-_extern void _sub_10AC2120(long, unsigned long);
 void render_objects_shadow_generate_hook(long pass, unsigned long flags) // 0x10AC2120
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?render_objects_shadow_generate_hook@@YAXJK@Z");
 	// `anonymous-namespace'::render_objects_shadow_generate_hook
 	// unsigned long flags;
 	// function call : bool (*const)(IDirect3DIndexBuffer9 *)
 	// function call : void (*)(long, long)
-	todo("implement");
-	_sub_10AC2120(pass, flags);
+
+	((void(__cdecl *)(int))0xa233c0)(0);
+	((void(__cdecl *)(long, unsigned long))0xa78a50)(pass, flags);
 }
 
 __declspec(naked) void render_post_process_reflections_enabled_hook() // 0x10AC21A0
@@ -465,7 +469,7 @@ void c_screen_postprocess__postprocess_player_view_hook(c_camera_fx_values *came
 }
 
 _extern void _sub_10ABFC70(s_camera_fx_exposure_struct *, void *, c_camera_fx_values *, __int32, float, float, float, float);
-void c_camera_fx_settings__s_real_exposure_parameter__calculate_new_value_hook(s_camera_fx_exposure_struct *_this, void *_, c_camera_fx_values *camera_fx, __int32 flags, float forced_exposure, float forced_auto_exposure, float min, float max) // 0x10ABFC70
+void __fastcall c_camera_fx_settings__s_real_exposure_parameter__calculate_new_value_hook(s_camera_fx_exposure_struct *_this, void *_, c_camera_fx_values *camera_fx, __int32 flags, float forced_exposure, float forced_auto_exposure, float min, float max) // 0x10ABFC70
 {
 	// `anonymous-namespace'::c_camera_fx_settings__s_real_exposure_parameter__calculate_new_value_hook
 	// float forced_exposure;

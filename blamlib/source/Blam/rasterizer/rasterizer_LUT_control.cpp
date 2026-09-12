@@ -107,77 +107,93 @@ void c_rasterizer_LUT_control::compute_LUT(_D3DGAMMARAMP *ramp) // 0x10F13A90
 	_sub_10F13A90(this, ramp);
 }
 
-_extern bool _sub_10F14230();
 bool c_rasterizer_LUT_control::initialized() // 0x10F14230
 {
-	mangled_x86(MANGLED_TODO, "?initialized@c_rasterizer_LUT_control@@SA_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?initialized@c_rasterizer_LUT_control@@SA_NXZ");
 	// procedure flags: nofpo
-	todo("implement");
-	bool __result = _sub_10F14230();
-	return __result;
+
+	return g_LUT_initialized;
 }
 
-_extern bool _sub_10F14140();
 bool c_rasterizer_LUT_control::initialize_LUT_textures() // 0x10F14140
 {
-	mangled_x86(MANGLED_TODO, "?initialize_LUT_textures@c_rasterizer_LUT_control@@SA_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?initialize_LUT_textures@c_rasterizer_LUT_control@@SA_NXZ");
 	// procedure flags: nofpo
-	todo("implement");
-	bool __result = _sub_10F14140();
-	return __result;
+
+	if (initialized())
+	{
+		release_textures();
+	}
+
+	if (c_d3d_resource_allocator::create_texture(256, 1, 1, 0, D3DFMT_R32F, 2, &g_LUT_1D, 0, 0, 0, "LUT_1D") >= 0
+		&& c_d3d_resource_allocator::create_texture(256, 1, 1, 0, D3DFMT_R32F, 0, &g_LUT_1D_gpu, 0, 0, 0, "LUT_1D_gpu") >= 0)
+	{
+		g_LUT_initialized = true;
+	}
+
+	if (!initialized())
+	{
+		release_textures();
+	}
+
+	return initialized();
 }
 
-_extern void _sub_10F14720(long);
 void c_rasterizer_LUT_control::set_LUT_texture(long sampler) // 0x10F14720
 {
-	mangled_x86(MANGLED_TODO, "?set_LUT_texture@c_rasterizer_LUT_control@@SAXJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_LUT_texture@c_rasterizer_LUT_control@@SAXJ@Z");
 	// long sampler;
 	// function call : void (*const)(long)
 	// function call : void (*const)(long, IDirect3DBaseTexture9 *)
 	// function call : void (*const)(long, long)
-	todo("implement");
-	_sub_10F14720(sampler);
+
+	((void(__cdecl *const)(long))0xa22a90)(sampler);
+	((void(__cdecl *const)(long, IDirect3DTexture9 *))0xa23980)(sampler, g_LUT_1D_gpu);
+	((void(__cdecl *const)(long, long))0xa23530)(sampler, 0);
 }
 
-_extern void _sub_10F14280();
 void c_rasterizer_LUT_control::release_textures() // 0x10F14280
 {
-	mangled_x86(MANGLED_TODO, "?release_textures@c_rasterizer_LUT_control@@SAXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?release_textures@c_rasterizer_LUT_control@@SAXXZ");
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10F14280();
+
+	c_d3d_resource_allocator::release_texture(g_LUT_1D);
+	c_d3d_resource_allocator::release_texture(g_LUT_1D_gpu);
+	g_LUT_initialized = false;
 }
 
-_extern float _sub_10F14470(unsigned short *, float);
 float c_rasterizer_LUT_control::sample_ramp(unsigned short *ramp_channel, float coord) // 0x10F14470
 {
-	mangled_x86(MANGLED_TODO, "?sample_ramp@c_rasterizer_LUT_control@@SAMPAGM@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?sample_ramp@c_rasterizer_LUT_control@@SAMPAGM@Z");
 	// float coord;
 	// long i;
 	// float s;
 	// float indexF;
-	todo("implement");
-	float __result = _sub_10F14470(ramp_channel, coord);
-	return __result;
+
+	float f = coord * 255.0f;
+	long i = (long)f;
+	float s = f - i;
+
+	return ramp_channel[i] / 65535.0f * (1.0f - s) + ramp_channel[i + 1] / 65535.0f * s;
 }
 
-_extern void _sub_10F147D0();
 void c_rasterizer_LUT_control::update_LUT_gpu() // 0x10F147D0
 {
-	mangled_x86(MANGLED_TODO, "?update_LUT_gpu@c_rasterizer_LUT_control@@SAXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?update_LUT_gpu@c_rasterizer_LUT_control@@SAXXZ");
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10F147D0();
+
+	if (initialized())
+	{
+		c_d3d_resource_allocator::update_texture(g_LUT_1D, g_LUT_1D_gpu);
+	}
 }
 
-_extern float _sub_10F140C0(long, long, float);
 float get_linear_buffer_value(long a1, long max_pixel_value, float a3) // 0x10F140C0
 {
-	mangled_x86(MANGLED_TODO, "?get_linear_buffer_value@@YAMJJM@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_linear_buffer_value@@YAMJJM@Z");
 	// float a3;
-	todo("implement");
-	float __result = _sub_10F140C0(a1, max_pixel_value, a3);
-	return __result;
+
+	return powf((float)a1 / (float)max_pixel_value, a3);
 }
 
 /* ---------- private code */

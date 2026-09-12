@@ -32,25 +32,22 @@ struct real_rectangle2d;
 
 /* ---------- public code */
 
-_extern void _sub_10F13590(c_gui_widget *const, bool);
 void c_gui_widget::set_visible(bool visible) // 0x10F13590
 {
-	mangled_x86(MANGLED_TODO, "?set_visible@c_gui_widget@@QAEX_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_visible@c_gui_widget@@QAEX_N@Z");
 	// bool visible;
 	// function call : void (*)(c_gui_widget *, bool)
-	todo("implement");
-	_sub_10F13590(this, visible);
+
+	((void(__thiscall *const)(c_gui_widget *, bool))0xaba7e0)(this, visible);
 }
 
-extern c_gui_widget *_sub_10F131E0(c_gui_widget const *const, e_gui_widget);
 c_gui_widget *c_gui_widget::find_first_child(e_gui_widget type) const // 0x10F131E0
 {
-	mangled_x86(MANGLED_TODO, "?find_first_child@c_gui_widget@@QBEPAV1@W4e_gui_widget@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?find_first_child@c_gui_widget@@QBEPAV1@W4e_gui_widget@@@Z");
 	// e_gui_widget type;
 	// function call : c_gui_widget *(*)(c_gui_widget const *, e_gui_widget)
-	todo("implement");
-	c_gui_widget * __result = _sub_10F131E0((c_gui_widget const *)this, type);
-	return __result;
+
+	return ((c_gui_widget *(__thiscall *)(const c_gui_widget *, e_gui_widget))0xab8f80)(this, type);
 }
 
 extern c_gui_widget *_sub_10F13250(c_gui_widget const *const, e_gui_widget);
@@ -64,14 +61,13 @@ c_gui_widget *c_gui_widget::find_next_sibling(e_gui_widget type) const // 0x10F1
 	return __result;
 }
 
-_extern void _sub_10F13490(c_gui_widget const *const, real_rectangle2d *);
 void c_gui_widget::get_render_bounds(real_rectangle2d *bounds) const // 0x10F13490
 {
-	mangled_x86(MANGLED_TODO, "?get_render_bounds@c_gui_widget@@QBEXPAUreal_rectangle2d@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_render_bounds@c_gui_widget@@QBEXPAUreal_rectangle2d@@@Z");
 	// real_rectangle2d *bounds;
 	// function call : real_rectangle2d *(real_rectangle2d *) const
-	todo("implement");
-	_sub_10F13490((c_gui_widget const *)this, bounds);
+
+	get_current_bounds(bounds);
 }
 
 extern c_gui_widget *_sub_10F13130(c_gui_widget *const, bool (*)(c_gui_widget const &));
@@ -99,35 +95,29 @@ c_gui_list_widget *c_gui_widget::get_child_list_widget(unsigned long name) // 0x
 	return __result;
 }
 
-extern c_gui_widget *_sub_10F13410(c_gui_widget const *const, e_gui_widget, unsigned long);
 c_gui_widget *c_gui_widget::get_child_widget(e_gui_widget type, unsigned long name) const // 0x10F13410
 {
-	mangled_x86(MANGLED_TODO, "?get_child_widget@c_gui_widget@@QBEPAV1@W4e_gui_widget@@K@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_child_widget@c_gui_widget@@QBEPAV1@W4e_gui_widget@@K@Z");
 	// unsigned long name;
 	// function call : c_gui_widget *(*)(c_gui_widget const *, e_gui_widget, unsigned long)
-	todo("implement");
-	c_gui_widget * __result = _sub_10F13410((c_gui_widget const *)this, type, name);
-	return __result;
+
+	return ((c_gui_widget *(__thiscall *)(const c_gui_widget *, e_gui_widget, unsigned long))0xab8b00)(this, type, name);
 }
 
-extern c_gui_bitmap_widget *_sub_10F132C0(c_gui_widget *const, unsigned long);
 c_gui_bitmap_widget *c_gui_widget::get_child_bitmap_widget(unsigned long name) // 0x10F132C0
 {
-	mangled_x86(MANGLED_TODO, "?get_child_bitmap_widget@c_gui_widget@@QAEPAVc_gui_bitmap_widget@@K@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_child_bitmap_widget@c_gui_widget@@QAEPAVc_gui_bitmap_widget@@K@Z");
 	// unsigned long name;
-	todo("implement");
-	c_gui_bitmap_widget * __result = _sub_10F132C0(this, name);
-	return __result;
+
+	return (c_gui_bitmap_widget *)get_child_widget(_gui_widget_bitmap, name);
 }
 
-extern c_gui_list_item_widget *_sub_10F133A0(c_gui_widget *const, unsigned long);
 c_gui_list_item_widget *c_gui_widget::get_child_text_widget(unsigned long name) // 0x10F133A0
 {
-	mangled_x86(MANGLED_TODO, "?get_child_text_widget@c_gui_widget@@QAEPAVc_gui_list_item_widget@@K@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_child_text_widget@c_gui_widget@@QAEPAVc_gui_list_item_widget@@K@Z");
 	// unsigned long name;
-	todo("implement");
-	c_gui_list_item_widget * __result = _sub_10F133A0(this, name);
-	return __result;
+
+	return (c_gui_list_item_widget *)get_child_widget(_gui_widget_text, name);
 }
 
 void c_gui_widget::set_text_widget_text(unsigned long name, wchar_t const *text) // 0x10F13510

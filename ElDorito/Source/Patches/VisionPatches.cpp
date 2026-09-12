@@ -135,16 +135,16 @@ namespace Patches
 
 /* ---------- private code */
 
-_extern void *_sub_108F9270(unsigned long, long);
 void *get_weapon_outline_mask_hook(unsigned long group_tag, long tag_index) // 0x108F9270
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_weapon_outline_mask_hook@@YAPAXKJ@Z");
 	// `anonymous-namespace'::get_weapon_outline_mask_hook
 	// long tag_index;
 	// long our_player_index;
 	// function call : unsigned long (*const)(long)
-	todo("implement");
-	void * __result = _sub_108F9270(group_tag, tag_index);
-	return __result;
+
+	int our_player_index = ((int(__cdecl *)(int))0x589c60)(0);
+	return get_player_vision_mode_globals(our_player_index);
 }
 
 _extern void _sub_108F94B0(__int32, long, long);
@@ -194,14 +194,20 @@ void vision_mode_submit_objects_hook(long window_index, long player_index, long 
 	_sub_108F96C0(window_index, player_index, unit_index, window_data, object_indices, object_count, pass);
 }
 
-_extern void _sub_108F9340(long, __int32, float, unsigned char);
 void vision_generate_depth_buffer_clear_hook(long flags, __int32 color, float inverseZ, unsigned char stencil) // 0x108F9340
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?vision_generate_depth_buffer_clear_hook@@YAXJHME@Z");
 	// `anonymous-namespace'::vision_generate_depth_buffer_clear_hook
 	// unsigned char stencil;
 	// function call : void (*const)(long, __int32, float, unsigned char)
-	todo("implement");
-	_sub_108F9340(flags, color, inverseZ, stencil);
+
+	if (Forge::CForgeVisionRenderer::IsActive() && !Forge::CForgeVisionRenderer::VisibleThroughWalls())
+	{
+	}
+	else
+	{
+		((void(__cdecl *)(long, __int32, float, unsigned char))0xa213f0)(flags, color, inverseZ, stencil);
+	}
 }
 
 _extern void *_sub_108F9170(long);

@@ -59,7 +59,6 @@ struct s_network_session_status_data
 	short game_state; // 0xA2
 	short network_game_type; // 0xA4
 	char playlist_name[16]; // 0xA6
-	unsigned char __pad0[2]; // 0xB6
 	long game_engine_type; // 0xB8
 	wchar_t game_engine_variant_name[16]; // 0xBC
 	long campaign_id; // 0xDC
@@ -69,7 +68,6 @@ struct s_network_session_status_data
 	wchar_t map_variant_name[16]; // 0xEA
 	wchar_t saved_film_name[16]; // 0x10A
 	char game_has_teams; // 0x12A
-	unsigned char __pad1[1]; // 0x12B
 	short game_team_count; // 0x12C
 	short target_score; // 0x12E
 	short current_score; // 0x130
@@ -84,9 +82,10 @@ struct s_network_session_status_data
 	long gather_party_properties; // 0x163E8
 	unsigned char unknown[208]; // 0x163EC
 	s_network_session_status_data(); /* compiler_generated() */
-	unsigned char __pad2[4]; // 0x164BC
 };
 static_assert(sizeof(s_network_session_status_data) == 91328, "Invalid s_network_session_status_data size");
+static_assert(offsetof(s_network_session_status_data, game_engine_type) == 0xB8, "s_network_session_status_data::game_engine_type moved when its reconstructed padding was removed");
+static_assert(offsetof(s_network_session_status_data, game_team_count) == 0x12C, "s_network_session_status_data::game_team_count moved when its reconstructed padding was removed");
 
 /* ---------- prototypes */
 

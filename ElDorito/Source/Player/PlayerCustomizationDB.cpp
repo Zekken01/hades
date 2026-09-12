@@ -325,22 +325,21 @@ namespace Player
 		_sub_107D7A10(this);
 	}
 
-	_extern void _sub_107D7900(Player::CPlayerCustomizationDB *const);
 	void CPlayerCustomizationDB::Reload() // 0x107D7900
 	{
-		mangled_x86(MANGLED_TODO, "?Reload@CPlayerCustomizationDB@Player@@QAEXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Reload@CPlayerCustomizationDB@Player@@QAEXXZ");
 		// Player::CPlayerCustomizationDB *const this;
-		todo("implement");
-		_sub_107D7900(this);
+
+		Load(m_fileName);
 	}
 
-	_extern void _sub_107D7950(Player::CPlayerCustomizationDB *const);
 	void CPlayerCustomizationDB::Reset() // 0x107D7950
 	{
-		mangled_x86(MANGLED_TODO, "?Reset@CPlayerCustomizationDB@Player@@QAEXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Reset@CPlayerCustomizationDB@Player@@QAEXXZ");
 		// Player::CPlayerCustomizationDB *const this;
-		todo("implement");
-		_sub_107D7950(this);
+
+		m_customizations.clear();
+		m_preferredCharacters.clear();
 	}
 
 	_extern bool _sub_107D65E0(Player::CPlayerCustomizationDB const *const, std::string const &, Player::SPersistentCharacterCustomization &);

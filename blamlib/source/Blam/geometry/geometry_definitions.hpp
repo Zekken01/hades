@@ -153,7 +153,6 @@ struct s_per_mesh_lod_data
 {
 	c_tag_block<s_per_mesh_lod_index> indices; // 0x0
 	short vertex_buffer; // 0xC
-	unsigned char __pad0[2]; // 0xE
 };
 static_assert(sizeof(s_per_mesh_lod_data) == 16, "Invalid s_per_mesh_lod_data size");
 

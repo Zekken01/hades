@@ -186,7 +186,7 @@ void update_equipment_vision(long equipment_index, long unit_index);
 void equipment_update_hook(long equipment_index, long unit_index);
 void unit_toss_item_object_detach_hook(long item_index);
 void TankModeCrashFixHook();
-bool c_simulation_unit_pickup_event_definition__apply_game_event_hook(void *thisptr, void *__formal, long reference_gamestate_count, long *game_state_indices, long payload_size, s_simulation_unit_pickup_event_data *payload);
+bool __fastcall c_simulation_unit_pickup_event_definition__apply_game_event_hook(void *thisptr, void *__formal, long reference_gamestate_count, long *game_state_indices, long payload_size, s_simulation_unit_pickup_event_data *payload);
 void simulation_action_pickup_healthpack(long unit_index, long definition_index);
 bool unit_can_pickup_healthpack(long unit_index, long equipment_index);
 bool unit_can_pickup_equipment_hook(long unit_index, long equipment_index);
@@ -509,13 +509,13 @@ void *Player_GetArmorAbilitiesCHUDHook(s_player_datum *playerDatum) // 0x10A54FB
 	return __result;
 }
 
-_extern void _sub_10A57680(long);
 void unit_drop_on_death_hook(long unit_index) // 0x10A57680
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_drop_on_death_hook@@YAXJ@Z");
 	// `anonymous-namespace'::unit_drop_on_death_hook
 	// long unit_index;
-	todo("implement");
-	_sub_10A57680(unit_index);
+
+	unit_drop_grenades(unit_index);
 }
 
 _extern void _sub_10A574F0(long, long);
@@ -608,7 +608,7 @@ __declspec(naked) void TankModeCrashFixHook() // 0x10A550B0
 }
 
 _extern bool _sub_10A55110(void *, void *, long, long *, long, s_simulation_unit_pickup_event_data *);
-bool c_simulation_unit_pickup_event_definition__apply_game_event_hook(void *thisptr, void *__formal, long reference_gamestate_count, long *game_state_indices, long payload_size, s_simulation_unit_pickup_event_data *payload) // 0x10A55110
+bool __fastcall c_simulation_unit_pickup_event_definition__apply_game_event_hook(void *thisptr, void *__formal, long reference_gamestate_count, long *game_state_indices, long payload_size, s_simulation_unit_pickup_event_data *payload) // 0x10A55110
 {
 	// `anonymous-namespace'::c_simulation_unit_pickup_event_definition__apply_game_event_hook
 	// long reference_gamestate_count;

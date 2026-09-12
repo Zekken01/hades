@@ -93,7 +93,6 @@ struct s_model_variant_region
 {
 	unsigned long name; // 0x0
 	char render_model_region; // 0x4
-	unsigned char __pad0[1]; // 0x5
 	short parent_variant; // 0x6
 	c_tag_block<s_model_variant_permutation> permutations; // 0x8
 	c_enum<enum e_model_region_sort_order,long> sort_order; // 0x14
@@ -104,6 +103,7 @@ struct s_model_variant_region
 	s_model_variant_region &operator=(s_model_variant_region const &); /* compiler_generated() */
 };
 static_assert(sizeof(s_model_variant_region) == 24, "Invalid s_model_variant_region size");
+static_assert(offsetof(s_model_variant_region, parent_variant) == 0x6, "s_model_variant_region::parent_variant moved when its reconstructed padding was removed");
 
 #pragma pack(push, 4)
 struct s_model_variant_object
@@ -169,7 +169,6 @@ struct s_model_material
 	s_model_material(); /* compiler_generated() */
 	s_model_material &operator=(s_model_material &); /* compiler_generated() */
 	s_model_material &operator=(s_model_material const &); /* compiler_generated() */
-	unsigned char __pad0[2]; // 0x12
 };
 static_assert(sizeof(s_model_material) == 20, "Invalid s_model_material size");
 
@@ -227,7 +226,6 @@ struct s_model_permutation
 	unsigned char flags; // 0x4
 	char collision_permutation_index; // 0x5
 	char physics_permutation_index; // 0x6
-	unsigned char __pad0[1]; // 0x7
 };
 static_assert(sizeof(s_model_permutation) == 8, "Invalid s_model_permutation size");
 
@@ -313,13 +311,13 @@ struct s_model_permutation_possibility
 	long runtime_permutation_index; // 0x0
 	long variant_permutation_index; // 0x4
 	char state; // 0x8
-	unsigned char __pad0[3]; // 0x9
 	long property_flags; // 0xC
 	long looping_effect_index; // 0x10
 	unsigned long looping_effect_marker; // 0x14
 	float probability; // 0x18
 };
 static_assert(sizeof(s_model_permutation_possibility) == 28, "Invalid s_model_permutation_possibility size");
+static_assert(offsetof(s_model_permutation_possibility, property_flags) == 0xC, "s_model_permutation_possibility::property_flags moved when its reconstructed padding was removed");
 
 /* ---------- prototypes */
 

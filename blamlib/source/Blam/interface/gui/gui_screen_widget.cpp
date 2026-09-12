@@ -29,26 +29,25 @@ class c_gui_widget;
 
 /* ---------- public code */
 
-extern c_gui_widget *_sub_10F136D0(c_gui_screen_widget const *const);
 c_gui_widget *c_gui_screen_widget::get_focused_widget() const // 0x10F136D0
 {
-	mangled_x86(MANGLED_TODO, "?get_focused_widget@c_gui_screen_widget@@QBEPAVc_gui_widget@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_focused_widget@c_gui_screen_widget@@QBEPAVc_gui_widget@@XZ");
 	// c_gui_screen_widget const *const this;
 	// function call : c_gui_widget *(*)(c_gui_screen_widget const *)
-	todo("implement");
-	c_gui_widget * __result = _sub_10F136D0((c_gui_screen_widget const *)this);
-	return __result;
+
+	return ((c_gui_widget *(__thiscall *const)(const c_gui_screen_widget *))0xab0f40)(this);
 }
 
-_extern void _sub_10F13740(c_gui_screen_widget *const, c_gui_list_widget *, long, bool, bool);
 void c_gui_screen_widget::select_list_item(c_gui_list_widget *list_widget, long item_index, bool flag1, bool flag2) // 0x10F13740
 {
-	mangled_x86(MANGLED_TODO, "?select_list_item@c_gui_screen_widget@@QAEXPAVc_gui_list_widget@@J_N1@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?select_list_item@c_gui_screen_widget@@QAEXPAVc_gui_list_widget@@J_N1@Z");
 	// bool flag2;
 	// void (*const select_list_item)(c_gui_screen_widget *, c_gui_list_widget *, long, bool, bool);
 	// function call : void (*const)(c_gui_screen_widget *, c_gui_list_widget *, long, bool, bool)
-	todo("implement");
-	_sub_10F13740(this, list_widget, item_index, flag1, flag2);
+
+	void (__thiscall *const select_list_item)(c_gui_screen_widget *, c_gui_list_widget *, long, bool, bool) = (void(__thiscall *const)(c_gui_screen_widget *, c_gui_list_widget *, long, bool, bool))0xab2640;
+
+	select_list_item(this, list_widget, item_index, flag1, flag2);
 }
 
 extern c_gui_data *_sub_10F13600(c_gui_screen_widget const *const, unsigned long);
@@ -67,14 +66,13 @@ c_gui_data *c_gui_screen_widget::get_datasource(unsigned long name) const // 0x1
 	return __result;
 }
 
-_extern void _sub_10F137D0(c_gui_screen_widget *const, __int32);
 void c_gui_screen_widget::transition_out(__int32 type) // 0x10F137D0
 {
-	mangled_x86(MANGLED_TODO, "?transition_out@c_gui_screen_widget@@QAEXH@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?transition_out@c_gui_screen_widget@@QAEXH@Z");
 	// __int32 type;
 	// function call : void (long, long)
-	todo("implement");
-	_sub_10F137D0(this, type);
+
+	transition_out_internal(type, 0);
 }
 
 /* ---------- private code */

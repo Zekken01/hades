@@ -33,13 +33,12 @@ static_assert(sizeof(s_blf_chunk_mapv_tag_names) == 65548, "Invalid s_blf_chunk_
 
 /* ---------- public code */
 
-extern s_blf_chunk_mapv_tag_names* _sub_10AC85E0(s_blf_chunk_mapv_tag_names *const);
 _inline s_blf_chunk_mapv_tag_names::s_blf_chunk_mapv_tag_names() // 0x10AC85E0
 {
-	mangled_x86(MANGLED_TODO, "??0s_blf_chunk_mapv_tag_names@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_blf_chunk_mapv_tag_names@@QAE@XZ");
 	// s_blf_chunk_mapv_tag_names *const this;
-	todo("implement");
-	_sub_10AC85E0(this);
+
+	setup(0x7461676E, 0x1000C, 1, 0);
 }
 
 /* ---------- private code */

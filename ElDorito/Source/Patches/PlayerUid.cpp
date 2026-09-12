@@ -212,40 +212,40 @@ namespace Patches
 
 /* ---------- private code */
 
-_extern void _sub_10AB4190(UidExtension *const, __int32, unsigned long long *);
 _inline void UidExtension::BuildData(__int32 playerIndex, unsigned long long *out) // 0x10AB4190
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?BuildData@UidExtension@hades_file_local@@MAEXHPA_K@Z");
 	// `anonymous-namespace'::UidExtension::BuildData
 	// unsigned long long *out;
-	todo("implement");
-	_sub_10AB4190(this, playerIndex, out);
+
+	*out = Patches::PlayerUid::Get();
 }
 
-_extern void _sub_10AB40D0(UidExtension *const, __int32, s_player_configuration *, unsigned long long const &);
 _inline void UidExtension::ApplyData(__int32 playerIndex, s_player_configuration *properties, unsigned long long const &data) // 0x10AB40D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyData@UidExtension@hades_file_local@@MAEXHPAUs_player_configuration@@AB_K@Z");
 	// `anonymous-namespace'::UidExtension::ApplyData
 	// unsigned long long const &data;
-	todo("implement");
-	_sub_10AB40D0(this, playerIndex, properties, data);
+
+	properties->host.player_uid = data;
 }
 
-_extern void _sub_10AB4CC0(UidExtension *const, Blam::BitStream *, unsigned long long const &);
 _inline void UidExtension::Serialize(Blam::BitStream *stream, unsigned long long const &data) // 0x10AB4CC0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Serialize@UidExtension@hades_file_local@@MAEXPAVBitStream@Blam@@AB_K@Z");
 	// `anonymous-namespace'::UidExtension::Serialize
 	// unsigned long long const &data;
-	todo("implement");
-	_sub_10AB4CC0(this, stream, data);
+
+	stream->WriteUnsigned<unsigned long long>(data, 64);
 }
 
-_extern void _sub_10AB4270(UidExtension *const, Blam::BitStream *, unsigned long long *);
 _inline void UidExtension::Deserialize(Blam::BitStream *stream, unsigned long long *out) // 0x10AB4270
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Deserialize@UidExtension@hades_file_local@@MAEXPAVBitStream@Blam@@PA_K@Z");
 	// `anonymous-namespace'::UidExtension::Deserialize
 	// unsigned long long *out;
-	todo("implement");
-	_sub_10AB4270(this, stream, out);
+
+	*out = stream->ReadUnsigned<unsigned __int64>(64);
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0UidExtension@hades_file_local@@QAE@XZ"); no body to assert in
@@ -284,14 +284,13 @@ void EnsureValidUid() // 0x10AB42D0
 	_sub_10AB42D0();
 }
 
-_extern unsigned long long _sub_10AB4AA0(__int32);
 unsigned long long GetPlayerUidHook(__int32 unused) // 0x10AB4AA0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetPlayerUidHook@@YA_KH@Z");
 	// `anonymous-namespace'::GetPlayerUidHook
 	// __int32 unused;
-	todo("implement");
-	unsigned long long __result = _sub_10AB4AA0(unused);
-	return __result;
+
+	return Patches::PlayerUid::Get();
 }
 
 /* ---------- template instantiations */

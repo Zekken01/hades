@@ -64,6 +64,11 @@ struct short_rectangle2d;
 
 /* ---------- prototypes */
 
+float dot_product3d(real_vector3d const *a, real_vector3d const *b);  // hades: added for 0X10F0BEC0
+float plane3d_distance_to_point(real_plane3d const *plane, real_point3d const *point);  // hades: added for 0X10F0BEC0
+
+void render_debug_triangle(real_point3d const &point0, real_point3d const &point1, real_point3d const &point2, real_argb_color const &color);  // hades: added for 0X10F0B1B0
+
 extern void render_debug_enable_depth_test(bool enable);
 extern void render_debug_build_circle_points(float radius, real_point2d *points, long total_point_count);
 extern float build_height_matrix(real_point3d const *base, real_vector3d const *height, real_matrix4x3 *matrix);
@@ -201,25 +206,25 @@ void render_debug_triangle(real_point3d const &point1, real_point3d const &point
 	_sub_10F0BC40(point1, point2, point3, color);
 }
 
-_extern void _sub_10F0A240(real_point3d const &, real_point3d const &, real_argb_color const &);
 void render_debug_line(real_point3d const &point0, real_point3d const &point1, real_argb_color const &color) // 0x10F0A240
 {
-	mangled_x86(MANGLED_TODO, "?render_debug_line@@YAXABUreal_point3d@@0ABUreal_argb_color@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_line@@YAXABUreal_point3d@@0ABUreal_argb_color@@@Z");
 	// real_argb_color const &color;
 	// unsigned long pixel_color;
 	// function call : unsigned long (*const)(real_argb_color const &)
 	// function call : void (*const)(real_point3d const *, real_point3d const *, unsigned long, unsigned long)
-	todo("implement");
-	_sub_10F0A240(point0, point1, color);
+
+	unsigned int pixel_color = ((unsigned int (__cdecl *)(real_argb_color const &))0x521810)(color);
+	((void (__cdecl *)(real_point3d const &, real_point3d const &, unsigned int, unsigned int))0xa45830)(point0, point1, pixel_color, pixel_color);
 }
 
-_extern void _sub_10F0B1B0(real_point3d const &, real_point3d const &, real_point3d const &, real_point3d const &, real_argb_color const &);
 void render_debug_quadrilateral(real_point3d const &point0, real_point3d const &point1, real_point3d const &point2, real_point3d const &point3, real_argb_color const &color) // 0x10F0B1B0
 {
-	mangled_x86(MANGLED_TODO, "?render_debug_quadrilateral@@YAXABUreal_point3d@@000ABUreal_argb_color@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_quadrilateral@@YAXABUreal_point3d@@000ABUreal_argb_color@@@Z");
 	// real_argb_color const &color;
-	todo("implement");
-	_sub_10F0B1B0(point0, point1, point2, point3, color);
+
+	render_debug_triangle(point0, point1, point2, color);
+	render_debug_triangle(point0, point2, point3, color);
 }
 
 _extern void _sub_10F083A0(real_rectangle3d const &, real_argb_color const &);
@@ -405,29 +410,36 @@ void render_debug_string_at_point(real_point3d const &point, char const *string,
 	_sub_10F0B960(point, string, color, font_id, scale);
 }
 
-_extern float _sub_10F082A0(real_point3d const *, real_point3d const *);
 float point3d_distance(real_point3d const *pA, real_point3d const *pB) // 0x10F082A0
 {
-	mangled_x86(MANGLED_TODO, "?point3d_distance@@YAMPBUreal_point3d@@0@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?point3d_distance@@YAMPBUreal_point3d@@0@Z");
 	// real_point3d const *pB;
 	// double x;
 	// double y;
 	// double z;
-	todo("implement");
-	float __result = _sub_10F082A0(pA, pB);
-	return __result;
+
+	double x = pow(pA->x - pB->x, 2);
+	double y = pow(pA->y - pB->y, 2);
+	double z = pow(pA->z - pB->z, 2);
+	return sqrt(x + y + z);
 }
 
-_extern bool _sub_10F0BEC0(real_point3d const *, real_vector3d const *, real_plane3d const *, float *);
 bool vector_plane_intersection(real_point3d const *point, real_vector3d const *vector, real_plane3d const *plane, float *out_t) // 0x10F0BEC0
 {
-	mangled_x86(MANGLED_TODO, "?vector_plane_intersection@@YA_NPBUreal_point3d@@PBUreal_vector3d@@PBUreal_plane3d@@PAM@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?vector_plane_intersection@@YA_NPBUreal_point3d@@PBUreal_vector3d@@PBUreal_plane3d@@PAM@Z");
 	// float *out_t;
 	// float d;
 	// float n;
-	todo("implement");
-	bool __result = _sub_10F0BEC0(point, vector, plane, out_t);
-	return __result;
+
+	float n = dot_product3d(&plane->normal, vector);
+	float d = plane3d_distance_to_point(plane, point);
+	if (fabsf(n) < 0.00001f)
+	{
+		*out_t = 0.0f;
+		return false;
+	}
+	*out_t = -d / n;
+	return true;
 }
 
 _extern void _sub_10F09390(hkpConvexVerticesShape const *, real_matrix4x3 const *, real_argb_color const *);

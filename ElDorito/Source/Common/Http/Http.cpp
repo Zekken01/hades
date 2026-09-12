@@ -84,14 +84,12 @@ namespace Http
 
 namespace Http
 {
-	extern CHttpManager &_sub_107F7330();
 	Http::CHttpManager &GetManager() // 0x107F7330
 	{
-		mangled_x86(MANGLED_TODO, "?GetManager@Http@@YAAAVCHttpManager@1@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetManager@Http@@YAAAVCHttpManager@1@XZ");
 		// procedure flags: nofpo
-		todo("implement");
-		Http::CHttpManager & __result = _sub_107F7330();
-		return __result;
+
+		return Http::CWinHttpManager::Instance();
 	}
 }
 

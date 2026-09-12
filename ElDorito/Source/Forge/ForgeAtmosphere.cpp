@@ -84,6 +84,11 @@ using namespace hades_file_local;
 
 /* ---------- private variables */
 
+namespace hades_file_local
+{
+	extern ForgeAtmosphereState state; // 0x11371920
+}
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Forge
@@ -106,13 +111,12 @@ namespace Forge
 		_sub_1067FEA0(mapModifierIndex, mapModifierProperties);
 	}
 
-	_extern void _sub_1067F910();
 	void CForgeAtmosphere::HandleMapModifierDeleted() // 0x1067F910
 	{
-		mangled_x86(MANGLED_TODO, "?HandleMapModifierDeleted@CForgeAtmosphere@Forge@@SAXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?HandleMapModifierDeleted@CForgeAtmosphere@Forge@@SAXXZ");
 		// procedure flags: nofpo
-		todo("implement");
-		_sub_1067F910();
+
+		state.Enabled = false;
 	}
 
 	_extern bool _sub_1067F9D0(s_cluster_reference, s_weighted_atmosphere_parameters *);

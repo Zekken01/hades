@@ -81,7 +81,6 @@ namespace Server
 			AbstractVotingSystem(Server::Voting::AbstractVotingSystem const &); /* compiler_generated() */
 			_inline AbstractVotingSystem(); /* compiler_generated() */
 			Server::Voting::AbstractVotingSystem &operator=(Server::Voting::AbstractVotingSystem const &); /* compiler_generated() */
-		unsigned char __pad2[4]; // 0xF54
 		};
 		static_assert(sizeof(Server::Voting::AbstractVotingSystem) == 3928, "Invalid Server::Voting::AbstractVotingSystem size");
 	}

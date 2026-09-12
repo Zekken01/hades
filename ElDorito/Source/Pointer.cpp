@@ -51,10 +51,9 @@ extern void SetPageAccess(unsigned __int32 Offset, unsigned __int32 Size, unsign
 
 /* ---------- public code */
 
-_extern unsigned __int32 _sub_10AF8CE0();
 unsigned __int32 GetMainThreadId() // 0x10AF8CE0
 {
-	mangled_x86(MANGLED_TODO, "?GetMainThreadId@@YAIXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetMainThreadId@@YAIXZ");
 	// procedure flags: nofpo
 	// static ...; // 0x10AF8E33
 	// static ...; // 0x10AF8E2C
@@ -64,20 +63,31 @@ unsigned __int32 GetMainThreadId() // 0x10AF8CE0
 	// unsigned long currentPID;
 	// unsigned long result;
 	// std::shared_ptr<void> hThreadSnapshot;
-	{
 		// __int32 success;
+	// function call : unsigned long ()
+	// function call : unsigned long ()
+
+	const std::shared_ptr<void> hThreadSnapshot(CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0), CloseHandle);
+	if( hThreadSnapshot.get() == INVALID_HANDLE_VALUE )
+		return 0;
+
+	THREADENTRY32 tEntry;
+	tEntry.dwSize = sizeof(THREADENTRY32);
+	DWORD result = 0;
+	DWORD currentPID = GetCurrentProcessId();
+	for( BOOL success = Thread32First(hThreadSnapshot.get(), &tEntry);
+		!result && success && GetLastError() != ERROR_NO_MORE_FILES;
+		success = Thread32Next(hThreadSnapshot.get(), &tEntry) )
+	{
+		if( tEntry.th32OwnerProcessID == currentPID )
+			result = tEntry.th32ThreadID;
 	}
-	// function call : unsigned long ()
-	// function call : unsigned long ()
-	todo("implement");
-	unsigned __int32 __result = _sub_10AF8CE0();
-	return __result;
+	return result;
 }
 
-_extern unsigned __int32 _sub_10AF8BB0(unsigned __int32);
 unsigned __int32 GetMainThreadId(unsigned __int32 ProcessId) // 0x10AF8BB0
 {
-	mangled_x86(MANGLED_TODO, "?GetMainThreadId@@YAII@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetMainThreadId@@YAII@Z");
 	// static ...; // 0x10AF8C96
 	// static ...; // 0x10AF8C90
 	// static ...; // 0x10AF8C78
@@ -90,9 +100,30 @@ unsigned __int32 GetMainThreadId(unsigned __int32 ProcessId) // 0x10AF8BB0
 	// function call : __int32 (void *, void const *, void *, unsigned long, unsigned long *)
 	// function call : __int32 (void *)
 	// function call : __int32 (void *)
-	todo("implement");
-	unsigned __int32 __result = _sub_10AF8BB0(ProcessId);
-	return __result;
+
+	LPVOID lpTid;
+
+	_asm
+	{
+		mov eax, fs:[18h]
+			add eax, 36
+			mov[lpTid], eax
+	}
+
+	HANDLE hProcess = OpenProcess(PROCESS_VM_READ, FALSE, ProcessId);
+	if( hProcess == NULL )
+		return NULL;
+
+	DWORD dwTid;
+	if( ReadProcessMemory(hProcess, lpTid, &dwTid, sizeof(dwTid), NULL) == FALSE )
+	{
+		CloseHandle(hProcess);
+		return NULL;
+	}
+
+	CloseHandle(hProcess);
+
+	return dwTid;
 }
 
 _extern void *_sub_10AF9010();
@@ -135,18 +166,19 @@ void *GetModuleBase(std::string const &ModuleName) // 0x10AF8EA0
 	return __result;
 }
 
-_extern void _sub_10AF9170(unsigned __int32, unsigned __int32, unsigned __int32);
 void SetPageAccess(unsigned __int32 Offset, unsigned __int32 Size, unsigned __int32 AccessFlags) // 0x10AF9170
 {
-	mangled_x86(MANGLED_TODO, "?SetPageAccess@@YAXIII@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SetPageAccess@@YAXIII@Z");
 	// static ...; // 0x10AF91D0
 	// unsigned __int32 Offset;
 	// unsigned __int32 Size;
 	// unsigned __int32 AccessFlags;
 	// unsigned long temp;
 	// function call : __int32 (void *, unsigned long, unsigned long, unsigned long *)
-	todo("implement");
-	_sub_10AF9170(Offset, Size, AccessFlags);
+
+	DWORD temp;
+
+	VirtualProtect((void *)Offset, Size, AccessFlags, &temp);
 }
 
 /* ---------- private code */

@@ -46,15 +46,22 @@ extern s_tag_padding_definition pad64; // 0x113595D0
 
 /* ---------- public code */
 
-_extern void *_sub_10EFC4F0(unsigned long, long);
 void *tag_try_and_get_and_verify_group(unsigned long group_tag, long tag_index) // 0x10EFC4F0
 {
-	mangled_x86(MANGLED_TODO, "?tag_try_and_get_and_verify_group@@YAPAXKJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?tag_try_and_get_and_verify_group@@YAPAXKJ@Z");
 	// long tag_index;
 	// s_cache_tag_instance *instance;
-	todo("implement");
-	void * __result = _sub_10EFC4F0(group_tag, tag_index);
-	return __result;
+
+	s_cache_tag_instance *instance = try_and_get_instance_internal(tag_index);
+	if (!instance)
+		return nullptr;
+	if (!(instance->group.tags[0] == group_tag
+		|| instance->group.tags[1] == group_tag
+		|| instance->group.tags[2] == group_tag))
+	{
+		return nullptr;
+	}
+	return (char *)instance + instance->definition_offset;
 }
 
 _extern unsigned long _sub_10EFC5C0(long);

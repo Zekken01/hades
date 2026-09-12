@@ -167,14 +167,13 @@ namespace Web
 			// Web::Browser::WebEmblemRenderHandler *const this;
 		}
 
-		_extern void _sub_10C842F0(Web::Browser::WebEmblemRenderHandler *const);
 		_inline void WebEmblemRenderHandler::OnRenderDataAvailable() // 0x10C842F0
 		{
-			mangled_x86(MANGLED_TODO, "?OnRenderDataAvailable@WebEmblemRenderHandler@Browser@Web@@UAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnRenderDataAvailable@WebEmblemRenderHandler@Browser@Web@@UAEXXZ");
 			// Web::Browser::WebEmblemRenderHandler *const this;
 			// function call : void ()
-			todo("implement");
-			_sub_10C842F0(this);
+
+			m_cefContinuation->Continue();
 		}
 
 		_extern void _sub_10C84DD0(Web::Browser::WebEmblemRenderHandler *const, scoped_refptr<CefCallback>);

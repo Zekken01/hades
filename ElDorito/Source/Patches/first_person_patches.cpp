@@ -138,11 +138,26 @@ __declspec(naked) void first_person_weapon_offset_hook1_hook() // 0x10916880
 	}
 }
 
-extern void _sub_10916890();
 __declspec(naked) void first_person_weapon_offset_hook2_hook() // 0x10916890
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?first_person_weapon_offset_hook2_hook@@YAXXZ");
 	// `anonymous-namespace'::first_person_weapon_offset_hook2_hook
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10916890();
+
+	__asm
+	{
+		add eax, g_first_weapon_offset_field_offset
+		movss xmm0, [edi+0x2784]
+		subss xmm0, [eax]
+		movss [edi+0x2784], xmm0
+		movss xmm0, [edi+0x2788]
+		subss xmm0, [eax+0x4]
+		movss [edi+0x2788], xmm0
+		movss xmm0, [edi+0x278C]
+		subss xmm0, [eax+0x8]
+		or dword ptr [edi], 0x10
+		movss [edi+0x278C], xmm0
+		push 0xA9B97B
+		ret
+	}
 }

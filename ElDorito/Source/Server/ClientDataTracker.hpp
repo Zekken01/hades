@@ -72,7 +72,7 @@ namespace Server
 			virtual void PeerRemoved(__int32 peerIndex);
 			virtual void PlayerAdded(__int32 playerIndex);
 			virtual void PlayerRemoved(__int32 playerIndex);
-			virtual _inline ~MyNetworkSessionListener(); /* compiler_generated() */
+			virtual _inline ~MyNetworkSessionListener() = default; /* compiler_generated() */ // 0x10AFF830
 			Server::ClientDataTracker::MyNetworkSessionListener &operator=(Server::ClientDataTracker::MyNetworkSessionListener &); /* compiler_generated() */
 			Server::ClientDataTracker::MyNetworkSessionListener &operator=(Server::ClientDataTracker::MyNetworkSessionListener const &); /* compiler_generated() */
 		};
@@ -107,13 +107,10 @@ namespace Server
 
 		}
 
-		extern MyNetworkSessionListener* _sub_10AFF160(Server::ClientDataTracker::MyNetworkSessionListener *const);
 		_inline MyNetworkSessionListener::MyNetworkSessionListener() // 0x10AFF160
 		{
-			mangled_x86(MANGLED_TODO, "??0MyNetworkSessionListener@ClientDataTracker@Server@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0MyNetworkSessionListener@ClientDataTracker@Server@@QAE@XZ");
 			// Server::ClientDataTracker::MyNetworkSessionListener *const this;
-			todo("implement");
-			_sub_10AFF160(this);
 		}
 	}
 }

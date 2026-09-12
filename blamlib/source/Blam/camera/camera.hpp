@@ -107,7 +107,6 @@ struct s_camera_globals
 	float maximum_boost_speed; // 0x3C
 	float time_to_maximum_boost; // 0x40
 	short boost_function; // 0x44
-	unsigned char __pad0[2]; // 0x46
 	float zoomed_field_of_view; // 0x48
 	float zoomed_look_speed; // 0x4C
 	float bounding_sphere_radius; // 0x50
@@ -115,7 +114,6 @@ struct s_camera_globals
 	float zoom_transition_time; // 0x58
 	float vertical_movement_time_to_max_speed; // 0x5C
 	short vertical_movement_function; // 0x60
-	unsigned char __pad1[2]; // 0x62
 	float survival_switch_time; // 0x64
 	float minimum_distance; // 0x68
 	float maximum_distance; // 0x6C
@@ -130,6 +128,8 @@ struct s_camera_globals
 	float exit_vehicle_transition_time; // 0x90
 };
 static_assert(sizeof(s_camera_globals) == 148, "Invalid s_camera_globals size");
+static_assert(offsetof(s_camera_globals, zoomed_field_of_view) == 0x48, "s_camera_globals::zoomed_field_of_view moved when its reconstructed padding was removed");
+static_assert(offsetof(s_camera_globals, survival_switch_time) == 0x64, "s_camera_globals::survival_switch_time moved when its reconstructed padding was removed");
 
 struct s_focus_and_distance
 {

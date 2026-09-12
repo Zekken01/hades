@@ -135,23 +135,31 @@ namespace Utils
 			_sub_10C53880();
 		}
 
-		_extern __int32 _sub_10C53A90(HWND__ *, long);
 		__int32 __stdcall AntiTrainer(HWND__ *hwnd, long lParam) // 0x10C53A90
 		{
-			mangled_x86(MANGLED_TODO, "?AntiTrainer@AntiCheat@Utils@@YGHPAUHWND__@@J@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?AntiTrainer@AntiCheat@Utils@@YGHPAUHWND__@@J@Z");
 			// static ...; // 0x10C53BBC
 			// static ...; // 0x10C53BB4
 			// HWND__ *hwnd;
 			// long lParam;
 			// char title[80];
-			{
 				// Blam::Network::Session *session;
-			}
 			// function call : __int32 (HWND__ *, char *, __int32)
 			// function call : __int32 (HWND__ *, char const *, char const *, unsigned __int32)
-			todo("implement");
-			__int32 __result = _sub_10C53A90(hwnd, lParam);
-			return __result;
+
+			char title[80];
+			GetWindowText(hwnd, title, sizeof(title));
+			if (strcmp(title, "Halo Online Trainer") == 0)
+			{
+				auto session = Blam::Network::GetActiveSession();
+				if (session && session->IsEstablished() && !session->IsHost())
+				{
+					MessageBox(NULL, "Detected Halo Online Trainer!\nOnly hosts are allowed to use a trainer!", "AntiCheat", MB_OK); //Tell the user what they did wrong.
+					Modules::CommandMap::Instance().ExecuteCommand("exit"); //exit game
+				}
+			}
+
+			return TRUE;
 		}
 
 		void OnTickCheck() // 0x10C53C20

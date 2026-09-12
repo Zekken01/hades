@@ -120,7 +120,6 @@ struct s_physics_model_definition
 	float custom_shape_radius; // 0x10
 	float maximum_penetration_depth_scale; // 0x14
 	char import_version; // 0x18
-	unsigned char __pad0[3]; // 0x19
 	c_tag_block<s_physics_model_damped_spring_motor> damped_spring_motors; // 0x1C
 	c_tag_block<s_physics_model_position_motor> position_motors; // 0x28
 	c_tag_block<s_physics_model_phantom_type> phantom_types; // 0x34
@@ -159,6 +158,7 @@ struct s_physics_model_definition
 	s_physics_model_definition &operator=(s_physics_model_definition const &); /* compiler_generated() */
 };
 static_assert(sizeof(s_physics_model_definition) == 408, "Invalid s_physics_model_definition size");
+static_assert(offsetof(s_physics_model_definition, damped_spring_motors) == 0x1C, "s_physics_model_definition::damped_spring_motors moved when its reconstructed padding was removed");
 
 #pragma pack(push, 4)
 struct s_physics_model_instance

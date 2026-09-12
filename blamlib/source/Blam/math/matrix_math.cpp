@@ -32,6 +32,8 @@ struct real_vector3d;
 
 /* ---------- prototypes */
 
+real_vector3d *cross_product3d(real_vector3d const *a, real_vector3d const *b, real_vector3d *out);  // hades: added for 0X10EFCBF0
+
 extern void matrix4x3_multiply(real_matrix4x3 const *m1, real_matrix4x3 const *m2, real_matrix4x3 *result);
 extern void matrix4x3_identity(real_matrix4x3 *matrix);
 extern void matrix4x3_translation(real_matrix4x3 *matrix, real_point3d const *point);
@@ -85,22 +87,28 @@ void matrix4x3_multiply(real_matrix4x3 const *m1, real_matrix4x3 const *m2, real
 	_sub_10EFE7D0(m1, m2, result);
 }
 
-_extern void _sub_10EFDBE0(real_matrix4x3 *);
 void matrix4x3_identity(real_matrix4x3 *matrix) // 0x10EFDBE0
 {
-	mangled_x86(MANGLED_TODO, "?matrix4x3_identity@@YAXPAUreal_matrix4x3@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?matrix4x3_identity@@YAXPAUreal_matrix4x3@@@Z");
 	// real_matrix4x3 *matrix;
-	todo("implement");
-	_sub_10EFDBE0(matrix);
+
+	matrix->scale = 1.0f;
+	matrix->forward = global_forward3d;
+	matrix->left = global_left3d;
+	matrix->up = global_up3d;
+	matrix->position = global_origin3d;
 }
 
-_extern void _sub_10EFFB10(real_matrix4x3 *, real_point3d const *);
 void matrix4x3_translation(real_matrix4x3 *matrix, real_point3d const *point) // 0x10EFFB10
 {
-	mangled_x86(MANGLED_TODO, "?matrix4x3_translation@@YAXPAUreal_matrix4x3@@PBUreal_point3d@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?matrix4x3_translation@@YAXPAUreal_matrix4x3@@PBUreal_point3d@@@Z");
 	// real_point3d const *point;
-	todo("implement");
-	_sub_10EFFB10(matrix, point);
+
+	matrix->scale = 1.0f;
+	matrix->forward = global_forward3d;
+	matrix->left = global_left3d;
+	matrix->up = global_up3d;
+	matrix->position = *point;
 }
 
 _extern void _sub_10EFDCE0(real_matrix4x3 const *, real_matrix4x3 *);
@@ -246,22 +254,26 @@ real_plane3d *matrix4x3_transform_plane(real_matrix4x3 const *matrix, real_plane
 	return __result;
 }
 
-_extern void _sub_10EFF490(real_matrix4x3 *, real_point3d *, real_vector3d *, real_vector3d *);
 void matrix4x3_to_point_and_vectors(real_matrix4x3 *matrix, real_point3d *point, real_vector3d *forward, real_vector3d *up) // 0x10EFF490
 {
-	mangled_x86(MANGLED_TODO, "?matrix4x3_to_point_and_vectors@@YAXPAUreal_matrix4x3@@PAUreal_point3d@@PAUreal_vector3d@@2@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?matrix4x3_to_point_and_vectors@@YAXPAUreal_matrix4x3@@PAUreal_point3d@@PAUreal_vector3d@@2@Z");
 	// real_vector3d *up;
-	todo("implement");
-	_sub_10EFF490(matrix, point, forward, up);
+
+	*forward = matrix->forward;
+	*up = matrix->up;
+	*point = matrix->position;
 }
 
-_extern void _sub_10EFF220(real_matrix4x3 *, real_vector3d const *, real_vector3d const *);
 void matrix4x3_rotation_from_vectors(real_matrix4x3 *matrix, real_vector3d const *forward, real_vector3d const *up) // 0x10EFF220
 {
-	mangled_x86(MANGLED_TODO, "?matrix4x3_rotation_from_vectors@@YAXPAUreal_matrix4x3@@PBUreal_vector3d@@1@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?matrix4x3_rotation_from_vectors@@YAXPAUreal_matrix4x3@@PBUreal_vector3d@@1@Z");
 	// real_vector3d const *up;
-	todo("implement");
-	_sub_10EFF220(matrix, forward, up);
+
+	matrix->scale = 1.0f;
+	matrix->forward = *forward;
+	cross_product3d(up, forward, &matrix->left);
+	matrix->up = *up;
+	matrix->position = global_origin3d;
 }
 
 _extern void _sub_10EFDB30(real_matrix4x3 *, real_point3d const *, real_vector3d const *, real_vector3d const *);
@@ -453,14 +465,15 @@ real_matrix3x3 *matrix3x3_rotation_from_quaternion(real_matrix3x3 *matrix, real_
 	return __result;
 }
 
-extern real_matrix3x3 *_sub_10EFCBF0(real_matrix3x3 *, real_vector3d const *, real_vector3d const *);
 real_matrix3x3 *matrix3x3_from_forward_and_up(real_matrix3x3 *matrix, real_vector3d const *forward, real_vector3d const *up) // 0x10EFCBF0
 {
-	mangled_x86(MANGLED_TODO, "?matrix3x3_from_forward_and_up@@YAPAUreal_matrix3x3@@PAU1@PBUreal_vector3d@@1@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?matrix3x3_from_forward_and_up@@YAPAUreal_matrix3x3@@PAU1@PBUreal_vector3d@@1@Z");
 	// real_vector3d const *up;
-	todo("implement");
-	real_matrix3x3 * __result = _sub_10EFCBF0(matrix, forward, up);
-	return __result;
+
+	matrix->forward = *forward;
+	cross_product3d(up, forward, &matrix->left);
+	matrix->up = *up;
+	return matrix;
 }
 
 /* ---------- private code */

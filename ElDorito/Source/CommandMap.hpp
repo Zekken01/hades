@@ -46,7 +46,6 @@ namespace Modules
 		float ValueFloat; // 0x88
 		std::string ValueString; // 0x8C
 		unsigned long DefaultValueInt; // 0xA8
-		unsigned char __pad0[4]; // 0xAC
 		unsigned long long DefaultValueInt64; // 0xB0
 		float DefaultValueFloat; // 0xB8
 		std::string DefaultValueString; // 0xBC
@@ -57,7 +56,6 @@ namespace Modules
 		float ValueFloatMin; // 0xF0
 		float ValueFloatMax; // 0xF4
 		bool IsDirty; // 0xF8
-		unsigned char __pad1[3]; // 0xF9
 		std::string DirtyValue; // 0xFC
 		std::string CommittedValue; // 0x118
 		std::vector<std::string> CommandArgs; // 0x134
@@ -68,9 +66,10 @@ namespace Modules
 		_inline ~Command(); /* compiler_generated() */
 		_inline Modules::Command &operator=(Modules::Command &&__that); /* compiler_generated() */
 		Modules::Command &operator=(Modules::Command const &); /* compiler_generated() */
-		unsigned char __pad2[4]; // 0x144
 	};
 	static_assert(sizeof(Modules::Command) == 328, "Invalid Modules::Command size");
+	static_assert(offsetof(Modules::Command, DefaultValueInt64) == 0xB0, "Modules::Command::DefaultValueInt64 moved when its reconstructed padding was removed");
+	static_assert(offsetof(Modules::Command, DirtyValue) == 0xFC, "Modules::Command::DirtyValue moved when its reconstructed padding was removed");
 }
 
 #pragma pack(push, 4)
@@ -88,8 +87,8 @@ namespace Modules
 		Modules::Command *AddCommand(Modules::Command command);
 		void FinishAddCommands();
 		Modules::Command *FindCommand(std::string const &name);
-		std::string ExecuteCommand(std::string command, bool isUserInput);
-		std::string ExecuteCommand(std::vector<std::string> command, bool isUserInput);
+		std::string ExecuteCommand(std::string command, bool isUserInput = false);  /* hades: default from 0.6.1 */
+		std::string ExecuteCommand(std::vector<std::string> command, bool isUserInput = false);  /* hades: default from 0.6.1 */
 		std::string ExecuteCommands(std::string &commands, bool isUserInput, bool stopOnFirstError);
 		bool ExecuteCommandWithStatus(std::string command, bool isUserInput, std::string *output);
 		std::string ExecuteQueue();
@@ -110,7 +109,9 @@ namespace Modules
 		std::string SaveVariables();
 		std::string SaveKeys();
 		void Update();
-		_inline CommandMap(); /* compiler_generated() */
+		_inline CommandMap() = default; /* compiler_generated() - defaulted on its
+		    first declaration, so it is NOT user-provided and `new CommandMap()`
+		    zero-initializes before constructing, as the original does. */
 		~CommandMap(); /* compiler_generated() */
 	};
 }

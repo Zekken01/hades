@@ -95,14 +95,16 @@ namespace Blam
 
 /* ---------- public code */
 
-extern ModSessionManager* _sub_10793CC0(ModSessionManager *const, IModManager &);
 ModSessionManager::ModSessionManager(IModManager &modManager) : m_modManager(modManager) // 0x10793CC0
 {
-	mangled_x86(MANGLED_TODO, "??0ModSessionManager@@QAE@AAVIModManager@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0ModSessionManager@@QAE@AAVIModManager@@@Z");
 	// IModManager &modManager;
 	// function call : void (IModListener *)
-	todo("implement");
-	_sub_10793CC0(this, modManager);
+
+	memset(m_currentPakHash, 0, 20);
+	m_modManager.AddListener(this);
+	m_lastCheckTime = 0;
+	m_valid = false;
 }
 
 _extern void _sub_10793E00(ModSessionManager *const);
@@ -115,13 +117,12 @@ ModSessionManager::~ModSessionManager() // 0x10793E00
 	_sub_10793E00(this);
 }
 
-_extern void _sub_10794630(ModSessionManager *const);
 void ModSessionManager::Tick() // 0x10794630
 {
-	mangled_x86(MANGLED_TODO, "?Tick@ModSessionManager@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@ModSessionManager@@QAEXXZ");
 	// ModSessionManager *const this;
-	todo("implement");
-	_sub_10794630(this);
+
+	CheckSession();
 }
 
 _extern void _sub_10793FC0(ModSessionManager *const);

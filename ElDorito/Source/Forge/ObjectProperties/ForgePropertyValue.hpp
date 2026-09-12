@@ -51,51 +51,46 @@ namespace Forge
 
 namespace Forge
 {
-	extern SPropertyValue* _sub_1083AE40(Forge::SPropertyValue *const);
 	_inline SPropertyValue::SPropertyValue() // 0x1083AE40
 	{
-		mangled_x86(MANGLED_TODO, "??0SPropertyValue@Forge@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0SPropertyValue@Forge@@QAE@XZ");
 		// Forge::SPropertyValue *const this;
-		todo("implement");
-		_sub_1083AE40(this);
+
+		type = (Forge::EPropertyValueType)0xFFFFFFFF;
 	}
 
-	extern SPropertyValue* _sub_1083ADC0(Forge::SPropertyValue *const, __int32);
 	_inline SPropertyValue::SPropertyValue(__int32 val) // 0x1083ADC0
 	{
-		mangled_x86(MANGLED_TODO, "??0SPropertyValue@Forge@@QAE@H@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0SPropertyValue@Forge@@QAE@H@Z");
 		// __int32 val;
-		todo("implement");
-		_sub_1083ADC0(this, val);
+
+		type = Forge::Integer;
+		intValue = val;
 	}
 
-	extern SPropertyValue* _sub_1083AE00(Forge::SPropertyValue *const, float);
 	_inline SPropertyValue::SPropertyValue(float val) // 0x1083AE00
 	{
-		mangled_x86(MANGLED_TODO, "??0SPropertyValue@Forge@@QAE@M@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0SPropertyValue@Forge@@QAE@M@Z");
 		// float val;
-		todo("implement");
-		_sub_1083AE00(this, val);
+
+		type = Forge::Real;
+		realValue = val;
 	}
 
-	extern SPropertyValue _sub_1083E830(__int32);
 	_inline Forge::SPropertyValue SPropertyValue::Integer(__int32 val) // 0x1083E830
 	{
-		mangled_x86(MANGLED_TODO, "?Integer@SPropertyValue@Forge@@SA?AU12@H@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Integer@SPropertyValue@Forge@@SA?AU12@H@Z");
 		// __int32 val;
-		todo("implement");
-		Forge::SPropertyValue __result = _sub_1083E830(val);
-		return __result;
+
+		return SPropertyValue(val);
 	}
 
-	extern SPropertyValue _sub_1083E880(float);
 	_inline Forge::SPropertyValue SPropertyValue::Real(float val) // 0x1083E880
 	{
-		mangled_x86(MANGLED_TODO, "?Real@SPropertyValue@Forge@@SA?AU12@M@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Real@SPropertyValue@Forge@@SA?AU12@M@Z");
 		// float val;
-		todo("implement");
-		Forge::SPropertyValue __result = _sub_1083E880(val);
-		return __result;
+
+		return SPropertyValue(val);
 	}
 }
 

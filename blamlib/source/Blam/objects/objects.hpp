@@ -216,20 +216,20 @@ struct s_object_region_information
 	char variant_permutation_index; // 0x0
 	char state; // 0x1
 	unsigned char property_flags; // 0x2
-	unsigned char __pad0[1]; // 0x3
 	long unknown_index; // 0x4
 };
 static_assert(sizeof(s_object_region_information) == 8, "Invalid s_object_region_information size");
+static_assert(offsetof(s_object_region_information, unknown_index) == 0x4, "s_object_region_information::unknown_index moved when its reconstructed padding was removed");
 
 struct s_object_marker
 {
 	short node_index; // 0x0
-	unsigned char __pad0[2]; // 0x2
 	real_matrix4x3 local_to_world; // 0x4
 	real_matrix4x3 world_matrix; // 0x38
 	float scale; // 0x6C
 };
 static_assert(sizeof(s_object_marker) == 112, "Invalid s_object_marker size");
+static_assert(offsetof(s_object_marker, local_to_world) == 0x4, "s_object_marker::local_to_world moved when its reconstructed padding was removed");
 
 /* ---------- prototypes */
 

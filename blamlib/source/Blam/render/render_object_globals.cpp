@@ -48,14 +48,12 @@ extern s_render_object_globals *render_object_globals_get();
 
 /* ---------- public code */
 
-extern s_render_object_globals *_sub_10F13A40();
 s_render_object_globals *render_object_globals_get() // 0x10F13A40
 {
-	mangled_x86(MANGLED_TODO, "?render_object_globals_get@@YAPAUs_render_object_globals@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?render_object_globals_get@@YAPAUs_render_object_globals@@XZ");
 	// procedure flags: nofpo
-	todo("implement");
-	s_render_object_globals * __result = _sub_10F13A40();
-	return __result;
+
+	return tls_getd().render_object_globals;
 }
 
 /* ---------- private code */

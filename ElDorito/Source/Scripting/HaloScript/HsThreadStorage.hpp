@@ -125,40 +125,35 @@ namespace Scripting
 {
 	namespace HS
 	{
-		extern HsThreadStorage* _sub_106F25A0(Scripting::HS::HsThreadStorage *const);
 		_inline HsThreadStorage::HsThreadStorage() // 0x106F25A0
 		{
-			mangled_x86(MANGLED_TODO, "??0HsThreadStorage@HS@Scripting@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0HsThreadStorage@HS@Scripting@@QAE@XZ");
 			// Scripting::HS::HsThreadStorage *const this;
-			todo("implement");
-			_sub_106F25A0(this);
+
+			m_blockList = nullptr;
+			m_allocatedSize = 0;
 		}
 
-		_extern void _sub_106F2C40(Scripting::HS::HsThreadStorage *const);
 		_inline HsThreadStorage::~HsThreadStorage() // 0x106F2C40
 		{
-			mangled_x86(MANGLED_TODO, "??1HsThreadStorage@HS@Scripting@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??1HsThreadStorage@HS@Scripting@@QAE@XZ");
 			// Scripting::HS::HsThreadStorage *const this;
-			todo("implement");
-			_sub_106F2C40(this);
+
+			FreeAll();
 		}
 
-		extern HsThreadStorageManager* _sub_106F25E0(Scripting::HS::HsThreadStorageManager *const);
 		_inline HsThreadStorageManager::HsThreadStorageManager() // 0x106F25E0
 		{
-			mangled_x86(MANGLED_TODO, "??0HsThreadStorageManager@HS@Scripting@@AAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0HsThreadStorageManager@HS@Scripting@@AAE@XZ");
 			// Scripting::HS::HsThreadStorageManager *const this;
-			todo("implement");
-			_sub_106F25E0(this);
+
+			m_lastCollectionTime = 0;
 		}
 
-		_extern void _sub_106F2CD0(Scripting::HS::HsThreadStorageManager *const);
 		_inline HsThreadStorageManager::~HsThreadStorageManager() // 0x106F2CD0
 		{
-			mangled_x86(MANGLED_TODO, "??1HsThreadStorageManager@HS@Scripting@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??1HsThreadStorageManager@HS@Scripting@@QAE@XZ");
 			// Scripting::HS::HsThreadStorageManager *const this;
-			todo("implement");
-			_sub_106F2CD0(this);
 		}
 	}
 }

@@ -24,7 +24,6 @@ struct s_sandbox_globals
 	__int32 field_0; // 0x0
 	__int32 field_4; // 0x4
 	unsigned short player_role; // 0x8
-	unsigned char __pad0[2]; // 0xA
 	long player_edited_object_index[16]; // 0xC
 	float player_cursor_distance[16]; // 0x4C
 	real_point3d player_cursor_position[16]; // 0x8C
@@ -38,7 +37,6 @@ struct s_sandbox_globals
 	long field_720; // 0x720
 	long last_create_object_variant_index; // 0x724
 	bool map_variant_dirty; // 0x728
-	unsigned char __pad1[3]; // 0x729
 	long cursor_boundary_object_index; // 0x72C
 	s_map_variant_placement_properties unknown_variant_properties; // 0x730
 	s_sandbox_globals(s_sandbox_globals &); /* compiler_generated() */
@@ -48,6 +46,8 @@ struct s_sandbox_globals
 	s_sandbox_globals &operator=(s_sandbox_globals const &); /* compiler_generated() */
 };
 static_assert(sizeof(s_sandbox_globals) == 1864, "Invalid s_sandbox_globals size");
+static_assert(offsetof(s_sandbox_globals, player_edited_object_index) == 0xC, "s_sandbox_globals::player_edited_object_index moved when its reconstructed padding was removed");
+static_assert(offsetof(s_sandbox_globals, cursor_boundary_object_index) == 0x72C, "s_sandbox_globals::cursor_boundary_object_index moved when its reconstructed padding was removed");
 
 /* ---------- prototypes */
 

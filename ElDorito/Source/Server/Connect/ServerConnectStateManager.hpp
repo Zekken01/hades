@@ -70,34 +70,28 @@ static_assert(sizeof(CServerConnectStateManager) == 308, "Invalid CServerConnect
 
 /* ---------- public code */
 
-extern SServerConnectState &_sub_10907590(CServerConnectStateManager *const);
 _inline SServerConnectState &CServerConnectStateManager::GetStateMutable() // 0x10907590
 {
-	mangled_x86(MANGLED_TODO, "?GetStateMutable@CServerConnectStateManager@@QAEAAUSServerConnectState@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetStateMutable@CServerConnectStateManager@@QAEAAUSServerConnectState@@XZ");
 	// CServerConnectStateManager *const this;
-	todo("implement");
-	SServerConnectState & __result = _sub_10907590(this);
-	return __result;
+
+	return m_state;
 }
 
-extern SServerConnectState const &_sub_10907560(CServerConnectStateManager const *const);
 _inline SServerConnectState const &CServerConnectStateManager::GetState() const // 0x10907560
 {
-	mangled_x86(MANGLED_TODO, "?GetState@CServerConnectStateManager@@QBEABUSServerConnectState@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetState@CServerConnectStateManager@@QBEABUSServerConnectState@@XZ");
 	// CServerConnectStateManager const *const this;
-	todo("implement");
-	SServerConnectState const & __result = _sub_10907560((CServerConnectStateManager const *)this);
-	return __result;
+
+	return m_state;
 }
 
-_extern bool _sub_10B07950(CServerConnectStateManager const *const);
 _inline bool CServerConnectStateManager::InProgress() const // 0x10B07950
 {
-	mangled_x86(MANGLED_TODO, "?InProgress@CServerConnectStateManager@@QBE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?InProgress@CServerConnectStateManager@@QBE_NXZ");
 	// CServerConnectStateManager const *const this;
-	todo("implement");
-	bool __result = _sub_10B07950((CServerConnectStateManager const *)this);
-	return __result;
+
+	return !(m_currentHandler == nullptr);
 }
 
 /* ---------- private code */

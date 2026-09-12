@@ -40,7 +40,6 @@ struct s_observer_result
 {
 	real_point3d position; // 0x0
 	s_cluster_reference cluster_reference; // 0xC
-	unsigned char __pad0[2]; // 0xE
 	real_vector3d translational_velocity; // 0x10
 	real_vector3d angular_velocity; // 0x1C
 	real_vector3d forward; // 0x28
@@ -54,6 +53,7 @@ struct s_observer_result
 	float fov_scale; // 0x6C
 };
 static_assert(sizeof(s_observer_result) == 112, "Invalid s_observer_result size");
+static_assert(offsetof(s_observer_result, translational_velocity) == 0x10, "s_observer_result::translational_velocity moved when its reconstructed padding was removed");
 
 struct s_camera_definition
 {
@@ -107,7 +107,6 @@ struct s_observer
 	long field_100; // 0x100
 	long field_104; // 0x104
 	char result_valid; // 0x108
-	unsigned char __pad0[3]; // 0x109
 	s_observer_result result; // 0x10C
 	s_camera_definition values; // 0x17C
 	real_matrix4x3 focus_space; // 0x1BC
@@ -124,6 +123,7 @@ struct s_observer
 	long footer_signature; // 0x3C4
 };
 static_assert(sizeof(s_observer) == 968, "Invalid s_observer size");
+static_assert(offsetof(s_observer, result) == 0x10C, "s_observer::result moved when its reconstructed padding was removed");
 
 #pragma pack(push, 4)
 struct s_observer_globals

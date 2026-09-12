@@ -249,14 +249,12 @@ bool c_map_variant_loader::load_default(long map_id, s_map_variant *out_map_vari
 	return __result;
 }
 
-extern e_map_variant_load_error _sub_1088AAF0();
 e_map_variant_load_error c_map_variant_loader::get_last_error() // 0x1088AAF0
 {
-	mangled_x86(MANGLED_TODO, "?get_last_error@c_map_variant_loader@@SA?AW4e_map_variant_load_error@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_last_error@c_map_variant_loader@@SA?AW4e_map_variant_load_error@@XZ");
 	// procedure flags: nofpo
-	todo("implement");
-	e_map_variant_load_error __result = _sub_1088AAF0();
-	return __result;
+
+	return last_error;
 }
 
 /* ---------- private code */

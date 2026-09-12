@@ -18,15 +18,15 @@ struct s_game_time_globals;
 struct s_game_time_globals
 {
 	bool initialized : 8; // 0x0
-	unsigned char __pad0[1]; // 0x1
 	unsigned short flags; // 0x2
 	unsigned short tick_rate; // 0x4
-	unsigned char __pad1[2]; // 0x6
 	float tick_length; // 0x8
 	long game_tick; // 0xC
 	float game_speed; // 0x10
 };
 static_assert(sizeof(s_game_time_globals) == 20, "Invalid s_game_time_globals size");
+static_assert(offsetof(s_game_time_globals, flags) == 0x2, "s_game_time_globals::flags moved when its reconstructed padding was removed");
+static_assert(offsetof(s_game_time_globals, tick_length) == 0x8, "s_game_time_globals::tick_length moved when its reconstructed padding was removed");
 
 struct s_game_tick_time_samples
 {

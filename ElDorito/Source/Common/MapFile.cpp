@@ -95,14 +95,12 @@ CMapFile::CMapFile(void const *data, unsigned __int32 size) // 0x10860080
 	_sub_10860080(this, data, size);
 }
 
-_extern bool _sub_10860890(CMapFile const *const);
 bool CMapFile::IsValid() const // 0x10860890
 {
-	mangled_x86(MANGLED_TODO, "?IsValid@CMapFile@@QBE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?IsValid@CMapFile@@QBE_NXZ");
 	// CMapFile const *const this;
-	todo("implement");
-	bool __result = _sub_10860890((CMapFile const *)this);
-	return __result;
+
+	return m_buffer.size() > 0;
 }
 
 _extern bool _sub_108607F0(CMapFile const *const);

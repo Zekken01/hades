@@ -29,6 +29,9 @@ struct real_vector3d;
 
 /* ---------- prototypes */
 
+void quaternions_slerp_interpolate(real_quaternion const *q1, real_quaternion const *q2, float t, real_quaternion *result);  // hades: added for 0X10F1A9B0
+void quaternion_normalize(real_quaternion *q);  // hades: added for 0X10F1A9B0
+
 extern bool quaternion_is_identity(real_quaternion const *q);
 extern void quaternion_inverse(real_quaternion *q);
 extern void quaternion_normalize(real_quaternion *q);
@@ -138,14 +141,12 @@ void quaternion_transform_point(real_quaternion const *q, real_point3d const *po
 	_sub_10F19C10(q, point, result);
 }
 
-_extern float _sub_10F19FA0(real_quaternion const *, real_quaternion const *);
 float quaternions_dot(real_quaternion const *q1, real_quaternion const *q2) // 0x10F19FA0
 {
-	mangled_x86(MANGLED_TODO, "?quaternions_dot@@YAMPBUreal_quaternion@@0@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?quaternions_dot@@YAMPBUreal_quaternion@@0@Z");
 	// real_quaternion const *q2;
-	todo("implement");
-	float __result = _sub_10F19FA0(q1, q2);
-	return __result;
+
+	return q1->i * q2->i + q1->j * q2->j + q1->k * q2->k + q1->w * q2->w;
 }
 
 _extern void _sub_10F1A060(real_quaternion const *, real_quaternion const *, float, real_quaternion *);
@@ -185,13 +186,13 @@ void quaternions_slerp_interpolate(real_quaternion const *q1, real_quaternion co
 	_sub_10F1A430(q1, q2, t, result);
 }
 
-_extern void _sub_10F1A9B0(real_quaternion const *, real_quaternion const *, float, real_quaternion *);
 void quaternions_slerp_interpolate_and_normalize(real_quaternion const *q1, real_quaternion const *q2, float t, real_quaternion *result) // 0x10F1A9B0
 {
-	mangled_x86(MANGLED_TODO, "?quaternions_slerp_interpolate_and_normalize@@YAXPBUreal_quaternion@@0MPAU1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?quaternions_slerp_interpolate_and_normalize@@YAXPBUreal_quaternion@@0MPAU1@@Z");
 	// real_quaternion *result;
-	todo("implement");
-	_sub_10F1A9B0(q1, q2, t, result);
+
+	quaternions_slerp_interpolate(q1, q2, t, result);
+	quaternion_normalize(result);
 }
 
 _extern void _sub_10F1A1C0(real_quaternion const *, real_quaternion const *, real_quaternion *);

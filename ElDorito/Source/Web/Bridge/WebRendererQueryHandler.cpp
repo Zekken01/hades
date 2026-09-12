@@ -186,14 +186,6 @@ namespace Web
 			// mangled_x86(MANGLED_DEFAULT, "??1PendingQuery@WebRendererQueryHandler@Bridge@Browser@Web@@QAE@XZ"); no body to assert in
 			_inline WebRendererQueryHandler::PendingQuery::~PendingQuery() = default; // 0x10C70100
 
-			_inline WebRendererQueryHandler::~WebRendererQueryHandler() // 0x10C70170
-			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "??1WebRendererQueryHandler@Bridge@Browser@Web@@UAE@XZ");
-				// Web::Browser::Bridge::WebRendererQueryHandler *const this;
-
-				compiler_generated();
-			}
-
 			_extern void _sub_10C71F40(Web::Browser::Bridge::WebRendererQueryHandler *const, scoped_refptr<CefBrowser>, scoped_refptr<CefFrame>, long long);
 			void WebRendererQueryHandler::OnQueryCanceled(scoped_refptr<CefBrowser> browser, scoped_refptr<CefFrame> frame, long long queryId) // 0x10C71F40
 			{

@@ -142,6 +142,8 @@ namespace Patches
 
 /* ---------- prototypes */
 
+namespace Patches::Ui { void ApplyUIResolution(); }  // hades: added for 0X109A7220
+
 bool VariableSaturationUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo);
 bool VariableRedHueUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo);
 bool VariableGreenHueUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo);
@@ -164,13 +166,83 @@ s_depth_of_field *(*s_depth_of_field::get)(); // 0x11353FE0
 
 namespace Modules
 {
-	extern ModuleGraphics* _sub_109A4B30(Modules::ModuleGraphics *const);
-	ModuleGraphics::ModuleGraphics() : ModuleBase(todo_result<std::string>()) // 0x109A4B30
+	ModuleGraphics::ModuleGraphics() : ModuleBase("Graphics") /* hades-mem-init: : ModuleBase(todo_result<std::string>()) */ // 0x109A4B30
 	{
-		mangled_x86(MANGLED_TODO, "??0ModuleGraphics@Modules@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0ModuleGraphics@Modules@@QAE@XZ");
 		// Modules::ModuleGraphics *const this;
-		todo("implement");
-		_sub_109A4B30(this);
+
+		VarSaturation = AddVariableFloat("Saturation", "saturation", "The saturation", eCommandFlagsArchived, 1.0f, VariableSaturationUpdate);
+		VarSaturation->ValueFloatMin = -10.0f;
+		VarSaturation->ValueFloatMax = 10.0f;
+
+		VarRedHue = AddVariableFloat("RedHue", "red_hue", "The red hue", eCommandFlagsNone, 1.0f, VariableRedHueUpdate);
+		VarRedHue->ValueFloatMin = 0.0f;
+		VarRedHue->ValueFloatMax = 1.0f;
+
+		VarGreenHue = AddVariableFloat("GreenHue", "green_hue", "The green hue", eCommandFlagsNone, 1.0f, VariableGreenHueUpdate);
+		VarGreenHue->ValueFloatMin = 0.0f;
+		VarGreenHue->ValueFloatMax = 1.0f;
+
+		VarBlueHue = AddVariableFloat("BlueHue", "blue_hue", "The blue hue", eCommandFlagsNone, 1.0f, VariableBlueHueUpdate);
+		VarBlueHue->ValueFloatMin = 0.0f;
+		VarBlueHue->ValueFloatMax = 1.0f;
+
+		VarGammaPower = AddVariableFloat("Gamma", "gamma", "Global gamma. 3.6 is the default, 4.0 is equivalent to the gamma in previous versions of ElDewrito.", eCommandFlagsArchived, 3.6f, VariableGammaPowerUpdate);
+		VarGammaPower->ValueFloatMin = 0.0f;
+		VarGammaPower->ValueFloatMax = 5.0f;
+
+		VarContrailsEnabled = AddVariableInt("ContrailsEnabled", "gfx_contrails", "Determines whether contrail systems are enabled.", eCommandFlagsArchived, 1, nullptr);
+		VarContrailsEnabled->ValueIntMin = 0;
+		VarContrailsEnabled->ValueIntMax = 1;
+
+		VarParticlesEnabled = AddVariableInt("ParticlesEnabled", "gfx_particles", "Determines whether particle systems are enabled.", eCommandFlagsArchived, 1, nullptr);
+		VarParticlesEnabled->ValueIntMin = 0;
+		VarParticlesEnabled->ValueIntMax = 1;
+
+		VarDecalsEnabled = AddVariableInt("DecalsEnabled", "gfx_decals", "Determines whether decal systems are enabled.", eCommandFlagsArchived, 1, nullptr);
+		VarDecalsEnabled->ValueIntMin = 0;
+		VarDecalsEnabled->ValueIntMax = 1;
+
+		VarReflectionsEnabled = AddVariableInt("ReflectionsEnabled", "gfx_reflections", "Determines whether reflections are enabled.", eCommandFlagsArchived, 0, nullptr);
+		VarReflectionsEnabled->ValueIntMin = 0;
+		VarReflectionsEnabled->ValueIntMax = 1;
+
+		VarDepthOfField = AddVariableFloat("DepthOfField", "dof", "The camera's depth of field", eCommandFlagsNone, 0.0f, VariableDepthOfFieldUpdate);
+		VarDepthOfField->ValueFloatMin = 0.0f;
+		VarDepthOfField->ValueFloatMax = 1.0f;
+
+		VarLetterbox = AddVariableInt("Letterbox", "letterbox", "A cinematic letterbox.", eCommandFlagsNone, 0, VariableLetterboxUpdate);
+		VarLetterbox->ValueIntMin = 0;
+		VarLetterbox->ValueIntMax = 1;
+
+		VarUIScaling = AddVariableInt("UIScaling", "uiscaling", "Enables proper UI scaling to match your monitor's resolution.", eCommandFlagsArchived, 1, VariableUIScalingUpdate);
+		VarUIScaling->ValueIntMin = 0;
+		VarUIScaling->ValueIntMax = 1;
+
+		VarDisableContrails = AddVariableInt("DisableContrails", "disablecontrails", "Disables the contrail renderer.", eCommandFlagsArchived, 0, nullptr);
+		VarDisableContrails->ValueIntMin = 0;
+		VarDisableContrails->ValueIntMax = 1;
+
+		VarCustomHUDColorsEnabled = AddVariableInt("CustomHUDColorsEnabled", "hud_colors", "Enables custom heads up display colors.", eCommandFlagsArchived, 0, VariableCustomHUDColorsEnabledUpdate);
+		VarCustomHUDColorsEnabled->ValueIntMin = 0;
+		VarCustomHUDColorsEnabled->ValueIntMax = 1;
+
+		VarCenteredHUD = AddVariableInt("CenteredHUD", "hud_centered", "Center the HUD for ultrawide displays", eCommandFlagsArchived, 1, nullptr);
+		VarCenteredHUD->ValueIntMin = 0;
+		VarCenteredHUD->ValueIntMax = 1;
+
+		VarHUDScaleX = AddVariableFloat("HUDScaleX", "hud_scale_x", "", eCommandFlagsNone, 1.0f, nullptr);
+
+		VarForceDefaultLighting = AddVariableInt("ForceDefaultLighting", "force_default_lighting", "When disabled uses a single SH light probe for all lighting", eCommandFlagsNone, 0, nullptr);
+		VarForceDefaultLighting->ValueIntMin = 0;
+		VarForceDefaultLighting->ValueIntMax = 1;
+
+		VarCustomHUDColorsPrimary = AddVariableString("CustomHUDColorsPrimary", "hud_colors_1", "Change the primary custom HUD color.", eCommandFlagsArchived, "#0E6249", VariableCustomHUDColorsUpdate);
+		VarCustomHUDColorsSecondary = AddVariableString("CustomHUDColorsSecondary", "hud_colors_2", "Change the primary custom HUD color.", eCommandFlagsArchived, "#27CB9B", VariableCustomHUDColorsUpdate);
+
+		VarFrameRateLimit = AddVariableInt("FrameRateLimit", "frame_rate_limit", "Limits the render frame rate. Set to 0 to unlock the frame rate (VSync must also be disabled)", eCommandFlagsHidden, 60, nullptr);
+
+		AddCommand("SupportedResolutions", "supported_resolutions", "List the supported screen resolutions", eCommandFlagsNone, CommandSupportedResolutions);
 	}
 }
 
@@ -289,14 +361,21 @@ bool VariableLetterboxUpdate(std::vector<std::string> const &Arguments, std::str
 	return __result;
 }
 
-_extern bool _sub_109A7220(std::vector<std::string> const &, std::string &);
 bool VariableUIScalingUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109A7220
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableUIScalingUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::VariableUIScalingUpdate
 	// std::string &returnInfo;
-	todo("implement");
-	bool __result = _sub_109A7220(Arguments, returnInfo);
-	return __result;
+
+	if (!Modules::ModuleGraphics::Instance().VarUIScaling->ValueInt)
+	{
+		returnInfo = "The changes will apply on game restart";
+	}
+	else if (ElDorito::Instance().GameHasMenuShown)
+	{
+		Patches::Ui::ApplyUIResolution();
+	}
+	return true;
 }
 
 _extern bool _sub_109A63B0(std::vector<std::string> const &, std::string &);

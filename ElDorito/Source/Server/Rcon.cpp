@@ -305,13 +305,12 @@ namespace Server
 			_sub_10BB57C0(message);
 		}
 
-		_extern void _sub_10BB5A10();
 		void Tick() // 0x10BB5A10
 		{
-			mangled_x86(MANGLED_TODO, "?Tick@Rcon@Server@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@Rcon@Server@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_10BB5A10();
+
+			rconServer.poll();
 		}
 	}
 }
@@ -327,13 +326,16 @@ _inline void RconConsoleOutputHandler::WriteLine(std::string const &line) // 0x1
 	_sub_10BB5A60(this, line);
 }
 
-_extern void _sub_10BB3A60();
 void ForceStopServer() // 0x10BB3A60
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ForceStopServer@@YAXXZ");
 	// `anonymous-namespace'::ForceStopServer
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10BB3A60();
+
+	if (rconServer.is_listening())
+	{
+		rconServer.stop();
+	}
 }
 
 _extern void _sub_10BB3E50();

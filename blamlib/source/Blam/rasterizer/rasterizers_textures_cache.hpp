@@ -33,13 +33,12 @@ static_assert(sizeof(c_rasterizer_texture_ref) == 4, "Invalid c_rasterizer_textu
 
 /* ---------- public code */
 
-extern c_rasterizer_texture_ref* _sub_108582D0(c_rasterizer_texture_ref *const, long);
 _inline c_rasterizer_texture_ref::c_rasterizer_texture_ref(long index) // 0x108582D0
 {
-	mangled_x86(MANGLED_TODO, "??0c_rasterizer_texture_ref@@QAE@J@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_rasterizer_texture_ref@@QAE@J@Z");
 	// long index;
-	todo("implement");
-	_sub_108582D0(this, index);
+
+	this->index = index;
 }
 
 /* ---------- private code */

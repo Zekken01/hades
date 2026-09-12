@@ -100,13 +100,12 @@ namespace Player
 			_sub_107F0CB0(sampler, player_index, use_generic, screen_emblem);
 		}
 
-		_extern void _sub_107F0C50(long, bool, bool);
 		void set_emblem_customization_biped(long sampler, bool use_generic, bool screen_emblem) // 0x107F0C50
 		{
-			mangled_x86(MANGLED_TODO, "?set_emblem_customization_biped@PlayerEmblem@Player@@YAXJ_N0@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?set_emblem_customization_biped@PlayerEmblem@Player@@YAXJ_N0@Z");
 			// bool screen_emblem;
-			todo("implement");
-			_sub_107F0C50(sampler, use_generic, screen_emblem);
+
+			set_emblem_texture(sampler, 16, use_generic, screen_emblem);
 		}
 	}
 }

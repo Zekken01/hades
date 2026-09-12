@@ -80,31 +80,28 @@ namespace Utils
 
 namespace Download
 {
-	_extern void _sub_10820440();
 	void Init() // 0x10820440
 	{
-		mangled_x86(MANGLED_TODO, "?Init@Download@@YAXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Init@Download@@YAXXZ");
 		// procedure flags: nofpo
-		todo("implement");
-		_sub_10820440();
+
+		Download::CHttpFileDownloadManager::Instance().Init();
 	}
 
-	_extern void _sub_10820640();
 	void Shutdown() // 0x10820640
 	{
-		mangled_x86(MANGLED_TODO, "?Shutdown@Download@@YAXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Shutdown@Download@@YAXXZ");
 		// procedure flags: nofpo
-		todo("implement");
-		_sub_10820640();
+
+		Download::CHttpFileDownloadManager::Instance().Shutdown();
 	}
 
-	_extern void _sub_108207D0();
 	void Tick() // 0x108207D0
 	{
-		mangled_x86(MANGLED_TODO, "?Tick@Download@@YAXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@Download@@YAXXZ");
 		// procedure flags: nofpo
-		todo("implement");
-		_sub_108207D0();
+
+		Download::CHttpFileDownloadManager::Instance().Tick();
 	}
 }
 
@@ -121,7 +118,6 @@ namespace Download
 	}
 
 	// mangled_x86(MANGLED_DEFAULT, "??0CHttpFileDownloadManager@Download@@QAE@XZ"); no body to assert in
-	_inline CHttpFileDownloadManager::CHttpFileDownloadManager() = default; // 0x10820020
 }
 
 /* ---------- private code */

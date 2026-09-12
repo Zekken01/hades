@@ -118,6 +118,8 @@ using namespace ::Blam;
 
 /* ---------- prototypes */
 
+extern bool (*game_is_campaign)();  // hades: added for 0X108C5A50
+
 std::string camapgin_difficulty_level_to_string(long level);
 long camapgin_difficulty_level_from_string(std::string const &str);
 std::string camapgin_metagame_scoring_option_to_string(long level);
@@ -173,14 +175,29 @@ std::string camapgin_difficulty_level_to_string(long level) // 0x108C68E0
 	return __result;
 }
 
-_extern long _sub_108C6800(std::string const &);
 long camapgin_difficulty_level_from_string(std::string const &str) // 0x108C6800
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?camapgin_difficulty_level_from_string@@YAJABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 	// `anonymous-namespace'::camapgin_difficulty_level_from_string
 	// std::string const &str;
-	todo("implement");
-	long __result = _sub_108C6800(str);
-	return __result;
+
+	if (str == "easy")
+	{
+		return 0;
+	}
+	else if (str == "normal")
+	{
+		return 1;
+	}
+	else if (str == "heroic")
+	{
+		return 2;
+	}
+	else if (str == "legendary")
+	{
+		return 3;
+	}
+	return -1;
 }
 
 extern std::string _sub_108C6AF0(long);
@@ -193,14 +210,26 @@ std::string camapgin_metagame_scoring_option_to_string(long level) // 0x108C6AF0
 	return __result;
 }
 
-_extern long _sub_108C6A40(std::string const &);
 long camapgin_metagame_scoring_option_from_string(std::string const &str) // 0x108C6A40
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?camapgin_metagame_scoring_option_from_string@@YAJABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 	// `anonymous-namespace'::camapgin_metagame_scoring_option_from_string
 	// std::string const &str;
-	todo("implement");
-	long __result = _sub_108C6A40(str);
-	return __result;
+
+	if (str == "off")
+	{
+		return 0;
+	}
+	else if (str == "team")
+	{
+		return 1;
+	}
+	else if (str == "ffa")
+	{
+		return 2;
+	}
+
+	return -1;
 }
 
 _extern bool _sub_108C51A0(std::vector<std::string> const &, std::string &);
@@ -362,30 +391,46 @@ bool CommandCampaignSkulls(std::vector<std::string> const &arguments, std::strin
 	return __result;
 }
 
-_extern bool _sub_108C5AE0(std::vector<std::string> const &, std::string &);
 bool CommandCampaignSave(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x108C5AE0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandCampaignSave@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandCampaignSave
 	// std::string &returnInfo;
 	// void (*const main_save_map)();
 	// function call : bool (*)()
 	// function call : void (*const)()
-	todo("implement");
-	bool __result = _sub_108C5AE0(arguments, returnInfo);
-	return __result;
+
+	if (!game_is_campaign())
+	{
+		returnInfo = "Not in campaign";
+		return false;
+	}
+
+	void (*const campaign_save)() = (void(*const)())0x506d80;
+
+	campaign_save();
+	return true;
 }
 
-_extern bool _sub_108C5A50(std::vector<std::string> const &, std::string &);
 bool CommandCampaignRevert(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x108C5A50
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandCampaignRevert@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandCampaignRevert
 	// std::string &returnInfo;
 	// char (*const main_revert_map_scripting)();
 	// function call : bool (*)()
 	// function call : char (*const)()
-	todo("implement");
-	bool __result = _sub_108C5A50(arguments, returnInfo);
-	return __result;
+
+	if (!game_is_campaign())
+	{
+		returnInfo = "Not in campaign";
+		return false;
+	}
+
+	void (*const campaign_revert)() = (void(*const)())0x506ca0;
+
+	campaign_revert();
+	return true;
 }
 
 _extern bool _sub_108C55D0(std::vector<std::string> const &, std::string &);

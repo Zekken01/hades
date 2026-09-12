@@ -91,138 +91,147 @@ namespace Blam
 {
 	namespace Input
 	{
-		_extern unsigned char _sub_1092AA40(Blam::Input::KeyCode, Blam::Input::InputType);
 		unsigned char GetKeyTicks(Blam::Input::KeyCode key, Blam::Input::InputType type) // 0x1092AA40
 		{
-			mangled_x86(MANGLED_TODO, "?GetKeyTicks@Input@Blam@@YAEW4KeyCode@12@W4InputType@12@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetKeyTicks@Input@Blam@@YAEW4KeyCode@12@W4InputType@12@@Z");
 			// Blam::Input::InputType type;
 			// unsigned char (*EngineGetKeyTicks)(Blam::Input::KeyCode, Blam::Input::InputType);
 			// function call : unsigned char (*)(Blam::Input::KeyCode, Blam::Input::InputType)
-			todo("implement");
-			unsigned char __result = _sub_1092AA40(key, type);
-			return __result;
+
+			unsigned char (__cdecl *GetKeyTicksImpl)(Blam::Input::KeyCode, Blam::Input::InputType) = (unsigned char(__cdecl *)(Blam::Input::KeyCode, Blam::Input::InputType))0x511b60;
+
+			return GetKeyTicksImpl(key, type);
 		}
 
-		_extern unsigned short _sub_1092A980(Blam::Input::KeyCode, Blam::Input::InputType);
 		unsigned short GetKeyMs(Blam::Input::KeyCode key, Blam::Input::InputType type) // 0x1092A980
 		{
-			mangled_x86(MANGLED_TODO, "?GetKeyMs@Input@Blam@@YAGW4KeyCode@12@W4InputType@12@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetKeyMs@Input@Blam@@YAGW4KeyCode@12@W4InputType@12@@Z");
 			// Blam::Input::InputType type;
 			// unsigned char (*EngineGetKeyMs)(Blam::Input::KeyCode, Blam::Input::InputType);
 			// function call : unsigned char (*)(Blam::Input::KeyCode, Blam::Input::InputType)
-			todo("implement");
-			unsigned short __result = _sub_1092A980(key, type);
-			return __result;
+
+			unsigned char (__cdecl *EngineGetKeyMs)(Blam::Input::KeyCode, Blam::Input::InputType) = (unsigned char(__cdecl *)(Blam::Input::KeyCode, Blam::Input::InputType))0x511ce0;
+
+			return EngineGetKeyMs(key, type);
 		}
 
-		extern KeyState *_sub_1092AA00(Blam::Input::KeyCode);
 		Blam::Input::KeyState *GetKeyState(Blam::Input::KeyCode key) // 0x1092AA00
 		{
-			mangled_x86(MANGLED_TODO, "?GetKeyState@Input@Blam@@YAPAUKeyState@12@W4KeyCode@12@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetKeyState@Input@Blam@@YAPAUKeyState@12@W4KeyCode@12@@Z");
 			// Blam::Input::KeyCode key;
-			todo("implement");
-			Blam::Input::KeyState * __result = _sub_1092AA00(key);
-			return __result;
+
+			if (key < 0 || key >= eKeyCodeUnused68)
+			{
+				return nullptr;
+			}
+
+			return &((Blam::Input::KeyState *)0x238DBF4)[key];
 		}
 
-		_extern unsigned char _sub_1092AAB0(Blam::Input::MouseButton, Blam::Input::InputType);
 		unsigned char GetMouseButtonTicks(Blam::Input::MouseButton button, Blam::Input::InputType type) // 0x1092AAB0
 		{
-			mangled_x86(MANGLED_TODO, "?GetMouseButtonTicks@Input@Blam@@YAEW4MouseButton@12@W4InputType@12@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetMouseButtonTicks@Input@Blam@@YAEW4MouseButton@12@W4InputType@12@@Z");
 			// Blam::Input::InputType type;
 			// unsigned char (*EngineGetMousButtonTicks)(Blam::Input::MouseButton, Blam::Input::InputType);
 			// function call : unsigned char (*)(Blam::Input::MouseButton, Blam::Input::InputType)
-			todo("implement");
-			unsigned char __result = _sub_1092AAB0(button, type);
-			return __result;
+
+			unsigned char (__cdecl *GetMouseButtonTicksImpl)(unsigned char, Blam::Input::InputType) = (unsigned char(__cdecl *)(unsigned char, Blam::Input::InputType))0x511df0;
+
+			return (*GetMouseButtonTicksImpl)((unsigned char)button, type);
 		}
 
-		_extern bool _sub_1092AC20(Blam::Input::KeyEvent *, Blam::Input::InputType);
 		bool ReadKeyEvent(Blam::Input::KeyEvent *result, Blam::Input::InputType type) // 0x1092AC20
 		{
-			mangled_x86(MANGLED_TODO, "?ReadKeyEvent@Input@Blam@@YA_NPAUKeyEvent@12@W4InputType@12@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ReadKeyEvent@Input@Blam@@YA_NPAUKeyEvent@12@W4InputType@12@@Z");
 			// Blam::Input::InputType type;
 			// bool (*EngineReadKeyEvent)(Blam::Input::KeyEvent *, Blam::Input::InputType);
 			// function call : bool (*)(Blam::Input::KeyEvent *, Blam::Input::InputType)
-			todo("implement");
-			bool __result = _sub_1092AC20(result, type);
-			return __result;
+
+			bool (__cdecl *ReadKeyEventImpl)(Blam::Input::KeyEvent *, Blam::Input::InputType) = (bool(__cdecl *)(Blam::Input::KeyEvent *, Blam::Input::InputType))0x5118c0;
+
+			return ReadKeyEventImpl(result, type);
 		}
 
-		_extern void _sub_1092A7A0(Blam::Input::InputType, bool);
 		void BlockInput(Blam::Input::InputType type, bool block) // 0x1092A7A0
 		{
-			mangled_x86(MANGLED_TODO, "?BlockInput@Input@Blam@@YAXW4InputType@12@_N@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?BlockInput@Input@Blam@@YAXW4InputType@12@_N@Z");
 			// bool block;
 			// unsigned char (*EngineBlockInput)(Blam::Input::InputType, bool);
 			// function call : unsigned char (*)(Blam::Input::InputType, bool)
-			todo("implement");
-			_sub_1092A7A0(type, block);
+
+			void (__cdecl *BlockInputImpl)(Blam::Input::InputType, bool) = (void(__cdecl *)(Blam::Input::InputType, bool))0x512530;
+
+			BlockInputImpl(type, block);
 		}
 
-		_extern bool _sub_1092A890(__int32, Blam::Input::BindingsTable *);
 		bool GetBindings(__int32 localPlayerIndex, Blam::Input::BindingsTable *result) // 0x1092A890
 		{
-			mangled_x86(MANGLED_TODO, "?GetBindings@Input@Blam@@YA_NHPAUBindingsTable@12@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetBindings@Input@Blam@@YA_NHPAUBindingsTable@12@@Z");
 			// Blam::Input::BindingsTable *result;
 			// void (*EngineGetBindings)(__int32, Blam::Input::BindingsTable *);
 			// function call : void (*)(__int32, Blam::Input::BindingsTable *)
-			todo("implement");
-			bool __result = _sub_1092A890(localPlayerIndex, result);
-			return __result;
+
+			if (localPlayerIndex < 0 || localPlayerIndex >= 4)
+			{
+				return false;
+			}
+
+			void (__cdecl *GetBindingsImpl)(__int32, Blam::Input::BindingsTable *) = (void(__cdecl *)(__int32, Blam::Input::BindingsTable *))0x60be70;
+
+			GetBindingsImpl(localPlayerIndex, result);
+			return true;
 		}
 
-		_extern bool _sub_1092AB80(Blam::Input::InputType);
 		bool InputIsBlocked(Blam::Input::InputType type) // 0x1092AB80
 		{
-			mangled_x86(MANGLED_TODO, "?InputIsBlocked@Input@Blam@@YA_NW4InputType@12@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?InputIsBlocked@Input@Blam@@YA_NW4InputType@12@@Z");
 			// Blam::Input::InputType type;
-			todo("implement");
-			bool __result = _sub_1092AB80(type);
-			return __result;
+
+			return *(bool *)(0x238DBEB + type);
 		}
 
-		_extern bool _sub_1092ACC0(__int32, Blam::Input::BindingsTable const &);
 		bool SetBindings(__int32 localPlayerIndex, Blam::Input::BindingsTable const &newBindings) // 0x1092ACC0
 		{
-			mangled_x86(MANGLED_TODO, "?SetBindings@Input@Blam@@YA_NHABUBindingsTable@12@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?SetBindings@Input@Blam@@YA_NHABUBindingsTable@12@@Z");
 			// Blam::Input::BindingsTable const &newBindings;
 			// void (*EngineSetBindings)(__int32, Blam::Input::BindingsTable const &);
 			// function call : void (*)(__int32, Blam::Input::BindingsTable const &)
-			todo("implement");
-			bool __result = _sub_1092ACC0(localPlayerIndex, newBindings);
-			return __result;
+
+			if (localPlayerIndex < 0 || localPlayerIndex >= 4)
+				return false;
+
+			void (__cdecl *SetBindingsImpl)(__int32, Blam::Input::BindingsTable const &) = (void(__cdecl *)(__int32, Blam::Input::BindingsTable const &))0x60d830;
+
+			SetBindingsImpl(localPlayerIndex, newBindings);
+			return true;
 		}
 
-		_extern void _sub_1092ABB0(__int32, char);
 		void PostUiAction(__int32 localPlayerIndex, Blam::Input::GameAction action) // 0x1092ABB0
 		{
-			mangled_x86(MANGLED_TODO, "?PostUiAction@Input@Blam@@YAXHW4GameAction@12@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?PostUiAction@Input@Blam@@YAXHW4GameAction@12@@Z");
 			// Blam::Input::GameAction action;
 			// void (*const EnginePostUiAction)(__int32, char);
 			// function call : void (*const)(__int32, char)
-			todo("implement");
-			_sub_1092ABB0(localPlayerIndex, action);
+
+			void (__cdecl *const F)(__int32, Blam::Input::GameAction) = (void(__cdecl *const)(__int32, Blam::Input::GameAction))0xa935c0;
+
+			F(localPlayerIndex, action);
 		}
 
-		_extern __int32 _sub_1092AB50(Blam::Input::KeyCode);
 		__int32 GetVirtualKey(Blam::Input::KeyCode kc) // 0x1092AB50
 		{
-			mangled_x86(MANGLED_TODO, "?GetVirtualKey@Input@Blam@@YAHW4KeyCode@12@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetVirtualKey@Input@Blam@@YAHW4KeyCode@12@@Z");
 			// Blam::Input::KeyCode kc;
-			todo("implement");
-			__int32 __result = _sub_1092AB50(kc);
-			return __result;
+
+			return WinKeyCode[kc];
 		}
 
-		_extern __int32 _sub_1092A920(Blam::Input::KeyCode);
 		__int32 GetDirectInputKey(Blam::Input::KeyCode kc) // 0x1092A920
 		{
-			mangled_x86(MANGLED_TODO, "?GetDirectInputKey@Input@Blam@@YAHW4KeyCode@12@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetDirectInputKey@Input@Blam@@YAHW4KeyCode@12@@Z");
 			// Blam::Input::KeyCode kc;
-			todo("implement");
-			__int32 __result = _sub_1092A920(kc);
-			return __result;
+
+			return DIKeyCode[kc];
 		}
 	}
 }
@@ -234,32 +243,34 @@ namespace Blam
 	{
 		char const *GetKeyCodeName(Blam::Input::KeyCode kc) // 0x1092A950
 		{
-			mangled_x86(MANGLED_TODO, "?GetKeyCodeName@Input@Blam@@YAPBDW4KeyCode@12@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetKeyCodeName@Input@Blam@@YAPBDW4KeyCode@12@@Z");
 			// Blam::Input::KeyCode kc;
-			todo("implement");
-			char const * __result = _sub_1092A950(kc);
-			return __result;
+
+			return KeyCodeNames[kc];
 		}
 
-		extern ActionState *_sub_1092A840(Blam::Input::GameAction);
 		Blam::Input::ActionState *GetActionState(Blam::Input::GameAction action) // 0x1092A840
 		{
-			mangled_x86(MANGLED_TODO, "?GetActionState@Input@Blam@@YAPAUActionState@12@W4GameAction@12@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetActionState@Input@Blam@@YAPAUActionState@12@W4GameAction@12@@Z");
 			// Blam::Input::GameAction action;
 			// Blam::Input::ActionState *actions;
-			todo("implement");
-			Blam::Input::ActionState * __result = _sub_1092A840(action);
-			return __result;
+
+			if (action < 0 || action >= eGameAction_KeyboardMouseCount)
+			{
+				return nullptr;
+			}
+
+			Blam::Input::ActionState *actions = (Blam::Input::ActionState *)0x244D1F0;
+
+			return &actions[action];
 		}
 
-		extern PlayerInputState *_sub_1092AB20(__int32);
 		Blam::Input::PlayerInputState *GetPlayerInputState(__int32 localPlayerIndex) // 0x1092AB20
 		{
-			mangled_x86(MANGLED_TODO, "?GetPlayerInputState@Input@Blam@@YAPAUPlayerInputState@12@H@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetPlayerInputState@Input@Blam@@YAPAUPlayerInputState@12@H@Z");
 			// __int32 localPlayerIndex;
-			todo("implement");
-			Blam::Input::PlayerInputState * __result = _sub_1092AB20(localPlayerIndex);
-			return __result;
+
+			return (Blam::Input::PlayerInputState *)0x244D1F0 + localPlayerIndex;
 		}
 
 		extern VirtualKeyboard* _sub_1092A660(Blam::Input::VirtualKeyboard *const, char const *, __int32, __int32, __int32, __int32, __int32, __int32, __int32, __int32);
@@ -327,13 +338,12 @@ namespace Blam
 			return 0;
 		}
 
-		_extern void _sub_1092AC90(Blam::Input::VirtualKeyboard *const);
 		void VirtualKeyboard::Reset() // 0x1092AC90
 		{
-			mangled_x86(MANGLED_TODO, "?Reset@VirtualKeyboard@Input@Blam@@UAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Reset@VirtualKeyboard@Input@Blam@@UAEXXZ");
 			// Blam::Input::VirtualKeyboard *const this;
-			todo("implement");
-			_sub_1092AC90(this);
+
+			State = eVirtualKeyboardStateClosed;
 		}
 
 		__int32 VirtualKeyboard::Stub20() // 0x1092B040
@@ -344,62 +354,67 @@ namespace Blam
 			return 0;
 		}
 
-		_extern void _sub_1092AE70(Blam::Input::VirtualKeyboard *const, wchar_t const *);
 		void VirtualKeyboard::SetTitle(wchar_t const *newTitle) // 0x1092AE70
 		{
-			mangled_x86(MANGLED_TODO, "?SetTitle@VirtualKeyboard@Input@Blam@@QAEXPB_W@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?SetTitle@VirtualKeyboard@Input@Blam@@QAEXPB_W@Z");
 			// wchar_t const *newTitle;
 			// unsigned __int32 const TitleLength;
-			todo("implement");
-			_sub_1092AE70(this, newTitle);
+
+			const int titleSize = 64;
+			wcsncpy(Title, newTitle, titleSize - 1);
+			Title[titleSize - 1] = 0;
 		}
 
-		_extern void _sub_1092ADE0(Blam::Input::VirtualKeyboard *const, wchar_t const *);
 		void VirtualKeyboard::SetDescription(wchar_t const *newDescription) // 0x1092ADE0
 		{
-			mangled_x86(MANGLED_TODO, "?SetDescription@VirtualKeyboard@Input@Blam@@QAEXPB_W@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?SetDescription@VirtualKeyboard@Input@Blam@@QAEXPB_W@Z");
 			// wchar_t const *newDescription;
 			// unsigned __int32 const DescriptionLength;
-			todo("implement");
-			_sub_1092ADE0(this, newDescription);
+
+			const int size = 256;
+
+			wcsncpy(Description, newDescription, size - 1);
+			Description[size - 1] = 0;
 		}
 
-		_extern void _sub_1092AF00(Blam::Input::VirtualKeyboard *const, wchar_t const *);
 		void VirtualKeyboard::SetValue(wchar_t const *newValue) // 0x1092AF00
 		{
-			mangled_x86(MANGLED_TODO, "?SetValue@VirtualKeyboard@Input@Blam@@QAEXPB_W@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?SetValue@VirtualKeyboard@Input@Blam@@QAEXPB_W@Z");
 			// wchar_t const *newValue;
 			// unsigned __int32 const ValueLength;
-			todo("implement");
-			_sub_1092AF00(this, newValue);
+
+			const int maxLength = 256;
+
+			wcsncpy(Value, newValue, maxLength - 1);
+			Value[maxLength - 1] = 0;
 		}
 
-		_extern void _sub_1092AD50(Blam::Input::VirtualKeyboard *const, wchar_t const *);
 		void VirtualKeyboard::SetDefaultValue(wchar_t const *newDefaultValue) // 0x1092AD50
 		{
-			mangled_x86(MANGLED_TODO, "?SetDefaultValue@VirtualKeyboard@Input@Blam@@QAEXPB_W@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?SetDefaultValue@VirtualKeyboard@Input@Blam@@QAEXPB_W@Z");
 			// wchar_t const *newDefaultValue;
 			// unsigned __int32 const DefaultValueLength;
-			todo("implement");
-			_sub_1092AD50(this, newDefaultValue);
+
+			const int size = 256;
+
+			wcsncpy(DefaultValue, newDefaultValue, size - 1);
+			DefaultValue[size - 1] = 0;
 		}
 
-		_extern void _sub_1092AF90(Blam::Input::VirtualKeyboard *const);
 		void VirtualKeyboard::Start() // 0x1092AF90
 		{
-			mangled_x86(MANGLED_TODO, "?Start@VirtualKeyboard@Input@Blam@@QAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Start@VirtualKeyboard@Input@Blam@@QAEXXZ");
 			// Blam::Input::VirtualKeyboard *const this;
-			todo("implement");
-			_sub_1092AF90(this);
+
+			State = eVirtualKeyboardStateBusy1;
 		}
 
-		_extern void _sub_1092A810(Blam::Input::VirtualKeyboard *const);
 		void VirtualKeyboard::Finish() // 0x1092A810
 		{
-			mangled_x86(MANGLED_TODO, "?Finish@VirtualKeyboard@Input@Blam@@QAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Finish@VirtualKeyboard@Input@Blam@@QAEXXZ");
 			// Blam::Input::VirtualKeyboard *const this;
-			todo("implement");
-			_sub_1092A810(this);
+
+			State = eVirtualKeyboardStateFinished;
 		}
 	}
 }

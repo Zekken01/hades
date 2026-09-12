@@ -51,15 +51,16 @@ static_assert(sizeof(c_player_render_camera_iterator) == 20, "Invalid c_player_r
 
 /* ---------- public code */
 
-extern c_wait_for_render_thread* _sub_10900E20(c_wait_for_render_thread *const);
 _inline c_wait_for_render_thread::c_wait_for_render_thread() // 0x10900E20
 {
-	mangled_x86(MANGLED_TODO, "??0c_wait_for_render_thread@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_wait_for_render_thread@@QAE@XZ");
 	// c_wait_for_render_thread *const this;
 	// long (*const _internal_halt_render_thread_and_lock_resources)();
 	// function call : long (*const)()
-	todo("implement");
-	_sub_10900E20(this);
+
+	long (*const get_lock_handle)() = (long(*const)())0x504d20;
+
+	m_lock_handle = get_lock_handle();
 }
 
 _extern void _sub_109010B0(c_wait_for_render_thread *const);

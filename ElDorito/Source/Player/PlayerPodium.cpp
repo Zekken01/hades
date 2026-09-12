@@ -309,14 +309,14 @@ namespace Player
 {
 	namespace PlayerPodium
 	{
-		_extern bool _sub_106DD530(::Player::PlayerPodium::PlayerPlace const *const, ::Player::PlayerPodium::PlayerPlace const &);
 		_inline bool PlayerPlace::operator<(::Player::PlayerPodium::PlayerPlace const &other_player) const // 0x106DD530
 		{
-			mangled_x86(MANGLED_TODO, "??MPlayerPlace@PlayerPodium@Player@@QBE_NABU012@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??MPlayerPlace@PlayerPodium@Player@@QBE_NABU012@@Z");
 			// Player::PlayerPodium::PlayerPlace const &other_player;
-			todo("implement");
-			bool __result = _sub_106DD530((::Player::PlayerPodium::PlayerPlace const *)this, other_player);
-			return __result;
+
+			if (player_place == other_player.player_place)
+				return player_session_idx < other_player.player_session_idx;
+			return player_place < other_player.player_place;
 		}
 
 		_extern long _sub_106DE4F0(s_player_datum *);
@@ -567,22 +567,35 @@ namespace Player
 			return __result;
 		}
 
-		_extern void _sub_106DFC20();
 		void ResetStates() // 0x106DFC20
 		{
-			mangled_x86(MANGLED_TODO, "?ResetStates@PlayerPodium@Player@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ResetStates@PlayerPodium@Player@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_106DFC20();
+
+			s_PodiumStates.podiumInit = false;
+			s_PodiumStates.inPostGame = false;
+			s_PodiumStates.podiumStarted = false;
 		}
 
-		_extern void _sub_106DF310(char const *);
 		void HandleEvent(char const *eventString) // 0x106DF310
 		{
-			mangled_x86(MANGLED_TODO, "?HandleEvent@PlayerPodium@Player@@YAXPBD@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?HandleEvent@PlayerPodium@Player@@YAXPBD@Z");
 			// char const *eventString;
-			todo("implement");
-			_sub_106DF310(eventString);
+
+			if (!strcmp(eventString, "podium_init"))
+			{
+				s_PodiumStates.podiumInit = true;
+				return;
+			}
+			else if (!strcmp(eventString, "podium_start"))
+			{
+				s_PodiumStates.podiumStarted = true;
+				return;
+			}
+			else if (!strcmp(eventString, "podium_end"))
+			{
+				s_PodiumStates.podiumStarted = false;
+			}
 		}
 
 		_extern bool _sub_106DF530();
@@ -597,53 +610,44 @@ namespace Player
 			return __result;
 		}
 
-		_extern bool _sub_106DF640();
 		bool PodiumStarted() // 0x106DF640
 		{
-			mangled_x86(MANGLED_TODO, "?PodiumStarted@PlayerPodium@Player@@YA_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?PodiumStarted@PlayerPodium@Player@@YA_NXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			bool __result = _sub_106DF640();
-			return __result;
+
+			return s_PodiumStates.podiumStarted;
 		}
 
-		_extern bool _sub_106DFB80();
 		bool PodiumhasInitialized() // 0x106DFB80
 		{
-			mangled_x86(MANGLED_TODO, "?PodiumhasInitialized@PlayerPodium@Player@@YA_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?PodiumhasInitialized@PlayerPodium@Player@@YA_NXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			bool __result = _sub_106DFB80();
-			return __result;
+
+			return s_PodiumStates.podiumInit;
 		}
 
-		_extern bool _sub_106DF620();
 		bool PodiumIsReady() // 0x106DF620
 		{
-			mangled_x86(MANGLED_TODO, "?PodiumIsReady@PlayerPodium@Player@@YA_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?PodiumIsReady@PlayerPodium@Player@@YA_NXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			bool __result = _sub_106DF620();
-			return __result;
+
+			return podiumReady;
 		}
 
-		_extern bool _sub_106DE0F0();
 		bool ForgeCanOverride() // 0x106DE0F0
 		{
-			mangled_x86(MANGLED_TODO, "?ForgeCanOverride@PlayerPodium@Player@@YA_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ForgeCanOverride@PlayerPodium@Player@@YA_NXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			bool __result = _sub_106DE0F0();
-			return __result;
+
+			return forgeOverrideAllowed;
 		}
 
-		_extern void _sub_106E0300(bool);
 		void SetForgeCanOverride(bool allowed) // 0x106E0300
 		{
-			mangled_x86(MANGLED_TODO, "?SetForgeCanOverride@PlayerPodium@Player@@YAX_N@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?SetForgeCanOverride@PlayerPodium@Player@@YAX_N@Z");
 			// bool allowed;
-			todo("implement");
-			_sub_106E0300(allowed);
+
+			forgeOverrideAllowed = allowed;
 		}
 
 		_extern void _sub_106DF490(char const *);

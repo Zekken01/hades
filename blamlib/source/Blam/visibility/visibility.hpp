@@ -59,23 +59,23 @@ static_assert(sizeof(s_visibility_volume) == 356, "Invalid s_visibility_volume s
 struct s_visibility_projection
 {
 	char field_0; // 0x0
-	unsigned char __pad0[3]; // 0x1
 	real_matrix4x3 world_to_basis; // 0x4
 	real_matrix4x3 basis_to_world; // 0x38
 	char negated_flag; // 0x6C
-	unsigned char __pad1[3]; // 0x6D
 	float z_near; // 0x70
 	real_plane3d near_plane; // 0x74
 	char far_bounded_flag; // 0x84
-	unsigned char __pad2[3]; // 0x85
 	float z_far; // 0x88
 	char visibility_volume_valid; // 0x8C
-	unsigned char __pad3[3]; // 0x8D
 	s_visibility_volume visibility_volume; // 0x90
 	__int32 convex_hull_point_count; // 0x1F4
 	real_vector2d convex_hull_points[4]; // 0x1F8
 };
 static_assert(sizeof(s_visibility_projection) == 536, "Invalid s_visibility_projection size");
+static_assert(offsetof(s_visibility_projection, world_to_basis) == 0x4, "s_visibility_projection::world_to_basis moved when its reconstructed padding was removed");
+static_assert(offsetof(s_visibility_projection, z_near) == 0x70, "s_visibility_projection::z_near moved when its reconstructed padding was removed");
+static_assert(offsetof(s_visibility_projection, z_far) == 0x88, "s_visibility_projection::z_far moved when its reconstructed padding was removed");
+static_assert(offsetof(s_visibility_projection, visibility_volume) == 0x90, "s_visibility_projection::visibility_volume moved when its reconstructed padding was removed");
 
 #pragma pack(push, 2)
 struct s_visibility_cluster

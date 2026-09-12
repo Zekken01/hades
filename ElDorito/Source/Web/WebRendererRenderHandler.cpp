@@ -293,15 +293,17 @@ namespace Web
 			_sub_10CD1AE0(this, browser, type, dirtyRects, buffer, width, height);
 		}
 
-		_extern bool _sub_10CD1230(Web::Browser::WebRendererRenderHandler *const, unsigned __int32 &, unsigned __int32 &);
 		bool WebRendererRenderHandler::GetViewportInformation(unsigned __int32 &width, unsigned __int32 &height) // 0x10CD1230
 		{
-			mangled_x86(MANGLED_TODO, "?GetViewportInformation@WebRendererRenderHandler@Browser@Web@@QAE_NAAI0@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetViewportInformation@WebRendererRenderHandler@Browser@Web@@QAE_NAAI0@Z");
 			// unsigned __int32 &height;
 			// __int32 *windowResolution;
-			todo("implement");
-			bool __result = _sub_10CD1230(this, width, height);
-			return __result;
+
+			__int32 *windowResolution = (__int32 *)0x19106e4;
+
+			width = windowResolution[0];
+			height = windowResolution[1];
+			return true;
 		}
 
 		_extern bool _sub_10CD2450(Web::Browser::WebRendererRenderHandler *const, unsigned __int32, unsigned __int32);
@@ -315,14 +317,13 @@ namespace Web
 			return __result;
 		}
 
-		_extern void _sub_10CD2010(Web::Browser::WebRendererRenderHandler *const);
 		void WebRendererRenderHandler::OnPreResetDevice() // 0x10CD2010
 		{
-			mangled_x86(MANGLED_TODO, "?OnPreResetDevice@WebRendererRenderHandler@Browser@Web@@QAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnPreResetDevice@WebRendererRenderHandler@Browser@Web@@QAEXXZ");
 			// Web::Browser::WebRendererRenderHandler *const this;
 			// function call : void ()
-			todo("implement");
-			_sub_10CD2010(this);
+
+			m_Deglate->OnPreResetDevice();
 		}
 
 		_extern void _sub_10CD1E60(Web::Browser::WebRendererRenderHandler *const);
@@ -353,26 +354,28 @@ namespace Web
 			return __result;
 		}
 
-		_extern bool _sub_10CD2360(Web::Browser::WebRendererRenderHandler *const, bool);
 		bool WebRendererRenderHandler::Render(bool clear) // 0x10CD2360
 		{
-			mangled_x86(MANGLED_TODO, "?Render@WebRendererRenderHandler@Browser@Web@@QAE_N_N@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Render@WebRendererRenderHandler@Browser@Web@@QAE_N_N@Z");
 			// bool clear;
 			// function call : HRESULT (unsigned long, _D3DRECT const *, unsigned long, unsigned long, float, unsigned long)
 			// function call : bool ()
-			todo("implement");
-			bool __result = _sub_10CD2360(this, clear);
-			return __result;
+
+			if (clear)
+			{
+				m_Device->Clear(1, nullptr, 1, 0xFF808080, 0.0f, 0);
+			}
+
+			return m_Deglate->Render();
 		}
 
-		_extern void _sub_10CD25D0(Web::Browser::WebRendererRenderHandler *const);
 		void WebRendererRenderHandler::Shutdown() // 0x10CD25D0
 		{
-			mangled_x86(MANGLED_TODO, "?Shutdown@WebRendererRenderHandler@Browser@Web@@QAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Shutdown@WebRendererRenderHandler@Browser@Web@@QAEXXZ");
 			// Web::Browser::WebRendererRenderHandler *const this;
 			// function call : void ()
-			todo("implement");
-			_sub_10CD25D0(this);
+
+			m_Deglate->Shutdown();
 		}
 
 		bool WebRendererRenderHandler::IsAccelerated() const // 0x10CD18C0

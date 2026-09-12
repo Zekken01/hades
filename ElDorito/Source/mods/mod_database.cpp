@@ -115,13 +115,13 @@ namespace base
 
 /* ---------- public code */
 
-_extern void _sub_1084DB20(c_mod_database *const);
 c_mod_database::~c_mod_database() // 0x1084DB20
 {
-	mangled_x86(MANGLED_TODO, "??1c_mod_database@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1c_mod_database@@QAE@XZ");
 	// c_mod_database *const this;
-	todo("implement");
-	_sub_1084DB20(this);
+
+	if (m_dirty)
+		save();
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??1s_record@c_mod_database@@QAE@XZ"); no body to assert in
@@ -149,14 +149,12 @@ bool c_mod_database::try_get_record(s_mod_package_id const &id, c_mod_database::
 	return __result;
 }
 
-_extern bool _sub_10852200(c_mod_database *const, s_mod_package_id const &, c_mod_database::s_record **);
 bool c_mod_database::get_or_create_record(s_mod_package_id const &id, c_mod_database::s_record **record) // 0x10852200
 {
-	mangled_x86(MANGLED_TODO, "?get_or_create_record@c_mod_database@@QAE_NABUs_mod_package_id@@PAPAUs_record@1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_or_create_record@c_mod_database@@QAE_NABUs_mod_package_id@@PAPAUs_record@1@@Z");
 	// c_mod_database::s_record **record;
-	todo("implement");
-	bool __result = _sub_10852200(this, id, record);
-	return __result;
+
+	return try_get_record(id, record) || create_record(id, record);
 }
 
 _extern bool _sub_108517C0(c_mod_database *const, s_mod_package_id const &, c_mod_database::s_record **);
@@ -305,13 +303,12 @@ bool c_mod_database::save() // 0x108530E0
 	return __result;
 }
 
-_extern void _sub_10852D20(c_mod_database *const, s_mod_package_id const &);
 void c_mod_database::notify_record_changed(s_mod_package_id const &id) // 0x10852D20
 {
-	mangled_x86(MANGLED_TODO, "?notify_record_changed@c_mod_database@@QAEXABUs_mod_package_id@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?notify_record_changed@c_mod_database@@QAEXABUs_mod_package_id@@@Z");
 	// s_mod_package_id const &id;
-	todo("implement");
-	_sub_10852D20(this, id);
+
+	m_dirty = true;
 }
 
 _extern void _sub_10852E70(c_mod_database *const, std::function<bool __cdecl(s_mod_package_id const &,c_mod_database::s_record const &)>);

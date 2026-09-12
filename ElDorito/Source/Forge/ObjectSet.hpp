@@ -48,51 +48,44 @@ namespace Forge
 
 namespace Forge
 {
-	_extern bool _sub_10838010(Forge::ObjectSet const *const, long);
 	_inline bool ObjectSet::Contains(long objectIndex) const // 0x10838010
 	{
-		mangled_x86(MANGLED_TODO, "?Contains@ObjectSet@Forge@@QBE_NJ@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Contains@ObjectSet@Forge@@QBE_NJ@Z");
 		// long objectIndex;
-		todo("implement");
-		bool __result = _sub_10838010((Forge::ObjectSet const *)this, objectIndex);
-		return __result;
+
+		return objectIndex != -1 && m_Bits.test(objectIndex & 0xFFFF);
 	}
 
-	_extern bool _sub_10973B60(Forge::ObjectSet const *const);
 	_inline bool ObjectSet::Any() const // 0x10973B60
 	{
-		mangled_x86(MANGLED_TODO, "?Any@ObjectSet@Forge@@QBE_NXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Any@ObjectSet@Forge@@QBE_NXZ");
 		// Forge::ObjectSet const *const this;
-		todo("implement");
-		bool __result = _sub_10973B60((Forge::ObjectSet const *)this);
-		return __result;
+
+		return m_Bits.any();
 	}
 
-	_extern void _sub_1096F9F0(Forge::ObjectSet *const, long);
 	_inline void ObjectSet::Add(long objectIndex) // 0x1096F9F0
 	{
-		mangled_x86(MANGLED_TODO, "?Add@ObjectSet@Forge@@QAEXJ@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Add@ObjectSet@Forge@@QAEXJ@Z");
 		// long objectIndex;
-		todo("implement");
-		_sub_1096F9F0(this, objectIndex);
+
+		m_Bits.set(objectIndex & 0xFFFF, true);
 	}
 
-	_extern void _sub_10974BD0(Forge::ObjectSet *const, long);
 	_inline void ObjectSet::Remove(long objectIndex) // 0x10974BD0
 	{
-		mangled_x86(MANGLED_TODO, "?Remove@ObjectSet@Forge@@QAEXJ@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Remove@ObjectSet@Forge@@QAEXJ@Z");
 		// long objectIndex;
-		todo("implement");
-		_sub_10974BD0(this, objectIndex);
+
+		m_Bits.set(objectIndex & 0xFFFF, false);
 	}
 
-	_extern void _sub_1096FA60(Forge::ObjectSet *const);
 	_inline void ObjectSet::Clear() // 0x1096FA60
 	{
-		mangled_x86(MANGLED_TODO, "?Clear@ObjectSet@Forge@@QAEXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Clear@ObjectSet@Forge@@QAEXXZ");
 		// Forge::ObjectSet *const this;
-		todo("implement");
-		_sub_1096FA60(this);
+
+		m_Bits.reset();
 	}
 }
 

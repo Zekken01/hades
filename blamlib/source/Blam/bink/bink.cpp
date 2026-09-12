@@ -98,25 +98,22 @@ void bink_display_frame(short_rectangle2d *rect) // 0x10F18130
 	_sub_10F18130(rect);
 }
 
-_extern bool _sub_10F18760();
 bool bink_prediction_queued_and_not_active() // 0x10F18760
 {
-	mangled_x86(MANGLED_TODO, "?bink_prediction_queued_and_not_active@@YA_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?bink_prediction_queued_and_not_active@@YA_NXZ");
 	// procedure flags: nofpo
 	// s_bink_globals *bink_globals;
-	todo("implement");
-	bool __result = _sub_10F18760();
-	return __result;
+
+	s_bink_globals *bink_globals = s_bink_globals::get();
+	return bink_globals->pending_prediction_message.queued_state == 1;
 }
 
-extern s_bink_globals *_sub_10F187F0();
 s_bink_globals *s_bink_globals::get() // 0x10F187F0
 {
-	mangled_x86(MANGLED_TODO, "?get@s_bink_globals@@SAPAU1@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get@s_bink_globals@@SAPAU1@XZ");
 	// procedure flags: nofpo
-	todo("implement");
-	s_bink_globals * __result = _sub_10F187F0();
-	return __result;
+
+	return (s_bink_globals *)0x244E298;
 }
 
 /* ---------- private code */

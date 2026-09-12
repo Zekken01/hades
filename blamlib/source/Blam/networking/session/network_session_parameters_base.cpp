@@ -59,14 +59,12 @@ bool c_network_session_parameter_base::get_allowed() const // 0x10F1F040
 	return __result;
 }
 
-_extern bool _sub_10F1F0C0(c_network_session_parameter_base const *const);
 bool c_network_session_parameter_base::set_allowed() const // 0x10F1F0C0
 {
-	mangled_x86(MANGLED_TODO, "?set_allowed@c_network_session_parameter_base@@QBE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_allowed@c_network_session_parameter_base@@QBE_NXZ");
 	// c_network_session_parameter_base const *const this;
-	todo("implement");
-	bool __result = _sub_10F1F0C0((c_network_session_parameter_base const *)this);
-	return __result;
+
+	return m_session->established() && m_session->is_host();
 }
 
 /* ---------- private code */

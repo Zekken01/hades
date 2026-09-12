@@ -112,6 +112,8 @@ using namespace ::Modules;
 
 /* ---------- prototypes */
 
+extern s_scenario_structure_bsp *(__cdecl *const global_structure_bsp_get)(long);  // hades: added for 0X10AC71B0
+
 extern long __stdcall sub_6870A0_hook(short region_cluster_index);
 extern void render_debug_visibility();
 extern void __fastcall c_visibility_collection__generate_cluster_visible_parts(void *thisptr, void *unused, s_visible_cluster *visible_cluster);
@@ -131,7 +133,7 @@ extern "C" bool structure_instanced_geometry_mark_with_user_data(short structure
 extern "C" void structure_instanced_geometry_marker_begin();
 extern "C" void structure_instanced_geometry_marker_end();
 extern "C" bool structure_instanced_geometry_unmarked(short structure_bsp_index, short instance_index);
-extern "C" void c_visibility_collection__collect_structure_elements_from_region_hook(c_visibility_collection *thisptr);
+extern "C" void __fastcall c_visibility_collection__collect_structure_elements_from_region_hook(c_visibility_collection *thisptr);
 extern "C" unsigned char const *scenario_pvs_connected_clusters_get_hook(s_cluster_reference cluster_reference, long *out_count);
 
 /* ---------- globals */
@@ -298,16 +300,16 @@ bool structure_seams_connected_cluster_references_get_h3(long scenario_index, s_
 	return __result;
 }
 
-_extern bool _sub_10AC71B0(long, s_cluster_reference, bool, c_seam_connected_cluster_references *);
 bool structure_seams_connected_cluster_references_get_hook(long scenario_index, s_cluster_reference cluster_reference, bool include_self, c_seam_connected_cluster_references *out_cluster_refs) // 0x10AC71B0
 {
-	mangled_x86(MANGLED_TODO, "?structure_seams_connected_cluster_references_get_hook@@YA_NJUs_cluster_reference@@_NPAUc_seam_connected_cluster_references@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?structure_seams_connected_cluster_references_get_hook@@YA_NJUs_cluster_reference@@_NPAUc_seam_connected_cluster_references@@@Z");
 	// c_seam_connected_cluster_references *out_cluster_refs;
 	// s_scenario_structure_bsp *structure;
 	// function call : s_scenario_structure_bsp *(*const)(long)
-	todo("implement");
-	bool __result = _sub_10AC71B0(scenario_index, cluster_reference, include_self, out_cluster_refs);
-	return __result;
+
+	s_scenario_structure_bsp *structure_bsp = global_structure_bsp_get(cluster_reference.bsp_index);
+
+	return structure_seams_connected_cluster_references_get_h3(scenario_index, cluster_reference, include_self, out_cluster_refs);
 }
 
 _extern void _sub_10AC7A10();
@@ -321,14 +323,15 @@ void visibility_patches_apply() // 0x10AC7A10
 
 /* ---------- private code */
 
-_extern void _sub_10AC75B0(__int32, __int32);
 extern "C" void sub_687070_hook(__int32 region_index, __int32 cluster_index) // 0x10AC75B0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "_sub_687070_hook");
 	// sub_687070_hook
 	// __int32 cluster_index;
 	// long index;
-	todo("implement");
-	_sub_10AC75B0(region_index, cluster_index);
+
+	int index = 4 * region_index + (cluster_index >> 5);
+	c_visible_items::get_global_items().cluster_group_visibility[index] |= 1 << (cluster_index & 0x1F);
 }
 
 _extern unsigned long *_sub_10AC74E0(long);
@@ -437,7 +440,7 @@ extern "C" bool structure_instanced_geometry_unmarked(short structure_bsp_index,
 }
 
 _extern void _sub_10AC43A0(c_visibility_collection *);
-extern "C" void c_visibility_collection__collect_structure_elements_from_region_hook(c_visibility_collection *thisptr) // 0x10AC43A0
+extern "C" void __fastcall c_visibility_collection__collect_structure_elements_from_region_hook(c_visibility_collection *thisptr) // 0x10AC43A0
 {
 	// c_visibility_collection__collect_structure_elements_from_region_hook
 	// static ...; // 0x10AC4977
@@ -499,16 +502,17 @@ extern "C" void c_visibility_collection__collect_structure_elements_from_region_
 	_sub_10AC43A0(thisptr);
 }
 
-extern unsigned char const *_sub_10AC6630(s_cluster_reference, long *);
 extern "C" unsigned char const *scenario_pvs_connected_clusters_get_hook(s_cluster_reference cluster_reference, long *out_count) // 0x10AC6630
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "_scenario_pvs_connected_clusters_get_hook");
 	// scenario_pvs_connected_clusters_get_hook
 	// long *out_count;
 	// unsigned char const *(*const scenario_pvs_connected_clusters_get)(s_cluster_reference, long *);
 	// function call : unsigned char const *(*const)(s_cluster_reference, long *)
-	todo("implement");
-	unsigned char const * __result = _sub_10AC6630(cluster_reference, out_count);
-	return __result;
+
+	unsigned char const *(__cdecl *const scenario_pvs_connected_clusters_get)(s_cluster_reference, long *) = (unsigned char const *(__cdecl *const)(s_cluster_reference, long *))0x5f0e40;
+
+	return scenario_pvs_connected_clusters_get(cluster_reference, out_count);
 }
 
 /* ---------- template instantiations */

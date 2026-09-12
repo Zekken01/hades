@@ -26,7 +26,7 @@ struct IForgeUndo;
 
 struct IForgeUndo
 {
-	virtual _inline ~IForgeUndo();
+	virtual _inline ~IForgeUndo() = default; // 0x10864C70
 	virtual EForgeUndoType GetType() = 0;
 	virtual void Undo() = 0;
 	IForgeUndo(IForgeUndo const &); /* compiler_generated() */
@@ -82,7 +82,9 @@ private:
 	void PerformUndo();
 	void PerformRedo();
 public:
-	_inline CForgeUndoManager(); /* compiler_generated() */
+	_inline CForgeUndoManager() = default; /* compiler_generated() - defaulted on its
+	    first declaration, so it is NOT user-provided and `new CForgeUndoManager()`
+	    zero-initializes before constructing, as the original does. */
 	~CForgeUndoManager(); /* compiler_generated() */
 };
 #pragma pack(pop)
@@ -93,12 +95,6 @@ static_assert(sizeof(CForgeUndoManager) == 52, "Invalid CForgeUndoManager size")
 /* ---------- globals */
 
 /* ---------- public code */
-
-_inline IForgeUndo::~IForgeUndo() // 0x10864C70
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1IForgeUndo@@UAE@XZ");
-	// IForgeUndo *const this;
-}
 
 /* ---------- private code */
 

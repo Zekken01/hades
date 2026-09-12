@@ -229,13 +229,12 @@ bool CModBrowserManager::DownloadMod(SModBrowserState const &options) // 0x1070C
 	return __result;
 }
 
-_extern void _sub_1070CCA0(CModBrowserManager *const);
 void CModBrowserManager::Update() // 0x1070CCA0
 {
-	mangled_x86(MANGLED_TODO, "?Update@CModBrowserManager@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CModBrowserManager@@QAEXXZ");
 	// CModBrowserManager *const this;
-	todo("implement");
-	_sub_1070CCA0(this);
+
+	m_stateManager->Update();
 }
 
 _extern void _sub_1070C750(CModBrowserManager *const, EModBrowserAbortReason);

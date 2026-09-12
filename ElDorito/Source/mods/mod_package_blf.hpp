@@ -60,13 +60,12 @@ static_assert(sizeof(s_blf_chunk_mod_package_reference) == 1168, "Invalid s_blf_
 
 /* ---------- public code */
 
-extern s_blf_chunk_mod_package_reference* _sub_10AC8640(s_blf_chunk_mod_package_reference *const);
 _inline s_blf_chunk_mod_package_reference::s_blf_chunk_mod_package_reference() // 0x10AC8640
 {
-	mangled_x86(MANGLED_TODO, "??0s_blf_chunk_mod_package_reference@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_blf_chunk_mod_package_reference@@QAE@XZ");
 	// s_blf_chunk_mod_package_reference *const this;
-	todo("implement");
-	_sub_10AC8640(this);
+
+	setup(0x6D6F6470, 0x490, 2, 0);
 }
 
 /* ---------- private code */

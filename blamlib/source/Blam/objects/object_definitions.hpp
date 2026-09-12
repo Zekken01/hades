@@ -199,7 +199,6 @@ struct s_object_definition
 	c_tag_block<s_object_ai_properties_definition> ai_properties; // 0xB0
 	c_tag_block<s_object_function_definition> functions; // 0xBC
 	short hud_text_message_index; // 0xC8
-	unsigned char __pad0[2]; // 0xCA
 	c_tag_block<s_object_attachment_definition> attachments; // 0xCC
 	c_tag_block<s_object_widget_definition> widgets; // 0xD8
 	c_tag_block<s_object_change_color_definition> change_colors; // 0xE4
@@ -214,6 +213,7 @@ struct s_object_definition
 	s_object_definition &operator=(s_object_definition const &); /* compiler_generated() */
 };
 static_assert(sizeof(s_object_definition) == 288, "Invalid s_object_definition size");
+static_assert(offsetof(s_object_definition, attachments) == 0xCC, "s_object_definition::attachments moved when its reconstructed padding was removed");
 
 /* ---------- prototypes */
 

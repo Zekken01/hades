@@ -45,7 +45,6 @@ namespace Forge
 		struct MagnetPair
 		{
 			bool IsValid; // 0x0
-			unsigned char __pad0[3]; // 0x1
 			Forge::Magnets::Magnet *Source; // 0x4
 			Forge::Magnets::Magnet *Dest; // 0x8
 		};

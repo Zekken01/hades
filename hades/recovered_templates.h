@@ -408,9 +408,9 @@ public:
 	void clear();
 	void remove_all(char);
 	_inline char const *append(char const *s);
-	_inline char const *print(char const *format, ...);
+	_inline char const *__cdecl print(char const *format, ...);
 	_inline void const print_va(char const *format, char *va);
-	_inline char const *append_print(char const *format, ...);
+	_inline char const *__cdecl append_print(char const *format, ...);
 	_inline void append_print_va(char const *format, char *va);
 	void to_lower();
 	void to_upper();
@@ -1242,7 +1242,7 @@ _inline bool c_enum<t_type, t_storage_type>::operator>=(t_type const &other) con
 {
 	mangled_prefix_assert("??P?$c_enum@");
 
-	return m_value >= other;
+	return m_value >= (t_storage_type)other;
 }
 
 /* ---------- c_flags members (136 instantiations folded) */
@@ -1299,7 +1299,7 @@ _inline c_flags<t_type, t_storage_type> c_flags<t_type, t_storage_type>::operato
 {
 	mangled_prefix_assert("??I?$c_flags@");
 
-	return c_flags(static_cast<t_storage_type>(m_value & other));
+	return c_flags(static_cast<t_storage_type>(m_value & (t_storage_type)other));
 }
 
 template<typename t_type, typename t_storage_type>
@@ -1315,7 +1315,7 @@ _inline c_flags<t_type, t_storage_type> & c_flags<t_type, t_storage_type>::opera
 {
 	mangled_prefix_assert("??_4?$c_flags@");
 
-	m_value &= other;
+	m_value &= (t_storage_type)other;
 	return *this;
 }
 
@@ -1350,7 +1350,7 @@ _inline bool c_flags<t_type, t_storage_type>::operator==(t_type const &other) co
 {
 	mangled_prefix_assert("??8?$c_flags@");
 
-	return m_value == other;
+	return m_value == (t_storage_type)other;
 }
 
 template<typename t_type, typename t_storage_type>
@@ -1358,7 +1358,7 @@ _inline bool c_flags<t_type, t_storage_type>::operator>=(t_type const &other) co
 {
 	mangled_prefix_assert("??P?$c_flags@");
 
-	return m_value >= other;
+	return m_value >= (t_storage_type)other;
 }
 
 template<typename t_type, typename t_storage_type>
@@ -1366,7 +1366,7 @@ _inline c_flags<t_type, t_storage_type> c_flags<t_type, t_storage_type>::operato
 {
 	mangled_prefix_assert("??U?$c_flags@");
 
-	return c_flags(static_cast<t_storage_type>(m_value | other));
+	return c_flags(static_cast<t_storage_type>(m_value | (t_storage_type)other));
 }
 
 template<typename t_type, typename t_storage_type>
@@ -1374,7 +1374,7 @@ _inline c_flags<t_type, t_storage_type> & c_flags<t_type, t_storage_type>::opera
 {
 	mangled_prefix_assert("??_5?$c_flags@");
 
-	m_value |= other;
+	m_value |= (t_storage_type)other;
 	return *this;
 }
 
@@ -1677,7 +1677,7 @@ _inline char const * s_static_string<k_length>::append(char const *s)
 }
 
 template<long k_length>
-_inline char const * s_static_string<k_length>::append_print(char const *format, ...)
+_inline char const *__cdecl s_static_string<k_length>::append_print(char const *format, ...)
 {
 	mangled_prefix_assert("?append_print@?$s_static_string@");
 	todo("implement");
@@ -1708,7 +1708,7 @@ _inline long s_static_string<k_length>::length()
 }
 
 template<long k_length>
-_inline char const * s_static_string<k_length>::print(char const *format, ...)
+_inline char const *__cdecl s_static_string<k_length>::print(char const *format, ...)
 {
 	mangled_prefix_assert("?print@?$s_static_string@");
 	todo("implement");

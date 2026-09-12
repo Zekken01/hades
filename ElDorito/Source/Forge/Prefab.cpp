@@ -294,14 +294,14 @@ namespace Forge
 // mangled_x86(MANGLED_DEFAULT, "??0PrefabPlacement@hades_file_local@@QAE@XZ"); no body to assert in
 _inline PrefabPlacement::PrefabPlacement() = default; // 0x1096F6D0
 
-_extern bool _sub_10970330(std::ifstream &, Forge::Prefabs::PrefabHeader &);
 bool ReadHeader(std::ifstream &stream, Forge::Prefabs::PrefabHeader &header) // 0x10970330
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ReadHeader@@YA_NAAV?$basic_ifstream@DU?$char_traits@D@std@@@std@@AAUPrefabHeader@Prefabs@Forge@@@Z");
 	// `anonymous-namespace'::ReadHeader
 	// Forge::Prefabs::PrefabHeader &header;
-	todo("implement");
-	bool __result = _sub_10970330(stream, header);
-	return __result;
+
+	stream.read((char *)&header, 56);
+	return !stream.fail() && header.Magic == 1886545506 && header.Version == 1;
 }
 
 /* ---------- template instantiations */

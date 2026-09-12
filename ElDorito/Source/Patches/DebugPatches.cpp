@@ -288,14 +288,16 @@ namespace Patches
 			_sub_108C76E0();
 		}
 
-		_extern void _sub_108C9470();
 		void Tick() // 0x108C9470
 		{
-			mangled_x86(MANGLED_TODO, "?Tick@Debug@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@Debug@Patches@@YAXXZ");
 			// procedure flags: nofpo
 			// function call : bool (*const)()
-			todo("implement");
-			_sub_108C9470();
+
+			if (((bool(*const)())0x5314b0)())
+			{
+				CRenderDebugCollisionTest::Update();
+			}
 		}
 
 		_extern void _sub_108C9370();

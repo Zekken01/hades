@@ -2,6 +2,8 @@
 
 #include "Patches/Ui.hpp"
 #include "hades/hades.h"
+#include "Patches/Input.hpp"
+#include <detours.h>
 
 #include "Blam/ai/actor.hpp"
 #include "Blam/bitmaps/bitmap_definition.hpp"
@@ -528,6 +530,8 @@ using namespace hades_file_local;
 
 /* ---------- prototypes */
 
+namespace Player::PlayerNetworkUtil { long get_session_player_index_from_player_datum_index(long player_datum_index); }  // hades: added for 0X10AE7C40
+
 namespace Patches
 {
 	namespace Ui
@@ -543,82 +547,82 @@ namespace Patches
 	}
 }
 
-void c_gui_map_category_datasource__ctor_hook(c_gui_map_category_datasource *thisptr, void *__formal, wchar_t const *recent_maps_item_title, wchar_t const *recent_maps_item_description, wchar_t const *file_share_item_title, wchar_t const *file_share_item_description);
-void c_gui_player_select_screen_widget__set_mute_hook(void *thisPtr, void *unused, bool muted);
+void __fastcall c_gui_map_category_datasource__ctor_hook(c_gui_map_category_datasource *thisptr, void *__formal, wchar_t const *recent_maps_item_title, wchar_t const *recent_maps_item_description, wchar_t const *file_share_item_title, wchar_t const *file_share_item_description);
+void __fastcall c_gui_player_select_screen_widget__set_mute_hook(void *thisPtr, void *unused, bool muted);
 bool isValidUrl(std::string const &url);
-void c_gui_player_select_screen_widget__show_service_record_hook(void *thisPtr, void *unused, bool muted);
+void __fastcall c_gui_player_select_screen_widget__show_service_record_hook(void *thisPtr, void *unused, bool muted);
 bool UserInterfaceSquadSetMap_hook(__int32 a1, __int32 a2, char a3, __int32 a4, __int32 a5, __int32 a6);
 bool AttractShouldStartHook();
 __int32 GetPlayerRankIndex(__int32 networkPlayerIndex);
 __int32 GetPlayerSkillIndex(__int32 networkPlayerIndex);
 std::wstring GetRankName(__int32 rankIndex);
 std::wstring GetRankGradeName(__int32 rankIndex);
-void c_gui_location_manager__change_location_hook(c_gui_location_manager *thisptr, void *__formal, unsigned long screen_name);
-bool c_gui_screen_pregame_lobby__handle_controller_input_message_fallback_hook(c_gui_screen_widget *thisptr, void *__formal, c_controller_input_message *message);
-bool c_start_menu_settings_handle_list_item_chosen_hook(void *thisptr, void *unused, void *message, unsigned long list_name, c_gui_list_item_widget const *list_item, c_gui_data *data);
-bool c_main_menu_screen_widget_handle_list_item_chosen_hook(void *thisptr, void *unused, void *message, unsigned long list_name, c_gui_list_item_widget const *list_item, c_gui_data *data);
+void __fastcall c_gui_location_manager__change_location_hook(c_gui_location_manager *thisptr, void *__formal, unsigned long screen_name);
+bool __fastcall c_gui_screen_pregame_lobby__handle_controller_input_message_fallback_hook(c_gui_screen_widget *thisptr, void *__formal, c_controller_input_message *message);
+bool __fastcall c_start_menu_settings_handle_list_item_chosen_hook(void *thisptr, void *unused, void *message, unsigned long list_name, c_gui_list_item_widget const *list_item, c_gui_data *data);
+bool __fastcall c_main_menu_screen_widget_handle_list_item_chosen_hook(void *thisptr, void *unused, void *message, unsigned long list_name, c_gui_list_item_widget const *list_item, c_gui_data *data);
 void ui_background_set_hook(__int32 index);
 void user_interface_networking_notify_booted_from_session_hook(__int32 a1, e_network_session_boot_reason reason);
-void c_start_menu_screen_widget__update_render_state_hook(c_gui_screen_widget *thisptr, void *__formal, unsigned long milliseconds);
-void c_start_menu_screen_widget__post_initialize_hook(c_gui_screen_widget *thisptr, void *unused);
+void __fastcall c_start_menu_screen_widget__update_render_state_hook(c_gui_screen_widget *thisptr, void *__formal, unsigned long milliseconds);
+void __fastcall c_start_menu_screen_widget__post_initialize_hook(c_gui_screen_widget *thisptr, void *unused);
 void c_gui_spartan_rank_widget__update_sub_hook(c_gui_widget *widget, long in_rank, long in_grade);
-void c_spartan_rank_widget__update_render_state_hook(c_gui_screen_widget *thisptr, void *unused, unsigned long milliseconds);
+void __fastcall c_spartan_rank_widget__update_render_state_hook(c_gui_screen_widget *thisptr, void *unused, unsigned long milliseconds);
 void c_player_select_actions_datasource__add_action(c_player_select_actions_datasource *result, __int32 stringid, bool enabled);
 bool c_gui_screen_pregame_lobby__squad_party_leader_hook(void *thisptr, wchar_t *buffer, unsigned __int32 length);
-void c_player_select_actions_datasource__initialize_hook(c_player_select_actions_datasource *thisptr);
-void c_player_select_screen_widget__update_render_state_hook(c_gui_screen_widget *thisptr, void *unused, unsigned long milliseconds);
+void __fastcall c_player_select_actions_datasource__initialize_hook(c_player_select_actions_datasource *thisptr);
+void __fastcall c_player_select_screen_widget__update_render_state_hook(c_gui_screen_widget *thisptr, void *unused, unsigned long milliseconds);
 void gui_widget_set_visible_safe(c_gui_widget *item, bool visibility);
-void c_player_select_screen_widget__update_hook(c_gui_screen_widget *thisptr, void *unused, unsigned long milliseconds);
-void c_gui_roster_list_widget_update_hook(c_gui_screen_widget *thisptr, void *unused, unsigned long milliseconds);
-void c_gui_custom_bitmap_widget__set_map_image_hook(c_gui_custom_bitmap_widget *thisptr, long unused, e_image_content_type map_image, __int32 map_id, bool a4);
-void c_gui_custom_bitmap_widget__update_hook(c_gui_custom_bitmap_widget *thisptr, void *__formal, unsigned long time);
-void c_gui_custom_bitmap_widget__reset_hook(c_gui_custom_bitmap_widget *thisptr);
+void __fastcall c_player_select_screen_widget__update_hook(c_gui_screen_widget *thisptr, void *unused, unsigned long milliseconds);
+void __fastcall c_gui_roster_list_widget_update_hook(c_gui_screen_widget *thisptr, void *unused, unsigned long milliseconds);
+void __fastcall c_gui_custom_bitmap_widget__set_map_image_hook(c_gui_custom_bitmap_widget *thisptr, long unused, e_image_content_type map_image, __int32 map_id, bool a4);
+void __fastcall c_gui_custom_bitmap_widget__update_hook(c_gui_custom_bitmap_widget *thisptr, void *__formal, unsigned long time);
+void __fastcall c_gui_custom_bitmap_widget__reset_hook(c_gui_custom_bitmap_widget *thisptr);
 void ResolutionChangeHook();
 __int32 UI_ListItem_GetIndex(void *item);
 bool UI_OrderedDataSource_Get(void *data, __int32 index, __int32 key, void *result);
-__int32 c_gui_roster_list_widget__start_team_change_hook(void *thisPtr, __int32 unused, __int32 a2, __int32 teamIndex, __int32 a4);
+__int32 __fastcall c_gui_roster_list_widget__start_team_change_hook(void *thisPtr, __int32 unused, __int32 a2, __int32 teamIndex, __int32 a4);
 void OnUiInputUpdated();
-void c_gui_roster_list_widget__update_render_state(c_gui_screen_widget *thisPtr, void *__formal, unsigned long milliseconds);
+void __fastcall c_gui_roster_list_widget__update_render_state(c_gui_screen_widget *thisPtr, void *__formal, unsigned long milliseconds);
 HWND__ *CreateGameWindowHook();
 bool UpdateH3HUDImpl(__int32 playerMappingIndex);
 void UI_UpdateH3HUDHook(__int32 playerMappingIndex);
 bool GetBoundMouseButtonName(__int32 code, wchar_t *buff);
 void GetActionButtonNameHook();
-void c_ui_view_draw_hook(void *thisptr, void *unused);
+void __fastcall c_ui_view_draw_hook(void *thisptr, void *unused);
 __int32 GetPlayerTypeFlagsValues();
 __int32 GetMultiplayerFlagsValues();
 __int32 GetMultiplayerEventsFlagsValues();
 __int32 GetUnitGeneralFlagsValues();
 __int32 GameStateFlagsValues();
-unsigned long GetGlobalDynamicColorHook(s_chud_globals_definition *thisptr, void *unused, long character_type, long color_index);
+unsigned long __fastcall GetGlobalDynamicColorHook(s_chud_globals_definition *thisptr, void *unused, long character_type, long color_index);
 void GetWeaponOutlineColorHook(long index, real_argb_color *out_color);
-bool c_gui_game_variant_category_datasource_init(c_gui_generic_category_datasource<11> *thisptr, void *unused, __int32 datasource);
-void OnLobbySwitchNetworkMode();
+bool __fastcall c_gui_game_variant_category_datasource_init(c_gui_generic_category_datasource<11> *thisptr, void *unused, __int32 datasource);
+void __stdcall OnLobbySwitchNetworkMode();
 void c_gui_screen_pregame_lobby_switch_network_hook();
-void c_gui_alert_manager__show(void *thisptr, void *unused, unsigned __int32 name, __int32 a3, wchar_t *customMessage, __int32 profileIndex, bool a6, __int32 a7);
-void c_hud_camera_view__render_outlines_hook(void *thisptr, void *unused, __int32 localProfileIndex, __int32 playerMappingIndex, void *a3);
+void __fastcall c_gui_alert_manager__show(void *thisptr, void *unused, unsigned __int32 name, __int32 a3, wchar_t *customMessage, __int32 profileIndex, bool a6, __int32 a7);
+void __fastcall c_hud_camera_view__render_outlines_hook(void *thisptr, void *unused, __int32 localProfileIndex, __int32 playerMappingIndex, void *a3);
 wchar_t *chud_talking_player_name_hook(wchar_t *buffer);
 bool PlayerMarkerIsDisabled(unsigned __int32 playerIndex);
-void chud_add_player_marker_hook(void *thisptr, void *unused, unsigned char *data_);
-void c_start_menu_pane_screen_widget__handle_spinner_chosen_hook(void *thisptr, void *unused, unsigned char *widget);
-void UI_GameVariantSavePromptFix(void *thisptr, void *unused, __int32 a2);
+void __fastcall chud_add_player_marker_hook(void *thisptr, void *unused, unsigned char *data_);
+void __fastcall c_start_menu_pane_screen_widget__handle_spinner_chosen_hook(void *thisptr, void *unused, unsigned char *widget);
+void __fastcall UI_GameVariantSavePromptFix(void *thisptr, void *unused, __int32 a2);
 float get_player_vertical_crosshair_location();
 void observer_validate_camera_command__first_person_hook(unsigned char *c_observer_command);
 void observer_validate_camera_command__third_person_hook(unsigned char *c_observer_command);
 __int32 user_interface_squad_get_countdown_timer_hook();
-void c_chud_update_user_data__ctor_hook(c_chud_update_user_data *thisptr, void *__formal, long user_index, long unit_index, bool a4);
-void c_user_interface_main_menu_music_update_desired_state(c_user_interface_main_menu_music *thisptr, void *unused);
+void __fastcall c_chud_update_user_data__ctor_hook(c_chud_update_user_data *thisptr, void *__formal, long user_index, long unit_index, bool a4);
+void __fastcall c_user_interface_main_menu_music_update_desired_state(c_user_interface_main_menu_music *thisptr, void *unused);
 void user_interface_text_parser_initialize_hook();
-bool c_gui_screen_pregame_lobby_handle_item_chosen_hook(void *thisptr, void *unused, void *message, unsigned long source_name, c_gui_list_item_widget *list_widget, c_gui_data *data);
-bool c_gui_screen_campaign_select_skulls__handle_controller_input_message_hook(c_gui_screen_widget *thisptr, void *unused, c_controller_input_message *message);
-void c_gui_screen_game_options__update_hook(c_gui_screen_widget *thisptr, void *__formal, unsigned long milliseconds);
-void c_gui_widget__get_unprojected_bounds_hook(c_gui_widget *thisptr, void *unused, gui_real_rectangle2d *unprojected_bounds, bool offset, bool scale, bool rotate);
+bool __fastcall c_gui_screen_pregame_lobby_handle_item_chosen_hook(void *thisptr, void *unused, void *message, unsigned long source_name, c_gui_list_item_widget *list_widget, c_gui_data *data);
+bool __fastcall c_gui_screen_campaign_select_skulls__handle_controller_input_message_hook(c_gui_screen_widget *thisptr, void *unused, c_controller_input_message *message);
+void __fastcall c_gui_screen_game_options__update_hook(c_gui_screen_widget *thisptr, void *__formal, unsigned long milliseconds);
+void __fastcall c_gui_widget__get_unprojected_bounds_hook(c_gui_widget *thisptr, void *unused, gui_real_rectangle2d *unprojected_bounds, bool offset, bool scale, bool rotate);
 void c_rasterizer__get_display_pixel_bounds_hook(short_rectangle2d *display_pixel_bounds);
 long interface_get_closest_authored_ui_aspect_ratio_hook();
 real_point2d interface_get_authoring_to_target_dimensions_scaling_hook();
-void c_gui_custom_bitmap_widget__assemble_render_data_hook(c_gui_custom_bitmap_widget *thisptr, void *unused, s_gui_widget_render_data *render_data, real_rectangle2d *bounds, long controller_index, bool offset, bool scale, bool rotate);
-bool c_draw_string__draw_internal_hook(c_draw_string *thisptr, void *unused, void *cache, char const *utf32_text);
-void c_draw_string__set_bounds_hook(c_draw_string *thisptr, void *unused, real_rectangle2d *upper_x, real_rectangle2d *upper_y);
+void __fastcall c_gui_custom_bitmap_widget__assemble_render_data_hook(c_gui_custom_bitmap_widget *thisptr, void *unused, s_gui_widget_render_data *render_data, real_rectangle2d *bounds, long controller_index, bool offset, bool scale, bool rotate);
+bool __fastcall c_draw_string__draw_internal_hook(c_draw_string *thisptr, void *unused, void *cache, char const *utf32_text);
+void __fastcall c_draw_string__set_bounds_hook(c_draw_string *thisptr, void *unused, real_rectangle2d *upper_x, real_rectangle2d *upper_y);
 bool user_interface_set_campaign_options_hook(long campaign_id, long map_id, short insertion_point_index, long a4, long a5, long a7);
 
 /* ---------- globals */
@@ -642,7 +646,7 @@ namespace Patches
 
 namespace hades_file_local
 {
-	extern bool (*c_gui_screen_pregame_lobby_handle_item_chosen)(void *, void *, unsigned long, c_gui_list_item_widget *, c_gui_data *); // 0x12467488
+	extern bool (__thiscall *c_gui_screen_pregame_lobby_handle_item_chosen)(void *, void *, unsigned long, c_gui_list_item_widget *, c_gui_data *);  // 0x12467488
 	extern bool (*IsMapLoading)(); // 0x11354C84
 	extern bool tagsInitiallyLoaded; // 0x1246748C
 	extern __int32 localDesiredTeam; // 0x11354C88
@@ -672,28 +676,120 @@ namespace Patches
 		_extern void _sub_10AD7390();
 		void ApplyAll() // 0x10AD7390
 		{
-			mangled_x86(MANGLED_TODO, "?ApplyAll@Ui@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Ui@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			// __int32 achievementstringidaddress;
-			{
-				// __int32 i;
-			}
-			todo("implement");
-			_sub_10AD7390();
+
+			Hook(0x6A7547, user_interface_set_campaign_options_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Patch::NopFill(Pointer::Base(0x6E05F3), 2);
+			Patch(0x6C34B0, { 0xB6 }).Apply();
+			Patch(0x705B21, { 0xB6 }).Apply();
+			Patch::NopFill(Pointer::Base(0x20D7F2), 2);
+			Hook(0x6DFB73, c_gui_location_manager__change_location_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Patch(0x6DFA37, { 0xEB }).Apply();
+			Hook(0x721DCF, c_gui_screen_pregame_lobby__handle_controller_input_message_fallback_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Patch::NopFill(Pointer::Base(0x723D85), 23);
+			Pointer::Base(0x723DA1).Write<unsigned char>(0x0);
+			Pointer::Base(0x723DB8).Write<unsigned char>(0x1);
+			Patch::NopFill(Pointer::Base(0x723DFF), 3);
+			Pointer::Base(0x723E07).Write<unsigned char>(0x0);
+			Pointer::Base(0x723E1C).Write<unsigned char>(0x0);
+			Hook(0x621303, ResolutionChangeHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x6B735D, c_gui_widget__get_unprojected_bounds_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x6B95E4, c_gui_widget__get_unprojected_bounds_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x718C98, c_gui_widget__get_unprojected_bounds_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x61FAA0, c_rasterizer__get_display_pixel_bounds_hook).Apply();
+			Hook(0x69F980, interface_get_closest_authored_ui_aspect_ratio_hook).Apply();
+			Hook(0x69F960, interface_get_authoring_to_target_dimensions_scaling_hook).Apply();
+			Hook(0x6C37B0, c_gui_custom_bitmap_widget__assemble_render_data_hook).Apply();
+			Hook(0x25788A, c_draw_string__draw_internal_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x6BD6F3, c_draw_string__set_bounds_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x726100, c_gui_roster_list_widget__update_render_state).Apply();
+			Hook(0x622057, CreateGameWindowHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Patch(0x6866F2, { 0xEB }).Apply();
+			Patch(0x29CBD0, { 0x31, 0xC0, 0xC3 }).Apply();
+			Hook(0x6970BB, UI_UpdateH3HUDHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Pointer(0xABD324).Write<unsigned int>(0xABD2F7);
+			Pointer(0xABD388).Write<unsigned int>(0xABD300);
+			Hook(0x6BC83F, GetActionButtonNameHook, static_cast<__int32>(HookFlags::IsJmpIfEqual)).Apply();
+			Patch(0x6BC5D7, { 0x98, 0xDE, 0x44, 0x02, 0x01 }).Apply();
+			Pointer(0x169FCE0).Write<unsigned int>(reinterpret_cast<unsigned int>(c_main_menu_screen_widget_handle_list_item_chosen_hook));
+			Pointer(0x16A1C20).Write<unsigned int>(reinterpret_cast<unsigned int>(c_start_menu_settings_handle_list_item_chosen_hook));
+			Pointer(0x16A0158).Write<unsigned int>(reinterpret_cast<unsigned int>(c_start_menu_pane_screen_widget__handle_spinner_chosen_hook));
+			Pointer(0x169FFE8).Write<unsigned int>(reinterpret_cast<unsigned int>(c_start_menu_pane_screen_widget__handle_spinner_chosen_hook));
+			Hook(0x2047BF, c_ui_view_draw_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x721D38, c_gui_roster_list_widget__start_team_change_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			::Patches::Input::RegisterDefaultInputHandler(OnUiInputUpdated);
+			Hook(0x68F554, c_chud_update_user_data__ctor_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x6D5B20, GetGlobalDynamicColorHook).Apply();
+			Hook(0x6C9FD0, GetWeaponOutlineColorHook).Apply();
+			Hook(0x6CA981, chud_talking_player_name_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x68AA21, chud_add_player_marker_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x6C3DE0, c_gui_custom_bitmap_widget__set_map_image_hook).Apply();
+			Hook(0x6C3D50, c_gui_custom_bitmap_widget__reset_hook).Apply();
+			Pointer(0x169D394).Write<unsigned int>(reinterpret_cast<unsigned int>(c_gui_custom_bitmap_widget__update_hook));
+			Pointer(0x16A7874).Write<unsigned int>(reinterpret_cast<unsigned int>(c_gui_roster_list_widget_update_hook));
+			Pointer(0x16A48E4).Write<unsigned int>(reinterpret_cast<unsigned int>(c_player_select_screen_widget__update_hook));
+			Pointer(0x16A48E8).Write<unsigned int>(reinterpret_cast<unsigned int>(c_player_select_screen_widget__update_render_state_hook));
+			Pointer(0x169EC50).Write<unsigned int>(reinterpret_cast<unsigned int>(c_start_menu_screen_widget__post_initialize_hook));
+			Pointer(0x169ECA8).Write<unsigned int>(reinterpret_cast<unsigned int>(c_start_menu_screen_widget__update_render_state_hook));
+			Pointer(0x16A2FF0).Write<unsigned int>(reinterpret_cast<unsigned int>(c_spartan_rank_widget__update_render_state_hook));
+			Hook(0x6FC130, c_gui_spartan_rank_widget__update_sub_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x6FC149, c_gui_spartan_rank_widget__update_sub_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Pointer(0x169E510).Write<unsigned int>(reinterpret_cast<unsigned int>(c_gui_game_variant_category_datasource_init));
+			Hook(0x721F03, c_gui_screen_pregame_lobby_switch_network_hook).Apply();
+			Hook(0x6A8706, UI_GameVariantSavePromptFix, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x691FD0, c_gui_alert_manager__show).Apply();
+			Hook(0x62D58D, c_hud_camera_view__render_outlines_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Patch(0x1CE52D, { 0xEB }).Apply();
+			unsigned int destination = 0x1769410;
+			for (int i = 0; i < 0x2F; i++)
+				Pointer(destination + i * 4).Write<int>(i + 0x600E7);
+			Hook(0x25FC1B, observer_validate_camera_command__first_person_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x329E4C, observer_validate_camera_command__third_person_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x6D5884, c_user_interface_main_menu_music_update_desired_state, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x682AE0, user_interface_squad_get_countdown_timer_hook).Apply();
+			Hook(0x684585, user_interface_text_parser_initialize_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Patch::NopFill(Pointer::Base(0x6FF00C), 13);
+			Pointer(0x16A3668).Write(c_gui_screen_campaign_select_skulls__handle_controller_input_message_hook);
+			Pointer(0x16A507C).Write(c_gui_screen_game_options__update_hook);
+			HasAttractBinks = std::filesystem::exists("bink\\attract_1.bik")
+				&& std::filesystem::exists("bink\\attract_2.bik")
+				&& std::filesystem::exists("bink\\attract_3.bik");
+			Hook(0x684FA1, AttractShouldStartHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x6A7570, UserInterfaceSquadSetMap_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x709BB0, c_gui_player_select_screen_widget__set_mute_hook).Apply();
+			Hook(0x70A060, c_gui_player_select_screen_widget__show_service_record_hook).Apply();
+			Hook(0x70A440, c_player_select_actions_datasource__initialize_hook).Apply();
+			Hook(0x722930, c_gui_screen_pregame_lobby__squad_party_leader_hook).Apply();
+			Hook(0x5ECB70, ui_background_set_hook).Apply();
+			Hook(0x67F580, user_interface_networking_notify_booted_from_session_hook).Apply();
+			Patch(0x70DA94, { 0x90, 0xE9 }).Apply();
+			Patch(0x71681C, { 0x90, 0x90 }).Apply();
+			Hook(0x704694, c_gui_map_category_datasource__ctor_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Pointer(0xB04658).Write<unsigned int>(0xF800);
+			DetourTransactionBegin();
+			c_gui_screen_pregame_lobby_handle_item_chosen = reinterpret_cast<decltype(c_gui_screen_pregame_lobby_handle_item_chosen)>(0xB21EA0);
+			DetourAttach(&reinterpret_cast<PVOID &>(c_gui_screen_pregame_lobby_handle_item_chosen), reinterpret_cast<PVOID>(c_gui_screen_pregame_lobby_handle_item_chosen_hook));
+			DetourTransactionCommit();
 		}
 
-		_extern void *_sub_10ADD220(unsigned long const, __int32 const, __int32 const, unsigned long const);
 		void *ShowDialog(unsigned long const p_DialogID, __int32 const p_Arg1, __int32 const p_Flags, unsigned long const p_ParentID) // 0x10ADD220
 		{
-			mangled_x86(MANGLED_TODO, "?ShowDialog@Ui@Patches@@YAPAXKHHK@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ShowDialog@Ui@Patches@@YAPAXKHHK@Z");
 			// unsigned long const p_ParentID;
 			// void *s_UIData;
 			// function call : void *(*const)(__int32)
 			// function call : void *(*const)(void *, unsigned long, __int32, __int32, unsigned long)
 			// function call : __int32 (*const)(void *)
-			todo("implement");
-			void * __result = _sub_10ADD220(p_DialogID, p_Arg1, p_Flags, p_ParentID);
-			return __result;
+
+			void *s_UIData = ((void *(__cdecl *)(int))0xab4ed0)(64);
+			if (!s_UIData)
+			{
+				return nullptr;
+			}
+			((void (__thiscall *)(void *, unsigned long, __int32, __int32, unsigned long))0xa92780)(s_UIData, p_DialogID, p_Arg1, p_Flags, p_ParentID);
+			((void (__cdecl *)(void *))0xa93450)(s_UIData);
+			return s_UIData;
 		}
 
 		_extern void _sub_10ADCCD0(std::function<void __cdecl(HWND__ *)>);
@@ -761,10 +857,9 @@ namespace Patches
 			_sub_10ADB800();
 		}
 
-		_extern void _sub_10ADD2E0();
 		void ShowLanBrowser() // 0x10ADD2E0
 		{
-			mangled_x86(MANGLED_TODO, "?ShowLanBrowser@Ui@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ShowLanBrowser@Ui@Patches@@YAXXZ");
 			// procedure flags: nofpo
 			// void *dialog;
 			// void *(*UI_Alloc)(__int32);
@@ -773,8 +868,20 @@ namespace Patches
 			// function call : void *(*)(__int32)
 			// function call : void *(*)(void *, __int32, __int32, __int32, __int32, __int32, __int32, __int32)
 			// function call : void (*)(void *)
-			todo("implement");
-			_sub_10ADD2E0();
+
+			typedef void*(__cdecl * UI_AllocPtr)(int size);
+			auto UI_Alloc = reinterpret_cast<UI_AllocPtr>(0xAB4ED0);
+			typedef void*(__fastcall* c_load_game_browser_screen_messagePtr)(void *thisPtr, int unused, int arg0, int arg1, int arg2, int arg3, int arg4, int arg5);
+			auto c_load_game_browser_screen_message = reinterpret_cast<c_load_game_browser_screen_messagePtr>(0xADE0B0);
+			typedef void(*UI_Dialog_QueueLoadPtr)(void *dialog);
+			auto UI_Dialog_QueueLoad = reinterpret_cast<UI_Dialog_QueueLoadPtr>(0xA93450);
+
+			auto dialog = UI_Alloc(0x44);
+			if (!dialog)
+				return;
+			dialog = c_load_game_browser_screen_message(dialog, 0, 0x10355, 0, 4, 0x1000C, 0, 0);
+			if (dialog)
+				UI_Dialog_QueueLoad(dialog);
 		}
 	}
 }
@@ -782,7 +889,7 @@ namespace Patches
 /* ---------- private code */
 
 _extern void _sub_10AE1030(c_gui_map_category_datasource *, void *, wchar_t const *, wchar_t const *, wchar_t const *, wchar_t const *);
-void c_gui_map_category_datasource__ctor_hook(c_gui_map_category_datasource *thisptr, void *__formal, wchar_t const *recent_maps_item_title, wchar_t const *recent_maps_item_description, wchar_t const *file_share_item_title, wchar_t const *file_share_item_description) // 0x10AE1030
+void __fastcall c_gui_map_category_datasource__ctor_hook(c_gui_map_category_datasource *thisptr, void *__formal, wchar_t const *recent_maps_item_title, wchar_t const *recent_maps_item_description, wchar_t const *file_share_item_title, wchar_t const *file_share_item_description) // 0x10AE1030
 {
 	// `anonymous-namespace'::c_gui_map_category_datasource__ctor_hook
 	// wchar_t const *file_share_item_description;
@@ -791,7 +898,7 @@ void c_gui_map_category_datasource__ctor_hook(c_gui_map_category_datasource *thi
 }
 
 _extern void _sub_10AE10C0(void *, void *, bool);
-void c_gui_player_select_screen_widget__set_mute_hook(void *thisPtr, void *unused, bool muted) // 0x10AE10C0
+void __fastcall c_gui_player_select_screen_widget__set_mute_hook(void *thisPtr, void *unused, bool muted) // 0x10AE10C0
 {
 	// `anonymous-namespace'::c_gui_player_select_screen_widget__set_mute_hook
 	// static ...; // 0x10AE13C8
@@ -836,7 +943,7 @@ bool isValidUrl(std::string const &url) // 0x10AE8D10
 }
 
 _extern void _sub_10AE14B0(void *, void *, bool);
-void c_gui_player_select_screen_widget__show_service_record_hook(void *thisPtr, void *unused, bool muted) // 0x10AE14B0
+void __fastcall c_gui_player_select_screen_widget__show_service_record_hook(void *thisPtr, void *unused, bool muted) // 0x10AE14B0
 {
 	// `anonymous-namespace'::c_gui_player_select_screen_widget__show_service_record_hook
 	// static ...; // 0x10AE1990
@@ -890,16 +997,24 @@ bool UserInterfaceSquadSetMap_hook(__int32 a1, __int32 a2, char a3, __int32 a4, 
 	return __result;
 }
 
-_extern bool _sub_10ADB920();
 bool AttractShouldStartHook() // 0x10ADB920
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?AttractShouldStartHook@@YA_NXZ");
 	// `anonymous-namespace'::AttractShouldStartHook
 	// procedure flags: nofpo
 	// bool (*const Attract_Mode_should_Start)();
 	// function call : bool (*const)()
-	todo("implement");
-	bool __result = _sub_10ADB920();
-	return __result;
+
+	bool (*const AttractShouldStart)() = (bool (*const)())0xa992a0;
+
+	if (HasAttractBinks)
+	{
+		return AttractShouldStart();
+	}
+	else
+	{
+		return false;
+	}
 }
 
 _extern __int32 _sub_10ADC160(__int32);
@@ -971,7 +1086,7 @@ std::wstring GetRankGradeName(__int32 rankIndex) // 0x10ADC5B0
 }
 
 _extern void _sub_10AE0B90(c_gui_location_manager *, void *, unsigned long);
-void c_gui_location_manager__change_location_hook(c_gui_location_manager *thisptr, void *__formal, unsigned long screen_name) // 0x10AE0B90
+void __fastcall c_gui_location_manager__change_location_hook(c_gui_location_manager *thisptr, void *__formal, unsigned long screen_name) // 0x10AE0B90
 {
 	// `anonymous-namespace'::c_gui_location_manager__change_location_hook
 	// static ...; // 0x10AE0F24
@@ -998,22 +1113,30 @@ void c_gui_location_manager__change_location_hook(c_gui_location_manager *thispt
 	_sub_10AE0B90(thisptr, __formal, screen_name);
 }
 
-_extern bool _sub_10AE3EA0(c_gui_screen_widget *, void *, c_controller_input_message *);
-bool c_gui_screen_pregame_lobby__handle_controller_input_message_fallback_hook(c_gui_screen_widget *thisptr, void *__formal, c_controller_input_message *message) // 0x10AE3EA0
+bool __fastcall c_gui_screen_pregame_lobby__handle_controller_input_message_fallback_hook(c_gui_screen_widget *thisptr, void *__formal, c_controller_input_message *message) // 0x10AE3EA0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_screen_pregame_lobby__handle_controller_input_message_fallback_hook@@YI_NPAVc_gui_screen_widget@@PAXPAUc_controller_input_message@@@Z");
 	// `anonymous-namespace'::c_gui_screen_pregame_lobby__handle_controller_input_message_fallback_hook
 	// c_controller_input_message *message;
 	// void (*const c_gui_screen_pregame_lobby__show_game_options)(void *, long);
 	// bool (*const c_gui_screen_widget__handle_controller_input_message)(c_gui_screen_widget *, c_controller_input_message *);
 	// function call : void (*const)(void *, long)
 	// function call : bool (*const)(c_gui_screen_widget *, c_controller_input_message *)
-	todo("implement");
-	bool __result = _sub_10AE3EA0(thisptr, __formal, message);
-	return __result;
+
+	bool (__thiscall *const sub_AB1270)(c_gui_screen_widget *, c_controller_input_message *) = (bool(__thiscall *const)(c_gui_screen_widget *, c_controller_input_message *))0xab1270;
+	void (__thiscall *const sub_B225B0)(c_gui_screen_widget *, int) = (void(__thiscall *const)(c_gui_screen_widget *, int))0xb225b0;
+
+	if (message->event_type == 13 && message->button == 2)
+	{
+		sub_B225B0(thisptr, message->controller_index);
+		return true;
+	}
+
+	return sub_AB1270(thisptr, message);
 }
 
 _extern bool _sub_10AE8020(void *, void *, void *, unsigned long, c_gui_list_item_widget const *, c_gui_data *);
-bool c_start_menu_settings_handle_list_item_chosen_hook(void *thisptr, void *unused, void *message, unsigned long list_name, c_gui_list_item_widget const *list_item, c_gui_data *data) // 0x10AE8020
+bool __fastcall c_start_menu_settings_handle_list_item_chosen_hook(void *thisptr, void *unused, void *message, unsigned long list_name, c_gui_list_item_widget const *list_item, c_gui_data *data) // 0x10AE8020
 {
 	// `anonymous-namespace'::c_start_menu_settings_handle_list_item_chosen_hook
 	// void *message;
@@ -1033,7 +1156,7 @@ bool c_start_menu_settings_handle_list_item_chosen_hook(void *thisptr, void *unu
 }
 
 _extern bool _sub_10AE4BC0(void *, void *, void *, unsigned long, c_gui_list_item_widget const *, c_gui_data *);
-bool c_main_menu_screen_widget_handle_list_item_chosen_hook(void *thisptr, void *unused, void *message, unsigned long list_name, c_gui_list_item_widget const *list_item, c_gui_data *data) // 0x10AE4BC0
+bool __fastcall c_main_menu_screen_widget_handle_list_item_chosen_hook(void *thisptr, void *unused, void *message, unsigned long list_name, c_gui_list_item_widget const *list_item, c_gui_data *data) // 0x10AE4BC0
 {
 	// `anonymous-namespace'::c_main_menu_screen_widget_handle_list_item_chosen_hook
 	// void *message;
@@ -1151,7 +1274,7 @@ void user_interface_networking_notify_booted_from_session_hook(__int32 a1, e_net
 }
 
 _extern void _sub_10AE7D10(c_gui_screen_widget *, void *, unsigned long);
-void c_start_menu_screen_widget__update_render_state_hook(c_gui_screen_widget *thisptr, void *__formal, unsigned long milliseconds) // 0x10AE7D10
+void __fastcall c_start_menu_screen_widget__update_render_state_hook(c_gui_screen_widget *thisptr, void *__formal, unsigned long milliseconds) // 0x10AE7D10
 {
 	// `anonymous-namespace'::c_start_menu_screen_widget__update_render_state_hook
 	// static ...; // 0x10AE7F58
@@ -1185,9 +1308,9 @@ void c_start_menu_screen_widget__update_render_state_hook(c_gui_screen_widget *t
 	_sub_10AE7D10(thisptr, __formal, milliseconds);
 }
 
-_extern void _sub_10AE7C40(c_gui_screen_widget *, void *);
-void c_start_menu_screen_widget__post_initialize_hook(c_gui_screen_widget *thisptr, void *unused) // 0x10AE7C40
+void __fastcall c_start_menu_screen_widget__post_initialize_hook(c_gui_screen_widget *thisptr, void *unused) // 0x10AE7C40
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_start_menu_screen_widget__post_initialize_hook@@YIXPAVc_gui_screen_widget@@PAX@Z");
 	// `anonymous-namespace'::c_start_menu_screen_widget__post_initialize_hook
 	// void *unused;
 	// long session_index;
@@ -1196,8 +1319,21 @@ void c_start_menu_screen_widget__post_initialize_hook(c_gui_screen_widget *thisp
 	// unsigned long playerIndex;
 	// function call : __int32 (*const)(void *)
 	// function call : unsigned long (*const)(long)
-	todo("implement");
-	_sub_10AE7C40(thisptr, unused);
+
+	void (__thiscall *const post_initialize)(c_gui_screen_widget *) = (void(__thiscall *const)(c_gui_screen_widget *))0xae0f00;
+
+	post_initialize(thisptr);
+
+	long playerIndex = ((long(__cdecl *)(int))0x589c30)(0);
+	long session_index = Player::PlayerNetworkUtil::get_session_player_index_from_player_datum_index(playerIndex);
+	c_gui_bitmap_widget *emblem_widget = thisptr->get_child_bitmap_widget(0x3F9E);
+	if (emblem_widget)
+	{
+		if (session_index != -1)
+		{
+			emblem_widget->set_sprite_frame_index(session_index | 0x8000);
+		}
+	}
 }
 
 _extern void _sub_10AE44C0(c_gui_widget *, long, long);
@@ -1229,7 +1365,7 @@ void c_gui_spartan_rank_widget__update_sub_hook(c_gui_widget *widget, long in_ra
 }
 
 _extern void _sub_10AE75D0(c_gui_screen_widget *, void *, unsigned long);
-void c_spartan_rank_widget__update_render_state_hook(c_gui_screen_widget *thisptr, void *unused, unsigned long milliseconds) // 0x10AE75D0
+void __fastcall c_spartan_rank_widget__update_render_state_hook(c_gui_screen_widget *thisptr, void *unused, unsigned long milliseconds) // 0x10AE75D0
 {
 	// `anonymous-namespace'::c_spartan_rank_widget__update_render_state_hook
 	// static ...; // 0x10AE7928
@@ -1311,7 +1447,7 @@ bool c_gui_screen_pregame_lobby__squad_party_leader_hook(void *thisptr, wchar_t 
 }
 
 _extern void _sub_10AE5010(c_player_select_actions_datasource *);
-void c_player_select_actions_datasource__initialize_hook(c_player_select_actions_datasource *thisptr) // 0x10AE5010
+void __fastcall c_player_select_actions_datasource__initialize_hook(c_player_select_actions_datasource *thisptr) // 0x10AE5010
 {
 	// `anonymous-namespace'::c_player_select_actions_datasource__initialize_hook
 	// c_player_select_actions_datasource *thisptr;
@@ -1353,7 +1489,7 @@ void c_player_select_actions_datasource__initialize_hook(c_player_select_actions
 }
 
 _extern void _sub_10AE7140(c_gui_screen_widget *, void *, unsigned long);
-void c_player_select_screen_widget__update_render_state_hook(c_gui_screen_widget *thisptr, void *unused, unsigned long milliseconds) // 0x10AE7140
+void __fastcall c_player_select_screen_widget__update_render_state_hook(c_gui_screen_widget *thisptr, void *unused, unsigned long milliseconds) // 0x10AE7140
 {
 	// `anonymous-namespace'::c_player_select_screen_widget__update_render_state_hook
 	// static ...; // 0x10AE7408
@@ -1392,17 +1528,20 @@ void c_player_select_screen_widget__update_render_state_hook(c_gui_screen_widget
 	_sub_10AE7140(thisptr, unused, milliseconds);
 }
 
-_extern void _sub_10AE8BE0(c_gui_widget *, bool);
 void gui_widget_set_visible_safe(c_gui_widget *item, bool visibility) // 0x10AE8BE0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?gui_widget_set_visible_safe@@YAXPAVc_gui_widget@@_N@Z");
 	// `anonymous-namespace'::gui_widget_set_visible_safe
 	// bool visibility;
-	todo("implement");
-	_sub_10AE8BE0(item, visibility);
+
+	if (item)
+	{
+		item->set_visible(visibility);
+	}
 }
 
 _extern void _sub_10AE5440(c_gui_screen_widget *, void *, unsigned long);
-void c_player_select_screen_widget__update_hook(c_gui_screen_widget *thisptr, void *unused, unsigned long milliseconds) // 0x10AE5440
+void __fastcall c_player_select_screen_widget__update_hook(c_gui_screen_widget *thisptr, void *unused, unsigned long milliseconds) // 0x10AE5440
 {
 	// `anonymous-namespace'::c_player_select_screen_widget__update_hook
 	// static ...; // 0x10AE6B48
@@ -1525,7 +1664,7 @@ void c_player_select_screen_widget__update_hook(c_gui_screen_widget *thisptr, vo
 }
 
 _extern void _sub_10AE2460(c_gui_screen_widget *, void *, unsigned long);
-void c_gui_roster_list_widget_update_hook(c_gui_screen_widget *thisptr, void *unused, unsigned long milliseconds) // 0x10AE2460
+void __fastcall c_gui_roster_list_widget_update_hook(c_gui_screen_widget *thisptr, void *unused, unsigned long milliseconds) // 0x10AE2460
 {
 	// `anonymous-namespace'::c_gui_roster_list_widget_update_hook
 	// static ...; // 0x10AE3387
@@ -1629,7 +1768,7 @@ void c_gui_roster_list_widget_update_hook(c_gui_screen_widget *thisptr, void *un
 }
 
 _extern void _sub_10AE04A0(c_gui_custom_bitmap_widget *, long, e_image_content_type, __int32, bool);
-void c_gui_custom_bitmap_widget__set_map_image_hook(c_gui_custom_bitmap_widget *thisptr, long unused, e_image_content_type map_image, __int32 map_id, bool a4) // 0x10AE04A0
+void __fastcall c_gui_custom_bitmap_widget__set_map_image_hook(c_gui_custom_bitmap_widget *thisptr, long unused, e_image_content_type map_image, __int32 map_id, bool a4) // 0x10AE04A0
 {
 	// `anonymous-namespace'::c_gui_custom_bitmap_widget__set_map_image_hook
 	// c_gui_custom_bitmap_widget *thisptr;
@@ -1648,7 +1787,7 @@ void c_gui_custom_bitmap_widget__set_map_image_hook(c_gui_custom_bitmap_widget *
 }
 
 _extern void _sub_10AE07F0(c_gui_custom_bitmap_widget *, void *, unsigned long);
-void c_gui_custom_bitmap_widget__update_hook(c_gui_custom_bitmap_widget *thisptr, void *__formal, unsigned long time) // 0x10AE07F0
+void __fastcall c_gui_custom_bitmap_widget__update_hook(c_gui_custom_bitmap_widget *thisptr, void *__formal, unsigned long time) // 0x10AE07F0
 {
 	// `anonymous-namespace'::c_gui_custom_bitmap_widget__update_hook
 	// unsigned long time;
@@ -1664,7 +1803,7 @@ void c_gui_custom_bitmap_widget__update_hook(c_gui_custom_bitmap_widget *thisptr
 }
 
 _extern void _sub_10AE0400(c_gui_custom_bitmap_widget *);
-void c_gui_custom_bitmap_widget__reset_hook(c_gui_custom_bitmap_widget *thisptr) // 0x10AE0400
+void __fastcall c_gui_custom_bitmap_widget__reset_hook(c_gui_custom_bitmap_widget *thisptr) // 0x10AE0400
 {
 	// `anonymous-namespace'::c_gui_custom_bitmap_widget__reset_hook
 	// c_gui_custom_bitmap_widget *thisptr;
@@ -1672,53 +1811,64 @@ void c_gui_custom_bitmap_widget__reset_hook(c_gui_custom_bitmap_widget *thisptr)
 	_sub_10AE0400(thisptr);
 }
 
-_extern void _sub_10ADD1C0();
 void ResolutionChangeHook() // 0x10ADD1C0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ResolutionChangeHook@@YAXXZ");
 	// `anonymous-namespace'::ResolutionChangeHook
 	// procedure flags: nofpo
 	// void (*ApplyResolutionChange)();
 	// function call : void (*)()
-	todo("implement");
-	_sub_10ADD1C0();
+
+	typedef void(__thiscall *ApplyResolutionChangeFunc)();
+	ApplyResolutionChangeFunc ApplyResolutionChange = reinterpret_cast<ApplyResolutionChangeFunc>(0xA226D0);
+	ApplyResolutionChange();
+
+	// Update the ingame UI's resolution
+	Patches::Ui::ApplyUIResolution();
+	Web::Ui::ScreenLayer::Resize();
 }
 
-_extern __int32 _sub_10ADD9D0(void *);
 __int32 UI_ListItem_GetIndex(void *item) // 0x10ADD9D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?UI_ListItem_GetIndex@@YAHPAX@Z");
 	// `anonymous-namespace'::UI_ListItem_GetIndex
 	// void *item;
 	// __int32 (*GetIndex)(void *, __int32);
 	// void **vtable;
 	// function call : __int32 (*)(void *, __int32)
-	todo("implement");
-	__int32 __result = _sub_10ADD9D0(item);
-	return __result;
+
+	typedef int(__fastcall* UI_ListItem_GetIndexPtr)(void *thisPtr, int unused);
+	auto vtable = *reinterpret_cast<void***>(item);
+	auto GetIndex = reinterpret_cast<UI_ListItem_GetIndexPtr>(vtable[6]);
+	return GetIndex(item, 0);
 }
 
-_extern bool _sub_10ADDA50(void *, __int32, __int32, void *);
 bool UI_OrderedDataSource_Get(void *data, __int32 index, __int32 key, void *result) // 0x10ADDA50
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?UI_OrderedDataSource_Get@@YA_NPAXHH0@Z");
 	// `anonymous-namespace'::UI_OrderedDataSource_Get
 	// void *result;
 	// bool (*Get)(void *, __int32, __int32, __int32, void *);
 	// void **vtable;
 	// function call : bool (*)(void *, __int32, __int32, __int32, void *)
-	todo("implement");
-	bool __result = _sub_10ADDA50(data, index, key, result);
-	return __result;
+
+	typedef bool(__fastcall* UI_OrderedDataSource_GetPtr)(void *thisPtr, int unused, int index, int key, void *result);
+	auto vtable = *reinterpret_cast<void***>(data);
+	auto Get = reinterpret_cast<UI_OrderedDataSource_GetPtr>(vtable[11]);
+	return Get(data, 0, index, key, result);
 }
 
-_extern __int32 _sub_10AE1B00(void *, __int32, __int32, __int32, __int32);
-__int32 c_gui_roster_list_widget__start_team_change_hook(void *thisPtr, __int32 unused, __int32 a2, __int32 teamIndex, __int32 a4) // 0x10AE1B00
+__int32 __fastcall c_gui_roster_list_widget__start_team_change_hook(void *thisPtr, __int32 unused, __int32 a2, __int32 teamIndex, __int32 a4) // 0x10AE1B00
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_roster_list_widget__start_team_change_hook@@YIHPAXHHHH@Z");
 	// `anonymous-namespace'::c_gui_roster_list_widget__start_team_change_hook
 	// __int32 a4;
 	// __int32 (*c_gui_roster_list_widget__start_team_change)(void *, __int32, __int32, __int32);
 	// function call : __int32 (*)(void *, __int32, __int32, __int32)
-	todo("implement");
-	__int32 __result = _sub_10AE1B00(thisPtr, unused, a2, teamIndex, a4);
-	return __result;
+
+	localDesiredTeam = teamIndex;
+	__int32 (__thiscall *F)(void *, __int32, __int32, __int32) = (__int32(__thiscall *)(void *, __int32, __int32, __int32))0xb25c30;
+	return F(thisPtr, a2, teamIndex, a4);
 }
 
 _extern void _sub_10ADCE40();
@@ -1735,7 +1885,7 @@ void OnUiInputUpdated() // 0x10ADCE40
 }
 
 _extern void _sub_10AE1B90(c_gui_screen_widget *, void *, unsigned long);
-void c_gui_roster_list_widget__update_render_state(c_gui_screen_widget *thisPtr, void *__formal, unsigned long milliseconds) // 0x10AE1B90
+void __fastcall c_gui_roster_list_widget__update_render_state(c_gui_screen_widget *thisPtr, void *__formal, unsigned long milliseconds) // 0x10AE1B90
 {
 	// `anonymous-namespace'::c_gui_roster_list_widget__update_render_state
 	// static ...; // 0x10AE2274
@@ -1867,20 +2017,23 @@ bool UpdateH3HUDImpl(__int32 playerMappingIndex) // 0x10ADDB60
 	return __result;
 }
 
-_extern void _sub_10ADDAE0(__int32);
 void UI_UpdateH3HUDHook(__int32 playerMappingIndex) // 0x10ADDAE0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?UI_UpdateH3HUDHook@@YAXH@Z");
 	// `anonymous-namespace'::UI_UpdateH3HUDHook
 	// __int32 playerMappingIndex;
 	// static void (*`UI_UpdateH3HUDHook'::`2'::UI_UpdateHUD)(__int32); // 0x11354CC8
 	// function call : void (*)(__int32)
-	todo("implement");
-	_sub_10ADDAE0(playerMappingIndex);
+
+	static auto UI_UpdateHUD = (void(__cdecl*)(int playerMappingIndex))(0xA95D10);
+
+	if (!UpdateH3HUDImpl(playerMappingIndex))
+		UI_UpdateHUD(playerMappingIndex);
 }
 
-_extern bool _sub_10ADBCA0(__int32, wchar_t *);
 bool GetBoundMouseButtonName(__int32 code, wchar_t *buff) // 0x10ADBCA0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetBoundMouseButtonName@@YA_NHPA_W@Z");
 	// `anonymous-namespace'::GetBoundMouseButtonName
 // $LN8:
 // $LN7:
@@ -1894,9 +2047,35 @@ bool GetBoundMouseButtonName(__int32 code, wchar_t *buff) // 0x10ADBCA0
 	// static Blam::Input::GameAction (*`GetBoundMouseButtonName'::`2'::GameActionFromUnicodeCode)(__int32); // 0x11354CCC
 	// Blam::Input::MouseButton mouseButton;
 	// function call : Blam::Input::GameAction (*)(__int32)
-	todo("implement");
-	bool __result = _sub_10ADBCA0(code, buff);
-	return __result;
+
+	using namespace Blam::Input;
+
+	static auto GameActionFromUnicodeCode = (GameAction(__cdecl *)(int code))(0xABD240);
+
+	auto bindings = Modules::ModuleInput::Instance().GetBindings();
+
+	auto action = GameActionFromUnicodeCode(code);
+	auto mouseButton = bindings->PrimaryMouseButtons[action];
+	switch (mouseButton)
+	{
+	case eMouseButtonWheelDown:
+		swprintf(buff, L"<WHEEL DOWN>");
+		return true;
+	case eMouseButtonWheelUp:
+		swprintf(buff, L"<WHEEL UP>");
+		return true;
+	case eMouseButtonLeft:
+		swprintf(buff, L"<LMB>");
+		return true;
+	case eMouseButtonRight:
+		swprintf(buff, L"<RMB>");
+		return true;
+	case eMouseButtonMiddle:
+		swprintf(buff, L"<MMB>");
+		return true;
+	}
+
+	return false;
 }
 
 __declspec(naked) void GetActionButtonNameHook() // 0x10ADBC70
@@ -1925,7 +2104,7 @@ __declspec(naked) void GetActionButtonNameHook() // 0x10ADBC70
 }
 
 _extern void _sub_10AE8270(void *, void *);
-void c_ui_view_draw_hook(void *thisptr, void *unused) // 0x10AE8270
+void __fastcall c_ui_view_draw_hook(void *thisptr, void *unused) // 0x10AE8270
 {
 	// `anonymous-namespace'::c_ui_view_draw_hook
 	// void *unused;
@@ -1976,15 +2155,21 @@ __int32 GetMultiplayerFlagsValues() // 0x10ADC040
 	return __result;
 }
 
-_extern __int32 _sub_10ADBFD0();
 __int32 GetMultiplayerEventsFlagsValues() // 0x10ADBFD0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetMultiplayerEventsFlagsValues@@YAHXZ");
 	// `anonymous-namespace'::GetMultiplayerEventsFlagsValues
 	// procedure flags: nofpo
 	// __int32 flags;
-	todo("implement");
-	__int32 __result = _sub_10ADBFD0();
-	return __result;
+
+	__int32 flags = 0;
+
+	if (Patches::Ui::speakingPlayers.size() > 0)
+	{
+		flags |= 8;
+	}
+
+	return flags;
 }
 
 _extern __int32 _sub_10ADCAB0();
@@ -2014,7 +2199,7 @@ __int32 GameStateFlagsValues() // 0x10ADBB80
 }
 
 _extern unsigned long _sub_10ADBE10(s_chud_globals_definition *, void *, long, long);
-unsigned long GetGlobalDynamicColorHook(s_chud_globals_definition *thisptr, void *unused, long character_type, long color_index) // 0x10ADBE10
+unsigned long __fastcall GetGlobalDynamicColorHook(s_chud_globals_definition *thisptr, void *unused, long character_type, long color_index) // 0x10ADBE10
 {
 	// `anonymous-namespace'::GetGlobalDynamicColorHook
 // $LN11:
@@ -2046,7 +2231,7 @@ void GetWeaponOutlineColorHook(long index, real_argb_color *out_color) // 0x10AD
 }
 
 _extern bool _sub_10AE0A30(c_gui_generic_category_datasource<11> *, void *, __int32);
-bool c_gui_game_variant_category_datasource_init(c_gui_generic_category_datasource<11> *thisptr, void *unused, __int32 datasource) // 0x10AE0A30
+bool __fastcall c_gui_game_variant_category_datasource_init(c_gui_generic_category_datasource<11> *thisptr, void *unused, __int32 datasource) // 0x10AE0A30
 {
 	// `anonymous-namespace'::c_gui_game_variant_category_datasource_init
 	// __int32 datasource;
@@ -2064,7 +2249,7 @@ bool c_gui_game_variant_category_datasource_init(c_gui_generic_category_datasour
 }
 
 _extern void _sub_10ADCD70();
-void OnLobbySwitchNetworkMode() // 0x10ADCD70
+void __stdcall OnLobbySwitchNetworkMode() // 0x10ADCD70
 {
 	// `anonymous-namespace'::OnLobbySwitchNetworkMode
 	// procedure flags: nofpo
@@ -2087,7 +2272,7 @@ __declspec(naked) void c_gui_screen_pregame_lobby_switch_network_hook() // 0x10A
 }
 
 _extern void _sub_10ADFDE0(void *, void *, unsigned __int32, __int32, wchar_t *, __int32, bool, __int32);
-void c_gui_alert_manager__show(void *thisptr, void *unused, unsigned __int32 name, __int32 a3, wchar_t *customMessage, __int32 profileIndex, bool a6, __int32 a7) // 0x10ADFDE0
+void __fastcall c_gui_alert_manager__show(void *thisptr, void *unused, unsigned __int32 name, __int32 a3, wchar_t *customMessage, __int32 profileIndex, bool a6, __int32 a7) // 0x10ADFDE0
 {
 	// `anonymous-namespace'::c_gui_alert_manager__show
 	// wchar_t *customMessage;
@@ -2123,7 +2308,7 @@ void c_gui_alert_manager__show(void *thisptr, void *unused, unsigned __int32 nam
 }
 
 _extern void _sub_10AE4AC0(void *, void *, __int32, __int32, void *);
-void c_hud_camera_view__render_outlines_hook(void *thisptr, void *unused, __int32 localProfileIndex, __int32 playerMappingIndex, void *a3) // 0x10AE4AC0
+void __fastcall c_hud_camera_view__render_outlines_hook(void *thisptr, void *unused, __int32 localProfileIndex, __int32 playerMappingIndex, void *a3) // 0x10AE4AC0
 {
 	// `anonymous-namespace'::c_hud_camera_view__render_outlines_hook
 	// void *a3;
@@ -2167,7 +2352,7 @@ bool PlayerMarkerIsDisabled(unsigned __int32 playerIndex) // 0x10ADD020
 }
 
 _extern void _sub_10AE8510(void *, void *, unsigned char *);
-void chud_add_player_marker_hook(void *thisptr, void *unused, unsigned char *data_) // 0x10AE8510
+void __fastcall chud_add_player_marker_hook(void *thisptr, void *unused, unsigned char *data_) // 0x10AE8510
 {
 	// `anonymous-namespace'::chud_add_player_marker_hook
 	// unsigned char *data_;
@@ -2198,9 +2383,9 @@ void chud_add_player_marker_hook(void *thisptr, void *unused, unsigned char *dat
 	_sub_10AE8510(thisptr, unused, data_);
 }
 
-_extern void _sub_10AE7A40(void *, void *, unsigned char *);
-void c_start_menu_pane_screen_widget__handle_spinner_chosen_hook(void *thisptr, void *unused, unsigned char *widget) // 0x10AE7A40
+void __fastcall c_start_menu_pane_screen_widget__handle_spinner_chosen_hook(void *thisptr, void *unused, unsigned char *widget) // 0x10AE7A40
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_start_menu_pane_screen_widget__handle_spinner_chosen_hook@@YIXPAX0PAE@Z");
 	// `anonymous-namespace'::c_start_menu_pane_screen_widget__handle_spinner_chosen_hook
 // $LN17:
 // $LN16:
@@ -2217,30 +2402,82 @@ void c_start_menu_pane_screen_widget__handle_spinner_chosen_hook(void *thisptr, 
 	// __int32 const _string_id_value;
 	// unsigned char *(*const game_engine_get_map_variant)();
 	// void (*const c_gui_list_widget__set_selected)(void *, __int32, __int32, char);
-	{
 		// __int32 selectedGametype;
 		// __int32 contentType;
-		{
 			// __int32 teamIndex;
-		}
-	}
 	// function call : void (*const)(void *, __int32, __int32, char)
 	// function call : unsigned char *(*const)()
 	// function call : void (*const)(void *, __int32, __int32, char)
-	todo("implement");
-	_sub_10AE7A40(thisptr, unused, widget);
+
+	const auto c_gui_list_widget__set_selected = (void(__thiscall *)(void *thisptr, int target, int value, char a5))(0xB16170);
+	const auto game_engine_get_map_variant = (uint8_t*(*)())(0x00583230);
+	const auto _string_id_value = 0x111;
+
+	switch (*(uint32_t*)(widget + 0x40))
+	{
+	case 0x10E: //  change_teams
+	{
+		auto teamIndex = *(int*)((uint8_t*)0x019A03D8 + 0x167C);
+		if (teamIndex < 0)
+			teamIndex = 0;
+		c_gui_list_widget__set_selected(widget, 0x111, teamIndex, 0);
+	}
+	break;
+	case 0x105B9: // change_gametype
+		auto selectedGametype = 0;
+		auto contentType = *(int*)(game_engine_get_map_variant() + 0x11c);
+		switch (contentType)
+		{
+		case 0:
+			selectedGametype = 1;
+			break;
+		case 1:
+			selectedGametype = 2;
+			break;
+		case 2:
+			selectedGametype = 3;
+			break;
+		case 3:
+			selectedGametype = 4;
+			break;
+		case 4:
+			selectedGametype = 7;
+			break;
+		case 5:
+			selectedGametype = 8;
+			break;
+		case 6:
+			selectedGametype = 9;
+			break;
+		case 7:
+			selectedGametype = 6;
+			break;
+		case 8:
+			selectedGametype = 10;
+			break;
+		case 10:
+			selectedGametype = 0;
+			break;
+		}
+		c_gui_list_widget__set_selected(widget, 0x111, selectedGametype, 0);
+		break;
+	}
 }
 
-_extern void _sub_10ADD940(void *, void *, __int32);
-void UI_GameVariantSavePromptFix(void *thisptr, void *unused, __int32 a2) // 0x10ADD940
+void __fastcall UI_GameVariantSavePromptFix(void *thisptr, void *unused, __int32 a2) // 0x10ADD940
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?UI_GameVariantSavePromptFix@@YIXPAX0H@Z");
 	// `anonymous-namespace'::UI_GameVariantSavePromptFix
 	// __int32 a2;
 	// void (*const c_gui_screen_widget__transition_out)(void *, __int32);
 	// unsigned __int32 name;
 	// function call : void (*const)(void *, __int32)
-	todo("implement");
-	_sub_10ADD940(thisptr, unused, a2);
+
+	const auto c_gui_screen_widget__transition_out = (void(__thiscall*)(void *thisptr, int a2))(0x00AB2830);
+
+	auto name = *(uint32_t*)((uint8_t*)thisptr + 0x40);
+	if (name != 0x103A9) // game_options
+		c_gui_screen_widget__transition_out(thisptr, a2);
 }
 
 _extern float _sub_10AE8B30();
@@ -2298,7 +2535,7 @@ __int32 user_interface_squad_get_countdown_timer_hook() // 0x10AE9C40
 }
 
 _extern void _sub_10ADF560(c_chud_update_user_data *, void *, long, long, bool);
-void c_chud_update_user_data__ctor_hook(c_chud_update_user_data *thisptr, void *__formal, long user_index, long unit_index, bool a4) // 0x10ADF560
+void __fastcall c_chud_update_user_data__ctor_hook(c_chud_update_user_data *thisptr, void *__formal, long user_index, long unit_index, bool a4) // 0x10ADF560
 {
 	// `anonymous-namespace'::c_chud_update_user_data__ctor_hook
 	// bool a4;
@@ -2330,7 +2567,7 @@ void c_chud_update_user_data__ctor_hook(c_chud_update_user_data *thisptr, void *
 }
 
 _extern void _sub_10AE82F0(c_user_interface_main_menu_music *, void *);
-void c_user_interface_main_menu_music_update_desired_state(c_user_interface_main_menu_music *thisptr, void *unused) // 0x10AE82F0
+void __fastcall c_user_interface_main_menu_music_update_desired_state(c_user_interface_main_menu_music *thisptr, void *unused) // 0x10AE82F0
 {
 	// `anonymous-namespace'::c_user_interface_main_menu_music_update_desired_state
 // $LN16:
@@ -2429,7 +2666,7 @@ void user_interface_text_parser_initialize_hook() // 0x10AE9D30
 //}
 
 _extern bool _sub_10AE4230(void *, void *, void *, unsigned long, c_gui_list_item_widget *, c_gui_data *);
-bool c_gui_screen_pregame_lobby_handle_item_chosen_hook(void *thisptr, void *unused, void *message, unsigned long source_name, c_gui_list_item_widget *list_widget, c_gui_data *data) // 0x10AE4230
+bool __fastcall c_gui_screen_pregame_lobby_handle_item_chosen_hook(void *thisptr, void *unused, void *message, unsigned long source_name, c_gui_list_item_widget *list_widget, c_gui_data *data) // 0x10AE4230
 {
 	// `anonymous-namespace'::c_gui_screen_pregame_lobby_handle_item_chosen_hook
 	// void *message;
@@ -2449,7 +2686,7 @@ bool c_gui_screen_pregame_lobby_handle_item_chosen_hook(void *thisptr, void *unu
 }
 
 _extern bool _sub_10AE3780(c_gui_screen_widget *, void *, c_controller_input_message *);
-bool c_gui_screen_campaign_select_skulls__handle_controller_input_message_hook(c_gui_screen_widget *thisptr, void *unused, c_controller_input_message *message) // 0x10AE3780
+bool __fastcall c_gui_screen_campaign_select_skulls__handle_controller_input_message_hook(c_gui_screen_widget *thisptr, void *unused, c_controller_input_message *message) // 0x10AE3780
 {
 	// `anonymous-namespace'::c_gui_screen_campaign_select_skulls__handle_controller_input_message_hook
 	// static ...; // 0x10AE3C0C
@@ -2487,7 +2724,7 @@ bool c_gui_screen_campaign_select_skulls__handle_controller_input_message_hook(c
 }
 
 _extern void _sub_10AE3D70(c_gui_screen_widget *, void *, unsigned long);
-void c_gui_screen_game_options__update_hook(c_gui_screen_widget *thisptr, void *__formal, unsigned long milliseconds) // 0x10AE3D70
+void __fastcall c_gui_screen_game_options__update_hook(c_gui_screen_widget *thisptr, void *__formal, unsigned long milliseconds) // 0x10AE3D70
 {
 	// `anonymous-namespace'::c_gui_screen_game_options__update_hook
 	// unsigned long milliseconds;
@@ -2503,7 +2740,7 @@ void c_gui_screen_game_options__update_hook(c_gui_screen_widget *thisptr, void *
 }
 
 _extern void _sub_10AE4760(c_gui_widget *, void *, gui_real_rectangle2d *, bool, bool, bool);
-void c_gui_widget__get_unprojected_bounds_hook(c_gui_widget *thisptr, void *unused, gui_real_rectangle2d *unprojected_bounds, bool offset, bool scale, bool rotate) // 0x10AE4760
+void __fastcall c_gui_widget__get_unprojected_bounds_hook(c_gui_widget *thisptr, void *unused, gui_real_rectangle2d *unprojected_bounds, bool offset, bool scale, bool rotate) // 0x10AE4760
 {
 	// `anonymous-namespace'::c_gui_widget__get_unprojected_bounds_hook
 	// void *unused;
@@ -2560,7 +2797,7 @@ real_point2d interface_get_authoring_to_target_dimensions_scaling_hook() // 0x10
 }
 
 _extern void _sub_10AE01E0(c_gui_custom_bitmap_widget *, void *, s_gui_widget_render_data *, real_rectangle2d *, long, bool, bool, bool);
-void c_gui_custom_bitmap_widget__assemble_render_data_hook(c_gui_custom_bitmap_widget *thisptr, void *unused, s_gui_widget_render_data *render_data, real_rectangle2d *bounds, long controller_index, bool offset, bool scale, bool rotate) // 0x10AE01E0
+void __fastcall c_gui_custom_bitmap_widget__assemble_render_data_hook(c_gui_custom_bitmap_widget *thisptr, void *unused, s_gui_widget_render_data *render_data, real_rectangle2d *bounds, long controller_index, bool offset, bool scale, bool rotate) // 0x10AE01E0
 {
 	// `anonymous-namespace'::c_gui_custom_bitmap_widget__assemble_render_data_hook
 	// long controller_index;
@@ -2582,9 +2819,9 @@ void c_gui_custom_bitmap_widget__assemble_render_data_hook(c_gui_custom_bitmap_w
 }
 
 _extern bool _sub_10ADFB40(c_draw_string *, void *, void *, char const *);
-bool c_draw_string__draw_internal_hook(c_draw_string *thisptr, void *unused, void *cache, char const *utf32_text) // 0x10ADFB40
+bool __fastcall c_draw_string__draw_internal_hook(c_draw_string *thisptr, void *unused, void *cache, char const *utf32_text) // 0x10ADFB40
 {
-	mangled_x86(MANGLED_TODO, "?c_draw_string__draw_internal_hook@@YA_NPAUc_draw_string@@PAX1PBD@Z");
+	mangled_x86(MANGLED_TODO, "?c_draw_string__draw_internal_hook@@YI_NPAUc_draw_string@@PAX1PBD@Z");
 	// `anonymous-namespace'::c_draw_string__draw_internal_hook
 	// char const *utf32_text;
 	// bool (*const c_draw_string__draw_internal)(c_draw_string *, void *, char const *);
@@ -2596,7 +2833,7 @@ bool c_draw_string__draw_internal_hook(c_draw_string *thisptr, void *unused, voi
 }
 
 _extern void _sub_10ADFBE0(c_draw_string *, void *, real_rectangle2d *, real_rectangle2d *);
-void c_draw_string__set_bounds_hook(c_draw_string *thisptr, void *unused, real_rectangle2d *upper_x, real_rectangle2d *upper_y) // 0x10ADFBE0
+void __fastcall c_draw_string__set_bounds_hook(c_draw_string *thisptr, void *unused, real_rectangle2d *upper_x, real_rectangle2d *upper_y) // 0x10ADFBE0
 {
 	// `anonymous-namespace'::c_draw_string__set_bounds_hook
 	// static ...; // 0x10ADFD38

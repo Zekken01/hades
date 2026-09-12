@@ -43,14 +43,12 @@ extern void (*const player_refresh_object_appearance_full)(long, long); // 0x112
 
 /* ---------- public code */
 
-extern c_data_array<s_player_datum> *_sub_10F00570();
 c_data_array<s_player_datum> *players_get() // 0x10F00570
 {
-	mangled_x86(MANGLED_TODO, "?players_get@@YAPAV?$c_data_array@Us_player_datum@@@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?players_get@@YAPAV?$c_data_array@Us_player_datum@@@@XZ");
 	// procedure flags: nofpo
-	todo("implement");
-	c_data_array<s_player_datum> * __result = _sub_10F00570();
-	return __result;
+
+	return tls_getd().players;
 }
 
 extern s_player_datum *_sub_10F004E0(unsigned long);

@@ -148,7 +148,7 @@ bool ForwardReportToEndpoint(std::string const &endpoint, std::string const &rep
 void ForwardReportToEndpoints(std::string const &report);
 bool HandleReport(std::string const &token);
 void HandleReports();
-unsigned long HandledReportsThreadProc(void *lpParam);
+unsigned long __stdcall HandledReportsThreadProc(void *lpParam);
 void OnShutdown();
 
 /* ---------- globals */
@@ -160,6 +160,7 @@ namespace hades_file_local
 	extern std::mutex mutex; // 0x12467960
 	extern std::condition_variable signal; // 0x12467990
 	extern std::vector<std::string> playerReportUrls; // 0x124679B8
+	extern std::vector<ReportRequest> pending; // 0x124679C8
 	extern bool shouldExit; // 0x124679D8
 }
 using namespace hades_file_local;
@@ -328,7 +329,7 @@ void HandleReports() // 0x10B23680
 }
 
 _extern unsigned long _sub_10B239A0(void *);
-unsigned long HandledReportsThreadProc(void *lpParam) // 0x10B239A0
+unsigned long __stdcall HandledReportsThreadProc(void *lpParam) // 0x10B239A0
 {
 	// `anonymous-namespace'::HandledReportsThreadProc
 	// static ...; // 0x10B23AC4

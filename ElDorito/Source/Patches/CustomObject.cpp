@@ -92,6 +92,7 @@ bool object_test_vector_hook(unsigned long flags, unsigned long collision_flags,
 namespace hades_file_local
 {
 	extern s_object_type_definition *g_object_type_definitions[16]; // 0x11353250
+	extern s_custom_object_data_definition g_custom_object_data_definition; // 0x12409370
 	extern s_object_type_definition const *g_first_object_type_definition; // 0x12409464
 }
 using namespace hades_file_local;
@@ -114,16 +115,19 @@ namespace Patches
 
 /* ---------- private code */
 
-_extern bool _sub_10916500(unsigned long, unsigned long, bool, real_vector3d *, real_vector3d *, long, long, long, s_collision_result *);
 bool object_test_vector_hook(unsigned long flags, unsigned long collision_flags, bool a3, real_vector3d *origin, real_vector3d *vector, long ignore_object_index1, long ignore_object_index2, long ignore_object_index3, s_collision_result *results) // 0x10916500
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?object_test_vector_hook@@YA_NKK_NPAUreal_vector3d@@1JJJPAUs_collision_result@@@Z");
 	// `anonymous-namespace'::object_test_vector_hook
 	// s_collision_result *results;
 	// constexpr bool (*const `object_test_vector_hook'::`2'::object_test_vector)(unsigned long, unsigned long, bool, real_vector3d *, real_vector3d *, long, long, long, s_collision_result *); // constant == 7172496
 	// function call : bool (*const)(unsigned long, unsigned long, bool, real_vector3d *, real_vector3d *, long, long, long, s_collision_result *)
-	todo("implement");
-	bool __result = _sub_10916500(flags, collision_flags, a3, origin, vector, ignore_object_index1, ignore_object_index2, ignore_object_index3, results);
-	return __result;
+
+	if ((collision_flags & 1) != 0)
+	{
+		collision_flags |= 0x10000;
+	}
+	return ((bool(__cdecl *)(unsigned long, unsigned long, bool, real_vector3d *, real_vector3d *, long, long, long, s_collision_result *))0x6d7190)(flags, collision_flags, false, origin, vector, ignore_object_index1, ignore_object_index2, -1, results);
 }
 
 /* ---------- template instantiations */

@@ -59,14 +59,15 @@ c_cache_file_tag_cache::c_cache_file_tag_cache(c_file_reference const *file, uns
 	_sub_108714F0(this, file, base_offset, tag_names);
 }
 
-_extern bool _sub_108743F0(c_cache_file_tag_cache *const);
 bool c_cache_file_tag_cache::initialize() // 0x108743F0
 {
-	mangled_x86(MANGLED_TODO, "?initialize@c_cache_file_tag_cache@@QAE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?initialize@c_cache_file_tag_cache@@QAE_NXZ");
 	// c_cache_file_tag_cache *const this;
-	todo("implement");
-	bool __result = _sub_108743F0(this);
-	return __result;
+
+	if (m_initialized)
+		return true;
+	m_initialized = load_internal();
+	return m_initialized;
 }
 
 _extern bool _sub_10874500(c_cache_file_tag_cache *const);
@@ -175,15 +176,18 @@ long c_cache_file_tag_cache::find_by_name(unsigned long group, char const *name)
 	return __result;
 }
 
-_extern bool _sub_10873EA0(c_cache_file_tag_cache const *const, long);
 bool c_cache_file_tag_cache::empty_tag(long index) const // 0x10873EA0
 {
-	mangled_x86(MANGLED_TODO, "?empty_tag@c_cache_file_tag_cache@@QBE_NJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?empty_tag@c_cache_file_tag_cache@@QBE_NJ@Z");
 	// long index;
 	// s_cache_tag_instance const *instance;
-	todo("implement");
-	bool __result = _sub_10873EA0((c_cache_file_tag_cache const *)this, index);
-	return __result;
+
+	const s_cache_tag_instance *instance = get_instance(index);
+
+	if (!instance)
+		return false;
+
+	return instance->definition_offset == instance->size;
 }
 
 _extern bool _sub_10874AF0(c_cache_file_tag_cache::c_instance_iterator *const);

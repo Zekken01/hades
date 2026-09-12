@@ -86,7 +86,6 @@ namespace Web
 			struct SDialogShowParams
 			{
 				std::string templateName; // 0x0
-				unsigned char __pad0[4]; // 0x1C
 				std::function<void __cdecl(std::string const &)> callback; // 0x20
 				std::string customBody; // 0x48
 				std::string customTitle; // 0x64
@@ -100,9 +99,9 @@ namespace Web
 				_inline ~SDialogShowParams(); /* compiler_generated() */
 				Web::Ui::ScreenLayer::SDialogShowParams &operator=(Web::Ui::ScreenLayer::SDialogShowParams &); /* compiler_generated() */
 				Web::Ui::ScreenLayer::SDialogShowParams &operator=(Web::Ui::ScreenLayer::SDialogShowParams const &); /* compiler_generated() */
-				unsigned char __pad1[4]; // 0xA4
 			};
 			static_assert(sizeof(Web::Ui::ScreenLayer::SDialogShowParams) == 168, "Invalid Web::Ui::ScreenLayer::SDialogShowParams size");
+			static_assert(offsetof(Web::Ui::ScreenLayer::SDialogShowParams, customBody) == 0x48, "Web::Ui::ScreenLayer::SDialogShowParams::customBody moved when its reconstructed padding was removed");
 		}
 	}
 }

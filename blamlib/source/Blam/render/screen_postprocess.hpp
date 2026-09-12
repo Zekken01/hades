@@ -37,7 +37,6 @@ struct c_screen_postprocess
 	struct s_settings
 	{
 		char field_0; // 0x0
-		unsigned char __pad0[3]; // 0x1
 		__int32 field_4; // 0x4
 		__int32 flags; // 0x8
 		__int32 field_C; // 0xC
@@ -45,12 +44,10 @@ struct c_screen_postprocess
 		__int32 field_14; // 0x14
 		__int32 field_18; // 0x18
 		char field_1C; // 0x1C
-		unsigned char __pad1[3]; // 0x1D
 		__int32 field_20; // 0x20
 		float field_24; // 0x24
 		char field_28; // 0x28
 		bool field_29; // 0x29
-		unsigned char __pad2[2]; // 0x2A
 		float field_2C; // 0x2C
 		__int32 field_30; // 0x30
 		char field_34; // 0x34
@@ -59,6 +56,9 @@ struct c_screen_postprocess
 		char field_37; // 0x37
 	};
 	static_assert(sizeof(s_settings) == 56, "Invalid s_settings size");
+	static_assert(offsetof(s_settings, field_4) == 0x4, "s_settings::field_4 moved when its reconstructed padding was removed");
+	static_assert(offsetof(s_settings, field_20) == 0x20, "s_settings::field_20 moved when its reconstructed padding was removed");
+	static_assert(offsetof(s_settings, field_2C) == 0x2C, "s_settings::field_2C moved when its reconstructed padding was removed");
 	struct s_smaa_globals
 	{
 		public:
@@ -136,22 +136,22 @@ _inline bool c_screen_postprocess::s_smaa_globals::init_surface(IDirect3DDevice9
 	return __result;
 }
 
-_extern void _sub_10A22100(c_screen_postprocess::s_smaa_globals *const);
 _inline void c_screen_postprocess::s_smaa_globals::set_reinit() // 0x10A22100
 {
-	mangled_x86(MANGLED_TODO, "?set_reinit@s_smaa_globals@c_screen_postprocess@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_reinit@s_smaa_globals@c_screen_postprocess@@QAEXXZ");
 	// c_screen_postprocess::s_smaa_globals *const this;
-	todo("implement");
-	_sub_10A22100(this);
+
+	valid = false;
+	reinit_next_frame = true;
 }
 
-_extern void _sub_10F11660(c_screen_postprocess::s_smaa_globals *const, long, long);
 _inline void c_screen_postprocess::s_smaa_globals::set_resolution(long res_x, long res_y) // 0x10F11660
 {
-	mangled_x86(MANGLED_TODO, "?set_resolution@s_smaa_globals@c_screen_postprocess@@QAEXJJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_resolution@s_smaa_globals@c_screen_postprocess@@QAEXJJ@Z");
 	// long res_y;
-	todo("implement");
-	_sub_10F11660(this, res_x, res_y);
+
+	this->res_x = res_x;
+	this->res_y = res_y;
 }
 
 _extern bool _sub_10F11290(c_screen_postprocess::s_smaa_globals *const, IDirect3DDevice9 *);

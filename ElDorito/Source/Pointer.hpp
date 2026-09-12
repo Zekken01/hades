@@ -52,7 +52,7 @@ public:
 	_inline void WriteJump(void *newFunction, __int32 jmpFlags) const;
 	_inline void Read(void *Dest, unsigned __int32 size) const;
 	static Pointer const Base(std::string const &, unsigned __int32, unsigned __int32);
-	static _inline Pointer const Base(unsigned __int32 Offset, unsigned __int32 Stride);
+	static _inline Pointer const Base(unsigned __int32 Offset = 0, unsigned __int32 Stride = 1);  /* hades: default from 0.6.1 */
 	static Pointer const Rebase(std::string const &, unsigned __int32);
 	static Pointer const Rebase(unsigned __int32);
 private:
@@ -81,32 +81,28 @@ extern _inline void *GetBasePointer();
 
 /* ---------- public code */
 
-_extern void *_sub_10968590();
 _inline void *GetBasePointer() // 0x10968590
 {
-	mangled_x86(MANGLED_TODO, "?GetBasePointer@@YAPAXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetBasePointer@@YAPAXXZ");
 	// procedure flags: nofpo
-	todo("implement");
-	void * __result = _sub_10968590();
-	return __result;
+
+	return GetModuleBase();
 }
 
-extern Pointer* _sub_10698D80(Pointer *const, void *);
 _inline Pointer::Pointer(void *Pointer) // 0x10698D80
 {
-	mangled_x86(MANGLED_TODO, "??0Pointer@@QAE@PAX@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0Pointer@@QAE@PAX@Z");
 	// void *Pointer;
-	todo("implement");
-	_sub_10698D80(this, Pointer);
+
+	_Pointer = Pointer;
 }
 
-extern Pointer* _sub_10698D50(Pointer *const, unsigned __int32);
 _inline Pointer::Pointer(unsigned __int32 Offset) // 0x10698D50
 {
-	mangled_x86(MANGLED_TODO, "??0Pointer@@QAE@I@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0Pointer@@QAE@I@Z");
 	// unsigned __int32 Offset;
-	todo("implement");
-	_sub_10698D50(this, Offset);
+
+	_Pointer = (void *)Offset;
 }
 
 _inline Pointer::~Pointer() // 0x10699000
@@ -115,33 +111,32 @@ _inline Pointer::~Pointer() // 0x10699000
 	// Pointer *const this;
 }
 
-extern Pointer _sub_10992670(Pointer const *const, __int32 const);
 _inline Pointer Pointer::operator[](__int32 const Offset) const // 0x10992670
 {
-	mangled_x86(MANGLED_TODO, "??APointer@@QBE?AV0@H@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??APointer@@QBE?AV0@H@Z");
 	// __int32 const Offset;
-	todo("implement");
-	Pointer __result = _sub_10992670((Pointer const *)this, Offset);
-	return __result;
+
+	if (_Pointer != nullptr && (char *)_Pointer + Offset != nullptr)
+	{
+		return Pointer(*(unsigned int *)((char *)_Pointer + Offset));
+	}
+	return Pointer(nullptr);
 }
 
-extern Pointer _sub_10699490(Pointer const *const, unsigned __int32, unsigned __int32);
 _inline Pointer Pointer::operator()(unsigned __int32 Offset, unsigned __int32 Stride) const // 0x10699490
 {
-	mangled_x86(MANGLED_TODO, "??RPointer@@QBE?AV0@II@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??RPointer@@QBE?AV0@II@Z");
 	// unsigned __int32 Stride;
-	todo("implement");
-	Pointer __result = _sub_10699490((Pointer const *)this, Offset, Stride);
-	return __result;
+
+	return Pointer((void *)((char *)_Pointer + Offset * Stride));
 }
 
-_extern void _sub_10A90100(Pointer *const, Pointer);
 _inline void Pointer::operator=(Pointer Pointer) // 0x10A90100
 {
-	mangled_x86(MANGLED_TODO, "??4Pointer@@QAEXV0@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??4Pointer@@QAEXV0@@Z");
 	// Pointer Pointer;
-	todo("implement");
-	_sub_10A90100(this, Pointer);
+
+	_Pointer = Pointer._Pointer;
 }
 
 _inline Pointer::operator void *() const // 0x108E4020
@@ -248,13 +243,12 @@ _inline void Pointer::WriteJump(void *newFunction, __int32 jmpFlags) const // 0x
 	_sub_1069A480((Pointer const *)this, newFunction, jmpFlags);
 }
 
-_extern void _sub_10A29540(Pointer const *const, void *, unsigned __int32);
 _inline void Pointer::Read(void *Dest, unsigned __int32 size) const // 0x10A29540
 {
-	mangled_x86(MANGLED_TODO, "?Read@Pointer@@QBEXPAXI@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Read@Pointer@@QBEXPAXI@Z");
 	// unsigned __int32 size;
-	todo("implement");
-	_sub_10A29540((Pointer const *)this, Dest, size);
+
+	memcpy(Dest, _Pointer, size);
 }
 
 extern Pointer const _sub_10699CA0(unsigned __int32, unsigned __int32);

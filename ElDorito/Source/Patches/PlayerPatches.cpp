@@ -119,6 +119,8 @@ namespace Blam
 
 /* ---------- prototypes */
 
+s_player_datum *player_get(unsigned long player_index);  // hades: added for 0X108DC4C0
+
 namespace Patches
 {
 	namespace Player
@@ -138,7 +140,7 @@ void player_set_unit_index_hook(long player_index, long unit_index);
 bool player_in_multiplayer_object_boundary(long player_index, s_multiplayer_object_boundary_geometry_data const *geometry_data);
 void game_engine_player_died_hook(long player_index);
 void game_engine_player_update_sub_hook(long player_index, long unit_index);
-void c_game_engine__build_player_baseline(void *thisptr, void *unused, __int32 a1, __int32 a2, s_simulation_game_engine_player_state_data *state_data);
+void __fastcall c_game_engine__build_player_baseline(void *thisptr, void *unused, __int32 a1, __int32 a2, s_simulation_game_engine_player_state_data *state_data);
 void player_handle_coop_respawn(long player_index);
 void player_update_after_game_hook(long player_index);
 
@@ -179,7 +181,6 @@ namespace Patches
 	namespace Network
 	{
 		// mangled_x86(MANGLED_DEFAULT, "??0PlayerPropertiesExtender@Network@Patches@@QAE@XZ"); no body to assert in
-		_inline PlayerPropertiesExtender::PlayerPropertiesExtender() = default; // 0x108D8C70
 
 		// mangled_x86(MANGLED_DEFAULT, "??0PlayerPropertiesExtensionBase@Network@Patches@@QAE@XZ"); no body to assert in
 		_inline PlayerPropertiesExtensionBase::PlayerPropertiesExtensionBase() = default; // 0x108D8CC0
@@ -188,13 +189,6 @@ namespace Patches
 
 namespace Player
 {
-	_inline PlayerCustomizationExtensions::~PlayerCustomizationExtensions() // 0x108D8ED0
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??1PlayerCustomizationExtensions@Player@@UAE@XZ");
-		// Player::PlayerCustomizationExtensions *const this;
-
-		compiler_generated();
-	}
 }
 
 /* ---------- private code */
@@ -228,14 +222,14 @@ float s3d_player_get_gameplay_modifier_real(s_player_datum *playerDatum, long in
 	return __result;
 }
 
-_extern bool _sub_108DB000(long);
 bool BeforePlayerSpawn(long playerIndex) // 0x108DB000
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?BeforePlayerSpawn@@YA_NJ@Z");
 	// `anonymous-namespace'::BeforePlayerSpawn
 	// long playerIndex;
-	todo("implement");
-	bool __result = _sub_108DB000(playerIndex);
-	return __result;
+
+	::Player::CPlayerCharacterSystem::AssignPlayerCharacter(playerIndex);
+	return true;
 }
 
 void AfterPlayerSpawn(long playerIndex) // 0x108D93E0
@@ -246,40 +240,57 @@ void AfterPlayerSpawn(long playerIndex) // 0x108D93E0
 	// long playerIndex;
 }
 
-_extern bool _sub_108DC5F0(long);
 bool player_spawn_hook(long player_index) // 0x108DC5F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?player_spawn_hook@@YA_NJ@Z");
 	// `anonymous-namespace'::player_spawn_hook
 	// long player_index;
 	// bool (*const player_spawn)(long, real_point3d *, float *);
 	// bool did_spawn;
 	// function call : bool (*const)(long, real_point3d *, float *)
-	todo("implement");
-	bool __result = _sub_108DC5F0(player_index);
-	return __result;
+
+	bool (__cdecl *const player_spawn)(long, int, int) = (bool(__cdecl *const)(long, int, int))0x53ce60;
+
+	if (!BeforePlayerSpawn(player_index))
+	{
+		return false;
+	}
+	bool did_spawn = player_spawn(player_index, 0, 0);
+	if (did_spawn)
+	{
+		AfterPlayerSpawn(player_index);
+	}
+	return did_spawn;
 }
 
-_extern void _sub_108DC4C0(long, bool, bool, void *);
 void player_reset_hook(long player_index, bool a2, bool a3, void *data) // 0x108DC4C0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?player_reset_hook@@YAXJ_N0PAX@Z");
 	// `anonymous-namespace'::player_reset_hook
 	// void *data;
 	// s_player_datum *player;
 	// constexpr void (*const `player_reset_hook'::`2'::player_reset)(long, bool, bool, void *); // constant == 5488752
 	// function call : void (*const)(long, bool, bool, void *)
-	todo("implement");
-	_sub_108DC4C0(player_index, a2, a3, data);
+
+	((void(__cdecl *)(long, bool, bool, void *))0x53c070)(player_index, a2, a3, data);
+	s_player_datum *player = player_get(player_index);
+	player->hsc_forced_character_type_index = -1;
+	player->character_type_index = -1;
+	player->previous_character_type_index = -1;
 }
 
-_extern void _sub_108DC570(long, long);
 void player_set_unit_index_hook(long player_index, long unit_index) // 0x108DC570
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?player_set_unit_index_hook@@YAXJJ@Z");
 	// `anonymous-namespace'::player_set_unit_index_hook
 	// long unit_index;
 	// void (*const player_mapping_set_player_unit)(long, long);
 	// function call : void (*const)(long, long)
-	todo("implement");
-	_sub_108DC570(player_index, unit_index);
+
+	void (__cdecl *const player_mapping_set_player_unit)(long, long) = (void(__cdecl *const)(long, long))0x58a2b0;
+
+	player_mapping_set_player_unit(player_index, unit_index);
+	::Player::CPlayerCharacterSystem::PlayerCharacterEditor(player_index);
 }
 
 _extern bool _sub_108DC300(long, s_multiplayer_object_boundary_geometry_data const *);
@@ -333,7 +344,7 @@ void game_engine_player_update_sub_hook(long player_index, long unit_index) // 0
 }
 
 _extern void _sub_108DBCE0(void *, void *, __int32, __int32, s_simulation_game_engine_player_state_data *);
-void c_game_engine__build_player_baseline(void *thisptr, void *unused, __int32 a1, __int32 a2, s_simulation_game_engine_player_state_data *state_data) // 0x108DBCE0
+void __fastcall c_game_engine__build_player_baseline(void *thisptr, void *unused, __int32 a1, __int32 a2, s_simulation_game_engine_player_state_data *state_data) // 0x108DBCE0
 {
 	// `anonymous-namespace'::c_game_engine__build_player_baseline
 	// s_simulation_game_engine_player_state_data *state_data;

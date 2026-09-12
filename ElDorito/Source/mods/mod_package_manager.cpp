@@ -194,69 +194,65 @@ void c_mod_package_manager::update() // 0x108AB190
 	_sub_108AB190(this);
 }
 
-_extern bool _sub_108A9740(c_mod_package_manager const *const);
 bool c_mod_package_manager::enumeration_in_progress() const // 0x108A9740
 {
-	mangled_x86(MANGLED_TODO, "?enumeration_in_progress@c_mod_package_manager@@QBE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?enumeration_in_progress@c_mod_package_manager@@QBE_NXZ");
 	// c_mod_package_manager const *const this;
-	todo("implement");
-	bool __result = _sub_108A9740((c_mod_package_manager const *)this);
-	return __result;
+
+	return m_enumeraton_in_progress;
 }
 
-_extern bool _sub_108A9790(c_mod_package_manager const *const);
 bool c_mod_package_manager::enumeration_requested_or_in_progress() const // 0x108A9790
 {
-	mangled_x86(MANGLED_TODO, "?enumeration_requested_or_in_progress@c_mod_package_manager@@QBE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?enumeration_requested_or_in_progress@c_mod_package_manager@@QBE_NXZ");
 	// c_mod_package_manager const *const this;
-	todo("implement");
-	bool __result = _sub_108A9790((c_mod_package_manager const *)this);
-	return __result;
+
+	return m_enumeration_requested || m_enumeraton_in_progress;
 }
 
-_extern void _sub_108A7FB0(c_mod_package_manager *const);
 void c_mod_package_manager::begin_enumerate() // 0x108A7FB0
 {
-	mangled_x86(MANGLED_TODO, "?begin_enumerate@c_mod_package_manager@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?begin_enumerate@c_mod_package_manager@@QAEXXZ");
 	// c_mod_package_manager *const this;
-	todo("implement");
-	_sub_108A7FB0(this);
+
+	m_enumeration_requested = true;
 }
 
-_extern void _sub_108A89D0(c_mod_package_manager *const);
 void c_mod_package_manager::enumerate_blocking() // 0x108A89D0
 {
-	mangled_x86(MANGLED_TODO, "?enumerate_blocking@c_mod_package_manager@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?enumerate_blocking@c_mod_package_manager@@QAEXXZ");
 	// c_mod_package_manager *const this;
-	todo("implement");
-	_sub_108A89D0(this);
+
+	enumerate_async_callback();
 }
 
-_extern void _sub_108A88E0(c_mod_package_manager *const);
 void c_mod_package_manager::enumerate_async_callback() // 0x108A88E0
 {
-	mangled_x86(MANGLED_TODO, "?enumerate_async_callback@c_mod_package_manager@@AAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?enumerate_async_callback@c_mod_package_manager@@AAEXXZ");
 	// static ...; // 0x108A8990
 	// static ...; // 0x108A8984
 	// static ...; // 0x108A897C
 	// c_mod_package_manager *const this;
 	// std::unique_lock<std::mutex> lock;
-	todo("implement");
-	_sub_108A88E0(this);
+
+	std::unique_lock<std::mutex> lock(m_mutex);
+
+	enumerate_blocking_internal();
 }
 
-_extern long long _sub_108A98F0(_FILETIME const &);
 long long filetime_to_timet(_FILETIME const &ft) // 0x108A98F0
 {
-	mangled_x86(MANGLED_TODO, "?filetime_to_timet@@YA_JABU_FILETIME@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?filetime_to_timet@@YA_JABU_FILETIME@@@Z");
 	// static ...; // 0x108A9974
 	// static ...; // 0x108A9968
 	// static ...; // 0x108A9960
 	// _FILETIME const &ft;
 	// _ULARGE_INTEGER ull;
-	todo("implement");
-	long long __result = _sub_108A98F0(ft);
-	return __result;
+
+	ULARGE_INTEGER ull;
+	ull.LowPart = ft.dwLowDateTime;
+	ull.HighPart = ft.dwHighDateTime;
+	return ull.QuadPart / 10000000ULL - 11644473600ULL;
 }
 
 _extern void _sub_108A8A20(c_mod_package_manager *const);
@@ -391,14 +387,18 @@ _inline c_mod_package_manager::s_entry::s_entry(c_mod_package_manager::s_entry &
 // mangled_x86(MANGLED_DEFAULT, "??0s_entry@c_mod_package_manager@@QAE@ABU01@@Z"); no body to assert in
 _inline c_mod_package_manager::s_entry::s_entry(c_mod_package_manager::s_entry const &__that) = default; // 0x108A4F10
 
-_extern bool _sub_108AA7F0(c_mod_package_manager::c_threadsafe_iterator *const);
 bool c_mod_package_manager::c_threadsafe_iterator::next() // 0x108AA7F0
 {
-	mangled_x86(MANGLED_TODO, "?next@c_threadsafe_iterator@c_mod_package_manager@@QAE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?next@c_threadsafe_iterator@c_mod_package_manager@@QAE_NXZ");
 	// c_mod_package_manager::c_threadsafe_iterator *const this;
-	todo("implement");
-	bool __result = _sub_108AA7F0(this);
-	return __result;
+
+	if (++m_index >= (long)m_modManager.m_entries.size())
+	{
+		return false;
+	}
+
+	m_entry = &m_modManager.m_entries[m_index];
+	return true;
 }
 
 _extern bool _sub_108A83E0(c_mod_package_manager *const, unsigned char const (&)[20]);
@@ -471,14 +471,12 @@ void c_mod_package_manager::set_package_signature_verified(s_mod_package_id cons
 	_sub_108AABD0(this, id, verified);
 }
 
-_extern __int32 _sub_108A9E50(c_mod_package_manager const *const);
 __int32 c_mod_package_manager::get_enumeration_number() const // 0x108A9E50
 {
-	mangled_x86(MANGLED_TODO, "?get_enumeration_number@c_mod_package_manager@@QBEHXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_enumeration_number@c_mod_package_manager@@QBEHXZ");
 	// c_mod_package_manager const *const this;
-	todo("implement");
-	__int32 __result = _sub_108A9E50((c_mod_package_manager const *)this);
-	return __result;
+
+	return m_enumeration_number.load();
 }
 
 _extern __int32 _sub_108A9D60(c_mod_package_manager *const, s_mod_package_id const &);

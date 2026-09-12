@@ -142,14 +142,12 @@ namespace Http
 	// mangled_x86(MANGLED_DEFAULT, "??0WinHttpErrorCategory@Http@@QAE@XZ"); no body to assert in
 	_inline WinHttpErrorCategory::WinHttpErrorCategory() = default; // 0x10807090
 
-	_extern bool _sub_108094E0(Http::CWinHttpRequest const *const);
 	bool CWinHttpRequest::IsComplete() const // 0x108094E0
 	{
-		mangled_x86(MANGLED_TODO, "?IsComplete@CWinHttpRequest@Http@@UBE_NXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?IsComplete@CWinHttpRequest@Http@@UBE_NXZ");
 		// Http::CWinHttpRequest const *const this;
-		todo("implement");
-		bool __result = _sub_108094E0((Http::CWinHttpRequest const *)this);
-		return __result;
+
+		return m_bIsCompleted;
 	}
 
 	// mangled_x86(MANGLED_DEFAULT, "??1CHttpHeaders@Http@@QAE@XZ"); no body to assert in
@@ -168,24 +166,8 @@ namespace Http
 		return __result;
 	}
 
-	_inline CWinHttpRequest::~CWinHttpRequest() // 0x108075C0
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??1CWinHttpRequest@Http@@UAE@XZ");
-		// Http::CWinHttpRequest *const this;
-
-		compiler_generated();
-	}
-
 	// mangled_x86(MANGLED_DEFAULT, "??1CWinHttpResponse@Http@@QAE@XZ"); no body to assert in
 	_inline CWinHttpResponse::~CWinHttpResponse() = default; // 0x108076C0
-
-	_inline WinHttpErrorCategory::~WinHttpErrorCategory() // 0x10807760
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??1WinHttpErrorCategory@Http@@UAE@XZ");
-		// Http::WinHttpErrorCategory *const this;
-
-		compiler_generated();
-	}
 
 	// mangled_x86(MANGLED_DEFAULT, "??4CHttpHeaders@Http@@QAEAAV01@ABV01@@Z"); no body to assert in
 	_inline Http::CHttpHeaders &CHttpHeaders::operator=(Http::CHttpHeaders const &__that) = default; // 0x10807C10
@@ -208,13 +190,12 @@ namespace Http
 		_sub_1080A840(this, url);
 	}
 
-	_extern void _sub_1080A510(Http::CWinHttpRequest *const, __int32);
 	void CWinHttpRequest::SetMaxRedirects(__int32 count) // 0x1080A510
 	{
-		mangled_x86(MANGLED_TODO, "?SetMaxRedirects@CWinHttpRequest@Http@@UAEXH@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?SetMaxRedirects@CWinHttpRequest@Http@@UAEXH@Z");
 		// __int32 count;
-		todo("implement");
-		_sub_1080A510(this, count);
+
+		m_maxRedirects = count;
 	}
 
 	_extern void _sub_1080A3F0(Http::CWinHttpRequest *const, std::string &);
@@ -244,13 +225,12 @@ namespace Http
 		_sub_1080A720(this, receiver);
 	}
 
-	_extern void _sub_1080A6B0(Http::CWinHttpRequest *const, unsigned __int32);
 	void CWinHttpRequest::SetReceiveBufferSize(unsigned __int32 size) // 0x1080A6B0
 	{
-		mangled_x86(MANGLED_TODO, "?SetReceiveBufferSize@CWinHttpRequest@Http@@UAEXI@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?SetReceiveBufferSize@CWinHttpRequest@Http@@UAEXI@Z");
 		// unsigned __int32 size;
-		todo("implement");
-		_sub_1080A6B0(this, size);
+
+		m_receiveBuffer.resize(size);
 	}
 
 	_extern bool _sub_10809A50(Http::CWinHttpRequest *const);
@@ -284,14 +264,13 @@ namespace Http
 		return __result;
 	}
 
-	_extern bool _sub_108099F0(Http::CWinHttpRequest *const);
 	bool CWinHttpRequest::Send() // 0x108099F0
 	{
-		mangled_x86(MANGLED_TODO, "?Send@CWinHttpRequest@Http@@UAE_NXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Send@CWinHttpRequest@Http@@UAE_NXZ");
 		// Http::CWinHttpRequest *const this;
-		todo("implement");
-		bool __result = _sub_108099F0(this);
-		return __result;
+
+		m_redirectCount = 0;
+		return SendRequestInternal();
 	}
 
 	_extern void _sub_1080A790(Http::CWinHttpRequest *const);
@@ -308,13 +287,12 @@ namespace Http
 		_sub_1080A790(this);
 	}
 
-	_extern void _sub_10808560(Http::CWinHttpRequest *const);
 	void CWinHttpRequest::Cancel() // 0x10808560
 	{
-		mangled_x86(MANGLED_TODO, "?Cancel@CWinHttpRequest@Http@@UAEXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Cancel@CWinHttpRequest@Http@@UAEXXZ");
 		// Http::CWinHttpRequest *const this;
-		todo("implement");
-		_sub_10808560(this);
+
+		FinishRequest(false);
 	}
 }
 
@@ -377,13 +355,23 @@ namespace Http
 		_sub_10808B90(this);
 	}
 
-	_extern void _sub_10809130(Http::CWinHttpRequest *const, unsigned __int32);
 	void CWinHttpRequest::HandleReadComplete(unsigned __int32 bytesRead) // 0x10809130
 	{
-		mangled_x86(MANGLED_TODO, "?HandleReadComplete@CWinHttpRequest@Http@@QAEXI@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?HandleReadComplete@CWinHttpRequest@Http@@QAEXI@Z");
 		// unsigned __int32 bytesRead;
-		todo("implement");
-		_sub_10809130(this, bytesRead);
+
+		if (!m_contentReceiver(m_receiveBuffer.data(), bytesRead))
+		{
+			FinishRequest(false);
+		}
+		else if (bytesRead == 0)
+		{
+			FinishRequest(true);
+		}
+		else
+		{
+			ReadNext();
+		}
 	}
 
 	_extern void _sub_108091F0(Http::CWinHttpRequest *const, unsigned __int32);

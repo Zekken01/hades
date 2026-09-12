@@ -149,16 +149,22 @@ bool player_can_assassinate_object_hook(long player_index, long object_index) //
 	return __result;
 }
 
-_extern bool _sub_10A29D90(long);
 bool object_can_be_melee_instant_killed_hook(long object_index) // 0x10A29D90
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?object_can_be_melee_instant_killed_hook@@YA_NJ@Z");
 	// `anonymous-namespace'::object_can_be_melee_instant_killed_hook
 	// long object_index;
 	// bool (*const object_can_be_melee_instant_killed)(long);
 	// function call : bool (*const)(long)
-	todo("implement");
-	bool __result = _sub_10A29D90(object_index);
-	return __result;
+
+	bool (__cdecl *const object_can_be_melee_instant_killed)(long) = (bool(__cdecl *const)(long))0xb2a780;
+
+	if (!object_can_be_melee_instant_killed(object_index))
+	{
+		return false;
+	}
+
+	return !object_has_invincibility(object_index);
 }
 
 _extern bool _sub_10A29CA0(long, void *, void *, bool, bool, float, bool, bool);

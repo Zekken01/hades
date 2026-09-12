@@ -56,7 +56,6 @@ struct s_object_cached_render_state_datum :
 	bool valid; // 0x2
 	bool flag1; // 0x3
 	bool flag2; // 0x4
-	unsigned char __pad0[3]; // 0x5
 	long object_index; // 0x8
 	long last_update_frame_index; // 0xC
 	long last_frame_index; // 0x10
@@ -66,6 +65,7 @@ struct s_object_cached_render_state_datum :
 	unsigned char __pad1[68]; // 0x494
 };
 static_assert(sizeof(s_object_cached_render_state_datum) == 1240, "Invalid s_object_cached_render_state_datum size");
+static_assert(offsetof(s_object_cached_render_state_datum, object_index) == 0x8, "s_object_cached_render_state_datum::object_index moved when its reconstructed padding was removed");
 
 #pragma pack(push, 4)
 struct s_render_first_person_model

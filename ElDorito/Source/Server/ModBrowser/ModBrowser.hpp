@@ -35,7 +35,7 @@ private:
 	bool ShouldDownloadPackage(SModBrowserState::SRequestedMod const &package);
 	std::shared_ptr<CModBrowserStateManager> m_stateManager; // 0x0
 public:
-	_inline CModBrowserManager(); /* compiler_generated() */
+	_inline CModBrowserManager() = default; /* compiler_generated() */
 	~CModBrowserManager(); /* compiler_generated() */
 };
 static_assert(sizeof(CModBrowserManager) == 8, "Invalid CModBrowserManager size");

@@ -265,25 +265,24 @@ bool font_package_begin_load_package(char const *filename) // 0x10889120
 	return __result;
 }
 
-_extern bool _sub_108898F0(bool);
 bool fonts_begin_loading_internal(bool blocking) // 0x108898F0
 {
-	mangled_x86(MANGLED_TODO, "?fonts_begin_loading_internal@@YA_N_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?fonts_begin_loading_internal@@YA_N_N@Z");
 	// bool blocking;
 	// bool (*const font_load)(s_font_loading_state *, long, char const *, bool);
 	// function call : bool (*const)(s_font_loading_state *, long, char const *, bool)
-	todo("implement");
-	bool __result = _sub_108898F0(blocking);
-	return __result;
+
+	bool (__cdecl *const F)(s_font_loading_state *, int, const char *, bool) = (bool(__cdecl *const)(s_font_loading_state *, int, const char *, bool))0x509480;
+
+	return F(g_font_loading_state, -1, g_font_package_file_path.get_string(), blocking);
 }
 
-_extern void _sub_108898A0();
 void font_package_set_defaults() // 0x108898A0
 {
-	mangled_x86(MANGLED_TODO, "?font_package_set_defaults@@YAXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?font_package_set_defaults@@YAXXZ");
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_108898A0();
+
+	g_font_package_file_path.set("font_package.bin");
 }
 
 _extern bool _sub_10888DC0(s_font_loading_state *, unsigned long, void *, s_font_package_file_header **);
@@ -387,14 +386,13 @@ extern "C" bool font_get_package_file_handle(s_file_handle *out_handle) // 0x108
 	return __result;
 }
 
-_extern bool _sub_10888820();
 extern "C" bool font_in_emergency_mode() // 0x10888820
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "_font_in_emergency_mode");
 	// font_in_emergency_mode
 	// procedure flags: nofpo
-	todo("implement");
-	bool __result = _sub_10888820();
-	return __result;
+
+	return *(bool *)0x22b7fae;
 }
 
 _extern bool _sub_108899F0(s_font_package_file_header const *);

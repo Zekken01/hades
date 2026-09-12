@@ -37,22 +37,23 @@ extern unsigned long (*const crc_checksum_buffer)(unsigned long, void const *, l
 
 /* ---------- public code */
 
-_extern void _sub_10EF6F30(char const *, char const *, long);
 void assert_handle(char const *info, char const *filepath, long line) // 0x10EF6F30
 {
-	mangled_x86(MANGLED_TODO, "?assert_handle@@YAXPBD0J@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?assert_handle@@YAXPBD0J@Z");
 	// long line;
-	todo("implement");
-	_sub_10EF6F30(info, filepath, line);
+
+	fprintf(stderr, "assert failed: (%s) %s:%d\n", info, filepath, line);
 }
 
-_extern void _sub_10EF75A0(char const *, ...);
 void trace_handle(char const *format, ...) // 0x10EF75A0
 {
-	mangled_x86(MANGLED_TODO, "?trace_handle@@YAXPBDZZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?trace_handle@@YAXPBDZZ");
 	// char *va;
-	todo("implement");
-	_sub_10EF75A0(format);
+
+	va_list va;
+	va_start(va, format);
+	vprintf(format, va);
+	va_end(va);
 }
 
 _extern void _sub_10EF7410(char const *, char const *, __int32, bool);
@@ -75,15 +76,13 @@ void system_exit(__int32 code) // 0x10EF7500
 	_sub_10EF7500(code);
 }
 
-_extern unsigned long _sub_10EF7540();
 unsigned long system_milliseconds() // 0x10EF7540
 {
-	mangled_x86(MANGLED_TODO, "?system_milliseconds@@YAKXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?system_milliseconds@@YAKXZ");
 	// procedure flags: nofpo
 	// function call : unsigned long (*)()
-	todo("implement");
-	unsigned long __result = _sub_10EF7540();
-	return __result;
+
+	return ((unsigned long(__cdecl *const)())0x4ec110)();
 }
 
 _extern char *_sub_10EF70C0(char *, unsigned long);
@@ -100,15 +99,25 @@ char *csstrnlwr(char *string, unsigned long size) // 0x10EF70C0
 	return __result;
 }
 
-_extern char *_sub_10EF7170(char *, char const *, unsigned long);
 char *csstrnzcpy(char *to, char const *from, unsigned long size) // 0x10EF7170
 {
-	mangled_x86(MANGLED_TODO, "?csstrnzcpy@@YAPADPADPBDK@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?csstrnzcpy@@YAPADPADPBDK@Z");
 	// unsigned long size;
 	// unsigned __int32 copied;
-	todo("implement");
-	char * __result = _sub_10EF7170(to, from, size);
-	return __result;
+
+	unsigned long copied = strnlen(from, size);
+
+	strncpy_s(to, size, from, 0xFFFFFFFF);
+	if (copied >= size)
+	{
+		to[size - 1] = 0;
+	}
+	else
+	{
+		memset(&to[copied], 0, size - copied);
+	}
+
+	return to;
 }
 
 _extern wchar_t *_sub_10EF7230(char const *, wchar_t *, __int32 const);
@@ -137,34 +146,28 @@ char *cswcstostr(wchar_t const *in, char *out, __int32 const length) // 0x10EF73
 	return __result;
 }
 
-_extern void *_sub_10EF7060(void *, unsigned char, unsigned long);
 void *csmemset(void *buffer, unsigned char value, unsigned long size) // 0x10EF7060
 {
-	mangled_x86(MANGLED_TODO, "?csmemset@@YAPAXPAXEK@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?csmemset@@YAPAXPAXEK@Z");
 	// unsigned long size;
-	todo("implement");
-	void * __result = _sub_10EF7060(buffer, value, size);
-	return __result;
+
+	return memset(buffer, value, size);
 }
 
-_extern void *_sub_10EF6FA0(void *, void const *, unsigned long);
 void *csmemcpy(void *destination, void const *source, unsigned long size) // 0x10EF6FA0
 {
-	mangled_x86(MANGLED_TODO, "?csmemcpy@@YAPAXPAXPBXK@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?csmemcpy@@YAPAXPAXPBXK@Z");
 	// unsigned long size;
-	todo("implement");
-	void * __result = _sub_10EF6FA0(destination, source, size);
-	return __result;
+
+	return memcpy(destination, source, size);
 }
 
-_extern void *_sub_10EF7000(void *, void const *, unsigned long);
 void *csmemmove(void *destination, void const *source, unsigned long size) // 0x10EF7000
 {
-	mangled_x86(MANGLED_TODO, "?csmemmove@@YAPAXPAXPBXK@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?csmemmove@@YAPAXPAXPBXK@Z");
 	// unsigned long size;
-	todo("implement");
-	void * __result = _sub_10EF7000(destination, source, size);
-	return __result;
+
+	return memmove(destination, source, size);
 }
 
 /* ---------- private code */

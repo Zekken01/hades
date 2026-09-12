@@ -188,7 +188,6 @@ namespace Player
 	}
 
 	// mangled_x86(MANGLED_DEFAULT, "??0CPlayerCustomizationDB@Player@@QAE@XZ"); no body to assert in
-	_inline CPlayerCustomizationDB::CPlayerCustomizationDB() = default; // 0x107C95F0
 
 	// mangled_x86(MANGLED_DEFAULT, "??0SPersistentCharacterCustomization@Player@@QAE@XZ"); no body to assert in
 	_inline SPersistentCharacterCustomization::SPersistentCharacterCustomization() = default; // 0x107C96B0

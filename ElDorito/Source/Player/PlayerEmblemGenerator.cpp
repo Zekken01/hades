@@ -129,18 +129,20 @@ namespace Player
 {
 	namespace Emblems
 	{
-		extern e_emblem_color _sub_1090D570(__int32);
 		Player::Emblems::e_emblem_color HexToRgb(__int32 hexValue) // 0x1090D570
 		{
-			mangled_x86(MANGLED_TODO, "?HexToRgb@Emblems@Player@@YA?AUe_emblem_color@12@H@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?HexToRgb@Emblems@Player@@YA?AUe_emblem_color@12@H@Z");
 			// static ...; // 0x1090D5F4
 			// static ...; // 0x1090D5E8
 			// static ...; // 0x1090D5E0
 			// __int32 hexValue;
 			// Player::Emblems::e_emblem_color color;
-			todo("implement");
-			Player::Emblems::e_emblem_color __result = _sub_1090D570(hexValue);
-			return __result;
+
+			Player::Emblems::e_emblem_color color;
+			color.red = (hexValue >> 16) & 0xFF;
+			color.green = (hexValue >> 8) & 0xFF;
+			color.blue = hexValue & 0xFF;
+			return color;
 		}
 
 		_extern bool _sub_1090C790(IDirect3DDevice9 *, IDirect3DTexture9 *, IDirect3DTexture9 **);
@@ -217,34 +219,28 @@ namespace Player
 			return __result;
 		}
 
-		extern e_emblem_color _sub_1090D350(s_player_emblem_configuration const &);
 		Player::Emblems::e_emblem_color GetPrimaryColor(s_player_emblem_configuration const &config) // 0x1090D350
 		{
-			mangled_x86(MANGLED_TODO, "?GetPrimaryColor@Emblems@Player@@YA?AUe_emblem_color@12@ABUs_player_emblem_configuration@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetPrimaryColor@Emblems@Player@@YA?AUe_emblem_color@12@ABUs_player_emblem_configuration@@@Z");
 			// s_player_emblem_configuration const &config;
-			todo("implement");
-			Player::Emblems::e_emblem_color __result = _sub_1090D350(config);
-			return __result;
+
+			return config.primaryHex ? Player::Emblems::HexToRgb(config.primaryColor) : color_list[config.primaryColor];
 		}
 
-		extern e_emblem_color _sub_1090D460(s_player_emblem_configuration const &);
 		Player::Emblems::e_emblem_color GetSecondaryColor(s_player_emblem_configuration const &config) // 0x1090D460
 		{
-			mangled_x86(MANGLED_TODO, "?GetSecondaryColor@Emblems@Player@@YA?AUe_emblem_color@12@ABUs_player_emblem_configuration@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetSecondaryColor@Emblems@Player@@YA?AUe_emblem_color@12@ABUs_player_emblem_configuration@@@Z");
 			// s_player_emblem_configuration const &config;
-			todo("implement");
-			Player::Emblems::e_emblem_color __result = _sub_1090D460(config);
-			return __result;
+
+			return config.secondaryHex ? Player::Emblems::HexToRgb(config.secondaryColor) : Player::Emblems::color_list[config.secondaryColor];
 		}
 
-		extern e_emblem_color _sub_1090D240(s_player_emblem_configuration const &);
 		Player::Emblems::e_emblem_color GetBackgroundColor(s_player_emblem_configuration const &config) // 0x1090D240
 		{
-			mangled_x86(MANGLED_TODO, "?GetBackgroundColor@Emblems@Player@@YA?AUe_emblem_color@12@ABUs_player_emblem_configuration@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetBackgroundColor@Emblems@Player@@YA?AUe_emblem_color@12@ABUs_player_emblem_configuration@@@Z");
 			// s_player_emblem_configuration const &config;
-			todo("implement");
-			Player::Emblems::e_emblem_color __result = _sub_1090D240(config);
-			return __result;
+
+			return config.backgroundHex ? Player::Emblems::HexToRgb(config.backgroundColor) : Player::Emblems::color_list[config.backgroundColor];
 		}
 
 		_extern bool _sub_1090C8C0(s_player_emblem_configuration const &, IDirect3DTexture9 **, bool);

@@ -121,7 +121,7 @@ bool collision_bsp_test_surface_hook(struct collision_bsp *bsp, s_collision_mate
 real_matrix4x3 *object_compute_render_time_node_matrices_hook(long object_index, long render_model_definition_index, long unused, real_matrix4x3 *out_matrix);
 bool fast_vector_intersects_sphere_hook(real_vector3d *origin, real_vector3d *vector, real_vector3d *p, float r);
 bool object_compute_bounds_hook(long object_index);
-hkpEntity *c_havok_component__build_rigid_body(c_havok_component *thisptr, void *unused, hkpShape *shape, float allowed_penetration_depth_scale, char is_static, hkVector4 *center_of_mass_local, float friction, float restitution, hkMatrix3 *inertia_tensor, float mass, long motion_type, hkMatrix4 *transform, unsigned long collision_filter, __int32 a13, bool only_collides_with_environment, float maximum_linear_velocity, float maximum_angular_velocity);
+hkpEntity *__fastcall c_havok_component__build_rigid_body(c_havok_component *thisptr, void *unused, hkpShape *shape, float allowed_penetration_depth_scale, char is_static, hkVector4 *center_of_mass_local, float friction, float restitution, hkMatrix3 *inertia_tensor, float mass, long motion_type, hkMatrix4 *transform, unsigned long collision_filter, __int32 a13, bool only_collides_with_environment, float maximum_linear_velocity, float maximum_angular_velocity);
 
 /* ---------- globals */
 
@@ -130,6 +130,7 @@ hkpEntity *c_havok_component__build_rigid_body(c_havok_component *thisptr, void 
 namespace hades_file_local
 {
 	extern real_vector3d global_zero3d; // 0x11197984
+	extern s_globals globals; // 0x124094A0
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -185,16 +186,17 @@ bool collision_model_test_vector_hook(collision_model_instance *instance, unsign
 	return collision_model_test_vector(instance, flags, origin, vector, out_result);
 }
 
-_extern bool _sub_10917E00(struct collision_bsp *, s_collision_materials_extant_flags *, short, s_breakable_surface_set *, real_vector3d *, real_vector3d *, long, long, float, bool);
 bool collision_bsp_test_surface_hook(struct collision_bsp *bsp, s_collision_materials_extant_flags *materials_extant_flags, short breakable_surface_set_count, s_breakable_surface_set *breakable_surface_sets, real_vector3d *origin, real_vector3d *vector, long bsp_leaf_index, long plane_index, float scale, bool flag) // 0x10917E00
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?collision_bsp_test_surface_hook@@YA_NPAUcollision_bsp@@PAUs_collision_materials_extant_flags@@FPAUs_breakable_surface_set@@PAUreal_vector3d@@3JJM_N@Z");
 	// `anonymous-namespace'::collision_bsp_test_surface_hook
 	// bool flag;
 	// constexpr bool (*const `collision_bsp_test_surface_hook'::`2'::collision_bsp_test_surface)(struct collision_bsp *, s_collision_materials_extant_flags *, short, s_breakable_surface_set *, real_vector3d *, real_vector3d *, long, long, float, bool); // constant == 9927200
 	// function call : bool (*const)(struct collision_bsp *, s_collision_materials_extant_flags *, short, s_breakable_surface_set *, real_vector3d *, real_vector3d *, long, long, float, bool)
-	todo("implement");
-	bool __result = _sub_10917E00(bsp, materials_extant_flags, breakable_surface_set_count, breakable_surface_sets, origin, vector, bsp_leaf_index, plane_index, scale, flag);
-	return __result;
+
+	if (globals.valid_bsp)
+		bsp = &globals.collision_bsp;
+	return ((bool(__cdecl *)(collision_bsp *, s_collision_materials_extant_flags *, unsigned short, s_breakable_surface_set *, real_vector3d *, real_vector3d *, long, long, float, bool))0x977a20)(bsp, materials_extant_flags, breakable_surface_set_count, breakable_surface_sets, origin, vector, bsp_leaf_index, plane_index, scale, flag);
 }
 
 extern real_matrix4x3 *_sub_109181E0(long, long, long, real_matrix4x3 *);
@@ -255,7 +257,7 @@ bool object_compute_bounds_hook(long object_index) // 0x10918060
 }
 
 extern hkpEntity *_sub_10917B30(c_havok_component *, void *, hkpShape *, float, char, hkVector4 *, float, float, hkMatrix3 *, float, long, hkMatrix4 *, unsigned long, __int32, bool, float, float);
-hkpEntity *c_havok_component__build_rigid_body(c_havok_component *thisptr, void *unused, hkpShape *shape, float allowed_penetration_depth_scale, char is_static, hkVector4 *center_of_mass_local, float friction, float restitution, hkMatrix3 *inertia_tensor, float mass, long motion_type, hkMatrix4 *transform, unsigned long collision_filter, __int32 a13, bool only_collides_with_environment, float maximum_linear_velocity, float maximum_angular_velocity) // 0x10917B30
+hkpEntity *__fastcall c_havok_component__build_rigid_body(c_havok_component *thisptr, void *unused, hkpShape *shape, float allowed_penetration_depth_scale, char is_static, hkVector4 *center_of_mass_local, float friction, float restitution, hkMatrix3 *inertia_tensor, float mass, long motion_type, hkMatrix4 *transform, unsigned long collision_filter, __int32 a13, bool only_collides_with_environment, float maximum_linear_velocity, float maximum_angular_velocity) // 0x10917B30
 {
 	// `anonymous-namespace'::c_havok_component__build_rigid_body
 	// __int32 a13;

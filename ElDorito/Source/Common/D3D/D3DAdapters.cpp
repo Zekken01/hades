@@ -186,29 +186,28 @@ namespace Common
 			return __result;
 		}
 
-		_extern __int32 _sub_10687B70();
 		__int32 GetCurrentAdapterIndex() // 0x10687B70
 		{
-			mangled_x86(MANGLED_TODO, "?GetCurrentAdapterIndex@D3DAdapters@Common@@YAHXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetCurrentAdapterIndex@D3DAdapters@Common@@YAHXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			__int32 __result = _sub_10687B70();
-			return __result;
+
+			return *(__int32 *)0x50dd9c4;
 		}
 	}
 }
 
 /* ---------- private code */
 
-_extern void _sub_10687900(char const *);
 void FatalError(char const *message) // 0x10687900
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?FatalError@@YAXPBD@Z");
 	// `anonymous-namespace'::FatalError
 	// char const *message;
 	// function call : __int32 (HWND__ *, char const *, char const *, unsigned __int32)
 	// function call : void (unsigned __int32)
-	todo("implement");
-	_sub_10687900(message);
+
+	MessageBoxA(nullptr, "Error", message, 0x10);
+	ExitProcess(0xFFFFFFFF);
 }
 
 /* ---------- template instantiations */

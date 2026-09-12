@@ -84,13 +84,10 @@ namespace Patches
 {
 	namespace Network
 	{
-		_extern void _sub_10AFF880(Patches::Network::NetworkSessionListener *const);
 		_inline NetworkSessionListener::~NetworkSessionListener() // 0x10AFF880
 		{
-			mangled_x86(MANGLED_TODO, "??1NetworkSessionListener@Network@Patches@@UAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??1NetworkSessionListener@Network@Patches@@UAE@XZ");
 			// Patches::Network::NetworkSessionListener *const this;
-			todo("implement");
-			_sub_10AFF880(this);
 		}
 	}
 }

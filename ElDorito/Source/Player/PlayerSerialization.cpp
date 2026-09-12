@@ -112,13 +112,20 @@ namespace Player
 		return __result;
 	}
 
-	_extern void _sub_107F0800(Blam::BitStream *, s_player_emblem_configuration const *);
 	void player_emblem_configuration_encode(Blam::BitStream *stream, s_player_emblem_configuration const *emblem) // 0x107F0800
 	{
-		mangled_x86(MANGLED_TODO, "?player_emblem_configuration_encode@Player@@YAXPAVBitStream@Blam@@PBUs_player_emblem_configuration@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?player_emblem_configuration_encode@Player@@YAXPAVBitStream@Blam@@PBUs_player_emblem_configuration@@@Z");
 		// s_player_emblem_configuration const *emblem;
-		todo("implement");
-		_sub_107F0800(stream, emblem);
+
+		stream->Write(emblem->foregroundIndex, 16);
+		stream->Write(emblem->backgroundIndex, 16);
+		stream->Write(emblem->backgroundColor, 24);
+		stream->Write(emblem->secondaryColor, 24);
+		stream->Write(emblem->primaryColor, 24);
+		stream->WriteBool(emblem->iconEnabled);
+		stream->WriteBool(emblem->backgroundHex);
+		stream->WriteBool(emblem->secondaryHex);
+		stream->WriteBool(emblem->primaryHex);
 	}
 
 	_extern void _sub_107F0710(Blam::BitStream *, s_player_emblem_configuration *);
@@ -183,14 +190,13 @@ namespace Player
 
 /* ---------- private code */
 
-_extern bool _sub_107F0A80(long);
 _inline bool valid_team_index(long team_index) // 0x107F0A80
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?valid_team_index@@YA_NJ@Z");
 	// `anonymous-namespace'::valid_team_index
 	// long team_index;
-	todo("implement");
-	bool __result = _sub_107F0A80(team_index);
-	return __result;
+
+	return team_index >= 0 && team_index < 16;
 }
 
 /* ---------- template instantiations */

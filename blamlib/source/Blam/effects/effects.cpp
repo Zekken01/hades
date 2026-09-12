@@ -30,14 +30,12 @@ extern c_data_array<s_effect_datum> *effects_get();
 
 /* ---------- public code */
 
-extern c_data_array<s_effect_datum> *_sub_10F18840();
 c_data_array<s_effect_datum> *effects_get() // 0x10F18840
 {
-	mangled_x86(MANGLED_TODO, "?effects_get@@YAPAV?$c_data_array@Us_effect_datum@@@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?effects_get@@YAPAV?$c_data_array@Us_effect_datum@@@@XZ");
 	// procedure flags: nofpo
-	todo("implement");
-	c_data_array<s_effect_datum> * __result = _sub_10F18840();
-	return __result;
+
+	return tls_getd().effect;
 }
 
 /* ---------- private code */

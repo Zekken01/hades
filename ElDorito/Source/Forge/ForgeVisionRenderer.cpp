@@ -253,23 +253,28 @@ namespace Forge
 		_sub_10838910(windowIndex, view);
 	}
 
-	_extern long _sub_108383D0(long *);
 	long CForgeVisionRenderer::GetMaskBitmap(long *bitmapIndex) // 0x108383D0
 	{
-		mangled_x86(MANGLED_TODO, "?GetMaskBitmap@CForgeVisionRenderer@Forge@@SAJPAJ@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetMaskBitmap@CForgeVisionRenderer@Forge@@SAJPAJ@Z");
 		// long *bitmapIndex;
-		todo("implement");
-		long __result = _sub_108383D0(bitmapIndex);
-		return __result;
+
+		return -1;
 	}
 
-	_extern void _sub_10838C40(bool);
 	void CForgeVisionRenderer::SetActive(bool active) // 0x10838C40
 	{
-		mangled_x86(MANGLED_TODO, "?SetActive@CForgeVisionRenderer@Forge@@SAX_N@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?SetActive@CForgeVisionRenderer@Forge@@SAX_N@Z");
 		// bool active;
-		todo("implement");
-		_sub_10838C40(active);
+
+		if (m_bActive != active)
+		{
+			if (active)
+			{
+				OnActivate();
+			}
+
+			m_bActive = active;
+		}
 	}
 
 	_extern void _sub_108387E0();

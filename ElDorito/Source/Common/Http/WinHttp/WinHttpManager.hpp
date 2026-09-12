@@ -75,14 +75,12 @@ namespace Http
 		return __result;
 	}
 
-	_extern void *_sub_10808B40(Http::CWinHttpManager *const);
 	_inline void *CWinHttpManager::GetSessionHandle() // 0x10808B40
 	{
-		mangled_x86(MANGLED_TODO, "?GetSessionHandle@CWinHttpManager@Http@@QAEPAXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetSessionHandle@CWinHttpManager@Http@@QAEPAXXZ");
 		// Http::CWinHttpManager *const this;
-		todo("implement");
-		void * __result = _sub_10808B40(this);
-		return __result;
+
+		return m_sessHandle.get();
 	}
 }
 

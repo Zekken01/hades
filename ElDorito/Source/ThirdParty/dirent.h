@@ -23,12 +23,12 @@ struct _wdirent
 {
 	long d_ino; // 0x0
 	unsigned short d_reclen; // 0x4
-	unsigned char __pad0[2]; // 0x6
 	unsigned __int32 d_namlen; // 0x8
 	__int32 d_type; // 0xC
 	wchar_t d_name[260]; // 0x10
 };
 static_assert(sizeof(_wdirent) == 536, "Invalid _wdirent size");
+static_assert(offsetof(_wdirent, d_namlen) == 0x8, "_wdirent::d_namlen moved when its reconstructed padding was removed");
 
 #pragma pack(push, 4)
 struct _WDIR

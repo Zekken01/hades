@@ -51,42 +51,36 @@ using namespace ::Utils;
 
 /* ---------- public code */
 
-_extern bool _sub_10862920(CForgeUndoManager *const);
 bool CForgeUndoManager::CanUndo() // 0x10862920
 {
-	mangled_x86(MANGLED_TODO, "?CanUndo@CForgeUndoManager@@QAE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CanUndo@CForgeUndoManager@@QAE_NXZ");
 	// CForgeUndoManager *const this;
-	todo("implement");
-	bool __result = _sub_10862920(this);
-	return __result;
+
+	return m_undoStack.size() > 0;
 }
 
-_extern bool _sub_108628A0(CForgeUndoManager *const);
 bool CForgeUndoManager::CanRedo() // 0x108628A0
 {
-	mangled_x86(MANGLED_TODO, "?CanRedo@CForgeUndoManager@@QAE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CanRedo@CForgeUndoManager@@QAE_NXZ");
 	// CForgeUndoManager *const this;
-	todo("implement");
-	bool __result = _sub_108628A0(this);
-	return __result;
+
+	return m_redoStack.size() > 0;
 }
 
-_extern void _sub_10862EE0(CForgeUndoManager *const);
 void CForgeUndoManager::RequestUndo() // 0x10862EE0
 {
-	mangled_x86(MANGLED_TODO, "?RequestUndo@CForgeUndoManager@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?RequestUndo@CForgeUndoManager@@QAEXXZ");
 	// CForgeUndoManager *const this;
-	todo("implement");
-	_sub_10862EE0(this);
+
+	m_undoRequested = true;
 }
 
-_extern void _sub_10862EB0(CForgeUndoManager *const);
 void CForgeUndoManager::RequestRedo() // 0x10862EB0
 {
-	mangled_x86(MANGLED_TODO, "?RequestRedo@CForgeUndoManager@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?RequestRedo@CForgeUndoManager@@QAEXXZ");
 	// CForgeUndoManager *const this;
-	todo("implement");
-	_sub_10862EB0(this);
+
+	m_redoRequested = true;
 }
 
 _extern void _sub_108626A0(CForgeUndoManager *const, std::string const &, std::shared_ptr<IForgeUndo>);
@@ -112,13 +106,22 @@ _inline CForgeUndoManager::SUndoEntry::SUndoEntry() = default; // 0x10862300
 // mangled_x86(MANGLED_DEFAULT, "??1SUndoEntry@CForgeUndoManager@@QAE@XZ"); no body to assert in
 _inline CForgeUndoManager::SUndoEntry::~SUndoEntry() = default; // 0x10862540
 
-_extern void _sub_10862F70(CForgeUndoManager *const);
 void CForgeUndoManager::Update() // 0x10862F70
 {
-	mangled_x86(MANGLED_TODO, "?Update@CForgeUndoManager@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CForgeUndoManager@@QAEXXZ");
 	// CForgeUndoManager *const this;
-	todo("implement");
-	_sub_10862F70(this);
+
+	if (m_undoRequested)
+	{
+		m_undoRequested = false;
+		PerformUndo();
+	}
+
+	if (m_redoRequested)
+	{
+		m_redoRequested = false;
+		PerformRedo();
+	}
 }
 
 _extern void _sub_10862D50(CForgeUndoManager *const);
@@ -153,13 +156,23 @@ void CForgeUndoManager::PerformRedo() // 0x10862BF0
 	_sub_10862BF0(this);
 }
 
-_extern void _sub_108629A0(CForgeUndoManager *const);
 void CForgeUndoManager::Clear() // 0x108629A0
 {
-	mangled_x86(MANGLED_TODO, "?Clear@CForgeUndoManager@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Clear@CForgeUndoManager@@QAEXXZ");
 	// CForgeUndoManager *const this;
-	todo("implement");
-	_sub_108629A0(this);
+
+	m_undoRequested = false;
+	m_redoRequested = false;
+
+	while (m_undoStack.size() > 0)
+	{
+		m_undoStack.pop_front();
+	}
+
+	while (m_redoStack.size() > 0)
+	{
+		m_redoStack.pop_front();
+	}
 }
 
 bool CForgeUndoManager::IsRecording() const // 0x10862BC0
@@ -170,22 +183,20 @@ bool CForgeUndoManager::IsRecording() const // 0x10862BC0
 	return m_recording;
 }
 
-_extern void _sub_10862F40(CForgeUndoManager *const);
 void CForgeUndoManager::StopRecording() // 0x10862F40
 {
-	mangled_x86(MANGLED_TODO, "?StopRecording@CForgeUndoManager@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?StopRecording@CForgeUndoManager@@QAEXXZ");
 	// CForgeUndoManager *const this;
-	todo("implement");
-	_sub_10862F40(this);
+
+	m_recording = false;
 }
 
-_extern void _sub_10862F10(CForgeUndoManager *const);
 void CForgeUndoManager::StartRecording() // 0x10862F10
 {
-	mangled_x86(MANGLED_TODO, "?StartRecording@CForgeUndoManager@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?StartRecording@CForgeUndoManager@@QAEXXZ");
 	// CForgeUndoManager *const this;
-	todo("implement");
-	_sub_10862F10(this);
+
+	m_recording = true;
 }
 
 extern std::string _sub_10862B00(CForgeUndoManager const *const);

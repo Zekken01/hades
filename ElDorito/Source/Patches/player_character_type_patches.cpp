@@ -110,6 +110,9 @@ namespace Blam
 
 /* ---------- prototypes */
 
+long unit_get_global_player_control_block_index(long unit_index);  // hades: added for 0X10ABEBE0
+long unit_get_global_player_information_block_index(long unit_index);  // hades: added for 0X10ABEBE0
+
 extern void player_character_type_patches_apply();
 
 void player_find_player_character_unit_and_variant_info(long player_index, long character_type_index, long *out_unit_definition_index, unsigned long *out_variant_name);
@@ -303,18 +306,22 @@ __declspec(naked) void player_submit_actions_53EA06() // 0x10ABECE0
 	}
 }
 
-_extern bool _sub_10ABEBE0(long);
 bool player_submit_actions_53D580_hook(long unit_index) // 0x10ABEBE0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?player_submit_actions_53D580_hook@@YA_NJ@Z");
 	// `anonymous-namespace'::player_submit_actions_53D580_hook
 	// long unit_index;
 	// long player_info_block_index;
 	// bool (*const unit_movement_inhibited_by_equipment)(long);
 	// long player_control_block_index;
 	// function call : bool (*const)(long)
-	todo("implement");
-	bool __result = _sub_10ABEBE0(unit_index);
-	return __result;
+
+	bool (__cdecl *const player_submit_actions_53D580)(long) = (bool(__cdecl *const)(long))0xb44f90;
+	long player_control_block_index = unit_get_global_player_control_block_index(unit_index);
+	long player_information_block_index = unit_get_global_player_information_block_index(unit_index);
+	g_temp_global_player_control = &game_globals_get()->PlayerControl[player_control_block_index];
+	g_temp_global_player_information = &game_globals_get()->PlayerInformation[player_control_block_index];
+	return player_submit_actions_53D580(unit_index);
 }
 
 _extern long _sub_10ABC220(long);
@@ -330,15 +337,16 @@ long game_globals_player_representation_index_from_player_index_hook(long player
 	return __result;
 }
 
-extern s_game_globals_player_representation *_sub_10ABC1A0(long);
 s_game_globals_player_representation *game_globals_player_representation_from_player_index_hook(long player_index) // 0x10ABC1A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_globals_player_representation_from_player_index_hook@@YAPAUs_game_globals_player_representation@@J@Z");
 	// `anonymous-namespace'::game_globals_player_representation_from_player_index_hook
 	// long player_index;
 	// long index;
-	todo("implement");
-	s_game_globals_player_representation * __result = _sub_10ABC1A0(player_index);
-	return __result;
+
+	long index = game_globals_player_representation_index_from_player_index_hook(player_index);
+
+	return &game_globals_get()->PlayerRepresentation[index];
 }
 
 _extern void _sub_10ABBFE0(long);

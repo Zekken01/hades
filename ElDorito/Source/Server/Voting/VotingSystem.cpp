@@ -208,14 +208,12 @@ namespace Server
 			// Server::Voting::VotingSystem *const this;
 		}
 
-		_extern bool _sub_10C51440(Server::Voting::VotingSystem *const);
 		bool VotingSystem::isEnabled() // 0x10C51440
 		{
-			mangled_x86(MANGLED_TODO, "?isEnabled@VotingSystem@Voting@Server@@UAE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?isEnabled@VotingSystem@Voting@Server@@UAE_NXZ");
 			// Server::Voting::VotingSystem *const this;
-			todo("implement");
-			bool __result = _sub_10C51440(this);
-			return __result;
+
+			return Modules::ModuleVoting::Instance().VarServerVotingType->ValueInt == 1;
 		}
 
 		_extern void _sub_10C4F230(Server::Voting::VotingSystem *const);
@@ -227,15 +225,15 @@ namespace Server
 			_sub_10C4F230(this);
 		}
 
-		_extern void _sub_10C4F1B0(Server::Voting::VotingSystem *const);
 		void VotingSystem::NewVote() // 0x10C4F1B0
 		{
-			mangled_x86(MANGLED_TODO, "?NewVote@VotingSystem@Voting@Server@@UAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?NewVote@VotingSystem@Voting@Server@@UAEXXZ");
 			// Server::Voting::VotingSystem *const this;
 			// function call : void ()
 			// function call : void ()
-			todo("implement");
-			_sub_10C4F1B0(this);
+
+			Reset();
+			StartVoting();
 		}
 
 		_extern void _sub_10C4DAB0(Server::Voting::VotingSystem *const);
@@ -387,14 +385,12 @@ namespace Server
 			return __result;
 		}
 
-		_extern bool _sub_10C4F670(Server::Voting::AbstractVotingSystem *const);
 		bool AbstractVotingSystem::ShouldSendVotingOptions() // 0x10C4F670
 		{
-			mangled_x86(MANGLED_TODO, "?ShouldSendVotingOptions@AbstractVotingSystem@Voting@Server@@UAE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ShouldSendVotingOptions@AbstractVotingSystem@Voting@Server@@UAE_NXZ");
 			// Server::Voting::AbstractVotingSystem *const this;
-			todo("implement");
-			bool __result = _sub_10C4F670(this);
-			return __result;
+
+			return voteStartedTime || winnerChosen;
 		}
 
 		extern VotingMessage _sub_10C4E800(Server::Voting::VotingSystem *const, bool);

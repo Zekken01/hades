@@ -63,13 +63,14 @@ namespace Download
 		_sub_10831BC0(this, deltaMs);
 	}
 
-	_extern void _sub_1082EB10(Download::CDownloadStatCounter *const);
 	_inline void CDownloadStatCounter::Clear() // 0x1082EB10
 	{
-		mangled_x86(MANGLED_TODO, "?Clear@CDownloadStatCounter@Download@@QAEXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Clear@CDownloadStatCounter@Download@@QAEXXZ");
 		// Download::CDownloadStatCounter *const this;
-		todo("implement");
-		_sub_1082EB10(this);
+
+		m_counter = 0;
+		m_average = 0;
+		m_totalCounter = 0;
 	}
 
 	_extern void _sub_1082DEC0(Download::CDownloadStatCounter *const, __int32);

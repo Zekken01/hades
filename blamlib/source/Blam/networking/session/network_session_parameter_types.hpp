@@ -28,7 +28,6 @@ public:
 	struct s_type
 	{
 		bool initialized; // 0x0
-		unsigned char __pad0[3]; // 0x1
 		char const *parameter_name; // 0x4
 		bool (*update_encode)(c_bitstream *, void *); // 0x8
 		bool (*update_decode)(c_bitstream *, void *); // 0xC
@@ -38,6 +37,7 @@ public:
 		long change_request_size; // 0x1C
 	};
 	static_assert(sizeof(s_type) == 32, "Invalid s_type size");
+	static_assert(offsetof(s_type, update_size) == 0x10, "s_type::update_size moved when its reconstructed padding was removed");
 	public:
 	typedef bool (*t_encode_function)(c_bitstream *, void *);
 	typedef bool (*t_decode_function)(c_bitstream *, void *);

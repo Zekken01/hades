@@ -29,7 +29,6 @@ struct s_visible_object
 	long object_index; // 0x6C
 	unsigned long *subpart_visibility; // 0x70
 	unsigned char flags; // 0x74
-	unsigned char __pad0[3]; // 0x75
 };
 static_assert(sizeof(s_visible_object) == 120, "Invalid s_visible_object size");
 
@@ -50,11 +49,11 @@ struct s_render_object_mesh_part
 	short part_index; // 0xC
 	short mesh_index; // 0xE
 	short skinning_node_index; // 0x10
-	unsigned char __pad0[2]; // 0x12
 	long material_index; // 0x14
 	void *shield_definition; // 0x18
 };
 static_assert(sizeof(s_render_object_mesh_part) == 28, "Invalid s_render_object_mesh_part size");
+static_assert(offsetof(s_render_object_mesh_part, material_index) == 0x14, "s_render_object_mesh_part::material_index moved when its reconstructed padding was removed");
 
 struct s_render_object_globals
 {
@@ -63,12 +62,12 @@ struct s_render_object_globals
 	s_render_object_mesh_part parts[8192]; // 0x8004
 	long part_count; // 0x40004
 	bool unknown; // 0x40008
-	unsigned char __pad0[3]; // 0x40009
 	long marker_stack_top; // 0x4000C
 	long object_marker_stack[6]; // 0x40010
 	long part_marker_stack[6]; // 0x40028
 };
 static_assert(sizeof(s_render_object_globals) == 262208, "Invalid s_render_object_globals size");
+static_assert(offsetof(s_render_object_globals, marker_stack_top) == 0x4000C, "s_render_object_globals::marker_stack_top moved when its reconstructed padding was removed");
 
 /* ---------- prototypes */
 

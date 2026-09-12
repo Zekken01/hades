@@ -52,13 +52,10 @@ namespace Console
 
 namespace Console
 {
-	_extern void _sub_10950600(Console::ConsoleOutputHandler *const);
 	_inline ConsoleOutputHandler::~ConsoleOutputHandler() // 0x10950600
 	{
-		mangled_x86(MANGLED_TODO, "??1ConsoleOutputHandler@Console@@UAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??1ConsoleOutputHandler@Console@@UAE@XZ");
 		// Console::ConsoleOutputHandler *const this;
-		todo("implement");
-		_sub_10950600(this);
 	}
 }
 

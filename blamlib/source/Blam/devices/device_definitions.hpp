@@ -73,7 +73,6 @@ struct s_machine_definition :
 	s_machine_definition(); /* compiler_generated() */
 	s_machine_definition &operator=(s_machine_definition &); /* compiler_generated() */
 	s_machine_definition &operator=(s_machine_definition const &); /* compiler_generated() */
-	unsigned char __pad0[2]; // 0x1CE
 };
 static_assert(sizeof(s_machine_definition) == 464, "Invalid s_machine_definition size");
 

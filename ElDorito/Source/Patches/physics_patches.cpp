@@ -122,19 +122,19 @@ extern void physics_patches_apply();
 bool havok_broadphase_reforge_barrier_object_test(long havok_component_index_a, long havok_component_index_b);
 bool havok_broadphase_collidables_test(hkpCollidable *collidable_a, hkpCollidable *collidable_b);
 hkpEntity *havok_collidable_get_entity(hkpCollidable *collidable);
-bool *hkCollidableCollidableFilte__isCollisionEnabled(void *thisptr, void *unused, bool *a2, hkpCollidable *collidable_a, hkpCollidable *collidable_b);
+bool *__fastcall hkCollidableCollidableFilte__isCollisionEnabled(void *thisptr, void *unused, bool *a2, hkpCollidable *collidable_a, hkpCollidable *collidable_b);
 bool c_environment_surface_shape__is_key_alive_hook(long structure_bsp_index, long a2, bool a3, unsigned __int32 key);
-hkpShape const *c_environment_surface_shape__getChildShape_hook(hkShapeContainer *thisptr, void *__formal, unsigned __int32 key, char (&buffer)[512]);
+hkpShape const *__fastcall c_environment_surface_shape__getChildShape_hook(hkShapeContainer *thisptr, void *__formal, unsigned __int32 key, char (&buffer)[512]);
 short get_structure_global_material_type(s_scenario_structure_bsp const *structure, long material_index);
 void calculate_havok_shape_properties_hook(hkpShape *shape, hkpEntity *body, real_vector3d *position, long shape_key, float *out_friction, float *out_restitution, unsigned short *out_global_material_type);
 s_physics_model_primitive *physics_model_primitive_get(hkpShape *shape);
 _inline hkpCdBody *havok_get_root_cdbody(hkpCdBody *body);
-bool c_group_filter__collidable_b_evalulate_primitive_collision_group_hook(void *this_, void *__formal, hkpCollidable *body_a, hkpCollidable *body_b, hkpShape *shape_b, bool *out_is_enabled);
-short *c_havok_contact_point__calculate_global_material_type_b_hook(c_havok_contact_point *this_, void *__formal, short *global_material_type);
-void c_havok_contact_point__get_surface_normal_hook(c_havok_contact_point *this_, void *__formal, real_vector3d *out_normal);
-void c_character_physics_mode_ground_datum__update_internal_hook(void *thisptr, void *__formal, char *output, char *input, bool a4, real_vector3d *a5);
-void hkpWorld_ctor_hook(hkpkWorld *thisptr, void *__formal, hkpWorldCinfo *info, unsigned __int32 sdkVersion);
-bool c_character_physics_mode_ground_datum__calculate_ground_contact_hook(c_character_physics_mode_ground_datum *thisptr, void *__formal, s_character_physics_move_input_datum *physics_input, bool a3, real_vector3d *linear_velocity_input, real_vector3d *out_ground_plane, s_havok_contact_point_reference *out_contact_point, float *out_landing_velocity, long *out_contact_object_index);
+bool __fastcall c_group_filter__collidable_b_evalulate_primitive_collision_group_hook(void *this_, void *__formal, hkpCollidable *body_a, hkpCollidable *body_b, hkpShape *shape_b, bool *out_is_enabled);
+short *__fastcall c_havok_contact_point__calculate_global_material_type_b_hook(c_havok_contact_point *this_, void *__formal, short *global_material_type);
+void __fastcall c_havok_contact_point__get_surface_normal_hook(c_havok_contact_point *this_, void *__formal, real_vector3d *out_normal);
+void __fastcall c_character_physics_mode_ground_datum__update_internal_hook(void *thisptr, void *__formal, char *output, char *input, bool a4, real_vector3d *a5);
+void __fastcall hkpWorld_ctor_hook(hkpkWorld *thisptr, void *__formal, hkpWorldCinfo *info, unsigned __int32 sdkVersion);
+bool __fastcall c_character_physics_mode_ground_datum__calculate_ground_contact_hook(c_character_physics_mode_ground_datum *thisptr, void *__formal, s_character_physics_move_input_datum *physics_input, bool a3, real_vector3d *linear_velocity_input, real_vector3d *out_ground_plane, s_havok_contact_point_reference *out_contact_point, float *out_landing_velocity, long *out_contact_object_index);
 
 /* ---------- globals */
 
@@ -194,19 +194,23 @@ bool havok_broadphase_collidables_test(hkpCollidable *collidable_a, hkpCollidabl
 	return __result;
 }
 
-extern hkpEntity *_sub_10AAB250(hkpCollidable *);
 hkpEntity *havok_collidable_get_entity(hkpCollidable *collidable) // 0x10AAB250
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?havok_collidable_get_entity@@YAPAUhkpEntity@@PAUhkpCollidable@@@Z");
 	// `anonymous-namespace'::havok_collidable_get_entity
 	// hkpCollidable *collidable;
 	// hkpEntity *entity;
-	todo("implement");
-	hkpEntity * __result = _sub_10AAB250(collidable);
-	return __result;
+
+	hkpEntity *entity = nullptr;
+	if (collidable->m_broadPhaseHandle.m_type == 1)
+		entity = (hkpEntity *)offset_pointer(collidable, collidable->m_ownerOffset);
+	else if (collidable->m_broadPhaseHandle.m_type == 2)
+		entity = (hkpEntity *)offset_pointer(collidable, -16);
+	return entity;
 }
 
 _extern bool *_sub_10AAB3F0(void *, void *, bool *, hkpCollidable *, hkpCollidable *);
-bool *hkCollidableCollidableFilte__isCollisionEnabled(void *thisptr, void *unused, bool *a2, hkpCollidable *collidable_a, hkpCollidable *collidable_b) // 0x10AAB3F0
+bool *__fastcall hkCollidableCollidableFilte__isCollisionEnabled(void *thisptr, void *unused, bool *a2, hkpCollidable *collidable_a, hkpCollidable *collidable_b) // 0x10AAB3F0
 {
 	// `anonymous-namespace'::hkCollidableCollidableFilte__isCollisionEnabled
 	// hkpCollidable *collidable_b;
@@ -244,7 +248,7 @@ bool c_environment_surface_shape__is_key_alive_hook(long structure_bsp_index, lo
 }
 
 extern hkpShape const *_sub_10AA9E80(hkShapeContainer *, void *, unsigned __int32, char (&)[512]);
-hkpShape const *c_environment_surface_shape__getChildShape_hook(hkShapeContainer *thisptr, void *__formal, unsigned __int32 key, char (&buffer)[512]) // 0x10AA9E80
+hkpShape const *__fastcall c_environment_surface_shape__getChildShape_hook(hkShapeContainer *thisptr, void *__formal, unsigned __int32 key, char (&buffer)[512]) // 0x10AA9E80
 {
 	// `anonymous-namespace'::c_environment_surface_shape__getChildShape_hook
 	// hkShapeContainer *thisptr;
@@ -286,14 +290,18 @@ hkpShape const *c_environment_surface_shape__getChildShape_hook(hkShapeContainer
 	return __result;
 }
 
-_extern short _sub_10AAAE30(s_scenario_structure_bsp const *, long);
 short get_structure_global_material_type(s_scenario_structure_bsp const *structure, long material_index) // 0x10AAAE30
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_structure_global_material_type@@YAFPBUs_scenario_structure_bsp@@J@Z");
 	// `anonymous-namespace'::get_structure_global_material_type
 	// long material_index;
-	todo("implement");
-	short __result = _sub_10AAAE30(structure, material_index);
-	return __result;
+
+	if (material_index < 0 || material_index >= structure->collision_materials.count)
+	{
+		return 0;
+	}
+
+	return structure->collision_materials[material_index].global_materal_type;
 }
 
 _extern void _sub_10AAA960(hkpShape *, hkpEntity *, real_vector3d *, long, float *, float *, unsigned short *);
@@ -319,16 +327,37 @@ void calculate_havok_shape_properties_hook(hkpShape *shape, hkpEntity *body, rea
 	_sub_10AAA960(shape, body, position, shape_key, out_friction, out_restitution, out_global_material_type);
 }
 
-extern s_physics_model_primitive *_sub_10AAB6F0(hkpShape *);
 s_physics_model_primitive *physics_model_primitive_get(hkpShape *shape) // 0x10AAB6F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?physics_model_primitive_get@@YAPAUs_physics_model_primitive@@PAUhkpShape@@@Z");
 	// `anonymous-namespace'::physics_model_primitive_get
 	// hkpShape *shape;
 	// hkpShape *unwrapped_shape;
 	// unsigned long result;
-	todo("implement");
-	s_physics_model_primitive * __result = _sub_10AAB6F0(shape);
-	return __result;
+
+	if (shape == nullptr)
+	{
+		return nullptr;
+	}
+	hkpShape *unwrapped_shape = havok_transform_wrapper_shape_get_child_shape(shape);
+	if (unwrapped_shape->m_type == 30)
+	{
+		return nullptr;
+	}
+	if (unwrapped_shape->m_userData == 0x706F6F70)
+	{
+		return nullptr;
+	}
+	if (!is_havok_convex_shape(unwrapped_shape))
+	{
+		return nullptr;
+	}
+	s_physics_model_primitive *primitive = (s_physics_model_primitive *)unwrapped_shape->m_userData;
+	if (primitive == nullptr || (unsigned long)primitive <= 0x10)
+	{
+		return nullptr;
+	}
+	return primitive;
 }
 
 extern hkpCdBody *_sub_10AAB2F0(hkpCdBody *);
@@ -342,7 +371,7 @@ _inline hkpCdBody *havok_get_root_cdbody(hkpCdBody *body) // 0x10AAB2F0
 }
 
 _extern bool _sub_10AAA300(void *, void *, hkpCollidable *, hkpCollidable *, hkpShape *, bool *);
-bool c_group_filter__collidable_b_evalulate_primitive_collision_group_hook(void *this_, void *__formal, hkpCollidable *body_a, hkpCollidable *body_b, hkpShape *shape_b, bool *out_is_enabled) // 0x10AAA300
+bool __fastcall c_group_filter__collidable_b_evalulate_primitive_collision_group_hook(void *this_, void *__formal, hkpCollidable *body_a, hkpCollidable *body_b, hkpShape *shape_b, bool *out_is_enabled) // 0x10AAA300
 {
 	// `anonymous-namespace'::c_group_filter__collidable_b_evalulate_primitive_collision_group_hook
 	// bool *out_is_enabled;
@@ -362,7 +391,7 @@ bool c_group_filter__collidable_b_evalulate_primitive_collision_group_hook(void 
 }
 
 _extern short *_sub_10AAA4C0(c_havok_contact_point *, void *, short *);
-short *c_havok_contact_point__calculate_global_material_type_b_hook(c_havok_contact_point *this_, void *__formal, short *global_material_type) // 0x10AAA4C0
+short *__fastcall c_havok_contact_point__calculate_global_material_type_b_hook(c_havok_contact_point *this_, void *__formal, short *global_material_type) // 0x10AAA4C0
 {
 	// `anonymous-namespace'::c_havok_contact_point__calculate_global_material_type_b_hook
 	// short *global_material_type;
@@ -399,7 +428,7 @@ short *c_havok_contact_point__calculate_global_material_type_b_hook(c_havok_cont
 }
 
 _extern void _sub_10AAA7F0(c_havok_contact_point *, void *, real_vector3d *);
-void c_havok_contact_point__get_surface_normal_hook(c_havok_contact_point *this_, void *__formal, real_vector3d *out_normal) // 0x10AAA7F0
+void __fastcall c_havok_contact_point__get_surface_normal_hook(c_havok_contact_point *this_, void *__formal, real_vector3d *out_normal) // 0x10AAA7F0
 {
 	// `anonymous-namespace'::c_havok_contact_point__get_surface_normal_hook
 	// real_vector3d *out_normal;
@@ -417,7 +446,7 @@ void c_havok_contact_point__get_surface_normal_hook(c_havok_contact_point *this_
 }
 
 _extern void _sub_10AA9D50(void *, void *, char *, char *, bool, real_vector3d *);
-void c_character_physics_mode_ground_datum__update_internal_hook(void *thisptr, void *__formal, char *output, char *input, bool a4, real_vector3d *a5) // 0x10AA9D50
+void __fastcall c_character_physics_mode_ground_datum__update_internal_hook(void *thisptr, void *__formal, char *output, char *input, bool a4, real_vector3d *a5) // 0x10AA9D50
 {
 	// `anonymous-namespace'::c_character_physics_mode_ground_datum__update_internal_hook
 	// real_vector3d *a5;
@@ -431,7 +460,7 @@ void c_character_physics_mode_ground_datum__update_internal_hook(void *thisptr, 
 }
 
 _extern void _sub_10AAB570(hkpkWorld *, void *, hkpWorldCinfo *, unsigned __int32);
-void hkpWorld_ctor_hook(hkpkWorld *thisptr, void *__formal, hkpWorldCinfo *info, unsigned __int32 sdkVersion) // 0x10AAB570
+void __fastcall hkpWorld_ctor_hook(hkpkWorld *thisptr, void *__formal, hkpWorldCinfo *info, unsigned __int32 sdkVersion) // 0x10AAB570
 {
 	// `anonymous-namespace'::hkpWorld_ctor_hook
 	// unsigned __int32 sdkVersion;
@@ -444,7 +473,7 @@ void hkpWorld_ctor_hook(hkpkWorld *thisptr, void *__formal, hkpWorldCinfo *info,
 }
 
 _extern bool _sub_10AA9BF0(c_character_physics_mode_ground_datum *, void *, s_character_physics_move_input_datum *, bool, real_vector3d *, real_vector3d *, s_havok_contact_point_reference *, float *, long *);
-bool c_character_physics_mode_ground_datum__calculate_ground_contact_hook(c_character_physics_mode_ground_datum *thisptr, void *__formal, s_character_physics_move_input_datum *physics_input, bool a3, real_vector3d *linear_velocity_input, real_vector3d *out_ground_plane, s_havok_contact_point_reference *out_contact_point, float *out_landing_velocity, long *out_contact_object_index) // 0x10AA9BF0
+bool __fastcall c_character_physics_mode_ground_datum__calculate_ground_contact_hook(c_character_physics_mode_ground_datum *thisptr, void *__formal, s_character_physics_move_input_datum *physics_input, bool a3, real_vector3d *linear_velocity_input, real_vector3d *out_ground_plane, s_havok_contact_point_reference *out_contact_point, float *out_landing_velocity, long *out_contact_object_index) // 0x10AA9BF0
 {
 	// `anonymous-namespace'::c_character_physics_mode_ground_datum__calculate_ground_contact_hook
 	// long *out_contact_object_index;

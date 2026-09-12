@@ -149,14 +149,12 @@ _inline bool c_gui_map_category_datasource::get_string_id_value(long element_han
 	return __result;
 }
 
-_extern long _sub_10F1CA10(c_gui_map_category_datasource *const);
 _inline long c_gui_map_category_datasource::get_current_item_count_internal() // 0x10F1CA10
 {
-	mangled_x86(MANGLED_TODO, "?get_current_item_count_internal@c_gui_map_category_datasource@@MAEJXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_current_item_count_internal@c_gui_map_category_datasource@@MAEJXZ");
 	// c_gui_map_category_datasource *const this;
-	todo("implement");
-	long __result = _sub_10F1CA10(this);
-	return __result;
+
+	return m_item_count;
 }
 
 /* ---------- private code */

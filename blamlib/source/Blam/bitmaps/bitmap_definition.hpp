@@ -58,7 +58,6 @@ struct s_bitmap_sprite
 	short bitmap_index; // 0x0
 	short unknown; // 0x2
 	short unknown2; // 0x4
-	unsigned char __pad0[2]; // 0x6
 	float left; // 0x8
 	float right; // 0xC
 	float top; // 0x10
@@ -66,6 +65,7 @@ struct s_bitmap_sprite
 	real_point2d registration_point; // 0x18
 };
 static_assert(sizeof(s_bitmap_sprite) == 32, "Invalid s_bitmap_sprite size");
+static_assert(offsetof(s_bitmap_sprite, left) == 0x8, "s_bitmap_sprite::left moved when its reconstructed padding was removed");
 
 struct s_bitmap_sequence
 {
@@ -89,7 +89,6 @@ struct s_bitmap_image
 	unsigned char more_flags; // 0x9
 	short bitmap_type; // 0xA
 	c_enum<enum e_bitmap_format,unsigned char> format; // 0xC
-	unsigned char __pad0[1]; // 0xD
 	short flags; // 0xE
 	short_point_2d registration_point; // 0x10
 	unsigned char mipmap_count; // 0x14
@@ -109,6 +108,7 @@ struct s_bitmap_image
 	s_bitmap_image &operator=(s_bitmap_image const &); /* compiler_generated() */
 };
 static_assert(sizeof(s_bitmap_image) == 48, "Invalid s_bitmap_image size");
+static_assert(offsetof(s_bitmap_image, flags) == 0xE, "s_bitmap_image::flags moved when its reconstructed padding was removed");
 
 struct s_bitmap_resource
 {

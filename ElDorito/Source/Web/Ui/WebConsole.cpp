@@ -171,22 +171,20 @@ namespace Web
 				_sub_10C9DCE0();
 			}
 
-			_extern void _sub_10C9DE50();
 			void Show() // 0x10C9DE50
 			{
-				mangled_x86(MANGLED_TODO, "?Show@WebConsole@Ui@Web@@YAXXZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?Show@WebConsole@Ui@Web@@YAXXZ");
 				// procedure flags: nofpo
-				todo("implement");
-				_sub_10C9DE50();
+
+				ScreenLayer::Show(ScreenLayer::Console, "{}");
 			}
 
-			_extern void _sub_10C9DC90();
 			void Hide() // 0x10C9DC90
 			{
-				mangled_x86(MANGLED_TODO, "?Hide@WebConsole@Ui@Web@@YAXXZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?Hide@WebConsole@Ui@Web@@YAXXZ");
 				// procedure flags: nofpo
-				todo("implement");
-				_sub_10C9DC90();
+
+				ScreenLayer::Hide(ScreenLayer::Console);
 			}
 		}
 	}
@@ -194,9 +192,9 @@ namespace Web
 
 /* ---------- private code */
 
-_extern void _sub_10C9DF20(WebConsoleOutputHandler *const, std::string const &);
 void WebConsoleOutputHandler::WriteLine(std::string const &line) // 0x10C9DF20
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?WriteLine@WebConsoleOutputHandler@hades_file_local@@UAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 	// `anonymous-namespace'::WebConsoleOutputHandler::WriteLine
 	// static ...; // 0x10C9E098
 	// static ...; // 0x10C9E080
@@ -205,8 +203,17 @@ void WebConsoleOutputHandler::WriteLine(std::string const &line) // 0x10C9DF20
 	// std::string const &line;
 	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
 	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
-	todo("implement");
-	_sub_10C9DF20(this, line);
+
+	// Create a JSON object with the line
+	rapidjson::StringBuffer jsonBuffer;
+	rapidjson::Writer<rapidjson::StringBuffer> jsonWriter(jsonBuffer);
+	jsonWriter.StartObject();
+	jsonWriter.Key("line");
+	jsonWriter.String(line.c_str());
+	jsonWriter.EndObject();
+
+	// Broadcast a "console" event to all screens
+	Web::Ui::ScreenLayer::Notify("console", jsonBuffer.GetString(), true);
 }
 
 _extern void _sub_10C9DDE0();

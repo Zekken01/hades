@@ -66,7 +66,6 @@ public:
 private:
 	s_file_reference &m_file; // 0x0
 	bool m_is_owner; // 0x4
-unsigned char __pad0[3]; // 0x5
 };
 static_assert(sizeof(c_file_open_scope) == 8, "Invalid c_file_open_scope size");
 
@@ -76,13 +75,12 @@ static_assert(sizeof(c_file_open_scope) == 8, "Invalid c_file_open_scope size");
 
 /* ---------- public code */
 
-extern c_file_reference* _sub_106CD8A0(c_file_reference *const);
 _inline c_file_reference::c_file_reference() // 0x106CD8A0
 {
-	mangled_x86(MANGLED_TODO, "??0c_file_reference@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_file_reference@@QAE@XZ");
 	// c_file_reference *const this;
-	todo("implement");
-	_sub_106CD8A0(this);
+
+	initialize_header(_file_reference_location_none);
 }
 
 extern c_file_reference* _sub_108715F0(c_file_reference *const, char const *);
@@ -137,14 +135,12 @@ _inline bool c_file_reference::exists() const // 0x1089D950
 	return __result;
 }
 
-_extern bool _sub_1088ABE0(c_file_reference const *const);
 _inline bool c_file_reference::is_open() const // 0x1088ABE0
 {
-	mangled_x86(MANGLED_TODO, "?is_open@c_file_reference@@QBE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?is_open@c_file_reference@@QBE_NXZ");
 	// c_file_reference const *const this;
-	todo("implement");
-	bool __result = _sub_1088ABE0((c_file_reference const *)this);
-	return __result;
+
+	return file_is_open(this);
 }
 
 _extern bool _sub_1088BAE0(c_file_reference *const, c_flags<enum e_file_permission_flags,long>, unsigned long *);
@@ -235,13 +231,12 @@ _inline c_file_open_scope::~c_file_open_scope() // 0x1074CF30
 	_sub_1074CF30(this);
 }
 
-_extern void _sub_10752490(c_file_open_scope *const);
 _inline void c_file_open_scope::release_ownership() // 0x10752490
 {
-	mangled_x86(MANGLED_TODO, "?release_ownership@c_file_open_scope@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?release_ownership@c_file_open_scope@@QAEXXZ");
 	// c_file_open_scope *const this;
-	todo("implement");
-	_sub_10752490(this);
+
+	m_is_owner = false;
 }
 
 /* ---------- private code */

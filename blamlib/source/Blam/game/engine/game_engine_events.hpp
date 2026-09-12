@@ -50,7 +50,6 @@ static_assert(sizeof(s_multiplayer_event_sound_response_definition) == 200, "Inv
 struct s_game_engine_event_data
 {
 	c_enum<enum e_game_engine_event_type,char> type; // 0x0
-	unsigned char __pad0[3]; // 0x1
 	unsigned long name; // 0x4
 	long index; // 0x8
 	long target_player_index; // 0xC
@@ -65,15 +64,14 @@ struct s_game_engine_event_data
 	_inline s_game_engine_event_data(); /* compiler_generated() */
 	s_game_engine_event_data &operator=(s_game_engine_event_data &); /* compiler_generated() */
 	_inline s_game_engine_event_data &operator=(s_game_engine_event_data const &__that); /* compiler_generated() */
-	unsigned char __pad1[2]; // 0x26
 };
 static_assert(sizeof(s_game_engine_event_data) == 40, "Invalid s_game_engine_event_data size");
+static_assert(offsetof(s_game_engine_event_data, name) == 0x4, "s_game_engine_event_data::name moved when its reconstructed padding was removed");
 
 struct s_game_engine_queued_event
 {
 	long equeued_game_time; // 0x0
 	c_flags<enum e_game_engine_queued_event_flags,unsigned char> flags; // 0x4
-	unsigned char __pad0[3]; // 0x5
 	s_game_engine_event_data data; // 0x8
 	s_game_engine_queued_event(s_game_engine_queued_event &); /* compiler_generated() */
 	s_game_engine_queued_event(s_game_engine_queued_event const &); /* compiler_generated() */
@@ -82,6 +80,7 @@ struct s_game_engine_queued_event
 	s_game_engine_queued_event &operator=(s_game_engine_queued_event const &); /* compiler_generated() */
 };
 static_assert(sizeof(s_game_engine_queued_event) == 48, "Invalid s_game_engine_queued_event size");
+static_assert(offsetof(s_game_engine_queued_event, data) == 0x8, "s_game_engine_queued_event::data moved when its reconstructed padding was removed");
 
 /* ---------- prototypes */
 

@@ -80,16 +80,15 @@ enum e_motor_program
 struct c_motor_request
 {
 	short unknown0; // 0x0
-	unsigned char __pad0[2]; // 0x2
 	__int32 task_id; // 0x4
 	__int32 action_type; // 0x8
 	unsigned long animation_name1; // 0xC
 	unsigned long animation_name2; // 0x10
 	float interpolation_time; // 0x14
 	short unknown18; // 0x18
-	unsigned char __pad1[2]; // 0x1A
 };
 static_assert(sizeof(c_motor_request) == 28, "Invalid c_motor_request size");
+static_assert(offsetof(c_motor_request, task_id) == 0x4, "c_motor_request::task_id moved when its reconstructed padding was removed");
 
 #pragma pack(push, 4)
 class c_motor_task

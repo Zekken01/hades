@@ -51,24 +51,20 @@ namespace Forge
 
 namespace Forge
 {
-	_extern bool _sub_108F8CF0();
 	_inline bool CForgeVisionRenderer::VisibleThroughWalls() // 0x108F8CF0
 	{
-		mangled_x86(MANGLED_TODO, "?VisibleThroughWalls@CForgeVisionRenderer@Forge@@SA_NXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?VisibleThroughWalls@CForgeVisionRenderer@Forge@@SA_NXZ");
 		// procedure flags: nofpo
-		todo("implement");
-		bool __result = _sub_108F8CF0();
-		return __result;
+
+		return m_visibleThroughWalls;
 	}
 
-	_extern bool _sub_108E41E0();
 	_inline bool CForgeVisionRenderer::IsActive() // 0x108E41E0
 	{
-		mangled_x86(MANGLED_TODO, "?IsActive@CForgeVisionRenderer@Forge@@SA_NXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?IsActive@CForgeVisionRenderer@Forge@@SA_NXZ");
 		// procedure flags: nofpo
-		todo("implement");
-		bool __result = _sub_108E41E0();
-		return __result;
+
+		return m_bActive;
 	}
 }
 

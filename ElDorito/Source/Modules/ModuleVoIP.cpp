@@ -231,13 +231,17 @@ bool UpdateVoip(std::vector<std::string> const &Arguments, std::string &returnIn
 	return __result;
 }
 
-_extern void _sub_10A24DC0(char const *);
 void RendererStarted(char const *map) // 0x10A24DC0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?RendererStarted@@YAXPBD@Z");
 	// `anonymous-namespace'::RendererStarted
 	// char const *map;
-	todo("implement");
-	_sub_10A24DC0(map);
+
+	if (std::string(map).find("mainmenu") == std::string::npos)
+		isMainMenu = false;
+	else
+		isMainMenu = true;
+	ready = true;
 }
 
 _extern bool _sub_10A258C0(std::vector<std::string> const &, std::string &);

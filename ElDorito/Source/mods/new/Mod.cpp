@@ -157,13 +157,12 @@ _inline ModCache::ModCache() = default; // 0x1078B730
 // mangled_x86(MANGLED_DEFAULT, "??0c_cache_file_interface@@QAE@XZ"); no body to assert in
 _inline c_cache_file_interface::c_cache_file_interface() = default; // 0x1078B7B0
 
-_extern void _sub_1078BD60(Mod *const);
 Mod::~Mod() // 0x1078BD60
 {
-	mangled_x86(MANGLED_TODO, "??1Mod@@UAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1Mod@@UAE@XZ");
 	// Mod *const this;
-	todo("implement");
-	_sub_1078BD60(this);
+
+	Finish();
 }
 
 _inline ModCache::~ModCache() // 0x1078BE40
@@ -174,13 +173,12 @@ _inline ModCache::~ModCache() // 0x1078BE40
 	compiler_generated();
 }
 
-_extern void _sub_1078C9E0(Mod *const);
 void Mod::AddRef() // 0x1078C9E0
 {
-	mangled_x86(MANGLED_TODO, "?AddRef@Mod@@UAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?AddRef@Mod@@UAEXXZ");
 	// Mod *const this;
-	todo("implement");
-	_sub_1078C9E0(this);
+
+	m_refCount++;
 }
 
 _extern void _sub_1078D920(Mod *const);
@@ -193,34 +191,28 @@ void Mod::Release() // 0x1078D920
 	_sub_1078D920(this);
 }
 
-extern EModIndex _sub_1078CE10(Mod const *const);
 EModIndex Mod::GetIndex() const // 0x1078CE10
 {
-	mangled_x86(MANGLED_TODO, "?GetIndex@Mod@@QBE?AW4EModIndex@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetIndex@Mod@@QBE?AW4EModIndex@@XZ");
 	// Mod const *const this;
-	todo("implement");
-	EModIndex __result = _sub_1078CE10((Mod const *)this);
-	return __result;
+
+	return m_index;
 }
 
-_extern __int32 _sub_1078CCD0(Mod const *const);
 __int32 Mod::GetCacheIndex() const // 0x1078CCD0
 {
-	mangled_x86(MANGLED_TODO, "?GetCacheIndex@Mod@@QBEHXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetCacheIndex@Mod@@QBEHXZ");
 	// Mod const *const this;
-	todo("implement");
-	__int32 __result = _sub_1078CCD0((Mod const *)this);
-	return __result;
+
+	return m_cacheIndex;
 }
 
-extern char const *_sub_1078CDC0(Mod const *const);
 char const *Mod::GetFilename() const // 0x1078CDC0
 {
-	mangled_x86(MANGLED_TODO, "?GetFilename@Mod@@UBEPBDXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetFilename@Mod@@UBEPBDXZ");
 	// Mod const *const this;
-	todo("implement");
-	char const * __result = _sub_1078CDC0((Mod const *)this);
-	return __result;
+
+	return m_filename.c_str();
 }
 
 _extern bool _sub_1078CEC0(Mod const *const);
@@ -243,14 +235,12 @@ bool Mod::GetCacheIsLoading() const // 0x1078CD00
 	return __result;
 }
 
-extern EModResult _sub_1078CD90(Mod const *const);
 EModResult Mod::GetError() const // 0x1078CD90
 {
-	mangled_x86(MANGLED_TODO, "?GetError@Mod@@UBE?AW4EModResult@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetError@Mod@@UBE?AW4EModResult@@XZ");
 	// Mod const *const this;
-	todo("implement");
-	EModResult __result = _sub_1078CD90((Mod const *)this);
-	return __result;
+
+	return m_error;
 }
 
 extern c_mod_package *_sub_1078CE40(Mod const *const, bool);
@@ -356,13 +346,13 @@ EModResult Mod::LoadCacheBlocking(__int32 cacheIndex) // 0x1078D2F0
 	return __result;
 }
 
-_extern void _sub_1078CA40(Mod *const);
 void Mod::Finish() // 0x1078CA40
 {
-	mangled_x86(MANGLED_TODO, "?Finish@Mod@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Finish@Mod@@QAEXXZ");
 	// Mod *const this;
-	todo("implement");
-	_sub_1078CA40(this);
+
+	m_cacheLoadEvent.Wait(4294967295);
+	m_loadThread.detach();
 }
 
 /* ---------- private code */

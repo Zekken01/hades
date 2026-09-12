@@ -39,11 +39,11 @@ namespace Modules
 		bool GetVariableFloat(std::string const &name, float &value);
 		bool GetVariableString(std::string const &name, std::string &value);
 	protected:
-		Modules::Command *AddCommand(std::string const &name, std::string const &shortName, std::string const &description, CommandFlags flags, bool (*updateEvent)(std::vector<std::string> const &, std::string &), std::initializer_list<std::string> arguments);
-		Modules::Command *AddVariableInt(std::string const &name, std::string const &shortName, std::string const &description, CommandFlags flags, unsigned long defaultValue, bool (*updateEvent)(std::vector<std::string> const &, std::string &));
-		Modules::Command *AddVariableInt64(std::string const &name, std::string const &shortName, std::string const &description, CommandFlags flags, unsigned long long defaultValue, bool (*updateEvent)(std::vector<std::string> const &, std::string &));
-		Modules::Command *AddVariableFloat(std::string const &name, std::string const &shortName, std::string const &description, CommandFlags flags, float defaultValue, bool (*updateEvent)(std::vector<std::string> const &, std::string &));
-		Modules::Command *AddVariableString(std::string const &name, std::string const &shortName, std::string const &description, CommandFlags flags, std::string defaultValue, bool (*updateEvent)(std::vector<std::string> const &, std::string &));
+		Modules::Command *AddCommand(std::string const &name, std::string const &shortName, std::string const &description, CommandFlags flags, bool (*updateEvent)(std::vector<std::string> const &, std::string &), std::initializer_list<std::string> arguments = {});  /* hades: default from 0.6.1 */
+		Modules::Command *AddVariableInt(std::string const &name, std::string const &shortName, std::string const &description, CommandFlags flags, unsigned long defaultValue = 0, bool (*updateEvent)(std::vector<std::string> const &, std::string &) = nullptr);  /* hades: default from 0.6.1 */
+		Modules::Command *AddVariableInt64(std::string const &name, std::string const &shortName, std::string const &description, CommandFlags flags, unsigned long long defaultValue = 0, bool (*updateEvent)(std::vector<std::string> const &, std::string &) = nullptr);  /* hades: default from 0.6.1 */
+		Modules::Command *AddVariableFloat(std::string const &name, std::string const &shortName, std::string const &description, CommandFlags flags, float defaultValue = 0, bool (*updateEvent)(std::vector<std::string> const &, std::string &) = nullptr);  /* hades: default from 0.6.1 */
+		Modules::Command *AddVariableString(std::string const &name, std::string const &shortName, std::string const &description, CommandFlags flags, std::string defaultValue = "", bool (*updateEvent)(std::vector<std::string> const &, std::string &) = nullptr);  /* hades: default from 0.6.1 */
 	private:
 		std::string moduleName; // 0x0
 	public:

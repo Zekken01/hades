@@ -214,6 +214,10 @@ namespace Blam
 
 /* ---------- prototypes */
 
+namespace Blam::Network { Session *GetActiveSession(); __int32 GetNumPlayers(); }  // hades: added for 0X10B2C0B0
+
+namespace Blam::Network { Session *GetActiveSession(); }  // hades: added for 0X10B2CBA0
+
 namespace Server
 {
 	namespace Stats
@@ -492,37 +496,54 @@ namespace Server
 			return __result;
 		}
 
-		_extern void _sub_10B2C0B0(Blam::Network::LifeCycleState);
 		void LifeCycleStateChanged(Blam::Network::LifeCycleState newState) // 0x10B2C0B0
 		{
-			mangled_x86(MANGLED_TODO, "?LifeCycleStateChanged@Stats@Server@@YAXW4LifeCycleState@Network@Blam@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?LifeCycleStateChanged@Stats@Server@@YAXW4LifeCycleState@Network@Blam@@@Z");
 			// Blam::Network::LifeCycleState newState;
 			// Blam::Network::Session *session;
-			todo("implement");
-			_sub_10B2C0B0(newState);
+
+			Blam::Network::Session *session = Blam::Network::GetActiveSession();
+			if (!session || !session->IsEstablished() || !session->IsHost())
+			{
+			}
+			else
+			{
+				switch (newState)
+				{
+				case Blam::Network::eLifeCycleStatePreGame:
+					if (Blam::Network::GetNumPlayers())
+						Server::Stats::UpdatePlayersInfo();
+					break;
+				case Blam::Network::eLifeCycleStateStartGame:
+					Server::Stats::UpdatePlayersInfo();
+					break;
+				}
+			}
 		}
 
-		_extern void _sub_10B2CBA0();
 		void OnGameStart() // 0x10B2CBA0
 		{
-			mangled_x86(MANGLED_TODO, "?OnGameStart@Stats@Server@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnGameStart@Stats@Server@@YAXXZ");
 			// procedure flags: nofpo
 			// Blam::Network::Session *session;
 			// function call : long (*const)()
-			todo("implement");
-			_sub_10B2CBA0();
+
+			Blam::Network::Session *session = Blam::Network::GetActiveSession();
+			if (!session || !session->IsEstablished() || !session->IsHost())
+				return;
+			numberOfRounds = ((int(__cdecl *)())0x5504c0)();
 		}
 
-		_extern unsigned __int32 _sub_10B27140(Blam::Network::Session *, __int32);
 		unsigned __int32 GetPeerIp(Blam::Network::Session *session, __int32 peer) // 0x10B27140
 		{
-			mangled_x86(MANGLED_TODO, "?GetPeerIp@Stats@Server@@YAIPAUSession@Network@Blam@@H@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetPeerIp@Stats@Server@@YAIPAUSession@Network@Blam@@H@Z");
 			// __int32 peer;
 			// Blam::Network::SessionMembership *membership;
 			// __int32 channelIndex;
-			todo("implement");
-			unsigned __int32 __result = _sub_10B27140(session, peer);
-			return __result;
+
+			Blam::Network::SessionMembership *membership = &session->MembershipInfo;
+			__int32 channelIndex = membership->PeerChannels[peer].ChannelIndex;
+			return channelIndex >= 0 ? session->Observer->Channels[channelIndex].Address.Address.IPv4 : 0x7F000001;
 		}
 
 		_extern void _sub_10B2C170();
@@ -585,24 +606,26 @@ namespace Server
 			_sub_10B2C980(player, event, definition);
 		}
 
-		_extern void _sub_10B2BFF0();
 		void Init() // 0x10B2BFF0
 		{
-			mangled_x86(MANGLED_TODO, "?Init@Stats@Server@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Init@Stats@Server@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_10B2BFF0();
+
+			Patches::Network::OnLifeCycleStateChanged(LifeCycleStateChanged);
+			Patches::Events::OnEvent(OnEvent);
+			Patches::Core::OnGameStart(OnGameStart);
+			GetPlayersInfoEndpoint();
+			time(&listPlayersTime);
 		}
 
-		_extern void _sub_10B2CF80();
 		void UpdatePlayersInfo() // 0x10B2CF80
 		{
-			mangled_x86(MANGLED_TODO, "?UpdatePlayersInfo@Stats@Server@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?UpdatePlayersInfo@Stats@Server@@YAXXZ");
 			// procedure flags: nofpo
 			// void *thread;
 			// function call : void *(_SECURITY_ATTRIBUTES *, unsigned long, unsigned long (*)(void *), void *, unsigned long, unsigned long *)
-			todo("implement");
-			_sub_10B2CF80();
+
+			HANDLE thread = CreateThread(nullptr, 0, Server::Stats::GetPlayersInfo_Thread, (LPVOID)"", 0, nullptr);
 		}
 
 		_extern void _sub_10B2CC30();
@@ -636,14 +659,12 @@ namespace Server
 			_sub_10B2CC30();
 		}
 
-		_extern bool _sub_10B2D5E0();
 		bool localPlayerIsPostMatch() // 0x10B2D5E0
 		{
-			mangled_x86(MANGLED_TODO, "?localPlayerIsPostMatch@Stats@Server@@YA_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?localPlayerIsPostMatch@Stats@Server@@YA_NXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			bool __result = _sub_10B2D5E0();
-			return __result;
+
+			return postMatch;
 		}
 	}
 }

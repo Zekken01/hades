@@ -184,31 +184,33 @@ namespace Patches
 
 /* ---------- private code */
 
-_extern void _sub_1091F100(s_structure_lighting_data *const, c_rasterizer_vertex_buffer *);
 _inline void s_structure_lighting_data::set_per_vertex_buffer(c_rasterizer_vertex_buffer *buffer) // 0x1091F100
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_per_vertex_buffer@s_structure_lighting_data@hades_file_local@@QAEXPAVc_rasterizer_vertex_buffer@@@Z");
 	// `anonymous-namespace'::s_structure_lighting_data::set_per_vertex_buffer
 	// c_rasterizer_vertex_buffer *buffer;
-	todo("implement");
-	_sub_1091F100(this, buffer);
+
+	per_vertex_count = buffer->get_vertex_count();
+	per_vertex_stride = buffer->get_vertex_stride();
+	per_vertex_data = buffer->get_data();
 }
 
-_extern void _sub_1091F0A0(s_structure_lighting_data *const, c_rasterizer_vertex_buffer *);
 _inline void s_structure_lighting_data::set_per_pixel_buffer(c_rasterizer_vertex_buffer *buffer) // 0x1091F0A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_per_pixel_buffer@s_structure_lighting_data@hades_file_local@@QAEXPAVc_rasterizer_vertex_buffer@@@Z");
 	// `anonymous-namespace'::s_structure_lighting_data::set_per_pixel_buffer
 	// c_rasterizer_vertex_buffer *buffer;
-	todo("implement");
-	_sub_1091F0A0(this, buffer);
+
+	per_pixel_data = buffer->get_data();
 }
 
-_extern void _sub_1091F070(s_structure_lighting_data *const, long);
 _inline void s_structure_lighting_data::set_lightprobe_index(long index) // 0x1091F070
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_lightprobe_index@s_structure_lighting_data@hades_file_local@@QAEXJ@Z");
 	// `anonymous-namespace'::s_structure_lighting_data::set_lightprobe_index
 	// long index;
-	todo("implement");
-	_sub_1091F070(this, index);
+
+	lightprobe_index = index;
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0s_structure_lighting_data@hades_file_local@@QAE@XZ"); no body to assert in
@@ -225,9 +227,9 @@ long interpoloate_lighting_sample_hook(s_geometry_sample *current_sample, s_geom
 	return __result;
 }
 
-_extern void _sub_1091CD70(s_render_geometry const *, long, long, s_uncompressed_triangle *);
 _inline void extract_world_vertex(s_render_geometry const *render_geometry, long mesh_index, long triangle_index, s_uncompressed_triangle *triangle) // 0x1091CD70
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?extract_world_vertex@@YAXPBUs_render_geometry@@JJPAUs_uncompressed_triangle@@@Z");
 	// `anonymous-namespace'::extract_world_vertex
 	// s_uncompressed_triangle *triangle;
 	// c_rasterizer_index_buffer const *index_buffer;
@@ -238,8 +240,13 @@ _inline void extract_world_vertex(s_render_geometry const *render_geometry, long
 	// function call : c_rasterizer_vertex_buffer *(*const)(s_render_geometry const *, long)
 	// function call : c_rasterizer_index_buffer *(*const)(s_render_geometry const *, long)
 	// function call : void (*const)(s_rasterizer_vertex_world *, long, unsigned short const *, unsigned long, s_uncompressed_triangle *)
-	todo("implement");
-	_sub_1091CD70(render_geometry, mesh_index, triangle_index, triangle);
+
+	s_mesh const *mesh = &render_geometry->meshes[mesh_index];
+	c_rasterizer_vertex_buffer *world_vertex_buffer = ((c_rasterizer_vertex_buffer *(__cdecl *)(s_render_geometry const *, long))0x78C930)(render_geometry, mesh->vertex_buffer_indices[0]);
+	c_rasterizer_index_buffer *index_buffer = ((c_rasterizer_index_buffer *(__cdecl *)(s_render_geometry const *, long))0x78C870)(render_geometry, mesh->index_buffer_indices[0]);
+	unsigned short const *indices = (unsigned short const *)index_buffer->get_data();
+	void const *world_vertices = world_vertex_buffer->get_data();
+	((void(__cdecl *)(void const *, long, unsigned short const *, long, s_uncompressed_triangle *))0x7520D0)(world_vertices, triangle_index, indices, world_vertex_buffer->get_vertex_count(), triangle);
 }
 
 _extern void _sub_1091CC20(s_render_geometry const *, long, long, long, s_uncompressed_triangle *);
@@ -520,25 +527,40 @@ bool geometry_test_collision_result_impl(long bsp_index, long object_index, long
 	return __result;
 }
 
-_extern bool _sub_1091D740(long, long, long, long, real_point3d const *, bool, bool, bool *, s_geometry_test_result *);
 _inline bool geometry_test_collision_result_hook(long bsp_index, long object_index, long instance_index, long surface_index, real_point3d const *test_point, bool unknown_flag, bool find_material_flag, bool *out_test_result_valid, s_geometry_test_result *test_result) // 0x1091D740
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?geometry_test_collision_result_hook@@YA_NJJJJPBUreal_point3d@@_N1PA_NPAUs_geometry_test_result@@@Z");
 	// `anonymous-namespace'::geometry_test_collision_result_hook
 	// s_geometry_test_result *test_result;
-	todo("implement");
-	bool __result = _sub_1091D740(bsp_index, object_index, instance_index, surface_index, test_point, unknown_flag, find_material_flag, out_test_result_valid, test_result);
-	return __result;
+
+	return geometry_test_collision_result_impl(bsp_index, object_index, instance_index, surface_index, test_point, unknown_flag, find_material_flag, out_test_result_valid, test_result);
 }
 
-extern void _sub_1091EF10();
 __declspec(naked) void sample_airprobes_hook() // 0x1091EF10
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?sample_airprobes_hook@@YAXXZ");
 	// `anonymous-namespace'::sample_airprobes_hook
 	// procedure flags: nofpo
 // bad_probe:
 // good_probe:
-	todo("implement");
-	_sub_1091EF10();
+
+	__asm
+	{
+		cmp word ptr [ecx + 14h], 0
+		jne Lbad_probe
+		cmp word ptr [ecx + 16h], 0
+		jne Lbad_probe
+		cmp word ptr [ecx + 18h], 0
+		je Lgood_probe
+		Lbad_probe:
+		mov eax, 0BF0E20h
+		call eax
+		push 075388Bh
+		ret
+		Lgood_probe:
+		push 07539A1h
+		ret
+	}
 }
 
 /* ---------- template instantiations */

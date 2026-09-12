@@ -46,12 +46,12 @@ namespace Modules
 				bool LoadPrefab; // 0x1
 				std::string Path; // 0x4
 				std::string Name; // 0x20
-				s_Prefabs(s_Prefabs &); /* compiler_generated() */
-				s_Prefabs(s_Prefabs const &); /* compiler_generated() */
-				s_Prefabs(); /* compiler_generated() */
+				// An aggregate: the implicit constructors and assignment operators
+				// are left implicit deliberately. Declaring them would make this a
+				// non-aggregate, and `CommandState = { ... }` below would then be a
+				// constructor call rather than the inline initialization the
+				// original performs.
 				~s_Prefabs(); /* compiler_generated() */
-				s_Prefabs &operator=(s_Prefabs &); /* compiler_generated() */
-				s_Prefabs &operator=(s_Prefabs const &); /* compiler_generated() */
 			};
 			// static_assert(sizeof(s_Prefabs) == 60, "Invalid s_Prefabs size");
 			// Withheld: the type inventory does not describe this type, so its
@@ -62,14 +62,10 @@ namespace Modules
 			bool SetPrematchCamera; // 0x2
 			short PrematchCameraTeamIndex; // 0x4
 			bool OpenMapOptions; // 0x6
-			long SpawnItem; // 0x8
+			long SpawnItem = -1; // 0x8
 		s_Prefabs Prefabs; // 0xC
-			s_CommandState(s_CommandState &); /* compiler_generated() */
-			s_CommandState(s_CommandState const &); /* compiler_generated() */
-			s_CommandState(); /* compiler_generated() */
+			// An aggregate - see s_Prefabs above.
 			_inline ~s_CommandState(); /* compiler_generated() */
-			s_CommandState &operator=(s_CommandState &); /* compiler_generated() */
-			s_CommandState &operator=(s_CommandState const &); /* compiler_generated() */
 		};
 		// static_assert(sizeof(s_CommandState) == 72, "Invalid s_CommandState size");
 		// Withheld: the type inventory does not describe this type, so its
@@ -111,7 +107,11 @@ namespace Modules
 		Modules::Command *VarShowInvisiblesClient; // 0x60
 		Modules::Command *VarShowWorldBounds; // 0x64
 		Modules::Command *VarShowWorldBoundsClient; // 0x68
-		s_CommandState CommandState; // 0x6C
+		// `} CommandState = { 0 };` in 0.6.1; 0.7.2 added PrematchCameraTeamIndex
+		// and starts SpawnItem at -1, so the members up to it are named. Prefabs
+		// is value-initialized: its two bools zeroed, its two strings default
+		// constructed, which is what the original emits.
+		s_CommandState CommandState = { 0 }; // 0x6C
 		ModuleForge();
 		~ModuleForge(); /* compiler_generated() */
 	};

@@ -96,7 +96,6 @@ struct s_damage_owner
 	long player_index; // 0x0
 	long object_index; // 0x4
 	unsigned char team; // 0x8
-	unsigned char __pad0[3]; // 0x9
 };
 static_assert(sizeof(s_damage_owner) == 12, "Invalid s_damage_owner size");
 

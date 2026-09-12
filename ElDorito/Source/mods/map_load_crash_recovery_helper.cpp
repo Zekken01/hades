@@ -88,6 +88,8 @@ using namespace ::Modules;
 
 /* ---------- prototypes */
 
+extern std::atomic_flag g_gameIsCrashed;  // hades: added for 0X10787BF0
+
 /* ---------- globals */
 
 /* ---------- private variables */
@@ -110,40 +112,43 @@ void c_map_load_crash_recovery_helper::map_load_start() // 0x107876B0
 	_sub_107876B0(this);
 }
 
-_extern void _sub_10787660(c_map_load_crash_recovery_helper *const);
 void c_map_load_crash_recovery_helper::map_load_end() // 0x10787660
 {
-	mangled_x86(MANGLED_TODO, "?map_load_end@c_map_load_crash_recovery_helper@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?map_load_end@c_map_load_crash_recovery_helper@@QAEXXZ");
 	// c_map_load_crash_recovery_helper *const this;
-	todo("implement");
-	_sub_10787660(this);
+
+	m_map_load_end_time = system_milliseconds();
 }
 
-_extern void _sub_10787D00(c_map_load_crash_recovery_helper *const);
 void c_map_load_crash_recovery_helper::tick() // 0x10787D00
 {
-	mangled_x86(MANGLED_TODO, "?tick@c_map_load_crash_recovery_helper@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?tick@c_map_load_crash_recovery_helper@@QAEXXZ");
 	// c_map_load_crash_recovery_helper *const this;
-	todo("implement");
-	_sub_10787D00(this);
+
+	if (m_map_load_end_time != -1 && system_milliseconds() - m_map_load_end_time > 3000)
+	{
+		m_map_load_end_time = -1;
+		remove(kMapLoadTempFileName.c_str());
+	}
 }
 
-_extern void _sub_10787BF0(c_map_load_crash_recovery_helper *const);
 void c_map_load_crash_recovery_helper::shutdown() // 0x10787BF0
 {
-	mangled_x86(MANGLED_TODO, "?shutdown@c_map_load_crash_recovery_helper@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?shutdown@c_map_load_crash_recovery_helper@@QAEXXZ");
 	// c_map_load_crash_recovery_helper *const this;
-	todo("implement");
-	_sub_10787BF0(this);
+
+	if (!g_gameIsCrashed.test() && !m_dirty_disked)
+	{
+		remove(kMapLoadTempFileName.c_str());
+	}
 }
 
-_extern void _sub_107875B0(c_map_load_crash_recovery_helper *const);
 void c_map_load_crash_recovery_helper::dirty_disk() // 0x107875B0
 {
-	mangled_x86(MANGLED_TODO, "?dirty_disk@c_map_load_crash_recovery_helper@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?dirty_disk@c_map_load_crash_recovery_helper@@QAEXXZ");
 	// c_map_load_crash_recovery_helper *const this;
-	todo("implement");
-	_sub_107875B0(this);
+
+	m_dirty_disked = true;
 }
 
 /* ---------- private code */

@@ -304,14 +304,15 @@ namespace Player
 		_sub_109023F0();
 	}
 
-	_extern void _sub_109032C0();
 	void CPlayerCharacterSystem::Tick() // 0x109032C0
 	{
-		mangled_x86(MANGLED_TODO, "?Tick@CPlayerCharacterSystem@Player@@SAXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@CPlayerCharacterSystem@Player@@SAXXZ");
 		// procedure flags: nofpo
 		// function call : bool (*const)()
-		todo("implement");
-		_sub_109032C0();
+
+		MaybeUpdatePeerProperties();
+		if (((bool(__cdecl *)())0x5314B0)())
+			Player::CPlayerCharacterSystem::UpdateLocalPlayerHudGlobals();
 	}
 
 	_extern void _sub_10902990(bool, std::shared_ptr<c_cache_file_tag_cache>, std::shared_ptr<Blam::Cache::StringIDCache>);
@@ -420,13 +421,13 @@ namespace Player
 		return __result;
 	}
 
-	_extern void _sub_10903150();
 	void CPlayerCharacterSystem::ReloadCustomizations() // 0x10903150
 	{
-		mangled_x86(MANGLED_TODO, "?ReloadCustomizations@CPlayerCharacterSystem@Player@@SAXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?ReloadCustomizations@CPlayerCharacterSystem@Player@@SAXXZ");
 		// procedure flags: nofpo
-		todo("implement");
-		_sub_10903150();
+
+		Player::CPlayerCustomizationDB::Instance().Reload();
+		currentUpdateNumber++;
 	}
 }
 
@@ -601,22 +602,27 @@ __int32 OverridePlayerCharacter(__int32 playerIndex) // 0x10902BE0
 	return __result;
 }
 
-_extern void _sub_10902AE0(Blam::Network::LifeCycleState);
 void OnLifeCycleChanged(Blam::Network::LifeCycleState newState) // 0x10902AE0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnLifeCycleChanged@@YAXW4LifeCycleState@Network@Blam@@@Z");
 	// `anonymous-namespace'::OnLifeCycleChanged
 	// Blam::Network::LifeCycleState newState;
-	todo("implement");
-	_sub_10902AE0(newState);
+
+	switch (newState)
+	{
+	case Blam::Network::eLifeCycleStateNone:
+		votingCharacterOverrides = {};
+		break;
+	}
 }
 
-_extern void _sub_10902B90(Server::Voting::MapAndType const &);
 void OnServerVotePassed(Server::Voting::MapAndType const &winner) // 0x10902B90
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnServerVotePassed@@YAXABUMapAndType@Voting@Server@@@Z");
 	// `anonymous-namespace'::OnServerVotePassed
 	// Server::Voting::MapAndType const &winner;
-	todo("implement");
-	_sub_10902B90(winner);
+
+	votingCharacterOverrides = winner.haloType.characterOverrides;
 }
 
 _extern bool _sub_109031B0(__int32);

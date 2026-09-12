@@ -102,6 +102,8 @@ namespace Patches
 
 /* ---------- prototypes */
 
+extern bool (*const game_is_distributed)();  // hades: added for 0X106A2680
+
 extern bool unit_compute_function_value_hook(long unit_index, unsigned long function_name, long definition_index, float *out_value, bool *out_value_valid, bool *a6);
 extern void unit_action_assassinate_event_hook(long mover_index, e_action action_type, c_flags<enum e_animation_frame_event_types,unsigned long> frame_events);
 extern void unit_action_assassinate_finished_hook(__int32 mover_index, e_action action_type);
@@ -120,10 +122,10 @@ namespace Patches
 extern "C" void unit_send_message_to_first_person_ho_hook(long unit_index, e_unit_messages message);
 extern "C" void unit_update_target_pivot_aiming(long unit_index, long ultimate_weapon_control_unit_index);
 extern "C" void unit_update_target_aiming(long unit_index);
-extern "C" void c_tracked_target__update_internal_hook(c_tracked_target *thisptr, void *__formal, c_aim_target_object *target_object, s_unit_target_tracking_block *tracking_parameters, long behavior);
+extern "C" void __fastcall c_tracked_target__update_internal_hook(c_tracked_target *thisptr, void *__formal, c_aim_target_object *target_object, s_unit_target_tracking_block *tracking_parameters, long behavior);
 extern "C" void unit_update_team_index_hook(long unit_index);
 extern "C" long unit_get_last_associated_weak_player_index_for_appearance(long unit_index);
-extern "C" bool c_tracked_target__set_from_weapon_fire_event_hook(c_tracked_target *thisptr, void *__formal, c_aim_target_simulation_entity *aim_target, s_unit_target_tracking_block *tracking_parameters);
+extern "C" bool __fastcall c_tracked_target__set_from_weapon_fire_event_hook(c_tracked_target *thisptr, void *__formal, c_aim_target_simulation_entity *aim_target, s_unit_target_tracking_block *tracking_parameters);
 extern "C" void giant_object_early_mover_delete_early_mover_childern_hook(long object_index);
 extern "C" void object_detach_predicted_objects_hook(__int32 object_index);
 
@@ -226,26 +228,30 @@ void unit_update_assassination_events(long unit_index) // 0x106A32F0
 	_sub_106A32F0(unit_index);
 }
 
-_extern void _sub_106A3D40(long);
 void unit_update_vision_mode_hook(long unit_index) // 0x106A3D40
 {
-	mangled_x86(MANGLED_TODO, "?unit_update_vision_mode_hook@@YAXJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_update_vision_mode_hook@@YAXJ@Z");
 	// long unit_index;
 	// void (*const unit_update_vision_mode)(long);
 	// function call : void (*const)(long)
-	todo("implement");
-	_sub_106A3D40(unit_index);
+
+	void (__cdecl *const unit_update_vision_mode)(long) = (void(__cdecl *const)(long))0xb4c4a0;
+
+	unit_update_vision_mode(unit_index);
+	unit_update_assassination_events(unit_index);
 }
 
-_extern void _sub_106A3C00(long);
 void unit_update_target_tracking_hook(long unit_index) // 0x106A3C00
 {
-	mangled_x86(MANGLED_TODO, "?unit_update_target_tracking_hook@@YAXJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_update_target_tracking_hook@@YAXJ@Z");
 	// long unit_index;
 	// void (*const unit_update_target_tracking)(long);
 	// function call : void (*const)(long)
-	todo("implement");
-	_sub_106A3C00(unit_index);
+
+	void (__cdecl *const unit_update_target_tracking)(long) = (void(__cdecl *const)(long))0xb4c260;
+
+	unit_update_target_aiming(unit_index);
+	unit_update_target_tracking(unit_index);
 }
 
 namespace Patches
@@ -347,7 +353,7 @@ extern "C" void unit_update_target_aiming(long unit_index) // 0x106A34B0
 }
 
 _extern void _sub_106A2030(c_tracked_target *, void *, c_aim_target_object *, s_unit_target_tracking_block *, long);
-extern "C" void c_tracked_target__update_internal_hook(c_tracked_target *thisptr, void *__formal, c_aim_target_object *target_object, s_unit_target_tracking_block *tracking_parameters, long behavior) // 0x106A2030
+extern "C" void __fastcall c_tracked_target__update_internal_hook(c_tracked_target *thisptr, void *__formal, c_aim_target_object *target_object, s_unit_target_tracking_block *tracking_parameters, long behavior) // 0x106A2030
 {
 	// c_tracked_target__update_internal_hook
 // $LN5:
@@ -411,7 +417,7 @@ extern "C" long unit_get_last_associated_weak_player_index_for_appearance(long u
 }
 
 _extern bool _sub_106A1FB0(c_tracked_target *, void *, c_aim_target_simulation_entity *, s_unit_target_tracking_block *);
-extern "C" bool c_tracked_target__set_from_weapon_fire_event_hook(c_tracked_target *thisptr, void *__formal, c_aim_target_simulation_entity *aim_target, s_unit_target_tracking_block *tracking_parameters) // 0x106A1FB0
+extern "C" bool __fastcall c_tracked_target__set_from_weapon_fire_event_hook(c_tracked_target *thisptr, void *__formal, c_aim_target_simulation_entity *aim_target, s_unit_target_tracking_block *tracking_parameters) // 0x106A1FB0
 {
 	// c_tracked_target__set_from_weapon_fire_event_hook
 	// s_unit_target_tracking_block *tracking_parameters;
@@ -421,17 +427,25 @@ extern "C" bool c_tracked_target__set_from_weapon_fire_event_hook(c_tracked_targ
 	return __result;
 }
 
-_extern void _sub_106A2680(long);
 extern "C" void giant_object_early_mover_delete_early_mover_childern_hook(long object_index) // 0x106A2680
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "_giant_object_early_mover_delete_early_mover_childern_hook");
 	// giant_object_early_mover_delete_early_mover_childern_hook
 	// long object_index;
 	// void (*const object_early_mover_delete_early_mover_childern)(long);
 	// function call : bool (*const)()
 	// function call : bool (*const)()
 	// function call : void (*const)(long)
-	todo("implement");
-	_sub_106A2680(object_index);
+
+	if (game_is_distributed() && ((bool (*)())0x531d70)())
+	{
+	}
+	else
+	{
+		void (*const delete_early_mover_childern)(long) = (void (*const)(long))0xb97f90;
+
+		delete_early_mover_childern(object_index);
+	}
 }
 
 _extern void _sub_106A2720(__int32);

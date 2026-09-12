@@ -195,7 +195,7 @@ namespace Server
 bool GetEndpoints();
 void CheckToBootPlayers();
 bool SyncBanList();
-unsigned long BanListSyncThreadProc(void *lpParam);
+unsigned long __stdcall BanListSyncThreadProc(void *lpParam);
 void OnShutdown();
 bool TryParseSubnet(std::string const &cidr, unsigned long *outNetwork, unsigned long *outMask);
 
@@ -405,7 +405,7 @@ bool SyncBanList() // 0x10B18F00
 }
 
 _extern unsigned long _sub_10B18260(void *);
-unsigned long BanListSyncThreadProc(void *lpParam) // 0x10B18260
+unsigned long __stdcall BanListSyncThreadProc(void *lpParam) // 0x10B18260
 {
 	// `anonymous-namespace'::BanListSyncThreadProc
 	// static ...; // 0x10B18354
@@ -420,13 +420,14 @@ unsigned long BanListSyncThreadProc(void *lpParam) // 0x10B18260
 	return __result;
 }
 
-_extern void _sub_10B18EB0();
 void OnShutdown() // 0x10B18EB0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnShutdown@@YAXXZ");
 	// `anonymous-namespace'::OnShutdown
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10B18EB0();
+
+	shouldExit = true;
+	syncSignal.notify_one();
 }
 
 _extern bool _sub_10B19ED0(std::string const &, unsigned long *, unsigned long *);

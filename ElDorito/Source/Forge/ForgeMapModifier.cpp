@@ -84,6 +84,11 @@ long CreateMapmodifierObject();
 
 /* ---------- private variables */
 
+namespace hades_file_local
+{
+	extern ForgeMapModifierState state; // 0x1134D0C4
+}
+using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Forge
@@ -115,24 +120,26 @@ namespace Forge
 		_sub_1067C9B0();
 	}
 
-	_extern long _sub_1067C8D0();
 	long CForgeMapModifier::GetOrCreateMapModifierObject() // 0x1067C8D0
 	{
-		mangled_x86(MANGLED_TODO, "?GetOrCreateMapModifierObject@CForgeMapModifier@Forge@@SAJXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetOrCreateMapModifierObject@CForgeMapModifier@Forge@@SAJXZ");
 		// procedure flags: nofpo
 		// long object_index;
-		todo("implement");
-		long __result = _sub_1067C8D0();
-		return __result;
+
+		long object_index = FindMapModifierObject();
+
+		if (object_index == -1)
+			object_index = CreateMapmodifierObject();
+
+		return object_index;
 	}
 
-	_extern void _sub_1067C990();
 	void CForgeMapModifier::OnUndoRedoCompleted() // 0x1067C990
 	{
-		mangled_x86(MANGLED_TODO, "?OnUndoRedoCompleted@CForgeMapModifier@Forge@@SAXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?OnUndoRedoCompleted@CForgeMapModifier@Forge@@SAXXZ");
 		// procedure flags: nofpo
-		todo("implement");
-		_sub_1067C990();
+
+		state.WaitingForNewRound = true;
 	}
 }
 

@@ -34,7 +34,7 @@ private:
 	void OnConnectionAborted(EServerConnectAbortReason reason);
 	std::shared_ptr<CServerConnectStateManager> m_stateManager; // 0x0
 public:
-	_inline CServerConnectManager(); /* compiler_generated() */
+	_inline CServerConnectManager() = default; /* compiler_generated() */
 	~CServerConnectManager(); /* compiler_generated() */
 };
 static_assert(sizeof(CServerConnectManager) == 8, "Invalid CServerConnectManager size");

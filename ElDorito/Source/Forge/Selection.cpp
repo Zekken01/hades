@@ -148,31 +148,27 @@ namespace Forge
 	{
 		Forge::ObjectSet &GetSelection() // 0x109749C0
 		{
-			mangled_x86(MANGLED_TODO, "?GetSelection@Selection@Forge@@YAAAVObjectSet@2@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetSelection@Selection@Forge@@YAAAVObjectSet@2@XZ");
 			// procedure flags: nofpo
-			todo("implement");
-			Forge::ObjectSet & __result = _sub_109749C0();
-			return __result;
+
+			return s_SelectedObjects;
 		}
 	}
 }
 
 namespace Forge
 {
-	_extern bool _sub_10974B50();
 	bool IsEmpty() // 0x10974B50
 	{
-		mangled_x86(MANGLED_TODO, "?IsEmpty@Forge@@YA_NXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?IsEmpty@Forge@@YA_NXZ");
 		// procedure flags: nofpo
-		todo("implement");
-		bool __result = _sub_10974B50();
-		return __result;
+
+		return !s_SelectedObjects.Any();
 	}
 
-	_extern long _sub_109748B0(long);
 	long GetCurrentObjectIndex(long playerIndex) // 0x109748B0
 	{
-		mangled_x86(MANGLED_TODO, "?GetCurrentObjectIndex@Forge@@YAJJ@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetCurrentObjectIndex@Forge@@YAJJ@Z");
 		// static ...; // 0x10974971
 		// static ...; // 0x1097495C
 		// static ...; // 0x10974944
@@ -181,9 +177,16 @@ namespace Forge
 		// long heldObjectIndex;
 		// long crosshairObjectIndex;
 		// function call : bool (*const)(long, long *, long *)
-		todo("implement");
-		long __result = _sub_109748B0(playerIndex);
-		return __result;
+
+		long heldObjectIndex;
+		long crosshairObjectIndex;
+
+		if (!((bool(__cdecl *)(long, long *, long *))0x59a6f0)(playerIndex, &heldObjectIndex, &crosshairObjectIndex))
+		{
+			return -1;
+		}
+
+		return heldObjectIndex != -1 ? heldObjectIndex : crosshairObjectIndex;
 	}
 }
 
@@ -342,13 +345,12 @@ namespace Forge
 			_sub_10974440(amount);
 		}
 
-		_extern void _sub_10973BB0();
 		void Clear() // 0x10973BB0
 		{
-			mangled_x86(MANGLED_TODO, "?Clear@Selection@Forge@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Clear@Selection@Forge@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_10973BB0();
+
+			s_SelectedObjects.Clear();
 		}
 
 		_extern void _sub_109741D0();

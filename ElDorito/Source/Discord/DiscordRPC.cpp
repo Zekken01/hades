@@ -131,7 +131,7 @@ void handleDiscordSpectate(char const *spectateSecret);
 void handleDiscordJoinRequest(DiscordJoinRequest const *joinRequest);
 void UpdateRichPresence();
 void handleDiscordReady();
-unsigned long DiscordRetrieveExternalIP_Thread(void *lpParam);
+unsigned long __stdcall DiscordRetrieveExternalIP_Thread(void *lpParam);
 void OnShutdown();
 
 /* ---------- globals */
@@ -202,31 +202,29 @@ namespace Discord
 		_sub_109520A0(this);
 	}
 
-	_extern void _sub_10952FA0(Discord::DiscordRPC *const, char const *, __int32);
 	void DiscordRPC::ReplyToJoinRequest(char const *userId, __int32 reply) // 0x10952FA0
 	{
-		mangled_x86(MANGLED_TODO, "?ReplyToJoinRequest@DiscordRPC@Discord@@QAEXPBDH@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?ReplyToJoinRequest@DiscordRPC@Discord@@QAEXPBDH@Z");
 		// __int32 reply;
-		todo("implement");
-		_sub_10952FA0(this, userId, reply);
+
+		Discord_Respond(userId, reply);
 	}
 
-	_extern void _sub_109530E0(Discord::DiscordRPC *const);
 	void DiscordRPC::Shutdown() // 0x109530E0
 	{
-		mangled_x86(MANGLED_TODO, "?Shutdown@DiscordRPC@Discord@@QAEXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Shutdown@DiscordRPC@Discord@@QAEXXZ");
 		// Discord::DiscordRPC *const this;
-		todo("implement");
-		_sub_109530E0(this);
+
+		Discord_Shutdown();
 	}
 
-	_extern void _sub_10953130(Discord::DiscordRPC *const);
 	void DiscordRPC::Update() // 0x10953130
 	{
-		mangled_x86(MANGLED_TODO, "?Update@DiscordRPC@Discord@@QAEXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Update@DiscordRPC@Discord@@QAEXXZ");
 		// Discord::DiscordRPC *const this;
-		todo("implement");
-		_sub_10953130(this);
+
+		UpdatePresence();
+		Discord_RunCallbacks();
 	}
 }
 
@@ -248,13 +246,13 @@ void handleDiscordError(__int32 errorCode, char const *message) // 0x10954230
 	// char const *message;
 }
 
-_extern void _sub_10954250(char const *);
 void handleDiscordJoin(char const *joinSecret) // 0x10954250
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?handleDiscordJoin@@YAXPBD@Z");
 	// `anonymous-namespace'::handleDiscordJoin
 	// char const *joinSecret;
-	todo("implement");
-	_sub_10954250(joinSecret);
+
+	Modules::CommandMap::Instance().ExecuteCommand("connect " + std::string(joinSecret));
 }
 
 void handleDiscordSpectate(char const *spectateSecret) // 0x10954430
@@ -296,17 +294,17 @@ void UpdateRichPresence() // 0x109533C0
 	_sub_109533C0();
 }
 
-_extern void _sub_109543E0();
 void handleDiscordReady() // 0x109543E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?handleDiscordReady@@YAXXZ");
 	// `anonymous-namespace'::handleDiscordReady
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_109543E0();
+
+	Discord::DiscordRPC::Instance().Update();
 }
 
 _extern unsigned long _sub_10952610(void *);
-unsigned long DiscordRetrieveExternalIP_Thread(void *lpParam) // 0x10952610
+unsigned long __stdcall DiscordRetrieveExternalIP_Thread(void *lpParam) // 0x10952610
 {
 	// `anonymous-namespace'::DiscordRetrieveExternalIP_Thread
 	// static ...; // 0x10952D73
@@ -330,11 +328,11 @@ unsigned long DiscordRetrieveExternalIP_Thread(void *lpParam) // 0x10952610
 	return __result;
 }
 
-_extern void _sub_10952F50();
 void OnShutdown() // 0x10952F50
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnShutdown@@YAXXZ");
 	// `anonymous-namespace'::OnShutdown
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10952F50();
+
+	Discord::DiscordRPC::Instance().Shutdown();
 }

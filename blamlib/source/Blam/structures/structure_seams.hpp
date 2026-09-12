@@ -82,14 +82,20 @@ _inline long c_seam_connected_cluster_references::find(s_cluster_reference clust
 	return __result;
 }
 
-_extern bool _sub_10AC5140(c_seam_connected_cluster_references *const, s_cluster_reference);
 _inline bool c_seam_connected_cluster_references::insert(s_cluster_reference reference) // 0x10AC5140
 {
-	mangled_x86(MANGLED_TODO, "?insert@c_seam_connected_cluster_references@@QAE_NUs_cluster_reference@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?insert@c_seam_connected_cluster_references@@QAE_NUs_cluster_reference@@@Z");
 	// s_cluster_reference reference;
-	todo("implement");
-	bool __result = _sub_10AC5140(this, reference);
-	return __result;
+
+	if (reference_count >= references.get_count())
+	{
+		return false;
+	}
+	if (find(reference) == -1)
+	{
+		references[reference_count++] = reference;
+	}
+	return true;
 }
 
 /* ---------- private code */

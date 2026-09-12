@@ -134,33 +134,29 @@ namespace Patches
 			_sub_108CE320();
 		}
 
-		_extern bool _sub_108CED20(long, long, s_player_action_context *);
 		bool PlayerConsiderDeviceInteraction(long player_index, long device_index, s_player_action_context *out_action_context) // 0x108CED20
 		{
-			mangled_x86(MANGLED_TODO, "?PlayerConsiderDeviceInteraction@Devices@Patches@@YA_NJJPAUs_player_action_context@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?PlayerConsiderDeviceInteraction@Devices@Patches@@YA_NJJPAUs_player_action_context@@@Z");
 			// s_player_action_context *out_action_context;
 			// bool (*const player_consider_device_interaction)(long, long, s_player_action_context *);
 			// function call : bool (*const)(long, long, s_player_action_context *)
-			todo("implement");
-			bool __result = _sub_108CED20(player_index, device_index, out_action_context);
-			return __result;
+
+			bool (__cdecl *const player_consider_device_interaction)(long, long, s_player_action_context *) = (bool(__cdecl *const)(long, long, s_player_action_context *))0x5388d0;
+
+			if (!device_allows_player_interaction(device_index, player_index))
+			{
+				return false;
+			}
+
+			return player_consider_device_interaction(player_index, device_index, out_action_context);
 		}
 	}
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0CForgeDeviceManager@@QAE@XZ"); no body to assert in
-_inline CForgeDeviceManager::CForgeDeviceManager() = default; // 0x108CE160
 
 // mangled_x86(MANGLED_DEFAULT, "??0IGameSystem@@QAE@XZ"); no body to assert in
 _inline IGameSystem::IGameSystem() = default; // 0x108CE1C0
-
-_inline CForgeDeviceManager::~CForgeDeviceManager() // 0x108CE1F0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1CForgeDeviceManager@@UAE@XZ");
-	// CForgeDeviceManager *const this;
-
-	compiler_generated();
-}
 
 /* ---------- private code */
 
@@ -251,15 +247,22 @@ bool device_allows_object_interaction(long device_index, long object_index) // 0
 	return __result;
 }
 
-_extern void _sub_108CF270(long, long, bool);
 void device_touched_hook(long device_index, long unit_index, bool a3) // 0x108CF270
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?device_touched_hook@@YAXJJ_N@Z");
 	// `anonymous-namespace'::device_touched_hook
 	// bool a3;
 	// void (*const device_touched)(long, long, bool);
 	// function call : void (*const)(long, long, bool)
-	todo("implement");
-	_sub_108CF270(device_index, unit_index, a3);
+
+	void (__cdecl *const device_touched)(long, long, bool) = (void(__cdecl *const)(long, long, bool))0xb94500;
+
+	if (!device_allows_object_interaction(device_index, unit_index))
+	{
+		return;
+	}
+
+	device_touched(device_index, unit_index, a3);
 }
 
 _extern bool _sub_108CF300(long, long const *, short);

@@ -39,7 +39,6 @@ struct s_actor_metadata
 	char field_9; // 0x8
 	char field_A; // 0x9
 	char field_B; // 0xA
-	unsigned char __pad0[1]; // 0xB
 	float original_vitality; // 0xC
 	long unit_index; // 0x10
 	long swarm_index; // 0x14
@@ -51,7 +50,6 @@ struct s_actor_metadata
 	short squad_adoption_timeout; // 0x24
 	short squad_adoption_attempts; // 0x26
 	short outside_map_ticks; // 0x28
-	unsigned char __pad1[2]; // 0x2A
 	long squad_index; // 0x2C
 	short cell_index; // 0x30
 	short spawn_point_index; // 0x32
@@ -74,6 +72,8 @@ struct s_actor_metadata
 	long clump_next_actor_index; // 0x68
 };
 static_assert(sizeof(s_actor_metadata) == 108, "Invalid s_actor_metadata size");
+static_assert(offsetof(s_actor_metadata, original_vitality) == 0xC, "s_actor_metadata::original_vitality moved when its reconstructed padding was removed");
+static_assert(offsetof(s_actor_metadata, squad_index) == 0x2C, "s_actor_metadata::squad_index moved when its reconstructed padding was removed");
 
 struct s_invitation_data
 {
@@ -152,7 +152,6 @@ struct s_actor_state_data
 	unsigned char behavior_state[512]; // 0x0
 	unsigned short behavior_state_offsets[8]; // 0x200
 	short leaf_layer; // 0x210
-	unsigned char __pad0[2]; // 0x212
 	s_invitation_data invitation[4]; // 0x214
 	long behavior_check_timer[14]; // 0x254
 	short mode; // 0x28C
@@ -185,6 +184,7 @@ struct s_actor_state_data
 	s_actor_position_data perception; // 0x2E4
 };
 static_assert(sizeof(s_actor_state_data) == 792, "Invalid s_actor_state_data size");
+static_assert(offsetof(s_actor_state_data, invitation) == 0x214, "s_actor_state_data::invitation moved when its reconstructed padding was removed");
 
 struct s_actor_firing_position_data
 {
@@ -192,7 +192,6 @@ struct s_actor_firing_position_data
 	long field_4; // 0x4
 	char field_8; // 0x8
 	char field_9; // 0x9
-	unsigned char __pad0[2]; // 0xA
 	long field_C; // 0xC
 	char field_10; // 0x10
 	char search_areas_available; // 0x11
@@ -218,6 +217,7 @@ struct s_actor_firing_position_data
 	long field_50; // 0x50
 };
 static_assert(sizeof(s_actor_firing_position_data) == 84, "Invalid s_actor_firing_position_data size");
+static_assert(offsetof(s_actor_firing_position_data, field_C) == 0xC, "s_actor_firing_position_data::field_C moved when its reconstructed padding was removed");
 
 struct s_actor_datum :
 	public s_datum

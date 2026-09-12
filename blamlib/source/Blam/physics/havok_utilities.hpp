@@ -66,14 +66,12 @@ _inline hkpShape *__fastcall havok_transform_wrapper_shape_get_child_shape(hkpSh
 	return __result;
 }
 
-extern hkpShape *_sub_10AAB330(hkShapeContainer *);
 _inline hkpShape *havok_shape_from_container(hkShapeContainer *container) // 0x10AAB330
 {
-	mangled_x86(MANGLED_TODO, "?havok_shape_from_container@@YAPAUhkpShape@@PAUhkShapeContainer@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?havok_shape_from_container@@YAPAUhkpShape@@PAUhkShapeContainer@@@Z");
 	// hkShapeContainer *container;
-	todo("implement");
-	hkpShape * __result = _sub_10AAB330(container);
-	return __result;
+
+	return (hkpShape *)((char *)container - 0x10);
 }
 
 _extern bool _sub_10AAB650(hkpShape *);

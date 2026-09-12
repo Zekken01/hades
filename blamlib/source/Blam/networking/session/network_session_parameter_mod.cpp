@@ -24,14 +24,12 @@ struct s_session_mod_options;
 
 /* ---------- public code */
 
-_extern bool _sub_10F1D510(c_network_session_parameter_mod *const, s_session_mod_options const *);
 bool c_network_session_parameter_mod::request_change(s_session_mod_options const *options) // 0x10F1D510
 {
-	mangled_x86(MANGLED_TODO, "?request_change@c_network_session_parameter_mod@@QAE_NPBUs_session_mod_options@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?request_change@c_network_session_parameter_mod@@QAE_NPBUs_session_mod_options@@@Z");
 	// s_session_mod_options const *options;
-	todo("implement");
-	bool __result = _sub_10F1D510(this, options);
-	return __result;
+
+	return set_allowed() && set(options);
 }
 
 extern s_session_mod_options const *_sub_10F1D4A0(c_network_session_parameter_mod const *const);

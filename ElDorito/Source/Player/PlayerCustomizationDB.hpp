@@ -76,7 +76,9 @@ namespace Player
 		std::map<std::string,Player::SPersistentCharacterCustomization> m_customizations; // 0x1C
 		std::map<std::string,std::string> m_preferredCharacters; // 0x28
 	public:
-		_inline CPlayerCustomizationDB(); /* compiler_generated() */
+		_inline CPlayerCustomizationDB() = default; /* compiler_generated() - defaulted on its
+		    first declaration, so it is NOT user-provided and `new CPlayerCustomizationDB()`
+		    zero-initializes before constructing, as the original does. */
 		~CPlayerCustomizationDB(); /* compiler_generated() */
 	};
 }

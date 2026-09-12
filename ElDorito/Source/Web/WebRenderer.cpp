@@ -319,14 +319,17 @@ namespace Web
 			return __result;
 		}
 
-		_extern bool _sub_10CC0D90(Web::Browser::WebRenderer const *const);
 		bool WebRenderer::IsAccelerated() const // 0x10CC0D90
 		{
-			mangled_x86(MANGLED_TODO, "?IsAccelerated@WebRenderer@Browser@Web@@QBE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?IsAccelerated@WebRenderer@Browser@Web@@QBE_NXZ");
 			// Web::Browser::WebRenderer const *const this;
-			todo("implement");
-			bool __result = _sub_10CC0D90((Web::Browser::WebRenderer const *)this);
-			return __result;
+
+			if (!m_RenderHandler)
+			{
+				return false;
+			}
+
+			return m_RenderHandler->IsAccelerated();
 		}
 
 		_extern bool _sub_10CBE930(Web::Browser::WebRenderer *const, std::string const &, bool);
@@ -391,15 +394,19 @@ namespace Web
 			return __result;
 		}
 
-		_extern bool _sub_10CC2510(Web::Browser::WebRenderer *const, IDirect3DDevice9 *);
 		bool WebRenderer::Render(IDirect3DDevice9 *device) // 0x10CC2510
 		{
-			mangled_x86(MANGLED_TODO, "?Render@WebRenderer@Browser@Web@@QAE_NPAUIDirect3DDevice9@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Render@WebRenderer@Browser@Web@@QAE_NPAUIDirect3DDevice9@@@Z");
 			// IDirect3DDevice9 *device;
 			// Web::Browser::RendererState state;
-			todo("implement");
-			bool __result = _sub_10CC2510(this, device);
-			return __result;
+
+			Web::Browser::RendererState state = GetState();
+			if (state != Web::Browser::RendererState_Overlay && state != Web::Browser::RendererState_Shown)
+			{
+				return false;
+			}
+
+			return m_RenderHandler->Render(state == Web::Browser::RendererState_Shown);
 		}
 
 		_extern bool _sub_10CC3EB0(Web::Browser::WebRenderer *const);
@@ -416,25 +423,22 @@ namespace Web
 			return __result;
 		}
 
-		_extern bool _sub_10CC0D00(Web::Browser::WebRenderer *const);
 		bool WebRenderer::Initialized() // 0x10CC0D00
 		{
-			mangled_x86(MANGLED_TODO, "?Initialized@WebRenderer@Browser@Web@@QAE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Initialized@WebRenderer@Browser@Web@@QAE_NXZ");
 			// Web::Browser::WebRenderer *const this;
 			// Web::Browser::RendererState state;
-			todo("implement");
-			bool __result = _sub_10CC0D00(this);
-			return __result;
+
+			Web::Browser::RendererState state = GetState();
+			return state == Web::Browser::RendererState_Overlay || state == Web::Browser::RendererState_Shown || state == Web::Browser::RendererState_Hidden;
 		}
 
-		_extern bool _sub_10CC0E10(Web::Browser::WebRenderer *const);
 		bool WebRenderer::IsRendering() // 0x10CC0E10
 		{
-			mangled_x86(MANGLED_TODO, "?IsRendering@WebRenderer@Browser@Web@@QAE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?IsRendering@WebRenderer@Browser@Web@@QAE_NXZ");
 			// Web::Browser::WebRenderer *const this;
-			todo("implement");
-			bool __result = _sub_10CC0E10(this);
-			return __result;
+
+			return GetState() == Web::Browser::RendererState_Overlay || GetState() == Web::Browser::RendererState_Shown;
 		}
 
 		_extern bool _sub_10CC3790(Web::Browser::WebRenderer *const, bool, bool);
@@ -629,24 +633,30 @@ namespace Web
 			return __result;
 		}
 
-		_extern bool _sub_10CC17E0(Web::Browser::WebRenderer *const);
 		bool WebRenderer::PreReset() // 0x10CC17E0
 		{
-			mangled_x86(MANGLED_TODO, "?PreReset@WebRenderer@Browser@Web@@QAE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?PreReset@WebRenderer@Browser@Web@@QAE_NXZ");
 			// Web::Browser::WebRenderer *const this;
-			todo("implement");
-			bool __result = _sub_10CC17E0(this);
-			return __result;
+
+			if (m_RenderHandler)
+			{
+				m_RenderHandler->OnPreResetDevice();
+			}
+
+			return true;
 		}
 
-		_extern bool _sub_10CC1770(Web::Browser::WebRenderer *const);
 		bool WebRenderer::PostReset() // 0x10CC1770
 		{
-			mangled_x86(MANGLED_TODO, "?PostReset@WebRenderer@Browser@Web@@QAE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?PostReset@WebRenderer@Browser@Web@@QAE_NXZ");
 			// Web::Browser::WebRenderer *const this;
-			todo("implement");
-			bool __result = _sub_10CC1770(this);
-			return __result;
+
+			if (m_RenderHandler)
+			{
+				m_RenderHandler->OnPostResetDevice();
+			}
+
+			return true;
 		}
 
 		_extern bool _sub_10CC3B60(Web::Browser::WebRenderer *const);
@@ -677,14 +687,21 @@ namespace Web
 			return m_State;
 		}
 
-		_extern bool _sub_10CC3730(Web::Browser::WebRenderer *const, Web::Browser::RendererState);
 		bool WebRenderer::SetState(Web::Browser::RendererState p_State) // 0x10CC3730
 		{
-			mangled_x86(MANGLED_TODO, "?SetState@WebRenderer@Browser@Web@@QAE_NW4RendererState@23@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?SetState@WebRenderer@Browser@Web@@QAE_NW4RendererState@23@@Z");
 			// Web::Browser::RendererState p_State;
-			todo("implement");
-			bool __result = _sub_10CC3730(this, p_State);
-			return __result;
+
+			if (m_State == p_State)
+			{
+				return false;
+			}
+			if (m_State >= Web::Browser::RendererState_Count || m_State < Web::Browser::RendererState_Disabled)
+			{
+				return false;
+			}
+			m_State = p_State;
+			return true;
 		}
 	}
 }
@@ -696,11 +713,10 @@ namespace Web
 	{
 		scoped_refptr<Web::Browser::WebRendererHandler> WebRenderer::GetClientHandler() const // 0x10CBDE10
 		{
-			mangled_x86(MANGLED_TODO, "?GetClientHandler@WebRenderer@Browser@Web@@QBE?AV?$scoped_refptr@VWebRendererHandler@Browser@Web@@@@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetClientHandler@WebRenderer@Browser@Web@@QBE?AV?$scoped_refptr@VWebRendererHandler@Browser@Web@@@@XZ");
 			// Web::Browser::WebRenderer const *const this;
-			todo("implement");
-			scoped_refptr<Web::Browser::WebRendererHandler> __result = _sub_10CBDE10((Web::Browser::WebRenderer const *)this);
-			return __result;
+
+			return m_Handler;
 		}
 
 		// mangled_x86(MANGLED_DEFAULT, "??0WebEmblemSchemeHandlerFactory@Browser@Web@@QAE@XZ"); no body to assert in
@@ -715,11 +731,10 @@ namespace Web
 	{
 		scoped_refptr<Web::Browser::WebRendererRenderHandler> WebRenderer::GetRenderHandler() const // 0x10CBE0C0
 		{
-			mangled_x86(MANGLED_TODO, "?GetRenderHandler@WebRenderer@Browser@Web@@QBE?AV?$scoped_refptr@VWebRendererRenderHandler@Browser@Web@@@@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetRenderHandler@WebRenderer@Browser@Web@@QBE?AV?$scoped_refptr@VWebRendererRenderHandler@Browser@Web@@@@XZ");
 			// Web::Browser::WebRenderer const *const this;
-			todo("implement");
-			scoped_refptr<Web::Browser::WebRendererRenderHandler> __result = _sub_10CBE0C0((Web::Browser::WebRenderer const *)this);
-			return __result;
+
+			return m_RenderHandler;
 		}
 
 		_extern void _sub_10CC08F0(Web::Browser::WebRenderer *const);

@@ -57,13 +57,10 @@ namespace Patches
 {
 	namespace CustomPackets
 	{
-		_extern void _sub_10AFF8B0(Patches::CustomPackets::RawPacketHandler *const);
 		_inline RawPacketHandler::~RawPacketHandler() // 0x10AFF8B0
 		{
-			mangled_x86(MANGLED_TODO, "??1RawPacketHandler@CustomPackets@Patches@@UAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??1RawPacketHandler@CustomPackets@Patches@@UAE@XZ");
 			// Patches::CustomPackets::RawPacketHandler *const this;
-			todo("implement");
-			_sub_10AFF8B0(this);
 		}
 
 		extern PacketBase* _sub_10AFF1F0(Patches::CustomPackets::PacketBase *const, unsigned __int32);

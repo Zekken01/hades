@@ -95,7 +95,6 @@ struct s_simulation_object_state_data
 	real_vector3d angular_velocity; // 0x34
 	float body_vitality; // 0x40
 	bool body_stun_ticks_is_zero; // 0x44
-	unsigned char __pad0[3]; // 0x45
 	float shield_vitality; // 0x48
 	bool shield_stun_ticks_is_zero; // 0x4C
 	bool shield_charging; // 0x4D
@@ -111,7 +110,6 @@ struct s_simulation_object_state_data
 	long parent_object_glue_index; // 0x6C
 	long node; // 0x70
 	bool initial_attachment; // 0x74
-	unsigned char __pad1[3]; // 0x75
 	real_point3d attachment_relative_position; // 0x78
 	real_vector3d attachment_up; // 0x84
 	real_vector3d attachment_forward; // 0x90
@@ -119,17 +117,19 @@ struct s_simulation_object_state_data
 	short map_variant_index; // 0x9E
 };
 static_assert(sizeof(s_simulation_object_state_data) == 160, "Invalid s_simulation_object_state_data size");
+static_assert(offsetof(s_simulation_object_state_data, shield_vitality) == 0x48, "s_simulation_object_state_data::shield_vitality moved when its reconstructed padding was removed");
+static_assert(offsetof(s_simulation_object_state_data, attachment_relative_position) == 0x78, "s_simulation_object_state_data::attachment_relative_position moved when its reconstructed padding was removed");
 
 struct s_simulation_object_creation_data
 {
 	long scenario_datum_index; // 0x0
 	short map_variant_index; // 0x4
 	bool should_override_placement; // 0x6
-	unsigned char __pad0[1]; // 0x7
 	long object_definition_index; // 0x8
 	long variant_attachment_override_index; // 0xC
 };
 static_assert(sizeof(s_simulation_object_creation_data) == 16, "Invalid s_simulation_object_creation_data size");
+static_assert(offsetof(s_simulation_object_creation_data, object_definition_index) == 0x8, "s_simulation_object_creation_data::object_definition_index moved when its reconstructed padding was removed");
 
 #pragma pack(push, 4)
 struct s_simulation_generic_creation_data :

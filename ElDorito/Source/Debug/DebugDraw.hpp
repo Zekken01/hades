@@ -143,7 +143,6 @@ public:
 	void __dflt_ctor_closure(); /* compiler_generated() */
 	public:
 	CDebugDraw & operator=(CDebugDraw const &__that);
-unsigned char __pad0[3]; // 0x11
 };
 static_assert(sizeof(CDebugDraw) == 20, "Invalid CDebugDraw size");
 
@@ -159,13 +158,13 @@ extern _inline bool operator==(DebugDrawKey const &a, DebugDrawKey const &b);
 
 /* ---------- public code */
 
-extern DebugDrawKey* _sub_10817E20(DebugDrawKey *const, char const *, unsigned __int32);
 _inline DebugDrawKey::DebugDrawKey(char const *name_, unsigned __int32 id_) // 0x10817E20
 {
-	mangled_x86(MANGLED_TODO, "??0DebugDrawKey@@QAE@PBDI@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0DebugDrawKey@@QAE@PBDI@Z");
 	// unsigned __int32 id_;
-	todo("implement");
-	_sub_10817E20(this, name_, id_);
+
+	name = (void const *)name_;
+	id = id_;
 }
 
 _extern bool _sub_10818580(DebugDrawKey *const);
@@ -178,23 +177,24 @@ _inline DebugDrawKey::operator bool() // 0x10818580
 	return __result;
 }
 
-_extern bool _sub_10818520(DebugDrawKey const &, DebugDrawKey const &);
 _inline bool operator==(DebugDrawKey const &a, DebugDrawKey const &b) // 0x10818520
 {
-	mangled_x86(MANGLED_TODO, "??8@YA_NABUDebugDrawKey@@0@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??8@YA_NABUDebugDrawKey@@0@Z");
 	// DebugDrawKey const &b;
-	todo("implement");
-	bool __result = _sub_10818520(a, b);
-	return __result;
+
+	return a.name == b.name && a.id == b.id;
 }
 
-extern CDebugDraw* _sub_10817D20(CDebugDraw *const, char const *);
 _inline CDebugDraw::CDebugDraw(char const *name) // 0x10817D20
 {
-	mangled_x86(MANGLED_TODO, "??0CDebugDraw@@QAE@PBD@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0CDebugDraw@@QAE@PBD@Z");
 	// char const *name;
-	todo("implement");
-	_sub_10817D20(this, name);
+
+	m_name = name;
+	m_lifetime = 0.0f;
+	m_fontId = 0;
+	m_textScale = 1.0f;
+	m_depthTest = true;
 }
 
 extern CDebugDraw* _sub_10817D90(CDebugDraw *const, std::source_location);
@@ -206,49 +206,44 @@ _inline CDebugDraw::CDebugDraw(std::source_location loc) // 0x10817D90
 	_sub_10817D90(this, loc);
 }
 
-_extern void _sub_1081CC20(CDebugDraw *const, float);
 _inline void CDebugDraw::SetLifetime(float seconds) // 0x1081CC20
 {
-	mangled_x86(MANGLED_TODO, "?SetLifetime@CDebugDraw@@QAEXM@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SetLifetime@CDebugDraw@@QAEXM@Z");
 	// float seconds;
-	todo("implement");
-	_sub_1081CC20(this, seconds);
+
+	m_lifetime = seconds;
 }
 
-_extern void _sub_1081CB40(CDebugDraw *const, long);
 _inline void CDebugDraw::SetFont(long id) // 0x1081CB40
 {
-	mangled_x86(MANGLED_TODO, "?SetFont@CDebugDraw@@QAEXJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SetFont@CDebugDraw@@QAEXJ@Z");
 	// long id;
-	todo("implement");
-	_sub_1081CB40(this, id);
+
+	m_fontId = id;
 }
 
-_extern void _sub_1081CD00(CDebugDraw *const, float);
 _inline void CDebugDraw::SetTextScale(float scale) // 0x1081CD00
 {
-	mangled_x86(MANGLED_TODO, "?SetTextScale@CDebugDraw@@QAEXM@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SetTextScale@CDebugDraw@@QAEXM@Z");
 	// float scale;
-	todo("implement");
-	_sub_1081CD00(this, scale);
+
+	m_textScale = scale;
 }
 
-_extern void _sub_1081CA70(CDebugDraw *const, bool);
 _inline void CDebugDraw::SetDepthTest(bool enable) // 0x1081CA70
 {
-	mangled_x86(MANGLED_TODO, "?SetDepthTest@CDebugDraw@@QAEX_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SetDepthTest@CDebugDraw@@QAEX_N@Z");
 	// bool enable;
-	todo("implement");
-	_sub_1081CA70(this, enable);
+
+	m_depthTest = enable;
 }
 
-_extern void _sub_10818E30(CDebugDraw *const, DebugDrawKey);
 _inline void CDebugDraw::Clear(DebugDrawKey key) // 0x10818E30
 {
-	mangled_x86(MANGLED_TODO, "?Clear@CDebugDraw@@QAEXUDebugDrawKey@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Clear@CDebugDraw@@QAEXUDebugDrawKey@@@Z");
 	// DebugDrawKey key;
-	todo("implement");
-	_sub_10818E30(this, key);
+
+	CDebugDrawBackend::Clear(m_name, key);
 }
 
 _extern void _sub_1081AA60(CDebugDraw *const, DebugDrawKey, real_point3d const &, float, long);
@@ -433,13 +428,16 @@ _inline void CDebugDraw::DrawPhysicsShapeCapsule(DebugDrawKey key, real_point3d 
 	_sub_1081A320(this, key, vertex_a, vertex_b, radius, matrix, color);
 }
 
-_extern void _sub_1081C800(CDebugDraw *const, CDebugDrawBackend::AttributeScope &, DebugDrawKey);
 _inline void CDebugDraw::SetAttributes(CDebugDrawBackend::AttributeScope &attr, DebugDrawKey key) // 0x1081C800
 {
-	mangled_x86(MANGLED_TODO, "?SetAttributes@CDebugDraw@@AAEXAAUAttributeScope@CDebugDrawBackend@@UDebugDrawKey@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SetAttributes@CDebugDraw@@AAEXAAUAttributeScope@CDebugDrawBackend@@UDebugDrawKey@@@Z");
 	// DebugDrawKey key;
-	todo("implement");
-	_sub_1081C800(this, attr, key);
+
+	attr.SetCacheKey(m_name, key);
+	attr.SetLifetime(m_lifetime);
+	attr.SetFont(m_fontId);
+	attr.SetTextScale(m_textScale);
+	attr.SetDepthTest(m_depthTest);
 }
 
 /* ---------- private code */

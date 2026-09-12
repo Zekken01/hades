@@ -68,14 +68,12 @@ void c_visible_items::clear_all() // 0x10F0DC80
 	_sub_10F0DC80();
 }
 
-extern s_visible_items_stack_marker &_sub_10F0DD50();
 s_visible_items_stack_marker &c_visible_items::get_current_markers() // 0x10F0DD50
 {
-	mangled_x86(MANGLED_TODO, "?get_current_markers@c_visible_items@@SAAAUs_visible_items_stack_marker@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_current_markers@c_visible_items@@SAAAUs_visible_items_stack_marker@@XZ");
 	// procedure flags: nofpo
-	todo("implement");
-	s_visible_items_stack_marker & __result = _sub_10F0DD50();
-	return __result;
+
+	return m_marker_stack[m_marker_stack_top];
 }
 
 /* ---------- private code */

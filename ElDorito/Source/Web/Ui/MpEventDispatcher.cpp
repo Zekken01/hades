@@ -187,9 +187,9 @@ void OnEvent(unsigned long player, s_game_engine_event_data const *event, s_mult
 	_sub_10C8A700(player, event, definition);
 }
 
-extern std::string _sub_10C8A3E0(unsigned __int32);
 std::string GetEventName(unsigned __int32 stringId) // 0x10C8A3E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetEventName@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@I@Z");
 	// `anonymous-namespace'::GetEventName
 	// static ...; // 0x10C8A60E
 	// static ...; // 0x10C8A60B
@@ -200,9 +200,17 @@ std::string GetEventName(unsigned __int32 stringId) // 0x10C8A3E0
 	// std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,std::string> > > > it;
 	// std::ostringstream ss;
 	// std::string name;
-	todo("implement");
-	std::string __result = _sub_10C8A3E0(stringId);
-	return __result;
+
+	// Try to find the stringID in the event names list
+	std::string name;
+	auto it = EventNames.find(stringId);
+	if (it != EventNames.end())
+		return it->second;
+
+	// If it wasn't found, then just convert it to a hex number
+	std::ostringstream ss;
+	ss << "0x" << std::hex << stringId;
+	return ss.str();
 }
 
 /* ---------- template instantiations */

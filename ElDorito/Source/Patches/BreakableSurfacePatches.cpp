@@ -136,9 +136,9 @@ long breakable_surface_get_surface_index_from_group_index_and_offset(long bsp_in
 void simulation_action_breakable_surface_update(long bsp_index, long group_index);
 void breakable_surface_break_sub_hook(real_point3d const *position, real_vector3d const *direction, s_scenario_location const *location, long bsp_index, long instance_index, long breakable_surface_set_index, long breakable_surface_index, long surface_index);
 void simulation_action_breakable_surfaces_create_hook();
-void c_simulation_breakable_surface_break_event_definition__apply_game_event_hook(void *thisptr, void *__formal, long const *entitiy_references, long entity_reference_count, long payload_size, s_simulation_breakable_surface_break_event_data const *payload);
-bool c_simulation_breakable_surface_group_entity_definition__build_updated_state_data_hook(void *thisptr, void *__formal, void *entity, unsigned long *update_mask, long update_state_data_size, s_simulation_breakable_surface_group_state_data *update_state_data);
-bool c_simulation_breakable_surface_group_entity_definition__update_game_entity_hook(c_simulation_entity_definition *thisptr, void *__formal, long gamestate_index, unsigned long *update_mask, long update_state_data_size, s_simulation_breakable_surface_group_state_data *update_state_data);
+void __fastcall c_simulation_breakable_surface_break_event_definition__apply_game_event_hook(void *thisptr, void *__formal, long const *entitiy_references, long entity_reference_count, long payload_size, s_simulation_breakable_surface_break_event_data const *payload);
+bool __fastcall c_simulation_breakable_surface_group_entity_definition__build_updated_state_data_hook(void *thisptr, void *__formal, void *entity, unsigned long *update_mask, long update_state_data_size, s_simulation_breakable_surface_group_state_data *update_state_data);
+bool __fastcall c_simulation_breakable_surface_group_entity_definition__update_game_entity_hook(c_simulation_entity_definition *thisptr, void *__formal, long gamestate_index, unsigned long *update_mask, long update_state_data_size, s_simulation_breakable_surface_group_state_data *update_state_data);
 void breakable_surfaces_initialize_for_new_map_hook();
 void breakable_surfaces_reset_hook();
 
@@ -181,24 +181,22 @@ _inline long c_breakable_surface_group_handle::create(long bsp_index, long group
 	return __result;
 }
 
-_extern long _sub_1069D680(long);
 _inline long c_breakable_surface_group_handle::get_bsp_index(long handle) // 0x1069D680
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_bsp_index@c_breakable_surface_group_handle@hades_file_local@@SAJJ@Z");
 	// `anonymous-namespace'::c_breakable_surface_group_handle::get_bsp_index
 	// long handle;
-	todo("implement");
-	long __result = _sub_1069D680(handle);
-	return __result;
+
+	return handle >> 10;
 }
 
-_extern long _sub_1069D800(long);
 _inline long c_breakable_surface_group_handle::get_group_index(long handle) // 0x1069D800
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_group_index@c_breakable_surface_group_handle@hades_file_local@@SAJJ@Z");
 	// `anonymous-namespace'::c_breakable_surface_group_handle::get_group_index
 	// long handle;
-	todo("implement");
-	long __result = _sub_1069D800(handle);
-	return __result;
+
+	return handle & 0x3FF;
 }
 
 _extern long _sub_1069C800(long, long);
@@ -273,16 +271,27 @@ long breakable_surface_get_group_index(long bsp_index, long instanced_geometry_i
 	return __result;
 }
 
-_extern long _sub_1069C5E0(long, long, long);
 long breakable_surface_get_surface_index_from_group_index_and_offset(long bsp_index, long group_index, long offset) // 0x1069C5E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?breakable_surface_get_surface_index_from_group_index_and_offset@@YAJJJJ@Z");
 	// `anonymous-namespace'::breakable_surface_get_surface_index_from_group_index_and_offset
 	// long offset;
 	// long group_count;
 	// function call : long (*const)(long)
-	todo("implement");
-	long __result = _sub_1069C5E0(bsp_index, group_index, offset);
-	return __result;
+
+	long group_count = ((long(__cdecl *)(long))0x569d30)(bsp_index);
+
+	if (group_index < 0 || group_index >= group_count)
+	{
+		return -1;
+	}
+
+	if (offset < 0 || offset >= 32)
+	{
+		return -1;
+	}
+
+	return group_index * 32 + offset;
 }
 
 _extern void _sub_1069D8B0(long, long);
@@ -366,7 +375,7 @@ void simulation_action_breakable_surfaces_create_hook() // 0x1069DA60
 }
 
 _extern void _sub_1069CD70(void *, void *, long const *, long, long, s_simulation_breakable_surface_break_event_data const *);
-void c_simulation_breakable_surface_break_event_definition__apply_game_event_hook(void *thisptr, void *__formal, long const *entitiy_references, long entity_reference_count, long payload_size, s_simulation_breakable_surface_break_event_data const *payload) // 0x1069CD70
+void __fastcall c_simulation_breakable_surface_break_event_definition__apply_game_event_hook(void *thisptr, void *__formal, long const *entitiy_references, long entity_reference_count, long payload_size, s_simulation_breakable_surface_break_event_data const *payload) // 0x1069CD70
 {
 	// `anonymous-namespace'::c_simulation_breakable_surface_break_event_definition__apply_game_event_hook
 	// void *__formal;
@@ -394,7 +403,7 @@ void c_simulation_breakable_surface_break_event_definition__apply_game_event_hoo
 }
 
 _extern bool _sub_1069CFC0(void *, void *, void *, unsigned long *, long, s_simulation_breakable_surface_group_state_data *);
-bool c_simulation_breakable_surface_group_entity_definition__build_updated_state_data_hook(void *thisptr, void *__formal, void *entity, unsigned long *update_mask, long update_state_data_size, s_simulation_breakable_surface_group_state_data *update_state_data) // 0x1069CFC0
+bool __fastcall c_simulation_breakable_surface_group_entity_definition__build_updated_state_data_hook(void *thisptr, void *__formal, void *entity, unsigned long *update_mask, long update_state_data_size, s_simulation_breakable_surface_group_state_data *update_state_data) // 0x1069CFC0
 {
 	// `anonymous-namespace'::c_simulation_breakable_surface_group_entity_definition__build_updated_state_data_hook
 	// void *thisptr;
@@ -425,7 +434,7 @@ bool c_simulation_breakable_surface_group_entity_definition__build_updated_state
 }
 
 _extern bool _sub_1069D2E0(c_simulation_entity_definition *, void *, long, unsigned long *, long, s_simulation_breakable_surface_group_state_data *);
-bool c_simulation_breakable_surface_group_entity_definition__update_game_entity_hook(c_simulation_entity_definition *thisptr, void *__formal, long gamestate_index, unsigned long *update_mask, long update_state_data_size, s_simulation_breakable_surface_group_state_data *update_state_data) // 0x1069D2E0
+bool __fastcall c_simulation_breakable_surface_group_entity_definition__update_game_entity_hook(c_simulation_entity_definition *thisptr, void *__formal, long gamestate_index, unsigned long *update_mask, long update_state_data_size, s_simulation_breakable_surface_group_state_data *update_state_data) // 0x1069D2E0
 {
 	// `anonymous-namespace'::c_simulation_breakable_surface_group_entity_definition__update_game_entity_hook
 	// c_simulation_entity_definition *thisptr;

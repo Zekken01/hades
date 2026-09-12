@@ -118,7 +118,6 @@ struct c_game_engine_slayer_variant :
 	c_game_engine_slayer_variant(); /* compiler_generated() */
 	c_game_engine_slayer_variant &operator=(c_game_engine_slayer_variant &); /* compiler_generated() */
 	c_game_engine_slayer_variant &operator=(c_game_engine_slayer_variant const &); /* compiler_generated() */
-	unsigned char __pad0[2]; // 0x1FE
 };
 static_assert(sizeof(c_game_engine_slayer_variant) == 512, "Invalid c_game_engine_slayer_variant size");
 
@@ -140,7 +139,6 @@ struct c_game_engine_king_variant :
 	c_game_engine_king_variant(); /* compiler_generated() */
 	c_game_engine_king_variant &operator=(c_game_engine_king_variant &); /* compiler_generated() */
 	c_game_engine_king_variant &operator=(c_game_engine_king_variant const &); /* compiler_generated() */
-	unsigned char __pad0[6]; // 0x1FA
 };
 static_assert(sizeof(c_game_engine_king_variant) == 512, "Invalid c_game_engine_king_variant size");
 
@@ -163,7 +161,6 @@ struct c_game_engine_oddball_variant :
 	c_game_engine_oddball_variant(); /* compiler_generated() */
 	c_game_engine_oddball_variant &operator=(c_game_engine_oddball_variant &); /* compiler_generated() */
 	c_game_engine_oddball_variant &operator=(c_game_engine_oddball_variant const &); /* compiler_generated() */
-	unsigned char __pad0[2]; // 0x1FE
 };
 static_assert(sizeof(c_game_engine_oddball_variant) == 512, "Invalid c_game_engine_oddball_variant size");
 
@@ -308,7 +305,6 @@ struct c_game_engine_infection_variant :
 	c_game_engine_infection_variant(); /* compiler_generated() */
 	c_game_engine_infection_variant &operator=(c_game_engine_infection_variant &); /* compiler_generated() */
 	c_game_engine_infection_variant &operator=(c_game_engine_infection_variant const &); /* compiler_generated() */
-	unsigned char __pad0[4]; // 0x24C
 };
 static_assert(sizeof(c_game_engine_infection_variant) == 592, "Invalid c_game_engine_infection_variant size");
 
@@ -318,14 +314,12 @@ static_assert(sizeof(c_game_engine_infection_variant) == 592, "Invalid c_game_en
 
 /* ---------- public code */
 
-extern c_game_engine_base_variant *_sub_1092CFD0(c_game_variant *const);
 _inline c_game_engine_base_variant *c_game_variant::get_base_variant() // 0x1092CFD0
 {
-	mangled_x86(MANGLED_TODO, "?get_base_variant@c_game_variant@@QAEPAUc_game_engine_base_variant@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_base_variant@c_game_variant@@QAEPAUc_game_engine_base_variant@@XZ");
 	// c_game_variant *const this;
-	todo("implement");
-	c_game_engine_base_variant * __result = _sub_1092CFD0(this);
-	return __result;
+
+	return (c_game_engine_base_variant *)storage;
 }
 
 /* ---------- private code */

@@ -57,13 +57,10 @@ static_assert(sizeof(Http::CHttpManager) == 68, "Invalid Http::CHttpManager size
 
 namespace Http
 {
-	extern CHttpManager* _sub_108034B0(Http::CHttpManager *const);
 	_inline CHttpManager::CHttpManager() // 0x108034B0
 	{
-		mangled_x86(MANGLED_TODO, "??0CHttpManager@Http@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0CHttpManager@Http@@QAE@XZ");
 		// Http::CHttpManager *const this;
-		todo("implement");
-		_sub_108034B0(this);
 	}
 }
 

@@ -29,14 +29,12 @@ extern _inline bool const operator==(s_cluster_reference a, s_cluster_reference 
 
 /* ---------- public code */
 
-extern bool const _sub_108E3430(s_cluster_reference, s_cluster_reference);
 _inline bool const operator==(s_cluster_reference a, s_cluster_reference b) // 0x108E3430
 {
-	mangled_x86(MANGLED_TODO, "??8@YA?B_NUs_cluster_reference@@0@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??8@YA?B_NUs_cluster_reference@@0@Z");
 	// s_cluster_reference b;
-	todo("implement");
-	bool const __result = _sub_108E3430(a, b);
-	return __result;
+
+	return a.bsp_index == b.bsp_index && a.cluster_index == b.cluster_index;
 }
 
 /* ---------- private code */

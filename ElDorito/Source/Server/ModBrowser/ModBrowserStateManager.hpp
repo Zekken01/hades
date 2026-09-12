@@ -28,24 +28,20 @@ struct SModBrowserState;
 
 /* ---------- public code */
 
-extern SModBrowserState &_sub_1070C420(CModBrowserStateManager *const);
 _inline SModBrowserState &CModBrowserStateManager::GetStateMutable() // 0x1070C420
 {
-	mangled_x86(MANGLED_TODO, "?GetStateMutable@CModBrowserStateManager@@QAEAAUSModBrowserState@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetStateMutable@CModBrowserStateManager@@QAEAAUSModBrowserState@@XZ");
 	// CModBrowserStateManager *const this;
-	todo("implement");
-	SModBrowserState & __result = _sub_1070C420(this);
-	return __result;
+
+	return *(SModBrowserState *)m_state;
 }
 
-extern SModBrowserState const &_sub_10717380(CModBrowserStateManager const *const);
 _inline SModBrowserState const &CModBrowserStateManager::GetState() const // 0x10717380
 {
-	mangled_x86(MANGLED_TODO, "?GetState@CModBrowserStateManager@@QBEABUSModBrowserState@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetState@CModBrowserStateManager@@QBEABUSModBrowserState@@XZ");
 	// CModBrowserStateManager const *const this;
-	todo("implement");
-	SModBrowserState const & __result = _sub_10717380((CModBrowserStateManager const *)this);
-	return __result;
+
+	return *(SModBrowserState const *)m_state;
 }
 
 _extern bool _sub_1070C450(CModBrowserStateManager const *const);

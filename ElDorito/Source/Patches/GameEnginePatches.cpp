@@ -187,12 +187,12 @@ __int32 game_engine_get_player_state_hook(__int32 player_index);
 bool game_engine_hud_get_state_message_hook(__int32 hudIndex, wchar_t *buff, __int32 len, bool a4);
 long game_engine_post_game_time_hook(float seconds);
 void game_engine_assemble_player_traits_hook(long player_index);
-bool c_game_engine__build_player_navpoint_hook(c_game_engine *thisptr, void *__formal, long output_user_index, long player_index, long unknown_player_index, bool a5, s_chud_navpoint *navpoint);
-void c_game_engine__build_player_update_hook(void *thisptr, void *__formal, short absolute_player_index, unsigned long long *in_out_flags, long state_data_size, s_simulation_game_engine_player_state_data *data);
-bool c_game_engine__apply_player_update_hook(void *thisptr, void *__formal, short absolute_player_index, unsigned long long *component_mask, long state_data_size, s_simulation_game_engine_player_state_data *data);
-bool c_simulation_game_engine_player_entity_definition__entity_update_decode_hook(void *thisptr, void *__formal, bool a1, unsigned long long *out_update_mask, long state_data_size, s_simulation_game_engine_player_state_data *state_data, c_bitstream *stream, bool a6);
-bool c_simulation_game_engine_player_entity_definition__entity_update_encode_hook(void *thisptr, void *__formal, unsigned long a1, unsigned long long *update_mask, unsigned long long *out_update_mask, long state_data_size, s_simulation_game_engine_player_state_data *data, __int32 a6, c_bitstream *bitstream, long parent_component_count, bool a9);
-void c_game_engine__build_player_baseline_hook(void *thisptr, void *__formal, short absolute_player_index, long state_data_size, s_simulation_game_engine_player_state_data *state_data);
+bool __fastcall c_game_engine__build_player_navpoint_hook(c_game_engine *thisptr, void *__formal, long output_user_index, long player_index, long unknown_player_index, bool a5, s_chud_navpoint *navpoint);
+void __fastcall c_game_engine__build_player_update_hook(void *thisptr, void *__formal, short absolute_player_index, unsigned long long *in_out_flags, long state_data_size, s_simulation_game_engine_player_state_data *data);
+bool __fastcall c_game_engine__apply_player_update_hook(void *thisptr, void *__formal, short absolute_player_index, unsigned long long *component_mask, long state_data_size, s_simulation_game_engine_player_state_data *data);
+bool __fastcall c_simulation_game_engine_player_entity_definition__entity_update_decode_hook(void *thisptr, void *__formal, bool a1, unsigned long long *out_update_mask, long state_data_size, s_simulation_game_engine_player_state_data *state_data, c_bitstream *stream, bool a6);
+bool __fastcall c_simulation_game_engine_player_entity_definition__entity_update_encode_hook(void *thisptr, void *__formal, unsigned long a1, unsigned long long *update_mask, unsigned long long *out_update_mask, long state_data_size, s_simulation_game_engine_player_state_data *data, __int32 a6, c_bitstream *bitstream, long parent_component_count, bool a9);
+void __fastcall c_game_engine__build_player_baseline_hook(void *thisptr, void *__formal, short absolute_player_index, long state_data_size, s_simulation_game_engine_player_state_data *state_data);
 void game_engine_update_player_spawn_timer_hook(long player_index);
 void game_engine_reset_stats_for_round_switch_hook();
 bool game_engine_player_is_out_of_lives_hook(long player_index);
@@ -241,9 +241,9 @@ namespace Patches
 
 /* ---------- private code */
 
-_extern void _sub_107AFD30();
 void game_engine_tick_hook() // 0x107AFD30
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_tick_hook@@YAXXZ");
 	// `anonymous-namespace'::game_engine_tick_hook
 	// procedure flags: nofpo
 	// void *engine;
@@ -251,8 +251,16 @@ void game_engine_tick_hook() // 0x107AFD30
 	// function call : void *(*const)()
 	// function call : bool (*const)(char)
 	// function call : void (*)(void *)
-	todo("implement");
-	_sub_107AFD30();
+
+	void *(*const get_game_engine)() = (void *(*const)())0x5ce150;
+
+	void *engine = get_game_engine();
+	if (!engine)
+		return;
+	if (!((bool (*)(int))0x5523a0)(4))
+	{
+		(*(void (__thiscall **)(void *))(*(int *)engine + 104))(engine);
+	}
 }
 
 _extern __int32 _sub_107AB1D0();
@@ -411,7 +419,7 @@ void game_engine_assemble_player_traits_hook(long player_index) // 0x107AEB40
 }
 
 _extern bool _sub_107AC1D0(c_game_engine *, void *, long, long, long, bool, s_chud_navpoint *);
-bool c_game_engine__build_player_navpoint_hook(c_game_engine *thisptr, void *__formal, long output_user_index, long player_index, long unknown_player_index, bool a5, s_chud_navpoint *navpoint) // 0x107AC1D0
+bool __fastcall c_game_engine__build_player_navpoint_hook(c_game_engine *thisptr, void *__formal, long output_user_index, long player_index, long unknown_player_index, bool a5, s_chud_navpoint *navpoint) // 0x107AC1D0
 {
 	// `anonymous-namespace'::c_game_engine__build_player_navpoint_hook
 	// s_chud_navpoint *navpoint;
@@ -451,7 +459,7 @@ bool c_game_engine__build_player_navpoint_hook(c_game_engine *thisptr, void *__f
 }
 
 _extern void _sub_107AC990(void *, void *, short, unsigned long long *, long, s_simulation_game_engine_player_state_data *);
-void c_game_engine__build_player_update_hook(void *thisptr, void *__formal, short absolute_player_index, unsigned long long *in_out_flags, long state_data_size, s_simulation_game_engine_player_state_data *data) // 0x107AC990
+void __fastcall c_game_engine__build_player_update_hook(void *thisptr, void *__formal, short absolute_player_index, unsigned long long *in_out_flags, long state_data_size, s_simulation_game_engine_player_state_data *data) // 0x107AC990
 {
 	// `anonymous-namespace'::c_game_engine__build_player_update_hook
 	// s_simulation_game_engine_player_state_data *data;
@@ -477,7 +485,7 @@ void c_game_engine__build_player_update_hook(void *thisptr, void *__formal, shor
 }
 
 _extern bool _sub_107AB520(void *, void *, short, unsigned long long *, long, s_simulation_game_engine_player_state_data *);
-bool c_game_engine__apply_player_update_hook(void *thisptr, void *__formal, short absolute_player_index, unsigned long long *component_mask, long state_data_size, s_simulation_game_engine_player_state_data *data) // 0x107AB520
+bool __fastcall c_game_engine__apply_player_update_hook(void *thisptr, void *__formal, short absolute_player_index, unsigned long long *component_mask, long state_data_size, s_simulation_game_engine_player_state_data *data) // 0x107AB520
 {
 	// `anonymous-namespace'::c_game_engine__apply_player_update_hook
 	// s_simulation_game_engine_player_state_data *data;
@@ -524,7 +532,7 @@ bool c_game_engine__apply_player_update_hook(void *thisptr, void *__formal, shor
 }
 
 _extern bool _sub_107AD5E0(void *, void *, bool, unsigned long long *, long, s_simulation_game_engine_player_state_data *, c_bitstream *, bool);
-bool c_simulation_game_engine_player_entity_definition__entity_update_decode_hook(void *thisptr, void *__formal, bool a1, unsigned long long *out_update_mask, long state_data_size, s_simulation_game_engine_player_state_data *state_data, c_bitstream *stream, bool a6) // 0x107AD5E0
+bool __fastcall c_simulation_game_engine_player_entity_definition__entity_update_decode_hook(void *thisptr, void *__formal, bool a1, unsigned long long *out_update_mask, long state_data_size, s_simulation_game_engine_player_state_data *state_data, c_bitstream *stream, bool a6) // 0x107AD5E0
 {
 	// `anonymous-namespace'::c_simulation_game_engine_player_entity_definition__entity_update_decode_hook
 	// bool a6;
@@ -542,7 +550,7 @@ bool c_simulation_game_engine_player_entity_definition__entity_update_decode_hoo
 }
 
 _extern bool _sub_107ADDC0(void *, void *, unsigned long, unsigned long long *, unsigned long long *, long, s_simulation_game_engine_player_state_data *, __int32, c_bitstream *, long, bool);
-bool c_simulation_game_engine_player_entity_definition__entity_update_encode_hook(void *thisptr, void *__formal, unsigned long a1, unsigned long long *update_mask, unsigned long long *out_update_mask, long state_data_size, s_simulation_game_engine_player_state_data *data, __int32 a6, c_bitstream *bitstream, long parent_component_count, bool a9) // 0x107ADDC0
+bool __fastcall c_simulation_game_engine_player_entity_definition__entity_update_encode_hook(void *thisptr, void *__formal, unsigned long a1, unsigned long long *update_mask, unsigned long long *out_update_mask, long state_data_size, s_simulation_game_engine_player_state_data *data, __int32 a6, c_bitstream *bitstream, long parent_component_count, bool a9) // 0x107ADDC0
 {
 	// `anonymous-namespace'::c_simulation_game_engine_player_entity_definition__entity_update_encode_hook
 	// __int32 a6;
@@ -561,7 +569,7 @@ bool c_simulation_game_engine_player_entity_definition__entity_update_encode_hoo
 }
 
 _extern void _sub_107AC100(void *, void *, short, long, s_simulation_game_engine_player_state_data *);
-void c_game_engine__build_player_baseline_hook(void *thisptr, void *__formal, short absolute_player_index, long state_data_size, s_simulation_game_engine_player_state_data *state_data) // 0x107AC100
+void __fastcall c_game_engine__build_player_baseline_hook(void *thisptr, void *__formal, short absolute_player_index, long state_data_size, s_simulation_game_engine_player_state_data *state_data) // 0x107AC100
 {
 	// `anonymous-namespace'::c_game_engine__build_player_baseline_hook
 	// s_simulation_game_engine_player_state_data *state_data;
@@ -604,9 +612,9 @@ void game_engine_update_player_spawn_timer_hook(long player_index) // 0x107AFDE0
 	_sub_107AFDE0(player_index);
 }
 
-_extern void _sub_107AFC00();
 void game_engine_reset_stats_for_round_switch_hook() // 0x107AFC00
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_reset_stats_for_round_switch_hook@@YAXXZ");
 	// `anonymous-namespace'::game_engine_reset_stats_for_round_switch_hook
 	// procedure flags: nofpo
 	// void (*const game_engine_reset_stats_for_round_switch)();
@@ -615,21 +623,34 @@ void game_engine_reset_stats_for_round_switch_hook() // 0x107AFC00
 	// function call : bool (*const)()
 	// function call : void (*const)(bool)
 	// function call : void (*const)()
-	todo("implement");
-	_sub_107AFC00();
+
+	void (*const sub_5522B0)() = (void(*const)())0x5522b0;
+	bool (*const sub_56E590)() = (bool(*const)())0x56e590;
+	void (*const sub_570220)(int) = (void(*const)(int))0x570220;
+
+	if (sub_56E590())
+	{
+		sub_570220(0);
+	}
+
+	sub_5522B0();
 }
 
-_extern bool _sub_107AFAB0(long);
 bool game_engine_player_is_out_of_lives_hook(long player_index) // 0x107AFAB0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_player_is_out_of_lives_hook@@YA_NJ@Z");
 	// `anonymous-namespace'::game_engine_player_is_out_of_lives_hook
 	// long player_index;
 	// bool (*const game_engine_player_is_out_of_lives)(long);
 	// function call : bool (*const)()
 	// function call : bool (*const)(long)
-	todo("implement");
-	bool __result = _sub_107AFAB0(player_index);
-	return __result;
+
+	bool (__cdecl *const game_engine_player_is_out_of_lives)(long) = (bool(__cdecl *const)(long))0x552020;
+
+	if (((bool(__cdecl *)())0x531b20)())
+		return false;
+
+	return game_engine_player_is_out_of_lives(player_index);
 }
 
 _extern bool _sub_107AFCA0(long);
@@ -711,14 +732,13 @@ long game_engine_weapon_item_definition_index_from_absolute_weapons_selection_bl
 	return __result;
 }
 
-_extern bool _sub_107AFA30(long);
 bool game_engine_object_is_dead(long object_index) // 0x107AFA30
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_object_is_dead@@YA_NJ@Z");
 	// `anonymous-namespace'::game_engine_object_is_dead
 	// long object_index;
-	todo("implement");
-	bool __result = _sub_107AFA30(object_index);
-	return __result;
+
+	return (object_get(object_index)->damage_flags & 0x4) != 0;
 }
 
 _extern bool _sub_107AF6F0(long);

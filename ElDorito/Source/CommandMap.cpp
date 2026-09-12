@@ -228,14 +228,18 @@ namespace Modules
 		return __result;
 	}
 
-	extern Command *_sub_109469C0(Modules::CommandMap *const, Modules::Command);
 	Modules::Command *CommandMap::AddCommand(Modules::Command command) // 0x109469C0
 	{
-		mangled_x86(MANGLED_TODO, "?AddCommand@CommandMap@Modules@@QAEPAUCommand@2@U32@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?AddCommand@CommandMap@Modules@@QAEPAUCommand@2@U32@@Z");
 		// Modules::Command command;
-		todo("implement");
-		Modules::Command * __result = _sub_109469C0(this, command);
-		return __result;
+
+		if (FindCommand(command.Name) || FindCommand(command.ShortName))
+		{
+			return nullptr;
+		}
+
+		Commands.push_back(command);
+		return &Commands.back();
 	}
 
 	_extern void _sub_10948EF0(Modules::CommandMap *const);
@@ -521,14 +525,12 @@ namespace Modules
 		return __result;
 	}
 
-	_extern bool _sub_1094DC20(Modules::Command const &, Modules::Command const &);
 	bool compare_commands(Modules::Command const &lhs, Modules::Command const &rhs) // 0x1094DC20
 	{
-		mangled_x86(MANGLED_TODO, "?compare_commands@Modules@@YA_NABUCommand@1@0@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?compare_commands@Modules@@YA_NABUCommand@1@0@Z");
 		// Modules::Command const &rhs;
-		todo("implement");
-		bool __result = _sub_1094DC20(lhs, rhs);
-		return __result;
+
+		return (lhs.Name <=> rhs.Name) < 0;
 	}
 }
 
@@ -665,21 +667,17 @@ namespace Modules
 		return __result;
 	}
 
-	_extern void _sub_1094A210(Modules::CommandMap *const, Modules::Command const *);
 	void CommandMap::NotifyVariableUpdated(Modules::Command const *command) // 0x1094A210
 	{
-		mangled_x86(MANGLED_TODO, "?NotifyVariableUpdated@CommandMap@Modules@@QAEXPBUCommand@2@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?NotifyVariableUpdated@CommandMap@Modules@@QAEXPBUCommand@2@@Z");
 		// Modules::Command const *command;
-		{
 			// std::vector<std::function<void __cdecl(Modules::Command const *)> > &<range>$L0;
 			// std::function<void __cdecl(Modules::Command const *)> *<begin>$L0;
 			// std::function<void __cdecl(Modules::Command const *)> *<end>$L0;
-			{
 				// std::function<void __cdecl(Modules::Command const *)> &callback;
-			}
-		}
-		todo("implement");
-		_sub_1094A210(this, command);
+
+		for (auto &&callback : variableUpdateCallbacks)
+			callback(command);
 	}
 
 	_extern void _sub_1094A2B0(Modules::CommandMap *const, std::function<void __cdecl(Modules::Command const *)>);
@@ -712,13 +710,12 @@ namespace Modules
 		_sub_10946AE0(this);
 	}
 
-	_extern void _sub_1094B9A0(Modules::CommandMap *const);
 	void CommandMap::Update() // 0x1094B9A0
 	{
-		mangled_x86(MANGLED_TODO, "?Update@CommandMap@Modules@@QAEXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CommandMap@Modules@@QAEXXZ");
 		// Modules::CommandMap *const this;
-		todo("implement");
-		_sub_1094B9A0(this);
+
+		scriptStack.Update();
 	}
 }
 

@@ -34,12 +34,12 @@ namespace Forge
 		struct SRenderMaterialParameters
 		{
 			bool customTextureMode; // 0x0
-			unsigned char __pad0[3]; // 0x1
 			float textureScale; // 0x4
 			float textureOffsetU; // 0x8
 			float textureOffsetV; // 0xC
 		};
 		static_assert(sizeof(Forge::Reforge::SRenderMaterialParameters) == 16, "Invalid Forge::Reforge::SRenderMaterialParameters size");
+		static_assert(offsetof(Forge::Reforge::SRenderMaterialParameters, textureScale) == 0x4, "Forge::Reforge::SRenderMaterialParameters::textureScale moved when its reconstructed padding was removed");
 	}
 }
 

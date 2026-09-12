@@ -49,14 +49,14 @@ CommandLineArgs::CommandLineArgs(std::string const &line) // 0x106D12C0
 	_sub_106D12C0(this, line);
 }
 
-_extern void _sub_106D1330(CommandLineArgs *const);
 CommandLineArgs::~CommandLineArgs() // 0x106D1330
 {
-	mangled_x86(MANGLED_TODO, "??1CommandLineArgs@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1CommandLineArgs@@QAE@XZ");
 	// CommandLineArgs *const this;
 	// function call : void *(void *)
-	todo("implement");
-	_sub_106D1330(this);
+
+	if (m_args)
+		GlobalFree((HGLOBAL)m_args);
 }
 
 /* ---------- private code */

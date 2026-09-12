@@ -292,13 +292,12 @@ namespace Modules
 		return __result;
 	}
 
-	_extern void _sub_10666920(Modules::CommandScript *const);
 	void CommandScript::Complete() // 0x10666920
 	{
-		mangled_x86(MANGLED_TODO, "?Complete@CommandScript@Modules@@QAEXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Complete@CommandScript@Modules@@QAEXXZ");
 		// Modules::CommandScript *const this;
-		todo("implement");
-		_sub_10666920(this);
+
+		m_finished = true;
 	}
 
 	_extern void _sub_106677A0(Modules::CommandScript *const, std::string const &);
@@ -359,7 +358,6 @@ namespace Modules
 	}
 
 	// mangled_x86(MANGLED_DEFAULT, "??0CommandMap@Modules@@QAE@XZ"); no body to assert in
-	_inline CommandMap::CommandMap() = default; // 0x1065D950
 }
 
 /* ---------- private code */

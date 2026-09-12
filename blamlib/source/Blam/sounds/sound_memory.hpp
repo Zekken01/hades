@@ -72,7 +72,6 @@ struct s_xbox_sound_datum_ex :
 {
 	c_async_completion_flag io_completion; // 0xC
 	bool is_loading; // 0x14
-	unsigned char __pad0[3]; // 0x15
 	void *buffer; // 0x18
 	unsigned long size; // 0x1C
 	_inline bool io_pending() const;
@@ -81,6 +80,7 @@ struct s_xbox_sound_datum_ex :
 	s_xbox_sound_datum_ex &operator=(s_xbox_sound_datum_ex const &); /* compiler_generated() */
 };
 static_assert(sizeof(s_xbox_sound_datum_ex) == 32, "Invalid s_xbox_sound_datum_ex size");
+static_assert(offsetof(s_xbox_sound_datum_ex, size) == 0x1C, "s_xbox_sound_datum_ex::size moved when its reconstructed padding was removed");
 
 #pragma pack(push, 4)
 struct s_sound_location
@@ -141,12 +141,12 @@ struct s_looping_sound_component_track_data
 	char track_index; // 0x4
 	char flags; // 0x5
 	char syncrhonized_sound_ready; // 0x6
-	unsigned char __pad0[1]; // 0x7
 	unsigned long random_seed; // 0x8
 	long range_permutation_flags; // 0xC
 	long prev_track_sound_index; // 0x10
 };
 static_assert(sizeof(s_looping_sound_component_track_data) == 20, "Invalid s_looping_sound_component_track_data size");
+static_assert(offsetof(s_looping_sound_component_track_data, random_seed) == 0x8, "s_looping_sound_component_track_data::random_seed moved when its reconstructed padding was removed");
 
 struct s_sound_source_datum :
 	public s_datum
@@ -176,7 +176,6 @@ struct s_sound_source_datum :
 	char priority; // 0xB0
 	char best_audible_user_index; // 0xB1
 	char voice_index; // 0xB2
-	unsigned char __pad1[1]; // 0xB3
 	unsigned long playback_controller_index; // 0xB4
 	short channel_index; // 0xB8
 	char fade_mode; // 0xBA
@@ -191,6 +190,7 @@ struct s_sound_source_datum :
 	s_sound_source_datum &operator=(s_sound_source_datum const &); /* compiler_generated() */
 };
 static_assert(sizeof(s_sound_source_datum) == 200, "Invalid s_sound_source_datum size");
+static_assert(offsetof(s_sound_source_datum, playback_controller_index) == 0xB4, "s_sound_source_datum::playback_controller_index moved when its reconstructed padding was removed");
 
 struct looping_sound_datum :
 	public s_datum
@@ -297,12 +297,12 @@ struct s_sound_listener
 	short global_material_type; // 0x6
 	char valid; // 0x8
 	bool underwater; // 0x9
-	unsigned char __pad0[2]; // 0xA
 	real_matrix4x3 transform; // 0xC
 	real_vector3d velocity; // 0x40
 	long footer_signature; // 0x4C
 };
 static_assert(sizeof(s_sound_listener) == 80, "Invalid s_sound_listener size");
+static_assert(offsetof(s_sound_listener, transform) == 0xC, "s_sound_listener::transform moved when its reconstructed padding was removed");
 
 struct s_sound_manager_reverb
 {
@@ -391,14 +391,12 @@ struct s_sound_manager_globals
 
 /* ---------- public code */
 
-_extern bool _sub_10A342E0(s_xbox_sound_datum_ex const *const);
 _inline bool s_xbox_sound_datum_ex::io_pending() const // 0x10A342E0
 {
-	mangled_x86(MANGLED_TODO, "?io_pending@s_xbox_sound_datum_ex@@QBE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?io_pending@s_xbox_sound_datum_ex@@QBE_NXZ");
 	// s_xbox_sound_datum_ex const *const this;
-	todo("implement");
-	bool __result = _sub_10A342E0((s_xbox_sound_datum_ex const *)this);
-	return __result;
+
+	return !io_completion.is_done() && is_loading;
 }
 
 /* ---------- private code */

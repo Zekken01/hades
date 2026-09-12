@@ -629,7 +629,6 @@ static_assert(sizeof(s_scenario_object_sound_scenery_data) == 28, "Invalid s_sce
 struct s_scenario_object_giant_data
 {
 	c_enum<enum e_scenario_object_pathfinding_policy,short> pathfinding_policy; // 0x0
-	unsigned char __pad0[2]; // 0x2
 	c_tag_block<s_scenario_object_pathfinding_reference> pathfinding_references; // 0x4
 	s_scenario_object_giant_data(s_scenario_object_giant_data &); /* compiler_generated() */
 	s_scenario_object_giant_data(s_scenario_object_giant_data const &); /* compiler_generated() */
@@ -638,6 +637,7 @@ struct s_scenario_object_giant_data
 	s_scenario_object_giant_data &operator=(s_scenario_object_giant_data const &); /* compiler_generated() */
 };
 static_assert(sizeof(s_scenario_object_giant_data) == 16, "Invalid s_scenario_object_giant_data size");
+static_assert(offsetof(s_scenario_object_giant_data, pathfinding_references) == 0x4, "s_scenario_object_giant_data::pathfinding_references moved when its reconstructed padding was removed");
 
 struct s_scenario_object_light_volume_data
 {
@@ -924,7 +924,6 @@ struct s_scenario_soft_ceiling
 	s_scenario_soft_ceiling(); /* compiler_generated() */
 	s_scenario_soft_ceiling &operator=(s_scenario_soft_ceiling &); /* compiler_generated() */
 	s_scenario_soft_ceiling &operator=(s_scenario_soft_ceiling const &); /* compiler_generated() */
-	unsigned char __pad0[2]; // 0xA
 };
 static_assert(sizeof(s_scenario_soft_ceiling) == 12, "Invalid s_scenario_soft_ceiling size");
 
@@ -950,7 +949,6 @@ struct s_scenario_profile
 	s_scenario_profile(s_scenario_profile &); /* compiler_generated() */
 	s_scenario_profile(s_scenario_profile const &); /* compiler_generated() */
 	s_scenario_profile(); /* compiler_generated() */
-	unsigned char __pad0[2]; // 0x5E
 };
 static_assert(sizeof(s_scenario_profile) == 96, "Invalid s_scenario_profile size");
 

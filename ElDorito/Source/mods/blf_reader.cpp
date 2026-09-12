@@ -29,13 +29,15 @@ extern bool blf_find_chunk_in_buffer(unsigned char const *buffer, unsigned long 
 
 /* ---------- public code */
 
-extern c_blf_reader* _sub_1086D360(c_blf_reader *const, unsigned char const *, unsigned long);
 c_blf_reader::c_blf_reader(unsigned char const *buffer, unsigned long size) // 0x1086D360
 {
-	mangled_x86(MANGLED_TODO, "??0c_blf_reader@@QAE@PBEK@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_blf_reader@@QAE@PBEK@Z");
 	// unsigned long size;
-	todo("implement");
-	_sub_1086D360(this, buffer, size);
+
+	m_should_byte_swap = false;
+	m_buffer = buffer;
+	m_size = size;
+	m_position = 0;
 }
 
 _extern bool _sub_1086D640(c_blf_reader *const, s_blf_chunk_header *, unsigned char const **, unsigned long *);

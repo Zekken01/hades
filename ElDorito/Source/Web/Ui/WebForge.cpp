@@ -208,6 +208,8 @@ namespace Patches
 
 /* ---------- prototypes */
 
+s_object_data *object_get(unsigned long objectIndex);  // hades: added for 0X10CA7900
+
 namespace Web
 {
 	namespace Ui
@@ -313,13 +315,6 @@ namespace Forge
 	// mangled_x86(MANGLED_DEFAULT, "??0CDeferredPropertySetter@Forge@@QAE@XZ"); no body to assert in
 	_inline CDeferredPropertySetter::CDeferredPropertySetter() = default; // 0x10CA64C0
 
-	_inline CDeferredPropertySetter::~CDeferredPropertySetter() // 0x10CA67C0
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??1CDeferredPropertySetter@Forge@@UAE@XZ");
-		// Forge::CDeferredPropertySetter *const this;
-
-		compiler_generated();
-	}
 }
 
 namespace Web
@@ -328,15 +323,16 @@ namespace Web
 	{
 		namespace WebForge
 		{
-			_extern void _sub_10CA7900(unsigned __int32);
 			void OnItemSpawned(unsigned __int32 objectIndex) // 0x10CA7900
 			{
-				mangled_x86(MANGLED_TODO, "?OnItemSpawned@WebForge@Ui@Web@@YAXI@Z");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?OnItemSpawned@WebForge@Ui@Web@@YAXI@Z");
 				// unsigned __int32 objectIndex;
 				// s_object_data *object;
 				// function call : unsigned long (*const)(long)
-				todo("implement");
-				_sub_10CA7900(objectIndex);
+
+				s_object_data *object = object_get(objectIndex);
+				if (!object || object->map_variant_index == -1) { return; }
+				m_itemSpawnPropertySetter.Apply(((int (__cdecl *)(int))0x589c30)(0), objectIndex);
 			}
 
 			_extern void _sub_10CA9010(unsigned __int32);
@@ -439,22 +435,27 @@ void SerializeProperty(rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjso
 	_sub_10CA8B80(writer, key, value);
 }
 
-_extern void _sub_10CA8BE0(rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &, char const *, float);
 void SerializeProperty(rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, char const *key, float value) // 0x10CA8BE0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SerializeProperty@@YAXAAV?$Writer@V?$GenericStringBuffer@U?$UTF8@D@rapidjson@@VCrtAllocator@2@@rapidjson@@U?$UTF8@D@2@U32@VCrtAllocator@2@$0A@@rapidjson@@PBDM@Z");
 	// `anonymous-namespace'::SerializeProperty
 	// float value;
-	todo("implement");
-	_sub_10CA8BE0(writer, key, value);
+
+	if (!isnan(value) && !isinf(value))
+	{
+		writer.Key(key);
+		writer.Double(value);
+	}
 }
 
-_extern void _sub_10CA8C80(rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &, char const *, bool);
 void SerializeProperty(rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, char const *key, bool value) // 0x10CA8C80
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SerializeProperty@@YAXAAV?$Writer@V?$GenericStringBuffer@U?$UTF8@D@rapidjson@@VCrtAllocator@2@@rapidjson@@U?$UTF8@D@2@U32@VCrtAllocator@2@$0A@@rapidjson@@PBD_N@Z");
 	// `anonymous-namespace'::SerializeProperty
 	// bool value;
-	todo("implement");
-	_sub_10CA8C80(writer, key, value);
+
+	writer.Key(key);
+	writer.Bool(value);
 }
 
 _extern bool _sub_10CA7590(unsigned __int32);

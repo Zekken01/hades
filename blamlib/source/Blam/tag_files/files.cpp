@@ -61,23 +61,20 @@ extern bool (*const file_rename_wide)(s_file_reference *, wchar_t const *); // 0
 
 /* ---------- public code */
 
-_extern void _sub_10F00E40(s_file_handle *);
 void invalidate_file_handle(s_file_handle *handle) // 0x10F00E40
 {
-	mangled_x86(MANGLED_TODO, "?invalidate_file_handle@@YAXPAUs_file_handle@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?invalidate_file_handle@@YAXPAUs_file_handle@@@Z");
 	// s_file_handle *handle;
-	todo("implement");
-	_sub_10F00E40(handle);
+
+	handle->handle = 0xFFFFFFFF;
 }
 
-_extern bool _sub_10F00DB0(s_file_reference const *);
 bool file_is_open(s_file_reference const *reference) // 0x10F00DB0
 {
-	mangled_x86(MANGLED_TODO, "?file_is_open@@YA_NPBUs_file_reference@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?file_is_open@@YA_NPBUs_file_reference@@@Z");
 	// s_file_reference const *reference;
-	todo("implement");
-	bool __result = _sub_10F00DB0(reference);
-	return __result;
+
+	return reference->handle && reference->handle != -1;
 }
 
 /* ---------- private code */

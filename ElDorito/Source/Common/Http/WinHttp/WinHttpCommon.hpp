@@ -32,7 +32,7 @@ namespace Http
 		virtual _inline char const *name() const noexcept;
 		virtual _inline std::string message(__int32 error) const;
 		_inline WinHttpErrorCategory(); /* compiler_generated() */
-		virtual _inline ~WinHttpErrorCategory(); /* compiler_generated() */
+		virtual _inline ~WinHttpErrorCategory() = default; /* compiler_generated() */ // 0x10807760
 	};
 	static_assert(sizeof(Http::WinHttpErrorCategory) == 8, "Invalid Http::WinHttpErrorCategory size");
 
@@ -99,14 +99,13 @@ namespace Http
 		return __result;
 	}
 
-	_extern void _sub_107F71C0(Http::WinHttpHandlerDeleter *const, void *);
 	_inline void WinHttpHandlerDeleter::operator()(void *handle) // 0x107F71C0
 	{
-		mangled_x86(MANGLED_TODO, "??RWinHttpHandlerDeleter@Http@@QAEXPAX@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??RWinHttpHandlerDeleter@Http@@QAEXPAX@Z");
 		// void *handle;
 		// function call : __int32 (void *)
-		todo("implement");
-		_sub_107F71C0(this, handle);
+
+		WinHttpCloseHandle(handle);
 	}
 }
 

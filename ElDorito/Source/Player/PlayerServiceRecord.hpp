@@ -58,7 +58,6 @@ namespace Player
 			std::string name; // 0x4
 			unsigned long long uid; // 0x20
 			bool Empty; // 0x28
-			unsigned char __pad0[3]; // 0x29
 			__int32 exp; // 0x2C
 			__int32 skill; // 0x30
 			__int32 games; // 0x34
@@ -84,6 +83,7 @@ namespace Player
 			void requestPlayerServiceRecord(__int32 networkPlayerIndex);
 		};
 		static_assert(sizeof(Player::ServiceRecord::ServiceRecord) == 376, "Invalid Player::ServiceRecord::ServiceRecord size");
+		static_assert(offsetof(Player::ServiceRecord::ServiceRecord, exp) == 0x2C, "Player::ServiceRecord::ServiceRecord::exp moved when its reconstructed padding was removed");
 
 		struct ServiceRecordPlayer
 		{
@@ -91,7 +91,6 @@ namespace Player
 			unsigned long long uid; // 0x20
 			__int32 networkPlayerIndex; // 0x28
 			_inline ServiceRecordPlayer(); /* compiler_generated() */
-			unsigned char __pad0[4]; // 0x2C
 		};
 		static_assert(sizeof(Player::ServiceRecord::ServiceRecordPlayer) == 48, "Invalid Player::ServiceRecord::ServiceRecordPlayer size");
 	}

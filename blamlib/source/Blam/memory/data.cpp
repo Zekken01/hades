@@ -18,6 +18,8 @@ struct s_datum;
 
 /* ---------- prototypes */
 
+void *datum_get_absolute(s_data_array const *data, long index);  // hades: added for 0X10EF9120
+
 extern void *datum_get_absolute(s_data_array const *data, long absolute_index);
 extern long datum_absolute_index_to_index(s_data_array const *data, long absolute_index);
 
@@ -41,24 +43,25 @@ extern void (*const data_make_invalid)(s_data_array *); // 0x1124887C
 
 /* ---------- public code */
 
-_extern void *_sub_10EF9190(s_data_array const *, long);
 void *datum_get_absolute(s_data_array const *data, long absolute_index) // 0x10EF9190
 {
-	mangled_x86(MANGLED_TODO, "?datum_get_absolute@@YAPAXPBUs_data_array@@J@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?datum_get_absolute@@YAPAXPBUs_data_array@@J@Z");
 	// long absolute_index;
-	todo("implement");
-	void * __result = _sub_10EF9190(data, absolute_index);
-	return __result;
+
+	return offset_pointer(data->address, absolute_index * data->datum_size);
 }
 
-_extern long _sub_10EF9120(s_data_array const *, long);
 long datum_absolute_index_to_index(s_data_array const *data, long absolute_index) // 0x10EF9120
 {
-	mangled_x86(MANGLED_TODO, "?datum_absolute_index_to_index@@YAJPBUs_data_array@@J@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?datum_absolute_index_to_index@@YAJPBUs_data_array@@J@Z");
 	// long absolute_index;
-	todo("implement");
-	long __result = _sub_10EF9120(data, absolute_index);
-	return __result;
+
+	if (absolute_index == -1)
+	{
+		return -1;
+	}
+
+	return absolute_index | (*(unsigned short *)datum_get_absolute(data, absolute_index) << 16);
 }
 
 /* ---------- private code */

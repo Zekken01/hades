@@ -43,7 +43,6 @@ struct s_unit_metagame_property_definition
 	char flags; // 0x0
 	c_enum<enum e_metagame_unit_type,char> metagame_unit_type; // 0x1
 	c_enum<enum e_metagame_unit_type,char> metagame_unit_classification; // 0x2
-	unsigned char __pad0[1]; // 0x3
 	short points_awarded; // 0x4
 	s_unit_metagame_property_definition(s_unit_metagame_property_definition &); /* compiler_generated() */
 	s_unit_metagame_property_definition(s_unit_metagame_property_definition const &); /* compiler_generated() */
@@ -53,6 +52,7 @@ struct s_unit_metagame_property_definition
 	unsigned char __pad1[2]; // 0x6
 };
 static_assert(sizeof(s_unit_metagame_property_definition) == 8, "Invalid s_unit_metagame_property_definition size");
+static_assert(offsetof(s_unit_metagame_property_definition, points_awarded) == 0x4, "s_unit_metagame_property_definition::points_awarded moved when its reconstructed padding was removed");
 
 // s_unit_camera_track_definition is defined in hades/recovered_types.h, which the synthesised
 // templates in hades/recovered_templates.h inherit from.

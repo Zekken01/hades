@@ -64,7 +64,6 @@ class c_gui_selected_item
 	long location; // 0x10
 	bool enabled; // 0x14
 	bool corrupted; // 0x15
-	unsigned char __pad0[2]; // 0x16
 	s_content_header content_header; // 0x18
 	c_gui_selected_item(c_gui_selected_item &); /* compiler_generated() */
 	c_gui_selected_item(c_gui_selected_item const &); /* compiler_generated() */
@@ -73,6 +72,7 @@ class c_gui_selected_item
 	c_gui_selected_item &operator=(c_gui_selected_item const &); /* compiler_generated() */
 };
 static_assert(sizeof(c_gui_selected_item) == 400, "Invalid c_gui_selected_item size");
+static_assert(offsetof(c_gui_selected_item, content_header) == 0x18, "c_gui_selected_item::content_header moved when its reconstructed padding was removed");
 
 struct c_gui_map_selected_item :
 	public c_gui_selected_item
@@ -100,7 +100,6 @@ struct c_gui_level_selected_item :
 	c_gui_level_selected_item(); /* compiler_generated() */
 	c_gui_level_selected_item &operator=(c_gui_level_selected_item &); /* compiler_generated() */
 	c_gui_level_selected_item &operator=(c_gui_level_selected_item const &); /* compiler_generated() */
-	unsigned char __pad0[4]; // 0x19C
 };
 static_assert(sizeof(c_gui_level_selected_item) == 416, "Invalid c_gui_level_selected_item size");
 

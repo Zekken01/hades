@@ -48,13 +48,13 @@ public:
 		std::shared_mutex bufferLock; // 0x50
 		Microsoft::WRL::ComPtr<IDirect3DTexture9> texture; // 0x54
 		bool createTextureFailed; // 0x58
-		unsigned char __pad0[3]; // 0x59
 		unsigned __int32 keepAliveTimerMS; // 0x5C
 		_inline bool InUse() const;
 		_inline StorageItem(); /* compiler_generated() */
 		_inline ~StorageItem(); /* compiler_generated() */
 	};
 	static_assert(sizeof(StorageItem) == 96, "Invalid StorageItem size");
+	static_assert(offsetof(StorageItem, keepAliveTimerMS) == 0x5C, "StorageItem::keepAliveTimerMS moved when its reconstructed padding was removed");
 	public:
 	static __int32 const kInvalidHandle;
 	static __int32 const kMaxStorageItems;
@@ -92,14 +92,12 @@ static_assert(sizeof(CustomBitmapManager) == 3120, "Invalid CustomBitmapManager 
 
 /* ---------- public code */
 
-_extern bool _sub_10784EB0(CustomBitmapManager::StorageItem const *const);
 _inline bool CustomBitmapManager::StorageItem::InUse() const // 0x10784EB0
 {
-	mangled_x86(MANGLED_TODO, "?InUse@StorageItem@CustomBitmapManager@@QBE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?InUse@StorageItem@CustomBitmapManager@@QBE_NXZ");
 	// CustomBitmapManager::StorageItem const *const this;
-	todo("implement");
-	bool __result = _sub_10784EB0((CustomBitmapManager::StorageItem const *)this);
-	return __result;
+
+	return salt != 0;
 }
 
 /* ---------- private code */

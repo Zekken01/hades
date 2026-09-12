@@ -54,7 +54,6 @@ public:
 	_inline ~CModPackageFileSystemView(); /* compiler_generated() */
 	CModPackageFileSystemView &operator=(CModPackageFileSystemView &); /* compiler_generated() */
 	CModPackageFileSystemView &operator=(CModPackageFileSystemView const &); /* compiler_generated() */
-unsigned char __pad0[4]; // 0x4C
 };
 static_assert(sizeof(CModPackageFileSystemView) == 80, "Invalid CModPackageFileSystemView size");
 
@@ -74,14 +73,12 @@ _inline std::string const &CModPackageFileSystemView::GetFilePath() const // 0x1
 	return __result;
 }
 
-_extern long long _sub_10784CD0(CModPackageFileSystemView const *const);
 _inline long long CModPackageFileSystemView::GetBaseOffset() const // 0x10784CD0
 {
-	mangled_x86(MANGLED_TODO, "?GetBaseOffset@CModPackageFileSystemView@@QBE_JXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetBaseOffset@CModPackageFileSystemView@@QBE_JXZ");
 	// CModPackageFileSystemView const *const this;
-	todo("implement");
-	long long __result = _sub_10784CD0((CModPackageFileSystemView const *)this);
-	return __result;
+
+	return m_baseOffset;
 }
 
 /* ---------- private code */

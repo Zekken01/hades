@@ -155,6 +155,8 @@ using namespace hades_file_local;
 
 /* ---------- prototypes */
 
+extern long (*const game_time_get)(); // 0x11248DA8  // hades: added for 0X107A4280
+
 namespace Patches
 {
 	namespace DeterminismDebug
@@ -197,14 +199,12 @@ namespace Patches
 			return __result;
 		}
 
-		_extern bool _sub_107A4590();
 		bool StopRandomTrace() // 0x107A4590
 		{
-			mangled_x86(MANGLED_TODO, "?StopRandomTrace@DeterminismDebug@Patches@@YA_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?StopRandomTrace@DeterminismDebug@Patches@@YA_NXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			bool __result = _sub_107A4590();
-			return __result;
+
+			return CDebugRandomTraceManager::Instance().StopTrace();
 		}
 	}
 }
@@ -249,9 +249,9 @@ _inline void CDebugRandomTraceManager::InitializeForNewMap(std::string const &ma
 	_sub_107A3560(this, mapPath);
 }
 
-_extern void _sub_107A4280(CDebugRandomTraceManager *const, s_simulation_update const &);
 _inline void CDebugRandomTraceManager::RecordSimulationUpdate(s_simulation_update const &update) // 0x107A4280
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?RecordSimulationUpdate@CDebugRandomTraceManager@hades_file_local@@QAEXABUs_simulation_update@@@Z");
 	// `anonymous-namespace'::CDebugRandomTraceManager::RecordSimulationUpdate
 	// s_simulation_update const &update;
 	// unsigned long verifySeed;
@@ -259,8 +259,18 @@ _inline void CDebugRandomTraceManager::RecordSimulationUpdate(s_simulation_updat
 	// unsigned long verifyTime;
 	// unsigned long seed;
 	// function call : long (*const)()
-	todo("implement");
-	_sub_107A4280(this, update);
+
+	unsigned long seed = *(unsigned long *)tls_getd().random_math_globals;
+	unsigned long time = game_time_get();
+	unsigned long verifyTime = *(unsigned long *)offset_pointer(&update, 5616);
+	unsigned long verifySeed = *(unsigned long *)offset_pointer(&update, 5620);
+	m_callCounter = 0;
+	m_outOfSync = 0;
+	m_currentUpdateNumber = *(unsigned long *)&update;
+	if (verifySeed != seed)
+		m_outOfSync |= 1;
+	if (verifyTime != time)
+		m_outOfSync |= 2;
 }
 
 _extern void _sub_107A4040(CDebugRandomTraceManager *const, unsigned __int32);
@@ -355,15 +365,16 @@ void simulation_record_update_hook(s_simulation_update *update) // 0x107A7F10
 	_sub_107A7F10(update);
 }
 
-_extern unsigned long *_sub_107A7850();
 unsigned long *get_random_seed_address_hook() // 0x107A7850
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_random_seed_address_hook@@YAPAKXZ");
 	// `anonymous-namespace'::get_random_seed_address_hook
 	// procedure flags: nofpo
 	// unsigned long *seed_address;
-	todo("implement");
-	unsigned long * __result = _sub_107A7850();
-	return __result;
+
+	unsigned long *seed_address = (unsigned long *)tls_getd().random_math_globals;
+	CDebugRandomTraceManager::Instance().RecordRandomSeed(*seed_address);
+	return seed_address;
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0CDebugRandomTraceManager@hades_file_local@@QAE@XZ"); no body to assert in

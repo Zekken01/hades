@@ -62,7 +62,6 @@ struct s_global_preferences_settings
 		bool motion_blur; // 0x30
 		bool vsync; // 0x31
 		bool anti_aliasing; // 0x32
-		unsigned char __pad0[1]; // 0x33
 	};
 	static_assert(sizeof(s_video_settings_new) == 52, "Invalid s_video_settings_new size");
 #pragma pack(push, 4)
@@ -97,13 +96,11 @@ struct s_global_preferences_settings
 	unsigned long hardware_checksum; // 0x41BA4
 	long display_adapter; // 0x41BA8
 	bool display_fullscreen; // 0x41BAC
-	unsigned char __pad0[3]; // 0x41BAD
 	e_display_type display_type; // 0x41BB0
 	long display_contrast; // 0x41BB4
 	long display_brightness; // 0x41BB8
 	s_video_settings_new video_settings; // 0x41BBC
 	bool hide_watermark; // 0x41BF0
-	unsigned char __pad1[3]; // 0x41BF1
 	e_display_subtitles display_subtitles; // 0x41BF4
 	long content_item_unique_name_number_seeds[14]; // 0x41BF8
 	long master_volume; // 0x41C30
@@ -115,12 +112,14 @@ struct s_global_preferences_settings
 	bool toggle_crouch; // 0x41C48
 	bool hud_shake; // 0x41C49
 	char field_41C4A; // 0x41C4A
-	unsigned char __pad2[1]; // 0x41C4B
 	long team_markers; // 0x41C4C
 	float camera_fov; // 0x41C50
 	s_input_settings input_settings; // 0x41C54
 };
 static_assert(sizeof(s_global_preferences_settings) == 269808, "Invalid s_global_preferences_settings size");
+static_assert(offsetof(s_global_preferences_settings, display_type) == 0x41BB0, "s_global_preferences_settings::display_type moved when its reconstructed padding was removed");
+static_assert(offsetof(s_global_preferences_settings, display_subtitles) == 0x41BF4, "s_global_preferences_settings::display_subtitles moved when its reconstructed padding was removed");
+static_assert(offsetof(s_global_preferences_settings, team_markers) == 0x41C4C, "s_global_preferences_settings::team_markers moved when its reconstructed padding was removed");
 
 struct s_global_preferences_data
 {

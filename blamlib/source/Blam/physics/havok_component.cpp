@@ -44,24 +44,20 @@ extern long (*const havok_entity_get_havok_component_rigid_body_index)(hkpEntity
 
 /* ---------- public code */
 
-extern c_data_array<c_havok_component> *_sub_10F18A60();
 c_data_array<c_havok_component> *havok_components_get() // 0x10F18A60
 {
-	mangled_x86(MANGLED_TODO, "?havok_components_get@@YAPAV?$c_data_array@Vc_havok_component@@@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?havok_components_get@@YAPAV?$c_data_array@Vc_havok_component@@@@XZ");
 	// procedure flags: nofpo
-	todo("implement");
-	c_data_array<c_havok_component> * __result = _sub_10F18A60();
-	return __result;
+
+	return *(c_data_array<c_havok_component> * *)0x2446080;
 }
 
-extern c_havok_component *_sub_10F189F0(unsigned long);
 c_havok_component *havok_component_get(unsigned long havok_component_index) // 0x10F189F0
 {
-	mangled_x86(MANGLED_TODO, "?havok_component_get@@YAPAVc_havok_component@@K@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?havok_component_get@@YAPAVc_havok_component@@K@Z");
 	// unsigned long havok_component_index;
-	todo("implement");
-	c_havok_component * __result = _sub_10F189F0(havok_component_index);
-	return __result;
+
+	return havok_components_get()->try_and_get(havok_component_index);
 }
 
 _extern unsigned long _sub_10F18970(c_havok_component *const, long);

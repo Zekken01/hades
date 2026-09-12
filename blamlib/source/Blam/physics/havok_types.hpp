@@ -271,7 +271,6 @@ struct hkpShapeCollection :
 	public hkShapeContainer
 {
 	char m_disableWelding; // 0x14
-	unsigned char __pad0[3]; // 0x15
 };
 static_assert(sizeof(hkpShapeCollection) == 24, "Invalid hkpShapeCollection size");
 
@@ -371,11 +370,11 @@ static_assert(sizeof(hkpWorldObject) == 88, "Invalid hkpWorldObject size");
 struct hkpMaterial
 {
 	char m_responseType; // 0x0
-	unsigned char __pad0[3]; // 0x1
 	float m_friction; // 0x4
 	float m_restitution; // 0x8
 };
 static_assert(sizeof(hkpMaterial) == 12, "Invalid hkpMaterial size");
+static_assert(offsetof(hkpMaterial, m_friction) == 0x4, "hkpMaterial::m_friction moved when its reconstructed padding was removed");
 
 struct hkpMotionState
 {
@@ -396,7 +395,6 @@ struct hkpMotion
 	unsigned char m_type; // 0x8
 	unsigned char m_deactivationIntegrateCounter; // 0x9
 	unsigned short m_deactivationNumInactiveFrames[2]; // 0xA
-	unsigned char __pad0[2]; // 0xE
 	hkpMotionState m_motionState; // 0x10
 	float m_maxAngularVelocity; // 0xC0
 	unsigned __int32 m_rigidBodyDeactivatorType; // 0xC4
@@ -416,6 +414,7 @@ struct hkpMotion
 	__int32 field_12C; // 0x12C
 };
 static_assert(sizeof(hkpMotion) == 304, "Invalid hkpMotion size");
+static_assert(offsetof(hkpMotion, m_motionState) == 0x10, "hkpMotion::m_motionState moved when its reconstructed padding was removed");
 
 struct hkpEntity :
 	public hkpWorldObject
@@ -552,14 +551,12 @@ static_assert(sizeof(hkpRigidBody) == 496, "Invalid hkpRigidBody size");
 
 /* ---------- public code */
 
-_extern float &_sub_10F07FA0(hkVector4 *const, __int32);
 _inline float &hkVector4::operator()(__int32 i) // 0x10F07FA0
 {
-	mangled_x86(MANGLED_TODO, "??RhkVector4@@QAEAAMH@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??RhkVector4@@QAEAAMH@Z");
 	// __int32 i;
-	todo("implement");
-	float & __result = _sub_10F07FA0(this, i);
-	return __result;
+
+	return ((float *)this)[i];
 }
 
 extern hkShapeContainer const *_sub_10F08110(hkpShape const *const);

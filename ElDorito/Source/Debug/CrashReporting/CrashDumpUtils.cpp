@@ -80,15 +80,13 @@ namespace Debug
 {
 	namespace CrashReporting
 	{
-		_extern bool _sub_1068A850();
 		bool IsRunningUnderProton() // 0x1068A850
 		{
-			mangled_x86(MANGLED_TODO, "?IsRunningUnderProton@CrashReporting@Debug@@YA_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?IsRunningUnderProton@CrashReporting@Debug@@YA_NXZ");
 			// procedure flags: nofpo
 			// function call : unsigned long (char const *, char *, unsigned long)
-			todo("implement");
-			bool __result = _sub_1068A850();
-			return __result;
+
+			return GetEnvironmentVariableA("STEAM_COMPAT_DATA_PATH", nullptr, 0) > 0;
 		}
 
 		_extern bool _sub_1068A710(_OSVERSIONINFOW *);

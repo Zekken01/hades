@@ -81,14 +81,14 @@ static_assert(sizeof(c_network_session_parameter_map) == 1072, "Invalid c_networ
 struct s_network_session_parameter_initial_participants
 {
 	bool machine_options_exists; // 0x0
-	unsigned char __pad0[3]; // 0x1
 	s_game_machine_options machine_options; // 0x4
 	bool player_options_exists; // 0x12C
-	unsigned char __pad1[3]; // 0x12D
 	s_game_player_options player_options[16]; // 0x130
 	s_network_session_parameter_initial_participants(); /* compiler_generated() */
 };
 static_assert(sizeof(s_network_session_parameter_initial_participants) == 91440, "Invalid s_network_session_parameter_initial_participants size");
+static_assert(offsetof(s_network_session_parameter_initial_participants, machine_options) == 0x4, "s_network_session_parameter_initial_participants::machine_options moved when its reconstructed padding was removed");
+static_assert(offsetof(s_network_session_parameter_initial_participants, player_options) == 0x130, "s_network_session_parameter_initial_participants::player_options moved when its reconstructed padding was removed");
 
 class c_network_session_parameter_initial_participants :
 	public c_generic_network_session_parameter<s_network_session_parameter_initial_participants>

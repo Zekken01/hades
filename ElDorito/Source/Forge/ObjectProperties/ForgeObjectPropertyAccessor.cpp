@@ -105,6 +105,8 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+namespace Forge { s_map_variant *GetMapVariant(); }  // hades: added for 0X108406A0
+
 _inline bool GetMapVariantObjectProperties(long objectIndex, s_map_variant_placement_properties *outProperties);
 _inline bool SetMapVariantObjectProperties(long playerIndex, long objectIndex, s_map_variant_placement_properties &properties);
 _inline bool GetMapVariantBudgetForObject(long objectIndex, s_variant_quota *outEntry);
@@ -118,13 +120,13 @@ _inline bool SetMapVariantBudgetForObject(long playerIndex, long objectIndex, s_
 
 namespace Forge
 {
-	extern CDefaultPropertyAccessor* _sub_1083AD10(::Forge::CDefaultPropertyAccessor *const, long, long);
 	CDefaultPropertyAccessor::CDefaultPropertyAccessor(long playerIndex, long objectIndex) // 0x1083AD10
 	{
-		mangled_x86(MANGLED_TODO, "??0CDefaultPropertyAccessor@Forge@@QAE@JJ@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0CDefaultPropertyAccessor@Forge@@QAE@JJ@Z");
 		// long objectIndex;
-		todo("implement");
-		_sub_1083AD10(this, playerIndex, objectIndex);
+
+		m_objectIndex = objectIndex;
+		m_playerIndex = playerIndex;
 	}
 
 	// mangled_x86(MANGLED_DEFAULT, "??0CObjectPropertyAccessor@Forge@@QAE@XZ"); no body to assert in
@@ -159,14 +161,6 @@ namespace Forge
 		todo("implement");
 		::Forge::SPropertyValue __result = _sub_1083DE60(this, property);
 		return __result;
-	}
-
-	_inline CDefaultPropertyAccessor::~CDefaultPropertyAccessor() // 0x1083B2A0
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??1CDefaultPropertyAccessor@Forge@@UAE@XZ");
-		// Forge::CDefaultPropertyAccessor *const this;
-
-		compiler_generated();
 	}
 
 	_extern void _sub_108407C0(::Forge::CDefaultPropertyAccessor *const, ::Forge::EObjectProperty, ::Forge::SPropertyValue);
@@ -674,13 +668,12 @@ namespace Forge
 		_sub_1083EB60(this, property, value);
 	}
 
-	_extern void _sub_10840B70(::Forge::CDeferredPropertySetter *const, ::Forge::EObjectProperty, ::Forge::SPropertyValue);
 	void CDeferredPropertySetter::SetPropertyValue(::Forge::EObjectProperty property, ::Forge::SPropertyValue value) // 0x10840B70
 	{
-		mangled_x86(MANGLED_TODO, "?SetPropertyValue@CDeferredPropertySetter@Forge@@UAEXW4EObjectProperty@2@USPropertyValue@2@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?SetPropertyValue@CDeferredPropertySetter@Forge@@UAEXW4EObjectProperty@2@USPropertyValue@2@@Z");
 		// Forge::SPropertyValue value;
-		todo("implement");
-		_sub_10840B70(this, property, value);
+
+		m_values[property] = value;
 	}
 
 	extern SPropertyValue _sub_1083E200(::Forge::CDeferredPropertySetter *const, ::Forge::EObjectProperty);
@@ -699,13 +692,12 @@ namespace Forge
 		return __result;
 	}
 
-	_extern void _sub_1083E8E0(::Forge::CDeferredPropertySetter *const);
 	void CDeferredPropertySetter::Reset() // 0x1083E8E0
 	{
-		mangled_x86(MANGLED_TODO, "?Reset@CDeferredPropertySetter@Forge@@QAEXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Reset@CDeferredPropertySetter@Forge@@QAEXXZ");
 		// Forge::CDeferredPropertySetter *const this;
-		todo("implement");
-		_sub_1083E8E0(this);
+
+		m_values.clear();
 	}
 
 	_extern void _sub_1083BD00(::Forge::CDeferredPropertySetter *const, long, long);
@@ -746,18 +738,27 @@ _inline bool GetMapVariantObjectProperties(long objectIndex, s_map_variant_place
 	return __result;
 }
 
-_extern bool _sub_108406A0(long, long, s_map_variant_placement_properties &);
 _inline bool SetMapVariantObjectProperties(long playerIndex, long objectIndex, s_map_variant_placement_properties &properties) // 0x108406A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SetMapVariantObjectProperties@@YA_NJJAAUs_map_variant_placement_properties@@@Z");
 	// `anonymous-namespace'::SetMapVariantObjectProperties
 	// s_map_variant_placement_properties &properties;
 	// s_object_data *object;
 	// void (*const Forge_SetPlacementVariantProperties)(unsigned __int32, __int32, s_map_variant_placement_properties *);
 	// function call : bool (*const)()
 	// function call : void (*const)(unsigned __int32, __int32, s_map_variant_placement_properties *)
-	todo("implement");
-	bool __result = _sub_108406A0(playerIndex, objectIndex, properties);
-	return __result;
+
+	void (__cdecl *const SetMapVariantObjectPropertiesInternal)(long, long, s_map_variant_placement_properties *) = (void(__cdecl *const)(long, long, s_map_variant_placement_properties *))0x59b720;
+
+	s_object_data *object = object_get(objectIndex);
+	if (!object)
+		return false;
+	if (object->map_variant_index == -1)
+		return false;
+	if (((bool(__cdecl *const)())0x5319c0)())
+		memcpy(&Forge::GetMapVariant()->objects[object->map_variant_index].properties, &properties, sizeof(properties));
+	SetMapVariantObjectPropertiesInternal(playerIndex, object->map_variant_index, &properties);
+	return true;
 }
 
 _extern bool _sub_1083DCA0(long, s_variant_quota *);

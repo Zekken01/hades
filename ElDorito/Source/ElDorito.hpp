@@ -88,23 +88,20 @@ extern "C" __int32 __stdcall DllMain(HINSTANCE__ *hModule, unsigned long Reason,
 
 /* ---------- public code */
 
-_extern void _sub_10966B20(unsigned __int32);
 _inline void ElDorito::SetMainThreadID(unsigned __int32 ThreadID) // 0x10966B20
 {
-	mangled_x86(MANGLED_TODO, "?SetMainThreadID@ElDorito@@SAXI@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SetMainThreadID@ElDorito@@SAXI@Z");
 	// unsigned __int32 ThreadID;
-	todo("implement");
-	_sub_10966B20(ThreadID);
+
+	MainThreadID = ThreadID;
 }
 
-_extern unsigned __int32 _sub_10923830();
 _inline unsigned __int32 ElDorito::GetMainThreadID() // 0x10923830
 {
-	mangled_x86(MANGLED_TODO, "?GetMainThreadID@ElDorito@@SAIXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetMainThreadID@ElDorito@@SAIXZ");
 	// procedure flags: nofpo
-	todo("implement");
-	unsigned __int32 __result = _sub_10923830();
-	return __result;
+
+	return MainThreadID;
 }
 
 extern std::string _sub_1074E5C0(ElDorito const *const);
@@ -157,14 +154,12 @@ _inline bool ElDorito::IsBotClient() const // 0x109685D0
 	return isBotClient;
 }
 
-_extern bool _sub_10923850(ElDorito const *const);
 _inline bool ElDorito::IsHeadless() const // 0x10923850
 {
-	mangled_x86(MANGLED_TODO, "?IsHeadless@ElDorito@@QBE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?IsHeadless@ElDorito@@QBE_NXZ");
 	// ElDorito const *const this;
-	todo("implement");
-	bool __result = _sub_10923850((ElDorito const *)this);
-	return __result;
+
+	return isDedicated || isBotClient;
 }
 
 _inline bool ElDorito::IsHighPriority() const // 0x10A48D10

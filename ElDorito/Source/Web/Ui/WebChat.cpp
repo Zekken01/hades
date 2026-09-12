@@ -260,32 +260,28 @@ namespace Web
 				_sub_10C9D080(teamChat);
 			}
 
-			_extern void _sub_10C9C710();
 			void Hide() // 0x10C9C710
 			{
-				mangled_x86(MANGLED_TODO, "?Hide@WebChat@Ui@Web@@YAXXZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?Hide@WebChat@Ui@Web@@YAXXZ");
 				// procedure flags: nofpo
-				todo("implement");
-				_sub_10C9C710();
+
+				ScreenLayer::Hide(ScreenLayer::Chat);
 			}
 
-			_extern void _sub_10C9D050(bool);
 			void SetChatBoxVisible(bool visible) // 0x10C9D050
 			{
-				mangled_x86(MANGLED_TODO, "?SetChatBoxVisible@WebChat@Ui@Web@@YAX_N@Z");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?SetChatBoxVisible@WebChat@Ui@Web@@YAX_N@Z");
 				// bool visible;
-				todo("implement");
-				_sub_10C9D050(visible);
+
+				isChatBoxVisible = visible;
 			}
 
-			_extern bool _sub_10C9C860();
 			bool IsChatBoxVisible() // 0x10C9C860
 			{
-				mangled_x86(MANGLED_TODO, "?IsChatBoxVisible@WebChat@Ui@Web@@YA_NXZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?IsChatBoxVisible@WebChat@Ui@Web@@YA_NXZ");
 				// procedure flags: nofpo
-				todo("implement");
-				bool __result = _sub_10C9C860();
-				return __result;
+
+				return isChatBoxVisible;
 			}
 		}
 	}

@@ -253,16 +253,17 @@ namespace Utils
 			return __result;
 		}
 
-		_extern bool _sub_10C54D70(__int32, unsigned char *);
 		bool RandomBytes(__int32 num, unsigned char *out) // 0x10C54D70
 		{
-			mangled_x86(MANGLED_TODO, "?RandomBytes@Cryptography@Utils@@YA_NHPAE@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?RandomBytes@Cryptography@Utils@@YA_NHPAE@Z");
 			// unsigned char *out;
 			// unsigned long provider;
 			// function call : __int32 (unsigned long, unsigned long, unsigned char *)
-			todo("implement");
-			bool __result = _sub_10C54D70(num, out);
-			return __result;
+
+			HCRYPTPROV provider = AcquireProvider();
+			if (!provider)
+				return false;
+			return CryptGenRandom(provider, num, out) == TRUE;
 		}
 
 		_extern bool _sub_10C54EF0(__int32, std::string const &, std::string &);
@@ -303,30 +304,48 @@ namespace Utils
 {
 	namespace Cryptography
 	{
-		_extern __int32 _sub_10C55780(__int32, __int32, bn_gencb_st *);
 		__int32 genrsa_cb(__int32 p, __int32 n, bn_gencb_st *cb) // 0x10C55780
 		{
+			mangled_x86(MANGLED_KNOWN_GOOD, "?genrsa_cb@Cryptography@Utils@@YAHHHPAUbn_gencb_st@@@Z");
 			// Utils::Cryptography::genrsa_cb
 			// static ...; // 0x10C5581C
 			// __int32 p;
 			// __int32 n;
 			// bn_gencb_st *cb;
 			// char c;
-			todo("implement");
-			__int32 __result = _sub_10C55780(p, n, cb);
-			return __result;
+
+			char c = '*';
+
+			if (p == 0)
+				c = '.';
+			if (p == 1)
+				c = '+';
+			if (p == 2)
+				c = '*';
+			if (p == 3)
+				c = '\n';
+			BIO_write((BIO*)cb->arg, &c, 1);
+			(void)BIO_flush((BIO*)cb->arg);
+
+			return 1;
 		}
 	}
 }
 
-_extern unsigned long _sub_10C53E20();
 unsigned long AcquireProvider() // 0x10C53E20
 {
 	// `anonymous-namespace'::AcquireProvider
 	// procedure flags: nofpo
 	// static unsigned long `AcquireProvider'::`2'::handle; // 0x1247EC64
 	// function call : __int32 (unsigned long *, char const *, char const *, unsigned long, unsigned long)
-	todo("implement");
-	unsigned long __result = _sub_10C53E20();
-	return __result;
+
+	static HCRYPTPROV handle;
+	if (handle || CryptAcquireContextA(&handle, nullptr, nullptr, 1, 0xF0000040))
+	{
+		return handle;
+	}
+	else
+	{
+		return 0;
+	}
 }

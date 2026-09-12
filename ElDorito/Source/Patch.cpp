@@ -86,13 +86,13 @@ Patch::Patch(unsigned __int32 Offset, unsigned __int32 byteValue, unsigned __int
 	_sub_10A29240(this, Offset, byteValue, numBytes, base);
 }
 
-extern Hook* _sub_10A28D50(Hook *const);
-Hook::Hook() : Flags(todo_result<__int32>()) // 0x10A28D50
+Hook::Hook() : Offset(0), Flags(0) /* hades-mem-init: : Flags(todo_result<__int32>()) */ // 0x10A28D50
 {
-	mangled_x86(MANGLED_TODO, "??0Hook@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0Hook@@QAE@XZ");
 	// Hook *const this;
-	todo("implement");
-	_sub_10A28D50(this);
+
+	Orig.resize(5);
+	Pointer::Base(Offset).Read(Orig.data(), Orig.size());
 }
 
 extern Hook* _sub_10A28B60(Hook *const, unsigned __int32, void *, __int32, std::initializer_list<unsigned char>);

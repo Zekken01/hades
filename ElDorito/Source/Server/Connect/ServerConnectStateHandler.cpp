@@ -54,40 +54,36 @@ CServerConnectStateManager *CServerConnectStateHandler::GetManager() // 0x10B0A9
 	return static_cast<CServerConnectStateManager *>(m_manager);
 }
 
-_extern void _sub_10B0AA80(CServerConnectStateHandler *const, CServerConnectStateManager *);
 void CServerConnectStateHandler::SetManager(CServerConnectStateManager *manager) // 0x10B0AA80
 {
-	mangled_x86(MANGLED_TODO, "?SetManager@CServerConnectStateHandler@@QAEXPAVCServerConnectStateManager@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SetManager@CServerConnectStateHandler@@QAEXPAVCServerConnectStateManager@@@Z");
 	// CServerConnectStateManager *manager;
-	todo("implement");
-	_sub_10B0AA80(this, manager);
+
+	m_manager = manager;
 }
 
-_extern void _sub_10B0AA10(CServerConnectStateHandler *const, EServerConnectState);
 void CServerConnectStateHandler::RequestStateChange(EServerConnectState state) // 0x10B0AA10
 {
-	mangled_x86(MANGLED_TODO, "?RequestStateChange@CServerConnectStateHandler@@IAEXW4EServerConnectState@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?RequestStateChange@CServerConnectStateHandler@@IAEXW4EServerConnectState@@@Z");
 	// EServerConnectState state;
-	todo("implement");
-	_sub_10B0AA10(this, state);
+
+	static_cast<CServerConnectStateManager *>(m_manager)->RequestStateChange(state);
 }
 
-_extern void _sub_10B0A920(CServerConnectStateHandler *const, EServerConnectAbortReason);
 void CServerConnectStateHandler::Abort(EServerConnectAbortReason reason) // 0x10B0A920
 {
-	mangled_x86(MANGLED_TODO, "?Abort@CServerConnectStateHandler@@IAEXW4EServerConnectAbortReason@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Abort@CServerConnectStateHandler@@IAEXW4EServerConnectAbortReason@@@Z");
 	// EServerConnectAbortReason reason;
-	todo("implement");
-	_sub_10B0A920(this, reason);
+
+	static_cast<CServerConnectStateManager *>(m_manager)->Abort(reason);
 }
 
-_extern void _sub_10B0A990(CServerConnectStateHandler *const);
 void CServerConnectStateHandler::Complete() // 0x10B0A990
 {
-	mangled_x86(MANGLED_TODO, "?Complete@CServerConnectStateHandler@@IAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Complete@CServerConnectStateHandler@@IAEXXZ");
 	// CServerConnectStateHandler *const this;
-	todo("implement");
-	_sub_10B0A990(this);
+
+	static_cast<CServerConnectStateManager *>(m_manager)->Complete();
 }
 
 /* ---------- private code */

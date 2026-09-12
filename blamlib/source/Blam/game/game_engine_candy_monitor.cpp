@@ -17,6 +17,8 @@ struct c_candy_monitor_manager;
 
 /* ---------- prototypes */
 
+void *tls_get(unsigned long index);  // hades: added for 0X10F03560
+
 extern c_candy_monitor_manager *get_candy_monitor_manager();
 
 /* ---------- globals */
@@ -25,14 +27,12 @@ extern c_candy_monitor_manager *get_candy_monitor_manager();
 
 /* ---------- public code */
 
-extern c_candy_monitor_manager *_sub_10F03560();
 c_candy_monitor_manager *get_candy_monitor_manager() // 0x10F03560
 {
-	mangled_x86(MANGLED_TODO, "?get_candy_monitor_manager@@YAPAUc_candy_monitor_manager@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_candy_monitor_manager@@YAPAUc_candy_monitor_manager@@XZ");
 	// procedure flags: nofpo
-	todo("implement");
-	c_candy_monitor_manager * __result = _sub_10F03560();
-	return __result;
+
+	return (c_candy_monitor_manager *)offset_pointer(*(void **)tls_get(72), 66972);
 }
 
 /* ---------- private code */

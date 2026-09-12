@@ -214,36 +214,46 @@ bool ShowLoadingScreenHook(s_game_options &options) // 0x10A84100
 	return __result;
 }
 
-_extern void _sub_10A82EA0(unsigned __int32);
 void BeginLoadingHook(unsigned __int32 totalBytes) // 0x10A82EA0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?BeginLoadingHook@@YAXI@Z");
 	// `anonymous-namespace'::BeginLoadingHook
 	// unsigned __int32 totalBytes;
 	// function call : void (unsigned __int32)
-	todo("implement");
-	_sub_10A82EA0(totalBytes);
+
+	if (ActiveUi)
+	{
+		ActiveUi->Begin(totalBytes);
+	}
 }
 
-_extern void _sub_10A84590(unsigned __int32);
 void UpdateLoadingProgressHook(unsigned __int32 bytes) // 0x10A84590
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateLoadingProgressHook@@YAXI@Z");
 	// `anonymous-namespace'::UpdateLoadingProgressHook
 	// unsigned __int32 bytes;
 	// function call : void (unsigned __int32)
-	todo("implement");
-	_sub_10A84590(bytes);
+
+	if (ActiveUi)
+	{
+		ActiveUi->UpdateProgress(bytes);
+	}
 }
 
-_extern void _sub_10A84000();
 void HideLoadingScreenHook() // 0x10A84000
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?HideLoadingScreenHook@@YAXXZ");
 	// `anonymous-namespace'::HideLoadingScreenHook
 	// procedure flags: nofpo
 	// void (*HideLoadingScreen)();
 	// function call : void (*)()
 	// function call : void ()
-	todo("implement");
-	_sub_10A84000();
+
+	void (__cdecl *HideLoadingScreen)() = (void(__cdecl *)())0x52ee20;
+
+	HideLoadingScreen();
+	if (ActiveUi)
+		ActiveUi->Hide();
 }
 
 extern std::vector<std::string> _sub_10A83D50(unsigned long, unsigned long);

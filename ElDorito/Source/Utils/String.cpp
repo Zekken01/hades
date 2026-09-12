@@ -146,29 +146,53 @@ namespace Utils
 			return __result;
 		}
 
-		_extern unsigned __int32 _sub_10C5FE70(char const *);
 		unsigned __int32 calcDecodeLength(char const *b64input) // 0x10C5FE70
 		{
-			mangled_x86(MANGLED_TODO, "?calcDecodeLength@String@Utils@@YAIPBD@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?calcDecodeLength@String@Utils@@YAIPBD@Z");
 			// char const *b64input;
 			// unsigned __int32 padding;
 			// unsigned __int32 len;
-			todo("implement");
-			unsigned __int32 __result = _sub_10C5FE70(b64input);
-			return __result;
+
+			size_t len = strlen(b64input);
+			size_t padding = 0;
+			if (b64input[len - 1] == '=' && b64input[len - 2] == '=')
+			{
+				padding = 2;
+			}
+			else if (b64input[len - 1] == '=')
+			{
+				padding = 1;
+			}
+			return (len * 3) / 4 - padding;
 		}
 
-		_extern __int32 _sub_10C5DE10(char *, unsigned char *, unsigned __int32 *);
 		__int32 Base64DecodeBinary(char *b64message, unsigned char *buffer, unsigned __int32 *length) // 0x10C5DE10
 		{
-			mangled_x86(MANGLED_TODO, "?Base64DecodeBinary@String@Utils@@YAHPADPAEPAI@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Base64DecodeBinary@String@Utils@@YAHPADPAEPAI@Z");
 			// unsigned __int32 *length;
 			// __int32 decodeLen;
 			// bio_st *bio;
 			// bio_st *b64;
-			todo("implement");
-			__int32 __result = _sub_10C5DE10(b64message, buffer, length);
-			return __result;
+
+			int decodeLen = Utils::String::calcDecodeLength(b64message);
+			BIO *bio, *b64;
+
+			if (buffer == nullptr)
+			{
+				*length = decodeLen;
+				return 1;
+			}
+
+			bio = BIO_new_mem_buf(b64message, -1);
+			b64 = BIO_new(BIO_f_base64());
+			bio = BIO_push(b64, bio);
+			BIO_set_flags(bio, BIO_FLAGS_BASE64_NO_NL);
+			*length = BIO_read(bio, buffer, strlen(b64message));
+			if (*length != decodeLen)
+				return 2;
+
+			BIO_free_all(bio);
+			return 0;
 		}
 
 		_extern void _sub_10C5E930(std::string &, char *);
@@ -447,14 +471,13 @@ namespace Utils
 {
 	namespace String
 	{
-		_extern bool _sub_10C5FF20(unsigned char);
 		_inline bool is_base64(unsigned char c) // 0x10C5FF20
 		{
+			mangled_x86(MANGLED_KNOWN_GOOD, "?is_base64@String@Utils@@YA_NE@Z");
 			// Utils::String::is_base64
 			// unsigned char c;
-			todo("implement");
-			bool __result = _sub_10C5FF20(c);
-			return __result;
+
+			return isalnum(c) || c == '+' || c == '/';
 		}
 	}
 }
@@ -466,11 +489,12 @@ namespace Utils
 	{
 		_inline std::string &ltrim(std::string &s) // 0x10C5FFB0
 		{
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ltrim@String@Utils@@YAAAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAV34@@Z");
 			// Utils::String::ltrim
 			// std::string &s;
-			todo("implement");
-			std::string & __result = _sub_10C5FFB0(s);
-			return __result;
+
+			boost::algorithm::trim_left(s);
+			return s;
 		}
 	}
 }
@@ -482,11 +506,12 @@ namespace Utils
 	{
 		_inline std::string &rtrim(std::string &s) // 0x10C60080
 		{
+			mangled_x86(MANGLED_KNOWN_GOOD, "?rtrim@String@Utils@@YAAAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAV34@@Z");
 			// Utils::String::rtrim
 			// std::string &s;
-			todo("implement");
-			std::string & __result = _sub_10C60080(s);
-			return __result;
+
+			boost::algorithm::trim_right(s);
+			return s;
 		}
 	}
 }
@@ -498,11 +523,11 @@ namespace Utils
 	{
 		_inline std::string &trim(std::string &s) // 0x10C60150
 		{
+			mangled_x86(MANGLED_KNOWN_GOOD, "?trim@String@Utils@@YAAAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAV34@@Z");
 			// Utils::String::trim
 			// std::string &s;
-			todo("implement");
-			std::string & __result = _sub_10C60150(s);
-			return __result;
+
+			return ltrim(rtrim(s));
 		}
 	}
 }

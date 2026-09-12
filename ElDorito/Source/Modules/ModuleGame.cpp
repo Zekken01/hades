@@ -294,6 +294,16 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+namespace Patches::Ui { void ShowLanBrowser(); }  // hades: added for 0X1099AE10
+
+namespace Blam::Network { Session *GetActiveSession(); }  // hades: added for 0X10993F10
+
+namespace Utils::Version { std::string GetVersionString(); }  // hades: added for 0X10999BD0
+
+bool font_package_begin_load_package(char const *filename);  // hades: added for 0X109939A0
+
+namespace Utils::Version { std::string GetCompatibleVersionString(); }  // hades: added for 0X1099B8D0
+
 void GetMapNameList(std::vector<std::string> &mapNames);
 bool CommandGameLogLevel(std::vector<std::string> const &Arguments, std::string &returnInfo);
 bool CommandGameLogTypes(std::vector<std::string> const &Arguments, std::string &returnInfo);
@@ -433,9 +443,9 @@ bool CommandGameLogTypes(std::vector<std::string> const &Arguments, std::string 
 	return __result;
 }
 
-_extern bool _sub_109974D0(std::vector<std::string> const &, std::string &);
 bool CommandGameLogFilter(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109974D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGameLogFilter@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandGameLogFilter
 	// static ...; // 0x10997C96
 	// static ...; // 0x10997C92
@@ -446,34 +456,61 @@ bool CommandGameLogFilter(std::vector<std::string> const &Arguments, std::string
 	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// std::stringstream ss;
-	{
 		// bool remove;
 		// std::string str;
 		// bool exists;
 		// bool exclude;
 		// std::vector<std::string> *vect;
-		{
 			// std::_Vector_iterator<std::_Vector_val<std::_Simple_types<std::string> > > pos;
-		}
-	}
-	{
 		// std::vector<std::string> &<range>$L0;
 		// std::string *<begin>$L0;
 		// std::string *<end>$L0;
-		{
 			// std::string filter;
-		}
-	}
-	{
 		// std::string *<end>$L1;
 		// std::string *<begin>$L1;
 		// std::vector<std::string> &<range>$L1;
+
+	std::stringstream ss;
+	if (Arguments.size() != 3)
+	{
+		ss << "Usage: Game.LogFilter <include/exclude> <add/remove> <string>" << std::endl << std::endl;
+	}
+	else
+	{
+		bool exclude = (Arguments[0].compare("exclude") == 0);
+		bool remove = Arguments[1].compare("remove") == 0;
+		auto vect = exclude ? &Modules::ModuleGame::Instance().FiltersExclude : &Modules::ModuleGame::Instance().FiltersInclude;
+		auto str = Arguments[2];
+		bool exists = std::find(vect->begin(), vect->end(), str) != vect->end();
+		if (remove && !exists)
 		{
+			ss << "Failed to find string \"" << str << "\" inside " << (exclude ? "exclude" : "include") << " filters list" << std::endl << std::endl;
+		}
+		else if (remove)
+		{
+			auto pos = std::find(vect->begin(), vect->end(), str);
+			vect->erase(pos);
+			ss << "Removed \"" << str << "\" from " << (exclude ? "exclude" : "include") << " filters list" << std::endl << std::endl;
+		}
+		else
+		{
+			vect->push_back(str);
+			ss << "Added \"" << str << "\" to " << (exclude ? "exclude" : "include") << " filters list" << std::endl << std::endl;
 		}
 	}
-	todo("implement");
-	bool __result = _sub_109974D0(Arguments, returnInfo);
-	return __result;
+
+	ss << "Include filters (message must contain these strings):";
+
+	for (auto filter : Modules::ModuleGame::Instance().FiltersInclude)
+		ss << std::endl << filter;
+
+	ss << std::endl << std::endl << "Exclude filters (message must not contain these strings):";
+
+	for (auto filter : Modules::ModuleGame::Instance().FiltersExclude)
+		ss << std::endl << filter;
+
+	returnInfo = ss.str();
+	return true;
 }
 
 _extern bool _sub_10994D20(std::vector<std::string> const &, std::string &);
@@ -618,9 +655,9 @@ bool CommandGameShowUI(std::vector<std::string> const &Arguments, std::string &r
 	return __result;
 }
 
-_extern unsigned __int32 _sub_1099C310(std::ifstream &);
 unsigned __int32 GetFileSize(std::ifstream &file) // 0x1099C310
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetFileSize@@YAIAAV?$basic_ifstream@DU?$char_traits@D@std@@@std@@@Z");
 	// `anonymous-namespace'::GetFileSize
 	// static ...; // 0x1099C3CC
 	// static ...; // 0x1099C3C0
@@ -628,9 +665,12 @@ unsigned __int32 GetFileSize(std::ifstream &file) // 0x1099C310
 	// std::ifstream &file;
 	// std::fpos<_Mbstatet> originalPos;
 	// unsigned __int32 size;
-	todo("implement");
-	unsigned __int32 __result = _sub_1099C310(file);
-	return __result;
+
+	auto originalPos = file.tellg();
+	file.seekg(0, std::ios::end);
+	auto size = static_cast<size_t>(file.tellg());
+	file.seekg(originalPos);
+	return size;
 }
 
 _extern __int32 _sub_1099C410(std::string const &);
@@ -660,16 +700,17 @@ bool LoadDefaultMapVariant(std::string const &mapName, unsigned char *out) // 0x
 	return __result;
 }
 
-_extern __int32 _sub_1099C5E0();
 __int32 GetUiGameMode() // 0x1099C5E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetUiGameMode@@YAHXZ");
 	// `anonymous-namespace'::GetUiGameMode
 	// procedure flags: nofpo
 	// __int32 (*GetUiGameModeImpl)();
 	// function call : __int32 (*)()
-	todo("implement");
-	__int32 __result = _sub_1099C5E0();
-	return __result;
+
+	__int32 (__cdecl *GetUiGameModeImpl)() = (__int32(__cdecl *)())0x435640;
+
+	return GetUiGameModeImpl();
 }
 
 _extern void _sub_1099D9B0(s_owned_content_item *, bool, char const *);
@@ -697,15 +738,23 @@ void SaveMapVariantToPreferences(unsigned char const *data, bool built_in, char 
 	_sub_1099D8D0(data, built_in, file_path);
 }
 
-_extern void _sub_1099D830(unsigned char const *, bool, char const *);
 void SaveGameVariantToPreferences(unsigned char const *data, bool built_in, char const *file_path) // 0x1099D830
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SaveGameVariantToPreferences@@YAXPBE_NPBD@Z");
 	// `anonymous-namespace'::SaveGameVariantToPreferences
 	// char const *file_path;
 	// unsigned char *savedVariant;
 	// s_owned_content_item *owned_content_item;
-	todo("implement");
-	_sub_1099D830(data, built_in, file_path);
+
+	if (GetUiGameMode() != 2)
+	{
+		return;
+	}
+	unsigned char *game_variant = (unsigned char *)0x22C04AC;
+	memcpy(game_variant, data, 0x264);
+	s_owned_content_item *content_item = (s_owned_content_item *)0x22C0710;
+	SetOwnedContentData(content_item, built_in, file_path);
+	*(bool *)0x22C0129 = true;
 }
 
 _extern bool _sub_10996D90(std::vector<std::string> const &, std::string &);
@@ -736,9 +785,9 @@ bool CommandGameLoadMap(std::vector<std::string> const &Arguments, std::string &
 	return __result;
 }
 
-_extern bool _sub_1099CF20(std::ifstream &, unsigned char *);
 bool LoadGameVariant(std::ifstream &file, unsigned char *out) // 0x1099CF20
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?LoadGameVariant@@YA_NAAV?$basic_ifstream@DU?$char_traits@D@std@@@std@@PAE@Z");
 	// `anonymous-namespace'::LoadGameVariant
 	// static ...; // 0x1099CFE4
 	// static ...; // 0x1099CFDC
@@ -748,9 +797,19 @@ bool LoadGameVariant(std::ifstream &file, unsigned char *out) // 0x1099CF20
 	// unsigned char blfData[956];
 	// __int32 const GameVariantBlfSize;
 	// function call : bool (*)(void *, unsigned char *, bool *)
-	todo("implement");
-	bool __result = _sub_1099CF20(file, out);
-	return __result;
+
+	// Verify file size
+	const auto GameVariantBlfSize = 0x3BC;
+	if (GetFileSize(file) < GameVariantBlfSize)
+		return false;
+
+	// Load it into a buffer and have the game parse it
+	uint8_t blfData[GameVariantBlfSize];
+	file.read(reinterpret_cast<char*>(blfData), GameVariantBlfSize);
+
+	typedef bool(__thiscall *ParseGameVariantBlfPtr)(void *blf, uint8_t *outVariant, bool *result);
+	auto ParseGameVariant = reinterpret_cast<ParseGameVariantBlfPtr>(0x573150);
+	return ParseGameVariant(blfData, out, nullptr);
 }
 
 _extern __int32 _sub_1099C080(s_game_engine_settings_definition const *, e_game_engine_type, std::string const &);
@@ -837,38 +896,57 @@ bool CommandGameType(std::vector<std::string> const &Arguments, std::string &ret
 	return __result;
 }
 
-_extern bool _sub_10998CE0(std::vector<std::string> const &, std::string &);
 bool CommandGameStart(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10998CE0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGameStart@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandGameStart
 	// std::string &returnInfo;
 	// Blam::Network::Session *session;
-	todo("implement");
-	bool __result = _sub_10998CE0(Arguments, returnInfo);
-	return __result;
+
+	auto session = Blam::Network::GetActiveSession();
+	if (!session || !session->Parameters.SetSessionMode(2))
+	{
+		returnInfo = "Unable to start the game!";
+		return false;
+	}
+	returnInfo = "Starting game...";
+	return true;
 }
 
-_extern bool _sub_10998D80(std::vector<std::string> const &, std::string &);
 bool CommandGameStartCountdown(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10998D80
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGameStartCountdown@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandGameStartCountdown
 	// std::string &returnInfo;
 	// bool (*const user_interface_squad_start_countdown_timer)(long, long);
 	// function call : bool (*const)(long, long)
-	todo("implement");
-	bool __result = _sub_10998D80(Arguments, returnInfo);
-	return __result;
+
+	bool (__cdecl *const StartCountdownImpl)(int, int) = (bool(__cdecl *const)(int, int))0xa83cf0;
+
+	if (StartCountdownImpl(0, 6))
+	{
+		returnInfo = "Starting Countdown...";
+		return true;
+	}
+	returnInfo = "failed to start game";
+	return false;
 }
 
-_extern bool _sub_10998E20(std::vector<std::string> const &, std::string &);
 bool CommandGameStop(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10998E20
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGameStop@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandGameStop
 	// std::string &returnInfo;
 	// Blam::Network::Session *session;
-	todo("implement");
-	bool __result = _sub_10998E20(Arguments, returnInfo);
-	return __result;
+
+	auto session = Blam::Network::GetActiveSession();
+	if (!session || !session->Parameters.SetSessionMode(1))
+	{
+		returnInfo = "Unable to stop the game!";
+		return false;
+	}
+	returnInfo = "Stopping game...";
+	return true;
 }
 
 _extern bool _sub_10996C80(std::vector<std::string> const &, std::string &);
@@ -903,27 +981,35 @@ bool CommandGameEnd(std::vector<std::string> const &Arguments, std::string &retu
 	return __result;
 }
 
-_extern bool _sub_10993F10(std::vector<std::string> const &, std::string &);
 bool CommandGameEndRound(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10993F10
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGameEndRound@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandGameEndRound
 	// std::string &returnInfo;
 	// Blam::Network::Session *session;
 	// function call : c_game_engine *(*const)()
 	// function call : void (*const)(long, bool, long)
-	todo("implement");
-	bool __result = _sub_10993F10(Arguments, returnInfo);
-	return __result;
+
+	Blam::Network::Session *session = Blam::Network::GetActiveSession();
+	if (!session || !session->IsEstablished() || !session->IsHost() || !((__int32(__cdecl *)())0x5ce150)())
+	{
+		returnInfo = "Unable to end the round!";
+		return false;
+	}
+
+	((void(__cdecl *)(__int32, __int32, __int32))0x54e390)(-1, 0, 22);
+	returnInfo = "Ending round...";
+	return true;
 }
 
-_extern bool _sub_10999BD0(std::vector<std::string> const &, std::string &);
 bool CommandGameVersion(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x10999BD0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGameVersion@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandGameVersion
 	// std::string &returnInfo;
-	todo("implement");
-	bool __result = _sub_10999BD0(arguments, returnInfo);
-	return __result;
+
+	returnInfo = Utils::Version::GetVersionString();
+	return true;
 }
 
 _extern bool _sub_10999F30(std::vector<std::string> const &, std::string &);
@@ -948,9 +1034,9 @@ bool CommandListMaps(std::vector<std::string> const &arguments, std::string &ret
 	return __result;
 }
 
-_extern bool _sub_1099B0D0(std::vector<std::string> const &, std::string &);
 bool CommandShowScreen(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x1099B0D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandShowScreen@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandShowScreen
 	// static ...; // 0x1099B428
 	// static ...; // 0x1099B423
@@ -964,9 +1050,33 @@ bool CommandShowScreen(std::vector<std::string> const &arguments, std::string &r
 	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
 	// std::string jsonArg;
 	// __int32 pos;
-	todo("implement");
-	bool __result = _sub_1099B0D0(arguments, returnInfo);
-	return __result;
+
+	if (arguments.size() == 0)
+	{
+		returnInfo = "Usage: Game.ShowScreen <screen name> <opt json>";
+		return false;
+	}
+	if (arguments[0].find(' ') == std::string::npos)
+	{
+		Web::Ui::ScreenLayer::Show(arguments[0], "{}");
+		return true;
+	}
+
+	int pos = arguments[0].find(' ') + 1;
+	std::string jsonArg = arguments[0].substr(pos);
+	rapidjson::Document doc;
+	doc.Parse(jsonArg.c_str());
+	if (doc.HasParseError())
+	{
+		returnInfo = "The passed json argument was invalid: " + jsonArg;
+		return false;
+	}
+	rapidjson::StringBuffer buff;
+	buff.Clear();
+	rapidjson::Writer<rapidjson::StringBuffer> writer(buff);
+	doc.Accept(writer);
+	Web::Ui::ScreenLayer::Show(arguments[0].substr(0, pos - 1), buff.GetString());
+	return true;
 }
 
 _extern bool _sub_1099A270(std::vector<std::string> const &, std::string &);
@@ -1088,9 +1198,9 @@ bool CommandExecutePrintScript(std::vector<std::string> const &Arguments, std::s
 	return __result;
 }
 
-_extern bool _sub_10999C70(std::vector<std::string> const &, std::string &);
 bool CommandGetTagAddress(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10999C70
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGetTagAddress@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandGetTagAddress
 	// static ...; // 0x10999E90
 	// static ...; // 0x10999E88
@@ -1103,9 +1213,32 @@ bool CommandGetTagAddress(std::vector<std::string> const &Arguments, std::string
 	// __int32 tagIndex;
 	// void *address;
 	// function call : void *(*)(__int32, unsigned __int32)
-	todo("implement");
-	bool __result = _sub_10999C70(Arguments, returnInfo);
-	return __result;
+
+	if (Arguments.size() <= 0)
+	{
+		returnInfo = "You must specify a tag index!";
+		return false;
+	}
+
+	int tagIndex = 0;
+	try
+	{
+		tagIndex = std::stoi(Arguments[0], 0, 0);
+	}
+	catch (std::invalid_argument)
+	{
+		returnInfo = "Invalid argument given.";
+		return false;
+	}
+
+	typedef void *(*GetTagAddressPtr)(int groupTag, uint32_t index);
+	auto GetTagAddressImpl = reinterpret_cast<GetTagAddressPtr>(0x503370);
+
+	void* address = GetTagAddressImpl(0, tagIndex);
+	std::stringstream ss;
+	ss << "Tag 0x" << std::hex << tagIndex << " is located at 0x" << std::hex << (int)address;
+	returnInfo = ss.str();
+	return true;
 }
 
 _extern bool _sub_109933F0(std::vector<std::string> const &, std::string &);
@@ -1125,7 +1258,6 @@ bool CommandDisableScreenEffect(std::vector<std::string> const &Arguments, std::
 	return __result;
 }
 
-_extern bool _sub_1099DD90(std::vector<std::string> const &, std::string &);
 bool VariableLanguageUpdated(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x1099DD90
 {
 	// `anonymous-namespace'::VariableLanguageUpdated
@@ -1136,37 +1268,62 @@ bool VariableLanguageUpdated(std::vector<std::string> const &arguments, std::str
 	// std::_List_const_iterator<std::_List_val<std::_List_simple_types<std::pair<std::string const ,int> > > > it;
 	// static std::unordered_map<std::string,int> `VariableLanguageUpdated'::`2'::languageIds; // 0x12454E7C
 	// static __int32 `VariableLanguageUpdated'::`2'::$TSS0; // 0x12454D7C
-	todo("implement");
-	bool __result = _sub_1099DD90(arguments, returnInfo);
-	return __result;
+
+	if (arguments.size() < 1)
+		return false;
+
+	static const std::unordered_map<std::string, int> languageIds =
+	{
+		{ "english", 0 },
+		{ "japanese", 1 },
+		{ "german", 2 },
+		{ "french", 3 },
+		{ "spanish", 4 },
+		{ "mexican", 5 },
+		{ "italian", 6 },
+		{ "korean", 7 },
+		{ "chinese", 9 },
+		{ "portuguese", 10 },
+		{ "russian", 11 }
+	};
+
+	auto it = languageIds.find(Utils::String::ToLower(arguments[0]));
+	if (it == languageIds.end())
+		return false;
+
+	*(uint32_t*)0x189DEE4 = it->second;
+	return true;
 }
 
-_extern bool _sub_1099DB70();
 bool ShowTickrate() // 0x1099DB70
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ShowTickrate@@YA_NXZ");
 	// `anonymous-namespace'::ShowTickrate
 	// procedure flags: nofpo
 	// static ...; // 0x1099DC58
 	// static ...; // 0x1099DC4C
 	// static ...; // 0x1099DC44
 	// Pointer Tickrate;
-	todo("implement");
-	bool __result = _sub_1099DB70();
-	return __result;
+
+	auto Tickrate = Pointer(0x22B47FC);
+	Tickrate.Write(!Tickrate.Read<bool>());
+	return Tickrate.Read<bool>();
 }
 
-_extern bool _sub_1099B650(std::vector<std::string> const &, std::string &);
 bool CommandShowTickrate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1099B650
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandShowTickrate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandShowTickrate
 	// static ...; // 0x1099B78C
 	// static ...; // 0x1099B784
 	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// std::stringstream ss;
-	todo("implement");
-	bool __result = _sub_1099B650(Arguments, returnInfo);
-	return __result;
+
+	std::stringstream ss;
+	ss << "Tickrate: " << (ShowTickrate() ? "shown." : "hidden.");
+	returnInfo = ss.str();
+	return true;
 }
 
 _extern bool _sub_10999910(std::vector<std::string> const &, std::string &);
@@ -1226,14 +1383,20 @@ bool CommandFullScreenBlurLayer(std::vector<std::string> const &Arguments, std::
 	return __result;
 }
 
-_extern bool _sub_109939A0(std::vector<std::string> const &, std::string &);
 bool CommandFontPackage(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109939A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandFontPackage@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandFontPackage
 	// std::string &returnInfo;
-	todo("implement");
-	bool __result = _sub_109939A0(Arguments, returnInfo);
-	return __result;
+
+	if (Arguments.size() < 1)
+	{
+		return false;
+	}
+
+	font_package_begin_load_package(Arguments[0].c_str());
+
+	return true;
 }
 
 _extern bool _sub_1099A820(std::vector<std::string> const &, std::string &);
@@ -1336,16 +1499,26 @@ bool CommandCloseStartMenu(std::vector<std::string> const &Arguments, std::strin
 	return __result;
 }
 
-_extern bool _sub_1099AE10(std::vector<std::string> const &, std::string &);
 bool CommandShowLocalServersUI(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1099AE10
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandShowLocalServersUI@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandShowLocalServersUI
 	// std::string &returnInfo;
 	// bool (*const game_is_mainmenu)();
 	// function call : bool (*const)()
-	todo("implement");
-	bool __result = _sub_1099AE10(Arguments, returnInfo);
-	return __result;
+
+	bool (__cdecl *const IsMainMenu)() = (bool(__cdecl *const)())0x531e90;
+
+	if (IsMainMenu())
+	{
+		Patches::Ui::ShowLanBrowser();
+		return true;
+	}
+	else
+	{
+		returnInfo = "Must be on MainMenu";
+		return false;
+	}
 }
 
 _extern bool _sub_1099AE90(std::vector<std::string> const &, std::string &);
@@ -1382,14 +1555,14 @@ bool CommandShowModInfo(std::vector<std::string> const &Arguments, std::string &
 	return __result;
 }
 
-_extern bool _sub_1099B8D0(std::vector<std::string> const &, std::string &);
 bool CommandVersionCompat(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1099B8D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandVersionCompat@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandVersionCompat
 	// std::string &returnInfo;
-	todo("implement");
-	bool __result = _sub_1099B8D0(Arguments, returnInfo);
-	return __result;
+
+	returnInfo = Utils::Version::GetCompatibleVersionString();
+	return true;
 }
 
 /* ---------- template instantiations */

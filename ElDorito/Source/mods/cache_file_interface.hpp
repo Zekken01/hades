@@ -30,7 +30,7 @@ namespace Blam
 
 struct c_cache_file_interface
 {
-	virtual _inline ~c_cache_file_interface();
+	virtual _inline ~c_cache_file_interface() = default; // 0x1078BEB0
 	virtual std::shared_ptr<Blam::Cache::StringIDCache> get_string_cache() const = 0;
 	virtual std::shared_ptr<c_cache_file_tag_cache> get_tag_cache() const = 0;
 	c_cache_file_interface(c_cache_file_interface const &); /* compiler_generated() */
@@ -44,12 +44,6 @@ static_assert(sizeof(c_cache_file_interface) == 4, "Invalid c_cache_file_interfa
 /* ---------- globals */
 
 /* ---------- public code */
-
-_inline c_cache_file_interface::~c_cache_file_interface() // 0x1078BEB0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1c_cache_file_interface@@UAE@XZ");
-	// c_cache_file_interface *const this;
-}
 
 /* ---------- private code */
 

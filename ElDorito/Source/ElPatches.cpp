@@ -308,9 +308,9 @@ namespace Patches
 
 /* ---------- private code */
 
-_extern void _sub_109686B0();
 void UnprotectMemory() // 0x109686B0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?UnprotectMemory@@YAXXZ");
 	// `anonymous-namespace'::UnprotectMemory
 	// procedure flags: nofpo
 	// static ...; // 0x1096876C
@@ -321,6 +321,22 @@ void UnprotectMemory() // 0x109686B0
 	// unsigned __int32 Offset;
 	// function call : unsigned long (void const *, _MEMORY_BASIC_INFORMATION *, unsigned long)
 	// function call : __int32 (void *, unsigned long, unsigned long, unsigned long *)
-	todo("implement");
-	_sub_109686B0();
+
+	// Enable write to all executable memory
+	size_t Offset, Total;
+	Offset = Total = 0;
+	MEMORY_BASIC_INFORMATION MemInfo;
+
+	//printf("\nUnprotecting memory...");
+	while (VirtualQuery((uint8_t*)GetBasePointer() + Offset, &MemInfo, sizeof(MEMORY_BASIC_INFORMATION)))
+	{
+		Offset += MemInfo.RegionSize;
+		if (MemInfo.Protect == PAGE_EXECUTE_READ)
+		{
+			//printf("%0X\n", (size_t)((uint8_t*)GetBasePointer() + Offset));
+			Total += MemInfo.RegionSize;
+			VirtualProtect(MemInfo.BaseAddress, MemInfo.RegionSize, PAGE_EXECUTE_READWRITE, &MemInfo.Protect);
+		}
+	}
+	//printf("\nDone! Unprotected %u bytes of memory\n", Total);
 }

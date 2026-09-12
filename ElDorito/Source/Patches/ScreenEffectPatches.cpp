@@ -199,15 +199,16 @@ bool s_screen_effect_datum::update_position() // 0x107C3E00
 	return __result;
 }
 
-_extern void _sub_107C1890(s_screen_effect_shader_sample_result *const, s_tag_reference const *, float, float, long, real_rectangle2d const *);
 void s_screen_effect_shader_sample_result::accumulate_settings(s_tag_reference const *shader, float falloff, float t, long attach_object_index, real_rectangle2d const *bounds) // 0x107C1890
 {
-	mangled_x86(MANGLED_TODO, "?accumulate_settings@s_screen_effect_shader_sample_result@@QAEXPBUs_tag_reference@@MMJPBUreal_rectangle2d@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?accumulate_settings@s_screen_effect_shader_sample_result@@QAEXPBUs_tag_reference@@MMJPBUreal_rectangle2d@@@Z");
 	// real_rectangle2d const *bounds;
 	// void (*const accumulate_settings)(s_screen_effect_shader_sample_result *, s_tag_reference const *, float, float, long, real_rectangle2d const *);
 	// function call : void (*const)(s_screen_effect_shader_sample_result *, s_tag_reference const *, float, float, long, real_rectangle2d const *)
-	todo("implement");
-	_sub_107C1890(this, shader, falloff, t, attach_object_index, bounds);
+
+	void (__thiscall *const func)(s_screen_effect_shader_sample_result *, s_tag_reference const *, float, float, long, real_rectangle2d const *) = (void(__thiscall *const)(s_screen_effect_shader_sample_result *, s_tag_reference const *, float, float, long, real_rectangle2d const *))0x682a90;
+
+	func(this, shader, falloff, t, attach_object_index, bounds);
 }
 
 _extern void _sub_107C2A80(real_point3d const *, real_vector3d const *, s_screen_effect_settings *, s_screen_effect_shader_sample_result *, long);
@@ -331,16 +332,29 @@ long screen_effect_new(long definition_index, long attach_object_index, short at
 	return __result;
 }
 
-_extern long _sub_107C25B0(long, long, short, real_point3d const *, real_rectangle2d const *, bool, bool);
 long screen_effect_new2(long definition_index, long attach_object_index, short attach_node_index, real_point3d const *attach_offset, real_rectangle2d const *bounds, bool unknown1, bool cannot_die) // 0x107C25B0
 {
-	mangled_x86(MANGLED_TODO, "?screen_effect_new2@@YAJJJFPBUreal_point3d@@PBUreal_rectangle2d@@_N2@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?screen_effect_new2@@YAJJJFPBUreal_point3d@@PBUreal_rectangle2d@@_N2@Z");
 	// bool cannot_die;
 	// s_screen_effect_datum *datum;
 	// long datum_index;
-	todo("implement");
-	long __result = _sub_107C25B0(definition_index, attach_object_index, attach_node_index, attach_offset, bounds, unknown1, cannot_die);
-	return __result;
+
+	long datum_index = screen_effect_new(definition_index, attach_object_index, attach_node_index, attach_offset, bounds);
+	s_screen_effect_datum *datum = tls_getd().screen_effects->try_and_get(datum_index);
+	if (!datum)
+		return -1;
+
+	if (unknown1)
+		datum->flags |= 2;
+	else
+		datum->flags &= ~2;
+
+	if (cannot_die)
+		datum->flags |= 1;
+	else
+		datum->flags &= ~1;
+
+	return datum_index;
 }
 
 _extern void _sub_107C3840(float);
@@ -391,32 +405,37 @@ float screen_effect_apply_field_of_view_scale(long output_user_index, real_point
 	return __result;
 }
 
-_extern float _sub_107C2590();
 float screen_effect_get_hud_alpha_scale() // 0x107C2590
 {
-	mangled_x86(MANGLED_TODO, "?screen_effect_get_hud_alpha_scale@@YAMXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?screen_effect_get_hud_alpha_scale@@YAMXZ");
 	// procedure flags: nofpo
-	todo("implement");
-	float __result = _sub_107C2590();
-	return __result;
+
+	return g_screen_effect_hud_alpha_scale;
 }
 
-_extern void _sub_107C3810(float);
 void screen_effect_set_hud_alpha_scale(float scale) // 0x107C3810
 {
-	mangled_x86(MANGLED_TODO, "?screen_effect_set_hud_alpha_scale@@YAXM@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?screen_effect_set_hud_alpha_scale@@YAXM@Z");
 	// float scale;
-	todo("implement");
-	_sub_107C3810(scale);
+
+	g_screen_effect_hud_alpha_scale = scale;
 }
 
-_extern void _sub_107C2520(long, float *, float *);
 void screen_effect_get_camera_shake(long output_user_index, float *translational, float *rotational) // 0x107C2520
 {
-	mangled_x86(MANGLED_TODO, "?screen_effect_get_camera_shake@@YAXJPAM0@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?screen_effect_get_camera_shake@@YAXJPAM0@Z");
 	// float *rotational;
-	todo("implement");
-	_sub_107C2520(output_user_index, translational, rotational);
+
+	if (output_user_index < 0 || output_user_index >= 4)
+	{
+		*translational = 0.0f;
+		*rotational = 0.0f;
+	}
+	else
+	{
+		*translational = g_screen_effect_user_camera_shake[output_user_index];
+		*rotational = g_screen_effect_user_camera_shake[output_user_index];
+	}
 }
 
 namespace Patches

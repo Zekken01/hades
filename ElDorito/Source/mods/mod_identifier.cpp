@@ -87,14 +87,12 @@ s_mod_package_id s_mod_package_id::from_string(std::string const &str) // 0x1085
 	return __result;
 }
 
-_extern bool _sub_10853A80(s_mod_package_id const *const, s_mod_package_id const &);
 bool s_mod_package_id::operator==(s_mod_package_id const &rhs) const // 0x10853A80
 {
-	mangled_x86(MANGLED_TODO, "??8s_mod_package_id@@QBE_NABU0@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??8s_mod_package_id@@QBE_NABU0@@Z");
 	// s_mod_package_id const &rhs;
-	todo("implement");
-	bool __result = _sub_10853A80((s_mod_package_id const *)this, rhs);
-	return __result;
+
+	return memcmp(this, &rhs, 20) == 0;
 }
 
 /* ---------- private code */

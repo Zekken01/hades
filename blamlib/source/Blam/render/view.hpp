@@ -32,14 +32,12 @@ static_assert(sizeof(c_view_stack) == 1, "Invalid c_view_stack size");
 
 /* ---------- public code */
 
-extern c_player_view *_sub_108EFE70();
 _inline c_player_view *c_view_stack::get_player_view() // 0x108EFE70
 {
-	mangled_x86(MANGLED_TODO, "?get_player_view@c_view_stack@@SAPAUc_player_view@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_player_view@c_view_stack@@SAPAUc_player_view@@XZ");
 	// procedure flags: nofpo
-	todo("implement");
-	c_player_view * __result = _sub_108EFE70();
-	return __result;
+
+	return *(c_player_view * *)0x50dedf0;
 }
 
 /* ---------- private code */

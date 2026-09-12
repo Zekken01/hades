@@ -88,7 +88,7 @@ using namespace ::Blam;
 extern void network__session_parameter_types_register_hook(c_network_session_parameter_type_collection *collection);
 extern void network_session_parameter_patches_apply();
 
-void c_network_session_parameters__initialize_parameters_hook(c_network_session_parameters *thisptr, void *unused, c_network_session *session, c_network_observer *observer);
+void __fastcall c_network_session_parameters__initialize_parameters_hook(c_network_session_parameters *thisptr, void *unused, c_network_session *session, c_network_observer *observer);
 bool network_sesison_parameter_eldewrito_encode(c_bitstream *bitstream, void *data);
 bool network_sesison_parameter_eldewrito_decode(c_bitstream *bitstream, void *data);
 
@@ -132,16 +132,19 @@ void network_session_parameter_patches_apply() // 0x10AA90D0
 
 /* ---------- private code */
 
-_extern void _sub_10AA8A80(c_network_session_parameters *, void *, c_network_session *, c_network_observer *);
-void c_network_session_parameters__initialize_parameters_hook(c_network_session_parameters *thisptr, void *unused, c_network_session *session, c_network_observer *observer) // 0x10AA8A80
+void __fastcall c_network_session_parameters__initialize_parameters_hook(c_network_session_parameters *thisptr, void *unused, c_network_session *session, c_network_observer *observer) // 0x10AA8A80
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_network_session_parameters__initialize_parameters_hook@@YIXPAVc_network_session_parameters@@PAXPAVc_network_session@@PAVc_network_observer@@@Z");
 	// `anonymous-namespace'::c_network_session_parameters__initialize_parameters_hook
 	// c_network_observer *observer;
 	// constexpr void (*const `c_network_session_parameters__initialize_parameters_hook'::`2'::c_network_session_parameters__initialize_parameters)(c_network_session_parameters *, c_network_session *, c_network_observer *); // constant == 4761952
 	// c_network_session_parameter_mod *parameter;
 	// function call : void (*const)(c_network_session_parameters *, c_network_session *, c_network_observer *)
-	todo("implement");
-	_sub_10AA8A80(thisptr, unused, session, observer);
+
+	((void(__thiscall *)(c_network_session_parameters *, c_network_session *, c_network_observer *))0x48a960)(thisptr, session, observer);
+	c_network_session_parameter_mod *parameter = &g_session_mod_parameters[session->get_index()];
+	parameter->initialize(_network_session_parameter_type_mod, g_session_mod_parameter_name, 0, 0, session);
+	thisptr->parameters[4] = parameter;
 }
 
 _extern bool _sub_10AA9040(c_bitstream *, void *);

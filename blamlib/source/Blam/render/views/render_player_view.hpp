@@ -140,14 +140,12 @@ extern void draw_fullscreen_displacement(short_rectangle2d *bounds, DirectX::XMM
 
 /* ---------- public code */
 
-extern c_player_view *_sub_1085DBD0();
 _inline c_player_view *c_player_view::get_current() // 0x1085DBD0
 {
-	mangled_x86(MANGLED_TODO, "?get_current@c_player_view@@SAPAU1@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_current@c_player_view@@SAPAU1@XZ");
 	// procedure flags: nofpo
-	todo("implement");
-	c_player_view * __result = _sub_1085DBD0();
-	return __result;
+
+	return *(c_player_view * *)0x50dedf0;
 }
 
 /* ---------- private code */

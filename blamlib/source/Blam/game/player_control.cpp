@@ -39,14 +39,12 @@ extern s_player_control_input_state *player_control_input_get(long user_index);
 
 /* ---------- public code */
 
-extern s_player_control_input_state *_sub_10F19200(long);
 s_player_control_input_state *player_control_input_get(long user_index) // 0x10F19200
 {
-	mangled_x86(MANGLED_TODO, "?player_control_input_get@@YAPAUs_player_control_input_state@@J@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?player_control_input_get@@YAPAUs_player_control_input_state@@J@Z");
 	// long user_index;
-	todo("implement");
-	s_player_control_input_state * __result = _sub_10F19200(user_index);
-	return __result;
+
+	return &tls_getd().player_control_globals->player_input[user_index];
 }
 
 /* ---------- private code */

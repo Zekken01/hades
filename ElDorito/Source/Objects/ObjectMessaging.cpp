@@ -70,22 +70,20 @@ namespace Objects
 
 namespace Objects
 {
-	_extern void _sub_10798290(::Objects::ObjectMessageSystem *const);
 	_inline void ObjectMessageSystem::DisposeFromOldMap() // 0x10798290
 	{
-		mangled_x86(MANGLED_TODO, "?DisposeFromOldMap@ObjectMessageSystem@Objects@@UAEXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?DisposeFromOldMap@ObjectMessageSystem@Objects@@UAEXXZ");
 		// Objects::ObjectMessageSystem *const this;
-		todo("implement");
-		_sub_10798290(this);
+
+		CObjectMessaging::Reset();
 	}
 
-	_extern void _sub_107999B0();
 	void CObjectMessaging::Init() // 0x107999B0
 	{
-		mangled_x86(MANGLED_TODO, "?Init@CObjectMessaging@Objects@@SAXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Init@CObjectMessaging@Objects@@SAXXZ");
 		// procedure flags: nofpo
-		todo("implement");
-		_sub_107999B0();
+
+		Patches::Game::RegisterGameSystem((IGameSystem *)&Objects::system);
 	}
 
 	_extern void _sub_10799950(std::function<void __cdecl(void)> &);

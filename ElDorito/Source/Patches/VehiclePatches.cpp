@@ -70,7 +70,7 @@ namespace Patches
 	}
 }
 
-void c_vehicle_type_component__handle_deleted_object_hook(c_vehicle_type_component *thisptr, void *__formal, long vehicle_index, long object_index);
+void __fastcall c_vehicle_type_component__handle_deleted_object_hook(c_vehicle_type_component *thisptr, void *__formal, long vehicle_index, long object_index);
 
 /* ---------- globals */
 
@@ -96,7 +96,7 @@ namespace Patches
 /* ---------- private code */
 
 _extern void _sub_106A3F50(c_vehicle_type_component *, void *, long, long);
-void c_vehicle_type_component__handle_deleted_object_hook(c_vehicle_type_component *thisptr, void *__formal, long vehicle_index, long object_index) // 0x106A3F50
+void __fastcall c_vehicle_type_component__handle_deleted_object_hook(c_vehicle_type_component *thisptr, void *__formal, long vehicle_index, long object_index) // 0x106A3F50
 {
 	// `anonymous-namespace'::c_vehicle_type_component__handle_deleted_object_hook
 	// long object_index;

@@ -64,24 +64,20 @@ static_assert(sizeof(c_rasterizer) == 1, "Invalid c_rasterizer size");
 
 /* ---------- public code */
 
-extern IDirect3DDevice9Ex *_sub_10786340();
 _inline IDirect3DDevice9Ex *c_rasterizer::get_device() // 0x10786340
 {
-	mangled_x86(MANGLED_TODO, "?get_device@c_rasterizer@@SAPAUIDirect3DDevice9Ex@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_device@c_rasterizer@@SAPAUIDirect3DDevice9Ex@@XZ");
 	// procedure flags: nofpo
-	todo("implement");
-	IDirect3DDevice9Ex * __result = _sub_10786340();
-	return __result;
+
+	return *(IDirect3DDevice9Ex * *)0x50daddc;
 }
 
-extern IDirect3D9Ex *_sub_108EF070();
 _inline IDirect3D9Ex *c_rasterizer::get_direct3d() // 0x108EF070
 {
-	mangled_x86(MANGLED_TODO, "?get_direct3d@c_rasterizer@@SAPAUIDirect3D9Ex@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_direct3d@c_rasterizer@@SAPAUIDirect3D9Ex@@XZ");
 	// procedure flags: nofpo
-	todo("implement");
-	IDirect3D9Ex * __result = _sub_108EF070();
-	return __result;
+
+	return *(IDirect3D9Ex * *)0x50dadd8;
 }
 
 /* ---------- private code */
