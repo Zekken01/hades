@@ -54,7 +54,7 @@ namespace Modules
 		ModuleVoIP();
 		bool IsChatting();
 		void Tick();
-		~ModuleVoIP(); /* compiler_generated() */
+		~ModuleVoIP() = default; /* compiler_generated() */
 	};
 }
 

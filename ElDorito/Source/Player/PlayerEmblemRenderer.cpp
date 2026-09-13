@@ -125,13 +125,12 @@ namespace Player
 {
 	namespace Emblems
 	{
-		extern PlayerEmblemFileStream* _sub_107E6FB0(Player::Emblems::PlayerEmblemFileStream *const);
 		_inline PlayerEmblemFileStream::PlayerEmblemFileStream() // 0x107E6FB0
 		{
-			mangled_x86(MANGLED_TODO, "??0PlayerEmblemFileStream@Emblems@Player@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0PlayerEmblemFileStream@Emblems@Player@@QAE@XZ");
 			// Player::Emblems::PlayerEmblemFileStream *const this;
-			todo("implement");
-			_sub_107E6FB0(this);
+
+			m_fp = nullptr;
 		}
 
 		// mangled_x86(MANGLED_DEFAULT, "??0PlayerEmblemRenderMetadata@Emblems@Player@@QAE@XZ"); no body to assert in

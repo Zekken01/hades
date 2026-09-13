@@ -26,14 +26,12 @@ extern s_observer *observer_get(long output_user_index);
 
 /* ---------- public code */
 
-extern s_observer *_sub_10F19300(long);
 s_observer *observer_get(long output_user_index) // 0x10F19300
 {
-	mangled_x86(MANGLED_TODO, "?observer_get@@YAPAUs_observer@@J@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?observer_get@@YAPAUs_observer@@J@Z");
 	// long output_user_index;
-	todo("implement");
-	s_observer * __result = _sub_10F19300(output_user_index);
-	return __result;
+
+	return &tls_getd().observer_globals->observers[output_user_index];
 }
 
 /* ---------- private code */

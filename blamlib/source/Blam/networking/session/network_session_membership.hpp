@@ -97,7 +97,6 @@ struct s_network_session_player
 	s_player_configuration configuration; // 0x20
 	unsigned long voice_settings; // 0x1640
 	s_network_session_player(); /* compiler_generated() */
-	unsigned char __pad2[4]; // 0x1644
 };
 static_assert(sizeof(s_network_session_player) == 5704, "Invalid s_network_session_player size");
 
@@ -134,7 +133,6 @@ struct s_network_session_shared_membership
 	s_network_session_shared_membership(); /* compiler_generated() */
 	s_network_session_shared_membership &operator=(s_network_session_shared_membership &); /* compiler_generated() */
 	s_network_session_shared_membership &operator=(s_network_session_shared_membership const &); /* compiler_generated() */
-	unsigned char __pad1[4]; // 0x17524
 };
 static_assert(sizeof(s_network_session_shared_membership) == 95528, "Invalid s_network_session_shared_membership size");
 
@@ -182,14 +180,12 @@ _inline long c_network_session_membership::host_peer_index() const // 0x10A9E270
 	return ((s_network_session_shared_membership const *)m_shared_network_membership)->host_peer_index;
 }
 
-_extern long _sub_10693C50(c_network_session_membership const *const);
 _inline long c_network_session_membership::get_player_count() const // 0x10693C50
 {
-	mangled_x86(MANGLED_TODO, "?get_player_count@c_network_session_membership@@QBEJXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_player_count@c_network_session_membership@@QBEJXZ");
 	// c_network_session_membership const *const this;
-	todo("implement");
-	long __result = _sub_10693C50((c_network_session_membership const *)this);
-	return __result;
+
+	return ((s_network_session_shared_membership const *)m_shared_network_membership)->player_count;
 }
 
 _inline s_network_session_shared_membership const *c_network_session_membership::get_current_membership() const // 0x10A9E1C0

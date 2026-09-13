@@ -265,7 +265,7 @@ namespace hades_file_local
 		ModChangeListener(ModChangeListener &); /* compiler_generated() */
 		ModChangeListener(ModChangeListener const &); /* compiler_generated() */
 		ModChangeListener(); /* compiler_generated() */
-		virtual ~ModChangeListener(); /* compiler_generated() */
+		virtual ~ModChangeListener() = default; /* compiler_generated() */
 		ModChangeListener &operator=(ModChangeListener &); /* compiler_generated() */
 		ModChangeListener &operator=(ModChangeListener const &); /* compiler_generated() */
 	};
@@ -600,11 +600,3 @@ _inline ModChangeListener::ModChangeListener() = default; // 0x10CAC940
 // mangled_x86(MANGLED_DEFAULT, "??1DownloadStatusInfo@hades_file_local@@QAE@XZ"); no body to assert in
 _inline DownloadStatusInfo::~DownloadStatusInfo() = default; // 0x10CACAE0
 
-_inline ModChangeListener::~ModChangeListener() // 0x10CACB50
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1ModChangeListener@hades_file_local@@UAE@XZ");
-	// `anonymous-namespace'::ModChangeListener::~ModChangeListener
-	// ModChangeListener *const this;
-
-	compiler_generated();
-}

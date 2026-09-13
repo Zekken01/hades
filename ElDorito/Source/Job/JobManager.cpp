@@ -166,13 +166,15 @@ bool CJobManager::RunJobs() // 0x1086A250
 	return __result;
 }
 
-_extern void _sub_1086A490(CJobManager *const);
 void CJobManager::WorkerThreadProc() // 0x1086A490
 {
-	mangled_x86(MANGLED_TODO, "?WorkerThreadProc@CJobManager@@AAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?WorkerThreadProc@CJobManager@@AAEXXZ");
 	// CJobManager *const this;
-	todo("implement");
-	_sub_1086A490(this);
+
+	while (RunJobs())
+	{
+		std::this_thread::yield();
+	}
 }
 
 /* ---------- private code */

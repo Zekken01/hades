@@ -62,7 +62,7 @@ namespace ChatCommands
 		long long voteTimeStarted; // 0x50
 		std::vector<unsigned __int64> yesVoters; // 0x58
 	public:
-		_inline ~VotingChatCommand(); /* compiler_generated() */
+		~VotingChatCommand() = default;
 		ChatCommands::VotingChatCommand &operator=(ChatCommands::VotingChatCommand &); /* compiler_generated() */
 		ChatCommands::VotingChatCommand &operator=(ChatCommands::VotingChatCommand const &); /* compiler_generated() */
 	};
@@ -80,7 +80,7 @@ namespace ChatCommands
 		EndGameCommand(ChatCommands::EndGameCommand &); /* compiler_generated() */
 		EndGameCommand(ChatCommands::EndGameCommand const &); /* compiler_generated() */
 		EndGameCommand();
-		_inline ~EndGameCommand(); /* compiler_generated() */
+		~EndGameCommand() = default;
 		ChatCommands::EndGameCommand &operator=(ChatCommands::EndGameCommand &); /* compiler_generated() */
 		ChatCommands::EndGameCommand &operator=(ChatCommands::EndGameCommand const &); /* compiler_generated() */
 	};
@@ -98,7 +98,7 @@ namespace ChatCommands
 		EndRoundCommand(ChatCommands::EndRoundCommand &); /* compiler_generated() */
 		EndRoundCommand(ChatCommands::EndRoundCommand const &); /* compiler_generated() */
 		EndRoundCommand();
-		_inline ~EndRoundCommand(); /* compiler_generated() */
+		~EndRoundCommand() = default;
 		ChatCommands::EndRoundCommand &operator=(ChatCommands::EndRoundCommand &); /* compiler_generated() */
 		ChatCommands::EndRoundCommand &operator=(ChatCommands::EndRoundCommand const &); /* compiler_generated() */
 	};
@@ -116,7 +116,7 @@ namespace ChatCommands
 		ShuffleTeamsCommand(ChatCommands::ShuffleTeamsCommand &); /* compiler_generated() */
 		ShuffleTeamsCommand(ChatCommands::ShuffleTeamsCommand const &); /* compiler_generated() */
 		ShuffleTeamsCommand();
-		_inline ~ShuffleTeamsCommand(); /* compiler_generated() */
+		~ShuffleTeamsCommand() = default;
 		ChatCommands::ShuffleTeamsCommand &operator=(ChatCommands::ShuffleTeamsCommand &); /* compiler_generated() */
 		ChatCommands::ShuffleTeamsCommand &operator=(ChatCommands::ShuffleTeamsCommand const &); /* compiler_generated() */
 	};
@@ -137,7 +137,7 @@ namespace ChatCommands
 	private:
 		std::string playerName; // 0x68
 	public:
-		_inline ~KickPlayerCommand(); /* compiler_generated() */
+		~KickPlayerCommand() = default;
 		ChatCommands::KickPlayerCommand &operator=(ChatCommands::KickPlayerCommand &); /* compiler_generated() */
 		ChatCommands::KickPlayerCommand &operator=(ChatCommands::KickPlayerCommand const &); /* compiler_generated() */
 	};
@@ -158,7 +158,7 @@ namespace ChatCommands
 	private:
 		std::string playerName; // 0x68
 	public:
-		_inline ~KickIndexCommand(); /* compiler_generated() */
+		~KickIndexCommand() = default;
 		ChatCommands::KickIndexCommand &operator=(ChatCommands::KickIndexCommand &); /* compiler_generated() */
 		ChatCommands::KickIndexCommand &operator=(ChatCommands::KickIndexCommand const &); /* compiler_generated() */
 	};

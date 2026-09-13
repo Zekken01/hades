@@ -85,7 +85,7 @@ public:
 	_inline CForgeUndoManager() = default; /* compiler_generated() - defaulted on its
 	    first declaration, so it is NOT user-provided and `new CForgeUndoManager()`
 	    zero-initializes before constructing, as the original does. */
-	~CForgeUndoManager(); /* compiler_generated() */
+	~CForgeUndoManager() = default; /* compiler_generated() */
 };
 #pragma pack(pop)
 static_assert(sizeof(CForgeUndoManager) == 52, "Invalid CForgeUndoManager size");

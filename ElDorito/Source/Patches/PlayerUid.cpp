@@ -117,7 +117,7 @@ namespace hades_file_local
 		UidExtension(UidExtension &); /* compiler_generated() */
 		UidExtension(UidExtension const &); /* compiler_generated() */
 		UidExtension(); /* compiler_generated() */
-		virtual ~UidExtension(); /* compiler_generated() */
+		virtual ~UidExtension() = default; /* compiler_generated() */
 		UidExtension &operator=(UidExtension &); /* compiler_generated() */
 		UidExtension &operator=(UidExtension const &); /* compiler_generated() */
 	};
@@ -165,14 +165,13 @@ namespace Patches
 			_sub_10AB3CF0();
 		}
 
-		_extern unsigned long long _sub_10AB4960();
 		unsigned long long Get() // 0x10AB4960
 		{
-			mangled_x86(MANGLED_TODO, "?Get@PlayerUid@Patches@@YA_KXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Get@PlayerUid@Patches@@YA_KXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			unsigned long long __result = _sub_10AB4960();
-			return __result;
+
+			EnsureValidUid();
+			return UidPtr.Read<unsigned long long>();
 		}
 	}
 }
@@ -251,14 +250,6 @@ _inline void UidExtension::Deserialize(Blam::BitStream *stream, unsigned long lo
 // mangled_x86(MANGLED_DEFAULT, "??0UidExtension@hades_file_local@@QAE@XZ"); no body to assert in
 _inline UidExtension::UidExtension() = default; // 0x10AB39F0
 
-_inline UidExtension::~UidExtension() // 0x10AB3B50
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1UidExtension@hades_file_local@@UAE@XZ");
-	// `anonymous-namespace'::UidExtension::~UidExtension
-	// UidExtension *const this;
-
-	compiler_generated();
-}
 
 _extern void _sub_10AB42D0();
 void EnsureValidUid() // 0x10AB42D0
@@ -306,3 +297,7 @@ template void Patches::Network::PlayerPropertiesExtension<unsigned __int64>::Bui
 template void Patches::Network::PlayerPropertiesExtension<unsigned __int64>::Deserialize(Blam::BitStream *, void *);
 template void Patches::Network::PlayerPropertiesExtension<unsigned __int64>::Serialize(Blam::BitStream *, void const *);
 template void Pointer::WriteFast<unsigned __int64>(unsigned long long const) const;
+
+/* ---------- explicit instantiations */
+template unsigned long long & Pointer::Read<unsigned __int64>() const;
+template Patches::Network::PlayerPropertiesExtension<unsigned __int64>::PlayerPropertiesExtension();

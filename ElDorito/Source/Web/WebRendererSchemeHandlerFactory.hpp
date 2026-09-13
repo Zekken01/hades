@@ -47,7 +47,7 @@ namespace Web
 			virtual _inline bool Release() const;
 			virtual _inline bool HasOneRef() const;
 			virtual _inline bool HasAtLeastOneRef() const;
-			virtual _inline ~WebRendererSchemeHandlerFactory(); /* compiler_generated() */
+			virtual _inline ~WebRendererSchemeHandlerFactory() = default; /* compiler_generated() */
 		};
 		static_assert(sizeof(Web::Browser::WebRendererSchemeHandlerFactory) == 76, "Invalid Web::Browser::WebRendererSchemeHandlerFactory size");
 	}

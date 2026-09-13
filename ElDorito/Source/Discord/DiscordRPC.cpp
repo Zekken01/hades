@@ -124,6 +124,8 @@ namespace Blam
 
 /* ---------- prototypes */
 
+#include "Modules/ModuleGame.hpp"  // hades: added for 0x10954380
+
 void handleDiscordDisconnected(__int32 errorCode, char const *message);
 void handleDiscordError(__int32 errorCode, char const *message);
 void handleDiscordJoin(char const *joinSecret);
@@ -263,13 +265,16 @@ void handleDiscordSpectate(char const *spectateSecret) // 0x10954430
 	// char const *spectateSecret;
 }
 
-_extern void _sub_10954380(DiscordJoinRequest const *);
 void handleDiscordJoinRequest(DiscordJoinRequest const *joinRequest) // 0x10954380
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?handleDiscordJoinRequest@@YAXPBUDiscordJoinRequest@@@Z");
 	// `anonymous-namespace'::handleDiscordJoinRequest
 	// DiscordJoinRequest const *joinRequest;
-	todo("implement");
-	_sub_10954380(joinRequest);
+
+	if (Utils::Singleton<Modules::ModuleGame>::Instance().VarDiscordAutoAccept->ValueInt == 1)
+	{
+		Discord_Respond(joinRequest->userId, 1);
+	}
 }
 
 _extern void _sub_109533C0();
@@ -336,3 +341,6 @@ void OnShutdown() // 0x10952F50
 
 	Discord::DiscordRPC::Instance().Shutdown();
 }
+
+/* ---------- explicit instantiations */
+template Pointer::operator char *() const;

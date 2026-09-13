@@ -282,3 +282,6 @@ _inline SServerConnectState &SServerConnectState::operator=(SServerConnectState 
 }
 
 /* ---------- private code */
+
+/* ---------- explicit instantiations */
+template CEventSink<enum EServerConnectAbortReason>::CEventSink();

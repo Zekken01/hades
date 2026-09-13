@@ -67,7 +67,7 @@ struct s_first_person_weapon_data
 	unsigned char __pad4[4]; // 0x2790
 	unsigned long animation_name_string_id; // 0x2794
 	s_first_person_weapon_data(); /* compiler_generated() */
-	~s_first_person_weapon_data(); /* compiler_generated() */
+	~s_first_person_weapon_data() = default; /* compiler_generated() */
 	unsigned char __pad5[8]; // 0x2798
 };
 static_assert(sizeof(s_first_person_weapon_data) == 10144, "Invalid s_first_person_weapon_data size");
@@ -82,7 +82,7 @@ struct s_first_person_weapon
 	real_matrix4x3 root_transform; // 0x4FC0
 	long unknown_animation_graph_index; // 0x4FF4
 	s_first_person_weapon(); /* compiler_generated() */
-	~s_first_person_weapon(); /* compiler_generated() */
+	~s_first_person_weapon() = default; /* compiler_generated() */
 	unsigned char __pad1[8]; // 0x4FF8
 };
 static_assert(sizeof(s_first_person_weapon) == 20480, "Invalid s_first_person_weapon size");

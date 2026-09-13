@@ -60,7 +60,7 @@ namespace Blam
 		public:
 			CTagCacheFileReader(Blam::Cache::CTagCacheFileReader &); /* compiler_generated() */
 			CTagCacheFileReader(); /* compiler_generated() */
-			~CTagCacheFileReader(); /* compiler_generated() */
+			~CTagCacheFileReader() = default; /* compiler_generated() */
 			Blam::Cache::CTagCacheFileReader &operator=(Blam::Cache::CTagCacheFileReader &); /* compiler_generated() */
 		};
 		static_assert(sizeof(Blam::Cache::CTagCacheFileReader) == 240, "Invalid Blam::Cache::CTagCacheFileReader size");

@@ -55,7 +55,7 @@ public:
 	c_gui_bitmap_widget(c_gui_bitmap_widget &); /* compiler_generated() */
 	c_gui_bitmap_widget(c_gui_bitmap_widget const &); /* compiler_generated() */
 	c_gui_bitmap_widget(); /* compiler_generated() */
-	virtual ~c_gui_bitmap_widget(); /* compiler_generated() */
+	virtual ~c_gui_bitmap_widget() = default; /* compiler_generated() */
 	c_gui_bitmap_widget &operator=(c_gui_bitmap_widget &); /* compiler_generated() */
 	c_gui_bitmap_widget &operator=(c_gui_bitmap_widget const &); /* compiler_generated() */
 };
@@ -80,7 +80,7 @@ struct c_gui_custom_bitmap_widget :
 	c_gui_custom_bitmap_widget(c_gui_custom_bitmap_widget &); /* compiler_generated() */
 	c_gui_custom_bitmap_widget(c_gui_custom_bitmap_widget const &); /* compiler_generated() */
 	c_gui_custom_bitmap_widget(); /* compiler_generated() */
-	virtual ~c_gui_custom_bitmap_widget(); /* compiler_generated() */
+	virtual ~c_gui_custom_bitmap_widget() = default; /* compiler_generated() */
 	c_gui_custom_bitmap_widget &operator=(c_gui_custom_bitmap_widget &); /* compiler_generated() */
 	c_gui_custom_bitmap_widget &operator=(c_gui_custom_bitmap_widget const &); /* compiler_generated() */
 };

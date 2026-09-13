@@ -218,6 +218,8 @@ typedef long long long64;
 
 /* ---------- prototypes */
 
+extern void render_debug_visibility();  // hades: added for 0x108C9370
+
 namespace Patches
 {
 	namespace Debug
@@ -300,13 +302,16 @@ namespace Patches
 			}
 		}
 
-		_extern void _sub_108C9370();
 		void RenderPlayerView() // 0x108C9370
 		{
-			mangled_x86(MANGLED_TODO, "?RenderPlayerView@Debug@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?RenderPlayerView@Debug@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_108C9370();
+
+			DisplayClusters();
+			render_debug_objects();
+			render_debug_trigger_volumes();
+			render_debug_visibility();
+			render_debug_structure();
 		}
 	}
 }

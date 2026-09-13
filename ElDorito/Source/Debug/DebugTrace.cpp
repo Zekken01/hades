@@ -212,3 +212,6 @@ void InitializeIfNeeded() // 0x1081E010
 }
 
 _inline s_buff::s_buff() = default; // 0x1081DA60
+
+/* ---------- explicit instantiations */
+template _SINGLE_LIST_ENTRY * CSimpleMessageQueue<STraceLine,128>::Reversed(_SINGLE_LIST_ENTRY *);

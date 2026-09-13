@@ -316,7 +316,7 @@ namespace hades_file_local
 		WebOverlayInputContext(WebOverlayInputContext &); /* compiler_generated() */
 		WebOverlayInputContext(WebOverlayInputContext const &); /* compiler_generated() */
 		WebOverlayInputContext(); /* compiler_generated() */
-		virtual ~WebOverlayInputContext(); /* compiler_generated() */
+		virtual ~WebOverlayInputContext() = default; /* compiler_generated() */
 		WebOverlayInputContext &operator=(WebOverlayInputContext &); /* compiler_generated() */
 		WebOverlayInputContext &operator=(WebOverlayInputContext const &); /* compiler_generated() */
 	};
@@ -1028,11 +1028,3 @@ void NotifyVariablesUpdated() // 0x10C94C80
 // mangled_x86(MANGLED_DEFAULT, "??0WebOverlayInputContext@hades_file_local@@QAE@XZ"); no body to assert in
 _inline WebOverlayInputContext::WebOverlayInputContext() = default; // 0x10C91390
 
-_inline WebOverlayInputContext::~WebOverlayInputContext() // 0x10C91DC0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1WebOverlayInputContext@hades_file_local@@UAE@XZ");
-	// `anonymous-namespace'::WebOverlayInputContext::~WebOverlayInputContext
-	// WebOverlayInputContext *const this;
-
-	compiler_generated();
-}

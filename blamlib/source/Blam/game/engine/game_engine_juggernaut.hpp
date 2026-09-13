@@ -6,6 +6,8 @@
 
 #include "hades/hades.h"
 
+#include "Blam/memory/tls.hpp"
+
 #include "Blam/game/game_engine_area_set.hpp"
 #include "Blam/game/game_engine_globals.hpp"
 
@@ -39,14 +41,12 @@ extern _inline s_juggernaut_globals *get_juggernaut_globals();
 
 /* ---------- public code */
 
-extern s_juggernaut_globals *_sub_10CB3A80();
 _inline s_juggernaut_globals *get_juggernaut_globals() // 0x10CB3A80
 {
-	mangled_x86(MANGLED_TODO, "?get_juggernaut_globals@@YAPAUs_juggernaut_globals@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_juggernaut_globals@@YAPAUs_juggernaut_globals@@XZ");
 	// procedure flags: nofpo
-	todo("implement");
-	s_juggernaut_globals * __result = _sub_10CB3A80();
-	return __result;
+
+	return reinterpret_cast<s_juggernaut_globals *>(tls_getd().game_engine_globals->engine_storage);
 }
 
 /* ---------- private code */

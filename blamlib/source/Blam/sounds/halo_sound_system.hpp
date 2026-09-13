@@ -220,7 +220,6 @@ struct HALO_SOUND_SYSTEM
 	float inverse_matrix[16]; // 0x150
 	_inline HALO_CHANNEL *FindChannel(__int32 id);
 	static _inline HALO_SOUND_SYSTEM *Get();
-	unsigned char __pad2[80]; // 0x190
 };
 // static_assert(sizeof(HALO_SOUND_SYSTEM) == 480, "Invalid HALO_SOUND_SYSTEM size");
 // Withheld: the type inventory does not describe this type, so its

@@ -202,14 +202,12 @@ namespace Modules
 		_sub_10A24050(this);
 	}
 
-	_extern bool _sub_10A24D90(Modules::ModuleVoIP *const);
 	bool ModuleVoIP::IsChatting() // 0x10A24D90
 	{
-		mangled_x86(MANGLED_TODO, "?IsChatting@ModuleVoIP@Modules@@QAE_NXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?IsChatting@ModuleVoIP@Modules@@QAE_NXZ");
 		// Modules::ModuleVoIP *const this;
-		todo("implement");
-		bool __result = _sub_10A24D90(this);
-		return __result;
+
+		return isChatting;
 	}
 }
 

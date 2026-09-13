@@ -40,7 +40,7 @@ namespace Web
 			CefRefCount ref_count_; // 0x8
 		public:
 			WebRendererRenderNull(); /* compiler_generated() */
-			virtual ~WebRendererRenderNull(); /* compiler_generated() */
+			virtual ~WebRendererRenderNull() = default; /* compiler_generated() */
 		};
 	}
 }

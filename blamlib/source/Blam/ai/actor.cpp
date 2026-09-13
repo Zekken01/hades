@@ -27,14 +27,14 @@ extern s_actor_datum *actor_get(long index);
 
 /* ---------- public code */
 
-extern s_actor_datum *_sub_10F0D8F0(long);
 s_actor_datum *actor_get(long index) // 0x10F0D8F0
 {
-	mangled_x86(MANGLED_TODO, "?actor_get@@YAPAUs_actor_datum@@J@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?actor_get@@YAPAUs_actor_datum@@J@Z");
 	// long index;
-	todo("implement");
-	s_actor_datum * __result = _sub_10F0D8F0(index);
-	return __result;
+
+	c_data_array<s_actor_datum> *actor = tls_getd().actor;
+
+	return actor->try_and_get(index);
 }
 
 /* ---------- private code */

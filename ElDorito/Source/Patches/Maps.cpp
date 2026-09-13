@@ -124,7 +124,7 @@ namespace hades_file_local
 		ModListener(ModListener &); /* compiler_generated() */
 		ModListener(ModListener const &); /* compiler_generated() */
 		ModListener(); /* compiler_generated() */
-		virtual ~ModListener(); /* compiler_generated() */
+		virtual ~ModListener() = default; /* compiler_generated() */
 		ModListener &operator=(ModListener &); /* compiler_generated() */
 		ModListener &operator=(ModListener const &); /* compiler_generated() */
 	};
@@ -279,14 +279,6 @@ bool levels_add_map_impl(s_file_reference *file_reference, char const *maps_path
 // mangled_x86(MANGLED_DEFAULT, "??0ModListener@hades_file_local@@QAE@XZ"); no body to assert in
 _inline ModListener::ModListener() = default; // 0x10A875E0
 
-_inline ModListener::~ModListener() // 0x10A87640
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1ModListener@hades_file_local@@UAE@XZ");
-	// `anonymous-namespace'::ModListener::~ModListener
-	// ModListener *const this;
-
-	compiler_generated();
-}
 
 _extern bool _sub_10A88E60(char const *, c_mod_package *);
 bool load_mod_package_campaigns(char const *virtual_path, c_mod_package *mod_package) // 0x10A88E60

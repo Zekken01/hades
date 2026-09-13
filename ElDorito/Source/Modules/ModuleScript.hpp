@@ -32,7 +32,7 @@ namespace Modules
 	public:
 		ModuleScript();
 		Modules::Command *VarPrintToConsole; // 0x1C
-		~ModuleScript(); /* compiler_generated() */
+		~ModuleScript() = default; /* compiler_generated() */
 	};
 	static_assert(sizeof(Modules::ModuleScript) == 32, "Invalid Modules::ModuleScript size");
 }

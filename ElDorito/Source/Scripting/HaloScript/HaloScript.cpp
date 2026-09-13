@@ -210,11 +210,10 @@ namespace Scripting
 	{
 		hs_value MarshalReturn(long threadIndex, e_hs_type type, hs_value value) // 0x106E8DF0
 		{
-			mangled_x86(MANGLED_TODO, "?MarshalReturn@HS@Scripting@@YA?AUhs_value@@JW4e_hs_type@@U3@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?MarshalReturn@HS@Scripting@@YA?AUhs_value@@JW4e_hs_type@@U3@@Z");
 			// hs_value value;
-			todo("implement");
-			hs_value __result = _sub_106E8DF0(threadIndex, type, value);
-			return __result;
+
+			return value;
 		}
 
 		_extern __int32 _sub_106E8BB0(std::string_view);

@@ -99,6 +99,10 @@ namespace Blam
 
 /* ---------- prototypes */
 
+namespace Player { extern void player_appearance_encode(Blam::BitStream *stream, s_player_appearance const *appearance); }  // hades: added for 0x107DB680
+
+namespace Player { extern bool player_appearance_decode(Blam::BitStream *stream, s_player_appearance *appearance); }  // hades: added for 0x107DB390
+
 namespace Player
 {
 	extern bool ValidServiceTag(wchar_t (&tag)[5]);
@@ -143,22 +147,20 @@ namespace Player
 		return __result;
 	}
 
-	_extern void _sub_107DB680(::Player::PlayerCustomizationExtensions *const, Blam::BitStream *, s_player_appearance const &);
 	void PlayerCustomizationExtensions::Serialize(Blam::BitStream *stream, s_player_appearance const &data) // 0x107DB680
 	{
-		mangled_x86(MANGLED_TODO, "?Serialize@PlayerCustomizationExtensions@Player@@MAEXPAVBitStream@Blam@@ABUs_player_appearance@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Serialize@PlayerCustomizationExtensions@Player@@MAEXPAVBitStream@Blam@@ABUs_player_appearance@@@Z");
 		// s_player_appearance const &data;
-		todo("implement");
-		_sub_107DB680(this, stream, data);
+
+		Player::player_appearance_encode(stream, &data);
 	}
 
-	_extern void _sub_107DB390(::Player::PlayerCustomizationExtensions *const, Blam::BitStream *, s_player_appearance *);
 	void PlayerCustomizationExtensions::Deserialize(Blam::BitStream *stream, s_player_appearance *out) // 0x107DB390
 	{
-		mangled_x86(MANGLED_TODO, "?Deserialize@PlayerCustomizationExtensions@Player@@MAEXPAVBitStream@Blam@@PAUs_player_appearance@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Deserialize@PlayerCustomizationExtensions@Player@@MAEXPAVBitStream@Blam@@PAUs_player_appearance@@@Z");
 		// s_player_appearance *out;
-		todo("implement");
-		_sub_107DB390(this, stream, out);
+
+		Player::player_appearance_decode(stream, out);
 	}
 
 	_extern void _sub_107DB030(::Player::PlayerCustomizationExtensions *const, __int32, s_player_appearance *);
@@ -175,16 +177,16 @@ namespace Player
 		_sub_107DB030(this, playerIndex, out);
 	}
 
-	_extern void _sub_107DB620(s_player_model_customization *);
 	void SanitizeModelCustomization(s_player_model_customization *customization) // 0x107DB620
 	{
-		mangled_x86(MANGLED_TODO, "?SanitizeModelCustomization@Player@@YAXPAUs_player_model_customization@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?SanitizeModelCustomization@Player@@YAXPAUs_player_model_customization@@@Z");
 		// s_player_model_customization *customization;
-		{
 			// __int32 i;
+
+		for (__int32 i = 0; i < 5; i++)
+		{
+			customization->colors[i] &= 0xFFFFFF;
 		}
-		todo("implement");
-		_sub_107DB620(customization);
 	}
 
 	_extern void _sub_107DAD70(::Player::PlayerCustomizationExtensions *const, __int32, s_player_configuration *, s_player_appearance const &);

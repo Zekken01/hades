@@ -883,13 +883,12 @@ namespace Player
 			_sub_106E1220(player_session_idx, position, yaw, pitch, respawn);
 		}
 
-		_extern void _sub_106DF3C0();
 		void Init() // 0x106DF3C0
 		{
-			mangled_x86(MANGLED_TODO, "?Init@PlayerPodium@Player@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Init@PlayerPodium@Player@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_106DF3C0();
+
+			Patches::Core::OnMapLoaded(Player::PlayerPodium::OnMapLoaded);
 		}
 	}
 }

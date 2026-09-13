@@ -65,7 +65,6 @@ struct s_player_control_state
 	float map_editor_rotation_yaw; // 0x60
 	float map_editor_rotation_pitch; // 0x64
 	unsigned short map_editor_flags; // 0x68
-	unsigned char __pad3[2]; // 0x6A
 };
 #pragma pack(pop)
 static_assert(sizeof(s_player_control_state) == 108, "Invalid s_player_control_state size");

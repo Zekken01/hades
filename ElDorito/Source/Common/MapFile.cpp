@@ -103,24 +103,20 @@ bool CMapFile::IsValid() const // 0x10860890
 	return m_buffer.size() > 0;
 }
 
-_extern bool _sub_108607F0(CMapFile const *const);
 bool CMapFile::HasMapInfo() const // 0x108607F0
 {
-	mangled_x86(MANGLED_TODO, "?HasMapInfo@CMapFile@@QBE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?HasMapInfo@CMapFile@@QBE_NXZ");
 	// CMapFile const *const this;
-	todo("implement");
-	bool __result = _sub_108607F0((CMapFile const *)this);
-	return __result;
+
+	return m_mapInfo != nullptr;
 }
 
-_extern bool _sub_10860840(CMapFile const *const);
 bool CMapFile::HasMapVariant() const // 0x10860840
 {
-	mangled_x86(MANGLED_TODO, "?HasMapVariant@CMapFile@@QBE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?HasMapVariant@CMapFile@@QBE_NXZ");
 	// CMapFile const *const this;
-	todo("implement");
-	bool __result = _sub_10860840((CMapFile const *)this);
-	return __result;
+
+	return m_mapVariant != nullptr;
 }
 
 extern s_map_variant const *_sub_10860460(CMapFile const *const);

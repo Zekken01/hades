@@ -18,6 +18,8 @@ struct s_scenario;
 
 /* ---------- prototypes */
 
+extern s_scenario **g_scenario_definition;  // hades: added for 0x1067F5D0
+
 extern long scenario_pvs_bsp_pvs_index_get(unsigned long bsp_zone_flags, long bsp_index);
 
 extern _inline s_scenario *global_scenario_get();
@@ -26,14 +28,12 @@ extern _inline s_scenario *global_scenario_get();
 
 /* ---------- public code */
 
-extern s_scenario *_sub_1067F5D0();
 _inline s_scenario *global_scenario_get() // 0x1067F5D0
 {
-	mangled_x86(MANGLED_TODO, "?global_scenario_get@@YAPAUs_scenario@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?global_scenario_get@@YAPAUs_scenario@@XZ");
 	// procedure flags: nofpo
-	todo("implement");
-	s_scenario * __result = _sub_1067F5D0();
-	return __result;
+
+	return *g_scenario_definition;
 }
 
 /* ---------- private code */

@@ -106,7 +106,7 @@ namespace Scripting
 			_inline ScriptMethodMap() = default; /* compiler_generated() - defaulted on its
 			    first declaration, so it is NOT user-provided and `new ScriptMethodMap()`
 			    zero-initializes before constructing, as the original does. */
-			~ScriptMethodMap(); /* compiler_generated() */
+			~ScriptMethodMap() = default; /* compiler_generated() */
 		};
 	}
 }

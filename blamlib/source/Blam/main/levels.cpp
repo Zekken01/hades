@@ -311,22 +311,20 @@ void levels_close_all_campaigns() // 0x10F06B60
 	critical_section_leave(_critical_section_levels);
 }
 
-_extern void _sub_10F07040(long);
 void levels_close_multiplayer_map(long map_id) // 0x10F07040
 {
-	mangled_x86(MANGLED_TODO, "?levels_close_multiplayer_map@@YAXJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?levels_close_multiplayer_map@@YAXJ@Z");
 	// long map_id;
-	todo("implement");
-	_sub_10F07040(map_id);
+
+	levels_close_map_internal(g_level_globals->multiplayer_levels, map_id);
 }
 
-_extern void _sub_10F06E50(long);
 void levels_close_campaign_map(long map_id) // 0x10F06E50
 {
-	mangled_x86(MANGLED_TODO, "?levels_close_campaign_map@@YAXJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?levels_close_campaign_map@@YAXJ@Z");
 	// long map_id;
-	todo("implement");
-	_sub_10F06E50(map_id);
+
+	levels_close_map_internal(g_level_globals->campaign_levels, map_id);
 }
 
 _extern void _sub_10F069F0();

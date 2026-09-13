@@ -112,7 +112,7 @@ namespace Modules
 		_inline CommandMap() = default; /* compiler_generated() - defaulted on its
 		    first declaration, so it is NOT user-provided and `new CommandMap()`
 		    zero-initializes before constructing, as the original does. */
-		~CommandMap(); /* compiler_generated() */
+		~CommandMap() = default; /* compiler_generated() */
 	};
 }
 

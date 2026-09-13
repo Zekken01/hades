@@ -34,7 +34,7 @@ namespace Modules
 		Modules::Command *VarSpeed; // 0x1C
 		Modules::Command *VarSpeedClient; // 0x20
 		ModuleTime();
-		~ModuleTime(); /* compiler_generated() */
+		~ModuleTime() = default; /* compiler_generated() */
 	};
 }
 

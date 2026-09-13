@@ -59,11 +59,13 @@ private:
 	void *_Pointer; // 0x0
 public:
 	template<typename t_arg0>
-	t_arg0 Read() const;
+	t_arg0 &Read() const;
 	template<typename t_arg0>
 	void Write(t_arg0 const value) const;
 	template<typename t_arg0>
 	void WriteFast(t_arg0 const value) const;
+	template<typename t_arg0>
+	operator t_arg0 *() const;
 };
 static_assert(sizeof(Pointer) == 4, "Invalid Pointer size");
 
@@ -80,6 +82,30 @@ extern _inline void *GetBasePointer();
 /* ---------- globals */
 
 /* ---------- public code */
+
+template<typename t_arg0>
+_inline t_arg0 &Pointer::Read() const
+{
+	mangled_prefix_assert("??$Read@");
+
+	return *(t_arg0 *)_Pointer;
+}
+
+template<typename t_arg0>
+_inline void Pointer::WriteFast(t_arg0 const value) const
+{
+	mangled_prefix_assert("??$WriteFast@");
+
+	*(t_arg0 *)_Pointer = value;
+}
+
+template<typename t_arg0>
+_inline Pointer::operator t_arg0 *() const
+{
+	mangled_prefix_assert("??$?B");
+
+	return (t_arg0 *)_Pointer;
+}
 
 _inline void *GetBasePointer() // 0x10968590
 {

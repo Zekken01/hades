@@ -163,7 +163,6 @@ struct $s_hs_script_op$_extraBytes_8
 	char const *special_syntax; // 0x8
 	short argument_count; // 0xC
 	c_enum<enum e_hs_type,short> args[4]; // 0xE
-	unsigned char __pad1[2]; // 0x16
 };
 static_assert(sizeof($s_hs_script_op$_extraBytes_8) == 24, "Invalid $s_hs_script_op$_extraBytes_8 size");
 
@@ -190,7 +189,6 @@ struct $s_hs_script_op$_extraBytes_12
 	char const *special_syntax; // 0x8
 	short argument_count; // 0xC
 	c_enum<enum e_hs_type,short> args[6]; // 0xE
-	unsigned char __pad1[2]; // 0x1A
 };
 #pragma pack(pop)
 static_assert(sizeof($s_hs_script_op$_extraBytes_12) == 28, "Invalid $s_hs_script_op$_extraBytes_12 size");
@@ -203,7 +201,6 @@ struct $s_hs_script_op$_extraBytes_4
 	char const *special_syntax; // 0x8
 	short argument_count; // 0xC
 	c_enum<enum e_hs_type,short> args[2]; // 0xE
-	unsigned char __pad1[2]; // 0x12
 };
 static_assert(sizeof($s_hs_script_op$_extraBytes_4) == 20, "Invalid $s_hs_script_op$_extraBytes_4 size");
 
@@ -327,54 +324,44 @@ extern char const *hs_get_type_name(e_hs_type type);
 
 /* ---------- public code */
 
-extern hs_value _sub_10681220(long);
 _inline hs_value hs_value::from_long(long value) // 0x10681220
 {
-	mangled_x86(MANGLED_TODO, "?from_long@hs_value@@SA?AU1@J@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?from_long@hs_value@@SA?AU1@J@Z");
 	// long value;
-	todo("implement");
-	hs_value __result = _sub_10681220(value);
-	return __result;
+
+	return hs_value{ .long_value = value };
 }
 
-extern hs_value _sub_106F7950(short);
 _inline hs_value hs_value::from_short(short value) // 0x106F7950
 {
-	mangled_x86(MANGLED_TODO, "?from_short@hs_value@@SA?AU1@F@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?from_short@hs_value@@SA?AU1@F@Z");
 	// short value;
-	todo("implement");
-	hs_value __result = _sub_106F7950(value);
-	return __result;
+
+	return hs_value{ .short_value = value };
 }
 
-extern hs_value _sub_10681250(float);
 _inline hs_value hs_value::from_real(float value) // 0x10681250
 {
-	mangled_x86(MANGLED_TODO, "?from_real@hs_value@@SA?AU1@M@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?from_real@hs_value@@SA?AU1@M@Z");
 	// float value;
-	todo("implement");
-	hs_value __result = _sub_10681250(value);
-	return __result;
+
+	return hs_value{ .real_value = value };
 }
 
-extern hs_value _sub_107059A0(bool);
 _inline hs_value hs_value::from_bool(bool value) // 0x107059A0
 {
-	mangled_x86(MANGLED_TODO, "?from_bool@hs_value@@SA?AU1@_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?from_bool@hs_value@@SA?AU1@_N@Z");
 	// bool value;
-	todo("implement");
-	hs_value __result = _sub_107059A0(value);
-	return __result;
+
+	return hs_value{ .bool_value = value };
 }
 
-extern hs_value _sub_106EC650(char const *);
 _inline hs_value hs_value::from_string(char const *value) // 0x106EC650
 {
-	mangled_x86(MANGLED_TODO, "?from_string@hs_value@@SA?AU1@PBD@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?from_string@hs_value@@SA?AU1@PBD@Z");
 	// char const *value;
-	todo("implement");
-	hs_value __result = _sub_106EC650(value);
-	return __result;
+
+	return hs_value{ .string_value = value };
 }
 
 /* ---------- private code */

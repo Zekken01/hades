@@ -255,6 +255,8 @@ namespace Blam
 
 /* ---------- prototypes */
 
+extern void RefreshUiPlayer();  // hades: added for 0x109F7350
+
 std::string GetPayload();
 bool SendRequest(std::string payload, std::string endpoint);
 bool CommandRegisterPlayer(std::vector<std::string> const &Arguments, std::string &returnInfo);
@@ -410,14 +412,14 @@ bool CommandRegisterPlayer(std::vector<std::string> const &Arguments, std::strin
 	return __result;
 }
 
-_extern bool _sub_109F7350(std::vector<std::string> const &, std::string &);
 bool VariablePlayerArmorUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109F7350
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?VariablePlayerArmorUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::VariablePlayerArmorUpdate
 	// std::string &returnInfo;
-	todo("implement");
-	bool __result = _sub_109F7350(Arguments, returnInfo);
-	return __result;
+
+	RefreshUiPlayer();
+	return true;
 }
 
 bool VariablePlayerEmblem(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109F7390

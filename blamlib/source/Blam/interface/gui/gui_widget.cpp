@@ -50,15 +50,13 @@ c_gui_widget *c_gui_widget::find_first_child(e_gui_widget type) const // 0x10F13
 	return ((c_gui_widget *(__thiscall *)(const c_gui_widget *, e_gui_widget))0xab8f80)(this, type);
 }
 
-extern c_gui_widget *_sub_10F13250(c_gui_widget const *const, e_gui_widget);
 c_gui_widget *c_gui_widget::find_next_sibling(e_gui_widget type) const // 0x10F13250
 {
-	mangled_x86(MANGLED_TODO, "?find_next_sibling@c_gui_widget@@QBEPAV1@W4e_gui_widget@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?find_next_sibling@c_gui_widget@@QBEPAV1@W4e_gui_widget@@@Z");
 	// e_gui_widget type;
 	// function call : c_gui_widget *(*)(c_gui_widget const *, e_gui_widget)
-	todo("implement");
-	c_gui_widget * __result = _sub_10F13250((c_gui_widget const *)this, type);
-	return __result;
+
+	return ((c_gui_widget *(__thiscall *)(c_gui_widget const *, e_gui_widget))0xab9290)(this, type);
 }
 
 void c_gui_widget::get_render_bounds(real_rectangle2d *bounds) const // 0x10F13490
@@ -84,15 +82,13 @@ c_gui_widget *c_gui_widget::find_ancestor(bool (*predicate)(c_gui_widget const &
 	return __result;
 }
 
-extern c_gui_list_widget *_sub_10F13330(c_gui_widget *const, unsigned long);
 c_gui_list_widget *c_gui_widget::get_child_list_widget(unsigned long name) // 0x10F13330
 {
-	mangled_x86(MANGLED_TODO, "?get_child_list_widget@c_gui_widget@@QAEPAVc_gui_list_widget@@K@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_child_list_widget@c_gui_widget@@QAEPAVc_gui_list_widget@@K@Z");
 	// unsigned long name;
 	// function call : c_gui_list_widget *(*)(c_gui_widget *, unsigned long)
-	todo("implement");
-	c_gui_list_widget * __result = _sub_10F13330(this, name);
-	return __result;
+
+	return ((c_gui_list_widget *(__thiscall *)(c_gui_widget *, unsigned long))0xab8aa0)(this, name);
 }
 
 c_gui_widget *c_gui_widget::get_child_widget(e_gui_widget type, unsigned long name) const // 0x10F13410

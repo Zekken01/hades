@@ -404,15 +404,18 @@ bool unit_camera_override_hook(long unit_index, s_unit_camera_definition **camer
 	return __result;
 }
 
-_extern void _sub_1095EDA0(long);
 void unit_update_aiming_hook(long unit_index) // 0x1095EDA0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_update_aiming_hook@@YAXJ@Z");
 	// `anonymous-namespace'::unit_update_aiming_hook
 	// long unit_index;
 	// void (*const unit_update_aiming)(long);
 	// function call : void (*const)(long)
-	todo("implement");
-	_sub_1095EDA0(unit_index);
+
+	if (!Player::CPlayerEmotes::UnitMovementInhibited(unit_index))
+	{
+		((void(__cdecl *)(long))0xb4a2c0)(unit_index);
+	}
 }
 
 _extern __int32 _sub_1095B110();
@@ -1095,3 +1098,6 @@ template s_game_globals_camera * c_tag_block<s_game_globals_camera>::get_element
 template s_game_globals_camera * c_tag_block<s_game_globals_camera>::operator->();
 template s_unit_seat_definition & c_tag_block<s_unit_seat_definition>::operator[](__int32);
 template s_unit_seat_definition * c_tag_block<s_unit_seat_definition>::get_element(__int32) const;
+
+/* ---------- explicit instantiations */
+template bool & Pointer::Read<bool>() const;

@@ -192,13 +192,10 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- public code */
 
-extern VotingOutputHandler* _sub_10C9A6B0(VotingOutputHandler *const);
 _inline VotingOutputHandler::VotingOutputHandler() // 0x10C9A6B0
 {
-	mangled_x86(MANGLED_TODO, "??0VotingOutputHandler@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0VotingOutputHandler@@QAE@XZ");
 	// VotingOutputHandler *const this;
-	todo("implement");
-	_sub_10C9A6B0(this);
 }
 
 _inline VotingOutputHandler::~VotingOutputHandler() // 0x10C9A7F0

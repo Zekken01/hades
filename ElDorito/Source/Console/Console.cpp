@@ -87,7 +87,7 @@ namespace hades_file_local
 		LogConsoleOutputHandler(LogConsoleOutputHandler &); /* compiler_generated() */
 		LogConsoleOutputHandler(LogConsoleOutputHandler const &); /* compiler_generated() */
 		LogConsoleOutputHandler(); /* compiler_generated() */
-		virtual ~LogConsoleOutputHandler(); /* compiler_generated() */
+		virtual ~LogConsoleOutputHandler() = default; /* compiler_generated() */
 		LogConsoleOutputHandler &operator=(LogConsoleOutputHandler &); /* compiler_generated() */
 		LogConsoleOutputHandler &operator=(LogConsoleOutputHandler const &); /* compiler_generated() */
 	};
@@ -182,11 +182,3 @@ void LogConsoleOutputHandler::WriteLine(std::string const &line) // 0x10950B80
 // mangled_x86(MANGLED_DEFAULT, "??0LogConsoleOutputHandler@hades_file_local@@QAE@XZ"); no body to assert in
 _inline LogConsoleOutputHandler::LogConsoleOutputHandler() = default; // 0x10950350
 
-_inline LogConsoleOutputHandler::~LogConsoleOutputHandler() // 0x10950630
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1LogConsoleOutputHandler@hades_file_local@@UAE@XZ");
-	// `anonymous-namespace'::LogConsoleOutputHandler::~LogConsoleOutputHandler
-	// LogConsoleOutputHandler *const this;
-
-	compiler_generated();
-}

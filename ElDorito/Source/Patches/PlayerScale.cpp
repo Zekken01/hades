@@ -1050,3 +1050,6 @@ template bool c_tag_block<s_physics_model_pill>::try_get_element(__int32, s_phys
 template s_datum * c_data_array<s_datum>::try_and_get(unsigned long);
 template s_physics_model_pill & c_tag_block<s_physics_model_pill>::operator[](__int32);
 template s_physics_model_pill * c_tag_block<s_physics_model_pill>::get_element(__int32) const;
+
+/* ---------- explicit instantiations */
+template bool c_tag_block<s_havok_shape_data<hkCapsuleShape> >::try_get_element(__int32, s_havok_shape_data<hkCapsuleShape> **) const;

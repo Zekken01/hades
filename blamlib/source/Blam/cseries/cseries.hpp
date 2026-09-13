@@ -48,7 +48,7 @@ static_assert(sizeof(utf8) == 1, "Invalid utf8 size");
 extern void assert_handle(char const *info, char const *filepath, long line);
 extern void trace_handle(char const *format, ...);
 extern void display_assert(char const *reason, char const *file, __int32 line, bool halt);
-extern void system_exit(__int32 code);
+extern __declspec(noreturn) void system_exit(__int32 code);
 extern unsigned long system_milliseconds();
 extern char *csstrnlwr(char *string, unsigned long size);
 extern char *csstrnzcpy(char *to, char const *from, unsigned long size);

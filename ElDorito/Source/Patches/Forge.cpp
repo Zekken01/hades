@@ -382,6 +382,8 @@ namespace Patches
 
 /* ---------- prototypes */
 
+namespace Web { namespace Ui { namespace WebForge { extern void ShowObjectCreation(); } } }  // hades: added for 0x10A6F530
+
 s_object_data *object_get(unsigned long object_index);  // hades: added for 0X10A6F470
 s_forge_globals_definition *forge_globals_get_definition();  // hades: added for 0X10A6F470
 
@@ -617,13 +619,12 @@ namespace Patches
 			// procedure flags: nofpo
 		}
 
-		_extern void _sub_10A66A20(void (*)(unsigned __int32));
 		void OnItemSpawned(void (*callback)(unsigned __int32)) // 0x10A66A20
 		{
-			mangled_x86(MANGLED_TODO, "?OnItemSpawned@Forge@Patches@@YAXP6AXI@Z@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnItemSpawned@Forge@Patches@@YAXP6AXI@Z@Z");
 			// void (*callback)(unsigned __int32);
-			todo("implement");
-			_sub_10A66A20(callback);
+
+			s_ItemSpawnedCallbacks.push_back(callback);
 		}
 	}
 }
@@ -1189,14 +1190,16 @@ void RecalculateMapVariantBudget() // 0x10A66B90
 	_sub_10A66B90();
 }
 
-_extern void _sub_10A669B0();
 void ObjectOutOfWorldBoundsError() // 0x10A669B0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ObjectOutOfWorldBoundsError@@YAXXZ");
 	// `anonymous-namespace'::ObjectOutOfWorldBoundsError
 	// procedure flags: nofpo
 	// function call : long (*const)(e_user_interface_sound, long)
-	todo("implement");
-	_sub_10A669B0();
+
+	::Forge::PrintKillFeedText(0, L"ERROR: One or more objects outside of the world bounds", 0);
+
+	((void(__cdecl *)(long, long))0xaa5cd0)(0, -1);
 }
 
 _extern bool _sub_10A673E0(long, long);
@@ -1598,14 +1601,14 @@ void *object_properties_user_interface_allocate_hook(long size) // 0x10A6F670
 	return __result;
 }
 
-_extern void *_sub_10A6F530(long);
 void *object_creation_user_interface_allocate_hook(long size) // 0x10A6F530
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?object_creation_user_interface_allocate_hook@@YAPAXJ@Z");
 	// `anonymous-namespace'::object_creation_user_interface_allocate_hook
 	// long size;
-	todo("implement");
-	void * __result = _sub_10A6F530(size);
-	return __result;
+
+	Web::Ui::WebForge::ShowObjectCreation();
+	return nullptr;
 }
 
 _extern bool _sub_10A6FF60(long, long *);
@@ -2279,3 +2282,6 @@ template s_weapon_magazine_definition & c_tag_block<s_weapon_magazine_definition
 template s_weapon_magazine_definition * c_tag_block<s_weapon_magazine_definition>::get_element(__int32) const;
 template void Pointer::Write<float const *>(float const *const) const;
 template void c_flags<enum e_variant_placement_flags,unsigned char>::set(e_variant_placement_flags, bool);
+
+/* ---------- explicit instantiations */
+template short & Pointer::Read<short>() const;

@@ -215,6 +215,8 @@ using namespace hades_file_local;
 
 /* ---------- prototypes */
 
+namespace hades_file_local { extern c_simulation_player_emote_event_definition emote_definition; }  // hades: added for 0x107EBDD0
+
 s_player_datum *player_get(unsigned long player_index);  // hades: added for 0X107EB8D0
 
 bool PlayerCanEmote(__int32 playerIndex, __int32 definitionIndex, short emoteIndex);
@@ -398,14 +400,13 @@ namespace Player
 		return __result;
 	}
 
-	_extern void _sub_107EBDD0(c_simulation_type_collection *, __int32 *, __int32 *);
 	void CPlayerEmotes::RegisterSimulationTypes(c_simulation_type_collection *type_collection, __int32 *enitty_type_count, __int32 *event_type_count) // 0x107EBDD0
 	{
-		mangled_x86(MANGLED_TODO, "?RegisterSimulationTypes@CPlayerEmotes@Player@@SAXPAVc_simulation_type_collection@@PAH1@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?RegisterSimulationTypes@CPlayerEmotes@Player@@SAXPAVc_simulation_type_collection@@PAH1@Z");
 		// __int32 *event_type_count;
 		// static c_simulation_player_emote_event_definition emote_definition; // 0x11352580
-		todo("implement");
-		_sub_107EBDD0(type_collection, enitty_type_count, event_type_count);
+
+		type_collection->register_event_definition(_simulation_event_type_player_taunt_request, &emote_definition);
 	}
 }
 
@@ -571,14 +572,13 @@ _inline bool CPlayerEmoteAction::StartAnimation(long unit_index, unsigned long m
 	return __result;
 }
 
-extern e_simulation_event_type _sub_107EA610(c_simulation_player_emote_event_definition const *const);
 _inline e_simulation_event_type c_simulation_player_emote_event_definition::event_type() const // 0x107EA610
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?event_type@c_simulation_player_emote_event_definition@hades_file_local@@EBE?AW4e_simulation_event_type@@XZ");
 	// `anonymous-namespace'::c_simulation_player_emote_event_definition::event_type
 	// c_simulation_player_emote_event_definition const *const this;
-	todo("implement");
-	e_simulation_event_type __result = _sub_107EA610((c_simulation_player_emote_event_definition const *)this);
-	return __result;
+
+	return _simulation_event_type_player_taunt_request;
 }
 
 _inline char const *c_simulation_player_emote_event_definition::event_name() const // 0x107EA640
@@ -635,23 +635,22 @@ _inline long c_simulation_player_emote_event_definition::minimum_required_bits(c
 	return 0x38;
 }
 
-_extern float _sub_107EA730(c_simulation_player_emote_event_definition const *const, c_replication_outgoing_event const *, s_simulation_view_telemetry_data const *, float);
 _inline float c_simulation_player_emote_event_definition::calculate_relevance(c_replication_outgoing_event const *__formal, s_simulation_view_telemetry_data const *__formal1, float __formal2) const // 0x107EA730
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?calculate_relevance@c_simulation_player_emote_event_definition@hades_file_local@@EBEMPBUc_replication_outgoing_event@@PBUs_simulation_view_telemetry_data@@M@Z");
 	// `anonymous-namespace'::c_simulation_player_emote_event_definition::calculate_relevance
 	// float __formal;
-	todo("implement");
-	float __result = _sub_107EA730((c_simulation_player_emote_event_definition const *)this, __formal, __formal1, __formal2);
-	return __result;
+
+	return 0.0f;
 }
 
-_extern void _sub_107EA750(c_simulation_player_emote_event_definition const *const, c_replication_outgoing_event const *, s_simulation_view_telemetry_data const *, float, long, char *);
 _inline void c_simulation_player_emote_event_definition::write_description_to_string(c_replication_outgoing_event const *__formal, s_simulation_view_telemetry_data const *__formal1, float __formal2, long __formal3, char *description) const // 0x107EA750
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?write_description_to_string@c_simulation_player_emote_event_definition@hades_file_local@@EBEXPBUc_replication_outgoing_event@@PBUs_simulation_view_telemetry_data@@MJPAD@Z");
 	// `anonymous-namespace'::c_simulation_player_emote_event_definition::write_description_to_string
 	// char *description;
-	todo("implement");
-	_sub_107EA750((c_simulation_player_emote_event_definition const *)this, __formal, __formal1, __formal2, __formal3, description);
+
+	sprintf(description, "blam");
 }
 
 _inline simulation_event_definition_return_value *c_simulation_player_emote_event_definition::gather_requirements_data(simulation_event_definition_return_value *data, c_replication_outgoing_event const *e, s_simulation_view_telemetry_data const *telemetry) const // 0x107EA7B0
@@ -789,3 +788,6 @@ template s_mod_player_action * c_tag_block<s_mod_player_action>::get_element(__i
 template s_player_datum * c_data_array<s_player_datum>::try_and_get_absolute(long);
 template s_unit_camera_definition & c_tag_block<s_unit_camera_definition>::operator[](__int32);
 template s_unit_camera_definition * c_tag_block<s_unit_camera_definition>::get_element(__int32) const;
+
+/* ---------- explicit instantiations */
+template class std::_Invoker_ret<void,1>;

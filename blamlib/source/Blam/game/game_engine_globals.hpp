@@ -73,7 +73,6 @@ struct s_game_engine_globals
 		short respawn_timer2; // 0x12
 		long dead_unit_index; // 0x14
 		char waypoint_action; // 0x18
-		unsigned char __pad1[3]; // 0x19
 	};
 #pragma pack(pop)
 	static_assert(sizeof(s_unknown_waypoint) == 28, "Invalid s_unknown_waypoint size");

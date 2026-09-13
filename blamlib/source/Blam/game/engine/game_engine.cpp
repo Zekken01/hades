@@ -87,15 +87,13 @@ __int32 game_engine_get_player_kills(unsigned long player_index) // 0x10EFFCC0
 	return ((__int32(__cdecl *)(unsigned long))0x550620)(player_index);
 }
 
-_extern __int32 _sub_10EFFD20(unsigned long);
 __int32 game_engine_get_player_score(unsigned long player_index) // 0x10EFFD20
 {
-	mangled_x86(MANGLED_TODO, "?game_engine_get_player_score@@YAHK@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_get_player_score@@YAHK@Z");
 	// unsigned long player_index;
 	// function call : __int32 (*)(unsigned long)
-	todo("implement");
-	__int32 __result = _sub_10EFFD20(player_index);
-	return __result;
+
+	return ((__int32(__cdecl *)(unsigned long))0x550720)(player_index);
 }
 
 _extern long _sub_10EFFEA0(long);

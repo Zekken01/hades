@@ -339,6 +339,10 @@ typedef unsigned long SECURITY_INFORMATION;
 
 /* ---------- prototypes */
 
+namespace Download { extern void Shutdown(); }  // hades: added for 0x10966B70
+
+namespace Utils { namespace Version { extern unsigned __int32 GetVersionInt(); } }  // hades: added for 0x109649F0
+
 namespace Patches { void ApplyAfterInit(); }  // hades: added for 0X109671A0
 
 extern bool CanAccessFolder(char const *folderName, unsigned long genericAccessRights);
@@ -498,13 +502,13 @@ namespace Debug
 
 // mangled_x86(MANGLED_DEFAULT, "??0CServerConnectManager@@QAE@XZ"); no body to assert in
 
-_extern void _sub_10966B70(ElDorito *const);
 void ElDorito::Shutdown() // 0x10966B70
 {
-	mangled_x86(MANGLED_TODO, "?Shutdown@ElDorito@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Shutdown@ElDorito@@QAEXXZ");
 	// ElDorito *const this;
-	todo("implement");
-	_sub_10966B70(this);
+
+	Utils::Singleton<Utils::Logger>::Instance().Flush();
+	Download::Shutdown();
 }
 
 _extern void _sub_10966B50(ElDorito *const, std::string const &);
@@ -761,14 +765,12 @@ __int32 ExitInstance() // 0x10964670
 	return 1;
 }
 
-_extern __int32 _sub_109649F0();
 __int32 GetEDVersion() // 0x109649F0
 {
-	mangled_x86(MANGLED_TODO, "?GetEDVersion@@YAHXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetEDVersion@@YAHXZ");
 	// procedure flags: nofpo
-	todo("implement");
-	__int32 __result = _sub_109649F0();
-	return __result;
+
+	return Utils::Version::GetVersionInt();
 }
 
 _extern __int32 _sub_10967E50(HINSTANCE__ *, unsigned long, void *);

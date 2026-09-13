@@ -173,6 +173,8 @@ namespace Blam
 
 /* ---------- prototypes */
 
+namespace Patches { namespace Input { extern void RegisterDefaultInputHandler(void (*func)()); } }  // hades: added for 0x10CA4A60
+
 namespace Web
 {
 	namespace Ui
@@ -201,13 +203,12 @@ namespace Web
 	{
 		namespace WebEmote
 		{
-			_extern void _sub_10CA4A60();
 			void Init() // 0x10CA4A60
 			{
-				mangled_x86(MANGLED_TODO, "?Init@WebEmote@Ui@Web@@YAXXZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?Init@WebEmote@Ui@Web@@YAXXZ");
 				// procedure flags: nofpo
-				todo("implement");
-				_sub_10CA4A60();
+
+				Patches::Input::RegisterDefaultInputHandler(OnInput);
 			}
 
 			_extern void _sub_10CA4DD0();

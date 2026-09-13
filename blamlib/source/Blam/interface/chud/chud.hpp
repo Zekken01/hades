@@ -169,7 +169,6 @@ struct s_chud_bitmap_widget :
 	s_chud_bitmap_widget(); /* compiler_generated() */
 	s_chud_bitmap_widget &operator=(s_chud_bitmap_widget &); /* compiler_generated() */
 	s_chud_bitmap_widget &operator=(s_chud_bitmap_widget const &); /* compiler_generated() */
-	unsigned char __pad0[3]; // 0x51
 };
 #pragma pack(pop)
 static_assert(sizeof(s_chud_bitmap_widget) == 84, "Invalid s_chud_bitmap_widget size");

@@ -61,7 +61,7 @@ namespace Server
 		std::unordered_set<std::string> uids; // 0x38
 		std::unordered_set<std::string> names; // 0x60
 	public:
-		~StatsServersBanList(); /* compiler_generated() */
+		~StatsServersBanList() = default; /* compiler_generated() */
 	};
 	static_assert(sizeof(Server::StatsServersBanList) == 136, "Invalid Server::StatsServersBanList size");
 }

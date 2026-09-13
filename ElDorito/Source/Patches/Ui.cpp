@@ -530,6 +530,8 @@ using namespace hades_file_local;
 
 /* ---------- prototypes */
 
+#include "Player/PlayerInfo.hpp"  // hades: added for 0x10ADC1D0
+
 namespace Player::PlayerNetworkUtil { long get_session_player_index_from_player_datum_index(long player_datum_index); }  // hades: added for 0X10AE7C40
 
 namespace Patches
@@ -1017,26 +1019,32 @@ bool AttractShouldStartHook() // 0x10ADB920
 	}
 }
 
-_extern __int32 _sub_10ADC160(__int32);
 __int32 GetPlayerRankIndex(__int32 networkPlayerIndex) // 0x10ADC160
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetPlayerRankIndex@@YAHH@Z");
 	// `anonymous-namespace'::GetPlayerRankIndex
 	// __int32 networkPlayerIndex;
 	// __int32 rank;
-	todo("implement");
-	__int32 __result = _sub_10ADC160(networkPlayerIndex);
-	return __result;
+
+	if (Player::CPlayersInfo::IsAvailable())
+	{
+		return Player::CPlayersInfo::GetRank(networkPlayerIndex) + 1;
+	}
+	return 0;
 }
 
-_extern __int32 _sub_10ADC1D0(__int32);
 __int32 GetPlayerSkillIndex(__int32 networkPlayerIndex) // 0x10ADC1D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetPlayerSkillIndex@@YAHH@Z");
 	// `anonymous-namespace'::GetPlayerSkillIndex
 	// __int32 networkPlayerIndex;
 	// __int32 skill;
-	todo("implement");
-	__int32 __result = _sub_10ADC1D0(networkPlayerIndex);
-	return __result;
+
+	if (Player::CPlayersInfo::IsAvailable())
+	{
+		return Player::CPlayersInfo::GetSkill(networkPlayerIndex);
+	}
+	return 0;
 }
 
 extern std::wstring _sub_10ADC830(__int32);
@@ -2322,16 +2330,17 @@ void __fastcall c_hud_camera_view__render_outlines_hook(void *thisptr, void *unu
 	_sub_10AE4AC0(thisptr, unused, localProfileIndex, playerMappingIndex, a3);
 }
 
-_extern wchar_t *_sub_10AE87F0(wchar_t *);
 wchar_t *chud_talking_player_name_hook(wchar_t *buffer) // 0x10AE87F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?chud_talking_player_name_hook@@YAPA_WPA_W@Z");
 	// `anonymous-namespace'::chud_talking_player_name_hook
 	// wchar_t *buffer;
 	// wchar_t *(*const ustrnzcpy)(wchar_t *, wchar_t *, long);
 	// function call : wchar_t *(*const)(wchar_t *, wchar_t *, long)
-	todo("implement");
-	wchar_t * __result = _sub_10AE87F0(buffer);
-	return __result;
+
+	((void(__cdecl *)(wchar_t *, char16_t const *, __int32))0x4eccd0)(buffer, Patches::Ui::chud_talking_player_name, 16);
+
+	return buffer;
 }
 
 _extern bool _sub_10ADD020(unsigned __int32);
@@ -2773,16 +2782,15 @@ void c_rasterizer__get_display_pixel_bounds_hook(short_rectangle2d *display_pixe
 	_sub_10AE7500(display_pixel_bounds);
 }
 
-_extern long _sub_10AE8C90();
 long interface_get_closest_authored_ui_aspect_ratio_hook() // 0x10AE8C90
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?interface_get_closest_authored_ui_aspect_ratio_hook@@YAJXZ");
 	// `anonymous-namespace'::interface_get_closest_authored_ui_aspect_ratio_hook
 	// procedure flags: nofpo
 	// float ui_aspect_ratio;
 	// long *ui_resolution;
-	todo("implement");
-	long __result = _sub_10AE8C90();
-	return __result;
+
+	return (float)*(long *)0x19106c8 / (float)*(long *)0x19106cc < 1.6f;
 }
 
 extern real_point2d _sub_10AE8C30();

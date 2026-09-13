@@ -210,13 +210,13 @@ namespace Server
 			_sub_1071FEC0();
 		}
 
-		_extern void _sub_1071FBC0();
 		void InitializeForNewMap() // 0x1071FBC0
 		{
-			mangled_x86(MANGLED_TODO, "?InitializeForNewMap@HsGlobalSync@Server@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeForNewMap@HsGlobalSync@Server@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_1071FBC0();
+
+			lastSynchronizeTime = -1;
+			registeredGlobals.clear();
 		}
 
 		_extern void _sub_1071FB50();

@@ -202,24 +202,22 @@ bool s3d_player_has_gameplay_modifier(s_player_datum *playerdatum, long index) /
 	return false;
 }
 
-_extern long _sub_108DC800(s_player_datum *, long, long);
 long s3d_player_get_gameplay_modifier_int(s_player_datum *playerDatum, long index, long default_value) // 0x108DC800
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?s3d_player_get_gameplay_modifier_int@@YAJPAUs_player_datum@@JJ@Z");
 	// `anonymous-namespace'::s3d_player_get_gameplay_modifier_int
 	// long default_value;
-	todo("implement");
-	long __result = _sub_108DC800(playerDatum, index, default_value);
-	return __result;
+
+	return default_value;
 }
 
-_extern float _sub_108DC820(s_player_datum *, long, float);
 float s3d_player_get_gameplay_modifier_real(s_player_datum *playerDatum, long index, float default_value) // 0x108DC820
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?s3d_player_get_gameplay_modifier_real@@YAMPAUs_player_datum@@JM@Z");
 	// `anonymous-namespace'::s3d_player_get_gameplay_modifier_real
 	// float default_value;
-	todo("implement");
-	float __result = _sub_108DC820(playerDatum, index, default_value);
-	return __result;
+
+	return default_value;
 }
 
 bool BeforePlayerSpawn(long playerIndex) // 0x108DB000
@@ -401,3 +399,6 @@ template void Patches::Network::PlayerPropertiesExtension<s_player_appearance>::
 template void Patches::Network::PlayerPropertiesExtension<s_player_appearance>::Deserialize(Blam::BitStream *, void *);
 template void Patches::Network::PlayerPropertiesExtension<s_player_appearance>::Serialize(Blam::BitStream *, void const *);
 template void Pointer::Write<unsigned char>(unsigned char const) const;
+
+/* ---------- explicit instantiations */
+template Patches::Network::PlayerPropertiesExtension<s_player_appearance>::PlayerPropertiesExtension();

@@ -195,7 +195,11 @@ namespace Server
 		}
 
 		// mangled_x86(MANGLED_DEFAULT, "??0AllowedPlayerCount@Voting@Server@@QAE@XZ"); no body to assert in
-		_inline AllowedPlayerCount::AllowedPlayerCount() = default; // 0x107327F0
+		_inline AllowedPlayerCount::AllowedPlayerCount() // 0x107327F0
+		{
+			minimumPlayersAllowed = 0;
+			maximumPlayersAllowed = 0x10;
+		}
 
 		// mangled_x86(MANGLED_DEFAULT, "??0CharacterOverride@HaloType@Voting@Server@@QAE@XZ"); no body to assert in
 		_inline HaloType::CharacterOverride::CharacterOverride() = default; // 0x10732830

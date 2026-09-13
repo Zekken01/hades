@@ -18,20 +18,20 @@ class c_player_profile_interface;
 
 /* ---------- prototypes */
 
+extern void *offset_pointer(void *pointer, long offset);  // hades: added for 0x10F18BB0
+
 /* ---------- globals */
 
 /* ---------- private variables */
 
 /* ---------- public code */
 
-extern c_player_profile_interface *_sub_10F18BB0(c_controller_interface *const);
 c_player_profile_interface *c_controller_interface::get_player_profile_interface() // 0x10F18BB0
 {
-	mangled_x86(MANGLED_TODO, "?get_player_profile_interface@c_controller_interface@@QAEPAVc_player_profile_interface@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_player_profile_interface@c_controller_interface@@QAEPAVc_player_profile_interface@@XZ");
 	// c_controller_interface *const this;
-	todo("implement");
-	c_player_profile_interface * __result = _sub_10F18BB0(this);
-	return __result;
+
+	return (c_player_profile_interface *)offset_pointer(this, 8);
 }
 
 /* ---------- private code */

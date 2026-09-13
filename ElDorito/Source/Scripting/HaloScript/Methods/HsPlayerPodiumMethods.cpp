@@ -81,6 +81,34 @@ using namespace ::Blam;
 
 /* ---------- prototypes */
 
+namespace Player
+{
+	namespace PlayerPodium
+	{
+		// hades: declared only in Player/PlayerPodium.cpp.
+		extern long GetPlayerAnimationGraph(short);
+		extern long GetPodiumBipedSpawnDelay(short);
+		extern long GetPodiumRespawnEffectIndex(short);
+		extern long GetPodiumTickDelay();
+		extern short GetPlayerAnimationCount(short);
+		extern void HandleEvent(char const *);
+		extern void SetForgeCanOverride(bool);
+	}
+}
+
+namespace Player
+{
+	namespace PlayerPodium
+	{
+		// hades: declared only in Player/PlayerPodium.cpp, and these evaluators
+		// call them.
+		extern short GetPlayerAnimationCount(short player_session_idx);
+		extern long GetPlayerAnimationGraph(short player_session_idx);
+		extern long GetPodiumBipedSpawnDelay(short biped_place_index);
+		extern long GetPodiumRespawnEffectIndex(short place);
+	}
+}
+
 namespace Scripting
 {
 	namespace HS
@@ -139,22 +167,18 @@ namespace Scripting
 
 /* ---------- private code */
 
-_extern void _sub_10705C60(short, long, bool);
 void hs_podium_get_animation_graph_evaluate(short op, long thread_index, bool initial) // 0x10705C60
 {
 	// `anonymous-namespace'::hs_podium_get_animation_graph_evaluate
 	// bool initial;
+
+	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
+	if (args)
 	{
-		// hs_value *args;
-		{
-			// long animation_tag_index;
-			// short idx;
-		}
+		auto input = args[0].long_value;
+		auto result = Player::PlayerPodium::GetPlayerAnimationGraph(input);
+		((void(__cdecl *)(long, hs_value))0x5974E0)(thread_index, hs_value::from_long(result));
 	}
-	// function call : hs_value *(*const)(short, long, bool)
-	// function call : void (*const)(long, hs_value)
-	todo("implement");
-	_sub_10705C60(op, thread_index, initial);
 }
 
 _extern void _sub_10705E40(short, long, bool);
@@ -177,22 +201,18 @@ void hs_podium_get_animation_string_evaluate(short op, long thread_index, bool i
 	_sub_10705E40(op, thread_index, initial);
 }
 
-_extern void _sub_10705B80(short, long, bool);
 void hs_podium_get_animation_count_evaluate(short op, long thread_index, bool initial) // 0x10705B80
 {
 	// `anonymous-namespace'::hs_podium_get_animation_count_evaluate
 	// bool initial;
+
+	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
+	if (args)
 	{
-		// hs_value *args;
-		{
-			// short idx;
-			// short animation_count;
-		}
+		auto input = args[0].long_value;
+		auto result = Player::PlayerPodium::GetPlayerAnimationCount(input);
+		((void(__cdecl *)(long, hs_value))0x5974E0)(thread_index, hs_value::from_long(result));
 	}
-	// function call : hs_value *(*const)(short, long, bool)
-	// function call : void (*const)(long, hs_value)
-	todo("implement");
-	_sub_10705B80(op, thread_index, initial);
 }
 
 _extern void _sub_10705D40(short, long, bool);
@@ -276,39 +296,32 @@ void hs_podium_respawn_player_offset_evaluate(short op, long thread_index, bool 
 	_sub_10706510(op, thread_index, initial);
 }
 
-_extern void _sub_107059E0(short, long, bool);
 void hs_podium_event_evaluate(short op, long thread_index, bool initial) // 0x107059E0
 {
 	// `anonymous-namespace'::hs_podium_event_evaluate
 	// bool initial;
+
+	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
+	if (args)
 	{
-		// hs_value *args;
-		{
-			// char const *event;
-		}
+		auto input = args[0].string_value;
+		Player::PlayerPodium::HandleEvent(input);
+		((void(__cdecl *)(long, hs_value))0x5974E0)(thread_index, hs_value{});
 	}
-	// function call : hs_value *(*const)(short, long, bool)
-	// function call : void (*const)(long, hs_value)
-	todo("implement");
-	_sub_107059E0(op, thread_index, initial);
 }
 
-_extern void _sub_10706250(short, long, bool);
 void hs_podium_get_respawn_effect_evaluate(short op, long thread_index, bool initial) // 0x10706250
 {
 	// `anonymous-namespace'::hs_podium_get_respawn_effect_evaluate
 	// bool initial;
+
+	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
+	if (args)
 	{
-		// hs_value *args;
-		{
-			// long effect;
-			// short place;
-		}
+		auto input = args[0].long_value;
+		auto result = Player::PlayerPodium::GetPodiumRespawnEffectIndex(input);
+		((void(__cdecl *)(long, hs_value))0x5974E0)(thread_index, hs_value::from_long(result));
 	}
-	// function call : hs_value *(*const)(short, long, bool)
-	// function call : void (*const)(long, hs_value)
-	todo("implement");
-	_sub_10706250(op, thread_index, initial);
 }
 
 _extern void _sub_10706070(short, long, bool);
@@ -330,39 +343,31 @@ void hs_podium_get_biped_offset_evaluate(short op, long thread_index, bool initi
 	_sub_10706070(op, thread_index, initial);
 }
 
-_extern void _sub_10706170(short, long, bool);
 void hs_podium_get_biped_spawn_delay_evaluate(short op, long thread_index, bool initial) // 0x10706170
 {
 	// `anonymous-namespace'::hs_podium_get_biped_spawn_delay_evaluate
 	// bool initial;
+
+	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
+	if (args)
 	{
-		// hs_value *args;
-		{
-			// short biped_place_index;
-			// long spawn_delay;
-		}
+		auto input = args[0].long_value;
+		auto result = Player::PlayerPodium::GetPodiumBipedSpawnDelay(input);
+		((void(__cdecl *)(long, hs_value))0x5974E0)(thread_index, hs_value::from_long(result));
 	}
-	// function call : hs_value *(*const)(short, long, bool)
-	// function call : void (*const)(long, hs_value)
-	todo("implement");
-	_sub_10706170(op, thread_index, initial);
 }
 
-_extern void _sub_10706330(short, long, bool);
 void hs_podium_get_tick_delay_evaluate(short op, long thread_index, bool initial) // 0x10706330
 {
 	// `anonymous-namespace'::hs_podium_get_tick_delay_evaluate
 	// bool initial;
+
+	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
+	if (args)
 	{
-		// hs_value *args;
-		{
-			// long tick_delay;
-		}
+		auto result = Player::PlayerPodium::GetPodiumTickDelay();
+		((void(__cdecl *)(long, hs_value))0x5974E0)(thread_index, hs_value::from_long(result));
 	}
-	// function call : hs_value *(*const)(short, long, bool)
-	// function call : void (*const)(long, hs_value)
-	todo("implement");
-	_sub_10706330(op, thread_index, initial);
 }
 
 _extern void _sub_107063F0(short, long, bool);
@@ -385,19 +390,16 @@ void hs_podium_has_forge_object_evaluate(short op, long thread_index, bool initi
 	_sub_107063F0(op, thread_index, initial);
 }
 
-_extern void _sub_10705AB0(short, long, bool);
 void hs_podium_forge_point_overridable_evaluate(short op, long thread_index, bool initial) // 0x10705AB0
 {
 	// `anonymous-namespace'::hs_podium_forge_point_overridable_evaluate
 	// bool initial;
+
+	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
+	if (args)
 	{
-		// hs_value *args;
-		{
-			// bool allowed;
-		}
+		auto input = args[0].bool_value;
+		Player::PlayerPodium::SetForgeCanOverride(input);
+		((void(__cdecl *)(long, hs_value))0x5974E0)(thread_index, hs_value{});
 	}
-	// function call : hs_value *(*const)(short, long, bool)
-	// function call : void (*const)(long, hs_value)
-	todo("implement");
-	_sub_10705AB0(op, thread_index, initial);
 }

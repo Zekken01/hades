@@ -21,6 +21,8 @@ struct s_tag_padding_definition;
 
 /* ---------- prototypes */
 
+extern s_cache_file_tag_globals *g_cache_file_tag_globals;  // hades: added for 0x10EFC640
+
 extern void *tag_try_and_get_and_verify_group(unsigned long group_tag, long tag_index);
 extern unsigned long tag_try_and_get_group_tag(long tag_index);
 extern unsigned long tag_get_group_tag(long tag_index);
@@ -75,14 +77,12 @@ unsigned long tag_try_and_get_group_tag(long tag_index) // 0x10EFC5C0
 	return __result;
 }
 
-_extern unsigned long _sub_10EFC390(long);
 unsigned long tag_get_group_tag(long tag_index) // 0x10EFC390
 {
-	mangled_x86(MANGLED_TODO, "?tag_get_group_tag@@YAKJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?tag_get_group_tag@@YAKJ@Z");
 	// long tag_index;
-	todo("implement");
-	unsigned long __result = _sub_10EFC390(tag_index);
-	return __result;
+
+	return g_cache_file_tag_globals->instances[g_cache_file_tag_globals->index_to_absolute_index_map[tag_index]]->group.tags[0];
 }
 
 _extern bool _sub_10EFC410(long);
@@ -96,14 +96,12 @@ bool tag_loaded(long tag_index) // 0x10EFC410
 	return __result;
 }
 
-_extern bool _sub_10EFC640();
 bool tags_loaded() // 0x10EFC640
 {
-	mangled_x86(MANGLED_TODO, "?tags_loaded@@YA_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?tags_loaded@@YA_NXZ");
 	// procedure flags: nofpo
-	todo("implement");
-	bool __result = _sub_10EFC640();
-	return __result;
+
+	return g_cache_file_tag_globals->initialized;
 }
 
 /* ---------- private code */

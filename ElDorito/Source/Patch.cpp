@@ -59,13 +59,12 @@ Patch::Patch(unsigned __int32 Offset, std::initializer_list<unsigned char> const
 	_sub_10A28ED0(this, Offset, Data, Reset);
 }
 
-extern Patch* _sub_10A29470(Patch *const);
 Patch::Patch() // 0x10A29470
 {
-	mangled_x86(MANGLED_TODO, "??0Patch@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0Patch@@QAE@XZ");
 	// Patch *const this;
-	todo("implement");
-	_sub_10A29470(this);
+
+	Offset = 0;
 }
 
 extern Patch* _sub_10A29040(Patch *const, unsigned __int32, std::initializer_list<unsigned char> const &, Pointer);

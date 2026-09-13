@@ -18,7 +18,7 @@
 extern void assert_handle(char const *info, char const *filepath, long line);
 extern void trace_handle(char const *format, ...);
 extern void display_assert(char const *reason, char const *file, __int32 line, bool halt);
-extern void system_exit(__int32 code);
+extern __declspec(noreturn) void system_exit(__int32 code);
 extern unsigned long system_milliseconds();
 extern char *csstrnlwr(char *string, unsigned long size);
 extern char *csstrnzcpy(char *to, char const *from, unsigned long size);
@@ -68,12 +68,12 @@ void display_assert(char const *reason, char const *file, __int32 line, bool hal
 }
 
 _extern void _sub_10EF7500(__int32);
-void system_exit(__int32 code) // 0x10EF7500
+__declspec(noreturn) void system_exit(__int32 code) // 0x10EF7500
 {
 	mangled_x86(MANGLED_TODO, "?system_exit@@YAXH@Z");
 	// __int32 code;
-	todo("implement");
-	_sub_10EF7500(code);
+
+	__debugbreak();
 }
 
 unsigned long system_milliseconds() // 0x10EF7540

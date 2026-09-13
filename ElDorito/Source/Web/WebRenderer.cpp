@@ -291,15 +291,6 @@ namespace Web
 			return __result;
 		}
 
-		_inline WebEmblemSchemeHandlerFactory::~WebEmblemSchemeHandlerFactory() // 0x10CBB8A0
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??1WebEmblemSchemeHandlerFactory@Browser@Web@@UAE@XZ");
-			// __shifted(Web::Browser::WebEmblemSchemeHandlerFactory, 12);
-			// Web::Browser::WebEmblemSchemeHandlerFactory *const this;
-
-			compiler_generated();
-		}
-
 		// mangled_x86(MANGLED_DEFAULT, "??1WebRenderer@Browser@Web@@QAE@XZ"); no body to assert in
 		_inline WebRenderer::~WebRenderer() = default; // 0x10CBB8F0
 	}
@@ -719,8 +710,6 @@ namespace Web
 			return m_Handler;
 		}
 
-		// mangled_x86(MANGLED_DEFAULT, "??0WebEmblemSchemeHandlerFactory@Browser@Web@@QAE@XZ"); no body to assert in
-		_inline WebEmblemSchemeHandlerFactory::WebEmblemSchemeHandlerFactory() = default; // 0x10CBA540
 	}
 }
 

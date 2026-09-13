@@ -124,13 +124,13 @@ c_mod_package::~c_mod_package() // 0x1089D270
 // mangled_x86(MANGLED_DEFAULT, "??0c_file_reference@@QAE@ABV0@@Z"); no body to assert in
 _inline c_file_reference::c_file_reference(c_file_reference const &__that) = default; // 0x1089CEA0
 
-_extern void _sub_1089D8F0(c_mod_package *const);
 void c_mod_package::dispose() // 0x1089D8F0
 {
-	mangled_x86(MANGLED_TODO, "?dispose@c_mod_package@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?dispose@c_mod_package@@QAEXXZ");
 	// c_mod_package *const this;
-	todo("implement");
-	_sub_1089D8F0(this);
+
+	m_valid = false;
+	((c_file_reference *)m_file)->close();
 }
 
 _extern bool _sub_108A0080(c_mod_package const *const);
@@ -548,3 +548,17 @@ c_file_reference c_mod_package::get_file() const // 0x1089DAB0
 template c_flags<enum e_file_reference_flags,unsigned short>::c_flags(c_flags<enum e_file_reference_flags,unsigned short> const &);
 template c_flags<enum e_file_reference_flags,unsigned short>::c_flags(unsigned short const &);
 template c_flags<enum e_mod_package_modifier_flags,long>::operator long() const;
+
+/* ---------- explicit instantiations */
+template bool c_file_reference::read_from_position<s_cache_file_header>(unsigned long, s_cache_file_header *);
+template bool c_file_reference::read_from_position<s_mod_package_metadata>(unsigned long, s_mod_package_metadata *);
+template bool c_file_reference::read<s_blf_campaign>(s_blf_campaign *);
+template bool c_file_reference::read<s_blf_map_information>(s_blf_map_information *);
+template bool c_file_reference::read<s_mod_package_header>(s_mod_package_header *);
+template bool c_file_reference::read<s_mod_package_tag_name_entry>(s_mod_package_tag_name_entry *);
+template bool c_file_reference::read_from_position<s_cache_file_segment_header>(unsigned long, s_cache_file_segment_header *);
+template bool c_file_reference::read_from_position<s_mod_package_generic_section_entry>(unsigned long, s_mod_package_generic_section_entry *);
+template bool c_file_reference::read_from_position<s_mod_package_generic_table_entry>(unsigned long, s_mod_package_generic_table_entry *);
+template bool c_file_reference::read_from_position<s_mod_package_section_table>(unsigned long, s_mod_package_section_table *);
+template bool c_file_reference::read<s_blf_chunk_start_of_file>(s_blf_chunk_start_of_file *);
+template bool c_file_reference::read<s_mod_package_tag_cache_entry>(s_mod_package_tag_cache_entry *);

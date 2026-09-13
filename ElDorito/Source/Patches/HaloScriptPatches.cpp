@@ -406,14 +406,13 @@ namespace Patches
 
 /* ---------- private code */
 
-extern e_simulation_event_type _sub_107B0A70(c_simulation_hs_script_wake_event_definition const *const);
 _inline e_simulation_event_type c_simulation_hs_script_wake_event_definition::event_type() const // 0x107B0A70
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?event_type@c_simulation_hs_script_wake_event_definition@hades_file_local@@EBE?AW4e_simulation_event_type@@XZ");
 	// `anonymous-namespace'::c_simulation_hs_script_wake_event_definition::event_type
 	// c_simulation_hs_script_wake_event_definition const *const this;
-	todo("implement");
-	e_simulation_event_type __result = _sub_107B0A70((c_simulation_hs_script_wake_event_definition const *)this);
-	return __result;
+
+	return _simulation_event_type_hs_wake_script;
 }
 
 _inline char const *c_simulation_hs_script_wake_event_definition::event_name() const // 0x107B0AA0
@@ -470,14 +469,13 @@ _inline long c_simulation_hs_script_wake_event_definition::minimum_required_bits
 	return 0x4A;
 }
 
-_extern float _sub_107B0B90(c_simulation_hs_script_wake_event_definition const *const, c_replication_outgoing_event const *, s_simulation_view_telemetry_data const *, float);
 _inline float c_simulation_hs_script_wake_event_definition::calculate_relevance(c_replication_outgoing_event const *__formal, s_simulation_view_telemetry_data const *__formal1, float __formal2) const // 0x107B0B90
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?calculate_relevance@c_simulation_hs_script_wake_event_definition@hades_file_local@@EBEMPBUc_replication_outgoing_event@@PBUs_simulation_view_telemetry_data@@M@Z");
 	// `anonymous-namespace'::c_simulation_hs_script_wake_event_definition::calculate_relevance
 	// float __formal;
-	todo("implement");
-	float __result = _sub_107B0B90((c_simulation_hs_script_wake_event_definition const *)this, __formal, __formal1, __formal2);
-	return __result;
+
+	return 0.0f;
 }
 
 _inline void c_simulation_hs_script_wake_event_definition::write_description_to_string(c_replication_outgoing_event const *__formal, s_simulation_view_telemetry_data const *__formal1, float __formal2, long __formal3, char *__formal4) const // 0x107B0BB0
@@ -512,16 +510,16 @@ _inline void c_simulation_hs_script_wake_event_definition::event_payload_encode(
 	stream->Write<short>(*value, 10);
 }
 
-_extern bool _sub_107B0CA0(c_simulation_hs_script_wake_event_definition const *const, long, void *, c_bitstream *, bool);
 _inline bool c_simulation_hs_script_wake_event_definition::event_payload_decode(long payload_size, void *payload, c_bitstream *packet, bool predicted) const // 0x107B0CA0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?event_payload_decode@c_simulation_hs_script_wake_event_definition@hades_file_local@@EBE_NJPAXPAVc_bitstream@@_N@Z");
 	// `anonymous-namespace'::c_simulation_hs_script_wake_event_definition::event_payload_decode
 	// bool predicted;
 	// s_simulation_hs_script_wake_event_data *data;
 	// Blam::BitStream *packet_impl;
-	todo("implement");
-	bool __result = _sub_107B0CA0((c_simulation_hs_script_wake_event_definition const *)this, payload_size, payload, packet, predicted);
-	return __result;
+
+	*(short *)payload = ((Blam::BitStream *)packet)->Read<short>(10);
+	return true;
 }
 
 _inline void c_simulation_hs_script_wake_event_definition::prepare_event_data_for_gameworld(long payload_size, void *payload) // 0x107B0D10
@@ -547,14 +545,13 @@ _inline bool c_simulation_hs_script_wake_event_definition::apply_game_event(long
 	return __result;
 }
 
-extern e_simulation_event_type _sub_107B0E00(c_simulation_hs_sync_global_event_definition const *const);
 _inline e_simulation_event_type c_simulation_hs_sync_global_event_definition::event_type() const // 0x107B0E00
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?event_type@c_simulation_hs_sync_global_event_definition@hades_file_local@@EBE?AW4e_simulation_event_type@@XZ");
 	// `anonymous-namespace'::c_simulation_hs_sync_global_event_definition::event_type
 	// c_simulation_hs_sync_global_event_definition const *const this;
-	todo("implement");
-	e_simulation_event_type __result = _sub_107B0E00((c_simulation_hs_sync_global_event_definition const *)this);
-	return __result;
+
+	return _simulation_event_type_hs_sync_global;
 }
 
 _inline char const *c_simulation_hs_sync_global_event_definition::event_name() const // 0x107B0E30
@@ -611,14 +608,13 @@ _inline long c_simulation_hs_sync_global_event_definition::minimum_required_bits
 	return 0x4A;
 }
 
-_extern float _sub_107B0F20(c_simulation_hs_sync_global_event_definition const *const, c_replication_outgoing_event const *, s_simulation_view_telemetry_data const *, float);
 _inline float c_simulation_hs_sync_global_event_definition::calculate_relevance(c_replication_outgoing_event const *__formal, s_simulation_view_telemetry_data const *__formal1, float __formal2) const // 0x107B0F20
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?calculate_relevance@c_simulation_hs_sync_global_event_definition@hades_file_local@@EBEMPBUc_replication_outgoing_event@@PBUs_simulation_view_telemetry_data@@M@Z");
 	// `anonymous-namespace'::c_simulation_hs_sync_global_event_definition::calculate_relevance
 	// float __formal;
-	todo("implement");
-	float __result = _sub_107B0F20((c_simulation_hs_sync_global_event_definition const *)this, __formal, __formal1, __formal2);
-	return __result;
+
+	return 0.0f;
 }
 
 _inline void c_simulation_hs_sync_global_event_definition::write_description_to_string(c_replication_outgoing_event const *__formal, s_simulation_view_telemetry_data const *__formal1, float __formal2, long __formal3, char *__formal4) const // 0x107B0F40
@@ -640,15 +636,16 @@ _inline simulation_event_definition_return_value *c_simulation_hs_sync_global_ev
 	return data;
 }
 
-_extern void _sub_107B0FC0(c_simulation_hs_sync_global_event_definition const *const, long, void const *, c_bitstream *, bool);
 _inline void c_simulation_hs_sync_global_event_definition::event_payload_encode(long payload_size, void const *payload, c_bitstream *packet, bool predicted) const // 0x107B0FC0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?event_payload_encode@c_simulation_hs_sync_global_event_definition@hades_file_local@@EBEXJPBXPAVc_bitstream@@_N@Z");
 	// `anonymous-namespace'::c_simulation_hs_sync_global_event_definition::event_payload_encode
 	// bool predicted;
 	// s_simulation_hs_sync_global_event_data *data;
 	// Blam::BitStream *packet_impl;
-	todo("implement");
-	_sub_107B0FC0((c_simulation_hs_sync_global_event_definition const *)this, payload_size, payload, packet, predicted);
+
+	((Blam::BitStream *)packet)->Write<long>(((long *)payload)[0], 32);
+	((Blam::BitStream *)packet)->Write<long>(((long *)payload)[1], 32);
 }
 
 _extern bool _sub_107B1040(c_simulation_hs_sync_global_event_definition const *const, long, void *, c_bitstream *, bool);

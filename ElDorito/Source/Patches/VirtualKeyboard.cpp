@@ -181,13 +181,13 @@ namespace Patches
 {
 	namespace VirtualKeyboard
 	{
-		_extern void _sub_10AEBE10();
+		extern void SetKeyboardHandler(std::function<void __cdecl(Blam::Input::VirtualKeyboard *)> callback);  // hades: defined below, for 0x10AEBE10
 		void Init() // 0x10AEBE10
 		{
-			mangled_x86(MANGLED_TODO, "?Init@VirtualKeyboard@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Init@VirtualKeyboard@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_10AEBE10();
+
+			SetKeyboardHandler(WebVirtualKeyboardHandler);
 		}
 
 		void ApplyAll() // 0x10AEB800

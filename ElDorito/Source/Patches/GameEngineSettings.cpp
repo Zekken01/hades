@@ -190,7 +190,7 @@ namespace hades_file_local
 		ModListener(ModListener &); /* compiler_generated() */
 		ModListener(ModListener const &); /* compiler_generated() */
 		ModListener(); /* compiler_generated() */
-		virtual ~ModListener(); /* compiler_generated() */
+		virtual ~ModListener() = default; /* compiler_generated() */
 		ModListener &operator=(ModListener &); /* compiler_generated() */
 		ModListener &operator=(ModListener const &); /* compiler_generated() */
 	};
@@ -994,14 +994,6 @@ _inline c_user_interface_player_model_text_value_pair_proxy::c_user_interface_pl
 	m_data = data;
 }
 
-_inline ModListener::~ModListener() // 0x10A9E940
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1ModListener@hades_file_local@@UAE@XZ");
-	// `anonymous-namespace'::ModListener::~ModListener
-	// ModListener *const this;
-
-	compiler_generated();
-}
 
 _extern void _sub_10AA82A0(c_user_interface_player_model_text_value_pair_proxy *const, c_gui_screen_game_options *);
 _inline void c_user_interface_player_model_text_value_pair_proxy::update(c_gui_screen_game_options *screen) // 0x10AA82A0
@@ -1166,3 +1158,7 @@ _inline void ModListener::OnModChanged(EModIndex index, IMod *mod) // 0x10AA3B90
 
 template bool s_static_array<s_text_value_pair,16>::valid(__int32);
 template s_text_value_pair & s_static_array<s_text_value_pair,16>::operator[](long);
+
+/* ---------- explicit instantiations */
+template s_text_value_pair_definition * s_user_interface_text_value_pair_proxy<8>::get_tag_definition();
+template s_text_value_pair_definition * s_user_interface_text_value_pair_proxy<16>::get_tag_definition();

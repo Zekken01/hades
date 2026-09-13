@@ -800,3 +800,6 @@ template long const & s_static_array<long,8>::operator[](long) const;
 template s_game_results_player_statistics & s_static_array<s_game_results_player_statistics,16>::operator[](long);
 template s_game_results_player_statistics const & s_static_array<s_game_results_player_statistics,16>::operator[](long) const;
 template void s_static_string<5>::set_wchar(wchar_t const *);
+
+/* ---------- explicit instantiations */
+template bool s_static_array<s_session_player,16>::valid(__int32);

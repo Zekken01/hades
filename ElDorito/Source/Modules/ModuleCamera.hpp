@@ -54,7 +54,7 @@ namespace Modules
 		ModuleCamera();
 		void SetInputAngularVelocity(real_euler_angles2d const *velocity);
 		void GetInputAngularVelocity(real_euler_angles2d *velocity) const;
-		~ModuleCamera(); /* compiler_generated() */
+		~ModuleCamera() = default; /* compiler_generated() */
 	};
 }
 

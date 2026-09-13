@@ -117,6 +117,8 @@ using namespace ::Console;
 
 /* ---------- prototypes */
 
+#include "Modules/ModuleGraphics.hpp"  // hades: added for 0x10A4C2F0
+
 namespace Patches { void ApplyAfterTagsLoaded(); }  // hades: added for 0X10A4AC90
 namespace Patches { namespace Mopp { void InitializeForNewMap(); } }  // hades: added for 0X10A4AC90
 
@@ -552,15 +554,18 @@ void HsPrintHook(char const *message) // 0x10A48C20
 	_sub_10A48C20(message);
 }
 
-_extern void _sub_10A4C2F0(__int32, __int32);
 void sub_757890_call_hook(__int32 a1, __int32 a2) // 0x10A4C2F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?sub_757890_call_hook@@YAXHH@Z");
 	// `anonymous-namespace'::sub_757890_call_hook
 	// __int32 a2;
 	// constexpr void (*const `sub_757890_call_hook'::`2'::sub_757890)(__int32, __int32); // constant == 7698576
 	// function call : void (*const)(__int32, __int32)
-	todo("implement");
-	_sub_10A4C2F0(a1, a2);
+
+	if (!Utils::Singleton<Modules::ModuleGraphics>::Instance().VarDisableContrails->ValueInt)
+	{
+		((void(__cdecl *)(__int32, __int32))0x757890)(a1, a2);
+	}
 }
 
 _extern long long _sub_10A4B3A0();
@@ -627,15 +632,21 @@ float main_time_update_hook() // 0x10A4B490
 	return __result;
 }
 
-_extern long _sub_10A4A9E0(float);
 long hs_seconds_to_ticks_hook(float seconds) // 0x10A4A9E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_seconds_to_ticks_hook@@YAJM@Z");
 	// `anonymous-namespace'::hs_seconds_to_ticks_hook
 	// float seconds;
 	// float ticks;
-	todo("implement");
-	long __result = _sub_10A4A9E0(seconds);
-	return __result;
+
+	float ticks = seconds * 30.0f;
+
+	if (ticks >= 0.0f)
+	{
+		return (long)(ticks + 0.5f);
+	}
+
+	return (long)(ticks - 0.5f);
 }
 
 _extern unsigned __int32 _sub_10A4C360();

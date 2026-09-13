@@ -90,6 +90,8 @@ using namespace ::Forge;
 
 /* ---------- prototypes */
 
+extern s_map_variant *(*const game_engine_get_runtime_map_variant)();  // hades: added for 0x109699F0
+
 namespace Forge
 {
 	extern s_map_variant *GetMapVariant();
@@ -124,12 +126,11 @@ namespace Forge
 {
 	s_map_variant *GetMapVariant() // 0x109699F0
 	{
-		mangled_x86(MANGLED_TODO, "?GetMapVariant@Forge@@YAPAUs_map_variant@@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetMapVariant@Forge@@YAPAUs_map_variant@@XZ");
 		// procedure flags: nofpo
 		// function call : s_map_variant *(*const)()
-		todo("implement");
-		s_map_variant * __result = _sub_109699F0();
-		return __result;
+
+		return game_engine_get_runtime_map_variant();
 	}
 
 	void PrintKillFeedText(long user_index, wchar_t const *message, long unused) // 0x10969F50

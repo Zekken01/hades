@@ -158,14 +158,12 @@ _inline long c_structure_surface::get_mesh_index(long index) const // 0x1091E520
 	}
 }
 
-_extern long _sub_1091EDF0(c_structure_surface const *const, long);
 _inline long c_structure_surface::get_triangle_vertex_index(long index) const // 0x1091EDF0
 {
-	mangled_x86(MANGLED_TODO, "?get_triangle_vertex_index@c_structure_surface@@QBEJJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_triangle_vertex_index@c_structure_surface@@QBEJJ@Z");
 	// long index;
-	todo("implement");
-	long __result = _sub_1091EDF0((c_structure_surface const *)this, index);
-	return __result;
+
+	return get_triangle_mapping(index)->index_offset;
 }
 
 _inline s_structure_plane const *c_structure_surface::get_triangle_mapping(long index) const // 0x1091ED40

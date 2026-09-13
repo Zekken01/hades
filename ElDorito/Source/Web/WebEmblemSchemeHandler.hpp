@@ -40,9 +40,6 @@ namespace Web
 			virtual _inline bool HasAtLeastOneRef() const;
 		private:
 			CefRefCount ref_count_; // 0x8
-		public:
-			_inline WebEmblemSchemeHandlerFactory(); /* compiler_generated() */
-			virtual _inline ~WebEmblemSchemeHandlerFactory(); /* compiler_generated() */
 		};
 	}
 }

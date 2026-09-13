@@ -37,7 +37,7 @@ struct c_controller_input_message :
 	c_controller_input_message(c_controller_input_message &); /* compiler_generated() */
 	c_controller_input_message(c_controller_input_message const &); /* compiler_generated() */
 	c_controller_input_message(); /* compiler_generated() */
-	virtual ~c_controller_input_message(); /* compiler_generated() */
+	virtual ~c_controller_input_message() = default; /* compiler_generated() */
 	c_controller_input_message &operator=(c_controller_input_message &); /* compiler_generated() */
 	c_controller_input_message &operator=(c_controller_input_message const &); /* compiler_generated() */
 	unsigned char __pad0[8]; // 0x20

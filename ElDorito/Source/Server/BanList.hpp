@@ -52,7 +52,7 @@ namespace Server
 	private:
 		std::map<std::string,int> ipAddresses; // 0x0
 	public:
-		~TempBanList(); /* compiler_generated() */
+		~TempBanList() = default; /* compiler_generated() */
 	};
 }
 

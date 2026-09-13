@@ -70,7 +70,6 @@ struct s_level_insertion_datum :
 	long field_B54[9]; // 0xB54
 	long field_B78[9]; // 0xB78
 	unsigned char field_B9C[9]; // 0xB9C
-	unsigned char __pad1[3]; // 0xBA5
 };
 // static_assert(sizeof(s_level_insertion_datum) == 2984, "Invalid s_level_insertion_datum size");
 // Withheld: the type inventory does not describe this type, so its

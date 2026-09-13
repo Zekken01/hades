@@ -312,6 +312,8 @@ typedef std::variant<SDrawPointMessage,SDrawLineMessage,SDrawVectorMessage,SDraw
 
 /* ---------- prototypes */
 
+extern void render_debug_enable_depth_test(bool enable);  // hades: added for 0x1081C570
+
 extern __int32 AllocateCacheEntry();
 extern __int32 FindCacheEntry(char const *group, DebugDrawKey cacheKey);
 extern void EvictCacheEntry(char const *group, DebugDrawKey cacheKey);
@@ -857,40 +859,40 @@ _inline void SPayloadVisitor::operator()(SDrawBox2dMessage const &payload) // 0x
 	_sub_10818640(this, payload);
 }
 
-_extern void _sub_108186A0(SPayloadVisitor *const, SDrawBoxMessage const &);
 _inline void SPayloadVisitor::operator()(SDrawBoxMessage const &payload) // 0x108186A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??RSPayloadVisitor@hades_file_local@@QAEXABUSDrawBoxMessage@1@@Z");
 	// SPayloadVisitor::operator()
 	// SDrawBoxMessage const &payload;
-	todo("implement");
-	_sub_108186A0(this, payload);
+
+	CDebugDrawBackend::DrawBox(payload.bounds, payload.color);
 }
 
-_extern void _sub_10818700(SPayloadVisitor *const, SDrawBoxOrientedMessage const &);
 _inline void SPayloadVisitor::operator()(SDrawBoxOrientedMessage const &payload) // 0x10818700
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??RSPayloadVisitor@hades_file_local@@QAEXABUSDrawBoxOrientedMessage@1@@Z");
 	// SPayloadVisitor::operator()
 	// SDrawBoxOrientedMessage const &payload;
-	todo("implement");
-	_sub_10818700(this, payload);
+
+	CDebugDrawBackend::DrawBoxOriented(payload.bounds, payload.matrix, payload.color);
 }
 
-_extern void _sub_10818A60(SPayloadVisitor *const, SDrawSphereMessage const &);
 _inline void SPayloadVisitor::operator()(SDrawSphereMessage const &payload) // 0x10818A60
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??RSPayloadVisitor@hades_file_local@@QAEXABUSDrawSphereMessage@1@@Z");
 	// SPayloadVisitor::operator()
 	// SDrawSphereMessage const &payload;
-	todo("implement");
-	_sub_10818A60(this, payload);
+
+	CDebugDrawBackend::DrawSphereOutline(payload.center, payload.radius, payload.color);
 }
 
-_extern void _sub_10818970(SPayloadVisitor *const, SDrawPillMessage const &);
 _inline void SPayloadVisitor::operator()(SDrawPillMessage const &payload) // 0x10818970
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??RSPayloadVisitor@hades_file_local@@QAEXABUSDrawPillMessage@1@@Z");
 	// SPayloadVisitor::operator()
 	// SDrawPillMessage const &payload;
-	todo("implement");
-	_sub_10818970(this, payload);
+
+	CDebugDrawBackend::DrawPill(payload.base, payload.height, payload.radius, payload.color);
 }
 
 _extern void _sub_10818800(SPayloadVisitor *const, SDrawCylinderMessage const &);
@@ -911,40 +913,40 @@ _inline void SPayloadVisitor::operator()(SDrawConeMessage const &payload) // 0x1
 	_sub_10818770(this, payload);
 }
 
-_extern void _sub_10818880(SPayloadVisitor *const, SDrawLineMessage const &);
 _inline void SPayloadVisitor::operator()(SDrawLineMessage const &payload) // 0x10818880
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??RSPayloadVisitor@hades_file_local@@QAEXABUSDrawLineMessage@1@@Z");
 	// SPayloadVisitor::operator()
 	// SDrawLineMessage const &payload;
-	todo("implement");
-	_sub_10818880(this, payload);
+
+	CDebugDrawBackend::DrawLine(payload.p1, payload.p2, payload.color);
 }
 
-_extern void _sub_10818C40(SPayloadVisitor *const, SDrawVectorMessage const &);
 _inline void SPayloadVisitor::operator()(SDrawVectorMessage const &payload) // 0x10818C40
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??RSPayloadVisitor@hades_file_local@@QAEXABUSDrawVectorMessage@1@@Z");
 	// SPayloadVisitor::operator()
 	// SDrawVectorMessage const &payload;
-	todo("implement");
-	_sub_10818C40(this, payload);
+
+	CDebugDrawBackend::DrawVector(payload.point, payload.vector, payload.color);
 }
 
-_extern void _sub_108189F0(SPayloadVisitor *const, SDrawPointMessage const &);
 _inline void SPayloadVisitor::operator()(SDrawPointMessage const &payload) // 0x108189F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??RSPayloadVisitor@hades_file_local@@QAEXABUSDrawPointMessage@1@@Z");
 	// SPayloadVisitor::operator()
 	// SDrawPointMessage const &payload;
-	todo("implement");
-	_sub_108189F0(this, payload);
+
+	CDebugDrawBackend::DrawPoint(payload.point, payload.size, payload.color);
 }
 
-_extern void _sub_10818BD0(SPayloadVisitor *const, SDrawTriangleMessage const &);
 _inline void SPayloadVisitor::operator()(SDrawTriangleMessage const &payload) // 0x10818BD0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??RSPayloadVisitor@hades_file_local@@QAEXABUSDrawTriangleMessage@1@@Z");
 	// SPayloadVisitor::operator()
 	// SDrawTriangleMessage const &payload;
-	todo("implement");
-	_sub_10818BD0(this, payload);
+
+	CDebugDrawBackend::DrawTriangle(payload.p1, payload.p2, payload.p3, payload.color);
 }
 
 _extern void _sub_10818AD0(SPayloadVisitor *const, SDrawText2dMessage const &);
@@ -983,22 +985,22 @@ _inline void SPayloadVisitor::operator()(SClearMessage const &payload) // 0x1081
 	CDebugDrawBackend::Clear(payload.group, payload.cacheKey);
 }
 
-_extern void _sub_1081C5C0(SRenderThreadMessage &);
 extern "C" void PreRenderCommand(SRenderThreadMessage &command) // 0x1081C5C0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "_PreRenderCommand");
 	// PreRenderCommand
 	// SRenderThreadMessage &command;
-	todo("implement");
-	_sub_1081C5C0(command);
+
+	render_debug_enable_depth_test(command.depthTest);
 }
 
-_extern void _sub_1081C570(SRenderThreadMessage &);
 extern "C" void PostRenderCommand(SRenderThreadMessage &command) // 0x1081C570
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "_PostRenderCommand");
 	// PostRenderCommand
 	// SRenderThreadMessage &command;
-	todo("implement");
-	_sub_1081C570(command);
+
+	render_debug_enable_depth_test(true);
 }
 
 _extern void _sub_1081C2D0(SRenderThreadMessage *);
@@ -1085,3 +1087,7 @@ _inline SRenderThreadMessage::SRenderThreadMessage() : cacheKey(todo_result<Debu
 	// constructor would be implicitly deleted.
 	todo("implement");
 }
+
+/* ---------- explicit instantiations */
+template _SINGLE_LIST_ENTRY * CSimpleMessageQueue<SRenderThreadMessage,4096>::Reversed(_SINGLE_LIST_ENTRY *);
+template CSimpleMessageQueue<SRenderThreadMessage,4096>::SQueueEntry::SQueueEntry();

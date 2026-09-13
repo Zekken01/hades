@@ -46,7 +46,7 @@ namespace Modules
 		Modules::Command *VarVetoVotePassPercentage; // 0x4C
 		Modules::Command *VarVetoSystemSelectionType; // 0x50
 		ModuleVoting();
-		~ModuleVoting(); /* compiler_generated() */
+		~ModuleVoting() = default; /* compiler_generated() */
 	};
 }
 

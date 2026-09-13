@@ -90,7 +90,6 @@ namespace Web
 			std::stack<Buffer *> m_pool; // 0x78
 			Buffer *m_frontBuffer; // 0x8C
 			bool m_released; // 0x90
-		unsigned char __pad0[3]; // 0x91
 		};
 	}
 }

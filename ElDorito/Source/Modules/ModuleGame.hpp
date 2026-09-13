@@ -83,7 +83,7 @@ namespace Modules
 		std::vector<std::string> FiltersExclude; // 0xCC
 		std::vector<std::string> FiltersInclude; // 0xDC
 		ModuleGame();
-		~ModuleGame(); /* compiler_generated() */
+		~ModuleGame() = default; /* compiler_generated() */
 	};
 }
 

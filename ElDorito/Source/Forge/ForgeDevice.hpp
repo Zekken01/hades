@@ -79,13 +79,12 @@ _inline float CForgeDeviceObjectProperties::GetGearTurnRate() const // 0x1083D0C
 	return gear.turn_rate / 40.0f;
 }
 
-_extern void _sub_1083F9B0(CForgeDeviceObjectProperties *const, float);
 _inline void CForgeDeviceObjectProperties::SetGearTurnRate(float value) // 0x1083F9B0
 {
-	mangled_x86(MANGLED_TODO, "?SetGearTurnRate@CForgeDeviceObjectProperties@@QAEXM@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SetGearTurnRate@CForgeDeviceObjectProperties@@QAEXM@Z");
 	// float value;
-	todo("implement");
-	_sub_1083F9B0(this, value);
+
+	gear.turn_rate = (unsigned char)floorf(value * 40.0f);
 }
 
 _inline float CForgeDeviceObjectProperties::GetDoorOpenTime() const // 0x1083C030
@@ -96,13 +95,12 @@ _inline float CForgeDeviceObjectProperties::GetDoorOpenTime() const // 0x1083C03
 	return door.open_time / 4.0f;
 }
 
-_extern void _sub_1083EAE0(CForgeDeviceObjectProperties *const, float);
 _inline void CForgeDeviceObjectProperties::SetDoorOpenTime(float value) // 0x1083EAE0
 {
-	mangled_x86(MANGLED_TODO, "?SetDoorOpenTime@CForgeDeviceObjectProperties@@QAEXM@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SetDoorOpenTime@CForgeDeviceObjectProperties@@QAEXM@Z");
 	// float value;
-	todo("implement");
-	_sub_1083EAE0(this, value);
+
+	door.open_time = (unsigned char)floorf(value * 4.0f);
 }
 
 _inline float CForgeDeviceObjectProperties::GetTriggerRadius() const // 0x1083E7E0

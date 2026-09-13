@@ -83,19 +83,19 @@ static_assert(sizeof(c_render_method_template) == 132, "Invalid c_render_method_
 
 /* ---------- prototypes */
 
+extern void *(*const tag_get)(unsigned long, long);  // hades: added for 0x108EEF70
+
 /* ---------- globals */
 
 /* ---------- public code */
 
-extern c_render_method_template *_sub_108EEF70(long);
 _inline c_render_method_template *c_render_method_template::get(long index) // 0x108EEF70
 {
-	mangled_prefix_assert("?get@c_render_method_template@@");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get@c_render_method_template@@SAPAU1@J@Z");
 	// long index;
 	// function call : void *(*const)(unsigned long, long)
-	todo("implement");
-	c_render_method_template * __result = _sub_108EEF70(index);
-	return __result;
+
+	return (c_render_method_template *)tag_get(0x726D7432, index);
 }
 
 /* ---------- private code */

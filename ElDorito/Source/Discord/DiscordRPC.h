@@ -48,7 +48,7 @@ namespace Discord
 		void ReplyToJoinRequest(char const *userId, __int32 reply);
 		void Shutdown();
 		DiscordRPC();
-		~DiscordRPC(); /* compiler_generated() */
+		~DiscordRPC() = default; /* compiler_generated() */
 	};
 }
 

@@ -154,13 +154,12 @@ namespace Web
 	{
 		namespace MpEventDispatcher
 		{
-			_extern void _sub_10C8A6A0();
 			void Init() // 0x10C8A6A0
 			{
-				mangled_x86(MANGLED_TODO, "?Init@MpEventDispatcher@Ui@Web@@YAXXZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?Init@MpEventDispatcher@Ui@Web@@YAXXZ");
 				// procedure flags: nofpo
-				todo("implement");
-				_sub_10C8A6A0();
+
+				Patches::Events::OnEvent(::OnEvent);
 			}
 		}
 	}

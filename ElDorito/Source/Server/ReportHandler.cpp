@@ -122,7 +122,7 @@ namespace hades_file_local
 		ReportRequest(ReportRequest &); /* compiler_generated() */
 		ReportRequest(ReportRequest const &); /* compiler_generated() */
 		ReportRequest(); /* compiler_generated() */
-		~ReportRequest(); /* compiler_generated() */
+		~ReportRequest() = default;
 		ReportRequest &operator=(ReportRequest &); /* compiler_generated() */
 		ReportRequest &operator=(ReportRequest const &); /* compiler_generated() */
 		unsigned char __pad0[4]; // 0x24
@@ -160,7 +160,7 @@ namespace hades_file_local
 	extern std::mutex mutex; // 0x12467960
 	extern std::condition_variable signal; // 0x12467990
 	extern std::vector<std::string> playerReportUrls; // 0x124679B8
-	extern std::vector<ReportRequest> pending; // 0x124679C8
+	std::vector<ReportRequest> pending; // 0x124679C8
 	extern bool shouldExit; // 0x124679D8
 }
 using namespace hades_file_local;
@@ -259,8 +259,6 @@ _inline ReportRequest::ReportRequest(ReportRequest const &__that) = default; // 
 // mangled_x86(MANGLED_DEFAULT, "??0ReportRequest@hades_file_local@@QAE@XZ"); no body to assert in
 _inline ReportRequest::ReportRequest() = default; // 0x10B21660
 
-// mangled_x86(MANGLED_DEFAULT, "??1ReportRequest@hades_file_local@@QAE@XZ"); no body to assert in
-_inline ReportRequest::~ReportRequest() = default; // 0x10B218B0
 
 _inline ReportRequest &ReportRequest::operator=(ReportRequest &__that) = default; // 0x10B219D0
 
@@ -346,11 +344,18 @@ unsigned long __stdcall HandledReportsThreadProc(void *lpParam) // 0x10B239A0
 	return __result;
 }
 
-_extern void _sub_10B23BA0();
 void OnShutdown() // 0x10B23BA0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnShutdown@@YAXXZ");
 	// `anonymous-namespace'::OnShutdown
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10B23BA0();
+
+	shouldExit = true;
+	hades_file_local::signal.notify_one();
 }
+
+/* ---------- explicit instantiations */
+template class std::_Vector_const_iterator<std::_Vector_val<std::_Simple_types<ReportRequest> > >;
+template class std::_Vector_iterator<std::_Vector_val<std::_Simple_types<ReportRequest> > >;
+template std::_Vector_const_iterator<std::_Vector_val<std::_Simple_types<ReportRequest> > >::~_Vector_const_iterator();
+template std::_Vector_iterator<std::_Vector_val<std::_Simple_types<ReportRequest> > >::~_Vector_iterator();

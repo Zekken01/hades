@@ -301,3 +301,8 @@ template c_flags<enum e_suppressed_game_engine_event_flags,unsigned char> c_flag
 template c_flags<enum e_suppressed_game_engine_event_flags,unsigned char>::c_flags();
 template c_flags<enum e_suppressed_game_engine_event_flags,unsigned char>::c_flags(unsigned char const &);
 template c_flags<enum e_suppressed_game_engine_event_flags,unsigned char>::operator bool() const;
+
+/* ---------- explicit instantiations */
+template s_static_array<s_suppressed_game_engine_event,64>::s_static_array();
+template s_suppressed_game_engine_event * s_static_array<s_suppressed_game_engine_event,64>::begin() const;
+template s_suppressed_game_engine_event * s_static_array<s_suppressed_game_engine_event,64>::end() const;

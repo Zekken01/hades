@@ -172,14 +172,14 @@ namespace ChatCommands
 
 namespace ChatCommands
 {
-	extern std::vector<ChatCommands::ChatCommand> chatCommands; // 0x1240D76C
+	std::vector<ChatCommands::ChatCommand> chatCommands; // 0x1240D76C
 	extern bool chatCommandsActive; // 0x1240D6F0
 	extern std::map<unsigned __int64,__int64> voteTimes; // 0x1240D760
-	extern ChatCommands::KickPlayerCommand kickPlayerCommand; // 0x1240D780
-	extern ChatCommands::KickIndexCommand kickIndexCommand; // 0x1240D808
-	extern ChatCommands::EndGameCommand endGameCommand; // 0x1240D8A0
-	extern ChatCommands::EndRoundCommand endRoundCommand; // 0x1240D908
-	extern ChatCommands::ShuffleTeamsCommand shuffleTeamsCommand; // 0x1240D6F8
+	ChatCommands::KickPlayerCommand kickPlayerCommand; // 0x1240D780
+	ChatCommands::KickIndexCommand kickIndexCommand; // 0x1240D808
+	ChatCommands::EndGameCommand endGameCommand; // 0x1240D8A0
+	ChatCommands::EndRoundCommand endRoundCommand; // 0x1240D908
+	ChatCommands::ShuffleTeamsCommand shuffleTeamsCommand; // 0x1240D6F8
 	extern std::vector<ChatCommands::VotingChatCommand *> votingCommands; // 0x1240D890
 }
 
@@ -276,20 +276,10 @@ namespace ChatCommands
 	// mangled_x86(MANGLED_DEFAULT, "??0ChatCommand@ChatCommands@@QAE@XZ"); no body to assert in
 	_inline ChatCommand::ChatCommand() = default; // 0x10939660
 
-	// mangled_x86(MANGLED_DEFAULT, "??1ChatCommand@ChatCommands@@QAE@XZ"); no body to assert in
-	_inline ChatCommand::~ChatCommand() = default; // 0x10939E40
 
-	// mangled_x86(MANGLED_DEFAULT, "??1EndGameCommand@ChatCommands@@QAE@XZ"); no body to assert in
-	_inline EndGameCommand::~EndGameCommand() = default; // 0x10939EB0
 
-	// mangled_x86(MANGLED_DEFAULT, "??1EndRoundCommand@ChatCommands@@QAE@XZ"); no body to assert in
-	_inline EndRoundCommand::~EndRoundCommand() = default; // 0x10939F00
 
-	// mangled_x86(MANGLED_DEFAULT, "??1KickIndexCommand@ChatCommands@@QAE@XZ"); no body to assert in
-	_inline KickIndexCommand::~KickIndexCommand() = default; // 0x10939F50
 
-	// mangled_x86(MANGLED_DEFAULT, "??1KickPlayerCommand@ChatCommands@@QAE@XZ"); no body to assert in
-	_inline KickPlayerCommand::~KickPlayerCommand() = default; // 0x10939FB0
 }
 
 extern std::vector<std::string> _sub_1093D450();
@@ -325,11 +315,7 @@ namespace ChatCommands
 		return __result;
 	}
 
-	// mangled_x86(MANGLED_DEFAULT, "??1ShuffleTeamsCommand@ChatCommands@@QAE@XZ"); no body to assert in
-	_inline ShuffleTeamsCommand::~ShuffleTeamsCommand() = default; // 0x1093A010
 
-	// mangled_x86(MANGLED_DEFAULT, "??1VotingChatCommand@ChatCommands@@QAE@XZ"); no body to assert in
-	_inline VotingChatCommand::~VotingChatCommand() = default; // 0x1093A060
 
 	_extern void _sub_1093AB00(std::string const &, std::string const &, ChatCommands::CommandFlags, std::function<bool __cdecl(int,std::vector<std::string> const &,std::string &)> &);
 	void RegisterCommand(std::string const &name, std::string const &description, ChatCommands::CommandFlags flags, std::function<bool __cdecl(int,std::vector<std::string> const &,std::string &)> &&handler) // 0x1093AB00

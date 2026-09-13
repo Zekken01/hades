@@ -47,7 +47,7 @@ namespace Modules
 		ModulePlayer();
 		static bool ValidServiceTag(std::string const &tag);
 		static bool ValidPlayerName(std::string const &name);
-		~ModulePlayer(); /* compiler_generated() */
+		~ModulePlayer() = default; /* compiler_generated() */
 	};
 	static_assert(sizeof(Modules::ModulePlayer) == 96, "Invalid Modules::ModulePlayer size");
 }

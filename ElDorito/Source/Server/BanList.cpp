@@ -250,13 +250,12 @@ namespace Server
 		return BanList();
 	}
 
-	_extern void _sub_10AFBD30(Server::BanList const &);
 	void SaveDefaultBanList(Server::BanList const &list) // 0x10AFBD30
 	{
-		mangled_x86(MANGLED_TODO, "?SaveDefaultBanList@Server@@YAXABVBanList@1@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?SaveDefaultBanList@Server@@YAXABVBanList@1@@Z");
 		// Server::BanList const &list;
-		todo("implement");
-		_sub_10AFBD30(list);
+
+		list.Save(DefaultBanListPath);
 	}
 }
 

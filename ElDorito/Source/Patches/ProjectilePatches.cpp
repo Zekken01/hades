@@ -181,3 +181,6 @@ bool projectile_new_hook(long projectile_index, void *data) // 0x1069E560
 
 template bool c_flags<enum e_projectile_definition_flags,long>::test(e_projectile_definition_flags) const;
 template void Pointer::Write<bool (__cdecl*)(long,void *)>(bool (*const value)(long, void *)) const;
+
+/* ---------- explicit instantiations */
+template s_projectile_data * object_get<s_projectile_data>(unsigned long);

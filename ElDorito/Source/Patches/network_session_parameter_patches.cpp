@@ -195,3 +195,6 @@ template void c_custom_network_session_parameter<s_session_mod_options>::notify_
 template void c_custom_network_session_parameter<s_session_mod_options>::notify_reset_peer_state(long);
 template void c_custom_network_session_parameter<s_session_mod_options>::notify_transition_state_to_become_host();
 template void s_static_array<unsigned char,17>::set_memory(unsigned char);
+
+/* ---------- explicit instantiations */
+template s_static_array<c_network_session_parameter_mod,4>::s_static_array();

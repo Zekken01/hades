@@ -631,3 +631,6 @@ template s_chud_per_character_globals & c_tag_block<s_chud_per_character_globals
 template s_chud_per_character_globals * c_tag_block<s_chud_per_character_globals>::get_element(__int32) const;
 template s_chud_widget_placement & c_tag_block<s_chud_widget_placement>::operator[](__int32);
 template s_chud_widget_placement * c_tag_block<s_chud_widget_placement>::get_element(__int32) const;
+
+/* ---------- explicit instantiations */
+template s_chud_widget_geometry<s_widget_geometry_quad_simple>::s_chud_widget_geometry();

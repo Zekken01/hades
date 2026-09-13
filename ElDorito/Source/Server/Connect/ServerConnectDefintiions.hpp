@@ -85,7 +85,6 @@ struct SServerConnectState
 	_inline ~SServerConnectState(); /* compiler_generated() */
 	_inline SServerConnectState &operator=(SServerConnectState &&__that); /* compiler_generated() */
 	SServerConnectState &operator=(SServerConnectState const &); /* compiler_generated() */
-	unsigned char __pad0[3]; // 0xB1
 };
 #pragma pack(pop)
 static_assert(sizeof(SServerConnectState) == 180, "Invalid SServerConnectState size");

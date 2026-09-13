@@ -214,7 +214,14 @@ _inline void s_structure_lighting_data::set_lightprobe_index(long index) // 0x10
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0s_structure_lighting_data@hades_file_local@@QAE@XZ"); no body to assert in
-_inline s_structure_lighting_data::s_structure_lighting_data() = default; // 0x1091BB60
+_inline s_structure_lighting_data::s_structure_lighting_data() // 0x1091BB60
+{
+	lightprobe_index = -1;
+	per_vertex_count = 0;
+	per_vertex_stride = 0;
+	per_pixel_data = nullptr;
+	per_vertex_data = nullptr;
+}
 
 _extern long _sub_1091EE50(s_geometry_sample *, s_geometry_sample *, float, char);
 long interpoloate_lighting_sample_hook(s_geometry_sample *current_sample, s_geometry_sample *next_sample, float interpolation_parameter, char a4) // 0x1091EE50

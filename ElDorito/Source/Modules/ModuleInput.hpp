@@ -90,7 +90,7 @@ namespace Modules
 		static void UpdateBindings();
 		std::string ExportBindings() const;
 		bool IsCommandBound(std::string command);
-		~ModuleInput(); /* compiler_generated() */
+		~ModuleInput() = default; /* compiler_generated() */
 	};
 }
 

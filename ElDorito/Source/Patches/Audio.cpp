@@ -3,6 +3,8 @@
 #include "Patches/Audio.hpp"
 #include "hades/hades.h"
 
+#include "Modules/ModuleDebug.hpp"
+
 #include "Audio/AudioDeviceManager.hpp"
 #include "Blam/cache/cache_file_tag_resources.hpp"
 #include "Blam/cache/cache_files.hpp"
@@ -445,14 +447,12 @@ _inline void c_sound_debug_printer::skip_line() // 0x10A34B00
 	m_yOffset += 16.0f;
 }
 
-_extern bool _sub_10A32370();
 bool SoundSystemTraceEnabled() // 0x10A32370
 {
 	// `anonymous-namespace'::SoundSystemTraceEnabled
 	// procedure flags: nofpo
-	todo("implement");
-	bool __result = _sub_10A32370();
-	return __result;
+
+	return Modules::ModuleDebug::Instance().VarSoundSystemTrace->ValueInt != 0;
 }
 
 _extern bool _sub_10A322B0(s_sound_tag_data const *);
@@ -1252,15 +1252,14 @@ long sound_cache_sound_request_hook(long definition_index, s_sound_permutation_c
 	return __result;
 }
 
-_extern bool _sub_10A35290(s_sound_permutation_chunk *);
 bool sound_cache_sound_add_reference_hook(s_sound_permutation_chunk *chunk) // 0x10A35290
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?sound_cache_sound_add_reference_hook@@YA_NPAUs_sound_permutation_chunk@@@Z");
 	// `anonymous-namespace'::sound_cache_sound_add_reference_hook
 	// s_sound_permutation_chunk *chunk;
 	// function call : unsigned long (*const)(long, s_sound_permutation_chunk *, unsigned long)
-	todo("implement");
-	bool __result = _sub_10A35290(chunk);
-	return __result;
+
+	return (((unsigned __int32)((unsigned __int32(__cdecl *)(long, s_sound_permutation_chunk *, long))0x65fcb0)(-1, chunk, 2)) >> 2) & 1;
 }
 
 _extern void _sub_10A353A0(s_sound_permutation_chunk *);

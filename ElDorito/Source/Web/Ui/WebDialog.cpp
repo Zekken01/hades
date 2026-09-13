@@ -121,7 +121,7 @@ namespace hades_file_local
 		SDialogCallbackInfo(SDialogCallbackInfo &); /* compiler_generated() */
 		SDialogCallbackInfo(SDialogCallbackInfo const &); /* compiler_generated() */
 		SDialogCallbackInfo(); /* compiler_generated() */
-		~SDialogCallbackInfo(); /* compiler_generated() */
+		~SDialogCallbackInfo() = default;
 		SDialogCallbackInfo &operator=(SDialogCallbackInfo &); /* compiler_generated() */
 		SDialogCallbackInfo &operator=(SDialogCallbackInfo const &); /* compiler_generated() */
 	};
@@ -183,7 +183,7 @@ namespace Web
 namespace hades_file_local
 {
 	extern std::vector<SDialogQueueInfo> queueList; // 0x1247ED54
-	extern std::queue<SDialogCallbackInfo> callbacks; // 0x1247ED64
+	std::queue<SDialogCallbackInfo> callbacks; // 0x1247ED64
 	extern __int32 idCounter; // 0x1247ED78
 }
 using namespace hades_file_local;
@@ -271,10 +271,16 @@ _inline SDialogQueueInfo::SDialogQueueInfo(SDialogQueueInfo const &__that) = def
 // mangled_x86(MANGLED_DEFAULT, "??0SDialogQueueInfo@hades_file_local@@QAE@XZ"); no body to assert in
 _inline SDialogQueueInfo::SDialogQueueInfo() = default; // 0x10CA0B50
 
-// mangled_x86(MANGLED_DEFAULT, "??1SDialogCallbackInfo@hades_file_local@@QAE@XZ"); no body to assert in
-_inline SDialogCallbackInfo::~SDialogCallbackInfo() = default; // 0x10CA0F50
 
 // mangled_x86(MANGLED_DEFAULT, "??1SDialogQueueInfo@hades_file_local@@QAE@XZ"); no body to assert in
 _inline SDialogQueueInfo::~SDialogQueueInfo() = default; // 0x10CA0FA0
 
 _inline SDialogQueueInfo &SDialogQueueInfo::operator=(SDialogQueueInfo &__that) = default; // 0x10CA1010
+
+/* ---------- explicit instantiations */
+template class std::_Vector_const_iterator<std::_Vector_val<std::_Simple_types<SDialogQueueInfo> > >;
+template class std::_Vector_iterator<std::_Vector_val<std::_Simple_types<SDialogQueueInfo> > >;
+template class std::queue<SDialogCallbackInfo>;
+template std::_Vector_const_iterator<std::_Vector_val<std::_Simple_types<SDialogQueueInfo> > >::~_Vector_const_iterator();
+template std::_Vector_iterator<std::_Vector_val<std::_Simple_types<SDialogQueueInfo> > >::~_Vector_iterator();
+template std::queue<SDialogCallbackInfo>::~queue();

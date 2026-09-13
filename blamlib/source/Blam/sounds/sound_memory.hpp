@@ -89,7 +89,6 @@ struct s_sound_location
 	real_quaternion rotation; // 0xC
 	real_vector3d velocity; // 0x1C
 	s_cluster_reference cluster; // 0x28
-	unsigned char __pad0[2]; // 0x2A
 };
 #pragma pack(pop)
 static_assert(sizeof(s_sound_location) == 44, "Invalid s_sound_location size");

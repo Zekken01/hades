@@ -325,22 +325,20 @@ namespace Patches
 			_sub_10A7AB70(context);
 		}
 
-		_extern void _sub_10A7AD30(void (*)());
 		void RegisterDefaultInputHandler(void (*func)()) // 0x10A7AD30
 		{
-			mangled_x86(MANGLED_TODO, "?RegisterDefaultInputHandler@Input@Patches@@YAXP6AXXZ@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?RegisterDefaultInputHandler@Input@Patches@@YAXP6AXXZ@Z");
 			// void (*func)();
-			todo("implement");
-			_sub_10A7AD30(func);
+
+			defaultHandlers.push_back(func);
 		}
 
-		_extern void _sub_10A7AD80(void (*)());
 		void RegisterMenuUIInputHandler(void (*func)()) // 0x10A7AD80
 		{
-			mangled_x86(MANGLED_TODO, "?RegisterMenuUIInputHandler@Input@Patches@@YAXP6AXXZ@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?RegisterMenuUIInputHandler@Input@Patches@@YAXP6AXXZ@Z");
 			// void (*func)();
-			todo("implement");
-			_sub_10A7AD80(func);
+
+			uiHandlers.push_back(func);
 		}
 
 		_extern void _sub_10A7AEB0(std::vector<Blam::Input::ConfigurableAction> const &, std::vector<Blam::Input::ConfigurableAction> const &);
@@ -1376,3 +1374,6 @@ void input_abstraction_update_hook() // 0x10A7F2A0
 // reaches an object without being used. Generated - see build_instantiations.py.
 
 template void Pointer::Write<Blam::Input::ConfigurableAction *>(Blam::Input::ConfigurableAction *const) const;
+
+/* ---------- explicit instantiations */
+template unsigned short & Pointer::Read<unsigned short>() const;

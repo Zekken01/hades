@@ -181,7 +181,7 @@ namespace Download
 		std::vector<std::shared_ptr<Download::CHttpFileDownload> > m_downloads; // 0x0
 	public:
 		_inline CHttpFileDownloadManager() = default; /* compiler_generated() */
-		~CHttpFileDownloadManager(); /* compiler_generated() */
+		~CHttpFileDownloadManager() = default; /* compiler_generated() */
 	};
 	static_assert(sizeof(Download::CHttpFileDownloadManager) == 16, "Invalid Download::CHttpFileDownloadManager size");
 }

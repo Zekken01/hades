@@ -43,7 +43,6 @@ public:
 	c_base_channel_settings settings; // 0x0
 	char frame_count; // 0x10
 	bool initialized; // 0x11
-unsigned char __pad0[2]; // 0x12
 };
 #pragma pack(pop)
 static_assert(sizeof(c_animation_channel_base) == 20, "Invalid c_animation_channel_base size");
@@ -67,7 +66,6 @@ struct c_animation_channel :
 	unsigned char state_flags; // 0x38
 	static float (*const get_playback_time_remaining)(c_animation_channel *);
 	static void (*const set_frame_position)(c_animation_channel *, float);
-	unsigned char __pad0[3]; // 0x39
 };
 #pragma pack(pop)
 static_assert(sizeof(c_animation_channel) == 60, "Invalid c_animation_channel size");

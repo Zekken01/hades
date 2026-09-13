@@ -36,7 +36,7 @@ namespace Modules
 		Modules::Command *VarMaxHttpSegmentRetry; // 0x24
 		Modules::Command *VarDebugTrace; // 0x28
 		ModuleDownload();
-		~ModuleDownload(); /* compiler_generated() */
+		~ModuleDownload() = default; /* compiler_generated() */
 	};
 }
 

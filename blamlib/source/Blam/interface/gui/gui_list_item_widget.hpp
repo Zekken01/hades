@@ -36,7 +36,7 @@ public:
 	c_gui_list_item_widget(c_gui_list_item_widget &); /* compiler_generated() */
 	c_gui_list_item_widget(c_gui_list_item_widget const &); /* compiler_generated() */
 	c_gui_list_item_widget(); /* compiler_generated() */
-	virtual ~c_gui_list_item_widget(); /* compiler_generated() */
+	virtual ~c_gui_list_item_widget() = default; /* compiler_generated() */
 	c_gui_list_item_widget &operator=(c_gui_list_item_widget &); /* compiler_generated() */
 	c_gui_list_item_widget &operator=(c_gui_list_item_widget const &); /* compiler_generated() */
 };

@@ -124,6 +124,24 @@ namespace Blam
 
 /* ---------- prototypes */
 
+namespace Player
+{
+	namespace PlayerPodium
+	{
+		// hades: declared only in Player/PlayerPodium.cpp.
+		extern short GetPlayerSessionIndexByLeaderboardPlace(short);
+	}
+}
+
+namespace Player
+{
+	namespace PlayerPodium
+	{
+		// hades: declared only in Player/PlayerPodium.cpp.
+		extern short GetPlayerSessionIndexByLeaderboardPlace(short leaderboardPlace);
+	}
+}
+
 namespace Scripting
 {
 	namespace HS
@@ -283,22 +301,18 @@ void hs_get_player_idx_by_unit_evaluate(short op, long thread_index, bool initia
 	_sub_106FB5A0(op, thread_index, initial);
 }
 
-_extern void _sub_106FB860(short, long, bool);
 void hs_player_get_idx_by_place_evaluate(short op, long thread_index, bool initial) // 0x106FB860
 {
 	// `anonymous-namespace'::hs_player_get_idx_by_place_evaluate
 	// bool initial;
+
+	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
+	if (args)
 	{
-		// hs_value *args;
-		{
-			// short place;
-			// short player_session_index;
-		}
+		auto input = args[0].long_value;
+		auto result = Player::PlayerPodium::GetPlayerSessionIndexByLeaderboardPlace(input);
+		((void(__cdecl *)(long, hs_value))0x5974E0)(thread_index, hs_value::from_short(result));
 	}
-	// function call : hs_value *(*const)(short, long, bool)
-	// function call : void (*const)(long, hs_value)
-	todo("implement");
-	_sub_106FB860(op, thread_index, initial);
 }
 
 _extern void _sub_106FC180(short, long, bool);

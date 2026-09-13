@@ -114,6 +114,8 @@ typedef IDirect3DSurface9 *LPDIRECT3DSURFACE9;
 
 /* ---------- prototypes */
 
+#include "Modules/ModuleGraphics.hpp"  // hades: added for 0x10AC2F20
+
 extern void render_postprocess_patches_tick();
 extern long detect_driver_forced_msaa();
 extern void render_postprocess_patches_apply_after_init();
@@ -146,13 +148,12 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- public code */
 
-_extern void _sub_10AC2F20();
 void render_postprocess_patches_tick() // 0x10AC2F20
 {
-	mangled_x86(MANGLED_TODO, "?render_postprocess_patches_tick@@YAXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?render_postprocess_patches_tick@@YAXXZ");
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10AC2F20();
+
+	reflections_enabled = (bool)Utils::Singleton<Modules::ModuleGraphics>::Instance().VarReflectionsEnabled->ValueInt;
 }
 
 _extern long _sub_10AC1880();

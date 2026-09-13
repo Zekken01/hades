@@ -43,7 +43,6 @@ struct c_tracked_target
 	bool locked; // 0x18
 	static long (*const initialize)(c_tracked_target *);
 	static bool (*const target_matches)(c_tracked_target *, c_aim_target_object *);
-	unsigned char __pad0[3]; // 0x19
 };
 #pragma pack(pop)
 static_assert(sizeof(c_tracked_target) == 28, "Invalid c_tracked_target size");

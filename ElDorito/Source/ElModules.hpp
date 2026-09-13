@@ -30,7 +30,7 @@ namespace Modules
 	{
 	public:
 		ElModules();
-		~ElModules(); /* compiler_generated() */
+		~ElModules() = default; /* compiler_generated() */
 	};
 }
 

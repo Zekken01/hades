@@ -76,7 +76,13 @@ using namespace hades_file_local;
 /* ---------- public code */
 
 // mangled_x86(MANGLED_DEFAULT, "??0c_virtual_page_memory_allocator@@QAE@XZ"); no body to assert in
-_inline c_virtual_page_memory_allocator::c_virtual_page_memory_allocator() = default; // 0x108BDA90
+_inline c_virtual_page_memory_allocator::c_virtual_page_memory_allocator() // 0x108BDA90
+{
+	m_memory = nullptr;
+	m_total_size = 0;
+	m_current_size = 0;
+	m_next_uncommitted_page_offset = 0;
+}
 
 bool c_physical_memory_manager::initialize(unsigned long total_memory_size) // 0x108BE090
 {
@@ -150,16 +156,16 @@ unsigned long c_physical_memory_manager::get_total_size() // 0x108BDEF0
 	return memory_stack.get_total_size();
 }
 
-_extern void _sub_108BE2F0();
 void c_physical_memory_manager::prepare_for_new_map() // 0x108BE2F0
 {
-	mangled_x86(MANGLED_TODO, "?prepare_for_new_map@c_physical_memory_manager@@SAXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?prepare_for_new_map@c_physical_memory_manager@@SAXXZ");
 	// procedure flags: nofpo
-	{
 		// unsigned long i;
+
+	for (long i = memory_stack.get_current_stage(); i; i--)
+	{
+		memory_stack.pop((e_physical_memory_stage)i);
 	}
-	todo("implement");
-	_sub_108BE2F0();
 }
 
 /* ---------- private code */

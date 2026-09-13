@@ -77,7 +77,7 @@ namespace Modules
 		Modules::Command *VarExposureCpu; // 0xCC
 		ModuleSettings();
 		void GetScreenResolution(__int32 *width, __int32 *height) const;
-		~ModuleSettings(); /* compiler_generated() */
+		~ModuleSettings() = default; /* compiler_generated() */
 	};
 	static_assert(sizeof(Modules::ModuleSettings) == 208, "Invalid Modules::ModuleSettings size");
 }

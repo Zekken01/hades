@@ -112,14 +112,13 @@ _inline c_font_cache_mt_safe::~c_font_cache_mt_safe() // 0x108182F0
 	_sub_108182F0(this);
 }
 
-_extern void _sub_1081D2F0(c_draw_string *const, long);
 _inline void c_draw_string::set_font(long font) // 0x1081D2F0
 {
-	mangled_x86(MANGLED_TODO, "?set_font@c_draw_string@@QAEXJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_font@c_draw_string@@QAEXJ@Z");
 	// long font;
 	// function call : void (*)(c_draw_string *, long)
-	todo("implement");
-	_sub_1081D2F0(this, font);
+
+	((void(__thiscall *)(c_draw_string *, long))0x659070)(this, font);
 }
 
 _inline short c_draw_string::get_line_height() // 0x1085FAC0
@@ -158,14 +157,13 @@ _inline void c_draw_string::set_bounds(short_rectangle2d const &bounds) // 0x108
 	((void(__thiscall *)(c_draw_string *, short_rectangle2d const *))0x658d20)(this, &bounds);
 }
 
-_extern void _sub_1095E770(c_draw_string *const, long);
 _inline void c_draw_string::set_style(long style) // 0x1095E770
 {
-	mangled_x86(MANGLED_TODO, "?set_style@c_draw_string@@QAEXJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_style@c_draw_string@@QAEXJ@Z");
 	// long style;
 	// function call : void (*)(c_draw_string *, long)
-	todo("implement");
-	_sub_1095E770(this, style);
+
+	((void(__thiscall *)(c_draw_string *, long))0x659280)(this, style);
 }
 
 _inline void c_draw_string::set_justification(long justification) // 0x1085FE70

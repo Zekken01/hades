@@ -63,13 +63,12 @@ bool quaternion_is_identity(real_quaternion const *q) // 0x10F194F0
 	return __result;
 }
 
-_extern void _sub_10F19490(real_quaternion *);
 void quaternion_inverse(real_quaternion *q) // 0x10F19490
 {
-	mangled_x86(MANGLED_TODO, "?quaternion_inverse@@YAXPAUreal_quaternion@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?quaternion_inverse@@YAXPAUreal_quaternion@@@Z");
 	// real_quaternion *q;
-	todo("implement");
-	_sub_10F19490(q);
+
+	q->w = q->w * -1.0f;
 }
 
 _extern void _sub_10F195A0(real_quaternion *);
@@ -95,13 +94,12 @@ void quaternion_to_angle_and_vector(real_quaternion *q, float *angle, real_vecto
 	_sub_10F19730(q, angle, vector);
 }
 
-_extern void _sub_10F19850(real_quaternion const *, real_euler_angles3d *);
 void quaternion_to_euler_angles(real_quaternion const *q, real_euler_angles3d *euler) // 0x10F19850
 {
-	mangled_x86(MANGLED_TODO, "?quaternion_to_euler_angles@@YAXPBUreal_quaternion@@PAUreal_euler_angles3d@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?quaternion_to_euler_angles@@YAXPBUreal_quaternion@@PAUreal_euler_angles3d@@@Z");
 	// real_euler_angles3d *euler;
-	todo("implement");
-	_sub_10F19850(q, euler);
+
+	quaternion_to_euler_angles_internal(q, euler, 0.00001f);
 }
 
 _extern void _sub_10F19360(real_vector3d const *, float, real_quaternion *);

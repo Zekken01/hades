@@ -433,14 +433,12 @@ namespace Blam
 {
 	namespace Network
 	{
-		_extern bool _sub_1092FC00(Blam::Network::PeerInfo const *const);
 		_inline bool PeerInfo::IsEstablished() const // 0x1092FC00
 		{
-			mangled_x86(MANGLED_TODO, "?IsEstablished@PeerInfo@Network@Blam@@QBE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?IsEstablished@PeerInfo@Network@Blam@@QBE_NXZ");
 			// Blam::Network::PeerInfo const *const this;
-			todo("implement");
-			bool __result = _sub_1092FC00((Blam::Network::PeerInfo const *)this);
-			return __result;
+
+			return ConnectionState >= ePeerConnectionStateEstablished;
 		}
 
 		_inline Blam::Network::NetworkAddress NetworkAddress::FromInAddr(unsigned long address, unsigned short port) // 0x1092B950
@@ -467,14 +465,12 @@ namespace Blam
 			return _byteswap_ulong(Address.IPv4);
 		}
 
-		_extern bool _sub_106CFA00(Blam::Network::Session const *const);
 		_inline bool Session::IsEstablished() const // 0x106CFA00
 		{
-			mangled_x86(MANGLED_TODO, "?IsEstablished@Session@Network@Blam@@QBE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?IsEstablished@Session@Network@Blam@@QBE_NXZ");
 			// Blam::Network::Session const *const this;
-			todo("implement");
-			bool __result = _sub_106CFA00((Blam::Network::Session const *)this);
-			return __result;
+
+			return Type > 3;
 		}
 
 		_inline bool Session::IsHost() const // 0x106CFA50

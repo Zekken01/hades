@@ -82,8 +82,7 @@ namespace Modules
 		Modules::Command *VarParticleFilter; // 0xBC
 		bool teleportToCamera; // 0xC0
 		ModuleDebug();
-		~ModuleDebug(); /* compiler_generated() */
-	unsigned char __pad0[3]; // 0xC1
+		~ModuleDebug() = default; /* compiler_generated() */
 	};
 }
 

@@ -433,7 +433,6 @@ struct s_scenario_device_group
 	s_scenario_device_group(); /* compiler_generated() */
 	s_scenario_device_group &operator=(s_scenario_device_group &); /* compiler_generated() */
 	s_scenario_device_group &operator=(s_scenario_device_group const &); /* compiler_generated() */
-	unsigned char __pad0[2]; // 0x2A
 };
 #pragma pack(pop)
 static_assert(sizeof(s_scenario_device_group) == 44, "Invalid s_scenario_device_group size");
@@ -459,7 +458,6 @@ struct s_scenario_object_data
 	s_scenario_object_data(); /* compiler_generated() */
 	s_scenario_object_data &operator=(s_scenario_object_data &); /* compiler_generated() */
 	s_scenario_object_data &operator=(s_scenario_object_data const &); /* compiler_generated() */
-	unsigned char __pad3[2]; // 0x4E
 };
 static_assert(sizeof(s_scenario_object_data) == 80, "Invalid s_scenario_object_data size");
 
@@ -578,7 +576,6 @@ struct s_scenario_object_machine_data
 	s_scenario_object_machine_data(); /* compiler_generated() */
 	s_scenario_object_machine_data &operator=(s_scenario_object_machine_data &); /* compiler_generated() */
 	s_scenario_object_machine_data &operator=(s_scenario_object_machine_data const &); /* compiler_generated() */
-	unsigned char __pad0[2]; // 0x12
 };
 #pragma pack(pop)
 static_assert(sizeof(s_scenario_object_machine_data) == 20, "Invalid s_scenario_object_machine_data size");
@@ -965,7 +962,6 @@ struct s_scenario_player
 	s_scenario_player(); /* compiler_generated() */
 	s_scenario_player &operator=(s_scenario_player &); /* compiler_generated() */
 	s_scenario_player &operator=(s_scenario_player const &); /* compiler_generated() */
-	unsigned char __pad0[2]; // 0x1A
 };
 #pragma pack(pop)
 static_assert(sizeof(s_scenario_player) == 28, "Invalid s_scenario_player size");

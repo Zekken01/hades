@@ -316,7 +316,7 @@ namespace hades_file_local
 		coninfo(coninfo &); /* compiler_generated() */
 		coninfo(coninfo const &); /* compiler_generated() */
 		coninfo(); /* compiler_generated() */
-		~coninfo(); /* compiler_generated() */
+		~coninfo() = default;
 		coninfo &operator=(coninfo &); /* compiler_generated() */
 		coninfo &operator=(coninfo const &); /* compiler_generated() */
 	};
@@ -349,7 +349,7 @@ namespace hades_file_local
 		WebSocketPacketHandler(WebSocketPacketHandler &); /* compiler_generated() */
 		WebSocketPacketHandler(WebSocketPacketHandler const &); /* compiler_generated() */
 		WebSocketPacketHandler(); /* compiler_generated() */
-		virtual ~WebSocketPacketHandler(); /* compiler_generated() */
+		virtual ~WebSocketPacketHandler() = default; /* compiler_generated() */
 		WebSocketPacketHandler &operator=(WebSocketPacketHandler &); /* compiler_generated() */
 		WebSocketPacketHandler &operator=(WebSocketPacketHandler const &); /* compiler_generated() */
 	};
@@ -368,6 +368,8 @@ namespace Patches
 }
 
 /* ---------- prototypes */
+
+namespace Utils { namespace Cryptography { extern void RandomPassword(__int32 length, std::string &out); } }  // hades: added for 0x10C2FB60
 
 namespace Server
 {
@@ -403,7 +405,7 @@ namespace hades_file_local
 {
 	extern websocketpp::server<Utils::WebSocket::Config> signalServer; // 0x12467F80
 	extern std::string currentPassword; // 0x12468268
-	extern std::map<std::weak_ptr<void>,coninfo,std::owner_less<std::weak_ptr<void> > > connectedSockets; // 0x12468284
+	std::map<std::weak_ptr<void>,coninfo,std::owner_less<std::weak_ptr<void> > > connectedSockets; // 0x12468284
 	extern std::string authStrings[17]; // 0x12468290
 	extern rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> iceServers; // 0x12468470
 	extern unsigned short port; // 0x124684F4
@@ -837,13 +839,14 @@ void CreatePasswords() // 0x10C2CC60
 	_sub_10C2CC60();
 }
 
-_extern void _sub_10C2FB60(__int32);
 void ResetPassword(__int32 peerIndex) // 0x10C2FB60
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ResetPassword@@YAXH@Z");
 	// `anonymous-namespace'::ResetPassword
 	// __int32 peerIndex;
-	todo("implement");
-	_sub_10C2FB60(peerIndex);
+
+	authStrings[peerIndex] = "";
+	Utils::Cryptography::RandomPassword(8, authStrings[peerIndex]);
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0WebSocketPacketHandler@hades_file_local@@QAE@XZ"); no body to assert in
@@ -855,17 +858,7 @@ _inline coninfo::coninfo(coninfo &__that) = default; // 0x10C2B550
 // mangled_x86(MANGLED_DEFAULT, "??0coninfo@hades_file_local@@QAE@ABU01@@Z"); no body to assert in
 _inline coninfo::coninfo(coninfo const &__that) = default; // 0x10C2B600
 
-_inline WebSocketPacketHandler::~WebSocketPacketHandler() // 0x10C2BF80
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1WebSocketPacketHandler@hades_file_local@@UAE@XZ");
-	// `anonymous-namespace'::WebSocketPacketHandler::~WebSocketPacketHandler
-	// WebSocketPacketHandler *const this;
 
-	compiler_generated();
-}
-
-// mangled_x86(MANGLED_DEFAULT, "??1coninfo@hades_file_local@@QAE@XZ"); no body to assert in
-_inline coninfo::~coninfo() = default; // 0x10C2BFD0
 
 /* ---------- template instantiations */
 
@@ -874,3 +867,31 @@ _inline coninfo::~coninfo() = default; // 0x10C2BFD0
 // reaches an object without being used. Generated - see build_instantiations.py.
 
 template void Blam::BitStream::WriteUnsigned<unsigned short>(unsigned short, unsigned short, unsigned short);
+
+/* ---------- explicit instantiations */
+template class std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > >;
+template class std::_Ptr_base<Patches::CustomPackets::PacketHandler<WebSocketPacketData> >;
+template class std::map<std::weak_ptr<void>,coninfo,std::owner_less<std::weak_ptr<void> >,std::allocator<std::pair<std::weak_ptr<void> const ,coninfo> > >;
+template class std::_Tree_unchecked_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > >,std::_Iterator_base12>;
+template class std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > >;
+template class std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > >;
+template class std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > >;
+template class std::pair<std::weak_ptr<void>,coninfo>;
+template class std::_Tree_temp_node_alloc<std::allocator<std::_Tree_node<std::pair<std::weak_ptr<void> const ,coninfo>,void *> > >;
+template class std::map<std::weak_ptr<void>,coninfo,std::owner_less<std::weak_ptr<void> > >;
+template class std::pair<std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > >,bool>;
+template std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > >::_Tree_const_iterator(std::_Tree_node<std::pair<std::weak_ptr<void> const ,coninfo>,void *> *, std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > const *);
+template std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > >::_Tree_iterator(std::_Tree_node<std::pair<std::weak_ptr<void> const ,coninfo>,void *> *, std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > const *);
+template std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > >::_Tree_unchecked_iterator(std::_Tree_node<std::pair<std::weak_ptr<void> const ,coninfo>,void *> *, std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > const *);
+template Patches::CustomPackets::PacketHandler<WebSocketPacketData>::PacketHandler();
+template void Patches::CustomPackets::PacketSender<WebSocketPacketData>::Send(__int32, Patches::CustomPackets::Packet<WebSocketPacketData> const &) const;
+template std::pair<std::weak_ptr<void> const ,coninfo>::~pair();
+template std::pair<std::weak_ptr<void>,coninfo>::~pair();
+template Patches::CustomPackets::Packet<WebSocketPacketData> Patches::CustomPackets::PacketSender<WebSocketPacketData>::New() const;
+template Patches::CustomPackets::Packet<WebSocketPacketData>::Packet(unsigned __int32);
+template std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > >::~_Tree_const_iterator();
+template std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > >::~_Tree_iterator();
+template std::_Tree_temp_node_alloc<std::allocator<std::_Tree_node<std::pair<std::weak_ptr<void> const ,coninfo>,void *> > >::~_Tree_temp_node_alloc();
+template std::_Tree_unchecked_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > >,std::_Iterator_base12>::~_Tree_unchecked_const_iterator();
+template std::map<std::weak_ptr<void>,coninfo,std::owner_less<std::weak_ptr<void> > >::~map();
+template std::pair<std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > >,bool>::~pair();

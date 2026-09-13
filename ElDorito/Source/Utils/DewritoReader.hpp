@@ -44,7 +44,7 @@ namespace Utils
 		char const *dewrito_json_filepath; // 0x58
 		char const *dewrito_json_user_filepath; // 0x5C
 	public:
-		~DewritoReader(); /* compiler_generated() */
+		~DewritoReader() = default; /* compiler_generated() */
 	};
 	static_assert(sizeof(Utils::DewritoReader) == 96, "Invalid Utils::DewritoReader size");
 }

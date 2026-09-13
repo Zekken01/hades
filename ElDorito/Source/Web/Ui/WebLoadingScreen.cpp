@@ -185,7 +185,7 @@ namespace hades_file_local
 		virtual void Begin(unsigned __int32);
 		virtual void UpdateProgress(unsigned __int32);
 		virtual void Hide();
-		virtual ~WebLoadingScreenUi(); /* compiler_generated() */
+		virtual ~WebLoadingScreenUi() = default; /* compiler_generated() */
 		WebLoadingScreenUi &operator=(WebLoadingScreenUi &); /* compiler_generated() */
 		WebLoadingScreenUi &operator=(WebLoadingScreenUi const &); /* compiler_generated() */
 	unsigned char __pad1[4]; // 0x44
@@ -254,14 +254,6 @@ _inline WebLoadingScreenUi::WebLoadingScreenUi() // 0x10CA9FE0
 	_sub_10CA9FE0(this);
 }
 
-_inline WebLoadingScreenUi::~WebLoadingScreenUi() // 0x10CAA170
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1WebLoadingScreenUi@hades_file_local@@UAE@XZ");
-	// `anonymous-namespace'::WebLoadingScreenUi::~WebLoadingScreenUi
-	// WebLoadingScreenUi *const this;
-
-	compiler_generated();
-}
 
 _extern void _sub_10CAAC00(WebLoadingScreenUi *const, Patches::LoadingScreen::LoadingScreenShowInfo const &);
 void WebLoadingScreenUi::Show(Patches::LoadingScreen::LoadingScreenShowInfo const &info) // 0x10CAAC00

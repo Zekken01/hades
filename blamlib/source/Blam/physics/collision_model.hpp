@@ -130,7 +130,6 @@ struct c_collision_bsp_test_vector_result
 	c_collision_bsp_test_vector_result(); /* compiler_generated() */
 	c_collision_bsp_test_vector_result &operator=(c_collision_bsp_test_vector_result &); /* compiler_generated() */
 	c_collision_bsp_test_vector_result &operator=(c_collision_bsp_test_vector_result const &); /* compiler_generated() */
-	unsigned char __pad1[3]; // 0x421
 };
 #pragma pack(pop)
 static_assert(sizeof(c_collision_bsp_test_vector_result) == 1060, "Invalid c_collision_bsp_test_vector_result size");

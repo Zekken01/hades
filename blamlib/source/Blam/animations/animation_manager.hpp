@@ -35,7 +35,6 @@ struct s_animation_graph_sound_reference
 {
 	s_tag_reference sound; // 0x0
 	short flags; // 0x10
-	unsigned char __pad0[2]; // 0x12
 };
 #pragma pack(pop)
 static_assert(sizeof(s_animation_graph_sound_reference) == 20, "Invalid s_animation_graph_sound_reference size");

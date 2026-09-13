@@ -146,7 +146,7 @@ namespace hades_file_local
 		ModListener(ModListener &); /* compiler_generated() */
 		ModListener(ModListener const &); /* compiler_generated() */
 		ModListener(); /* compiler_generated() */
-		virtual ~ModListener(); /* compiler_generated() */
+		virtual ~ModListener() = default; /* compiler_generated() */
 		ModListener &operator=(ModListener &); /* compiler_generated() */
 		ModListener &operator=(ModListener const &); /* compiler_generated() */
 	};
@@ -154,6 +154,8 @@ namespace hades_file_local
 }
 using namespace hades_file_local;
 /* ---------- prototypes */
+
+#include "mods/mod_system.hpp"  // hades: added for 0x107BC140
 
 namespace Patches
 {
@@ -210,13 +212,13 @@ namespace Patches
 
 /* ---------- private code */
 
-_extern void _sub_107BC140(std::string const &);
 void LoadDefaultModPackageAsync(std::string const &id) // 0x107BC140
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?LoadDefaultModPackageAsync@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 	// `anonymous-namespace'::LoadDefaultModPackageAsync
 	// std::string const &id;
-	todo("implement");
-	_sub_107BC140(id);
+
+	c_mod_system::load_package_by_identifier(id.c_str());
 }
 
 _extern void _sub_107BCE00(c_gui_pregame_setup_manager *, void *, long, long);
@@ -443,14 +445,6 @@ _inline void ModListener::OnModChanged(EModIndex index, IMod *mod) // 0x107BC190
 // mangled_x86(MANGLED_DEFAULT, "??0ModListener@hades_file_local@@QAE@XZ"); no body to assert in
 _inline ModListener::ModListener() = default; // 0x107BBB20
 
-_inline ModListener::~ModListener() // 0x107BBB80
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1ModListener@hades_file_local@@UAE@XZ");
-	// `anonymous-namespace'::ModListener::~ModListener
-	// ModListener *const this;
-
-	compiler_generated();
-}
 
 /* ---------- template instantiations */
 

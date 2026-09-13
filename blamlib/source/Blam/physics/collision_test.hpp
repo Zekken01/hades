@@ -48,7 +48,6 @@ struct s_collision_result
 	unsigned char __pad1[1]; // 0x57
 	short material_index; // 0x58
 	unsigned char breakable_surface_set_index; // 0x5A
-	unsigned char __pad2[1]; // 0x5B
 };
 #pragma pack(pop)
 static_assert(sizeof(s_collision_result) == 92, "Invalid s_collision_result size");

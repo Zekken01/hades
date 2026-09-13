@@ -151,15 +151,19 @@ namespace Patches
 
 /* ---------- private code */
 
-_extern __int32 _sub_10ACAF70(char16_t const *, __int32);
 __int32 GetUtf16Length(char16_t const *str, __int32 maxLength) // 0x10ACAF70
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetUtf16Length@@YAHPB_SH@Z");
 	// `anonymous-namespace'::GetUtf16Length
 	// __int32 maxLength;
 	// __int32 length;
-	todo("implement");
-	__int32 __result = _sub_10ACAF70(str, maxLength);
-	return __result;
+
+	__int32 length = 0;
+	while (length < maxLength && str[length])
+	{
+		length++;
+	}
+	return length;
 }
 
 extern PlayerNameString *_sub_10ACADA0(s_player_datum *, __int32);

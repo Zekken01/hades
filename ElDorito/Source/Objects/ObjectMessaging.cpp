@@ -110,13 +110,15 @@ namespace Objects
 		_sub_10799A60();
 	}
 
-	_extern void _sub_10799A00();
 	void CObjectMessaging::Reset() // 0x10799A00
 	{
-		mangled_x86(MANGLED_TODO, "?Reset@CObjectMessaging@Objects@@SAXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Reset@CObjectMessaging@Objects@@SAXXZ");
 		// procedure flags: nofpo
-		todo("implement");
-		_sub_10799A00();
+
+		while (!Objects::queuedActions.empty())
+		{
+			Objects::queuedActions.pop();
+		}
 	}
 
 	_inline ObjectMessageSystem::~ObjectMessageSystem() // 0x10799710

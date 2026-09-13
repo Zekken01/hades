@@ -312,3 +312,8 @@ _inline SModBrowserState::SRequestedMod &SModBrowserState::SRequestedMod::operat
 _inline SModBrowserState::SRequestedMod &SModBrowserState::SRequestedMod::operator=(SModBrowserState::SRequestedMod const &__that) = default; // 0x1070BC10
 
 /* ---------- private code */
+
+/* ---------- explicit instantiations */
+template CEventSink<enum EModBrowserAbortReason>::CEventSink();
+template CEventSink<enum EModBrowserAbortReason>::~CEventSink();
+template CEventSink<enum EModBrowserAbortReason>::SCallbackEntry::~SCallbackEntry();

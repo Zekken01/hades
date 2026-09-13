@@ -233,19 +233,19 @@ static_assert(sizeof(s_screen_effect_camera_settings) == 12, "Invalid s_screen_e
 
 /* ---------- prototypes */
 
+extern void *(*const tag_get)(unsigned long, long);  // hades: added for 0x107C1D40
+
 /* ---------- globals */
 
 /* ---------- public code */
 
-extern s_area_screen_effect_definition *_sub_107C1D40(long);
 _inline s_area_screen_effect_definition *s_area_screen_effect_definition::get(long definition_index) // 0x107C1D40
 {
-	mangled_x86(MANGLED_TODO, "?get@s_area_screen_effect_definition@@SAPAU1@J@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get@s_area_screen_effect_definition@@SAPAU1@J@Z");
 	// long definition_index;
 	// function call : void *(*const)(unsigned long, long)
-	todo("implement");
-	s_area_screen_effect_definition * __result = _sub_107C1D40(definition_index);
-	return __result;
+
+	return (s_area_screen_effect_definition *)tag_get(0x73656663, definition_index);
 }
 
 /* ---------- private code */

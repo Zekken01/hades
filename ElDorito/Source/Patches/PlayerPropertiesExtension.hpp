@@ -54,7 +54,7 @@ namespace Patches
 			std::vector<std::shared_ptr<Patches::Network::PlayerPropertiesExtensionBase> > extensions; // 0x0
 		public:
 			_inline PlayerPropertiesExtender() = default; /* compiler_generated() */
-			~PlayerPropertiesExtender(); /* compiler_generated() */
+			~PlayerPropertiesExtender() = default; /* compiler_generated() */
 		};
 		static_assert(sizeof(Patches::Network::PlayerPropertiesExtender) == 16, "Invalid Patches::Network::PlayerPropertiesExtender size");
 	}

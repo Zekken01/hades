@@ -48,9 +48,9 @@ public:
 	_inline c_file_reference &operator=(c_file_reference const &__that); /* compiler_generated() */
 public:
 	template<typename t_arg0>
-	bool read(t_arg0 address);
+	bool read(t_arg0 *address);
 	template<typename t_arg0>
-	bool read_from_position(unsigned long position, t_arg0 address);
+	bool read_from_position(unsigned long position, t_arg0 *address);
 };
 static_assert(sizeof(c_file_reference) == 272, "Invalid c_file_reference size");
 
@@ -70,6 +70,18 @@ private:
 static_assert(sizeof(c_file_open_scope) == 8, "Invalid c_file_open_scope size");
 
 /* ---------- prototypes */
+
+extern s_file_reference *(*const file_reference_initialize_header)(s_file_reference *, c_enum<enum e_file_reference_location,short>);  // hades: added for 0x106D0FD0
+
+extern s_file_reference *(*const file_reference_set_name)(s_file_reference *, char const *);  // hades: added for 0x10875490
+
+extern bool (*const file_exists)(s_file_reference const *);  // hades: added for 0x1089D950
+
+extern bool (*const file_open)(s_file_reference *, c_flags<enum e_file_permission_flags,long>, unsigned long *);  // hades: added for 0x1088BAE0
+
+extern bool (*const file_close)(s_file_reference *);  // hades: added for 0x1089D360
+
+extern bool (*const file_set_position)(s_file_reference *, unsigned long, bool);  // hades: added for 0x10875510
 
 /* ---------- globals */
 
@@ -102,37 +114,31 @@ _inline c_file_reference::~c_file_reference() // 0x106CDDC0
 	_sub_106CDDC0(this);
 }
 
-extern c_file_reference &_sub_106D0FD0(c_file_reference *const, c_enum<enum e_file_reference_location,short>);
 _inline c_file_reference &c_file_reference::initialize_header(c_enum<enum e_file_reference_location,short> location) // 0x106D0FD0
 {
-	mangled_x86(MANGLED_TODO, "?initialize_header@c_file_reference@@QAEAAV1@V?$c_enum@W4e_file_reference_location@@F@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?initialize_header@c_file_reference@@QAEAAV1@V?$c_enum@W4e_file_reference_location@@F@@@Z");
 	// c_enum<enum e_file_reference_location,short> location;
 	// function call : s_file_reference *(*const)(s_file_reference *, c_enum<enum e_file_reference_location,short>)
-	todo("implement");
-	c_file_reference & __result = _sub_106D0FD0(this, location);
-	return __result;
+
+	return *(c_file_reference *)file_reference_initialize_header(this, location);
 }
 
-extern c_file_reference &_sub_10875490(c_file_reference *const, char const *);
 _inline c_file_reference &c_file_reference::set_name(char const *name) // 0x10875490
 {
-	mangled_x86(MANGLED_TODO, "?set_name@c_file_reference@@QAEAAV1@PBD@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_name@c_file_reference@@QAEAAV1@PBD@Z");
 	// char const *name;
 	// function call : s_file_reference *(*const)(s_file_reference *, char const *)
-	todo("implement");
-	c_file_reference & __result = _sub_10875490(this, name);
-	return __result;
+
+	return *(c_file_reference *)file_reference_set_name(this, name);
 }
 
-_extern bool _sub_1089D950(c_file_reference const *const);
 _inline bool c_file_reference::exists() const // 0x1089D950
 {
-	mangled_x86(MANGLED_TODO, "?exists@c_file_reference@@QBE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?exists@c_file_reference@@QBE_NXZ");
 	// c_file_reference const *const this;
 	// function call : bool (*const)(s_file_reference const *)
-	todo("implement");
-	bool __result = _sub_1089D950((c_file_reference const *)this);
-	return __result;
+
+	return file_exists((c_file_reference const *)this);
 }
 
 _inline bool c_file_reference::is_open() const // 0x1088ABE0
@@ -143,37 +149,31 @@ _inline bool c_file_reference::is_open() const // 0x1088ABE0
 	return file_is_open(this);
 }
 
-_extern bool _sub_1088BAE0(c_file_reference *const, c_flags<enum e_file_permission_flags,long>, unsigned long *);
 _inline bool c_file_reference::open(c_flags<enum e_file_permission_flags,long> flags, unsigned long *out_error) // 0x1088BAE0
 {
-	mangled_x86(MANGLED_TODO, "?open@c_file_reference@@QAE_NV?$c_flags@W4e_file_permission_flags@@J@@PAK@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?open@c_file_reference@@QAE_NV?$c_flags@W4e_file_permission_flags@@J@@PAK@Z");
 	// unsigned long *out_error;
 	// function call : bool (*const)(s_file_reference *, c_flags<enum e_file_permission_flags,long>, unsigned long *)
-	todo("implement");
-	bool __result = _sub_1088BAE0(this, flags, out_error);
-	return __result;
+
+	return file_open(this, flags, out_error);
 }
 
-_extern bool _sub_1089D360(c_file_reference *const);
 _inline bool c_file_reference::close() // 0x1089D360
 {
-	mangled_x86(MANGLED_TODO, "?close@c_file_reference@@QAE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?close@c_file_reference@@QAE_NXZ");
 	// c_file_reference *const this;
 	// function call : bool (*const)(s_file_reference *)
-	todo("implement");
-	bool __result = _sub_1089D360(this);
-	return __result;
+
+	return file_close(this);
 }
 
-_extern bool _sub_10875510(c_file_reference *const, unsigned long, bool);
 _inline bool c_file_reference::set_position(unsigned long position, bool flag) // 0x10875510
 {
-	mangled_x86(MANGLED_TODO, "?set_position@c_file_reference@@QAE_NK_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_position@c_file_reference@@QAE_NK_N@Z");
 	// bool flag;
 	// function call : bool (*const)(s_file_reference *, unsigned long, bool)
-	todo("implement");
-	bool __result = _sub_10875510(this, position, flag);
-	return __result;
+
+	return file_set_position(this, position, flag);
 }
 
 _extern bool _sub_10874CE0(c_file_reference *const, unsigned long, bool, void *);
@@ -200,11 +200,19 @@ _inline bool c_file_reference::read_from_position(unsigned long position, unsign
 }
 
 template<typename t_arg0>
-_inline bool c_file_reference::read(t_arg0 address)
+_inline bool c_file_reference::read(t_arg0 *address)
 {
 	mangled_prefix_assert("??$read@");
-	todo("implement");
-	return todo_result<bool>();
+
+	return read(sizeof(*address), false, address);
+}
+
+template<typename t_arg0>
+_inline bool c_file_reference::read_from_position(unsigned long position, t_arg0 *address)
+{
+	mangled_prefix_assert("??$read_from_position@");
+
+	return read_from_position(position, sizeof(*address), address);
 }
 
 extern c_file_open_scope* _sub_1074C680(c_file_open_scope *const, s_file_reference &, long);

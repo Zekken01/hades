@@ -549,3 +549,7 @@ std::string BuildBadRequestResponse(std::string const &rawRequest) // 0x10B1ADA0
 	std::string __result = _sub_10B1ADA0(rawRequest);
 	return __result;
 }
+
+/* ---------- explicit instantiations */
+template HWND__ * & Pointer::Read<HWND__ *>() const;
+template e_game_engine_type & Pointer::Read<enum e_game_engine_type>() const;

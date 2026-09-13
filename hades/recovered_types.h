@@ -5050,7 +5050,7 @@ namespace ChatCommands
 	public:
 		ChatCommand(ChatCommands::ChatCommand &&);
 		ChatCommand();
-		~ChatCommand();
+		~ChatCommand() = default;
 	};
 	static_assert32(sizeof(ChatCommand) == 104, "Invalid ChatCommand size");
 }
@@ -5222,9 +5222,17 @@ namespace Patches
 		class RawPacketHandler
 		{
 		public:
+			// Six slots, not three. `PacketHandler<T>` dispatches its first own
+			// virtual through [this+0x18], which is slot 6, so the base ends at
+			// 5. The three raw members below are the ones it was missing; they
+			// are pure because the inventory gives this class a constructor and
+			// a destructor and nothing else at a real address.
 			virtual ~RawPacketHandler();
-			virtual int GetMinRawPacketSize();
-			virtual int GetMaxRawPacketSize();
+			virtual __int32 GetMinRawPacketSize() const = 0;
+			virtual __int32 GetMaxRawPacketSize() const = 0;
+			virtual void SerializeRawPacket(Blam::BitStream *, __int32, void const *) = 0;
+			virtual bool DeserializeRawPacket(Blam::BitStream *, __int32, void *) = 0;
+			virtual void HandleRawPacket(Blam::Network::ObserverChannel *, void const *) = 0;
 		public:
 		public:
 			RawPacketHandler();
@@ -5240,9 +5248,15 @@ namespace Patches
 		class PlayerPropertiesExtensionBase
 		{
 		public:
+			// Six slots, not three - see RawPacketHandler above. `GetDataSize`
+			// is const: the derived decorates as `UBEIXZ`, and a non-const base
+			// declaration would make that a new slot instead of an override.
 			virtual ~PlayerPropertiesExtensionBase();
-			virtual void BuildData(int, void *);
-			virtual unsigned int GetDataSize();
+			virtual void BuildData(__int32, void *) = 0;
+			virtual void ApplyData(__int32, s_player_configuration *, void const *) = 0;
+			virtual void Serialize(Blam::BitStream *, void const *) = 0;
+			virtual void Deserialize(Blam::BitStream *, void *) = 0;
+			virtual unsigned __int32 GetDataSize() const = 0;
 		public:
 		public:
 			PlayerPropertiesExtensionBase();

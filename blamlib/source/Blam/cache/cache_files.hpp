@@ -215,7 +215,7 @@ struct s_cache_file_tag_globals
 	s_cache_file_tag_globals(s_cache_file_tag_globals &); /* compiler_generated() */
 	s_cache_file_tag_globals(s_cache_file_tag_globals const &); /* compiler_generated() */
 	s_cache_file_tag_globals(); /* compiler_generated() */
-	~s_cache_file_tag_globals(); /* compiler_generated() */
+	~s_cache_file_tag_globals() = default; /* compiler_generated() */
 	s_cache_file_tag_globals &operator=(s_cache_file_tag_globals &); /* compiler_generated() */
 	s_cache_file_tag_globals &operator=(s_cache_file_tag_globals const &); /* compiler_generated() */
 };
@@ -232,14 +232,12 @@ extern void cache_file_tags_close();
 
 /* ---------- public code */
 
-_extern bool _sub_10927E40(s_cache_tag_instance const *const);
 _inline bool s_cache_tag_instance::is_empty() const // 0x10927E40
 {
-	mangled_x86(MANGLED_TODO, "?is_empty@s_cache_tag_instance@@QBE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?is_empty@s_cache_tag_instance@@QBE_NXZ");
 	// s_cache_tag_instance const *const this;
-	todo("implement");
-	bool __result = _sub_10927E40((s_cache_tag_instance const *)this);
-	return __result;
+
+	return size == definition_offset;
 }
 
 /* ---------- private code */

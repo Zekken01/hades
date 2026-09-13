@@ -132,7 +132,7 @@ namespace hades_file_local
 		char m_logLineBuffer[16384]; // 0x174
 	public:
 		CDebugRandomTraceManager(); /* compiler_generated() */
-		~CDebugRandomTraceManager(); /* compiler_generated() */
+		~CDebugRandomTraceManager() = default; /* compiler_generated() */
 	unsigned char __pad1[4]; // 0x4174
 	};
 	static_assert(sizeof(CDebugRandomTraceManager) == 16760, "Invalid CDebugRandomTraceManager size");
@@ -381,4 +381,7 @@ unsigned long *get_random_seed_address_hook() // 0x107A7850
 _inline CDebugRandomTraceManager::CDebugRandomTraceManager() = default; // 0x107A1F50
 
 // mangled_x86(MANGLED_DEFAULT, "??0SRandomEvent@CDebugRandomTraceManager@hades_file_local@@QAE@XZ"); no body to assert in
-_inline CDebugRandomTraceManager::SRandomEvent::SRandomEvent() = default; // 0x107A20A0
+_inline CDebugRandomTraceManager::SRandomEvent::SRandomEvent() // 0x107A20A0
+{
+	numStackFrames = 0;
+}

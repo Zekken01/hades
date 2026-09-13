@@ -93,6 +93,8 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+namespace Forge { namespace Reforge { extern bool IsReforgeObject(long objectIndex); } }  // hades: added for 0x10918AD0
+
 extern void forge_material_patches_apply();
 
 bool object_is_reforge_object(long object_index);
@@ -118,14 +120,13 @@ void forge_material_patches_apply() // 0x109186F0
 
 /* ---------- private code */
 
-_extern bool _sub_10918AD0(long);
 bool object_is_reforge_object(long object_index) // 0x10918AD0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?object_is_reforge_object@@YA_NJ@Z");
 	// `anonymous-namespace'::object_is_reforge_object
 	// long object_index;
-	todo("implement");
-	bool __result = _sub_10918AD0(object_index);
-	return __result;
+
+	return Forge::Reforge::IsReforgeObject(object_index);
 }
 
 _extern bool _sub_10918B20(long, s_forge_material_type **);

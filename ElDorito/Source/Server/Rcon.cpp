@@ -221,7 +221,7 @@ namespace hades_file_local
 		RconConsoleOutputHandler(RconConsoleOutputHandler &); /* compiler_generated() */
 		RconConsoleOutputHandler(RconConsoleOutputHandler const &); /* compiler_generated() */
 		RconConsoleOutputHandler(); /* compiler_generated() */
-		virtual ~RconConsoleOutputHandler(); /* compiler_generated() */
+		virtual ~RconConsoleOutputHandler() = default; /* compiler_generated() */
 		RconConsoleOutputHandler &operator=(RconConsoleOutputHandler &); /* compiler_generated() */
 		RconConsoleOutputHandler &operator=(RconConsoleOutputHandler const &); /* compiler_generated() */
 	};
@@ -480,11 +480,3 @@ std::string GetLogString(websocketpp::server<Utils::WebSocket::Config> *rconServ
 // mangled_x86(MANGLED_DEFAULT, "??0RconConsoleOutputHandler@hades_file_local@@QAE@XZ"); no body to assert in
 _inline RconConsoleOutputHandler::RconConsoleOutputHandler() = default; // 0x10B95270
 
-_inline RconConsoleOutputHandler::~RconConsoleOutputHandler() // 0x10BA2FB0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1RconConsoleOutputHandler@hades_file_local@@UAE@XZ");
-	// `anonymous-namespace'::RconConsoleOutputHandler::~RconConsoleOutputHandler
-	// RconConsoleOutputHandler *const this;
-
-	compiler_generated();
-}

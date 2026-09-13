@@ -13,6 +13,9 @@
 #include "hades/mangled_assert.h"
 #include "hades/reverse_engineering.h"
 
+#include <cstdarg>
+#include <cstdio>
+#include <cstring>
 #include <atomic>
 #include <functional>
 #include <initializer_list>
@@ -398,6 +401,10 @@ public:
 	_inline long length();
 	bool is_empty() const;
 	_inline char const *get_string() const;
+	// Not in the generated member list because the generator lists what the
+	// PDB names, and every instantiation of this one is a 25-byte COMDAT the
+	// originals call from `set_wchar`, `append`, `print` and `print_va`.
+	_inline char (&get_buffer())[k_length];
 	operator const char *() const;
 	bool starts_with(char const *) const;
 	bool is_equal(char const *) const;
@@ -444,7 +451,7 @@ private:
 	std::vector<CEventSink::SCallbackEntry> m_callbacks; // 0x4
 public:
 	_inline CEventSink(); /* compiler_generated() */
-	_inline ~CEventSink(); /* compiler_generated() */
+	_inline ~CEventSink() = default; /* compiler_generated() */
 };
 
 /* ---------- s_network_session_parameter_chunked_payload (3 instantiations) */
@@ -538,7 +545,7 @@ namespace Utils
 		std::unordered_map<std::string,t_arg0> valuesByLowercaseName; // 0x38
 		std::unordered_map<t_arg0,std::string> valueNames; // 0x60
 	public:
-		_inline ~NameValueTable(); /* compiler_generated() */
+		_inline ~NameValueTable() = default; /* compiler_generated() */
 		NameValueTable &operator=(NameValueTable &); /* compiler_generated() */
 		NameValueTable &operator=(NameValueTable const &); /* compiler_generated() */
 	};
@@ -606,7 +613,7 @@ namespace Patches
 			PacketHandler(PacketHandler &); /* compiler_generated() */
 			PacketHandler(PacketHandler const &); /* compiler_generated() */
 			_inline PacketHandler(); /* compiler_generated() */
-			virtual _inline ~PacketHandler(); /* compiler_generated() */
+			virtual _inline ~PacketHandler() = default; /* compiler_generated() */
 			PacketHandler &operator=(PacketHandler &); /* compiler_generated() */
 			PacketHandler &operator=(PacketHandler const &); /* compiler_generated() */
 		};
@@ -629,7 +636,7 @@ public:
 	_inline void clear();
 	static long word_count();
 private:
-	unsigned long m_bits[9]; // 0x0
+	unsigned long m_bits[k_count / 32 + 1]; // 0x0
 };
 
 /* ---------- c_area_set (3 instantiations) */
@@ -760,7 +767,7 @@ namespace Patches
 			PlayerPropertiesExtension(PlayerPropertiesExtension &); /* compiler_generated() */
 			PlayerPropertiesExtension(PlayerPropertiesExtension const &); /* compiler_generated() */
 			_inline PlayerPropertiesExtension(); /* compiler_generated() */
-			virtual _inline ~PlayerPropertiesExtension(); /* compiler_generated() */
+			virtual _inline ~PlayerPropertiesExtension() = default; /* compiler_generated() */
 			PlayerPropertiesExtension &operator=(PlayerPropertiesExtension &); /* compiler_generated() */
 			PlayerPropertiesExtension &operator=(PlayerPropertiesExtension const &); /* compiler_generated() */
 		};
@@ -1007,7 +1014,7 @@ namespace Patches
 			__int32 minPacketSize; // 0x4
 			__int32 maxPacketSize; // 0x8
 		public:
-			virtual _inline ~VariadicPacketHandler(); /* compiler_generated() */
+			virtual _inline ~VariadicPacketHandler() = default; /* compiler_generated() */
 			VariadicPacketHandler &operator=(VariadicPacketHandler &); /* compiler_generated() */
 			VariadicPacketHandler &operator=(VariadicPacketHandler const &); /* compiler_generated() */
 		};
@@ -1038,6 +1045,18 @@ public:
 	t_arg0 const &operator[](__int32) const;
 };
 
+// hades: declared here rather than including a blamlib header, which this one
+// is reached from both trees. Spelled exactly as Blam/cseries/cseries.hpp does.
+extern char *csstrnzcpy(char *to, char const *from, unsigned long size);
+extern char *cswcstostr(wchar_t const *in, char *out, __int32 const length);
+
+// hades: `?data_iterator_next@@3Q6APAUs_datum@@PAUs_data_iterator@@@ZA` - a
+// const pointer to a __cdecl function, which `c_data_iterator<T>::next` calls
+// through. `s_datum` is defined in Blam/memory/data.hpp; a forward declaration
+// is all a pointer return type needs.
+struct s_datum;
+extern s_datum *(*const data_iterator_next)(s_data_iterator *);
+
 /* ---------- member definitions */
 
 // One definition per member, not per instantiation. The binary holds a
@@ -1045,6 +1064,102 @@ public:
 // c_tag_block::try_get_element alone - but they are one template in the
 // source, so `mangled_prefix_assert` checks the part of the mangled name
 // they all share. Docs/Inventory/template-members.json keeps every address.
+
+/* ---------- Patches::Network::PlayerPropertiesExtension members (2 instantiations folded) */
+
+// Each untyped override forwards to its typed sibling, and the original reaches
+// it through this class's own vftable rather than calling it directly - the
+// typed overload is pure virtual, so there is nothing to call directly.
+
+template<typename t_arg0>
+_inline void Patches::Network::PlayerPropertiesExtension<t_arg0>::BuildData(__int32 playerIndex, void *out)
+{
+	mangled_prefix_assert("?BuildData@?$PlayerPropertiesExtension@");
+
+	BuildData(playerIndex, static_cast<t_arg0 *>(out));
+}
+
+template<typename t_arg0>
+_inline void Patches::Network::PlayerPropertiesExtension<t_arg0>::ApplyData(__int32 playerIndex, s_player_configuration *properties, void const *data)
+{
+	mangled_prefix_assert("?ApplyData@?$PlayerPropertiesExtension@");
+
+	ApplyData(playerIndex, properties, *static_cast<t_arg0 const *>(data));
+}
+
+template<typename t_arg0>
+_inline void Patches::Network::PlayerPropertiesExtension<t_arg0>::Serialize(Blam::BitStream *stream, void const *data)
+{
+	mangled_prefix_assert("?Serialize@?$PlayerPropertiesExtension@");
+
+	Serialize(stream, *static_cast<t_arg0 const *>(data));
+}
+
+template<typename t_arg0>
+_inline void Patches::Network::PlayerPropertiesExtension<t_arg0>::Deserialize(Blam::BitStream *stream, void *out)
+{
+	mangled_prefix_assert("?Deserialize@?$PlayerPropertiesExtension@");
+
+	Deserialize(stream, static_cast<t_arg0 *>(out));
+}
+
+template<typename t_arg0>
+_inline unsigned __int32 Patches::Network::PlayerPropertiesExtension<t_arg0>::GetDataSize() const
+{
+	mangled_prefix_assert("?GetDataSize@?$PlayerPropertiesExtension@");
+
+	return sizeof(t_arg0);
+}
+
+/* ---------- Patches::CustomPackets::PacketHandler members (5 instantiations folded) */
+
+template<typename t_arg0>
+_inline __int32 Patches::CustomPackets::PacketHandler<t_arg0>::GetMinRawPacketSize() const
+{
+	mangled_prefix_assert("?GetMinRawPacketSize@?$PacketHandler@");
+
+	return sizeof(Patches::CustomPackets::Packet<t_arg0>);
+}
+
+template<typename t_arg0>
+_inline __int32 Patches::CustomPackets::PacketHandler<t_arg0>::GetMaxRawPacketSize() const
+{
+	mangled_prefix_assert("?GetMaxRawPacketSize@?$PacketHandler@");
+
+	return sizeof(Patches::CustomPackets::Packet<t_arg0>);
+}
+
+template<typename t_arg0>
+_inline void Patches::CustomPackets::PacketHandler<t_arg0>::SerializeRawPacket(Blam::BitStream *stream, __int32 packetSize, void const *packet)
+{
+	mangled_prefix_assert("?SerializeRawPacket@?$PacketHandler@");
+
+	if (packetSize != sizeof(Patches::CustomPackets::Packet<t_arg0>))
+		return;
+
+	Patches::CustomPackets::Packet<t_arg0> const *typedPacket = static_cast<Patches::CustomPackets::Packet<t_arg0> const *>(packet);
+	Serialize(stream, &typedPacket->Data);
+}
+
+template<typename t_arg0>
+_inline bool Patches::CustomPackets::PacketHandler<t_arg0>::DeserializeRawPacket(Blam::BitStream *stream, __int32 packetSize, void *packet)
+{
+	mangled_prefix_assert("?DeserializeRawPacket@?$PacketHandler@");
+
+	if (packetSize != sizeof(Patches::CustomPackets::Packet<t_arg0>))
+		return false;
+
+	Patches::CustomPackets::Packet<t_arg0> *typedPacket = static_cast<Patches::CustomPackets::Packet<t_arg0> *>(packet);
+	return Deserialize(stream, &typedPacket->Data);
+}
+
+template<typename t_arg0>
+_inline void Patches::CustomPackets::PacketHandler<t_arg0>::HandleRawPacket(Blam::Network::ObserverChannel *sender, void const *packet)
+{
+	mangled_prefix_assert("?HandleRawPacket@?$PacketHandler@");
+
+	HandlePacket(sender, static_cast<Patches::CustomPackets::Packet<t_arg0> const *>(packet));
+}
 
 /* ---------- c_tag_block members (563 instantiations folded) */
 
@@ -1537,8 +1652,8 @@ template<typename t_type>
 _inline t_type & c_data_iterator<t_type>::next()
 {
 	mangled_prefix_assert("?next@?$c_data_iterator@");
-	todo("implement");
-	return todo_result<t_type &>();
+
+	return *reinterpret_cast<t_type *>(data_iterator_next(this));
 }
 
 template<typename t_type>
@@ -1553,8 +1668,8 @@ template<typename t_type>
 _inline t_type & c_data_iterator<t_type>::operator*()
 {
 	mangled_prefix_assert("??D?$c_data_iterator@");
-	todo("implement");
-	return todo_result<t_type &>();
+
+	return *operator->();
 }
 
 template<typename t_type>
@@ -1601,8 +1716,13 @@ template<typename t_type>
 _inline unsigned long c_data_array<t_type>::delete_datum(unsigned long index)
 {
 	mangled_prefix_assert("?delete_datum@?$c_data_array@");
-	todo("implement");
-	return todo_result<unsigned long>();
+
+	// Declared here rather than included: this header is generated, and a
+	// body is the only part of it that survives regeneration.
+	extern void (*const datum_delete)(s_data_array *, long);
+
+	datum_delete(this, index);
+	return index;
 }
 
 template<typename t_type>
@@ -1646,16 +1766,20 @@ template<typename t_arg0, long t_arg1>
 _inline long s_simple_list<t_arg0, t_arg1>::add()
 {
 	mangled_prefix_assert("?add@?$s_simple_list@");
-	todo("implement");
-	return todo_result<long>();
+
+	if (count >= max_count)
+		return -1;
+
+	return count++;
 }
 
 template<typename t_arg0, long t_arg1>
 _inline t_arg0 * s_simple_list<t_arg0, t_arg1>::list_iterator_new(long *iterator, long starting_index)
 {
 	mangled_prefix_assert("?list_iterator_new@?$s_simple_list@");
-	todo("implement");
-	return todo_result<t_arg0 *>();
+
+	*iterator = starting_index - 1;
+	return list_iterator_next(iterator);
 }
 
 template<typename t_arg0, long t_arg1>
@@ -1666,22 +1790,35 @@ _inline t_arg0 * s_simple_list<t_arg0, t_arg1>::list_iterator_next(long *iterato
 	return todo_result<t_arg0 *>();
 }
 
+template<typename t_arg0, long t_arg1>
+_inline s_simple_list<t_arg0, t_arg1>::s_simple_list()
+{
+	max_count = t_arg1;
+}
+
 /* ---------- s_static_string members (27 instantiations folded) */
 
 template<long k_length>
 _inline char const * s_static_string<k_length>::append(char const *s)
 {
 	mangled_prefix_assert("?append@?$s_static_string@");
-	todo("implement");
-	return todo_result<char const *>();
+
+	strncat(get_buffer(), s, k_length - length() - 1);
+
+	return get_buffer();
 }
 
 template<long k_length>
 _inline char const *__cdecl s_static_string<k_length>::append_print(char const *format, ...)
 {
 	mangled_prefix_assert("?append_print@?$s_static_string@");
-	todo("implement");
-	return todo_result<char const *>();
+
+	va_list list;
+	va_start(list, format);
+	append_print_va(format, list);
+	va_end(list);
+
+	return get_buffer();
 }
 
 template<long k_length>
@@ -1689,6 +1826,14 @@ _inline void s_static_string<k_length>::append_print_va(char const *format, char
 {
 	mangled_prefix_assert("?append_print_va@?$s_static_string@");
 	todo("implement");
+}
+
+template<long k_length>
+_inline char (&s_static_string<k_length>::get_buffer())[k_length]
+{
+	mangled_prefix_assert("?get_buffer@?$s_static_string@");
+
+	return m_buffer;
 }
 
 template<long k_length>
@@ -1703,38 +1848,45 @@ template<long k_length>
 _inline long s_static_string<k_length>::length()
 {
 	mangled_prefix_assert("?length@?$s_static_string@");
-	todo("implement");
-	return todo_result<long>();
+
+	return strnlen(m_buffer, k_length - 1);
 }
 
 template<long k_length>
 _inline char const *__cdecl s_static_string<k_length>::print(char const *format, ...)
 {
 	mangled_prefix_assert("?print@?$s_static_string@");
-	todo("implement");
-	return todo_result<char const *>();
+
+	va_list list;
+	va_start(list, format);
+	print_va(format, list);
+	va_end(list);
+
+	return get_buffer();
 }
 
 template<long k_length>
 _inline void const s_static_string<k_length>::print_va(char const *format, char *va)
 {
 	mangled_prefix_assert("?print_va@?$s_static_string@");
-	todo("implement");
-	return todo_result<void const>();
+
+	vsnprintf(get_buffer(), k_length, format, va);
 }
 
 template<long k_length>
 _inline void s_static_string<k_length>::set(char const *s)
 {
 	mangled_prefix_assert("?set@?$s_static_string@");
-	todo("implement");
+
+	csstrnzcpy(m_buffer, s, k_length);
 }
 
 template<long k_length>
 _inline void s_static_string<k_length>::set_wchar(wchar_t const *s)
 {
 	mangled_prefix_assert("?set_wchar@?$s_static_string@");
-	todo("implement");
+
+	cswcstostr(s, get_buffer(), k_length);
 }
 
 /* ---------- CEventSink members (6 instantiations folded) */
@@ -1773,7 +1925,7 @@ _inline CEventSink<t_args...>::SCallbackEntry::~SCallbackEntry()
 template<typename t_arg0, long t_arg1>
 _inline CSimpleMessageQueue<t_arg0, t_arg1>::CSimpleMessageQueue()
 {
-	todo("implement");
+	Initialize();
 }
 
 template<typename t_arg0, long t_arg1>
@@ -1862,12 +2014,25 @@ _inline std::_Vector_const_iterator<std::_Vector_val<std::_Simple_types<std::pai
 	return todo_result<std::_Vector_const_iterator<std::_Vector_val<std::_Simple_types<std::pair<std::string,t_arg0> > > >>();
 }
 
+// Declared here rather than included: this header is generated, and a body is
+// the only part of it that survives regeneration. The namespace has to be
+// spelled out - a block-scope `extern` inside a member defined at file scope
+// declares the name in the GLOBAL namespace, and the call then goes to the
+// wrong function.
+namespace Patches
+{
+	namespace CustomPackets
+	{
+		extern void SendPacket(__int32 targetPeer, void const *packet, __int32 packetSize);
+	}
+}
+
 /* ---------- Patches::CustomPackets::Packet members (4 instantiations folded) */
 
 template<typename t_arg0>
-_inline Patches::CustomPackets::Packet<t_arg0>::Packet(unsigned __int32 guid)
+_inline Patches::CustomPackets::Packet<t_arg0>::Packet(unsigned __int32 guid) :
+	Patches::CustomPackets::PacketBase(guid)
 {
-	todo("implement");
 }
 
 /* ---------- Patches::CustomPackets::PacketSender members (12 instantiations folded) */
@@ -1875,20 +2040,19 @@ _inline Patches::CustomPackets::Packet<t_arg0>::Packet(unsigned __int32 guid)
 template<typename t_arg0>
 _inline Patches::CustomPackets::Packet<t_arg0> Patches::CustomPackets::PacketSender<t_arg0>::New() const
 {
-	todo("implement");
-	return todo_result<Patches::CustomPackets::Packet<t_arg0>>();
+	return Patches::CustomPackets::Packet<t_arg0>(id);
 }
 
 template<typename t_arg0>
 _inline Patches::CustomPackets::PacketSender<t_arg0>::PacketSender(unsigned __int32 id)
 {
-	todo("implement");
+	this->id = id;
 }
 
 template<typename t_arg0>
 _inline void Patches::CustomPackets::PacketSender<t_arg0>::Send(__int32 targetPeer, Patches::CustomPackets::Packet<t_arg0> const &packet) const
 {
-	todo("implement");
+	Patches::CustomPackets::SendPacket(targetPeer, &packet, sizeof(packet));
 }
 
 /* ---------- c_static_bit_vector members (14 instantiations folded) */
@@ -1897,44 +2061,78 @@ template<long k_count>
 _inline void c_static_bit_vector<k_count>::clear()
 {
 	mangled_prefix_assert("?clear@?$c_static_bit_vector@");
-	todo("implement");
+
+	// Declared here rather than included: this header is generated.
+	extern void *csmemset(void *buffer, unsigned char value, unsigned long size);
+
+	csmemset(this, 0, sizeof(*this));
 }
 
 template<long k_count>
 _inline void c_static_bit_vector<k_count>::set(long bit)
 {
 	mangled_prefix_assert("?set@?$c_static_bit_vector@");
-	todo("implement");
+
+	// Declared here rather than included: this header is generated, and a body
+	// is the only part of it that survives regeneration.
+	extern void display_assert(char const *reason, char const *file, __int32 line, bool halt);
+	extern __declspec(noreturn) void system_exit(__int32 code);
+
+#line 32 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\memory\\bit_vector.inl"
+	if (!valid_bit(bit)) { display_assert("valid_bit(bit)", __FILE__, __LINE__, true); system_exit(-1); }
+	#line 2060 "F:\\Project Hades\\Hades\\Source\\hades\\recovered_templates.h"
+	m_bits[bit >> 5] |= 1 << (bit & 0x1F);
 }
 
 template<long k_count>
 _inline void c_static_bit_vector<k_count>::set_all()
 {
 	mangled_prefix_assert("?set_all@?$c_static_bit_vector@");
-	todo("implement");
+
+	// Declared here rather than included: this header is generated.
+	extern void *csmemset(void *buffer, unsigned char value, unsigned long size);
+
+	csmemset(this, 0xFF, sizeof(*this));
 }
 
 template<long k_count>
 _inline bool c_static_bit_vector<k_count>::test(long bit)
 {
 	mangled_prefix_assert("?test@?$c_static_bit_vector@");
-	todo("implement");
-	return todo_result<bool>();
+
+	// Declared here rather than included: this header is generated, and a body
+	// is the only part of it that survives regeneration.
+	extern void display_assert(char const *reason, char const *file, __int32 line, bool halt);
+	extern __declspec(noreturn) void system_exit(__int32 code);
+
+#line 20 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\memory\\bit_vector.inl"
+	if (!valid_bit(bit)) { display_assert("valid_bit(bit)", __FILE__, __LINE__, true); system_exit(-1); }
+	#line 2087 "F:\\Project Hades\\Hades\\Source\\hades\\recovered_templates.h"
+	return (m_bits[bit >> 5] & (1 << (bit & 0x1F))) != 0;
 }
 
 template<long k_count>
 _inline void c_static_bit_vector<k_count>::unset(long bit)
 {
 	mangled_prefix_assert("?unset@?$c_static_bit_vector@");
-	todo("implement");
+
+	// Declared here rather than included: this header is generated, and a body
+	// is the only part of it that survives regeneration.
+	extern void display_assert(char const *reason, char const *file, __int32 line, bool halt);
+	extern __declspec(noreturn) void system_exit(__int32 code);
+
+#line 26 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\memory\\bit_vector.inl"
+	if (!valid_bit(bit)) { display_assert("valid_bit(bit)", __FILE__, __LINE__, true); system_exit(-1); }
+	#line 2103 "F:\\Project Hades\\Hades\\Source\\hades\\recovered_templates.h"
+	m_bits[bit >> 5] &= ~(1 << (bit & 0x1F));
 }
 
 template<long k_count>
 _inline bool c_static_bit_vector<k_count>::valid_bit(long bit)
 {
 	mangled_prefix_assert("?valid_bit@?$c_static_bit_vector@");
-	todo("implement");
-	return todo_result<bool>();
+
+	return bit >= 0 && bit < k_count;
 }
 
 /* ---------- HALO_LIST members (1 instantiations folded) */
@@ -1961,7 +2159,8 @@ template<typename t_arg0>
 _inline Ref<t_arg0>::Ref()
 {
 	mangled_prefix_assert("??0?$Ref@");
-	todo("implement");
+
+	p = nullptr;
 }
 
 template<typename t_arg0>
@@ -1981,7 +2180,9 @@ template<typename t_arg0>
 _inline Ref<t_arg0>::Ref(Ref &p_)
 {
 	mangled_prefix_assert("??0?$Ref@");
-	todo("implement");
+
+	p = p_.p;
+	p_.p = nullptr;
 }
 
 template<typename t_arg0>
@@ -2116,6 +2317,100 @@ _inline c_tag_block_flags<t_arg0, t_arg1>::operator t_arg1() const
 }
 
 /* ---------- c_custom_network_session_parameter members (2 instantiations folded) */
+
+template<typename t_arg0>
+_inline void c_custom_network_session_parameter<t_arg0>::get_update_payload(long __formal, void *payload_out)
+{
+	// Declared here rather than included: this header is generated, and a
+	// body is the only part of it that survives regeneration.
+	extern void *csmemcpy(void *destination, void const *source, unsigned long size);
+	extern void *csmemset(void *buffer, unsigned char value, unsigned long size);
+
+	csmemcpy(payload_out, &this->m_data, sizeof(this->m_data));
+}
+
+template<typename t_arg0>
+_inline long c_custom_network_session_parameter<t_arg0>::get_update_payload_size()
+{
+	return sizeof(this->m_data);
+}
+
+template<typename t_arg0>
+_inline bool c_custom_network_session_parameter<t_arg0>::handle_update_payload(void const *payload)
+{
+	// Declared here rather than included: this header is generated, and a
+	// body is the only part of it that survives regeneration.
+	extern void *csmemcpy(void *destination, void const *source, unsigned long size);
+	extern void *csmemset(void *buffer, unsigned char value, unsigned long size);
+
+	csmemcpy(&this->m_data, payload, sizeof(this->m_data));
+	return true;
+}
+
+template<typename t_arg0>
+_inline void c_custom_network_session_parameter<t_arg0>::get_change_request_payload(long __formal, void *out_payload)
+{
+	// Declared here rather than included: this header is generated, and a
+	// body is the only part of it that survives regeneration.
+	extern void *csmemcpy(void *destination, void const *source, unsigned long size);
+	extern void *csmemset(void *buffer, unsigned char value, unsigned long size);
+
+	csmemcpy(out_payload, &this->m_requested_data, sizeof(this->m_requested_data));
+}
+
+template<typename t_arg0>
+_inline long c_custom_network_session_parameter<t_arg0>::get_change_request_payload_size()
+{
+	// Declared here rather than included: this header is generated.
+	extern void display_assert(char const *reason, char const *file, __int32 line, bool halt);
+	extern __declspec(noreturn) void system_exit(__int32 code);
+
+#line 85 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\networking\\session\\network_session_parameters_custom.hpp"
+	if (!(!"not supported")) { display_assert("!\"not supported\"", __FILE__, __LINE__, true); system_exit(-1); }
+	#line 2365 "F:\\Project Hades\\Hades\\Source\\hades\\recovered_templates.h"
+	return 0;
+}
+
+template<typename t_arg0>
+_inline bool c_custom_network_session_parameter<t_arg0>::handle_change_request_payload(void const *payload)
+{
+	// Declared here rather than included: this header is generated.
+	extern void display_assert(char const *reason, char const *file, __int32 line, bool halt);
+	extern __declspec(noreturn) void system_exit(__int32 code);
+
+#line 91 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\networking\\session\\network_session_parameters_custom.hpp"
+	if (!(!"not supported")) { display_assert("!\"not supported\"", __FILE__, __LINE__, true); system_exit(-1); }
+	#line 2378 "F:\\Project Hades\\Hades\\Source\\hades\\recovered_templates.h"
+	return true;
+}
+
+template<typename t_arg0>
+_inline void c_custom_network_session_parameter<t_arg0>::notify_reset_peer_state(long peer_index)
+{
+}
+
+template<typename t_arg0>
+_inline void c_custom_network_session_parameter<t_arg0>::notify_clear()
+{
+	// Declared here rather than included: this header is generated, and a
+	// body is the only part of it that survives regeneration.
+	extern void *csmemcpy(void *destination, void const *source, unsigned long size);
+	extern void *csmemset(void *buffer, unsigned char value, unsigned long size);
+
+	csmemset(&this->m_data, 0, sizeof(this->m_data));
+	csmemset(&this->m_requested_data, 0, sizeof(this->m_requested_data));
+}
+
+template<typename t_arg0>
+_inline void c_custom_network_session_parameter<t_arg0>::notify_transition_state_to_become_host()
+{
+	// Declared here rather than included: this header is generated, and a
+	// body is the only part of it that survives regeneration.
+	extern void *csmemcpy(void *destination, void const *source, unsigned long size);
+	extern void *csmemset(void *buffer, unsigned char value, unsigned long size);
+
+	csmemset(&this->m_requested_data, 0, sizeof(this->m_requested_data));
+}
 
 template<typename t_arg0>
 _inline c_custom_network_session_parameter<t_arg0>::c_custom_network_session_parameter()

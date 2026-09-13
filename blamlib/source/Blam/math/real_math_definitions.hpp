@@ -185,14 +185,12 @@ extern real_matrix4x3 const global_identity4x3;
 
 /* ---------- public code */
 
-_extern float &_sub_108E3DF0(real_vector4d *const, long);
 _inline float &real_vector4d::operator[](long index) // 0x108E3DF0
 {
-	mangled_x86(MANGLED_TODO, "??Areal_vector4d@@QAEAAMJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??Areal_vector4d@@QAEAAMJ@Z");
 	// long index;
-	todo("implement");
-	float & __result = _sub_108E3DF0(this, index);
-	return __result;
+
+	return ((float *)this)[index];
 }
 
 /* ---------- private code */

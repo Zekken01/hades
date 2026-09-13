@@ -113,7 +113,7 @@ namespace Modules
 		// constructed, which is what the original emits.
 		s_CommandState CommandState = { 0 }; // 0x6C
 		ModuleForge();
-		~ModuleForge(); /* compiler_generated() */
+		~ModuleForge() = default; /* compiler_generated() */
 	};
 }
 

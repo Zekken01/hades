@@ -1227,3 +1227,6 @@ template s_hs_syntax_node * c_tag_block<s_hs_syntax_node>::end();
 template s_render_method_texture_constant & c_tag_block<s_render_method_texture_constant>::operator[](__int32);
 template s_structure_collision_material * c_tag_block<s_structure_collision_material>::begin();
 template s_structure_collision_material * c_tag_block<s_structure_collision_material>::end();
+
+/* ---------- explicit instantiations */
+template s_static_array<s_game_player_options,16>::s_static_array();

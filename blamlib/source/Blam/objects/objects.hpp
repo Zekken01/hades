@@ -240,6 +240,11 @@ extern __int32 object_choose_variant(unsigned long object_index, unsigned long v
 extern __int32 object_lookup_variant_index_from_name(__int32 tag_index, unsigned long variant_name);
 extern unsigned long object_get_variant_name(long object_index);
 
+// `enums.inl` defines this conversion out of line and is reached AFTER
+// this header. Declaring the specialisation here stops the implicit
+// instantiation that would make that definition illegal (C2906).
+template<> c_enum<enum e_object_type,char>::operator e_object_type() const;
+
 extern "C" _inline e_object_type object_get_type(long object_index);
 extern "C" _inline e_object_type object_get_type(long object_index);
 extern "C" _inline e_object_type object_get_type(long object_index);
@@ -264,9 +269,7 @@ extern "C" _inline e_object_type object_get_type(long object_index) // 0x10CA98A
 {
 	// object_get_type
 	// long object_index;
-	todo("implement");
-	e_object_type __result = _sub_10CA98A0(object_index);
-	return __result;
+	return object_header_get(object_index)->type;
 }
 
 #endif // __BLAM_OBJECTS_OBJECTS_HPP__

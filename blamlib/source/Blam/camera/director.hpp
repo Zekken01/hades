@@ -61,7 +61,6 @@ public:
 	c_director(); /* compiler_generated() */
 	c_director &operator=(c_director &); /* compiler_generated() */
 	c_director &operator=(c_director const &); /* compiler_generated() */
-unsigned char __pad0[3]; // 0x149
 };
 #pragma pack(pop)
 static_assert(sizeof(c_director) == 332, "Invalid c_director size");

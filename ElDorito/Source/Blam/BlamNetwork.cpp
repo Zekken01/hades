@@ -683,3 +683,7 @@ Blam::Network::PingPacket MakePingPacket(unsigned short id) // 0x1092C4A0
 
 template bool c_flags<enum c_game_engine_miscellaneous_options::e_flags,unsigned char>::test(c_game_engine_miscellaneous_options::e_flags) const;
 template void Pointer::Write<Blam::Network::PacketTable const *>(Blam::Network::PacketTable const *const) const;
+
+/* ---------- explicit instantiations */
+template Blam::Network::PacketTable * & Pointer::Read<Blam::Network::PacketTable *>() const;
+template Blam::Network::Session * & Pointer::Read<Blam::Network::Session *>() const;

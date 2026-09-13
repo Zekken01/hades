@@ -154,7 +154,7 @@ namespace hades_file_local
 		virtual void Serialize(Blam::BitStream *, SyncUpdatePacketData const *, __int32, SyncUpdatePacketVar const *);
 		virtual bool Deserialize(Blam::BitStream *, SyncUpdatePacketData *, __int32, SyncUpdatePacketVar *);
 		virtual void HandlePacket(Blam::Network::ObserverChannel *, Patches::CustomPackets::VariadicPacket<SyncUpdatePacketData,SyncUpdatePacketVar> const *);
-		virtual ~SyncUpdateHandler(); /* compiler_generated() */
+		virtual ~SyncUpdateHandler() = default; /* compiler_generated() */
 		SyncUpdateHandler &operator=(SyncUpdateHandler &); /* compiler_generated() */
 		SyncUpdateHandler &operator=(SyncUpdateHandler const &); /* compiler_generated() */
 	};
@@ -280,14 +280,6 @@ _inline SyncUpdateHandler::SyncUpdateHandler() // 0x10C3A1B0
 // mangled_x86(MANGLED_DEFAULT, "??0SynchronizationBinding@hades_file_local@@QAE@XZ"); no body to assert in
 _inline SynchronizationBinding::SynchronizationBinding() = default; // 0x10C3A210
 
-_inline SyncUpdateHandler::~SyncUpdateHandler() // 0x10C3AD10
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1SyncUpdateHandler@hades_file_local@@UAE@XZ");
-	// `anonymous-namespace'::SyncUpdateHandler::~SyncUpdateHandler
-	// SyncUpdateHandler *const this;
-
-	compiler_generated();
-}
 
 _extern unsigned __int32 _sub_10C3C5F0(SynchronizationBinding const &);
 unsigned __int32 GenerateID(SynchronizationBinding const &binding) // 0x10C3C5F0
@@ -611,3 +603,13 @@ void SyncUpdateHandler::HandlePacket(Blam::Network::ObserverChannel *sender, Pat
 	todo("implement");
 	_sub_10C3C850(this, sender, packet);
 }
+
+/* ---------- explicit instantiations */
+template std::_Hash<std::_Umap_traits<unsigned int,SynchronizationBinding,std::_Uhash_compare<unsigned int,std::hash<unsigned int>,std::equal_to<unsigned int> >,std::allocator<std::pair<unsigned int const ,SynchronizationBinding> >,0> >::~_Hash();
+template std::_List_const_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,SynchronizationBinding> > > >::_List_const_iterator(std::_List_node<std::pair<unsigned int const ,SynchronizationBinding>,void *> *, std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,SynchronizationBinding> > > const *);
+template std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,SynchronizationBinding> > > >::_List_iterator(std::_List_node<std::pair<unsigned int const ,SynchronizationBinding>,void *> *, std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,SynchronizationBinding> > > const *);
+template std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,SynchronizationBinding> > > >::_List_unchecked_iterator(std::_List_node<std::pair<unsigned int const ,SynchronizationBinding>,void *> *, std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,SynchronizationBinding> > > const *);
+template std::_List_const_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,SynchronizationBinding> > > >::~_List_const_iterator();
+template std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,SynchronizationBinding> > > >::~_List_iterator();
+template std::_List_unchecked_const_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,SynchronizationBinding> > >,std::_Iterator_base12>::~_List_unchecked_const_iterator();
+template std::unordered_map<unsigned int,SynchronizationBinding>::~unordered_map();

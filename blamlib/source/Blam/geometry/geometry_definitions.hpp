@@ -173,7 +173,6 @@ struct s_geometry_material
 	s_tag_block properties; // 0x10
 	unsigned char __pad0[4]; // 0x1C
 	char breakable_surface_set_index; // 0x20
-	unsigned char __pad1[3]; // 0x21
 };
 #pragma pack(pop)
 static_assert(sizeof(s_geometry_material) == 36, "Invalid s_geometry_material size");

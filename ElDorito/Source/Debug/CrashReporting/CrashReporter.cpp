@@ -181,6 +181,8 @@ namespace Blam
 
 /* ---------- prototypes */
 
+namespace hades_file_local { extern s_static_string<16> buff; }  // hades: added for 0x1068F1A0
+
 namespace Debug
 {
 	namespace CrashReporting
@@ -249,12 +251,12 @@ namespace Debug
 	{
 		char const *FormatRegister(unsigned long value) // 0x1068F1A0
 		{
-			mangled_x86(MANGLED_TODO, "?FormatRegister@CrashReporting@Debug@@YAPBDK@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?FormatRegister@CrashReporting@Debug@@YAPBDK@Z");
 			// unsigned long value;
 			// static s_static_string<16> buff; // 0x11371970
-			todo("implement");
-			char const * __result = _sub_1068F1A0(value);
-			return __result;
+
+			buff.print("%08X", value);
+			return buff.get_string();
 		}
 
 		_extern void _sub_1068EA10(_CONTEXT const &, rapidjson::PrettyWriter<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &);

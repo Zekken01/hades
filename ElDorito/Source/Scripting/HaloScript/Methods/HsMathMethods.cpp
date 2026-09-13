@@ -104,148 +104,116 @@ namespace Scripting
 
 /* ---------- private code */
 
-_extern void _sub_106819D0(short, long, bool);
 void hs_math_sine_evaluate(short op, long thread_index, bool initial) // 0x106819D0
 {
 	// `anonymous-namespace'::hs_math_sine_evaluate
 	// bool initial;
+
+	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
+	if (args)
 	{
-		// hs_value *args;
-		{
-			// float result;
-			// float input;
-		}
+		auto input = args[0].real_value;
+		auto result = sin(input);
+		((void(__cdecl *)(long, hs_value))0x5974E0)(thread_index, hs_value::from_real(result));
 	}
-	// function call : hs_value *(*const)(short, long, bool)
-	// function call : void (*const)(long, hs_value)
-	todo("implement");
-	_sub_106819D0(op, thread_index, initial);
 }
 
-_extern void _sub_10681450(short, long, bool);
 void hs_math_cosine_evaluate(short op, long thread_index, bool initial) // 0x10681450
 {
 	// `anonymous-namespace'::hs_math_cosine_evaluate
 	// bool initial;
+
+	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
+	if (args)
 	{
-		// hs_value *args;
-		{
-			// float result;
-			// float input;
-		}
+		auto input = args[0].real_value;
+		auto result = cos(input);
+		((void(__cdecl *)(long, hs_value))0x5974E0)(thread_index, hs_value::from_real(result));
 	}
-	// function call : hs_value *(*const)(short, long, bool)
-	// function call : void (*const)(long, hs_value)
-	todo("implement");
-	_sub_10681450(op, thread_index, initial);
 }
 
-_extern void _sub_10681BB0(short, long, bool);
 void hs_math_tangent_evaluate(short op, long thread_index, bool initial) // 0x10681BB0
 {
 	// `anonymous-namespace'::hs_math_tangent_evaluate
 	// bool initial;
+
+	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
+	if (args)
 	{
-		// hs_value *args;
-		{
-			// float result;
-			// float input;
-		}
+		auto input = args[0].real_value;
+		auto result = tan(input);
+		((void(__cdecl *)(long, hs_value))0x5974E0)(thread_index, hs_value::from_real(result));
 	}
-	// function call : hs_value *(*const)(short, long, bool)
-	// function call : void (*const)(long, hs_value)
-	todo("implement");
-	_sub_10681BB0(op, thread_index, initial);
 }
 
-_extern void _sub_10681AC0(short, long, bool);
 void hs_math_square_root_evaluate(short op, long thread_index, bool initial) // 0x10681AC0
 {
 	// `anonymous-namespace'::hs_math_square_root_evaluate
 	// bool initial;
+
+	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
+	if (args)
 	{
-		// hs_value *args;
-		{
-			// float result;
-			// float input;
-		}
+		auto input = args[0].real_value;
+		auto result = sqrt(input);
+		((void(__cdecl *)(long, hs_value))0x5974E0)(thread_index, hs_value::from_real(result));
 	}
-	// function call : hs_value *(*const)(short, long, bool)
-	// function call : void (*const)(long, hs_value)
-	todo("implement");
-	_sub_10681AC0(op, thread_index, initial);
 }
 
-_extern void _sub_10681280(short, long, bool);
 void hs_math_absolute_evaluate(short op, long thread_index, bool initial) // 0x10681280
 {
 	// `anonymous-namespace'::hs_math_absolute_evaluate
 	// bool initial;
+
+	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
+	if (args)
 	{
-		// hs_value *args;
-		{
-			// long result;
-			// long input;
-		}
+		auto input = args[0].long_value;
+		auto result = labs(input);
+		((void(__cdecl *)(long, hs_value))0x5974E0)(thread_index, hs_value::from_long(result));
 	}
-	// function call : hs_value *(*const)(short, long, bool)
-	// function call : void (*const)(long, hs_value)
-	todo("implement");
-	_sub_10681280(op, thread_index, initial);
 }
 
-_extern void _sub_10681540(short, long, bool);
 void hs_math_floating_absolute_evaluate(short op, long thread_index, bool initial) // 0x10681540
 {
 	// `anonymous-namespace'::hs_math_floating_absolute_evaluate
 	// bool initial;
+
+	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
+	if (args)
 	{
-		// hs_value *args;
-		{
-			// float result;
-			// float input;
-		}
+		auto input = args[0].real_value;
+		auto result = abs(input);
+		((void(__cdecl *)(long, hs_value))0x5974E0)(thread_index, hs_value::from_real(result));
 	}
-	// function call : hs_value *(*const)(short, long, bool)
-	// function call : void (*const)(long, hs_value)
-	todo("implement");
-	_sub_10681540(op, thread_index, initial);
 }
 
-_extern void _sub_10681360(short, long, bool);
 void hs_math_ceiling_evaluate(short op, long thread_index, bool initial) // 0x10681360
 {
 	// `anonymous-namespace'::hs_math_ceiling_evaluate
 	// bool initial;
+
+	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
+	if (args)
 	{
-		// hs_value *args;
-		{
-			// float result;
-			// float input;
-		}
+		auto input = args[0].real_value;
+		auto result = ceil(input);
+		((void(__cdecl *)(long, hs_value))0x5974E0)(thread_index, hs_value::from_real(result));
 	}
-	// function call : hs_value *(*const)(short, long, bool)
-	// function call : void (*const)(long, hs_value)
-	todo("implement");
-	_sub_10681360(op, thread_index, initial);
 }
 
-_extern void _sub_106817B0(short, long, bool);
 void hs_math_floor_evaluate(short op, long thread_index, bool initial) // 0x106817B0
 {
 	// `anonymous-namespace'::hs_math_floor_evaluate
 	// bool initial;
+
+	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
+	if (args)
 	{
-		// hs_value *args;
-		{
-			// float result;
-			// float input;
-		}
+		auto input = args[0].real_value;
+		auto result = floor(input);
+		((void(__cdecl *)(long, hs_value))0x5974E0)(thread_index, hs_value::from_real(result));
 	}
-	// function call : hs_value *(*const)(short, long, bool)
-	// function call : void (*const)(long, hs_value)
-	todo("implement");
-	_sub_106817B0(op, thread_index, initial);
 }
 
 _extern void _sub_106818A0(short, long, bool);

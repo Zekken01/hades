@@ -752,3 +752,6 @@ template s_equipment_health_pack_block * c_tag_block<s_equipment_health_pack_blo
 template s_object_reviving_equipment_definition & c_tag_block<s_object_reviving_equipment_definition>::operator[](__int32);
 template s_object_reviving_equipment_definition * c_tag_block<s_object_reviving_equipment_definition>::get_element(__int32) const;
 template s_scenario_profile & c_tag_block<s_scenario_profile>::operator[](__int32);
+
+/* ---------- explicit instantiations */
+template s_equipment_data * object_get<s_equipment_data>(unsigned long);

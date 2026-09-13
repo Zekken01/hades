@@ -50,7 +50,7 @@ namespace Forge
 		std::unordered_map<std::string,enum Forge::EObjectProperty> m_nameLookup; // 0x438
 		void Register(Forge::EPropertyValueType valueType, char const *name, Forge::EObjectProperty property);
 	public:
-		~CObjectPropertyManager(); /* compiler_generated() */
+		~CObjectPropertyManager() = default; /* compiler_generated() */
 	};
 	static_assert(sizeof(Forge::CObjectPropertyManager) == 1120, "Invalid Forge::CObjectPropertyManager size");
 }

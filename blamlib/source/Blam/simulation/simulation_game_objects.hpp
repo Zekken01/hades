@@ -209,7 +209,6 @@ struct s_simulation_unit_state_data :
 	real_point3d assassination_authoritative_position; // 0x148
 	real_vector3d assassination_authoritative_forward; // 0x154
 	bool assassination_is_victim; // 0x160
-	unsigned char __pad3[3]; // 0x161
 };
 #pragma pack(pop)
 static_assert(sizeof(s_simulation_unit_state_data) == 356, "Invalid s_simulation_unit_state_data size");

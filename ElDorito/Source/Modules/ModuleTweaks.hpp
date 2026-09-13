@@ -36,7 +36,7 @@ namespace Modules
 		Modules::Command *VarDisableHitMarkers; // 0x24
 		Modules::Command *VarFlatHUD; // 0x28
 		ModuleTweaks();
-		~ModuleTweaks(); /* compiler_generated() */
+		~ModuleTweaks() = default; /* compiler_generated() */
 	};
 }
 

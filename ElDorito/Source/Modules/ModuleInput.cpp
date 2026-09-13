@@ -139,7 +139,7 @@ namespace hades_file_local
 		CommandBinding(CommandBinding &); /* compiler_generated() */
 		CommandBinding(CommandBinding const &); /* compiler_generated() */
 		CommandBinding(); /* compiler_generated() */
-		~CommandBinding(); /* compiler_generated() */
+		~CommandBinding() = default;
 		CommandBinding &operator=(CommandBinding &); /* compiler_generated() */
 		CommandBinding &operator=(CommandBinding const &); /* compiler_generated() */
 		unsigned char __pad0[2]; // 0x12
@@ -191,7 +191,7 @@ namespace hades_file_local
 	extern Utils::NameValueTable<enum Blam::Input::GameAction> gameActions; // 0x12454F90
 	extern Utils::NameValueTable<enum Blam::Input::MouseButton> mouseButtons; // 0x12455018
 	extern Utils::NameValueTable<enum Blam::Input::ControllerButton> controllerButtons; // 0x124550A0
-	extern CommandBinding commandBindings[109]; // 0x12455128
+	CommandBinding commandBindings[109]; // 0x12455128
 	extern Blam::Input::BindingsTable bindings; // 0x124559B0
 }
 using namespace hades_file_local;
@@ -953,5 +953,9 @@ bool CommandSetMouseWheelEventTime(std::vector<std::string> const &Arguments, st
 	return __result;
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??1CommandBinding@hades_file_local@@QAE@XZ"); no body to assert in
-_inline CommandBinding::~CommandBinding() = default; // 0x109C9F00
+
+/* ---------- explicit instantiations */
+template Utils::NameValueTable<enum Blam::Input::ControllerButton>::~NameValueTable();
+template Utils::NameValueTable<enum Blam::Input::GameAction>::~NameValueTable();
+template Utils::NameValueTable<enum Blam::Input::KeyCode>::~NameValueTable();
+template Utils::NameValueTable<enum Blam::Input::MouseButton>::~NameValueTable();

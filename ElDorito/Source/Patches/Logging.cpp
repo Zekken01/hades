@@ -218,7 +218,7 @@ namespace hades_file_local
 		ModuleInfo(ModuleInfo &); /* compiler_generated() */
 		ModuleInfo(ModuleInfo const &); /* compiler_generated() */
 		ModuleInfo(); /* compiler_generated() */
-		~ModuleInfo(); /* compiler_generated() */
+		~ModuleInfo() = default; /* compiler_generated() */
 		ModuleInfo &operator=(ModuleInfo &); /* compiler_generated() */
 		ModuleInfo &operator=(ModuleInfo const &); /* compiler_generated() */
 	};
@@ -550,3 +550,10 @@ void system_build_exception_information_hook(_EXCEPTION_POINTERS const *exceptio
 	todo("implement");
 	_sub_10A86FB0(exception_pointers, out_info);
 }
+
+/* ---------- explicit instantiations */
+template long c_static_sliding_buffer<s_tag_history_entry,4>::get_last_index() const;
+template s_tag_history_entry c_static_sliding_buffer<s_tag_history_entry,4>::get_element(long) const;
+template c_static_sliding_buffer<s_tag_history_entry,4>::c_static_sliding_buffer();
+template long c_static_sliding_buffer<s_tag_history_entry,4>::get_count() const;
+template long c_static_sliding_buffer<s_tag_history_entry,4>::get_first_index() const;

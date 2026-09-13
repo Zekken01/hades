@@ -116,7 +116,12 @@ namespace Utils
 namespace Download
 {
 	// mangled_x86(MANGLED_DEFAULT, "??0CDownloadStatCounter@Download@@QAE@XZ"); no body to assert in
-	_inline CDownloadStatCounter::CDownloadStatCounter() = default; // 0x1082B520
+	_inline CDownloadStatCounter::CDownloadStatCounter() // 0x1082B520
+	{
+		m_totalCounter = 0;
+		m_counter = 0;
+		m_average = 0;
+	}
 
 	_inline long long CHttpFileDownload::SSegment::GetRemaining() const // 0x10830210
 	{

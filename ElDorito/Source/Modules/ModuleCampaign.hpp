@@ -38,7 +38,7 @@ namespace Modules
 		Modules::Command *VarCampaignSprintEnabled; // 0x2C
 		Modules::Command *VarCheckpointsDisabled; // 0x30
 		ModuleCampaign();
-		~ModuleCampaign(); /* compiler_generated() */
+		~ModuleCampaign() = default; /* compiler_generated() */
 	};
 }
 

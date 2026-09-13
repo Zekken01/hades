@@ -323,7 +323,6 @@ namespace Blam
 			unsigned char __pad0[1]; // 0xBD
 			Blam::Input::KeyCode SecondaryKeys[63]; // 0xBE
 			Blam::Input::MouseButton SecondaryMouseButtons[63]; // 0x13C
-			unsigned char __pad1[1]; // 0x17B
 		};
 	}
 }

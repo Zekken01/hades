@@ -6,6 +6,10 @@
 
 #include "hades/hades.h"
 
+#include "Blam/memory/tls.hpp"
+
+#include "Blam/game/game_engine_globals.hpp"
+
 #include "Blam/math/real_math_definitions.hpp"
 #include "Blam/saved_games/scenario_map_variant.hpp"
 
@@ -57,14 +61,12 @@ extern _inline s_sandbox_globals *get_sandbox_globals();
 
 /* ---------- public code */
 
-extern s_sandbox_globals *_sub_1067CD80();
 _inline s_sandbox_globals *get_sandbox_globals() // 0x1067CD80
 {
-	mangled_x86(MANGLED_TODO, "?get_sandbox_globals@@YAPAUs_sandbox_globals@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_sandbox_globals@@YAPAUs_sandbox_globals@@XZ");
 	// procedure flags: nofpo
-	todo("implement");
-	s_sandbox_globals * __result = _sub_1067CD80();
-	return __result;
+
+	return reinterpret_cast<s_sandbox_globals *>(tls_getd().game_engine_globals->engine_storage);
 }
 
 /* ---------- private code */

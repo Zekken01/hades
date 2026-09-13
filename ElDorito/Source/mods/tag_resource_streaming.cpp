@@ -282,3 +282,6 @@ template bool c_static_bit_vector<32>::test(long);
 template bool c_static_bit_vector<32>::valid_bit(long);
 template void c_static_bit_vector<32>::set(long);
 template void c_static_bit_vector<32>::unset(long);
+
+/* ---------- explicit instantiations */
+template void c_block_allocator<1048568,8>::free(void *);

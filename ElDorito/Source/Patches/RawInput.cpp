@@ -239,3 +239,6 @@ void RawInputHook(__int32 unused, unsigned __int32 wParam, HRAWINPUT__ *hRawInpu
 	todo("implement");
 	_sub_10ABF0F0(unused, wParam, hRawInput);
 }
+
+/* ---------- explicit instantiations */
+template float & Pointer::Read<float>() const;

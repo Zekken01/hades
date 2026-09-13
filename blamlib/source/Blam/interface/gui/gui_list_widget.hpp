@@ -47,7 +47,7 @@ public:
 	c_gui_list_widget(c_gui_list_widget &); /* compiler_generated() */
 	c_gui_list_widget(c_gui_list_widget const &); /* compiler_generated() */
 	c_gui_list_widget(); /* compiler_generated() */
-	virtual ~c_gui_list_widget(); /* compiler_generated() */
+	virtual ~c_gui_list_widget() = default; /* compiler_generated() */
 	c_gui_list_widget &operator=(c_gui_list_widget &); /* compiler_generated() */
 	c_gui_list_widget &operator=(c_gui_list_widget const &); /* compiler_generated() */
 	void __autoclassinit2(unsigned __int32); /* compiler_generated() */

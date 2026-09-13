@@ -3,6 +3,8 @@
 #include "ChatCommands/ChatVoting.hpp"
 #include "hades/hades.h"
 
+#include "Modules/ModuleServer.hpp"
+
 #include "Blam/BlamNetwork.hpp"
 #include "Blam/cseries/cseries.hpp"
 #include "Blam/cseries/enums.inl"
@@ -192,14 +194,12 @@ namespace ChatCommands
 		_sub_10931630(this, name);
 	}
 
-	_extern bool _sub_10933450(ChatCommands::ShuffleTeamsCommand *const);
 	bool ShuffleTeamsCommand::isEnabled() // 0x10933450
 	{
-		mangled_x86(MANGLED_TODO, "?isEnabled@ShuffleTeamsCommand@ChatCommands@@UAE_NXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?isEnabled@ShuffleTeamsCommand@ChatCommands@@UAE_NXZ");
 		// ChatCommands::ShuffleTeamsCommand *const this;
-		todo("implement");
-		bool __result = _sub_10933450(this);
-		return __result;
+
+		return Modules::ModuleServer::Instance().VarChatCommandShuffleTeamsEnabled->ValueInt == 1;
 	}
 
 	void ShuffleTeamsCommand::doOnVoteFail() // 0x10930D00
@@ -251,14 +251,12 @@ namespace ChatCommands
 		_sub_10930DD0(this, name);
 	}
 
-	_extern bool _sub_10933250(ChatCommands::EndGameCommand *const);
 	bool EndGameCommand::isEnabled() // 0x10933250
 	{
-		mangled_x86(MANGLED_TODO, "?isEnabled@EndGameCommand@ChatCommands@@UAE_NXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?isEnabled@EndGameCommand@ChatCommands@@UAE_NXZ");
 		// ChatCommands::EndGameCommand *const this;
-		todo("implement");
-		bool __result = _sub_10933250(this);
-		return __result;
+
+		return Modules::ModuleServer::Instance().VarChatCommandEndGameEnabled->ValueInt == 1;
 	}
 
 	void EndGameCommand::doOnVoteFail() // 0x109309A0
@@ -311,14 +309,12 @@ namespace ChatCommands
 		_sub_10930F80(this, name);
 	}
 
-	_extern bool _sub_109332D0(ChatCommands::EndRoundCommand *const);
 	bool EndRoundCommand::isEnabled() // 0x109332D0
 	{
-		mangled_x86(MANGLED_TODO, "?isEnabled@EndRoundCommand@ChatCommands@@UAE_NXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?isEnabled@EndRoundCommand@ChatCommands@@UAE_NXZ");
 		// ChatCommands::EndRoundCommand *const this;
-		todo("implement");
-		bool __result = _sub_109332D0(this);
-		return __result;
+
+		return Modules::ModuleServer::Instance().VarChatCommandEndRoundEnabled->ValueInt == 1;
 	}
 
 	void EndRoundCommand::doOnVoteFail() // 0x10930A70
@@ -380,14 +376,12 @@ namespace ChatCommands
 		Server::Chat::SendServerMessage("Vote has not passed.");
 	}
 
-	_extern bool _sub_10933350(ChatCommands::KickIndexCommand *const);
 	bool KickIndexCommand::isEnabled() // 0x10933350
 	{
-		mangled_x86(MANGLED_TODO, "?isEnabled@KickIndexCommand@ChatCommands@@UAE_NXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?isEnabled@KickIndexCommand@ChatCommands@@UAE_NXZ");
 		// ChatCommands::KickIndexCommand *const this;
-		todo("implement");
-		bool __result = _sub_10933350(this);
-		return __result;
+
+		return Modules::ModuleServer::Instance().VarChatCommandKickPlayerEnabled->ValueInt == 1;
 	}
 
 	_extern void _sub_10931FA0(ChatCommands::KickIndexCommand *const, std::string);
@@ -448,14 +442,12 @@ namespace ChatCommands
 		Server::Chat::SendServerMessage("Vote has not passed.");
 	}
 
-	_extern bool _sub_109333D0(ChatCommands::KickPlayerCommand *const);
 	bool KickPlayerCommand::isEnabled() // 0x109333D0
 	{
-		mangled_x86(MANGLED_TODO, "?isEnabled@KickPlayerCommand@ChatCommands@@UAE_NXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?isEnabled@KickPlayerCommand@ChatCommands@@UAE_NXZ");
 		// ChatCommands::KickPlayerCommand *const this;
-		todo("implement");
-		bool __result = _sub_109333D0(this);
-		return __result;
+
+		return Modules::ModuleServer::Instance().VarChatCommandKickPlayerEnabled->ValueInt == 1;
 	}
 
 	_extern void _sub_10932420(ChatCommands::KickPlayerCommand *const, std::string);

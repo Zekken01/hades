@@ -78,6 +78,10 @@ namespace Patches
 
 /* ---------- prototypes */
 
+#include "Modules/ModuleServer.hpp"  // hades: added for 0x1079C070
+extern bool game_is_campaign();  // hades: added for 0x1079C070
+extern bool game_is_multiplayer();  // hades: added for 0x1079C070
+
 namespace Patches
 {
 	namespace Biped
@@ -160,26 +164,22 @@ namespace Patches
 			return __result;
 		}
 
-		_extern bool _sub_1079C0E0();
 		bool fall_collision_damage_is_multiplayer() // 0x1079C0E0
 		{
-			mangled_x86(MANGLED_TODO, "?fall_collision_damage_is_multiplayer@Biped@Patches@@YA_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?fall_collision_damage_is_multiplayer@Biped@Patches@@YA_NXZ");
 			// procedure flags: nofpo
 			// function call : bool (*const)()
-			todo("implement");
-			bool __result = _sub_1079C0E0();
-			return __result;
+
+			return Utils::Singleton<Modules::ModuleServer>::Instance().VarServerFallDamageMPEnabledClient->ValueInt != 1 && game_is_multiplayer();
 		}
 
-		_extern bool _sub_1079C070();
 		bool fall_collision_damage_is_campaign() // 0x1079C070
 		{
-			mangled_x86(MANGLED_TODO, "?fall_collision_damage_is_campaign@Biped@Patches@@YA_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?fall_collision_damage_is_campaign@Biped@Patches@@YA_NXZ");
 			// procedure flags: nofpo
 			// function call : bool (*)()
-			todo("implement");
-			bool __result = _sub_1079C070();
-			return __result;
+
+			return Utils::Singleton<Modules::ModuleServer>::Instance().VarServerFallDamageMPEnabledClient->ValueInt == 1 || game_is_campaign();
 		}
 
 		_extern void _sub_1079B490();

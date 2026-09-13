@@ -129,7 +129,7 @@ public:
 	c_gui_screen_widget(c_gui_screen_widget &); /* compiler_generated() */
 	c_gui_screen_widget(c_gui_screen_widget const &); /* compiler_generated() */
 	c_gui_screen_widget(); /* compiler_generated() */
-	virtual ~c_gui_screen_widget(); /* compiler_generated() */
+	virtual ~c_gui_screen_widget() = default; /* compiler_generated() */
 	c_gui_screen_widget &operator=(c_gui_screen_widget &); /* compiler_generated() */
 	c_gui_screen_widget &operator=(c_gui_screen_widget const &); /* compiler_generated() */
 	void __autoclassinit2(unsigned __int32); /* compiler_generated() */

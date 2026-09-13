@@ -6,6 +6,8 @@
 
 #include "hades/hades.h"
 
+#include "Blam/memory/tls.hpp"
+
 #include "Blam/game/game_engine_area_set.hpp"
 #include "Blam/game/game_engine_globals.hpp"
 
@@ -40,14 +42,12 @@ extern _inline s_infection_globals *get_infection_globals();
 
 /* ---------- public code */
 
-extern s_infection_globals *_sub_10C25580();
 _inline s_infection_globals *get_infection_globals() // 0x10C25580
 {
-	mangled_x86(MANGLED_TODO, "?get_infection_globals@@YAPAUs_infection_globals@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_infection_globals@@YAPAUs_infection_globals@@XZ");
 	// procedure flags: nofpo
-	todo("implement");
-	s_infection_globals * __result = _sub_10C25580();
-	return __result;
+
+	return reinterpret_cast<s_infection_globals *>(tls_getd().game_engine_globals->engine_storage);
 }
 
 /* ---------- private code */

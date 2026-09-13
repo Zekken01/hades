@@ -79,7 +79,7 @@ namespace Player
 		_inline CPlayerCustomizationDB() = default; /* compiler_generated() - defaulted on its
 		    first declaration, so it is NOT user-provided and `new CPlayerCustomizationDB()`
 		    zero-initializes before constructing, as the original does. */
-		~CPlayerCustomizationDB(); /* compiler_generated() */
+		~CPlayerCustomizationDB() = default; /* compiler_generated() */
 	};
 }
 

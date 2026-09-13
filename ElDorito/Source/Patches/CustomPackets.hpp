@@ -68,8 +68,8 @@ namespace Patches
 		{
 			mangled_x86(MANGLED_TODO, "??0PacketBase@CustomPackets@Patches@@QAE@I@Z");
 			// unsigned __int32 guid;
-			todo("implement");
-			_sub_10AFF1F0(this, guid);
+
+			TypeGuid = guid;
 		}
 	}
 }

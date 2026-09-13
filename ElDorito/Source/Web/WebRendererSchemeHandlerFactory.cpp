@@ -272,14 +272,6 @@ namespace Web
 			return __result;
 		}
 
-		_inline WebRendererSchemeHandlerFactory::~WebRendererSchemeHandlerFactory() // 0x10CDE710
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??1WebRendererSchemeHandlerFactory@Browser@Web@@UAE@XZ");
-			// __shifted(Web::Browser::WebRendererSchemeHandlerFactory, 72);
-			// Web::Browser::WebRendererSchemeHandlerFactory *const this;
-
-			compiler_generated();
-		}
 	}
 }
 

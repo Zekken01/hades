@@ -86,24 +86,20 @@ static_assert(sizeof(c_render_method_data) == 1, "Invalid c_render_method_data s
 
 /* ---------- public code */
 
-_extern unsigned short _sub_108EFE40(s_tag_block_index const *const);
 _inline unsigned short s_tag_block_index::get_offset() const // 0x108EFE40
 {
-	mangled_x86(MANGLED_TODO, "?get_offset@s_tag_block_index@@QBEGXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_offset@s_tag_block_index@@QBEGXZ");
 	// s_tag_block_index const *const this;
-	todo("implement");
-	unsigned short __result = _sub_108EFE40((s_tag_block_index const *)this);
-	return __result;
+
+	return integer & 0x3FF;
 }
 
-_extern unsigned short _sub_108EEFE0(s_tag_block_index const *const);
 _inline unsigned short s_tag_block_index::get_count() const // 0x108EEFE0
 {
-	mangled_x86(MANGLED_TODO, "?get_count@s_tag_block_index@@QBEGXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_count@s_tag_block_index@@QBEGXZ");
 	// s_tag_block_index const *const this;
-	todo("implement");
-	unsigned short __result = _sub_108EEFE0((s_tag_block_index const *)this);
-	return __result;
+
+	return integer >> 10;
 }
 
 /* ---------- private code */

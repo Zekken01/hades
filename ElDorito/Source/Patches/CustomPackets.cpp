@@ -120,7 +120,7 @@ namespace hades_file_local
 		CustomPacket(CustomPacket &); /* compiler_generated() */
 		CustomPacket(CustomPacket const &); /* compiler_generated() */
 		CustomPacket(); /* compiler_generated() */
-		~CustomPacket(); /* compiler_generated() */
+		~CustomPacket() = default;
 		CustomPacket &operator=(CustomPacket &); /* compiler_generated() */
 		CustomPacket &operator=(CustomPacket const &); /* compiler_generated() */
 	};
@@ -154,7 +154,7 @@ void HandlePacketHook();
 
 namespace hades_file_local
 {
-	extern std::unordered_map<unsigned int,CustomPacket> customPackets; // 0x12458470
+	std::unordered_map<unsigned int,CustomPacket> customPackets; // 0x12458470
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -220,8 +220,6 @@ void InitializePacketsHook() // 0x10A500D0
 	_sub_10A500D0();
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??1CustomPacket@hades_file_local@@QAE@XZ"); no body to assert in
-_inline CustomPacket::~CustomPacket() = default; // 0x10A4F420
 
 _inline CustomPacket &CustomPacket::operator=(CustomPacket const &__that) = default; // 0x10A4F5E0
 
@@ -314,3 +312,9 @@ __declspec(naked) void HandlePacketHook() // 0x10A50090
 		ret
 	}
 }
+
+/* ---------- explicit instantiations */
+template class std::unordered_map<unsigned int,CustomPacket>;
+template std::_Hash<std::_Umap_traits<unsigned int,CustomPacket,std::_Uhash_compare<unsigned int,std::hash<unsigned int>,std::equal_to<unsigned int> >,std::allocator<std::pair<unsigned int const ,CustomPacket> >,0> >::~_Hash();
+template std::pair<unsigned int const ,CustomPacket>::~pair();
+template std::unordered_map<unsigned int,CustomPacket>::~unordered_map();

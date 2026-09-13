@@ -77,7 +77,6 @@ struct c_game_engine_map_override_options
 	unsigned char red_traits_duration; // 0x78
 	unsigned char blue_traits_duration; // 0x79
 	unsigned char yellow_traits_duration; // 0x7A
-	unsigned char __pad0[1]; // 0x7B
 };
 #pragma pack(pop)
 static_assert(sizeof(c_game_engine_map_override_options) == 124, "Invalid c_game_engine_map_override_options size");

@@ -190,7 +190,7 @@ namespace hades_file_local
 		GameChatHandler(GameChatHandler &); /* compiler_generated() */
 		GameChatHandler(GameChatHandler const &); /* compiler_generated() */
 		GameChatHandler(); /* compiler_generated() */
-		virtual ~GameChatHandler(); /* compiler_generated() */
+		virtual ~GameChatHandler() = default; /* compiler_generated() */
 		GameChatHandler &operator=(GameChatHandler &); /* compiler_generated() */
 		GameChatHandler &operator=(GameChatHandler const &); /* compiler_generated() */
 	};
@@ -339,14 +339,6 @@ void GameChatHandler::MessageReceived(Server::Chat::ChatMessage const &message) 
 // mangled_x86(MANGLED_DEFAULT, "??0GameChatHandler@hades_file_local@@QAE@XZ"); no body to assert in
 _inline GameChatHandler::GameChatHandler() = default; // 0x10C9C430
 
-_inline GameChatHandler::~GameChatHandler() // 0x10C9C570
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1GameChatHandler@hades_file_local@@UAE@XZ");
-	// `anonymous-namespace'::GameChatHandler::~GameChatHandler
-	// GameChatHandler *const this;
-
-	compiler_generated();
-}
 
 _extern void _sub_10C9CEA0();
 void OnGameInputUpdated() // 0x10C9CEA0

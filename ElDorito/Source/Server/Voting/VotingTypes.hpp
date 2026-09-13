@@ -151,7 +151,6 @@ namespace Server
 			_inline ~MapAndType(); /* compiler_generated() */
 			_inline Server::Voting::MapAndType &operator=(Server::Voting::MapAndType &&__that); /* compiler_generated() */
 			_inline Server::Voting::MapAndType &operator=(Server::Voting::MapAndType const &__that); /* compiler_generated() */
-			unsigned char __pad0[1]; // 0x163
 		};
 	}
 }

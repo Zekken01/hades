@@ -6,6 +6,8 @@
 
 #include "hades/hades.h"
 
+#include "Blam/memory/tls.hpp"
+
 #include "Blam/game/game_engine_area_set.hpp"
 #include "Blam/game/game_engine_globals.hpp"
 #include "Blam/networking/session/network_session_membership.hpp"
@@ -52,14 +54,12 @@ extern _inline s_ctf_engine_globals *get_ctf_globals();
 
 /* ---------- public code */
 
-extern s_ctf_engine_globals *_sub_109562B0();
 _inline s_ctf_engine_globals *get_ctf_globals() // 0x109562B0
 {
-	mangled_x86(MANGLED_TODO, "?get_ctf_globals@@YAPAUs_ctf_engine_globals@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_ctf_globals@@YAPAUs_ctf_engine_globals@@XZ");
 	// procedure flags: nofpo
-	todo("implement");
-	s_ctf_engine_globals * __result = _sub_109562B0();
-	return __result;
+
+	return reinterpret_cast<s_ctf_engine_globals *>(tls_getd().game_engine_globals->engine_storage);
 }
 
 /* ---------- private code */

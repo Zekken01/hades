@@ -195,7 +195,7 @@ namespace hades_file_local
 		c_observer_camera_list_screen(c_observer_camera_list_screen &); /* compiler_generated() */
 		c_observer_camera_list_screen(c_observer_camera_list_screen const &); /* compiler_generated() */
 		c_observer_camera_list_screen(); /* compiler_generated() */
-		virtual ~c_observer_camera_list_screen(); /* compiler_generated() */
+		virtual ~c_observer_camera_list_screen() = default; /* compiler_generated() */
 		c_observer_camera_list_screen &operator=(c_observer_camera_list_screen &); /* compiler_generated() */
 		c_observer_camera_list_screen &operator=(c_observer_camera_list_screen const &); /* compiler_generated() */
 	};

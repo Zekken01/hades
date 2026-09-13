@@ -151,7 +151,7 @@ namespace Modules
 		std::unordered_set<std::string> GetFilteredPatternsList();
 		std::string GetFilterReplacementWord();
 		ModuleServer();
-		~ModuleServer(); /* compiler_generated() */
+		~ModuleServer() = default; /* compiler_generated() */
 	};
 	static_assert(sizeof(Modules::ModuleServer) == 600, "Invalid Modules::ModuleServer size");
 }

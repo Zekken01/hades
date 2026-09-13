@@ -83,7 +83,6 @@ struct s_network_session_remote_session_join_data
 	s_transport_secure_address host_address; // 0x3C
 	long session_class; // 0x4C
 	long status; // 0x50
-	unsigned char __pad1[4]; // 0x54
 };
 static_assert(sizeof(s_network_session_remote_session_join_data) == 88, "Invalid s_network_session_remote_session_join_data size");
 

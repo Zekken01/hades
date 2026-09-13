@@ -104,6 +104,8 @@ namespace Patches
 
 /* ---------- prototypes */
 
+#include "Modules/ModuleCampaign.hpp"  // hades: added for 0x1090FC60
+
 extern long (__cdecl *const game_time_get)();  // hades: added for 0X1090FA30
 
 extern long (*campaign_metagame_globals_initialize_for_new_map)();  // hades: added for 0X1090F060
@@ -371,15 +373,17 @@ namespace Patches
 			_sub_1090F180(shot_index);
 		}
 
-		_extern void _sub_1090FC60();
 		void main_save_map_hook() // 0x1090FC60
 		{
-			mangled_x86(MANGLED_TODO, "?main_save_map_hook@campaign_patches@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?main_save_map_hook@campaign_patches@Patches@@YAXXZ");
 			// procedure flags: nofpo
 			// void (*const main_save_map)();
 			// function call : void (*const)()
-			todo("implement");
-			_sub_1090FC60();
+
+			if (!Utils::Singleton<Modules::ModuleCampaign>::Instance().VarCheckpointsDisabled->ValueInt)
+			{
+				((void(__cdecl *)())0x506d80)();
+			}
 		}
 	}
 }

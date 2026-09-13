@@ -594,15 +594,17 @@ void ApplyDefaultScreenFx() // 0x10A71BC0
 	_sub_10A71BC0();
 }
 
-_extern void _sub_10A73F90(s_game_options *);
 void game_initialize_for_new_map_call_hook(s_game_options *game_options) // 0x10A73F90
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_initialize_for_new_map_call_hook@@YAXPAUs_game_options@@@Z");
 	// `anonymous-namespace'::game_initialize_for_new_map_call_hook
 	// s_game_options *game_options;
 	// constexpr void (*const `game_initialize_for_new_map_call_hook'::`2'::game_initialize_for_new_map)(s_game_options *); // constant == 5445120
 	// function call : void (*const)(s_game_options *)
-	todo("implement");
-	_sub_10A73F90(game_options);
+
+	((void(__cdecl *)(s_game_options *))0x531600)(game_options);
+
+	ApplyDefaultScreenFx();
 }
 
 _extern bool _sub_10A73D90();
@@ -696,3 +698,6 @@ bool game_engine_in_round_hook() // 0x10A73A60
 	bool __result = _sub_10A73A60();
 	return __result;
 }
+
+/* ---------- explicit instantiations */
+template unsigned char & Pointer::Read<unsigned char>() const;

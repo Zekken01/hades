@@ -43,7 +43,7 @@ public:
 	_inline CModPackageFileSystemViewManager() = default; /* compiler_generated() - defaulted on its
 	    first declaration, so it is NOT user-provided and `new CModPackageFileSystemViewManager()`
 	    zero-initializes before constructing, as the original does. */
-	~CModPackageFileSystemViewManager(); /* compiler_generated() */
+	~CModPackageFileSystemViewManager() = default; /* compiler_generated() */
 };
 static_assert(sizeof(CModPackageFileSystemViewManager) == 88, "Invalid CModPackageFileSystemViewManager size");
 

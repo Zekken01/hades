@@ -196,15 +196,14 @@ namespace Patches
 
 /* ---------- private code */
 
-_extern void *_sub_1085FCB0(void *);
 void *havok_memory_init_runtime_pool_hook(void *buff) // 0x1085FCB0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?havok_memory_init_runtime_pool_hook@@YAPAXPAX@Z");
 	// `anonymous-namespace'::havok_memory_init_runtime_pool_hook
 	// void *buff;
 	// function call : void *(*)(void *)
-	todo("implement");
-	void * __result = _sub_1085FCB0(buff);
-	return __result;
+
+	return ((void *(__cdecl *)(void *))0x9f7790)(g_runtimePoolMemory);
 }
 
 void *havok_memory_init_overflow_pool_hook(void *pool, void *buff, __int32 buff_size) // 0x1085FC40

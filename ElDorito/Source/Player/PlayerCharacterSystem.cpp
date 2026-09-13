@@ -220,7 +220,7 @@ namespace hades_file_local
 		ModListener(ModListener &); /* compiler_generated() */
 		ModListener(ModListener const &); /* compiler_generated() */
 		ModListener(); /* compiler_generated() */
-		virtual ~ModListener(); /* compiler_generated() */
+		virtual ~ModListener() = default; /* compiler_generated() */
 		ModListener &operator=(ModListener &); /* compiler_generated() */
 		ModListener &operator=(ModListener const &); /* compiler_generated() */
 	};
@@ -539,14 +539,6 @@ __int32 GetPreferredCharacterType(__int32 playerIndex) // 0x109022A0
 // mangled_x86(MANGLED_DEFAULT, "??0ModListener@hades_file_local@@QAE@XZ"); no body to assert in
 _inline ModListener::ModListener() = default; // 0x10900D60
 
-_inline ModListener::~ModListener() // 0x10901000
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1ModListener@hades_file_local@@UAE@XZ");
-	// `anonymous-namespace'::ModListener::~ModListener
-	// ModListener *const this;
-
-	compiler_generated();
-}
 
 extern std::string _sub_10901DF0();
 std::string GetPreferredCharacterName() // 0x10901DF0
@@ -658,13 +650,13 @@ void MaybeUpdatePeerProperties() // 0x10902860
 	_sub_10902860();
 }
 
-_extern void _sub_10902B60(ModListener *const, EModIndex, IMod *);
 _inline void ModListener::OnModChanged(EModIndex index, IMod *mod) // 0x10902B60
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnModChanged@ModListener@hades_file_local@@EAEXW4EModIndex@@PAVIMod@@@Z");
 	// `anonymous-namespace'::ModListener::OnModChanged
 	// IMod *mod;
-	todo("implement");
-	_sub_10902B60(this, index, mod);
+
+	currentUpdateNumber = currentUpdateNumber + 1;
 }
 
 /* ---------- template instantiations */

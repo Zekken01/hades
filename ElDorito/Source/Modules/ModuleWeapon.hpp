@@ -38,7 +38,7 @@ namespace Modules
 		Modules::Command *VarWeaponJSON; // 0x1C
 		std::vector<std::string> WeaponsJSONList; // 0x20
 		ModuleWeapon();
-		~ModuleWeapon(); /* compiler_generated() */
+		~ModuleWeapon() = default; /* compiler_generated() */
 	};
 	static_assert(sizeof(Modules::ModuleWeapon) == 48, "Invalid Modules::ModuleWeapon size");
 }

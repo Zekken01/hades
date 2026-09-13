@@ -220,7 +220,7 @@ namespace hades_file_local
 		ChatMessagePacketHandler(ChatMessagePacketHandler &); /* compiler_generated() */
 		ChatMessagePacketHandler(ChatMessagePacketHandler const &); /* compiler_generated() */
 		ChatMessagePacketHandler(); /* compiler_generated() */
-		virtual ~ChatMessagePacketHandler(); /* compiler_generated() */
+		virtual ~ChatMessagePacketHandler() = default; /* compiler_generated() */
 		ChatMessagePacketHandler &operator=(ChatMessagePacketHandler &); /* compiler_generated() */
 		ChatMessagePacketHandler &operator=(ChatMessagePacketHandler const &); /* compiler_generated() */
 	};
@@ -496,14 +496,6 @@ _inline ClientSpamStats::ClientSpamStats() // 0x10C1B230
 	TimeoutResetSeconds = 0;
 }
 
-_inline ChatMessagePacketHandler::~ChatMessagePacketHandler() // 0x10C1BF30
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1ChatMessagePacketHandler@hades_file_local@@UAE@XZ");
-	// `anonymous-namespace'::ChatMessagePacketHandler::~ChatMessagePacketHandler
-	// ChatMessagePacketHandler *const this;
-
-	compiler_generated();
-}
 
 _extern void _sub_10C204D0(ChatMessagePacketHandler *const, Blam::BitStream *, Server::Chat::ChatMessage const *);
 _inline void ChatMessagePacketHandler::Serialize(Blam::BitStream *stream, Server::Chat::ChatMessage const *data) // 0x10C204D0
@@ -999,3 +991,21 @@ template void Blam::BitStream::WriteUnsigned<unsigned int>(unsigned __int32, uns
 template void Patches::CustomPackets::PacketHandler<Server::Chat::ChatMessage>::HandleRawPacket(Blam::Network::ObserverChannel *, void const *);
 template void Patches::CustomPackets::PacketHandler<Server::Chat::ChatMessage>::SerializeRawPacket(Blam::BitStream *, __int32, void const *);
 template void Patches::CustomPackets::PacketSender<Server::Chat::ChatMessage>::Send(__int32, Patches::CustomPackets::Packet<Server::Chat::ChatMessage> const &) const;
+
+/* ---------- explicit instantiations */
+template std::_List_unchecked_const_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,ClientSpamStats> > >,std::_Iterator_base12>::_List_unchecked_const_iterator(std::_List_unchecked_const_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,ClientSpamStats> > >,std::_Iterator_base12> const &);
+template std::_List_unchecked_const_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,ClientSpamStats> > >,std::_Iterator_base12> & std::_List_unchecked_const_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,ClientSpamStats> > >,std::_Iterator_base12>::operator=(std::_List_unchecked_const_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,ClientSpamStats> > >,std::_Iterator_base12> const &);
+template std::_Hash<std::_Umap_traits<unsigned int,ClientSpamStats,std::_Uhash_compare<unsigned int,std::hash<unsigned int>,std::equal_to<unsigned int> >,std::allocator<std::pair<unsigned int const ,ClientSpamStats> >,0> >::~_Hash();
+template std::_List_const_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,ClientSpamStats> > > >::_List_const_iterator(std::_List_node<std::pair<unsigned int const ,ClientSpamStats>,void *> *, std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,ClientSpamStats> > > const *);
+template std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,ClientSpamStats> > > >::_List_iterator(std::_List_node<std::pair<unsigned int const ,ClientSpamStats>,void *> *, std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,ClientSpamStats> > > const *);
+template std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,ClientSpamStats> > > >::_List_unchecked_iterator(std::_List_node<std::pair<unsigned int const ,ClientSpamStats>,void *> *, std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,ClientSpamStats> > > const *);
+template Patches::CustomPackets::PacketHandler<Server::Chat::ChatMessage>::PacketHandler();
+template std::_List_const_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,ClientSpamStats> > > >::_List_const_iterator(std::_List_const_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,ClientSpamStats> > > > const &);
+template std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,ClientSpamStats> > > >::_List_iterator(std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,ClientSpamStats> > > > const &);
+template std::_List_const_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,ClientSpamStats> > > > & std::_List_const_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,ClientSpamStats> > > >::operator=(std::_List_const_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,ClientSpamStats> > > > const &);
+template std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,ClientSpamStats> > > > & std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,ClientSpamStats> > > >::operator=(std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,ClientSpamStats> > > > const &);
+template std::_List_const_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,ClientSpamStats> > > >::~_List_const_iterator();
+template std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,ClientSpamStats> > > >::~_List_iterator();
+template std::_List_unchecked_const_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,ClientSpamStats> > >,std::_Iterator_base12>::~_List_unchecked_const_iterator();
+template std::pair<std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,ClientSpamStats> > > >,bool>::~pair();
+template std::unordered_map<unsigned int,ClientSpamStats>::~unordered_map();

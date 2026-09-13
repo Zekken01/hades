@@ -30,21 +30,21 @@ struct s_mod_player_actions_set_definition;
 
 /* ---------- prototypes */
 
+extern void *(*const tag_get)(unsigned long, long);  // hades: added for 0x10F07F20
+
 /* ---------- globals */
 
 /* ---------- private variables */
 
 /* ---------- public code */
 
-extern s_mod_player_actions_set_definition *_sub_10F07F20(long);
 s_mod_player_actions_set_definition *s_mod_player_actions_set_definition::get(long definition_index) // 0x10F07F20
 {
-	mangled_x86(MANGLED_TODO, "?get@s_mod_player_actions_set_definition@@SAPAU1@J@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get@s_mod_player_actions_set_definition@@SAPAU1@J@Z");
 	// long definition_index;
 	// function call : void *(*const)(unsigned long, long)
-	todo("implement");
-	s_mod_player_actions_set_definition * __result = _sub_10F07F20(definition_index);
-	return __result;
+
+	return (s_mod_player_actions_set_definition *)tag_get(0x70616374, definition_index);
 }
 
 /* ---------- private code */

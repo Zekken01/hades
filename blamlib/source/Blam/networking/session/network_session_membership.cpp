@@ -47,24 +47,20 @@ bool c_network_session_membership::is_leader() const // 0x10F00BB0
 	return __result;
 }
 
-_extern bool _sub_10F00C50(c_network_session_membership const *const, long);
 bool c_network_session_membership::is_peer_valid(long peer_index) const // 0x10F00C50
 {
-	mangled_x86(MANGLED_TODO, "?is_peer_valid@c_network_session_membership@@QBE_NJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?is_peer_valid@c_network_session_membership@@QBE_NJ@Z");
 	// long peer_index;
-	todo("implement");
-	bool __result = _sub_10F00C50((c_network_session_membership const *)this, peer_index);
-	return __result;
+
+	return (((s_network_session_shared_membership const *)m_shared_network_membership)->peer_valid_mask >> peer_index) & 1;
 }
 
-_extern bool _sub_10F00CC0(c_network_session_membership const *const, long);
 bool c_network_session_membership::is_player_valid(long player_index) const // 0x10F00CC0
 {
-	mangled_x86(MANGLED_TODO, "?is_player_valid@c_network_session_membership@@QBE_NJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?is_player_valid@c_network_session_membership@@QBE_NJ@Z");
 	// long player_index;
-	todo("implement");
-	bool __result = _sub_10F00CC0((c_network_session_membership const *)this, player_index);
-	return __result;
+
+	return (((s_network_session_shared_membership const *)m_shared_network_membership)->player_valid_mask >> player_index) & 1;
 }
 
 extern s_network_session_player *_sub_10F00B00(c_network_session_membership *const, long);

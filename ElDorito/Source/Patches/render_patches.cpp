@@ -2,6 +2,8 @@
 
 #include "hades/hades.h"
 
+#include "Modules/ModuleDebug.hpp"
+
 #include "Blam/bitmaps/bitmap_definition.hpp"
 #include "Blam/cache/cache_files.hpp"
 #include "Blam/camera/observer.hpp"
@@ -702,14 +704,12 @@ void update_constants_hook(long render_method_index, real_vector4d *source, s_de
 	_sub_108F77F0(render_method_index, source, destination_info, destination_count, routing_index, routing_block, functions_block);
 }
 
-_extern bool _sub_108F7F10();
 bool z_buffer_fix_enabled() // 0x108F7F10
 {
 	// `anonymous-namespace'::z_buffer_fix_enabled
 	// procedure flags: nofpo
-	todo("implement");
-	bool __result = _sub_108F7F10();
-	return __result;
+
+	return Modules::ModuleDebug::Instance().VarZBuffTest->ValueInt != 0;
 }
 
 _extern void _sub_108F0830(float *, float *);
@@ -721,14 +721,18 @@ void rasterizer_get_z_planes_hook(float *near_clip, float *far_clip) // 0x108F08
 	_sub_108F0830(near_clip, far_clip);
 }
 
-_extern bool _sub_108EE9A0(_D3DFORMAT);
 bool depth_stencil_format_is_float(_D3DFORMAT format) // 0x108EE9A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?depth_stencil_format_is_float@@YA_NW4_D3DFORMAT@@@Z");
 	// `anonymous-namespace'::depth_stencil_format_is_float
 	// _D3DFORMAT format;
-	todo("implement");
-	bool __result = _sub_108EE9A0(format);
-	return __result;
+
+	if (format == D3DFMT_D24S8)
+	{
+		return z_buffer_fix_enabled();
+	}
+
+	return format == D3DFMT_D32F_LOCKABLE || format == D3DFMT_D24FS8;
 }
 
 _extern void _sub_108EB8D0(e_surface);

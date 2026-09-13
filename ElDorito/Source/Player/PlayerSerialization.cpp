@@ -208,9 +208,9 @@ _inline bool valid_team_index(long team_index) // 0x107F0A80
 template unsigned __int32 Blam::BitStream::ReadUnsigned<unsigned int>(__int32);
 template unsigned char Blam::BitStream::ReadUnsigned<unsigned char>(__int32);
 template unsigned char Blam::BitStream::ReadUnsigned<unsigned char>(unsigned char, unsigned char);
-template unsigned long Blam::BitStream::Read<unsigned long>(__int32);
+template auto Blam::BitStream::Read<unsigned long>(__int32);
 template unsigned long Blam::BitStream::ReadUnsigned<unsigned long>(unsigned long, unsigned long);
-template unsigned short Blam::BitStream::Read<unsigned short>(__int32);
+template auto Blam::BitStream::Read<unsigned short>(__int32);
 template void Blam::BitStream::Write<long>(long, long, long);
 template void Blam::BitStream::Write<unsigned char>(unsigned char, unsigned char, unsigned char);
 template void Blam::BitStream::Write<unsigned int>(unsigned __int32, __int32);

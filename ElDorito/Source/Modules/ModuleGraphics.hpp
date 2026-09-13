@@ -52,7 +52,7 @@ namespace Modules
 		Modules::Command *VarForceDefaultLighting; // 0x68
 		Modules::Command *VarFrameRateLimit; // 0x6C
 		ModuleGraphics();
-		~ModuleGraphics(); /* compiler_generated() */
+		~ModuleGraphics() = default; /* compiler_generated() */
 	};
 	static_assert(sizeof(Modules::ModuleGraphics) == 112, "Invalid Modules::ModuleGraphics size");
 }

@@ -156,7 +156,7 @@ namespace hades_file_local
 		SPlayerInfo(SPlayerInfo &); /* compiler_generated() */
 		SPlayerInfo(SPlayerInfo const &); /* compiler_generated() */
 		SPlayerInfo(); /* compiler_generated() */
-		~SPlayerInfo(); /* compiler_generated() */
+		~SPlayerInfo() = default;
 		SPlayerInfo &operator=(SPlayerInfo &); /* compiler_generated() */
 		SPlayerInfo &operator=(SPlayerInfo const &); /* compiler_generated() */
 		unsigned char __pad0[2]; // 0x26
@@ -198,7 +198,7 @@ void ClearEmblemCache();
 
 namespace hades_file_local
 {
-	extern SPlayerInfo infoCache[16]; // 0x1138EDC8
+	SPlayerInfo infoCache[16]; // 0x1138EDC8
 	extern SPlayerEmblemInfo localEmblemCache[16]; // 0x1138F048
 	extern bool isAvailable; // 0x1138F2C8
 	extern bool rankCheckGameStarted; // 0x1138F2C9
@@ -261,36 +261,52 @@ namespace Player
 		return __result;
 	}
 
-	_extern void _sub_107EDE50();
 	void ClearRankUp() // 0x107EDE50
 	{
-		mangled_x86(MANGLED_TODO, "?ClearRankUp@Player@@YAXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?ClearRankUp@Player@@YAXXZ");
 		// procedure flags: nofpo
-		{
 			// __int32 i;
+
+		for (__int32 i = 0; i < 16; i++)
+		{
+			infoCache[i].rankup = false;
 		}
-		todo("implement");
-		_sub_107EDE50();
 	}
 
-	_extern __int32 _sub_107EE480(__int32);
 	__int32 CPlayersInfo::GetRank(__int32 networkPlayerIndex) // 0x107EE480
 	{
-		mangled_x86(MANGLED_TODO, "?GetRank@CPlayersInfo@Player@@SAHH@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetRank@CPlayersInfo@Player@@SAHH@Z");
 		// __int32 networkPlayerIndex;
-		todo("implement");
-		__int32 __result = _sub_107EE480(networkPlayerIndex);
-		return __result;
+
+		if (!ValidNetworkPlayerIndex(networkPlayerIndex))
+		{
+			return 0;
+		}
+
+		if (isAvailable)
+		{
+			return infoCache[networkPlayerIndex].rank;
+		}
+
+		return 0;
 	}
 
-	_extern __int32 _sub_107EE590(__int32);
 	__int32 CPlayersInfo::GetSkill(__int32 networkPlayerIndex) // 0x107EE590
 	{
-		mangled_x86(MANGLED_TODO, "?GetSkill@CPlayersInfo@Player@@SAHH@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetSkill@CPlayersInfo@Player@@SAHH@Z");
 		// __int32 networkPlayerIndex;
-		todo("implement");
-		__int32 __result = _sub_107EE590(networkPlayerIndex);
-		return __result;
+
+		if (!ValidNetworkPlayerIndex(networkPlayerIndex))
+		{
+			return 0;
+		}
+
+		if (isAvailable)
+		{
+			return infoCache[networkPlayerIndex].skill;
+		}
+
+		return 0;
 	}
 }
 
@@ -373,13 +389,12 @@ namespace Player
 		_sub_107EE690(newState);
 	}
 
-	_extern void _sub_107EE610();
 	void CPlayersInfo::Init() // 0x107EE610
 	{
-		mangled_x86(MANGLED_TODO, "?Init@CPlayersInfo@Player@@SAXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Init@CPlayersInfo@Player@@SAXXZ");
 		// procedure flags: nofpo
-		todo("implement");
-		_sub_107EE610();
+
+		Patches::Network::OnLifeCycleStateChanged(Player::LifeCycleStateChanged);
 	}
 
 	_extern void _sub_107EE750();
@@ -451,8 +466,6 @@ _inline SPlayerInfo::SPlayerInfo() = default; // 0x107EDA30
 // mangled_x86(MANGLED_DEFAULT, "??1SPlayerEmblemInfo@hades_file_local@@QAE@XZ"); no body to assert in
 _inline SPlayerEmblemInfo::~SPlayerEmblemInfo() = default; // 0x107EDB00
 
-// mangled_x86(MANGLED_DEFAULT, "??1SPlayerInfo@hades_file_local@@QAE@XZ"); no body to assert in
-_inline SPlayerInfo::~SPlayerInfo() = default; // 0x107EDB50
 
 _inline SPlayerEmblemInfo &SPlayerEmblemInfo::operator=(SPlayerEmblemInfo &__that) = default; // 0x107EDBA0
 

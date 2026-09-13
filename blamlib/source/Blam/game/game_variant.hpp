@@ -68,7 +68,6 @@ struct c_game_engine_base_variant
 	c_game_engine_base_variant(); /* compiler_generated() */
 	c_game_engine_base_variant &operator=(c_game_engine_base_variant &); /* compiler_generated() */
 	c_game_engine_base_variant &operator=(c_game_engine_base_variant const &); /* compiler_generated() */
-	unsigned char __pad1[2]; // 0x1CE
 };
 static_assert(sizeof(c_game_engine_base_variant) == 464, "Invalid c_game_engine_base_variant size");
 
@@ -90,7 +89,6 @@ struct c_game_engine_ctf_variant :
 	c_game_engine_ctf_variant(); /* compiler_generated() */
 	c_game_engine_ctf_variant &operator=(c_game_engine_ctf_variant &); /* compiler_generated() */
 	c_game_engine_ctf_variant &operator=(c_game_engine_ctf_variant const &); /* compiler_generated() */
-	unsigned char __pad1[6]; // 0x1FA
 };
 static_assert(sizeof(c_game_engine_ctf_variant) == 512, "Invalid c_game_engine_ctf_variant size");
 
@@ -251,7 +249,6 @@ struct c_game_engine_juggernaut_variant :
 	c_game_engine_juggernaut_variant(); /* compiler_generated() */
 	c_game_engine_juggernaut_variant &operator=(c_game_engine_juggernaut_variant &); /* compiler_generated() */
 	c_game_engine_juggernaut_variant &operator=(c_game_engine_juggernaut_variant const &); /* compiler_generated() */
-	unsigned char __pad1[2]; // 0x1FE
 };
 static_assert(sizeof(c_game_engine_juggernaut_variant) == 512, "Invalid c_game_engine_juggernaut_variant size");
 
@@ -278,7 +275,6 @@ struct c_game_engine_assault_variant :
 	c_game_engine_assault_variant(); /* compiler_generated() */
 	c_game_engine_assault_variant &operator=(c_game_engine_assault_variant &); /* compiler_generated() */
 	c_game_engine_assault_variant &operator=(c_game_engine_assault_variant const &); /* compiler_generated() */
-	unsigned char __pad2[4]; // 0x224
 };
 static_assert(sizeof(c_game_engine_assault_variant) == 552, "Invalid c_game_engine_assault_variant size");
 

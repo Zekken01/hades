@@ -97,14 +97,15 @@ extern "C" _inline s_extern_description const *get_extern_description(long rende
 
 /* ---------- private code */
 
-extern s_extern_description const *_sub_108EFC80(long);
 extern "C" _inline s_extern_description const *get_extern_description(long render_method_extern) // 0x108EFC80
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "_get_extern_description");
 	// get_extern_description
 	// long render_method_extern;
-	todo("implement");
-	s_extern_description const * __result = _sub_108EFC80(render_method_extern);
-	return __result;
+
+	extern s_extern_description const g_new_extern_descriptions[55];
+
+	return &g_new_extern_descriptions[render_method_extern];
 }
 
 #endif // __BLAM_SHADERS_RENDER_METHOD_EXTERN_HPP__

@@ -289,7 +289,10 @@ namespace Player
 		_inline ServiceRecord::ServiceRecord() = default; // 0x106C6000
 
 		// mangled_x86(MANGLED_DEFAULT, "??0ServiceRecordPlayer@ServiceRecord@Player@@QAE@XZ"); no body to assert in
-		_inline ServiceRecordPlayer::ServiceRecordPlayer() = default; // 0x106C6170
+		_inline ServiceRecordPlayer::ServiceRecordPlayer() // 0x106C6170
+		{
+			networkPlayerIndex = -1;
+		}
 	}
 }
 

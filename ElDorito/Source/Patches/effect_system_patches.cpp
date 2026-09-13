@@ -422,13 +422,20 @@ void __fastcall c_effect_messaging_queue__post_message_hook(void *queue, void *u
 	_sub_10910B40(queue, unused, message);
 }
 
-_extern void _sub_10914170(e_effect_message_type, bool);
 void set_effect_message_filter(e_effect_message_type type, bool filtered) // 0x10914170
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_effect_message_filter@@YAXW4e_effect_message_type@@_N@Z");
 	// `anonymous-namespace'::set_effect_message_filter
 	// bool filtered;
-	todo("implement");
-	_sub_10914170(type, filtered);
+
+	if (filtered)
+	{
+		g_effect_message_filter |= 1 << type;
+	}
+	else
+	{
+		g_effect_message_filter &= ~(1 << type);
+	}
 }
 
 _extern void _sub_10914050(char *, real_vector4d *);
@@ -454,14 +461,13 @@ void s_gpu_storage_2x16un__unpack_call_hook(char *buffer_dblptr, real_vector4d *
 	*buffer_dblptr += 4;
 }
 
-_extern bool _sub_10913CD0(s_effect_event const *);
 bool lens_flare_is_constant(s_effect_event const *event_definition) // 0x10913CD0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?lens_flare_is_constant@@YA_NPBUs_effect_event@@@Z");
 	// `anonymous-namespace'::lens_flare_is_constant
 	// s_effect_event const *event_definition;
-	todo("implement");
-	bool __result = _sub_10913CD0(event_definition);
-	return __result;
+
+	return event_definition->duration_bounds_min == 0.033333335f && event_definition->duration_bounds_max == 0.033333335f;
 }
 
 _extern void _sub_109116A0(unsigned long, long);

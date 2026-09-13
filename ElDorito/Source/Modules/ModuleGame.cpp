@@ -1604,3 +1604,8 @@ template s_game_engine_vip_variant_definition const & c_tag_block<s_game_engine_
 template s_hs_global & c_tag_block<s_hs_global>::operator[](__int32);
 template s_hs_global * c_tag_block<s_hs_global>::get_element(__int32) const;
 template void Pointer::Write<bool>(bool const) const;
+
+/* ---------- explicit instantiations */
+template Pointer::operator wchar_t *() const;
+template __int32 & Pointer::Read<int>() const;
+template unsigned __int32 & Pointer::Read<unsigned int>() const;

@@ -260,6 +260,8 @@ using namespace hades_file_local;
 
 /* ---------- prototypes */
 
+#include "mods/mod_system.hpp"  // hades: added for 0x10A07E50
+
 namespace Patches::Weapon { void SetBottomlessClip(bool enable); }  // hades: added for 0X10A07D10
 
 namespace Server::InfoServer { bool IsInfoSocketOpen(); }  // hades: added for 0X10A0F240
@@ -1803,15 +1805,17 @@ bool CommandListModFiles(std::vector<std::string> const &Arguments, std::string 
 	return __result;
 }
 
-_extern bool _sub_10A07E50(std::vector<std::string> const &, std::string &);
 bool CommandEnumerateMods(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A07E50
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandEnumerateMods@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandEnumerateMods
 	// std::string &returnInfo;
 	// c_mod_package_manager &package_manager;
-	todo("implement");
-	bool __result = _sub_10A07E50(Arguments, returnInfo);
-	return __result;
+
+	c_mod_package_manager *package_manager = &c_mod_system::get_package_manager();
+
+	package_manager->begin_enumerate();
+	return true;
 }
 
 _extern bool _sub_10A07DA0(std::vector<std::string> const &, std::string &);

@@ -3,6 +3,8 @@
 #include "Forge/Magnets.hpp"
 #include "hades/hades.h"
 
+#include "Modules/ModuleForge.hpp"
+
 #include "Blam/cache/cache_files.hpp"
 #include "Blam/cseries/cseries.hpp"
 #include "Blam/cseries/enums.inl"
@@ -250,13 +252,12 @@ namespace Forge
 			return __result;
 		}
 
-		_extern void _sub_1096DE20();
 		void Shutdown() // 0x1096DE20
 		{
-			mangled_x86(MANGLED_TODO, "?Shutdown@Magnets@Forge@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Shutdown@Magnets@Forge@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_1096DE20();
+
+			s_MagnetManager.reset(nullptr);
 		}
 
 		_extern void _sub_1096E210();
@@ -323,24 +324,20 @@ _inline Forge::Magnets::MagnetPair const &MagnetManager::GetMagnetPair() const /
 	return m_MagnetPairing;
 }
 
-_extern bool _sub_1096D360();
 bool MagnetsEnabled() // 0x1096D360
 {
 	// `anonymous-namespace'::MagnetsEnabled
 	// procedure flags: nofpo
-	todo("implement");
-	bool __result = _sub_1096D360();
-	return __result;
+
+	return Modules::ModuleForge::Instance().VarMagnetsEnabled->ValueInt != 0;
 }
 
-_extern bool _sub_1096D3D0();
 bool MagnetsVisible() // 0x1096D3D0
 {
 	// `anonymous-namespace'::MagnetsVisible
 	// procedure flags: nofpo
-	todo("implement");
-	bool __result = _sub_1096D3D0();
-	return __result;
+
+	return Modules::ModuleForge::Instance().VarMagnetsVisible->ValueInt != 0;
 }
 
 _extern void _sub_1096DE70(MagnetManager *const);

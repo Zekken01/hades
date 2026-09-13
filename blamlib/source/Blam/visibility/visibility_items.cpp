@@ -86,3 +86,19 @@ s_visible_items_stack_marker &c_visible_items::get_current_markers() // 0x10F0DD
 
 template bool s_static_array<s_visible_items_stack_marker,3>::valid(__int32);
 template s_visible_items_stack_marker & s_static_array<s_visible_items_stack_marker,3>::operator[](long);
+
+/* ---------- explicit instantiations */
+template s_simple_list<long,6>::s_simple_list();
+template s_simple_list<long,50>::s_simple_list();
+template s_simple_list<s_visible_cluster,1392>::s_simple_list();
+template s_simple_list<s_visible_instance,4608>::s_simple_list();
+template s_simple_list<s_visible_instance_group,4096>::s_simple_list();
+template s_simple_list<s_visible_object,1792>::s_simple_list();
+template s_simple_list<s_visible_object_hierarchy,1536>::s_simple_list();
+template s_simple_list<long,6>::s_simple_list();
+template s_simple_list<long,50>::s_simple_list();
+template s_simple_list<s_visible_cluster,1392>::s_simple_list();
+template s_simple_list<s_visible_instance,4608>::s_simple_list();
+template s_simple_list<s_visible_instance_group,4096>::s_simple_list();
+template s_simple_list<s_visible_object,1792>::s_simple_list();
+template s_simple_list<s_visible_object_hierarchy,1536>::s_simple_list();

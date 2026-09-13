@@ -53,7 +53,6 @@ struct c_game_statborg
 	s_team_row teams[8]; // 0x344
 	unsigned char __pad0[12]; // 0x414
 	bool finalized; // 0x420
-	unsigned char __pad1[3]; // 0x421
 };
 #pragma pack(pop)
 static_assert(sizeof(c_game_statborg) == 1060, "Invalid c_game_statborg size");

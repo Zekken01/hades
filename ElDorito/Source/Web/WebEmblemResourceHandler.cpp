@@ -201,14 +201,12 @@ namespace Web
 			return __result;
 		}
 
-		_extern long long _sub_10C83EF0(Web::Browser::WebEmblemRenderHandler const *const);
 		_inline long long WebEmblemRenderHandler::GetLength() const // 0x10C83EF0
 		{
-			mangled_x86(MANGLED_TODO, "?GetLength@WebEmblemRenderHandler@Browser@Web@@QBE_JXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetLength@WebEmblemRenderHandler@Browser@Web@@QBE_JXZ");
 			// Web::Browser::WebEmblemRenderHandler const *const this;
-			todo("implement");
-			long long __result = _sub_10C83EF0((Web::Browser::WebEmblemRenderHandler const *)this);
-			return __result;
+
+			return -1;
 		}
 	}
 }

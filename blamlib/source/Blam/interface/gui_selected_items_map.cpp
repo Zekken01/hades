@@ -61,13 +61,6 @@ c_gui_map_category_datasource::c_gui_map_category_datasource(wchar_t const *rece
 	_sub_10F1C5C0(this, recent_maps_item_name, recent_maps_item_description, file_share_item_name, file_share_item_description);
 }
 
-_inline c_gui_map_category_datasource::~c_gui_map_category_datasource() // 0x10F1C760
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1c_gui_map_category_datasource@@UAE@XZ");
-	// c_gui_map_category_datasource *const this;
-
-	compiler_generated();
-}
 
 _inline c_gui_ordered_data::~c_gui_ordered_data() // 0x10F1C7B0
 {

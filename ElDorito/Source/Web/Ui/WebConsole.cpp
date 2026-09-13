@@ -126,7 +126,7 @@ namespace hades_file_local
 		WebConsoleOutputHandler(WebConsoleOutputHandler &); /* compiler_generated() */
 		WebConsoleOutputHandler(WebConsoleOutputHandler const &); /* compiler_generated() */
 		WebConsoleOutputHandler(); /* compiler_generated() */
-		virtual ~WebConsoleOutputHandler(); /* compiler_generated() */
+		virtual ~WebConsoleOutputHandler() = default; /* compiler_generated() */
 		WebConsoleOutputHandler &operator=(WebConsoleOutputHandler &); /* compiler_generated() */
 		WebConsoleOutputHandler &operator=(WebConsoleOutputHandler const &); /* compiler_generated() */
 	};
@@ -228,11 +228,3 @@ void OnGameInputUpdated() // 0x10C9DDE0
 // mangled_x86(MANGLED_DEFAULT, "??0WebConsoleOutputHandler@hades_file_local@@QAE@XZ"); no body to assert in
 _inline WebConsoleOutputHandler::WebConsoleOutputHandler() = default; // 0x10C9DA50
 
-_inline WebConsoleOutputHandler::~WebConsoleOutputHandler() // 0x10C9DB60
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1WebConsoleOutputHandler@hades_file_local@@UAE@XZ");
-	// `anonymous-namespace'::WebConsoleOutputHandler::~WebConsoleOutputHandler
-	// WebConsoleOutputHandler *const this;
-
-	compiler_generated();
-}

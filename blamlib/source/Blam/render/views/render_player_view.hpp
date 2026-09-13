@@ -128,7 +128,6 @@ struct c_player_view :
 	static void (*const setup_cinematic_clip_planes)();
 	static void (*const static_lighting_setup_internals)(c_player_view *);
 	static void (*const render_effects)(long, long);
-	unsigned char __pad1[3]; // 0x26B5
 };
 static_assert(sizeof(c_player_view) == 9912, "Invalid c_player_view size");
 

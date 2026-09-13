@@ -141,7 +141,6 @@ struct s_structure_instanced_geometry_instance
 	s_structure_instanced_geometry_instance(); /* compiler_generated() */
 	s_structure_instanced_geometry_instance &operator=(s_structure_instanced_geometry_instance &); /* compiler_generated() */
 	s_structure_instanced_geometry_instance &operator=(s_structure_instanced_geometry_instance const &); /* compiler_generated() */
-	unsigned char __pad3[2]; // 0x72
 };
 #pragma pack(pop)
 static_assert(sizeof(s_structure_instanced_geometry_instance) == 116, "Invalid s_structure_instanced_geometry_instance size");

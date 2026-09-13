@@ -5,6 +5,8 @@
 /* ---------- headers */
 
 #include "hades/hades.h"
+#include "Utils/Bits.hpp"
+#include <type_traits>
 
 /* ---------- forward declarations */
 
@@ -86,9 +88,13 @@ namespace Blam
 		__int32 unk98; // 0x98
 		__int32 unk9C; // 0x9C
 	public:
+		// `?A_P` in the decorated name is a deduced return; writing
+		// `std::make_unsigned_t<t_arg0>` out decorates as the concrete type and
+		// pairs with nothing.
 		template<typename t_arg0>
-		t_arg0 Read(__int32 bits);
-		unsigned long Read(long minValue, long maxValue);
+		auto Read(__int32 bits);
+		template<typename t_arg0>
+		auto Read(t_arg0 minValue, t_arg0 maxValue);
 		template<typename t_arg0, typename t_arg1>
 		bool ReadString(t_arg1);
 		template<typename t_arg0, typename t_arg1>
@@ -147,21 +153,68 @@ namespace Blam
 }
 
 template<typename t_arg0>
+_inline auto Blam::BitStream::Read(__int32 bits)
+{
+	mangled_prefix_assert("??$Read@");
+
+	return ReadUnsigned<std::make_unsigned_t<t_arg0> >(bits);
+}
+
+template<typename t_arg0>
+_inline auto Blam::BitStream::Read(t_arg0 minValue, t_arg0 maxValue)
+{
+	mangled_prefix_assert("??$Read@");
+
+	return ReadUnsigned<std::make_unsigned_t<t_arg0> >(minValue, maxValue);
+}
+
+template<typename t_arg0>
 _inline t_arg0 Blam::BitStream::ReadUnsigned(__int32 bits)
 {
 	mangled_prefix_assert("??$ReadUnsigned@");
-	todo("implement");
-	return todo_result<t_arg0>();
+
+	return static_cast<t_arg0>(ReadBits(bits));
 }
 
 template<typename t_arg0>
 _inline t_arg0 Blam::BitStream::ReadUnsigned(t_arg0 minValue, t_arg0 maxValue)
 {
 	mangled_prefix_assert("??$ReadUnsigned@");
-	todo("implement");
-	return todo_result<t_arg0>();
+
+	return ReadUnsigned<t_arg0>(Utils::Bits::CountBits(maxValue - minValue));
 }
 
+template<typename t_arg0>
+_inline void Blam::BitStream::Write(t_arg0 val, __int32 bits)
+{
+	mangled_prefix_assert("??$Write@");
+
+	WriteUnsigned<std::make_unsigned_t<t_arg0> >(val, bits);
+}
+
+template<typename t_arg0>
+_inline void Blam::BitStream::Write(t_arg0 val, t_arg0 minValue, t_arg0 maxValue)
+{
+	mangled_prefix_assert("??$Write@");
+
+	WriteUnsigned<std::make_unsigned_t<t_arg0> >(val, minValue, maxValue);
+}
+
+template<typename t_arg0>
+_inline void Blam::BitStream::WriteUnsigned(t_arg0 val, __int32 bits)
+{
+	mangled_prefix_assert("??$WriteUnsigned@");
+
+	WriteBits(val, bits);
+}
+
+template<typename t_arg0>
+_inline void Blam::BitStream::WriteUnsigned(t_arg0 val, t_arg0 minValue, t_arg0 maxValue)
+{
+	mangled_prefix_assert("??$WriteUnsigned@");
+
+	WriteUnsigned<unsigned long long>(val - minValue, Utils::Bits::CountBits(maxValue - minValue));
+}
 namespace Blam
 {
 	_inline void BitStream::WriteBool(bool b) // 0x107F00F0

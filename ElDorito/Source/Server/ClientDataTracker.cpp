@@ -138,7 +138,7 @@ namespace hades_file_local
 		ClientInfoDataPacketHandler(ClientInfoDataPacketHandler &); /* compiler_generated() */
 		ClientInfoDataPacketHandler(ClientInfoDataPacketHandler const &); /* compiler_generated() */
 		ClientInfoDataPacketHandler(); /* compiler_generated() */
-		virtual ~ClientInfoDataPacketHandler(); /* compiler_generated() */
+		virtual ~ClientInfoDataPacketHandler() = default; /* compiler_generated() */
 		ClientInfoDataPacketHandler &operator=(ClientInfoDataPacketHandler &); /* compiler_generated() */
 		ClientInfoDataPacketHandler &operator=(ClientInfoDataPacketHandler const &); /* compiler_generated() */
 	};
@@ -374,14 +374,6 @@ bool SendClientMessage(Blam::Network::Session *session, Server::ClientDataTracke
 // mangled_x86(MANGLED_DEFAULT, "??0ClientInfoDataPacketHandler@hades_file_local@@QAE@XZ"); no body to assert in
 _inline ClientInfoDataPacketHandler::ClientInfoDataPacketHandler() = default; // 0x10AFF100
 
-_inline ClientInfoDataPacketHandler::~ClientInfoDataPacketHandler() // 0x10AFF7E0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1ClientInfoDataPacketHandler@hades_file_local@@UAE@XZ");
-	// `anonymous-namespace'::ClientInfoDataPacketHandler::~ClientInfoDataPacketHandler
-	// ClientInfoDataPacketHandler *const this;
-
-	compiler_generated();
-}
 
 /* ---------- template instantiations */
 
@@ -400,3 +392,6 @@ template void Blam::BitStream::WriteUnsigned<unsigned __int64>(unsigned long lon
 template void Patches::CustomPackets::PacketHandler<Server::ClientDataTracker::ClientInfoData>::HandleRawPacket(Blam::Network::ObserverChannel *, void const *);
 template void Patches::CustomPackets::PacketHandler<Server::ClientDataTracker::ClientInfoData>::SerializeRawPacket(Blam::BitStream *, __int32, void const *);
 template void Patches::CustomPackets::PacketSender<Server::ClientDataTracker::ClientInfoData>::Send(__int32, Patches::CustomPackets::Packet<Server::ClientDataTracker::ClientInfoData> const &) const;
+
+/* ---------- explicit instantiations */
+template Patches::CustomPackets::PacketHandler<Server::ClientDataTracker::ClientInfoData>::PacketHandler();

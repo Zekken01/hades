@@ -30,7 +30,7 @@ namespace Modules
 	{
 	public:
 		ModuleCheat();
-		~ModuleCheat(); /* compiler_generated() */
+		~ModuleCheat() = default; /* compiler_generated() */
 	};
 }
 
