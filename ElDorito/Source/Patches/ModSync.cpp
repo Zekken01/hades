@@ -393,6 +393,12 @@ void main_menu_launch_hook();
 
 /* ---------- globals */
 
+extern void (*const security_get_working_memory)(long, void **, long *); // 0x1124B98C
+extern char const *tag_name_get_directory(char const *tag_name);
+extern char const *tag_name_get_filename_without_extension(char const *tag_name);
+extern s_cache_file_tag_globals *g_cache_file_tag_globals; // 0x1135A100
+extern s_cache_file_tag_globals *g_cache_file_tag_globals;  // hades: added for 0X109265E0
+
 /* ---------- private variables */
 
 namespace hades_file_local
@@ -400,7 +406,7 @@ namespace hades_file_local
 	extern char const *const k_mods_mainmenu_virtual_path; // 0x11197DC0
 	extern char const *const k_mods_game_virtual_path; // 0x11197DC4
 	extern s_static_array<s_cached_map_file,15> &g_cached_map_files; // 0x113534AC
-	extern c_map_load_crash_recovery_helper crash_recovery_helper; // 0x12409560
+	extern "C" c_map_load_crash_recovery_helper crash_recovery_helper; // 0x12409560
 	extern c_map_load_error_helper error_helper; // 0x12409584
 	extern s_cache_file_loaded_state loader_state; // 0x124095A0
 	extern Ref<IMod> current_mod; // 0x1240985C
@@ -471,26 +477,44 @@ namespace Patches
 	}
 }
 
-extern s_cache_tag_instance *_sub_109265E0(long);
 s_cache_tag_instance *cache_tag_instance_get(long tag_index) // 0x109265E0
 {
-	mangled_x86(MANGLED_TODO, "?cache_tag_instance_get@@YAPAUs_cache_tag_instance@@J@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?cache_tag_instance_get@@YAPAUs_cache_tag_instance@@J@Z");
 	// long tag_index;
 	// long const absolute_index;
-	todo("implement");
-	s_cache_tag_instance * __result = _sub_109265E0(tag_index);
-	return __result;
+
+	if (tag_index < 0 || tag_index >= k_maximum_number_of_cache_tag_instances)
+	{
+		return nullptr;
+	}
+
+	long const absolute_index = g_cache_file_tag_globals->index_to_absolute_index_map[tag_index];
+	if (absolute_index < 0 || absolute_index >= g_cache_file_tag_globals->loaded_instance_count)
+	{
+		return nullptr;
+	}
+
+	return g_cache_file_tag_globals->instances[absolute_index];
 }
 
-extern char const *_sub_10929D50(long);
 char const *tag_get_name(long tag_index) // 0x10929D50
 {
-	mangled_x86(MANGLED_TODO, "?tag_get_name@@YAPBDJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?tag_get_name@@YAPBDJ@Z");
 	// long tag_index;
 	// s_cache_tag_instance const *instance;
-	todo("implement");
-	char const * __result = _sub_10929D50(tag_index);
-	return __result;
+
+	if (!g_cache_file_tag_globals->initialized)
+	{
+		return nullptr;
+	}
+
+	s_cache_tag_instance const *instance = cache_tag_instance_get(tag_index);
+	if (!instance)
+	{
+		return nullptr;
+	}
+
+	return instance->name;
 }
 
 _extern long _sub_10929C10(unsigned long, char const *);
@@ -632,9 +656,9 @@ void cache_file_compute_and_verify_signature() // 0x10924960
 	_sub_10924960();
 }
 
-_extern void _sub_10924D90();
 void cache_file_invalidate_signature() // 0x10924D90
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?cache_file_invalidate_signature@@YAXXZ");
 	// `anonymous-namespace'::cache_file_invalidate_signature
 	// procedure flags: nofpo
 	// static ...; // 0x10924E4F
@@ -644,8 +668,15 @@ void cache_file_invalidate_signature() // 0x10924D90
 	// void *secure_memory;
 	// long secure_memory_size;
 	// function call : void (*const)(long, void **, long *)
-	todo("implement");
-	_sub_10924D90();
+
+	void *secure_memory;
+	long secure_memory_size;
+	security_get_working_memory(0, &secure_memory, &secure_memory_size);
+
+	if (secure_memory_size >= sizeof(s_cache_file_secure_memory) && secure_memory)
+	{
+		memset(secure_memory, 0, sizeof(s_cache_file_secure_memory));
+	}
 }
 
 _extern bool _sub_10924E90();
@@ -668,18 +699,28 @@ bool cache_file_load_allocate_tags() // 0x10924E90
 	return __result;
 }
 
-_extern bool _sub_109294C0(char const *);
 bool open_mod_package_resource_cache(char const *filepath) // 0x109294C0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?open_mod_package_resource_cache@@YA_NPBD@Z");
 	// `anonymous-namespace'::open_mod_package_resource_cache
 	// char const *filepath;
 	// constexpr bool (*const `open_mod_package_resource_cache'::`2'::cache_file_open)(s_cached_map_file *, char const *); // constant == 5945824
 	// constexpr bool (*const `open_mod_package_resource_cache'::`2'::cache_file_read_header)(__int32); // constant == 5946320
 	// function call : bool (*const)(s_cached_map_file *, char const *)
 	// function call : bool (*const)(__int32)
-	todo("implement");
-	bool __result = _sub_109294C0(filepath);
-	return __result;
+
+	if (!((bool(__cdecl *const)(s_cached_map_file *, char const *))0x5ab9e0)(&g_cached_map_files[6], filepath))
+	{
+		return false;
+	}
+
+	if (!((bool(__cdecl *const)(__int32))0x5abbd0)(6))
+	{
+		return false;
+	}
+
+	strncpy_s(g_cached_map_files[6].file_header.map_path, filepath, 255);
+	return true;
 }
 
 void close_mod_package_resource_cache() // 0x10926750
@@ -785,19 +826,27 @@ bool main_load_map_internal_hook(char const *map_path) // 0x109289F0
 	return __result;
 }
 
-_extern void _sub_10926660(char const *, char *);
 void canonicalize_map_path_hook(char const *path, char *canonical_path) // 0x10926660
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?canonicalize_map_path_hook@@YAXPBDPAD@Z");
 	// `anonymous-namespace'::canonicalize_map_path_hook
 	// char *canonical_path;
-	{
 		// char const *filename;
 		// char const *directory;
-	}
+
+	if (strstr(path, "mods\\") == path)
 	{
+		char const *directory = tag_name_get_directory(path);
+		char const *filename = tag_name_get_filename_without_extension(path);
+		snprintf(canonical_path, 256, "%s\\%s.map", directory, filename);
 	}
-	todo("implement");
-	_sub_10926660(path, canonical_path);
+	else
+	{
+		char const *filename_without_extension = tag_name_get_filename_without_extension(path);
+		snprintf(canonical_path, 256, "maps\\%s.map", filename_without_extension);
+	}
+
+	csstrnlwr(canonical_path, 256);
 }
 
 _extern bool _sub_10929090(EModIndex, IMod *, long, char const *);

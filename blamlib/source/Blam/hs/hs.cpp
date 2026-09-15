@@ -99,19 +99,26 @@ s_hs_thread *hs_thread_get(unsigned long index) // 0x10F033F0
 	return tls_getd().hs_thread_deterministic_data->try_and_get(index);
 }
 
-_extern void _sub_10F02E90(char const *, long *);
 void hs_find_dormant_script(char const *script_name, long *out_script_index) // 0x10F02E90
 {
-	mangled_x86(MANGLED_TODO, "?hs_find_dormant_script@@YAXPBDPAJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_find_dormant_script@@YAXPBDPAJ@Z");
 	// long *out_script_index;
 	// long thread_index;
-	{
 		// s_scenario *scenario;
 		// s_hs_thread *thread;
-	}
 	// function call : long (*const)(char const *)
-	todo("implement");
-	_sub_10F02E90(script_name, out_script_index);
+
+	*out_script_index = -1;
+	long thread_index = ((long (*const)(char const *))0x596070)(script_name);
+	if (thread_index != -1)
+	{
+		s_hs_thread *thread = hs_thread_get(thread_index);
+		s_scenario *scenario = global_scenario_get();
+		if (scenario->scripts[thread->script_index].type == _hs_script_type_dormant)
+		{
+			*out_script_index = thread->script_index;
+		}
+	}
 }
 
 hs_stack_frame *hs_thread_stack(long thread_index) // 0x10F03460
@@ -184,14 +191,12 @@ short hs_global_get_runtime_index(short global_index) // 0x10F031A0
 	return runtime_index;
 }
 
-extern s_hs_global_runtime *_sub_10F032F0(short);
 s_hs_global_runtime *hs_global_runtime_get(short global_index) // 0x10F032F0
 {
-	mangled_x86(MANGLED_TODO, "?hs_global_runtime_get@@YAPAUs_hs_global_runtime@@F@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_global_runtime_get@@YAPAUs_hs_global_runtime@@F@Z");
 	// short global_index;
-	todo("implement");
-	s_hs_global_runtime * __result = _sub_10F032F0(global_index);
-	return __result;
+
+	return tls_getd().hs_global_data->try_and_get_absolute(hs_global_get_runtime_index(global_index));
 }
 
 hs_value const *hs_evaluate_arguments2(short op, long thread_index, bool initial) // 0x10F02E20

@@ -418,15 +418,15 @@ namespace Web
 
 namespace hades_file_local
 {
-	extern HHOOK__ *MessageHook; // 0x1247ED28
+	extern "C" HHOOK__ *MessageHook; // 0x1247ED28
 	extern bool InputCaptured; // 0x1247ED2C
-	extern bool PointerCaptured; // 0x1247ED2D
+	extern "C" bool PointerCaptured; // 0x1247ED2D
 	extern unsigned __int32 lastVariableUpdateTicks; // 0x1247ED30
 	extern std::vector<Modules::Command const *> lastVariableUpdates; // 0x1247ED18
 	extern std::map<std::string,std::shared_ptr<Web::Ui::WebScreen> > registeredScreens; // 0x1247ECD0
 	extern __int32 g_last_mouse_x; // 0x1247ED34
 	extern __int32 g_last_mouse_y; // 0x1247ED38
-	extern char const *ScreenIdString[16]; // 0x11355298
+	extern "C" char const *ScreenIdString[16]; // 0x11355298
 }
 using namespace hades_file_local;
 /* ---------- public code */

@@ -288,9 +288,9 @@ bool machine_door_test_object_hook(long machine_index, long const *object_indice
 	return __result;
 }
 
-_extern void _sub_108CEDB0(long, long);
 void control_touched_hook(long device_index, long unit_index) // 0x108CEDB0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?control_touched_hook@@YAXJJ@Z");
 	// `anonymous-namespace'::control_touched_hook
 	// long unit_index;
 	// s_object_data *control;
@@ -298,8 +298,16 @@ void control_touched_hook(long device_index, long unit_index) // 0x108CEDB0
 	// void (*const control_toggle)(long);
 	// function call : void *(*const)(unsigned long, long)
 	// function call : void (*const)(long)
-	todo("implement");
-	_sub_108CEDB0(device_index, unit_index);
+
+	s_control_definition *control_definition;
+	s_object_data *control;
+
+	control = object_get(device_index);
+	control_definition = (s_control_definition *)tag_get(0x6374726C, control->definition_index);
+	if (control_definition->control_type != 4 && !control_definition->triggers_when)
+	{
+		((void(*)(long))0xBBFC30)(device_index);
+	}
 }
 
 /* ---------- template instantiations */

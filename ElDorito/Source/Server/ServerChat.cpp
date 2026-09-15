@@ -387,14 +387,23 @@ namespace Server
 			return ChangePlayerMuteStatus(session, peer, muted);
 		}
 
-		_extern void _sub_10C1DD10();
 		void ClearAllPlayersMuteStatus() // 0x10C1DD10
 		{
-			mangled_x86(MANGLED_TODO, "?ClearAllPlayersMuteStatus@Chat@Server@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ClearAllPlayersMuteStatus@Chat@Server@@YAXXZ");
 			// procedure flags: nofpo
 			// Blam::Network::Session *session;
-			todo("implement");
-			_sub_10C1DD10();
+
+			Blam::Network::Session *session = Blam::Network::GetActiveSession();
+
+			if (session && session->IsEstablished())
+			{
+				if (!session->IsHost())
+				{
+					return;
+				}
+
+				UnmuteAllPlayers(session);
+			}
 		}
 
 		_extern bool _sub_10C1FB70(std::string const &);
@@ -506,14 +515,32 @@ _inline void ChatMessagePacketHandler::Serialize(Blam::BitStream *stream, Server
 	_sub_10C204D0(this, stream, data);
 }
 
-_extern bool _sub_10C1DE70(ChatMessagePacketHandler *const, Blam::BitStream *, Server::Chat::ChatMessage *);
 _inline bool ChatMessagePacketHandler::Deserialize(Blam::BitStream *stream, Server::Chat::ChatMessage *data) // 0x10C1DE70
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Deserialize@ChatMessagePacketHandler@hades_file_local@@UAE_NPAVBitStream@Blam@@PAUChatMessage@Chat@Server@@@Z");
 	// `anonymous-namespace'::ChatMessagePacketHandler::Deserialize
 	// Server::Chat::ChatMessage *data;
-	todo("implement");
-	bool __result = _sub_10C1DE70(this, stream, data);
-	return __result;
+
+	memset(data, 0, sizeof(*data));
+
+	// Message type
+	data->Type = static_cast<ChatMessageType>(stream->ReadUnsigned(0U, static_cast<unsigned __int32>(ChatMessageType::Count)));
+	if (static_cast<unsigned __int32>(data->Type) >= static_cast<unsigned __int32>(ChatMessageType::Count))
+		return false;
+
+	// Body
+	if (!stream->ReadString(data->Body))
+		return false;
+
+	// For non-server messages, deserialize the sender index
+	if (data->Type != ChatMessageType::Server)
+		data->SenderPlayer = stream->ReadUnsigned<unsigned char>(0, 15);
+
+	// For whisper messages, deserialize the target index
+	if (data->Type == ChatMessageType::Whisper)
+		data->TargetPlayer = stream->ReadUnsigned<unsigned char>(0, 15);
+
+	return true;
 }
 
 _inline void ChatMessagePacketHandler::HandlePacket(Blam::Network::ObserverChannel *sender, Patches::CustomPackets::Packet<Server::Chat::ChatMessage> const *packet) // 0x10C1EF20
@@ -536,18 +563,22 @@ _inline void ChatMessagePacketHandler::HandlePacket(Blam::Network::ObserverChann
 		ClientReceivedMessage(packet->Data);
 }
 
-_extern bool _sub_10C1FEA0(__int32, Server::Chat::ChatMessage const &);
 bool SendMessagePacket(__int32 peer, Server::Chat::ChatMessage const &message) // 0x10C1FEA0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SendMessagePacket@@YA_NHABUChatMessage@Chat@Server@@@Z");
 	// `anonymous-namespace'::SendMessagePacket
 	// static ...; // 0x10C1FF64
 	// static ...; // 0x10C1FF5C
 	// __int32 peer;
 	// Server::Chat::ChatMessage const &message;
 	// Patches::CustomPackets::Packet<Server::Chat::ChatMessage> packet;
-	todo("implement");
-	bool __result = _sub_10C1FEA0(peer, message);
-	return __result;
+
+	if (peer < 0)
+		return false;
+	auto packet = hades_file_local::PacketSender->New();
+	packet.Data = message;
+	hades_file_local::PacketSender->Send(peer, packet);
+	return true;
 }
 
 _extern bool _sub_10C1D500(Blam::Network::Session *, __int32, Server::Chat::ChatMessage *, std::bitset<17>);
@@ -940,22 +971,20 @@ bool HostReceivedMessage(Blam::Network::Session *session, __int32 peer, Server::
 	return __result;
 }
 
-_extern void _sub_10C1DDA0(Server::Chat::ChatMessage const &);
 void ClientReceivedMessage(Server::Chat::ChatMessage const &message) // 0x10C1DDA0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ClientReceivedMessage@@YAXABUChatMessage@Chat@Server@@@Z");
 	// `anonymous-namespace'::ClientReceivedMessage
 	// Server::Chat::ChatMessage const &message;
-	{
 		// std::vector<std::shared_ptr<Server::Chat::ChatHandler> > &<range>$L0;
 		// std::shared_ptr<Server::Chat::ChatHandler> *<begin>$L0;
 		// std::shared_ptr<Server::Chat::ChatHandler> *<end>$L0;
-		{
 			// std::shared_ptr<Server::Chat::ChatHandler> &handler;
-		}
-	}
 	// function call : void (Server::Chat::ChatMessage const &)
-	todo("implement");
-	_sub_10C1DDA0(message);
+
+	// Send the message out to handlers
+	for (auto &&handler : chatHandlers)
+		handler->MessageReceived(message);
 }
 
 bool SendClientMessage(Blam::Network::Session *session, Server::Chat::ChatMessage const &message) // 0x10C1FD20

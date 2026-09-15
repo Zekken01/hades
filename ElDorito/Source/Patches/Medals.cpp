@@ -130,18 +130,26 @@ namespace Patches
 
 /* ---------- private code */
 
-_extern void _sub_10A89ED0(unsigned long, s_game_engine_event_data const *, s_multiplayer_event_response_definition const *);
 void OnEvent(unsigned long player, s_game_engine_event_data const *event, s_multiplayer_event_response_definition const *definition) // 0x10A89ED0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnEvent@@YAXKPBUs_game_engine_event_data@@PBUs_multiplayer_event_response_definition@@@Z");
 	// `anonymous-namespace'::OnEvent
 	// s_multiplayer_event_response_definition const *definition;
-	{
 		// void (*const chud_show_medal)(__int32, __int32);
-	}
 	// function call : unsigned long (*const)(long)
 	// function call : void (*const)(__int32, __int32)
-	todo("implement");
-	_sub_10A89ED0(player, event, definition);
+
+	if (definition->medal_award && definition->medal_award != -1)
+	{
+		if (player != ((unsigned long(*)(long))0x589C30)(0))
+		{
+			return;
+		}
+
+		const auto chud_show_medal = (void(*)(__int32, __int32))0xA95A40;
+
+		chud_show_medal(0, definition->medal_award);
+	}
 }
 
 _extern void _sub_10A8A430(__int32, void *, __int32);

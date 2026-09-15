@@ -162,6 +162,8 @@ bool CommandForgeRedo(std::vector<std::string> const &Arguments, std::string &re
 
 /* ---------- globals */
 
+namespace Forge::Selection { void Expand(float amount); }  // hades: added for 0x10974440
+
 /* ---------- private variables */
 
 namespace hades_file_local
@@ -313,9 +315,9 @@ bool CommandSelectEverything(std::vector<std::string> const &Arguments, std::str
 	return true;
 }
 
-_extern bool _sub_10984C40(std::vector<std::string> const &, std::string &);
 bool CommandExpandSelection(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10984C40
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandExpandSelection@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandExpandSelection
 	// static ...; // 0x10984CEC
 	// static ...; // 0x10984CE4
@@ -323,9 +325,16 @@ bool CommandExpandSelection(std::vector<std::string> const &Arguments, std::stri
 	// std::string &returnInfo;
 	// char *endp;
 	// float radius;
-	todo("implement");
-	bool __result = _sub_10984C40(Arguments, returnInfo);
-	return __result;
+
+	if (Arguments.size() < 1)
+		return false;
+	char *endp;
+	float radius = std::strtof(Arguments[0].c_str(), &endp);
+	if (endp == Arguments[0].c_str())
+		return false;
+
+	Forge::Selection::Expand(radius);
+	return true;
 }
 
 bool CommandInvertSelection(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10985040
@@ -469,9 +478,9 @@ bool CommandSpawnItem(std::vector<std::string> const &Arguments, std::string &re
 	return true;
 }
 
-_extern bool _sub_10985A20(std::string const &, __int32 *);
 bool TryParseInt(std::string const &str, __int32 *value) // 0x10985A20
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?TryParseInt@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAH@Z");
 	// `anonymous-namespace'::TryParseInt
 	// static ...; // 0x10985AC0
 	// static ...; // 0x10985AB8
@@ -479,9 +488,16 @@ bool TryParseInt(std::string const &str, __int32 *value) // 0x10985A20
 	// __int32 *value;
 	// char const *c_str;
 	// char *endp;
-	todo("implement");
-	bool __result = _sub_10985A20(str, value);
-	return __result;
+
+	if (str.length() == 0)
+		return false;
+
+	auto c_str = str.c_str();
+	char *endp;
+
+	*value = std::strtol(c_str, &endp, 10);
+
+	return endp != c_str;
 }
 
 _extern bool _sub_109853D0(std::vector<std::string> const &, std::string &);
@@ -559,14 +575,20 @@ bool CommandMapOptions(std::vector<std::string> const &Arguments, std::string &r
 	return true;
 }
 
-_extern bool _sub_10984FC0(std::vector<std::string> const &, std::string &);
 bool CommandForgeUndo(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10984FC0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandForgeUndo@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandForgeUndo
 	// std::string &returnInfo;
-	todo("implement");
-	bool __result = _sub_10984FC0(Arguments, returnInfo);
-	return __result;
+
+	if (!CForgeUndoManager::Instance().CanUndo())
+	{
+		returnInfo = "Nothing to undo";
+		return false;
+	}
+
+	CForgeUndoManager::Instance().RequestUndo();
+	return true;
 }
 
 bool CommandForgeRedo(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10984F40

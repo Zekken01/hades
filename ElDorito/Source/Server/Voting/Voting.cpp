@@ -56,6 +56,7 @@
 #include <typeinfo>
 #include <utility>
 #include <vector>
+#include "Modules/ModuleVoting.hpp"  // hades: added for 0x10C43EA0
 
 /* ---------- forward declarations */
 
@@ -193,21 +194,19 @@ namespace Server
 			_sub_10C43AB0(callback);
 		}
 
-		_extern void _sub_10C43A00(Server::Voting::MapAndType const &);
 		void NotifyVotePassed(Server::Voting::MapAndType const &winner) // 0x10C43A00
 		{
-			mangled_x86(MANGLED_TODO, "?NotifyVotePassed@Voting@Server@@YAXABUMapAndType@12@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?NotifyVotePassed@Voting@Server@@YAXABUMapAndType@12@@Z");
 			// Server::Voting::MapAndType const &winner;
-			{
 				// std::vector<std::function<void __cdecl(Server::Voting::MapAndType)> > &<range>$L0;
 				// std::function<void __cdecl(Server::Voting::MapAndType)> *<begin>$L0;
 				// std::function<void __cdecl(Server::Voting::MapAndType)> *<end>$L0;
-				{
 					// std::function<void __cdecl(Server::Voting::MapAndType)> &callback;
-				}
+
+			for (auto &callback : votePassedCallbacks)
+			{
+				callback(winner);
 			}
-			todo("implement");
-			_sub_10C43A00(winner);
 		}
 
 		void MapLoadedCallback(char const *mapPath) // 0x10C43990
@@ -267,14 +266,12 @@ namespace Server
 			_sub_10C43480();
 		}
 
-		_extern bool _sub_10C43EA0(bool);
 		bool ReloadVotingJson(bool loadFileFromDisc) // 0x10C43EA0
 		{
-			mangled_x86(MANGLED_TODO, "?ReloadVotingJson@Voting@Server@@YA_N_N@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ReloadVotingJson@Voting@Server@@YA_N_N@Z");
 			// bool loadFileFromDisc;
-			todo("implement");
-			bool __result = _sub_10C43EA0(loadFileFromDisc);
-			return __result;
+
+			return votingSystem.ReloadVotingJson(Utils::Singleton<Modules::ModuleVoting>::Instance().VarVotingJsonPath->ValueString, loadFileFromDisc);
 		}
 
 		_extern bool _sub_10C43E10(bool);
@@ -380,25 +377,29 @@ namespace Server
 			_sub_10C43F30();
 		}
 
-		_extern bool _sub_10C43380();
 		bool CancelVoteInProgress() // 0x10C43380
 		{
-			mangled_x86(MANGLED_TODO, "?CancelVoteInProgress@Voting@Server@@YA_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?CancelVoteInProgress@Voting@Server@@YA_NXZ");
 			// procedure flags: nofpo
 			// Blam::Network::Session *session;
-			{
 				// std::vector<Server::Voting::AbstractVotingSystem *> &<range>$L0;
 				// Server::Voting::AbstractVotingSystem **<begin>$L0;
 				// Server::Voting::AbstractVotingSystem **<end>$L0;
-				{
 					// Server::Voting::AbstractVotingSystem *elem;
-				}
+			// function call : void ()
+			// function call : void ()
+
+			auto* session = Blam::Network::GetActiveSession();
+			if (!(session && session->IsEstablished() && session->IsHost()))
+				return false;
+
+			for (auto elem : VotingSystems)
+			{
+				elem->Reset();
+				elem->EndVote();
 			}
-			// function call : void ()
-			// function call : void ()
-			todo("implement");
-			bool __result = _sub_10C43380();
-			return __result;
+
+			return true;
 		}
 
 		_extern void _sub_10C43800(Server::Voting::VotingMessage const &, std::string);

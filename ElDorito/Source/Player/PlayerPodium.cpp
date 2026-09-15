@@ -118,6 +118,8 @@
 #include <utility>
 #include <variant>
 #include <vector>
+#include "Modules/ModuleServer.hpp"  // hades: added for 0x106DF530
+#include <span>
 
 /* ---------- forward declarations */
 
@@ -289,6 +291,8 @@ namespace Player
 }
 
 /* ---------- globals */
+
+namespace Scripting { namespace HS { extern void ExecuteScript(std::string_view name, std::span<hs_value const> arguments); } }
 
 namespace Player
 {
@@ -598,16 +602,22 @@ namespace Player
 			}
 		}
 
-		_extern bool _sub_106DF530();
 		bool PodiumEnabled() // 0x106DF530
 		{
-			mangled_x86(MANGLED_TODO, "?PodiumEnabled@PlayerPodium@Player@@YA_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?PodiumEnabled@PlayerPodium@Player@@YA_NXZ");
 			// procedure flags: nofpo
 			// unsigned long PodiumEnabledValue;
 			// __int32 lobbytype;
-			todo("implement");
-			bool __result = _sub_106DF530();
-			return __result;
+
+			__int32 lobbytype = Blam::Network::GetLobbyType();
+			unsigned long PodiumEnabledValue = Utils::Singleton<Modules::ModuleServer>::Instance().VarServerPodiumEnabledClient->ValueInt;
+
+			if (lobbytype == 3)
+				return (PodiumEnabledValue == 1 || PodiumEnabledValue == 2) && Utils::Singleton<Modules::ModuleServer>::Instance().VarServerPodiumForgeEnabledClient->ValueInt == 1;
+			else if (lobbytype == 2)
+				return PodiumEnabledValue == 1 || PodiumEnabledValue == 2;
+
+			return false;
 		}
 
 		bool PodiumStarted() // 0x106DF640
@@ -650,14 +660,17 @@ namespace Player
 			forgeOverrideAllowed = allowed;
 		}
 
-		_extern void _sub_106DF490(char const *);
 		void OnMapLoaded(char const *mapPath) // 0x106DF490
 		{
-			mangled_x86(MANGLED_TODO, "?OnMapLoaded@PlayerPodium@Player@@YAXPBD@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnMapLoaded@PlayerPodium@Player@@YAXPBD@Z");
 			// char const *mapPath;
 			// function call : bool (*const)()
-			todo("implement");
-			_sub_106DF490(mapPath);
+
+			ResetStates();
+			if (!((bool(*)())0x531E90)())
+			{
+				Scripting::HS::ExecuteScript("podium_init", {});
+			}
 		}
 
 		_extern void _sub_106DF660();
@@ -731,22 +744,28 @@ namespace Player
 			return __result;
 		}
 
-		_extern long _sub_106DF130(short);
 		long GetPodiumRespawnEffectIndex(short place) // 0x106DF130
 		{
-			mangled_x86(MANGLED_TODO, "?GetPodiumRespawnEffectIndex@PlayerPodium@Player@@YAJF@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetPodiumRespawnEffectIndex@PlayerPodium@Player@@YAJF@Z");
 			// short place;
 			// s_game_globals *matg;
-			{
 				// void *podium;
-				{
 					// s_podium_settings *podium_settings;
+			// function call : void *(*const)(unsigned long, long)
+
+			s_game_globals *matg = game_globals_get();
+			if (matg)
+			{
+				void *podium = tag_try_and_get_and_verify_group(0x70646D21, matg->PodiumDefinition.index);
+				if (podium)
+				{
+					s_podium_settings *podium_settings = (s_podium_settings *)tag_get(0x70646D21, matg->PodiumDefinition.index);
+					if (podium_settings && place >= 0 && place < podium_settings->podium_bipeds.count)
+						return podium_settings->podium_bipeds[place].spawn_effect.index;
 				}
 			}
-			// function call : void *(*const)(unsigned long, long)
-			todo("implement");
-			long __result = _sub_106DF130(place);
-			return __result;
+
+			return -1;
 		}
 
 		_extern float _sub_106DEDE0(char const *, short);
@@ -779,40 +798,52 @@ namespace Player
 			return __result;
 		}
 
-		_extern long _sub_106DF030(short);
 		long GetPodiumBipedSpawnDelay(short place) // 0x106DF030
 		{
-			mangled_x86(MANGLED_TODO, "?GetPodiumBipedSpawnDelay@PlayerPodium@Player@@YAJF@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetPodiumBipedSpawnDelay@PlayerPodium@Player@@YAJF@Z");
 			// short place;
 			// s_game_globals *matg;
-			{
 				// void *podium;
-				{
 					// s_podium_settings *podium_settings;
+			// function call : void *(*const)(unsigned long, long)
+
+			s_game_globals *matg = game_globals_get();
+			if (matg)
+			{
+				void *podium = tag_try_and_get_and_verify_group(0x70646D21, matg->PodiumDefinition.index);
+				if (podium)
+				{
+					s_podium_settings *podium_settings = (s_podium_settings *)tag_get(0x70646D21, matg->PodiumDefinition.index);
+					if (podium_settings && place >= 0 && place < podium_settings->podium_bipeds.count)
+						return podium_settings->podium_bipeds[place].spawn_delay;
 				}
 			}
-			// function call : void *(*const)(unsigned long, long)
-			todo("implement");
-			long __result = _sub_106DF030(place);
-			return __result;
+
+			return 0;
 		}
 
-		_extern long _sub_106DF240();
 		long GetPodiumTickDelay() // 0x106DF240
 		{
-			mangled_x86(MANGLED_TODO, "?GetPodiumTickDelay@PlayerPodium@Player@@YAJXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetPodiumTickDelay@PlayerPodium@Player@@YAJXZ");
 			// procedure flags: nofpo
 			// s_game_globals *matg;
-			{
 				// void *podium;
-				{
 					// s_podium_settings *podium_settings;
+			// function call : void *(*const)(unsigned long, long)
+
+			s_game_globals *matg = game_globals_get();
+			if (matg)
+			{
+				void *podium = tag_try_and_get_and_verify_group(0x70646D21, matg->PodiumDefinition.index);
+				if (podium)
+				{
+					s_podium_settings *podium_settings = (s_podium_settings *)tag_get(0x70646D21, matg->PodiumDefinition.index);
+					if (podium_settings)
+						return podium_settings->tick_delay;
 				}
 			}
-			// function call : void *(*const)(unsigned long, long)
-			todo("implement");
-			long __result = _sub_106DF240();
-			return __result;
+
+			return 0;
 		}
 
 		_extern void _sub_106DD850(long, real_point3d, real_vector3d);

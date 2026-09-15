@@ -181,9 +181,10 @@ bool collision_model_test_vector_hook(collision_model_instance *instance, unsign
 	// bool result;
 	// function call : bool (*const)(collision_model_instance *, unsigned long, real_vector3d *, real_vector3d *, collision_model_test_vector_result *)
 
-	bool (__cdecl *const collision_model_test_vector)(collision_model_instance *, unsigned long, real_vector3d *, real_vector3d *, collision_model_test_vector_result *) = (bool(__cdecl *const)(collision_model_instance *, unsigned long, real_vector3d *, real_vector3d *, collision_model_test_vector_result *))0x981120;
+	bool result = ((bool(__cdecl *)(collision_model_instance *, unsigned long, real_vector3d *, real_vector3d *, collision_model_test_vector_result *))0x981120)(instance, flags, origin, vector, out_result);
 
-	return collision_model_test_vector(instance, flags, origin, vector, out_result);
+	globals.valid_bsp = false;
+	return result;
 }
 
 bool collision_bsp_test_surface_hook(struct collision_bsp *bsp, s_collision_materials_extant_flags *materials_extant_flags, short breakable_surface_set_count, s_breakable_surface_set *breakable_surface_sets, real_vector3d *origin, real_vector3d *vector, long bsp_leaf_index, long plane_index, float scale, bool flag) // 0x10917E00
@@ -221,18 +222,18 @@ real_matrix4x3 *object_compute_render_time_node_matrices_hook(long object_index,
 	return __result;
 }
 
-_extern bool _sub_10917F30(real_vector3d *, real_vector3d *, real_vector3d *, float);
 bool fast_vector_intersects_sphere_hook(real_vector3d *origin, real_vector3d *vector, real_vector3d *p, float r) // 0x10917F30
 {
-	mangled_x86(MANGLED_TODO, "?fast_vector_intersects_sphere_hook@@YA_NPAUreal_vector3d@@00M@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?fast_vector_intersects_sphere_hook@@YA_NPAUreal_vector3d@@00M@Z");
 	// `anonymous-namespace'::fast_vector_intersects_sphere_hook
 	// float r;
 	// constexpr bool (*const `fast_vector_intersects_sphere_hook'::`2'::fast_vector_intersects_sphere)(real_vector3d *, real_vector3d *, real_vector3d *, float); // constant == 5183792
 	// float n;
 	// function call : bool (*const)(real_vector3d *, real_vector3d *, real_vector3d *, float)
-	todo("implement");
-	bool __result = _sub_10917F30(origin, vector, p, r);
-	return __result;
+
+	float scale = 10.0f;
+
+	return ((bool(*)(real_vector3d *, real_vector3d *, real_vector3d *, float))0x4F1930)(origin, vector, p, r * scale);
 }
 
 _extern bool _sub_10918060(long);

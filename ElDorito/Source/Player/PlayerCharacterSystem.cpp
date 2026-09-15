@@ -245,6 +245,9 @@ void MaybeUpdatePeerProperties();
 
 /* ---------- globals */
 
+extern void *(__cdecl *const tag_get)(unsigned long, long);  // hades: added for 0X10901B70
+extern long player_find_character_type_by_name(unsigned long name);
+
 /* ---------- private variables */
 
 namespace Server
@@ -407,18 +410,19 @@ namespace Player
 		return __result;
 	}
 
-	_extern bool _sub_10901A20(s_player_appearance &);
 	bool CPlayerCharacterSystem::BuildCustomizations(s_player_appearance &appearance) // 0x10901A20
 	{
-		mangled_x86(MANGLED_TODO, "?BuildCustomizations@CPlayerCharacterSystem@Player@@SA_NAAUs_player_appearance@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?BuildCustomizations@CPlayerCharacterSystem@Player@@SA_NAAUs_player_appearance@@@Z");
 		// static ...; // 0x10901B20
 		// static ...; // 0x10901B14
 		// static ...; // 0x10901B0C
 		// s_player_appearance &appearance;
 		// Player::CPlayerCharacterCustomizationBuilder builder;
-		todo("implement");
-		bool __result = _sub_10901A20(appearance);
-		return __result;
+
+
+		CPlayerCharacterCustomizationBuilder builder;
+
+		return builder.BuildCharacterCustomizations(GetPreferredCharacterName(), &appearance);
 	}
 
 	void CPlayerCharacterSystem::ReloadCustomizations() // 0x10903150
@@ -460,9 +464,9 @@ long game_engine_get_random_global_player_character_set_index() // 0x10903B00
 	return __result;
 }
 
-_extern long _sub_109039D0(long, long);
 long game_engine_get_player_character_type_index(long character_set_index, long index) // 0x109039D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_get_player_character_type_index@@YAJJJ@Z");
 	// `anonymous-namespace'::game_engine_get_player_character_type_index
 	// static ...; // 0x10903AA4
 	// static ...; // 0x10903A8C
@@ -472,9 +476,22 @@ long game_engine_get_player_character_type_index(long character_set_index, long 
 	// s_mod_globals_definition *mod_globals;
 	// s_mod_globals_player_character_set *character_set;
 	// s_mod_globals_player_character *character;
-	todo("implement");
-	long __result = _sub_109039D0(character_set_index, index);
-	return __result;
+
+
+	s_mod_globals_definition *mod_globals = mod_globals_get_definition();
+	if (!mod_globals)
+	{
+		return -1;
+	}
+
+	s_mod_globals_player_character_set *character_set;
+	s_mod_globals_player_character *character;
+	if (mod_globals->player_character_sets.try_get_element(character_set_index, &character_set) && character_set->characters.try_get_element(index, &character))
+	{
+		return player_find_character_type_by_name(character->name);
+	}
+
+	return -1;
 }
 
 extern std::string const _sub_10901C20(__int32);
@@ -507,16 +524,21 @@ long game_engine_get_player_character_type_index(long player_index) // 0x1090389
 	return __result;
 }
 
-_extern void *_sub_10901B70(__int32);
 void *GetCharacterChudGlobals(__int32 characterTypeIndex) // 0x10901B70
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetCharacterChudGlobals@@YAPAXH@Z");
 	// `anonymous-namespace'::GetCharacterChudGlobals
 	// __int32 characterTypeIndex;
 	// __int32 hudGlobalsIndex;
 	// function call : void *(*const)(unsigned long, long)
-	todo("implement");
-	void * __result = _sub_10901B70(characterTypeIndex);
-	return __result;
+
+	__int32 hudGlobalsIndex = Mods::CModGlobals::GetCharacterHudGlobals(characterTypeIndex);
+	if (hudGlobalsIndex == NONE)
+	{
+		hudGlobalsIndex = game_globals_get()->InterfaceTags->HudGlobals.index;
+	}
+
+	return tag_get(0x63686764, hudGlobalsIndex);
 }
 
 _extern __int32 _sub_109022A0(__int32);
@@ -617,9 +639,9 @@ void OnServerVotePassed(Server::Voting::MapAndType const &winner) // 0x10902B90
 	votingCharacterOverrides = winner.haloType.characterOverrides;
 }
 
-_extern bool _sub_109031B0(__int32);
 bool RequestPlayerPropertiesUpdate(__int32 userIndex) // 0x109031B0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?RequestPlayerPropertiesUpdate@@YA_NH@Z");
 	// `anonymous-namespace'::RequestPlayerPropertiesUpdate
 	// static ...; // 0x10903280
 	// static ...; // 0x10903274
@@ -629,9 +651,23 @@ bool RequestPlayerPropertiesUpdate(__int32 userIndex) // 0x109031B0
 	// void (*const user_interface_controller_update_network_properties)(__int32);
 	// c_network_session *session;
 	// function call : void (*const)(__int32)
-	todo("implement");
-	bool __result = _sub_109031B0(userIndex);
-	return __result;
+
+
+	void (*const user_interface_controller_update_network_properties)(__int32) = (void (*const)(__int32))0xa95170;
+
+	c_network_session *session;
+	if (!network_life_cycle_in_squad_session(&session) || !session->established())
+	{
+		return false;
+	}
+
+	char *user = (char *)(0x19a03d8 + userIndex * 0x1698);
+	*(__int32 *)(user + 0x1630) += 1;
+	*(__int32 *)(user + 0x1678) = session->get_index();
+
+	user_interface_controller_update_network_properties(0);
+
+	return true;
 }
 
 _extern void _sub_10902860();

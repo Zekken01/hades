@@ -117,7 +117,10 @@ using namespace ::Console;
 
 /* ---------- prototypes */
 
+#include "Modules/ModuleGame.hpp"  // hades: added for 0x10A48860
+
 #include "Modules/ModuleGraphics.hpp"  // hades: added for 0x10A4C2F0
+#include "Modules/ModuleScript.hpp"  // hades: added for 0x10A48C20
 
 namespace Patches { void ApplyAfterTagsLoaded(); }  // hades: added for 0X10A4AC90
 namespace Patches { namespace Mopp { void InitializeForNewMap(); } }  // hades: added for 0X10A4AC90
@@ -161,11 +164,13 @@ unsigned long render_thread_loop(void *lpParam);
 
 /* ---------- globals */
 
+namespace Job { void Dispose(); }  // hades: added for 0X10A48680
+
 /* ---------- private variables */
 
 namespace hades_file_local
 {
-	extern std::string MapsFolder; // 0x124582F4
+	extern "C" std::string MapsFolder; // 0x124582F4
 	extern std::string MapFormatString; // 0x1245832C
 	extern std::string StringIdsPath; // 0x124582D8
 	extern std::string TagsPath; // 0x124582A0
@@ -180,7 +185,7 @@ namespace hades_file_local
 	extern std::vector<std::function<void __cdecl(void)> > gameStartCallbacks; // 0x12458380
 	extern std::vector<std::function<void __cdecl(void)> > shutdownCallbacks; // 0x124583E4
 	extern std::string mainLoadMapPath; // 0x12458310
-	extern long long cpuFrequencyMs; // 0x12458410
+	extern "C" long long cpuFrequencyMs; // 0x12458410
 	extern _LARGE_INTEGER startTime; // 0x12458418
 }
 using namespace hades_file_local;
@@ -275,21 +280,19 @@ namespace Patches
 			_sub_10A49010(callback);
 		}
 
-		_extern void _sub_10A48680();
 		void ExecuteShutdownCallbacks() // 0x10A48680
 		{
-			mangled_x86(MANGLED_TODO, "?ExecuteShutdownCallbacks@Core@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ExecuteShutdownCallbacks@Core@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			{
 				// std::vector<std::function<void __cdecl(void)> > &<range>$L0;
 				// std::function<void __cdecl(void)> *<begin>$L0;
 				// std::function<void __cdecl(void)> *<end>$L0;
-				{
 					// std::function<void __cdecl(void)> &callback;
-				}
-			}
-			todo("implement");
-			_sub_10A48680();
+
+			for (auto &&callback : shutdownCallbacks)
+				callback();
+
+			Job::Dispose();
 		}
 
 		_extern void _sub_10A48F70(std::function<void __cdecl(char const *)>);
@@ -411,23 +414,24 @@ __int32 levels_get_campaign_next_map_id_hook(__int32 campaign_id, __int32 map_id
 	return __result;
 }
 
-_extern void _sub_10A48740();
 void GameStartHook() // 0x10A48740
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GameStartHook@@YAXXZ");
 	// `anonymous-namespace'::GameStartHook
 	// procedure flags: nofpo
 	// void (*GameStart)();
-	{
 		// std::vector<std::function<void __cdecl(void)> > &<range>$L0;
 		// std::function<void __cdecl(void)> *<begin>$L0;
 		// std::function<void __cdecl(void)> *<end>$L0;
-		{
 			// std::function<void __cdecl(void)> &callback;
-		}
-	}
 	// function call : void (*)()
-	todo("implement");
-	_sub_10A48740();
+
+	typedef void(*GameStartPtr)();
+	auto GameStart = reinterpret_cast<GameStartPtr>(0x551590);
+	GameStart();
+
+	for (auto &&callback : gameStartCallbacks)
+		callback();
 }
 
 bool main_load_map_hook(long campaign_id, long map_id, char const *map_path) // 0x10A4AC90
@@ -511,15 +515,19 @@ double AspectRatioHook() // 0x10A48620
 	return ((double)gameResolution[0] / (double)gameResolution[1]);
 }
 
-_extern char _sub_10A48860(__int32, char *);
 char GetBinkVideoPathHook(__int32 p_VideoID, char *p_DestBuf) // 0x10A48860
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetBinkVideoPathHook@@YADHPAD@Z");
 	// `anonymous-namespace'::GetBinkVideoPathHook
 	// char *p_DestBuf;
 	// function call : char (*const)(__int32, char *)
-	todo("implement");
-	char __result = _sub_10A48860(p_VideoID, p_DestBuf);
-	return __result;
+
+	if (Utils::Singleton<Modules::ModuleGame>::Instance().VarSkipIntroVideos->ValueInt == 1)
+	{
+		return 0;
+	}
+
+	return ((char(__cdecl *)(__int32, char *))0xA99120)(p_VideoID, p_DestBuf);
 }
 
 _extern void _sub_10A48920(wchar_t *);
@@ -545,13 +553,19 @@ void GetScreenshotFolderHook(wchar_t *path) // 0x10A48920
 	_sub_10A48920(path);
 }
 
-_extern void _sub_10A48C20(char const *);
 void HsPrintHook(char const *message) // 0x10A48C20
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?HsPrintHook@@YAXPBD@Z");
 	// `anonymous-namespace'::HsPrintHook
 	// char const *message;
-	todo("implement");
-	_sub_10A48C20(message);
+
+	if (!Utils::Singleton<Modules::ModuleScript>::Instance().VarPrintToConsole->ValueInt)
+		return;
+
+	if (!message)
+		return;
+
+	Console::WriteLine(message);
 }
 
 void sub_757890_call_hook(__int32 a1, __int32 a2) // 0x10A4C2F0
@@ -649,9 +663,9 @@ long hs_seconds_to_ticks_hook(float seconds) // 0x10A4A9E0
 	return (long)(ticks - 0.5f);
 }
 
-_extern unsigned __int32 _sub_10A4C360();
 unsigned __int32 system_milliseconds_hook() // 0x10A4C360
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?system_milliseconds_hook@@YAIXZ");
 	// `anonymous-namespace'::system_milliseconds_hook
 	// procedure flags: nofpo
 	// static ...; // 0x10A4C3F0
@@ -659,9 +673,11 @@ unsigned __int32 system_milliseconds_hook() // 0x10A4C360
 	// static ...; // 0x10A4C3DC
 	// _LARGE_INTEGER currentTime;
 	// function call : __int32 (_LARGE_INTEGER *)
-	todo("implement");
-	unsigned __int32 __result = _sub_10A4C360();
-	return __result;
+
+	LARGE_INTEGER currentTime;
+
+	QueryPerformanceCounter(&currentTime);
+	return (unsigned __int32)((currentTime.QuadPart - startTime.QuadPart) / cpuFrequencyMs);
 }
 
 _extern void _sub_10A4BC80();

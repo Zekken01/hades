@@ -559,48 +559,40 @@ _inline float &hkVector4::operator()(__int32 i) // 0x10F07FA0
 	return ((float *)this)[i];
 }
 
-extern hkShapeContainer const *_sub_10F08110(hkpShape const *const);
 _inline hkShapeContainer const *hkpShape::getContainer() const // 0x10F08110
 {
-	mangled_x86(MANGLED_TODO, "?getContainer@hkpShape@@QBEPBUhkShapeContainer@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?getContainer@hkpShape@@QBEPBUhkShapeContainer@@XZ");
 	// hkpShape const *const this;
 	// function call : hkShapeContainer const *(*)(hkpShape const *)
-	todo("implement");
-	hkShapeContainer const * __result = _sub_10F08110((hkpShape const *)this);
-	return __result;
+
+	return ((hkShapeContainer const *(__thiscall **)(hkpShape const *))vftable)[4](this);
 }
 
-_extern unsigned __int32 _sub_10F08190(hkShapeContainer const *const);
 _inline unsigned __int32 hkShapeContainer::getFirstKey() const // 0x10F08190
 {
-	mangled_x86(MANGLED_TODO, "?getFirstKey@hkShapeContainer@@QBEIXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?getFirstKey@hkShapeContainer@@QBEIXZ");
 	// hkShapeContainer const *const this;
 	// function call : unsigned __int32 (*)(hkShapeContainer const *)
-	todo("implement");
-	unsigned __int32 __result = _sub_10F08190((hkShapeContainer const *)this);
-	return __result;
+
+	return ((unsigned __int32(__thiscall **)(hkShapeContainer const *))vftable)[2](this);
 }
 
-_extern unsigned __int32 _sub_10F08210(hkShapeContainer const *const, unsigned __int32);
 _inline unsigned __int32 hkShapeContainer::getNextKey(unsigned __int32 oldKey) const // 0x10F08210
 {
-	mangled_x86(MANGLED_TODO, "?getNextKey@hkShapeContainer@@QBEII@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?getNextKey@hkShapeContainer@@QBEII@Z");
 	// unsigned __int32 oldKey;
 	// function call : unsigned __int32 (*)(hkShapeContainer const *, unsigned __int32)
-	todo("implement");
-	unsigned __int32 __result = _sub_10F08210((hkShapeContainer const *)this, oldKey);
-	return __result;
+
+	return ((unsigned __int32(__thiscall **)(hkShapeContainer const *, unsigned __int32))vftable)[3](this, oldKey);
 }
 
-extern hkpShape *_sub_10AAAAF0(hkShapeContainer const *const, unsigned __int32, void *);
 _inline hkpShape *hkShapeContainer::getChildShape(unsigned __int32 key, void *buffer) const // 0x10AAAAF0
 {
-	mangled_x86(MANGLED_TODO, "?getChildShape@hkShapeContainer@@QBEPAUhkpShape@@IPAX@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?getChildShape@hkShapeContainer@@QBEPAUhkpShape@@IPAX@Z");
 	// void *buffer;
 	// function call : hkpShape *(*)(hkShapeContainer const *, unsigned __int32, void *)
-	todo("implement");
-	hkpShape * __result = _sub_10AAAAF0((hkShapeContainer const *)this, key, buffer);
-	return __result;
+
+	return ((hkpShape *(__thiscall **)(hkShapeContainer const *, unsigned __int32, void *))vftable)[5](this, key, buffer);
 }
 
 /* ---------- private code */

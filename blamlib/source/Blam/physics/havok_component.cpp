@@ -60,14 +60,12 @@ c_havok_component *havok_component_get(unsigned long havok_component_index) // 0
 	return havok_components_get()->try_and_get(havok_component_index);
 }
 
-_extern unsigned long _sub_10F18970(c_havok_component *const, long);
 unsigned long c_havok_component::get_rigid_body_collision_filter_info(long rigid_body_index) // 0x10F18970
 {
-	mangled_x86(MANGLED_TODO, "?get_rigid_body_collision_filter_info@c_havok_component@@QAEKJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_rigid_body_collision_filter_info@c_havok_component@@QAEKJ@Z");
 	// long rigid_body_index;
-	todo("implement");
-	unsigned long __result = _sub_10F18970(this, rigid_body_index);
-	return __result;
+
+	return ((hkpRigidBody *)m_rigid_bodies[rigid_body_index].rigid_body)->m_collisionFilterInfo;
 }
 
 _extern void _sub_10F18AB0(c_havok_component *const, long, unsigned long);

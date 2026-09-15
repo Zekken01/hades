@@ -356,13 +356,13 @@ _inline void CDebugRandomTraceManager::LogThreadProc() // 0x107A3E20
 	_sub_107A3E20(this);
 }
 
-_extern void _sub_107A7F10(s_simulation_update *);
 void simulation_record_update_hook(s_simulation_update *update) // 0x107A7F10
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?simulation_record_update_hook@@YAXPAUs_simulation_update@@@Z");
 	// `anonymous-namespace'::simulation_record_update_hook
 	// s_simulation_update *update;
-	todo("implement");
-	_sub_107A7F10(update);
+
+	Utils::Singleton<CDebugRandomTraceManager>::Instance().RecordSimulationUpdate(*update);
 }
 
 unsigned long *get_random_seed_address_hook() // 0x107A7850

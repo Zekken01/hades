@@ -65,19 +65,20 @@ namespace Utils
 			return __result;
 		}
 
-		_extern __int32 _sub_10C57DD0(char const *);
 		__int32 GetFileSize(char const *filename) // 0x10C57DD0
 		{
-			mangled_x86(MANGLED_TODO, "?GetFileSize@FileUtils@Utils@@YAHPBD@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetFileSize@FileUtils@Utils@@YAHPBD@Z");
 			// static ...; // 0x10C57E6C
 			// static ...; // 0x10C57E60
 			// static ...; // 0x10C57E58
 			// char const *filename;
 			// _stat64i32 stat_buf;
 			// __int32 rc;
-			todo("implement");
-			__int32 __result = _sub_10C57DD0(filename);
-			return __result;
+
+			struct _stat64i32 stat_buf;
+			__int32 rc = _stat64i32(filename, &stat_buf);
+
+			return rc == 0 ? stat_buf.st_size : -1;
 		}
 	}
 }

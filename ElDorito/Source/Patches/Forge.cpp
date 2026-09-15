@@ -382,6 +382,19 @@ namespace Patches
 
 /* ---------- prototypes */
 
+#include "Blam/interface/gui/gui_screen_manager.hpp"  // hades: added for 0x10A6C650
+
+extern s_map_variant *(*const game_engine_get_runtime_map_variant)();  // hades: added for 0x10A6F150
+
+namespace Forge { namespace PrematchCamera { extern void PlaceCameraObject(short team); } }  // hades: added for 0x10A66840
+
+namespace Forge { class CForgeMapBarriers { public: static bool KillBarrierDisabled(); static bool PushBarrierDisabled(); }; }  // hades: added for 0x10A6D690
+
+namespace Forge { namespace Selection { extern ::Forge::ObjectSet &GetSelection(); } }  // hades: added for 0x10A6BA00
+
+extern bool (*const game_is_multiplayer)();  // hades: added for 0x10A6F5D0
+namespace Forge { class CForgeSkies { public: static bool IsActive(); }; }  // hades: added for 0x10A6F5D0
+
 namespace Web { namespace Ui { namespace WebForge { extern void ShowObjectCreation(); } } }  // hades: added for 0x10A6F530
 
 s_object_data *object_get(unsigned long object_index);  // hades: added for 0X10A6F470
@@ -488,6 +501,17 @@ long __fastcall c_map_variant__get_scenario_placement_map_variant_index_hook(s_m
 bool c_candy_spawner__spawn_object__new_from_scenario_object_hook(long object_type, long scenario_datum_index, void *scenario_object, s_tag_block *palette_block, char create_at_rest, char flags, s_object_placement_data *placement_data);
 
 /* ---------- globals */
+
+namespace Forge { namespace Volumes { extern void Update(); } }  // hades: added for 0x10A6E3C0
+extern s_object_data *(*const object_try_and_get_and_verify_type)(unsigned long, c_enum<enum e_object_type,long>);  // hades: added for 0x10A673E0
+namespace Web { namespace Ui { namespace WebConsole { extern void Hide(); } } }  // hades: added for 0x10A66460
+namespace Web { namespace Ui { namespace WebForge { extern void ShowObjectProperties(unsigned __int32 objectIndex); } } }  // hades: added for 0x10A66460
+namespace Forge { namespace Selection { extern void Clear(); } }  // hades: added for 0x10A6B960
+extern s_multiplayer_object_properties *(*const object_get_multiplayer)(unsigned long);  // hades: added for 0X10A6D5B0
+extern long (*const havok_entity_get_havok_component_index)(hkpEntity const *);  // hades: added for 0X10A6E6D0
+namespace Forge { class CForgeCameraFx { public: static bool IsActive(); static float GetBloomIntensity(); }; }  // hades: added for 0x10A6FDE0
+namespace Forge { namespace RotationSnap { extern void RotateToScripted(unsigned __int32 objectIndex, real_quaternion const &rotation); } }  // hades: added for 0x10A66650
+extern s_multiplayer_object_properties *(*const object_get_multiplayer)(unsigned long);  // hades: added for 0X10A6A8A0
 
 /* ---------- private variables */
 
@@ -694,20 +718,29 @@ void GrabObject(long player_index, long map_variant_index) // 0x10A656C0
 	_sub_10A656C0(player_index, map_variant_index);
 }
 
-_extern void _sub_10A65950(long);
 void GrabSelection(long player_index) // 0x10A65950
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GrabSelection@@YAXJ@Z");
 	// `anonymous-namespace'::GrabSelection
 	// long player_index;
 	// Forge::ObjectSet const &selection;
 	// void (*const game_engine_sandox_apply_grab_object)(long, long);
 	// s_map_variant const *map_variant;
-	{
 		// __int32 i;
-	}
 	// function call : s_map_variant *(*const)()
-	todo("implement");
-	_sub_10A65950(player_index);
+
+	void (__cdecl *const game_engine_sandox_apply_grab_object)(long, long) = (void(__cdecl *const)(long, long))0x59b080;
+	s_map_variant const *map_variant = game_engine_get_runtime_map_variant();
+	::Forge::ObjectSet const &selection = ::Forge::Selection::GetSelection();
+
+	for (__int32 i = 0; i < 640; i++)
+	{
+		if (selection.Contains(map_variant->objects[i].object_index))
+		{
+			GrabObject(player_index, i);
+			return;
+		}
+	}
 }
 
 _extern void _sub_10A670C0();
@@ -889,14 +922,21 @@ void HandleMapCanvas() // 0x10A65A80
 	}
 }
 
-_extern void _sub_10A66840();
 void HandleSetPrematchCamera() // 0x10A66840
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleSetPrematchCamera@@YAXXZ");
 	// `anonymous-namespace'::HandleSetPrematchCamera
 	// procedure flags: nofpo
 	// Modules::ModuleForge &moduleForge;
-	todo("implement");
-	_sub_10A66840();
+
+	Modules::ModuleForge *moduleForge = &Utils::Singleton<Modules::ModuleForge>::Instance();
+
+	if (moduleForge->CommandState.SetPrematchCamera)
+	{
+		::Forge::PrematchCamera::PlaceCameraObject(moduleForge->CommandState.PrematchCameraTeamIndex);
+		moduleForge->CommandState.SetPrematchCamera = false;
+		moduleForge->CommandState.PrematchCameraTeamIndex = -1;
+	}
 }
 
 void HandleSpawnItem() // 0x10A668C0
@@ -917,16 +957,35 @@ void HandleSpawnItem() // 0x10A668C0
 	}
 }
 
-_extern void _sub_10A66460();
 void HandleOpenMapOptions() // 0x10A66460
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleOpenMapOptions@@YAXXZ");
 	// `anonymous-namespace'::HandleOpenMapOptions
 	// procedure flags: nofpo
 	// Modules::ModuleForge &moduleForge;
 	// long mapModifierObjectIndex;
 	// function call : void (*const)(long, wchar_t const *, e_chud_message_context)
-	todo("implement");
-	_sub_10A66460();
+
+	Modules::ModuleForge &moduleForge = Utils::Singleton<Modules::ModuleForge>::Instance();
+
+	if (!moduleForge.CommandState.OpenMapOptions)
+	{
+		return;
+	}
+
+	moduleForge.CommandState.OpenMapOptions = false;
+
+	long mapModifierObjectIndex = ::Forge::CForgeMapModifier::GetOrCreateMapModifierObject();
+
+	if (mapModifierObjectIndex == -1)
+	{
+		((void(__cdecl *const)(long, wchar_t const *, e_chud_message_context))0xa95920)(0, L"Failed to spawn map modifier object. Out of objects?", (e_chud_message_context)0);
+	}
+	else
+	{
+		Web::Ui::WebConsole::Hide();
+		Web::Ui::WebForge::ShowObjectProperties(mapModifierObjectIndex);
+	}
 }
 
 void HandleCommands() // 0x10A65A20
@@ -943,9 +1002,9 @@ void HandleCommands() // 0x10A65A20
 	HandleOpenMapOptions();
 }
 
-_extern void _sub_10A66650();
 void HandleRotationReset() // 0x10A66650
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleRotationReset@@YAXXZ");
 	// `anonymous-namespace'::HandleRotationReset
 	// procedure flags: nofpo
 	// static ...; // 0x10A6676A
@@ -953,16 +1012,29 @@ void HandleRotationReset() // 0x10A66650
 	// static ...; // 0x10A6674C
 	// static ...; // 0x10A66744
 	// Blam::Input::ActionState *uiUpAction;
-	{
 		// long heldObjectIndex;
-		{
 			// real_quaternion ident;
-		}
-	}
 	// function call : unsigned long (*const)(long)
 	// function call : bool (*const)(long, long *, long *)
-	todo("implement");
-	_sub_10A66650();
+
+	Blam::Input::ActionState *uiUpAction = Blam::Input::GetActionState(Blam::Input::eGameActionUiUp);
+	if (((uiUpAction->Flags & 1) == 0 && uiUpAction->Ticks == 1)
+		|| Blam::Input::GetMouseButtonTicks(Blam::Input::eMouseButtonMiddle, Blam::Input::eInputTypeGame) == 1)
+	{
+		uiUpAction->Flags |= 1;
+
+		long heldObjectIndex;
+		if (((bool(__cdecl *const)(long, long *, long *))0x59a6f0)(((long(__cdecl *const)(long))0x589c30)(0), &heldObjectIndex, 0))
+		{
+			real_quaternion ident;
+			ident.i = 0.0f;
+			ident.j = 0.0f;
+			ident.k = 0.0f;
+			ident.w = 1.0f;
+
+			::Forge::RotationSnap::RotateToScripted(heldObjectIndex, ident);
+		}
+	}
 }
 
 _extern void _sub_10A66150();
@@ -1086,18 +1158,29 @@ void UpdateSelectionManipulationState(__int32 rootObjectIndex) // 0x10A678D0
 	_sub_10A678D0(rootObjectIndex);
 }
 
-extern s_forge_palette_item *_sub_10A655E0(long);
 s_forge_palette_item *FindSandboxPaletteItem(long tag_index) // 0x10A655E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?FindSandboxPaletteItem@@YAPAUs_forge_palette_item@@J@Z");
 	// `anonymous-namespace'::FindSandboxPaletteItem
 	// long tag_index;
 	// s_forge_globals_definition *forge_globals;
-	{
 		// long i;
+
+	s_forge_globals_definition *forge_globals = forge_globals_get_definition();
+	if (!forge_globals)
+	{
+		return nullptr;
 	}
-	todo("implement");
-	s_forge_palette_item * __result = _sub_10A655E0(tag_index);
-	return __result;
+
+	for (long i = 0; i < forge_globals->palette.count; i++)
+	{
+		if (forge_globals->palette[i].object.index == tag_index)
+		{
+			return &forge_globals->palette[i];
+		}
+	}
+
+	return nullptr;
 }
 
 _extern bool _sub_10A6E7A0(s_map_variant *, s_scenario *);
@@ -1202,33 +1285,55 @@ void ObjectOutOfWorldBoundsError() // 0x10A669B0
 	((void(__cdecl *)(long, long))0xaa5cd0)(0, -1);
 }
 
-_extern bool _sub_10A673E0(long, long);
 bool TestBarrierTestProjectile(long barrierObjectIndex, long projectileObjectIndex) // 0x10A673E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?TestBarrierTestProjectile@@YA_NJJ@Z");
 	// `anonymous-namespace'::TestBarrierTestProjectile
 	// long projectileObjectIndex;
 	// s_damage_owner *damageOwner;
 	// s_object_data *projectileObject;
 	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	todo("implement");
-	bool __result = _sub_10A673E0(barrierObjectIndex, projectileObjectIndex);
-	return __result;
+
+	s_object_data *projectileObject = object_try_and_get_and_verify_type(projectileObjectIndex, 0x40);
+
+	if (!projectileObject)
+	{
+		return false;
+	}
+
+	s_damage_owner *damageOwner = (s_damage_owner *)offset_pointer(projectileObject, 0xC0);
+
+	if (damageOwner->player_index == -1)
+	{
+		return false;
+	}
+
+	return ::Forge::Reforge::TeamBarrierTestPlayer(barrierObjectIndex, damageOwner->player_index);
 }
 
-_extern void _sub_10A66A70(bool);
 void OnMonitorModeChange(bool isMonitor) // 0x10A66A70
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnMonitorModeChange@@YAX_N@Z");
 	// `anonymous-namespace'::OnMonitorModeChange
 	// bool isMonitor;
-	{
 		// s_player_datum *player;
 		// long player_index;
-	}
 	// function call : unsigned long (*const)(long)
 	// function call : unsigned long (*const)(long)
 	// function call : void (*const)(long, real_vector3d const *, real_vector3d const *)
-	todo("implement");
-	_sub_10A66A70(isMonitor);
+
+	if (!isMonitor)
+	{
+		long player_index = ((long(__cdecl *const)(long))0x589c30)(0);
+		s_player_datum *player = players_get()->try_and_get(((long(__cdecl *const)(long))0x589c30)(0));
+
+		if (!player || (player && player->unit_index == player->dead_unit_index))
+			return;
+		else if (player->unit_index == -1)
+			return;
+
+		((void(__cdecl *const)(long, real_vector3d const *, real_vector3d const *))0xb34040)(player->unit_index, &global_zero3d, &global_zero3d);
+	}
 }
 
 _extern float _sub_10A6ACC0(s_map_variant *, void *, float *, float *);
@@ -1255,15 +1360,23 @@ bool __fastcall c_sandbox_engine__initialize_for_new_map_hook(c_sandbox_engine *
 	return __result;
 }
 
-_extern void _sub_10A6B960(c_sandbox_engine *, void *);
 void __fastcall c_sandbox_engine__dispose_from_old_map_hook(c_sandbox_engine *thisptr, void *__formal) // 0x10A6B960
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_sandbox_engine__dispose_from_old_map_hook@@YIXPAUc_sandbox_engine@@PAX@Z");
 	// `anonymous-namespace'::c_sandbox_engine__dispose_from_old_map_hook
 	// void *__formal;
 	// void (*const c_sandbox_engine__dispose_from_old_map)(c_sandbox_engine *);
 	// function call : void (*const)(c_sandbox_engine *)
-	todo("implement");
-	_sub_10A6B960(thisptr, __formal);
+
+	const auto c_sandbox_engine__dispose_from_old_map = (void(__thiscall *)(c_sandbox_engine *))0x59A600;
+
+	c_sandbox_engine__dispose_from_old_map(thisptr);
+
+	::Forge::Magnets::Shutdown();
+	::Forge::Selection::Clear();
+	::Forge::SelectionRenderer::SetEnabled(false);
+	::Forge::SelectionRenderer::Dispose();
+	CForgeUndoManager::Instance().Clear();
 }
 
 _extern void _sub_10A6C2E0(c_sandbox_engine *, void *);
@@ -1320,15 +1433,18 @@ void __fastcall c_sandbox_engine__rotate_object_hook(c_sandbox_engine *thisptr, 
 	_sub_10A6BC10(thisptr, __formal, playerIndex, objectIndex, yaw, pitch, roll);
 }
 
-_extern void _sub_10A6BA00(c_sandbox_engine *, void *, long);
 void __fastcall c_sandbox_engine__handle_deleted_object_hook(c_sandbox_engine *thisptr, void *__formal, long object_index) // 0x10A6BA00
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_sandbox_engine__handle_deleted_object_hook@@YIXPAUc_sandbox_engine@@PAXJ@Z");
 	// `anonymous-namespace'::c_sandbox_engine__handle_deleted_object_hook
 	// long object_index;
 	// void (*const c_sandbox_engine__handle_deleted_object)(c_sandbox_engine *, long);
 	// function call : void (*const)(c_sandbox_engine *, long)
-	todo("implement");
-	_sub_10A6BA00(thisptr, __formal, object_index);
+
+	const auto c_sandbox_engine__handle_deleted_object = (void(__thiscall *)(c_sandbox_engine *, long))0x59BC70;
+
+	::Forge::Selection::GetSelection().Remove(object_index);
+	c_sandbox_engine__handle_deleted_object(thisptr, object_index);
 }
 
 void game_engine_sandox_apply_grab_object_hook2(long player_index, long object_index) // 0x10A6E2A0
@@ -1441,16 +1557,27 @@ void game_engine_sandbox_delete_object_hook(long map_variant_index, long player_
 	_sub_10A6D850(map_variant_index, player_index);
 }
 
-_extern void _sub_10A6DAF0(long, long, real_point3d const *);
 void game_engine_sandbox_place_object_hook(long tag_index, long player_index, real_point3d const *position) // 0x10A6DAF0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_sandbox_place_object_hook@@YAXJJPBUreal_point3d@@@Z");
 	// `anonymous-namespace'::game_engine_sandbox_place_object_hook
 	// real_point3d const *position;
 	// void (*const game_engine_sandbox_place_object)(long, long, real_point3d const *);
 	// function call : unsigned long (*const)(long)
 	// function call : void (*const)(long, long, real_point3d const *)
-	todo("implement");
-	_sub_10A6DAF0(tag_index, player_index, position);
+
+	void (__cdecl *const game_engine_sandbox_place_object)(long, long, real_point3d const *) = (void(__cdecl *const)(long, long, real_point3d const *))0x59ae50;
+
+	AddMapVariantUndoPoint("Spawn Item");
+	CForgeUndoManager::Instance().StopRecording();
+
+	if (player_index == ((long(__cdecl *const)(long))0x589c30)(0))
+	{
+		monitorState.GrabOffset = { 0.0f, 0.0f, 0.0f };
+	}
+
+	game_engine_sandbox_place_object(tag_index, player_index, position);
+	CForgeUndoManager::Instance().StartRecording();
 }
 
 _extern void _sub_10A64A30(long, long, s_map_variant_placement_properties *);
@@ -1488,9 +1615,9 @@ void ApplyObjectPropertiesToSelection(long playerIndex, long rootObjectIndex, s_
 	_sub_10A64A30(playerIndex, rootObjectIndex, properties);
 }
 
-_extern void _sub_10A6E1C0(long, long, s_map_variant_placement_properties *);
 void game_engine_sandbox_update_variant_object_properties_hook(long player_index, long map_variant_index, s_map_variant_placement_properties *properties) // 0x10A6E1C0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_sandbox_update_variant_object_properties_hook@@YAXJJPAUs_map_variant_placement_properties@@@Z");
 	// `anonymous-namespace'::game_engine_sandbox_update_variant_object_properties_hook
 	// s_map_variant_placement_properties *properties;
 	// void (*const ame_engine_sandbox_update_variant_object_properties)(unsigned __int32, unsigned short, s_map_variant_placement_properties *);
@@ -1498,8 +1625,18 @@ void game_engine_sandbox_update_variant_object_properties_hook(long player_index
 	// long changedObjectIndex;
 	// function call : s_map_variant *(*const)()
 	// function call : void (*const)(unsigned __int32, unsigned short, s_map_variant_placement_properties *)
-	todo("implement");
-	_sub_10A6E1C0(player_index, map_variant_index, properties);
+
+	const auto game_engine_sandbox_update_variant_object_properties = (void(*)(unsigned __int32, unsigned short, s_map_variant_placement_properties *))0x59B5F0;
+
+	s_map_variant *map_variant = game_engine_get_runtime_map_variant();
+	long changedObjectIndex = map_variant->objects[map_variant_index].object_index;
+
+	game_engine_sandbox_update_variant_object_properties(player_index, map_variant_index, properties);
+
+	if (::Forge::Selection::GetSelection().Contains(changedObjectIndex))
+	{
+		ApplyObjectPropertiesToSelection(player_index, changedObjectIndex, properties);
+	}
 }
 
 _extern void _sub_10A6C960(long, s_character_physics_update_input_datum *, c_character_physics_component *, float, float);
@@ -1611,26 +1748,38 @@ void *object_creation_user_interface_allocate_hook(long size) // 0x10A6F530
 	return nullptr;
 }
 
-_extern bool _sub_10A6FF60(long, long *);
 bool shoot_probe_for_player_hook(long player_index, long *out_object_index) // 0x10A6FF60
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?shoot_probe_for_player_hook@@YA_NJPAJ@Z");
 	// `anonymous-namespace'::shoot_probe_for_player_hook
 	// long *out_object_index;
 	// bool (*const shoot_probe_for_player)(long, long *);
-	{
 		// s_sandbox_globals *sandbox_globals;
 		// long player_absolute_index;
-		{
 			// bool ret;
 			// float old_distance;
-		}
-	}
 	// function call : unsigned long (*const)(long)
 	// function call : bool (*const)(long, long *)
 	// function call : bool (*const)(long, long *)
-	todo("implement");
-	bool __result = _sub_10A6FF60(player_index, out_object_index);
-	return __result;
+
+	bool (__cdecl *const shoot_probe_for_player)(long, long *) = (bool(__cdecl *const)(long, long *))0x59e720;
+
+	if (((long(__cdecl *const)(long))0x589c30)(0) == player_index)
+	{
+		s_sandbox_globals *sandbox_globals = get_sandbox_globals();
+		long player_absolute_index = player_index & 0xF;
+
+		if (sandbox_globals->player_edited_object_index[player_absolute_index] == -1)
+		{
+			float old_distance = sandbox_globals->player_cursor_distance[player_absolute_index];
+			sandbox_globals->player_cursor_distance[player_absolute_index] = Modules::ModuleForge::Instance().VarMaxGrabDistance->ValueFloat;
+			bool ret = shoot_probe_for_player(player_index, out_object_index);
+			sandbox_globals->player_cursor_distance[player_absolute_index] = old_distance;
+			return ret;
+		}
+	}
+
+	return shoot_probe_for_player(player_index, out_object_index);
 }
 
 _extern void _sub_10A6A9B0(s_map_variant *, void *, s_map_variant_placement_properties *, long);
@@ -1912,27 +2061,43 @@ void __fastcall c_map_variant__quantize_hook(s_map_variant *thisptr, void *unuse
 	_sub_10A6AFA0(thisptr, unused);
 }
 
-_extern void _sub_10A6E3C0();
 void game_engine_update_hook() // 0x10A6E3C0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_update_hook@@YAXXZ");
 	// `anonymous-namespace'::game_engine_update_hook
 	// procedure flags: nofpo
 	// function call : bool (*const)()
 	// function call : bool (*const)()
-	todo("implement");
-	_sub_10A6E3C0();
+
+	if (!game_is_multiplayer())
+	{
+		return;
+	}
+
+	::Forge::CForgeMapModifier::Update();
+
+	if (!((bool (*)())0x531d70)())
+	{
+		::Forge::Volumes::Update();
+	}
 }
 
-_extern bool _sub_10A6D690(long);
 bool game_engine_game_object_has_fallen_too_far_hook(long object_index) // 0x10A6D690
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_game_object_has_fallen_too_far_hook@@YA_NJ@Z");
 	// `anonymous-namespace'::game_engine_game_object_has_fallen_too_far_hook
 	// long object_index;
 	// bool (*const game_engine_game_object_has_fallen_too_far)(long);
 	// function call : bool (*const)(long)
-	todo("implement");
-	bool __result = _sub_10A6D690(object_index);
-	return __result;
+
+	const auto game_engine_game_object_has_fallen_too_far = (bool(*)(long))0x54E9B0;
+
+	if (::Forge::CForgeMapBarriers::KillBarrierDisabled() || ::Forge::CForgeMapBarriers::PushBarrierDisabled())
+	{
+		return false;
+	}
+
+	return game_engine_game_object_has_fallen_too_far(object_index);
 }
 
 _extern bool _sub_10A6D0A0(long, s_object_header *, s_object_data *, unsigned long, long, long, long, long);
@@ -1987,52 +2152,79 @@ void multiplayer_object_submit_boundary_hook(s_multiplayer_object_boundary_geome
 	multiplayer_object_submit_boundary(boundary, color, object_index);
 }
 
-_extern void _sub_10A6B8B0(c_multiplayer_candy_monitor_manager *, void *, long, long);
 void __fastcall c_multiplayer_candy_monitor_manager__monitor_object_hook(c_multiplayer_candy_monitor_manager *thisptr, void *__formal, long map_variant_index, long object_index) // 0x10A6B8B0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_multiplayer_candy_monitor_manager__monitor_object_hook@@YIXPAUc_multiplayer_candy_monitor_manager@@PAXJJ@Z");
 	// `anonymous-namespace'::c_multiplayer_candy_monitor_manager__monitor_object_hook
 	// long object_index;
 	// void (*const c_multiplayer_candy_monitor_manager__monitor_object)(c_multiplayer_candy_monitor_manager *, long, long);
 	// function call : void (*const)(c_multiplayer_candy_monitor_manager *, long, long)
-	todo("implement");
-	_sub_10A6B8B0(thisptr, __formal, map_variant_index, object_index);
+
+	const auto c_multiplayer_candy_monitor_manager__monitor_object = (void(__thiscall *)(c_multiplayer_candy_monitor_manager *, long, long))0x590600;
+
+	if (!::Forge::Reforge::IsReforgeObject(object_index) && !::Forge::ObjectIsForgeScenery(object_index))
+	{
+		c_multiplayer_candy_monitor_manager__monitor_object(thisptr, map_variant_index, object_index);
+	}
 }
 
-_extern void _sub_10A6FDE0(long, long, float *);
 void shield_impact_bloom_intensity_hook(long id, long count, float *data) // 0x10A6FDE0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?shield_impact_bloom_intensity_hook@@YAXJJPAM@Z");
 	// `anonymous-namespace'::shield_impact_bloom_intensity_hook
 	// float *data;
 	// void (*const rasterizer_set_pixel_shader_constant)(__int32, __int32, float *);
-	{
 		// float intensity;
-	}
 	// function call : void (*const)(__int32, __int32, float *)
-	todo("implement");
-	_sub_10A6FDE0(id, count, data);
+
+	void (__cdecl *const rasterizer_set_pixel_shader_constant)(__int32, __int32, float *) = (void(__cdecl *const)(__int32, __int32, float *))0xa66270;
+
+	if (::Forge::CForgeCameraFx::IsActive() && abs(::Forge::CForgeCameraFx::GetBloomIntensity()) >= 0.00001f)
+	{
+		float intensity = ::Forge::CForgeCameraFx::GetBloomIntensity();
+
+		data[12] = data[12] * intensity;
+		data[13] = data[13] * intensity;
+		data[14] = data[14] * intensity;
+		data[15] = data[15] * intensity;
+	}
+
+	rasterizer_set_pixel_shader_constant(id, count, data);
 }
 
-_extern void _sub_10A6E440(float);
 void game_sound_update_acoustics_hook(float dt) // 0x10A6E440
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_sound_update_acoustics_hook@@YAXM@Z");
 	// `anonymous-namespace'::game_sound_update_acoustics_hook
 	// float dt;
 	// void (*const game_sound_update_acoustics)(float);
 	// function call : void (*const)(float)
-	todo("implement");
-	_sub_10A6E440(dt);
+
+	const auto game_sound_update_acoustics = (void(*)(float))0x5DAB20;
+
+	if (!::Forge::CForgeSkies::IsActive())
+	{
+		game_sound_update_acoustics(dt);
+	}
 }
 
-_extern void _sub_10A6F5D0(long, unsigned long);
 void object_placement_create_active_zone_set_skies_hook(long scenario_index, unsigned long bsp_mask) // 0x10A6F5D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?object_placement_create_active_zone_set_skies_hook@@YAXJK@Z");
 	// `anonymous-namespace'::object_placement_create_active_zone_set_skies_hook
 	// unsigned long bsp_mask;
 	// void (*const object_placement_create_active_zone_set_skies)(long, unsigned long);
 	// function call : bool (*const)()
 	// function call : void (*const)(long, unsigned long)
-	todo("implement");
-	_sub_10A6F5D0(scenario_index, bsp_mask);
+
+	const auto object_placement_create_active_zone_set_skies = (void(*)(long, unsigned long))0xB594C0;
+
+	if (game_is_multiplayer() && ::Forge::CForgeSkies::IsActive())
+	{
+		return;
+	}
+
+	object_placement_create_active_zone_set_skies(scenario_index, bsp_mask);
 }
 
 bool IgnoreRigidBodyNode(unsigned __int32 objectIndex, __int32 nodeIndex) // 0x10A66940
@@ -2080,42 +2272,61 @@ void __fastcall rigid_body_hack_hook(c_runtime_node_to_physics_model_rigid_body_
 	_sub_10A6FA00(thisptr, __formal, object_index, force);
 }
 
-_extern long _sub_10A6E6D0(hkpEntity *);
 long havok_cull_objects_filter_rigid_body_hook(hkpEntity *entity) // 0x10A6E6D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?havok_cull_objects_filter_rigid_body_hook@@YAJPAUhkpEntity@@@Z");
 	// `anonymous-namespace'::havok_cull_objects_filter_rigid_body_hook
 	// hkpEntity *entity;
 	// long havok_component_index;
-	{
 		// c_havok_component *havok_component;
 		// long object_index;
-	}
 	// function call : long (*const)(hkpEntity const *)
-	todo("implement");
-	long __result = _sub_10A6E6D0(entity);
-	return __result;
+
+	long havok_component_index = havok_entity_get_havok_component_index(entity);
+	if (havok_component_index != -1)
+	{
+		c_havok_component *havok_component = havok_component_get(havok_component_index);
+		long object_index = havok_component->get_object_index();
+
+		if (::Forge::Reforge::IsReforgeObject(object_index) || ::Forge::ObjectIsForgeScenery(object_index))
+		{
+			havok_component_index = -1;
+		}
+	}
+
+	return havok_component_index;
 }
 
-_extern void _sub_10A6A770(c_havok_component *, void *);
 void __fastcall c_havok_component__connect_to_havok_world_hook(c_havok_component *thisptr, void *unused) // 0x10A6A770
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_havok_component__connect_to_havok_world_hook@@YIXPAVc_havok_component@@PAX@Z");
 	// `anonymous-namespace'::c_havok_component__connect_to_havok_world_hook
 	// void *unused;
 	// void (*const c_havok_component__connect_to_havok_world)(c_havok_component *);
 	// bool shouldBeFixed;
 	// long object_index;
-	{
 		// long rigidBodyCount;
-		{
 			// __int32 i;
-			{
 				// unsigned char *rigidBody;
-			}
+	// function call : void (*const)(c_havok_component *)
+
+	const auto c_havok_component__connect_to_havok_world = (void(__thiscall *)(c_havok_component *))0x5e6a50;
+
+	long object_index = thisptr->get_object_index();
+	bool shouldBeFixed = ::Forge::Reforge::IsReforgeObject(object_index) || ::Forge::ObjectIsForgeScenery(object_index);
+	if (object_index != -1 && shouldBeFixed)
+	{
+		long rigidBodyCount = thisptr->m_rigid_bodies.m_size;
+
+		for (__int32 i = 0; i < rigidBodyCount; i++)
+		{
+			unsigned char *rigidBody = (unsigned char *)thisptr->m_rigid_bodies.m_data[i].rigid_body;
+
+			*(rigidBody + 0xA8) = 7;
 		}
 	}
-	// function call : void (*const)(c_havok_component *)
-	todo("implement");
-	_sub_10A6A770(thisptr, unused);
+
+	c_havok_component__connect_to_havok_world(thisptr);
 }
 
 _extern void _sub_10A6D720(long);
@@ -2132,17 +2343,27 @@ void game_engine_garbage_collect_for_round_switch_object_delete_hook(long object
 	_sub_10A6D720(object_index);
 }
 
-extern s_multiplayer_object_properties *_sub_10A6D5B0(long);
 s_multiplayer_object_properties *game_engine_find_available_spawn_location_objects_filter_hook(long object_index) // 0x10A6D5B0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_find_available_spawn_location_objects_filter_hook@@YAPAUs_multiplayer_object_properties@@J@Z");
 	// `anonymous-namespace'::game_engine_find_available_spawn_location_objects_filter_hook
 	// long object_index;
 	// s_object_data *object;
 	// s_forge_globals_definition *forge_globals;
 	// function call : s_multiplayer_object_properties *(*const)(unsigned long)
-	todo("implement");
-	s_multiplayer_object_properties * __result = _sub_10A6D5B0(object_index);
-	return __result;
+
+	s_forge_globals_definition *forge_globals = forge_globals_get_definition();
+	s_object_data *object = object_get(object_index);
+
+	if (object
+		&& (1 << (char)object->object_identifier.type)
+		&& object->definition_index != forge_globals->map_modifier_object.index
+		&& object->definition_index != forge_globals->prematch_camera_object.index)
+	{
+		return object_get_multiplayer(object_index);
+	}
+
+	return nullptr;
 }
 
 _extern bool _sub_10A6A8A0(c_havok_contact_point *);
@@ -2162,28 +2383,39 @@ bool __fastcall c_havok_contact_point__is_climbable_surface_hook(c_havok_contact
 	return __result;
 }
 
-_extern void _sub_10A6F150(long, long, char);
 void map_variant_register_object_hook(long object_index, long map_variant_index, char registration_type) // 0x10A6F150
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?map_variant_register_object_hook@@YAXJJD@Z");
 	// `anonymous-namespace'::map_variant_register_object_hook
 	// char registration_type;
 	// void (*const map_variant_register_object)(long, long, char);
 	// function call : s_map_variant *(*const)()
 	// function call : void (*const)(long, long, char)
-	todo("implement");
-	_sub_10A6F150(object_index, map_variant_index, registration_type);
+
+	s_map_variant *thisptr;
+	long tag_index;
+
+	tag_index = object_get(object_index)->definition_index;
+	thisptr = game_engine_get_runtime_map_variant();
+	CreateOrGetBudgetForItem(thisptr, tag_index);
+	((void(*)(long, long, char))0x584790)(object_index, map_variant_index, registration_type);
 }
 
-_extern void _sub_10A6C650(c_sandbox_engine *, void *, long);
 void __fastcall c_sandbox_engine__update_local_player_hook(c_sandbox_engine *thisptr, void *__formal, long player_index) // 0x10A6C650
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_sandbox_engine__update_local_player_hook@@YIXPAUc_sandbox_engine@@PAXJ@Z");
 	// `anonymous-namespace'::c_sandbox_engine__update_local_player_hook
 	// long player_index;
 	// void (*const c_sandbox_engine__update_local_player)(c_sandbox_engine *, long);
 	// function call : long (*const)(long)
 	// function call : void (*const)(c_sandbox_engine *, long)
-	todo("implement");
-	_sub_10A6C650(thisptr, __formal, player_index);
+
+	const auto c_sandbox_engine__update_local_player = (void(__thiscall *)(c_sandbox_engine *, long))0x59F0E0;
+
+	if (!c_gui_screen_manager::get()->input_should_be_suppressed(((long(*)(long))0x589B00)(player_index)))
+	{
+		c_sandbox_engine__update_local_player(thisptr, player_index);
+	}
 }
 
 long __fastcall c_map_variant__create_object_hook(s_map_variant *thisptr, void *__formal, long object_definition_index, long creation_type, long map_variant_index, real_point3d *position, real_vector3d *forward, real_vector3d *up, long scenario_datum_index, long object_type, s_map_variant_placement_properties *variant_properties, unsigned short object_placement_flags) // 0x10A6ABD0
@@ -2204,29 +2436,46 @@ long __fastcall c_map_variant__create_object_hook(s_map_variant *thisptr, void *
 	return c_map_variant__create_object(thisptr, nullptr, object_definition_index, creation_type, map_variant_index, position, forward, up, scenario_datum_index, object_type, variant_properties, object_placement_flags);
 }
 
-_extern void _sub_10A6B220(s_map_variant *, void *, long, bool);
 void __fastcall c_map_variant__register_scenario_object_hook(s_map_variant *thisptr, void *__formal, long object_index, bool edited) // 0x10A6B220
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_map_variant__register_scenario_object_hook@@YIXPAUs_map_variant@@PAXJ_N@Z");
 	// `anonymous-namespace'::c_map_variant__register_scenario_object_hook
 	// bool edited;
 	// void (*const c_map_variant__register_scenario_object)(s_map_variant *, long, bool);
 	// long object_type;
 	// function call : void (*const)(s_map_variant *, long, bool)
-	todo("implement");
-	_sub_10A6B220(thisptr, __formal, object_index, edited);
+
+	long object_type = object_get_type(object_index);
+
+	if (thisptr->object_type_start_index[object_type] == -1)
+	{
+		return;
+	}
+
+	const auto c_map_variant__register_scenario_object = (void(__thiscall *)(s_map_variant *, long, bool))0x585890;
+
+	c_map_variant__register_scenario_object(thisptr, object_index, edited);
 }
 
-_extern bool _sub_10A6B810(s_map_variant *, void *, long);
 bool __fastcall c_map_variant__update_scenario_object_properties_hook(s_map_variant *thisptr, void *__formal, long object_index) // 0x10A6B810
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_map_variant__update_scenario_object_properties_hook@@YI_NPAUs_map_variant@@PAXJ@Z");
 	// `anonymous-namespace'::c_map_variant__update_scenario_object_properties_hook
 	// long object_index;
 	// bool (*const c_map_variant__update_scenario_object_properties)(s_map_variant *, long);
 	// long object_type;
 	// function call : bool (*const)(s_map_variant *, long)
-	todo("implement");
-	bool __result = _sub_10A6B810(thisptr, __formal, object_index);
-	return __result;
+
+	long object_type = object_get_type(object_index);
+
+	if (thisptr->object_type_start_index[object_type] == -1)
+	{
+		return false;
+	}
+
+	const auto c_map_variant__update_scenario_object_properties = (bool(__thiscall *)(s_map_variant *, long))0x586C20;
+
+	return c_map_variant__update_scenario_object_properties(thisptr, object_index);
 }
 
 _extern long _sub_10A6ADE0(s_map_variant *, void *, long, long);

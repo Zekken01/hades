@@ -132,6 +132,8 @@ static_assert(sizeof(s_name_lookup_key) == 12, "Invalid s_name_lookup_key size")
 
 /* ---------- prototypes */
 
+namespace Utils { namespace stl { template<typename t_arg0, typename t_arg1> unsigned __int32 hash_combine(t_arg0, t_arg1); } }  // hades: added for 0x1088EF80
+
 extern _inline bool operator==(s_name_lookup_key const &lhs, s_name_lookup_key const &rhs);
 
 extern "C" bool in_tag_group(s_tag_group const &group, long needle);
@@ -155,14 +157,12 @@ _inline bool operator==(s_name_lookup_key const &lhs, s_name_lookup_key const &r
 	return lhs.group_tag == rhs.group_tag && lhs.name == rhs.name;
 }
 
-_extern unsigned __int32 _sub_1088EF80(s_name_lookup_key::s_hasher const *const, s_name_lookup_key const &);
 _inline unsigned __int32 s_name_lookup_key::s_hasher::operator()(s_name_lookup_key const &k) const // 0x1088EF80
 {
-	mangled_x86(MANGLED_TODO, "??Rs_hasher@s_name_lookup_key@@QBEIABU1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??Rs_hasher@s_name_lookup_key@@QBEIABU1@@Z");
 	// s_name_lookup_key const &k;
-	todo("implement");
-	unsigned __int32 __result = _sub_1088EF80((s_name_lookup_key::s_hasher const *)this, k);
-	return __result;
+
+	return Utils::stl::hash_combine<unsigned int, std::string_view>(k.group_tag, k.name);
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0s_mod_loading_state@@QAE@XZ"); no body to assert in
@@ -171,10 +171,9 @@ _inline s_mod_loading_state::s_mod_loading_state() = default; // 0x1088E290
 // mangled_x86(MANGLED_DEFAULT, "??1s_mod_loading_state@@QAE@XZ"); no body to assert in
 _inline s_mod_loading_state::~s_mod_loading_state() = default; // 0x1088E8D0
 
-_extern bool _sub_10890DD0(unsigned char *, unsigned long, s_map_variant *);
 bool c_map_variant_tag_fixups::fixup_map_variant_in_memory(unsigned char *buffer, unsigned long buffer_size, s_map_variant *map_variant) // 0x10890DD0
 {
-	mangled_x86(MANGLED_TODO, "?fixup_map_variant_in_memory@c_map_variant_tag_fixups@@SA_NPAEKPAUs_map_variant@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?fixup_map_variant_in_memory@c_map_variant_tag_fixups@@SA_NPAEKPAUs_map_variant@@@Z");
 	// static ...; // 0x10890E94
 	// static ...; // 0x10890E70
 	// static ...; // 0x10890E68
@@ -184,9 +183,17 @@ bool c_map_variant_tag_fixups::fixup_map_variant_in_memory(unsigned char *buffer
 	// s_blf_chunk_header chunk_header;
 	// unsigned char const *data;
 	// unsigned long data_size;
-	todo("implement");
-	bool __result = _sub_10890DD0(buffer, buffer_size, map_variant);
-	return __result;
+
+	s_blf_chunk_header chunk_header;
+	unsigned char const *data;
+	unsigned long data_size;
+
+	if (!blf_find_chunk_in_buffer(buffer, buffer_size, 0x7461676E, &chunk_header, &data, &data_size))
+	{
+		return false;
+	}
+
+	return fixup_map_variant_internal((s_blf_chunk_mapv_tag_names const *)&((s_blf_chunk_header const *)data)[-1], map_variant);
 }
 
 _extern bool _sub_10890AD0(s_file_reference *, s_map_variant *);
@@ -242,17 +249,22 @@ extern "C" void log_error(char const *message) // 0x10891C10
 	_sub_10891C10(message);
 }
 
-_extern void _sub_10891D10(char const *, ...);
 extern "C" void log_errorf(char const *format, ...) // 0x10891D10
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "_log_errorf");
 	// log_errorf
 	// static ...; // 0x10891DB0
 	// static ...; // 0x10891DA8
 	// char const *format;
 	// char buff[8192];
 	// char *va;
-	todo("implement");
-	_sub_10891D10(format);
+
+	char _Buffer[8192];
+	va_list va;
+
+	va_start(va, format);
+	vsprintf_s(_Buffer, format, va);
+	log_error(_Buffer);
 }
 
 _extern bool _sub_10890EF0(s_blf_chunk_mapv_tag_names const *, s_map_variant *);

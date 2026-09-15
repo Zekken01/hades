@@ -234,14 +234,15 @@ _inline std::string CHavokStatsStringOutputHandler::GetString() const // 0x1085F
 	return m_buffer.str();
 }
 
-extern CHavokStatsDisplayOutputHandler* _sub_1085E4F0(CHavokStatsDisplayOutputHandler *const);
 _inline CHavokStatsDisplayOutputHandler::CHavokStatsDisplayOutputHandler() // 0x1085E4F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0CHavokStatsDisplayOutputHandler@hades_file_local@@QAE@XZ");
 	// `anonymous-namespace'::CHavokStatsDisplayOutputHandler::CHavokStatsDisplayOutputHandler
 	// CHavokStatsDisplayOutputHandler *const this;
 	// function call : void (*const)(short_rectangle2d *, short_rectangle2d *, short_rectangle2d *, short_rectangle2d *)
-	todo("implement");
-	_sub_1085E4F0(this);
+
+	m_yOffset = 0;
+	((void (*const)(short_rectangle2d *, short_rectangle2d *, short_rectangle2d *, short_rectangle2d *))0xa9faa0)(nullptr, nullptr, nullptr, &m_displayBounds);
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0CHavokStatsOutputHandler@hades_file_local@@QAE@XZ"); no body to assert in
@@ -270,9 +271,9 @@ _inline void CHavokStatsDisplayOutputHandler::OutputLine(real_argb_color const *
 	_sub_1085F6C0(this, color, line);
 }
 
-_extern __int32 _sub_1085FB20(CHavokStatsOutputHandler *, real_argb_color const *, char const *, ...);
 __int32 havok_display_stats_printf_hook(CHavokStatsOutputHandler *output_handler, real_argb_color const *color, char const *format, ...) // 0x1085FB20
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?havok_display_stats_printf_hook@@YAHPAUCHavokStatsOutputHandler@hades_file_local@@PBUreal_argb_color@@PBDZZ");
 	// `anonymous-namespace'::havok_display_stats_printf_hook
 	// CHavokStatsOutputHandler *output_handler;
 	// real_argb_color const *color;
@@ -281,14 +282,24 @@ __int32 havok_display_stats_printf_hook(CHavokStatsOutputHandler *output_handler
 	// char buff[8192];
 	// char *va;
 	// function call : void (real_argb_color const *, char const *)
-	todo("implement");
-	__int32 __result = _sub_1085FB20(output_handler, color, format);
-	return __result;
+
+	if (output_handler == (CHavokStatsOutputHandler *)1)
+		return -1;
+
+	char buff[8192];
+	va_list va;
+
+	va_start(va, format);
+	__int32 n = vsprintf_s(buff, format, va);
+	va_end(va);
+
+	output_handler->OutputLine(color, buff);
+	return n;
 }
 
-_extern void _sub_1085FD10();
 void havok_out_of_memory_hook() // 0x1085FD10
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?havok_out_of_memory_hook@@YAXXZ");
 	// `anonymous-namespace'::havok_out_of_memory_hook
 	// procedure flags: nofpo
 	// static ...; // 0x1085FE24
@@ -297,8 +308,11 @@ void havok_out_of_memory_hook() // 0x1085FD10
 	// CHavokStatsStringOutputHandler buff;
 	// function call : void (*const)(CHavokStatsOutputHandler *)
 	// function call : __int32 (HWND__ *, char const *, char const *, unsigned __int32)
-	todo("implement");
-	_sub_1085FD10();
+
+	CHavokStatsStringOutputHandler buff;
+	((void (*const)(CHavokStatsOutputHandler *))0x5c4fc0)(&buff);
+	MessageBoxA(nullptr, buff.GetString().c_str(), "Havok out of memory!!!", 0x10);
+	__debugbreak();
 }
 
 /* ---------- template instantiations */

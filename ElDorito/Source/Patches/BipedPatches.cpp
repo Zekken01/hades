@@ -79,8 +79,8 @@ namespace Patches
 /* ---------- prototypes */
 
 #include "Modules/ModuleServer.hpp"  // hades: added for 0x1079C070
-extern bool game_is_campaign();  // hades: added for 0x1079C070
-extern bool game_is_multiplayer();  // hades: added for 0x1079C070
+extern bool (*game_is_campaign)();  // hades: the original calls through the pointer global, ?game_is_campaign@@3P6A_NXZA
+extern bool (*const game_is_multiplayer)();  // hades: the original calls through the pointer global, ?game_is_multiplayer@@3Q6A_NXZA
 
 namespace Patches
 {
@@ -153,15 +153,20 @@ namespace Patches
 			Patches::Biped::biped_update_boots_off_the_ground(biped_index);
 		}
 
-		_extern bool _sub_1079B990();
 		bool biped_falling_damage_campaign_only() // 0x1079B990
 		{
-			mangled_x86(MANGLED_TODO, "?biped_falling_damage_campaign_only@Biped@Patches@@YA_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?biped_falling_damage_campaign_only@Biped@Patches@@YA_NXZ");
 			// procedure flags: nofpo
 			// function call : bool (*const)()
-			todo("implement");
-			bool __result = _sub_1079B990();
-			return __result;
+
+			if (Utils::Singleton<Modules::ModuleServer>::Instance().VarServerFallDamageMPEnabledClient->ValueInt < 2)
+			{
+				return game_is_multiplayer();
+			}
+			else
+			{
+				return false;
+			}
 		}
 
 		bool fall_collision_damage_is_multiplayer() // 0x1079C0E0
@@ -170,7 +175,14 @@ namespace Patches
 			// procedure flags: nofpo
 			// function call : bool (*const)()
 
-			return Utils::Singleton<Modules::ModuleServer>::Instance().VarServerFallDamageMPEnabledClient->ValueInt != 1 && game_is_multiplayer();
+			if (Utils::Singleton<Modules::ModuleServer>::Instance().VarServerFallDamageMPEnabledClient->ValueInt != 1)
+			{
+				return game_is_multiplayer();
+			}
+			else
+			{
+				return false;
+			}
 		}
 
 		bool fall_collision_damage_is_campaign() // 0x1079C070
@@ -179,7 +191,14 @@ namespace Patches
 			// procedure flags: nofpo
 			// function call : bool (*)()
 
-			return Utils::Singleton<Modules::ModuleServer>::Instance().VarServerFallDamageMPEnabledClient->ValueInt == 1 || game_is_campaign();
+			if (Utils::Singleton<Modules::ModuleServer>::Instance().VarServerFallDamageMPEnabledClient->ValueInt != 1)
+			{
+				return game_is_campaign();
+			}
+			else
+			{
+				return true;
+			}
 		}
 
 		_extern void _sub_1079B490();

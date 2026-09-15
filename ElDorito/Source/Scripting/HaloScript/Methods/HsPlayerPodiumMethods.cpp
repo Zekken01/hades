@@ -140,6 +140,12 @@ void hs_podium_forge_point_overridable_evaluate(short op, long thread_index, boo
 
 /* ---------- globals */
 
+extern void ShowPlace(short desiredPlace, short stats_player_session_idx);
+extern unsigned long GetPlayerAnimationString(short player_session_idx, short animationType, short animationIndex);
+extern long GetAnimationWeaponIndex(short player_session_idx, short animationIndex, bool isPrimary);
+extern float GetAnimationOffset(short player_session_idx, short animationIndex);
+extern float GetPodiumBipedOffset(char const *offset_type, short place);
+
 /* ---------- private variables */
 
 /* ---------- public code */

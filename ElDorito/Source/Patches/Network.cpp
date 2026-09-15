@@ -282,6 +282,8 @@ namespace Patches
 
 /* ---------- prototypes */
 
+extern bool (*game_is_campaign)();  // hades: added for 0x10A9D870
+
 namespace Server::InfoServer { bool StartInfoServer(); bool StopInfoServer(); }  // hades: added for 0X10A995B0
 namespace Server::Signaling { void StartServer(); void StopServer(); }  // hades: added for 0X10A995B0
 
@@ -956,17 +958,22 @@ void SerializePlayerPropertiesHook(Blam::BitStream *stream, unsigned char *buffe
 	Utils::Singleton<Patches::Network::PlayerPropertiesExtender>::Instance().SerializeData(stream, buffer + 48);
 }
 
-_extern bool _sub_10A94970(Blam::BitStream *, unsigned char *, bool);
 bool DeserializePlayerPropertiesHook(Blam::BitStream *stream, unsigned char *buffer, bool flag) // 0x10A94970
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?DeserializePlayerPropertiesHook@@YA_NPAVBitStream@Blam@@PAE_N@Z");
 	// `anonymous-namespace'::DeserializePlayerPropertiesHook
 	// bool flag;
 	// bool succeeded;
 	// bool (*DeserializePlayerProperties)(Blam::BitStream *, unsigned char *, bool);
 	// function call : bool (*)(Blam::BitStream *, unsigned char *, bool)
-	todo("implement");
-	bool __result = _sub_10A94970(stream, buffer, flag);
-	return __result;
+
+	bool (*DeserializePlayerProperties)(Blam::BitStream *, unsigned char *, bool) = (bool(*)(Blam::BitStream *, unsigned char *, bool))0x4432e0;
+
+	bool succeeded = DeserializePlayerProperties(stream, buffer, flag);
+	if (succeeded)
+		Utils::Singleton<Patches::Network::PlayerPropertiesExtender>::Instance().DeserializeData(stream, buffer + 48);
+
+	return succeeded;
 }
 
 char __fastcall Network_state_end_game_write_stats_enterHook(void *thisPtr, __int32 unused, __int32 a2, __int32 a3, __int32 a4) // 0x10A9A240
@@ -1261,40 +1268,49 @@ __int32 __fastcall Network_session_remove_peerHook(Blam::Network::SessionMembers
 	return session_remove_peer(membership, peerIndex);
 }
 
-_extern bool _sub_10A99E40(void *, void *, __int32, __int32);
 bool __fastcall Network_session_parameter_countdown_timer_request_change_hook(void *thisPtr, void *unused, __int32 state, __int32 value) // 0x10A99E40
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Network_session_parameter_countdown_timer_request_change_hook@@YI_NPAX0HH@Z");
 	// `anonymous-namespace'::Network_session_parameter_countdown_timer_request_change_hook
 	// __int32 value;
 	// static bool (*`Network_session_parameter_countdown_timer_request_change_hook'::`2'::Network_session_parameter_countdown_timer_request_change)(void *, __int32, __int32); // 0x1135475C
-	{
 		// unsigned long countDownTimer;
-	}
 	// function call : bool (*)(void *, __int32, __int32)
-	todo("implement");
-	bool __result = _sub_10A99E40(thisPtr, unused, state, value);
-	return __result;
+
+	if (state == 2)
+	{
+		unsigned long countDownTimer = Modules::ModuleServer::Instance().VarServerCountdownLobby->ValueInt;
+		value = countDownTimer == 0 ? 0 : countDownTimer + 1;
+	}
+
+	static bool (__thiscall *Network_session_parameter_countdown_timer_request_change)(void *, __int32, __int32) = (bool(__thiscall *)(void *, __int32, __int32))0x453740;
+
+	return Network_session_parameter_countdown_timer_request_change(thisPtr, state, value);
 }
 
-_extern bool _sub_10A9DB70(void *, void *, s_map_variant *);
 bool __fastcall c_network_session_parameter_map_variant__request_change_hook(void *thisptr, void *unused, s_map_variant *mapVariant) // 0x10A9DB70
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_network_session_parameter_map_variant__request_change_hook@@YI_NPAX0PAUs_map_variant@@@Z");
 	// `anonymous-namespace'::c_network_session_parameter_map_variant__request_change_hook
 	// s_map_variant *mapVariant;
 	// bool (*const c_network_session_parameter_map_variant__request_change)(void *, s_map_variant *);
 	// bool ret;
-	{
 		// std::vector<std::function<void __cdecl(s_map_variant *)> > &<range>$L0;
 		// std::function<void __cdecl(s_map_variant *)> *<begin>$L0;
 		// std::function<void __cdecl(s_map_variant *)> *<end>$L0;
-		{
 			// std::function<void __cdecl(s_map_variant *)> &callback;
-		}
-	}
 	// function call : bool (*const)(void *, s_map_variant *)
-	todo("implement");
-	bool __result = _sub_10A9DB70(thisptr, unused, mapVariant);
-	return __result;
+
+	bool (__thiscall *const c_network_session_parameter_map_variant__request_change)(void *, s_map_variant *) = (bool(__thiscall *const)(void *, s_map_variant *))0x456480;
+
+	bool ret = c_network_session_parameter_map_variant__request_change(thisptr, mapVariant);
+	if (ret)
+	{
+		for (auto &&callback : mapVariantRequestChangeCallbacks)
+			callback(mapVariant);
+	}
+
+	return ret;
 }
 
 unsigned long long local_user_get_identifier_hook() // 0x10A9E2A0
@@ -1306,9 +1322,9 @@ unsigned long long local_user_get_identifier_hook() // 0x10A9E2A0
 	return *(unsigned long long *)0x199FAB2;
 }
 
-_extern void _sub_10A9E4E0(s_transport_address const *, void *);
 void network_broadcast_search_handle_reply_hook(s_transport_address const *usable_address, void *data) // 0x10A9E4E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?network_broadcast_search_handle_reply_hook@@YAXPBUs_transport_address@@PAX@Z");
 	// `anonymous-namespace'::network_broadcast_search_handle_reply_hook
 	// void *data;
 	// char *xnkid;
@@ -1318,16 +1334,34 @@ void network_broadcast_search_handle_reply_hook(s_transport_address const *usabl
 	// s_available_session *available_sessions;
 	// bool found;
 	// long max_session_count;
-	{
 		// long i;
-		{
 			// s_available_session *session;
-		}
-	}
 	// function call : void (*const)(s_transport_address const *, void *)
 	// function call : void (*const)(s_transport_address const *, void const *, void const *)
-	todo("implement");
-	_sub_10A9E4E0(usable_address, data);
+
+	void (*const xnet_shim_table_add)(s_transport_address const *, void const *, void const *) = (void(*const)(s_transport_address const *, void const *, void const *))0x430cd0;
+	void (*const network_broadcast_search_handle_reply)(s_transport_address const *, void *) = (void(*const)(s_transport_address const *, void *))0x4d9d30;
+
+	network_broadcast_search_handle_reply(usable_address, data);
+
+	char *xnkid = (char *)data + 0x76;
+	char *xnaddr = (char *)data + 0x86;
+	long max_session_count = *(long *)0x228E6D8;
+	s_available_session *available_sessions = *(s_available_session **)0x228E6DC;
+	bool found = false;
+
+	for (long i = 0; !found && i < max_session_count; i++)
+	{
+		s_available_session *session = &available_sessions[i];
+		if (!session->valid)
+			continue;
+
+		if (memcmp(session->status.session_id, xnkid, 0x10) == 0)
+			found = true;
+	}
+
+	if (found)
+		xnet_shim_table_add(usable_address, xnaddr, xnkid);
 }
 
 void __fastcall c_network_session_membership__build_membership_update_hook(c_network_session_membership *thisptr, void *__formal, long peer_index, s_network_session_shared_membership const *membership, s_network_session_shared_membership const *baseline, s_network_session_membership_update_message *update) // 0x10A9DA60
@@ -1356,17 +1390,27 @@ void __fastcall c_network_session_membership__copy_current_to_transmitted_hook(c
 	copy_current_to_transmitted(thisptr, peer_index, thisptr->get_current_membership());
 }
 
-_extern void _sub_10A9D870(c_network_message_handler *, void *, void *, void *);
 void __fastcall c_network_message_handler__handle_parameters_request_hook(c_network_message_handler *thisptr, void *__formal, void *channel, void *message) // 0x10A9D870
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_network_message_handler__handle_parameters_request_hook@@YIXPAUc_network_message_handler@@PAX11@Z");
 	// `anonymous-namespace'::c_network_message_handler__handle_parameters_request_hook
 	// void *message;
 	// void (*const c_network_message_handler__handle_parameters_request)(c_network_message_handler *, void *, void *);
 	// function call : bool (*const)()
 	// function call : bool (*)()
 	// function call : void (*const)(c_network_message_handler *, void *, void *)
-	todo("implement");
-	_sub_10A9D870(thisptr, __formal, channel, message);
+
+	if (((bool(*)())0x5314B0)())
+	{
+		if (!game_is_campaign())
+		{
+			return;
+		}
+
+		const auto c_network_message_handler__handle_parameters_request = (void(__thiscall *)(c_network_message_handler *, void *, void *))0x49D4E0;
+
+		c_network_message_handler__handle_parameters_request(thisptr, channel, message);
+	}
 }
 
 _extern void _sub_10A9D840(c_network_message_handler *, void *, void *, void *);

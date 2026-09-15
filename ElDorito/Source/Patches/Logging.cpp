@@ -84,6 +84,7 @@
 #include <typeinfo>
 #include <utility>
 #include <vector>
+#include "Utils/Logger.hpp"
 
 /* ---------- forward declarations */
 
@@ -324,13 +325,13 @@ void dbglog(char const *module, char const *format, ...) // 0x10A85ED0
 	_sub_10A85ED0(module, format);
 }
 
-_extern void _sub_10A86160(char *, char *);
 void __stdcall debuglog_string(char *name, char *value) // 0x10A86160
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?debuglog_string@@YGXPAD0@Z");
 	// `anonymous-namespace'::debuglog_string
 	// char *value;
-	todo("implement");
-	_sub_10A86160(name, value);
+
+	Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Debug, Utils::LogLevel::Info, "%s: %s", name, value);
 }
 
 _extern void _sub_10A860D0(char *, __int32);
@@ -342,13 +343,13 @@ void __stdcall debuglog_int(char *name, __int32 value) // 0x10A860D0
 	_sub_10A860D0(name, value);
 }
 
-_extern void _sub_10A86030(char *, float);
 void __stdcall debuglog_float(char *name, float value) // 0x10A86030
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?debuglog_float@@YGXPADM@Z");
 	// `anonymous-namespace'::debuglog_float
 	// float value;
-	todo("implement");
-	_sub_10A86030(name, value);
+
+	Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Debug, Utils::LogLevel::Info, "%s: %f", name, value);
 }
 
 _extern void _sub_10A86440(char *, ...);
@@ -396,14 +397,20 @@ namespace Debug
 	}
 }
 
-_extern void _sub_10A87380(char, __int32, void *, void *, char);
 void uiLogHook(char a1, __int32 a2, void *a3, void *a4, char a5) // 0x10A87380
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?uiLogHook@@YAXDHPAX0D@Z");
 	// `anonymous-namespace'::uiLogHook
 	// char a5;
 	// char const *logData1;
-	todo("implement");
-	_sub_10A87380(a1, a2, a3, a4, a5);
+
+	char const *logData1 = *(char **)a3;
+	if (logData1 == 0)
+		logData1 = "";
+	else
+		logData1 += 0xC;
+
+	Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Graphics, Utils::LogLevel::Info, logData1);
 }
 
 _extern bool _sub_10A86C90(void *, __int32, Blam::BitStream *, __int32 *, __int32 *, void *);

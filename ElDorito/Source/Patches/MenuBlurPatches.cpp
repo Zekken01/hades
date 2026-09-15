@@ -91,6 +91,7 @@
 #include <typeinfo>
 #include <utility>
 #include <vector>
+#include "Modules/ModuleGame.hpp"  // hades: added for 0x108D2030
 
 /* ---------- forward declarations */
 
@@ -176,6 +177,8 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+namespace Player { namespace PlayerEmblem { extern void set_emblem_texture(long sampler, long player_index, bool use_generic, bool screen_emblem); } }  // hades: added for 0x108D2BE0
+
 namespace Patches
 {
 	namespace MenuBlur
@@ -196,6 +199,8 @@ void draw_custom_bitmap(s_gui_bitmap_widget_render_info *info, IDirect3DTexture9
 void ui_draw_bitmap_widget_hook(s_gui_bitmap_widget_render_info *data, short_rectangle2d *display_bounds);
 
 /* ---------- globals */
+
+extern float (*const game_tick_length)();  // hades: added for 0x108D2030
 
 /* ---------- private variables */
 
@@ -240,20 +245,31 @@ namespace Patches
 
 /* ---------- private code */
 
-_extern void _sub_108D3330(float *, float *);
 void get_blur_factors(float *blur_x, float *blur_y) // 0x108D3330
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_blur_factors@@YAXPAM0@Z");
 	// `anonymous-namespace'::get_blur_factors
 	// float *blur_y;
 	// s_user_interface_shared_globals *ui_shared_globals;
 	// function call : s_user_interface_shared_globals *(*const)()
-	todo("implement");
-	_sub_108D3330(blur_x, blur_y);
+
+	s_user_interface_shared_globals *ui_shared_globals = ((s_user_interface_shared_globals *(*)())0xA84D20)();
+
+	if (ui_shared_globals)
+	{
+		*blur_x = ui_shared_globals->menu_blur_x;
+		*blur_y = ui_shared_globals->menu_blur_y;
+	}
+	else
+	{
+		*blur_x = 1.5f;
+		*blur_y = 1.5f;
+	}
 }
 
-extern e_surface _sub_108D2190();
 e_surface blur_display() // 0x108D2190
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?blur_display@@YA?AW4e_surface@@XZ");
 	// `anonymous-namespace'::blur_display
 	// procedure flags: nofpo
 	// static ...; // 0x108D22A3
@@ -269,21 +285,45 @@ e_surface blur_display() // 0x108D2190
 	// function call : e_surface (*const)(e_surface)
 	// function call : void (*const)()
 	// function call : void (*const)()
-	todo("implement");
-	e_surface __result = _sub_108D2190();
-	return __result;
+
+	float blur_x, blur_y;
+	get_blur_factors(&blur_x, &blur_y);
+
+	((void (*)(bool))0xA63510)(false);
+	((e_surface (*)(e_surface))0xA48CB0)(_surface_disable);
+
+	e_surface surface = c_screen_postprocess::blur_display(blur_x, blur_y);
+
+	((e_surface (*)(long, e_surface, long))0xA48E40)(0, _surface_screenshot_display, -1);
+	((e_surface (*)(e_surface))0xA48CB0)(_surface_depth_stencil);
+	((void (*)())0xA202F0)();
+	((void (*)())0xA202E0)();
+
+	return surface;
 }
 
-_extern void _sub_108D3490(real_point2d *);
 void scale_ui_screen_vertices(real_point2d *vertices) // 0x108D3490
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?scale_ui_screen_vertices@@YAXPAUreal_point2d@@@Z");
 	// `anonymous-namespace'::scale_ui_screen_vertices
 	// real_point2d *vertices;
 	// unsigned long *g_game_resolution;
 	// float width_scale;
 	// float height_scale;
-	todo("implement");
-	_sub_108D3490(vertices);
+
+	unsigned long *g_game_resolution = (unsigned long *)0x19106C0;
+
+	float width_scale = (float)g_game_resolution[0] / (float)g_game_resolution[2];
+	float height_scale = (float)g_game_resolution[1] / (float)g_game_resolution[3];
+
+	vertices[0].x = vertices[0].x * width_scale;
+	vertices[1].x = vertices[1].x * width_scale;
+	vertices[2].x = vertices[2].x * width_scale;
+	vertices[3].x = vertices[3].x * width_scale;
+	vertices[0].y = vertices[0].y * height_scale;
+	vertices[1].y = vertices[1].y * height_scale;
+	vertices[2].y = vertices[2].y * height_scale;
+	vertices[3].y = vertices[3].y * height_scale;
 }
 
 _extern void _sub_108D2C70(s_gui_bitmap_widget_render_info *, short_rectangle2d *);
@@ -354,19 +394,23 @@ void draw_custom_bitmap(s_gui_bitmap_widget_render_info *info, short_rectangle2d
 	_sub_108D2400(info, display_bounds, explicit_shader_index);
 }
 
-_extern void _sub_108D2BE0(s_gui_bitmap_widget_render_info *, short_rectangle2d *, __int32);
 void draw_custom_emblem(s_gui_bitmap_widget_render_info *info, short_rectangle2d *display_bounds, __int32 player_index) // 0x108D2BE0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?draw_custom_emblem@@YAXPAUs_gui_bitmap_widget_render_info@@PAUshort_rectangle2d@@H@Z");
 	// `anonymous-namespace'::draw_custom_emblem
 	// __int32 player_index;
 	// long *g_sampler_texture_refs;
-	todo("implement");
-	_sub_108D2BE0(info, display_bounds, player_index);
+
+	long *g_sampler_texture_refs = (long *)0x1910560;
+
+	::Player::PlayerEmblem::set_emblem_texture(0, player_index, 0, 1);
+	g_sampler_texture_refs[0] = -1;
+	draw_custom_bitmap(info, display_bounds, 63);
 }
 
-_extern void _sub_108D22F0(s_gui_bitmap_widget_render_info *, IDirect3DTexture9 *, short_rectangle2d *);
 void draw_custom_bitmap(s_gui_bitmap_widget_render_info *info, IDirect3DTexture9 *texture, short_rectangle2d *display_bounds) // 0x108D22F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?draw_custom_bitmap@@YAXPAUs_gui_bitmap_widget_render_info@@PAUIDirect3DTexture9@@PAUshort_rectangle2d@@@Z");
 	// `anonymous-namespace'::draw_custom_bitmap
 	// short_rectangle2d *display_bounds;
 	// long (*const DrawPrimitiveUP)(long, long, void *, long);
@@ -377,8 +421,18 @@ void draw_custom_bitmap(s_gui_bitmap_widget_render_info *info, IDirect3DTexture9
 	// void (*const c_vertex_declaration_table__vertex_shader_declaration_set)(long, long, long);
 	// function call : HRESULT (unsigned long, IDirect3DBaseTexture9 *)
 	// function call : HRESULT (unsigned long, _D3DSAMPLERSTATETYPE, unsigned long)
-	todo("implement");
-	_sub_108D22F0(info, texture, display_bounds);
+
+	void (*const interface_get_current_display_or_window_settings)(short_rectangle2d *, short_rectangle2d *, short_rectangle2d *, short_rectangle2d *) = (void (*const)(short_rectangle2d *, short_rectangle2d *, short_rectangle2d *, short_rectangle2d *))0xA9FA40;
+	void (*const c_vertex_declaration_table__vertex_shader_declaration_set)(long, long, long) = (void (*const)(long, long, long))0xA729B0;
+	long (*const DrawPrimitiveUP)(long, long, void *, long) = (long (*const)(long, long, void *, long))0xA28330;
+	long *g_sampler_texture_refs = (long *)0x1910560;
+	IDirect3DDevice9 *device = *(IDirect3DDevice9 **)0x50DADDC;
+	bool *g_sampler_gamma_correction_array = (bool *)0x50DB200;
+
+	device->SetTexture(0, texture);
+	device->SetSamplerState(0, D3DSAMP_SRGBTEXTURE, 1);
+	g_sampler_texture_refs[0] = -1;
+	draw_custom_bitmap(info, display_bounds, 88);
 }
 
 _extern void _sub_108D37E0(s_gui_bitmap_widget_render_info *, short_rectangle2d *);
@@ -430,16 +484,24 @@ void CRenderFullScreenBlur::Render() // 0x108D1A10
 	_sub_108D1A10(this);
 }
 
-_extern void _sub_108D2030(CRenderFullScreenBlur *const);
 void CRenderFullScreenBlur::Update() // 0x108D2030
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CRenderFullScreenBlur@hades_file_local@@QAEXXZ");
 	// `anonymous-namespace'::CRenderFullScreenBlur::Update
 	// CRenderFullScreenBlur *const this;
 	// bool enabled;
 	// float m_transitionRateSeconds;
 	// function call : float (*const)()
-	todo("implement");
-	_sub_108D2030(this);
+
+	bool enabled = Utils::Singleton<Modules::ModuleGame>::Instance().VarFullscreenBlur->ValueInt != 0;
+	float m_transitionRateSeconds = Utils::Singleton<Modules::ModuleGame>::Instance().VarFullscreenBlurTime->ValueFloat;
+
+	m_alpha += game_tick_length() * m_transitionRateSeconds * (2 * enabled - 1.0f);
+
+	if (m_alpha > 1.0f)
+		m_alpha = 1.0f;
+	else if (m_alpha < 0.0f)
+		m_alpha = 0.0f;
 }
 
 /* ---------- template instantiations */

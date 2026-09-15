@@ -19,6 +19,7 @@
 // to be included in (WinSock2 before Windows, above all). Nothing external belongs here.
 
 #include "hades/reverse_engineering.h"
+#include "hades/recovered_early_templates.h"
 #include "hades/recovered_types.h"
 #include "hades/recovered_templates.h"
 

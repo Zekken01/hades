@@ -78,6 +78,8 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+extern s_multiplayer_object_properties *(*const object_get_multiplayer)(unsigned long);  // hades: added for 0x108610C0
+
 void UpdateDevice(unsigned long objectIndex);
 
 /* ---------- globals */
@@ -139,18 +141,32 @@ void CForgeDeviceManager::InitializeDeviceObject(long objectIndex) // 0x10860F50
 	_sub_10860F50(this, objectIndex);
 }
 
-_extern bool _sub_108610C0(CForgeDeviceManager *const, long);
 bool CForgeDeviceManager::IsForgeDevice(long objectIndex) // 0x108610C0
 {
-	mangled_x86(MANGLED_TODO, "?IsForgeDevice@CForgeDeviceManager@@QAE_NJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?IsForgeDevice@CForgeDeviceManager@@QAE_NJ@Z");
 	// long objectIndex;
 	// s_device_data *device;
 	// s_multiplayer_object_properties *multiplayerProperties;
 	// unsigned char channelIndex;
 	// function call : s_multiplayer_object_properties *(*const)(unsigned long)
-	todo("implement");
-	bool __result = _sub_108610C0(this, objectIndex);
-	return __result;
+
+	s_object_data *object = object_get(objectIndex);
+
+	if (!object)
+	{
+		return false;
+	}
+
+	s_multiplayer_object_properties *multiplayerProperties = object_get_multiplayer(objectIndex);
+
+	if (!multiplayerProperties)
+	{
+		return false;
+	}
+
+	unsigned char channel = multiplayerProperties->teleporter_channel;
+
+	return channel < 0x20;
 }
 
 extern EForgeDeviceType _sub_10860DD0(CForgeDeviceManager *const, long);

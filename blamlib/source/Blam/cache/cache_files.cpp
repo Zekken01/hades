@@ -70,14 +70,13 @@ void cache_file_tag_references_fixup() // 0x10F18FC0
 	_sub_10F18FC0();
 }
 
-_extern void _sub_10F190F0();
 void cache_file_tags_close() // 0x10F190F0
 {
-	mangled_x86(MANGLED_TODO, "?cache_file_tags_close@@YAXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?cache_file_tags_close@@YAXXZ");
 	// procedure flags: nofpo
 	// function call : bool (*const)(s_file_reference *)
-	todo("implement");
-	_sub_10F190F0();
+
+	file_close(&g_cache_file_tag_globals->cache_file_reference);
 }
 
 /* ---------- private code */

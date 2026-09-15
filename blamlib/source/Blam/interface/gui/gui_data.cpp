@@ -152,22 +152,24 @@ long c_gui_data::add_element() // 0x10F1DD80
 	return -1;
 }
 
-_extern void _sub_10F1DEC0(c_gui_data *const, long);
 void c_gui_data::delete_element(long element_handle) // 0x10F1DEC0
 {
-	mangled_x86(MANGLED_TODO, "?delete_element@c_gui_data@@UAEXJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?delete_element@c_gui_data@@UAEXJ@Z");
 	// long element_handle;
-	todo("implement");
-	_sub_10F1DEC0(this, element_handle);
+
+	#line 157 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\interface\\gui\\gui_data.cpp"
+		assert(!"not implemented");
+		#line 163 "F:\\Project Hades\\Hades\\Source\\blamlib\\source\\Blam\\interface\\gui\\gui_data.cpp"
 }
 
-_extern void _sub_10F1ED40(c_gui_data *const, long, void const *, long);
 void c_gui_data::set_element(long element_handle, void const *element, long element_size) // 0x10F1ED40
 {
-	mangled_x86(MANGLED_TODO, "?set_element@c_gui_data@@UAEXJPBXJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_element@c_gui_data@@UAEXJPBXJ@Z");
 	// long element_size;
-	todo("implement");
-	_sub_10F1ED40(this, element_handle, element, element_size);
+
+	#line 167 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\interface\\gui\\gui_data.cpp"
+		assert(!"not implemented");
+		#line 173 "F:\\Project Hades\\Hades\\Source\\blamlib\\source\\Blam\\interface\\gui\\gui_data.cpp"
 }
 
 bool c_gui_data::get_invoked_control(long __formal, long *name) // 0x10F1E5D0
@@ -178,40 +180,44 @@ bool c_gui_data::get_invoked_control(long __formal, long *name) // 0x10F1E5D0
 	return false;
 }
 
-_extern void _sub_10F1DDE0(c_gui_data *const);
 void c_gui_data::clear_disabled_elements() // 0x10F1DDE0
 {
-	mangled_x86(MANGLED_TODO, "?clear_disabled_elements@c_gui_data@@UAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?clear_disabled_elements@c_gui_data@@UAEXXZ");
 	// c_gui_data *const this;
-	todo("implement");
-	_sub_10F1DDE0(this);
+
+	#line 185 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\interface\\gui\\gui_data.cpp"
+		assert(!"datasource doesn't support enabling and disabling");
+		#line 191 "F:\\Project Hades\\Hades\\Source\\blamlib\\source\\Blam\\interface\\gui\\gui_data.cpp"
 }
 
-_extern void _sub_10F1EC20(c_gui_data *const, long, unsigned long);
 void c_gui_data::set_disabled_element(long element_index, unsigned long name) // 0x10F1EC20
 {
-	mangled_x86(MANGLED_TODO, "?set_disabled_element@c_gui_data@@UAEXJK@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_disabled_element@c_gui_data@@UAEXJK@Z");
 	// unsigned long name;
-	todo("implement");
-	_sub_10F1EC20(this, element_index, name);
+
+	#line 195 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\interface\\gui\\gui_data.cpp"
+		assert(!"datasource doesn't support enabling and disabling");
+		#line 201 "F:\\Project Hades\\Hades\\Source\\blamlib\\source\\Blam\\interface\\gui\\gui_data.cpp"
 }
 
-_extern void _sub_10F1DF40(c_gui_data *const, unsigned long);
 void c_gui_data::disable_all_elements(unsigned long name) // 0x10F1DF40
 {
-	mangled_x86(MANGLED_TODO, "?disable_all_elements@c_gui_data@@UAEXK@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?disable_all_elements@c_gui_data@@UAEXK@Z");
 	// unsigned long name;
-	todo("implement");
-	_sub_10F1DF40(this, name);
+
+	#line 205 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\interface\\gui\\gui_data.cpp"
+		assert(!"datasource doesn't support enabling and disabling");
+		#line 211 "F:\\Project Hades\\Hades\\Source\\blamlib\\source\\Blam\\interface\\gui\\gui_data.cpp"
 }
 
-_extern void _sub_10F1E1B0(c_gui_data *const, long, unsigned long);
 void c_gui_data::enable_element(long element_index, unsigned long name) // 0x10F1E1B0
 {
-	mangled_x86(MANGLED_TODO, "?enable_element@c_gui_data@@UAEXJK@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?enable_element@c_gui_data@@UAEXJK@Z");
 	// unsigned long name;
-	todo("implement");
-	_sub_10F1E1B0(this, element_index, name);
+
+	#line 215 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\interface\\gui\\gui_data.cpp"
+		assert(!"datasource doesn't support enabling and disabling");
+		#line 221 "F:\\Project Hades\\Hades\\Source\\blamlib\\source\\Blam\\interface\\gui\\gui_data.cpp"
 }
 
 void c_gui_data::set_name(unsigned long name) // 0x10F1EDC0
@@ -231,58 +237,97 @@ c_gui_ordered_data::c_gui_ordered_data() // 0x10F1DBA0
 	m_disabled_element_count = 0;
 }
 
-_extern long _sub_10F1E330(c_gui_ordered_data *const);
 long c_gui_ordered_data::get_current_item_count() // 0x10F1E330
 {
-	mangled_x86(MANGLED_TODO, "?get_current_item_count@c_gui_ordered_data@@UAEJXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_current_item_count@c_gui_ordered_data@@UAEJXZ");
 	// c_gui_ordered_data *const this;
 	// long item_count;
-	{
 		// long item_index;
-	}
 	// function call : long ()
-	todo("implement");
-	long __result = _sub_10F1E330(this);
-	return __result;
+
+	long item_count = 0;
+
+	for (long item_index = 0; item_index < get_current_item_count_internal(); item_index++)
+	{
+		if (is_enabled(item_index))
+		{
+			item_count++;
+		}
+	}
+
+	return item_count;
 }
 
-_extern long _sub_10F1E450(c_gui_ordered_data *const);
 long c_gui_ordered_data::get_first_element_handle() // 0x10F1E450
 {
-	mangled_x86(MANGLED_TODO, "?get_first_element_handle@c_gui_ordered_data@@UAEJXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_first_element_handle@c_gui_ordered_data@@UAEJXZ");
 	// c_gui_ordered_data *const this;
 	// long item_count;
 	// long index;
 	// function call : long ()
-	todo("implement");
-	long __result = _sub_10F1E450(this);
-	return __result;
+
+	long item_count = get_current_item_count_internal();
+	long index = 0;
+
+	while (index >= 0 && index < item_count && !is_enabled(index))
+	{
+		index++;
+	}
+
+	if (index < 0 || index >= item_count)
+	{
+		return -1;
+	}
+
+	return index;
 }
 
-_extern long _sub_10F1E6A0(c_gui_ordered_data *const, long);
 long c_gui_ordered_data::get_next_element_handle(long element_handle) // 0x10F1E6A0
 {
-	mangled_x86(MANGLED_TODO, "?get_next_element_handle@c_gui_ordered_data@@UAEJJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_next_element_handle@c_gui_ordered_data@@UAEJJ@Z");
 	// long element_handle;
 	// long item_count;
 	// long index;
 	// function call : long ()
-	todo("implement");
-	long __result = _sub_10F1E6A0(this, element_handle);
-	return __result;
+
+	long item_count = get_current_item_count_internal();
+	long index = element_handle + 1;
+
+	while (index >= 0 && index < item_count && !is_enabled(index))
+	{
+		index++;
+	}
+
+	if (index < 0 || index >= item_count)
+	{
+		return -1;
+	}
+
+	return index;
 }
 
-_extern long _sub_10F1E7D0(c_gui_ordered_data *const, long);
 long c_gui_ordered_data::get_previous_element_handle(long element_handle) // 0x10F1E7D0
 {
-	mangled_x86(MANGLED_TODO, "?get_previous_element_handle@c_gui_ordered_data@@UAEJJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_previous_element_handle@c_gui_ordered_data@@UAEJJ@Z");
 	// long element_handle;
 	// long item_count;
 	// long index;
 	// function call : long ()
-	todo("implement");
-	long __result = _sub_10F1E7D0(this, element_handle);
-	return __result;
+
+	long item_count = get_current_item_count_internal();
+	long index = element_handle - 1;
+
+	while (index >= 0 && index < item_count && !is_enabled(index))
+	{
+		index--;
+	}
+
+	if (index < 0 || index >= item_count)
+	{
+		return -1;
+	}
+
+	return index;
 }
 
 void c_gui_ordered_data::clear_disabled_elements() // 0x10F1DE60
@@ -305,59 +350,84 @@ void c_gui_ordered_data::set_disabled_element(long element_handle, unsigned long
 	}
 }
 
-_extern void _sub_10F1DFC0(c_gui_ordered_data *const, unsigned long);
+// The original carries a /GS cookie here that our flags do not produce for a plain
+// scalar whose address escapes; `strict_gs_check` forces it. Cause of the difference
+// is unestablished -- see hades-gs-cookie.
+#pragma strict_gs_check(push, on)
 void c_gui_ordered_data::disable_all_elements(unsigned long name) // 0x10F1DFC0
 {
-	mangled_x86(MANGLED_TODO, "?disable_all_elements@c_gui_ordered_data@@UAEXK@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?disable_all_elements@c_gui_ordered_data@@UAEXK@Z");
 	// static ...; // 0x10F1E0F4
 	// static ...; // 0x10F1E0EC
 	// c_gui_ordered_data *const this;
 	// unsigned long name;
-	{
 		// long element_handle;
-		{
 			// unsigned long value;
-		}
-	}
 	// function call : void ()
 	// function call : long ()
 	// function call : long (long)
 	// function call : bool (long, unsigned long, unsigned long *)
 	// function call : void (long, unsigned long)
-	todo("implement");
-	_sub_10F1DFC0(this, name);
-}
 
-_extern void _sub_10F1E230(c_gui_ordered_data *const, long, unsigned long);
+	clear_disabled_elements();
+
+	for (long element_handle = get_first_element_handle(); element_handle != -1; element_handle = get_next_element_handle(element_handle))
+	{
+		unsigned long value;
+
+		if (get_string_id_value(element_handle, name, &value) && value != -1)
+		{
+			set_disabled_element(element_handle, name);
+		}
+	}
+}
+#pragma strict_gs_check(pop)
+
 void c_gui_ordered_data::enable_element(long element_handle, unsigned long name) // 0x10F1E230
 {
-	mangled_x86(MANGLED_TODO, "?enable_element@c_gui_ordered_data@@UAEXJK@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?enable_element@c_gui_ordered_data@@UAEXJK@Z");
 	// unsigned long name;
-	{
 		// long i;
+
+	for (long i = 0; i < m_disabled_element_count; i++)
+	{
+		if (m_disabled_elements[i].element_handle == element_handle && m_disabled_elements[i].name == name)
+		{
+			m_disabled_element_count--;
+			csmemmove(&m_disabled_elements[i], &m_disabled_elements[i + 1], 8 * (m_disabled_element_count - i));
+			return;
+		}
 	}
-	todo("implement");
-	_sub_10F1E230(this, element_handle, name);
 }
 
-_extern bool _sub_10F1EA90(c_gui_ordered_data *const, long);
+// The original carries a /GS cookie here that our flags do not produce for a plain
+// scalar whose address escapes; `strict_gs_check` forces it. Cause of the difference
+// is unestablished -- see hades-gs-cookie.
+#pragma strict_gs_check(push, on)
 bool c_gui_ordered_data::is_enabled(long element_index) // 0x10F1EA90
 {
-	mangled_x86(MANGLED_TODO, "?is_enabled@c_gui_ordered_data@@AAE_NJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?is_enabled@c_gui_ordered_data@@AAE_NJ@Z");
 	// static ...; // 0x10F1EB78
 	// static ...; // 0x10F1EB70
 	// c_gui_ordered_data *const this;
 	// long element_index;
-	{
 		// long i;
-		{
 			// unsigned long value;
+	// function call : bool (long, unsigned long, unsigned long *)
+
+	for (long i = 0; i < m_disabled_element_count; i++)
+	{
+		unsigned long value = -1;
+
+		if (get_string_id_value(element_index, m_disabled_elements[i].name, &value)
+			&& value == m_disabled_elements[i].name)
+		{
+			return false;
 		}
 	}
-	// function call : bool (long, unsigned long, unsigned long *)
-	todo("implement");
-	bool __result = _sub_10F1EA90(this, element_index);
-	return __result;
+
+	return true;
 }
+#pragma strict_gs_check(pop)
 
 /* ---------- private code */

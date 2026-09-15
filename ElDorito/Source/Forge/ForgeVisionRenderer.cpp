@@ -132,6 +132,8 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+extern float (*const game_tick_length)();  // hades: added for 0x10838CB0
+
 /* ---------- globals */
 
 namespace Forge
@@ -160,14 +162,17 @@ namespace Forge
 
 namespace Forge
 {
-	_extern void _sub_10838CB0();
 	void CForgeVisionRenderer::Update() // 0x10838CB0
 	{
-		mangled_x86(MANGLED_TODO, "?Update@CForgeVisionRenderer@Forge@@SAXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CForgeVisionRenderer@Forge@@SAXXZ");
 		// procedure flags: nofpo
 		// function call : float (*const)()
-		todo("implement");
-		_sub_10838CB0();
+
+		Forge::colorAnimation = Forge::colorAnimation + game_tick_length() * 5.0f;
+		if (Forge::colorAnimation >= 6.2831855f)
+		{
+			Forge::colorAnimation = Forge::colorAnimation - 6.2831855f;
+		}
 	}
 
 	_extern void _sub_108383F0(real_argb_color *);

@@ -250,6 +250,8 @@ bool __fastcall gui_screen_game_options_set_variant_parameter_hook(c_game_varian
 
 /* ---------- globals */
 
+extern c_game_variant *(*const game_engine_get_variant)(); // 0x11248CB0
+
 /* ---------- private variables */
 
 namespace hades_file_local
@@ -625,9 +627,9 @@ void game_engine_apply_weapons_traits_new(long player_index, c_player_trait_weap
 	_sub_10AA6D70(player_index, traits);
 }
 
-_extern void _sub_10AA6980(long, c_player_traits const *);
 void game_engine_apply_player_traits_hook(long player_index, c_player_traits const *traits) // 0x10AA6980
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_apply_player_traits_hook@@YAXJPBUc_player_traits@@@Z");
 	// `anonymous-namespace'::game_engine_apply_player_traits_hook
 	// c_player_traits const *traits;
 	// void (*const game_engine_apply_weapons_traits)(long, c_player_trait_weapons const *);
@@ -639,21 +641,41 @@ void game_engine_apply_player_traits_hook(long player_index, c_player_traits con
 	// function call : void (*const)(long, c_player_trait_movement const *)
 	// function call : void (*const)(long, c_player_trait_appearance const *)
 	// function call : void (*const)(long, c_player_trait_sensors const *)
-	todo("implement");
-	_sub_10AA6980(player_index, traits);
+
+	const auto game_engine_apply_vitality_traits = (void(*)(long, c_player_trait_shield_vitality const *))0x5CBD30;
+	const auto game_engine_apply_weapons_traits = (void(*)(long, c_player_trait_weapons const *))0x5CBE20;
+	const auto game_engine_apply_movement_traits = (void(*)(long, c_player_trait_movement const *))0x5CB6D0;
+	const auto game_engine_apply_appearance_trait = (void(*)(long, c_player_trait_appearance const *))0x5CB530;
+	const auto game_engine_apply_sensors_traits = (void(*)(long, c_player_trait_sensors const *))0x5CBC90;
+
+	game_engine_apply_vitality_traits(player_index, &traits->vitality);
+	game_engine_apply_extended_traits(player_index, &traits->extended);
+	game_engine_apply_weapons_traits_new(player_index, &traits->weapons);
+	game_engine_apply_movement_traits(player_index, &traits->movement);
+	game_engine_apply_appearance_trait(player_index, &traits->appearance);
+	game_engine_apply_sensors_traits(player_index, &traits->sensors);
 }
 
-_extern void _sub_10AA6C90(long, c_player_traits *);
 void game_engine_apply_respawn_traits_hook(long player_index, c_player_traits *traits) // 0x10AA6C90
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_apply_respawn_traits_hook@@YAXJPAUc_player_traits@@@Z");
 	// `anonymous-namespace'::game_engine_apply_respawn_traits_hook
 	// c_player_traits *traits;
 	// s_player_datum *player;
 	// u_game_engine_variant *const variant;
 	// c_game_variant *game_variant;
 	// function call : c_game_variant *(*const)()
-	todo("implement");
-	_sub_10AA6C90(player_index, traits);
+
+	c_game_variant *game_variant = game_engine_get_variant();
+	s_player_datum *player = player_get(player_index);
+	if (!game_variant || !player)
+		return;
+
+	u_game_engine_variant *const variant = (u_game_engine_variant *)game_variant->storage;
+	if (variant->base.respawn_options.respawn_traits_duration > 0 && player->respawn_duration_seconds > 0 && !player->first_spawn && (player->flags & 8) == 0)
+	{
+		traits->set(&variant->base.respawn_options.player_traits, false);
+	}
 }
 
 _extern void _sub_10AA6AB0(long, c_player_traits *);
@@ -960,15 +982,19 @@ long c_gui_screen_game_options__get_parameter_type_for_current_category(c_gui_sc
 	return game_variant_get_parameter_type_for_category_hook(category_index, parameter_type);
 }
 
-_extern bool _sub_10AA5DF0(c_gui_screen_game_options *, long, unsigned long *);
 bool c_gui_screen_game_options__try_and_get_parameter_value(c_gui_screen_game_options *screen, long parameter_type, unsigned long *out_value) // 0x10AA5DF0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_screen_game_options__try_and_get_parameter_value@@YA_NPAUc_gui_screen_game_options@@JPAK@Z");
 	// `anonymous-namespace'::c_gui_screen_game_options__try_and_get_parameter_value
 	// unsigned long *out_value;
 	// c_game_variant *variant;
-	todo("implement");
-	bool __result = _sub_10AA5DF0(screen, parameter_type, out_value);
-	return __result;
+
+
+	parameter_type = c_gui_screen_game_options__get_parameter_type_for_current_category(screen, parameter_type);
+	if (parameter_type == -1)
+		return false;
+	c_game_variant *variant = (c_game_variant *)((char *)screen + 0x1AA0);
+	return c_game_variant__get_game_engine_setting_hook(variant, nullptr, (e_game_variant_parameter)parameter_type, 0, out_value);
 }
 
 bool c_gui_screen_game_options__try_set_parameter_value(c_gui_screen_game_options *screen, long parameter_type, unsigned long value) // 0x10AA5E80
@@ -1080,21 +1106,24 @@ _inline bool c_user_interface_player_model_set_text_value_pair_proxy::try_get_st
 	return __result;
 }
 
-extern s_text_value_pair_definition *_sub_10AA7970(s_multiplayer_variant_settings_interface_definition *, long);
 s_text_value_pair_definition *text_value_pair_definition_try_and_get_hook(s_multiplayer_variant_settings_interface_definition *definition, long parameter_type) // 0x10AA7970
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?text_value_pair_definition_try_and_get_hook@@YAPAUs_text_value_pair_definition@@PAUs_multiplayer_variant_settings_interface_definition@@J@Z");
 	// `anonymous-namespace'::text_value_pair_definition_try_and_get_hook
 	// long parameter_type;
 	// constexpr s_text_value_pair_definition *(*const `text_value_pair_definition_try_and_get_hook'::`2'::text_value_pair_definition_try_and_get_recursive)(s_multiplayer_variant_settings_interface_definition *, long); // constant == 11665456
 	// function call : s_text_value_pair_definition *(*const)(s_multiplayer_variant_settings_interface_definition *, long)
-	todo("implement");
-	s_text_value_pair_definition * __result = _sub_10AA7970(definition, parameter_type);
-	return __result;
+
+	if (parameter_type >= 626 && parameter_type <= 647)
+		return g_player_model_options_proxy.get_tag_definition();
+	if (parameter_type >= 648 && parameter_type <= 669)
+		return g_player_model_set_options_proxy.get_tag_definition();
+	return ((s_text_value_pair_definition *(*)(s_multiplayer_variant_settings_interface_definition *, long))0xb20030)(definition, parameter_type);
 }
 
-_extern bool _sub_10AA5CF0(c_gui_screen_widget *, void *, unsigned long, wchar_t *);
 bool __fastcall c_gui_screen_game_options__get_string_value_hook(c_gui_screen_widget *thisptr, void *unused, unsigned long id, wchar_t *out_value) // 0x10AA5CF0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_screen_game_options__get_string_value_hook@@YI_NPAVc_gui_screen_widget@@PAXKPA_W@Z");
 	// `anonymous-namespace'::c_gui_screen_game_options__get_string_value_hook
 	// wchar_t *out_value;
 	// constexpr bool (*const `c_gui_screen_game_options__get_string_value_hook'::`2'::c_gui_screen_widget__get_string_value)(c_gui_screen_widget *, unsigned long, wchar_t *); // constant == 11210752
@@ -1102,9 +1131,16 @@ bool __fastcall c_gui_screen_game_options__get_string_value_hook(c_gui_screen_wi
 	// long strings_definition_index;
 	// function call : bool (*const)(long, unsigned long)
 	// function call : bool (*const)(c_gui_screen_widget *, unsigned long, wchar_t *)
-	todo("implement");
-	bool __result = _sub_10AA5CF0(thisptr, unused, id, out_value);
-	return __result;
+
+	long strings_definition_index = *(long *)((char *)thisptr + 0x158);
+	if (strings_definition_index != -1 && !((bool(*)(long, unsigned long))0x51dfc0)(strings_definition_index, id))
+	{
+		if (g_player_model_options_proxy.try_get_string(id, out_value))
+			return true;
+		if (g_player_model_set_options_proxy.try_get_string(id, out_value))
+			return true;
+	}
+	return ((bool(__thiscall *)(c_gui_screen_widget *, unsigned long, wchar_t *))0xab1000)(thisptr, id, out_value);
 }
 
 void __fastcall c_gui_screen_game_options__begin_transition_hook(c_gui_screen_game_options *thisptr) // 0x10AA5B70
@@ -1125,20 +1161,24 @@ void __fastcall c_gui_screen_game_options__begin_transition_hook(c_gui_screen_ga
 	((void(__thiscall *)(c_gui_screen_game_options *))0xb0cee0)(thisptr);
 }
 
-_extern bool _sub_10AA78A0(c_game_variant *, void *, long, unsigned long);
 bool __fastcall gui_screen_game_options_set_variant_parameter_hook(c_game_variant *thisptr, void *unused, long parameter_type, unsigned long value) // 0x10AA78A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?gui_screen_game_options_set_variant_parameter_hook@@YI_NPAUc_game_variant@@PAXJK@Z");
 	// `anonymous-namespace'::gui_screen_game_options_set_variant_parameter_hook
 	// unsigned long value;
 	// bool ret;
 	// constexpr bool (*const `gui_screen_game_options_set_variant_parameter_hook'::`2'::c_game_engine_variant__set_parameter)(c_game_variant *, long, unsigned long); // constant == 5768992
-	{
 		// c_gui_screen_game_options *options_screen;
-	}
 	// function call : bool (*const)(c_game_variant *, long, unsigned long)
-	todo("implement");
-	bool __result = _sub_10AA78A0(thisptr, unused, parameter_type, value);
-	return __result;
+
+	bool ret = ((bool(__thiscall *)(c_game_variant *, long, unsigned long))0x580720)(thisptr, parameter_type, value);
+	if (ret && parameter_type >= 648 && parameter_type <= 669)
+	{
+		c_gui_screen_game_options *options_screen = (c_gui_screen_game_options *)((char *)thisptr - 0x1AA0);
+		g_player_model_options_proxy.update(options_screen);
+		c_gui_screen_game_options__try_set_parameter_value(options_screen, 626, 0);
+	}
+	return ret;
 }
 
 _extern void _sub_10AA3B90(ModListener *const, EModIndex, IMod *);

@@ -225,11 +225,15 @@ void observer_result_compute_parameters_hook(s_observer_result *result);
 
 /* ---------- globals */
 
+extern void screen_effect_get_camera_shake(long output_user_index, float *translational, float *rotational);  // hades: added for 0x1095D0D0
+extern void matrix4x3_multiply(real_matrix4x3 const *m1, real_matrix4x3 const *m2, real_matrix4x3 *result);  // hades: added for 0x1095D0D0
+extern s_object_data *(*const object_try_and_get_and_verify_type)(unsigned long, c_enum<enum e_object_type,long>); // 0x11248848
+
 /* ---------- private variables */
 
 namespace hades_file_local
 {
-	extern e_camera_mode cameraMode; // 0x11353BB0
+	extern "C" e_camera_mode cameraMode; // 0x11353BB0
 	extern float &k_camera_field_of_view_default; // 0x11353BA4
 	extern float &k_camera_field_of_view_min; // 0x11353BA8
 	extern float &k_camera_field_of_view_max; // 0x11353BAC
@@ -324,31 +328,46 @@ namespace Patches
 
 /* ---------- private code */
 
-_extern long _sub_1095A750(long, long *);
 long director_game_desired_perspective_hook(long unit_index, long *out_seat_state) // 0x1095A750
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?director_game_desired_perspective_hook@@YAJJPAJ@Z");
 	// `anonymous-namespace'::director_game_desired_perspective_hook
 	// long *out_seat_state;
 	// s_player_datum *player;
 	// long player_index;
 	// function call : long (*)(long, long *)
-	todo("implement");
-	long __result = _sub_1095A750(unit_index, out_seat_state);
-	return __result;
+
+	long player_index = unit_get_current_or_last_weak_player_index(unit_index);
+	s_player_datum *player = player_get(player_index);
+
+	if (player && player->traits.extended.use_third_person_camera == c_player_trait_extended::_third_person_camera_enabled)
+	{
+		*out_seat_state = 4;
+
+		return 1;
+	}
+
+	return ((long (*)(long, long *))0x5917E0)(unit_index, out_seat_state);
 }
 
-_extern bool _sub_1095F230(long);
 bool weapon_prevents_sprinting(long weapon_index) // 0x1095F230
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?weapon_prevents_sprinting@@YA_NJ@Z");
 	// `anonymous-namespace'::weapon_prevents_sprinting
 	// long weapon_index;
 	// void *weapon_definition;
 	// s_object_data *weapon;
 	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
 	// function call : void *(*const)(unsigned long, long)
-	todo("implement");
-	bool __result = _sub_1095F230(weapon_index);
-	return __result;
+
+	s_object_data *weapon = object_try_and_get_and_verify_type(weapon_index, 4);
+
+	if (!weapon)
+		return false;
+
+	void *weapon_definition = tag_get(0x77656170, weapon->definition_index);
+
+	return weapon_definition && (*(long *)((unsigned char *)weapon_definition + 0x1d4) & 0x40000) != 0;
 }
 
 _extern long _sub_1095AB10(long);
@@ -378,30 +397,47 @@ long director_perspective_for_sprint_meter_hook(long output_user_index) // 0x109
 	return __result;
 }
 
-_extern bool _sub_1095AA40(long);
 bool director_inhibited_facing_hook(long output_user_index) // 0x1095AA40
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?director_inhibited_facing_hook@@YA_NJ@Z");
 	// `anonymous-namespace'::director_inhibited_facing_hook
 	// long output_user_index;
 	// unsigned long unit_index;
 	// function call : unsigned long (*const)(long)
 	// function call : c_director *(*const)(long)
 	// function call : bool () const
-	todo("implement");
-	bool __result = _sub_1095AA40(output_user_index);
-	return __result;
+
+	unsigned long unit_index = ((unsigned long (*)(long))0x589CC0)(output_user_index);
+
+	if (unit_index != NONE && Player::CPlayerEmotes::UnitCameraMovementInhibited(unit_index))
+	{
+		return true;
+	}
+
+	return ((c_director *(*)(long))0x591990)(output_user_index)->inhibits_facing();
 }
 
-_extern bool _sub_1095ED00(long, s_unit_camera_definition **);
 bool unit_camera_override_hook(long unit_index, s_unit_camera_definition **camera) // 0x1095ED00
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_camera_override_hook@@YA_NJPAPAUs_unit_camera_definition@@@Z");
 	// `anonymous-namespace'::unit_camera_override_hook
 	// s_unit_camera_definition **camera;
 	// bool (*const equipment_get_unit_camera)(long, s_unit_camera_definition **);
 	// function call : bool (*const)(long, s_unit_camera_definition **)
-	todo("implement");
-	bool __result = _sub_1095ED00(unit_index, camera);
-	return __result;
+
+	const auto equipment_get_unit_camera = (bool(*)(long, s_unit_camera_definition **))0xB40BF0;
+
+	if (equipment_get_unit_camera(unit_index, camera))
+	{
+		return true;
+	}
+
+	if (Player::CPlayerEmotes::GetUnitCamera(unit_index, camera))
+	{
+		return true;
+	}
+
+	return false;
 }
 
 void unit_update_aiming_hook(long unit_index) // 0x1095EDA0
@@ -608,37 +644,52 @@ bool __fastcall c_director__set_camera_mode_internal_hook(void *thisPtr, void *u
 	return ((bool(__thiscall *const)(void *, __int32, float, bool))0x593210)(thisPtr, camera_mode, camera_speed, a4);
 }
 
-_extern __int32 _sub_1095D2A0(short);
 __int32 scripted_camera__player_mapping_get_input_controller_hook(short a1) // 0x1095D2A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?scripted_camera__player_mapping_get_input_controller_hook@@YAHF@Z");
 	// `anonymous-namespace'::scripted_camera__player_mapping_get_input_controller_hook
 	// short a1;
 	// constexpr __int32 (*const `scripted_camera__player_mapping_get_input_controller_hook'::`2'::player_mapping_get_input_controller)(short); // constant == 5806800
 	// bool controllerEnabled;
 	// function call : __int32 (*const)(short)
-	todo("implement");
-	__int32 __result = _sub_1095D2A0(a1);
-	return __result;
+
+	bool controllerEnabled = Pointer::Base(0x204DE98).Read<bool>();
+
+	if (!controllerEnabled)
+		return -1;
+
+	return ((__int32 (*)(short))0x589ad0)(a1);
 }
 
-_extern void _sub_1095A660();
 void debug_teleport_to_camera() // 0x1095A660
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?debug_teleport_to_camera@@YAXXZ");
 	// `anonymous-namespace'::debug_teleport_to_camera
 	// procedure flags: nofpo
 	// Modules::ModuleDebug &debugModule;
-	{
 		// unsigned long unit_index;
 		// s_observer_result *camera;
-		{
 			// void (*const hs_object_orient)(long, real_point3d const *, real_vector3d const *, real_vector3d const *, bool, bool);
-		}
-	}
 	// function call : s_observer_result *(*const)(long)
 	// function call : unsigned long (*const)(long)
 	// function call : void (*const)(long, real_point3d const *, real_vector3d const *, real_vector3d const *, bool, bool)
-	todo("implement");
-	_sub_1095A660();
+
+	auto &debugModule = Utils::Singleton<Modules::ModuleDebug>::Instance();
+
+	if (debugModule.teleportToCamera)
+	{
+		debugModule.teleportToCamera = false;
+
+		s_observer_result *camera = ((s_observer_result *(*)(long))0x613960)(0);
+		unsigned long unit_index = ((unsigned long (*)(long))0x589CC0)(0);
+
+		if (camera && unit_index != NONE)
+		{
+			const auto hs_object_orient = (void(*)(long, real_point3d const *, real_vector3d const *, real_vector3d const *, bool, bool))0x96E320;
+
+			hs_object_orient(unit_index, &camera->position, &camera->forward, &camera->up, true, true);
+		}
+	}
 }
 
 _extern void _sub_1095A810();
@@ -781,15 +832,32 @@ void build_interpolated_camera_frame(s_camera_frame *out_frame, s_camera_frame *
 	_sub_10959160(out_frame, a, b, s);
 }
 
-_extern void _sub_1095CB60(s_observer_command *, real_matrix4x3 *, s_camera_frame *);
 void observer_set_camera_frame(s_observer_command *observer_command, real_matrix4x3 *camera_matrix, s_camera_frame *frame) // 0x1095CB60
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?observer_set_camera_frame@@YAXPAUs_observer_command@@PAUreal_matrix4x3@@PAUs_camera_frame@@@Z");
 	// `anonymous-namespace'::observer_set_camera_frame
 	// s_camera_frame *frame;
 	// float (*const calculate_field_of_view)(float);
 	// function call : float (*const)(float)
-	todo("implement");
-	_sub_1095CB60(observer_command, camera_matrix, frame);
+
+	float (*const calculate_field_of_view)(float) = (float (*const)(float))0x72bfe0;
+
+	observer_command->camera.forward = camera_matrix->forward;
+	observer_command->camera.up = camera_matrix->up;
+	observer_command->camera.position = camera_matrix->position;
+	observer_command->smoothing_factor = 0.0f;
+	observer_command->camera.focus_distance = 0.0f;
+	observer_command->camera.horizontal_field_of_view = calculate_field_of_view(frame->field_of_view);
+
+	if (frame->depth_of_field)
+		observer_command->depth_of_field.flags |= 1;
+	else
+		observer_command->depth_of_field.flags &= ~1;
+
+	observer_command->depth_of_field.focus_distance = frame->near_focal_plane_distance;
+	observer_command->depth_of_field.focus_half_width = frame->far_focal_plane_distance;
+	observer_command->depth_of_field.near_plane = frame->focal_depth;
+	observer_command->depth_of_field.far_plane = frame->blur_amount;
 }
 
 _extern void _sub_1095D3B0(void *, void *, s_observer_command *);
@@ -965,9 +1033,9 @@ void __fastcall c_flying_camera__update_hook(c_flying_camera *thisptr, void *__f
 	_sub_109594F0(thisptr, __formal, user_index, dt, result);
 }
 
-_extern void _sub_1095D0D0(long, real_matrix4x3 *);
 void player_effect_apply_camera_effect_matrix_hook(long output_user_index, real_matrix4x3 *camera_matrix) // 0x1095D0D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?player_effect_apply_camera_effect_matrix_hook@@YAXJPAUreal_matrix4x3@@@Z");
 	// `anonymous-namespace'::player_effect_apply_camera_effect_matrix_hook
 	// static ...; // 0x1095D219
 	// static ...; // 0x1095D20C
@@ -979,13 +1047,25 @@ void player_effect_apply_camera_effect_matrix_hook(long output_user_index, real_
 	// void (*const get_shake_matrix)(float, float, real_matrix4x3 *);
 	// float shake_translation;
 	// float shake_rotation;
-	{
 		// real_matrix4x3 shake_matrix;
-	}
 	// function call : void (*const)(long, real_matrix4x3 *)
 	// function call : void (*const)(float, float, real_matrix4x3 *)
-	todo("implement");
-	_sub_1095D0D0(output_user_index, camera_matrix);
+
+	void (*const player_effect_apply_camera_effect_matrix)(long, real_matrix4x3 *) = (void (*const)(long, real_matrix4x3 *))0x683b30;
+	void (*const get_shake_matrix)(float, float, real_matrix4x3 *) = (void (*const)(float, float, real_matrix4x3 *))0x683a30;
+
+	player_effect_apply_camera_effect_matrix(output_user_index, camera_matrix);
+
+	float shake_translation = 0.0f;
+	float shake_rotation = 0.0f;
+	screen_effect_get_camera_shake(output_user_index, &shake_translation, &shake_rotation);
+
+	if (shake_translation > 0.0f || shake_rotation > 0.0f)
+	{
+		real_matrix4x3 shake_matrix = global_identity4x3;
+		get_shake_matrix(shake_translation, shake_rotation, &shake_matrix);
+		matrix4x3_multiply(camera_matrix, &shake_matrix, camera_matrix);
+	}
 }
 
 _extern void _sub_1095B7E0(long, s_focus_and_distance *);

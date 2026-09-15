@@ -147,28 +147,44 @@ void __fastcall c_network_session_parameters__initialize_parameters_hook(c_netwo
 	thisptr->parameters[4] = parameter;
 }
 
-_extern bool _sub_10AA9040(c_bitstream *, void *);
 bool network_sesison_parameter_eldewrito_encode(c_bitstream *bitstream, void *data) // 0x10AA9040
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?network_sesison_parameter_eldewrito_encode@@YA_NPAVc_bitstream@@PAX@Z");
 	// `anonymous-namespace'::network_sesison_parameter_eldewrito_encode
 	// void *data;
 	// s_session_mod_options *data_;
 	// Blam::BitStream *bitstream_;
-	todo("implement");
-	bool __result = _sub_10AA9040(bitstream, data);
-	return __result;
+
+	Blam::BitStream *bitstream_ = (Blam::BitStream *)bitstream;
+	s_session_mod_options *data_ = (s_session_mod_options *)data;
+
+	bitstream_->WriteBool(*(bool *)data_);
+	if (*(bool *)data_)
+	{
+		bitstream_->WriteBlock(0x100, (unsigned char const *)data_ + 1);
+	}
+
+	return true;
 }
 
-_extern bool _sub_10AA8FB0(c_bitstream *, void *);
 bool network_sesison_parameter_eldewrito_decode(c_bitstream *bitstream, void *data) // 0x10AA8FB0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?network_sesison_parameter_eldewrito_decode@@YA_NPAVc_bitstream@@PAX@Z");
 	// `anonymous-namespace'::network_sesison_parameter_eldewrito_decode
 	// void *data;
 	// s_session_mod_options *data_;
 	// Blam::BitStream *bitstream_;
-	todo("implement");
-	bool __result = _sub_10AA8FB0(bitstream, data);
-	return __result;
+
+	Blam::BitStream *bitstream_ = (Blam::BitStream *)bitstream;
+	s_session_mod_options *data_ = (s_session_mod_options *)data;
+
+	*(bool *)data_ = bitstream_->ReadBool();
+	if (*(bool *)data_)
+	{
+		bitstream_->ReadBlock(0x100, (unsigned char *)data_ + 1);
+	}
+
+	return true;
 }
 
 /* ---------- template instantiations */

@@ -78,6 +78,8 @@ namespace Patches
 
 /* ---------- prototypes */
 
+extern float distance_squared3d(real_point3d const &a, real_point3d const &b);  // hades: added for 0x108DD9A0
+
 namespace Patches
 {
 	namespace PlayerControl
@@ -123,14 +125,15 @@ namespace Patches
 
 /* ---------- private code */
 
-_extern bool _sub_108DD9A0(real_point3d const &, float, real_point3d const &, float);
 bool sphere_intersects_sphere(real_point3d const &c0, float r0, real_point3d const &c1, float r1) // 0x108DD9A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?sphere_intersects_sphere@@YA_NABUreal_point3d@@M0M@Z");
 	// `anonymous-namespace'::sphere_intersects_sphere
 	// float r1;
-	todo("implement");
-	bool __result = _sub_108DD9A0(c0, r0, c1, r1);
-	return __result;
+
+	float distance = distance_squared3d(c0, c1);
+
+	return (r0 + r1) * (r0 + r1) >= distance;
 }
 
 _extern void _sub_108DD6D0(long);
@@ -217,15 +220,19 @@ void player_find_nearby_interactions_hook(long player_index, s_player_action_con
 	_sub_108DD0C0(player_index, out_action_context);
 }
 
-_extern void _sub_108DCFD0(long, long, long, float, float);
 void player_control_update_player_hook(long player_index, long input_user_index, long controller_index, float world_delta, float game_delta) // 0x108DCFD0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?player_control_update_player_hook@@YAXJJJMM@Z");
 	// `anonymous-namespace'::player_control_update_player_hook
 	// float game_delta;
 	// void (*const player_control_update_player)(long, long, long, float, float);
 	// function call : void (*const)(long, long, long, float, float)
-	todo("implement");
-	_sub_108DCFD0(player_index, input_user_index, controller_index, world_delta, game_delta);
+
+	g_player_control_delta_msec = (long)(world_delta * 1000.0f);
+
+	const auto player_control_update_player = (void(*)(long, long, long, float, float))0x5D4BF0;
+
+	player_control_update_player(player_index, input_user_index, controller_index, world_delta, game_delta);
 }
 
 __declspec(naked) void player_control_zoom_hold_timer_fix1_hook() // 0x108DD080

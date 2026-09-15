@@ -85,6 +85,8 @@ namespace Patches
 
 /* ---------- prototypes */
 
+#include "Modules/ModuleServer.hpp"  // hades: added for 0x10A29F10
+
 namespace Patches
 {
 	namespace Assassination
@@ -137,16 +139,25 @@ bool object_has_invincibility(long object_index) // 0x10A29E40
 	return __result;
 }
 
-_extern bool _sub_10A29F10(long, long);
 bool player_can_assassinate_object_hook(long player_index, long object_index) // 0x10A29F10
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?player_can_assassinate_object_hook@@YA_NJJ@Z");
 	// `anonymous-namespace'::player_can_assassinate_object_hook
 	// long object_index;
 	// bool (*const player_can_assassinate_object)(long, long);
 	// function call : bool (*const)(long, long)
-	todo("implement");
-	bool __result = _sub_10A29F10(player_index, object_index);
-	return __result;
+
+	if (!Utils::Singleton<Modules::ModuleServer>::Instance().VarServerAssassinationEnabledClient->ValueInt)
+	{
+		return false;
+	}
+
+	if (((bool(*)(long, long))0x538510)(player_index, object_index))
+	{
+		return !object_has_invincibility(object_index);
+	}
+
+	return false;
 }
 
 bool object_can_be_melee_instant_killed_hook(long object_index) // 0x10A29D90

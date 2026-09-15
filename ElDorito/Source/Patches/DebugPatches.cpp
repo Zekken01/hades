@@ -98,6 +98,7 @@
 #include <typeinfo>
 #include <utility>
 #include <vector>
+#include "Objects/ObjectMessaging.hpp"
 
 /* ---------- forward declarations */
 
@@ -256,6 +257,12 @@ bool assassination_sync_action_point_on_slope_or_falls_hook(long object_index, f
 
 /* ---------- globals */
 
+extern long (*const global_structure_bsp_first_active_index_get)(); // 0x11248ACC
+extern long (*const global_structure_bsp_next_active_index_get)(long); // 0x11248AD0
+real_point3d *matrix4x3_transform_point(real_matrix4x3 const *matrix, real_point3d const *point, real_point3d *result);  // hades: added for 0x108CB2E0
+char const *tag_get_name(long tag_index);  // hades: added for 0x108C7E20
+char const *tag_to_string(unsigned long tag, char *dest, long dest_length);  // hades: added for 0x108C7E20
+
 /* ---------- private variables */
 
 bool CRenderDebugCollisionTest::m_collisionResultValid; // 0x124082B4
@@ -318,13 +325,20 @@ namespace Patches
 
 /* ---------- private code */
 
-_extern void _sub_108C94D0();
 _inline void CRenderDebugCollisionTest::Update() // 0x108C94D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CRenderDebugCollisionTest@hades_file_local@@SAXXZ");
 	// `anonymous-namespace'::CRenderDebugCollisionTest::Update
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_108C94D0();
+
+	if (!Modules::ModuleDebug::Instance().VarCollisionTest->ValueInt)
+	{
+		m_collisionResultValid = false;
+	}
+	else
+	{
+		Objects::CObjectMessaging::EnqueueAction(UpdateInternal);
+	}
 }
 
 _extern void _sub_108C95C0();
@@ -450,9 +464,9 @@ _inline std::string CRenderDebugCollisionTest::GetHitDescription(s_collision_res
 	return __result;
 }
 
-extern std::string _sub_108C7E20(long);
 _inline std::string CRenderDebugCollisionTest::GetFriendlyTagName(long tagindex) // 0x108C7E20
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetFriendlyTagName@CRenderDebugCollisionTest@hades_file_local@@SA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@J@Z");
 	// `anonymous-namespace'::CRenderDebugCollisionTest::GetFriendlyTagName
 	// static ...; // 0x108C7F3D
 	// static ...; // 0x108C7F38
@@ -463,22 +477,34 @@ _inline std::string CRenderDebugCollisionTest::GetFriendlyTagName(long tagindex)
 	// char buff[256];
 	// unsigned long group;
 	// char const *name;
-	todo("implement");
-	std::string __result = _sub_108C7E20(tagindex);
-	return __result;
+
+	if (tagindex == -1)
+	{
+		return "none";
+	}
+
+	char const *name = tag_get_name(tagindex);
+	unsigned long group = tag_get_group_tag(tagindex);
+	char groupAscii[5];
+	tag_to_string(group, groupAscii, 5);
+	char buff[256];
+	sprintf_s(buff, "%s.%s", name, groupAscii);
+	return buff;
 }
 
-_extern void _sub_108C93D0();
 _inline void CRenderDebugCollisionTest::ResetForNewMap() // 0x108C93D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ResetForNewMap@CRenderDebugCollisionTest@hades_file_local@@SAXXZ");
 	// `anonymous-namespace'::CRenderDebugCollisionTest::ResetForNewMap
 	// procedure flags: nofpo
 	// static ...; // 0x108C9440
 	// static ...; // 0x108C9434
 	// static ...; // 0x108C942C
 	// std::scoped_lock<std::mutex> lock;
-	todo("implement");
-	_sub_108C93D0();
+
+	std::scoped_lock<std::mutex> lock(m_mutex);
+
+	m_collisionResultValid = false;
 }
 
 _extern void _sub_108C7C00();
@@ -581,9 +607,9 @@ void render_debug_physics_model(s_physics_model_instance const *instance, real_a
 	_sub_108CCC50(instance, color);
 }
 
-_extern void _sub_108CB2E0(collision_bsp const *, long, real_matrix4x3 const *, long);
 void render_debug_collision_edge(collision_bsp const *bsp, long index, real_matrix4x3 const *matrix, long color) // 0x108CB2E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_collision_edge@@YAXPBUcollision_bsp@@JPBUreal_matrix4x3@@J@Z");
 	// `anonymous-namespace'::render_debug_collision_edge
 	// static ...; // 0x108CB3F4
 	// collision_bsp const *bsp;
@@ -593,13 +619,23 @@ void render_debug_collision_edge(collision_bsp const *bsp, long index, real_matr
 	// real_point3d p2;
 	// real_point3d p1;
 	// collision_edge const &edge;
-	todo("implement");
-	_sub_108CB2E0(bsp, index, matrix, color);
+
+	collision_edge const &edge = bsp->edges[index];
+	real_point3d p1 = bsp->vertices[edge.start_vertex].position;
+	real_point3d p2 = bsp->vertices[edge.end_vertex].position;
+
+	if (matrix)
+	{
+		matrix4x3_transform_point(matrix, &p1, &p1);
+		matrix4x3_transform_point(matrix, &p2, &p2);
+	}
+
+	CDebugDrawBackend::DrawLine(p1, p2, color);
 }
 
-_extern void _sub_108CBF90(s_large_collision_bsp const *, long, real_matrix4x3 const *, long);
 void render_debug_large_collision_edge(s_large_collision_bsp const *bsp, long index, real_matrix4x3 const *matrix, long color) // 0x108CBF90
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_large_collision_edge@@YAXPBUs_large_collision_bsp@@JPBUreal_matrix4x3@@J@Z");
 	// `anonymous-namespace'::render_debug_large_collision_edge
 	// static ...; // 0x108CC0A4
 	// s_large_collision_bsp const *bsp;
@@ -609,50 +645,70 @@ void render_debug_large_collision_edge(s_large_collision_bsp const *bsp, long in
 	// real_point3d p2;
 	// real_point3d p1;
 	// s_large_collision_edge const &edge;
-	todo("implement");
-	_sub_108CBF90(bsp, index, matrix, color);
+
+	s_large_collision_edge const &edge = bsp->edges[index];
+	real_point3d p1 = bsp->vertices[edge.start_vertex].position;
+	real_point3d p2 = bsp->vertices[edge.end_vertex].position;
+
+	if (matrix)
+	{
+		matrix4x3_transform_point(matrix, &p1, &p1);
+		matrix4x3_transform_point(matrix, &p2, &p2);
+	}
+
+	CDebugDrawBackend::DrawLine(p1, p2, color);
 }
 
-_extern void _sub_108CB260(collision_bsp const *, real_matrix4x3 const *, unsigned long);
 void render_debug_collision_bsp(collision_bsp const *bsp, real_matrix4x3 const *matrix, unsigned long color) // 0x108CB260
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_collision_bsp@@YAXPBUcollision_bsp@@PBUreal_matrix4x3@@K@Z");
 	// `anonymous-namespace'::render_debug_collision_bsp
 	// unsigned long color;
-	{
 		// long i;
+
+	long i;
+
+	for (i = 0; i < bsp->edges.count; i++)
+	{
+		render_debug_collision_edge(bsp, i, matrix, color);
 	}
-	todo("implement");
-	_sub_108CB260(bsp, matrix, color);
 }
 
-_extern void _sub_108CBF10(s_large_collision_bsp const *, real_matrix4x3 const *, unsigned long);
 void render_debug_large_collision_bsp(s_large_collision_bsp const *bsp, real_matrix4x3 const *matrix, unsigned long color) // 0x108CBF10
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_large_collision_bsp@@YAXPBUs_large_collision_bsp@@PBUreal_matrix4x3@@K@Z");
 	// `anonymous-namespace'::render_debug_large_collision_bsp
 	// unsigned long color;
-	{
 		// long i;
+
+	long i;
+
+	for (i = 0; i < bsp->edges.count; i++)
+	{
+		render_debug_large_collision_edge(bsp, i, matrix, color);
 	}
-	todo("implement");
-	_sub_108CBF10(bsp, matrix, color);
 }
 
-_extern void _sub_108CB470(collision_model_instance const *);
 void render_debug_collision_model(collision_model_instance const *instance) // 0x108CB470
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_collision_model@@YAXPBUcollision_model_instance@@@Z");
 	// `anonymous-namespace'::render_debug_collision_model
 	// static ...; // 0x108CB550
 	// static ...; // 0x108CB544
 	// static ...; // 0x108CB53C
 	// collision_model_instance const *instance;
 	// s_collision_model_bsp_iterator iterator;
-	{
 		// unsigned char node_index;
-	}
 	// function call : void (*const)(s_collision_model_bsp_iterator *, model_definition const *, collision_model_definition const *, unsigned char const *)
 	// function call : bool (*const)(s_collision_model_bsp_iterator *)
-	todo("implement");
-	_sub_108CB470(instance);
+
+	s_collision_model_bsp_iterator iterator;
+
+	((void(*)(s_collision_model_bsp_iterator *, model_definition *, collision_model_definition *, unsigned char *))0x980AF0)(&iterator, instance->model, instance->collision_model, instance->permutations);
+	while (((bool(*)(s_collision_model_bsp_iterator *))0x980BC0)(&iterator))
+	{
+		render_debug_collision_bsp(iterator.m_bsp.bsp, &instance->nodes[iterator.m_bsp3d_reference], 0xFF00FF00);
+	}
 }
 
 _extern void _sub_108CC380(long);
@@ -779,19 +835,22 @@ void render_debug_damage_submit(s_damage_data const *data, float radius) // 0x10
 	_sub_108CB5A0(data, radius);
 }
 
-_extern short _sub_108C9980(long, long, s_cluster_reference *, real_point3d const *, float, long *, short);
 short area_of_effect_cause_damage_objects_in_sphere_hook(long flags, long object_mask, s_cluster_reference *cluster, real_point3d const *center, float radius, long *objects, short max_objects) // 0x108C9980
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?area_of_effect_cause_damage_objects_in_sphere_hook@@YAFJJPAUs_cluster_reference@@PBUreal_point3d@@MPAJF@Z");
 	// `anonymous-namespace'::area_of_effect_cause_damage_objects_in_sphere_hook
 	// short max_objects;
 	// short num_objects;
-	{
 		// s_damage_data *damage_data;
-	}
 	// function call : short (*const)(long, long, s_cluster_reference const *, real_point3d const *, float, long *, short)
-	todo("implement");
-	short __result = _sub_108C9980(flags, object_mask, cluster, center, radius, objects, max_objects);
-	return __result;
+
+	short num_objects = ((short (*const)(long, long, s_cluster_reference const *, real_point3d const *, float, long *, unsigned short))0xb35b60)(flags, object_mask, cluster, center, radius, objects, max_objects);
+	if (Modules::ModuleDebug::Instance().VarDamageAoe->ValueInt)
+	{
+		s_damage_data *damage_data = (s_damage_data *)offset_pointer(cluster, -32);
+		render_debug_damage_submit(damage_data, radius);
+	}
+	return num_objects;
 }
 
 _extern void _sub_108CD2F0(s_scenario_trigger_volume *, long);
@@ -887,16 +946,21 @@ void render_debug_structure_bsp(long bsp_index) // 0x108CD090
 	_sub_108CD090(bsp_index);
 }
 
-_extern void _sub_108CCFF0();
 void render_debug_structure() // 0x108CCFF0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_structure@@YAXXZ");
 	// `anonymous-namespace'::render_debug_structure
 	// procedure flags: nofpo
 	// long bsp_index;
 	// function call : long (*const)()
 	// function call : long (*const)(long)
-	todo("implement");
-	_sub_108CCFF0();
+
+	long bsp_index = global_structure_bsp_first_active_index_get();
+	while (bsp_index != -1)
+	{
+		render_debug_structure_bsp(bsp_index);
+		bsp_index = global_structure_bsp_next_active_index_get(bsp_index);
+	}
 }
 
 _extern void _sub_108C9EF0(char const *, hkpCapsuleShape const *, real_matrix4x3 const *, long);
@@ -919,28 +983,38 @@ void draw_assassination_capsule(char const *key, hkpCapsuleShape const *shape, r
 	_sub_108C9EF0(key, shape, transform, color);
 }
 
-_extern bool _sub_108CAC70(hkpShape const *, long, real_matrix4x3 const *, long);
 bool havok_world_shape_collides_hook_initiator(hkpShape const *shape, long unknown, real_matrix4x3 const *transform, long havok_group) // 0x108CAC70
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?havok_world_shape_collides_hook_initiator@@YA_NPBUhkpShape@@JPBUreal_matrix4x3@@J@Z");
 	// `anonymous-namespace'::havok_world_shape_collides_hook_initiator
 	// long havok_group;
 	// bool (*havok_world_shape_collides)(hkpShape const *, long, real_matrix4x3 const *, long);
 	// function call : bool (*)(hkpShape const *, long, real_matrix4x3 const *, long)
-	todo("implement");
-	bool __result = _sub_108CAC70(shape, unknown, transform, havok_group);
-	return __result;
+
+	bool (*havok_world_shape_collides)(hkpShape const *, long, real_matrix4x3 const *, long) = (bool (*)(hkpShape const *, long, real_matrix4x3 const *, long))0x5c8010;
+	if (Modules::ModuleDebug::Instance().VarAnimationPhoneboothTestDraw->ValueInt >= 1 && shape->m_type == 7)
+	{
+		draw_assassination_capsule(assassination_capsule_counter + "assassination-initiator-shape-", (hkpCapsuleShape const *)shape, transform, 0xFFFF0000);
+		assassination_capsule_counter++;
+	}
+	return havok_world_shape_collides(shape, unknown, transform, havok_group);
 }
 
-_extern bool _sub_108CAD50(hkpShape const *, long, real_matrix4x3 const *, long);
 bool havok_world_shape_collides_hook_target(hkpShape const *shape, long unknown, real_matrix4x3 const *transform, long havok_group) // 0x108CAD50
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?havok_world_shape_collides_hook_target@@YA_NPBUhkpShape@@JPBUreal_matrix4x3@@J@Z");
 	// `anonymous-namespace'::havok_world_shape_collides_hook_target
 	// long havok_group;
 	// bool (*havok_world_shape_collides)(hkpShape const *, long, real_matrix4x3 const *, long);
 	// function call : bool (*)(hkpShape const *, long, real_matrix4x3 const *, long)
-	todo("implement");
-	bool __result = _sub_108CAD50(shape, unknown, transform, havok_group);
-	return __result;
+
+	bool (*havok_world_shape_collides)(hkpShape const *, long, real_matrix4x3 const *, long) = (bool (*)(hkpShape const *, long, real_matrix4x3 const *, long))0x5c8010;
+	if (Modules::ModuleDebug::Instance().VarAnimationPhoneboothTestDraw->ValueInt >= 1 && shape->m_type == 7)
+	{
+		draw_assassination_capsule(assassination_capsule_counter + "assassination-target-shape-", (hkpCapsuleShape const *)shape, transform, 0xFF00FF00);
+		assassination_capsule_counter++;
+	}
+	return havok_world_shape_collides(shape, unknown, transform, havok_group);
 }
 
 _extern bool _sub_108C9A50(long, float, float, real_point3d const *, bool, float *);

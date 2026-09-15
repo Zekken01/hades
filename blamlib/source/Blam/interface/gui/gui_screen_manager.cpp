@@ -87,15 +87,13 @@ void c_gui_screen_manager::post_message(void *message) // 0x10F130C0
 	((void(__thiscall *const)(c_gui_screen_manager *, void *))0xaab7d0)(this, message);
 }
 
-_extern bool _sub_10F13030(c_gui_screen_manager *const, long);
 bool c_gui_screen_manager::input_should_be_suppressed(long controller_index) // 0x10F13030
 {
-	mangled_x86(MANGLED_TODO, "?input_should_be_suppressed@c_gui_screen_manager@@QAE_NJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?input_should_be_suppressed@c_gui_screen_manager@@QAE_NJ@Z");
 	// long controller_index;
 	// function call : char (*)(c_gui_screen_manager *, long)
-	todo("implement");
-	bool __result = _sub_10F13030(this, controller_index);
-	return __result;
+
+	return (bool)((char(__thiscall *)(c_gui_screen_manager *, long))0xAAA970)(this, controller_index);
 }
 
 /* ---------- private code */

@@ -94,6 +94,7 @@
 #include <typeinfo>
 #include <utility>
 #include <vector>
+#include "Player/PlayerCustomization.hpp"  // hades: added for 0X10AB8E10
 
 /* ---------- forward declarations */
 
@@ -269,22 +270,35 @@ long get_multiplayer_player_model_customization_block_index(long unit_index) // 
 	return __result;
 }
 
-extern s_player_model_customization const *_sub_10AB8E10(s_player_datum *);
 s_player_model_customization const *player_get_model_customization(s_player_datum *player) // 0x10AB8E10
 {
-	mangled_x86(MANGLED_TODO, "?player_get_model_customization@@YAPBUs_player_model_customization@@PAUs_player_datum@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?player_get_model_customization@@YAPBUs_player_model_customization@@PAUs_player_datum@@@Z");
 	// s_player_datum *player;
 	// __int32 player_index;
 	// c_data_array<s_player_datum> *players;
 	// __int32 offset;
 	// __int32 absolute_index;
-	{
 		// s_player_datum *datum;
 		// s_player_datum *player;
+
+	c_data_array<s_player_datum> *players = players_get();
+	__int32 offset = (char *)player - (char *)players->address;
+	__int32 absolute_index = offset / 12040u;
+	__int32 player_index = NONE;
+
+	if (absolute_index < 16)
+	{
+		s_player_datum *datum = players->get_absolute(absolute_index);
+		player_index = (datum->salt << 16) | absolute_index;
+
+		s_player_datum *player = player_get(player_index);
+		if (!player || player->salt != datum->salt)
+		{
+			player_index = NONE;
+		}
 	}
-	todo("implement");
-	s_player_model_customization const * __result = _sub_10AB8E10(player);
-	return __result;
+
+	return Player::CPlayerCustomization::GetInGamePlayerCustomization(player_index);
 }
 
 _extern void _sub_10ABA680(long, long);
@@ -573,15 +587,20 @@ long user_interface_find_model_customization_biped() // 0x10ABBC50
 	return __result;
 }
 
-_extern long _sub_10ABBB40();
 long user_interface_find_char_platform() // 0x10ABBB40
 {
-	mangled_x86(MANGLED_TODO, "?user_interface_find_char_platform@@YAJXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?user_interface_find_char_platform@@YAJXZ");
 	// procedure flags: nofpo
 	// s_mod_globals_player_character_customization *const character;
-	todo("implement");
-	long __result = _sub_10ABBB40();
-	return __result;
+
+	s_mod_globals_player_character_customization *const character = try_get_customization_character(GetCurrentPreferredCharacter());
+
+	if (character && character->character_position_data.platform_name_index != NONE)
+	{
+		return scenario_find_named_object(character->character_position_data.platform_name_index);
+	}
+
+	return NONE;
 }
 
 _extern void _sub_10ABB830(long, long);
@@ -630,50 +649,70 @@ unsigned char get_character_team_color_override_flags(long character_type_index)
 	return __result;
 }
 
-_extern unsigned char _sub_10AB85A0(long);
 unsigned char get_player_team_color_override_flags(long player_index) // 0x10AB85A0
 {
-	mangled_x86(MANGLED_TODO, "?get_player_team_color_override_flags@@YAEJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_player_team_color_override_flags@@YAEJ@Z");
 	// long player_index;
 	// unsigned char flags;
-	{
 		// s_player_datum *player;
+
+	unsigned char flags = 0;
+	if (s_player_datum *player = player_get(player_index))
+	{
+		flags = get_character_team_color_override_flags(player->character_type_index);
 	}
-	todo("implement");
-	unsigned char __result = _sub_10AB85A0(player_index);
-	return __result;
+	return flags;
 }
 
-_extern bool _sub_10AB7E80(long, unsigned long);
 bool find_player_customized_character_by_name(long player_index, unsigned long character_name) // 0x10AB7E80
 {
-	mangled_x86(MANGLED_TODO, "?find_player_customized_character_by_name@@YA_NJK@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?find_player_customized_character_by_name@@YA_NJK@Z");
 	// unsigned long character_name;
 	// s_player_datum *player;
 	// s_player_appearance const &appearance;
-	{
 		// __int32 i;
+
+	s_player_datum *player = player_get(player_index);
+	s_player_appearance const &appearance = player->configuration.host.appearance;
+
+	for (__int32 i = 0; i < appearance.characters_count; i++)
+	{
+		if (appearance.characters[i].character_name == character_name)
+		{
+			return true;
+		}
 	}
-	todo("implement");
-	bool __result = _sub_10AB7E80(player_index, character_name);
-	return __result;
+
+	return false;
 }
 
-_extern void _sub_10AB7F30(long, s_player_model_customization const *, real_rgb_color *);
 void game_engine_get_player_colors(long player_index, s_player_model_customization const *customization, real_rgb_color *out_colors) // 0x10AB7F30
 {
-	mangled_x86(MANGLED_TODO, "?game_engine_get_player_colors@@YAXJPBUs_player_model_customization@@PAUreal_rgb_color@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_get_player_colors@@YAXJPBUs_player_model_customization@@PAUreal_rgb_color@@@Z");
 	// real_rgb_color *out_colors;
 	// s_player_datum *player;
-	{
 		// s_game_globals_player_character_type *character_type;
-	}
-	{
 		// long i;
-	}
 	// function call : real_rgb_color *(*const)(unsigned long, real_rgb_color *)
-	todo("implement");
-	_sub_10AB7F30(player_index, customization, out_colors);
+
+	s_player_datum *player = player_get(player_index);
+
+	if (player->character_type_index != NONE)
+	{
+		s_game_globals_player_character_type *character_type = game_globals_get()->player_character_types.get_element(player->character_type_index);
+
+		if (character_type
+			&& !find_player_customized_character_by_name(player_index, character_type->name)
+			&& Mods::CModGlobals::GetCharacterDefaultColors(player->character_type_index, out_colors))
+		{
+			return;
+		}
+	}
+
+	for (long i = 0; i < 5; i++)
+	{
+		((real_rgb_color *(*)(unsigned long, real_rgb_color *))0x521300)(customization->colors[i], &out_colors[i]);
+	}
 }
 
 _extern void _sub_10AB8070(long, s_player_model_customization const *, long, real_rgb_color *, bool *);

@@ -177,6 +177,8 @@ void clear_mod_cached_map_files();
 
 /* ---------- globals */
 
+extern bool (*const network_session_interface_get_squad_session)(c_network_session **); // 0x11248780
+
 /* ---------- private variables */
 
 namespace hades_file_local

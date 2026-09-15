@@ -226,6 +226,8 @@ namespace Player
 
 /* ---------- globals */
 
+extern PlayerEmblem player_emblems[17]; // 0x124083D8
+
 namespace Player
 {
 	extern IDirect3DTexture9 *generic_emblem; // 0x124083D0
@@ -257,45 +259,64 @@ namespace Player
 		_sub_108FE180(url, player_index);
 	}
 
-	_extern void _sub_108FDE10(__int32);
 	void ResetCosmeticSlot(__int32 player_index) // 0x108FDE10
 	{
-		mangled_x86(MANGLED_TODO, "?ResetCosmeticSlot@Player@@YAXH@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?ResetCosmeticSlot@Player@@YAXH@Z");
 		// __int32 player_index;
 		// function call : unsigned long ()
-		todo("implement");
-		_sub_108FDE10(player_index);
+
+		player_emblems[player_index].active = false;
+		player_emblems[player_index].attempts = 0;
+		player_emblems[player_index].player_join_number = 0;
+		player_emblems[player_index].uid = 0;
+		player_emblems[player_index].data.clear();
+		if (player_emblems[player_index].texture)
+			player_emblems[player_index].texture->Release();
+		player_emblems[player_index].texture = nullptr;
+		player_emblems[player_index].state = eEmpty;
 	}
 
-	_extern void _sub_108FD3F0(__int32);
 	void InvalidateCosmeticSlot(__int32 player_index) // 0x108FD3F0
 	{
-		mangled_x86(MANGLED_TODO, "?InvalidateCosmeticSlot@Player@@YAXH@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?InvalidateCosmeticSlot@Player@@YAXH@Z");
 		// __int32 player_index;
-		todo("implement");
-		_sub_108FD3F0(player_index);
+
+		player_emblems[player_index].active = false;
 	}
 
-	_extern void _sub_108FCCD0(__int32);
 	void DXInitEmblem(__int32 player_index) // 0x108FCCD0
 	{
-		mangled_x86(MANGLED_TODO, "?DXInitEmblem@Player@@YAXH@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?DXInitEmblem@Player@@YAXH@Z");
 		// __int32 player_index;
 		// IDirect3DDevice9 *device;
 		// HRESULT result;
 		// function call : unsigned long ()
-		todo("implement");
-		_sub_108FCCD0(player_index);
+
+		IDirect3DDevice9 *device = *(IDirect3DDevice9 **)0x50daddc;
+		if (player_emblems[player_index].texture)
+			player_emblems[player_index].texture->Release();
+		player_emblems[player_index].texture = nullptr;
+		HRESULT result = D3DXCreateTextureFromFileInMemory(device, &player_emblems[player_index].data[0], player_emblems[player_index].data.size(), &player_emblems[player_index].texture);
+		player_emblems[player_index].data.clear();
+		if (result)
+			player_emblems[player_index].state = eFailed;
+		else
+			player_emblems[player_index].state = eReady;
 	}
 
-	_extern void _sub_108FCBD0(__int32);
 	void DXGenerateEmblem(__int32 player_index) // 0x108FCBD0
 	{
-		mangled_x86(MANGLED_TODO, "?DXGenerateEmblem@Player@@YAXH@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?DXGenerateEmblem@Player@@YAXH@Z");
 		// __int32 player_index;
 		// function call : unsigned long ()
-		todo("implement");
-		_sub_108FCBD0(player_index);
+
+		if (player_emblems[player_index].texture)
+			player_emblems[player_index].texture->Release();
+		player_emblems[player_index].texture = nullptr;
+		if (GenerateEmblem(player_emblems[player_index].emblemConfig, &player_emblems[player_index].texture, true))
+			player_emblems[player_index].state = eReady;
+		else
+			player_emblems[player_index].state = eFailed;
 	}
 
 	_extern void _sub_108FC890(__int32);

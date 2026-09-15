@@ -71,6 +71,8 @@ static_assert(sizeof(c_file_open_scope) == 8, "Invalid c_file_open_scope size");
 
 /* ---------- prototypes */
 
+extern bool (__cdecl *const file_close)(struct s_file_reference *);  // hades: added for 0x1074CF30
+
 extern s_file_reference *(*const file_reference_initialize_header)(s_file_reference *, c_enum<enum e_file_reference_location,short>);  // hades: added for 0x106D0FD0
 
 extern s_file_reference *(*const file_reference_set_name)(s_file_reference *, char const *);  // hades: added for 0x10875490
@@ -104,14 +106,13 @@ _inline c_file_reference::c_file_reference(char const *path) // 0x108715F0
 	_sub_108715F0(this, path);
 }
 
-_extern void _sub_106CDDC0(c_file_reference *const);
 _inline c_file_reference::~c_file_reference() // 0x106CDDC0
 {
-	mangled_x86(MANGLED_TODO, "??1c_file_reference@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1c_file_reference@@QAE@XZ");
 	// c_file_reference *const this;
 	// function call : bool (*const)(s_file_reference *)
-	todo("implement");
-	_sub_106CDDC0(this);
+
+	file_close(this);
 }
 
 _inline c_file_reference &c_file_reference::initialize_header(c_enum<enum e_file_reference_location,short> location) // 0x106D0FD0
@@ -229,14 +230,18 @@ _inline c_file_open_scope::c_file_open_scope(s_file_reference &file, long permis
 	_sub_1074C680(this, file, permission_flags);
 }
 
-_extern void _sub_1074CF30(c_file_open_scope *const);
 _inline c_file_open_scope::~c_file_open_scope() // 0x1074CF30
 {
-	mangled_x86(MANGLED_TODO, "??1c_file_open_scope@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1c_file_open_scope@@QAE@XZ");
 	// c_file_open_scope *const this;
 	// function call : bool (*const)(s_file_reference *)
-	todo("implement");
-	_sub_1074CF30(this);
+
+	if (m_is_owner && file_is_open(&m_file))
+	{
+		file_close(&m_file);
+	}
+
+	release_ownership();
 }
 
 _inline void c_file_open_scope::release_ownership() // 0x10752490

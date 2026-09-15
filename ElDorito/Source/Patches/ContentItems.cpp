@@ -237,7 +237,7 @@ namespace hades_file_local
 	extern bool saving_new_gametype; // 0x12458148
 	extern bool enumerated; // 0x12458149
 	extern s_ContentItemRenameState s_ContentItemRenameState; // 0x12458150
-	extern unsigned char *contentItemsGlobal; // 0x12458254
+	extern "C" unsigned char *contentItemsGlobal; // 0x12458254
 }
 using namespace hades_file_local;
 /* ---------- public code */

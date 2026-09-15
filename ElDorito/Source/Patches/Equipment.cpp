@@ -164,6 +164,8 @@ namespace Blam
 
 /* ---------- prototypes */
 
+template<typename t_arg0> t_arg0 *object_get(unsigned long object_index);  // hades: added for 0x10A553F0
+
 namespace Patches
 {
 	namespace Equipment
@@ -562,17 +564,25 @@ void update_equipment_vision(long equipment_index, long unit_index) // 0x10A57C8
 	_sub_10A57C80(equipment_index, unit_index);
 }
 
-_extern void _sub_10A553F0(long, long);
 void equipment_update_hook(long equipment_index, long unit_index) // 0x10A553F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?equipment_update_hook@@YAXJJ@Z");
 	// `anonymous-namespace'::equipment_update_hook
 	// long unit_index;
 	// s_equipment_data *equipment;
 	// void (*const equipment_update)(long, long);
 	// function call : void (*const)(long, long)
 	// function call : bool (*const)(long, e_equipment_type)
-	todo("implement");
-	_sub_10A553F0(equipment_index, unit_index);
+
+	s_equipment_data *equipment;
+	const auto equipment_update = (void(*)(long, long))0xB891F0;
+
+	equipment_update(equipment_index, unit_index);
+	equipment = object_get<s_equipment_data>(equipment_index);
+	if (((bool(*)(long, e_equipment_type))0xBA0360)(equipment->definition_index, (e_equipment_type)23))
+	{
+		update_equipment_vision(equipment_index, unit_index);
+	}
 }
 
 _extern void _sub_10A576D0(long);

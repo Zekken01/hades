@@ -103,68 +103,104 @@ extern "C" void optimize_user_interface_map_list(s_cache_tag_instance *tag_insta
 
 namespace hades_file_local
 {
+	// The original names these with C decoration (`_g_reforge_objects`), not a C++
+	// mangling, so every reference to one has to be spelled that way too.
+	extern "C" {
 	extern c_static_bit_vector<65535> g_reforge_objects; // 0x123AEF30
 	extern c_static_bit_vector<65535> g_reforge_models; // 0x123B0F30
 	extern c_static_bit_vector<65535> g_reforge_render_models; // 0x123B2F30
 	extern c_static_bit_vector<256> g_reforge_material_indices; // 0x123B4F30
 	extern c_static_bit_vector<65535> g_reforge_material_tags; // 0x123B4F58
+	}
 }
 using namespace hades_file_local;
 /* ---------- public code */
 
-_extern void _sub_1087CB10(s_cache_tag_instance *);
 void optimize_scenario(s_cache_tag_instance *tag_instance) // 0x1087CB10
 {
-	mangled_x86(MANGLED_TODO, "?optimize_scenario@@YAXPAUs_cache_tag_instance@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?optimize_scenario@@YAXPAUs_cache_tag_instance@@@Z");
 	// static ...; // 0x1087CBEC
 	// static ...; // 0x1087CBE0
 	// static ...; // 0x1087CBD8
 	// s_cache_tag_instance *tag_instance;
 	// s_game_options const *game_options;
 	// c_static_bit_vector<65535> dependencies_to_null;
-	todo("implement");
-	_sub_1087CB10(tag_instance);
+
+	c_static_bit_vector<65535> dependencies_to_null;
+
+	dependencies_to_null.clear();
+
+	s_game_options const *game_options = get_intermediate_game_options();
+
+	if (game_options->game_mode == _game_mode_mainmenu)
+	{
+		optimize_main_menu(tag_instance, &dependencies_to_null);
+	}
+
+	null_tag_dependencies(tag_instance, &dependencies_to_null);
 }
 
-_extern void _sub_1087B4B0(s_multiplayer_event_response_definition const *, e_game_engine_type, c_static_bit_vector<65535> *);
 void optimize_game_engine_event_response(s_multiplayer_event_response_definition const *response, e_game_engine_type game_engine_type, c_static_bit_vector<65535> *dependencies_to_null) // 0x1087B4B0
 {
-	mangled_x86(MANGLED_TODO, "?optimize_game_engine_event_response@@YAXPBUs_multiplayer_event_response_definition@@W4e_game_engine_type@@PAU?$c_static_bit_vector@$0PPPP@@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?optimize_game_engine_event_response@@YAXPBUs_multiplayer_event_response_definition@@W4e_game_engine_type@@PAU?$c_static_bit_vector@$0PPPP@@@@Z");
 	// c_static_bit_vector<65535> *dependencies_to_null;
 	// s_game_options const *game_options;
-	{
 		// long i;
+
+	s_game_options const *game_options = get_intermediate_game_options();
+
+	if (game_options->game_variant.game_engine_type == game_engine_type && game_engine_type != _game_engine_type_none)
+	{
+		return;
 	}
-	todo("implement");
-	_sub_1087B4B0(response, game_engine_type, dependencies_to_null);
+
+	for (long i = 0; i < 12; i++)
+	{
+		if (response->sounds[i].index != -1)
+		{
+			dependencies_to_null->set(response->sounds[i].index);
+		}
+	}
 }
 
-_extern void _sub_1087C690(long, s_cache_tag_instance *);
 void optimize_object(long runtime_tag_index, s_cache_tag_instance *tag_instance) // 0x1087C690
 {
-	mangled_x86(MANGLED_TODO, "?optimize_object@@YAXJPAUs_cache_tag_instance@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?optimize_object@@YAXJPAUs_cache_tag_instance@@@Z");
 	// s_cache_tag_instance *tag_instance;
-	{
 		// void *object;
 		// s_object_definition *const definition;
-	}
 	// function call : void *(*const)(unsigned long, long)
-	todo("implement");
-	_sub_1087C690(runtime_tag_index, tag_instance);
+
+	if (g_reforge_objects.test(runtime_tag_index))
+	{
+		void *object = tag_get(0x6F626A65, runtime_tag_index);
+		s_object_definition *const definition = (s_object_definition *)((char *)tag_instance + tag_instance->definition_offset);
+
+		if (definition->model.index != -1)
+		{
+			g_reforge_models.set(definition->model.index);
+		}
+	}
 }
 
-_extern void _sub_1087B940(long, s_cache_tag_instance *);
 void optimize_model(long runtime_tag_index, s_cache_tag_instance *tag_instance) // 0x1087B940
 {
-	mangled_x86(MANGLED_TODO, "?optimize_model@@YAXJPAUs_cache_tag_instance@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?optimize_model@@YAXJPAUs_cache_tag_instance@@@Z");
 	// s_cache_tag_instance *tag_instance;
-	{
 		// s_model_definition *const definition;
 		// void *model;
-	}
 	// function call : void *(*const)(unsigned long, long)
-	todo("implement");
-	_sub_1087B940(runtime_tag_index, tag_instance);
+
+	if (g_reforge_models.test(runtime_tag_index))
+	{
+		void *model = tag_get(0x686C6D74, runtime_tag_index);
+		s_model_definition *const definition = (s_model_definition *)((char *)tag_instance + tag_instance->definition_offset);
+
+		if (definition->render_model.index != -1)
+		{
+			g_reforge_render_models.set(definition->render_model.index);
+		}
+	}
 }
 
 _extern void _sub_1087C8B0(long, s_cache_tag_instance *);
@@ -211,40 +247,64 @@ extern "C" s_game_options *get_intermediate_game_options() // 0x1087B0F0
 	return (s_game_options *)0x2391800;
 }
 
-_extern void _sub_1087B110(s_cache_tag_instance *, c_static_bit_vector<65535> *);
 extern "C" void null_tag_dependencies(s_cache_tag_instance *tag_instance, c_static_bit_vector<65535> *dependencies_to_null) // 0x1087B110
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "_null_tag_dependencies");
 	// null_tag_dependencies
 	// c_static_bit_vector<65535> *dependencies_to_null;
 	// long *dependencies;
-	{
 		// long i;
-		{
 			// long tag_index;
+
+	long *dependencies = (long *)&tag_instance[1];
+
+	for (long i = 0; i < tag_instance->dependency_count; i++)
+	{
+		long tag_index = dependencies[i];
+
+		if (tag_index > 0 && tag_index < 0xFFFF && dependencies_to_null->test(tag_index))
+		{
+			dependencies[i] = -1;
 		}
 	}
-	todo("implement");
-	_sub_1087B110(tag_instance, dependencies_to_null);
 }
 
-_extern void _sub_1087B830(s_cache_tag_instance *, c_static_bit_vector<65535> *);
 extern "C" void optimize_main_menu(s_cache_tag_instance *tag_instance, c_static_bit_vector<65535> *dependencies_to_null) // 0x1087B830
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "_optimize_main_menu");
 	// optimize_main_menu
 	// c_static_bit_vector<65535> *dependencies_to_null;
 	// s_tag_block *sound_scenery_palette_block;
 	// s_tag_block *sound_scenery_block;
 	// char *definition;
-	{
 		// long i;
-		{
 			// short palette_index;
 			// long tag_index;
 			// s_scenario_object_palette_entry *item;
+
+	char *definition = (char *)tag_instance + tag_instance->definition_offset;
+	s_tag_block *sound_scenery_block = (s_tag_block *)(definition + 0x1AC);
+	s_tag_block *sound_scenery_palette_block = (s_tag_block *)(definition + 0x1B8);
+
+	for (long i = 0; i < sound_scenery_block->count; i++)
+	{
+		short palette_index = ((s_scenario_sound_scenery *)sound_scenery_block->address)[i].palette_index;
+
+		if (palette_index < 0 || palette_index >= sound_scenery_palette_block->count)
+		{
+			continue;
+		}
+
+		s_scenario_object_palette_entry *item = &((s_scenario_object_palette_entry *)sound_scenery_palette_block->address)[palette_index];
+		long tag_index = ((s_tag_reference *)item->object)->index;
+
+		if (tag_index >= 0 && tag_index < 0xFFFF)
+		{
+			dependencies_to_null->set(tag_index);
 		}
 	}
-	todo("implement");
-	_sub_1087B830(tag_instance, dependencies_to_null);
+
+	*(long *)(definition + 0x1AC) = 0;
 }
 
 _extern void _sub_1087C750(s_forge_globals_definition *);
@@ -300,21 +360,20 @@ extern "C" void optimize_forge_globals(s_cache_tag_instance *tag_instance) // 0x
 	_sub_1087B1D0(tag_instance);
 }
 
-_extern void _sub_1087B580(s_cache_tag_instance *, c_tag_block<s_multiplayer_event_response_definition> *, e_game_engine_type, c_static_bit_vector<65535> *);
 extern "C" void optimize_game_engine_event_response_tag_block(s_cache_tag_instance *tag_instance, c_tag_block<s_multiplayer_event_response_definition> *tag_block, e_game_engine_type game_engine_type, c_static_bit_vector<65535> *dependencies_to_null) // 0x1087B580
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "_optimize_game_engine_event_response_tag_block");
 	// optimize_game_engine_event_response_tag_block
 	// c_static_bit_vector<65535> *dependencies_to_null;
-	{
 		// c_tag_block<s_multiplayer_event_response_definition> &<range>$L0;
 		// s_multiplayer_event_response_definition *<begin>$L0;
 		// s_multiplayer_event_response_definition *<end>$L0;
-		{
 			// s_multiplayer_event_response_definition &response;
-		}
+
+	for (s_multiplayer_event_response_definition &response : *tag_block)
+	{
+		optimize_game_engine_event_response(&response, game_engine_type, dependencies_to_null);
 	}
-	todo("implement");
-	_sub_1087B580(tag_instance, tag_block, game_engine_type, dependencies_to_null);
 }
 
 _extern void _sub_1087C070(s_cache_tag_instance *, s_multiplayer_runtime_globals_definition *, e_game_engine_type, c_static_bit_vector<65535> *);
@@ -419,9 +478,9 @@ extern "C" void optimize_multiplayer_globals(s_cache_tag_instance *tag_instance)
 	_sub_1087BA00(tag_instance);
 }
 
-_extern void _sub_1087CE20(s_cache_tag_instance *);
 extern "C" void optimize_user_interface_shared_globals(s_cache_tag_instance *tag_instance) // 0x1087CE20
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "_optimize_user_interface_shared_globals");
 	// optimize_user_interface_shared_globals
 	// static ...; // 0x1087CF20
 	// static ...; // 0x1087CF14
@@ -431,8 +490,21 @@ extern "C" void optimize_user_interface_shared_globals(s_cache_tag_instance *tag
 	// c_static_bit_vector<65535> dependencies_to_null;
 	// s_multiplayer_globals_definition *const definition;
 	// long main_menu_loop_index;
-	todo("implement");
-	_sub_1087CE20(tag_instance);
+
+	c_static_bit_vector<65535> dependencies_to_null;
+
+	dependencies_to_null.clear();
+
+	char *definition = (char *)tag_instance + tag_instance->definition_offset;
+	long bit = *(long *)(definition + 0x4C);
+	s_game_options const *game_options = get_intermediate_game_options();
+
+	if (game_options->game_mode != _game_mode_mainmenu && bit != -1)
+	{
+		dependencies_to_null.set(bit);
+	}
+
+	null_tag_dependencies(tag_instance, &dependencies_to_null);
 }
 
 _extern void _sub_1087B620(s_cache_tag_instance *);

@@ -451,18 +451,23 @@ bool VariablePlayerNameUpdate(std::vector<std::string> const &Arguments, std::st
 	return __result;
 }
 
-_extern void _sub_109F69B0();
 void UpdateLocalRepresentation() // 0x109F69B0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateLocalRepresentation@@YAXXZ");
 	// `anonymous-namespace'::UpdateLocalRepresentation
 	// procedure flags: nofpo
 	// Blam::Network::Session *activeSession;
-	{
 		// __int32 (*Network_session_update_user_properties)(Blam::Network::Session *, __int32);
-	}
 	// function call : __int32 (*)(Blam::Network::Session *, __int32)
-	todo("implement");
-	_sub_109F69B0();
+
+	Blam::Network::Session *activeSession = Blam::Network::GetActiveSession();
+
+	if (activeSession && activeSession->IsEstablished())
+	{
+		__int32 (*Network_session_update_user_properties)(Blam::Network::Session *, __int32) = (__int32 (*)(Blam::Network::Session *, __int32))0x437b30;
+
+		Network_session_update_user_properties(activeSession, 0);
+	}
 }
 
 _extern bool _sub_109F7700(std::vector<std::string> const &, std::string &);
@@ -509,18 +514,20 @@ bool CommandPlayerPrintUID(std::vector<std::string> const &Arguments, std::strin
 	return __result;
 }
 
-_extern bool _sub_109F6800(std::string const &, float *);
 bool TryParseFloat(std::string const &str, float *value) // 0x109F6800
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?TryParseFloat@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAM@Z");
 	// `anonymous-namespace'::TryParseFloat
 	// static ...; // 0x109F688C
 	// static ...; // 0x109F6884
 	// std::string const &str;
 	// float *value;
 	// char *endp;
-	todo("implement");
-	bool __result = _sub_109F6800(str, value);
-	return __result;
+
+	char* endp;
+	*value = std::strtof(str.c_str(), &endp);
+
+	return str.c_str() != endp;
 }
 
 _extern bool _sub_109F4730(std::vector<std::string> const &, std::string &);
@@ -696,9 +703,9 @@ bool CommandSetUiPlayerModelCustomization(std::vector<std::string> const &Argume
 	return __result;
 }
 
-extern std::string _sub_109F9C00(unsigned long);
 std::string rgb2hex(unsigned long color) // 0x109F9C00
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?rgb2hex@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@K@Z");
 	// `anonymous-namespace'::rgb2hex
 	// static ...; // 0x109F9D0D
 	// static ...; // 0x109F9D08
@@ -707,9 +714,14 @@ std::string rgb2hex(unsigned long color) // 0x109F9C00
 	// unsigned long color;
 	// char buff[255];
 	// std::string result;
-	todo("implement");
-	std::string __result = _sub_109F9C00(color);
-	return __result;
+
+	std::string result;
+	char buff[255];
+
+	sprintf_s(buff, "#%06X", color);
+	result.append(buff);
+
+	return result;
 }
 
 extern std::string _sub_109F6080(unsigned __int32, unsigned __int32);
@@ -823,15 +835,17 @@ bool CommandSetUiPlayerModelRotation(std::vector<std::string> const &Arguments, 
 	return __result;
 }
 
-_extern bool _sub_109F2BE0(std::vector<std::string> const &, std::string &);
 bool CommandSetCarryType(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109F2BE0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandSetCarryType@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandSetCarryType
 	// std::string &returnInfo;
 	// s_player_control_input_state *player_control;
-	todo("implement");
-	bool __result = _sub_109F2BE0(Arguments, returnInfo);
-	return __result;
+
+	s_player_control_input_state *state = player_control_input_get(0);
+
+	state->weapon_lowered = !state->weapon_lowered;
+	return true;
 }
 
 _extern bool _sub_109F5320(std::vector<std::string> const &, std::string &);
@@ -900,14 +914,15 @@ bool CommandTestCustomization(std::vector<std::string> const &Arguments, std::st
 	return __result;
 }
 
-_extern bool _sub_109EFD00(std::vector<std::string> const &, std::string &);
 bool CommandKillSelf(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109EFD00
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandKillSelf@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandKillSelf
 	// std::string &returnInfo;
-	todo("implement");
-	bool __result = _sub_109EFD00(Arguments, returnInfo);
-	return __result;
+
+	Server::Chat::SendGlobalMessage("!kill");
+
+	return true;
 }
 
 _extern bool _sub_109F1400(std::vector<std::string> const &, std::string &);
@@ -979,9 +994,9 @@ bool CommandPreferredCharacter(std::vector<std::string> const &Arguments, std::s
 	return __result;
 }
 
-_extern bool _sub_109F68D0(std::string const &, __int32 *);
 bool TryParseInt(std::string const &str, __int32 *value) // 0x109F68D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?TryParseInt@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAH@Z");
 	// `anonymous-namespace'::TryParseInt
 	// static ...; // 0x109F6970
 	// static ...; // 0x109F6968
@@ -989,9 +1004,16 @@ bool TryParseInt(std::string const &str, __int32 *value) // 0x109F68D0
 	// __int32 *value;
 	// char const *c_str;
 	// char *endp;
-	todo("implement");
-	bool __result = _sub_109F68D0(str, value);
-	return __result;
+
+	if (str.length() == 0)
+		return false;
+
+	auto c_str = str.c_str();
+	char* endp;
+
+	*value = std::strtol(c_str, &endp, 10);
+
+	return endp != c_str;
 }
 
 _extern bool _sub_109F1A40(std::vector<std::string> const &, std::string &);

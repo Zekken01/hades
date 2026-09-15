@@ -326,9 +326,21 @@ void DrawString3dInternal(real_point3d const &point, long color, char const *tex
 
 /* ---------- globals */
 
-static_warning("TODO: fix threadLocalAttributes declaration");
-
-static_warning("TODO: fix threadLocalAttributes declaration");
+namespace hades_file_local
+{
+	// hades: `threadLocalAttributes` was never declared - the generator left two
+	// placeholder warnings here. The type and name are recovered from its use:
+	// every CDebugDrawBackend::DrawX reads `.lifetime` and every AttributeScope
+	// setter writes a field of it.
+	//
+	// Its ADDRESS cannot be reproduced. The original sits at TLS offset 264 and
+	// its dynamic-init guard at 2004, but this unit references no other
+	// thread-local - those 264 bytes belong to other translation units, and TLS
+	// offsets are assigned when the image is LINKED. Our side is a compiled
+	// object, so the variable lands at offset 0 and every access differs by the
+	// immediate. No source change fixes it; see the thread-local note in memory.
+	thread_local CDebugDrawBackend::Attributes threadLocalAttributes;
+}
 
 /* ---------- private variables */
 
@@ -340,30 +352,33 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- public code */
 
-_extern __int32 _sub_10818DD0();
 __int32 AllocateCacheEntry() // 0x10818DD0
 {
-	mangled_x86(MANGLED_TODO, "?AllocateCacheEntry@@YAHXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?AllocateCacheEntry@@YAHXZ");
 	// procedure flags: nofpo
-	{
 		// __int32 i;
+
+	for (__int32 i = 0; i < sizeof(persistentCache) / sizeof(persistentCache[0]); i++)
+	{
+		if (!persistentCache[i].valid)
+			return i;
 	}
-	todo("implement");
-	__int32 __result = _sub_10818DD0();
-	return __result;
+	return -1;
 }
 
-_extern __int32 _sub_1081C0D0(char const *, DebugDrawKey);
 __int32 FindCacheEntry(char const *group, DebugDrawKey cacheKey) // 0x1081C0D0
 {
-	mangled_x86(MANGLED_TODO, "?FindCacheEntry@@YAHPBDUDebugDrawKey@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?FindCacheEntry@@YAHPBDUDebugDrawKey@@@Z");
 	// DebugDrawKey cacheKey;
-	{
 		// __int32 i;
+
+	for (unsigned __int32 i = 0; i < 4096; i++)
+	{
+		if (persistentCache[i].group == group && (!cacheKey || persistentCache[i].cacheKey == cacheKey))
+			return i;
 	}
-	todo("implement");
-	__int32 __result = _sub_1081C0D0(group, cacheKey);
-	return __result;
+
+	return -1;
 }
 
 void EvictCacheEntry(char const *group, DebugDrawKey cacheKey) // 0x1081C060
@@ -572,17 +587,19 @@ void CDebugDrawBackend::DrawString2d(real_point2d const &point, long color, long
 	va_end(va);
 }
 
-_extern void _sub_1081B110(real_point2d const &, long, long, float, char const *, char *);
 void CDebugDrawBackend::DrawString2d(real_point2d const &point, long color, long fontId, float scale, char const *format, char *va) // 0x1081B110
 {
-	mangled_x86(MANGLED_TODO, "?DrawString2d@CDebugDrawBackend@@SAXABUreal_point2d@@JJMPBDPAD@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawString2d@CDebugDrawBackend@@SAXABUreal_point2d@@JJMPBDPAD@Z");
 	// long fontId;
 	// float scale;
 	// char const *format;
 	// char *va;
 	// char buffer[256];
-	todo("implement");
-	_sub_1081B110(point, color, fontId, scale, format, va);
+
+	char buffer[260];
+
+	vsnprintf(buffer, 256, format, va);
+	DrawString2dInternal(point, color, buffer, fontId, scale);
 }
 
 void CDebugDrawBackend::DrawString3d(real_point3d const &point, long color, long fontId, float scale, char const *format, ...) // 0x1081B840
@@ -746,14 +763,12 @@ CDebugDrawBackend::AttributeScope::AttributeScope() // 0x10817C00
 	_sub_10817C00(this);
 }
 
-_inline CDebugDrawBackend::Attributes::Attributes() : cacheKey(todo_result<DebugDrawKey>()) // 0x10817CA0
+_inline CDebugDrawBackend::Attributes::Attributes() : lifetime(0.0f), cacheKey(nullptr, 0xFFFFFFFF), depthTest(true) /* hades-mem-init: : cacheKey(todo_result<DebugDrawKey>()) */ // 0x10817CA0
 {
-	mangled_x86(MANGLED_TODO, "??0Attributes@CDebugDrawBackend@@QAE@XZ");
-	compiler_generated();
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0Attributes@CDebugDrawBackend@@QAE@XZ");
 	// Cannot be `= default` while `cacheKey` is initialised from `todo_result`:
 	// the generator writes that because DebugDrawKey has no default constructor
 	// to reconstruct, and a defaulted constructor would be implicitly deleted.
-	todo("implement");
 }
 
 _extern void _sub_108181F0(CDebugDrawBackend::AttributeScope *const);
@@ -958,13 +973,13 @@ _inline void SPayloadVisitor::operator()(SDrawText2dMessage const &payload) // 0
 	_sub_10818AD0(this, payload);
 }
 
-_extern void _sub_10818B50(SPayloadVisitor *const, SDrawText3dMessage const &);
 _inline void SPayloadVisitor::operator()(SDrawText3dMessage const &payload) // 0x10818B50
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??RSPayloadVisitor@hades_file_local@@QAEXABUSDrawText3dMessage@1@@Z");
 	// SPayloadVisitor::operator()
 	// SDrawText3dMessage const &payload;
-	todo("implement");
-	_sub_10818B50(this, payload);
+
+	DrawString3dInternal(payload.point, payload.color, payload.text, payload.fontId, payload.scale);
 }
 
 _extern void _sub_108188F0(SPayloadVisitor *const, SDrawPhysicsShapeCapsuleMessage const &);
@@ -1068,24 +1083,20 @@ void DrawString3dInternal(real_point3d const &point, long color, char const *tex
 	_sub_1081B8C0(point, color, text, fontId, scale);
 }
 
-_inline SCacehEntry::SCacehEntry() : cacheKey(todo_result<DebugDrawKey>()) // 0x10817E60
+_inline SCacehEntry::SCacehEntry() : cacheKey(nullptr, 0xFFFFFFFF) /* hades-mem-init: : cacheKey(todo_result<DebugDrawKey>()) */ // 0x10817E60
 {
-	mangled_x86(MANGLED_TODO, "??0SCacehEntry@hades_file_local@@QAE@XZ");
-	compiler_generated();
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0SCacehEntry@hades_file_local@@QAE@XZ");
 	// Cannot be `= default` while `cacheKey` is initialised from `todo_result`:
 	// DebugDrawKey has no default constructor to reconstruct, so a defaulted
 	// constructor would be implicitly deleted.
-	todo("implement");
 }
 
-_inline SRenderThreadMessage::SRenderThreadMessage() : cacheKey(todo_result<DebugDrawKey>()) // 0x10817F40
+_inline SRenderThreadMessage::SRenderThreadMessage() : lifetime(0.0f), cacheKey(nullptr, 0xFFFFFFFF) /* hades-mem-init: : cacheKey(todo_result<DebugDrawKey>()) */ // 0x10817F40
 {
-	mangled_x86(MANGLED_TODO, "??0SRenderThreadMessage@hades_file_local@@QAE@XZ");
-	compiler_generated();
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0SRenderThreadMessage@hades_file_local@@QAE@XZ");
 	// Cannot be `= default` while `cacheKey` is initialised from `todo_result`:
 	// DebugDrawKey has no default constructor to reconstruct, so a defaulted
 	// constructor would be implicitly deleted.
-	todo("implement");
 }
 
 /* ---------- explicit instantiations */

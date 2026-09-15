@@ -530,6 +530,11 @@ using namespace hades_file_local;
 
 /* ---------- prototypes */
 
+#include "Modules/ModuleCamera.hpp"  // hades: added for 0x10AE8F50
+
+#include "Modules/ModuleGame.hpp"  // hades: added for 0x10AE8270
+namespace Patches { namespace MenuBlur { extern void RenderUIPostProcess(); } }  // hades: added for 0x10AE8270
+
 #include "Player/PlayerInfo.hpp"  // hades: added for 0x10ADC1D0
 
 namespace Player::PlayerNetworkUtil { long get_session_player_index_from_player_datum_index(long player_datum_index); }  // hades: added for 0X10AE7C40
@@ -629,6 +634,8 @@ bool user_interface_set_campaign_options_hook(long campaign_id, long map_id, sho
 
 /* ---------- globals */
 
+extern bool (*const network_session_interface_get_squad_session)(c_network_session **); // 0x11248780
+
 namespace Patches
 {
 	namespace Ui
@@ -648,7 +655,7 @@ namespace Patches
 
 namespace hades_file_local
 {
-	extern bool (__thiscall *c_gui_screen_pregame_lobby_handle_item_chosen)(void *, void *, unsigned long, c_gui_list_item_widget *, c_gui_data *);  // 0x12467488
+	extern "C" bool (__thiscall *c_gui_screen_pregame_lobby_handle_item_chosen)(void *, void *, unsigned long, c_gui_list_item_widget *, c_gui_data *);  // 0x12467488
 	extern bool (*IsMapLoading)(); // 0x11354C84
 	extern bool tagsInitiallyLoaded; // 0x1246748C
 	extern __int32 localDesiredTeam; // 0x11354C88
@@ -841,22 +848,37 @@ namespace Patches
 			_sub_10ADD620(name, speaking);
 		}
 
-		_extern void _sub_10ADB800();
 		void ApplyUIResolution() // 0x10ADB800
 		{
-			mangled_x86(MANGLED_TODO, "?ApplyUIResolution@Ui@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyUIResolution@Ui@Patches@@YAXXZ");
 			// procedure flags: nofpo
 			// long *game_resolution;
 			// long *ui_resolution;
 			// c_gui_screen_manager *screen_manager;
 			// c_gui_screen_widget *active_screen;
-			{
 				// c_gui_screen_widget *screen_below;
+			// function call : void ()
+			// function call : void ()
+
+			long *game_resolution = (long *)0x19106C0;
+			long *ui_resolution = (long *)0x19106C8;
+
+			ui_resolution[0] = game_resolution[0];
+			ui_resolution[1] = game_resolution[1];
+
+			auto screen_manager = c_gui_screen_manager::get();
+			auto active_screen = screen_manager->get_topmost_screen();
+			if (active_screen)
+			{
+				auto screen_below = screen_manager->get_screen_below(active_screen);
+				while (screen_below)
+				{
+					screen_below->reload_next_frame();
+					screen_below = screen_manager->get_screen_below(screen_below);
+				}
+
+				active_screen->reload_next_frame();
 			}
-			// function call : void ()
-			// function call : void ()
-			todo("implement");
-			_sub_10ADB800();
 		}
 
 		void ShowLanBrowser() // 0x10ADD2E0
@@ -890,13 +912,13 @@ namespace Patches
 
 /* ---------- private code */
 
-_extern void _sub_10AE1030(c_gui_map_category_datasource *, void *, wchar_t const *, wchar_t const *, wchar_t const *, wchar_t const *);
 void __fastcall c_gui_map_category_datasource__ctor_hook(c_gui_map_category_datasource *thisptr, void *__formal, wchar_t const *recent_maps_item_title, wchar_t const *recent_maps_item_description, wchar_t const *file_share_item_title, wchar_t const *file_share_item_description) // 0x10AE1030
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_map_category_datasource__ctor_hook@@YIXPAVc_gui_map_category_datasource@@PAXPB_W222@Z");
 	// `anonymous-namespace'::c_gui_map_category_datasource__ctor_hook
 	// wchar_t const *file_share_item_description;
-	todo("implement");
-	_sub_10AE1030(thisptr, __formal, recent_maps_item_title, recent_maps_item_description, file_share_item_title, file_share_item_description);
+
+	new (thisptr) c_gui_map_category_datasource(recent_maps_item_title, recent_maps_item_description, file_share_item_title, file_share_item_description);
 }
 
 _extern void _sub_10AE10C0(void *, void *, bool);
@@ -930,18 +952,19 @@ void __fastcall c_gui_player_select_screen_widget__set_mute_hook(void *thisPtr, 
 	_sub_10AE10C0(thisPtr, unused, muted);
 }
 
-_extern bool _sub_10AE8D10(std::string const &);
 bool isValidUrl(std::string const &url) // 0x10AE8D10
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?isValidUrl@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 	// `anonymous-namespace'::isValidUrl
 	// static ...; // 0x10AE8DE0
 	// static ...; // 0x10AE8DD4
 	// static ...; // 0x10AE8DCC
 	// std::string const &url;
 	// std::regex url_regex;
-	todo("implement");
-	bool __result = _sub_10AE8D10(url);
-	return __result;
+
+	std::regex url_regex("^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?", std::regex_constants::extended);
+
+	return std::regex_match(url, url_regex);
 }
 
 _extern void _sub_10AE14B0(void *, void *, bool);
@@ -980,9 +1003,9 @@ void __fastcall c_gui_player_select_screen_widget__show_service_record_hook(void
 	_sub_10AE14B0(thisPtr, unused, muted);
 }
 
-_extern bool _sub_10ADDDE0(__int32, __int32, char, __int32, __int32, __int32);
 bool UserInterfaceSquadSetMap_hook(__int32 a1, __int32 a2, char a3, __int32 a4, __int32 a5, __int32 a6) // 0x10ADDDE0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?UserInterfaceSquadSetMap_hook@@YA_NHHDHHH@Z");
 	// `anonymous-namespace'::UserInterfaceSquadSetMap_hook
 	// __int32 a2;
 	// char a3;
@@ -994,9 +1017,18 @@ bool UserInterfaceSquadSetMap_hook(__int32 a1, __int32 a2, char a3, __int32 a4, 
 	// long m;
 	// function call : bool (*const)(long *, long *)
 	// function call : bool (*const)(__int32, __int32, char, __int32, __int32, __int32)
-	todo("implement");
-	bool __result = _sub_10ADDDE0(a1, a2, a3, a4, a5, a6);
-	return __result;
+
+	long c;
+	long m[2];
+
+	if (((bool(*)(long *, long *))0xA817B0)(&c, m))
+	{
+		return false;
+	}
+
+	const auto user_interface_squad_set_map = (bool(*)(__int32, __int32, char, __int32, __int32, __int32))0xA83690;
+
+	return user_interface_squad_set_map(a1, 3005, a3, a4, a5, a6);
 }
 
 bool AttractShouldStartHook() // 0x10ADB920
@@ -1026,11 +1058,15 @@ __int32 GetPlayerRankIndex(__int32 networkPlayerIndex) // 0x10ADC160
 	// __int32 networkPlayerIndex;
 	// __int32 rank;
 
-	if (Player::CPlayersInfo::IsAvailable())
+	long rank;
+
+	if (!::Player::CPlayersInfo::IsAvailable())
 	{
-		return Player::CPlayersInfo::GetRank(networkPlayerIndex) + 1;
+		return 0;
 	}
-	return 0;
+
+	rank = ::Player::CPlayersInfo::GetRank(networkPlayerIndex) + 1;
+	return rank;
 }
 
 __int32 GetPlayerSkillIndex(__int32 networkPlayerIndex) // 0x10ADC1D0
@@ -1040,16 +1076,20 @@ __int32 GetPlayerSkillIndex(__int32 networkPlayerIndex) // 0x10ADC1D0
 	// __int32 networkPlayerIndex;
 	// __int32 skill;
 
-	if (Player::CPlayersInfo::IsAvailable())
+	long skill;
+
+	if (!::Player::CPlayersInfo::IsAvailable())
 	{
-		return Player::CPlayersInfo::GetSkill(networkPlayerIndex);
+		return 0;
 	}
-	return 0;
+
+	skill = ::Player::CPlayersInfo::GetSkill(networkPlayerIndex);
+	return skill;
 }
 
-extern std::wstring _sub_10ADC830(__int32);
 std::wstring GetRankName(__int32 rankIndex) // 0x10ADC830
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetRankName@@YA?AV?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@H@Z");
 	// `anonymous-namespace'::GetRankName
 	// static ...; // 0x10ADCA1F
 	// static ...; // 0x10ADCA18
@@ -1065,14 +1105,35 @@ std::wstring GetRankName(__int32 rankIndex) // 0x10ADC830
 	// function call : long ()
 	// function call : bool (long, unsigned long, unsigned long *)
 	// function call : bool (*const)(unsigned long, wchar_t (&)[1024])
-	todo("implement");
-	std::wstring __result = _sub_10ADC830(rankIndex);
-	return __result;
+
+	bool (*const user_interface_global_string_get)(unsigned long, wchar_t (&)[1024]) = (bool (*const)(unsigned long, wchar_t (&)[1024]))0xaa5970;
+	c_gui_data *(*const interface_get_global_datasource)(unsigned long) = (c_gui_data *(*const)(unsigned long))0xa84200;
+	c_gui_data *datasource = interface_get_global_datasource(66510);
+	unsigned long rankName;
+	wchar_t buffer[1024];
+
+	if (!datasource || rankIndex < 0 || rankIndex >= datasource->get_current_item_count())
+	{
+		return L"";
+	}
+
+	if (!datasource->get_string_id_value(rankIndex, 682, &rankName))
+	{
+		return L"";
+	}
+
+	buffer[0] = 0;
+	if (!user_interface_global_string_get(rankName, buffer))
+	{
+		return L"";
+	}
+
+	return buffer;
 }
 
-extern std::wstring _sub_10ADC5B0(__int32);
 std::wstring GetRankGradeName(__int32 rankIndex) // 0x10ADC5B0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetRankGradeName@@YA?AV?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@H@Z");
 	// `anonymous-namespace'::GetRankGradeName
 	// static ...; // 0x10ADC79F
 	// static ...; // 0x10ADC798
@@ -1088,9 +1149,30 @@ std::wstring GetRankGradeName(__int32 rankIndex) // 0x10ADC5B0
 	// function call : long ()
 	// function call : bool (long, unsigned long, unsigned long *)
 	// function call : bool (*const)(unsigned long, wchar_t (&)[1024])
-	todo("implement");
-	std::wstring __result = _sub_10ADC5B0(rankIndex);
-	return __result;
+
+	bool (*const user_interface_global_string_get)(unsigned long, wchar_t (&)[1024]) = (bool (*const)(unsigned long, wchar_t (&)[1024]))0xaa5970;
+	c_gui_data *(*const interface_get_global_datasource)(unsigned long) = (c_gui_data *(*const)(unsigned long))0xa84200;
+	c_gui_data *datasource = interface_get_global_datasource(66510);
+	unsigned long rankGradeName;
+	wchar_t buffer[1024];
+
+	if (!datasource || rankIndex < 0 || rankIndex >= datasource->get_current_item_count())
+	{
+		return L"";
+	}
+
+	if (!datasource->get_string_id_value(rankIndex, 66511, &rankGradeName))
+	{
+		return L"";
+	}
+
+	buffer[0] = 0;
+	if (!user_interface_global_string_get(rankGradeName, buffer))
+	{
+		return L"";
+	}
+
+	return buffer;
 }
 
 _extern void _sub_10AE0B90(c_gui_location_manager *, void *, unsigned long);
@@ -1810,13 +1892,17 @@ void __fastcall c_gui_custom_bitmap_widget__update_hook(c_gui_custom_bitmap_widg
 	_sub_10AE07F0(thisptr, __formal, time);
 }
 
-_extern void _sub_10AE0400(c_gui_custom_bitmap_widget *);
 void __fastcall c_gui_custom_bitmap_widget__reset_hook(c_gui_custom_bitmap_widget *thisptr) // 0x10AE0400
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_custom_bitmap_widget__reset_hook@@YIXPAUc_gui_custom_bitmap_widget@@@Z");
 	// `anonymous-namespace'::c_gui_custom_bitmap_widget__reset_hook
 	// c_gui_custom_bitmap_widget *thisptr;
-	todo("implement");
-	_sub_10AE0400(thisptr);
+
+	if (thisptr->m_storage_item_index != -1)
+	{
+		CustomBitmapManager::Get()->BitmapRelease(thisptr->m_storage_item_index);
+		thisptr->m_storage_item_index = -1;
+	}
 }
 
 void ResolutionChangeHook() // 0x10ADD1C0
@@ -2111,14 +2197,19 @@ __declspec(naked) void GetActionButtonNameHook() // 0x10ADBC70
 	}
 }
 
-_extern void _sub_10AE8270(void *, void *);
 void __fastcall c_ui_view_draw_hook(void *thisptr, void *unused) // 0x10AE8270
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_ui_view_draw_hook@@YIXPAX0@Z");
 	// `anonymous-namespace'::c_ui_view_draw_hook
 	// void *unused;
 	// function call : void (*)(void *)
-	todo("implement");
-	_sub_10AE8270(thisptr, unused);
+
+	if (!Utils::Singleton<Modules::ModuleGame>::Instance().VarHideH3UI->ValueInt)
+	{
+		((void(__thiscall *)(void *))0xA290A0)(thisptr);
+	}
+
+	Patches::MenuBlur::RenderUIPostProcess();
 }
 
 _extern __int32 _sub_10ADC240();
@@ -2192,18 +2283,40 @@ __int32 GetUnitGeneralFlagsValues() // 0x10ADCAB0
 	return __result;
 }
 
-_extern __int32 _sub_10ADBB80();
 __int32 GameStateFlagsValues() // 0x10ADBB80
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GameStateFlagsValues@@YAHXZ");
 	// `anonymous-namespace'::GameStateFlagsValues
 	// procedure flags: nofpo
 	// s_player_datum *player;
 	// __int32 flags;
 	// Blam::Network::Session *session;
 	// function call : unsigned long (*const)(long)
-	todo("implement");
-	__int32 __result = _sub_10ADBB80();
-	return __result;
+
+	s_player_datum *player = players_get()->try_and_get(((unsigned long(__cdecl *const)(long))0x589c30)(0));
+
+	if (!player)
+	{
+		return 0;
+	}
+
+	__int32 flags = 0;
+
+	Blam::Network::Session *session = Blam::Network::GetActiveSession();
+
+	if (session && session->IsEstablished())
+	{
+		if (session->HasTeams())
+		{
+			flags |= 16;
+		}
+		else
+		{
+			flags |= 8;
+		}
+	}
+
+	return flags;
 }
 
 _extern unsigned long _sub_10ADBE10(s_chud_globals_definition *, void *, long, long);
@@ -2222,25 +2335,47 @@ unsigned long __fastcall GetGlobalDynamicColorHook(s_chud_globals_definition *th
 	return __result;
 }
 
-_extern void _sub_10ADCBA0(long, real_argb_color *);
 void GetWeaponOutlineColorHook(long index, real_argb_color *out_color) // 0x10ADCBA0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetWeaponOutlineColorHook@@YAXJPAUreal_argb_color@@@Z");
 	// `anonymous-namespace'::GetWeaponOutlineColorHook
 	// real_argb_color *out_color;
 	// unsigned long (*const hud_color_to_real_argb_color)(unsigned __int32, real_argb_color *);
 	// s_chud_globals_definition *chud_definition;
-	{
 		// long character_type;
-	}
 	// function call : real_argb_color *(*const)(unsigned long, real_argb_color *)
 	// function call : unsigned long (*const)(unsigned __int32, real_argb_color *)
-	todo("implement");
-	_sub_10ADCBA0(index, out_color);
+
+	const auto hud_color_to_real_argb_color = (unsigned long(*)(unsigned __int32, real_argb_color *))0xAC9AA0;
+
+	if (Patches::Ui::enableCustomHUDColors && index == 0)
+	{
+		out_color = ((real_argb_color *(*)(unsigned long, real_argb_color *))0x5211C0)(Patches::Ui::customSecondaryHUDColor, out_color);
+		return;
+	}
+
+	auto chud_definition = *(s_chud_globals_definition **)0x5257C40;
+	if (chud_definition)
+	{
+		auto character_type = *(long *)0x526A074;
+		if (character_type < chud_definition->character_globals.count)
+		{
+			hud_color_to_real_argb_color(chud_definition->character_globals[character_type].colors[index + 30], out_color);
+		}
+		else
+		{
+			out_color = nullptr;
+		}
+	}
+	else
+	{
+		out_color = nullptr;
+	}
 }
 
-_extern bool _sub_10AE0A30(c_gui_generic_category_datasource<11> *, void *, __int32);
 bool __fastcall c_gui_game_variant_category_datasource_init(c_gui_generic_category_datasource<11> *thisptr, void *unused, __int32 datasource) // 0x10AE0A30
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_game_variant_category_datasource_init@@YI_NPAV?$c_gui_generic_category_datasource@$0L@@@PAXH@Z");
 	// `anonymous-namespace'::c_gui_game_variant_category_datasource_init
 	// __int32 datasource;
 	// static bool (*`c_gui_game_variant_category_datasource_init'::`2'::c_gui_data_init)(void *, __int32); // 0x11354CD0
@@ -2251,18 +2386,43 @@ bool __fastcall c_gui_game_variant_category_datasource_init(c_gui_generic_catego
 	// function call : bool (*)(void *, __int32)
 	// function call : void *(*)(__int32)
 	// function call : void *(*)(c_gui_generic_category_datasource<11> *, void *, __int32)
-	todo("implement");
-	bool __result = _sub_10AE0A30(thisptr, unused, datasource);
-	return __result;
+
+	static auto c_gui_data_init = (bool(__thiscall *)(void *, int))0x00AD52F0;
+	static auto sub_A84200 = (void *(*)(int))0xA84200;
+	static auto sub_ADB130 = (void *(__thiscall *)(c_gui_generic_category_datasource<11> *, void *, int))0xADB130;
+
+	if (!c_gui_data_init(thisptr, datasource))
+		return false;
+
+	auto tagsource = sub_A84200(0x201); // game_variant
+	if (!tagsource)
+		return false;
+
+	thisptr->ItemCount = 0;
+	auto index = 0;
+	do
+	{
+		if (index)
+		{
+			if (index != 5)
+				sub_ADB130(thisptr, tagsource, index);
+		}
+		++index;
+	} while (index < 11);
+
+	std::qsort(thisptr->items, thisptr->ItemCount, 0x26c, (int(*)(const void *, const void *))0xADB280);
+	return true;
 }
 
-_extern void _sub_10ADCD70();
 void __stdcall OnLobbySwitchNetworkMode() // 0x10ADCD70
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnLobbySwitchNetworkMode@@YGXXZ");
 	// `anonymous-namespace'::OnLobbySwitchNetworkMode
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10ADCD70();
+
+	std::string data("{}");
+
+	Web::Ui::ScreenLayer::Show(Web::Ui::ScreenLayer::ServerSettings, data);
 }
 
 __declspec(naked) void c_gui_screen_pregame_lobby_switch_network_hook() // 0x10AE44B0
@@ -2315,9 +2475,9 @@ void __fastcall c_gui_alert_manager__show(void *thisptr, void *unused, unsigned 
 	_sub_10ADFDE0(thisptr, unused, name, a3, customMessage, profileIndex, a6, a7);
 }
 
-_extern void _sub_10AE4AC0(void *, void *, __int32, __int32, void *);
 void __fastcall c_hud_camera_view__render_outlines_hook(void *thisptr, void *unused, __int32 localProfileIndex, __int32 playerMappingIndex, void *a3) // 0x10AE4AC0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_hud_camera_view__render_outlines_hook@@YIXPAX0HH0@Z");
 	// `anonymous-namespace'::c_hud_camera_view__render_outlines_hook
 	// void *a3;
 	// s_player_datum *player;
@@ -2326,8 +2486,27 @@ void __fastcall c_hud_camera_view__render_outlines_hook(void *thisptr, void *unu
 	// Modules::ModuleTweaks const &moduleTweaks;
 	// function call : unsigned long (*const)(long)
 	// function call : void (*const)(void *, __int32, __int32, void *)
-	todo("implement");
-	_sub_10AE4AC0(thisptr, unused, localProfileIndex, playerMappingIndex, a3);
+
+	void (__thiscall *const c_hud_camera_view__render_outlines_hook)(void *, __int32, __int32, void *) = (void (__thiscall *const)(void *, __int32, __int32, void *))0xa2e620;
+	Modules::ModuleTweaks const &moduleTweaks = Utils::Singleton<Modules::ModuleTweaks>::Instance();
+
+	unsigned long const playerIndex = ((unsigned long(*)(long))0x589C30)(0);
+	s_player_datum *player;
+
+	if (playerIndex != -1)
+	{
+		player = players_get()->try_and_get(playerIndex);
+		if (player)
+		{
+			if (player->unit_index != -1)
+			{
+				if (object_get(player->unit_index))
+				{
+					c_hud_camera_view__render_outlines_hook(thisptr, localProfileIndex, playerMappingIndex, a3);
+				}
+			}
+		}
+	}
 }
 
 wchar_t *chud_talking_player_name_hook(wchar_t *buffer) // 0x10AE87F0
@@ -2338,8 +2517,9 @@ wchar_t *chud_talking_player_name_hook(wchar_t *buffer) // 0x10AE87F0
 	// wchar_t *(*const ustrnzcpy)(wchar_t *, wchar_t *, long);
 	// function call : wchar_t *(*const)(wchar_t *, wchar_t *, long)
 
-	((void(__cdecl *)(wchar_t *, char16_t const *, __int32))0x4eccd0)(buffer, Patches::Ui::chud_talking_player_name, 16);
+	const auto csmemcpy = (void(*)(void *, void const *, unsigned long))0x4ECCD0;
 
+	csmemcpy(buffer, &Patches::Ui::chud_talking_player_name, 16);
 	return buffer;
 }
 
@@ -2489,9 +2669,9 @@ void __fastcall UI_GameVariantSavePromptFix(void *thisptr, void *unused, __int32
 		c_gui_screen_widget__transition_out(thisptr, a2);
 }
 
-_extern float _sub_10AE8B30();
 float get_player_vertical_crosshair_location() // 0x10AE8B30
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_player_vertical_crosshair_location@@YAMXZ");
 	// `anonymous-namespace'::get_player_vertical_crosshair_location
 	// procedure flags: nofpo
 	// constexpr unsigned char *(*const `get_player_vertical_crosshair_location'::`2'::c_player_profile__get)(__int32); // constant == 10997072
@@ -2499,36 +2679,57 @@ float get_player_vertical_crosshair_location() // 0x10AE8B30
 	// unsigned char *c_player_profile;
 	// __int32 representationIndex;
 	// function call : unsigned char *(*const)(__int32)
-	todo("implement");
-	float __result = _sub_10AE8B30();
-	return __result;
+
+	s_game_globals *game_globals;
+	long representationIndex;
+
+	representationIndex = *(long *)(((long(*)(long))0xA7CD50)(0) + 4);
+	game_globals = game_globals_get();
+	if (game_globals->PlayerControl.count <= representationIndex)
+	{
+		return 0.0f;
+	}
+
+	return game_globals->PlayerControl[representationIndex].CrosshairLocation.y;
 }
 
-_extern void _sub_10AE8ED0(unsigned char *);
 void observer_validate_camera_command__first_person_hook(unsigned char *c_observer_command) // 0x10AE8ED0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?observer_validate_camera_command__first_person_hook@@YAXPAE@Z");
 	// `anonymous-namespace'::observer_validate_camera_command__first_person_hook
 	// unsigned char *c_observer_command;
 	// constexpr void (*const `observer_validate_camera_command__first_person_hook'::`2'::observer_validate_camera_command)(void *); // constant == 6376800
 	// function call : void (*const)(void *)
-	todo("implement");
-	_sub_10AE8ED0(c_observer_command);
+
+	*(float *)(c_observer_command + 8) = get_player_vertical_crosshair_location();
+	if (Utils::Singleton<Modules::ModuleCamera>::Instance().VarCameraCenteredCrosshairFirst->ValueInt == 1)
+	{
+		*(float *)(c_observer_command + 8) = 0.0f;
+	}
+
+	((void(*)(unsigned char *))0x614D60)(c_observer_command);
 }
 
-_extern void _sub_10AE8F50(unsigned char *);
 void observer_validate_camera_command__third_person_hook(unsigned char *c_observer_command) // 0x10AE8F50
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?observer_validate_camera_command__third_person_hook@@YAXPAE@Z");
 	// `anonymous-namespace'::observer_validate_camera_command__third_person_hook
 	// unsigned char *c_observer_command;
 	// constexpr void (*const `observer_validate_camera_command__third_person_hook'::`2'::observer_validate_camera_command)(void *); // constant == 6376800
 	// function call : void (*const)(void *)
-	todo("implement");
-	_sub_10AE8F50(c_observer_command);
+
+	*(float *)(c_observer_command + 8) = get_player_vertical_crosshair_location();
+	if (Utils::Singleton<Modules::ModuleCamera>::Instance().VarCameraCenteredCrosshairThird->ValueInt == 1)
+	{
+		*(float *)(c_observer_command + 8) = 0.0f;
+	}
+
+	((void(*)(unsigned char *))0x614D60)(c_observer_command);
 }
 
-_extern __int32 _sub_10AE9C40();
 __int32 user_interface_squad_get_countdown_timer_hook() // 0x10AE9C40
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?user_interface_squad_get_countdown_timer_hook@@YAHXZ");
 	// `anonymous-namespace'::user_interface_squad_get_countdown_timer_hook
 	// procedure flags: nofpo
 	// static ...; // 0x10AE9CF4
@@ -2538,9 +2739,24 @@ __int32 user_interface_squad_get_countdown_timer_hook() // 0x10AE9C40
 	// c_network_session *session;
 	// c_network_session_parameter_base *session_parameter;
 	// function call : bool (*const)(c_network_session **)
-	todo("implement");
-	__int32 __result = _sub_10AE9C40();
-	return __result;
+
+	c_network_session *session;
+	c_network_session_parameters *session_parameters;
+	c_network_session_parameter_base *session_parameter;
+
+	if (!network_session_interface_get_squad_session(&session))
+	{
+		return -1;
+	}
+
+	session_parameters = session->get_session_parameters();
+	if (!session_parameters)
+	{
+		return -1;
+	}
+
+	session_parameter = session_parameters->parameters[25];
+	return *(__int32 *)((unsigned char *)session_parameter + 0x34);
 }
 
 _extern void _sub_10ADF560(c_chud_update_user_data *, void *, long, long, bool);
@@ -2732,9 +2948,9 @@ bool __fastcall c_gui_screen_campaign_select_skulls__handle_controller_input_mes
 	return __result;
 }
 
-_extern void _sub_10AE3D70(c_gui_screen_widget *, void *, unsigned long);
 void __fastcall c_gui_screen_game_options__update_hook(c_gui_screen_widget *thisptr, void *__formal, unsigned long milliseconds) // 0x10AE3D70
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_screen_game_options__update_hook@@YIXPAVc_gui_screen_widget@@PAXK@Z");
 	// `anonymous-namespace'::c_gui_screen_game_options__update_hook
 	// unsigned long milliseconds;
 	// unsigned long (*const user_interface_milliseconds)();
@@ -2744,8 +2960,23 @@ void __fastcall c_gui_screen_game_options__update_hook(c_gui_screen_widget *this
 	// function call : bool ()
 	// function call : unsigned long (*const)()
 	// function call : void (*)(c_gui_screen_widget *, unsigned long)
-	todo("implement");
-	_sub_10AE3D70(thisptr, __formal, milliseconds);
+
+	unsigned long (*const user_interface_milliseconds)() = (unsigned long (*const)())0xa848e0;
+	long task_id = *(long *)offset_pointer(thisptr, 71492);
+	unsigned long &progress_start_time_ms = *(unsigned long *)offset_pointer(thisptr, 71508);
+	c_gui_screen_widget *progress_screen = (c_gui_screen_widget *)thisptr->get_child_widget(_gui_widget_screen, 0x100BE);
+
+	if (progress_screen
+		&& !progress_screen->transitioning_out()
+		&& progress_start_time_ms
+		&& user_interface_milliseconds() - progress_start_time_ms >= 0x7D0
+		&& task_id == -1)
+	{
+		progress_screen->transition_out(0);
+		progress_start_time_ms = 0;
+	}
+
+	((void (__thiscall *)(c_gui_screen_widget *, unsigned long))0xb0d410)(thisptr, milliseconds);
 }
 
 _extern void _sub_10AE4760(c_gui_widget *, void *, gui_real_rectangle2d *, bool, bool, bool);
@@ -2772,14 +3003,37 @@ void __fastcall c_gui_widget__get_unprojected_bounds_hook(c_gui_widget *thisptr,
 	_sub_10AE4760(thisptr, unused, unprojected_bounds, offset, scale, rotate);
 }
 
-_extern void _sub_10AE7500(short_rectangle2d *);
 void c_rasterizer__get_display_pixel_bounds_hook(short_rectangle2d *display_pixel_bounds) // 0x10AE7500
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_rasterizer__get_display_pixel_bounds_hook@@YAXPAUshort_rectangle2d@@@Z");
 	// `anonymous-namespace'::c_rasterizer__get_display_pixel_bounds_hook
 	// short_rectangle2d *display_pixel_bounds;
 	// long *ui_resolution;
-	todo("implement");
-	_sub_10AE7500(display_pixel_bounds);
+
+	long *ui_resolution = (long *)0x19106C8;
+
+	display_pixel_bounds->x0 = 0;
+	display_pixel_bounds->x1 = 0;
+	display_pixel_bounds->y0 = 0;
+	display_pixel_bounds->y1 = 0;
+
+	if (ui_resolution[0] <= 8)
+	{
+		display_pixel_bounds->x1 = 8;
+	}
+	else
+	{
+		display_pixel_bounds->x1 = (short)ui_resolution[0];
+	}
+
+	if (ui_resolution[1] <= 8)
+	{
+		display_pixel_bounds->y1 = 8;
+	}
+	else
+	{
+		display_pixel_bounds->y1 = (short)ui_resolution[1];
+	}
 }
 
 long interface_get_closest_authored_ui_aspect_ratio_hook() // 0x10AE8C90
@@ -2790,7 +3044,17 @@ long interface_get_closest_authored_ui_aspect_ratio_hook() // 0x10AE8C90
 	// float ui_aspect_ratio;
 	// long *ui_resolution;
 
-	return (float)*(long *)0x19106c8 / (float)*(long *)0x19106cc < 1.6f;
+	long *resolution = (long *)0x19106C8;
+	float aspect = (float)resolution[0] / (float)resolution[1];
+
+	if (aspect < 1.6f)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
 }
 
 extern real_point2d _sub_10AE8C30();
@@ -2804,9 +3068,9 @@ real_point2d interface_get_authoring_to_target_dimensions_scaling_hook() // 0x10
 	return __result;
 }
 
-_extern void _sub_10AE01E0(c_gui_custom_bitmap_widget *, void *, s_gui_widget_render_data *, real_rectangle2d *, long, bool, bool, bool);
 void __fastcall c_gui_custom_bitmap_widget__assemble_render_data_hook(c_gui_custom_bitmap_widget *thisptr, void *unused, s_gui_widget_render_data *render_data, real_rectangle2d *bounds, long controller_index, bool offset, bool scale, bool rotate) // 0x10AE01E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_custom_bitmap_widget__assemble_render_data_hook@@YIXPAUc_gui_custom_bitmap_widget@@PAXPAUs_gui_widget_render_data@@PAUreal_rectangle2d@@J_N44@Z");
 	// `anonymous-namespace'::c_gui_custom_bitmap_widget__assemble_render_data_hook
 	// long controller_index;
 	// bool offset;
@@ -2822,27 +3086,51 @@ void __fastcall c_gui_custom_bitmap_widget__assemble_render_data_hook(c_gui_cust
 	// function call : void (*const)(c_gui_custom_bitmap_widget *, s_gui_widget_render_data *, real_rectangle2d *, long, bool, bool, bool)
 	// function call : long (*const)()
 	// function call : real_point2d (*const)(long)
-	todo("implement");
-	_sub_10AE01E0(thisptr, unused, render_data, bounds, controller_index, offset, scale, rotate);
+
+	void (__thiscall *const c_gui_bitmap_widget__assemble_render_data)(c_gui_custom_bitmap_widget *, s_gui_widget_render_data *, real_rectangle2d *, long, bool, bool, bool) = (void (__thiscall *const)(c_gui_custom_bitmap_widget *, s_gui_widget_render_data *, real_rectangle2d *, long, bool, bool, bool))0xb167b0;
+	long (*const interface_get_closest_authored_ui_aspect_ratio)() = (long (*const)())0xa9f980;
+	real_point2d (*const interface_get_authoring_aspect_conversion_scaling)(long) = (real_point2d (*const)(long))0xa9f920;
+
+	c_gui_bitmap_widget__assemble_render_data(thisptr, render_data, bounds, controller_index, offset, scale, rotate);
+
+	*(unsigned long *)&render_data->scaled_anchoring |= 1;
+	*(unsigned long *)((unsigned char *)render_data + 0x30) = thisptr->m_storage_item_index;
+
+	long display_mode = interface_get_closest_authored_ui_aspect_ratio();
+	real_point2d bitmap_scale = interface_get_authoring_aspect_conversion_scaling(display_mode);
+	float width = render_data->vertices.top_right.x - render_data->vertices.top_left.x;
+	float height = render_data->vertices.bottom_left.y - render_data->vertices.top_left.y;
+
+	width *= bitmap_scale.x;
+	height *= bitmap_scale.y;
+
+	render_data->vertices.top_right.x = render_data->vertices.top_left.x + width;
+	render_data->vertices.bottom_right.x = render_data->vertices.top_left.x + width;
+	render_data->vertices.bottom_left.y = render_data->vertices.top_left.y + height;
+	render_data->vertices.bottom_right.y = render_data->vertices.top_left.y + height;
 }
 
-_extern bool _sub_10ADFB40(c_draw_string *, void *, void *, char const *);
 bool __fastcall c_draw_string__draw_internal_hook(c_draw_string *thisptr, void *unused, void *cache, char const *utf32_text) // 0x10ADFB40
 {
-	mangled_x86(MANGLED_TODO, "?c_draw_string__draw_internal_hook@@YI_NPAUc_draw_string@@PAX1PBD@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_draw_string__draw_internal_hook@@YI_NPAUc_draw_string@@PAX1PBD@Z");
 	// `anonymous-namespace'::c_draw_string__draw_internal_hook
 	// char const *utf32_text;
 	// bool (*const c_draw_string__draw_internal)(c_draw_string *, void *, char const *);
 	// float font_scale;
 	// function call : bool (*const)(c_draw_string *, void *, char const *)
-	todo("implement");
-	bool __result = _sub_10ADFB40(thisptr, unused, cache, utf32_text);
-	return __result;
+
+	float font_scale = 1.0f;
+
+	thisptr->scale = thisptr->scale * font_scale;
+
+	const auto c_draw_string__draw_internal = (bool(__thiscall *)(c_draw_string *, void *, char const *))0x657950;
+
+	return c_draw_string__draw_internal(thisptr, cache, utf32_text);
 }
 
-_extern void _sub_10ADFBE0(c_draw_string *, void *, real_rectangle2d *, real_rectangle2d *);
 void __fastcall c_draw_string__set_bounds_hook(c_draw_string *thisptr, void *unused, real_rectangle2d *upper_x, real_rectangle2d *upper_y) // 0x10ADFBE0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_draw_string__set_bounds_hook@@YIXPAUc_draw_string@@PAXPAUreal_rectangle2d@@2@Z");
 	// `anonymous-namespace'::c_draw_string__set_bounds_hook
 	// static ...; // 0x10ADFD38
 	// c_draw_string *thisptr;
@@ -2860,13 +3148,25 @@ void __fastcall c_draw_string__set_bounds_hook(c_draw_string *thisptr, void *unu
 	// function call : long (*const)()
 	// function call : real_point2d (*const)(long)
 	// function call : void (*const)(c_draw_string *, real_rectangle2d *, real_rectangle2d *)
-	todo("implement");
-	_sub_10ADFBE0(thisptr, unused, upper_x, upper_y);
+
+	void (__thiscall *const c_draw_string__set_bounds)(c_draw_string *, real_rectangle2d *, real_rectangle2d *) = (void (__thiscall *const)(c_draw_string *, real_rectangle2d *, real_rectangle2d *))0x658b10;
+	long (*const interface_get_closest_authored_ui_aspect_ratio)() = (long (*const)())0xa9f980;
+	real_point2d (*const interface_get_authoring_aspect_conversion_scaling)(long) = (real_point2d (*const)(long))0xa9f920;
+	long *ui_resolution = (long *)0x19106C8;
+	float ui_tag_resolutions[2][2] = { { 1512.0f, 840.0f }, { 840.0f, 630.0f } };
+
+	long display_mode = interface_get_closest_authored_ui_aspect_ratio();
+	real_point2d bitmap_scale = interface_get_authoring_aspect_conversion_scaling(display_mode);
+	float scale_factor = (float)ui_resolution[1] / ui_tag_resolutions[display_mode][1];
+
+	thisptr->scale = thisptr->scale * scale_factor;
+
+	c_draw_string__set_bounds(thisptr, upper_x, upper_y);
 }
 
-_extern bool _sub_10AE9B00(long, long, short, long, long, long);
 bool user_interface_set_campaign_options_hook(long campaign_id, long map_id, short insertion_point_index, long a4, long a5, long a7) // 0x10AE9B00
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?user_interface_set_campaign_options_hook@@YA_NJJFJJJ@Z");
 	// `anonymous-namespace'::user_interface_set_campaign_options_hook
 	// long map_id;
 	// short insertion_point_index;
@@ -2878,9 +3178,18 @@ bool user_interface_set_campaign_options_hook(long campaign_id, long map_id, sho
 	// char (*const user_interface_set_campaign_options)(long, long, short, long, long, long);
 	// function call : bool (*const)(long *, long *)
 	// function call : char (*const)(long, long, short, long, long, long)
-	todo("implement");
-	bool __result = _sub_10AE9B00(campaign_id, map_id, insertion_point_index, a4, a5, a7);
-	return __result;
+
+	long current_campaign_id;
+	long current_map_id[2];
+
+	if (((bool(*)(long *, long *))0xA817B0)(&current_campaign_id, current_map_id) && current_campaign_id != -1)
+	{
+		return true;
+	}
+
+	const auto user_interface_set_campaign_options = (char(*)(long, long, short, long, long, long))0xA83690;
+
+	return user_interface_set_campaign_options(campaign_id, map_id, insertion_point_index, a4, a5, a7);
 }
 
 /* ---------- template instantiations */

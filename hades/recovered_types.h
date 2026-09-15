@@ -319,6 +319,8 @@ struct c_font_cache_scope_lock;
 struct c_game_engine_social_options;
 class c_havok_component;
 class c_mod_package;
+enum e_mod_package_sections;
+struct s_mod_package_section_header;
 class c_network_session_membership;
 struct s_transport_secure_address;
 class c_network_session;
@@ -4982,13 +4984,13 @@ static_assert32(sizeof(CDebugTextPrinter) == 2116, "Invalid CDebugTextPrinter si
 
 class CModBrowserStateManager
 {
-	unsigned char AbortEvent[20]; // 0x0, CEventSink<enum EModBrowserAbortReason>
+	CEventSink<enum EModBrowserAbortReason> AbortEvent; // 0x0  // hades: was unsigned char[20]
 	std::mutex m_mutex; // 0x14
 	unsigned char m_state[424]; // 0x44, SModBrowserState
 	EModBrowserState m_currentState; // 0x1EC
 	EModBrowserState m_requestedState; // 0x1F0
-	unsigned char m_currentHandler[8]; // 0x1F4, std::shared_ptr<CModBrowserStateHandler>
-	unsigned char m_stateHandlers[40]; // 0x1FC, std::unordered_map<enum EModBrowserState,std::shared_ptr<CModBrowserStateHandler> >
+	std::shared_ptr<CModBrowserStateHandler> m_currentHandler; // 0x1F4  // hades: was unsigned char[8]
+	std::unordered_map<enum EModBrowserState,std::shared_ptr<CModBrowserStateHandler> > m_stateHandlers; // 0x1FC  // hades: was unsigned char[40]
 	EModBrowserAbortReason m_abortReason; // 0x224
 public:
 	void Update();
@@ -5046,7 +5048,7 @@ namespace ChatCommands
 		std::string name; // 0x4
 		std::string description; // 0x20
 		unsigned char __pad0[4]; // 0x3C
-		unsigned char handle[40]; // 0x40, std::function<bool __cdecl(int,std::vector<std::string> const &,std::string &)>
+		std::function<bool (int,std::vector<std::string> const &,std::string &)> handle; // 0x40  // hades: was unsigned char[40]
 	public:
 		ChatCommand(ChatCommands::ChatCommand &&);
 		ChatCommand();
@@ -5106,8 +5108,8 @@ struct ModCache :
 	public hades::polymorphic_bytes<4> /* 0x0, c_cache_file_interface */
 {
 	virtual ~ModCache();
-	unsigned char m_stringCache[8]; // 0x4, std::shared_ptr<Blam::Cache::StringIDCache>
-	unsigned char m_tagCache[8]; // 0xC, std::shared_ptr<c_cache_file_tag_cache>
+	std::shared_ptr<Blam::Cache::StringIDCache> m_stringCache; // 0x4  // hades: was unsigned char[8]
+	std::shared_ptr<c_cache_file_tag_cache> m_tagCache; // 0xC  // hades: was unsigned char[8]
 public:
 	ModCache();
 };
@@ -5515,6 +5517,11 @@ static_assert32(sizeof(UiPlayerModelState) == 32, "Invalid UiPlayerModelState si
 
 namespace Utils
 {
+	// Utils/Logger.hpp defines these, and it includes this header, so only the
+	// names can cross the cycle. // hades: added for 0x10A87380
+	enum class LogTypes;
+	enum class LogLevel;
+
 	class Logger
 	{
 		std::mutex flushMutex; // 0x0
@@ -5523,6 +5530,7 @@ namespace Utils
 		unsigned char Entries[136]; // 0x38, boost::lockfree::queue<Utils::LogEntry,boost::lockfree::fixed_sized<0> >
 	public:
 		void Flush();
+		void Log(Utils::LogTypes type, Utils::LogLevel level, std::string format, ...);  // hades: added for 0x10A87380
 	private:
 		static unsigned long __stdcall Flusher(void *);
 	public:
@@ -5585,10 +5593,10 @@ namespace Web
 				virtual void OnHide();
 				virtual void OnUpdate();
 				unsigned char __base0[4]; // 0x4, IServerConnectModDownloadUI
-				unsigned char m_confirmCallback[40]; // 0x8, std::function<void __cdecl(void)>
-				unsigned char m_retryCallback[40]; // 0x30, std::function<void __cdecl(void)>
-				unsigned char m_cancelCallback[40]; // 0x58, std::function<void __cdecl(void)>
-				unsigned char m_joinServerCallback[40]; // 0x80, std::function<void __cdecl(void)>
+				std::function<void ()> m_confirmCallback; // 0x8  // hades: was unsigned char[40]
+				std::function<void ()> m_retryCallback; // 0x30  // hades: was unsigned char[40]
+				std::function<void ()> m_cancelCallback; // 0x58  // hades: was unsigned char[40]
+				std::function<void ()> m_joinServerCallback; // 0x80  // hades: was unsigned char[40]
 			public:
 				virtual void Hide();
 				virtual void SetConfirmCallback(std::function<void __cdecl(void)>);
@@ -5621,10 +5629,10 @@ namespace Web
 				virtual void OnHide();
 				virtual void OnUpdate();
 				unsigned char __base0[4]; // 0x4, IModBrowserModDownloadUI
-				unsigned char m_confirmCallback[40]; // 0x8, std::function<void __cdecl(void)>
-				unsigned char m_retryCallback[40]; // 0x30, std::function<void __cdecl(void)>
-				unsigned char m_cancelCallback[40]; // 0x58, std::function<void __cdecl(void)>
-				unsigned char m_downloadSingleCallback[40]; // 0x80, std::function<void __cdecl(void)>
+				std::function<void ()> m_confirmCallback; // 0x8  // hades: was unsigned char[40]
+				std::function<void ()> m_retryCallback; // 0x30  // hades: was unsigned char[40]
+				std::function<void ()> m_cancelCallback; // 0x58  // hades: was unsigned char[40]
+				std::function<void ()> m_downloadSingleCallback; // 0x80  // hades: was unsigned char[40]
 			public:
 				virtual void Hide();
 				virtual void SetConfirmCallback(std::function<void __cdecl(void)>);
@@ -5725,7 +5733,7 @@ public:
 	unsigned __int8 m_size; // 0xE
 	unsigned char __pad2[1]; // 0xF
 	int m_impact_array_index; // 0x10
-	unsigned char m_rigid_bodies[12]; // 0x14, hkArray<c_havok_component::c_rigid_body>
+	hkArray<c_havok_component::c_rigid_body> m_rigid_bodies; // 0x14  // hades: was unsigned char[12]
 	unsigned __int8 data[72]; // 0x20
 	unsigned char m_impact_array[12]; // 0x68, hkArrayBase
 	unsigned char __pad3[4]; // 0x74
@@ -5785,7 +5793,13 @@ public:
 	bool verify_signature();
 	bool compute_hash(unsigned char (&)[20]);
 	bool verify_hash(unsigned char const (&)[20]) const;
+	bool initialize(e_error *);
+	bool get_section_header(e_mod_package_sections, s_mod_package_section_header *);
+	bool read_section_data(c_file_reference &, e_mod_package_sections, unsigned long, unsigned long, void *);
+	bool valid_section(e_mod_package_sections) const;
+	bool valid_section_offset(e_mod_package_sections, unsigned long) const;
 private:
+	e_error initialize_internal();
 	bool read_metadata_section(s_mod_package_metadata *);
 	bool read_tags_section();
 	bool read_resources_section(s_cache_file_segment_header *);
@@ -5811,7 +5825,7 @@ class c_network_session_membership
 	unsigned char __pad0[4]; // 0x4
 	unsigned char m_shared_network_membership[95528]; // 0x8, s_network_session_shared_membership
 	unsigned char m_transmitted_network_membership[1623976]; // 0x17530, s_static_array<s_network_session_shared_membership,17>
-	unsigned char m_transmitted_membership_checksum[68]; // 0x1A3CD8, s_static_array<unsigned long,17>
+	s_static_array<unsigned long,17> m_transmitted_membership_checksum; // 0x1A3CD8  // hades: was unsigned char[68]
 	unsigned char __pad1[4]; // 0x1A3D1C
 	int m_local_peer_index; // 0x1A3D20
 	int m_player_configuration_version; // 0x1A3D24
@@ -5854,12 +5868,12 @@ class c_network_session
 	void *m_observer; // 0x8, struct c_network_observer *
 	void *m_session_manager; // 0xC, struct c_network_session_manager *
 	int m_session_index; // 0x10
-	unsigned char m_session_type[1]; // 0x14, c_enum<enum e_network_session_type,unsigned char>
-	unsigned char m_session_class[1]; // 0x15, c_enum<enum e_network_session_class,unsigned char>
+	c_enum<enum e_network_session_type,unsigned char> m_session_type; // 0x14  // hades: was unsigned char[1]
+	c_enum<enum e_network_session_class,unsigned char> m_session_class; // 0x15  // hades: was unsigned char[1]
 	unsigned char __pad1[10]; // 0x16
 	c_network_session_membership m_session_membership; // 0x20
 	unsigned char m_session_parameters[751920]; // 0x1A3F40, c_network_session_parameters
-	unsigned char m_local_state[1]; // 0x25B870, c_enum<enum e_network_session_state,unsigned char>
+	c_enum<enum e_network_session_state,unsigned char> m_local_state; // 0x25B870  // hades: was unsigned char[1]
 	unsigned char __pad2[7]; // 0x25B871
 	unsigned __int8 m_local_state_data[864]; // 0x25B878
 	unsigned int m_connection_identifier; // 0x25BBD8
@@ -5870,7 +5884,7 @@ class c_network_session
 	unsigned int m_time; // 0x25BBE8
 	unsigned char __pad4[4]; // 0x25BBEC
 	int m_managed_session_index; // 0x25BBF0
-	unsigned char m_join_refuse_reason[4]; // 0x25BBF4, c_enum<enum e_network_join_refuse_reason,long>
+	c_enum<enum e_network_join_refuse_reason,long> m_join_refuse_reason; // 0x25BBF4  // hades: was unsigned char[4]
 	unsigned __int64 m_host_join_nonce; // 0x25BBF8
 	bool m_matchmaking_started; // 0x25BC00
 	bool m_matchmaing_unknown_flag; // 0x25BC01
@@ -5878,15 +5892,16 @@ class c_network_session
 	unsigned int m_matchmaking_start_time; // 0x25BC04
 	unsigned int m_matchmaking_establish_time; // 0x25BC08
 	unsigned char __pad6[4]; // 0x25BC0C
-	unsigned char m_disconnection_policy[1]; // 0x25BC10, c_enum<enum e_network_session_disconnection_policy,unsigned char>
+	c_enum<enum e_network_session_disconnection_policy,unsigned char> m_disconnection_policy; // 0x25BC10  // hades: was unsigned char[1]
 	unsigned char __pad7[3]; // 0x25BC11
 	unsigned char m_player_add_single_player_identifier[8]; // 0x25BC14, s_player_identifier
 	s_transport_secure_address m_player_add_secure_address; // 0x25BC1C
 	int m_player_add_peer_index; // 0x25BC2C
 	unsigned char m_player_add_player_identifier[8]; // 0x25BC30, s_player_identifier
-	unsigned char m_player_add_join_refuse_reason[4]; // 0x25BC38, c_enum<enum e_network_join_refuse_reason,long>
+	c_enum<enum e_network_join_refuse_reason,long> m_player_add_join_refuse_reason; // 0x25BC38  // hades: was unsigned char[4]
 	unsigned int m_player_add_time; // 0x25BC3C
 public:
+	c_enum<enum e_network_session_state,unsigned char> current_local_state() const;
 	bool established() const;
 	bool disconnected() const;
 	bool is_host() const;
@@ -5931,14 +5946,14 @@ struct c_network_session_parameter_base
 	virtual void notify_clear();
 	virtual void notify_transition_state_to_become_host();
 	public:
-	unsigned char m_type[4]; // 0x4, c_enum<enum e_network_session_parameter_type,unsigned long>
+	c_enum<enum e_network_session_parameter_type,unsigned long> m_type; // 0x4  // hades: was unsigned char[4]
 	void *m_name; // 0x8, const char *
 	c_network_session * m_session; // 0xC
 	int m_update_priority; // 0x10
 	int m_writeable; // 0x14
-	unsigned char m_peers_updated[17]; // 0x18, s_static_array<unsigned char,17>
+	s_static_array<unsigned char,17> m_peers_updated; // 0x18  // hades: was unsigned char[17]
 	unsigned char __pad0[3]; // 0x29
-	unsigned char m_state_flags[1]; // 0x2C, c_flags<enum e_network_session_parameter_base_flags,unsigned char>
+	c_flags<enum e_network_session_parameter_base_flags,unsigned char> m_state_flags; // 0x2C  // hades: was unsigned char[1]
 	unsigned char __pad1[3]; // 0x2D
 protected:
 	void set_update_required();
@@ -5990,8 +6005,8 @@ class c_render_method
 	unsigned char render_method_definition_options[12]; // 0x10, c_tag_block<short>
 	unsigned char import_data[12]; // 0x1C, c_tag_block<s_render_method_import_data>
 	unsigned char postprocess[12]; // 0x28, c_tag_block<s_render_method_postprocess_definition>
-	unsigned char flags[2]; // 0x34, c_flags<enum e_render_method_flags,short>
-	unsigned char sorting_layer[1]; // 0x36, c_enum<enum e_sorting_layer,char>
+	c_flags<enum e_render_method_flags,short> flags; // 0x34  // hades: was unsigned char[2]
+	c_enum<enum e_sorting_layer,char> sorting_layer; // 0x36  // hades: was unsigned char[1]
 	char version; // 0x37
 	int custom_fog_setting_index; // 0x38
 	int unknown; // 0x3C
@@ -6004,7 +6019,7 @@ static_assert32(sizeof(c_render_method) == 64, "Invalid c_render_method size");
 
 struct s_compression_info
 {
-	unsigned char flags[2]; // 0x0, c_flags<enum e_compression_info_flags,unsigned short>
+	c_flags<enum e_compression_info_flags,unsigned short> flags; // 0x0  // hades: was unsigned char[2]
 	unsigned char __pad0[2]; // 0x2
 	unsigned char x[8]; // 0x4, real_bounds
 	unsigned char y[8]; // 0xC, real_bounds
@@ -6023,9 +6038,9 @@ struct s_data_array
 	unsigned char name[32]; // 0x0, tag_string
 	int capacity; // 0x20
 	int datum_size; // 0x24
-	unsigned char alignment[1]; // 0x28, c_enum<enum e_data_alignment,char>
+	c_enum<enum e_data_alignment,char> alignment; // 0x28  // hades: was unsigned char[1]
 	bool valid; // 0x29
-	unsigned char flags[2]; // 0x2A, c_flags<enum e_data_array_flags,unsigned short>
+	c_flags<enum e_data_array_flags,unsigned short> flags; // 0x2A  // hades: was unsigned char[2]
 	unsigned int signature; // 0x2C
 	void * allocator; // 0x30
 	int next_index; // 0x34
@@ -6277,7 +6292,7 @@ static_assert32(sizeof(s_mod_globals_player_character_colors) == 64, "Invalid s_
 struct s_mod_loading_state
 {
 	unsigned char file[272]; // 0x0, s_file_reference
-	unsigned char mod_tag_cache[8]; // 0x110, std::shared_ptr<c_cache_file_tag_cache>
+	std::shared_ptr<c_cache_file_tag_cache> mod_tag_cache; // 0x110  // hades: was unsigned char[8]
 public:
 	s_mod_loading_state();
 	~s_mod_loading_state();
@@ -6523,7 +6538,7 @@ struct s_scenario_structure_bsp_reference
 	float ambient_min_luminance; // 0x34
 	float direct_draft_ambient_min_luminance; // 0x38
 	float structure_vertex_sink; // 0x3C
-	unsigned char flags[2]; // 0x40, c_flags<enum s_scenario_structure_bsp_reference::e_flags,unsigned short>
+	c_flags<enum s_scenario_structure_bsp_reference::e_flags,unsigned short> flags; // 0x40  // hades: was unsigned char[2]
 	__int16 default_sky_index; // 0x42
 	unsigned __int16 instance_fade_start_pixels; // 0x44
 	unsigned __int16 instance_fade_end_pixels; // 0x46

@@ -64,6 +64,9 @@ struct short_rectangle2d;
 
 /* ---------- prototypes */
 
+extern void rectangle3d_build_faces(real_rectangle3d const &bounds, real_point3d (*const faces)[4]);  // hades: added for 0x10F086C0
+extern long rectangle3d_build_edges(real_rectangle3d const &bounds, long maximum_edge_count, real_point3d (*const edges)[2]);  // hades: added for 0x10F086C0
+
 float dot_product3d(real_vector3d const *a, real_vector3d const *b);  // hades: added for 0X10F0BEC0
 float plane3d_distance_to_point(real_plane3d const *plane, real_point3d const *point);  // hades: added for 0X10F0BEC0
 
@@ -93,17 +96,24 @@ extern void render_debug_physics_shape(hkpShape const *shape, real_matrix4x3 con
 
 /* ---------- globals */
 
+extern float normalize3d(real_vector3d *v);  // hades: added for 0X10F08000
+extern float magnitude3d(real_vector3d const *v);  // hades: added for 0X10F08000
+extern real_vector3d *cross_product3d(real_vector3d const *v1, real_vector3d const *v2, real_vector3d *result);  // hades: added for 0X10F08000
+extern real_vector3d *perpendicular3d(real_vector3d const *v, real_vector3d *result);  // hades: added for 0X10F08000
+extern void matrix4x3_transform_points(real_matrix4x3 const *matrix, long point_count, real_point3d const *points, real_point3d *out_points);  // hades: added for 0X10F08540
+
 /* ---------- private variables */
 
 /* ---------- public code */
 
-_extern void _sub_10F0A190(bool);
 void render_debug_enable_depth_test(bool enable) // 0x10F0A190
 {
-	mangled_x86(MANGLED_TODO, "?render_debug_enable_depth_test@@YAX_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_enable_depth_test@@YAX_N@Z");
 	// bool enable;
-	todo("implement");
-	_sub_10F0A190(enable);
+
+
+	*(unsigned char *)0xa4587c = enable ? 1 : 2;
+	*(unsigned char *)0xa45baf = enable ? 1 : 2;
 }
 
 _extern void _sub_10F08820(float, real_point2d *, long);
@@ -126,14 +136,19 @@ void render_debug_build_circle_points(float radius, real_point2d *points, long t
 	_sub_10F08820(radius, points, total_point_count);
 }
 
-_extern float _sub_10F08000(real_point3d const *, real_vector3d const *, real_matrix4x3 *);
 float build_height_matrix(real_point3d const *base, real_vector3d const *height, real_matrix4x3 *matrix) // 0x10F08000
 {
-	mangled_x86(MANGLED_TODO, "?build_height_matrix@@YAMPBUreal_point3d@@PBUreal_vector3d@@PAUreal_matrix4x3@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?build_height_matrix@@YAMPBUreal_point3d@@PBUreal_vector3d@@PAUreal_matrix4x3@@@Z");
 	// real_matrix4x3 *matrix;
-	todo("implement");
-	float __result = _sub_10F08000(base, height, matrix);
-	return __result;
+
+	matrix->scale = 1.0f;
+	matrix->up = *height;
+	perpendicular3d(&matrix->up, &matrix->left);
+	normalize3d(&matrix->up);
+	normalize3d(&matrix->left);
+	cross_product3d(&matrix->left, &matrix->up, &matrix->forward);
+	matrix->position = *base;
+	return magnitude3d(height);
 }
 
 _extern void _sub_10F08A60(real_point3d const *, real_vector3d const *, float, real_point3d *, real_point3d *, real_point3d *, real_point3d *, real_point3d *, real_point3d *);
@@ -190,10 +205,9 @@ void render_debug_sphere(real_point3d const &center, float radius, real_argb_col
 	_sub_10F0B230(center, radius, color);
 }
 
-_extern void _sub_10F0BC40(real_point3d const &, real_point3d const &, real_point3d const &, real_argb_color const &);
 void render_debug_triangle(real_point3d const &point1, real_point3d const &point2, real_point3d const &point3, real_argb_color const &color) // 0x10F0BC40
 {
-	mangled_x86(MANGLED_TODO, "?render_debug_triangle@@YAXABUreal_point3d@@00ABUreal_argb_color@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_triangle@@YAXABUreal_point3d@@00ABUreal_argb_color@@@Z");
 	// real_point3d const &point1;
 	// real_point3d const &point2;
 	// real_point3d const &point3;
@@ -202,8 +216,17 @@ void render_debug_triangle(real_point3d const &point1, real_point3d const &point
 	// unsigned long pixel_color;
 	// function call : unsigned long (*const)(real_argb_color const &)
 	// function call : void (*const)(s_debug_vertex const *, long, e_primitive_type)
-	todo("implement");
-	_sub_10F0BC40(point1, point2, point3, color);
+
+	s_debug_vertex vertices[3];
+
+	unsigned long pixel_color = ((unsigned long (__cdecl *)(real_argb_color const &))0x521810)(color);
+	vertices[0].color = pixel_color;
+	vertices[0].position = point1;
+	vertices[1].color = pixel_color;
+	vertices[1].position = point2;
+	vertices[2].color = pixel_color;
+	vertices[2].position = point3;
+	((void (__cdecl *)(s_debug_vertex const *, long, e_primitive_type))0xa45b90)(vertices, 1, _primitive_type_triangle_list);
 }
 
 void render_debug_line(real_point3d const &point0, real_point3d const &point1, real_argb_color const &color) // 0x10F0A240
@@ -227,58 +250,73 @@ void render_debug_quadrilateral(real_point3d const &point0, real_point3d const &
 	render_debug_triangle(point0, point2, point3, color);
 }
 
-_extern void _sub_10F083A0(real_rectangle3d const &, real_argb_color const &);
 void render_debug_box(real_rectangle3d const &bounds, real_argb_color const &color) // 0x10F083A0
 {
-	mangled_x86(MANGLED_TODO, "?render_debug_box@@YAXABUreal_rectangle3d@@ABUreal_argb_color@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_box@@YAXABUreal_rectangle3d@@ABUreal_argb_color@@@Z");
 	// static ...; // 0x10F084D4
 	// static ...; // 0x10F084CC
 	// real_rectangle3d const &bounds;
 	// real_argb_color const &color;
 	// unsigned long pixel_color;
 	// real_point3d faces[6][4];
-	{
 		// long i;
-	}
 	// function call : unsigned long (*const)(real_argb_color const &)
-	todo("implement");
-	_sub_10F083A0(bounds, color);
+
+	real_point3d faces[6][4];
+	long i;
+
+	rectangle3d_build_faces(bounds, faces);
+	((void(*)(real_argb_color const &))0x521810)(color);
+	for (i = 0; i < 6; i++)
+	{
+		render_debug_quadrilateral(faces[i][0], faces[i][1], faces[i][2], faces[i][3], color);
+	}
 }
 
-_extern void _sub_10F086C0(real_rectangle3d const &, real_argb_color const &);
 void render_debug_box_outline(real_rectangle3d const &bounds, real_argb_color const &color) // 0x10F086C0
 {
-	mangled_x86(MANGLED_TODO, "?render_debug_box_outline@@YAXABUreal_rectangle3d@@ABUreal_argb_color@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_box_outline@@YAXABUreal_rectangle3d@@ABUreal_argb_color@@@Z");
 	// static ...; // 0x10F087C0
 	// static ...; // 0x10F087B8
 	// real_rectangle3d const &bounds;
 	// real_argb_color const &color;
 	// real_point3d edges[12][2];
 	// unsigned long pixel_color;
-	{
 		// long edge_index;
-	}
 	// function call : unsigned long (*const)(real_argb_color const &)
-	todo("implement");
-	_sub_10F086C0(bounds, color);
+
+	real_point3d edges[12][2];
+	long edge_index;
+
+	rectangle3d_build_edges(bounds, 12, edges);
+	((void(*)(real_argb_color const &))0x521810)(color);
+	for (edge_index = 0; edge_index < 12; edge_index++)
+	{
+		render_debug_line(edges[edge_index][0], edges[edge_index][1], color);
+	}
 }
 
-_extern void _sub_10F08540(real_rectangle3d const &, real_matrix4x3 const &, real_argb_color const &);
 void render_debug_box_oriented(real_rectangle3d const &bounds, real_matrix4x3 const &matrix, real_argb_color const &color) // 0x10F08540
 {
-	mangled_x86(MANGLED_TODO, "?render_debug_box_oriented@@YAXABUreal_rectangle3d@@ABUreal_matrix4x3@@ABUreal_argb_color@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_box_oriented@@YAXABUreal_rectangle3d@@ABUreal_matrix4x3@@ABUreal_argb_color@@@Z");
 	// static ...; // 0x10F08654
 	// real_rectangle3d const &bounds;
 	// real_matrix4x3 const &matrix;
 	// real_argb_color const &color;
 	// real_point3d edges[12][2];
 	// unsigned long pixel_color;
-	{
 		// long edge_index;
-	}
 	// function call : unsigned long (*const)(real_argb_color const &)
-	todo("implement");
-	_sub_10F08540(bounds, matrix, color);
+
+	real_point3d edges[12][2];
+
+	rectangle3d_build_edges(bounds, 12, edges);
+	matrix4x3_transform_points(&matrix, 24, (real_point3d *)edges, (real_point3d *)edges);
+	unsigned long pixel_color = ((unsigned long (__cdecl *)(real_argb_color const &))0x521810)(color);
+	for (long edge_index = 0; edge_index < 12; edge_index++)
+	{
+		render_debug_line(edges[edge_index][0], edges[edge_index][1], color);
+	}
 }
 
 _extern void _sub_10F0AF70(real_point3d const &, float, real_argb_color const &);

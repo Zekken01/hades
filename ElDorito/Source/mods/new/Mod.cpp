@@ -215,24 +215,20 @@ char const *Mod::GetFilename() const // 0x1078CDC0
 	return m_filename.c_str();
 }
 
-_extern bool _sub_1078CEC0(Mod const *const);
 bool Mod::GetPakIsLoading() const // 0x1078CEC0
 {
-	mangled_x86(MANGLED_TODO, "?GetPakIsLoading@Mod@@UBE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetPakIsLoading@Mod@@UBE_NXZ");
 	// Mod const *const this;
-	todo("implement");
-	bool __result = _sub_1078CEC0((Mod const *)this);
-	return __result;
+
+	return !m_pakLoadEvent.Wait(0);
 }
 
-_extern bool _sub_1078CD00(Mod const *const);
 bool Mod::GetCacheIsLoading() const // 0x1078CD00
 {
-	mangled_x86(MANGLED_TODO, "?GetCacheIsLoading@Mod@@UBE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetCacheIsLoading@Mod@@UBE_NXZ");
 	// Mod const *const this;
-	todo("implement");
-	bool __result = _sub_1078CD00((Mod const *)this);
-	return __result;
+
+	return !m_cacheLoadEvent.Wait(0);
 }
 
 EModResult Mod::GetError() const // 0x1078CD90
@@ -243,14 +239,17 @@ EModResult Mod::GetError() const // 0x1078CD90
 	return m_error;
 }
 
-extern c_mod_package *_sub_1078CE40(Mod const *const, bool);
 c_mod_package *Mod::GetPak(bool wait) const // 0x1078CE40
 {
-	mangled_x86(MANGLED_TODO, "?GetPak@Mod@@UBEPAVc_mod_package@@_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetPak@Mod@@UBEPAVc_mod_package@@_N@Z");
 	// bool wait;
-	todo("implement");
-	c_mod_package * __result = _sub_1078CE40((Mod const *)this, wait);
-	return __result;
+
+	if (wait)
+	{
+		m_pakLoadEvent.Wait(-1);
+	}
+
+	return m_pak.get();
 }
 
 extern std::shared_ptr<c_cache_file_interface> _sub_1078CC20(Mod const *const, bool);
@@ -303,26 +302,33 @@ EModResult Mod::LoadPakBlocking() // 0x1078D6C0
 	return __result;
 }
 
-extern EModResult _sub_1078CB60(Mod *const, EModResult);
 EModResult Mod::FinishLoadPak(EModResult error) // 0x1078CB60
 {
-	mangled_x86(MANGLED_TODO, "?FinishLoadPak@Mod@@AAE?AW4EModResult@@W42@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?FinishLoadPak@Mod@@AAE?AW4EModResult@@W42@@Z");
 	// EModResult error;
 	// function call : void (Mod *)
-	todo("implement");
-	EModResult __result = _sub_1078CB60(this, error);
-	return __result;
+
+	m_error = error;
+	m_pakLoadEvent.Set();
+	if (error)
+	{
+		m_cacheLoadEvent.Set();
+	}
+
+	m_client->OnModLoadStateChanged(this);
+	return error;
 }
 
-extern EModResult _sub_1078CAB0(Mod *const, EModResult);
 EModResult Mod::FinishLoadCache(EModResult error) // 0x1078CAB0
 {
-	mangled_x86(MANGLED_TODO, "?FinishLoadCache@Mod@@AAE?AW4EModResult@@W42@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?FinishLoadCache@Mod@@AAE?AW4EModResult@@W42@@Z");
 	// EModResult error;
 	// function call : void (Mod *)
-	todo("implement");
-	EModResult __result = _sub_1078CAB0(this, error);
-	return __result;
+
+	m_error = error;
+	m_cacheLoadEvent.Set();
+	m_client->OnModLoadStateChanged(this);
+	return error;
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0IMod@@QAE@XZ"); no body to assert in

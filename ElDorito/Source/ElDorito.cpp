@@ -359,6 +359,8 @@ void HandleFinder();
 
 /* ---------- globals */
 
+namespace Server { namespace DedicatedServer { extern void Init(); } }  // hades: added for 0x10966AA0
+
 unsigned __int32 ElDorito::MainThreadID; // 0x1240F690
 extern bool relaunch; // 0x1240F694
 extern bool firstShow; // 0x11353C44
@@ -394,13 +396,10 @@ namespace Server
 }
 /* ---------- public code */
 
-extern ElDorito* _sub_109638F0(ElDorito *const);
-ElDorito::ElDorito() // 0x109638F0
+ElDorito::ElDorito() : GameHasMenuShown(false), executeCommandQueue(false), isDedicated(false), isBotClient(false), isHighPriority(false), webDebugging(false), webDebugLogging(false), webdebugPort(8884), connectToServer(false), serverAddress(""), serverPassword(""), instanceName("") /* hades-mem-init:  */ // 0x109638F0
 {
-	mangled_x86(MANGLED_TODO, "??0ElDorito@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0ElDorito@@QAE@XZ");
 	// ElDorito *const this;
-	todo("implement");
-	_sub_109638F0(this);
 }
 
 namespace Audio
@@ -564,13 +563,18 @@ std::string ElDorito::GetDirectory() // 0x10964690
 	return __result;
 }
 
-_extern void _sub_10966AA0(ElDorito *const);
 void ElDorito::OnMainMenuShown() // 0x10966AA0
 {
-	mangled_x86(MANGLED_TODO, "?OnMainMenuShown@ElDorito@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnMainMenuShown@ElDorito@@QAEXXZ");
 	// ElDorito *const this;
-	todo("implement");
-	_sub_10966AA0(this);
+
+	if (GameHasMenuShown)
+		return;
+
+	GameHasMenuShown = true;
+	executeCommandQueue = true;
+	if (isDedicated)
+		Server::DedicatedServer::Init();
 }
 
 _extern void _sub_10967AF0(ElDorito *const, std::string const &);
@@ -661,25 +665,34 @@ bool CanAccessFolder(char const *folderName, unsigned long genericAccessRights) 
 	return bRet;
 }
 
-_extern bool _sub_10964530();
 bool EnsureChildProcessTermination() // 0x10964530
 {
-	mangled_x86(MANGLED_TODO, "?EnsureChildProcessTermination@@YA_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?EnsureChildProcessTermination@@YA_NXZ");
 	// procedure flags: nofpo
 	// static ...; // 0x10964624
 	// static ...; // 0x10964618
 	// static ...; // 0x10964610
 	// void *hJob;
-	{
 		// _JOBOBJECT_EXTENDED_LIMIT_INFORMATION jobLimits;
-	}
 	// function call : void *(_SECURITY_ATTRIBUTES *, char const *)
 	// function call : __int32 (void *, _JOBOBJECTINFOCLASS, void *, unsigned long)
 	// function call : void *()
 	// function call : __int32 (void *, void *)
-	todo("implement");
-	bool __result = _sub_10964530();
-	return __result;
+
+	void *hJob = ::CreateJobObjectA(nullptr, nullptr);
+	if (hJob)
+	{
+		JOBOBJECT_EXTENDED_LIMIT_INFORMATION jobLimits;
+		::memset(&jobLimits, 0, sizeof(jobLimits));
+		jobLimits.BasicLimitInformation.LimitFlags = JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE | JOB_OBJECT_LIMIT_BREAKAWAY_OK;
+		if (!::SetInformationJobObject(hJob, JobObjectExtendedLimitInformation, &jobLimits, sizeof(jobLimits)))
+			return false;
+
+		if (!::AssignProcessToJobObject(hJob, ::GetCurrentProcess()))
+			return false;
+	}
+
+	return true;
 }
 
 extern std::string _sub_10964A30(_EXCEPTION_RECORD const &);

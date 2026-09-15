@@ -248,13 +248,18 @@ namespace Server
 			Count = 0;
 		}
 
-		extern MapAndType* _sub_1073A6A0(Server::Voting::MapAndType *const, Server::Voting::HaloMap, Server::Voting::HaloType);
 		_inline MapAndType::MapAndType(Server::Voting::HaloMap hm, Server::Voting::HaloType ht) // 0x1073A6A0
 		{
-			mangled_x86(MANGLED_TODO, "??0MapAndType@Voting@Server@@QAE@UHaloMap@12@UHaloType@12@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0MapAndType@Voting@Server@@QAE@UHaloMap@12@UHaloType@12@@Z");
 			// Server::Voting::HaloType ht;
-			todo("implement");
-			_sub_1073A6A0(this, hm, ht);
+
+			index = -1;
+			canveto = false;
+			isRevoteOption = false;
+			isRematchOption = false;
+			haloMap = hm;
+			haloType = ht;
+			Count = 0;
 		}
 
 		_extern bool _sub_10C4D9E0(Server::Voting::MapAndType const *const, Server::Voting::MapAndType const &);

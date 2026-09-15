@@ -142,6 +142,8 @@ namespace Patches
 
 /* ---------- prototypes */
 
+namespace Patches { namespace Ui { extern bool enableCustomHUDColors; } }  // hades: added for 0x109A63B0
+
 namespace Patches::Ui { void ApplyUIResolution(); }  // hades: added for 0X109A7220
 
 bool VariableSaturationUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo);
@@ -378,14 +380,22 @@ bool VariableUIScalingUpdate(std::vector<std::string> const &Arguments, std::str
 	return true;
 }
 
-_extern bool _sub_109A63B0(std::vector<std::string> const &, std::string &);
 bool VariableCustomHUDColorsEnabledUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109A63B0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableCustomHUDColorsEnabledUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::VariableCustomHUDColorsEnabledUpdate
 	// std::string &returnInfo;
-	todo("implement");
-	bool __result = _sub_109A63B0(Arguments, returnInfo);
-	return __result;
+
+	if (Utils::Singleton<Modules::ModuleGraphics>::Instance().VarCustomHUDColorsEnabled->ValueInt == 1)
+	{
+		Patches::Ui::enableCustomHUDColors = true;
+	}
+	else
+	{
+		Patches::Ui::enableCustomHUDColors = false;
+	}
+
+	return true;
 }
 
 _extern bool _sub_109A6410(std::vector<std::string> const &, std::string &);

@@ -104,6 +104,7 @@
 #include <typeinfo>
 #include <utility>
 #include <vector>
+#include "Modules/ModuleServer.hpp"  // hades: added for 0x10AF7E70
 
 /* ---------- forward declarations */
 
@@ -242,6 +243,13 @@ void weapon_barrel_fire__unit_active_camouflage_ding_hook(long unit_index, float
 
 /* ---------- globals */
 
+template<typename t_arg0> t_arg0 *object_get(unsigned long object_index);  // hades: added for 0X10AF8260
+extern s_object_data *(*const object_try_and_get_and_verify_type)(unsigned long, c_enum<enum e_object_type,long>); // 0x11248848
+template<typename t_arg0> t_arg0 *object_get(unsigned long object_index);  // hades: added for 0x10AF7FB0
+extern float (*const game_seconds_to_ticks_real)(float);  // hades: added for 0x10AF7FB0
+extern long (*const game_time_get)();  // hades: added for 0x10AF7FB0
+template<typename t_arg0> t_arg0 *object_get(unsigned long object_index);  // hades: added for 0x10AF8180
+
 namespace Patches
 {
 	namespace Weapon
@@ -257,7 +265,7 @@ namespace Patches
 
 namespace hades_file_local
 {
-	extern bool cheat_bottomless_clip; // 0x1246752D
+	extern "C" bool cheat_bottomless_clip; // 0x1246752D
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -762,20 +770,31 @@ void bottomless_clip_apply(long weapon_index, short barrel_index, bottomless_cli
 	_sub_10AF6680(weapon_index, barrel_index, state);
 }
 
-_extern void _sub_10AF6820(long, short, bottomless_clip_state *);
 void bottomless_clip_restore(long weapon_index, short barrel_index, bottomless_clip_state *state) // 0x10AF6820
 {
-	mangled_x86(MANGLED_TODO, "?bottomless_clip_restore@@YAXJFPAUbottomless_clip_state@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?bottomless_clip_restore@@YAXJFPAUbottomless_clip_state@@@Z");
 	// bottomless_clip_state *state;
 	// s_weapon_barrel_definition *barrel_definition;
 	// s_weapon_data *weapon_data;
 	// s_weapon_definition *definition;
-	{
 		// s_weapon_magazine *magazine;
-	}
 	// function call : void *(*const)(unsigned long, long)
-	todo("implement");
-	_sub_10AF6820(weapon_index, barrel_index, state);
+
+	if (!state->applied)
+		return;
+
+	s_weapon_data *weapon_data = (s_weapon_data *)object_get(weapon_index);
+	s_weapon_definition *definition = (s_weapon_definition *)tag_get(0x77656170, weapon_data->definition_index);
+	s_weapon_barrel_definition *barrel_definition = &definition->barrels[barrel_index];
+
+	weapon_data->age = state->age;
+	weapon_data->heat = state->heat;
+
+	if (barrel_definition->magazine_index != -1)
+	{
+		s_weapon_magazine *magazine = &weapon_data->magazines[barrel_definition->magazine_index];
+		magazine->rounds_loaded = state->rounds_loaded;
+	}
 }
 
 void weapon_barrel_fire(long weapon_index, short barrel_index, bool simulated) // 0x10AF73E0
@@ -797,14 +816,21 @@ void weapon_barrel_fire(long weapon_index, short barrel_index, bool simulated) /
 	bottomless_clip_restore(weapon_index, barrel_index, &bottomless_clip);
 }
 
-_extern bool _sub_10AF6F60(long);
 bool player_has_bottomless_clip(long player_index) // 0x10AF6F60
 {
-	mangled_x86(MANGLED_TODO, "?player_has_bottomless_clip@@YA_NJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?player_has_bottomless_clip@@YA_NJ@Z");
 	// long player_index;
-	todo("implement");
-	bool __result = _sub_10AF6F60(player_index);
-	return __result;
+
+
+	if (cheat_bottomless_clip)
+	{
+		return true;
+	}
+	if (player_index == -1)
+	{
+		return false;
+	}
+	return player_get(player_index)->traits.weapons.infinite_ammo == 3;
 }
 
 namespace Patches
@@ -828,34 +854,49 @@ namespace Patches
 	}
 }
 
-_extern bool _sub_10AF8180(long);
 bool weapon_has_bottomless_clip(long weapon_index) // 0x10AF8180
 {
-	mangled_x86(MANGLED_TODO, "?weapon_has_bottomless_clip@@YA_NJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?weapon_has_bottomless_clip@@YA_NJ@Z");
 	// long weapon_index;
 	// s_unit_data *unit;
 	// long unit_index;
 	// s_weapon_data *weapon_data;
 	// function call : long (*const)(long)
-	todo("implement");
-	bool __result = _sub_10AF8180(weapon_index);
-	return __result;
+
+	s_weapon_data *weapon_data = (s_weapon_data *)object_get(weapon_index);
+	long unit_index = ((long(__cdecl *)(long))0xB62DF0)(weapon_index);
+	if (unit_index == -1)
+		return false;
+
+	s_unit_data *unit = object_get<s_unit_data>(unit_index);
+	return unit->player_index != -1 && player_has_bottomless_clip(unit->player_index);
 }
 
 /* ---------- private code */
 
-_extern bool _sub_10AF7E70(long);
 bool weapon_can_be_dual_wielded_hook(long weapon_index) // 0x10AF7E70
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?weapon_can_be_dual_wielded_hook@@YA_NJ@Z");
 	// `anonymous-namespace'::weapon_can_be_dual_wielded_hook
 	// long weapon_index;
 	// bool can_dual_wield;
 	// s_weapon_definition *weapon_definition;
 	// s_object_data *weapon;
 	// function call : void *(*const)(unsigned long, long)
-	todo("implement");
-	bool __result = _sub_10AF7E70(weapon_index);
-	return __result;
+
+	if (!Modules::ModuleServer::Instance().VarServerDualWieldEnabledClient->ValueInt)
+		return false;
+
+	s_object_data *weapon = object_get(weapon_index);
+	if (!weapon)
+		return false;
+
+	s_weapon_definition *weapon_definition = (s_weapon_definition *)tag_get(0x77656170, weapon->definition_index);
+	if (!weapon_definition)
+		return false;
+
+	bool can_dual_wield = weapon_definition->weapon_flags.test(_weapon_can_be_dual_wielded_bit) || weapon_definition->weapon_flags.test(_weapon_can_only_be_dual_wielded_bit);
+	return can_dual_wield;
 }
 
 short unit_rotate_zoom_level_hook(long unit_index, short level) // 0x10AF7190
@@ -1028,40 +1069,63 @@ bool weapon_bloom_decay_hook(unsigned __int32 weaponObjectIndex, __int32 barrelI
 	return false;
 }
 
-_extern bool _sub_10AF7FB0(long, unsigned long, long, float *, bool *, bool *);
 bool weapon_compute_function_value_hook(long weapon_index, unsigned long function_name, long definition_index, float *out_value, bool *out_value_valid, bool *a6) // 0x10AF7FB0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?weapon_compute_function_value_hook@@YA_NJKJPAMPA_N1@Z");
 	// `anonymous-namespace'::weapon_compute_function_value_hook
 	// bool *a6;
 	// bool (*const weapon_compute_function_value)(long, unsigned long, long, float *, bool *, bool *);
-	{
 		// s_weapon_data *weapon;
 		// long barrel_index;
-	}
 	// function call : float (*const)(float)
 	// function call : long (*const)()
 	// function call : bool (*const)(long, unsigned long, long, float *, bool *, bool *)
-	todo("implement");
-	bool __result = _sub_10AF7FB0(weapon_index, function_name, definition_index, out_value, out_value_valid, a6);
-	return __result;
+
+	bool (__cdecl *const weapon_compute_function_value)(long, unsigned long, long, float *, bool *, bool *) = (bool(__cdecl *const)(long, unsigned long, long, float *, bool *, bool *))0xB61920;
+
+	if (function_name == 538 || function_name == 539)
+	{
+		s_weapon_data *weapon = object_get<s_weapon_data>(weapon_index);
+		long barrel_index = function_name == 538 ? 0 : 1;
+
+		if (game_seconds_to_ticks_real(1.0f / 30.0f) >= game_time_get() - weapon->game_time_last_fired)
+			*out_value = weapon->barrels[barrel_index].firing_rate;
+		else
+			*out_value = 0.0f;
+
+		*out_value_valid = *out_value != 0.0f;
+		return *out_value_valid;
+	}
+
+	return weapon_compute_function_value(weapon_index, function_name, definition_index, out_value, out_value_valid, a6);
 }
 
-_extern bool _sub_10AF8260(long);
 bool weapon_has_infinite_ammo_hook(long weapon_index) // 0x10AF8260
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?weapon_has_infinite_ammo_hook@@YA_NJ@Z");
 	// `anonymous-namespace'::weapon_has_infinite_ammo_hook
 	// long weapon_index;
 	// bool (*const player_has_infinite_ammo)(long);
 	// s_weapon_data *weapon;
 	// long owner_unit_index;
-	{
 		// s_unit_data *unit;
-	}
 	// function call : long (*const)(long)
 	// function call : bool (*const)(long)
-	todo("implement");
-	bool __result = _sub_10AF8260(weapon_index);
-	return __result;
+
+
+	bool (__cdecl *const player_has_infinite_ammo)(long) = (bool(__cdecl *const)(long))0x551E50;
+	s_weapon_data *weapon = object_get<s_weapon_data>(weapon_index);
+	long owner_unit_index = ((long(__cdecl *)(long))0xB62DF0)(weapon_index);
+
+	if (owner_unit_index != -1)
+	{
+		s_unit_data *unit = object_get<s_unit_data>(owner_unit_index);
+		if (unit->player_index != -1)
+		{
+			return player_has_infinite_ammo(unit->player_index);
+		}
+	}
+	return false;
 }
 
 bool player_has_infinite_ammo_hook(long player_index) // 0x10AF7000
@@ -1081,16 +1145,24 @@ bool player_has_infinite_ammo_hook(long player_index) // 0x10AF7000
 	return player_get(player_index)->traits.weapons.infinite_ammo >= 2;
 }
 
-_extern void _sub_10AF74E0(long, float, float);
 void weapon_barrel_fire__unit_active_camouflage_ding_hook(long unit_index, float camo, float time) // 0x10AF74E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?weapon_barrel_fire__unit_active_camouflage_ding_hook@@YAXJMM@Z");
 	// `anonymous-namespace'::weapon_barrel_fire__unit_active_camouflage_ding_hook
 	// float time;
 	// void (*const unit_active_camouflage_ding)(long, float, float);
 	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
 	// function call : void (*const)(long, float, float)
-	todo("implement");
-	_sub_10AF74E0(unit_index, camo, time);
+
+
+	if (!object_try_and_get_and_verify_type(unit_index, 0x2003))
+	{
+		return;
+	}
+
+	void (__cdecl *const unit_active_camouflage_ding)(long, float, float) = (void(__cdecl *const)(long, float, float))0xB38760;
+
+	unit_active_camouflage_ding(unit_index, camo, time);
 }
 
 /* ---------- template instantiations */

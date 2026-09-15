@@ -63,15 +63,14 @@ _inline c_wait_for_render_thread::c_wait_for_render_thread() // 0x10900E20
 	m_lock_handle = get_lock_handle();
 }
 
-_extern void _sub_109010B0(c_wait_for_render_thread *const);
 _inline c_wait_for_render_thread::~c_wait_for_render_thread() // 0x109010B0
 {
-	mangled_x86(MANGLED_TODO, "??1c_wait_for_render_thread@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1c_wait_for_render_thread@@QAE@XZ");
 	// c_wait_for_render_thread *const this;
 	// void (*const unlock_resources_and_resume_render_thread)(long);
 	// function call : void (*const)(long)
-	todo("implement");
-	_sub_109010B0(this);
+
+	((void(__cdecl *)(unsigned long))0x507940)(m_lock_handle);
 }
 
 /* ---------- private code */

@@ -150,6 +150,8 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+namespace Patches { namespace Input { extern void InvalidateBindings(); } }  // hades: added for 0x109D39A0
+
 namespace Patches { namespace Input { void SetKeyboardSettingsMenu(const std::vector<Blam::Input::ConfigurableAction> &, const std::vector<Blam::Input::ConfigurableAction> &); } }  // hades: added for 0X109CD830
 
 namespace Blam::Input { unsigned char GetKeyTicks(KeyCode key, InputType type); }  // hades: added for 0X109D2850
@@ -190,9 +192,9 @@ namespace hades_file_local
 	extern Utils::NameValueTable<enum Blam::Input::KeyCode> keyCodes; // 0x12454F08
 	extern Utils::NameValueTable<enum Blam::Input::GameAction> gameActions; // 0x12454F90
 	extern Utils::NameValueTable<enum Blam::Input::MouseButton> mouseButtons; // 0x12455018
-	extern Utils::NameValueTable<enum Blam::Input::ControllerButton> controllerButtons; // 0x124550A0
+	extern "C" Utils::NameValueTable<enum Blam::Input::ControllerButton> controllerButtons; // 0x124550A0
 	CommandBinding commandBindings[109]; // 0x12455128
-	extern Blam::Input::BindingsTable bindings; // 0x124559B0
+	extern "C" Blam::Input::BindingsTable bindings; // 0x124559B0
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -227,13 +229,14 @@ namespace Modules
 		return &bindings;
 	}
 
-	_extern void _sub_109D39A0();
 	void ModuleInput::UpdateBindings() // 0x109D39A0
 	{
-		mangled_x86(MANGLED_TODO, "?UpdateBindings@ModuleInput@Modules@@SAXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateBindings@ModuleInput@Modules@@SAXXZ");
 		// procedure flags: nofpo
-		todo("implement");
-		_sub_109D39A0();
+
+		CopyBinding(Blam::Input::eGameActionUse, Blam::Input::eGameActionVehicleExit);
+		Blam::Input::SetBindings(0, bindings);
+		Patches::Input::InvalidateBindings();
 	}
 }
 
@@ -915,18 +918,20 @@ bool CommandResetBindings(std::vector<std::string> const &Arguments, std::string
 	return true;
 }
 
-_extern bool _sub_109D38E0(char const *, float *);
 bool TryParseFloat(char const *str, float *value) // 0x109D38E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?TryParseFloat@@YA_NPBDPAM@Z");
 	// `anonymous-namespace'::TryParseFloat
 	// static ...; // 0x109D3964
 	// static ...; // 0x109D395C
 	// char const *str;
 	// float *value;
 	// char *endp;
-	todo("implement");
-	bool __result = _sub_109D38E0(str, value);
-	return __result;
+
+	char *endp;
+
+	*value = (float)strtod(str, &endp);
+	return endp != str;
 }
 
 _extern bool _sub_109CEE40(std::vector<std::string> const &, std::string &);

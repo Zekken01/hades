@@ -99,6 +99,7 @@
 #include <typeinfo>
 #include <utility>
 #include <vector>
+#include "Modules/ModuleSettings.hpp"  // hades: added for 0X10A815F0
 
 /* ---------- forward declarations */
 
@@ -197,6 +198,8 @@ using namespace ::Blam;
 
 /* ---------- prototypes */
 
+extern float real_pin(float x, float min, float max);  // hades: added for 0x10A80F50
+
 extern long(__cdecl *const game_seconds_to_ticks_round)(float);  // hades: added for 0X10A7B740
 
 namespace Blam::Input { void BlockInput(InputType type, bool block); }  // hades: added for 0X10A79380
@@ -262,22 +265,27 @@ void input_abstraction_update_hook();
 
 /* ---------- globals */
 
+extern s_input_globals &input_globals; // 0x1135A184
+extern s_input_abstraction_globals &input_abstraction_globals; // 0x1135A2F0
+
+template<typename t_arg0> t_arg0 *object_get(unsigned long object_index);  // hades: added for 0X10A79CD0
+
 c_gui_screen_widget *(*c_gui_location_manager::get_location_gui_screen)(); // 0x1135459C
 
 /* ---------- private variables */
 
 namespace hades_file_local
 {
-	extern std::stack<std::shared_ptr<Patches::Input::InputContext> > contextStack; // 0x12458880
+	extern "C" std::stack<std::shared_ptr<Patches::Input::InputContext> > contextStack; // 0x12458880
 	extern std::vector<void (__cdecl*)(void)> defaultHandlers; // 0x12458850
 	extern std::vector<void (__cdecl*)(void)> uiHandlers; // 0x12458870
-	extern bool contextDone; // 0x12458894
-	extern bool blockStates[3]; // 0x124588A0
+	extern "C" bool contextDone; // 0x12458894
+	extern "C" bool blockStates[3]; // 0x124588A0
 	extern std::vector<Blam::Input::ConfigurableAction> settings; // 0x12458860
-	extern Blam::Input::InputType actionInputTypes[63]; // 0x11354458
+	extern "C" Blam::Input::InputType actionInputTypes[63]; // 0x11354458
 	extern Blam::Input::BindingsTable s_ForgeMonitorModeBindings; // 0x124588A8
 	extern unsigned __int32 s_ControllerVibrationTestTicks; // 0x124588A4
-	extern unsigned __int32 bindingsNextUpdateTicks; // 0x11354454
+	extern "C" unsigned __int32 bindingsNextUpdateTicks; // 0x11354454
 	extern IDirectInput8A *g_diInterface; // 0x12458AB0
 	extern IDirectInputDevice8A *g_diKeyboardDevice; // 0x12458AB4
 	extern bool g_diInitialized; // 0x12458895
@@ -570,15 +578,19 @@ void InitBindingsHook(Blam::Input::BindingsTable *bindings) // 0x10A79A80
 	bindingsNextUpdateTicks = 100;
 }
 
-extern Blam::Input::BindingsPreferences *_sub_10A7A550(Blam::Input::BindingsPreferences *);
 Blam::Input::BindingsPreferences *PreferencesGetKeyBindingsHook(Blam::Input::BindingsPreferences *result) // 0x10A7A550
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?PreferencesGetKeyBindingsHook@@YAPAUBindingsPreferences@Input@Blam@@PAU123@@Z");
 	// `anonymous-namespace'::PreferencesGetKeyBindingsHook
 	// Blam::Input::BindingsPreferences *result;
 	// Blam::Input::BindingsTable *bindings;
-	todo("implement");
-	Blam::Input::BindingsPreferences * __result = _sub_10A7A550(result);
-	return __result;
+
+	auto bindings = Modules::ModuleInput::GetBindings();
+	memcpy(result->PrimaryKeys, bindings->PrimaryKeys, sizeof(result->PrimaryKeys));
+	memcpy(result->PrimaryMouseButtons, bindings->PrimaryMouseButtons, sizeof(result->PrimaryMouseButtons));
+	memcpy(result->SecondaryKeys, bindings->SecondaryKeys, sizeof(result->SecondaryKeys));
+	memcpy(result->SecondaryMouseButtons, bindings->SecondaryMouseButtons, sizeof(result->SecondaryMouseButtons));
+	return result;
 }
 
 void PreferencesSetKeyBindingsHook(Blam::Input::BindingsPreferences newBindings) // 0x10A7A620
@@ -621,17 +633,17 @@ __declspec(naked) void GetKeyboardActionTypeHook() // 0x10A794B0
 	}
 }
 
-_extern bool _sub_10A79A00();
 bool InMonitorMode() // 0x10A79A00
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?InMonitorMode@@YA_NXZ");
 	// `anonymous-namespace'::InMonitorMode
 	// procedure flags: nofpo
 	// static bool (*`InMonitorMode'::`2'::Forge_GetEditorModeState)(unsigned __int32, unsigned __int32 *, unsigned __int32 *); // 0x11354554
 	// function call : unsigned long (*const)(long)
 	// function call : bool (*)(unsigned __int32, unsigned __int32 *, unsigned __int32 *)
-	todo("implement");
-	bool __result = _sub_10A79A00();
-	return __result;
+
+	static auto Forge_GetEditorModeState = (bool(*)(unsigned __int32 playerIndex, unsigned __int32 *heldObjectIndex, unsigned __int32 *objectIndexUnderCrosshair))(0x59A6F0);
+	return Forge_GetEditorModeState(((unsigned long(*)(long))0x589C30)(0), nullptr, nullptr);
 }
 
 _extern void _sub_10A7A760(Blam::Input::BindingsTable const &, Blam::Input::ActionState *);
@@ -777,16 +789,21 @@ void SetControllerVibrationHook(__int32 controllerIndex, unsigned short leftMoto
 	*(vibration + 1) = rightMotorSpeed;
 }
 
-_extern bool _sub_10A79CD0();
 bool IsDualWielding() // 0x10A79CD0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?IsDualWielding@@YA_NXZ");
 	// `anonymous-namespace'::IsDualWielding
 	// procedure flags: nofpo
 	// s_unit_data *unit;
 	// long unit_index;
-	todo("implement");
-	bool __result = _sub_10A79CD0();
-	return __result;
+
+	long unit_index = player_control_input_get(0)->unit_index;
+	if (unit_index == -1)
+		return false;
+	s_unit_data *unit = object_get<s_unit_data>(unit_index);
+	if (!unit)
+		return false;
+	return unit->current_weapon_set.indices[1] != -1;
 }
 
 bool HasEqualBindingsDown(Blam::Input::GameAction action1, Blam::Input::GameAction action2, Blam::Input::InputType inputType) // 0x10A794D0
@@ -1003,25 +1020,38 @@ void update_key_state(Blam::Input::KeyState *key, bool is_down, long delta_msec)
 	}
 }
 
-_extern void _sub_10A81B00(long, bool, bool *);
 void update_keyboard_input_di(long delta_msec, bool enabled, bool *input_detected) // 0x10A81B00
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?update_keyboard_input_di@@YAXJ_NPA_N@Z");
 	// `anonymous-namespace'::update_keyboard_input_di
 	// static ...; // 0x10A81C5C
 	// long delta_msec;
 	// bool enabled;
 	// bool *input_detected;
 	// unsigned char diKeys[256];
-	{
 		// long i;
-		{
 			// Blam::Input::KeyState *key;
 			// bool is_down;
-		}
-	}
 	// function call : HRESULT (unsigned long, void *)
-	todo("implement");
-	_sub_10A81B00(delta_msec, enabled, input_detected);
+
+	if (!InitializeDirectInput())
+		return;
+
+	unsigned char diKeys[256];
+	g_diKeyboardDevice->GetDeviceState(sizeof(diKeys), diKeys);
+
+	for (long i = 0; i < 104; i++)
+	{
+		Blam::Input::KeyState *key = Blam::Input::GetKeyState((Blam::Input::KeyCode)i);
+		bool is_down;
+		if (enabled)
+			is_down = (diKeys[Blam::Input::GetDirectInputKey((Blam::Input::KeyCode)i)] & 0x80) != 0;
+		else
+			is_down = false;
+		if (is_down)
+			*input_detected = true;
+		update_key_state(key, is_down, delta_msec);
+	}
 }
 
 _extern void _sub_10A81CE0(long, bool, bool *);
@@ -1059,13 +1089,20 @@ void input_update_mouse(unsigned long milliseconds, long delta_milliseconds, boo
 	_sub_10A7FB90(milliseconds, delta_milliseconds, enabled, input_detected);
 }
 
-_extern void _sub_10A7FB10(long, bool, bool *);
 void input_update_keyboard(long delta_milliseconds, bool enabled, bool *out_input_detected) // 0x10A7FB10
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?input_update_keyboard@@YAXJ_NPA_N@Z");
 	// `anonymous-namespace'::input_update_keyboard
 	// bool *out_input_detected;
-	todo("implement");
-	_sub_10A7FB10(delta_milliseconds, enabled, out_input_detected);
+
+	if (Utils::Singleton<Modules::ModuleInput>::Instance().VarDirectInput->ValueInt == 1)
+	{
+		update_keyboard_input_di(delta_milliseconds, enabled, out_input_detected);
+	}
+	else
+	{
+		update_keyboard_input_win32(delta_milliseconds, enabled, out_input_detected);
+	}
 }
 
 void update_button(unsigned char *frames, unsigned short *milliseconds, bool is_pressed, unsigned long delta_milliseconds) // 0x10A81970
@@ -1132,9 +1169,9 @@ float apply_axial_deadzone(float x, float deadzone) // 0x10A7E120
 	return 0.0f;
 }
 
-_extern void _sub_10A7E1D0(short_point_2d *, short, short, float, float);
 void apply_deadzone(short_point_2d *output, short thumb_x, short thumb_y, float axial_deadzone, float radial_deadzone) // 0x10A7E1D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?apply_deadzone@@YAXPAUshort_point_2d@@FFMM@Z");
 	// `anonymous-namespace'::apply_deadzone
 	// short_point_2d *output;
 	// short thumb_x;
@@ -1143,8 +1180,19 @@ void apply_deadzone(short_point_2d *output, short thumb_x, short thumb_y, float 
 	// float radial_deadzone;
 	// float x;
 	// float y;
-	todo("implement");
-	_sub_10A7E1D0(output, thumb_x, thumb_y, axial_deadzone, radial_deadzone);
+
+	float x;
+	float y;
+
+	x = apply_axial_deadzone((float)thumb_x / 32767.0f, axial_deadzone);
+	y = apply_axial_deadzone((float)thumb_y / 32767.0f, axial_deadzone);
+	if (radial_deadzone > 0.0f)
+	{
+		apply_radial_deadzone(x, y, radial_deadzone);
+	}
+
+	output->x = (short)(x * 32767.0f);
+	output->y = (short)(y * 32767.0f);
 }
 
 _extern void _sub_10A80190(long, long, _XINPUT_STATE const *, s_gamepad_state *, s_debug_gamepad_data *, bool *);
@@ -1195,20 +1243,26 @@ bool input_xinput_update_gamepad(long controller_index, long delta_milliseconds,
 	return __result;
 }
 
-_extern void _sub_10A7F5E0(long, bool *);
 void input_update_gamepads(long delta_milliseconds, bool *out_input_detected) // 0x10A7F5E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?input_update_gamepads@@YAXJPA_N@Z");
 	// `anonymous-namespace'::input_update_gamepads
 	// bool *out_input_detected;
 	// long port;
-	{
 		// long i;
-		{
 			// s_gamepad_state *gamepad_state;
+
+	long port = Modules::ModuleInput::Instance().VarInputControllerPort->ValueInt;
+	for (long i = 0; i < 4; i++)
+	{
+		input_globals.active_gamepads &= ~(1 << i);
+		if (port == 0 || port - 1 == i)
+		{
+			s_gamepad_state *gamepad_state = &input_globals.gamepad_states[i];
+			if (input_xinput_update_gamepad(i, delta_milliseconds, gamepad_state, nullptr, out_input_detected))
+				input_globals.active_gamepads |= 1 << i;
 		}
 	}
-	todo("implement");
-	_sub_10A7F5E0(delta_milliseconds, out_input_detected);
 }
 
 _extern void _sub_10A7F710();
@@ -1230,14 +1284,18 @@ void input_update_gamepads_rumble() // 0x10A7F710
 	_sub_10A7F710();
 }
 
-_extern void _sub_10A815F0(long);
 void set_control_method(long method) // 0x10A815F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_control_method@@YAXJ@Z");
 	// `anonymous-namespace'::set_control_method
 	// long method;
 	// function call : void (*const)(long)
-	todo("implement");
-	_sub_10A815F0(method);
+
+	if (input_abstraction_globals.control_method != method)
+	{
+		((void (__cdecl *)(long))0x60D7B0)(method);
+		Modules::CommandMap::Instance().SetVariable(Modules::ModuleSettings::Instance().VarGamepadEnabled, std::to_string(method), false);
+	}
 }
 
 _extern void _sub_10A7F880();
@@ -1292,13 +1350,14 @@ void normalize_thumbstick_classic(short thumb_x, short thumb_y, float *out_norma
 	_sub_10A80840(thumb_x, thumb_y, out_normalized_x, out_normalized_y, legacy, legacy_threshold);
 }
 
-_extern void _sub_10A80F50(short, short, float *, float *);
 void normalize_thumbstick_modern(short thumb_x, short thumb_y, float *out_normalized_x, float *out_normalized_y) // 0x10A80F50
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?normalize_thumbstick_modern@@YAXFFPAM0@Z");
 	// `anonymous-namespace'::normalize_thumbstick_modern
 	// float *out_normalized_y;
-	todo("implement");
-	_sub_10A80F50(thumb_x, thumb_y, out_normalized_x, out_normalized_y);
+
+	*out_normalized_x = real_pin((float)thumb_x * 1.0f / 32767.0f, -1.0f, 1.0f);
+	*out_normalized_y = real_pin((float)thumb_y * 1.0f / 32767.0f, -1.0f, 1.0f);
 }
 
 _extern void _sub_10A7EB40(s_gamepad_state const *, s_game_input_preferences const *, s_game_input_state *, long);

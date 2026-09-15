@@ -135,6 +135,8 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+class c_geometry_sampler { public: static long (*interpolate_geometry_samples)(s_geometry_sample *, s_geometry_sample *, float, char); };  // hades: added for 0x1091EE50
+
 namespace Patches
 {
 	namespace geometry_sampler_patches
@@ -223,15 +225,14 @@ _inline s_structure_lighting_data::s_structure_lighting_data() // 0x1091BB60
 	per_vertex_data = nullptr;
 }
 
-_extern long _sub_1091EE50(s_geometry_sample *, s_geometry_sample *, float, char);
 long interpoloate_lighting_sample_hook(s_geometry_sample *current_sample, s_geometry_sample *next_sample, float interpolation_parameter, char a4) // 0x1091EE50
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?interpoloate_lighting_sample_hook@@YAJPAUs_geometry_sample@@0MD@Z");
 	// `anonymous-namespace'::interpoloate_lighting_sample_hook
 	// char a4;
 	// function call : long (*)(s_geometry_sample *, s_geometry_sample *, float, char)
-	todo("implement");
-	long __result = _sub_1091EE50(current_sample, next_sample, interpolation_parameter, a4);
-	return __result;
+
+	return c_geometry_sampler::interpolate_geometry_samples(current_sample, next_sample, interpolation_parameter / 2.0f, 1);
 }
 
 _inline void extract_world_vertex(s_render_geometry const *render_geometry, long mesh_index, long triangle_index, s_uncompressed_triangle *triangle) // 0x1091CD70

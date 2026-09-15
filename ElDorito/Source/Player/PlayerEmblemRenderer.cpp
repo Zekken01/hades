@@ -142,13 +142,12 @@ namespace Player
 		// mangled_x86(MANGLED_DEFAULT, "??0PlayerEmblemRenderTask@Emblems@Player@@QAE@ABU012@@Z"); no body to assert in
 		_inline PlayerEmblemRenderTask::PlayerEmblemRenderTask(Player::Emblems::PlayerEmblemRenderTask const &__that) = default; // 0x107E7110
 
-		_extern void _sub_107E7620(Player::Emblems::PlayerEmblemFileStream *const);
 		_inline PlayerEmblemFileStream::~PlayerEmblemFileStream() // 0x107E7620
 		{
-			mangled_x86(MANGLED_TODO, "??1PlayerEmblemFileStream@Emblems@Player@@UAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??1PlayerEmblemFileStream@Emblems@Player@@UAE@XZ");
 			// Player::Emblems::PlayerEmblemFileStream *const this;
-			todo("implement");
-			_sub_107E7620(this);
+
+			Close();
 		}
 
 		// mangled_x86(MANGLED_DEFAULT, "??0PlayerEmblemRenderTask@Emblems@Player@@QAE@XZ"); no body to assert in
@@ -181,28 +180,40 @@ namespace Player
 			}
 		}
 
-		_extern bool _sub_107E8130(Player::Emblems::PlayerEmblemFileStream *const, void *, __int32, __int32 *);
 		_inline bool PlayerEmblemFileStream::Read(void *data, __int32 bytesToRead, __int32 *bytesRead) // 0x107E8130
 		{
-			mangled_x86(MANGLED_TODO, "?Read@PlayerEmblemFileStream@Emblems@Player@@UAE_NPAXHPAH@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Read@PlayerEmblemFileStream@Emblems@Player@@UAE_NPAXHPAH@Z");
 			// __int32 *bytesRead;
-			todo("implement");
-			bool __result = _sub_107E8130(this, data, bytesToRead, bytesRead);
-			return __result;
+
+			if (!m_fp)
+			{
+				return false;
+			}
+
+			*bytesRead = fread(data, 1, bytesToRead, m_fp);
+			if (ferror(m_fp) != 0)
+			{
+				return false;
+			}
+
+			return true;
 		}
 
 		// mangled_x86(MANGLED_DEFAULT, "??0IPlayerEmblemStream@Emblems@Player@@QAE@XZ"); no body to assert in
 		_inline IPlayerEmblemStream::IPlayerEmblemStream() = default; // 0x107E6E70
 
-		extern PlayerEmblemD3DXBufferStream* _sub_107E6EA0(Player::Emblems::PlayerEmblemD3DXBufferStream *const, ID3DXBuffer *, bool);
 		_inline PlayerEmblemD3DXBufferStream::PlayerEmblemD3DXBufferStream(ID3DXBuffer *buff, bool owner) // 0x107E6EA0
 		{
-			mangled_x86(MANGLED_TODO, "??0PlayerEmblemD3DXBufferStream@Emblems@Player@@QAE@PAUID3DXBuffer@@_N@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0PlayerEmblemD3DXBufferStream@Emblems@Player@@QAE@PAUID3DXBuffer@@_N@Z");
 			// bool owner;
 			// function call : unsigned long ()
 			// function call : void *()
-			todo("implement");
-			_sub_107E6EA0(this, buff, owner);
+
+			m_buff = buff;
+			m_ownsBuff = owner;
+			m_pos = 0;
+			m_size = buff->GetBufferSize();
+			m_data = (unsigned char *)buff->GetBufferPointer();
 		}
 
 		_extern void _sub_107E7550(Player::Emblems::PlayerEmblemD3DXBufferStream *const);

@@ -96,6 +96,7 @@
 #include <utility>
 #include <variant>
 #include <vector>
+#include "mods/mod_system.hpp"
 
 /* ---------- forward declarations */
 
@@ -279,13 +280,10 @@ _inline void SignatureVerificationJob::Complete() // 0x10716F80
 	m_finished = true;
 }
 
-extern CModBrowserStateHandler_AcquireMod* _sub_107154D0(CModBrowserStateHandler_AcquireMod *const);
-CModBrowserStateHandler_AcquireMod::CModBrowserStateHandler_AcquireMod() // 0x107154D0
+CModBrowserStateHandler_AcquireMod::CModBrowserStateHandler_AcquireMod() : m_state(EState::None), m_queueIndex(-1), m_downloadStarted(false), m_cancelled(false), m_hasEnumerated(false), m_pendingVerificationJobs(0), m_ui(nullptr) /* hades-mem-init:  */ // 0x107154D0
 {
-	mangled_x86(MANGLED_TODO, "??0CModBrowserStateHandler_AcquireMod@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0CModBrowserStateHandler_AcquireMod@@QAE@XZ");
 	// CModBrowserStateHandler_AcquireMod *const this;
-	todo("implement");
-	_sub_107154D0(this);
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0SSignatureVerificationResult@@QAE@XZ"); no body to assert in
@@ -440,15 +438,16 @@ void CModBrowserStateHandler_AcquireMod::UpdateFinished() // 0x10719F20
 	Complete();
 }
 
-_extern void _sub_107171C0(CModBrowserStateHandler_AcquireMod *const);
 void CModBrowserStateHandler_AcquireMod::EnterFinalizationState() // 0x107171C0
 {
-	mangled_x86(MANGLED_TODO, "?EnterFinalizationState@CModBrowserStateHandler_AcquireMod@@AAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?EnterFinalizationState@CModBrowserStateHandler_AcquireMod@@AAEXXZ");
 	// CModBrowserStateHandler_AcquireMod *const this;
 	// c_mod_package_manager &packageManager;
 	// function call : void ()
-	todo("implement");
-	_sub_107171C0(this);
+
+	c_mod_package_manager &packageManager = c_mod_system::get_package_manager();
+	SetLocalState(EState::Finalizing);
+	m_ui->OnDownloadFinalizing();
 }
 
 _extern void _sub_10717060(CModBrowserStateHandler_AcquireMod *const, Download::EDownloadError);
@@ -581,15 +580,19 @@ void CModBrowserStateHandler_AcquireMod::OnUIActionConfirm() // 0x10718A70
 	_sub_10718A70(this);
 }
 
-_extern void _sub_107189B0(CModBrowserStateHandler_AcquireMod *const);
 void CModBrowserStateHandler_AcquireMod::OnUIActionCancel() // 0x107189B0
 {
-	mangled_x86(MANGLED_TODO, "?OnUIActionCancel@CModBrowserStateHandler_AcquireMod@@AAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnUIActionCancel@CModBrowserStateHandler_AcquireMod@@AAEXXZ");
 	// CModBrowserStateHandler_AcquireMod *const this;
 	// c_mod_package_manager &package_manager;
 	// function call : void ()
-	todo("implement");
-	_sub_107189B0(this);
+
+	c_mod_package_manager &package_manager = c_mod_system::get_package_manager();
+	package_manager.begin_enumerate();
+	m_cancelled = true;
+	if (m_activeDownload)
+		m_activeDownload->Cancel();
+	SetLocalState(EState::Cancelled);
 }
 
 void CModBrowserStateHandler_AcquireMod::OnUIActionRetry() // 0x10718B10

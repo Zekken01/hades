@@ -59,6 +59,7 @@
 #include <typeinfo>
 #include <utility>
 #include <vector>
+#include "Modules/ModuleCampaign.hpp"  // hades: added for 0X10AD1980
 
 /* ---------- forward declarations */
 
@@ -112,6 +113,9 @@ void player_examine_action_hook(long player_index, long unit_index, s_player_act
 void player_sprint_enter_hook(long unit_index, e_unit_messages message);
 
 /* ---------- globals */
+
+extern bool (__cdecl *const unit_is_dual_wielding)(unsigned long);  // hades: added for 0X10AD1980
+extern bool (*game_is_campaign)();  // hades: added for 0X10AD1980
 
 /* ---------- private variables */
 
@@ -168,18 +172,21 @@ namespace Patches
 			return HasSprintPlayerTrait(player_index);
 		}
 
-		_extern void _sub_10AD1630();
 		void Tick() // 0x10AD1630
 		{
-			mangled_x86(MANGLED_TODO, "?Tick@Sprint@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@Sprint@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			{
 				// long player_index;
-			}
 			// function call : bool (*const)()
 			// function call : unsigned long (*const)(long)
-			todo("implement");
-			_sub_10AD1630();
+
+			if (((bool(__cdecl *)())0x5314b0)())
+			{
+				long player_index = ((unsigned long(__cdecl *)(long))0x589c60)(0);
+
+				if (player_index != NONE)
+					tls_getd().chud_persistent_global_data->m_scripting.widget_show[0][10] = player_can_sprint(player_index);
+			}
 		}
 
 		_extern void _sub_10AD1700(long);
@@ -211,15 +218,17 @@ namespace Patches
 
 /* ---------- private code */
 
-_extern bool _sub_10AD14D0(long);
 bool HasSprintPlayerTrait(long player_index) // 0x10AD14D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?HasSprintPlayerTrait@@YA_NJ@Z");
 	// `anonymous-namespace'::HasSprintPlayerTrait
 	// long player_index;
 	// s_player_datum *player;
-	todo("implement");
-	bool __result = _sub_10AD14D0(player_index);
-	return __result;
+
+	s_player_datum *player = player_get(player_index);
+
+	return sprintState == 1
+		|| (sprintState == 2 && player && player->traits.extended.sprint_allowed == c_player_trait_extended::_sprint_enabled);
 }
 
 _extern bool _sub_10AD1B90(long);
@@ -246,9 +255,9 @@ bool player_is_using_adrenaline(long player_index) // 0x10AD1B90
 	return __result;
 }
 
-_extern bool _sub_10AD1980(long);
 bool player_can_sprint(long player_index) // 0x10AD1980
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?player_can_sprint@@YA_NJ@Z");
 	// `anonymous-namespace'::player_can_sprint
 	// long player_index;
 	// s_player_datum *player;
@@ -257,9 +266,32 @@ bool player_can_sprint(long player_index) // 0x10AD1980
 	// function call : bool (*)()
 	// function call : bool (*const)()
 	// function call : bool (*const)()
-	todo("implement");
-	bool __result = _sub_10AD1980(player_index);
-	return __result;
+
+	bool (__cdecl *const game_is_cooperative)() = (bool(__cdecl *const)())0x531a80;
+
+	s_player_datum *player = player_get(player_index);
+
+	if (!player || player->unit_index == NONE)
+		return false;
+
+	if (unit_is_dual_wielding(player->unit_index))
+		return false;
+
+	if (game_is_campaign() || ((bool(__cdecl *)())0x531e20)())
+	{
+		if (game_is_cooperative())
+			return false;
+
+		if (Utils::Singleton<Modules::ModuleCampaign>::Instance().VarCampaignSprintEnabled->ValueInt == 1)
+			return true;
+		else
+			return false;
+	}
+
+	if (player_is_using_adrenaline(player_index) && sprintState == 2 && !HasSprintPlayerTrait(player_index))
+		return true;
+
+	return HasSprintPlayerTrait(player_index);
 }
 
 void player_examine_action_hook(long player_index, long unit_index, s_player_action *action) // 0x10AD1B00

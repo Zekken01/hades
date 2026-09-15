@@ -90,6 +90,8 @@ using namespace ::Forge;
 
 /* ---------- prototypes */
 
+extern s_multiplayer_object_properties *(*const object_get_multiplayer)(unsigned long);  // hades: added for 0x10969B90
+
 extern s_map_variant *(*const game_engine_get_runtime_map_variant)();  // hades: added for 0x109699F0
 
 namespace Forge
@@ -327,16 +329,23 @@ namespace Forge
 		_sub_1096A0F0(objectIndex, mode, atRest);
 	}
 
-	extern EForgeObjectPhysics _sub_10969B90(long);
 	Forge::EForgeObjectPhysics GetObjectPhysicsMode(long objectIndex) // 0x10969B90
 	{
-		mangled_x86(MANGLED_TODO, "?GetObjectPhysicsMode@Forge@@YA?AW4EForgeObjectPhysics@1@J@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetObjectPhysicsMode@Forge@@YA?AW4EForgeObjectPhysics@1@J@Z");
 		// long objectIndex;
 		// s_multiplayer_object_properties *multiplayerProperties;
 		// function call : s_multiplayer_object_properties *(*const)(unsigned long)
-		todo("implement");
-		Forge::EForgeObjectPhysics __result = _sub_10969B90(objectIndex);
-		return __result;
+
+		s_multiplayer_object_properties *multiplayerProperties = object_get_multiplayer(objectIndex);
+
+		if (multiplayerProperties && (char)multiplayerProperties->boundary_shape == 4)
+		{
+			return Forge::Phased;
+		}
+		else
+		{
+			return Forge::Normal;
+		}
 	}
 
 	_extern bool _sub_10969CF0(long);

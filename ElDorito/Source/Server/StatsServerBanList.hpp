@@ -89,13 +89,12 @@ namespace Server
 		_sub_10B17F70(this, ip);
 	}
 
-	_extern void _sub_10B18110(Server::StatsServersBanList *const, unsigned long, unsigned long);
 	_inline void StatsServersBanList::AddSubnet(unsigned long network, unsigned long mask) // 0x10B18110
 	{
-		mangled_x86(MANGLED_TODO, "?AddSubnet@StatsServersBanList@Server@@QAEXKK@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?AddSubnet@StatsServersBanList@Server@@QAEXKK@Z");
 		// unsigned long mask;
-		todo("implement");
-		_sub_10B18110(this, network, mask);
+
+		subnets.push_back({ network, mask });
 	}
 
 	_extern void _sub_10B18040(Server::StatsServersBanList *const, std::string const);

@@ -160,9 +160,9 @@ long __fastcall sub_5E0EA0_hook(void *thisptr, void *unused, short a2, char a3, 
 	return __result;
 }
 
-extern c_global_material_type *_sub_10918610(c_global_material_type *, long, long);
 c_global_material_type *collision_get_global_material_index(c_global_material_type *global_material_type, long object_index, long material_index) // 0x10918610
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?collision_get_global_material_index@@YAPAUc_global_material_type@hades_file_local@@PAU12@JJ@Z");
 	// `anonymous-namespace'::collision_get_global_material_index
 	// static ...; // 0x10918698
 	// c_global_material_type *global_material_type;
@@ -171,9 +171,16 @@ c_global_material_type *collision_get_global_material_index(c_global_material_ty
 	// constexpr c_global_material_type *(*const `collision_get_global_material_index'::`2'::object_get_material)(c_global_material_type *, __int32, __int32); // constant == 11893056
 	// s_forge_material_type *material_override;
 	// function call : c_global_material_type *(*const)(c_global_material_type *, __int32, __int32)
-	todo("implement");
-	c_global_material_type * __result = _sub_10918610(global_material_type, object_index, material_index);
-	return __result;
+
+	s_forge_material_type *material_override;
+
+	if (!reforge_get_object_global_material_override(object_index, &material_override))
+	{
+		return ((c_global_material_type *(*)(c_global_material_type *, long, long))0xB57940)(global_material_type, object_index, material_index);
+	}
+
+	global_material_type->material_index = material_override->collision_global_material_type;
+	return global_material_type;
 }
 
 _extern void _sub_109184D0(hkpShape *, hkpEntity *, real_vector3d *, __int32, float *, float *, c_global_material_type *);

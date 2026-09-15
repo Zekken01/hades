@@ -130,6 +130,8 @@ Blam::Network::PingPacket MakePingPacket(unsigned short id);
 
 /* ---------- globals */
 
+void UpdatePresence(__int32 networkMode);
+
 /* ---------- private variables */
 
 /* ---------- public code */
@@ -138,18 +140,18 @@ namespace Blam
 {
 	namespace Network
 	{
-		extern Session *_sub_1092BB10();
 		Blam::Network::Session *GetActiveSession() // 0x1092BB10
 		{
-			mangled_x86(MANGLED_TODO, "?GetActiveSession@Network@Blam@@YAPAUSession@12@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetActiveSession@Network@Blam@@YAPAUSession@12@XZ");
 			// procedure flags: nofpo
 			// static ...; // 0x1092BBD0
 			// static ...; // 0x1092BBC4
 			// static ...; // 0x1092BBBC
 			// Pointer networkSessionPtr;
-			todo("implement");
-			Blam::Network::Session * __result = _sub_1092BB10();
-			return __result;
+
+
+			Pointer networkSessionPtr = Pointer::Base(0x15AB848, 1);
+			return networkSessionPtr.Read<Blam::Network::Session *>();
 		}
 
 		__int32 SessionMembership::FindFirstPeer() const // 0x1092B580
@@ -336,16 +338,21 @@ namespace Blam
 			return GetChannelPeer(&MembershipInfo, index);
 		}
 
-		_extern bool _sub_1092C330(Blam::Network::Session const *const);
 		bool Session::HasTeams() const // 0x1092C330
 		{
-			mangled_x86(MANGLED_TODO, "?HasTeams@Session@Network@Blam@@QBE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?HasTeams@Session@Network@Blam@@QBE_NXZ");
 			// Blam::Network::Session const *const this;
 			// Blam::Network::GameVariantSessionParameter const *gameVariantParameter;
 			// c_game_variant *gameVariant;
-			todo("implement");
-			bool __result = _sub_1092C330((Blam::Network::Session const *)this);
-			return __result;
+
+
+			Blam::Network::GameVariantSessionParameter const *gameVariantParameter = &Parameters.GameVariant;
+			if (!gameVariantParameter->IsAvailable())
+				return false;
+			c_game_variant *gameVariant = gameVariantParameter->Get();
+			if (!gameVariant)
+				return false;
+			return gameVariant->get_base_variant()->miscellaneous_options.teams_enabled();
 		}
 
 		Blam::Network::NetworkAddress Session::GetPeerAddress(__int32 peerIndex) const // 0x1092BFD0
@@ -447,18 +454,18 @@ namespace Blam
 			return MapVariantGet(this);
 		}
 
-		extern PacketTable *_sub_1092BEC0();
 		Blam::Network::PacketTable *GetPacketTable() // 0x1092BEC0
 		{
-			mangled_x86(MANGLED_TODO, "?GetPacketTable@Network@Blam@@YAPAUPacketTable@12@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetPacketTable@Network@Blam@@YAPAUPacketTable@12@XZ");
 			// procedure flags: nofpo
 			// static ...; // 0x1092BF80
 			// static ...; // 0x1092BF74
 			// static ...; // 0x1092BF6C
 			// Pointer packetTablePtr;
-			todo("implement");
-			Blam::Network::PacketTable * __result = _sub_1092BEC0();
-			return __result;
+
+
+			Pointer packetTablePtr = Pointer::Base(0x1E4A498, 1);
+			return packetTablePtr.Read<Blam::Network::PacketTable *>();
 		}
 
 		void SetPacketTable(Blam::Network::PacketTable const *newTable) // 0x1092CBC0
@@ -661,18 +668,22 @@ namespace Blam
 
 /* ---------- private code */
 
-extern Blam::Network::PingPacket _sub_1092C4A0(unsigned short);
 Blam::Network::PingPacket MakePingPacket(unsigned short id) // 0x1092C4A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?MakePingPacket@@YA?AUPingPacket@Network@Blam@@G@Z");
 	// `anonymous-namespace'::MakePingPacket
 	// static ...; // 0x1092C534
 	// static ...; // 0x1092C528
 	// static ...; // 0x1092C520
 	// unsigned short id;
 	// Blam::Network::PingPacket packet;
-	todo("implement");
-	Blam::Network::PingPacket __result = _sub_1092C4A0(id);
-	return __result;
+
+
+	Blam::Network::PingPacket packet;
+	packet.ID = id;
+	packet.QosResponse = false;
+	packet.Timestamp = system_milliseconds();
+	return packet;
 }
 
 /* ---------- template instantiations */

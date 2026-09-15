@@ -287,19 +287,23 @@ namespace Forge
 {
 	namespace Volumes
 	{
-		_extern void _sub_10954D00();
 		void InitializeForNewRound() // 0x10954D00
 		{
-			mangled_x86(MANGLED_TODO, "?InitializeForNewRound@Volumes@Forge@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeForNewRound@Volumes@Forge@@YAXXZ");
 			// procedure flags: nofpo
-			{
 				// __int32 i;
-				{
 					// ForgeVolume *volume;
-				}
+
+			memset(&state, 0, sizeof(state));
+
+			for (__int32 i = 0; i < 64; i++)
+			{
+				ForgeVolume *volume = &state.Volumes[i];
+				volume->Type = eVolumeType_Disabled;
+				volume->ObjectIndex = -1;
 			}
-			todo("implement");
-			_sub_10954D00();
+
+			state.IsValid = true;
 		}
 
 		void DisposeFromOldRound() // 0x109548F0
@@ -354,14 +358,17 @@ void ApplyUnitDamage(ForgeVolume &killVolume, unsigned __int32 unitObjectIndex) 
 	_sub_10954590(killVolume, unitObjectIndex);
 }
 
-_extern void _sub_10955210(__int32);
 void ResetVolume(__int32 index) // 0x10955210
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ResetVolume@@YAXH@Z");
 	// `anonymous-namespace'::ResetVolume
 	// __int32 index;
 	// ForgeVolume &volume;
-	todo("implement");
-	_sub_10955210(index);
+
+	ForgeVolume &volume = state.Volumes[index];
+	memset(&volume, 0, sizeof(volume));
+	volume.Type = eVolumeType_Disabled;
+	volume.ObjectIndex = -1;
 }
 
 _extern void _sub_10955CA0(ForgeVolume &);
@@ -452,18 +459,23 @@ bool ShouldGarbageCollectObject(unsigned __int32 objectIndex, ForgeVolume &volum
 	return __result;
 }
 
-extern s_multiplayer_weapon_tracker *_sub_10954910(unsigned __int32);
 s_multiplayer_weapon_tracker *FindEngineObject(unsigned __int32 objectIndex) // 0x10954910
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?FindEngineObject@@YAPAUs_multiplayer_weapon_tracker@@I@Z");
 	// `anonymous-namespace'::FindEngineObject
 	// unsigned __int32 objectIndex;
 	// s_game_engine_globals *game_engine_globals;
-	{
 		// long i;
+
+	s_game_engine_globals *game_engine_globals = tls_getd().game_engine_globals;
+
+	for (long i = 0; i < game_engine_globals->multiplayer_weapon_count; i++)
+	{
+		if (game_engine_globals->multiplayer_weapon[i].weapon_index == objectIndex)
+			return &game_engine_globals->multiplayer_weapon[i];
 	}
-	todo("implement");
-	s_multiplayer_weapon_tracker * __result = _sub_10954910(objectIndex);
-	return __result;
+
+	return nullptr;
 }
 
 _extern void _sub_109550B0(long);

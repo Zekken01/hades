@@ -161,6 +161,8 @@ namespace Patches
 
 /* ---------- prototypes */
 
+extern s_multiplayer_object_properties *(*const object_get_multiplayer)(unsigned long);  // hades: added for 0x108DF3C0
+
 namespace Forge::Reforge { bool IsReforgeObject(long objectIndex); }  // hades: added for 0X108DF640
 namespace Forge { bool ObjectIsForgeScenery(long objectIndex); }  // hades: added for 0X108DF640
 
@@ -440,16 +442,22 @@ real_rgb_color *network_get_team_color(real_rgb_color *color, long team) // 0x10
 	return __result;
 }
 
-_extern bool _sub_108DF3C0(long);
 bool object_always_updates_change_colors(long object_index) // 0x108DF3C0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?object_always_updates_change_colors@@YA_NJ@Z");
 	// `anonymous-namespace'::object_always_updates_change_colors
 	// long object_index;
 	// s_multiplayer_object_properties *multiplayer;
 	// function call : s_multiplayer_object_properties *(*const)(unsigned long)
-	todo("implement");
-	bool __result = _sub_108DF3C0(object_index);
-	return __result;
+
+	s_multiplayer_object_properties *multiplayer = object_get_multiplayer(object_index);
+
+	if (multiplayer)
+	{
+		return true;
+	}
+
+	return false;
 }
 
 _extern void _sub_108E0730(long, bool);

@@ -171,7 +171,7 @@ void WebVirtualKeyboardHandler(Blam::Input::VirtualKeyboard *keyboard);
 
 namespace hades_file_local
 {
-	extern std::function<void __cdecl(Blam::Input::VirtualKeyboard *)> KeyboardHandler; // 0x124674F8
+	extern "C" std::function<void __cdecl(Blam::Input::VirtualKeyboard *)> KeyboardHandler; // 0x124674F8
 	extern Blam::Input::VirtualKeyboard *CurrentKeyboard; // 0x12467520
 }
 using namespace hades_file_local;
@@ -226,14 +226,13 @@ namespace Patches
 //	_sub_10AEB510(this, keyboard);
 //}
 
-extern Blam::Input::VirtualKeyboard *_sub_10AEBD00(char const *, __int32, __int32, __int32, __int32, __int32, __int32, __int32, __int32);
 Blam::Input::VirtualKeyboard *CreateVirtualKeyboard(char const *file, __int32 line, __int32 unk2, __int32 unk3, __int32 unk4, __int32 unk5, __int32 maxLength, __int32 unk7, __int32 unk8) // 0x10AEBD00
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CreateVirtualKeyboard@@YAPAVVirtualKeyboard@Input@Blam@@PBDHHHHHHHH@Z");
 	// `anonymous-namespace'::CreateVirtualKeyboard
 	// __int32 unk8;
-	todo("implement");
-	Blam::Input::VirtualKeyboard * __result = _sub_10AEBD00(file, line, unk2, unk3, unk4, unk5, maxLength, unk7, unk8);
-	return __result;
+
+	return new Blam::Input::VirtualKeyboard(file, line, unk2, unk3, unk4, unk5, maxLength, unk7, unk8);
 }
 
 void __fastcall SetVirtualKeyboardDefaultValue(Blam::Input::VirtualKeyboard *keyboard, void *unused, wchar_t *newDefaultValue) // 0x10AEBF10

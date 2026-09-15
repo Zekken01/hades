@@ -85,18 +85,20 @@ namespace Player
 
 /* ---------- private code */
 
-_extern bool _sub_107E9FC0(__int32, IDirect3DTexture9 **);
 bool LoadEmblemTexture(__int32 index, IDirect3DTexture9 **texture) // 0x107E9FC0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?LoadEmblemTexture@@YA_NHPAPAUIDirect3DTexture9@@@Z");
 	// `anonymous-namespace'::LoadEmblemTexture
 	// static ...; // 0x107EA084
 	// static ...; // 0x107EA07C
 	// __int32 index;
 	// IDirect3DTexture9 **texture;
 	// char path[260];
-	todo("implement");
-	bool __result = _sub_107E9FC0(index, texture);
-	return __result;
+
+	char path[260];
+
+	sprintf_s(path, "ui\\assets\\emblems\\player\\layers\\%d.png", index);
+	return D3DXCreateTextureFromFileExA(c_rasterizer::get_device(), path, -1, -1, 0, 0, (D3DFORMAT)-3, (D3DPOOL)2, 1, 1, 0, 0, 0, texture) >= 0;
 }
 
 bool GetTextureInternal(__int32 index, IDirect3DTexture9 **texture) // 0x107E9F10

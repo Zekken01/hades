@@ -39,14 +39,15 @@ class c_network_session_parameter_base;
 
 /* ---------- public code */
 
-_extern void _sub_10F1F160(c_network_session_parameter_base *const);
 void c_network_session_parameter_base::set_update_required() // 0x10F1F160
 {
-	mangled_x86(MANGLED_TODO, "?set_update_required@c_network_session_parameter_base@@IAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_update_required@c_network_session_parameter_base@@IAEXXZ");
 	// c_network_session_parameter_base *const this;
 	// function call : void ()
-	todo("implement");
-	_sub_10F1F160(this);
+
+	m_state_flags |= 1;
+	m_peers_updated.set_memory(0);
+	notify_set_update_required();
 }
 
 _extern bool _sub_10F1F040(c_network_session_parameter_base const *const);

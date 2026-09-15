@@ -213,6 +213,7 @@ void MeleeDamageHook(s_damage_data *damageData, unsigned __int32 unitObjectIndex
 	// __int32 predictability;
 	// function call : void (*const)(s_damage_data *, long, long)
 
+	damageData->acceleration_scale = 1.0f;
 	((void(__cdecl *const)(s_damage_data *, long, long))0xb542a0)(damageData, unitObjectIndex, predictability);
 }
 

@@ -99,6 +99,8 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+extern s_multiplayer_object_properties *(*const object_get_multiplayer)(unsigned long);  // hades: added for 0x108658A0
+
 struct s_object_data *object_get(unsigned long objectIndex);  // hades: added for 0X108660A0
 
 struct s_forge_globals_definition *forge_globals_get_definition();  // hades: added for 0X10865E90
@@ -135,6 +137,12 @@ namespace Forge
 s_render_model *GeObjectRenderModel(long objectTagIndex);
 
 /* ---------- globals */
+
+extern bool (*const game_is_multiplayer)();  // hades: added for 0x10866110
+extern void *(*const tag_get)(unsigned long, long);  // hades: added for 0X10866360
+extern void *(*const tag_get)(unsigned long, long);  // hades: added for 0X108657A0
+
+extern s_object_data *(*const object_try_and_get_and_verify_type)(unsigned long, c_enum<enum e_object_type,long>);
 
 /* ---------- private variables */
 
@@ -208,12 +216,16 @@ namespace Forge
 	{
 		Forge::ReforgeObjectProperties *GetReforgeObject(long objectIndex) // 0x108658A0
 		{
-			mangled_x86(MANGLED_TODO, "?GetReforgeObject@Reforge@Forge@@YAPAUReforgeObjectProperties@2@J@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetReforgeObject@Reforge@Forge@@YAPAUReforgeObjectProperties@2@J@Z");
 			// long objectIndex;
 			// function call : s_multiplayer_object_properties *(*const)(unsigned long)
-			todo("implement");
-			Forge::ReforgeObjectProperties * __result = _sub_108658A0(objectIndex);
-			return __result;
+
+			if (!Forge::Reforge::IsReforgeObject(objectIndex))
+			{
+				return nullptr;
+			}
+
+			return (Forge::ReforgeObjectProperties *)&object_get_multiplayer(objectIndex)->boundry_width;
 		}
 
 		bool IsMapModifierObject(long objectIndex) // 0x10865E90
@@ -309,10 +321,9 @@ namespace Forge
 			return __result;
 		}
 
-		_extern bool _sub_10866110(long, long);
 		bool TeamBarrierTestPlayer(long barrierObjectIndex, long playerIndex) // 0x10866110
 		{
-			mangled_x86(MANGLED_TODO, "?TeamBarrierTestPlayer@Reforge@Forge@@YA_NJJ@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?TeamBarrierTestPlayer@Reforge@Forge@@YA_NJJ@Z");
 			// long playerIndex;
 			// s_multiplayer_object_properties *multiplayer_properties;
 			// long team_designator;
@@ -320,28 +331,76 @@ namespace Forge
 			// function call : bool (*const)()
 			// function call : s_multiplayer_object_properties *(*const)(unsigned long)
 			// function call : c_game_engine *(*const)()
-			todo("implement");
-			bool __result = _sub_10866110(barrierObjectIndex, playerIndex);
-			return __result;
+
+			if (!game_is_multiplayer())
+			{
+				return false;
+			}
+
+			if (!Forge::Reforge::IsReforgeObject(barrierObjectIndex))
+			{
+				return false;
+			}
+
+			s_multiplayer_object_properties *multiplayer_properties = object_get_multiplayer(barrierObjectIndex);
+
+			if (!multiplayer_properties)
+			{
+				return false;
+			}
+
+			Forge::ReforgeObjectProperties *reforge_properties = (Forge::ReforgeObjectProperties *)&multiplayer_properties->boundry_width;
+
+			if (!reforge_properties->TeamBarrier)
+			{
+				return false;
+			}
+
+			if (!((c_game_engine *(*)())0x5CE150)())
+			{
+				return false;
+			}
+
+			long team_designator = game_engine_get_team_designator(playerIndex);
+
+			return (reforge_properties->TeamBarrier & (1 << team_designator)) || (reforge_properties->TeamBarrier == 0xFF && team_designator == 8);
 		}
 
-		_extern bool _sub_10866280(long, long);
 		bool TeamBarrierTestUnit(long barrierObjectIndex, long unitIndex) // 0x10866280
 		{
-			mangled_x86(MANGLED_TODO, "?TeamBarrierTestUnit@Reforge@Forge@@YA_NJJ@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?TeamBarrierTestUnit@Reforge@Forge@@YA_NJJ@Z");
 			// long unitIndex;
 			// s_unit_data *unit;
 			// long player_index;
 			// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-			todo("implement");
-			bool __result = _sub_10866280(barrierObjectIndex, unitIndex);
-			return __result;
+
+			s_unit_data *unit = (s_unit_data *)object_try_and_get_and_verify_type(unitIndex, 0x2003);
+
+			if (!unit)
+			{
+				return false;
+			}
+
+			unitIndex = Forge::Reforge::get_controlling_unit(unitIndex);
+
+			if (unitIndex == -1)
+			{
+				return false;
+			}
+
+			long player_index = unit_get_current_or_last_weak_player_index(unitIndex);
+
+			if (player_index == -1)
+			{
+				return false;
+			}
+
+			return Forge::Reforge::TeamBarrierTestPlayer(barrierObjectIndex, player_index);
 		}
 
-		_extern bool _sub_10866360(long, __int32);
 		bool ValidRenderMaterialIndex(long objectIndex, __int32 index) // 0x10866360
 		{
-			mangled_x86(MANGLED_TODO, "?ValidRenderMaterialIndex@Reforge@Forge@@YA_NJH@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ValidRenderMaterialIndex@Reforge@Forge@@YA_NJH@Z");
 			// __int32 index;
 			// s_object_data *object;
 			// s_model_definition *modelDef;
@@ -350,9 +409,19 @@ namespace Forge
 			// function call : void *(*const)(unsigned long, long)
 			// function call : void *(*const)(unsigned long, long)
 			// function call : void *(*const)(unsigned long, long)
-			todo("implement");
-			bool __result = _sub_10866360(objectIndex, index);
-			return __result;
+
+			s_object_data *object = object_get(objectIndex);
+
+			if (!object)
+			{
+				return false;
+			}
+
+			s_object_definition *objectDef = (s_object_definition *)tag_get(0x6F626A65, object->definition_index);
+			s_model_definition *modelDef = (s_model_definition *)tag_get(0x686C6D74, objectDef->model.index);
+			s_render_model *renderModel = (s_render_model *)tag_get(0x6D6F6465, modelDef->render_model.index);
+
+			return index >= 0 && index < renderModel->materials.count;
 		}
 
 		_extern short _sub_10865930(long, Forge::Reforge::SRenderMaterialParameters *);
@@ -380,25 +449,38 @@ namespace Forge
 {
 	namespace Reforge
 	{
-		_extern long _sub_108666E0(long);
 		long get_controlling_unit(long unit_index) // 0x108666E0
 		{
+			mangled_x86(MANGLED_KNOWN_GOOD, "?get_controlling_unit@Reforge@Forge@@YAJJ@Z");
 			// Forge::Reforge::get_controlling_unit
 			// long unit_index;
 			// long object_index;
 			// s_unit_data *root_unit;
 			// function call : long (*)(long)
 			// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-			todo("implement");
-			long __result = _sub_108666E0(unit_index);
-			return __result;
+
+			long object_index = ((long(__cdecl *)(long))0x58f590)(unit_index);
+
+			s_unit_data *root_unit = (s_unit_data *)object_try_and_get_and_verify_type(object_index, 0x2003);
+
+			if (!root_unit)
+			{
+				return 0;
+			}
+
+			if (root_unit->motion_control_unit_index == -1)
+			{
+				return unit_index;
+			}
+
+			return root_unit->motion_control_unit_index;
 		}
 	}
 }
 
-extern s_render_model *_sub_108657A0(long);
 s_render_model *GeObjectRenderModel(long objectTagIndex) // 0x108657A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GeObjectRenderModel@@YAPAUs_render_model@@J@Z");
 	// `anonymous-namespace'::GeObjectRenderModel
 	// long objectTagIndex;
 	// s_object_definition *objectDef;
@@ -406,9 +488,22 @@ s_render_model *GeObjectRenderModel(long objectTagIndex) // 0x108657A0
 	// function call : void *(*const)(unsigned long, long)
 	// function call : void *(*const)(unsigned long, long)
 	// function call : void *(*const)(unsigned long, long)
-	todo("implement");
-	s_render_model * __result = _sub_108657A0(objectTagIndex);
-	return __result;
+
+	s_object_definition *objectDef = (s_object_definition *)tag_get(0x6F626A65, objectTagIndex);
+
+	if (!objectDef)
+	{
+		return nullptr;
+	}
+
+	s_model_definition *model = (s_model_definition *)tag_get(0x686C6D74, objectDef->model.index);
+
+	if (!model)
+	{
+		return nullptr;
+	}
+
+	return (s_render_model *)tag_get(0x6D6F6465, model->render_model.index);
 }
 
 /* ---------- template instantiations */

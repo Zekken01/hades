@@ -145,14 +145,30 @@ namespace Server
 {
 	namespace ContextMenu
 	{
-		_extern __int32 _sub_10728DF0(HWND__ *, unsigned __int32, unsigned __int32, long, bool *);
 		__int32 __stdcall HandleWindowMessage(HWND__ *hWnd, unsigned __int32 msg, unsigned __int32 wParam, long lParam, bool *outHandled) // 0x10728DF0
 		{
-			mangled_x86(MANGLED_TODO, "?HandleWindowMessage@ContextMenu@Server@@YGHPAUHWND__@@IIJPA_N@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?HandleWindowMessage@ContextMenu@Server@@YGHPAUHWND__@@IIJPA_N@Z");
 			// bool *outHandled;
-			todo("implement");
-			__int32 __result = _sub_10728DF0(hWnd, msg, wParam, lParam, outHandled);
-			return __result;
+
+			switch (msg)
+			{
+			case WM_CREATE:
+				::Initialize(hWnd);
+				break;
+
+			case 0x402:
+				if (wParam == TrayEvent_Action)
+				{
+					::HandleMenuAction(lParam);
+				}
+				else if (wParam == TrayEvent_MenuUpdate)
+				{
+					::UpdateMenu();
+				}
+				break;
+			}
+
+			return 0;
 		}
 	}
 }
@@ -272,9 +288,9 @@ long __stdcall ContextMenuWindowProc(HWND__ *hWnd, unsigned __int32 msg, unsigne
 	return __result;
 }
 
-_extern void _sub_10728390();
 void ContextMenuThreadProc() // 0x10728390
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ContextMenuThreadProc@@YAXXZ");
 	// `anonymous-namespace'::ContextMenuThreadProc
 	// procedure flags: nofpo
 	// static ...; // 0x10728430
@@ -284,21 +300,34 @@ void ContextMenuThreadProc() // 0x10728390
 	// function call : __int32 (tagMSG *, HWND__ *, unsigned __int32, unsigned __int32)
 	// function call : __int32 (tagMSG const *)
 	// function call : long (tagMSG const *)
-	todo("implement");
-	_sub_10728390();
+
+	tagMSG msg;
+
+	::CreateWindowExCM();
+
+	while (GetMessageA(&msg, nullptr, 0, 0))
+	{
+		TranslateMessage(&msg);
+		DispatchMessageA(&msg);
+	}
 }
 
-_extern void _sub_10728F90(void *);
 void Initialize(void *parentHwnd) // 0x10728F90
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@@YAXPAX@Z");
 	// `anonymous-namespace'::Initialize
 	// static ...; // 0x10729060
 	// static ...; // 0x10729054
 	// static ...; // 0x1072904C
 	// void *parentHwnd;
 	// std::thread thread;
-	todo("implement");
-	_sub_10728F90(parentHwnd);
+
+	g_parenthWnd = (HWND__ *)parentHwnd;
+
+	std::thread thread(::ContextMenuThreadProc);
+	thread.detach();
+
+	Patches::Core::OnShutdown(::OnShutdown);
 }
 
 /* ---------- template instantiations */

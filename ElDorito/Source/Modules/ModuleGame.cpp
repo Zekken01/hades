@@ -139,6 +139,7 @@
 #include <unordered_map>
 #include <utility>
 #include <vector>
+#include "Blam/interface/gui/gui_screen_manager.hpp"  // hades: added for 0x10993350
 
 /* ---------- forward declarations */
 
@@ -362,6 +363,8 @@ bool CommandShowModInfo(std::vector<std::string> const &Arguments, std::string &
 bool CommandVersionCompat(std::vector<std::string> const &Arguments, std::string &returnInfo);
 
 /* ---------- globals */
+
+extern bool (*const network_session_interface_get_squad_session)(c_network_session **); // 0x11248780
 
 /* ---------- private variables */
 
@@ -673,31 +676,49 @@ unsigned __int32 GetFileSize(std::ifstream &file) // 0x1099C310
 	return size;
 }
 
-_extern __int32 _sub_1099C410(std::string const &);
 __int32 GetMapId(std::string const &mapName) // 0x1099C410
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetMapId@@YAHABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 	// `anonymous-namespace'::GetMapId
 	// static ...; // 0x1099C4A8
 	// static ...; // 0x1099C49C
 	// static ...; // 0x1099C494
 	// std::string const &mapName;
 	// s_level_datum level;
-	todo("implement");
-	__int32 __result = _sub_1099C410(mapName);
-	return __result;
+
+	s_level_datum level;
+
+	if (levels_find_map_by_name(mapName.c_str(), &level))
+	{
+		return level.map_id;
+	}
+	else
+	{
+		return -1;
+	}
 }
 
-_extern bool _sub_1099CE50(std::string const &, unsigned char *);
 bool LoadDefaultMapVariant(std::string const &mapName, unsigned char *out) // 0x1099CE50
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?LoadDefaultMapVariant@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAE@Z");
 	// `anonymous-namespace'::LoadDefaultMapVariant
 	// unsigned char *out;
 	// __int32 secondMapId;
 	// __int32 firstMapId;
 	// __int32 mapId;
-	todo("implement");
-	bool __result = _sub_1099CE50(mapName, out);
-	return __result;
+
+	__int32 mapId = GetMapId(mapName);
+	if (mapId < 0)
+	{
+		return false;
+	}
+	if (!c_map_variant_loader::load_default(mapId, (s_map_variant *)out))
+	{
+		return false;
+	}
+	__int32 firstMapId = *(__int32 *)(out + 0xE0);
+	__int32 secondMapId = *(__int32 *)(out + 0x100);
+	return firstMapId == mapId && secondMapId == mapId;
 }
 
 __int32 GetUiGameMode() // 0x1099C5E0
@@ -726,16 +747,33 @@ void SetOwnedContentData(s_owned_content_item *content_item, bool built_in, char
 	_sub_1099D9B0(content_item, built_in, file_path);
 }
 
-_extern void _sub_1099D8D0(unsigned char const *, bool, char const *);
 void SaveMapVariantToPreferences(unsigned char const *data, bool built_in, char const *file_path) // 0x1099D8D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SaveMapVariantToPreferences@@YAXPBE_NPBD@Z");
 	// `anonymous-namespace'::SaveMapVariantToPreferences
 	// char const *file_path;
 	// unsigned __int32 variantOffset;
 	// unsigned char *savedVariant;
 	// s_owned_content_item *owned_content_item;
-	todo("implement");
-	_sub_1099D8D0(data, built_in, file_path);
+
+	unsigned __int32 variantOffset;
+	switch (GetUiGameMode())
+	{
+	case 2:
+		variantOffset = 0x7F0;
+		break;
+	case 3:
+		variantOffset = 0xEA98;
+		break;
+	default:
+		return;
+	}
+
+	unsigned char *savedVariant = (unsigned char *)(variantOffset + 0x22C0130);
+	memcpy(savedVariant, data, 0xE090);
+	s_owned_content_item *owned_content_item = (s_owned_content_item *)(variantOffset + 0x22CE1C0);
+	SetOwnedContentData(owned_content_item, built_in, file_path);
+	*(bool *)0x22C0129 = true;
 }
 
 void SaveGameVariantToPreferences(unsigned char const *data, bool built_in, char const *file_path) // 0x1099D830
@@ -832,9 +870,9 @@ __int32 FindDefaultGameVariant(s_game_engine_settings_definition const *wezr, e_
 	return __result;
 }
 
-_extern bool _sub_1099CD30(std::string const &, unsigned char *);
 bool LoadDefaultGameVariant(std::string const &name, unsigned char *out) // 0x1099CD30
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?LoadDefaultGameVariant@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAE@Z");
 	// `anonymous-namespace'::LoadDefaultGameVariant
 	// unsigned char *out;
 	// __int32 const VariantDataSize;
@@ -844,9 +882,34 @@ bool LoadDefaultGameVariant(std::string const &name, unsigned char *out) // 0x10
 	// __int32 type;
 	// function call : s_game_engine_settings_definition const *(*const)()
 	// function call : bool (*)(e_game_engine_type, __int32, unsigned char *)
-	todo("implement");
-	bool __result = _sub_1099CD30(name, out);
-	return __result;
+
+	s_game_engine_settings_definition const *wezr = ((s_game_engine_settings_definition const *(__cdecl *const)())0x719290)();
+	if (!wezr)
+	{
+		return false;
+	}
+
+	__int32 index = -1;
+	__int32 type;
+	for (type = _game_engine_type_ctf; type < k_number_of_game_engine_types; type++)
+	{
+		index = FindDefaultGameVariant(wezr, (e_game_engine_type)type, name);
+		if (index != -1)
+		{
+			break;
+		}
+	}
+
+	if (type == k_number_of_game_engine_types)
+	{
+		return false;
+	}
+
+	__int32 const VariantDataSize = 0x264;
+	memset(out, 0, VariantDataSize);
+
+	bool (__cdecl *LoadBuiltInGameVariant)(e_game_engine_type, __int32, unsigned char *) = (bool(__cdecl *)(e_game_engine_type, __int32, unsigned char *))0x572270;
+	return LoadBuiltInGameVariant((e_game_engine_type)type, index, out);
 }
 
 _extern bool _sub_109931F0(std::vector<std::string> const &, std::string &);
@@ -949,9 +1012,9 @@ bool CommandGameStop(std::vector<std::string> const &Arguments, std::string &ret
 	return true;
 }
 
-_extern bool _sub_10996C80(std::vector<std::string> const &, std::string &);
 bool CommandGameLeave(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10996C80
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGameLeave@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandGameLeave
 	// static ...; // 0x10996D40
 	// static ...; // 0x10996D38
@@ -961,9 +1024,19 @@ bool CommandGameLeave(std::vector<std::string> const &Arguments, std::string &re
 	// c_network_session *session;
 	// function call : bool (*const)(c_network_session **)
 	// function call : void (*const)(c_network_session *)
-	todo("implement");
-	bool __result = _sub_10996C80(Arguments, returnInfo);
-	return __result;
+
+	c_network_session *session = nullptr;
+	network_session_interface_get_squad_session(&session);
+	if (!session || !session->established())
+	{
+		returnInfo = "Unable to leave the game!";
+		return false;
+	}
+
+	void (__thiscall *const c_network_session__leave_session_and_disconnect)(c_network_session *) = (void(__thiscall *const)(c_network_session *))0x47dc40;
+	c_network_session__leave_session_and_disconnect(session);
+	returnInfo = "Leaving game...";
+	return true;
 }
 
 _extern bool _sub_10993DE0(std::vector<std::string> const &, std::string &);
@@ -1012,26 +1085,31 @@ bool CommandGameVersion(std::vector<std::string> const &arguments, std::string &
 	return true;
 }
 
-_extern bool _sub_10999F30(std::vector<std::string> const &, std::string &);
 bool CommandListMaps(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x10999F30
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandListMaps@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandListMaps
 	// static ...; // 0x1099A034
 	// static ...; // 0x1099A02C
 	// std::vector<std::string> const &arguments;
 	// std::string &returnInfo;
 	// std::vector<std::string> mapNames;
-	{
 		// std::vector<std::string> &<range>$L0;
 		// std::string *<begin>$L0;
 		// std::string *<end>$L0;
-		{
 			// std::string const &map;
-		}
+
+	std::vector<std::string> mapNames;
+	GetMapNameList(mapNames);
+
+	for (std::string const &map : mapNames)
+	{
+		if (returnInfo.length() > 0)
+			returnInfo += ',';
+		returnInfo += map;
 	}
-	todo("implement");
-	bool __result = _sub_10999F30(arguments, returnInfo);
-	return __result;
+
+	return true;
 }
 
 bool CommandShowScreen(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x1099B0D0
@@ -1134,9 +1212,9 @@ bool CommandStopLoopingSound(std::vector<std::string> const &arguments, std::str
 	return __result;
 }
 
-_extern bool _sub_10998EC0(std::vector<std::string> const &, std::string &);
 bool CommandGameTakeScreenshot(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10998EC0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGameTakeScreenshot@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandGameTakeScreenshot
 	// static ...; // 0x10999166
 	// static ...; // 0x1099915B
@@ -1149,15 +1227,31 @@ bool CommandGameTakeScreenshot(std::vector<std::string> const &Arguments, std::s
 	// wchar_t *path;
 	// std::wstring_convert<std::codecvt_utf8<wchar_t,1114111,0>,wchar_t,std::allocator<wchar_t>,std::allocator<char> > wstring_to_string;
 	// std::string screenshot_path;
-	{
 		// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
 		// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
+	// function call : wchar_t *(*)()
+	// function call : wchar_t *(*)()
+
+	wchar_t *(*TakeScreenshotImpl)() = (wchar_t *(*)())0x60f420;
+	return TakeScreenshotImpl() != nullptr;
+
+	wchar_t *path = TakeScreenshotImpl();
+	std::wstring_convert<std::codecvt_utf8<wchar_t>> wstring_to_string;
+	std::string screenshot_path = wstring_to_string.to_bytes(path);
+
+	if (!Modules::ModuleGame::Instance().VarScreenshotNoticeDisabled->ValueInt)
+	{
+		rapidjson::StringBuffer jsonBuffer;
+		rapidjson::Writer<rapidjson::StringBuffer> jsonWriter(jsonBuffer);
+		jsonWriter.StartObject();
+		jsonWriter.Key("filepath");
+		jsonWriter.String(screenshot_path.c_str());
+		jsonWriter.EndObject();
+		Web::Ui::ScreenLayer::Notify("screenshot_taken", jsonBuffer.GetString(), true);
 	}
-	// function call : wchar_t *(*)()
-	// function call : wchar_t *(*)()
-	todo("implement");
-	bool __result = _sub_10998EC0(Arguments, returnInfo);
-	return __result;
+
+	returnInfo = "Screenshot saved to: " + screenshot_path;
+	return true;
 }
 
 _extern bool _sub_10993800(std::vector<std::string> const &, std::string &);
@@ -1487,16 +1581,24 @@ bool CommandSetMultiplayerMod(std::vector<std::string> const &Arguments, std::st
 	return __result;
 }
 
-_extern bool _sub_10993350(std::vector<std::string> const &, std::string &);
 bool CommandCloseStartMenu(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10993350
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandCloseStartMenu@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandCloseStartMenu
 	// std::string &returnInfo;
 	// c_gui_screen_widget *screen;
 	// function call : void (*const)(void *, __int32)
-	todo("implement");
-	bool __result = _sub_10993350(Arguments, returnInfo);
-	return __result;
+
+	c_gui_screen_widget *screen = c_gui_screen_manager::get()->find_screen(4, 0x10084);
+
+	if (screen)
+	{
+		((void(__thiscall *)(void *, __int32))0xab2830)(screen, 0);
+		return true;
+	}
+
+	returnInfo = "Start menu isnt open";
+	return false;
 }
 
 bool CommandShowLocalServersUI(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1099AE10
@@ -1545,14 +1647,14 @@ bool CommandShowServerModBrowser(std::vector<std::string> const &Arguments, std:
 	return __result;
 }
 
-_extern bool _sub_1099AFD0(std::vector<std::string> const &, std::string &);
 bool CommandShowModInfo(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1099AFD0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandShowModInfo@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandShowModInfo
 	// std::string &returnInfo;
-	todo("implement");
-	bool __result = _sub_1099AFD0(Arguments, returnInfo);
-	return __result;
+
+	Web::Ui::ScreenLayer::Show("mod_info", "{}");
+	return true;
 }
 
 bool CommandVersionCompat(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1099B8D0

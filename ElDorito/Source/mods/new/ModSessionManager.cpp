@@ -107,14 +107,13 @@ ModSessionManager::ModSessionManager(IModManager &modManager) : m_modManager(mod
 	m_valid = false;
 }
 
-_extern void _sub_10793E00(ModSessionManager *const);
 ModSessionManager::~ModSessionManager() // 0x10793E00
 {
-	mangled_x86(MANGLED_TODO, "??1ModSessionManager@@UAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1ModSessionManager@@UAE@XZ");
 	// ModSessionManager *const this;
 	// function call : void (IModListener *)
-	todo("implement");
-	_sub_10793E00(this);
+
+	m_modManager.RemoveListener(this);
 }
 
 void ModSessionManager::Tick() // 0x10794630

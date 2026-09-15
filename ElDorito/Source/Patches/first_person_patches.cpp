@@ -76,6 +76,8 @@ namespace Patches
 
 /* ---------- prototypes */
 
+#include "Modules/ModuleCamera.hpp"  // hades: added for 0x10916800
+
 namespace Patches
 {
 	namespace FirstPerson
@@ -112,13 +114,12 @@ namespace Patches
 			_sub_10916590();
 		}
 
-		_extern void _sub_10916800();
 		void Tick() // 0x10916800
 		{
-			mangled_x86(MANGLED_TODO, "?Tick@FirstPerson@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@FirstPerson@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_10916800();
+
+			g_first_weapon_offset_field_offset = !Utils::Singleton<Modules::ModuleCamera>::Instance().VarCameraCenteredCrosshairFirst->ValueInt ? 1324 : 1368;
 		}
 	}
 }

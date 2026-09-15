@@ -131,6 +131,10 @@ extern "C" void object_detach_predicted_objects_hook(__int32 object_index);
 
 /* ---------- globals */
 
+template<typename t_arg0> t_arg0 *object_get(unsigned long object_index);  // hades: added for 0X106A31B0
+extern s_object_data *(*const object_try_and_get_and_verify_type)(unsigned long, c_enum<enum e_object_type,long>);  // hades: added for 0X106A2D50
+extern s_object_data *(*const object_try_and_get_and_verify_type)(unsigned long, c_enum<enum e_object_type,long>);  // hades: added for 0X106A2C30
+
 namespace Utils
 {
 	Modules::ModuleSettings *Utils::Singleton<Modules::ModuleSettings>::m_instance; // 0x11386010
@@ -189,32 +193,48 @@ void unit_action_assassinate_event_hook(long mover_index, e_action action_type, 
 	_sub_106A28A0(mover_index, action_type, frame_events);
 }
 
-_extern void _sub_106A2C30(__int32, e_action);
 void unit_action_assassinate_finished_hook(__int32 mover_index, e_action action_type) // 0x106A2C30
 {
-	mangled_x86(MANGLED_TODO, "?unit_action_assassinate_finished_hook@@YAXHW4e_action@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_action_assassinate_finished_hook@@YAXHW4e_action@@@Z");
 	// e_action action_type;
 	// void (*const unit_action_assassinate_finished)(long, e_action);
 	// s_unit_data *unit;
 	// s_game_time_globals *time_globals;
 	// function call : void (*const)(long, e_action)
 	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	todo("implement");
-	_sub_106A2C30(mover_index, action_type);
+
+	void (*const unit_action_assassinate_finished)(long, e_action) = (void (*const)(long, e_action))0xb841b0;
+	s_game_time_globals *time_globals = game_time_get_globals();
+
+	unit_action_assassinate_finished(mover_index, action_type);
+
+	s_unit_data *unit = (s_unit_data *)object_try_and_get_and_verify_type(mover_index, 0x2003);
+
+	true ? unit->assassination_event_flags |= 4 : unit->assassination_event_flags &= ~4;
+
+	unit->assassination_event_ticks = 0.5f / time_globals->tick_length;
 }
 
-_extern void _sub_106A2D50(long, e_action);
 void unit_action_assassinate_interrupted_hook(long mover_index, e_action action_type) // 0x106A2D50
 {
-	mangled_x86(MANGLED_TODO, "?unit_action_assassinate_interrupted_hook@@YAXJW4e_action@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_action_assassinate_interrupted_hook@@YAXJW4e_action@@@Z");
 	// e_action action_type;
 	// void (*const unit_action_assassinate_interrupted)(long, e_action);
 	// s_unit_data *unit;
 	// s_game_time_globals *time_globals;
 	// function call : void (*const)(long, e_action)
 	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	todo("implement");
-	_sub_106A2D50(mover_index, action_type);
+
+	void (*const unit_action_assassinate_interrupted)(long, e_action) = (void (*const)(long, e_action))0xb84300;
+	s_game_time_globals *time_globals = game_time_get_globals();
+
+	unit_action_assassinate_interrupted(mover_index, action_type);
+
+	s_unit_data *unit = (s_unit_data *)object_try_and_get_and_verify_type(mover_index, 0x2003);
+
+	true ? unit->assassination_event_flags |= 4 : unit->assassination_event_flags &= ~4;
+
+	unit->assassination_event_ticks = 0.5f / time_globals->tick_length;
 }
 
 _extern void _sub_106A32F0(long);
@@ -271,21 +291,32 @@ namespace Patches
 
 /* ---------- private code */
 
-_extern void _sub_106A31B0(long, e_unit_messages);
 extern "C" void unit_send_message_to_first_person_ho_hook(long unit_index, e_unit_messages message) // 0x106A31B0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "_unit_send_message_to_first_person_ho_hook");
 	// unit_send_message_to_first_person_ho_hook
 	// e_unit_messages message;
 	// s_unit_data *unit;
-	{
 		// long i;
-		{
 			// long weapon_index;
+	// function call : void (*const)(long, long, e_unit_messages, long)
+
+	if (Utils::Singleton<Modules::ModuleSettings>::Instance().VarFpJumpLandAnimationsDisabled->ValueInt != 1)
+	{
+		return;
+	}
+
+	s_unit_data *unit = object_get<s_unit_data>(unit_index);
+
+	for (long i = 0; i < 2; i++)
+	{
+		if (unit->current_weapon_set.indices[i] != -1)
+		{
+			long weapon_index = unit->weapon_object_indices[unit->current_weapon_set.indices[i]];
+
+			((void (*)(long, long, e_unit_messages, long))0xa9c010)(unit_index, weapon_index, message, i);
 		}
 	}
-	// function call : void (*const)(long, long, e_unit_messages, long)
-	todo("implement");
-	_sub_106A31B0(unit_index, message);
 }
 
 _extern void _sub_106A3630(long, long);
@@ -416,15 +447,21 @@ extern "C" long unit_get_last_associated_weak_player_index_for_appearance(long u
 	return __result;
 }
 
-_extern bool _sub_106A1FB0(c_tracked_target *, void *, c_aim_target_simulation_entity *, s_unit_target_tracking_block *);
 extern "C" bool __fastcall c_tracked_target__set_from_weapon_fire_event_hook(c_tracked_target *thisptr, void *__formal, c_aim_target_simulation_entity *aim_target, s_unit_target_tracking_block *tracking_parameters) // 0x106A1FB0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "@c_tracked_target__set_from_weapon_fire_event_hook@16");
 	// c_tracked_target__set_from_weapon_fire_event_hook
 	// s_unit_target_tracking_block *tracking_parameters;
 	// function call : bool (*const)(c_aim_target_simulation_entity *, c_aim_target_object *)
-	todo("implement");
-	bool __result = _sub_106A1FB0(thisptr, __formal, aim_target, tracking_parameters);
-	return __result;
+
+	if (((bool(__thiscall *)(c_aim_target_simulation_entity *, c_tracked_target *))0x589520)(aim_target, thisptr))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 extern "C" void giant_object_early_mover_delete_early_mover_childern_hook(long object_index) // 0x106A2680

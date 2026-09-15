@@ -32,6 +32,8 @@ struct real_vector3d;
 
 /* ---------- prototypes */
 
+extern float dot_product3d(real_vector3d const *v1, real_vector3d const *v2);  // hades: added for 0x10EFF6A0
+
 real_vector3d *cross_product3d(real_vector3d const *a, real_vector3d const *b, real_vector3d *out);  // hades: added for 0X10EFCBF0
 
 extern void matrix4x3_multiply(real_matrix4x3 const *m1, real_matrix4x3 const *m2, real_matrix4x3 *result);
@@ -63,6 +65,10 @@ extern real_matrix3x3 *matrix3x3_rotation_from_quaternion(real_matrix3x3 *matrix
 extern real_matrix3x3 *matrix3x3_from_forward_and_up(real_matrix3x3 *matrix, real_vector3d const *forward, real_vector3d const *up);
 
 /* ---------- globals */
+
+extern float cosine(float x);  // hades: added for 0x10EFF300
+extern float arcsine(float x);  // hades: added for 0x10EFF300
+extern float arctangent(float y, float x);  // hades: added for 0x10EFF300
 
 /* ---------- private variables */
 
@@ -131,32 +137,38 @@ void matrix4x3_inverse(real_matrix4x3 const *matrix, real_matrix4x3 *result) // 
 	_sub_10EFDCE0(matrix, result);
 }
 
-extern real_vector3d *_sub_10EFF990(real_matrix4x3 const *, real_vector3d const *, real_vector3d *);
-real_vector3d *matrix4x3_transform_vector(real_matrix4x3 const *matrix, real_vector3d const *vector, real_vector3d *result) // 0x10EFF990
+__declspec(safebuffers) real_vector3d *matrix4x3_transform_vector(real_matrix4x3 const *matrix, real_vector3d const *vector, real_vector3d *result) // 0x10EFF990
 {
-	mangled_x86(MANGLED_TODO, "?matrix4x3_transform_vector@@YAPAUreal_vector3d@@PBUreal_matrix4x3@@PBU1@PAU1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?matrix4x3_transform_vector@@YAPAUreal_vector3d@@PBUreal_matrix4x3@@PBU1@PAU1@@Z");
 	// static ...; // 0x10EFFAAC
 	// real_matrix4x3 const *matrix;
 	// real_vector3d const *vector;
 	// real_vector3d *result;
 	// real_vector3d v;
-	todo("implement");
-	real_vector3d * __result = _sub_10EFF990(matrix, vector, result);
-	return __result;
+
+	real_vector3d const v = *vector;
+
+	result->i = (matrix->forward.i * v.i + matrix->left.i * v.j + matrix->up.i * v.k) * matrix->scale;
+	result->j = (matrix->forward.j * v.i + matrix->left.j * v.j + matrix->up.j * v.k) * matrix->scale;
+	result->k = (matrix->forward.k * v.i + matrix->left.k * v.j + matrix->up.k * v.k) * matrix->scale;
+	return result;
 }
 
-extern real_point3d *_sub_10EFF760(real_matrix4x3 const *, real_point3d const *, real_point3d *);
-real_point3d *matrix4x3_transform_point(real_matrix4x3 const *matrix, real_point3d const *point, real_point3d *result) // 0x10EFF760
+__declspec(safebuffers) real_point3d *matrix4x3_transform_point(real_matrix4x3 const *matrix, real_point3d const *point, real_point3d *result) // 0x10EFF760
 {
-	mangled_x86(MANGLED_TODO, "?matrix4x3_transform_point@@YAPAUreal_point3d@@PBUreal_matrix4x3@@PBU1@PAU1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?matrix4x3_transform_point@@YAPAUreal_point3d@@PBUreal_matrix4x3@@PBU1@PAU1@@Z");
 	// static ...; // 0x10EFF894
 	// real_matrix4x3 const *matrix;
 	// real_point3d const *point;
 	// real_point3d *result;
 	// real_point3d p;
-	todo("implement");
-	real_point3d * __result = _sub_10EFF760(matrix, point, result);
-	return __result;
+
+	real_point3d const p = *point;
+
+	result->x = (matrix->forward.i * p.x + matrix->left.i * p.y + matrix->up.i * p.z) * matrix->scale + matrix->position.x;
+	result->y = (matrix->forward.j * p.x + matrix->left.j * p.y + matrix->up.j * p.z) * matrix->scale + matrix->position.y;
+	result->z = (matrix->forward.k * p.x + matrix->left.k * p.y + matrix->up.k * p.z) * matrix->scale + matrix->position.z;
+	return result;
 }
 
 extern real_vector3d *_sub_10EFE580(real_matrix4x3 const *, real_vector3d const *, real_vector3d *);
@@ -193,44 +205,60 @@ real_point3d *matrix4x3_inverse_transform_point(real_matrix4x3 const *matrix, re
 	return __result;
 }
 
-_extern void _sub_10EFF900(real_matrix4x3 const *, long, real_point3d const *, real_point3d *);
 void matrix4x3_transform_points(real_matrix4x3 const *matrix, long point_count, real_point3d const *points, real_point3d *out_points) // 0x10EFF900
 {
-	mangled_x86(MANGLED_TODO, "?matrix4x3_transform_points@@YAXPBUreal_matrix4x3@@JPBUreal_point3d@@PAU2@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?matrix4x3_transform_points@@YAXPBUreal_matrix4x3@@JPBUreal_point3d@@PAU2@@Z");
 	// real_point3d *out_points;
-	{
 		// long i;
+
+	long i;
+
+	for (i = 0; i < point_count; i++)
+	{
+		matrix4x3_transform_point(matrix, &points[i], &out_points[i]);
 	}
-	todo("implement");
-	_sub_10EFF900(matrix, point_count, points, out_points);
 }
 
 extern real_vector3d *_sub_10EFF530(real_matrix4x3 const *, real_vector3d const *, real_vector3d *);
-real_vector3d *matrix4x3_transform_normal(real_matrix4x3 const *matrix, real_vector3d const *normal, real_vector3d *result) // 0x10EFF530
+// hades: the original has no /GS cookie here although /GS is on and the
+// function has a 12-byte struct local; safebuffers reproduces it. Cause
+// not established - see the matrix-math note in memory.
+__declspec(safebuffers) real_vector3d *matrix4x3_transform_normal(real_matrix4x3 const *matrix, real_vector3d const *normal, real_vector3d *result) // 0x10EFF530
 {
-	mangled_x86(MANGLED_TODO, "?matrix4x3_transform_normal@@YAPAUreal_vector3d@@PBUreal_matrix4x3@@PBU1@PAU1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?matrix4x3_transform_normal@@YAPAUreal_vector3d@@PBUreal_matrix4x3@@PBU1@PAU1@@Z");
 	// static ...; // 0x10EFF638
 	// real_matrix4x3 const *matrix;
 	// real_vector3d const *normal;
 	// real_vector3d *result;
 	// real_vector3d v;
-	todo("implement");
-	real_vector3d * __result = _sub_10EFF530(matrix, normal, result);
-	return __result;
+
+	real_vector3d const v = *normal;
+
+	result->i = v.i * matrix->forward.i + v.j * matrix->left.i + v.k * matrix->up.i;
+	result->j = v.i * matrix->forward.j + v.j * matrix->left.j + v.k * matrix->up.j;
+	result->k = v.i * matrix->forward.k + v.j * matrix->left.k + v.k * matrix->up.k;
+	return result;
 }
 
 extern real_vector3d *_sub_10EFE050(real_matrix4x3 const *, real_vector3d const *, real_vector3d *);
-real_vector3d *matrix4x3_inverse_transform_normal(real_matrix4x3 const *matrix, real_vector3d const *normal, real_vector3d *result) // 0x10EFE050
+// hades: the original has no /GS cookie here although /GS is on and the
+// function has a 12-byte struct local; safebuffers reproduces it. Cause
+// not established - see the matrix-math note in memory.
+__declspec(safebuffers) real_vector3d *matrix4x3_inverse_transform_normal(real_matrix4x3 const *matrix, real_vector3d const *normal, real_vector3d *result) // 0x10EFE050
 {
-	mangled_x86(MANGLED_TODO, "?matrix4x3_inverse_transform_normal@@YAPAUreal_vector3d@@PBUreal_matrix4x3@@PBU1@PAU1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?matrix4x3_inverse_transform_normal@@YAPAUreal_vector3d@@PBUreal_matrix4x3@@PBU1@PAU1@@Z");
 	// static ...; // 0x10EFE158
 	// real_matrix4x3 const *matrix;
 	// real_vector3d const *normal;
 	// real_vector3d *result;
 	// real_vector3d v;
-	todo("implement");
-	real_vector3d * __result = _sub_10EFE050(matrix, normal, result);
-	return __result;
+
+	real_vector3d const v = *normal;
+
+	result->i = v.i * matrix->forward.i + v.j * matrix->forward.j + v.k * matrix->forward.k;
+	result->j = v.i * matrix->left.i + v.j * matrix->left.j + v.k * matrix->left.k;
+	result->k = v.i * matrix->up.i + v.j * matrix->up.j + v.k * matrix->up.k;
+	return result;
 }
 
 extern real_plane3d *_sub_10EFE1C0(real_matrix4x3 const *, real_plane3d const *, real_plane3d *);
@@ -244,14 +272,14 @@ real_plane3d *matrix4x3_inverse_transform_plane(real_matrix4x3 const *matrix, re
 	return __result;
 }
 
-extern real_plane3d *_sub_10EFF6A0(real_matrix4x3 const *, real_plane3d const *, real_plane3d *);
 real_plane3d *matrix4x3_transform_plane(real_matrix4x3 const *matrix, real_plane3d const *plane, real_plane3d *result) // 0x10EFF6A0
 {
-	mangled_x86(MANGLED_TODO, "?matrix4x3_transform_plane@@YAPAUreal_plane3d@@PBUreal_matrix4x3@@PBU1@PAU1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?matrix4x3_transform_plane@@YAPAUreal_plane3d@@PBUreal_matrix4x3@@PBU1@PAU1@@Z");
 	// real_plane3d *result;
-	todo("implement");
-	real_plane3d * __result = _sub_10EFF6A0(matrix, plane, result);
-	return __result;
+
+	matrix4x3_transform_normal(matrix, &plane->normal, &result->normal);
+	result->d = plane->d * matrix->scale + dot_product3d((real_vector3d const *)&matrix->position, &result->normal);
+	return result;
 }
 
 void matrix4x3_to_point_and_vectors(real_matrix4x3 *matrix, real_point3d *point, real_vector3d *forward, real_vector3d *up) // 0x10EFF490
@@ -285,14 +313,25 @@ void matrix4x3_from_point_and_vectors(real_matrix4x3 *matrix, real_point3d const
 	_sub_10EFDB30(matrix, point, forward, up);
 }
 
-_extern void _sub_10EFF300(real_matrix4x3 const *, real_euler_angles3d *);
 void matrix4x3_rotation_to_angles(real_matrix4x3 const *matrix, real_euler_angles3d *angles) // 0x10EFF300
 {
-	mangled_x86(MANGLED_TODO, "?matrix4x3_rotation_to_angles@@YAXPBUreal_matrix4x3@@PAUreal_euler_angles3d@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?matrix4x3_rotation_to_angles@@YAXPBUreal_matrix4x3@@PAUreal_euler_angles3d@@@Z");
 	// real_euler_angles3d *angles;
 	// float cos_pitch;
-	todo("implement");
-	_sub_10EFF300(matrix, angles);
+
+	angles->pitch = -arcsine(matrix->up.i);
+
+	float cos_pitch = cosine(angles->pitch);
+	if (cos_pitch <= 0.0001f)
+	{
+		angles->roll = 0.0f;
+		angles->yaw = arctangent(matrix->forward.j, matrix->left.j);
+	}
+	else
+	{
+		angles->roll = arctangent(-matrix->up.j / cos_pitch, matrix->up.k / cos_pitch);
+		angles->yaw = arctangent(-matrix->left.i / cos_pitch, matrix->forward.i / cos_pitch);
+	}
 }
 
 _extern void _sub_10EFECF0(real_matrix4x3 *, float, float, float);
@@ -335,31 +374,41 @@ void matrix4x3_rotation_from_axis_and_angle(real_matrix4x3 *matrix, real_vector3
 }
 
 extern real_vector3d *_sub_10EFD9D0(real_matrix3x3 const *, real_vector3d const *, real_vector3d *);
-real_vector3d *matrix3x3_transform_vector(real_matrix3x3 const *matrix, real_vector3d const *vector, real_vector3d *result) // 0x10EFD9D0
+// hades: the original has no /GS cookie here although /GS is on and the
+// function has a 12-byte struct local; safebuffers reproduces it. Cause
+// not established - see the matrix-math note in memory.
+__declspec(safebuffers) real_vector3d *matrix3x3_transform_vector(real_matrix3x3 const *matrix, real_vector3d const *vector, real_vector3d *result) // 0x10EFD9D0
 {
-	mangled_x86(MANGLED_TODO, "?matrix3x3_transform_vector@@YAPAUreal_vector3d@@PBUreal_matrix3x3@@PBU1@PAU1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?matrix3x3_transform_vector@@YAPAUreal_vector3d@@PBUreal_matrix3x3@@PBU1@PAU1@@Z");
 	// static ...; // 0x10EFDAD4
 	// real_matrix3x3 const *matrix;
 	// real_vector3d const *vector;
 	// real_vector3d *result;
 	// real_vector3d v;
-	todo("implement");
-	real_vector3d * __result = _sub_10EFD9D0(matrix, vector, result);
-	return __result;
+
+	real_vector3d const v = *vector;
+
+	result->i = v.i * matrix->forward.i + v.j * matrix->left.i + v.k * matrix->up.i;
+	result->j = v.i * matrix->forward.j + v.j * matrix->left.j + v.k * matrix->up.j;
+	result->k = v.i * matrix->forward.k + v.j * matrix->left.k + v.k * matrix->up.k;
+	return result;
 }
 
-extern real_vector3d *_sub_10EFCC90(real_matrix3x3 const *, real_vector3d const *, real_vector3d *);
-real_vector3d *matrix3x3_inverse_transform_vector(real_matrix3x3 const *matrix, real_vector3d const *vector, real_vector3d *result) // 0x10EFCC90
+__declspec(safebuffers) real_vector3d *matrix3x3_inverse_transform_vector(real_matrix3x3 const *matrix, real_vector3d const *vector, real_vector3d *result) // 0x10EFCC90
 {
-	mangled_x86(MANGLED_TODO, "?matrix3x3_inverse_transform_vector@@YAPAUreal_vector3d@@PBUreal_matrix3x3@@PBU1@PAU1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?matrix3x3_inverse_transform_vector@@YAPAUreal_vector3d@@PBUreal_matrix3x3@@PBU1@PAU1@@Z");
 	// static ...; // 0x10EFCD94
 	// real_matrix3x3 const *matrix;
 	// real_vector3d const *vector;
 	// real_vector3d *result;
 	// real_vector3d v;
-	todo("implement");
-	real_vector3d * __result = _sub_10EFCC90(matrix, vector, result);
-	return __result;
+
+	real_vector3d const v = *vector;
+
+	result->i = v.i * matrix->forward.i + v.j * matrix->forward.j + v.k * matrix->forward.k;
+	result->j = v.i * matrix->left.i + v.j * matrix->left.j + v.k * matrix->left.k;
+	result->k = v.i * matrix->up.i + v.j * matrix->up.j + v.k * matrix->up.k;
+	return result;
 }
 
 extern real_matrix3x3 *_sub_10EFCDF0(real_matrix3x3 *, real_matrix3x3 *, real_matrix3x3 *);

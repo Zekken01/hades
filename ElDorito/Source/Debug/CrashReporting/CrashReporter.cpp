@@ -181,7 +181,7 @@ namespace Blam
 
 /* ---------- prototypes */
 
-namespace hades_file_local { extern s_static_string<16> buff; }  // hades: added for 0x1068F1A0
+namespace hades_file_local { extern "C" s_static_string<16> buff; }  // hades: added for 0x1068F1A0
 
 namespace Debug
 {

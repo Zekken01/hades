@@ -345,6 +345,8 @@ bool CommandRefreshServerFilters(std::vector<std::string> const &Arguments, std:
 
 /* ---------- globals */
 
+namespace Patches::PlayerUid { bool ParseUid(std::string const &str, unsigned long long *out); }  // hades: added for 0X10A07BD0
+
 /* ---------- private variables */
 
 namespace Server
@@ -512,15 +514,17 @@ bool VarServerNameUpdated(std::vector<std::string> const &Arguments, std::string
 	return true;
 }
 
-_extern bool _sub_10A14A50(std::vector<std::string> const &, std::string &);
 bool VariablePostGameFadeDelayUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A14A50
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?VariablePostGameFadeDelayUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::VariablePostGameFadeDelayUpdate
 	// std::string &returnInfo;
 	// unsigned long seconds;
-	todo("implement");
-	bool __result = _sub_10A14A50(Arguments, returnInfo);
-	return __result;
+
+	unsigned long seconds = Modules::ModuleServer::Instance().VarPostGameFadeStartDelay->ValueInt;
+
+	Pointer(0x553750).Write<unsigned char>(seconds);
+	return true;
 }
 
 _extern bool _sub_10A14B50(std::vector<std::string> const &, std::string &);
@@ -696,24 +700,20 @@ unsigned long __stdcall CommandServerUnannounce_Thread(void *lpParam) // 0x10A0F
 	return __result;
 }
 
-_extern bool _sub_10A09760(std::vector<std::string> const &, std::string &);
 bool CommandServerAnnounce(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A09760
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandServerAnnounce@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandServerAnnounce
 	// static ...; // 0x10A099BC
 	// static ...; // 0x10A099B4
 	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
-	{
 		// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
-		{
 			// void *thread;
-		}
-	}
 	// function call : void *(_SECURITY_ATTRIBUTES *, unsigned long, unsigned long (*)(void *), void *, unsigned long, unsigned long *)
-	todo("implement");
-	bool __result = _sub_10A09760(Arguments, returnInfo);
-	return __result;
+
+	returnInfo = "Not available in debug builds";
+	return false;
 }
 
 bool CommandServerUnannounce(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A0F240
@@ -734,18 +734,20 @@ bool CommandServerUnannounce(std::vector<std::string> const &Arguments, std::str
 	return true;
 }
 
-_extern bool _sub_10A15090(std::vector<std::string> const &, std::string &);
 bool VariableServerShouldAnnounceUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A15090
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableServerShouldAnnounceUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::VariableServerShouldAnnounceUpdate
 	// static ...; // 0x10A15158
 	// static ...; // 0x10A15150
 	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// std::string returnValueIgnored;
-	todo("implement");
-	bool __result = _sub_10A15090(Arguments, returnInfo);
-	return __result;
+
+	std::string returnValueIgnored;
+	if (!Modules::ModuleServer::Instance().VarServerShouldAnnounce->ValueInt)
+		CommandServerUnannounce(Arguments, returnValueIgnored);
+	return true;
 }
 
 _extern bool _sub_10A0B280(std::vector<std::string> const &, std::string &);
@@ -835,9 +837,9 @@ void BanIp(std::string const &ip) // 0x10A079B0
 	Server::SaveDefaultBanList(banList);
 }
 
-_extern void _sub_10A07BD0(std::string const &);
 void BanUid(std::string const &playerUid) // 0x10A07BD0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?BanUid@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 	// `anonymous-namespace'::BanUid
 	// static ...; // 0x10A07CC8
 	// static ...; // 0x10A07CC0
@@ -845,24 +847,30 @@ void BanUid(std::string const &playerUid) // 0x10A07BD0
 	// static ...; // 0x10A07CA0
 	// std::string const &playerUid;
 	// unsigned long long uid;
-	{
 		// Server::BanList banList;
+
+	unsigned long long uid;
+	if (Patches::PlayerUid::ParseUid(playerUid, &uid))
+	{
+		auto banList = Server::LoadDefaultBanList();
+		banList.AddUid(uid);
+		Server::SaveDefaultBanList(banList);
 	}
-	todo("implement");
-	_sub_10A07BD0(playerUid);
 }
 
-_extern void _sub_10A07AC0(std::string const &);
 void BanName(std::string const &name) // 0x10A07AC0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?BanName@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 	// `anonymous-namespace'::BanName
 	// static ...; // 0x10A07B88
 	// static ...; // 0x10A07B7C
 	// static ...; // 0x10A07B74
 	// std::string const &name;
 	// Server::BanList banList;
-	todo("implement");
-	_sub_10A07AC0(name);
+
+	auto banList = Server::LoadDefaultBanList();
+	banList.AddName(name);
+	Server::SaveDefaultBanList(banList);
 }
 
 void TempBanIP(std::string const &ip) // 0x10A14150
@@ -891,9 +899,9 @@ bool UnbanIp(std::string const &ip) // 0x10A14240
 	return true;
 }
 
-_extern bool _sub_10A144E0(std::string const &);
 bool UnbanUid(std::string const &playerUid) // 0x10A144E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?UnbanUid@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 	// `anonymous-namespace'::UnbanUid
 	// static ...; // 0x10A14634
 	// static ...; // 0x10A14630
@@ -902,23 +910,37 @@ bool UnbanUid(std::string const &playerUid) // 0x10A144E0
 	// std::string const &playerUid;
 	// Server::BanList banList;
 	// unsigned long long uid;
-	todo("implement");
-	bool __result = _sub_10A144E0(playerUid);
-	return __result;
+
+	auto banList = Server::LoadDefaultBanList();
+	unsigned long long uid;
+	if (Patches::PlayerUid::ParseUid(playerUid, &uid))
+	{
+		if (!banList.RemoveUid(uid))
+			return false;
+	}
+	else
+	{
+		return false;
+	}
+	Server::SaveDefaultBanList(banList);
+	return true;
 }
 
-_extern bool _sub_10A14390(std::string const &);
 bool UnbanName(std::string const &name) // 0x10A14390
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?UnbanName@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 	// `anonymous-namespace'::UnbanName
 	// static ...; // 0x10A1448C
 	// static ...; // 0x10A14480
 	// static ...; // 0x10A14478
 	// std::string const &name;
 	// Server::BanList banList;
-	todo("implement");
-	bool __result = _sub_10A14390(name);
-	return __result;
+
+	auto banList = Server::LoadDefaultBanList();
+	if (!banList.RemoveName(name))
+		return false;
+	Server::SaveDefaultBanList(banList);
+	return true;
 }
 
 _extern bool _sub_10A11AA0(KickType, std::vector<std::string> const &, std::string &);
@@ -1818,15 +1840,26 @@ bool CommandEnumerateMods(std::vector<std::string> const &Arguments, std::string
 	return true;
 }
 
-_extern bool _sub_10A07DA0(std::vector<std::string> const &, std::string &);
 bool CommandDeleteMod(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A07DA0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandDeleteMod@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandDeleteMod
 	// std::string &returnInfo;
 	// c_mod_package_manager &package_manager;
-	todo("implement");
-	bool __result = _sub_10A07DA0(Arguments, returnInfo);
-	return __result;
+
+	if (Arguments.size() < 1)
+		return false;
+
+	c_mod_package_manager *package_manager = &c_mod_system::get_package_manager();
+
+	if (!package_manager->delete_package_by_filename(Arguments[0].c_str()))
+	{
+		returnInfo = "failed to delete mod package";
+		return false;
+	}
+
+	returnInfo = "mod package deleted";
+	return true;
 }
 
 bool VariablePlayersInfoClientUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A149E0

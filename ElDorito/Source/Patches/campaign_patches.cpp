@@ -223,28 +223,32 @@ namespace Patches
 			_sub_1090EE60(unit_index);
 		}
 
-		_extern void _sub_1090F8E0();
 		void cinematic_start_hook() // 0x1090F8E0
 		{
-			mangled_x86(MANGLED_TODO, "?cinematic_start_hook@campaign_patches@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?cinematic_start_hook@campaign_patches@Patches@@YAXXZ");
 			// procedure flags: nofpo
 			// void (*const cinematic_start)();
 			// function call : void (*const)()
 			// function call : void (*const)(float)
-			todo("implement");
-			_sub_1090F8E0();
+
+			const auto cinematic_start = (void(*)())0x67E990;
+
+			cinematic_start();
+			((void(*)(float))0x565110)(1.0f);
 		}
 
-		_extern void _sub_1090F960();
 		void cinematic_stop_hook() // 0x1090F960
 		{
-			mangled_x86(MANGLED_TODO, "?cinematic_stop_hook@campaign_patches@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?cinematic_stop_hook@campaign_patches@Patches@@YAXXZ");
 			// procedure flags: nofpo
 			// void (*const scripted_camera_set_cinematic)();
 			// function call : void (*const)()
 			// function call : void (*const)(float)
-			todo("implement");
-			_sub_1090F960();
+
+			const auto cinematic_stop = (void(*)())0x72D920;
+
+			cinematic_stop();
+			((void(*)(float))0x565110)(1.0f);
 		}
 
 		_extern long _sub_1090F500(long, long, long);

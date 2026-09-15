@@ -57,6 +57,7 @@
 #include <type_traits>
 #include <typeinfo>
 #include <utility>
+#include "Objects/ObjectMessaging.hpp"
 
 /* ---------- forward declarations */
 
@@ -225,6 +226,8 @@ void PlayerStopEmote(__int32 playerIndex);
 
 /* ---------- globals */
 
+extern s_object_data *(*const object_try_and_get_and_verify_type)(unsigned long, c_enum<enum e_object_type,long>); // 0x11248848
+
 namespace Player
 {
 	s_action_definition *CPlayerEmotes::m_emote_action_definition; // 0x11352534
@@ -269,18 +272,26 @@ namespace Player
 		return __result;
 	}
 
-	_extern void _sub_107EC1B0();
 	void CPlayerEmotes::RequestStopEmote() // 0x107EC1B0
 	{
-		mangled_x86(MANGLED_TODO, "?RequestStopEmote@CPlayerEmotes@Player@@SAXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?RequestStopEmote@CPlayerEmotes@Player@@SAXXZ");
 		// procedure flags: nofpo
 		// static ...; // 0x107EC2A0
 		// static ...; // 0x107EC294
 		// static ...; // 0x107EC28C
 		// long playerIndex;
 		// function call : unsigned long (*const)(long)
-		todo("implement");
-		_sub_107EC1B0();
+
+		long playerIndex = ((unsigned long(__cdecl *const)(long))0x589c30)(0);
+		if (playerIndex == -1)
+		{
+			return;
+		}
+
+		Objects::CObjectMessaging::EnqueueAction([playerIndex]()
+		{
+			PlayerStopEmote(playerIndex);
+		});
 	}
 
 	bool CPlayerEmotes::PlayerIsEmoting(__int32 playerIndex) // 0x107EB8D0
@@ -313,18 +324,27 @@ namespace Player
 		return (action.flags & 2) != 0;
 	}
 
-	_extern bool _sub_107EC4B0(__int32);
 	bool CPlayerEmotes::UnitCameraMovementInhibited(__int32 unitIndex) // 0x107EC4B0
 	{
-		mangled_x86(MANGLED_TODO, "?UnitCameraMovementInhibited@CPlayerEmotes@Player@@SA_NH@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?UnitCameraMovementInhibited@CPlayerEmotes@Player@@SA_NH@Z");
 		// __int32 unitIndex;
 		// s_mod_player_action *actionDef;
 		// s_mod_player_actions_set_definition *actionSet;
 		// Player::CPlayerEmotes::SActionStateData *stateData;
 		// function call : bool (*const)(long, e_action)
-		todo("implement");
-		bool __result = _sub_107EC4B0(unitIndex);
-		return __result;
+
+		if (!((bool(__cdecl *)(long, long))0xb69ba0)(unitIndex, 87))
+		{
+			return false;
+		}
+		SActionStateData *stateData = Player::CPlayerEmotes::GetUnitActionState(unitIndex);
+		if (!stateData || stateData->definitionIndex == -1)
+		{
+			return false;
+		}
+		s_mod_player_actions_set_definition *actionSet = s_mod_player_actions_set_definition::get(stateData->definitionIndex);
+		s_mod_player_action *actionDef = &actionSet->actions[stateData->emoteIndex];
+		return (actionDef->flags & 8) != 0;
 	}
 
 	bool CPlayerEmotes::UnitMovementInhibited(__int32 unitIndex) // 0x107EC6D0
@@ -346,18 +366,27 @@ namespace Player
 		return (action->flags & 4) != 0;
 	}
 
-	_extern bool _sub_107EC5C0(__int32);
 	bool CPlayerEmotes::UnitCancelInhibited(__int32 unitIndex) // 0x107EC5C0
 	{
-		mangled_x86(MANGLED_TODO, "?UnitCancelInhibited@CPlayerEmotes@Player@@SA_NH@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?UnitCancelInhibited@CPlayerEmotes@Player@@SA_NH@Z");
 		// __int32 unitIndex;
 		// s_mod_player_action *actionDef;
 		// s_mod_player_actions_set_definition *actionSet;
 		// Player::CPlayerEmotes::SActionStateData *stateData;
 		// function call : bool (*const)(long, e_action)
-		todo("implement");
-		bool __result = _sub_107EC5C0(unitIndex);
-		return __result;
+
+		if (!((bool(__cdecl *)(long, long))0xb69ba0)(unitIndex, 87))
+		{
+			return false;
+		}
+		SActionStateData *stateData = Player::CPlayerEmotes::GetUnitActionState(unitIndex);
+		if (!stateData || stateData->definitionIndex == -1)
+		{
+			return false;
+		}
+		s_mod_player_actions_set_definition *actionSet = s_mod_player_actions_set_definition::get(stateData->definitionIndex);
+		s_mod_player_action *actionDef = &actionSet->actions[stateData->emoteIndex];
+		return (actionDef->flags & 0x10) != 0;
 	}
 
 	bool CPlayerEmotes::GetUnitCamera(__int32 unitIndex, s_unit_camera_definition **camera) // 0x107EB640
@@ -388,16 +417,21 @@ namespace Player
 		return false;
 	}
 
-	extern CPlayerEmotes::SActionStateData *_sub_107EB590(__int32);
 	Player::CPlayerEmotes::SActionStateData *CPlayerEmotes::GetUnitActionState(__int32 unitIndex) // 0x107EB590
 	{
-		mangled_x86(MANGLED_TODO, "?GetUnitActionState@CPlayerEmotes@Player@@SAPAUSActionStateData@12@H@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetUnitActionState@CPlayerEmotes@Player@@SAPAUSActionStateData@12@H@Z");
 		// __int32 unitIndex;
 		// s_unit_data *unit;
 		// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-		todo("implement");
-		Player::CPlayerEmotes::SActionStateData * __result = _sub_107EB590(unitIndex);
-		return __result;
+
+		s_unit_data *unit = (s_unit_data *)object_try_and_get_and_verify_type(unitIndex, 0x2003);
+
+		if (!unit)
+		{
+			return nullptr;
+		}
+
+		return (SActionStateData *)offset_pointer(unit, unit->action_state_storage.offset + 0x94);
 	}
 
 	void CPlayerEmotes::RegisterSimulationTypes(c_simulation_type_collection *type_collection, __int32 *enitty_type_count, __int32 *event_type_count) // 0x107EBDD0
@@ -528,16 +562,23 @@ _inline bool CPlayerEmoteAction::ActionUpdate(long unit_index, e_action action_t
 	return __result;
 }
 
-_extern void _sub_107EA4F0(long, e_action);
 _inline void CPlayerEmoteAction::ActionFinished(long unit_index, e_action action_type) // 0x107EA4F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ActionFinished@CPlayerEmoteAction@hades_file_local@@SAXJW4e_action@@@Z");
 	// `anonymous-namespace'::CPlayerEmoteAction::ActionFinished
 	// e_action action_type;
 	// Player::CPlayerEmotes::SActionStateData *emoteStateData;
 	// s_mod_player_action *actionDef;
 	// s_mod_player_actions_set_definition *actionSet;
-	todo("implement");
-	_sub_107EA4F0(unit_index, action_type);
+
+	Player::CPlayerEmotes::SActionStateData *emoteStateData = Player::CPlayerEmotes::GetUnitActionState(unit_index);
+	s_mod_player_actions_set_definition *actionSet = s_mod_player_actions_set_definition::get(emoteStateData->definitionIndex);
+	s_mod_player_action *actionDef = actionSet->actions.get_element(emoteStateData->emoteIndex);
+
+	if (!emoteStateData->cancelled && actionDef->animation_idle != -1 && actionDef->animation_idle != 0)
+	{
+		StartAnimation(unit_index, 0, actionDef->animation_idle);
+	}
 }
 
 _inline void CPlayerEmoteAction::ActionInterrupt(long unit_index, e_action action_type) // 0x107EA5D0
@@ -556,9 +597,9 @@ _inline void CPlayerEmoteAction::ActionAnimationEvent(long unit_index, e_action 
 	// unsigned long flags;
 }
 
-_extern bool _sub_107EC2F0(long, unsigned long, unsigned long);
 _inline bool CPlayerEmoteAction::StartAnimation(long unit_index, unsigned long mode, unsigned long state) // 0x107EC2F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?StartAnimation@CPlayerEmoteAction@hades_file_local@@SA_NJKK@Z");
 	// `anonymous-namespace'::CPlayerEmoteAction::StartAnimation
 	// static ...; // 0x107EC3CC
 	// long unit_index;
@@ -567,9 +608,18 @@ _inline bool CPlayerEmoteAction::StartAnimation(long unit_index, unsigned long m
 	// e_motor_result result;
 	// c_motor_request motor_request;
 	// function call : e_motor_result (*const)(long, c_motor_request *)
-	todo("implement");
-	bool __result = _sub_107EC2F0(unit_index, mode, state);
-	return __result;
+
+	c_motor_request motor_request{};
+
+	motor_request.unknown0 = 1;
+	motor_request.animation_name1 = mode;
+	motor_request.animation_name2 = state;
+	motor_request.task_id = _motor_task_animation;
+	motor_request.action_type = _action_player_emote;
+	motor_request.interpolation_time = 0.1f;
+
+	e_motor_result result = ((e_motor_result(__cdecl *const)(long, c_motor_request *))0xb749c0)(unit_index, &motor_request);
+	return result != 0;
 }
 
 _inline e_simulation_event_type c_simulation_player_emote_event_definition::event_type() const // 0x107EA610
@@ -664,27 +714,48 @@ _inline simulation_event_definition_return_value *c_simulation_player_emote_even
 	return data;
 }
 
-_extern void _sub_107EA810(c_simulation_player_emote_event_definition const *const, long, void const *, c_bitstream *, bool);
 _inline void c_simulation_player_emote_event_definition::event_payload_encode(long payload_size, void const *payload, c_bitstream *packet, bool predicted) const // 0x107EA810
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?event_payload_encode@c_simulation_player_emote_event_definition@hades_file_local@@EBEXJPBXPAVc_bitstream@@_N@Z");
 	// `anonymous-namespace'::c_simulation_player_emote_event_definition::event_payload_encode
 	// bool predicted;
 	// s_simulation_player_emote_event_data *const data;
 	// Blam::BitStream *packet_impl;
-	todo("implement");
-	_sub_107EA810((c_simulation_player_emote_event_definition const *)this, payload_size, payload, packet, predicted);
+
+	Blam::BitStream *packet_impl = (Blam::BitStream *)packet;
+	s_simulation_player_emote_event_data *const data = (s_simulation_player_emote_event_data *)payload;
+
+	packet_impl->Write<long>(data->action_type, 2);
+	packet_impl->Write<short>(data->player_index, 6);
+
+	if (data->action_type == s_simulation_player_emote_event_data::_action_start)
+	{
+		packet_impl->Write<long>(data->emote_definition_index, 32);
+		packet_impl->Write<short>(data->emote_index, 16);
+	}
 }
 
-_extern bool _sub_107EA8D0(c_simulation_player_emote_event_definition const *const, long, void *, c_bitstream *, bool);
 _inline bool c_simulation_player_emote_event_definition::event_payload_decode(long payload_size, void *payload, c_bitstream *packet, bool predicted) const // 0x107EA8D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?event_payload_decode@c_simulation_player_emote_event_definition@hades_file_local@@EBE_NJPAXPAVc_bitstream@@_N@Z");
 	// `anonymous-namespace'::c_simulation_player_emote_event_definition::event_payload_decode
 	// bool predicted;
 	// s_simulation_player_emote_event_data *data;
 	// Blam::BitStream *packet_impl;
-	todo("implement");
-	bool __result = _sub_107EA8D0((c_simulation_player_emote_event_definition const *)this, payload_size, payload, packet, predicted);
-	return __result;
+
+	Blam::BitStream *packet_impl = (Blam::BitStream *)packet;
+	s_simulation_player_emote_event_data *data = (s_simulation_player_emote_event_data *)payload;
+
+	data->action_type = packet_impl->Read<long>(2);
+	data->player_index = packet_impl->Read<short>(6);
+
+	if (data->action_type == s_simulation_player_emote_event_data::_action_start)
+	{
+		data->emote_definition_index = packet_impl->Read<long>(32);
+		data->emote_index = packet_impl->Read<long>(16);
+	}
+
+	return true;
 }
 
 _inline void c_simulation_player_emote_event_definition::prepare_event_data_for_gameworld(long payload_size, void *payload) // 0x107EA980
@@ -695,18 +766,36 @@ _inline void c_simulation_player_emote_event_definition::prepare_event_data_for_
 	// void *payload;
 }
 
-_extern bool _sub_107EA9A0(c_simulation_player_emote_event_definition *const, long, long const *, long, void const *);
 _inline bool c_simulation_player_emote_event_definition::apply_game_event(long reference_gamestate_count, long const *gamestate_indices, long payload_size, void const *payload) // 0x107EA9A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?apply_game_event@c_simulation_player_emote_event_definition@hades_file_local@@EAE_NJPBJJPBX@Z");
 	// `anonymous-namespace'::c_simulation_player_emote_event_definition::apply_game_event
 	// void const *payload;
 	// s_player_datum *player;
 	// long player_index;
 	// s_simulation_player_emote_event_data *data;
 	// function call : long (*const)(long)
-	todo("implement");
-	bool __result = _sub_107EA9A0(this, reference_gamestate_count, gamestate_indices, payload_size, payload);
-	return __result;
+
+	s_simulation_player_emote_event_data *data = (s_simulation_player_emote_event_data *)payload;
+	s_player_datum *player = players_get()->try_and_get_absolute(data->player_index);
+
+	long player_index = ((long(__cdecl *const)(long))0x53b1a0)(data->player_index);
+	if (player_index == -1)
+	{
+		return false;
+	}
+
+	switch (data->action_type)
+	{
+	case s_simulation_player_emote_event_data::_action_start:
+		PlayerStartEmote(player_index, data->emote_definition_index, data->emote_index);
+		break;
+	case s_simulation_player_emote_event_data::_action_stop:
+		PlayerStopEmote(player_index);
+		break;
+	}
+
+	return true;
 }
 
 _extern bool _sub_107EB750(__int32, __int32, short);

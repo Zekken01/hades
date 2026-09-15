@@ -230,6 +230,8 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+namespace Server { namespace Rcon { extern void SendMessageToClients(std::string message); } }  // hades: added for 0x10BB5A60
+
 namespace Server
 {
 	namespace Rcon
@@ -317,13 +319,16 @@ namespace Server
 
 /* ---------- private code */
 
-_extern void _sub_10BB5A60(RconConsoleOutputHandler *const, std::string const &);
 _inline void RconConsoleOutputHandler::WriteLine(std::string const &line) // 0x10BB5A60
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?WriteLine@RconConsoleOutputHandler@hades_file_local@@EAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 	// `anonymous-namespace'::RconConsoleOutputHandler::WriteLine
 	// std::string const &line;
-	todo("implement");
-	_sub_10BB5A60(this, line);
+
+	if (Utils::Singleton<Modules::ModuleServer>::Instance().VarRconConsoleOutputEnabled->ValueInt == 1)
+	{
+		Server::Rcon::SendMessageToClients(line);
+	}
 }
 
 void ForceStopServer() // 0x10BB3A60

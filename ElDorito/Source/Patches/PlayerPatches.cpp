@@ -119,6 +119,9 @@ namespace Blam
 
 /* ---------- prototypes */
 
+namespace Patches { namespace Sprint { extern void UpdatePlayerSprint(long player_index); } }  // hades: added for 0x108DC6A0
+namespace Player { namespace PlayerPodium { extern void UpdatePlayer(long player_datum_index); } }  // hades: added for 0x108DC6A0
+
 s_player_datum *player_get(unsigned long player_index);  // hades: added for 0X108DC4C0
 
 namespace Patches
@@ -325,9 +328,7 @@ void game_engine_player_died_hook(long player_index) // 0x108DBE50
 	// constexpr void (*const `game_engine_player_died_hook'::`2'::game_engine_player_died)(long); // constant == 5481264
 	// function call : void (*const)(long)
 
-	void (__cdecl *const game_engine_player_died)(long) = (void(__cdecl *const)(long))0x53a330;
-
-	game_engine_player_died(player_index);
+	((void(*)(long))0x53A330)(player_index);
 }
 
 _extern void _sub_108DBEB0(long, long);
@@ -372,15 +373,20 @@ void player_handle_coop_respawn(long player_index) // 0x108DC110
 	_sub_108DC110(player_index);
 }
 
-_extern void _sub_108DC6A0(long);
 void player_update_after_game_hook(long player_index) // 0x108DC6A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?player_update_after_game_hook@@YAXJ@Z");
 	// `anonymous-namespace'::player_update_after_game_hook
 	// long player_index;
 	// void (*const player_after_game)(long);
 	// function call : void (*const)(long)
-	todo("implement");
-	_sub_108DC6A0(player_index);
+
+	const auto player_update_after_game = (void(*)(long))0x68A100;
+
+	player_update_after_game(player_index);
+	::Patches::Sprint::UpdatePlayerSprint(player_index);
+	::Player::PlayerPodium::UpdatePlayer(player_index);
+	player_handle_coop_respawn(player_index);
 }
 
 /* ---------- template instantiations */

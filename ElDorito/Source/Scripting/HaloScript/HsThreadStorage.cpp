@@ -79,15 +79,16 @@ namespace Scripting
 			return hs_thread_get(threadIndex) == nullptr;
 		}
 
-		_extern void *_sub_106F36B0(Scripting::HS::HsThreadStorage *const, unsigned __int32);
 		void *HsThreadStorage::Allocate(unsigned __int32 size) // 0x106F36B0
 		{
-			mangled_x86(MANGLED_TODO, "?Allocate@HsThreadStorage@HS@Scripting@@QAEPAXI@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Allocate@HsThreadStorage@HS@Scripting@@QAEPAXI@Z");
 			// unsigned __int32 size;
 			// Scripting::HS::HsThreadStorage::MemBlock *block;
-			todo("implement");
-			void * __result = _sub_106F36B0(this, size);
-			return __result;
+
+			Scripting::HS::HsThreadStorage::MemBlock *block = AllocateBlock(size);
+
+			InsertMemBlock(&m_blockList, block);
+			return block + 1;
 		}
 
 		void HsThreadStorage::Free(void *ptr) // 0x106F3A60

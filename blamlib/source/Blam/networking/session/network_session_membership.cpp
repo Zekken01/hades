@@ -37,14 +37,12 @@ struct s_network_session_player;
 
 /* ---------- public code */
 
-_extern bool _sub_10F00BB0(c_network_session_membership const *const);
 bool c_network_session_membership::is_leader() const // 0x10F00BB0
 {
-	mangled_x86(MANGLED_TODO, "?is_leader@c_network_session_membership@@QBE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?is_leader@c_network_session_membership@@QBE_NXZ");
 	// c_network_session_membership const *const this;
-	todo("implement");
-	bool __result = _sub_10F00BB0((c_network_session_membership const *)this);
-	return __result;
+
+	return has_membership() && ((s_network_session_shared_membership const *)m_shared_network_membership)->leader_peer_index == m_local_peer_index;
 }
 
 bool c_network_session_membership::is_peer_valid(long peer_index) const // 0x10F00C50

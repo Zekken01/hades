@@ -124,13 +124,15 @@ extern "C" void get_package_author_uid(c_mod_package const *package, unsigned lo
 
 /* ---------- public code */
 
-_extern void _sub_108A56B0(c_mod_package_manager *const);
 c_mod_package_manager::~c_mod_package_manager() // 0x108A56B0
 {
-	mangled_x86(MANGLED_TODO, "??1c_mod_package_manager@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1c_mod_package_manager@@QAE@XZ");
 	// c_mod_package_manager *const this;
-	todo("implement");
-	_sub_108A56B0(this);
+
+	if (m_database)
+	{
+		delete m_database;
+	}
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??4c_file_reference@@QAEAAV0@ABV0@@Z"); no body to assert in
@@ -295,36 +297,39 @@ void c_mod_package_manager::enumerate_blocking_internal() // 0x108A8A20
 	_sub_108A8A20(this);
 }
 
-_extern bool _sub_108A9B90(c_mod_package_manager const *const, unsigned char const (&)[20], c_mod_package_manager::s_entry *);
 bool c_mod_package_manager::find_package_by_hash(unsigned char const (&hash)[20], c_mod_package_manager::s_entry *out_entry) const // 0x108A9B90
 {
-	mangled_x86(MANGLED_TODO, "?find_package_by_hash@c_mod_package_manager@@QBE_NAAY0BE@$$CBEPAUs_entry@1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?find_package_by_hash@c_mod_package_manager@@QBE_NAAY0BE@$$CBEPAUs_entry@1@@Z");
 	// static ...; // 0x108A9C44
 	// c_mod_package_manager const *const this;
 	// unsigned char const (&hash)[20];
 	// c_mod_package_manager::s_entry *out_entry;
 	// std::lock_guard<std::mutex> lock;
-	todo("implement");
-	bool __result = _sub_108A9B90((c_mod_package_manager const *)this, hash, out_entry);
-	return __result;
+
+	std::lock_guard<std::mutex> lock(const_cast<std::mutex &>(m_mutex));
+
+	return find_package_by_hash_internal(hash, out_entry);
 }
 
-_extern bool _sub_108A9C90(c_mod_package_manager const *const, unsigned char const (&)[20], c_mod_package_manager::s_entry *);
 bool c_mod_package_manager::find_package_by_hash_internal(unsigned char const (&hash)[20], c_mod_package_manager::s_entry *out_entry) const // 0x108A9C90
 {
-	mangled_x86(MANGLED_TODO, "?find_package_by_hash_internal@c_mod_package_manager@@ABE_NAAY0BE@$$CBEPAUs_entry@1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?find_package_by_hash_internal@c_mod_package_manager@@ABE_NAAY0BE@$$CBEPAUs_entry@1@@Z");
 	// c_mod_package_manager::s_entry *out_entry;
-	{
 		// std::vector<c_mod_package_manager::s_entry> const &<range>$L0;
 		// c_mod_package_manager::s_entry const *<begin>$L0;
 		// c_mod_package_manager::s_entry const *<end>$L0;
-		{
 			// c_mod_package_manager::s_entry const &entry;
+
+	for (s_entry const &entry : m_entries)
+	{
+		if (hash_equals(entry.hash, hash))
+		{
+			*out_entry = entry;
+			return true;
 		}
 	}
-	todo("implement");
-	bool __result = _sub_108A9C90((c_mod_package_manager const *)this, hash, out_entry);
-	return __result;
+
+	return false;
 }
 
 _extern bool _sub_108A9AA0(c_mod_package_manager const *const, char const *, c_mod_package_manager::s_entry *);
@@ -348,18 +353,18 @@ bool c_mod_package_manager::find_package_by_filename_internal(char const *filena
 	return __result;
 }
 
-_extern bool _sub_108A99A0(c_mod_package_manager const *const, char const *, c_mod_package_manager::s_entry *);
 bool c_mod_package_manager::find_package_by_filename(char const *filename, c_mod_package_manager::s_entry *out_entry) const // 0x108A99A0
 {
-	mangled_x86(MANGLED_TODO, "?find_package_by_filename@c_mod_package_manager@@QBE_NPBDPAUs_entry@1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?find_package_by_filename@c_mod_package_manager@@QBE_NPBDPAUs_entry@1@@Z");
 	// static ...; // 0x108A9A54
 	// c_mod_package_manager const *const this;
 	// char const *filename;
 	// c_mod_package_manager::s_entry *out_entry;
 	// std::lock_guard<std::mutex> lock;
-	todo("implement");
-	bool __result = _sub_108A99A0((c_mod_package_manager const *)this, filename, out_entry);
-	return __result;
+
+	std::lock_guard<std::mutex> lock(const_cast<std::mutex &>(m_mutex));
+
+	return find_package_by_filename_internal(filename, out_entry);
 }
 
 extern c_mod_package_manager::c_threadsafe_iterator _sub_108AA510(c_mod_package_manager *const);
@@ -372,13 +377,10 @@ c_mod_package_manager::c_threadsafe_iterator c_mod_package_manager::lock_for_ite
 	return __result;
 }
 
-extern c_mod_package_manager::c_threadsafe_iterator* _sub_108A4C20(c_mod_package_manager::c_threadsafe_iterator *const, c_mod_package_manager &);
-c_mod_package_manager::c_threadsafe_iterator::c_threadsafe_iterator(c_mod_package_manager &manager) : m_modManager(manager) // 0x108A4C20
+c_mod_package_manager::c_threadsafe_iterator::c_threadsafe_iterator(c_mod_package_manager &manager) : m_modManager(manager), m_lock(manager.m_mutex), m_index(-1) /* hades-mem-init: : m_modManager(manager) */ // 0x108A4C20
 {
-	mangled_x86(MANGLED_TODO, "??0c_threadsafe_iterator@c_mod_package_manager@@QAE@AAV1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_threadsafe_iterator@c_mod_package_manager@@QAE@AAV1@@Z");
 	// c_mod_package_manager &manager;
-	todo("implement");
-	_sub_108A4C20(this, manager);
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0s_entry@c_mod_package_manager@@QAE@$$QAU01@@Z"); no body to assert in
@@ -441,10 +443,9 @@ bool c_mod_package_manager::delete_package_by_filename(char const *filename) // 
 	return __result;
 }
 
-_extern void _sub_108AAA70(c_mod_package_manager *const, s_mod_package_id const &, s_mod_origin_info const &);
 void c_mod_package_manager::set_package_origin(s_mod_package_id const &id, s_mod_origin_info const &info) // 0x108AAA70
 {
-	mangled_x86(MANGLED_TODO, "?set_package_origin@c_mod_package_manager@@QAEXABUs_mod_package_id@@ABUs_mod_origin_info@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_package_origin@c_mod_package_manager@@QAEXABUs_mod_package_id@@ABUs_mod_origin_info@@@Z");
 	// static ...; // 0x108AAB60
 	// static ...; // 0x108AAB58
 	// c_mod_package_manager *const this;
@@ -452,14 +453,18 @@ void c_mod_package_manager::set_package_origin(s_mod_package_id const &id, s_mod
 	// s_mod_origin_info const &info;
 	// std::unique_lock<std::mutex> lock;
 	// c_mod_database::s_record *record;
-	todo("implement");
-	_sub_108AAA70(this, id, info);
+
+	std::unique_lock<std::mutex> lock(m_mutex);
+
+	c_mod_database::s_record *record;
+	if (m_database->get_or_create_record(id, &record))
+		record->origin = info;
+	m_database->notify_record_changed(id);
 }
 
-_extern void _sub_108AABD0(c_mod_package_manager *const, s_mod_package_id const &, bool);
 void c_mod_package_manager::set_package_signature_verified(s_mod_package_id const &id, bool verified) // 0x108AABD0
 {
-	mangled_x86(MANGLED_TODO, "?set_package_signature_verified@c_mod_package_manager@@QAEXABUs_mod_package_id@@_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_package_signature_verified@c_mod_package_manager@@QAEXABUs_mod_package_id@@_N@Z");
 	// static ...; // 0x108AACBC
 	// static ...; // 0x108AACB4
 	// c_mod_package_manager *const this;
@@ -467,8 +472,13 @@ void c_mod_package_manager::set_package_signature_verified(s_mod_package_id cons
 	// bool verified;
 	// std::unique_lock<std::mutex> lock;
 	// c_mod_database::s_record *record;
-	todo("implement");
-	_sub_108AABD0(this, id, verified);
+
+	std::unique_lock<std::mutex> lock(m_mutex);
+
+	c_mod_database::s_record *record;
+	if (m_database->get_or_create_record(id, &record))
+		record->signature_verified = verified;
+	m_database->notify_record_changed(id);
 }
 
 __int32 c_mod_package_manager::get_enumeration_number() const // 0x108A9E50
@@ -479,17 +489,19 @@ __int32 c_mod_package_manager::get_enumeration_number() const // 0x108A9E50
 	return m_enumeration_number.load();
 }
 
-_extern __int32 _sub_108A9D60(c_mod_package_manager *const, s_mod_package_id const &);
 __int32 c_mod_package_manager::find_package_index_by_hash_internal(s_mod_package_id const &id) // 0x108A9D60
 {
-	mangled_x86(MANGLED_TODO, "?find_package_index_by_hash_internal@c_mod_package_manager@@QAEHABUs_mod_package_id@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?find_package_index_by_hash_internal@c_mod_package_manager@@QAEHABUs_mod_package_id@@@Z");
 	// s_mod_package_id const &id;
-	{
 		// __int32 i;
+
+	for (__int32 i = 0; i < (__int32)m_entries.size(); i++)
+	{
+		if (hash_equals(m_entries[i].hash, id.hash))
+			return i;
 	}
-	todo("implement");
-	__int32 __result = _sub_108A9D60(this, id);
-	return __result;
+
+	return -1;
 }
 
 _extern void _sub_108AAE60(c_mod_package_manager *const, s_mod_package_id const &);
@@ -508,36 +520,41 @@ void c_mod_package_manager::touch_package(s_mod_package_id const &id) // 0x108AA
 	_sub_108AAE60(this, id);
 }
 
-_extern void _sub_108AB050(c_mod_package_manager *const, char const *);
 void c_mod_package_manager::touch_package(char const *filename) // 0x108AB050
 {
-	mangled_x86(MANGLED_TODO, "?touch_package@c_mod_package_manager@@QAEXPBD@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?touch_package@c_mod_package_manager@@QAEXPBD@Z");
 	// static ...; // 0x108AB138
 	// static ...; // 0x108AB130
 	// c_mod_package_manager *const this;
 	// char const *filename;
 	// c_mod_package_manager::s_entry entry;
-	todo("implement");
-	_sub_108AB050(this, filename);
+
+	s_entry entry;
+	if (find_package_by_filename(filename, &entry))
+	{
+		touch_package(entry.hash);
+	}
 }
 
 /* ---------- private code */
 
-_extern bool _sub_108AA040(unsigned char const (&)[20], unsigned char const (&)[20]);
 extern "C" bool hash_equals(unsigned char const (&a)[20], unsigned char const (&b)[20]) // 0x108AA040
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "_hash_equals");
 	// hash_equals
 	// unsigned char const (&b)[20];
 	// unsigned long *ai;
 	// unsigned long *bi;
-	todo("implement");
-	bool __result = _sub_108AA040(a, b);
-	return __result;
+
+	unsigned long *ai = (unsigned long *)a;
+	unsigned long *bi = (unsigned long *)b;
+
+	return ai[0] == bi[0] && ai[1] == bi[1] && ai[2] == bi[2] && ai[3] == bi[3] && ai[4] == bi[4];
 }
 
-_extern void _sub_108A9EA0(c_mod_package const *, unsigned long long *);
 extern "C" void get_package_author_uid(c_mod_package const *package, unsigned long long *uid) // 0x108A9EA0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "_get_package_author_uid");
 	// get_package_author_uid
 	// static ...; // 0x108A9FBF
 	// static ...; // 0x108A9FB8
@@ -548,8 +565,16 @@ extern "C" void get_package_author_uid(c_mod_package const *package, unsigned lo
 	// std::string public_key_base64;
 	// SHA256state_st sha256;
 	// unsigned char public_key_digest[32];
-	todo("implement");
-	_sub_108A9EA0(package, uid);
+
+	std::string public_key_base64 = Utils::String::Base64Encode(package->get_header()->rsa_public_key, 550);
+	unsigned char public_key_digest[32];
+
+	SHA256state_st sha256;
+	SHA256_Init(&sha256);
+	SHA256_Update(&sha256, public_key_base64.c_str(), public_key_base64.length());
+	SHA256_Final(public_key_digest, &sha256);
+
+	memcpy(uid, public_key_digest, sizeof(*uid));
 }
 
 /* ---------- template instantiations */

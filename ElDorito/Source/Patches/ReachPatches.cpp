@@ -190,6 +190,9 @@ bool test_instanced_geometry_hook(s_instance_collision_test_arguements *test_arg
 
 /* ---------- globals */
 
+extern s_scenario_structure_bsp *(*const global_structure_bsp_get)(long); // 0x11248AD4
+extern long (*const global_structure_bsp_first_active_index_get)(); // 0x11248ACC
+
 float (*c_render_method_data::m_context_interface)(long, long, long); // 0x1138DEE0
 namespace Utils
 {
@@ -265,20 +268,28 @@ bool __fastcall s_render_method_postprocess_definition__query_texture_transform_
 	return query_texture_transform(thisptr, bitmap_reference_index, out_color, out_bitmap_group_index, out_bitmap_index);
 }
 
-_extern bool _sub_107C01E0();
 bool rasterizer_force_default_lighting_hook() // 0x107C01E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?rasterizer_force_default_lighting_hook@@YA_NXZ");
 	// `anonymous-namespace'::rasterizer_force_default_lighting_hook
 	// procedure flags: nofpo
 	// long sbsp_index;
-	{
 		// s_scenario_structure_bsp *sbsp;
-	}
 	// function call : long (*const)()
 	// function call : s_scenario_structure_bsp *(*const)(long)
-	todo("implement");
-	bool __result = _sub_107C01E0();
-	return __result;
+
+	long sbsp_index = global_structure_bsp_first_active_index_get();
+	if (sbsp_index != NONE)
+	{
+		s_scenario_structure_bsp *sbsp = global_structure_bsp_get(sbsp_index);
+
+		if (Utils::Singleton<Modules::ModuleGraphics>::Instance().VarForceDefaultLighting->ValueInt)
+		{
+			return true;
+		}
+	}
+
+	return false;
 }
 
 _extern long _sub_107C09F0(e_entry_point, __int32, s_render_geometry *, s_mesh *, s_part *, s_geometry_material *, s_cluster_reference);
@@ -303,14 +314,34 @@ long update_cluster_stream_and_determine_lighting_attributes_hook(e_entry_point 
 	return __result;
 }
 
-extern c_instanced_geometry_iterator* _sub_107BE6E0(c_instanced_geometry_iterator *const, s_cluster_reference *, s_decal_cylinder *, long);
 _inline c_instanced_geometry_iterator::c_instanced_geometry_iterator(s_cluster_reference *cluster_references, s_decal_cylinder *cylinder, long ignore_instance_index) // 0x107BE6E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_instanced_geometry_iterator@hades_file_local@@QAE@PAUs_cluster_reference@@PAUs_decal_cylinder@1@J@Z");
 	// `anonymous-namespace'::c_instanced_geometry_iterator::c_instanced_geometry_iterator
 	// long ignore_instance_index;
 	// static unsigned long `c_instanced_geometry_iterator::c_instanced_geometry_iterator'::`2'::static_visited_instance_bit_vector[256]; // 0x1138DEE8
-	todo("implement");
-	_sub_107BE6E0(this, cluster_references, cylinder, ignore_instance_index);
+
+	m_cylinder = cylinder;
+	m_cluster_references = cluster_references;
+	m_structure_bsp_index = NONE;
+	m_cluster_reference_index = 0;
+	m_instance_bucket_count = 0;
+	m_instance_bucket_index = 0;
+	m_instance_bucket_instance_count = 0;
+	m_instance_bucket_instance_index = 0;
+	m_instance_index = NONE;
+	m_instance = nullptr;
+
+	static unsigned long static_visited_instance_bit_vector[256];
+	m_visited_instance_bit_vector = static_visited_instance_bit_vector;
+	memset(m_visited_instance_bit_vector, 0, sizeof(static_visited_instance_bit_vector));
+
+	if (ignore_instance_index != NONE)
+	{
+		m_visited_instance_bit_vector[ignore_instance_index >> 5] |= 1 << (ignore_instance_index & 31);
+	}
+
+	next();
 }
 
 _extern bool _sub_107BFE40(c_instanced_geometry_iterator *const);
@@ -323,16 +354,33 @@ _inline bool c_instanced_geometry_iterator::next_instance() // 0x107BFE40
 	return __result;
 }
 
-_extern bool _sub_107BFCD0(c_instanced_geometry_iterator *const);
 _inline bool c_instanced_geometry_iterator::next_cluster() // 0x107BFCD0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?next_cluster@c_instanced_geometry_iterator@hades_file_local@@QAE_NXZ");
 	// `anonymous-namespace'::c_instanced_geometry_iterator::next_cluster
 	// c_instanced_geometry_iterator *const this;
 	// s_cluster_reference &cluster_ref;
 	// function call : s_scenario_structure_bsp *(*const)(long)
-	todo("implement");
-	bool __result = _sub_107BFCD0(this);
-	return __result;
+
+	if (m_cluster_reference_index >= 4)
+	{
+		return false;
+	}
+
+	s_cluster_reference &cluster_ref = m_cluster_references[m_cluster_reference_index];
+	if (cluster_ref.bsp_index == NONE)
+	{
+		return false;
+	}
+
+	m_structure_bsp_index = cluster_ref.bsp_index;
+	m_structure_bsp = global_structure_bsp_get(cluster_ref.bsp_index);
+	m_cluster = &m_structure_bsp->clusters[cluster_ref.cluster_index];
+	m_mesh = &m_structure_bsp->geometry.meshes[m_cluster->mesh_index];
+	m_instance_bucket_count = m_mesh->instance_parts.count;
+	++m_cluster_reference_index;
+
+	return next_instance_bucket();
 }
 
 _inline bool c_instanced_geometry_iterator::next_instance_bucket() // 0x107C0100
@@ -355,15 +403,21 @@ _inline bool c_instanced_geometry_iterator::next_instance_bucket() // 0x107C0100
 	}
 }
 
-_extern void _sub_107BFBD0(c_instanced_geometry_iterator *const);
 _inline void c_instanced_geometry_iterator::next() // 0x107BFBD0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?next@c_instanced_geometry_iterator@hades_file_local@@QAEXXZ");
 	// `anonymous-namespace'::c_instanced_geometry_iterator::next
 	// c_instanced_geometry_iterator *const this;
 	// bool (*const collision_point_in_cylinder)(real_point3d const *, real_matrix4x3 const *, float, float, float *);
 	// function call : bool (*const)(real_point3d const *, real_matrix4x3 const *, float, float, float *)
-	todo("implement");
-	_sub_107BFBD0(this);
+
+	bool (*const collision_point_in_cylinder)(real_point3d const *, real_matrix4x3 const *, float, float, float *) = (bool (*const)(real_point3d const *, real_matrix4x3 const *, float, float, float *))0x97a530;
+
+	while (next_instance())
+	{
+		if (collision_point_in_cylinder(&m_instance->bounding_sphere_offset, &m_cylinder->matrix, m_cylinder->radius + m_instance->bounding_sphere_radius_minimum, m_instance->bounding_sphere_radius_minimum * 2.0f + m_cylinder->height, nullptr))
+			break;
+	}
 }
 
 void __fastcall c_instanced_geometry_iterator__next_hook(c_instanced_geometry_iterator *thisptr) // 0x107BF730
@@ -375,13 +429,13 @@ void __fastcall c_instanced_geometry_iterator__next_hook(c_instanced_geometry_it
 	thisptr->next();
 }
 
-_extern void _sub_107BF6B0(c_instanced_geometry_iterator *, void *, s_cluster_reference *, s_decal_cylinder *, long);
 void __fastcall c_instanced_geometry_iterator__ctor_hook(c_instanced_geometry_iterator *thisptr, void *__formal, s_cluster_reference *cluster_references, s_decal_cylinder *cylinder, long ignore_instance_index) // 0x107BF6B0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_instanced_geometry_iterator__ctor_hook@@YIXPAUc_instanced_geometry_iterator@hades_file_local@@PAXPAUs_cluster_reference@@PAUs_decal_cylinder@2@J@Z");
 	// `anonymous-namespace'::c_instanced_geometry_iterator__ctor_hook
 	// long ignore_instance_index;
-	todo("implement");
-	_sub_107BF6B0(thisptr, __formal, cluster_references, cylinder, ignore_instance_index);
+
+	new (thisptr) c_instanced_geometry_iterator(cluster_references, cylinder, ignore_instance_index);
 }
 
 bool test_instanced_geometry_hook(s_instance_collision_test_arguements *test_arguments, long instance_index, s_structure_instanced_geometry_instance *instance, s_structure_instanced_geometry_definition *definition, unsigned long flags) // 0x107C06E0

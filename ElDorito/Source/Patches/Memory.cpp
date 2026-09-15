@@ -56,6 +56,8 @@
 #include <typeinfo>
 #include <utility>
 #include <vector>
+#include "Blam/cache/physical_memory_map.hpp"
+#include "mods/memory/physical_memory_manager.hpp"
 
 /* ---------- forward declarations */
 
@@ -122,6 +124,9 @@ long __fastcall c_restricted_memory__add_member_hook(c_restricted_memory *thispt
 
 /* ---------- globals */
 
+extern unsigned long (*const data_allocation_size)(long, unsigned long, long); // 0x11248880
+extern long const k_number_of_xbox_sound_datums; // 0x111ABBB4
+
 /* ---------- private variables */
 
 namespace hades_file_local
@@ -140,10 +145,9 @@ namespace Patches
 {
 	namespace Memory
 	{
-		_extern __int32 _sub_10A8AF90();
 		__int32 ExpandRuntimeStateGlobals() // 0x10A8AF90
 		{
-			mangled_x86(MANGLED_TODO, "?ExpandRuntimeStateGlobals@Memory@Patches@@YAHXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ExpandRuntimeStateGlobals@Memory@Patches@@YAHXZ");
 			// procedure flags: nofpo
 			// unsigned __int32 xboxSoundSize;
 			// unsigned __int32 const origRuntimeGlobalsSize;
@@ -157,9 +161,33 @@ namespace Patches
 			// function call : unsigned long (*const)(long, unsigned long, long)
 			// function call : unsigned long (*const)(long, unsigned long, long)
 			// function call : unsigned long (*const)(long)
-			todo("implement");
-			__int32 __result = _sub_10A8AF90();
-			return __result;
+
+			const unsigned __int32 origRuntimeGlobalsSize = 0x380000;
+			unsigned __int32 extraSize = 0;
+
+			unsigned __int32 origGameStateCompressionScratchSize = 0x4B000;
+			unsigned __int32 newGameStateCompressionScratchSize = origGameStateCompressionScratchSize;
+			*(unsigned __int32 *)0x510A6E = newGameStateCompressionScratchSize;
+			*(unsigned __int32 *)0x510A86 = newGameStateCompressionScratchSize;
+			extraSize += newGameStateCompressionScratchSize - origGameStateCompressionScratchSize;
+
+			unsigned __int32 oldXboxSoundCount = 8192;
+			unsigned __int32 newXboxSoundCount = k_number_of_xbox_sound_datums;
+			unsigned __int32 xboxSoundSize = 12;
+			unsigned __int32 newXboxSoundSize = 32;
+			*(unsigned __int32 *)0x66009B = newXboxSoundCount;
+			extraSize += data_allocation_size(newXboxSoundCount, newXboxSoundSize, 0) - data_allocation_size(oldXboxSoundCount, xboxSoundSize, 0);
+			extraSize += ((unsigned long (*)(long))0x9668D0)(k_number_of_xbox_sound_datums);
+			extraSize += 0xA8C0;
+
+			unsigned __int32 newRuntimeGlobalsSize = (origRuntimeGlobalsSize + extraSize + 0xFFFF) & 0xFFFF0000;
+			*(unsigned __int32 *)0x509F31 = newRuntimeGlobalsSize;
+			*(unsigned __int32 *)0x509CD7 = newRuntimeGlobalsSize;
+			*(unsigned __int32 *)0x509D6A = newRuntimeGlobalsSize;
+			*(unsigned __int32 *)0x509E63 = newRuntimeGlobalsSize;
+			*(unsigned __int32 *)0x509EC7 = newRuntimeGlobalsSize;
+
+			return newRuntimeGlobalsSize - origRuntimeGlobalsSize;
 		}
 
 		_extern __int32 _sub_10A8AB70();
@@ -252,18 +280,27 @@ _inline void c_debug_game_state_allocation::record_allocation(long allocation_ty
 	_sub_10A8B7F0(allocation_type, name, type, size);
 }
 
-_extern void _sub_10A8B180(unsigned long);
 _inline void c_debug_game_state_allocation::begin(unsigned long memory_total) // 0x10A8B180
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?begin@c_debug_game_state_allocation@hades_file_local@@SAXK@Z");
 	// `anonymous-namespace'::c_debug_game_state_allocation::begin
 	// unsigned long memory_total;
 	// char const *(*const version_get_full_string)();
-	{
 		// long i;
-	}
 	// function call : char const *(*const)()
-	todo("implement");
-	_sub_10A8B180(memory_total);
+
+	if (!m_enabled || fopen_s(&m_fp, "gamestate.txt", "w"))
+		return;
+
+	char const *(*const version_get_full_string)() = (char const *(*)())0x5013A0;
+
+	fprintf(m_fp, "game state allocations from: %s\n", version_get_full_string());
+	fprintf(m_fp, "memory total, %u\n", memory_total);
+	fprintf(m_fp, "memory available, %u\n", 0);
+	fprintf(m_fp, "% 44s,% 24s", "name", "type");
+	for (long i = 0; i < 5; i++)
+		fprintf(m_fp, ",% 40s", ((char const **)0x18A15FC)[i]);
+	fprintf(m_fp, "\n");
 }
 
 _extern void _sub_10A8B460();
@@ -287,14 +324,33 @@ _inline void c_debug_game_state_allocation::end() // 0x10A8B460
 	_sub_10A8B460();
 }
 
-_extern void _sub_10A8B650();
 void physical_memory_initialize_hook() // 0x10A8B650
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?physical_memory_initialize_hook@@YAXXZ");
 	// `anonymous-namespace'::physical_memory_initialize_hook
 	// procedure flags: nofpo
 	// void *physical_memory_base_address;
-	todo("implement");
-	_sub_10A8B650();
+
+	c_physical_memory_manager::initialize(physicalMemorySize);
+
+	void *physical_memory_base_address = c_physical_memory_manager::get_base_address();
+
+	c_physical_memory_manager::push(_physical_memory_stage_shared);
+	c_physical_memory_manager::allocate(_physical_memory_stage_shared, "shared-data", newDataSize, 2, nullptr);
+
+	memset((void *)0x238EC50, 0, sizeof(s_physical_memory_globals));
+
+	((s_physical_memory_globals *)0x238EC50)->start_address = physical_memory_base_address;
+	((s_physical_memory_globals *)0x238EC50)->current_address = c_physical_memory_manager::get_current_address();
+	((s_physical_memory_globals *)0x238EC50)->field_10 = 1;
+	((s_physical_memory_globals *)0x238EC50)->current_stage = 0;
+	((s_physical_memory_globals *)0x238EC50)->stages[0].field_10 = 0;
+	((s_physical_memory_globals *)0x238EC50)->stages[0].start_address = physical_memory_base_address;
+	((s_physical_memory_globals *)0x238EC50)->stages[0].end_address = c_physical_memory_manager::get_current_address();
+	((s_physical_memory_globals *)0x238EC50)->stages[0].field_10 = 1;
+	((s_physical_memory_globals *)0x238EC50)->stages[0].num_allocations = 0;
+	*(void **)0x238ED08 = physical_memory_base_address;
+	*(void **)0x238ED0C = physical_memory_base_address;
 }
 
 _extern long _sub_10A8B310(c_restricted_memory *, void *, char const *, char const *, unsigned long, unsigned char, void *, void *, void *);

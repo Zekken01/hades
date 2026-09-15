@@ -88,29 +88,25 @@ namespace Blam
 
 /* ---------- globals */
 
+template<typename Method, typename ...Args> void Notify(Method &&method, Args &&...args);
+
 /* ---------- private variables */
 
 /* ---------- public code */
 
-extern ModManager* _sub_10791060(ModManager *const);
-ModManager::ModManager() : m_sessionManager(todo_result<ModSessionManager>()) // 0x10791060
+ModManager::ModManager() : m_sessionManager(*this) /* hades-mem-init: : m_sessionManager(todo_result<ModSessionManager>()) */ // 0x10791060
 {
-	mangled_x86(MANGLED_TODO, "??0ModManager@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0ModManager@@QAE@XZ");
 	// ModManager *const this;
-	todo("implement");
-	_sub_10791060(this);
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??1ModListenerSet@@QAE@XZ"); no body to assert in
 _inline ModListenerSet::~ModListenerSet() = default; // 0x10791420
 
-_extern void _sub_10791490(ModManager *const);
 ModManager::~ModManager() // 0x10791490
 {
-	mangled_x86(MANGLED_TODO, "??1ModManager@@UAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1ModManager@@UAE@XZ");
 	// ModManager *const this;
-	todo("implement");
-	_sub_10791490(this);
 }
 
 extern EModResult _sub_10792110(ModManager *const, EModIndex, char const *, bool);

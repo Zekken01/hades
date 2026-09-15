@@ -104,6 +104,8 @@ using namespace ::Http;
 
 /* ---------- globals */
 
+template <typename ...Args> void DebugTrace(char const *format, Args &&...args);
+
 namespace Utils
 {
 	Modules::ModuleDownload *Utils::Singleton<Modules::ModuleDownload>::m_instance; // 0x116F47F8
@@ -131,17 +133,19 @@ namespace Download
 		return length - downloaded;
 	}
 
-	extern CHttpFileDownload::SSegment *_sub_10831F40(Download::CHttpFileDownload::SSegment *const);
 	_inline Download::CHttpFileDownload::SSegment *CHttpFileDownload::SSegment::Split() // 0x10831F40
 	{
-		mangled_x86(MANGLED_TODO, "?Split@SSegment@CHttpFileDownload@Download@@QAEPAU123@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Split@SSegment@CHttpFileDownload@Download@@QAEPAU123@XZ");
 		// Download::CHttpFileDownload::SSegment *const this;
 		// long long s2Length;
 		// long long s2Offset;
 		// long long remaining;
-		todo("implement");
-		Download::CHttpFileDownload::SSegment * __result = _sub_10831F40(this);
-		return __result;
+
+		long long remaining = GetRemaining();
+		long long s2Offset = offset + length - remaining / 2;
+		long long s2Length = remaining / 2;
+		length -= s2Length;
+		return new SSegment(s2Offset, s2Length);
 	}
 
 	extern CHttpFileDownload::SSegment* _sub_1082BB40(Download::CHttpFileDownload::SSegment *const, long long, long long);
@@ -238,10 +242,9 @@ namespace Download
 		return __result;
 	}
 
-	_extern bool _sub_1082E090(Download::CSparseFileSegmentStore *const, long long);
 	_inline bool CSparseFileSegmentStore::AdviseFileSize(long long size) // 0x1082E090
 	{
-		mangled_x86(MANGLED_TODO, "?AdviseFileSize@CSparseFileSegmentStore@Download@@UAE_N_J@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?AdviseFileSize@CSparseFileSegmentStore@Download@@UAE_N_J@Z");
 		// static ...; // 0x1082E154
 		// static ...; // 0x1082E14C
 		// Download::CSparseFileSegmentStore *const this;
@@ -251,9 +254,17 @@ namespace Download
 		// function call : __int32 (void *, unsigned long, void *, unsigned long, void *, unsigned long, unsigned long *, _OVERLAPPED *)
 		// function call : __int32 (void *)
 		// function call : __int32 (void *)
-		todo("implement");
-		bool __result = _sub_1082E090(this, size);
-		return __result;
+
+		void *hFile = OpenFile(false);
+		DWORD dw;
+		if (hFile != INVALID_HANDLE_VALUE)
+		{
+			DeviceIoControl(hFile, 0x900C4, nullptr, 0, nullptr, 0, &dw, nullptr);
+			SeekFile(hFile, size);
+			SetEndOfFile(hFile);
+			CloseHandle(hFile);
+		}
+		return true;
 	}
 
 	_inline void *CSparseFileSegmentStore::OpenFile(bool overwrite) // 0x10831540
@@ -265,10 +276,9 @@ namespace Download
 		return CreateFileA(m_filename.c_str(), GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr, overwrite ? CREATE_ALWAYS : OPEN_ALWAYS, 0, nullptr);
 	}
 
-	_extern void _sub_10831CC0(Download::CSparseFileSegmentStore *const, void *, long long);
 	_inline void CSparseFileSegmentStore::SeekFile(void *handle, long long offset) // 0x10831CC0
 	{
-		mangled_x86(MANGLED_TODO, "?SeekFile@CSparseFileSegmentStore@Download@@AAEXPAX_J@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?SeekFile@CSparseFileSegmentStore@Download@@AAEXPAX_J@Z");
 		// static ...; // 0x10831D3C
 		// Download::CSparseFileSegmentStore *const this;
 		// void *handle;
@@ -276,8 +286,10 @@ namespace Download
 		// long hi;
 		// long lo;
 		// function call : unsigned long (void *, long, long *, unsigned long)
-		todo("implement");
-		_sub_10831CC0(this, handle, offset);
+
+		long lo = (long)offset;
+		long hi = (long)((unsigned long long)offset >> 32);
+		SetFilePointer(handle, lo, &hi, FILE_BEGIN);
 	}
 
 	extern CHttpFileDownload* _sub_1082B570(Download::CHttpFileDownload *const);
@@ -390,14 +402,24 @@ namespace Download
 		return __result;
 	}
 
-	extern EDownloadStatus _sub_10830250(Download::CHttpFileDownload const *const);
 	Download::EDownloadStatus CHttpFileDownload::GetStatus() const // 0x10830250
 	{
-		mangled_x86(MANGLED_TODO, "?GetStatus@CHttpFileDownload@Download@@UBE?AW4EDownloadStatus@2@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetStatus@CHttpFileDownload@Download@@UBE?AW4EDownloadStatus@2@XZ");
 		// Download::CHttpFileDownload const *const this;
-		todo("implement");
-		Download::EDownloadStatus __result = _sub_10830250((Download::CHttpFileDownload const *)this);
-		return __result;
+
+		if (m_abortReason == EAbortReason::Cancelled)
+			return EDownloadStatus::Cancelled;
+		else if (m_bFinished)
+		{
+			if (m_abortReason != EAbortReason::None)
+				return EDownloadStatus::Failed;
+			else
+				return EDownloadStatus::Success;
+		}
+		else if (m_bStarted)
+			return EDownloadStatus::Downloading;
+
+		return EDownloadStatus::NotStarted;
 	}
 }
 
@@ -550,17 +572,20 @@ namespace Download
 		return m_supportsSegmentation.load();
 	}
 
-	_extern void _sub_1082DDF0(Download::CHttpFileDownload *const, Download::CHttpFileDownload::EAbortReason);
 	void CHttpFileDownload::Abort(Download::CHttpFileDownload::EAbortReason reason) // 0x1082DDF0
 	{
-		mangled_x86(MANGLED_TODO, "?Abort@CHttpFileDownload@Download@@AAEXW4EAbortReason@12@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Abort@CHttpFileDownload@Download@@AAEXW4EAbortReason@12@@Z");
 		// static ...; // 0x1082DE84
 		// static ...; // 0x1082DE7C
 		// Download::CHttpFileDownload *const this;
 		// Download::CHttpFileDownload::EAbortReason reason;
 		// Download::CHttpFileDownload::EAbortReason exp;
-		todo("implement");
-		_sub_1082DDF0(this, reason);
+
+		EAbortReason exp = None;
+		if (m_abortReason.compare_exchange_strong(exp, reason))
+		{
+			DebugTrace("Aborting... code: %d", reason);
+		}
 	}
 
 	_extern void _sub_1082E320(Download::CHttpFileDownload *const);

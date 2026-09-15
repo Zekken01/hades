@@ -137,6 +137,9 @@ namespace Server
 
 /* ---------- globals */
 
+extern bool (*const game_is_distributed)();  // hades: added for 0X10720120
+extern void OnMapLoaded(std::function<void __cdecl(char const *)> callback);
+
 /* ---------- private variables */
 
 namespace hades_file_local
@@ -152,17 +155,23 @@ namespace Server
 {
 	namespace HsGlobalSync
 	{
-		_extern void _sub_1071FD60(short);
 		void RegisterGlobal(short globalIndex) // 0x1071FD60
 		{
-			mangled_x86(MANGLED_TODO, "?RegisterGlobal@HsGlobalSync@Server@@YAXF@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?RegisterGlobal@HsGlobalSync@Server@@YAXF@Z");
 			// static ...; // 0x1071FDE4
 			// static ...; // 0x1071FDD8
 			// static ...; // 0x1071FDD0
 			// short globalIndex;
 			// HsGlobalSyncState stateDatum;
-			todo("implement");
-			_sub_1071FD60(globalIndex);
+
+			HsGlobalSyncState stateDatum;
+
+			if (FindGlobalSyncState(globalIndex) != -1)
+				return;
+
+			stateDatum.globalIndex = globalIndex;
+			stateDatum.synchronizedPlayersMask = 0;
+			registeredGlobals.push_back(stateDatum);
 		}
 
 		_extern void _sub_107201E0(short);
@@ -228,16 +237,21 @@ namespace Server
 			_sub_1071FB50();
 		}
 
-		_extern void _sub_10720120();
 		void Tick() // 0x10720120
 		{
-			mangled_x86(MANGLED_TODO, "?Tick@HsGlobalSync@Server@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@HsGlobalSync@Server@@YAXXZ");
 			// procedure flags: nofpo
 			// function call : bool (*const)()
 			// function call : bool (*const)()
 			// function call : bool (*const)()
-			todo("implement");
-			_sub_10720120();
+
+			if (!((bool (*const)())0x5314b0)() || !((bool (*const)())0x5319c0)() || !game_is_distributed())
+				return;
+
+			if (lastSynchronizeTime == -1 || system_milliseconds() - lastSynchronizeTime >= 50)
+			{
+				Synchronize();
+			}
 		}
 
 		_extern void _sub_1071FE20(std::function<void __cdecl(short,unsigned short)>);
@@ -253,17 +267,20 @@ namespace Server
 
 /* ---------- private code */
 
-_extern __int32 _sub_1071FAC0(unsigned long);
 __int32 FindGlobalSyncState(unsigned long globalIndex) // 0x1071FAC0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?FindGlobalSyncState@@YAHK@Z");
 	// `anonymous-namespace'::FindGlobalSyncState
 	// unsigned long globalIndex;
-	{
 		// unsigned __int32 i;
+
+	for (unsigned __int32 i = 0; i < registeredGlobals.size(); i++)
+	{
+		if (registeredGlobals[i].globalIndex == globalIndex)
+			return i;
 	}
-	todo("implement");
-	__int32 __result = _sub_1071FAC0(globalIndex);
-	return __result;
+
+	return -1;
 }
 
 namespace Server

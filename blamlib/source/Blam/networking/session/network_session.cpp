@@ -45,14 +45,12 @@ struct s_transport_secure_identifier;
 
 /* ---------- public code */
 
-_extern bool _sub_10EF7BE0(c_network_session const *const);
 bool c_network_session::established() const // 0x10EF7BE0
 {
-	mangled_x86(MANGLED_TODO, "?established@c_network_session@@QBE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?established@c_network_session@@QBE_NXZ");
 	// c_network_session const *const this;
-	todo("implement");
-	bool __result = _sub_10EF7BE0((c_network_session const *)this);
-	return __result;
+
+	return current_local_state() >= _network_session_state_peer_peer_established;
 }
 
 _extern bool _sub_10EF7B50(c_network_session const *const);
@@ -65,15 +63,15 @@ bool c_network_session::disconnected() const // 0x10EF7B50
 	return __result;
 }
 
-_extern bool _sub_10EF8620(c_network_session const *const);
 bool c_network_session::is_host() const // 0x10EF8620
 {
-	mangled_x86(MANGLED_TODO, "?is_host@c_network_session@@QBE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?is_host@c_network_session@@QBE_NXZ");
 	// c_network_session const *const this;
 	// e_network_session_state state;
-	todo("implement");
-	bool __result = _sub_10EF8620((c_network_session const *)this);
-	return __result;
+
+	e_network_session_state state = current_local_state();
+
+	return state == _network_session_state_host_host_established || state == _network_session_state_host_disband;
 }
 
 bool c_network_session::is_leader() const // 0x10EF86C0
@@ -116,14 +114,12 @@ c_network_session_membership const *c_network_session::get_session_membership_un
 	return nullptr;
 }
 
-_extern bool _sub_10EF8780(c_network_session const *const);
 bool c_network_session::membership_is_locked() const // 0x10EF8780
 {
-	mangled_x86(MANGLED_TODO, "?membership_is_locked@c_network_session@@QBE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?membership_is_locked@c_network_session@@QBE_NXZ");
 	// c_network_session const *const this;
-	todo("implement");
-	bool __result = _sub_10EF8780((c_network_session const *)this);
-	return __result;
+
+	return current_local_state() == _network_session_state_host_disband;
 }
 
 c_network_session_parameters *c_network_session::get_session_parameters() // 0x10EF8560
@@ -248,15 +244,30 @@ long c_network_session_membership::find_first_player() // 0x10EF7C70
 	return find_next_player(-1);
 }
 
-_extern long _sub_10EF7CD0(c_network_session_membership *const, long);
 long c_network_session_membership::find_next_player(long previous_player_index) // 0x10EF7CD0
 {
-	mangled_x86(MANGLED_TODO, "?find_next_player@c_network_session_membership@@QAEJJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?find_next_player@c_network_session_membership@@QAEJJ@Z");
 	// long previous_player_index;
 	// long index;
-	todo("implement");
-	long __result = _sub_10EF7CD0(this, previous_player_index);
-	return __result;
+
+	if (previous_player_index + 1 >= 16)
+	{
+		return -1;
+	}
+
+	long index = previous_player_index + 1;
+
+	while (!is_player_valid(index))
+	{
+		index++;
+
+		if (index >= 16)
+		{
+			return -1;
+		}
+	}
+
+	return index;
 }
 
 /* ---------- private code */

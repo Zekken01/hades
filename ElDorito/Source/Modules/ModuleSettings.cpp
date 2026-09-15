@@ -178,33 +178,33 @@ c_screen_postprocess::s_smaa_globals c_screen_postprocess::smaa_globals; // 0x12
 namespace hades_file_local
 {
 	extern __int32 (__stdcall *SSL_SetAntialiasing)(bool);  // 0x11354098
-	extern __int32 (__stdcall *SSL_SetAutoCentering)(bool); // 0x1135409C
-	extern __int32 (__stdcall *SSL_SetContrast)(__int32); // 0x113540A0
-	extern __int32 (__stdcall *SSL_SetDetailsQuality)(__int32); // 0x113540A4
-	extern __int32 (__stdcall *SSL_SetDisplayHints)(bool); // 0x113540A8
-	extern __int32 (__stdcall *SSL_SetEffectsQuality)(__int32); // 0x113540AC
-	extern __int32 (__stdcall *SSL_SetFullscreen)(__int32); // 0x113540B0
-	extern __int32 (__stdcall *SSL_SetHUDShake)(bool); // 0x113540B4
-	extern __int32 (__stdcall *SSL_SetInvertLook)(bool); // 0x113540B8
-	extern __int32 (__stdcall *SSL_SetInvertMouse)(bool); // 0x113540BC
-	extern __int32 (__stdcall *SSL_SetLightingQuality)(__int32); // 0x113540C0
-	extern __int32 (__stdcall *SSL_SetLookSensitivity)(__int32); // 0x113540C4
-	extern __int32 (__stdcall *SSL_SetMasterVolume)(__int32, char); // 0x113540C8
-	extern __int32 (__stdcall *SSL_SetMotionBlur)(bool); // 0x113540CC
-	extern __int32 (__stdcall *SSL_SetMouseAcceleration)(__int32); // 0x113540D0
-	extern __int32 (__stdcall *SSL_SetMouseSensitivityHor)(__int32); // 0x113540D4
-	extern __int32 (__stdcall *SSL_SetMouseSensitivityVehicleHor)(__int32); // 0x113540D8
-	extern __int32 (__stdcall *SSL_SetMouseSensitivityVehicleVert)(__int32); // 0x113540DC
-	extern __int32 (__stdcall *SSL_SetMouseSensitivityVert)(__int32); // 0x113540E0
+	extern "C" __int32 (__stdcall *SSL_SetAutoCentering)(bool); // 0x1135409C
+	extern "C" __int32 (__stdcall *SSL_SetContrast)(__int32); // 0x113540A0
+	extern "C" __int32 (__stdcall *SSL_SetDetailsQuality)(__int32); // 0x113540A4
+	extern "C" __int32 (__stdcall *SSL_SetDisplayHints)(bool); // 0x113540A8
+	extern "C" __int32 (__stdcall *SSL_SetEffectsQuality)(__int32); // 0x113540AC
+	extern "C" __int32 (__stdcall *SSL_SetFullscreen)(__int32); // 0x113540B0
+	extern "C" __int32 (__stdcall *SSL_SetHUDShake)(bool); // 0x113540B4
+	extern "C" __int32 (__stdcall *SSL_SetInvertLook)(bool); // 0x113540B8
+	extern "C" __int32 (__stdcall *SSL_SetInvertMouse)(bool); // 0x113540BC
+	extern "C" __int32 (__stdcall *SSL_SetLightingQuality)(__int32); // 0x113540C0
+	extern "C" __int32 (__stdcall *SSL_SetLookSensitivity)(__int32); // 0x113540C4
+	extern "C" __int32 (__stdcall *SSL_SetMasterVolume)(__int32, char); // 0x113540C8
+	extern "C" __int32 (__stdcall *SSL_SetMotionBlur)(bool); // 0x113540CC
+	extern "C" __int32 (__stdcall *SSL_SetMouseAcceleration)(__int32); // 0x113540D0
+	extern "C" __int32 (__stdcall *SSL_SetMouseSensitivityHor)(__int32); // 0x113540D4
+	extern "C" __int32 (__stdcall *SSL_SetMouseSensitivityVehicleHor)(__int32); // 0x113540D8
+	extern "C" __int32 (__stdcall *SSL_SetMouseSensitivityVehicleVert)(__int32); // 0x113540DC
+	extern "C" __int32 (__stdcall *SSL_SetMouseSensitivityVert)(__int32); // 0x113540E0
 	extern __int32 (__stdcall *SSL_SetMusicVolume)(__int32, bool);  // 0x113540E4
-	extern __int32 (__stdcall *SSL_SetPostprocessingQuality)(__int32); // 0x113540E8
-	extern __int32 (__stdcall *SSL_SetSFXVolume)(__int32, bool); // 0x113540EC
-	extern __int32 (__stdcall *SSL_SetShadowQuality)(__int32); // 0x113540F0
+	extern "C" __int32 (__stdcall *SSL_SetPostprocessingQuality)(__int32); // 0x113540E8
+	extern "C" __int32 (__stdcall *SSL_SetSFXVolume)(__int32, bool); // 0x113540EC
+	extern "C" __int32 (__stdcall *SSL_SetShadowQuality)(__int32); // 0x113540F0
 	extern __int32 (__stdcall *SSL_SetTeamColor)(__int32);  // 0x113540F4
-	extern __int32 (__stdcall *SSL_SetTextureFilteringQuality)(__int32); // 0x113540F8
-	extern __int32 (__stdcall *SSL_SetTextureResolution)(__int32); // 0x113540FC
-	extern __int32 (__stdcall *SSL_SetToggleCrouch)(__int32); // 0x11354100
-	extern __int32 (*SSL_SetVSync)(__int32); // 0x11354104
+	extern "C" __int32 (__stdcall *SSL_SetTextureFilteringQuality)(__int32); // 0x113540F8
+	extern "C" __int32 (__stdcall *SSL_SetTextureResolution)(__int32); // 0x113540FC
+	extern "C" __int32 (__stdcall *SSL_SetToggleCrouch)(__int32); // 0x11354100
+	extern "C" __int32 (*SSL_SetVSync)(__int32); // 0x11354104
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -685,9 +685,9 @@ bool VariableSettingsMotionBlurUpdate(std::vector<std::string> const &args, std:
 	return true;
 }
 
-_extern bool _sub_10A1F530(std::vector<std::string> const &, std::string &);
 bool VariableSettingsMotionBlurStrengthUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1F530
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsMotionBlurStrengthUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::VariableSettingsMotionBlurStrengthUpdate
 	// static ...; // 0x10A1F668
 	// static ...; // 0x10A1F660
@@ -695,9 +695,15 @@ bool VariableSettingsMotionBlurStrengthUpdate(std::vector<std::string> const &ar
 	// std::string &returnInfo;
 	// std::stringstream ss;
 	// float value;
-	todo("implement");
-	bool __result = _sub_10A1F530(args, returnInfo);
-	return __result;
+
+	auto value = Modules::ModuleSettings::Instance().VarMotionBlurStrength->ValueFloat;
+
+	c_rasterizer_globals::g_motion_blur_parameters_set = 0;
+
+	std::stringstream ss;
+	ss << "Motion blur strength set to " << value;
+	returnInfo = ss.str();
+	return true;
 }
 
 _extern bool _sub_10A213B0(std::vector<std::string> const &, std::string &);
@@ -1264,16 +1270,22 @@ bool VariableSettingsAnisotropicFilteringUpdate(std::vector<std::string> const &
 	return __result;
 }
 
-_extern bool _sub_10A21560(std::vector<std::string> const &, std::string &);
 bool VariableSettingsSubtitlesUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A21560
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsSubtitlesUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::VariableSettingsSubtitlesUpdate
 	// std::string &returnInfo;
 	// s_global_preferences *prefs;
 	// __int32 value;
-	todo("implement");
-	bool __result = _sub_10A21560(args, returnInfo);
-	return __result;
+
+	__int32 value = Modules::ModuleSettings::Instance().VarSubtitles->ValueInt;
+
+	s_global_preferences *prefs = tls_getd().preferences;
+	if (!prefs)
+		prefs = reinterpret_cast<s_global_preferences *>(0x022C0128);
+
+	prefs->current.settings.display_subtitles = static_cast<s_global_preferences_settings::e_display_subtitles>(value);
+	return true;
 }
 
 _extern bool _sub_10A1C460(std::vector<std::string> const &, std::string &);
@@ -1344,9 +1356,9 @@ void UpdateScreenResolution() // 0x10A1CC20
 	*(uint8_t*)0x050DD9D1 = 1; // dirty
 }
 
-_extern bool _sub_10A1C950(std::string const &, __int32 *);
 bool TryParseInt(std::string const &str, __int32 *value) // 0x10A1C950
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?TryParseInt@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAH@Z");
 	// `anonymous-namespace'::TryParseInt
 	// static ...; // 0x10A1C9F0
 	// static ...; // 0x10A1C9E8
@@ -1354,9 +1366,16 @@ bool TryParseInt(std::string const &str, __int32 *value) // 0x10A1C950
 	// __int32 *value;
 	// char const *c_str;
 	// char *endp;
-	todo("implement");
-	bool __result = _sub_10A1C950(str, value);
-	return __result;
+
+	if (str.length() == 0)
+		return false;
+
+	auto c_str = str.c_str();
+	char *endp;
+
+	*value = std::strtol(c_str, &endp, 10);
+
+	return endp != c_str;
 }
 
 bool TryParseResolutionString(std::string const &str, __int32 *width, __int32 *height) // 0x10A1CA30

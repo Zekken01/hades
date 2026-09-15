@@ -172,26 +172,42 @@ void vision_mode_render_submit_mask_hook(__int32 sampler, long bitmap_group_inde
 	_sub_108F94B0(sampler, bitmap_group_index, bitmap_index);
 }
 
-_extern void _sub_108F9780(__int32, __int32, float *);
 void vision_submit_shader_constants4_hook(__int32 startRegister, __int32 rows, float *data) // 0x108F9780
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?vision_submit_shader_constants4_hook@@YAXHHPAM@Z");
 	// `anonymous-namespace'::vision_submit_shader_constants4_hook
 	// float *data;
 	// void (*const set_pixel_shader_constant)(long, long, float *);
 	// function call : void (*const)(long, long, float *)
-	todo("implement");
-	_sub_108F9780(startRegister, rows, data);
+
+	const auto vision_submit_shader_constants4 = (void(*)(__int32, __int32, float *))0xA66270;
+
+	if (Forge::CForgeVisionRenderer::IsActive())
+	{
+		Forge::CForgeVisionRenderer::GetVisionColors((real_argb_color *)data);
+	}
+
+	vision_submit_shader_constants4(startRegister, rows, data);
 }
 
-_extern void _sub_108F96C0(long, long, long, void const *, long const *, long, bool);
 void vision_mode_submit_objects_hook(long window_index, long player_index, long unit_index, void const *window_data, long const *object_indices, long object_count, bool pass) // 0x108F96C0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?vision_mode_submit_objects_hook@@YAXJJJPBXPBJJ_N@Z");
 	// `anonymous-namespace'::vision_mode_submit_objects_hook
 	// bool pass;
 	// void (*const vision_mode_submit_objects)(long, long, long, void const *, long const *, long, bool);
 	// function call : void (*const)(long, long, long, void const *, long const *, long, bool)
-	todo("implement");
-	_sub_108F96C0(window_index, player_index, unit_index, window_data, object_indices, object_count, pass);
+
+	const auto vision_mode_submit_objects = (void(*)(long, long, long, void const *, long const *, long, bool))0xA2C7D0;
+
+	if (Forge::CForgeVisionRenderer::IsActive())
+	{
+		Forge::CForgeVisionRenderer::Generate(window_index, player_index, unit_index, window_data, pass);
+	}
+	else
+	{
+		vision_mode_submit_objects(window_index, player_index, unit_index, window_data, object_indices, object_count, pass);
+	}
 }
 
 void vision_generate_depth_buffer_clear_hook(long flags, __int32 color, float inverseZ, unsigned char stencil) // 0x108F9340

@@ -201,6 +201,8 @@ void HostTick(Blam::Network::Session *session);
 
 /* ---------- globals */
 
+namespace Utils { namespace Cryptography { bool Hash32(std::string const &str, unsigned __int32 *out); } }  // hades: added for 0X10C3C5F0
+
 /* ---------- private variables */
 
 namespace hades_file_local
@@ -268,22 +270,21 @@ namespace Server
 
 /* ---------- private code */
 
-extern SyncUpdateHandler* _sub_10C3A1B0(SyncUpdateHandler *const);
-_inline SyncUpdateHandler::SyncUpdateHandler() // 0x10C3A1B0
+_inline SyncUpdateHandler::SyncUpdateHandler() : VariadicPacketHandler(1) /* hades-mem-init:  */ // 0x10C3A1B0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0SyncUpdateHandler@hades_file_local@@QAE@XZ");
+	// the original is empty
 	// `anonymous-namespace'::SyncUpdateHandler::SyncUpdateHandler
 	// SyncUpdateHandler *const this;
-	todo("implement");
-	_sub_10C3A1B0(this);
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0SynchronizationBinding@hades_file_local@@QAE@XZ"); no body to assert in
 _inline SynchronizationBinding::SynchronizationBinding() = default; // 0x10C3A210
 
 
-_extern unsigned __int32 _sub_10C3C5F0(SynchronizationBinding const &);
 unsigned __int32 GenerateID(SynchronizationBinding const &binding) // 0x10C3C5F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GenerateID@@YAIABUSynchronizationBinding@hades_file_local@@@Z");
 	// `anonymous-namespace'::GenerateID
 	// static ...; // 0x10C3C707
 	// static ...; // 0x10C3C700
@@ -292,9 +293,12 @@ unsigned __int32 GenerateID(SynchronizationBinding const &binding) // 0x10C3C5F0
 	// SynchronizationBinding const &binding;
 	// std::string str;
 	// unsigned __int32 result;
-	todo("implement");
-	unsigned __int32 __result = _sub_10C3C5F0(binding);
-	return __result;
+
+	std::string str = binding.ServerVariable->Name + binding.ClientVariable->Name;
+	unsigned __int32 result;
+	if (!Utils::Cryptography::Hash32(str, &result))
+		throw std::runtime_error("Failed to generate sync ID");
+	return result;
 }
 
 _extern void _sub_10C3B810(SynchronizationBinding const &);
@@ -376,13 +380,17 @@ void SetVariable(Modules::Command *var, SyncUpdatePacketVar const *value) // 0x1
 	_sub_10C3D4F0(var, value);
 }
 
-_extern void _sub_10C3DE80(SynchronizationBinding *);
 void TickBinding(SynchronizationBinding *binding) // 0x10C3DE80
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?TickBinding@@YAXPAUSynchronizationBinding@hades_file_local@@@Z");
 	// `anonymous-namespace'::TickBinding
 	// SynchronizationBinding *binding;
-	todo("implement");
-	_sub_10C3DE80(binding);
+
+	if (CompareVariables(binding->ServerVariable, binding->ClientVariable))
+		return;
+
+	SetVariable(binding->ClientVariable, binding->ServerVariable);
+	binding->SynchronizedPeers.reset();
 }
 
 _extern void _sub_10C3DF10();

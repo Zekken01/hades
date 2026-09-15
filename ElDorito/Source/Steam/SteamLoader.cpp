@@ -63,14 +63,12 @@ namespace Steam
 	}
 }
 
-extern void *(*_sub_10C52220(Steam::SteamLoader *const))(char const *, __int32 *);
 void *(*Steam::SteamLoader::GetCreateInterfaceFunc())(char const *, __int32 *) // 0x10C52220
 {
-	mangled_x86(MANGLED_TODO, "?GetCreateInterfaceFunc@SteamLoader@Steam@@QAEP6APAXPBDPAH@ZXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetCreateInterfaceFunc@SteamLoader@Steam@@QAEP6APAXPBDPAH@ZXZ");
 	// Steam::SteamLoader *const this;
-	todo("implement");
-	auto __result = _sub_10C52220(this);
-	return __result;
+
+	return GetProcAddress<void *(__cdecl *)(char const *, int *)>("CreateInterface");
 }
 
 namespace Steam
@@ -84,7 +82,7 @@ namespace Steam
 
 		void *func = nullptr;
 		if (m_hSteamClient)
-			func = GetProcAddress(m_hSteamClient, name);
+			func = ::GetProcAddress(m_hSteamClient, name);  // hades: the member template GetProcAddress now shadows the Win32 one
 		return func;
 	}
 

@@ -172,6 +172,9 @@ namespace Blam
 
 /* ---------- prototypes */
 
+#include "Modules/ModuleServer.hpp"  // hades: added for 0x107AFB40
+extern long(__cdecl *const game_seconds_to_ticks_round)(float);  // hades: added for 0x107AFB40
+
 namespace Patches
 {
 	namespace GameEngine
@@ -205,6 +208,9 @@ bool game_engine_object_has_been_abandoned_hook(long object_index);
 long candy_spawner_object_new_hook(s_object_placement_data *placement_data);
 
 /* ---------- globals */
+
+namespace Player { namespace PlayerPodium { extern bool PodiumStarted(); } }  // hades: added for 0x107AEB40
+extern long(__cdecl *const game_seconds_integer_to_ticks)(long);  // hades: added for 0x107AB1D0
 
 namespace Utils
 {
@@ -263,17 +269,21 @@ void game_engine_tick_hook() // 0x107AFD30
 	}
 }
 
-_extern __int32 _sub_107AB1D0();
 __int32 GetPreRoundTicks() // 0x107AB1D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetPreRoundTicks@@YAHXZ");
 	// `anonymous-namespace'::GetPreRoundTicks
 	// procedure flags: nofpo
 	// __int32 offset;
 	// long gameType;
 	// function call : long (*const)(long)
-	todo("implement");
-	__int32 __result = _sub_107AB1D0();
-	return __result;
+
+	long gameType = *(long *)offset_pointer(tls_getd().game_engine_globals, 81328);
+	__int32 offset = 0;
+	if (gameType == 8)
+		offset--;
+
+	return game_seconds_integer_to_ticks(Utils::Singleton<Modules::ModuleServer>::Instance().VarServerCountdownClient->ValueInt + offset + 5);
 }
 
 _extern __int32 _sub_107AEC40();
@@ -388,20 +398,19 @@ bool game_engine_hud_get_state_message_hook(__int32 hudIndex, wchar_t *buff, __i
 	return __result;
 }
 
-_extern long _sub_107AFB40(float);
 long game_engine_post_game_time_hook(float seconds) // 0x107AFB40
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_post_game_time_hook@@YAJM@Z");
 	// `anonymous-namespace'::game_engine_post_game_time_hook
 	// float seconds;
 	// function call : long (*const)(float)
-	todo("implement");
-	long __result = _sub_107AFB40(seconds);
-	return __result;
+
+	return game_seconds_to_ticks_round((float)Utils::Singleton<Modules::ModuleServer>::Instance().VarPostGameTimeSeconds->ValueInt + 0.1f);
 }
 
-_extern void _sub_107AEB40(long);
 void game_engine_assemble_player_traits_hook(long player_index) // 0x107AEB40
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_assemble_player_traits_hook@@YAXJ@Z");
 	// `anonymous-namespace'::game_engine_assemble_player_traits_hook
 	// static ...; // 0x107AEC00
 	// static ...; // 0x107AEBF4
@@ -409,13 +418,23 @@ void game_engine_assemble_player_traits_hook(long player_index) // 0x107AEB40
 	// long player_index;
 	// void (*const game_engine_apply_player_traits)(long, c_player_traits *);
 	// void (*const game_engine_assemble_player_traits)(long);
-	{
 		// c_player_traits traits;
-	}
 	// function call : void (*const)(long, c_player_traits *)
 	// function call : void (*const)(long)
-	todo("implement");
-	_sub_107AEB40(player_index);
+
+	void (*const game_engine_assemble_player_traits)(long) = (void (*const)(long))0x5cbf90;
+	void (*const game_engine_apply_player_traits)(long, c_player_traits *) = (void (*const)(long, c_player_traits *))0x5cb7c0;
+
+	if (::Player::PlayerPodium::PodiumStarted())
+	{
+		c_player_traits traits;
+		traits.initialize();
+		game_engine_apply_player_traits(player_index, &traits);
+	}
+	else
+	{
+		game_engine_assemble_player_traits(player_index);
+	}
 }
 
 _extern bool _sub_107AC1D0(c_game_engine *, void *, long, long, long, bool, s_chud_navpoint *);
@@ -568,13 +587,20 @@ bool __fastcall c_simulation_game_engine_player_entity_definition__entity_update
 	return __result;
 }
 
-_extern void _sub_107AC100(void *, void *, short, long, s_simulation_game_engine_player_state_data *);
 void __fastcall c_game_engine__build_player_baseline_hook(void *thisptr, void *__formal, short absolute_player_index, long state_data_size, s_simulation_game_engine_player_state_data *state_data) // 0x107AC100
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_game_engine__build_player_baseline_hook@@YIXPAX0FJPAUs_simulation_game_engine_player_state_data@@@Z");
 	// `anonymous-namespace'::c_game_engine__build_player_baseline_hook
 	// s_simulation_game_engine_player_state_data *state_data;
-	todo("implement");
-	_sub_107AC100(thisptr, __formal, absolute_player_index, state_data_size, state_data);
+
+	memset(state_data, 0, sizeof(s_simulation_game_engine_player_state_data));
+	state_data->initial_spawn = true;
+	state_data->player_traits.initialize();
+	state_data->last_betrayer_player_index = -1;
+	state_data->desired_respawn_player_index = -1;
+	state_data->player_control_aiming = global_forward3d;
+	state_data->revenge_last_killer_player_index = -1;
+	state_data->player_character_type_index = -1;
 }
 
 _extern void _sub_107AFDE0(long);
@@ -653,17 +679,23 @@ bool game_engine_player_is_out_of_lives_hook(long player_index) // 0x107AFAB0
 	return game_engine_player_is_out_of_lives(player_index);
 }
 
-_extern bool _sub_107AFCA0(long);
 bool game_engine_team_is_out_of_lives_hook(long teamIndex) // 0x107AFCA0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_team_is_out_of_lives_hook@@YA_NJ@Z");
 	// `anonymous-namespace'::game_engine_team_is_out_of_lives_hook
 	// long teamIndex;
 	// bool (*const game_engine_team_is_out_of_lives)(long);
 	// function call : bool (*const)()
 	// function call : bool (*const)(long)
-	todo("implement");
-	bool __result = _sub_107AFCA0(teamIndex);
-	return __result;
+
+	const auto game_engine_team_is_out_of_lives = (bool(*)(long))0x556A10;
+
+	if (((bool(*)())0x531B20)())
+	{
+		return false;
+	}
+
+	return game_engine_team_is_out_of_lives(teamIndex);
 }
 
 _extern void _sub_107AE860(long);

@@ -94,6 +94,7 @@
 #include <utility>
 #include <variant>
 #include <vector>
+#include "mods/mod_system.hpp"
 
 /* ---------- forward declarations */
 
@@ -239,22 +240,16 @@ namespace Blam
 
 /* ---------- public code */
 
-extern CServerConnectStateHandler_AcquireMods* _sub_10906B70(CServerConnectStateHandler_AcquireMods *const);
-CServerConnectStateHandler_AcquireMods::CServerConnectStateHandler_AcquireMods() // 0x10906B70
+CServerConnectStateHandler_AcquireMods::CServerConnectStateHandler_AcquireMods() : m_state(EState::None), m_queueIndex(-1), m_downloadStarted(false), m_cancelled(false), m_hasEnumerated(false), m_pendingVerificationJobs(0), m_ui(nullptr) /* hades-mem-init:  */ // 0x10906B70
 {
-	mangled_x86(MANGLED_TODO, "??0CServerConnectStateHandler_AcquireMods@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0CServerConnectStateHandler_AcquireMods@@QAE@XZ");
 	// CServerConnectStateHandler_AcquireMods *const this;
-	todo("implement");
-	_sub_10906B70(this);
 }
 
-_extern void _sub_10906E60(CServerConnectStateHandler_AcquireMods *const);
 CServerConnectStateHandler_AcquireMods::~CServerConnectStateHandler_AcquireMods() // 0x10906E60
 {
-	mangled_x86(MANGLED_TODO, "??1CServerConnectStateHandler_AcquireMods@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1CServerConnectStateHandler_AcquireMods@@QAE@XZ");
 	// CServerConnectStateHandler_AcquireMods *const this;
-	todo("implement");
-	_sub_10906E60(this);
 }
 
 _extern void _sub_10908E40(CServerConnectStateHandler_AcquireMods *const, std::shared_ptr<IServerConnectModDownloadUI> const &);
@@ -539,15 +534,19 @@ void CServerConnectStateHandler_AcquireMods::OnUIActionConfirm() // 0x10908B80
 	_sub_10908B80(this);
 }
 
-_extern void _sub_10908AC0(CServerConnectStateHandler_AcquireMods *const);
 void CServerConnectStateHandler_AcquireMods::OnUIActionCancel() // 0x10908AC0
 {
-	mangled_x86(MANGLED_TODO, "?OnUIActionCancel@CServerConnectStateHandler_AcquireMods@@AAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnUIActionCancel@CServerConnectStateHandler_AcquireMods@@AAEXXZ");
 	// CServerConnectStateHandler_AcquireMods *const this;
 	// c_mod_package_manager &package_manager;
 	// function call : void ()
-	todo("implement");
-	_sub_10908AC0(this);
+
+	c_mod_package_manager &package_manager = c_mod_system::get_package_manager();
+	package_manager.begin_enumerate();
+	m_cancelled = true;
+	if (m_activeDownload)
+		m_activeDownload->Cancel();
+	SetLocalState(EState::Cancelled);
 }
 
 void CServerConnectStateHandler_AcquireMods::OnUIActionRetry() // 0x10908C80

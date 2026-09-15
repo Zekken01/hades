@@ -83,6 +83,12 @@ namespace Server
 			bool shouldUpdateTimer; // 0xEFC
 			unsigned char votesNeededToPass; // 0xEFD
 			public:
+			// Declaring the VotingMessageType constructor suppressed the implicit
+			// default one, so a class holding a VotingMessage could not leave it
+			// default-initialised - C2512. The original never touches this member
+			// in those constructors, and every VotingOption is POD, so the
+			// defaulted constructor is trivial and emits nothing.
+			VotingMessage() = default;  // hades: added for 0x10739F90, 0x1073A8D0
 			VotingMessage(Server::Voting::VotingMessageType type);
 		};
 		static_assert(sizeof(Server::Voting::VotingMessage) == 3840, "Invalid Server::Voting::VotingMessage size");

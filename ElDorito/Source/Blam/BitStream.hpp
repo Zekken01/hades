@@ -95,10 +95,10 @@ namespace Blam
 		auto Read(__int32 bits);
 		template<typename t_arg0>
 		auto Read(t_arg0 minValue, t_arg0 maxValue);
-		template<typename t_arg0, typename t_arg1>
-		bool ReadString(t_arg1);
-		template<typename t_arg0, typename t_arg1>
-		void ReadStringFixed(t_arg1);
+		template<typename t_arg0, int t_arg1>
+		bool ReadString(t_arg0 (&)[t_arg1]);
+		template<typename t_arg0, int t_arg1>
+		void ReadStringFixed(t_arg0 (&)[t_arg1]);
 		template<typename t_arg0>
 		t_arg0 ReadUnsigned(__int32 bits);
 		template<typename t_arg0>
@@ -107,10 +107,10 @@ namespace Blam
 		void Write(t_arg0 val, __int32 bits);
 		template<typename t_arg0>
 		void Write(t_arg0 val, t_arg0 minValue, t_arg0 maxValue);
-		template<typename t_arg0, typename t_arg1>
-		void WriteString(t_arg1);
-		template<typename t_arg0, typename t_arg1>
-		void WriteStringFixed(t_arg1);
+		template<typename t_arg0, int t_arg1>
+		void WriteString(t_arg0 const (&)[t_arg1]);
+		template<typename t_arg0, int t_arg1>
+		void WriteStringFixed(t_arg0 const (&)[t_arg1]);
 		template<typename t_arg0>
 		void WriteUnsigned(t_arg0 val, __int32 bits);
 		template<typename t_arg0>

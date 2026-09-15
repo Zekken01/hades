@@ -67,6 +67,9 @@ using namespace ::Audio;
 
 /* ---------- globals */
 
+template<typename t_arg2> _inline void Add(t_arg2 *message);
+template<typename t_arg2> _inline void ConsumeAll(t_arg2 f);
+
 /* ---------- private variables */
 
 /* ---------- public code */
@@ -108,16 +111,31 @@ namespace Audio
 		return true;
 	}
 
-	_extern void _sub_107F1A30(Audio::CAudioDeviceManager::CAudioDeviceManagerImpl *const);
 	_inline void CAudioDeviceManager::CAudioDeviceManagerImpl::Dispose() // 0x107F1A30
 	{
-		mangled_x86(MANGLED_TODO, "?Dispose@CAudioDeviceManagerImpl@CAudioDeviceManager@Audio@@QAEXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Dispose@CAudioDeviceManagerImpl@CAudioDeviceManager@Audio@@QAEXXZ");
 		// Audio::CAudioDeviceManager::CAudioDeviceManagerImpl *const this;
 		// __int32 count;
 		// function call : HRESULT (IMMNotificationClient *)
 		// function call : unsigned long ()
-		todo("implement");
-		_sub_107F1A30(this);
+
+		m_pDeviceListener = nullptr;
+
+		if (m_pDeviceEnumerator)
+		{
+			m_pDeviceEnumerator->UnregisterEndpointNotificationCallback(this);
+		}
+
+		__int32 count = Release();
+		if (count == 0)
+		{
+			return;
+		}
+
+		while (m_referenceCount > 0)
+		{
+			_mm_pause();
+		}
 	}
 
 	_extern void _sub_107F2440(Audio::CAudioDeviceManager::CAudioDeviceManagerImpl *const);

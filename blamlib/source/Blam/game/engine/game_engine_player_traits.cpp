@@ -806,13 +806,17 @@ void c_player_traits::initialize() // 0x10F052F0
 	sensors.initialize();
 }
 
-_extern void _sub_10F05860(c_player_traits *const, c_player_traits const *, bool);
 void c_player_traits::set(c_player_traits const *traits, bool can_inherit) // 0x10F05860
 {
-	mangled_x86(MANGLED_TODO, "?set@c_player_traits@@QAEXPBU1@_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set@c_player_traits@@QAEXPBU1@_N@Z");
 	// bool can_inherit;
-	todo("implement");
-	_sub_10F05860(this, traits, can_inherit);
+
+	vitality.set(&traits->vitality, can_inherit);
+	extended.set(&traits->extended, can_inherit);
+	weapons.set(&traits->weapons, can_inherit);
+	movement.set(&traits->movement, can_inherit);
+	appearance.set(&traits->appearance, can_inherit);
+	sensors.set(&traits->sensors, can_inherit);
 }
 
 void c_player_traits::encode(c_bitstream *packet) const // 0x10F04430
@@ -841,14 +845,17 @@ void c_player_traits::decode(c_bitstream *packet) // 0x10F03E10
 	sensors.decode(packet);
 }
 
-_extern bool _sub_10F04A90(c_player_traits const *const, c_player_traits const *);
 bool c_player_traits::equivalent(c_player_traits const *traits) const // 0x10F04A90
 {
-	mangled_x86(MANGLED_TODO, "?equivalent@c_player_traits@@QBE_NPBU1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?equivalent@c_player_traits@@QBE_NPBU1@@Z");
 	// c_player_traits const *traits;
-	todo("implement");
-	bool __result = _sub_10F04A90((c_player_traits const *)this, traits);
-	return __result;
+
+	return vitality.equivalent(&traits->vitality)
+		&& extended.equivalent(&traits->extended)
+		&& weapons.equivalent(&traits->weapons)
+		&& movement.equivalent(&traits->movement)
+		&& appearance.equivalent(&traits->appearance)
+		&& sensors.equivalent(&traits->sensors);
 }
 
 /* ---------- private code */

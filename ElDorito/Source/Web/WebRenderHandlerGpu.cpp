@@ -200,18 +200,19 @@ namespace Web
 {
 	namespace Browser
 	{
-		_extern void _sub_10CEC270(Web::Browser::RenderHandlerGpu::GpuAcceleratedSurface *const, void *);
 		_inline void RenderHandlerGpu::GpuAcceleratedSurface::OnAcceleratedPaint(void *sharedHandle) // 0x10CEC270
 		{
-			mangled_x86(MANGLED_TODO, "?OnAcceleratedPaint@GpuAcceleratedSurface@RenderHandlerGpu@Browser@Web@@QAEXPAX@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnAcceleratedPaint@GpuAcceleratedSurface@RenderHandlerGpu@Browser@Web@@QAEXPAX@Z");
 			// void *sharedHandle;
-			{
 				// void **wrappedHandle;
-			}
 			// function call : void *(void *, unsigned long, unsigned long, unsigned long, unsigned long)
 			// function call : __int32 (void const *)
-			todo("implement");
-			_sub_10CEC270(this, sharedHandle);
+
+			if (void **wrappedHandle = (void **)MapViewOfFile(sharedHandle, FILE_MAP_READ, 0, 0, sizeof(void *)))
+			{
+				m_nextHandle.store(*wrappedHandle);
+				UnmapViewOfFile(wrappedHandle);
+			}
 		}
 	}
 }
@@ -244,13 +245,13 @@ namespace Web
 			m_handle = nullptr;
 		}
 
-		_extern void _sub_10CED3C0(Web::Browser::RenderHandlerGpu::GpuAcceleratedSurface *const, unsigned __int32, unsigned __int32);
 		_inline void RenderHandlerGpu::GpuAcceleratedSurface::Resize(unsigned __int32 width, unsigned __int32 height) // 0x10CED3C0
 		{
-			mangled_x86(MANGLED_TODO, "?Resize@GpuAcceleratedSurface@RenderHandlerGpu@Browser@Web@@QAEXII@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Resize@GpuAcceleratedSurface@RenderHandlerGpu@Browser@Web@@QAEXII@Z");
 			// unsigned __int32 height;
-			todo("implement");
-			_sub_10CED3C0(this, width, height);
+
+			m_size = CefSize(width, height);
+			m_didResize = true;
 		}
 
 		extern RenderHandlerGpu* _sub_10CEAAB0(Web::Browser::RenderHandlerGpu *const, IDirect3DDevice9 *, HWND__ *);
@@ -296,14 +297,15 @@ namespace Web
 			_sub_10CEC320(this, browser, type, dirtyRects, sharedHandle);
 		}
 
-		_extern bool _sub_10CED4B0(Web::Browser::RenderHandlerGpu *const, unsigned __int32, unsigned __int32);
 		bool RenderHandlerGpu::Resize(unsigned __int32 width, unsigned __int32 height) // 0x10CED4B0
 		{
-			mangled_x86(MANGLED_TODO, "?Resize@RenderHandlerGpu@Browser@Web@@UAE_NII@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Resize@RenderHandlerGpu@Browser@Web@@UAE_NII@Z");
 			// unsigned __int32 height;
-			todo("implement");
-			bool __result = _sub_10CED4B0(this, width, height);
-			return __result;
+
+			m_ViewSize = CefSize(width, height);
+			m_ViewSurface->Resize(width, height);
+
+			return true;
 		}
 
 		void RenderHandlerGpu::OnPreResetDevice() // 0x10CEC640

@@ -363,21 +363,28 @@ void particle_emitter_gpu_vertex_stream_submit_hook() // 0x10913D90
 	gpu_vertex_stream_submit((c_rasterizer_vertex_buffer *)0x1916194, (s_gpu_vertex_stream *)0x510ED80);
 }
 
-_extern void _sub_10912CB0(s_effect_message *);
 void event_add_particle_system_location_hook(s_effect_message *message) // 0x10912CB0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?event_add_particle_system_location_hook@@YAXPAUs_effect_message@@@Z");
 	// `anonymous-namespace'::event_add_particle_system_location_hook
 	// s_effect_message *message;
 	// constexpr void (*const `event_add_particle_system_location_hook'::`2'::event_add_particle_system_location)(s_effect_message *); // constant == 6019520
 	// s_effect_datum *effect;
 	// constexpr real_vector3d *(*const `event_add_particle_system_location_hook'::`2'::sub_A4BD70)(real_point3d *, long); // constant == 10796400
-	{
 		// c_particle *particle;
-	}
 	// function call : real_vector3d *(*const)(real_point3d *, long)
 	// function call : void (*const)(s_effect_message *)
-	todo("implement");
-	_sub_10912CB0(message);
+
+	s_effect_datum *effect = effects_get()->try_and_get(message->effect_index);
+	if ((effect && message->field_14 == 1) || (effect && effect->particle_index != -1 && effect->object_index == -1))
+	{
+		c_particle *particle = particles_get()->try_and_get(effect->particle_index);
+		if (particle && particle->m_start_vertex != -1)
+		{
+			((real_vector3d *(*)(real_point3d *, long))0xa4bd70)(&message->transform.position, particle->m_start_vertex);
+		}
+	}
+	((void (*)(s_effect_message *))0x5bd9c0)(message);
 }
 
 _extern void _sub_10913E60(long);
@@ -438,14 +445,17 @@ void set_effect_message_filter(e_effect_message_type type, bool filtered) // 0x1
 	}
 }
 
-_extern void _sub_10914050(char *, real_vector4d *);
 void s_gpu_storage_2x16un__pack_call_hook(char *buffer_dblptr, real_vector4d *data) // 0x10914050
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?s_gpu_storage_2x16un__pack_call_hook@@YAXPADPAUreal_vector4d@@@Z");
 	// `anonymous-namespace'::s_gpu_storage_2x16un__pack_call_hook
 	// real_vector4d *data;
 	// short *buffer;
-	todo("implement");
-	_sub_10914050(buffer_dblptr, data);
+
+	short *buffer = *(short **)buffer_dblptr;
+	*buffer = (short)(data->i * 65535.0f - 32767.0f);
+	*(buffer + 1) = (short)(data->j * 65535.0f - 32767.0f);
+	*buffer_dblptr += 4;
 }
 
 void s_gpu_storage_2x16un__unpack_call_hook(char *buffer_dblptr, real_vector4d *data) // 0x109140E0
@@ -543,17 +553,28 @@ void effect_render(unsigned long effect_index, long output_user_index) // 0x1091
 	_sub_109116A0(effect_index, output_user_index);
 }
 
-_extern void _sub_10911520(s_particle_system_emitter *, void *, c_particle *, c_particle_emitter *, c_particle_system *);
 void c_particle_emitter_definition__initialize_particle_initial(s_particle_system_emitter *_this, void *state_list, c_particle *particle, c_particle_emitter *emitter, c_particle_system *system) // 0x10911520
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_particle_emitter_definition__initialize_particle_initial@@YAXPAUs_particle_system_emitter@@PAXPAUc_particle@@PAUc_particle_emitter@@PAUc_particle_system@@@Z");
 	// `anonymous-namespace'::c_particle_emitter_definition__initialize_particle_initial
 	// c_particle_system *system;
 	// float (*const c_editable_property__c_particle_state_list__evaluate)(c_editable_property *, void *);
 	// function call : float (*const)(c_editable_property *, void *)
 	// function call : float (*const)(c_editable_property *, void *)
 	// function call : float (*const)(c_editable_property *, void *)
-	todo("implement");
-	_sub_10911520(_this, state_list, particle, emitter, system);
+
+	float (__thiscall *const c_editable_property__c_particle_state_list__evaluate)(c_editable_property *, void *) = (float(__thiscall *const)(c_editable_property *, void *))0x9ecc00;
+
+	emitter->particle_lifespan = c_editable_property__c_particle_state_list__evaluate(&_this->particle_lifespan, state_list);
+	if (emitter->particle_lifespan <= 0.001f)
+	{
+		emitter->particle_lifespan = 0.001f;
+	}
+	particle->m_inverse_lifespan = 1.0f / emitter->particle_lifespan;
+	particle->field_48 = 0;
+	system->initialize_particle(state_list, particle);
+	emitter->emission_angle = c_editable_property__c_particle_state_list__evaluate(&_this->emission_angle, state_list);
+	emitter->emission_radius = c_editable_property__c_particle_state_list__evaluate(&_this->emission_radius, state_list);
 }
 
 _extern void _sub_10913210(s_particle_system_emitter *, void *, c_particle *, c_particle_emitter *, c_particle_system *);

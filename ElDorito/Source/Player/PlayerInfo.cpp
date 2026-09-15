@@ -194,6 +194,8 @@ void ClearEmblemCache();
 
 /* ---------- globals */
 
+namespace Player { namespace ServiceRecord { void clearCache(); } }  // hades: added for 0X107EE690
+
 /* ---------- private variables */
 
 namespace hades_file_local
@@ -379,14 +381,29 @@ namespace Player
 		_sub_107EE980(payload);
 	}
 
-	_extern void _sub_107EE690(Blam::Network::LifeCycleState);
 	void LifeCycleStateChanged(Blam::Network::LifeCycleState newState) // 0x107EE690
 	{
-		mangled_x86(MANGLED_TODO, "?LifeCycleStateChanged@Player@@YAXW4LifeCycleState@Network@Blam@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?LifeCycleStateChanged@Player@@YAXW4LifeCycleState@Network@Blam@@@Z");
 		// Blam::Network::LifeCycleState newState;
 		// Blam::Network::Session *session;
-		todo("implement");
-		_sub_107EE690(newState);
+
+		Blam::Network::Session *session = Blam::Network::GetActiveSession();
+		if (!session || !session->IsEstablished())
+			return;
+
+		switch (newState)
+		{
+		case Blam::Network::eLifeCycleStatePreGame:
+			if (rankCheckGameStarted)
+				rankCheckGameEnded = true;
+			Player::ServiceRecord::clearCache();
+			ClearEmblemCache();
+			break;
+		case Blam::Network::eLifeCycleStateStartGame:
+			rankCheckGameStarted = true;
+			Player::ServiceRecord::clearCache();
+			break;
+		}
 	}
 
 	void CPlayersInfo::Init() // 0x107EE610

@@ -499,10 +499,9 @@ namespace ChatCommands
 		return currentlyVoting;
 	}
 
-	_extern void _sub_10934EB0(ChatCommands::VotingChatCommand *const);
 	void VotingChatCommand::tick() // 0x10934EB0
 	{
-		mangled_x86(MANGLED_TODO, "?tick@VotingChatCommand@ChatCommands@@QAEXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?tick@VotingChatCommand@ChatCommands@@QAEXXZ");
 		// static ...; // 0x10934FBC
 		// static ...; // 0x10934FB0
 		// static ...; // 0x10934FA8
@@ -511,8 +510,20 @@ namespace ChatCommands
 		// long long elapsed;
 		// function call : bool ()
 		// function call : void ()
-		todo("implement");
-		_sub_10934EB0(this);
+
+		if (!isEnabled() || voteTimeStarted == 0)
+			return;
+
+		time_t curTime;
+		time(&curTime);
+		auto elapsed = curTime - voteTimeStarted;
+
+		//Exit if we haven't used up the time yet.
+		if (elapsed < Modules::ModuleServer::Instance().VarChatCommandVoteTime->ValueInt)
+			return;
+
+		doOnVoteFail();
+		endVoting();
 	}
 
 	_extern void _sub_10932D10(ChatCommands::VotingChatCommand *const);

@@ -59,6 +59,7 @@
 #include <typeinfo>
 #include <utility>
 #include <vector>
+#include "Objects/ObjectMessaging.hpp"
 
 /* ---------- forward declarations */
 
@@ -241,24 +242,22 @@ bool cheat_all_objects(long group_tag, bool everything) // 0x107971D0
 	return __result;
 }
 
-_extern bool _sub_10796430(std::vector<std::string> const &, std::string &);
 bool CheatAllWeapons(std::vector<std::string> const &args, std::string &returnValue) // 0x10796430
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CheatAllWeapons@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CheatAllWeapons
 	// std::string &returnValue;
-	todo("implement");
-	bool __result = _sub_10796430(args, returnValue);
-	return __result;
+
+	return cheat_all_objects(0x77656170, args.size() > 0 && args[0] == "1");
 }
 
-_extern bool _sub_10796390(std::vector<std::string> const &, std::string &);
 bool CheatAllVehicles(std::vector<std::string> const &args, std::string &returnValue) // 0x10796390
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CheatAllVehicles@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CheatAllVehicles
 	// std::string &returnValue;
-	todo("implement");
-	bool __result = _sub_10796390(args, returnValue);
-	return __result;
+
+	return cheat_all_objects(0x76656869, args.size() > 0 && args[0] == "1");
 }
 
 _extern bool _sub_107962F0(std::vector<std::string> const &, std::string &);
@@ -271,14 +270,18 @@ bool CheatAllEquipment(std::vector<std::string> const &args, std::string &return
 	return __result;
 }
 
-_extern bool _sub_107964D0(std::vector<std::string> const &, std::string &);
 bool CheatDeleteWeapons(std::vector<std::string> const &args, std::string &returnValue) // 0x107964D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CheatDeleteWeapons@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CheatDeleteWeapons
 	// std::string &returnValue;
-	todo("implement");
-	bool __result = _sub_107964D0(args, returnValue);
-	return __result;
+
+	Objects::CObjectMessaging::EnqueueAction([]()
+	{
+		// lambda body (original at 0x10795D30) not written yet - it deletes the
+		// local player unit's weapon_object_indices entries
+	});
+	return true;
 }
 
 _extern bool _sub_107965A0(std::vector<std::string> const &, std::string &);

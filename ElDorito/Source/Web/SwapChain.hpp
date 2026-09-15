@@ -117,14 +117,14 @@ namespace Web
 			handle = nullptr;
 		}
 
-		_extern void _sub_10C77A40(Web::Browser::SwapChain::Buffer *const);
 		_inline SwapChain::Buffer::~Buffer() // 0x10C77A40
 		{
-			mangled_x86(MANGLED_TODO, "??1Buffer@SwapChain@Browser@Web@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??1Buffer@SwapChain@Browser@Web@@QAE@XZ");
 			// Web::Browser::SwapChain::Buffer *const this;
 			// function call : unsigned long ()
-			todo("implement");
-			_sub_10C77A40(this);
+
+			texture->Release();
+			handle = nullptr;
 		}
 
 		_inline SwapChain::BufferHolder::BufferHolder(Web::Browser::SwapChain *owner, Web::Browser::SwapChain::Buffer *buffer) // 0x10C776C0

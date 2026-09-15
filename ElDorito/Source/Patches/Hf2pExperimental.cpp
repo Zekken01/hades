@@ -270,6 +270,8 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+#include "Modules/ModuleServer.hpp"  // hades: added for 0x10A73A60
+
 namespace Patches
 {
 	namespace Hf2pExperimental
@@ -334,14 +336,20 @@ _inline s_session_player_ping::s_session_player_ping() = default; // 0x10A70810
 // mangled_x86(MANGLED_DEFAULT, "??1s_session_player_ping@hades_file_local@@QAE@XZ"); no body to assert in
 _inline s_session_player_ping::~s_session_player_ping() = default; // 0x10A70860
 
-_extern void _sub_10A723E0();
 void Hf2pInitHook() // 0x10A723E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Hf2pInitHook@@YAXXZ");
 	// `anonymous-namespace'::Hf2pInitHook
 	// procedure flags: nofpo
 	// function call : void (*)()
-	todo("implement");
-	_sub_10A723E0();
+
+	*(unsigned __int32 *)0x50CCB3C = 0;
+	*(unsigned __int32 *)0x244ED28 = 0;
+
+	// InitSoundSystem
+	((void(__cdecl *const)())0x64e190)();
+
+	PingId = Patches::Network::OnPong(PongReceived);
 }
 
 void Hf2pShutdownHook() // 0x10A72B60
@@ -574,9 +582,9 @@ void __fastcall c_game_engine_object_runtime_manager__update_hook(void *thisptr,
 		c_game_engine_object_runtime_manager__update(thisptr);
 }
 
-_extern void _sub_10A71BC0();
 void ApplyDefaultScreenFx() // 0x10A71BC0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyDefaultScreenFx@@YAXXZ");
 	// `anonymous-namespace'::ApplyDefaultScreenFx
 	// procedure flags: nofpo
 	// static ...; // 0x10A71CA4
@@ -590,8 +598,23 @@ void ApplyDefaultScreenFx() // 0x10A71BC0
 	// constexpr unsigned __int32 (*const `ApplyDefaultScreenFx'::`2'::GetLocalPlayerUnitObjectIndex)(__int32); // constant == 5807296
 	// function call : unsigned __int32 (*const)(__int32)
 	// function call : void (*const)(unsigned __int32, unsigned __int32, __int32, void *, void *)
-	todo("implement");
-	_sub_10A71BC0();
+
+	s_scenario **scnrDefinitionPtr = (s_scenario **)0x22AAEB4;
+
+	if (!scnrDefinitionPtr)
+		return;
+
+	s_scenario *scnrDefinition = *scnrDefinitionPtr;
+
+	if (scnrDefinition->default_screen_fx.index == -1)
+		return;
+
+	unsigned __int32 unitObjectIndex = ((unsigned __int32(__cdecl *)(__int32))0x589cc0)(*(__int32 *)0x18BF52C);
+
+	unsigned char unk[60];
+	memset(unk, 0, sizeof(unk));
+
+	((void(__cdecl *)(unsigned __int32, unsigned __int32, __int32, void *, void *))0x683060)(scnrDefinition->default_screen_fx.index, unitObjectIndex, 0, unk, unk);
 }
 
 void game_initialize_for_new_map_call_hook(s_game_options *game_options) // 0x10A73F90
@@ -607,17 +630,26 @@ void game_initialize_for_new_map_call_hook(s_game_options *game_options) // 0x10
 	ApplyDefaultScreenFx();
 }
 
-_extern bool _sub_10A73D90();
 bool game_finish_should_mute_sounds() // 0x10A73D90
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_finish_should_mute_sounds@@YA_NXZ");
 	// `anonymous-namespace'::game_finish_should_mute_sounds
 	// procedure flags: nofpo
 	// char (*const sound_set_class_volume)(char *, __int32, __int32, __int32);
 	// bool (*const game_engine_running)();
 	// function call : bool (*const)()
-	todo("implement");
-	bool __result = _sub_10A73D90();
-	return __result;
+
+	const auto game_engine_running = (bool(*)())0x552410;
+	const auto sound_set_class_volume = (char(*)(char *, __int32, __int32, __int32))0x660F40;
+
+	if (Utils::Singleton<Modules::ModuleServer>::Instance().VarServerMuteSoundsDuringPostGameClient->ValueInt == 1)
+	{
+		return game_engine_running();
+	}
+	else
+	{
+		return false;
+	}
 }
 
 _extern void _sub_10A73E10(float);
@@ -672,31 +704,47 @@ bool game_engine_should_start_music_hook() // 0x10A73AE0
 	return __result;
 }
 
-_extern long _sub_10A73FF0();
 long scenario_multiplayer_globals_try_and_get_runtime_data_hook() // 0x10A73FF0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?scenario_multiplayer_globals_try_and_get_runtime_data_hook@@YAJXZ");
 	// `anonymous-namespace'::scenario_multiplayer_globals_try_and_get_runtime_data_hook
 	// procedure flags: nofpo
 	// long result;
 	// long (*const scenario_multiplayer_globals_try_and_get_runtime_data)();
 	// function call : long (*const)()
 	// function call : bool (*const)()
-	todo("implement");
-	long __result = _sub_10A73FF0();
-	return __result;
+
+	const auto scenario_multiplayer_globals_try_and_get_runtime_data = (long(*)())0x69D310;
+
+	long result = scenario_multiplayer_globals_try_and_get_runtime_data();
+
+	if (((bool(__cdecl *const)())0x531B20)() && Utils::Singleton<Modules::ModuleServer>::Instance().VarServerPostMatchMusicEnabledClient->ValueInt == 1)
+	{
+		return result;
+	}
+
+	return 0;
 }
 
-_extern bool _sub_10A73A60();
 bool game_engine_in_round_hook() // 0x10A73A60
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_in_round_hook@@YA_NXZ");
 	// `anonymous-namespace'::game_engine_in_round_hook
 	// procedure flags: nofpo
 	// bool roundInProgress;
 	// bool (*const game_engine_round_in_progress)();
 	// function call : bool (*const)()
-	todo("implement");
-	bool __result = _sub_10A73A60();
-	return __result;
+
+	const auto game_engine_in_round = (bool(*)())0x550F90;
+
+	bool roundInProgress = game_engine_in_round();
+
+	if (Utils::Singleton<Modules::ModuleServer>::Instance().VarServerNearVictoryMusicEnabledClient->ValueInt == 1)
+	{
+		return roundInProgress;
+	}
+
+	return false;
 }
 
 /* ---------- explicit instantiations */

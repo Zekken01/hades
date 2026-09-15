@@ -319,6 +319,8 @@ typedef void (*hs_evaluate_func)(short, long, bool);
 
 /* ---------- prototypes */
 
+namespace hades_file_local { extern c_simulation_hs_script_wake_event_definition hs_wake_script_event_definition; extern c_simulation_hs_sync_global_event_definition hs_sync_global_event_definition; }  // hades: added for 0x107B3950
+
 namespace Patches
 {
 	namespace HaloScript
@@ -367,6 +369,11 @@ long ui_get_current_music_id_hook();
 
 /* ---------- globals */
 
+namespace Server { namespace Stats { extern bool localPlayerIsPostMatch(); } }  // hades: added for 0x107B91C0
+namespace Server { namespace HsGlobalSync { extern void InvalidateGlobal(short globalIndex); } }  // hades: added for 0x107B78C0
+extern void *(*const datum_try_and_get)(s_data_array const *, unsigned long);  // hades: added for 0x107B8790
+extern void (*const datum_delete)(s_data_array *, long);  // hades: added for 0x107B8790
+
 /* ---------- private variables */
 
 namespace hades_file_local
@@ -391,15 +398,17 @@ namespace Patches
 			_sub_107B2F30();
 		}
 
-		_extern void _sub_107B3950(c_simulation_type_collection *, __int32 *, __int32 *);
 		void RegisterSimulationTypes(c_simulation_type_collection *collection, __int32 *entity_count, __int32 *event_count) // 0x107B3950
 		{
-			mangled_x86(MANGLED_TODO, "?RegisterSimulationTypes@HaloScript@Patches@@YAXPAVc_simulation_type_collection@@PAH1@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?RegisterSimulationTypes@HaloScript@Patches@@YAXPAVc_simulation_type_collection@@PAH1@Z");
 			// __int32 *event_count;
 			// static c_simulation_hs_script_wake_event_definition hs_wake_script_event_definition; // 0x1134DDD4
 			// static c_simulation_hs_sync_global_event_definition hs_sync_global_event_definition; // 0x1134F884
-			todo("implement");
-			_sub_107B3950(collection, entity_count, event_count);
+
+			collection->register_event_definition(_simulation_event_type_hs_wake_script, &hs_wake_script_event_definition);
+			(*event_count)++;
+			collection->register_event_definition(_simulation_event_type_hs_sync_global, &hs_sync_global_event_definition);
+			(*event_count)++;
 		}
 	}
 }
@@ -530,9 +539,9 @@ _inline void c_simulation_hs_script_wake_event_definition::prepare_event_data_fo
 	// void *payload;
 }
 
-_extern bool _sub_107B0D30(c_simulation_hs_script_wake_event_definition *const, long, long const *, long, void const *);
 _inline bool c_simulation_hs_script_wake_event_definition::apply_game_event(long reference_gamestate_count, long const *gamestate_indices, long payload_size, void const *payload) // 0x107B0D30
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?apply_game_event@c_simulation_hs_script_wake_event_definition@hades_file_local@@EAE_NJPBJJPBX@Z");
 	// `anonymous-namespace'::c_simulation_hs_script_wake_event_definition::apply_game_event
 	// void const *payload;
 	// long thread_index;
@@ -540,9 +549,23 @@ _inline bool c_simulation_hs_script_wake_event_definition::apply_game_event(long
 	// s_scenario const *scnr;
 	// function call : long (*const)(short)
 	// function call : void (*const)(short)
-	todo("implement");
-	bool __result = _sub_107B0D30(this, reference_gamestate_count, gamestate_indices, payload_size, payload);
-	return __result;
+
+	s_simulation_hs_script_wake_event_data *data = (s_simulation_hs_script_wake_event_data *)payload;
+	s_scenario const *scnr = global_scenario_get();
+
+	if (data->script_index < 0 || data->script_index >= scnr->scripts.count)
+	{
+		return false;
+	}
+
+	long thread_index = ((long(__cdecl *)(unsigned short))0x596130)(data->script_index);
+	if (thread_index == -1)
+	{
+		return false;
+	}
+
+	((void(__cdecl *)(unsigned short))0x599170)(thread_index);
+	return true;
 }
 
 _inline e_simulation_event_type c_simulation_hs_sync_global_event_definition::event_type() const // 0x107B0E00
@@ -648,16 +671,20 @@ _inline void c_simulation_hs_sync_global_event_definition::event_payload_encode(
 	((Blam::BitStream *)packet)->Write<long>(((long *)payload)[1], 32);
 }
 
-_extern bool _sub_107B1040(c_simulation_hs_sync_global_event_definition const *const, long, void *, c_bitstream *, bool);
 _inline bool c_simulation_hs_sync_global_event_definition::event_payload_decode(long payload_size, void *payload, c_bitstream *packet, bool predicted) const // 0x107B1040
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?event_payload_decode@c_simulation_hs_sync_global_event_definition@hades_file_local@@EBE_NJPAXPAVc_bitstream@@_N@Z");
 	// `anonymous-namespace'::c_simulation_hs_sync_global_event_definition::event_payload_decode
 	// bool predicted;
 	// s_simulation_hs_sync_global_event_data *data;
 	// Blam::BitStream *packet_impl;
-	todo("implement");
-	bool __result = _sub_107B1040((c_simulation_hs_sync_global_event_definition const *)this, payload_size, payload, packet, predicted);
-	return __result;
+
+	Blam::BitStream *packet_impl = (Blam::BitStream *)packet;
+	s_simulation_hs_sync_global_event_data *data = (s_simulation_hs_sync_global_event_data *)payload;
+
+	data->global_index = packet_impl->Read<long>(32);
+	data->value = packet_impl->Read<long>(32);
+	return true;
 }
 
 _inline void c_simulation_hs_sync_global_event_definition::prepare_event_data_for_gameworld(long payload_size, void *payload) // 0x107B10C0
@@ -710,22 +737,30 @@ void simulation_action_hs_sync_global(short global_index, unsigned short player_
 	_sub_107B8DE0(global_index, player_mask);
 }
 
-_extern void _sub_107B8D00(short);
 void simulation_action_hs_script_wake(short script_index) // 0x107B8D00
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?simulation_action_hs_script_wake@@YAXF@Z");
 	// `anonymous-namespace'::simulation_action_hs_script_wake
 	// static ...; // 0x107B8DAC
 	// static ...; // 0x107B8DA0
 	// static ...; // 0x107B8D98
 	// short script_index;
 	// bool (*const game_is_distributed)();
-	{
 		// s_simulation_hs_script_wake_event_data data;
-	}
 	// function call : bool (*const)()
 	// function call : void (*const)(e_simulation_event_type, long, long *, long, long, void const *)
-	todo("implement");
-	_sub_107B8D00(script_index);
+
+	bool (*const game_is_distributed)() = (bool(*const)())0x531af0;
+
+	if (!game_is_distributed())
+		return;
+
+	if (script_index != NONE)
+	{
+		s_simulation_hs_script_wake_event_data data{};
+		data.script_index = script_index;
+		((void(__cdecl *const)(e_simulation_event_type, long, long *, long, long, void const *))0x4e5a30)(_simulation_event_type_hs_wake_script, 0, nullptr, NONE, 2, &data);
+	}
 }
 
 _extern void _sub_107B8240(short, __int32, char);
@@ -1004,16 +1039,21 @@ void hs_cinematic_scripting_create_and_animate_object_legacy(long cine_index, lo
 	_sub_107B5AF0(cine_index, scene_index, cine_object_index, object_name_index, object_index, animation_id, a5);
 }
 
-_extern void _sub_107B60B0(short, __int32, char);
 void hs_cinematic_scripting_create_and_animate_object_legacy_evaluate(short a1, __int32 a2, char a3) // 0x107B60B0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_cinematic_scripting_create_and_animate_object_legacy_evaluate@@YAXFHD@Z");
 	// `anonymous-namespace'::hs_cinematic_scripting_create_and_animate_object_legacy_evaluate
 	// char a3;
 	// long const args;
 	// function call : hs_value *(*const)(short, long, bool)
 	// function call : void (*const)(long, hs_value)
-	todo("implement");
-	_sub_107B60B0(a1, a2, a3);
+
+	long const args = (long)((hs_value const *(__cdecl *)(unsigned short, long, bool))0x5972f0)(a1, a2, a3);
+	if (args)
+	{
+		hs_cinematic_scripting_create_and_animate_object_legacy(*(long *)args, *(long *)(args + 4), *(long *)(args + 8), *(unsigned short *)(args + 12), *(long *)(args + 16), *(unsigned long *)(args + 20), *(bool *)(args + 24));
+		((void(__cdecl *const)(long, hs_value))0x5974e0)(a2, hs_value::from_long(0));
+	}
 }
 
 void hs_cinematic_scripting_create_and_animate_object_no_animation_legacy(long cine_index, long scene_index, long cine_object_index, short object_name_index, long object_index, bool a5) // 0x107B61C0
@@ -1051,16 +1091,21 @@ void hs_cinematic_scripting_create_and_animate_cinematic_object_legacy(long cine
 	hs_cinematic_scripting_create_and_animate_object_legacy(cine_index, scene_index, cine_object_index, -1, object_index, animation_id, a5);
 }
 
-_extern void _sub_107B59E0(short, __int32, char);
 void hs_cinematic_scripting_create_and_animate_cinematic_object_legacy_evaluate(short a1, __int32 a2, char a3) // 0x107B59E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_cinematic_scripting_create_and_animate_cinematic_object_legacy_evaluate@@YAXFHD@Z");
 	// `anonymous-namespace'::hs_cinematic_scripting_create_and_animate_cinematic_object_legacy_evaluate
 	// char a3;
 	// long const args;
 	// function call : hs_value *(*const)(short, long, bool)
 	// function call : void (*const)(long, hs_value)
-	todo("implement");
-	_sub_107B59E0(a1, a2, a3);
+
+	long const args = (long)((hs_value const *(__cdecl *)(unsigned short, long, bool))0x5972f0)(a1, a2, a3);
+	if (args)
+	{
+		hs_cinematic_scripting_create_and_animate_cinematic_object_legacy(*(long *)args, *(long *)(args + 4), *(long *)(args + 8), *(long *)(args + 12), *(unsigned long *)(args + 16), *(bool *)(args + 20));
+		((void(__cdecl *const)(long, hs_value))0x5974e0)(a2, hs_value::from_long(0));
+	}
 }
 
 _extern void _sub_107B66B0(long, long, long, long);
@@ -1278,38 +1323,38 @@ bool unit_scripting_vehicle_test_seat_list_legacy(long vehicle_index, unsigned l
 	return __result;
 }
 
-_extern void _sub_107B88C0(short, __int32, char);
 void hs_vehicle_test_seat_legacy_evaluate(short function_index, __int32 thread_index, char initial) // 0x107B88C0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_vehicle_test_seat_legacy_evaluate@@YAXFHD@Z");
 	// `anonymous-namespace'::hs_vehicle_test_seat_legacy_evaluate
 	// char initial;
-	{
 		// hs_value const *args;
-		{
 			// bool result;
-		}
-	}
 	// function call : hs_value *(*const)(short, long, bool)
 	// function call : void (*const)(long, hs_value)
-	todo("implement");
-	_sub_107B88C0(function_index, thread_index, initial);
+
+	if (hs_value const *args = ((hs_value const *(__cdecl *)(unsigned short, long, bool))0x5972f0)(function_index, thread_index, initial))
+	{
+		bool result = unit_scripting_vehicle_test_seat(args[0].long_value, args[1].long_value, args[2].long_value);
+		((void(__cdecl *const)(long, hs_value))0x5974e0)(thread_index, hs_value::from_bool(result));
+	}
 }
 
-_extern void _sub_107B89D0(short, __int32, char);
 void hs_vehicle_test_seat_list_legacy_evaluate(short function_index, __int32 thread_index, char initial) // 0x107B89D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_vehicle_test_seat_list_legacy_evaluate@@YAXFHD@Z");
 	// `anonymous-namespace'::hs_vehicle_test_seat_list_legacy_evaluate
 	// char initial;
-	{
 		// hs_value const *args;
-		{
 			// bool result;
-		}
-	}
 	// function call : hs_value *(*const)(short, long, bool)
 	// function call : void (*const)(long, hs_value)
-	todo("implement");
-	_sub_107B89D0(function_index, thread_index, initial);
+
+	if (hs_value const *args = ((hs_value *(*const)(short, long, bool))0x5972f0)(function_index, thread_index, initial))
+	{
+		bool result = unit_scripting_vehicle_test_seat_list_legacy(args[0].long_value, args[1].long_value, args[2].long_value);
+		((void (*const)(long, hs_value))0x5974e0)(thread_index, hs_value::from_bool(result));
+	}
 }
 
 _extern void _sub_107B79F0(e_hs_type, long, char (&)[256]);
@@ -1391,9 +1436,9 @@ void hs_debug_macro_function_evaluate(long thread_index, long *evaluated_argumen
 	_sub_107B6ED0(thread_index, evaluated_arguments, function_index);
 }
 
-_extern void _sub_107B8790(long);
 void hs_thread_main_hook(long thread_index) // 0x107B8790
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_thread_main_hook@@YAXJ@Z");
 	// `anonymous-namespace'::hs_thread_main_hook
 	// long thread_index;
 	// short stack_top;
@@ -1404,27 +1449,49 @@ void hs_thread_main_hook(long thread_index) // 0x107B8790
 	// function call : void *(*const)(s_data_array const *, unsigned long)
 	// function call : void (*const)(long)
 	// function call : void (*const)(s_data_array *, long)
-	todo("implement");
-	_sub_107B8790(thread_index);
+
+	void (*const hs_thread_main)(long) = (void (*const)(long))0x598bc0;
+	c_data_array<s_hs_thread> *threads = tls_getd().hs_thread_deterministic_data;
+	s_hs_thread *thread = (s_hs_thread *)datum_try_and_get(threads, thread_index);
+	if (thread == nullptr)
+	{
+		return;
+	}
+	hs_thread_main(thread_index);
+	short stack_top = *(short *)offset_pointer(thread, 16);
+	short thread_type = *(short *)offset_pointer(thread, 28);
+	if (thread_type == 3 && !stack_top)
+	{
+		datum_delete(threads, thread_index);
+	}
 }
 
-_extern long _sub_107B8660(short, e_hs_script_type, e_hs_script_type);
 long hs_runtime_script_begin_hook(short script_index, e_hs_script_type script_type, e_hs_script_type thread_type) // 0x107B8660
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_runtime_script_begin_hook@@YAJFW4e_hs_script_type@@0@Z");
 	// `anonymous-namespace'::hs_runtime_script_begin_hook
 	// e_hs_script_type thread_type;
 	// s_scenario *scenario;
-	{
 		// s_hs_script &script;
-		{
 			// long thread_index;
-		}
-	}
 	// function call : long (*const)(e_hs_script_type, short)
 	// function call : bool (*const)(long, long, long, long *)
-	todo("implement");
-	long __result = _sub_107B8660(script_index, script_type, thread_type);
-	return __result;
+
+	s_scenario *scenario = global_scenario_get();
+	if (script_index >= 0 && script_index < scenario->scripts.count)
+	{
+		s_hs_script &script = scenario->scripts[script_index];
+		if (script.type == script_type)
+		{
+			long thread_index = ((long (*const)(e_hs_script_type, short))0x598e70)(thread_type, script_index);
+			if (thread_index != -1)
+			{
+				((bool (*const)(long, long, long, long *))0x594510)(thread_index, script.root_expression_index, 3, nullptr);
+				return thread_index;
+			}
+		}
+	}
+	return -1;
 }
 
 _extern long *_sub_107B7D90(short, long, bool);
@@ -1513,9 +1580,9 @@ void hs_evaluate_inspect_hook(short op, long thread_index, bool a3) // 0x107B75D
 	_sub_107B75D0(op, thread_index, a3);
 }
 
-_extern void _sub_107B78C0(short, long, bool);
 void hs_evaluate_set_hook(short op, long thread_index, bool a3) // 0x107B78C0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_evaluate_set_hook@@YAXFJ_N@Z");
 	// `anonymous-namespace'::hs_evaluate_set_hook
 	// bool a3;
 	// s_hs_syntax_node *node;
@@ -1525,8 +1592,17 @@ void hs_evaluate_set_hook(short op, long thread_index, bool a3) // 0x107B78C0
 	// function call : s_hs_syntax_node *(*const)(long)
 	// function call : s_hs_syntax_node *(*const)(long)
 	// function call : void (*const)(short, long, bool)
-	todo("implement");
-	_sub_107B78C0(op, thread_index, a3);
+
+	void (*const hs_set_evaluate)(short, long, bool) = (void (*const)(short, long, bool))0x5957f0;
+	s_hs_thread *thread = tls_getd().hs_thread_deterministic_data->try_and_get(thread_index);
+	s_hs_syntax_node *node = ((s_hs_syntax_node *(*const)(long))0x598a10)(*(long *)&thread->stack[thread->stack_offset]);
+	node = ((s_hs_syntax_node *(*const)(long))0x598a10)(*(long *)node->data);
+	node = ((s_hs_syntax_node *(*const)(long))0x598a10)(node->next_expression_index);
+	hs_set_evaluate(op, thread_index, a3);
+	if (!a3)
+	{
+		InvalidateGlobal(*(short *)node->data);
+	}
 }
 
 _extern void _sub_107B4690(__int32, __int32, __int32, __int32);
@@ -1576,20 +1652,48 @@ void cinematic_scripting_stop_screen_effect(__int32 cinematic_tag_index, __int32
 	_sub_107B4840(cinematic_tag_index, scene_index, shot_index, cinematic_screen_effect_index);
 }
 
-_extern long _sub_107B91C0();
 long ui_get_current_music_id_hook() // 0x107B91C0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ui_get_current_music_id_hook@@YAJXZ");
 	// `anonymous-namespace'::ui_get_current_music_id_hook
 	// procedure flags: nofpo
-	{
 		// __int32 lobbyType;
 		// __int32 networkMode;
 		// Blam::Network::Session *session;
-	}
 	// function call : bool (*const)()
-	todo("implement");
-	long __result = _sub_107B91C0();
-	return __result;
+
+	if (((bool(*)())0x531E90)())
+	{
+		__int32 lobbyType = Blam::Network::GetLobbyType();
+		if (lobbyType == -1)
+		{
+			return 1;
+		}
+
+		Blam::Network::Session *session = Blam::Network::GetActiveSession();
+		__int32 networkMode = Blam::Network::GetNetworkMode();
+
+		if (session)
+		{
+			if (!session->IsHost() || networkMode == 3)
+			{
+				if (Server::Stats::localPlayerIsPostMatch())
+				{
+					return 3;
+				}
+				else
+				{
+					return 2;
+				}
+			}
+			else
+			{
+				return 1;
+			}
+		}
+	}
+
+	return -1;
 }
 
 /* ---------- template instantiations */

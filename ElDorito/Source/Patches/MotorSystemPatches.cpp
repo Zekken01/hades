@@ -219,18 +219,27 @@ bool action_update_hook(long motor_index) // 0x107BAF80
 	return __result;
 }
 
-_extern bool _sub_107BB2A0(long);
 bool unit_movement_inhibited_hook(long unit_index) // 0x107BB2A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_movement_inhibited_hook@@YA_NJ@Z");
 	// `anonymous-namespace'::unit_movement_inhibited_hook
 	// long unit_index;
 	// bool (*const unit_has_armor_lock)(long);
 	// bool (*const biped_is_animation_controlled_by_equipment)(long);
 	// function call : bool (*const)(long)
 	// function call : bool (*const)(long)
-	todo("implement");
-	bool __result = _sub_107BB2A0(unit_index);
-	return __result;
+
+	if (((bool(*)(long))0xB44EF0)(unit_index))
+	{
+		return true;
+	}
+
+	if (((bool(*)(long))0xB6FA00)(unit_index))
+	{
+		return true;
+	}
+
+	return ::Player::CPlayerEmotes::UnitMovementInhibited(unit_index);
 }
 
 bool custom_animation_submit_motor_task_allow_hook(long motor_index, e_action action, long mask) // 0x107BB0B0

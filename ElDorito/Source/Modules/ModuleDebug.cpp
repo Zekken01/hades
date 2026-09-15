@@ -311,6 +311,8 @@ namespace Blam
 
 /* ---------- prototypes */
 
+namespace Patches { namespace DeterminismDebug { extern bool StopRandomTrace(); } }  // hades: added for 0x10981420
+
 namespace Patches::DeterminismDebug { bool StartRandomTrace(std::string const &); }  // hades: added for 0X10981370
 
 bool CommandCrash(std::vector<std::string> const &Arguments, std::string &returnInfo);
@@ -350,9 +352,9 @@ namespace Modules
 
 /* ---------- private code */
 
-_extern bool _sub_1097F460(std::vector<std::string> const &, std::string &);
 bool CommandCrash(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1097F460
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandCrash@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandCrash
 	// static ...; // 0x1097F588
 	// static ...; // 0x1097F580
@@ -360,14 +362,21 @@ bool CommandCrash(std::vector<std::string> const &Arguments, std::string &return
 	// std::string &returnInfo;
 	// std::stringstream ss;
 	// __int32 volatile *a;
-	todo("implement");
-	bool __result = _sub_1097F460(Arguments, returnInfo);
-	return __result;
+
+	std::stringstream ss;
+	ss << "FORCE CRASH\n";
+	ss << "You intentionally crashed the game!";
+	returnInfo = ss.str();
+
+	volatile int *a = nullptr;
+	*a = 1;
+
+	return true;
 }
 
-_extern bool _sub_109807F0(std::vector<std::string> const &, std::string &);
 bool CommandNuke(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109807F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandNuke@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandNuke
 	// static ...; // 0x1098090C
 	// static ...; // 0x10980904
@@ -376,9 +385,14 @@ bool CommandNuke(std::vector<std::string> const &Arguments, std::string &returnI
 	// std::stringstream ss;
 	// function call : void *()
 	// function call : __int32 (void *, unsigned __int32)
-	todo("implement");
-	bool __result = _sub_109807F0(Arguments, returnInfo);
-	return __result;
+
+	std::stringstream ss;
+	ss << "Console Requested application TerminateProcess";
+	returnInfo = ss.str();
+
+	TerminateProcess(GetCurrentProcess(), 0);
+
+	return true;
 }
 
 _extern bool _sub_1097FBB0(std::vector<std::string> const &, std::string &);
@@ -509,14 +523,18 @@ bool CommandStartRandomTrace(std::vector<std::string> const &Arguments, std::str
 	}
 }
 
-_extern bool _sub_10981420(std::vector<std::string> const &, std::string &);
 bool CommandStopRandomTrace(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10981420
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandStopRandomTrace@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandStopRandomTrace
 	// std::string &returnInfo;
-	todo("implement");
-	bool __result = _sub_10981420(Arguments, returnInfo);
-	return __result;
+
+	if (Patches::DeterminismDebug::StopRandomTrace())
+	{
+		returnInfo = "Random trace stopped.";
+	}
+
+	return true;
 }
 
 _extern bool _sub_1097F2D0(std::vector<std::string> const &, std::string &);
@@ -606,15 +624,21 @@ bool CommandTileWindows(std::vector<std::string> const &Arguments, std::string &
 	return __result;
 }
 
-_extern bool _sub_10981240(std::vector<std::string> const &, std::string &);
 bool CommandRenderGeoHitTest(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10981240
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandRenderGeoHitTest@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandRenderGeoHitTest
 	// std::string &returnInfo;
 	// bool &globalVar;
-	todo("implement");
-	bool __result = _sub_10981240(Arguments, returnInfo);
-	return __result;
+
+	bool &globalVar = *(bool *)0x0471A33E;
+
+	if (Arguments.size() > 0)
+		globalVar = !std::stoi(Arguments[0]);
+
+	returnInfo = std::to_string(!globalVar);
+
+	return true;
 }
 
 _extern bool _sub_1097FE30(std::vector<std::string> const &, std::string &);

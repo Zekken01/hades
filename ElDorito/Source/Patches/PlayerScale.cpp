@@ -487,30 +487,45 @@ bool biped_can_ragdoll(long biped_index) // 0x10AB2780
 	return biped->scale >= 1.0f && biped->scale < 3.0f;
 }
 
-_extern bool _sub_10AB2B60(long, bool);
 bool biped_start_relaxation_hook(long biped_index, bool a1) // 0x10AB2B60
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?biped_start_relaxation_hook@@YA_NJ_N@Z");
 	// `anonymous-namespace'::biped_start_relaxation_hook
 	// bool a1;
 	// char (*const biped_start_relaxation)(long, bool);
 	// function call : char (*const)(long, bool)
-	todo("implement");
-	bool __result = _sub_10AB2B60(biped_index, a1);
-	return __result;
+
+	char (__cdecl *const biped_start_relaxation)(long, bool) = (char(__cdecl *const)(long, bool))0xbd80d0;
+
+	if (!biped_can_ragdoll(biped_index))
+	{
+		return false;
+	}
+
+	return (bool)biped_start_relaxation(biped_index, a1);
 }
 
-_extern bool _sub_10AB1F50(unsigned __int32, float *);
 bool SprintCameraShakeHook(unsigned __int32 playerIndex, float *outValue) // 0x10AB1F50
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SprintCameraShakeHook@@YA_NIPAM@Z");
 	// `anonymous-namespace'::SprintCameraShakeHook
 	// float *outValue;
 	// s_player_datum *player;
 	// s_object_data *unitObject;
 	// bool (*const player_get_sprinting)(unsigned __int32, float *);
 	// function call : bool (*const)(unsigned __int32, float *)
-	todo("implement");
-	bool __result = _sub_10AB1F50(playerIndex, outValue);
-	return __result;
+
+	bool (__cdecl *const player_get_sprinting)(unsigned __int32, float *) = (bool(__cdecl *const)(unsigned __int32, float *))0x53b590;
+
+	s_player_datum *player = players_get()->try_and_get(playerIndex);
+	if (!player || player->unit_index == -1)
+		return false;
+
+	s_object_data *unitObject = object_get(player->unit_index);
+	if (!unitObject)
+		return false;
+
+	return player_get_sprinting(playerIndex, outValue) && unitObject->scale >= 0.9f;
 }
 
 _extern void *_sub_10AB09A0(unsigned __int32, s_biped_physics *, __int32);
@@ -852,25 +867,33 @@ void BipedMovementPhysics(s_biped_physics_data1 *data, __int32 a2, char a3, char
 	_sub_10AAFEA0(data, a2, a3, a4, a5, a6, a7, sneak);
 }
 
-_extern bool _sub_10AB2680(void *, void *, unsigned __int32, real_vector3d *, bool);
 bool __fastcall WalkAnimationHook(void *thisptr, void *unused, unsigned __int32 unitObjectIndex, real_vector3d *a3, bool a4) // 0x10AB2680
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?WalkAnimationHook@@YI_NPAX0IPAUreal_vector3d@@_N@Z");
 	// `anonymous-namespace'::WalkAnimationHook
 	// bool a4;
 	// bool (*const sub_6DEFF0)(void *, unsigned __int32, real_vector3d *, bool);
 	// s_object_data *object;
-	{
 		// float scale;
-	}
 	// function call : bool (*const)(void *, unsigned __int32, real_vector3d *, bool)
-	todo("implement");
-	bool __result = _sub_10AB2680(thisptr, unused, unitObjectIndex, a3, a4);
-	return __result;
+
+	bool (__thiscall *const sub_6DEFF0)(void *, unsigned __int32, real_vector3d *, bool) = (bool(__thiscall *const)(void *, unsigned __int32, real_vector3d *, bool))0x6deff0;
+
+	s_object_data *object = object_get(unitObjectIndex);
+	if (object)
+	{
+		float scale = object->scale;
+		a3->i = a3->i / scale;
+		a3->j = a3->j / scale;
+		a3->k = a3->k / scale;
+	}
+
+	return sub_6DEFF0(thisptr, unitObjectIndex, a3, a4);
 }
 
-_extern void _sub_10AB0BB0(unsigned __int32);
 void JumpVelocityScaleHook(unsigned __int32 bipedObjectIndex) // 0x10AB0BB0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?JumpVelocityScaleHook@@YAXI@Z");
 	// `anonymous-namespace'::JumpVelocityScaleHook
 	// unsigned __int32 bipedObjectIndex;
 	// s_object_data *bipedObject;
@@ -879,22 +902,38 @@ void JumpVelocityScaleHook(unsigned __int32 bipedObjectIndex) // 0x10AB0BB0
 	// char (*const sub_BE1B30)(unsigned __int32);
 	// function call : void *(*const)(unsigned long, long)
 	// function call : char (*const)(unsigned __int32)
-	todo("implement");
-	_sub_10AB0BB0(bipedObjectIndex);
+
+	char (__cdecl *const sub_BE1B30)(unsigned __int32) = (char (__cdecl *const)(unsigned __int32))0xbe1b30;
+
+	s_object_data *bipedObject = object_get(bipedObjectIndex);
+	if (!bipedObject)
+		return;
+
+	s_biped_definition *bipedDefinition = (s_biped_definition *)tag_get(0x62697064, bipedObject->definition_index);
+	float oldJumpVelocity = bipedDefinition->jump_velocity;
+	bipedDefinition->jump_velocity *= pow(bipedObject->scale, kJumpVelocityExp);
+	sub_BE1B30(bipedObjectIndex);
+	bipedDefinition->jump_velocity = oldJumpVelocity;
 }
 
-_extern float _sub_10AB1510(void *, unsigned __int32);
 float __fastcall PlayerPersonalGravity(void *traits, unsigned __int32 unitObjectIndex) // 0x10AB1510
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?PlayerPersonalGravity@@YIMPAXI@Z");
 	// `anonymous-namespace'::PlayerPersonalGravity
 	// unsigned __int32 unitObjectIndex;
 	// s_object_data *unitObject;
 	// float s;
 	// float (*const c_player_movement_traits__get_personal_gravity)(void *);
 	// function call : float (*const)(void *)
-	todo("implement");
-	float __result = _sub_10AB1510(traits, unitObjectIndex);
-	return __result;
+
+	float (__thiscall *const c_player_movement_traits__get_personal_gravity)(void *) = (float(__thiscall *const)(void *))0x5cc200;
+
+	float s = 1.0f;
+	s_object_data *unitObject = object_get(unitObjectIndex);
+	if (unitObject)
+		s = pow(unitObject->scale, kGravityExp);
+
+	return c_player_movement_traits__get_personal_gravity(traits) * s;
 }
 
 __declspec(naked) void PlayerPersonalGravityHook() // 0x10AB1600
@@ -911,22 +950,31 @@ __declspec(naked) void PlayerPersonalGravityHook() // 0x10AB1600
 	}
 }
 
-_extern void *_sub_10AAFD10(void *, void *, s_biped_physics *, __int32, __int32, unsigned __int32, __int32, bool, char);
 void *__fastcall BipedCreateRigidBodyHook(void *thisptr, void *unused, s_biped_physics *bipedPhysics, __int32 a4, __int32 a5, unsigned __int32 collisionFilter_, __int32 shapeIndex, bool hasFriction, char a9) // 0x10AAFD10
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?BipedCreateRigidBodyHook@@YIPAXPAX0PAUs_biped_physics@hades_file_local@@HHIH_ND@Z");
 	// `anonymous-namespace'::BipedCreateRigidBodyHook
 	// char a9;
 	// s_object_data *object;
 	// void *(*const BipedCreateRigidBody)(void *, s_biped_physics *, __int32, __int32, unsigned __int32, __int32, bool, char);
-	{
 		// void *ret;
 		// float oldMass;
+	// function call : void *(*const)(void *, s_biped_physics *, __int32, __int32, unsigned __int32, __int32, bool, char)
+	// function call : void *(*const)(void *, s_biped_physics *, __int32, __int32, unsigned __int32, __int32, bool, char)
+
+	void *(__thiscall *const BipedCreateRigidBody)(void *, s_biped_physics *, __int32, __int32, unsigned __int32, __int32, bool, char) = (void *(__thiscall *const)(void *, s_biped_physics *, __int32, __int32, unsigned __int32, __int32, bool, char))0x5e22c0;
+
+	s_object_data *object = object_get(*(unsigned long *)((unsigned char *)thisptr + 0x8));
+	if (object)
+	{
+		float oldMass = bipedPhysics->Mass;
+		bipedPhysics->Mass *= pow(object->scale, kMassExp);
+		void *ret = BipedCreateRigidBody(thisptr, bipedPhysics, a4, a5, collisionFilter_, shapeIndex, hasFriction, a9);
+		bipedPhysics->Mass = oldMass;
+		return ret;
 	}
-	// function call : void *(*const)(void *, s_biped_physics *, __int32, __int32, unsigned __int32, __int32, bool, char)
-	// function call : void *(*const)(void *, s_biped_physics *, __int32, __int32, unsigned __int32, __int32, bool, char)
-	todo("implement");
-	void * __result = _sub_10AAFD10(thisptr, unused, bipedPhysics, a4, a5, collisionFilter_, shapeIndex, hasFriction, a9);
-	return __result;
+
+	return BipedCreateRigidBody(thisptr, bipedPhysics, a4, a5, collisionFilter_, shapeIndex, hasFriction, a9);
 }
 
 _extern bool _sub_10AB12C0(unsigned __int32, unsigned __int32);
@@ -966,21 +1014,36 @@ void LandingDamageResponseHook(unsigned __int32 unitObjectIndex, unsigned __int3
 	state.IsLandingDamage = false;
 }
 
-_extern void _sub_10AB0730(unsigned __int32, __int32, unsigned __int32, __int32, real_vector3d *, float, float, bool);
 void DamageResponsePlayerEffectsHook(unsigned __int32 uintObjectIndex, __int32 localPlayerIndex, unsigned __int32 damageResponseTagIndex, __int32 a4, real_vector3d *a5, float a6, float scale, bool a8) // 0x10AB0730
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?DamageResponsePlayerEffectsHook@@YAXIHIHPAUreal_vector3d@@MM_N@Z");
 	// `anonymous-namespace'::DamageResponsePlayerEffectsHook
 	// bool a8;
 	// s_object_data *unitObject;
 	// void (*const sub_684F30)(unsigned __int32, __int32, unsigned __int32, __int32, real_vector3d *, float, float, bool);
 	// function call : void (*const)(unsigned __int32, __int32, unsigned __int32, __int32, real_vector3d *, float, float, bool)
-	todo("implement");
-	_sub_10AB0730(uintObjectIndex, localPlayerIndex, damageResponseTagIndex, a4, a5, a6, scale, a8);
+
+	void (__cdecl *const sub_684F30)(unsigned __int32, __int32, unsigned __int32, __int32, real_vector3d *, float, float, bool) = (void (__cdecl *const)(unsigned __int32, __int32, unsigned __int32, __int32, real_vector3d *, float, float, bool))0x684f30;
+
+	s_object_data *unitObject = object_get(uintObjectIndex);
+	if (unitObject)
+	{
+		if (state.IsLandingDamage)
+		{
+			scale = scale * unitObject->scale;
+		}
+		else if (unitObject->scale < 1.0f)
+		{
+			scale = pow(unitObject->scale, 0.4f) * scale;
+		}
+	}
+
+	sub_684F30(uintObjectIndex, localPlayerIndex, damageResponseTagIndex, a4, a5, a6, scale, a8);
 }
 
-_extern bool _sub_10AB0FA0(__int32, unsigned __int32, __int32, char, char, char, __int32, unsigned char *, __int32, __int32, real_vector3d *, __int32, void *);
 bool ModelTargetTestHook(__int32 a1, unsigned __int32 objectIndex, __int32 a3, char a4, char a5, char a6, __int32 a7, unsigned char *target, __int32 a9, __int32 a10, real_vector3d *a11, __int32 a12, void *data) // 0x10AB0FA0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ModelTargetTestHook@@YA_NHIHDDDHPAEHHPAUreal_vector3d@@HPAX@Z");
 	// `anonymous-namespace'::ModelTargetTestHook
 	// void *data;
 	// bool (*const model_target_test)(__int32, unsigned __int32, __int32, char, char, char, __int32, unsigned char *, __int32, __int32, real_vector3d *, __int32, void *);
@@ -989,24 +1052,46 @@ bool ModelTargetTestHook(__int32 a1, unsigned __int32 objectIndex, __int32 a3, c
 	// bool result;
 	// float &targetRadius;
 	// function call : bool (*const)(__int32, unsigned __int32, __int32, char, char, char, __int32, unsigned char *, __int32, __int32, real_vector3d *, __int32, void *)
-	todo("implement");
-	bool __result = _sub_10AB0FA0(a1, objectIndex, a3, a4, a5, a6, a7, target, a9, a10, a11, a12, data);
-	return __result;
+
+	bool (__cdecl *const model_target_test)(__int32, unsigned __int32, __int32, char, char, char, __int32, unsigned char *, __int32, __int32, real_vector3d *, __int32, void *) = (bool (__cdecl *const)(__int32, unsigned __int32, __int32, char, char, char, __int32, unsigned char *, __int32, __int32, real_vector3d *, __int32, void *))0x58af40;
+
+	s_object_data *object = object_get(objectIndex);
+	if (!object)
+		return false;
+
+	if (!target)
+		return false;
+
+	float &targetRadius = *(float *)(target + 8);
+	float oldRadius = targetRadius;
+	targetRadius = targetRadius * object->scale;
+
+	bool result = model_target_test(a1, objectIndex, a3, a4, a5, a6, a7, target, a9, a10, a11, a12, data);
+	targetRadius = oldRadius;
+	return result;
 }
 
-_extern void _sub_10AB1D70(unsigned __int32, unsigned short);
 void ShieldDownParticleEffectHook(unsigned __int32 effectDatumIndex, unsigned short eventIndex) // 0x10AB1D70
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ShieldDownParticleEffectHook@@YAXIG@Z");
 	// `anonymous-namespace'::ShieldDownParticleEffectHook
 	// unsigned short eventIndex;
 	// s_effect_datum *effect;
 	// void (*const ShieldDownParticleEffect)(unsigned __int32, unsigned short);
-	{
 		// s_object_data *object;
-	}
 	// function call : void (*const)(unsigned __int32, unsigned short)
-	todo("implement");
-	_sub_10AB1D70(effectDatumIndex, eventIndex);
+
+	void (__cdecl *const ShieldDownParticleEffect)(unsigned __int32, unsigned short) = (void(__cdecl *const)(unsigned __int32, unsigned short))0x5bdf40;
+
+	s_effect_datum *effect = tls_getd().effect->try_and_get(effectDatumIndex);
+	if (effect && effect->primary_scale == 7388.0f)
+	{
+		s_object_data *object = object_get(effect->object_index);
+		if (object->scale < 0.75f)
+			return;
+	}
+
+	ShieldDownParticleEffect(effectDatumIndex, eventIndex);
 }
 
 _extern void _sub_10AB02F0(unsigned __int32, __int32, void *);

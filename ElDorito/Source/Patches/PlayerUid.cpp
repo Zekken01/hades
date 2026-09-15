@@ -147,7 +147,7 @@ unsigned long long GetPlayerUidHook(__int32 unused);
 namespace hades_file_local
 {
 	extern Pointer UidValidPtr; // 0x12467320
-	extern Pointer UidPtr; // 0x12467324
+	extern "C" Pointer UidPtr; // 0x12467324
 }
 using namespace hades_file_local;
 /* ---------- public code */

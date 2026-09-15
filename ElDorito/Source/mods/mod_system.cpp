@@ -172,23 +172,37 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- public code */
 
-_extern void _sub_108BC8E0(bool);
 void c_mod_system::initialize(bool is_dedicated_server) // 0x108BC8E0
 {
-	mangled_x86(MANGLED_TODO, "?initialize@c_mod_system@@SAX_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?initialize@c_mod_system@@SAX_N@Z");
 	// bool is_dedicated_server;
-	todo("implement");
-	_sub_108BC8E0(is_dedicated_server);
+
+	create_package_directory();
+	g_mod_system_globals.dedicated = is_dedicated_server;
+	((c_mod_package_manager *)g_mod_system_globals.package_manager)->initialize(c_mod_system::get_package_directory());
+	if (!is_dedicated_server)
+	{
+		((c_mod_package_manager *)g_mod_system_globals.package_manager)->begin_enumerate();
+	}
+
+	g_mod_system_globals.initialized = true;
 }
 
-_extern void _sub_108BD580();
 void c_mod_system::update() // 0x108BD580
 {
-	mangled_x86(MANGLED_TODO, "?update@c_mod_system@@SAXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?update@c_mod_system@@SAXXZ");
 	// procedure flags: nofpo
 	// function call : void ()
-	todo("implement");
-	_sub_108BD580();
+
+	if (!g_mod_system_globals.packages_updated)
+	{
+		g_mod_system_globals.packages_updated = true;
+		update_packages();
+	}
+
+	((c_mod_package_manager *)g_mod_system_globals.package_manager)->update();
+	static_cast<ModManager &>(c_mod_system::GetModManager()).SetMainThread();
+	c_mod_system::GetModManager().Tick();
 }
 
 char const *c_mod_system::get_package_directory() // 0x108BC5E0
@@ -232,19 +246,22 @@ std::string c_mod_system::get_mod_hash_by_identifier(char const *identifier) // 
 	return __result;
 }
 
-_extern bool _sub_108BC370(char const *, c_mod_package_manager::s_entry *);
 bool c_mod_system::get_mod_info_by_hash(char const *hash_str, c_mod_package_manager::s_entry *package_entry) // 0x108BC370
 {
-	mangled_x86(MANGLED_TODO, "?get_mod_info_by_hash@c_mod_system@@SA_NPBDPAUs_entry@c_mod_package_manager@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_mod_info_by_hash@c_mod_system@@SA_NPBDPAUs_entry@c_mod_package_manager@@@Z");
 	// static ...; // 0x108BC444
 	// static ...; // 0x108BC43C
 	// char const *hash_str;
 	// c_mod_package_manager::s_entry *package_entry;
 	// unsigned char hash[20];
 	// c_mod_package_manager &package_manager;
-	todo("implement");
-	bool __result = _sub_108BC370(hash_str, package_entry);
-	return __result;
+
+	unsigned char hash[20];
+
+	Utils::String::HexStringToBytes(hash_str, hash, 20);
+
+	c_mod_package_manager &package_manager = c_mod_system::get_package_manager();
+	return package_manager.find_package_by_hash(hash, package_entry);
 }
 
 _extern bool _sub_108BC490(char const *, c_mod_package_manager::s_entry *);

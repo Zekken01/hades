@@ -214,18 +214,25 @@ namespace Server
 			// Server::Voting::VetoSystem *const this;
 		}
 
-		_extern void _sub_1073E4C0(Server::Voting::VetoSystem *const);
 		void VetoSystem::SendVoteCountsToEveryone() // 0x1073E4C0
 		{
-			mangled_x86(MANGLED_TODO, "?SendVoteCountsToEveryone@VetoSystem@Voting@Server@@UAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?SendVoteCountsToEveryone@VetoSystem@Voting@Server@@UAEXXZ");
 			// static ...; // 0x1073E59C
 			// static ...; // 0x1073E590
 			// static ...; // 0x1073E588
 			// Server::Voting::VetoSystem *const this;
 			// Server::Voting::VotingMessage newmessage;
 			// function call : __int32 ()
-			todo("implement");
-			_sub_1073E4C0(this);
+
+			countVotes();
+
+			VotingMessage newmessage(VoteTally);
+
+			newmessage.votes[0] = currentNumberOfVotes;
+			newmessage.votes[1] = currentNumberOfVotes;
+			newmessage.votesNeededToPass = getVoteNeededToPass();
+
+			BroadcastVotingMessage(newmessage);
 		}
 
 		// mangled_x86(MANGLED_DEFAULT, "??1PlaylistItem@Voting@Server@@QAE@XZ"); no body to assert in
@@ -296,14 +303,12 @@ namespace Server
 			return __result;
 		}
 
-		_inline AbstractVotingSystem::AbstractVotingSystem() : finalTally(todo_result<Server::Voting::VotingMessage>()) // 0x10739F90
+		_inline AbstractVotingSystem::AbstractVotingSystem() : AllowShuffle(true), voteStartedTime(0), winnerChosen(false), revoteFlag(false), idle(false), jsonLoaded(false) /* hades-mem-init: : finalTally(todo_result<Server::Voting::VotingMessage>()) */ // 0x10739F90
 		{
-			mangled_x86(MANGLED_TODO, "??0AbstractVotingSystem@Voting@Server@@QAE@XZ");
-			compiler_generated();
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0AbstractVotingSystem@Voting@Server@@QAE@XZ");
 			// Cannot be `= default` while `finalTally` is initialised from
 			// `todo_result`: VotingMessage has no default constructor to
 			// reconstruct, so a defaulted constructor would be deleted.
-			todo("implement");
 		}
 
 		// mangled_x86(MANGLED_DEFAULT, "??0MapAndType@Voting@Server@@QAE@$$QAU012@@Z"); no body to assert in
@@ -420,18 +425,20 @@ namespace Server
 			time(&startime);
 		}
 
-		_extern void _sub_1073EB30(Server::Voting::VetoSystem *const);
 		void VetoSystem::SetVoteStartedTime() // 0x1073EB30
 		{
-			mangled_x86(MANGLED_TODO, "?SetVoteStartedTime@VetoSystem@Voting@Server@@AAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?SetVoteStartedTime@VetoSystem@Voting@Server@@AAEXXZ");
 			// static ...; // 0x1073EBEC
 			// static ...; // 0x1073EBE0
 			// static ...; // 0x1073EBD8
 			// Server::Voting::VetoSystem *const this;
 			// Server::Voting::VotingMessage message;
 			// function call : Server::Voting::VotingMessage (bool)
-			todo("implement");
-			_sub_1073EB30(this);
+
+
+			auto message = GenerateVotingOptionsMessage(false);
+			BroadcastVotingMessage(message);
+			time(&voteStartedTime);
 		}
 
 		_extern void _sub_10742FE0(Server::Voting::VetoSystem *const);
@@ -534,17 +541,19 @@ namespace Server
 			_sub_1073E280(this);
 		}
 
-		_extern void _sub_1073CD90(Server::Voting::VetoSystem *const);
 		void VetoSystem::EndVote() // 0x1073CD90
 		{
-			mangled_x86(MANGLED_TODO, "?EndVote@VetoSystem@Voting@Server@@UAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?EndVote@VetoSystem@Voting@Server@@UAEXXZ");
 			// static ...; // 0x1073CE24
 			// static ...; // 0x1073CE18
 			// static ...; // 0x1073CE10
 			// Server::Voting::VetoSystem *const this;
 			// Server::Voting::VotingMessage newmessage;
-			todo("implement");
-			_sub_1073CD90(this);
+
+
+			Server::Voting::VotingMessage newmessage(Server::Voting::VoteEnded);
+			newmessage.voteEnded = true;
+			BroadcastVotingMessage(newmessage);
 		}
 
 		_extern void _sub_10742800(Server::Voting::VetoSystem *const);

@@ -138,6 +138,7 @@ bool __fastcall c_character_physics_mode_ground_datum__calculate_ground_contact_
 
 /* ---------- globals */
 
+
 /* ---------- private variables */
 
 /* ---------- public code */

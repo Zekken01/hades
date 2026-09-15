@@ -117,6 +117,7 @@
 #include <typeinfo>
 #include <utility>
 #include <vector>
+#include "Modules/ModuleCamera.hpp"
 
 /* ---------- forward declarations */
 
@@ -262,6 +263,8 @@ typedef __int32 S32;
 typedef unsigned __int32 U32;
 
 /* ---------- prototypes */
+
+class c_rasterizer_LUT_control { public: static bool initialize_LUT_textures(); };  // hades: added for 0x108E8B60
 
 extern void render_patches_apply();
 extern void render_patches_set_customization_biped(std::vector<int> characterBipeds);
@@ -570,46 +573,72 @@ void render_method_submit_externs_hook(c_render_method const *render_method, c_e
 	_sub_108F1310(render_method, entry_point, volatility, ignore_real_volatility);
 }
 
-_extern void _sub_108F1CE0(long, bool);
 void render_method_submit_single_extern_hook(long render_method_extern, bool a2) // 0x108F1CE0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?render_method_submit_single_extern_hook@@YAXJ_N@Z");
 	// `anonymous-namespace'::render_method_submit_single_extern_hook
 	// static ...; // 0x108F1DB8
 	// static ...; // 0x108F1DB0
 	// long render_method_extern;
 	// bool a2;
 	// s_extern_description const *const extern_desc;
-	{
 		// real_vector4d constant;
+	// function call : void (*const)(long, long, real_vector4d const *)
+	// function call : void (*const)(long, long, real_vector4d const *)
+
+	s_extern_description const *const extern_desc = get_extern_description(render_method_extern);
+	if (!a2 && extern_desc->unknown_0C)
+	{
+		real_vector4d constant;
+
+		get_extern_constant_hook(render_method_extern, &constant);
+
+		if (extern_desc->m_vertex_shader)
+		{
+			((void(__cdecl *)(long, long, real_vector4d const *))0xa66270)(extern_desc->m_register, 1, &constant);
+		}
+
+		((void(__cdecl *)(long, long, real_vector4d const *))0xa66410)(extern_desc->m_register, 1, &constant);
 	}
-	// function call : void (*const)(long, long, real_vector4d const *)
-	// function call : void (*const)(long, long, real_vector4d const *)
-	todo("implement");
-	_sub_108F1CE0(render_method_extern, a2);
 }
 
-_extern void _sub_108F1B70(long);
 void render_method_submit_set_bsp_call_hook(long lightmap_bsp_data_handle) // 0x108F1B70
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?render_method_submit_set_bsp_call_hook@@YAXJ@Z");
 	// `anonymous-namespace'::render_method_submit_set_bsp_call_hook
 	// static ...; // 0x108F1C84
 	// static ...; // 0x108F1C78
 	// static ...; // 0x108F1C70
 	// long lightmap_bsp_data_handle;
 	// long *g_lightmap_bsp_data_handle;
-	{
 		// __int32 i;
-		{
 			// s_extern_description const *const extern_desc;
-			{
 				// real_vector4d constant;
+	// function call : void (*const)(long, long, real_vector4d const *)
+	// function call : void (*const)(long, long, real_vector4d const *)
+
+	for (__int32 i = 0; i < 55; i++)
+	{
+		s_extern_description const *const extern_desc = get_extern_description(i);
+
+		if (extern_desc->m_volatility_level == 2 && extern_desc->unknown_0C)
+		{
+			real_vector4d constant;
+
+			get_extern_constant_hook(i, &constant);
+
+			if (extern_desc->m_vertex_shader)
+			{
+				((void(__cdecl *)(long, long, real_vector4d const *))0xa66270)(extern_desc->m_register, 1, &constant);
 			}
+
+			((void(__cdecl *)(long, long, real_vector4d const *))0xa66410)(extern_desc->m_register, 1, &constant);
 		}
 	}
-	// function call : void (*const)(long, long, real_vector4d const *)
-	// function call : void (*const)(long, long, real_vector4d const *)
-	todo("implement");
-	_sub_108F1B70(lightmap_bsp_data_handle);
+
+	long *g_lightmap_bsp_data_handle = (long *)0x191489c;
+
+	*g_lightmap_bsp_data_handle = lightmap_bsp_data_handle;
 }
 
 _extern float _sub_108EEA20(long, s_render_method_animated_parameter *);
@@ -712,13 +741,22 @@ bool z_buffer_fix_enabled() // 0x108F7F10
 	return Modules::ModuleDebug::Instance().VarZBuffTest->ValueInt != 0;
 }
 
-_extern void _sub_108F0830(float *, float *);
 void rasterizer_get_z_planes_hook(float *near_clip, float *far_clip) // 0x108F0830
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?rasterizer_get_z_planes_hook@@YAXPAM0@Z");
 	// `anonymous-namespace'::rasterizer_get_z_planes_hook
 	// float *far_clip;
-	todo("implement");
-	_sub_108F0830(near_clip, far_clip);
+
+	if (z_buffer_fix_enabled())
+	{
+		*near_clip = *(float *)0x191068c;
+		*far_clip = *(float *)0x1910690;
+	}
+	else
+	{
+		*near_clip = *(float *)0x191068c * 10.0f;
+		*far_clip = *(float *)0x1910690;
+	}
 }
 
 bool depth_stencil_format_is_float(_D3DFORMAT format) // 0x108EE9A0
@@ -753,9 +791,9 @@ void c_surface__set_depth_stencil(e_surface surface) // 0x108EB8D0
 	_sub_108EB8D0(surface);
 }
 
-_extern void _sub_108EBA70(IDirect3DSurface9 *);
 void c_surface__set_depth_stencil_surface(IDirect3DSurface9 *surface) // 0x108EBA70
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_surface__set_depth_stencil_surface@@YAXPAUIDirect3DSurface9@@@Z");
 	// `anonymous-namespace'::c_surface__set_depth_stencil_surface
 	// static ...; // 0x108EBB44
 	// static ...; // 0x108EBB38
@@ -765,8 +803,13 @@ void c_surface__set_depth_stencil_surface(IDirect3DSurface9 *surface) // 0x108EB
 	// _D3DSURFACE_DESC surface_desc;
 	// function call : HRESULT (_D3DSURFACE_DESC *)
 	// function call : HRESULT (IDirect3DSurface9 *)
-	todo("implement");
-	_sub_108EBA70(surface);
+
+	_D3DSURFACE_DESC surface_desc;
+	IDirect3DDevice9Ex *device = c_rasterizer::get_device();
+
+	surface->GetDesc(&surface_desc);
+	c_rasterizer::m_use_floating_point_z_buffer = depth_stencil_format_is_float(surface_desc.Format);
+	device->SetDepthStencilSurface(surface);
 }
 
 _extern void _sub_108E4F90(c_first_person_view *, void *, bool);
@@ -802,18 +845,23 @@ void __fastcall c_first_person_view__override_projection(c_first_person_view *th
 	_sub_108E4F90(thisptr, unused, a2);
 }
 
-extern s_observer_result *_sub_108F0600(long);
 s_observer_result *observer_get_camera__call_hook(long output_user_index) // 0x108F0600
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?observer_get_camera__call_hook@@YAPAUs_observer_result@@J@Z");
 	// `anonymous-namespace'::observer_get_camera__call_hook
 	// long output_user_index;
 	// float fov_rad;
 	// s_observer_result *observer_camera;
 	// float horizontal_fov;
 	// function call : s_observer_result *(*const)(long)
-	todo("implement");
-	s_observer_result * __result = _sub_108F0600(output_user_index);
-	return __result;
+
+	s_observer_result *observer_camera = ((s_observer_result *(__cdecl *)(long))0x6127c0)(output_user_index);
+	float fov_rad = Modules::ModuleCamera::Instance().VarCameraFov->ValueFloat * 0.017453292f;
+	float horizontal_fov = fmax(fov_rad / 1.3962634f, 0.000099999997f);
+
+	g_particle_hack_near_fade_scale = 1.0f / horizontal_fov;
+
+	return observer_camera;
 }
 
 _extern void _sub_108F07D0();
@@ -1551,9 +1599,9 @@ void c_object_renderer__render_object_context_mesh_part_hook(s_render_object_mes
 	_sub_108E62B0(mesh_part, entry_point, mesh_part_mask, a4);
 }
 
-_extern void _sub_108F1190(s_render_geometry *, __int32, __int32);
 void render_mesh_part_no_material(s_render_geometry *geometry, __int32 mesh_index, __int32 part_index) // 0x108F1190
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?render_mesh_part_no_material@@YAXPAUs_render_geometry@@HH@Z");
 	// `anonymous-namespace'::render_mesh_part_no_material
 	// __int32 part_index;
 	// c_rasterizer_vertex_buffer *vertex_buffer;
@@ -1565,8 +1613,17 @@ void render_mesh_part_no_material(s_render_geometry *geometry, __int32 mesh_inde
 	// function call : c_rasterizer_vertex_buffer *(*const)(s_render_geometry *, s_mesh *, long)
 	// function call : bool (*const)(c_rasterizer_vertex_buffer const *)
 	// function call : void (*const)(c_rasterizer_index_buffer const *, long, long, long, long)
-	todo("implement");
-	_sub_108F1190(geometry, mesh_index, part_index);
+
+	c_rasterizer_vertex_buffer *(__cdecl *const mesh_get_vertex_buffer)(s_render_geometry *, s_mesh *, long) = (c_rasterizer_vertex_buffer *(__cdecl *const)(s_render_geometry *, s_mesh *, long))0x78c750;
+	s_mesh *const mesh = &geometry->meshes[mesh_index];
+	s_part *const mesh_part = &mesh->parts[part_index];
+	c_rasterizer_index_buffer *index_buffer = ((c_rasterizer_index_buffer *(__cdecl *)(s_render_geometry const *, long))0x78c870)(geometry, mesh->index_buffer_indices[0]);
+	c_rasterizer_vertex_buffer *vertex_buffer = mesh_get_vertex_buffer(geometry, mesh, 0);
+
+	if (((bool(__cdecl *)(c_rasterizer_vertex_buffer const *))0xa5db60)(vertex_buffer))
+	{
+		((void(__cdecl *)(c_rasterizer_index_buffer const *, long, long, long, long))0xa28270)(index_buffer, 0, vertex_buffer->get_vertex_count(), mesh_part->first_index, mesh_part->index_count);
+	}
 }
 
 _extern long _sub_108E5530(long, long, long, long);
@@ -1799,29 +1856,42 @@ void __fastcall c_dynamic_cubemap_sample__search_for_cubemap_sample_in_cluster_h
 	_sub_108E4A80(thisptr, __formal, test_location, test_point, tolerance);
 }
 
-_extern float _sub_108F5BB0(s_render_projection const *, real_point3d const *, float);
 float render_projection_sphere_diameter_in_pixels_hook(s_render_projection const *render_projection, real_point3d const *center, float radius) // 0x108F5BB0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?render_projection_sphere_diameter_in_pixels_hook@@YAMPBUs_render_projection@@PBUreal_point3d@@M@Z");
 	// `anonymous-namespace'::render_projection_sphere_diameter_in_pixels_hook
 	// float radius;
 	// float scale;
 	// float distance;
 	// function call : bool (*const)()
 	// function call : bool (*const)()
-	todo("implement");
-	float __result = _sub_108F5BB0(render_projection, center, radius);
-	return __result;
+
+	float distance = fabsf(render_projection->world_to_view.left.k * center->y + render_projection->world_to_view.forward.k * center->x + render_projection->world_to_view.up.k * center->z + render_projection->world_to_view.position.z);
+
+	if (distance <= 0.1)
+		distance = 0.1f;
+
+	float scale = render_projection->scale_height;
+
+	if (((bool(__cdecl *)())0x67d270)() && !((bool(__cdecl *)())0xa1fc90)())
+		scale = scale * 1.3329999;
+
+	scale = scale * g_lod_distance_scale;
+
+	return radius * 2.0 * scale / distance;
 }
 
-_extern void _sub_108E49D0();
 void bink_playback_allocate_framebuffers_hook() // 0x108E49D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?bink_playback_allocate_framebuffers_hook@@YAXXZ");
 	// `anonymous-namespace'::bink_playback_allocate_framebuffers_hook
 	// procedure flags: nofpo
 	// void (*const bink_playback_allocate_framebuffers)();
 	// function call : void (*const)()
-	todo("implement");
-	_sub_108E49D0();
+
+	Utils::Singleton<Modules::ModuleSettings>::Instance().GetScreenResolution(g_bink_frame_width, g_bink_frame_height);
+
+	((void(__cdecl *)())0x6165a0)();
 }
 
 _extern void _sub_108E6C50(c_player_view *);
@@ -1954,9 +2024,9 @@ void __fastcall c_player_view__render_hook(c_player_view *view) // 0x108E6C50
 	_sub_108E6C50(view);
 }
 
-_extern void _sub_108E80F0(c_player_view *, void *);
 void __fastcall c_player_view__render_lightmap_shadows_hook(c_player_view *_this, void *__savedreg) // 0x108E80F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_view__render_lightmap_shadows_hook@@YIXPAUc_player_view@@PAX@Z");
 	// `anonymous-namespace'::c_player_view__render_lightmap_shadows_hook
 	// static ...; // 0x108E81FC
 	// static ...; // 0x108E81F4
@@ -1967,8 +2037,19 @@ void __fastcall c_player_view__render_lightmap_shadows_hook(c_player_view *_this
 	// float sm_ps;
 	// function call : void (*const)(long, long, real_vector4d const *)
 	// function call : void (*const)(c_player_view *)
-	todo("implement");
-	_sub_108E80F0(_this, __savedreg);
+
+	void (__thiscall *const c_player_view__render_lightmap_shadows)(c_player_view *) = (void(__thiscall *const)(c_player_view *))0xa3a700;
+	float sm_ps = 1.0f / Utils::Singleton<Modules::ModuleSettings>::Instance().VarShadowResolution->ValueInt;
+	real_vector4d shadow_map_pixel_size;
+
+	shadow_map_pixel_size.i = sm_ps;
+	shadow_map_pixel_size.j = sm_ps;
+	shadow_map_pixel_size.k = 0.0f;
+	shadow_map_pixel_size.w = 0.0f;
+
+	((void(__cdecl *)(long, long, real_vector4d const *))0xa66270)(214, 1, &shadow_map_pixel_size);
+
+	c_player_view__render_lightmap_shadows(_this);
 }
 
 _extern void _sub_108EBB90(c_texture_camera_view *);
@@ -2223,16 +2304,25 @@ void __fastcall c_lightmap_shadows_view__render_shadow_apply_call_hook(void *_th
 		render_shadow_apply(_this, shadow_alpha, quality_scale);
 }
 
-_extern void _sub_108E5AF0(void *, void *, float, float, long, long);
 void __fastcall c_lightmap_shadows_view__submit_visibility_and_render_call_hook(void *_this, void *_savedreg, float shadow_alpha, float quality_scale, long object_index, long model_tag_index) // 0x108E5AF0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_lightmap_shadows_view__submit_visibility_and_render_call_hook@@YIXPAX0MMJJ@Z");
 	// `anonymous-namespace'::c_lightmap_shadows_view__submit_visibility_and_render_call_hook
 	// long model_tag_index;
 	// void (*const c_lightmap_shadows_view__submit_visibility_and_render)(void *, float, float, __int32, long);
 	// function call : void (*const)(void *, float, float, __int32, long)
 	// function call : void (*const)(void *, float, float, __int32, long)
-	todo("implement");
-	_sub_108E5AF0(_this, _savedreg, shadow_alpha, quality_scale, object_index, model_tag_index);
+
+	const auto c_lightmap_shadows_view__submit_visibility_and_render = (void(__thiscall *)(void *, float, float, __int32, long))0xA68F30;
+
+	if (Utils::Singleton<Modules::ModuleSettings>::Instance().VarShadowResolution->ValueInt > 0x200)
+	{
+		c_lightmap_shadows_view__submit_visibility_and_render(_this, shadow_alpha, 1.0f, object_index, model_tag_index);
+	}
+	else
+	{
+		c_lightmap_shadows_view__submit_visibility_and_render(_this, shadow_alpha, quality_scale, object_index, model_tag_index);
+	}
 }
 
 _extern void _sub_108F08C0(long);
@@ -2276,28 +2366,37 @@ void c_rasterizer__end_frame_set_surface_as_texture_call_hook(long sampler, e_su
 	_sub_108E8A40(sampler, surface);
 }
 
-_extern void _sub_108E89C0(long, c_rasterizer_texture_ref);
 void c_rasterizer__end_frame_set_sampler_texture_call_hook(long sampler, c_rasterizer_texture_ref ref) // 0x108E89C0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_rasterizer__end_frame_set_sampler_texture_call_hook@@YAXJUc_rasterizer_texture_ref@@@Z");
 	// `anonymous-namespace'::c_rasterizer__end_frame_set_sampler_texture_call_hook
 	// c_rasterizer_texture_ref ref;
 	// function call : void (*const)(long, c_rasterizer_texture_ref)
 	// function call : void (*const)(long, c_rasterizer_texture_ref)
-	todo("implement");
-	_sub_108E89C0(sampler, ref);
+
+	((void(__cdecl *)(long, c_rasterizer_texture_ref))0xa23810)(sampler, ref);
+	((void(__cdecl *)(long, c_rasterizer_texture_ref))0xa23810)(1, -1);
 }
 
-_extern bool _sub_108E8B60();
 bool c_rasterizer__initialize_after_device_creation_or_reset_call_hook() // 0x108E8B60
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_rasterizer__initialize_after_device_creation_or_reset_call_hook@@YA_NXZ");
 	// `anonymous-namespace'::c_rasterizer__initialize_after_device_creation_or_reset_call_hook
 	// procedure flags: nofpo
 	// bool (*const initialize_after_device_creation_or_reset)();
 	// bool result;
 	// function call : bool (*const)()
-	todo("implement");
-	bool __result = _sub_108E8B60();
-	return __result;
+
+	const auto c_rasterizer__initialize_after_device_creation_or_reset = (bool(*)())0xA1FD80;
+
+	bool result = c_rasterizer__initialize_after_device_creation_or_reset();
+
+	if (!c_rasterizer_LUT_control::initialize_LUT_textures())
+	{
+		throw;
+	}
+
+	return result;
 }
 
 /* ---------- template instantiations */

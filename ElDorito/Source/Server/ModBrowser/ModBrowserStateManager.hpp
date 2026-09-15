@@ -44,14 +44,12 @@ _inline SModBrowserState const &CModBrowserStateManager::GetState() const // 0x1
 	return *(SModBrowserState const *)m_state;
 }
 
-_extern bool _sub_1070C450(CModBrowserStateManager const *const);
 _inline bool CModBrowserStateManager::InProgress() const // 0x1070C450
 {
-	mangled_x86(MANGLED_TODO, "?InProgress@CModBrowserStateManager@@QBE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?InProgress@CModBrowserStateManager@@QBE_NXZ");
 	// CModBrowserStateManager const *const this;
-	todo("implement");
-	bool __result = _sub_1070C450((CModBrowserStateManager const *)this);
-	return __result;
+
+	return !(m_currentHandler == nullptr);
 }
 
 /* ---------- private code */

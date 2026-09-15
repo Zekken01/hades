@@ -142,19 +142,33 @@ extern "C" unsigned char const *scenario_pvs_connected_clusters_get_hook(s_clust
 
 /* ---------- public code */
 
-_extern long _sub_10AC7640(short);
 long __stdcall sub_6870A0_hook(short region_cluster_index) // 0x10AC7640
 {
-	mangled_x86(MANGLED_TODO, "?sub_6870A0_hook@@YGJF@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?sub_6870A0_hook@@YGJF@Z");
 	// short region_cluster_index;
 	// long group_index;
 	// s_visible_items &visible_items;
-	{
 		// long group_offset;
+
+	s_visible_items &visible_items = c_visible_items::get_global_items();
+	long group_index = visible_items.cluster_group_count++;
+
+	if (group_index >= 512)
+	{
+		group_index = -1;
 	}
-	todo("implement");
-	long __result = _sub_10AC7640(region_cluster_index);
-	return __result;
+	else
+	{
+		long group_offset = 4 * group_index;
+
+		visible_items.cluster_group_visibility[group_offset + 3] = 0;
+		visible_items.cluster_group_visibility[group_offset + 2] = 0;
+		visible_items.cluster_group_visibility[group_offset + 1] = 0;
+		visible_items.cluster_group_visibility[group_offset] = 0;
+		visible_items.cluster_group_visibility[group_offset + (region_cluster_index >> 5)] |= 1 << (region_cluster_index & 0x1F);
+	}
+
+	return group_index;
 }
 
 _extern void _sub_10AC3F90(CDebugTextPrinter *const, char const *, ...);
@@ -205,10 +219,9 @@ void render_debug_visibility() // 0x10AC61B0
 	_sub_10AC61B0();
 }
 
-_extern void _sub_10AC4B00(void *, void *, s_visible_cluster *);
 void __fastcall c_visibility_collection__generate_cluster_visible_parts(void *thisptr, void *unused, s_visible_cluster *visible_cluster) // 0x10AC4B00
 {
-	mangled_x86(MANGLED_TODO, "?c_visibility_collection__generate_cluster_visible_parts@@YIXPAX0PAUs_visible_cluster@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_visibility_collection__generate_cluster_visible_parts@@YIXPAX0PAUs_visible_cluster@@@Z");
 	// s_visible_cluster *visible_cluster;
 	// unsigned __int32 *(*const reserve_cluster_mesh_part_visibility)(__int32);
 	// s_render_geometry *render_geometry;
@@ -216,20 +229,33 @@ void __fastcall c_visibility_collection__generate_cluster_visible_parts(void *th
 	// unsigned __int32 *visibility;
 	// function call : s_render_geometry *(*const)(long)
 	// function call : unsigned __int32 *(*const)(__int32)
-	todo("implement");
-	_sub_10AC4B00(thisptr, unused, visible_cluster);
+
+	unsigned __int32 *(*const reserve_cluster_mesh_part_visibility)(__int32) = (unsigned __int32 *(*const)(__int32))0x686bc0;
+	s_render_geometry *render_geometry = ((s_render_geometry *(*)(long))0xa2ef00)(visible_cluster->cluster_reference.bsp_index);
+	s_mesh &mesh = render_geometry->meshes[visible_cluster->mesh_index];
+	unsigned __int32 *visibility = reserve_cluster_mesh_part_visibility(mesh.parts.count);
+
+	memset(visibility, -1, 4 * ((mesh.parts.count + 31) >> 5));
+
+	visible_cluster->flags |= 8;
+	visible_cluster->flags &= ~4;
 }
 
-extern s_structure_globals *_sub_10AC50A0();
 s_structure_globals *get_structure_globals() // 0x10AC50A0
 {
-	mangled_x86(MANGLED_TODO, "?get_structure_globals@@YAPAUs_structure_globals@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_structure_globals@@YAPAUs_structure_globals@@XZ");
 	// procedure flags: nofpo
 	// long current_thread_index;
 	// s_structure_globals *per_thread_globals;
-	todo("implement");
-	s_structure_globals * __result = _sub_10AC50A0();
-	return __result;
+
+	s_structure_globals *per_thread_globals = (s_structure_globals *)0x2497e88;
+	long current_thread_index = tls_getd().current_thread_index;
+
+	#line 248 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Patches\\visibility_patches.cpp"
+		assert(current_thread_index == 1 || current_thread_index == 2);
+		#line 236 "F:\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Patches\\visibility_patches.cpp"
+
+	return &per_thread_globals[current_thread_index - 1];
 }
 
 _extern bool _sub_10AC7240(long, s_cluster_reference, bool, c_seam_connected_cluster_references *);
@@ -334,19 +360,38 @@ extern "C" void sub_687070_hook(__int32 region_index, __int32 cluster_index) // 
 	c_visible_items::get_global_items().cluster_group_visibility[index] |= 1 << (cluster_index & 0x1F);
 }
 
-_extern unsigned long *_sub_10AC74E0(long);
 extern "C" unsigned long *sub_686BC0_hook(long part_count) // 0x10AC74E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "_sub_686BC0_hook");
 	// sub_686BC0_hook
 	// long part_count;
 	// unsigned long *result;
 	// s_visible_items &visible_items;
-	{
 		// long allocation_size;
+
+	s_visible_items &visible_items = c_visible_items::get_global_items();
+	unsigned long *result;
+
+	if (part_count <= 0)
+	{
+		result = nullptr;
 	}
-	todo("implement");
-	unsigned long * __result = _sub_10AC74E0(part_count);
-	return __result;
+	else
+	{
+		long allocation_size = (part_count + 31) >> 5;
+
+		if (allocation_size + visible_items.cluster_mesh_part_visibility_size >= 512)
+		{
+			result = visible_items.cluster_mesh_part_visibility;
+		}
+		else
+		{
+			result = &visible_items.cluster_mesh_part_visibility[visible_items.cluster_mesh_part_visibility_size];
+			visible_items.cluster_mesh_part_visibility_size += allocation_size;
+		}
+	}
+
+	return result;
 }
 
 _extern void _sub_10AC5500();
@@ -370,9 +415,9 @@ extern "C" void patch_render_object_globals() // 0x10AC5210
 	_sub_10AC5210();
 }
 
-_extern bool _sub_10AC66A0(long, long);
 extern "C" bool structure_instanced_geometry_mark(long structure_bsp_index, long instance_index) // 0x10AC66A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "_structure_instanced_geometry_mark");
 	// structure_instanced_geometry_mark
 	// long instance_index;
 	// bool is_marked;
@@ -380,63 +425,103 @@ extern "C" bool structure_instanced_geometry_mark(long structure_bsp_index, long
 	// unsigned long bit_mask;
 	// long dword_index;
 	// s_structure_globals *structure_globals;
-	todo("implement");
-	bool __result = _sub_10AC66A0(structure_bsp_index, instance_index);
-	return __result;
+
+	s_structure_globals *structure_globals = get_structure_globals();
+
+	#line 400 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Patches\\visibility_patches.cpp"
+		assert(structure_globals->instanced_geometry_marker_initialized);
+		#line 412 "F:\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Patches\\visibility_patches.cpp"
+
+	unsigned long *bit_vector = structure_globals->instanced_geometry_marker_bit_vectors[structure_bsp_index];
+	long dword_index = instance_index >> 5;
+	unsigned long bit_mask = 1 << (instance_index & 0x1F);
+	bool is_marked = (bit_vector[dword_index] & bit_mask) != 0;
+
+	bit_vector[dword_index] |= bit_mask;
+
+	return !is_marked;
 }
 
-_extern bool _sub_10AC67D0(short, short, long *);
 extern "C" bool structure_instanced_geometry_mark_get_user_data(short structure_bsp_index, short instance_index, long *user_data) // 0x10AC67D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "_structure_instanced_geometry_mark_get_user_data");
 	// structure_instanced_geometry_mark_get_user_data
 	// long *user_data;
-	todo("implement");
-	bool __result = _sub_10AC67D0(structure_bsp_index, instance_index, user_data);
-	return __result;
+
+	#line 426 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Patches\\visibility_patches.cpp"
+		assert(!"should no longer be used");
+		#line 432 "F:\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Patches\\visibility_patches.cpp"
+
+	return false;
 }
 
-_extern bool _sub_10AC6840(short, short, long);
 extern "C" bool structure_instanced_geometry_mark_with_user_data(short structure_bsp_index, short instance_index, long user_data) // 0x10AC6840
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "_structure_instanced_geometry_mark_with_user_data");
 	// structure_instanced_geometry_mark_with_user_data
 	// long user_data;
-	todo("implement");
-	bool __result = _sub_10AC6840(structure_bsp_index, instance_index, user_data);
-	return __result;
+
+	#line 438 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Patches\\visibility_patches.cpp"
+		assert(!"should no longer be used");
+		#line 444 "F:\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Patches\\visibility_patches.cpp"
+
+	return false;
 }
 
-_extern void _sub_10AC68B0();
 extern "C" void structure_instanced_geometry_marker_begin() // 0x10AC68B0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "_structure_instanced_geometry_marker_begin");
 	// structure_instanced_geometry_marker_begin
 	// procedure flags: nofpo
 	// s_structure_globals *structure_globals;
-	todo("implement");
-	_sub_10AC68B0();
+
+	s_structure_globals *structure_globals = get_structure_globals();
+
+	#line 446 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Patches\\visibility_patches.cpp"
+		assert(!structure_globals->instanced_geometry_marker_initialized);
+		#line 454 "F:\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Patches\\visibility_patches.cpp"
+
+	structure_globals->instanced_geometry_marker_initialized = true;
+	memset(structure_globals->instanced_geometry_marker_bit_vectors, 0, sizeof(structure_globals->instanced_geometry_marker_bit_vectors));
 }
 
-_extern void _sub_10AC6960();
 extern "C" void structure_instanced_geometry_marker_end() // 0x10AC6960
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "_structure_instanced_geometry_marker_end");
 	// structure_instanced_geometry_marker_end
 	// procedure flags: nofpo
 	// s_structure_globals *structure_globals;
-	todo("implement");
-	_sub_10AC6960();
+
+	s_structure_globals *structure_globals = get_structure_globals();
+
+	#line 468 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Patches\\visibility_patches.cpp"
+		assert(structure_globals->instanced_geometry_marker_initialized);
+		#line 476 "F:\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Patches\\visibility_patches.cpp"
+
+	structure_globals->instanced_geometry_marker_initialized = false;
 }
 
-_extern bool _sub_10AC69F0(short, short);
 extern "C" bool structure_instanced_geometry_unmarked(short structure_bsp_index, short instance_index) // 0x10AC69F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "_structure_instanced_geometry_unmarked");
 	// structure_instanced_geometry_unmarked
 	// short instance_index;
 	// unsigned long *bit_vector;
 	// unsigned long bit_mask;
 	// long dword_index;
 	// s_structure_globals *structure_globals;
-	todo("implement");
-	bool __result = _sub_10AC69F0(structure_bsp_index, instance_index);
-	return __result;
+
+	s_structure_globals *structure_globals = get_structure_globals();
+
+	#line 472 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Patches\\visibility_patches.cpp"
+		assert(structure_globals->instanced_geometry_marker_initialized);
+		#line 483 "F:\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Patches\\visibility_patches.cpp"
+
+	unsigned long *bit_vector = structure_globals->instanced_geometry_marker_bit_vectors[structure_bsp_index];
+	long dword_index = instance_index >> 5;
+	unsigned long bit_mask = 1 << (instance_index & 0x1F);
+
+	return (bit_vector[dword_index] & bit_mask) == 0;
 }
 
 _extern void _sub_10AC43A0(c_visibility_collection *);

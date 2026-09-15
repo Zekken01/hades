@@ -29,13 +29,10 @@ c_synchronized_int32::c_synchronized_int32(long value) // 0x10F0D360
 	m_value = value;
 }
 
-extern c_synchronized_int32* _sub_10F0D3C0(c_synchronized_int32 *const);
-c_synchronized_int32::c_synchronized_int32() // 0x10F0D3C0
+c_synchronized_int32::c_synchronized_int32() : c_synchronized_int32(0) /* hades-mem-init:  */ // 0x10F0D3C0
 {
-	mangled_x86(MANGLED_TODO, "??0c_synchronized_int32@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_synchronized_int32@@QAE@XZ");
 	// c_synchronized_int32 *const this;
-	todo("implement");
-	_sub_10F0D3C0(this);
 }
 
 long c_synchronized_int32::set(long value) // 0x10F0D5B0

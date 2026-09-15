@@ -262,25 +262,34 @@ HRESULT c_d3d_resource_allocator::create_volume_texture(unsigned __int32 width, 
 	return hr;
 }
 
-extern HRESULT _sub_10F10330();
 HRESULT c_d3d_resource_allocator::release_all_d3d_resources() // 0x10F10330
 {
-	mangled_x86(MANGLED_TODO, "?release_all_d3d_resources@c_d3d_resource_allocator@@SAJXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?release_all_d3d_resources@c_d3d_resource_allocator@@SAJXZ");
 	// procedure flags: nofpo
-	todo("implement");
-	HRESULT __result = _sub_10F10330();
-	return __result;
+
+	return c_d3d_resource_tracker::release_all_allocated_pixel_shaders()
+		| c_d3d_resource_tracker::release_all_allocated_vertex_shaders()
+		| c_d3d_resource_tracker::release_all_allocated_vertex_buffers()
+		| c_d3d_resource_tracker::release_all_allocated_index_buffers()
+		| c_d3d_resource_tracker::release_all_allocated_surfaces()
+		| c_d3d_resource_tracker::release_all_allocated_textures()
+		| c_d3d_resource_tracker::release_all_allocated_vertex_declarations();
 }
 
-extern HRESULT _sub_10F103B0(IDirect3DIndexBuffer9 *);
 HRESULT c_d3d_resource_allocator::release_index_buffer(IDirect3DIndexBuffer9 *index_buffer) // 0x10F103B0
 {
-	mangled_x86(MANGLED_TODO, "?release_index_buffer@c_d3d_resource_allocator@@SAJPAUIDirect3DIndexBuffer9@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?release_index_buffer@c_d3d_resource_allocator@@SAJPAUIDirect3DIndexBuffer9@@@Z");
 	// IDirect3DIndexBuffer9 *index_buffer;
 	// function call : unsigned long ()
-	todo("implement");
-	HRESULT __result = _sub_10F103B0(index_buffer);
-	return __result;
+
+	if (!index_buffer || *(bool *)0x2446530)
+	{
+		return 0;
+	}
+
+	c_d3d_resource_tracker::remove_index_buffer(index_buffer);
+	m_released_index_buffers++;
+	return index_buffer->Release();
 }
 
 HRESULT c_d3d_resource_allocator::release_vertex_buffer(IDirect3DVertexBuffer9 *vertex_buffer) // 0x10F10600
@@ -298,59 +307,79 @@ HRESULT c_d3d_resource_allocator::release_vertex_buffer(IDirect3DVertexBuffer9 *
 	return vertex_buffer->Release();
 }
 
-extern HRESULT _sub_10F10450(IDirect3DPixelShader9 *);
 HRESULT c_d3d_resource_allocator::release_pixel_shader(IDirect3DPixelShader9 *pixel_shader) // 0x10F10450
 {
-	mangled_x86(MANGLED_TODO, "?release_pixel_shader@c_d3d_resource_allocator@@SAJPAUIDirect3DPixelShader9@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?release_pixel_shader@c_d3d_resource_allocator@@SAJPAUIDirect3DPixelShader9@@@Z");
 	// IDirect3DPixelShader9 *pixel_shader;
 	// function call : unsigned long ()
-	todo("implement");
-	HRESULT __result = _sub_10F10450(pixel_shader);
-	return __result;
+
+	if (!pixel_shader || *(bool *)0x2446530)
+	{
+		return 0;
+	}
+
+	c_d3d_resource_tracker::remove_pixel_shader(pixel_shader);
+	return pixel_shader->Release();
 }
 
-extern HRESULT _sub_10F104E0(IDirect3DSurface9 *);
 HRESULT c_d3d_resource_allocator::release_surface(IDirect3DSurface9 *surface) // 0x10F104E0
 {
-	mangled_x86(MANGLED_TODO, "?release_surface@c_d3d_resource_allocator@@SAJPAUIDirect3DSurface9@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?release_surface@c_d3d_resource_allocator@@SAJPAUIDirect3DSurface9@@@Z");
 	// IDirect3DSurface9 *surface;
 	// function call : unsigned long ()
-	todo("implement");
-	HRESULT __result = _sub_10F104E0(surface);
-	return __result;
+
+	if (!surface || *(bool *)0x2446530)
+	{
+		return 0;
+	}
+
+	c_d3d_resource_tracker::remove_surface(surface);
+	return surface->Release();
 }
 
-extern HRESULT _sub_10F10570(IDirect3DBaseTexture9 *);
 HRESULT c_d3d_resource_allocator::release_texture(IDirect3DBaseTexture9 *texture) // 0x10F10570
 {
-	mangled_x86(MANGLED_TODO, "?release_texture@c_d3d_resource_allocator@@SAJPAUIDirect3DBaseTexture9@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?release_texture@c_d3d_resource_allocator@@SAJPAUIDirect3DBaseTexture9@@@Z");
 	// IDirect3DBaseTexture9 *texture;
 	// function call : unsigned long ()
-	todo("implement");
-	HRESULT __result = _sub_10F10570(texture);
-	return __result;
+
+	if (!texture || *(bool *)0x2446530)
+	{
+		return 0;
+	}
+
+	c_d3d_resource_tracker::remove_texture(texture);
+	return texture->Release();
 }
 
-extern HRESULT _sub_10F10690(IDirect3DVertexDeclaration9 *);
 HRESULT c_d3d_resource_allocator::release_vertex_declaration(IDirect3DVertexDeclaration9 *vertex_declaration) // 0x10F10690
 {
-	mangled_x86(MANGLED_TODO, "?release_vertex_declaration@c_d3d_resource_allocator@@SAJPAUIDirect3DVertexDeclaration9@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?release_vertex_declaration@c_d3d_resource_allocator@@SAJPAUIDirect3DVertexDeclaration9@@@Z");
 	// IDirect3DVertexDeclaration9 *vertex_declaration;
 	// function call : unsigned long ()
-	todo("implement");
-	HRESULT __result = _sub_10F10690(vertex_declaration);
-	return __result;
+
+	if (!vertex_declaration || *(bool *)0x2446530)
+	{
+		return 0;
+	}
+
+	c_d3d_resource_tracker::remove_vertex_declaration(vertex_declaration);
+	return vertex_declaration->Release();
 }
 
-extern HRESULT _sub_10F10720(IDirect3DVertexShader9 *);
 HRESULT c_d3d_resource_allocator::release_vertex_shader(IDirect3DVertexShader9 *vertex_shader) // 0x10F10720
 {
-	mangled_x86(MANGLED_TODO, "?release_vertex_shader@c_d3d_resource_allocator@@SAJPAUIDirect3DVertexShader9@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?release_vertex_shader@c_d3d_resource_allocator@@SAJPAUIDirect3DVertexShader9@@@Z");
 	// IDirect3DVertexShader9 *vertex_shader;
 	// function call : unsigned long ()
-	todo("implement");
-	HRESULT __result = _sub_10F10720(vertex_shader);
-	return __result;
+
+	if (!vertex_shader || *(bool *)0x2446530)
+	{
+		return 0;
+	}
+
+	c_d3d_resource_tracker::remove_vertex_shader(vertex_shader);
+	return vertex_shader->Release();
 }
 
 void c_d3d_resource_allocator::set_d3d_device(IDirect3DDevice9 *device) // 0x10F10A50

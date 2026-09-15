@@ -205,6 +205,8 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+namespace hades_file_local { extern Forge::Magnets::MagnetPair const nullMagnetPair; }  // hades: added for 0x1096CB80
+
 long tag_find_by_name(unsigned long group_tag, char const *name);  // hades: added for 0X1096D120
 
 namespace Forge
@@ -260,13 +262,16 @@ namespace Forge
 			s_MagnetManager.reset(nullptr);
 		}
 
-		_extern void _sub_1096E210();
 		void Update() // 0x1096E210
 		{
-			mangled_x86(MANGLED_TODO, "?Update@Magnets@Forge@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Update@Magnets@Forge@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_1096E210();
+
+			if (!MagnetsEnabled())
+				return;
+
+			if (s_MagnetManager)
+				s_MagnetManager->Update();
 		}
 
 		void Render() // 0x1096D8C0
@@ -281,15 +286,18 @@ namespace Forge
 				s_MagnetManager->Render();
 		}
 
-		extern MagnetPair const &_sub_1096CB80();
 		Forge::Magnets::MagnetPair const &GetMagnetPair() // 0x1096CB80
 		{
-			mangled_x86(MANGLED_TODO, "?GetMagnetPair@Magnets@Forge@@YAABUMagnetPair@12@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetMagnetPair@Magnets@Forge@@YAABUMagnetPair@12@XZ");
 			// procedure flags: nofpo
 			// static Forge::Magnets::MagnetPair nullMagnetPair; // 0x1240FB5C
-			todo("implement");
-			Forge::Magnets::MagnetPair const & __result = _sub_1096CB80();
-			return __result;
+
+			if (!s_MagnetManager || !MagnetsEnabled())
+			{
+				return nullMagnetPair;
+			}
+
+			return s_MagnetManager->GetMagnetPair();
 		}
 	}
 }
@@ -479,38 +487,51 @@ unsigned short GetPlasmaShaderTagIndex() // 0x1096D120
 	return tagIndex;
 }
 
-_extern void _sub_1096D750(MagnetManager *const);
 void MagnetManager::Render() // 0x1096D750
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Render@MagnetManager@hades_file_local@@QAEXXZ");
 	// `anonymous-namespace'::MagnetManager::Render
 	// MagnetManager *const this;
 	// void *shaderDef;
 	// constexpr bool (*const `MagnetManager::Render'::`2'::UseDefaultShader)(__int32, __int32, __int32, __int32); // constant == 10629888
 	// constexpr void (*const `MagnetManager::Render'::`2'::sub_A3CA60)(unsigned __int32, void *, __int32, unsigned __int32, __int32, __int32); // constant == 10734176
 	// unsigned short const SHADER_TAGINDEX;
-	{
 		// __int32 i;
-	}
-	{
-	}
 	// function call : bool (*const)(__int32, __int32, __int32, __int32)
 	// function call : void *(*const)(unsigned long, long)
 	// function call : void (*const)(unsigned __int32, void *, __int32, unsigned __int32, __int32, __int32)
-	todo("implement");
-	_sub_1096D750(this);
+
+	unsigned short const SHADER_TAGINDEX = GetPlasmaShaderTagIndex();
+	if (!((bool (*)(__int32, __int32, __int32, __int32))0xA23300)(64, 0x14, 0, 0))
+		return;
+
+	void *shaderDef = tag_get(0x726D2020, SHADER_TAGINDEX);
+	((void (*)(unsigned __int32, void *, __int32, unsigned __int32, __int32, __int32))0xA3CA60)(SHADER_TAGINDEX, shaderDef, 20, 0, 5, 1);
+
+	for (__int32 i = 0; i < m_NumDestMagnets; i++)
+		RenderMagnet(m_DestMagnets[i]);
+
+	for (__int32 i = 0; i < m_NumSourceMagnets; i++)
+		RenderMagnet(m_SourceMagnets[i]);
 }
 
-_extern __int32 _sub_1096CAA0(s_render_model const *);
 __int32 FindMagnetMarkerGroup(s_render_model const *renderModel) // 0x1096CAA0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?FindMagnetMarkerGroup@@YAHPBUs_render_model@@@Z");
 	// `anonymous-namespace'::FindMagnetMarkerGroup
 	// s_render_model const *renderModel;
-	{
 		// __int32 i;
+
+	if (!markerGroupName)
+		return -1;
+
+	for (__int32 i = 0; i < renderModel->marker_groups.count; i++)
+	{
+		if (renderModel->marker_groups[i].name == markerGroupName)
+			return i;
 	}
-	todo("implement");
-	__int32 __result = _sub_1096CAA0(renderModel);
-	return __result;
+
+	return -1;
 }
 
 _extern void _sub_1096CC00(unsigned __int32, std::vector<real_point3d> &);

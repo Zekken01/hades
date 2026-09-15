@@ -34,6 +34,9 @@ struct real_vector3d;
 
 /* ---------- prototypes */
 
+extern void matrix4x3_rotation_from_angles(real_matrix4x3 *matrix, float yaw, float pitch, float roll);  // hades: added for 0x10EFBF40
+extern void matrix4x3_to_point_and_vectors(real_matrix4x3 *matrix, real_point3d *point, real_vector3d *forward, real_vector3d *up);  // hades: added for 0x10EFBF40
+
 extern "C" float __cdecl atan2f(float _Y, float _X);  // hades: added for 0X10EF97E0
 
 extern float real_pin(float x, float min, float max);
@@ -342,18 +345,27 @@ real_vector3d *vector_from_points3d(real_point3d const *p1, real_point3d const *
 	return result;
 }
 
-extern real_vector3d *_sub_10EF9DE0(real_vector3d const *, real_vector3d *);
 real_vector3d *generate_up_vector3d(real_vector3d const *forward, real_vector3d *up) // 0x10EF9DE0
 {
-	mangled_x86(MANGLED_TODO, "?generate_up_vector3d@@YAPAUreal_vector3d@@PBU1@PAU1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?generate_up_vector3d@@YAPAUreal_vector3d@@PBU1@PAU1@@Z");
 	// static ...; // 0x10EF9EC4
 	// static ...; // 0x10EF9EBC
 	// real_vector3d const *forward;
 	// real_vector3d *up;
 	// real_vector3d orth;
-	todo("implement");
-	real_vector3d * __result = _sub_10EF9DE0(forward, up);
-	return __result;
+
+	real_vector3d orth;
+
+	orth.i = forward->j;
+	orth.j = -forward->i;
+	orth.k = 0.0f;
+	if (normalize3d(&orth) < 0.0000099999997f)
+	{
+		orth = global_forward3d;
+	}
+
+	cross_product3d(&orth, forward, up);
+	return up;
 }
 
 real_vector3d *vector3d_from_euler_angles2d(real_vector3d *result, real_euler_angles2d const *angles) // 0x10EFBBC0
@@ -383,14 +395,16 @@ real_euler_angles3d *euler_angles3d_from_vectors3d(real_euler_angles3d *angles, 
 	return __result;
 }
 
-extern real_vector3d *_sub_10EFBDF0(float, float, real_vector3d *);
 real_vector3d *vector_from_yaw_and_pitch(float yaw, float pitch, real_vector3d *result) // 0x10EFBDF0
 {
-	mangled_x86(MANGLED_TODO, "?vector_from_yaw_and_pitch@@YAPAUreal_vector3d@@MMPAU1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?vector_from_yaw_and_pitch@@YAPAUreal_vector3d@@MMPAU1@@Z");
 	// real_vector3d *result;
-	todo("implement");
-	real_vector3d * __result = _sub_10EFBDF0(yaw, pitch, result);
-	return __result;
+
+	result->i = cosine(yaw) * cosine(pitch);
+	result->j = sine(yaw) * cosine(pitch);
+	result->k = sine(pitch);
+
+	return result;
 }
 
 real_point3d *point_from_line3d(real_point3d const *origin, real_vector3d const *vector, float t, real_point3d *result) // 0x10EFA7D0
@@ -451,15 +465,19 @@ float angle_between_vectors3d(real_vector3d const *v1, real_vector3d const *v2) 
 	return __result;
 }
 
-extern real_vector3d *_sub_10EFB3C0(real_vector3d *, real_vector3d const *, float, float);
 real_vector3d *rotate_vector_about_axis(real_vector3d *vector, real_vector3d const *axis, float sin_theta, float cos_theta) // 0x10EFB3C0
 {
-	mangled_x86(MANGLED_TODO, "?rotate_vector_about_axis@@YAPAUreal_vector3d@@PAU1@PBU1@MM@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?rotate_vector_about_axis@@YAPAUreal_vector3d@@PAU1@PBU1@MM@Z");
 	// float cos_theta;
 	// float one_minus_cos;
-	todo("implement");
-	real_vector3d * __result = _sub_10EFB3C0(vector, axis, sin_theta, cos_theta);
-	return __result;
+
+	float one_minus_cos = (1.0f - cos_theta) * dot_product3d(vector, axis);
+
+	vector->i = cos_theta * vector->i + one_minus_cos * axis->i - (vector->j * axis->k - vector->k * axis->j) * sin_theta;
+	vector->j = cos_theta * vector->j + one_minus_cos * axis->j - (vector->k * axis->i - vector->i * axis->k) * sin_theta;
+	vector->k = cos_theta * vector->k + one_minus_cos * axis->k - (vector->i * axis->j - vector->j * axis->i) * sin_theta;
+
+	return vector;
 }
 
 real_plane3d *plane3d_from_point_and_normal(real_plane3d *plane, real_point3d const *point, real_vector3d const *normal) // 0x10EFA640
@@ -491,10 +509,9 @@ float plane3d_distance_to_point(real_plane3d const *plane, real_point3d const *p
 	return point->x * plane->normal.i + point->y * plane->normal.j + point->z * plane->normal.k - plane->d;
 }
 
-_extern void _sub_10EFBF40(real_vector3d *, real_vector3d *, real_euler_angles3d const *);
 void vectors3d_from_euler_angles3d(real_vector3d *forward, real_vector3d *up, real_euler_angles3d const *angles) // 0x10EFBF40
 {
-	mangled_x86(MANGLED_TODO, "?vectors3d_from_euler_angles3d@@YAXPAUreal_vector3d@@0PBUreal_euler_angles3d@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?vectors3d_from_euler_angles3d@@YAXPAUreal_vector3d@@0PBUreal_euler_angles3d@@@Z");
 	// static ...; // 0x10EFBFF4
 	// static ...; // 0x10EFBFEC
 	// real_vector3d *forward;
@@ -502,8 +519,12 @@ void vectors3d_from_euler_angles3d(real_vector3d *forward, real_vector3d *up, re
 	// real_euler_angles3d const *angles;
 	// real_matrix4x3 matrix;
 	// real_point3d point;
-	todo("implement");
-	_sub_10EFBF40(forward, up, angles);
+
+	real_point3d point;
+	real_matrix4x3 matrix;
+
+	matrix4x3_rotation_from_angles(&matrix, angles->yaw, angles->pitch, angles->roll);
+	matrix4x3_to_point_and_vectors(&matrix, &point, forward, up);
 }
 
 real_vector2d *scale_vector2d(real_vector2d const *v, float scale, real_vector2d *result) // 0x10EFB590
@@ -595,15 +616,20 @@ float angle_between_vectors2d(real_vector2d const *v1, real_vector2d const *v2) 
 	return __result;
 }
 
-_extern float _sub_10EFB890(real_vector2d const *, real_vector2d const *);
 float signed_angle_between_vectors2d(real_vector2d const *v1, real_vector2d const *v2) // 0x10EFB890
 {
-	mangled_x86(MANGLED_TODO, "?signed_angle_between_vectors2d@@YAMPBUreal_vector2d@@0@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?signed_angle_between_vectors2d@@YAMPBUreal_vector2d@@0@Z");
 	// real_vector2d const *v2;
 	// float angle_radians;
-	todo("implement");
-	float __result = _sub_10EFB890(v1, v2);
-	return __result;
+
+	float angle_radians = arccosine(real_pin(dot_product2d(v1, v2), -1.0f, 1.0f));
+
+	if (cross_product2d(v1, v2) < 0.0f)
+	{
+		return -angle_radians;
+	}
+
+	return angle_radians;
 }
 
 real_point2d *point_from_line2d(real_point2d const *origin, real_vector2d const *vector, float t, real_point2d *result) // 0x10EFA740
@@ -644,15 +670,21 @@ float magnitude2d(real_vector2d const *v) // 0x10EF9F20
 	return square_root(magnitude2d_squared(v));
 }
 
-_extern float _sub_10EFA230(real_vector2d *);
 float normalize2d(real_vector2d *v) // 0x10EFA230
 {
-	mangled_x86(MANGLED_TODO, "?normalize2d@@YAMPAUreal_vector2d@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?normalize2d@@YAMPAUreal_vector2d@@@Z");
 	// real_vector2d *v;
 	// float m;
-	todo("implement");
-	float __result = _sub_10EFA230(v);
-	return __result;
+
+	float m = magnitude2d(v);
+
+	if (m < 0.0000099999997f)
+	{
+		return 0.0f;
+	}
+
+	scale_vector2d(v, 1.0f / m, v);
+	return m;
 }
 
 float dot_product2d(real_vector2d const *v1, real_vector2d const *v2) // 0x10EF9B60

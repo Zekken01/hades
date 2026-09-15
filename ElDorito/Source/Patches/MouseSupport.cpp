@@ -376,26 +376,55 @@ bool HandleSpinnerListWidgetFocus(c_gui_screen_widget *screenWidget, c_gui_list_
 	return __result;
 }
 
-_extern void _sub_108D3CC0(c_gui_list_item_widget *, real_rectangle2d &);
 void ComputeListItemBounds(c_gui_list_item_widget *itemWidget, real_rectangle2d &bounds) // 0x108D3CC0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ComputeListItemBounds@@YAXPAVc_gui_list_item_widget@@AAUreal_rectangle2d@@@Z");
 	// `anonymous-namespace'::ComputeListItemBounds
 	// static ...; // 0x108D3D84
 	// static ...; // 0x108D3D7C
 	// c_gui_list_item_widget *itemWidget;
 	// real_rectangle2d &bounds;
 	// real_point2d anchorPos;
-	todo("implement");
-	_sub_108D3CC0(itemWidget, bounds);
+
+	ComputeWidgetBounds(itemWidget, &bounds, [](c_gui_widget const &widget)
+	{
+		return widget.is_visible() && widget.get_type() == _gui_widget_bitmap;
+	});
+
+	real_point2d anchorPos = itemWidget->get_anchor_position();
+
+	bounds.x0 += anchorPos.x;
+	bounds.x1 += anchorPos.x;
+	bounds.y0 += anchorPos.y;
+	bounds.y1 += anchorPos.y;
 }
 
-_extern void _sub_108D5970(SMouseSupportContext &);
 void UpdateMouseMovementTracking(SMouseSupportContext &state) // 0x108D5970
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateMouseMovementTracking@@YAXAAUSMouseSupportContext@hades_file_local@@@Z");
 	// `anonymous-namespace'::UpdateMouseMovementTracking
 	// SMouseSupportContext &state;
-	todo("implement");
-	_sub_108D5970(state);
+
+	if (globalMouseMoveDelta > 0.00001f)
+	{
+		globalMouseMoveDelta *= 0.4f;
+	}
+	else
+	{
+		globalMouseMoveDelta = 0.0f;
+	}
+
+	if (globalMouseMoveDelta >= 0.01f)
+	{
+		if (state.mouseMoveTicks < 255)
+		{
+			state.mouseMoveTicks++;
+		}
+	}
+	else
+	{
+		state.mouseMoveTicks = 0;
+	}
 }
 
 _extern void _sub_108D5A20(SMouseSupportContext &);
@@ -409,21 +438,50 @@ void UpdateMouseState(SMouseSupportContext &state) // 0x108D5A20
 	_sub_108D5A20(state);
 }
 
-_extern void _sub_108D3DD0(c_gui_widget *, real_rectangle2d *, bool (*)(c_gui_widget const &));
 void ComputeWidgetBounds(c_gui_widget *widget, real_rectangle2d *accumulatedBounds, bool (*childFilter)(c_gui_widget const &)) // 0x108D3DD0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ComputeWidgetBounds@@YAXPAVc_gui_widget@@PAUreal_rectangle2d@@P6A_NABV1@@Z@Z");
 	// `anonymous-namespace'::ComputeWidgetBounds
 	// static ...; // 0x108D3F4C
 	// c_gui_widget *widget;
 	// real_rectangle2d *accumulatedBounds;
 	// bool (*childFilter)(c_gui_widget const &);
 	// c_gui_widget *child;
-	{
 		// real_rectangle2d bounds;
-	}
 	// function call : bool (*)(c_gui_widget const &)
-	todo("implement");
-	_sub_108D3DD0(widget, accumulatedBounds, childFilter);
+
+	c_gui_widget *child;
+
+	for (child = widget->get_first_child(); child; child = child->get_next_sibling())
+	{
+		if (!childFilter(*child))
+		{
+			continue;
+		}
+
+		real_rectangle2d bounds = {};
+		child->get_render_bounds(&bounds);
+
+		if (accumulatedBounds->x0 > bounds.x0 || accumulatedBounds->x0 == 0.0f)
+		{
+			accumulatedBounds->x0 = bounds.x0;
+		}
+
+		if (bounds.x1 > accumulatedBounds->x1 || accumulatedBounds->x1 == 0.0f)
+		{
+			accumulatedBounds->x1 = bounds.x1;
+		}
+
+		if (accumulatedBounds->y0 > bounds.y0 || accumulatedBounds->y0 == 0.0f)
+		{
+			accumulatedBounds->y0 = bounds.y0;
+		}
+
+		if (bounds.y1 > accumulatedBounds->y1 || accumulatedBounds->y1 == 0.0f)
+		{
+			accumulatedBounds->y1 = bounds.y1;
+		}
+	}
 }
 
 _extern void _sub_108D4BE0(real_rectangle2d const &, real_rectangle2d &);

@@ -234,19 +234,22 @@ namespace Server
 			_sub_10C48D70();
 		}
 
-		_extern bool _sub_10C487E0(Server::Voting::VotingMessage &);
 		bool BroadcastVotingMessage(Server::Voting::VotingMessage &message) // 0x10C487E0
 		{
-			mangled_x86(MANGLED_TODO, "?BroadcastVotingMessage@Voting@Server@@YA_NAAUVotingMessage@12@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?BroadcastVotingMessage@Voting@Server@@YA_NAAUVotingMessage@12@@Z");
 			// Server::Voting::VotingMessage &message;
 			// Blam::Network::SessionMembership *membership;
 			// Blam::Network::Session *session;
-			{
 				// __int32 peer;
+
+			auto session = Blam::Network::GetActiveSession();
+			auto membership = &session->MembershipInfo;
+			for (auto peer = membership->FindFirstPeer(); peer >= 0; peer = membership->FindNextPeer(peer))
+			{
+				if (!SendVotingMessagePacket(session, peer, message))
+					return false;
 			}
-			todo("implement");
-			bool __result = _sub_10C487E0(message);
-			return __result;
+			return true;
 		}
 
 		bool SendVotingMessageToPeer(Server::Voting::VotingMessage &message, __int32 peer) // 0x10C49400
@@ -259,19 +262,23 @@ namespace Server
 			return SendVotingMessagePacket(session, peer, message);
 		}
 
-		_extern bool _sub_10C491C0(__int32 const);
 		bool SendVoteToHost(__int32 const vote) // 0x10C491C0
 		{
-			mangled_x86(MANGLED_TODO, "?SendVoteToHost@Voting@Server@@YA_NH@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?SendVoteToHost@Voting@Server@@YA_NH@Z");
 			// static ...; // 0x10C49270
 			// static ...; // 0x10C49264
 			// static ...; // 0x10C4925C
 			// __int32 const vote;
 			// Blam::Network::Session *session;
 			// Server::Voting::VotingMessage message;
-			todo("implement");
-			bool __result = _sub_10C491C0(vote);
-			return __result;
+
+			auto session = Blam::Network::GetActiveSession();
+			if (!session)
+				return false;
+
+			VotingMessage message(VotingMessageType::Vote);
+			message.Vote = vote;
+			return SendVotingMessagePacket(session, session->MembershipInfo.HostPeerIndex, message);
 		}
 	}
 }

@@ -216,13 +216,19 @@ namespace Server
 			return Modules::ModuleVoting::Instance().VarServerVotingType->ValueInt == 1;
 		}
 
-		_extern void _sub_10C4F230(Server::Voting::VotingSystem *const);
 		void VotingSystem::Reset() // 0x10C4F230
 		{
-			mangled_x86(MANGLED_TODO, "?Reset@VotingSystem@Voting@Server@@UAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Reset@VotingSystem@Voting@Server@@UAEXXZ");
 			// Server::Voting::VotingSystem *const this;
-			todo("implement");
-			_sub_10C4F230(this);
+
+			numberOfRevotesUsed = 0;
+			winnerChosenTime = 0;
+			enumerationTime = 0;
+			voteStartedTime = 0;
+			mapSetTime = 0;
+			winnerChosen = false;
+
+			mapVotes.clear();
 		}
 
 		void VotingSystem::NewVote() // 0x10C4F1B0
@@ -236,17 +242,19 @@ namespace Server
 			StartVoting();
 		}
 
-		_extern void _sub_10C4DAB0(Server::Voting::VotingSystem *const);
 		void VotingSystem::EndVote() // 0x10C4DAB0
 		{
-			mangled_x86(MANGLED_TODO, "?EndVote@VotingSystem@Voting@Server@@UAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?EndVote@VotingSystem@Voting@Server@@UAEXXZ");
 			// static ...; // 0x10C4DB44
 			// static ...; // 0x10C4DB38
 			// static ...; // 0x10C4DB30
 			// Server::Voting::VotingSystem *const this;
 			// Server::Voting::VotingMessage newmessage;
-			todo("implement");
-			_sub_10C4DAB0(this);
+
+			Server::Voting::VotingMessage message(VoteEnded);
+
+			message.voteEnded = true;
+			Server::Voting::BroadcastVotingMessage(message);
 		}
 
 		_extern void _sub_10C4EE90(Server::Voting::VotingSystem *const, Server::Voting::VotingMessage const &, std::string);
@@ -337,10 +345,9 @@ namespace Server
 			_sub_10C514C0(this);
 		}
 
-		_extern double _sub_10C512A0(double, double);
 		double getRandom(double fMin, double fMax) // 0x10C512A0
 		{
-			mangled_x86(MANGLED_TODO, "?getRandom@Voting@Server@@YANNN@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?getRandom@Voting@Server@@YANNN@Z");
 			// static ...; // 0x10C5137C
 			// static ...; // 0x10C51364
 			// static ...; // 0x10C5135C
@@ -348,9 +355,13 @@ namespace Server
 			// double fMax;
 			// std::uniform_real_distribution<double> dist;
 			// std::mersenne_twister_engine<unsigned int,32,624,397,31,2567483615,11,4294967295,7,2636928640,15,4022730752,18,1812433253> rng;
-			todo("implement");
-			double __result = _sub_10C512A0(fMin, fMax);
-			return __result;
+
+			std::mt19937 rng;
+			std::uniform_real_distribution<double> dist(fMin, fMax);
+
+			rng.seed(std::random_device()());
+
+			return dist(rng);
 		}
 
 		extern MapAndType _sub_10C4E190(Server::Voting::VotingSystem *const);
@@ -550,14 +561,12 @@ namespace Server
 			_sub_10C4F6F0(this);
 		}
 
-		_extern __int32 _sub_10C513C0();
 		__int32 getVotesNeededToInstantSkip() // 0x10C513C0
 		{
-			mangled_x86(MANGLED_TODO, "?getVotesNeededToInstantSkip@Voting@Server@@YAHXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?getVotesNeededToInstantSkip@Voting@Server@@YAHXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			__int32 __result = _sub_10C513C0();
-			return __result;
+
+			return (__int32)round((Blam::Network::GetNumPlayers() - 1) * 51 / 100 + 1);
 		}
 
 		_extern void _sub_10C4FEE0(Server::Voting::VotingSystem *const);

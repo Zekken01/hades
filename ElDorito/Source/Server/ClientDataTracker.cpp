@@ -305,23 +305,29 @@ namespace Server
 
 /* ---------- private code */
 
-_extern void _sub_10B00590(ClientInfoDataPacketHandler *const, Blam::BitStream *, Server::ClientDataTracker::ClientInfoData const *);
 _inline void ClientInfoDataPacketHandler::Serialize(Blam::BitStream *stream, Server::ClientDataTracker::ClientInfoData const *data) // 0x10B00590
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Serialize@ClientInfoDataPacketHandler@hades_file_local@@UAEXPAVBitStream@Blam@@PBUClientInfoData@ClientDataTracker@Server@@@Z");
 	// `anonymous-namespace'::ClientInfoDataPacketHandler::Serialize
 	// Server::ClientDataTracker::ClientInfoData const *data;
-	todo("implement");
-	_sub_10B00590(this, stream, data);
+
+	stream->WriteString<char, 4096>(data->Body);
 }
 
-_extern bool _sub_10AFFDE0(ClientInfoDataPacketHandler *const, Blam::BitStream *, Server::ClientDataTracker::ClientInfoData *);
 _inline bool ClientInfoDataPacketHandler::Deserialize(Blam::BitStream *stream, Server::ClientDataTracker::ClientInfoData *data) // 0x10AFFDE0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Deserialize@ClientInfoDataPacketHandler@hades_file_local@@UAE_NPAVBitStream@Blam@@PAUClientInfoData@ClientDataTracker@Server@@@Z");
 	// `anonymous-namespace'::ClientInfoDataPacketHandler::Deserialize
 	// Server::ClientDataTracker::ClientInfoData *data;
-	todo("implement");
-	bool __result = _sub_10AFFDE0(this, stream, data);
-	return __result;
+
+	memset(data, 0, sizeof(Server::ClientDataTracker::ClientInfoData));
+
+	if (!stream->ReadString<char, 4096>(data->Body))
+	{
+		return false;
+	}
+
+	return true;
 }
 
 _extern void _sub_10AFFF60(ClientInfoDataPacketHandler *const, Blam::Network::ObserverChannel *, Patches::CustomPackets::Packet<Server::ClientDataTracker::ClientInfoData> const *);

@@ -134,75 +134,88 @@ _inline void __fastcall c_scaled_convex_vertices_shape_impl::getAabbImpl(c_scale
 	_sub_10F1B9B0(this_, __formal, transform, tolerance, aabbOut);
 }
 
-_extern bool *_sub_10F1B360(c_scaled_convex_vertices_shape *, void *, bool *, hkpShapeRayCastInput const &, hkpShapeRayCastOutput &);
 _inline bool *__fastcall c_scaled_convex_vertices_shape_impl::castRayImpl(c_scaled_convex_vertices_shape *this_, void *__formal, bool *resultOut, hkpShapeRayCastInput const &input, hkpShapeRayCastOutput &ouput) // 0x10F1B360
 {
-	mangled_x86(MANGLED_TODO, "?castRayImpl@c_scaled_convex_vertices_shape_impl@@CIPA_NPAUc_scaled_convex_vertices_shape@@PAXPA_NABUhkpShapeRayCastInput@@AAUhkpShapeRayCastOutput@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?castRayImpl@c_scaled_convex_vertices_shape_impl@@CIPA_NPAUc_scaled_convex_vertices_shape@@PAXPA_NABUhkpShapeRayCastInput@@AAUhkpShapeRayCastOutput@@@Z");
 	// hkpShapeRayCastOutput &ouput;
 	// function call : bool *(*)(hkpShape *, bool *, hkpShapeRayCastInput const &, hkpShapeRayCastOutput &)
-	todo("implement");
-	bool * __result = _sub_10F1B360(this_, __formal, resultOut, input, ouput);
-	return __result;
+
+	return (*(bool *(__thiscall **)(c_convex_vertices_shape_with_material *, bool *, hkpShapeRayCastInput const &, hkpShapeRayCastOutput &))(this_->child->vftable + 7))(this_->child, resultOut, input, ouput);
 }
 
-_extern __int32 _sub_10F1C0D0(c_scaled_convex_vertices_shape *, void *);
 _inline __int32 __fastcall c_scaled_convex_vertices_shape_impl::getNumCollisionSpheresImpl(c_scaled_convex_vertices_shape *this_, void *__formal) // 0x10F1C0D0
 {
-	mangled_x86(MANGLED_TODO, "?getNumCollisionSpheresImpl@c_scaled_convex_vertices_shape_impl@@CIHPAUc_scaled_convex_vertices_shape@@PAX@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?getNumCollisionSpheresImpl@c_scaled_convex_vertices_shape_impl@@CIHPAUc_scaled_convex_vertices_shape@@PAX@Z");
 	// void *__formal;
 	// function call : __int32 (*)(hkpShape *)
-	todo("implement");
-	__int32 __result = _sub_10F1C0D0(this_, __formal);
-	return __result;
+
+	return (*(__int32(__thiscall **)(c_convex_vertices_shape_with_material *))(this_->child->vftable + 8))(this_->child);
 }
 
-extern hkVector4 *_sub_10F1BD20(c_scaled_convex_vertices_shape *, void *, hkVector4 *);
 _inline hkVector4 *__fastcall c_scaled_convex_vertices_shape_impl::getCollisionSpheresImpl(c_scaled_convex_vertices_shape *this_, void *__formal, hkVector4 *buffer) // 0x10F1BD20
 {
-	mangled_x86(MANGLED_TODO, "?getCollisionSpheresImpl@c_scaled_convex_vertices_shape_impl@@CIPAUhkVector4@@PAUc_scaled_convex_vertices_shape@@PAXPAU2@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?getCollisionSpheresImpl@c_scaled_convex_vertices_shape_impl@@CIPAUhkVector4@@PAUc_scaled_convex_vertices_shape@@PAXPAU2@@Z");
 	// hkVector4 *buffer;
 	// long num_spheres;
-	{
 		// long i;
-	}
 	// function call : __int32 (*)(hkpShape *)
 	// function call : hkVector4 *(*)(hkpShape *, hkVector4 *)
-	todo("implement");
-	hkVector4 * __result = _sub_10F1BD20(this_, __formal, buffer);
-	return __result;
+
+	long num_spheres = (*(__int32(__thiscall **)(c_convex_vertices_shape_with_material *))(this_->child->vftable + 8))(this_->child);
+	(*(hkVector4 *(__thiscall **)(c_convex_vertices_shape_with_material *, hkVector4 *))(this_->child->vftable + 9))(this_->child, buffer);
+
+	for (long i = 0; i < num_spheres; i++)
+	{
+		buffer[i].x = buffer[i].x * this_->scale.x;
+		buffer[i].y = buffer[i].y * this_->scale.y;
+		buffer[i].z = buffer[i].z * this_->scale.z;
+		buffer[i].w = buffer[i].w * this_->scale.w;
+	}
+
+	return buffer;
 }
 
-_extern void _sub_10F1BF50(c_scaled_convex_vertices_shape *, void *, hkVector4 &);
 _inline void __fastcall c_scaled_convex_vertices_shape_impl::getFirstVertex(c_scaled_convex_vertices_shape *this_, void *__formal, hkVector4 &vertexOut) // 0x10F1BF50
 {
-	mangled_x86(MANGLED_TODO, "?getFirstVertex@c_scaled_convex_vertices_shape_impl@@CIXPAUc_scaled_convex_vertices_shape@@PAXAAUhkVector4@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?getFirstVertex@c_scaled_convex_vertices_shape_impl@@CIXPAUc_scaled_convex_vertices_shape@@PAXAAUhkVector4@@@Z");
 	// hkVector4 &vertexOut;
 	// function call : void (*)(hkpShape *, hkVector4 &)
-	todo("implement");
-	_sub_10F1BF50(this_, __formal, vertexOut);
+
+	(*(void (__thiscall **)(c_convex_vertices_shape_with_material *, hkVector4 &))(this_->child->vftable + 10))(this_->child, vertexOut);
+
+	vertexOut.x = vertexOut.x * this_->scale.x;
+	vertexOut.y = vertexOut.y * this_->scale.y;
+	vertexOut.z = vertexOut.z * this_->scale.z;
 }
 
-_extern void _sub_10F1C150(c_scaled_convex_vertices_shape *, void *, hkVector4 const &, hkVector4 &);
 _inline void __fastcall c_scaled_convex_vertices_shape_impl::getSupportingVertexImpl(c_scaled_convex_vertices_shape *this_, void *__formal, hkVector4 const &dir, hkVector4 &supportingVertexOut) // 0x10F1C150
 {
-	mangled_x86(MANGLED_TODO, "?getSupportingVertexImpl@c_scaled_convex_vertices_shape_impl@@CIXPAUc_scaled_convex_vertices_shape@@PAXABUhkVector4@@AAU3@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?getSupportingVertexImpl@c_scaled_convex_vertices_shape_impl@@CIXPAUc_scaled_convex_vertices_shape@@PAXABUhkVector4@@AAU3@@Z");
 	// hkVector4 &supportingVertexOut;
 	// function call : void (*)(hkpShape *, hkVector4 const &, hkVector4 &)
-	todo("implement");
-	_sub_10F1C150(this_, __formal, dir, supportingVertexOut);
+
+	(*(void (__thiscall **)(c_convex_vertices_shape_with_material *, hkVector4 const &, hkVector4 &))(this_->child->vftable + 11))(this_->child, dir, supportingVertexOut);
+
+	supportingVertexOut.x = supportingVertexOut.x * this_->scale.x;
+	supportingVertexOut.y = supportingVertexOut.y * this_->scale.y;
+	supportingVertexOut.z = supportingVertexOut.z * this_->scale.z;
 }
 
-_extern void _sub_10F1B400(c_scaled_convex_vertices_shape *, void *, unsigned short *, __int32, hkVector4 *);
 _inline void __fastcall c_scaled_convex_vertices_shape_impl::convertVertexIdsToVerticesImpl(c_scaled_convex_vertices_shape *this_, void *__formal, unsigned short *ids, __int32 numIds, hkVector4 *vertixArrayOut) // 0x10F1B400
 {
-	mangled_x86(MANGLED_TODO, "?convertVertexIdsToVerticesImpl@c_scaled_convex_vertices_shape_impl@@CIXPAUc_scaled_convex_vertices_shape@@PAXPAGHPAUhkVector4@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?convertVertexIdsToVerticesImpl@c_scaled_convex_vertices_shape_impl@@CIXPAUc_scaled_convex_vertices_shape@@PAXPAGHPAUhkVector4@@@Z");
 	// hkVector4 *vertixArrayOut;
-	{
 		// long i;
-	}
 	// function call : void (*)(hkpShape *, unsigned short *, __int32, hkVector4 *)
-	todo("implement");
-	_sub_10F1B400(this_, __formal, ids, numIds, vertixArrayOut);
+
+	(*(void (__thiscall **)(c_convex_vertices_shape_with_material *, unsigned short *, __int32, hkVector4 *))(this_->child->vftable + 12))(this_->child, ids, numIds, vertixArrayOut);
+
+	for (long i = 0; i < numIds; i++)
+	{
+		vertixArrayOut[i].x = vertixArrayOut[i].x * this_->scale.x;
+		vertixArrayOut[i].y = vertixArrayOut[i].y * this_->scale.y;
+		vertixArrayOut[i].z = vertixArrayOut[i].z * this_->scale.z;
+	}
 }
 
 extern c_convex_vertices_shape_with_material *_sub_10F1B5B0(c_convex_vertices_shape_with_material *, s_structure_instanced_geometry_definition *);
@@ -221,14 +234,20 @@ _inline c_convex_vertices_shape_with_material *c_convex_vertices_shape_with_mate
 	return __result;
 }
 
-extern c_decomposed_poop_shape *_sub_10F1B770(c_decomposed_poop_shape *, s_structure_instanced_geometry_definition *);
 _inline c_decomposed_poop_shape *c_decomposed_poop_shape_impl::fixup(c_decomposed_poop_shape *shape, s_structure_instanced_geometry_definition *instance_definition) // 0x10F1B770
 {
-	mangled_x86(MANGLED_TODO, "?fixup@c_decomposed_poop_shape_impl@@SAPAUc_decomposed_poop_shape@@PAU2@PAUs_structure_instanced_geometry_definition@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?fixup@c_decomposed_poop_shape_impl@@SAPAUc_decomposed_poop_shape@@PAU2@PAUs_structure_instanced_geometry_definition@@@Z");
 	// s_structure_instanced_geometry_definition *instance_definition;
-	todo("implement");
-	c_decomposed_poop_shape * __result = _sub_10F1B770(shape, instance_definition);
-	return __result;
+
+	shape->hkpShape::vftable = (void **)&g_vtable_for_hkpShape;
+	shape->hkShapeContainer::vftable = (void **)&g_vtable_for_hkpShapeContainer;
+	shape->m_referenceObject.m_memSizeAndFlags = 0;
+	shape->m_referenceObject.m_referenceCount = 128;
+	shape->m_userData = 0;
+	shape->m_type = 2;
+	shape->m_disableWelding = 0;
+	shape->instance_definition = instance_definition;
+	return shape;
 }
 
 extern hkShapeContainer *_sub_10F1BED0(c_decomposed_poop_shape *);
@@ -241,17 +260,18 @@ _inline hkShapeContainer *__fastcall c_decomposed_poop_shape_impl::getContainer(
 	return __result;
 }
 
-_extern __int32 _sub_10F1C030(hkShapeContainer *);
 _inline __int32 __fastcall c_decomposed_poop_shape_impl::getNumChildShapes(hkShapeContainer *this_) // 0x10F1C030
 {
-	mangled_x86(MANGLED_TODO, "?getNumChildShapes@c_decomposed_poop_shape_impl@@CIHPAUhkShapeContainer@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?getNumChildShapes@c_decomposed_poop_shape_impl@@CIHPAUhkShapeContainer@@@Z");
 	// hkShapeContainer *this_;
 	// c_decomposed_poop_shape *decomposed_poop;
 	// s_structure_instanced_geometry_definition *instance_def;
 	// s_instanced_geometry_definition_extra_data *extra_data;
-	todo("implement");
-	__int32 __result = _sub_10F1C030(this_);
-	return __result;
+
+	c_decomposed_poop_shape *decomposed_poop = (c_decomposed_poop_shape *)havok_shape_from_container(this_);
+	s_structure_instanced_geometry_definition *instance_def = (s_structure_instanced_geometry_definition *)decomposed_poop->instance_definition;
+	s_instanced_geometry_definition_extra_data *extra_data = &instance_def->extra_data[0];
+	return extra_data->polyhedra.count;
 }
 
 extern hkpShape *_sub_10F1BBC0(hkShapeContainer *, void *, unsigned __int32, char (&)[512]);

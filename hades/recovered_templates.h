@@ -25,6 +25,18 @@
 #include <utility>
 #include <vector>
 
+// hades: declared here rather than including a blamlib header, which this one
+// is reached from both trees. Spelled exactly as Blam/cseries/cseries.hpp does.
+extern char *csstrnzcpy(char *to, char const *from, unsigned long size);
+extern char *cswcstostr(wchar_t const *in, char *out, __int32 const length);
+
+// hades: `?data_iterator_next@@3Q6APAUs_datum@@PAUs_data_iterator@@@ZA` - a
+// const pointer to a __cdecl function, which `c_data_iterator<T>::next` calls
+// through. `s_datum` is defined in Blam/memory/data.hpp; a forward declaration
+// is all a pointer return type needs.
+struct s_datum;
+extern s_datum *(*const data_iterator_next)(s_data_iterator *);
+
 /* ---------- forward declarations */
 
 // Concrete types these templates name. This header is pulled in before any
@@ -87,160 +99,6 @@ public:
 	_inline t_type *operator->();
 };
 
-/* ---------- c_enum (183 instantiations) */
-
-template<typename t_type, typename t_storage_type>
-class c_enum
-{
-private:
-	t_storage_type m_value; // 0x0
-public:
-	_inline c_enum(c_enum const &other);
-	_inline c_enum(t_type const &value);
-	_inline c_enum(t_storage_type const &value);
-	_inline c_enum();
-	bool operator==(c_enum const &) const;
-	_inline bool operator==(t_type const &other) const;
-	_inline bool operator==(t_storage_type const &other) const;
-	bool operator!=(c_enum const &) const;
-	_inline bool operator!=(t_type const &other) const;
-	_inline bool operator!=(t_storage_type const &other) const;
-	bool operator<(c_enum const &) const;
-	bool operator<(t_type const &) const;
-	bool operator<(t_storage_type const &) const;
-	bool operator>(c_enum const &) const;
-	bool operator>(t_type const &) const;
-	bool operator>(t_storage_type const &) const;
-	bool operator<=(c_enum const &) const;
-	_inline bool operator<=(t_type const &other) const;
-	bool operator<=(t_storage_type const &) const;
-	bool operator>=(c_enum const &) const;
-	_inline bool operator>=(t_type const &other) const;
-	bool operator>=(t_storage_type const &) const;
-	c_enum operator~() const;
-	c_enum operator|(c_enum const &) const;
-	c_enum operator|(t_type const &) const;
-	c_enum operator|(__int32 const) const;
-	c_enum &operator|=(c_enum const &);
-	c_enum &operator|=(t_type const &);
-	c_enum &operator|=(__int32 const);
-	c_enum operator&(c_enum const &) const;
-	c_enum operator&(t_type const &) const;
-	_inline c_enum operator&(__int32 const other) const;
-	c_enum &operator&=(c_enum const &);
-	c_enum &operator&=(t_type const &);
-	c_enum &operator&=(__int32 const);
-	c_enum operator+(c_enum const &) const;
-	c_enum operator+(t_type const &) const;
-	c_enum operator+(t_storage_type const &) const;
-	c_enum &operator+=(c_enum const &);
-	c_enum &operator+=(t_type const &);
-	c_enum &operator+=(t_storage_type const &);
-	c_enum operator-(c_enum const &) const;
-	_inline c_enum operator-(t_type const &other) const;
-	c_enum operator-(t_storage_type const &) const;
-	c_enum operator-() const;
-	c_enum &operator-=(c_enum const &);
-	c_enum &operator-=(t_type const &);
-	c_enum &operator-=(t_storage_type const &);
-	c_enum operator*(c_enum const &) const;
-	c_enum operator*(t_type const &) const;
-	c_enum operator*(t_storage_type const &) const;
-	c_enum &operator*=(c_enum const &);
-	c_enum &operator*=(t_type const &);
-	c_enum &operator*=(t_storage_type const &);
-	c_enum operator/(c_enum const &) const;
-	c_enum operator/(t_type const &) const;
-	c_enum operator/(t_storage_type const &) const;
-	c_enum &operator/=(c_enum const &);
-	c_enum &operator/=(t_type const &);
-	c_enum &operator/=(t_storage_type const &);
-	_inline c_enum &operator=(c_enum const &other);
-	_inline c_enum &operator=(t_type const &other);
-	_inline c_enum &operator=(t_storage_type const &other);
-	_inline operator bool() const;
-	_inline operator t_type() const;
-	_inline operator t_storage_type() const;
-};
-
-/* ---------- c_flags (146 instantiations) */
-
-template<typename t_type, typename t_storage_type>
-class c_flags
-{
-private:
-	t_storage_type m_value; // 0x0
-public:
-	_inline c_flags(c_flags const &other);
-	c_flags(t_type const &);
-	_inline c_flags(t_storage_type const &value);
-	_inline c_flags();
-	bool operator==(c_flags const &) const;
-	_inline bool operator==(t_type const &other) const;
-	_inline bool operator==(t_storage_type const &other) const;
-	bool operator!=(c_flags const &) const;
-	bool operator!=(t_type const &) const;
-	_inline bool operator!=(t_storage_type const &other) const;
-	bool operator<(c_flags const &) const;
-	_inline bool operator<(t_type const &other) const;
-	bool operator<(t_storage_type const &) const;
-	bool operator>(c_flags const &) const;
-	bool operator>(t_type const &) const;
-	bool operator>(t_storage_type const &) const;
-	bool operator<=(c_flags const &) const;
-	bool operator<=(t_type const &) const;
-	bool operator<=(t_storage_type const &) const;
-	bool operator>=(c_flags const &) const;
-	_inline bool operator>=(t_type const &other) const;
-	bool operator>=(t_storage_type const &) const;
-	c_flags operator~() const;
-	c_flags operator|(c_flags const &) const;
-	c_flags operator|(t_type const &) const;
-	_inline c_flags operator|(__int32 const other) const;
-	c_flags &operator|=(c_flags const &);
-	c_flags &operator|=(t_type const &);
-	_inline c_flags &operator|=(__int32 const other);
-	c_flags operator&(c_flags const &) const;
-	_inline c_flags operator&(t_type const &other) const;
-	_inline c_flags operator&(__int32 const other) const;
-	c_flags &operator&=(c_flags const &);
-	c_flags &operator&=(t_type const &);
-	_inline c_flags &operator&=(__int32 const other);
-	c_flags operator+(c_flags const &) const;
-	c_flags operator+(t_type const &) const;
-	c_flags operator+(t_storage_type const &) const;
-	c_flags &operator+=(c_flags const &);
-	c_flags &operator+=(t_type const &);
-	c_flags &operator+=(t_storage_type const &);
-	c_flags operator-(c_flags const &) const;
-	c_flags operator-(t_type const &) const;
-	c_flags operator-(t_storage_type const &) const;
-	c_flags operator-() const;
-	c_flags &operator-=(c_flags const &);
-	c_flags &operator-=(t_type const &);
-	c_flags &operator-=(t_storage_type const &);
-	c_flags operator*(c_flags const &) const;
-	c_flags operator*(t_type const &) const;
-	c_flags operator*(t_storage_type const &) const;
-	c_flags &operator*=(c_flags const &);
-	c_flags &operator*=(t_type const &);
-	c_flags &operator*=(t_storage_type const &);
-	c_flags operator/(c_flags const &) const;
-	c_flags operator/(t_type const &) const;
-	c_flags operator/(t_storage_type const &) const;
-	c_flags &operator/=(c_flags const &);
-	c_flags &operator/=(t_type const &);
-	c_flags &operator/=(t_storage_type const &);
-	_inline c_flags &operator=(c_flags const &other);
-	c_flags &operator=(t_type const &);
-	_inline c_flags &operator=(t_storage_type const &other);
-	_inline operator bool() const;
-	operator t_type() const;
-	_inline operator t_storage_type() const;
-	_inline bool test(t_type bit) const;
-	_inline void set(t_type bit, bool value);
-};
-
 /* ---------- c_generic_network_session_parameter_data (41 instantiations) */
 
 template<typename t_arg0>
@@ -249,12 +107,12 @@ class c_generic_network_session_parameter_data
 protected:
 	t_arg0 m_data; // 0x0
 public:
-	c_generic_network_session_parameter_data(c_generic_network_session_parameter_data &); /* compiler_generated() */
-	c_generic_network_session_parameter_data(c_generic_network_session_parameter_data const &); /* compiler_generated() */
+	c_generic_network_session_parameter_data(c_generic_network_session_parameter_data &) = default; /* compiler_generated() */
+	c_generic_network_session_parameter_data(c_generic_network_session_parameter_data const &) = default; /* compiler_generated() */
 protected:
 	t_arg0 m_requested_data; // 0x4
 public:
-	c_generic_network_session_parameter_data(); /* compiler_generated() */
+	c_generic_network_session_parameter_data() = default; /* compiler_generated() */
 	c_generic_network_session_parameter_data &operator=(c_generic_network_session_parameter_data &); /* compiler_generated() */
 	c_generic_network_session_parameter_data &operator=(c_generic_network_session_parameter_data const &); /* compiler_generated() */
 };
@@ -267,9 +125,9 @@ class c_generic_network_session_parameter :
 	private c_generic_network_session_parameter_data<t_arg0>
 {
 public:
-	c_generic_network_session_parameter(c_generic_network_session_parameter &); /* compiler_generated() */
-	c_generic_network_session_parameter(c_generic_network_session_parameter const &); /* compiler_generated() */
-	c_generic_network_session_parameter(); /* compiler_generated() */
+	c_generic_network_session_parameter(c_generic_network_session_parameter &) = default; /* compiler_generated() */
+	c_generic_network_session_parameter(c_generic_network_session_parameter const &) = default; /* compiler_generated() */
+	c_generic_network_session_parameter() = default; /* compiler_generated() */
 	c_generic_network_session_parameter &operator=(c_generic_network_session_parameter &); /* compiler_generated() */
 	c_generic_network_session_parameter &operator=(c_generic_network_session_parameter const &); /* compiler_generated() */
 	void __autoclassinit2(unsigned __int32); /* compiler_generated() */
@@ -291,29 +149,6 @@ namespace Utils
 		Singleton &operator=(Singleton const &);
 	};
 }
-
-/* ---------- s_static_array (41 instantiations) */
-
-template<typename t_type, long k_count>
-struct s_static_array
-{
-public:
-	_inline t_type const &operator[](long index) const;
-	_inline t_type &operator[](long index);
-	void set_all(t_type const &);
-	_inline void set_memory(unsigned char value);
-	_inline long get_count();
-	static _inline bool valid(__int32 index);
-	_inline t_type *begin() const;
-	s_static_array(s_static_array &); /* compiler_generated() */
-	_inline t_type *end() const;
-	s_static_array(s_static_array const &); /* compiler_generated() */
-	_inline t_type *get_elements();
-	_inline s_static_array(); /* compiler_generated() */
-	t_type m_elements[k_count]; // 0x0
-	s_static_array &operator=(s_static_array &); /* compiler_generated() */
-	s_static_array &operator=(s_static_array const &); /* compiler_generated() */
-};
 
 /* ---------- c_tag_block_index (37 instantiations) */
 
@@ -368,9 +203,9 @@ public:
 	_inline t_type *get_absolute(long absolute_index);
 	_inline c_data_iterator<t_type> begin();
 	_inline c_data_iterator<t_type> end();
-	c_data_array(c_data_array &); /* compiler_generated() */
-	c_data_array(c_data_array const &); /* compiler_generated() */
-	c_data_array(); /* compiler_generated() */
+	c_data_array(c_data_array &) = default; /* compiler_generated() */
+	c_data_array(c_data_array const &) = default; /* compiler_generated() */
+	c_data_array() = default; /* compiler_generated() */
 	c_data_array &operator=(c_data_array &); /* compiler_generated() */
 	c_data_array &operator=(c_data_array const &); /* compiler_generated() */
 };
@@ -425,33 +260,6 @@ public:
 	bool substring(long, long, s_static_string *);
 private:
 	char m_buffer[k_length]; // 0x0
-};
-
-/* ---------- CEventSink (6 instantiations) */
-
-template<typename... t_args>
-class CEventSink
-{
-public:
-	struct SCallbackEntry
-	{
-		std::function<void __cdecl(t_args...)> callback; // 0x0
-		int id; // 0x28
-		unsigned char __pad0[4]; // 0x2C
-		SCallbackEntry(SCallbackEntry &&__that);
-		~SCallbackEntry();
-	};
-	typedef std::function<void __cdecl(t_args...)> TCallback;
-	_inline __int32 Subscribe(std::function<void __cdecl(t_args...)> const &callable);
-	void Unsubscribe(__int32);
-	_inline void PostEvent(t_args... args);
-	void Reset();
-private:
-	std::atomic<int> m_nextId; // 0x0
-	std::vector<CEventSink::SCallbackEntry> m_callbacks; // 0x4
-public:
-	_inline CEventSink(); /* compiler_generated() */
-	_inline ~CEventSink() = default; /* compiler_generated() */
 };
 
 /* ---------- s_network_session_parameter_chunked_payload (3 instantiations) */
@@ -610,9 +418,9 @@ namespace Patches
 			virtual _inline void SerializeRawPacket(Blam::BitStream *stream, __int32 packetSize, void const *packet);
 			virtual _inline bool DeserializeRawPacket(Blam::BitStream *stream, __int32 packetSize, void *packet);
 			virtual _inline void HandleRawPacket(Blam::Network::ObserverChannel *sender, void const *packet);
-			PacketHandler(PacketHandler &); /* compiler_generated() */
-			PacketHandler(PacketHandler const &); /* compiler_generated() */
-			_inline PacketHandler(); /* compiler_generated() */
+			PacketHandler(PacketHandler &) = default; /* compiler_generated() */
+			PacketHandler(PacketHandler const &) = default; /* compiler_generated() */
+			_inline PacketHandler() = default; /* compiler_generated() */
 			virtual _inline ~PacketHandler() = default; /* compiler_generated() */
 			PacketHandler &operator=(PacketHandler &); /* compiler_generated() */
 			PacketHandler &operator=(PacketHandler const &); /* compiler_generated() */
@@ -764,9 +572,9 @@ namespace Patches
 			virtual void Deserialize(Blam::BitStream *, t_arg0 *) = 0;
 		public:
 			virtual _inline unsigned __int32 GetDataSize() const;
-			PlayerPropertiesExtension(PlayerPropertiesExtension &); /* compiler_generated() */
-			PlayerPropertiesExtension(PlayerPropertiesExtension const &); /* compiler_generated() */
-			_inline PlayerPropertiesExtension(); /* compiler_generated() */
+			PlayerPropertiesExtension(PlayerPropertiesExtension &) = default; /* compiler_generated() */
+			PlayerPropertiesExtension(PlayerPropertiesExtension const &) = default; /* compiler_generated() */
+			_inline PlayerPropertiesExtension() = default; /* compiler_generated() */
 			virtual _inline ~PlayerPropertiesExtension() = default; /* compiler_generated() */
 			PlayerPropertiesExtension &operator=(PlayerPropertiesExtension &); /* compiler_generated() */
 			PlayerPropertiesExtension &operator=(PlayerPropertiesExtension const &); /* compiler_generated() */
@@ -912,7 +720,7 @@ private:
 	long m_tail; // 0x34
 	long m_count; // 0x38
 public:
-	_inline c_static_sliding_buffer(); /* compiler_generated() */
+	_inline c_static_sliding_buffer() = default; /* compiler_generated() */
 };
 
 /* ---------- c_basic_buffer (1 instantiations) */
@@ -1029,33 +837,8 @@ struct s_chud_widget_geometry :
 {
 public:
 	t_arg0 geometry[96]; // 0x58
-	_inline s_chud_widget_geometry(); /* compiler_generated() */
+	_inline s_chud_widget_geometry() = default; /* compiler_generated() */
 };
-
-/* ---------- hkArray (1 instantiations) */
-
-template<typename t_arg0>
-class hkArray
-{
-public:
-	t_arg0 *m_data; // 0x0
-	__int32 m_size; // 0x4
-	__int32 m_capacityAndFlags; // 0x8
-	_inline t_arg0 &operator[](__int32 i);
-	t_arg0 const &operator[](__int32) const;
-};
-
-// hades: declared here rather than including a blamlib header, which this one
-// is reached from both trees. Spelled exactly as Blam/cseries/cseries.hpp does.
-extern char *csstrnzcpy(char *to, char const *from, unsigned long size);
-extern char *cswcstostr(wchar_t const *in, char *out, __int32 const length);
-
-// hades: `?data_iterator_next@@3Q6APAUs_datum@@PAUs_data_iterator@@@ZA` - a
-// const pointer to a __cdecl function, which `c_data_iterator<T>::next` calls
-// through. `s_datum` is defined in Blam/memory/data.hpp; a forward declaration
-// is all a pointer return type needs.
-struct s_datum;
-extern s_datum *(*const data_iterator_next)(s_data_iterator *);
 
 /* ---------- member definitions */
 

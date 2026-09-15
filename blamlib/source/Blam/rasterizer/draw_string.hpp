@@ -102,14 +102,13 @@ _inline c_font_cache_mt_safe::c_font_cache_mt_safe() // 0x108180A0
 	((void(__thiscall *const)(c_font_cache_mt_safe *))0x659650)(this);
 }
 
-_extern void _sub_108182F0(c_font_cache_mt_safe *const);
 _inline c_font_cache_mt_safe::~c_font_cache_mt_safe() // 0x108182F0
 {
-	mangled_x86(MANGLED_TODO, "??1c_font_cache_mt_safe@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1c_font_cache_mt_safe@@QAE@XZ");
 	// c_font_cache_mt_safe *const this;
 	// function call : void (*)(c_font_cache_mt_safe *)
-	todo("implement");
-	_sub_108182F0(this);
+
+	((void(__thiscall *)(c_font_cache_mt_safe *))0x659720)(this);
 }
 
 _inline void c_draw_string::set_font(long font) // 0x1081D2F0
@@ -209,14 +208,13 @@ _inline c_rasterizer_draw_string::c_rasterizer_draw_string() // 0x10818100
 	((void(__thiscall *)(c_rasterizer_draw_string *))0xa25f00)(this);
 }
 
-_extern void _sub_10818390(c_rasterizer_draw_string *const);
 _inline c_rasterizer_draw_string::~c_rasterizer_draw_string() // 0x10818390
 {
-	mangled_x86(MANGLED_TODO, "??1c_rasterizer_draw_string@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1c_rasterizer_draw_string@@QAE@XZ");
 	// c_rasterizer_draw_string *const this;
 	// function call : c_rasterizer_draw_string *(*)(c_rasterizer_draw_string *)
-	todo("implement");
-	_sub_10818390(this);
+
+	((void(__thiscall *)(c_rasterizer_draw_string *))0x6571d0)(this);
 }
 
 /* ---------- private code */

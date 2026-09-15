@@ -331,16 +331,26 @@ HRESULT __stdcall EndSceneHook(IDirect3DDevice9 *device) // 0x109610E0
 	return (*origEndScenePtr)(device);
 }
 
-_extern bool _sub_10961A10(bool, bool);
 bool InitializeDeviceHook(bool useDesktopDC, bool nullRefDevice) // 0x10961A10
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeDeviceHook@@YA_N_N0@Z");
 	// `anonymous-namespace'::InitializeDeviceHook
 	// bool nullRefDevice;
 	// bool (*const InitializeDevice)(bool, bool);
 	// function call : bool (*const)(bool, bool)
-	todo("implement");
-	bool __result = _sub_10961A10(useDesktopDC, nullRefDevice);
-	return __result;
+
+	bool (__cdecl *const InitializeDevice)(bool, bool) = (bool (__cdecl *const)(bool, bool))0xA21B40;
+
+	if (Utils::Singleton<ElDorito>::Instance().IsHeadless())
+		nullRefDevice = true;
+
+	if (!InitializeDevice(useDesktopDC, nullRefDevice))
+		return false;
+
+	if (nullRefDevice)
+		return true;
+
+	return HookDirectX(*(IDirect3DDevice9 **)0x50DADDC);
 }
 
 HRESULT __stdcall ResetHook(IDirect3DDevice9 *device, _D3DPRESENT_PARAMETERS_ *params) // 0x10961B00
@@ -421,9 +431,9 @@ void HandleTakeScreenshotHook() // 0x109613D0
 	}
 }
 
-extern HRESULT _sub_109621A0(short_rectangle2d *, float, float);
 HRESULT set_viewport_window(short_rectangle2d *rect, float min_z, float max_z) // 0x109621A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_viewport_window@@YAJPAUshort_rectangle2d@@MM@Z");
 	// `anonymous-namespace'::set_viewport_window
 	// static ...; // 0x10962284
 	// short_rectangle2d *rect;
@@ -434,9 +444,26 @@ HRESULT set_viewport_window(short_rectangle2d *rect, float min_z, float max_z) /
 	// constexpr HRESULT (*const `set_viewport_window'::`2'::set_viewport)(short_rectangle2d *, float, float); // constant == 10784784
 	// unsigned long *g_client_resolution;
 	// function call : HRESULT (*const)(short_rectangle2d *, float, float)
-	todo("implement");
-	HRESULT __result = _sub_109621A0(rect, min_z, max_z);
-	return __result;
+
+	unsigned long *g_client_resolution = (unsigned long *)0x19106E4;
+	unsigned long *g_game_resolution = (unsigned long *)0x19106C0;
+	short_rectangle2d new_rect;
+
+	new_rect.x0 = 0;
+	new_rect.y0 = 0;
+
+	if (Utils::Singleton<Modules::ModuleSettings>::Instance().VarFullscreen->ValueInt == 2)
+	{
+		new_rect.x1 = (short)g_game_resolution[0];
+		new_rect.y1 = (short)g_game_resolution[1];
+	}
+	else
+	{
+		new_rect.x1 = (short)g_client_resolution[0];
+		new_rect.y1 = (short)g_client_resolution[1];
+	}
+
+	return ((HRESULT (*)(short_rectangle2d *, float, float))0xA49010)(&new_rect, min_z, max_z);
 }
 
 extern char const *_sub_10961350(_D3DPOOL);
@@ -471,40 +498,40 @@ HRESULT check_create_texture(__int32 type, _D3DPOOL pool, char const *tag_name, 
 	return __result;
 }
 
-extern HRESULT _sub_10961D50(unsigned __int32, unsigned __int32, unsigned __int32, unsigned __int32, _D3DFORMAT, _D3DPOOL, IDirect3DTexture9 **, __int32, __int32, void *, char const *);
 HRESULT c_d3d_resource_allocator__create_texture_hook(unsigned __int32 width, unsigned __int32 height, unsigned __int32 levels, unsigned __int32 usage, _D3DFORMAT format, _D3DPOOL pool, IDirect3DTexture9 **out_texture, __int32 a8, __int32 a9, void *data_address, char const *name) // 0x10961D50
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_d3d_resource_allocator__create_texture_hook@@YAJIIIIW4_D3DFORMAT@@W4_D3DPOOL@@PAPAUIDirect3DTexture9@@HHPAXPBD@Z");
 	// `anonymous-namespace'::c_d3d_resource_allocator__create_texture_hook
 	// char const *name;
 	// HRESULT hr;
 	// function call : HRESULT (*)(unsigned __int32, unsigned __int32, unsigned __int32, unsigned __int32, _D3DFORMAT, _D3DPOOL, IDirect3DTexture9 **, __int32, __int32, void *, char const *)
-	todo("implement");
-	HRESULT __result = _sub_10961D50(width, height, levels, usage, format, pool, out_texture, a8, a9, data_address, name);
-	return __result;
+
+	HRESULT hr = c_d3d_resource_allocator__create_texture(width, height, levels, usage, format, pool, out_texture, a8, a9, data_address, name);
+	return check_create_texture(0, pool, name, hr);
 }
 
-extern HRESULT _sub_10961CA0(unsigned __int32, unsigned __int32, unsigned __int32, _D3DFORMAT, _D3DPOOL, IDirect3DCubeTexture9 **, __int32, void *, __int32, char const *);
 HRESULT c_d3d_resource_allocator__create_cube_texture_hook(unsigned __int32 edge_length, unsigned __int32 levels, unsigned __int32 usage, _D3DFORMAT format, _D3DPOOL pool, IDirect3DCubeTexture9 **out_texture, __int32 a7, void *a8, __int32 a9, char const *name) // 0x10961CA0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_d3d_resource_allocator__create_cube_texture_hook@@YAJIIIW4_D3DFORMAT@@W4_D3DPOOL@@PAPAUIDirect3DCubeTexture9@@HPAXHPBD@Z");
 	// `anonymous-namespace'::c_d3d_resource_allocator__create_cube_texture_hook
 	// char const *name;
 	// HRESULT hr;
 	// function call : HRESULT (*)(unsigned __int32, unsigned __int32, unsigned __int32, _D3DFORMAT, _D3DPOOL, IDirect3DCubeTexture9 **, __int32, void *, __int32, char const *)
-	todo("implement");
-	HRESULT __result = _sub_10961CA0(edge_length, levels, usage, format, pool, out_texture, a7, a8, a9, name);
-	return __result;
+
+	HRESULT hr = c_d3d_resource_allocator__create_cube_texture(edge_length, levels, usage, format, pool, out_texture, a7, a8, a9, name);
+	return check_create_texture(1, pool, name, hr);
 }
 
-extern HRESULT _sub_10961E10(unsigned __int32, unsigned __int32, unsigned __int32, unsigned __int32, unsigned __int32, _D3DFORMAT, _D3DPOOL, IDirect3DVolumeTexture9 **, void *, void *, __int32, char const *);
 HRESULT c_d3d_resource_allocator__create_volume_texture_hook(unsigned __int32 width, unsigned __int32 height, unsigned __int32 depth, unsigned __int32 levels, unsigned __int32 usage, _D3DFORMAT format, _D3DPOOL pool, IDirect3DVolumeTexture9 **out_texture, void *unk, void *data, __int32 a11, char const *name) // 0x10961E10
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_d3d_resource_allocator__create_volume_texture_hook@@YAJIIIIIW4_D3DFORMAT@@W4_D3DPOOL@@PAPAUIDirect3DVolumeTexture9@@PAX3HPBD@Z");
 	// `anonymous-namespace'::c_d3d_resource_allocator__create_volume_texture_hook
 	// char const *name;
 	// HRESULT hr;
 	// function call : HRESULT (*)(unsigned __int32, unsigned __int32, unsigned __int32, unsigned __int32, unsigned __int32, _D3DFORMAT, _D3DPOOL, IDirect3DVolumeTexture9 **, void *, void *, __int32, char const *)
-	todo("implement");
-	HRESULT __result = _sub_10961E10(width, height, depth, levels, usage, format, pool, out_texture, unk, data, a11, name);
-	return __result;
+
+	HRESULT hr = c_d3d_resource_allocator__create_volume_texture(width, height, depth, levels, usage, format, pool, out_texture, unk, data, a11, name);
+	return check_create_texture(2, pool, name, hr);
 }
 
 c_rasterizer_texture_ref *c_rasterizer_texture_ref__allocate_hook(c_rasterizer_texture_ref *data, s_bitmap_image *bitmap_data, char const *name, bool a4) // 0x10961ED0

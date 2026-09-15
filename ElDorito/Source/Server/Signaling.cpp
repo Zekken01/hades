@@ -404,9 +404,11 @@ void ResetPassword(__int32 peerIndex);
 namespace hades_file_local
 {
 	extern websocketpp::server<Utils::WebSocket::Config> signalServer; // 0x12467F80
-	extern std::string currentPassword; // 0x12468268
+	extern "C" std::string currentPassword; // 0x12468268
+	extern "C" {
 	std::map<std::weak_ptr<void>,coninfo,std::owner_less<std::weak_ptr<void> > > connectedSockets; // 0x12468284
-	extern std::string authStrings[17]; // 0x12468290
+	}
+	extern "C" std::string authStrings[17]; // 0x12468290
 	extern rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> iceServers; // 0x12468470
 	extern unsigned short port; // 0x124684F4
 	extern std::shared_ptr<Patches::CustomPackets::PacketSender<WebSocketPacketData> > wspsender; // 0x124684F8
@@ -591,23 +593,29 @@ void LifeCycleChanged(Blam::Network::LifeCycleState state) // 0x10C2E670
 	}
 }
 
-_extern void _sub_10C2FD80(WebSocketPacketHandler *const, Blam::BitStream *, WebSocketPacketData const *);
 void WebSocketPacketHandler::Serialize(Blam::BitStream *stream, WebSocketPacketData const *data) // 0x10C2FD80
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Serialize@WebSocketPacketHandler@hades_file_local@@EAEXPAVBitStream@Blam@@PBUWebSocketPacketData@2@@Z");
 	// `anonymous-namespace'::WebSocketPacketHandler::Serialize
 	// WebSocketPacketData const *data;
-	todo("implement");
-	_sub_10C2FD80(this, stream, data);
+
+	stream->WriteString<char, 9>(data->echoString);
+	stream->WriteUnsigned<unsigned short>(port, 0, 0xFFFF);
 }
 
-_extern bool _sub_10C2CCF0(WebSocketPacketHandler *const, Blam::BitStream *, WebSocketPacketData *);
 bool WebSocketPacketHandler::Deserialize(Blam::BitStream *stream, WebSocketPacketData *data) // 0x10C2CCF0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Deserialize@WebSocketPacketHandler@hades_file_local@@EAE_NPAVBitStream@Blam@@PAUWebSocketPacketData@2@@Z");
 	// `anonymous-namespace'::WebSocketPacketHandler::Deserialize
 	// WebSocketPacketData *data;
-	todo("implement");
-	bool __result = _sub_10C2CCF0(this, stream, data);
-	return __result;
+
+	if (!stream->ReadString<char, 9>(data->echoString))
+	{
+		return false;
+	}
+
+	data->serverPort = stream->ReadUnsigned<unsigned short>(16);
+	return true;
 }
 
 void WebSocketPacketHandler::HandlePacket(Blam::Network::ObserverChannel *sender, Patches::CustomPackets::Packet<WebSocketPacketData> const *packet) // 0x10C2E030

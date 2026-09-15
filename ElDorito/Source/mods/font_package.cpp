@@ -124,6 +124,8 @@ namespace Blam
 
 /* ---------- prototypes */
 
+extern void (*const critical_section_leave)(e_critical_section);  // hades: added for 0x108885D0
+
 extern void font_package_do_work(bool blocking, s_font_package_cache_entry *entry);
 extern void font_package_cache_flush();
 extern void font_package_idle();
@@ -143,6 +145,9 @@ extern "C" bool fixup_and_validate_font_package_file(void *buffer);
 
 /* ---------- globals */
 
+extern void (*const critical_section_enter)(e_critical_section);  // hades: added for 0x10888520
+extern s_file_reference *(*const file_reference_create_from_path)(s_file_reference *, char const *, bool);  // hades: added for 0x10889120
+
 extern void *g_font_character_globals; // 0x11352990
 extern s_static_array<s_font_package_cache_entry,8> *g_font_package_cache_entries; // 0x11352994
 extern c_async_completion_flag *g_font_package_system_ready; // 0x11352998
@@ -157,26 +162,40 @@ extern s_static_string<256> g_font_package_file_path; // 0x123B8908
 
 /* ---------- public code */
 
-extern c_font_cache_scope_lock* _sub_10888520(c_font_cache_scope_lock *const);
 c_font_cache_scope_lock::c_font_cache_scope_lock() // 0x10888520
 {
-	mangled_x86(MANGLED_TODO, "??0c_font_cache_scope_lock@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_font_cache_scope_lock@@QAE@XZ");
 	// c_font_cache_scope_lock *const this;
 	// void **font_character;
 	// function call : void (*const)(e_critical_section)
-	todo("implement");
-	_sub_10888520(this);
+
+	void **font_character = (void **)tls_get(0xF8);
+
+	m_locked = false;
+
+	if (!*font_character)
+	{
+		critical_section_enter(_critical_section_font_cache);
+		m_locked = true;
+		*font_character = g_font_character_globals;
+	}
 }
 
-_extern void _sub_108885D0(c_font_cache_scope_lock *const);
 c_font_cache_scope_lock::~c_font_cache_scope_lock() // 0x108885D0
 {
-	mangled_x86(MANGLED_TODO, "??1c_font_cache_scope_lock@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1c_font_cache_scope_lock@@QAE@XZ");
 	// c_font_cache_scope_lock *const this;
 	// void **font_character;
 	// function call : void (*const)(e_critical_section)
-	todo("implement");
-	_sub_108885D0(this);
+
+	void **font_character = (void **)tls_get(0xF8);
+
+	if (*font_character)
+	{
+		*font_character = nullptr;
+		critical_section_leave(_critical_section_font_cache);
+		m_locked = false;
+	}
 }
 
 _extern void _sub_108893C0(bool, s_font_package_cache_entry *);
@@ -226,33 +245,35 @@ void font_package_cache_flush() // 0x10889280
 	_sub_10889280();
 }
 
-_extern void _sub_10889730();
 void font_package_idle() // 0x10889730
 {
-	mangled_x86(MANGLED_TODO, "?font_package_idle@@YAXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?font_package_idle@@YAXXZ");
 	// procedure flags: nofpo
 	// static ...; // 0x10889848
 	// static ...; // 0x1088983C
 	// static ...; // 0x10889834
-	{
 		// c_font_cache_scope_lock lock;
-		{
 			// s_static_array<s_font_package_cache_entry,8> &<range>$L0;
 			// s_font_package_cache_entry *<begin>$L0;
 			// s_font_package_cache_entry *<end>$L0;
-			{
 				// s_font_package_cache_entry &entry;
-			}
+
+	if (g_font_package_system_ready->peek() && !font_in_emergency_mode())
+	{
+		c_font_cache_scope_lock lock;
+
+		++*g_font_package_salt;
+
+		for (s_font_package_cache_entry &entry : *g_font_package_cache_entries)
+		{
+			font_package_do_work(false, &entry);
 		}
 	}
-	todo("implement");
-	_sub_10889730();
 }
 
-_extern bool _sub_10889120(char const *);
 bool font_package_begin_load_package(char const *filename) // 0x10889120
 {
-	mangled_x86(MANGLED_TODO, "?font_package_begin_load_package@@YA_NPBD@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?font_package_begin_load_package@@YA_NPBD@Z");
 	// static ...; // 0x10889234
 	// static ...; // 0x10889228
 	// static ...; // 0x10889220
@@ -260,9 +281,14 @@ bool font_package_begin_load_package(char const *filename) // 0x10889120
 	// c_font_cache_scope_lock lock;
 	// function call : s_file_reference *(*const)(s_file_reference *, char const *, bool)
 	// function call : void (*const)()
-	todo("implement");
-	bool __result = _sub_10889120(filename);
-	return __result;
+
+	c_font_cache_scope_lock lock;
+
+	g_font_package_file_path.set(filename);
+	file_reference_create_from_path((s_file_reference *)g_font_loading_state->file, g_font_package_file_path.get_string(), false);
+	((void (*)())0x509780)();
+
+	return true;
 }
 
 bool fonts_begin_loading_internal(bool blocking) // 0x108898F0
@@ -318,10 +344,9 @@ bool font_load_from_mod_package_blocking(c_mod_package *mod_package, unsigned lo
 	return __result;
 }
 
-extern e_async_completion _sub_10888CD0(void *);
 e_async_completion font_load_callback(void *data) // 0x10888CD0
 {
-	mangled_x86(MANGLED_TODO, "?font_load_callback@@YA?AW4e_async_completion@@PAX@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?font_load_callback@@YA?AW4e_async_completion@@PAX@Z");
 	// static ...; // 0x10888D88
 	// static ...; // 0x10888D7C
 	// static ...; // 0x10888D74
@@ -329,9 +354,21 @@ e_async_completion font_load_callback(void *data) // 0x10888CD0
 	// s_font_loading_task *task_data;
 	// s_font_package_file_header *header;
 	// s_font_loading_state *loading_state;
-	todo("implement");
-	e_async_completion __result = _sub_10888CD0(data);
-	return __result;
+
+	s_font_loading_task *task_data = (s_font_loading_task *)data;
+	s_font_loading_state *loading_state = task_data->loading_state;
+	s_font_package_file_header *header;
+
+	if (font_load_from_file_blocking(loading_state, 0x8000, g_font_load_buffer, &header))
+	{
+		*g_font_package_file_header = header;
+
+		return _async_completion_done;
+	}
+
+	((c_synchronized_int32 *)loading_state->status)->set(1);
+
+	return _async_completion_done;
 }
 
 _extern void _sub_108888F0(s_font_loading_state *, long, char const *, bool);
@@ -363,27 +400,36 @@ void font_load(s_font_loading_state *loading_state, long font_index, char const 
 	_sub_108888F0(loading_state, font_index, filename, blocking);
 }
 
-_extern bool _sub_10888840(s_game_options *);
 bool font_initialize_for_new_map(s_game_options *options) // 0x10888840
 {
-	mangled_x86(MANGLED_TODO, "?font_initialize_for_new_map@@YA_NPAUs_game_options@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?font_initialize_for_new_map@@YA_NPAUs_game_options@@@Z");
 	// s_game_options *options;
 	// function call : void (*const)()
-	todo("implement");
-	bool __result = _sub_10888840(options);
-	return __result;
+
+	g_mod_package_index = kGame;
+
+	if (options->game_mode == _game_mode_mainmenu)
+		g_mod_package_index = kMainMenu;
+
+	((void (*)())0x509780)();
+
+	return true;
 }
 
 /* ---------- private code */
 
-_extern bool _sub_108887B0(s_file_handle *);
 extern "C" bool font_get_package_file_handle(s_file_handle *out_handle) // 0x108887B0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "_font_get_package_file_handle");
 	// font_get_package_file_handle
 	// s_file_handle *out_handle;
-	todo("implement");
-	bool __result = _sub_108887B0(out_handle);
-	return __result;
+
+	if (g_font_loading_state->file_opened)
+	{
+		*out_handle = *(s_file_handle *)&((s_file_reference *)g_font_loading_state->file)->handle;
+	}
+
+	return out_handle->handle != 0;
 }
 
 extern "C" bool font_in_emergency_mode() // 0x10888820
@@ -395,35 +441,69 @@ extern "C" bool font_in_emergency_mode() // 0x10888820
 	return *(bool *)0x22b7fae;
 }
 
-_extern bool _sub_108899F0(s_font_package_file_header const *);
 extern "C" bool validate_fonts(s_font_package_file_header const *header) // 0x108899F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "_validate_fonts");
 	// validate_fonts
 	// s_font_package_file_header const *header;
-	{
 		// long i;
-		{
 			// char *font_header;
 			// s_font_package_font_entry const *entry;
+	// function call : bool (*const)(void *)
+
+	if (header->fonts_count < 0)
+	{
+		return false;
+	}
+
+	for (long i = 0; i < header->fonts_count; i++)
+	{
+		s_font_package_font_entry const *entry = &header->fonts[i];
+
+		if (entry->offset < 0x118)
+		{
+			return false;
+		}
+
+		if (entry->offset + 348 > header->font_headers_offset + header->font_headers_size)
+		{
+			return false;
+		}
+
+		char *font_header = (char *)header + entry->offset;
+
+		if (!((bool (*)(void *))0x65B620)(font_header))
+		{
+			return false;
 		}
 	}
-	// function call : bool (*const)(void *)
-	todo("implement");
-	bool __result = _sub_108899F0(header);
-	return __result;
+
+	return true;
 }
 
-_extern bool _sub_10888710(void *);
 extern "C" bool fixup_and_validate_font_package_file(void *buffer) // 0x10888710
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "_fixup_and_validate_font_package_file");
 	// fixup_and_validate_font_package_file
 	// void *buffer;
 	// s_font_package_file_header *header;
 	// bool failed;
 	// function call : bool (*const)(s_font_package_file_header *)
-	todo("implement");
-	bool __result = _sub_10888710(buffer);
-	return __result;
+
+	s_font_package_file_header *header = (s_font_package_file_header *)buffer;
+	bool failed = false;
+
+	if (!((bool(*)(s_font_package_file_header *))0x65BB90)(header))
+	{
+		return false;
+	}
+
+	if (!validate_fonts(header))
+	{
+		return false;
+	}
+
+	return true;
 }
 
 /* ---------- template instantiations */

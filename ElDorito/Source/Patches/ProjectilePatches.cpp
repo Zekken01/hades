@@ -69,6 +69,9 @@ namespace Patches
 
 /* ---------- prototypes */
 
+template<typename t_arg0> t_arg0 *object_get(unsigned long object_index);  // hades: added for 0x1069E560
+extern long (*const game_time_get)();  // hades: added for 0x1069E560
+
 namespace Patches
 {
 	namespace Projectiles
@@ -158,9 +161,9 @@ void projectile_initial_update_translate_hook(long projectile_index, real_vector
 	((void(__cdecl *)(long, real_vector3d *))0xb7e800)(projectile_index, unswept_velocity);
 }
 
-_extern bool _sub_1069E560(long, void *);
 bool projectile_new_hook(long projectile_index, void *data) // 0x1069E560
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?projectile_new_hook@@YA_NJPAX@Z");
 	// `anonymous-namespace'::projectile_new_hook
 	// void *data;
 	// bool ret;
@@ -168,9 +171,14 @@ bool projectile_new_hook(long projectile_index, void *data) // 0x1069E560
 	// s_projectile_data *const projectile;
 	// function call : char (*const)(long, void *)
 	// function call : long (*const)()
-	todo("implement");
-	bool __result = _sub_1069E560(projectile_index, data);
-	return __result;
+
+	s_projectile_data *projectile;
+	bool ret;
+
+	ret = ((unsigned char(*)(long, void *))0xB7DDB0)(projectile_index, data) != 0;
+	projectile = object_get<s_projectile_data>(projectile_index);
+	projectile->creation_game_time = game_time_get();
+	return ret;
 }
 
 /* ---------- template instantiations */

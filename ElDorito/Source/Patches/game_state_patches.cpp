@@ -133,6 +133,8 @@ void c_saved_games__delete_campaign_save_blocking(long controller_index);
 
 /* ---------- globals */
 
+extern s_file_reference *(*const file_reference_create_from_path_wide)(s_file_reference *, wchar_t const *, bool); // 0x112492EC  -- pointer global, called via `call dword ptr [ebp-0x210]` after `mov eax,[?file_reference_create_from_path_wide@@3Q6APAUs_file_reference@@PAU1@PB_W_N@ZA]`. It is declared ONLY in blamlib/source/Blam/tag_files/files.cpp:45 and is not visible from game_state_patches.cpp, so it must be added to that file's prototypes block. file_exists, tls_get, get_save_location, file_read_from_path and the k_* globals are all already reachable.
+
 /* ---------- private variables */
 
 namespace hades_file_local
@@ -240,14 +242,13 @@ bool game_state_read_file_from_storage(long storage_index, long flags) // 0x1091
 	return __result;
 }
 
-_extern bool _sub_1091A850(long, void *, unsigned long);
 bool game_state_read_from_persistent_storage_blocking(long controller_index, void *buffer, unsigned long size) // 0x1091A850
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_state_read_from_persistent_storage_blocking@@YA_NJPAXK@Z");
 	// `anonymous-namespace'::game_state_read_from_persistent_storage_blocking
 	// unsigned long size;
-	todo("implement");
-	bool __result = _sub_1091A850(controller_index, buffer, size);
-	return __result;
+
+	return file_read_from_path(get_save_location(k_game_state_filename).c_str(), size, buffer);
 }
 
 _extern void _sub_1091AA70();
@@ -262,14 +263,13 @@ void game_state_write_file_to_storage() // 0x1091AA70
 	_sub_1091AA70();
 }
 
-_extern bool _sub_1091A960(long, void *, unsigned long);
 bool game_state_read_header_from_persistent_storage_blocking(long controller_index, void *buffer, unsigned long size) // 0x1091A960
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_state_read_header_from_persistent_storage_blocking@@YA_NJPAXK@Z");
 	// `anonymous-namespace'::game_state_read_header_from_persistent_storage_blocking
 	// unsigned long size;
-	todo("implement");
-	bool __result = _sub_1091A960(controller_index, buffer, size);
-	return __result;
+
+	return file_read_from_path(get_save_location(k_game_state_header_filename).c_str(), size, buffer);
 }
 
 _extern void _sub_1091AC70(void *, unsigned long, void *, unsigned long);
@@ -285,9 +285,9 @@ void game_state_write_file_to_storage_blocking(void *header, unsigned long heade
 	_sub_1091AC70(header, header_size, buffer, buffer_size);
 }
 
-_extern bool _sub_109192C0(__int32);
 bool campaign_save_exists(__int32 __formal) // 0x109192C0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?campaign_save_exists@@YA_NH@Z");
 	// `anonymous-namespace'::campaign_save_exists
 	// static ...; // 0x10919400
 	// static ...; // 0x109193F4
@@ -296,9 +296,16 @@ bool campaign_save_exists(__int32 __formal) // 0x109192C0
 	// s_file_reference file;
 	// function call : s_file_reference *(*const)(s_file_reference *, wchar_t const *, bool)
 	// function call : bool (*const)(s_file_reference const *)
-	todo("implement");
-	bool __result = _sub_109192C0(__formal);
-	return __result;
+
+	s_file_reference file;
+	file_reference_create_from_path_wide(&file, get_save_location(k_game_state_filename).c_str(), false);
+
+	if (!file_exists(&file))
+	{
+		return false;
+	}
+
+	return true;
 }
 
 c_content_catalogue *content_catalogue_get_for_game_state_hook(long controller_index) // 0x10919460
@@ -341,20 +348,35 @@ bool hash_verification(void *data, unsigned long size, bool a3, void *input_hash
 	return true;
 }
 
-_extern void _sub_10918EE0();
 void ai_initialize_for_saved_game_hook() // 0x10918EE0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ai_initialize_for_saved_game_hook@@YAXXZ");
 	// `anonymous-namespace'::ai_initialize_for_saved_game_hook
 	// procedure flags: nofpo
 	// void (*const ai_globals_initialize_for_new_map)();
 	// void (*const ai_initialize_for_saved_game)();
 	// ai_initialize_for_saved_game_hook::__l2::s_ai_mission_critical_actor *actor;
-	{
 		// long i;
-	}
 	// function call : void (*const)()
-	todo("implement");
-	_sub_10918EE0();
+
+	struct s_ai_mission_critical_actor
+	{
+		long unit_index;
+		long field_04;
+		long field_08;
+		long field_0C;
+	};
+
+	void (__cdecl *const ai_globals_initialize_for_new_map)() = (void (__cdecl *const)())0x1434150;
+	void (__cdecl *const ai_initialize_for_saved_game)() = (void (__cdecl *const)())0x1431F90;
+
+	ai_globals_initialize_for_new_map();
+
+	s_ai_mission_critical_actor *actor = (s_ai_mission_critical_actor *)(*(long *)tls_get(0x528) + 1028);
+	for (long i = 0; i < 8; i++)
+	{
+		actor[i].unit_index = -1;
+	}
 }
 
 _extern void _sub_10919930(s_player_collection *);
