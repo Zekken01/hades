@@ -46,13 +46,12 @@ struct s_tag_name_entry;
 
 /* ---------- public code */
 
-extern c_tag_names_csv_file_reader* _sub_108C1850(c_tag_names_csv_file_reader *const, char const *);
 c_tag_names_csv_file_reader::c_tag_names_csv_file_reader(char const *filename) // 0x108C1850
 {
-	mangled_x86(MANGLED_TODO, "??0c_tag_names_csv_file_reader@@QAE@PBD@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_tag_names_csv_file_reader@@QAE@PBD@Z");
 	// char const *filename;
-	todo("implement");
-	_sub_108C1850(this, filename);
+
+	m_filestream = std::ifstream(filename);
 }
 
 _extern bool _sub_108C1C90(c_tag_names_csv_file_reader *const, s_tag_name_entry *);

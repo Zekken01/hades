@@ -102,29 +102,36 @@ long get_player_character_representation_index(s_game_globals_player_character_t
 	return __result;
 }
 
-_extern long _sub_106BE5C0(unsigned long);
 long player_find_character_type_by_name(unsigned long name) // 0x106BE5C0
 {
-	mangled_x86(MANGLED_TODO, "?player_find_character_type_by_name@@YAJK@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?player_find_character_type_by_name@@YAJK@Z");
 	// unsigned long name;
 	// s_game_globals *game_globals;
-	{
 		// __int32 i;
+
+	s_game_globals *globals = game_globals_get();
+
+	for (long i = 0; i < globals->player_character_types.count; i++)
+	{
+		if (globals->player_character_types[i].name == name)
+			return i;
 	}
-	todo("implement");
-	long __result = _sub_106BE5C0(name);
-	return __result;
+
+	return -1;
 }
 
-_extern long _sub_106BE530(long);
 long get_player_character_representation_index(long character_type_index) // 0x106BE530
 {
-	mangled_x86(MANGLED_TODO, "?get_player_character_representation_index@@YAJJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_player_character_representation_index@@YAJJ@Z");
 	// long character_type_index;
 	// s_game_globals_player_character_type *character_type;
-	todo("implement");
-	long __result = _sub_106BE530(character_type_index);
-	return __result;
+
+	s_game_globals_player_character_type *character_type = game_globals_get()->player_character_types.get_element(character_type_index);
+
+	if (!character_type)
+		return -1;
+
+	return get_player_character_representation_index(*character_type);
 }
 
 _extern long _sub_106BE970(long);

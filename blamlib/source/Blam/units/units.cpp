@@ -46,6 +46,8 @@ struct s_unit_data;
 
 /* ---------- prototypes */
 
+extern s_object_data *(*const object_try_and_get_and_verify_type)(unsigned long object_index, c_enum<e_object_type, long> object_type_mask);  // hades: added for 0X10F0CE10
+
 extern long unit_get_ultimate_motion_control_unit_index(long unit_index);
 extern long unit_get_current_or_last_weak_player_index(long unit_index);
 extern long unit_get_player_index(long unit_index);
@@ -62,42 +64,54 @@ extern bool (*const unit_is_dual_wielding)(unsigned long); // 0x11249FDC
 
 /* ---------- public code */
 
-_extern long _sub_10F0CF80(long);
 long unit_get_ultimate_motion_control_unit_index(long unit_index) // 0x10F0CF80
 {
-	mangled_x86(MANGLED_TODO, "?unit_get_ultimate_motion_control_unit_index@@YAJJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_get_ultimate_motion_control_unit_index@@YAJJ@Z");
 	// long unit_index;
-	{
 		// s_unit_data *unit;
-	}
 	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	todo("implement");
-	long __result = _sub_10F0CF80(unit_index);
-	return __result;
+
+	for (;;)
+	{
+		s_unit_data *unit = (s_unit_data *)object_try_and_get_and_verify_type(unit_index, 0x2003);
+		if (!unit || *(long *)((unsigned char *)unit + 0x32C) == -1)
+			break;
+
+		unit_index = *(long *)((unsigned char *)unit + 0x32C);
+	}
+
+	return unit_index;
 }
 
-_extern long _sub_10F0CE10(long);
 long unit_get_current_or_last_weak_player_index(long unit_index) // 0x10F0CE10
 {
-	mangled_x86(MANGLED_TODO, "?unit_get_current_or_last_weak_player_index@@YAJJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_get_current_or_last_weak_player_index@@YAJJ@Z");
 	// long unit_index;
 	// s_unit_data *unit;
 	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	todo("implement");
-	long __result = _sub_10F0CE10(unit_index);
-	return __result;
+
+	s_unit_data *unit = (s_unit_data *)object_try_and_get_and_verify_type(unit_index, 0x2003);
+	if (!unit)
+		return -1;
+
+	if (unit->player_index == -1)
+		return unit->last_weak_player_index;
+	else
+		return unit->player_index;
 }
 
-_extern long _sub_10F0CED0(long);
 long unit_get_player_index(long unit_index) // 0x10F0CED0
 {
-	mangled_x86(MANGLED_TODO, "?unit_get_player_index@@YAJJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_get_player_index@@YAJJ@Z");
 	// long unit_index;
 	// s_unit_data *unit;
 	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	todo("implement");
-	long __result = _sub_10F0CED0(unit_index);
-	return __result;
+
+	s_unit_data *unit = (s_unit_data *)object_try_and_get_and_verify_type(unit_index, 0x2003);
+	if (!unit)
+		return NONE;
+	else
+		return unit->player_index;
 }
 
 _extern void _sub_10F0CB70(long);

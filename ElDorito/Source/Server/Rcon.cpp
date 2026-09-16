@@ -427,13 +427,14 @@ void ProcessPassword(websocketpp::server<Utils::WebSocket::Config> *rconServer, 
 	_sub_10BB52E0(rconServer, hdl, msg);
 }
 
-_extern void _sub_10BB4770(websocketpp::server<Utils::WebSocket::Config> *, std::weak_ptr<void>);
 void OnClose(websocketpp::server<Utils::WebSocket::Config> *rconServer, std::weak_ptr<void> hdl) // 0x10BB4770
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnClose@@YAXPAV?$server@UConfig@WebSocket@Utils@@@websocketpp@@V?$weak_ptr@X@std@@@Z");
 	// `anonymous-namespace'::OnClose
 	// std::weak_ptr<void> hdl;
-	todo("implement");
-	_sub_10BB4770(rconServer, hdl);
+
+	authenticatedConnections.erase(hdl);
+	LogMessage(rconServer, hdl, "Client Connection Closed");
 }
 
 _extern void _sub_10BB4330(websocketpp::server<Utils::WebSocket::Config> *, std::weak_ptr<void>, std::string);

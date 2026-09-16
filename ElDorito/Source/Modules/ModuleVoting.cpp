@@ -119,6 +119,9 @@ namespace Blam
 
 /* ---------- prototypes */
 
+namespace Web { namespace Ui { namespace Voting { void Hide(); } } }  // hades: added for 0X106D5F80
+namespace Server { namespace Voting { bool CancelVoteInProgress(); } }  // hades: added for 0X106D5F80
+
 namespace Server::Voting { bool ReloadVotingJson(bool loadFileFromDisc); }  // hades: added for 0X106D6110
 namespace Server::Voting { bool ReloadVetoJson(bool loadFileFromDisc); }  // hades: added for 0X106D6110
 
@@ -201,14 +204,18 @@ bool VarVotingSystemUpdated(std::vector<std::string> const &Arguments, std::stri
 	return __result;
 }
 
-_extern bool _sub_106D5F80(std::vector<std::string> const &, std::string &);
 bool CommandServerCancelVote(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x106D5F80
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandServerCancelVote@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandServerCancelVote
 	// std::string &returnInfo;
-	todo("implement");
-	bool __result = _sub_106D5F80(Arguments, returnInfo);
-	return __result;
+
+	if (!ElDorito::Instance().IsDedicated())
+	{
+		Web::Ui::Voting::Hide();
+	}
+	Server::Voting::CancelVoteInProgress();
+	return true;
 }
 
 /* ---------- template instantiations */

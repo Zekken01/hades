@@ -133,18 +133,24 @@ namespace Player
 			return __result;
 		}
 
-		_extern long _sub_106D8150(long);
 		long get_session_player_index_from_player_datum_index(long player_datum_index) // 0x106D8150
 		{
-			mangled_x86(MANGLED_TODO, "?get_session_player_index_from_player_datum_index@PlayerNetworkUtil@Player@@YAJJ@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?get_session_player_index_from_player_datum_index@PlayerNetworkUtil@Player@@YAJJ@Z");
 			// long player_datum_index;
 			// Blam::Network::Session *session;
-			{
 				// s_player_datum *player;
+
+			if (player_datum_index == -1)
+				return -1;
+
+			Blam::Network::Session *session = Blam::Network::GetActiveSession();
+			if (session && session->IsEstablished())
+			{
+				s_player_datum *player = player_get(player_datum_index);
+				if (player)
+					return session->MembershipInfo.GetPeerPlayer(player->machine_index);
 			}
-			todo("implement");
-			long __result = _sub_106D8150(player_datum_index);
-			return __result;
+			return -1;
 		}
 	}
 }

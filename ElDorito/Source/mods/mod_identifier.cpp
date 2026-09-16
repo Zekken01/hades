@@ -50,13 +50,12 @@ using namespace ::Utils;
 
 /* ---------- public code */
 
-extern s_mod_package_id* _sub_108539C0(s_mod_package_id *const, unsigned char const (&)[20]);
-s_mod_package_id::s_mod_package_id(unsigned char const (&hash)[20]) // 0x108539C0
+s_mod_package_id::s_mod_package_id(unsigned char const (&hash)[20]) : hash() /* hades-mem-init:  */ // 0x108539C0
 {
-	mangled_x86(MANGLED_TODO, "??0s_mod_package_id@@QAE@AAY0BE@$$CBE@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_mod_package_id@@QAE@AAY0BE@$$CBE@Z");
 	// unsigned char const (&hash)[20];
-	todo("implement");
-	_sub_108539C0(this, hash);
+
+	memcpy(this->hash, hash, sizeof(this->hash));
 }
 
 extern std::string const _sub_10853BF0(s_mod_package_id const *const);

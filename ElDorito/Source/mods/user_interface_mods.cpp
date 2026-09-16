@@ -122,15 +122,15 @@ bool c_user_interface_mods_player_character_data::build_from_mod_globals(s_mod_g
 	return __result;
 }
 
-_extern bool _sub_108C2420(c_user_interface_mods_player_character_data *const);
 bool c_user_interface_mods_player_character_data::build_from_cache() // 0x108C2420
 {
-	mangled_x86(MANGLED_TODO, "?build_from_cache@c_user_interface_mods_player_character_data@@AAE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?build_from_cache@c_user_interface_mods_player_character_data@@AAE_NXZ");
 	// c_user_interface_mods_player_character_data *const this;
 	// s_game_globals *game_globals;
-	todo("implement");
-	bool __result = _sub_108C2420(this);
-	return __result;
+
+	s_game_globals *game_globals = game_globals_get();
+
+	return build_from_mod_globals(mod_globals_get_definition());
 }
 
 _extern bool _sub_108C2730(c_user_interface_mods_player_character_data *const);

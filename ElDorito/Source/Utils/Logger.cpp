@@ -147,14 +147,16 @@ namespace Utils
 
 	// mangled_x86(MANGLED_DEFAULT, "??0LogEntry@Utils@@QAE@XZ"); no body to assert in
 
-	_extern unsigned long _sub_10C5A5E0(void *);
 	unsigned long __stdcall Logger::Flusher(void *lpParam) // 0x10C5A5E0
 	{
-		mangled_x86(MANGLED_TODO, "?Flusher@Logger@Utils@@CGKPAX@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Flusher@Logger@Utils@@CGKPAX@Z");
 		// void *lpParam;
-		todo("implement");
-		unsigned long __result = _sub_10C5A5E0(lpParam);
-		return __result;
+
+		while (true)
+		{
+			std::this_thread::sleep_for(std::chrono::milliseconds(250));
+			Utils::Singleton<Utils::Logger>::Instance().Flush();
+		}
 	}
 
 	extern Logger* _sub_10C59920(Utils::Logger *const);

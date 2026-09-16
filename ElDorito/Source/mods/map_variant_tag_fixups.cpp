@@ -236,17 +236,19 @@ extern "C" bool in_tag_group(s_tag_group const &group, long needle) // 0x10891B7
 	return group.tags[0] == needle || group.tags[1] == needle || group.tags[2] == needle;
 }
 
-_extern void _sub_10891C10(char const *);
 extern "C" void log_error(char const *message) // 0x10891C10
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "_log_error");
 	// log_error
 	// static ...; // 0x10891CCC
 	// static ...; // 0x10891CC0
 	// static ...; // 0x10891CB8
 	// char const *message;
 	// char buff[8192];
-	todo("implement");
-	_sub_10891C10(message);
+
+	char buffer[0x2000];
+	sprintf_s(buffer, "[ERROR]: c_map_variant_loader :: %s", message);
+	Utils::Singleton<Utils::Logger>::Instance().Log((Utils::LogTypes)1, (Utils::LogLevel)4, buffer);
 }
 
 extern "C" void log_errorf(char const *format, ...) // 0x10891D10

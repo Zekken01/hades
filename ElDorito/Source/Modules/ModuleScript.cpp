@@ -128,28 +128,58 @@ namespace Scripting
 
 /* ---------- private code */
 
-_extern bool _sub_106D4200(std::vector<std::string> const &, std::string &);
 bool CommandGenerateMethodDecl(std::vector<std::string> const &args, std::string &retValue) // 0x106D4200
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGenerateMethodDecl@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandGenerateMethodDecl
 	// std::string &retValue;
 	// Scripting::HS::ScriptMethod const *method;
 	// Scripting::HS::ScriptMethodMap &methods;
-	todo("implement");
-	bool __result = _sub_106D4200(args, retValue);
-	return __result;
+
+	if (args.size() < 1)
+	{
+		retValue = "Invalid arguments";
+		return false;
+	}
+
+	auto &methodMap = Utils::Singleton<Scripting::HS::ScriptMethodMap>::Instance();
+
+	auto *method = methodMap.FindMethod(args[0]);
+	if (!method)
+	{
+		retValue = "Method not found.";
+		return false;
+	}
+
+	retValue = methodMap.GenerateMethodDeclaration(method);
+	return true;
 }
 
-_extern bool _sub_106D4330(std::vector<std::string> const &, std::string &);
 bool CommandScriptHelp(std::vector<std::string> const &args, std::string &retValue) // 0x106D4330
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandScriptHelp@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandScriptHelp
 	// std::string &retValue;
 	// Scripting::HS::ScriptMethod const *method;
 	// Scripting::HS::ScriptMethodMap &methods;
-	todo("implement");
-	bool __result = _sub_106D4330(args, retValue);
-	return __result;
+
+	if (args.size() < 1)
+	{
+		retValue = "Invalid arguments";
+		return false;
+	}
+
+	auto &methodMap = Utils::Singleton<Scripting::HS::ScriptMethodMap>::Instance();
+
+	auto *method = methodMap.FindMethod(args[0]);
+	if (!method)
+	{
+		retValue = "Method not found.";
+		return false;
+	}
+
+	retValue = methodMap.GenerateHelp(method);
+	return true;
 }
 
 _extern bool _sub_106D3FE0(std::vector<std::string> const &, std::string &);

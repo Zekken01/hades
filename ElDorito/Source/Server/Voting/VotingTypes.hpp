@@ -218,13 +218,10 @@ namespace Server
 			_sub_1073A090(this, sn, m, dn, img, id, rc, apc);
 		}
 
-		extern HaloType* _sub_10732C10(Server::Voting::HaloType *const);
-		_inline HaloType::HaloType() // 0x10732C10
+		_inline HaloType::HaloType() : isTemplate(false), randomChance(0.1f) /* hades-mem-init:  */ // 0x10732C10
 		{
-			mangled_x86(MANGLED_TODO, "??0HaloType@Voting@Server@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0HaloType@Voting@Server@@QAE@XZ");
 			// Server::Voting::HaloType *const this;
-			todo("implement");
-			_sub_10732C10(this);
 		}
 
 		extern HaloType* _sub_1073A330(Server::Voting::HaloType *const, std::string, std::string);

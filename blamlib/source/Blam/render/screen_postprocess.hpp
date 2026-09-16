@@ -123,17 +123,25 @@ static_assert(sizeof(c_screen_postprocess) == 1, "Invalid c_screen_postprocess s
 
 /* ---------- public code */
 
-_extern bool _sub_10F11160(c_screen_postprocess::s_smaa_globals *const, IDirect3DDevice9 *, IDirect3DTexture9 **, IDirect3DSurface9 **, _D3DFORMAT);
 _inline bool c_screen_postprocess::s_smaa_globals::init_surface(IDirect3DDevice9 *device, IDirect3DTexture9 **tex, IDirect3DSurface9 **srf, _D3DFORMAT format) // 0x10F11160
 {
-	mangled_x86(MANGLED_TODO, "?init_surface@s_smaa_globals@c_screen_postprocess@@AAE_NPAUIDirect3DDevice9@@PAPAUIDirect3DTexture9@@PAPAUIDirect3DSurface9@@W4_D3DFORMAT@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?init_surface@s_smaa_globals@c_screen_postprocess@@AAE_NPAUIDirect3DDevice9@@PAPAUIDirect3DTexture9@@PAPAUIDirect3DSurface9@@W4_D3DFORMAT@@@Z");
 	// _D3DFORMAT format;
 	// function call : HRESULT (unsigned __int32, unsigned __int32, unsigned __int32, unsigned long, _D3DFORMAT, _D3DPOOL, IDirect3DTexture9 **, void **)
 	// function call : HRESULT (unsigned __int32, IDirect3DSurface9 **)
 	// function call : unsigned long ()
-	todo("implement");
-	bool __result = _sub_10F11160(this, device, tex, srf, format);
-	return __result;
+
+	if (FAILED(device->CreateTexture(res_x, res_y, 1, D3DUSAGE_RENDERTARGET, format, D3DPOOL_DEFAULT, tex, nullptr)))
+		return false;
+
+	if (FAILED((*tex)->GetSurfaceLevel(0, srf)))
+	{
+		(*tex)->Release();
+		*tex = nullptr;
+		return false;
+	}
+
+	return true;
 }
 
 _inline void c_screen_postprocess::s_smaa_globals::set_reinit() // 0x10A22100

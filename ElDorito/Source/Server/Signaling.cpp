@@ -835,16 +835,18 @@ RejectionReason ProcessPassword(char const *echo, coninfo &info) // 0x10C2F010
 	return __result;
 }
 
-_extern void _sub_10C2CC60();
 void CreatePasswords() // 0x10C2CC60
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CreatePasswords@@YAXXZ");
 	// `anonymous-namespace'::CreatePasswords
 	// procedure flags: nofpo
-	{
 		// __int32 i;
+
+	for (__int32 i = 0; i < 17; i++)
+	{
+		authStrings[i] = "";
+		Utils::Cryptography::RandomPassword(8, authStrings[i]);
 	}
-	todo("implement");
-	_sub_10C2CC60();
 }
 
 void ResetPassword(__int32 peerIndex) // 0x10C2FB60

@@ -157,13 +157,14 @@ bool c_cache_file_tags::open_tag_cache() // 0x10879F70
 // mangled_x86(MANGLED_DEFAULT, "??1c_tag_names_csv_file_reader@@QAE@XZ"); no body to assert in
 _inline c_tag_names_csv_file_reader::~c_tag_names_csv_file_reader() = default; // 0x10877FB0
 
-_extern void _sub_108799C0();
 void c_cache_file_tags::close_tag_cache() // 0x108799C0
 {
-	mangled_x86(MANGLED_TODO, "?close_tag_cache@c_cache_file_tags@@SAXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?close_tag_cache@c_cache_file_tags@@SAXXZ");
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_108799C0();
+
+	tag_cache = nullptr;
+	string_id_cache = nullptr;
+	previous_last_write_time = {};
 }
 
 /* ---------- private code */

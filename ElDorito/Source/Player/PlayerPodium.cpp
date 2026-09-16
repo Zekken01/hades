@@ -323,21 +323,33 @@ namespace Player
 			return player_place < other_player.player_place;
 		}
 
-		_extern long _sub_106DE4F0(s_player_datum *);
 		long GetModgCharacterIndexFromPlayer(s_player_datum *player) // 0x106DE4F0
 		{
-			mangled_x86(MANGLED_TODO, "?GetModgCharacterIndexFromPlayer@PlayerPodium@Player@@YAJPAUs_player_datum@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetModgCharacterIndexFromPlayer@PlayerPodium@Player@@YAJPAUs_player_datum@@@Z");
 			// s_player_datum *player;
 			// s_mod_globals_definition *const modg;
-			{
 				// __int32 i;
-				{
 					// s_mod_globals_player_character_customization *const character;
+
+			s_mod_globals_definition *mod_globals = mod_globals_get_definition();
+
+			if (mod_globals)
+			{
+				for (long i = 0; i < mod_globals->player_character_customizations.count; i++)
+				{
+					if (mod_globals->player_character_customizations[i].global_player_character_type_index == player->character_type_index)
+					{
+						s_mod_globals_player_character_customization *customization = mod_globals->player_character_customizations.get_element(i);
+
+						if (customization)
+						{
+							return i;
+						}
+					}
 				}
 			}
-			todo("implement");
-			long __result = _sub_106DE4F0(player);
-			return __result;
+
+			return -1;
 		}
 
 		_extern void _sub_106DFDA0(short, short, float, float, float, float, float);

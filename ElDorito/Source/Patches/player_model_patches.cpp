@@ -635,18 +635,32 @@ real_rgb_color *network_get_team_color(real_rgb_color *color, long team) // 0x10
 	return __result;
 }
 
-_extern unsigned char _sub_10AB8300(long);
 unsigned char get_character_team_color_override_flags(long character_type_index) // 0x10AB8300
 {
-	mangled_x86(MANGLED_TODO, "?get_character_team_color_override_flags@@YAEJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_character_team_color_override_flags@@YAEJ@Z");
 	// long character_type_index;
 	// s_mod_globals_definition *modg;
-	{
 		// __int32 i;
+
+	s_mod_globals_definition *mod_globals = NULL;
+
+	if (character_type_index != -1)
+	{
+		mod_globals = mod_globals_get_definition();
+
+		if (mod_globals)
+		{
+			for (long i = 0; i < mod_globals->player_character_customizations.count; i++)
+			{
+				if (mod_globals->player_character_customizations[i].global_player_character_type_index == character_type_index)
+				{
+					return *((unsigned char *)&mod_globals->player_character_customizations[i] + 0xd5);
+				}
+			}
+		}
 	}
-	todo("implement");
-	unsigned char __result = _sub_10AB8300(character_type_index);
-	return __result;
+
+	return 0;
 }
 
 unsigned char get_player_team_color_override_flags(long player_index) // 0x10AB85A0

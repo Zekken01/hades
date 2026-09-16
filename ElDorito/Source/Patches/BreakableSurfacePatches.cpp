@@ -318,19 +318,27 @@ void simulation_action_breakable_surface_update(long bsp_index, long group_index
 	_sub_1069D8B0(bsp_index, group_index);
 }
 
-_extern void _sub_1069C280(real_point3d const *, real_vector3d const *, s_scenario_location const *, long, long, long, long, long);
 void breakable_surface_break_sub_hook(real_point3d const *position, real_vector3d const *direction, s_scenario_location const *location, long bsp_index, long instance_index, long breakable_surface_set_index, long breakable_surface_index, long surface_index) // 0x1069C280
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?breakable_surface_break_sub_hook@@YAXPBUreal_point3d@@PBUreal_vector3d@@PBUs_scenario_location@@JJJJJ@Z");
 	// `anonymous-namespace'::breakable_surface_break_sub_hook
 	// long surface_index;
 	// void (*const breakable_surface_break_sub)(real_point3d const *, real_vector3d const *, s_scenario_location const *, long, long, long, long, long);
-	{
 		// long group_index;
-	}
 	// function call : void (*const)(real_point3d const *, real_vector3d const *, s_scenario_location const *, long, long, long, long, long)
 	// function call : void (*const)(long, long, long, real_point3d const *, s_scenario_location const *)
-	todo("implement");
-	_sub_1069C280(position, direction, location, bsp_index, instance_index, breakable_surface_set_index, breakable_surface_index, surface_index);
+
+	void (*const breakable_surface_break_sub)(real_point3d const *position, real_vector3d const *direction, s_scenario_location const *location, long bsp_index, long instance_index, long breakable_surface_set_index, long breakable_surface_index, long surface_index) = (void (*const)(real_point3d const *, real_vector3d const *, s_scenario_location const *, long, long, long, long, long))0x569820;
+
+	breakable_surface_break_sub(position, &global_zero3d, location, bsp_index, instance_index, breakable_surface_set_index, breakable_surface_index, surface_index);
+	if (*(char const *)location != -1)
+	{
+		((void (*)(long, long, long, real_point3d const *, s_scenario_location const *))0x4b20b0)(instance_index, 0, surface_index, position, location);
+
+		long group_index = breakable_surface_get_group_index(bsp_index, instance_index, breakable_surface_set_index, breakable_surface_index);
+		if (group_index != -1)
+			simulation_action_breakable_surface_update(bsp_index, group_index);
+	}
 }
 
 _extern void _sub_1069DA60();
@@ -465,15 +473,17 @@ bool __fastcall c_simulation_breakable_surface_group_entity_definition__update_g
 	return __result;
 }
 
-_extern void _sub_1069C9B0();
 void breakable_surfaces_initialize_for_new_map_hook() // 0x1069C9B0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?breakable_surfaces_initialize_for_new_map_hook@@YAXXZ");
 	// `anonymous-namespace'::breakable_surfaces_initialize_for_new_map_hook
 	// procedure flags: nofpo
 	// void (*const breakable_surfaces_initialize_for_new_map)();
 	// function call : void (*const)()
-	todo("implement");
-	_sub_1069C9B0();
+
+	void (*const breakable_surfaces_initialize_for_new_map)() = (void (*const)())0x56B770;
+	breakable_surfaces_initialize_for_new_map();
+	memset(g_breakable_surface_group_gamestate_mapping, -1, 0x10000);
 }
 
 _extern void _sub_1069CA20();

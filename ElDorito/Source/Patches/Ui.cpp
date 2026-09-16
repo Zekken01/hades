@@ -668,18 +668,35 @@ namespace Patches
 {
 	namespace Ui
 	{
-		_extern void _sub_10AD7260();
 		void ApplyAfterTagsLoaded() // 0x10AD7260
 		{
-			mangled_x86(MANGLED_TODO, "?ApplyAfterTagsLoaded@Ui@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAfterTagsLoaded@Ui@Patches@@YAXXZ");
 			// procedure flags: nofpo
 			// __int32 (*SSL_SetMusicVolume)(__int32, bool);
 			// s_scenario *scnr;
 			// unsigned __int32 SoundSystemInitialized;
 			// function call : __int32 (*)(__int32, bool)
 			// function call : __int32 (*)(__int32, bool)
-			todo("implement");
-			_sub_10AD7260();
+
+			if (!tagsInitiallyLoaded)
+			{
+				tagsInitiallyLoaded = true;
+			}
+
+			void *sound_globals = *(void **)0x69AD06C;
+			void (__stdcall *set_music_volume)(long, long) = (void (__stdcall *)(long, long))0x79B940;
+			s_scenario *scenario = global_scenario_get();
+			if (scenario && sound_globals)
+			{
+				if (scenario->type == _scenario_type_main_menu)
+				{
+					set_music_volume(*(long *)((unsigned char *)Modules::ModuleSettings::Instance().VarMainMenuMusicVolume + 0x7C) * 2, 1);
+				}
+				else
+				{
+					set_music_volume(*(long *)((unsigned char *)Modules::ModuleSettings::Instance().VarMusicVolume + 0x7C) * 2, 1);
+				}
+			}
 		}
 
 		_extern void _sub_10AD7390();

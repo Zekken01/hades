@@ -260,14 +260,13 @@ bool CheatAllVehicles(std::vector<std::string> const &args, std::string &returnV
 	return cheat_all_objects(0x76656869, args.size() > 0 && args[0] == "1");
 }
 
-_extern bool _sub_107962F0(std::vector<std::string> const &, std::string &);
 bool CheatAllEquipment(std::vector<std::string> const &args, std::string &returnValue) // 0x107962F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CheatAllEquipment@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CheatAllEquipment
 	// std::string &returnValue;
-	todo("implement");
-	bool __result = _sub_107962F0(args, returnValue);
-	return __result;
+
+	return cheat_all_objects(0x65716970, args.size() > 0 && args[0] == "1");
 }
 
 bool CheatDeleteWeapons(std::vector<std::string> const &args, std::string &returnValue) // 0x107964D0

@@ -79,13 +79,6 @@ namespace Audio
 	namespace FMOD
 	{
 		_extern void _sub_106CAFB0(Audio::FMOD::IReadStream *const);
-		_inline IReadStream::~IReadStream() // 0x106CAFB0
-		{
-			mangled_x86(MANGLED_TODO, "??1IReadStream@FMOD@Audio@@UAE@XZ");
-			// Audio::FMOD::IReadStream *const this;
-			todo("implement");
-			_sub_106CAFB0(this);
-		}
 
 		extern CMemoryReadStream* _sub_106CAEB0(Audio::FMOD::CMemoryReadStream *const, void *, __int32);
 		_inline CMemoryReadStream::CMemoryReadStream(void *buffer, __int32 length) // 0x106CAEB0

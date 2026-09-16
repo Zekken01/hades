@@ -68,18 +68,21 @@ void c_gui_widget::get_render_bounds(real_rectangle2d *bounds) const // 0x10F134
 	get_current_bounds(bounds);
 }
 
-extern c_gui_widget *_sub_10F13130(c_gui_widget *const, bool (*)(c_gui_widget const &));
 c_gui_widget *c_gui_widget::find_ancestor(bool (*predicate)(c_gui_widget const &)) // 0x10F13130
 {
-	mangled_x86(MANGLED_TODO, "?find_ancestor@c_gui_widget@@QAEPAV1@P6A_NABV1@@Z@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?find_ancestor@c_gui_widget@@QAEPAV1@P6A_NABV1@@Z@Z");
 	// bool (*predicate)(c_gui_widget const &);
-	{
 		// c_gui_widget *widget;
-	}
 	// function call : bool (*)(c_gui_widget const &)
-	todo("implement");
-	c_gui_widget * __result = _sub_10F13130(this, predicate);
-	return __result;
+
+	for (c_gui_widget *ancestor = get_parent(); ancestor; ancestor = ancestor->get_parent())
+	{
+		if (predicate(*ancestor))
+		{
+			return ancestor;
+		}
+	}
+	return nullptr;
 }
 
 c_gui_list_widget *c_gui_widget::get_child_list_widget(unsigned long name) // 0x10F13330

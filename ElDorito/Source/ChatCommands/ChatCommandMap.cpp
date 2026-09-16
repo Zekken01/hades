@@ -252,22 +252,25 @@ namespace ChatCommands
 		return true;
 	}
 
-	_extern void _sub_1093AC40();
 	void Tick() // 0x1093AC40
 	{
-		mangled_x86(MANGLED_TODO, "?Tick@ChatCommands@@YAXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@ChatCommands@@YAXXZ");
 		// procedure flags: nofpo
 		// Blam::Network::Session *session;
-		{
 			// std::vector<ChatCommands::VotingChatCommand *> &<range>$L0;
 			// ChatCommands::VotingChatCommand **<begin>$L0;
 			// ChatCommands::VotingChatCommand **<end>$L0;
-			{
 				// ChatCommands::VotingChatCommand *elem;
-			}
+
+		Blam::Network::Session *session = Blam::Network::GetActiveSession();
+		if (!session || !session->IsEstablished() || !session->IsHost())
+			return;
+
+		if (chatCommandsActive)
+		{
+			for (auto command : votingCommands)
+				command->tick();
 		}
-		todo("implement");
-		_sub_1093AC40();
 	}
 
 	// mangled_x86(MANGLED_DEFAULT, "??0ChatCommand@ChatCommands@@QAE@$$QAU01@@Z"); no body to assert in

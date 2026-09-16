@@ -120,32 +120,48 @@ namespace Mods
 		return __result;
 	}
 
-	_extern __int32 _sub_10788710(__int32);
 	__int32 CModGlobals::GetCharacterVisionModeGlobals(__int32 characterTypeIndex) // 0x10788710
 	{
-		mangled_x86(MANGLED_TODO, "?GetCharacterVisionModeGlobals@CModGlobals@Mods@@SAHH@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetCharacterVisionModeGlobals@CModGlobals@Mods@@SAHH@Z");
 		// __int32 characterTypeIndex;
 		// s_mod_globals_definition *modg;
-		{
 			// __int32 i;
+
+		s_mod_globals_definition *mod_globals = mod_globals_get_definition();
+		if (mod_globals)
+		{
+			for (int i = 0; i < mod_globals->player_character_customizations.count; i++)
+			{
+				if (mod_globals->player_character_customizations[i].global_player_character_type_index == characterTypeIndex)
+				{
+					return mod_globals->player_character_customizations[i].vision_mode.index;
+				}
+			}
 		}
-		todo("implement");
-		__int32 __result = _sub_10788710(characterTypeIndex);
-		return __result;
+
+		return -1;
 	}
 
-	_extern __int32 _sub_10788640(__int32);
 	__int32 CModGlobals::GetCharacterHudGlobals(__int32 characterTypeIndex) // 0x10788640
 	{
-		mangled_x86(MANGLED_TODO, "?GetCharacterHudGlobals@CModGlobals@Mods@@SAHH@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetCharacterHudGlobals@CModGlobals@Mods@@SAHH@Z");
 		// __int32 characterTypeIndex;
 		// s_mod_globals_definition *modg;
-		{
 			// __int32 i;
+
+		s_mod_globals_definition *mod_globals = mod_globals_get_definition();
+		if (mod_globals)
+		{
+			for (int i = 0; i < mod_globals->player_character_customizations.count; i++)
+			{
+				if (mod_globals->player_character_customizations[i].global_player_character_type_index == characterTypeIndex)
+				{
+					return mod_globals->player_character_customizations[i].hud_globals.index;
+				}
+			}
 		}
-		todo("implement");
-		__int32 __result = _sub_10788640(characterTypeIndex);
-		return __result;
+
+		return -1;
 	}
 
 	_extern bool _sub_10788360(__int32, unsigned long *);
@@ -201,18 +217,28 @@ namespace Mods
 {
 	s_mod_globals_player_character_customization *CModGlobals::GetCustomizationCharacter(__int32 characterTypeIndex) // 0x107887E0
 	{
-		mangled_x86(MANGLED_TODO, "?GetCustomizationCharacter@CModGlobals@Mods@@SAPAUs_mod_globals_player_character_customization@@H@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetCustomizationCharacter@CModGlobals@Mods@@SAPAUs_mod_globals_player_character_customization@@H@Z");
 		// __int32 characterTypeIndex;
 		// s_mod_globals_definition *modg;
-		{
 			// __int32 i;
-			{
 				// s_mod_globals_player_character_customization *character;
+
+		s_mod_globals_definition *globals = nullptr;
+		if (characterTypeIndex != -1)
+		{
+			globals = mod_globals_get_definition();
+			if (globals)
+			{
+				for (long i = 0; i < globals->player_character_customizations.count; i++)
+				{
+					s_mod_globals_player_character_customization *customization = globals->player_character_customizations.get_element(i);
+					if (customization->global_player_character_type_index == characterTypeIndex)
+						return customization;
+				}
 			}
 		}
-		todo("implement");
-		s_mod_globals_player_character_customization * __result = _sub_107887E0(characterTypeIndex);
-		return __result;
+
+		return nullptr;
 	}
 }
 

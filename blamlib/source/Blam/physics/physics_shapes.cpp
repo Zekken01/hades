@@ -250,14 +250,12 @@ _inline c_decomposed_poop_shape *c_decomposed_poop_shape_impl::fixup(c_decompose
 	return shape;
 }
 
-extern hkShapeContainer *_sub_10F1BED0(c_decomposed_poop_shape *);
 _inline hkShapeContainer *__fastcall c_decomposed_poop_shape_impl::getContainer(c_decomposed_poop_shape *this_) // 0x10F1BED0
 {
-	mangled_x86(MANGLED_TODO, "?getContainer@c_decomposed_poop_shape_impl@@CIPAUhkShapeContainer@@PAUc_decomposed_poop_shape@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?getContainer@c_decomposed_poop_shape_impl@@CIPAUhkShapeContainer@@PAUc_decomposed_poop_shape@@@Z");
 	// c_decomposed_poop_shape *this_;
-	todo("implement");
-	hkShapeContainer * __result = _sub_10F1BED0(this_);
-	return __result;
+
+	return this_ ? (hkShapeContainer *)((unsigned char *)this_ + 0x10) : nullptr;
 }
 
 _inline __int32 __fastcall c_decomposed_poop_shape_impl::getNumChildShapes(hkShapeContainer *this_) // 0x10F1C030

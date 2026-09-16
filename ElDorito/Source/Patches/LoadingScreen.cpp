@@ -273,9 +273,9 @@ std::vector<std::string> GetActiveSkullsForDisplay(unsigned long primarySkulls, 
 	return __result;
 }
 
-extern std::vector<std::string> _sub_10A83ED0();
 std::vector<std::string> GetActiveSkullsForDisplay() // 0x10A83ED0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetActiveSkullsForDisplay@@YA?AV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@XZ");
 	// `anonymous-namespace'::GetActiveSkullsForDisplay
 	// procedure flags: nofpo
 	// static ...; // 0x10A83FAC
@@ -286,9 +286,13 @@ std::vector<std::string> GetActiveSkullsForDisplay() // 0x10A83ED0
 	// unsigned long primarySkulls;
 	// function call : unsigned long *(*const)(unsigned long *)
 	// function call : unsigned long *(*const)(unsigned long *)
-	todo("implement");
-	std::vector<std::string> __result = _sub_10A83ED0();
-	return __result;
+
+	unsigned long primarySkulls = 0;
+	unsigned long secondarySkulls = 0;
+	((void (__cdecl *)(unsigned long *))0x434F40)(&primarySkulls);
+	((void (__cdecl *)(unsigned long *))0x434FB0)(&secondarySkulls);
+
+	return GetActiveSkullsForDisplay(primarySkulls, secondarySkulls);
 }
 
 extern std::string _sub_10A84770(long);

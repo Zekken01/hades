@@ -315,25 +315,31 @@ void hs_player_get_idx_by_place_evaluate(short op, long thread_index, bool initi
 	}
 }
 
-_extern void _sub_106FC180(short, long, bool);
 void hs_player_reset_sprint_evaluate(short op, long thread_index, bool initial) // 0x106FC180
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_player_reset_sprint_evaluate@@YAXFJ_N@Z");
 	// `anonymous-namespace'::hs_player_reset_sprint_evaluate
 	// bool initial;
-	{
 		// hs_value *args;
-		{
 			// unsigned long player_datum_index;
-			{
 				// s_player_datum *player;
-			}
-		}
-	}
 	// function call : hs_value *(*const)(short, long, bool)
 	// function call : unsigned long (*const)(long)
 	// function call : void (*const)(long, hs_value)
-	todo("implement");
-	_sub_106FC180(op, thread_index, initial);
+
+	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
+	if (args)
+	{
+		long player_index = ((long(__cdecl *)(long))0x589C30)(0);
+		if (player_index != -1)
+		{
+			s_player_datum *player = player_get(player_index);
+			if (player)
+				player->ticks_sprinting = 0;
+		}
+
+		((void(__cdecl *)(long, hs_value))0x5974E0)(thread_index, hs_value{});
+	}
 }
 
 _extern void _sub_106FC920(short, long, bool);

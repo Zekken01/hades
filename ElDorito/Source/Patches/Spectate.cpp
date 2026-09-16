@@ -211,6 +211,8 @@ using namespace hades_file_local;
 
 /* ---------- prototypes */
 
+namespace Player { namespace PlayerNetworkUtil { long get_session_player_index_from_player_datum_index(long player_datum_index); } }  // hades: added for 0X10AD0E10
+
 namespace Patches
 {
 	namespace Spectate
@@ -320,24 +322,33 @@ void __fastcall c_director__player_switch_gui_create_or_update_hook(c_director *
 	_sub_10AD0AC0(thisptr);
 }
 
-_extern long _sub_10AD0D10(long, long, long, long, bool, bool, bool, long *);
 long c_game_director__update_watched_player_when_unit_deleted_fix(long avoid_player_index, long starting_player_index, long a2, long direction, bool same_team, bool a6, bool a7, long *out_unit_index) // 0x10AD0D10
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_game_director__update_watched_player_when_unit_deleted_fix@@YAJJJJJ_N00PAJ@Z");
 	// `anonymous-namespace'::c_game_director__update_watched_player_when_unit_deleted_fix
 	// long *out_unit_index;
 	// void (*const c_director__set_watched_player)(c_director *, long);
 	// long (*const c_director__player_get_next_player_with_a_unit)(long, long, long, long, bool, bool, bool, long *);
 	// long next_player_index;
-	{
 		// long output_user_index;
-	}
 	// function call : long (*const)(long, long, long, long, bool, bool, bool, long *)
 	// function call : long (*const)(long)
 	// function call : c_director *(*const)(long)
 	// function call : void (*const)(c_director *, long)
-	todo("implement");
-	long __result = _sub_10AD0D10(avoid_player_index, starting_player_index, a2, direction, same_team, a6, a7, out_unit_index);
-	return __result;
+
+	void (__thiscall *const c_player_view__set_watched_player_index)(void *player_view, long player_index) = (void (__thiscall *)(void *, long))0x5934D0;
+	long (*const c_game_director__update_watched_player_when_unit_deleted)(long, long, long, long, bool, bool, bool, long *) = (long (*)(long, long, long, long, bool, bool, bool, long *))0x592A80;
+
+	long next_player_index = c_game_director__update_watched_player_when_unit_deleted(avoid_player_index, starting_player_index, a2, direction, same_team, a6, a7, out_unit_index);
+
+	if (avoid_player_index != -1)
+	{
+		long output_user_index = ((long (*)(long))0x589A70)(avoid_player_index);
+
+		c_player_view__set_watched_player_index(((void *(*)(long))0x591990)(output_user_index), next_player_index);
+	}
+
+	return next_player_index;
 }
 
 _extern long _sub_10AD1160(c_observer_camera_list_screen *, c_gui_list_item_widget *);
@@ -358,9 +369,9 @@ long get_player_index_from_list_item(c_observer_camera_list_screen *screen, c_gu
 	return __result;
 }
 
-_extern void _sub_10AD0E10(c_observer_camera_list_screen *, void *, unsigned long);
 void __fastcall c_observer_camera_list_screen__update_hook(c_observer_camera_list_screen *thisptr, void *__formal, unsigned long milliseconds) // 0x10AD0E10
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_observer_camera_list_screen__update_hook@@YIXPAUc_observer_camera_list_screen@hades_file_local@@PAXK@Z");
 	// `anonymous-namespace'::c_observer_camera_list_screen__update_hook
 	// unsigned long milliseconds;
 	// long player_index;
@@ -368,8 +379,32 @@ void __fastcall c_observer_camera_list_screen__update_hook(c_observer_camera_lis
 	// void (*const c_observer_camera_list_screen__update)(c_observer_camera_list_screen *, unsigned long);
 	// c_gui_bitmap_widget *player_emblem_widget;
 	// function call : void (*const)(c_observer_camera_list_screen *, unsigned long)
-	todo("implement");
-	_sub_10AD0E10(thisptr, __formal, milliseconds);
+
+	void (__thiscall *const c_observer_camera_list_screen__update)(c_observer_camera_list_screen *, unsigned long) = (void (__thiscall *)(c_observer_camera_list_screen *, unsigned long))0xABBB30;
+
+	if (*(bool *)((unsigned char *)thisptr + 0x111))
+	{
+		thisptr->set_visible(false);
+	}
+
+	c_observer_camera_list_screen__update(thisptr, milliseconds);
+
+	if (!*(c_gui_list_item_widget **)((unsigned char *)thisptr + 0xF0))
+		return;
+
+	c_gui_bitmap_widget *bitmap_widget = (*(c_gui_list_item_widget **)((unsigned char *)thisptr + 0xF0))->get_child_bitmap_widget(0x103DB);
+	if (!bitmap_widget)
+		return;
+
+	long player_index = get_player_index_from_list_item(thisptr, *(c_gui_list_item_widget **)((unsigned char *)thisptr + 0xF0));
+	if (player_index == -1)
+		return;
+
+	long session_player_index = Player::PlayerNetworkUtil::get_session_player_index_from_player_datum_index(player_index);
+	if (session_player_index == -1)
+		return;
+
+	bitmap_widget->set_sprite_frame_index(session_player_index | 0x8000);
 }
 
 _extern void _sub_10AD0F40(c_observer_camera_list_screen *, void *, unsigned long);

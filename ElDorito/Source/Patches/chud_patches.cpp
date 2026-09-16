@@ -135,6 +135,8 @@ namespace Patches
 
 /* ---------- prototypes */
 
+bool weapon_has_bottomless_clip(long weapon_index);  // hades: added for 0X1085ABE0
+
 namespace Patches
 {
 	namespace Chud
@@ -199,17 +201,24 @@ void __fastcall c_chud_persistent_user_data__update_from_update_data_hook(void *
 	_sub_1085AAB0(thisptr, __formal, output_user_index, hudData);
 }
 
-_extern void _sub_1085A9E0(void *);
 void __fastcall c_chud_persistent_user_data__reset_hook(void *thisptr) // 0x1085A9E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_chud_persistent_user_data__reset_hook@@YIXPAX@Z");
 	// `anonymous-namespace'::c_chud_persistent_user_data__reset_hook
 	// void *thisptr;
 	// long perspective;
 	// void *(*const c_chud_persistent_user_data__reset)(void *);
 	// function call : void *(*const)(void *)
 	// function call : e_director_perspective (*const)(long)
-	todo("implement");
-	_sub_1085A9E0(thisptr);
+
+	void (__thiscall *const c_chud_persistent_user_data__reset)(void *) = (void (__thiscall *)(void *))0xA8DD60;
+	c_chud_persistent_user_data__reset(thisptr);
+
+	long user_index = ((long (__cdecl *)(long))0x591A40)(0);
+	if (user_index)
+		*(float *)offset_pointer(thisptr, 0x1C30) = 0.0f;
+	else
+		*(float *)offset_pointer(thisptr, 0x1C30) = 1.0f;
 }
 
 _extern unsigned long _sub_1085ACC0(c_chud_update_user_data *);
@@ -575,18 +584,24 @@ void __fastcall c_chud_navpoint_manager__draw_hook(c_chud_navpoint_manager *this
 	_sub_10859B30(thisptr, __formal, output_user_index);
 }
 
-_extern void _sub_1085ABE0(void *, void *, long, long, s_aim_assist_targeting_result *);
 void __fastcall c_chud_update_user_data__compute_weapon_update_hook(void *thisptr, void *unused, long weapon_index, long interface_index, s_aim_assist_targeting_result *targeting_result) // 0x1085ABE0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_chud_update_user_data__compute_weapon_update_hook@@YIXPAX0JJPAUs_aim_assist_targeting_result@@@Z");
 	// `anonymous-namespace'::c_chud_update_user_data__compute_weapon_update_hook
 	// s_aim_assist_targeting_result *targeting_result;
 	// void (*const chud_build_weapon_hud_render_data)(void *, long, long, s_aim_assist_targeting_result *);
-	{
 		// long offset;
-	}
 	// function call : void (*const)(void *, long, long, s_aim_assist_targeting_result *)
-	todo("implement");
-	_sub_1085ABE0(thisptr, unused, weapon_index, interface_index, targeting_result);
+
+	void (__thiscall *const c_chud_update_user_data__compute_weapon_update)(void *, long, long, s_aim_assist_targeting_result *) = (void (__thiscall *)(void *, long, long, s_aim_assist_targeting_result *))0xA8AED0;
+	c_chud_update_user_data__compute_weapon_update(thisptr, weapon_index, interface_index, targeting_result);
+	if (weapon_has_bottomless_clip(weapon_index))
+	{
+		long offset = interface_index * 0x5C;
+		*(float *)((unsigned char *)thisptr + offset + 0x34) = 3.4028235e38f;
+		*(float *)((unsigned char *)thisptr + offset + 0x48) = 3.4028235e38f;
+		*(float *)((unsigned char *)thisptr + offset + 0x50) = 3.4028235e38f;
+	}
 }
 
 _extern void _sub_1085D9F0(c_aim_target_object *, real_point3d *);

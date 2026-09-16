@@ -64,14 +64,17 @@ static_assert(sizeof(Utils::SemanticVersion) == 68, "Invalid Utils::SemanticVers
 
 namespace Utils
 {
-	extern SemanticVersion &_sub_10765120(Utils::SemanticVersion *const, Utils::SemanticVersion &);
 	_inline Utils::SemanticVersion &SemanticVersion::operator=(Utils::SemanticVersion &&__that) // 0x10765120
 	{
-		mangled_x86(MANGLED_TODO, "??4SemanticVersion@Utils@@QAEAAU01@$$QAU01@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??4SemanticVersion@Utils@@QAEAAU01@$$QAU01@@Z");
 		// Utils::SemanticVersion &__that;
-		todo("implement");
-		Utils::SemanticVersion & __result = _sub_10765120(this, __that);
-		return __result;
+
+		major = __that.major;
+		minor = __that.minor;
+		patch = __that.patch;
+		prerelease = static_cast<std::string &&>(__that.prerelease);
+		build = static_cast<std::string &&>(__that.build);
+		return *this;
 	}
 
 	_inline SemanticVersion::~SemanticVersion() // 0x10764570

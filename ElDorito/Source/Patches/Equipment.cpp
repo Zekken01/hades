@@ -497,7 +497,6 @@ __int32 GetMPGlobalsEquipmentBlockIndex(unsigned __int32 tagIndex) // 0x10A54C00
 	return __result;
 }
 
-_extern void *_sub_10A54FB0(s_player_datum *);
 void *Player_GetArmorAbilitiesCHUDHook(s_player_datum *playerDatum) // 0x10A54FB0
 {
 	// `anonymous-namespace'::Player_GetArmorAbilitiesCHUDHook
@@ -506,9 +505,24 @@ void *Player_GetArmorAbilitiesCHUDHook(s_player_datum *playerDatum) // 0x10A54FB
 	// static unsigned char `Player_GetArmorAbilitiesCHUDHook'::`2'::data[8]; // 0x124584A0
 	// s_object_data *itemObject;
 	// long primaryEquipmentObjectIndex;
-	todo("implement");
-	void * __result = _sub_10A54FB0(playerDatum);
-	return __result;
+
+	static unsigned char data[8];
+	memset(data, 0, sizeof(data));
+
+	s_unit_data *unit = object_get<s_unit_data>(playerDatum->unit_index);
+	if (!unit)
+		return data;
+
+	long equipment_index = unit->equipment_object_indices[0];
+	if (equipment_index == -1)
+		return data;
+
+	s_object_data *object = object_get(equipment_index);
+	if (!object)
+		return data;
+
+	data[3] = GetMPGlobalsEquipmentBlockIndex(object->definition_index);
+	return data;
 }
 
 void unit_drop_on_death_hook(long unit_index) // 0x10A57680

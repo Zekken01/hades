@@ -255,6 +255,8 @@ namespace Blam
 
 /* ---------- prototypes */
 
+void SetUiPlayerModelPosition(real_vector3d const *newPosition);  // hades: added for 0X109F4730
+
 extern void RefreshUiPlayer();  // hades: added for 0x109F7350
 
 std::string GetPayload();
@@ -530,18 +532,25 @@ bool TryParseFloat(std::string const &str, float *value) // 0x109F6800
 	return str.c_str() != endp;
 }
 
-_extern bool _sub_109F4730(std::vector<std::string> const &, std::string &);
 bool CommandSetUiPlayerModelPosition(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109F4730
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandSetUiPlayerModelPosition@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandSetUiPlayerModelPosition
 	// static ...; // 0x109F4814
 	// static ...; // 0x109F480C
 	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// real_vector3d position;
-	todo("implement");
-	bool __result = _sub_109F4730(Arguments, returnInfo);
-	return __result;
+
+	real_vector3d position;
+	if (Arguments.size() < 3 || !TryParseFloat(Arguments[0], &position.i) || !TryParseFloat(Arguments[1], &position.j) || !TryParseFloat(Arguments[2], &position.k))
+	{
+		returnInfo = "Invalid arguments";
+		return false;
+	}
+
+	SetUiPlayerModelPosition(&position);
+	return true;
 }
 
 _extern bool _sub_109F2770(std::vector<std::string> const &, std::string &);

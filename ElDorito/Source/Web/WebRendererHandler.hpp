@@ -62,7 +62,7 @@ namespace Web
 			CefRefCount ref_count_; // 0x3C
 		public:
 			WebRendererHandler(scoped_refptr<Web::Browser::WebRendererRenderHandler> renderHandler);
-			virtual _inline ~WebRendererHandler();
+			virtual _inline ~WebRendererHandler() = default;
 			virtual _inline scoped_refptr<CefLifeSpanHandler> GetLifeSpanHandler();
 			virtual _inline scoped_refptr<CefRenderHandler> GetRenderHandler();
 			virtual _inline scoped_refptr<CefRequestHandler> GetRequestHandler();
@@ -99,14 +99,6 @@ namespace Web
 	namespace Browser
 	{
 		_extern void _sub_10CCA090(Web::Browser::WebRendererHandler * const);
-		_inline WebRendererHandler::~WebRendererHandler() // 0x10CCA090
-		{
-			mangled_x86(MANGLED_TODO, "??1WebRendererHandler@Browser@Web@@UAE@XZ");
-			// __shifted(Web::Browser::WebRendererHandler, 68);
-			// Web::Browser::WebRendererHandler *const this;
-			todo("implement");
-			_sub_10CCA090(this);
-		}
 	}
 }
 

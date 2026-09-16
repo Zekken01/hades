@@ -84,13 +84,10 @@ static_assert(sizeof(c_mod_database) == 72, "Invalid c_mod_database size");
 
 /* ---------- public code */
 
-extern c_mod_database* _sub_108A4B70(c_mod_database *const);
-_inline c_mod_database::c_mod_database() // 0x108A4B70
+_inline c_mod_database::c_mod_database() : m_dirty(false) /* hades-mem-init:  */ // 0x108A4B70
 {
-	mangled_x86(MANGLED_TODO, "??0c_mod_database@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_mod_database@@QAE@XZ");
 	// c_mod_database *const this;
-	todo("implement");
-	_sub_108A4B70(this);
 }
 
 _inline bool c_mod_database::is_dirty() const // 0x108AA470

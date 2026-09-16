@@ -276,13 +276,12 @@ namespace Web
 				_sub_10CA5810();
 			}
 
-			_extern void _sub_10CA4990();
 			void Hide() // 0x10CA4990
 			{
-				mangled_x86(MANGLED_TODO, "?Hide@WebEmote@Ui@Web@@YAXXZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?Hide@WebEmote@Ui@Web@@YAXXZ");
 				// procedure flags: nofpo
-				todo("implement");
-				_sub_10CA4990();
+
+				ScreenLayer::Hide("emote");
 			}
 		}
 	}

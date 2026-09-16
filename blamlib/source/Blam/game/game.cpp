@@ -23,14 +23,17 @@ extern char const *k_game_mode_names[6]; // 0x11359720
 
 /* ---------- public code */
 
-extern char const *_sub_10F00470(e_game_mode);
 char const *game_mode_get_string(e_game_mode mode) // 0x10F00470
 {
-	mangled_x86(MANGLED_TODO, "?game_mode_get_string@@YAPBDW4e_game_mode@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_mode_get_string@@YAPBDW4e_game_mode@@@Z");
 	// e_game_mode mode;
-	todo("implement");
-	char const * __result = _sub_10F00470(mode);
-	return __result;
+
+	if (mode < 0 || mode >= 6)
+	{
+		return "unknown";
+	}
+
+	return k_game_mode_names[mode];
 }
 
 /* ---------- private code */

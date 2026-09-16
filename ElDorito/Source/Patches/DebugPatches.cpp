@@ -780,24 +780,31 @@ void render_debug_object(long object_index) // 0x108CC120
 	_sub_108CC120(object_index);
 }
 
-_extern void _sub_108CCB60();
 void render_debug_objects() // 0x108CCB60
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_objects@@YAXXZ");
 	// `anonymous-namespace'::render_debug_objects
 	// procedure flags: nofpo
 	// short starting_index;
 	// s_visible_items *visible_items;
-	{
 		// __int32 i;
-		{
 			// s_visible_object_hierarchy &object_hierarchy;
-			{
 				// __int32 j;
-			}
+
+	s_visible_items &visible_items = c_visible_items::get_global_items();
+	short marker = *(short *)&c_visible_items::get_current_markers();
+
+	for (long i = 0; i < visible_items.object_hierarchies.count; i++)
+	{
+		auto &hierarchy = visible_items.object_hierarchies.elements[i];
+		if (hierarchy.first_index == -1)
+			continue;
+
+		for (long j = 0; j < hierarchy.count; j++)
+		{
+			render_debug_object(visible_items.objects.elements[hierarchy.first_index + j].object_index);
 		}
 	}
-	todo("implement");
-	_sub_108CCB60();
 }
 
 _extern void _sub_108CBEB0();

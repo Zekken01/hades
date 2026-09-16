@@ -188,22 +188,24 @@ namespace Server
 			SendVotingMessageToPeer(newmessage, peer);
 		}
 
-		_extern void _sub_1072D6C0(Server::Voting::AbstractVotingSystem *const, Server::Voting::MapAndType const &);
 		void AbstractVotingSystem::NotifyVotePassed(Server::Voting::MapAndType const &winner) // 0x1072D6C0
 		{
-			mangled_x86(MANGLED_TODO, "?NotifyVotePassed@AbstractVotingSystem@Voting@Server@@IAEXABUMapAndType@23@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?NotifyVotePassed@AbstractVotingSystem@Voting@Server@@IAEXABUMapAndType@23@@Z");
 			// Server::Voting::MapAndType const &winner;
-			todo("implement");
-			_sub_1072D6C0(this, winner);
+
+			(*(std::function<void(Server::Voting::MapAndType)> *)((unsigned char *)this + 0x10))(winner);
 		}
 
-		_extern void _sub_1072D4B0(Server::Voting::AbstractVotingSystem *const);
 		void AbstractVotingSystem::CheckAndLoadJson() // 0x1072D4B0
 		{
-			mangled_x86(MANGLED_TODO, "?CheckAndLoadJson@AbstractVotingSystem@Voting@Server@@QAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?CheckAndLoadJson@AbstractVotingSystem@Voting@Server@@QAEXXZ");
 			// Server::Voting::AbstractVotingSystem *const this;
-			todo("implement");
-			_sub_1072D4B0(this);
+
+			if (jsonLoaded)
+				return;
+
+			ReloadVotingJson(Modules::ModuleVoting::Instance().VarVotingJsonPath->ValueString, true);
+			jsonLoaded = true;
 		}
 
 		// mangled_x86(MANGLED_DEFAULT, "??0CharacterOverride@HaloType@Voting@Server@@QAE@ABU0123@@Z"); no body to assert in

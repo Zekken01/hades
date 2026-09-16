@@ -107,29 +107,37 @@ namespace Scripting
 			FreeBlock(block);
 		}
 
-		_extern void _sub_106F3AF0(Scripting::HS::HsThreadStorage *const);
 		void HsThreadStorage::FreeAll() // 0x106F3AF0
 		{
-			mangled_x86(MANGLED_TODO, "?FreeAll@HsThreadStorage@HS@Scripting@@QAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?FreeAll@HsThreadStorage@HS@Scripting@@QAEXXZ");
 			// Scripting::HS::HsThreadStorage *const this;
 			// Scripting::HS::HsThreadStorage::MemBlock *block;
-			{
 				// Scripting::HS::HsThreadStorage::MemBlock *next;
+
+			MemBlock *block = m_blockList;
+			while (block)
+			{
+				MemBlock *next = block->next;
+				FreeBlock(block);
+				block = next;
 			}
-			todo("implement");
-			_sub_106F3AF0(this);
+
+			m_blockList = nullptr;
 		}
 
-		extern HsThreadStorage::MemBlock *_sub_106F3730(Scripting::HS::HsThreadStorage *const, unsigned __int32);
 		Scripting::HS::HsThreadStorage::MemBlock *HsThreadStorage::AllocateBlock(unsigned __int32 size) // 0x106F3730
 		{
-			mangled_x86(MANGLED_TODO, "?AllocateBlock@HsThreadStorage@HS@Scripting@@AAEPAUMemBlock@123@I@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?AllocateBlock@HsThreadStorage@HS@Scripting@@AAEPAUMemBlock@123@I@Z");
 			// unsigned __int32 size;
 			// Scripting::HS::HsThreadStorage::MemBlock *block;
 			// unsigned __int32 allocationSize;
-			todo("implement");
-			Scripting::HS::HsThreadStorage::MemBlock * __result = _sub_106F3730(this, size);
-			return __result;
+
+			unsigned __int32 blockSize = size + 12;
+			MemBlock *block = (MemBlock *)operator new(blockSize);
+			*(unsigned __int32 *)((unsigned char *)block + 8) = size;
+			m_allocatedSize += blockSize;
+
+			return block;
 		}
 
 		void HsThreadStorage::FreeBlock(Scripting::HS::HsThreadStorage::MemBlock *block) // 0x106F3B70

@@ -337,13 +337,18 @@ void c_player_trait_weapons::encode(c_bitstream *packet) const // 0x10F04310
 	packet->write_integer("player-traits-weapon-pickup-allowed", weapon_pickup, 2);
 }
 
-_extern void _sub_10F03CD0(c_player_trait_weapons *const, c_bitstream *);
 void c_player_trait_weapons::decode(c_bitstream *packet) // 0x10F03CD0
 {
-	mangled_x86(MANGLED_TODO, "?decode@c_player_trait_weapons@@QAEXPAVc_bitstream@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?decode@c_player_trait_weapons@@QAEXPAVc_bitstream@@@Z");
 	// c_bitstream *packet;
-	todo("implement");
-	_sub_10F03CD0(this, packet);
+
+	set_damage_modifier_setting((e_damage_modifier_setting)packet->read_integer("player-trait-damage-modifier", 4), true);
+	set_initial_primary_weapon_absolute_index((char)packet->read_signed_integer("player-trait-initial-primary-weapon", 8), true);
+	set_initial_secondary_weapon_absolute_index((char)packet->read_signed_integer("player-trait-initial-secondary-weapon", 8), true);
+	set_initial_grenade_count_setting((e_grenade_count_setting)packet->read_integer("player-trait-initial-grenade-count", 2), true);
+	set_infinite_ammo_setting((e_infinite_ammo_setting)packet->read_integer("player-traits-infinite-ammo-setting", 2), true);
+	set_recharging_grenades_setting((e_recharging_grenades_setting)packet->read_integer("player-traits-recharging-grenades", 2), true);
+	set_weapon_pickup_setting((e_weapon_pickup_setting)packet->read_integer("player-traits-weapon-pickup-allowed", 2), true);
 }
 
 bool c_player_trait_weapons::equivalent(c_player_trait_weapons const *traits) const // 0x10F04980
@@ -376,10 +381,9 @@ void c_player_trait_movement::set(c_player_trait_movement const *traits, bool ca
 	unused = 0;
 }
 
-_extern float _sub_10F04EB0(c_player_trait_movement const *const);
 float c_player_trait_movement::get_speed() const // 0x10F04EB0
 {
-	mangled_x86(MANGLED_TODO, "?get_speed@c_player_trait_movement@@QBEMXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_speed@c_player_trait_movement@@QBEMXZ");
 	// static ...; // 0x10F04F70
 // $LN13:
 // $LN12:
@@ -392,15 +396,37 @@ float c_player_trait_movement::get_speed() const // 0x10F04EB0
 // $LN5:
 // $LN4:
 	// c_player_trait_movement const *const this;
-	todo("implement");
-	float __result = _sub_10F04EB0((c_player_trait_movement const *)this);
-	return __result;
+
+	switch (player_speed)
+	{
+	case _speed_25:
+		return 0.25f;
+	case _speed_50:
+		return 0.5f;
+	case _speed_75:
+		return 0.75f;
+	case _speed_90:
+		return 0.9f;
+	case _speed_100:
+		return 1.0f;
+	case _speed_110:
+		return 1.1f;
+	case _speed_125:
+		return 1.25f;
+	case _speed_150:
+		return 1.5f;
+	case _speed_200:
+		return 2.0f;
+	case _speed_300:
+		return 3.0f;
+	default:
+		return 1.0f;
+	}
 }
 
-_extern float _sub_10F04D90(c_player_trait_movement const *const);
 float c_player_trait_movement::get_gravity() const // 0x10F04D90
 {
-	mangled_x86(MANGLED_TODO, "?get_gravity@c_player_trait_movement@@QBEMXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_gravity@c_player_trait_movement@@QBEMXZ");
 	// static ...; // 0x10F04E48
 // $LN12:
 // $LN11:
@@ -412,9 +438,30 @@ float c_player_trait_movement::get_gravity() const // 0x10F04D90
 // $LN5:
 // $LN4:
 	// c_player_trait_movement const *const this;
-	todo("implement");
-	float __result = _sub_10F04D90((c_player_trait_movement const *)this);
-	return __result;
+
+	switch (player_gravity)
+	{
+	case _gravity_50:
+		return 0.5f;
+	case _gravity_75:
+		return 0.75f;
+	case _gravity_150:
+		return 1.5f;
+	case _gravity_200:
+		return 2.0f;
+	case _gravity_0:
+		return 0.0f;
+	case _gravity_15:
+		return 0.15f;
+	case _gravity_25:
+		return 0.25f;
+	case _gravity_35:
+		return 0.35f;
+	case _gravity_125:
+		return 1.25f;
+	}
+
+	return 1.0f;
 }
 
 void c_player_trait_movement::set_speed_setting(c_player_trait_movement::e_speed_setting value, bool can_inherit) // 0x10F06410

@@ -332,25 +332,29 @@ bool c_mod_package_manager::find_package_by_hash_internal(unsigned char const (&
 	return false;
 }
 
-_extern bool _sub_108A9AA0(c_mod_package_manager const *const, char const *, c_mod_package_manager::s_entry *);
 bool c_mod_package_manager::find_package_by_filename_internal(char const *filename, c_mod_package_manager::s_entry *out_entry) const // 0x108A9AA0
 {
-	mangled_x86(MANGLED_TODO, "?find_package_by_filename_internal@c_mod_package_manager@@ABE_NPBDPAUs_entry@1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?find_package_by_filename_internal@c_mod_package_manager@@ABE_NPBDPAUs_entry@1@@Z");
 	// c_mod_package_manager::s_entry *out_entry;
-	{
 		// std::vector<c_mod_package_manager::s_entry> const &<range>$L0;
 		// c_mod_package_manager::s_entry const *<begin>$L0;
 		// c_mod_package_manager::s_entry const *<end>$L0;
-		{
 			// c_mod_package_manager::s_entry const &entry;
-			{
 				// char const *entry_filename;
-			}
+
+	for (auto &entry : m_entries)
+	{
+		char const *separator = strrchr((char const *)((unsigned char *)&entry + 8), '\\');
+		if (!separator)
+			continue;
+
+		if (strcmp(&separator[1], filename) == 0)
+		{
+			*out_entry = entry;
+			return true;
 		}
 	}
-	todo("implement");
-	bool __result = _sub_108A9AA0((c_mod_package_manager const *)this, filename, out_entry);
-	return __result;
+	return false;
 }
 
 bool c_mod_package_manager::find_package_by_filename(char const *filename, c_mod_package_manager::s_entry *out_entry) const // 0x108A99A0

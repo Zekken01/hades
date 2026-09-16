@@ -98,13 +98,10 @@ namespace Web
 {
 	namespace Browser
 	{
-		extern SwapChain* _sub_10C77740(Web::Browser::SwapChain *const, IDirect3DDevice9 *, __int32);
-		SwapChain::SwapChain(IDirect3DDevice9 *device, __int32 bufferCount) // 0x10C77740
+		SwapChain::SwapChain(IDirect3DDevice9 *device, __int32 bufferCount) : m_device(device), m_bufferCount(bufferCount), m_bufferVersion(0), m_frontBuffer(nullptr), m_released(false) /* hades-mem-init:  */ // 0x10C77740
 		{
-			mangled_x86(MANGLED_TODO, "??0SwapChain@Browser@Web@@QAE@PAUIDirect3DDevice9@@H@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0SwapChain@Browser@Web@@QAE@PAUIDirect3DDevice9@@H@Z");
 			// __int32 bufferCount;
-			todo("implement");
-			_sub_10C77740(this, device, bufferCount);
 		}
 
 		SwapChain::~SwapChain() // 0x10C77AF0
@@ -230,19 +227,23 @@ namespace Web
 			_sub_10C78070(this);
 		}
 
-		_extern void _sub_10C78510(Web::Browser::SwapChain *const);
 		void SwapChain::Release() // 0x10C78510
 		{
-			mangled_x86(MANGLED_TODO, "?Release@SwapChain@Browser@Web@@QAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Release@SwapChain@Browser@Web@@QAEXXZ");
 			// static ...; // 0x10C785D8
 			// static ...; // 0x10C785CC
 			// static ...; // 0x10C785C4
 			// Web::Browser::SwapChain *const this;
-			{
 				// std::scoped_lock<std::mutex> lock;
+
+			{
+				std::scoped_lock<std::mutex> lock(m_mutex);
+
+				m_released = true;
+				DeleteBuffers();
 			}
-			todo("implement");
-			_sub_10C78510(this);
+
+			m_emptyCond.notify_one();
 		}
 	}
 }

@@ -393,15 +393,17 @@ void CServerConnectStateHandler_AcquireMods::UpdateFinished() // 0x10909D60
 	RequestStateChange(Connect);
 }
 
-_extern void _sub_109074A0(CServerConnectStateHandler_AcquireMods *const);
 void CServerConnectStateHandler_AcquireMods::EnterFinalizationState() // 0x109074A0
 {
-	mangled_x86(MANGLED_TODO, "?EnterFinalizationState@CServerConnectStateHandler_AcquireMods@@AAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?EnterFinalizationState@CServerConnectStateHandler_AcquireMods@@AAEXXZ");
 	// CServerConnectStateHandler_AcquireMods *const this;
 	// c_mod_package_manager &packageManager;
 	// function call : void ()
-	todo("implement");
-	_sub_109074A0(this);
+
+	c_mod_package_manager &package_manager = c_mod_system::get_package_manager();
+
+	SetLocalState((EState)5);
+	m_ui->OnDownloadFinalizing();
 }
 
 _extern void _sub_10907340(CServerConnectStateHandler_AcquireMods *const, Download::EDownloadError);

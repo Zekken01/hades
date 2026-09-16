@@ -56,14 +56,28 @@ extern _inline bool is_havok_convex_shape(hkpShape *shape);
 
 /* ---------- public code */
 
-extern hkpShape *_sub_10AAB350(hkpShape *);
 _inline hkpShape *__fastcall havok_transform_wrapper_shape_get_child_shape(hkpShape *shape) // 0x10AAB350
 {
-	mangled_x86(MANGLED_TODO, "?havok_transform_wrapper_shape_get_child_shape@@YIPAUhkpShape@@PAU1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?havok_transform_wrapper_shape_get_child_shape@@YIPAUhkpShape@@PAU1@@Z");
 	// hkpShape *shape;
-	todo("implement");
-	hkpShape * __result = _sub_10AAB350(shape);
-	return __result;
+
+	switch (shape->m_type)
+	{
+	case 12:
+		shape = *(hkpShape **)((unsigned char *)shape + 0x18);
+		break;
+	case 13:
+		shape = *(hkpShape **)((unsigned char *)shape + 0x18);
+		break;
+	case 0x1C:
+		shape = *(hkpShape **)((unsigned char *)shape + 0x14);
+		break;
+	}
+
+	if (shape->m_userData == 0xFFFF00AB)
+		shape = *(hkpShape **)((unsigned char *)shape + 0x14);
+
+	return shape;
 }
 
 _inline hkpShape *havok_shape_from_container(hkShapeContainer *container) // 0x10AAB330
@@ -74,18 +88,30 @@ _inline hkpShape *havok_shape_from_container(hkShapeContainer *container) // 0x1
 	return (hkpShape *)((char *)container - 0x10);
 }
 
-_extern bool _sub_10AAB650(hkpShape *);
 _inline bool is_havok_convex_shape(hkpShape *shape) // 0x10AAB650
 {
-	mangled_x86(MANGLED_TODO, "?is_havok_convex_shape@@YA_NPAUhkpShape@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?is_havok_convex_shape@@YA_NPAUhkpShape@@@Z");
 	// static ...; // 0x10AAB6AC
 	// static ...; // 0x10AAB6A4
 // $LN12:
 // $LN2:
 	// hkpShape *shape;
-	todo("implement");
-	bool __result = _sub_10AAB650(shape);
-	return __result;
+
+	switch (shape->m_type)
+	{
+	case 1:
+	case 3:
+	case 5:
+	case 6:
+	case 7:
+	case 8:
+	case 12:
+	case 13:
+	case 30:
+		return true;
+	}
+
+	return false;
 }
 
 _extern void _sub_10F1AE00(hkTransform const &, hkVector4 const &, hkVector4 const &, float, hkAabb &);

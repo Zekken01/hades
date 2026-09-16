@@ -313,22 +313,29 @@ bool CommandGetEquippedWeaponInfo(std::vector<std::string> const &Arguments, std
 	return __result;
 }
 
-_extern bool _sub_10A26DB0(std::vector<std::string> const &, std::string &);
 bool CommandListWeaponConfigsJSON(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x10A26DB0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandListWeaponConfigsJSON@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandListWeaponConfigsJSON
 	// std::string &returnInfo;
-	{
 		// std::vector<std::string> &<range>$L0;
 		// std::string *<begin>$L0;
 		// std::string *<end>$L0;
-		{
 			// std::string &name;
+
+	Patches::Weapon::Config::CreateList();
+
+	for (auto &config : Modules::ModuleWeapon::Instance().WeaponsJSONList)
+	{
+		if (returnInfo.length() > 0)
+		{
+			returnInfo += ',';
 		}
+
+		returnInfo += config;
 	}
-	todo("implement");
-	bool __result = _sub_10A26DB0(arguments, returnInfo);
-	return __result;
+
+	return true;
 }
 
 extern real_vector3d _sub_10A27F20(std::string, std::string, std::string);

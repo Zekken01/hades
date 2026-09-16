@@ -124,13 +124,25 @@ _inline DialogInitParams::DialogInitParams() = default; // 0x10786AF0
 // mangled_x86(MANGLED_DEFAULT, "??1DialogInitParams@hades_file_local@@QAE@XZ"); no body to assert in
 _inline DialogInitParams::~DialogInitParams() = default; // 0x10786BD0
 
-extern std::string _sub_10787040(std::string);
 std::string NormalizeLineEndings(std::string input) // 0x10787040
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?NormalizeLineEndings@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@@Z");
 	// `anonymous-namespace'::NormalizeLineEndings
 	// std::string input;
 	// unsigned __int32 pos;
-	todo("implement");
-	std::string __result = _sub_10787040(input);
-	return __result;
+
+	size_t pos = 0;
+	while ((pos = input.find("\n", pos)) != std::string::npos)
+	{
+		if (pos == 0 || input[pos - 1] != '\r')
+		{
+			input.insert(pos, "\r");
+		}
+		else
+		{
+			pos++;
+		}
+	}
+
+	return input;
 }

@@ -145,10 +145,9 @@ namespace Player
 			return color;
 		}
 
-		_extern bool _sub_1090C790(IDirect3DDevice9 *, IDirect3DTexture9 *, IDirect3DTexture9 **);
 		bool CopyToGPUTexture(IDirect3DDevice9 *device, IDirect3DTexture9 *texture, IDirect3DTexture9 **outGpuTexture) // 0x1090C790
 		{
-			mangled_x86(MANGLED_TODO, "?CopyToGPUTexture@Emblems@Player@@YA_NPAUIDirect3DDevice9@@PAUIDirect3DTexture9@@PAPAU4@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?CopyToGPUTexture@Emblems@Player@@YA_NPAUIDirect3DDevice9@@PAUIDirect3DTexture9@@PAPAU4@@Z");
 			// static ...; // 0x1090C864
 			// IDirect3DDevice9 *device;
 			// IDirect3DTexture9 *texture;
@@ -157,9 +156,22 @@ namespace Player
 			// function call : HRESULT (unsigned __int32, unsigned __int32, unsigned __int32, unsigned long, _D3DFORMAT, _D3DPOOL, IDirect3DTexture9 **, void **)
 			// function call : HRESULT (IDirect3DBaseTexture9 *, IDirect3DBaseTexture9 *)
 			// function call : unsigned long ()
-			todo("implement");
-			bool __result = _sub_1090C790(device, texture, outGpuTexture);
-			return __result;
+
+			IDirect3DTexture9 *gpuTexture;
+
+			if (device->CreateTexture(128, 128, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &gpuTexture, nullptr) != D3D_OK)
+			{
+				return false;
+			}
+
+			if (device->UpdateTexture(texture, gpuTexture) != D3D_OK)
+			{
+				gpuTexture->Release();
+				return false;
+			}
+
+			*outGpuTexture = gpuTexture;
+			return true;
 		}
 
 		_extern void _sub_1090C5E0(float *, Player::Emblems::e_emblem_color, float);

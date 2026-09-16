@@ -58,13 +58,22 @@ void c_visible_items::pop_marker() // 0x10F0DDB0
 
 // mangled_x86(MANGLED_DEFAULT, "??0s_visible_items@@QAE@XZ"); no body to assert in
 
-_extern void _sub_10F0DC80();
 void c_visible_items::clear_all() // 0x10F0DC80
 {
-	mangled_x86(MANGLED_TODO, "?clear_all@c_visible_items@@SAXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?clear_all@c_visible_items@@SAXXZ");
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10F0DC80();
+
+	csmemset((unsigned char *)&m_items + 0x5dffc, 0, *(short *)((unsigned char *)&m_items + 0x5e7fc) * sizeof(long));
+	*(short *)((unsigned char *)&m_items + 0x2) = 0;
+	*(short *)((unsigned char *)&m_items + 0x6006) = 0;
+	*(short *)((unsigned char *)&m_items + 0x3a80a) = 0;
+	*(short *)((unsigned char *)&m_items + 0x4680e) = 0;
+	*(short *)((unsigned char *)&m_items + 0x58812) = 0;
+	*(short *)((unsigned char *)&m_items + 0x5df16) = 0;
+	*(short *)((unsigned char *)&m_items + 0x5dfe2) = 0;
+	*(short *)((unsigned char *)&m_items + 0x5e7fc) = 0;
+	*(short *)((unsigned char *)&m_items + 0x5e7fe) = 0;
+	m_marker_stack_top = NONE;
 }
 
 s_visible_items_stack_marker &c_visible_items::get_current_markers() // 0x10F0DD50

@@ -150,6 +150,8 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+namespace Patches { namespace Input { void TestControllerVibration(float durationSeconds); } }  // hades: added for 0X109CEE40
+
 namespace Patches { namespace Input { extern void InvalidateBindings(); } }  // hades: added for 0x109D39A0
 
 namespace Patches { namespace Input { void SetKeyboardSettingsMenu(const std::vector<Blam::Input::ConfigurableAction> &, const std::vector<Blam::Input::ConfigurableAction> &); } }  // hades: added for 0X109CD830
@@ -934,18 +936,22 @@ bool TryParseFloat(char const *str, float *value) // 0x109D38E0
 	return endp != str;
 }
 
-_extern bool _sub_109CEE40(std::vector<std::string> const &, std::string &);
 bool CommandControllerVibrationTest(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109CEE40
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandControllerVibrationTest@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandControllerVibrationTest
 	// static ...; // 0x109CEED4
 	// static ...; // 0x109CEECC
 	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// float duration;
-	todo("implement");
-	bool __result = _sub_109CEE40(Arguments, returnInfo);
-	return __result;
+
+	float duration = 0.5f;
+	if (Arguments.size() > 0)
+		TryParseFloat(Arguments[0].c_str(), &duration);
+
+	Patches::Input::TestControllerVibration(duration);
+	return true;
 }
 
 _extern bool _sub_109D03A0(std::vector<std::string> const &, std::string &);

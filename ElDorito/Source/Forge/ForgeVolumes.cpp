@@ -549,20 +549,23 @@ void UpdateGarbageCollectionVolume(ForgeVolume &volume) // 0x10955820
 	_sub_10955820(volume);
 }
 
-_extern __int32 _sub_10954C80(unsigned __int32);
 __int32 GetNextVolumeIndex(unsigned __int32 objectIndex) // 0x10954C80
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetNextVolumeIndex@@YAHI@Z");
 	// `anonymous-namespace'::GetNextVolumeIndex
 	// unsigned __int32 objectIndex;
-	{
 		// __int32 i;
-		{
 			// ForgeVolume &volume;
-		}
+
+	for (int i = 0; i < 64; i++)
+	{
+		auto volume = &state.Volumes[i];
+		if (volume->ObjectIndex == objectIndex)
+			return -1;
+		if (volume->Type == eVolumeType_Disabled)
+			return i;
 	}
-	todo("implement");
-	__int32 __result = _sub_10954C80(objectIndex);
-	return __result;
+	return -1;
 }
 
 _extern void _sub_109549C0();

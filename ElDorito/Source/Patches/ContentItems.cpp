@@ -669,9 +669,9 @@ bool __fastcall c_gui_game_variant_selected_item__get_file_path_hook(void *thisp
 	return true;
 }
 
-_extern __int32 _sub_10A3FE10(unsigned char *);
 __int32 file_write_overlapped_task_execute_hook(unsigned char *task) // 0x10A3FE10
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?file_write_overlapped_task_execute_hook@@YAHPAE@Z");
 	// `anonymous-namespace'::file_write_overlapped_task_execute_hook
 	// static ...; // 0x10A3FED0
 	// static ...; // 0x10A3FEC4
@@ -681,9 +681,14 @@ __int32 file_write_overlapped_task_execute_hook(unsigned char *task) // 0x10A3FE
 	// __int32 (*const file_write_overlapped_task_execute)(unsigned char *);
 	// function call : __int32 (HWND__ *, wchar_t const *, _SECURITY_ATTRIBUTES const *)
 	// function call : __int32 (*const)(unsigned char *)
-	todo("implement");
-	__int32 __result = _sub_10A3FE10(task);
-	return __result;
+
+	__int32 (__cdecl *const file_write_overlapped_task_execute)(unsigned char *) = (__int32 (__cdecl *)(unsigned char *))0x5AF410;
+	wchar_t directoryPath[128];
+
+	if (GetDirectoryPathW((wchar_t *)task, directoryPath, 128))
+		SHCreateDirectoryExW(nullptr, directoryPath, nullptr);
+
+	return file_write_overlapped_task_execute(task);
 }
 
 bool game_variant_description_override_hook(__int32 chud_handle, __int32 a2, __int32 stringid, __int32 *a4, __int32 length) // 0x10A3FF20

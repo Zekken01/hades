@@ -50,19 +50,20 @@ namespace Utils
 {
 	namespace FileUtils
 	{
-		_extern long long _sub_10C57CE0(char const *);
 		long long GetFileSize64(char const *filename) // 0x10C57CE0
 		{
-			mangled_x86(MANGLED_TODO, "?GetFileSize64@FileUtils@Utils@@YA_JPBD@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetFileSize64@FileUtils@Utils@@YA_JPBD@Z");
 			// static ...; // 0x10C57D94
 			// static ...; // 0x10C57D88
 			// static ...; // 0x10C57D80
 			// char const *filename;
 			// _stat64 stat_buf;
 			// __int32 rc;
-			todo("implement");
-			long long __result = _sub_10C57CE0(filename);
-			return __result;
+
+			struct _stat64 fileStat;
+			int result = _stat64(filename, &fileStat);
+
+			return result == 0 ? fileStat.st_size : -1;
 		}
 
 		__int32 GetFileSize(char const *filename) // 0x10C57DD0

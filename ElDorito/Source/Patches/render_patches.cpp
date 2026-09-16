@@ -2325,9 +2325,9 @@ void __fastcall c_lightmap_shadows_view__submit_visibility_and_render_call_hook(
 	}
 }
 
-_extern void _sub_108F08C0(long);
 void rasterizer_wait_for_device_query_hook(long index) // 0x108F08C0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?rasterizer_wait_for_device_query_hook@@YAXJ@Z");
 	// `anonymous-namespace'::rasterizer_wait_for_device_query_hook
 	// long index;
 	// bool *g_device_queries_issued;
@@ -2335,8 +2335,24 @@ void rasterizer_wait_for_device_query_hook(long index) // 0x108F08C0
 	// unsigned long start_time;
 	// long cycles;
 	// function call : HRESULT (void *, unsigned long, unsigned long)
-	todo("implement");
-	_sub_108F08C0(index);
+
+	IDirect3DQuery9 **queries = (IDirect3DQuery9 **)0x50DADE4;
+	bool *pending = (bool *)0x50DADE0;
+	long count = 0;
+	unsigned long start_time = system_milliseconds();
+	while (queries[index]->GetData(nullptr, 0, D3DGETDATA_FLUSH) == S_FALSE)
+	{
+		if (count++ >= 10000)
+		{
+			count = 0;
+			if (system_milliseconds() - start_time >= 100)
+			{
+				break;
+			}
+		}
+	}
+
+	*(pending + index) = false;
 }
 
 _extern void _sub_108E8840(e_primitive_type, unsigned long, void const *, unsigned long);

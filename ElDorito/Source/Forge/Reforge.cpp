@@ -192,15 +192,18 @@ namespace Forge
 			return reforgeGlobals.ReforgeObjects.test(object->definition_index);
 		}
 
-		_extern bool _sub_10865CC0(long);
 		bool IsForgeScenery(long objectIndex) // 0x10865CC0
 		{
-			mangled_x86(MANGLED_TODO, "?IsForgeScenery@Reforge@Forge@@YA_NJ@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?IsForgeScenery@Reforge@Forge@@YA_NJ@Z");
 			// long objectIndex;
 			// s_object_data *object;
-			todo("implement");
-			bool __result = _sub_10865CC0(objectIndex);
-			return __result;
+
+			s_object_data *object = object_get(objectIndex);
+			if (!object)
+			{
+				return false;
+			}
+			return reforgeGlobals.ReforgeObjects.test(object->definition_index);
 		}
 	}
 }

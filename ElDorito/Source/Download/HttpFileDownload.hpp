@@ -100,7 +100,7 @@ namespace Download
 		static_assert(sizeof(ISegmentStore) == 4, "Invalid ISegmentStore size");
 		public:
 		CHttpFileDownload();
-		virtual ~CHttpFileDownload();
+		virtual ~CHttpFileDownload() = default;
 		virtual _inline bool IsComplete() const;
 		virtual _inline long long GetDownloadedBytes() const;
 		virtual _inline long long GetTotalBytes() const;
@@ -240,22 +240,20 @@ namespace Download
 		// Download::CHttpFileDownloadManager *const this;
 	}
 
-	_extern void _sub_10820580(Download::CHttpFileDownloadManager *const);
 	_inline void CHttpFileDownloadManager::Shutdown() // 0x10820580
 	{
-		mangled_x86(MANGLED_TODO, "?Shutdown@CHttpFileDownloadManager@Download@@QAEXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Shutdown@CHttpFileDownloadManager@Download@@QAEXXZ");
 		// Download::CHttpFileDownloadManager *const this;
-		{
 			// std::vector<std::shared_ptr<Download::CHttpFileDownload> > &<range>$L0;
 			// std::shared_ptr<Download::CHttpFileDownload> *<begin>$L0;
 			// std::shared_ptr<Download::CHttpFileDownload> *<end>$L0;
-			{
 				// std::shared_ptr<Download::CHttpFileDownload> &download;
-			}
-		}
 		// function call : void ()
-		todo("implement");
-		_sub_10820580(this);
+
+		for (auto &download : m_downloads)
+		{
+			download->Cancel();
+		}
 	}
 
 	_extern void _sub_10820690(Download::CHttpFileDownloadManager *const);

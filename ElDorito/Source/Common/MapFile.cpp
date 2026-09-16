@@ -86,13 +86,12 @@ CMapFile::CMapFile(std::string const &filePath) // 0x1085FEF0
 	_sub_1085FEF0(this, filePath);
 }
 
-extern CMapFile* _sub_10860080(CMapFile *const, void const *, unsigned __int32);
-CMapFile::CMapFile(void const *data, unsigned __int32 size) // 0x10860080
+CMapFile::CMapFile(void const *data, unsigned __int32 size) : m_data(nullptr), m_dataSize(0), m_mapInfo(nullptr), m_cacheFileHeader(nullptr), m_mapVariant(nullptr) /* hades-mem-init:  */ // 0x10860080
 {
-	mangled_x86(MANGLED_TODO, "??0CMapFile@@QAE@PBXI@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0CMapFile@@QAE@PBXI@Z");
 	// unsigned __int32 size;
-	todo("implement");
-	_sub_10860080(this, data, size);
+
+	LoadFromBuffer((unsigned char const *)data, size);
 }
 
 bool CMapFile::IsValid() const // 0x10860890

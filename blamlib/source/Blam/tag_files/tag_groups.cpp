@@ -66,15 +66,16 @@ void *tag_try_and_get_and_verify_group(unsigned long group_tag, long tag_index) 
 	return (char *)instance + instance->definition_offset;
 }
 
-_extern unsigned long _sub_10EFC5C0(long);
 unsigned long tag_try_and_get_group_tag(long tag_index) // 0x10EFC5C0
 {
-	mangled_x86(MANGLED_TODO, "?tag_try_and_get_group_tag@@YAKJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?tag_try_and_get_group_tag@@YAKJ@Z");
 	// long tag_index;
 	// s_cache_tag_instance *instance;
-	todo("implement");
-	unsigned long __result = _sub_10EFC5C0(tag_index);
-	return __result;
+
+	auto instance = try_and_get_instance_internal(tag_index);
+	if (!instance)
+		return NONE;
+	return instance->group.tags[0];
 }
 
 unsigned long tag_get_group_tag(long tag_index) // 0x10EFC390

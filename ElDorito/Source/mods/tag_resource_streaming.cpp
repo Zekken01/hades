@@ -202,17 +202,22 @@ _inline void c_tag_resource_stream_task::dispose() // 0x10854030
 	_sub_10854030(this);
 }
 
-_extern long _sub_108542F0(c_tag_resource_stream_task *const);
 _inline long c_tag_resource_stream_task::next_free_packet_index() // 0x108542F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?next_free_packet_index@c_tag_resource_stream_task@hades_file_local@@QAEJXZ");
 	// `anonymous-namespace'::c_tag_resource_stream_task::next_free_packet_index
 	// c_tag_resource_stream_task *const this;
-	{
 		// __int32 j;
+
+	for (long i = 0; i < 32; i++)
+	{
+		if (!m_used_packets.test(i))
+		{
+			return i;
+		}
 	}
-	todo("implement");
-	long __result = _sub_108542F0(this);
-	return __result;
+
+	return -1;
 }
 
 _extern bool _sub_108547F0(c_tag_resource_stream_task *const);

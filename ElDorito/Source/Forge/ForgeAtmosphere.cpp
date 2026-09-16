@@ -72,7 +72,12 @@ namespace hades_file_local
 		float FogDensity; // 0x10
 		float FogVisibility; // 0x14
 		float Brightness; // 0x18
-		ForgeAtmosphereState(); /* compiler_generated() */
+		// hades: the generator declared `ForgeAtmosphereState();` here. Nothing
+		// defines it, the inventory has no address for it, and declaring a
+		// constructor is what stops this being an aggregate - so `state = {}`
+		// emitted a call to ??0ForgeAtmosphereState where the original zeroes
+		// the temporary inline, member by member. Removed for 0x1067F930 and
+		// 0x1067BBC0. Same family as the hades-declared-only-members memory.
 	};
 	#pragma pack(pop)
 	static_assert(sizeof(ForgeAtmosphereState) == 28, "Invalid ForgeAtmosphereState size");

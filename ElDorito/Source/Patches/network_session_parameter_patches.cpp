@@ -107,15 +107,15 @@ using namespace hades_file_local;
 // mangled_x86(MANGLED_DEFAULT, "??0c_network_session_parameter_base@@QAE@XZ"); no body to assert in
 _inline c_network_session_parameter_base::c_network_session_parameter_base() = default; // 0x10AA88D0
 
-_extern void _sub_10AA8F20(c_network_session_parameter_type_collection *);
 void network__session_parameter_types_register_hook(c_network_session_parameter_type_collection *collection) // 0x10AA8F20
 {
-	mangled_x86(MANGLED_TODO, "?network__session_parameter_types_register_hook@@YAXPAVc_network_session_parameter_type_collection@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?network__session_parameter_types_register_hook@@YAXPAVc_network_session_parameter_type_collection@@@Z");
 	// c_network_session_parameter_type_collection *collection;
 	// constexpr void (*const `network__session_parameter_types_register_hook'::`2'::network_session_parameter_types_register)(c_network_session_parameter_type_collection *); // constant == 5092848
 	// function call : void (*const)(c_network_session_parameter_type_collection *)
-	todo("implement");
-	_sub_10AA8F20(collection);
+
+	((void (__cdecl *)(c_network_session_parameter_type_collection *))0x4db5f0)(collection);
+	collection->register_session_parameter_type(_network_session_parameter_type_mod, g_session_mod_parameter_name, network_sesison_parameter_eldewrito_encode, network_sesison_parameter_eldewrito_decode, 0x15, network_sesison_parameter_eldewrito_encode, network_sesison_parameter_eldewrito_decode, 0x15);
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0c_network_session_parameter_mod@@QAE@XZ"); no body to assert in

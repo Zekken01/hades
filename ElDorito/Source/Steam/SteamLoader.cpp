@@ -86,27 +86,37 @@ namespace Steam
 		return func;
 	}
 
-	_extern bool _sub_10C52750(Steam::SteamLoader *const, bool);
 	bool SteamLoader::IsSteamRunning(bool ignoreCreateFunc) // 0x10C52750
 	{
-		mangled_x86(MANGLED_TODO, "?IsSteamRunning@SteamLoader@Steam@@QAE_N_N@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?IsSteamRunning@SteamLoader@Steam@@QAE_N_N@Z");
 		// bool ignoreCreateFunc;
 		// bool retval;
 		// unsigned __int32 pid;
-		{
 			// void *steamProcess;
-		}
 		// function call : void *(unsigned long, __int32, unsigned long)
 		// function call : __int32 (void *)
-		todo("implement");
-		bool __result = _sub_10C52750(this, ignoreCreateFunc);
-		return __result;
+
+		bool retval = false;
+		DWORD pid = GetSteamProcessId();
+		if (pid != 0)
+		{
+			HANDLE steamProcess = OpenProcess(0x1000, FALSE, pid);
+			if (steamProcess != INVALID_HANDLE_VALUE)
+			{
+				CloseHandle(steamProcess);
+				retval = true;
+			}
+		}
+
+		if (!GetCreateInterfaceFunc() && !ignoreCreateFunc)
+			retval = false;
+
+		return retval;
 	}
 
-	_extern unsigned __int32 _sub_10C52470(Steam::SteamLoader *const);
 	unsigned __int32 SteamLoader::GetSteamProcessId() // 0x10C52470
 	{
-		mangled_x86(MANGLED_TODO, "?GetSteamProcessId@SteamLoader@Steam@@AAEIXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetSteamProcessId@SteamLoader@Steam@@AAEIXZ");
 		// static ...; // 0x10C5251C
 		// static ...; // 0x10C52514
 		// static ...; // 0x10C524FC
@@ -115,9 +125,14 @@ namespace Steam
 		// unsigned long pid;
 		// unsigned long pidSize;
 		// function call : long (HKEY__ *, char const *, char const *, unsigned long, unsigned long *, void *, unsigned long *)
-		todo("implement");
-		unsigned __int32 __result = _sub_10C52470(this);
-		return __result;
+
+		DWORD pid;
+		DWORD size = sizeof(pid);
+
+		if (RegGetValueA(HKEY_CURRENT_USER, "Software\\Valve\\Steam\\ActiveProcess", "pid", RRF_RT_REG_DWORD, nullptr, &pid, &size) == ERROR_SUCCESS)
+			return pid;
+
+		return 0;
 	}
 }
 

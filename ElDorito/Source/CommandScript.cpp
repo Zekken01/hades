@@ -282,14 +282,20 @@ namespace Modules
 		_sub_10666C80(this, args);
 	}
 
-	_extern bool _sub_10667C10(Modules::CommandScript *const);
 	bool CommandScript::ReadNextLine() // 0x10667C10
 	{
-		mangled_x86(MANGLED_TODO, "?ReadNextLine@CommandScript@Modules@@AAE_NXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?ReadNextLine@CommandScript@Modules@@AAE_NXZ");
 		// Modules::CommandScript *const this;
-		todo("implement");
-		bool __result = _sub_10667C10(this);
-		return __result;
+
+		while (std::getline(*m_stream, m_line))
+		{
+			++m_lineNum;
+			m_line.erase(m_line.find_last_not_of("\r") + 1);
+			if (m_line.empty())
+				continue;
+			return true;
+		}
+		return false;
 	}
 
 	void CommandScript::Complete() // 0x10666920

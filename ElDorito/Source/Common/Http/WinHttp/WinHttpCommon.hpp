@@ -38,6 +38,15 @@ namespace Http
 
 	struct WinHttpHandlerDeleter
 	{
+		// The tree holds these as `std::unique_ptr<void *, WinHttpHandlerDeleter>`,
+		// so `pointer` defaults to `void **` and `get()` mangles as
+		// `?get@...@QBEPAPAXXZ`. The original's is `QBEPAXXZ`, i.e. it returns
+		// `void *` - which is what this typedef restores. A deleter's nested
+		// `pointer` overrides the default, and it adds no member, so
+		// `sizeof(WinHttpHandlerDeleter) == 1` still holds.
+		// hades: added for 0x10809370, 0x10809910, 0x1080A790
+		typedef void *pointer;
+
 		void operator()(void *);
 	};
 	static_assert(sizeof(Http::WinHttpHandlerDeleter) == 1, "Invalid Http::WinHttpHandlerDeleter size");

@@ -172,18 +172,31 @@ namespace Discord
 		_sub_10953270(this);
 	}
 
-	_extern void _sub_10953190(Discord::DiscordRPC *const, __int32);
 	void DiscordRPC::UpdatePresence(__int32 networkMode) // 0x10953190
 	{
-		mangled_x86(MANGLED_TODO, "?UpdatePresence@DiscordRPC@Discord@@QAEXH@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?UpdatePresence@DiscordRPC@Discord@@QAEXH@Z");
 		// __int32 networkMode;
 		// Blam::Network::Session *session;
-		{
 			// void *thread;
-		}
 		// function call : void *(_SECURITY_ATTRIBUTES *, unsigned long, unsigned long (*)(void *), void *, unsigned long, unsigned long *)
-		todo("implement");
-		_sub_10953190(this, networkMode);
+
+		if (!Modules::ModuleGame::Instance().VarDiscordEnable->ValueInt)
+		{
+			Discord_ClearPresence();
+			return;
+		}
+
+		Blam::Network::Session *session = Blam::Network::GetActiveSession();
+		if (networkMode == 3 && session->IsHost())
+		{
+			HANDLE thread = CreateThread(0, 0, DiscordRetrieveExternalIP_Thread, 0, 0, 0);
+		}
+		else
+		{
+			joinString = "";
+		}
+
+		UpdatePresence();
 	}
 
 	extern DiscordRPC* _sub_109520A0(Discord::DiscordRPC *const);

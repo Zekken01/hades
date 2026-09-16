@@ -28,13 +28,15 @@ struct utf8;
 
 /* ---------- public code */
 
-extern c_bitstream* _sub_10F00F80(c_bitstream *const);
 c_bitstream::c_bitstream() // 0x10F00F80
 {
-	mangled_x86(MANGLED_TODO, "??0c_bitstream@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_bitstream@@QAE@XZ");
 	// c_bitstream *const this;
-	todo("implement");
-	_sub_10F00F80(this);
+
+	m_data = nullptr;
+	m_data_max = nullptr;
+	m_data_size_bytes = 0;
+	reset((e_state)0);
 }
 
 c_bitstream::c_bitstream(unsigned char *data, long data_length) // 0x10F00EF0

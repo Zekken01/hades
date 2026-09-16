@@ -92,14 +92,21 @@ void life_cycle_patches_apply() // 0x1091F4B0
 
 /* ---------- private code */
 
-_extern bool _sub_1091F420(s_game_options *);
 bool begin_load_map_game_options_verify_hook(s_game_options *options) // 0x1091F420
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?begin_load_map_game_options_verify_hook@@YA_NPAUs_game_options@@@Z");
 	// `anonymous-namespace'::begin_load_map_game_options_verify_hook
 	// s_game_options *options;
 	// Modules::ModuleCampaign *moduleCampaign;
 	// Modules::ModuleGame *moduleGame;
-	todo("implement");
-	bool __result = _sub_1091F420(options);
-	return __result;
+
+	Modules::ModuleCampaign *moduleCampaign = &Modules::ModuleCampaign::Instance();
+	Modules::ModuleGame *moduleGame = &Modules::ModuleGame::Instance();
+
+	options->tick_rate = (short)moduleGame->VarTickRateClient->ValueInt;
+
+	if (options->tick_rate < 1)
+		options->tick_rate = 1;
+
+	return true;
 }

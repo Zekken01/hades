@@ -272,13 +272,13 @@ namespace Audio
 		}
 	}
 
-	_extern void _sub_107F1C80(Audio::CAudioDeviceManager *const);
 	void CAudioDeviceManager::Initialize() // 0x107F1C80
 	{
-		mangled_x86(MANGLED_TODO, "?Initialize@CAudioDeviceManager@Audio@@QAEXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@CAudioDeviceManager@Audio@@QAEXXZ");
 		// Audio::CAudioDeviceManager *const this;
-		todo("implement");
-		_sub_107F1C80(this);
+
+		m_impl = new CAudioDeviceManagerImpl();
+		m_impl->Initialize(this);
 	}
 
 	void CAudioDeviceManager::Update() // 0x107F23F0

@@ -388,13 +388,26 @@ namespace Http
 		_sub_108091F0(this, errorCode);
 	}
 
-	_extern void _sub_10809400(Http::CWinHttpRequest *const, unsigned __int32, void *, unsigned __int32);
 	void CWinHttpRequest::HandleStatusCallback(unsigned __int32 status, void *data, unsigned __int32 length) // 0x10809400
 	{
-		mangled_x86(MANGLED_TODO, "?HandleStatusCallback@CWinHttpRequest@Http@@QAEXIPAXI@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?HandleStatusCallback@CWinHttpRequest@Http@@QAEXIPAXI@Z");
 		// unsigned __int32 length;
-		todo("implement");
-		_sub_10809400(this, status, data, length);
+
+		switch (status)
+		{
+		case WINHTTP_CALLBACK_STATUS_SENDREQUEST_COMPLETE:
+			HandleSendRequestComplete();
+			break;
+		case WINHTTP_CALLBACK_STATUS_HEADERS_AVAILABLE:
+			HandleHeadersAvailable();
+			break;
+		case WINHTTP_CALLBACK_STATUS_READ_COMPLETE:
+			HandleReadComplete(length);
+			break;
+		case WINHTTP_CALLBACK_STATUS_REQUEST_ERROR:
+			HandleRequestError(((WINHTTP_ASYNC_RESULT *)data)->dwError);
+			break;
+		}
 	}
 
 	_extern void _sub_10808730(Http::CWinHttpRequest *const, bool);

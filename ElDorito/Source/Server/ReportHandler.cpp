@@ -262,21 +262,18 @@ _inline ReportRequest::ReportRequest() = default; // 0x10B21660
 
 _inline ReportRequest &ReportRequest::operator=(ReportRequest &__that) = default; // 0x10B219D0
 
-_extern void _sub_10B227F0(std::string const &);
 void ForwardReportToEndpoints(std::string const &report) // 0x10B227F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ForwardReportToEndpoints@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 	// `anonymous-namespace'::ForwardReportToEndpoints
 	// std::string const &report;
-	{
 		// std::vector<std::string> &<range>$L0;
 		// std::string *<begin>$L0;
 		// std::string *<end>$L0;
-		{
 			// std::string &endpoint;
-		}
-	}
-	todo("implement");
-	_sub_10B227F0(report);
+
+	for (auto &url : playerReportUrls)
+		ForwardReportToEndpoint(url, report);
 }
 
 _extern bool _sub_10B22BE0(std::string const &);

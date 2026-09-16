@@ -244,6 +244,8 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+namespace Blam { namespace Network { PacketTable *GetPacketTable(); } }  // hades: added for 0X10A86DC0
+
 namespace Patches
 {
 	namespace Logging
@@ -334,13 +336,13 @@ void __stdcall debuglog_string(char *name, char *value) // 0x10A86160
 	Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Debug, Utils::LogLevel::Info, "%s: %s", name, value);
 }
 
-_extern void _sub_10A860D0(char *, __int32);
 void __stdcall debuglog_int(char *name, __int32 value) // 0x10A860D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?debuglog_int@@YGXPADH@Z");
 	// `anonymous-namespace'::debuglog_int
 	// __int32 value;
-	todo("implement");
-	_sub_10A860D0(name, value);
+
+	Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Debug, Utils::LogLevel::Info, "%s: %d", name, value);
 }
 
 void __stdcall debuglog_float(char *name, float value) // 0x10A86030
@@ -374,15 +376,28 @@ namespace Debug
 	}
 }
 
-_extern void _sub_10A86ED0(char, __int32, void *, void *, char);
 void sslLogHook(char a1, __int32 a2, void *a3, void *a4, char a5) // 0x10A86ED0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?sslLogHook@@YAXDHPAX0D@Z");
 	// `anonymous-namespace'::sslLogHook
 	// char a5;
 	// char const *logData2;
 	// char const *logData1;
-	todo("implement");
-	_sub_10A86ED0(a1, a2, a3, a4, a5);
+
+	char const *str1 = *(char const **)a3;
+	char const *str2 = *(char const **)((unsigned char *)a3 + 8);
+
+	if (!str1)
+		str1 = "";
+	else
+		str1 += 12;
+
+	if (!str2)
+		str2 = "";
+	else
+		str2 += 12;
+
+	Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Debug, Utils::LogLevel::Info, "%s - %s", str1, str2);
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0s_per_thread_exception_info@hades_file_local@@QAE@XZ"); no body to assert in
@@ -412,31 +427,53 @@ void uiLogHook(char a1, __int32 a2, void *a3, void *a4, char a5) // 0x10A87380
 	Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Graphics, Utils::LogLevel::Info, logData1);
 }
 
-_extern bool _sub_10A86C90(void *, __int32, Blam::BitStream *, __int32 *, __int32 *, void *);
 bool __fastcall packetRecvHook(void *thisPtr, __int32 unused, Blam::BitStream *stream, __int32 *packetIdOut, __int32 *packetSizeOut, void *packetBuffer) // 0x10A86C90
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?packetRecvHook@@YI_NPAXHPAVBitStream@Blam@@PAH20@Z");
 	// `anonymous-namespace'::packetRecvHook
 	// void *packetBuffer;
 	// Blam::Network::PacketTable *packetTable;
 	// bool (*DeserializePacketInfo)(void *, Blam::BitStream *, __int32 *, __int32 *, void *);
 	// Blam::Network::RegisteredPacket *packet;
 	// function call : bool (*)(void *, Blam::BitStream *, __int32 *, __int32 *, void *)
-	todo("implement");
-	bool __result = _sub_10A86C90(thisPtr, unused, stream, packetIdOut, packetSizeOut, packetBuffer);
-	return __result;
+
+	bool (__thiscall *packetRecv)(void *, Blam::BitStream *, __int32 *, __int32 *, void *) = (bool (__thiscall *)(void *, Blam::BitStream *, __int32 *, __int32 *, void *))0x47FF70;
+
+	if (!packetRecv(thisPtr, stream, packetIdOut, packetSizeOut, packetBuffer))
+	{
+		return false;
+	}
+
+	Blam::Network::PacketTable *packetTable = Blam::Network::GetPacketTable();
+	if (!packetTable)
+	{
+		return true;
+	}
+
+	Blam::Network::RegisteredPacket *packet = &packetTable->Packets[*packetIdOut];
+	Utils::Singleton<Utils::Logger>::Instance().Log((Utils::LogTypes)2, (Utils::LogLevel)2, "RECV %s (size=0x%X)", packet->Name, *packetSizeOut);
+	return true;
 }
 
-_extern void _sub_10A86DC0(void *, __int32, Blam::BitStream *, __int32, __int32, void *);
 void __fastcall packetSendHook(void *thisPtr, __int32 unused, Blam::BitStream *stream, __int32 packetId, __int32 packetSize, void *packetBuffer) // 0x10A86DC0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?packetSendHook@@YIXPAXHPAVBitStream@Blam@@HH0@Z");
 	// `anonymous-namespace'::packetSendHook
 	// void *packetBuffer;
 	// bool (*SerializePacketInfo)(void *, Blam::BitStream *, __int32, __int32, void *);
 	// Blam::Network::PacketTable *packetTable;
 	// Blam::Network::RegisteredPacket *packet;
 	// function call : bool (*)(void *, Blam::BitStream *, __int32, __int32, void *)
-	todo("implement");
-	_sub_10A86DC0(thisPtr, unused, stream, packetId, packetSize, packetBuffer);
+
+	void (__thiscall *sendPacket)(void *, Blam::BitStream *, __int32, __int32, void *) = (void (__thiscall *)(void *, Blam::BitStream *, __int32, __int32, void *))0x480090;
+	sendPacket(thisPtr, stream, packetId, packetSize, packetBuffer);
+
+	Blam::Network::PacketTable *packetTable = Blam::Network::GetPacketTable();
+	if (!packetTable)
+		return;
+
+	Blam::Network::RegisteredPacket *packet = &packetTable->Packets[packetId];
+	Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Network, Utils::LogLevel::Info, "SEND %s (size=0x%X)", packet->Name, packetSize);
 }
 
 _extern void _sub_10A85C70(::Debug::CrashReporting::s_crash_info &);

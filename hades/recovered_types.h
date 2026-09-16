@@ -4957,7 +4957,7 @@ namespace Audio
 	{
 		struct IReadStream
 		{
-			virtual ~IReadStream();
+			virtual ~IReadStream() = default;
 			virtual int Read(void *, int);
 			virtual void Seek(__int64, int);
 			virtual __int64 GetPosition();

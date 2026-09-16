@@ -404,16 +404,23 @@ bool object_sh_lightmap_sampling_disabled(long object_index) // 0x108DF640
 	return Forge::Reforge::IsReforgeObject(object_index) || Forge::ObjectIsForgeScenery(object_index);
 }
 
-_extern long _sub_108DF570(real_point3d *, real_vector3d *, __int32, long, char, char, s_geometry_sample *);
 long object_lighting_geometry_sample_hook(real_point3d *origin, real_vector3d *direction, __int32 a3, long object_index, char a5, char a6, s_geometry_sample *sample) // 0x108DF570
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?object_lighting_geometry_sample_hook@@YAJPAUreal_point3d@@PAUreal_vector3d@@HJDDPAUs_geometry_sample@@@Z");
 	// `anonymous-namespace'::object_lighting_geometry_sample_hook
 	// s_geometry_sample *sample;
 	// static __int32 (*`object_lighting_geometry_sample_hook'::`2'::object_sh_lighting)(real_point3d *, real_vector3d *, __int32, long, char, char, void *); // 0x11352E8C
 	// function call : __int32 (*)(real_point3d *, real_vector3d *, __int32, long, char, char, void *)
-	todo("implement");
-	long __result = _sub_108DF570(origin, direction, a3, object_index, a5, a6, sample);
-	return __result;
+
+	if (object_sh_lightmap_sampling_disabled(object_index))
+	{
+		memcpy(sample, (void const *)0x18F3000, 0x1F8);
+		sample->is_valid = false;
+		return 1;
+	}
+
+	static long (*object_sh_lighting)(real_point3d *, real_vector3d *, __int32, long, char, char, s_geometry_sample *) = (long (*)(real_point3d *, real_vector3d *, __int32, long, char, char, s_geometry_sample *))0x00752B10;
+	return object_sh_lighting(origin, direction, a3, object_index, a5, a6, sample);
 }
 
 s_game_globals *try_and_get_game_globals() // 0x108E1E10

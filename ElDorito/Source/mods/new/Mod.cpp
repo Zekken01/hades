@@ -180,14 +180,14 @@ void Mod::AddRef() // 0x1078C9E0
 	m_refCount++;
 }
 
-_extern void _sub_1078D920(Mod *const);
 void Mod::Release() // 0x1078D920
 {
-	mangled_x86(MANGLED_TODO, "?Release@Mod@@UAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Release@Mod@@UAEXXZ");
 	// Mod *const this;
 	// function call : void *(unsigned __int32)
-	todo("implement");
-	_sub_1078D920(this);
+
+	if (m_refCount-- == 1)
+		delete this;
 }
 
 EModIndex Mod::GetIndex() const // 0x1078CE10

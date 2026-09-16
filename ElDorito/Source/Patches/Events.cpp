@@ -189,23 +189,23 @@ _inline s_game_engine_event_data &s_game_engine_event_data::operator=(s_game_eng
 
 /* ---------- private code */
 
-_extern void _sub_10A59BD0(unsigned long, s_game_engine_event_data const *, s_multiplayer_event_response_definition const *);
 void RunEventHook(unsigned long player, s_game_engine_event_data const *event, s_multiplayer_event_response_definition const *definition) // 0x10A59BD0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?RunEventHook@@YAXKPBUs_game_engine_event_data@@PBUs_multiplayer_event_response_definition@@@Z");
 	// `anonymous-namespace'::RunEventHook
 	// s_multiplayer_event_response_definition const *definition;
 	// void (*RunEvent)(unsigned long, s_game_engine_event_data const *, s_multiplayer_event_response_definition const *);
-	{
 		// std::vector<std::function<void __cdecl(unsigned long,s_game_engine_event_data const *,s_multiplayer_event_response_definition const *)> > &<range>$L0;
 		// std::function<void __cdecl(unsigned long,s_game_engine_event_data const *,s_multiplayer_event_response_definition const *)> *<begin>$L0;
 		// std::function<void __cdecl(unsigned long,s_game_engine_event_data const *,s_multiplayer_event_response_definition const *)> *<end>$L0;
-		{
 			// std::function<void __cdecl(unsigned long,s_game_engine_event_data const *,s_multiplayer_event_response_definition const *)> &callback;
-		}
-	}
 	// function call : void (*)(unsigned long, s_game_engine_event_data const *, s_multiplayer_event_response_definition const *)
-	todo("implement");
-	_sub_10A59BD0(player, event, definition);
+
+	for (auto &callback : OnEventCallbacks)
+		callback(player, event, definition);
+
+	void (*RunEvent)(unsigned long, s_game_engine_event_data const *, s_multiplayer_event_response_definition const *) = (void (*)(unsigned long, s_game_engine_event_data const *, s_multiplayer_event_response_definition const *))0x5666b0;
+	RunEvent(player, event, definition);
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0s_suppressed_game_engine_event@hades_file_local@@QAE@XZ"); no body to assert in
@@ -277,14 +277,22 @@ void game_engine_update_game_events_hook() // 0x10A5AAA0
 	_sub_10A5AAA0();
 }
 
-_extern void _sub_10A5B010(long, s_game_engine_event_data *);
 void game_event_set_cause_player_hook(long player_index, s_game_engine_event_data *event) // 0x10A5B010
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_event_set_cause_player_hook@@YAXJPAUs_game_engine_event_data@@@Z");
 	// `anonymous-namespace'::game_event_set_cause_player_hook
 	// s_game_engine_event_data *event;
 	// s_player_datum *player;
-	todo("implement");
-	_sub_10A5B010(player_index, event);
+
+	event->cause_player_index = -1;
+	event->cause_team_index = -1;
+
+	s_player_datum *player = player_get(player_index);
+	if (!player)
+		return;
+
+	event->cause_player_index = player_index;
+	event->cause_team_index = player->configuration.host.team;
 }
 
 /* ---------- template instantiations */

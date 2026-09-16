@@ -72,7 +72,7 @@ namespace Web
 			RenderHandlerGpu(Web::Browser::RenderHandlerGpu &);
 			RenderHandlerGpu(IDirect3DDevice9 *device9, HWND__ *window);
 			Web::Browser::RenderHandlerGpu &operator=(Web::Browser::RenderHandlerGpu const &);
-			virtual _inline ~RenderHandlerGpu();
+			virtual _inline ~RenderHandlerGpu() = default;
 			virtual bool InitRenderer();
 			virtual bool Resize(unsigned __int32 width, unsigned __int32 height);
 			virtual void OnPreResetDevice();
@@ -120,14 +120,6 @@ namespace Web
 	namespace Browser
 	{
 		_extern void _sub_10CEB0B0(Web::Browser::RenderHandlerGpu * const);
-		_inline RenderHandlerGpu::~RenderHandlerGpu() // 0x10CEB0B0
-		{
-			mangled_x86(MANGLED_TODO, "??1RenderHandlerGpu@Browser@Web@@UAE@XZ");
-			// __shifted(Web::Browser::RenderHandlerGpu, 92);
-			// Web::Browser::RenderHandlerGpu *const this;
-			todo("implement");
-			_sub_10CEB0B0(this);
-		}
 
 		_inline bool RenderHandlerGpu::PopupIsVisible() const // 0x10CEC6B0
 		{

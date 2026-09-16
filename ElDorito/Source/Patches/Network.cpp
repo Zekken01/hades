@@ -681,18 +681,20 @@ char *Network_GetIPStringFromInAddr(void *inaddr) // 0x10A98EC0
 	return ipAddrStr;
 }
 
-_extern unsigned __int32 _sub_10A98140();
 unsigned __int32 GetPlayerPropertiesPacketSize() // 0x10A98140
 {
 	// `anonymous-namespace'::GetPlayerPropertiesPacketSize
 	// procedure flags: nofpo
 	// static unsigned __int32 `GetPlayerPropertiesPacketSize'::`2'::size; // 0x12464868
-	{
 		// unsigned __int32 extensionSize;
+
+	static unsigned int size = 0;
+	if (size == 0)
+	{
+		unsigned int totalSize = Utils::Singleton<Patches::Network::PlayerPropertiesExtender>::Instance().GetTotalSize();
+		size = totalSize + 76;
 	}
-	todo("implement");
-	unsigned __int32 __result = _sub_10A98140();
-	return __result;
+	return size;
 }
 
 void __fastcall RegisterPlayerPropertiesPacketHook(void *thisPtr, void *unused, __int32 packetId, char const *packetName, __int32 arg8, __int32 size1, __int32 size2, void *serializeFunc, void *deserializeFunc, __int32 arg1C, __int32 arg20) // 0x10A9AAB0
@@ -907,9 +909,9 @@ bool __fastcall PeerRequestPlayerDesiredPropertiesUpdateHook(Blam::Network::Sess
 	return __result;
 }
 
-_extern bool _sub_10A99250(c_network_session_membership *, void *, long, Blam::Network::PeerConnectionState, long, void *, unsigned long long, unsigned long long);
 bool __fastcall Network_Session_Membership__Add_Peer_Hook(c_network_session_membership *thisptr, void *unused, long peer_index, Blam::Network::PeerConnectionState connection_state, long version, void *xnaddr, unsigned long long unknown_nonce, unsigned long long join_nonce) // 0x10A99250
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Network_Session_Membership__Add_Peer_Hook@@YI_NPAVc_network_session_membership@@PAXJW4PeerConnectionState@Network@Blam@@J1_K3@Z");
 	// `anonymous-namespace'::Network_Session_Membership__Add_Peer_Hook
 	// unsigned long long join_nonce;
 	// constexpr bool (*const `Network_Session_Membership__Add_Peer_Hook'::`2'::c_network_session_membership__add_peer)(void *, long, Blam::Network::PeerConnectionState, long, void *, unsigned long long, unsigned long long); // constant == 4509152
@@ -917,9 +919,18 @@ bool __fastcall Network_Session_Membership__Add_Peer_Hook(c_network_session_memb
 	// function call : bool (*const)(void *, long, Blam::Network::PeerConnectionState, long, void *, unsigned long long, unsigned long long)
 	// function call : void ()
 	// function call : void (__int32)
-	todo("implement");
-	bool __result = _sub_10A99250(thisptr, unused, peer_index, connection_state, version, xnaddr, unknown_nonce, join_nonce);
-	return __result;
+
+	bool result = ((bool (__thiscall *)(c_network_session_membership *, long, Blam::Network::PeerConnectionState, long, void *, unsigned long long, unsigned long long))0x44cde0)(thisptr, peer_index, connection_state, version, xnaddr, unknown_nonce, join_nonce);
+
+	if (Blam::Network::GetActiveSession()->IsHost())
+	{
+		if (thisptr->host_peer_index() == peer_index)
+			sessionObserver->SessionCreated();
+
+		sessionObserver->PeerAdded(peer_index);
+	}
+
+	return result;
 }
 
 _extern char _sub_10A99000(c_network_session_membership *, void *, long);
@@ -1005,15 +1016,22 @@ char __fastcall Network_state_leaving_enterHook(void *thisPtr, __int32 unused, _
 	return original(thisPtr, a2, a3, a4);
 }
 
-_extern void _sub_10A9D920(void *, void *, __int32, __int32);
 void __fastcall c_network_session__host_connection_refused_hook(void *session, void *unused, __int32 a2, __int32 type) // 0x10A9D920
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_network_session__host_connection_refused_hook@@YIXPAX0HH@Z");
 	// `anonymous-namespace'::c_network_session__host_connection_refused_hook
 	// __int32 type;
 	// constexpr void (*const `c_network_session__host_connection_refused_hook'::`2'::c_network_session__host_connection_refused)(void *, __int32, __int32); // constant == 4572464
 	// function call : void (*const)(void *, __int32, __int32)
-	todo("implement");
-	_sub_10A9D920(session, unused, a2, type);
+
+	switch (type)
+	{
+	case 0x2b:
+		Web::Ui::ScreenLayer::ShowAlert("Connection Refused", "You are temporarily banned", (Web::Ui::ScreenLayer::AlertIcon)0, 0.0f);
+		break;
+	}
+
+	((void (__thiscall *)(void *, __int32, __int32))0x45c530)(session, a2, type);
 }
 
 void PongReceivedHookImpl(Blam::Network::NetworkAddress const &from, Blam::Network::PongPacket const &pong, unsigned __int32 latency) // 0x10A9A9E0

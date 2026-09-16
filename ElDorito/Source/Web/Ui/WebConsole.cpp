@@ -216,13 +216,14 @@ void WebConsoleOutputHandler::WriteLine(std::string const &line) // 0x10C9DF20
 	Web::Ui::ScreenLayer::Notify("console", jsonBuffer.GetString(), true);
 }
 
-_extern void _sub_10C9DDE0();
 void OnGameInputUpdated() // 0x10C9DDE0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnGameInputUpdated@@YAXXZ");
 	// `anonymous-namespace'::OnGameInputUpdated
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10C9DDE0();
+
+	if (Blam::Input::GetKeyTicks(Blam::Input::eKeyCodeTilde, Blam::Input::eInputTypeUi) == 1 || Blam::Input::GetKeyTicks(Blam::Input::eKeyCodeF1, Blam::Input::eInputTypeUi) == 1)
+		Show();
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0WebConsoleOutputHandler@hades_file_local@@QAE@XZ"); no body to assert in

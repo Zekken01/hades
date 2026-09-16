@@ -179,15 +179,16 @@ namespace Blam
 			return index + setOffsets[set];
 		}
 
-		_extern char *_sub_1092D290(Blam::Cache::StringIDCache const *const, unsigned __int32 const);
 		char *StringIDCache::GetString(unsigned __int32 const StringID) const // 0x1092D290
 		{
-			mangled_x86(MANGLED_TODO, "?GetString@StringIDCache@Cache@Blam@@QBEPADI@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetString@StringIDCache@Cache@Blam@@QBEPADI@Z");
 			// unsigned __int32 const StringID;
 			// __int32 index;
-			todo("implement");
-			char * __result = _sub_1092D290((Blam::Cache::StringIDCache const *)this, StringID);
-			return __result;
+
+			int index = GetStringIndex(StringID);
+			if (index < 0 || index >= Header.StringCount)
+				return nullptr;
+			return Strings[index];
 		}
 
 		_extern unsigned __int32 _sub_1092D310(Blam::Cache::StringIDCache const *const, std::string_view);

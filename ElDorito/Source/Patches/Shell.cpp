@@ -241,9 +241,9 @@ __int32 __stdcall SetWindowPosHook(HWND__ *hWnd, HWND__ *hWndInsertAfter, __int3
 	return __result;
 }
 
-_extern void _sub_10ACBAA0();
 void DisplayCreateWindowError() // 0x10ACBAA0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?DisplayCreateWindowError@@YAXXZ");
 	// `anonymous-namespace'::DisplayCreateWindowError
 	// procedure flags: nofpo
 	// static ...; // 0x10ACBB60
@@ -253,8 +253,11 @@ void DisplayCreateWindowError() // 0x10ACBAA0
 	// function call : unsigned long ()
 	// function call : unsigned long (unsigned long, void const *, unsigned long, unsigned long, char *, unsigned long, char **)
 	// function call : __int32 (HWND__ *, char const *, char const *, unsigned __int32)
-	todo("implement");
-	_sub_10ACBAA0();
+
+	char buffer[1024];
+
+	FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, NULL, GetLastError(), MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), buffer, 0, NULL);
+	MessageBoxA(NULL, buffer, "ERROR - failed to create window", MB_ICONINFORMATION);
 }
 
 extern HWND__ *_sub_10ACB3C0();

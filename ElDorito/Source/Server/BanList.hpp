@@ -215,14 +215,12 @@ namespace Server
 		uids.insert(uid);
 	}
 
-	_extern bool _sub_10A94840(Server::BanList *const, unsigned long long);
 	_inline bool BanList::ContainsUid(unsigned long long uid) // 0x10A94840
 	{
-		mangled_x86(MANGLED_TODO, "?ContainsUid@BanList@Server@@QAE_N_K@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?ContainsUid@BanList@Server@@QAE_N_K@Z");
 		// unsigned long long uid;
-		todo("implement");
-		bool __result = _sub_10A94840(this, uid);
-		return __result;
+
+		return !(uids.find(uid) == uids.end());
 	}
 
 	_inline bool BanList::RemoveUid(unsigned long long uid) // 0x10A14050

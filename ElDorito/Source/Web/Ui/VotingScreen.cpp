@@ -229,13 +229,12 @@ namespace Web
 				_sub_10C9A9E0();
 			}
 
-			_extern void _sub_10C9BB40();
 			void Show() // 0x10C9BB40
 			{
-				mangled_x86(MANGLED_TODO, "?Show@Voting@Ui@Web@@YAXXZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?Show@Voting@Ui@Web@@YAXXZ");
 				// procedure flags: nofpo
-				todo("implement");
-				_sub_10C9BB40();
+
+				ScreenLayer::Show(ScreenLayer::ScreenId::Voting, "{}");
 			}
 
 			void Hide() // 0x10C9A990

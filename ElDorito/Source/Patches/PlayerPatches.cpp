@@ -341,13 +341,20 @@ void game_engine_player_update_sub_hook(long player_index, long unit_index) // 0
 	_sub_108DBEB0(player_index, unit_index);
 }
 
-_extern void _sub_108DBCE0(void *, void *, __int32, __int32, s_simulation_game_engine_player_state_data *);
 void __fastcall c_game_engine__build_player_baseline(void *thisptr, void *unused, __int32 a1, __int32 a2, s_simulation_game_engine_player_state_data *state_data) // 0x108DBCE0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_game_engine__build_player_baseline@@YIXPAX0HHPAUs_simulation_game_engine_player_state_data@@@Z");
 	// `anonymous-namespace'::c_game_engine__build_player_baseline
 	// s_simulation_game_engine_player_state_data *state_data;
-	todo("implement");
-	_sub_108DBCE0(thisptr, unused, a1, a2, state_data);
+
+	memset(state_data, 0, 0x74);
+	state_data->initial_spawn = true;
+	state_data->last_betrayer_player_index = -1;
+	state_data->desired_respawn_player_index = -1;
+	state_data->revenge_last_killer_player_index = -1;
+	state_data->player_control_aiming = global_forward3d;
+	state_data->player_traits.initialize();
+	state_data->player_character_type_index = -1;
 }
 
 _extern void _sub_108DC110(long);

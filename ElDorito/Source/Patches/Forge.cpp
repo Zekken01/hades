@@ -1868,22 +1868,27 @@ void __fastcall c_map_variant__recalculate_quota_hook(s_map_variant *thisptr, vo
 	_sub_10A6B0A0(thisptr, unused, budgetIndex, arg_4);
 }
 
-_extern void _sub_10A6AFC0(s_map_variant *, void *, s_map_variant *);
 void __fastcall c_map_variant__rebuild_quotas_from_hook(s_map_variant *thisptr, void *__formal, s_map_variant *other) // 0x10A6AFC0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_map_variant__rebuild_quotas_from_hook@@YIXPAUs_map_variant@@PAX0@Z");
 	// `anonymous-namespace'::c_map_variant__rebuild_quotas_from_hook
 	// s_map_variant *other;
-	{
 		// long i;
-		{
 			// s_variant_quota &budget;
-			{
 				// long newBudgetIndex;
+
+	for (long i = 0; i < other->placeable_object_quota_count; i++)
+	{
+		s_variant_quota *quota = &other->object_quotas[i];
+		if (quota->definition_index != -1)
+		{
+			long budget_index = CreateOrGetBudgetForItem(thisptr, quota->definition_index);
+			if (budget_index != -1)
+			{
+				thisptr->object_quotas[budget_index] = *quota;
 			}
 		}
 	}
-	todo("implement");
-	_sub_10A6AFC0(thisptr, __formal, other);
 }
 
 __declspec(naked) void c_map_variant__create_object_jump_hook() // 0x10A6AC90

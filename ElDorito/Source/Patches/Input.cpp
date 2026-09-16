@@ -1123,19 +1123,26 @@ void update_button(unsigned char *frames, unsigned short *milliseconds, bool is_
 	}
 }
 
-_extern void _sub_10A81E60(unsigned char *, bool, unsigned char);
 void update_threshold(unsigned char *threshold, bool is_pressed, unsigned char value) // 0x10A81E60
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?update_threshold@@YAXPAE_NE@Z");
 	// `anonymous-namespace'::update_threshold
 	// unsigned char value;
-	{
 		// unsigned char new_Value;
-	}
-	{
 		// unsigned char new_value;
+
+	if (is_pressed)
+	{
+		unsigned char new_value = (unsigned char)(value >= 32 ? value - 32 : 0);
+		if (new_value > *threshold)
+			*threshold = new_value;
 	}
-	todo("implement");
-	_sub_10A81E60(threshold, is_pressed, value);
+	else
+	{
+		unsigned char new_value = (unsigned char)(value <= 191 ? value + 64 : 255);
+		if (new_value < *threshold)
+			*threshold = new_value;
+	}
 }
 
 _extern void _sub_10A7E350(float &, float &, float);

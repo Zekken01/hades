@@ -49,6 +49,8 @@ struct s_scenario;
 
 /* ---------- prototypes */
 
+s_hs_global_external *hs_global_external_get(short global_index);  // hades: added for 0X10F03220
+
 s_hs_thread *hs_thread_get(unsigned long thread_index);  // hades: added for 0X10F03460
 
 extern void *hs_get_node_data(unsigned long script_index);
@@ -143,21 +145,27 @@ s_hs_global_external *hs_global_external_get(short index) // 0x10F030A0
 	return g_hs_global_externals[index];
 }
 
-extern e_hs_type _sub_10F03220(short);
 e_hs_type hs_global_get_type(short global_index) // 0x10F03220
 {
-	mangled_x86(MANGLED_TODO, "?hs_global_get_type@@YA?AW4e_hs_type@@F@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_global_get_type@@YA?AW4e_hs_type@@F@Z");
 	// short global_index;
 	// short absolute_index;
-	{
 		// s_scenario *scnr;
-		{
 			// s_hs_global *global;
-		}
+
+	short absolute_index = global_index & 0x7FFF;
+	if (global_index & 0x8000)
+	{
+		return hs_global_external_get(absolute_index)->type;
 	}
-	todo("implement");
-	e_hs_type __result = _sub_10F03220(global_index);
-	return __result;
+	else
+	{
+		s_scenario *scenario = global_scenario_get();
+		s_hs_global *global = scenario->script_globals.get_element(absolute_index);
+		if (global)
+			return global->type;
+	}
+	return _hs_type_unparsed;
 }
 
 char const *hs_global_get_name(short global_index) // 0x10F03100

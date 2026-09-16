@@ -144,13 +144,10 @@ namespace Web
 	{
 		namespace Bridge
 		{
-			extern WebRendererQueryHandler* _sub_10C6F220(Web::Browser::Bridge::WebRendererQueryHandler *const);
-			WebRendererQueryHandler::WebRendererQueryHandler() // 0x10C6F220
+			WebRendererQueryHandler::WebRendererQueryHandler() : m_Queries(1024) /* hades-mem-init:  */ // 0x10C6F220
 			{
-				mangled_x86(MANGLED_TODO, "??0WebRendererQueryHandler@Bridge@Browser@Web@@QAE@XZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "??0WebRendererQueryHandler@Bridge@Browser@Web@@QAE@XZ");
 				// Web::Browser::Bridge::WebRendererQueryHandler *const this;
-				todo("implement");
-				_sub_10C6F220(this);
 			}
 
 			_extern bool _sub_10C71290(Web::Browser::Bridge::WebRendererQueryHandler *const, scoped_refptr<CefBrowser>, scoped_refptr<CefFrame>, long long, CefStringBase<CefStringTraitsUTF16> const &, bool, scoped_refptr<CefMessageRouterBrowserSide::Callback>);

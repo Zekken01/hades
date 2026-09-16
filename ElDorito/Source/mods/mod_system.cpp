@@ -513,16 +513,18 @@ extern "C" bool create_package_directory() // 0x108BB170
 	return __result;
 }
 
-_extern bool _sub_108BCDC0(char const *);
 extern "C" bool load_package_file_internal(char const *file_path) // 0x108BCDC0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "_load_package_file_internal");
 	// load_package_file_internal
 	// char const *file_path;
 	// EModResult error;
 	// function call : EModResult (EModIndex, char const *, bool)
-	todo("implement");
-	bool __result = _sub_108BCDC0(file_path);
-	return __result;
+
+	EModResult result = c_mod_system::GetModManager().SetMod(EModIndex(0), file_path, true);
+	if (result != kSuccess && result != kPending)
+		return false;
+	return true;
 }
 
 _extern bool _sub_108BCBF0(char const *);

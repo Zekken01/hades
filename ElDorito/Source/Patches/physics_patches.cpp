@@ -117,6 +117,8 @@ typedef char hkint8;
 
 /* ---------- prototypes */
 
+extern long (*const game_tick_rate)();  // hades: added for 0X10AAB570
+
 extern void physics_patches_apply();
 
 bool havok_broadphase_reforge_barrier_object_test(long havok_component_index_a, long havok_component_index_b);
@@ -446,9 +448,9 @@ void __fastcall c_havok_contact_point__get_surface_normal_hook(c_havok_contact_p
 	_sub_10AAA7F0(this_, __formal, out_normal);
 }
 
-_extern void _sub_10AA9D50(void *, void *, char *, char *, bool, real_vector3d *);
 void __fastcall c_character_physics_mode_ground_datum__update_internal_hook(void *thisptr, void *__formal, char *output, char *input, bool a4, real_vector3d *a5) // 0x10AA9D50
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_character_physics_mode_ground_datum__update_internal_hook@@YIXPAX0PAD1_NPAUreal_vector3d@@@Z");
 	// `anonymous-namespace'::c_character_physics_mode_ground_datum__update_internal_hook
 	// real_vector3d *a5;
 	// float const old_velocity_scale;
@@ -456,21 +458,40 @@ void __fastcall c_character_physics_mode_ground_datum__update_internal_hook(void
 	// float &velocity_scale;
 	// function call : long (*const)()
 	// function call : void (*const)(void *, char *, char *, bool, real_vector3d *)
-	todo("implement");
-	_sub_10AA9D50(thisptr, __formal, output, input, a4, a5);
+
+	void (__thiscall *const c_character_physics_mode_ground_datum__update_internal)(void *, char *, char *, bool, real_vector3d *) = (void (__thiscall *const)(void *, char *, char *, bool, real_vector3d *))0x724BB0;
+
+	float *value = (float *)(input + 0xAC);
+	float saved = *value;
+	if (*value <= 0.0f)
+	{
+		*value = 1.0f;
+	}
+
+	*value *= 30.0f / game_tick_rate();
+
+	c_character_physics_mode_ground_datum__update_internal(thisptr, output, input, a4, a5);
+
+	*value = saved;
 }
 
-_extern void _sub_10AAB570(hkpkWorld *, void *, hkpWorldCinfo *, unsigned __int32);
 void __fastcall hkpWorld_ctor_hook(hkpkWorld *thisptr, void *__formal, hkpWorldCinfo *info, unsigned __int32 sdkVersion) // 0x10AAB570
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?hkpWorld_ctor_hook@@YIXPAUhkpkWorld@@PAXPAUhkpWorldCinfo@@I@Z");
 	// `anonymous-namespace'::hkpWorld_ctor_hook
 	// unsigned __int32 sdkVersion;
 	// void (*const hkpWorld_ctor)(hkpkWorld *, hkpWorldCinfo *, unsigned __int32);
 	// float const tick_rate_scale;
 	// function call : long (*const)()
 	// function call : void (*const)(hkpkWorld *, hkpWorldCinfo *, unsigned __int32)
-	todo("implement");
-	_sub_10AAB570(thisptr, __formal, info, sdkVersion);
+
+	void (__thiscall *const hkpWorld_ctor)(hkpkWorld *, hkpWorldCinfo *, unsigned __int32) = (void (__thiscall *)(hkpkWorld *, hkpWorldCinfo *, unsigned __int32))0xC7C0E0;
+	float scale = 30.0f / game_tick_rate();
+
+	info->m_collisionTolerance = *(float *)0x18A2324 * scale;
+	info->m_deactivationReferenceDistance = *(float *)0x18A233C * scale;
+
+	hkpWorld_ctor(thisptr, info, sdkVersion);
 }
 
 _extern bool _sub_10AA9BF0(c_character_physics_mode_ground_datum *, void *, s_character_physics_move_input_datum *, bool, real_vector3d *, real_vector3d *, s_havok_contact_point_reference *, float *, long *);

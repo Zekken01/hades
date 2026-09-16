@@ -461,18 +461,23 @@ namespace Blam
 {
 	namespace Input
 	{
-		_extern unsigned char _sub_10A79440(Blam::Input::ActionState const *const);
 		_inline unsigned char ActionState::GetDownTicks() const // 0x10A79440
 		{
-			mangled_x86(MANGLED_TODO, "?GetDownTicks@ActionState@Input@Blam@@QBEEXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetDownTicks@ActionState@Input@Blam@@QBEEXZ");
 			// Blam::Input::ActionState const *const this;
 			// unsigned char result;
-			{
 				// unsigned char v2;
+
+			unsigned char downTicks = 0;
+			if (!(Flags & 1))
+			{
+				unsigned char unknown9 = Unknown9;
+				if (unknown9 == 255 || unknown9 == Unknown8)
+				{
+					downTicks = Ticks;
+				}
 			}
-			todo("implement");
-			unsigned char __result = _sub_10A79440((Blam::Input::ActionState const *)this);
-			return __result;
+			return downTicks;
 		}
 	}
 }

@@ -64,6 +64,8 @@ struct short_rectangle2d;
 
 /* ---------- prototypes */
 
+__declspec(safebuffers) void render_debug_vector(real_point3d const &point, real_vector3d const &vector, real_argb_color const &color);  // hades: added for 0X10F0BDD0
+
 extern void rectangle3d_build_faces(real_rectangle3d const &bounds, real_point3d (*const faces)[4]);  // hades: added for 0x10F086C0
 extern long rectangle3d_build_edges(real_rectangle3d const &bounds, long maximum_edge_count, real_point3d (*const edges)[2]);  // hades: added for 0x10F086C0
 
@@ -335,13 +337,13 @@ void render_debug_point(real_point3d const &point, float size, real_argb_color c
 	_sub_10F0AF70(point, size, color);
 }
 
-_extern void _sub_10F0BDD0(real_point3d const &, real_vector3d const &, real_argb_color const &);
 void render_debug_vector(real_point3d const &point, real_vector3d const &vector, real_argb_color const &color) // 0x10F0BDD0
 {
-	mangled_x86(MANGLED_TODO, "?render_debug_vector@@YAXABUreal_point3d@@ABUreal_vector3d@@ABUreal_argb_color@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_vector@@YAXABUreal_point3d@@ABUreal_vector3d@@ABUreal_argb_color@@@Z");
 	// real_argb_color const &color;
-	todo("implement");
-	_sub_10F0BDD0(point, vector, color);
+
+	render_debug_point(point, 0.0025f, color);
+	render_debug_line(point, real_point3d{ point.x + vector.i, point.y + vector.j, point.z + vector.k }, color);
 }
 
 _extern void _sub_10F0ABF0(real_point3d const &, real_vector3d const &, float, real_argb_color const &);

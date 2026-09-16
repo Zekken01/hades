@@ -147,13 +147,12 @@ extern long long filetime_to_timet(_FILETIME const &ft);
 
 /* ---------- public code */
 
-extern c_mod_package_manager* _sub_108B6A60(c_mod_package_manager *const);
-_inline c_mod_package_manager::c_mod_package_manager() // 0x108B6A60
+_inline c_mod_package_manager::c_mod_package_manager() : m_database(nullptr), m_enumeration_number(0), m_previous_enumeration_number(0) /* hades-mem-init:  */ // 0x108B6A60
 {
-	mangled_x86(MANGLED_TODO, "??0c_mod_package_manager@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_mod_package_manager@@QAE@XZ");
 	// c_mod_package_manager *const this;
-	todo("implement");
-	_sub_108B6A60(this);
+
+	// the original body is empty
 }
 
 _inline c_mod_package_manager::s_entry const *c_mod_package_manager::c_threadsafe_iterator::get() const // 0x10A182C0

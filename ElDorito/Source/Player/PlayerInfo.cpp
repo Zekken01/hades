@@ -220,16 +220,20 @@ namespace Player
 		return isAvailable;
 	}
 
-	_extern bool _sub_107EE500();
 	bool GetRankedUpRecently() // 0x107EE500
 	{
-		mangled_x86(MANGLED_TODO, "?GetRankedUpRecently@Player@@YA_NXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetRankedUpRecently@Player@@YA_NXZ");
 		// procedure flags: nofpo
 		// __int32 localPeer;
 		// __int32 localPlayerIdx;
-		todo("implement");
-		bool __result = _sub_107EE500();
-		return __result;
+
+		__int32 localPeer = Blam::Network::GetActiveSession()->MembershipInfo.LocalPeerIndex;
+		__int32 localPlayerIdx = Blam::Network::GetActiveSession()->MembershipInfo.GetPeerPlayer(localPeer);
+
+		if (localPlayerIdx != -1)
+			return infoCache[localPlayerIdx].rankup;
+
+		return false;
 	}
 }
 

@@ -40,21 +40,17 @@ _inline __int32 CEventSink<>::Subscribe(std::function<void __cdecl(void)> const 
 	return __result;
 }
 
-_extern void _sub_108315F0(CEventSink<> *const);
 _inline void CEventSink<>::PostEvent() // 0x108315F0
 {
-	mangled_x86(MANGLED_TODO, "?PostEvent@?$CEventSink@$$V@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?PostEvent@?$CEventSink@$$V@@QAEXXZ");
 	// CEventSink<> *const this;
-	{
 		// std::vector<CEventSink<>::SCallbackEntry> &<range>$L0;
 		// CEventSink<>::SCallbackEntry *<begin>$L0;
 		// CEventSink<>::SCallbackEntry *<end>$L0;
-		{
 			// CEventSink<>::SCallbackEntry const &c;
-		}
-	}
-	todo("implement");
-	_sub_108315F0((CEventSink<> *)this);
+
+	for (auto &entry : m_callbacks)
+		entry.callback();
 }
 
 _inline void CEventSink<>::Reset() // 0x10831B70

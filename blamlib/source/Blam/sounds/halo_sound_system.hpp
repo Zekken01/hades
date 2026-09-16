@@ -231,17 +231,19 @@ struct HALO_SOUND_SYSTEM
 
 /* ---------- public code */
 
-extern HALO_CHANNEL *_sub_10A2F840(HALO_SOUND_SYSTEM *const, __int32);
 _inline HALO_CHANNEL *HALO_SOUND_SYSTEM::FindChannel(__int32 id) // 0x10A2F840
 {
-	mangled_x86(MANGLED_TODO, "?FindChannel@HALO_SOUND_SYSTEM@@QAEPAUHALO_CHANNEL@@H@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?FindChannel@HALO_SOUND_SYSTEM@@QAEPAUHALO_CHANNEL@@H@Z");
 	// __int32 id;
-	{
 		// __int32 i;
+
+	for (__int32 i = 0; i < channels.count; i++)
+	{
+		if (channels.elements[i].id == id)
+			return channels[i];
 	}
-	todo("implement");
-	HALO_CHANNEL * __result = _sub_10A2F840(this, id);
-	return __result;
+
+	return nullptr;
 }
 
 _inline HALO_SOUND_SYSTEM *HALO_SOUND_SYSTEM::Get() // 0x10A2F8F0

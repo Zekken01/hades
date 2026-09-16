@@ -295,6 +295,8 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+long tag_find_by_name(unsigned long group_tag, char const *name);  // hades: added for 0X1099A180
+
 namespace Patches::Ui { void ShowLanBrowser(); }  // hades: added for 0X1099AE10
 
 namespace Blam::Network { Session *GetActiveSession(); }  // hades: added for 0X10993F10
@@ -390,7 +392,6 @@ namespace Modules
 
 /* ---------- private code */
 
-_extern void _sub_1099C4E0(std::vector<std::string> &);
 void GetMapNameList(std::vector<std::string> &mapNames) // 0x1099C4E0
 {
 	// `anonymous-namespace'::GetMapNameList
@@ -399,8 +400,14 @@ void GetMapNameList(std::vector<std::string> &mapNames) // 0x1099C4E0
 	// static ...; // 0x1099C564
 	// std::vector<std::string> &mapNames;
 	// GetMapNameList::__l2::<lambda_1> addMap;
-	todo("implement");
-	_sub_1099C4E0(mapNames);
+
+	auto add_map_name = [&mapNames](s_level_datum *level)
+	{
+		mapNames.push_back(level->file_path);
+	};
+
+	levels_iterate_multiplayer_maps(add_map_name);
+	levels_iterate_campaign_maps(add_map_name);
 }
 
 _extern bool _sub_10997E90(std::vector<std::string> const &, std::string &);
@@ -1173,43 +1180,85 @@ bool CommandPlayUiSound(std::vector<std::string> const &arguments, std::string &
 	return __result;
 }
 
-_extern bool _sub_1099A180(std::vector<std::string> const &, std::string &);
 bool CommandPlaySound(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x1099A180
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandPlaySound@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandPlaySound
 	// std::string &returnInfo;
 	// long tag_index;
 	// static void (*`CommandPlaySound'::`2'::Sound_PlaySoundEffect)(unsigned __int32, float); // 0x11353F84
 	// function call : void (*)(unsigned __int32, float)
-	todo("implement");
-	bool __result = _sub_1099A180(arguments, returnInfo);
-	return __result;
+
+	if (arguments.size() < 1)
+	{
+		returnInfo = "Invalid arguments";
+		return false;
+	}
+
+	long tag_index = tag_find_by_name(0x736E6421, arguments[0].c_str());
+	if (tag_index == -1)
+	{
+		returnInfo = "Sound not found!";
+		return false;
+	}
+
+	static auto Sound_PlaySoundEffect = (void(__cdecl *)(long, float))0x005DE300;
+	Sound_PlaySoundEffect(tag_index, 1.0f);
+	return true;
 }
 
-_extern bool _sub_1099A090(std::vector<std::string> const &, std::string &);
 bool CommandPlayLoopingSound(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x1099A090
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandPlayLoopingSound@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandPlayLoopingSound
 	// std::string &returnInfo;
 	// static void (*`CommandPlayLoopingSound'::`2'::Sound_LoopingSound_Start)(unsigned __int32, __int32, __int32, __int32, char); // 0x11353F88
 	// long tag_index;
 	// function call : void (*)(unsigned __int32, __int32, __int32, __int32, char)
-	todo("implement");
-	bool __result = _sub_1099A090(arguments, returnInfo);
-	return __result;
+
+	if (arguments.size() < 1)
+	{
+		returnInfo = "Invalid arguments";
+		return false;
+	}
+
+	long tag_index = tag_find_by_name(0x6C736E64, arguments[0].c_str());
+	if (tag_index == -1)
+	{
+		returnInfo = "Looping Sound not found";
+		return false;
+	}
+
+	static auto Sound_LoopingSound_Start = (void(__cdecl *)(long, long, long, long, long))0x005DC530;
+	Sound_LoopingSound_Start(tag_index, -1, 0x3F800000, 0, 0);
+	return true;
 }
 
-_extern bool _sub_1099B7F0(std::vector<std::string> const &, std::string &);
 bool CommandStopLoopingSound(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x1099B7F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandStopLoopingSound@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandStopLoopingSound
 	// std::string &returnInfo;
 	// static void (*`CommandStopLoopingSound'::`2'::Sound_LoopingSound_Stop)(unsigned __int32, __int32); // 0x11353F8C
 	// long tag_index;
 	// function call : void (*)(unsigned __int32, __int32)
-	todo("implement");
-	bool __result = _sub_1099B7F0(arguments, returnInfo);
-	return __result;
+
+	if (arguments.size() < 1)
+	{
+		returnInfo = "Invalid arguments";
+		return false;
+	}
+
+	long tag_index = tag_find_by_name('lsnd', arguments[0].c_str());
+	if (tag_index == -1)
+	{
+		returnInfo = "Looping Sound not found";
+		return false;
+	}
+
+	static void (*Sound_LoopingSound_Stop)(long, long) = (void (*)(long, long))0x005DC6B0;
+	Sound_LoopingSound_Stop(tag_index, -1);
+	return true;
 }
 
 bool CommandGameTakeScreenshot(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10998EC0

@@ -41,7 +41,7 @@ namespace Web
 		{
 		public:
 			WebRendererRenderHandler(IDirect3DDevice9 *device9, HWND__ *window);
-			virtual _inline ~WebRendererRenderHandler();
+			virtual _inline ~WebRendererRenderHandler() = default;
 			void OnAfterCreated(scoped_refptr<CefBrowser> browser);
 			void OnPreResetDevice();
 			void OnPostResetDevice();
@@ -85,14 +85,6 @@ namespace Web
 	namespace Browser
 	{
 		_extern void _sub_10CD0560(Web::Browser::WebRendererRenderHandler * const);
-		_inline WebRendererRenderHandler::~WebRendererRenderHandler() // 0x10CD0560
-		{
-			mangled_x86(MANGLED_TODO, "??1WebRendererRenderHandler@Browser@Web@@UAE@XZ");
-			// __shifted(Web::Browser::WebRendererRenderHandler, 32);
-			// Web::Browser::WebRendererRenderHandler *const this;
-			todo("implement");
-			_sub_10CD0560(this);
-		}
 
 		_inline void WebRendererRenderHandler::AddRef() const // 0x10CD0B80
 		{

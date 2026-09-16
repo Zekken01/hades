@@ -47,19 +47,32 @@ void WaitEvent::Reset() // 0x106D1670
 		WakeByAddressAll(this);
 }
 
-_extern bool _sub_106D1730(WaitEvent const *const, __int32);
 bool WaitEvent::Wait(__int32 timeout) const // 0x106D1730
 {
-	mangled_x86(MANGLED_TODO, "?Wait@WaitEvent@@QBE_NH@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Wait@WaitEvent@@QBE_NH@Z");
 	// static ...; // 0x106D17C0
 	// static ...; // 0x106D17B8
 	// WaitEvent const *const this;
 	// __int32 timeout;
 	// long undesiredValue;
 	// long capturedValue;
-	todo("implement");
-	bool __result = _sub_106D1730((WaitEvent const *)this, timeout);
-	return __result;
+
+	long current;
+	long undesired = 0;
+
+	current = m_value;
+
+	while (current == undesired)
+	{
+		if (!WaitOnAddress((void *)&m_value, &undesired, sizeof(undesired), timeout))
+		{
+			return false;
+		}
+
+		current = m_value;
+	}
+
+	return true;
 }
 
 /* ---------- private code */

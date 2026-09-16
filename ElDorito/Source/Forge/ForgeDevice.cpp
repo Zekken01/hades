@@ -131,14 +131,22 @@ void CForgeDeviceManager::Update() // 0x10861180
 	_sub_10861180(this);
 }
 
-_extern void _sub_10860F50(CForgeDeviceManager *const, long);
 void CForgeDeviceManager::InitializeDeviceObject(long objectIndex) // 0x10860F50
 {
-	mangled_x86(MANGLED_TODO, "?InitializeDeviceObject@CForgeDeviceManager@@QAEXJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeDeviceObject@CForgeDeviceManager@@QAEXJ@Z");
 	// long objectIndex;
 	// s_device_data *device;
-	todo("implement");
-	_sub_10860F50(this, objectIndex);
+
+	UpdateDevice(objectIndex);
+
+	s_object_data *object = object_get(objectIndex);
+
+	if (!object)
+	{
+		return;
+	}
+
+	*(float *)((unsigned char *)object + 0x18c) = 0.7f;
 }
 
 bool CForgeDeviceManager::IsForgeDevice(long objectIndex) // 0x108610C0

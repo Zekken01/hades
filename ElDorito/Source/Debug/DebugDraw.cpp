@@ -919,13 +919,13 @@ _inline void SPayloadVisitor::operator()(SDrawCylinderMessage const &payload) //
 	_sub_10818800(this, payload);
 }
 
-_extern void _sub_10818770(SPayloadVisitor *const, SDrawConeMessage const &);
 _inline void SPayloadVisitor::operator()(SDrawConeMessage const &payload) // 0x10818770
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??RSPayloadVisitor@hades_file_local@@QAEXABUSDrawConeMessage@1@@Z");
 	// SPayloadVisitor::operator()
 	// SDrawConeMessage const &payload;
-	todo("implement");
-	_sub_10818770(this, payload);
+
+	CDebugDrawBackend::DrawBoxOriented(*(real_rectangle3d const *)&payload, *(real_matrix4x3 const *)((unsigned char const *)&payload + 0x18), *(long const *)((unsigned char const *)&payload + 0x4c));
 }
 
 _inline void SPayloadVisitor::operator()(SDrawLineMessage const &payload) // 0x10818880
@@ -964,13 +964,13 @@ _inline void SPayloadVisitor::operator()(SDrawTriangleMessage const &payload) //
 	CDebugDrawBackend::DrawTriangle(payload.p1, payload.p2, payload.p3, payload.color);
 }
 
-_extern void _sub_10818AD0(SPayloadVisitor *const, SDrawText2dMessage const &);
 _inline void SPayloadVisitor::operator()(SDrawText2dMessage const &payload) // 0x10818AD0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??RSPayloadVisitor@hades_file_local@@QAEXABUSDrawText2dMessage@1@@Z");
 	// SPayloadVisitor::operator()
 	// SDrawText2dMessage const &payload;
-	todo("implement");
-	_sub_10818AD0(this, payload);
+
+	CDebugDrawBackend::DrawSphereOutline(*(real_point3d const *)&payload, *(float const *)((unsigned char const *)&payload + 0xc), *(long const *)((unsigned char const *)&payload + 0x10));
 }
 
 _inline void SPayloadVisitor::operator()(SDrawText3dMessage const &payload) // 0x10818B50
@@ -982,13 +982,13 @@ _inline void SPayloadVisitor::operator()(SDrawText3dMessage const &payload) // 0
 	DrawString3dInternal(payload.point, payload.color, payload.text, payload.fontId, payload.scale);
 }
 
-_extern void _sub_108188F0(SPayloadVisitor *const, SDrawPhysicsShapeCapsuleMessage const &);
 _inline void SPayloadVisitor::operator()(SDrawPhysicsShapeCapsuleMessage const &payload) // 0x108188F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??RSPayloadVisitor@hades_file_local@@QAEXABUSDrawPhysicsShapeCapsuleMessage@1@@Z");
 	// SPayloadVisitor::operator()
 	// SDrawPhysicsShapeCapsuleMessage const &payload;
-	todo("implement");
-	_sub_108188F0(this, payload);
+
+	CDebugDrawBackend::DrawLine(*(real_point3d const *)&payload, *(real_point3d const *)((unsigned char const *)&payload + 0xc), *(long const *)((unsigned char const *)&payload + 0x18));
 }
 
 _inline void SPayloadVisitor::operator()(SClearMessage const &payload) // 0x108185D0

@@ -65,14 +65,13 @@ namespace Web
 {
 	namespace Browser
 	{
-		_extern void _sub_10CBB980(Web::Browser::WebRendererApp * const);
 		_inline WebRendererApp::~WebRendererApp() // 0x10CBB980
 		{
-			mangled_x86(MANGLED_TODO, "??1WebRendererApp@Browser@Web@@UAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??1WebRendererApp@Browser@Web@@UAE@XZ");
 			// __shifted(Web::Browser::WebRendererApp, 32);
 			// Web::Browser::WebRendererApp *const this;
-			todo("implement");
-			_sub_10CBB980(this);
+
+			// the original is empty
 		}
 
 		_inline void WebRendererApp::AddRef() const // 0x10CBD420

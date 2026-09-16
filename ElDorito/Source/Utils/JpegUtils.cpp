@@ -196,13 +196,25 @@ void term_stdvector_destination(jpeg_compress_struct *cinfo) // 0x10754950
 	dest->vec->resize(newSize);
 }
 
-_extern void _sub_10754730(jpeg_compress_struct *, std::vector<unsigned char> &);
 void jpeg_stdvector_dest(jpeg_compress_struct *cinfo, std::vector<unsigned char> &vec) // 0x10754730
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?jpeg_stdvector_dest@@YAXPAUjpeg_compress_struct@hades_file_local@@AAV?$vector@EV?$allocator@E@std@@@std@@@Z");
 	// `anonymous-namespace'::jpeg_stdvector_dest
 	// std::vector<unsigned char> &vec;
 	// stdvector_destination_mgr *dest;
 	// function call : void *(*)(void *, __int32, unsigned __int32)
-	todo("implement");
-	_sub_10754730(cinfo, vec);
+
+	if (cinfo->dest == nullptr)
+	{
+		cinfo->dest = (*(void *(__cdecl **)(jpeg_compress_struct *, int, unsigned int))cinfo->mem)(cinfo, 0, sizeof(stdvector_destination_mgr));
+	}
+
+	stdvector_destination_mgr *dest = (stdvector_destination_mgr *)cinfo->dest;
+	*(void (__cdecl **)())((unsigned char *)dest + 0x8) = (void (__cdecl *)())init_stdvector_destination;
+	*(void (__cdecl **)())((unsigned char *)dest + 0xc) = (void (__cdecl *)())empty_stdvector_output_buffer;
+	*(void (__cdecl **)())((unsigned char *)dest + 0x10) = (void (__cdecl *)())term_stdvector_destination;
+	dest->vec = &vec;
+	dest->vec->resize(0x1000);
+	*(unsigned char **)dest = dest->vec->data();
+	*(unsigned int *)((unsigned char *)dest + 0x4) = dest->vec->size();
 }

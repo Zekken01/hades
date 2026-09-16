@@ -92,18 +92,33 @@ _inline Hook::~Hook() = default; // 0x10698FB0
 
 /* ---------- private code */
 
-_extern bool _sub_1069A9E0(short);
 bool bitmap_format_is_default_srgb_hook(short format) // 0x1069A9E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?bitmap_format_is_default_srgb_hook@@YA_NF@Z");
 	// `anonymous-namespace'::bitmap_format_is_default_srgb_hook
 	// static ...; // 0x1069AA38
 	// static ...; // 0x1069AA30
 // $LN14:
 // $LN2:
 	// short format;
-	todo("implement");
-	bool __result = _sub_1069A9E0(format);
-	return __result;
+
+	switch (format)
+	{
+	case 13:
+	case 20:
+	case 22:
+	case 24:
+	case 25:
+	case 26:
+	case 27:
+	case 28:
+	case 29:
+	case 33:
+	case 34:
+		return false;
+	}
+
+	return true;
 }
 
 /* ---------- template instantiations */

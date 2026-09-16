@@ -244,19 +244,22 @@ void CustomBitmapManager::BitmapLoadFromFileAsync(__int32 handle, std::string pa
 	_sub_10784400(this, handle, path, fallbackPath);
 }
 
-extern IDirect3DTexture9 *_sub_107842C0(CustomBitmapManager *const, __int32);
 IDirect3DTexture9 *CustomBitmapManager::BitmapGetTexture(__int32 handle) // 0x107842C0
 {
-	mangled_x86(MANGLED_TODO, "?BitmapGetTexture@CustomBitmapManager@@QAEPAUIDirect3DTexture9@@H@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?BitmapGetTexture@CustomBitmapManager@@QAEPAUIDirect3DTexture9@@H@Z");
 	// static ...; // 0x107843A8
 	// static ...; // 0x107843A0
 	// CustomBitmapManager *const this;
 	// __int32 handle;
 	// std::shared_lock<std::shared_mutex> lock;
 	// CustomBitmapManager::StorageItem *item;
-	todo("implement");
-	IDirect3DTexture9 * __result = _sub_107842C0(this, handle);
-	return __result;
+
+	std::shared_lock<std::shared_mutex> lock(m_lock);
+	StorageItem *item = GetStorageItem(handle);
+	if (!item)
+		return nullptr;
+
+	return item->texture.Get();
 }
 
 _extern void _sub_10785BD0(CustomBitmapManager *const);
@@ -335,17 +338,19 @@ __int32 CustomBitmapManager::FindStorageItemWithPath(std::string const &path) //
 	return __result;
 }
 
-_extern __int32 _sub_10784D30(CustomBitmapManager *const);
 __int32 CustomBitmapManager::GetFreeStorageItem() // 0x10784D30
 {
-	mangled_x86(MANGLED_TODO, "?GetFreeStorageItem@CustomBitmapManager@@AAEHXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetFreeStorageItem@CustomBitmapManager@@AAEHXZ");
 	// CustomBitmapManager *const this;
-	{
 		// unsigned __int32 i;
+
+	for (unsigned __int32 i = 0; i < m_storageItems.size(); i++)
+	{
+		if (!m_storageItems[i].InUse())
+			return i;
 	}
-	todo("implement");
-	__int32 __result = _sub_10784D30(this);
-	return __result;
+
+	return -1;
 }
 
 CustomBitmapManager::StorageItem *CustomBitmapManager::GetStorageItem(__int32 handle) // 0x10784DE0

@@ -275,9 +275,9 @@ __declspec(naked) void render_post_process_reflections_enabled_hook() // 0x10AC2
 	}
 }
 
-_extern void _sub_10AC1FE0(long, long);
 void force_sampler_filter_mode_hook(long sampler, long e_sampler_filter_mode) // 0x10AC1FE0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?force_sampler_filter_mode_hook@@YAXJJ@Z");
 	// `anonymous-namespace'::force_sampler_filter_mode_hook
 	// long e_sampler_filter_mode;
 	// IDirect3DDevice9 *device;
@@ -287,8 +287,26 @@ void force_sampler_filter_mode_hook(long sampler, long e_sampler_filter_mode) //
 	// function call : void (*const)(void *, long, long)
 	// function call : HRESULT (unsigned long, _D3DSAMPLERSTATETYPE, unsigned long)
 	// function call : void (*const)(void *, long, long)
-	todo("implement");
-	_sub_10AC1FE0(sampler, e_sampler_filter_mode);
+
+	void *device = *(void **)0x50daddc;
+	long *sampler_filter_modes = (long *)0x1910630;
+	long device_state = *(long *)0x191055c;
+
+	if (device_state != -1)
+	{
+		if (sampler >= 0 && sampler < 20)
+			sampler_filter_modes[sampler] = e_sampler_filter_mode;
+
+		((void (*)(void *, long, long))0xa23700)(device, sampler, e_sampler_filter_mode);
+		(*(void (__stdcall **)(void *, long, long, long))((unsigned char *)*(void **)device + 0x114))(device, sampler, 10, 1);
+	}
+	else if (sampler_filter_modes[sampler] != e_sampler_filter_mode)
+	{
+		if (sampler >= 0 && sampler < 20)
+			sampler_filter_modes[sampler] = e_sampler_filter_mode;
+
+		((void (*)(void *, long, long))0xa23700)(device, sampler, e_sampler_filter_mode);
+	}
 }
 
 _extern void _sub_10AC3780(long, long, real_vector4d const *);

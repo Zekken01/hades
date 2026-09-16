@@ -144,20 +144,23 @@ namespace Blam
 		return ReadBit(this);
 	}
 
-	_extern unsigned long long _sub_1092A260(Blam::BitStream *const, __int32);
 	unsigned long long BitStream::ReadBits(__int32 bits) // 0x1092A260
 	{
-		mangled_x86(MANGLED_TODO, "?ReadBits@BitStream@Blam@@AAE_KH@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?ReadBits@BitStream@Blam@@AAE_KH@Z");
 		// __int32 bits;
 		// unsigned long long (*const ReadBits64)(Blam::BitStream *, __int32);
-		{
 			// unsigned __int32 (*const ReadBits32)(Blam::BitStream *, __int32);
-		}
 		// function call : unsigned __int32 (*const)(Blam::BitStream *, __int32)
 		// function call : unsigned long long (*const)(Blam::BitStream *, __int32)
-		todo("implement");
-		unsigned long long __result = _sub_1092A260(this, bits);
-		return __result;
+
+		if (bits <= 32)
+		{
+			unsigned long (__thiscall *const ReadBitsImpl)(BitStream *, __int32) = (unsigned long (__thiscall *)(BitStream *, __int32))0x5589A0;
+			return ReadBitsImpl(this, bits);
+		}
+
+		unsigned long long (__thiscall *const ReadBitsLongImpl)(BitStream *, __int32) = (unsigned long long (__thiscall *)(BitStream *, __int32))0x559160;
+		return ReadBitsLongImpl(this, bits);
 	}
 
 	_extern void _sub_1092A460(Blam::BitStream *const, unsigned long long, __int32);

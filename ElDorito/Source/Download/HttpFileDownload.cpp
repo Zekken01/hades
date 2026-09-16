@@ -309,14 +309,6 @@ namespace Http
 namespace Download
 {
 	_extern void _sub_1082C910(Download::CHttpFileDownload *const);
-	CHttpFileDownload::~CHttpFileDownload() // 0x1082C910
-	{
-		mangled_x86(MANGLED_TODO, "??1CHttpFileDownload@Download@@UAE@XZ");
-		// Download::CHttpFileDownload *const this;
-		// function call : void *(unsigned __int32)
-		todo("implement");
-		_sub_1082C910(this);
-	}
 
 	_extern void _sub_10831EE0(Download::CHttpFileDownload *const, std::string const &);
 	void CHttpFileDownload::SetUrl(std::string const &url) // 0x10831EE0
@@ -381,10 +373,9 @@ namespace Download
 		return std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - m_startTime).count();
 	}
 
-	extern EDownloadError _sub_1082FC20(Download::CHttpFileDownload const *const);
 	Download::EDownloadError CHttpFileDownload::GetError() const // 0x1082FC20
 	{
-		mangled_x86(MANGLED_TODO, "?GetError@CHttpFileDownload@Download@@UBE?AW4EDownloadError@2@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetError@CHttpFileDownload@Download@@UBE?AW4EDownloadError@2@XZ");
 		// static ...; // 0x1082FCB4
 	// $LN10:
 	// $LN9:
@@ -394,9 +385,26 @@ namespace Download
 	// $LN5:
 	// $LN4:
 		// Download::CHttpFileDownload const *const this;
-		todo("implement");
-		Download::EDownloadError __result = _sub_1082FC20((Download::CHttpFileDownload const *)this);
-		return __result;
+
+		switch (m_abortReason)
+		{
+		case None:
+			return (EDownloadError)0;
+		case Cancelled:
+			return (EDownloadError)1;
+		case NotEnoughDiskSpace:
+			return (EDownloadError)2;
+		case BadResponse:
+			return (EDownloadError)3;
+		case RequestError:
+			return (EDownloadError)4;
+		case FileError:
+			return (EDownloadError)5;
+		case NetworkError:
+			return (EDownloadError)6;
+		default:
+			return (EDownloadError)7;
+		}
 	}
 
 	Download::EDownloadStatus CHttpFileDownload::GetStatus() const // 0x10830250

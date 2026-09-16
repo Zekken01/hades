@@ -131,17 +131,23 @@ namespace Patches
 
 /* ---------- private code */
 
-_extern bool _sub_108D7240(long, s_object_placement_data &, bool *);
 bool object_type_new_hook(long object_index, s_object_placement_data &placement_data, bool *unused) // 0x108D7240
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?object_type_new_hook@@YA_NJAAUs_object_placement_data@@PA_N@Z");
 	// `anonymous-namespace'::object_type_new_hook
 	// bool *unused;
 	// bool (*const object_type_new)(long, s_object_placement_data &, bool *);
 	// bool result;
 	// function call : bool (*const)(long, s_object_placement_data &, bool *)
-	todo("implement");
-	bool __result = _sub_108D7240(object_index, placement_data, unused);
-	return __result;
+
+	bool (__cdecl *const object_type_new)(long, s_object_placement_data &, bool *) = (bool(__cdecl *const)(long, s_object_placement_data &, bool *))0xb73c60;
+
+	bool result = object_type_new(object_index, placement_data, unused);
+
+	if (!result)
+		return result;
+
+	return true;
 }
 
 void objects_handle_deleted_object_hook(__int32 object_index) // 0x108D72C0

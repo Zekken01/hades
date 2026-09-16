@@ -327,16 +327,20 @@ c_content_catalogue *content_catalogue_get_for_game_state_hook(long controller_i
 	return catalogue;
 }
 
-_extern bool _sub_10919B70(s_game_state_header *);
 bool game_state_header_matches_current_network_session_settings_hook(s_game_state_header *header) // 0x10919B70
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_state_header_matches_current_network_session_settings_hook@@YA_NPAUs_game_state_header@@@Z");
 	// `anonymous-namespace'::game_state_header_matches_current_network_session_settings_hook
 	// s_game_state_header *header;
 	// bool (*const game_state_header_matches_current_network_session_settings)(s_game_state_header *);
 	// function call : bool (*const)(s_game_state_header *)
-	todo("implement");
-	bool __result = _sub_10919B70(header);
-	return __result;
+
+	bool (*const game_state_header_matches_current_network_session_settings)(s_game_state_header *header) = (bool (*const)(s_game_state_header *header))0x50FAA0;
+
+	if (!game_state_header_matches_current_network_session_settings(header))
+		return false;
+
+	return true;
 }
 
 bool hash_verification(void *data, unsigned long size, bool a3, void *input_hash, void *output_hash) // 0x1091B390

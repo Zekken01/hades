@@ -303,12 +303,22 @@ bool VariableCameraShowCoordinatesUpdate(std::vector<std::string> const &Argumen
 	return __result;
 }
 
-_extern bool _sub_1097AED0(std::vector<std::string> const &, std::string &);
 bool VariableOldViewOffsetScaleUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1097AED0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableOldViewOffsetScaleUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::VariableOldViewOffsetScaleUpdate
 	// std::string &returnInfo;
-	todo("implement");
-	bool __result = _sub_1097AED0(Arguments, returnInfo);
-	return __result;
+
+	if (!Modules::ModuleCamera::Instance().VarOldViewOffsetScale->ValueInt)
+	{
+		k_camera_field_of_view_default = 1.22173047f;
+		returnInfo = "view offset scaling enabled";
+	}
+	else
+	{
+		k_camera_field_of_view_default = 1.39626336f;
+		returnInfo = "view offset scaling disabled";
+	}
+
+	return true;
 }

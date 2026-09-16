@@ -50,7 +50,7 @@ namespace Http
 		public std::enable_shared_from_this<Http::IHttpRequest>
 	{
 	public:
-		virtual _inline ~IHttpRequest();
+		virtual _inline ~IHttpRequest() = default;
 		virtual bool IsComplete() const = 0;
 		virtual std::shared_ptr<Http::IHttpResponse> GetResponse() = 0;
 		virtual void SetMethod(std::string) = 0;
@@ -82,13 +82,6 @@ static_assert(sizeof(Http::IHttpRequest) == 12, "Invalid Http::IHttpRequest size
 namespace Http
 {
 	_extern void _sub_10807710(Http::IHttpRequest *const);
-	_inline IHttpRequest::~IHttpRequest() // 0x10807710
-	{
-		mangled_x86(MANGLED_TODO, "??1IHttpRequest@Http@@UAE@XZ");
-		// Http::IHttpRequest *const this;
-		todo("implement");
-		_sub_10807710(this);
-	}
 }
 
 /* ---------- private code */

@@ -96,18 +96,22 @@ __int32 game_engine_get_player_score(unsigned long player_index) // 0x10EFFD20
 	return ((__int32(__cdecl *)(unsigned long))0x550720)(player_index);
 }
 
-_extern long _sub_10EFFEA0(long);
 long game_engine_get_team_designator(long player_index) // 0x10EFFEA0
 {
-	mangled_x86(MANGLED_TODO, "?game_engine_get_team_designator@@YAJJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_get_team_designator@@YAJJ@Z");
 	// long player_index;
 	// long (*get_player_team_designator)(c_game_engine *, __int32);
 	// c_game_engine *game_engine;
 	// function call : c_game_engine *(*const)()
 	// function call : long (*)(c_game_engine *, __int32)
-	todo("implement");
-	long __result = _sub_10EFFEA0(player_index);
-	return __result;
+
+	void *game_engine = ((void *(__cdecl *)())0x5ce150)();
+	long (__thiscall *const get_team_designator)(void *, long) = *(long (__thiscall **)(void *, long))(*(unsigned char **)game_engine + 0xb4);
+
+	if (game_engine)
+		return get_team_designator(game_engine, player_index);
+	else
+		return -1;
 }
 
 _extern void _sub_10EFFD80(real_rgb_color *, long);
@@ -124,14 +128,17 @@ void game_engine_get_team_color(real_rgb_color *color, long team) // 0x10EFFD80
 	_sub_10EFFD80(color, team);
 }
 
-extern char const *_sub_10EFFF50(e_game_engine_type);
 char const *game_engine_type_get_string(e_game_engine_type type) // 0x10EFFF50
 {
-	mangled_x86(MANGLED_TODO, "?game_engine_type_get_string@@YAPBDW4e_game_engine_type@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_type_get_string@@YAPBDW4e_game_engine_type@@@Z");
 	// e_game_engine_type type;
-	todo("implement");
-	char const * __result = _sub_10EFFF50(type);
-	return __result;
+
+	if (type < 0 || type >= 11)
+	{
+		return "unknown";
+	}
+
+	return k_game_engine_type_names[type];
 }
 
 /* ---------- private code */

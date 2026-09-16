@@ -316,18 +316,38 @@ bool HandleScreen(c_gui_screen_widget *screenWidget, SMouseSupportContext &ctx) 
 	return __result;
 }
 
-_extern bool _sub_108D47A0(c_gui_screen_widget *, SMouseSupportContext &, c_gui_widget *);
 bool HandleListWidgets(c_gui_screen_widget *screenWidget, SMouseSupportContext &ctx, c_gui_widget *parentWidget) // 0x108D47A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleListWidgets@@YA_NPAVc_gui_screen_widget@@AAUSMouseSupportContext@hades_file_local@@PAVc_gui_widget@@@Z");
 	// `anonymous-namespace'::HandleListWidgets
 	// c_gui_widget *parentWidget;
 	// bool handled;
-	{
 		// c_gui_widget *widget;
+
+	bool handled = false;
+
+	if (!parentWidget)
+		parentWidget = screenWidget;
+
+	for (c_gui_list_widget *widget = (c_gui_list_widget *)parentWidget->get_first_child(); widget && !handled; widget = (c_gui_list_widget *)widget->get_next_sibling())
+	{
+		if (!widget->is_visible())
+			continue;
+
+		if (widget->get_type() == _gui_widget_list)
+		{
+			handled = HandleListWidget(screenWidget, widget, ctx);
+		}
+		else if (widget->get_type() == _gui_widget_listItem)
+		{
+		}
+		else
+		{
+			handled = HandleListWidgets(screenWidget, ctx, widget);
+		}
 	}
-	todo("implement");
-	bool __result = _sub_108D47A0(screenWidget, ctx, parentWidget);
-	return __result;
+
+	return handled;
 }
 
 _extern bool _sub_108D3FD0(c_gui_screen_widget *, c_gui_list_widget *, SMouseSupportContext &);

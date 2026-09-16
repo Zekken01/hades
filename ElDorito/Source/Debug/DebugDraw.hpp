@@ -347,30 +347,40 @@ _inline void CDebugDraw::DrawSphereOutline(DebugDrawKey key, real_point3d const 
 	CDebugDrawBackend::DrawSphereOutline(center, radius, color);
 }
 
-_extern void _sub_1081AFE0(CDebugDraw *const, DebugDrawKey, real_point2d const &, long, char const *, ...);
 _inline void __cdecl CDebugDraw::DrawString2d(DebugDrawKey key, real_point2d const &point, long color, char const *format, ...) // 0x1081AFE0
 {
-	mangled_x86(MANGLED_TODO, "?DrawString2d@CDebugDraw@@QAAXUDebugDrawKey@@ABUreal_point2d@@JPBDZZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawString2d@CDebugDraw@@QAAXUDebugDrawKey@@ABUreal_point2d@@JPBDZZ");
 	// real_point2d const &point;
 	// long color;
 	// char const *format;
 	// char *va;
 	// CDebugDrawBackend::AttributeScope attr;
-	todo("implement");
-	_sub_1081AFE0(this, key, point, color, format);
+
+	CDebugDrawBackend::AttributeScope attr;
+	SetAttributes(attr, key);
+
+	va_list args;
+	va_start(args, format);
+	CDebugDrawBackend::DrawString2d(point, color, m_fontId, m_textScale, format, args);
+	va_end(args);
 }
 
-_extern void _sub_1081B620(CDebugDraw *const, DebugDrawKey, real_point3d const &, long, char const *, ...);
 _inline void __cdecl CDebugDraw::DrawString3d(DebugDrawKey key, real_point3d const &point, long color, char const *format, ...) // 0x1081B620
 {
-	mangled_x86(MANGLED_TODO, "?DrawString3d@CDebugDraw@@QAAXUDebugDrawKey@@ABUreal_point3d@@JPBDZZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawString3d@CDebugDraw@@QAAXUDebugDrawKey@@ABUreal_point3d@@JPBDZZ");
 	// real_point3d const &point;
 	// long color;
 	// char const *format;
 	// char *va;
 	// CDebugDrawBackend::AttributeScope attr;
-	todo("implement");
-	_sub_1081B620(this, key, point, color, format);
+
+	CDebugDrawBackend::AttributeScope attr;
+	SetAttributes(attr, key);
+
+	va_list args;
+	va_start(args, format);
+	CDebugDrawBackend::DrawString3d(point, color, m_fontId, m_textScale, format);
+	va_end(args);
 }
 
 _inline void CDebugDraw::DrawPill(DebugDrawKey key, real_point3d const &base, real_vector3d const &height, float radius, long color) // 0x1081A760

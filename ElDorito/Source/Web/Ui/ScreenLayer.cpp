@@ -355,6 +355,9 @@ namespace Patches
 
 /* ---------- prototypes */
 
+namespace Patches { namespace Core { void OnShutdown(std::function<void()> callback); } }  // hades: added for 0X10C93FE0
+namespace Patches { namespace Input { void RegisterDefaultInputHandler(void (*func)()); } }  // hades: added for 0X10C93FE0
+
 namespace Web
 {
 	namespace Ui
@@ -437,13 +440,15 @@ namespace Web
 	{
 		namespace ScreenLayer
 		{
-			_extern void _sub_10C93FE0();
 			void Init() // 0x10C93FE0
 			{
-				mangled_x86(MANGLED_TODO, "?Init@ScreenLayer@Ui@Web@@YAXXZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?Init@ScreenLayer@Ui@Web@@YAXXZ");
 				// procedure flags: nofpo
-				todo("implement");
-				_sub_10C93FE0();
+
+				Patches::Ui::OnCreateWindow(WindowCreated);
+				Patches::Core::OnShutdown(ShutdownRenderer);
+				Patches::Input::RegisterDefaultInputHandler(OnGameInputUpdated);
+				Modules::CommandMap::Instance().OnVariableUpdate(OnVariableUpdate);
 			}
 
 			_extern void _sub_10C96F00();
@@ -872,13 +877,13 @@ void HandleMouseMessage(tagMSG *msg) // 0x10C939D0
 	_sub_10C939D0(msg);
 }
 
-_extern void _sub_10C93890(tagMSG *);
 void HandleKeyMessage(tagMSG *msg) // 0x10C93890
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleKeyMessage@@YAXPAUtagMSG@@@Z");
 	// `anonymous-namespace'::HandleKeyMessage
 	// tagMSG *msg;
-	todo("implement");
-	_sub_10C93890(msg);
+
+	Web::Browser::WebRenderer::GetInstance()->SendPlatformEvent(MakeCefPlatformEvent(msg));
 }
 
 void GetMsgHookImpl(__int32 code, unsigned __int32 wParam, long lParam) // 0x10C933A0

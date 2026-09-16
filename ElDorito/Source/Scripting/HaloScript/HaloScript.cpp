@@ -194,11 +194,15 @@ namespace Scripting
 	{
 		hs_value MarshalArgument(long threadIndex, e_hs_type type, hs_value const &value) // 0x106E8D50
 		{
-			mangled_x86(MANGLED_TODO, "?MarshalArgument@HS@Scripting@@YA?AUhs_value@@JW4e_hs_type@@ABU3@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?MarshalArgument@HS@Scripting@@YA?AUhs_value@@JW4e_hs_type@@ABU3@@Z");
 			// hs_value const &value;
-			todo("implement");
-			hs_value __result = _sub_106E8D50(threadIndex, type, value);
-			return __result;
+
+			switch (type)
+			{
+			case _hs_type_string:
+				return hs_value::from_string(MarshalString(threadIndex, *(char const **)&value));
+			}
+			return value;
 		}
 	}
 }

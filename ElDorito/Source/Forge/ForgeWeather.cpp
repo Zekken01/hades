@@ -58,17 +58,22 @@ namespace Forge
 		currentWeatherIndex = -1;
 	}
 
-	_extern void _sub_10680140();
 	void CForgeWeather::HandleMapModifierDeleted() // 0x10680140
 	{
-		mangled_x86(MANGLED_TODO, "?HandleMapModifierDeleted@CForgeWeather@Forge@@SAXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?HandleMapModifierDeleted@CForgeWeather@Forge@@SAXXZ");
 		// procedure flags: nofpo
-		{
 			// s_rasterizer_game_states *rasterizer_game_states;
-		}
 		// function call : void (*const)(unsigned long)
-		todo("implement");
-		_sub_10680140();
+
+		if (currentWeatherIndex != -1)
+		{
+			s_rasterizer_game_states *rasterizerGameStates = tls_getd().rasterizer_game_states;
+			if (rasterizerGameStates->weather_effects[0] != -1)
+			{
+				((void (__cdecl *)(long))0x5B6FC0)(rasterizerGameStates->weather_effects[0]);
+				rasterizerGameStates->weather_effects[0] = -1;
+			}
+		}
 	}
 
 	_extern void _sub_10680230(long, Forge::ForgeMapModifierProperties &);

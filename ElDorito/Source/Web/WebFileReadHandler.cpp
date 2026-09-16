@@ -170,14 +170,26 @@ namespace Web
 			return (unsigned __int32)chunkBytes;
 		}
 
-		_extern __int32 _sub_10CB7D80(Web::Browser::CWebFileReadHandler *const, long long, __int32);
 		__int32 CWebFileReadHandler::Seek(long long offset, __int32 whence) // 0x10CB7D80
 		{
-			mangled_x86(MANGLED_TODO, "?Seek@CWebFileReadHandler@Browser@Web@@UAEH_JH@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Seek@CWebFileReadHandler@Browser@Web@@UAEH_JH@Z");
 			// __int32 whence;
-			todo("implement");
-			__int32 __result = _sub_10CB7D80(this, offset, whence);
-			return __result;
+
+			if (whence == 1)
+			{
+				m_position = m_position + offset;
+			}
+			else if (whence == 2)
+			{
+				m_position = m_baseOffset + m_length;
+			}
+			else
+			{
+				m_position = m_baseOffset + offset;
+			}
+
+			m_stream.seekg(m_position, std::ios::beg);
+			return (__int32)m_position;
 		}
 
 		long long CWebFileReadHandler::Tell() // 0x10CB7EB0

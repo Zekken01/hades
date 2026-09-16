@@ -52,7 +52,7 @@ namespace Web
 			RenderHandlerCpu(Web::Browser::RenderHandlerCpu &);
 			RenderHandlerCpu(IDirect3DDevice9 *device9, HWND__ *window);
 			Web::Browser::RenderHandlerCpu &operator=(Web::Browser::RenderHandlerCpu const &);
-			virtual _inline ~RenderHandlerCpu();
+			virtual _inline ~RenderHandlerCpu() = default;
 			virtual bool InitRenderer();
 			virtual bool Resize(unsigned __int32 width, unsigned __int32 height);
 			virtual void OnPreResetDevice();
@@ -100,14 +100,6 @@ namespace Web
 	namespace Browser
 	{
 		_extern void _sub_10CE8280(Web::Browser::RenderHandlerCpu * const);
-		_inline RenderHandlerCpu::~RenderHandlerCpu() // 0x10CE8280
-		{
-			mangled_x86(MANGLED_TODO, "??1RenderHandlerCpu@Browser@Web@@UAE@XZ");
-			// __shifted(Web::Browser::RenderHandlerCpu, 168);
-			// Web::Browser::RenderHandlerCpu *const this;
-			todo("implement");
-			_sub_10CE8280(this);
-		}
 
 		_inline void RenderHandlerCpu::Shutdown() // 0x10CEA280
 		{

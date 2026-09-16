@@ -118,17 +118,22 @@ namespace Player
 
 namespace Player
 {
-	_extern bool _sub_107DB6E0(wchar_t (&)[5]);
 	bool ValidServiceTag(wchar_t (&tag)[5]) // 0x107DB6E0
 	{
-		mangled_x86(MANGLED_TODO, "?ValidServiceTag@Player@@YA_NAAY04_W@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?ValidServiceTag@Player@@YA_NAAY04_W@Z");
 		// wchar_t (&tag)[5];
-		{
 			// __int32 i;
+
+		for (long i = 0; i < 4; i++)
+		{
+			if (tag[i] == 0 && i < 3)
+				return false;
+
+			if (tag[i] != 0 && (tag[i] < '0' || tag[i] > 'Z'))
+				return false;
 		}
-		todo("implement");
-		bool __result = _sub_107DB6E0(tag);
-		return __result;
+
+		return true;
 	}
 
 	_extern unsigned __int32 _sub_107DB3F0(std::string const &);

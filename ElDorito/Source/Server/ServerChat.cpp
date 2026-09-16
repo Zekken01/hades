@@ -672,16 +672,20 @@ bool GetMessagePeers(Blam::Network::Session *session, __int32 senderPeer, Server
 	return true;
 }
 
-extern std::string _sub_10C1EAA0(Blam::Network::Session *, Server::Chat::ChatMessage const &);
 std::string GetSenderName(Blam::Network::Session *session, Server::Chat::ChatMessage const &message) // 0x10C1EAA0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetSenderName@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAUSession@Network@Blam@@ABUChatMessage@Chat@Server@@@Z");
 	// `anonymous-namespace'::GetSenderName
 	// Server::Chat::ChatMessage const &message;
 	// Blam::Network::PlayerSession &player;
 	// Blam::Network::SessionMembership &membership;
-	todo("implement");
-	std::string __result = _sub_10C1EAA0(session, message);
-	return __result;
+
+	if (message.Type == (Server::Chat::ChatMessageType)3 || message.SenderPlayer >= 16)
+		return "SERVER";
+
+	Blam::Network::SessionMembership *membership = &session->MembershipInfo;
+	Blam::Network::PlayerSession *player = &membership->PlayerSessions[message.SenderPlayer];
+	return Utils::String::ThinString((wchar_t const *)((unsigned char *)player + 0x58));
 }
 
 __int32 CalculateSpamScore(unsigned __int32 ip, ClientSpamStats *stats, Server::Chat::ChatMessage const &message) // 0x10C1D740

@@ -41,7 +41,7 @@ namespace Server
 		class AbstractVotingSystem
 		{
 		public:
-			virtual _inline ~AbstractVotingSystem();
+			virtual _inline ~AbstractVotingSystem() = default;
 			virtual void Init() = 0;
 			virtual void NewVote() = 0;
 			virtual void EndVote() = 0;
@@ -97,13 +97,6 @@ namespace Server
 	namespace Voting
 	{
 		_extern void _sub_1073B720(Server::Voting::AbstractVotingSystem *const);
-		_inline AbstractVotingSystem::~AbstractVotingSystem() // 0x1073B720
-		{
-			mangled_x86(MANGLED_TODO, "??1AbstractVotingSystem@Voting@Server@@UAE@XZ");
-			// Server::Voting::AbstractVotingSystem *const this;
-			todo("implement");
-			_sub_1073B720(this);
-		}
 	}
 }
 

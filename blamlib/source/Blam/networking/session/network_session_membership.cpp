@@ -101,17 +101,19 @@ long c_network_session_membership::get_channel_index(long peer_index) const // 0
 	return __result;
 }
 
-_extern long _sub_10F00840(c_network_session_membership *const);
 long c_network_session_membership::get_first_peer() // 0x10F00840
 {
-	mangled_x86(MANGLED_TODO, "?get_first_peer@c_network_session_membership@@QAEJXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_first_peer@c_network_session_membership@@QAEJXZ");
 	// c_network_session_membership *const this;
-	{
 		// long index;
+
+	for (long index = 0; index < 17; index++)
+	{
+		if (is_peer_valid(index))
+			return index;
 	}
-	todo("implement");
-	long __result = _sub_10F00840(this);
-	return __result;
+
+	return -1;
 }
 
 _extern long _sub_10F00980(c_network_session_membership *const, long);

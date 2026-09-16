@@ -436,18 +436,31 @@ void ObjectDeleteAttachedEffects(unsigned __int32 objectIndex) // 0x10AB10D0
 	_sub_10AB10D0(objectIndex);
 }
 
-_extern void _sub_10AB1210(unsigned __int32);
 void ObjectDeleteEffectAttachmentsRecursive(unsigned __int32 unitObjectIndex) // 0x10AB1210
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ObjectDeleteEffectAttachmentsRecursive@@YAXI@Z");
 	// `anonymous-namespace'::ObjectDeleteEffectAttachmentsRecursive
 	// unsigned __int32 unitObjectIndex;
 	// s_object_data *unitObject;
 	// long objectIndex;
-	{
 		// s_object_data *childObject;
-	}
-	todo("implement");
-	_sub_10AB1210(unitObjectIndex);
+
+	s_object_data *object = object_get(unitObjectIndex);
+	if (!object)
+		return;
+
+	long childObjectIndex = object->first_child_object_index;
+	do
+	{
+		ObjectDeleteEffectAttachmentsRecursive(childObjectIndex);
+
+		s_object_data *childObject = object_get(childObjectIndex);
+		if (!childObject)
+			continue;
+
+		ObjectDeleteAttachedEffects(childObjectIndex);
+		childObjectIndex = childObject->next_object_index;
+	} while (childObjectIndex != -1);
 }
 
 _extern void _sub_10AB21A0(unsigned __int32);

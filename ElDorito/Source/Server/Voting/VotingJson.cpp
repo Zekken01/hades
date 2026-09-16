@@ -351,17 +351,20 @@ namespace Server
 {
 	namespace Voting
 	{
-		_extern unsigned __int32 _sub_10746060(std::vector<Server::Voting::HaloType> const &, std::string const &);
 		unsigned __int32 FindTypeByName(std::vector<Server::Voting::HaloType> const &types, std::string const &name) // 0x10746060
 		{
+			mangled_x86(MANGLED_KNOWN_GOOD, "?FindTypeByName@Voting@Server@@YAIABV?$vector@UHaloType@Voting@Server@@V?$allocator@UHaloType@Voting@Server@@@std@@@std@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@4@@Z");
 			// Server::Voting::FindTypeByName
 			// std::string const &name;
-			{
 				// unsigned __int32 i;
+
+			for (unsigned __int32 i = 0; i < types.size(); i++)
+			{
+				if (types[i].typeName == name)
+					return i;
 			}
-			todo("implement");
-			unsigned __int32 __result = _sub_10746060(types, name);
-			return __result;
+
+			return -1;
 		}
 	}
 }

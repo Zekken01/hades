@@ -225,15 +225,23 @@ namespace Patches
 			// procedure flags: nofpo
 		}
 
-		_extern void _sub_10A8AEC0();
 		void ExpandMainGlobalMemoryMap() // 0x10A8AEC0
 		{
-			mangled_x86(MANGLED_TODO, "?ExpandMainGlobalMemoryMap@Memory@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ExpandMainGlobalMemoryMap@Memory@Patches@@YAXXZ");
 			// procedure flags: nofpo
 			// unsigned __int32 dataSizeIncrease;
 			// Modules::ModuleGame &moduleGame;
-			todo("implement");
-			_sub_10A8AEC0();
+
+			auto &gameModule = Modules::ModuleGame::Instance();
+
+			__int32 size = ExpandGameStateGlobals() + ExpandRuntimeStateGlobals();
+			newDataSize = (size + 0x4D00000 + 0xFFF) & 0xFFFFF000;
+
+			physicalMemorySize = 0x45000000;
+			if (physicalMemorySize < newDataSize)
+				physicalMemorySize = newDataSize;
+
+			newCacheSize = physicalMemorySize - newDataSize;
 		}
 
 		void OnMapLoadCallback(char const *mapName) // 0x10A8B140
@@ -265,19 +273,29 @@ namespace Patches
 
 /* ---------- private code */
 
-_extern void _sub_10A8B7F0(long, char const *, char const *, unsigned long);
 _inline void c_debug_game_state_allocation::record_allocation(long allocation_type, char const *name, char const *type, unsigned long size) // 0x10A8B7F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?record_allocation@c_debug_game_state_allocation@hades_file_local@@SAXJPBD0K@Z");
 	// `anonymous-namespace'::c_debug_game_state_allocation::record_allocation
 	// unsigned long size;
-	{
 		// long i;
-		{
 			// unsigned long size;
-		}
+
+	if (!m_enabled || !m_fp)
+		return;
+
+	fprintf(m_fp, "% 44s,% 24s", name, type);
+
+	for (long i = 0; i < 5; i++)
+	{
+		long value = 0;
+		if (allocation_type == i)
+			value = value;
+
+		fprintf(m_fp, ",% 40d", value);
 	}
-	todo("implement");
-	_sub_10A8B7F0(allocation_type, name, type, size);
+
+	fprintf(m_fp, "\n");
 }
 
 _inline void c_debug_game_state_allocation::begin(unsigned long memory_total) // 0x10A8B180

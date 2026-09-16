@@ -282,14 +282,21 @@ namespace Forge
 		}
 	}
 
-	_extern void _sub_108387E0();
 	void CForgeVisionRenderer::OnActivate() // 0x108387E0
 	{
-		mangled_x86(MANGLED_TODO, "?OnActivate@CForgeVisionRenderer@Forge@@CAXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?OnActivate@CForgeVisionRenderer@Forge@@CAXXZ");
 		// procedure flags: nofpo
 		// std::string const &color;
-		todo("implement");
-		_sub_108387E0();
+
+		std::string &selectionColorString = *(std::string *)((unsigned char *)Modules::ModuleForge::Instance().VarSelectionColor + 0x8C);
+		if (selectionColorString == "rainbow")
+		{
+			selectionColor = -1;
+		}
+		else
+		{
+			selectionColor = std::stoi(selectionColorString.substr(1), 0, 16);
+		}
 	}
 }
 

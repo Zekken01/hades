@@ -725,26 +725,29 @@ namespace Web
 			return m_RenderHandler;
 		}
 
-		_extern void _sub_10CC08F0(Web::Browser::WebRenderer *const);
 		void WebRenderer::InitPakFileSystem() // 0x10CC08F0
 		{
-			mangled_x86(MANGLED_TODO, "?InitPakFileSystem@WebRenderer@Browser@Web@@AAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?InitPakFileSystem@WebRenderer@Browser@Web@@AAEXXZ");
 			// Web::Browser::WebRenderer *const this;
-			todo("implement");
-			_sub_10CC08F0(this);
+
+			RegisterScheme("pak", "mods");
 		}
 
-		_extern void _sub_10CC1850(Web::Browser::WebRenderer *const);
 		void WebRenderer::PurgeDOMTasks() // 0x10CC1850
 		{
-			mangled_x86(MANGLED_TODO, "?PurgeDOMTasks@WebRenderer@Browser@Web@@AAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?PurgeDOMTasks@WebRenderer@Browser@Web@@AAEXXZ");
 			// static ...; // 0x10CC18E0
 			// static ...; // 0x10CC18D4
 			// static ...; // 0x10CC18CC
 			// Web::Browser::WebRenderer *const this;
 			// std::scoped_lock<std::mutex> lock;
-			todo("implement");
-			_sub_10CC1850(this);
+
+			std::scoped_lock<std::mutex> lock(m_mutex);
+
+			while (!m_DomTasks.empty())
+			{
+				m_DomTasks.pop();
+			}
 		}
 
 		_extern void _sub_10CBD670(Web::Browser::WebRenderer *const, std::function<void __cdecl(void)> &);

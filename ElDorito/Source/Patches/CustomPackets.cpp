@@ -172,15 +172,22 @@ namespace Patches
 			_sub_10A4FBF0();
 		}
 
-		_extern void _sub_10A50660(__int32, void const *, __int32);
 		void SendPacket(__int32 targetPeer, void const *packet, __int32 packetSize) // 0x10A50660
 		{
-			mangled_x86(MANGLED_TODO, "?SendPacket@CustomPackets@Patches@@YAXHPBXH@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?SendPacket@CustomPackets@Patches@@YAXHPBXH@Z");
 			// __int32 packetSize;
 			// __int32 channelIndex;
 			// Blam::Network::Session *session;
-			todo("implement");
-			_sub_10A50660(targetPeer, packet, packetSize);
+
+			auto session = Blam::Network::GetActiveSession();
+			if (!session)
+				return;
+
+			auto channelIndex = session->MembershipInfo.PeerChannels[targetPeer].ChannelIndex;
+			if (channelIndex == -1)
+				return;
+
+			session->Observer->ObserverChannelSendMessage(0, channelIndex, false, 0x27, packetSize, packet);
 		}
 
 		_extern unsigned __int32 _sub_10A50480(std::string const &, std::shared_ptr<Patches::CustomPackets::RawPacketHandler>);

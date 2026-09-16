@@ -81,14 +81,16 @@ using namespace ::Http;
 
 namespace Http
 {
-	extern CWinHttpManager* _sub_10803520(Http::CWinHttpManager *const);
-	CWinHttpManager::CWinHttpManager() // 0x10803520
+	CWinHttpManager::CWinHttpManager() : m_sessHandle(CreateSession()) /* hades-mem-init:  */ // 0x10803520
 	{
-		mangled_x86(MANGLED_TODO, "??0CWinHttpManager@Http@@AAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0CWinHttpManager@Http@@AAE@XZ");
 		// Http::CWinHttpManager *const this;
 		// function call : unsigned long ()
-		todo("implement");
-		_sub_10803520(this);
+
+		if (!m_sessHandle)
+		{
+			throw std::system_error(GetLastError(), std::system_category());
+		}
 	}
 }
 

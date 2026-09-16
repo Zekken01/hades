@@ -50,14 +50,12 @@ void c_network_session_parameter_base::set_update_required() // 0x10F1F160
 	notify_set_update_required();
 }
 
-_extern bool _sub_10F1F040(c_network_session_parameter_base const *const);
 bool c_network_session_parameter_base::get_allowed() const // 0x10F1F040
 {
-	mangled_x86(MANGLED_TODO, "?get_allowed@c_network_session_parameter_base@@QBE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_allowed@c_network_session_parameter_base@@QBE_NXZ");
 	// c_network_session_parameter_base const *const this;
-	todo("implement");
-	bool __result = _sub_10F1F040((c_network_session_parameter_base const *)this);
-	return __result;
+
+	return (bool)(*(c_flags<e_network_session_parameter_base_flags, unsigned char> const *)((unsigned char const *)this + 0x2c) & 1);
 }
 
 bool c_network_session_parameter_base::set_allowed() const // 0x10F1F0C0

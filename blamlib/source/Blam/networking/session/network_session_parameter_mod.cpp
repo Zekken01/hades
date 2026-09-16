@@ -32,24 +32,28 @@ bool c_network_session_parameter_mod::request_change(s_session_mod_options const
 	return set_allowed() && set(options);
 }
 
-extern s_session_mod_options const *_sub_10F1D4A0(c_network_session_parameter_mod const *const);
 s_session_mod_options const *c_network_session_parameter_mod::get() const // 0x10F1D4A0
 {
-	mangled_x86(MANGLED_TODO, "?get@c_network_session_parameter_mod@@QBEPBUs_session_mod_options@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get@c_network_session_parameter_mod@@QBEPBUs_session_mod_options@@XZ");
 	// c_network_session_parameter_mod const *const this;
-	todo("implement");
-	s_session_mod_options const * __result = _sub_10F1D4A0((c_network_session_parameter_mod const *)this);
-	return __result;
+
+	if (!get_allowed())
+		return nullptr;
+	else
+		return &m_data;
 }
 
-_extern bool _sub_10F1D5B0(c_network_session_parameter_mod *const, s_session_mod_options const *);
 bool c_network_session_parameter_mod::set(s_session_mod_options const *options) // 0x10F1D5B0
 {
-	mangled_x86(MANGLED_TODO, "?set@c_network_session_parameter_mod@@QAE_NPBUs_session_mod_options@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set@c_network_session_parameter_mod@@QAE_NPBUs_session_mod_options@@@Z");
 	// s_session_mod_options const *options;
-	todo("implement");
-	bool __result = _sub_10F1D5B0(this, options);
-	return __result;
+
+	if (!set_allowed())
+		return false;
+
+	csmemcpy((unsigned char *)this + 0x30, options, sizeof(s_session_mod_options));
+	set_update_required();
+	return true;
 }
 
 /* ---------- private code */

@@ -202,13 +202,12 @@ namespace Web
 				_sub_10CB52B0();
 			}
 
-			_extern void _sub_10CB57D0();
 			void Show() // 0x10CB57D0
 			{
-				mangled_x86(MANGLED_TODO, "?Show@WebSettings@Ui@Web@@YAXXZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?Show@WebSettings@Ui@Web@@YAXXZ");
 				// procedure flags: nofpo
-				todo("implement");
-				_sub_10CB57D0();
+
+				ScreenLayer::Show(ScreenLayer::ScreenId::Settings, "{}");
 			}
 		}
 	}

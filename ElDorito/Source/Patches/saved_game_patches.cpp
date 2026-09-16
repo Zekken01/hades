@@ -294,9 +294,9 @@ long save_map_variant_hook(long controller_index, long content_item_index, long 
 	return __result;
 }
 
-extern char const *_sub_10AC8B50(e_map_variant_load_error);
 char const *map_variant_load_error_string(e_map_variant_load_error error) // 0x10AC8B50
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?map_variant_load_error_string@@YAPBDW4e_map_variant_load_error@@@Z");
 	// `anonymous-namespace'::map_variant_load_error_string
 	// static ...; // 0x10AC8BB4
 // $LN7:
@@ -304,9 +304,20 @@ char const *map_variant_load_error_string(e_map_variant_load_error error) // 0x1
 // $LN5:
 // $LN4:
 	// e_map_variant_load_error error;
-	todo("implement");
-	char const * __result = _sub_10AC8B50(error);
-	return __result;
+
+	switch (error)
+	{
+	case _map_variant_load_error_fixup_failed:
+		return "Missing tags. Check that any required mods are installed and selected. See dorito.log for details.";
+	case _map_variant_load_base_map_not_found:
+		return "The scenario required by this variant could not be found.";
+	case _map_variant_load_io_error:
+		return "The map required could not be read from disk.";
+	case _map_variant_load_invalid_format:
+		return "Invalid or incompatible format.";
+	}
+
+	return "Unknown Error";
 }
 
 _extern bool _sub_10AC8BF0(s_file_reference, short *, s_mod_package_reference *);
@@ -393,13 +404,13 @@ void __fastcall s_blf_chunk_end_of_file__ctor_hook(s_blf_chunk_end_of_file *chun
 	*chunk = s_blf_chunk_end_of_file();
 }
 
-_extern void _sub_10AC9040(s_blf_chunk_content_header *);
 void __fastcall s_blf_chunk_content_header__initialize_hook(s_blf_chunk_content_header *chunk) // 0x10AC9040
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?s_blf_chunk_content_header__initialize_hook@@YIXPAUs_blf_chunk_content_header@@@Z");
 	// `anonymous-namespace'::s_blf_chunk_content_header__initialize_hook
 	// s_blf_chunk_content_header *chunk;
-	todo("implement");
-	_sub_10AC9040(chunk);
+
+	*chunk = s_blf_chunk_content_header();
 }
 
 _extern bool _sub_10AC8AF0(s_map_variant *);

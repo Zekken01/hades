@@ -110,6 +110,10 @@ namespace Blam
 
 /* ---------- prototypes */
 
+long unit_get_global_player_representation_block_index(long unit_index);  // hades: added for 0X10ABC220
+
+bool unit_try_get_global_player_character_type(long unit_index, s_game_globals_player_character_type **out_player_character);  // hades: added for 0X10ABBF00
+
 long unit_get_global_player_control_block_index(long unit_index);  // hades: added for 0X10ABEBE0
 long unit_get_global_player_information_block_index(long unit_index);  // hades: added for 0X10ABEBE0
 
@@ -204,9 +208,9 @@ bool player_find_best_spawn_location_hook(long player_index, real_point3d *posit
 	return __result;
 }
 
-_extern long _sub_10ABBF00(long);
 long chud_character_globals_index_from_output_user_hook(long output_user_index) // 0x10ABBF00
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?chud_character_globals_index_from_output_user_hook@@YAJJ@Z");
 	// `anonymous-namespace'::chud_character_globals_index_from_output_user_hook
 	// static ...; // 0x10ABBF98
 	// static ...; // 0x10ABBF8C
@@ -215,9 +219,12 @@ long chud_character_globals_index_from_output_user_hook(long output_user_index) 
 	// long unit_index;
 	// s_game_globals_player_character_type *player_character;
 	// function call : unsigned long (*const)(long)
-	todo("implement");
-	long __result = _sub_10ABBF00(output_user_index);
-	return __result;
+
+	long unit_index = ((long (*)(long))0x589CC0)(output_user_index);
+	s_game_globals_player_character_type *player_character;
+	if (unit_try_get_global_player_character_type(unit_index, &player_character))
+		return player_character->chud_character_globals_block_index;
+	return 0;
 }
 
 _extern void _sub_10ABE860(long, long *, unsigned long *);
@@ -324,17 +331,21 @@ bool player_submit_actions_53D580_hook(long unit_index) // 0x10ABEBE0
 	return player_submit_actions_53D580(unit_index);
 }
 
-_extern long _sub_10ABC220(long);
 long game_globals_player_representation_index_from_player_index_hook(long player_index) // 0x10ABC220
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_globals_player_representation_index_from_player_index_hook@@YAJJ@Z");
 	// `anonymous-namespace'::game_globals_player_representation_index_from_player_index_hook
 	// long player_index;
 	// s_player_datum *player;
 	// long unit;
 	// function call : unsigned long (*const)(long)
-	todo("implement");
-	long __result = _sub_10ABC220(player_index);
-	return __result;
+
+	s_player_datum *player = player_get(player_index);
+	void *player_representation = ((void *(__cdecl *)(long))0x589cc0)(0);
+
+	if (*(long *)((unsigned char *)player + 0x30) != -1)
+		return unit_get_global_player_representation_block_index(*(long *)((unsigned char *)player + 0x30));
+	return 0;
 }
 
 s_game_globals_player_representation *game_globals_player_representation_from_player_index_hook(long player_index) // 0x10ABC1A0

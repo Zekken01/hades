@@ -144,9 +144,9 @@ bool reforge_get_object_global_material_override(long object_index, s_forge_mate
 	return __result;
 }
 
-_extern long _sub_10918C90(void *, void *, short, char, char, __int32, __int32, long, bool, long, long, float, float, c_global_material_type, c_global_material_type);
 long __fastcall sub_5E0EA0_hook(void *thisptr, void *unused, short a2, char a3, char a4, __int32 a5, __int32 a6, long object_index, bool a8, long a9, long a10, float a11, float a12, c_global_material_type global_material_type_a, c_global_material_type global_material_type_b) // 0x10918C90
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?sub_5E0EA0_hook@@YIJPAX0FDDHHJ_NJJMMUc_global_material_type@hades_file_local@@2@Z");
 	// `anonymous-namespace'::sub_5E0EA0_hook
 	// float a11;
 	// float a12;
@@ -155,9 +155,14 @@ long __fastcall sub_5E0EA0_hook(void *thisptr, void *unused, short a2, char a3, 
 	// s_forge_material_type *material_override;
 	// constexpr long (*const `sub_5E0EA0_hook'::`2'::sub_5E0EA0)(void *, short, char, char, __int32, __int32, long, bool, long, long, float, float, c_global_material_type, c_global_material_type); // constant == 6164128
 	// function call : long (*const)(void *, short, char, char, __int32, __int32, long, bool, long, long, float, float, c_global_material_type, c_global_material_type)
-	todo("implement");
-	long __result = _sub_10918C90(thisptr, unused, a2, a3, a4, a5, a6, object_index, a8, a9, a10, a11, a12, global_material_type_a, global_material_type_b);
-	return __result;
+
+	s_forge_material_type *material_type;
+	if (reforge_get_object_global_material_override(object_index, &material_type))
+	{
+		global_material_type_b.material_index = material_type->physics_global_material_type;
+	}
+
+	return ((long (__thiscall *)(void *, short, char, char, __int32, __int32, long, bool, long, long, float, float, c_global_material_type, c_global_material_type))0x5E0EA0)(thisptr, a2, a3, a4, a5, a6, object_index, a8, a9, a10, a11, a12, global_material_type_a, global_material_type_b);
 }
 
 c_global_material_type *collision_get_global_material_index(c_global_material_type *global_material_type, long object_index, long material_index) // 0x10918610

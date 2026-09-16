@@ -97,13 +97,12 @@ _inline c_file_reference::c_file_reference() // 0x106CD8A0
 	initialize_header(_file_reference_location_none);
 }
 
-extern c_file_reference* _sub_108715F0(c_file_reference *const, char const *);
-_inline c_file_reference::c_file_reference(char const *path) // 0x108715F0
+_inline c_file_reference::c_file_reference(char const *path) : c_file_reference() /* hades-mem-init:  */ // 0x108715F0
 {
-	mangled_x86(MANGLED_TODO, "??0c_file_reference@@QAE@PBD@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_file_reference@@QAE@PBD@Z");
 	// char const *path;
-	todo("implement");
-	_sub_108715F0(this, path);
+
+	set_name(path);
 }
 
 _inline c_file_reference::~c_file_reference() // 0x106CDDC0

@@ -89,13 +89,10 @@ static_assert(sizeof(c_cache_file_tag_cache) == 384, "Invalid c_cache_file_tag_c
 
 /* ---------- public code */
 
-extern c_cache_file_tag_cache::c_instance_iterator* _sub_108716A0(c_cache_file_tag_cache::c_instance_iterator *const, c_cache_file_tag_cache const *, unsigned long);
-_inline c_cache_file_tag_cache::c_instance_iterator::c_instance_iterator(c_cache_file_tag_cache const *in_cache, unsigned long in_group_filter) // 0x108716A0
+_inline c_cache_file_tag_cache::c_instance_iterator::c_instance_iterator(c_cache_file_tag_cache const *in_cache, unsigned long in_group_filter) : cache(in_cache), tag_index(-1), absolute_index(-1), group_tag_filter(in_group_filter), instance(nullptr), group(s_tag_group::invalid()) /* hades-mem-init:  */ // 0x108716A0
 {
-	mangled_x86(MANGLED_TODO, "??0c_instance_iterator@c_cache_file_tag_cache@@QAE@PBV1@K@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_instance_iterator@c_cache_file_tag_cache@@QAE@PBV1@K@Z");
 	// unsigned long in_group_filter;
-	todo("implement");
-	_sub_108716A0(this, in_cache, in_group_filter);
 }
 
 _inline c_cache_file_tag_cache::~c_cache_file_tag_cache() // 0x10877EB0
@@ -130,15 +127,20 @@ _inline long c_cache_file_tag_cache::get_tag_count() const // 0x10891AA0
 	return m_tag_offsets.size();
 }
 
-extern s_cache_tag_instance const *_sub_10874160(c_cache_file_tag_cache const *const, long);
 _inline s_cache_tag_instance const *c_cache_file_tag_cache::get_instance(long index) const // 0x10874160
 {
-	mangled_x86(MANGLED_TODO, "?get_instance@c_cache_file_tag_cache@@QBEPBUs_cache_tag_instance@@J@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_instance@c_cache_file_tag_cache@@QBEPBUs_cache_tag_instance@@J@Z");
 	// long index;
 	// long const absolute_index;
-	todo("implement");
-	s_cache_tag_instance const * __result = _sub_10874160((c_cache_file_tag_cache const *)this, index);
-	return __result;
+
+	if (index < 0 || index >= (long)m_index_to_absolute_index.size())
+		return nullptr;
+
+	long absolute_index = const_cast<std::vector<long> &>(m_index_to_absolute_index)[index];
+	if (absolute_index == -1)
+		return nullptr;
+
+	return &const_cast<std::vector<s_cache_tag_instance> &>(m_tags)[absolute_index];
 }
 
 _inline char const *c_cache_file_tag_cache::get_tag_name(long index) const // 0x10891B00

@@ -34,7 +34,7 @@ namespace Http
 		public Http::CHttpManager
 	{
 	public:
-		_inline ~CWinHttpManager();
+		_inline ~CWinHttpManager() = default;
 		static _inline Http::CWinHttpManager &Instance();
 		std::unique_ptr<void *,Http::WinHttpHandlerDeleter> CreateSession();
 		_inline void *GetSessionHandle();
@@ -55,13 +55,6 @@ namespace Http
 namespace Http
 {
 	_extern void _sub_107F7160(Http::CWinHttpManager *const);
-	_inline CWinHttpManager::~CWinHttpManager() // 0x107F7160
-	{
-		mangled_x86(MANGLED_TODO, "??1CWinHttpManager@Http@@QAE@XZ");
-		// Http::CWinHttpManager *const this;
-		todo("implement");
-		_sub_107F7160(this);
-	}
 
 	extern CWinHttpManager &_sub_107F7370();
 	_inline Http::CWinHttpManager &CWinHttpManager::Instance() // 0x107F7370

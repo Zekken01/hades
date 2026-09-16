@@ -200,14 +200,23 @@ long camapgin_difficulty_level_from_string(std::string const &str) // 0x108C6800
 	return -1;
 }
 
-extern std::string _sub_108C6AF0(long);
 std::string camapgin_metagame_scoring_option_to_string(long level) // 0x108C6AF0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?camapgin_metagame_scoring_option_to_string@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@J@Z");
 	// `anonymous-namespace'::camapgin_metagame_scoring_option_to_string
 	// long level;
-	todo("implement");
-	std::string __result = _sub_108C6AF0(level);
-	return __result;
+
+	switch (level)
+	{
+	case 0:
+		return "off";
+	case 1:
+		return "team";
+	case 2:
+		return "ffa";
+	}
+
+	return "unknown";
 }
 
 long camapgin_metagame_scoring_option_from_string(std::string const &str) // 0x108C6A40
@@ -315,9 +324,9 @@ std::string GetActiveSkullsForDisplay(unsigned long primarySkulls, unsigned long
 	return __result;
 }
 
-extern std::string _sub_108C6390();
 std::string GetActiveSkullsForDisplay() // 0x108C6390
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetActiveSkullsForDisplay@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 	// `anonymous-namespace'::GetActiveSkullsForDisplay
 	// procedure flags: nofpo
 	// static ...; // 0x108C646C
@@ -328,9 +337,13 @@ std::string GetActiveSkullsForDisplay() // 0x108C6390
 	// unsigned long primarySkulls;
 	// function call : unsigned long *(*const)(unsigned long *)
 	// function call : unsigned long *(*const)(unsigned long *)
-	todo("implement");
-	std::string __result = _sub_108C6390();
-	return __result;
+
+	unsigned long primarySkulls = 0;
+	unsigned long secondarySkulls = 0;
+	((void (__cdecl *)(unsigned long *))0x434F40)(&primarySkulls);
+	((void (__cdecl *)(unsigned long *))0x434FB0)(&secondarySkulls);
+
+	return GetActiveSkullsForDisplay(primarySkulls, secondarySkulls);
 }
 
 _extern bool _sub_108C56D0(std::vector<std::string> const &, std::string &);

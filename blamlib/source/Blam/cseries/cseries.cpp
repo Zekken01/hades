@@ -85,18 +85,26 @@ unsigned long system_milliseconds() // 0x10EF7540
 	return ((unsigned long(__cdecl *const)())0x4ec110)();
 }
 
-_extern char *_sub_10EF70C0(char *, unsigned long);
 char *csstrnlwr(char *string, unsigned long size) // 0x10EF70C0
 {
-	mangled_x86(MANGLED_TODO, "?csstrnlwr@@YAPADPADK@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?csstrnlwr@@YAPADPADK@Z");
 	// unsigned long size;
 	// unsigned long remaining;
-	{
 		// char *i;
+
+	unsigned long count = size;
+	char *s = string;
+
+	for (; count != 0; count--)
+	{
+		if (!*s)
+			break;
+
+		*s = tolower(*s);
+		s++;
 	}
-	todo("implement");
-	char * __result = _sub_10EF70C0(string, size);
-	return __result;
+
+	return string;
 }
 
 char *csstrnzcpy(char *to, char const *from, unsigned long size) // 0x10EF7170
@@ -120,30 +128,48 @@ char *csstrnzcpy(char *to, char const *from, unsigned long size) // 0x10EF7170
 	return to;
 }
 
-_extern wchar_t *_sub_10EF7230(char const *, wchar_t *, __int32 const);
 wchar_t *csstrtowcs(char const *in, wchar_t *out, __int32 const length) // 0x10EF7230
 {
-	mangled_x86(MANGLED_TODO, "?csstrtowcs@@YAPA_WPBDPA_WH@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?csstrtowcs@@YAPA_WPBDPA_WH@Z");
 	// __int32 const length;
-	{
 		// __int32 i;
+
+	for (long i = 0; i < length; i++)
+	{
+		if (i == length - 1)
+			out[i] = 0;
+		else if (in[i] > 0x7F)
+			out[i] = 0x25A1;
+		else if (!(out[i] = in[i]))
+			break;
 	}
-	todo("implement");
-	wchar_t * __result = _sub_10EF7230(in, out, length);
-	return __result;
+
+	return out;
 }
 
-_extern char *_sub_10EF7320(wchar_t const *, char *, __int32 const);
 char *cswcstostr(wchar_t const *in, char *out, __int32 const length) // 0x10EF7320
 {
-	mangled_x86(MANGLED_TODO, "?cswcstostr@@YAPADPB_WPADH@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?cswcstostr@@YAPADPB_WPADH@Z");
 	// __int32 const length;
-	{
 		// __int32 i;
+
+	for (long i = 0; i < length; i++)
+	{
+		if (i == length - 1)
+		{
+			*(out + i) = 0;
+		}
+		else if (in[i] > 0x7F)
+		{
+			*(out + i) = '?';
+		}
+		else if (!(*(out + i) = (char)(in[i] & 0xFF)))
+		{
+			break;
+		}
 	}
-	todo("implement");
-	char * __result = _sub_10EF7320(in, out, length);
-	return __result;
+
+	return out;
 }
 
 void *csmemset(void *buffer, unsigned char value, unsigned long size) // 0x10EF7060

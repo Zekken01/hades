@@ -176,13 +176,10 @@ namespace ChatCommands
 		return numberOfPlayers;
 	}
 
-	extern ShuffleTeamsCommand* _sub_1092F740(ChatCommands::ShuffleTeamsCommand *const);
-	ShuffleTeamsCommand::ShuffleTeamsCommand() : VotingChatCommand(todo_result<std::string>(), todo_result<std::string>()) // 0x1092F740
+	ShuffleTeamsCommand::ShuffleTeamsCommand() : VotingChatCommand("shuffleTeams", "Starts a vote to shuffle the teams. Type !yes to vote.") /* hades-mem-init: : VotingChatCommand(todo_result<std::string>(), todo_result<std::string>()) */ // 0x1092F740
 	{
-		mangled_x86(MANGLED_TODO, "??0ShuffleTeamsCommand@ChatCommands@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0ShuffleTeamsCommand@ChatCommands@@QAE@XZ");
 		// ChatCommands::ShuffleTeamsCommand *const this;
-		todo("implement");
-		_sub_1092F740(this);
 	}
 
 	_extern void _sub_10931630(ChatCommands::ShuffleTeamsCommand *const, std::string);
@@ -233,13 +230,10 @@ namespace ChatCommands
 		return __result;
 	}
 
-	extern EndGameCommand* _sub_1092F360(ChatCommands::EndGameCommand *const);
-	EndGameCommand::EndGameCommand() : VotingChatCommand(todo_result<std::string>(), todo_result<std::string>()) // 0x1092F360
+	EndGameCommand::EndGameCommand() : VotingChatCommand("endGame", "Starts a vote to end the current game. Type !yes to vote.") /* hades-mem-init: : VotingChatCommand(todo_result<std::string>(), todo_result<std::string>()) */ // 0x1092F360
 	{
-		mangled_x86(MANGLED_TODO, "??0EndGameCommand@ChatCommands@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0EndGameCommand@ChatCommands@@QAE@XZ");
 		// ChatCommands::EndGameCommand *const this;
-		todo("implement");
-		_sub_1092F360(this);
 	}
 
 	_extern void _sub_10930DD0(ChatCommands::EndGameCommand *const, std::string);
@@ -291,13 +285,10 @@ namespace ChatCommands
 		return __result;
 	}
 
-	extern EndRoundCommand* _sub_1092F450(ChatCommands::EndRoundCommand *const);
-	EndRoundCommand::EndRoundCommand() : VotingChatCommand(todo_result<std::string>(), todo_result<std::string>()) // 0x1092F450
+	EndRoundCommand::EndRoundCommand() : VotingChatCommand("endRound", "Starts a vote to end the current round. Type !yes to vote.") /* hades-mem-init: : VotingChatCommand(todo_result<std::string>(), todo_result<std::string>()) */ // 0x1092F450
 	{
-		mangled_x86(MANGLED_TODO, "??0EndRoundCommand@ChatCommands@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0EndRoundCommand@ChatCommands@@QAE@XZ");
 		// ChatCommands::EndRoundCommand *const this;
-		todo("implement");
-		_sub_1092F450(this);
 	}
 
 	_extern void _sub_10930F80(ChatCommands::EndRoundCommand *const, std::string);
@@ -349,13 +340,10 @@ namespace ChatCommands
 		return __result;
 	}
 
-	extern KickIndexCommand* _sub_1092F540(ChatCommands::KickIndexCommand *const);
-	KickIndexCommand::KickIndexCommand() : VotingChatCommand(todo_result<std::string>(), todo_result<std::string>()) // 0x1092F540
+	KickIndexCommand::KickIndexCommand() : VotingChatCommand("kickIndex", "Starts a vote to kick a player by index.") /* hades-mem-init: : VotingChatCommand(todo_result<std::string>(), todo_result<std::string>()) */ // 0x1092F540
 	{
-		mangled_x86(MANGLED_TODO, "??0KickIndexCommand@ChatCommands@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0KickIndexCommand@ChatCommands@@QAE@XZ");
 		// ChatCommands::KickIndexCommand *const this;
-		todo("implement");
-		_sub_1092F540(this);
 	}
 
 	_extern void _sub_10931130(ChatCommands::KickIndexCommand *const, std::string);
@@ -415,13 +403,10 @@ namespace ChatCommands
 		return __result;
 	}
 
-	extern KickPlayerCommand* _sub_1092F640(ChatCommands::KickPlayerCommand *const);
-	KickPlayerCommand::KickPlayerCommand() : VotingChatCommand(todo_result<std::string>(), todo_result<std::string>()) // 0x1092F640
+	KickPlayerCommand::KickPlayerCommand() : VotingChatCommand("kick", "Starts a vote to kick a player.") /* hades-mem-init: : VotingChatCommand(todo_result<std::string>(), todo_result<std::string>()) */ // 0x1092F640
 	{
-		mangled_x86(MANGLED_TODO, "??0KickPlayerCommand@ChatCommands@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0KickPlayerCommand@ChatCommands@@QAE@XZ");
 		// ChatCommands::KickPlayerCommand *const this;
-		todo("implement");
-		_sub_1092F640(this);
 	}
 
 	_extern void _sub_109313B0(ChatCommands::KickPlayerCommand *const, std::string);
