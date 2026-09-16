@@ -37,7 +37,7 @@ public:
 	bool request_change(s_session_mod_options const *options);
 	c_network_session_parameter_mod(c_network_session_parameter_mod &); /* compiler_generated() */
 	c_network_session_parameter_mod(c_network_session_parameter_mod const &); /* compiler_generated() */
-	_inline c_network_session_parameter_mod(); /* compiler_generated() */
+	_inline c_network_session_parameter_mod() = default; /* compiler_generated() */
 	c_network_session_parameter_mod &operator=(c_network_session_parameter_mod &); /* compiler_generated() */
 	c_network_session_parameter_mod &operator=(c_network_session_parameter_mod const &); /* compiler_generated() */
 	void __autoclassinit2(unsigned __int32); /* compiler_generated() */

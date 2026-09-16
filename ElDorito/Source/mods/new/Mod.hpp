@@ -44,7 +44,7 @@ public:
 		virtual _inline ~IClient() = default; // 0x107913E0
 		virtual void OnModLoadStateChanged(Mod *) = 0;
 		IClient(IClient const &); /* compiler_generated() */
-		_inline IClient(); /* compiler_generated() */
+		_inline IClient() = default; /* compiler_generated() */
 		IClient &operator=(IClient const &); /* compiler_generated() */
 	};
 	static_assert(sizeof(IClient) == 4, "Invalid IClient size");

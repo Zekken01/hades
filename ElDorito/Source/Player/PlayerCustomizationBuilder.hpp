@@ -62,7 +62,7 @@ namespace Player
 			std::shared_ptr<Blam::Cache::StringIDCache> stringCache; // 0x8
 			SBaseCacheReference(SBaseCacheReference &); /* compiler_generated() */
 			SBaseCacheReference(SBaseCacheReference const &); /* compiler_generated() */
-			_inline SBaseCacheReference(); /* compiler_generated() */
+			_inline SBaseCacheReference() = default; /* compiler_generated() */
 			_inline ~SBaseCacheReference(); /* compiler_generated() */
 			SBaseCacheReference &operator=(SBaseCacheReference &); /* compiler_generated() */
 			SBaseCacheReference &operator=(SBaseCacheReference const &); /* compiler_generated() */
@@ -90,7 +90,7 @@ namespace Player
 	public:
 		CPlayerCharacterCustomizationBuilder(Player::CPlayerCharacterCustomizationBuilder &); /* compiler_generated() */
 		CPlayerCharacterCustomizationBuilder(Player::CPlayerCharacterCustomizationBuilder const &); /* compiler_generated() */
-		_inline CPlayerCharacterCustomizationBuilder(); /* compiler_generated() */
+		_inline CPlayerCharacterCustomizationBuilder() = default; /* compiler_generated() */
 		_inline ~CPlayerCharacterCustomizationBuilder(); /* compiler_generated() */
 		Player::CPlayerCharacterCustomizationBuilder &operator=(Player::CPlayerCharacterCustomizationBuilder &); /* compiler_generated() */
 		Player::CPlayerCharacterCustomizationBuilder &operator=(Player::CPlayerCharacterCustomizationBuilder const &); /* compiler_generated() */

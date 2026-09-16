@@ -231,7 +231,6 @@ namespace PersistentMemory
 	_inline SPersistentMemoryDB::SPersistentMemoryDB(PersistentMemory::SPersistentMemoryDB &&__that) = default; // 0x106AFB00
 
 	// mangled_x86(MANGLED_DEFAULT, "??0SPersistentMemoryDB@PersistentMemory@@QAE@XZ"); no body to assert in
-	_inline SPersistentMemoryDB::SPersistentMemoryDB() = default; // 0x106AFC70
 
 	_extern bool _sub_106B5600(std::string const &);
 	bool Load(std::string const &filename) // 0x106B5600

@@ -56,7 +56,7 @@ struct s_file_reference
 	unsigned long position; // 0x10C
 	s_file_reference(s_file_reference &); /* compiler_generated() */
 	_inline s_file_reference(s_file_reference const &__that); /* compiler_generated() */
-	_inline s_file_reference(); /* compiler_generated() */
+	_inline s_file_reference() = default; /* compiler_generated() */
 	s_file_reference &operator=(s_file_reference &); /* compiler_generated() */
 	_inline s_file_reference &operator=(s_file_reference const &__that); /* compiler_generated() */
 };

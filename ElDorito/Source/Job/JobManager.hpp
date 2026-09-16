@@ -41,7 +41,7 @@ public:
 		SJobCounter *counter; // 0x30
 		_inline SJob(SJob &&__that); /* compiler_generated() */
 		_inline SJob(SJob const &__that); /* compiler_generated() */
-		_inline SJob(); /* compiler_generated() */
+		_inline SJob() = default; /* compiler_generated() */
 		_inline ~SJob(); /* compiler_generated() */
 		_inline SJob &operator=(SJob &&__that); /* compiler_generated() */
 		SJob &operator=(SJob const &); /* compiler_generated() */
@@ -63,7 +63,7 @@ private:
 	unsigned char __pad0[3]; // 0x75
 	std::vector<std::thread> m_workerThreads; // 0x78
 public:
-	_inline CJobManager(); /* compiler_generated() */
+	_inline CJobManager() = default; /* compiler_generated() */
 	_inline ~CJobManager(); /* compiler_generated() */
 };
 static_assert(sizeof(CJobManager) == 136, "Invalid CJobManager size");

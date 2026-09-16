@@ -374,3 +374,10 @@ _inline VotingMessagePacketHandler::VotingMessagePacketHandler() = default; // 0
 
 // mangled_x86(MANGLED_DEFAULT, "??1VotingMessagePacketHandler@hades_file_local@@UAE@XZ"); no body to assert in
 _inline VotingMessagePacketHandler::~VotingMessagePacketHandler() = default; // 0x10C48430
+
+/* ---------- explicit instantiations */
+template void Patches::CustomPackets::PacketSender<Server::Voting::VotingMessage>::Send(__int32, Patches::CustomPackets::Packet<Server::Voting::VotingMessage> const &) const;
+template Patches::CustomPackets::PacketHandler<Server::Voting::VotingMessage>::PacketHandler();
+template Patches::CustomPackets::Packet<Server::Voting::VotingMessage> Patches::CustomPackets::PacketSender<Server::Voting::VotingMessage>::New() const;
+template Patches::CustomPackets::Packet<Server::Voting::VotingMessage>::Packet(unsigned __int32);
+template Patches::CustomPackets::PacketSender<Server::Voting::VotingMessage>::PacketSender(unsigned __int32);

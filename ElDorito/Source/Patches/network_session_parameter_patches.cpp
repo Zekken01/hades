@@ -119,7 +119,6 @@ void network__session_parameter_types_register_hook(c_network_session_parameter_
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0c_network_session_parameter_mod@@QAE@XZ"); no body to assert in
-_inline c_network_session_parameter_mod::c_network_session_parameter_mod() = default; // 0x10AA8940
 
 _extern void _sub_10AA90D0();
 void network_session_parameter_patches_apply() // 0x10AA90D0

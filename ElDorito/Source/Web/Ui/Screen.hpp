@@ -68,7 +68,7 @@ namespace Web
 					const rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > * m_Args; // 0x60
 					scoped_refptr<CefMessageRouterBrowserSide::Callback> m_Callback; // 0x64
 					~PendingQuery();
-					PendingQuery();
+					PendingQuery() = default; /* compiler_generated() */
 				};
 				public:
 				boost::lockfree::queue<PendingQuery *> m_Queries; // 0x8
@@ -103,7 +103,7 @@ namespace Web
 		public:
 			WebScreen(Web::Ui::WebScreen &); /* compiler_generated() */
 			WebScreen(Web::Ui::WebScreen const &); /* compiler_generated() */
-			_inline WebScreen(); /* compiler_generated() */
+			_inline WebScreen() = default; /* compiler_generated() */
 			Web::Ui::WebScreen &operator=(Web::Ui::WebScreen &); /* compiler_generated() */
 			Web::Ui::WebScreen &operator=(Web::Ui::WebScreen const &); /* compiler_generated() */
 		};

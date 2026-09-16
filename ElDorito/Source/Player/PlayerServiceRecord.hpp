@@ -37,7 +37,7 @@ namespace Player
 			std::wstring countStr; // 0x8
 			PlayerTopMedals(Player::ServiceRecord::PlayerTopMedals &); /* compiler_generated() */
 			_inline PlayerTopMedals(Player::ServiceRecord::PlayerTopMedals const &__that); /* compiler_generated() */
-			_inline PlayerTopMedals(); /* compiler_generated() */
+			_inline PlayerTopMedals() = default; /* compiler_generated() */
 			_inline ~PlayerTopMedals(); /* compiler_generated() */
 			_inline Player::ServiceRecord::PlayerTopMedals &operator=(Player::ServiceRecord::PlayerTopMedals &&__that); /* compiler_generated() */
 			_inline Player::ServiceRecord::PlayerTopMedals &operator=(Player::ServiceRecord::PlayerTopMedals const &__that); /* compiler_generated() */
@@ -72,7 +72,7 @@ namespace Player
 			PlayerTopMedals top_medals[8]; // 0x58
 			ServiceRecord(ServiceRecord &); /* compiler_generated() */
 			_inline ServiceRecord(ServiceRecord const &__that); /* compiler_generated() */
-			_inline ServiceRecord(); /* compiler_generated() */
+			_inline ServiceRecord() = default; /* compiler_generated() */
 			_inline ~ServiceRecord(); /* compiler_generated() */
 			_inline ServiceRecord &operator=(ServiceRecord &&__that); /* compiler_generated() */
 			_inline ServiceRecord &operator=(ServiceRecord const &__that); /* compiler_generated() */

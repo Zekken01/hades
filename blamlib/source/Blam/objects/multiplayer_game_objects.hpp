@@ -87,7 +87,7 @@ struct s_multiplayer_object_properties_definition
 	float boundary_bottom; // 0x2C
 	s_multiplayer_object_properties_definition(s_multiplayer_object_properties_definition &); /* compiler_generated() */
 	s_multiplayer_object_properties_definition(s_multiplayer_object_properties_definition const &); /* compiler_generated() */
-	_inline s_multiplayer_object_properties_definition(); /* compiler_generated() */
+	_inline s_multiplayer_object_properties_definition() = default; /* compiler_generated() */
 	s_multiplayer_object_properties_definition &operator=(s_multiplayer_object_properties_definition &); /* compiler_generated() */
 	s_multiplayer_object_properties_definition &operator=(s_multiplayer_object_properties_definition const &); /* compiler_generated() */
 	unsigned char __pad2[4]; // 0x30

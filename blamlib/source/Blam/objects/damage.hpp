@@ -106,7 +106,7 @@ struct s_damage_reporting_info
 	char modifier; // 0x3
 	s_damage_reporting_info(s_damage_reporting_info &); /* compiler_generated() */
 	s_damage_reporting_info(s_damage_reporting_info const &); /* compiler_generated() */
-	_inline s_damage_reporting_info(); /* compiler_generated() */
+	_inline s_damage_reporting_info() = default; /* compiler_generated() */
 	s_damage_reporting_info &operator=(s_damage_reporting_info &); /* compiler_generated() */
 	_inline s_damage_reporting_info &operator=(s_damage_reporting_info const &__that); /* compiler_generated() */
 };
@@ -144,7 +144,7 @@ struct s_damage_data
 	long material_index; // 0x94
 	s_damage_data(s_damage_data &); /* compiler_generated() */
 	s_damage_data(s_damage_data const &); /* compiler_generated() */
-	_inline s_damage_data(); /* compiler_generated() */
+	_inline s_damage_data() = default; /* compiler_generated() */
 	s_damage_data &operator=(s_damage_data &); /* compiler_generated() */
 	s_damage_data &operator=(s_damage_data const &); /* compiler_generated() */
 };

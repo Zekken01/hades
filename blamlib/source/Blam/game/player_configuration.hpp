@@ -54,7 +54,7 @@ struct s_player_configuration_from_host
 private:
 	unsigned char unused[3216]; // 0x960
 public:
-	_inline s_player_configuration_from_host(); /* compiler_generated() */
+	_inline s_player_configuration_from_host() = default; /* compiler_generated() */
 };
 static_assert(sizeof(s_player_configuration_from_host) == 5616, "Invalid s_player_configuration_from_host size");
 
@@ -62,7 +62,7 @@ struct s_player_configuration
 {
 	s_player_configuration_from_client client; // 0x0
 	s_player_configuration_from_host host; // 0x30
-	_inline s_player_configuration(); /* compiler_generated() */
+	_inline s_player_configuration() = default; /* compiler_generated() */
 };
 static_assert(sizeof(s_player_configuration) == 5664, "Invalid s_player_configuration size");
 

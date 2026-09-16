@@ -146,7 +146,6 @@ namespace Utils
 	}
 
 	// mangled_x86(MANGLED_DEFAULT, "??0LogEntry@Utils@@QAE@XZ"); no body to assert in
-	_inline LogEntry::LogEntry() = default; // 0x10C598D0
 
 	_extern unsigned long _sub_10C5A5E0(void *);
 	unsigned long __stdcall Logger::Flusher(void *lpParam) // 0x10C5A5E0

@@ -61,7 +61,7 @@ struct s_game_engine_event_data
 	short territory_index; // 0x24
 	s_game_engine_event_data(s_game_engine_event_data &); /* compiler_generated() */
 	s_game_engine_event_data(s_game_engine_event_data const &); /* compiler_generated() */
-	_inline s_game_engine_event_data(); /* compiler_generated() */
+	_inline s_game_engine_event_data() = default; /* compiler_generated() */
 	s_game_engine_event_data &operator=(s_game_engine_event_data &); /* compiler_generated() */
 	_inline s_game_engine_event_data &operator=(s_game_engine_event_data const &__that); /* compiler_generated() */
 };

@@ -40,7 +40,7 @@ struct s_map_variant_placement_properties
 	float boundry_bottom; // 0x14
 	s_map_variant_placement_properties(s_map_variant_placement_properties &); /* compiler_generated() */
 	_inline s_map_variant_placement_properties(s_map_variant_placement_properties const &__that); /* compiler_generated() */
-	_inline s_map_variant_placement_properties(); /* compiler_generated() */
+	_inline s_map_variant_placement_properties() = default; /* compiler_generated() */
 	s_map_variant_placement_properties &operator=(s_map_variant_placement_properties &); /* compiler_generated() */
 	_inline s_map_variant_placement_properties &operator=(s_map_variant_placement_properties const &__that); /* compiler_generated() */
 };
@@ -61,7 +61,7 @@ struct s_variant_datum
 	s_map_variant_placement_properties properties; // 0x3C
 	s_variant_datum(s_variant_datum &); /* compiler_generated() */
 	_inline s_variant_datum(s_variant_datum const &__that); /* compiler_generated() */
-	_inline s_variant_datum(); /* compiler_generated() */
+	_inline s_variant_datum() = default; /* compiler_generated() */
 	s_variant_datum &operator=(s_variant_datum &); /* compiler_generated() */
 	s_variant_datum &operator=(s_variant_datum const &); /* compiler_generated() */
 };

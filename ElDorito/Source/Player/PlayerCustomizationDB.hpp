@@ -44,7 +44,7 @@ namespace Player
 		std::map<std::string,std::string> permutations; // 0xC
 		_inline SPersistentCharacterCustomization(Player::SPersistentCharacterCustomization &&__that); /* compiler_generated() */
 		SPersistentCharacterCustomization(Player::SPersistentCharacterCustomization const &); /* compiler_generated() */
-		_inline SPersistentCharacterCustomization(); /* compiler_generated() */
+		_inline SPersistentCharacterCustomization() = default; /* compiler_generated() */
 		_inline ~SPersistentCharacterCustomization(); /* compiler_generated() */
 		Player::SPersistentCharacterCustomization &operator=(Player::SPersistentCharacterCustomization &); /* compiler_generated() */
 		_inline Player::SPersistentCharacterCustomization &operator=(Player::SPersistentCharacterCustomization const &__that); /* compiler_generated() */

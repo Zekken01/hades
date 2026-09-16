@@ -30,7 +30,7 @@ private:
 	c_synchronized_int32 m_status; // 0x0
 	c_synchronized_int32 m_internal_data; // 0x4
 public:
-	_inline c_async_completion_flag(); /* compiler_generated() */
+	_inline c_async_completion_flag() = default; /* compiler_generated() */
 };
 static_assert(sizeof(c_async_completion_flag) == 8, "Invalid c_async_completion_flag size");
 

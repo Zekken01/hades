@@ -239,7 +239,6 @@ namespace Patches
 	namespace LoadingScreen
 	{
 		// mangled_x86(MANGLED_DEFAULT, "??0LoadingScreenUi@LoadingScreen@Patches@@QAE@XZ"); no body to assert in
-		_inline LoadingScreenUi::LoadingScreenUi() = default; // 0x10CA9FB0
 	}
 }
 

@@ -28,7 +28,7 @@ struct IGameSystem
 	virtual _inline void Dispose();
 	virtual _inline void Update();
 	IGameSystem(IGameSystem const &); /* compiler_generated() */
-	_inline IGameSystem(); /* compiler_generated() */
+	_inline IGameSystem() = default; /* compiler_generated() */
 	IGameSystem &operator=(IGameSystem const &); /* compiler_generated() */
 };
 static_assert(sizeof(IGameSystem) == 4, "Invalid IGameSystem size");

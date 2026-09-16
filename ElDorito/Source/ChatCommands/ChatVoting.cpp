@@ -510,6 +510,8 @@ namespace ChatCommands
 		// long long elapsed;
 		// function call : bool ()
 		// function call : void ()
+		//Exit if we haven't used up the time yet.
+		//Exit if we haven't used up the time yet.
 
 		if (!isEnabled() || voteTimeStarted == 0)
 			return;

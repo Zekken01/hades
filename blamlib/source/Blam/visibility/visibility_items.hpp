@@ -112,7 +112,7 @@ struct s_visible_items
 	short cluster_group_count; // 0x5E7FE
 	unsigned long cluster_group_visibility[2048]; // 0x5E800
 	unsigned short object_mapping[2048]; // 0x60800
-	_inline s_visible_items(); /* compiler_generated() */
+	_inline s_visible_items() = default; /* compiler_generated() */
 };
 static_assert(sizeof(s_visible_items) == 399360, "Invalid s_visible_items size");
 

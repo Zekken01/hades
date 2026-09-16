@@ -101,7 +101,6 @@ void CForgeUndoManager::AddUndo(std::string const &summary, std::shared_ptr<IFor
 _inline CForgeUndoManager::SUndoEntry::SUndoEntry(CForgeUndoManager::SUndoEntry const &__that) = default; // 0x10862260
 
 // mangled_x86(MANGLED_DEFAULT, "??0SUndoEntry@CForgeUndoManager@@QAE@XZ"); no body to assert in
-_inline CForgeUndoManager::SUndoEntry::SUndoEntry() = default; // 0x10862300
 
 // mangled_x86(MANGLED_DEFAULT, "??1SUndoEntry@CForgeUndoManager@@QAE@XZ"); no body to assert in
 _inline CForgeUndoManager::SUndoEntry::~SUndoEntry() = default; // 0x10862540

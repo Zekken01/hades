@@ -43,7 +43,7 @@ namespace Forge
 		virtual Forge::SPropertyValue GetPropertyValue(Forge::EObjectProperty) = 0;
 		Forge::CObjectPropertyManager &GetManager();
 		CObjectPropertyAccessor(Forge::CObjectPropertyAccessor const &); /* compiler_generated() */
-		_inline CObjectPropertyAccessor(); /* compiler_generated() */
+		_inline CObjectPropertyAccessor() = default; /* compiler_generated() */
 		Forge::CObjectPropertyAccessor &operator=(Forge::CObjectPropertyAccessor const &); /* compiler_generated() */
 	};
 	static_assert(sizeof(Forge::CObjectPropertyAccessor) == 4, "Invalid Forge::CObjectPropertyAccessor size");
@@ -106,7 +106,7 @@ namespace Forge
 	public:
 		CDeferredPropertySetter(Forge::CDeferredPropertySetter &); /* compiler_generated() */
 		CDeferredPropertySetter(Forge::CDeferredPropertySetter const &); /* compiler_generated() */
-		_inline CDeferredPropertySetter(); /* compiler_generated() */
+		_inline CDeferredPropertySetter() = default; /* compiler_generated() */
 		virtual _inline ~CDeferredPropertySetter() = default; /* compiler_generated() */ // 0x10CA67C0
 		Forge::CDeferredPropertySetter &operator=(Forge::CDeferredPropertySetter &); /* compiler_generated() */
 		Forge::CDeferredPropertySetter &operator=(Forge::CDeferredPropertySetter const &); /* compiler_generated() */

@@ -194,16 +194,13 @@ namespace Download
 	}
 
 	// mangled_x86(MANGLED_DEFAULT, "??0IDownload@Download@@QAE@XZ"); no body to assert in
-	_inline IDownload::IDownload() = default; // 0x1082BA60
 
 	// mangled_x86(MANGLED_DEFAULT, "??0ISegmentStore@CHttpFileDownload@Download@@QAE@XZ"); no body to assert in
-	_inline CHttpFileDownload::ISegmentStore::ISegmentStore() = default; // 0x1082BAC0
 }
 
 namespace Http
 {
 	// mangled_x86(MANGLED_DEFAULT, "??0SContentRangeHeader@Http@@QAE@XZ"); no body to assert in
-	_inline SContentRangeHeader::SContentRangeHeader() = default; // 0x1082BAF0
 }
 
 namespace Download

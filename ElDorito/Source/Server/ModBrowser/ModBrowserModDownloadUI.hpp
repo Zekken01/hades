@@ -41,7 +41,7 @@ public:
 	virtual void ShowConfirmation(std::vector<SModBrowserState::SRequestedMod *> const &) = 0;
 	virtual void Hide() = 0;
 	IModBrowserModDownloadUI(IModBrowserModDownloadUI const &); /* compiler_generated() */
-	_inline IModBrowserModDownloadUI(); /* compiler_generated() */
+	_inline IModBrowserModDownloadUI() = default; /* compiler_generated() */
 	IModBrowserModDownloadUI &operator=(IModBrowserModDownloadUI const &); /* compiler_generated() */
 };
 static_assert(sizeof(IModBrowserModDownloadUI) == 4, "Invalid IModBrowserModDownloadUI size");

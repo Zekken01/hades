@@ -238,16 +238,12 @@ void CServerConnectManager::OnConnectionAborted(EServerConnectAbortReason reason
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0CServerConnectStateHandler_Connect@@QAE@XZ"); no body to assert in
-_inline CServerConnectStateHandler_Connect::CServerConnectStateHandler_Connect() = default; // 0x10B05F80
 
 // mangled_x86(MANGLED_DEFAULT, "??0CServerConnectStateHandler_QueryServer@@QAE@XZ"); no body to assert in
-_inline CServerConnectStateHandler_QueryServer::CServerConnectStateHandler_QueryServer() = default; // 0x10B05FE0
 
 // mangled_x86(MANGLED_DEFAULT, "??0CServerConnectStateManager@@QAE@XZ"); no body to assert in
-_inline CServerConnectStateManager::CServerConnectStateManager() = default; // 0x10B06080
 
 // mangled_x86(MANGLED_DEFAULT, "??0SQueryInfoServerData@@QAE@XZ"); no body to assert in
-_inline SQueryInfoServerData::SQueryInfoServerData() = default; // 0x10B062C0
 
 // mangled_x86(MANGLED_DEFAULT, "??1CServerConnectStateHandler_QueryServer@@QAE@XZ"); no body to assert in
 _inline CServerConnectStateHandler_QueryServer::~CServerConnectStateHandler_QueryServer() = default; // 0x10B06C60

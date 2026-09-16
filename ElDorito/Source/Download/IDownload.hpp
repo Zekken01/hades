@@ -51,7 +51,7 @@ namespace Download
 		virtual float GetProgress() const = 0;
 		virtual void Start() = 0;
 		virtual void Cancel() = 0;
-		_inline IDownload(); /* compiler_generated() */
+		_inline IDownload() = default; /* compiler_generated() */
 	};
 	static_assert(sizeof(Download::IDownload) == 24, "Invalid Download::IDownload size");
 }

@@ -49,7 +49,7 @@ namespace Web
 		private:
 			CefRefCount ref_count_; // 0x18
 		public:
-			_inline WebRendererApp(); /* compiler_generated() */
+			_inline WebRendererApp() = default; /* compiler_generated() */
 		};
 		static_assert(sizeof(Web::Browser::WebRendererApp) == 36, "Invalid Web::Browser::WebRendererApp size");
 	}

@@ -25,7 +25,7 @@ struct s_mod_origin_info
 	std::string url; // 0x54
 	_inline s_mod_origin_info(s_mod_origin_info &&__that); /* compiler_generated() */
 	_inline s_mod_origin_info(s_mod_origin_info const &__that); /* compiler_generated() */
-	_inline s_mod_origin_info(); /* compiler_generated() */
+	_inline s_mod_origin_info() = default; /* compiler_generated() */
 	_inline ~s_mod_origin_info(); /* compiler_generated() */
 	s_mod_origin_info &operator=(s_mod_origin_info &); /* compiler_generated() */
 	_inline s_mod_origin_info &operator=(s_mod_origin_info const &__that); /* compiler_generated() */

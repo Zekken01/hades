@@ -31,7 +31,7 @@ namespace Console
 		virtual _inline ~ConsoleOutputHandler();
 		virtual void WriteLine(std::string const &) = 0;
 		ConsoleOutputHandler(Console::ConsoleOutputHandler const &); /* compiler_generated() */
-		_inline ConsoleOutputHandler(); /* compiler_generated() */
+		_inline ConsoleOutputHandler() = default; /* compiler_generated() */
 		Console::ConsoleOutputHandler &operator=(Console::ConsoleOutputHandler const &); /* compiler_generated() */
 	};
 	static_assert(sizeof(Console::ConsoleOutputHandler) == 4, "Invalid Console::ConsoleOutputHandler size");

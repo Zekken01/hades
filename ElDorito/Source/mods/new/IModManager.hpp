@@ -50,7 +50,7 @@ public:
 	virtual c_mod_package *GetPak(bool) const = 0;
 	virtual std::shared_ptr<c_cache_file_interface> GetCache(bool) const = 0;
 	IMod(IMod const &); /* compiler_generated() */
-	_inline IMod(); /* compiler_generated() */
+	_inline IMod() = default; /* compiler_generated() */
 	IMod &operator=(IMod const &); /* compiler_generated() */
 };
 static_assert(sizeof(IMod) == 4, "Invalid IMod size");
@@ -63,7 +63,7 @@ public:
 	virtual _inline void OnModCacheChanged(EModIndex index, IMod *mod);
 	virtual _inline void OnModLoadStateChangedAsync(EModIndex index, IMod *mod);
 	IModListener(IModListener const &); /* compiler_generated() */
-	_inline IModListener(); /* compiler_generated() */
+	_inline IModListener() = default; /* compiler_generated() */
 	IModListener &operator=(IModListener const &); /* compiler_generated() */
 };
 static_assert(sizeof(IModListener) == 4, "Invalid IModListener size");
@@ -81,7 +81,7 @@ public:
 	virtual void Tick() = 0;
 	char const *GetErrorName(EModResult);
 	IModManager(IModManager const &); /* compiler_generated() */
-	_inline IModManager(); /* compiler_generated() */
+	_inline IModManager() = default; /* compiler_generated() */
 	IModManager &operator=(IModManager const &); /* compiler_generated() */
 };
 static_assert(sizeof(IModManager) == 4, "Invalid IModManager size");

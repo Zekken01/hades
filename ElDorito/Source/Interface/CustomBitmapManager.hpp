@@ -50,7 +50,7 @@ public:
 		bool createTextureFailed; // 0x58
 		unsigned __int32 keepAliveTimerMS; // 0x5C
 		_inline bool InUse() const;
-		_inline StorageItem(); /* compiler_generated() */
+		_inline StorageItem() = default; /* compiler_generated() */
 		_inline ~StorageItem(); /* compiler_generated() */
 	};
 	static_assert(sizeof(StorageItem) == 96, "Invalid StorageItem size");
@@ -81,7 +81,7 @@ private:
 	unsigned char __pad1[4]; // 0xC24
 	std::chrono::time_point<std::chrono::steady_clock,std::chrono::duration<__int64,std::ratio<1,1000000000> > > m_lastUpdateRenderTime; // 0xC28
 public:
-	_inline CustomBitmapManager(); /* compiler_generated() */
+	_inline CustomBitmapManager() = default; /* compiler_generated() */
 	_inline ~CustomBitmapManager(); /* compiler_generated() */
 };
 static_assert(sizeof(CustomBitmapManager) == 3120, "Invalid CustomBitmapManager size");

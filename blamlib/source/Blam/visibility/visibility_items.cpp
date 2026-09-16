@@ -57,7 +57,6 @@ void c_visible_items::pop_marker() // 0x10F0DDB0
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0s_visible_items@@QAE@XZ"); no body to assert in
-_inline s_visible_items::s_visible_items() = default; // 0x10F0DB30
 
 _extern void _sub_10F0DC80();
 void c_visible_items::clear_all() // 0x10F0DC80

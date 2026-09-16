@@ -99,7 +99,7 @@ namespace Server
 			virtual _inline ~VotingMessageHandler();
 			virtual void MessageReceived(Server::Voting::VotingMessage const &) = 0;
 			VotingMessageHandler(Server::Voting::VotingMessageHandler const &); /* compiler_generated() */
-			_inline VotingMessageHandler(); /* compiler_generated() */
+			_inline VotingMessageHandler() = default; /* compiler_generated() */
 			Server::Voting::VotingMessageHandler &operator=(Server::Voting::VotingMessageHandler const &); /* compiler_generated() */
 		};
 		static_assert(sizeof(Server::Voting::VotingMessageHandler) == 4, "Invalid Server::Voting::VotingMessageHandler size");

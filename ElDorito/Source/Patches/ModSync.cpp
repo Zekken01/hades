@@ -416,34 +416,24 @@ using namespace hades_file_local;
 /* ---------- public code */
 
 // mangled_x86(MANGLED_DEFAULT, "??0c_async_completion_flag@@QAE@XZ"); no body to assert in
-_inline c_async_completion_flag::c_async_completion_flag() = default; // 0x10921640
 
 // mangled_x86(MANGLED_DEFAULT, "??0c_game_variant@@QAE@XZ"); no body to assert in
-_inline c_game_variant::c_game_variant() = default; // 0x109216A0
 
 // mangled_x86(MANGLED_DEFAULT, "??0c_map_load_crash_recovery_helper@@QAE@XZ"); no body to assert in
-_inline c_map_load_crash_recovery_helper::c_map_load_crash_recovery_helper() = default; // 0x109216F0
 
 // mangled_x86(MANGLED_DEFAULT, "??0c_map_load_error_helper@@QAE@XZ"); no body to assert in
-_inline c_map_load_error_helper::c_map_load_error_helper() = default; // 0x10921770
 
 // mangled_x86(MANGLED_DEFAULT, "??0c_mod_cache_tag_remapper@@QAE@XZ"); no body to assert in
-_inline c_mod_cache_tag_remapper::c_mod_cache_tag_remapper() = default; // 0x109217C0
 
 // mangled_x86(MANGLED_DEFAULT, "??0s_game_options@@QAE@XZ"); no body to assert in
-_inline s_game_options::s_game_options() = default; // 0x109219A0
 
 // mangled_x86(MANGLED_DEFAULT, "??0s_game_player_options@@QAE@XZ"); no body to assert in
-_inline s_game_player_options::s_game_player_options() = default; // 0x10921A30
 
 // mangled_x86(MANGLED_DEFAULT, "??0s_player_appearance@@QAE@XZ"); no body to assert in
-_inline s_player_appearance::s_player_appearance() = default; // 0x10921A90
 
 // mangled_x86(MANGLED_DEFAULT, "??0s_player_configuration@@QAE@XZ"); no body to assert in
-_inline s_player_configuration::s_player_configuration() = default; // 0x10921AF0
 
 // mangled_x86(MANGLED_DEFAULT, "??0s_player_configuration_from_host@@QAE@XZ"); no body to assert in
-_inline s_player_configuration_from_host::s_player_configuration_from_host() = default; // 0x10921B50
 
 // mangled_x86(MANGLED_DEFAULT, "??1c_map_load_crash_recovery_helper@@QAE@XZ"); no body to assert in
 _inline c_map_load_crash_recovery_helper::~c_map_load_crash_recovery_helper() = default; // 0x10922050

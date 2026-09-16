@@ -391,18 +391,18 @@ void notify_mod_package_opened_or_closed(EModIndex index) // 0x107BE5C0
 	_sub_107BE5C0(index);
 }
 
-_extern void _sub_107BE510();
 void notify_lobby_changed() // 0x107BE510
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?notify_lobby_changed@@YAXXZ");
 	// `anonymous-namespace'::notify_lobby_changed
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_107BE510();
+
+	Modules::CommandMap::Instance().ExecuteCommand("Game.ScenarioScript lobby_updated");
 }
 
-_extern void _sub_107BE3D0();
 void lobby_update() // 0x107BE3D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?lobby_update@@YAXXZ");
 	// `anonymous-namespace'::lobby_update
 	// procedure flags: nofpo
 	// static ...; // 0x107BE4C4
@@ -410,28 +410,55 @@ void lobby_update() // 0x107BE3D0
 	// static ...; // 0x107BE4B0
 	// c_network_session *session;
 	// static long `lobby_update'::`2'::last_update_number; // 0x1135235C
-	{
 		// long update_number;
-	}
 	// function call : bool (*const)()
 	// function call : bool (*const)()
 	// function call : bool (*const)(c_network_session **)
-	todo("implement");
-	_sub_107BE3D0();
+
+	c_network_session *session;
+	static long last_update_number = -1;
+
+	if (((bool (*const)())0x5314b0)()
+		&& ((bool (*const)())0x531e90)()
+		&& network_session_interface_get_squad_session(&session)
+		&& session->established())
+	{
+		long update_number = session->get_session_membership_update_number();
+
+		if (update_number != last_update_number)
+		{
+			last_update_number = update_number;
+			notify_lobby_changed();
+		}
+	}
+	else if (last_update_number != -1)
+	{
+		last_update_number = -1;
+	}
 }
 
-_extern void _sub_107BE130();
 void clear_mod_cached_map_files() // 0x107BE130
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?clear_mod_cached_map_files@@YAXXZ");
 	// `anonymous-namespace'::clear_mod_cached_map_files
 	// procedure flags: nofpo
 	// long (*const cached_map_file_close)(long);
-	{
 		// long i;
-	}
 	// function call : long (*const)(long)
-	todo("implement");
-	_sub_107BE130();
+
+	long (__cdecl *const cached_map_file_close)(long) = (long (__cdecl *const)(long))0x5ab630;
+
+	for (long i = 8; i < 15; i++)
+	{
+		cached_map_file_close(i);
+	}
+
+	*(long *)0x243B848 = -1;
+	*(long *)0x243B84C = -1;
+	*(long *)0x243B850 = -1;
+	*(long *)0x243B854 = -1;
+	memset((void *)0x243B858, 0, 0x840);
+	memset((void *)0x243C098, 0, 0x3390);
 }
 
 _inline void ModListener::OnModChanged(EModIndex index, IMod *mod) // 0x107BC190

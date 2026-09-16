@@ -287,17 +287,14 @@ void CustomBitmapManager::UpdateRender() // 0x10785BD0
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0CustomBitmapManager@@QAE@XZ"); no body to assert in
-_inline CustomBitmapManager::CustomBitmapManager() = default; // 0x10783290
 
 // mangled_x86(MANGLED_DEFAULT, "??0StorageItem@CustomBitmapManager@@QAE@XZ"); no body to assert in
-_inline CustomBitmapManager::StorageItem::StorageItem() = default; // 0x10783370
 
 namespace Utils
 {
 	namespace Uri
 	{
 		// mangled_x86(MANGLED_DEFAULT, "??0UriComponents@Uri@Utils@@QAE@XZ"); no body to assert in
-		_inline UriComponents::UriComponents() = default; // 0x10783400
 	}
 }
 

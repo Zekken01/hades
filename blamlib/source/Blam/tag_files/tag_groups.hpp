@@ -88,7 +88,7 @@ struct s_tag_data
 	s_tag_block_definition *definition; // 0x10
 	s_tag_data(s_tag_data &); /* compiler_generated() */
 	s_tag_data(s_tag_data const &); /* compiler_generated() */
-	_inline s_tag_data(); /* compiler_generated() */
+	_inline s_tag_data() = default; /* compiler_generated() */
 	s_tag_data &operator=(s_tag_data &); /* compiler_generated() */
 	s_tag_data &operator=(s_tag_data const &); /* compiler_generated() */
 };

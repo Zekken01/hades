@@ -165,7 +165,6 @@ namespace Console
 	}
 
 	// mangled_x86(MANGLED_DEFAULT, "??0ConsoleOutputHandler@Console@@QAE@XZ"); no body to assert in
-	_inline ConsoleOutputHandler::ConsoleOutputHandler() = default; // 0x10950320
 }
 
 /* ---------- private code */

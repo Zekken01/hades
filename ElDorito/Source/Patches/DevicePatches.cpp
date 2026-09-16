@@ -156,7 +156,6 @@ namespace Patches
 // mangled_x86(MANGLED_DEFAULT, "??0CForgeDeviceManager@@QAE@XZ"); no body to assert in
 
 // mangled_x86(MANGLED_DEFAULT, "??0IGameSystem@@QAE@XZ"); no body to assert in
-_inline IGameSystem::IGameSystem() = default; // 0x108CE1C0
 
 /* ---------- private code */
 

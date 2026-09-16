@@ -58,7 +58,7 @@ struct s_player_appearance
 	s_player_character_customiztion characters[16]; // 0x698
 	s_player_emblem_configuration emblem_config; // 0x918
 	long nameplate_index; // 0x92C
-	_inline s_player_appearance(); /* compiler_generated() */
+	_inline s_player_appearance() = default; /* compiler_generated() */
 };
 static_assert(sizeof(s_player_appearance) == 2352, "Invalid s_player_appearance size");
 

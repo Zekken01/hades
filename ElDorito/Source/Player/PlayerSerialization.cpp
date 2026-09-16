@@ -83,33 +83,40 @@ _inline bool valid_team_index(long team_index);
 
 namespace Player
 {
-	_extern void _sub_107F09C0(Blam::BitStream *, s_player_model_customization const *);
 	void player_model_customization_encode(Blam::BitStream *stream, s_player_model_customization const *customization) // 0x107F09C0
 	{
-		mangled_x86(MANGLED_TODO, "?player_model_customization_encode@Player@@YAXPAVBitStream@Blam@@PBUs_player_model_customization@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?player_model_customization_encode@Player@@YAXPAVBitStream@Blam@@PBUs_player_model_customization@@@Z");
 		// s_player_model_customization const *customization;
-		{
 			// __int32 i;
-		}
+
+		for (__int32 i = 0; i < 5; i++)
 		{
+			stream->Write<unsigned int>(customization->colors[i], 24);
 		}
-		todo("implement");
-		_sub_107F09C0(stream, customization);
+
+		for (__int32 i = 0; i < 16; i++)
+		{
+			stream->Write<unsigned char>(customization->armor_section_indices[i], 0, 0xFF);
+		}
 	}
 
-	_extern bool _sub_107F0900(Blam::BitStream *, s_player_model_customization *);
 	bool player_model_customization_decode(Blam::BitStream *stream, s_player_model_customization *customization) // 0x107F0900
 	{
-		mangled_x86(MANGLED_TODO, "?player_model_customization_decode@Player@@YA_NPAVBitStream@Blam@@PAUs_player_model_customization@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?player_model_customization_decode@Player@@YA_NPAVBitStream@Blam@@PAUs_player_model_customization@@@Z");
 		// s_player_model_customization *customization;
-		{
 			// __int32 i;
-		}
+
+		for (__int32 i = 0; i < 5; i++)
 		{
+			customization->colors[i] = stream->ReadUnsigned<unsigned int>(24);
 		}
-		todo("implement");
-		bool __result = _sub_107F0900(stream, customization);
-		return __result;
+
+		for (__int32 i = 0; i < 16; i++)
+		{
+			customization->armor_section_indices[i] = stream->ReadUnsigned<unsigned char>(0, 0xFF);
+		}
+
+		return true;
 	}
 
 	void player_emblem_configuration_encode(Blam::BitStream *stream, s_player_emblem_configuration const *emblem) // 0x107F0800
@@ -137,19 +144,31 @@ namespace Player
 		_sub_107F0710(stream, emblem);
 	}
 
-	_extern void _sub_107F02F0(Blam::BitStream *, s_player_appearance const *);
 	void player_appearance_encode(Blam::BitStream *stream, s_player_appearance const *appearance) // 0x107F02F0
 	{
-		mangled_x86(MANGLED_TODO, "?player_appearance_encode@Player@@YAXPAVBitStream@Blam@@PBUs_player_appearance@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?player_appearance_encode@Player@@YAXPAVBitStream@Blam@@PBUs_player_appearance@@@Z");
 		// s_player_appearance const *appearance;
-		{
 			// __int32 i;
-			{
 				// s_player_character_customiztion const &character;
-			}
+
+		stream->WriteBool(appearance->gender);
+		stream->WriteStringFixed(appearance->service_tag);
+		player_model_customization_encode(stream, &appearance->model_customization);
+
+		stream->Write<unsigned long>(appearance->nameplate_color, 32);
+		stream->Write<unsigned long>(appearance->preferred_character, 32);
+		stream->Write<long>(appearance->characters_count, 0, 16);
+
+		for (__int32 i = 0; i < appearance->characters_count; i++)
+		{
+			s_player_character_customiztion const &character = appearance->characters[i];
+
+			stream->Write<unsigned long>(character.character_name, 32);
+			player_model_customization_encode(stream, (s_player_model_customization const *)character.customization);
 		}
-		todo("implement");
-		_sub_107F02F0(stream, appearance);
+
+		player_emblem_configuration_encode(stream, &appearance->emblem_config);
+		stream->Write<long>(appearance->nameplate_index, 32);
 	}
 
 	_extern bool _sub_107F0150(Blam::BitStream *, s_player_appearance *);
@@ -168,23 +187,59 @@ namespace Player
 		return __result;
 	}
 
-	_extern bool _sub_107F0480(Blam::BitStream *, s_player_configuration_from_host *, e_player_configuration_encoding_type);
 	bool player_configuration_host_decode(Blam::BitStream *stream, s_player_configuration_from_host *configuration, e_player_configuration_encoding_type encoding_type) // 0x107F0480
 	{
-		mangled_x86(MANGLED_TODO, "?player_configuration_host_decode@Player@@YA_NPAVBitStream@Blam@@PAUs_player_configuration_from_host@@W4e_player_configuration_encoding_type@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?player_configuration_host_decode@Player@@YA_NPAVBitStream@Blam@@PAUs_player_configuration_from_host@@W4e_player_configuration_encoding_type@@@Z");
 		// e_player_configuration_encoding_type encoding_type;
-		todo("implement");
-		bool __result = _sub_107F0480(stream, configuration, encoding_type);
-		return __result;
+
+		memset(configuration, 0, sizeof(s_player_configuration_from_host));
+
+		stream->ReadBlock(64, (unsigned char *)configuration);
+		stream->ReadStringFixed(configuration->player_name);
+
+		configuration->team = -1;
+		if (stream->ReadBool())
+			configuration->team = stream->Read<long>(5);
+
+		configuration->player_assigned_team = -1;
+		if (encoding_type == _player_configuration_encoding_type_full)
+		{
+			if (stream->ReadBool())
+				configuration->player_assigned_team = stream->Read<long>(5);
+
+			if (!player_appearance_decode(stream, &configuration->appearance))
+				return false;
+		}
+
+		if (configuration->team != -1 && !valid_team_index(configuration->team))
+			return false;
+
+		if (configuration->player_assigned_team != -1 && !valid_team_index(configuration->player_assigned_team))
+			return false;
+
+		return true;
 	}
 
-	_extern void _sub_107F05E0(Blam::BitStream *, s_player_configuration_from_host *, e_player_configuration_encoding_type);
 	void player_configuration_host_encode(Blam::BitStream *stream, s_player_configuration_from_host *configuration, e_player_configuration_encoding_type encoding_type) // 0x107F05E0
 	{
-		mangled_x86(MANGLED_TODO, "?player_configuration_host_encode@Player@@YAXPAVBitStream@Blam@@PAUs_player_configuration_from_host@@W4e_player_configuration_encoding_type@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?player_configuration_host_encode@Player@@YAXPAVBitStream@Blam@@PAUs_player_configuration_from_host@@W4e_player_configuration_encoding_type@@@Z");
 		// e_player_configuration_encoding_type encoding_type;
-		todo("implement");
-		_sub_107F05E0(stream, configuration, encoding_type);
+
+		stream->WriteBlock(64, (unsigned char const *)configuration);
+		stream->WriteStringFixed(configuration->player_name);
+
+		stream->WriteBool(configuration->team != -1);
+		if (configuration->team != -1)
+			stream->Write<long>(configuration->team, 5);
+
+		if (encoding_type == _player_configuration_encoding_type_full)
+		{
+			stream->WriteBool(configuration->player_assigned_team != -1);
+			if (configuration->player_assigned_team != -1)
+				stream->Write<long>(configuration->player_assigned_team, 5);
+
+			player_appearance_encode(stream, &configuration->appearance);
+		}
 	}
 }
 
@@ -220,3 +275,9 @@ template void Blam::BitStream::WriteUnsigned<unsigned __int64>(unsigned long lon
 template void Blam::BitStream::WriteUnsigned<unsigned char>(unsigned char, unsigned char, unsigned char);
 template void Blam::BitStream::WriteUnsigned<unsigned int>(unsigned __int32, __int32);
 template void Blam::BitStream::WriteUnsigned<unsigned long>(unsigned long, unsigned long, unsigned long);
+
+/* ---------- explicit instantiations */
+template void Blam::BitStream::ReadStringFixed<wchar_t,16>(wchar_t (&)[16]);
+template void Blam::BitStream::ReadStringFixed<wchar_t,5>(wchar_t (&)[5]);
+template void Blam::BitStream::WriteStringFixed<wchar_t,16>(wchar_t const (&)[16]);
+template void Blam::BitStream::WriteStringFixed<wchar_t,5>(wchar_t const (&)[5]);

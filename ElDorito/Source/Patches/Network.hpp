@@ -52,7 +52,7 @@ namespace Patches
 			virtual void PlayerAdded(__int32) = 0;
 			virtual void PlayerRemoved(__int32) = 0;
 			NetworkSessionListener(Patches::Network::NetworkSessionListener const &); /* compiler_generated() */
-			_inline NetworkSessionListener(); /* compiler_generated() */
+			_inline NetworkSessionListener() = default; /* compiler_generated() */
 			Patches::Network::NetworkSessionListener &operator=(Patches::Network::NetworkSessionListener const &); /* compiler_generated() */
 		};
 		static_assert(sizeof(Patches::Network::NetworkSessionListener) == 4, "Invalid Patches::Network::NetworkSessionListener size");

@@ -27,7 +27,7 @@ struct SJobCounter
 private:
 	std::atomic<int> m_value; // 0x0
 public:
-	_inline SJobCounter(); /* compiler_generated() */
+	_inline SJobCounter() = default; /* compiler_generated() */
 };
 static_assert(sizeof(SJobCounter) == 4, "Invalid SJobCounter size");
 

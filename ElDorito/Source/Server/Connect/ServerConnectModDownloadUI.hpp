@@ -41,7 +41,7 @@ public:
 	virtual void ShowConfirmation(std::vector<SServerConnectState::SRequiredMod *> const &) = 0;
 	virtual void Hide() = 0;
 	IServerConnectModDownloadUI(IServerConnectModDownloadUI const &); /* compiler_generated() */
-	_inline IServerConnectModDownloadUI(); /* compiler_generated() */
+	_inline IServerConnectModDownloadUI() = default; /* compiler_generated() */
 	IServerConnectModDownloadUI &operator=(IServerConnectModDownloadUI const &); /* compiler_generated() */
 };
 static_assert(sizeof(IServerConnectModDownloadUI) == 4, "Invalid IServerConnectModDownloadUI size");

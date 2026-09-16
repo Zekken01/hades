@@ -222,7 +222,6 @@ namespace Utils
 /* ---------- public code */
 
 // mangled_x86(MANGLED_DEFAULT, "??0s_game_engine_event_data@@QAE@XZ"); no body to assert in
-_inline s_game_engine_event_data::s_game_engine_event_data() = default; // 0x107A91F0
 
 // mangled_x86(MANGLED_DEFAULT, "??1Patch@@QAE@XZ"); no body to assert in
 _inline Patch::~Patch() = default; // 0x107A9240

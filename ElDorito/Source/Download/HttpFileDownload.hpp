@@ -94,7 +94,7 @@ namespace Download
 			virtual void Complete(SSegment *) = 0;
 			virtual _inline void BeforeStartSegment(SSegment *segment);
 			ISegmentStore(ISegmentStore const &); /* compiler_generated() */
-			_inline ISegmentStore(); /* compiler_generated() */
+			_inline ISegmentStore() = default; /* compiler_generated() */
 			ISegmentStore &operator=(ISegmentStore const &); /* compiler_generated() */
 		};
 		static_assert(sizeof(ISegmentStore) == 4, "Invalid ISegmentStore size");

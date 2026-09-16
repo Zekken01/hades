@@ -71,7 +71,7 @@ struct s_game_options
 	s_static_array<s_game_player_options,16> player_options; // 0xE748
 	s_game_options(s_game_options &); /* compiler_generated() */
 	s_game_options(s_game_options const &); /* compiler_generated() */
-	_inline s_game_options(); /* compiler_generated() */
+	_inline s_game_options() = default; /* compiler_generated() */
 	s_game_options &operator=(s_game_options &); /* compiler_generated() */
 	s_game_options &operator=(s_game_options const &); /* compiler_generated() */
 };

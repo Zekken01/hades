@@ -44,7 +44,7 @@ namespace Server
 			std::vector<Server::Voting::PlaylistItem> vetoPlaylist; // 0x20
 			VotingJson(Server::Voting::VotingJson &); /* compiler_generated() */
 			VotingJson(Server::Voting::VotingJson const &); /* compiler_generated() */
-			_inline VotingJson(); /* compiler_generated() */
+			_inline VotingJson() = default; /* compiler_generated() */
 			_inline ~VotingJson(); /* compiler_generated() */
 			Server::Voting::VotingJson &operator=(Server::Voting::VotingJson &); /* compiler_generated() */
 			Server::Voting::VotingJson &operator=(Server::Voting::VotingJson const &); /* compiler_generated() */

@@ -105,7 +105,7 @@ public:
 	s_tag_data m_data; // 0x0
 	c_function_definition(c_function_definition &); /* compiler_generated() */
 	c_function_definition(c_function_definition const &); /* compiler_generated() */
-	_inline c_function_definition(); /* compiler_generated() */
+	_inline c_function_definition() = default; /* compiler_generated() */
 	c_function_definition &operator=(c_function_definition &); /* compiler_generated() */
 	c_function_definition &operator=(c_function_definition const &); /* compiler_generated() */
 };

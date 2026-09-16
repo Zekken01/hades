@@ -45,7 +45,7 @@ struct c_game_variant
 	_inline c_game_engine_base_variant *get_base_variant();
 	c_game_variant(c_game_variant &); /* compiler_generated() */
 	c_game_variant(c_game_variant const &); /* compiler_generated() */
-	_inline c_game_variant(); /* compiler_generated() */
+	_inline c_game_variant() = default; /* compiler_generated() */
 	c_game_variant &operator=(c_game_variant &); /* compiler_generated() */
 	c_game_variant &operator=(c_game_variant const &); /* compiler_generated() */
 };

@@ -156,7 +156,6 @@ namespace Modules
 	}
 
 	// mangled_x86(MANGLED_DEFAULT, "??0CachedIGD@ModuleUPnP@Modules@@QAE@XZ"); no body to assert in
-	_inline ModuleUPnP::CachedIGD::CachedIGD() = default; // 0x10A23070
 }
 
 /* ---------- private code */

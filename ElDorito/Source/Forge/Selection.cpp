@@ -218,7 +218,6 @@ namespace Forge
 namespace Forge
 {
 	// mangled_x86(MANGLED_DEFAULT, "??0ObjectSet@Forge@@QAE@XZ"); no body to assert in
-	_inline ObjectSet::ObjectSet() = default; // 0x109734A0
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0c_object_identifier@@QAE@ABU0@@Z"); no body to assert in

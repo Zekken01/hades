@@ -27,7 +27,7 @@ private:
 public:
 	CServerConnectStateHandler_Connect(CServerConnectStateHandler_Connect &); /* compiler_generated() */
 	CServerConnectStateHandler_Connect(CServerConnectStateHandler_Connect const &); /* compiler_generated() */
-	_inline CServerConnectStateHandler_Connect(); /* compiler_generated() */
+	_inline CServerConnectStateHandler_Connect() = default; /* compiler_generated() */
 	CServerConnectStateHandler_Connect &operator=(CServerConnectStateHandler_Connect &); /* compiler_generated() */
 	CServerConnectStateHandler_Connect &operator=(CServerConnectStateHandler_Connect const &); /* compiler_generated() */
 };

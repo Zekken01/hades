@@ -43,7 +43,7 @@ public:
 		std::string mod_description; // 0x98
 		_inline s_mod_package_description(s_mod_package_description &&__that); /* compiler_generated() */
 		_inline s_mod_package_description(s_mod_package_description const &__that); /* compiler_generated() */
-		_inline s_mod_package_description(); /* compiler_generated() */
+		_inline s_mod_package_description() = default; /* compiler_generated() */
 		_inline ~s_mod_package_description(); /* compiler_generated() */
 		s_mod_package_description &operator=(s_mod_package_description &); /* compiler_generated() */
 		s_mod_package_description &operator=(s_mod_package_description const &); /* compiler_generated() */
@@ -69,7 +69,7 @@ private:
 public:
 	c_mod_package_updater_blocking(c_mod_package_updater_blocking &); /* compiler_generated() */
 	c_mod_package_updater_blocking(c_mod_package_updater_blocking const &); /* compiler_generated() */
-	_inline c_mod_package_updater_blocking(); /* compiler_generated() */
+	_inline c_mod_package_updater_blocking() = default; /* compiler_generated() */
 	_inline ~c_mod_package_updater_blocking(); /* compiler_generated() */
 	c_mod_package_updater_blocking &operator=(c_mod_package_updater_blocking &); /* compiler_generated() */
 	c_mod_package_updater_blocking &operator=(c_mod_package_updater_blocking const &); /* compiler_generated() */

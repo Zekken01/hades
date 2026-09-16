@@ -134,7 +134,6 @@ namespace Player
 		}
 
 		// mangled_x86(MANGLED_DEFAULT, "??0PlayerEmblemRenderMetadata@Emblems@Player@@QAE@XZ"); no body to assert in
-		_inline PlayerEmblemRenderMetadata::PlayerEmblemRenderMetadata() = default; // 0x107E7020
 
 		// mangled_x86(MANGLED_DEFAULT, "??0PlayerEmblemRenderTask@Emblems@Player@@QAE@$$QAU012@@Z"); no body to assert in
 		_inline PlayerEmblemRenderTask::PlayerEmblemRenderTask(Player::Emblems::PlayerEmblemRenderTask &&__that) = default; // 0x107E7070
@@ -200,7 +199,6 @@ namespace Player
 		}
 
 		// mangled_x86(MANGLED_DEFAULT, "??0IPlayerEmblemStream@Emblems@Player@@QAE@XZ"); no body to assert in
-		_inline IPlayerEmblemStream::IPlayerEmblemStream() = default; // 0x107E6E70
 
 		_inline PlayerEmblemD3DXBufferStream::PlayerEmblemD3DXBufferStream(ID3DXBuffer *buff, bool owner) // 0x107E6EA0
 		{

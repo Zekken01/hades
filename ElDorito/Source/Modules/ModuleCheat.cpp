@@ -275,6 +275,10 @@ bool CheatDeleteWeapons(std::vector<std::string> const &args, std::string &retur
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CheatDeleteWeapons@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CheatDeleteWeapons
 	// std::string &returnValue;
+		// lambda body (original at 0x10795D30) not written yet - it deletes the
+		// local player unit's weapon_object_indices entries
+		// lambda body (original at 0x10795D30) not written yet - it deletes the
+		// local player unit's weapon_object_indices entries
 
 	Objects::CObjectMessaging::EnqueueAction([]()
 	{

@@ -44,7 +44,7 @@ private:
 public:
 	c_map_load_error_helper(c_map_load_error_helper &); /* compiler_generated() */
 	c_map_load_error_helper(c_map_load_error_helper const &); /* compiler_generated() */
-	_inline c_map_load_error_helper(); /* compiler_generated() */
+	_inline c_map_load_error_helper() = default; /* compiler_generated() */
 	_inline ~c_map_load_error_helper(); /* compiler_generated() */
 	c_map_load_error_helper &operator=(c_map_load_error_helper &); /* compiler_generated() */
 	c_map_load_error_helper &operator=(c_map_load_error_helper const &); /* compiler_generated() */

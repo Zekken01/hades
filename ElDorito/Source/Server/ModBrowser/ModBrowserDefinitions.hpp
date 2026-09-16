@@ -39,7 +39,7 @@ struct SModBrowserState
 		std::string downloadPath; // 0xE8
 		SRequestedMod(SRequestedMod &); /* compiler_generated() */
 		SRequestedMod(SRequestedMod const &); /* compiler_generated() */
-		_inline SRequestedMod(); /* compiler_generated() */
+		_inline SRequestedMod() = default; /* compiler_generated() */
 		_inline ~SRequestedMod(); /* compiler_generated() */
 		_inline SRequestedMod &operator=(SRequestedMod &&__that); /* compiler_generated() */
 		_inline SRequestedMod &operator=(SRequestedMod const &__that); /* compiler_generated() */
@@ -61,7 +61,7 @@ struct SModBrowserState
 	bool modDownloadConfirmed; // 0x1A4
 	SModBrowserState(SModBrowserState &); /* compiler_generated() */
 	SModBrowserState(SModBrowserState const &); /* compiler_generated() */
-	_inline SModBrowserState(); /* compiler_generated() */
+	_inline SModBrowserState() = default; /* compiler_generated() */
 	_inline ~SModBrowserState(); /* compiler_generated() */
 	_inline SModBrowserState &operator=(SModBrowserState &&__that); /* compiler_generated() */
 	SModBrowserState &operator=(SModBrowserState const &); /* compiler_generated() */

@@ -37,7 +37,7 @@ struct SQueryInfoServerArgs
 	__int32 port; // 0x38
 	_inline SQueryInfoServerArgs(SQueryInfoServerArgs &&__that); /* compiler_generated() */
 	_inline SQueryInfoServerArgs(SQueryInfoServerArgs const &__that); /* compiler_generated() */
-	_inline SQueryInfoServerArgs(); /* compiler_generated() */
+	_inline SQueryInfoServerArgs() = default; /* compiler_generated() */
 	_inline ~SQueryInfoServerArgs(); /* compiler_generated() */
 	SQueryInfoServerArgs &operator=(SQueryInfoServerArgs &); /* compiler_generated() */
 	SQueryInfoServerArgs &operator=(SQueryInfoServerArgs const &); /* compiler_generated() */
@@ -59,7 +59,7 @@ struct SQueryInfoServerData
 	unsigned char xnaddr[16]; // 0x6C
 	SQueryInfoServerData(SQueryInfoServerData &); /* compiler_generated() */
 	SQueryInfoServerData(SQueryInfoServerData const &); /* compiler_generated() */
-	_inline SQueryInfoServerData(); /* compiler_generated() */
+	_inline SQueryInfoServerData() = default; /* compiler_generated() */
 	_inline ~SQueryInfoServerData(); /* compiler_generated() */
 	_inline SQueryInfoServerData &operator=(SQueryInfoServerData &&__that); /* compiler_generated() */
 	SQueryInfoServerData &operator=(SQueryInfoServerData const &); /* compiler_generated() */
@@ -86,7 +86,7 @@ private:
 	unsigned __int32 m_addressLookupAddress; // 0xC4
 	std::vector<SServerConnectState::SRequiredMod> m_requiredMods; // 0xC8
 public:
-	_inline CServerConnectStateHandler_QueryServer(); /* compiler_generated() */
+	_inline CServerConnectStateHandler_QueryServer() = default; /* compiler_generated() */
 	_inline ~CServerConnectStateHandler_QueryServer(); /* compiler_generated() */
 };
 static_assert(sizeof(CServerConnectStateHandler_QueryServer) == 216, "Invalid CServerConnectStateHandler_QueryServer size");

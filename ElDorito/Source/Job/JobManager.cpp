@@ -141,7 +141,6 @@ _inline CJobManager::SJob::SJob(CJobManager::SJob &&__that) = default; // 0x1086
 _inline CJobManager::SJob::SJob(CJobManager::SJob const &__that) = default; // 0x10869380
 
 // mangled_x86(MANGLED_DEFAULT, "??0SJob@CJobManager@@QAE@XZ"); no body to assert in
-_inline CJobManager::SJob::SJob() = default; // 0x10869420
 
 // mangled_x86(MANGLED_DEFAULT, "??1SJob@CJobManager@@QAE@XZ"); no body to assert in
 _inline CJobManager::SJob::~SJob() = default; // 0x10869750

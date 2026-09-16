@@ -403,7 +403,6 @@ namespace Server
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0s_blf_map_information@@QAE@XZ"); no body to assert in
-_inline s_blf_map_information::s_blf_map_information() = default; // 0x1074CA80
 
 // mangled_x86(MANGLED_DEFAULT, "??1CMapFile@@QAE@XZ"); no body to assert in
 _inline CMapFile::~CMapFile() = default; // 0x1074CD80

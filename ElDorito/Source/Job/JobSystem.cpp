@@ -95,10 +95,8 @@ namespace Job
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0CJobManager@@QAE@XZ"); no body to assert in
-_inline CJobManager::CJobManager() = default; // 0x1086CA30
 
 // mangled_x86(MANGLED_DEFAULT, "??0SJobCounter@@QAE@XZ"); no body to assert in
-_inline SJobCounter::SJobCounter() = default; // 0x1086CB20
 
 // mangled_x86(MANGLED_DEFAULT, "??1CJobManager@@QAE@XZ"); no body to assert in
 _inline CJobManager::~CJobManager() = default; // 0x1086CD80

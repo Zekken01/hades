@@ -206,7 +206,6 @@ namespace Server
 		}
 
 		// mangled_x86(MANGLED_DEFAULT, "??0VotingJson@Voting@Server@@QAE@XZ"); no body to assert in
-		_inline VotingJson::VotingJson() = default; // 0x1073AA30
 
 		void VetoSystem::Init() // 0x1073D950
 		{

@@ -82,7 +82,7 @@ namespace Server
 				std::string characterName; // 0x1C
 				CharacterOverride(CharacterOverride &); /* compiler_generated() */
 				_inline CharacterOverride(CharacterOverride const &__that); /* compiler_generated() */
-				_inline CharacterOverride(); /* compiler_generated() */
+				_inline CharacterOverride() = default; /* compiler_generated() */
 				_inline ~CharacterOverride(); /* compiler_generated() */
 				_inline CharacterOverride &operator=(CharacterOverride &&__that); /* compiler_generated() */
 				_inline CharacterOverride &operator=(CharacterOverride const &__that); /* compiler_generated() */
@@ -119,7 +119,7 @@ namespace Server
 			Server::Voting::HaloMap map; // 0xF8
 			_inline PlaylistItem(Server::Voting::PlaylistItem &&__that); /* compiler_generated() */
 			_inline PlaylistItem(Server::Voting::PlaylistItem const &__that); /* compiler_generated() */
-			_inline PlaylistItem(); /* compiler_generated() */
+			_inline PlaylistItem() = default; /* compiler_generated() */
 			_inline ~PlaylistItem(); /* compiler_generated() */
 			Server::Voting::PlaylistItem &operator=(Server::Voting::PlaylistItem &); /* compiler_generated() */
 			Server::Voting::PlaylistItem &operator=(Server::Voting::PlaylistItem const &); /* compiler_generated() */
@@ -170,7 +170,7 @@ namespace Server
 			__int32 mapId; // 0x38
 			_inline SMapListItem(Server::Voting::SMapListItem &&__that); /* compiler_generated() */
 			_inline SMapListItem(Server::Voting::SMapListItem const &__that); /* compiler_generated() */
-			_inline SMapListItem(); /* compiler_generated() */
+			_inline SMapListItem() = default; /* compiler_generated() */
 			_inline ~SMapListItem(); /* compiler_generated() */
 			Server::Voting::SMapListItem &operator=(Server::Voting::SMapListItem &); /* compiler_generated() */
 			_inline Server::Voting::SMapListItem &operator=(Server::Voting::SMapListItem const &__that); /* compiler_generated() */

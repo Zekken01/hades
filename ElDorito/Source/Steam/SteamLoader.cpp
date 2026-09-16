@@ -156,3 +156,6 @@ namespace Steam
 }
 
 /* ---------- private code */
+
+/* ---------- explicit instantiations */
+template void * (*Steam::SteamLoader::GetProcAddress<void * (__cdecl*)(char const *,int *)>(char const *name))(char const *, __int32 *);

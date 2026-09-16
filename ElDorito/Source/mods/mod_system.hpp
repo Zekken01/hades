@@ -39,7 +39,7 @@ struct s_mod_server_package_entry
 	std::string hash; // 0x38
 	_inline s_mod_server_package_entry(s_mod_server_package_entry &&__that); /* compiler_generated() */
 	_inline s_mod_server_package_entry(s_mod_server_package_entry const &__that); /* compiler_generated() */
-	_inline s_mod_server_package_entry(); /* compiler_generated() */
+	_inline s_mod_server_package_entry() = default; /* compiler_generated() */
 	_inline ~s_mod_server_package_entry(); /* compiler_generated() */
 	s_mod_server_package_entry &operator=(s_mod_server_package_entry &); /* compiler_generated() */
 	_inline s_mod_server_package_entry &operator=(s_mod_server_package_entry const &__that); /* compiler_generated() */

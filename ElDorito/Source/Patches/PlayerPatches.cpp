@@ -176,7 +176,6 @@ namespace Patches
 namespace Player
 {
 	// mangled_x86(MANGLED_DEFAULT, "??0PlayerCustomizationExtensions@Player@@QAE@XZ"); no body to assert in
-	_inline PlayerCustomizationExtensions::PlayerCustomizationExtensions() = default; // 0x108D8C10
 }
 
 namespace Patches

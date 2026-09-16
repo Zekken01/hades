@@ -132,14 +132,11 @@ namespace Forge
 	}
 
 	// mangled_x86(MANGLED_DEFAULT, "??0CObjectPropertyAccessor@Forge@@QAE@XZ"); no body to assert in
-	_inline CObjectPropertyAccessor::CObjectPropertyAccessor() = default; // 0x1083AD90
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0s_map_variant_placement_properties@@QAE@XZ"); no body to assert in
-_inline s_map_variant_placement_properties::s_map_variant_placement_properties() = default; // 0x1083AEF0
 
 // mangled_x86(MANGLED_DEFAULT, "??0s_simulation_queue_sandbox_event_data@@QAE@XZ"); no body to assert in
-_inline s_simulation_queue_sandbox_event_data::s_simulation_queue_sandbox_event_data() = default; // 0x1083AF60
 
 namespace Forge
 {

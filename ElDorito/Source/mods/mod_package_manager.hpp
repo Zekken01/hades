@@ -44,7 +44,7 @@ public:
 		bool campaign : 1; // 0x0
 		bool firefight : 1; // 0x0
 		bool character : 1; // 0x0
-		_inline mod_type(); /* compiler_generated() */
+		_inline mod_type() = default; /* compiler_generated() */
 	};
 	static_assert(sizeof(mod_type) == 1, "Invalid mod_type size");
 	struct s_entry
@@ -67,7 +67,7 @@ public:
 		s_mod_origin_info origin; // 0x5B4
 		_inline s_entry(s_entry &&__that); /* compiler_generated() */
 		_inline s_entry(s_entry const &__that); /* compiler_generated() */
-		_inline s_entry(); /* compiler_generated() */
+		_inline s_entry() = default; /* compiler_generated() */
 		_inline ~s_entry(); /* compiler_generated() */
 		s_entry &operator=(s_entry &); /* compiler_generated() */
 		_inline s_entry &operator=(s_entry const &__that); /* compiler_generated() */

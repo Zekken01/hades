@@ -34,7 +34,7 @@ private:
 public:
 	CModBrowserStateHandler(CModBrowserStateHandler &); /* compiler_generated() */
 	CModBrowserStateHandler(CModBrowserStateHandler const &); /* compiler_generated() */
-	_inline CModBrowserStateHandler(); /* compiler_generated() */
+	_inline CModBrowserStateHandler() = default; /* compiler_generated() */
 	CModBrowserStateHandler &operator=(CModBrowserStateHandler &); /* compiler_generated() */
 	CModBrowserStateHandler &operator=(CModBrowserStateHandler const &); /* compiler_generated() */
 };

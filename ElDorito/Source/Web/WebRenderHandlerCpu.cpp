@@ -171,7 +171,6 @@ namespace Web
 		}
 
 		// mangled_x86(MANGLED_DEFAULT, "??0RenderHandlerOsr@Browser@Web@@QAE@XZ"); no body to assert in
-		_inline RenderHandlerOsr::RenderHandlerOsr() = default; // 0x10CE80C0
 
 		_extern void _sub_10CE95A0(Web::Browser::RenderHandlerCpu *const, scoped_refptr<CefBrowser>, CefRect const &);
 		void RenderHandlerCpu::OnPopupSize(scoped_refptr<CefBrowser> browser, CefRect const &rect) // 0x10CE95A0

@@ -342,6 +342,8 @@ void Hf2pInitHook() // 0x10A723E0
 	// `anonymous-namespace'::Hf2pInitHook
 	// procedure flags: nofpo
 	// function call : void (*)()
+	// InitSoundSystem
+	// InitSoundSystem
 
 	*(unsigned __int32 *)0x50CCB3C = 0;
 	*(unsigned __int32 *)0x244ED28 = 0;

@@ -241,10 +241,8 @@ namespace Server
 		_inline PlaylistItem::PlaylistItem(Server::Voting::PlaylistItem const &__that) = default; // 0x10745AE0
 
 		// mangled_x86(MANGLED_DEFAULT, "??0PlaylistItem@Voting@Server@@QAE@XZ"); no body to assert in
-		_inline PlaylistItem::PlaylistItem() = default; // 0x10745BF0
 
 		// mangled_x86(MANGLED_DEFAULT, "??0SMapListItem@Voting@Server@@QAE@XZ"); no body to assert in
-		_inline SMapListItem::SMapListItem() = default; // 0x10745CB0
 
 		// mangled_x86(MANGLED_DEFAULT, "??1SMapListItem@Voting@Server@@QAE@XZ"); no body to assert in
 		_inline SMapListItem::~SMapListItem() = default; // 0x10745DE0

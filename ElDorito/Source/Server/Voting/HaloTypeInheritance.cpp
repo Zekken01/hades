@@ -202,7 +202,6 @@ namespace Server
 		}
 
 		// mangled_x86(MANGLED_DEFAULT, "??0CharacterOverride@HaloType@Voting@Server@@QAE@XZ"); no body to assert in
-		_inline HaloType::CharacterOverride::CharacterOverride() = default; // 0x10732830
 
 		// mangled_x86(MANGLED_DEFAULT, "??0HaloMap@Voting@Server@@QAE@$$QAU012@@Z"); no body to assert in
 		_inline HaloMap::HaloMap(Server::Voting::HaloMap &&__that) = default; // 0x10732890

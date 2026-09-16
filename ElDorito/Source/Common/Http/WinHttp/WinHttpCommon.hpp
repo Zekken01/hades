@@ -31,7 +31,7 @@ namespace Http
 		static _inline Http::WinHttpErrorCategory &Get();
 		virtual _inline char const *name() const noexcept;
 		virtual _inline std::string message(__int32 error) const;
-		_inline WinHttpErrorCategory(); /* compiler_generated() */
+		_inline WinHttpErrorCategory() = default; /* compiler_generated() */
 		virtual _inline ~WinHttpErrorCategory() = default; /* compiler_generated() */ // 0x10807760
 	};
 	static_assert(sizeof(Http::WinHttpErrorCategory) == 8, "Invalid Http::WinHttpErrorCategory size");

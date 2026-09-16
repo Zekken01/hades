@@ -40,7 +40,7 @@ struct s_game_player_options
 	s_machine_identifier player_uid; // 0x8
 	s_player_identifier player_identifier; // 0x18
 	s_player_configuration configuration_data; // 0x20
-	_inline s_game_player_options(); /* compiler_generated() */
+	_inline s_game_player_options() = default; /* compiler_generated() */
 };
 static_assert(sizeof(s_game_player_options) == 5696, "Invalid s_game_player_options size");
 

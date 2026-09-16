@@ -110,7 +110,6 @@ c_mod_package::c_mod_package(char const *file_path) // 0x1089CF00
 _inline s_file_reference::s_file_reference(s_file_reference const &__that) = default; // 0x1089D0D0
 
 // mangled_x86(MANGLED_DEFAULT, "??0s_mod_package_header@@QAE@XZ"); no body to assert in
-_inline s_mod_package_header::s_mod_package_header() = default; // 0x1089D1C0
 
 c_mod_package::~c_mod_package() // 0x1089D270
 {

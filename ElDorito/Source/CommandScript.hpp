@@ -84,7 +84,7 @@ namespace Modules
 	public:
 		CommandScriptStack(Modules::CommandScriptStack &); /* compiler_generated() */
 		CommandScriptStack(Modules::CommandScriptStack const &); /* compiler_generated() */
-		_inline CommandScriptStack(); /* compiler_generated() */
+		_inline CommandScriptStack() = default; /* compiler_generated() */
 		_inline ~CommandScriptStack(); /* compiler_generated() */
 		Modules::CommandScriptStack &operator=(Modules::CommandScriptStack &); /* compiler_generated() */
 		Modules::CommandScriptStack &operator=(Modules::CommandScriptStack const &); /* compiler_generated() */

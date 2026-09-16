@@ -30,7 +30,7 @@ struct SServerConnectOptions
 	__int32 port; // 0x38
 	SServerConnectOptions(SServerConnectOptions &); /* compiler_generated() */
 	SServerConnectOptions(SServerConnectOptions const &); /* compiler_generated() */
-	_inline SServerConnectOptions(); /* compiler_generated() */
+	_inline SServerConnectOptions() = default; /* compiler_generated() */
 	_inline ~SServerConnectOptions(); /* compiler_generated() */
 	SServerConnectOptions &operator=(SServerConnectOptions &); /* compiler_generated() */
 	SServerConnectOptions &operator=(SServerConnectOptions const &); /* compiler_generated() */
@@ -59,7 +59,7 @@ struct SServerConnectState
 		std::string downloadPath; // 0xE8
 		_inline SRequiredMod(SRequiredMod &&__that); /* compiler_generated() */
 		_inline SRequiredMod(SRequiredMod const &__that); /* compiler_generated() */
-		_inline SRequiredMod(); /* compiler_generated() */
+		_inline SRequiredMod() = default; /* compiler_generated() */
 		_inline ~SRequiredMod(); /* compiler_generated() */
 		SRequiredMod &operator=(SRequiredMod &); /* compiler_generated() */
 		_inline SRequiredMod &operator=(SRequiredMod const &__that); /* compiler_generated() */

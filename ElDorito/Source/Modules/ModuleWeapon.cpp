@@ -152,7 +152,6 @@ namespace Patches
 	namespace Weapon
 	{
 		// mangled_x86(MANGLED_DEFAULT, "??0WeaponInfo@Weapon@Patches@@QAE@XZ"); no body to assert in
-		_inline WeaponInfo::WeaponInfo() = default; // 0x10A26530
 
 		// mangled_x86(MANGLED_DEFAULT, "??1WeaponInfo@Weapon@Patches@@QAE@XZ"); no body to assert in
 		_inline WeaponInfo::~WeaponInfo() = default; // 0x10A26580

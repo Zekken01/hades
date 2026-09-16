@@ -729,7 +729,6 @@ namespace Patches
 	namespace Input
 	{
 		// mangled_x86(MANGLED_DEFAULT, "??0InputContext@Input@Patches@@QAE@XZ"); no body to assert in
-		_inline InputContext::InputContext() = default; // 0x10C91350
 	}
 }
 

@@ -131,13 +131,10 @@ using namespace hades_file_local;
 /* ---------- public code */
 
 // mangled_x86(MANGLED_DEFAULT, "??0c_object_identifier@@QAE@XZ"); no body to assert in
-_inline c_object_identifier::c_object_identifier() = default; // 0x1067D1D0
 
 // mangled_x86(MANGLED_DEFAULT, "??0s_multiplayer_object_properties_definition@@QAE@XZ"); no body to assert in
-_inline s_multiplayer_object_properties_definition::s_multiplayer_object_properties_definition() = default; // 0x1067D240
 
 // mangled_x86(MANGLED_DEFAULT, "??0s_object_placement_data@@QAE@XZ"); no body to assert in
-_inline s_object_placement_data::s_object_placement_data() = default; // 0x1067D2F0
 
 namespace Forge
 {

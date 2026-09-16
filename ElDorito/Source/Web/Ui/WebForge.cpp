@@ -313,7 +313,6 @@ namespace Web
 namespace Forge
 {
 	// mangled_x86(MANGLED_DEFAULT, "??0CDeferredPropertySetter@Forge@@QAE@XZ"); no body to assert in
-	_inline CDeferredPropertySetter::CDeferredPropertySetter() = default; // 0x10CA64C0
 
 }
 

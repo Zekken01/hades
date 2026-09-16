@@ -95,7 +95,7 @@ namespace Web
 				float dialogHeight; // 0xA0
 				SDialogShowParams(Web::Ui::ScreenLayer::SDialogShowParams &); /* compiler_generated() */
 				SDialogShowParams(Web::Ui::ScreenLayer::SDialogShowParams const &); /* compiler_generated() */
-				_inline SDialogShowParams(); /* compiler_generated() */
+				_inline SDialogShowParams() = default; /* compiler_generated() */
 				_inline ~SDialogShowParams(); /* compiler_generated() */
 				Web::Ui::ScreenLayer::SDialogShowParams &operator=(Web::Ui::ScreenLayer::SDialogShowParams &); /* compiler_generated() */
 				Web::Ui::ScreenLayer::SDialogShowParams &operator=(Web::Ui::ScreenLayer::SDialogShowParams const &); /* compiler_generated() */

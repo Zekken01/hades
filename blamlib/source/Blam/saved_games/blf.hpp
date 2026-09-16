@@ -97,7 +97,7 @@ struct s_blf_map_information :
 	s_blf_map_mission_information insertions[9]; // 0x1130
 	s_blf_map_information(s_blf_map_information &); /* compiler_generated() */
 	s_blf_map_information(s_blf_map_information const &); /* compiler_generated() */
-	_inline s_blf_map_information(); /* compiler_generated() */
+	_inline s_blf_map_information() = default; /* compiler_generated() */
 	s_blf_map_information &operator=(s_blf_map_information &); /* compiler_generated() */
 	s_blf_map_information &operator=(s_blf_map_information const &); /* compiler_generated() */
 };

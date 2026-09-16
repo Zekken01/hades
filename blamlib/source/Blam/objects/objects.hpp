@@ -82,7 +82,7 @@ struct s_object_placement_data
 	s_multiplayer_object_properties_definition multiplayer_properties; // 0x158
 	s_object_placement_data(s_object_placement_data &); /* compiler_generated() */
 	s_object_placement_data(s_object_placement_data const &); /* compiler_generated() */
-	_inline s_object_placement_data(); /* compiler_generated() */
+	_inline s_object_placement_data() = default; /* compiler_generated() */
 	s_object_placement_data &operator=(s_object_placement_data &); /* compiler_generated() */
 	s_object_placement_data &operator=(s_object_placement_data const &); /* compiler_generated() */
 };

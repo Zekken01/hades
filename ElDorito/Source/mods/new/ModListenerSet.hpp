@@ -35,7 +35,7 @@ private:
 	unsigned char __pad0[3]; // 0x21
 	std::shared_mutex m_lock; // 0x24
 public:
-	_inline ModListenerSet(); /* compiler_generated() */
+	_inline ModListenerSet() = default; /* compiler_generated() */
 	_inline ~ModListenerSet(); /* compiler_generated() */
 };
 static_assert(sizeof(ModListenerSet) == 40, "Invalid ModListenerSet size");

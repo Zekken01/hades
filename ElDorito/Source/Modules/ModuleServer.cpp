@@ -391,7 +391,6 @@ namespace Modules
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0SServerConnectOptions@@QAE@XZ"); no body to assert in
-_inline SServerConnectOptions::SServerConnectOptions() = default; // 0x10A06DC0
 
 // mangled_x86(MANGLED_DEFAULT, "??1SServerConnectOptions@@QAE@XZ"); no body to assert in
 _inline SServerConnectOptions::~SServerConnectOptions() = default; // 0x10A07290

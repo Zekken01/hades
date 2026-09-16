@@ -43,7 +43,7 @@ namespace Patches
 			virtual void UpdateProgress(unsigned __int32) = 0;
 			virtual void Hide() = 0;
 			LoadingScreenUi(Patches::LoadingScreen::LoadingScreenUi const &); /* compiler_generated() */
-			_inline LoadingScreenUi(); /* compiler_generated() */
+			_inline LoadingScreenUi() = default; /* compiler_generated() */
 			Patches::LoadingScreen::LoadingScreenUi &operator=(Patches::LoadingScreen::LoadingScreenUi const &); /* compiler_generated() */
 		};
 		static_assert(sizeof(Patches::LoadingScreen::LoadingScreenUi) == 4, "Invalid Patches::LoadingScreen::LoadingScreenUi size");

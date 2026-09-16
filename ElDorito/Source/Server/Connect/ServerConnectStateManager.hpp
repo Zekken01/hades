@@ -58,7 +58,7 @@ public:
 private:
 	void SetStateInternal(EServerConnectState state);
 public:
-	_inline CServerConnectStateManager(); /* compiler_generated() */
+	_inline CServerConnectStateManager() = default; /* compiler_generated() */
 	_inline ~CServerConnectStateManager(); /* compiler_generated() */
 };
 #pragma pack(pop)

@@ -211,7 +211,6 @@ namespace Server
 	namespace Voting
 	{
 		// mangled_x86(MANGLED_DEFAULT, "??0VotingMessageHandler@Voting@Server@@QAE@XZ"); no body to assert in
-		_inline VotingMessageHandler::VotingMessageHandler() = default; // 0x10C9A680
 	}
 }
 

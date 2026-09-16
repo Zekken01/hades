@@ -30,7 +30,7 @@ struct IForgeUndo
 	virtual EForgeUndoType GetType() = 0;
 	virtual void Undo() = 0;
 	IForgeUndo(IForgeUndo const &); /* compiler_generated() */
-	_inline IForgeUndo(); /* compiler_generated() */
+	_inline IForgeUndo() = default; /* compiler_generated() */
 	IForgeUndo &operator=(IForgeUndo const &); /* compiler_generated() */
 };
 static_assert(sizeof(IForgeUndo) == 4, "Invalid IForgeUndo size");
@@ -48,7 +48,7 @@ private:
 		std::shared_ptr<IForgeUndo> undo; // 0x20
 		SUndoEntry(SUndoEntry &); /* compiler_generated() */
 		_inline SUndoEntry(SUndoEntry const &__that); /* compiler_generated() */
-		_inline SUndoEntry(); /* compiler_generated() */
+		_inline SUndoEntry() = default; /* compiler_generated() */
 		_inline ~SUndoEntry(); /* compiler_generated() */
 		SUndoEntry &operator=(SUndoEntry &); /* compiler_generated() */
 		SUndoEntry &operator=(SUndoEntry const &); /* compiler_generated() */

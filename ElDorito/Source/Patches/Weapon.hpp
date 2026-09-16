@@ -40,7 +40,7 @@ namespace Patches
 			real_vector3d offset; // 0x1C
 			_inline WeaponInfo(Patches::Weapon::WeaponInfo &&__that); /* compiler_generated() */
 			_inline WeaponInfo(Patches::Weapon::WeaponInfo const &__that); /* compiler_generated() */
-			_inline WeaponInfo(); /* compiler_generated() */
+			_inline WeaponInfo() = default; /* compiler_generated() */
 			_inline ~WeaponInfo(); /* compiler_generated() */
 			_inline Patches::Weapon::WeaponInfo &operator=(Patches::Weapon::WeaponInfo &&__that); /* compiler_generated() */
 			Patches::Weapon::WeaponInfo &operator=(Patches::Weapon::WeaponInfo const &); /* compiler_generated() */

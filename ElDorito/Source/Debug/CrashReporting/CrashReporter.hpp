@@ -51,7 +51,7 @@ namespace Debug
 				__int32 num_parameters; // 0x28
 				s_exception(s_exception &); /* compiler_generated() */
 				s_exception(s_exception const &); /* compiler_generated() */
-				_inline s_exception(); /* compiler_generated() */
+				_inline s_exception() = default; /* compiler_generated() */
 				_inline ~s_exception(); /* compiler_generated() */
 				s_exception &operator=(s_exception &); /* compiler_generated() */
 				s_exception &operator=(s_exception const &); /* compiler_generated() */
@@ -66,7 +66,7 @@ namespace Debug
 			std::vector<std::string> tag_history; // 0x4C
 			s_crash_info(Debug::CrashReporting::s_crash_info &); /* compiler_generated() */
 			s_crash_info(Debug::CrashReporting::s_crash_info const &); /* compiler_generated() */
-			_inline s_crash_info(); /* compiler_generated() */
+			_inline s_crash_info() = default; /* compiler_generated() */
 			_inline ~s_crash_info(); /* compiler_generated() */
 			Debug::CrashReporting::s_crash_info &operator=(Debug::CrashReporting::s_crash_info &); /* compiler_generated() */
 			Debug::CrashReporting::s_crash_info &operator=(Debug::CrashReporting::s_crash_info const &); /* compiler_generated() */

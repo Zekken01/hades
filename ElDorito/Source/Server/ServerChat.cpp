@@ -520,6 +520,14 @@ _inline bool ChatMessagePacketHandler::Deserialize(Blam::BitStream *stream, Serv
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Deserialize@ChatMessagePacketHandler@hades_file_local@@UAE_NPAVBitStream@Blam@@PAUChatMessage@Chat@Server@@@Z");
 	// `anonymous-namespace'::ChatMessagePacketHandler::Deserialize
 	// Server::Chat::ChatMessage *data;
+	// Message type
+	// Body
+	// For non-server messages, deserialize the sender index
+	// For whisper messages, deserialize the target index
+	// Message type
+	// Body
+	// For non-server messages, deserialize the sender index
+	// For whisper messages, deserialize the target index
 
 	memset(data, 0, sizeof(*data));
 
@@ -981,6 +989,8 @@ void ClientReceivedMessage(Server::Chat::ChatMessage const &message) // 0x10C1DD
 		// std::shared_ptr<Server::Chat::ChatHandler> *<end>$L0;
 			// std::shared_ptr<Server::Chat::ChatHandler> &handler;
 	// function call : void (Server::Chat::ChatMessage const &)
+	// Send the message out to handlers
+	// Send the message out to handlers
 
 	// Send the message out to handlers
 	for (auto &&handler : chatHandlers)

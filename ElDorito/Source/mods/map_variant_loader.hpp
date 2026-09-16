@@ -49,7 +49,7 @@ struct s_map_variant
 	static void (*const initialize)(s_map_variant *, long);
 	s_map_variant(s_map_variant &); /* compiler_generated() */
 	_inline s_map_variant(s_map_variant const &__that); /* compiler_generated() */
-	_inline s_map_variant(); /* compiler_generated() */
+	_inline s_map_variant() = default; /* compiler_generated() */
 	s_map_variant &operator=(s_map_variant &); /* compiler_generated() */
 	s_map_variant &operator=(s_map_variant const &); /* compiler_generated() */
 };

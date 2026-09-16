@@ -227,7 +227,6 @@ namespace Web
 			}
 
 			// mangled_x86(MANGLED_DEFAULT, "??0PendingQuery@WebRendererQueryHandler@Bridge@Browser@Web@@QAE@XZ"); no body to assert in
-			_inline WebRendererQueryHandler::PendingQuery::PendingQuery() = default; // 0x10C6F190
 		}
 	}
 }

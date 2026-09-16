@@ -276,10 +276,8 @@ using namespace hades_file_local;
 namespace Player
 {
 	// mangled_x86(MANGLED_DEFAULT, "??0CPlayerCharacterCustomizationBuilder@Player@@QAE@XZ"); no body to assert in
-	_inline CPlayerCharacterCustomizationBuilder::CPlayerCharacterCustomizationBuilder() = default; // 0x10900CB0
 
 	// mangled_x86(MANGLED_DEFAULT, "??0SBaseCacheReference@CPlayerCharacterCustomizationBuilder@Player@@QAE@XZ"); no body to assert in
-	_inline CPlayerCharacterCustomizationBuilder::SBaseCacheReference::SBaseCacheReference() = default; // 0x10900DC0
 
 	// mangled_x86(MANGLED_DEFAULT, "??1CPlayerCharacterCustomizationBuilder@Player@@QAE@XZ"); no body to assert in
 	_inline CPlayerCharacterCustomizationBuilder::~CPlayerCharacterCustomizationBuilder() = default; // 0x10900F80

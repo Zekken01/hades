@@ -262,7 +262,6 @@ namespace Web
 		namespace ScreenLayer
 		{
 			// mangled_x86(MANGLED_DEFAULT, "??0SDialogShowParams@ScreenLayer@Ui@Web@@QAE@XZ"); no body to assert in
-			_inline SDialogShowParams::SDialogShowParams() = default; // 0x1070AB50
 		}
 	}
 }

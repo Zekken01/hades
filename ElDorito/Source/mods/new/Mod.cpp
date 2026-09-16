@@ -155,7 +155,6 @@ Mod::Mod(Mod::IClient *client, EModIndex index, char const *filename) : m_pakLoa
 _inline ModCache::ModCache() = default; // 0x1078B730
 
 // mangled_x86(MANGLED_DEFAULT, "??0c_cache_file_interface@@QAE@XZ"); no body to assert in
-_inline c_cache_file_interface::c_cache_file_interface() = default; // 0x1078B7B0
 
 Mod::~Mod() // 0x1078BD60
 {
@@ -332,7 +331,6 @@ EModResult Mod::FinishLoadCache(EModResult error) // 0x1078CAB0
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0IMod@@QAE@XZ"); no body to assert in
-_inline IMod::IMod() = default; // 0x1078B570
 
 extern EModResult _sub_1078D2F0(Mod *const, __int32);
 EModResult Mod::LoadCacheBlocking(__int32 cacheIndex) // 0x1078D2F0

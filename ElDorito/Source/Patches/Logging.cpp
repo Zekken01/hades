@@ -371,7 +371,6 @@ namespace Debug
 {
 	namespace CrashReporting
 	{
-		_inline s_crash_info::s_exception::s_exception() = default; // 0x10A849A0
 	}
 }
 

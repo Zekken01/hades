@@ -501,7 +501,6 @@ namespace Web
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0IServerConnectModDownloadUI@@QAE@XZ"); no body to assert in
-_inline IServerConnectModDownloadUI::IServerConnectModDownloadUI() = default; // 0x10CAC910
 
 namespace Web
 {

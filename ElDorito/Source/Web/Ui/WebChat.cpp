@@ -292,7 +292,6 @@ namespace Server
 	namespace Chat
 	{
 		// mangled_x86(MANGLED_DEFAULT, "??0ChatHandler@Chat@Server@@QAE@XZ"); no body to assert in
-		_inline ChatHandler::ChatHandler() = default; // 0x10C9C400
 	}
 }
 

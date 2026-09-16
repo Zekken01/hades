@@ -44,7 +44,7 @@ struct s_simulation_queue_sandbox_event_data
 	s_map_variant_placement_properties object_properties; // 0x28
 	s_simulation_queue_sandbox_event_data(s_simulation_queue_sandbox_event_data &); /* compiler_generated() */
 	s_simulation_queue_sandbox_event_data(s_simulation_queue_sandbox_event_data const &); /* compiler_generated() */
-	_inline s_simulation_queue_sandbox_event_data(); /* compiler_generated() */
+	_inline s_simulation_queue_sandbox_event_data() = default; /* compiler_generated() */
 	s_simulation_queue_sandbox_event_data &operator=(s_simulation_queue_sandbox_event_data &); /* compiler_generated() */
 	s_simulation_queue_sandbox_event_data &operator=(s_simulation_queue_sandbox_event_data const &); /* compiler_generated() */
 };

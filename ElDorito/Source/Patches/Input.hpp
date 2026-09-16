@@ -51,7 +51,7 @@ namespace Patches
 			virtual _inline void InputUnblock();
 			bool allowHandlers; // 0x4
 			InputContext(Patches::Input::InputContext const &); /* compiler_generated() */
-			_inline InputContext(); /* compiler_generated() */
+			_inline InputContext() = default; /* compiler_generated() */
 			Patches::Input::InputContext &operator=(Patches::Input::InputContext const &); /* compiler_generated() */
 		};
 		static_assert(sizeof(Patches::Input::InputContext) == 8, "Invalid Patches::Input::InputContext size");

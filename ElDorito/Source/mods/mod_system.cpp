@@ -443,7 +443,6 @@ IModManager &c_mod_system::GetModManager() // 0x108B81C0
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0c_mod_package_updater_blocking@@QAE@XZ"); no body to assert in
-_inline c_mod_package_updater_blocking::c_mod_package_updater_blocking() = default; // 0x108B6B30
 
 // mangled_x86(MANGLED_DEFAULT, "??0s_mod_server_package_entry@@QAE@$$QAU0@@Z"); no body to assert in
 _inline s_mod_server_package_entry::s_mod_server_package_entry(s_mod_server_package_entry &&__that) = default; // 0x108B6B90
@@ -452,7 +451,6 @@ _inline s_mod_server_package_entry::s_mod_server_package_entry(s_mod_server_pack
 _inline s_mod_server_package_entry::s_mod_server_package_entry(s_mod_server_package_entry const &__that) = default; // 0x108B6C40
 
 // mangled_x86(MANGLED_DEFAULT, "??0s_mod_server_package_entry@@QAE@XZ"); no body to assert in
-_inline s_mod_server_package_entry::s_mod_server_package_entry() = default; // 0x108B6D40
 
 // mangled_x86(MANGLED_DEFAULT, "??0s_mod_system_globals@@QAE@XZ"); no body to assert in
 _inline s_mod_system_globals::s_mod_system_globals() = default; // 0x108B6DB0

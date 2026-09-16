@@ -34,7 +34,7 @@ struct c_cache_file_interface
 	virtual std::shared_ptr<Blam::Cache::StringIDCache> get_string_cache() const = 0;
 	virtual std::shared_ptr<c_cache_file_tag_cache> get_tag_cache() const = 0;
 	c_cache_file_interface(c_cache_file_interface const &); /* compiler_generated() */
-	_inline c_cache_file_interface(); /* compiler_generated() */
+	_inline c_cache_file_interface() = default; /* compiler_generated() */
 	c_cache_file_interface &operator=(c_cache_file_interface const &); /* compiler_generated() */
 };
 static_assert(sizeof(c_cache_file_interface) == 4, "Invalid c_cache_file_interface size");

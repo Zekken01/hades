@@ -57,7 +57,7 @@ namespace PersistentMemory
 		std::vector<SPersistantMute> mutedVoipPlayers; // 0xAC
 		_inline SPersistentMemoryDB(PersistentMemory::SPersistentMemoryDB &&__that); /* compiler_generated() */
 		SPersistentMemoryDB(PersistentMemory::SPersistentMemoryDB const &); /* compiler_generated() */
-		_inline SPersistentMemoryDB(); /* compiler_generated() */
+		_inline SPersistentMemoryDB() = default; /* compiler_generated() */
 		_inline ~SPersistentMemoryDB(); /* compiler_generated() */
 		_inline PersistentMemory::SPersistentMemoryDB &operator=(PersistentMemory::SPersistentMemoryDB &&__that); /* compiler_generated() */
 		PersistentMemory::SPersistentMemoryDB &operator=(PersistentMemory::SPersistentMemoryDB const &); /* compiler_generated() */

@@ -44,7 +44,7 @@ public:
 		bool signature_verified; // 0x9C
 		_inline s_record(s_record &&__that); /* compiler_generated() */
 		_inline s_record(s_record const &__that); /* compiler_generated() */
-		_inline s_record(); /* compiler_generated() */
+		_inline s_record() = default; /* compiler_generated() */
 		_inline ~s_record(); /* compiler_generated() */
 		s_record &operator=(s_record &); /* compiler_generated() */
 		_inline s_record &operator=(s_record const &__that); /* compiler_generated() */

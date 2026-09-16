@@ -41,7 +41,7 @@ namespace Player
 			std::string mimeType; // 0x0
 			PlayerEmblemRenderMetadata(Player::Emblems::PlayerEmblemRenderMetadata &); /* compiler_generated() */
 			PlayerEmblemRenderMetadata(Player::Emblems::PlayerEmblemRenderMetadata const &); /* compiler_generated() */
-			_inline PlayerEmblemRenderMetadata(); /* compiler_generated() */
+			_inline PlayerEmblemRenderMetadata() = default; /* compiler_generated() */
 			_inline ~PlayerEmblemRenderMetadata(); /* compiler_generated() */
 			Player::Emblems::PlayerEmblemRenderMetadata &operator=(Player::Emblems::PlayerEmblemRenderMetadata &); /* compiler_generated() */
 			_inline Player::Emblems::PlayerEmblemRenderMetadata &operator=(Player::Emblems::PlayerEmblemRenderMetadata const &__that); /* compiler_generated() */
@@ -62,7 +62,7 @@ namespace Player
 			virtual _inline ~IPlayerEmblemStream() = default; // 0x107E7530
 			virtual bool Read(void *, __int32, __int32 *) = 0;
 			IPlayerEmblemStream(Player::Emblems::IPlayerEmblemStream const &); /* compiler_generated() */
-			_inline IPlayerEmblemStream(); /* compiler_generated() */
+			_inline IPlayerEmblemStream() = default; /* compiler_generated() */
 			Player::Emblems::IPlayerEmblemStream &operator=(Player::Emblems::IPlayerEmblemStream const &); /* compiler_generated() */
 		};
 		static_assert(sizeof(Player::Emblems::IPlayerEmblemStream) == 4, "Invalid Player::Emblems::IPlayerEmblemStream size");
@@ -75,7 +75,7 @@ namespace Player
 			virtual void OnRenderComplete() = 0;
 			virtual void OnRenderDataAvailable() = 0;
 			IPlayerEmblemRenderCallbacks(Player::Emblems::IPlayerEmblemRenderCallbacks const &); /* compiler_generated() */
-			_inline IPlayerEmblemRenderCallbacks(); /* compiler_generated() */
+			_inline IPlayerEmblemRenderCallbacks() = default; /* compiler_generated() */
 			Player::Emblems::IPlayerEmblemRenderCallbacks &operator=(Player::Emblems::IPlayerEmblemRenderCallbacks const &); /* compiler_generated() */
 		};
 		static_assert(sizeof(Player::Emblems::IPlayerEmblemRenderCallbacks) == 4, "Invalid Player::Emblems::IPlayerEmblemRenderCallbacks size");

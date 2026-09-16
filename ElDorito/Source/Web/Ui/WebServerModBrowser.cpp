@@ -456,20 +456,16 @@ namespace Web
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0IModBrowserModDownloadUI@@QAE@XZ"); no body to assert in
-_inline IModBrowserModDownloadUI::IModBrowserModDownloadUI() = default; // 0x10C7B5E0
 
 // mangled_x86(MANGLED_DEFAULT, "??0SModBrowserState@@QAE@XZ"); no body to assert in
-_inline SModBrowserState::SModBrowserState() = default; // 0x10C7B610
 
 // mangled_x86(MANGLED_DEFAULT, "??0SRequestedMod@SModBrowserState@@QAE@XZ"); no body to assert in
-_inline SModBrowserState::SRequestedMod::SRequestedMod() = default; // 0x10C7B6A0
 
 namespace Web
 {
 	namespace Ui
 	{
 		// mangled_x86(MANGLED_DEFAULT, "??0WebScreen@Ui@Web@@QAE@XZ"); no body to assert in
-		_inline WebScreen::WebScreen() = default; // 0x10C7B770
 	}
 }
 

@@ -34,7 +34,7 @@ private:
 public:
 	c_map_load_crash_recovery_helper(c_map_load_crash_recovery_helper &); /* compiler_generated() */
 	c_map_load_crash_recovery_helper(c_map_load_crash_recovery_helper const &); /* compiler_generated() */
-	_inline c_map_load_crash_recovery_helper(); /* compiler_generated() */
+	_inline c_map_load_crash_recovery_helper() = default; /* compiler_generated() */
 	_inline ~c_map_load_crash_recovery_helper(); /* compiler_generated() */
 	c_map_load_crash_recovery_helper &operator=(c_map_load_crash_recovery_helper &); /* compiler_generated() */
 	c_map_load_crash_recovery_helper &operator=(c_map_load_crash_recovery_helper const &); /* compiler_generated() */

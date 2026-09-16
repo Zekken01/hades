@@ -209,7 +209,6 @@ _inline c_mod_package_updater_blocking::s_mod_package_description::s_mod_package
 _inline c_mod_package_updater_blocking::s_mod_package_description::s_mod_package_description(c_mod_package_updater_blocking::s_mod_package_description const &__that) = default; // 0x108ADCD0
 
 // mangled_x86(MANGLED_DEFAULT, "??0s_mod_package_description@c_mod_package_updater_blocking@@QAE@XZ"); no body to assert in
-_inline c_mod_package_updater_blocking::s_mod_package_description::s_mod_package_description() = default; // 0x108ADE70
 
 // mangled_x86(MANGLED_DEFAULT, "??1s_mod_package_description@c_mod_package_updater_blocking@@QAE@XZ"); no body to assert in
 _inline c_mod_package_updater_blocking::s_mod_package_description::~s_mod_package_description() = default; // 0x108ADFE0

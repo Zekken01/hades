@@ -98,7 +98,7 @@ struct s_mod_package_header
 	unsigned char rsa_signature[512]; // 0x256
 	s_mod_package_header(s_mod_package_header &); /* compiler_generated() */
 	s_mod_package_header(s_mod_package_header const &); /* compiler_generated() */
-	_inline s_mod_package_header(); /* compiler_generated() */
+	_inline s_mod_package_header() = default; /* compiler_generated() */
 	s_mod_package_header &operator=(s_mod_package_header &); /* compiler_generated() */
 	s_mod_package_header &operator=(s_mod_package_header const &); /* compiler_generated() */
 };

@@ -71,7 +71,7 @@ private:
 public:
 	c_mod_cache_tag_remapper(c_mod_cache_tag_remapper &); /* compiler_generated() */
 	c_mod_cache_tag_remapper(c_mod_cache_tag_remapper const &); /* compiler_generated() */
-	_inline c_mod_cache_tag_remapper(); /* compiler_generated() */
+	_inline c_mod_cache_tag_remapper() = default; /* compiler_generated() */
 	_inline ~c_mod_cache_tag_remapper(); /* compiler_generated() */
 	c_mod_cache_tag_remapper &operator=(c_mod_cache_tag_remapper &); /* compiler_generated() */
 	c_mod_cache_tag_remapper &operator=(c_mod_cache_tag_remapper const &); /* compiler_generated() */

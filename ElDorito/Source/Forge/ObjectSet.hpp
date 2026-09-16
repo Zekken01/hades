@@ -35,7 +35,7 @@ namespace Forge
 	private:
 		std::bitset<2048> m_Bits; // 0x0
 	public:
-		_inline ObjectSet(); /* compiler_generated() */
+		_inline ObjectSet() = default; /* compiler_generated() */
 	};
 	static_assert(sizeof(Forge::ObjectSet) == 256, "Invalid Forge::ObjectSet size");
 }

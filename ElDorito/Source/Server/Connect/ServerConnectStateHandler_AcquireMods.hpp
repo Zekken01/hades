@@ -51,7 +51,7 @@ struct SSignatureVerificationResult
 	unsigned char computedHash[20]; // 0x28
 	SSignatureVerificationResult(SSignatureVerificationResult &); /* compiler_generated() */
 	SSignatureVerificationResult(SSignatureVerificationResult const &); /* compiler_generated() */
-	_inline SSignatureVerificationResult(); /* compiler_generated() */
+	_inline SSignatureVerificationResult() = default; /* compiler_generated() */
 	_inline ~SSignatureVerificationResult(); /* compiler_generated() */
 	SSignatureVerificationResult &operator=(SSignatureVerificationResult &); /* compiler_generated() */
 	_inline SSignatureVerificationResult &operator=(SSignatureVerificationResult const &__that); /* compiler_generated() */

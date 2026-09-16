@@ -147,7 +147,7 @@ struct c_object_identifier
 	c_enum<enum e_scenario_object_source,char> source; // 0x7
 	c_object_identifier(c_object_identifier &); /* compiler_generated() */
 	_inline c_object_identifier(c_object_identifier const &__that); /* compiler_generated() */
-	_inline c_object_identifier(); /* compiler_generated() */
+	_inline c_object_identifier() = default; /* compiler_generated() */
 	c_object_identifier &operator=(c_object_identifier &); /* compiler_generated() */
 	c_object_identifier &operator=(c_object_identifier const &); /* compiler_generated() */
 };

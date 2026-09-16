@@ -47,7 +47,7 @@ namespace Modules
 			std::string serviceType; // 0x2C
 			CachedIGD(CachedIGD &); /* compiler_generated() */
 			CachedIGD(CachedIGD const &); /* compiler_generated() */
-			_inline CachedIGD(); /* compiler_generated() */
+			_inline CachedIGD() = default; /* compiler_generated() */
 			_inline ~CachedIGD(); /* compiler_generated() */
 			CachedIGD &operator=(CachedIGD &); /* compiler_generated() */
 			CachedIGD &operator=(CachedIGD const &); /* compiler_generated() */

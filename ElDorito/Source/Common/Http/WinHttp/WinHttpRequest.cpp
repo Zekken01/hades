@@ -131,16 +131,12 @@ namespace Http
 	}
 
 	// mangled_x86(MANGLED_DEFAULT, "??0CWinHttpResponse@Http@@QAE@XZ"); no body to assert in
-	_inline CWinHttpResponse::CWinHttpResponse() = default; // 0x10806F80
 
 	// mangled_x86(MANGLED_DEFAULT, "??0IHttpRequest@Http@@QAE@XZ"); no body to assert in
-	_inline IHttpRequest::IHttpRequest() = default; // 0x10807000
 
 	// mangled_x86(MANGLED_DEFAULT, "??0IHttpResponse@Http@@QAE@XZ"); no body to assert in
-	_inline IHttpResponse::IHttpResponse() = default; // 0x10807060
 
 	// mangled_x86(MANGLED_DEFAULT, "??0WinHttpErrorCategory@Http@@QAE@XZ"); no body to assert in
-	_inline WinHttpErrorCategory::WinHttpErrorCategory() = default; // 0x10807090
 
 	bool CWinHttpRequest::IsComplete() const // 0x108094E0
 	{

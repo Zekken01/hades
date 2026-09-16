@@ -36,7 +36,7 @@ namespace Http
 		virtual Http::CHttpHeaders const &GetHeaders() const = 0;
 		IHttpResponse(Http::IHttpResponse &); /* compiler_generated() */
 		IHttpResponse(Http::IHttpResponse const &); /* compiler_generated() */
-		_inline IHttpResponse(); /* compiler_generated() */
+		_inline IHttpResponse() = default; /* compiler_generated() */
 		Http::IHttpResponse &operator=(Http::IHttpResponse &); /* compiler_generated() */
 		Http::IHttpResponse &operator=(Http::IHttpResponse const &); /* compiler_generated() */
 	};
@@ -65,7 +65,7 @@ namespace Http
 		virtual bool Send() = 0;
 		virtual void Cancel() = 0;
 		IHttpRequest(Http::IHttpRequest const &); /* compiler_generated() */
-		_inline IHttpRequest(); /* compiler_generated() */
+		_inline IHttpRequest() = default; /* compiler_generated() */
 		Http::IHttpRequest &operator=(Http::IHttpRequest const &); /* compiler_generated() */
 	};
 }

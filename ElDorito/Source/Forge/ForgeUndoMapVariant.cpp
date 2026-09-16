@@ -103,13 +103,10 @@ CForgeUndoMapVariant::CForgeUndoMapVariant(std::string const &summary, s_map_var
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0IForgeUndo@@QAE@XZ"); no body to assert in
-_inline IForgeUndo::IForgeUndo() = default; // 0x10864990
 
 // mangled_x86(MANGLED_DEFAULT, "??0s_map_variant@@QAE@XZ"); no body to assert in
-_inline s_map_variant::s_map_variant() = default; // 0x108649C0
 
 // mangled_x86(MANGLED_DEFAULT, "??0s_variant_datum@@QAE@XZ"); no body to assert in
-_inline s_variant_datum::s_variant_datum() = default; // 0x10864A30
 
 _extern void _sub_10864F40(CForgeUndoMapVariant *const);
 void CForgeUndoMapVariant::Undo() // 0x10864F40

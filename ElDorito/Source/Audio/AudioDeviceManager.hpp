@@ -45,7 +45,7 @@ namespace Audio
 		virtual _inline ~IAudioDeviceListener() = default; // 0x107F1780
 		virtual void OnEvent(Audio::SAudioDeviceEvent const &) = 0;
 		IAudioDeviceListener(Audio::IAudioDeviceListener const &); /* compiler_generated() */
-		_inline IAudioDeviceListener(); /* compiler_generated() */
+		_inline IAudioDeviceListener() = default; /* compiler_generated() */
 		Audio::IAudioDeviceListener &operator=(Audio::IAudioDeviceListener const &); /* compiler_generated() */
 	};
 	static_assert(sizeof(Audio::IAudioDeviceListener) == 8, "Invalid Audio::IAudioDeviceListener size");
@@ -78,7 +78,7 @@ namespace Audio
 			Audio::IAudioDeviceListener *m_pDeviceListener; // 0xC
 			CSimpleMessageQueue<Audio::SAudioDeviceEvent,16> m_eventQueue; // 0x10
 		public:
-			_inline CAudioDeviceManagerImpl(); /* compiler_generated() */
+			_inline CAudioDeviceManagerImpl() = default; /* compiler_generated() */
 		};
 		static_assert(sizeof(CAudioDeviceManagerImpl) == 168, "Invalid CAudioDeviceManagerImpl size");
 		public:

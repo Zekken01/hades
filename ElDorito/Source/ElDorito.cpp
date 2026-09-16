@@ -405,7 +405,6 @@ ElDorito::ElDorito() : GameHasMenuShown(false), executeCommandQueue(false), isDe
 namespace Audio
 {
 	// mangled_x86(MANGLED_DEFAULT, "??0IAudioDeviceListener@Audio@@QAE@XZ"); no body to assert in
-	_inline IAudioDeviceListener::IAudioDeviceListener() = default; // 0x10963A50
 }
 
 namespace Debug
@@ -413,7 +412,6 @@ namespace Debug
 	namespace CrashReporting
 	{
 		// mangled_x86(MANGLED_DEFAULT, "??0s_crash_info@CrashReporting@Debug@@QAE@XZ"); no body to assert in
-		_inline s_crash_info::s_crash_info() = default; // 0x10963A80
 	}
 }
 
@@ -820,7 +818,6 @@ namespace Debug
 	{
 		_inline s_crash_info::s_exception::~s_exception() = default; // 0x10963AF0
 
-		_inline s_crash_info::s_exception::s_exception() = default; // 0x10963390
 	}
 }
 

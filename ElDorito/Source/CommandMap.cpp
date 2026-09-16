@@ -148,7 +148,6 @@ namespace Modules
 	}
 
 	// mangled_x86(MANGLED_DEFAULT, "??0CommandScriptStack@Modules@@QAE@XZ"); no body to assert in
-	_inline CommandScriptStack::CommandScriptStack() = default; // 0x10944F60
 }
 
 extern std::string _sub_10949150(Modules::Command *const);

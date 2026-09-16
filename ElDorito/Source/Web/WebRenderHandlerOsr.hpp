@@ -54,7 +54,7 @@ namespace Web
 			virtual _inline void OnPostResetDevice();
 			virtual _inline void Shutdown();
 			RenderHandlerOsr(Web::Browser::RenderHandlerOsr const &); /* compiler_generated() */
-			_inline RenderHandlerOsr(); /* compiler_generated() */
+			_inline RenderHandlerOsr() = default; /* compiler_generated() */
 			Web::Browser::RenderHandlerOsr &operator=(Web::Browser::RenderHandlerOsr const &); /* compiler_generated() */
 		};
 		static_assert(sizeof(Web::Browser::RenderHandlerOsr) == 12, "Invalid Web::Browser::RenderHandlerOsr size");

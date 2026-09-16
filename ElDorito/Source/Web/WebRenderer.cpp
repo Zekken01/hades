@@ -271,7 +271,6 @@ namespace Web
 		}
 
 		// mangled_x86(MANGLED_DEFAULT, "??0WebRendererApp@Browser@Web@@QAE@XZ"); no body to assert in
-		_inline WebRendererApp::WebRendererApp() = default; // 0x10CBA990
 	}
 }
 

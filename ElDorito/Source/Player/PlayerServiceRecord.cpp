@@ -280,13 +280,11 @@ namespace Player
 		_inline PlayerTopMedals::PlayerTopMedals(::Player::ServiceRecord::PlayerTopMedals const &__that) = default; // 0x106C5D30
 
 		// mangled_x86(MANGLED_DEFAULT, "??0PlayerTopMedals@ServiceRecord@Player@@QAE@XZ"); no body to assert in
-		_inline PlayerTopMedals::PlayerTopMedals() = default; // 0x106C5DC0
 
 		// mangled_x86(MANGLED_DEFAULT, "??0ServiceRecord@0Player@@QAE@ABU001@@Z"); no body to assert in
 		_inline ServiceRecord::ServiceRecord(::Player::ServiceRecord::ServiceRecord const &__that) = default; // 0x106C5E40
 
 		// mangled_x86(MANGLED_DEFAULT, "??0ServiceRecord@0Player@@QAE@XZ"); no body to assert in
-		_inline ServiceRecord::ServiceRecord() = default; // 0x106C6000
 
 		// mangled_x86(MANGLED_DEFAULT, "??0ServiceRecordPlayer@ServiceRecord@Player@@QAE@XZ"); no body to assert in
 		_inline ServiceRecordPlayer::ServiceRecordPlayer() // 0x106C6170

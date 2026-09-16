@@ -268,7 +268,6 @@ namespace Patches
 	namespace Network
 	{
 		// mangled_x86(MANGLED_DEFAULT, "??0NetworkSessionListener@Network@Patches@@QAE@XZ"); no body to assert in
-		_inline NetworkSessionListener::NetworkSessionListener() = default; // 0x10AFF1C0
 	}
 }
 

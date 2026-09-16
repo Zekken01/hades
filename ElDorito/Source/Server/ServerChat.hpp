@@ -68,7 +68,7 @@ namespace Server
 			virtual void MessageSent(__int32, Server::Chat::ChatMessage *, bool *) = 0;
 			virtual void MessageReceived(Server::Chat::ChatMessage const &) = 0;
 			ChatHandler(Server::Chat::ChatHandler const &); /* compiler_generated() */
-			_inline ChatHandler(); /* compiler_generated() */
+			_inline ChatHandler() = default; /* compiler_generated() */
 			Server::Chat::ChatHandler &operator=(Server::Chat::ChatHandler const &); /* compiler_generated() */
 		};
 		static_assert(sizeof(Server::Chat::ChatHandler) == 4, "Invalid Server::Chat::ChatHandler size");

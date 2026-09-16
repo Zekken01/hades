@@ -287,7 +287,6 @@ CModBrowserStateHandler_AcquireMod::CModBrowserStateHandler_AcquireMod() : m_sta
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0SSignatureVerificationResult@@QAE@XZ"); no body to assert in
-_inline SSignatureVerificationResult::SSignatureVerificationResult() = default; // 0x10715680
 
 CModBrowserStateHandler_AcquireMod::~CModBrowserStateHandler_AcquireMod() // 0x10715C90
 {
@@ -400,7 +399,6 @@ void CModBrowserStateHandler_AcquireMod::UpdateDownloading() // 0x10719A90
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0CModBrowserStateHandler@@QAE@XZ"); no body to assert in
-_inline CModBrowserStateHandler::CModBrowserStateHandler() = default; // 0x107154A0
 
 _extern void _sub_10719920(CModBrowserStateHandler_AcquireMod *const);
 void CModBrowserStateHandler_AcquireMod::UpdateCancelling() // 0x10719920

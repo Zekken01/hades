@@ -357,7 +357,6 @@ namespace Web
 		}
 
 		// mangled_x86(MANGLED_DEFAULT, "??0GpuAcceleratedSurface@RenderHandlerGpu@Browser@Web@@QAE@XZ"); no body to assert in
-		_inline RenderHandlerGpu::GpuAcceleratedSurface::GpuAcceleratedSurface() = default; // 0x10CEAA10
 
 		_extern bool _sub_10CEC8C0(Web::Browser::RenderHandlerGpu *const);
 		bool RenderHandlerGpu::Render() // 0x10CEC8C0
@@ -416,3 +415,5 @@ namespace Web
 }
 
 /* ---------- private code */
+
+/* ---------- explicit instantiations */

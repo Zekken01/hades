@@ -64,7 +64,7 @@ namespace Web
 				CefSize m_size; // 0xC
 				Microsoft::WRL::ComPtr<IDirect3DTexture9> m_texture; // 0x1C
 			public:
-				_inline GpuAcceleratedSurface(); /* compiler_generated() */
+				_inline GpuAcceleratedSurface() = default; /* compiler_generated() */
 				_inline ~GpuAcceleratedSurface(); /* compiler_generated() */
 			};
 			static_assert(sizeof(GpuAcceleratedSurface) == 32, "Invalid GpuAcceleratedSurface size");

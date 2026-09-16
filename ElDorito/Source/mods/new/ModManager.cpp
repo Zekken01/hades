@@ -136,13 +136,10 @@ EModResult ModManager::SetMod(EModIndex index, char const *filename, bool async)
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0IClient@Mod@@QAE@XZ"); no body to assert in
-_inline Mod::IClient::IClient() = default; // 0x10790F80
 
 // mangled_x86(MANGLED_DEFAULT, "??0IModManager@@QAE@XZ"); no body to assert in
-_inline IModManager::IModManager() = default; // 0x10790FB0
 
 // mangled_x86(MANGLED_DEFAULT, "??0ModListenerSet@@QAE@XZ"); no body to assert in
-_inline ModListenerSet::ModListenerSet() = default; // 0x10790FE0
 
 extern EModResult _sub_10792520(ModManager *const, EModIndex, __int32, bool);
 EModResult ModManager::SetModCache(EModIndex index, __int32 cacheIndex, bool async) // 0x10792520

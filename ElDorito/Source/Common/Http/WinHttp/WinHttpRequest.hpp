@@ -54,7 +54,7 @@ namespace Http
 	public:
 		CWinHttpResponse(Http::CWinHttpResponse &); /* compiler_generated() */
 		CWinHttpResponse(Http::CWinHttpResponse const &); /* compiler_generated() */
-		_inline CWinHttpResponse(); /* compiler_generated() */
+		_inline CWinHttpResponse() = default; /* compiler_generated() */
 		_inline ~CWinHttpResponse(); /* compiler_generated() */
 		Http::CWinHttpResponse &operator=(Http::CWinHttpResponse &); /* compiler_generated() */
 		Http::CWinHttpResponse &operator=(Http::CWinHttpResponse const &); /* compiler_generated() */

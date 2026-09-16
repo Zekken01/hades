@@ -530,10 +530,8 @@ using namespace hades_file_local;
 /* ---------- public code */
 
 // mangled_x86(MANGLED_DEFAULT, "??0c_function_definition@@QAE@XZ"); no body to assert in
-_inline c_function_definition::c_function_definition() = default; // 0x10A5EEF0
 
 // mangled_x86(MANGLED_DEFAULT, "??0s_tag_data@@QAE@XZ"); no body to assert in
-_inline s_tag_data::s_tag_data() = default; // 0x10A5EF40
 
 namespace Patches
 {
@@ -1336,16 +1334,33 @@ void OnMonitorModeChange(bool isMonitor) // 0x10A66A70
 	}
 }
 
-_extern float _sub_10A6ACC0(s_map_variant *, void *, float *, float *);
 float __fastcall c_map_variant__get_budget_fraction_hook(s_map_variant *thisptr, void *__formal, float *budget_spent, float *budget_max) // 0x10A6ACC0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_map_variant__get_budget_fraction_hook@@YIMPAUs_map_variant@@PAXPAM2@Z");
 	// `anonymous-namespace'::c_map_variant__get_budget_fraction_hook
 	// float *budget_max;
 	// static Forge::ForgeObjectQuota `c_map_variant__get_budget_fraction_hook'::`2'::cachedQuota; // 0x12458514
 	// static unsigned long `c_map_variant__get_budget_fraction_hook'::`2'::last_time; // 0x12458510
-	todo("implement");
-	float __result = _sub_10A6ACC0(thisptr, __formal, budget_spent, budget_max);
-	return __result;
+
+	static ::Forge::ForgeObjectQuota cachedQuota;
+	static unsigned long last_time;
+
+	if (!cachedQuota.TotalObjectsAvailable || system_milliseconds() - last_time >= 150)
+	{
+		cachedQuota = ::Forge::CalculateObjectQuota();
+		last_time = system_milliseconds();
+	}
+
+	if (budget_spent)
+		*budget_spent = (float)cachedQuota.TotalObjectsUsed;
+
+	if (budget_max)
+		*budget_max = (float)cachedQuota.TotalObjectsAvailable;
+
+	if (!cachedQuota.TotalObjectsAvailable)
+		return 0.0f;
+
+	return (float)cachedQuota.TotalObjectsUsed / (float)cachedQuota.TotalObjectsAvailable;
 }
 
 _extern bool _sub_10A6BA90(c_sandbox_engine *, void *);
@@ -2366,21 +2381,30 @@ s_multiplayer_object_properties *game_engine_find_available_spawn_location_objec
 	return nullptr;
 }
 
-_extern bool _sub_10A6A8A0(c_havok_contact_point *);
 bool __fastcall c_havok_contact_point__is_climbable_surface_hook(c_havok_contact_point *contact_point) // 0x10A6A8A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_havok_contact_point__is_climbable_surface_hook@@YI_NPAUc_havok_contact_point@@@Z");
 	// `anonymous-namespace'::c_havok_contact_point__is_climbable_surface_hook
 	// c_havok_contact_point *contact_point;
 	// s_multiplayer_object_properties *multiplayer_properties;
 	// long object_index;
 	// unsigned long surface_flags;
-	{
 		// Forge::ReforgeObjectProperties *reforge_properties;
-	}
 	// function call : s_multiplayer_object_properties *(*const)(unsigned long)
-	todo("implement");
-	bool __result = _sub_10A6A8A0(contact_point);
-	return __result;
+
+	long object_index = *(long *)offset_pointer(contact_point, 20);
+	unsigned long surface_flags = *(unsigned long *)offset_pointer(contact_point, 64);
+	s_multiplayer_object_properties *multiplayer_properties = object_get_multiplayer(object_index);
+
+	if (multiplayer_properties && ::Forge::Reforge::IsReforgeObject(object_index))
+	{
+		::Forge::ReforgeObjectProperties *reforge_properties = (::Forge::ReforgeObjectProperties *)&multiplayer_properties->boundry_width;
+
+		if (reforge_properties->Flags & ::Forge::ReforgeObjectProperties::MaterialIsClimbable)
+			return true;
+	}
+
+	return (surface_flags & 4) != 0;
 }
 
 void map_variant_register_object_hook(long object_index, long map_variant_index, char registration_type) // 0x10A6F150

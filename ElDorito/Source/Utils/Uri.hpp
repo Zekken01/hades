@@ -35,7 +35,7 @@ namespace Utils
 			std::string_view path; // 0x10
 			std::string_view query; // 0x18
 			std::string_view fragment; // 0x20
-			_inline UriComponents(); /* compiler_generated() */
+			_inline UriComponents() = default; /* compiler_generated() */
 		};
 		static_assert(sizeof(Utils::Uri::UriComponents) == 40, "Invalid Utils::Uri::UriComponents size");
 	}

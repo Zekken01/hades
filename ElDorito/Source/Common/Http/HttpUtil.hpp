@@ -31,7 +31,7 @@ namespace Http
 		long long totalSize; // 0x30
 		SContentRangeHeader(Http::SContentRangeHeader &); /* compiler_generated() */
 		SContentRangeHeader(Http::SContentRangeHeader const &); /* compiler_generated() */
-		_inline SContentRangeHeader(); /* compiler_generated() */
+		_inline SContentRangeHeader() = default; /* compiler_generated() */
 		_inline ~SContentRangeHeader(); /* compiler_generated() */
 		Http::SContentRangeHeader &operator=(Http::SContentRangeHeader &); /* compiler_generated() */
 		Http::SContentRangeHeader &operator=(Http::SContentRangeHeader const &); /* compiler_generated() */

@@ -216,7 +216,6 @@ namespace Player
 	namespace Emblems
 	{
 		// mangled_x86(MANGLED_DEFAULT, "??0IPlayerEmblemRenderCallbacks@Emblems@Player@@QAE@XZ"); no body to assert in
-		_inline IPlayerEmblemRenderCallbacks::IPlayerEmblemRenderCallbacks() = default; // 0x10C826C0
 	}
 }
 

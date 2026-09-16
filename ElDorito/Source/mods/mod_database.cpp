@@ -348,6 +348,5 @@ _inline c_mod_database::s_record::s_record(c_mod_database::s_record &&__that) = 
 _inline c_mod_database::s_record::s_record(c_mod_database::s_record const &__that) = default; // 0x1084CF40
 
 // mangled_x86(MANGLED_DEFAULT, "??0s_record@c_mod_database@@QAE@XZ"); no body to assert in
-_inline c_mod_database::s_record::s_record() = default; // 0x1084D060
 
 /* ---------- private code */
