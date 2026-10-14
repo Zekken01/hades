@@ -106,7 +106,7 @@ class c_gui_selected_item;
 struct s_level_datum;
 namespace hades_file_local
 {
-	class ModListener;
+	namespace hades_file_local_pregame_lobby_patches { class ModListener; } using namespace hades_file_local_pregame_lobby_patches;
 }
 using namespace hades_file_local;
 
@@ -144,7 +144,7 @@ namespace Blam
 
 namespace hades_file_local
 {
-	class ModListener :
+	namespace hades_file_local_pregame_lobby_patches { class ModListener :
 		public IModListener
 	{
 	private:
@@ -156,7 +156,7 @@ namespace hades_file_local
 		virtual ~ModListener() = default; /* compiler_generated() */
 		ModListener &operator=(ModListener &); /* compiler_generated() */
 		ModListener &operator=(ModListener const &); /* compiler_generated() */
-	};
+	}; }  // hades_file_local_pregame_lobby_patches: ModListener is a different class in each translation unit
 	static_assert(sizeof(ModListener) == 4, "Invalid ModListener size");
 }
 using namespace hades_file_local;

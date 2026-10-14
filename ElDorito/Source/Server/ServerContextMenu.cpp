@@ -106,7 +106,7 @@ namespace Server
 void CreateWindowExCM();
 void UpdateMenu();
 void InitNotifyIconData();
-void OnShutdown();
+static void OnShutdown();
 void HandleMenuAction(unsigned __int32 action);
 long __stdcall ContextMenuWindowProc(HWND__ *hWnd, unsigned __int32 msg, unsigned __int32 wParam, long lParam);
 void ContextMenuThreadProc();
@@ -253,7 +253,7 @@ void InitNotifyIconData() // 0x10728E90
 	Shell_NotifyIconA(NIM_ADD, &notifyIconData);
 }
 
-void OnShutdown() // 0x107291D0
+static void OnShutdown() // 0x107291D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnShutdown@@YAXXZ");
 	// `anonymous-namespace'::OnShutdown

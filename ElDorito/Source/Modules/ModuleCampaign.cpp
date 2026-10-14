@@ -126,7 +126,7 @@ extern bool (*const network_session_interface_get_squad_session)(c_network_sessi
 
 extern bool (*game_is_campaign)();  // hades: added for 0X108C5A50
 
-std::string camapgin_difficulty_level_to_string(long level);
+static std::string camapgin_difficulty_level_to_string(long level);
 long camapgin_difficulty_level_from_string(std::string const &str);
 std::string camapgin_metagame_scoring_option_to_string(long level);
 long camapgin_metagame_scoring_option_from_string(std::string const &str);
@@ -186,7 +186,7 @@ namespace Modules
 
 /* ---------- private code */
 
-std::string camapgin_difficulty_level_to_string(long level) // 0x108C68E0
+static std::string camapgin_difficulty_level_to_string(long level) // 0x108C68E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?camapgin_difficulty_level_to_string@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@J@Z");
 	// `anonymous-namespace'::camapgin_difficulty_level_to_string

@@ -419,8 +419,8 @@ c_basic_buffer<void> *cache_file_tag_resource_runtime_manager__allocate_memory_b
 bool main_game_initialize_for_new_map_hook(bool a1, s_game_options *options);
 void scenario_tags_mark_necessary_bitmaps();
 void __fastcall begin_tracking_resource_hook(void *thisptr, void *unused, tag_resource_tracking_setup *setup);
-void OnMapLoaded(char const *mapPath);
-void OnShutdown();
+static void OnMapLoaded(char const *mapPath);
+static void OnShutdown();
 void main_menu_launch_force_hook();
 void main_menu_launch_hook();
 
@@ -1783,7 +1783,7 @@ void __fastcall begin_tracking_resource_hook(void *thisptr, void *unused, tag_re
 	}
 }
 
-void OnMapLoaded(char const *mapPath) // 0x109238B0
+static void OnMapLoaded(char const *mapPath) // 0x109238B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnMapLoaded@@YAXPBD@Z");
 	// `anonymous-namespace'::OnMapLoaded
@@ -1792,7 +1792,7 @@ void OnMapLoaded(char const *mapPath) // 0x109238B0
 	crash_recovery_helper.map_load_end();
 }
 
-void OnShutdown() // 0x10923900
+static void OnShutdown() // 0x10923900
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnShutdown@@YAXXZ");
 	// `anonymous-namespace'::OnShutdown

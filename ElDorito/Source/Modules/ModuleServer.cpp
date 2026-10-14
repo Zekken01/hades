@@ -343,7 +343,7 @@ bool CommandServerLobbyType(std::vector<std::string> const &Arguments, std::stri
 bool CommandServerPing(std::vector<std::string> const &Arguments, std::string &returnInfo);
 bool CommandServerShuffleTeams(std::vector<std::string> const &Arguments, std::string &returnInfo);
 bool CommandServerGetEndpoint(std::vector<std::string> const &Arguments, std::string &returnInfo);
-void PongReceived(Blam::Network::NetworkAddress const &from, unsigned __int32 timestamp, unsigned short id, unsigned __int32 latency);
+static void PongReceived(Blam::Network::NetworkAddress const &from, unsigned __int32 timestamp, unsigned short id, unsigned __int32 latency);
 bool HitmarkersEnabledChanged(std::vector<std::string> const &Arguments, std::string &returnInfo);
 bool SprintStateChanged(std::vector<std::string> const &Arguments, std::string &returnInfo);
 bool BottomlessClipEnabledChanged(std::vector<std::string> const &Arguments, std::string &returnInfo);
@@ -2628,7 +2628,7 @@ bool CommandServerGetEndpoint(std::vector<std::string> const &Arguments, std::st
 	return GetEndpoint(Arguments[0], returnInfo);
 }
 
-void PongReceived(Blam::Network::NetworkAddress const &from, unsigned __int32 timestamp, unsigned short id, unsigned __int32 latency) // 0x10A13AF0
+static void PongReceived(Blam::Network::NetworkAddress const &from, unsigned __int32 timestamp, unsigned short id, unsigned __int32 latency) // 0x10A13AF0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?PongReceived@@YAXABUNetworkAddress@Network@Blam@@IGI@Z");
 	// `anonymous-namespace'::PongReceived

@@ -202,7 +202,7 @@ bool GetEndpoints();
 void CheckToBootPlayers();
 bool SyncBanList();
 unsigned long __stdcall BanListSyncThreadProc(void *lpParam);
-void OnShutdown();
+static void OnShutdown();
 bool TryParseSubnet(std::string const &cidr, unsigned long *outNetwork, unsigned long *outMask);
 
 /* ---------- globals */
@@ -517,7 +517,7 @@ unsigned long __stdcall BanListSyncThreadProc(void *lpParam) // 0x10B18260
 	}
 }
 
-void OnShutdown() // 0x10B18EB0
+static void OnShutdown() // 0x10B18EB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnShutdown@@YAXXZ");
 	// `anonymous-namespace'::OnShutdown

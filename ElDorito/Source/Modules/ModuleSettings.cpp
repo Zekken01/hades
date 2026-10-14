@@ -168,7 +168,7 @@ bool VariableSettingsAnisotropicFilteringUpdate(std::vector<std::string> const &
 bool VariableSettingsSubtitlesUpdate(std::vector<std::string> const &args, std::string &returnInfo);
 bool CommandResetSettings(std::vector<std::string> const &args, std::string &returnInfo);
 void UpdateScreenResolution();
-bool TryParseInt(std::string const &str, __int32 *value);
+static bool TryParseInt(std::string const &str, __int32 *value);
 bool TryParseResolutionString(std::string const &str, __int32 *width, __int32 *height);
 
 /* ---------- globals */
@@ -1463,7 +1463,7 @@ void UpdateScreenResolution() // 0x10A1CC20
 	c_screen_postprocess::smaa_globals.set_reinit();
 }
 
-bool TryParseInt(std::string const &str, __int32 *value) // 0x10A1C950
+static bool TryParseInt(std::string const &str, __int32 *value) // 0x10A1C950
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?TryParseInt@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAH@Z");
 	// `anonymous-namespace'::TryParseInt

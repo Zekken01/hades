@@ -89,7 +89,7 @@ struct s_map_variant;
 struct s_mod_package_map_file_entry;
 namespace hades_file_local
 {
-	class ModListener;
+	namespace hades_file_local_Maps { class ModListener; } using namespace hades_file_local_Maps;
 	struct s_levels_enumerate_async_data;
 }
 using namespace hades_file_local;
@@ -118,7 +118,7 @@ namespace Blam
 
 namespace hades_file_local
 {
-	class ModListener :
+	namespace hades_file_local_Maps { class ModListener :
 		public IModListener
 	{
 	public:
@@ -129,7 +129,7 @@ namespace hades_file_local
 		virtual ~ModListener() = default; /* compiler_generated() */
 		ModListener &operator=(ModListener &); /* compiler_generated() */
 		ModListener &operator=(ModListener const &); /* compiler_generated() */
-	};
+	}; }  // hades_file_local_Maps: ModListener is a different class in each translation unit
 	static_assert(sizeof(ModListener) == 4, "Invalid ModListener size");
 
 	struct s_levels_enumerate_async_data

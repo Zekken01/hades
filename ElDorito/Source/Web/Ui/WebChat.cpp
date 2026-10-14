@@ -221,7 +221,7 @@ namespace Web
 	}
 }
 
-void OnGameInputUpdated();
+static void OnGameInputUpdated();
 
 /* ---------- globals */
 
@@ -401,7 +401,7 @@ void GameChatHandler::MessageReceived(Server::Chat::ChatMessage const &message) 
 // _inline GameChatHandler::GameChatHandler() = default; // 0x10C9C430  // hades: defaulted on its declaration
 
 
-void OnGameInputUpdated() // 0x10C9CEA0
+static void OnGameInputUpdated() // 0x10C9CEA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnGameInputUpdated@@YAXXZ");
 	// `anonymous-namespace'::OnGameInputUpdated

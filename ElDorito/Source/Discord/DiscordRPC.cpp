@@ -138,7 +138,7 @@ void handleDiscordJoinRequest(DiscordJoinRequest const *joinRequest);
 void UpdateRichPresence();
 void handleDiscordReady();
 unsigned long __stdcall DiscordRetrieveExternalIP_Thread(void *lpParam);
-void OnShutdown();
+static void OnShutdown();
 
 /* ---------- globals */
 
@@ -463,7 +463,7 @@ unsigned long __stdcall DiscordRetrieveExternalIP_Thread(void *lpParam) // 0x109
 	return true;
 }
 
-void OnShutdown() // 0x10952F50
+static void OnShutdown() // 0x10952F50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnShutdown@@YAXXZ");
 	// `anonymous-namespace'::OnShutdown

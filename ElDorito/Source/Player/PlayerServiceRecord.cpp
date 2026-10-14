@@ -519,7 +519,7 @@ void GetServiceRecordEndpoint() // 0x106C7200
 	}
 }
 
-bool ValidNetworkPlayerIndex(__int32 networkPlayerIndex) // 0x106C9A30
+static bool ValidNetworkPlayerIndex(__int32 networkPlayerIndex) // 0x106C9A30
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ValidNetworkPlayerIndex@@YA_NH@Z");
 	// `anonymous-namespace'::ValidNetworkPlayerIndex

@@ -253,7 +253,7 @@ extern UiPlayerModelState s_UiPlayerModelState; // 0x12467330
 
 /* ---------- public code */
 
-s_game_globals *try_and_get_game_globals() // 0x10ABB040
+static s_game_globals *try_and_get_game_globals() // 0x10ABB040
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?try_and_get_game_globals@@YAPAUs_game_globals@@XZ");
 	// procedure flags: nofpo
@@ -818,7 +818,7 @@ void unit_refresh_hologram_appearance_hook(long creator_unit_index, long hologra
 	}
 }
 
-real_rgb_color *network_get_team_color(real_rgb_color *color, long team) // 0x10AB8D00
+static real_rgb_color *network_get_team_color(real_rgb_color *color, long team) // 0x10AB8D00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?network_get_team_color@@YAPAUreal_rgb_color@@PAU1@J@Z");
 	// long team;

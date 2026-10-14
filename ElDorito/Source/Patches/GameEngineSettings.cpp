@@ -111,7 +111,7 @@ namespace hades_file_local
 	union u_game_engine_variant;
 	class c_user_interface_player_model_text_value_pair_proxy;
 	class c_user_interface_player_model_set_text_value_pair_proxy;
-	class ModListener;
+	namespace hades_file_local_GameEngineSettings { class ModListener; } using namespace hades_file_local_GameEngineSettings;
 }
 using namespace hades_file_local;
 
@@ -181,7 +181,7 @@ namespace hades_file_local
 	static_assert(sizeof(c_user_interface_player_model_set_text_value_pair_proxy) == 352, "Invalid c_user_interface_player_model_set_text_value_pair_proxy size");
 
 	//@@anonymous-namespace@@
-	class ModListener :
+	namespace hades_file_local_GameEngineSettings { class ModListener :
 		public IModListener
 	{
 	private:
@@ -193,7 +193,7 @@ namespace hades_file_local
 		virtual ~ModListener() = default; /* compiler_generated() */
 		ModListener &operator=(ModListener &); /* compiler_generated() */
 		ModListener &operator=(ModListener const &); /* compiler_generated() */
-	};
+	}; }  // hades_file_local_GameEngineSettings: ModListener is a different class in each translation unit
 	static_assert(sizeof(ModListener) == 4, "Invalid ModListener size");
 }
 using namespace hades_file_local;

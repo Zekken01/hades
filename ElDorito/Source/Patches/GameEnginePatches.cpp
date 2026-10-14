@@ -213,7 +213,7 @@ void game_engine_reset_stats_for_round_switch_hook();
 bool game_engine_player_is_out_of_lives_hook(long player_index);
 bool game_engine_team_is_out_of_lives_hook(long teamIndex);
 void game_engine_add_starting_equipment_hook(long unit_index);
-void multiplayer_object_submit_boundary_hook(s_multiplayer_object_boundary_geometry_data *zoneShape, real_argb_color *color, long object_index);
+static void multiplayer_object_submit_boundary_hook(s_multiplayer_object_boundary_geometry_data *zoneShape, real_argb_color *color, long object_index);
 long game_engine_weapon_item_definition_index_from_absolute_weapons_selection_block_index_hook(short selection_index, long weapon_set);
 bool game_engine_object_is_dead(long object_index);
 bool game_engine_object_has_been_abandoned_hook(long object_index);
@@ -1489,7 +1489,7 @@ void game_engine_add_starting_equipment_hook(long unit_index) // 0x107AE860
 	((void (*)(long, unsigned long long *))0x4B3010)(unit_index, &flags);
 }
 
-void multiplayer_object_submit_boundary_hook(s_multiplayer_object_boundary_geometry_data *zoneShape, real_argb_color *color, long object_index) // 0x107B0620
+static void multiplayer_object_submit_boundary_hook(s_multiplayer_object_boundary_geometry_data *zoneShape, real_argb_color *color, long object_index) // 0x107B0620
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?multiplayer_object_submit_boundary_hook@@YAXPAUs_multiplayer_object_boundary_geometry_data@@PAUreal_argb_color@@J@Z");
 	// `anonymous-namespace'::multiplayer_object_submit_boundary_hook

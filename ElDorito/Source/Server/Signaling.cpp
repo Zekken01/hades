@@ -398,11 +398,11 @@ namespace Server
 
 void LifeCycleChanged(Blam::Network::LifeCycleState state);
 std::string ServerPortJson();
-void ForceStopServer();
-bool OnValidate(websocketpp::server<Utils::WebSocket::Config> *signalServer, std::weak_ptr<void> hdl);
+static void ForceStopServer();
+static bool OnValidate(websocketpp::server<Utils::WebSocket::Config> *signalServer, std::weak_ptr<void> hdl);
 void HandleMessage(websocketpp::server<Utils::WebSocket::Config> *signalServer, std::weak_ptr<void> hdl, std::shared_ptr<websocketpp::message_buffer::message<websocketpp::message_buffer::alloc::con_msg_manager> > msg);
-void OnMessage(websocketpp::server<Utils::WebSocket::Config> *signalServer, std::weak_ptr<void> hdl, std::shared_ptr<websocketpp::message_buffer::message<websocketpp::message_buffer::alloc::con_msg_manager> > msg);
-void OnClose(websocketpp::server<Utils::WebSocket::Config> *signalServer, std::weak_ptr<void> hdl);
+static void OnMessage(websocketpp::server<Utils::WebSocket::Config> *signalServer, std::weak_ptr<void> hdl, std::shared_ptr<websocketpp::message_buffer::message<websocketpp::message_buffer::alloc::con_msg_manager> > msg);
+static void OnClose(websocketpp::server<Utils::WebSocket::Config> *signalServer, std::weak_ptr<void> hdl);
 RejectionReason ProcessPassword(char const *echo, coninfo &info);
 void CreatePasswords();
 void ResetPassword(__int32 peerIndex);
@@ -731,7 +731,7 @@ std::string ServerPortJson() // 0x10C2FE80
 	return buffer.GetString();
 }
 
-void ForceStopServer() // 0x10C2CE00
+static void ForceStopServer() // 0x10C2CE00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ForceStopServer@@YAXXZ");
 	// `anonymous-namespace'::ForceStopServer
@@ -743,7 +743,7 @@ void ForceStopServer() // 0x10C2CE00
 	}
 }
 
-bool OnValidate(websocketpp::server<Utils::WebSocket::Config> *signalServer, std::weak_ptr<void> hdl) // 0x10C2ED70
+static bool OnValidate(websocketpp::server<Utils::WebSocket::Config> *signalServer, std::weak_ptr<void> hdl) // 0x10C2ED70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnValidate@@YA_NPAV?$server@UConfig@WebSocket@Utils@@@websocketpp@@V?$weak_ptr@X@std@@@Z");
 	// `anonymous-namespace'::OnValidate
@@ -879,7 +879,7 @@ void HandleMessage(websocketpp::server<Utils::WebSocket::Config> *signalServer, 
 	}
 }
 
-void OnMessage(websocketpp::server<Utils::WebSocket::Config> *signalServer, std::weak_ptr<void> hdl, std::shared_ptr<websocketpp::message_buffer::message<websocketpp::message_buffer::alloc::con_msg_manager> > msg) // 0x10C2EBC0
+static void OnMessage(websocketpp::server<Utils::WebSocket::Config> *signalServer, std::weak_ptr<void> hdl, std::shared_ptr<websocketpp::message_buffer::message<websocketpp::message_buffer::alloc::con_msg_manager> > msg) // 0x10C2EBC0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnMessage@@YAXPAV?$server@UConfig@WebSocket@Utils@@@websocketpp@@V?$weak_ptr@X@std@@V?$shared_ptr@V?$message@Vcon_msg_manager@alloc@message_buffer@websocketpp@@@message_buffer@websocketpp@@@4@@Z");
 	// `anonymous-namespace'::OnMessage
@@ -901,7 +901,7 @@ void OnMessage(websocketpp::server<Utils::WebSocket::Config> *signalServer, std:
 	}
 }
 
-void OnClose(websocketpp::server<Utils::WebSocket::Config> *signalServer, std::weak_ptr<void> hdl) // 0x10C2E730
+static void OnClose(websocketpp::server<Utils::WebSocket::Config> *signalServer, std::weak_ptr<void> hdl) // 0x10C2E730
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnClose@@YAXPAV?$server@UConfig@WebSocket@Utils@@@websocketpp@@V?$weak_ptr@X@std@@@Z");
 	// `anonymous-namespace'::OnClose

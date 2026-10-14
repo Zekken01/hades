@@ -288,7 +288,7 @@ void Hf2pShutdownHook();
 void SystemMenu();
 __int32 GetSecondsRemainingUntilPlayerSpawn();
 bool PingPlayer(std::string ip, unsigned short port);
-void PongReceived(Blam::Network::NetworkAddress const &from, unsigned __int32 timestamp, unsigned short id, unsigned __int32 latency);
+static void PongReceived(Blam::Network::NetworkAddress const &from, unsigned __int32 timestamp, unsigned short id, unsigned __int32 latency);
 void BuildPlayerPing();
 namespace Forge { namespace PrematchCamera { long FindCameraObjectForTeamDesignator(short team_designator); bool IsForgePrematchCameraDisabled(); } }  // hades: added for 0x10A72BB0
 extern c_game_variant *(*const game_engine_get_variant)();  // hades: added for 0x10A72BB0
@@ -471,7 +471,7 @@ bool PingPlayer(std::string ip, unsigned short port) // 0x10A734F0
 	return false;
 }
 
-void PongReceived(Blam::Network::NetworkAddress const &from, unsigned __int32 timestamp, unsigned short id, unsigned __int32 latency) // 0x10A736C0
+static void PongReceived(Blam::Network::NetworkAddress const &from, unsigned __int32 timestamp, unsigned short id, unsigned __int32 latency) // 0x10A736C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?PongReceived@@YAXABUNetworkAddress@Network@Blam@@IGI@Z");
 	// `anonymous-namespace'::PongReceived

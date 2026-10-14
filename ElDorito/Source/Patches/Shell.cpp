@@ -152,7 +152,7 @@ void EnableImmersiveDarkMode(HWND__ *hWnd);
 __int32 __stdcall SetWindowPosHook(HWND__ *hWnd, HWND__ *hWndInsertAfter, __int32 x, __int32 y, __int32 cx, __int32 cy, unsigned __int32 uFlags);
 void DisplayCreateWindowError();
 namespace Utils::Version { std::string GetVersionString(); }  // hades: added for 0x10ACB3C0
-HWND__ *CreateGameWindowHook();
+static HWND__ *CreateGameWindowHook();
 
 /* ---------- globals */
 
@@ -300,7 +300,7 @@ void DisplayCreateWindowError() // 0x10ACBAA0
 	MessageBoxA(NULL, buffer, "ERROR - failed to create window", MB_ICONINFORMATION);
 }
 
-HWND__ *CreateGameWindowHook() // 0x10ACB3C0
+static HWND__ *CreateGameWindowHook() // 0x10ACB3C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CreateGameWindowHook@@YAPAUHWND__@@XZ");
 	// `anonymous-namespace'::CreateGameWindowHook

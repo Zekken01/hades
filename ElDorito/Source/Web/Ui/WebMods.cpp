@@ -351,9 +351,9 @@ namespace Web
 	}
 }
 
-void NotifyDownloadStateChanged(std::string const &fromState, std::string const &toState);
-void NotifyDownloadStatus(DownloadStatusInfo const &info);
-void NotifyDownloadError(std::string const &reason);
+static void NotifyDownloadStateChanged(std::string const &fromState, std::string const &toState);
+static void NotifyDownloadStatus(DownloadStatusInfo const &info);
+static void NotifyDownloadError(std::string const &reason);
 
 /* ---------- globals */
 
@@ -613,7 +613,7 @@ _inline void ModChangeListener::OnModChanged(EModIndex index, IMod *mod) // 0x10
 	Web::Ui::ScreenLayer::Notify("mod_changed", buff.GetString(), true);
 }
 
-void NotifyDownloadStateChanged(std::string const &fromState, std::string const &toState) // 0x10CAD960
+static void NotifyDownloadStateChanged(std::string const &fromState, std::string const &toState) // 0x10CAD960
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?NotifyDownloadStateChanged@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z");
 	// `anonymous-namespace'::NotifyDownloadStateChanged
@@ -636,7 +636,7 @@ void NotifyDownloadStateChanged(std::string const &fromState, std::string const 
 	Web::Ui::ScreenLayer::NotifyScreen(Web::Ui::ScreenLayer::ModDownload, "modDownloadStateChange", buff.GetString());
 }
 
-void NotifyDownloadStatus(DownloadStatusInfo const &info) // 0x10CADB70
+static void NotifyDownloadStatus(DownloadStatusInfo const &info) // 0x10CADB70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?NotifyDownloadStatus@@YAXABUDownloadStatusInfo@hades_file_local@@@Z");
 	// `anonymous-namespace'::NotifyDownloadStatus
@@ -675,7 +675,7 @@ void NotifyDownloadStatus(DownloadStatusInfo const &info) // 0x10CADB70
 	Web::Ui::ScreenLayer::NotifyScreen(Web::Ui::ScreenLayer::ModDownload, "modDownloadStatus", buff.GetString());
 }
 
-void NotifyDownloadError(std::string const &reason) // 0x10CAD780
+static void NotifyDownloadError(std::string const &reason) // 0x10CAD780
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?NotifyDownloadError@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 	// `anonymous-namespace'::NotifyDownloadError

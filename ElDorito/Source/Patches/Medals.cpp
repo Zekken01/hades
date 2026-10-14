@@ -104,7 +104,7 @@ namespace Patches
 	}
 }
 
-void OnEvent(unsigned long player, s_game_engine_event_data const *event, s_multiplayer_event_response_definition const *definition);
+static void OnEvent(unsigned long player, s_game_engine_event_data const *event, s_multiplayer_event_response_definition const *definition);
 void __fastcall chud_update_saber_medal_animation_hook(__int32 thisptr, void *unused, __int32 a2);
 void __fastcall chud_update_h3_medal_animation_hook(__int32 thisptr, void *unused, __int32 a2);
 void sound_enqueue_announcer_sound_hook(unsigned __int32 sndTagIndex, __int32 delayTicks);
@@ -138,7 +138,7 @@ namespace Patches
 
 /* ---------- private code */
 
-void OnEvent(unsigned long player, s_game_engine_event_data const *event, s_multiplayer_event_response_definition const *definition) // 0x10A89ED0
+static void OnEvent(unsigned long player, s_game_engine_event_data const *event, s_multiplayer_event_response_definition const *definition) // 0x10A89ED0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnEvent@@YAXKPBUs_game_engine_event_data@@PBUs_multiplayer_event_response_definition@@@Z");
 	// `anonymous-namespace'::OnEvent

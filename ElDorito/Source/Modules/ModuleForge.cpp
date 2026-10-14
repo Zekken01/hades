@@ -152,7 +152,7 @@ bool CommandDumpPrefabs(std::vector<std::string> const &Arguments, std::string &
 bool CommandDeletePrefab(std::vector<std::string> const &Arguments, std::string &returnInfo);
 bool TryParseTagIndex(std::string const &str, unsigned __int32 *value);
 bool CommandSpawnItem(std::vector<std::string> const &Arguments, std::string &returnInfo);
-bool TryParseInt(std::string const &str, __int32 *value);
+static bool TryParseInt(std::string const &str, __int32 *value);
 bool CommandPrematchCamera(std::vector<std::string> const &Arguments, std::string &returnInfo);
 bool CommandResetRuntime(std::vector<std::string> const &Arguments, std::string &returnInfo);
 bool CommandForgeBudget(std::vector<std::string> const &Arguments, std::string &returnInfo);
@@ -547,7 +547,7 @@ bool CommandSpawnItem(std::vector<std::string> const &Arguments, std::string &re
 	return true;
 }
 
-bool TryParseInt(std::string const &str, __int32 *value) // 0x10985A20
+static bool TryParseInt(std::string const &str, __int32 *value) // 0x10985A20
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?TryParseInt@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAH@Z");
 	// `anonymous-namespace'::TryParseInt

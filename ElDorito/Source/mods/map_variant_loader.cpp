@@ -92,7 +92,7 @@ struct s_level_datum;
 struct s_map_variant;
 namespace hades_file_local
 {
-	class ModListener;
+	namespace hades_file_local_map_variant_loader { class ModListener; } using namespace hades_file_local_map_variant_loader;
 }
 using namespace hades_file_local;
 
@@ -112,7 +112,7 @@ namespace Blam
 
 namespace hades_file_local
 {
-	class ModListener :
+	namespace hades_file_local_map_variant_loader { class ModListener :
 		public IModListener
 	{
 	public:
@@ -123,7 +123,7 @@ namespace hades_file_local
 		virtual ~ModListener() = default; /* compiler_generated() */
 		ModListener &operator=(ModListener &); /* compiler_generated() */
 		ModListener &operator=(ModListener const &); /* compiler_generated() */
-	};
+	}; }  // hades_file_local_map_variant_loader: ModListener is a different class in each translation unit
 	static_assert(sizeof(ModListener) == 4, "Invalid ModListener size");
 }
 using namespace hades_file_local;

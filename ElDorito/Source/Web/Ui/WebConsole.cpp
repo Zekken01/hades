@@ -150,7 +150,7 @@ namespace Web
 	}
 }
 
-void OnGameInputUpdated();
+static void OnGameInputUpdated();
 
 /* ---------- globals */
 
@@ -218,7 +218,7 @@ void WebConsoleOutputHandler::WriteLine(std::string const &line) // 0x10C9DF20
 	Web::Ui::ScreenLayer::Notify("console", jsonBuffer.GetString(), true);
 }
 
-void OnGameInputUpdated() // 0x10C9DDE0
+static void OnGameInputUpdated() // 0x10C9DDE0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnGameInputUpdated@@YAXXZ");
 	// `anonymous-namespace'::OnGameInputUpdated

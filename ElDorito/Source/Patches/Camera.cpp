@@ -217,7 +217,7 @@ void unit_update_aiming_hook(long unit_index);
 __int32 equipped_weap_allows_3p_zoom();
 void camera_globals_initialize_from_tags_hook();
 void CameraModeReset();
-void OnMapLoaded(char const *mapPath);
+static void OnMapLoaded(char const *mapPath);
 float GetScriptedCameraFovHook();
 void __fastcall c_following_camera__update_hook(void *thisptr, void *unused, __int32 localPlayerIndex, __int32 a4, unsigned char *state);
 __int32 unit_use_third_person_camera(unsigned long object_index, __int32 *a2);
@@ -708,7 +708,7 @@ void CameraModeReset() // 0x10958800
 	player_terminal_chud_set(true);
 }
 
-void OnMapLoaded(char const *mapPath) // 0x10958AB0
+static void OnMapLoaded(char const *mapPath) // 0x10958AB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnMapLoaded@@YAXPBD@Z");
 	// `anonymous-namespace'::OnMapLoaded

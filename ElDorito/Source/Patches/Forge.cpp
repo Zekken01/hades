@@ -505,7 +505,7 @@ void __fastcall c_map_variant__quantize_hook(s_map_variant *thisptr, void *unuse
 void game_engine_update_hook();
 bool game_engine_game_object_has_fallen_too_far_hook(long object_index);
 bool collision_test_object_hook(long object_index, s_object_header *object_header, s_object_data *object, unsigned long test_flags, long object_type_mask, long ignore_object_index_1, long ignore_object_index_2, long ignore_object_index_3);
-void multiplayer_object_submit_boundary_hook(s_multiplayer_object_boundary_geometry_data *boundary, real_argb_color *color, long object_index);
+static void multiplayer_object_submit_boundary_hook(s_multiplayer_object_boundary_geometry_data *boundary, real_argb_color *color, long object_index);
 void __fastcall c_multiplayer_candy_monitor_manager__monitor_object_hook(c_multiplayer_candy_monitor_manager *thisptr, void *__formal, long map_variant_index, long object_index);
 void shield_impact_bloom_intensity_hook(long id, long count, float *data);
 void game_sound_update_acoustics_hook(float dt);
@@ -2995,7 +2995,7 @@ bool collision_test_object_hook(long object_index, s_object_header *object_heade
 	return true;
 }
 
-void multiplayer_object_submit_boundary_hook(s_multiplayer_object_boundary_geometry_data *boundary, real_argb_color *color, long object_index) // 0x10A6F470
+static void multiplayer_object_submit_boundary_hook(s_multiplayer_object_boundary_geometry_data *boundary, real_argb_color *color, long object_index) // 0x10A6F470
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?multiplayer_object_submit_boundary_hook@@YAXPAUs_multiplayer_object_boundary_geometry_data@@PAUreal_argb_color@@J@Z");
 	// `anonymous-namespace'::multiplayer_object_submit_boundary_hook

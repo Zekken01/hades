@@ -616,7 +616,7 @@ bool UI_OrderedDataSource_Get(void *data, __int32 index, __int32 key, void *resu
 __int32 __fastcall c_gui_roster_list_widget__start_team_change_hook(void *thisPtr, __int32 unused, __int32 a2, __int32 teamIndex, __int32 a4);
 void OnUiInputUpdated();
 void __fastcall c_gui_roster_list_widget__update_render_state(c_gui_screen_widget *thisPtr, void *__formal, unsigned long milliseconds);
-HWND__ *CreateGameWindowHook();
+static HWND__ *CreateGameWindowHook();
 bool UpdateH3HUDImpl(__int32 playerMappingIndex);
 void UI_UpdateH3HUDHook(__int32 playerMappingIndex);
 bool GetBoundMouseButtonName(__int32 code, wchar_t *buff);
@@ -3050,7 +3050,7 @@ void __fastcall c_gui_roster_list_widget__update_render_state(c_gui_screen_widge
 	}
 }
 
-HWND__ *CreateGameWindowHook() // 0x10ADB990
+static HWND__ *CreateGameWindowHook() // 0x10ADB990
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CreateGameWindowHook@@YAPAUHWND__@@XZ");
 	// `anonymous-namespace'::CreateGameWindowHook

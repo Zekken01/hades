@@ -151,7 +151,7 @@ namespace Server
 }
 namespace hades_file_local
 {
-	class ModListener;
+	namespace hades_file_local_PlayerCharacterSystem { class ModListener; } using namespace hades_file_local_PlayerCharacterSystem;
 }
 using namespace hades_file_local;
 
@@ -213,7 +213,7 @@ namespace Blam
 
 namespace hades_file_local
 {
-	class ModListener :
+	namespace hades_file_local_PlayerCharacterSystem { class ModListener :
 		public IModListener
 	{
 	private:
@@ -225,7 +225,7 @@ namespace hades_file_local
 		virtual ~ModListener() = default; /* compiler_generated() */
 		ModListener &operator=(ModListener &); /* compiler_generated() */
 		ModListener &operator=(ModListener const &); /* compiler_generated() */
-	};
+	}; }  // hades_file_local_PlayerCharacterSystem: ModListener is a different class in each translation unit
 	static_assert(sizeof(ModListener) == 4, "Invalid ModListener size");
 }
 using namespace hades_file_local;

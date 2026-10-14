@@ -152,7 +152,7 @@ void ForwardReportToEndpoints(std::string const &report);
 bool HandleReport(std::string const &token);
 void HandleReports();
 unsigned long __stdcall HandledReportsThreadProc(void *lpParam);
-void OnShutdown();
+static void OnShutdown();
 
 /* ---------- globals */
 
@@ -433,7 +433,7 @@ unsigned long __stdcall HandledReportsThreadProc(void *lpParam) // 0x10B239A0
 	return 0;
 }
 
-void OnShutdown() // 0x10B23BA0
+static void OnShutdown() // 0x10B23BA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnShutdown@@YAXXZ");
 	// `anonymous-namespace'::OnShutdown

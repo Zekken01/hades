@@ -193,8 +193,8 @@ long object_get_prt_disabled(long object_index);
 void render_object_mesh_part_hook(s_render_object_mesh_part *element, long entry_point, long entry_point_flags, bool a4);
 bool object_sh_lightmap_sampling_disabled(long object_index);
 long object_lighting_geometry_sample_hook(real_point3d *origin, real_vector3d *direction, __int32 a3, long object_index, char a5, char a6, s_geometry_sample *sample);
-s_game_globals *try_and_get_game_globals();
-real_rgb_color *network_get_team_color(real_rgb_color *color, long team);
+static s_game_globals *try_and_get_game_globals();
+static real_rgb_color *network_get_team_color(real_rgb_color *color, long team);
 bool object_always_updates_change_colors(long object_index);
 void render_object_update_change_colors_hook(long object_index, bool force);
 void render_visibility_add_first_person_object_to_items_hook(long output_user_index, long object_index, bool a3, bool a4);
@@ -572,7 +572,7 @@ long object_lighting_geometry_sample_hook(real_point3d *origin, real_vector3d *d
 	return object_sh_lighting(origin, direction, a3, object_index, a5, a6, sample);
 }
 
-s_game_globals *try_and_get_game_globals() // 0x108E1E10
+static s_game_globals *try_and_get_game_globals() // 0x108E1E10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?try_and_get_game_globals@@YAPAUs_game_globals@@XZ");
 	// `anonymous-namespace'::try_and_get_game_globals
@@ -583,7 +583,7 @@ s_game_globals *try_and_get_game_globals() // 0x108E1E10
 	return (s_game_globals *)tag_get(0x6D617467, tag_get_first_in_group(0x6D617467));
 }
 
-real_rgb_color *network_get_team_color(real_rgb_color *color, long team) // 0x108DF2B0
+static real_rgb_color *network_get_team_color(real_rgb_color *color, long team) // 0x108DF2B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?network_get_team_color@@YAPAUreal_rgb_color@@PAU1@J@Z");
 	// `anonymous-namespace'::network_get_team_color

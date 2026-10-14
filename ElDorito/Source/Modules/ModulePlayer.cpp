@@ -310,7 +310,7 @@ bool CommandKillSelf(std::vector<std::string> const &Arguments, std::string &ret
 bool CommandPlayerArmor(std::vector<std::string> const &Arguments, std::string &returnInfo);
 bool CommandPlayerColor(std::vector<std::string> const &Arguments, std::string &returnInfo);
 bool CommandPreferredCharacter(std::vector<std::string> const &Arguments, std::string &returnInfo);
-bool TryParseInt(std::string const &str, __int32 *value);
+static bool TryParseInt(std::string const &str, __int32 *value);
 bool CommandPlayerEmote(std::vector<std::string> const &Arguments, std::string &returnInfo);
 
 /* ---------- globals */
@@ -1760,7 +1760,7 @@ bool CommandPreferredCharacter(std::vector<std::string> const &Arguments, std::s
 	return true;
 }
 
-bool TryParseInt(std::string const &str, __int32 *value) // 0x109F68D0
+static bool TryParseInt(std::string const &str, __int32 *value) // 0x109F68D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?TryParseInt@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAH@Z");
 	// `anonymous-namespace'::TryParseInt

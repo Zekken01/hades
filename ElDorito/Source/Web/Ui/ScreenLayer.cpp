@@ -403,7 +403,7 @@ void HandleMouseMessage(tagMSG *msg);
 void HandleKeyMessage(tagMSG *msg);
 void GetMsgHookImpl(__int32 code, unsigned __int32 wParam, long lParam);
 long __stdcall GetMsgHook(__int32 code, unsigned __int32 wParam, long lParam);
-void OnGameInputUpdated();
+static void OnGameInputUpdated();
 void OnUIInputUpdated();
 void OnVariableUpdate(Modules::Command const *command);
 void NotifyVariablesUpdated();
@@ -1005,7 +1005,7 @@ long __stdcall GetMsgHook(__int32 code, unsigned __int32 wParam, long lParam) //
 	return CallNextHookEx(MessageHook, code, wParam, lParam);
 }
 
-void OnGameInputUpdated() // 0x10C950F0
+static void OnGameInputUpdated() // 0x10C950F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnGameInputUpdated@@YAXXZ");
 	// `anonymous-namespace'::OnGameInputUpdated

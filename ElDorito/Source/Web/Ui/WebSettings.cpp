@@ -183,7 +183,7 @@ namespace Web
 	}
 }
 
-void OnGameInputUpdated();
+static void OnGameInputUpdated();
 
 /* ---------- globals */
 
@@ -219,7 +219,7 @@ namespace Web
 
 /* ---------- private code */
 
-void OnGameInputUpdated() // 0x10CB53C0
+static void OnGameInputUpdated() // 0x10CB53C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnGameInputUpdated@@YAXXZ");
 	// `anonymous-namespace'::OnGameInputUpdated

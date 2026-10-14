@@ -134,7 +134,7 @@ namespace Web
 	}
 }
 
-void OnEvent(unsigned long player, s_game_engine_event_data const *event, s_multiplayer_event_response_definition const *definition);
+static void OnEvent(unsigned long player, s_game_engine_event_data const *event, s_multiplayer_event_response_definition const *definition);
 std::string GetEventName(unsigned __int32 stringId);
 
 /* ---------- globals */
@@ -167,7 +167,7 @@ namespace Web
 
 /* ---------- private code */
 
-void OnEvent(unsigned long player, s_game_engine_event_data const *event, s_multiplayer_event_response_definition const *definition) // 0x10C8A700
+static void OnEvent(unsigned long player, s_game_engine_event_data const *event, s_multiplayer_event_response_definition const *definition) // 0x10C8A700
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnEvent@@YAXKPBUs_game_engine_event_data@@PBUs_multiplayer_event_response_definition@@@Z");
 	// `anonymous-namespace'::OnEvent

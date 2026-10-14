@@ -150,7 +150,7 @@ __int32 levels_get_campaign_next_map_id_hook(__int32 campaign_id, __int32 map_id
 void GameStartHook();
 bool main_load_map_hook(long campaign_id, long map_id, char const *map_path);
 void FovHook();
-bool z_buffer_fix_enabled();
+static bool z_buffer_fix_enabled();
 void ActiveCamoViewModelClipHook(float *nearPlane, float *farPlane);
 double AspectRatioHook();
 char GetBinkVideoPathHook(__int32 p_VideoID, char *p_DestBuf);
@@ -505,7 +505,7 @@ __declspec(naked) void FovHook() // 0x10A48720
 	}
 }
 
-bool z_buffer_fix_enabled() // 0x10A4C430
+static bool z_buffer_fix_enabled() // 0x10A4C430
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?z_buffer_fix_enabled@@YA_NXZ");
 	// `anonymous-namespace'::z_buffer_fix_enabled
