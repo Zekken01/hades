@@ -345,7 +345,7 @@ _inline void CHavokStatsDisplayOutputHandler::OutputLine(real_argb_color const *
 	// function call : void (*const)(short_rectangle2d *, short_rectangle2d *, short_rectangle2d *, short_rectangle2d *)
 
 	if (!color)
-		color = (real_argb_color const *)""; // hades: the original reads a white {1,1,1,1} real_argb_color at 0x11191FD8; the delinked reference mislabels that target as "" (??_C@_00CNPNBAHC@?$AA@), and objdiff matches by name, so this stand-in is what scores
+	{ static real_argb_color const white = { 1.0f, 1.0f, 1.0f, 1.0f }; color = &white; } // 0x11191FD8
 	short_rectangle2d bounds;
 	((void (*const)(short_rectangle2d *, short_rectangle2d *, short_rectangle2d *, short_rectangle2d *))0xA9FAA0)(nullptr, nullptr, nullptr, &bounds);
 	m_drawString.set_font(0);
