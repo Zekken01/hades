@@ -1052,3 +1052,10 @@ template std::_Tree_temp_node_alloc<std::allocator<std::_Tree_node<std::pair<std
 template std::_Tree_unchecked_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > >,std::_Iterator_base12>::~_Tree_unchecked_const_iterator();
 template std::map<std::weak_ptr<void>,coninfo,std::owner_less<std::weak_ptr<void> > >::~map();
 template std::pair<std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > >,bool>::~pair();
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { websocketpp::server<Utils::WebSocket::Config> signalServer; }
+namespace hades_file_local { unsigned short port; }

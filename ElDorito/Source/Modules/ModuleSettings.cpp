@@ -1517,3 +1517,11 @@ bool TryParseResolutionString(std::string const &str, __int32 *width, __int32 *h
 // reaches an object without being used. Generated - see build_instantiations.py.
 
 template void Pointer::WriteFast<unsigned long>(unsigned long const) const;
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { __int32 (__stdcall *SSL_SetAntialiasing)(bool) = reinterpret_cast<decltype(SSL_SetAntialiasing)>(0x79B240); }
+namespace hades_file_local { __int32 (__stdcall *SSL_SetMusicVolume)(__int32, bool) = reinterpret_cast<decltype(SSL_SetMusicVolume)>(0x79B940); }
+namespace hades_file_local { __int32 (__stdcall *SSL_SetTeamColor)(__int32) = reinterpret_cast<decltype(SSL_SetTeamColor)>(0x79BAF0); }

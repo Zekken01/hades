@@ -933,3 +933,9 @@ template s_forge_weather_definition * c_tag_block<s_forge_weather_definition>::b
 template s_forge_weather_definition * c_tag_block<s_forge_weather_definition>::end();
 template s_object_attachment_definition * c_tag_block<s_object_attachment_definition>::begin();
 template s_object_attachment_definition * c_tag_block<s_object_attachment_definition>::end();
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { unsigned __int32 s_CurrentObjectIndex = 0xffffffff; }

@@ -982,3 +982,9 @@ template s_render_model_region & c_tag_block<s_render_model_region>::operator[](
 template s_render_model_region * c_tag_block<s_render_model_region>::get_element(__int32) const;
 template s_sorting_position & c_tag_block<s_sorting_position>::operator[](__int32);
 template s_sorting_position * c_tag_block<s_sorting_position>::get_element(__int32) const;
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { bool g_prt_disabled; }

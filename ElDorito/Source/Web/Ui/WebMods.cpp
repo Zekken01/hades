@@ -162,7 +162,7 @@ namespace Web
 }
 namespace hades_file_local
 {
-	struct DownloadStatusInfo;
+	namespace hades_file_local_WebMods { struct DownloadStatusInfo; } using namespace hades_file_local_WebMods;
 	class ModChangeListener;
 }
 using namespace hades_file_local;
@@ -284,7 +284,7 @@ namespace Web
 
 namespace hades_file_local
 {
-	struct DownloadStatusInfo
+	namespace hades_file_local_WebMods { struct DownloadStatusInfo
 	{
 		SServerConnectState::SRequiredMod package; // 0x0
 		__int32 packageIndex; // 0x104
@@ -298,7 +298,7 @@ namespace hades_file_local
 		DownloadStatusInfo &operator=(DownloadStatusInfo &); /* compiler_generated() */
 		DownloadStatusInfo &operator=(DownloadStatusInfo const &); /* compiler_generated() */
 		unsigned char __pad0[4]; // 0x11C
-	};
+	}; }  // hades_file_local_WebMods: DownloadStatusInfo is a different type in each translation unit
 	static_assert(sizeof(DownloadStatusInfo) == 288, "Invalid DownloadStatusInfo size");
 
 	class ModChangeListener :

@@ -163,3 +163,9 @@ __declspec(naked) void first_person_weapon_offset_hook2_hook() // 0x10916890
 		ret
 	}
 }
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { long g_first_weapon_offset_field_offset = 1324; }

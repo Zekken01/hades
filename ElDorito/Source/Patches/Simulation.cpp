@@ -876,3 +876,9 @@ template c_flags<enum e_unit_control_flags,unsigned long>::operator bool() const
 template long & s_static_array<long,32>::operator[](long);
 template long s_static_array<long,32>::get_count();
 template void Blam::BitStream::WriteUnsigned<unsigned char>(unsigned char, __int32);
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { real_rectangle3d global_null_rectangle3d; }

@@ -644,3 +644,9 @@ _inline void ModListener::OnModChanged(EModIndex index, IMod *mod) // 0x107BC190
 // reaches an object without being used. Generated - see build_instantiations.py.
 
 template bool c_enum<long,enum e_gui_selected_item_type>::operator==(e_gui_selected_item_type const &) const;
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { bool levels_dirty; }

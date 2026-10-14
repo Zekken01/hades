@@ -1128,3 +1128,9 @@ void HandleFinder() // 0x10964CF0
 template CModBrowserManager & Utils::Singleton<CModBrowserManager>::Instance();
 template CServerConnectManager & Utils::Singleton<CServerConnectManager>::Instance();
 template Modules::ElModules & Utils::Singleton<Modules::ElModules>::Instance();
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+bool relaunch;

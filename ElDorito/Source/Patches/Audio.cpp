@@ -2293,3 +2293,14 @@ template s_xbox_sound_datum & c_data_iterator<s_xbox_sound_datum>::next();
 template s_xbox_sound_datum * c_data_array<s_xbox_sound_datum>::try_and_get(unsigned long);
 template s_xbox_sound_datum * c_data_iterator<s_xbox_sound_datum>::operator->();
 template void Pointer::Write<long const *>(long const *const) const;
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { void *g_channel_transmission_sources1[224]; }
+namespace hades_file_local { void *g_channel_transmission_sources2[224]; }
+namespace hades_file_local { s_lruv_cache *g_xbox_sound_cache; }
+namespace hades_file_local { void *g_sound_cache_memory; }
+namespace hades_file_local { long const g_sample_rates[4] = { 22050, 44100, 32000, 48000 }; }
+long const k_number_of_xbox_sound_datums = 512;

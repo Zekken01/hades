@@ -150,3 +150,10 @@ char const *game_engine_type_get_string(e_game_engine_type type) // 0x10EFFF50
 }
 
 /* ---------- private code */
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+bool (*const game_engine_is_sandbox)() = reinterpret_cast<decltype(game_engine_is_sandbox)>(0x59A780);
+c_game_variant *(*const game_engine_get_variant)() = reinterpret_cast<decltype(game_engine_get_variant)>(0x5CE190);

@@ -87,3 +87,9 @@ void player_format_uid(char *string, unsigned long long id) // 0x10F00140
 }
 
 /* ---------- private code */
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+s_game_options *(*game_options_get)() = reinterpret_cast<decltype(game_options_get)>(0x5322D0);

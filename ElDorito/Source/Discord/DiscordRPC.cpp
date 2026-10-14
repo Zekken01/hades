@@ -474,3 +474,9 @@ static void OnShutdown() // 0x10952F50
 
 /* ---------- explicit instantiations */
 template Pointer::operator char *() const;
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { char const *APPLICATION_ID = "378984448022020112"; }

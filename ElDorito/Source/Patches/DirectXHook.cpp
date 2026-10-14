@@ -638,3 +638,14 @@ _D3DPRESENT_PARAMETERS_ *get_last_presentation_parameters_hook() // 0x109620E0
 	update_present_parameters(last_present_params);
 	return last_present_params;
 }
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { HRESULT (*c_d3d_resource_allocator__create_volume_texture)(unsigned __int32, unsigned __int32, unsigned __int32, unsigned __int32, unsigned __int32, _D3DFORMAT, _D3DPOOL, IDirect3DVolumeTexture9 **, void *, void *, __int32, char const *); }
+namespace hades_file_local { void (*Video_CallsD3DEndSceneOrginal)(); }
+namespace hades_file_local { HRESULT (__stdcall *origResetPtr)(IDirect3DDevice9 *, _D3DPRESENT_PARAMETERS_ *); }
+namespace hades_file_local { HRESULT (__stdcall *origEndScenePtr)(IDirect3DDevice9 *); }
+namespace hades_file_local { HRESULT (*c_d3d_resource_allocator__create_texture)(unsigned __int32, unsigned __int32, unsigned __int32, unsigned __int32, _D3DFORMAT, _D3DPOOL, IDirect3DTexture9 **, __int32, __int32, void *, char const *); }
+namespace hades_file_local { HRESULT (*c_d3d_resource_allocator__create_cube_texture)(unsigned __int32, unsigned __int32, unsigned __int32, _D3DFORMAT, _D3DPOOL, IDirect3DCubeTexture9 **, __int32, void *, __int32, char const *); }

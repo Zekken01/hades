@@ -619,3 +619,9 @@ template void const s_static_string<16>::print_va(char const *, char *);
 template void const s_static_string<256>::print_va(char const *, char *);
 template void const s_static_string<4096>::print_va(char const *, char *);
 template void s_static_string<16>::set_wchar(wchar_t const *);
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace Debug { namespace CrashReporting { namespace hades_file_local_Debug_CrashReporting { char const *kLifeCycleStateNames[18] = { "none", "pre-game", "start-game", "in-game", "end-game-write-stats", "leaving", "joining", "matchmaking-start", "matchmaking-find-match-client", "matchmaking-find_match", "matchmaking-find-and-assemble-match", "matchmaking-assemble-match", "matchmaking-arbitration", "matchmaking-select-host", "matchmaking-prepare-map", "in-match", "end-match-write-stats", "post-match" }; } } }

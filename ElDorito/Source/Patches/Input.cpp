@@ -1937,3 +1937,13 @@ template void Pointer::Write<Blam::Input::ConfigurableAction *>(Blam::Input::Con
 
 /* ---------- explicit instantiations */
 template unsigned short & Pointer::Read<unsigned short>() const;
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { Blam::Input::BindingsTable s_ForgeMonitorModeBindings; }
+namespace hades_file_local { unsigned __int32 s_ControllerVibrationTestTicks; }
+namespace hades_file_local { IDirectInput8A *g_diInterface; }
+namespace hades_file_local { IDirectInputDevice8A *g_diKeyboardDevice; }
+namespace hades_file_local { bool g_diInitialized; }

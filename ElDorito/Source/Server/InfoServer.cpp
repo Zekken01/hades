@@ -911,3 +911,13 @@ std::string BuildBadRequestResponse(std::string const &rawRequest) // 0x10B1ADA0
 /* ---------- explicit instantiations */
 template HWND__ * & Pointer::Read<HWND__ *>() const;
 template e_game_engine_type & Pointer::Read<enum e_game_engine_type>() const;
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { unsigned __int32 infoSocket; }
+namespace hades_file_local { bool infoSocketOpen; }
+namespace hades_file_local { long long lastAnnounce; }
+namespace hades_file_local { long long timeSinceLastPoll; }
+namespace hades_file_local { __int32 modCount; }

@@ -517,3 +517,9 @@ template s_scenario_structure_bsp_reference * c_tag_block<s_scenario_structure_b
 template s_screen_effect_datum & c_data_iterator<s_screen_effect_datum>::next();
 template s_screen_effect_datum * c_data_iterator<s_screen_effect_datum>::operator->();
 template unsigned long c_data_array<s_screen_effect_datum>::delete_datum(unsigned long);
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { s_forge_sky_definition mapDefaultSky; }

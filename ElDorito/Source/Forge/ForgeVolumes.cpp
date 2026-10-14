@@ -917,3 +917,9 @@ void RenderVolumes() // 0x10954E30
 		}
 	}
 }
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { float const kGarbageCollectionIntervals[4] = { 0.0f, 3.0f, 5.0f, 10.0f }; }

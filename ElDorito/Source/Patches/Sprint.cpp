@@ -368,3 +368,10 @@ void player_sprint_enter_hook(long unit_index, e_unit_messages message) // 0x10A
 	}
 	unit_send_message_to_first_person(unit_index, message);
 }
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { __int32 sprintState = 1; }
+namespace hades_file_local { bool sprintUnlimited; }

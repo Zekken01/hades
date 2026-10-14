@@ -64,3 +64,12 @@ long scenario_pvs_bsp_pvs_index_get(unsigned long bsp_zone_flags, long bsp_index
 }
 
 /* ---------- private code */
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+s_scenario **g_scenario_definition = reinterpret_cast<s_scenario **>(0x22AAEB4);
+long (*const global_structure_bsp_first_active_index_get)() = reinterpret_cast<decltype(global_structure_bsp_first_active_index_get)>(0x4E96A0);
+long (*const global_structure_bsp_next_active_index_get)(long) = reinterpret_cast<decltype(global_structure_bsp_next_active_index_get)>(0x4E9730);
+s_scenario_structure_bsp *(*const global_structure_bsp_get)(long) = reinterpret_cast<decltype(global_structure_bsp_get)>(0x4E96D0);

@@ -270,3 +270,9 @@ template s_scenario_effect_scenery & c_tag_block<s_scenario_effect_scenery>::ope
 template s_scenario_effect_scenery * c_tag_block<s_scenario_effect_scenery>::get_element(__int32) const;
 template s_unit_hud_interface_definition & c_tag_block<s_unit_hud_interface_definition>::operator[](__int32);
 template s_unit_hud_interface_definition * c_tag_block<s_unit_hud_interface_definition>::get_element(__int32) const;
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { bool tagsloaded; }

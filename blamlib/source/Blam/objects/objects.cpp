@@ -218,3 +218,14 @@ unsigned long object_get_variant_name(long object_index) // 0x10EF8D20
 
 template s_model_variant * c_tag_block<s_model_variant>::begin();
 template s_model_variant * c_tag_block<s_model_variant>::end();
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+s_object_data *(*const object_try_and_get_and_verify_type)(unsigned long, c_enum<enum e_object_type,long>) = reinterpret_cast<decltype(object_try_and_get_and_verify_type)>(0xB34490);
+s_multiplayer_object_properties *(*const object_get_multiplayer)(unsigned long) = reinterpret_cast<decltype(object_get_multiplayer)>(0xB344E0);
+void (*const object_set_position)(unsigned long, real_point3d *, real_vector3d *, real_vector3d *, s_scenario_location *) = reinterpret_cast<decltype(object_set_position)>(0xB33530);
+void (*const object_placement_data_new)(s_object_placement_data *, long, unsigned long, s_damage_owner *) = reinterpret_cast<decltype(object_placement_data_new)>(0xB31590);
+void (*const object_get_world_position)(unsigned long, real_point3d *) = reinterpret_cast<decltype(object_get_world_position)>(0xB2E5A0);
+void (*const object_choose_initial_permutation)(long, unsigned long, s_model_customization_region_permutation const *, long) = reinterpret_cast<decltype(object_choose_initial_permutation)>(0xB2A820);

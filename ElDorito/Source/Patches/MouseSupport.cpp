@@ -747,3 +747,11 @@ bool RectangleContainsPoint(real_rectangle2d const &rect, real_point2d const &po
 
 	return point.x >= rect.x0 && rect.x1 >= point.x && point.y >= rect.y0 && rect.y1 >= point.y;
 }
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { __int32 globalMouseX; }
+namespace hades_file_local { __int32 globalMouseY; }
+namespace hades_file_local { float globalMouseMoveDelta; }

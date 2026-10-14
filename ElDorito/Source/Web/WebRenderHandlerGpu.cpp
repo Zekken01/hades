@@ -521,3 +521,9 @@ namespace Web
 /* ---------- private code */
 
 /* ---------- explicit instantiations */
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace Web { namespace Browser { namespace hades_file_local_Web_Browser { char const *WebRendererHlsl = "\n\nuniform sampler2D gpu_view : register(s5);\nuniform float gamma_power : register(c1);\nuniform float4 scale : register(c2); // from end_frame(), contrast/brightness control\n\n//#define COMPONENT_SWAP\n\nfloat4 main_ps(in float4 position : POSITION, in float2 texcoord : TEXCOORD0) : COLOR\n{\n    float4 color = tex2D(gpu_view, texcoord);\n\n#ifdef COMPONENT_SWAP\n    color.rgb = float3(color.b, color.g, color.r);\n#endif\n\n    // gamma, contrast and brightness\n    color.rgb = pow(sqrt(color.rgb), gamma_power);\n    color.rgb = color.rgb * scale.x + scale.y;\n    \n    return color;\n}\n\nstruct s_cef_screen_vertex_hlsl\n{\n    float2 position : POSITION;\n    float2 texcoord : TEXCOORD0;\n};\n\nvoid main_vs(const in s_cef_screen_vertex_hlsl input, out float4 position : POSITION, out float2 texcoord : TEXCOORD0)\n{\n    position.xy = input.position;\n    position.zw = 1.0f;\n    texcoord.xy = input.texcoord.xy;\n}\n\n"; } } }

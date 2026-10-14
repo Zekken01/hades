@@ -422,3 +422,9 @@ static void OnGameInputUpdated() // 0x10C9CEA0
 	if (Blam::Input::GetKeyTicks(bindings.PrimaryKeys[Blam::Input::eGameActionGeneralChat], Blam::Input::eInputTypeUi) == 1 || Blam::Input::GetKeyTicks(bindings.SecondaryKeys[Blam::Input::eGameActionGeneralChat], Blam::Input::eInputTypeUi) == 1)
 		Web::Ui::WebChat::Show(false);
 }
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { bool isChatBoxVisible; }

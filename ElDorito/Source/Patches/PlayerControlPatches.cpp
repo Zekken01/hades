@@ -379,3 +379,9 @@ __declspec(naked) void player_control_crouch_hold_timer_fix2_hook() // 0x108DCFB
 		ret
 	}
 }
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { long g_player_control_delta_msec; }

@@ -475,3 +475,11 @@ long __fastcall c_restricted_memory__add_member_hook(c_restricted_memory *thispt
 	c_debug_game_state_allocation::record_allocation(allocation_type, name, type, allocated_size);
 	return member_index;
 }
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { unsigned __int32 newDataSize; }
+namespace hades_file_local { unsigned __int32 newCacheSize; }
+namespace hades_file_local { unsigned __int32 physicalMemorySize; }

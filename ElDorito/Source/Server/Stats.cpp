@@ -1226,3 +1226,15 @@ namespace Server
 template bool c_enum<enum e_game_results_event_type,char>::operator==(e_game_results_event_type const &) const;
 template c_enum<enum e_damage_reporting_type,long>::operator long() const;
 template c_enum<enum e_game_results_event_type,char>::operator char() const;
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace Server { namespace Stats { long long matchStartTime; } }
+namespace Server { namespace Stats { long long matchEndTime; } }
+namespace Server { namespace Stats { long long sendStatsTime; } }
+namespace Server { namespace Stats { long long listPlayersTime; } }
+namespace Server { namespace Stats { bool postMatch; } }
+namespace Server { namespace Stats { std::string playersInfoEndpoint; } }
+namespace Server { namespace Stats { __int32 numberOfRounds = 1; } }

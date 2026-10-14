@@ -120,3 +120,9 @@ bool GetTextureInternal(__int32 index, IDirect3DTexture9 **texture) // 0x107E9F1
 
 	return cachedTexture->valid;
 }
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { CachedTexture g_emblemTexture[256]; }

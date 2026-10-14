@@ -65,7 +65,7 @@ inline c_tag_name_dictionary::c_tag_name_dictionary(std::unordered_map<int,std::
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0c_tag_name_dictionary@@QAE@$$QAV0@@Z"); no body to assert in
-_inline c_tag_name_dictionary::c_tag_name_dictionary(c_tag_name_dictionary &&__that) noexcept = default; // 0x10871760
+inline c_tag_name_dictionary::c_tag_name_dictionary(c_tag_name_dictionary &&__that) noexcept = default; // 0x10871760
 
 inline c_tag_name_dictionary::~c_tag_name_dictionary() // 0x10877F60
 {

@@ -2026,3 +2026,10 @@ template s_text_value_pair & s_static_array<s_text_value_pair,16>::operator[](lo
 /* ---------- explicit instantiations */
 template s_text_value_pair_definition * s_user_interface_text_value_pair_proxy<8>::get_tag_definition();
 template s_text_value_pair_definition * s_user_interface_text_value_pair_proxy<16>::get_tag_definition();
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { bool g_player_model_proxy_dirty = true; }
+namespace hades_file_local { c_user_interface_mods_player_character_data g_player_characte_data; }

@@ -356,3 +356,9 @@ namespace Server
 // reaches an object without being used. Generated - see build_instantiations.py.
 
 template s_player_datum * c_data_array<s_player_datum>::get_absolute(long);
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { unsigned __int32 lastSynchronizeTime = 0xffffffff; }

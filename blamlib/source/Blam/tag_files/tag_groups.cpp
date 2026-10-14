@@ -143,3 +143,10 @@ extern "C" s_cache_tag_instance *try_and_get_instance_internal(long tag_index) /
 	s_cache_tag_instance *instance = g_cache_file_tag_globals->instances[absolute_index];
 	return instance;
 }
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+void *(*const tag_get)(unsigned long, long) = reinterpret_cast<decltype(tag_get)>(0x503370);
+long (*const tag_get_first_in_group)(unsigned long) = reinterpret_cast<decltype(tag_get_first_in_group)>(0x5017E0);

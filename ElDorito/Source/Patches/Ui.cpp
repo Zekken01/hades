@@ -4629,3 +4629,17 @@ template s_multiplayer_runtime_sound * c_tag_block<s_multiplayer_runtime_sound>:
 template s_scenario_background_textures & c_tag_block<s_scenario_background_textures>::operator[](__int32);
 template s_scenario_background_textures * c_tag_block<s_scenario_background_textures>::get_element(__int32) const;
 template unsigned long & s_static_array<unsigned long,37>::operator[](long);
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace Patches { namespace Ui { __int32 customPrimaryHUDColor = -1; } }
+namespace Patches { namespace Ui { __int32 customSecondaryHUDColor; } }
+namespace Patches { namespace Ui { bool enableCustomHUDColors; } }
+namespace Patches { namespace Ui { bool enableAllyBlueWaypointsFix; } }
+namespace Patches { namespace Ui { bool HasAttractBinks; } }
+namespace Patches { namespace Ui { bool isPttSoundPlaying; } }
+namespace Patches { namespace Ui { char16_t chud_talking_player_name[32]; } }
+namespace hades_file_local { bool tagsInitiallyLoaded; }
+namespace hades_file_local { __int32 localDesiredTeam = -1; }

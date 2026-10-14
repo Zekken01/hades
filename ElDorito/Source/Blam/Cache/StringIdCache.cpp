@@ -314,3 +314,11 @@ namespace Blam
 }
 
 /* ---------- private code */
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace Blam { namespace Cache { __int32 setMin = 1; } }
+namespace Blam { namespace Cache { __int32 setMax = 3870; } }
+namespace Blam { namespace Cache { __int32 setOffsets[9] = { 2319, 1, 1669, 1824, 1988, 1912, 2000, 2282, 2306 }; } }

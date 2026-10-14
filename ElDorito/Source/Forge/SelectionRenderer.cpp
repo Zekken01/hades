@@ -438,3 +438,14 @@ void RasterizeImplicitGeometryHook() // 0x109769B0
 
 	RenderImplicit();
 }
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { long volatile s_VisionMaskBitmap = -1; }
+namespace hades_file_local { __int32 s_RendererType; }
+namespace hades_file_local { bool s_Enabled; }
+namespace hades_file_local { __int32 volatile s_NumActiveItems; }
+namespace hades_file_local { float s_SelectionColorCounter; }
+namespace hades_file_local { SelectionItem s_items[256]; }

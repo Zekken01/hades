@@ -553,3 +553,13 @@ bool TryParseSubnet(std::string const &cidr, unsigned long *outNetwork, unsigned
 	*outMask = htonl(0xFFFFFFFF << (32 - bits));
 	return true;
 }
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { long long lastSyncTime; }
+namespace hades_file_local { std::condition_variable syncSignal; }
+namespace hades_file_local { bool banlistDirty; }
+namespace hades_file_local { std::vector<std::string> banlistUrls; }
+namespace hades_file_local { s_sharedState sharedState; }

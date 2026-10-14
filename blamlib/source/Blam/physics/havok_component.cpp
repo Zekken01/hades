@@ -86,3 +86,10 @@ void c_havok_component::set_rigid_body_collision_filter_info(long rigid_body_ind
 
 template c_havok_component * c_data_array<c_havok_component>::try_and_get(unsigned long);
 template c_havok_component::c_rigid_body & hkArray<c_havok_component::c_rigid_body>::operator[](__int32);
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+long (*const havok_entity_get_havok_component_index)(hkpEntity const *) = reinterpret_cast<decltype(havok_entity_get_havok_component_index)>(0x5EA8E0);
+long (*const havok_entity_get_havok_component_rigid_body_index)(hkpEntity const *) = reinterpret_cast<decltype(havok_entity_get_havok_component_rigid_body_index)>(0x5EA930);

@@ -305,3 +305,9 @@ void *c_physical_memory_stack::allocate(e_physical_memory_stage stage, unsigned 
 		*out_allocated_size = allocated_size;
 	return memory;
 }
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { c_physical_memory_stack memory_stack; }

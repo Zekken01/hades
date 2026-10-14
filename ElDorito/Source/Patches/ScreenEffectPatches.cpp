@@ -713,3 +713,10 @@ template c_flags<enum s_single_screen_effect_definition::e_flags,unsigned short>
 template s_screen_effect_datum & c_data_iterator<s_screen_effect_datum>::operator*();
 template s_single_screen_effect_definition & c_tag_block<s_single_screen_effect_definition>::operator[](__int32);
 template s_single_screen_effect_definition * c_tag_block<s_single_screen_effect_definition>::get_element(__int32) const;
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { float g_screen_effect_user_camera_shake[4]; }
+namespace hades_file_local { float &g_screen_effect_hud_alpha_scale = *reinterpret_cast<float *>(0x18BF528); }

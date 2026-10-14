@@ -213,3 +213,15 @@ float get_linear_buffer_value(long a1, long max_pixel_value, float a3) // 0x10F1
 }
 
 /* ---------- private code */
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { bool g_LUT_initialized; }
+namespace hades_file_local { IDirect3DTexture9 *g_LUT_1D; }
+namespace hades_file_local { IDirect3DTexture9 *g_LUT_1D_gpu; }
+namespace hades_file_local { _D3DGAMMARAMP g_d3d_gamma_ramp; }
+namespace hades_file_local { c_rasterizer_LUT_control g_last_LUT_control; }
+namespace hades_file_local { float gamma_adjustment[5] = { 0.7599999904632568f, 0.8799999952316284f, 1.0f, 1.1200000047683716f, 1.2400000095367432f }; }
+namespace hades_file_local { float black_level_adjustment[5]; }

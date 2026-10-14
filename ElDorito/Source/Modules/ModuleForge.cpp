@@ -698,3 +698,10 @@ namespace Modules
 
 	_inline ModuleForge::s_CommandState::s_Prefabs::~s_Prefabs() = default; // 0x10984220
 }
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { char const PREFAB_DIR[14] = { 100, 97, 116, 97, 47, 112, 114, 101, 102, 97, 98, 115, 47 }; }
+namespace hades_file_local { char const PREFAB_EXT[8] = { 46, 112, 114, 101, 102, 97, 98 }; }

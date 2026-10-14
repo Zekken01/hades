@@ -362,3 +362,10 @@ hs_value hs_value::get_default(e_hs_type type) // 0x10F02A90
 
 template c_enum<unsigned short,enum e_hs_type>::operator enum e_hs_type() const;
 template s_hs_global_runtime * c_data_array<s_hs_global_runtime>::try_and_get_absolute(long);
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+s_data_array **g_script_node_runtime_state_allocation = reinterpret_cast<s_data_array **>(0x24B06D4);
+namespace hades_file_local { s_hs_global_external **const g_hs_global_externals = reinterpret_cast<s_hs_global_external **>(0x18EF450); }

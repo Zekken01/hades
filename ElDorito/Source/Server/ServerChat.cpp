@@ -1330,3 +1330,12 @@ template std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<un
 template std::_List_unchecked_const_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,ClientSpamStats> > >,std::_Iterator_base12>::~_List_unchecked_const_iterator();
 template std::pair<std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,ClientSpamStats> > > >,bool>::~pair();
 template std::unordered_map<unsigned int,ClientSpamStats>::~unordered_map();
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { std::vector<std::shared_ptr<Server::Chat::ChatHandler> > chatHandlers; }
+namespace hades_file_local { std::list<unsigned int> MutedPlayers; }
+namespace hades_file_local { unsigned long LastTimeMs; }
+namespace hades_file_local { unsigned long SpamUpdateMs; }

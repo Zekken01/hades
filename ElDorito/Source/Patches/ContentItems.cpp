@@ -915,3 +915,11 @@ bool game_variant_description_override_hook(__int32 chud_handle, __int32 a2, __i
 		return false;
 	}
 }
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { bool saving_new_gametype; }
+namespace hades_file_local { bool enumerated; }
+namespace hades_file_local { struct s_ContentItemRenameState s_ContentItemRenameState; }

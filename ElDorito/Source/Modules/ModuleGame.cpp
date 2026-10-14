@@ -2386,3 +2386,9 @@ template void Pointer::Write<bool>(bool const) const;
 template Pointer::operator wchar_t *() const;
 template __int32 & Pointer::Read<int>() const;
 template unsigned __int32 & Pointer::Read<unsigned int>() const;
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { std::map<std::string,bool> layerBlurMap; }

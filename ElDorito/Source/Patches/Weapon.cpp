@@ -1605,3 +1605,9 @@ void weapon_barrel_fire__unit_active_camouflage_ding_hook(long unit_index, float
 template bool c_flags<enum e_weapon_definition_flags,unsigned long>::test(e_weapon_definition_flags) const;
 template c_flags<enum e_barrel_flags,long>::operator long() const;
 template c_flags<enum e_weapon_definition_flags,unsigned long>::operator unsigned long() const;
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace Patches { namespace Weapon { bool IsMainMenu; } }

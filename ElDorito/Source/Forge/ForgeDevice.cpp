@@ -317,3 +317,10 @@ void UpdateDevice(unsigned long objectIndex) // 0x10861320
 
 template c_enum<enum e_machine_type,short>::operator short() const;
 template s_device_group_datum * c_data_array<s_device_group_datum>::try_and_get(unsigned long);
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { std::array<SDeviceChannel,32> channels; }
+namespace hades_file_local { bool shouldReset; }

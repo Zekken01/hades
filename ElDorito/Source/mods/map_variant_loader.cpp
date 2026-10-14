@@ -398,3 +398,10 @@ void ModListener::OnModChanged(EModIndex index, IMod *mod) // 0x1088A3F0
 template c_flags<enum e_file_permission_flags,long>::c_flags(c_flags<enum e_file_permission_flags,long> const &);
 template char const * s_static_string<256>::append(char const *);
 template long s_static_string<256>::length();
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { std::string stored_blf; }
+namespace hades_file_local { e_map_variant_load_error last_error; }

@@ -703,3 +703,9 @@ template s_structure_breakable_surface const & c_tag_block<s_structure_breakable
 template s_structure_instanced_geometry_instance * c_tag_block<s_structure_instanced_geometry_instance>::get_element(__int32) const;
 template s_structure_instanced_geometry_instance const & c_tag_block<s_structure_instanced_geometry_instance>::operator[](__int32) const;
 template void Pointer::Write<void (__cdecl*)(void)>(void (*const value)()) const;
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { long g_breakable_surface_group_gamestate_mapping[16][1024]; }

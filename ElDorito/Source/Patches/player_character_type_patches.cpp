@@ -546,3 +546,10 @@ template s_game_globals_player_control & c_tag_block<s_game_globals_player_contr
 template s_game_globals_player_control * c_tag_block<s_game_globals_player_control>::get_element(__int32) const;
 template s_scenario_player & c_tag_block<s_scenario_player>::operator[](__int32);
 template s_scenario_player * c_tag_block<s_scenario_player>::get_element(__int32) const;
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { s_game_globals_player_control *g_temp_global_player_control; }
+namespace hades_file_local { s_game_globals_player_information *g_temp_global_player_information; }

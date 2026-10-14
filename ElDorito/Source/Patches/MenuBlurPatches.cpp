@@ -646,3 +646,9 @@ void CRenderFullScreenBlur::Update() // 0x108D2030
 template bool c_tag_block<s_explicit_shader_ref>::try_get_element(__int32, s_explicit_shader_ref **) const;
 template s_explicit_shader_ref & c_tag_block<s_explicit_shader_ref>::operator[](__int32);
 template s_explicit_shader_ref * c_tag_block<s_explicit_shader_ref>::get_element(__int32) const;
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { CRenderFullScreenBlur g_fullscreenMenuBlur; }

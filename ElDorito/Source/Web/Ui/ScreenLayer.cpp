@@ -1217,3 +1217,9 @@ void NotifyVariablesUpdated() // 0x10C94C80
 // mangled_x86(MANGLED_DEFAULT, "??0WebOverlayInputContext@hades_file_local@@QAE@XZ"); no body to assert in
 // _inline WebOverlayInputContext::WebOverlayInputContext() = default; // 0x10C91390  // hades: defaulted on its declaration
 
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { bool InputCaptured; }
+namespace hades_file_local { unsigned __int32 lastVariableUpdateTicks; }

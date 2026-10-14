@@ -808,3 +808,11 @@ template bool c_tag_block<s_render_model_marker>::try_get_element(__int32, s_ren
 template s_render_model_marker * c_tag_block<s_render_model_marker>::get_element(__int32) const;
 template s_render_model_marker const & c_tag_block<s_render_model_marker>::operator[](__int32) const;
 template s_render_model_marker_group const & c_tag_block<s_render_model_marker_group>::operator[](__int32) const;
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { Forge::Magnets::MagnetPair const nullMagnetPair = {}; }
+namespace hades_file_local { char const *MARKER_GROUP_NAME = "sandbox_magnet"; }
+namespace hades_file_local { unsigned long markerGroupName; }

@@ -684,3 +684,9 @@ extern "C" __int32 FormatFilename(char *str, __int32 length) // 0x108B7FB0
 	str[length] = 0;
 	return length;
 }
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { s_mod_system_globals g_mod_system_globals; }

@@ -83,3 +83,14 @@ void cache_file_tags_close() // 0x10F190F0
 }
 
 /* ---------- private code */
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+s_cache_file_tag_globals *g_cache_file_tag_globals = reinterpret_cast<s_cache_file_tag_globals *>(0x22AAFF0);
+bool (*const cache_file_header_verify)(s_cache_file_header *, char const *, bool) = reinterpret_cast<decltype(cache_file_header_verify)>(0x501950);
+char const *(*const cache_files_map_directory)() = reinterpret_cast<decltype(cache_files_map_directory)>(0x501FC0);
+long (*const cache_file_globals_get_tag)(long) = reinterpret_cast<decltype(cache_file_globals_get_tag)>(0x5017E0);
+bool (*const cache_file_open_package)(char const *, s_cache_file_header *) = reinterpret_cast<decltype(cache_file_open_package)>(0x5AA7C0);
+void (*const cache_files_tags_reset)() = reinterpret_cast<decltype(cache_files_tags_reset)>(0x502CE0);

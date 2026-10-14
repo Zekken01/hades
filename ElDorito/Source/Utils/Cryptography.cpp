@@ -462,3 +462,9 @@ unsigned long AcquireProvider() // 0x10C53E20
 
 	return 0;
 }
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace Utils { namespace Cryptography { char const *const PasswordChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890!@#$%^&*"; } }

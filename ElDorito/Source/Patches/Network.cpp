@@ -1671,3 +1671,11 @@ bool network_squad_session_delegate_leadership_hook(long playerIndex) // 0x10A9E
 template Server::StatsServersBanList & Utils::Singleton<Server::StatsServersBanList>::Instance();
 template void Pointer::Write<long>(long const) const;
 template void Pointer::WriteFast<unsigned int>(unsigned __int32 const) const;
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { std::vector<std::function<void __cdecl(Blam::Network::NetworkAddress const &,unsigned int,unsigned short,unsigned int)> > pongCallbacks; }
+namespace hades_file_local { std::vector<std::function<void __cdecl(s_map_variant *)> > mapVariantRequestChangeCallbacks; }
+namespace hades_file_local { std::vector<std::function<void __cdecl(enum Blam::Network::LifeCycleState)> > lifeCycleStateChangedCallbacks; }

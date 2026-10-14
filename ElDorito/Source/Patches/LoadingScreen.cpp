@@ -459,3 +459,9 @@ bool BuildLoadingScreenShowInfo(s_game_options &gameOptions, Patches::LoadingScr
 
 template c_enum<enum e_game_engine_type,long>::operator long() const;
 template c_enum<enum e_game_mode,long>::operator long() const;
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace Patches { namespace LoadingScreen { bool firstRun = true; } }

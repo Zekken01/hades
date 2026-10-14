@@ -55,3 +55,16 @@ void game_time_set_speed(float speed) // 0x10F00410
 }
 
 /* ---------- private code */
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+long (*const game_time_get)() = reinterpret_cast<decltype(game_time_get)>(0x564D50);
+float (*const game_tick_length)() = reinterpret_cast<decltype(game_tick_length)>(0x564C20);
+float (*const game_ticks_to_seconds)(float) = reinterpret_cast<decltype(game_ticks_to_seconds)>(0x564C60);
+float (*const game_seconds_to_ticks_real)(float) = reinterpret_cast<decltype(game_seconds_to_ticks_real)>(0x564B70);
+long (*const game_tick_rate)() = reinterpret_cast<decltype(game_tick_rate)>(0x564C40);
+bool (*const game_time_get_paused)() = reinterpret_cast<decltype(game_time_get_paused)>(0x564D70);
+long (*const game_seconds_to_ticks_round)(float) = reinterpret_cast<decltype(game_seconds_to_ticks_round)>(0x564BB0);
+long (*const game_seconds_integer_to_ticks)(long) = reinterpret_cast<decltype(game_seconds_integer_to_ticks)>(0x564B40);

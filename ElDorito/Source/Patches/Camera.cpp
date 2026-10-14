@@ -1879,3 +1879,10 @@ template s_unit_seat_definition * c_tag_block<s_unit_seat_definition>::get_eleme
 
 /* ---------- explicit instantiations */
 template bool & Pointer::Read<bool>() const;
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { float &k_camera_field_of_view_min = *reinterpret_cast<float *>(0x18BB1CC); }
+namespace hades_file_local { float &k_camera_field_of_view_max = *reinterpret_cast<float *>(0x18BB1D0); }

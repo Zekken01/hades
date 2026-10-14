@@ -45,3 +45,12 @@ extern s_tag_block_definition campaign_metagame_bucket_block; // 0x11359930
 /* ---------- public code */
 
 /* ---------- private code */
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+bool (*game_is_campaign)() = reinterpret_cast<decltype(game_is_campaign)>(0x531A60);
+long (*campaign_metagame_globals_initialize_for_new_map)() = reinterpret_cast<decltype(campaign_metagame_globals_initialize_for_new_map)>(0x607CE0);
+long (*game_get_current_engine)() = reinterpret_cast<decltype(game_get_current_engine)>(0x5CE150);
+long *(*survival_mode_get_scoreboard)() = reinterpret_cast<decltype(survival_mode_get_scoreboard)>(0x689080);

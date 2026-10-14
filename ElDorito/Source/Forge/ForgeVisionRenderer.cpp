@@ -384,3 +384,10 @@ namespace Forge
 // reaches an object without being used. Generated - see build_instantiations.py.
 
 template Modules::ModuleForge & Utils::Singleton<Modules::ModuleForge>::Instance();
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace Forge { namespace hades_file_local_Forge { float colorAnimation; } }
+namespace Forge { namespace hades_file_local_Forge { long selectionColor; } }

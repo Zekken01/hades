@@ -1583,3 +1583,15 @@ template s_model_variant & c_tag_block<s_model_variant>::operator[](__int32);
 template s_model_variant_region & c_tag_block<s_model_variant_region>::operator[](__int32);
 template s_multiplayer_universal_globals_definition & c_tag_block<s_multiplayer_universal_globals_definition>::operator[](__int32);
 template void s_static_array<s_model_customization_region_permutation,16>::set_memory(unsigned char);
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+bool updateUiPlayerArmor;
+long customization_biped_index = -1;
+long customization_char_platform_index = -1;
+float &customzation_biped_angle_degrees = *reinterpret_cast<float *>(0x194A66C);
+bool customization_biped_angle_dirty;
+__int32 customization_biped_flags = -1;
+UiPlayerModelState s_UiPlayerModelState;

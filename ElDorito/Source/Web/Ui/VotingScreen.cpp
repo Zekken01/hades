@@ -452,3 +452,10 @@ void VotingOutputHandler::MessageReceived(Server::Voting::VotingMessage const &m
 		OnVotingEnded();
 	}
 }
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { bool currentlyVoting; }
+namespace hades_file_local { bool temporarilyHidden; }

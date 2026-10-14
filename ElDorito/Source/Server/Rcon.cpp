@@ -570,3 +570,12 @@ std::string GetLogString(websocketpp::server<Utils::WebSocket::Config> *rconServ
 // mangled_x86(MANGLED_DEFAULT, "??0RconConsoleOutputHandler@hades_file_local@@QAE@XZ"); no body to assert in
 // _inline RconConsoleOutputHandler::RconConsoleOutputHandler() = default; // 0x10B95270  // hades: defaulted on its declaration
 
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { websocketpp::server<Utils::WebSocket::Config> rconServer; }
+namespace hades_file_local { std::set<std::weak_ptr<void>,std::owner_less<std::weak_ptr<void> > > authenticatedConnections; }
+namespace hades_file_local { char const *ProtocolName = "dew-rcon"; }
+namespace hades_file_local { char const *AcceptMessage = "accept"; }
+namespace hades_file_local { char const *DenyMessage = "deny"; }

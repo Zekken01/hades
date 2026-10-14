@@ -733,3 +733,11 @@ template s_tag_history_entry c_static_sliding_buffer<s_tag_history_entry,4>::get
 template c_static_sliding_buffer<s_tag_history_entry,4>::c_static_sliding_buffer();
 template long c_static_sliding_buffer<s_tag_history_entry,4>::get_count() const;
 template long c_static_sliding_buffer<s_tag_history_entry,4>::get_first_index() const;
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+std::atomic_flag g_gameIsCrashed;
+namespace hades_file_local { unsigned __int32 origVirtualAllocAddress; }
+namespace hades_file_local { s_extra_exception_info g_extra_exception_info; }

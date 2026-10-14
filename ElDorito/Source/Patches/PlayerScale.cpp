@@ -1477,3 +1477,16 @@ template s_physics_model_pill * c_tag_block<s_physics_model_pill>::get_element(_
 
 /* ---------- explicit instantiations */
 template bool c_tag_block<s_havok_shape_data<hkCapsuleShape> >::try_get_element(__int32, s_havok_shape_data<hkCapsuleShape> **) const;
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { float const kPlayerScales[17] = { 0.10000000149011612f, 0.15000000596046448f, 0.25f, 0.3499999940395355f, 0.5f, 0.75f, 1.0f, 1.25f, 1.5f, 2.0f, 3.0f, 5.0f, 7.5f, 10.0f, 15.0f, 20.0f, 30.0f }; }
+namespace hades_file_local { float kSpeedExp = 0.75f; }
+namespace hades_file_local { float kMeleeRangeExp = 0.800000011920929f; }
+namespace hades_file_local { float kMassExp = 1.5f; }
+namespace hades_file_local { float kGravityExp = 0.375f; }
+namespace hades_file_local { float kJumpVelocityExp = 0.5600000023841858f; }
+namespace hades_file_local { float kAirborneAccelerationScale = 0.4000000059604645f; }
+namespace hades_file_local { float kGroundAccelerationScale = 0.8500000238418579f; }

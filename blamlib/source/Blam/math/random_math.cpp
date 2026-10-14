@@ -73,3 +73,10 @@ float real_random_local() // 0x10F035D0
 }
 
 /* ---------- private code */
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+unsigned long *(*get_local_random_seed_address)() = reinterpret_cast<decltype(get_local_random_seed_address)>(0x51EFD0);
+unsigned long *(__cdecl *get_random_seed_address)() = reinterpret_cast<decltype(get_random_seed_address)>(0x51F000);

@@ -1037,3 +1037,9 @@ template s_effect_event_datum * c_data_array<s_effect_event_datum>::get_absolute
 template s_effect_event_part * c_tag_block<s_effect_event_part>::get_element(__int32) const;
 template s_effect_event_part const & c_tag_block<s_effect_event_part>::operator[](__int32) const;
 template s_effect_location_datum * c_data_array<s_effect_location_datum>::get_absolute(long);
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { c_flags<enum e_effect_message_type,unsigned long> g_effect_message_filter; }

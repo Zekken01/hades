@@ -65,3 +65,17 @@ long datum_absolute_index_to_index(s_data_array const *data, long absolute_index
 }
 
 /* ---------- private code */
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+s_datum *(*const data_iterator_next)(s_data_iterator *) = reinterpret_cast<decltype(data_iterator_next)>(0x55AE30);
+void *(*const datum_try_and_get)(s_data_array const *, unsigned long) = reinterpret_cast<decltype(datum_try_and_get)>(0x55B6D0);
+void (*const datum_delete)(s_data_array *, long) = reinterpret_cast<decltype(datum_delete)>(0x55B2E0);
+void (*const data_iterator_new)(s_data_iterator *, s_data_array const *) = reinterpret_cast<decltype(data_iterator_new)>(0x55AE10);
+void *(*const data_new)(char const *, long, unsigned long, long, void *) = reinterpret_cast<decltype(data_new)>(0x55AFA0);
+void *(*const datum_try_and_get_absolute)(s_data_array const *, unsigned long) = reinterpret_cast<decltype(datum_try_and_get_absolute)>(0x55B710);
+unsigned long (*const data_allocation_size)(long, unsigned long, long) = reinterpret_cast<decltype(data_allocation_size)>(0x55AAB0);
+unsigned long (*const datum_new)(s_data_array *) = reinterpret_cast<decltype(datum_new)>(0x55B410);
+void (*const data_delete_all)(s_data_array *) = reinterpret_cast<decltype(data_delete_all)>(0x55ABF0);

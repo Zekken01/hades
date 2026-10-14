@@ -524,3 +524,9 @@ void c_saved_games__delete_campaign_save_blocking(long controller_index) // 0x10
 	if (file_exists(&file))
 		file_delete(&file);
 }
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { void **const global_game_state_data = reinterpret_cast<void **>(0x2497CD4); }

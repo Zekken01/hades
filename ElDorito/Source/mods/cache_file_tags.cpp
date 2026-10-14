@@ -187,3 +187,9 @@ void c_cache_file_tags::close_tag_cache() // 0x108799C0
 }
 
 /* ---------- private code */
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { std::chrono::time_point<std::filesystem::_File_time_clock,std::chrono::duration<__int64,std::ratio<1,10000000> > > previous_last_write_time; }

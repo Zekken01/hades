@@ -1276,3 +1276,12 @@ template s_podium_biped & c_tag_block<s_podium_biped>::operator[](__int32);
 template s_podium_biped * c_tag_block<s_podium_biped>::get_element(__int32) const;
 template s_scenario_cutscene_camera_point & c_tag_block<s_scenario_cutscene_camera_point>::operator[](__int32);
 template s_scenario_cutscene_camera_point * c_tag_block<s_scenario_cutscene_camera_point>::get_element(__int32) const;
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace Player { namespace PlayerPodium { ::Player::PlayerPodium::HaloScriptPlayerModelState s_PodiumPlayerStates; } }
+namespace Player { namespace PlayerPodium { ::Player::PlayerPodium::PodiumState s_PodiumStates; } }
+namespace Player { namespace PlayerPodium { bool podiumReady; } }
+namespace Player { namespace PlayerPodium { bool forgeOverrideAllowed; } }

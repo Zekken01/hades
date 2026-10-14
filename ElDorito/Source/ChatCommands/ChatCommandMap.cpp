@@ -467,3 +467,11 @@ namespace ChatCommands
 }
 
 /* ---------- private code */
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace ChatCommands { bool chatCommandsActive; }
+namespace ChatCommands { std::map<unsigned __int64,__int64> voteTimes; }
+namespace ChatCommands { std::vector<ChatCommands::VotingChatCommand *> votingCommands; }

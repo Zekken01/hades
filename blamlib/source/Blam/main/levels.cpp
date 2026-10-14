@@ -415,3 +415,16 @@ void levels_clear_and_enumerate_async() // 0x10F069F0
 }
 
 /* ---------- private code */
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+bool (*const levels_try_and_get_multiplayer_map)(long, s_level_datum *) = reinterpret_cast<decltype(levels_try_and_get_multiplayer_map)>(0x54CB00);
+void (*const levels_get_map_name)(unsigned long, unsigned long, char *, __int32) = reinterpret_cast<decltype(levels_get_map_name)>(0x54C040);
+bool (*const levels_try_and_get_campaign_map)(long, s_level_datum *) = reinterpret_cast<decltype(levels_try_and_get_campaign_map)>(0x54CAB0);
+void (*const levels_add_map_internal)(s_blf_map_information *, bool, char const *, bool) = reinterpret_cast<decltype(levels_add_map_internal)>(0x54A6C0);
+bool (*const levels_add_campaign_internal)(s_blf_campaign *, bool, char const *, bool) = reinterpret_cast<decltype(levels_add_campaign_internal)>(0x54A2A0);
+void (*const levels_add_map)(s_file_reference *, char *) = reinterpret_cast<decltype(levels_add_map)>(0x54C530);
+bool (*const levels_add_campaign)(s_file_reference *, wchar_t *, bool) = reinterpret_cast<decltype(levels_add_campaign)>(0x54C3C0);
+namespace hades_file_local { s_levels_globals *g_level_globals = reinterpret_cast<s_levels_globals *>(0x189E2D4); }

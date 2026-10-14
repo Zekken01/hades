@@ -631,3 +631,9 @@ template c_flags<enum e_variant_object_placement_flags,unsigned short>::c_flags(
 template c_flags<enum e_variant_object_placement_flags,unsigned short>::c_flags(unsigned short const &);
 template c_flags<enum e_variant_placement_flags,unsigned char>::c_flags(c_flags<enum e_variant_placement_flags,unsigned char> const &);
 template c_tag_block_index<s_scenario_structure_bsp_reference,short>::c_tag_block_index(c_tag_block_index<s_scenario_structure_bsp_reference,short> const &);
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { Forge::ObjectSet s_SelectedObjects; }

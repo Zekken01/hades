@@ -558,3 +558,12 @@ void ClearEmblemCache() // 0x107EDD90
 }
 
 // SPlayerInfo / SPlayerEmblemInfo special members (0x107ED930..0x107EDC10) are implicit.
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { bool isAvailable; }
+namespace hades_file_local { bool rankCheckGameStarted; }
+namespace hades_file_local { bool rankCheckGameEnded; }
+namespace hades_file_local { long long checkRankTime; }

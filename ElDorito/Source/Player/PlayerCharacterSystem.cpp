@@ -861,3 +861,10 @@ template bool c_tag_block<s_game_globals_interface_tag_references>::try_get_elem
 template c_tag_block_index<s_model_customization_selection,char>::operator char() const;
 template s_game_globals_interface_tag_references * c_tag_block<s_game_globals_interface_tag_references>::get_element(__int32) const;
 template s_game_globals_interface_tag_references * c_tag_block<s_game_globals_interface_tag_references>::operator->();
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { __int32 prevUpdateNumber; }
+namespace hades_file_local { __int32 currentUpdateNumber; }

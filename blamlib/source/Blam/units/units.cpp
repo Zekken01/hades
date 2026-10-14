@@ -273,3 +273,9 @@ template char * s_static_array<char,2>::begin() const;
 template char * s_static_array<char,2>::end() const;
 template s_game_globals_grenade & c_tag_block<s_game_globals_grenade>::operator[](__int32);
 template s_game_globals_grenade * c_tag_block<s_game_globals_grenade>::get_element(__int32) const;
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+bool (*const unit_is_dual_wielding)(unsigned long) = reinterpret_cast<decltype(unit_is_dual_wielding)>(0xB45750);

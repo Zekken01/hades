@@ -209,3 +209,9 @@ template void Pointer::Write<bool (__cdecl*)(long,void *)>(bool (*const value)(l
 
 /* ---------- explicit instantiations */
 template s_projectile_data * object_get<s_projectile_data>(unsigned long);
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { float g_projectile_translate_tick_delta; }

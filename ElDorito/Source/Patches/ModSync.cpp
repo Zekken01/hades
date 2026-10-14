@@ -1899,3 +1899,12 @@ template s_structure_collision_material * c_tag_block<s_structure_collision_mate
 
 /* ---------- explicit instantiations */
 template s_static_array<s_game_player_options,16>::s_static_array();
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { s_static_array<s_cached_map_file,15> &g_cached_map_files = *reinterpret_cast<s_static_array<s_cached_map_file,15> *>(0x240B1E8); }
+namespace hades_file_local { s_cache_file_loaded_state loader_state; }
+namespace hades_file_local { Ref<IMod> current_mod; }
+namespace hades_file_local { s_resource_loaded_state resource_loader_state; }

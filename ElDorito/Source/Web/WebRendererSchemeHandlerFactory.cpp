@@ -542,3 +542,9 @@ scoped_refptr<CefStreamResourceHandler> GetStreamResourceHandler(scoped_refptr<C
 	}
 	return handler;
 }
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { char const *const kDefaultMimetype = "application/octet-stream"; }

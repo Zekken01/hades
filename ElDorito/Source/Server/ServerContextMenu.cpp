@@ -424,3 +424,15 @@ void Initialize(void *parentHwnd) // 0x10728F90
 // reaches an object without being used. Generated - see build_instantiations.py.
 
 template Server::TempBanList & Utils::Singleton<Server::TempBanList>::Instance();
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { _NOTIFYICONDATAA notifyIconData; }
+namespace hades_file_local { char const szTIP[64] = { 69, 108, 68, 101, 119, 114, 105, 116, 111 }; }
+namespace hades_file_local { char const szClassName[26] = { 69, 68, 95, 67, 111, 110, 116, 101, 120, 116, 77, 101, 110, 117, 67, 108, 97, 115, 115, 87, 105, 110, 100, 111, 119 }; }
+namespace hades_file_local { char const szWindowName[18] = { 67, 111, 110, 116, 101, 120, 116, 77, 101, 110, 117, 87, 105, 110, 100, 111, 119 }; }
+namespace hades_file_local { HWND__ *Hwnd; }
+namespace hades_file_local { HMENU__ *Hmenu; }
+namespace hades_file_local { HWND__ *g_parenthWnd; }

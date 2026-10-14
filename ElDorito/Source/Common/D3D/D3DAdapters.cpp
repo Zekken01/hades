@@ -242,3 +242,9 @@ void FatalError(char const *message) // 0x10687900
 
 // operator< is emitted through std::lower_bound in EnumerateDisplayModes; an explicit
 // instantiation of a non-template breaks that lookup at the end of the unit.
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { std::vector<std::vector<Common::D3DAdapters::DisplayMode> > adapterModes; }

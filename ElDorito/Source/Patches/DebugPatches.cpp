@@ -1496,3 +1496,9 @@ template short & c_tag_block<short>::operator[](__int32);
 template short * c_tag_block<short>::begin();
 template short * c_tag_block<short>::end();
 template short * c_tag_block<short>::get_element(__int32) const;
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { long assassination_capsule_counter; }

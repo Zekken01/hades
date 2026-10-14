@@ -4020,3 +4020,23 @@ template s_visible_cluster * s_simple_list<s_visible_cluster,1392>::list_iterato
 template s_visible_cluster * s_simple_list<s_visible_cluster,1392>::list_iterator_next(long *);
 template unsigned short & s_static_array<unsigned short,2048>::operator[](long);
 template unsigned short & s_static_array<unsigned short,4096>::operator[](long);
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { s_wind_values &g_wind_values = *reinterpret_cast<s_wind_values *>(0x50FAA6C); }
+namespace hades_file_local { bool &g_invalidate_render_cache = *reinterpret_cast<bool *>(0x5106FAF); }
+namespace hades_file_local { float g_lod_distance_scale = 1.0f; }
+namespace hades_file_local { float g_decorator_distance_scale = 1.0f; }
+namespace hades_file_local { bool &render_static_lighting_enabled = *reinterpret_cast<bool *>(0x191C920); }
+namespace hades_file_local { bool &byte_191C922 = *reinterpret_cast<bool *>(0x191C922); }
+namespace hades_file_local { float &c_camera_fx_values__g_HDR_target_stops = *reinterpret_cast<float *>(0x19134C0); }
+namespace hades_file_local { c_screen_postprocess::s_settings &c_screen_postprocess__x_settings = *reinterpret_cast<c_screen_postprocess::s_settings *>(0x1917D18); }
+namespace hades_file_local { long &c_surface__g_current_splitscreen_res = *reinterpret_cast<long *>(0x50DCA30); }
+namespace hades_file_local { s_weighted_atmosphere_parameters &g_atmosphere_parameters = *reinterpret_cast<s_weighted_atmosphere_parameters *>(0x2497E08); }
+namespace hades_file_local { float &g_particle_hack_near_fade_scale = *reinterpret_cast<float *>(0x19147B8); }
+namespace hades_file_local { long &render_debug_depth_render = *reinterpret_cast<long *>(0x50FB3FC); }
+namespace hades_file_local { bool &render_dynamic_shadow_enabled = *reinterpret_cast<bool *>(0x191C921); }
+namespace hades_file_local { bool &render_water_interaction_enabled = *reinterpret_cast<bool *>(0x19146F2); }
+namespace hades_file_local { bool &render_water_wireframe_enabled = *reinterpret_cast<bool *>(0x50FAAEC); }

@@ -881,3 +881,12 @@ long c_screen_postprocess__downsample_generate_call_hook(e_surface source_surfac
 	}
 	return result;
 }
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { long driver_forced_msaa_value = 1; }
+namespace hades_file_local { long g_exposure_occlusion_pixels_passed; }
+namespace hades_file_local { IDirect3DSurface9 *g_exposure_dup_surface; }
+namespace hades_file_local { bool reflections_enabled; }

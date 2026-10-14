@@ -596,3 +596,16 @@ extern "C" bool fixup_and_validate_font_package_file(void *buffer) // 0x10888710
 template s_font_package_cache_entry * s_static_array<s_font_package_cache_entry,8>::begin() const;
 template s_font_package_cache_entry * s_static_array<s_font_package_cache_entry,8>::end() const;
 template void s_static_string<256>::set(char const *);
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+void *g_font_character_globals = reinterpret_cast<void *>(0x244FB90);
+s_static_array<s_font_package_cache_entry,8> *g_font_package_cache_entries = reinterpret_cast<s_static_array<s_font_package_cache_entry,8> *>(0x2457BC0);
+c_async_completion_flag *g_font_package_system_ready = reinterpret_cast<c_async_completion_flag *>(0x2457BB8);
+long *g_font_package_salt = reinterpret_cast<long *>(0x2457BBC);
+s_font_loading_state *g_font_loading_state = reinterpret_cast<s_font_loading_state *>(0x22B7FBC);
+s_font_package_file_header *g_font_load_buffer = reinterpret_cast<s_font_package_file_header *>(0x22B8108);
+s_font_package_file_header **g_font_package_file_header = reinterpret_cast<s_font_package_file_header **>(0x22B8104);
+EModIndex g_mod_package_index;
