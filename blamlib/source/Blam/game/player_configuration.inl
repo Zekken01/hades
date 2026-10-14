@@ -24,7 +24,7 @@ extern _inline bool operator==(s_player_identifier const &a, s_player_identifier
 
 /* ---------- public code */
 
-_inline bool operator==(s_player_identifier const &a, s_player_identifier const &b) // 0x106CE000
+inline bool operator==(s_player_identifier const &a, s_player_identifier const &b) // 0x106CE000
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??8@YA_NABUs_player_identifier@@0@Z");
 	// s_player_identifier const &b;

@@ -88,7 +88,7 @@ extern _inline bool operator==(c_mod_cache_tag_remapper::s_name_lookup_key const
 
 /* ---------- public code */
 
-_inline bool operator==(c_mod_cache_tag_remapper::s_name_lookup_key const &lhs, c_mod_cache_tag_remapper::s_name_lookup_key const &rhs) // 0x10896F70
+inline bool operator==(c_mod_cache_tag_remapper::s_name_lookup_key const &lhs, c_mod_cache_tag_remapper::s_name_lookup_key const &rhs) // 0x10896F70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??8@YA_NABUs_name_lookup_key@c_mod_cache_tag_remapper@@0@Z");
 	// c_mod_cache_tag_remapper::s_name_lookup_key const &rhs;
@@ -96,7 +96,7 @@ _inline bool operator==(c_mod_cache_tag_remapper::s_name_lookup_key const &lhs, 
 	return lhs.group_tag == rhs.group_tag && lhs.name == rhs.name;
 }
 
-_inline unsigned __int32 c_mod_cache_tag_remapper::s_name_lookup_key::s_hasher::operator()(c_mod_cache_tag_remapper::s_name_lookup_key const &k) const // 0x10897780
+inline unsigned __int32 c_mod_cache_tag_remapper::s_name_lookup_key::s_hasher::operator()(c_mod_cache_tag_remapper::s_name_lookup_key const &k) const // 0x10897780
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??Rs_hasher@s_name_lookup_key@c_mod_cache_tag_remapper@@QBEIABU12@@Z");
 	// c_mod_cache_tag_remapper::s_name_lookup_key const &k;

@@ -61,7 +61,7 @@ static_assert(sizeof(c_gui_list_widget) == 332, "Invalid c_gui_list_widget size"
 
 /* ---------- public code */
 
-_inline long c_gui_list_widget::get_selected_index() const // 0x108D5F50
+inline long c_gui_list_widget::get_selected_index() const // 0x108D5F50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_selected_index@c_gui_list_widget@@QBEJXZ");
 	// c_gui_list_widget const *const this;
@@ -69,7 +69,7 @@ _inline long c_gui_list_widget::get_selected_index() const // 0x108D5F50
 	return selected_index;
 }
 
-_inline unsigned long const c_gui_list_widget::get_item_datasource_name() const // 0x108D5E60
+inline unsigned long const c_gui_list_widget::get_item_datasource_name() const // 0x108D5E60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_item_datasource_name@c_gui_list_widget@@QBE?BKXZ");
 	// c_gui_list_widget const *const this;

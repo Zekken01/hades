@@ -33,7 +33,7 @@ static_assert(sizeof(s_blf_chunk_mapv_tag_names) == 65548, "Invalid s_blf_chunk_
 
 /* ---------- public code */
 
-_inline s_blf_chunk_mapv_tag_names::s_blf_chunk_mapv_tag_names() // 0x10AC85E0
+inline s_blf_chunk_mapv_tag_names::s_blf_chunk_mapv_tag_names() // 0x10AC85E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_blf_chunk_mapv_tag_names@@QAE@XZ");
 	// s_blf_chunk_mapv_tag_names *const this;

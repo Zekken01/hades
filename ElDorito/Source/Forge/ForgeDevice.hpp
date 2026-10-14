@@ -71,7 +71,7 @@ static_assert(sizeof(CForgeDeviceManager) == 4, "Invalid CForgeDeviceManager siz
 
 /* ---------- public code */
 
-_inline float CForgeDeviceObjectProperties::GetGearTurnRate() const // 0x1083D0C0
+inline float CForgeDeviceObjectProperties::GetGearTurnRate() const // 0x1083D0C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetGearTurnRate@CForgeDeviceObjectProperties@@QBEMXZ");
 	// CForgeDeviceObjectProperties const *const this;
@@ -79,7 +79,7 @@ _inline float CForgeDeviceObjectProperties::GetGearTurnRate() const // 0x1083D0C
 	return gear.turn_rate / 40.0f;
 }
 
-_inline void CForgeDeviceObjectProperties::SetGearTurnRate(float value) // 0x1083F9B0
+inline void CForgeDeviceObjectProperties::SetGearTurnRate(float value) // 0x1083F9B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SetGearTurnRate@CForgeDeviceObjectProperties@@QAEXM@Z");
 	// float value;
@@ -87,7 +87,7 @@ _inline void CForgeDeviceObjectProperties::SetGearTurnRate(float value) // 0x108
 	gear.turn_rate = (unsigned char)floorf(value * 40.0f);
 }
 
-_inline float CForgeDeviceObjectProperties::GetDoorOpenTime() const // 0x1083C030
+inline float CForgeDeviceObjectProperties::GetDoorOpenTime() const // 0x1083C030
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetDoorOpenTime@CForgeDeviceObjectProperties@@QBEMXZ");
 	// CForgeDeviceObjectProperties const *const this;
@@ -95,7 +95,7 @@ _inline float CForgeDeviceObjectProperties::GetDoorOpenTime() const // 0x1083C03
 	return door.open_time / 4.0f;
 }
 
-_inline void CForgeDeviceObjectProperties::SetDoorOpenTime(float value) // 0x1083EAE0
+inline void CForgeDeviceObjectProperties::SetDoorOpenTime(float value) // 0x1083EAE0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SetDoorOpenTime@CForgeDeviceObjectProperties@@QAEXM@Z");
 	// float value;
@@ -103,7 +103,7 @@ _inline void CForgeDeviceObjectProperties::SetDoorOpenTime(float value) // 0x108
 	door.open_time = (unsigned char)floorf(value * 4.0f);
 }
 
-_inline float CForgeDeviceObjectProperties::GetTriggerRadius() const // 0x1083E7E0
+inline float CForgeDeviceObjectProperties::GetTriggerRadius() const // 0x1083E7E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetTriggerRadius@CForgeDeviceObjectProperties@@QBEMXZ");
 	// CForgeDeviceObjectProperties const *const this;
@@ -111,7 +111,7 @@ _inline float CForgeDeviceObjectProperties::GetTriggerRadius() const // 0x1083E7
 	return trigger_radius / 4.0f;
 }
 
-_inline void CForgeDeviceObjectProperties::SetTriggerRadius(float value) // 0x10840F90
+inline void CForgeDeviceObjectProperties::SetTriggerRadius(float value) // 0x10840F90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SetTriggerRadius@CForgeDeviceObjectProperties@@QAEXM@Z");
 	// float value;
@@ -119,7 +119,7 @@ _inline void CForgeDeviceObjectProperties::SetTriggerRadius(float value) // 0x10
 	trigger_radius = (unsigned char)floorf(value * 4.0f);
 }
 
-_inline float CForgeDeviceObjectProperties::GetDelayTime() const // 0x1083BFE0
+inline float CForgeDeviceObjectProperties::GetDelayTime() const // 0x1083BFE0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetDelayTime@CForgeDeviceObjectProperties@@QBEMXZ");
 	// CForgeDeviceObjectProperties const *const this;
@@ -127,7 +127,7 @@ _inline float CForgeDeviceObjectProperties::GetDelayTime() const // 0x1083BFE0
 	return delay_time / 4.0f;
 }
 
-_inline void CForgeDeviceObjectProperties::SetDelayTime(float value) // 0x1083EA60
+inline void CForgeDeviceObjectProperties::SetDelayTime(float value) // 0x1083EA60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SetDelayTime@CForgeDeviceObjectProperties@@QAEXM@Z");
 	// float value;

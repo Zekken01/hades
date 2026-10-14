@@ -51,7 +51,7 @@ static_assert(sizeof(c_player_render_camera_iterator) == 20, "Invalid c_player_r
 
 /* ---------- public code */
 
-_inline c_wait_for_render_thread::c_wait_for_render_thread() // 0x10900E20
+inline c_wait_for_render_thread::c_wait_for_render_thread() // 0x10900E20
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_wait_for_render_thread@@QAE@XZ");
 	// c_wait_for_render_thread *const this;
@@ -63,7 +63,7 @@ _inline c_wait_for_render_thread::c_wait_for_render_thread() // 0x10900E20
 	m_lock_handle = get_lock_handle();
 }
 
-_inline c_wait_for_render_thread::~c_wait_for_render_thread() // 0x109010B0
+inline c_wait_for_render_thread::~c_wait_for_render_thread() // 0x109010B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??1c_wait_for_render_thread@@QAE@XZ");
 	// c_wait_for_render_thread *const this;

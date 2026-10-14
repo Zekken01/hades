@@ -433,7 +433,7 @@ namespace Blam
 {
 	namespace Network
 	{
-		_inline bool PeerInfo::IsEstablished() const // 0x1092FC00
+		inline bool PeerInfo::IsEstablished() const // 0x1092FC00
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?IsEstablished@PeerInfo@Network@Blam@@QBE_NXZ");
 			// Blam::Network::PeerInfo const *const this;
@@ -441,7 +441,7 @@ namespace Blam
 			return ConnectionState >= ePeerConnectionStateEstablished;
 		}
 
-		_inline Blam::Network::NetworkAddress NetworkAddress::FromInAddr(unsigned long address, unsigned short port) // 0x1092B950
+		inline Blam::Network::NetworkAddress NetworkAddress::FromInAddr(unsigned long address, unsigned short port) // 0x1092B950
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?FromInAddr@NetworkAddress@Network@Blam@@SA?AU123@KG@Z");
 			// static ...; // 0x1092B9F0
@@ -457,7 +457,7 @@ namespace Blam
 			return result;
 		}
 
-		_inline unsigned long NetworkAddress::ToInAddr() const // 0x1092CD40
+		inline unsigned long NetworkAddress::ToInAddr() const // 0x1092CD40
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ToInAddr@NetworkAddress@Network@Blam@@QBEKXZ");
 			// Blam::Network::NetworkAddress const *const this;
@@ -465,7 +465,7 @@ namespace Blam
 			return _byteswap_ulong(Address.IPv4);
 		}
 
-		_inline bool Session::IsEstablished() const // 0x106CFA00
+		inline bool Session::IsEstablished() const // 0x106CFA00
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?IsEstablished@Session@Network@Blam@@QBE_NXZ");
 			// Blam::Network::Session const *const this;
@@ -473,7 +473,7 @@ namespace Blam
 			return Type > 3;
 		}
 
-		_inline bool Session::IsHost() const // 0x106CFA50
+		inline bool Session::IsHost() const // 0x106CFA50
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?IsHost@Session@Network@Blam@@QBE_NXZ");
 			// Blam::Network::Session const *const this;

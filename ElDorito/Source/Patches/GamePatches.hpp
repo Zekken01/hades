@@ -49,35 +49,35 @@ namespace Patches
 
 /* ---------- public code */
 
-_inline void IGameSystem::Initialize() // 0x10798210
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@IGameSystem@@UAEXXZ");
-	// IGameSystem *const this;
-}
 
-_inline void IGameSystem::InitializeForNewMap() // 0x10798230
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeForNewMap@IGameSystem@@UAEXXZ");
-	// IGameSystem *const this;
-}
 
-_inline void IGameSystem::DisposeFromOldMap() // 0x108CEC20
+
+
+
+
+
+
+
+
+
+
+inline void IGameSystem::DisposeFromOldMap() // 0x108CEC20
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DisposeFromOldMap@IGameSystem@@UAEXXZ");
 	// IGameSystem *const this;
 }
 
-_inline void IGameSystem::Dispose() // 0x10798250
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Dispose@IGameSystem@@UAEXXZ");
-	// IGameSystem *const this;
-}
 
-_inline void IGameSystem::Update() // 0x10798270
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Update@IGameSystem@@UAEXXZ");
-	// IGameSystem *const this;
-}
+
+
+
+
+
+
+
+
+
+
 
 /* ---------- private code */
 

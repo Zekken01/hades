@@ -107,7 +107,7 @@ namespace Web
 {
 	namespace Browser
 	{
-		_inline scoped_refptr<CefLifeSpanHandler> WebRendererHandler::GetLifeSpanHandler() // 0x10CCB7D0
+		inline scoped_refptr<CefLifeSpanHandler> WebRendererHandler::GetLifeSpanHandler() // 0x10CCB7D0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetLifeSpanHandler@WebRendererHandler@Browser@Web@@UAE?AV?$scoped_refptr@VCefLifeSpanHandler@@@@XZ");
 			// Web::Browser::WebRendererHandler *const this;
@@ -122,7 +122,7 @@ namespace Web
 {
 	namespace Browser
 	{
-		_inline scoped_refptr<CefRenderHandler> WebRendererHandler::GetRenderHandler() // 0x10CCBA90
+		inline scoped_refptr<CefRenderHandler> WebRendererHandler::GetRenderHandler() // 0x10CCBA90
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetRenderHandler@WebRendererHandler@Browser@Web@@UAE?AV?$scoped_refptr@VCefRenderHandler@@@@XZ");
 			// Web::Browser::WebRendererHandler *const this;
@@ -137,7 +137,7 @@ namespace Web
 {
 	namespace Browser
 	{
-		_inline scoped_refptr<CefRequestHandler> WebRendererHandler::GetRequestHandler() // 0x10CCBB90
+		inline scoped_refptr<CefRequestHandler> WebRendererHandler::GetRequestHandler() // 0x10CCBB90
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetRequestHandler@WebRendererHandler@Browser@Web@@UAE?AV?$scoped_refptr@VCefRequestHandler@@@@XZ");
 			// Web::Browser::WebRendererHandler *const this;
@@ -152,7 +152,7 @@ namespace Web
 {
 	namespace Browser
 	{
-		_inline scoped_refptr<CefContextMenuHandler> WebRendererHandler::GetContextMenuHandler() // 0x10CCB230
+		inline scoped_refptr<CefContextMenuHandler> WebRendererHandler::GetContextMenuHandler() // 0x10CCB230
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetContextMenuHandler@WebRendererHandler@Browser@Web@@UAE?AV?$scoped_refptr@VCefContextMenuHandler@@@@XZ");
 			// Web::Browser::WebRendererHandler *const this;
@@ -167,7 +167,7 @@ namespace Web
 {
 	namespace Browser
 	{
-		_inline scoped_refptr<CefLoadHandler> WebRendererHandler::GetLoadHandler() // 0x10CCB8F0
+		inline scoped_refptr<CefLoadHandler> WebRendererHandler::GetLoadHandler() // 0x10CCB8F0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetLoadHandler@WebRendererHandler@Browser@Web@@UAE?AV?$scoped_refptr@VCefLoadHandler@@@@XZ");
 			// Web::Browser::WebRendererHandler *const this;
@@ -182,7 +182,7 @@ namespace Web
 {
 	namespace Browser
 	{
-		_inline std::shared_ptr<Web::Browser::Bridge::WebRendererQueryHandler> WebRendererHandler::GetQueryHandler() const // 0x10C93610
+		inline std::shared_ptr<Web::Browser::Bridge::WebRendererQueryHandler> WebRendererHandler::GetQueryHandler() const // 0x10C93610
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetQueryHandler@WebRendererHandler@Browser@Web@@QBE?AV?$shared_ptr@VWebRendererQueryHandler@Bridge@Browser@Web@@@std@@XZ");
 			// Web::Browser::WebRendererHandler const *const this;
@@ -190,7 +190,7 @@ namespace Web
 			return m_QueryHandler;
 		}
 
-		_inline void WebRendererHandler::AddRef() const // 0x10CCAEC0
+		inline void WebRendererHandler::AddRef() const // 0x10CCAEC0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?AddRef@WebRendererHandler@Browser@Web@@UBEXXZ");
 			// __shifted(Web::Browser::WebRendererHandler, 68);
@@ -199,7 +199,7 @@ namespace Web
 			ref_count_.AddRef();
 		}
 
-		_inline bool WebRendererHandler::HasAtLeastOneRef() const // 0x10CCBD20
+		inline bool WebRendererHandler::HasAtLeastOneRef() const // 0x10CCBD20
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?HasAtLeastOneRef@WebRendererHandler@Browser@Web@@UBE_NXZ");
 			// __shifted(Web::Browser::WebRendererHandler, 68);
@@ -208,7 +208,7 @@ namespace Web
 			return ref_count_.HasAtLeastOneRef();
 		}
 
-		_inline bool WebRendererHandler::HasOneRef() const // 0x10CCBD80
+		inline bool WebRendererHandler::HasOneRef() const // 0x10CCBD80
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?HasOneRef@WebRendererHandler@Browser@Web@@UBE_NXZ");
 			// __shifted(Web::Browser::WebRendererHandler, 68);
@@ -217,7 +217,7 @@ namespace Web
 			return ref_count_.HasOneRef();
 		}
 
-		_inline bool WebRendererHandler::Release() const // 0x10CCE740
+		inline bool WebRendererHandler::Release() const // 0x10CCE740
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Release@WebRendererHandler@Browser@Web@@UBE_NXZ");
 			// __shifted(Web::Browser::WebRendererHandler, 68);

@@ -134,7 +134,7 @@ namespace Scripting
 
 
 
-		_inline HsThreadStorage::~HsThreadStorage() // 0x106F2C40
+		inline HsThreadStorage::~HsThreadStorage() // 0x106F2C40
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "??1HsThreadStorage@HS@Scripting@@QAE@XZ");
 			// Scripting::HS::HsThreadStorage *const this;
@@ -142,7 +142,7 @@ namespace Scripting
 			FreeAll();
 		}
 
-		_inline HsThreadStorageManager::HsThreadStorageManager() // 0x106F25E0
+		inline HsThreadStorageManager::HsThreadStorageManager() // 0x106F25E0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "??0HsThreadStorageManager@HS@Scripting@@AAE@XZ");
 			// Scripting::HS::HsThreadStorageManager *const this;
@@ -150,7 +150,7 @@ namespace Scripting
 			m_lastCollectionTime = 0;
 		}
 
-		_inline HsThreadStorageManager::~HsThreadStorageManager() // 0x106F2CD0
+		inline HsThreadStorageManager::~HsThreadStorageManager() // 0x106F2CD0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "??1HsThreadStorageManager@HS@Scripting@@QAE@XZ");
 			// Scripting::HS::HsThreadStorageManager *const this;
@@ -163,7 +163,7 @@ namespace Scripting
 {
 	namespace HS
 	{
-		_inline char const *HsThreadString(long thread_index, std::string_view str) // 0x106FAAF0
+		inline char const *HsThreadString(long thread_index, std::string_view str) // 0x106FAAF0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?HsThreadString@HS@Scripting@@YAPBDJV?$basic_string_view@DU?$char_traits@D@std@@@std@@@Z");
 			// std::string_view str;

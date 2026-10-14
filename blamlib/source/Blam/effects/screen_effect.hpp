@@ -238,7 +238,7 @@ extern void *(*const tag_get)(unsigned long, long);  // hades: added for 0x107C1
 
 /* ---------- public code */
 
-_inline s_area_screen_effect_definition *s_area_screen_effect_definition::get(long definition_index) // 0x107C1D40
+inline s_area_screen_effect_definition *s_area_screen_effect_definition::get(long definition_index) // 0x107C1D40
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get@s_area_screen_effect_definition@@SAPAU1@J@Z");
 	// long definition_index;

@@ -64,7 +64,7 @@ extern _inline long count_bits(unsigned long x);
 
 /* ---------- public code */
 
-_inline long count_bits(unsigned long x) // 0x10EFC220
+inline long count_bits(unsigned long x) // 0x10EFC220
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?count_bits@@YAJK@Z");
 	// unsigned long x;

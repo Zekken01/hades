@@ -92,7 +92,7 @@ static_assert(sizeof(CustomBitmapManager) == 3120, "Invalid CustomBitmapManager 
 
 /* ---------- public code */
 
-_inline bool CustomBitmapManager::StorageItem::InUse() const // 0x10784EB0
+inline bool CustomBitmapManager::StorageItem::InUse() const // 0x10784EB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?InUse@StorageItem@CustomBitmapManager@@QBE_NXZ");
 	// CustomBitmapManager::StorageItem const *const this;

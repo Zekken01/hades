@@ -370,7 +370,7 @@ extern s_player_datum *player_get(unsigned long player_index);
 
 /* ---------- public code */
 
-_inline void c_player_output_user_iterator::begin(long player_index) // 0x10A550D0
+inline void c_player_output_user_iterator::begin(long player_index) // 0x10A550D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?begin@c_player_output_user_iterator@@QAEXJ@Z");
 	// long player_index;
@@ -379,7 +379,7 @@ _inline void c_player_output_user_iterator::begin(long player_index) // 0x10A550
 	m_output_user_index = 0xFFFFFFFF;
 }
 
-_inline bool c_player_output_user_iterator::next() // 0x10A55640
+inline bool c_player_output_user_iterator::next() // 0x10A55640
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?next@c_player_output_user_iterator@@QAE_NXZ");
 	// c_player_output_user_iterator *const this;
@@ -391,7 +391,7 @@ _inline bool c_player_output_user_iterator::next() // 0x10A55640
 	return m_output_user_index != -1;
 }
 
-_inline long c_player_output_user_iterator::get_output_user_index() const // 0x10A55610
+inline long c_player_output_user_iterator::get_output_user_index() const // 0x10A55610
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_output_user_index@c_player_output_user_iterator@@QBEJXZ");
 	// c_player_output_user_iterator const *const this;

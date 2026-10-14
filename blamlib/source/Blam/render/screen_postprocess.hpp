@@ -123,7 +123,7 @@ static_assert(sizeof(c_screen_postprocess) == 1, "Invalid c_screen_postprocess s
 
 /* ---------- public code */
 
-_inline bool c_screen_postprocess::s_smaa_globals::init_surface(IDirect3DDevice9 *device, IDirect3DTexture9 **tex, IDirect3DSurface9 **srf, _D3DFORMAT format) // 0x10F11160
+inline bool c_screen_postprocess::s_smaa_globals::init_surface(IDirect3DDevice9 *device, IDirect3DTexture9 **tex, IDirect3DSurface9 **srf, _D3DFORMAT format) // 0x10F11160
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?init_surface@s_smaa_globals@c_screen_postprocess@@AAE_NPAUIDirect3DDevice9@@PAPAUIDirect3DTexture9@@PAPAUIDirect3DSurface9@@W4_D3DFORMAT@@@Z");
 	// _D3DFORMAT format;
@@ -144,7 +144,7 @@ _inline bool c_screen_postprocess::s_smaa_globals::init_surface(IDirect3DDevice9
 	return true;
 }
 
-_inline void c_screen_postprocess::s_smaa_globals::set_reinit() // 0x10A22100
+inline void c_screen_postprocess::s_smaa_globals::set_reinit() // 0x10A22100
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?set_reinit@s_smaa_globals@c_screen_postprocess@@QAEXXZ");
 	// c_screen_postprocess::s_smaa_globals *const this;
@@ -153,7 +153,7 @@ _inline void c_screen_postprocess::s_smaa_globals::set_reinit() // 0x10A22100
 	reinit_next_frame = true;
 }
 
-_inline void c_screen_postprocess::s_smaa_globals::set_resolution(long res_x, long res_y) // 0x10F11660
+inline void c_screen_postprocess::s_smaa_globals::set_resolution(long res_x, long res_y) // 0x10F11660
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?set_resolution@s_smaa_globals@c_screen_postprocess@@QAEXJJ@Z");
 	// long res_y;
@@ -162,7 +162,7 @@ _inline void c_screen_postprocess::s_smaa_globals::set_resolution(long res_x, lo
 	this->res_y = res_y;
 }
 
-_inline bool c_screen_postprocess::s_smaa_globals::init_surfaces(IDirect3DDevice9 *device) // 0x10F11290
+inline bool c_screen_postprocess::s_smaa_globals::init_surfaces(IDirect3DDevice9 *device) // 0x10F11290
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?init_surfaces@s_smaa_globals@c_screen_postprocess@@QAE_NPAUIDirect3DDevice9@@@Z");
 	// IDirect3DDevice9 *device;
@@ -179,7 +179,7 @@ _inline bool c_screen_postprocess::s_smaa_globals::init_surfaces(IDirect3DDevice
 	return true;
 }
 
-_inline void c_screen_postprocess::s_smaa_globals::destroy_surfaces() // 0x10F10EC0
+inline void c_screen_postprocess::s_smaa_globals::destroy_surfaces() // 0x10F10EC0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?destroy_surfaces@s_smaa_globals@c_screen_postprocess@@QAEXXZ");
 	// c_screen_postprocess::s_smaa_globals *const this;

@@ -63,7 +63,7 @@ namespace Common
 {
 	namespace D3DAdapters
 	{
-		_inline bool operator<(Common::D3DAdapters::DisplayMode const &lhs, Common::D3DAdapters::DisplayMode const &rhs) // 0x10687350
+		inline bool operator<(Common::D3DAdapters::DisplayMode const &lhs, Common::D3DAdapters::DisplayMode const &rhs) // 0x10687350
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "??MD3DAdapters@Common@@YA_NABUDisplayMode@01@0@Z");
 			// Common::D3DAdapters::DisplayMode const &rhs;
@@ -77,7 +77,7 @@ namespace Common
 			return lhs.height < rhs.height;
 		}
 
-		_inline bool operator==(Common::D3DAdapters::DisplayMode const &lhs, Common::D3DAdapters::DisplayMode const &rhs) // 0x10687070
+		inline bool operator==(Common::D3DAdapters::DisplayMode const &lhs, Common::D3DAdapters::DisplayMode const &rhs) // 0x10687070
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "??8D3DAdapters@Common@@YA_NABUDisplayMode@01@0@Z");
 			// Common::D3DAdapters::DisplayMode const &rhs;

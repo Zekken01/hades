@@ -58,7 +58,7 @@ static_assert(sizeof(Http::CHttpManager) == 68, "Invalid Http::CHttpManager size
 
 namespace Http
 {
-	_inline CHttpManager::CHttpManager() // 0x108034B0
+	inline CHttpManager::CHttpManager() // 0x108034B0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "??0CHttpManager@Http@@QAE@XZ");
 		// Http::CHttpManager *const this;

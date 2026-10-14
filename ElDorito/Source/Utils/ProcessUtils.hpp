@@ -37,7 +37,7 @@ namespace Utils
 {
 	namespace ProcessUtils
 	{
-		_inline HINSTANCE__ *GetModuleFromAddress(void *address) // 0x1068F4D0
+		inline HINSTANCE__ *GetModuleFromAddress(void *address) // 0x1068F4D0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetModuleFromAddress@ProcessUtils@Utils@@YAPAUHINSTANCE__@@PAX@Z");
 			// static ...; // 0x1068F548
@@ -60,7 +60,7 @@ namespace Utils
 {
 	namespace ProcessUtils
 	{
-		_inline std::string GetModuleNameForDisplay(HINSTANCE__ *hMod) // 0x1068F570
+		inline std::string GetModuleNameForDisplay(HINSTANCE__ *hMod) // 0x1068F570
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetModuleNameForDisplay@ProcessUtils@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAUHINSTANCE__@@@Z");
 			// static ...; // 0x1068F660

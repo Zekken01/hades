@@ -70,13 +70,13 @@ namespace Patches
 {
 	namespace Network
 	{
-		_inline PlayerPropertiesExtensionBase::~PlayerPropertiesExtensionBase() // 0x108D8F20
+		inline PlayerPropertiesExtensionBase::~PlayerPropertiesExtensionBase() // 0x108D8F20
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "??1PlayerPropertiesExtensionBase@Network@Patches@@UAE@XZ");
 			// Patches::Network::PlayerPropertiesExtensionBase *const this;
 		}
 
-		_inline void PlayerPropertiesExtender::Add(std::shared_ptr<Patches::Network::PlayerPropertiesExtensionBase> extension) // 0x108D9320
+		inline void PlayerPropertiesExtender::Add(std::shared_ptr<Patches::Network::PlayerPropertiesExtensionBase> extension) // 0x108D9320
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Add@PlayerPropertiesExtender@Network@Patches@@QAEXV?$shared_ptr@VPlayerPropertiesExtensionBase@Network@Patches@@@std@@@Z");
 			// std::shared_ptr<Patches::Network::PlayerPropertiesExtensionBase> extension;

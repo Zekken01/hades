@@ -47,7 +47,7 @@ namespace Utils
 
 namespace Utils
 {
-	_inline Rectangle::Rectangle() // 0x10C5C800
+	inline Rectangle::Rectangle() // 0x10C5C800
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "??0Rectangle@Utils@@QAE@XZ");
 		// Utils::Rectangle *const this;
@@ -58,7 +58,7 @@ namespace Utils
 		Height = 0;
 	}
 
-	_inline Rectangle::Rectangle(__int32 x, __int32 y, __int32 width, __int32 height) // 0x10C5C7B0
+	inline Rectangle::Rectangle(__int32 x, __int32 y, __int32 width, __int32 height) // 0x10C5C7B0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "??0Rectangle@Utils@@QAE@HHHH@Z");
 		// __int32 height;
@@ -69,7 +69,7 @@ namespace Utils
 		Height = height;
 	}
 
-	_inline bool Rectangle::operator==(Utils::Rectangle const &other) const // 0x10CEB160
+	inline bool Rectangle::operator==(Utils::Rectangle const &other) const // 0x10CEB160
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "??8Rectangle@Utils@@QBE_NABU01@@Z");
 		// Utils::Rectangle const &other;

@@ -68,7 +68,7 @@ namespace Web
 {
 	namespace Browser
 	{
-		_inline void CWebFileReadHandler::AddRef() const // 0x10CB7970
+		inline void CWebFileReadHandler::AddRef() const // 0x10CB7970
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?AddRef@CWebFileReadHandler@Browser@Web@@UBEXXZ");
 			// __shifted(Web::Browser::CWebFileReadHandler, 228);
@@ -77,7 +77,7 @@ namespace Web
 			ref_count_.AddRef();
 		}
 
-		_inline bool CWebFileReadHandler::HasAtLeastOneRef() const // 0x10CB7AB0
+		inline bool CWebFileReadHandler::HasAtLeastOneRef() const // 0x10CB7AB0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?HasAtLeastOneRef@CWebFileReadHandler@Browser@Web@@UBE_NXZ");
 			// __shifted(Web::Browser::CWebFileReadHandler, 228);
@@ -86,7 +86,7 @@ namespace Web
 			return ref_count_.HasAtLeastOneRef();
 		}
 
-		_inline bool CWebFileReadHandler::HasOneRef() const // 0x10CB7B10
+		inline bool CWebFileReadHandler::HasOneRef() const // 0x10CB7B10
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?HasOneRef@CWebFileReadHandler@Browser@Web@@UBE_NXZ");
 			// __shifted(Web::Browser::CWebFileReadHandler, 228);
@@ -95,7 +95,7 @@ namespace Web
 			return ref_count_.HasOneRef();
 		}
 
-		_inline bool CWebFileReadHandler::Release() const // 0x10CB7C90
+		inline bool CWebFileReadHandler::Release() const // 0x10CB7C90
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Release@CWebFileReadHandler@Browser@Web@@UBE_NXZ");
 			// __shifted(Web::Browser::CWebFileReadHandler, 228);

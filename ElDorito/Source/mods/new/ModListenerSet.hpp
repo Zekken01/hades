@@ -46,7 +46,7 @@ static_assert(sizeof(ModListenerSet) == 40, "Invalid ModListenerSet size");
 
 /* ---------- public code */
 
-_inline void ModListenerSet::Add(IModListener *listener) // 0x107919F0
+inline void ModListenerSet::Add(IModListener *listener) // 0x107919F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Add@ModListenerSet@@QAEXPAVIModListener@@@Z");
 	// static ...; // 0x10791BC0
@@ -62,7 +62,7 @@ _inline void ModListenerSet::Add(IModListener *listener) // 0x107919F0
 	m_dirty = true;
 }
 
-_inline void ModListenerSet::Remove(IModListener *listener) // 0x10791F40
+inline void ModListenerSet::Remove(IModListener *listener) // 0x10791F40
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Remove@ModListenerSet@@QAEXPAVIModListener@@@Z");
 	// static ...; // 0x10791FF8

@@ -92,19 +92,19 @@ static_assert(sizeof(IModManager) == 4, "Invalid IModManager size");
 
 /* ---------- public code */
 
-_inline void IModListener::OnModChanged(EModIndex index, IMod *mod) // 0x10794400
+inline void IModListener::OnModChanged(EModIndex index, IMod *mod) // 0x10794400
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnModChanged@IModListener@@UAEXW4EModIndex@@PAVIMod@@@Z");
 	// IMod *mod;
 }
 
-_inline void IModListener::OnModCacheChanged(EModIndex index, IMod *mod) // 0x107943E0
+inline void IModListener::OnModCacheChanged(EModIndex index, IMod *mod) // 0x107943E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnModCacheChanged@IModListener@@UAEXW4EModIndex@@PAVIMod@@@Z");
 	// IMod *mod;
 }
 
-_inline void IModListener::OnModLoadStateChangedAsync(EModIndex index, IMod *mod) // 0x10794610
+inline void IModListener::OnModLoadStateChangedAsync(EModIndex index, IMod *mod) // 0x10794610
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnModLoadStateChangedAsync@IModListener@@UAEXW4EModIndex@@PAVIMod@@@Z");
 	// IMod *mod;

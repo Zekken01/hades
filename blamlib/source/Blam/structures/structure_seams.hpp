@@ -69,7 +69,7 @@ static_assert(sizeof(s_structure_seam_globals) == 83476, "Invalid s_structure_se
 
 /* ---------- public code */
 
-_inline long c_seam_connected_cluster_references::find(s_cluster_reference cluster_reference) // 0x10AC4C40
+inline long c_seam_connected_cluster_references::find(s_cluster_reference cluster_reference) // 0x10AC4C40
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?find@c_seam_connected_cluster_references@@QAEJUs_cluster_reference@@@Z");
 	// s_cluster_reference cluster_reference;
@@ -85,7 +85,7 @@ _inline long c_seam_connected_cluster_references::find(s_cluster_reference clust
 	return -1;
 }
 
-_inline bool c_seam_connected_cluster_references::insert(s_cluster_reference reference) // 0x10AC5140
+inline bool c_seam_connected_cluster_references::insert(s_cluster_reference reference) // 0x10AC5140
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?insert@c_seam_connected_cluster_references@@QAE_NUs_cluster_reference@@@Z");
 	// s_cluster_reference reference;

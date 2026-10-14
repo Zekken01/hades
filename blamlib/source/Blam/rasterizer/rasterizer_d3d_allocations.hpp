@@ -115,7 +115,7 @@ extern void d3d_resource_tracker_output_allocated_resource_counts();
 
 /* ---------- public code */
 
-_inline long c_d3d_resource_tracker::get_index_buffer_ptr() // 0x108CAC40
+inline long c_d3d_resource_tracker::get_index_buffer_ptr() // 0x108CAC40
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_index_buffer_ptr@c_d3d_resource_tracker@@SAJXZ");
 	// procedure flags: nofpo

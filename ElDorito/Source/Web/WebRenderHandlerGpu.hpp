@@ -121,7 +121,7 @@ namespace Web
 	{
 
 
-		_inline bool RenderHandlerGpu::PopupIsVisible() const // 0x10CEC6B0
+		inline bool RenderHandlerGpu::PopupIsVisible() const // 0x10CEC6B0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?PopupIsVisible@RenderHandlerGpu@Browser@Web@@ABE_NXZ");
 			// Web::Browser::RenderHandlerGpu const *const this;
@@ -129,7 +129,7 @@ namespace Web
 			return m_PopupVisible;
 		}
 
-		_inline void RenderHandlerGpu::AddRef() const // 0x10CEB620
+		inline void RenderHandlerGpu::AddRef() const // 0x10CEB620
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?AddRef@RenderHandlerGpu@Browser@Web@@UBEXXZ");
 			// __shifted(Web::Browser::RenderHandlerGpu, 92);
@@ -138,7 +138,7 @@ namespace Web
 			ref_count_.AddRef();
 		}
 
-		_inline bool RenderHandlerGpu::HasAtLeastOneRef() const // 0x10CEB8B0
+		inline bool RenderHandlerGpu::HasAtLeastOneRef() const // 0x10CEB8B0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?HasAtLeastOneRef@RenderHandlerGpu@Browser@Web@@UBE_NXZ");
 			// __shifted(Web::Browser::RenderHandlerGpu, 92);
@@ -147,7 +147,7 @@ namespace Web
 			return ref_count_.HasAtLeastOneRef();
 		}
 
-		_inline bool RenderHandlerGpu::HasOneRef() const // 0x10CEB910
+		inline bool RenderHandlerGpu::HasOneRef() const // 0x10CEB910
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?HasOneRef@RenderHandlerGpu@Browser@Web@@UBE_NXZ");
 			// __shifted(Web::Browser::RenderHandlerGpu, 92);
@@ -156,7 +156,7 @@ namespace Web
 			return ref_count_.HasOneRef();
 		}
 
-		_inline bool RenderHandlerGpu::Release() const // 0x10CEC6E0
+		inline bool RenderHandlerGpu::Release() const // 0x10CEC6E0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Release@RenderHandlerGpu@Browser@Web@@UBE_NXZ");
 			// __shifted(Web::Browser::RenderHandlerGpu, 92);

@@ -146,7 +146,7 @@ extern void *(__cdecl *const tag_get)(unsigned long, long);  // hades: added for
 
 /* ---------- public code */
 
-_inline c_render_method *c_render_method::get(long index) // 0x108DED70
+inline c_render_method *c_render_method::get(long index) // 0x108DED70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get@c_render_method@@SAPAV1@J@Z");
 	// long index;
@@ -155,7 +155,7 @@ _inline c_render_method *c_render_method::get(long index) // 0x108DED70
 	return (c_render_method *)tag_get(0x726D2020, index);
 }
 
-_inline bool c_render_method::get_is_transparent(long index) // 0x108EFD80
+inline bool c_render_method::get_is_transparent(long index) // 0x108EFD80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_is_transparent@c_render_method@@SA_NJ@Z");
 	// long index;
@@ -163,7 +163,7 @@ _inline bool c_render_method::get_is_transparent(long index) // 0x108EFD80
 	return index != -1 && (*reinterpret_cast<c_tag_block<s_render_method_postprocess_definition> *>(get(index)->postprocess))->alpha_blend_mode != static_cast<e_alpha_blend_mode>(0);
 }
 
-_inline bool c_render_method::get_is_decal(long index) // 0x108EFD00
+inline bool c_render_method::get_is_decal(long index) // 0x108EFD00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_is_decal@c_render_method@@SA_NJ@Z");
 	// long index;

@@ -100,14 +100,14 @@ namespace Server
 {
 	namespace ClientDataTracker
 	{
-		_inline ClientInfoData::ClientInfoData() // 0x10AFF0E0
+		inline ClientInfoData::ClientInfoData() // 0x10AFF0E0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "??0ClientInfoData@ClientDataTracker@Server@@QAE@XZ");
 			// Server::ClientDataTracker::ClientInfoData *const this;
 
 		}
 
-		_inline MyNetworkSessionListener::MyNetworkSessionListener() // 0x10AFF160
+		inline MyNetworkSessionListener::MyNetworkSessionListener() // 0x10AFF160
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "??0MyNetworkSessionListener@ClientDataTracker@Server@@QAE@XZ");
 			// Server::ClientDataTracker::MyNetworkSessionListener *const this;

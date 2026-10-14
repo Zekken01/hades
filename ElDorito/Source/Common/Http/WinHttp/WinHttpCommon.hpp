@@ -62,7 +62,7 @@ namespace Http
 
 namespace Http
 {
-	_inline Http::WinHttpErrorCategory &WinHttpErrorCategory::Get() // 0x10808960
+	inline Http::WinHttpErrorCategory &WinHttpErrorCategory::Get() // 0x10808960
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Get@WinHttpErrorCategory@Http@@SAAAU12@XZ");
 		// procedure flags: nofpo
@@ -77,7 +77,7 @@ namespace Http
 
 namespace Http
 {
-	_inline char const *WinHttpErrorCategory::name() const noexcept // 0x1080C0F0
+	inline char const *WinHttpErrorCategory::name() const noexcept // 0x1080C0F0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?name@WinHttpErrorCategory@Http@@UBEPBDXZ");
 		// Http::WinHttpErrorCategory const *const this;
@@ -89,7 +89,7 @@ namespace Http
 
 namespace Http
 {
-	_inline std::string WinHttpErrorCategory::message(__int32 error) const // 0x1080BE40
+	inline std::string WinHttpErrorCategory::message(__int32 error) const // 0x1080BE40
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?message@WinHttpErrorCategory@Http@@UBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@H@Z");
 		// static ...; // 0x1080C054
@@ -118,7 +118,7 @@ namespace Http
 		return result;
 	}
 
-	_inline void WinHttpHandlerDeleter::operator()(void *handle) // 0x107F71C0
+	inline void WinHttpHandlerDeleter::operator()(void *handle) // 0x107F71C0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "??RWinHttpHandlerDeleter@Http@@QAEXPAX@Z");
 		// void *handle;

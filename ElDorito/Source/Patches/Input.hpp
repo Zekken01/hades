@@ -82,13 +82,13 @@ namespace Patches
 {
 	namespace Input
 	{
-		_inline InputContext::~InputContext() // 0x10C91D90
+		inline InputContext::~InputContext() // 0x10C91D90
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "??1InputContext@Input@Patches@@UAE@XZ");
 			// Patches::Input::InputContext *const this;
 		}
 
-		_inline void InputContext::InputBlock() // 0x10C940B0
+		inline void InputContext::InputBlock() // 0x10C940B0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?InputBlock@InputContext@Input@Patches@@UAEXXZ");
 			// Patches::Input::InputContext *const this;
@@ -96,7 +96,7 @@ namespace Patches
 			memset((void *)0x238DBEB, 1, 3);
 		}
 
-		_inline void InputContext::InputUnblock() // 0x10C94180
+		inline void InputContext::InputUnblock() // 0x10C94180
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?InputUnblock@InputContext@Input@Patches@@UAEXXZ");
 			// Patches::Input::InputContext *const this;

@@ -56,7 +56,7 @@ extern _inline bool is_havok_convex_shape(hkpShape *shape);
 
 /* ---------- public code */
 
-_inline hkpShape *__fastcall havok_transform_wrapper_shape_get_child_shape(hkpShape *shape) // 0x10AAB350
+inline hkpShape *__fastcall havok_transform_wrapper_shape_get_child_shape(hkpShape *shape) // 0x10AAB350
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?havok_transform_wrapper_shape_get_child_shape@@YIPAUhkpShape@@PAU1@@Z");
 	// hkpShape *shape;
@@ -80,7 +80,7 @@ _inline hkpShape *__fastcall havok_transform_wrapper_shape_get_child_shape(hkpSh
 	return shape;
 }
 
-_inline hkpShape *havok_shape_from_container(hkShapeContainer *container) // 0x10AAB330
+inline hkpShape *havok_shape_from_container(hkShapeContainer *container) // 0x10AAB330
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?havok_shape_from_container@@YAPAUhkpShape@@PAUhkShapeContainer@@@Z");
 	// hkShapeContainer *container;
@@ -88,7 +88,7 @@ _inline hkpShape *havok_shape_from_container(hkShapeContainer *container) // 0x1
 	return (hkpShape *)((char *)container - 0x10);
 }
 
-_inline bool is_havok_convex_shape(hkpShape *shape) // 0x10AAB650
+inline bool is_havok_convex_shape(hkpShape *shape) // 0x10AAB650
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?is_havok_convex_shape@@YA_NPAUhkpShape@@@Z");
 	// static ...; // 0x10AAB6AC
@@ -114,7 +114,7 @@ _inline bool is_havok_convex_shape(hkpShape *shape) // 0x10AAB650
 	return false;
 }
 
-_inline void hkAabbUtil::calcAaab(hkTransform const &BvToWorld, hkVector4 const &halfExtents, hkVector4 const &center, float extraRadius, hkAabb &aabbOut) // 0x10F1AE00
+inline void hkAabbUtil::calcAaab(hkTransform const &BvToWorld, hkVector4 const &halfExtents, hkVector4 const &center, float extraRadius, hkAabb &aabbOut) // 0x10F1AE00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?calcAaab@hkAabbUtil@@SAXABUhkTransform@@ABUhkVector4@@1MAAUhkAabb@@@Z");
 	// hkAabb &aabbOut;

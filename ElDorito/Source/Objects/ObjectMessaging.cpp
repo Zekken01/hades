@@ -141,3 +141,28 @@ namespace Objects
 }
 
 /* ---------- private code */
+
+// IGameSystem's default handlers: one strong definition, emitted with the game-system code here as in the original.
+void IGameSystem::Initialize() // 0x10798210
+{
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@IGameSystem@@UAEXXZ");
+	// IGameSystem *const this;
+}
+
+void IGameSystem::InitializeForNewMap() // 0x10798230
+{
+	mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeForNewMap@IGameSystem@@UAEXXZ");
+	// IGameSystem *const this;
+}
+
+void IGameSystem::Dispose() // 0x10798250
+{
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Dispose@IGameSystem@@UAEXXZ");
+	// IGameSystem *const this;
+}
+
+void IGameSystem::Update() // 0x10798270
+{
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Update@IGameSystem@@UAEXXZ");
+	// IGameSystem *const this;
+}

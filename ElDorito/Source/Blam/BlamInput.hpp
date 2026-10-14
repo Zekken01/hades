@@ -461,7 +461,7 @@ namespace Blam
 {
 	namespace Input
 	{
-		_inline unsigned char ActionState::GetDownTicks() const // 0x10A79440
+		inline unsigned char ActionState::GetDownTicks() const // 0x10A79440
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetDownTicks@ActionState@Input@Blam@@QBEEXZ");
 			// Blam::Input::ActionState const *const this;

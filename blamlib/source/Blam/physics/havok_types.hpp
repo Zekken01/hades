@@ -551,7 +551,7 @@ static_assert(sizeof(hkpRigidBody) == 496, "Invalid hkpRigidBody size");
 
 /* ---------- public code */
 
-_inline float &hkVector4::operator()(__int32 i) // 0x10F07FA0
+inline float &hkVector4::operator()(__int32 i) // 0x10F07FA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??RhkVector4@@QAEAAMH@Z");
 	// __int32 i;
@@ -559,7 +559,7 @@ _inline float &hkVector4::operator()(__int32 i) // 0x10F07FA0
 	return ((float *)this)[i];
 }
 
-_inline hkShapeContainer const *hkpShape::getContainer() const // 0x10F08110
+inline hkShapeContainer const *hkpShape::getContainer() const // 0x10F08110
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?getContainer@hkpShape@@QBEPBUhkShapeContainer@@XZ");
 	// hkpShape const *const this;
@@ -568,7 +568,7 @@ _inline hkShapeContainer const *hkpShape::getContainer() const // 0x10F08110
 	return ((hkShapeContainer const *(__thiscall **)(hkpShape const *))vftable)[4](this);
 }
 
-_inline unsigned __int32 hkShapeContainer::getFirstKey() const // 0x10F08190
+inline unsigned __int32 hkShapeContainer::getFirstKey() const // 0x10F08190
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?getFirstKey@hkShapeContainer@@QBEIXZ");
 	// hkShapeContainer const *const this;
@@ -577,7 +577,7 @@ _inline unsigned __int32 hkShapeContainer::getFirstKey() const // 0x10F08190
 	return ((unsigned __int32(__thiscall **)(hkShapeContainer const *))vftable)[2](this);
 }
 
-_inline unsigned __int32 hkShapeContainer::getNextKey(unsigned __int32 oldKey) const // 0x10F08210
+inline unsigned __int32 hkShapeContainer::getNextKey(unsigned __int32 oldKey) const // 0x10F08210
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?getNextKey@hkShapeContainer@@QBEII@Z");
 	// unsigned __int32 oldKey;
@@ -586,7 +586,7 @@ _inline unsigned __int32 hkShapeContainer::getNextKey(unsigned __int32 oldKey) c
 	return ((unsigned __int32(__thiscall **)(hkShapeContainer const *, unsigned __int32))vftable)[3](this, oldKey);
 }
 
-_inline hkpShape *hkShapeContainer::getChildShape(unsigned __int32 key, void *buffer) const // 0x10AAAAF0
+inline hkpShape *hkShapeContainer::getChildShape(unsigned __int32 key, void *buffer) const // 0x10AAAAF0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?getChildShape@hkShapeContainer@@QBEPAUhkpShape@@IPAX@Z");
 	// void *buffer;

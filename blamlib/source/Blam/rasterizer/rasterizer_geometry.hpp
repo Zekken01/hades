@@ -62,7 +62,7 @@ static_assert(sizeof(c_rasterizer_index_buffer) == 16, "Invalid c_rasterizer_ind
 
 /* ---------- public code */
 
-_inline unsigned char c_rasterizer_vertex_buffer::get_vertex_stride() const // 0x108EFEC0
+inline unsigned char c_rasterizer_vertex_buffer::get_vertex_stride() const // 0x108EFEC0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_vertex_stride@c_rasterizer_vertex_buffer@@QBEEXZ");
 	// c_rasterizer_vertex_buffer const *const this;
@@ -70,7 +70,7 @@ _inline unsigned char c_rasterizer_vertex_buffer::get_vertex_stride() const // 0
 	return vertex_stride;
 }
 
-_inline short c_rasterizer_vertex_buffer::get_vertex_count() const // 0x108EFE90
+inline short c_rasterizer_vertex_buffer::get_vertex_count() const // 0x108EFE90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_vertex_count@c_rasterizer_vertex_buffer@@QBEFXZ");
 	// c_rasterizer_vertex_buffer const *const this;
@@ -78,7 +78,7 @@ _inline short c_rasterizer_vertex_buffer::get_vertex_count() const // 0x108EFE90
 	return vertex_count;
 }
 
-_inline IDirect3DVertexBuffer9 *c_rasterizer_vertex_buffer::get_d3d_buffer() // 0x107BF780
+inline IDirect3DVertexBuffer9 *c_rasterizer_vertex_buffer::get_d3d_buffer() // 0x107BF780
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_d3d_buffer@c_rasterizer_vertex_buffer@@QAEPAUIDirect3DVertexBuffer9@@XZ");
 	// c_rasterizer_vertex_buffer *const this;
@@ -86,7 +86,7 @@ _inline IDirect3DVertexBuffer9 *c_rasterizer_vertex_buffer::get_d3d_buffer() // 
 	return d3d_buffer;
 }
 
-_inline void const *c_rasterizer_vertex_buffer::get_data() const // 0x108EF040
+inline void const *c_rasterizer_vertex_buffer::get_data() const // 0x108EF040
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_data@c_rasterizer_vertex_buffer@@QBEPBXXZ");
 	// c_rasterizer_vertex_buffer const *const this;
@@ -94,7 +94,7 @@ _inline void const *c_rasterizer_vertex_buffer::get_data() const // 0x108EF040
 	return data;
 }
 
-_inline void const *c_rasterizer_index_buffer::get_data() const // 0x108EF010
+inline void const *c_rasterizer_index_buffer::get_data() const // 0x108EF010
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_data@c_rasterizer_index_buffer@@QBEPBXXZ");
 	// c_rasterizer_index_buffer const *const this;
@@ -102,7 +102,7 @@ _inline void const *c_rasterizer_index_buffer::get_data() const // 0x108EF010
 	return data;
 }
 
-_inline unsigned long const c_rasterizer_index_buffer::get_index_count() const // 0x108EFCD0
+inline unsigned long const c_rasterizer_index_buffer::get_index_count() const // 0x108EFCD0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_index_count@c_rasterizer_index_buffer@@QBE?BKXZ");
 	// c_rasterizer_index_buffer const *const this;

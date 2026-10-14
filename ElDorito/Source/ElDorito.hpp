@@ -85,7 +85,7 @@ extern "C" __int32 __stdcall DllMain(HINSTANCE__ *hModule, unsigned long Reason,
 
 /* ---------- public code */
 
-_inline void ElDorito::SetMainThreadID(unsigned __int32 ThreadID) // 0x10966B20
+inline void ElDorito::SetMainThreadID(unsigned __int32 ThreadID) // 0x10966B20
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SetMainThreadID@ElDorito@@SAXI@Z");
 	// unsigned __int32 ThreadID;
@@ -93,7 +93,7 @@ _inline void ElDorito::SetMainThreadID(unsigned __int32 ThreadID) // 0x10966B20
 	MainThreadID = ThreadID;
 }
 
-_inline unsigned __int32 ElDorito::GetMainThreadID() // 0x10923830
+inline unsigned __int32 ElDorito::GetMainThreadID() // 0x10923830
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetMainThreadID@ElDorito@@SAIXZ");
 	// procedure flags: nofpo
@@ -101,7 +101,7 @@ _inline unsigned __int32 ElDorito::GetMainThreadID() // 0x10923830
 	return MainThreadID;
 }
 
-_inline std::string ElDorito::GetMapsFolder() const // 0x1074E5C0
+inline std::string ElDorito::GetMapsFolder() const // 0x1074E5C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetMapsFolder@ElDorito@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 	// ElDorito const *const this;
@@ -109,7 +109,7 @@ _inline std::string ElDorito::GetMapsFolder() const // 0x1074E5C0
 	return mapsFolder;
 }
 
-_inline bool ElDorito::IsWebDebuggingEnabled() const // 0x10961AD0
+inline bool ElDorito::IsWebDebuggingEnabled() const // 0x10961AD0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?IsWebDebuggingEnabled@ElDorito@@QBE_NXZ");
 	// ElDorito const *const this;
@@ -117,7 +117,7 @@ _inline bool ElDorito::IsWebDebuggingEnabled() const // 0x10961AD0
 	return webDebugging;
 }
 
-_inline __int32 ElDorito::GetWebDebugPort() const // 0x10C93860
+inline __int32 ElDorito::GetWebDebugPort() const // 0x10C93860
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetWebDebugPort@ElDorito@@QBEHXZ");
 	// ElDorito const *const this;
@@ -125,7 +125,7 @@ _inline __int32 ElDorito::GetWebDebugPort() const // 0x10C93860
 	return webdebugPort;
 }
 
-_inline bool ElDorito::IsWebDebugLoggingEnabled() const // 0x10CC0EA0
+inline bool ElDorito::IsWebDebugLoggingEnabled() const // 0x10CC0EA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?IsWebDebugLoggingEnabled@ElDorito@@QBE_NXZ");
 	// ElDorito const *const this;
@@ -133,7 +133,7 @@ _inline bool ElDorito::IsWebDebugLoggingEnabled() const // 0x10CC0EA0
 	return webDebugLogging;
 }
 
-_inline bool ElDorito::IsDedicated() const // 0x1068FE20
+inline bool ElDorito::IsDedicated() const // 0x1068FE20
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?IsDedicated@ElDorito@@QBE_NXZ");
 	// ElDorito const *const this;
@@ -141,7 +141,7 @@ _inline bool ElDorito::IsDedicated() const // 0x1068FE20
 	return isDedicated;
 }
 
-_inline bool ElDorito::IsBotClient() const // 0x109685D0
+inline bool ElDorito::IsBotClient() const // 0x109685D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?IsBotClient@ElDorito@@QBE_NXZ");
 	// ElDorito const *const this;
@@ -149,7 +149,7 @@ _inline bool ElDorito::IsBotClient() const // 0x109685D0
 	return isBotClient;
 }
 
-_inline bool ElDorito::IsHeadless() const // 0x10923850
+inline bool ElDorito::IsHeadless() const // 0x10923850
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?IsHeadless@ElDorito@@QBE_NXZ");
 	// ElDorito const *const this;
@@ -157,7 +157,7 @@ _inline bool ElDorito::IsHeadless() const // 0x10923850
 	return isDedicated || isBotClient;
 }
 
-_inline bool ElDorito::IsHighPriority() const // 0x10A48D10
+inline bool ElDorito::IsHighPriority() const // 0x10A48D10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?IsHighPriority@ElDorito@@QBE_NXZ");
 	// ElDorito const *const this;
@@ -165,7 +165,7 @@ _inline bool ElDorito::IsHighPriority() const // 0x10A48D10
 	return isHighPriority;
 }
 
-_inline bool ElDorito::IsConnectingToServer() const // 0x10CAABD0
+inline bool ElDorito::IsConnectingToServer() const // 0x10CAABD0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?IsConnectingToServer@ElDorito@@QBE_NXZ");
 	// ElDorito const *const this;
@@ -173,7 +173,7 @@ _inline bool ElDorito::IsConnectingToServer() const // 0x10CAABD0
 	return connectToServer;
 }
 
-_inline std::string ElDorito::GetInstanceName() const // 0x106B4470
+inline std::string ElDorito::GetInstanceName() const // 0x106B4470
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetInstanceName@ElDorito@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 	// ElDorito const *const this;

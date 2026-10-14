@@ -48,7 +48,7 @@ namespace Forge
 
 namespace Forge
 {
-	_inline bool ObjectSet::Contains(long objectIndex) const // 0x10838010
+	inline bool ObjectSet::Contains(long objectIndex) const // 0x10838010
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Contains@ObjectSet@Forge@@QBE_NJ@Z");
 		// long objectIndex;
@@ -56,7 +56,7 @@ namespace Forge
 		return objectIndex != -1 && m_Bits.test(objectIndex & 0xFFFF);
 	}
 
-	_inline bool ObjectSet::Any() const // 0x10973B60
+	inline bool ObjectSet::Any() const // 0x10973B60
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Any@ObjectSet@Forge@@QBE_NXZ");
 		// Forge::ObjectSet const *const this;
@@ -64,7 +64,7 @@ namespace Forge
 		return m_Bits.any();
 	}
 
-	_inline void ObjectSet::Add(long objectIndex) // 0x1096F9F0
+	inline void ObjectSet::Add(long objectIndex) // 0x1096F9F0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Add@ObjectSet@Forge@@QAEXJ@Z");
 		// long objectIndex;
@@ -72,7 +72,7 @@ namespace Forge
 		m_Bits.set(objectIndex & 0xFFFF, true);
 	}
 
-	_inline void ObjectSet::Remove(long objectIndex) // 0x10974BD0
+	inline void ObjectSet::Remove(long objectIndex) // 0x10974BD0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Remove@ObjectSet@Forge@@QAEXJ@Z");
 		// long objectIndex;
@@ -80,7 +80,7 @@ namespace Forge
 		m_Bits.set(objectIndex & 0xFFFF, false);
 	}
 
-	_inline void ObjectSet::Clear() // 0x1096FA60
+	inline void ObjectSet::Clear() // 0x1096FA60
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Clear@ObjectSet@Forge@@QAEXXZ");
 		// Forge::ObjectSet *const this;

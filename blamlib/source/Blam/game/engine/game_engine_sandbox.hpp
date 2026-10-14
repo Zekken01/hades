@@ -61,7 +61,7 @@ extern _inline s_sandbox_globals *get_sandbox_globals();
 
 /* ---------- public code */
 
-_inline s_sandbox_globals *get_sandbox_globals() // 0x1067CD80
+inline s_sandbox_globals *get_sandbox_globals() // 0x1067CD80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_sandbox_globals@@YAPAUs_sandbox_globals@@XZ");
 	// procedure flags: nofpo

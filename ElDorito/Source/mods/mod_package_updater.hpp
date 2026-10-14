@@ -84,7 +84,7 @@ extern bool download_mod_package_header(char const *url, s_mod_package_header *o
 
 /* ---------- public code */
 
-_inline std::vector<c_mod_package_updater_blocking::s_mod_package_description> const &c_mod_package_updater_blocking::get_package_list() const // 0x108BC820
+inline std::vector<c_mod_package_updater_blocking::s_mod_package_description> const &c_mod_package_updater_blocking::get_package_list() const // 0x108BC820
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_package_list@c_mod_package_updater_blocking@@QBEABV?$vector@Us_mod_package_description@c_mod_package_updater_blocking@@V?$allocator@Us_mod_package_description@c_mod_package_updater_blocking@@@std@@@std@@XZ");
 	// c_mod_package_updater_blocking const *const this;

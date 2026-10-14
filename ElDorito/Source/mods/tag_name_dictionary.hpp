@@ -52,13 +52,13 @@ static_assert(sizeof(c_tag_name_dictionary) == 40, "Invalid c_tag_name_dictionar
 
 /* ---------- public code */
 
-_inline c_tag_name_dictionary::c_tag_name_dictionary() // 0x10877860
+inline c_tag_name_dictionary::c_tag_name_dictionary() // 0x10877860
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_tag_name_dictionary@@QAE@XZ");
 	// c_tag_name_dictionary *const this;
 }
 
-_inline c_tag_name_dictionary::c_tag_name_dictionary(std::unordered_map<int,std::string> &&names) : m_index_to_name(std::move(names)) /* hades-mem-init:  */ // 0x1089D060
+inline c_tag_name_dictionary::c_tag_name_dictionary(std::unordered_map<int,std::string> &&names) : m_index_to_name(std::move(names)) /* hades-mem-init:  */ // 0x1089D060
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_tag_name_dictionary@@QAE@$$QAV?$unordered_map@HV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@U?$hash@H@2@U?$equal_to@H@2@V?$allocator@U?$pair@$$CBHV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@std@@@2@@std@@@Z");
 	// std::unordered_map<int,std::string> &names;
@@ -67,13 +67,13 @@ _inline c_tag_name_dictionary::c_tag_name_dictionary(std::unordered_map<int,std:
 // mangled_x86(MANGLED_DEFAULT, "??0c_tag_name_dictionary@@QAE@$$QAV0@@Z"); no body to assert in
 _inline c_tag_name_dictionary::c_tag_name_dictionary(c_tag_name_dictionary &&__that) noexcept = default; // 0x10871760
 
-_inline c_tag_name_dictionary::~c_tag_name_dictionary() // 0x10877F60
+inline c_tag_name_dictionary::~c_tag_name_dictionary() // 0x10877F60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??1c_tag_name_dictionary@@QAE@XZ");
 	// c_tag_name_dictionary *const this;
 }
 
-_inline void c_tag_name_dictionary::add(long index, char const *name) // 0x10879940
+inline void c_tag_name_dictionary::add(long index, char const *name) // 0x10879940
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?add@c_tag_name_dictionary@@QAEXJPBD@Z");
 	// char const *name;
@@ -81,7 +81,7 @@ _inline void c_tag_name_dictionary::add(long index, char const *name) // 0x10879
 	m_index_to_name[index] = name;
 }
 
-_inline char const *c_tag_name_dictionary::get_name(long index) const // 0x10874230
+inline char const *c_tag_name_dictionary::get_name(long index) const // 0x10874230
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_name@c_tag_name_dictionary@@QBEPBDJ@Z");
 	// static ...; // 0x10874380

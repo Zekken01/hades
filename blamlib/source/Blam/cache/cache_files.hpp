@@ -234,7 +234,7 @@ extern void cache_file_tags_close();
 
 /* ---------- public code */
 
-_inline bool s_cache_tag_instance::is_empty() const // 0x10927E40
+inline bool s_cache_tag_instance::is_empty() const // 0x10927E40
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?is_empty@s_cache_tag_instance@@QBE_NXZ");
 	// s_cache_tag_instance const *const this;

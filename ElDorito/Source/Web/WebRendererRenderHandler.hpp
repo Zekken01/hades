@@ -86,7 +86,7 @@ namespace Web
 	{
 
 
-		_inline void WebRendererRenderHandler::AddRef() const // 0x10CD0B80
+		inline void WebRendererRenderHandler::AddRef() const // 0x10CD0B80
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?AddRef@WebRendererRenderHandler@Browser@Web@@UBEXXZ");
 			// __shifted(Web::Browser::WebRendererRenderHandler, 32);
@@ -95,7 +95,7 @@ namespace Web
 			ref_count_.AddRef();
 		}
 
-		_inline bool WebRendererRenderHandler::HasAtLeastOneRef() const // 0x10CD12A0
+		inline bool WebRendererRenderHandler::HasAtLeastOneRef() const // 0x10CD12A0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?HasAtLeastOneRef@WebRendererRenderHandler@Browser@Web@@UBE_NXZ");
 			// __shifted(Web::Browser::WebRendererRenderHandler, 32);
@@ -104,7 +104,7 @@ namespace Web
 			return ref_count_.HasAtLeastOneRef();
 		}
 
-		_inline bool WebRendererRenderHandler::HasOneRef() const // 0x10CD1300
+		inline bool WebRendererRenderHandler::HasOneRef() const // 0x10CD1300
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?HasOneRef@WebRendererRenderHandler@Browser@Web@@UBE_NXZ");
 			// __shifted(Web::Browser::WebRendererRenderHandler, 32);
@@ -113,7 +113,7 @@ namespace Web
 			return ref_count_.HasOneRef();
 		}
 
-		_inline bool WebRendererRenderHandler::Release() const // 0x10CD2270
+		inline bool WebRendererRenderHandler::Release() const // 0x10CD2270
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Release@WebRendererRenderHandler@Browser@Web@@UBE_NXZ");
 			// __shifted(Web::Browser::WebRendererRenderHandler, 32);

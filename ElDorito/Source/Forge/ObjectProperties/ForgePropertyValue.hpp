@@ -51,7 +51,7 @@ namespace Forge
 
 namespace Forge
 {
-	_inline SPropertyValue::SPropertyValue() // 0x1083AE40
+	inline SPropertyValue::SPropertyValue() // 0x1083AE40
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "??0SPropertyValue@Forge@@QAE@XZ");
 		// Forge::SPropertyValue *const this;
@@ -59,7 +59,7 @@ namespace Forge
 		type = (Forge::EPropertyValueType)0xFFFFFFFF;
 	}
 
-	_inline SPropertyValue::SPropertyValue(__int32 val) // 0x1083ADC0
+	inline SPropertyValue::SPropertyValue(__int32 val) // 0x1083ADC0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "??0SPropertyValue@Forge@@QAE@H@Z");
 		// __int32 val;
@@ -68,7 +68,7 @@ namespace Forge
 		intValue = val;
 	}
 
-	_inline SPropertyValue::SPropertyValue(float val) // 0x1083AE00
+	inline SPropertyValue::SPropertyValue(float val) // 0x1083AE00
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "??0SPropertyValue@Forge@@QAE@M@Z");
 		// float val;
@@ -77,7 +77,7 @@ namespace Forge
 		realValue = val;
 	}
 
-	_inline Forge::SPropertyValue SPropertyValue::Integer(__int32 val) // 0x1083E830
+	inline Forge::SPropertyValue SPropertyValue::Integer(__int32 val) // 0x1083E830
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Integer@SPropertyValue@Forge@@SA?AU12@H@Z");
 		// __int32 val;
@@ -85,7 +85,7 @@ namespace Forge
 		return SPropertyValue(val);
 	}
 
-	_inline Forge::SPropertyValue SPropertyValue::Real(float val) // 0x1083E880
+	inline Forge::SPropertyValue SPropertyValue::Real(float val) // 0x1083E880
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Real@SPropertyValue@Forge@@SA?AU12@M@Z");
 		// float val;

@@ -28,7 +28,7 @@ extern _inline s_scenario *global_scenario_get();
 
 /* ---------- public code */
 
-_inline s_scenario *global_scenario_get() // 0x1067F5D0
+inline s_scenario *global_scenario_get() // 0x1067F5D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?global_scenario_get@@YAPAUs_scenario@@XZ");
 	// procedure flags: nofpo

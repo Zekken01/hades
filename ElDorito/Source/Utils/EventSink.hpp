@@ -29,7 +29,7 @@ struct end;
 
 /* ---------- public code */
 
-_inline __int32 CEventSink<>::Subscribe(std::function<void __cdecl(void)> const &callable) // 0x108572B0
+inline __int32 CEventSink<>::Subscribe(std::function<void __cdecl(void)> const &callable) // 0x108572B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Subscribe@?$CEventSink@$$V@@QAEHABV?$function@$$A6AXXZ@std@@@Z");
 	// std::function<void __cdecl(void)> const &callable;
@@ -40,7 +40,7 @@ _inline __int32 CEventSink<>::Subscribe(std::function<void __cdecl(void)> const 
 	return id;
 }
 
-_inline void CEventSink<>::PostEvent() // 0x108315F0
+inline void CEventSink<>::PostEvent() // 0x108315F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?PostEvent@?$CEventSink@$$V@@QAEXXZ");
 	// CEventSink<> *const this;
@@ -53,7 +53,7 @@ _inline void CEventSink<>::PostEvent() // 0x108315F0
 		entry.callback();
 }
 
-_inline void CEventSink<>::Reset() // 0x10831B70
+inline void CEventSink<>::Reset() // 0x10831B70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Reset@?$CEventSink@$$V@@QAEXXZ");
 	// CEventSink<> *const this;

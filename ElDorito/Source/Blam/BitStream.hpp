@@ -127,7 +127,7 @@ namespace Blam
 
 namespace Blam
 {
-	_inline __int32 BitStream::SizeBytes() const // 0x10ACE5C0
+	inline __int32 BitStream::SizeBytes() const // 0x10ACE5C0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?SizeBytes@BitStream@Blam@@QBEHXZ");
 		// Blam::BitStream const *const this;
@@ -135,7 +135,7 @@ namespace Blam
 		return m_dataSizeBytes;
 	}
 
-	_inline __int32 BitStream::StreamBitPosition() const // 0x10ACE5F0
+	inline __int32 BitStream::StreamBitPosition() const // 0x10ACE5F0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?StreamBitPosition@BitStream@Blam@@QBEHXZ");
 		// Blam::BitStream const *const this;
@@ -143,7 +143,7 @@ namespace Blam
 		return m_currentStreamBitPosition;
 	}
 
-	_inline bool BitStream::ReadBool() // 0x107F00A0
+	inline bool BitStream::ReadBool() // 0x107F00A0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?ReadBool@BitStream@Blam@@QAE_NXZ");
 		// Blam::BitStream *const this;
@@ -267,7 +267,7 @@ _inline void Blam::BitStream::WriteStringFixed(t_arg0 const (&str)[t_arg1])
 }
 namespace Blam
 {
-	_inline void BitStream::WriteBool(bool b) // 0x107F00F0
+	inline void BitStream::WriteBool(bool b) // 0x107F00F0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?WriteBool@BitStream@Blam@@QAEX_N@Z");
 		// bool b;
@@ -275,7 +275,7 @@ namespace Blam
 		WriteUnsigned(b, 1);
 	}
 
-	_inline __int32 BitStream::GetAvailableBits() const // 0x1092A1C0
+	inline __int32 BitStream::GetAvailableBits() const // 0x1092A1C0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetAvailableBits@BitStream@Blam@@ABEHXZ");
 		// Blam::BitStream const *const this;
@@ -283,7 +283,7 @@ namespace Blam
 		return 64 - m_accumulatorBitsUsed;
 	}
 
-	_inline bool BitStream::BitsAvailable(__int32 bits) const // 0x10929FA0
+	inline bool BitStream::BitsAvailable(__int32 bits) const // 0x10929FA0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?BitsAvailable@BitStream@Blam@@ABE_NH@Z");
 		// __int32 bits;

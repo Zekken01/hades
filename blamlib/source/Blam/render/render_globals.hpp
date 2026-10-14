@@ -33,7 +33,7 @@ static_assert(sizeof(c_render_globals) == 1, "Invalid c_render_globals size");
 
 /* ---------- public code */
 
-_inline float c_render_globals::get_frame_time() // 0x1081D1B0
+inline float c_render_globals::get_frame_time() // 0x1081D1B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_frame_time@c_render_globals@@SAMXZ");
 	// procedure flags: nofpo
@@ -41,7 +41,7 @@ _inline float c_render_globals::get_frame_time() // 0x1081D1B0
 	return *(float *)0x50e88f0;
 }
 
-_inline long c_render_globals::get_frame_index() // 0x108EFCB0
+inline long c_render_globals::get_frame_index() // 0x108EFCB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_frame_index@c_render_globals@@SAJXZ");
 	// procedure flags: nofpo

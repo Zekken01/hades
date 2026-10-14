@@ -128,7 +128,7 @@ namespace Http
 
 namespace Http
 {
-	_inline __int32 CWinHttpResponse::GetResponseCode() const // 0x10808B10
+	inline __int32 CWinHttpResponse::GetResponseCode() const // 0x10808B10
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetResponseCode@CWinHttpResponse@Http@@UBEHXZ");
 		// Http::CWinHttpResponse const *const this;
@@ -136,7 +136,7 @@ namespace Http
 		return m_responseCode;
 	}
 
-	_inline Http::CHttpHeaders const &CWinHttpResponse::GetHeaders() const // 0x10808A10
+	inline Http::CHttpHeaders const &CWinHttpResponse::GetHeaders() const // 0x10808A10
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetHeaders@CWinHttpResponse@Http@@UBEABVCHttpHeaders@2@XZ");
 		// Http::CWinHttpResponse const *const this;
@@ -144,7 +144,7 @@ namespace Http
 		return m_headers;
 	}
 
-	_inline void *CWinHttpRequest::GetRequestHandle() // 0x10808A40
+	inline void *CWinHttpRequest::GetRequestHandle() // 0x10808A40
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetRequestHandle@CWinHttpRequest@Http@@QAEPAXXZ");
 		// Http::CWinHttpRequest *const this;
@@ -152,7 +152,7 @@ namespace Http
 		return m_reqHandle.get();
 	}
 
-	_inline void CWinHttpRequest::SetOnCompleted(std::function<void __cdecl(std::shared_ptr<Http::IHttpRequest>,bool)> &&callback) // 0x1080A5F0
+	inline void CWinHttpRequest::SetOnCompleted(std::function<void __cdecl(std::shared_ptr<Http::IHttpRequest>,bool)> &&callback) // 0x1080A5F0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?SetOnCompleted@CWinHttpRequest@Http@@UAEX$$QAV?$function@$$A6AXV?$shared_ptr@VIHttpRequest@Http@@@std@@_N@Z@std@@@Z");
 		// std::function<void __cdecl(std::shared_ptr<Http::IHttpRequest>,bool)> &callback;
@@ -160,7 +160,7 @@ namespace Http
 		m_completedCallback = callback;
 	}
 
-	_inline void CWinHttpRequest::SetOnResponse(std::function<void __cdecl(std::shared_ptr<Http::IHttpRequest>)> &&callback) // 0x1080A650
+	inline void CWinHttpRequest::SetOnResponse(std::function<void __cdecl(std::shared_ptr<Http::IHttpRequest>)> &&callback) // 0x1080A650
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?SetOnResponse@CWinHttpRequest@Http@@UAEX$$QAV?$function@$$A6AXV?$shared_ptr@VIHttpRequest@Http@@@std@@@Z@std@@@Z");
 		// std::function<void __cdecl(std::shared_ptr<Http::IHttpRequest>)> &callback;

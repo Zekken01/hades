@@ -75,7 +75,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_SetVolume(FMOD_CHANNEL *ch
 
 /* ---------- public code */
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_System_CreateCodec(FMOD_SYSTEM *system, FMOD_CODEC_DESCRIPTION *description, unsigned int priority) // 0x106CBEA0
+extern "C" inline FMOD_RESULT __stdcall FMOD_System_CreateCodec(FMOD_SYSTEM *system, FMOD_CODEC_DESCRIPTION *description, unsigned int priority) // 0x106CBEA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_System_CreateCodec@12");
 	// unsigned __int32 priority;
@@ -86,7 +86,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_System_CreateCodec(FMOD_SYSTEM *sy
 	return _FMOD_System_CreateCodec(system, description, priority);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_System_CreateSound(FMOD_SYSTEM *system, const char *name_or_data, FMOD_MODE mode, FMOD_CREATESOUNDEXINFO *exinfo, FMOD_SOUND **sound) // 0x106CBF10
+extern "C" inline FMOD_RESULT __stdcall FMOD_System_CreateSound(FMOD_SYSTEM *system, const char *name_or_data, FMOD_MODE mode, FMOD_CREATESOUNDEXINFO *exinfo, FMOD_SOUND **sound) // 0x106CBF10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_System_CreateSound@20");
 	// FMOD_SOUND **sound;
@@ -97,7 +97,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_System_CreateSound(FMOD_SYSTEM *sy
 	return _FMOD_System_CreateSound(system, name_or_data, mode, exinfo, sound);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_System_CreateStream(FMOD_SYSTEM *system, const char *name_or_data, FMOD_MODE mode, FMOD_CREATESOUNDEXINFO *exinfo, FMOD_SOUND **sound) // 0x10A36FC0
+extern "C" inline FMOD_RESULT __stdcall FMOD_System_CreateStream(FMOD_SYSTEM *system, const char *name_or_data, FMOD_MODE mode, FMOD_CREATESOUNDEXINFO *exinfo, FMOD_SOUND **sound) // 0x10A36FC0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_System_CreateStream@20");
 	// FMOD_SOUND **sound;
@@ -108,7 +108,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_System_CreateStream(FMOD_SYSTEM *s
 	return _FMOD_System_CreateStream(system, name_or_data, mode, exinfo, sound);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_System_Get3DNumListeners(FMOD_SYSTEM *system, int *numlisteners) // 0x10A37040
+extern "C" inline FMOD_RESULT __stdcall FMOD_System_Get3DNumListeners(FMOD_SYSTEM *system, int *numlisteners) // 0x10A37040
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_System_Get3DNumListeners@8");
 	// __int32 *numlisteners;
@@ -119,7 +119,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_System_Get3DNumListeners(FMOD_SYST
 	return _FMOD_System_Get3DNumListeners(system, numlisteners);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_System_GetAdvancedSettings(FMOD_SYSTEM *system, FMOD_ADVANCEDSETTINGS *settings) // 0x10A370B0
+extern "C" inline FMOD_RESULT __stdcall FMOD_System_GetAdvancedSettings(FMOD_SYSTEM *system, FMOD_ADVANCEDSETTINGS *settings) // 0x10A370B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_System_GetAdvancedSettings@8");
 	// FMOD_ADVANCEDSETTINGS *settings;
@@ -130,7 +130,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_System_GetAdvancedSettings(FMOD_SY
 	return _FMOD_System_GetAdvancedSettings(system, settings);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_System_GetCPUUsage(FMOD_SYSTEM *system, float *dsp, float *stream, float *geometry, float *update, float *total) // 0x10A37120
+extern "C" inline FMOD_RESULT __stdcall FMOD_System_GetCPUUsage(FMOD_SYSTEM *system, float *dsp, float *stream, float *geometry, float *update, float *total) // 0x10A37120
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_System_GetCPUUsage@24");
 	// float *total;
@@ -141,7 +141,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_System_GetCPUUsage(FMOD_SYSTEM *sy
 	return _FMOD_System_GetCPUUsage(system, dsp, stream, geometry, update, total);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_System_GetChannelsPlaying(FMOD_SYSTEM *system, int *channels) // 0x10A371A0
+extern "C" inline FMOD_RESULT __stdcall FMOD_System_GetChannelsPlaying(FMOD_SYSTEM *system, int *channels) // 0x10A371A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_System_GetChannelsPlaying@8");
 	// __int32 *channels;
@@ -152,7 +152,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_System_GetChannelsPlaying(FMOD_SYS
 	return _FMOD_System_GetChannelsPlaying(system, channels);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_System_GetDSPClock(FMOD_SYSTEM *system, unsigned int *hi, unsigned int *lo) // 0x10A37210
+extern "C" inline FMOD_RESULT __stdcall FMOD_System_GetDSPClock(FMOD_SYSTEM *system, unsigned int *hi, unsigned int *lo) // 0x10A37210
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_System_GetDSPClock@12");
 	// unsigned __int32 *lo;
@@ -163,7 +163,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_System_GetDSPClock(FMOD_SYSTEM *sy
 	return _FMOD_System_GetDSPClock(system, hi, lo);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_System_GetDriverCaps(FMOD_SYSTEM *system, int id, FMOD_CAPS *caps, int *minfrequency, int *maxfrequency, FMOD_SPEAKERMODE *controlpanelspeakermode) // 0x10A37280
+extern "C" inline FMOD_RESULT __stdcall FMOD_System_GetDriverCaps(FMOD_SYSTEM *system, int id, FMOD_CAPS *caps, int *minfrequency, int *maxfrequency, FMOD_SPEAKERMODE *controlpanelspeakermode) // 0x10A37280
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_System_GetDriverCaps@24");
 	// FMOD_SPEAKERMODE *controlpanelspeakermode;
@@ -174,7 +174,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_System_GetDriverCaps(FMOD_SYSTEM *
 	return _FMOD_System_GetDriverCaps(system, id, caps, minfrequency, maxfrequency, controlpanelspeakermode);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_System_GetDriverInfo(FMOD_SYSTEM *system, int id, char *name, int namelen, FMOD_GUID *guid) // 0x10A37300
+extern "C" inline FMOD_RESULT __stdcall FMOD_System_GetDriverInfo(FMOD_SYSTEM *system, int id, char *name, int namelen, FMOD_GUID *guid) // 0x10A37300
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_System_GetDriverInfo@20");
 	// FMOD_GUID *guid;
@@ -185,7 +185,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_System_GetDriverInfo(FMOD_SYSTEM *
 	return _FMOD_System_GetDriverInfo(system, id, name, namelen, guid);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_System_GetMemoryInfo(FMOD_SYSTEM *system, unsigned int memorybits, unsigned int event_memorybits, unsigned int *memoryused, unsigned int *memoryused_array) // 0x10A37380
+extern "C" inline FMOD_RESULT __stdcall FMOD_System_GetMemoryInfo(FMOD_SYSTEM *system, unsigned int memorybits, unsigned int event_memorybits, unsigned int *memoryused, unsigned int *memoryused_array) // 0x10A37380
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_System_GetMemoryInfo@20");
 	// unsigned __int32 *memoryused_array;
@@ -196,7 +196,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_System_GetMemoryInfo(FMOD_SYSTEM *
 	return _FMOD_System_GetMemoryInfo(system, memorybits, event_memorybits, memoryused, memoryused_array);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_System_GetNumDrivers(FMOD_SYSTEM *system, int *numdrivers) // 0x10A37400
+extern "C" inline FMOD_RESULT __stdcall FMOD_System_GetNumDrivers(FMOD_SYSTEM *system, int *numdrivers) // 0x10A37400
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_System_GetNumDrivers@8");
 	// __int32 *numdrivers;
@@ -207,7 +207,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_System_GetNumDrivers(FMOD_SYSTEM *
 	return _FMOD_System_GetNumDrivers(system, numdrivers);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_System_GetOutput(FMOD_SYSTEM *system, FMOD_OUTPUTTYPE *output) // 0x10A37470
+extern "C" inline FMOD_RESULT __stdcall FMOD_System_GetOutput(FMOD_SYSTEM *system, FMOD_OUTPUTTYPE *output) // 0x10A37470
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_System_GetOutput@8");
 	// FMOD_OUTPUTTYPE *output;
@@ -218,7 +218,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_System_GetOutput(FMOD_SYSTEM *syst
 	return _FMOD_System_GetOutput(system, output);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_System_GetSoftwareChannels(FMOD_SYSTEM *system, int *numsoftwarechannels) // 0x10A374E0
+extern "C" inline FMOD_RESULT __stdcall FMOD_System_GetSoftwareChannels(FMOD_SYSTEM *system, int *numsoftwarechannels) // 0x10A374E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_System_GetSoftwareChannels@8");
 	// __int32 *numsoftwarechannels;
@@ -229,7 +229,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_System_GetSoftwareChannels(FMOD_SY
 	return _FMOD_System_GetSoftwareChannels(system, numsoftwarechannels);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_System_GetVersion(FMOD_SYSTEM *system, unsigned int *version) // 0x10A37550
+extern "C" inline FMOD_RESULT __stdcall FMOD_System_GetVersion(FMOD_SYSTEM *system, unsigned int *version) // 0x10A37550
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_System_GetVersion@8");
 	// unsigned __int32 *version;
@@ -240,7 +240,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_System_GetVersion(FMOD_SYSTEM *sys
 	return _FMOD_System_GetVersion(system, version);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_System_LockDSP(FMOD_SYSTEM *system) // 0x10A375C0
+extern "C" inline FMOD_RESULT __stdcall FMOD_System_LockDSP(FMOD_SYSTEM *system) // 0x10A375C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_System_LockDSP@4");
 	// FMOD_SYSTEM *system;
@@ -251,7 +251,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_System_LockDSP(FMOD_SYSTEM *system
 	return _FMOD_System_LockDSP(system);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_System_PlaySound(FMOD_SYSTEM *system, FMOD_CHANNELINDEX channelid, FMOD_SOUND *sound, FMOD_BOOL paused, FMOD_CHANNEL **channel) // 0x10A37620
+extern "C" inline FMOD_RESULT __stdcall FMOD_System_PlaySound(FMOD_SYSTEM *system, FMOD_CHANNELINDEX channelid, FMOD_SOUND *sound, FMOD_BOOL paused, FMOD_CHANNEL **channel) // 0x10A37620
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_System_PlaySound@20");
 	// FMOD_CHANNEL **channel;
@@ -262,7 +262,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_System_PlaySound(FMOD_SYSTEM *syst
 	return _FMOD_System_PlaySound(system, channelid, sound, *(bool *)&paused, channel);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_System_SetAdvancedSettings(FMOD_SYSTEM *system, FMOD_ADVANCEDSETTINGS *settings) // 0x10A376A0
+extern "C" inline FMOD_RESULT __stdcall FMOD_System_SetAdvancedSettings(FMOD_SYSTEM *system, FMOD_ADVANCEDSETTINGS *settings) // 0x10A376A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_System_SetAdvancedSettings@8");
 	// FMOD_ADVANCEDSETTINGS *settings;
@@ -273,7 +273,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_System_SetAdvancedSettings(FMOD_SY
 	return _FMOD_System_SetAdvancedSettings(system, settings);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_System_SetDSPBufferSize(FMOD_SYSTEM *system, unsigned int bufferlength, int numbuffers) // 0x10A37710
+extern "C" inline FMOD_RESULT __stdcall FMOD_System_SetDSPBufferSize(FMOD_SYSTEM *system, unsigned int bufferlength, int numbuffers) // 0x10A37710
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_System_SetDSPBufferSize@12");
 	// __int32 numbuffers;
@@ -284,7 +284,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_System_SetDSPBufferSize(FMOD_SYSTE
 	return _FMOD_System_SetDSPBufferSize(system, bufferlength, numbuffers);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_System_SetDriver(FMOD_SYSTEM *system, int driver) // 0x10A37780
+extern "C" inline FMOD_RESULT __stdcall FMOD_System_SetDriver(FMOD_SYSTEM *system, int driver) // 0x10A37780
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_System_SetDriver@8");
 	// __int32 driver;
@@ -295,7 +295,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_System_SetDriver(FMOD_SYSTEM *syst
 	return _FMOD_System_SetDriver(system, driver);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_System_SetHardwareChannels(FMOD_SYSTEM *system, int min2d, int max2d, int min3d, int max3d) // 0x10A377F0
+extern "C" inline FMOD_RESULT __stdcall FMOD_System_SetHardwareChannels(FMOD_SYSTEM *system, int min2d, int max2d, int min3d, int max3d) // 0x10A377F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_System_SetHardwareChannels@20");
 	// __int32 max3d;
@@ -306,7 +306,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_System_SetHardwareChannels(FMOD_SY
 	return _FMOD_System_SetHardwareChannels(system, min2d, max2d, min3d, max3d);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_System_SetOutput(FMOD_SYSTEM *system, FMOD_OUTPUTTYPE output) // 0x10A37870
+extern "C" inline FMOD_RESULT __stdcall FMOD_System_SetOutput(FMOD_SYSTEM *system, FMOD_OUTPUTTYPE output) // 0x10A37870
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_System_SetOutput@8");
 	// FMOD_OUTPUTTYPE output;
@@ -317,7 +317,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_System_SetOutput(FMOD_SYSTEM *syst
 	return _FMOD_System_SetOutput(system, output);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_System_SetSoftwareChannels(FMOD_SYSTEM *system, int numsoftwarechannels) // 0x10A378E0
+extern "C" inline FMOD_RESULT __stdcall FMOD_System_SetSoftwareChannels(FMOD_SYSTEM *system, int numsoftwarechannels) // 0x10A378E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_System_SetSoftwareChannels@8");
 	// __int32 numsoftwarechannels;
@@ -328,7 +328,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_System_SetSoftwareChannels(FMOD_SY
 	return _FMOD_System_SetSoftwareChannels(system, numsoftwarechannels);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_System_SetSpeakerMode(FMOD_SYSTEM *system, FMOD_SPEAKERMODE speakermode) // 0x10A37950
+extern "C" inline FMOD_RESULT __stdcall FMOD_System_SetSpeakerMode(FMOD_SYSTEM *system, FMOD_SPEAKERMODE speakermode) // 0x10A37950
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_System_SetSpeakerMode@8");
 	// FMOD_SPEAKERMODE speakermode;
@@ -339,7 +339,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_System_SetSpeakerMode(FMOD_SYSTEM 
 	return _FMOD_System_SetSpeakerMode(system, speakermode);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_System_UnlockDSP(FMOD_SYSTEM *system) // 0x10A379C0
+extern "C" inline FMOD_RESULT __stdcall FMOD_System_UnlockDSP(FMOD_SYSTEM *system) // 0x10A379C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_System_UnlockDSP@4");
 	// FMOD_SYSTEM *system;
@@ -350,7 +350,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_System_UnlockDSP(FMOD_SYSTEM *syst
 	return _FMOD_System_UnlockDSP(system);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_Sound_GetDefaults(FMOD_SOUND *sound, float *frequency, float *volume, float *pan, int *priority) // 0x10A36DE0
+extern "C" inline FMOD_RESULT __stdcall FMOD_Sound_GetDefaults(FMOD_SOUND *sound, float *frequency, float *volume, float *pan, int *priority) // 0x10A36DE0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_Sound_GetDefaults@20");
 	// __int32 *priority;
@@ -361,7 +361,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_Sound_GetDefaults(FMOD_SOUND *soun
 	return _FMOD_Sound_GetDefaults(sound, frequency, volume, pan, priority);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_Sound_GetFormat(FMOD_SOUND *sound, FMOD_SOUND_TYPE *type, FMOD_SOUND_FORMAT *format, int *channels, int *bits) // 0x10A36E60
+extern "C" inline FMOD_RESULT __stdcall FMOD_Sound_GetFormat(FMOD_SOUND *sound, FMOD_SOUND_TYPE *type, FMOD_SOUND_FORMAT *format, int *channels, int *bits) // 0x10A36E60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_Sound_GetFormat@20");
 	// __int32 *bits;
@@ -372,7 +372,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_Sound_GetFormat(FMOD_SOUND *sound,
 	return _FMOD_Sound_GetFormat(sound, type, format, channels, bits);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_Sound_GetLength(FMOD_SOUND *sound, unsigned int *length, FMOD_TIMEUNIT lengthtype) // 0x10A36EE0
+extern "C" inline FMOD_RESULT __stdcall FMOD_Sound_GetLength(FMOD_SOUND *sound, unsigned int *length, FMOD_TIMEUNIT lengthtype) // 0x10A36EE0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_Sound_GetLength@12");
 	// unsigned __int32 lengthtype;
@@ -383,7 +383,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_Sound_GetLength(FMOD_SOUND *sound,
 	return _FMOD_Sound_GetLength(sound, length, lengthtype);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_Sound_GetUserData(FMOD_SOUND *sound, void **userdata) // 0x10A36F50
+extern "C" inline FMOD_RESULT __stdcall FMOD_Sound_GetUserData(FMOD_SOUND *sound, void **userdata) // 0x10A36F50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_Sound_GetUserData@8");
 	// void **userdata;
@@ -394,7 +394,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_Sound_GetUserData(FMOD_SOUND *soun
 	return _FMOD_Sound_GetUserData(sound, userdata);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_Get3DMinMaxDistance(FMOD_CHANNEL *channel, float *mindistance, float *maxdistance) // 0x10A36330
+extern "C" inline FMOD_RESULT __stdcall FMOD_Channel_Get3DMinMaxDistance(FMOD_CHANNEL *channel, float *mindistance, float *maxdistance) // 0x10A36330
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_Channel_Get3DMinMaxDistance@12");
 	// float *maxdistance;
@@ -405,7 +405,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_Get3DMinMaxDistance(FMOD_C
 	return _FMOD_Channel_Get3DMinMaxDistance(channel, mindistance, maxdistance);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_GetCurrentSound(FMOD_CHANNEL *channel, FMOD_SOUND **sound) // 0x10A363A0
+extern "C" inline FMOD_RESULT __stdcall FMOD_Channel_GetCurrentSound(FMOD_CHANNEL *channel, FMOD_SOUND **sound) // 0x10A363A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_Channel_GetCurrentSound@8");
 	// FMOD_SOUND **sound;
@@ -416,7 +416,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_GetCurrentSound(FMOD_CHANN
 	return _FMOD_Channel_GetCurrentSound(channel, sound);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_GetDelay(FMOD_CHANNEL *channel, FMOD_DELAYTYPE delaytype, unsigned int *delayhi, unsigned int *delaylo) // 0x10A36410
+extern "C" inline FMOD_RESULT __stdcall FMOD_Channel_GetDelay(FMOD_CHANNEL *channel, FMOD_DELAYTYPE delaytype, unsigned int *delayhi, unsigned int *delaylo) // 0x10A36410
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_Channel_GetDelay@16");
 	// unsigned __int32 *delaylo;
@@ -427,7 +427,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_GetDelay(FMOD_CHANNEL *cha
 	return _FMOD_Channel_GetDelay(channel, delaytype, delayhi, delaylo);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_GetFrequency(FMOD_CHANNEL *channel, float *frequency) // 0x10A36480
+extern "C" inline FMOD_RESULT __stdcall FMOD_Channel_GetFrequency(FMOD_CHANNEL *channel, float *frequency) // 0x10A36480
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_Channel_GetFrequency@8");
 	// float *frequency;
@@ -438,7 +438,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_GetFrequency(FMOD_CHANNEL 
 	return _FMOD_Channel_GetFrequency(channel, frequency);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_GetPosition(FMOD_CHANNEL *channel, unsigned int *position, FMOD_TIMEUNIT postype) // 0x10A364F0
+extern "C" inline FMOD_RESULT __stdcall FMOD_Channel_GetPosition(FMOD_CHANNEL *channel, unsigned int *position, FMOD_TIMEUNIT postype) // 0x10A364F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_Channel_GetPosition@12");
 	// unsigned __int32 postype;
@@ -449,7 +449,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_GetPosition(FMOD_CHANNEL *
 	return _FMOD_Channel_GetPosition(channel, position, postype);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_IsPlaying(FMOD_CHANNEL *channel, FMOD_BOOL *isplaying) // 0x10A36560
+extern "C" inline FMOD_RESULT __stdcall FMOD_Channel_IsPlaying(FMOD_CHANNEL *channel, FMOD_BOOL *isplaying) // 0x10A36560
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_Channel_IsPlaying@8");
 	// bool *isplaying;
@@ -460,7 +460,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_IsPlaying(FMOD_CHANNEL *ch
 	return _FMOD_Channel_IsPlaying(channel, (bool *)isplaying);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_Set3DAttributes(FMOD_CHANNEL *channel, const FMOD_VECTOR *pos, const FMOD_VECTOR *vel) // 0x10A365D0
+extern "C" inline FMOD_RESULT __stdcall FMOD_Channel_Set3DAttributes(FMOD_CHANNEL *channel, const FMOD_VECTOR *pos, const FMOD_VECTOR *vel) // 0x10A365D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_Channel_Set3DAttributes@12");
 	// FMOD_VECTOR const *vel;
@@ -471,7 +471,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_Set3DAttributes(FMOD_CHANN
 	return _FMOD_Channel_Set3DAttributes(channel, pos, vel);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_Set3DConeOrientation(FMOD_CHANNEL *channel, FMOD_VECTOR *orientation) // 0x10A36640
+extern "C" inline FMOD_RESULT __stdcall FMOD_Channel_Set3DConeOrientation(FMOD_CHANNEL *channel, FMOD_VECTOR *orientation) // 0x10A36640
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_Channel_Set3DConeOrientation@8");
 	// FMOD_VECTOR *orientation;
@@ -482,7 +482,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_Set3DConeOrientation(FMOD_
 	return _FMOD_Channel_Set3DConeOrientation(channel, orientation);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_Set3DConeSettings(FMOD_CHANNEL *channel, float insideconeangle, float outsideconeangle, float outsidevolume) // 0x10A366B0
+extern "C" inline FMOD_RESULT __stdcall FMOD_Channel_Set3DConeSettings(FMOD_CHANNEL *channel, float insideconeangle, float outsideconeangle, float outsidevolume) // 0x10A366B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_Channel_Set3DConeSettings@16");
 	// float outsidevolume;
@@ -493,7 +493,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_Set3DConeSettings(FMOD_CHA
 	return _FMOD_Channel_Set3DConeSettings(channel, insideconeangle, outsideconeangle, outsidevolume);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_Set3DDopplerLevel(FMOD_CHANNEL *channel, float level) // 0x10A36740
+extern "C" inline FMOD_RESULT __stdcall FMOD_Channel_Set3DDopplerLevel(FMOD_CHANNEL *channel, float level) // 0x10A36740
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_Channel_Set3DDopplerLevel@8");
 	// float level;
@@ -504,7 +504,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_Set3DDopplerLevel(FMOD_CHA
 	return _FMOD_Channel_Set3DDopplerLevel(channel, level);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_Set3DMinMaxDistance(FMOD_CHANNEL *channel, float mindistance, float maxdistance) // 0x10A367B0
+extern "C" inline FMOD_RESULT __stdcall FMOD_Channel_Set3DMinMaxDistance(FMOD_CHANNEL *channel, float mindistance, float maxdistance) // 0x10A367B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_Channel_Set3DMinMaxDistance@12");
 	// float maxdistance;
@@ -515,7 +515,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_Set3DMinMaxDistance(FMOD_C
 	return _FMOD_Channel_Set3DMinMaxDistance(channel, mindistance, maxdistance);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_Set3DOcclusion(FMOD_CHANNEL *channel, float directocclusion, float reverbocclusion) // 0x10A36830
+extern "C" inline FMOD_RESULT __stdcall FMOD_Channel_Set3DOcclusion(FMOD_CHANNEL *channel, float directocclusion, float reverbocclusion) // 0x10A36830
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_Channel_Set3DOcclusion@12");
 	// float reverbocclusion;
@@ -526,7 +526,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_Set3DOcclusion(FMOD_CHANNE
 	return _FMOD_Channel_Set3DOcclusion(channel, directocclusion, reverbocclusion);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_Set3DSpread(FMOD_CHANNEL *channel, float angle) // 0x10A368B0
+extern "C" inline FMOD_RESULT __stdcall FMOD_Channel_Set3DSpread(FMOD_CHANNEL *channel, float angle) // 0x10A368B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_Channel_Set3DSpread@8");
 	// float angle;
@@ -537,7 +537,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_Set3DSpread(FMOD_CHANNEL *
 	return _FMOD_Channel_Set3DSpread(channel, angle);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_SetChannelGroup(FMOD_CHANNEL *channel, FMOD_CHANNELGROUP *channelgroup) // 0x10A36920
+extern "C" inline FMOD_RESULT __stdcall FMOD_Channel_SetChannelGroup(FMOD_CHANNEL *channel, FMOD_CHANNELGROUP *channelgroup) // 0x10A36920
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_Channel_SetChannelGroup@8");
 	// FMOD_CHANNELGROUP *channelgroup;
@@ -548,7 +548,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_SetChannelGroup(FMOD_CHANN
 	return _FMOD_Channel_SetChannelGroup(channel, channelgroup);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_SetDelay(FMOD_CHANNEL *channel, FMOD_DELAYTYPE delaytype, unsigned int delayhi, unsigned int delaylo) // 0x10A36990
+extern "C" inline FMOD_RESULT __stdcall FMOD_Channel_SetDelay(FMOD_CHANNEL *channel, FMOD_DELAYTYPE delaytype, unsigned int delayhi, unsigned int delaylo) // 0x10A36990
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_Channel_SetDelay@16");
 	// unsigned __int32 delaylo;
@@ -559,7 +559,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_SetDelay(FMOD_CHANNEL *cha
 	return _FMOD_Channel_SetDelay(channel, delaytype, delayhi, delaylo);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_SetFrequency(FMOD_CHANNEL *channel, float frequency) // 0x10A36A00
+extern "C" inline FMOD_RESULT __stdcall FMOD_Channel_SetFrequency(FMOD_CHANNEL *channel, float frequency) // 0x10A36A00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_Channel_SetFrequency@8");
 	// float frequency;
@@ -570,7 +570,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_SetFrequency(FMOD_CHANNEL 
 	return _FMOD_Channel_SetFrequency(channel, frequency);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_SetMode(FMOD_CHANNEL *channel, FMOD_MODE mode) // 0x10A36A70
+extern "C" inline FMOD_RESULT __stdcall FMOD_Channel_SetMode(FMOD_CHANNEL *channel, FMOD_MODE mode) // 0x10A36A70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_Channel_SetMode@8");
 	// unsigned __int32 mode;
@@ -581,7 +581,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_SetMode(FMOD_CHANNEL *chan
 	return _FMOD_Channel_SetMode(channel, mode);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_SetPaused(FMOD_CHANNEL *channel, FMOD_BOOL paused) // 0x10A36AE0
+extern "C" inline FMOD_RESULT __stdcall FMOD_Channel_SetPaused(FMOD_CHANNEL *channel, FMOD_BOOL paused) // 0x10A36AE0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_Channel_SetPaused@8");
 	// bool paused;
@@ -592,7 +592,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_SetPaused(FMOD_CHANNEL *ch
 	return _FMOD_Channel_SetPaused(channel, *(bool *)&paused);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_SetPosition(FMOD_CHANNEL *channel, unsigned int position, FMOD_TIMEUNIT postype) // 0x10A36B50
+extern "C" inline FMOD_RESULT __stdcall FMOD_Channel_SetPosition(FMOD_CHANNEL *channel, unsigned int position, FMOD_TIMEUNIT postype) // 0x10A36B50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_Channel_SetPosition@12");
 	// unsigned __int32 postype;
@@ -603,7 +603,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_SetPosition(FMOD_CHANNEL *
 	return _FMOD_Channel_SetPosition(channel, position, postype);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_SetReverbProperties(FMOD_CHANNEL *channel, const FMOD_REVERB_CHANNELPROPERTIES *prop) // 0x10A36BC0
+extern "C" inline FMOD_RESULT __stdcall FMOD_Channel_SetReverbProperties(FMOD_CHANNEL *channel, const FMOD_REVERB_CHANNELPROPERTIES *prop) // 0x10A36BC0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_Channel_SetReverbProperties@8");
 	// FMOD_REVERB_CHANNELPROPERTIES const *prop;
@@ -614,7 +614,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_SetReverbProperties(FMOD_C
 	return _FMOD_Channel_SetReverbProperties(channel, prop);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_SetSpeakerLevels(FMOD_CHANNEL *channel, FMOD_SPEAKER speaker, float *levels, int numlevels) // 0x10A36C30
+extern "C" inline FMOD_RESULT __stdcall FMOD_Channel_SetSpeakerLevels(FMOD_CHANNEL *channel, FMOD_SPEAKER speaker, float *levels, int numlevels) // 0x10A36C30
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_Channel_SetSpeakerLevels@16");
 	// __int32 numlevels;
@@ -625,7 +625,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_SetSpeakerLevels(FMOD_CHAN
 	return _FMOD_Channel_SetSpeakerLevels(channel, speaker, levels, numlevels);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_SetSpeakerMix(FMOD_CHANNEL *channel, float frontleft, float frontright, float center, float lfe, float backleft, float backright, float sideleft, float sideright) // 0x10A36CA0
+extern "C" inline FMOD_RESULT __stdcall FMOD_Channel_SetSpeakerMix(FMOD_CHANNEL *channel, float frontleft, float frontright, float center, float lfe, float backleft, float backright, float sideleft, float sideright) // 0x10A36CA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_Channel_SetSpeakerMix@36");
 	// float sideright;
@@ -636,7 +636,7 @@ extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_SetSpeakerMix(FMOD_CHANNEL
 	return _FMOD_Channel_SetSpeakerMix(channel, frontleft, frontright, center, lfe, backleft, backright, sideleft, sideright);
 }
 
-extern "C" _inline FMOD_RESULT __stdcall FMOD_Channel_SetVolume(FMOD_CHANNEL *channel, float volume) // 0x10A36D70
+extern "C" inline FMOD_RESULT __stdcall FMOD_Channel_SetVolume(FMOD_CHANNEL *channel, float volume) // 0x10A36D70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_FMOD_Channel_SetVolume@8");
 	// float volume;

@@ -101,13 +101,13 @@ namespace Web
 	{
 
 
-		_inline void RenderHandlerCpu::Shutdown() // 0x10CEA280
+		inline void RenderHandlerCpu::Shutdown() // 0x10CEA280
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Shutdown@RenderHandlerCpu@Browser@Web@@UAEXXZ");
 			// Web::Browser::RenderHandlerCpu *const this;
 		}
 
-		_inline void RenderHandlerCpu::AddRef() const // 0x10CE8880
+		inline void RenderHandlerCpu::AddRef() const // 0x10CE8880
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?AddRef@RenderHandlerCpu@Browser@Web@@UBEXXZ");
 			// __shifted(Web::Browser::RenderHandlerCpu, 168);
@@ -116,7 +116,7 @@ namespace Web
 			ref_count_.AddRef();
 		}
 
-		_inline bool RenderHandlerCpu::HasAtLeastOneRef() const // 0x10CE89B0
+		inline bool RenderHandlerCpu::HasAtLeastOneRef() const // 0x10CE89B0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?HasAtLeastOneRef@RenderHandlerCpu@Browser@Web@@UBE_NXZ");
 			// __shifted(Web::Browser::RenderHandlerCpu, 168);
@@ -125,7 +125,7 @@ namespace Web
 			return ref_count_.HasAtLeastOneRef();
 		}
 
-		_inline bool RenderHandlerCpu::HasOneRef() const // 0x10CE8A10
+		inline bool RenderHandlerCpu::HasOneRef() const // 0x10CE8A10
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?HasOneRef@RenderHandlerCpu@Browser@Web@@UBE_NXZ");
 			// __shifted(Web::Browser::RenderHandlerCpu, 168);
@@ -134,7 +134,7 @@ namespace Web
 			return ref_count_.HasOneRef();
 		}
 
-		_inline bool RenderHandlerCpu::Release() const // 0x10CE9890
+		inline bool RenderHandlerCpu::Release() const // 0x10CE9890
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Release@RenderHandlerCpu@Browser@Web@@UBE_NXZ");
 			// __shifted(Web::Browser::RenderHandlerCpu, 168);

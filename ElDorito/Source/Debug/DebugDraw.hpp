@@ -97,7 +97,7 @@ struct CDebugDrawBackend
 static_assert(sizeof(CDebugDrawBackend) == 1, "Invalid CDebugDrawBackend size");
 
 #line 75
-class /*exported*/ CDebugDraw
+class HADES_EXPORT CDebugDraw
 #line 100
 {
 public:
@@ -111,7 +111,7 @@ public:
 	static long const COLOR_CYAN;
 	static long const COLOR_ORANGE;
 	CDebugDraw(CDebugDraw const &);
-	__declspec(dllexport) CDebugDraw(std::source_location loc = std::source_location::current());
+	inline CDebugDraw(std::source_location loc = std::source_location::current());
 	_inline CDebugDraw(char const *name);
 	_inline void SetLifetime(float seconds);
 	_inline void SetFont(long id);
@@ -159,7 +159,7 @@ extern _inline bool operator==(DebugDrawKey const &a, DebugDrawKey const &b);
 
 /* ---------- public code */
 
-_inline DebugDrawKey::DebugDrawKey(char const *name_, unsigned __int32 id_) // 0x10817E20
+inline DebugDrawKey::DebugDrawKey(char const *name_, unsigned __int32 id_) // 0x10817E20
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0DebugDrawKey@@QAE@PBDI@Z");
 	// unsigned __int32 id_;
@@ -168,7 +168,7 @@ _inline DebugDrawKey::DebugDrawKey(char const *name_, unsigned __int32 id_) // 0
 	id = id_;
 }
 
-_inline DebugDrawKey::operator bool() // 0x10818580
+inline DebugDrawKey::operator bool() // 0x10818580
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??BDebugDrawKey@@QAE_NXZ");
 	// DebugDrawKey *const this;
@@ -176,7 +176,7 @@ _inline DebugDrawKey::operator bool() // 0x10818580
 	return name != nullptr;
 }
 
-_inline bool operator==(DebugDrawKey const &a, DebugDrawKey const &b) // 0x10818520
+inline bool operator==(DebugDrawKey const &a, DebugDrawKey const &b) // 0x10818520
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??8@YA_NABUDebugDrawKey@@0@Z");
 	// DebugDrawKey const &b;
@@ -184,7 +184,7 @@ _inline bool operator==(DebugDrawKey const &a, DebugDrawKey const &b) // 0x10818
 	return a.name == b.name && a.id == b.id;
 }
 
-_inline CDebugDraw::CDebugDraw(char const *name) // 0x10817D20
+inline CDebugDraw::CDebugDraw(char const *name) // 0x10817D20
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0CDebugDraw@@QAE@PBD@Z");
 	// char const *name;
@@ -196,7 +196,7 @@ _inline CDebugDraw::CDebugDraw(char const *name) // 0x10817D20
 	m_depthTest = true;
 }
 
-_inline CDebugDraw::CDebugDraw(std::source_location loc) // 0x10817D90
+inline CDebugDraw::CDebugDraw(std::source_location loc) // 0x10817D90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0CDebugDraw@@QAE@Usource_location@std@@@Z");
 	// std::source_location loc;
@@ -208,7 +208,7 @@ _inline CDebugDraw::CDebugDraw(std::source_location loc) // 0x10817D90
 	m_depthTest = true;
 }
 
-_inline void CDebugDraw::SetLifetime(float seconds) // 0x1081CC20
+inline void CDebugDraw::SetLifetime(float seconds) // 0x1081CC20
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SetLifetime@CDebugDraw@@QAEXM@Z");
 	// float seconds;
@@ -216,7 +216,7 @@ _inline void CDebugDraw::SetLifetime(float seconds) // 0x1081CC20
 	m_lifetime = seconds;
 }
 
-_inline void CDebugDraw::SetFont(long id) // 0x1081CB40
+inline void CDebugDraw::SetFont(long id) // 0x1081CB40
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SetFont@CDebugDraw@@QAEXJ@Z");
 	// long id;
@@ -224,7 +224,7 @@ _inline void CDebugDraw::SetFont(long id) // 0x1081CB40
 	m_fontId = id;
 }
 
-_inline void CDebugDraw::SetTextScale(float scale) // 0x1081CD00
+inline void CDebugDraw::SetTextScale(float scale) // 0x1081CD00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SetTextScale@CDebugDraw@@QAEXM@Z");
 	// float scale;
@@ -232,7 +232,7 @@ _inline void CDebugDraw::SetTextScale(float scale) // 0x1081CD00
 	m_textScale = scale;
 }
 
-_inline void CDebugDraw::SetDepthTest(bool enable) // 0x1081CA70
+inline void CDebugDraw::SetDepthTest(bool enable) // 0x1081CA70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SetDepthTest@CDebugDraw@@QAEX_N@Z");
 	// bool enable;
@@ -240,7 +240,7 @@ _inline void CDebugDraw::SetDepthTest(bool enable) // 0x1081CA70
 	m_depthTest = enable;
 }
 
-_inline void CDebugDraw::Clear(DebugDrawKey key) // 0x10818E30
+inline void CDebugDraw::Clear(DebugDrawKey key) // 0x10818E30
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Clear@CDebugDraw@@QAEXUDebugDrawKey@@@Z");
 	// DebugDrawKey key;
@@ -248,7 +248,7 @@ _inline void CDebugDraw::Clear(DebugDrawKey key) // 0x10818E30
 	CDebugDrawBackend::Clear(m_name, key);
 }
 
-_inline void CDebugDraw::DrawPoint(DebugDrawKey key, real_point3d const &point, float size, long color) // 0x1081AA60
+inline void CDebugDraw::DrawPoint(DebugDrawKey key, real_point3d const &point, float size, long color) // 0x1081AA60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawPoint@CDebugDraw@@QAEXUDebugDrawKey@@ABUreal_point3d@@MJ@Z");
 	// DebugDrawKey key;
@@ -261,7 +261,7 @@ _inline void CDebugDraw::DrawPoint(DebugDrawKey key, real_point3d const &point, 
 	CDebugDrawBackend::DrawPoint(point, size, color);
 }
 
-_inline void CDebugDraw::DrawLine(DebugDrawKey key, real_point3d const &p1, real_point3d const &p2, long color) // 0x1081A050
+inline void CDebugDraw::DrawLine(DebugDrawKey key, real_point3d const &p1, real_point3d const &p2, long color) // 0x1081A050
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawLine@CDebugDraw@@QAEXUDebugDrawKey@@ABUreal_point3d@@1J@Z");
 	// DebugDrawKey key;
@@ -274,7 +274,7 @@ _inline void CDebugDraw::DrawLine(DebugDrawKey key, real_point3d const &p1, real
 	CDebugDrawBackend::DrawLine(p1, p2, color);
 }
 
-_inline void CDebugDraw::DrawVector(DebugDrawKey key, real_point3d const &point, real_vector3d const &vector, long color) // 0x1081BD90
+inline void CDebugDraw::DrawVector(DebugDrawKey key, real_point3d const &point, real_vector3d const &vector, long color) // 0x1081BD90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawVector@CDebugDraw@@QAEXUDebugDrawKey@@ABUreal_point3d@@ABUreal_vector3d@@J@Z");
 	// DebugDrawKey key;
@@ -287,7 +287,7 @@ _inline void CDebugDraw::DrawVector(DebugDrawKey key, real_point3d const &point,
 	CDebugDrawBackend::DrawVector(point, vector, color);
 }
 
-_inline void CDebugDraw::DrawTriangle(DebugDrawKey key, real_point3d const &p1, real_point3d const &p2, real_point3d const &p3, long color) // 0x1081BAA0
+inline void CDebugDraw::DrawTriangle(DebugDrawKey key, real_point3d const &p1, real_point3d const &p2, real_point3d const &p3, long color) // 0x1081BAA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawTriangle@CDebugDraw@@QAEXUDebugDrawKey@@ABUreal_point3d@@11J@Z");
 	// real_point3d const &p1;
@@ -300,7 +300,7 @@ _inline void CDebugDraw::DrawTriangle(DebugDrawKey key, real_point3d const &p1, 
 	CDebugDrawBackend::DrawTriangle(p1, p2, p3, color);
 }
 
-_inline void CDebugDraw::DrawBox2dOutline(DebugDrawKey key, real_rectangle2d const &bounds, long color) // 0x108190E0
+inline void CDebugDraw::DrawBox2dOutline(DebugDrawKey key, real_rectangle2d const &bounds, long color) // 0x108190E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawBox2dOutline@CDebugDraw@@QAEXUDebugDrawKey@@ABUreal_rectangle2d@@J@Z");
 	// CDebugDraw *const this;
@@ -313,7 +313,7 @@ _inline void CDebugDraw::DrawBox2dOutline(DebugDrawKey key, real_rectangle2d con
 	CDebugDrawBackend::DrawBox2dOutline(bounds, color);
 }
 
-_inline void CDebugDraw::DrawBox(DebugDrawKey key, real_rectangle3d const &bounds, long color) // 0x108194A0
+inline void CDebugDraw::DrawBox(DebugDrawKey key, real_rectangle3d const &bounds, long color) // 0x108194A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawBox@CDebugDraw@@QAEXUDebugDrawKey@@ABUreal_rectangle3d@@J@Z");
 	// CDebugDraw *const this;
@@ -326,7 +326,7 @@ _inline void CDebugDraw::DrawBox(DebugDrawKey key, real_rectangle3d const &bound
 	CDebugDrawBackend::DrawBox(bounds, color);
 }
 
-_inline void CDebugDraw::DrawBoxOriented(DebugDrawKey key, real_rectangle3d const &bounds, real_matrix4x3 const &matrix, long color) // 0x10819750
+inline void CDebugDraw::DrawBoxOriented(DebugDrawKey key, real_rectangle3d const &bounds, real_matrix4x3 const &matrix, long color) // 0x10819750
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawBoxOriented@CDebugDraw@@QAEXUDebugDrawKey@@ABUreal_rectangle3d@@ABUreal_matrix4x3@@J@Z");
 	// DebugDrawKey key;
@@ -339,7 +339,7 @@ _inline void CDebugDraw::DrawBoxOriented(DebugDrawKey key, real_rectangle3d cons
 	CDebugDrawBackend::DrawBoxOriented(bounds, matrix, color);
 }
 
-_inline void CDebugDraw::DrawSphereOutline(DebugDrawKey key, real_point3d const &center, float radius, long color) // 0x1081AD20
+inline void CDebugDraw::DrawSphereOutline(DebugDrawKey key, real_point3d const &center, float radius, long color) // 0x1081AD20
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawSphereOutline@CDebugDraw@@QAEXUDebugDrawKey@@ABUreal_point3d@@MJ@Z");
 	// DebugDrawKey key;
@@ -352,7 +352,7 @@ _inline void CDebugDraw::DrawSphereOutline(DebugDrawKey key, real_point3d const 
 	CDebugDrawBackend::DrawSphereOutline(center, radius, color);
 }
 
-_inline void __cdecl CDebugDraw::DrawString2d(DebugDrawKey key, real_point2d const &point, long color, char const *format, ...) // 0x1081AFE0
+inline void __cdecl CDebugDraw::DrawString2d(DebugDrawKey key, real_point2d const &point, long color, char const *format, ...) // 0x1081AFE0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawString2d@CDebugDraw@@QAAXUDebugDrawKey@@ABUreal_point2d@@JPBDZZ");
 	// real_point2d const &point;
@@ -370,7 +370,7 @@ _inline void __cdecl CDebugDraw::DrawString2d(DebugDrawKey key, real_point2d con
 	va_end(args);
 }
 
-_inline void __cdecl CDebugDraw::DrawString3d(DebugDrawKey key, real_point3d const &point, long color, char const *format, ...) // 0x1081B620
+inline void __cdecl CDebugDraw::DrawString3d(DebugDrawKey key, real_point3d const &point, long color, char const *format, ...) // 0x1081B620
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawString3d@CDebugDraw@@QAAXUDebugDrawKey@@ABUreal_point3d@@JPBDZZ");
 	// real_point3d const &point;
@@ -388,7 +388,7 @@ _inline void __cdecl CDebugDraw::DrawString3d(DebugDrawKey key, real_point3d con
 	va_end(args);
 }
 
-_inline void CDebugDraw::DrawPill(DebugDrawKey key, real_point3d const &base, real_vector3d const &height, float radius, long color) // 0x1081A760
+inline void CDebugDraw::DrawPill(DebugDrawKey key, real_point3d const &base, real_vector3d const &height, float radius, long color) // 0x1081A760
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawPill@CDebugDraw@@QAEXUDebugDrawKey@@ABUreal_point3d@@ABUreal_vector3d@@MJ@Z");
 	// real_point3d const &base;
@@ -401,7 +401,7 @@ _inline void CDebugDraw::DrawPill(DebugDrawKey key, real_point3d const &base, re
 	CDebugDrawBackend::DrawPill(base, height, radius, color);
 }
 
-_inline void CDebugDraw::DrawCylinder(DebugDrawKey key, real_point3d const &base, real_vector3d const &height, float radius, long color) // 0x10819D50
+inline void CDebugDraw::DrawCylinder(DebugDrawKey key, real_point3d const &base, real_vector3d const &height, float radius, long color) // 0x10819D50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawCylinder@CDebugDraw@@QAEXUDebugDrawKey@@ABUreal_point3d@@ABUreal_vector3d@@MJ@Z");
 	// real_point3d const &base;
@@ -414,7 +414,7 @@ _inline void CDebugDraw::DrawCylinder(DebugDrawKey key, real_point3d const &base
 	CDebugDrawBackend::DrawCylinder(base, height, radius, color);
 }
 
-_inline void CDebugDraw::DrawCone(DebugDrawKey key, real_point3d const &base, real_vector3d const &up, float theta, float height, long color) // 0x10819A20
+inline void CDebugDraw::DrawCone(DebugDrawKey key, real_point3d const &base, real_vector3d const &up, float theta, float height, long color) // 0x10819A20
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawCone@CDebugDraw@@QAEXUDebugDrawKey@@ABUreal_point3d@@ABUreal_vector3d@@MMJ@Z");
 	// real_vector3d const &up;
@@ -427,7 +427,7 @@ _inline void CDebugDraw::DrawCone(DebugDrawKey key, real_point3d const &base, re
 	CDebugDrawBackend::DrawCone(base, up, theta, height, color);
 }
 
-_inline void CDebugDraw::DrawPhysicsShapeCapsule(DebugDrawKey key, real_point3d const &vertex_a, real_point3d const &vertex_b, float radius, real_matrix4x3 const &matrix, long color) // 0x1081A320
+inline void CDebugDraw::DrawPhysicsShapeCapsule(DebugDrawKey key, real_point3d const &vertex_a, real_point3d const &vertex_b, float radius, real_matrix4x3 const &matrix, long color) // 0x1081A320
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawPhysicsShapeCapsule@CDebugDraw@@QAEXUDebugDrawKey@@ABUreal_point3d@@1MABUreal_matrix4x3@@J@Z");
 	// real_point3d const &vertex_b;
@@ -440,7 +440,7 @@ _inline void CDebugDraw::DrawPhysicsShapeCapsule(DebugDrawKey key, real_point3d 
 	CDebugDrawBackend::DrawPhysicsShapeCapsule(vertex_a, vertex_b, radius, matrix, color);
 }
 
-_inline void CDebugDraw::SetAttributes(CDebugDrawBackend::AttributeScope &attr, DebugDrawKey key) // 0x1081C800
+inline void CDebugDraw::SetAttributes(CDebugDrawBackend::AttributeScope &attr, DebugDrawKey key) // 0x1081C800
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SetAttributes@CDebugDraw@@AAEXAAUAttributeScope@CDebugDrawBackend@@UDebugDrawKey@@@Z");
 	// DebugDrawKey key;

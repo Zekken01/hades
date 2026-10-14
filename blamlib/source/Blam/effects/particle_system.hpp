@@ -65,7 +65,7 @@ static_assert(sizeof(c_particle_system) == 88, "Invalid c_particle_system size")
 
 /* ---------- public code */
 
-_inline void *c_particle_system::get_particle_definition() // 0x10913010
+inline void *c_particle_system::get_particle_definition() // 0x10913010
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_particle_definition@c_particle_system@@QAEPAXXZ");
 	// c_particle_system *const this;
@@ -77,7 +77,7 @@ _inline void *c_particle_system::get_particle_definition() // 0x10913010
 	return c_particle_system__get_particle_definition(this);
 }
 
-_inline float c_particle_system::real_internal_random_range(float min, float max) // 0x10913DE0
+inline float c_particle_system::real_internal_random_range(float min, float max) // 0x10913DE0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?real_internal_random_range@c_particle_system@@QAEMMM@Z");
 	// float max;
@@ -89,7 +89,7 @@ _inline float c_particle_system::real_internal_random_range(float min, float max
 	return c_particle_system__real_internal_random_range(this, min, max);
 }
 
-_inline void c_particle_system::internal_random_direction3d(real_vector3d *direction) // 0x10913C60
+inline void c_particle_system::internal_random_direction3d(real_vector3d *direction) // 0x10913C60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?internal_random_direction3d@c_particle_system@@QAEXPAUreal_vector3d@@@Z");
 	// real_vector3d *direction;
@@ -101,7 +101,7 @@ _inline void c_particle_system::internal_random_direction3d(real_vector3d *direc
 	c_particle_system__internal_random_direction3d(this, direction);
 }
 
-_inline void c_particle_system::initialize_particle(void *state_list, c_particle *particle) // 0x109131A0
+inline void c_particle_system::initialize_particle(void *state_list, c_particle *particle) // 0x109131A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?initialize_particle@c_particle_system@@QAEXPAXPAUc_particle@@@Z");
 	// c_particle *particle;

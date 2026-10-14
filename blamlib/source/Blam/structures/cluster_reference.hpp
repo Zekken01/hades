@@ -29,7 +29,7 @@ extern _inline bool const operator==(s_cluster_reference a, s_cluster_reference 
 
 /* ---------- public code */
 
-_inline bool const operator==(s_cluster_reference a, s_cluster_reference b) // 0x108E3430
+inline bool const operator==(s_cluster_reference a, s_cluster_reference b) // 0x108E3430
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??8@YA?B_NUs_cluster_reference@@0@Z");
 	// s_cluster_reference b;

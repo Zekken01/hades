@@ -253,7 +253,7 @@ extern _inline s_chud_globals_definition *chud_globals_definition_get();
 
 /* ---------- public code */
 
-_inline s_chud_globals_definition *chud_globals_definition_get() // 0x1085DBB0
+inline s_chud_globals_definition *chud_globals_definition_get() // 0x1085DBB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?chud_globals_definition_get@@YAPAUs_chud_globals_definition@@XZ");
 	// procedure flags: nofpo

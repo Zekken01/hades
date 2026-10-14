@@ -96,7 +96,7 @@ static_assert(sizeof(CModBrowserStateHandler_AcquireMod) == 352, "Invalid CModBr
 
 /* ---------- public code */
 
-_inline CModBrowserStateHandler_AcquireMod::EState CModBrowserStateHandler_AcquireMod::GetLocalState() // 0x107172E0
+inline CModBrowserStateHandler_AcquireMod::EState CModBrowserStateHandler_AcquireMod::GetLocalState() // 0x107172E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetLocalState@CModBrowserStateHandler_AcquireMod@@QAE?AW4EState@1@XZ");
 	// CModBrowserStateHandler_AcquireMod *const this;

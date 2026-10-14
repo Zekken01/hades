@@ -85,7 +85,7 @@ static_assert(sizeof(Http::CHttpHeaders) == 12, "Invalid Http::CHttpHeaders size
 
 namespace Http
 {
-	_inline bool CHttpHeaders::SHeaderKeyComparator::operator()(std::string const &s1, std::string const &s2) const // 0x107FB130
+	inline bool CHttpHeaders::SHeaderKeyComparator::operator()(std::string const &s1, std::string const &s2) const // 0x107FB130
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "??RSHeaderKeyComparator@CHttpHeaders@Http@@QBE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z");
 		// std::string const &s2;
@@ -97,7 +97,7 @@ namespace Http
 
 namespace Http
 {
-	_inline std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::string> > > > CHttpHeaders::begin() const // 0x107FD840
+	inline std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::string> > > > CHttpHeaders::begin() const // 0x107FD840
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?begin@CHttpHeaders@Http@@QBE?AV?$_Tree_const_iterator@V?$_Tree_val@U?$_Tree_simple_types@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@@std@@@std@@@std@@@std@@XZ");
 		// Http::CHttpHeaders const *const this;
@@ -109,7 +109,7 @@ namespace Http
 
 namespace Http
 {
-	_inline std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::string> > > > CHttpHeaders::end() const // 0x107FDB00
+	inline std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::string> > > > CHttpHeaders::end() const // 0x107FDB00
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?end@CHttpHeaders@Http@@QBE?AV?$_Tree_const_iterator@V?$_Tree_val@U?$_Tree_simple_types@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@@std@@@std@@@std@@@std@@XZ");
 		// Http::CHttpHeaders const *const this;
@@ -117,7 +117,7 @@ namespace Http
 		return m_map.end();
 	}
 
-	_inline CHttpHeaders::CHttpHeaders() // 0x10806D90
+	inline CHttpHeaders::CHttpHeaders() // 0x10806D90
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "??0CHttpHeaders@Http@@QAE@XZ");
 		// Http::CHttpHeaders *const this;
@@ -127,7 +127,7 @@ namespace Http
 
 namespace Http
 {
-	_inline std::string CHttpHeaders::operator[](std::string const &headerKey) const // 0x1082D190
+	inline std::string CHttpHeaders::operator[](std::string const &headerKey) const // 0x1082D190
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "??ACHttpHeaders@Http@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV23@@Z");
 		// static ...; // 0x1082D314

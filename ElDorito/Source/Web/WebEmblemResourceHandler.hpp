@@ -72,7 +72,7 @@ namespace Web
 {
 	namespace Browser
 	{
-		_inline void WebEmblemResourceHandler::AddRef() const // 0x10CB6770
+		inline void WebEmblemResourceHandler::AddRef() const // 0x10CB6770
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?AddRef@WebEmblemResourceHandler@Browser@Web@@UBEXXZ");
 			// __shifted(Web::Browser::WebEmblemResourceHandler, 32);
@@ -81,7 +81,7 @@ namespace Web
 			ref_count_.AddRef();
 		}
 
-		_inline bool WebEmblemResourceHandler::HasAtLeastOneRef() const // 0x10CB6A40
+		inline bool WebEmblemResourceHandler::HasAtLeastOneRef() const // 0x10CB6A40
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?HasAtLeastOneRef@WebEmblemResourceHandler@Browser@Web@@UBE_NXZ");
 			// __shifted(Web::Browser::WebEmblemResourceHandler, 32);
@@ -90,7 +90,7 @@ namespace Web
 			return ref_count_.HasAtLeastOneRef();
 		}
 
-		_inline bool WebEmblemResourceHandler::HasOneRef() const // 0x10CB6AE0
+		inline bool WebEmblemResourceHandler::HasOneRef() const // 0x10CB6AE0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?HasOneRef@WebEmblemResourceHandler@Browser@Web@@UBE_NXZ");
 			// __shifted(Web::Browser::WebEmblemResourceHandler, 32);
@@ -99,7 +99,7 @@ namespace Web
 			return ref_count_.HasOneRef();
 		}
 
-		_inline bool WebEmblemResourceHandler::Release() const // 0x10CB7030
+		inline bool WebEmblemResourceHandler::Release() const // 0x10CB7030
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Release@WebEmblemResourceHandler@Browser@Web@@UBE_NXZ");
 			// __shifted(Web::Browser::WebEmblemResourceHandler, 32);

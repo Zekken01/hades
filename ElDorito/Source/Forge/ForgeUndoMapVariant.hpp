@@ -46,7 +46,7 @@ static_assert(sizeof(CForgeUndoMapVariant) == 57520, "Invalid CForgeUndoMapVaria
 
 /* ---------- public code */
 
-_inline EForgeUndoType CForgeUndoMapVariant::GetType() // 0x10864DE0
+inline EForgeUndoType CForgeUndoMapVariant::GetType() // 0x10864DE0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetType@CForgeUndoMapVariant@@EAE?AW4EForgeUndoType@@XZ");
 	// CForgeUndoMapVariant *const this;

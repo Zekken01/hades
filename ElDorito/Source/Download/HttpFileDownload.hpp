@@ -194,7 +194,7 @@ namespace Download
 
 namespace Download
 {
-	_inline bool CHttpFileDownload::IsComplete() const // 0x108308B0
+	inline bool CHttpFileDownload::IsComplete() const // 0x108308B0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?IsComplete@CHttpFileDownload@Download@@UBE_NXZ");
 		// Download::CHttpFileDownload const *const this;
@@ -202,7 +202,7 @@ namespace Download
 		return m_bFinished;
 	}
 
-	_inline long long CHttpFileDownload::GetDownloadedBytes() const // 0x1082FB60
+	inline long long CHttpFileDownload::GetDownloadedBytes() const // 0x1082FB60
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetDownloadedBytes@CHttpFileDownload@Download@@UBE_JXZ");
 		// Download::CHttpFileDownload const *const this;
@@ -210,7 +210,7 @@ namespace Download
 		return m_downloadedBytes;
 	}
 
-	_inline long long CHttpFileDownload::GetTotalBytes() const // 0x10830370
+	inline long long CHttpFileDownload::GetTotalBytes() const // 0x10830370
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetTotalBytes@CHttpFileDownload@Download@@UBE_JXZ");
 		// Download::CHttpFileDownload const *const this;
@@ -218,7 +218,7 @@ namespace Download
 		return m_totalBytes;
 	}
 
-	_inline __int32 CHttpFileDownload::GetDownloadSpeed() const // 0x1082FB30
+	inline __int32 CHttpFileDownload::GetDownloadSpeed() const // 0x1082FB30
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetDownloadSpeed@CHttpFileDownload@Download@@UBEHXZ");
 		// Download::CHttpFileDownload const *const this;
@@ -226,7 +226,7 @@ namespace Download
 		return m_downloadSpeed;
 	}
 
-	_inline __int32 CHttpFileDownload::GetTotalRequests() const // 0x10857280
+	inline __int32 CHttpFileDownload::GetTotalRequests() const // 0x10857280
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetTotalRequests@CHttpFileDownload@Download@@QBEHXZ");
 		// Download::CHttpFileDownload const *const this;
@@ -234,13 +234,13 @@ namespace Download
 		return m_totalRequestsMade;
 	}
 
-	_inline void CHttpFileDownloadManager::Init() // 0x10820420
+	inline void CHttpFileDownloadManager::Init() // 0x10820420
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Init@CHttpFileDownloadManager@Download@@QAEXXZ");
 		// Download::CHttpFileDownloadManager *const this;
 	}
 
-	_inline void CHttpFileDownloadManager::Shutdown() // 0x10820580
+	inline void CHttpFileDownloadManager::Shutdown() // 0x10820580
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Shutdown@CHttpFileDownloadManager@Download@@QAEXXZ");
 		// Download::CHttpFileDownloadManager *const this;
@@ -256,7 +256,7 @@ namespace Download
 		}
 	}
 
-	_inline void CHttpFileDownloadManager::Tick() // 0x10820690
+	inline void CHttpFileDownloadManager::Tick() // 0x10820690
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@CHttpFileDownloadManager@Download@@QAEXXZ");
 		// static ...; // 0x1082077C
@@ -274,7 +274,7 @@ namespace Download
 			download->Tick();
 	}
 
-	_inline void CHttpFileDownloadManager::AddDownload(std::shared_ptr<Download::CHttpFileDownload> download) // 0x1082DFD0
+	inline void CHttpFileDownloadManager::AddDownload(std::shared_ptr<Download::CHttpFileDownload> download) // 0x1082DFD0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?AddDownload@CHttpFileDownloadManager@Download@@QAEXV?$shared_ptr@VCHttpFileDownload@Download@@@std@@@Z");
 		// std::shared_ptr<Download::CHttpFileDownload> download;
@@ -282,7 +282,7 @@ namespace Download
 		m_downloads.push_back(download);
 	}
 
-	_inline void CHttpFileDownloadManager::RemoveDownload(std::shared_ptr<Download::CHttpFileDownload> download) // 0x10831950
+	inline void CHttpFileDownloadManager::RemoveDownload(std::shared_ptr<Download::CHttpFileDownload> download) // 0x10831950
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?RemoveDownload@CHttpFileDownloadManager@Download@@QAEXV?$shared_ptr@VCHttpFileDownload@Download@@@std@@@Z");
 		// static ...; // 0x10831AF0

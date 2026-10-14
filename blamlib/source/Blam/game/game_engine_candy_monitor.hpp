@@ -56,7 +56,7 @@ extern c_candy_monitor_manager *get_candy_monitor_manager();
 
 /* ---------- public code */
 
-_inline void c_candy_monitor_manager::reset() // 0x106FA3C0
+inline void c_candy_monitor_manager::reset() // 0x106FA3C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?reset@c_candy_monitor_manager@@QAEXXZ");
 	// c_candy_monitor_manager *const this;

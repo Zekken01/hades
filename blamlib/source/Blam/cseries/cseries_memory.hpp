@@ -21,7 +21,7 @@ extern _inline void const *offset_pointer(void const *pointer, long offset);
 
 /* ---------- public code */
 
-_inline unsigned long address_from_pointer(void const *pointer) // 0x1069C260
+inline unsigned long address_from_pointer(void const *pointer) // 0x1069C260
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?address_from_pointer@@YAKPBX@Z");
 	// void const *pointer;
@@ -29,7 +29,7 @@ _inline unsigned long address_from_pointer(void const *pointer) // 0x1069C260
 	return (unsigned long)pointer;
 }
 
-_inline void const *pointer_from_address(unsigned long address) // 0x1069D890
+inline void const *pointer_from_address(unsigned long address) // 0x1069D890
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?pointer_from_address@@YAPBXK@Z");
 	// unsigned long address;
@@ -37,7 +37,7 @@ _inline void const *pointer_from_address(unsigned long address) // 0x1069D890
 	return (void const *)address;
 }
 
-_inline void *offset_pointer(void *pointer, long offset) // 0x1069D830
+inline void *offset_pointer(void *pointer, long offset) // 0x1069D830
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?offset_pointer@@YAPAXPAXJ@Z");
 	// long offset;
@@ -45,7 +45,7 @@ _inline void *offset_pointer(void *pointer, long offset) // 0x1069D830
 	return (void *)pointer_from_address(address_from_pointer(pointer) + offset);
 }
 
-_inline void const *offset_pointer(void const *pointer, long offset) // 0x107A7D90
+inline void const *offset_pointer(void const *pointer, long offset) // 0x107A7D90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?offset_pointer@@YAPBXPBXJ@Z");
 	// long offset;

@@ -45,7 +45,7 @@ namespace Download
 
 namespace Download
 {
-	_inline __int32 CDownloadStatCounter::GetRate() const // 0x108301E0
+	inline __int32 CDownloadStatCounter::GetRate() const // 0x108301E0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetRate@CDownloadStatCounter@Download@@QBEHXZ");
 		// Download::CDownloadStatCounter const *const this;
@@ -53,7 +53,7 @@ namespace Download
 		return m_average;
 	}
 
-	_inline void CDownloadStatCounter::SecondTick(__int32 deltaMs) // 0x10831BC0
+	inline void CDownloadStatCounter::SecondTick(__int32 deltaMs) // 0x10831BC0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?SecondTick@CDownloadStatCounter@Download@@QAEXH@Z");
 		// __int32 deltaMs;
@@ -65,7 +65,7 @@ namespace Download
 		m_counter = 0;
 	}
 
-	_inline void CDownloadStatCounter::Clear() // 0x1082EB10
+	inline void CDownloadStatCounter::Clear() // 0x1082EB10
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Clear@CDownloadStatCounter@Download@@QAEXXZ");
 		// Download::CDownloadStatCounter *const this;
@@ -75,7 +75,7 @@ namespace Download
 		m_totalCounter = 0;
 	}
 
-	_inline void CDownloadStatCounter::Add(__int32 count) // 0x1082DEC0
+	inline void CDownloadStatCounter::Add(__int32 count) // 0x1082DEC0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Add@CDownloadStatCounter@Download@@QAEXH@Z");
 		// __int32 count;

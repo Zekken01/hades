@@ -65,4 +65,8 @@ t_result todo_result();
 #define static_warning(message)
 #endif // static_warning
 
+// A class mtndew.dll exports. The macro's 12-character name keeps the class name in the
+// column the original's default-constructor closures record (CDebugDraw: column 20).
+#define HADES_EXPORT __declspec(dllexport)
+
 #endif // __HADES_REVERSE_ENGINEERING_H__

@@ -39,7 +39,7 @@ static_assert(sizeof(CommandLineArgs) == 8, "Invalid CommandLineArgs size");
 
 /* ---------- public code */
 
-_inline __int32 CommandLineArgs::GetArgCount() const // 0x106676E0
+inline __int32 CommandLineArgs::GetArgCount() const // 0x106676E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetArgCount@CommandLineArgs@@QBEHXZ");
 	// CommandLineArgs const *const this;
@@ -47,7 +47,7 @@ _inline __int32 CommandLineArgs::GetArgCount() const // 0x106676E0
 	return m_numArgs;
 }
 
-_inline char const *CommandLineArgs::GetArg(__int32 index) const // 0x10667640
+inline char const *CommandLineArgs::GetArg(__int32 index) const // 0x10667640
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetArg@CommandLineArgs@@QBEPBDH@Z");
 	// __int32 index;
@@ -61,7 +61,7 @@ _inline char const *CommandLineArgs::GetArg(__int32 index) const // 0x10667640
 	return m_args[index];
 }
 
-_inline char const *CommandLineArgs::operator[](__int32 index) const // 0x106609F0
+inline char const *CommandLineArgs::operator[](__int32 index) const // 0x106609F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??ACommandLineArgs@@QBEPBDH@Z");
 	// __int32 index;
