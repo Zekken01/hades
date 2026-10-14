@@ -43,7 +43,11 @@
 #include <cef_urlrequest.h>
 #include <wrapper/cef_message_router.h>
 #include <wrl/client.h>
+// DirectXMath's inline functions were not compiled under blamlib's strict GS in the original
+// (its XMMatrix* COMDATs carry no cookie), so the pragma is suspended around the header.
+#pragma strict_gs_check(push, off)
 #include <DirectXMath.h>
+#pragma strict_gs_check(pop)
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
 #include <openssl/bn.h>
