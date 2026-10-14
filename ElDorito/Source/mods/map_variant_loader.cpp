@@ -33,6 +33,8 @@
 #include "mods/tag_name_dictionary.hpp"
 #include "Utils/Singleton.hpp"
 
+#include "mods/mod_system.hpp"  // hades: added for 0x1088AB10
+
 #include <boost/asio.hpp>
 #include <boost/assert.hpp>
 #include <boost/exception/all.hpp>
@@ -117,7 +119,7 @@ namespace hades_file_local
 		virtual void OnModChanged(EModIndex, IMod *);
 		ModListener(ModListener &); /* compiler_generated() */
 		ModListener(ModListener const &); /* compiler_generated() */
-		ModListener(); /* compiler_generated() */
+		ModListener() = default; /* compiler_generated() */ // 0x1088A2D0
 		virtual ~ModListener() = default; /* compiler_generated() */
 		ModListener &operator=(ModListener &); /* compiler_generated() */
 		ModListener &operator=(ModListener const &); /* compiler_generated() */
@@ -126,6 +128,14 @@ namespace hades_file_local
 }
 using namespace hades_file_local;
 /* ---------- prototypes */
+
+extern bool (*const network_session_interface_get_squad_session)(c_network_session **);  // hades: added for 0x1088A3F0
+
+#include "Utils/Logger.hpp"  // hades: added for 0x1088B6C0
+extern bool (*const file_get_size)(s_file_reference *, unsigned long *);  // hades: added for 0x1088B6C0
+
+#include "mods/map_variant_tag_fixups.hpp"  // hades: added for 0x1088B4B0
+extern bool (*const levels_try_and_get_multiplayer_map)(long, s_level_datum *);  // hades: added for 0x1088B4B0
 
 /* ---------- globals */
 
@@ -139,14 +149,13 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- public code */
 
-_extern void _sub_1088AB10();
 void c_map_variant_loader::initialzie() // 0x1088AB10
 {
-	mangled_x86(MANGLED_TODO, "?initialzie@c_map_variant_loader@@SAXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?initialzie@c_map_variant_loader@@SAXXZ");
 	// procedure flags: nofpo
 	// function call : void (IModListener *)
-	todo("implement");
-	_sub_1088AB10();
+
+	c_mod_system::GetModManager().AddListener(new ModListener());
 }
 
 void c_map_variant_loader::update() // 0x1088BB60
@@ -155,10 +164,9 @@ void c_map_variant_loader::update() // 0x1088BB60
 	// procedure flags: nofpo
 }
 
-_extern bool _sub_1088B4B0(long, unsigned char const *, s_map_variant *);
 bool c_map_variant_loader::load_from_buffer(long blf_size, unsigned char const *blf, s_map_variant *out_map_variant) // 0x1088B4B0
 {
-	mangled_x86(MANGLED_TODO, "?load_from_buffer@c_map_variant_loader@@SA_NJPBEPAUs_map_variant@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?load_from_buffer@c_map_variant_loader@@SA_NJPBEPAUs_map_variant@@@Z");
 	// static ...; // 0x1088B62A
 	// static ...; // 0x1088B624
 	// static ...; // 0x1088B5F4
@@ -171,15 +179,38 @@ bool c_map_variant_loader::load_from_buffer(long blf_size, unsigned char const *
 	// s_level_datum level;
 	// unsigned long mapv_data_size;
 	// function call : bool (*const)(long, s_level_datum *)
-	todo("implement");
-	bool __result = _sub_1088B4B0(blf_size, blf, out_map_variant);
-	return __result;
+
+	last_error = (e_map_variant_load_error)0;
+	s_blf_chunk_header mapv_chunk;
+	unsigned char const *mapv_data;
+	unsigned long mapv_data_size;
+	if (!blf_find_chunk_in_buffer(blf, blf_size, 0x6D617076, &mapv_chunk, &mapv_data, &mapv_data_size))
+	{
+		last_error = (e_map_variant_load_error)2;
+		return false;
+	}
+
+	memcpy(out_map_variant, &mapv_data[4], 0xE090);
+	s_level_datum level;
+	if (!levels_try_and_get_multiplayer_map(out_map_variant->map_id, &level))
+	{
+		last_error = (e_map_variant_load_error)3;
+		return false;
+	}
+
+	if (!c_map_variant_tag_fixups::fixup_map_variant_in_memory((unsigned char *)blf, blf_size, out_map_variant))
+	{
+		last_error = (e_map_variant_load_error)4;
+		return false;
+	}
+
+	stored_blf.assign(blf, blf + blf_size);
+	return true;
 }
 
-_extern bool _sub_1088B6C0(char const *, s_map_variant *);
 bool c_map_variant_loader::load_from_file(char const *filename, s_map_variant *out_map_variant) // 0x1088B6C0
 {
-	mangled_x86(MANGLED_TODO, "?load_from_file@c_map_variant_loader@@SA_NPBDPAUs_map_variant@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?load_from_file@c_map_variant_loader@@SA_NPBDPAUs_map_variant@@@Z");
 	// static ...; // 0x1088B9F9
 	// static ...; // 0x1088B9EF
 	// static ...; // 0x1088B9EA
@@ -194,15 +225,27 @@ bool c_map_variant_loader::load_from_file(char const *filename, s_map_variant *o
 	// unsigned long file_size;
 	// c_file_open_scope scope;
 	// function call : bool (*const)(s_file_reference *, unsigned long *)
-	todo("implement");
-	bool __result = _sub_1088B6C0(filename, out_map_variant);
-	return __result;
+
+	char logmessage[4096];
+	sprintf_s(logmessage, "Loading map variant '%s'...", filename);
+	Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Game, Utils::LogLevel::Info, logmessage);
+	std::string buffer;
+	unsigned long file_size;
+	c_file_reference file(filename);
+	c_file_open_scope scope(file, 1);
+	if (!file.is_open())
+		return false;
+	if (!file_get_size(&file, &file_size))
+		return false;
+	buffer.resize(file_size);
+	if (!file.read(buffer.size(), false, buffer.data()))
+		return false;
+	return load_from_buffer(buffer.size(), (unsigned char const *)buffer.data(), out_map_variant);
 }
 
-_extern bool _sub_1088AC90(long, s_map_variant *);
 bool c_map_variant_loader::load_default(long map_id, s_map_variant *out_map_variant) // 0x1088AC90
 {
-	mangled_x86(MANGLED_TODO, "?load_default@c_map_variant_loader@@SA_NJPAUs_map_variant@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?load_default@c_map_variant_loader@@SA_NJPAUs_map_variant@@@Z");
 	// static ...; // 0x1088B2F5
 	// static ...; // 0x1088B2E7
 	// static ...; // 0x1088B2E2
@@ -225,28 +268,72 @@ bool c_map_variant_loader::load_default(long map_id, s_map_variant *out_map_vari
 	// char file_path[256];
 	// s_blf_chunk_header mapv_chunk;
 	// unsigned long mapv_data_size;
-	{
 		// unsigned long map_file_size;
 		// long map_file_index;
 		// c_file_reference file;
 		// IMod *mod;
 		// c_mod_package *mod_package;
-	}
-	{
 		// unsigned long err;
 		// s_static_string<256> file_path_with_ext;
-	}
-	{
 		// void (*const c_map_variant__initialize)(s_map_variant *, long);
-	}
 	// function call : void (*const)(unsigned long, unsigned long, char *, __int32)
 	// function call : IMod *(EModIndex) const
 	// function call : c_mod_package *(bool) const
 	// function call : bool (*const)(s_file_reference *, unsigned long *)
 	// function call : void (*const)(s_map_variant *, long)
-	todo("implement");
-	bool __result = _sub_1088AC90(map_id, out_map_variant);
-	return __result;
+
+	extern void (*const levels_get_map_name)(unsigned long, unsigned long, char *, int);
+	char file_path[256];
+	levels_get_map_name(0xFFFFFFFF, map_id, file_path, 256);
+	std::string map_file_buffer;
+	if (strstr(file_path, "mods\\") == file_path)
+	{
+		IMod *mod = c_mod_system::GetModManager().GetMod((EModIndex)0);
+		if (!mod)
+			return false;
+		c_mod_package *mod_package = mod->GetPak(true);
+		unsigned long map_file_size;
+		long map_file_index = mod_package->find_map_file_by_map_id(map_id, &map_file_size);
+		if (map_file_index == -1)
+			return false;
+		if (map_file_size <= 0x3390)
+			return false;
+		map_file_buffer.resize(map_file_size);
+		c_file_reference file = mod_package->get_file();
+		if (!mod_package->read_map_file_into_buffer(file, map_file_index, map_file_buffer.size(), &map_file_buffer[0]))
+			return false;
+	}
+	else
+	{
+		s_static_string<256> file_path_with_ext;
+		file_path_with_ext.set(file_path);
+		file_path_with_ext.append(".map");
+		unsigned long map_file_size;
+		unsigned long err;
+		c_file_reference file(file_path_with_ext.get_string());
+		if (!file.open(1, &err))
+			return false;
+		if (!file_get_size(&file, &map_file_size))
+			return false;
+		map_file_buffer.resize(map_file_size);
+		if (!file.read(map_file_buffer.size(), false, &map_file_buffer[0]))
+			return false;
+	}
+	if (map_file_buffer.size() <= 0x3390)
+		return false;
+	unsigned long map_blf_offset = 0x3390;
+	unsigned char *map_blf = (unsigned char *)&map_file_buffer[map_blf_offset];
+	unsigned long map_blf_size = map_file_buffer.size() - map_blf_offset;
+	s_blf_chunk_header mapv_chunk;
+	unsigned char const *mapv_data;
+	unsigned long mapv_data_size;
+	if (!blf_find_chunk_in_buffer(map_blf, map_blf_size, 'mapv', &mapv_chunk, &mapv_data, &mapv_data_size))
+	{
+		void (__thiscall *const c_map_variant__initialize)(s_map_variant *, long) = reinterpret_cast<void (__thiscall *)(s_map_variant *, long)>(0x581F70);
+		c_map_variant__initialize(out_map_variant, map_id);
+		return true;
+	}
+	return load_from_buffer(map_blf_size, map_blf, out_map_variant);
 }
 
 e_map_variant_load_error c_map_variant_loader::get_last_error() // 0x1088AAF0
@@ -260,12 +347,11 @@ e_map_variant_load_error c_map_variant_loader::get_last_error() // 0x1088AAF0
 /* ---------- private code */
 
 // mangled_x86(MANGLED_DEFAULT, "??0ModListener@hades_file_local@@QAE@XZ"); no body to assert in
-_inline ModListener::ModListener() = default; // 0x1088A2D0
 
 
-_extern void _sub_1088A3F0(ModListener *const, EModIndex, IMod *);
 void ModListener::OnModChanged(EModIndex index, IMod *mod) // 0x1088A3F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnModChanged@ModListener@hades_file_local@@UAEXW4EModIndex@@PAVIMod@@@Z");
 	// `anonymous-namespace'::ModListener::OnModChanged
 	// static ...; // 0x1088A5CC
 	// static ...; // 0x1088A5C4
@@ -281,8 +367,26 @@ void ModListener::OnModChanged(EModIndex index, IMod *mod) // 0x1088A3F0
 	// function call : void (*const)(void *)
 	// function call : bool (*const)(c_network_session **)
 	// function call : bool (*const)(s_map_variant *)
-	todo("implement");
-	_sub_1088A3F0(this, index, mod);
+
+	if (stored_blf.size() < 1)
+		return;
+	void *(*const global_preferences_get_last_game_setup)() = reinterpret_cast<void *(*)()>(0x50B560);
+	void (*const global_preferences_set_last_game_setup)(void *) = reinterpret_cast<void (*)(void *)>(0x50D8E0);
+	static unsigned char game_setup[0x41B78];
+	memcpy(game_setup, global_preferences_get_last_game_setup(), sizeof(game_setup));
+	game_setup[0x338] = 0;
+	game_setup[0xEA50] = 0;
+	global_preferences_set_last_game_setup(game_setup);
+	c_network_session *session;
+	if (!network_session_interface_get_squad_session(&session))
+	{
+		stored_blf.clear();
+		return;
+	}
+	s_map_variant map_variant;
+	if (!c_map_variant_loader::load_from_buffer(stored_blf.size(), (unsigned char const *)stored_blf.data(), &map_variant))
+		c_map_variant_loader::load_default(0x140, &map_variant);
+	reinterpret_cast<bool (*)(s_map_variant *)>(0xA83AB0)(&map_variant);
 }
 
 /* ---------- template instantiations */

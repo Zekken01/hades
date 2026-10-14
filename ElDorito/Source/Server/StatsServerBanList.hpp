@@ -80,13 +80,12 @@ namespace Server
 		// Server::StatsServersBanList *const this;
 	}
 
-	_extern void _sub_10B17F70(Server::StatsServersBanList *const, std::string const);
 	_inline void StatsServersBanList::AddIp(std::string const ip) // 0x10B17F70
 	{
-		mangled_x86(MANGLED_TODO, "?AddIp@StatsServersBanList@Server@@QAEXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?AddIp@StatsServersBanList@Server@@QAEXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 		// std::string ip;
-		todo("implement");
-		_sub_10B17F70(this, ip);
+
+		ipAddresses.insert(ip);
 	}
 
 	_inline void StatsServersBanList::AddSubnet(unsigned long network, unsigned long mask) // 0x10B18110
@@ -97,71 +96,63 @@ namespace Server
 		subnets.push_back({ network, mask });
 	}
 
-	_extern void _sub_10B18040(Server::StatsServersBanList *const, std::string const);
 	_inline void StatsServersBanList::AddName(std::string const name) // 0x10B18040
 	{
-		mangled_x86(MANGLED_TODO, "?AddName@StatsServersBanList@Server@@QAEXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?AddName@StatsServersBanList@Server@@QAEXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 		// std::string name;
-		todo("implement");
-		_sub_10B18040(this, name);
+
+		names.insert(name);
 	}
 
-	_extern void _sub_10B18190(Server::StatsServersBanList *const, std::string const);
 	_inline void StatsServersBanList::AddUID(std::string const uid) // 0x10B18190
 	{
-		mangled_x86(MANGLED_TODO, "?AddUID@StatsServersBanList@Server@@QAEXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?AddUID@StatsServersBanList@Server@@QAEXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 		// std::string uid;
-		todo("implement");
-		_sub_10B18190(this, uid);
+
+		uids.insert(uid);
 	}
 
-	_extern bool _sub_10A94110(Server::StatsServersBanList *const, std::string);
 	_inline bool StatsServersBanList::ContainsIp(std::string ip) // 0x10A94110
 	{
-		mangled_x86(MANGLED_TODO, "?ContainsIp@StatsServersBanList@Server@@QAE_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?ContainsIp@StatsServersBanList@Server@@QAE_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 		// std::string ip;
-		todo("implement");
-		bool __result = _sub_10A94110(this, ip);
-		return __result;
+
+		return ipAddresses.find(ip) != ipAddresses.end();
 	}
 
-	_extern bool _sub_10B18AB0(Server::StatsServersBanList *const, std::string);
 	_inline bool StatsServersBanList::ContainsSubnet(std::string ip) // 0x10B18AB0
 	{
-		mangled_x86(MANGLED_TODO, "?ContainsSubnet@StatsServersBanList@Server@@QAE_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?ContainsSubnet@StatsServersBanList@Server@@QAE_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 		// std::string ip;
 		// unsigned long addr;
-		{
 			// std::vector<Server::StatsServersBanList::Subnet> &<range>$L0;
 			// Server::StatsServersBanList::Subnet *<begin>$L0;
 			// Server::StatsServersBanList::Subnet *<end>$L0;
-			{
 				// Server::StatsServersBanList::Subnet const &subnet;
-			}
+
+		unsigned long addr = inet_addr(ip.c_str());
+		for (Server::StatsServersBanList::Subnet const &subnet : subnets)
+		{
+			if (((addr ^ subnet.Network) & subnet.Mask) == 0)
+				return true;
 		}
-		todo("implement");
-		bool __result = _sub_10B18AB0(this, ip);
-		return __result;
+		return false;
 	}
 
-	_extern bool _sub_10A94540(Server::StatsServersBanList *const, std::string);
 	_inline bool StatsServersBanList::ContainsName(std::string name) // 0x10A94540
 	{
-		mangled_x86(MANGLED_TODO, "?ContainsName@StatsServersBanList@Server@@QAE_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?ContainsName@StatsServersBanList@Server@@QAE_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 		// std::string name;
-		todo("implement");
-		bool __result = _sub_10A94540(this, name);
-		return __result;
+
+		return names.find(name) != names.end();
 	}
 
-	_extern bool _sub_10A946C0(Server::StatsServersBanList *const, std::string);
 	_inline bool StatsServersBanList::ContainsUID(std::string uid) // 0x10A946C0
 	{
-		mangled_x86(MANGLED_TODO, "?ContainsUID@StatsServersBanList@Server@@QAE_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?ContainsUID@StatsServersBanList@Server@@QAE_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 		// std::string uid;
-		todo("implement");
-		bool __result = _sub_10A946C0(this, uid);
-		return __result;
+
+		return uids.find(uid) != uids.end();
 	}
 
 	_inline void StatsServersBanList::ClearList() // 0x10B18A30

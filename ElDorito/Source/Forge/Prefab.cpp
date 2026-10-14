@@ -142,6 +142,13 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+extern char const *tag_get_name(long tag_index); extern char const *tag_to_string(unsigned long tag, char *dest, long dest_length);  // hades: added for 0x10970530  // hades: added for 0x10970530
+
+extern s_map_variant *(*const game_engine_get_runtime_map_variant)();  // hades: added for 0x1096FAB0  // hades: added for 0x1096FAB0
+namespace hades_file_local { template<typename... t_args> static void DisplayPrefabError(wchar_t const *format, t_args... args); }  // hades: added for 0x1096FAB0  // hades: added for 0x1096FAB0
+namespace Forge { namespace Selection { extern Forge::ObjectSet &GetSelection(); } }  // hades: added for 0x1096FAB0  // hades: added for 0x1096FAB0
+extern bool parse_tag_file_name(char const *path, char *out_tag_name, unsigned long *out_group_tag); extern long tag_find_by_name(unsigned long group_tag, char const *name);  // hades: added for 0x1096FAB0  // hades: added for 0x1096FAB0
+
 namespace Forge
 {
 	namespace Prefabs
@@ -167,10 +174,9 @@ namespace Forge
 {
 	namespace Prefabs
 	{
-		_extern bool _sub_10970530(std::string const &, std::string &, std::string const &);
 		bool Save(std::string const &author, std::string &name, std::string const &path) // 0x10970530
 		{
-			mangled_x86(MANGLED_TODO, "?Save@Prefabs@Forge@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAV34@0@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Save@Prefabs@Forge@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAV34@0@Z");
 			// static ...; // 0x10970D28
 			// static ...; // 0x10970D1B
 			// static ...; // 0x10970D18
@@ -194,37 +200,88 @@ namespace Forge
 			// Forge::Prefabs::PrefabHeader header;
 			// s_map_variant *mapv;
 			// static __int32 $TSS0; // 0x1241A5A0
-			{
 				// __int32 i;
-				{
 					// long paletteIndex;
 					// s_variant_datum &placement;
 					// long tagIndex;
 					// PrefabPlacement *prefabPlacement;
 					// real_vector3d displacement;
-					{
 						// std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<long const ,long> > > > it;
-						{
 							// char const *tag_name;
 							// unsigned long group_tag;
 							// char group_tag_ascii[5];
 							// char *dest_tag_name;
 							// unsigned __int32 len;
-						}
-					}
-				}
-			}
 			// function call : s_map_variant *(*const)()
 			// function call : unsigned long (*const)(long)
-			todo("implement");
-			bool __result = _sub_10970530(author, name, path);
-			return __result;
+
+			static PrefabPaletteEntry palette[256];
+			std::ofstream fs(path, std::ios::binary);
+			if (!fs.is_open())
+				return false;
+			Forge::ObjectSet &objectSet = Forge::Selection::GetSelection();
+			s_map_variant *mapv = game_engine_get_runtime_map_variant();
+			unsigned long playerHandle = ((unsigned long (*)(long))0x589C30)(0);
+			real_point3d const &crosshairPoint = get_sandbox_globals()->player_cursor_position[playerHandle & 0xF];
+			static PrefabPlacement placements[640];
+			long paletteItemCount = 0;
+			long placementCount = 0;
+			std::unordered_map<long,long> tagIndexToPaletteIndex;
+			for (__int32 i = 0; i < 640; i++)
+			{
+				s_variant_datum &placement = mapv->objects[i];
+				if (!placement.flags.test(_map_variant_occupied_slot_bit) || !objectSet.Contains(placement.object_index))
+					continue;
+				long tagIndex = mapv->object_quotas[placement.quota_index].definition_index;
+				long paletteIndex = -1;
+				{
+					auto it = tagIndexToPaletteIndex.find(tagIndex);
+					if (it == tagIndexToPaletteIndex.end())
+					{
+						paletteIndex = paletteItemCount++;
+						char const *tag_name = tag_get_name(tagIndex);
+						if (!tag_name)
+							return false;
+						char *dest_tag_name = palette[paletteIndex].tag_name;
+						unsigned __int32 len = strlen(tag_name);
+						if (len > 255)
+							return false;
+						char group_tag_ascii[5];
+						unsigned long group_tag = tag_get_group_tag(tagIndex);
+						tag_to_string(group_tag, group_tag_ascii, 5);
+						snprintf(dest_tag_name, 256, "%s.%s", tag_name, group_tag_ascii);
+						tagIndexToPaletteIndex.insert(std::make_pair(tagIndex, paletteIndex));
+					}
+					else
+						paletteIndex = it->second;
+				}
+				PrefabPlacement *prefabPlacement = &placements[placementCount++];
+				prefabPlacement->PaletteIndex = paletteIndex;
+				real_vector3d displacement = placement.position - get_sandbox_globals()->player_cursor_position[0];
+				*reinterpret_cast<real_vector3d *>(&prefabPlacement->Position) = displacement;
+				prefabPlacement->Forward = placement.forward;
+				prefabPlacement->Up = placement.up;
+				prefabPlacement->Properties = static_cast<s_map_variant_placement_properties const &>(placement.properties);
+			}
+			Forge::Prefabs::PrefabHeader header = {};
+			header.Magic = 'prfb';
+			header.Version = 1;
+			header.DateCreated = std::chrono::system_clock::now().time_since_epoch() / std::chrono::seconds(1);
+			strncpy_s(header.Name, name.c_str(), _TRUNCATE);
+			strncpy_s(header.Author, author.c_str(), _TRUNCATE);
+			header.ObjectCount = placementCount;
+			header.PaletteCount = paletteItemCount;
+			fs.write((char *)&header, sizeof(header));
+			fs.write((char *)palette, paletteItemCount * (std::streamsize)sizeof(PrefabPaletteEntry));
+			fs.write((char *)placements, placementCount * (std::streamsize)sizeof(PrefabPlacement));
+			if (fs.fail())
+				return false;
+			return true;
 		}
 
-		_extern bool _sub_1096FAB0(std::string const &);
 		bool Load(std::string const &path) // 0x1096FAB0
 		{
-			mangled_x86(MANGLED_TODO, "?Load@Prefabs@Forge@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Load@Prefabs@Forge@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 			// static ...; // 0x1097016F
 			// static ...; // 0x10970168
 			// static ...; // 0x10970162
@@ -247,44 +304,95 @@ namespace Forge
 			// Forge::Prefabs::PrefabHeader header;
 			// s_map_variant *mapv;
 			// static __int32 $TSS0; // 0x1241A5A4
-			{
 				// long needed;
-			}
-			{
 				// __int32 i;
-				{
 					// char tag_name[256];
 					// long tag_index;
 					// unsigned long group_tag;
 					// PrefabPlacement &prefabPlacement;
-				}
-			}
-			{
-				{
 					// real_point3d position;
 					// long newObjectIndex;
-				}
-			}
 			// function call : s_map_variant *(*const)()
 			// function call : unsigned long (*const)(long)
 			// function call : long (*const)(s_map_variant *, long, long, long, real_point3d const *, real_vector3d const *, real_vector3d const *, long, long, s_map_variant_placement_properties const *, short)
-			todo("implement");
-			bool __result = _sub_1096FAB0(path);
-			return __result;
+
+			static PrefabPaletteEntry palette[256];
+			std::ifstream fs(path, std::ios::binary);
+			if (!fs.is_open())
+				return false;
+			s_map_variant *mapv = game_engine_get_runtime_map_variant();
+			if (!mapv)
+				return false;
+			Forge::Prefabs::PrefabHeader header;
+			if (!::ReadHeader(fs, header))
+			{
+				DisplayPrefabError(L"Not a valid prefab file");
+				return false;
+			}
+			if (!header.PaletteCount || header.PaletteCount >= 256 || !header.ObjectCount || header.ObjectCount >= 640)
+				return false;
+			Forge::ForgeObjectQuota quota = Forge::CalculateObjectQuota();
+			long playerHandle = ((unsigned long (*)(long))0x589C30)(0);
+			real_point3d const &crosshairPoint = get_sandbox_globals()->player_cursor_position[playerHandle & 0xF];
+			__int32 remainingObjects = quota.TotalObjectsAvailable - quota.TotalObjectsUsed;
+			if (header.ObjectCount > remainingObjects)
+			{
+				long needed = quota.TotalObjectsUsed + header.ObjectCount - quota.TotalObjectsAvailable;
+				DisplayPrefabError(L"Unable to load prefab: out of objects. (%d more objects needed)", needed);
+				return false;
+			}
+			Forge::ObjectSet &objectSet = Forge::Selection::GetSelection();
+			objectSet.Clear();
+			static PrefabPlacement placements[640];
+			long paletteTagIndices[256];
+			memset(paletteTagIndices, -1, sizeof(paletteTagIndices));
+			fs.read((char *)palette, header.PaletteCount * (std::streamsize)sizeof(PrefabPaletteEntry));
+			fs.read((char *)placements, header.ObjectCount * (std::streamsize)sizeof(PrefabPlacement));
+			if (fs.fail())
+				return false;
+			for (__int32 i = 0; i < header.ObjectCount; i++)
+			{
+				PrefabPlacement &prefabPlacement = placements[i];
+				if (prefabPlacement.PaletteIndex >= header.PaletteCount)
+					continue;
+				char tag_name[256];
+				unsigned long group_tag;
+				if (!parse_tag_file_name(palette[prefabPlacement.PaletteIndex].tag_name, tag_name, &group_tag))
+					return false;
+				long tag_index = tag_find_by_name(group_tag, tag_name);
+				if (tag_index == -1)
+				{
+					DisplayPrefabError(L"Could not find tag \"%S\"", palette[prefabPlacement.PaletteIndex].tag_name);
+					return false;
+				}
+				paletteTagIndices[prefabPlacement.PaletteIndex] = tag_index;
+			}
+			for (__int32 i = 0; i < header.ObjectCount; i++)
+			{
+				PrefabPlacement &prefabPlacement = placements[i];
+				real_point3d position = crosshairPoint + prefabPlacement.Position;
+				long newObjectIndex = ((long (__thiscall *)(s_map_variant *, long, long, long, real_point3d const *, real_vector3d const *, real_vector3d const *, long, long, s_map_variant_placement_properties const *, short))0x582110)(mapv, paletteTagIndices[prefabPlacement.PaletteIndex], 0, -1, &position, &prefabPlacement.Forward, &prefabPlacement.Up, -1, -1, &prefabPlacement.Properties, 0);
+				if (newObjectIndex == -1)
+				{
+					DisplayPrefabError(L"Unable to spawn one or more objects!");
+					return false;
+				}
+				objectSet.Add(newObjectIndex);
+			}
+			return true;
 		}
 
-		_extern bool _sub_109703E0(std::string const &, Forge::Prefabs::PrefabHeader &);
 		bool ReadHeader(std::string const &path, Forge::Prefabs::PrefabHeader &header) // 0x109703E0
 		{
-			mangled_x86(MANGLED_TODO, "?ReadHeader@Prefabs@Forge@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAUPrefabHeader@12@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ReadHeader@Prefabs@Forge@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAUPrefabHeader@12@@Z");
 			// static ...; // 0x109704D8
 			// static ...; // 0x109704D0
 			// std::string const &path;
 			// Forge::Prefabs::PrefabHeader &header;
 			// std::ifstream fs;
-			todo("implement");
-			bool __result = _sub_109703E0(path, header);
-			return __result;
+
+			std::ifstream fs(path, std::ios::binary);
+			return fs.is_open() && ::ReadHeader(fs, header);
 		}
 	}
 }
@@ -312,3 +420,20 @@ bool ReadHeader(std::ifstream &stream, Forge::Prefabs::PrefabHeader &header) // 
 
 template c_enum<enum e_multiplayer_object_boundary_shape,char> & c_enum<enum e_multiplayer_object_boundary_shape,char>::operator=(c_enum<enum e_multiplayer_object_boundary_shape,char> const &);
 template c_flags<enum e_game_engine_type,unsigned short> & c_flags<enum e_game_engine_type,unsigned short>::operator=(c_flags<enum e_game_engine_type,unsigned short> const &);
+
+namespace hades_file_local
+{
+	template<typename... t_args>
+	static void DisplayPrefabError(wchar_t const *format, t_args... args) // 0x1096F110, 0x1096F1F0, 0x1096F2E0
+	{
+		wchar_t buffer[4096];
+		memset(buffer, 0, sizeof(buffer));
+		swprintf_s(buffer, format, args...);
+		Forge::PrintKillFeedText(0, buffer, 0);
+	}
+}
+
+// hades: the instantiations Forge::Prefabs::Load uses (Load itself is not reconstructed yet).
+template void hades_file_local::DisplayPrefabError<>(wchar_t const *format);
+template void hades_file_local::DisplayPrefabError<long>(wchar_t const *format, long);
+template void hades_file_local::DisplayPrefabError<char *>(wchar_t const *format, char *);

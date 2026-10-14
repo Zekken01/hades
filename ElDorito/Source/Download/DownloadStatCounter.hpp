@@ -32,7 +32,7 @@ namespace Download
 		__int32 m_counter; // 0x8
 		__int32 m_average; // 0xC
 	public:
-		_inline CDownloadStatCounter(); /* compiler_generated() */
+		_inline CDownloadStatCounter() noexcept; /* compiler_generated() */  // hades: noexcept - SSegment() has no EH frame
 	};
 	static_assert(sizeof(Download::CDownloadStatCounter) == 16, "Invalid Download::CDownloadStatCounter size");
 }
@@ -53,14 +53,16 @@ namespace Download
 		return m_average;
 	}
 
-	_extern void _sub_10831BC0(Download::CDownloadStatCounter *const, __int32);
 	_inline void CDownloadStatCounter::SecondTick(__int32 deltaMs) // 0x10831BC0
 	{
-		mangled_x86(MANGLED_TODO, "?SecondTick@CDownloadStatCounter@Download@@QAEXH@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?SecondTick@CDownloadStatCounter@Download@@QAEXH@Z");
 		// __int32 deltaMs;
 		// long long sample;
-		todo("implement");
-		_sub_10831BC0(this, deltaMs);
+
+		long long sample = m_counter * 1000LL / deltaMs;
+		(void)((!!(sample >= 0)) || (_wassert(L"sample >= 0", L"C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Download\\DownloadStatCounter.hpp", 22), 0));
+		m_average = m_average * 3LL / 4 + sample / 4;
+		m_counter = 0;
 	}
 
 	_inline void CDownloadStatCounter::Clear() // 0x1082EB10
@@ -73,13 +75,15 @@ namespace Download
 		m_totalCounter = 0;
 	}
 
-	_extern void _sub_1082DEC0(Download::CDownloadStatCounter *const, __int32);
 	_inline void CDownloadStatCounter::Add(__int32 count) // 0x1082DEC0
 	{
-		mangled_x86(MANGLED_TODO, "?Add@CDownloadStatCounter@Download@@QAEXH@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Add@CDownloadStatCounter@Download@@QAEXH@Z");
 		// __int32 count;
-		todo("implement");
-		_sub_1082DEC0(this, count);
+
+		(void)((!!(m_counter < (std::numeric_limits<std::int32_t>::max)() - count)) || (_wassert(L"m_counter < (std::numeric_limits<std::int32_t>::max)() - count", L"C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Download\\DownloadStatCounter.hpp", 36), 0));
+		m_counter += count;
+		(void)((!!(m_totalCounter < (std::numeric_limits<std::int64_t>::max)() - count)) || (_wassert(L"m_totalCounter < (std::numeric_limits<std::int64_t>::max)() - count", L"C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Download\\DownloadStatCounter.hpp", 38), 0));
+		m_totalCounter += count;
 	}
 }
 

@@ -47,7 +47,7 @@ public:
 	c_network_session_parameter_session_mode(); /* compiler_generated() */
 	c_network_session_parameter_session_mode &operator=(c_network_session_parameter_session_mode &); /* compiler_generated() */
 	c_network_session_parameter_session_mode &operator=(c_network_session_parameter_session_mode const &); /* compiler_generated() */
-	void __autoclassinit2(unsigned __int32); /* compiler_generated() */
+	// void __autoclassinit2(unsigned __int32); /* compiler_generated() */  // hades: /sdl generates it
 };
 static_assert(sizeof(c_network_session_parameter_session_mode) == 72, "Invalid c_network_session_parameter_session_mode size");
 
@@ -69,7 +69,7 @@ public:
 	c_network_session_parameter_session_size(); /* compiler_generated() */
 	c_network_session_parameter_session_size &operator=(c_network_session_parameter_session_size &); /* compiler_generated() */
 	c_network_session_parameter_session_size &operator=(c_network_session_parameter_session_size const &); /* compiler_generated() */
-	void __autoclassinit2(unsigned __int32); /* compiler_generated() */
+	// void __autoclassinit2(unsigned __int32); /* compiler_generated() */  // hades: /sdl generates it
 };
 static_assert(sizeof(c_network_session_parameter_session_size) == 64, "Invalid c_network_session_parameter_session_size size");
 
@@ -95,7 +95,7 @@ public:
 	c_network_session_parameter_requested_remote_join_data(); /* compiler_generated() */
 	c_network_session_parameter_requested_remote_join_data &operator=(c_network_session_parameter_requested_remote_join_data &); /* compiler_generated() */
 	c_network_session_parameter_requested_remote_join_data &operator=(c_network_session_parameter_requested_remote_join_data const &); /* compiler_generated() */
-	void __autoclassinit2(unsigned __int32); /* compiler_generated() */
+	// void __autoclassinit2(unsigned __int32); /* compiler_generated() */  // hades: /sdl generates it
 };
 static_assert(sizeof(c_network_session_parameter_requested_remote_join_data) == 224, "Invalid c_network_session_parameter_requested_remote_join_data size");
 
@@ -108,7 +108,7 @@ public:
 	c_network_session_parameter_remote_join_data(); /* compiler_generated() */
 	c_network_session_parameter_remote_join_data &operator=(c_network_session_parameter_remote_join_data &); /* compiler_generated() */
 	c_network_session_parameter_remote_join_data &operator=(c_network_session_parameter_remote_join_data const &); /* compiler_generated() */
-	void __autoclassinit2(unsigned __int32); /* compiler_generated() */
+	// void __autoclassinit2(unsigned __int32); /* compiler_generated() */  // hades: /sdl generates it
 };
 static_assert(sizeof(c_network_session_parameter_remote_join_data) == 224, "Invalid c_network_session_parameter_remote_join_data size");
 
@@ -127,7 +127,7 @@ public:
 	c_network_session_parameter_leader_properties(); /* compiler_generated() */
 	c_network_session_parameter_leader_properties &operator=(c_network_session_parameter_leader_properties &); /* compiler_generated() */
 	c_network_session_parameter_leader_properties &operator=(c_network_session_parameter_leader_properties const &); /* compiler_generated() */
-	void __autoclassinit2(unsigned __int32); /* compiler_generated() */
+	// void __autoclassinit2(unsigned __int32); /* compiler_generated() */  // hades: /sdl generates it
 };
 static_assert(sizeof(c_network_session_parameter_leader_properties) == 176, "Invalid c_network_session_parameter_leader_properties size");
 

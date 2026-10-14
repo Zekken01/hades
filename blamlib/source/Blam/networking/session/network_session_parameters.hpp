@@ -121,7 +121,7 @@ public:
 	c_network_session_parameters(); /* compiler_generated() */
 	c_network_session_parameters &operator=(c_network_session_parameters &); /* compiler_generated() */
 	c_network_session_parameters &operator=(c_network_session_parameters const &); /* compiler_generated() */
-	void __autoclassinit2(unsigned __int32); /* compiler_generated() */
+	// void __autoclassinit2(unsigned __int32); /* compiler_generated() */  // hades: /sdl generates it
 };
 static_assert(sizeof(c_network_session_parameters) == 751920, "Invalid c_network_session_parameters size");
 

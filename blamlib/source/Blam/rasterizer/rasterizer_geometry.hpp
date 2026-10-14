@@ -32,7 +32,7 @@ private:
 	IDirect3DVertexBuffer9 *d3d_buffer; // 0x4
 	void *data; // 0x8
 public:
-	void __autoclassinit2(unsigned __int32); /* compiler_generated() */
+	// void __autoclassinit2(unsigned __int32); /* compiler_generated() */  // hades: /sdl generates it
 unsigned char __pad0[4]; // 0xC
 };
 static_assert(sizeof(c_rasterizer_vertex_buffer) == 16, "Invalid c_rasterizer_vertex_buffer size");
@@ -52,7 +52,7 @@ private:
 	IDirect3DIndexBuffer9 *d3d_buffer; // 0x8
 	void *data; // 0xC
 public:
-	void __autoclassinit2(unsigned __int32); /* compiler_generated() */
+	// void __autoclassinit2(unsigned __int32); /* compiler_generated() */  // hades: /sdl generates it
 };
 static_assert(sizeof(c_rasterizer_index_buffer) == 16, "Invalid c_rasterizer_index_buffer size");
 

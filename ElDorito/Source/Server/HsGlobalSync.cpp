@@ -25,6 +25,8 @@
 #include "ChatCommands/ChatCommandMap.hpp"
 #include "Forge/Reforge.hpp"
 
+#include "Patches/Core.hpp"  // hades: added for 0x1071FB50
+
 #include <Windows.h>
 #include <stdio.h>
 #include <sys/stat.h>
@@ -145,8 +147,8 @@ extern void OnMapLoaded(std::function<void __cdecl(char const *)> callback);
 namespace hades_file_local
 {
 	extern unsigned __int32 lastSynchronizeTime; // 0x1134D8F0
-	extern std::vector<HsGlobalSyncState> registeredGlobals; // 0x113882E8
-	extern std::function<void __cdecl(short,unsigned short)> sendGlobal; // 0x113882F8
+	std::vector<HsGlobalSyncState> registeredGlobals; // 0x113882E8  // hades: defined, so its dynamic initializer emits the _Vector_val constructor
+	std::function<void __cdecl(short,unsigned short)> sendGlobal; // 0x113882F8  // hades: defined, so its dynamic initializer emits the default constructor
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -174,49 +176,66 @@ namespace Server
 			registeredGlobals.push_back(stateDatum);
 		}
 
-		_extern void _sub_107201E0(short);
 		void UnregisterGlobal(short globalIndex) // 0x107201E0
 		{
-			mangled_x86(MANGLED_TODO, "?UnregisterGlobal@HsGlobalSync@Server@@YAXF@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?UnregisterGlobal@HsGlobalSync@Server@@YAXF@Z");
 			// short globalIndex;
 			// __int32 index;
-			todo("implement");
-			_sub_107201E0(globalIndex);
+
+			__int32 index = FindGlobalSyncState(globalIndex);
+			if (index == -1)
+				return;
+			registeredGlobals.erase(registeredGlobals.begin() + index);
 		}
 
-		_extern void _sub_1071FCA0(unsigned short);
 		void InvalidatePlayerMask(unsigned short playerMask) // 0x1071FCA0
 		{
-			mangled_x86(MANGLED_TODO, "?InvalidatePlayerMask@HsGlobalSync@Server@@YAXG@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?InvalidatePlayerMask@HsGlobalSync@Server@@YAXG@Z");
 			// unsigned short playerMask;
-			{
 				// unsigned __int32 i;
+
+			for (unsigned __int32 i = 0; i < registeredGlobals.size(); i++)
+			{
+				registeredGlobals[i].synchronizedPlayersMask &= ~playerMask;
+				SynchronizeGlobalInternal(&registeredGlobals[i]);
 			}
-			todo("implement");
-			_sub_1071FCA0(playerMask);
 		}
 
-		_extern void _sub_1071FC10(short);
 		void InvalidateGlobal(short globalIndex) // 0x1071FC10
 		{
-			mangled_x86(MANGLED_TODO, "?InvalidateGlobal@HsGlobalSync@Server@@YAXF@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?InvalidateGlobal@HsGlobalSync@Server@@YAXF@Z");
 			// short globalIndex;
 			// __int32 index;
 			// HsGlobalSyncState *global;
-			todo("implement");
-			_sub_1071FC10(globalIndex);
+
+			__int32 index = FindGlobalSyncState(globalIndex);
+			if (index == -1)
+			{
+				return;
+			}
+
+			HsGlobalSyncState *global = &registeredGlobals[index];
+			global->synchronizedPlayersMask = 0;
+			SynchronizeGlobalInternal(global);
 		}
 
-		_extern void _sub_1071FEC0();
 		void Synchronize() // 0x1071FEC0
 		{
-			mangled_x86(MANGLED_TODO, "?Synchronize@HsGlobalSync@Server@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Synchronize@HsGlobalSync@Server@@YAXXZ");
 			// procedure flags: nofpo
-			{
 				// unsigned __int32 i;
+
+			if (!sendGlobal)
+			{
+				return;
 			}
-			todo("implement");
-			_sub_1071FEC0();
+
+			for (unsigned __int32 i = 0; i < registeredGlobals.size(); i++)
+			{
+				SynchronizeGlobalInternal(&registeredGlobals[i]);
+			}
+
+			lastSynchronizeTime = system_milliseconds();
 		}
 
 		void InitializeForNewMap() // 0x1071FBC0
@@ -228,13 +247,15 @@ namespace Server
 			registeredGlobals.clear();
 		}
 
-		_extern void _sub_1071FB50();
 		void Init() // 0x1071FB50
 		{
-			mangled_x86(MANGLED_TODO, "?Init@HsGlobalSync@Server@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Init@HsGlobalSync@Server@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_1071FB50();
+
+			Patches::Core::OnMapLoaded([](char const *map)
+			{
+				InitializeForNewMap();
+			});
 		}
 
 		void Tick() // 0x10720120
@@ -254,13 +275,12 @@ namespace Server
 			}
 		}
 
-		_extern void _sub_1071FE20(std::function<void __cdecl(short,unsigned short)>);
 		void SetupFuncs(std::function<void __cdecl(short,unsigned short)> sendGlobal_) // 0x1071FE20
 		{
-			mangled_x86(MANGLED_TODO, "?SetupFuncs@HsGlobalSync@Server@@YAXV?$function@$$A6AXFG@Z@std@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?SetupFuncs@HsGlobalSync@Server@@YAXV?$function@$$A6AXFG@Z@std@@@Z");
 			// std::function<void __cdecl(short,unsigned short)> sendGlobal_;
-			todo("implement");
-			_sub_1071FE20(sendGlobal_);
+
+			sendGlobal = sendGlobal_;
 		}
 	}
 }
@@ -287,9 +307,9 @@ namespace Server
 {
 	namespace HsGlobalSync
 	{
-		_extern void _sub_1071FF70(HsGlobalSyncState *);
 		void SynchronizeGlobalInternal(HsGlobalSyncState *global) // 0x1071FF70
 		{
+			mangled_x86(MANGLED_KNOWN_GOOD, "?SynchronizeGlobalInternal@HsGlobalSync@Server@@YAXPAUHsGlobalSyncState@hades_file_local@@@Z");
 			// Server::HsGlobalSync::SynchronizeGlobalInternal
 			// HsGlobalSyncState *global;
 			// unsigned __int32 needsSyncPlayerMask;
@@ -297,15 +317,34 @@ namespace Server
 			// c_data_array<s_player_datum> *players;
 			// Blam::Network::Session *session;
 			// unsigned __int32 activePlayerMask;
-			{
 				// __int32 i;
-				{
 					// s_player_datum *player;
 					// __int32 playerIdx;
-				}
+
+			Blam::Network::Session *session = Blam::Network::GetActiveSession();
+			if (!session || !session->IsEstablished() || !session->IsHost())
+				return;
+			unsigned __int32 activePlayerMask = session->MembershipInfo.ActivePlayerMask;
+			unsigned __int32 needsSyncPlayerMask = (global->synchronizedPlayersMask ^ activePlayerMask) & activePlayerMask;
+			if (!needsSyncPlayerMask)
+				return;
+			unsigned short syncPlayerMask = 0;
+			c_data_array<s_player_datum> *players = players_get();
+			for (__int32 i = 0; i < 16; i++)
+			{
+				s_player_datum *player = players->get_absolute(i);
+				if (!player->salt || !(player->flags & 1))
+					continue;
+				__int32 playerIdx = session->MembershipInfo.GetPeerPlayer(player->machine_index);
+				if (playerIdx == -1 || !(needsSyncPlayerMask & (1 << playerIdx)))
+					continue;
+				syncPlayerMask |= 1 << i;
 			}
-			todo("implement");
-			_sub_1071FF70(global);
+			if (syncPlayerMask)
+			{
+				sendGlobal(global->globalIndex, syncPlayerMask);
+				global->synchronizedPlayersMask |= syncPlayerMask;
+			}
 		}
 	}
 }

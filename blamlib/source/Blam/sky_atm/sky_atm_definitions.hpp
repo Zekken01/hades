@@ -56,11 +56,9 @@ struct c_atmosphere_setting
 	s_tag_reference weather_effect; // 0x8C
 	float runtime_weight; // 0x9C
 	float runtime_effect_weight; // 0xA0
-	c_atmosphere_setting(c_atmosphere_setting &); /* compiler_generated() */
-	c_atmosphere_setting(c_atmosphere_setting const &); /* compiler_generated() */
-	c_atmosphere_setting(); /* compiler_generated() */
-	c_atmosphere_setting &operator=(c_atmosphere_setting &); /* compiler_generated() */
-	c_atmosphere_setting &operator=(c_atmosphere_setting const &); /* compiler_generated() */
+	// implicit: c_atmosphere_setting(c_atmosphere_setting const &), c_atmosphere_setting(), operator=(c_atmosphere_setting const &)
+	// - declaring them makes the struct a non-aggregate, and `c_atmosphere_setting x = {}` then calls a constructor instead of
+	//   default-constructing `flags` and zero-filling the rest
 };
 #pragma pack(pop)
 static_assert(sizeof(c_atmosphere_setting) == 164, "Invalid c_atmosphere_setting size");

@@ -32,6 +32,8 @@ struct s_player_datum;
 
 /* ---------- prototypes */
 
+extern void *(*const datum_try_and_get)(s_data_array const *, unsigned long);  // hades: added for 0x10F004E0
+
 extern c_data_array<s_player_datum> *players_get();
 extern s_player_datum *player_get(unsigned long player_index);
 
@@ -51,15 +53,18 @@ c_data_array<s_player_datum> *players_get() // 0x10F00570
 	return tls_getd().players;
 }
 
-extern s_player_datum *_sub_10F004E0(unsigned long);
 s_player_datum *player_get(unsigned long player_index) // 0x10F004E0
 {
-	mangled_x86(MANGLED_TODO, "?player_get@@YAPAUs_player_datum@@K@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?player_get@@YAPAUs_player_datum@@K@Z");
 	// unsigned long player_index;
 	// function call : void *(*const)(s_data_array const *, unsigned long)
-	todo("implement");
-	s_player_datum * __result = _sub_10F004E0(player_index);
-	return __result;
+
+	if (player_index == -1)
+	{
+		return nullptr;
+	}
+
+	return (s_player_datum *)datum_try_and_get(players_get(), player_index);
 }
 
 /* ---------- private code */

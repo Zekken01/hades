@@ -92,7 +92,7 @@ enum hkpShapeType
 
 /* ---------- definitions */
 
-struct hkVector4
+struct alignas(16) hkVector4  // hades: Havok's 16-byte SIMD alignment; temporaries land on 16-byte slots
 {
 	float x; // 0x0
 	float y; // 0x4

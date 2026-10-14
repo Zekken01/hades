@@ -40,14 +40,14 @@ private:
 	c_bitstream *m_bitstream; // 0x0
 	long m_update_component_first_index; // 0x4
 	long m_update_component_count; // 0x8
-	unsigned char __pad0[4]; // 0xC
+	// 0xC: natural padding (hades: a byte array here would turn on the /GS cookie)
 	unsigned long long m_update_component_mask2; // 0x10
 	unsigned long long m_update_component_mask3; // 0x18
 	unsigned long long m_update_component_mask_written; // 0x20
 	unsigned long long m_update_component_mask4; // 0x28
 	unsigned long long m_update_component_mask5; // 0x30
 	bool m_has_space_left; // 0x38
-	unsigned char __pad1[3]; // 0x39
+	// 0x39: natural padding
 	long m_update_component_index; // 0x3C
 	char const *m_update_component_name; // 0x40
 	long m_required_leave_space_bits; // 0x44

@@ -28,6 +28,8 @@
 #include "Web/Ui/ScreenLayer.hpp"
 #include "Web/Ui/WebMods.hpp"
 
+#include "Patches/Input.hpp"  // hades: added for 0x10C9DCE0
+
 #include <Windows.h>
 #include <stdio.h>
 #include <sys/stat.h>
@@ -125,7 +127,7 @@ namespace hades_file_local
 		virtual void WriteLine(std::string const &);
 		WebConsoleOutputHandler(WebConsoleOutputHandler &); /* compiler_generated() */
 		WebConsoleOutputHandler(WebConsoleOutputHandler const &); /* compiler_generated() */
-		WebConsoleOutputHandler(); /* compiler_generated() */
+		WebConsoleOutputHandler() = default; /* compiler_generated() */  // hades: not user-provided, so make_shared value-initializes
 		virtual ~WebConsoleOutputHandler() = default; /* compiler_generated() */
 		WebConsoleOutputHandler &operator=(WebConsoleOutputHandler &); /* compiler_generated() */
 		WebConsoleOutputHandler &operator=(WebConsoleOutputHandler const &); /* compiler_generated() */
@@ -162,13 +164,13 @@ namespace Web
 	{
 		namespace WebConsole
 		{
-			_extern void _sub_10C9DCE0();
 			void Init() // 0x10C9DCE0
 			{
-				mangled_x86(MANGLED_TODO, "?Init@WebConsole@Ui@Web@@YAXXZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?Init@WebConsole@Ui@Web@@YAXXZ");
 				// procedure flags: nofpo
-				todo("implement");
-				_sub_10C9DCE0();
+
+				Console::RegisterHandler(std::make_shared<WebConsoleOutputHandler>());
+				Patches::Input::RegisterDefaultInputHandler(OnGameInputUpdated);
 			}
 
 			void Show() // 0x10C9DE50
@@ -227,5 +229,5 @@ void OnGameInputUpdated() // 0x10C9DDE0
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0WebConsoleOutputHandler@hades_file_local@@QAE@XZ"); no body to assert in
-_inline WebConsoleOutputHandler::WebConsoleOutputHandler() = default; // 0x10C9DA50
+// _inline WebConsoleOutputHandler::WebConsoleOutputHandler() = default; // 0x10C9DA50  // hades: defaulted on its declaration
 

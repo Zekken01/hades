@@ -47,6 +47,8 @@
 #include "Web/Ui/ScreenLayer.hpp"
 #include "Web/Ui/WebMods.hpp"
 
+#include "Patches/Input.hpp"  // hades: added for 0x10C9C760
+
 #include <Windows.h>
 #include <stdio.h>
 #include <sys/stat.h>
@@ -189,7 +191,7 @@ namespace hades_file_local
 		virtual void MessageReceived(Server::Chat::ChatMessage const &);
 		GameChatHandler(GameChatHandler &); /* compiler_generated() */
 		GameChatHandler(GameChatHandler const &); /* compiler_generated() */
-		GameChatHandler(); /* compiler_generated() */
+		GameChatHandler() = default; /* compiler_generated() */  // hades: not user-provided, so make_shared value-initializes
 		virtual ~GameChatHandler() = default; /* compiler_generated() */
 		GameChatHandler &operator=(GameChatHandler &); /* compiler_generated() */
 		GameChatHandler &operator=(GameChatHandler const &); /* compiler_generated() */
@@ -198,6 +200,11 @@ namespace hades_file_local
 }
 using namespace hades_file_local;
 /* ---------- prototypes */
+
+#include "Player/PlayerCustomization.hpp"  // hades: added for 0x10C9C880
+extern void player_format_uid(char *string, unsigned long long id);  // hades: added for 0x10C9C880
+
+extern bool (*const game_engine_is_sandbox)();  // hades: added for 0x10C9CEA0
 
 namespace Web
 {
@@ -233,31 +240,40 @@ namespace Web
 	{
 		namespace WebChat
 		{
-			_extern void _sub_10C9C760();
 			void Init() // 0x10C9C760
 			{
-				mangled_x86(MANGLED_TODO, "?Init@WebChat@Ui@Web@@YAXXZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?Init@WebChat@Ui@Web@@YAXXZ");
 				// procedure flags: nofpo
-				todo("implement");
-				_sub_10C9C760();
+
+				Server::Chat::AddHandler(std::make_shared<GameChatHandler>());
+				Patches::Input::RegisterDefaultInputHandler(OnGameInputUpdated);
 			}
 
-			_extern void _sub_10C9D080(bool);
 			void Show(bool teamChat) // 0x10C9D080
 			{
-				mangled_x86(MANGLED_TODO, "?Show@WebChat@Ui@Web@@YAX_N@Z");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?Show@WebChat@Ui@Web@@YAX_N@Z");
 				// static ...; // 0x10C9D20B
 				// static ...; // 0x10C9D200
 				// static ...; // 0x10C9D1E8
 				// static ...; // 0x10C9D1E0
 				// bool teamChat;
 				// Blam::Network::Session *session;
-				{
 					// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
 					// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
+
+				Blam::Network::Session *session = Blam::Network::GetActiveSession();
+				if (session && session->IsEstablished())
+				{
+					rapidjson::StringBuffer jsonBuffer;
+					rapidjson::Writer<rapidjson::StringBuffer> jsonWriter(jsonBuffer);
+					jsonWriter.StartObject();
+					jsonWriter.Key("teamChat");
+					jsonWriter.Bool(teamChat);
+					jsonWriter.Key("captureInput");
+					jsonWriter.Bool(true);
+					jsonWriter.EndObject();
+					Web::Ui::ScreenLayer::Show(Web::Ui::ScreenLayer::Chat, jsonBuffer.GetString());
 				}
-				todo("implement");
-				_sub_10C9D080(teamChat);
 			}
 
 			void Hide() // 0x10C9C710
@@ -305,9 +321,9 @@ void GameChatHandler::MessageSent(__int32 senderPeer, Server::Chat::ChatMessage 
 	// bool *ignore;
 }
 
-_extern void _sub_10C9C880(GameChatHandler *const, Server::Chat::ChatMessage const &);
 void GameChatHandler::MessageReceived(Server::Chat::ChatMessage const &message) // 0x10C9C880
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?MessageReceived@GameChatHandler@hades_file_local@@UAEXABUChatMessage@Chat@Server@@@Z");
 	// `anonymous-namespace'::GameChatHandler::MessageReceived
 	// static ...; // 0x10C9CD30
 	// static ...; // 0x10C9CD25
@@ -326,22 +342,68 @@ void GameChatHandler::MessageReceived(Server::Chat::ChatMessage const &message) 
 	// char const *chatType;
 	// Blam::Network::Session *session;
 	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
-	{
 		// Blam::Network::PlayerSession player;
 		// std::stringstream color;
 		// char uid[17];
+
+	Blam::Network::Session *session = Blam::Network::GetActiveSession();
+	if (!session)
+		return;
+	rapidjson::StringBuffer jsonBuffer;
+	rapidjson::Writer<rapidjson::StringBuffer> jsonWriter(jsonBuffer);
+	jsonWriter.StartObject();
+	jsonWriter.Key("message");
+	jsonWriter.String(std::string(message.Body).c_str());
+	jsonWriter.Key("sender");
+	jsonWriter.String(Server::Chat::GetSenderName(message).c_str());
+	char const *chatType;
+	switch (message.Type)
+	{
+	case Server::Chat::ChatMessageType::Global:
+		chatType = "GLOBAL";
+		break;
+	case Server::Chat::ChatMessageType::Team:
+		chatType = "TEAM";
+		break;
+	case Server::Chat::ChatMessageType::Whisper:
+		chatType = "WHISPER";
+		break;
+	case Server::Chat::ChatMessageType::Server:
+		chatType = "SERVER";
+		break;
+	default:
+		chatType = "UNKNOWN";
+		break;
 	}
-	todo("implement");
-	_sub_10C9C880(this, message);
+	jsonWriter.Key("chatType");
+	jsonWriter.String(chatType);
+	if (message.Type != Server::Chat::ChatMessageType::Server)
+	{
+		Blam::Network::PlayerSession player = session->MembershipInfo.PlayerSessions[message.SenderPlayer];
+		jsonWriter.Key("teamIndex");
+		jsonWriter.Int(player.Properties.host.team);
+		char uid[17];
+		player_format_uid(uid, player.Properties.host.player_uid);
+		jsonWriter.Key("UID");
+		jsonWriter.String(uid);
+		std::stringstream color;
+		color << "#" << std::setw(6) << std::setfill('0') << std::hex << Player::CPlayerCustomization::GetPlayerPrimaryColor(message.SenderPlayer);
+		jsonWriter.Key("color");
+		jsonWriter.String(color.str().c_str());
+		jsonWriter.Key("hasTeams");
+		jsonWriter.Bool(session->HasTeams());
+	}
+	jsonWriter.EndObject();
+	Web::Ui::ScreenLayer::NotifyScreen(Web::Ui::ScreenLayer::Chat, "chat", jsonBuffer.GetString());
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0GameChatHandler@hades_file_local@@QAE@XZ"); no body to assert in
-_inline GameChatHandler::GameChatHandler() = default; // 0x10C9C430
+// _inline GameChatHandler::GameChatHandler() = default; // 0x10C9C430  // hades: defaulted on its declaration
 
 
-_extern void _sub_10C9CEA0();
 void OnGameInputUpdated() // 0x10C9CEA0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnGameInputUpdated@@YAXXZ");
 	// `anonymous-namespace'::OnGameInputUpdated
 	// procedure flags: nofpo
 	// static ...; // 0x10C9CFEC
@@ -349,6 +411,14 @@ void OnGameInputUpdated() // 0x10C9CEA0
 	// static ...; // 0x10C9CFD8
 	// Blam::Input::BindingsTable bindings;
 	// function call : bool (*const)()
-	todo("implement");
-	_sub_10C9CEA0();
+
+	Blam::Input::BindingsTable bindings;
+	Blam::Input::GetBindings(0, &bindings);
+	if (game_engine_is_sandbox() && Blam::Input::GetKeyTicks(Blam::Input::eKeyCodeCtrl, Blam::Input::eInputTypeGame) > 0)
+		return;
+
+	if (Blam::Input::GetKeyTicks(bindings.PrimaryKeys[Blam::Input::eGameActionTeamChat], Blam::Input::eInputTypeUi) == 1 || Blam::Input::GetKeyTicks(bindings.SecondaryKeys[Blam::Input::eGameActionTeamChat], Blam::Input::eInputTypeUi) == 1)
+		Web::Ui::WebChat::Show(true);
+	if (Blam::Input::GetKeyTicks(bindings.PrimaryKeys[Blam::Input::eGameActionGeneralChat], Blam::Input::eInputTypeUi) == 1 || Blam::Input::GetKeyTicks(bindings.SecondaryKeys[Blam::Input::eGameActionGeneralChat], Blam::Input::eInputTypeUi) == 1)
+		Web::Ui::WebChat::Show(false);
 }

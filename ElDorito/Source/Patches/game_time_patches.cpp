@@ -67,6 +67,11 @@ using namespace ::Modules;
 
 /* ---------- prototypes */
 
+#include "Modules/ModuleGame.hpp"  // hades: added for 0x1091B510
+#include "Modules/ModuleCampaign.hpp"  // hades: added for 0x1091B510
+extern s_game_options *(*game_options_get)();  // hades: added for 0x1091B510
+extern bool (*game_is_campaign)();  // hades: added for 0x1091B510
+
 extern void game_time_patches_apply();
 
 void game_time_set_rate_scale_direct_hook(float scale);
@@ -77,20 +82,19 @@ void game_time_set_rate_scale_direct_hook(float scale);
 
 /* ---------- public code */
 
-_extern void _sub_1091B3B0();
 void game_time_patches_apply() // 0x1091B3B0
 {
-	mangled_x86(MANGLED_TODO, "?game_time_patches_apply@@YAXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_time_patches_apply@@YAXXZ");
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_1091B3B0();
+
+	Hook(0x165110, game_time_set_rate_scale_direct_hook).Apply();
 }
 
 /* ---------- private code */
 
-_extern void _sub_1091B510(float);
 void game_time_set_rate_scale_direct_hook(float scale) // 0x1091B510
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_time_set_rate_scale_direct_hook@@YAXM@Z");
 	// `anonymous-namespace'::game_time_set_rate_scale_direct_hook
 	// float scale;
 	// s_game_options *options;
@@ -100,6 +104,18 @@ void game_time_set_rate_scale_direct_hook(float scale) // 0x1091B510
 	// function call : s_game_options *(*)()
 	// function call : bool (*)()
 	// function call : bool (*const)()
-	todo("implement");
-	_sub_1091B510(scale);
+
+	s_game_options *options = game_options_get();
+	if (scale < 0.00001f)
+		scale = 0.00001f;
+
+	s_game_time_globals *globals = game_time_get_globals();
+	float target_tick_rate = (float)Modules::ModuleGame::Instance().VarTickRateClient->ValueInt;
+	if (game_is_campaign() && ((bool (__cdecl *)())0x67D270)())
+		target_tick_rate = (float)Modules::ModuleCampaign::Instance().VarCinematicFrameRateClient->ValueInt;
+
+	long new_tick_rate = (long)floorf(target_tick_rate / scale + 0.5f);
+	globals->tick_rate = new_tick_rate;
+	globals->tick_length = 1.0 / (float)new_tick_rate;
+	globals->game_speed = target_tick_rate / new_tick_rate;
 }

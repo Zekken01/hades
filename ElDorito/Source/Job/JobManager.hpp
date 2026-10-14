@@ -54,12 +54,12 @@ public:
 	bool RunJobs();
 private:
 	void WorkerThreadProc();
-	__int32 m_jobId; // 0x0
+	__int32 m_jobId = 1; // 0x0
 	std::priority_queue<SJob> m_jobs; // 0x4
 	std::mutex m_mutex; // 0x18
 	std::condition_variable m_emptyCondition; // 0x48
 	SJobCounter m_jobCounter; // 0x70
-	bool m_disposing; // 0x74
+	bool m_disposing = false; // 0x74
 	unsigned char __pad0[3]; // 0x75
 	std::vector<std::thread> m_workerThreads; // 0x78
 public:
@@ -76,14 +76,12 @@ extern _inline bool operator<(CJobManager::SJob const &a, CJobManager::SJob cons
 
 /* ---------- public code */
 
-_extern bool _sub_10869990(CJobManager::SJob const &, CJobManager::SJob const &);
 _inline bool operator<(CJobManager::SJob const &a, CJobManager::SJob const &b) // 0x10869990
 {
-	mangled_x86(MANGLED_TODO, "??M@YA_NABUSJob@CJobManager@@0@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??M@YA_NABUSJob@CJobManager@@0@Z");
 	// CJobManager::SJob const &b;
-	todo("implement");
-	bool __result = _sub_10869990(a, b);
-	return __result;
+
+	return a.priority < b.priority;
 }
 
 /* ---------- private code */

@@ -51,12 +51,12 @@ namespace Scripting
 			};
 			static_assert(sizeof(MemBlock) == 12, "Invalid MemBlock size");
 			public:
-			MemBlock *m_blockList; // 0x0
-			unsigned __int32 m_allocatedSize; // 0x4
+			MemBlock *m_blockList = nullptr; // 0x0
+			unsigned __int32 m_allocatedSize = 0; // 0x4
 		public:
 			HsThreadStorage(Scripting::HS::HsThreadStorage &);
 			HsThreadStorage(Scripting::HS::HsThreadStorage const &);
-			_inline HsThreadStorage();
+			HsThreadStorage() = default;  // hades: not user-provided; the original value-initializes it (zero, then the member initializers)
 			_inline ~HsThreadStorage();
 			void *Allocate(unsigned __int32 size);
 			void Free(void *ptr);
@@ -125,14 +125,14 @@ namespace Scripting
 {
 	namespace HS
 	{
-		_inline HsThreadStorage::HsThreadStorage() // 0x106F25A0
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0HsThreadStorage@HS@Scripting@@QAE@XZ");
-			// Scripting::HS::HsThreadStorage *const this;
+		// _inline HsThreadStorage::HsThreadStorage() // 0x106F25A0  // hades: defaulted on its declaration;
+		// the member initializers do what this body did:
+		//	m_blockList = nullptr;
+		//	m_allocatedSize = 0;
 
-			m_blockList = nullptr;
-			m_allocatedSize = 0;
-		}
+
+
+
 
 		_inline HsThreadStorage::~HsThreadStorage() // 0x106F2C40
 		{
@@ -158,19 +158,20 @@ namespace Scripting
 	}
 }
 
-extern char const *_sub_106FAAF0(long, std::string_view);
+
 namespace Scripting
 {
 	namespace HS
 	{
 		_inline char const *HsThreadString(long thread_index, std::string_view str) // 0x106FAAF0
 		{
-			mangled_x86(MANGLED_TODO, "?HsThreadString@HS@Scripting@@YAPBDJV?$basic_string_view@DU?$char_traits@D@std@@@std@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?HsThreadString@HS@Scripting@@YAPBDJV?$basic_string_view@DU?$char_traits@D@std@@@std@@@Z");
 			// std::string_view str;
 			// char *mem;
-			todo("implement");
-			char const * __result = _sub_106FAAF0(thread_index, str);
-			return __result;
+
+			char *mem = (char *)HsThreadStorageManager::Get()->MemAlloc(thread_index, str.size() + 1);
+			memcpy(mem, str.data(), str.size() + 1);
+			return mem;
 		}
 	}
 }

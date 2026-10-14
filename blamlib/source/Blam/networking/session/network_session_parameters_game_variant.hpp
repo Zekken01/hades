@@ -42,7 +42,7 @@ public:
 	c_network_session_parameter_game_variant(); /* compiler_generated() */
 	c_network_session_parameter_game_variant &operator=(c_network_session_parameter_game_variant &); /* compiler_generated() */
 	c_network_session_parameter_game_variant &operator=(c_network_session_parameter_game_variant const &); /* compiler_generated() */
-	void __autoclassinit2(unsigned __int32); /* compiler_generated() */
+	// void __autoclassinit2(unsigned __int32); /* compiler_generated() */  // hades: /sdl generates it
 };
 static_assert(sizeof(c_network_session_parameter_game_variant) == 13680, "Invalid c_network_session_parameter_game_variant size");
 

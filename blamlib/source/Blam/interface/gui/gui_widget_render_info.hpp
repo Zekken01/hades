@@ -22,7 +22,6 @@ struct s_gui_widget_render_info;
 struct s_gui_widget_render_info
 {
 	char type; // 0x0
-	unsigned char __pad0[3]; // 0x1
 	unsigned __int32 flags; // 0x4
 	real_point2d vertices[4]; // 0x8
 	unsigned char __pad1[4]; // 0x28

@@ -78,6 +78,12 @@ namespace Patches
 
 /* ---------- prototypes */
 
+extern float (*const game_tick_length)();  // hades: added for 0x1079BA00
+extern float dot_product3d(real_vector3d const *v1, real_vector3d const *v2);  // hades: added for 0x1079BA00
+extern float magnitude3d(real_vector3d const *v);  // hades: added for 0x1079BA00
+extern s_object_data *object_get(unsigned long object_index);  // hades: added for 0x1079BA00
+#include "Modules/ModuleDebug.hpp"  // hades: added for 0x1079BA00
+
 #include "Modules/ModuleServer.hpp"  // hades: added for 0x1079C070
 extern bool (*game_is_campaign)();  // hades: the original calls through the pointer global, ?game_is_campaign@@3P6A_NXZA
 extern bool (*const game_is_multiplayer)();  // hades: the original calls through the pointer global, ?game_is_multiplayer@@3Q6A_NXZA
@@ -110,10 +116,9 @@ namespace Patches
 {
 	namespace Biped
 	{
-		_extern void _sub_1079BA00(long);
 		void biped_update_boots_off_the_ground(long biped_index) // 0x1079BA00
 		{
-			mangled_x86(MANGLED_TODO, "?biped_update_boots_off_the_ground@Biped@Patches@@YAXJ@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?biped_update_boots_off_the_ground@Biped@Patches@@YAXJ@Z");
 			// static ...; // 0x1079BEBC
 			// static ...; // 0x1079BEB4
 			// static ...; // 0x1079BE9C
@@ -122,7 +127,6 @@ namespace Patches
 			// s_unit_data *biped;
 			// real_vector3d velocity;
 			// float gravity;
-			{
 				// float d;
 				// bool boosting;
 				// float s;
@@ -130,14 +134,43 @@ namespace Patches
 				// float maxVelocity;
 				// float v;
 				// c_motor_request request;
-			}
 			// function call : void (*const)(long, real_vector3d *, real_vector3d *)
 			// function call : e_motor_result (*const)(long, c_motor_request *)
 			// function call : float (*const)()
 			// function call : float (*const)()
 			// function call : void (*const)(long, real_vector3d const *, real_vector3d const *)
-			todo("implement");
-			_sub_1079BA00(biped_index);
+
+			s_unit_data *biped = (s_unit_data *)object_get(biped_index);
+			if (!biped || biped->player_index == -1)
+				return;
+			if (!(biped->unit_control_flags & 0x8000))
+				return;
+			if (!Modules::ModuleDebug::Instance().VarAcrophobiaClient->ValueInt)
+				return;
+			real_vector3d velocity;
+			((void (*const)(long, real_vector3d *, real_vector3d *))0xB2EB30)(biped_index, &velocity, nullptr);
+			if (!(biped->unit_control_flags & 1))
+			{
+				c_motor_request request;
+				request.action_type = 1;
+				request.task_id = 7;
+				request.animation_name1 = -1;
+				((e_motor_result (*const)(long, c_motor_request *))0xB749C0)(biped_index, &request);
+				bool boosting = biped->unit_control_flags & 0x800;
+				float directional_speed = dot_product3d(&biped->desired_aiming_vector, &velocity);
+				float d = fminf(1.0f, fmaxf(directional_speed * 0.02f, 0.0f));
+				float s = (d * 9.0f - d * d * 18.0f + 9.0f) * game_tick_length();
+				velocity = velocity - 0.2f * (-directional_speed * biped->desired_aiming_vector + velocity) + s * biped->desired_aiming_vector;
+				float maxVelocity = boosting ? 16.0f : 8.0f;
+				float v = magnitude3d(&velocity);
+				if (v > maxVelocity)
+					velocity = maxVelocity / v * velocity;
+			}
+			else
+				velocity = global_zero3d;
+			float gravity = *reinterpret_cast<float *>(tls_getd().physics_constants);
+			velocity.k += game_tick_length() * gravity;
+			((void (*const)(long, real_vector3d const *, real_vector3d const *))0xB34040)(biped_index, &velocity, nullptr);
 		}
 
 		void biped_update_sub1_hook(long biped_index) // 0x1079C000
@@ -201,13 +234,16 @@ namespace Patches
 			}
 		}
 
-		_extern void _sub_1079B490();
 		void ApplyAll() // 0x1079B490
 		{
-			mangled_x86(MANGLED_TODO, "?ApplyAll@Biped@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Biped@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_1079B490();
+
+			Hook(0x771790, biped_update_sub1_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x7AE4AE, biped_falling_damage_campaign_only, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x7AE5BF, biped_falling_damage_campaign_only, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x3633CB, fall_collision_damage_is_multiplayer, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x362BEF, fall_collision_damage_is_campaign, static_cast<__int32>(HookFlags::IsCall)).Apply();
 		}
 	}
 }

@@ -22,6 +22,8 @@
 #include "ChatCommands/ChatCommandMap.hpp"
 #include "CommandMap.hpp"
 #include "Common/Http/HttpHeaders.hpp"
+#include "Modules/ModuleServer.hpp"
+#include "Patches/Core.hpp"
 #include "Patches/Network.hpp"
 #include "Patches/Weapon.hpp"
 #include "Server/Voting/AbstractVotingSystem.hpp"
@@ -159,7 +161,7 @@ namespace Server
 	namespace Voting
 	{
 		extern std::vector<Server::Voting::AbstractVotingSystem *> VotingSystems; // 0x12468748
-		extern Server::Voting::VotingSystem votingSystem; // 0x12468848
+		Server::Voting::VotingSystem votingSystem; // 0x12468848  // hades: defined, so its dynamic initializer emits the constructor
 		extern Server::Voting::VetoSystem vetoSystem; // 0x12469AC0
 		extern std::vector<std::function<void __cdecl(Server::Voting::MapAndType)> > votePassedCallbacks; // 0x12468838
 	}
@@ -173,8 +175,8 @@ namespace Server
 	{
 		namespace hades_file_local_Server_Voting
 		{
-			extern std::string const DefaultTypes[8]; // 0x12468668
-			extern std::string const DefaultTypeNames[8]; // 0x12468758
+			// extern std::string const DefaultTypes[8]; // 0x12468668  // hades: defined in VotingTypes.hpp, one copy per file
+			// extern std::string const DefaultTypeNames[8]; // 0x12468758  // hades: defined in VotingTypes.hpp, one copy per file
 		}
 		using namespace hades_file_local_Server_Voting;
 	}
@@ -185,13 +187,12 @@ namespace Server
 {
 	namespace Voting
 	{
-		_extern void _sub_10C43AB0(std::function<void __cdecl(Server::Voting::MapAndType)> &);
 		void OnVotePassed(std::function<void __cdecl(Server::Voting::MapAndType)> &&callback) // 0x10C43AB0
 		{
-			mangled_x86(MANGLED_TODO, "?OnVotePassed@Voting@Server@@YAX$$QAV?$function@$$A6AXUMapAndType@Voting@Server@@@Z@std@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnVotePassed@Voting@Server@@YAX$$QAV?$function@$$A6AXUMapAndType@Voting@Server@@@Z@std@@@Z");
 			// std::function<void __cdecl(Server::Voting::MapAndType)> &callback;
-			todo("implement");
-			_sub_10C43AB0(callback);
+
+			votePassedCallbacks.push_back(std::move(callback));
 		}
 
 		void NotifyVotePassed(Server::Voting::MapAndType const &winner) // 0x10C43A00
@@ -219,51 +220,67 @@ namespace Server
 			}
 		}
 
-		_extern void _sub_10C435D0(Blam::Network::LifeCycleState);
 		void LifeCycleStateChanged(Blam::Network::LifeCycleState newState) // 0x10C435D0
 		{
-			mangled_x86(MANGLED_TODO, "?LifeCycleStateChanged@Voting@Server@@YAXW4LifeCycleState@Network@Blam@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?LifeCycleStateChanged@Voting@Server@@YAXW4LifeCycleState@Network@Blam@@@Z");
 			// Blam::Network::LifeCycleState newState;
-			{
 				// std::vector<Server::Voting::AbstractVotingSystem *> &<range>$L0;
 				// Server::Voting::AbstractVotingSystem **<begin>$L0;
 				// Server::Voting::AbstractVotingSystem **<end>$L0;
-				{
 					// Server::Voting::AbstractVotingSystem *elem;
-				}
-			}
-			{
 				// Server::Voting::AbstractVotingSystem **<end>$L1;
 				// Server::Voting::AbstractVotingSystem **<begin>$L1;
 				// std::vector<Server::Voting::AbstractVotingSystem *> &<range>$L1;
+			// function call : bool ()
+			// function call : void ()
+			// function call : bool ()
+			// function call : void ()
+			// function call : void ()
+
+			switch (newState)
+			{
+			case Blam::Network::eLifeCycleStateStartGame:
+				if (votingSystem.AllowShuffle && Modules::ModuleServer::Instance().VarServerTeamShuffleEnabled->ValueInt == 1)
+					Modules::CommandMap::Instance().ExecuteCommand("Server.ShuffleTeams");
+				for (auto elem : VotingSystems)
 				{
+					if (elem->isEnabled())
+						elem->Reset();
 				}
+				break;
+			case Blam::Network::eLifeCycleStateNone:
+				for (auto elem : VotingSystems)
+				{
+					if (elem->isEnabled())
+					{
+						elem->Reset();
+						elem->onExit();
+					}
+				}
+				break;
 			}
-			// function call : bool ()
-			// function call : void ()
-			// function call : bool ()
-			// function call : void ()
-			// function call : void ()
-			todo("implement");
-			_sub_10C435D0(newState);
 		}
 
-		_extern void _sub_10C43480();
 		void Init() // 0x10C43480
 		{
-			mangled_x86(MANGLED_TODO, "?Init@Voting@Server@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Init@Voting@Server@@YAXXZ");
 			// procedure flags: nofpo
-			{
 				// std::vector<Server::Voting::AbstractVotingSystem *> &<range>$L0;
 				// Server::Voting::AbstractVotingSystem **<begin>$L0;
 				// Server::Voting::AbstractVotingSystem **<end>$L0;
-				{
 					// Server::Voting::AbstractVotingSystem *elem;
-				}
-			}
 			// function call : void ()
-			todo("implement");
-			_sub_10C43480();
+
+			InitializePackets();
+			Patches::Core::OnMapLoaded(MapLoadedCallback);
+			Patches::Network::OnLifeCycleStateChanged(LifeCycleStateChanged);
+			VotingSystems.push_back(&votingSystem);
+			VotingSystems.push_back(&vetoSystem);
+			for (auto elem : VotingSystems)
+			{
+				elem->Init();
+				elem->votePassedCallback = NotifyVotePassed;
+			}
 		}
 
 		bool ReloadVotingJson(bool loadFileFromDisc) // 0x10C43EA0
@@ -274,14 +291,12 @@ namespace Server
 			return votingSystem.ReloadVotingJson(Utils::Singleton<Modules::ModuleVoting>::Instance().VarVotingJsonPath->ValueString, loadFileFromDisc);
 		}
 
-		_extern bool _sub_10C43E10(bool);
 		bool ReloadVetoJson(bool loadFileFromDisc) // 0x10C43E10
 		{
-			mangled_x86(MANGLED_TODO, "?ReloadVetoJson@Voting@Server@@YA_N_N@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ReloadVetoJson@Voting@Server@@YA_N_N@Z");
 			// bool loadFileFromDisc;
-			todo("implement");
-			bool __result = _sub_10C43E10(loadFileFromDisc);
-			return __result;
+
+			return vetoSystem.ReloadVotingJson(Utils::Singleton<Modules::ModuleVoting>::Instance().VarVotingJsonPath->ValueString, loadFileFromDisc);
 		}
 
 		void Tick() // 0x10C44070
@@ -342,39 +357,49 @@ namespace Server
 			}
 		}
 
-		_extern void _sub_10C43C90(std::string);
 		void PlayerLeftVoting(std::string name) // 0x10C43C90
 		{
-			mangled_x86(MANGLED_TODO, "?PlayerLeftVoting@Voting@Server@@YAXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?PlayerLeftVoting@Voting@Server@@YAXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 			// static ...; // 0x10C43DB4
 			// static ...; // 0x10C43DA8
 			// static ...; // 0x10C43DA0
 			// std::string name;
 			// Blam::Network::Session *session;
 			// Server::Voting::VotingMessage message;
-			todo("implement");
-			_sub_10C43C90(name);
+
+			Blam::Network::Session *session = Blam::Network::GetActiveSession();
+			if (!session || !session->IsEstablished() || !session->IsHost() || Blam::Network::GetLobbyType() != 2)
+				return;
+			Server::Voting::VotingMessage message((Server::Voting::VotingMessageType)2);
+			message.Vote = 0;
+			LogVote(message, name);
 		}
 
-		_extern void _sub_10C43F30();
 		void StartNewVote() // 0x10C43F30
 		{
-			mangled_x86(MANGLED_TODO, "?StartNewVote@Voting@Server@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?StartNewVote@Voting@Server@@YAXXZ");
 			// procedure flags: nofpo
 			// Blam::Network::Session *session;
-			{
 				// std::vector<Server::Voting::AbstractVotingSystem *> &<range>$L0;
 				// Server::Voting::AbstractVotingSystem **<begin>$L0;
 				// Server::Voting::AbstractVotingSystem **<end>$L0;
-				{
 					// Server::Voting::AbstractVotingSystem *elem;
-				}
-			}
 			// function call : bool ()
 			// function call : void ()
 			// function call : void ()
-			todo("implement");
-			_sub_10C43F30();
+
+			Blam::Network::Session *session = Blam::Network::GetActiveSession();
+			if (!session || !session->IsEstablished() || !session->IsHost() || Blam::Network::GetLobbyType() != 2)
+				return;
+			for (auto elem : VotingSystems)
+			{
+				if (elem->isEnabled())
+				{
+					elem->CheckAndLoadJson();
+					elem->Reset();
+					elem->NewVote();
+				}
+			}
 		}
 
 		bool CancelVoteInProgress() // 0x10C43380
@@ -402,24 +427,26 @@ namespace Server
 			return true;
 		}
 
-		_extern void _sub_10C43800(Server::Voting::VotingMessage const &, std::string);
 		void LogVote(Server::Voting::VotingMessage const &message, std::string name) // 0x10C43800
 		{
-			mangled_x86(MANGLED_TODO, "?LogVote@Voting@Server@@YAXABUVotingMessage@12@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?LogVote@Voting@Server@@YAXABUVotingMessage@12@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 			// std::string name;
 			// Blam::Network::Session *session;
-			{
 				// std::vector<Server::Voting::AbstractVotingSystem *> &<range>$L0;
 				// Server::Voting::AbstractVotingSystem **<begin>$L0;
 				// Server::Voting::AbstractVotingSystem **<end>$L0;
-				{
 					// Server::Voting::AbstractVotingSystem *elem;
-				}
-			}
 			// function call : bool ()
 			// function call : void (Server::Voting::VotingMessage const &, std::string)
-			todo("implement");
-			_sub_10C43800(message, name);
+
+			Blam::Network::Session *session = Blam::Network::GetActiveSession();
+			if (!session || !session->IsEstablished() || !session->IsHost())
+				return;
+			for (Server::Voting::AbstractVotingSystem *elem : VotingSystems)
+			{
+				if (elem->isEnabled())
+					elem->LogVote(message, name);
+			}
 		}
 	}
 }

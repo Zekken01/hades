@@ -133,8 +133,8 @@ namespace Server
 	{
 		namespace hades_file_local_Server_Voting
 		{
-			extern std::string const DefaultTypes[8]; // 0x113885D0
-			extern std::string const DefaultTypeNames[8]; // 0x113886B0
+			// extern std::string const DefaultTypes[8]; // 0x113885D0  // hades: defined in VotingTypes.hpp, one copy per file
+			// extern std::string const DefaultTypeNames[8]; // 0x113886B0  // hades: defined in VotingTypes.hpp, one copy per file
 		}
 		using namespace hades_file_local_Server_Voting;
 	}
@@ -145,19 +145,28 @@ namespace Server
 {
 	namespace Voting
 	{
-		_extern bool _sub_1072D740(Server::Voting::AbstractVotingSystem *const, std::string, bool);
 		bool AbstractVotingSystem::ReloadVotingJson(std::string fileName, bool loadFileFromDisc) // 0x1072D740
 		{
-			mangled_x86(MANGLED_TODO, "?ReloadVotingJson@AbstractVotingSystem@Voting@Server@@QAE_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@_N@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ReloadVotingJson@AbstractVotingSystem@Voting@Server@@QAE_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@_N@Z");
 			// bool loadFileFromDisc;
 			// bool success;
 			// function call : bool (std::string)
 			// function call : void ()
 			// function call : void ()
 			// function call : void ()
-			todo("implement");
-			bool __result = _sub_1072D740(this, fileName, loadFileFromDisc);
-			return __result;
+
+			bool success = true;
+			if (loadFileFromDisc && !LoadJson(fileName))
+			{
+				loadDefaultMapsAndTypes();
+				success = false;
+			}
+			if (voteStartedTime)
+			{
+				Reset();
+				StartVoting();
+			}
+			return success;
 		}
 
 		__int32 AbstractVotingSystem::getVoteNeededToPass() // 0x1072E450
@@ -209,7 +218,7 @@ namespace Server
 		}
 
 		// mangled_x86(MANGLED_DEFAULT, "??0CharacterOverride@HaloType@Voting@Server@@QAE@ABU0123@@Z"); no body to assert in
-		_inline HaloType::CharacterOverride::CharacterOverride(Server::Voting::HaloType::CharacterOverride const &__that) = default; // 0x1072C610
+		// _inline HaloType::CharacterOverride::CharacterOverride(Server::Voting::HaloType::CharacterOverride const &__that) = default; // 0x1072C610  // hades: left implicit
 
 		// mangled_x86(MANGLED_DEFAULT, "??0HaloMap@Voting@Server@@QAE@ABU012@@Z"); no body to assert in
 		_inline HaloMap::HaloMap(Server::Voting::HaloMap const &__that) = default; // 0x1072C6E0
@@ -221,7 +230,7 @@ namespace Server
 		_inline MapAndType::MapAndType(Server::Voting::MapAndType const &__that) = default; // 0x1072CAB0
 
 		// mangled_x86(MANGLED_DEFAULT, "??1CharacterOverride@HaloType@Voting@Server@@QAE@XZ"); no body to assert in
-		_inline HaloType::CharacterOverride::~CharacterOverride() = default; // 0x1072D0B0
+		// _inline HaloType::CharacterOverride::~CharacterOverride() = default; // 0x1072D0B0  // hades: left implicit
 
 		// mangled_x86(MANGLED_DEFAULT, "??1HaloMap@Voting@Server@@QAE@XZ"); no body to assert in
 		_inline HaloMap::~HaloMap() = default; // 0x1072D110

@@ -99,7 +99,7 @@ namespace Web
 {
 	namespace Browser
 	{
-		_extern void _sub_10CE8280(Web::Browser::RenderHandlerCpu * const);
+
 
 		_inline void RenderHandlerCpu::Shutdown() // 0x10CEA280
 		{

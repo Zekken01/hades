@@ -27,10 +27,9 @@ public:
 	void shutdown();
 	void dirty_disk();
 private:
-	unsigned __int32 m_map_load_end_time; // 0x0
-	bool m_dirty_disked; // 0x4
-	unsigned char __pad0[3]; // 0x5
-	std::string kMapLoadTempFileName; // 0x8
+	unsigned __int32 m_map_load_end_time = 0xFFFFFFFF; // 0x0
+	bool m_dirty_disked = false; // 0x4
+	std::string kMapLoadTempFileName = ""; // 0x8
 public:
 	c_map_load_crash_recovery_helper(c_map_load_crash_recovery_helper &); /* compiler_generated() */
 	c_map_load_crash_recovery_helper(c_map_load_crash_recovery_helper const &); /* compiler_generated() */

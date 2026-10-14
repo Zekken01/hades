@@ -99,7 +99,6 @@ struct s_mesh
 	c_enum<enum e_vertex_type,char> vertex_type; // 0x2E
 	c_enum<enum e_prt_vertex_type,char> prt_vertex_type; // 0x2F
 	c_enum<enum e_index_buffer_type,char> index_buffer_type; // 0x30
-	unsigned char __pad0[3]; // 0x31
 	c_tag_block<s_instance_part> instance_parts; // 0x34
 	c_tag_block<s_instance_water> instance_water; // 0x40
 	s_mesh(s_mesh &); /* compiler_generated() */

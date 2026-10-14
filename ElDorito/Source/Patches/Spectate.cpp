@@ -58,6 +58,8 @@
 #include "Utils/String.hpp"
 #include "Web/Ui/Screen.hpp"
 
+#include "Player/PlayerCustomization.hpp"  // hades: added for 0x10AD0F40
+
 #include <Windows.h>
 #include <stdio.h>
 #include <sys/stat.h>
@@ -211,6 +213,8 @@ using namespace hades_file_local;
 
 /* ---------- prototypes */
 
+extern bool (*const game_is_multiplayer)();  // hades: added for 0x10AD0AC0
+
 namespace Player { namespace PlayerNetworkUtil { long get_session_player_index_from_player_datum_index(long player_datum_index); } }  // hades: added for 0X10AD0E10
 
 namespace Patches
@@ -239,13 +243,17 @@ namespace Patches
 {
 	namespace Spectate
 	{
-		_extern void _sub_10AD0360();
 		void ApplyAll() // 0x10AD0360
 		{
-			mangled_x86(MANGLED_TODO, "?ApplyAll@Spectate@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Spectate@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_10AD0360();
+
+			Hook(0x32A8D6, GetObserverCameraSensitivityHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x1930FB, c_director__player_switch_update__object_get_ultimate_parent_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x192D80, c_director__player_switch_gui_create_or_update_hook).Apply();
+			Hook(0x6BBCC0, c_observer_camera_list_screen__update_render_state_hook).Apply();
+			Pointer(0x169B714).Write(c_observer_camera_list_screen__update_hook);
+			Hook(0x321A38, c_game_director__update_watched_player_when_unit_deleted_fix, static_cast<__int32>(HookFlags::IsCall)).Apply();
 		}
 	}
 }
@@ -293,17 +301,15 @@ long c_director__player_switch_update__object_get_ultimate_parent_hook(long obje
 	return object_index;
 }
 
-_extern void _sub_10AD0AC0(c_director *);
 void __fastcall c_director__player_switch_gui_create_or_update_hook(c_director *thisptr) // 0x10AD0AC0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_director__player_switch_gui_create_or_update_hook@@YIXPAVc_director@@@Z");
 	// `anonymous-namespace'::c_director__player_switch_gui_create_or_update_hook
 	// c_director *thisptr;
 	// c_observer_camera_list_screen *camera_list_screen;
 	// long controller_index;
 	// long window_index;
-	{
 		// bool is_playback;
-	}
 	// function call : bool (*const)(char)
 	// function call : bool (*const)()
 	// function call : bool (*const)()
@@ -318,8 +324,34 @@ void __fastcall c_director__player_switch_gui_create_or_update_hook(c_director *
 	// function call : bool (*const)()
 	// function call : void (*const)(c_gui_widget *, bool)
 	// function call : void (*const)(c_gui_widget *, long, bool)
-	todo("implement");
-	_sub_10AD0AC0(thisptr);
+
+	if (((bool (*)(long))0x5523A0)(4))
+		return;
+	if (!((bool (*)())0x550F90)())
+		return;
+	if (!game_is_multiplayer() || ((bool (*)())0x531BE0)())
+	{
+		((void (__thiscall *)(c_director *))0x592D90)(thisptr);
+		return;
+	}
+	long controller_index = ((long (*)(long))0xA7CF00)(thisptr->user_index);
+	if (controller_index == -1)
+		return;
+	long window_index = ((long (*)(long))0xA7CE80)(controller_index);
+	if (!((void *(*)(long))0xABBAF0)(window_index))
+		((void (*)(long))0x592CC0)(thisptr->user_index);
+	c_observer_camera_list_screen *camera_list_screen = (c_observer_camera_list_screen *)((void *(*)(long))0xABBAF0)(window_index);
+	if (camera_list_screen)
+	{
+		((void (__thiscall *)(c_director *))0x592E30)(thisptr);
+		if (!camera_list_screen->is_visible())
+		{
+			camera_list_screen->set_visible(true);
+			bool is_playback = ((bool (*)())0x531D10)();
+			((void (__thiscall *)(c_observer_camera_list_screen *, bool))0xABA760)(camera_list_screen, true);
+			((void (__thiscall *)(c_observer_camera_list_screen *, long, bool))0xABA890)(camera_list_screen, 30, true);
+		}
+	}
 }
 
 long c_game_director__update_watched_player_when_unit_deleted_fix(long avoid_player_index, long starting_player_index, long a2, long direction, bool same_team, bool a6, bool a7, long *out_unit_index) // 0x10AD0D10
@@ -351,9 +383,9 @@ long c_game_director__update_watched_player_when_unit_deleted_fix(long avoid_pla
 	return next_player_index;
 }
 
-_extern long _sub_10AD1160(c_observer_camera_list_screen *, c_gui_list_item_widget *);
 long get_player_index_from_list_item(c_observer_camera_list_screen *screen, c_gui_list_item_widget *item) // 0x10AD1160
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_player_index_from_list_item@@YAJPAUc_observer_camera_list_screen@hades_file_local@@PAVc_gui_list_item_widget@@@Z");
 	// `anonymous-namespace'::get_player_index_from_list_item
 	// static ...; // 0x10AD1220
 	// static ...; // 0x10AD1218
@@ -364,9 +396,26 @@ long get_player_index_from_list_item(c_observer_camera_list_screen *screen, c_gu
 	// get_player_index_from_list_item::__l2::s_player_info player_info;
 	// function call : long ()
 	// function call : bool (long, void *, long)
-	todo("implement");
-	long __result = _sub_10AD1160(screen, item);
-	return __result;
+
+	struct s_player_info
+	{
+		long player_index;
+		long unknown4;
+	};
+
+	c_gui_data *data = screen->get_datasource(0x100E1);
+	if (!data)
+		return -1;
+
+	long element_handle = item->get_element_handle();
+	if (element_handle == -1)
+		return -1;
+
+	s_player_info player_info;
+	if (!data->get_element(element_handle, &player_info, sizeof(player_info)))
+		return -1;
+
+	return player_info.player_index;
 }
 
 void __fastcall c_observer_camera_list_screen__update_hook(c_observer_camera_list_screen *thisptr, void *__formal, unsigned long milliseconds) // 0x10AD0E10
@@ -407,9 +456,9 @@ void __fastcall c_observer_camera_list_screen__update_hook(c_observer_camera_lis
 	bitmap_widget->set_sprite_frame_index(session_player_index | 0x8000);
 }
 
-_extern void _sub_10AD0F40(c_observer_camera_list_screen *, void *, unsigned long);
 void __fastcall c_observer_camera_list_screen__update_render_state_hook(c_observer_camera_list_screen *thisptr, void *__formal, unsigned long milliseconds) // 0x10AD0F40
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_observer_camera_list_screen__update_render_state_hook@@YIXPAUc_observer_camera_list_screen@hades_file_local@@PAXK@Z");
 	// `anonymous-namespace'::c_observer_camera_list_screen__update_render_state_hook
 	// static ...; // 0x10AD10D4
 	// c_observer_camera_list_screen *thisptr;
@@ -418,18 +467,40 @@ void __fastcall c_observer_camera_list_screen__update_render_state_hook(c_observ
 	// void (*const update_render_state)(c_gui_widget *, unsigned long);
 	// long player_index;
 	// c_gui_bitmap_widget *base_color_widget;
-	{
 		// s_player_datum *player;
-	}
-	{
 		// long player_idx;
 		// real_argb_color base_color;
-	}
 	// function call : void (*const)(c_gui_widget *, unsigned long)
 	// function call : bool (*const)()
 	// function call : void (*const)(c_gui_widget *, long, bool)
 	// function call : real_argb_color *(*const)(unsigned long, real_argb_color *)
 	// function call : void (*const)(c_gui_widget *, real_argb_color const *)
-	todo("implement");
-	_sub_10AD0F40(thisptr, __formal, milliseconds);
+
+	void (__thiscall *const update_render_state)(c_gui_widget *, unsigned long) = reinterpret_cast<void (__thiscall *)(c_gui_widget *, unsigned long)>(0xABB1A0);
+	update_render_state(thisptr, milliseconds);
+	if (!thisptr->focused_widget)
+		return;
+	long player_index = get_player_index_from_list_item(thisptr, (c_gui_list_item_widget *)thisptr->focused_widget);
+	if (player_index == -1)
+		return;
+	c_gui_bitmap_widget *base_color_widget = thisptr->focused_widget->get_child_bitmap_widget(0x10144);
+	if (!base_color_widget)
+		return;
+	if (((bool (*)())0x5565E0)())
+	{
+		s_player_datum *player = player_get(player_index);
+		if (!player)
+			return;
+		((void (*)(c_gui_bitmap_widget *, long, bool))0xAA4C80)(base_color_widget, player->configuration.host.team, true);
+	}
+	else
+	{
+		long player_idx = Player::PlayerNetworkUtil::get_session_player_index_from_player_datum_index(player_index);
+		if (player_idx == -1)
+			return;
+		real_argb_color base_color;
+		((void (*)(unsigned long, real_argb_color *))0x5211C0)(Player::CPlayerCustomization::GetPlayerPrimaryColor((signed char)player_idx), &base_color);
+		base_color.alpha = 1.0f;
+		((void (__thiscall *)(c_gui_bitmap_widget *, real_argb_color const *))0xAB9D70)(base_color_widget, &base_color);
+	}
 }

@@ -347,9 +347,9 @@ bool CommandInvertSelection(std::vector<std::string> const &Arguments, std::stri
 	return true;
 }
 
-_extern bool _sub_10985550(std::vector<std::string> const &, std::string &);
 bool CommandSavePrefab(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10985550
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandSavePrefab@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandSavePrefab
 	// static ...; // 0x109857C0
 	// static ...; // 0x109857A8
@@ -360,14 +360,34 @@ bool CommandSavePrefab(std::vector<std::string> const &Arguments, std::string &r
 	// std::filesystem::path p;
 	// std::filesystem::path prefabDirectory;
 	// std::string const &name;
-	todo("implement");
-	bool __result = _sub_10985550(Arguments, returnInfo);
-	return __result;
+
+	if (Arguments.empty())
+	{
+		returnInfo = "expected prefab name";
+		return false;
+	}
+
+	std::string const &name = Arguments[0];
+	std::filesystem::path prefabDirectory(PREFAB_DIR);
+	std::filesystem::create_directories(prefabDirectory);
+	std::filesystem::path p = (prefabDirectory / name).replace_extension(PREFAB_EXT);
+	if (std::filesystem::exists(p))
+	{
+		returnInfo = "prefab with that name already exists";
+		return false;
+	}
+
+	Modules::ModuleForge &moduleForge = Modules::ModuleForge::Instance();
+	moduleForge.CommandState.Prefabs.Path = p.string();
+	moduleForge.CommandState.Prefabs.Name = name;
+	moduleForge.CommandState.Prefabs.SavePrefab = true;
+	returnInfo = "prefab saved";
+	return true;
 }
 
-_extern bool _sub_10985080(std::vector<std::string> const &, std::string &);
 bool CommandLoadPrefab(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10985080
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandLoadPrefab@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandLoadPrefab
 	// static ...; // 0x109852CC
 	// static ...; // 0x109852B4
@@ -377,14 +397,31 @@ bool CommandLoadPrefab(std::vector<std::string> const &Arguments, std::string &r
 	// Modules::ModuleForge &moduleForge;
 	// std::filesystem::path p;
 	// std::filesystem::path prefabDirectory;
-	todo("implement");
-	bool __result = _sub_10985080(Arguments, returnInfo);
-	return __result;
+
+	if (Arguments.empty())
+	{
+		returnInfo = "expected prefab name";
+		return false;
+	}
+
+	std::filesystem::path prefabDirectory(PREFAB_DIR);
+	std::filesystem::path p = (prefabDirectory / Arguments[0]).replace_extension(PREFAB_EXT);
+	if (!std::filesystem::exists(p))
+	{
+		returnInfo = "prefab with that name does not exist";
+		return false;
+	}
+
+	Modules::ModuleForge &moduleForge = Modules::ModuleForge::Instance();
+	moduleForge.CommandState.Prefabs.Path = p.string();
+	moduleForge.CommandState.Prefabs.LoadPrefab = true;
+	returnInfo = "prefab loaded";
+	return true;
 }
 
-_extern bool _sub_10984610(std::vector<std::string> const &, std::string &);
 bool CommandDumpPrefabs(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10984610
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandDumpPrefabs@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandDumpPrefabs
 	// static ...; // 0x10984AF2
 	// static ...; // 0x10984AEB
@@ -402,25 +439,50 @@ bool CommandDumpPrefabs(std::vector<std::string> const &Arguments, std::string &
 	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
 	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
 	// std::filesystem::path p;
-	{
 		// std::filesystem::directory_iterator itr;
-		{
 			// std::filesystem::path path;
 			// std::string const &ext;
 			// std::string const &name;
-			{
 				// Forge::Prefabs::PrefabHeader header;
+
+	std::filesystem::path p(PREFAB_DIR);
+	std::filesystem::directory_iterator end_itr;
+	rapidjson::StringBuffer buffer;
+	rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+	writer.StartArray();
+	if (std::filesystem::exists(p))
+	{
+		for (std::filesystem::directory_iterator itr(p); itr != end_itr; ++itr)
+		{
+			std::filesystem::path path = std::filesystem::canonical(itr->path());
+			std::string const &ext = path.extension().string();
+			std::string const &name = path.stem().string();
+			if (std::filesystem::is_regular_file(path) && ext == ".prefab")
+			{
+				Forge::Prefabs::PrefabHeader header;
+				if (!Forge::Prefabs::ReadHeader(path.string(), header))
+					continue;
+				writer.StartObject();
+				writer.Key("filename");
+				writer.String(name.c_str());
+				writer.Key("name");
+				writer.String(header.Name);
+				writer.Key("author");
+				writer.String(header.Author);
+				writer.Key("object_count");
+				writer.Int(header.ObjectCount);
+				writer.EndObject();
 			}
 		}
 	}
-	todo("implement");
-	bool __result = _sub_10984610(Arguments, returnInfo);
-	return __result;
+	writer.EndArray();
+	returnInfo = buffer.GetString();
+	return true;
 }
 
-_extern bool _sub_10984310(std::vector<std::string> const &, std::string &);
 bool CommandDeletePrefab(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10984310
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandDeletePrefab@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandDeletePrefab
 	// static ...; // 0x109844F4
 	// static ...; // 0x109844DC
@@ -429,9 +491,16 @@ bool CommandDeletePrefab(std::vector<std::string> const &Arguments, std::string 
 	// std::string &returnInfo;
 	// std::filesystem::path p;
 	// std::filesystem::path prefabDirectory;
-	todo("implement");
-	bool __result = _sub_10984310(Arguments, returnInfo);
-	return __result;
+
+	std::filesystem::path prefabDirectory(PREFAB_DIR);
+	std::filesystem::path p = (prefabDirectory / Arguments[0]).replace_extension(PREFAB_EXT);
+	if (!std::filesystem::exists(p))
+	{
+		returnInfo = "prefab with that name does not exist";
+		return false;
+	}
+	std::filesystem::remove(p);
+	return true;
 }
 
 bool TryParseTagIndex(std::string const &str, unsigned __int32 *value) // 0x10985B00
@@ -500,21 +569,37 @@ bool TryParseInt(std::string const &str, __int32 *value) // 0x10985A20
 	return endp != c_str;
 }
 
-_extern bool _sub_109853D0(std::vector<std::string> const &, std::string &);
 bool CommandPrematchCamera(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109853D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandPrematchCamera@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandPrematchCamera
 	// static ...; // 0x109854B0
 	// static ...; // 0x109854A8
 	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// Modules::ModuleForge &moduleForge;
-	{
 		// __int32 team;
+
+	Modules::ModuleForge &moduleForge = Modules::ModuleForge::Instance();
+	if (Arguments.size() < 1)
+	{
+		moduleForge.CommandState.SetPrematchCamera = true;
+		moduleForge.CommandState.PrematchCameraTeamIndex = 8;
+		returnInfo = "Neutral Camera Set";
+		return true;
 	}
-	todo("implement");
-	bool __result = _sub_109853D0(Arguments, returnInfo);
-	return __result;
+	else if (Arguments.size() == 1)
+	{
+		__int32 team;
+		if (TryParseInt(Arguments[0], &team) && team >= 0 && team < 9)
+		{
+			moduleForge.CommandState.SetPrematchCamera = true;
+			moduleForge.CommandState.PrematchCameraTeamIndex = team;
+			return true;
+		}
+	}
+	returnInfo = "Valid options: 0 = Defenders; 1 = Attackers; 2 = 3rd Team; 3 = 4th Team; 4 = 5th Team; 5 = 6th Team; 6 = 7th Team; 7 = 8th Team; 8 = Neutral;";
+	return false;
 }
 
 bool CommandResetRuntime(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10985500

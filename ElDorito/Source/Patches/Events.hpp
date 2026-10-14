@@ -44,13 +44,11 @@ struct s_multiplayer_event_response_definition
 	c_enum<enum e_game_engine_event_audience,short> required_field; // 0x20
 	c_enum<enum e_game_engine_event_audience,short> excluded_audience; // 0x22
 	c_enum<enum e_game_engine_event_audience,short> splitscreen_suppression; // 0x24
-	unsigned char __pad0[2]; // 0x26
 	unsigned long primary_string; // 0x28
 	long primary_string_duration; // 0x2C
 	unsigned long secondary_string; // 0x30
 	long secondary_string_duration; // 0x34
 	c_flags<enum e_game_engine_event_response_sound_flags,unsigned short> sound_flags; // 0x38
-	unsigned char __pad1[2]; // 0x3A
 	s_tag_reference sounds[12]; // 0x3C
 	float probability; // 0xFC
 	c_tag_block<s_multiplayer_event_sound_response_definition> sound_permutations; // 0x100

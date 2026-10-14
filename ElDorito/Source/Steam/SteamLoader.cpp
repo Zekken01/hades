@@ -41,25 +41,32 @@ namespace Steam
 
 namespace Steam
 {
-	_extern void _sub_10C52550(Steam::SteamLoader *const);
 	void SteamLoader::Initialize() // 0x10C52550
 	{
-		mangled_x86(MANGLED_TODO, "?Initialize@SteamLoader@Steam@@QAEXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@SteamLoader@Steam@@QAEXXZ");
 		// static ...; // 0x10C526D3
 		// static ...; // 0x10C526C4
 		// static ...; // 0x10C526AC
 		// static ...; // 0x10C526A4
 		// Steam::SteamLoader *const this;
-		{
 			// static char pathBuffer[65536]; // 0x1246B930
 			// std::string steamDllPath;
 			// std::string steamDirectory;
-		}
 		// function call : unsigned long (char const *, char *, unsigned long)
 		// function call : __int32 (char const *, char const *)
 		// function call : HINSTANCE__ *(char const *)
-		todo("implement");
-		_sub_10C52550(this);
+
+		if (IsSteamRunning(true))
+		{
+			static char pathBuffer[65536];
+			std::string steamDllPath = GetSteamDllPath();
+			std::string steamDirectory = steamDllPath.substr(0, steamDllPath.rfind('\\'));
+			GetEnvironmentVariableA("PATH", pathBuffer, 0x10000);
+			strcat_s(pathBuffer, ";");
+			strcat_s(pathBuffer, steamDirectory.c_str());
+			SetEnvironmentVariableA("PATH", pathBuffer);
+			m_hSteamClient = LoadLibraryA(steamDllPath.c_str());
+		}
 	}
 }
 
@@ -127,21 +134,21 @@ namespace Steam
 		// function call : long (HKEY__ *, char const *, char const *, unsigned long, unsigned long *, void *, unsigned long *)
 
 		DWORD pid;
-		DWORD size = sizeof(pid);
+		DWORD pidSize = sizeof(pid);
 
-		if (RegGetValueA(HKEY_CURRENT_USER, "Software\\Valve\\Steam\\ActiveProcess", "pid", RRF_RT_REG_DWORD, nullptr, &pid, &size) == ERROR_SUCCESS)
+		if (RegGetValueA(HKEY_CURRENT_USER, "Software\\Valve\\Steam\\ActiveProcess", "pid", RRF_RT_REG_DWORD, nullptr, &pid, &pidSize) == ERROR_SUCCESS)
 			return pid;
 
 		return 0;
 	}
 }
 
-extern std::string _sub_10C52300(Steam::SteamLoader *const);
+
 namespace Steam
 {
 	std::string SteamLoader::GetSteamDllPath() // 0x10C52300
 	{
-		mangled_x86(MANGLED_TODO, "?GetSteamDllPath@SteamLoader@Steam@@AAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetSteamDllPath@SteamLoader@Steam@@AAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 		// static ...; // 0x10C52417
 		// static ...; // 0x10C52408
 		// static ...; // 0x10C523F0
@@ -150,27 +157,36 @@ namespace Steam
 		// char pathString[512];
 		// unsigned long pathStringSize;
 		// function call : long (HKEY__ *, char const *, char const *, unsigned long, unsigned long *, void *, unsigned long *)
-		todo("implement");
-		std::string __result = _sub_10C52300(this);
-		return __result;
+
+		char pathString[512];
+		unsigned long pathStringSize = sizeof(pathString);
+		if (RegGetValueA(HKEY_CURRENT_USER, "Software\\Valve\\Steam\\ActiveProcess", "SteamClientDll", RRF_RT_REG_SZ, nullptr, pathString, &pathStringSize) == ERROR_SUCCESS)
+			return pathString;
+		return "";
 	}
 
-	_extern void _sub_10C52820(Steam::SteamLoader *const, std::string const &);
 	void SteamLoader::LoadGameOverlayRenderer(std::string const &baseDllPath) // 0x10C52820
 	{
-		mangled_x86(MANGLED_TODO, "?LoadGameOverlayRenderer@SteamLoader@Steam@@AAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?LoadGameOverlayRenderer@SteamLoader@Steam@@AAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 		// static ...; // 0x10C52928
 		// static ...; // 0x10C52920
 		// Steam::SteamLoader *const this;
 		// std::string const &baseDllPath;
 		// std::string overlayDllPath;
 		// function call : HINSTANCE__ *(char const *)
-		todo("implement");
-		_sub_10C52820(this, baseDllPath);
+
+		std::string overlayDllPath = baseDllPath.substr(0, baseDllPath.rfind('\\')) + "\\GameOverlayRenderer.dll";
+		LoadLibraryA(overlayDllPath.c_str());
 	}
 }
 
 /* ---------- private code */
+
+template<typename t_arg0>
+t_arg0 Steam::SteamLoader::GetProcAddress(char const *name) // 0x10C52170
+{
+	return reinterpret_cast<t_arg0>(GetProcAddressInternal(name));
+}
 
 /* ---------- explicit instantiations */
 template void * (*Steam::SteamLoader::GetProcAddress<void * (__cdecl*)(char const *,int *)>(char const *name))(char const *, __int32 *);

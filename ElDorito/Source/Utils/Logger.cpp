@@ -100,12 +100,12 @@ namespace Utils
 
 /* ---------- public code */
 
-extern std::string _sub_10C5A850(Utils::LogLevel);
+
 namespace Utils
 {
 	std::string LogLevelToString(Utils::LogLevel level) // 0x10C5A850
 	{
-		mangled_x86(MANGLED_TODO, "?LogLevelToString@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@W4LogLevel@1@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?LogLevelToString@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@W4LogLevel@1@@Z");
 		// static ...; // 0x10C5A978
 	// $LN8:
 	// $LN7:
@@ -113,36 +113,88 @@ namespace Utils
 	// $LN5:
 	// $LN4:
 		// Utils::LogLevel level;
-		todo("implement");
-		std::string __result = _sub_10C5A850(level);
-		return __result;
+
+		switch (level)
+		{
+		case Utils::LogLevel::None:
+			return "None";
+		case Utils::LogLevel::Trace:
+			return "Trace";
+		case Utils::LogLevel::Info:
+			return "Info";
+		case Utils::LogLevel::Warning:
+			return "Warning";
+		case Utils::LogLevel::Error:
+			return "Error";
+		}
+		return "Unknown";
 	}
 }
 
-extern std::string _sub_10C5A9E0(Utils::LogTypes);
+
 namespace Utils
 {
 	std::string LogTypesToString(Utils::LogTypes types) // 0x10C5A9E0
 	{
-		mangled_x86(MANGLED_TODO, "?LogTypesToString@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@W4LogTypes@1@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?LogTypesToString@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@W4LogTypes@1@@Z");
 		// static ...; // 0x10C5AEE7
 		// static ...; // 0x10C5AEE4
 		// static ...; // 0x10C5AECC
 		// static ...; // 0x10C5AEC4
 		// Utils::LogTypes types;
-		{
 			// std::stringstream ss;
 			// std::vector<std::string> bits;
-			{
 				// __int32 bit;
-			}
-			{
 				// unsigned __int32 i;
+
+		switch (types)
+		{
+		case Utils::LogTypes::None:
+			return "None";
+		case Utils::LogTypes::All:
+			return "All";
+		default:
+		{
+			std::vector<std::string> bits;
+			for (__int32 bit = 0; bit < 32; bit++)
+			{
+				if (!(((__int32)types >> bit) & 1))
+					continue;
+				switch ((Utils::LogTypes)(1 << bit))
+				{
+				case Utils::LogTypes::Game:
+					bits.push_back("Game");
+					break;
+				case Utils::LogTypes::Network:
+					bits.push_back("Network");
+					break;
+				case Utils::LogTypes::Graphics:
+					bits.push_back("Graphics");
+					break;
+				case Utils::LogTypes::Memory:
+					bits.push_back("Memory");
+					break;
+				case Utils::LogTypes::Sound:
+					bits.push_back("Sound");
+					break;
+				case Utils::LogTypes::Input:
+					bits.push_back("Input");
+					break;
+				case Utils::LogTypes::Debug:
+					bits.push_back("Debug");
+					break;
+				default:
+					bits.push_back(std::string("UnknownBit") + std::to_string(bit));
+				}
 			}
+			std::stringstream ss;
+			ss << bits[0];
+			if (bits.size() > 1)
+				for (unsigned __int32 i = 1; i < bits.size(); i++)
+					ss << " | " << bits[i];
+			return ss.str();
 		}
-		todo("implement");
-		std::string __result = _sub_10C5A9E0(types);
-		return __result;
+		}
 	}
 
 	// mangled_x86(MANGLED_DEFAULT, "??0LogEntry@Utils@@QAE@XZ"); no body to assert in
@@ -159,20 +211,22 @@ namespace Utils
 		}
 	}
 
-	extern Logger* _sub_10C59920(Utils::Logger *const);
 	Logger::Logger() // 0x10C59920
 	{
-		mangled_x86(MANGLED_TODO, "??0Logger@Utils@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0Logger@Utils@@QAE@XZ");
 		// Utils::Logger *const this;
 		// function call : void *(_SECURITY_ATTRIBUTES *, unsigned long, unsigned long (*)(void *), void *, unsigned long, unsigned long *)
-		todo("implement");
-		_sub_10C59920(this);
+
+		typedef boost::lockfree::queue<Utils::LogEntry, boost::lockfree::fixed_sized<false> > entry_queue;
+		reinterpret_cast<entry_queue *>(Entries)->entry_queue::queue(0);
+		Level = static_cast<Utils::LogLevel>(3);
+		Types = static_cast<Utils::LogTypes>(-1);
+		CreateThread(nullptr, 0, Flusher, nullptr, 0, nullptr);
 	}
 
-	_extern void _sub_10C59E20(Utils::Logger *const);
 	void Logger::Flush() // 0x10C59E20
 	{
-		mangled_x86(MANGLED_TODO, "?Flush@Logger@Utils@@QAEXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Flush@Logger@Utils@@QAEXXZ");
 		// static ...; // 0x10C5A44B
 		// static ...; // 0x10C5A43F
 		// static ...; // 0x10C5A42F
@@ -193,29 +247,98 @@ namespace Utils
 		// std::ofstream outfile;
 		// std::filesystem::path logFilePath;
 		// Utils::LogEntry entry;
-		{
 			// long long t;
 			// tm ourLocalTime;
 			// std::string message;
-			{
 				// std::vector<std::string> &<range>$L0;
 				// std::string *<begin>$L0;
 				// std::string *<end>$L0;
-				{
 					// std::string filter;
-				}
-			}
-			{
 				// std::string *<end>$L1;
 				// std::string *<begin>$L1;
 				// std::vector<std::string> &<range>$L1;
-				{
-				}
+
+		if (reinterpret_cast<boost::lockfree::queue<Utils::LogEntry, boost::lockfree::fixed_sized<false> > *>(Entries)->empty())
+			return;
+		std::lock_guard<std::mutex> lock(flushMutex);
+		Modules::ModuleGame &gameModule = Modules::ModuleGame::Instance();
+		std::filesystem::path logFilePath(gameModule.VarLogName->ValueString);
+		std::filesystem::path parentDirectory = logFilePath.parent_path();
+		if (parentDirectory != "")
+			std::filesystem::create_directories(parentDirectory);
+		std::ofstream outfile;
+		outfile.open(logFilePath, std::ios_base::app);
+		if (outfile.fail())
+			return;
+		Utils::LogEntry entry;
+		while (reinterpret_cast<boost::lockfree::queue<Utils::LogEntry, boost::lockfree::fixed_sized<false> > *>(Entries)->pop(entry))
+		{
+			std::string message(entry.Message);
+			delete[] entry.Message;
+			for (auto filter : gameModule.FiltersExclude)
+			{
+				if (strstr(message.c_str(), filter.c_str()) != nullptr)
+					goto closefile;
 			}
+			for (auto filter : gameModule.FiltersInclude)
+			{
+				if (strstr(message.c_str(), filter.c_str()) != nullptr)
+					continue;
+				goto closefile;
+			}
+			time_t t = std::chrono::system_clock::to_time_t(entry.Time);
+			tm ourLocalTime;
+			if (localtime_s(&ourLocalTime, &t) != 0)
+				goto closefile;
+			outfile << '[' << std::put_time(&ourLocalTime, "%m-%d-%Y %H:%M:%S") << "] " << LogTypesToString(entry.Type) << " - " << message << '\n';
 		}
-		todo("implement");
-		_sub_10C59E20(this);
+		closefile:
+		outfile.close();
 	}
 }
 
 /* ---------- private code */
+
+namespace Utils
+{
+	bool Logger::TestLevel(Utils::LogTypes type, Utils::LogLevel level) const // 0x10C5B030
+	{
+
+			if (level != Utils::LogLevel::Error)
+			{
+				if (Level == Utils::LogLevel::None || level < Level)
+					return false;
+				if (!((__int32)Types & (__int32)type))
+					return false;
+			}
+			return true;
+	}
+}
+
+// hades: Log was dropped from the tree (an orphaned member); it sits at the end of the
+// file so the functions above keep their line numbers.
+namespace Utils
+{
+	void Logger::Log(Utils::LogTypes type, Utils::LogLevel level, std::string message, ...) // 0x10C5A670
+	{
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Log@Logger@Utils@@QAAXW4LogTypes@2@W4LogLevel@2@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ZZ");
+
+		if (!TestLevel(type, level))
+			return;
+
+		// construct formatted message
+		va_list ap;
+		va_start(ap, message);
+		int bufferSize = _vscprintf(message.c_str(), ap) + 1;
+		char *buffer = new char[bufferSize];
+		vsprintf_s(buffer, bufferSize, message.c_str(), ap);
+		va_end(ap);
+
+		// add it to the queue to be flushed to disk
+		LogEntry entry = { };
+		entry.Time = std::chrono::system_clock::now();
+		entry.Type = type;
+		entry.Message = buffer;
+		reinterpret_cast<boost::lockfree::queue<Utils::LogEntry, boost::lockfree::fixed_sized<false> > *>(Entries)->push(entry);
+	}
+}

@@ -113,6 +113,13 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+extern float (*const game_tick_length)();  // hades: added for 0x10977300
+extern c_data_array<s_object_header> *object_headers_get();  // hades: added for 0x10977300
+
+#include "Modules/ModuleTweaks.hpp"  // hades: added for 0x10976FD0
+#include "Forge/ForgeUtil.hpp"  // hades: added for 0x10976FD0
+namespace Forge { namespace Selection { extern ::Forge::ObjectSet &GetSelection(); } }  // hades: added for 0x10976FD0
+
 long tag_find_by_name(unsigned long group_tag, char const *name);  // hades: added for 0X10976940
 
 namespace Forge
@@ -152,38 +159,59 @@ namespace Forge
 {
 	namespace SelectionRenderer
 	{
-		_extern void _sub_109766D0();
 		void ApplyPatches() // 0x109766D0
 		{
-			mangled_x86(MANGLED_TODO, "?ApplyPatches@SelectionRenderer@Forge@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyPatches@SelectionRenderer@Forge@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_109766D0();
+
+			Hook(0x62E760, SpecialWeaponHUDHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x63B409, RasterizeImplicitGeometryHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 		}
 
-		_extern void _sub_10977300();
 		void Update() // 0x10977300
 		{
-			mangled_x86(MANGLED_TODO, "?Update@SelectionRenderer@Forge@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Update@SelectionRenderer@Forge@@YAXXZ");
 			// procedure flags: nofpo
 			// static ...; // 0x109775FC
 			// static ...; // 0x109775F0
 			// static ...; // 0x109775E8
-			{
 				// Forge::ObjectSet const &selection;
 				// c_data_array<s_object_header> *objects;
-				{
 					// c_data_iterator<s_object_header> it;
-					{
 						// SelectionItem &item;
 						// real_rectangle3d const *boundingBox;
-					}
-				}
-			}
 			// function call : real_matrix4x3 *(*const)(long, real_matrix4x3 *)
 			// function call : float (*const)()
-			todo("implement");
-			_sub_10977300();
+
+			if (s_RendererType == eRendererImplicit)
+			{
+				s_NumActiveItems = 0;
+				Forge::ObjectSet const &selection = Forge::Selection::GetSelection();
+				c_data_array<s_object_header> *objects = object_headers_get();
+				for (c_data_iterator<s_object_header> it = objects->begin(); it != objects->end() && s_NumActiveItems < 256; ++it)
+				{
+					if (!selection.Contains(it.current_datum_index))
+						continue;
+					SelectionItem &item = s_items[s_NumActiveItems++];
+					real_rectangle3d const *boundingBox = Forge::GetObjectBoundingBox(it->data->definition_index);
+					if (!boundingBox)
+						continue;
+					((real_matrix4x3 *(*const)(long, real_matrix4x3 *))0xB2EC60)(it.current_datum_index, &item.Transform);
+					item.Transform.forward *= (boundingBox->x1 - boundingBox->x0) * 1.02f;
+					item.Transform.left *= (boundingBox->y1 - boundingBox->y0) * 1.02f;
+					item.Transform.up *= (boundingBox->z1 - boundingBox->z0) * 1.02f;
+					item.Transform.position = it->data->bounding_sphere_center;
+					item.Width = boundingBox->x1 - boundingBox->x0;
+					item.Depth = boundingBox->y1 - boundingBox->y0;
+					item.Height = boundingBox->z1 - boundingBox->z0;
+				}
+				s_SelectionColorCounter += game_tick_length() / 1.0f;
+				if (s_SelectionColorCounter > 6.2831855f)
+					s_SelectionColorCounter -= 6.2831855f;
+			}
+			Forge::CForgeVisionRenderer::SetActive(s_Enabled && !s_RendererType);
+			if (Forge::CForgeVisionRenderer::IsActive())
+				Forge::CForgeVisionRenderer::Update();
 		}
 
 		void SetEnabled(bool enabled) // 0x10976F60
@@ -230,9 +258,9 @@ namespace Forge
 
 /* ---------- private code */
 
-_extern void _sub_10976FD0(__int32, unsigned __int32, __int32, unsigned __int32 *, short, unsigned char *);
 void SpecialWeaponHUDHook(__int32 a1, unsigned __int32 unitObjectIndex, __int32 a3, unsigned __int32 *objectsInCluster, short objectcount, unsigned char *activeSpecialChudTypes) // 0x10976FD0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SpecialWeaponHUDHook@@YAXHIHPAIFPAE@Z");
 	// `anonymous-namespace'::SpecialWeaponHUDHook
 	// unsigned char *activeSpecialChudTypes;
 	// static void (*`SpecialWeaponHUDHook'::`2'::sub_A7A510)(__int32); // 0x11353E60
@@ -247,15 +275,9 @@ void SpecialWeaponHUDHook(__int32 a1, unsigned __int32 unitObjectIndex, __int32 
 	// static unsigned char (*`SpecialWeaponHUDHook'::`2'::sub_A242E0)(__int32, __int32); // 0x11353E64
 	// s_map_variant *mapv;
 	// static void (*`SpecialWeaponHUDHook'::`2'::sub_A78230)(); // 0x11353E58
-	{
 		// __int32 i;
-		{
 			// s_variant_datum &placement;
-			{
 				// __int32 const specialHudType;
-			}
-		}
-	}
 	// function call : void (*)(__int32, unsigned __int32, __int32, unsigned __int32 *, short, unsigned char *)
 	// function call : void (*)()
 	// function call : void (*)()
@@ -268,13 +290,54 @@ void SpecialWeaponHUDHook(__int32 a1, unsigned __int32 unitObjectIndex, __int32 
 	// function call : __int32 (*)(__int32, __int32, __int32)
 	// function call : __int32 (*)()
 	// function call : __int32 (*)()
-	todo("implement");
-	_sub_10976FD0(a1, unitObjectIndex, a3, objectsInCluster, objectcount, activeSpecialChudTypes);
+
+	static void (*sub_A2CAA0)(__int32, unsigned __int32, __int32, unsigned __int32 *, short, unsigned char *) = reinterpret_cast<void (*)(__int32, unsigned __int32, __int32, unsigned __int32 *, short, unsigned char *)>(0xA2CAA0);
+	static void (*sub_686FD0)() = reinterpret_cast<void (*)()>(0x686FD0);
+	static void (*sub_A78230)() = reinterpret_cast<void (*)()>(0xA78230);
+	static void (*sub_A53160)(__int32, __int32, char, char) = reinterpret_cast<void (*)(__int32, __int32, char, char)>(0xA53160);
+	static void (*sub_A7A510)(__int32) = reinterpret_cast<void (*)(__int32)>(0xA7A510);
+	static unsigned char (*sub_A242E0)(__int32, __int32) = reinterpret_cast<unsigned char (*)(__int32, __int32)>(0xA242E0);
+	static __int32 (*sub_A48E40)(__int32, __int32, __int32) = reinterpret_cast<__int32 (*)(__int32, __int32, __int32)>(0xA48E40);
+	static __int32 (*sub_A78F00)(__int32, __int32) = reinterpret_cast<__int32 (*)(__int32, __int32)>(0xA78F00);
+	static __int32 (*sub_A781F0)() = reinterpret_cast<__int32 (*)()>(0xA781F0);
+	static __int32 (*sub_686DE0)() = reinterpret_cast<__int32 (*)()>(0x686DE0);
+	if (!s_Enabled || s_RendererType)
+	{
+		if (!Utils::Singleton<Modules::ModuleTweaks>::Instance().VarDisableWeaponOutline->ValueInt)
+			sub_A2CAA0(a1, unitObjectIndex, a3, objectsInCluster, objectcount, activeSpecialChudTypes);
+		return;
+	}
+	s_map_variant *mapv = ::Forge::GetMapVariant();
+	if (!mapv)
+		return;
+	::Forge::ObjectSet const &selection = ::Forge::Selection::GetSelection();
+	if (!selection.Any())
+		return;
+	for (__int32 i = 0; i < mapv->variant_object_count; i++)
+	{
+		s_variant_datum &placement = mapv->objects[i];
+		if (selection.Contains(placement.object_index))
+		{
+			__int32 const specialHudType = 6;
+			activeSpecialChudTypes[specialHudType] = 1;
+			sub_686FD0();
+			sub_A78230();
+			sub_A53160(placement.object_index, a1, 0, 1);
+			sub_A7A510(0);
+			sub_A242E0(18, (unsigned char)floor(191.25));
+			sub_A48E40(2, 23, -1);
+			sub_A78F00(0, 1);
+			sub_A48E40(1, 0, 0);
+			sub_A48E40(2, 0, 0);
+			sub_A781F0();
+			sub_686DE0();
+		}
+	}
 }
 
-_extern void _sub_10976A10();
 void RenderImplicit() // 0x10976A10
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?RenderImplicit@@YAXXZ");
 	// `anonymous-namespace'::RenderImplicit
 	// procedure flags: nofpo
 	// static ...; // 0x10976E42
@@ -291,15 +354,11 @@ void RenderImplicit() // 0x10976A10
 	// constexpr __int32 (*const `RenderImplicit'::`2'::sub_A22BA0)(); // constant == 10628000
 	// constexpr void (*const `RenderImplicit'::`2'::SetArgument)(__int32, __int32, void *); // constant == 10904592
 	// __int32 const PT_TRIANGLESTRIP;
-	{
 		// __int32 i;
-		{
 			// float color[4];
 			// __int32 v14;
 			// SelectionItem const &item;
 			// float m[12];
-		}
-	}
 	// function call : bool (*const)(__int32, __int32, __int32, __int32)
 	// function call : void *(*const)(unsigned long, long)
 	// function call : void (*const)(unsigned __int32, void *, __int32, unsigned __int32, __int32, __int32)
@@ -313,8 +372,53 @@ void RenderImplicit() // 0x10976A10
 	// function call : __int32 (*const)(__int32, __int32, void *, __int32)
 	// function call : __int32 (*const)(__int32, __int32, void *, __int32)
 	// function call : __int32 (*const)(__int32, __int32, void *, __int32)
-	todo("implement");
-	_sub_10976A10();
+
+	Forge::Magnets::Render();
+	if (s_RendererType != eRendererImplicit)
+		return;
+	__int32 s_ImplicitShader = -1;
+	s_forge_globals_definition *forgeGlobals = forge_globals_get_definition();
+	if (forgeGlobals)
+		s_ImplicitShader = forgeGlobals->default_boundary_method.index;
+	__int32 const PT_TRIANGLESTRIP = 5;
+	if (!(s_Enabled && ((bool (*)(__int32, __int32, __int32, __int32))0xA23300)(64, 20, 0, 0)))
+		return;
+	void *shaderDef = tag_get('rm  ', s_ImplicitShader);
+	((void (*)(unsigned __int32, void *, __int32, unsigned __int32, __int32, __int32))0xA3CA60)(s_ImplicitShader, shaderDef, 20, 0, PT_TRIANGLESTRIP, 1);
+	for (__int32 i = 0; i < s_NumActiveItems; i++)
+	{
+		SelectionItem const &item = s_items[i];
+		float m[12];
+		m[0] = item.Transform.forward.i;
+		m[1] = item.Transform.left.i;
+		m[2] = item.Transform.up.i;
+		m[3] = item.Transform.position.x;
+		m[4] = item.Transform.forward.j;
+		m[5] = item.Transform.left.j;
+		m[6] = item.Transform.up.j;
+		m[7] = item.Transform.position.y;
+		m[8] = item.Transform.forward.k;
+		m[9] = item.Transform.left.k;
+		m[10] = item.Transform.up.k;
+		m[11] = item.Transform.position.z;
+		float color[4] =
+		{
+			sin(s_SelectionColorCounter + 2.0f) * 0.5f + 0.5f,
+			sin(s_SelectionColorCounter + 0.0f) * 0.5f + 0.5f,
+			sin(s_SelectionColorCounter + 4.0f) * 0.5f + 0.5f,
+			1.0f,
+		};
+		((void (*)(__int32, __int32, void *))0xA66410)(24, 3, m);
+		((void (*)(__int32, __int32, void *))0xA66410)(20, 1, color);
+		__int32 v14 = ((__int32 (*)())0xA22BA0)();
+		((__int32 (*)(__int32))0xA232D0)(1);
+		((__int32 (*)(__int32, __int32, void *, __int32))0xA28330)(PT_TRIANGLESTRIP, 2, (void *)(Forge::hades_file_local_Forge::Geoemetry::BOX_VERTICES + 0), 20);
+		((__int32 (*)(__int32, __int32, void *, __int32))0xA28330)(PT_TRIANGLESTRIP, 2, (void *)(Forge::hades_file_local_Forge::Geoemetry::BOX_VERTICES + 4), 20);
+		((__int32 (*)(__int32, __int32, void *, __int32))0xA28330)(PT_TRIANGLESTRIP, 2, (void *)(Forge::hades_file_local_Forge::Geoemetry::BOX_VERTICES + 8), 20);
+		((__int32 (*)(__int32, __int32, void *, __int32))0xA28330)(PT_TRIANGLESTRIP, 2, (void *)(Forge::hades_file_local_Forge::Geoemetry::BOX_VERTICES + 12), 20);
+		((__int32 (*)(__int32, __int32, void *, __int32))0xA28330)(PT_TRIANGLESTRIP, 2, (void *)(Forge::hades_file_local_Forge::Geoemetry::BOX_VERTICES + 16), 20);
+		((__int32 (*)(__int32, __int32, void *, __int32))0xA28330)(PT_TRIANGLESTRIP, 2, (void *)(Forge::hades_file_local_Forge::Geoemetry::BOX_VERTICES + 20), 20);
+	}
 }
 
 void RasterizeImplicitGeometryHook() // 0x109769B0

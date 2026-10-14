@@ -93,21 +93,18 @@ namespace Http
 	}
 }
 
-extern std::shared_ptr<Http::IHttpRequest> _sub_107F7290();
+
 namespace Http
 {
 	std::shared_ptr<Http::IHttpRequest> CreateRequest() // 0x107F7290
 	{
-		mangled_x86(MANGLED_TODO, "?CreateRequest@Http@@YA?AV?$shared_ptr@VIHttpRequest@Http@@@std@@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?CreateRequest@Http@@YA?AV?$shared_ptr@VIHttpRequest@Http@@@std@@XZ");
 		// procedure flags: nofpo
 		// function call : std::shared_ptr<Http::IHttpRequest> ()
-		todo("implement");
-		std::shared_ptr<Http::IHttpRequest> __result = _sub_107F7290();
-		return __result;
+
+		return GetManager().CreateRequest();
 	}
 
-	// mangled_x86(MANGLED_DEFAULT, "??1CHttpManager@Http@@QAE@XZ"); no body to assert in
-	_inline CHttpManager::~CHttpManager() = default; // 0x107F7100
 }
 
 /* ---------- private code */

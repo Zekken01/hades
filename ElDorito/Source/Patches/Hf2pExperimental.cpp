@@ -87,6 +87,7 @@
 #include <limits>
 #include <memory>
 #include <ostream>
+#include <span>  // hades: added for 0x10A72BB0
 #include <sstream>
 #include <stdexcept>
 #include <streambuf>
@@ -270,6 +271,8 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+extern __int32 game_engine_get_player_score(unsigned long player_index);  // hades: added for 0x10A73AE0
+
 #include "Modules/ModuleServer.hpp"  // hades: added for 0x10A73A60
 
 namespace Patches
@@ -287,6 +290,15 @@ __int32 GetSecondsRemainingUntilPlayerSpawn();
 bool PingPlayer(std::string ip, unsigned short port);
 void PongReceived(Blam::Network::NetworkAddress const &from, unsigned __int32 timestamp, unsigned short id, unsigned __int32 latency);
 void BuildPlayerPing();
+namespace Forge { namespace PrematchCamera { long FindCameraObjectForTeamDesignator(short team_designator); bool IsForgePrematchCameraDisabled(); } }  // hades: added for 0x10A72BB0
+extern c_game_variant *(*const game_engine_get_variant)();  // hades: added for 0x10A72BB0
+extern float (*const game_ticks_to_seconds)(float);  // hades: added for 0x10A72BB0
+extern float (*const game_seconds_to_ticks_real)(float);  // hades: added for 0x10A72BB0
+extern void matrix4x3_rotation_to_angles(real_matrix4x3 const *matrix, real_euler_angles3d *angles);  // hades: added for 0x10A72BB0
+extern void UpdateUiPlayerModelArmor();  // hades: added for 0x10A72BB0
+extern s_object_data *(*const object_try_and_get_and_verify_type)(unsigned long, c_enum<enum e_object_type,long>);  // hades: added for 0x10A72BB0
+namespace Player { namespace PlayerPodium { void PodiumTick(); } }  // hades: added for 0x10A72BB0
+namespace Scripting { namespace HS { extern void ExecuteScript(std::string_view name, std::span<hs_value const> arguments); } }  // hades: added for 0x10A72BB0
 void Hf2pTickHook();
 s_global_preferences_settings::e_level LevelStringToSetting(std::string const &value);
 void Hf2pLoadPreferencesHook();
@@ -305,7 +317,7 @@ bool game_engine_in_round_hook();
 
 namespace hades_file_local
 {
-	extern s_session_player_ping players_ping[16]; // 0x12458580
+	s_session_player_ping players_ping[16]; // 0x12458580
 	extern unsigned short PingId; // 0x124587C0
 	extern long long game_end_time; // 0x124587C8
 	extern long long last_ping_time; // 0x124587D0
@@ -317,13 +329,28 @@ namespace Patches
 {
 	namespace Hf2pExperimental
 	{
-		_extern void _sub_10A708B0();
 		void ApplyAll() // 0x10A708B0
 		{
-			mangled_x86(MANGLED_TODO, "?ApplyAll@Hf2pExperimental@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Hf2pExperimental@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_10A708B0();
+
+			Hook(0x200630, Hf2pInitHook).Apply();
+			Patch(0x24F6B0, { 0xC3 }).Apply();
+			Patch(0x24EF50, { 0xC3 }).Apply();
+			Patch(0x10F1121, { 0xE9 }).Apply();
+			Patch(0x2006F0, { 0xC3 }).Apply();
+			Patch(0x622920, { 0xB8, 0x01, 0x00, 0x00, 0x00, 0xC3 }).Apply();
+			Hook(0x200790, Hf2pShutdownHook).Apply();
+			Hook(0x105F0D, Hf2pTickHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x10CB01, Hf2pLoadPreferencesHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x152783, c_game_engine_object_runtime_manager__update_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x167E9D, game_initialize_for_new_map_call_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Patch(0x1391B5, { 0xEB }).Apply();
+			Hook(0x1D85D0, game_finish_should_mute_sounds, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x347822, game_finished_wait_time_add_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x2E4590, game_engine_should_start_music_hook).Apply();
+			Hook(0x2E4213, game_engine_in_round_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x2E43D2, scenario_multiplayer_globals_try_and_get_runtime_data_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 		}
 	}
 }
@@ -364,72 +391,108 @@ void Hf2pShutdownHook() // 0x10A72B60
 	((void(__cdecl *const)())0x652ee0)();
 }
 
-_extern void _sub_10A73850();
 void SystemMenu() // 0x10A73850
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SystemMenu@@YAXXZ");
 	// `anonymous-namespace'::SystemMenu
 	// procedure flags: nofpo
 	// Blam::Input::ActionState *uiStartAction;
-	{
 		// bool isUsingController;
 		// c_gui_screen_manager *screenManager;
-		{
 			// c_gui_screen_widget *screenWidget;
-		}
-	}
 	// function call : bool (*const)()
 	// function call : long (*const)(e_user_interface_sound, long)
 	// function call : void (*const)(void *, __int32)
-	todo("implement");
-	_sub_10A73850();
+
+	static bool (*const game_in_progress)() = reinterpret_cast<bool (*)()>(0x531E90);
+	static long (*const user_interface_play_sound)(e_user_interface_sound, long) = reinterpret_cast<long (*)(e_user_interface_sound, long)>(0xAA5CD0);
+	static void (__thiscall *const screen_transition_out)(void *, __int32) = reinterpret_cast<void (__thiscall *)(void *, __int32)>(0xAB2830);
+	if (game_in_progress())
+		return;
+	Blam::Input::ActionState *uiStartAction = Blam::Input::GetActionState(Blam::Input::eGameActionUiStart);
+	if (!(uiStartAction->Flags & 1) && uiStartAction->Ticks == 1)
+	{
+		bool isUsingController = *reinterpret_cast<bool *>(0x244DE98);
+		c_gui_screen_manager *screenManager = c_gui_screen_manager::get();
+		if (!screenManager->any_active_screens(0) && !screenManager->find_screen(4, 0x100BE))
+		{
+			uiStartAction->Flags |= 1;
+			user_interface_play_sound((e_user_interface_sound)7, -1);
+			Patches::Ui::ShowDialog(0x10084, 0, 4, 0x1000C);
+		}
+		else if (isUsingController)
+		{
+			c_gui_screen_widget *screenWidget = screenManager->find_screen(4, 0x10084);
+			if (screenWidget)
+			{
+				uiStartAction->Flags |= 1;
+				screen_transition_out(screenWidget, 1);
+			}
+		}
+	}
 }
 
-_extern __int32 _sub_10A721B0();
 __int32 GetSecondsRemainingUntilPlayerSpawn() // 0x10A721B0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetSecondsRemainingUntilPlayerSpawn@@YAHXZ");
 	// `anonymous-namespace'::GetSecondsRemainingUntilPlayerSpawn
 	// procedure flags: nofpo
 	// s_player_datum *const player;
 	// unsigned long playerIndex;
 	// function call : unsigned long (*const)(long)
 	// function call : unsigned long (*const)(long)
-	todo("implement");
-	__int32 __result = _sub_10A721B0();
-	return __result;
+
+	unsigned long playerIndex = ((unsigned long (__cdecl *)(long))0x589C30)(0);
+	s_player_datum *const player = players_get()->try_and_get(((unsigned long (__cdecl *)(long))0x589C30)(0));
+	return player ? Pointer(player)(0x2CBC, 1).Read<__int32>() : 0;
 }
 
-_extern bool _sub_10A734F0(std::string, unsigned short);
 bool PingPlayer(std::string ip, unsigned short port) // 0x10A734F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?PingPlayer@@YA_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@G@Z");
 	// `anonymous-namespace'::PingPlayer
 	// static ...; // 0x10A73648
 	// static ...; // 0x10A73640
 	// std::string ip;
 	// unsigned short port;
 	// Blam::Network::Session *session;
-	{
 		// Blam::Network::NetworkAddress blamAddress;
+
+	Blam::Network::Session *session = Blam::Network::GetActiveSession();
+	if (session)
+	{
+		Blam::Network::NetworkAddress blamAddress;
+		if (!Blam::Network::NetworkAddress::Parse(ip, port, &blamAddress))
+			return false;
+		if (!session->Gateway->Ping(blamAddress, PingId))
+			return false;
+		return true;
 	}
-	todo("implement");
-	bool __result = _sub_10A734F0(ip, port);
-	return __result;
+	return false;
 }
 
-_extern void _sub_10A736C0(Blam::Network::NetworkAddress const &, unsigned __int32, unsigned short, unsigned __int32);
 void PongReceived(Blam::Network::NetworkAddress const &from, unsigned __int32 timestamp, unsigned short id, unsigned __int32 latency) // 0x10A736C0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?PongReceived@@YAXABUNetworkAddress@Network@Blam@@IGI@Z");
 	// `anonymous-namespace'::PongReceived
 	// unsigned __int32 latency;
-	{
 		// __int32 i;
+
+	if (id != PingId)
+		return;
+	for (__int32 i = 0; i < 16; i++)
+	{
+		if (players_ping[i].ip == from.ToString() && from.Port == players_ping[i].port)
+		{
+			players_ping[i].ping = latency;
+			return;
+		}
 	}
-	todo("implement");
-	_sub_10A736C0(from, timestamp, id, latency);
 }
 
-_extern void _sub_10A71CF0();
 void BuildPlayerPing() // 0x10A71CF0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?BuildPlayerPing@@YAXXZ");
 	// `anonymous-namespace'::BuildPlayerPing
 	// procedure flags: nofpo
 	// static ...; // 0x10A720B0
@@ -440,31 +503,67 @@ void BuildPlayerPing() // 0x10A71CF0
 	// static ...; // 0x10A7206C
 	// static bool (*`BuildPlayerPing'::`2'::IsMapLoading)(); // 0x113543F0
 	// Blam::Network::Session *session;
-	{
 		// long long elapsed;
 		// long long curTime1;
-		{
 			// __int32 playerIdx;
 			// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> s;
 			// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-			{
 				// Blam::Network::NetworkAddress ip;
-			}
-			{
 				// __int32 i;
-			}
-		}
-	}
 	// function call : bool (*const)()
 	// function call : bool (*const)()
 	// function call : bool (*)()
-	todo("implement");
-	_sub_10A71CF0();
+
+	static bool (*IsMapLoading)() = reinterpret_cast<bool (*)()>(0x5670E0);
+	if (((bool (*)())0x531E90)() || !((bool (*)())0x5319C0)() || IsMapLoading())
+		return;
+	Blam::Network::Session *session = Blam::Network::GetActiveSession();
+	if (session && session->IsEstablished())
+	{
+		if (Utils::Singleton<Modules::ModuleServer>::Instance().VarServerShowPlayerPing->ValueInt == 1)
+		{
+			long long curTime1;
+			time(&curTime1);
+			long long elapsed = curTime1 - last_ping_time;
+			if (!last_ping_time || elapsed >= 10)
+			{
+				time(&last_ping_time);
+				__int32 playerIdx = session->MembershipInfo.FindFirstPlayer();
+				while (playerIdx != -1)
+				{
+					Blam::Network::NetworkAddress ip = session->GetPeerAddress(session->MembershipInfo.GetPlayerPeer(playerIdx));
+					players_ping[playerIdx].ip = ip.ToString();
+					players_ping[playerIdx].port = ip.Port;
+					PingPlayer(ip.ToString(), ip.Port);
+					playerIdx = session->MembershipInfo.FindNextPlayer(playerIdx);
+				}
+				rapidjson::StringBuffer s;
+				rapidjson::Writer<rapidjson::StringBuffer> writer(s);
+				writer.StartObject();
+				writer.Key("players");
+				writer.StartArray();
+				for (__int32 i = 0; i < 16; i++)
+				{
+					writer.StartObject();
+					writer.Key("ping");
+					writer.Int(players_ping[i].ping);
+					writer.EndObject();
+				}
+				writer.EndArray();
+				writer.EndObject();
+				Utils::Singleton<Modules::ModuleServer>::Instance().VarPlayersPingInfo->ValueString = s.GetString();
+			}
+		}
+		else if (Utils::Singleton<Modules::ModuleServer>::Instance().VarPlayersPingInfo->ValueString != "{}")
+		{
+			Utils::Singleton<Modules::ModuleServer>::Instance().VarPlayersPingInfo->ValueString = "{}";
+		}
+	}
 }
 
-_extern void _sub_10A72BB0();
 void Hf2pTickHook() // 0x10A72BB0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Hf2pTickHook@@YAXXZ");
 	// `anonymous-namespace'::Hf2pTickHook
 	// procedure flags: nofpo
 	// static ...; // 0x10A7325C
@@ -483,30 +582,16 @@ void Hf2pTickHook() // 0x10A72BB0
 	// unsigned long roundTimer;
 	// static bool `Hf2pTickHook'::`2'::prematch_script_called; // 0x124587C3
 	// static bool (*`Hf2pTickHook'::`2'::InPrematchState)(char); // 0x113543F4
-	{
 		// s_object_data *scenObject;
-		{
 			// s_player_datum *player;
 			// unsigned long playerIndex;
-			{
 				// long team_designator;
-				{
 					// unsigned long foundCameraObjectIndex;
-				}
-			}
-		}
-		{
 			// real_euler_angles3d cameraObjectOrientation;
 			// real_matrix4x3 cameraObjectTransform;
-		}
-	}
-	{
 		// unsigned long time;
-	}
-	{
 		// float game_engine_finish_wait_seconds;
 		// long game_finished_wait_time_ticks;
-	}
 	// function call : bool (*const)()
 	// function call : c_game_engine *(*const)()
 	// function call : bool (*)(char)
@@ -532,8 +617,105 @@ void Hf2pTickHook() // 0x10A72BB0
 	// function call : void (*const)(char const *, float, short)
 	// function call : bool (*)()
 	// function call : bool (*)()
-	todo("implement");
-	_sub_10A72BB0();
+
+	static bool (*InPrematchState)(char) = reinterpret_cast<bool (*)(char)>(0x5523A0);
+	static bool (*UpdatePreMatchCamera)() = reinterpret_cast<bool (*)()>(0x72D580);
+	static void (*InitMpDirector)() = reinterpret_cast<void (*)()>(0x72D560);
+	static bool (*IsMapLoading)() = reinterpret_cast<bool (*)()>(0x5670E0);
+	static bool (*IsMainMenu)() = reinterpret_cast<bool (*)()>(0x531E90);
+	static __int32 s_CameraObjectIndex = -1;
+	static bool s_MatchStarted = false;
+	static bool prematch_script_called = false;
+	void (*const scripted_camera_set_internal)(__int32, real_point3d const *, real_euler_angles3d const *, float, short, long) = (void (*)(__int32, real_point3d const *, real_euler_angles3d const *, float, short, long))0x72DD70;
+	void (*const camera_control)(__int32) = (void (*)(__int32))0x592320;
+	__int32 secondsUntilPlayerSpawn = GetSecondsRemainingUntilPlayerSpawn();
+	unsigned long roundTimer = Modules::ModuleServer::Instance().VarServerCountdownClient->ValueInt;
+	if (((bool (*const)())0x5314B0)() && ((c_game_engine *(*const)())0x5CE150)() && InPrematchState(4))
+	{
+		if (roundTimer > 0)
+		{
+			if (!Forge::PrematchCamera::IsForgePrematchCameraDisabled())
+			{
+				if (((bool (*const)())0x5565E0)() || game_engine_get_variant()->game_engine_type == _game_engine_type_infection)
+				{
+					s_player_datum *player = nullptr;
+					unsigned long playerIndex = ((unsigned long (*const)(long))0x589C30)(0);
+					if (playerIndex != -1)
+					{
+						player = players_get()->try_and_get(playerIndex);
+						if (player)
+						{
+							long team_designator = game_engine_get_team_designator(playerIndex);
+							if (team_designator != -1)
+							{
+								unsigned long foundCameraObjectIndex = Forge::PrematchCamera::FindCameraObjectForTeamDesignator(team_designator);
+								if (foundCameraObjectIndex != -1 && (s_CameraObjectIndex == -1 || s_CameraObjectIndex != foundCameraObjectIndex))
+									s_CameraObjectIndex = foundCameraObjectIndex;
+							}
+						}
+					}
+				}
+				if (s_CameraObjectIndex == -1)
+					s_CameraObjectIndex = Forge::PrematchCamera::FindCameraObjectForTeamDesignator(8);
+				s_object_data *scenObject = object_try_and_get_and_verify_type(s_CameraObjectIndex, 0x80);
+				if (s_CameraObjectIndex != -1 && scenObject)
+				{
+					real_matrix4x3 cameraObjectTransform;
+					real_euler_angles3d cameraObjectOrientation;
+					((real_matrix4x3 *(*const)(long, real_matrix4x3 *))0xB2EC60)(s_CameraObjectIndex, &cameraObjectTransform);
+					matrix4x3_rotation_to_angles(&cameraObjectTransform, &cameraObjectOrientation);
+					camera_control(1);
+					scripted_camera_set_internal(0, &cameraObjectTransform.position, &cameraObjectOrientation, 0.0f, 0, -1);
+				}
+				else
+				{
+					UpdatePreMatchCamera();
+				}
+			}
+			if (!prematch_script_called)
+			{
+				Scripting::HS::ExecuteScript("prematch_camera", {});
+				prematch_script_called = true;
+			}
+		}
+		s_MatchStarted = true;
+	}
+	else if (s_MatchStarted)
+	{
+		InitMpDirector();
+		s_MatchStarted = false;
+		s_CameraObjectIndex = -1;
+		prematch_script_called = false;
+		unsigned long time = Modules::ModuleServer::Instance().VarPostGameFadeStartDelay->ValueInt;
+		Pointer(0x553750).Write<unsigned char>(time);
+	}
+	if (((bool (*const)())0x531B20)() && !game_end_time)
+		::time(&game_end_time);
+	if (game_end_time)
+	{
+		long game_finished_wait_time_ticks = *(long *)offset_pointer(tls_getd().game_globals, 0x24BE8);
+		float game_engine_finish_wait_seconds = game_ticks_to_seconds((float)game_finished_wait_time_ticks);
+		if (game_engine_finish_wait_seconds <= 3.0f)
+		{
+			if (((c_game_engine *(*const)())0x5CE150)() && !Modules::ModuleServer::Instance().VarServerMuteSoundsDuringPostGameClient->ValueInt)
+			{
+				((void (*const)(char const *, float, short))0x660B50)("", 0.0f, (short)game_seconds_to_ticks_real(3.0f));
+				((void (*const)(char const *, float, short))0x660B50)("ambient_nature", 0.2f, (short)game_seconds_to_ticks_real(3.0f));
+				((void (*const)(char const *, float, short))0x660B50)("ambient_machinery", 0.2f, (short)game_seconds_to_ticks_real(3.0f));
+				((void (*const)(char const *, float, short))0x660B50)("ambient_computers", 0.2f, (short)game_seconds_to_ticks_real(3.0f));
+			}
+			game_end_time = 0;
+		}
+	}
+	if (!IsMapLoading())
+	{
+		if (IsMainMenu())
+			UpdateUiPlayerModelArmor();
+		else
+			SystemMenu();
+	}
+	Player::PlayerPodium::PodiumTick();
+	BuildPlayerPing();
 }
 
 s_global_preferences_settings::e_level LevelStringToSetting(std::string const &value) // 0x10A73430
@@ -545,9 +727,9 @@ s_global_preferences_settings::e_level LevelStringToSetting(std::string const &v
 	return value == "low" ? (s_global_preferences_settings::e_level)0 : value == "medium" ? (s_global_preferences_settings::e_level)1 : (s_global_preferences_settings::e_level)2;
 }
 
-_extern void _sub_10A72490();
 void Hf2pLoadPreferencesHook() // 0x10A72490
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Hf2pLoadPreferencesHook@@YAXXZ");
 	// `anonymous-namespace'::Hf2pLoadPreferencesHook
 	// procedure flags: nofpo
 	// static ...; // 0x10A729E3
@@ -565,8 +747,62 @@ void Hf2pLoadPreferencesHook() // 0x10A72490
 	// s_global_preferences *prefs;
 	// __int32 screenResolutionHeight;
 	// function call : long (*const)(s_global_preferences_settings::s_input_settings *)
-	todo("implement");
-	_sub_10A72490();
+
+	Modules::ModuleSettings const &moduleSettings = Utils::Singleton<Modules::ModuleSettings>::Instance();
+	Modules::ModuleCamera const &moduleCamera = Utils::Singleton<Modules::ModuleCamera>::Instance();
+	Modules::ModuleInput const &moduleInput = Utils::Singleton<Modules::ModuleInput>::Instance();
+	long (*const create_default_input_settings)(s_global_preferences_settings::s_input_settings *) = reinterpret_cast<long (*)(s_global_preferences_settings::s_input_settings *)>(0x50AC70);
+	void (*const global_preferences_create_default)() = reinterpret_cast<void (*)()>(0x50A520);
+	__int32 screenResolutionWidth, screenResolutionHeight;
+	moduleSettings.GetScreenResolution(&screenResolutionWidth, &screenResolutionHeight);
+	Common::D3DAdapters::EnumerateDisplayModes();
+	Common::D3DAdapters::DisplayMode displayMode = Common::D3DAdapters::GetClosestSupportedDisplayMode(screenResolutionWidth, screenResolutionHeight);
+	s_global_preferences *prefs = tls_getd().preferences;
+	memset(&prefs->current, 0, sizeof(s_global_preferences_data));
+	prefs->current.settings.version = 51;
+	prefs->current.settings.lanquage = -1;
+	prefs->current.settings.last_font_lanquage = -1;
+	prefs->current.settings.build_number = 0;
+	prefs->current.settings.privacy_mode = 1;
+	prefs->current.settings.display_adapter = displayMode.adapterIndex;
+	prefs->current.settings.video_settings.field_0 = 4;
+	prefs->current.settings.display_type = s_global_preferences_settings::_display_mode_default;
+	prefs->current.settings.field_41C4A = 1;
+	create_default_input_settings(&prefs->current.settings.input_settings);
+	prefs->current.settings.display_fullscreen = moduleSettings.VarFullscreen->ValueInt != 0;
+	prefs->current.settings.display_contrast = moduleSettings.VarContrast->ValueInt;
+	prefs->current.settings.display_brightness = moduleSettings.VarBrightness->ValueInt;
+	prefs->current.settings.video_settings.resolution_width_wide = displayMode.width;
+	prefs->current.settings.video_settings.resolution_height_wide = displayMode.height;
+	prefs->current.settings.video_settings.texture_resolution = LevelStringToSetting(moduleSettings.VarTextureResolution->ValueString);
+	prefs->current.settings.video_settings.shadow_quality = LevelStringToSetting(moduleSettings.VarShadowQuality->ValueString);
+	prefs->current.settings.video_settings.texture_filtering_quality = LevelStringToSetting(moduleSettings.VarTextureFilteringQuality->ValueString);
+	prefs->current.settings.video_settings.lighting_quality = LevelStringToSetting(moduleSettings.VarLightingQuality->ValueString);
+	prefs->current.settings.video_settings.effects_quality = LevelStringToSetting(moduleSettings.VarEffectsQuality->ValueString);
+	prefs->current.settings.video_settings.details_quality = LevelStringToSetting(moduleSettings.VarDetailsQuality->ValueString);
+	prefs->current.settings.video_settings.postprocessing_quality = LevelStringToSetting(moduleSettings.VarPostprocessingQuality->ValueString);
+	prefs->current.settings.video_settings.motion_blur = moduleSettings.VarMotionBlur->ValueInt != 0;
+	prefs->current.settings.video_settings.vsync = moduleSettings.VarVSync->ValueInt != 0;
+	prefs->current.settings.video_settings.anti_aliasing = moduleSettings.VarAntialiasing->ValueInt != 0;
+	prefs->current.settings.hide_watermark = true;
+	prefs->current.settings.master_volume = moduleSettings.VarMasterVolume->ValueInt;
+	prefs->current.settings.sfx_volume = moduleSettings.VarSfxVolume->ValueInt;
+	prefs->current.settings.music_volume = moduleSettings.VarMusicVolume->ValueInt * 2;
+	prefs->current.settings.toggle_crouch = moduleSettings.VarToggleCrouch->ValueInt != 0;
+	prefs->current.settings.voice_volume = 100;
+	prefs->current.settings.hud_shake = moduleSettings.VarHUDShake->ValueInt != 0;
+	prefs->current.settings.team_markers = moduleSettings.VarPlayerMarkerColors->ValueInt;
+	prefs->current.settings.camera_fov = moduleCamera.VarCameraFov->ValueFloat;
+	prefs->current.settings.input_settings.type = (s_global_preferences_settings::e_input_type)moduleSettings.VarGamepadEnabled->ValueInt;
+	prefs->current.settings.input_settings.mouse_sensitivity_horizontal = moduleSettings.VarMouseSensitivityHorizontal->ValueInt;
+	prefs->current.settings.input_settings.mouse_sensitivity_vertical = moduleSettings.VarMouseSensitivityVertical->ValueInt;
+	prefs->current.settings.input_settings.mouse_sensitivity_vehicle_horizontal = moduleSettings.VarMouseSensitivityVehicleHorizontal->ValueInt;
+	prefs->current.settings.input_settings.mouse_sensitivity_vehicle_vertical = moduleSettings.VarMouseSensitivityVehicleVertical->ValueInt;
+	prefs->current.settings.input_settings.mouse_acceleration = moduleSettings.VarMouseAcceleration->ValueInt;
+	prefs->current.settings.input_settings.mouse_filter = false;
+	prefs->current.settings.input_settings.invert_mouse = moduleSettings.VarInvertMouse->ValueInt != 0;
+	prefs->current.settings.display_subtitles = (s_global_preferences_settings::e_display_subtitles)moduleSettings.VarSubtitles->ValueInt;
+	prefs->initialized = true;
 }
 
 void __fastcall c_game_engine_object_runtime_manager__update_hook(void *thisptr, void *unused) // 0x10A739D0
@@ -654,21 +890,24 @@ bool game_finish_should_mute_sounds() // 0x10A73D90
 	}
 }
 
-_extern void _sub_10A73E10(float);
 void game_finished_wait_time_add_hook(float seconds) // 0x10A73E10
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_finished_wait_time_add_hook@@YAXM@Z");
 	// `anonymous-namespace'::game_finished_wait_time_add_hook
 	// float seconds;
 	// void (*const game_finished_wait_time_add)(float);
 	// unsigned char fade_time;
 	// function call : void (*const)(float)
-	todo("implement");
-	_sub_10A73E10(seconds);
+
+	void (*const game_finished_wait_time_add)(float) = reinterpret_cast<void (*)(float)>(0x530FF0);
+	unsigned char fade_time = Pointer(0x553750).Read<unsigned char>();
+	Pointer(0x553750).Write<unsigned char>(fade_time + seconds);
+	game_finished_wait_time_add(seconds);
 }
 
-_extern bool _sub_10A73AE0();
 bool game_engine_should_start_music_hook() // 0x10A73AE0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_should_start_music_hook@@YA_NXZ");
 	// `anonymous-namespace'::game_engine_should_start_music_hook
 	// procedure flags: nofpo
 	// static ...; // 0x10A73D04
@@ -678,32 +917,59 @@ bool game_engine_should_start_music_hook() // 0x10A73AE0
 	// unsigned long near_victory_muisc_enabled;
 	// long (*const game_engine_variant_get_score_to_win)();
 	// unsigned long score_to_start_music_percentage;
-	{
 		// unsigned long const score_needed;
 		// long const score_to_win;
 		// __int32 highest_score;
-		{
 			// __int32 i;
-			{
 				// long team_score;
-			}
-		}
-		{
 			// c_data_array<s_player_datum> *players;
-			{
 				// c_data_iterator<s_player_datum> it;
-				{
 					// __int32 cur_player_score;
-				}
-			}
-		}
-	}
 	// function call : long (*const)()
 	// function call : bool (*const)()
 	// function call : long (*const)(unsigned __int32)
-	todo("implement");
-	bool __result = _sub_10A73AE0();
-	return __result;
+
+	long (*const game_engine_variant_get_score_to_win)() = reinterpret_cast<long (*)()>(0x550B50);
+	long (*const game_engine_get_team_score)(unsigned __int32) = reinterpret_cast<long (*)(unsigned __int32)>(0x550C90);
+	unsigned long score_to_start_music_percentage = Utils::Singleton<Modules::ModuleServer>::Instance().VarServerNearVictoryMusicPercentClient->ValueInt;
+	unsigned long near_victory_muisc_enabled = Utils::Singleton<Modules::ModuleServer>::Instance().VarServerNearVictoryMusicEnabledClient->ValueInt;
+	if (near_victory_muisc_enabled != 1)
+		return false;
+	if (score_to_start_music_percentage == 0)
+		return true;
+	if (score_to_start_music_percentage > 0 && score_to_start_music_percentage <= 100)
+	{
+		long const score_to_win = game_engine_variant_get_score_to_win();
+		if (score_to_win <= 0)
+			return false;
+		unsigned long const score_needed = score_to_win * score_to_start_music_percentage / 100;
+		__int32 highest_score = 0;
+		if (((bool (*)())0x5565E0)())
+		{
+			for (__int32 i = 0; i < 8; i++)
+			{
+				long team_score = game_engine_get_team_score(i);
+				if (team_score > highest_score)
+					highest_score = team_score;
+			}
+			return highest_score >= score_needed;
+		}
+		else
+		{
+			c_data_array<s_player_datum> *players = players_get();
+			for (c_data_iterator<s_player_datum> it = players->begin(); it != players->end(); ++it)
+			{
+				if (!(it->flags & 2))
+				{
+					__int32 cur_player_score = game_engine_get_player_score(it.current_datum_index);
+					if (cur_player_score > highest_score)
+						highest_score = cur_player_score;
+				}
+			}
+			return highest_score >= score_needed;
+		}
+	}
+	return false;
 }
 
 long scenario_multiplayer_globals_try_and_get_runtime_data_hook() // 0x10A73FF0

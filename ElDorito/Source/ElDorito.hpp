@@ -32,14 +32,11 @@ private:
 	bool isDedicated; // 0x2
 	bool isBotClient; // 0x3
 	bool isHighPriority; // 0x4
-	unsigned char __pad0[3]; // 0x5
 	std::string mapsFolder; // 0x8
 	bool webDebugging; // 0x24
 	bool webDebugLogging; // 0x25
-	unsigned char __pad1[2]; // 0x26
 	__int32 webdebugPort; // 0x28
 	bool connectToServer; // 0x2C
-	unsigned char __pad2[3]; // 0x2D
 	std::string serverAddress; // 0x30
 	std::string serverPassword; // 0x4C
 	std::string instanceName; // 0x68
@@ -82,7 +79,7 @@ extern __int32 __stdcall WinMainHook(HINSTANCE__ *hInstance, HINSTANCE__ *hPrevI
 extern __int32 InitInstance(HINSTANCE__ *hModule);
 extern __int32 ExitInstance();
 extern __int32 GetEDVersion();
-extern "C" __int32 __stdcall DllMain(HINSTANCE__ *hModule, unsigned long Reason, void *Misc);
+extern "C" __int32 __stdcall DllMain(HINSTANCE__ *hModule, unsigned long Reason, void *Misc) noexcept(false);  // hades: the original has an EH frame, which /EHsc drops for a nothrow extern "C" function
 
 /* ---------- globals */
 
@@ -104,14 +101,12 @@ _inline unsigned __int32 ElDorito::GetMainThreadID() // 0x10923830
 	return MainThreadID;
 }
 
-extern std::string _sub_1074E5C0(ElDorito const *const);
 _inline std::string ElDorito::GetMapsFolder() const // 0x1074E5C0
 {
-	mangled_x86(MANGLED_TODO, "?GetMapsFolder@ElDorito@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetMapsFolder@ElDorito@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 	// ElDorito const *const this;
-	todo("implement");
-	std::string __result = _sub_1074E5C0((ElDorito const *)this);
-	return __result;
+
+	return mapsFolder;
 }
 
 _inline bool ElDorito::IsWebDebuggingEnabled() const // 0x10961AD0
@@ -178,14 +173,12 @@ _inline bool ElDorito::IsConnectingToServer() const // 0x10CAABD0
 	return connectToServer;
 }
 
-extern std::string _sub_106B4470(ElDorito const *const);
 _inline std::string ElDorito::GetInstanceName() const // 0x106B4470
 {
-	mangled_x86(MANGLED_TODO, "?GetInstanceName@ElDorito@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetInstanceName@ElDorito@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 	// ElDorito const *const this;
-	todo("implement");
-	std::string __result = _sub_106B4470((ElDorito const *)this);
-	return __result;
+
+	return instanceName;
 }
 
 /* ---------- private code */

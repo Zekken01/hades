@@ -110,7 +110,6 @@ static_assert(sizeof(s_unit_hud_interface_definition) == 16, "Invalid s_unit_hud
 struct s_unit_dialogue_variant_definition
 {
 	short variant_number; // 0x0
-	unsigned char __pad0[2]; // 0x2
 	s_tag_reference dialogue; // 0x4
 };
 #pragma pack(pop)

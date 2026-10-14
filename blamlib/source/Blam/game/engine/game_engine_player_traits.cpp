@@ -54,10 +54,9 @@ void c_player_trait_shield_vitality::set(c_player_trait_shield_vitality const *t
 	set_shield_multiplier_setting((e_shield_multiplier_setting)traits->shield_multiplier, can_inherit);
 }
 
-_extern float _sub_10F04C20(c_player_trait_shield_vitality const *const);
 float c_player_trait_shield_vitality::get_damage_resistance_percentage() const // 0x10F04C20
 {
-	mangled_x86(MANGLED_TODO, "?get_damage_resistance_percentage@c_player_trait_shield_vitality@@QBEMXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_damage_resistance_percentage@c_player_trait_shield_vitality@@QBEMXZ");
 	// static ...; // 0x10F04D00
 // $LN18:
 // $LN17:
@@ -74,9 +73,41 @@ float c_player_trait_shield_vitality::get_damage_resistance_percentage() const /
 // $LN5:
 // $LN4:
 	// c_player_trait_shield_vitality const *const this;
-	todo("implement");
-	float __result = _sub_10F04C20((c_player_trait_shield_vitality const *)this);
-	return __result;
+
+	switch (damage_resistance)
+	{
+	case _damage_resistance_10:
+		return 0.1f;
+	case _damage_resistance_50:
+		return 0.5f;
+	case _damage_resistance_90:
+		return 0.9f;
+	case _damage_resistance_normal:
+		return 1.0f;
+	case _damage_resistance_110:
+		return 1.1f;
+	case _damage_resistance_150:
+		return 1.5f;
+	case _damage_resistance_200:
+		return 2.0f;
+	case _damage_resistance_300:
+		return 3.0f;
+	case _damage_resistance_500:
+		return 5.0f;
+	case _damage_resistance_1000:
+		return 10.0f;
+	case _damage_resistance_2000:
+		return 20.0f;
+	case _damage_resistance_invulnerable:
+	case _damage_resistance_invincible:
+		return 1000.0f;
+	case _damage_resistance_1500:
+		return 15.0f;
+	case _damage_resistance_3000:
+		return 30.0f;
+	}
+
+	return 1.0f;
 }
 
 void c_player_trait_shield_vitality::set_damage_resistance_setting(c_player_trait_shield_vitality::e_damage_resistance_setting value, bool can_inherit) // 0x10F05AB0

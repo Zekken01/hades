@@ -49,13 +49,14 @@ namespace Http
 		virtual _inline Http::CHttpHeaders const &GetHeaders() const;
 		bool Process(Http::CWinHttpRequest &request);
 	private:
-		unsigned __int32 m_responseCode; // 0x4
+		unsigned __int32 m_responseCode = 0; // 0x4
 		Http::CHttpHeaders m_headers; // 0x8
 	public:
 		CWinHttpResponse(Http::CWinHttpResponse &); /* compiler_generated() */
 		CWinHttpResponse(Http::CWinHttpResponse const &); /* compiler_generated() */
 		_inline CWinHttpResponse() = default; /* compiler_generated() */
-		_inline ~CWinHttpResponse(); /* compiler_generated() */
+		// mangled_x86(MANGLED_KNOWN_GOOD, "??1CWinHttpResponse@Http@@QAE@XZ"); defaulted on its declaration
+		_inline ~CWinHttpResponse() = default; // 0x108076c0
 		Http::CWinHttpResponse &operator=(Http::CWinHttpResponse &); /* compiler_generated() */
 		Http::CWinHttpResponse &operator=(Http::CWinHttpResponse const &); /* compiler_generated() */
 	};
@@ -151,22 +152,20 @@ namespace Http
 		return m_reqHandle.get();
 	}
 
-	_extern void _sub_1080A5F0(Http::CWinHttpRequest *const, std::function<void __cdecl(std::shared_ptr<Http::IHttpRequest>,bool)> &);
 	_inline void CWinHttpRequest::SetOnCompleted(std::function<void __cdecl(std::shared_ptr<Http::IHttpRequest>,bool)> &&callback) // 0x1080A5F0
 	{
-		mangled_x86(MANGLED_TODO, "?SetOnCompleted@CWinHttpRequest@Http@@UAEX$$QAV?$function@$$A6AXV?$shared_ptr@VIHttpRequest@Http@@@std@@_N@Z@std@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?SetOnCompleted@CWinHttpRequest@Http@@UAEX$$QAV?$function@$$A6AXV?$shared_ptr@VIHttpRequest@Http@@@std@@_N@Z@std@@@Z");
 		// std::function<void __cdecl(std::shared_ptr<Http::IHttpRequest>,bool)> &callback;
-		todo("implement");
-		_sub_1080A5F0(this, callback);
+
+		m_completedCallback = callback;
 	}
 
-	_extern void _sub_1080A650(Http::CWinHttpRequest *const, std::function<void __cdecl(std::shared_ptr<Http::IHttpRequest>)> &);
 	_inline void CWinHttpRequest::SetOnResponse(std::function<void __cdecl(std::shared_ptr<Http::IHttpRequest>)> &&callback) // 0x1080A650
 	{
-		mangled_x86(MANGLED_TODO, "?SetOnResponse@CWinHttpRequest@Http@@UAEX$$QAV?$function@$$A6AXV?$shared_ptr@VIHttpRequest@Http@@@std@@@Z@std@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?SetOnResponse@CWinHttpRequest@Http@@UAEX$$QAV?$function@$$A6AXV?$shared_ptr@VIHttpRequest@Http@@@std@@@Z@std@@@Z");
 		// std::function<void __cdecl(std::shared_ptr<Http::IHttpRequest>)> &callback;
-		todo("implement");
-		_sub_1080A650(this, callback);
+
+		m_responseCallback = callback;
 	}
 }
 

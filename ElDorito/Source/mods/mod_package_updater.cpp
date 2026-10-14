@@ -49,6 +49,10 @@
 #include "Utils/Singleton.hpp"
 #include "Utils/String.hpp"
 
+#include "mods/mod_system.hpp"  // hades: added for 0x108B1BF0
+
+#include "Utils/Logger.hpp"  // hades: added for 0x108B1190
+
 #include <boost/asio.hpp>
 #include <boost/assert.hpp>
 #include <boost/exception/all.hpp>
@@ -70,6 +74,7 @@
 #include <wchar.h>
 #include <algorithm>
 #include <atomic>
+#include <format>
 #include <charconv>
 #include <cmath>
 #include <cstddef>
@@ -191,7 +196,14 @@ enum
 
 /* ---------- prototypes */
 
-extern bool download_mod_package_header(char const *url, s_mod_package_header *out_header, bool use_range);
+#include "Patches/Core.hpp"  // hades: added for 0x108B08C0
+namespace Download { extern std::shared_ptr<Download::CHttpFileDownload> CreateHttpFileDownload(); }  // hades: added for 0x108B08C0
+namespace hades_file_local { template<int N> static void print_progress(float complete_fraction, __int32 speed) { static int lastLen = 0; char buff[N + 3]; int filled = (int)(N * complete_fraction); buff[0] = '['; for (int i = 1; i < N; i++) { if (i < filled) buff[i] = '='; else buff[i] = ' '; } buff[N] = ']'; buff[N + 1] = 0; char const *unit = "KiB/s"; float rate = speed / 1024.0f; if (speed >= 1024 * 1024) { unit = "MiB/s"; rate /= 1024.0f; } if (lastLen > 0) { char cls[256]; memset(cls, ' ', lastLen); cls[lastLen] = 0; printf(cls); } float percent = complete_fraction * 100.0f; lastLen = printf("\r%s %.2f%% (%.2f %s)\r", buff, percent, rate, unit) + 1; } }  // hades: added for 0x108B08C0
+
+namespace Utils { namespace FileUtils { extern long long GetFileSize64(char const *filename); } }  // hades: added for 0x108B0040
+
+extern bool download_mod_package_header(char const *url, s_mod_package_header *out_header, bool use_range); extern bool mod_package_header_valid(s_mod_package_header const *header); extern s_file_reference *(*const file_reference_create_from_path)(s_file_reference *, char const *, bool); extern bool (*const file_delete)(s_file_reference *); extern bool (*const file_rename)(s_file_reference *, char const *);  // hades: added for 0x108B23B0
+namespace Http { extern std::shared_ptr<Http::IHttpRequest> CreateRequest(); }  // hades: added for 0x108B02E0
 
 void shell_allocate_console();
 void shell_free_console(bool dedicated);
@@ -223,10 +235,9 @@ void c_mod_package_updater_blocking::initialize(bool dedicated, char const *pack
 	m_package_directory.set(package_directory);
 }
 
-_extern bool _sub_108B1190(c_mod_package_updater_blocking *const);
 bool c_mod_package_updater_blocking::locate_packages() // 0x108B1190
 {
-	mangled_x86(MANGLED_TODO, "?locate_packages@c_mod_package_updater_blocking@@AAE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?locate_packages@c_mod_package_updater_blocking@@AAE_NXZ");
 	// static ...; // 0x108B169B
 	// static ...; // 0x108B1697
 	// static ...; // 0x108B1693
@@ -241,39 +252,55 @@ bool c_mod_package_updater_blocking::locate_packages() // 0x108B1190
 	// std::string src;
 	// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &mods;
 	// std::ifstream ifs;
-	{
 		// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > it;
-		{
 			// c_mod_package_updater_blocking::s_mod_package_description description;
 			// char const *package_url;
 			// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &mod;
-		}
+
+	printf("locating packages...\n");
+	std::stringstream ss;
+	std::ifstream ifs(m_package_list_filename);
+	if (!ifs.is_open())
+		return true;
+	ss << ifs.rdbuf();
+	std::string src = ss.str();
+	rapidjson::Document doc;
+	doc.Parse<0>(src.c_str());
+	if ((doc.HasParseError() || !doc.HasMember("mods")) != false)
+	{
+		Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Game, Utils::LogLevel::Error, "server failed to parse mod package list");
+		fprintf(stderr, "server failed to parse mod package list\n");
+		return false;
 	}
-	todo("implement");
-	bool __result = _sub_108B1190(this);
-	return __result;
+	rapidjson::Value const &mods = doc["mods"];
+	for (auto it = mods.MemberBegin(); it != mods.MemberEnd(); ++it)
+	{
+		if (!it->value.IsObject() || !it->value.HasMember("package_url"))
+			return false;
+		rapidjson::Value const &mod = it->value;
+		char const *package_url = mod["package_url"].GetString();
+		s_mod_package_description description;
+		description.package_url = std::string(package_url);
+		description.local_name = std::string(it->name.GetString());
+		m_download_queue.push(description);
+	}
+	printf("found %d packages\n", m_download_queue.size());
+	return true;
 }
 
-_extern bool _sub_108B08C0(c_mod_package_updater_blocking *const, char const *, char const *);
 bool c_mod_package_updater_blocking::download_package(char const *package_url, char const *filename) // 0x108B08C0
 {
-	mangled_x86(MANGLED_TODO, "?download_package@c_mod_package_updater_blocking@@AAE_NPBD0@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?download_package@c_mod_package_updater_blocking@@AAE_NPBD0@Z");
 	// static ...; // 0x108B0D00
 	// c_mod_package_updater_blocking *const this;
 	// char const *package_url;
 	// char const *filename;
 	// std::shared_ptr<Download::CHttpFileDownload> download;
-	{
 		// __int32 speed;
 		// long long position;
 		// long long length;
-		{
 			// float complete_fraction;
-		}
-	}
-	{
 		// __int32 x;
-	}
 	// function call : void ()
 	// function call : long long () const
 	// function call : long long () const
@@ -284,28 +311,76 @@ bool c_mod_package_updater_blocking::download_package(char const *package_url, c
 	// function call : Download::EDownloadError () const
 	// function call : Download::EDownloadError () const
 	// function call : Download::EDownloadError () const
-	todo("implement");
-	bool __result = _sub_108B08C0(this, package_url, filename);
-	return __result;
+
+	printf("downloading...\n");
+	std::shared_ptr<Download::CHttpFileDownload> download = Download::CreateHttpFileDownload();
+	download->SetUrl(package_url);
+	download->SetDestinationFile(filename);
+	download->Start();
+	for (;;)
+	{
+		Utils::Singleton<Download::CHttpFileDownloadManager>::Instance().Tick();
+		long long position = download->GetDownloadedBytes();
+		long long length = download->GetTotalBytes();
+		__int32 speed = download->GetDownloadSpeed();
+		if (length > 0)
+		{
+			float complete_fraction = (double)position / (double)length;
+			print_progress<24>(complete_fraction, speed);
+		}
+		if (download->IsComplete())
+			break;
+		Sleep(100);
+	}
+	printf("\n");
+	if (download->GetStatus() != 3)
+	{
+		Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Game, Utils::LogLevel::Error, "Download failed for reason: %s - %s", Download::DownloadErrorToString(download->GetError()), package_url);
+		printf("Download failed for reason: %s\n", Download::DownloadErrorToString(download->GetError()));
+		if (download->GetError() == 2)
+		{
+			printf("Press any key to continue or press ESC to exit...\n");
+			__int32 x = getch();
+			if (x == 27)
+			{
+				printf("Exiting...\n");
+				Patches::Core::ExecuteShutdownCallbacks();
+				shell_free_console(m_dedicated);
+				exit(0);
+			}
+		}
+		return false;
+	}
+	else
+	{
+		return true;
+	}
 }
 
-_extern void _sub_108B0040(c_mod_package_updater_blocking *const, c_mod_package &, c_mod_package_updater_blocking::s_mod_package_description *);
 void c_mod_package_updater_blocking::build_mod_package_description(c_mod_package &package, c_mod_package_updater_blocking::s_mod_package_description *description) // 0x108B0040
 {
-	mangled_x86(MANGLED_TODO, "?build_mod_package_description@c_mod_package_updater_blocking@@AAEXAAVc_mod_package@@PAUs_mod_package_description@1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?build_mod_package_description@c_mod_package_updater_blocking@@AAEXAAVc_mod_package@@PAUs_mod_package_description@1@@Z");
 	// static ...; // 0x108B0160
 	// c_mod_package_updater_blocking *const this;
 	// c_mod_package &package;
 	// c_mod_package_updater_blocking::s_mod_package_description *description;
 	// s_static_string<32> metadata_name;
-	todo("implement");
-	_sub_108B0040(this, package, description);
+
+	#line 362 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\mod_package_updater.cpp"
+		if (!(package.valid())) { display_assert("package.valid()", __FILE__, __LINE__, true); system_exit(-1); }
+		#line 372 "C:\\Users\\zekken\\Desktop\\Project Hades\\Hades\\Source\\ElDorito\\Source\\mods\\mod_package_updater.cpp"
+	s_static_string<32> metadata_name;
+	metadata_name.set_wchar(package.get_metadata()->name);
+	description->mod_name = metadata_name;
+	description->mod_author = package.get_metadata()->author;
+	description->mod_description = package.get_metadata()->description;
+	description->package_size = Utils::FileUtils::GetFileSize64(package.get_file_name());
+	Utils::String::BytesToHexString(package.get_header()->sha1, 20, description->hash);
 }
 
-_extern bool _sub_108B02E0(char const *, s_mod_package_header *, bool);
 bool download_mod_package_header(char const *url, s_mod_package_header *out_header, bool use_range) // 0x108B02E0
 {
-	mangled_x86(MANGLED_TODO, "?download_mod_package_header@@YA_NPBDPAUs_mod_package_header@@_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?download_mod_package_header@@YA_NPBDPAUs_mod_package_header@@_N@Z");
 	// static ...; // 0x108B0771
 	// static ...; // 0x108B0769
 	// static ...; // 0x108B0761
@@ -328,15 +403,41 @@ bool download_mod_package_header(char const *url, s_mod_package_header *out_head
 	// function call : void (std::function<bool __cdecl(char const *,unsigned int)> &)
 	// function call : std::shared_ptr<Http::IHttpResponse> ()
 	// function call : __int32 () const
-	todo("implement");
-	bool __result = _sub_108B02E0(url, out_header, use_range);
-	return __result;
+
+	char *ptr = (char *)out_header;
+	char *end = (char *)&out_header[1];
+	std::atomic<bool> completion_flag;
+	std::shared_ptr<Http::IHttpRequest> request = Http::CreateRequest();
+	Http::CHttpHeaders headers;
+	if (use_range)
+		headers.Add("Range", std::format("bytes=0-{}", sizeof(s_mod_package_header)), Http::CHttpHeaders::Coalesce);
+	request->SetHeaders(headers);
+	request->SetUrl(url);
+	request->Send();
+	request->SetOnCompleted([&completion_flag](std::shared_ptr<Http::IHttpRequest> request, bool success)
+	{
+		completion_flag = true;
+		completion_flag.notify_one();
+	});
+	request->SetReceiver([&end, &ptr](char const *data, unsigned int size)
+	{
+		size = std::min<unsigned int>(end - ptr, size);
+		if (size == 0)
+			return false;
+		memcpy(ptr, data, size);
+		ptr += size;
+		return true;
+	});
+	completion_flag.wait(false);
+	std::shared_ptr<Http::IHttpResponse> response = request->GetResponse();
+	if (use_range && response && response->GetResponseCode() == 416)
+		return download_mod_package_header(url, out_header, false);
+	return ptr == end;
 }
 
-_extern bool _sub_108B23B0(c_mod_package_updater_blocking *const, c_mod_package_updater_blocking::s_mod_package_description *);
 bool c_mod_package_updater_blocking::update_package(c_mod_package_updater_blocking::s_mod_package_description *description) // 0x108B23B0
 {
-	mangled_x86(MANGLED_TODO, "?update_package@c_mod_package_updater_blocking@@AAE_NPAUs_mod_package_description@1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?update_package@c_mod_package_updater_blocking@@AAE_NPAUs_mod_package_description@1@@Z");
 	// static ...; // 0x108B2C90
 	// static ...; // 0x108B2C87
 	// static ...; // 0x108B2C79
@@ -357,13 +458,8 @@ bool c_mod_package_updater_blocking::update_package(c_mod_package_updater_blocki
 	// static s_mod_package_header remote_header; // 0x12407980
 	// c_mod_package_manager &package_manager;
 	// static __int32 $TSS0; // 0x12407DD8
-	{
 		// c_file_reference const &local_file;
-		{
 			// c_mod_package local_package;
-		}
-	}
-	{
 		// s_static_string<256> temp_filename;
 		// c_mod_package::e_error err;
 		// c_mod_package package;
@@ -373,29 +469,105 @@ bool c_mod_package_updater_blocking::update_package(c_mod_package_updater_blocki
 		// std::wstring ws;
 		// s_static_string<256> new_name;
 		// s_file_reference temp_file_reference;
-	}
 	// function call : s_file_reference *(*const)(s_file_reference *, char const *, bool)
 	// function call : bool (*const)(s_file_reference *)
 	// function call : bool (*const)(s_file_reference *)
 	// function call : bool (*const)(s_file_reference *, char const *)
-	todo("implement");
-	bool __result = _sub_108B23B0(this, description);
-	return __result;
+
+	char const *package_url = description->package_url.c_str();
+	printf("checking remote package '%s'...\n", package_url);
+	static s_mod_package_header remote_header;
+	if (!download_mod_package_header(package_url, &remote_header, true))
+	{
+		Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Game, Utils::LogLevel::Error, "failed to read remote package header: %s", description->package_url.c_str());
+		fprintf(stderr, "failed to read remote package header.\n");
+		return false;
+	}
+	if (!mod_package_header_valid(&remote_header))
+	{
+		Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Game, Utils::LogLevel::Error, "invalid remote package header: %s", description->package_url.c_str());
+		fprintf(stderr, "invalid remote package header!\n");
+		return false;
+	}
+	bool needs_downloading = true;
+	c_mod_package_manager &package_manager = c_mod_system::get_package_manager();
+	c_mod_package_manager::s_entry package_entry;
+	if (package_manager.find_package_by_hash(remote_header.sha1, &package_entry))
+	{
+		c_file_reference const &local_file = package_entry.file;
+		if (local_file.exists())
+		{
+			c_mod_package local_package(local_file.filename);
+			if (local_package.initialize(nullptr))
+			{
+				printf("checking local package hash for '%s'...\n", local_file.filename);
+				if (!memcmp(local_package.get_header()->sha1, remote_header.sha1, sizeof(remote_header.sha1)))
+				{
+					printf("no update needed for mod '%s'.\n", description->local_name.c_str());
+					build_mod_package_description(local_package, description);
+					needs_downloading = false;
+				}
+			}
+		}
+	}
+	if (needs_downloading)
+	{
+		printf("Update needed for mod '%s'.\n", description->local_name.c_str());
+		std::string hash_str;
+		Utils::String::BytesToHexString(remote_header.sha1, sizeof(remote_header.sha1), hash_str);
+		s_static_string<256> temp_filename;
+		temp_filename.print("%s\\%s.tmp", m_package_directory.get_string(), hash_str.c_str());
+		s_file_reference temp_file_reference;
+		file_reference_create_from_path(&temp_file_reference, temp_filename.get_string(), false);
+		if (!download_package(package_url, temp_filename.get_string()))
+		{
+			file_delete(&temp_file_reference);
+			return false;
+		}
+		c_mod_package package(temp_file_reference.filename);
+		c_mod_package::e_error err;
+		if (!package.initialize(&err))
+		{
+			file_delete(&temp_file_reference);
+			fprintf(stderr, "failed to open local package! Error: %s\n", c_mod_package::get_error_string(err));
+			return false;
+		}
+		std::wstring ws = package.get_metadata()->name;
+		std::string mod_name(ws.begin(), ws.end());
+		std::string mod_version = std::to_string(package.get_metadata()->version_major) + "." + std::to_string(package.get_metadata()->version_minor);
+		s_static_string<256> new_name;
+		new_name.print("%s.pak", c_mod_system::GetNewPackageFilename(mod_name, hash_str, mod_version).c_str());
+		build_mod_package_description(package, description);
+		package.dispose();
+		file_rename(&temp_file_reference, new_name.get_string());
+	}
+	return true;
 }
 
-_extern bool _sub_108B1BF0(c_mod_package_updater_blocking *const);
 bool c_mod_package_updater_blocking::process_queue() // 0x108B1BF0
 {
-	mangled_x86(MANGLED_TODO, "?process_queue@c_mod_package_updater_blocking@@AAE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?process_queue@c_mod_package_updater_blocking@@AAE_NXZ");
 	// c_mod_package_updater_blocking *const this;
 	// c_mod_package_manager &package_manager;
-	{
 		// c_mod_package_updater_blocking::s_mod_package_description &package_description;
-	}
 	// function call : void (unsigned long)
-	todo("implement");
-	bool __result = _sub_108B1BF0(this);
-	return __result;
+
+	c_mod_package_manager &package_manager = c_mod_system::get_package_manager();
+	package_manager.enumerate_blocking();
+	while (!m_download_queue.empty())
+	{
+		s_mod_package_description &package_description = m_download_queue.front();
+		if (!update_package(&package_description))
+		{
+			fprintf(stderr, "Retrying in %d seconds\n", 5);
+			Sleep(5000);
+			continue;
+		}
+		m_packages.push_back(package_description);
+		m_download_queue.pop();
+	}
+	package_manager.enumerate_blocking();
+	return true;
 }
 
 bool c_mod_package_updater_blocking::update_packages_blocking() // 0x108B2EF0
@@ -415,9 +587,9 @@ bool c_mod_package_updater_blocking::update_packages_blocking() // 0x108B2EF0
 
 /* ---------- private code */
 
-_extern void _sub_108B1F00();
 void shell_allocate_console() // 0x108B1F00
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?shell_allocate_console@@YAXXZ");
 	// `anonymous-namespace'::shell_allocate_console
 	// procedure flags: nofpo
 	// static ...; // 0x108B2089
@@ -437,13 +609,25 @@ void shell_allocate_console() // 0x108B1F00
 	// function call : HMENU__ *(HWND__ *, __int32)
 	// function call : __int32 (HMENU__ *, unsigned __int32, unsigned __int32)
 	// function call : __int32 (HWND__ *, HWND__ *, __int32, __int32, __int32, __int32, unsigned __int32)
-	todo("implement");
-	_sub_108B1F00();
+
+	AllocConsole();
+	HWND__ *consoleWindow = GetConsoleWindow();
+	_iobuf *fpStdOut;
+	freopen_s(&fpStdOut, "CONOUT$", "w", stdout);
+	_iobuf *fpStdErr;
+	freopen_s(&fpStdErr, "CONOUT$", "w", stderr);
+	_iobuf *fpStdIn;
+	freopen_s(&fpStdIn, "CONIN$", "r", stdin);
+	long style = GetWindowLongA(consoleWindow, GWL_EXSTYLE);
+	style |= WS_EX_TOPMOST;
+	SetWindowLongA(consoleWindow, GWL_EXSTYLE, style);
+	EnableMenuItem(GetSystemMenu(consoleWindow, FALSE), SC_CLOSE, MF_BYCOMMAND | MF_DISABLED | MF_GRAYED);
+	SetWindowPos(consoleWindow, NULL, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
 }
 
-_extern void _sub_108B2100(bool);
 void shell_free_console(bool dedicated) // 0x108B2100
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?shell_free_console@@YAX_N@Z");
 	// `anonymous-namespace'::shell_free_console
 	// static ...; // 0x108B229D
 	// static ...; // 0x108B2294
@@ -452,17 +636,32 @@ void shell_free_console(bool dedicated) // 0x108B2100
 	// static ...; // 0x108B2260
 	// bool dedicated;
 	// HWND__ *consoleWindow;
-	{
 		// _iobuf *fpStdIn;
 		// _iobuf *fpStdOut;
 		// _iobuf *fpStdErr;
-	}
 	// function call : HWND__ *()
 	// function call : HMENU__ *(HWND__ *, __int32)
 	// function call : __int32 (HMENU__ *, unsigned __int32, unsigned __int32)
 	// function call : __int32 ()
-	todo("implement");
-	_sub_108B2100(dedicated);
+
+	HWND consoleWindow = GetConsoleWindow();
+	EnableMenuItem(GetSystemMenu(consoleWindow, TRUE), SC_CLOSE, MF_BYCOMMAND | MF_DISABLED | MF_GRAYED);
+	if (!dedicated)
+	{
+		FILE *fpStdOut;
+		FILE *fpStdErr;
+		FILE *fpStdIn;
+		if (stdout)
+			fclose(stdout);
+		if (stdout)
+			fclose(stdout);
+		if (stdin)
+			fclose(stdin);
+		freopen_s(&fpStdOut, "NUL", "a", stdout);
+		freopen_s(&fpStdErr, "NUL", "a", stderr);
+		freopen_s(&fpStdIn, "NUL", "a", stdin);
+		FreeConsole();
+	}
 }
 
 /* ---------- template instantiations */

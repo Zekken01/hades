@@ -18,6 +18,8 @@
 #include "Utils/StlUtil.hpp"
 #include "Utils/String.hpp"
 
+#include "mods/mod_system.hpp"  // hades: added for 0x10886600  // hades: added for 0x10886600
+
 #include <Windows.h>
 #include <stdio.h>
 #include <sys/stat.h>
@@ -78,10 +80,9 @@ namespace Blam
 
 /* ---------- public code */
 
-extern std::shared_ptr<CModPackageFileSystemView> _sub_10886210(CModPackageFileSystemViewManager *const, std::string const &);
 std::shared_ptr<CModPackageFileSystemView> CModPackageFileSystemViewManager::GetView(std::string const &identifier) // 0x10886210
 {
-	mangled_x86(MANGLED_TODO, "?GetView@CModPackageFileSystemViewManager@@QAE?AV?$shared_ptr@VCModPackageFileSystemView@@@std@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@3@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetView@CModPackageFileSystemViewManager@@QAE?AV?$shared_ptr@VCModPackageFileSystemView@@@std@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@3@@Z");
 	// static ...; // 0x1088652A
 	// static ...; // 0x1088651D
 	// static ...; // 0x10886518
@@ -92,21 +93,27 @@ std::shared_ptr<CModPackageFileSystemView> CModPackageFileSystemViewManager::Get
 	// std::scoped_lock<std::mutex> lock;
 	// c_mod_package_manager::s_entry packageEntry;
 	// c_mod_package_manager const &manager;
-	{
 		// std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<std::string const ,std::shared_ptr<CModPackageFileSystemView> > > > > it;
-	}
-	{
 		// unsigned char hash[20];
+
+	std::scoped_lock<std::mutex> lock(m_mutex);
+	if (auto it = m_views.find(identifier); it != std::end(m_views))
+		return it->second;
+	c_mod_package_manager const &manager = c_mod_system::get_package_manager();
+	c_mod_package_manager::s_entry packageEntry;
+	if (!manager.find_package_by_filename(identifier.c_str(), &packageEntry))
+	{
+		unsigned char hash[20];
+		Utils::String::HexStringToBytes(identifier, hash, sizeof(hash));
+		if (!manager.find_package_by_hash(hash, &packageEntry))
+			return nullptr;
 	}
-	todo("implement");
-	std::shared_ptr<CModPackageFileSystemView> __result = _sub_10886210(this, identifier);
-	return __result;
+	return m_views[identifier] = std::make_shared<CModPackageFileSystemView>(packageEntry.file.filename);
 }
 
-_extern bool _sub_10886600(CModPackageFileSystemViewManager *const, std::string const &);
 bool CModPackageFileSystemViewManager::ViewExists(std::string const &identifier) // 0x10886600
 {
-	mangled_x86(MANGLED_TODO, "?ViewExists@CModPackageFileSystemViewManager@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ViewExists@CModPackageFileSystemViewManager@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 	// static ...; // 0x10886866
 	// static ...; // 0x10886859
 	// static ...; // 0x10886854
@@ -117,15 +124,22 @@ bool CModPackageFileSystemViewManager::ViewExists(std::string const &identifier)
 	// std::scoped_lock<std::mutex> lock;
 	// c_mod_package_manager::s_entry packageEntry;
 	// c_mod_package_manager const &manager;
-	{
 		// std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<std::string const ,std::shared_ptr<CModPackageFileSystemView> > > > > it;
-	}
-	{
 		// unsigned char hash[20];
+
+	std::scoped_lock<std::mutex> lock(m_mutex);
+	if (auto it = m_views.find(identifier); it != std::end(m_views))
+		return true;
+	c_mod_package_manager const &manager = c_mod_system::get_package_manager();
+	c_mod_package_manager::s_entry packageEntry;
+	if (!manager.find_package_by_filename(identifier.c_str(), &packageEntry))
+	{
+		unsigned char hash[20];
+		Utils::String::HexStringToBytes(identifier, hash, sizeof(hash));
+		if (!manager.find_package_by_hash(hash, &packageEntry))
+			return false;
 	}
-	todo("implement");
-	bool __result = _sub_10886600(this, identifier);
-	return __result;
+	return true;
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??1CModPackageFileSystemView@@QAE@XZ"); no body to assert in

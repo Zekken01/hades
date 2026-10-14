@@ -124,6 +124,8 @@ namespace Patches
 
 /* ---------- prototypes */
 
+namespace Patches { namespace Ui { extern bool enableAllyBlueWaypointsFix; } }  // hades: added for 0x10A20420
+
 bool VariableSettingsAntialiasingUpdate(std::vector<std::string> const &args, std::string &returnInfo);
 bool VariableSettingsAutoCenteringUpdate(std::vector<std::string> const &args, std::string &returnInfo);
 bool VariableSettingsBrightnessUpdate(std::vector<std::string> const &args, std::string &returnInfo);
@@ -204,7 +206,7 @@ namespace hades_file_local
 	extern "C" __int32 (__stdcall *SSL_SetTextureFilteringQuality)(__int32); // 0x113540F8
 	extern "C" __int32 (__stdcall *SSL_SetTextureResolution)(__int32); // 0x113540FC
 	extern "C" __int32 (__stdcall *SSL_SetToggleCrouch)(__int32); // 0x11354100
-	extern "C" __int32 (*SSL_SetVSync)(__int32); // 0x11354104
+	extern "C" __int32 (__stdcall *SSL_SetVSync)(__int32); // 0x11354104
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -315,9 +317,9 @@ namespace Modules
 
 /* ---------- private code */
 
-_extern bool _sub_10A1D1E0(std::vector<std::string> const &, std::string &);
 bool VariableSettingsAntialiasingUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1D1E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsAntialiasingUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::VariableSettingsAntialiasingUpdate
 	// static ...; // 0x10A1D3D4
 	// static ...; // 0x10A1D3CC
@@ -327,9 +329,20 @@ bool VariableSettingsAntialiasingUpdate(std::vector<std::string> const &args, st
 	// bool statusBool;
 	// unsigned long value;
 	// function call : __int32 (*)(bool)
-	todo("implement");
-	bool __result = _sub_10A1D1E0(args, returnInfo);
-	return __result;
+
+	unsigned long value = Modules::ModuleSettings::Instance().VarAntialiasing->ValueInt;
+	bool statusBool = value != 0;
+	if (value < 0 || value > 1)
+		return false;
+
+	SSL_SetAntialiasing(statusBool);
+	if (!statusBool)
+		c_screen_postprocess::smaa_globals.temporal_valid = false;
+
+	std::stringstream ss;
+	ss << (statusBool ? (value == 1 ? "FXAA " : "SMAA ") : "Antialiasing ") << (statusBool ? "enabled." : "disabled.");
+	returnInfo = ss.str();
+	return true;
 }
 
 bool VariableSettingsAutoCenteringUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1D470
@@ -479,14 +492,11 @@ bool VariableSettingsEffectsQualityUpdate(std::vector<std::string> const &args, 
 	// function call : __int32 (*)(__int32)
 
 	auto value = Modules::ModuleSettings::Instance().VarEffectsQuality->ValueString;
-
 	if (!(value == "low" || value == "medium" || value == "high"))
 		return false;
-
 	auto intValue = value == "low" ? 0 : value == "medium" ? 1 : 2;
-
 	SSL_SetEffectsQuality(intValue);
-
+	c_rasterizer_globals::g_motion_blur_parameters_set = 0;
 	std::stringstream ss;
 	ss << "Effects Quality set to " << value << ".";
 	returnInfo = ss.str();
@@ -706,9 +716,9 @@ bool VariableSettingsMotionBlurStrengthUpdate(std::vector<std::string> const &ar
 	return true;
 }
 
-_extern bool _sub_10A213B0(std::vector<std::string> const &, std::string &);
 bool VariableSettingsSsaoUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A213B0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsSsaoUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::VariableSettingsSsaoUpdate
 	// static ...; // 0x10A214F4
 	// static ...; // 0x10A214EC
@@ -716,14 +726,17 @@ bool VariableSettingsSsaoUpdate(std::vector<std::string> const &args, std::strin
 	// std::string &returnInfo;
 	// std::stringstream ss;
 	// __int32 value;
-	todo("implement");
-	bool __result = _sub_10A213B0(args, returnInfo);
-	return __result;
+
+	__int32 value = Modules::ModuleSettings::Instance().VarSsao->ValueInt;
+	std::stringstream ss;
+	ss << "SSAO " << (value == 1 ? "enabled" : "disabled");
+	returnInfo = ss.str();
+	return true;
 }
 
-_extern bool _sub_10A1F340(std::vector<std::string> const &, std::string &);
 bool VariableSettingsMotionBlurAlwaysUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1F340
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsMotionBlurAlwaysUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::VariableSettingsMotionBlurAlwaysUpdate
 	// static ...; // 0x10A1F4BC
 	// static ...; // 0x10A1F4B4
@@ -731,9 +744,12 @@ bool VariableSettingsMotionBlurAlwaysUpdate(std::vector<std::string> const &args
 	// std::string &returnInfo;
 	// std::stringstream ss;
 	// bool value;
-	todo("implement");
-	bool __result = _sub_10A1F340(args, returnInfo);
-	return __result;
+
+	bool value = Modules::ModuleSettings::Instance().VarMotionBlurAlways->ValueInt != 0;
+	std::stringstream ss;
+	ss << "Motion blur " << value ? "always" : "camera only";
+	returnInfo = ss.str();
+	return true;
 }
 
 bool VariableSettingsMouseAccelerationUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1F8F0
@@ -861,9 +877,9 @@ bool VariableSettingsMouseSensitivityVehicleVerticalUpdate(std::vector<std::stri
 	return true;
 }
 
-_extern bool _sub_10A20420(std::vector<std::string> const &, std::string &);
 bool VariableSettingsPlayerMarkerColorsUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A20420
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsPlayerMarkerColorsUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::VariableSettingsPlayerMarkerColorsUpdate
 	// static ...; // 0x10A20694
 	// static ...; // 0x10A2067C
@@ -875,9 +891,27 @@ bool VariableSettingsPlayerMarkerColorsUpdate(std::vector<std::string> const &ar
 	// __int32 intValue;
 	// function call : __int32 (*)(__int32)
 	// function call : __int32 (*)(__int32)
-	todo("implement");
-	bool __result = _sub_10A20420(args, returnInfo);
-	return __result;
+
+	std::string value = Modules::ModuleSettings::Instance().VarPlayerMarkerColors->ValueString;
+	if (!(value == "default" || value == "blue" || value == "armor"))
+		return false;
+
+	__int32 intValue = value == "default" ? 0 : (value == "blue" ? 1 : 2);
+	if (intValue == 1)
+	{
+		Patches::Ui::enableAllyBlueWaypointsFix = true;
+		SSL_SetTeamColor(0);
+	}
+	else
+	{
+		Patches::Ui::enableAllyBlueWaypointsFix = false;
+		SSL_SetTeamColor(intValue);
+	}
+
+	std::stringstream ss;
+	ss << "Player Marker Colors set to " << value << ".";
+	returnInfo = ss.str();
+	return true;
 }
 
 bool VariableSettingsPostprocessingQualityUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A20740
@@ -938,9 +972,9 @@ bool VariableSettingsShadowQualityUpdate(std::vector<std::string> const &args, s
 	return true;
 }
 
-_extern bool _sub_10A21140(std::vector<std::string> const &, std::string &);
 bool VariableSettingsShadowResolutionUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A21140
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsShadowResolutionUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::VariableSettingsShadowResolutionUpdate
 	// static ...; // 0x10A2131C
 	// static ...; // 0x10A21314
@@ -951,9 +985,28 @@ bool VariableSettingsShadowResolutionUpdate(std::vector<std::string> const &args
 	// s_surface_group_description *shadow_color_surface;
 	// std::stringstream ss;
 	// unsigned long value;
-	todo("implement");
-	bool __result = _sub_10A21140(args, returnInfo);
-	return __result;
+
+	unsigned long value = Modules::ModuleSettings::Instance().VarShadowResolution->ValueInt;
+	long const shadow_texture_resolution = value;
+	s_surface_group_description *shadow_surface = &reinterpret_cast<s_surface_group_description *>(0x1914E50)[3];
+	shadow_surface->depth_stencil_width = (float)shadow_texture_resolution;
+	shadow_surface->depth_stencil_height = (float)shadow_texture_resolution;
+	shadow_surface->surface_width = (float)shadow_texture_resolution;
+	shadow_surface->surface_height = (float)shadow_texture_resolution;
+	s_surface_group_description *shadow_color_surface = &reinterpret_cast<s_surface_group_description *>(0x1914E50)[22];
+	shadow_color_surface->depth_stencil_width = (float)shadow_texture_resolution;
+	shadow_color_surface->depth_stencil_height = (float)shadow_texture_resolution;
+	shadow_color_surface->surface_width = (float)shadow_texture_resolution;
+	shadow_color_surface->surface_height = (float)shadow_texture_resolution;
+	*(long *)0x19106E0 = shadow_texture_resolution;
+	*(long *)0xA68F58 = shadow_texture_resolution;
+	*(long *)0xA6B521 = shadow_texture_resolution;
+	UpdateScreenResolution();
+
+	std::stringstream ss;
+	ss << "Shadow resolution set to " << value << ".";
+	returnInfo = ss.str();
+	return true;
 }
 
 bool VariableSettingsTextureFilteringQualityUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A215E0
@@ -1056,12 +1109,10 @@ bool VariableSettingsVSyncUpdate(std::vector<std::string> const &args, std::stri
 
 	auto value = Modules::ModuleSettings::Instance().VarVSync->ValueInt;
 	auto statusBool = (value != 0);
-
 	if (value < 0 || value > 1)
 		return false;
-
 	SSL_SetVSync(statusBool);
-
+	UpdateScreenResolution();
 	std::stringstream ss;
 	ss << "Vertical Sync " << (statusBool ? "enabled." : "disabled.");
 	returnInfo = ss.str();
@@ -1101,14 +1152,13 @@ bool VariableSettingsScreenResolutionUpdate(std::vector<std::string> const &args
 	return true;
 }
 
-_extern bool _sub_10A1C910();
 bool SoundSystemInitialized() // 0x10A1C910
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SoundSystemInitialized@@YA_NXZ");
 	// `anonymous-namespace'::SoundSystemInitialized
 	// procedure flags: nofpo
-	todo("implement");
-	bool __result = _sub_10A1C910();
-	return __result;
+
+	return *(unsigned __int32 *)0x069AD06C;
 }
 
 bool VariableSettingsMasterVolumeUpdated(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1F160
@@ -1163,9 +1213,9 @@ bool VariableSettingsSfxVolumeUpdated(std::vector<std::string> const &args, std:
 	return true;
 }
 
-_extern bool _sub_10A1EF40(std::vector<std::string> const &, std::string &);
 bool VariableSettingsMainMenuMusicVolumeUpdated(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1EF40
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsMainMenuMusicVolumeUpdated@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::VariableSettingsMainMenuMusicVolumeUpdated
 	// static ...; // 0x10A1F0E0
 	// static ...; // 0x10A1F0D8
@@ -1176,14 +1226,25 @@ bool VariableSettingsMainMenuMusicVolumeUpdated(std::vector<std::string> const &
 	// function call : bool (*const)()
 	// function call : bool (*const)()
 	// function call : __int32 (*)(__int32, bool)
-	todo("implement");
-	bool __result = _sub_10A1EF40(args, returnInfo);
-	return __result;
+
+	unsigned long value = Modules::ModuleSettings::Instance().VarMainMenuMusicVolume->ValueInt;
+	if (SoundSystemInitialized() && ((bool(__cdecl *)())0x5314B0)() && ((bool(__cdecl *)())0x531E90)())
+	{
+		if (value < 0 || value > 100)
+			return false;
+
+		SSL_SetMusicVolume(value * 2, true);
+	}
+
+	std::stringstream ss;
+	ss << "Music Volume set to " << value << ".";
+	returnInfo = ss.str();
+	return true;
 }
 
-_extern bool _sub_10A20200(std::vector<std::string> const &, std::string &);
 bool VariableSettingsMusicVolumeUpdated(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A20200
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsMusicVolumeUpdated@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::VariableSettingsMusicVolumeUpdated
 	// static ...; // 0x10A203A0
 	// static ...; // 0x10A20398
@@ -1194,9 +1255,20 @@ bool VariableSettingsMusicVolumeUpdated(std::vector<std::string> const &args, st
 	// function call : bool (*const)()
 	// function call : bool (*const)()
 	// function call : __int32 (*)(__int32, bool)
-	todo("implement");
-	bool __result = _sub_10A20200(args, returnInfo);
-	return __result;
+
+	unsigned long value = Modules::ModuleSettings::Instance().VarMusicVolume->ValueInt;
+	if (SoundSystemInitialized() && ((bool(__cdecl *)())0x5314B0)() && !((bool(__cdecl *)())0x531E90)())
+	{
+		if (value < 0 || value > 100)
+			return false;
+
+		SSL_SetMusicVolume(value * 2, true);
+	}
+
+	std::stringstream ss;
+	ss << "Music Volume set to " << value << ".";
+	returnInfo = ss.str();
+	return true;
 }
 
 bool VariableAudioOutputDeviceUpdated(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1CD50
@@ -1232,9 +1304,9 @@ bool VariableAudioOutputDeviceUpdated(std::vector<std::string> const &args, std:
 	return true;
 }
 
-_extern bool _sub_10A1C260(std::vector<std::string> const &, std::string &);
 bool CommandAudioOutputDeviceList(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1C260
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandAudioOutputDeviceList@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandAudioOutputDeviceList
 	// static ...; // 0x10A1C3E5
 	// static ...; // 0x10A1C3E0
@@ -1245,17 +1317,27 @@ bool CommandAudioOutputDeviceList(std::vector<std::string> const &args, std::str
 	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
 	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
 	// Patches::Audio::SAudioDeviceInfo info;
-	{
 		// __int32 i;
+
+	rapidjson::StringBuffer buffer;
+	rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+	Patches::Audio::SAudioDeviceInfo info;
+	writer.StartArray();
+	for (__int32 i = 0; i < Patches::Audio::GetDeviceCount(); i++)
+	{
+		if (!Patches::Audio::GetDeviceInfo(i, &info))
+			writer.String("<unknown>");
+		else
+			writer.String(info.name);
 	}
-	todo("implement");
-	bool __result = _sub_10A1C260(args, returnInfo);
-	return __result;
+	writer.EndArray();
+	returnInfo = buffer.GetString();
+	return true;
 }
 
-_extern bool _sub_10A1CF80(std::vector<std::string> const &, std::string &);
 bool VariableSettingsAnisotropicFilteringUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1CF80
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsAnisotropicFilteringUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::VariableSettingsAnisotropicFilteringUpdate
 	// static ...; // 0x10A1D13C
 	// static ...; // 0x10A1D124
@@ -1265,9 +1347,24 @@ bool VariableSettingsAnisotropicFilteringUpdate(std::vector<std::string> const &
 	// Pointer anisotropic_filtering_level;
 	// std::stringstream ss;
 	// __int32 value;
-	todo("implement");
-	bool __result = _sub_10A1CF80(args, returnInfo);
-	return __result;
+
+	Pointer anisotropic_filtering_level(0x191055C);
+	__int32 value = Modules::ModuleSettings::Instance().VarAnisotropicFiltering->ValueInt;
+	if (value < 0 || value > 16)
+	{
+		returnInfo = "Valid values range from 0-16";
+		return false;
+	}
+
+	if (value == 0)
+		anisotropic_filtering_level.WriteFast<unsigned long>(-1);
+	else
+		anisotropic_filtering_level.WriteFast<unsigned long>(value);
+
+	std::stringstream ss;
+	ss << "Anisotropic filtering level set to " << value << ".";
+	returnInfo = ss.str();
+	return true;
 }
 
 bool VariableSettingsSubtitlesUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A21560
@@ -1288,9 +1385,9 @@ bool VariableSettingsSubtitlesUpdate(std::vector<std::string> const &args, std::
 	return true;
 }
 
-_extern bool _sub_10A1C460(std::vector<std::string> const &, std::string &);
 bool CommandResetSettings(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1C460
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandResetSettings@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandResetSettings
 	// static ...; // 0x10A1C740
 	// static ...; // 0x10A1C737
@@ -1301,21 +1398,30 @@ bool CommandResetSettings(std::vector<std::string> const &args, std::string &ret
 	// std::string &returnInfo;
 	// std::string previous;
 	// Modules::CommandMap &commandMap;
-	{
 		// std::deque<Modules::Command> &<range>$L0;
 		// std::_Deque_unchecked_iterator<std::_Deque_val<std::_Deque_simple_types<Modules::Command> > > <begin>$L0;
 		// std::_Deque_unchecked_iterator<std::_Deque_val<std::_Deque_simple_types<Modules::Command> > > <end>$L0;
-		{
 			// Modules::Command &cmd;
-			{
 				// std::string returnInfo;
-			}
-		}
-	}
 	// function call : bool (*)(std::vector<std::string> const &, std::string &)
-	todo("implement");
-	bool __result = _sub_10A1C460(args, returnInfo);
-	return __result;
+
+	Modules::CommandMap &commandMap = Modules::CommandMap::Instance();
+	std::string previous;
+	for (auto &cmd : commandMap.Commands)
+	{
+		if (!(cmd.Flags & eCommandFlagsArchived) || (cmd.Flags & eCommandFlagsNoReset) || (cmd.Flags & eCommandFlagsWriteToKeys))
+			continue;
+		commandMap.ResetVariable(&cmd, previous, true);
+		if (cmd.UpdateEvent)
+		{
+			std::string returnInfo;
+			cmd.UpdateEvent({ cmd.ValueString }, returnInfo);
+		}
+		commandMap.NotifyVariableUpdated(&cmd);
+	}
+	Modules::CommandMap::Instance().ExecuteCommand("writeconfig", false);
+	returnInfo = "Default settings restored";
+	return true;
 }
 
 void UpdateScreenResolution() // 0x10A1CC20
@@ -1354,6 +1460,7 @@ void UpdateScreenResolution() // 0x10A1CC20
 	*(int32_t *)newPrefs = width;
 	*((int32_t*)newPrefs + 1) = height;
 	*(uint8_t*)0x050DD9D1 = 1; // dirty
+	c_screen_postprocess::smaa_globals.set_reinit();
 }
 
 bool TryParseInt(std::string const &str, __int32 *value) // 0x10A1C950

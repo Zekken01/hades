@@ -94,6 +94,17 @@ struct s_RotationSnapState
 
 /* ---------- prototypes */
 
+extern float (*const game_tick_length)();  // hades: added for 0x10971C90
+extern void quaternions_slerp_interpolate_and_normalize(real_quaternion const *q0, real_quaternion const *q1, float fraction, real_quaternion *result);  // hades: added for 0x10971C90
+extern real_matrix3x3 *matrix3x3_rotation_from_quaternion(real_matrix3x3 *matrix, real_quaternion const *quaternion);  // hades: added for 0x10971C90
+
+extern void quaternion_normalize(real_quaternion *q);  // hades: added for 0x10971520
+extern void quaternion_from_axis_and_angle(real_vector3d const *axis, float angle, real_quaternion *quaternion);  // hades: added for 0x10971520
+extern void quaternions_multiply(real_quaternion const *q1, real_quaternion const *q2, real_quaternion *result);  // hades: added for 0x10971520
+
+extern real_quaternion *matrix3x3_rotation_to_quaternion(real_matrix3x3 const *matrix, real_quaternion *quaternion);  // hades: added for 0x10971850
+extern long (*const game_time_get)();  // hades: added for 0x10971850
+
 namespace Forge
 {
 	namespace RotationSnap
@@ -123,10 +134,9 @@ namespace Forge
 {
 	namespace RotationSnap
 	{
-		_extern void _sub_10971C90(unsigned __int32, unsigned __int32);
 		void Update(unsigned __int32 playerIndex, unsigned __int32 heldObjectIndex) // 0x10971C90
 		{
-			mangled_x86(MANGLED_TODO, "?Update@RotationSnap@Forge@@YAXII@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Update@RotationSnap@Forge@@YAXII@Z");
 			// static ...; // 0x1097205C
 			// static ...; // 0x10972047
 			// static ...; // 0x10972040
@@ -140,22 +150,58 @@ namespace Forge
 			// real_matrix3x3 matrix;
 			// static __int32 $TSS0; // 0x1244FA44
 			// float const snapAngleDegrees;
-			{
 				// real_matrix4x3 objectTransform;
 				// real_quaternion startRotation;
-			}
 			// function call : long (*const)()
 			// function call : float (*const)()
 			// function call : real_matrix4x3 *(*const)(long, real_matrix4x3 *)
 			// function call : void (*const)(bool, long, real_point3d const *, real_vector3d const *, real_vector3d const *)
-			todo("implement");
-			_sub_10971C90(playerIndex, heldObjectIndex);
+
+			if (heldObjectIndex == -1)
+				return;
+			HandleInput();
+			static Modules::ModuleForge &moduleForge = Modules::ModuleForge::Instance();
+			unsigned long currentSnapIndex = moduleForge.VarRotationSnap->ValueInt;
+			if (currentSnapIndex < 0 || currentSnapIndex > 6)
+				currentSnapIndex = 0;
+			float const snapAngleDegrees = SNAP_ANGLES[currentSnapIndex];
+			if (snapAngleDegrees < 1 && !hades_file_local::s_RotationSnapState.IsScripted)
+				return;
+			if (heldObjectIndex == -1)
+			{
+				hades_file_local::s_RotationSnapState.StartTime = game_time_get();
+				hades_file_local::s_RotationSnapState.StartRotation = real_quaternion{ 0.0f, 0.0f, 0.0f, 1.0f };
+				hades_file_local::s_RotationSnapState.EndRotation = hades_file_local::s_RotationSnapState.StartRotation;
+				hades_file_local::s_RotationSnapState.Current = 1.0f;
+				hades_file_local::s_RotationSnapState.ObjectIndex = -1;
+			}
+			hades_file_local::s_RotationSnapState.Current += game_tick_length() / 0.3f;
+			if (hades_file_local::s_RotationSnapState.Current >= 1)
+			{
+				hades_file_local::s_RotationSnapState.IsScripted = false;
+				hades_file_local::s_RotationSnapState.Current = 1;
+			}
+			if (hades_file_local::s_RotationSnapState.ObjectIndex != heldObjectIndex)
+			{
+				real_matrix4x3 objectTransform;
+				real_quaternion startRotation;
+				((real_matrix4x3 *(__cdecl *)(long, real_matrix4x3 *))0xB2EC60)(heldObjectIndex, &objectTransform);
+				matrix3x3_rotation_to_quaternion((real_matrix3x3 const *)&objectTransform.forward, &startRotation);
+				hades_file_local::s_RotationSnapState.StartRotation = startRotation;
+				hades_file_local::s_RotationSnapState.EndRotation = hades_file_local::s_RotationSnapState.StartRotation;
+				hades_file_local::s_RotationSnapState.Current = 1.0f;
+			}
+			real_quaternion interpolatedRotation;
+			quaternions_slerp_interpolate_and_normalize(&hades_file_local::s_RotationSnapState.StartRotation, &hades_file_local::s_RotationSnapState.EndRotation, hades_file_local::s_RotationSnapState.Current, &interpolatedRotation);
+			real_matrix3x3 matrix;
+			matrix3x3_rotation_from_quaternion(&matrix, &interpolatedRotation);
+			((void (*const)(bool, long, real_point3d const *, real_vector3d const *, real_vector3d const *))0x59E340)(false, heldObjectIndex, nullptr, &matrix.forward, &matrix.up);
+			hades_file_local::s_RotationSnapState.ObjectIndex = heldObjectIndex;
 		}
 
-		_extern void _sub_10971520(real_vector3d const &);
 		void RotateSnapped(real_vector3d const &axis) // 0x10971520
 		{
-			mangled_x86(MANGLED_TODO, "?RotateSnapped@RotationSnap@Forge@@YAXABUreal_vector3d@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?RotateSnapped@RotationSnap@Forge@@YAXABUreal_vector3d@@@Z");
 			// static ...; // 0x1097179B
 			// static ...; // 0x1097178D
 			// static ...; // 0x10971781
@@ -174,14 +220,32 @@ namespace Forge
 			// real_quaternion endRotation;
 			// function call : real_matrix4x3 *(*const)(long, real_matrix4x3 *)
 			// function call : long (*const)()
-			todo("implement");
-			_sub_10971520(axis);
+
+			static Modules::ModuleForge &moduleForge = Modules::ModuleForge::Instance();
+			unsigned long currentSnap = moduleForge.VarRotationSnap->ValueInt;
+			float const snapAngleDegrees = SNAP_ANGLES[currentSnap];
+			float const snapAngleRadians = snapAngleDegrees / 180.0f * 3.14159265f;
+			if (hades_file_local::s_RotationSnapState.Current < 1)
+				return;
+			real_matrix4x3 objectTransform;
+			real_quaternion startRotation;
+			real_quaternion endRotation;
+			real_quaternion axisRotation;
+			((real_matrix4x3 *(__cdecl *)(long, real_matrix4x3 *))0xB2EC60)(hades_file_local::s_RotationSnapState.ObjectIndex, &objectTransform);
+			matrix3x3_rotation_to_quaternion((real_matrix3x3 const *)&objectTransform.forward, &startRotation);
+			quaternion_from_axis_and_angle(&axis, snapAngleRadians, &axisRotation);
+			quaternions_multiply(&axisRotation, &startRotation, &endRotation);
+			quaternion_normalize(&startRotation);
+			quaternion_normalize(&endRotation);
+			hades_file_local::s_RotationSnapState.StartTime = game_time_get();
+			hades_file_local::s_RotationSnapState.StartRotation = startRotation;
+			hades_file_local::s_RotationSnapState.EndRotation = endRotation;
+			hades_file_local::s_RotationSnapState.Current = 0;
 		}
 
-		_extern void _sub_10971850(unsigned __int32, real_quaternion const &);
 		void RotateToScripted(unsigned __int32 objectIndex, real_quaternion const &rotation) // 0x10971850
 		{
-			mangled_x86(MANGLED_TODO, "?RotateToScripted@RotationSnap@Forge@@YAXIABUreal_quaternion@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?RotateToScripted@RotationSnap@Forge@@YAXIABUreal_quaternion@@@Z");
 			// static ...; // 0x10971968
 			// static ...; // 0x10971950
 			// static ...; // 0x10971948
@@ -191,17 +255,26 @@ namespace Forge
 			// real_quaternion startRotation;
 			// function call : real_matrix4x3 *(*const)(long, real_matrix4x3 *)
 			// function call : long (*const)()
-			todo("implement");
-			_sub_10971850(objectIndex, rotation);
+
+			real_matrix4x3 objectTransform;
+			real_quaternion startRotation;
+			((real_matrix4x3 *(__cdecl *)(long, real_matrix4x3 *))0xB2EC60)(hades_file_local::s_RotationSnapState.ObjectIndex, &objectTransform);
+			matrix3x3_rotation_to_quaternion((real_matrix3x3 const *)&objectTransform.forward, &startRotation);
+			hades_file_local::s_RotationSnapState.ObjectIndex = objectIndex;
+			hades_file_local::s_RotationSnapState.IsScripted = true;
+			hades_file_local::s_RotationSnapState.StartTime = game_time_get();
+			hades_file_local::s_RotationSnapState.StartRotation = startRotation;
+			hades_file_local::s_RotationSnapState.EndRotation = rotation;
+			hades_file_local::s_RotationSnapState.Current = 0;
 		}
 	}
 }
 
 /* ---------- private code */
 
-_extern void _sub_109719E0(__int32);
 void SetSnap(__int32 value) // 0x109719E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SetSnap@@YAXH@Z");
 	// `anonymous-namespace'::SetSnap
 	// static ...; // 0x10971C01
 	// static ...; // 0x10971BFC
@@ -214,8 +287,21 @@ void SetSnap(__int32 value) // 0x109719E0
 	// wchar_t buff[256];
 	// static __int32 `SetSnap'::`2'::$TSS0; // 0x1244FA54
 	// function call : void (*)(unsigned __int32, wchar_t *, __int32)
-	todo("implement");
-	_sub_109719E0(value);
+
+	static void (*PrintKillFeedText)(unsigned __int32, wchar_t *, __int32) = (void (*)(unsigned __int32, wchar_t *, __int32))0xA95920;
+	static Modules::ModuleForge &moduleForge = Utils::Singleton<Modules::ModuleForge>::Instance();
+	if (value < 0)
+		value = 0;
+	if (value > 6)
+		value = 6;
+	std::string prev;
+	Utils::Singleton<Modules::CommandMap>::Instance().SetVariable(moduleForge.VarRotationSnap, std::to_string(value), prev, true);
+	wchar_t buff[256];
+	if (value > 0)
+		swprintf_s(buff, 256, L"Rotation Snap: %.2f\n", SNAP_ANGLES[value]);
+	else
+		swprintf_s(buff, 256, L"Rotation Snap: OFF");
+	PrintKillFeedText(0, buff, 0);
 }
 
 void HandleInput() // 0x10971350

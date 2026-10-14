@@ -126,31 +126,38 @@ unsigned __int32 GetMainThreadId(unsigned __int32 ProcessId) // 0x10AF8BB0
 	return dwTid;
 }
 
-_extern void *_sub_10AF9010();
 void *GetModuleBase() // 0x10AF9010
 {
-	mangled_x86(MANGLED_TODO, "?GetModuleBase@@YAPAXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetModuleBase@@YAPAXXZ");
 	// procedure flags: nofpo
 	// static ...; // 0x10AF9114
 	// static ...; // 0x10AF9108
 	// static ...; // 0x10AF9100
 	// static void *Base; // 0x12467578
-	{
 		// void *hSnapShot;
 		// __int32 bRet;
 		// tagMODULEENTRY32 lpModuleEntry;
-	}
 	// function call : unsigned long ()
 	// function call : __int32 (void *)
-	todo("implement");
-	void * __result = _sub_10AF9010();
-	return __result;
+
+	static void *Base = nullptr;
+	if (!Base)
+	{
+		void *hSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, GetCurrentProcessId());
+		if (hSnapShot == INVALID_HANDLE_VALUE)
+			return nullptr;
+		tagMODULEENTRY32 lpModuleEntry;
+		lpModuleEntry.dwSize = sizeof(tagMODULEENTRY32);
+		__int32 bRet = Module32First(hSnapShot, &lpModuleEntry);
+		CloseHandle(hSnapShot);
+		Base = bRet ? lpModuleEntry.modBaseAddr : nullptr;
+	}
+	return Base;
 }
 
-_extern void *_sub_10AF8EA0(std::string const &);
 void *GetModuleBase(std::string const &ModuleName) // 0x10AF8EA0
 {
-	mangled_x86(MANGLED_TODO, "?GetModuleBase@@YAPAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetModuleBase@@YAPAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 	// static ...; // 0x10AF8FB8
 	// static ...; // 0x10AF8FAC
 	// static ...; // 0x10AF8FA4
@@ -161,9 +168,24 @@ void *GetModuleBase(std::string const &ModuleName) // 0x10AF8EA0
 	// function call : unsigned long ()
 	// function call : __int32 (void *)
 	// function call : __int32 (void *)
-	todo("implement");
-	void * __result = _sub_10AF8EA0(ModuleName);
-	return __result;
+
+	void *hSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, GetCurrentProcessId());
+	if (hSnapShot == INVALID_HANDLE_VALUE)
+		return nullptr;
+	tagMODULEENTRY32 lpModuleEntry;
+	lpModuleEntry.dwSize = sizeof(tagMODULEENTRY32);
+	__int32 bModule = Module32First(hSnapShot, &lpModuleEntry);
+	while (bModule)
+	{
+		if (ModuleName.compare(lpModuleEntry.szModule) == 0)
+		{
+			CloseHandle(hSnapShot);
+			return lpModuleEntry.modBaseAddr;
+		}
+		bModule = Module32Next(hSnapShot, &lpModuleEntry);
+	}
+	CloseHandle(hSnapShot);
+	return nullptr;
 }
 
 void SetPageAccess(unsigned __int32 Offset, unsigned __int32 Size, unsigned __int32 AccessFlags) // 0x10AF9170

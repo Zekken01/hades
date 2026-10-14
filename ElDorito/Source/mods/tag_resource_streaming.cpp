@@ -99,7 +99,7 @@ namespace hades_file_local
 		unsigned long m_uncompressed_size; // 0x2C
 		unsigned long m_file_offset; // 0x30
 		void *m_file_handle; // 0x34
-		_OVERLAPPED m_overlapped; // 0x38
+		_OVERLAPPED m_overlapped = {}; // 0x38
 		unsigned long m_total_bytes_read; // 0x4C
 		unsigned long m_total_bytes_processed; // 0x50
 		unsigned long m_total_bytes_decompressed; // 0x54
@@ -116,6 +116,8 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+template<typename t_task_data> static long const async_task_add_ex(long priority, t_task_data *data, long category, e_async_completion (*callback)(t_task_data *), c_async_completion_flag *completion_flag) { if (!(sizeof(t_task_data) <= 554)) { display_assert("sizeof(t_task_data) <= 554", "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\async\\async.hpp", 23, true); system_exit(-1); } return ((long (*)(long, void *, long, void *, c_async_completion_flag *))0x5085C0)(priority, data, category, (void *)callback, completion_flag); }  // hades: added for 0x10854430
+
 extern long tag_resource_stream_async(long resource_handle, void *buffer, long buffer_size, c_async_completion_flag *completed);
 
 /* ---------- globals */
@@ -126,10 +128,9 @@ c_static_bit_vector<32> c_tag_resource_stream_task::m_used_packets; // 0x118F4E8
 
 /* ---------- public code */
 
-_extern long _sub_10854430(long, void *, long, c_async_completion_flag *);
 long tag_resource_stream_async(long resource_handle, void *buffer, long buffer_size, c_async_completion_flag *completed) // 0x10854430
 {
-	mangled_x86(MANGLED_TODO, "?tag_resource_stream_async@@YAJJPAXJPAUc_async_completion_flag@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?tag_resource_stream_async@@YAJJPAXJPAUc_async_completion_flag@@@Z");
 	// static ...; // 0x108545D4
 	// long resource_handle;
 	// void *buffer;
@@ -148,9 +149,28 @@ long tag_resource_stream_async(long resource_handle, void *buffer, long buffer_s
 	// short resource_index;
 	// function call : s_cache_file_resource_shared_file *(*const)(void *, e_cache_file_tag_resource_location)
 	// function call : bool (*const)(void *, __int32, __int32, s_indirect_cache_file_page *)
-	todo("implement");
-	long __result = _sub_10854430(resource_handle, buffer, buffer_size, completed);
-	return __result;
+
+	bool (__thiscall *const get_page)(void *, __int32, __int32, s_indirect_cache_file_page *) = *reinterpret_cast<bool (__thiscall **)(void *, __int32, __int32, s_indirect_cache_file_page *)>(0x1658634);
+	s_cache_file_resource_shared_file *(__thiscall *const get_shared_file_handle)(void *, e_cache_file_tag_resource_location) = reinterpret_cast<s_cache_file_resource_shared_file *(__thiscall *)(void *, e_cache_file_tag_resource_location)>(0x561520);
+	void *resource_runtime_manager = *reinterpret_cast<void **>(0x23916C8);
+	void *page_atlas = offset_pointer(resource_runtime_manager, 0x14);
+	s_cache_file_tag_resource_table_runtime *resource_table = *static_cast<s_cache_file_tag_resource_table_runtime **>(offset_pointer(resource_runtime_manager, 0x24));
+	short resource_index = (short)resource_handle;
+	if (resource_index < 0 || resource_index >= resource_table->count)
+		return -1;
+	s_tag_resource *resource = resource_table->resources[resource_index];
+	e_cache_file_tag_resource_location resource_location = tag_resource_get_location(resource);
+	if (resource_location == _cache_file_tag_resource_location_invalid)
+		return -1;
+	s_indirect_cache_file_page page;
+	s_cache_file_resource_shared_file *shared_file = get_shared_file_handle(resource_runtime_manager, resource_location);
+	if (!shared_file || !get_page(page_atlas, resource_handle & 0xFFFF, 0, &page))
+		return -1;
+	c_tag_resource_stream_task task;
+	task.initialize(shared_file->file_handle, page.offset, resource->compressed_block_size, resource->uncompressed_block_size, buffer, buffer_size, completed);
+	completed->set(0);
+	completed->set_internal_data(0);
+	return async_task_add_ex(10, &task, 8, c_tag_resource_stream_task::async_callback, completed);
 }
 
 /* ---------- private code */
@@ -158,14 +178,13 @@ long tag_resource_stream_async(long resource_handle, void *buffer, long buffer_s
 // mangled_x86(MANGLED_DEFAULT, "??0c_tag_resource_stream_task@hades_file_local@@QAE@XZ"); no body to assert in
 _inline c_tag_resource_stream_task::c_tag_resource_stream_task() = default; // 0x10853DB0
 
-_extern bool _sub_10854290(c_tag_resource_stream_task::s_packet const *const);
 _inline bool c_tag_resource_stream_task::s_packet::is_filled() const // 0x10854290
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?is_filled@s_packet@c_tag_resource_stream_task@hades_file_local@@QBE_NXZ");
 	// `anonymous-namespace'::c_tag_resource_stream_task::s_packet::is_filled
 	// c_tag_resource_stream_task::s_packet const *const this;
-	todo("implement");
-	bool __result = _sub_10854290((c_tag_resource_stream_task::s_packet const *)this);
-	return __result;
+
+	return overlapped.InternalHigh >= length;
 }
 
 _inline void c_tag_resource_stream_task::initialize(void *file_handle, unsigned long file_offset, unsigned long compressed_size, unsigned long uncompressed_size, void *buffer, unsigned long buffer_size, c_async_completion_flag *completion_flag) // 0x108541A0
@@ -193,13 +212,13 @@ _inline void c_tag_resource_stream_task::initialize(void *file_handle, unsigned 
 	m_completion_flag = completion_flag;
 }
 
-_extern void _sub_10854030(c_tag_resource_stream_task *const);
 _inline void c_tag_resource_stream_task::dispose() // 0x10854030
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?dispose@c_tag_resource_stream_task@hades_file_local@@QAEXXZ");
 	// `anonymous-namespace'::c_tag_resource_stream_task::dispose
 	// c_tag_resource_stream_task *const this;
-	todo("implement");
-	_sub_10854030(this);
+
+	block_allocator::get().free(m_block_buffer);
 }
 
 _inline long c_tag_resource_stream_task::next_free_packet_index() // 0x108542F0
@@ -220,36 +239,95 @@ _inline long c_tag_resource_stream_task::next_free_packet_index() // 0x108542F0
 	return -1;
 }
 
-_extern bool _sub_108547F0(c_tag_resource_stream_task *const);
 _inline bool c_tag_resource_stream_task::update() // 0x108547F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?update@c_tag_resource_stream_task@hades_file_local@@QAE_NXZ");
 	// `anonymous-namespace'::c_tag_resource_stream_task::update
 	// c_tag_resource_stream_task *const this;
-	{
 		// c_tag_resource_stream_task::s_lz_block_header *block_header;
-		{
 			// long packet_index;
 			// __int32 bRet;
 			// unsigned long err;
-		}
-		{
 			// __int32 j;
-			{
 				// long input_length;
 				// char *input_buffer;
-			}
-		}
-		{
 			// long overflow;
-		}
-	}
 	// function call : __int32 (void *, void *, unsigned long, unsigned long *, _OVERLAPPED *)
 	// function call : unsigned long ()
 	// function call : unsigned long ()
 	// function call : long (*const)(void *, void *, long)
-	todo("implement");
-	bool __result = _sub_108547F0(this);
-	return __result;
+
+	(void)((!!(m_initialized)) || (_wassert(L"m_initialized", L"C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\tag_resource_streaming.cpp", 147), 0));
+	if (m_total_bytes_decompressed < m_uncompressed_size)
+	{
+		if (m_total_bytes_read < m_compressed_size && m_inflight_packets <= 2)
+		{
+			long packet_index = next_free_packet_index();
+			if (packet_index == -1)
+				return false;
+			m_used_packets.set(packet_index);
+			m_packets[packet_index].overlapped = {};
+			m_packets[packet_index].overlapped.Offset = m_file_offset + m_total_bytes_read;
+			m_packets[packet_index].length = std::min<int>(m_compressed_size - m_total_bytes_read, 0xFFFF);
+			m_packets[packet_index].index = m_next_in_block_index;
+			__int32 bRet = ReadFile(m_file_handle, m_packets[packet_index].buffer, m_packets[packet_index].length, &m_packets[packet_index].bytes_read, &m_packets[packet_index].overlapped);
+			unsigned long err = GetLastError();
+			if (!bRet && GetLastError() != ERROR_IO_PENDING)
+			{
+				abort(_tag_resource_stream_abort_file_read_error);
+				return true;
+			}
+			m_total_bytes_read += m_packets[packet_index].length;
+			m_next_in_block_index++;
+			m_inflight_packets++;
+		}
+		for (__int32 j = 0; j < 32; j++)
+		{
+			if (m_used_packets.test(j) && m_packets[j].is_filled() && m_packets[j].index == m_next_out_block_index)
+			{
+				m_used_packets.unset(j);
+				m_next_out_block_index++;
+				m_inflight_packets--;
+				long input_length = m_packets[j].length;
+				char *input_buffer = m_packets[j].buffer;
+				if (!m_block_buffer)
+				{
+					m_block_buffer_size = 0xFFFF8;
+					m_block_buffer = (char *)block_allocator::get().allocate();
+					if (!m_block_buffer)
+						return false;
+				}
+				(void)((!!(m_block_pos + input_length < m_block_buffer_size)) || (_wassert(L"m_block_pos + input_length < m_block_buffer_size", L"C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\tag_resource_streaming.cpp", 202), 0));
+				memcpy(m_block_buffer + m_block_pos, input_buffer, input_length);
+				m_block_pos += input_length;
+			}
+		}
+		s_lz_block_header *block_header = (s_lz_block_header *)m_block_buffer;
+		if (m_block_pos >= block_header->compressed_size + 8)
+		{
+			if (((long (*const)(void *, void *, long))0xF34960)(m_block_buffer + 8, m_dest_ptr, block_header->uncompressed_size) < 0 && m_block_buffer)
+			{
+				abort(_tag_resource_stream_abort_decompression_error);
+				return true;
+			}
+			m_dest_ptr += block_header->uncompressed_size;
+			m_total_bytes_decompressed += block_header->uncompressed_size;
+			m_total_bytes_processed += block_header->compressed_size;
+			long overflow = m_block_pos - (block_header->compressed_size + 8);
+			if (overflow < 0 && m_block_buffer)
+			{
+				abort(_tag_resource_stream_abort_decompression_error);
+				return true;
+			}
+			memcpy(m_block_buffer, &m_block_buffer[m_block_pos - overflow], overflow);
+			m_block_pos = overflow;
+		}
+	}
+	else
+	{
+		return true;
+	}
+	return false;
 }
 
 _inline void c_tag_resource_stream_task::abort(e_tag_resource_stream_abort_reason reason) // 0x10853E80

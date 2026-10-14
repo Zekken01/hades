@@ -25,6 +25,7 @@
 #include "mods/tag_name_dictionary.hpp"
 #include "Modules/ModuleServer.hpp"
 #include "Utils/EventSink.hpp"
+#include "Utils/Logger.hpp"
 #include "Utils/Singleton.hpp"
 #include "Utils/StlUtil.hpp"
 #include "Utils/String.hpp"
@@ -138,62 +139,53 @@ c_mod_package_manager::~c_mod_package_manager() // 0x108A56B0
 // mangled_x86(MANGLED_DEFAULT, "??4c_file_reference@@QAEAAV0@ABV0@@Z"); no body to assert in
 _inline c_file_reference &c_file_reference::operator=(c_file_reference const &__that) = default; // 0x108A5830
 
-extern c_mod_package_manager::s_entry &_sub_108A5890(c_mod_package_manager::s_entry *const, c_mod_package_manager::s_entry const &);
-_inline c_mod_package_manager::s_entry &c_mod_package_manager::s_entry::operator=(c_mod_package_manager::s_entry const &__that) // 0x108A5890
-{
-	mangled_x86(MANGLED_TODO, "??4s_entry@c_mod_package_manager@@QAEAAU01@ABU01@@Z");
-	// c_mod_package_manager::s_entry const &__that;
-	{
-		// unsigned __int32 $S12;
-	}
-	{
-		// unsigned __int32 $S13;
-	}
-	{
-		// unsigned __int32 $S14;
-	}
-	{
-		// unsigned __int32 $S15;
-	}
-	{
-		// unsigned __int32 $S16;
-	}
-	compiler_generated();
-	todo("implement");
-	c_mod_package_manager::s_entry & __result = _sub_108A5890(this, __that);
-	return __result;
-}
+
+// c_mod_package_manager::s_entry &c_mod_package_manager::s_entry::operator=(c_mod_package_manager::s_entry const &__that) is implicit; 0x108A5890
 
 // mangled_x86(MANGLED_DEFAULT, "??4s_file_reference@@QAEAAU0@ABU0@@Z"); no body to assert in
 _inline s_file_reference &s_file_reference::operator=(s_file_reference const &__that) = default; // 0x108A5B60
 
-_extern void _sub_108AA150(c_mod_package_manager *const, char const *);
 void c_mod_package_manager::initialize(char const *package_directory) // 0x108AA150
 {
-	mangled_x86(MANGLED_TODO, "?initialize@c_mod_package_manager@@QAEXPBD@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?initialize@c_mod_package_manager@@QAEXPBD@Z");
 	// static ...; // 0x108AA348
 	// static ...; // 0x108AA340
 	// c_mod_package_manager *const this;
 	// char const *package_directory;
 	// std::filesystem::path dir;
-	todo("implement");
-	_sub_108AA150(this, package_directory);
+
+	std::filesystem::path dir(package_directory);
+	m_database = new c_mod_database();
+	m_database->load_or_create((dir / "mod_db.json").string());
+	m_package_directory = package_directory;
 }
 
-_extern void _sub_108AB190(c_mod_package_manager *const);
 void c_mod_package_manager::update() // 0x108AB190
 {
-	mangled_x86(MANGLED_TODO, "?update@c_mod_package_manager@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?update@c_mod_package_manager@@QAEXXZ");
 	// static ...; // 0x108AB328
 	// static ...; // 0x108AB31C
 	// static ...; // 0x108AB314
 	// c_mod_package_manager *const this;
 	// __int32 num;
-	{
 		// std::unique_lock<std::mutex> lock;
+
+	if (m_enumeration_requested && !m_enumeraton_in_progress)
+	{
+		m_enumeration_requested = false;
+		std::thread(std::bind(&c_mod_package_manager::enumerate_async_callback, this)).detach();
 	}
-	todo("implement");
-	_sub_108AB190(this);
+	if (m_database->is_dirty())
+	{
+		std::unique_lock<std::mutex> lock(m_mutex);
+		m_database->save();
+	}
+	__int32 num = m_enumeration_number.load();
+	if (num != m_previous_enumeration_number)
+	{
+		m_previous_enumeration_number = num;
+		enumerated.PostEvent();
+	}
 }
 
 bool c_mod_package_manager::enumeration_in_progress() const // 0x108A9740
@@ -257,10 +249,9 @@ long long filetime_to_timet(_FILETIME const &ft) // 0x108A98F0
 	return ull.QuadPart / 10000000ULL - 11644473600ULL;
 }
 
-_extern void _sub_108A8A20(c_mod_package_manager *const);
 void c_mod_package_manager::enumerate_blocking_internal() // 0x108A8A20
 {
-	mangled_x86(MANGLED_TODO, "?enumerate_blocking_internal@c_mod_package_manager@@AAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?enumerate_blocking_internal@c_mod_package_manager@@AAEXXZ");
 	// static ...; // 0x108A949C
 	// static ...; // 0x108A9496
 	// static ...; // 0x108A948E
@@ -280,9 +271,7 @@ void c_mod_package_manager::enumerate_blocking_internal() // 0x108A8A20
 	// std::filesystem::directory_iterator endit;
 	// std::filesystem::path p;
 	// std::unordered_set<s_mod_package_id> found;
-	{
 		// std::filesystem::directory_iterator it;
-		{
 			// s_file_time date;
 			// c_mod_package::e_error err;
 			// std::string thin_path;
@@ -291,10 +280,62 @@ void c_mod_package_manager::enumerate_blocking_internal() // 0x108A8A20
 			// _FILETIME builtTime;
 			// c_mod_database::s_record *db_record;
 			// c_mod_package mod_package;
+
+	m_enumeraton_in_progress = true;
+	m_entries.clear();
+	std::filesystem::path p(m_package_directory);
+	std::filesystem::directory_iterator endit;
+	std::vector<s_entry> entries;
+	std::unordered_set<s_mod_package_id> found;
+	for (std::filesystem::directory_iterator it(p); it != endit; ++it)
+	{
+		if (!std::filesystem::is_regular_file(*it) || !(it->path().extension().string() == ".pak"))
+			continue;
+		std::string thin_path = it->path().string();
+		c_mod_package mod_package(thin_path.c_str());
+		c_mod_package::e_error err;
+		if (!mod_package.initialize(&err))
+		{
+			Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Game, Utils::LogLevel::Error, "c_mod_package_manager::enumerate: Failed to open mod package '%s'. Error: %s", thin_path.c_str(), c_mod_package::get_error_string(err));
+			continue;
 		}
+		s_mod_package_metadata const *const metadata = mod_package.get_metadata();
+		s_entry entry = {};
+		wcsncpy_s(entry.name, metadata->name, _TRUNCATE);
+		strncpy_s(entry.author, metadata->author, _TRUNCATE);
+		strncpy_s(entry.description, metadata->description, _TRUNCATE);
+		strncpy_s(entry.website, metadata->url, _TRUNCATE);
+		memcpy(entry.hash, mod_package.get_header()->sha1, sizeof(entry.hash));
+		get_package_author_uid(&mod_package, &entry.author_uid);
+		entry.file_size = it->file_size();
+		entry.version_major = metadata->version_major;
+		entry.version_minor = metadata->version_minor;
+		entry.file = c_file_reference(thin_path.c_str());
+		s_file_time date = metadata->build_date;
+		_FILETIME builtTime;
+		builtTime.dwLowDateTime = metadata->build_date.low_date_time, builtTime.dwHighDateTime = metadata->build_date.low_date_time;
+		entry.dateBuilt = filetime_to_timet(builtTime);
+		entry.modtype.mainmenu = ((long)mod_package.get_header()->modifier_flags & 1) ? true : false;
+		entry.modtype.multiplayer = (long)mod_package.get_header()->modifier_flags & 2;
+		entry.modtype.campaign = (long)mod_package.get_header()->modifier_flags & 4;
+		entry.modtype.firefight = (long)mod_package.get_header()->modifier_flags & 8;
+		entry.modtype.character = (long)mod_package.get_header()->modifier_flags & 0x20;
+		c_mod_database::s_record *db_record;
+		if (m_database->get_or_create_record(entry.hash, &db_record))
+		{
+			db_record->mod_name = Utils::String::ThinString(entry.name);
+			entry.dateAdded = db_record->date_added;
+			entry.lastUsed = db_record->date_last_used;
+			entry.origin = db_record->origin;
+			entry.verified = db_record->signature_verified;
+		}
+		found.insert(entry.hash);
+		m_entries.push_back(std::move(entry));
 	}
-	todo("implement");
-	_sub_108A8A20(this);
+	m_database->purge_all_not_in_set(found);
+	m_database->save();
+	m_enumeraton_in_progress = false;
+	m_enumeration_number++;
 }
 
 bool c_mod_package_manager::find_package_by_hash(unsigned char const (&hash)[20], c_mod_package_manager::s_entry *out_entry) const // 0x108A9B90
@@ -371,14 +412,12 @@ bool c_mod_package_manager::find_package_by_filename(char const *filename, c_mod
 	return find_package_by_filename_internal(filename, out_entry);
 }
 
-extern c_mod_package_manager::c_threadsafe_iterator _sub_108AA510(c_mod_package_manager *const);
 c_mod_package_manager::c_threadsafe_iterator c_mod_package_manager::lock_for_iteration() // 0x108AA510
 {
-	mangled_x86(MANGLED_TODO, "?lock_for_iteration@c_mod_package_manager@@QAE?AVc_threadsafe_iterator@1@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?lock_for_iteration@c_mod_package_manager@@QAE?AVc_threadsafe_iterator@1@XZ");
 	// c_mod_package_manager *const this;
-	todo("implement");
-	c_mod_package_manager::c_threadsafe_iterator __result = _sub_108AA510(this);
-	return __result;
+
+	return c_threadsafe_iterator(*this);
 }
 
 c_mod_package_manager::c_threadsafe_iterator::c_threadsafe_iterator(c_mod_package_manager &manager) : m_modManager(manager), m_lock(manager.m_mutex), m_index(-1) /* hades-mem-init: : m_modManager(manager) */ // 0x108A4C20
@@ -388,10 +427,10 @@ c_mod_package_manager::c_threadsafe_iterator::c_threadsafe_iterator(c_mod_packag
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0s_entry@c_mod_package_manager@@QAE@$$QAU01@@Z"); no body to assert in
-_inline c_mod_package_manager::s_entry::s_entry(c_mod_package_manager::s_entry &&__that) = default; // 0x108A4CB0
+// c_mod_package_manager::s_entry::s_entry(c_mod_package_manager::s_entry &&__that) is implicit; 0x108A4CB0
 
 // mangled_x86(MANGLED_DEFAULT, "??0s_entry@c_mod_package_manager@@QAE@ABU01@@Z"); no body to assert in
-_inline c_mod_package_manager::s_entry::s_entry(c_mod_package_manager::s_entry const &__that) = default; // 0x108A4F10
+// c_mod_package_manager::s_entry::s_entry(c_mod_package_manager::s_entry const &__that) is implicit; 0x108A4F10
 
 bool c_mod_package_manager::c_threadsafe_iterator::next() // 0x108AA7F0
 {
@@ -407,10 +446,9 @@ bool c_mod_package_manager::c_threadsafe_iterator::next() // 0x108AA7F0
 	return true;
 }
 
-_extern bool _sub_108A83E0(c_mod_package_manager *const, unsigned char const (&)[20]);
 bool c_mod_package_manager::delete_package(unsigned char const (&hash)[20]) // 0x108A83E0
 {
-	mangled_x86(MANGLED_TODO, "?delete_package@c_mod_package_manager@@QAE_NAAY0BE@$$CBE@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?delete_package@c_mod_package_manager@@QAE_NAAY0BE@$$CBE@Z");
 	// static ...; // 0x108A85CC
 	// static ...; // 0x108A85B4
 	// static ...; // 0x108A85AC
@@ -419,18 +457,30 @@ bool c_mod_package_manager::delete_package(unsigned char const (&hash)[20]) // 0
 	// unsigned char const (&hash)[20];
 	// std::unique_lock<std::mutex> lock;
 	// c_mod_package_manager::s_entry entry;
-	{
 		// bool removed;
+
+	std::unique_lock<std::mutex> lock(m_mutex);
+	s_entry entry;
+	if (!find_package_by_hash_internal(hash, &entry))
+		return false;
+	try
+	{
+		bool removed = std::filesystem::remove(entry.file.filename);
+		if (removed)
+		{
+			enumerate_blocking_internal();
+			return true;
+		}
 	}
-	todo("implement");
-	bool __result = _sub_108A83E0(this, hash);
-	return __result;
+	catch (...)
+	{
+	}
+	return false;
 }
 
-_extern bool _sub_108A8660(c_mod_package_manager *const, char const *);
 bool c_mod_package_manager::delete_package_by_filename(char const *filename) // 0x108A8660
 {
-	mangled_x86(MANGLED_TODO, "?delete_package_by_filename@c_mod_package_manager@@QAE_NPBD@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?delete_package_by_filename@c_mod_package_manager@@QAE_NPBD@Z");
 	// static ...; // 0x108A884C
 	// static ...; // 0x108A8834
 	// static ...; // 0x108A882C
@@ -439,12 +489,25 @@ bool c_mod_package_manager::delete_package_by_filename(char const *filename) // 
 	// char const *filename;
 	// std::unique_lock<std::mutex> lock;
 	// c_mod_package_manager::s_entry entry;
-	{
 		// bool removed;
+
+	std::unique_lock<std::mutex> lock(m_mutex);
+	s_entry entry;
+	if (!find_package_by_filename_internal(filename, &entry))
+		return false;
+	try
+	{
+		bool removed = std::filesystem::remove(entry.file.filename);
+		if (removed)
+		{
+			enumerate_blocking_internal();
+			return true;
+		}
 	}
-	todo("implement");
-	bool __result = _sub_108A8660(this, filename);
-	return __result;
+	catch (...)
+	{
+	}
+	return false;
 }
 
 void c_mod_package_manager::set_package_origin(s_mod_package_id const &id, s_mod_origin_info const &info) // 0x108AAA70
@@ -508,10 +571,9 @@ __int32 c_mod_package_manager::find_package_index_by_hash_internal(s_mod_package
 	return -1;
 }
 
-_extern void _sub_108AAE60(c_mod_package_manager *const, s_mod_package_id const &);
 void c_mod_package_manager::touch_package(s_mod_package_id const &id) // 0x108AAE60
 {
-	mangled_x86(MANGLED_TODO, "?touch_package@c_mod_package_manager@@QAEXABUs_mod_package_id@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?touch_package@c_mod_package_manager@@QAEXABUs_mod_package_id@@@Z");
 	// static ...; // 0x108AAFD8
 	// static ...; // 0x108AAFC0
 	// static ...; // 0x108AAFB8
@@ -520,8 +582,17 @@ void c_mod_package_manager::touch_package(s_mod_package_id const &id) // 0x108AA
 	// std::unique_lock<std::mutex> lock;
 	// __int32 index;
 	// c_mod_database::s_record *record;
-	todo("implement");
-	_sub_108AAE60(this, id);
+
+	std::unique_lock<std::mutex> lock(m_mutex);
+	c_mod_database::s_record *record;
+	if (!m_database->get_or_create_record(id, &record))
+		return;
+
+	time(&record->date_last_used);
+	__int32 index = find_package_index_by_hash_internal(id);
+	if (index != -1)
+		m_entries[index].lastUsed = record->date_last_used;
+	m_database->notify_record_changed(id);
 }
 
 void c_mod_package_manager::touch_package(char const *filename) // 0x108AB050

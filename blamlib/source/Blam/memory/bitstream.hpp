@@ -111,7 +111,7 @@ private:
 	s_bitstream_data m_position_stack[4]; // 0x38
 public:
 	c_bitstream &operator=(c_bitstream const &); /* compiler_generated() */
-	void __autoclassinit2(unsigned __int32); /* compiler_generated() */
+	// void __autoclassinit2(unsigned __int32); /* compiler_generated() */  // hades: /sdl generates it
 unsigned char __pad2[8]; // 0x98
 };
 static_assert(sizeof(c_bitstream) == 160, "Invalid c_bitstream size");

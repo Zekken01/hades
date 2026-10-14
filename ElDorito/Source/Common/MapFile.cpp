@@ -15,6 +15,8 @@
 #include "mods/blf_reader.hpp"
 #include "mods/map_variant_loader.hpp"
 
+#include "Blam/cseries/language.hpp"  // hades: added for 0x108602A0, 0x10860170  // hades: added for 0x108602A0
+
 #include <Windows.h>
 #include <stdio.h>
 #include <sys/stat.h>
@@ -73,17 +75,19 @@ struct s_map_variant;
 
 /* ---------- public code */
 
-extern CMapFile* _sub_1085FEF0(CMapFile *const, std::string const &);
-CMapFile::CMapFile(std::string const &filePath) // 0x1085FEF0
+CMapFile::CMapFile(std::string const &filePath) : m_data(nullptr), m_dataSize(0), m_mapInfo(nullptr), m_cacheFileHeader(nullptr), m_mapVariant(nullptr) /* hades-mem-init:  */ // 0x1085FEF0
 {
-	mangled_x86(MANGLED_TODO, "??0CMapFile@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0CMapFile@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 	// static ...; // 0x10860014
 	// static ...; // 0x1086000C
 	// CMapFile *const this;
 	// std::string const &filePath;
 	// std::ifstream stream;
-	todo("implement");
-	_sub_1085FEF0(this, filePath);
+
+	std::ifstream stream(filePath, std::ios::binary);
+	if (!stream.is_open())
+		return;
+	LoadFromFile(stream);
 }
 
 CMapFile::CMapFile(void const *data, unsigned __int32 size) : m_data(nullptr), m_dataSize(0), m_mapInfo(nullptr), m_cacheFileHeader(nullptr), m_mapVariant(nullptr) /* hades-mem-init:  */ // 0x10860080
@@ -118,79 +122,101 @@ bool CMapFile::HasMapVariant() const // 0x10860840
 	return m_mapVariant != nullptr;
 }
 
-extern s_map_variant const *_sub_10860460(CMapFile const *const);
 s_map_variant const *CMapFile::GetMapVariant() const // 0x10860460
 {
-	mangled_x86(MANGLED_TODO, "?GetMapVariant@CMapFile@@QBEPBUs_map_variant@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetMapVariant@CMapFile@@QBEPBUs_map_variant@@XZ");
 	// CMapFile const *const this;
-	todo("implement");
-	s_map_variant const * __result = _sub_10860460((CMapFile const *)this);
-	return __result;
+
+	#line 127 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Common\\MapFile.cpp"
+		assert(HasMapVariant());
+		#line 133 "F:\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Common\\MapFile.cpp"
+	return m_mapVariant;
 }
 
-extern std::string const _sub_10860690(CMapFile const *const);
 std::string const CMapFile::GetScenarioPath() const // 0x10860690
 {
-	mangled_x86(MANGLED_TODO, "?GetScenarioPath@CMapFile@@QBE?BV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetScenarioPath@CMapFile@@QBE?BV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 	// CMapFile const *const this;
-	todo("implement");
-	std::string const __result = _sub_10860690((CMapFile const *)this);
-	return __result;
+
+	#line 138 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Common\\MapFile.cpp"
+		assert(IsValid());
+		#line 144 "F:\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Common\\MapFile.cpp"
+	return std::filesystem::path(m_cacheFileHeader->scenario_path).string();
 }
 
-extern std::string const _sub_108604E0(CMapFile const *const);
 std::string const CMapFile::GetScenarioName() const // 0x108604E0
 {
-	mangled_x86(MANGLED_TODO, "?GetScenarioName@CMapFile@@QBE?BV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetScenarioName@CMapFile@@QBE?BV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 	// CMapFile const *const this;
-	todo("implement");
-	std::string const __result = _sub_108604E0((CMapFile const *)this);
-	return __result;
+
+	#line 149 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Common\\MapFile.cpp"
+		assert(IsValid());
+		#line 155 "F:\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Common\\MapFile.cpp"
+	return std::filesystem::path(m_cacheFileHeader->scenario_path).filename().string();
 }
 
-extern std::wstring const _sub_108602A0(CMapFile const *const, __int32);
 std::wstring const CMapFile::GetDisplayName(__int32 language) const // 0x108602A0
 {
-	mangled_x86(MANGLED_TODO, "?GetDisplayName@CMapFile@@QBE?BV?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@H@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetDisplayName@CMapFile@@QBE?BV?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@H@Z");
 	// __int32 language;
-	todo("implement");
-	std::wstring const __result = _sub_108602A0((CMapFile const *)this, language);
-	return __result;
+
+	#line 160 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Common\\MapFile.cpp"
+		assert(IsValid());
+		#line 166 "F:\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Common\\MapFile.cpp"
+	#line 161 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Common\\MapFile.cpp"
+		assert(language >= 0 && language < k_number_of_languages);
+		#line 169 "F:\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Common\\MapFile.cpp"
+	if (!HasMapInfo())
+		return L"";
+	return m_mapInfo->map_names[language];
 }
 
-extern std::wstring const _sub_10860170(CMapFile const *const, __int32);
 std::wstring const CMapFile::GetDescription(__int32 language) const // 0x10860170
 {
-	mangled_x86(MANGLED_TODO, "?GetDescription@CMapFile@@QBE?BV?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@H@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetDescription@CMapFile@@QBE?BV?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@H@Z");
 	// __int32 language;
-	todo("implement");
-	std::wstring const __result = _sub_10860170((CMapFile const *)this, language);
-	return __result;
+
+	#line 176 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Common\\MapFile.cpp"
+		assert(IsValid());
+		#line 182 "F:\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Common\\MapFile.cpp"
+	#line 177 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Common\\MapFile.cpp"
+		assert(language >= 0 && language < k_number_of_languages);
+		#line 185 "F:\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Common\\MapFile.cpp"
+	if (!HasMapInfo())
+		return L"";
+	return m_mapInfo->map_descriptions[language];
 }
 
-_extern __int32 _sub_108603D0(CMapFile const *const);
 __int32 CMapFile::GetMapId() const // 0x108603D0
 {
-	mangled_x86(MANGLED_TODO, "?GetMapId@CMapFile@@QBEHXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetMapId@CMapFile@@QBEHXZ");
 	// CMapFile const *const this;
-	todo("implement");
-	__int32 __result = _sub_108603D0((CMapFile const *)this);
-	return __result;
+
+	#line 192 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Common\\MapFile.cpp"
+		assert(IsValid());
+		#line 198 "F:\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Common\\MapFile.cpp"
+	return m_cacheFileHeader->map_id;
 }
 
-_extern void _sub_10860B10(CMapFile *const, std::ifstream &);
 void CMapFile::LoadFromFile(std::ifstream &stream) // 0x10860B10
 {
-	mangled_x86(MANGLED_TODO, "?LoadFromFile@CMapFile@@AAEXAAV?$basic_ifstream@DU?$char_traits@D@std@@@std@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?LoadFromFile@CMapFile@@AAEXAAV?$basic_ifstream@DU?$char_traits@D@std@@@std@@@Z");
 	// std::ifstream &stream;
-	todo("implement");
-	_sub_10860B10(this, stream);
+
+	stream.seekg(0, std::ios::end);
+	m_buffer.resize(stream.tellg());
+	stream.seekg(0, std::ios::beg);
+	stream.read(m_buffer.data(), m_buffer.size());
+	if (stream.bad())
+		return;
+	m_data = (unsigned char const *)m_buffer.data();
+	m_dataSize = m_buffer.size();
+	LoadFromBuffer(m_data, m_dataSize);
 }
 
-_extern void _sub_10860910(CMapFile *const, unsigned char const *, unsigned __int32);
 void CMapFile::LoadFromBuffer(unsigned char const *data, unsigned __int32 size) // 0x10860910
 {
-	mangled_x86(MANGLED_TODO, "?LoadFromBuffer@CMapFile@@AAEXPBEI@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?LoadFromBuffer@CMapFile@@AAEXPBEI@Z");
 	// static ...; // 0x10860A78
 	// static ...; // 0x10860A54
 	// static ...; // 0x10860A4C
@@ -203,8 +229,24 @@ void CMapFile::LoadFromBuffer(unsigned char const *data, unsigned __int32 size) 
 	// unsigned long blfChunkSize;
 	// s_blf_chunk_header blfChunkHeader;
 	// bool chunkFound;
-	todo("implement");
-	_sub_10860910(this, data, size);
+
+	if (size < 0x3390)
+		return;
+	m_cacheFileHeader = (s_cache_file_header const *)&m_data[0];
+	if (size == 0x3390)
+		return;
+
+	unsigned char const *dataEnd = m_data + size;
+	unsigned char const *blfData = &m_data[0x3390];
+	s_blf_chunk_header blfChunkHeader;
+	unsigned char const *blfChunkData;
+	unsigned long blfChunkSize;
+	bool chunkFound = blf_find_chunk_in_buffer(blfData, std::distance(blfData, dataEnd), 0x6C65766C, &blfChunkHeader, &blfChunkData, &blfChunkSize);
+	if (chunkFound)
+		m_mapInfo = (s_blf_map_information const *)&blfChunkData[-12];
+	chunkFound = blf_find_chunk_in_buffer(blfData, std::distance(blfData, dataEnd), 0x6D617076, &blfChunkHeader, &blfChunkData, &blfChunkSize);
+	if (chunkFound)
+		m_mapVariant = (s_map_variant const *)&blfChunkData[4];
 }
 
 /* ---------- private code */

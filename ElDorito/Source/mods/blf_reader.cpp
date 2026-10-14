@@ -40,21 +40,37 @@ c_blf_reader::c_blf_reader(unsigned char const *buffer, unsigned long size) // 0
 	m_position = 0;
 }
 
-_extern bool _sub_1086D640(c_blf_reader *const, s_blf_chunk_header *, unsigned char const **, unsigned long *);
 bool c_blf_reader::read_next_chunk_internal(s_blf_chunk_header *out_header, unsigned char const **out_data, unsigned long *out_data_size) // 0x1086D640
 {
-	mangled_x86(MANGLED_TODO, "?read_next_chunk_internal@c_blf_reader@@AAE_NPAUs_blf_chunk_header@@PAPBEPAK@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?read_next_chunk_internal@c_blf_reader@@AAE_NPAUs_blf_chunk_header@@PAPBEPAK@Z");
 	// unsigned long *out_data_size;
 	// s_blf_chunk_header &header;
-	todo("implement");
-	bool __result = _sub_1086D640(this, out_header, out_data, out_data_size);
-	return __result;
+
+	if (&m_buffer[m_position + sizeof(s_blf_chunk_header)] > m_buffer + m_size)
+		return false;
+
+	s_blf_chunk_header &header = *out_header = *(s_blf_chunk_header const *)(m_buffer + m_position);
+	if (m_should_byte_swap)
+	{
+		header.signature = _byteswap_ulong(header.signature);
+		header.size = _byteswap_ulong(header.size);
+		header.version_major = _byteswap_ushort(header.version_major);
+		header.version_minor = _byteswap_ushort(header.version_minor);
+	}
+
+	if (header.size < sizeof(s_blf_chunk_header) || &m_buffer[m_position + header.size] > m_buffer + m_size)
+		return false;
+
+	*out_header = header;
+	*out_data = &m_buffer[m_position + sizeof(s_blf_chunk_header)];
+	*out_data_size = header.size - sizeof(s_blf_chunk_header);
+	m_position += header.size;
+	return true;
 }
 
-_extern bool _sub_1086D3B0(c_blf_reader *const);
 bool c_blf_reader::begin() // 0x1086D3B0
 {
-	mangled_x86(MANGLED_TODO, "?begin@c_blf_reader@@QAE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?begin@c_blf_reader@@QAE_NXZ");
 	// static ...; // 0x1086D49F
 	// static ...; // 0x1086D49A
 	// static ...; // 0x1086D490
@@ -65,23 +81,50 @@ bool c_blf_reader::begin() // 0x1086D3B0
 	// unsigned char const *data;
 	// unsigned long data_size;
 	// s_blf_chunk_start_of_file *start_of_file;
-	todo("implement");
-	bool __result = _sub_1086D3B0(this);
-	return __result;
+
+	m_should_byte_swap = false;
+	s_blf_chunk_header chunk_header;
+	unsigned char const *data = nullptr;
+	unsigned long data_size;
+	s_blf_chunk_start_of_file *start_of_file = (s_blf_chunk_start_of_file *)m_buffer;
+	if (!read_next_chunk_internal(&chunk_header, &data, &data_size))
+		return false;
+	if (chunk_header.signature != '_blf' || start_of_file->version_major != 1)
+		return false;
+	if (chunk_header.size < 0x30)
+		return false;
+	return true;
 }
 
-_extern bool _sub_1086D4F0(unsigned char const *, unsigned long, unsigned long, s_blf_chunk_header *, unsigned char const **, unsigned long *);
 bool blf_find_chunk_in_buffer(unsigned char const *buffer, unsigned long buffer_size, unsigned long signature, s_blf_chunk_header *out_header, unsigned char const **out_data, unsigned long *out_data_size) // 0x1086D4F0
 {
-	mangled_x86(MANGLED_TODO, "?blf_find_chunk_in_buffer@@YA_NPBEKKPAUs_blf_chunk_header@@PAPBEPAK@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?blf_find_chunk_in_buffer@@YA_NPBEKKPAUs_blf_chunk_header@@PAPBEPAK@Z");
 	// unsigned long signature;
 	// s_blf_chunk_header *out_header;
 	// unsigned char const **out_data;
 	// unsigned long *out_data_size;
 	// c_blf_reader blf_reader;
-	todo("implement");
-	bool __result = _sub_1086D4F0(buffer, buffer_size, signature, out_header, out_data, out_data_size);
-	return __result;
+
+	c_blf_reader blf_reader(buffer, buffer_size);
+	if (!blf_reader.begin())
+	{
+		return false;
+	}
+
+	while (blf_reader.read_next_chunk(out_header, out_data, out_data_size))
+	{
+		if (out_header->signature == signature)
+		{
+			return true;
+		}
+
+		if (out_header->signature == '_eof')
+		{
+			break;
+		}
+	}
+
+	return false;
 }
 
 /* ---------- private code */

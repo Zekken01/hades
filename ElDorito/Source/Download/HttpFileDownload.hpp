@@ -63,17 +63,17 @@ namespace Download
 		};
 		struct SSegment
 		{
-			bool started : 1; // 0x0
-			bool finished : 1; // 0x0
-			bool retrying : 1; // 0x0
+			bool started : 1 = false; // 0x0
+			bool finished : 1 = false; // 0x0
+			bool retrying : 1 = false; // 0x0
 			std::mutex lock; // 0x4
 			long long const offset; // 0x38
 			long long length; // 0x40
-			long long downloaded; // 0x48
+			long long downloaded = 0; // 0x48
 			Download::CDownloadStatCounter downloadRate; // 0x50
 			std::chrono::time_point<std::chrono::steady_clock,std::chrono::duration<__int64,std::ratio<1,1000000000> > > startTime; // 0x60
 			std::shared_ptr<Http::IHttpRequest> request; // 0x68
-			__int32 retryCount; // 0x70
+			__int32 retryCount = 0; // 0x70
 			std::chrono::time_point<std::chrono::steady_clock,std::chrono::duration<__int64,std::ratio<1,1000000000> > > retryAt; // 0x78
 			_inline long long GetRemaining() const;
 			_inline SSegment *Split();
@@ -100,7 +100,7 @@ namespace Download
 		static_assert(sizeof(ISegmentStore) == 4, "Invalid ISegmentStore size");
 		public:
 		CHttpFileDownload();
-		virtual ~CHttpFileDownload() = default;
+		virtual ~CHttpFileDownload();
 		virtual _inline bool IsComplete() const;
 		virtual _inline long long GetDownloadedBytes() const;
 		virtual _inline long long GetTotalBytes() const;
@@ -256,49 +256,44 @@ namespace Download
 		}
 	}
 
-	_extern void _sub_10820690(Download::CHttpFileDownloadManager *const);
 	_inline void CHttpFileDownloadManager::Tick() // 0x10820690
 	{
-		mangled_x86(MANGLED_TODO, "?Tick@CHttpFileDownloadManager@Download@@QAEXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@CHttpFileDownloadManager@Download@@QAEXXZ");
 		// static ...; // 0x1082077C
 		// static ...; // 0x10820770
 		// static ...; // 0x10820768
 		// Download::CHttpFileDownloadManager *const this;
 		// std::vector<std::shared_ptr<Download::CHttpFileDownload> > downloads;
-		{
 			// std::vector<std::shared_ptr<Download::CHttpFileDownload> > &<range>$L0;
 			// std::shared_ptr<Download::CHttpFileDownload> *<begin>$L0;
 			// std::shared_ptr<Download::CHttpFileDownload> *<end>$L0;
-			{
 				// std::shared_ptr<Download::CHttpFileDownload> &download;
-			}
-		}
-		todo("implement");
-		_sub_10820690(this);
+
+		std::vector<std::shared_ptr<Download::CHttpFileDownload> > downloads = m_downloads;
+		for (auto &download : downloads)
+			download->Tick();
 	}
 
-	_extern void _sub_1082DFD0(Download::CHttpFileDownloadManager *const, std::shared_ptr<Download::CHttpFileDownload>);
 	_inline void CHttpFileDownloadManager::AddDownload(std::shared_ptr<Download::CHttpFileDownload> download) // 0x1082DFD0
 	{
-		mangled_x86(MANGLED_TODO, "?AddDownload@CHttpFileDownloadManager@Download@@QAEXV?$shared_ptr@VCHttpFileDownload@Download@@@std@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?AddDownload@CHttpFileDownloadManager@Download@@QAEXV?$shared_ptr@VCHttpFileDownload@Download@@@std@@@Z");
 		// std::shared_ptr<Download::CHttpFileDownload> download;
-		todo("implement");
-		_sub_1082DFD0(this, download);
+
+		m_downloads.push_back(download);
 	}
 
-	_extern void _sub_10831950(Download::CHttpFileDownloadManager *const, std::shared_ptr<Download::CHttpFileDownload>);
 	_inline void CHttpFileDownloadManager::RemoveDownload(std::shared_ptr<Download::CHttpFileDownload> download) // 0x10831950
 	{
-		mangled_x86(MANGLED_TODO, "?RemoveDownload@CHttpFileDownloadManager@Download@@QAEXV?$shared_ptr@VCHttpFileDownload@Download@@@std@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?RemoveDownload@CHttpFileDownloadManager@Download@@QAEXV?$shared_ptr@VCHttpFileDownload@Download@@@std@@@Z");
 		// static ...; // 0x10831AF0
 		// static ...; // 0x10831AE8
 		// Download::CHttpFileDownloadManager *const this;
 		// std::shared_ptr<Download::CHttpFileDownload> download;
-		{
 			// std::_Vector_iterator<std::_Vector_val<std::_Simple_types<std::shared_ptr<Download::CHttpFileDownload> > > > it;
-		}
-		todo("implement");
-		_sub_10831950(this, download);
+
+		auto it = std::find(std::begin(m_downloads), std::end(m_downloads), download);
+		if (it != std::end(m_downloads))
+			m_downloads.erase(it);
 	}
 }
 

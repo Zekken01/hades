@@ -51,9 +51,9 @@ namespace hades_file_local
 		void *get_current_address();
 		e_physical_memory_stage get_current_stage() const;
 	private:
-		bool m_initialized; // 0x0
+		bool m_initialized = false; // 0x0
 		unsigned char __pad0[3]; // 0x1
-		long m_current_stage; // 0x4
+		long m_current_stage = -1; // 0x4
 		s_physical_memory_stage m_stages[3]; // 0x8
 		c_virtual_page_memory_allocator m_allocator; // 0x20
 	public:
@@ -162,7 +162,7 @@ void c_physical_memory_manager::prepare_for_new_map() // 0x108BE2F0
 	// procedure flags: nofpo
 		// unsigned long i;
 
-	for (long i = memory_stack.get_current_stage(); i; i--)
+	for (unsigned long i = memory_stack.get_current_stage(); i > 0; i--)
 	{
 		memory_stack.pop((e_physical_memory_stage)i);
 	}
@@ -227,40 +227,61 @@ _inline e_physical_memory_stage c_physical_memory_stack::get_current_stage() con
 	return static_cast<e_physical_memory_stage>(m_current_stage);
 }
 
-_extern void _sub_108BE3C0(c_physical_memory_stack *const, e_physical_memory_stage);
 void c_physical_memory_stack::push(e_physical_memory_stage stage) // 0x108BE3C0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?push@c_physical_memory_stack@hades_file_local@@QAEXW4e_physical_memory_stage@@@Z");
 	// `anonymous-namespace'::c_physical_memory_stack::push
 	// e_physical_memory_stage stage;
-	todo("implement");
-	_sub_108BE3C0(this, stage);
+
+	#line 232 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\memory\\physical_memory_manager.cpp"
+		(void)((!!(m_current_stage + 1 < 3)) || (_wassert(L"m_current_stage + 1 < k_physical_memory_stage_count", _CRT_WIDE(__FILE__), (unsigned)(__LINE__)), 0));
+		assert(m_current_stage + 1 == stage);
+		#line 240 "F:\\Project Hades\\Hades\\Source\\ElDorito\\Source\\mods\\memory\\physical_memory_manager.cpp"
+	m_current_stage++;
+	m_stages[m_current_stage].current_size = 0;
+	m_stages[m_current_stage].marker = m_allocator.get_marker();
 }
 
-_extern void _sub_108BE1F0(c_physical_memory_stack *const, e_physical_memory_stage);
 void c_physical_memory_stack::pop(e_physical_memory_stage stage) // 0x108BE1F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?pop@c_physical_memory_stack@hades_file_local@@QAEXW4e_physical_memory_stage@@@Z");
 	// `anonymous-namespace'::c_physical_memory_stack::pop
 	// e_physical_memory_stage stage;
-	todo("implement");
-	_sub_108BE1F0(this, stage);
+
+	#line 247 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\memory\\physical_memory_manager.cpp"
+		assert(stage == m_current_stage);
+		assert(m_stages[stage].marker != -1);
+		#line 255 "F:\\Project Hades\\Hades\\Source\\ElDorito\\Source\\mods\\memory\\physical_memory_manager.cpp"
+	m_allocator.free_to_marker(m_stages[stage].marker);
+	m_stages[stage].current_size = 0;
+	m_current_stage--;
 }
 
-_extern bool _sub_108BE0E0(c_physical_memory_stack *const, unsigned long);
 bool c_physical_memory_stack::initialize(unsigned long m_total_size) // 0x108BE0E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?initialize@c_physical_memory_stack@hades_file_local@@QAE_NK@Z");
 	// `anonymous-namespace'::c_physical_memory_stack::initialize
 	// unsigned long m_total_size;
-	{
 		// __int32 i;
+
+	if (!m_allocator.reserve_memory(m_total_size))
+	{
+		return false;
 	}
-	todo("implement");
-	bool __result = _sub_108BE0E0(this, m_total_size);
-	return __result;
+
+	for (__int32 i = 0; i < 3; i++)
+	{
+		m_stages[i].current_size = 0;
+		m_stages[i].marker = -1;
+	}
+
+	m_initialized = true;
+	return true;
 }
 
-_extern void *_sub_108BDB40(c_physical_memory_stack *const, e_physical_memory_stage, unsigned long, long, unsigned long *);
 void *c_physical_memory_stack::allocate(e_physical_memory_stage stage, unsigned long size, long alignment_bits, unsigned long *out_allocated_size) // 0x108BDB40
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?allocate@c_physical_memory_stack@hades_file_local@@QAEPAXW4e_physical_memory_stage@@KJPAK@Z");
 	// `anonymous-namespace'::c_physical_memory_stack::allocate
 	// e_physical_memory_stage stage;
 	// unsigned long size;
@@ -268,7 +289,19 @@ void *c_physical_memory_stack::allocate(e_physical_memory_stage stage, unsigned 
 	// unsigned long *out_allocated_size;
 	// void *memory;
 	// unsigned long allocated_size;
-	todo("implement");
-	void * __result = _sub_108BDB40(this, stage, size, alignment_bits, out_allocated_size);
-	return __result;
+
+	#line 284 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\memory\\physical_memory_manager.cpp"
+		assert(m_current_stage != -1);
+		#line 296 "F:\\Project Hades\\Hades\\Source\\ElDorito\\Source\\mods\\memory\\physical_memory_manager.cpp"
+	#line 285 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\memory\\physical_memory_manager.cpp"
+		assert(stage == m_current_stage);
+		#line 299 "F:\\Project Hades\\Hades\\Source\\ElDorito\\Source\\mods\\memory\\physical_memory_manager.cpp"
+	unsigned long allocated_size = 0;
+	void *memory = m_allocator.allocate(size, alignment_bits, &allocated_size);
+	if (!memory)
+		return nullptr;
+	m_stages[m_current_stage].current_size += allocated_size;
+	if (out_allocated_size)
+		*out_allocated_size = allocated_size;
+	return memory;
 }

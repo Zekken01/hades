@@ -127,6 +127,10 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+#include "Modules/ModuleInput.hpp"  // hades: added for 0x10ABF380
+#include "Blam/camera/camera.hpp"  // hades: added for 0x10ABF380
+namespace Patches { namespace Camera { extern e_camera_mode GetForcedCameraMode(); } }  // hades: added for 0x10ABF380
+
 namespace Patches
 {
 	namespace RawInput
@@ -159,10 +163,9 @@ namespace Patches
 			Hook(0x2E7A9, RawInputHook, 1).Apply();
 		}
 
-		_extern void _sub_10ABF8E0(float, float, float &, float &);
 		void UpdateCameraYawPitch(float deltaX, float deltaY, float &yaw, float &pitch) // 0x10ABF8E0
 		{
-			mangled_x86(MANGLED_TODO, "?UpdateCameraYawPitch@RawInput@Patches@@YAXMMAAM0@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateCameraYawPitch@RawInput@Patches@@YAXMMAAM0@Z");
 			// float &pitch;
 			// s_global_preferences_settings::s_input_settings *const input_settings;
 			// float weaponSensitivity;
@@ -173,41 +176,82 @@ namespace Patches
 			// float xaxisSens;
 			// function call : unsigned long (*const)(long)
 			// function call : bool (*const)(long)
-			todo("implement");
-			_sub_10ABF8E0(deltaX, deltaY, yaw, pitch);
+
+			float weaponSensitivity = Pointer::Base(0x4CDEF14).Read<float>();
+			float maxVertAngle = Pointer::Base(0x14B49E4).Read<float>();
+			if (weaponSensitivity <= 0.0001f)
+				return;
+
+			s_global_preferences *prefs = tls_getd().preferences;
+			if (!prefs)
+				prefs = (s_global_preferences *)0x22C0128;
+			s_global_preferences_settings::s_input_settings *const input_settings = &prefs->current.settings.input_settings;
+			float yaxisSens = input_settings->mouse_sensitivity_vertical / 25.0f;
+			float xaxisSens = input_settings->mouse_sensitivity_horizontal / 25.0f;
+			long player_index = ((unsigned long (__cdecl *)(long))0x589C30)(0);
+			if (player_index != -1 && ((bool (__cdecl *)(long))0x58DE40)(player_index))
+			{
+				yaxisSens = input_settings->mouse_sensitivity_vehicle_vertical / 25.0f;
+				xaxisSens = input_settings->mouse_sensitivity_vehicle_horizontal / 25.0f;
+			}
+
+			if (input_settings->invert_mouse)
+				pitch += deltaY * yaxisSens / 1000.0f / weaponSensitivity;
+			else
+				pitch -= deltaY * yaxisSens / 1000.0f / weaponSensitivity;
+
+			if (pitch > maxVertAngle)
+				pitch = maxVertAngle;
+			else if (0.0f - maxVertAngle > pitch)
+				pitch = 0.0f - maxVertAngle;
+
+			yaw -= deltaX * xaxisSens / 1000.0f / weaponSensitivity;
 		}
 	}
 }
 
 /* ---------- private code */
 
-_extern bool _sub_10ABF5C0();
 bool ShouldDisableRawInput() // 0x10ABF5C0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ShouldDisableRawInput@@YA_NXZ");
 	// `anonymous-namespace'::ShouldDisableRawInput
 	// procedure flags: nofpo
 	// static ...; // 0x10ABF82C
 	// static ...; // 0x10ABF820
 	// static ...; // 0x10ABF818
 	// bool (*const game_engine_round_in_progress)();
-	{
 		// s_player_datum *player;
 		// long heldObjectIndex;
 		// bool leftMouseDown;
 		// unsigned long playerIndex;
 		// short activeScreenCount;
-	}
 	// function call : bool (*const)()
 	// function call : unsigned long (*const)(long)
 	// function call : bool (*const)(long, long *, long *)
-	todo("implement");
-	bool __result = _sub_10ABF5C0();
-	return __result;
+
+	bool (*const game_engine_round_in_progress)() = reinterpret_cast<bool (*)()>(0x550F90);
+	if (game_engine_round_in_progress())
+	{
+		unsigned long playerIndex = ((unsigned long (*const)(long))0x589C30)(0);
+		s_player_datum *player = nullptr;
+		if (playerIndex == -1 || !(player = players_get()->try_and_get(playerIndex)))
+			return false;
+		short activeScreenCount = Pointer(0x5260F34)[0](0x3C, 1).Read<short>();
+		if (activeScreenCount > 0)
+			return true;
+		bool leftMouseDown = *(unsigned char *)0x238E6AC > 0;
+		long heldObjectIndex;
+		if (((bool (*const)(long, long *, long *))0x59A6F0)(playerIndex, &heldObjectIndex, nullptr) && heldObjectIndex != -1 && leftMouseDown)
+			return true;
+		return player && player->unit_index == -1;
+	}
+	return false;
 }
 
-_extern bool _sub_10ABF380(tagRAWINPUT *);
 bool RawInputHookImpl(tagRAWINPUT *rwInput) // 0x10ABF380
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?RawInputHookImpl@@YA_NPAUtagRAWINPUT@@@Z");
 	// `anonymous-namespace'::RawInputHookImpl
 	// tagRAWINPUT *rwInput;
 	// bool (*const game_is_mainmenu)();
@@ -217,14 +261,29 @@ bool RawInputHookImpl(tagRAWINPUT *rwInput) // 0x10ABF380
 	// bool isFlying;
 	// function call : bool (*const)()
 	// function call : bool (*const)(__int32)
-	todo("implement");
-	bool __result = _sub_10ABF380(rwInput);
-	return __result;
+
+	bool (*const game_is_mainmenu)() = reinterpret_cast<bool (*)()>(0x531E90);
+	bool isFlying = Patches::Camera::GetForcedCameraMode() == _camera_mode_flying;
+	if (isFlying)
+		return false;
+	bool controllerEnabled = Pointer::Base(0x204DE98, 1).Read<bool>();
+	if (controllerEnabled && !isFlying)
+		return true;
+	if (!Utils::Singleton<Modules::ModuleInput>::Instance().VarInputRawInput->ValueInt)
+		return false;
+	if (rwInput->header.dwType != RIM_TYPEMOUSE)
+		return true;
+	if (ShouldDisableRawInput())
+		return false;
+	bool inhibit_movement = !game_is_mainmenu() && reinterpret_cast<bool (*)(long)>(0x725AA0)(0);
+	s_player_control_input_state *player_control = player_control_input_get(0);
+	Patches::RawInput::UpdateCameraYawPitch((float)rwInput->data.mouse.lLastX, (float)rwInput->data.mouse.lLastY, player_control->state.desired_angles.yaw, player_control->state.desired_angles.pitch);
+	return true;
 }
 
-_extern void _sub_10ABF0F0(__int32, unsigned __int32, HRAWINPUT__ *);
 void RawInputHook(__int32 unused, unsigned __int32 wParam, HRAWINPUT__ *hRawInput) // 0x10ABF0F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?RawInputHook@@YAXHIPAUHRAWINPUT__@@@Z");
 	// `anonymous-namespace'::RawInputHook
 	// static ...; // 0x10ABF2D8
 	// static ...; // 0x10ABF2D0
@@ -236,8 +295,44 @@ void RawInputHook(__int32 unused, unsigned __int32 wParam, HRAWINPUT__ *hRawInpu
 	// unsigned __int32 cbSize;
 	// tagRAWINPUT input;
 	// function call : unsigned __int32 (HRAWINPUT__ *, unsigned __int32, void *, unsigned __int32 *, unsigned __int32)
-	todo("implement");
-	_sub_10ABF0F0(unused, wParam, hRawInput);
+
+	bool const mouseEnabled = *(bool *)0x512356;
+	RawMouseState *mouseState = (RawMouseState *)0x238E6BC;
+	if (!mouseEnabled)
+		return;
+	tagRAWINPUT input;
+	unsigned __int32 cbSize = sizeof(tagRAWINPUT);
+	if (GetRawInputData(hRawInput, RID_INPUT, &input, &cbSize, sizeof(tagRAWINPUTHEADER)) != sizeof(tagRAWINPUT))
+		return;
+	if (input.header.dwType != RIM_TYPEMOUSE)
+		return;
+	if (!RawInputHookImpl(&input))
+	{
+		mouseState->deltaX += input.data.mouse.lLastX;
+		mouseState->deltaY += input.data.mouse.lLastY;
+	}
+	if (input.data.mouse.usButtonFlags & RI_MOUSE_WHEEL)
+		mouseState->wheelDelta += (short)input.data.mouse.usButtonData;
+	if (input.data.mouse.ulButtons & RI_MOUSE_LEFT_BUTTON_DOWN)
+		mouseState->buttons |= RawMouseState::eButtonLeft;
+	if (input.data.mouse.ulButtons & RI_MOUSE_LEFT_BUTTON_UP)
+		mouseState->buttons &= ~RawMouseState::eButtonLeft;
+	if (input.data.mouse.ulButtons & RI_MOUSE_MIDDLE_BUTTON_DOWN)
+		mouseState->buttons |= RawMouseState::eButtonMiddle;
+	if (input.data.mouse.ulButtons & RI_MOUSE_MIDDLE_BUTTON_UP)
+		mouseState->buttons &= ~RawMouseState::eButtonMiddle;
+	if (input.data.mouse.ulButtons & RI_MOUSE_RIGHT_BUTTON_DOWN)
+		mouseState->buttons |= RawMouseState::eButtonRight;
+	if (input.data.mouse.ulButtons & RI_MOUSE_RIGHT_BUTTON_UP)
+		mouseState->buttons &= ~RawMouseState::eButtonRight;
+	if (input.data.mouse.ulButtons & RI_MOUSE_BUTTON_4_DOWN)
+		mouseState->buttons |= RawMouseState::eButton4;
+	if (input.data.mouse.ulButtons & RI_MOUSE_BUTTON_4_UP)
+		mouseState->buttons &= ~RawMouseState::eButton4;
+	if (input.data.mouse.usButtonFlags & RI_MOUSE_BUTTON_5_DOWN)
+		mouseState->buttons |= RawMouseState::eButton5;
+	if (input.data.mouse.usButtonFlags & RI_MOUSE_BUTTON_5_UP)
+		mouseState->buttons &= ~RawMouseState::eButton5;
 }
 
 /* ---------- explicit instantiations */

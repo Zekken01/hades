@@ -82,28 +82,31 @@ namespace Patches
 {
 	namespace Vehicle
 	{
-		_extern void _sub_106A3DF0();
 		void ApplyAll() // 0x106A3DF0
 		{
-			mangled_x86(MANGLED_TODO, "?ApplyAll@Vehicle@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Vehicle@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_106A3DF0();
+
+			Hook(0x78A820, c_vehicle_type_component__handle_deleted_object_hook).Apply();
 		}
 	}
 }
 
 /* ---------- private code */
 
-_extern void _sub_106A3F50(c_vehicle_type_component *, void *, long, long);
 void __fastcall c_vehicle_type_component__handle_deleted_object_hook(c_vehicle_type_component *thisptr, void *__formal, long vehicle_index, long object_index) // 0x106A3F50
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_vehicle_type_component__handle_deleted_object_hook@@YIXPAUc_vehicle_type_component@@PAXJJ@Z");
 	// `anonymous-namespace'::c_vehicle_type_component__handle_deleted_object_hook
 	// long object_index;
 	// e_vehicle_type vehicle_type;
 	// function call : e_vehicle_type (*const)(long)
 	// function call : void (*const)(c_vehicle_auto_turret *, long, long)
 	// function call : void (*const)(c_vehicle_auto_turret *, long, long)
-	todo("implement");
-	_sub_106A3F50(thisptr, __formal, vehicle_index, object_index);
+
+	e_vehicle_type vehicle_type = ((e_vehicle_type (*)(long))0xB75EE0)(vehicle_index);
+	if (vehicle_type == _vehicle_type_turret)
+		((void (__thiscall *)(c_vehicle_auto_turret *, long, long))0xBBFFC0)(&thisptr->get<c_vehicle_type_turret>()->auto_turret, vehicle_index, object_index);
+	else if (vehicle_type == _vehicle_type_guardian)
+		((void (__thiscall *)(c_vehicle_auto_turret *, long, long))0xBBFFC0)(&thisptr->get<c_vehicle_type_guardian>()->auto_turret, vehicle_index, object_index);
 }

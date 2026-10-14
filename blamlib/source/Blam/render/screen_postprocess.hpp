@@ -162,20 +162,26 @@ _inline void c_screen_postprocess::s_smaa_globals::set_resolution(long res_x, lo
 	this->res_y = res_y;
 }
 
-_extern bool _sub_10F11290(c_screen_postprocess::s_smaa_globals *const, IDirect3DDevice9 *);
 _inline bool c_screen_postprocess::s_smaa_globals::init_surfaces(IDirect3DDevice9 *device) // 0x10F11290
 {
-	mangled_x86(MANGLED_TODO, "?init_surfaces@s_smaa_globals@c_screen_postprocess@@QAE_NPAUIDirect3DDevice9@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?init_surfaces@s_smaa_globals@c_screen_postprocess@@QAE_NPAUIDirect3DDevice9@@@Z");
 	// IDirect3DDevice9 *device;
-	todo("implement");
-	bool __result = _sub_10F11290(this, device);
-	return __result;
+
+	if (!init_surface(device, &edge_buffer, &edge_srf, D3DFMT_A8R8G8B8) ||
+		!init_surface(device, &blend_buffer, &blend_srf, D3DFMT_A8R8G8B8) ||
+		!init_surface(device, &velocity_buffer, &velocity_srf, D3DFMT_A8R8G8B8) ||
+		!init_surface(device, &prev_rt, &prev_rt_srf, D3DFMT_A8R8G8B8) ||
+		!init_surface(device, &prev_depth, &prev_depth_srf, D3DFMT_R32F))
+	{
+		destroy_surfaces();
+		return false;
+	}
+	return true;
 }
 
-_extern void _sub_10F10EC0(c_screen_postprocess::s_smaa_globals *const);
 _inline void c_screen_postprocess::s_smaa_globals::destroy_surfaces() // 0x10F10EC0
 {
-	mangled_x86(MANGLED_TODO, "?destroy_surfaces@s_smaa_globals@c_screen_postprocess@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?destroy_surfaces@s_smaa_globals@c_screen_postprocess@@QAEXXZ");
 	// c_screen_postprocess::s_smaa_globals *const this;
 	// function call : unsigned long ()
 	// function call : unsigned long ()
@@ -187,8 +193,57 @@ _inline void c_screen_postprocess::s_smaa_globals::destroy_surfaces() // 0x10F10
 	// function call : unsigned long ()
 	// function call : unsigned long ()
 	// function call : unsigned long ()
-	todo("implement");
-	_sub_10F10EC0(this);
+
+	if (edge_srf)
+	{
+		edge_srf->Release();
+		edge_srf = nullptr;
+	}
+	if (blend_srf)
+	{
+		blend_srf->Release();
+		blend_srf = nullptr;
+	}
+	if (velocity_srf)
+	{
+		velocity_srf->Release();
+		velocity_srf = nullptr;
+	}
+	if (prev_rt_srf)
+	{
+		prev_rt_srf->Release();
+		prev_rt_srf = nullptr;
+	}
+	if (prev_depth_srf)
+	{
+		prev_depth_srf->Release();
+		prev_depth_srf = nullptr;
+	}
+	if (edge_buffer)
+	{
+		edge_buffer->Release();
+		edge_buffer = nullptr;
+	}
+	if (blend_buffer)
+	{
+		blend_buffer->Release();
+		blend_buffer = nullptr;
+	}
+	if (velocity_buffer)
+	{
+		velocity_buffer->Release();
+		velocity_buffer = nullptr;
+	}
+	if (prev_rt)
+	{
+		prev_rt->Release();
+		prev_rt = nullptr;
+	}
+	if (prev_depth)
+	{
+		prev_depth->Release();
+		prev_depth = nullptr;
+	}
 }
 
 /* ---------- private code */

@@ -49,7 +49,7 @@ struct c_vehicle_type_component
 	c_vehicle_type_component &operator=(c_vehicle_type_component const &); /* compiler_generated() */
 public:
 	template<typename t_arg0>
-	t_arg0 get() const;
+	t_arg0 *get() const;
 	unsigned char __pad0[3]; // 0x61
 };
 #pragma pack(pop)
@@ -98,11 +98,11 @@ static_assert(sizeof(c_vehicle_type_guardian) == 44, "Invalid c_vehicle_type_gua
 /* ---------- public code */
 
 template<typename t_arg0>
-_inline t_arg0 c_vehicle_type_component::get() const
+_inline t_arg0 *c_vehicle_type_component::get() const
 {
 	mangled_prefix_assert("??$get@");
-	todo("implement");
-	return todo_result<t_arg0>();
+	return (t_arg0 *)this;
+
 }
 
 /* ---------- private code */

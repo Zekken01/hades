@@ -43,6 +43,8 @@
 #include "Utils/Singleton.hpp"
 #include "Utils/String.hpp"
 
+#include "Modules/ModuleForge.hpp"  // hades: added for 0x10954E30
+
 #include <Windows.h>
 #include <stdio.h>
 #include <sys/stat.h>
@@ -245,6 +247,15 @@ struct s_state
 
 /* ---------- prototypes */
 
+template<typename t_arg0> static t_arg0 *object_get(unsigned long object_index) { return (t_arg0 *)object_get(object_index); }  // hades: a file-local template in the original (undecorated `object_get<T>`), defined so it is emitted;  // hades: added for 0x10955CA0
+
+extern float (*const game_ticks_to_seconds)(float);  // hades: added for 0x10955820
+extern long (*const game_time_get)();  // hades: added for 0x10955820
+
+struct s_hades_game_engine_vtable { void *slots[84]; void (__thiscall *flag_reset_slot)(void *, short); void *slot85; void (__thiscall *flag_returned)(void *, short, bool); };  // hades: added for 0x109550B0
+
+extern s_multiplayer_object_properties *(*const object_get_multiplayer)(unsigned long);  // hades: added for 0x109549C0
+
 s_forge_globals_definition *forge_globals_get_definition();  // hades: added for 0X10954DA0
 
 namespace Forge
@@ -314,25 +325,43 @@ namespace Forge
 			state.IsValid = false;
 		}
 
-		_extern void _sub_109556B0();
 		void Update() // 0x109556B0
 		{
-			mangled_x86(MANGLED_TODO, "?Update@Volumes@Forge@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Update@Volumes@Forge@@YAXXZ");
 			// procedure flags: nofpo
 			// bool (*const game_engine_round_in_progress)();
 			// function call : bool (*const)()
 			// function call : float (*const)(float)
-			todo("implement");
-			_sub_109556B0();
+
+			bool (*const game_engine_round_in_progress)() = (bool (*)())0x550F90;
+			if (game_engine_round_in_progress())
+			{
+				if (!state.IsValid)
+					InitializeForNewRound();
+				if (state.IsValid)
+				{
+					if (game_ticks_to_seconds((float)state.TicksSinceLastScan++) > 1.0f)
+					{
+						state.TicksSinceLastScan = 0;
+						FindVolumes();
+					}
+					UpdateVolumes();
+					RenderVolumes();
+				}
+			}
+			else
+			{
+				DisposeFromOldRound();
+			}
 		}
 	}
 }
 
 /* ---------- private code */
 
-_extern void _sub_10954590(ForgeVolume &, unsigned __int32);
 void ApplyUnitDamage(ForgeVolume &killVolume, unsigned __int32 unitObjectIndex) // 0x10954590
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyUnitDamage@@YAXAAUForgeVolume@hades_file_local@@I@Z");
 	// `anonymous-namespace'::ApplyUnitDamage
 	// static ...; // 0x10954750
 	// static ...; // 0x10954748
@@ -347,15 +376,48 @@ void ApplyUnitDamage(ForgeVolume &killVolume, unsigned __int32 unitObjectIndex) 
 	// void (*const unit_cause_damage)(DamageData *, __int32, __int32);
 	// s_object_data *volumeObject;
 	// s_multiplayer_object_properties *mpProperties;
-	{
 		// DamageData damage;
-	}
 	// function call : s_multiplayer_object_properties *(*const)(unsigned long)
 	// function call : __int32 (*const)(DamageData *, __int32)
 	// function call : void (*const)(unsigned __int32, void *)
 	// function call : void (*const)(DamageData *, __int32, __int32)
-	todo("implement");
-	_sub_10954590(killVolume, unitObjectIndex);
+
+	__int32 (*const damage_data_new)(DamageData *, __int32) = reinterpret_cast<__int32 (*)(DamageData *, __int32)>(0xB50330);
+	void (*const unit_cause_damage)(DamageData *, __int32, __int32) = reinterpret_cast<void (*)(DamageData *, __int32, __int32)>(0xB542A0);
+	void (*const damage_determine_cause)(unsigned __int32, void *) = reinterpret_cast<void (*)(unsigned __int32, void *)>(0xB770E0);
+	if (unitObjectIndex == -1)
+		return;
+	s_object_data *volumeObject = object_get(killVolume.ObjectIndex);
+	if (!volumeObject)
+		return;
+	s_multiplayer_object_properties *mpProperties = object_get_multiplayer(killVolume.ObjectIndex);
+	if (!mpProperties)
+		return;
+	s_game_globals *matg = *(s_game_globals **)0x22AAEB8;
+	__int32 damageEffectTagIndex = -1;
+	if (matg->PlayerFallingDamage.count > 0)
+		damageEffectTagIndex = matg->PlayerFallingDamage->DistanceDamage.index;
+	__int32 damageCauseType = 0;
+	Forge::ForgeKillVolumeProperties *killVolumeProperties = (Forge::ForgeKillVolumeProperties *)&mpProperties->teleporter_channel;
+	switch (killVolumeProperties->DamageCause)
+	{
+	case 1:
+		damageCauseType = 1;
+		break;
+	case 2:
+		damageCauseType = 2;
+		break;
+	}
+	if (damageEffectTagIndex != -1)
+	{
+		DamageData damage;
+		damage_data_new(&damage, damageEffectTagIndex);
+		if (damageCauseType != 1)
+			damage_determine_cause(unitObjectIndex, &damage.PlayerIndex);
+		damage.field_8C = damageCauseType;
+		damage.Flags |= 4;
+		unit_cause_damage(&damage, unitObjectIndex, 5);
+	}
 }
 
 void ResetVolume(__int32 index) // 0x10955210
@@ -371,9 +433,9 @@ void ResetVolume(__int32 index) // 0x10955210
 	volume.ObjectIndex = -1;
 }
 
-_extern void _sub_10955CA0(ForgeVolume &);
 void UpdateKillVolume(ForgeVolume &volume) // 0x10955CA0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateKillVolume@@YAXAAUForgeVolume@hades_file_local@@@Z");
 	// `anonymous-namespace'::UpdateKillVolume
 	// static ...; // 0x10956055
 	// static ...; // 0x1095604C
@@ -388,38 +450,72 @@ void UpdateKillVolume(ForgeVolume &volume) // 0x10955CA0
 	// Forge::ForgeKillVolumeProperties *properties;
 	// s_object_data *volumeObject;
 	// s_multiplayer_object_properties *mpProperties;
-	{
 		// __int32 i;
-		{
 			// s_object_data *clusterObject;
 			// unsigned char objectType;
-			{
 				// s_player_datum *player;
 				// unsigned __int32 playerIndex;
-			}
-			{
 				// s_unit_data *driverUnitObject;
 				// unsigned __int32 driverUnitObjectIndex;
 				// real_point3d position;
-				{
 					// s_player_datum *player;
 					// long playerIndex;
-				}
-			}
-		}
-	}
 	// function call : s_multiplayer_object_properties *(*const)(unsigned long)
 	// function call : short (*const)(long, long, s_cluster_reference const *, real_point3d const *, float, long *, short)
 	// function call : bool (*const)(void *, __int32)
 	// function call : void (*const)(long, real_point3d *)
 	// function call : bool (*const)(real_point3d const *, s_multiplayer_object_boundary_geometry_data const *)
-	todo("implement");
-	_sub_10955CA0(volume);
+
+	bool (__thiscall *const ZoneShape__ContainsPlayer)(void *, __int32) = reinterpret_cast<bool (__thiscall *)(void *, __int32)>(0x765C80);
+	c_data_array<s_player_datum> *players = players_get();
+	s_object_data *volumeObject = object_get(volume.ObjectIndex);
+	if (!volumeObject)
+		return;
+	s_multiplayer_object_properties *mpProperties = object_get_multiplayer(volume.ObjectIndex);
+	if (!mpProperties)
+		return;
+	::Forge::ForgeKillVolumeProperties *properties = (::Forge::ForgeKillVolumeProperties *)&mpProperties->teleporter_channel;
+	__int32 objectTypeMask = 1;
+	if (properties->Flags & ::Forge::ForgeKillVolumeProperties::eKillVolumeFlags_DestroyVehicles)
+		objectTypeMask |= 2;
+	long clusterObjects[128];
+	short clusterObjectCount = ((short (*)(long, long, s_scenario_location *, real_point3d *, float, long *, long))0xB35B60)(0, objectTypeMask, &volumeObject->location, &volumeObject->bounding_sphere_center, abs(volume.Zone.bounding_radius), clusterObjects, 128);
+	for (__int32 i = 0; i < clusterObjectCount; i++)
+	{
+		s_object_data *clusterObject = object_get(clusterObjects[i]);
+		if (!clusterObject)
+			break;
+		unsigned char objectType = *(unsigned char *)&clusterObject->object_identifier.type;
+		if (objectType == 0)
+		{
+			unsigned __int32 playerIndex = ((s_unit_data *)clusterObject)->player_index;
+			s_player_datum *player;
+			if (playerIndex != -1 && (player = players_get()->try_and_get(playerIndex)) != nullptr && player->unit_index != -1 && ZoneShape__ContainsPlayer(&volume.Zone, playerIndex) && (volume.TeamIndex == player->configuration.host.team || volume.TeamIndex == 8))
+				ApplyUnitDamage(volume, player->unit_index);
+		}
+		else if (objectType == 1)
+		{
+			real_point3d position;
+			((void (*)(long, real_point3d *))0xB2E5A0)(clusterObjects[i], &position);
+			if (!((bool (*)(real_point3d *, s_multiplayer_object_boundary_geometry_data *))0xBA11F0)(&position, &volume.Zone))
+				continue;
+			unsigned __int32 driverUnitObjectIndex = ((s_unit_data *)clusterObject)->motion_control_unit_index;
+			s_unit_data *driverUnitObject;
+			if (driverUnitObjectIndex != -1 && (driverUnitObject = object_get<s_unit_data>(driverUnitObjectIndex)) != nullptr)
+			{
+				unsigned __int32 playerIndex = driverUnitObject->player_index;
+				s_player_datum *player;
+				if (playerIndex != -1 && (player = players->try_and_get(playerIndex)) != nullptr && player->unit_index != -1 && volume.TeamIndex != player->configuration.host.team && volume.TeamIndex != 8)
+					continue;
+			}
+			ApplyUnitDamage(volume, clusterObjects[i]);
+		}
+	}
 }
 
-_extern bool _sub_10955290(unsigned __int32, ForgeVolume &);
 bool ShouldGarbageCollectObject(unsigned __int32 objectIndex, ForgeVolume &volume) // 0x10955290
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ShouldGarbageCollectObject@@YA_NIAAUForgeVolume@hades_file_local@@@Z");
 	// `anonymous-namespace'::ShouldGarbageCollectObject
 	// static ...; // 0x109555C0
 	// static ...; // 0x109555A8
@@ -430,33 +526,75 @@ bool ShouldGarbageCollectObject(unsigned __int32 objectIndex, ForgeVolume &volum
 	// e_object_type objectType;
 	// s_object_data *volumeObject;
 	// Forge::ForgeGarbageVolumeProperties *garbageVolumeProperties;
-	{
 		// unsigned __int32 driverObjectIndex;
-	}
-	{
 		// unsigned __int32 ownerUnitObjectIndex;
 		// short mpWeaponType;
-	}
-	{
 		// c_data_array<s_player_datum> &<range>$L0;
 		// c_data_iterator<s_player_datum> <begin>$L0;
 		// c_data_iterator<s_player_datum> <end>$L0;
-		{
 			// s_player_datum const &player;
-		}
-	}
-	{
 		// bool isGrenade;
-		{
 			// unsigned __int32 ownerUnitObjectIndex;
-		}
-	}
 	// function call : s_multiplayer_object_properties *(*const)(unsigned long)
 	// function call : short (*const)(unsigned __int32)
 	// function call : __int32 (*const)(__int32)
-	todo("implement");
-	bool __result = _sub_10955290(objectIndex, volume);
-	return __result;
+
+	s_object_data *volumeObject = object_get(volume.ObjectIndex);
+	if (!volumeObject)
+		return false;
+	::Forge::ForgeGarbageVolumeProperties *garbageVolumeProperties = (::Forge::ForgeGarbageVolumeProperties *)&object_get_multiplayer(volume.ObjectIndex)->teleporter_channel;
+	s_object_data *object = object_get(objectIndex);
+	e_object_type objectType = object->object_identifier.type;
+	if (objectType == _object_type_vehicle)
+	{
+		if (!(garbageVolumeProperties->Flags & ::Forge::ForgeGarbageVolumeProperties::eGarbageVolumeFlags_CollectVehicles))
+			return false;
+		unsigned __int32 driverObjectIndex = *(unsigned __int32 *)((char *)object + 0x32C);
+		return driverObjectIndex == -1;
+	}
+	if (objectType == _object_type_weapon)
+	{
+		short mpWeaponType = ((short (*)(unsigned __int32))0xB62DB0)(objectIndex);
+		unsigned __int32 ownerUnitObjectIndex = *(unsigned __int32 *)((char *)object + 0x184);
+		if (ownerUnitObjectIndex != -1)
+			return false;
+		if (mpWeaponType > 0)
+			return garbageVolumeProperties->Flags & ::Forge::ForgeGarbageVolumeProperties::eGarbageVolumeFlags_CollectObjectives;
+		else
+			return garbageVolumeProperties->Flags & ::Forge::ForgeGarbageVolumeProperties::eGarbageVolumeFlags_CollectWeapons;
+	}
+	else if (objectType == _object_type_biped)
+	{
+		if (!(garbageVolumeProperties->Flags & ::Forge::ForgeGarbageVolumeProperties::eGarbageVolumeFlags_CollectDeadBipeds))
+			return false;
+		if (object->definition_index == 0xC13)
+			return false;
+		for (s_player_datum const &player : *players_get())
+		{
+			if (player.unit_index == objectIndex)
+				return false;
+		}
+		return true;
+	}
+	else if (objectType == _object_type_equipment)
+	{
+		bool isGrenade = ((long (*)(long))0x52D1A0)(object->definition_index) != -1;
+		if (isGrenade)
+		{
+			if (!(garbageVolumeProperties->Flags & ::Forge::ForgeGarbageVolumeProperties::eGarbageVolumeFlags_CollectGrenades))
+				return false;
+			if (!*((unsigned char *)object + 0x179))
+				return true;
+		}
+		else
+		{
+			if (!(garbageVolumeProperties->Flags & ::Forge::ForgeGarbageVolumeProperties::eGarbageVolumeFlags_CollectEquipment))
+				return false;
+			unsigned __int32 ownerUnitObjectIndex = *(unsigned __int32 *)((char *)object + 0x184);
+			return ownerUnitObjectIndex == -1;
+		}
+	}
+	return false;
 }
 
 s_multiplayer_weapon_tracker *FindEngineObject(unsigned __int32 objectIndex) // 0x10954910
@@ -478,9 +616,9 @@ s_multiplayer_weapon_tracker *FindEngineObject(unsigned __int32 objectIndex) // 
 	return nullptr;
 }
 
-_extern void _sub_109550B0(long);
 void ResetCtfObject(long objectIndex) // 0x109550B0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ResetCtfObject@@YAXJ@Z");
 	// `anonymous-namespace'::ResetCtfObject
 	// long objectIndex;
 	// s_ctf_engine_globals *ctf_globals;
@@ -491,29 +629,57 @@ void ResetCtfObject(long objectIndex) // 0x109550B0
 	// function call : void (*)(void *, short, bool)
 	// function call : void (*const)(long)
 	// function call : void (*)(void *, short)
-	todo("implement");
-	_sub_109550B0(objectIndex);
+
+	void (*const flag_reset)(long) = reinterpret_cast<void (*)(long)>(0x97DD00);
+	c_game_engine *engine = ((c_game_engine *(__cdecl *)())0x5CE150)();
+	if (!engine)
+		return;
+	s_multiplayer_weapon_tracker *engineObject = FindEngineObject(objectIndex);
+	if (!engineObject)
+		return;
+	s_ctf_engine_globals *ctf_globals = get_ctf_globals();
+	if (ctf_globals->field_1638)
+		ctf_globals->field_1638 = false;
+	else
+	{
+		(*(s_hades_game_engine_vtable **)engine)->flag_returned(engine, engineObject->multiplayer_weapon_identifier, ctf_globals->field_1639);
+		ctf_globals->field_1639 = false;
+	}
+	flag_reset(engineObject->weapon_index);
+	(*(s_hades_game_engine_vtable **)engine)->flag_reset_slot(engine, engineObject->multiplayer_weapon_identifier);
 }
 
-_extern void _sub_109547E0(unsigned __int32);
 void CollectObject(unsigned __int32 objectIndex) // 0x109547E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CollectObject@@YAXI@Z");
 	// `anonymous-namespace'::CollectObject
 	// unsigned __int32 objectIndex;
 	// s_object_data *object;
 	// void (*const objects_dispose)(unsigned __int32);
-	{
 		// short mpWeaponType;
-	}
 	// function call : short (*const)(unsigned __int32)
 	// function call : void (*const)(unsigned __int32)
-	todo("implement");
-	_sub_109547E0(objectIndex);
+
+	void (*const objects_dispose)(unsigned __int32) = reinterpret_cast<void (*)(unsigned __int32)>(0xB2CD10);
+	s_object_data *object = object_get(objectIndex);
+	if (!object)
+		return;
+	if (object->object_identifier.type == (e_object_type)2)
+	{
+		short mpWeaponType = ((short(__cdecl *)(unsigned __int32))0xB62DB0)(objectIndex);
+		switch (mpWeaponType)
+		{
+		case 1:
+			ResetCtfObject(objectIndex);
+			return;
+		}
+	}
+	objects_dispose(objectIndex);
 }
 
-_extern void _sub_10955820(ForgeVolume &);
 void UpdateGarbageCollectionVolume(ForgeVolume &volume) // 0x10955820
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateGarbageCollectionVolume@@YAXAAUForgeVolume@hades_file_local@@@Z");
 	// `anonymous-namespace'::UpdateGarbageCollectionVolume
 	// static ...; // 0x10955BA4
 	// static ...; // 0x10955B94
@@ -531,22 +697,63 @@ void UpdateGarbageCollectionVolume(ForgeVolume &volume) // 0x10955820
 	// __int32 intervalIndex;
 	// s_object_data *volumeObject;
 	// Forge::ForgeGarbageVolumeProperties *garbageVolumeProperties;
-	{
 		// __int32 i;
-		{
 			// long clusterObjectIndex;
 			// s_object_data *clusterObject;
 			// unsigned __int32 lastActiveTicks;
-		}
-	}
 	// function call : float (*const)(float)
 	// function call : s_multiplayer_object_properties *(*const)(unsigned long)
 	// function call : short (*const)(long, long, s_cluster_reference const *, real_point3d const *, float, long *, short)
 	// function call : long (*const)()
 	// function call : float (*const)(float)
 	// function call : bool (*const)(real_point3d const *, s_multiplayer_object_boundary_geometry_data const *)
-	todo("implement");
-	_sub_10955820(volume);
+
+	if (game_ticks_to_seconds(volume.Data.GarbageVolume.CollectionTicks++) < 0.25f)
+		return;
+	volume.Data.GarbageVolume.CollectionTicks = 0;
+	s_object_data *volumeObject = object_get(volume.ObjectIndex);
+	if (!volumeObject)
+		return;
+	::Forge::ForgeGarbageVolumeProperties *garbageVolumeProperties = (::Forge::ForgeGarbageVolumeProperties *)&object_get_multiplayer(volume.ObjectIndex)->teleporter_channel;
+	__int32 intervalIndex = garbageVolumeProperties->Interval;
+	if (intervalIndex < 0 || intervalIndex >= sizeof(kGarbageCollectionIntervals) / sizeof(kGarbageCollectionIntervals[0]))
+		return;
+	float interval = kGarbageCollectionIntervals[intervalIndex];
+	__int32 const collectionMask = 0xF;
+	long clusterObjects[128];
+	short clusterObjectCount = ((short (*)(long, long, s_scenario_location const *, real_point3d const *, float, long *, long))0xB35B60)(0, collectionMask, &volumeObject->location, &volumeObject->bounding_sphere_center, abs(volume.Zone.bounding_radius), clusterObjects, 128);
+	long currentTime = game_time_get();
+	for (__int32 i = 0; i < clusterObjectCount; i++)
+	{
+		long clusterObjectIndex = clusterObjects[i];
+		s_object_data *clusterObject = object_get(clusterObjectIndex);
+		if (!clusterObject)
+			continue;
+		unsigned __int32 lastActiveTicks = 0;
+		switch ((e_object_type)clusterObject->object_identifier.type)
+		{
+		case _object_type_biped:
+		case _object_type_vehicle:
+			lastActiveTicks = *(unsigned __int32 *)((char *)clusterObject + 0x4A8);
+			break;
+		case _object_type_weapon:
+			lastActiveTicks = *(unsigned __int32 *)((char *)clusterObject + 0x180);
+			break;
+		case _object_type_equipment:
+			lastActiveTicks = *(unsigned __int32 *)((char *)clusterObject + 0x12C);
+			break;
+		}
+		if (lastActiveTicks != -1)
+		{
+			if (game_ticks_to_seconds(currentTime - lastActiveTicks) > interval)
+			{
+				if (!((bool (*)(real_point3d *, s_multiplayer_object_boundary_geometry_data *))0xBA11F0)(&clusterObject->bounding_sphere_center, &volume.Zone))
+					continue;
+				if (ShouldGarbageCollectObject(clusterObjectIndex, volume))
+					CollectObject(clusterObjectIndex);
+			}
+		}
+	}
 }
 
 __int32 GetNextVolumeIndex(unsigned __int32 objectIndex) // 0x10954C80
@@ -568,9 +775,9 @@ __int32 GetNextVolumeIndex(unsigned __int32 objectIndex) // 0x10954C80
 	return -1;
 }
 
-_extern void _sub_109549C0();
 void FindVolumes() // 0x109549C0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?FindVolumes@@YAXXZ");
 	// `anonymous-namespace'::FindVolumes
 	// procedure flags: nofpo
 	// static ...; // 0x10954BEC
@@ -578,21 +785,46 @@ void FindVolumes() // 0x109549C0
 	// static ...; // 0x10954BD8
 	// c_data_array<s_object_header> *object_headers;
 	// s_forge_globals_definition *forge_globals;
-	{
 		// c_data_iterator<s_object_header> it;
-		{
 			// __int32 volumeIndex;
 			// ForgeVolume &volume;
 			// s_multiplayer_object_properties *mpProperties;
-			{
 				// Forge::ForgeKillVolumeProperties *killVolumeProperties;
-			}
-		}
-	}
 	// function call : s_multiplayer_object_properties *(*const)(unsigned long)
 	// function call : void (*const)(long, s_multiplayer_object_boundary_geometry_data *, long)
-	todo("implement");
-	_sub_109549C0();
+
+	s_forge_globals_definition *forge_globals = forge_globals_get_definition();
+	c_data_array<s_object_header> *object_headers = object_headers_get();
+	for (c_data_iterator<s_object_header> it = object_headers->begin(); it != object_headers->end(); ++it)
+	{
+		if (it->type != (e_object_type)11 || !it->data)
+			continue;
+		s_multiplayer_object_properties *mpProperties = object_get_multiplayer(it.current_datum_index);
+		if (!mpProperties)
+			continue;
+		if (it->data->definition_index != forge_globals->kill_volume_object.index && it->data->definition_index != forge_globals->garbage_volume_object.index)
+			continue;
+		__int32 volumeIndex = GetNextVolumeIndex(it.current_datum_index);
+		if (volumeIndex == -1)
+			continue;
+		ForgeVolume &volume = state.Volumes[volumeIndex];
+		((void(__cdecl *)(long, s_multiplayer_object_boundary_geometry_data *, long))0xBA0AD0)(it.current_datum_index, &volume.Zone, -1);
+		volume.ObjectIndex = it.current_datum_index;
+		volume.TeamIndex = (short)mpProperties->team_designator & 0xFF;
+		volume.Flags = 0;
+		if (it->data->definition_index == forge_globals->kill_volume_object.index)
+		{
+			volume.Type = eVolumeType_Kill;
+			Forge::ForgeKillVolumeProperties *killVolumeProperties = (Forge::ForgeKillVolumeProperties *)&mpProperties->teleporter_channel;
+			if (killVolumeProperties->Flags & Forge::ForgeKillVolumeProperties::eKillVolumeFlags_AlwaysVisible)
+				volume.Flags |= 1;
+		}
+		else if (it->data->definition_index == forge_globals->garbage_volume_object.index)
+		{
+			volume.Type = eVolumeType_GarbageCollection;
+			volume.Data.GarbageVolume.CollectionTicks = 0;
+		}
+	}
 }
 
 bool ObjectIsVolume(__int32 tagIndex) // 0x10954DA0
@@ -606,48 +838,82 @@ bool ObjectIsVolume(__int32 tagIndex) // 0x10954DA0
 	return tagIndex == forge_globals->kill_volume_object.index || tagIndex == forge_globals->garbage_volume_object.index;
 }
 
-_extern void _sub_10956160();
 void UpdateVolumes() // 0x10956160
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateVolumes@@YAXXZ");
 	// `anonymous-namespace'::UpdateVolumes
 	// procedure flags: nofpo
-	{
 		// __int32 i;
-		{
 			// ForgeVolume &volume;
 			// s_object_data *volumeObject;
+	// function call : void (*const)(long, s_multiplayer_object_boundary_geometry_data *, long)
+
+	for (__int32 i = 0; i < 64; i++)
+	{
+		ForgeVolume &volume = state.Volumes[i];
+		if (!volume.Type || volume.ObjectIndex == -1)
+			continue;
+		s_object_data *volumeObject = object_get(volume.ObjectIndex);
+		if (!volumeObject || !ObjectIsVolume(volumeObject->definition_index))
+		{
+			ResetVolume(i);
+			continue;
+		}
+		((void(__cdecl *)(long, s_multiplayer_object_boundary_geometry_data *, long))0xBA0AD0)(volume.ObjectIndex, &volume.Zone, -1);
+		switch (volume.Type)
+		{
+		case eVolumeType_Kill:
+			UpdateKillVolume(volume);
+			break;
+		case eVolumeType_GarbageCollection:
+			UpdateGarbageCollectionVolume(volume);
+			break;
 		}
 	}
-	// function call : void (*const)(long, s_multiplayer_object_boundary_geometry_data *, long)
-	todo("implement");
-	_sub_10956160();
 }
 
-_extern void _sub_10954E30();
 void RenderVolumes() // 0x10954E30
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?RenderVolumes@@YAXXZ");
 	// `anonymous-namespace'::RenderVolumes
 	// procedure flags: nofpo
 	// static ...; // 0x1095501E
 	// static ...; // 0x10955018
 	// static ...; // 0x10955000
 	// static ...; // 0x10954FF8
-	{
 		// __int32 i;
-		{
 			// ForgeVolume const &volume;
 			// s_object_data *volumeObject;
-			{
 				// real_argb_color color;
-			}
-			{
-			}
-		}
-	}
 	// function call : unsigned long (*const)(long)
 	// function call : bool (*const)(long, long *, long *)
 	// function call : void (*const)(s_multiplayer_object_boundary_geometry_data const *, real_argb_color const *, long)
 	// function call : void (*const)(s_multiplayer_object_boundary_geometry_data const *, real_argb_color const *, long)
-	todo("implement");
-	_sub_10954E30();
+
+	for (__int32 i = 0; i < 64; i++)
+	{
+		ForgeVolume const &volume = state.Volumes[i];
+		if (!volume.Type)
+			continue;
+		s_object_data *volumeObject;
+		if (volume.ObjectIndex == -1 || !(volumeObject = object_get(volume.ObjectIndex)))
+			return;
+		if (!((bool(__cdecl *)(long, long *, long *))0x59A6F0)(((unsigned long(__cdecl *)(long))0x589C30)(0), nullptr, nullptr) && !(volume.Flags & 1) && !Modules::ModuleForge::Instance().VarShowInvisiblesClient->ValueInt)
+			continue;
+		switch (volume.Type)
+		{
+		case eVolumeType_GarbageCollection:
+		{
+			real_argb_color color = { 0.1f, 0.0f, 0.5f, 0.0f };
+			((void(__cdecl *)(s_multiplayer_object_boundary_geometry_data const *, real_argb_color const *, long))0xBA0FC0)(&volume.Zone, &color, volume.ObjectIndex);
+			break;
+		}
+		case eVolumeType_Kill:
+		{
+			real_argb_color color = { 0.1f, 0.5f, 0.0f, 0.0f };
+			((void(__cdecl *)(s_multiplayer_object_boundary_geometry_data const *, real_argb_color const *, long))0xBA0FC0)(&volume.Zone, &color, volume.ObjectIndex);
+			break;
+		}
+		}
+	}
 }

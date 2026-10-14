@@ -30,6 +30,8 @@
 #include "mods/mod_package_manager.hpp"
 #include "mods/new/IModManager.hpp"
 #include "mods/tag_name_dictionary.hpp"
+#include "mods/cache_file_tags.hpp"  // hades: added for 0x10890EF0
+#include "mods/mod_system.hpp"  // hades: added for 0x10890EF0
 #include "Patches/CustomPackets.hpp"
 #include "ThirdParty/rapidjson/document.h"
 #include "Utils/NameValueTable.hpp"
@@ -110,6 +112,17 @@ namespace Blam
 
 /* ---------- definitions */
 
+// hades: moved from hades/recovered_types.h, where its member types were not visible
+struct s_mod_loading_state
+{
+	s_file_reference file; // 0x0
+	std::shared_ptr<c_cache_file_tag_cache> mod_tag_cache; // 0x110  // hades: was unsigned char[8]
+public:
+	s_mod_loading_state();
+	~s_mod_loading_state();
+};
+static_assert32(sizeof(s_mod_loading_state) == 280, "Invalid s_mod_loading_state size");
+
 // s_mod_loading_state is defined in hades/recovered_types.h, which the synthesised
 // templates in hades/recovered_templates.h inherit from.
 
@@ -125,21 +138,26 @@ struct s_name_lookup_key
 	public:
 	unsigned __int32 group_tag; // 0x0
 	std::string_view name; // 0x4
-	s_name_lookup_key(); /* compiler_generated() */
+	// s_name_lookup_key(); /* compiler_generated() */  // hades: implicit, so the key is an aggregate (0x10890EF0)
 };
 #pragma pack(pop)
 static_assert(sizeof(s_name_lookup_key) == 12, "Invalid s_name_lookup_key size");
 
 /* ---------- prototypes */
 
-namespace Utils { namespace stl { template<typename t_arg0, typename t_arg1> unsigned __int32 hash_combine(t_arg0, t_arg1); } }  // hades: added for 0x1088EF80
+extern bool (*const file_get_size)(s_file_reference *, unsigned long *);  // hades: added for 0x10890AD0
+extern bool (*const file_open)(s_file_reference *, c_flags<enum e_file_permission_flags,long>, unsigned long *);  // hades: added for 0x10890AD0
+extern bool (*const file_read)(s_file_reference *, unsigned long, bool, void *);  // hades: added for 0x10890AD0
+extern bool (*const file_close)(s_file_reference *);  // hades: added for 0x10890AD0
+
+namespace Utils { namespace stl { namespace detail { template<typename t_arg0> void hash_combine(unsigned __int32 &seed, t_arg0 val) { seed ^= std::hash<t_arg0>()(val) + 0x9e3779b9 + (seed << 6) + (seed >> 2); } } template<typename... t_args> unsigned __int32 hash_combine(t_args... args) { unsigned __int32 seed = 0; (detail::hash_combine(seed, args), ...); return seed; } } }  // hades: added for 0x1088EF80; 0x1088D740
 
 extern _inline bool operator==(s_name_lookup_key const &lhs, s_name_lookup_key const &rhs);
 
-extern "C" bool in_tag_group(s_tag_group const &group, long needle);
-extern "C" void log_error(char const *message);
-extern "C" void log_errorf(char const *format, ...);
-extern "C" bool fixup_map_variant_internal(s_blf_chunk_mapv_tag_names const *fixup_data, s_map_variant *map_variant);
+static bool in_tag_group(s_tag_group const &group, long needle);
+static void log_error(char const *message);
+static void log_errorf(char const *format, ...); extern bool parse_tag_file_name(char const *path, char *out_tag_name, unsigned long *out_group_tag);  // hades: added for 0x10890EF0
+static bool fixup_map_variant_internal(s_blf_chunk_mapv_tag_names const *fixup_data, s_map_variant *map_variant);
 
 /* ---------- globals */
 
@@ -187,19 +205,16 @@ bool c_map_variant_tag_fixups::fixup_map_variant_in_memory(unsigned char *buffer
 	s_blf_chunk_header chunk_header;
 	unsigned char const *data;
 	unsigned long data_size;
-
 	if (!blf_find_chunk_in_buffer(buffer, buffer_size, 0x7461676E, &chunk_header, &data, &data_size))
 	{
 		return false;
 	}
-
-	return fixup_map_variant_internal((s_blf_chunk_mapv_tag_names const *)&((s_blf_chunk_header const *)data)[-1], map_variant);
+	return fixup_map_variant_internal((s_blf_chunk_mapv_tag_names const *)&data[-(long)sizeof(s_blf_chunk_header)], map_variant);
 }
 
-_extern bool _sub_10890AD0(s_file_reference *, s_map_variant *);
 bool c_map_variant_tag_fixups::fixup_map_variant_from_file(s_file_reference *file, s_map_variant *map_variant) // 0x10890AD0
 {
-	mangled_x86(MANGLED_TODO, "?fixup_map_variant_from_file@c_map_variant_tag_fixups@@SA_NPAUs_file_reference@@PAUs_map_variant@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?fixup_map_variant_from_file@c_map_variant_tag_fixups@@SA_NPAUs_file_reference@@PAUs_map_variant@@@Z");
 	// static ...; // 0x10890D1C
 	// static ...; // 0x10890D18
 	// static ...; // 0x10890CF4
@@ -214,9 +229,22 @@ bool c_map_variant_tag_fixups::fixup_map_variant_from_file(s_file_reference *fil
 	// function call : bool (*const)(s_file_reference *, c_flags<enum e_file_permission_flags,long>, unsigned long *)
 	// function call : bool (*const)(s_file_reference *, unsigned long, bool, void *)
 	// function call : bool (*const)(s_file_reference *)
-	todo("implement");
-	bool __result = _sub_10890AD0(file, map_variant);
-	return __result;
+
+	std::string file_buff;
+	unsigned long file_size;
+	if (!file_get_size(file, &file_size))
+		return false;
+
+	file_buff.resize(file_size);
+	unsigned long err;
+	if (!file_open(file, 1, &err))
+		return false;
+
+	bool result = false;
+	if (file_read(file, file_buff.size(), false, &file_buff[0]))
+		result = fixup_map_variant_in_memory((unsigned char *)&file_buff[0], file_buff.size(), map_variant);
+	file_close(file);
+	return result;
 }
 
 void c_map_variant_tag_fixups::initialize() // 0x10891BF0
@@ -227,18 +255,18 @@ void c_map_variant_tag_fixups::initialize() // 0x10891BF0
 
 /* ---------- private code */
 
-extern "C" bool in_tag_group(s_tag_group const &group, long needle) // 0x10891B70
+static bool in_tag_group(s_tag_group const &group, long needle) // 0x10891B70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "_in_tag_group");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?in_tag_group@@YA_NABUs_tag_group@@J@Z");
 	// in_tag_group
 	// long needle;
 
 	return group.tags[0] == needle || group.tags[1] == needle || group.tags[2] == needle;
 }
 
-extern "C" void log_error(char const *message) // 0x10891C10
+static void log_error(char const *message) // 0x10891C10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "_log_error");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?log_error@@YAXPBD@Z");
 	// log_error
 	// static ...; // 0x10891CCC
 	// static ...; // 0x10891CC0
@@ -246,14 +274,14 @@ extern "C" void log_error(char const *message) // 0x10891C10
 	// char const *message;
 	// char buff[8192];
 
-	char buffer[0x2000];
-	sprintf_s(buffer, "[ERROR]: c_map_variant_loader :: %s", message);
-	Utils::Singleton<Utils::Logger>::Instance().Log((Utils::LogTypes)1, (Utils::LogLevel)4, buffer);
+	char buff[0x2000];
+	sprintf_s(buff, "[ERROR]: c_map_variant_loader :: %s", message);
+	Utils::Singleton<Utils::Logger>::Instance().Log((Utils::LogTypes)1, (Utils::LogLevel)4, buff);
 }
 
-extern "C" void log_errorf(char const *format, ...) // 0x10891D10
+static void log_errorf(char const *format, ...) // 0x10891D10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "_log_errorf");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?log_errorf@@YAXPBDZZ");
 	// log_errorf
 	// static ...; // 0x10891DB0
 	// static ...; // 0x10891DA8
@@ -261,17 +289,17 @@ extern "C" void log_errorf(char const *format, ...) // 0x10891D10
 	// char buff[8192];
 	// char *va;
 
-	char _Buffer[8192];
+	char buff[8192];
 	va_list va;
-
 	va_start(va, format);
-	vsprintf_s(_Buffer, format, va);
-	log_error(_Buffer);
+	vsprintf_s(buff, format, va);
+	va_end(va);
+	log_error(buff);
 }
 
-_extern bool _sub_10890EF0(s_blf_chunk_mapv_tag_names const *, s_map_variant *);
-extern "C" bool fixup_map_variant_internal(s_blf_chunk_mapv_tag_names const *fixup_data, s_map_variant *map_variant) // 0x10890EF0
+bool fixup_map_variant_internal(s_blf_chunk_mapv_tag_names const *fixup_data, s_map_variant *map_variant) // 0x10890EF0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?fixup_map_variant_internal@@YA_NPBUs_blf_chunk_mapv_tag_names@@PAUs_map_variant@@@Z");
 	// fixup_map_variant_internal
 	// static ...; // 0x10891800
 	// static ...; // 0x108917FD
@@ -291,14 +319,9 @@ extern "C" bool fixup_map_variant_internal(s_blf_chunk_mapv_tag_names const *fix
 	// std::shared_ptr<c_cache_file_tag_cache> base_cache;
 	// IMod *mod;
 	// bool succeeded;
-	{
 		// c_cache_file_tag_cache::c_instance_iterator it;
-		{
 			// long tag_index;
 			// char const *name;
-		}
-	}
-	{
 		// long used_mod_tag_count;
 		// std::shared_ptr<c_cache_file_tag_cache> mod_cache;
 		// c_cache_file_tag_cache::c_instance_iterator iterator;
@@ -307,23 +330,16 @@ extern "C" bool fixup_map_variant_internal(s_blf_chunk_mapv_tag_names const *fix
 		// long tag_count;
 		// c_mod_package *mod_package;
 		// long counter;
-		{
 			// char const *mod_tag_name;
 			// unsigned long mod_tag_group;
 			// long runtime_tag_index;
 			// long mod_tag_index;
-		}
-	}
-	{
 		// long i;
-		{
 			// std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<s_name_lookup_key const ,long> > > > it;
 			// char pe_tag_name[256];
 			// char const *const pe_tag_path;
 			// unsigned long pe_group_tag;
 			// s_variant_quota &palette_entry;
-		}
-	}
 	// function call : IMod *(EModIndex) const
 	// function call : c_mod_package *(bool) const
 	// function call : bool () const
@@ -331,7 +347,102 @@ extern "C" bool fixup_map_variant_internal(s_blf_chunk_mapv_tag_names const *fix
 	// function call : void (*const)()
 	// function call : std::shared_ptr<c_cache_file_interface> (bool) const
 	// function call : std::shared_ptr<c_cache_file_tag_cache> () const
-	todo("implement");
-	bool __result = _sub_10890EF0(fixup_data, map_variant);
-	return __result;
+
+	std::shared_ptr<c_cache_file_tag_cache> base_cache = c_cache_file_tags::get_open_cache();
+	if (base_cache == nullptr)
+		return false;
+	std::unordered_map<s_name_lookup_key, long, s_name_lookup_key::s_hasher> runtime_tags_by_name;
+	for (c_cache_file_tag_cache::c_instance_iterator it = base_cache->create_iterator('obje'); it.next();)
+	{
+		long tag_index = it.tag_index;
+		if (!base_cache->valid_tag(tag_index))
+			continue;
+		char const *name = base_cache->get_tag_name(tag_index);
+		if (!name)
+			continue;
+		runtime_tags_by_name.emplace(s_name_lookup_key{ it.group.tags[0], name }, tag_index);
+	}
+	IMod *mod = c_mod_system::GetModManager().GetMod(kGame);
+	if (mod)
+	{
+		c_mod_package *mod_package = mod->GetPak(true);
+		if (!mod_package)
+			return false;
+		long cache_index = mod_package->get_tag_cache_index_for_map_id(map_variant->map_id);
+		if (cache_index == -1)
+		{
+			log_errorf("Mod package tag cache not found for map id: %d", map_variant->map_id);
+			return false;
+		}
+		while (mod->GetCacheIsLoading())
+		{
+			SwitchToThread();
+			((void (*const)())0x5063A0)();
+		}
+		std::shared_ptr<c_cache_file_interface> cache = mod->GetCache(true);
+		if (!cache)
+		{
+			log_errorf("Failed to open mod package tag cache");
+			return false;
+		}
+		std::shared_ptr<c_cache_file_tag_cache> mod_cache = cache->get_tag_cache();
+		long tag_count = base_cache->get_tag_count();
+		long counter = base_cache->get_tag_count();
+		c_cache_file_tag_cache::c_instance_iterator iterator = mod_cache->create_iterator(0xFFFFFFFF);
+		long used_mod_tag_count = 0;
+		while (iterator.next())
+		{
+			if (iterator.instance->definition_offset == iterator.instance->size)
+				continue;
+			if (in_tag_group(iterator.group, 'obje'))
+			{
+				long mod_tag_index = iterator.tag_index;
+				unsigned long mod_tag_group = iterator.instance->group.tags[0];
+				char const *mod_tag_name = mod_cache->get_tag_name(mod_tag_index);
+	#line 370 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\map_variant_tag_fixups.cpp"
+					assert(mod_tag_name);
+	#line 405 "C:\\Users\\zekken\\Desktop\\Project Hades\\Hades\\Source\\ElDorito\\Source\\mods\\map_variant_tag_fixups.cpp"
+				long runtime_tag_index = -1;
+				if (runtime_tag_index == -1)
+				{
+				runtime_tag_index = 0xFFFF - used_mod_tag_count - 1;
+				if (runtime_tag_index <= base_cache->get_tag_count())
+					return false;
+				runtime_tags_by_name.emplace(s_name_lookup_key{ mod_tag_group, mod_tag_name }, runtime_tag_index);
+				}
+			}
+			used_mod_tag_count++;
+		}
+	}
+	bool succeeded = true;
+	for (long i = 0; i < 256; i++)
+	{
+		s_variant_quota &palette_entry = map_variant->object_quotas[i];
+		if (palette_entry.definition_index == -1)
+			continue;
+		char const *const pe_tag_path = fixup_data->names[i];
+		if (!pe_tag_path[0])
+			continue;
+		char pe_tag_name[256];
+		unsigned long pe_group_tag;
+		if (!parse_tag_file_name(pe_tag_path, pe_tag_name, &pe_group_tag))
+		{
+			log_errorf("Invalid tag name: '%s'", pe_tag_path);
+			succeeded = false;
+			continue;
+		}
+		long runtime_tag_index = -1;
+		auto it = runtime_tags_by_name.find(s_name_lookup_key{ pe_group_tag, pe_tag_name });
+		if (it != runtime_tags_by_name.end())
+			runtime_tag_index = it->second;
+		if (runtime_tag_index == -1)
+		{
+			log_errorf("Missing tag '%s'", pe_tag_path);
+			succeeded = false;
+			continue;
+		}
+		if (runtime_tag_index != palette_entry.definition_index)
+			palette_entry.definition_index = runtime_tag_index;
+	}
+	return succeeded;
 }

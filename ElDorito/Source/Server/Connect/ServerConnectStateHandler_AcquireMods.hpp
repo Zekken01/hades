@@ -46,7 +46,6 @@ struct SSignatureVerificationResult
 	EError error; // 0x0
 	__int32 queueIndex; // 0x4
 	bool verified; // 0x8
-	unsigned char __pad0[3]; // 0x9
 	std::string tempFilePath; // 0xC
 	unsigned char computedHash[20]; // 0x28
 	SSignatureVerificationResult(SSignatureVerificationResult &); /* compiler_generated() */
@@ -58,6 +57,24 @@ struct SSignatureVerificationResult
 };
 #pragma pack(pop)
 static_assert(sizeof(SSignatureVerificationResult) == 60, "Invalid SSignatureVerificationResult size");
+
+struct SignatureVerificationJob
+{
+	std::string m_packagePath; // 0x0
+	bool m_finished; // 0x1C
+	unsigned char __pad0[3]; // 0x1D
+	SSignatureVerificationResult m_result; // 0x20 (hades: typed so the SignatureVerificationJob ctor constructs it as a member)
+public:
+	void Abort(SSignatureVerificationResult::EError error);
+	bool Update();
+	void Complete();
+	SignatureVerificationJob(int, std::string const &);
+	SSignatureVerificationResult const & GetResult();
+	~SignatureVerificationJob();
+public:
+	SignatureVerificationJob();
+};
+static_assert(sizeof(SignatureVerificationJob) == 92, "Invalid SignatureVerificationJob size");
 
 class CServerConnectStateHandler_AcquireMods :
 	public CServerConnectStateHandler

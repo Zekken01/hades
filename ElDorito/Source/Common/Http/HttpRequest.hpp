@@ -56,12 +56,12 @@ namespace Http
 		virtual void SetMethod(std::string) = 0;
 		virtual void SetUrl(std::string) = 0;
 		virtual void SetMaxRedirects(__int32) = 0;
-		virtual void SetBody(std::string &) = 0;
+		virtual void SetBody(std::string &&) = 0;  // hades: && (the PDB spells it &)
 		virtual void SetHeaders(Http::CHttpHeaders) = 0;
-		virtual void SetReceiver(std::function<bool __cdecl(char const *,unsigned int)> &) = 0;
+		virtual void SetReceiver(std::function<bool __cdecl(char const *,unsigned int)> &&) = 0;  // hades: && (the PDB spells it &)
 		virtual void SetReceiveBufferSize(unsigned __int32) = 0;
-		virtual void SetOnCompleted(std::function<void __cdecl(std::shared_ptr<Http::IHttpRequest>,bool)> &) = 0;
-		virtual void SetOnResponse(std::function<void __cdecl(std::shared_ptr<Http::IHttpRequest>)> &) = 0;
+		virtual void SetOnCompleted(std::function<void __cdecl(std::shared_ptr<Http::IHttpRequest>,bool)> &&) = 0;  // hades: && (the PDB spells it &)
+		virtual void SetOnResponse(std::function<void __cdecl(std::shared_ptr<Http::IHttpRequest>)> &&) = 0;  // hades: && (the PDB spells it &)
 		virtual bool Send() = 0;
 		virtual void Cancel() = 0;
 		IHttpRequest(Http::IHttpRequest const &); /* compiler_generated() */
@@ -81,7 +81,7 @@ static_assert(sizeof(Http::IHttpRequest) == 12, "Invalid Http::IHttpRequest size
 
 namespace Http
 {
-	_extern void _sub_10807710(Http::IHttpRequest *const);
+
 }
 
 /* ---------- private code */

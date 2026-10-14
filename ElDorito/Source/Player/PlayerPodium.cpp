@@ -67,6 +67,7 @@
 #include "ThirdParty/rapidjson/stream.h"
 #include "ThirdParty/rapidjson/stringbuffer.h"
 #include "ThirdParty/rapidjson/writer.h"
+#include "Utils/Logger.hpp"
 #include "Utils/Singleton.hpp"
 #include "Utils/String.hpp"
 #include "Web/Ui/Screen.hpp"
@@ -119,6 +120,7 @@
 #include <variant>
 #include <vector>
 #include "Modules/ModuleServer.hpp"  // hades: added for 0x106DF530
+#include "Player/PlayerInfo.hpp"  // hades: added for 0x106E0330
 #include <span>
 
 /* ---------- forward declarations */
@@ -255,8 +257,25 @@ namespace Blam
 
 /* ---------- prototypes */
 
+extern void (*const object_placement_data_new)(s_object_placement_data *, long, unsigned long, s_damage_owner *);  // hades: added for 0x106DD850
+extern void (*const player_refresh_object_appearance_full)(long, long);  // hades: added for 0x106DD850
+
+extern bool (*const game_is_multiplayer)();  // hades: added for 0x106DF660  // hades: added for 0x106DF660
+
+namespace Forge { namespace PodiumPoint { extern long FindPodiumObject(); } }  // hades: added for 0x106DFDA0
+namespace Player { extern real_point3d CalculateBipedPosition(real_point3d const *point, real_euler_angles3d const *euler, float distance, float right_distance); }  // hades: added for 0x106DFDA0
+extern void matrix4x3_rotation_to_angles(real_matrix4x3 const *matrix, real_euler_angles3d *angles);  // hades: added for 0x106DFDA0
+extern s_scenario **g_scenario_definition;  // hades: added for 0x106DFDA0
+extern s_object_data *(*const object_try_and_get_and_verify_type)(unsigned long, c_enum<enum e_object_type,long>);  // hades: added for 0x106DFDA0
+
+namespace Player { namespace PlayerNetworkUtil { extern long get_session_player_index_from_player_datum_index(long player_datum_index); } }  // hades: added for 0x106E0FB0
+
+extern bool (*const network_session_interface_get_squad_session)(c_network_session **);  // hades: added for 0x106DEB10
+namespace Player { namespace PlayerNetworkUtil { extern long get_player_datum_index_from_session_index(__int32 player_session_index); } } namespace Player { namespace Emblems { extern std::string BuildUrl(s_player_emblem_configuration emblem); } } extern void player_format_uid(char *string, unsigned long long id);  // hades: added for 0x106DEB10, 0x106E0330
+
 namespace Player
 {
+	namespace PlayerNetworkUtil { extern s_player_datum *get_player_from_session_index(__int32 player_session_index); }  // hades: added for 0x106DE730
 	namespace PlayerPodium
 	{
 		extern long GetModgCharacterIndexFromPlayer(s_player_datum *player);
@@ -352,10 +371,9 @@ namespace Player
 			return -1;
 		}
 
-		_extern void _sub_106DFDA0(short, short, float, float, float, float, float);
 		void RespawnPlayerOffset(short player_session_idx, short cutscene_camera_point_index, float distance_offset, float horizontal_offset, float vertical_offset, float yaw_offset, float pitch) // 0x106DFDA0
 		{
-			mangled_x86(MANGLED_TODO, "?RespawnPlayerOffset@PlayerPodium@Player@@YAXFFMMMMM@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?RespawnPlayerOffset@PlayerPodium@Player@@YAXFFMMMMM@Z");
 			// static ...; // 0x106E0138
 			// static ...; // 0x106E0130
 			// short player_session_idx;
@@ -366,51 +384,85 @@ namespace Player
 			// float yaw_offset;
 			// float pitch;
 			// Blam::Network::Session *session;
-			{
 				// s_scenario *const scnr;
-				{
 					// s_player_datum *player;
 					// c_tag_block<s_scenario_cutscene_camera_point> cutscenes;
-					{
 						// real_point3d newUnitPoint;
 						// float yaw;
 						// s_scenario_cutscene_camera_point cutscene_camera;
 						// bool isPodiumHack;
 						// s_scenario_cutscene_camera_point podiumCamera;
-						{
 							// long s_PodiumObjectIndex;
 							// s_object_data *scenObject;
-							{
 								// real_matrix4x3 podiumObjectTransform;
 								// real_euler_angles3d podiumObjectOrientation;
+			// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
+			// function call : real_matrix4x3 *(*const)(long, real_matrix4x3 *)
+
+			Blam::Network::Session *session = Blam::Network::GetActiveSession();
+			if (session && session->IsEstablished())
+			{
+				s_scenario *const scnr = *g_scenario_definition;
+				if (scnr)
+				{
+					s_player_datum *player = PlayerNetworkUtil::get_player_from_session_index(player_session_idx);
+					if (!player)
+					{
+						Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Game, Utils::LogLevel::Warning, std::format("Podium :: Player index '{}' failed to spawn because the player was not in the session.", player_session_idx));
+						return;
+					}
+					c_tag_block<s_scenario_cutscene_camera_point> cutscenes = scnr->cutscene_camera_points;
+					if (cutscenes.count > 0 && cutscene_camera_point_index < cutscenes.count)
+					{
+						s_scenario_cutscene_camera_point cutscene_camera = static_cast<s_scenario_cutscene_camera_point const &>(cutscenes[cutscene_camera_point_index]);
+						bool isPodiumHack = cutscene_camera.flags & 4;
+						s_scenario_cutscene_camera_point podiumCamera = static_cast<s_scenario_cutscene_camera_point const &>(cutscene_camera);
+						if (isPodiumHack && ForgeCanOverride())
+						{
+							long s_PodiumObjectIndex = Forge::PodiumPoint::FindPodiumObject();
+							s_object_data *scenObject = object_try_and_get_and_verify_type(s_PodiumObjectIndex, 0x80);
+							if (s_PodiumObjectIndex != -1 && scenObject)
+							{
+								real_matrix4x3 podiumObjectTransform;
+								real_euler_angles3d podiumObjectOrientation;
+								((real_matrix4x3 *(*const)(long, real_matrix4x3 *))0xB2EC60)(s_PodiumObjectIndex, &podiumObjectTransform);
+								matrix4x3_rotation_to_angles(&podiumObjectTransform, &podiumObjectOrientation);
+								podiumCamera.position.x = podiumObjectTransform.position.x;
+								podiumCamera.position.y = podiumObjectTransform.position.y;
+								podiumCamera.position.z = podiumObjectTransform.position.z;
+								podiumCamera.orientation.yaw = podiumObjectOrientation.yaw;
+								podiumCamera.orientation.pitch = 0.0f;
+								podiumCamera.orientation.roll = 0.0f;
 							}
 						}
+						float yaw = podiumCamera.orientation.yaw * 57.29578f + yaw_offset;
+						real_point3d newUnitPoint = CalculateBipedPosition(&podiumCamera.position, &podiumCamera.orientation, distance_offset, -horizontal_offset);
+						newUnitPoint.z += vertical_offset + 0.02;
+						UpdatePlayerState(player_session_idx, newUnitPoint, yaw, pitch, true);
 					}
 				}
 			}
-			// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-			// function call : real_matrix4x3 *(*const)(long, real_matrix4x3 *)
-			todo("implement");
-			_sub_106DFDA0(player_session_idx, cutscene_camera_point_index, distance_offset, horizontal_offset, vertical_offset, yaw_offset, pitch);
 		}
 
-		_extern void _sub_106DFC60(short, real_point3d const &, float, float);
 		void RespawnPlayer(short player_session_idx, real_point3d const &position, float yaw, float pitch) // 0x106DFC60
 		{
-			mangled_x86(MANGLED_TODO, "?RespawnPlayer@PlayerPodium@Player@@YAXFABUreal_point3d@@MM@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?RespawnPlayer@PlayerPodium@Player@@YAXFABUreal_point3d@@MM@Z");
 			// float pitch;
-			{
 				// s_player_datum *player;
-			}
 			// function call : bool (*const)()
-			todo("implement");
-			_sub_106DFC60(player_session_idx, position, yaw, pitch);
+
+			if (((bool (*const)())0x5319C0)())
+			{
+				if (s_player_datum *player = PlayerNetworkUtil::get_player_from_session_index(player_session_idx))
+					UpdatePlayerState(player_session_idx, position, yaw, pitch, true);
+				else
+					Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Game, Utils::LogLevel::Warning, std::format("Podium :: Player index '{}' failed to spawn because the player was not in the session.", player_session_idx));
+			}
 		}
 
-		_extern void _sub_106E0330(short, short);
 		void ShowPlace(short desiredPlace, short stats_player_session_idx) // 0x106E0330
 		{
-			mangled_x86(MANGLED_TODO, "?ShowPlace@PlayerPodium@Player@@YAXFF@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ShowPlace@PlayerPodium@Player@@YAXFF@Z");
 			// static ...; // 0x106E0D18
 			// static ...; // 0x106E0D0C
 			// static ...; // 0x106E0D01
@@ -425,50 +477,131 @@ namespace Player
 			// short stats_player_session_idx;
 			// long (*const game_engine_get_player_place)(long);
 			// c_network_session *session;
-			{
 				// c_game_statborg *scoreboard;
 				// std::vector<Player::PlayerPodium::PlayerPlace> player_places;
-				{
 					// long i;
-					{
 						// s_player_datum *player;
 						// long player_datum_index;
-						{
 							// long place;
-						}
-					}
-				}
-				{
 					// s_player_datum *extra_stats_player;
 					// std::string playersInfo;
-					{
 						// short player_session_idx;
-						{
 							// s_player_datum *player;
 							// long player_datum_index;
-							{
 								// char uid[17];
 								// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
 								// c_game_statborg::s_player_row const &scores;
 								// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
+						// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
+						// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
+							// char uid[17];
+							// c_game_statborg::s_player_row const &scores;
+			// function call : bool (*const)(c_network_session **)
+			// function call : long (*const)(long)
+			// function call : c_game_statborg *(*const)()
+
+			long (*const game_engine_get_player_place)(long) = (long (*)(long))0x5506F0;
+			c_network_session *session;
+			if (network_session_interface_get_squad_session(&session))
+			{
+				if (desiredPlace == -1 && stats_player_session_idx == -1)
+				{
+					Web::Ui::ScreenLayer::NotifyScreen(Web::Ui::ScreenLayer::Podium, "podium_hide", "{}");
+				}
+				else
+				{
+					desiredPlace = desiredPlace - 1;
+					std::vector<PlayerPlace> player_places;
+					for (long i = 0; i < 16; i++)
+					{
+						if (session->get_session_membership()->is_player_valid(i))
+						{
+							long player_datum_index = PlayerNetworkUtil::get_player_datum_index_from_session_index(i);
+							s_player_datum *player = players_get()->try_and_get(player_datum_index);
+							if (player)
+							{
+								long place = game_engine_get_player_place(player_datum_index);
+								player_places.push_back({ (short)i, (short)place });
 							}
 						}
 					}
+					std::sort(player_places.begin(), player_places.end());
+					c_game_statborg *scoreboard = ((c_game_statborg *(*const)())0x550B80)();
+					if (scoreboard)
 					{
-						// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
-						// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
+						std::string playersInfo = Modules::ModuleServer::Instance().VarPlayersInfoClient->ValueString;
+						if (playersInfo.empty() || playersInfo == "{}")
+							playersInfo = Player::CPlayersInfo::GeneratePlayerInfo();
+						if (player_places.size() > 0 && desiredPlace < (short)player_places.size())
 						{
-							// char uid[17];
-							// c_game_statborg::s_player_row const &scores;
+							short player_session_idx = player_places[desiredPlace].player_session_idx;
+							if (session->get_session_membership()->is_player_valid(player_session_idx))
+							{
+								long player_datum_index = PlayerNetworkUtil::get_player_datum_index_from_session_index(player_session_idx);
+								s_player_datum *player = players_get()->try_and_get(player_datum_index);
+								if (player)
+								{
+									rapidjson::StringBuffer jsonBuffer;
+									rapidjson::Writer<rapidjson::StringBuffer> jsonWriter(jsonBuffer);
+									c_game_statborg::s_player_row const &scores = scoreboard->players[player_datum_index & 0xF];
+									jsonWriter.StartObject();
+									jsonWriter.Key("extraStats");
+									jsonWriter.Bool(false);
+									jsonWriter.Key("place");
+									jsonWriter.Int(desiredPlace);
+									jsonWriter.Key("playerIndex");
+									jsonWriter.Int(player_session_idx);
+									jsonWriter.Key("playername");
+									jsonWriter.String(Utils::String::ThinString(player->configuration.host.player_name).c_str());
+									jsonWriter.Key("uid");
+									char uid[17];
+									player_format_uid(uid, player->configuration.host.player_uid);
+									jsonWriter.String(uid);
+									jsonWriter.Key("score");
+									jsonWriter.Int(scores.total_score);
+									jsonWriter.Key("playersInfo");
+									jsonWriter.RawValue(playersInfo.c_str(), playersInfo.size(), rapidjson::kObjectType);
+									jsonWriter.Key("emblem");
+									jsonWriter.String(Player::Emblems::BuildUrl(player->configuration.host.appearance.emblem_config).c_str());
+									jsonWriter.EndObject();
+									Web::Ui::ScreenLayer::NotifyScreen(Web::Ui::ScreenLayer::Podium, "podium", jsonBuffer.GetString());
+								}
+							}
+						}
+						s_player_datum *extra_stats_player = PlayerNetworkUtil::get_player_from_session_index(stats_player_session_idx);
+						if (stats_player_session_idx != -1 && extra_stats_player && extra_stats_player)
+						{
+							rapidjson::StringBuffer jsonBuffer;
+							rapidjson::Writer<rapidjson::StringBuffer> jsonWriter(jsonBuffer);
+							long player_datum_index = PlayerNetworkUtil::get_player_datum_index_from_session_index(stats_player_session_idx);
+							s_player_datum *player = players_get()->try_and_get(player_datum_index);
+							if (player)
+							{
+								c_game_statborg::s_player_row const &scores = scoreboard->players[player_datum_index & 0xF];
+								jsonWriter.StartObject();
+								jsonWriter.Key("extraStats");
+								jsonWriter.Bool(true);
+								jsonWriter.Key("kills");
+								jsonWriter.Int(scores.kills);
+								jsonWriter.Key("assists");
+								jsonWriter.Int(scores.assists);
+								jsonWriter.Key("deaths");
+								jsonWriter.Int(scores.deaths);
+								jsonWriter.Key("streak");
+								jsonWriter.Int(scores.consecutive_kills);
+								jsonWriter.Key("uid");
+								char uid[17];
+								player_format_uid(uid, extra_stats_player->configuration.host.player_uid);
+								jsonWriter.String(uid);
+								jsonWriter.Key("playersInfo");
+								jsonWriter.RawValue(playersInfo.c_str(), playersInfo.size(), rapidjson::kObjectType);
+								jsonWriter.EndObject();
+								Web::Ui::ScreenLayer::NotifyScreen(Web::Ui::ScreenLayer::Podium, "podium", jsonBuffer.GetString());
+							}
 						}
 					}
 				}
 			}
-			// function call : bool (*const)(c_network_session **)
-			// function call : long (*const)(long)
-			// function call : c_game_statborg *(*const)()
-			todo("implement");
-			_sub_106E0330(desiredPlace, stats_player_session_idx);
 		}
 	}
 }
@@ -480,107 +613,154 @@ namespace Player
 {
 	namespace PlayerPodium
 	{
-		_extern short _sub_106DE5D0(short);
 		short GetPlayerAnimationCount(short player_session_idx) // 0x106DE5D0
 		{
-			mangled_x86(MANGLED_TODO, "?GetPlayerAnimationCount@PlayerPodium@Player@@YAFF@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetPlayerAnimationCount@PlayerPodium@Player@@YAFF@Z");
 			// short player_session_idx;
 			// Blam::Network::Session *session;
-			{
 				// s_player_datum *player;
 				// s_game_globals *matg;
-				{
 					// s_multiplayer_globals_definition *mulg;
 					// long characterTypeIndex;
+			// function call : void *(*const)(unsigned long, long)
+
+			Blam::Network::Session *session = Blam::Network::GetActiveSession();
+			if (session && session->IsEstablished())
+			{
+				s_player_datum *player = PlayerNetworkUtil::get_player_from_session_index(player_session_idx);
+				s_game_globals *matg = game_globals_get();
+				if (player && matg)
+				{
+					s_multiplayer_globals_definition *mulg = (s_multiplayer_globals_definition *)tag_get('mulg', matg->MultiplayerGlobals.index);
+					long characterTypeIndex = GetModgCharacterIndexFromPlayer(player);
+					if (mulg && characterTypeIndex >= 0 && characterTypeIndex < matg->player_character_types.count && characterTypeIndex < mulg->universal->podium_animations.count)
+						return mulg->universal->podium_animations[characterTypeIndex].move_animations.count;
 				}
 			}
-			// function call : void *(*const)(unsigned long, long)
-			todo("implement");
-			short __result = _sub_106DE5D0(player_session_idx);
-			return __result;
+			return -1;
 		}
 
-		_extern long _sub_106DE730(short);
 		long GetPlayerAnimationGraph(short player_session_idx) // 0x106DE730
 		{
-			mangled_x86(MANGLED_TODO, "?GetPlayerAnimationGraph@PlayerPodium@Player@@YAJF@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetPlayerAnimationGraph@PlayerPodium@Player@@YAJF@Z");
 			// short player_session_idx;
 			// Blam::Network::Session *session;
-			{
 				// s_player_datum *player;
 				// s_game_globals *matg;
-				{
 					// s_multiplayer_globals_definition *mulg;
 					// long characterTypeIndex;
+			// function call : void *(*const)(unsigned long, long)
+
+			Blam::Network::Session *session = Blam::Network::GetActiveSession();
+			if (session && session->IsEstablished())
+			{
+				s_player_datum *player = PlayerNetworkUtil::get_player_from_session_index(player_session_idx);
+				s_game_globals *matg = game_globals_get();
+				if (player && matg)
+				{
+					s_multiplayer_globals_definition *mulg = (s_multiplayer_globals_definition *)tag_get('mulg', matg->MultiplayerGlobals.index);
+					long characterTypeIndex = GetModgCharacterIndexFromPlayer(player);
+					if (mulg && characterTypeIndex >= 0 && characterTypeIndex < mulg->universal->podium_animations.count)
+						return mulg->universal->podium_animations[characterTypeIndex].animation_graph.index;
 				}
 			}
-			// function call : void *(*const)(unsigned long, long)
-			todo("implement");
-			long __result = _sub_106DE730(player_session_idx);
-			return __result;
+			return -1;
 		}
 
-		_extern unsigned long _sub_106DE880(short, short, short);
 		unsigned long GetPlayerAnimationString(short player_session_idx, short animationType, short animationIndex) // 0x106DE880
 		{
-			mangled_x86(MANGLED_TODO, "?GetPlayerAnimationString@PlayerPodium@Player@@YAKFFF@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetPlayerAnimationString@PlayerPodium@Player@@YAKFFF@Z");
 			// short animationIndex;
 			// Blam::Network::Session *session;
-			{
 				// s_player_datum *player;
 				// s_game_globals *matg;
-				{
 					// s_multiplayer_globals_definition *mulg;
 					// long characterTypeIndex;
-				}
-			}
 			// function call : void *(*const)(unsigned long, long)
-			todo("implement");
-			unsigned long __result = _sub_106DE880(player_session_idx, animationType, animationIndex);
-			return __result;
-		}
 
-		_extern long _sub_106DE2C0(short, short, bool);
-		long GetAnimationWeaponIndex(short player_session_idx, short animationIndex, bool isPrimary) // 0x106DE2C0
-		{
-			mangled_x86(MANGLED_TODO, "?GetAnimationWeaponIndex@PlayerPodium@Player@@YAJFF_N@Z");
-			// bool isPrimary;
-			// Blam::Network::Session *session;
+			Blam::Network::Session *session = Blam::Network::GetActiveSession();
+			if (session && session->IsEstablished())
 			{
-				// s_player_datum *player;
-				// s_game_globals *matg;
+				s_player_datum *player = PlayerNetworkUtil::get_player_from_session_index(player_session_idx);
+				s_game_globals *matg = game_globals_get();
+				if (player && matg)
 				{
-					// s_multiplayer_globals_definition *mulg;
-					// long characterTypeIndex;
+					s_multiplayer_globals_definition *mulg = (s_multiplayer_globals_definition *)tag_get('mulg', matg->MultiplayerGlobals.index);
+					long characterTypeIndex = GetModgCharacterIndexFromPlayer(player);
+					if (mulg && characterTypeIndex >= 0 && characterTypeIndex < mulg->universal->podium_animations.count && animationIndex >= 0 && animationIndex < mulg->universal->podium_animations[characterTypeIndex].move_animations.count)
 					{
-						// unsigned long weapon;
+						if (animationType == 0)
+							return mulg->universal->podium_animations[characterTypeIndex].move_animations[animationIndex].in_animation;
+						if (animationType == 1)
+							return mulg->universal->podium_animations[characterTypeIndex].move_animations[animationIndex].loop_animation;
+						if (animationType == 2)
+							return mulg->universal->podium_animations[characterTypeIndex].move_animations[animationIndex].out_animation;
 					}
 				}
 			}
-			// function call : void *(*const)(unsigned long, long)
-			todo("implement");
-			long __result = _sub_106DE2C0(player_session_idx, animationIndex, isPrimary);
-			return __result;
+			return -1;
 		}
 
-		_extern float _sub_106DE110(short, short);
-		float GetAnimationOffset(short player_session_idx, short animationIndex) // 0x106DE110
+		long GetAnimationWeaponIndex(short player_session_idx, short animationIndex, bool isPrimary) // 0x106DE2C0
 		{
-			mangled_x86(MANGLED_TODO, "?GetAnimationOffset@PlayerPodium@Player@@YAMFF@Z");
-			// short animationIndex;
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetAnimationWeaponIndex@PlayerPodium@Player@@YAJFF_N@Z");
+			// bool isPrimary;
 			// Blam::Network::Session *session;
-			{
 				// s_player_datum *player;
 				// s_game_globals *matg;
-				{
 					// s_multiplayer_globals_definition *mulg;
 					// long characterTypeIndex;
+						// unsigned long weapon;
+			// function call : void *(*const)(unsigned long, long)
+
+			Blam::Network::Session *session = Blam::Network::GetActiveSession();
+			if (session && session->IsEstablished())
+			{
+				s_player_datum *player = PlayerNetworkUtil::get_player_from_session_index(player_session_idx);
+				s_game_globals *matg = game_globals_get();
+				if (player && matg)
+				{
+					s_multiplayer_globals_definition *mulg = (s_multiplayer_globals_definition *)tag_get('mulg', matg->MultiplayerGlobals.index);
+					long characterTypeIndex = GetModgCharacterIndexFromPlayer(player);
+					if (mulg && characterTypeIndex >= 0 && characterTypeIndex < mulg->universal->podium_animations.count && animationIndex >= 0 && animationIndex < mulg->universal->podium_animations[characterTypeIndex].move_animations.count)
+					{
+						unsigned long weapon;
+						if (isPrimary)
+							weapon = mulg->universal->podium_animations[characterTypeIndex].move_animations[animationIndex].primary_weapon.index;
+						else
+							weapon = mulg->universal->podium_animations[characterTypeIndex].move_animations[animationIndex].secondary_weapon.index;
+						return weapon;
+					}
 				}
 			}
+			return -1;
+		}
+
+		float GetAnimationOffset(short player_session_idx, short animationIndex) // 0x106DE110
+		{
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetAnimationOffset@PlayerPodium@Player@@YAMFF@Z");
+			// short animationIndex;
+			// Blam::Network::Session *session;
+				// s_player_datum *player;
+				// s_game_globals *matg;
+					// s_multiplayer_globals_definition *mulg;
+					// long characterTypeIndex;
 			// function call : void *(*const)(unsigned long, long)
-			todo("implement");
-			float __result = _sub_106DE110(player_session_idx, animationIndex);
-			return __result;
+
+			Blam::Network::Session *session = Blam::Network::GetActiveSession();
+			if (session && session->IsEstablished())
+			{
+				s_player_datum *player = PlayerNetworkUtil::get_player_from_session_index(player_session_idx);
+				s_game_globals *matg = game_globals_get();
+				if (player && matg)
+				{
+					s_multiplayer_globals_definition *mulg = (s_multiplayer_globals_definition *)tag_get('mulg', matg->MultiplayerGlobals.index);
+					long characterTypeIndex = GetModgCharacterIndexFromPlayer(player);
+					if (mulg && characterTypeIndex >= 0 && characterTypeIndex < mulg->universal->podium_animations.count && animationIndex >= 0 && animationIndex < mulg->universal->podium_animations[characterTypeIndex].move_animations.count)
+						return mulg->universal->podium_animations[characterTypeIndex].move_animations[animationIndex].biped_offset_distance;
+				}
+			}
+			return 0.0f;
 		}
 
 		void ResetStates() // 0x106DFC20
@@ -685,10 +865,9 @@ namespace Player
 			}
 		}
 
-		_extern void _sub_106DF660();
 		void PodiumTick() // 0x106DF660
 		{
-			mangled_x86(MANGLED_TODO, "?PodiumTick@PlayerPodium@Player@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?PodiumTick@PlayerPodium@Player@@YAXXZ");
 			// procedure flags: nofpo
 			// static ...; // 0x106DFA6B
 			// static ...; // 0x106DFA60
@@ -697,14 +876,10 @@ namespace Player
 			// static bool (*IsMapLoading)(); // 0x1134D6CC
 			// static bool (*InPrematchState)(char); // 0x1134D6C8
 			// long roundTime;
-			{
 				// long s_PodiumObjectIndex;
 				// s_object_data *scenObject;
-			}
-			{
 				// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
 				// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
-			}
 			// function call : long (*const)()
 			// function call : bool (*const)()
 			// function call : bool (*)(char)
@@ -718,14 +893,54 @@ namespace Player
 			// function call : c_game_engine *(*const)()
 			// function call : bool (*const)()
 			// function call : bool (*)()
-			todo("implement");
-			_sub_106DF660();
+
+			static bool (*InPrematchState)(char) = (bool (*)(char))0x5523A0;
+			static bool (*IsMapLoading)() = (bool (*)())0x5670E0;
+			long roundTime = ((long (*const)())0x5523D0)();
+			if (!game_is_multiplayer())
+				return;
+			if (InPrematchState(4))
+			{
+				podiumReady = false;
+				return;
+			}
+			if (((bool (*const)())0x550F90)())
+				podiumReady = true;
+			if (((c_game_engine *(*const)())0x5CE150)() && ((bool (*const)())0x531B20)() && ((c_game_statborg *(*const)())0x550B80)() && ((c_game_statborg *(*const)())0x550B80)()->finalized && podiumReady && !s_PodiumStates.inPostGame && PodiumEnabled())
+			{
+				if (((bool (*const)())0x5319C0)())
+				{
+					long s_PodiumObjectIndex = Forge::PodiumPoint::FindPodiumObject();
+					s_object_data *scenObject = object_try_and_get_and_verify_type(s_PodiumObjectIndex, 0x80);
+					if (Modules::ModuleServer::Instance().VarServerPodiumEnabled->ValueInt == 2 && s_PodiumObjectIndex != -1 && scenObject)
+						Scripting::HS::ExecuteScript("podium", {});
+					else if (Modules::ModuleServer::Instance().VarServerPodiumEnabled->ValueInt == 1)
+						Scripting::HS::ExecuteScript("podium", {});
+				}
+				s_PodiumStates.inPostGame = true;
+			}
+			else if (((c_game_engine *(*const)())0x5CE150)() && !((bool (*const)())0x531B20)() && s_PodiumStates.inPostGame)
+			{
+				s_PodiumStates.inPostGame = false;
+			}
+			if (IsMapLoading() && s_PodiumStates.inPostGame)
+			{
+				rapidjson::StringBuffer jsonBuffer;
+				rapidjson::Writer<rapidjson::StringBuffer> jsonWriter(jsonBuffer);
+				jsonWriter.StartObject();
+				jsonWriter.Key("scoreboard");
+				jsonWriter.Bool(false);
+				jsonWriter.EndObject();
+				Web::Ui::ScreenLayer::NotifyScreen(Web::Ui::ScreenLayer::Podium, "podium_hide", jsonBuffer.GetString());
+				ResetStates();
+				podiumReady = false;
+				forgeOverrideAllowed = false;
+			}
 		}
 
-		_extern short _sub_106DEB10(short);
 		short GetPlayerSessionIndexByLeaderboardPlace(short leaderboardPlace) // 0x106DEB10
 		{
-			mangled_x86(MANGLED_TODO, "?GetPlayerSessionIndexByLeaderboardPlace@PlayerPodium@Player@@YAFF@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetPlayerSessionIndexByLeaderboardPlace@PlayerPodium@Player@@YAFF@Z");
 			// static ...; // 0x106DED46
 			// static ...; // 0x106DED38
 			// static ...; // 0x106DED20
@@ -733,27 +948,42 @@ namespace Player
 			// short leaderboardPlace;
 			// long (*const game_engine_get_player_place)(long);
 			// c_network_session *session;
-			{
 				// std::vector<Player::PlayerPodium::PlayerPlace> player_places;
-				{
 					// long i;
-					{
 						// s_player_datum *player;
 						// long datum_index;
-						{
 							// long place;
+					// short player_session_idx;
+			// function call : bool (*const)(c_network_session **)
+			// function call : long (*const)(long)
+
+			leaderboardPlace = leaderboardPlace - 1;
+			long (*const game_engine_get_player_place)(long) = (long (*)(long))0x5506F0;
+			c_network_session *session;
+			if (network_session_interface_get_squad_session(&session))
+			{
+				std::vector<PlayerPlace> player_places;
+				for (long i = 0; i < 16; i++)
+				{
+					if (session->get_session_membership()->is_player_valid(i))
+					{
+						long datum_index = PlayerNetworkUtil::get_player_datum_index_from_session_index(i);
+						s_player_datum *player = players_get()->try_and_get(datum_index);
+						if (player)
+						{
+							long place = game_engine_get_player_place(datum_index);
+							player_places.push_back({ (short)i, (short)place });
 						}
 					}
 				}
+				if (player_places.size() > 0 && leaderboardPlace < (short)player_places.size())
 				{
-					// short player_session_idx;
+					std::sort(player_places.begin(), player_places.end());
+					short player_session_idx = player_places[leaderboardPlace].player_session_idx;
+					return player_session_idx;
 				}
 			}
-			// function call : bool (*const)(c_network_session **)
-			// function call : long (*const)(long)
-			todo("implement");
-			short __result = _sub_106DEB10(leaderboardPlace);
-			return __result;
+			return -1;
 		}
 
 		long GetPodiumRespawnEffectIndex(short place) // 0x106DF130
@@ -780,10 +1010,9 @@ namespace Player
 			return -1;
 		}
 
-		_extern float _sub_106DEDE0(char const *, short);
 		float GetPodiumBipedOffset(char const *offset_type, short place) // 0x106DEDE0
 		{
-			mangled_x86(MANGLED_TODO, "?GetPodiumBipedOffset@PlayerPodium@Player@@YAMPBDF@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetPodiumBipedOffset@PlayerPodium@Player@@YAMPBDF@Z");
 			// static ...; // 0x106DEF84
 		// $LN12:
 		// $LN11:
@@ -795,19 +1024,40 @@ namespace Player
 			// char const *offset_type;
 			// short place;
 			// s_game_globals *matg;
-			{
 				// void *podium;
-				{
 					// s_podium_settings *podium_settings;
-					{
 						// s_podium_biped const &biped;
+			// function call : void *(*const)(unsigned long, long)
+
+			s_game_globals *matg = game_globals_get();
+			if (matg)
+			{
+				void *podium = tag_try_and_get_and_verify_group(0x70646D21, matg->PodiumDefinition.index);
+				if (podium)
+				{
+					s_podium_settings *podium_settings = (s_podium_settings *)tag_get(0x70646D21, matg->PodiumDefinition.index);
+					if (podium_settings && place >= 0 && place < podium_settings->podium_bipeds.count)
+					{
+						s_podium_biped const &biped = podium_settings->podium_bipeds[place];
+						switch (offset_type[0])
+						{
+						case 'x':
+							return biped.offset_x;
+						case 'y':
+							return biped.offset_y;
+						case 'z':
+							return biped.offset_z;
+						case 'i':
+							return biped.orientation_offset_y * 57.29577951308232;
+						case 'j':
+							return biped.orientation_offset_p * 57.29577951308232;
+						case 'k':
+							return biped.orientation_offset_r * 57.29577951308232;
+						}
 					}
 				}
 			}
-			// function call : void *(*const)(unsigned long, long)
-			todo("implement");
-			float __result = _sub_106DEDE0(offset_type, place);
-			return __result;
+			return 0.0f;
 		}
 
 		long GetPodiumBipedSpawnDelay(short place) // 0x106DF030
@@ -858,10 +1108,9 @@ namespace Player
 			return 0;
 		}
 
-		_extern void _sub_106DD850(long, real_point3d, real_vector3d);
 		void DoSpawnPlayer(long target_player_datum_index, real_point3d position, real_vector3d forward) // 0x106DD850
 		{
-			mangled_x86(MANGLED_TODO, "?DoSpawnPlayer@PlayerPodium@Player@@YAXJUreal_point3d@@Ureal_vector3d@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?DoSpawnPlayer@PlayerPodium@Player@@YAXJUreal_point3d@@Ureal_vector3d@@@Z");
 			// static ...; // 0x106DDF04
 			// static ...; // 0x106DDEE0
 			// static ...; // 0x106DDED8
@@ -886,14 +1135,55 @@ namespace Player
 			// function call : s_player_model_customization *(*const)(s_player_datum *)
 			// function call : void (*const)(void *, long)
 			// function call : void (*const)(long)
-			todo("implement");
-			_sub_106DD850(target_player_datum_index, position, forward);
+
+			void (*const player_find_player_character_unit_and_variant_info)(long, long *, unsigned long *) = (void (*)(long, long *, unsigned long *))0x539F70;
+			void (*const player_set_unit_index)(long, long) = (void (*)(long, long))0x53CA80;
+			s_player_model_customization *(*const player_get_model_customization)(s_player_datum *) = (s_player_model_customization *(*)(s_player_datum *))0x536000;
+			void (*const player_model_customize)(void *, long) = (void (*)(void *, long))0x5A4430;
+			void (*const objects_scripting_set_scale)(unsigned __int32, float, float) = (void (*)(unsigned __int32, float, float))0xB965C0;
+			long biped_definition_index = -1;
+			unsigned long variant_name = 0;
+			s_player_datum *player = player_get(target_player_datum_index);
+			if (!player)
+			{
+				Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Game, Utils::LogLevel::Warning, std::format("Podium :: Player index '{}' failed to spawn because the player could not be found.", target_player_datum_index));
+				return;
+			}
+			if (player->character_type_index == -1)
+			{
+				Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Game, Utils::LogLevel::Warning, std::format("Podium :: Player '{}' '{}' failed to spawn because they did not have a character type set", target_player_datum_index, Utils::String::ThinString(player->configuration.host.player_name)));
+				return;
+			}
+			player_find_player_character_unit_and_variant_info(target_player_datum_index, &biped_definition_index, &variant_name);
+			if (biped_definition_index == -1)
+			{
+				Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Game, Utils::LogLevel::Warning, std::format("Podium :: Player '{}' '{}' failed to spawn because the player biped definition index was null.", target_player_datum_index, Utils::String::ThinString(player->configuration.host.player_name)));
+				return;
+			}
+			player->powerup_pickup_times[0] = 0;
+			player->powerup_pickup_times[1] = 0;
+			player->powerup_pickup_times[2] = 0;
+			s_object_placement_data placement_data = {};
+			object_placement_data_new(&placement_data, biped_definition_index, -1, nullptr);
+			placement_data.variant_name = variant_name;
+			placement_data.relative_position = { position.x, position.y, position.z };
+			placement_data.forward = forward;
+			placement_data.up = global_up3d;
+			long biped_index = ((long (*)(s_object_placement_data *))0xB30440)(&placement_data);
+			if (biped_index == -1)
+			{
+				Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Game, Utils::LogLevel::Warning, std::format("Podium :: Player '{}' '{}' failed to spawn because of an unknown error creating the object.", target_player_datum_index, Utils::String::ThinString(player->configuration.host.player_name)));
+				return;
+			}
+			player_set_unit_index(target_player_datum_index, biped_index);
+			player_refresh_object_appearance_full(target_player_datum_index, biped_index);
+			player_model_customize(player_get_model_customization(player), biped_index);
+			((void (*)(long))0x4B2CD0)(biped_index);
 		}
 
-		_extern void _sub_106E0FB0(long);
 		void UpdatePlayer(long player_datum_index) // 0x106E0FB0
 		{
-			mangled_x86(MANGLED_TODO, "?UpdatePlayer@PlayerPodium@Player@@YAXJ@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?UpdatePlayer@PlayerPodium@Player@@YAXJ@Z");
 			// static ...; // 0x106E118C
 			// static ...; // 0x106E1184
 			// static ...; // 0x106E116C
@@ -901,29 +1191,51 @@ namespace Player
 			// long player_datum_index;
 			// void (*const simulation_action_object_update)(long, c_flags<long,__int64> *);
 			// Blam::Network::Session *session;
-			{
 				// long player_session_idx;
-				{
 					// Player::PlayerPodium::HaloScriptPlayerModelState::PlayerPositions playerState;
-					{
 						// real_vector3d forward;
 						// float angle_radians_vertical;
 						// float angle_radians_horizontal;
+			// function call : bool (*const)()
+
+			void (*const simulation_action_object_update)(long, c_flags<long, __int64> *) = reinterpret_cast<void (*)(long, c_flags<long, __int64> *)>(0x4B3010);
+			Blam::Network::Session *session = Blam::Network::GetActiveSession();
+			if (session)
+			{
+				long player_session_idx = Player::PlayerNetworkUtil::get_session_player_index_from_player_datum_index(player_datum_index);
+				if (player_session_idx != -1)
+				{
+					HaloScriptPlayerModelState::PlayerPositions playerState = s_PodiumPlayerStates.player[player_session_idx];
+					if (((bool (*const)())0x5319C0)() && playerState.dirty)
+					{
+						real_vector3d forward;
+						float angle_radians_vertical = playerState.yaw / 180.0f * 3.1415927f;
+						float angle_radians_horizontal = playerState.pitch / 180.0f * 3.1415927f;
+						forward.i = cos(angle_radians_vertical);
+						forward.j = sin(angle_radians_vertical);
+						forward.k = -cos(angle_radians_horizontal);
+						DoSpawnPlayer(player_datum_index, playerState.position, forward);
+						s_PodiumPlayerStates.player[player_session_idx].dirty = false;
+						s_PodiumPlayerStates.player[player_session_idx].forceRespawn = false;
 					}
 				}
 			}
-			// function call : bool (*const)()
-			todo("implement");
-			_sub_106E0FB0(player_datum_index);
 		}
 
-		_extern void _sub_106E1220(long, real_point3d, float, float, bool);
 		void UpdatePlayerState(long player_session_idx, real_point3d position, float yaw, float pitch, bool respawn) // 0x106E1220
 		{
-			mangled_x86(MANGLED_TODO, "?UpdatePlayerState@PlayerPodium@Player@@YAXJUreal_point3d@@MM_N@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?UpdatePlayerState@PlayerPodium@Player@@YAXJUreal_point3d@@MM_N@Z");
 			// bool respawn;
-			todo("implement");
-			_sub_106E1220(player_session_idx, position, yaw, pitch, respawn);
+
+			#line 1227 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Player\\PlayerPodium.cpp"
+				assert(player_session_idx >= 0 && player_session_idx < 16);
+				#line 1233 "C:\\Users\\zekken\\Desktop\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Player\\PlayerPodium.cpp"
+			s_PodiumPlayerStates.player[player_session_idx] = {};
+			s_PodiumPlayerStates.player[player_session_idx].position = position;
+			s_PodiumPlayerStates.player[player_session_idx].yaw = yaw;
+			s_PodiumPlayerStates.player[player_session_idx].pitch = pitch;
+			s_PodiumPlayerStates.player[player_session_idx].forceRespawn = respawn;
+			s_PodiumPlayerStates.player[player_session_idx].dirty = true;
 		}
 
 		void Init() // 0x106DF3C0

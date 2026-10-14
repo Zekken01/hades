@@ -39,7 +39,6 @@ struct s_render_object_info
 	short region_transparent_sort_indices[16]; // 0x3E
 	short lod_type; // 0x5E
 	short lightmap_object_index; // 0x60
-	unsigned char __pad1[2]; // 0x62
 	long clipping_mask; // 0x64
 	s_shader_extern_info *render_info; // 0x68
 };

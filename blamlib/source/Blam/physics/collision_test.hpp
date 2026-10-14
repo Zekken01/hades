@@ -31,7 +31,6 @@ struct s_collision_result
 	s_cluster_reference cluster_reference; // 0x16
 	c_collision_bsp_reference collision_bsp_reference; // 0x18
 	short global_material_type; // 0x20
-	unsigned char __pad0[2]; // 0x22
 	real_plane3d plane; // 0x24
 	long instance_geometry_index; // 0x34
 	long object_index; // 0x38

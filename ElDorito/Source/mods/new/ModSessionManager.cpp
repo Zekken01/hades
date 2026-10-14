@@ -36,6 +36,8 @@
 #include "mods/new/IModManager.hpp"
 #include "mods/tag_name_dictionary.hpp"
 
+#include "mods/mod_system.hpp"  // hades: added for 0x107941D0
+
 #include <Windows.h>
 #include <stdio.h>
 #include <sys/stat.h>
@@ -89,6 +91,12 @@ namespace Blam
 
 /* ---------- prototypes */
 
+s_session_mod_options const *network_squad_session_get_mod();  // hades: added for 0x10793FC0
+unsigned long system_milliseconds();  // hades: added for 0x10793FC0
+
+extern bool (*const network_session_interface_get_squad_session)(c_network_session **);  // hades: added for 0x10794420
+bool network_squad_session_set_mod(s_session_mod_options const *);  // hades: added for 0x10794420
+
 /* ---------- globals */
 
 /* ---------- private variables */
@@ -124,10 +132,9 @@ void ModSessionManager::Tick() // 0x10794630
 	CheckSession();
 }
 
-_extern void _sub_10793FC0(ModSessionManager *const);
 void ModSessionManager::CheckSession() // 0x10793FC0
 {
-	mangled_x86(MANGLED_TODO, "?CheckSession@ModSessionManager@@AAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CheckSession@ModSessionManager@@AAEXXZ");
 	// static ...; // 0x10794154
 	// static ...; // 0x10794148
 	// static ...; // 0x10794140
@@ -135,41 +142,68 @@ void ModSessionManager::CheckSession() // 0x10793FC0
 	// unsigned __int32 currentTime;
 	// bool valid;
 	// c_network_session *session;
-	{
 		// s_session_mod_options const *options;
-	}
 	// function call : char (*const)()
 	// function call : bool (*const)(c_network_session **)
 	// function call : EModResult (EModIndex, char const *, bool)
-	todo("implement");
-	_sub_10793FC0(this);
+
+	if (((char (*const)())0x5670E0)())
+		return;
+	unsigned __int32 currentTime = system_milliseconds();
+	if (currentTime - m_lastCheckTime < 10)
+		return;
+	m_lastCheckTime = currentTime;
+	bool valid = false;
+	c_network_session *session;
+	if (network_session_interface_get_squad_session(&session) && session->established())
+	{
+		s_session_mod_options const *options = network_squad_session_get_mod();
+		if (options && options->valid)
+		{
+			valid = true;
+			if (memcmp(m_currentPakHash, options->hash, sizeof(m_currentPakHash)))
+				valid &= HandleSessionModChanged(*options);
+		}
+	}
+	if (m_valid != valid)
+	{
+		m_valid = valid;
+		if (!m_valid)
+		{
+			memset(m_currentPakHash, 0, sizeof(m_currentPakHash));
+			m_modManager.SetMod((EModIndex)0, nullptr, true);
+		}
+	}
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0IModListener@@QAE@XZ"); no body to assert in
 
-_extern bool _sub_107941D0(ModSessionManager *const, s_session_mod_options const &);
 bool ModSessionManager::HandleSessionModChanged(s_session_mod_options const &options) // 0x107941D0
 {
-	mangled_x86(MANGLED_TODO, "?HandleSessionModChanged@ModSessionManager@@AAE_NABUs_session_mod_options@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleSessionModChanged@ModSessionManager@@AAE_NABUs_session_mod_options@@@Z");
 	// static ...; // 0x1079435C
 	// static ...; // 0x10794354
 	// ModSessionManager *const this;
 	// s_session_mod_options const &options;
 	// c_mod_package_manager &packageManager;
 	// c_mod_package_manager::s_entry entry;
-	{
 		// EModResult result;
-	}
 	// function call : EModResult (EModIndex, char const *, bool)
-	todo("implement");
-	bool __result = _sub_107941D0(this, options);
-	return __result;
+
+	c_mod_package_manager &packageManager = c_mod_system::get_package_manager();
+	c_mod_package_manager::s_entry entry;
+	if (packageManager.find_package_by_hash(options.hash, &entry))
+	{
+		memcpy(m_currentPakHash, options.hash, sizeof(m_currentPakHash));
+		EModResult result = m_modManager.SetMod((EModIndex)0, entry.file.filename, true);
+		return result == kSuccess || result == kPending;
+	}
+	return false;
 }
 
-_extern void _sub_10794420(ModSessionManager *const, EModIndex, IMod *);
 void ModSessionManager::OnModChanged(EModIndex index, IMod *mod) // 0x10794420
 {
-	mangled_x86(MANGLED_TODO, "?OnModChanged@ModSessionManager@@EAEXW4EModIndex@@PAVIMod@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnModChanged@ModSessionManager@@EAEXW4EModIndex@@PAVIMod@@@Z");
 	// static ...; // 0x10794590
 	// static ...; // 0x1079456C
 	// static ...; // 0x10794564
@@ -177,16 +211,31 @@ void ModSessionManager::OnModChanged(EModIndex index, IMod *mod) // 0x10794420
 	// EModIndex index;
 	// IMod *mod;
 	// c_network_session *session;
-	{
 		// s_session_mod_options options;
 		// c_mod_package *package;
-	}
-	{
-	}
 	// function call : bool (*const)(c_network_session **)
 	// function call : c_mod_package *(bool) const
-	todo("implement");
-	_sub_10794420(this, index, mod);
+
+	if (index != 0)
+		return;
+	c_network_session *session;
+	if (!network_session_interface_get_squad_session(&session) || !session->established() || !session->is_host())
+		return;
+	if (mod)
+	{
+		c_mod_package *package = mod->GetPak(true);
+		if (!package)
+			return;
+		s_session_mod_options options = {};
+		memcpy(options.hash, package->get_header()->sha1, sizeof(options.hash));
+		options.valid = true;
+		network_squad_session_set_mod(&options);
+	}
+	else
+	{
+		s_session_mod_options options = {};
+		network_squad_session_set_mod(&options);
+	}
 }
 
 /* ---------- private code */

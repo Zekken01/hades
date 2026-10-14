@@ -39,14 +39,12 @@ struct s_light_datum :
 	float lod_bounding_radius; // 0x30
 	real_vector3d origin; // 0x34
 	s_scenario_location location; // 0x40
-	unsigned char __pad0[2]; // 0x42
 	long object_index; // 0x44
 	unsigned long object_function_reference; // 0x48
 	short object_attachment_index; // 0x4C
 	short object_change_color_reference; // 0x4E
 	long unattached_object_index; // 0x50
 	short object_node_index; // 0x54
-	unsigned char __pad1[2]; // 0x56
 	real_point3d node_relative_position; // 0x58
 	real_vector3d node_relative_forward; // 0x64
 	real_vector3d node_relative_up; // 0x70

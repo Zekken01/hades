@@ -23,12 +23,12 @@ struct s_mod_origin_info
 	std::string server_host; // 0x1C
 	std::string server_name; // 0x38
 	std::string url; // 0x54
-	_inline s_mod_origin_info(s_mod_origin_info &&__that); /* compiler_generated() */
-	_inline s_mod_origin_info(s_mod_origin_info const &__that); /* compiler_generated() */
-	_inline s_mod_origin_info() = default; /* compiler_generated() */
-	_inline ~s_mod_origin_info(); /* compiler_generated() */
-	s_mod_origin_info &operator=(s_mod_origin_info &); /* compiler_generated() */
-	_inline s_mod_origin_info &operator=(s_mod_origin_info const &__that); /* compiler_generated() */
+	// hades: special members left implicit (aggregate; noexcept move inside c_mod_database::s_record)
+	//
+	//
+	//
+	//
+	//
 };
 static_assert(sizeof(s_mod_origin_info) == 112, "Invalid s_mod_origin_info size");
 

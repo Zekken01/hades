@@ -32,7 +32,7 @@ struct DebugDrawKey
 {
 	void const *name; // 0x0
 	unsigned __int32 id; // 0x4
-	_inline DebugDrawKey(char const *name_, unsigned __int32 id_);
+	_inline DebugDrawKey(char const *name_, unsigned __int32 id_ = 0xFFFFFFFF);
 	_inline operator bool();
 	void __dflt_ctor_closure(); /* compiler_generated() */
 };
@@ -96,7 +96,9 @@ struct CDebugDrawBackend
 };
 static_assert(sizeof(CDebugDrawBackend) == 1, "Invalid CDebugDrawBackend size");
 
-class CDebugDraw
+#line 75
+class /*exported*/ CDebugDraw
+#line 100
 {
 public:
 	static long const COLOR_WHITE;
@@ -109,7 +111,7 @@ public:
 	static long const COLOR_CYAN;
 	static long const COLOR_ORANGE;
 	CDebugDraw(CDebugDraw const &);
-	_inline CDebugDraw(std::source_location loc);
+	__declspec(dllexport) CDebugDraw(std::source_location loc = std::source_location::current());
 	_inline CDebugDraw(char const *name);
 	_inline void SetLifetime(float seconds);
 	_inline void SetFont(long id);
@@ -139,9 +141,9 @@ private:
 	float m_textScale; // 0xC
 	bool m_depthTest; // 0x10
 public:
-	void __dflt_ctor_closure(); /* compiler_generated() */
+	// void __dflt_ctor_closure(); /* compiler_generated(): emitted by the dllexport default argument */
 	public:
-	CDebugDraw & operator=(CDebugDraw const &__that);
+	CDebugDraw & operator=(CDebugDraw const &__that) = default;  // hades: implicit (trivial: one block copy)
 };
 static_assert(sizeof(CDebugDraw) == 20, "Invalid CDebugDraw size");
 
@@ -194,13 +196,16 @@ _inline CDebugDraw::CDebugDraw(char const *name) // 0x10817D20
 	m_depthTest = true;
 }
 
-extern CDebugDraw* _sub_10817D90(CDebugDraw *const, std::source_location);
 _inline CDebugDraw::CDebugDraw(std::source_location loc) // 0x10817D90
 {
-	mangled_x86(MANGLED_TODO, "??0CDebugDraw@@QAE@Usource_location@std@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0CDebugDraw@@QAE@Usource_location@std@@@Z");
 	// std::source_location loc;
-	todo("implement");
-	_sub_10817D90(this, loc);
+
+	m_name = loc.function_name();
+	m_lifetime = 0.0f;
+	m_fontId = 0;
+	m_textScale = 1.0f;
+	m_depthTest = true;
 }
 
 _inline void CDebugDraw::SetLifetime(float seconds) // 0x1081CC20

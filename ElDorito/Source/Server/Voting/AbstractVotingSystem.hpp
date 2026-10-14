@@ -57,18 +57,18 @@ namespace Server
 			virtual void LogVote(Server::Voting::VotingMessage const &, std::string) = 0;
 			virtual __int32 getVoteNeededToPass();
 			bool ReloadVotingJson(std::string fileName, bool loadFileFromDisc);
-			bool AllowShuffle; // 0x8
+			bool AllowShuffle = true; // 0x8
 			unsigned char __pad0[7]; // 0x9
 			std::function<void __cdecl(Server::Voting::MapAndType)> votePassedCallback; // 0x10
 		protected:
 			std::map<std::string,int> mapVotes; // 0x38
 			unsigned char __pad1[4]; // 0x44
-			long long voteStartedTime; // 0x48
+			long long voteStartedTime = 0; // 0x48
 			Server::Voting::VotingMessage finalTally; // 0x50
-			bool winnerChosen; // 0xF50
-			bool revoteFlag; // 0xF51
-			bool idle; // 0xF52
-			bool jsonLoaded; // 0xF53
+			bool winnerChosen = false; // 0xF50
+			bool revoteFlag = false; // 0xF51
+			bool idle = false; // 0xF52
+			bool jsonLoaded = false; // 0xF53
 		public:
 			void CheckAndLoadJson();
 		protected:
@@ -79,7 +79,7 @@ namespace Server
 			virtual void loadDefaultMapsAndTypes() = 0;
 		public:
 			AbstractVotingSystem(Server::Voting::AbstractVotingSystem const &); /* compiler_generated() */
-			_inline AbstractVotingSystem(); /* compiler_generated() */
+			AbstractVotingSystem() = default; /* compiler_generated() */ // 0x10739F90
 			Server::Voting::AbstractVotingSystem &operator=(Server::Voting::AbstractVotingSystem const &); /* compiler_generated() */
 		};
 		static_assert(sizeof(Server::Voting::AbstractVotingSystem) == 3928, "Invalid Server::Voting::AbstractVotingSystem size");
@@ -96,7 +96,7 @@ namespace Server
 {
 	namespace Voting
 	{
-		_extern void _sub_1073B720(Server::Voting::AbstractVotingSystem *const);
+
 	}
 }
 

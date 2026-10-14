@@ -69,7 +69,7 @@ namespace Http
 		std::map<std::string,std::string,SHeaderKeyComparator> m_map; // 0x0
 	public:
 		_inline ~CHttpHeaders(); /* compiler_generated() */
-		Http::CHttpHeaders &operator=(Http::CHttpHeaders &); /* compiler_generated() */
+
 		_inline Http::CHttpHeaders &operator=(Http::CHttpHeaders const &__that); /* compiler_generated() */
 	};
 }
@@ -85,40 +85,36 @@ static_assert(sizeof(Http::CHttpHeaders) == 12, "Invalid Http::CHttpHeaders size
 
 namespace Http
 {
-	_extern bool _sub_107FB130(Http::CHttpHeaders::SHeaderKeyComparator const *const, std::string const &, std::string const &);
 	_inline bool CHttpHeaders::SHeaderKeyComparator::operator()(std::string const &s1, std::string const &s2) const // 0x107FB130
 	{
-		mangled_x86(MANGLED_TODO, "??RSHeaderKeyComparator@CHttpHeaders@Http@@QBE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??RSHeaderKeyComparator@CHttpHeaders@Http@@QBE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z");
 		// std::string const &s2;
-		todo("implement");
-		bool __result = _sub_107FB130((Http::CHttpHeaders::SHeaderKeyComparator const *)this, s1, s2);
-		return __result;
+
+		return std::lexicographical_compare(s1.begin(), s1.end(), s2.begin(), s2.end(), [](char c1, char c2) { return tolower(c1) < tolower(c2); });
 	}
 }
 
-extern std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::string> > > > _sub_107FD840(Http::CHttpHeaders const *const);
+
 namespace Http
 {
 	_inline std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::string> > > > CHttpHeaders::begin() const // 0x107FD840
 	{
-		mangled_x86(MANGLED_TODO, "?begin@CHttpHeaders@Http@@QBE?AV?$_Tree_const_iterator@V?$_Tree_val@U?$_Tree_simple_types@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@@std@@@std@@@std@@@std@@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?begin@CHttpHeaders@Http@@QBE?AV?$_Tree_const_iterator@V?$_Tree_val@U?$_Tree_simple_types@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@@std@@@std@@@std@@@std@@XZ");
 		// Http::CHttpHeaders const *const this;
-		todo("implement");
-		std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::string> > > > __result = _sub_107FD840((Http::CHttpHeaders const *)this);
-		return __result;
+
+		return m_map.begin();
 	}
 }
 
-extern std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::string> > > > _sub_107FDB00(Http::CHttpHeaders const *const);
+
 namespace Http
 {
 	_inline std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::string> > > > CHttpHeaders::end() const // 0x107FDB00
 	{
-		mangled_x86(MANGLED_TODO, "?end@CHttpHeaders@Http@@QBE?AV?$_Tree_const_iterator@V?$_Tree_val@U?$_Tree_simple_types@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@@std@@@std@@@std@@@std@@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?end@CHttpHeaders@Http@@QBE?AV?$_Tree_const_iterator@V?$_Tree_val@U?$_Tree_simple_types@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@@std@@@std@@@std@@@std@@XZ");
 		// Http::CHttpHeaders const *const this;
-		todo("implement");
-		std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::string> > > > __result = _sub_107FDB00((Http::CHttpHeaders const *)this);
-		return __result;
+
+		return m_map.end();
 	}
 
 	_inline CHttpHeaders::CHttpHeaders() // 0x10806D90
@@ -128,22 +124,26 @@ namespace Http
 	}
 }
 
-extern std::string _sub_1082D190(Http::CHttpHeaders const *const, std::string const &);
+
 namespace Http
 {
 	_inline std::string CHttpHeaders::operator[](std::string const &headerKey) const // 0x1082D190
 	{
-		mangled_x86(MANGLED_TODO, "??ACHttpHeaders@Http@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV23@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??ACHttpHeaders@Http@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV23@@Z");
 		// static ...; // 0x1082D314
 		// static ...; // 0x1082D30C
 		// Http::CHttpHeaders const *const this;
 		// std::string const &headerKey;
-		{
 			// std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::string> > > > it;
+
+		if (auto it = m_map.find(headerKey); it != end())
+		{
+			return it->second;
 		}
-		todo("implement");
-		std::string __result = _sub_1082D190((Http::CHttpHeaders const *)this, headerKey);
-		return __result;
+		else
+		{
+			return "";
+		}
 	}
 }
 

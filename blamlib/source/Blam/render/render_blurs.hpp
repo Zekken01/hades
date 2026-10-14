@@ -52,17 +52,25 @@ extern void update_motion_blur_globals(s_rasterizer_globals const *rasg, float m
 
 /* ---------- public code */
 
-_extern void _sub_10AC38D0(s_rasterizer_globals const *, float);
 void update_motion_blur_globals(s_rasterizer_globals const *rasg, float motion_blur_strength) // 0x10AC38D0
 {
-	mangled_x86(MANGLED_TODO, "?update_motion_blur_globals@@YAXPBUs_rasterizer_globals@@M@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?update_motion_blur_globals@@YAXPBUs_rasterizer_globals@@M@Z");
 	// float motion_blur_strength;
-	{
 		// float strength_max;
 		// float strength_min;
+
+	if (!c_rasterizer_globals::g_motion_blur_parameters_set)
+	{
+		c_rasterizer_globals::g_motion_blur_parameters->max_blur = rasg->motion_blur_parameters.max_blur;
+		c_rasterizer_globals::g_motion_blur_parameters->field_04 = rasg->motion_blur_parameters.field_04;
+		c_rasterizer_globals::g_motion_blur_parameters->center_falloff[0] = rasg->motion_blur_parameters.center_falloff[0];
+		c_rasterizer_globals::g_motion_blur_parameters->center_falloff[1] = rasg->motion_blur_parameters.center_falloff[1];
+		c_rasterizer_globals::g_motion_blur_parameters->expected_time_per_tick = rasg->motion_blur_parameters.expected_time_per_tick;
+		float strength_min = 0.0f;
+		float strength_max = 0.4f;
+		c_rasterizer_globals::g_motion_blur_parameters->blur_scale = (strength_max - strength_min) * motion_blur_strength + strength_min;
+		c_rasterizer_globals::g_motion_blur_parameters_set = 1;
 	}
-	todo("implement");
-	_sub_10AC38D0(rasg, motion_blur_strength);
 }
 
 /* ---------- private code */

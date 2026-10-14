@@ -162,7 +162,6 @@ static_assert(sizeof(s_object_reviving_equipment_definition) == 16, "Invalid s_o
 struct s_object_model_data_definition
 {
 	c_enum<enum e_object_model_data_type,short> type; // 0x0
-	unsigned char __pad0[2]; // 0x2
 	real_point3d offset; // 0x4
 	float radius; // 0x10
 	s_object_model_data_definition(s_object_model_data_definition &); /* compiler_generated() */

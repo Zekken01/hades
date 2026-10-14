@@ -76,13 +76,14 @@ namespace Patches
 {
 	namespace Bitmaps
 	{
-		_extern void _sub_10699A70();
 		void ApplyAll() // 0x10699A70
 		{
-			mangled_x86(MANGLED_TODO, "?ApplyAll@Bitmaps@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Bitmaps@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_10699A70();
+
+			Pointer(0x1682F6A).Write<unsigned short>(0x8);
+			Pointer(0x1696E4C).Write<unsigned long>(0x35545844);
+			Hook(0x46BB30, bitmap_format_is_default_srgb_hook).Apply();
 		}
 	}
 }

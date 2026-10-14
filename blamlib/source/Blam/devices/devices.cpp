@@ -27,6 +27,8 @@ struct s_device_group_datum;
 
 /* ---------- prototypes */
 
+extern unsigned long (*const datum_new)(s_data_array *);  // hades: added for 0x10F0C4E0
+
 extern c_data_array<s_device_group_datum> *device_groups_get();
 extern long device_group_new(long device_index, float initial_value, unsigned long flags);
 
@@ -44,18 +46,27 @@ c_data_array<s_device_group_datum> *device_groups_get() // 0x10F0C5C0
 	return tls_getd().device_groups;
 }
 
-_extern long _sub_10F0C4E0(long, float, unsigned long);
 long device_group_new(long device_index, float initial_value, unsigned long flags) // 0x10F0C4E0
 {
-	mangled_x86(MANGLED_TODO, "?device_group_new@@YAJJMK@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?device_group_new@@YAJJMK@Z");
 	// unsigned long flags;
 	// s_device_group_datum *datum;
 	// unsigned long datum_index;
 	// c_data_array<s_device_group_datum> *device_groups;
 	// function call : unsigned long (*const)(s_data_array *)
-	todo("implement");
-	long __result = _sub_10F0C4E0(device_index, initial_value, flags);
-	return __result;
+
+	c_data_array<s_device_group_datum> *device_groups = device_groups_get();
+	unsigned long datum_index = datum_new(device_groups);
+	s_device_group_datum *datum = device_groups->try_and_get(datum_index);
+	if (datum)
+	{
+		datum->object_index = device_index;
+		datum->value = initial_value;
+		datum->initial_value = initial_value;
+		datum->flags = (unsigned short)flags;
+	}
+
+	return datum_index;
 }
 
 /* ---------- private code */

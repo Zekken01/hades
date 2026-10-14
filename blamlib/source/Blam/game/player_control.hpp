@@ -48,7 +48,6 @@ struct s_player_control_state
 {
 	unsigned long unit_control_flags; // 0x0
 	unsigned short player_action_flags; // 0x4
-	unsigned char __pad0[2]; // 0x6
 	real_euler_angles2d desired_angles; // 0x8
 	float forward_velocity; // 0x10
 	float strafe_velocity; // 0x14
@@ -61,7 +60,6 @@ struct s_player_control_state
 	s_player_action_context action_context; // 0x28
 	s_aim_assist_targeting_result aim_assist; // 0x34
 	bool map_editor_rotation_valid; // 0x5C
-	unsigned char __pad2[3]; // 0x5D
 	float map_editor_rotation_yaw; // 0x60
 	float map_editor_rotation_pitch; // 0x64
 	unsigned short map_editor_flags; // 0x68

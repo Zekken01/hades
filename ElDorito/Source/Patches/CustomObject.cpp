@@ -93,7 +93,7 @@ namespace hades_file_local
 {
 	extern s_object_type_definition *g_object_type_definitions[16]; // 0x11353250
 	extern s_custom_object_data_definition g_custom_object_data_definition; // 0x12409370
-	extern s_object_type_definition const *g_first_object_type_definition; // 0x12409464
+	s_object_type_definition const *g_first_object_type_definition = g_object_type_definitions[0]; // 0x12409464
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -102,13 +102,74 @@ namespace Patches
 {
 	namespace CustomObjects
 	{
-		_extern void _sub_10914A40();
 		void ApplyAll() // 0x10914A40
 		{
-			mangled_x86(MANGLED_TODO, "?ApplyAll@CustomObjects@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@CustomObjects@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_10914A40();
+
+			g_custom_object_data_definition.name = nullptr;
+			g_custom_object_data_definition.group_tag = 'cobj';
+			g_custom_object_data_definition.datum_size = 0x178;
+			g_custom_object_data_definition.placement_tag_block_offset = -1;
+			g_custom_object_data_definition.palette_tag_block_offset = -1;
+			g_custom_object_data_definition.placement_tag_block_element_size = -1;
+			g_custom_object_data_definition.maximum_placement_count = 0;
+			g_custom_object_data_definition.mixing_board_index = -1;
+			g_custom_object_data_definition.child_types[0] = reinterpret_cast<s_object_type_definition *>(0x1947F10);
+			g_custom_object_data_definition.child_types[1] = nullptr;
+			g_object_type_definitions[14]->next_type = &g_custom_object_data_definition;
+			Pointer(0x5287BDC).Write<s_object_type_definition const *>(g_first_object_type_definition);
+			Pointer(0xB73885).Write(g_object_type_definitions);
+			Pointer(0xB742BF).Write(g_object_type_definitions);
+			Pointer(0xB74345).Write(g_object_type_definitions);
+			Pointer(0xB743F3).Write(g_object_type_definitions);
+			Pointer(0xB73BC6).Write(g_object_type_definitions);
+			Pointer(0xB736B6).Write(g_object_type_definitions);
+			Pointer(0xB731E6).Write(g_object_type_definitions);
+			Pointer(0xB73C9C).Write(g_object_type_definitions);
+			Pointer(0xB73DF5).Write(g_object_type_definitions);
+			Pointer(0xB740B6).Write(g_object_type_definitions);
+			Pointer(0xB734B6).Write(g_object_type_definitions);
+			Pointer(0xB7353A).Write(g_object_type_definitions);
+			Pointer(0xB74127).Write(g_object_type_definitions);
+			Pointer(0xB73C32).Write(g_object_type_definitions);
+			Pointer(0xB733AA).Write(g_object_type_definitions);
+			Pointer(0xB73417).Write(g_object_type_definitions);
+			Pointer(0xB73276).Write(g_object_type_definitions);
+			Pointer(0xB73646).Write(g_object_type_definitions);
+			Pointer(0xB732E1).Write(g_object_type_definitions);
+			Pointer(0xB73341).Write(g_object_type_definitions);
+			Pointer(0xB735D4).Write(g_object_type_definitions);
+			Pointer(0xB739B5).Write(g_object_type_definitions);
+			Pointer(0xB73A35).Write(g_object_type_definitions);
+			Pointer(0xB73B35).Write(g_object_type_definitions);
+			Pointer(0xB73AB4).Write(g_object_type_definitions);
+			Pointer(0xB73721).Write(g_object_type_definitions);
+			Pointer(0xB737A2).Write(g_object_type_definitions);
+			Pointer(0xB73F05).Write(g_object_type_definitions);
+			Pointer(0xB73F95).Write(g_object_type_definitions);
+			Pointer(0xB73E75).Write(g_object_type_definitions);
+			Pointer(0xB74026).Write(g_object_type_definitions);
+			Pointer(0xB73D65).Write(g_object_type_definitions);
+			Pointer(0xB73D65).Write(g_object_type_definitions);
+			Pointer(0xB73939).Write(g_object_type_definitions);
+			Pointer(0xB73959).Write(g_object_type_definitions);
+			Pointer(0xB73969).Write(g_object_type_definitions);
+			Pointer(0xB73919).Write(g_object_type_definitions);
+			Pointer(0xB738F9).Write(g_object_type_definitions);
+			Pointer(0xB738D9).Write(g_object_type_definitions);
+			Pointer(0xB738B3).Write(g_object_type_definitions);
+			Pointer(0xB73885).Write(g_object_type_definitions);
+			Pointer(0xB734F9).Write(g_object_type_definitions);
+			Pointer(0xB968BA).Write<int>(0xFFFF);
+			Hook(0x2D717C, object_test_vector_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x2D360E, object_test_vector_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x2D67CF, object_test_vector_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x73C7B3, object_test_vector_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x7700DB, object_test_vector_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x77C0E9, object_test_vector_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x2D6831, object_test_vector_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Pointer(0x5C8278).Write<unsigned long>(*reinterpret_cast<unsigned long *>(0x5C8277) | 0x8000);
 		}
 	}
 }

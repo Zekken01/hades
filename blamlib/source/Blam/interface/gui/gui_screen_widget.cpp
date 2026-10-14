@@ -50,10 +50,9 @@ void c_gui_screen_widget::select_list_item(c_gui_list_widget *list_widget, long 
 	select_list_item(this, list_widget, item_index, flag1, flag2);
 }
 
-extern c_gui_data *_sub_10F13600(c_gui_screen_widget const *const, unsigned long);
 c_gui_data *c_gui_screen_widget::get_datasource(unsigned long name) const // 0x10F13600
 {
-	mangled_x86(MANGLED_TODO, "?get_datasource@c_gui_screen_widget@@QBEPAVc_gui_data@@K@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_datasource@c_gui_screen_widget@@QBEPAVc_gui_data@@K@Z");
 	// static ...; // 0x10F13698
 	// static ...; // 0x10F13690
 	// c_gui_screen_widget const *const this;
@@ -61,9 +60,10 @@ c_gui_data *c_gui_screen_widget::get_datasource(unsigned long name) const // 0x1
 	// long a1;
 	// c_gui_data *(*const get_datasource)(c_gui_screen_widget const *, unsigned long, long *);
 	// function call : c_gui_data *(*const)(c_gui_screen_widget const *, unsigned long, long *)
-	todo("implement");
-	c_gui_data * __result = _sub_10F13600((c_gui_screen_widget const *)this, name);
-	return __result;
+
+	c_gui_data *(__thiscall *const get_datasource)(c_gui_screen_widget const *, unsigned long, long *) = reinterpret_cast<c_gui_data *(__thiscall *)(c_gui_screen_widget const *, unsigned long, long *)>(0xAB0DB0);
+	long a1 = -1;
+	return get_datasource(this, name, &a1);
 }
 
 void c_gui_screen_widget::transition_out(__int32 type) // 0x10F137D0

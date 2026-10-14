@@ -68,7 +68,6 @@ struct s_follow_firing_point_query
 {
 	c_enum<enum e_firing_point_shape,char> shape; // 0x0
 	c_enum<enum e_firing_point_anchor_relationship,char> anchor_relationship; // 0x1
-	unsigned char __pad0[2]; // 0x2
 	float relationship_offset; // 0x4
 	float scale; // 0x8
 	float z_threshold; // 0xC
@@ -204,7 +203,6 @@ struct s_cell_definition
 	unsigned long vehicle_variant; // 0x48
 	tag_string command_script_name; // 0x4C
 	c_tag_block_index<s_hs_script,short> command_script_index; // 0x6C
-	unsigned char __pad0[2]; // 0x6E
 	unsigned long activity_name; // 0x70
 	c_tag_block_index<s_cs_point_set,short> point_set; // 0x74
 	c_enum<enum e_squad_patrol_mode,short> patrol_mode; // 0x76

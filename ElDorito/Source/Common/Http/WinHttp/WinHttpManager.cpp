@@ -94,12 +94,12 @@ namespace Http
 	}
 }
 
-extern std::unique_ptr<void *,Http::WinHttpHandlerDeleter> _sub_108039C0(Http::CWinHttpManager *const);
+
 namespace Http
 {
 	std::unique_ptr<void *,Http::WinHttpHandlerDeleter> CWinHttpManager::CreateSession() // 0x108039C0
 	{
-		mangled_x86(MANGLED_TODO, "?CreateSession@CWinHttpManager@Http@@QAE?AV?$unique_ptr@PAXUWinHttpHandlerDeleter@Http@@@std@@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?CreateSession@CWinHttpManager@Http@@QAE?AV?$unique_ptr@PAXUWinHttpHandlerDeleter@Http@@@std@@XZ");
 		// static ...; // 0x10803AE6
 		// static ...; // 0x10803ADC
 		// static ...; // 0x10803AD8
@@ -112,22 +112,25 @@ namespace Http
 		// function call : void *(wchar_t const *, unsigned long, wchar_t const *, wchar_t const *, unsigned long)
 		// function call : __int32 (void *, unsigned long, void *, unsigned long)
 		// function call : __int32 (void *, unsigned long, void *, unsigned long)
-		todo("implement");
-		std::unique_ptr<void *,Http::WinHttpHandlerDeleter> __result = _sub_108039C0(this);
-		return __result;
+
+		std::unique_ptr<void *,Http::WinHttpHandlerDeleter> session(WinHttpOpen(nullptr, WINHTTP_ACCESS_TYPE_DEFAULT_PROXY, WINHTTP_NO_PROXY_NAME, WINHTTP_NO_PROXY_BYPASS, WINHTTP_FLAG_ASYNC));
+		unsigned long protocols = WINHTTP_FLAG_SECURE_PROTOCOL_TLS1 | WINHTTP_FLAG_SECURE_PROTOCOL_TLS1_1 | WINHTTP_FLAG_SECURE_PROTOCOL_TLS1_2;
+		WinHttpSetOption(session.get(), WINHTTP_OPTION_SECURE_PROTOCOLS, &protocols, sizeof(protocols));
+		unsigned long val = WINHTTP_DISABLE_COOKIES;
+		WinHttpSetOption(session.get(), WINHTTP_OPTION_DISABLE_FEATURE, &val, sizeof(val));
+		return session;
 	}
 }
 
-extern std::shared_ptr<Http::IHttpRequest> _sub_10803910(Http::CWinHttpManager *const);
+
 namespace Http
 {
 	std::shared_ptr<Http::IHttpRequest> CWinHttpManager::CreateRequest() // 0x10803910
 	{
-		mangled_x86(MANGLED_TODO, "?CreateRequest@CWinHttpManager@Http@@UAE?AV?$shared_ptr@VIHttpRequest@Http@@@std@@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?CreateRequest@CWinHttpManager@Http@@UAE?AV?$shared_ptr@VIHttpRequest@Http@@@std@@XZ");
 		// Http::CWinHttpManager *const this;
-		todo("implement");
-		std::shared_ptr<Http::IHttpRequest> __result = _sub_10803910(this);
-		return __result;
+
+		return std::make_shared<Http::CWinHttpRequest>(*this);
 	}
 }
 

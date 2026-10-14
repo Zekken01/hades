@@ -54,29 +54,49 @@ class CModBrowserStateManager;
 
 /* ---------- public code */
 
-_extern void _sub_10724970(CModBrowserStateManager *const, EModBrowserState, std::shared_ptr<CModBrowserStateHandler> const &);
 void CModBrowserStateManager::RegisterStateHandler(EModBrowserState state, std::shared_ptr<CModBrowserStateHandler> const &handler) // 0x10724970
 {
-	mangled_x86(MANGLED_TODO, "?RegisterStateHandler@CModBrowserStateManager@@QAEXW4EModBrowserState@@ABV?$shared_ptr@VCModBrowserStateHandler@@@std@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?RegisterStateHandler@CModBrowserStateManager@@QAEXW4EModBrowserState@@ABV?$shared_ptr@VCModBrowserStateHandler@@@std@@@Z");
 	// std::shared_ptr<CModBrowserStateHandler> const &handler;
-	todo("implement");
-	_sub_10724970(this, state, handler);
+
+	#line 59 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Server\\ModBrowser\\ModBrowserStateManager.cpp"
+		assert(m_stateHandlers.find(state) == m_stateHandlers.end());
+		#line 65 "C:\\Users\\zekken\\Desktop\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Server\\ModBrowser\\ModBrowserStateManager.cpp"
+	m_stateHandlers.insert(std::make_pair(state, handler));
+	handler->SetManager(this);
 }
 
-_extern void _sub_10724E30(CModBrowserStateManager *const);
 void CModBrowserStateManager::Update() // 0x10724E30
 {
-	mangled_x86(MANGLED_TODO, "?Update@CModBrowserStateManager@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CModBrowserStateManager@@QAEXXZ");
 	// CModBrowserStateManager *const this;
-	{
 		// bool it;
-		{
 			// EModBrowserState newState;
+	// function call : void ()
+
+	if (m_abortReason)
+	{
+		AbortEvent.PostEvent(m_abortReason);
+		m_abortReason = (EModBrowserAbortReason)0;
+		Complete();
+	}
+	if (m_requestedState)
+	{
+		if (bool it = m_stateHandlers.find(m_requestedState) != std::end(m_stateHandlers))
+		{
+			EModBrowserState newState = m_requestedState;
+			m_requestedState = (EModBrowserState)0;
+			SetStateInternal(newState);
+		}
+		else
+		{
+			#line 91 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Server\\ModBrowser\\ModBrowserStateManager.cpp"
+				assert(!"CModBrowserStateManager :: transitioned to unknown state");
+				#line 96 "C:\\Users\\zekken\\Desktop\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Server\\ModBrowser\\ModBrowserStateManager.cpp"
 		}
 	}
-	// function call : void ()
-	todo("implement");
-	_sub_10724E30(this);
+	if (m_currentHandler)
+		m_currentHandler->OnUpdate();
 }
 
 void CModBrowserStateManager::RequestStateChange(EModBrowserState state) // 0x10724BF0
@@ -103,15 +123,20 @@ void CModBrowserStateManager::Complete() // 0x10724860
 	SetStateInternal((EModBrowserState)0);
 }
 
-_extern void _sub_10724C20(CModBrowserStateManager *const, EModBrowserState);
 void CModBrowserStateManager::SetStateInternal(EModBrowserState state) // 0x10724C20
 {
-	mangled_x86(MANGLED_TODO, "?SetStateInternal@CModBrowserStateManager@@AAEXW4EModBrowserState@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SetStateInternal@CModBrowserStateManager@@AAEXW4EModBrowserState@@@Z");
 	// EModBrowserState state;
 	// function call : void ()
 	// function call : void ()
-	todo("implement");
-	_sub_10724C20(this, state);
+
+	if (m_currentHandler)
+		m_currentHandler->OnExit();
+
+	m_currentHandler = state ? m_stateHandlers[state] : nullptr;
+
+	if (m_currentHandler)
+		m_currentHandler->OnEnter();
 }
 
 /* ---------- private code */

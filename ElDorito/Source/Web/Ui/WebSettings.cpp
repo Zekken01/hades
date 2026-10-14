@@ -38,6 +38,10 @@
 #include "Web/Ui/ScreenLayer.hpp"
 #include "Web/Ui/WebMods.hpp"
 
+#include "Patches/Input.hpp"  // hades: added for 0x10CB52B0
+
+#include "Modules/ModuleSettings.hpp"  // hades: added for 0x10CB53C0
+
 #include <Windows.h>
 #include <stdio.h>
 #include <sys/stat.h>
@@ -149,7 +153,7 @@ namespace hades_file_local
 	public:
 		WebSettingsScreen(WebSettingsScreen &); /* compiler_generated() */
 		WebSettingsScreen(WebSettingsScreen const &); /* compiler_generated() */
-		WebSettingsScreen(); /* compiler_generated() */
+		WebSettingsScreen() = default; /* compiler_generated() */  // hades: not user-provided, so make_shared value-initializes
 		WebSettingsScreen &operator=(WebSettingsScreen &); /* compiler_generated() */
 		WebSettingsScreen &operator=(WebSettingsScreen const &); /* compiler_generated() */
 	};
@@ -193,13 +197,13 @@ namespace Web
 	{
 		namespace WebSettings
 		{
-			_extern void _sub_10CB52B0();
 			void Init() // 0x10CB52B0
 			{
-				mangled_x86(MANGLED_TODO, "?Init@WebSettings@Ui@Web@@YAXXZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?Init@WebSettings@Ui@Web@@YAXXZ");
 				// procedure flags: nofpo
-				todo("implement");
-				_sub_10CB52B0();
+
+				Patches::Input::RegisterDefaultInputHandler(OnGameInputUpdated);
+				Web::Ui::ScreenLayer::RegisterScreen(Web::Ui::ScreenLayer::Settings, std::make_shared<WebSettingsScreen>());
 			}
 
 			void Show() // 0x10CB57D0
@@ -215,17 +219,32 @@ namespace Web
 
 /* ---------- private code */
 
-_extern void _sub_10CB53C0();
 void OnGameInputUpdated() // 0x10CB53C0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnGameInputUpdated@@YAXXZ");
 	// `anonymous-namespace'::OnGameInputUpdated
 	// procedure flags: nofpo
 	// function call : long (*const)(e_user_interface_sound, long)
 	// function call : bool (*const)()
 	// function call : long (*const)(e_user_interface_sound, long)
-	todo("implement");
-	_sub_10CB53C0();
+
+	if (Utils::Singleton<Modules::ModuleSettings>::Instance().VarGamepadEnabled->ValueInt == 1)
+	{
+		if (Blam::Input::GetActionState(Blam::Input::eGameActionUiStart)->Ticks == 1 && strcmp((char *)Pointer(0x22AB018)(0x1A4, 1), "mainmenu") == 0 && !Blam::Input::GetKeyTicks(Blam::Input::eKeyCodeEscape, Blam::Input::eInputTypeUi))
+		{
+			((void (*)(long, long))0xAA5CD0)(3, -1);
+			Web::Ui::WebSettings::Show();
+		}
+	}
+	if (Blam::Input::GetKeyTicks(Blam::Input::eKeyCodeHome, Blam::Input::eInputTypeUi))
+	{
+		if (((bool (*)())0x5314B0)() || strcmp((char *)Pointer(0x22AB018)(0x1A4, 1), "mainmenu") == 0)
+		{
+			((void (*)(long, long))0xAA5CD0)(3, -1);
+			Web::Ui::WebSettings::Show();
+		}
+	}
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0WebSettingsScreen@hades_file_local@@QAE@XZ"); no body to assert in
-_inline WebSettingsScreen::WebSettingsScreen() = default; // 0x10CB5130
+// _inline WebSettingsScreen::WebSettingsScreen() = default; // 0x10CB5130  // hades: defaulted on its declaration

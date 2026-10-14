@@ -113,10 +113,9 @@ namespace Web
 	{
 		namespace WebTimer
 		{
-			_extern void _sub_10CB5BB0(std::string const &, __int32);
 			void Start(std::string const &type, __int32 initialValue) // 0x10CB5BB0
 			{
-				mangled_x86(MANGLED_TODO, "?Start@WebTimer@Ui@Web@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@H@Z");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?Start@WebTimer@Ui@Web@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@H@Z");
 				// static ...; // 0x10CB5D5C
 				// static ...; // 0x10CB5D44
 				// static ...; // 0x10CB5D3C
@@ -124,8 +123,18 @@ namespace Web
 				// __int32 initialValue;
 				// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
 				// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
-				todo("implement");
-				_sub_10CB5BB0(type, initialValue);
+
+				rapidjson::StringBuffer jsonBuffer;
+				rapidjson::Writer<rapidjson::StringBuffer> jsonWriter(jsonBuffer);
+				jsonWriter.StartObject();
+				jsonWriter.Key("type");
+				jsonWriter.String(type.c_str());
+				jsonWriter.Key("startTime");
+				jsonWriter.Int64(_time64(nullptr));
+				jsonWriter.Key("value");
+				jsonWriter.Int(initialValue);
+				jsonWriter.EndObject();
+				Web::Ui::ScreenLayer::Notify("timerStart", jsonBuffer.GetString(), true);
 			}
 
 			void Update(__int32 value) // 0x10CB5DF0

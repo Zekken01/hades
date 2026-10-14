@@ -34,6 +34,12 @@
 #include "Debug/CrashReporting/CrashReporter.hpp"
 #include "Download/IDownload.hpp"
 #include "ElModules.hpp"
+#include "Player/PlayerInfo.hpp"  // hades: added for 0x10965070
+#include "mods/map_variant_loader.hpp"  // hades: added for 0x10965070
+#include "Player/PlayerCharacterSystem.hpp"  // hades: added for 0x10965070
+#include "Objects/ObjectMessaging.hpp"  // hades: added for 0x10965070
+#include "mods/mod_system.hpp"  // hades: added for 0x10965070
+#include "Modules/ModuleInput.hpp"  // hades: added for 0x10965070
 #include "Forge/Magnets.hpp"
 #include "Job/JobDefinitions.hpp"
 #include "mods/FileSystem/ModPackageFileSystemView.hpp"
@@ -339,6 +345,29 @@ typedef unsigned long SECURITY_INFORMATION;
 
 /* ---------- prototypes */
 
+namespace Patches { void ApplyRequired(); }  // hades: added for 0x10964D10
+
+#include "Utils/Logger.hpp"  // hades: added for 0x10966E80
+namespace hades_file_local { static bool handling = false; } // 0x1240F695  // hades: added for 0x10966E80
+
+#include "Discord/DiscordRPC.h"  // hades: added for 0x10966BD0
+#include "Modules/ModuleVoIP.hpp"  // hades: added for 0x10966BD0
+#include "mods/map_variant_loader.hpp"  // hades: added for 0x10966BD0
+#include "mods/mod_system.hpp"  // hades: added for 0x10966BD0
+#include "Player/PlayerInfo.hpp"  // hades: added for 0x10966BD0
+#include "Player/PlayerCharacterSystem.hpp"  // hades: added for 0x10966BD0
+#include "Scripting/HaloScript/HaloScript.hpp"  // hades: added for 0x10966BD0
+#include "Server/HsGlobalSync.hpp"  // hades: added for 0x10966BD0
+#include "Web/Ui/ScreenLayer.hpp"  // hades: added for 0x10966BD0
+namespace Server { namespace VariableSynchronization { extern void Tick(); } namespace Rcon { extern void Tick(); } namespace Signaling { extern void Tick(); } namespace DedicatedServer { extern void Tick(); } namespace InfoServer { extern void Tick(); } namespace Stats { extern void Tick(); } namespace Voting { extern void Tick(); } namespace BanListSync { extern void Tick(); } namespace ReportHandler { extern void Tick(); } }  // hades: added for 0x10966BD0
+namespace Web { namespace Ui { namespace WebScoreboard { extern void Tick(); } namespace WebEmote { extern void Tick(); } } }  // hades: added for 0x10966BD0
+namespace ChatCommands { extern void Tick(); }  // hades: added for 0x10966BD0
+namespace Patches { extern void Tick(); }  // hades: added for 0x10966BD0
+namespace Download { extern void Tick(); }  // hades: added for 0x10966BD0
+namespace Utils { namespace AntiCheat { extern void OnTickCheck(); } }  // hades: added for 0x10966BD0
+extern void game_time_set_speed(float speed);  // hades: added for 0x10966BD0
+extern bool (*const network_session_interface_get_squad_session)(c_network_session **);  // hades: added for 0x10966BD0
+
 namespace Download { extern void Shutdown(); }  // hades: added for 0x10966B70
 
 namespace Utils { namespace Version { extern unsigned __int32 GetVersionInt(); } }  // hades: added for 0x109649F0
@@ -353,7 +382,7 @@ extern __int32 __stdcall WinMainHook(HINSTANCE__ *hInstance, HINSTANCE__ *hPrevI
 extern __int32 InitInstance(HINSTANCE__ *hModule);
 extern __int32 ExitInstance();
 extern __int32 GetEDVersion();
-extern "C" __int32 __stdcall DllMain(HINSTANCE__ *hModule, unsigned long Reason, void *Misc);
+extern "C" __int32 __stdcall DllMain(HINSTANCE__ *hModule, unsigned long Reason, void *Misc) noexcept(false);
 
 void HandleFinder();
 
@@ -380,8 +409,8 @@ namespace Server
 	{
 		namespace hades_file_local_Server_Voting
 		{
-			extern std::string const DefaultTypes[8]; // 0x1240F698
-			extern std::string const DefaultTypeNames[8]; // 0x1240F778
+			// extern std::string const DefaultTypes[8]; // 0x1240F698  // hades: defined in VotingTypes.hpp, one copy per file
+			// extern std::string const DefaultTypeNames[8]; // 0x1240F778  // hades: defined in VotingTypes.hpp, one copy per file
 		}
 		using namespace hades_file_local_Server_Voting;
 	}
@@ -390,7 +419,7 @@ namespace Server
 {
 	namespace hades_file_local_Server
 	{
-		extern std::string DefaultBanListPath; // 0x1240F858
+		// extern std::string DefaultBanListPath; // 0x1240F858  // hades: defined (with its initialiser) elsewhere now
 	}
 	using namespace hades_file_local_Server;
 }
@@ -415,10 +444,19 @@ namespace Debug
 	}
 }
 
-_extern void _sub_10965070(ElDorito *const);
+namespace Job { void Initialize(); }  // hades: added for 0x10965070
+namespace Web::Ui { namespace ScreenLayer { void Init(); } namespace MpEventDispatcher { void Init(); } namespace WebChat { void Init(); } namespace WebScoreboard { void Init(); } namespace WebConsole { void Init(); } namespace WebLoadingScreen { void Init(); } namespace Voting { void Init(); } namespace WebSettings { void Init(); } namespace WebMods { void Init(); } namespace WebServerModBrowser { void Init(); } namespace WebDialog { void Init(); } namespace WebEmote { void Init(); } }  // hades: added for 0x10965070
+namespace Patches::VirtualKeyboard { void Init(); }  // hades: added for 0x10965070
+namespace Server { namespace Chat { void Initialize(); } namespace Stats { void Init(); } namespace Voting { void Init(); } namespace VariableSynchronization { void Initialize(); } namespace Rcon { void Initialize(); } namespace Signaling { void Initialize(); } namespace ReportHandler { void Init(); } namespace BanListSync { void Init(); } namespace HsGlobalSync { void Init(); } namespace ClientDataTracker { void Initialize(); } }  // hades: added for 0x10965070
+namespace ChatCommands { void Init(); }  // hades: added for 0x10965070
+namespace Download { void Init(); }  // hades: added for 0x10965070
+namespace Scripting::HS { void Init(); }  // hades: added for 0x10965070
+namespace Player::PlayerPodium { void Init(); }  // hades: added for 0x10965070
+namespace PersistentMemory { void Init(); }  // hades: added for 0x10965070
+namespace Utils { void LogEthernetAdapterInfo(); namespace Version { std::string GetVersionString(); } }  // hades: added for 0x10965070
 void ElDorito::Initialize() // 0x10965070
 {
-	mangled_x86(MANGLED_TODO, "?Initialize@ElDorito@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@ElDorito@@QAEXXZ");
 	// static ...; // 0x1096622A
 	// static ...; // 0x10966226
 	// static ...; // 0x10966219
@@ -442,42 +480,184 @@ void ElDorito::Initialize() // 0x10965070
 	// CommandLineArgs cmdArgs;
 	// wchar_t *localAppdata;
 	// std::string ed_appdata;
-	{
 		// __int32 i;
-		{
 			// std::string arg;
-		}
-	}
-	{
 		// std::stringstream ss;
 		// std::stringstream keystream;
-	}
-	{
-	}
-	{
-		{
 			// std::string argvalue;
 			// unsigned __int32 pos;
 			// std::string argname;
-			{
 				// __int32 proc;
 				// std::string command;
-			}
-			{
 				// std::string filePath;
-			}
-		}
-	}
-	{
 		// std::stringstream connectString;
-	}
 	// function call : HRESULT (void *)
 	// function call : unsigned long ()
 	// function call : __int32 (char const *, _SECURITY_ATTRIBUTES *)
 	// function call : wchar_t *()
 	// function call : __int32 (char const *, _SECURITY_ATTRIBUTES *)
-	todo("implement");
-	_sub_10965070(this);
+
+	if (FAILED(CoInitialize(NULL)))
+		return;
+	SetMainThreadID(GetCurrentThreadId());
+	CreateDirectoryA(GetDirectory().c_str(), NULL);
+	CommandLineArgs cmdArgs(Utils::String::ThinString(GetCommandLineW()));
+	__int32 numArgs = cmdArgs.GetArgCount();
+	if (numArgs > 1)
+	{
+		for (__int32 i = 1; i < numArgs; i++)
+		{
+			std::string arg = cmdArgs[i];
+			if (arg.compare("-instance") == 0 && i < numArgs - 1)
+				instanceName = cmdArgs[i + 1];
+		}
+	}
+	Job::Initialize();
+	::Audio::CAudioDeviceManager::Instance().Initialize();
+	Console::Init();
+	Modules::ElModules::Instance();
+	Server::TempBanList::Instance();
+	wchar_t *localAppdata;
+	SHGetKnownFolderPath(FOLDERID_LocalAppData, 0, NULL, &localAppdata);
+	std::wstring wide_ed_appdata(localAppdata);
+	std::string ed_appdata = Utils::String::ThinString(wide_ed_appdata);
+	ed_appdata += "\\ElDewrito";
+	CreateDirectoryA(ed_appdata.c_str(), NULL);
+	if (instanceName != "")
+	{
+		std::stringstream keystream;
+		keystream << "Execute data\\dewrito_prefs_" << instanceName << ".cfg 1";
+		Modules::CommandMap::Instance().ExecuteCommand(keystream.str());
+		std::stringstream ss;
+		ss << "Execute \"" << ed_appdata << "\\keys_" << instanceName << ".cfg\"";
+		Modules::CommandMap::Instance().ExecuteCommand(ss.str());
+	}
+	else
+	{
+		std::stringstream ss;
+		ss << "Execute data\\dewrito_prefs.cfg 1";
+		Modules::CommandMap::Instance().ExecuteCommand(ss.str());
+		std::stringstream keystream;
+		keystream << "Execute \"" << ed_appdata << "\\keys.cfg\"";
+		Modules::CommandMap::Instance().ExecuteCommand(keystream.str());
+	}
+	Modules::CommandMap::Instance().ExecuteCommand("Execute autoexec.cfg 1");
+	if (!Modules::ModuleInput::Instance().IsCommandBound("game.takescreenshot"))
+		Modules::CommandMap::Instance().ExecuteCommand("Bind PrintScreen Game.TakeScreenshot");
+	if (!Modules::ModuleInput::Instance().IsCommandBound("game.showscreen browser"))
+		Modules::CommandMap::Instance().ExecuteCommand("Bind F11 game.showscreen browser");
+	if (!Modules::ModuleInput::Instance().IsCommandBound("Game.ShowLocalServersUI"))
+		Modules::CommandMap::Instance().ExecuteCommand("Bind F10 Game.ShowLocalServersUI");
+	if (!Modules::ModuleInput::Instance().IsCommandBound("Game.ShowModBrowser"))
+		Modules::CommandMap::Instance().ExecuteCommand("Bind F9 Game.ShowModBrowser");
+	if (!Modules::ModuleInput::Instance().IsCommandBound("Game.ShowModInfo"))
+		Modules::CommandMap::Instance().ExecuteCommand("Bind F2 Game.ShowModInfo");
+	Modules::CommandMap::Instance().CommitDirtyVariables();
+	mapsFolder = "maps\\";
+	if (numArgs > 1)
+	{
+		for (__int32 i = 1; i < numArgs; i++)
+		{
+			std::string arg = cmdArgs[i];
+			if (arg.compare(0, 1, "-") != 0)
+				continue;
+			if (arg.compare("-highpriority") == 0)
+				isHighPriority = true;
+			if (arg.compare("-dedicated") == 0 || arg.compare("-headless") == 0)
+			{
+				isDedicated = true;
+				Modules::CommandMap::Instance().ExecuteCommand("Server.Dedicated 1");
+			}
+			if (arg.compare("-bot") == 0)
+				isBotClient = true;
+			if (arg.compare("-maps") == 0 && i < numArgs - 1)
+			{
+				mapsFolder = cmdArgs[i + 1];
+				if (mapsFolder.length() > 0 && mapsFolder.back() != '\\' && mapsFolder.back() != '/')
+					mapsFolder += "\\";
+			}
+			if (arg.compare("-webdebug") == 0)
+				webDebugging = true;
+			if (arg.compare("-webdebug-port") == 0)
+				webdebugPort = atoi(cmdArgs[i + 1]);
+			if (arg.compare("-webdebug-log") == 0)
+				webDebugLogging = true;
+			if (arg.compare("-connect") == 0 && i < numArgs - 1)
+			{
+				serverAddress = cmdArgs[i + 1];
+				connectToServer = true;
+			}
+			if (arg.compare("-password") == 0 && i < numArgs - 1)
+				serverPassword = cmdArgs[i + 1];
+			if (arg.compare("-debugger") == 0)
+			{
+				__int32 proc = _getpid();
+				std::string command = "vsjitdebugger.exe -p " + std::to_string(proc);
+				system(command.c_str());
+			}
+			if (arg.compare("-exec") == 0)
+			{
+				std::string filePath = cmdArgs[i + 1];
+				Modules::CommandMap::Instance().ExecuteCommand(std::format("Execute \"{}\"", filePath));
+			}
+			unsigned __int32 pos = arg.find('=');
+			if (pos == std::string::npos || arg.length() <= pos + 1)
+				continue;
+			std::string argname = arg.substr(1, pos - 1);
+			std::string argvalue = arg.substr(pos + 1);
+			Modules::CommandMap::Instance().ExecuteCommand(argname + " \"" + argvalue + "\"", true);
+		}
+	}
+	webDebugging = true;
+	if (!isDedicated)
+	{
+		Web::Ui::ScreenLayer::Init();
+		Web::Ui::MpEventDispatcher::Init();
+		Web::Ui::WebChat::Init();
+		Web::Ui::WebScoreboard::Init();
+		Web::Ui::WebConsole::Init();
+		Web::Ui::WebLoadingScreen::Init();
+		Web::Ui::Voting::Init();
+		Web::Ui::WebSettings::Init();
+		Web::Ui::WebMods::Init();
+		Web::Ui::WebServerModBrowser::Init();
+		Web::Ui::WebDialog::Init();
+		Web::Ui::WebEmote::Init();
+		Patches::VirtualKeyboard::Init();
+		if (connectToServer)
+		{
+			std::stringstream connectString;
+			connectString << "connect " << serverAddress << " " << serverPassword;
+			Modules::CommandMap::Instance().ExecuteCommand(connectString.str());
+		}
+	}
+	Modules::CommandMap::Instance().ExecuteCommand("register");
+	setWatermarkText("ElDewrito | Version: " + Utils::Version::GetVersionString() + " | Build Date: Oct  3 2025");
+	Server::SaveDefaultBanList(Server::LoadDefaultBanList());
+	Server::Chat::Initialize();
+	ChatCommands::Init();
+	Server::Stats::Init();
+	Player::CPlayersInfo::Init();
+	Server::Voting::Init();
+	Server::VariableSynchronization::Initialize();
+	Server::Rcon::Initialize();
+	Server::Signaling::Initialize();
+	Server::ReportHandler::Init();
+	Server::BanListSync::Init();
+	Server::HsGlobalSync::Init();
+	Server::ClientDataTracker::Initialize();
+	Server::HsGlobalSync::Init();
+	c_mod_system::initialize(IsDedicated());
+	CServerConnectManager::Instance().Initialize();
+	CModBrowserManager::Instance().Initialize();
+	c_map_variant_loader::initialzie();
+	Download::Init();
+	Player::CPlayerCharacterSystem::Init();
+	Scripting::HS::Init();
+	Player::PlayerPodium::Init();
+	PersistentMemory::Init();
+	Objects::CObjectMessaging::Init();
+	Utils::LogEthernetAdapterInfo();
 }
 
 namespace Server
@@ -491,7 +671,7 @@ namespace Debug
 	namespace CrashReporting
 	{
 		// mangled_x86(MANGLED_DEFAULT, "??1s_crash_info@CrashReporting@Debug@@QAE@XZ"); no body to assert in
-		_inline s_crash_info::~s_crash_info() = default; // 0x10964050
+		// hades: s_crash_info::~s_crash_info() is implicit (0x10964050)
 	}
 }
 
@@ -508,38 +688,80 @@ void ElDorito::Shutdown() // 0x10966B70
 	Download::Shutdown();
 }
 
-_extern void _sub_10966B50(ElDorito *const, std::string const &);
 void ElDorito::SetMapsFolder(std::string const &path) // 0x10966B50
 {
-	mangled_x86(MANGLED_TODO, "?SetMapsFolder@ElDorito@@AAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SetMapsFolder@ElDorito@@AAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 	// std::string const &path;
-	todo("implement");
-	_sub_10966B50(this, path);
 }
 
-_extern void _sub_10966BD0(ElDorito *const);
 void ElDorito::Tick() // 0x10966BD0
 {
-	mangled_x86(MANGLED_TODO, "?Tick@ElDorito@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@ElDorito@@QAEXXZ");
 	// static ...; // 0x10966DEC
 	// static ...; // 0x10966DE0
 	// static ...; // 0x10966DD8
 	// ElDorito *const this;
-	{
 		// float speed;
 		// c_network_session *session;
 		// Modules::ModuleTime const &moduleTime;
-	}
 	// function call : bool (*const)()
 	// function call : bool (*const)(c_network_session **)
-	todo("implement");
-	_sub_10966BD0(this);
+
+	Server::VariableSynchronization::Tick();
+	if (IsDedicated())
+		Server::Rcon::Tick();
+	Server::Signaling::Tick();
+	Server::Chat::Tick();
+	Patches::Tick();
+	if (!isDedicated)
+	{
+		Web::Ui::ScreenLayer::Tick();
+		Web::Ui::WebScoreboard::Tick();
+		Web::Ui::WebEmote::Tick();
+		Player::PlayerEmblemDownload::Instance().Tick();
+	}
+	else if (GameHasMenuShown)
+		Server::DedicatedServer::Tick();
+	Server::InfoServer::Tick();
+	Server::Stats::Tick();
+	Player::CPlayersInfo::Tick();
+	Server::Voting::Tick();
+	Server::BanListSync::Tick();
+	Server::HsGlobalSync::Tick();
+	ChatCommands::Tick();
+	Server::ReportHandler::Tick();
+	Discord::DiscordRPC::Instance().Update();
+	Server::HsGlobalSync::Tick();
+	Modules::ModuleVoIP::Instance().Tick();
+	::Audio::CAudioDeviceManager::Instance().Update();
+	CServerConnectManager::Instance().Update();
+	CModBrowserManager::Instance().Update();
+	c_map_variant_loader::update();
+	Download::Tick();
+	Player::CPlayerCharacterSystem::Tick();
+	Scripting::HS::Tick();
+	c_mod_system::update();
+	Utils::AntiCheat::OnTickCheck();
+	Modules::CommandMap::Instance().Update();
+	if (executeCommandQueue)
+	{
+		Modules::CommandMap::Instance().ExecuteQueue();
+		executeCommandQueue = false;
+	}
+	if (((bool(__cdecl *)())0x5314B0)())
+	{
+		Modules::ModuleTime const &moduleTime = Modules::ModuleTime::Instance();
+		c_network_session *session;
+		float speed = moduleTime.VarSpeedClient->ValueFloat;
+		if (!network_session_interface_get_squad_session(&session))
+			speed = moduleTime.VarSpeed->ValueFloat;
+		game_time_set_speed(speed);
+	}
 }
 
-extern std::string _sub_10964690(ElDorito *const);
 std::string ElDorito::GetDirectory() // 0x10964690
 {
-	mangled_x86(MANGLED_TODO, "?GetDirectory@ElDorito@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetDirectory@ElDorito@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 	// static ...; // 0x1096493D
 	// static ...; // 0x10964938
 	// static ...; // 0x10964934
@@ -549,16 +771,23 @@ std::string ElDorito::GetDirectory() // 0x10964690
 	// HINSTANCE__ *hMod;
 	// char Path[260];
 	// std::string Dir;
-	{
 		// __int32 Error;
-	}
 	// function call : __int32 (unsigned long, char const *, HINSTANCE__ **)
 	// function call : unsigned long ()
 	// function call : void (char const *)
 	// function call : unsigned long (HINSTANCE__ *, char *, unsigned long)
-	todo("implement");
-	std::string __result = _sub_10964690(this);
-	return __result;
+
+	char Path[260];
+	HINSTANCE__ *hMod;
+	if (!GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (char const *)HandleFinder, &hMod))
+	{
+		__int32 Error = GetLastError();
+		OutputDebugStringA(std::string("Unable to resolve current directory, error code: ").append(std::to_string(Error)).c_str());
+	}
+	GetModuleFileNameA(hMod, Path, sizeof(Path));
+	std::string Dir(Path);
+	Dir = Dir.substr(0, std::string(Dir).find_last_of('\\') + 1);
+	return Dir;
 }
 
 void ElDorito::OnMainMenuShown() // 0x10966AA0
@@ -575,18 +804,24 @@ void ElDorito::OnMainMenuShown() // 0x10966AA0
 		Server::DedicatedServer::Init();
 }
 
-_extern void _sub_10967AF0(ElDorito *const, std::string const &);
 void ElDorito::setWatermarkText(std::string const &Message) // 0x10967AF0
 {
-	mangled_x86(MANGLED_TODO, "?setWatermarkText@ElDorito@@AAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?setWatermarkText@ElDorito@@AAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 	// static ...; // 0x10967D3C
 	// static ...; // 0x10967D34
 	// ElDorito *const this;
 	// std::string const &Message;
 	// static wchar_t msgBuf[256]; // 0x1240F878
 	// std::wstring msgUnicode;
-	todo("implement");
-	_sub_10967AF0(this, Message);
+
+	static wchar_t msgBuf[256];
+	wmemset(msgBuf, 0, 256);
+	std::wstring msgUnicode = Utils::String::WidenString(Message);
+	wcscpy_s(msgBuf, 256, msgUnicode.c_str());
+	Pointer::Base(0x2E5338).Write<uint8_t>(0x68);
+	Pointer::Base(0x2E5339).Write(&msgBuf);
+	Pointer::Base(0x2E533D).Write<uint8_t>(0x90);
+	Pointer::Base(0x2E533E).Write<uint8_t>(0x90);
 }
 
 bool CanAccessFolder(char const *folderName, unsigned long genericAccessRights) // 0x10964160
@@ -641,12 +876,10 @@ bool CanAccessFolder(char const *folderName, unsigned long genericAccessRights) 
 					PRIVILEGE_SET privileges = { 0 };
 					DWORD grantedAccess = 0, privilegesLength = sizeof(privileges);
 					BOOL result = FALSE;
-
 					mapping.GenericRead = FILE_GENERIC_READ;
 					mapping.GenericWrite = FILE_GENERIC_WRITE;
 					mapping.GenericExecute = FILE_GENERIC_EXECUTE;
 					mapping.GenericAll = FILE_ALL_ACCESS;
-
 					::MapGenericMask(&genericAccessRights, &mapping);
 					if (::AccessCheck(security, hImpersonatedToken, genericAccessRights,
 						&mapping, &privileges, &privilegesLength, &grantedAccess, &result)) {
@@ -659,7 +892,6 @@ bool CanAccessFolder(char const *folderName, unsigned long genericAccessRights) 
 			::free(security);
 		}
 	}
-
 	return bRet;
 }
 
@@ -693,10 +925,9 @@ bool EnsureChildProcessTermination() // 0x10964530
 	return true;
 }
 
-extern std::string _sub_10964A30(_EXCEPTION_RECORD const &);
 std::string GetExceptionMessage(_EXCEPTION_RECORD const &exceptionRecord) // 0x10964A30
 {
-	mangled_x86(MANGLED_TODO, "?GetExceptionMessage@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABU_EXCEPTION_RECORD@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetExceptionMessage@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABU_EXCEPTION_RECORD@@@Z");
 	// static ...; // 0x10964C5C
 	// static ...; // 0x10964C50
 	// static ...; // 0x10964C48
@@ -704,15 +935,26 @@ std::string GetExceptionMessage(_EXCEPTION_RECORD const &exceptionRecord) // 0x1
 	// char const *(*const exception_get_name)(unsigned long);
 	// char const *name;
 	// function call : char const *(*const)(unsigned long)
-	todo("implement");
-	std::string __result = _sub_10964A30(exceptionRecord);
-	return __result;
+
+	char const *(*const exception_get_name)(unsigned long) = reinterpret_cast<char const *(*)(unsigned long)>(0x51BE40);
+	char const *name = exception_get_name(exceptionRecord.ExceptionCode);
+	if (!name)
+		name = "UNKNOWN_EXCEPTION";
+	if (exceptionRecord.ExceptionCode == EXCEPTION_ACCESS_VIOLATION)
+	{
+		if (exceptionRecord.ExceptionInformation[1] == 0)
+			return std::format("{} - tried to read address {:08x}", name, exceptionRecord.ExceptionInformation[0]);
+		else if (exceptionRecord.ExceptionInformation[1] == 1)
+			return std::format("{} - tried to write to address {:08x}", name, exceptionRecord.ExceptionInformation[0]);
+		else if (exceptionRecord.ExceptionInformation[1] == 8)
+			return std::format("{} - tried to execute address {:08x}", name, exceptionRecord.ExceptionInformation[0]);
+	}
+	return std::format("{} - code: {:08x}", name, exceptionRecord.ExceptionCode);
 }
 
-_extern long _sub_10966E80(_EXCEPTION_POINTERS *);
 long __stdcall TopLevelExceptionFilter(_EXCEPTION_POINTERS *ExceptionInfo) // 0x10966E80
 {
-	mangled_x86(MANGLED_TODO, "?TopLevelExceptionFilter@@YGJPAU_EXCEPTION_POINTERS@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?TopLevelExceptionFilter@@YGJPAU_EXCEPTION_POINTERS@@@Z");
 	// static ...; // 0x109670EF
 	// static ...; // 0x109670EB
 	// static ...; // 0x109670E6
@@ -726,9 +968,26 @@ long __stdcall TopLevelExceptionFilter(_EXCEPTION_POINTERS *ExceptionInfo) // 0x
 	// char info[1024];
 	// Debug::CrashReporting::s_crash_info crashInfo;
 	// std::string msg;
-	todo("implement");
-	long __result = _sub_10966E80(ExceptionInfo);
-	return __result;
+
+	if (handling)
+		return EXCEPTION_EXECUTE_HANDLER;
+	handling = true;
+	Utils::Singleton<Utils::Logger>::Instance().Flush();
+	HINSTANCE__ *hMod = Utils::ProcessUtils::GetModuleFromAddress(ExceptionInfo->ExceptionRecord->ExceptionAddress);
+	std::string moduleName = Utils::ProcessUtils::GetModuleNameForDisplay(hMod);
+	std::string msg = GetExceptionMessage(*ExceptionInfo->ExceptionRecord);
+	char info[1024];
+	sprintf_s(info, "%s - %s+%0X", msg.c_str(), moduleName.c_str(), (unsigned long)ExceptionInfo->ExceptionRecord->ExceptionAddress - (unsigned long)hMod);
+	Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Debug, Utils::LogLevel::Error, info);
+	Debug::CrashReporting::s_crash_info crashInfo;
+	crashInfo.ctx = ExceptionInfo->ContextRecord;
+	crashInfo.info = info;
+	crashInfo.exception.address = (unsigned __int32)ExceptionInfo->ExceptionRecord->ExceptionAddress;
+	crashInfo.exception.code = ExceptionInfo->ExceptionRecord->ExceptionCode;
+	crashInfo.exception.flags = ExceptionInfo->ExceptionRecord->ExceptionFlags;
+	crashInfo.exception.msg = msg;
+	Debug::CrashReporting::ReportCrash(crashInfo);
+	return EXCEPTION_EXECUTE_HANDLER;
 }
 
 __int32 __stdcall WinMainHook(HINSTANCE__ *hInstance, HINSTANCE__ *hPrevInstance, char *lpCmdLine, __int32 nCmdShow) // 0x109671A0
@@ -747,10 +1006,9 @@ __int32 __stdcall WinMainHook(HINSTANCE__ *hInstance, HINSTANCE__ *hPrevInstance
 	return WinMainPtr(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
 }
 
-_extern __int32 _sub_10964D10(HINSTANCE__ *);
 __int32 InitInstance(HINSTANCE__ *hModule) // 0x10964D10
 {
-	mangled_x86(MANGLED_TODO, "?InitInstance@@YAHPAUHINSTANCE__@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?InitInstance@@YAHPAUHINSTANCE__@@@Z");
 	// static ...; // 0x10964FB3
 	// static ...; // 0x10964FAC
 	// static ...; // 0x10964F94
@@ -763,9 +1021,24 @@ __int32 InitInstance(HINSTANCE__ *hModule) // 0x10964D10
 	// function call : unsigned long (HINSTANCE__ *, char *, unsigned long)
 	// function call : __int32 (char const *)
 	// function call : __int32 (HWND__ *, char const *, char const *, unsigned __int32)
-	todo("implement");
-	__int32 __result = _sub_10964D10(hModule);
-	return __result;
+
+	DisableThreadLibraryCalls(hModule);
+	SetProcessDPIAware();
+	EnsureChildProcessTermination();
+	char appPath[MAX_PATH];
+	GetModuleFileNameA(hModule, appPath, MAX_PATH);
+	std::string EDPath = appPath;
+	EDPath = EDPath.substr(0, EDPath.find_last_of("\\"));
+	SetCurrentDirectoryA(EDPath.c_str());
+	if (!CanAccessFolder(".", GENERIC_READ | GENERIC_WRITE))
+	{
+		MessageBoxA(NULL, "Invalid permissions for the current directory, your game will be relaunched as Administrator.\nPlease set eldorado.exe to run as administrator or move your game to a different directory to avoid this message in the future.", "Invalid Directory Permissions", MB_ICONERROR);
+		relaunch = true;
+		return true;
+	}
+	Patches::ApplyRequired();
+	Hook(0x7ED7C3, WinMainHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+	return true;
 }
 
 __int32 ExitInstance() // 0x10964670
@@ -784,10 +1057,9 @@ __int32 GetEDVersion() // 0x109649F0
 	return Utils::Version::GetVersionInt();
 }
 
-_extern __int32 _sub_10967E50(HINSTANCE__ *, unsigned long, void *);
-extern "C" __int32 __stdcall DllMain(HINSTANCE__ *hModule, unsigned long Reason, void *Misc) // 0x10967E50
+extern "C" __int32 __stdcall DllMain(HINSTANCE__ *hModule, unsigned long Reason, void *Misc) noexcept(false) // 0x10967E50
 {
-	mangled_x86(MANGLED_TODO, "_DllMain@12");
+	mangled_x86(MANGLED_KNOWN_GOOD, "_DllMain@12");
 	// static ...; // 0x1096806C
 	// static ...; // 0x10968064
 // $LN11:
@@ -797,17 +1069,36 @@ extern "C" __int32 __stdcall DllMain(HINSTANCE__ *hModule, unsigned long Reason,
 	// HINSTANCE__ *hModule;
 	// unsigned long Reason;
 	// void *Misc;
-	{
 		// std::string str;
 		// __int32 offset;
 		// char *cmd;
-	}
 	// function call : char *()
 	// function call : char *()
 	// function call : HINSTANCE__ *(HWND__ *, char const *, char const *, char const *, char const *, __int32)
-	todo("implement");
-	__int32 __result = _sub_10967E50(hModule, Reason, Misc);
-	return __result;
+
+	switch (Reason)
+	{
+	case DLL_PROCESS_ATTACH:
+		return InitInstance(hModule);
+	case DLL_PROCESS_DETACH:
+		return ExitInstance();
+	case DLL_THREAD_ATTACH:
+		return true;
+	case DLL_THREAD_DETACH:
+		if (relaunch)
+		{
+			char *cmd = GetCommandLineA();
+			__int32 offset = 0;
+			if (cmd[offset] == '"')
+				while (cmd[++offset] != '"');
+			while (cmd[++offset] != ' ');
+			std::string str = static_cast<std::string>(GetCommandLineA());
+			ShellExecuteA(nullptr, "runas", str.substr(0, offset).c_str(), str.substr(offset).c_str(), nullptr, SW_SHOWNORMAL);
+			std::exit(0);
+		}
+		return true;
+	}
+	return false;
 }
 
 /* ---------- private code */
@@ -816,7 +1107,6 @@ namespace Debug
 {
 	namespace CrashReporting
 	{
-		_inline s_crash_info::s_exception::~s_exception() = default; // 0x10963AF0
 
 	}
 }

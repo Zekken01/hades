@@ -106,7 +106,7 @@ namespace hades_file_local
 	{
 		long equeued_game_time; // 0x0
 		c_flags<enum e_suppressed_game_engine_event_flags,unsigned char> flags; // 0x4
-		unsigned char __pad0[3]; // 0x5
+		unsigned char : 8; unsigned char : 8; unsigned char : 8; // 0x5  // hades: unnamed, so the implicit copies skip it as the original's do
 		s_game_engine_event_data metadata; // 0x8
 		s_suppressed_game_engine_event(s_suppressed_game_engine_event &); /* compiler_generated() */
 		s_suppressed_game_engine_event(s_suppressed_game_engine_event const &); /* compiler_generated() */
@@ -132,7 +132,7 @@ namespace hades_file_local
 	static_assert(sizeof(s_suppressed_game_engine_event_collection) == 3076, "Invalid s_suppressed_game_engine_event_collection size");
 
 }
-using namespace hades_file_local;
+using namespace hades_file_local; template<> c_flags<enum e_suppressed_game_engine_event_flags,unsigned char>::operator bool() const { return (bool)m_value; } // hades: the original casts, as the flags.inl specializations do
 /* ---------- prototypes */
 
 namespace Patches
@@ -155,7 +155,7 @@ void game_event_set_cause_player_hook(long player_index, s_game_engine_event_dat
 
 namespace hades_file_local
 {
-	extern std::vector<std::function<void __cdecl(unsigned long,s_game_engine_event_data const *,s_multiplayer_event_response_definition const *)> > OnEventCallbacks; // 0x124584AC
+	std::vector<std::function<void __cdecl(unsigned long,s_game_engine_event_data const *,s_multiplayer_event_response_definition const *)> > OnEventCallbacks; // 0x124584AC
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -164,22 +164,24 @@ namespace Patches
 {
 	namespace Events
 	{
-		_extern void _sub_10A59630();
 		void ApplyAll() // 0x10A59630
 		{
-			mangled_x86(MANGLED_TODO, "?ApplyAll@Events@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Events@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_10A59630();
+
+					Hook(0x16669C, RunEventHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+					Hook(0x165CE2, RunEventHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+					Hook(0x165D0D, RunEventHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+					Hook(0x165E80, game_engine_update_game_events_hook).Apply();
+					Hook(0x1CEB60, game_event_set_cause_player_hook).Apply();
 		}
 
-		_extern void _sub_10A59B30(std::function<void __cdecl(unsigned long,s_game_engine_event_data const *,s_multiplayer_event_response_definition const *)>);
 		void OnEvent(std::function<void __cdecl(unsigned long,s_game_engine_event_data const *,s_multiplayer_event_response_definition const *)> callback) // 0x10A59B30
 		{
-			mangled_x86(MANGLED_TODO, "?OnEvent@Events@Patches@@YAXV?$function@$$A6AXKPBUs_game_engine_event_data@@PBUs_multiplayer_event_response_definition@@@Z@std@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnEvent@Events@Patches@@YAXV?$function@$$A6AXKPBUs_game_engine_event_data@@PBUs_multiplayer_event_response_definition@@@Z@std@@@Z");
 			// std::function<void __cdecl(unsigned long,s_game_engine_event_data const *,s_multiplayer_event_response_definition const *)> callback;
-			todo("implement");
-			_sub_10A59B30(callback);
+
+			OnEventCallbacks.push_back(callback);
 		}
 	}
 }
@@ -203,7 +205,6 @@ void RunEventHook(unsigned long player, s_game_engine_event_data const *event, s
 
 	for (auto &callback : OnEventCallbacks)
 		callback(player, event, definition);
-
 	void (*RunEvent)(unsigned long, s_game_engine_event_data const *, s_multiplayer_event_response_definition const *) = (void (*)(unsigned long, s_game_engine_event_data const *, s_multiplayer_event_response_definition const *))0x5666b0;
 	RunEvent(player, event, definition);
 }
@@ -214,22 +215,27 @@ _inline s_suppressed_game_engine_event::s_suppressed_game_engine_event() = defau
 // mangled_x86(MANGLED_DEFAULT, "??0s_suppressed_game_engine_event_collection@hades_file_local@@QAE@XZ"); no body to assert in
 _inline s_suppressed_game_engine_event_collection::s_suppressed_game_engine_event_collection() = default; // 0x10A58F00
 
-_extern bool _sub_10A5B150(long);
 bool player_has_name(long player_index) // 0x10A5B150
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?player_has_name@@YA_NJ@Z");
 	// `anonymous-namespace'::player_has_name
 	// long player_index;
 	// s_player_datum *player;
-	todo("implement");
-	bool __result = _sub_10A5B150(player_index);
-	return __result;
+
+	if (player_index == -1)
+	{
+		return false;
+	}
+
+	s_player_datum *player = player_get(player_index);
+	return player && player->configuration.host.player_name[0];
 }
 
 _inline s_suppressed_game_engine_event &s_suppressed_game_engine_event::operator=(s_suppressed_game_engine_event const &__that) = default; // 0x10A59290
 
-_extern void _sub_10A5AAA0();
 void game_engine_update_game_events_hook() // 0x10A5AAA0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_update_game_events_hook@@YAXXZ");
 	// `anonymous-namespace'::game_engine_update_game_events_hook
 	// procedure flags: nofpo
 	// static ...; // 0x10A5AEEC
@@ -243,38 +249,71 @@ void game_engine_update_game_events_hook() // 0x10A5AAA0
 	// long current_time;
 	// s_suppressed_game_engine_event_collection *events;
 	// long grief_time_in_ticks;
-	{
 		// s_static_array<s_suppressed_game_engine_event,64> &<range>$L0;
 		// s_suppressed_game_engine_event *<begin>$L0;
 		// s_suppressed_game_engine_event *<end>$L0;
-		{
 			// s_suppressed_game_engine_event &event;
-			{
 				// long delay_for_ticks;
-			}
-		}
-	}
-	{
 		// __int32 (*comparator)(void const *, void const *);
-		{
 			// s_suppressed_game_engine_event *<end>$L1;
 			// s_suppressed_game_engine_event *<begin>$L1;
 			// s_static_array<s_suppressed_game_engine_event,64> &<range>$L1;
-			{
 				// s_suppressed_game_engine_event const &sorted_event;
-				{
 					// s_suppressed_game_engine_event &event;
-				}
-			}
-		}
-	}
 	// function call : long (*const)()
 	// function call : long (*const)(float)
 	// function call : long (*const)(float)
 	// function call : long (*const)(float)
 	// function call : void (*const)(s_game_engine_event_data const *)
-	todo("implement");
-	_sub_10A5AAA0();
+
+	extern long (*const game_time_get)();
+	extern long (*const game_seconds_to_ticks_round)(float);
+	static void (*const game_engine_event_play)(s_game_engine_event_data const *) = (void (*)(s_game_engine_event_data const *))0x565CA0;
+	char *game_engine_globals = *(char **)tls_get(0x48);
+	s_suppressed_game_engine_event_collection *events = (s_suppressed_game_engine_event_collection *)(game_engine_globals + 0x14C48);
+	s_suppressed_game_engine_event_collection sorted_events;
+	sorted_events.elements.set_memory(0);
+	sorted_events.count = 0;
+	long current_time = game_time_get();
+	long default_delay_ticks = game_seconds_to_ticks_round(0.15f);
+	long delay_for_join_in_ticks = game_seconds_to_ticks_round(2.0f);
+	long grief_time_in_ticks = game_seconds_to_ticks_round(7.0f);
+	for (s_suppressed_game_engine_event &event : events->elements)
+	{
+		if (!(event.flags & (1 << _suppressed_game_engine_event_valid_bit)))
+			continue;
+		if (event.flags & (1 << _suppressed_game_engine_event_handled_bit))
+			continue;
+		long delay_for_ticks = default_delay_ticks;
+		if (event.flags & (1 << _suppressed_game_engine_event_delayed_for_join_bit))
+			delay_for_ticks = delay_for_join_in_ticks;
+		if (current_time > event.equeued_game_time + delay_for_ticks + grief_time_in_ticks)
+		{
+			event.flags &= ~(1 << _suppressed_game_engine_event_valid_bit);
+			event.flags |= (1 << _suppressed_game_engine_event_handled_bit);
+			continue;
+		}
+		if (current_time > event.equeued_game_time + delay_for_ticks)
+		{
+			if (event.metadata.cause_player_index != -1 && !player_has_name(event.metadata.cause_player_index))
+				continue;
+			if (event.metadata.effect_player_index != -1 && !player_has_name(event.metadata.effect_player_index))
+				continue;
+			sorted_events.elements[sorted_events.count++] = event;
+		}
+	}
+	if (sorted_events.count > 0)
+	{
+		__int32 (*comparator)(void const *, void const *) = (__int32 (*)(void const *, void const *))0x565D20;
+		qsort(&sorted_events.elements, sorted_events.count, sizeof(s_suppressed_game_engine_event), comparator);
+		for (s_suppressed_game_engine_event const &sorted_event : sorted_events.elements)
+		{
+			game_engine_event_play(&sorted_event.metadata);
+			s_suppressed_game_engine_event &event = events->elements[sorted_event.metadata.index];
+			event.flags &= ~(1 << _suppressed_game_engine_event_valid_bit);
+			event.flags |= (1 << _suppressed_game_engine_event_handled_bit);
+		}
+	}
 }
 
 void game_event_set_cause_player_hook(long player_index, s_game_engine_event_data *event) // 0x10A5B010
@@ -308,7 +347,7 @@ template c_flags<enum e_suppressed_game_engine_event_flags,unsigned char> & c_fl
 template c_flags<enum e_suppressed_game_engine_event_flags,unsigned char> c_flags<enum e_suppressed_game_engine_event_flags,unsigned char>::operator&(__int32 const) const;
 template c_flags<enum e_suppressed_game_engine_event_flags,unsigned char>::c_flags();
 template c_flags<enum e_suppressed_game_engine_event_flags,unsigned char>::c_flags(unsigned char const &);
-template c_flags<enum e_suppressed_game_engine_event_flags,unsigned char>::operator bool() const;
+// template c_flags<enum e_suppressed_game_engine_event_flags,unsigned char>::operator bool() const; // hades: specialized after the type definitions
 
 /* ---------- explicit instantiations */
 template s_static_array<s_suppressed_game_engine_event,64>::s_static_array();

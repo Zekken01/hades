@@ -25,7 +25,7 @@ public:
 	_inline bool read_next_chunk(s_blf_chunk_header *out_header, unsigned char const **out_data, unsigned long *out_data_size);
 private:
 	bool m_should_byte_swap; // 0x0
-	unsigned char __pad0[3]; // 0x1
+	// 0x1: 3 bytes of implicit padding (hades: no array member, it would add a /GS cookie to every c_blf_reader local)
 	unsigned char const *m_buffer; // 0x4
 	unsigned long m_size; // 0x8
 	unsigned long m_position; // 0xC

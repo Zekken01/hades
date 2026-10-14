@@ -26,6 +26,10 @@
 #include "Utils/NameValueTable.hpp"
 #include "Utils/Singleton.hpp"
 
+#include "Utils/Logger.hpp"  // hades: added for 0x10733810  // hades: added for 0x10733810
+
+#include "Server/Voting/VotingUtil.hpp"  // hades: added for 0x10733360  // hades: added for 0x10733360
+
 #include <boost/asio.hpp>
 #include <boost/assert.hpp>
 #include <boost/exception/all.hpp>
@@ -106,6 +110,8 @@ using namespace ::Blam;
 
 /* ---------- prototypes */
 
+namespace Server { namespace Voting { unsigned __int32 FindMapByName(std::vector<Server::Voting::HaloMap> const &maps, std::string const &name); } }  // hades: added for 0x10733A40  // hades: added for 0x10733A40
+
 /* ---------- globals */
 
 /* ---------- private variables */
@@ -116,8 +122,8 @@ namespace Server
 	{
 		namespace hades_file_local_Server_Voting
 		{
-			extern std::string const DefaultTypes[8]; // 0x113887F0
-			extern std::string const DefaultTypeNames[8]; // 0x113888D0
+			// extern std::string const DefaultTypes[8]; // 0x113887F0  // hades: defined in VotingTypes.hpp, one copy per file
+			// extern std::string const DefaultTypeNames[8]; // 0x113888D0  // hades: defined in VotingTypes.hpp, one copy per file
 		}
 		using namespace hades_file_local_Server_Voting;
 	}
@@ -128,74 +134,81 @@ namespace Server
 {
 	namespace Voting
 	{
-		_extern void _sub_10733A40(std::vector<Server::Voting::HaloMap> &, std::vector<Server::Voting::HaloMap> const &);
 		void HaloTypeInheritance::MergeMaps(std::vector<Server::Voting::HaloMap> &maps, std::vector<Server::Voting::HaloMap> const &newMaps) // 0x10733A40
 		{
-			mangled_x86(MANGLED_TODO, "?MergeMaps@HaloTypeInheritance@Voting@Server@@SAXAAV?$vector@UHaloMap@Voting@Server@@V?$allocator@UHaloMap@Voting@Server@@@std@@@std@@ABV45@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?MergeMaps@HaloTypeInheritance@Voting@Server@@SAXAAV?$vector@UHaloMap@Voting@Server@@V?$allocator@UHaloMap@Voting@Server@@@std@@@std@@ABV45@@Z");
 			// std::vector<Server::Voting::HaloMap> const &newMaps;
-			{
 				// std::vector<Server::Voting::HaloMap> const &<range>$L0;
 				// Server::Voting::HaloMap const *<begin>$L0;
 				// Server::Voting::HaloMap const *<end>$L0;
-				{
 					// Server::Voting::HaloMap const &map;
-				}
+
+			for (Server::Voting::HaloMap const &map : newMaps)
+			{
+				if (FindMapByName(maps, map.mapName) == -1)
+					maps.push_back(map);
 			}
-			todo("implement");
-			_sub_10733A40(maps, newMaps);
 		}
 
-		_extern bool _sub_10733360(Server::Voting::HaloType &, Server::Voting::HaloType const &, std::vector<Server::Voting::HaloType> const &);
 		bool HaloTypeInheritance::BuildHaloType(Server::Voting::HaloType &newType, Server::Voting::HaloType const &currentType, std::vector<Server::Voting::HaloType> const &types) // 0x10733360
 		{
-			mangled_x86(MANGLED_TODO, "?BuildHaloType@HaloTypeInheritance@Voting@Server@@SA_NAAUHaloType@23@ABU423@ABV?$vector@UHaloType@Voting@Server@@V?$allocator@UHaloType@Voting@Server@@@std@@@std@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?BuildHaloType@HaloTypeInheritance@Voting@Server@@SA_NAAUHaloType@23@ABU423@ABV?$vector@UHaloType@Voting@Server@@V?$allocator@UHaloType@Voting@Server@@@std@@@std@@@Z");
 			// static ...; // 0x107336EC
 			// static ...; // 0x107336E4
 			// Server::Voting::HaloType &newType;
 			// Server::Voting::HaloType const &currentType;
 			// std::vector<Server::Voting::HaloType> const &types;
-			{
 				// unsigned __int32 baseTypeIndex;
-			}
-			{
 				// std::vector<std::string> const &<range>$L0;
 				// std::string const *<begin>$L0;
 				// std::string const *<end>$L0;
-				{
 					// std::string const &cmd;
-				}
-			}
-			{
 				// std::string const *<end>$L1;
 				// std::string const *<begin>$L1;
 				// std::vector<std::string> const &<range>$L1;
-				{
-				}
-			}
-			{
 				// std::_Default_sentinel <end>$L2;
 				// std::map<std::string,Server::Voting::HaloType::CharacterOverride> const &<range>$L2;
 				// std::_Tree_unchecked_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,Server::Voting::HaloType::CharacterOverride> > >,std::_Iterator_base0> <begin>$L2;
-				{
 					// std::string const &k;
 					// Server::Voting::HaloType::CharacterOverride const &v;
-				}
-			}
-			{
 				// std::vector<Server::Voting::HaloMap> const &<range>$L3;
 				// Server::Voting::HaloMap const *<begin>$L3;
 				// Server::Voting::HaloMap const *<end>$L3;
-				{
 					// Server::Voting::HaloMap const &map;
-				}
+
+			if (!currentType.inherits.empty())
+			{
+				unsigned __int32 baseTypeIndex = FindTypeByName(types, currentType.inherits);
+				if (baseTypeIndex == -1 || !BuildHaloType(newType, types[baseTypeIndex], types))
+					return false;
 			}
-			todo("implement");
-			bool __result = _sub_10733360(newType, currentType, types);
-			return __result;
+			if (!currentType.typeName.empty())
+				newType.typeName = currentType.typeName;
+			if (!currentType.typeDisplayName.empty())
+				newType.typeDisplayName = currentType.typeDisplayName;
+			if (!currentType.modPack.empty())
+				newType.modPack = currentType.modPack;
+			if (!currentType.modDisplayName.empty())
+				newType.modDisplayName = currentType.modDisplayName;
+			if (currentType.randomChance != 0.1f)
+				newType.randomChance = currentType.randomChance;
+			if (currentType.allowedPlayerCount.maximumPlayersAllowed < newType.allowedPlayerCount.maximumPlayersAllowed)
+				newType.allowedPlayerCount.maximumPlayersAllowed = currentType.allowedPlayerCount.maximumPlayersAllowed;
+			if (currentType.allowedPlayerCount.minimumPlayersAllowed > newType.allowedPlayerCount.minimumPlayersAllowed)
+				newType.allowedPlayerCount.minimumPlayersAllowed = currentType.allowedPlayerCount.minimumPlayersAllowed;
+			for (auto const &cmd : currentType.commands)
+				newType.commands.push_back(cmd);
+			for (auto const &cmd : currentType.endOfMatchCommands)
+				newType.endOfMatchCommands.push_back(cmd);
+			for (auto const &[k, v] : currentType.characterOverrides)
+				newType.characterOverrides[k] = v;
+			for (auto const &map : currentType.specificMaps)
+				MergeMaps(newType.specificMaps, currentType.specificMaps);
+			return true;
 		}
 
 		// mangled_x86(MANGLED_DEFAULT, "??0AllowedPlayerCount@Voting@Server@@QAE@XZ"); no body to assert in
-		_inline AllowedPlayerCount::AllowedPlayerCount() // 0x107327F0
+		_inline AllowedPlayerCount::AllowedPlayerCount() noexcept // 0x107327F0
 		{
 			minimumPlayersAllowed = 0;
 			maximumPlayersAllowed = 0x10;
@@ -204,36 +217,40 @@ namespace Server
 		// mangled_x86(MANGLED_DEFAULT, "??0CharacterOverride@HaloType@Voting@Server@@QAE@XZ"); no body to assert in
 
 		// mangled_x86(MANGLED_DEFAULT, "??0HaloMap@Voting@Server@@QAE@$$QAU012@@Z"); no body to assert in
-		_inline HaloMap::HaloMap(Server::Voting::HaloMap &&__that) = default; // 0x10732890
+		_inline HaloMap::HaloMap(Server::Voting::HaloMap &&__that) noexcept = default; // 0x10732890
 
-		_extern void _sub_10733810(std::vector<Server::Voting::HaloType> &, std::vector<Server::Voting::HaloType> const &);
 		void HaloTypeInheritance::BuildHaloTypes(std::vector<Server::Voting::HaloType> &newTypes, std::vector<Server::Voting::HaloType> const &allTypes) // 0x10733810
 		{
-			mangled_x86(MANGLED_TODO, "?BuildHaloTypes@HaloTypeInheritance@Voting@Server@@SAXAAV?$vector@UHaloType@Voting@Server@@V?$allocator@UHaloType@Voting@Server@@@std@@@std@@ABV45@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?BuildHaloTypes@HaloTypeInheritance@Voting@Server@@SAXAAV?$vector@UHaloType@Voting@Server@@V?$allocator@UHaloType@Voting@Server@@@std@@@std@@ABV45@@Z");
 			// static ...; // 0x107339AC
 			// static ...; // 0x107339A4
 			// std::vector<Server::Voting::HaloType> &newTypes;
 			// std::vector<Server::Voting::HaloType> const &allTypes;
-			{
 				// std::vector<Server::Voting::HaloType> const &<range>$L0;
 				// Server::Voting::HaloType const *<begin>$L0;
 				// Server::Voting::HaloType const *<end>$L0;
-				{
 					// Server::Voting::HaloType const &ht;
-					{
 						// Server::Voting::HaloType newHaloType;
-					}
+
+			for (Server::Voting::HaloType const &ht : allTypes)
+			{
+				if (ht.isTemplate)
+					continue;
+				Server::Voting::HaloType newHaloType;
+				if (!BuildHaloType(newHaloType, ht, allTypes))
+				{
+					Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Game, Utils::LogLevel::Error, std::format("Voting failed to build game type \"{}\"", ht.typeName));
+					continue;
 				}
+				newTypes.push_back(std::move(newHaloType));
 			}
-			todo("implement");
-			_sub_10733810(newTypes, allTypes);
 		}
 
 		// mangled_x86(MANGLED_DEFAULT, "??0HaloType@Voting@Server@@QAE@$$QAU012@@Z"); no body to assert in
 		_inline HaloType::HaloType(Server::Voting::HaloType &&__that) = default; // 0x107329A0
 
 		// mangled_x86(MANGLED_DEFAULT, "??4CharacterOverride@HaloType@Voting@Server@@QAEAAU0123@ABU0123@@Z"); no body to assert in
-		_inline Server::Voting::HaloType::CharacterOverride &HaloType::CharacterOverride::operator=(Server::Voting::HaloType::CharacterOverride const &__that) = default; // 0x10732F60
+		// _inline Server::Voting::HaloType::CharacterOverride &HaloType::CharacterOverride::operator=(Server::Voting::HaloType::CharacterOverride const &__that) = default; // 0x10732F60  // hades: left implicit
 	}
 }
 

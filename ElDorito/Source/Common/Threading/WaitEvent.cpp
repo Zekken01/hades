@@ -58,13 +58,13 @@ bool WaitEvent::Wait(__int32 timeout) const // 0x106D1730
 	// long capturedValue;
 
 	long current;
-	long undesired = 0;
+	long undesiredValue = 0;
 
 	current = m_value;
 
-	while (current == undesired)
+	while (current == undesiredValue)
 	{
-		if (!WaitOnAddress((void *)&m_value, &undesired, sizeof(undesired), timeout))
+		if (!WaitOnAddress((void *)&m_value, &undesiredValue, sizeof(undesiredValue), timeout))
 		{
 			return false;
 		}

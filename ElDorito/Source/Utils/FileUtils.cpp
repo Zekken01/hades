@@ -60,10 +60,10 @@ namespace Utils
 			// _stat64 stat_buf;
 			// __int32 rc;
 
-			struct _stat64 fileStat;
-			int result = _stat64(filename, &fileStat);
+			struct _stat64 stat_buf;
+			int result = _stat64(filename, &stat_buf);
 
-			return result == 0 ? fileStat.st_size : -1;
+			return result == 0 ? stat_buf.st_size : -1;
 		}
 
 		__int32 GetFileSize(char const *filename) // 0x10C57DD0
@@ -84,7 +84,7 @@ namespace Utils
 	}
 }
 
-extern char const *_sub_10C57EA0(char const *);
+
 namespace Utils
 {
 	namespace FileUtils

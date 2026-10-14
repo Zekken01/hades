@@ -26,7 +26,7 @@ private:
 	unsigned char *m_buffer; // 0x8
 public:
 	template<typename t_arg0>
-	t_arg0 add_chunk();
+	t_arg0 *add_chunk();
 };
 static_assert(sizeof(c_blf_writer) == 12, "Invalid c_blf_writer size");
 
@@ -47,11 +47,11 @@ _inline c_blf_writer::c_blf_writer(unsigned long buffer_size, void *buffer) // 0
 }
 
 template<typename t_arg0>
-_inline t_arg0 c_blf_writer::add_chunk()
+_inline t_arg0 *c_blf_writer::add_chunk()
 {
 	mangled_prefix_assert("??$add_chunk@");
-	todo("implement");
-	return todo_result<t_arg0>();
+	void *chunk = allocate_chunk(sizeof(t_arg0));
+	return new (chunk) t_arg0;
 }
 
 /* ---------- private code */

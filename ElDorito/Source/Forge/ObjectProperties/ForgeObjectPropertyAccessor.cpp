@@ -468,10 +468,9 @@ namespace Forge
 		}
 	}
 
-	_extern void _sub_1083FA30(::Forge::CDefaultPropertyAccessor *const, ::Forge::EObjectProperty, ::Forge::SPropertyValue);
 	_inline void CDefaultPropertyAccessor::SetGeneralPropertyValue(::Forge::EObjectProperty property, ::Forge::SPropertyValue value) // 0x1083FA30
 	{
-		mangled_x86(MANGLED_TODO, "?SetGeneralPropertyValue@CDefaultPropertyAccessor@Forge@@AAEXW4EObjectProperty@2@USPropertyValue@2@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?SetGeneralPropertyValue@CDefaultPropertyAccessor@Forge@@AAEXW4EObjectProperty@2@USPropertyValue@2@@Z");
 		// static ...; // 0x1083FCF0
 		// static ...; // 0x1083FCE8
 	// $LN28:
@@ -493,8 +492,83 @@ namespace Forge
 		// Forge::EObjectProperty property;
 		// Forge::SPropertyValue value;
 		// s_map_variant_placement_properties properties;
-		todo("implement");
-		_sub_1083FA30(this, property, value);
+
+		s_map_variant_placement_properties properties;
+		if (!GetMapVariantObjectProperties(m_objectIndex, &properties))
+			throw std::runtime_error("failed get placement properties");
+		switch (property)
+		{
+		case General_OnMapAtStart:
+			if (!value.intValue)
+				properties.placement_flags |= 2;
+			else
+				properties.placement_flags &= ~2;
+			break;
+		case General_Symmetry:
+			switch (value.intValue)
+			{
+			case 2:
+				properties.placement_flags = properties.placement_flags & ~4 | 8;
+				break;
+			case 1:
+				properties.placement_flags = properties.placement_flags & ~8 | 4;
+				break;
+			case 0:
+				properties.placement_flags |= 12;
+				break;
+			}
+			break;
+		case General_RespawnRate:
+			properties.respawn_time = value.intValue;
+			break;
+		case General_SpawnOrder:
+			properties.shared_storage = value.intValue;
+			break;
+		case General_SpareClips:
+			properties.shared_storage = value.intValue;
+			break;
+		case General_Team:
+			properties.team_affiliation = value.intValue;
+			break;
+		case General_EngineFlags:
+			properties.game_engine_flags = (unsigned short)value.intValue;
+			break;
+		case General_TeleporterChannel:
+			properties.shared_storage = value.intValue;
+			break;
+		case General_ShapeType:
+			properties.boundry_shape = (char)value.intValue;
+			break;
+		case General_ShapeRadius:
+			properties.boundry_width = value.realValue;
+			break;
+		case General_ShapeTop:
+			properties.boundry_top = value.realValue;
+			break;
+		case General_ShapeBottom:
+			properties.boundry_bottom = value.realValue;
+			break;
+		case General_ShapeWidth:
+			properties.boundry_width = value.realValue;
+			break;
+		case General_ShapeDepth:
+			properties.boundry_length = value.realValue;
+			break;
+		case General_Physics:
+			switch (value.intValue)
+			{
+			case 0:
+				properties.boundry_shape = (char)0;
+				break;
+			case 1:
+				properties.boundry_shape = (char)4;
+				break;
+			}
+			break;
+		default:
+			throw std::runtime_error("not implemented");
+		}
+		SetMapVariantObjectProperties(m_playerIndex, m_objectIndex, properties);
 	}
 
 	_inline ::Forge::SPropertyValue CDefaultPropertyAccessor::GetReforgePropertyValue(::Forge::EObjectProperty property) // 0x1083E370
@@ -1002,7 +1076,7 @@ namespace Forge
 
 			break;
 		case KillVolume_DamageCause:
-			killVolumeProperties->DamageCause = (unsigned char)value.realValue;
+			killVolumeProperties->DamageCause = (unsigned char)value.intValue;
 			break;
 		default:
 			throw std::runtime_error("not implemented");
@@ -1051,7 +1125,7 @@ namespace Forge
 		case GarbageVolume_CollectVehicles:
 			return Forge::SPropertyValue::Integer((garbageVolumeProperties->Flags & Forge::ForgeGarbageVolumeProperties::eGarbageVolumeFlags_CollectVehicles) != 0);
 		case GarbageVolume_Interval:
-			return Forge::SPropertyValue::Integer(garbageVolumeProperties->Interval);
+			return Forge::SPropertyValue::Integer(garbageVolumeProperties->Interval & 3);
 		default:
 			throw std::runtime_error("not implemented");
 		}
@@ -1132,7 +1206,7 @@ namespace Forge
 
 			break;
 		case GarbageVolume_Interval:
-			garbageVolumeProperties->Interval = (unsigned char)value.realValue;
+			garbageVolumeProperties->Interval = value.intValue & 3;
 			break;
 		default:
 			throw std::runtime_error("not implemented");
@@ -1251,29 +1325,26 @@ namespace Forge
 			// unsigned short &flags;
 
 		s_map_variant_placement_properties properties;
-
 		GetMapVariantObjectProperties(m_objectIndex, &properties);
-
 		Forge::ForgeMapModifierProperties *mapModifierProperties = (Forge::ForgeMapModifierProperties *)&properties.boundry_width;
-
 		switch (property)
 		{
 		case Map_DisableDeathBarrier:
-			mapModifierProperties->Flags &= ~Forge::ForgeMapModifierProperties::eMapModifierFlags_DisableDeathBarrier;
+		{
+			unsigned short &flags = mapModifierProperties->Flags;
+			flags &= ~Forge::ForgeMapModifierProperties::eMapModifierFlags_DisableDeathBarrier;
 			if (value.intValue)
-			{
-				mapModifierProperties->Flags |= Forge::ForgeMapModifierProperties::eMapModifierFlags_DisableDeathBarrier;
-			}
-
+				flags |= Forge::ForgeMapModifierProperties::eMapModifierFlags_DisableDeathBarrier;
 			break;
+		}
 		case Map_DisablePushBarrier:
-			mapModifierProperties->Flags &= ~Forge::ForgeMapModifierProperties::eMapModifierFlags_DisablePushBarrier;
+		{
+			unsigned short &flags = mapModifierProperties->Flags;
+			flags &= ~Forge::ForgeMapModifierProperties::eMapModifierFlags_DisablePushBarrier;
 			if (value.intValue)
-			{
-				mapModifierProperties->Flags |= Forge::ForgeMapModifierProperties::eMapModifierFlags_DisablePushBarrier;
-			}
-
+				flags |= Forge::ForgeMapModifierProperties::eMapModifierFlags_DisablePushBarrier;
 			break;
+		}
 		case Map_PhysicsGravity:
 			mapModifierProperties->PhysicsGravity = (int)(value.realValue * 255.0f);
 			break;
@@ -1290,12 +1361,10 @@ namespace Forge
 			mapModifierProperties->CameraFxLightBloom = (int)(value.realValue / 2.0f * 255.0f);
 			break;
 		case AtmosphereProperties_Enabled:
-			mapModifierProperties->AtmosphereProperties.Flags &= ~1;
 			if (value.intValue)
-			{
 				mapModifierProperties->AtmosphereProperties.Flags |= 1;
-			}
-
+			else
+				mapModifierProperties->AtmosphereProperties.Flags &= ~1;
 			break;
 		case AtmosphereProperties_Weather:
 			mapModifierProperties->AtmosphereProperties.Weather = (unsigned char)value.intValue;
@@ -1322,20 +1391,17 @@ namespace Forge
 			mapModifierProperties->AtmosphereProperties.Skybox = (unsigned char)value.intValue;
 			break;
 		case AtmosphereProperties_SkyboxOffsetZ:
-			mapModifierProperties->AtmosphereProperties.SkyboxZOffset = (int)((value.realValue / 2.0f + 0.5f) * 255.0f);
+			mapModifierProperties->AtmosphereProperties.SkyboxZOffset = (int)((value.realValue * 0.5f + 0.5f) * 255.0f);
 			break;
 		case AtmosphereProperties_SkyboxOverrideTransform:
-			mapModifierProperties->AtmosphereProperties.Flags &= ~2;
 			if (value.intValue)
-			{
 				mapModifierProperties->AtmosphereProperties.Flags |= 2;
-			}
-
+			else
+				mapModifierProperties->AtmosphereProperties.Flags &= ~2;
 			break;
 		default:
 			throw std::runtime_error("not implemented");
 		}
-
 		SetMapVariantObjectProperties(m_playerIndex, m_objectIndex, properties);
 	}
 
@@ -1377,10 +1443,10 @@ namespace Forge
 		switch (property)
 		{
 		case Budget_Minimum:
-			entry.minimum_count = (unsigned char)value.realValue;
+			entry.minimum_count = (unsigned char)value.intValue;
 			break;
 		case Budget_Maximum:
-			entry.maximum_count = (unsigned char)value.realValue;
+			entry.maximum_count = (unsigned char)value.intValue;
 			break;
 		default:
 			throw std::runtime_error("not implemented");
@@ -1595,20 +1661,18 @@ namespace Forge
 		m_values[property] = value;
 	}
 
-	extern SPropertyValue _sub_1083E200(::Forge::CDeferredPropertySetter *const, ::Forge::EObjectProperty);
 	::Forge::SPropertyValue CDeferredPropertySetter::GetPropertyValue(::Forge::EObjectProperty property) // 0x1083E200
 	{
-		mangled_x86(MANGLED_TODO, "?GetPropertyValue@CDeferredPropertySetter@Forge@@UAE?AUSPropertyValue@2@W4EObjectProperty@2@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetPropertyValue@CDeferredPropertySetter@Forge@@UAE?AUSPropertyValue@2@W4EObjectProperty@2@@Z");
 		// static ...; // 0x1083E318
 		// static ...; // 0x1083E310
 		// Forge::CDeferredPropertySetter *const this;
 		// Forge::EObjectProperty property;
-		{
 			// std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<enum Forge::EObjectProperty const ,Forge::SPropertyValue> > > > it;
-		}
-		todo("implement");
-		::Forge::SPropertyValue __result = _sub_1083E200(this, property);
-		return __result;
+
+		if (auto it = m_values.find(property); it != m_values.end())
+			return it->second;
+		return ::Forge::SPropertyValue();
 	}
 
 	void CDeferredPropertySetter::Reset() // 0x1083E8E0
@@ -1619,10 +1683,9 @@ namespace Forge
 		m_values.clear();
 	}
 
-	_extern void _sub_1083BD00(::Forge::CDeferredPropertySetter *const, long, long);
 	void CDeferredPropertySetter::Apply(long playerIndex, long objectIndex) // 0x1083BD00
 	{
-		mangled_x86(MANGLED_TODO, "?Apply@CDeferredPropertySetter@Forge@@QAEXJJ@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Apply@CDeferredPropertySetter@Forge@@QAEXJJ@Z");
 		// static ...; // 0x1083BE34
 		// static ...; // 0x1083BE10
 		// static ...; // 0x1083BE08
@@ -1630,16 +1693,15 @@ namespace Forge
 		// long playerIndex;
 		// long objectIndex;
 		// Forge::CDefaultPropertyAccessor accessor;
-		{
 			// std::unordered_map<enum Forge::EObjectProperty,Forge::SPropertyValue> &<range>$L0;
 			// std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<enum Forge::EObjectProperty const ,Forge::SPropertyValue> > > > <begin>$L0;
 			// std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<enum Forge::EObjectProperty const ,Forge::SPropertyValue> > > > <end>$L0;
-			{
 				// std::pair<enum Forge::EObjectProperty const ,Forge::SPropertyValue> &value;
-			}
-		}
-		todo("implement");
-		_sub_1083BD00(this, playerIndex, objectIndex);
+
+		CDefaultPropertyAccessor accessor(playerIndex, objectIndex);
+		for (auto &value : m_values)
+			accessor.SetPropertyValue(value.first, value.second);
+		m_values.clear();
 	}
 }
 
@@ -1653,10 +1715,7 @@ _inline bool GetMapVariantObjectProperties(long objectIndex, s_map_variant_place
 	// s_object_data *object;
 	// s_map_variant_placement_properties *properties;
 
-	s_variant_datum *objects;
-	s_object_data *object;
-
-	object = object_get(objectIndex);
+	s_object_data *object = object_get(objectIndex);
 	if (!object)
 	{
 		return false;
@@ -1667,8 +1726,8 @@ _inline bool GetMapVariantObjectProperties(long objectIndex, s_map_variant_place
 		return false;
 	}
 
-	objects = Forge::GetMapVariant()->objects;
-	memcpy(outProperties, &objects[object->map_variant_index].properties, sizeof(s_map_variant_placement_properties));
+	s_map_variant_placement_properties *properties = &Forge::GetMapVariant()->objects[object->map_variant_index].properties;
+	memcpy(outProperties, properties, sizeof(s_map_variant_placement_properties));
 	return true;
 }
 
@@ -1704,10 +1763,7 @@ _inline bool GetMapVariantBudgetForObject(long objectIndex, s_variant_quota *out
 	// s_object_data *object;
 	// s_map_variant *mapVariant;
 
-	s_map_variant *mapVariant;
-	s_object_data *object;
-
-	object = object_get(objectIndex);
+	s_object_data *object = object_get(objectIndex);
 	if (!object)
 	{
 		return false;
@@ -1718,19 +1774,20 @@ _inline bool GetMapVariantBudgetForObject(long objectIndex, s_variant_quota *out
 		return false;
 	}
 
-	mapVariant = Forge::GetMapVariant();
-	if (mapVariant->objects[object->map_variant_index].quota_index >= 0x100)
+	s_map_variant *mapVariant = Forge::GetMapVariant();
+	s_variant_datum *variantObject = &mapVariant->objects[object->map_variant_index];
+	if (variantObject->quota_index < 0 || variantObject->quota_index >= 0x100)
 	{
 		return false;
 	}
 
-	*outEntry = mapVariant->object_quotas[mapVariant->objects[object->map_variant_index].quota_index];
+	*outEntry = mapVariant->object_quotas[variantObject->quota_index];
 	return true;
 }
 
-_extern bool _sub_10840500(long, long, s_variant_quota &);
 _inline bool SetMapVariantBudgetForObject(long playerIndex, long objectIndex, s_variant_quota &entry) // 0x10840500
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SetMapVariantBudgetForObject@@YA_NJJAAUs_variant_quota@@@Z");
 	// `anonymous-namespace'::SetMapVariantBudgetForObject
 	// static ...; // 0x10840628
 	// long playerIndex;
@@ -1741,9 +1798,27 @@ _inline bool SetMapVariantBudgetForObject(long playerIndex, long objectIndex, s_
 	// s_simulation_queue_sandbox_event_data event_data;
 	// s_map_variant *mapVariant;
 	// function call : void (*const)(s_simulation_queue_sandbox_event_data *)
-	todo("implement");
-	bool __result = _sub_10840500(playerIndex, objectIndex, entry);
-	return __result;
+
+	s_object_data *object = object_get(objectIndex);
+	if (!object)
+		return false;
+	if (object->map_variant_index == -1)
+		return false;
+
+	s_map_variant *mapVariant = Forge::GetMapVariant();
+	s_variant_datum &placement = mapVariant->objects[object->map_variant_index];
+	if (placement.quota_index < 0 || placement.quota_index >= 256)
+		return false;
+
+	mapVariant->object_quotas[placement.quota_index] = entry;
+	s_simulation_queue_sandbox_event_data event_data;
+	event_data.type = s_simulation_queue_sandbox_event_data::_event_type_edit_object_quota;
+	event_data.player_index = playerIndex;
+	event_data.object_definition_index = entry.definition_index;
+	event_data.quota_min = entry.minimum_count;
+	event_data.quota_max = entry.maximum_count;
+	((void (__cdecl *)(s_simulation_queue_sandbox_event_data *))0x4735D0)(&event_data);
+	return true;
 }
 
 /* ---------- template instantiations */

@@ -77,31 +77,34 @@ namespace Blam
 
 namespace Mods
 {
-	_extern __int32 _sub_10788160(std::string const &);
 	__int32 CModGlobals::FindCharacterSet(std::string const &name) // 0x10788160
 	{
-		mangled_x86(MANGLED_TODO, "?FindCharacterSet@CModGlobals@Mods@@SAHABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?FindCharacterSet@CModGlobals@Mods@@SAHABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 		// static ...; // 0x107882EC
 		// static ...; // 0x107882E0
 		// static ...; // 0x107882D8
 		// std::string const &name;
 		// s_mod_globals_definition *modg;
 		// std::shared_ptr<Blam::Cache::StringIDCache> stringCache;
-		{
 			// __int32 i;
-			{
 				// char *currentName;
-			}
+
+		std::shared_ptr<Blam::Cache::StringIDCache> stringCache = Blam::Cache::StringIDCache::GetCurrent();
+		s_mod_globals_definition *modg = mod_globals_get_definition();
+		if (!modg)
+			return -1;
+		for (__int32 i = 0; i < modg->player_character_sets.count; i++)
+		{
+			char *currentName = stringCache->GetString(modg->player_character_sets[i].name);
+			if (currentName && name == currentName)
+				return i;
 		}
-		todo("implement");
-		__int32 __result = _sub_10788160(name);
-		return __result;
+		return -1;
 	}
 
-	_extern __int32 _sub_10787EF0(__int32, std::string const &);
 	__int32 CModGlobals::FindCharacterInSet(__int32 characterSetIndex, std::string const &name) // 0x10787EF0
 	{
-		mangled_x86(MANGLED_TODO, "?FindCharacterInSet@CModGlobals@Mods@@SAHHABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?FindCharacterInSet@CModGlobals@Mods@@SAHHABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 		// static ...; // 0x107880C8
 		// static ...; // 0x107880C0
 		// __int32 characterSetIndex;
@@ -109,15 +112,23 @@ namespace Mods
 		// s_mod_globals_player_character_set const &set;
 		// s_mod_globals_definition *modg;
 		// std::shared_ptr<Blam::Cache::StringIDCache> stringCache;
-		{
 			// __int32 i;
-			{
 				// char *currentName;
-			}
+
+		std::shared_ptr<Blam::Cache::StringIDCache> stringCache = Blam::Cache::StringIDCache::GetCurrent();
+		s_mod_globals_definition *modg = mod_globals_get_definition();
+		if (!modg)
+			return -1;
+		if (characterSetIndex < 0 || characterSetIndex >= modg->player_character_sets.count)
+			return -1;
+		s_mod_globals_player_character_set const &set = modg->player_character_sets[characterSetIndex];
+		for (__int32 i = 0; i < set.characters.count; i++)
+		{
+			char *currentName = stringCache->GetString(set.characters[i].name);
+			if (currentName && name == currentName)
+				return i;
 		}
-		todo("implement");
-		__int32 __result = _sub_10787EF0(characterSetIndex, name);
-		return __result;
+		return -1;
 	}
 
 	__int32 CModGlobals::GetCharacterVisionModeGlobals(__int32 characterTypeIndex) // 0x10788710
@@ -164,55 +175,75 @@ namespace Mods
 		return -1;
 	}
 
-	_extern bool _sub_10788360(__int32, unsigned long *);
 	bool CModGlobals::GetCharacterDefaultColors(__int32 characterTypeIndex, unsigned long *colors) // 0x10788360
 	{
-		mangled_x86(MANGLED_TODO, "?GetCharacterDefaultColors@CModGlobals@Mods@@SA_NHPAK@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetCharacterDefaultColors@CModGlobals@Mods@@SA_NHPAK@Z");
 		// unsigned long *colors;
 		// s_mod_globals_definition *modg;
-		{
 			// __int32 i;
-			{
 				// s_mod_globals_player_character_customization const &customization;
-				{
 					// long j;
+			// long i;
+
+		s_mod_globals_definition *modg = nullptr;
+		if (characterTypeIndex != -1)
+		{
+			modg = mod_globals_get_definition();
+			if (modg)
+			{
+				for (__int32 i = 0; i < modg->player_character_customizations.count; i++)
+				{
+					s_mod_globals_player_character_customization const &customization = modg->player_character_customizations[i];
+					if (customization.global_player_character_type_index == characterTypeIndex)
+					{
+						for (long j = 0; j < 5; j++)
+							colors[j] = reinterpret_cast<s_mod_globals_player_character_colors::s_change_color_block const *>(customization.character_colors.colors)[j].default_color;
+						return true;
+					}
 				}
 			}
 		}
-		{
-			// long i;
-		}
-		todo("implement");
-		bool __result = _sub_10788360(characterTypeIndex, colors);
-		return __result;
+		for (long i = 0; i < 5; i++)
+			colors[i] = 0;
+		return false;
 	}
 
-	_extern bool _sub_10788490(__int32, real_rgb_color *);
 	bool CModGlobals::GetCharacterDefaultColors(__int32 characterTypeIndex, real_rgb_color *colors) // 0x10788490
 	{
-		mangled_x86(MANGLED_TODO, "?GetCharacterDefaultColors@CModGlobals@Mods@@SA_NHPAUreal_rgb_color@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetCharacterDefaultColors@CModGlobals@Mods@@SA_NHPAUreal_rgb_color@@@Z");
 		// real_rgb_color *colors;
 		// s_mod_globals_definition *modg;
-		{
 			// __int32 i;
-			{
 				// s_mod_globals_player_character_customization const &customization;
-				{
 					// long j;
+			// long i;
+		// function call : real_rgb_color *(*const)(unsigned long, real_rgb_color *)
+
+		s_mod_globals_definition *modg = nullptr;
+		if (characterTypeIndex != -1)
+		{
+			modg = mod_globals_get_definition();
+			if (modg)
+			{
+				for (__int32 i = 0; i < modg->player_character_customizations.count; i++)
+				{
+					s_mod_globals_player_character_customization const &customization = modg->player_character_customizations[i];
+					if (customization.global_player_character_type_index == characterTypeIndex)
+					{
+						for (long j = 0; j < 5; j++)
+							((void(*)(unsigned long, real_rgb_color *))0x521300)(reinterpret_cast<s_mod_globals_player_character_colors::s_change_color_block const *>(customization.character_colors.colors)[j].default_color, &colors[j]);
+						return true;
+					}
 				}
 			}
 		}
-		{
-			// long i;
-		}
-		// function call : real_rgb_color *(*const)(unsigned long, real_rgb_color *)
-		todo("implement");
-		bool __result = _sub_10788490(characterTypeIndex, colors);
-		return __result;
+		for (long i = 0; i < 5; i++)
+			colors[i] = { 0.0f, 0.0f, 0.0f };
+		return false;
 	}
 }
 
-extern s_mod_globals_player_character_customization *_sub_107887E0(__int32);
+
 namespace Mods
 {
 	s_mod_globals_player_character_customization *CModGlobals::GetCustomizationCharacter(__int32 characterTypeIndex) // 0x107887E0

@@ -44,7 +44,6 @@ struct s_game_engine_status_response
 	unsigned short flags; // 0x0
 	unsigned char __pad0[2]; // 0x2
 	c_enum<enum e_game_engine_status,short> state; // 0x4
-	unsigned char __pad1[2]; // 0x6
 	unsigned long ffa_message; // 0x8
 	unsigned long team_message; // 0xC
 	s_tag_reference unused; // 0x10

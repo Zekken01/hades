@@ -5,6 +5,7 @@
 /* ---------- headers */
 
 #include "hades/hades.h"
+#include "Blam/BlamNetwork.hpp"  // hades: added for 0x10AFF1F0
 
 #include "Patches/Audio.hpp"
 
@@ -46,6 +47,21 @@ namespace Patches
 		extern void ApplyAll();
 		extern void SendPacket(__int32 targetPeer, void const *packet, __int32 packetSize);
 		extern unsigned __int32 RegisterPacketImpl(std::string const &name, std::shared_ptr<Patches::CustomPackets::RawPacketHandler> handler);
+
+		// hades: the two register templates, from the 0.6.1 header
+		template<typename TPacket>
+		std::shared_ptr<PacketSender<TPacket> > RegisterPacket(std::string const &name, std::shared_ptr<PacketHandler<TPacket> > handler)
+		{
+			auto id = RegisterPacketImpl(name, handler);
+			return std::make_shared<PacketSender<TPacket> >(id);
+		}
+
+		template<typename TData, typename TVarData>
+		std::shared_ptr<VariadicPacketSender<TData, TVarData> > RegisterVariadicPacket(std::string const &name, std::shared_ptr<VariadicPacketHandler<TData, TVarData> > handler)
+		{
+			auto id = RegisterPacketImpl(name, handler);
+			return std::make_shared<VariadicPacketSender<TData, TVarData> >(id);
+		}
 	}
 }
 
@@ -63,12 +79,12 @@ namespace Patches
 			// Patches::CustomPackets::RawPacketHandler *const this;
 		}
 
-		extern PacketBase* _sub_10AFF1F0(Patches::CustomPackets::PacketBase *const, unsigned __int32);
 		_inline PacketBase::PacketBase(unsigned __int32 guid) // 0x10AFF1F0
 		{
-			mangled_x86(MANGLED_TODO, "??0PacketBase@CustomPackets@Patches@@QAE@I@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0PacketBase@CustomPackets@Patches@@QAE@I@Z");
 			// unsigned __int32 guid;
 
+			reinterpret_cast<Blam::Network::PacketHeader *>(Header)->PacketHeader::PacketHeader();
 			TypeGuid = guid;
 		}
 	}

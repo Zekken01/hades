@@ -26,6 +26,8 @@
 #include "Web/WebRendererShader.hpp"
 #include "Web/WebRenderHandlerOsr.hpp"
 
+#include "Utils/Logger.hpp"  // hades: added for 0x10CEB700
+
 #include <base/cef_atomic_ref_count.h>
 #include <base/cef_lock.h>
 #include <base/cef_logging.h>
@@ -47,10 +49,10 @@
 #include <d3dx9core.h>
 #include <d3dx9math.h>
 #include <d3dx9math.inl>
+#include <d3dcompiler.h>  // hades: added for 0x10CEB960
 #include <internal/cef_string_wrappers.h>
 #include <internal/cef_types_wrappers.h>
 #include <internal/cef_win.h>
-
 #include <Windows.h>
 #include <boost/align/detail/align_up.hpp>
 #include <boost/align/detail/is_alignment.hpp>
@@ -217,23 +219,33 @@ namespace Web
 	}
 }
 
-extern IDirect3DTexture9 *_sub_10CEB700(Web::Browser::RenderHandlerGpu::GpuAcceleratedSurface *const, IDirect3DDevice9 *);
+
 namespace Web
 {
 	namespace Browser
 	{
 		_inline IDirect3DTexture9 *RenderHandlerGpu::GpuAcceleratedSurface::GetTexture(IDirect3DDevice9 *device) // 0x10CEB700
 		{
-			mangled_x86(MANGLED_TODO, "?GetTexture@GpuAcceleratedSurface@RenderHandlerGpu@Browser@Web@@QAEPAUIDirect3DTexture9@@PAUIDirect3DDevice9@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetTexture@GpuAcceleratedSurface@RenderHandlerGpu@Browser@Web@@QAEPAUIDirect3DTexture9@@PAUIDirect3DDevice9@@@Z");
 			// IDirect3DDevice9 *device;
 			// void *nextHandle;
-			{
 				// HRESULT hr;
-			}
 			// function call : HRESULT (unsigned __int32, unsigned __int32, unsigned __int32, unsigned long, _D3DFORMAT, _D3DPOOL, IDirect3DTexture9 **, void **)
-			todo("implement");
-			IDirect3DTexture9 * __result = _sub_10CEB700(this, device);
-			return __result;
+
+			void *nextHandle = m_nextHandle.load();
+			if (m_didResize)
+			{
+				m_didResize = false;
+				Reset();
+			}
+			if (nextHandle != m_handle)
+			{
+				m_handle = nextHandle;
+				HRESULT hr = device->CreateTexture(m_size.width, m_size.height, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &m_texture, &m_handle);
+				if (FAILED(hr))
+					Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Graphics, Utils::LogLevel::Info, "Web::Browser::RenderHandlerGpu::GpuAcceleratedSurface::GetTexture:44 - Failed to create surface texture. Error: %x", hr);
+			}
+			return m_texture.Get();
 		}
 
 		_inline void RenderHandlerGpu::GpuAcceleratedSurface::Reset() // 0x10CED360
@@ -254,47 +266,58 @@ namespace Web
 			m_didResize = true;
 		}
 
-		extern RenderHandlerGpu* _sub_10CEAAB0(Web::Browser::RenderHandlerGpu *const, IDirect3DDevice9 *, HWND__ *);
-		RenderHandlerGpu::RenderHandlerGpu(IDirect3DDevice9 *device9, HWND__ *window) // 0x10CEAAB0
+		RenderHandlerGpu::RenderHandlerGpu(IDirect3DDevice9 *device9, HWND__ *window) : m_Window(window), m_Device(device9), m_VertexDeclaration(nullptr), m_VertexShader(nullptr), m_PixelShader(nullptr), m_PopupVisible(false), m_PopupValid(false), m_GpuBufferCount(0), m_GpuVsyncEnable(false), m_GpuWaitEvent(nullptr) /* hades-mem-init:  */ // 0x10CEAAB0
 		{
-			mangled_x86(MANGLED_TODO, "??0RenderHandlerGpu@Browser@Web@@QAE@PAUIDirect3DDevice9@@PAUHWND__@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0RenderHandlerGpu@Browser@Web@@QAE@PAUIDirect3DDevice9@@PAUHWND__@@@Z");
 			// HWND__ *window;
-			todo("implement");
-			_sub_10CEAAB0(this, device9, window);
+
+			#line 281 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Web\\WebRenderHandlerGpu.cpp"
+			LOG_ASSERT(device9);
+			LOG_ASSERT(window);
+			#line 278 "C:\\Users\\zekken\\Desktop\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Web\\WebRenderHandlerGpu.cpp"
 		}
 
 		// mangled_x86(MANGLED_DEFAULT, "??1GpuAcceleratedSurface@RenderHandlerGpu@Browser@Web@@QAE@XZ"); no body to assert in
 		_inline RenderHandlerGpu::GpuAcceleratedSurface::~GpuAcceleratedSurface() = default; // 0x10CEB050
 
-		_extern void _sub_10CEC410(Web::Browser::RenderHandlerGpu *const, scoped_refptr<CefBrowser>, bool);
 		void RenderHandlerGpu::OnPopupShow(scoped_refptr<CefBrowser> browser, bool show) // 0x10CEC410
 		{
-			mangled_x86(MANGLED_TODO, "?OnPopupShow@RenderHandlerGpu@Browser@Web@@EAEXV?$scoped_refptr@VCefBrowser@@@@_N@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnPopupShow@RenderHandlerGpu@Browser@Web@@EAEXV?$scoped_refptr@VCefBrowser@@@@_N@Z");
 			// bool show;
-			todo("implement");
-			_sub_10CEC410(this, browser, show);
+
+			m_PopupVisible = show;
 		}
 
-		_extern void _sub_10CEC470(Web::Browser::RenderHandlerGpu *const, scoped_refptr<CefBrowser>, CefRect const &);
 		void RenderHandlerGpu::OnPopupSize(scoped_refptr<CefBrowser> browser, CefRect const &rect) // 0x10CEC470
 		{
-			mangled_x86(MANGLED_TODO, "?OnPopupSize@RenderHandlerGpu@Browser@Web@@EAEXV?$scoped_refptr@VCefBrowser@@@@ABVCefRect@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnPopupSize@RenderHandlerGpu@Browser@Web@@EAEXV?$scoped_refptr@VCefBrowser@@@@ABVCefRect@@@Z");
 			// static ...; // 0x10CEC5A8
 			// Web::Browser::RenderHandlerGpu *const this;
 			// scoped_refptr<CefBrowser> browser;
 			// CefRect const &rect;
 			// Utils::Rectangle newRect;
-			todo("implement");
-			_sub_10CEC470(this, browser, rect);
+
+			Utils::Rectangle newRect(rect.x, m_ViewSize.height - rect.y - rect.height, rect.width, rect.height);
+			if (newRect == m_PopupRect)
+			{
+				m_PopupValid = true;
+			}
+			else
+			{
+				m_PopupRect = newRect;
+				m_PopupSurface->Resize(m_PopupRect.Width, m_PopupRect.Height);
+			}
 		}
 
-		_extern void _sub_10CEC320(Web::Browser::RenderHandlerGpu *const, scoped_refptr<CefBrowser>, cef_paint_element_type_t, std::vector<CefRect> const &, void *);
 		void RenderHandlerGpu::OnAcceleratedPaint(scoped_refptr<CefBrowser> browser, cef_paint_element_type_t type, std::vector<CefRect> const &dirtyRects, void *sharedHandle) // 0x10CEC320
 		{
-			mangled_x86(MANGLED_TODO, "?OnAcceleratedPaint@RenderHandlerGpu@Browser@Web@@EAEXV?$scoped_refptr@VCefBrowser@@@@W4cef_paint_element_type_t@@ABV?$vector@VCefRect@@V?$allocator@VCefRect@@@std@@@std@@PAX@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnAcceleratedPaint@RenderHandlerGpu@Browser@Web@@EAEXV?$scoped_refptr@VCefBrowser@@@@W4cef_paint_element_type_t@@ABV?$vector@VCefRect@@V?$allocator@VCefRect@@@std@@@std@@PAX@Z");
 			// void *sharedHandle;
-			todo("implement");
-			_sub_10CEC320(this, browser, type, dirtyRects, sharedHandle);
+
+			if (type == PET_POPUP)
+				m_PopupSurface->OnAcceleratedPaint(sharedHandle);
+			else
+				m_ViewSurface->OnAcceleratedPaint(sharedHandle);
 		}
 
 		bool RenderHandlerGpu::Resize(unsigned __int32 width, unsigned __int32 height) // 0x10CED4B0
@@ -323,10 +346,9 @@ namespace Web
 			// Web::Browser::RenderHandlerGpu *const this;
 		}
 
-		_extern bool _sub_10CEB960(Web::Browser::RenderHandlerGpu *const);
 		bool RenderHandlerGpu::InitRenderer() // 0x10CEB960
 		{
-			mangled_x86(MANGLED_TODO, "?InitRenderer@RenderHandlerGpu@Browser@Web@@UAE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?InitRenderer@RenderHandlerGpu@Browser@Web@@UAE_NXZ");
 			// static ...; // 0x10CEBE98
 			// static ...; // 0x10CEBE8E
 			// static ...; // 0x10CEBE84
@@ -351,17 +373,53 @@ namespace Web
 			// function call : HRESULT (unsigned long const *, IDirect3DVertexShader9 **)
 			// function call : void *()
 			// function call : HRESULT (unsigned long const *, IDirect3DPixelShader9 **)
-			todo("implement");
-			bool __result = _sub_10CEB960(this);
-			return __result;
+
+			bool const &g_d3d9ex = *reinterpret_cast<bool const *>(0x1910700);
+			if (!g_d3d9ex)
+			{
+				Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Graphics, Utils::LogLevel::Info, "Web::Browser::RenderHandlerGpu::InitRenderer:140 - D3D9x was not found. CEF GPU Accelleration disabled!");
+				return false;
+			}
+			HMODULE lib = LoadLibraryA("bin\\cef\\d3dcompiler_47.dll");
+			if (!lib)
+			{
+				Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Graphics, Utils::LogLevel::Info, "Web::Browser::RenderHandlerGpu::InitRenderer:149 - D3DCOMPILER_47.dll was not found. CEF GPU Accelleration disabled!");
+				return false;
+			}
+			pD3DCompile D3DCompile_ = (pD3DCompile)GetProcAddress(lib, "D3DCompile");
+			D3DVERTEXELEMENT9 elements[] =
+			{
+				{ 0, 0, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0 },
+				{ 0, 8, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0 },
+				D3DDECL_END()
+			};
+			HRESULT vd_result = m_Device.Get()->CreateVertexDeclaration(elements, &m_VertexDeclaration);
+			ID3DBlob *vs_source;
+			HRESULT vs_result = D3DCompile_(WebRendererHlsl, strlen(WebRendererHlsl), nullptr, nullptr, nullptr, "main_vs", "vs_3_0", D3DCOMPILE_OPTIMIZATION_LEVEL3, 0, &vs_source, nullptr);
+			ID3DBlob *ps_source;
+			HRESULT ps_result = D3DCompile_(WebRendererHlsl, strlen(WebRendererHlsl), nullptr, nullptr, nullptr, "main_ps", "ps_3_0", D3DCOMPILE_OPTIMIZATION_LEVEL3, 0, &ps_source, nullptr);
+			if (FAILED(vd_result) || FAILED(vs_result) || FAILED(ps_result))
+			{
+				Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Graphics, Utils::LogLevel::Info, "Web::Browser::RenderHandlerGpu::InitRenderer:176 - Vertex declaration or shader compilation failed (%x) (%x) (%x).", vd_result, vs_result, ps_result);
+				return false;
+			}
+			vs_result = m_Device.Get()->CreateVertexShader((DWORD const *)vs_source->GetBufferPointer(), &m_VertexShader);
+			ps_result = m_Device.Get()->CreatePixelShader((DWORD const *)ps_source->GetBufferPointer(), &m_PixelShader);
+			if (FAILED(vs_result) || FAILED(ps_result))
+			{
+				Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Graphics, Utils::LogLevel::Info, "Web::Browser::RenderHandlerGpu::InitRenderer:186 - Shader creation failed (%x) (%x).", vs_result, ps_result);
+				return false;
+			}
+			m_ViewSurface = std::make_unique<GpuAcceleratedSurface>();
+			m_PopupSurface = std::make_unique<GpuAcceleratedSurface>();
+			return true;
 		}
 
 		// mangled_x86(MANGLED_DEFAULT, "??0GpuAcceleratedSurface@RenderHandlerGpu@Browser@Web@@QAE@XZ"); no body to assert in
 
-		_extern bool _sub_10CEC8C0(Web::Browser::RenderHandlerGpu *const);
 		bool RenderHandlerGpu::Render() // 0x10CEC8C0
 		{
-			mangled_x86(MANGLED_TODO, "?Render@RenderHandlerGpu@Browser@Web@@UAE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Render@RenderHandlerGpu@Browser@Web@@UAE_NXZ");
 			// static ...; // 0x10CED131
 			// static ...; // 0x10CED126
 			// static ...; // 0x10CED11D
@@ -375,16 +433,12 @@ namespace Web
 			// real_vector4d gamma_power;
 			// IDirect3DTexture9 *const viewTexture;
 			// real_vector4d pixel_size;
-			{
 				// IDirect3DTexture9 *const popupTexture;
-				{
 					// Web::Browser::SCefScreenVertex const vertices[4];
 					// float const x0;
 					// float const y0;
 					// float const x1;
 					// float const y1;
-				}
-			}
 			// function call : void (*const)(long)
 			// function call : bool (*const)(IDirect3DVertexDeclaration9 *)
 			// function call : bool (*const)(IDirect3DVertexShader9 *)
@@ -401,9 +455,59 @@ namespace Web
 			// function call : HRESULT (_D3DPRIMITIVETYPE, unsigned __int32, void const *, unsigned __int32)
 			// function call : void (*const)(long, c_rasterizer_texture_ref)
 			// function call : HRESULT (unsigned long, IDirect3DBaseTexture9 *)
-			todo("implement");
-			bool __result = _sub_10CEC8C0(this);
-			return __result;
+
+			Modules::ModuleGraphics const &moduleGraphicxs = Modules::ModuleGraphics::Instance();
+			IDirect3DTexture9 *const viewTexture = m_ViewSurface->GetTexture(m_Device.Get());
+			if (!viewTexture)
+				return false;
+			((void (*)(long))0xA22D10)(3);
+			((bool (*)(IDirect3DVertexDeclaration9 *))0xA24650)(m_VertexDeclaration.Get());
+			((bool (*)(IDirect3DVertexShader9 *))0xA247B0)(m_VertexShader.Get());
+			((bool (*)(IDirect3DPixelShader9 *))0xA23500)(m_PixelShader.Get());
+			c_rasterizer_samplers::sampler_srgb_states[5] = 1;
+			((void (*)(long, c_enum<e_sampler_filter_mode, long>))0xA23660)(5, (e_sampler_filter_mode)2);
+			((void (*)(long, c_enum<e_sampler_address_mode, long>, c_enum<e_sampler_address_mode, long>, c_enum<e_sampler_address_mode, long>))0xA23570)(5, (e_sampler_address_mode)1, (e_sampler_address_mode)1, (e_sampler_address_mode)1);
+			((void (*)(long))0xA232D0)(2);
+			((bool (*)(IDirect3DIndexBuffer9 *))0xA233C0)(nullptr);
+			float gamma = moduleGraphicxs.VarGammaPower->ValueFloatMax - moduleGraphicxs.VarGammaPower->ValueFloat + 0.6f;
+			real_vector4d gamma_power = { gamma, 0.0f, 0.0f, 0.0f };
+			m_Device->SetPixelShaderConstantF(1, &gamma_power.i, 1);
+			real_vector4d pixel_size = { 1.0f / m_ViewSize.width, 1.0f / m_ViewSize.height };
+			pixel_size.k = pixel_size.i / 2.0f;
+			pixel_size.w = pixel_size.j / 2.0f;
+			SCefScreenVertex const vertices[4] =
+			{
+				{ { -1.0f, -1.0f }, { 0.0f + pixel_size.k, 0.0f + pixel_size.w } },
+				{ { 1.0f, -1.0f }, { 1.0f + pixel_size.k, 0.0f + pixel_size.w } },
+				{ { -1.0f, 1.0f }, { 0.0f + pixel_size.k, 1.0f + pixel_size.w } },
+				{ { 1.0f, 1.0f }, { 1.0f + pixel_size.k, 1.0f + pixel_size.w } },
+			};
+			m_Device->SetTexture(5, viewTexture);
+			m_Device->SetSamplerState(5, D3DSAMP_SRGBTEXTURE, 1);
+			m_Device->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, vertices, sizeof(SCefScreenVertex));
+			if (PopupIsVisible())
+			{
+				IDirect3DTexture9 *const popupTexture = m_PopupSurface->GetTexture(m_Device.Get());
+				if (popupTexture)
+				{
+					float const x0 = (m_PopupRect.X - 0.5f) / m_ViewSize.width * 2.0f - 1.0f;
+					float const y0 = (m_PopupRect.Y - 0.5f) / m_ViewSize.height * 2.0f - 1.0f;
+					float const x1 = (m_PopupRect.X + m_PopupRect.Width - 0.5f) / m_ViewSize.width * 2.0f - 1.0f;
+					float const y1 = (m_PopupRect.Y + m_PopupRect.Height - 0.5f) / m_ViewSize.height * 2.0f - 1.0f;
+					SCefScreenVertex const vertices[4] =
+					{
+					{ { x0, y0 }, { 0.0f, 0.0f } },
+					{ { x1, y0 }, { 1.0f, 0.0f } },
+					{ { x0, y1 }, { 0.0f, 1.0f } },
+					{ { x1, y1 }, { 1.0f, 1.0f } },
+					};
+					m_Device->SetTexture(5, popupTexture);
+					m_Device->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, vertices, sizeof(SCefScreenVertex));
+				}
+			}
+			((void (*)(long, c_rasterizer_texture_ref))0xA23810)(5, c_rasterizer_texture_ref(-1));
+			m_Device->SetTexture(5, nullptr);
+			return true;
 		}
 
 		void RenderHandlerGpu::Shutdown() // 0x10CED5C0

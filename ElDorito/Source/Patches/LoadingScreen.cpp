@@ -28,6 +28,7 @@
 #include "mods/mod_definitions.hpp"
 #include "mods/mod_identifier.hpp"
 #include "mods/mod_package_manager.hpp"
+#include "mods/mod_system.hpp"
 #include "mods/new/IModManager.hpp"
 #include "Modules/ModuleServer.hpp"
 #include "Patch.hpp"
@@ -125,6 +126,9 @@ namespace Blam
 
 /* ---------- prototypes */
 
+extern bool (*const levels_try_and_get_multiplayer_map)(long, s_level_datum *);  // hades: added for 0x10A82F40
+extern bool (*const levels_try_and_get_campaign_map)(long, s_level_datum *);  // hades: added for 0x10A82F40
+
 namespace Patches
 {
 	namespace LoadingScreen
@@ -157,8 +161,8 @@ namespace Patches
 
 namespace hades_file_local
 {
-	extern std::shared_ptr<Patches::LoadingScreen::LoadingScreenUi> ActiveUi; // 0x12458CF8
-	extern std::string const kCampaignSkullNames[16]; // 0x12458B38
+	std::shared_ptr<Patches::LoadingScreen::LoadingScreenUi> ActiveUi; // 0x12458CF8
+	std::string const kCampaignSkullNames[16] = { "iron", "black_eye", "tough_luck", "catch", "fog", "famine", "thunderstorm", "tilt", "mythic", "assassin", "blind", "superman", "birthday", "daddy", "third_person", "directors_cut" }; // 0x12458B38
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -167,51 +171,63 @@ namespace Patches
 {
 	namespace LoadingScreen
 	{
-		_extern void _sub_10A82A90();
 		void ApplyAll() // 0x10A82A90
 		{
-			mangled_x86(MANGLED_TODO, "?ApplyAll@LoadingScreen@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@LoadingScreen@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_10A82A90();
+
+			Hook(0x166FB3, ShowLoadingScreenHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x161E1E, BeginLoadingHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x2EBA07, UpdateLoadingProgressHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x167ABA, HideLoadingScreenHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 		}
 
-		_extern void _sub_10A840A0(std::shared_ptr<Patches::LoadingScreen::LoadingScreenUi>);
 		void SetUi(std::shared_ptr<Patches::LoadingScreen::LoadingScreenUi> ui) // 0x10A840A0
 		{
-			mangled_x86(MANGLED_TODO, "?SetUi@LoadingScreen@Patches@@YAXV?$shared_ptr@VLoadingScreenUi@LoadingScreen@Patches@@@std@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?SetUi@LoadingScreen@Patches@@YAXV?$shared_ptr@VLoadingScreenUi@LoadingScreen@Patches@@@std@@@Z");
 			// std::shared_ptr<Patches::LoadingScreen::LoadingScreenUi> ui;
-			todo("implement");
-			_sub_10A840A0(ui);
+
+			ActiveUi = ui;
 		}
 
 		// mangled_x86(MANGLED_DEFAULT, "??1LoadingScreenShowInfo@LoadingScreen@Patches@@QAE@XZ"); no body to assert in
-		_inline LoadingScreenShowInfo::~LoadingScreenShowInfo() = default; // 0x10A827C0
+		// _inline LoadingScreenShowInfo::~LoadingScreenShowInfo() = default; // 0x10A827C0 hades: implicit
 	}
 }
 
 /* ---------- private code */
 
-_extern bool _sub_10A84100(s_game_options &);
 bool ShowLoadingScreenHook(s_game_options &options) // 0x10A84100
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ShowLoadingScreenHook@@YA_NAAUs_game_options@@@Z");
 	// `anonymous-namespace'::ShowLoadingScreenHook
 	// static ...; // 0x10A84498
 	// static ...; // 0x10A8448C
 	// static ...; // 0x10A84484
 	// s_game_options &options;
-	{
 		// bool HasIntroBinks;
-	}
-	{
 		// Patches::LoadingScreen::LoadingScreenShowInfo info;
-	}
 	// function call : bool (*)(s_game_options &)
 	// function call : void (Patches::LoadingScreen::LoadingScreenShowInfo const &)
 	// function call : bool (*)(s_game_options &)
-	todo("implement");
-	bool __result = _sub_10A84100(options);
-	return __result;
+
+	if (strcmp(options.scenario_path, "maps\\mainmenu") == 0 && Patches::LoadingScreen::firstRun)
+	{
+		bool HasIntroBinks = std::filesystem::exists("bink\\intro.bik") || std::filesystem::exists("bink\\logo_343.bik") || std::filesystem::exists("bink\\logo_microsoft.bik");
+		if (HasIntroBinks)
+		{
+			Patches::LoadingScreen::firstRun = false;
+			((bool (*)(s_game_options &))0x567850)(options);
+			return true;
+		}
+	}
+	if (ActiveUi)
+	{
+		Patches::LoadingScreen::LoadingScreenShowInfo info = {};
+		if (BuildLoadingScreenShowInfo(options, info))
+			ActiveUi->Show(info);
+	}
+	return ((bool (*)(s_game_options &))0x567850)(options);
 }
 
 void BeginLoadingHook(unsigned __int32 totalBytes) // 0x10A82EA0
@@ -256,7 +272,6 @@ void HideLoadingScreenHook() // 0x10A84000
 		ActiveUi->Hide();
 }
 
-extern std::vector<std::string> _sub_10A83D50(unsigned long, unsigned long);
 std::vector<std::string> GetActiveSkullsForDisplay(unsigned long primarySkulls, unsigned long secondarySkulls) // 0x10A83D50
 {
 	// `anonymous-namespace'::GetActiveSkullsForDisplay
@@ -265,12 +280,17 @@ std::vector<std::string> GetActiveSkullsForDisplay(unsigned long primarySkulls, 
 	// unsigned long primarySkulls;
 	// unsigned long secondarySkulls;
 	// std::vector<std::string> skulls;
-	{
 		// __int32 i;
+
+	std::vector<std::string> skulls;
+	for (__int32 i = 0; i < _countof(kCampaignSkullNames); i++)
+	{
+		if (i >= 9 && ((secondarySkulls >> (i - 9)) & 1))
+			skulls.push_back(kCampaignSkullNames[i]);
+		else if ((primarySkulls >> i) & 1)
+			skulls.push_back(kCampaignSkullNames[i]);
 	}
-	todo("implement");
-	std::vector<std::string> __result = _sub_10A83D50(primarySkulls, secondarySkulls);
-	return __result;
+	return skulls;
 }
 
 std::vector<std::string> GetActiveSkullsForDisplay() // 0x10A83ED0
@@ -295,9 +315,9 @@ std::vector<std::string> GetActiveSkullsForDisplay() // 0x10A83ED0
 	return GetActiveSkullsForDisplay(primarySkulls, secondarySkulls);
 }
 
-extern std::string _sub_10A84770(long);
 std::string camapgin_difficulty_level_to_string(long level) // 0x10A84770
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??$const_formatter@$$BY03D@algorithm@boost@@YA?AU?$const_formatF@V?$iterator_range@PBD@boost@@@detail@01@AAY03$$CBD@Z");
 	// `anonymous-namespace'::camapgin_difficulty_level_to_string
 	// static ...; // 0x10A84874
 // $LN7:
@@ -305,14 +325,24 @@ std::string camapgin_difficulty_level_to_string(long level) // 0x10A84770
 // $LN5:
 // $LN4:
 	// long level;
-	todo("implement");
-	std::string __result = _sub_10A84770(level);
-	return __result;
+
+	switch (level)
+	{
+	case 0:
+		return "easy";
+	case 1:
+		return "normal";
+	case 2:
+		return "heroic";
+	case 3:
+		return "legendary";
+	}
+	return "unknown";
 }
 
-_extern bool _sub_10A82F40(s_game_options &, Patches::LoadingScreen::LoadingScreenShowInfo &);
 bool BuildLoadingScreenShowInfo(s_game_options &gameOptions, Patches::LoadingScreen::LoadingScreenShowInfo &outInfo) // 0x10A82F40
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?BuildLoadingScreenShowInfo@@YA_NAAUs_game_options@@AAULoadingScreenShowInfo@LoadingScreen@Patches@@@Z");
 	// `anonymous-namespace'::BuildLoadingScreenShowInfo
 	// static ...; // 0x10A83A52
 	// static ...; // 0x10A83A46
@@ -334,22 +364,91 @@ bool BuildLoadingScreenShowInfo(s_game_options &gameOptions, Patches::LoadingScr
 	// Modules::ModuleServer const &moduleServer;
 	// std::string modhash;
 	// c_mod_package_manager::s_entry mod_package;
-	{
 		// char *rawGameVariant;
 		// s_map_variant const &mapVariant;
 		// s_level_datum level;
 		// c_game_engine_base_variant *gameVariant;
-	}
-	{
 		// s_level_insertion_datum insertion;
-	}
 	// function call : bool (*const)(long, s_level_datum *)
 	// function call : bool (*const)(long, s_level_datum *)
 	// function call : bool (*const)(long, s_level_insertion_datum *)
 	// function call : long (*const)()
-	todo("implement");
-	bool __result = _sub_10A82F40(gameOptions, outInfo);
-	return __result;
+
+	Modules::ModuleServer const &moduleServer = Utils::Singleton<Modules::ModuleServer>::Instance();
+	outInfo.GameMode = (long)gameOptions.game_mode;
+	outInfo.MapPath = gameOptions.scenario_path;
+	outInfo.ServerName = moduleServer.VarServerNameClient->ValueString;
+	outInfo.ServerMessage = moduleServer.VarServerMessageClient->ValueString;
+	std::string modhash = c_mod_system::get_current_package_hash();
+	outInfo.modHash = modhash;
+	c_mod_package_manager::s_entry mod_package;
+	bool hasModSet = c_mod_system::get_mod_info_by_hash(modhash.c_str(), &mod_package);
+	outInfo.modAuthor = hasModSet ? mod_package.author : "";
+	outInfo.modDescription = hasModSet ? mod_package.description : "";
+	outInfo.modName = hasModSet ? Utils::String::ThinString(mod_package.name) : "";
+	outInfo.modVersion = hasModSet ? std::to_string(mod_package.version_major) + "." + std::to_string(mod_package.version_minor) : "";
+	if (gameOptions.game_mode == _game_mode_multiplayer)
+	{
+		s_level_datum level;
+		if (!levels_try_and_get_multiplayer_map(gameOptions.map_id, &level))
+			return true;
+		c_game_engine_base_variant *gameVariant = gameOptions.game_variant.get_base_variant();
+		s_map_variant const &mapVariant = gameOptions.map_variant;
+		char *rawGameVariant = (char *)&gameOptions.game_variant;
+		outInfo.VariantType = (long)gameOptions.game_variant.game_engine_type;
+		outInfo.MapName = Utils::String::ThinString(mapVariant.metadata.name);
+		outInfo.MapAuthor = mapVariant.metadata.author;
+		outInfo.MapDescription = mapVariant.metadata.description;
+		outInfo.VariantName = Utils::String::ThinString(gameVariant->metadata.name);
+		outInfo.TimeLimit = gameVariant->miscellaneous_options.time_limit_in_minutes;
+		outInfo.NumberOfRounds = gameVariant->miscellaneous_options.round_count;
+		switch ((long)gameOptions.game_variant.game_engine_type)
+		{
+		case _game_engine_type_slayer:
+			outInfo.ScoreToWin = *(short *)(rawGameVariant + 0x1D4);
+			break;
+		case _game_engine_type_oddball:
+			outInfo.ScoreToWin = *(short *)(rawGameVariant + 0x1D8);
+			break;
+		case _game_engine_type_koth:
+			outInfo.ScoreToWin = *(short *)(rawGameVariant + 0x1D8);
+			break;
+		case _game_engine_type_ctf:
+			outInfo.ScoreToWin = *(short *)(rawGameVariant + 0x1DC);
+			break;
+		case _game_engine_type_assault:
+			outInfo.ScoreToWin = *(short *)(rawGameVariant + 0x1DC);
+			break;
+		case _game_engine_type_juggernaut:
+			outInfo.ScoreToWin = *(short *)(rawGameVariant + 0x1D4);
+			break;
+		case _game_engine_type_vip:
+			outInfo.ScoreToWin = *(short *)(rawGameVariant + 0x1D4);
+			break;
+		default:
+			outInfo.ScoreToWin = -1;
+			break;
+		}
+	}
+	else if (gameOptions.game_mode == _game_mode_campaign || gameOptions.game_mode == _game_mode_shared)
+	{
+		s_level_datum level;
+		if (!levels_try_and_get_campaign_map(gameOptions.map_id, &level))
+			return true;
+		s_level_insertion_datum insertion;
+		if (!((bool (*const)(long, s_level_insertion_datum *))0x54C9E0)(gameOptions.map_id, &insertion))
+			return true;
+		outInfo.Difficulty = camapgin_difficulty_level_to_string(((long (*const)())0x435020)());
+		outInfo.Skulls = GetActiveSkullsForDisplay();
+		outInfo.MapName = Utils::String::ThinString(level.name);
+		outInfo.MapDescription = Utils::String::ThinString(level.description);
+		if (gameOptions.campaign_insertion_index >= 0 && gameOptions.campaign_insertion_index < 9)
+		{
+			outInfo.InsertionName = Utils::String::ThinString(insertion.names[gameOptions.campaign_insertion_index].value);
+			outInfo.InsertionDescription = Utils::String::ThinString(insertion.descriptions[gameOptions.campaign_insertion_index].value);
+		}
+	}
+	return true;
 }
 
 /* ---------- template instantiations */

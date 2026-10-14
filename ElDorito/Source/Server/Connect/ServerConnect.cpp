@@ -37,6 +37,8 @@
 #include "Web/Ui/Screen.hpp"
 #include "Web/Ui/ScreenLayer.hpp"
 
+#include "Web/Ui/WebMods.hpp"  // hades: added for 0x10B079E0
+
 #include <Windows.h>
 #include <stdio.h>
 #include <sys/stat.h>
@@ -181,17 +183,22 @@ namespace Blam
 
 /* ---------- public code */
 
-_extern void _sub_10B079E0(CServerConnectManager *const);
 void CServerConnectManager::Initialize() // 0x10B079E0
 {
-	mangled_x86(MANGLED_TODO, "?Initialize@CServerConnectManager@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@CServerConnectManager@@QAEXXZ");
 	// static ...; // 0x10B07CB0
 	// static ...; // 0x10B07CA4
 	// static ...; // 0x10B07C9C
 	// CServerConnectManager *const this;
 	// std::shared_ptr<CServerConnectStateHandler_AcquireMods> acquireModsHandler;
-	todo("implement");
-	_sub_10B079E0(this);
+
+	auto acquireModsHandler = std::make_shared<CServerConnectStateHandler_AcquireMods>();
+	acquireModsHandler->SetUI(Web::Ui::WebMods::GetDownloadUI());
+	m_stateManager = std::make_shared<CServerConnectStateManager>();
+	m_stateManager->RegisterStateHandler(QueryServer, std::make_shared<CServerConnectStateHandler_QueryServer>());
+	m_stateManager->RegisterStateHandler(AcquireMods, acquireModsHandler);
+	m_stateManager->RegisterStateHandler(Connect, std::make_shared<CServerConnectStateHandler_Connect>());
+	m_stateManager->AbortEvent.Subscribe([this](EServerConnectAbortReason reason) { OnConnectionAborted(reason); });
 }
 
 void CServerConnectManager::Update() // 0x10B08170
@@ -202,21 +209,27 @@ void CServerConnectManager::Update() // 0x10B08170
 	m_stateManager->Update();
 }
 
-_extern bool _sub_10B07780(CServerConnectManager *const, SServerConnectOptions const &);
 bool CServerConnectManager::ConnectToServer(SServerConnectOptions const &options) // 0x10B07780
 {
-	mangled_x86(MANGLED_TODO, "?ConnectToServer@CServerConnectManager@@QAE_NABUSServerConnectOptions@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ConnectToServer@CServerConnectManager@@QAE_NABUSServerConnectOptions@@@Z");
 	// SServerConnectOptions const &options;
 	// SServerConnectState &state;
-	todo("implement");
-	bool __result = _sub_10B07780(this, options);
-	return __result;
+
+	if (m_stateManager->InProgress())
+		return false;
+
+	SServerConnectState &state = m_stateManager->GetStateMutable();
+	state = {};
+	state.hostname = options.hostname;
+	state.password = options.password;
+	state.port = options.port;
+	m_stateManager->RequestStateChange((EServerConnectState)1);
+	return true;
 }
 
-_extern void _sub_10B07D80(CServerConnectManager *const, EServerConnectAbortReason);
 void CServerConnectManager::OnConnectionAborted(EServerConnectAbortReason reason) // 0x10B07D80
 {
-	mangled_x86(MANGLED_TODO, "?OnConnectionAborted@CServerConnectManager@@AAEXW4EServerConnectAbortReason@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnConnectionAborted@CServerConnectManager@@AAEXW4EServerConnectAbortReason@@@Z");
 	// static ...; // 0x10B07FA5
 	// static ...; // 0x10B07F98
 	// static ...; // 0x10B07F80
@@ -233,8 +246,51 @@ void CServerConnectManager::OnConnectionAborted(EServerConnectAbortReason reason
 	// Web::Ui::ScreenLayer::SDialogShowParams dialogParams;
 	// bool allowRetry;
 	// std::string message;
-	todo("implement");
-	_sub_10B07D80(this, reason);
+
+	std::string message;
+	bool allowRetry = false;
+	switch (reason)
+	{
+	case (EServerConnectAbortReason)3:
+		message = "Failed to resolve hostname.";
+		allowRetry = true;
+		break;
+	case (EServerConnectAbortReason)4:
+		message = "Failed to query info server.";
+		allowRetry = true;
+		break;
+	case (EServerConnectAbortReason)5:
+		message = "Failed to query mods endpoint.";
+		allowRetry = true;
+		break;
+	case (EServerConnectAbortReason)6:
+		message = "Failed to verify one or more mod package signatures. See dorito.log for details";
+		allowRetry = true;
+		break;
+	case (EServerConnectAbortReason)7:
+		message = "Invalid mod package list JSON.";
+		allowRetry = false;
+		break;
+	case (EServerConnectAbortReason)1:
+		message = "Incorrect password.";
+		allowRetry = false;
+		break;
+	case (EServerConnectAbortReason)2:
+		message = "Incompatible Version.";
+		allowRetry = false;
+		break;
+	default:
+		return;
+	}
+	Web::Ui::ScreenLayer::SDialogShowParams dialogParams;
+	dialogParams.templateName = allowRetry ? "server_connect_error_retry" : "server_connect_error";
+	dialogParams.customBody = message;
+	dialogParams.callback = [this](std::string const &result)
+	{
+		if (result == "retry")
+			m_stateManager->RequestStateChange((EServerConnectState)1);
+	};
+	Web::Ui::ScreenLayer::ShowDialog(dialogParams);
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0CServerConnectStateHandler_Connect@@QAE@XZ"); no body to assert in
@@ -244,9 +300,6 @@ void CServerConnectManager::OnConnectionAborted(EServerConnectAbortReason reason
 // mangled_x86(MANGLED_DEFAULT, "??0CServerConnectStateManager@@QAE@XZ"); no body to assert in
 
 // mangled_x86(MANGLED_DEFAULT, "??0SQueryInfoServerData@@QAE@XZ"); no body to assert in
-
-// mangled_x86(MANGLED_DEFAULT, "??1CServerConnectStateHandler_QueryServer@@QAE@XZ"); no body to assert in
-_inline CServerConnectStateHandler_QueryServer::~CServerConnectStateHandler_QueryServer() = default; // 0x10B06C60
 
 // mangled_x86(MANGLED_DEFAULT, "??1CServerConnectStateManager@@QAE@XZ"); no body to assert in
 _inline CServerConnectStateManager::~CServerConnectStateManager() = default; // 0x10B06CD0
@@ -260,22 +313,22 @@ _inline SServerConnectState::SRequiredMod::~SRequiredMod() = default; // 0x10B06
 // mangled_x86(MANGLED_DEFAULT, "??1SServerConnectState@@QAE@XZ"); no body to assert in
 _inline SServerConnectState::~SServerConnectState() = default; // 0x10B06EF0
 
-extern SServerConnectState &_sub_10B07090(SServerConnectState *const, SServerConnectState &);
-_inline SServerConnectState &SServerConnectState::operator=(SServerConnectState &&__that) // 0x10B07090
-{
-	mangled_x86(MANGLED_TODO, "??4SServerConnectState@@QAEAAU0@$$QAU0@@Z");
-	// SServerConnectState &__that;
-	{
-		// unsigned __int32 $S1;
-	}
-	{
-		// unsigned __int32 $S2;
-	}
-	compiler_generated();
-	todo("implement");
-	SServerConnectState & __result = _sub_10B07090(this, __that);
-	return __result;
-}
+
+// SServerConnectState::operator=(SServerConnectState &&) is defaulted in
+// its class (0x10B07090) so that its exception specification is the
+// implicit noexcept; these lines keep every later head line in place.
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* ---------- private code */
 

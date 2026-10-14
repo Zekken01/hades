@@ -99,23 +99,30 @@ namespace hades_file_local
 {
 	struct ForgeSkyState
 	{
-		bool useMapModifierTransform; // 0x0
-		unsigned char __pad0[3]; // 0x1
-		long SkyIndex; // 0x4
-		long SceneryObjectIndex; // 0x8
-		long BackgroundSoundDatumIndex; // 0xC
-		long ScreenEffectDatumIndex; // 0x10
-		ForgeSkyState(); /* compiler_generated() */
+		bool useMapModifierTransform = false; // 0x0
+		// hades: no padding member (0x1), `state = {}` never writes it
+		long SkyIndex = -1; // 0x4
+		long SceneryObjectIndex = -1; // 0x8
+		long BackgroundSoundDatumIndex = -1; // 0xC
+		long ScreenEffectDatumIndex = -1; // 0x10
+		// ForgeSkyState(); /* compiler_generated() */ - the implicit one
 	};
 	static_assert(sizeof(ForgeSkyState) == 20, "Invalid ForgeSkyState size");
 }
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+extern void (*const object_set_position)(unsigned long, real_point3d *, real_vector3d *, real_vector3d *, s_scenario_location *);  // hades: added for 0x1067EB10
+extern void vectors3d_from_euler_angles3d(real_vector3d *forward, real_vector3d *up, real_euler_angles3d const *angles);  // hades: added for 0x1067EB10
+extern s_object_data *(*const object_try_and_get_and_verify_type)(unsigned long, c_enum<enum e_object_type,long>);  // hades: added for 0x1067EB10
+
+extern void (*const object_placement_data_new)(s_object_placement_data *, long, unsigned long, s_damage_owner *);  // hades: added for 0x1067E7D0
+
 unsigned long FindObjectByName(e_object_type type, short name);
 s_forge_sky_definition *GetForgeSky();
 void ReplaceForgeSkyScenery(long newSceneryTagIndex);
 void ReplaceForgeSky(s_forge_sky_definition *desiredSky);
+extern long screen_effect_new(long definition_index, long attach_object_index, short attach_node_index, real_point3d const *position, real_rectangle2d const *bounds);  // hades: added for 0x1067E230
 
 /* ---------- globals */
 
@@ -138,24 +145,39 @@ using namespace hades_file_local;
 
 namespace Forge
 {
-	_extern void _sub_1067DE20();
 	void CForgeSkies::InitializeForNewMap() // 0x1067DE20
 	{
-		mangled_x86(MANGLED_TODO, "?InitializeForNewMap@CForgeSkies@Forge@@SAXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeForNewMap@CForgeSkies@Forge@@SAXXZ");
 		// procedure flags: nofpo
 		// static ...; // 0x1067E0F4
 		// static ...; // 0x1067E0E8
 		// static ...; // 0x1067E0E0
 		// s_tag_reference null_tag_reference;
 		// s_scenario *scenario;
-		todo("implement");
-		_sub_1067DE20();
+
+		state = {};
+		if (!forge_globals_get_definition())
+			return;
+		s_tag_reference null_tag_reference = { 0xFFFFFFFF, nullptr, 0, 0xFFFFFFFF };
+		s_scenario *scenario = global_scenario_get();
+		if (scenario->skies.count && scenario->skies[0].sky_object.index != 0xFFFFFFFF)
+			mapDefaultSky.object = scenario->skies[0].sky_object;
+		else
+			mapDefaultSky.object = null_tag_reference;
+		mapDefaultSky.global_lighting = scenario->global_lighting;
+		mapDefaultSky.parameters = scenario->sky_parameters;
+		mapDefaultSky.screen_fx = scenario->default_screen_fx;
+		mapDefaultSky.camera_fx = scenario->default_camera_fx;
+		mapDefaultSky.wind = *(s_tag_reference *)scenario->structure_bsps[0].wind;
+		if (scenario->background_sound_environment_palette.count > 0)
+			mapDefaultSky.background_sound = scenario->background_sound_environment_palette[0].ambience.background_sound;
+		else
+			mapDefaultSky.background_sound = null_tag_reference;
 	}
 
-	_extern void _sub_1067EB10(long, Forge::ForgeMapModifierProperties &);
 	void CForgeSkies::Update(long modifierObjectIndex, Forge::ForgeMapModifierProperties &mapModifierProperties) // 0x1067EB10
 	{
-		mangled_x86(MANGLED_TODO, "?Update@CForgeSkies@Forge@@SAXJAAUForgeMapModifierProperties@2@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CForgeSkies@Forge@@SAXJAAUForgeMapModifierProperties@2@@Z");
 		// static ...; // 0x1067EDF7
 		// static ...; // 0x1067EDF4
 		// static ...; // 0x1067EDD0
@@ -164,39 +186,90 @@ namespace Forge
 		// Forge::ForgeMapModifierProperties &mapModifierProperties;
 		// s_forge_globals_definition *forge_globals;
 		// long desiredSkyIndex;
-		{
 			// s_forge_sky_definition *desiredSky;
 			// s_forge_globals_definition *forge_globals;
-		}
-		{
 			// s_object_data *mapModifierObject;
-			{
 				// real_point3d position;
 				// float zOffset;
-			}
-		}
-		{
 			// real_vector3d forward;
 			// s_forge_sky_definition *forgeSky;
 			// real_vector3d up;
+		// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
+		// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
+		// function call : void (*const)(unsigned long, real_point3d *, real_vector3d *, real_vector3d *, s_scenario_location *)
+		// function call : void (*const)(unsigned long, real_point3d *, real_vector3d *, real_vector3d *, s_scenario_location *)
+
+		s_forge_globals_definition *forge_globals = forge_globals_get_definition();
+		if (!forge_globals->skies.count)
+			return;
+		long desiredSkyIndex = mapModifierProperties.AtmosphereProperties.Skybox - 1;
+		if (desiredSkyIndex != state.SkyIndex)
+		{
+			s_forge_globals_definition *forge_globals = forge_globals_get_definition();
+			s_forge_sky_definition *desiredSky;
+			if (desiredSkyIndex < 0 || desiredSkyIndex >= forge_globals->skies.count)
+				desiredSky = &mapDefaultSky;
+			else
+				desiredSky = &forge_globals->skies[desiredSkyIndex];
+			ReplaceForgeSky(desiredSky);
+			state.SkyIndex = desiredSkyIndex;
 		}
-		// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-		// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-		// function call : void (*const)(unsigned long, real_point3d *, real_vector3d *, real_vector3d *, s_scenario_location *)
-		// function call : void (*const)(unsigned long, real_point3d *, real_vector3d *, real_vector3d *, s_scenario_location *)
-		todo("implement");
-		_sub_1067EB10(modifierObjectIndex, mapModifierProperties);
+		if (state.SkyIndex != -1 && state.SceneryObjectIndex != -1)
+		{
+			state.useMapModifierTransform = (mapModifierProperties.AtmosphereProperties.Flags & 2) != 0;
+			if (object_try_and_get_and_verify_type(state.SceneryObjectIndex, -1))
+			{
+				if (state.useMapModifierTransform)
+				{
+					s_object_data *mapModifierObject = object_try_and_get_and_verify_type(modifierObjectIndex, -1);
+					if (mapModifierObject)
+					{
+						float zOffset = (mapModifierProperties.AtmosphereProperties.SkyboxZOffset / 255.0f * 2.0f - 1.0f) * 500.0f;
+						real_point3d position = mapModifierObject->relative_position;
+						position.z += zOffset;
+						object_set_position(state.SceneryObjectIndex, &position, &mapModifierObject->forward, &mapModifierObject->up, nullptr);
+					}
+				}
+				else
+				{
+					s_forge_sky_definition *forgeSky = GetForgeSky();
+					real_vector3d forward;
+					real_vector3d up;
+					if (!forgeSky)
+						return;
+					vectors3d_from_euler_angles3d(&forward, &up, &forgeSky->orientation);
+					object_set_position(state.SceneryObjectIndex, &forgeSky->translation, &forward, &up, nullptr);
+				}
+			}
+		}
 	}
 
-	_extern void _sub_1067DBE0();
 	void CForgeSkies::HandleMapModifierDeleted() // 0x1067DBE0
 	{
-		mangled_x86(MANGLED_TODO, "?HandleMapModifierDeleted@CForgeSkies@Forge@@SAXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?HandleMapModifierDeleted@CForgeSkies@Forge@@SAXXZ");
 		// procedure flags: nofpo
 		// s_scenario *scenario;
 		// function call : void (*const)(unsigned long)
-		todo("implement");
-		_sub_1067DBE0();
+
+		if (!IsActive())
+			return;
+		s_scenario *scenario = global_scenario_get();
+		ReplaceForgeSkyScenery(mapDefaultSky.object.index);
+		if (state.BackgroundSoundDatumIndex != -1)
+		{
+			((void (*const)(unsigned long))0x5DE2D0)(state.BackgroundSoundDatumIndex);
+			state.BackgroundSoundDatumIndex = -1;
+		}
+		if (state.ScreenEffectDatumIndex != -1)
+		{
+			tls_getd().screen_effects->delete_datum(state.ScreenEffectDatumIndex);
+			state.ScreenEffectDatumIndex = -1;
+		}
+		scenario->sky_parameters = mapDefaultSky.parameters;
+		scenario->global_lighting = mapDefaultSky.global_lighting;
+		scenario->default_camera_fx = mapDefaultSky.camera_fx;
+		*(s_tag_reference *)scenario->structure_bsps[0].wind = mapDefaultSky.wind;
+		state.SkyIndex = -1;
 	}
 
 	bool CForgeSkies::IsActive() // 0x1067E1C0
@@ -210,37 +283,47 @@ namespace Forge
 
 /* ---------- private code */
 
-_extern unsigned long _sub_1067DA10(e_object_type, short);
 unsigned long FindObjectByName(e_object_type type, short name) // 0x1067DA10
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?FindObjectByName@@YAKW4e_object_type@@F@Z");
 	// `anonymous-namespace'::FindObjectByName
 	// static ...; // 0x1067DAF4
 	// static ...; // 0x1067DAEC
 	// e_object_type type;
 	// short name;
 	// c_data_array<s_object_header> *object_headers;
-	{
 		// c_data_iterator<s_object_header> it;
+
+	if (name == -1)
+		return -1;
+	c_data_array<s_object_header> *object_headers = object_headers_get();
+	for (c_data_iterator<s_object_header> it = object_headers->begin(); it != object_headers->end(); ++it)
+	{
+		if (it->type == type && it->data->name_index == name)
+			return it.current_datum_index;
 	}
-	todo("implement");
-	unsigned long __result = _sub_1067DA10(type, name);
-	return __result;
+	return -1;
 }
 
-extern s_forge_sky_definition *_sub_1067DB40();
 s_forge_sky_definition *GetForgeSky() // 0x1067DB40
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetForgeSky@@YAPAUs_forge_sky_definition@@XZ");
 	// `anonymous-namespace'::GetForgeSky
 	// procedure flags: nofpo
 	// s_forge_globals_definition *forge_globals;
-	todo("implement");
-	s_forge_sky_definition * __result = _sub_1067DB40();
-	return __result;
+
+	s_forge_globals_definition *forge_globals = forge_globals_get_definition();
+	if (state.SkyIndex < 0 || state.SkyIndex >= forge_globals->skies.count)
+	{
+		return nullptr;
+	}
+
+	return &forge_globals->skies[state.SkyIndex];
 }
 
-_extern void _sub_1067E7D0(long);
 void ReplaceForgeSkyScenery(long newSceneryTagIndex) // 0x1067E7D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ReplaceForgeSkyScenery@@YAXJ@Z");
 	// `anonymous-namespace'::ReplaceForgeSkyScenery
 	// static ...; // 0x1067EA54
 	// static ...; // 0x1067EA48
@@ -249,39 +332,57 @@ void ReplaceForgeSkyScenery(long newSceneryTagIndex) // 0x1067E7D0
 	// long skySceneryIndex;
 	// s_scenario *scenario;
 	// s_object_placement_data objectPlacementData;
-	{
 		// c_tag_block<s_scenario_sky_reference> &<range>$L0;
 		// s_scenario_sky_reference *<begin>$L0;
 		// s_scenario_sky_reference *<end>$L0;
-		{
 			// s_scenario_sky_reference &skyRef;
-			{
 				// s_scenario_scenery *<end>$L1;
 				// s_scenario_scenery *<begin>$L1;
 				// c_tag_block<s_scenario_scenery> &<range>$L1;
-				{
 					// s_scenario_scenery &scenery;
-					{
 						// unsigned long objectIndex;
-					}
-				}
-			}
-		}
-	}
-	{
 		// s_object_data *skyObject;
-	}
 	// function call : void (*const)(long)
 	// function call : void (*const)(long)
 	// function call : void (*const)(s_object_placement_data *, long, unsigned long, s_damage_owner *)
 	// function call : long (*const)(s_object_placement_data *)
-	todo("implement");
-	_sub_1067E7D0(newSceneryTagIndex);
+
+	s_scenario *scenario = global_scenario_get();
+	for (s_scenario_sky_reference &skyRef : scenario->skies)
+	{
+		for (s_scenario_scenery &scenery : scenario->scenery)
+		{
+			if ((short)scenery.parent_id.parent_object_name != -1 && skyRef.name == (short)scenery.parent_id.parent_object_name)
+			{
+				unsigned long objectIndex = FindObjectByName(scenery.object_id.type, scenery.name);
+				if (objectIndex != -1 && object_get(objectIndex))
+					((void (*)(unsigned long))0xB2CD10)(objectIndex);
+			}
+		}
+	}
+	if (state.SceneryObjectIndex != -1)
+	{
+		if (object_get(state.SceneryObjectIndex))
+			((void (*)(unsigned long))0xB2CD10)(state.SceneryObjectIndex);
+		state.SceneryObjectIndex = -1;
+	}
+	if (newSceneryTagIndex == -1)
+		return;
+	s_object_placement_data objectPlacementData;
+	object_placement_data_new(&objectPlacementData, newSceneryTagIndex, -1, nullptr);
+	objectPlacementData.placement_flags = 0x40;
+	long skySceneryIndex = ((long (*)(s_object_placement_data *))0xB30440)(&objectPlacementData);
+	if (skySceneryIndex != -1)
+	{
+		s_object_data *skyObject = object_get(skySceneryIndex);
+		if (skyObject)
+			state.SceneryObjectIndex = skySceneryIndex;
+	}
 }
 
-_extern void _sub_1067E230(s_forge_sky_definition *);
 void ReplaceForgeSky(s_forge_sky_definition *desiredSky) // 0x1067E230
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ReplaceForgeSky@@YAXPAUs_forge_sky_definition@@@Z");
 	// `anonymous-namespace'::ReplaceForgeSky
 	// static ...; // 0x1067E6A1
 	// static ...; // 0x1067E69E
@@ -293,31 +394,70 @@ void ReplaceForgeSky(s_forge_sky_definition *desiredSky) // 0x1067E230
 	// c_data_array<s_screen_effect_datum> *screenEffects;
 	// s_scenario *scenario;
 	// c_data_array<s_game_looping_sound_datum> *loopingSounds;
-	{
 		// c_data_iterator<s_screen_effect_datum> it;
-	}
-	{
 		// unsigned long unit_index;
-		{
 			// c_data_iterator<s_screen_effect_datum> it;
-		}
-	}
-	{
 		// c_data_array<s_object_header> *object_headers;
 		// long skyObjectTagIndex;
-		{
 			// c_data_iterator<s_object_header> it;
-		}
-	}
-	{
 		// c_data_iterator<s_game_looping_sound_datum> it;
-	}
 	// function call : unsigned long (*const)(long)
 	// function call : void (*const)(unsigned long)
 	// function call : void (*const)(unsigned long)
 	// function call : long (*const)(long, long, float)
-	todo("implement");
-	_sub_1067E230(desiredSky);
+
+	s_scenario *scenario = global_scenario_get();
+	c_data_array<s_screen_effect_datum> *screenEffects = tls_getd().screen_effects;
+	if (scenario->default_screen_fx.index != -1)
+	{
+		for (c_data_iterator<s_screen_effect_datum> it = screenEffects->begin(); it != screenEffects->end(); ++it)
+		{
+			if (it->definition_index == scenario->default_screen_fx.index)
+				screenEffects->delete_datum(it.current_datum_index);
+		}
+	}
+	if (state.ScreenEffectDatumIndex != -1)
+	{
+		screenEffects->delete_datum(state.ScreenEffectDatumIndex);
+		state.ScreenEffectDatumIndex = -1;
+	}
+	if (desiredSky->screen_fx.index != -1)
+	{
+		unsigned long unit_index = ((unsigned long (*const)(long))0x589CC0)(0);
+		screen_effect_new(desiredSky->screen_fx.index, unit_index, 0, &global_origin3d, &global_null_rectangle2d);
+		for (c_data_iterator<s_screen_effect_datum> it = screenEffects->begin(); it != screenEffects->end(); ++it)
+		{
+			if (it->definition_index == desiredSky->screen_fx.index)
+				state.ScreenEffectDatumIndex = it.current_datum_index;
+		}
+	}
+	if (state.SceneryObjectIndex == -1 && scenario->skies.count > 0)
+	{
+		long skyObjectTagIndex = scenario->skies[0].sky_object.index;
+		c_data_array<s_object_header> *object_headers = object_headers_get();
+		for (c_data_iterator<s_object_header> it = object_headers->begin(); it != object_headers->end(); ++it)
+		{
+			if (it->type == _object_type_scenery && skyObjectTagIndex == it->data->definition_index)
+				state.SceneryObjectIndex = it.current_datum_index;
+		}
+	}
+	c_data_array<s_game_looping_sound_datum> *loopingSounds = tls_getd().object_looping_sounds;
+	for (c_data_iterator<s_game_looping_sound_datum> it = loopingSounds->begin(); it != loopingSounds->end(); ++it)
+	{
+		if (it->flags & 3)
+			((void (*const)(unsigned long))0x5DE2D0)(it.current_datum_index);
+	}
+	if (state.BackgroundSoundDatumIndex != -1)
+	{
+		((void (*const)(unsigned long))0x5DE2D0)(state.BackgroundSoundDatumIndex);
+		state.BackgroundSoundDatumIndex = -1;
+	}
+	state.BackgroundSoundDatumIndex = ((long (*const)(long, long, float))0x5DE1F0)(desiredSky->background_sound.index, -1, 1.0f);
+	ReplaceForgeSkyScenery(desiredSky->object.index);
+	scenario->sky_parameters = desiredSky->parameters;
+	scenario->global_lighting = desiredSky->global_lighting;
+	scenario->default_camera_fx = desiredSky->camera_fx;
+	*(s_tag_reference *)scenario->structure_bsps[0].wind = desiredSky->wind;
 }
 
 /* ---------- template instantiations */

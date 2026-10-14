@@ -37,6 +37,7 @@ namespace Utils { namespace Version {
 #include "Common/Http/HttpHeaders.hpp"
 #include "mods/map_variant_loader.hpp"
 #include "Modules/ModuleServer.hpp"
+#include "Modules/ModuleVoIP.hpp"
 #include "Patch.hpp"
 #include "Patches/Audio.hpp"
 #include "Patches/CustomPackets.hpp"
@@ -70,6 +71,8 @@ namespace Utils { namespace Version {
 #include "Utils/String.hpp"
 #include "Web/Ui/Screen.hpp"
 #include "Web/WebRenderHandlerGpu.hpp"
+
+#include "Modules/ModulePlayer.hpp"  // hades: added for 0x10A9A570
 
 #include <boost/asio.hpp>
 #include <boost/assert.hpp>
@@ -282,6 +285,13 @@ namespace Patches
 
 /* ---------- prototypes */
 
+#include "Utils/Logger.hpp"  // hades: added for 0x10A996B0
+extern "C" char const *__stdcall inet_ntop(int Family, void const *pAddr, char *pStringBuf, size_t StringBufSize);  // hades: added for 0x10A996B0
+
+namespace Server { namespace Voting { extern void PlayerLeftVoting(std::string name); } namespace Stats { extern void UpdatePlayersInfo(); } } namespace Server { namespace Signaling { extern void SendPeerPassword(__int32 playerIndex); } namespace Voting { extern void PlayerJoinedVoteInProgress(__int32 playerIndex); } namespace HsGlobalSync { extern void InvalidatePlayerMask(unsigned short playerMask); } } void player_format_uid(char *string, unsigned __int64 id);  // hades: added for 0x10A99000, 0x10A934B0
+
+namespace Utils { namespace String { template<typename t_char> void StrzCopy(t_char *dest, int dest_size, t_char const *src); } }  // hades: added for 0x10A9ABC0
+
 extern bool (*game_is_campaign)();  // hades: added for 0x10A9D870
 
 namespace Server::InfoServer { bool StartInfoServer(); bool StopInfoServer(); }  // hades: added for 0X10A995B0
@@ -360,7 +370,7 @@ namespace Server
 {
 	namespace hades_file_local_Server
 	{
-		extern std::string DefaultBanListPath; // 0x12464800
+		// extern std::string DefaultBanListPath; // 0x12464800  // hades: defined (with its initialiser) elsewhere now
 	}
 	using namespace hades_file_local_Server;
 }
@@ -376,8 +386,8 @@ namespace Server
 	{
 		namespace hades_file_local_Server_Voting
 		{
-			extern std::string const DefaultTypes[8]; // 0x12464610
-			extern std::string const DefaultTypeNames[8]; // 0x124646F0
+			// extern std::string const DefaultTypes[8]; // 0x12464610  // hades: defined in VotingTypes.hpp, one copy per file
+			// extern std::string const DefaultTypeNames[8]; // 0x124646F0  // hades: defined in VotingTypes.hpp, one copy per file
 		}
 		using namespace hades_file_local_Server_Voting;
 	}
@@ -385,7 +395,7 @@ namespace Server
 namespace hades_file_local
 {
 	extern std::vector<std::function<void __cdecl(enum Blam::Network::LifeCycleState)> > lifeCycleStateChangedCallbacks; // 0x124647D0
-	extern std::shared_ptr<Patches::Network::NetworkSessionListener> sessionObserver; // 0x1246481C
+	std::shared_ptr<Patches::Network::NetworkSessionListener> sessionObserver; // 0x1246481C
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -394,7 +404,7 @@ namespace Patches
 {
 	namespace Network
 	{
-		_extern void _sub_10A90670();
+
 		void ApplyAll() // 0x10A90670
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Network@Patches@@YAXXZ");
@@ -424,28 +434,32 @@ namespace Patches
 			Hook(0x8E527, LifeCycleStateChangedHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x8E10F, LifeCycleStateChangedHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x9D0F7, Network_session_handle_join_requestHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
-			Pointer address(0x16183A0);
-			unsigned long oldProtect;
-			unsigned long previousProtect;
-			if (!VirtualProtect(address, 4, PAGE_READWRITE, &oldProtect))
+			unsigned long temp;
+			unsigned long temp2;
+			Pointer writeAddr(0x16183A0);
+			if (!VirtualProtect(writeAddr, 4, PAGE_READWRITE, &temp))
 			{
 				std::stringstream ss;
-				ss << "Failed to set protection on mem" << std::hex << static_cast<void *>(address);
+				ss << "Failed to set protection on memory address " << std::hex << static_cast<void *>(writeAddr);
 				OutputDebugStringA(ss.str().c_str());
 			}
-			address.Write<unsigned int>(reinterpret_cast<unsigned int>(Network_state_end_game_write_stats_enterHook));
-			VirtualProtect(address, 4, oldProtect, &previousProtect);
-			Pointer(0x16183A0).Write<unsigned int>(reinterpret_cast<unsigned int>(Network_state_end_game_write_stats_enterHook));
-			address = Pointer(0x16183BC);
-			if (!VirtualProtect(address, 4, PAGE_READWRITE, &oldProtect))
+			else
+			{
+				writeAddr.Write<unsigned int>(reinterpret_cast<unsigned int>(Network_state_end_game_write_stats_enterHook));
+				VirtualProtect(writeAddr, 4, temp, &temp2);
+			}
+			writeAddr = Pointer(0x16183BC);
+			if (!VirtualProtect(writeAddr, 4, PAGE_READWRITE, &temp))
 			{
 				std::stringstream ss;
-				ss << "Failed to set protection on mem" << std::hex << static_cast<void *>(address);
+				ss << "Failed to set protection on memory address " << std::hex << static_cast<void *>(writeAddr);
 				OutputDebugStringA(ss.str().c_str());
 			}
-			address.Write<unsigned int>(reinterpret_cast<unsigned int>(Network_state_leaving_enterHook));
-			VirtualProtect(address, 4, oldProtect, &previousProtect);
-			Pointer(0x16183BC).Write<unsigned int>(reinterpret_cast<unsigned int>(Network_state_leaving_enterHook));
+			else
+			{
+				writeAddr.Write<unsigned int>(reinterpret_cast<unsigned int>(Network_state_leaving_enterHook));
+				VirtualProtect(writeAddr, 4, temp, &temp2);
+			}
 			Hook(0x7228D9, Pregame_Lobby_Max_Player_Count_Offline_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x67FA0D, Network_GetMaxPlayersHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x3BAFB, Network_GetEndpointHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
@@ -545,69 +559,88 @@ namespace Patches
 			Patch(0x1129B0, { 0xC3 }).Apply();
 		}
 
-		_extern void _sub_10A94A20();
 		void ForceBotClient() // 0x10A94A20
 		{
-			mangled_x86(MANGLED_TODO, "?ForceBotClient@Network@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ForceBotClient@Network@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_10A94A20();
+
+			Patch(0x1075A0, { 0xC3 }).Apply();
+			Patch(0x24E190, { 0xC3 }).Apply();
+			Patch(0x5DFBC0, { 0xC3 }).Apply();
+			Patch(0x5DFAF0, { 0xC3 }).Apply();
+			Patch(0x1114A0, { 0xC3 }).Apply();
+			Patch(0x1129B0, { 0xC3 }).Apply();
 		}
 
-		_extern unsigned short _sub_10A9A490(std::function<void __cdecl(Blam::Network::NetworkAddress const &,unsigned int,unsigned short,unsigned int)>);
 		unsigned short OnPong(std::function<void __cdecl(Blam::Network::NetworkAddress const &,unsigned int,unsigned short,unsigned int)> callback) // 0x10A9A490
 		{
-			mangled_x86(MANGLED_TODO, "?OnPong@Network@Patches@@YAGV?$function@$$A6AXABUNetworkAddress@Network@Blam@@IGI@Z@std@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnPong@Network@Patches@@YAGV?$function@$$A6AXABUNetworkAddress@Network@Blam@@IGI@Z@std@@@Z");
 			// std::function<void __cdecl(Blam::Network::NetworkAddress const &,unsigned int,unsigned short,unsigned int)> callback;
 			// static unsigned short id; // 0x12464824
-			todo("implement");
-			unsigned short __result = _sub_10A9A490(callback);
-			return __result;
+
+			pongCallbacks.push_back(callback);
+			static unsigned short id;
+			return id++;
 		}
 
-		_extern void _sub_10A9A350(std::function<void __cdecl(enum Blam::Network::LifeCycleState)>);
 		void OnLifeCycleStateChanged(std::function<void __cdecl(enum Blam::Network::LifeCycleState)> callback) // 0x10A9A350
 		{
-			mangled_x86(MANGLED_TODO, "?OnLifeCycleStateChanged@Network@Patches@@YAXV?$function@$$A6AXW4LifeCycleState@Network@Blam@@@Z@std@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnLifeCycleStateChanged@Network@Patches@@YAXV?$function@$$A6AXW4LifeCycleState@Network@Blam@@@Z@std@@@Z");
 			// std::function<void __cdecl(enum Blam::Network::LifeCycleState)> callback;
-			todo("implement");
-			_sub_10A9A350(callback);
+
+			lifeCycleStateChangedCallbacks.push_back(callback);
 		}
 
-		_extern void _sub_10A9AB60(std::shared_ptr<Patches::Network::NetworkSessionListener>);
 		void RegisterSessionListener(std::shared_ptr<Patches::Network::NetworkSessionListener> observer) // 0x10A9AB60
 		{
-			mangled_x86(MANGLED_TODO, "?RegisterSessionListener@Network@Patches@@YAXV?$shared_ptr@VNetworkSessionListener@Network@Patches@@@std@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?RegisterSessionListener@Network@Patches@@YAXV?$shared_ptr@VNetworkSessionListener@Network@Patches@@@std@@@Z");
 			// std::shared_ptr<Patches::Network::NetworkSessionListener> observer;
-			todo("implement");
-			_sub_10A9AB60(observer);
+
+			sessionObserver = observer;
 		}
 
-		_extern void _sub_10A9A3F0(std::function<void __cdecl(s_map_variant *)>);
 		void OnMapVariantRequestChange(std::function<void __cdecl(s_map_variant *)> callback) // 0x10A9A3F0
 		{
-			mangled_x86(MANGLED_TODO, "?OnMapVariantRequestChange@Network@Patches@@YAXV?$function@$$A6AXPAUs_map_variant@@@Z@std@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnMapVariantRequestChange@Network@Patches@@YAXV?$function@$$A6AXPAUs_map_variant@@@Z@std@@@Z");
 			// std::function<void __cdecl(s_map_variant *)> callback;
-			todo("implement");
-			_sub_10A9A3F0(callback);
+
+			mapVariantRequestChangeCallbacks.push_back(callback);
 		}
 
-		_extern void _sub_10A9B020();
 		void Tick() // 0x10A9B020
 		{
-			mangled_x86(MANGLED_TODO, "?Tick@Network@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@Network@Patches@@YAXXZ");
 			// procedure flags: nofpo
 			// Blam::Network::Session *session;
-			{
 				// __int32 i;
-				{
 					// Blam::Network::PlayerSession *player;
 					// Blam::Network::PeerInfo *peer;
 					// __int32 peerIndex;
+
+			Blam::Network::Session *session = Blam::Network::GetActiveSession();
+			if (session && session->IsEstablished())
+			{
+				Modules::ModuleVoIP::Instance().playersSpeaking &= session->MembershipInfo.ActivePlayerMask;
+				Modules::ModuleVoIP::Instance().playersSpoke &= session->MembershipInfo.ActivePlayerMask;
+				Modules::ModuleVoIP::Instance().playersMuted &= session->MembershipInfo.ActivePlayerMask;
+				if (session->IsHost())
+				{
+					for (__int32 i = session->MembershipInfo.FindFirstPlayer(); i != -1; i = session->MembershipInfo.FindNextPlayer(i))
+					{
+						__int32 peerIndex = session->MembershipInfo.GetPlayerPeer(i);
+						Blam::Network::PlayerSession *player = &session->MembershipInfo.PlayerSessions[i];
+						Blam::Network::PeerInfo *peer = &session->MembershipInfo.Peers[peerIndex];
+						if (peer->ConnectionState == Blam::Network::ePeerConnectionStateEstablished && system_milliseconds() - peer->StartTime > 7000 && !player->Unknown0)
+							Blam::Network::BootPlayer(i, 4);
+					}
 				}
 			}
-			todo("implement");
-			_sub_10A9B020();
+			else
+			{
+				Modules::ModuleVoIP::Instance().playersSpeaking = 0;
+				Modules::ModuleVoIP::Instance().playersSpoke = 0;
+				Modules::ModuleVoIP::Instance().playersMuted = 0;
+			}
 		}
 	}
 }
@@ -659,6 +692,7 @@ void __fastcall network_session_send_peer_establish_hook(c_network_session *this
 
 char *Network_GetIPStringFromInAddr(void *inaddr) // 0x10A98EC0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Network_GetIPStringFromInAddr@@YAPADPAX@Z");
 	// `anonymous-namespace'::Network_GetIPStringFromInAddr
 	// void *inaddr;
 	// unsigned char ip3;
@@ -671,13 +705,13 @@ char *Network_GetIPStringFromInAddr(void *inaddr) // 0x10A98EC0
 
 	static char ipAddrStr[64];
 	memset(ipAddrStr, 0, sizeof(ipAddrStr));
-	unsigned char ip1 = ((unsigned char *)inaddr)[0];
-	unsigned char ip2 = ((unsigned char *)inaddr)[1];
-	unsigned char ip3 = ((unsigned char *)inaddr)[2];
-	unsigned char ip4 = ((unsigned char *)inaddr)[3];
-	unsigned short port = ((unsigned short *)inaddr)[8];
-	unsigned short id = ((unsigned short *)inaddr)[9];
-	sprintf_s(ipAddrStr, 64, "%hd.%hd.%hd.%hd:%hu (%hd)", ip4, ip3, ip2, ip1, port, id);
+	unsigned char ip3 = *(unsigned char *)inaddr;
+	unsigned char ip2 = *((unsigned char *)inaddr + 1);
+	unsigned char ip1 = *((unsigned char *)inaddr + 2);
+	unsigned char ip0 = *((unsigned char *)inaddr + 3);
+	unsigned short port = *((unsigned short *)inaddr + 8);
+	unsigned short type = *((unsigned short *)inaddr + 9);
+	sprintf_s(ipAddrStr, 64, "%hd.%hd.%hd.%hd:%hu (%hd)", ip0, ip1, ip2, ip3, port, type);
 	return ipAddrStr;
 }
 
@@ -734,9 +768,9 @@ bool IsNameNotAllowed(std::string name) // 0x10A98410
 	return false;
 }
 
-_extern void _sub_10A9ABC0(wchar_t *);
 void SanitizePlayerName(wchar_t *name) // 0x10A9ABC0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SanitizePlayerName@@YAXPA_W@Z");
 	// `anonymous-namespace'::SanitizePlayerName
 	// static ...; // 0x10A9AEAC
 	// static ...; // 0x10A9AEA0
@@ -745,19 +779,49 @@ void SanitizePlayerName(wchar_t *name) // 0x10A9ABC0
 	// __int32 i;
 	// __int32 dest;
 	// bool space;
-	{
 		// bool allowed;
-	}
-	{
 		// std::string lowercasename;
+
+	__int32 i;
+	__int32 dest = 0;
+	bool space = false;
+	for (i = 0; i < 15 && dest < 15 && name[i]; i++)
+	{
+		bool allowed = name[i] == L'_' || name[i] == L'-' || (name[i] >= L'0' && name[i] <= L'9') || (name[i] >= L'A' && name[i] <= L'Z') || (name[i] >= L'a' && name[i] <= L'z');
+		if (!allowed)
+		{
+			if (name[i] == L' ' && dest > 0)
+				space = true;
+		}
+		else
+		{
+			if (space && dest < 14)
+			{
+				name[dest] = L' ';
+				dest++;
+				space = false;
+			}
+			name[dest] = name[i];
+			dest++;
+		}
 	}
-	todo("implement");
-	_sub_10A9ABC0(name);
+	memset(&name[dest], 0, (16 - dest) * sizeof(wchar_t));
+	if (!dest)
+	{
+		Utils::String::StrzCopy(name, 16, L"Forgot");
+	}
+	else
+	{
+		std::string lowercasename = Utils::String::ThinString(name);
+		std::transform(lowercasename.begin(), lowercasename.end(), lowercasename.begin(), tolower);
+		if (IsNameNotAllowed(lowercasename))
+			Utils::String::StrzCopy(name, 16, L"Filtered");
+	}
 }
 
-_extern void _sub_10A934B0(Blam::Network::SessionMembership *, void *, __int32, unsigned __int32, unsigned __int32, unsigned char *, unsigned __int32);
 void __fastcall ApplyPlayerPropertiesExtended(Blam::Network::SessionMembership *thisPtr, void *unused, __int32 playerIndex, unsigned __int32 arg4, unsigned __int32 arg8, unsigned char *data, unsigned __int32 arg10) // 0x10A934B0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyPlayerPropertiesExtended@@YIXPAUSessionMembership@Network@Blam@@PAXHIIPAEI@Z");
 	// `anonymous-namespace'::ApplyPlayerPropertiesExtended
 	// static ...; // 0x10A93D6C
 	// static ...; // 0x10A93D18
@@ -778,7 +842,6 @@ void __fastcall ApplyPlayerPropertiesExtended(Blam::Network::SessionMembership *
 	// std::string uidStr;
 	// std::string name;
 	// void (*const ApplyPlayerProperties)(void *, __int32, unsigned __int32, unsigned __int32, void *, unsigned __int32);
-	{
 		// long currentTeamIndex;
 		// __int32 playerIdx;
 		// __int32 numTeams;
@@ -787,10 +850,7 @@ void __fastcall ApplyPlayerPropertiesExtended(Blam::Network::SessionMembership *
 		// __int32 numPlayers;
 		// unsigned long minTeamSize;
 		// unsigned long maxPlayers;
-	}
-	{
 		// s_player_configuration *prop;
-		{
 			// __int32 teamSizes[8];
 			// __int32 playerIdx;
 			// __int32 smallest;
@@ -801,23 +861,110 @@ void __fastcall ApplyPlayerPropertiesExtended(Blam::Network::SessionMembership *
 			// __int32 numPlayers;
 			// unsigned long minTeamSize;
 			// unsigned long maxPlayers;
-			{
 				// long teamIndex;
-			}
-			{
 				// __int32 i;
-			}
-		}
-	}
 	// function call : void (__int32)
 	// function call : void (*const)(void *, __int32, unsigned __int32, unsigned __int32, void *, unsigned __int32)
-	todo("implement");
-	_sub_10A934B0(thisPtr, unused, playerIndex, arg4, arg8, data, arg10);
+
+	s_player_configuration *properties = &thisPtr->PlayerSessions[playerIndex].Properties;
+	bool isNewMember = false;
+	Blam::Network::Session *session = Blam::Network::GetActiveSession();
+	s_player_configuration_from_client *packetProperties = (s_player_configuration_from_client *)data;
+	if (properties->host.player_name[0])
+		memcpy(data, properties->host.player_name, sizeof(properties->host.player_name));
+	else
+	{
+		SanitizePlayerName((wchar_t *)packetProperties);
+		Server::Signaling::SendPeerPassword(playerIndex);
+		Server::Voting::PlayerJoinedVoteInProgress(playerIndex);
+		if (session->MembershipInfo.GetLocalPlayerSession().PeerIndex != thisPtr->PlayerSessions[playerIndex].PeerIndex)
+			Server::Stats::UpdatePlayersInfo();
+		isNewMember = true;
+	}
+	if (session->HasTeams() && session->MembershipInfo.PlayerSessions[playerIndex].Properties.host.team != packetProperties->multiplayer_team)
+	{
+		__int32 numPlayers = 0;
+		__int32 playerIdx = session->MembershipInfo.FindFirstPlayer();
+		while (playerIdx > -1)
+		{
+			numPlayers++;
+			playerIdx = session->MembershipInfo.FindNextPlayer(playerIdx);
+		}
+		long currentTeamIndex = session->MembershipInfo.PlayerSessions[playerIndex].Properties.host.team;
+		Modules::ModuleServer &moduleServer = Modules::ModuleServer::Instance();
+		unsigned long maxPlayers = moduleServer.VarServerMaxPlayers->ValueInt;
+		unsigned long minTeamSize = moduleServer.VarMinTeamSize->ValueInt;
+		__int32 minTeams = (int)ceil(numPlayers / (float)minTeamSize);
+		__int32 numTeams = std::min<int>(minTeams, moduleServer.VarNumTeams->ValueInt);
+		if (packetProperties->multiplayer_team < 0 || packetProperties->multiplayer_team >= 8)
+			packetProperties->multiplayer_team = (unsigned char)currentTeamIndex;
+	}
+	if (isNewMember)
+	{
+		s_player_configuration *prop = &session->MembershipInfo.PlayerSessions[playerIndex].Properties;
+		if (session->HasTeams())
+		{
+			__int32 teamSizes[8] = { 0 };
+			__int32 playerIdx = session->MembershipInfo.FindFirstPlayer();
+			__int32 numPlayers = 0;
+			while (playerIdx > -1)
+			{
+				long teamIndex = session->MembershipInfo.PlayerSessions[playerIdx].Properties.host.team;
+				if (teamIndex > -1 && teamIndex < 8)
+					teamSizes[teamIndex]++;
+				numPlayers++;
+				playerIdx = session->MembershipInfo.FindNextPlayer(playerIdx);
+			}
+			if (prop->host.team > -1 && prop->host.team < 8)
+				teamSizes[prop->host.team]--;
+			Modules::ModuleServer &moduleServer = Modules::ModuleServer::Instance();
+			unsigned long maxPlayers = moduleServer.VarServerMaxPlayers->ValueInt;
+			unsigned long minTeamSize = moduleServer.VarMinTeamSize->ValueInt;
+			__int32 minTeams = (int)ceil(numPlayers / (float)minTeamSize);
+			__int32 numTeams = std::min<int>(minTeams, moduleServer.VarNumTeams->ValueInt);
+			__int32 smallest = 17;
+			__int32 smallIndex = 0;
+			for (__int32 i = 0; i < numTeams; i++)
+			{
+				if (teamSizes[i] < smallest)
+				{
+					smallest = teamSizes[i];
+					smallIndex = i;
+				}
+			}
+			if (smallIndex > -1 && smallIndex < 8)
+				packetProperties->multiplayer_team = (unsigned char)smallIndex;
+			sessionObserver->PlayerAdded(playerIndex);
+		}
+	}
+	void (__thiscall *const ApplyPlayerProperties)(void *, __int32, unsigned __int32, unsigned __int32, void *, unsigned __int32) = (void (__thiscall *)(void *, __int32, unsigned __int32, unsigned __int32, void *, unsigned __int32))0x450890;
+	ApplyPlayerProperties(thisPtr, playerIndex, arg4, arg8, data, arg10);
+	Utils::Singleton<Patches::Network::PlayerPropertiesExtender>::Instance().ApplyData(playerIndex, properties, data + 0x30);
+	Server::BanList banList = Server::LoadDefaultBanList();
+	char uidst[17];
+	player_format_uid(uidst, properties->host.player_uid);
+	std::string uidStr(uidst);
+	if (banList.ContainsUid(properties->host.player_uid) || Utils::Singleton<Server::StatsServersBanList>::Instance().ContainsUID(uidst))
+	{
+		if (!Blam::Network::BootPlayer(playerIndex, 13))
+			Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Network, Utils::LogLevel::Error, "Failed to Kick Banned UID: " + uidStr);
+		else
+			Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Network, Utils::LogLevel::Error, "Successfully Kicked Banned UID: " + uidStr);
+	}
+	std::string name = Utils::String::ThinString(packetProperties->player_name);
+	if (banList.ContainsName(name) || Utils::Singleton<Server::StatsServersBanList>::Instance().ContainsName(name))
+	{
+		if (!Blam::Network::BootPlayer(playerIndex, 13))
+			Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Network, Utils::LogLevel::Error, "Failed to Kick Banned Name: " + name);
+		else
+			Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Network, Utils::LogLevel::Error, "Successfully Kicked Banned Name: " + name);
+	}
+	Server::HsGlobalSync::InvalidatePlayerMask(1 << playerIndex);
 }
 
-_extern bool _sub_10A99390(void *, void *, Blam::Network::PeerInfo *, __int32);
 bool __fastcall Network_leader_request_boot_machineHook(void *thisPtr, void *unused, Blam::Network::PeerInfo *peer, __int32 reason) // 0x10A99390
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Network_leader_request_boot_machineHook@@YI_NPAX0PAUPeerInfo@Network@Blam@@H@Z");
 	// `anonymous-namespace'::Network_leader_request_boot_machineHook
 	// void *thisPtr;
 	// void *unused;
@@ -830,14 +977,24 @@ bool __fastcall Network_leader_request_boot_machineHook(void *thisPtr, void *unu
 	// Blam::Network::Session *session;
 	// bool (*Network_leader_request_boot_machine)(void *, void *, __int32);
 	// function call : bool (*)(void *, void *, __int32)
-	todo("implement");
-	bool __result = _sub_10A99390(thisPtr, unused, peer, reason);
-	return __result;
+
+	Blam::Network::Session *session = Blam::Network::GetActiveSession();
+	Blam::Network::SessionMembership *membership = &session->MembershipInfo;
+	__int32 peerIndex = peer - membership->Peers;
+	__int32 playerIndex = membership->GetPeerPlayer(peerIndex);
+	std::string playerName;
+	if (playerIndex >= 0)
+		playerName = Utils::String::ThinString(membership->PlayerSessions[playerIndex].Properties.host.player_name);
+
+	bool (__thiscall *Network_leader_request_boot_machine)(void *, void *, __int32) = reinterpret_cast<bool (__thiscall *)(void *, void *, __int32)>(0x45D4A0);
+	if (!Network_leader_request_boot_machine(thisPtr, peer, reason))
+		return false;
+	return true;
 }
 
-_extern bool _sub_10A996B0(Blam::Network::Session *, void *, Blam::Network::NetworkAddress const &, void *);
 bool __fastcall Network_session_handle_join_requestHook(Blam::Network::Session *thisPtr, void *unused, Blam::Network::NetworkAddress const &address, void *request) // 0x10A996B0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Network_session_handle_join_requestHook@@YI_NPAUSession@Network@Blam@@PAXABUNetworkAddress@23@1@Z");
 	// `anonymous-namespace'::Network_session_handle_join_requestHook
 	// static ...; // 0x10A99894
 	// static ...; // 0x10A9988C
@@ -848,30 +1005,44 @@ bool __fastcall Network_session_handle_join_requestHook(Blam::Network::Session *
 	// char ipStr[22];
 	// bool (*Network_session_handle_join_request)(Blam::Network::Session *, Blam::Network::NetworkAddress const &, void *);
 	// in_addr inAddr;
-	{
 		// Server::BanList banList;
 		// Server::BanList::BanType banType;
-		{
 			// constexpr void (*const `Network_session_handle_join_requestHook'::`8'::Network_session_acknowledge_join_request)(Blam::Network::Session *, Blam::Network::NetworkAddress const &, __int32); // constant == 4563504
-		}
-	}
 	// function call : void (*const)(Blam::Network::Session *, Blam::Network::NetworkAddress const &, __int32)
 	// function call : void (*const)(Blam::Network::Session *, Blam::Network::NetworkAddress const &, __int32)
 	// function call : bool (*)(Blam::Network::Session *, Blam::Network::NetworkAddress const &, void *)
-	todo("implement");
-	bool __result = _sub_10A996B0(thisPtr, unused, address, request);
-	return __result;
+
+	in_addr inAddr;
+	inAddr.s_addr = address.ToInAddr();
+	char ipStr[22];
+	if (inet_ntop(AF_INET, &inAddr, ipStr, sizeof(ipStr)))
+	{
+		Server::BanList banList = Server::LoadDefaultBanList();
+		Server::BanList::BanType banType = banList.IsBanned(ipStr);
+		if (banType != Server::BanList::eNone)
+		{
+			static void (__thiscall *const Network_session_acknowledge_join_request)(Blam::Network::Session *, Blam::Network::NetworkAddress const &, __int32) = reinterpret_cast<void (__thiscall *)(Blam::Network::Session *, Blam::Network::NetworkAddress const &, __int32)>(0x45A230);
+			if (banType == Server::BanList::eTemp)
+				Network_session_acknowledge_join_request(thisPtr, address, 0x2B);
+			else
+				Network_session_acknowledge_join_request(thisPtr, address, 0);
+			Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Network, Utils::LogLevel::Info, "Refused join request from banned IP %s", ipStr);
+			return true;
+		}
+	}
+	bool (__thiscall *Network_session_handle_join_request)(Blam::Network::Session *, Blam::Network::NetworkAddress const &, void *) = reinterpret_cast<bool (__thiscall *)(Blam::Network::Session *, Blam::Network::NetworkAddress const &, void *)>(0x4DA410);
+	return Network_session_handle_join_request(thisPtr, address, request);
 }
 
-_extern __int32 _sub_10A98FA0();
 __int32 Network_GetMaxPlayersHook() // 0x10A98FA0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Network_GetMaxPlayersHook@@YAHXZ");
 	// `anonymous-namespace'::Network_GetMaxPlayersHook
 	// procedure flags: nofpo
 	// __int32 maxPlayers;
-	todo("implement");
-	__int32 __result = _sub_10A98FA0();
-	return __result;
+
+	__int32 maxPlayers = Utils::Singleton<Modules::ModuleServer>::Instance().VarServerMaxPlayers->ValueInt;
+	return Utils::Clamp(maxPlayers, 1, 16);
 }
 
 __int32 Pregame_Lobby_Max_Player_Count_Offline_hook() // 0x10A9AA90
@@ -883,9 +1054,9 @@ __int32 Pregame_Lobby_Max_Player_Count_Offline_hook() // 0x10A9AA90
 	return 1;
 }
 
-_extern bool _sub_10A9A570(Blam::Network::Session *, void *, unsigned __int32, unsigned __int32, s_player_configuration_from_client *, unsigned __int32);
 bool __fastcall PeerRequestPlayerDesiredPropertiesUpdateHook(Blam::Network::Session *thisPtr, void *unused, unsigned __int32 arg0, unsigned __int32 arg4, s_player_configuration_from_client *properties, unsigned __int32 argC) // 0x10A9A570
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?PeerRequestPlayerDesiredPropertiesUpdateHook@@YI_NPAUSession@Network@Blam@@PAXIIPAUs_player_configuration_from_client@@I@Z");
 	// `anonymous-namespace'::PeerRequestPlayerDesiredPropertiesUpdateHook
 	// void *unused;
 	// unsigned __int32 arg0;
@@ -897,16 +1068,45 @@ bool __fastcall PeerRequestPlayerDesiredPropertiesUpdateHook(Blam::Network::Sess
 	// unsigned __int32 extendedSize;
 	// __int32 playerIndex;
 	// std::unique_ptr<unsigned char [0]> extendedProperties;
-	{
 		// __int32 channelIndex;
 		// void (*InitPacket)(__int32, void *);
 		// __int32 hostPeer;
 		// std::unique_ptr<unsigned char [0]> packet;
-	}
 	// function call : void (*)(__int32, void *)
-	todo("implement");
-	bool __result = _sub_10A9A570(thisPtr, unused, arg0, arg4, properties, argC);
-	return __result;
+
+	if (thisPtr->Type == 3)
+		return false;
+	Blam::Network::SessionMembership *membership = &thisPtr->MembershipInfo;
+	__int32 playerIndex = thisPtr->MembershipInfo.GetPeerPlayer(membership->LocalPeerIndex);
+	if (playerIndex == -1)
+		return false;
+	memcpy(properties, Utils::Singleton<Modules::ModulePlayer>::Instance().UserName, 0x20);
+	unsigned __int32 packetSize = GetPlayerPropertiesPacketSize();
+	unsigned __int32 extendedSize = packetSize - 0x1C;
+	std::unique_ptr<unsigned char[]> extendedProperties = std::make_unique<unsigned char[]>(extendedSize);
+	memcpy(&extendedProperties[0], properties, 0x30);
+	Utils::Singleton<Patches::Network::PlayerPropertiesExtender>::Instance().BuildData(playerIndex, &extendedProperties[0x30]);
+	if (thisPtr->Type == 6 || thisPtr->Type == 7)
+	{
+		ApplyPlayerPropertiesExtended(membership, nullptr, playerIndex, arg0, arg4, &extendedProperties[0], argC);
+	}
+	else
+	{
+		__int32 hostPeer = membership->HostPeerIndex;
+		__int32 channelIndex = membership->PeerChannels[hostPeer].ChannelIndex;
+		if (channelIndex == -1)
+			return true;
+		std::unique_ptr<unsigned char[]> packet = std::make_unique<unsigned char[]>(packetSize);
+		memset(&packet[0], 0, packetSize);
+		void (*InitPacket)(__int32, void *) = reinterpret_cast<void (*)(__int32, void *)>(0x482040);
+		InitPacket(thisPtr->AddressIndex, &packet[0]);
+		*reinterpret_cast<unsigned __int32 *>(&packet[0x10]) = arg0;
+		*reinterpret_cast<unsigned __int32 *>(&packet[0x14]) = arg4;
+		*reinterpret_cast<unsigned __int32 *>(&packet[packetSize - 4]) = argC;
+		memcpy(&packet[0x18], &extendedProperties[0], extendedSize);
+		thisPtr->Observer->ObserverChannelSendMessage(thisPtr->Unknown10, channelIndex, false, 0x1A, packetSize, &packet[0]);
+	}
+	return true;
 }
 
 bool __fastcall Network_Session_Membership__Add_Peer_Hook(c_network_session_membership *thisptr, void *unused, long peer_index, Blam::Network::PeerConnectionState connection_state, long version, void *xnaddr, unsigned long long unknown_nonce, unsigned long long join_nonce) // 0x10A99250
@@ -933,26 +1133,35 @@ bool __fastcall Network_Session_Membership__Add_Peer_Hook(c_network_session_memb
 	return result;
 }
 
-_extern char _sub_10A99000(c_network_session_membership *, void *, long);
 char __fastcall Network_Session_Membership_Remove_Peer_Hook(c_network_session_membership *thisptr, void *unused, long peer_index) // 0x10A99000
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Network_Session_Membership_Remove_Peer_Hook@@YIDPAVc_network_session_membership@@PAXJ@Z");
 	// `anonymous-namespace'::Network_Session_Membership_Remove_Peer_Hook
 	// static ...; // 0x10A991B0
 	// c_network_session_membership *thisptr;
 	// void *unused;
 	// long peer_index;
 	// constexpr char (*const `Network_Session_Membership_Remove_Peer_Hook'::`2'::c_network_session_membership__remove_peer)(c_network_session_membership *, long); // constant == 4521520
-	{
 		// std::string playerName;
 		// __int32 playerIdx;
 		// Blam::Network::SessionMembership *membership;
-	}
 	// function call : void (__int32)
 	// function call : void ()
 	// function call : char (*const)(c_network_session_membership *, long)
-	todo("implement");
-	char __result = _sub_10A99000(thisptr, unused, peer_index);
-	return __result;
+
+	static char (__thiscall *const c_network_session_membership__remove_peer)(c_network_session_membership *, long) = (char (__thiscall *)(c_network_session_membership *, long))0x44FE30;
+	if (Blam::Network::GetActiveSession()->IsHost())
+	{
+		Blam::Network::SessionMembership *membership = reinterpret_cast<Blam::Network::SessionMembership *>(thisptr);
+		__int32 playerIdx = membership->GetPeerPlayer(peer_index);
+		std::string playerName = Utils::String::ThinString(membership->PlayerSessions[playerIdx].Properties.host.player_name);
+		Server::Voting::PlayerLeftVoting(playerName);
+		sessionObserver->PeerRemoved(peer_index);
+		if (thisptr->host_peer_index() == peer_index || !thisptr->has_membership())
+			sessionObserver->SessionDestroyed();
+		Server::Stats::UpdatePlayersInfo();
+	}
+	return c_network_session_membership__remove_peer(thisptr, peer_index);
 }
 
 void SerializePlayerPropertiesHook(Blam::BitStream *stream, unsigned char *buffer, bool flag) // 0x10A9AF80
@@ -1066,27 +1275,39 @@ __declspec(naked) void PongReceivedHook() // 0x10A9A9C0
 	}
 }
 
-_extern void _sub_10A98600(Blam::Network::LifeCycleState);
 void LifeCycleStateChangedHookImpl(Blam::Network::LifeCycleState newState) // 0x10A98600
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?LifeCycleStateChangedHookImpl@@YAXW4LifeCycleState@Network@Blam@@@Z");
 	// `anonymous-namespace'::LifeCycleStateChangedHookImpl
 	// static ...; // 0x10A98AF4
 	// static ...; // 0x10A98AE8
 	// static ...; // 0x10A98AE0
 	// Blam::Network::LifeCycleState newState;
-	{
 		// std::string previousValue;
-	}
-	{
 		// std::vector<std::function<void __cdecl(enum Blam::Network::LifeCycleState)> > &<range>$L0;
 		// std::function<void __cdecl(enum Blam::Network::LifeCycleState)> *<begin>$L0;
 		// std::function<void __cdecl(enum Blam::Network::LifeCycleState)> *<end>$L0;
-		{
 			// std::function<void __cdecl(enum Blam::Network::LifeCycleState)> &callback;
-		}
+
+	switch (newState)
+	{
+	case Blam::Network::eLifeCycleStateEndGameWriteStats:
+	case Blam::Network::eLifeCycleStateLeaving:
+	{
+		std::string previousValue;
+		Modules::CommandMap::Instance().SetVariable2(Modules::ModuleServer::Instance().VarChatVoteStarted, std::string("0"), previousValue);
+		Modules::CommandMap::Instance().SetVariable2(Modules::ModuleServer::Instance().VarChatVoteStartedByUid, std::string(""), previousValue);
+		Modules::CommandMap::Instance().SetVariable2(Modules::ModuleServer::Instance().VarChatVoteAction, std::string(""), previousValue);
+		Modules::CommandMap::Instance().SetVariable2(Modules::ModuleServer::Instance().VarChatVotesNeeded, std::string("0"), previousValue);
+		Modules::CommandMap::Instance().SetVariable2(Modules::ModuleServer::Instance().VarChatVoteStartedClient, std::string("0"), previousValue);
+		Modules::CommandMap::Instance().SetVariable2(Modules::ModuleServer::Instance().VarChatVoteStartedByUidClient, std::string(""), previousValue);
+		Modules::CommandMap::Instance().SetVariable2(Modules::ModuleServer::Instance().VarChatVoteActionClient, std::string(""), previousValue);
+		Modules::CommandMap::Instance().SetVariable2(Modules::ModuleServer::Instance().VarChatVotesNeededClient, std::string("0"), previousValue);
+		break;
 	}
-	todo("implement");
-	_sub_10A98600(newState);
+	}
+	for (auto &callback : lifeCycleStateChangedCallbacks)
+		callback(newState);
 }
 
 __declspec(naked) void LifeCycleStateChangedHook() // 0x10A985E0
@@ -1418,26 +1639,18 @@ void __fastcall c_network_message_handler__handle_parameters_request_hook(c_netw
 	// function call : bool (*)()
 	// function call : void (*const)(c_network_message_handler *, void *, void *)
 
-	if (((bool(*)())0x5314B0)())
-	{
-		if (!game_is_campaign())
-		{
-			return;
-		}
-
-		const auto c_network_message_handler__handle_parameters_request = (void(__thiscall *)(c_network_message_handler *, void *, void *))0x49D4E0;
-
-		c_network_message_handler__handle_parameters_request(thisptr, channel, message);
-	}
+	if (!((bool(*)())0x5314B0)() || !game_is_campaign())
+		return;
+	const auto c_network_message_handler__handle_parameters_request = (void(__thiscall *)(c_network_message_handler *, void *, void *))0x49D4E0;
+	c_network_message_handler__handle_parameters_request(thisptr, channel, message);
 }
 
-_extern void _sub_10A9D840(c_network_message_handler *, void *, void *, void *);
 void __fastcall c_network_message_handler__handle_delegate_leadership_hook(c_network_message_handler *__formal, void *__formal1, void *channel, void *message) // 0x10A9D840
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_network_message_handler__handle_delegate_leadership_hook@@YIXPAUc_network_message_handler@@PAX11@Z");
+	// the original is empty
 	// `anonymous-namespace'::c_network_message_handler__handle_delegate_leadership_hook
 	// void *message;
-	todo("implement");
-	_sub_10A9D840(__formal, __formal1, channel, message);
 }
 
 bool network_squad_session_delegate_leadership_hook(long playerIndex) // 0x10A9E6B0

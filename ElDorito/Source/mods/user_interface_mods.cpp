@@ -34,6 +34,7 @@
 #include "mods/mod_package_manager.hpp"
 #include "mods/new/IModManager.hpp"
 #include "mods/tag_name_dictionary.hpp"
+#include "mods/mod_system.hpp"  // hades: added for 0x108C2730
 #include "Patches/CustomPackets.hpp"
 #include "Web/WebRenderHandlerGpu.hpp"
 
@@ -100,26 +101,33 @@ namespace Blam
 
 /* ---------- public code */
 
-_extern bool _sub_108C2480(c_user_interface_mods_player_character_data *const, s_mod_globals_definition *);
 bool c_user_interface_mods_player_character_data::build_from_mod_globals(s_mod_globals_definition *mod_globals) // 0x108C2480
 {
-	mangled_x86(MANGLED_TODO, "?build_from_mod_globals@c_user_interface_mods_player_character_data@@AAE_NPAUs_mod_globals_definition@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?build_from_mod_globals@c_user_interface_mods_player_character_data@@AAE_NPAUs_mod_globals_definition@@@Z");
 	// s_mod_globals_definition *mod_globals;
-	{
 		// long i;
-		{
 			// s_mod_globals_player_character_set *character_set;
-			{
 				// long j;
-				{
 					// s_mod_globals_player_character *character;
-				}
-			}
+
+	if (!mod_globals)
+		return false;
+	player_character_set_count = 0;
+	player_characters_count = 0;
+	for (long i = 0; i < mod_globals->player_character_sets.count && i < k_maximum_set_count; i++)
+	{
+		s_mod_globals_player_character_set *character_set = &mod_globals->player_character_sets[i];
+		player_character_sets[player_character_set_count].name = character_set->name;
+		csstrnzcpy(player_character_sets[player_character_set_count++].display_name.ascii, character_set->display_name.ascii, 0x20);
+		for (long j = 0; j < character_set->characters.count && j < k_maximum_character_count; j++)
+		{
+			s_mod_globals_player_character *character = &character_set->characters[j];
+			player_characters[player_characters_count].character_set_index = i;
+			player_characters[player_characters_count].name = character->name;
+			csstrnzcpy(player_characters[player_characters_count++].display_name.ascii, character->display_name.ascii, 0x20);
 		}
 	}
-	todo("implement");
-	bool __result = _sub_108C2480(this, mod_globals);
-	return __result;
+	return true;
 }
 
 bool c_user_interface_mods_player_character_data::build_from_cache() // 0x108C2420
@@ -133,10 +141,9 @@ bool c_user_interface_mods_player_character_data::build_from_cache() // 0x108C24
 	return build_from_mod_globals(mod_globals_get_definition());
 }
 
-_extern bool _sub_108C2730(c_user_interface_mods_player_character_data *const);
 bool c_user_interface_mods_player_character_data::build_from_mod_package() // 0x108C2730
 {
-	mangled_x86(MANGLED_TODO, "?build_from_mod_package@c_user_interface_mods_player_character_data@@AAE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?build_from_mod_package@c_user_interface_mods_player_character_data@@AAE_NXZ");
 	// static ...; // 0x108C2D23
 	// static ...; // 0x108C2D1C
 	// static ...; // 0x108C2D12
@@ -160,17 +167,52 @@ bool c_user_interface_mods_player_character_data::build_from_mod_package() // 0x
 	// s_mod_globals_definition *definition;
 	// s_cache_tag_instance *tag_instance;
 	// unsigned long *fixups;
-	{
 		// long i;
-	}
 	// function call : IMod *(EModIndex) const
 	// function call : c_mod_package *(bool) const
 	// function call : bool (*const)(long *, long *)
 	// function call : std::shared_ptr<c_cache_file_interface> (bool) const
 	// function call : std::shared_ptr<c_cache_file_tag_cache> () const
-	todo("implement");
-	bool __result = _sub_108C2730(this);
-	return __result;
+
+	IMod *mod = c_mod_system::GetModManager().GetMod(kGame);
+	if (!mod)
+		return false;
+	c_mod_package *mod_package = mod->GetPak(true);
+	if (!mod_package)
+		return false;
+	long campaign_id;
+	long map_id;
+	if (!((bool (*const)(long *, long *))0xA817B0)(&campaign_id, &map_id))
+		return false;
+	long cache_index = mod_package->get_tag_cache_index_for_map_id(map_id);
+	if (cache_index == -1)
+		return false;
+	std::shared_ptr<c_cache_file_interface> mod_cache = mod->GetCache(true);
+	if (!mod_cache)
+		return false;
+	std::shared_ptr<c_cache_file_tag_cache> tag_cache = mod_cache->get_tag_cache();
+	if (!tag_cache)
+		return false;
+	long modg_tag_index = tag_cache->find_by_name('modg', "multiplayer\\mod_globals");
+	if (modg_tag_index == -1)
+		return false;
+	s_cache_tag_instance const *header = tag_cache->get_instance(modg_tag_index);
+	if (!header)
+		return false;
+	if (header->definition_offset == header->size)
+		return false;
+	c_file_reference file = tag_cache->get_file();
+	std::unique_ptr<unsigned char> tag_memory(new unsigned char[header->size]);
+	if (!tag_cache->read_tag_data(&file, modg_tag_index, 0, header->size, tag_memory.get()))
+		return false;
+	s_cache_tag_instance *tag_instance = (s_cache_tag_instance *)tag_memory.get();
+	s_mod_globals_definition *definition = (s_mod_globals_definition *)&tag_memory.get()[header->definition_offset];
+	unsigned long *fixups = (unsigned long *)&tag_instance[1] + tag_instance->dependency_count;
+	for (long i = 0; i < tag_instance->fixup_count; i++)
+		*(unsigned long *)((char *)tag_instance + fixups[i] - 0x40000000) = (unsigned long)((char *)tag_instance + *(unsigned long *)((char *)tag_instance + fixups[i] - 0x40000000) - 0x40000000);
+	if (!build_from_mod_globals(definition))
+		return false;
+	return true;
 }
 
 void c_user_interface_mods_player_character_data::update() // 0x108C2F60

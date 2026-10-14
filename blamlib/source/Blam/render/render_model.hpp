@@ -56,7 +56,6 @@ struct s_render_model_marker
 	char region_index; // 0x0
 	char permutation_index; // 0x1
 	char node_index; // 0x2
-	unsigned char __pad0[1]; // 0x3
 	real_point3d position; // 0x4
 	real_quaternion rotation; // 0x10
 	float scale; // 0x20

@@ -75,22 +75,28 @@ static_assert(sizeof(Hook) == 28, "Invalid Hook size");
 
 /* ---------- public code */
 
-_extern void _sub_107A9530(Patch const *const, bool, Pointer);
 _inline void Patch::Apply(bool revert, Pointer offset) const // 0x107A9530
 {
-	mangled_x86(MANGLED_TODO, "?Apply@Patch@@QBEX_NVPointer@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Apply@Patch@@QBEX_NVPointer@@@Z");
 	// Pointer offset;
-	todo("implement");
-	_sub_107A9530((Patch const *)this, revert, offset);
+
+	if (revert)
+	{
+		Reset(offset);
+		return;
+	}
+
+	if (Data.size())
+		offset(Offset, 1).Write(&Data[0], Data.size());
 }
 
-_extern void _sub_107AB3C0(Patch const *const, Pointer);
 _inline void Patch::Reset(Pointer offset) const // 0x107AB3C0
 {
-	mangled_x86(MANGLED_TODO, "?Reset@Patch@@QBEXVPointer@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Reset@Patch@@QBEXVPointer@@@Z");
 	// Pointer offset;
-	todo("implement");
-	_sub_107AB3C0((Patch const *)this, offset);
+
+	if (Orig.size())
+		offset(Offset, 1).Write(&Orig[0], Orig.size());
 }
 
 _inline void Patch::NopFill(Pointer offset, unsigned __int32 length) // 0x108E4200
@@ -101,22 +107,30 @@ _inline void Patch::NopFill(Pointer offset, unsigned __int32 length) // 0x108E42
 	memset(offset, 0x90, length);
 }
 
-_extern void _sub_10699840(Hook const *const, bool, Pointer);
 _inline void Hook::Apply(bool revert, Pointer offset) const // 0x10699840
 {
-	mangled_x86(MANGLED_TODO, "?Apply@Hook@@QBEX_NVPointer@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Apply@Hook@@QBEX_NVPointer@@@Z");
 	// Pointer offset;
-	todo("implement");
-	_sub_10699840((Hook const *)this, revert, offset);
+
+	if (revert)
+	{
+		Reset(offset);
+		return;
+	}
+
+	if (Flags & 1 || Flags & 2)
+		offset(Offset, 1).WriteCall(DestFunc, Flags & 2 ? true : false);
+	else
+		offset(Offset, 1).WriteJump(DestFunc, Flags);
 }
 
-_extern void _sub_10699DE0(Hook const *const, Pointer);
 _inline void Hook::Reset(Pointer offset) const // 0x10699DE0
 {
-	mangled_x86(MANGLED_TODO, "?Reset@Hook@@QBEXVPointer@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Reset@Hook@@QBEXVPointer@@@Z");
 	// Pointer offset;
-	todo("implement");
-	_sub_10699DE0((Hook const *)this, offset);
+
+	if (Orig.size())
+		offset(Offset, 1).Write(&Orig[0], Orig.size());
 }
 
 /* ---------- private code */

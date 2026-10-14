@@ -60,6 +60,9 @@ namespace Patches
 
 /* ---------- prototypes */
 
+#include "Modules/ModuleDebug.hpp"  // hades: added for 0x107BA250
+namespace Forge { class CForgeMapBarriers { public: static bool KillBarrierDisabled(); static bool PushBarrierDisabled(); }; }  // hades: added for 0x107BA250
+
 namespace Patches
 {
 	namespace MapBarriers
@@ -81,49 +84,84 @@ namespace Patches
 {
 	namespace MapBarriers
 	{
-		_extern bool _sub_107BA250(__int32, void *);
 		bool CheckKillTriggersHook(__int32 a0, void *a1) // 0x107BA250
 		{
-			mangled_x86(MANGLED_TODO, "?CheckKillTriggersHook@MapBarriers@Patches@@YA_NHPAX@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?CheckKillTriggersHook@MapBarriers@Patches@@YA_NHPAX@Z");
 			// void *a1;
 			// bool (*CheckKillTriggers)(__int32, void *);
 			// function call : bool (*)(__int32, void *)
-			todo("implement");
-			bool __result = _sub_107BA250(a0, a1);
-			return __result;
+
+			if (Utils::Singleton<Modules::ModuleDebug>::Instance().VarMapBarriersDisabledClient->ValueInt)
+			{
+				return false;
+			}
+
+			if (Forge::CForgeMapBarriers::KillBarrierDisabled())
+			{
+				return false;
+			}
+
+			bool (*CheckKillTriggers)(__int32, void *) = reinterpret_cast<bool (*)(__int32, void *)>(0x68C410);
+			return CheckKillTriggers(a0, a1);
 		}
 
-		_extern bool _sub_107BA2F0(void *);
 		bool ObjectSafeZoneHook(void *a0) // 0x107BA2F0
 		{
-			mangled_x86(MANGLED_TODO, "?ObjectSafeZoneHook@MapBarriers@Patches@@YA_NPAX@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ObjectSafeZoneHook@MapBarriers@Patches@@YA_NPAX@Z");
 			// void *a0;
 			// bool (*CheckSafeZones)(void *);
 			// function call : bool (*)(void *)
-			todo("implement");
-			bool __result = _sub_107BA2F0(a0);
-			return __result;
+
+			if (Utils::Singleton<Modules::ModuleDebug>::Instance().VarMapBarriersDisabledClient->ValueInt)
+			{
+				return true;
+			}
+
+			if (Forge::CForgeMapBarriers::KillBarrierDisabled())
+			{
+				return true;
+			}
+
+			bool (*CheckSafeZones)(void *) = reinterpret_cast<bool (*)(void *)>(0x4EB130);
+			return CheckSafeZones(a0);
 		}
 
-		_extern void *_sub_107BA390(__int32);
 		void *PushBarriersGetStructureDesignHook(__int32 index) // 0x107BA390
 		{
-			mangled_x86(MANGLED_TODO, "?PushBarriersGetStructureDesignHook@MapBarriers@Patches@@YAPAXH@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?PushBarriersGetStructureDesignHook@MapBarriers@Patches@@YAPAXH@Z");
 			// __int32 index;
 			// void *(*GetStructureDesign)(__int32);
 			// function call : void *(*)(__int32)
-			todo("implement");
-			void * __result = _sub_107BA390(index);
-			return __result;
+
+			if (Utils::Singleton<Modules::ModuleDebug>::Instance().VarMapBarriersDisabledClient->ValueInt)
+			{
+				return nullptr;
+			}
+
+			if (Forge::CForgeMapBarriers::PushBarrierDisabled())
+			{
+				return nullptr;
+			}
+
+			void * (*GetStructureDesign)(__int32) = reinterpret_cast<void * (*)(__int32)>(0x4E97D0);
+			return GetStructureDesign(index);
 		}
 
-		_extern void _sub_107B98E0();
 		void ApplyAll() // 0x107B98E0
 		{
-			mangled_x86(MANGLED_TODO, "?ApplyAll@MapBarriers@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@MapBarriers@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_107B98E0();
+
+			Hook(0x771C7D, CheckKillTriggersHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x7B4C32, CheckKillTriggersHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x19EBA1, ObjectSafeZoneHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x19FDBE, ObjectSafeZoneHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x19FEEC, ObjectSafeZoneHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x32663D, ObjectSafeZoneHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x2749D1, PushBarriersGetStructureDesignHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x274DBA, PushBarriersGetStructureDesignHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x2750F8, PushBarriersGetStructureDesignHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x275655, PushBarriersGetStructureDesignHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 		}
 	}
 }

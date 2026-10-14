@@ -148,37 +148,31 @@ namespace hades_file_local
 {
 	struct SPlayerInfo
 	{
-		__int32 rank; // 0x0
-		__int32 skill; // 0x4
+		__int32 rank = -1; // 0x0
+		__int32 skill = -1; // 0x4
 		std::string emblemUrl; // 0x8
-		bool rankup; // 0x24
-		bool set; // 0x25
-		SPlayerInfo(SPlayerInfo &); /* compiler_generated() */
-		SPlayerInfo(SPlayerInfo const &); /* compiler_generated() */
-		SPlayerInfo(); /* compiler_generated() */
-		~SPlayerInfo() = default;
-		SPlayerInfo &operator=(SPlayerInfo &); /* compiler_generated() */
-		SPlayerInfo &operator=(SPlayerInfo const &); /* compiler_generated() */
-		unsigned char __pad0[2]; // 0x26
+		bool rankup = false; // 0x24
+		bool set = false; // 0x25
+		// hades: special members left implicit; the original move-assigns value-initialized temporaries
 	};
 	static_assert(sizeof(SPlayerInfo) == 40, "Invalid SPlayerInfo size");
 
 	struct SPlayerEmblemInfo
 	{
 		std::string emblemUrl; // 0x0
-		unsigned char __pad0[4]; // 0x1C
 		unsigned long long uid; // 0x20
-		SPlayerEmblemInfo(SPlayerEmblemInfo &); /* compiler_generated() */
-		SPlayerEmblemInfo(SPlayerEmblemInfo const &); /* compiler_generated() */
-		SPlayerEmblemInfo(); /* compiler_generated() */
-		~SPlayerEmblemInfo(); /* compiler_generated() */
-		SPlayerEmblemInfo &operator=(SPlayerEmblemInfo &); /* compiler_generated() */
-		SPlayerEmblemInfo &operator=(SPlayerEmblemInfo const &); /* compiler_generated() */
+		// hades: special members left implicit; the original move-assigns value-initialized temporaries
 	};
 	static_assert(sizeof(SPlayerEmblemInfo) == 40, "Invalid SPlayerEmblemInfo size");
 }
 using namespace hades_file_local;
 /* ---------- prototypes */
+
+extern bool (*const network_session_interface_get_squad_session)(c_network_session **out_session);  // hades: added for 0x107EF4E0, 0x107EE0C0  // hades: added for 0x107EE0C0
+extern void player_format_uid(char *string, unsigned long long id);  // hades: added for 0x107EE0C0  // hades: added for 0x107EE0C0
+
+extern bool (*const network_session_interface_get_squad_session)(c_network_session **out_session);  // hades: added for 0x107EF4E0, 0x107EE0C0  // hades: added for 0x107EF4E0
+namespace Player { namespace Emblems { extern std::string BuildUrl(s_player_emblem_configuration config); } }  // hades: added for 0x107EF4E0  // hades: added for 0x107EF4E0
 
 namespace Player
 {
@@ -201,7 +195,7 @@ namespace Player { namespace ServiceRecord { void clearCache(); } }  // hades: a
 namespace hades_file_local
 {
 	SPlayerInfo infoCache[16]; // 0x1138EDC8
-	extern SPlayerEmblemInfo localEmblemCache[16]; // 0x1138F048
+	SPlayerEmblemInfo localEmblemCache[16]; // 0x1138F048
 	extern bool isAvailable; // 0x1138F2C8
 	extern bool rankCheckGameStarted; // 0x1138F2C9
 	extern bool rankCheckGameEnded; // 0x1138F2CA
@@ -237,12 +231,12 @@ namespace Player
 	}
 }
 
-extern std::string _sub_107EE0C0();
+
 namespace Player
 {
 	std::string CPlayersInfo::GeneratePlayerInfo() // 0x107EE0C0
 	{
-		mangled_x86(MANGLED_TODO, "?GeneratePlayerInfo@CPlayersInfo@Player@@SA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GeneratePlayerInfo@CPlayersInfo@Player@@SA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 		// procedure flags: nofpo
 		// static ...; // 0x107EE3B3
 		// static ...; // 0x107EE3A8
@@ -252,19 +246,41 @@ namespace Player
 		// static ...; // 0x107EE364
 		// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
 		// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
-		{
 			// __int32 i;
-			{
 				// char uid[17];
 				// s_network_session_player *networkPlayer;
 				// c_network_session *session;
 				// bool validIndex;
-			}
-		}
 		// function call : bool (*const)(c_network_session **)
-		todo("implement");
-		std::string __result = _sub_107EE0C0();
-		return __result;
+
+		rapidjson::StringBuffer jsonBuffer;
+		rapidjson::Writer<rapidjson::StringBuffer> jsonWriter(jsonBuffer);
+		jsonWriter.StartObject();
+		for (__int32 i = 0; i < 16; i++)
+		{
+			c_network_session *session;
+			if (!network_session_interface_get_squad_session(&session) || !session->established())
+				continue;
+			bool validIndex = i >= 0 && i < 16;
+			if (!validIndex || i >= session->get_player_count())
+				continue;
+			if (!session->get_session_membership()->is_player_valid(i))
+				continue;
+			s_network_session_player *networkPlayer = session->get_player(i);
+			if (!networkPlayer)
+				continue;
+			jsonWriter.Key(std::to_string(i).c_str());
+			jsonWriter.StartObject();
+			jsonWriter.Key("e");
+			jsonWriter.String(localEmblemCache[i].emblemUrl.c_str());
+			jsonWriter.Key("u");
+			char uid[17];
+			player_format_uid(uid, networkPlayer->configuration.host.player_uid);
+			jsonWriter.String(uid);
+			jsonWriter.EndObject();
+		}
+		jsonWriter.EndObject();
+		return jsonBuffer.GetString();
 	}
 
 	void ClearRankUp() // 0x107EDE50
@@ -289,12 +305,12 @@ namespace Player
 			return 0;
 		}
 
-		if (isAvailable)
+		if (!isAvailable)
 		{
-			return infoCache[networkPlayerIndex].rank;
+			return 0;
 		}
 
-		return 0;
+		return infoCache[networkPlayerIndex].rank;
 	}
 
 	__int32 CPlayersInfo::GetSkill(__int32 networkPlayerIndex) // 0x107EE590
@@ -307,21 +323,21 @@ namespace Player
 			return 0;
 		}
 
-		if (isAvailable)
+		if (!isAvailable)
 		{
-			return infoCache[networkPlayerIndex].skill;
+			return 0;
 		}
 
-		return 0;
+		return infoCache[networkPlayerIndex].skill;
 	}
 }
 
-extern std::string _sub_107EF4E0(__int32);
+
 namespace Player
 {
 	std::string getLocalEmblem(__int32 networkPlayerIndex) // 0x107EF4E0
 	{
-		mangled_x86(MANGLED_TODO, "?getLocalEmblem@Player@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@H@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?getLocalEmblem@Player@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@H@Z");
 		// static ...; // 0x107EF723
 		// static ...; // 0x107EF718
 		// static ...; // 0x107EF700
@@ -331,58 +347,107 @@ namespace Player
 		// s_network_session_player *networkPlayer;
 		// c_network_session *session;
 		// function call : bool (*const)(c_network_session **)
-		todo("implement");
-		std::string __result = _sub_107EF4E0(networkPlayerIndex);
-		return __result;
+
+		c_network_session *session;
+		if (!network_session_interface_get_squad_session(&session) || !session->established())
+			return "";
+		s_network_session_player *networkPlayer = session->get_player(networkPlayerIndex);
+		if (!networkPlayer)
+			return "";
+		if (localEmblemCache[networkPlayerIndex].uid == networkPlayer->configuration.host.player_uid)
+			return localEmblemCache[networkPlayerIndex].emblemUrl;
+		s_player_emblem_configuration emblem_cfg = networkPlayer->configuration.host.appearance.emblem_config;
+		localEmblemCache[networkPlayerIndex].uid = networkPlayer->configuration.host.player_uid;
+		localEmblemCache[networkPlayerIndex].emblemUrl = Player::Emblems::BuildUrl(emblem_cfg);
+		return localEmblemCache[networkPlayerIndex].emblemUrl;
 	}
 }
 
-extern std::string _sub_107EDEA0(__int32);
+
 namespace Player
 {
 	std::string CPlayersInfo::GeEmblemUrl(__int32 networkPlayerIndex) // 0x107EDEA0
 	{
 		mangled_x86(MANGLED_TODO, "?GeEmblemUrl@CPlayersInfo@Player@@SA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@H@Z");
-		// static ...; // 0x107EE044
-		// static ...; // 0x107EE038
-		// static ...; // 0x107EE030
-		// __int32 networkPlayerIndex;
-		// SPlayerInfo cached;
-		todo("implement");
-		std::string __result = _sub_107EDEA0(networkPlayerIndex);
-		return __result;
+		if (!ValidNetworkPlayerIndex(networkPlayerIndex))
+			return "";
+		SPlayerInfo cached = infoCache[networkPlayerIndex];
+		if (isAvailable && !cached.set)
+			return getLocalEmblem(networkPlayerIndex);
+		if (!isAvailable || cached.emblemUrl.size() == 0)
+			return getLocalEmblem(networkPlayerIndex);
+		return cached.emblemUrl; // hades: written in place (no symbol-map entry); keeps SPlayerInfo's copy ctor emitted
 	}
 
-	_extern void _sub_107EE980(std::string const &);
 	void CPlayersInfo::Update(std::string const &payload) // 0x107EE980
 	{
-		mangled_x86(MANGLED_TODO, "?Update@CPlayersInfo@Player@@SAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CPlayersInfo@Player@@SAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 		// static ...; // 0x107EEE54
 		// static ...; // 0x107EEE50
 		// static ...; // 0x107EEE38
 		// static ...; // 0x107EEE30
 		// std::string const &payload;
 		// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
-		{
 			// __int32 i;
-			{
 				// std::string key;
-				{
 					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &info;
-					{
 						// bool rankUp;
-					}
-					{
 						// __int32 rank;
-					}
-					{
 						// __int32 skill;
-					}
-				}
-			}
+
+		ClearCache();
+		rapidjson::Document json;
+		if (json.Parse<0>(payload.c_str()).HasParseError() || !json.IsObject() || payload == "{}")
+		{
+			isAvailable = false;
+			return;
 		}
-		todo("implement");
-		_sub_107EE980(payload);
+		for (__int32 i = 0; i < 16; i++)
+		{
+			std::string key = std::to_string(i);
+			if (json.HasMember(key.c_str()))
+			{
+				rapidjson::Value &info = json[key.c_str()];
+				if (json[key.c_str()].HasMember("ru") && json[key.c_str()]["ru"].IsBool())
+				{
+					bool rankUp = info["ru"].GetBool();
+					if (rankUp == true)
+						infoCache[i].rankup = true;
+					else
+						infoCache[i].rankup = false;
+				}
+				else
+					infoCache[i].rankup = false;
+				if (json[key.c_str()].HasMember("r") && json[key.c_str()]["r"].IsInt())
+				{
+					__int32 rank = info["r"].GetInt();
+					if (rank <= -1)
+						rank = -1;
+					else if (rank > 42)
+						rank = 0;
+					infoCache[i].rank = rank;
+				}
+				else
+					infoCache[i].rank = -1;
+				if (json[key.c_str()].HasMember("s") && json[key.c_str()]["s"].IsInt())
+				{
+					__int32 skill = info["s"].GetInt();
+					if (skill <= -1)
+						skill = -1;
+					else if (skill > 50)
+						skill = 0;
+					infoCache[i].skill = skill;
+				}
+				else
+					infoCache[i].skill = -1;
+				if (json[key.c_str()].HasMember("e") && json[key.c_str()]["e"].IsString())
+					infoCache[i].emblemUrl = info["e"].GetString();
+				infoCache[i].set = true;
+			}
+			else
+				infoCache[i] = SPlayerInfo{};
+		}
+		isAvailable = true;
 	}
 
 	void LifeCycleStateChanged(Blam::Network::LifeCycleState newState) // 0x107EE690
@@ -418,10 +483,9 @@ namespace Player
 		Patches::Network::OnLifeCycleStateChanged(Player::LifeCycleStateChanged);
 	}
 
-	_extern void _sub_107EE750();
 	void CPlayersInfo::Tick() // 0x107EE750
 	{
-		mangled_x86(MANGLED_TODO, "?Tick@CPlayersInfo@Player@@SAXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@CPlayersInfo@Player@@SAXXZ");
 		// procedure flags: nofpo
 		// static ...; // 0x107EE900
 		// static ...; // 0x107EE8F4
@@ -429,65 +493,68 @@ namespace Player
 		// static bool (*IsMapLoading)(); // 0x113525C8
 		// long long curTime1;
 		// Blam::Network::Session *session;
-		{
 			// long long elapsed;
-		}
 		// function call : bool (*)()
 		// function call : bool (*const)()
-		todo("implement");
-		_sub_107EE750();
+
+		static bool (*IsMapLoading)() = (bool (*)())0x5670E0;
+		Blam::Network::Session *session = Blam::Network::GetActiveSession();
+		long long curTime1;
+		if (!session || !session->IsEstablished())
+			return;
+		time(&curTime1);
+		if (!checkRankTime && rankCheckGameStarted == true && rankCheckGameEnded == true && !IsMapLoading())
+		{
+			time(&checkRankTime);
+			rankCheckGameStarted = false;
+			rankCheckGameEnded = false;
+		}
+		if (checkRankTime && Blam::Network::GetLobbyType() == 2 && ((bool (*const)())0x531E90)())
+		{
+			long long elapsed = curTime1 - checkRankTime;
+			if (elapsed > 5)
+			{
+				if (GetRankedUpRecently())
+				{
+					ClearRankUp();
+					Modules::CommandMap::Instance().ExecuteCommand("Game.ShowUI spartan_rank_dialog");
+				}
+				checkRankTime = 0;
+			}
+		}
 	}
 }
 
 /* ---------- private code */
 
-_extern bool _sub_107EEF90(__int32);
 bool ValidNetworkPlayerIndex(__int32 networkPlayerIndex) // 0x107EEF90
 {
 	// `anonymous-namespace'::ValidNetworkPlayerIndex
 	// __int32 networkPlayerIndex;
-	todo("implement");
-	bool __result = _sub_107EEF90(networkPlayerIndex);
-	return __result;
+
+	return networkPlayerIndex >= 0 && networkPlayerIndex < 16;
 }
 
-_extern void _sub_107EDCB0();
 void ClearCache() // 0x107EDCB0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ClearCache@@YAXXZ");
 	// `anonymous-namespace'::ClearCache
 	// procedure flags: nofpo
-	{
 		// __int32 i;
-	}
-	todo("implement");
-	_sub_107EDCB0();
+
+	for (__int32 i = 0; i < 16; i++)
+		infoCache[i] = {};
 }
 
-_extern void _sub_107EDD90();
 void ClearEmblemCache() // 0x107EDD90
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ClearEmblemCache@@YAXXZ");
 	// `anonymous-namespace'::ClearEmblemCache
 	// procedure flags: nofpo
-	{
 		// __int32 i;
-	}
-	todo("implement");
-	_sub_107EDD90();
+
+	for (__int32 i = 0; i < 16; i++)
+		localEmblemCache[i] = {};
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0SPlayerEmblemInfo@hades_file_local@@QAE@XZ"); no body to assert in
-_inline SPlayerEmblemInfo::SPlayerEmblemInfo() = default; // 0x107ED930
-
-// mangled_x86(MANGLED_DEFAULT, "??0SPlayerInfo@hades_file_local@@QAE@ABU01@@Z"); no body to assert in
-_inline SPlayerInfo::SPlayerInfo(SPlayerInfo const &__that) = default; // 0x107ED980
-
-// mangled_x86(MANGLED_DEFAULT, "??0SPlayerInfo@hades_file_local@@QAE@XZ"); no body to assert in
-_inline SPlayerInfo::SPlayerInfo() = default; // 0x107EDA30
-
-// mangled_x86(MANGLED_DEFAULT, "??1SPlayerEmblemInfo@hades_file_local@@QAE@XZ"); no body to assert in
-_inline SPlayerEmblemInfo::~SPlayerEmblemInfo() = default; // 0x107EDB00
-
-
-_inline SPlayerEmblemInfo &SPlayerEmblemInfo::operator=(SPlayerEmblemInfo &__that) = default; // 0x107EDBA0
-
-_inline SPlayerInfo &SPlayerInfo::operator=(SPlayerInfo &__that) = default; // 0x107EDC10
+// SPlayerInfo / SPlayerEmblemInfo special members (0x107ED930..0x107EDC10) are implicit.

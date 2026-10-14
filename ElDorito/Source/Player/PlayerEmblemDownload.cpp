@@ -1,6 +1,9 @@
 /* ---------- headers */
 
 #include "Player/PlayerEmblemDownload.hpp"
+#include "Patches/Network.hpp"
+extern long (*const game_time_get)();
+extern float (*const game_ticks_to_seconds)(float);  // hades: added for 0x108FDF30
 #include "hades/hades.h"
 
 #include "Blam/BlamNetwork.hpp"
@@ -41,7 +44,10 @@
 #include "ThirdParty/rapidjson/reader.h"
 #include "ThirdParty/rapidjson/stream.h"
 #include "Utils/DewritoReader.hpp"
+#include "Utils/Logger.hpp"
 #include "Utils/Singleton.hpp"
+
+#include "Modules/ModulePlayer.hpp"  // hades: added for 0x108FCFF0
 
 #include <boost/asio.hpp>
 #include <boost/assert.hpp>
@@ -212,6 +218,11 @@ namespace Http
 
 /* ---------- prototypes */
 
+namespace Http { extern std::shared_ptr<Http::IHttpRequest> CreateRequest(); } namespace Utils { namespace Version { extern std::string GetVersionString(); } }  // hades: added for 0x108FE180
+
+#include "Player/PlayerInfo.hpp"  // hades: added for 0x108FC890
+namespace Player { namespace Emblems { extern bool ParseURL(std::string const &url, s_player_emblem_configuration &config); } }  // hades: added for 0x108FC890
+
 namespace Player
 {
 	extern void StartImageDownload(std::string url, __int32 player_index);
@@ -226,7 +237,7 @@ namespace Player
 
 /* ---------- globals */
 
-extern PlayerEmblem player_emblems[17]; // 0x124083D8
+PlayerEmblem player_emblems[17]; // 0x124083D8
 
 namespace Player
 {
@@ -239,10 +250,9 @@ namespace Player
 
 namespace Player
 {
-	_extern void _sub_108FE180(std::string, __int32);
 	void StartImageDownload(std::string url, __int32 player_index) // 0x108FE180
 	{
-		mangled_x86(MANGLED_TODO, "?StartImageDownload@Player@@YAXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@H@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?StartImageDownload@Player@@YAXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@H@Z");
 		// static ...; // 0x108FE5CC
 		// static ...; // 0x108FE5C4
 		// std::string url;
@@ -255,8 +265,16 @@ namespace Player
 		// function call : void (std::function<bool __cdecl(char const *,unsigned int)> &)
 		// function call : void (std::function<void __cdecl(std::shared_ptr<Http::IHttpRequest>,bool)> &)
 		// function call : bool ()
-		todo("implement");
-		_sub_108FE180(url, player_index);
+
+		std::shared_ptr<Http::IHttpRequest> req = Http::CreateRequest();
+		req->SetUrl(url);
+		req->SetMethod("GET");
+		req->SetHeaders({ { "User-Agent", "ElDewrito/" + Utils::Version::GetVersionString() }, { "content-type", "image/png" } });
+		req->SetOnResponse(std::bind_front(&PlayerEmblemDownload::OnDownloadResponse, &PlayerEmblemDownload::Instance(), player_index));
+		req->SetReceiver(std::bind_front(&PlayerEmblemDownload::OnRecieve, &PlayerEmblemDownload::Instance(), player_index));
+		req->SetOnCompleted(std::bind_front(&PlayerEmblemDownload::OnDownloadComplete, &PlayerEmblemDownload::Instance(), player_index));
+		req->Send();
+		player_emblems[player_index].generatedEmblemUrl = url;
 	}
 
 	void ResetCosmeticSlot(__int32 player_index) // 0x108FDE10
@@ -319,27 +337,41 @@ namespace Player
 			player_emblems[player_index].state = eFailed;
 	}
 
-	_extern void _sub_108FC890(__int32);
 	void CheckDirty(__int32 player_index) // 0x108FC890
 	{
-		mangled_x86(MANGLED_TODO, "?CheckDirty@Player@@YAXH@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?CheckDirty@Player@@YAXH@Z");
 		// static ...; // 0x108FCB1F
 		// static ...; // 0x108FCB14
 		// static ...; // 0x108FCAFC
 		// static ...; // 0x108FCAF4
 		// __int32 player_index;
 		// std::string url;
-		{
 			// s_player_emblem_configuration tempConfig;
-		}
-		todo("implement");
-		_sub_108FC890(player_index);
+
+			std::string url;
+			url = CPlayersInfo::GeEmblemUrl(player_index);
+			if (url.empty())
+				return;
+			if (url.starts_with("emblems://"))
+			{
+				s_player_emblem_configuration tempConfig = {};
+				if (Emblems::ParseURL(url, tempConfig) && !(tempConfig == player_emblems[player_index].emblemConfig))
+					player_emblems[player_index].state = eRemoving;
+			}
+			else if (!player_emblems[player_index].emblemConfig.isUninitialized())
+			{
+				player_emblems[player_index].emblemConfig = {};
+				player_emblems[player_index].state = eRemoving;
+			}
+			else if (url != player_emblems[player_index].generatedEmblemUrl)
+			{
+				player_emblems[player_index].state = eRemoving;
+			}
 	}
 
-	_extern void _sub_108FCFF0(__int32, bool);
 	void InitPlayer(__int32 player_index, bool is_customization_biped) // 0x108FCFF0
 	{
-		mangled_x86(MANGLED_TODO, "?InitPlayer@Player@@YAXH_N@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?InitPlayer@Player@@YAXH_N@Z");
 		// static ...; // 0x108FD314
 		// static ...; // 0x108FD2FC
 		// static ...; // 0x108FD2F4
@@ -347,43 +379,100 @@ namespace Player
 		// bool is_customization_biped;
 		// unsigned short player_slot_join_number;
 		// std::string url;
-		{
 			// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> dewrito;
-			{
 				// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &emblemGeneratorURL;
+
+		std::string url;
+		if (is_customization_biped)
+		{
+			rapidjson::Document dewrito = Utils::DewritoReader::Instance().GetDewritoJson();
+			if (dewrito.HasMember("emblemgenerator"))
+			{
+				rapidjson::Value &emblemGeneratorURL = dewrito["emblemgenerator"];
+				url = emblemGeneratorURL.GetString() + Modules::ModulePlayer::Instance().VarPlayerEmblem->ValueString;
 			}
 		}
-		todo("implement");
-		_sub_108FCFF0(player_index, is_customization_biped);
+		else
+		{
+			url = CPlayersInfo::GeEmblemUrl(player_index);
+			if (url.empty())
+				return;
+		}
+		if (url.starts_with("emblems://"))
+		{
+			if (!Emblems::ParseURL(url, player_emblems[player_index].emblemConfig))
+				player_emblems[player_index].emblemConfig = {};
+			player_emblems[player_index].state = eGenerate;
+		}
+		else
+		{
+			player_emblems[player_index].state = eDownloading;
+			StartImageDownload(url, player_index);
+		}
+		player_emblems[player_index].active = true;
+		player_emblems[player_index].player_join_number++;
+		unsigned short player_slot_join_number = player_emblems[player_index].player_join_number;
+		player_emblems[player_index].data.clear();
 	}
 
-	_extern void _sub_108FDF30(__int32);
 	void RetrySlot(__int32 player_index) // 0x108FDF30
 	{
-		mangled_x86(MANGLED_TODO, "?RetrySlot@Player@@YAXH@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?RetrySlot@Player@@YAXH@Z");
 		// __int32 player_index;
-		{
 			// float secondsSince;
+		// function call : float (*const)(float)
+		// function call : long (*const)()
+		// function call : float (*const)(float)
+		// function call : long (*const)()
+		// function call : long (*const)()
+
+		if (player_emblems[player_index].attempts > 15)
+		{
+			float secondsSince = game_ticks_to_seconds((float)game_time_get()) - game_ticks_to_seconds((float)player_emblems[player_index].attemptTick);
+			if (secondsSince < 0.0f)
+			{
+				Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Debug, Utils::LogLevel::Info, "EMBLEMS: negative secondsSince in RetrySlot(): %d", secondsSince);
+				player_emblems[player_index].attemptTick = game_time_get();
+				return;
+			}
+			if (secondsSince < 3.0f)
+				return;
 		}
-		// function call : float (*const)(float)
-		// function call : long (*const)()
-		// function call : float (*const)(float)
-		// function call : long (*const)()
-		// function call : long (*const)()
-		todo("implement");
-		_sub_108FDF30(player_index);
+		player_emblems[player_index].attempts++;
+		player_emblems[player_index].attemptTick = game_time_get();
+		InitPlayer(player_index, false);
 	}
 
-	extern PlayerEmblemDownload* _sub_108FC480(::Player::PlayerEmblemDownload *const);
-	PlayerEmblemDownload::PlayerEmblemDownload() // 0x108FC480
+
+	PlayerEmblemDownload::PlayerEmblemDownload() : // 0x108FC480
+		server_join_tick(0),
+		failedInit(false),
+		emblemUpdate(false)
 	{
-		mangled_x86(MANGLED_TODO, "??0PlayerEmblemDownload@Player@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0PlayerEmblemDownload@Player@@QAE@XZ");
 		// Player::PlayerEmblemDownload *const this;
+
+		for (__int32 i = 0; i < 17; i++)
 		{
-			// __int32 i;
+			ResetCosmeticSlot(i);
 		}
-		todo("implement");
-		_sub_108FC480(this);
+
+		Patches::Network::OnLifeCycleStateChanged([this](Blam::Network::LifeCycleState state)
+		{
+			if (state == Blam::Network::eLifeCycleStateLeaving)
+			{
+				for (__int32 i = 0; i < 16; i++)
+				{
+					std::unique_lock<std::mutex> lock(player_emblems[i].mutex);
+					InvalidateCosmeticSlot(i);
+					lock.unlock();
+				}
+			}
+			else if (state == Blam::Network::eLifeCycleStateJoining)
+			{
+				SetLastJoinTime(game_time_get());
+			}
+		});
 	}
 
 	void PlayerEmblemDownload::LoadGenericEmblem(IDirect3DDevice9 *device) // 0x108FD420
@@ -397,10 +486,9 @@ namespace Player
 			failedInit = true;
 	}
 
-	_extern void _sub_108FE700(::Player::PlayerEmblemDownload *const);
 	void PlayerEmblemDownload::Tick() // 0x108FE700
 	{
-		mangled_x86(MANGLED_TODO, "?Tick@PlayerEmblemDownload@Player@@QAEXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@PlayerEmblemDownload@Player@@QAEXXZ");
 		// static ...; // 0x108FEACD
 		// static ...; // 0x108FEAC8
 		// static ...; // 0x108FEAB0
@@ -408,39 +496,94 @@ namespace Player
 		// Player::PlayerEmblemDownload *const this;
 		// float secondsSince;
 		// Blam::Network::Session *session;
-		{
 			// __int32 player;
-			{
 				// std::unique_lock<std::mutex> lock;
-			}
-		}
-		{
 			// std::scoped_lock<std::mutex> lock;
-		}
 		// function call : float (*const)(float)
 		// function call : long (*const)()
 		// function call : float (*const)(float)
 		// function call : bool (*const)()
-		todo("implement");
-		_sub_108FE700(this);
+
+		if (failedInit)
+			return;
+		float secondsSince = game_ticks_to_seconds((float)game_time_get()) - game_ticks_to_seconds((float)server_join_tick);
+		if (secondsSince < 0.0f)
+			Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Debug, Utils::LogLevel::Info, "EMBLEMS: negative secondsSince in Tick(): %d", secondsSince);
+		if (secondsSince < 1.0f)
+			return;
+		Blam::Network::Session *session = Blam::Network::GetActiveSession();
+		if (session && session->IsEstablished())
+		{
+			__int32 player = session->MembershipInfo.FindFirstPlayer();
+			while (player != -1)
+			{
+				std::unique_lock<std::mutex> lock(player_emblems[player].mutex);
+				if (player_emblems[player].uid != session->MembershipInfo.PlayerSessions[player].Properties.host.player_uid)
+				{
+					if (player_emblems[player].state == eReady)
+						player_emblems[player].state = eRemoving;
+					if (player_emblems[player].state == eEmpty)
+						player_emblems[player].uid = session->MembershipInfo.PlayerSessions[player].Properties.host.player_uid;
+				}
+				if (!player_emblems[player].active)
+				{
+					InitPlayer(player, false);
+				}
+				else
+				{
+					switch (player_emblems[player].state)
+					{
+					case eFailed:
+						RetrySlot(player);
+						break;
+					case eEmpty:
+						InitPlayer(player, false);
+						break;
+					case eReady:
+						CheckDirty(player);
+						break;
+					}
+				}
+				lock.unlock();
+				player = session->MembershipInfo.FindNextPlayer(player);
+			}
+		}
+		if (((bool (*const)())0x531E90)() && emblemUpdate)
+		{
+			std::scoped_lock<std::mutex> lock(player_emblems[16].mutex);
+			emblemUpdate = false;
+			InitPlayer(16, true);
+		}
 	}
 
-	_extern void _sub_108FDAE0(::Player::PlayerEmblemDownload *const, IDirect3DDevice9 *);
 	void PlayerEmblemDownload::OnEndScene(IDirect3DDevice9 *device) // 0x108FDAE0
 	{
-		mangled_x86(MANGLED_TODO, "?OnEndScene@PlayerEmblemDownload@Player@@QAEXPAUIDirect3DDevice9@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?OnEndScene@PlayerEmblemDownload@Player@@QAEXPAUIDirect3DDevice9@@@Z");
 		// static ...; // 0x108FDC10
 		// static ...; // 0x108FDC08
 		// Player::PlayerEmblemDownload *const this;
 		// IDirect3DDevice9 *device;
-		{
 			// __int32 player;
-			{
 				// std::scoped_lock<std::mutex> lock;
+
+		if (failedInit)
+			return;
+		for (__int32 player = 0; player < 17; player++)
+		{
+			std::scoped_lock<std::mutex> lock(player_emblems[player].mutex);
+			switch (player_emblems[player].state)
+			{
+			case eGenerate:
+				DXGenerateEmblem(player);
+				break;
+			case eFinishedDownload:
+				DXInitEmblem(player);
+				break;
+			case eRemoving:
+				ResetCosmeticSlot(player);
+				break;
 			}
 		}
-		todo("implement");
-		_sub_108FDAE0(this, device);
 	}
 
 	void PlayerEmblemDownload::UpdateLocalEmblem() // 0x108FEBD0
@@ -460,28 +603,34 @@ namespace Player
 	}
 }
 
-extern IDirect3DTexture9 *_sub_108FCE40(::Player::PlayerEmblemDownload *const, long, bool);
+
 namespace Player
 {
 	IDirect3DTexture9 *PlayerEmblemDownload::GetPlayerEmblem(long player_index, bool use_generic) // 0x108FCE40
 	{
-		mangled_x86(MANGLED_TODO, "?GetPlayerEmblem@PlayerEmblemDownload@Player@@QAEPAUIDirect3DTexture9@@J_N@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetPlayerEmblem@PlayerEmblemDownload@Player@@QAEPAUIDirect3DTexture9@@J_N@Z");
 		// static ...; // 0x108FCF78
 		// Player::PlayerEmblemDownload *const this;
 		// long player_index;
 		// bool use_generic;
-		{
 			// std::unique_lock<std::mutex> lock;
+
+		if (player_index > -1 && player_index <= 16)
+		{
+			std::unique_lock<std::mutex> lock(player_emblems[player_index].mutex);
+			if (use_generic || !player_emblems[player_index].texture || player_emblems[player_index].state == eFailed)
+				return generic_emblem;
+			else
+				return player_emblems[player_index].texture;
+			lock.unlock();
 		}
-		todo("implement");
-		IDirect3DTexture9 * __result = _sub_108FCE40(this, player_index, use_generic);
-		return __result;
+		else
+			return generic_emblem;
 	}
 
-	_extern void _sub_108FD6B0(::Player::PlayerEmblemDownload *const, __int32, std::shared_ptr<Http::IHttpRequest>);
 	void PlayerEmblemDownload::OnDownloadResponse(__int32 player_index, std::shared_ptr<Http::IHttpRequest> request) // 0x108FD6B0
 	{
-		mangled_x86(MANGLED_TODO, "?OnDownloadResponse@PlayerEmblemDownload@Player@@QAEXHV?$shared_ptr@VIHttpRequest@Http@@@std@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?OnDownloadResponse@PlayerEmblemDownload@Player@@QAEXHV?$shared_ptr@VIHttpRequest@Http@@@std@@@Z");
 		// static ...; // 0x108FD9F1
 		// static ...; // 0x108FD9EC
 		// static ...; // 0x108FD9BC
@@ -492,48 +641,82 @@ namespace Player
 		// Http::CHttpHeaders headers;
 		// long long length;
 		// std::shared_ptr<Http::IHttpResponse> response;
-		{
 			// std::unique_lock<std::mutex> lock;
 			// std::string *data;
-		}
 		// function call : std::shared_ptr<Http::IHttpResponse> ()
 		// function call : __int32 () const
 		// function call : void ()
 		// function call : Http::CHttpHeaders const &() const
 		// function call : void ()
-		todo("implement");
-		_sub_108FD6B0(this, player_index, request);
+
+		std::shared_ptr<Http::IHttpResponse> response = request->GetResponse();
+		if (response->GetResponseCode() != 200)
+			request->Cancel();
+		Http::CHttpHeaders headers = response->GetHeaders();
+		long long length;
+		if (headers.GetInt("Content-Length", length))
+		{
+			if (length > 0x200000)
+			{
+				Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Debug, Utils::LogLevel::Info, "Image was too large: %d", length);
+				request->Cancel();
+				return;
+			}
+			else
+			{
+				std::unique_lock<std::mutex> lock(player_emblems[player_index].mutex);
+				std::string *data = &player_emblems[player_index].data;
+				if (data->capacity() < length)
+					data->reserve(length);
+				lock.unlock();
+			}
+		}
 	}
 
-	_extern void _sub_108FD490(::Player::PlayerEmblemDownload *const, __int32, std::shared_ptr<Http::IHttpRequest>, bool);
 	void PlayerEmblemDownload::OnDownloadComplete(__int32 player_index, std::shared_ptr<Http::IHttpRequest> request, bool success) // 0x108FD490
 	{
-		mangled_x86(MANGLED_TODO, "?OnDownloadComplete@PlayerEmblemDownload@Player@@QAEXHV?$shared_ptr@VIHttpRequest@Http@@@std@@_N@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?OnDownloadComplete@PlayerEmblemDownload@Player@@QAEXHV?$shared_ptr@VIHttpRequest@Http@@@std@@_N@Z");
 		// Player::PlayerEmblemDownload *const this;
 		// __int32 player_index;
 		// std::shared_ptr<Http::IHttpRequest> request;
 		// bool success;
 		// std::unique_lock<std::mutex> lock;
-		{
 			// std::string *data;
+
+		std::unique_lock<std::mutex> lock(player_emblems[player_index].mutex);
+		if (!success)
+		{
+			player_emblems[player_index].state = eFailed;
 		}
-		todo("implement");
-		_sub_108FD490(this, player_index, request, success);
+		else
+		{
+			std::string *data = &player_emblems[player_index].data;
+			if (data->at(0) != '\x89' || data->at(1) != 'P' || data->at(2) != 'N' || data->at(3) != 'G' || data->at(4) != '\r' || data->at(5) != '\n' || data->at(6) != '\x1a' || data->at(7) != '\n')
+				player_emblems[player_index].state = eFailed;
+			else
+				player_emblems[player_index].state = eFinishedDownload;
+		}
+		lock.unlock();
 	}
 
-	_extern bool _sub_108FDC80(::Player::PlayerEmblemDownload *const, __int32, char const *, unsigned __int32);
 	bool PlayerEmblemDownload::OnRecieve(__int32 player_index, char const *buffer, unsigned __int32 length) // 0x108FDC80
 	{
-		mangled_x86(MANGLED_TODO, "?OnRecieve@PlayerEmblemDownload@Player@@QAE_NHPBDI@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?OnRecieve@PlayerEmblemDownload@Player@@QAE_NHPBDI@Z");
 		// Player::PlayerEmblemDownload *const this;
 		// __int32 player_index;
 		// char const *buffer;
 		// unsigned __int32 length;
 		// std::unique_lock<std::mutex> lock;
 		// std::string *data;
-		todo("implement");
-		bool __result = _sub_108FDC80(this, player_index, buffer, length);
-		return __result;
+
+		std::unique_lock<std::mutex> lock(player_emblems[player_index].mutex);
+		std::string *data = &player_emblems[player_index].data;
+		if (data->size() > 0x200000LL)
+			return false;
+
+		data->append(buffer, length);
+		lock.unlock();
+		return true;
 	}
 }
 

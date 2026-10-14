@@ -75,7 +75,6 @@ enum e_chud_widget_type
 struct s_chud_widget_placement
 {
 	c_enum<enum e_chud_widget_anchor_type,unsigned short> anchor; // 0x0
-	unsigned char __pad0[2]; // 0x2
 	real_point2d mirror_offset; // 0x4
 	real_point2d offset; // 0xC
 	float scale_x; // 0x14
@@ -245,7 +244,6 @@ static_assert(sizeof(c_curved_hud_test) == 112, "Invalid c_curved_hud_test size"
 struct c_chud_point_tracker
 {
 	bool valid; // 0x0
-	unsigned char __pad0[3]; // 0x1
 	real_point3d world_point; // 0x4
 	real_point2d screen_point; // 0x10
 	real_point2d unknown_screen_point; // 0x18
@@ -334,7 +332,6 @@ struct s_chud_managed_navpoint
 {
 	s_chud_navpoint navpoint; // 0x0
 	bool visible; // 0x30
-	unsigned char __pad0[3]; // 0x31
 	long submit_time; // 0x34
 	float scale; // 0x38
 	c_chud_point_tracker point_tracker; // 0x3C
@@ -382,7 +379,6 @@ struct s_chud_render_data
 	long vertex_shader_definition_index; // 0x0
 	long pixel_shader_definition_index; // 0x4
 	short blend_mode; // 0x8
-	unsigned char __pad0[2]; // 0xA
 	real_argb_color colors[6]; // 0xC
 	float field_6C[6]; // 0x6C
 	__int32 field_84; // 0x84

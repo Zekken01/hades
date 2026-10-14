@@ -101,6 +101,9 @@
 #include <vector>
 #include "Modules/ModuleSettings.hpp"  // hades: added for 0X10A815F0
 
+#include "Blam/interface/gui/gui_screen_manager.hpp"  // hades: added for 0x10A7F710
+#include "Modules/ModuleCamera.hpp"  // hades: added for 0x10A79DA0
+
 /* ---------- forward declarations */
 
 class c_gui_screen_widget;
@@ -198,6 +201,12 @@ using namespace ::Blam;
 
 /* ---------- prototypes */
 
+extern long (*const game_tick_rate)();  // hades: added for 0x10A81060
+extern s_object_data *(*const object_try_and_get_and_verify_type)(unsigned long, c_enum<enum e_object_type,long>);  // hades: added for 0x10A81060
+#include "Modules/ModuleDebug.hpp"  // hades: added for 0x10A81060
+
+unsigned long system_milliseconds();  // hades: added for 0x10A7F880
+
 extern float real_pin(float x, float min, float max);  // hades: added for 0x10A80F50
 
 extern long(__cdecl *const game_seconds_to_ticks_round)(float);  // hades: added for 0X10A7B740
@@ -268,7 +277,10 @@ void input_abstraction_update_hook();
 extern s_input_globals &input_globals; // 0x1135A184
 extern s_input_abstraction_globals &input_abstraction_globals; // 0x1135A2F0
 
-template<typename t_arg0> t_arg0 *object_get(unsigned long object_index);  // hades: added for 0X10A79CD0
+template<typename t_arg0> static t_arg0 *object_get(unsigned long object_index) { return (t_arg0 *)object_get(object_index); }  // hades: a file-local template in the original (undecorated `object_get<T>`), defined so it is emitted;  // hades: added for 0X10A79CD0
+
+extern bool CharacterHasFlag(__int32 flag);  // hades: added for 0x10A7BE10
+extern void SetUiPlayerModelRotation(float angleDegrees, float seconds);  // hades: added for 0x10A7BE10
 
 c_gui_screen_widget *(*c_gui_location_manager::get_location_gui_screen)(); // 0x1135459C
 
@@ -276,12 +288,12 @@ c_gui_screen_widget *(*c_gui_location_manager::get_location_gui_screen)(); // 0x
 
 namespace hades_file_local
 {
-	extern "C" std::stack<std::shared_ptr<Patches::Input::InputContext> > contextStack; // 0x12458880
-	extern std::vector<void (__cdecl*)(void)> defaultHandlers; // 0x12458850
-	extern std::vector<void (__cdecl*)(void)> uiHandlers; // 0x12458870
+	extern "C" { std::stack<std::shared_ptr<Patches::Input::InputContext> > contextStack; } // 0x12458880
+	std::vector<void (__cdecl*)(void)> defaultHandlers; // 0x12458850
+	std::vector<void (__cdecl*)(void)> uiHandlers; // 0x12458870
 	extern "C" bool contextDone; // 0x12458894
 	extern "C" bool blockStates[3]; // 0x124588A0
-	extern std::vector<Blam::Input::ConfigurableAction> settings; // 0x12458860
+	std::vector<Blam::Input::ConfigurableAction> settings; // 0x12458860
 	extern "C" Blam::Input::InputType actionInputTypes[63]; // 0x11354458
 	extern Blam::Input::BindingsTable s_ForgeMonitorModeBindings; // 0x124588A8
 	extern unsigned __int32 s_ControllerVibrationTestTicks; // 0x124588A4
@@ -289,7 +301,7 @@ namespace hades_file_local
 	extern IDirectInput8A *g_diInterface; // 0x12458AB0
 	extern IDirectInputDevice8A *g_diKeyboardDevice; // 0x12458AB4
 	extern bool g_diInitialized; // 0x12458895
-	extern std::chrono::time_point<std::chrono::steady_clock,std::chrono::duration<__int64,std::ratio<1,1000000000> > > lastRotateUpdateTime; // 0x12458898
+	std::chrono::time_point<std::chrono::steady_clock,std::chrono::duration<__int64,std::ratio<1,1000000000> > > lastRotateUpdateTime = std::chrono::steady_clock::now(); // 0x12458898
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -298,39 +310,62 @@ namespace Patches
 {
 	namespace Input
 	{
-		_extern void _sub_10A780B0();
 		void ApplyAll() // 0x10A780B0
 		{
-			mangled_x86(MANGLED_TODO, "?ApplyAll@Input@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Input@Patches@@YAXXZ");
 			// procedure flags: nofpo
 			// static ...; // 0x10A78FA8
 			// static ...; // 0x10A78F9C
 			// static ...; // 0x10A78F94
 			// unsigned __int32 keyboardFixPointers[6];
-			{
 				// unsigned __int32 &<range>$L0[6];
 				// unsigned __int32 *<begin>$L0;
 				// unsigned __int32 *<end>$L0;
-				{
 					// unsigned __int32 pointer;
-				}
-			}
-			todo("implement");
-			_sub_10A780B0();
+
+			Hook(0x105CCD, ProcessUiInputHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x106417, QuickUpdateUiInputHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x234238, BlockInputHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x20BF00, InitBindingsHook).Apply();
+			Hook(0x10AB40, PreferencesGetKeyBindingsHook).Apply();
+			Hook(0x10D040, PreferencesSetKeyBindingsHook).Apply();
+			Hook(0x20C040, GetDefaultBindingsHook).Apply();
+			Hook(0x20C4F6, GetKeyboardActionTypeHook).Apply();
+			Hook(0x1124F0, SetControllerVibrationHook).Apply();
+			Hook(0x105C58, null_stub, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Patch::NopFill(Pointer::Base(0x6A225B), 2);
+			Patch(0x6940E7, { 0x90, 0xE9 }).Apply();
+			Hook(0x695012, UpdateUiControllerInputHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Patch::NopFill(Pointer::Base(0x112613), 2);
+			unsigned int keyboardFixPointers[] = { 0x20C529, 0x20C558, 0x20C591, 0x20C5C2, 0x20C5FA, 0x20C63F };
+			for (auto pointer : keyboardFixPointers)
+				Patch::NopFill(Pointer::Base(pointer), 2);
+			Patch(0x20C69F, { 0xEB }).Apply();
+			Hook(0x1D4C66, LocalPlayerInputHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x112690, input_update_hook).Apply();
+			Hook(0x20D880, input_abstraction_update_hook).Apply();
+			Hook(0x20D880, input_abstraction_update_hook).Apply();
 		}
 
-		_extern void _sub_10A7AB70(std::shared_ptr<Patches::Input::InputContext>);
 		void PushContext(std::shared_ptr<Patches::Input::InputContext> context) // 0x10A7AB70
 		{
-			mangled_x86(MANGLED_TODO, "?PushContext@Input@Patches@@YAXV?$shared_ptr@VInputContext@Input@Patches@@@std@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?PushContext@Input@Patches@@YAXV?$shared_ptr@VInputContext@Input@Patches@@@std@@@Z");
 			// std::shared_ptr<Patches::Input::InputContext> context;
-			{
 				// __int32 i;
+			// function call : void ()
+			// function call : void ()
+
+			if (contextStack.empty())
+			{
+				for (__int32 i = 0; i < Blam::Input::eInputType_Count; i++)
+					Blam::Input::BlockInput(static_cast<Blam::Input::InputType>(i), true);
 			}
-			// function call : void ()
-			// function call : void ()
-			todo("implement");
-			_sub_10A7AB70(context);
+			else
+			{
+				contextStack.top()->Deactivated();
+			}
+			contextStack.push(context);
+			context->Activated();
 		}
 
 		void RegisterDefaultInputHandler(void (*func)()) // 0x10A7AD30
@@ -349,10 +384,9 @@ namespace Patches
 			uiHandlers.push_back(func);
 		}
 
-		_extern void _sub_10A7AEB0(std::vector<Blam::Input::ConfigurableAction> const &, std::vector<Blam::Input::ConfigurableAction> const &);
 		void SetKeyboardSettingsMenu(std::vector<Blam::Input::ConfigurableAction> const &infantrySettings, std::vector<Blam::Input::ConfigurableAction> const &vehicleSettings) // 0x10A7AEB0
 		{
-			mangled_x86(MANGLED_TODO, "?SetKeyboardSettingsMenu@Input@Patches@@YAXABV?$vector@UConfigurableAction@Input@Blam@@V?$allocator@UConfigurableAction@Input@Blam@@@std@@@std@@0@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?SetKeyboardSettingsMenu@Input@Patches@@YAXABV?$vector@UConfigurableAction@Input@Blam@@V?$allocator@UConfigurableAction@Input@Blam@@@std@@@std@@0@Z");
 			// static ...; // 0x10A7B567
 			// static ...; // 0x10A7B55B
 			// static ...; // 0x10A7B545
@@ -368,44 +402,43 @@ namespace Patches
 			// unsigned __int32 vehicleCount;
 			// unsigned __int32 infantryCount;
 			// unsigned __int32 infantryPointers[4];
-			{
 				// unsigned __int32 &<range>$L0[4];
 				// unsigned __int32 *<begin>$L0;
 				// unsigned __int32 *<end>$L0;
-				{
 					// unsigned __int32 pointer;
-				}
-			}
-			{
 				// unsigned __int32 *<end>$L1;
 				// unsigned __int32 *<begin>$L1;
 				// unsigned __int32 &<range>$L1[5];
-				{
-				}
-			}
-			{
 				// unsigned __int32 *<end>$L2;
 				// unsigned __int32 &<range>$L2[1];
 				// unsigned __int32 *<begin>$L2;
-				{
-				}
-			}
-			{
 				// unsigned __int32 &<range>$L3[3];
 				// unsigned __int32 *<begin>$L3;
 				// unsigned __int32 *<end>$L3;
-				{
-				}
-			}
-			{
 				// unsigned __int32 *<end>$L4;
 				// unsigned __int32 *<begin>$L4;
 				// unsigned __int32 &<range>$L4[3];
-				{
-				}
-			}
-			todo("implement");
-			_sub_10A7AEB0(infantrySettings, vehicleSettings);
+
+			settings.clear();
+			settings.insert(settings.end(), infantrySettings.begin(), infantrySettings.end());
+			settings.insert(settings.end(), vehicleSettings.begin(), vehicleSettings.end());
+			unsigned __int32 infantryCount = infantrySettings.size();
+			unsigned __int32 vehicleCount = vehicleSettings.size();
+			unsigned __int32 infantryPointers[] = { 0x398573, 0x3993CF, 0x39A42F, 0x39B4B0 };
+			unsigned __int32 vehiclePointers[] = { 0x39856D, 0x3993CA, 0x39A63A, 0x39A645, 0x39B4AB };
+			unsigned __int32 endPointers[] = { 0x39A84A };
+			unsigned __int32 infantryCountPointers[] = { 0x39857B, 0x3993BC, 0x39B495 };
+			unsigned __int32 vehicleCountPointers[] = { 0x398580, 0x3993C1, 0x39B49A };
+			for (auto pointer : infantryPointers)
+				Pointer::Base(pointer).Write(&settings[0]);
+			for (auto pointer : vehiclePointers)
+				Pointer::Base(pointer).Write(&settings[0] + infantryCount);
+			for (auto pointer : endPointers)
+				Pointer::Base(pointer).Write(&settings[0] + settings.size());
+			for (auto pointer : infantryCountPointers)
+				Pointer::Base(pointer).Write<int>(infantryCount);
+			for (auto pointer : vehicleCountPointers)
+				Pointer::Base(pointer).Write<int>(vehicleCount);
 		}
 
 		void TestControllerVibration(float durationSeconds) // 0x10A7B740
@@ -461,41 +494,68 @@ void PopContext() // 0x10A7A430
 	}
 }
 
-_extern void _sub_10A7B9C0();
 void UpdateInputHook() // 0x10A7B9C0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateInputHook@@YAXXZ");
 	// `anonymous-namespace'::UpdateInputHook
 	// procedure flags: nofpo
 	// static ...; // 0x10A7BD30
 	// static ...; // 0x10A7BD24
 	// static ...; // 0x10A7BD1C
 	// bool allowHandlers;
-	{
 		// std::vector<void (__cdecl*)(void)> &<range>$L0;
 		// void (**<begin>$L0)();
 		// void (**<end>$L0)();
-		{
 			// void (*&handler)();
-		}
-	}
-	{
 		// void (**<end>$L1)();
 		// void (**<begin>$L1)();
 		// std::vector<void (__cdecl*)(void)> &<range>$L1;
-		{
-		}
-	}
-	{
 		// std::stringstream ss;
 		// unsigned long value;
-	}
 	// function call : void ()
 	// function call : bool ()
 	// function call : void ()
 	// function call : void (*)()
 	// function call : void (*)()
-	todo("implement");
-	_sub_10A7B9C0();
+
+	if (contextDone)
+	{
+		PopContext();
+		contextDone = false;
+	}
+	bool allowHandlers = false;
+	if (!contextStack.empty())
+	{
+		contextStack.top()->InputUnblock();
+		if (!contextStack.top()->GameInputTick())
+			contextDone = true;
+		contextStack.top()->InputBlock();
+		allowHandlers = contextStack.top()->allowHandlers;
+	}
+	else
+	{
+		for (auto &handler : defaultHandlers)
+			handler();
+	}
+	if (allowHandlers)
+	{
+		for (auto &handler : defaultHandlers)
+			handler();
+	}
+	if (s_ControllerVibrationTestTicks > 0)
+		s_ControllerVibrationTestTicks--;
+	if (bindingsNextUpdateTicks != -1 && --bindingsNextUpdateTicks == 0)
+	{
+		bindingsNextUpdateTicks = -1;
+		UpdateForgeMonitorBindings();
+	}
+	if (Blam::Input::GetKeyTicks(Blam::Input::eKeyCodeAlt, Blam::Input::eInputTypeUi) > 0 && Blam::Input::GetKeyTicks(Blam::Input::eKeyCodeNumpadEnter, Blam::Input::eInputTypeUi) == 1 || Blam::Input::GetKeyTicks(Blam::Input::eKeyCodeAlt, Blam::Input::eInputTypeUi) == 1 && Blam::Input::GetKeyTicks(Blam::Input::eKeyCodeNumpadEnter, Blam::Input::eInputTypeUi) > 0)
+	{
+		unsigned long value = Utils::Singleton<Modules::ModuleSettings>::Instance().VarFullscreen->ValueInt;
+		std::stringstream ss;
+		ss << "Settings.Fullscreen " << (value == 0);
+		Utils::Singleton<Modules::CommandMap>::Instance().ExecuteCommand(ss.str());
+	}
 }
 
 void UiInputTick() // 0x10A7B7C0
@@ -646,19 +706,26 @@ bool InMonitorMode() // 0x10A79A00
 	return Forge_GetEditorModeState(((unsigned long(*)(long))0x589C30)(0), nullptr, nullptr);
 }
 
-_extern void _sub_10A7A760(Blam::Input::BindingsTable const &, Blam::Input::ActionState *);
 void ProcessKeyBindingsHook(Blam::Input::BindingsTable const &bindings, Blam::Input::ActionState *actions) // 0x10A7A760
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ProcessKeyBindingsHook@@YAXABUBindingsTable@Input@Blam@@PAUActionState@23@@Z");
 	// `anonymous-namespace'::ProcessKeyBindingsHook
 	// Blam::Input::ActionState *actions;
 	// void (*EngineProcessKeyBindings)(Blam::Input::BindingsTable const &, Blam::Input::ActionState *);
-	{
 		// __int32 i;
+	// function call : void (*)(Blam::Input::BindingsTable const &, Blam::Input::ActionState *)
+	// function call : void (*)(Blam::Input::BindingsTable const &, Blam::Input::ActionState *)
+
+	void (*EngineProcessKeyBindings)(Blam::Input::BindingsTable const &, Blam::Input::ActionState *) = reinterpret_cast<void (*)(Blam::Input::BindingsTable const &, Blam::Input::ActionState *)>(0x60C4A0);
+	if (InMonitorMode() && !Pointer(0x5260F34)[0](0x3C, 1).Read<short>())
+		EngineProcessKeyBindings(s_ForgeMonitorModeBindings, actions);
+	else
+		EngineProcessKeyBindings(bindings, actions);
+	for (__int32 i = 0; i < 63; i++)
+	{
+		if (!actions[i].Ticks)
+			actions[i].Flags &= ~1;
 	}
-	// function call : void (*)(Blam::Input::BindingsTable const &, Blam::Input::ActionState *)
-	// function call : void (*)(Blam::Input::BindingsTable const &, Blam::Input::ActionState *)
-	todo("implement");
-	_sub_10A7A760(bindings, actions);
 }
 
 void ProcessMouseBindingsHook(Blam::Input::BindingsTable const &bindings, Blam::Input::ActionState *actions) // 0x10A7AA80
@@ -679,6 +746,7 @@ void ProcessMouseBindingsHook(Blam::Input::BindingsTable const &bindings, Blam::
 
 void UpdateUiControllerInputHook(__int32 a0) // 0x10A7BE10
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateUiControllerInputHook@@YAXH@Z");
 	// `anonymous-namespace'::UpdateUiControllerInputHook
 	// static ...; // 0x10A7C194
 	// static ...; // 0x10A7C188
@@ -712,57 +780,58 @@ void UpdateUiControllerInputHook(__int32 a0) // 0x10A7BE10
 	// function call : long ()
 	// function call : void (*)()
 	// function call : void (*)()
-
-	typedef void(*UiUpdateControllerInputPtr)(int a0);
-	auto UiUpdateControllerInput = reinterpret_cast<UiUpdateControllerInputPtr>(0xA93A50);
-	typedef bool(*IsMainMenuPtr)();
-	auto IsMainMenu = reinterpret_cast<IsMainMenuPtr>(0x531E90);
-	typedef float(*UiGetTimeDeltaPtr)();
-	auto UiGetTimeDelta = reinterpret_cast<UiGetTimeDeltaPtr>(0xA844E0);
-	typedef void(*UpdateCharPlatformPtr)();
-	auto UpdateCharPlatform = reinterpret_cast<UpdateCharPlatformPtr>(0xBB5F00);
-	typedef void(*RotateCharPlatformPtr)(float timeDelta, float amount);
-	auto RotateCharPlatform = reinterpret_cast<RotateCharPlatformPtr>(0xBB5DA0);
-
-	UiUpdateControllerInput(a0);
-
 	// Handle char_platform controls
 	//
 	// This spices things up a bit compared to the default implementation
 	// by making the platform automatically rotate slowly until the player
 	// manually rotates it.
-
-	static auto firstRotate = true;
-	if (!IsMainMenu())
-	{
 		// char_platform is only on the main menu
-		firstRotate = true;
-		return;
-	}
-	if (firstRotate)
-	{
 		// Rotate it to the left a bit initially so that you can see the
 		// front of your Spartan at the start
-		RotateCharPlatform(1.0f, -0.25f);
-		firstRotate = false;
-		return;
-	}
-	auto leftAction = GetActionState(eGameActionUiLeft);
-	auto rightAction = GetActionState(eGameActionUiRight);
-	auto rotateLeft = (!(leftAction->Flags & eActionStateFlagsHandled) && leftAction->Ticks != 0);
-	auto rotateRight = (!(rightAction->Flags & eActionStateFlagsHandled) && rightAction->Ticks != 0);
-	auto rotateAmount = static_cast<int>(rotateRight) - static_cast<int>(rotateLeft);
-	if (rotateAmount)
-	{
-		RotateCharPlatform(UiGetTimeDelta(), rotateAmount * 1.0f);
-	}
-	else
-	{
-		UpdateCharPlatform();
-	}
-
 	//main menu ui handlers
-	for (auto &&handler : uiHandlers)
+
+	void (*UiUpdateControllerInput)(__int32) = reinterpret_cast<void (*)(__int32)>(0xA93A50);
+	void (*UpdateCharPlatform)() = reinterpret_cast<void (*)()>(0xBB5F00);
+	c_gui_screen_widget *screen = c_gui_location_manager::get_location_gui_screen();
+	UiUpdateControllerInput(a0);
+	if (!((bool (*const)())0x531E90)())
+		return;
+	static bool returnedBiped;
+	if (screen)
+	{
+		long location = screen->get_gui_location();
+		Blam::Input::ActionState *leftAction = Blam::Input::GetActionState(Blam::Input::eGameActionUiLeft);
+		Blam::Input::ActionState *rightAction = Blam::Input::GetActionState(Blam::Input::eGameActionUiRight);
+		bool rotateLeft = !(leftAction->Flags & 1) && leftAction->Ticks;
+		bool rotateRight = !(rightAction->Flags & 1) && rightAction->Ticks;
+		__int32 rotateAmount = rotateRight - rotateLeft;
+		float &customzation_biped_angle_degrees = *reinterpret_cast<float *>(0x194A66C);
+		auto now = std::chrono::steady_clock::now();
+		std::chrono::duration<double> elapsedTime = now - lastRotateUpdateTime;
+		lastRotateUpdateTime = now;
+		float const rotationRate = 90.0f;
+		float angleIncrement = (float)elapsedTime.count() * rotationRate;
+		switch (screen->get_gui_location())
+		{
+		case 0:
+			if (rotateAmount != 0 && CharacterHasFlag(1))
+			{
+				float angle = rotateAmount * angleIncrement + customzation_biped_angle_degrees;
+				SetUiPlayerModelRotation(angle, 0.0f);
+				returnedBiped = false;
+			}
+			break;
+		default:
+			if (!returnedBiped)
+			{
+				Modules::CommandMap::Instance().ExecuteCommand("player.armor.ReturnCustomizationBiped", false);
+				returnedBiped = true;
+			}
+			break;
+		}
+	}
+	UpdateCharPlatform();
+	for (auto &handler : uiHandlers)
 		handler();
 }
 
@@ -911,27 +980,49 @@ bool HasEqualBindingsDown(Blam::Input::GameAction action1, Blam::Input::GameActi
 	return false;
 }
 
-_extern void _sub_10A81060(long, s_player_control_input *);
 void player_control_update_boots_off_ground(long controller_index, s_player_control_input *input) // 0x10A81060
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?player_control_update_boots_off_ground@@YAXJPAUs_player_control_input@@@Z");
 	// `anonymous-namespace'::player_control_update_boots_off_ground
 	// s_player_control_input *input;
 	// s_unit_data *biped;
 	// long unit_index;
 	// bool boots_off_ground;
-	{
 		// unsigned char jump_control_ticks;
-	}
 	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
 	// function call : e_motor_program (*const)(long)
 	// function call : long (*const)()
-	todo("implement");
-	_sub_10A81060(controller_index, input);
+
+	if (!Utils::Singleton<Modules::ModuleDebug>::Instance().VarAcrophobiaClient->ValueInt)
+		return;
+	long unit_index = player_control_input_get(controller_index)->unit_index;
+	s_unit_data *biped = (s_unit_data *)object_try_and_get_and_verify_type(unit_index, 1);
+	if (!biped)
+		return;
+	bool boots_off_ground = false;
+	if (GetActionState((GameAction)0x10)->GetDownTicks() > 0 && ((long (*)(long))0xBA66A0)(unit_index) == 1)
+	{
+		unsigned char jump_control_ticks = *(unsigned char *)offset_pointer(biped, 0x5D9);
+		if ((biped->unit_control_flags & 2) && jump_control_ticks < game_tick_rate() / 15.0f)
+		{
+			boots_off_ground = true;
+		}
+		else if (biped->unit_control_flags & 0x8000)
+		{
+			if (GetActionState((GameAction)0x21)->GetDownTicks() > 0)
+				biped->unit_control_flags |= 0x800;
+			boots_off_ground = true;
+		}
+	}
+	if (boots_off_ground)
+		input->unit_control_flags |= 0x8000;
+	else
+		input->unit_control_flags &= ~0x8000;
 }
 
-_extern void _sub_10A79DA0(__int32, unsigned __int32, __int32, __int32, __int32, s_player_control_input *);
 void LocalPlayerInputHook(__int32 localPlayerIndex, unsigned __int32 playerIndex, __int32 a3, __int32 a4, __int32 a5, s_player_control_input *state) // 0x10A79DA0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?LocalPlayerInputHook@@YAXHIHHHPAUs_player_control_input@@@Z");
 	// `anonymous-namespace'::LocalPlayerInputHook
 	// __int32 a3;
 	// __int32 a4;
@@ -946,37 +1037,108 @@ void LocalPlayerInputHook(__int32 localPlayerIndex, unsigned __int32 playerIndex
 	// LocalPlayerInputHook::__l2::ControlGlobalsAction *(*const GetPlayerControlsAction)(__int32);
 	// static bool `LocalPlayerInputHook'::`2'::s_ConsumablesLocked; // 0x124588A3
 	// bool isDualWielding;
-	{
 		// Blam::Input::ActionState *fireRightAction;
 		// Blam::Input::ActionState *fireLeftAction;
 		// Blam::Input::ActionState tmp;
-	}
-	{
 		// s_player_datum *player;
 		// unsigned long playerIndex;
 		// c_data_array<s_player_datum> *players;
-		{
 			// unsigned short ticksSprinting;
-		}
-	}
-	{
 		// LocalPlayerInputHook::__l2::ControlGlobalsAction *controlGlobalsAction;
-	}
-	{
 		// Blam::Input::ActionState *flashlight_state;
-	}
 	// function call : void (*const)(__int32, unsigned __int32, __int32, __int32, __int32, s_player_control_input *)
 	// function call : unsigned long (*const)(long)
 	// function call : LocalPlayerInputHook::__l2::ControlGlobalsAction *(*const)(__int32)
 	// function call : bool (*const)()
 	// function call : bool (*const)()
-	todo("implement");
-	_sub_10A79DA0(localPlayerIndex, playerIndex, a3, a4, a5, state);
+
+	struct ControlGlobalsAction
+	{
+		unsigned short Type;
+		unsigned short Flags;
+	};
+	void (*const LocalPlayerInputHook)(__int32, unsigned __int32, __int32, __int32, __int32, s_player_control_input *) = (void (*)(__int32, unsigned __int32, __int32, __int32, __int32, s_player_control_input *))0x5D0C90;
+	ControlGlobalsAction *(*const GetPlayerControlsAction)(__int32) = (ControlGlobalsAction *(*)(__int32))0x5D0BD0;
+	static bool s_ConsumablesLocked = false;
+	static bool s_SprintToggled = false;
+	Modules::ModuleInput &moduleInput = Modules::ModuleInput::Instance();
+	Blam::Input::BindingsTable *bindings = Modules::ModuleInput::GetBindings();
+	bool isDualWielding = IsDualWielding();
+	bool isUsingController = *(bool *)0x244DE98;
+	if (!isUsingController && isDualWielding)
+	{
+		Blam::Input::ActionState *fireLeftAction = Blam::Input::GetActionState(Blam::Input::eGameActionFireLeft);
+		Blam::Input::ActionState *fireRightAction = Blam::Input::GetActionState(Blam::Input::eGameActionFireRight);
+		Blam::Input::ActionState tmp = *fireLeftAction;
+		*fireLeftAction = *fireRightAction;
+		*fireRightAction = tmp;
+	}
+	LocalPlayerInputHook(localPlayerIndex, playerIndex, a3, a4, a5, state);
+	Modules::ModuleCamera::Instance().SetInputAngularVelocity(&state->aiming);
+	if (moduleInput.VarToggleSprint->ValueInt)
+	{
+		if (s_SprintToggled)
+		{
+			unsigned long playerIndex = ((unsigned long (*const)(long))0x589C30)(localPlayerIndex);
+			c_data_array<s_player_datum> *players = players_get();
+			s_player_datum *player = players->try_and_get(playerIndex);
+			if (player)
+			{
+				unsigned short ticksSprinting = Pointer(player)(0x2CE4, 1).Read<unsigned short>();
+				if (!ticksSprinting)
+					s_SprintToggled = false;
+			}
+		}
+		if (Blam::Input::GetActionState(Blam::Input::eGameActionSprint)->GetDownTicks() == 1)
+			s_SprintToggled = !s_SprintToggled;
+		if (s_SprintToggled)
+			state->unit_control_flags |= 0x100;
+	}
+	if (state->unit_control_flags & 0x10)
+	{
+		ControlGlobalsAction *controlGlobalsAction = GetPlayerControlsAction(localPlayerIndex);
+		if (controlGlobalsAction->Type == 1 && (controlGlobalsAction->Flags & 4 || controlGlobalsAction->Flags & 8))
+		{
+			if (isUsingController)
+				s_ConsumablesLocked = bindings->ControllerButtons[Blam::Input::eGameActionUseConsumable1] == bindings->ControllerButtons[Blam::Input::eGameActionPickUpLeft];
+			else
+				s_ConsumablesLocked = HasEqualBindingsDown(Blam::Input::eGameActionUseConsumable1, Blam::Input::eGameActionPickUpLeft, Blam::Input::eInputTypeGame);
+		}
+	}
+	else
+	{
+		s_ConsumablesLocked = false;
+	}
+	if (isDualWielding)
+	{
+		if (!s_ConsumablesLocked)
+			s_ConsumablesLocked = HasEqualBindingsDown(Blam::Input::eGameActionUseConsumable1, Blam::Input::eGameActionReloadLeft, Blam::Input::eInputTypeGame);
+		if (bindings->ControllerButtons[Blam::Input::eGameActionMelee] == bindings->ControllerButtons[Blam::Input::eGameActionFireLeft])
+			state->unit_control_flags &= ~0x20;
+		if (bindings->ControllerButtons[Blam::Input::eGameActionThrowGrenade] == bindings->ControllerButtons[Blam::Input::eGameActionFireLeft])
+			state->unit_control_flags &= ~0x10000000;
+	}
+	if (s_ConsumablesLocked)
+		state->unit_control_flags &= ~0x10;
+	if (Blam::Input::GetActionState(Blam::Input::eGameActionJump)->GetDownTicks() > 0 && ((bool (*)())0x67D270)())
+		state->player_action_flags |= 0x1000;
+	else
+		state->player_action_flags &= ~0x1000;
+	player_control_update_boots_off_ground(localPlayerIndex, state);
+	bool (*const game_engine_is_forge)() = (bool (*)())0x59A780;
+	if (game_engine_is_forge() && Modules::ModuleSettings::Instance().VarGamepadEnabled->ValueInt == 1)
+	{
+		Blam::Input::ActionState *flashlight_state = Blam::Input::GetActionState(Blam::Input::eGameActionFlashlight);
+		if (flashlight_state->Msec < 500)
+			state->unit_control_flags &= ~4;
+		else
+			state->unit_control_flags |= 4;
+	}
 }
 
-_extern bool _sub_10A79AE0();
 bool InitializeDirectInput() // 0x10A79AE0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeDirectInput@@YA_NXZ");
 	// `anonymous-namespace'::InitializeDirectInput
 	// procedure flags: nofpo
 	// HRESULT hr;
@@ -985,9 +1147,26 @@ bool InitializeDirectInput() // 0x10A79AE0
 	// function call : HRESULT (HWND__ *, unsigned long)
 	// function call : HRESULT (_DIDATAFORMAT const *)
 	// function call : HRESULT ()
-	todo("implement");
-	bool __result = _sub_10A79AE0();
-	return __result;
+
+	if (g_diInitialized)
+		return true;
+	g_diInitialized = true;
+	HRESULT hr = DirectInput8Create(GetModuleHandleA(NULL), 0x800, IID_IDirectInput8A, (void **)&g_diInterface, NULL);
+	if (FAILED(hr))
+		return false;
+	hr = g_diInterface->CreateDevice(GUID_SysKeyboard, &g_diKeyboardDevice, NULL);
+	if (FAILED(hr))
+		return false;
+	hr = g_diKeyboardDevice->SetCooperativeLevel(*(HWND__ **)0x199C014, DISCL_BACKGROUND | DISCL_NONEXCLUSIVE);
+	if (FAILED(hr))
+		return false;
+	hr = g_diKeyboardDevice->SetDataFormat(&c_dfDIKeyboard);
+	if (FAILED(hr))
+		return false;
+	hr = g_diKeyboardDevice->Acquire();
+	if (FAILED(hr))
+		return false;
+	return true;
 }
 
 void update_key_state(Blam::Input::KeyState *key, bool is_down, long delta_msec) // 0x10A81A40
@@ -1054,39 +1233,100 @@ void update_keyboard_input_di(long delta_msec, bool enabled, bool *input_detecte
 	}
 }
 
-_extern void _sub_10A81CE0(long, bool, bool *);
 void update_keyboard_input_win32(long delta_msec, bool enabled, bool *out_input_detected) // 0x10A81CE0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?update_keyboard_input_win32@@YAXJ_NPA_N@Z");
 	// `anonymous-namespace'::update_keyboard_input_win32
 	// bool *out_input_detected;
 	// bool in_foreground;
-	{
 		// long i;
-		{
 			// Blam::Input::KeyState *key;
 			// bool is_down;
-		}
-	}
 	// function call : HWND__ *()
 	// function call : short (__int32)
-	todo("implement");
-	_sub_10A81CE0(delta_msec, enabled, out_input_detected);
+
+	bool in_foreground = *(HWND *)0x199C014 == GetForegroundWindow();
+	for (long i = 0; i < 104; i++)
+	{
+		Blam::Input::KeyState *key = Blam::Input::GetKeyState((Blam::Input::KeyCode)i);
+		bool is_down;
+		if (enabled)
+		{
+			is_down = (::GetKeyState(((unsigned char *)0x1650918)[i]) & 0x8000) != 0;
+			if (key->Msec == 1 && !key->Ticks && !is_down)
+				is_down = true;
+		}
+		else
+		{
+			is_down = false;
+		}
+		if (is_down)
+			*out_input_detected = true;
+		update_key_state(key, is_down, delta_msec);
+	}
 }
 
-_extern void _sub_10A7FB90(unsigned long, long, bool, bool *);
 void input_update_mouse(unsigned long milliseconds, long delta_milliseconds, bool enabled, bool *input_detected) // 0x10A7FB90
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?input_update_mouse@@YAXKJ_NPA_N@Z");
 	// `anonymous-namespace'::input_update_mouse
 	// bool enabled;
 	// bool *input_detected;
-	{
 		// unsigned long v9;
-	}
-	{
 		// long i;
+
+	if (!input_globals.mouse_active)
+		return;
+	if (abs(input_globals.mouse.raw_x) || abs(input_globals.mouse.raw_y) || abs(input_globals.mouse.raw_z))
+		*input_detected = true;
+	input_globals.buffered_key_read_index = 0;
+	input_globals.buffered_key_write_index = 0;
+	input_globals.mouse.x = input_globals.field_B1C * (input_globals.mouse.raw_x / input_globals.field_B10);
+	input_globals.mouse.y = input_globals.field_B20 * (input_globals.mouse.raw_y / input_globals.field_B14);
+	if (input_globals.blocked_inputs[1])
+	{
+		input_globals.field_C68 = 0;
 	}
-	todo("implement");
-	_sub_10A7FB90(milliseconds, delta_milliseconds, enabled, input_detected);
+	else
+	{
+		unsigned long v9 = input_globals.field_C68;
+		if ((long)(milliseconds - input_globals.field_C68) <= 700)
+		{
+			input_globals.mouse.z = 0;
+		}
+		else
+		{
+			v9 = 0;
+			input_globals.field_C68 = 0;
+		}
+		if (!(input_globals.field_B24 * (input_globals.mouse.raw_z / input_globals.field_B18)) || v9)
+			goto skip_z;
+		input_globals.field_C68 = milliseconds;
+	}
+	input_globals.mouse.z = input_globals.field_B24 * (input_globals.mouse.raw_z / input_globals.field_B18);
+	skip_z:
+	input_globals.mouse.raw_y %= input_globals.field_B14;
+	input_globals.mouse.raw_x %= input_globals.field_B10;
+	input_globals.mouse.raw_z %= input_globals.field_B18;
+	input_globals.mouse.x += input_globals.mouse.raw_x;
+	input_globals.mouse.y += input_globals.mouse.raw_y;
+	input_globals.mouse.z += input_globals.mouse.raw_z;
+	for (long i = 0; i < 5; i++)
+	{
+		if (enabled && (input_globals.mouse.button_mask & (1 << i)))
+		{
+			*input_detected = true;
+			if (input_globals.mouse.down_frames[i] + 1 < 255)
+				input_globals.mouse.down_frames[i]++;
+			if (input_globals.mouse.down_milliseconds[i] + delta_milliseconds < 0xFFFF)
+				input_globals.mouse.down_milliseconds[i] += (unsigned short)delta_milliseconds;
+		}
+		else
+		{
+			input_globals.mouse.down_frames[i] = 0;
+			input_globals.mouse.down_milliseconds[i] = 0;
+		}
+	}
 }
 
 void input_update_keyboard(long delta_milliseconds, bool enabled, bool *out_input_detected) // 0x10A7FB10
@@ -1145,18 +1385,28 @@ void update_threshold(unsigned char *threshold, bool is_pressed, unsigned char v
 	}
 }
 
-_extern void _sub_10A7E350(float &, float &, float);
 void apply_radial_deadzone(float &x, float &y, float deadzone) // 0x10A7E350
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?apply_radial_deadzone@@YAXAAM0M@Z");
 	// `anonymous-namespace'::apply_radial_deadzone
 	// float deadzone;
 	// float const magnitude;
-	{
 		// float const angle;
 		// float const scale;
+
+	float const magnitude = real_pin(sqrtf(x * x + y * y), -1.0f, 1.0f);
+	if (magnitude <= deadzone)
+	{
+		x = 0.0f;
+		y = 0.0f;
 	}
-	todo("implement");
-	_sub_10A7E350(x, y, deadzone);
+	else
+	{
+		float const scale = (magnitude - deadzone) / (1.0f - deadzone);
+		float const angle = atan2f(y, x);
+		x = cosf(angle) * scale;
+		y = sinf(angle) * scale;
+	}
 }
 
 float apply_axial_deadzone(float x, float deadzone) // 0x10A7E120
@@ -1188,11 +1438,10 @@ void apply_deadzone(short_point_2d *output, short thumb_x, short thumb_y, float 
 	// float x;
 	// float y;
 
-	float x;
-	float y;
-
-	x = apply_axial_deadzone((float)thumb_x / 32767.0f, axial_deadzone);
-	y = apply_axial_deadzone((float)thumb_y / 32767.0f, axial_deadzone);
+	float x = (float)thumb_x / 32767.0f;
+	float y = (float)thumb_y / 32767.0f;
+	x = apply_axial_deadzone(x, axial_deadzone);
+	y = apply_axial_deadzone(y, axial_deadzone);
 	if (radial_deadzone > 0.0f)
 	{
 		apply_radial_deadzone(x, y, radial_deadzone);
@@ -1202,9 +1451,9 @@ void apply_deadzone(short_point_2d *output, short thumb_x, short thumb_y, float 
 	output->y = (short)(y * 32767.0f);
 }
 
-_extern void _sub_10A80190(long, long, _XINPUT_STATE const *, s_gamepad_state *, s_debug_gamepad_data *, bool *);
 void input_xinput_update_gamepad_core(long controller_index, long delta_milliseconds, _XINPUT_STATE const *xinput_data, s_gamepad_state *out_gamepad_data, s_debug_gamepad_data *out_debug_gamepad_data, bool *out_input_detected) // 0x10A80190
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?input_xinput_update_gamepad_core@@YAXJJPBU_XINPUT_STATE@@PAUs_gamepad_state@@PAUs_debug_gamepad_data@@PA_N@Z");
 	// `anonymous-namespace'::input_xinput_update_gamepad_core
 	// bool *out_input_detected;
 	// float left_axial_deadzone;
@@ -1212,29 +1461,74 @@ void input_xinput_update_gamepad_core(long controller_index, long delta_millisec
 	// float left_radial_deadzone;
 	// Modules::ModuleInput const &module_input;
 	// float right_axial_deadzone;
-	{
 		// long i;
-		{
 			// bool trigger_pressed;
-		}
-	}
-	{
-		{
 			// bool button_pressed;
-		}
-	}
-	{
 		// float preferred_axial_deadzone;
 		// long stick_layout;
 		// float preferred_radial_deadzone;
+
+	if (xinput_data->Gamepad.wButtons)
+		*out_input_detected = true;
+	if (xinput_data->Gamepad.bLeftTrigger >= 30 || xinput_data->Gamepad.bRightTrigger >= 30)
+		*out_input_detected = true;
+	if (abs(xinput_data->Gamepad.sThumbLX) >= 7849 || abs(xinput_data->Gamepad.sThumbLY) >= 7849)
+		*out_input_detected = true;
+	if (abs(xinput_data->Gamepad.sThumbRX) >= 8689 || abs(xinput_data->Gamepad.sThumbRY) >= 8689)
+		*out_input_detected = true;
+	for (long i = 0; i < 2; i++)
+	{
+		out_gamepad_data->trigger_values[i] = i > 0 ? xinput_data->Gamepad.bRightTrigger : xinput_data->Gamepad.bLeftTrigger;
+		bool trigger_pressed = out_gamepad_data->trigger_values[i] > out_gamepad_data->trigger_thresholds[i];
+		update_button(&out_gamepad_data->button_frames[i], &out_gamepad_data->button_milliseconds[i], trigger_pressed, delta_milliseconds);
+		update_threshold(&out_gamepad_data->trigger_thresholds[i], trigger_pressed, out_gamepad_data->trigger_values[i]);
 	}
-	todo("implement");
-	_sub_10A80190(controller_index, delta_milliseconds, xinput_data, out_gamepad_data, out_debug_gamepad_data, out_input_detected);
+	for (long i = 0; i < 14; i++)
+	{
+		bool button_pressed = (xinput_data->Gamepad.wButtons & ((unsigned long const *)0x166AAE8)[i]) > 0;
+		update_button(&out_gamepad_data->button_frames[i + 2], &out_gamepad_data->button_milliseconds[i + 2], button_pressed, delta_milliseconds);
+	}
+	out_gamepad_data->left_thumb = { xinput_data->Gamepad.sThumbLX, xinput_data->Gamepad.sThumbLY };
+	out_gamepad_data->right_thumb = { xinput_data->Gamepad.sThumbRX, xinput_data->Gamepad.sThumbRY };
+	float left_axial_deadzone = 0.24f;
+	float left_radial_deadzone = 0.0f;
+	float right_axial_deadzone = 0.2f;
+	float right_radial_deadzone = 0.0f;
+	Modules::ModuleInput const &module_input = Modules::ModuleInput::Instance();
+	if (module_input.VarControllerAimControl->ValueInt == 1)
+	{
+		long stick_layout = input_abstraction_globals.preferences[0].stick_layout;
+		float preferred_axial_deadzone = (float)module_input.VarControllerAxialDeadzone->ValueInt / 100.0f;
+		float preferred_radial_deadzone = (float)module_input.VarControllerRadialDeadzone->ValueInt / 100.0f;
+		if (stick_layout == 1)
+		{
+			left_axial_deadzone = preferred_axial_deadzone;
+			left_radial_deadzone = preferred_radial_deadzone;
+		}
+		else
+		{
+			if (stick_layout <= 3)
+			{
+				left_axial_deadzone = preferred_axial_deadzone;
+				left_radial_deadzone = preferred_radial_deadzone;
+			}
+			right_axial_deadzone = preferred_axial_deadzone;
+			right_radial_deadzone = preferred_radial_deadzone;
+		}
+	}
+	apply_deadzone(&out_gamepad_data->left_thumb, xinput_data->Gamepad.sThumbLX, xinput_data->Gamepad.sThumbLY, left_axial_deadzone, left_radial_deadzone);
+	apply_deadzone(&out_gamepad_data->right_thumb, xinput_data->Gamepad.sThumbRX, xinput_data->Gamepad.sThumbRY, right_axial_deadzone, right_radial_deadzone);
+	if (Modules::ModuleInput::Instance().VarControllerInvertY->ValueInt)
+	{
+		if (out_gamepad_data->right_thumb.y == -32768)
+			out_gamepad_data->right_thumb.y++;
+		out_gamepad_data->right_thumb.y = -out_gamepad_data->right_thumb.y;
+	}
 }
 
-_extern bool _sub_10A80040(long, long, s_gamepad_state *, s_debug_gamepad_data *, bool *);
 bool input_xinput_update_gamepad(long controller_index, long delta_milliseconds, s_gamepad_state *out_gamepad_data, s_debug_gamepad_data *out_debug_gamepad_data, bool *out_input_detected) // 0x10A80040
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?input_xinput_update_gamepad@@YA_NJJPAUs_gamepad_state@@PAUs_debug_gamepad_data@@PA_N@Z");
 	// `anonymous-namespace'::input_xinput_update_gamepad
 	// long delta_milliseconds;
 	// s_gamepad_state *out_gamepad_data;
@@ -1245,9 +1539,24 @@ bool input_xinput_update_gamepad(long controller_index, long delta_milliseconds,
 	// _XINPUT_STATE xinput_state;
 	// HINSTANCE__ *hModule;
 	// function call : unsigned long (*)(unsigned long, _XINPUT_STATE *)
-	todo("implement");
-	bool __result = _sub_10A80040(controller_index, delta_milliseconds, out_gamepad_data, out_debug_gamepad_data, out_input_detected);
-	return __result;
+
+	HINSTANCE__ *hModule = *(HINSTANCE__ **)0x2497CEC;
+	unsigned long (__stdcall *XInputGetStateFn)(unsigned long, _XINPUT_STATE *) = *(unsigned long (__stdcall **)(unsigned long, _XINPUT_STATE *))0x2497CE4;
+	unsigned long (__stdcall *XInputSetStateFn)(unsigned long, _XINPUT_STATE *) = *(unsigned long (__stdcall **)(unsigned long, _XINPUT_STATE *))0x2497CE8;
+	_XINPUT_STATE xinput_state;
+	if (!hModule || !XInputGetStateFn || !XInputSetStateFn)
+		return false;
+
+	if (XInputGetStateFn(controller_index, &xinput_state))
+	{
+		memset(out_gamepad_data, 0, sizeof(out_gamepad_data));
+		return false;
+	}
+	else
+	{
+		input_xinput_update_gamepad_core(controller_index, delta_milliseconds, &xinput_state, out_gamepad_data, out_debug_gamepad_data, out_input_detected);
+		return true;
+	}
 }
 
 void input_update_gamepads(long delta_milliseconds, bool *out_input_detected) // 0x10A7F5E0
@@ -1272,23 +1581,27 @@ void input_update_gamepads(long delta_milliseconds, bool *out_input_detected) //
 	}
 }
 
-_extern void _sub_10A7F710();
 void input_update_gamepads_rumble() // 0x10A7F710
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?input_update_gamepads_rumble@@YAXXZ");
 	// `anonymous-namespace'::input_update_gamepads_rumble
 	// procedure flags: nofpo
 	// void (*const input_xinput_update_rumble_state)(long, s_rumble_state *, bool);
 	// bool disabled;
-	{
 		// long i;
-		{
 			// bool disable_index;
-		}
-	}
 	// function call : bool (*const)()
 	// function call : void (*const)(long, s_rumble_state *, bool)
-	todo("implement");
-	_sub_10A7F710();
+
+	void (*const input_xinput_update_rumble_state)(long, s_rumble_state *, bool) = reinterpret_cast<void (*)(long, s_rumble_state *, bool)>(0x65F220);
+	bool disabled = input_globals.feedback_supressed || input_globals.supressed;
+	if (((bool (*)())0x531E90)())
+		disabled = true;
+	for (long i = 0; i < 4; i++)
+	{
+		bool disable_index = disabled || c_gui_screen_manager::get()->any_active_screens(i);
+		input_xinput_update_rumble_state(i, &input_globals.rumble_states[i], disable_index);
+	}
 }
 
 void set_control_method(long method) // 0x10A815F0
@@ -1305,9 +1618,9 @@ void set_control_method(long method) // 0x10A815F0
 	}
 }
 
-_extern void _sub_10A7F880();
 void input_update_hook() // 0x10A7F880
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?input_update_hook@@YAXXZ");
 	// `anonymous-namespace'::input_update_hook
 	// procedure flags: nofpo
 	// static ...; // 0x10A7FA73
@@ -1325,13 +1638,36 @@ void input_update_hook() // 0x10A7F880
 	// function call : bool (*const)()
 	// function call : bool (*const)()
 	// function call : HWND__ *()
-	todo("implement");
-	_sub_10A7F880();
+
+	bool (*const game_in_editor)() = reinterpret_cast<bool (*)()>(0x42E130);
+	bool (*const sub_42E000)() = reinterpret_cast<bool (*)()>(0x42E000);
+	if (!input_globals.initialized || !input_globals.field_1 && (!game_in_editor() || !sub_42E000()))
+		return;
+	unsigned long milliseconds = system_milliseconds();
+	long delta_milliseconds = milliseconds - input_globals.last_update_milliseconds;
+	if (delta_milliseconds < 0)
+		delta_milliseconds = 0;
+	else if (delta_milliseconds >= 100)
+		delta_milliseconds = 100;
+	input_globals.supressed = false;
+	input_globals.last_update_milliseconds = milliseconds;
+	bool mkb_input_enabled = game_in_editor() || *(HWND *)0x199C014 == GetForegroundWindow();
+	bool mkb_input_detected = false;
+	bool gamepad_input_detected = false;
+	input_update_keyboard(delta_milliseconds, mkb_input_enabled, &mkb_input_detected);
+	input_update_mouse(milliseconds, delta_milliseconds, mkb_input_enabled, &mkb_input_detected);
+	input_update_gamepads(delta_milliseconds, &gamepad_input_detected);
+	input_update_gamepads_rumble();
+	if (input_abstraction_globals.control_method == 1 && mkb_input_detected)
+		set_control_method(0);
+	else if (input_abstraction_globals.control_method == 0 && gamepad_input_detected)
+		set_control_method(1);
+	UpdateInputHook();
 }
 
-_extern void _sub_10A80840(short, short, float *, float *, bool, float);
 void normalize_thumbstick_classic(short thumb_x, short thumb_y, float *out_normalized_x, float *out_normalized_y, bool legacy, float legacy_threshold) // 0x10A80840
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?normalize_thumbstick_classic@@YAXFFPAM0_NM@Z");
 	// `anonymous-namespace'::normalize_thumbstick_classic
 	// float legacy_threshold;
 	// float const real_thumb_y;
@@ -1341,20 +1677,67 @@ void normalize_thumbstick_classic(short thumb_x, short thumb_y, float *out_norma
 	// float const scale;
 	// float const max_component;
 	// float pitch;
-	{
 		// float adjusted_angle;
 		// float abs_adjusted_angle;
 		// float magnitude;
-		{
 			// float v30;
 			// float v29;
-		}
-		{
 			// float abs_angle;
+
+	float const scale = 1.0f / 32767.0f;
+	float const real_thumb_x = thumb_x;
+	float const real_thumb_y = thumb_y;
+	float const angle = atan2f(real_thumb_y, real_thumb_x);
+	float const max_component = fmaxf(fabs(sinf(angle)), fabs(cosf(angle)));
+	float yaw = real_pin(real_thumb_x * scale / max_component, -1.0f, 1.0f);
+	float pitch = real_pin(real_thumb_y * scale / max_component, -1.0f, 1.0f);
+	if (legacy)
+	{
+		if (!(input_abstraction_globals.legacy_flags & 1))
+		{
+			input_abstraction_globals.legacy_flags |= 1;
+			input_abstraction_globals.legacy_function[0] = 0.78539819f;
+			input_abstraction_globals.legacy_function[1] = 2.3561945f;
+			input_abstraction_globals.legacy_function[2] = -0.78539819f;
+			input_abstraction_globals.legacy_function[3] = -2.3561945f;
 		}
+		float adjusted_angle = angle - input_abstraction_globals.legacy_function[(yaw < 0.0f ? 1 : 0) | (pitch < 0.0f ? 2 : 0)];
+		float magnitude = sqrtf(pitch * pitch + yaw * yaw);
+		float abs_adjusted_angle = fabs(adjusted_angle);
+		if (abs_adjusted_angle >= legacy_threshold)
+		{
+			float v29 = fabs(yaw);
+			float v30 = fabs(pitch);
+			if (v29 > v30)
+			{
+				pitch = 0.0f;
+				yaw = (2 * (yaw >= 0.0f) - 1) * magnitude;
+			}
+			else
+			{
+				yaw = 0.0f;
+				pitch = (2 * (pitch >= 0.0f) - 1) * magnitude;
+			}
+		}
+		else
+		{
+			float abs_angle = fabs(angle);
+			if (abs_angle >= 0.78539819f && abs_angle <= 2.3561945f)
+			{
+				pitch = (2 * (pitch >= 0.0f) - 1) * magnitude;
+				yaw = (1.0f - abs_adjusted_angle / 0.61086524f) * ((2 * (yaw >= 0.0f) - 1) * magnitude);
+			}
+			else
+			{
+				pitch = (2 * (pitch >= 0.0f) - 1) * magnitude * (1.0f - abs_adjusted_angle / 0.61086524f);
+				yaw = (2 * (yaw >= 0.0f) - 1) * magnitude;
+			}
+		}
+		pitch = real_pin(pitch, -1.0f, 1.0f);
+		yaw = real_pin(yaw, -1.0f, 1.0f);
 	}
-	todo("implement");
-	_sub_10A80840(thumb_x, thumb_y, out_normalized_x, out_normalized_y, legacy, legacy_threshold);
+	*out_normalized_x = yaw;
+	*out_normalized_y = pitch;
 }
 
 void normalize_thumbstick_modern(short thumb_x, short thumb_y, float *out_normalized_x, float *out_normalized_y) // 0x10A80F50
@@ -1367,9 +1750,9 @@ void normalize_thumbstick_modern(short thumb_x, short thumb_y, float *out_normal
 	*out_normalized_y = real_pin((float)thumb_y * 1.0f / 32767.0f, -1.0f, 1.0f);
 }
 
-_extern void _sub_10A7EB40(s_gamepad_state const *, s_game_input_preferences const *, s_game_input_state *, long);
 void input_abstraction_update_gamepad(s_gamepad_state const *gamepad_state, s_game_input_preferences const *preferences, s_game_input_state *input_state, long controller_index) // 0x10A7EB40
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?input_abstraction_update_gamepad@@YAXPBUs_gamepad_state@@PBUs_game_input_preferences@@PAUs_game_input_state@@J@Z");
 	// `anonymous-namespace'::input_abstraction_update_gamepad
 	// static ...; // 0x10A7F0F0
 	// static ...; // 0x10A7F0C0
@@ -1383,28 +1766,103 @@ void input_abstraction_update_gamepad(s_gamepad_state const *gamepad_state, s_ga
 	// bool (*const input_blocked)(long);
 	// float left_thumb_x;
 	// float right_thumb_x;
-	{
 		// bool legacy;
-	}
-	{
 		// long i;
-		{
 			// unsigned short down_msec;
 			// unsigned char down_frames;
 			// c_abstract_button *abstract_button;
 			// long button_index;
 			// unsigned char down_amount;
+	// function call : bool (*const)(long)
+	// function call : bool (*const)(long)
+
+	bool (*const input_blocked)(long) = reinterpret_cast<bool (*)(long)>(0x511B50);
+	input_state->left_thumb_x = gamepad_state->left_thumb.x;
+	input_state->left_thumb_y = gamepad_state->left_thumb.y;
+	input_state->right_thumb_x = gamepad_state->right_thumb.x;
+	input_state->right_thumb_y = gamepad_state->right_thumb.y;
+	input_state->field_324 = 0.0f;
+	float left_thumb_x = 0.0f;
+	float left_thumb_y = 0.0f;
+	float right_thumb_x = 0.0f;
+	float right_thumb_y = 0.0f;
+	if (!input_blocked(1))
+	{
+		if (Modules::ModuleInput::Instance().VarControllerAimControl->ValueInt == 1)
+		{
+			normalize_thumbstick_modern(gamepad_state->left_thumb.x, gamepad_state->left_thumb.y, &left_thumb_x, &left_thumb_y);
+			normalize_thumbstick_modern(gamepad_state->right_thumb.x, gamepad_state->right_thumb.y, &right_thumb_x, &right_thumb_y);
+		}
+		else
+		{
+			bool legacy = preferences->stick_layout == 2 || preferences->stick_layout == 3;
+			normalize_thumbstick_classic(gamepad_state->left_thumb.x, gamepad_state->left_thumb.y, &left_thumb_x, &left_thumb_y, legacy, 0.61086518f);
+			normalize_thumbstick_classic(gamepad_state->right_thumb.x, gamepad_state->right_thumb.y, &right_thumb_x, &right_thumb_y, legacy, 0.17453292f);
 		}
 	}
-	// function call : bool (*const)(long)
-	// function call : bool (*const)(long)
-	todo("implement");
-	_sub_10A7EB40(gamepad_state, preferences, input_state, controller_index);
+	for (long i = 0; i < 59; i++)
+	{
+		long button_index = preferences->button_remap[i];
+		if (input_blocked(1) && i >= 16)
+			break;
+		if (button_index >= 16)
+			continue;
+		c_abstract_button *abstract_button = &input_state->buttons[i];
+		unsigned short down_msec = gamepad_state->button_milliseconds[button_index];
+		unsigned char down_frames = gamepad_state->button_frames[button_index];
+		unsigned char down_amount = button_index < 2 ? gamepad_state->trigger_values[button_index] : (down_frames ? 0xFF : 0);
+		if (preferences->hold_buttons[i] && down_msec <= 233)
+			abstract_button->unlatch();
+		else
+			abstract_button->update(down_msec, down_frames, down_amount);
+	}
+	switch (preferences->stick_layout)
+	{
+	case 1:
+		input_state->forward = right_thumb_y;
+		input_state->strafe = -right_thumb_x;
+		input_state->yaw = -left_thumb_x;
+		input_state->pitch = left_thumb_y;
+		input_state->field_31C = left_thumb_y;
+		break;
+	case 2:
+		input_state->forward = left_thumb_y;
+		input_state->strafe = -right_thumb_x;
+		input_state->yaw = -left_thumb_x;
+		input_state->pitch = right_thumb_y;
+		input_state->field_31C = right_thumb_y;
+		break;
+	case 3:
+		input_state->forward = right_thumb_y;
+		input_state->strafe = -left_thumb_x;
+		input_state->yaw = -right_thumb_x;
+		input_state->pitch = left_thumb_y;
+		input_state->field_31C = left_thumb_y;
+		break;
+	default:
+		input_state->forward = left_thumb_y;
+		input_state->strafe = -left_thumb_x;
+		input_state->yaw = -right_thumb_x;
+		input_state->pitch = right_thumb_y;
+		input_state->field_31C = right_thumb_y;
+		break;
+	}
+	input_state->vehicle_forward = input_state->forward;
+	input_state->vehicle_yaw = input_state->yaw;
+	input_state->vehicle_ground_pitch = input_state->pitch;
+	input_state->field_320 = input_state->field_31C;
+	if (preferences->pitch_inverted)
+		input_state->pitch = input_state->pitch * -1.0f;
+	input_state->vehicle_aircraft_pitch = input_state->pitch;
+	if (!preferences->pitch_inverted && preferences->vehicle_pitch_inverted)
+		input_state->vehicle_aircraft_pitch = input_state->vehicle_aircraft_pitch * -1.0f;
+	if (!input_abstraction_globals.active_gamepads[controller_index])
+		input_abstraction_globals.active_gamepads[controller_index] = true;
 }
 
-_extern void _sub_10A7F2A0();
 void input_abstraction_update_hook() // 0x10A7F2A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?input_abstraction_update_hook@@YAXXZ");
 	// `anonymous-namespace'::input_abstraction_update_hook
 	// procedure flags: nofpo
 	// s_gamepad_state *gamepad_data;
@@ -1419,18 +1877,54 @@ void input_abstraction_update_hook() // 0x10A7F2A0
 	// char (*const input_abstraction_update_mouse)(s_game_input_preferences *, s_game_input_state *);
 	// s_mouse_state *(*const input_get_mouse_state)(long);
 	// unsigned long milliseconds;
-	{
 		// long i;
-	}
-	{
-	}
 	// function call : s_gamepad_state *(*const)(long)
 	// function call : bool (*const)()
 	// function call : s_mouse_state *(*const)(long)
 	// function call : void (*const)(s_mouse_state *, s_game_input_state *, long)
 	// function call : void (*const)(s_game_input_preferences *, s_game_input_state *)
-	todo("implement");
-	_sub_10A7F2A0();
+
+	s_gamepad_state *(*const input_get_gamepad_state)(long) = reinterpret_cast<s_gamepad_state *(*)(long)>(0x511840);
+	void (*const input_abstraction_set_control_method)(long) = reinterpret_cast<void (*)(long)>(0x60D7B0);
+	s_mouse_state *(*const input_get_mouse_state)(long) = reinterpret_cast<s_mouse_state *(*)(long)>(0x5119F0);
+	void (*const input_abstraction_update_keyboard)(s_game_input_preferences *, s_game_input_state *) = reinterpret_cast<void (*)(s_game_input_preferences *, s_game_input_state *)>(0x60C4A0);
+	void (*const input_abstraction_process_mouse)(s_mouse_state *, s_game_input_state *, long) = reinterpret_cast<void (*)(s_mouse_state *, s_game_input_state *, long)>(0x60D160);
+	void (*const input_abstraction_process_keyboard)(s_game_input_preferences *, s_game_input_state *) = reinterpret_cast<void (*)(s_game_input_preferences *, s_game_input_state *)>(0x60D620);
+	char (*const input_abstraction_update_mouse)(s_game_input_preferences *, s_game_input_state *) = reinterpret_cast<char (*)(s_game_input_preferences *, s_game_input_state *)>(0x60CE70);
+	bool (*const user_interface_is_active)() = reinterpret_cast<bool (*)()>(0xA84840);
+	unsigned long milliseconds = system_milliseconds();
+	long delta_milliseconds = milliseconds - input_abstraction_globals.last_update_milliseconds;
+	input_abstraction_globals.last_update_milliseconds = milliseconds;
+	if (delta_milliseconds < 0)
+		delta_milliseconds = 0;
+	if (delta_milliseconds > 100)
+		delta_milliseconds = 100;
+	s_gamepad_state *gamepad_data = nullptr;
+	for (long i = 0; i < 4; i++)
+	{
+		gamepad_data = input_get_gamepad_state(i);
+		if (gamepad_data)
+			break;
+	}
+	for (long i = 0; i < k_abstract_button_count; i++)
+	{
+		input_abstraction_globals.input_states[0].buttons[i].down_frames = 0;
+		input_abstraction_globals.input_states[0].buttons[i].down_amount = 0.0f;
+		input_abstraction_globals.input_states[0].buttons[i].down_msec = 0;
+	}
+	long control_method = input_abstraction_globals.control_method;
+	if (gamepad_data && control_method == 1)
+	{
+		input_abstraction_update_gamepad(gamepad_data, input_abstraction_globals.preferences, input_abstraction_globals.input_states, 0);
+	}
+	else
+	{
+		ProcessKeyBindingsHook(*reinterpret_cast<BindingsTable *>(input_abstraction_globals.preferences), reinterpret_cast<ActionState *>(input_abstraction_globals.input_states));
+		if (!user_interface_is_active())
+			ProcessMouseBindingsHook(*reinterpret_cast<BindingsTable *>(input_abstraction_globals.preferences), reinterpret_cast<ActionState *>(input_abstraction_globals.input_states));
+		input_abstraction_process_mouse(input_get_mouse_state(0), input_abstraction_globals.input_states, delta_milliseconds);
+		input_abstraction_process_keyboard(input_abstraction_globals.preferences, input_abstraction_globals.input_states);
+	}
 }
 
 /* ---------- template instantiations */

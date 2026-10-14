@@ -31,6 +31,10 @@
 #include "Utils/Singleton.hpp"
 #include "Web/Ui/Screen.hpp"
 
+#include "Blam/interface/gui/gui_screen_manager.hpp"  // hades: added for 0x108D5630
+
+#include "Modules/ModuleSettings.hpp"  // hades: added for 0x108D3FD0
+
 #include <Windows.h>
 #include <stdio.h>
 #include <sys/stat.h>
@@ -163,7 +167,7 @@ namespace hades_file_local
 		unsigned char __pad1[2]; // 0x2A
 		void *lastFocusedWidget; // 0x2C
 		bool listItemSelectedDirty; // 0x30
-		SMouseSupportContext(); /* compiler_generated() */
+		// SMouseSupportContext(); /* compiler_generated() */ - implicit: the static in MouseSupportUpdate has no init guard
 		unsigned char __pad2[3]; // 0x31
 	};
 	#pragma pack(pop)
@@ -171,6 +175,10 @@ namespace hades_file_local
 }
 using namespace hades_file_local;
 /* ---------- prototypes */
+
+#include "Modules/ModuleDebug.hpp"  // hades: added for 0x108D50B0
+#include "Blam/camera/camera.hpp"  // hades: added for 0x108D50B0
+namespace Patches { namespace Camera { extern e_camera_mode GetForcedCameraMode(); } }  // hades: added for 0x108D50B0
 
 namespace Patches
 {
@@ -212,13 +220,12 @@ namespace Patches
 {
 	namespace MouseSupport
 	{
-		_extern void _sub_108D3B60();
 		void ApplyAll() // 0x108D3B60
 		{
-			mangled_x86(MANGLED_TODO, "?ApplyAll@MouseSupport@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@MouseSupport@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_108D3B60();
+
+			Hook(0x684F49, MouseSupportUpdate, static_cast<__int32>(HookFlags::IsCall)).Apply();
 		}
 
 		void NotifyMouseMove(__int32 x, __int32 y) // 0x108D5390
@@ -241,26 +248,36 @@ namespace Patches
 
 /* ---------- private code */
 
-_extern void _sub_108D5630(EMouseContext);
 void SetMouseContext(EMouseContext ctx) // 0x108D5630
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SetMouseContext@@YAXW4EMouseContext@hades_file_local@@@Z");
 	// `anonymous-namespace'::SetMouseContext
 	// EMouseContext ctx;
 	// static EMouseContext `SetMouseContext'::`2'::lastCtx; // 0x11352D84
-	{
 		// c_gui_screen_widget *activeScreen;
 		// bool tagUiOpen;
-		{
 			// c_gui_widget *focusedWidget;
+
+	static EMouseContext lastCtx = Game;
+	if (ctx != lastCtx)
+	{
+		bool tagUiOpen = false;
+		c_gui_screen_widget *activeScreen = c_gui_screen_manager::get()->get_topmost_screen();
+		if (activeScreen)
+		{
+			c_gui_widget *focusedWidget = activeScreen->get_focused_widget();
+			if (focusedWidget)
+				tagUiOpen = true;
 		}
+		lastCtx = ctx;
+		Blam::Input::BlockInput(Blam::Input::eInputTypeGame, ctx != Game);
+		Web::Ui::ScreenLayer::Notify("mouseCapture", "{\"blocked\":" + std::string(ctx == TagUI ? "true" : "false") + ",\"tagMenuOpen\":" + (tagUiOpen ? "true" : "false") + "}", true);
 	}
-	todo("implement");
-	_sub_108D5630(ctx);
 }
 
-_extern void _sub_108D50B0();
 void MouseSupportUpdate() // 0x108D50B0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?MouseSupportUpdate@@YAXXZ");
 	// `anonymous-namespace'::MouseSupportUpdate
 	// procedure flags: nofpo
 	// static ...; // 0x108D52F0
@@ -269,20 +286,50 @@ void MouseSupportUpdate() // 0x108D50B0
 	// static SMouseSupportContext `MouseSupportUpdate'::`2'::ctx; // 0x12408364
 	// bool isDebug;
 	// c_gui_screen_widget *activeScreen;
-	{
 		// CDebugDraw dd;
-	}
-	{
 		// c_gui_widget *focusedWidget;
-	}
 	// function call : HWND__ *()
-	todo("implement");
-	_sub_108D50B0();
+
+	static SMouseSupportContext ctx;
+	bool isDebug = Utils::Singleton<Modules::ModuleDebug>::Instance().VarMouseSupport->ValueInt != 0;
+	if (*(HWND *)0x199C014 != GetForegroundWindow())
+		return;
+	if (Patches::Camera::GetForcedCameraMode() == _camera_mode_flying)
+		return;
+	if (Blam::Input::InputIsBlocked(Blam::Input::eInputTypeUi))
+	{
+		SetMouseContext(Cef);
+		return;
+	}
+	UpdateMouseState(ctx);
+	if (isDebug)
+	{
+	#line 133 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Patches\\MouseSupport.cpp"
+			CDebugDraw dd(std::source_location::
+	#line 133 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Patches\\MouseSupport.cpp"
+	             current());
+	#line 312 "C:\\Users\\zekken\\Desktop\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Patches\\MouseSupport.cpp"
+		dd.SetLifetime(1.0f);
+		dd.DrawString2d("mouse-window-coords", { 100.0f, 84.0f }, -1, "mouse window coords: %f, %f", ctx.windowMouseCoords.x, ctx.windowMouseCoords.y);
+	}
+	c_gui_screen_widget *activeScreen = c_gui_screen_manager::get()->get_topmost_screen();
+	if (activeScreen)
+	{
+		c_gui_widget *focusedWidget = activeScreen->get_focused_widget();
+		if (focusedWidget)
+		{
+			SetMouseContext(TagUI);
+			if (!HandleScreen(activeScreen, ctx))
+				ctx.lastFocusedWidget = nullptr;
+			return;
+		}
+	}
+	SetMouseContext(Game);
 }
 
-_extern void _sub_108D54F0(c_gui_screen_widget *, c_gui_list_widget *, __int32);
 void ScrollListWidget(c_gui_screen_widget *screenWidget, c_gui_list_widget *listWidget, __int32 amount) // 0x108D54F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ScrollListWidget@@YAXPAVc_gui_screen_widget@@PAVc_gui_list_widget@@H@Z");
 	// `anonymous-namespace'::ScrollListWidget
 	// __int32 amount;
 	// long &visibleItemCount;
@@ -291,29 +338,75 @@ void ScrollListWidget(c_gui_screen_widget *screenWidget, c_gui_list_widget *list
 	// long newIndex;
 	// long dataItemCount;
 	// function call : long ()
-	todo("implement");
-	_sub_108D54F0(screenWidget, listWidget, amount);
+
+	if (!amount)
+		return;
+
+	c_gui_data *data = screenWidget->get_datasource(listWidget->get_item_datasource_name());
+	long dataItemCount = data->get_current_item_count();
+	if (!dataItemCount)
+		return;
+
+	long &visibleItemCount = *(long *)offset_pointer(listWidget, 0x120);
+	long &pageOffset = *(long *)offset_pointer(listWidget, 0x148);
+	if (pageOffset == -1)
+		return;
+
+	long newIndex = pageOffset + amount;
+	if (newIndex > dataItemCount - visibleItemCount)
+		newIndex = dataItemCount - visibleItemCount;
+	if (newIndex < 0)
+		newIndex = 0;
+	if (pageOffset != newIndex)
+		*(long *)offset_pointer(listWidget, 0x140) = -1;
+	pageOffset = newIndex;
 }
 
-_extern bool _sub_108D48A0(c_gui_screen_widget *, SMouseSupportContext &);
 bool HandleScreen(c_gui_screen_widget *screenWidget, SMouseSupportContext &ctx) // 0x108D48A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleScreen@@YA_NPAVc_gui_screen_widget@@AAUSMouseSupportContext@hades_file_local@@@Z");
 	// `anonymous-namespace'::HandleScreen
 	// SMouseSupportContext &ctx;
 	// c_gui_widget *focusedWidget;
 	// static long `HandleScreen'::`2'::lastScreenWidgetName; // 0x11352D88
-	{
 		// c_gui_list_widget *listWidget;
-	}
-	{
-		{
 			// __int32 amount;
 			// long index;
+
+	if (ctx.rightButtonDownTicks == 1)
+	{
+		Blam::Input::PostUiAction(ctx.userIndex, Blam::Input::eGameActionUiB);
+		return true;
+	}
+	c_gui_widget *focusedWidget = screenWidget->get_focused_widget();
+	if (focusedWidget && focusedWidget->get_type() == _gui_widget_listItem)
+	{
+		c_gui_list_widget *listWidget = (c_gui_list_widget *)focusedWidget->get_parent();
+		if (listWidget && listWidget->get_type() == _gui_widget_list && HandleSpinnerListWidgetFocus(screenWidget, listWidget, ctx))
+		{
+			ctx.listItemSelectedDirty = true;
+			return true;
 		}
 	}
-	todo("implement");
-	bool __result = _sub_108D48A0(screenWidget, ctx);
-	return __result;
+	static long lastScreenWidgetName = -1;
+	if (screenWidget->get_name_string_id() != lastScreenWidgetName)
+	{
+		lastScreenWidgetName = screenWidget->get_name_string_id();
+		ctx.listItemSelectedDirty = true;
+	}
+	if (focusedWidget && focusedWidget->get_type() == _gui_widget_listItem)
+	{
+		c_gui_list_widget *listWidget = (c_gui_list_widget *)focusedWidget->get_parent();
+		if (listWidget && listWidget->get_type() == _gui_widget_list)
+		{
+			long index = listWidget->get_selected_index();
+			__int32 amount = ctx.mouseWheelDelta / 120;
+			ScrollListWidget(screenWidget, listWidget, -amount);
+		}
+	}
+	if (HandleListWidgets(screenWidget, ctx, nullptr))
+		return true;
+	return false;
 }
 
 bool HandleListWidgets(c_gui_screen_widget *screenWidget, SMouseSupportContext &ctx, c_gui_widget *parentWidget) // 0x108D47A0
@@ -350,9 +443,9 @@ bool HandleListWidgets(c_gui_screen_widget *screenWidget, SMouseSupportContext &
 	return handled;
 }
 
-_extern bool _sub_108D3FD0(c_gui_screen_widget *, c_gui_list_widget *, SMouseSupportContext &);
 bool HandleListWidget(c_gui_screen_widget *screenWidget, c_gui_list_widget *listWidget, SMouseSupportContext &ctx) // 0x108D3FD0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleListWidget@@YA_NPAVc_gui_screen_widget@@PAVc_gui_list_widget@@AAUSMouseSupportContext@hades_file_local@@@Z");
 	// `anonymous-namespace'::HandleListWidget
 	// static ...; // 0x108D45EC
 	// static ...; // 0x108D45E4
@@ -362,38 +455,119 @@ bool HandleListWidget(c_gui_screen_widget *screenWidget, c_gui_list_widget *list
 	// bool isDebug;
 	// bool handled;
 	// c_gui_list_item_widget *listItem;
-	{
 		// CDebugDraw dd;
 		// real_rectangle2d bounds;
-		{
 			// bool isTransitioning;
 			// long transitionStateFlags;
 			// c_gui_widget *focused_widget;
+
+	bool isDebug = Utils::Singleton<Modules::ModuleDebug>::Instance().VarMouseSupport->ValueInt != 0;
+	bool handled = false;
+	c_gui_list_item_widget *listItem;
+	for (listItem = (c_gui_list_item_widget *)listWidget->find_first_child(_gui_widget_listItem); listItem; listItem = listItem->find_next_item())
+	{
+		if (!listItem->is_visible() || listItem->get_data_item_index() == -1)
+			continue;
+		real_rectangle2d bounds = {};
+		ComputeListItemBounds(listItem, bounds);
+		MapWidgetBoundsToWindowCoords(ctx.windowBounds, bounds);
+	#line 296 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Patches\\MouseSupport.cpp"
+			CDebugDraw dd(std::source_location::
+	#line 296 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Patches\\MouseSupport.cpp"
+	             current());
+	#line 479 "C:\\Users\\zekken\\Desktop\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Patches\\MouseSupport.cpp"
+		dd.SetLifetime(1.0f);
+		if (isDebug)
+			dd.DrawBox2dOutline({ "bounds", (unsigned __int32)listItem }, bounds, 0xFFFFFF00);
+		if (Utils::Singleton<Modules::ModuleSettings>::Instance().VarGamepadEnabled->ValueInt == 1 && !ctx.leftButtonDownTicks && !ctx.mouseMoveTicks)
+		{
+			handled = true;
+			return false;
+		}
+		if (RectangleContainsPoint(bounds, ctx.windowMouseCoords))
+		{
+			c_gui_widget *focused_widget = screenWidget->get_focused_widget();
+			if (isDebug)
+			{
+				dd.DrawBox2dOutline({ "bounds", (unsigned __int32)listItem }, bounds, 0xFF00FF00);
+				dd.DrawString2d("bounds-coords", { bounds.x0, bounds.y0 }, -1, "bounds: %f, %f %f, %f", bounds.x0, bounds.y0, bounds.x1, bounds.y1);
+				dd.DrawString2d("item-index", { 100.0f, 100.0f }, -1, "item index: %d", listItem->get_item_index());
+				dd.DrawString2d("data-item-index", { 100.0f, 116.0f }, -1, "data item index: %d", listItem->get_data_item_index());
+				dd.DrawString2d("list-item-index", { 100.0f, 132.0f }, -1, "list item index: %d", listWidget->get_selected_index());
+				dd.DrawString2d("list-data-item-index", { 100.0f, 148.0f }, -1, "list data item index: %d", listWidget->get_selected_data_item_index());
+				dd.DrawString2d("scroll-offset", { 100.0f, 164.0f }, -1, "scroll offset: %d", *(long *)offset_pointer(listWidget, 0x148));
+				dd.DrawString2d("focused", { 100.0f, 180.0f }, -1, "focused: %d", ((c_gui_list_item_widget *)focused_widget)->get_data_item_index());
+			}
+			if ((ctx.mouseMoveTicks > 0 && ctx.lastFocusedWidget != listItem) || ctx.listItemSelectedDirty)
+			{
+				ctx.listItemSelectedDirty = false;
+				if (focused_widget && focused_widget->get_parent() != listWidget)
+				{
+					ctx.lastFocusedWidget = nullptr;
+					screenWidget->select_list_item(listWidget, listItem->get_data_item_index(), true, false);
+				}
+				else if (focused_widget != listItem)
+				{
+					ctx.lastFocusedWidget = nullptr;
+					screenWidget->select_list_item(listWidget, listItem->get_data_item_index(), true, true);
+				}
+			}
+			long transitionStateFlags = *(long *)offset_pointer(screenWidget, 0x68);
+			bool isTransitioning = transitionStateFlags >> 3 || transitionStateFlags >> 5;
+			if (ctx.leftButtonDownTicks == 1 && listItem == focused_widget && !isTransitioning)
+			{
+				ctx.lastFocusedWidget = listItem;
+				Blam::Input::PostUiAction(ctx.userIndex, Blam::Input::eGameActionUiA);
+			}
+			handled = true;
+			if (!isDebug)
+				break;
+		}
+		else if (ctx.lastFocusedWidget == listItem)
+		{
+			ctx.lastFocusedWidget = nullptr;
 		}
 	}
-	todo("implement");
-	bool __result = _sub_108D3FD0(screenWidget, listWidget, ctx);
-	return __result;
+	return false;
 }
 
-_extern bool _sub_108D4A60(c_gui_screen_widget *, c_gui_list_widget *, SMouseSupportContext &);
 bool HandleSpinnerListWidgetFocus(c_gui_screen_widget *screenWidget, c_gui_list_widget *listWidget, SMouseSupportContext &ctx) // 0x108D4A60
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleSpinnerListWidgetFocus@@YA_NPAVc_gui_screen_widget@@PAVc_gui_list_widget@@AAUSMouseSupportContext@hades_file_local@@@Z");
 	// `anonymous-namespace'::HandleSpinnerListWidgetFocus
 	// SMouseSupportContext &ctx;
 	// c_gui_widget *focusedParent;
 	// void (*const animateArrowButton)(c_gui_list_widget *, c_gui_widget *, __int32);
 	// c_gui_widget *focused;
-	{
 		// __int32 amount;
 		// c_gui_data *data;
 		// long index;
 		// long dataItemCount;
-	}
 	// function call : long ()
-	todo("implement");
-	bool __result = _sub_108D4A60(screenWidget, listWidget, ctx);
-	return __result;
+
+	void (*const animateArrowButton)(c_gui_list_widget *, c_gui_widget *, __int32) = reinterpret_cast<void (*)(c_gui_list_widget *, c_gui_widget *, __int32)>(0xB157F0);
+	c_gui_widget *focused = screenWidget->get_focused_widget();
+	c_gui_widget *focusedParent = focused->get_parent();
+	if (listWidget != focusedParent)
+		return false;
+	if (listWidget->get_parent() && listWidget->get_parent()->get_type() == 5)
+	{
+		if (ctx.leftButtonDownTicks == 1)
+			Blam::Input::PostUiAction(ctx.userIndex, Blam::Input::eGameActionUiA);
+		c_gui_data *data = screenWidget->get_datasource(listWidget->get_item_datasource_name());
+		long dataItemCount = data->get_current_item_count();
+		if (!dataItemCount)
+			return true;
+		long index = listWidget->get_selected_index();
+		__int32 amount = ctx.mouseWheelDelta / 120;
+		if ((index -= amount) < 0)
+			index += dataItemCount;
+		if (index >= dataItemCount)
+			index -= dataItemCount;
+		listWidget->select_item(index);
+		return true;
+	}
+	return false;
 }
 
 void ComputeListItemBounds(c_gui_list_item_widget *itemWidget, real_rectangle2d &bounds) // 0x108D3CC0
@@ -406,13 +580,11 @@ void ComputeListItemBounds(c_gui_list_item_widget *itemWidget, real_rectangle2d 
 	// real_rectangle2d &bounds;
 	// real_point2d anchorPos;
 
-	ComputeWidgetBounds(itemWidget, &bounds, [](c_gui_widget const &widget)
+	ComputeWidgetBounds(itemWidget, &bounds, [](auto const &widget)
 	{
 		return widget.is_visible() && widget.get_type() == _gui_widget_bitmap;
 	});
-
 	real_point2d anchorPos = itemWidget->get_anchor_position();
-
 	bounds.x0 += anchorPos.x;
 	bounds.x1 += anchorPos.x;
 	bounds.y0 += anchorPos.y;
@@ -447,15 +619,24 @@ void UpdateMouseMovementTracking(SMouseSupportContext &state) // 0x108D5970
 	}
 }
 
-_extern void _sub_108D5A20(SMouseSupportContext &);
 void UpdateMouseState(SMouseSupportContext &state) // 0x108D5A20
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateMouseState@@YAXAAUSMouseSupportContext@hades_file_local@@@Z");
 	// `anonymous-namespace'::UpdateMouseState
 	// SMouseSupportContext &state;
 	// unsigned long *clientResolution;
 	// unsigned long *renderBoundaries;
-	todo("implement");
-	_sub_108D5A20(state);
+
+	unsigned long *clientResolution = (unsigned long *)0x19106D0;
+	unsigned long *renderBoundaries = (unsigned long *)0x19106E4;
+	UpdateMouseMovementTracking(state);
+	state.userIndex = 0;
+	state.windowBounds = { (float)clientResolution[0], (float)renderBoundaries[0] - (float)clientResolution[0], (float)clientResolution[1], (float)renderBoundaries[1] - (float)clientResolution[1] };
+	state.lastWindowMouseCoords = state.windowMouseCoords;
+	state.windowMouseCoords = { (float)globalMouseX, (float)globalMouseY };
+	state.leftButtonDownTicks = Blam::Input::GetMouseButtonTicks(Blam::Input::eMouseButtonLeft, Blam::Input::eInputTypeUi);
+	state.rightButtonDownTicks = Blam::Input::GetMouseButtonTicks(Blam::Input::eMouseButtonRight, Blam::Input::eInputTypeUi);
+	state.mouseWheelDelta = *(short *)0x238E6C8;
 }
 
 void ComputeWidgetBounds(c_gui_widget *widget, real_rectangle2d *accumulatedBounds, bool (*childFilter)(c_gui_widget const &)) // 0x108D3DD0
@@ -504,9 +685,9 @@ void ComputeWidgetBounds(c_gui_widget *widget, real_rectangle2d *accumulatedBoun
 	}
 }
 
-_extern void _sub_108D4BE0(real_rectangle2d const &, real_rectangle2d &);
 void MapWidgetBoundsToWindowCoords(real_rectangle2d const &windowBounds, real_rectangle2d &widgetBounds) // 0x108D4BE0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?MapWidgetBoundsToWindowCoords@@YAXABUreal_rectangle2d@@AAU1@@Z");
 	// `anonymous-namespace'::MapWidgetBoundsToWindowCoords
 	// static ...; // 0x108D4F95
 	// static ...; // 0x108D4F88
@@ -525,8 +706,37 @@ void MapWidgetBoundsToWindowCoords(real_rectangle2d const &windowBounds, real_re
 	// real_point2d window_scale;
 	// real_point2d ui_scale;
 	// function call : long (*const)()
-	todo("implement");
-	_sub_108D4BE0(windowBounds, widgetBounds);
+
+	long (*const interface_get_closest_authored_ui_aspect_ratio)() = reinterpret_cast<long (*)()>(0xA9F980);
+	long display_mode = interface_get_closest_authored_ui_aspect_ratio();
+	long *ui_resolution = reinterpret_cast<long *>(0x19106C8);
+	float ui_aspect_ratio = (float)ui_resolution[0] / (float)ui_resolution[1];
+	float ui_tag_resolutions[2][2] = { { 1512.0f, 840.0f }, { 840.0f, 630.0f } };
+	float widescreen_factor = ui_aspect_ratio / (display_mode == 1 ? 1.3333333f : 1.7777778f);
+	real_point2d ui_scale;
+	ui_scale.x = ui_resolution[0] / ui_tag_resolutions[display_mode][0] / widescreen_factor;
+	ui_scale.y = ui_resolution[1] / ui_tag_resolutions[display_mode][1];
+	widgetBounds.x0 *= ui_scale.x;
+	widgetBounds.x1 *= ui_scale.x;
+	widgetBounds.y0 *= ui_scale.y;
+	widgetBounds.y1 *= ui_scale.y;
+	widgetBounds.x0 += ui_resolution[0] / 2.0f;
+	widgetBounds.x1 += ui_resolution[0] / 2.0f;
+	widgetBounds.y0 += ui_resolution[1] / 2.0f;
+	widgetBounds.y1 += ui_resolution[1] / 2.0f;
+	float window_width = windowBounds.x1 - windowBounds.x0;
+	float window_height = windowBounds.y1 - windowBounds.y0;
+	real_point2d window_scale;
+	window_scale.x = window_width / ui_resolution[0];
+	window_scale.y = window_height / ui_resolution[1];
+	widgetBounds.x0 *= window_scale.x;
+	widgetBounds.x1 *= window_scale.x;
+	widgetBounds.y0 *= window_scale.y;
+	widgetBounds.y1 *= window_scale.y;
+	widgetBounds.x0 += windowBounds.x0;
+	widgetBounds.x1 += windowBounds.x0;
+	widgetBounds.y0 += windowBounds.y0;
+	widgetBounds.y1 += windowBounds.y0;
 }
 
 bool RectangleContainsPoint(real_rectangle2d const &rect, real_point2d const &point) // 0x108D5460

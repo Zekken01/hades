@@ -36,6 +36,7 @@
 #include "Server/Voting/AbstractVotingSystem.hpp"
 #include "Server/Voting/VotingJson.hpp"
 #include "Server/Voting/VotingPackets.hpp"
+#include "Server/Voting/VotingUtil.hpp"
 #include "Server/Voting/VotingTypes.hpp"
 #include "ThirdParty/rapidjson/allocators.h"
 #include "ThirdParty/rapidjson/encodedstream.h"
@@ -51,6 +52,12 @@
 #include "Utils/NameValueTable.hpp"
 #include "Utils/Singleton.hpp"
 #include "Utils/String.hpp"
+
+#include "mods/mod_system.hpp"  // hades: added for 0x1073D4E0
+
+#include "Utils/Logger.hpp"  // hades: added for 0x1073D970  // hades: added for 0x1073D970
+#include <format>  // hades: added for 0x1073D970  // hades: added for 0x1073D970
+#include "Server/Voting/HaloTypeInheritance.hpp"  // hades: added for 0x1073D970  // hades: added for 0x1073D970
 
 #include <boost/asio.hpp>
 #include <boost/assert.hpp>
@@ -174,6 +181,8 @@ namespace Blam
 
 /* ---------- prototypes */
 
+extern float real_random_range(float minimum, float maximum);  // hades: added for 0x1073CF30
+
 /* ---------- globals */
 
 /* ---------- private variables */
@@ -184,8 +193,8 @@ namespace Server
 	{
 		namespace hades_file_local_Server_Voting
 		{
-			extern std::string const DefaultTypes[8]; // 0x11388A10
-			extern std::string const DefaultTypeNames[8]; // 0x11388AF0
+			// extern std::string const DefaultTypes[8]; // 0x11388A10  // hades: defined in VotingTypes.hpp, one copy per file
+			// extern std::string const DefaultTypeNames[8]; // 0x11388AF0  // hades: defined in VotingTypes.hpp, one copy per file
 		}
 		using namespace hades_file_local_Server_Voting;
 	}
@@ -196,13 +205,10 @@ namespace Server
 {
 	namespace Voting
 	{
-		extern VetoSystem* _sub_1073A8D0(Server::Voting::VetoSystem *const);
-		VetoSystem::VetoSystem() // 0x1073A8D0
+		VetoSystem::VetoSystem() : AbstractVotingSystem(), startime(0), willSetMap(false), numberOfVetosUsed(0), currentNumberOfVotes(0), shouldRunPreviousCommands(false) /* hades-mem-init:  */ // 0x1073A8D0
 		{
-			mangled_x86(MANGLED_TODO, "??0VetoSystem@Voting@Server@@QAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0VetoSystem@Voting@Server@@QAE@XZ");
 			// Server::Voting::VetoSystem *const this;
-			todo("implement");
-			_sub_1073A8D0(this);
 		}
 
 		// mangled_x86(MANGLED_DEFAULT, "??0VotingJson@Voting@Server@@QAE@XZ"); no body to assert in
@@ -240,53 +246,75 @@ namespace Server
 		// mangled_x86(MANGLED_DEFAULT, "??1VotingJson@Voting@Server@@QAE@XZ"); no body to assert in
 		_inline VotingJson::~VotingJson() = default; // 0x1073B890
 
-		extern MapAndType _sub_1073CF30(Server::Voting::VetoSystem *const);
 		Server::Voting::MapAndType VetoSystem::GenerateVotingOption() // 0x1073CF30
 		{
-			mangled_x86(MANGLED_TODO, "?GenerateVotingOption@VetoSystem@Voting@Server@@EAE?AUMapAndType@23@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GenerateVotingOption@VetoSystem@Voting@Server@@EAE?AUMapAndType@23@XZ");
 			// static ...; // 0x1073D3B0
 			// static ...; // 0x1073D3A4
 			// static ...; // 0x1073D39C
 			// Server::Voting::VetoSystem *const this;
 			// __int32 playerCount;
 			// Server::Voting::MapAndType m;
-			{
 				// float sum_of_weights;
 				// __int32 optionIndex;
 				// float p;
-				{
 					// unsigned __int32 i;
-				}
+
+			MapAndType m;
+			if (Modules::ModuleVoting::Instance().VarVetoSystemSelectionType->ValueInt == 0)
+			{
+				__int32 optionIndex = rand() % currentPlaylist.size();
+				float sum_of_weights = 0.0f;
+				for (unsigned __int32 i = 0; i < currentPlaylist.size(); i++)
+					sum_of_weights += currentPlaylist[i].haloMap.randomChance;
+				float p = real_random_range(0.0f, sum_of_weights);
+				for (unsigned __int32 i = 0; i < currentPlaylist.size(); i++)
 				{
+					if (currentPlaylist[i].haloMap.randomChance > p)
+					{
+						optionIndex = i;
+						break;
+					}
+					p -= currentPlaylist[i].haloMap.randomChance;
 				}
+				m = currentPlaylist[optionIndex];
+				currentPlaylist.erase(currentPlaylist.begin() + optionIndex);
 			}
-			todo("implement");
-			Server::Voting::MapAndType __result = _sub_1073CF30(this);
-			return __result;
+			else
+			{
+				m = currentPlaylist.front();
+				currentPlaylist.erase(currentPlaylist.begin());
+			}
+			if (currentPlaylist.size() == 0)
+				currentPlaylist = entirePlaylist;
+			__int32 playerCount = Blam::Network::GetNumPlayers();
+			if (m.haloMap.allowedPlayerCount.minimumPlayersAllowed <= playerCount && m.haloMap.allowedPlayerCount.maximumPlayersAllowed >= playerCount && m.haloType.allowedPlayerCount.minimumPlayersAllowed <= playerCount && m.haloType.allowedPlayerCount.maximumPlayersAllowed >= playerCount)
+				return m;
+			else
+				return VetoSystem::GenerateVotingOption();
 		}
 
 		// mangled_x86(MANGLED_DEFAULT, "??4HaloMap@Voting@Server@@QAEAAU012@$$QAU012@@Z"); no body to assert in
-		_inline Server::Voting::HaloMap &HaloMap::operator=(Server::Voting::HaloMap &&__that) = default; // 0x1073BDA0
+		_inline Server::Voting::HaloMap &HaloMap::operator=(Server::Voting::HaloMap &&__that) noexcept = default; // 0x1073BDA0
 
 		// mangled_x86(MANGLED_DEFAULT, "??4HaloMap@Voting@Server@@QAEAAU012@ABU012@@Z"); no body to assert in
 		_inline Server::Voting::HaloMap &HaloMap::operator=(Server::Voting::HaloMap const &__that) = default; // 0x1073BE80
 
 		// mangled_x86(MANGLED_DEFAULT, "??4HaloType@Voting@Server@@QAEAAU012@$$QAU012@@Z"); no body to assert in
-		_inline Server::Voting::HaloType &HaloType::operator=(Server::Voting::HaloType &&__that) = default; // 0x1073BF60
+		_inline Server::Voting::HaloType &HaloType::operator=(Server::Voting::HaloType &&__that) noexcept = default; // 0x1073BF60
 
 		// mangled_x86(MANGLED_DEFAULT, "??4HaloType@Voting@Server@@QAEAAU012@ABU012@@Z"); no body to assert in
 		_inline Server::Voting::HaloType &HaloType::operator=(Server::Voting::HaloType const &__that) = default; // 0x1073C0E0
 
 		// mangled_x86(MANGLED_DEFAULT, "??4MapAndType@Voting@Server@@QAEAAU012@$$QAU012@@Z"); no body to assert in
-		_inline Server::Voting::MapAndType &MapAndType::operator=(Server::Voting::MapAndType &&__that) = default; // 0x1073C260
+		_inline Server::Voting::MapAndType &MapAndType::operator=(Server::Voting::MapAndType &&__that) noexcept = default; // 0x1073C260
 
 		// mangled_x86(MANGLED_DEFAULT, "??4MapAndType@Voting@Server@@QAEAAU012@ABU012@@Z"); no body to assert in
 		_inline Server::Voting::MapAndType &MapAndType::operator=(Server::Voting::MapAndType const &__that) = default; // 0x1073C350
 
-		extern VotingMessage _sub_1073D4E0(Server::Voting::VetoSystem *const, bool);
 		Server::Voting::VotingMessage VetoSystem::GenerateVotingOptionsMessage(bool updateTime) // 0x1073D4E0
 		{
-			mangled_x86(MANGLED_TODO, "?GenerateVotingOptionsMessage@VetoSystem@Voting@Server@@UAE?AUVotingMessage@23@_N@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GenerateVotingOptionsMessage@VetoSystem@Voting@Server@@UAE?AUVotingMessage@23@_N@Z");
 			// static ...; // 0x1073D854
 			// static ...; // 0x1073D84C
 			// static ...; // 0x1073D828
@@ -297,18 +325,44 @@ namespace Server
 			// Server::Voting::VotingMessage newmessage;
 			// long long curTime;
 			// function call : __int32 ()
-			todo("implement");
-			Server::Voting::VotingMessage __result = _sub_1073D4E0(this, updateTime);
-			return __result;
+
+			VotingMessage newmessage(VotingMessageType::VetoOption);
+			strncpy_s(newmessage.votingOptions[0].scnrName, currentVetoOption.haloMap.scnrName.c_str(), _TRUNCATE);
+			strncpy_s(newmessage.votingOptions[0].mapName, currentVetoOption.haloMap.mapDisplayName.c_str(), _TRUNCATE);
+			strncpy_s(newmessage.votingOptions[0].typeName, currentVetoOption.haloType.typeDisplayName.c_str(), _TRUNCATE);
+			strncpy_s(newmessage.votingOptions[0].modName, currentVetoOption.haloType.modDisplayName.c_str(), _TRUNCATE);
+			std::string modHash = c_mod_system::get_mod_hash_by_identifier(currentVetoOption.haloType.modPack.c_str());
+			strncpy_s(newmessage.votingOptions[0].modHash, modHash.c_str(), _TRUNCATE);
+			strncpy_s(newmessage.votingOptions[0].imageUri, currentVetoOption.haloMap.imageUri.c_str(), _TRUNCATE);
+			newmessage.votingOptions[0].canVeto = currentVetoOption.canveto;
+			time_t curTime;
+			time(&curTime);
+			if (currentVetoOption.canveto)
+			{
+				if (updateTime && voteStartedTime > 0)
+					newmessage.voteTime = Modules::ModuleVoting::Instance().VarServerMapVotingTime->ValueInt + 2 - (int)difftime(curTime, voteStartedTime);
+				else
+					newmessage.voteTime = Modules::ModuleVoting::Instance().VarServerMapVotingTime->ValueInt + 2;
+				newmessage.votesNeededToPass = getVoteNeededToPass();
+			}
+			else
+			{
+				if (updateTime && startime > 0)
+					newmessage.voteTime = Modules::ModuleVoting::Instance().VarVetoWinningOptionShownTime->ValueInt + 2 - (int)difftime(curTime, startime);
+				else
+					newmessage.voteTime = Modules::ModuleVoting::Instance().VarVetoWinningOptionShownTime->ValueInt + 2;
+				newmessage.votesNeededToPass = 0;
+			}
+			return newmessage;
 		}
 
-		_inline AbstractVotingSystem::AbstractVotingSystem() : AllowShuffle(true), voteStartedTime(0), winnerChosen(false), revoteFlag(false), idle(false), jsonLoaded(false) /* hades-mem-init: : finalTally(todo_result<Server::Voting::VotingMessage>()) */ // 0x10739F90
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0AbstractVotingSystem@Voting@Server@@QAE@XZ");
-			// Cannot be `= default` while `finalTally` is initialised from
-			// `todo_result`: VotingMessage has no default constructor to
-			// reconstruct, so a defaulted constructor would be deleted.
-		}
+		// AbstractVotingSystem() is defaulted in its class (0x10739F90): a
+		// derived constructor's `: AbstractVotingSystem()` then zero-fills the
+		// base before calling it, as the original's VetoSystem() and
+		// VotingSystem() do, which a user-provided constructor never allows.
+		// The members it initializes carry default member initializers.
+		// (These lines keep every later head line where it was.)
+
 
 		// mangled_x86(MANGLED_DEFAULT, "??0MapAndType@Voting@Server@@QAE@$$QAU012@@Z"); no body to assert in
 		_inline MapAndType::MapAndType(Server::Voting::MapAndType &&__that) = default; // 0x1073A550
@@ -344,31 +398,43 @@ namespace Server
 			return Modules::ModuleVoting::Instance().VarServerVotingType->ValueInt == 2;
 		}
 
-		_extern void _sub_1073E3C0(Server::Voting::VetoSystem *const);
 		void VetoSystem::Reset() // 0x1073E3C0
 		{
-			mangled_x86(MANGLED_TODO, "?Reset@VetoSystem@Voting@Server@@UAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Reset@VetoSystem@Voting@Server@@UAEXXZ");
 			// Server::Voting::VetoSystem *const this;
-			todo("implement");
-			_sub_1073E3C0(this);
+
+			voteStartedTime = 0;
+			willSetMap = false;
+			numberOfVetosUsed = 0;
+			startime = 0;
+			currentNumberOfVotes = 0;
+			finalTally = Server::Voting::VotingMessage();
+			mapVotes.clear();
 		}
 
-		_extern void _sub_1073EC30(Server::Voting::VetoSystem *const);
 		void VetoSystem::StartVoting() // 0x1073EC30
 		{
-			mangled_x86(MANGLED_TODO, "?StartVoting@VetoSystem@Voting@Server@@UAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?StartVoting@VetoSystem@Voting@Server@@UAEXXZ");
 			// Server::Voting::VetoSystem *const this;
-			{
 				// std::vector<std::string> &<range>$L0;
 				// std::string *<begin>$L0;
 				// std::string *<end>$L0;
-				{
 					// std::string const &command;
-				}
-			}
 			// function call : Server::Voting::MapAndType ()
-			todo("implement");
-			_sub_1073EC30(this);
+
+			if (idle)
+				return;
+			if (shouldRunPreviousCommands)
+			{
+				for (auto const &command : previousWinner.haloType.endOfMatchCommands)
+					Modules::CommandMap::Instance().ExecuteCommand(command, false);
+				shouldRunPreviousCommands = false;
+			}
+			numberOfVetosUsed++;
+			currentVetoOption = GenerateVotingOption();
+			currentVetoOption.canveto = true;
+			SetGameAndMap();
+			SetVoteStartedTime();
 		}
 
 		void VetoSystem::FindWinner() // 0x1073CE60
@@ -392,21 +458,24 @@ namespace Server
 			mapVotes.clear();
 		}
 
-		_extern void _sub_1073E5E0(Server::Voting::VetoSystem *const);
 		void VetoSystem::SetGameAndMap() // 0x1073E5E0
 		{
-			mangled_x86(MANGLED_TODO, "?SetGameAndMap@VetoSystem@Voting@Server@@AAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?SetGameAndMap@VetoSystem@Voting@Server@@AAEXXZ");
 			// Server::Voting::VetoSystem *const this;
-			{
 				// std::vector<std::string> &<range>$L0;
 				// std::string *<begin>$L0;
 				// std::string *<end>$L0;
-				{
 					// std::string const &command;
-				}
-			}
-			todo("implement");
-			_sub_1073E5E0(this);
+
+			if (currentVetoOption.haloType.modPack.size() > 0)
+				Modules::CommandMap::Instance().ExecuteCommand("Server.Mod \"" + currentVetoOption.haloType.modPack + "\"");
+			else
+				Modules::CommandMap::Instance().ExecuteCommand("Server.Mod none");
+			for (auto const &command : currentVetoOption.haloType.commands)
+				Modules::CommandMap::Instance().ExecuteCommand(command);
+			previousWinner = currentVetoOption;
+			shouldRunPreviousCommands = true;
+			willSetMap = true;
 		}
 
 		void VetoSystem::SetStartTimer() // 0x1073EA30
@@ -440,27 +509,28 @@ namespace Server
 			time(&voteStartedTime);
 		}
 
-		_extern void _sub_10742FE0(Server::Voting::VetoSystem *const);
 		void VetoSystem::onExit() // 0x10742FE0
 		{
-			mangled_x86(MANGLED_TODO, "?onExit@VetoSystem@Voting@Server@@UAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?onExit@VetoSystem@Voting@Server@@UAEXXZ");
 			// Server::Voting::VetoSystem *const this;
-			{
 				// std::vector<std::string> &<range>$L0;
 				// std::string *<begin>$L0;
 				// std::string *<end>$L0;
-				{
 					// std::string const &command;
+
+			if (shouldRunPreviousCommands)
+			{
+				for (auto &command : previousWinner.haloType.endOfMatchCommands)
+				{
+					Modules::CommandMap::Instance().ExecuteCommand(command, false);
 				}
+				shouldRunPreviousCommands = false;
 			}
-			todo("implement");
-			_sub_10742FE0(this);
 		}
 
-		_extern bool _sub_1073D970(Server::Voting::VetoSystem *const, std::string);
 		bool VetoSystem::LoadJson(std::string filename) // 0x1073D970
 		{
-			mangled_x86(MANGLED_TODO, "?LoadJson@VetoSystem@Voting@Server@@EAE_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?LoadJson@VetoSystem@Voting@Server@@EAE_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 			// static ...; // 0x1073DDF7
 			// static ...; // 0x1073DDF4
 			// static ...; // 0x1073DDD0
@@ -469,29 +539,56 @@ namespace Server
 			// std::string filename;
 			// std::vector<Server::Voting::HaloType> gameTypes;
 			// Server::Voting::VotingJson voting;
-			{
 				// std::vector<Server::Voting::PlaylistItem> &<range>$L0;
 				// Server::Voting::PlaylistItem *<begin>$L0;
 				// Server::Voting::PlaylistItem *<end>$L0;
-				{
 					// Server::Voting::PlaylistItem const &playlistItem;
-					{
 						// Server::Voting::HaloType ht;
-						{
 							// unsigned __int32 typeIndex;
-						}
+
+			entirePlaylist.clear();
+			Server::Voting::VotingJson voting;
+			if (!LoadVotingJson(filename, voting))
+				return false;
+			std::vector<Server::Voting::HaloType> gameTypes;
+			HaloTypeInheritance::BuildHaloTypes(gameTypes, voting.types);
+			for (auto const &playlistItem : voting.vetoPlaylist)
+			{
+				Server::Voting::HaloType ht;
+				if (playlistItem.type.has_value())
+				{
+					if (!HaloTypeInheritance::BuildHaloType(ht, playlistItem.type.value(), voting.types))
+					{
+						Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Game, Utils::LogLevel::Error, std::format("Failed to buld type in vetoPlaylist. Skipping."));
+						continue;
 					}
 				}
+				else
+				{
+					unsigned __int32 typeIndex = FindTypeByName(gameTypes, playlistItem.typeName);
+					if (typeIndex == -1)
+					{
+						Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Game, Utils::LogLevel::Error, std::format("Failed to find type '{}' in vetoPlaylist. Skipping.", playlistItem.typeName));
+						continue;
+					}
+					ht = voting.types[typeIndex];
+				}
+				entirePlaylist.push_back(Server::Voting::MapAndType(playlistItem.map, ht));
 			}
-			todo("implement");
-			bool __result = _sub_1073D970(this, filename);
-			return __result;
+			if (entirePlaylist.size() < 1)
+				BuildRandomPlaylist(entirePlaylist, gameTypes.size(), gameTypes, voting.maps);
+			if (entirePlaylist.size() < 1)
+			{
+				Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Game, Utils::LogLevel::Error, "No items in playlist items. Using default maps and gametypes.");
+				return false;
+			}
+			currentPlaylist = entirePlaylist;
+			return true;
 		}
 
-		_extern void _sub_1073EE10(Server::Voting::VetoSystem *const);
 		void VetoSystem::Tick() // 0x1073EE10
 		{
-			mangled_x86(MANGLED_TODO, "?Tick@VetoSystem@Voting@Server@@UAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@VetoSystem@Voting@Server@@UAEXXZ");
 			// static ...; // 0x1073F250
 			// static ...; // 0x1073F244
 			// static ...; // 0x1073F23C
@@ -500,22 +597,67 @@ namespace Server
 			// long long elapsed;
 			// long long curTime1;
 			// Blam::Network::Session *session;
-			{
 				// long long elapsed;
-			}
 			// function call : void ()
 			// function call : void ()
 			// function call : bool (*const)()
 			// function call : void ()
 			// function call : void ()
-			todo("implement");
-			_sub_1073EE10(this);
+
+			Blam::Network::Session *session = Blam::Network::GetActiveSession();
+			if (!(session && session->IsEstablished() && session->IsHost() && Modules::ModuleVoting::Instance().VarServerVotingType->ValueInt == 2))
+				return;
+			time_t curTime1;
+			time(&curTime1);
+			if (idle)
+			{
+				if (Blam::Network::GetNumPlayers() > 0)
+				{
+					idle = false;
+					if (Blam::Network::GetActiveSession()->Parameters.GetSessionMode() == 1)
+						NewVote();
+				}
+				return;
+			}
+			else if (Blam::Network::GetNumPlayers() == 0)
+			{
+				idle = true;
+				Reset();
+				return;
+			}
+			if (startime != 0)
+			{
+				if (willSetMap && !((bool (*const)())0x54B3A0)())
+				{
+					willSetMap = false;
+					Modules::CommandMap::Instance().ExecuteCommand("Game.GameType \"" + currentVetoOption.haloType.typeName + "\"", false);
+					Modules::CommandMap::Instance().ExecuteCommand("Game.Map \"" + currentVetoOption.haloMap.mapName + "\"", false);
+				}
+				long long elapsed = curTime1 - startime;
+				if (elapsed > Modules::ModuleVoting::Instance().VarVetoWinningOptionShownTime->ValueInt + 2)
+				{
+					Modules::CommandMap::Instance().ExecuteCommand("Game.Start", false);
+					Reset();
+				}
+			}
+			if (revoteFlag)
+			{
+				NewVote();
+				revoteFlag = false;
+				return;
+			}
+			if (voteStartedTime == 0)
+				return;
+			long long elapsed = curTime1 - voteStartedTime;
+			long VoteTime = Modules::ModuleVoting::Instance().VarServerMapVotingTime->ValueInt + 2;
+			if (elapsed < VoteTime)
+				return;
+			FindWinner();
 		}
 
-		_extern void _sub_1073DF30(Server::Voting::VetoSystem *const, Server::Voting::VotingMessage const &, std::string);
 		void VetoSystem::LogVote(Server::Voting::VotingMessage const &message, std::string name) // 0x1073DF30
 		{
-			mangled_x86(MANGLED_TODO, "?LogVote@VetoSystem@Voting@Server@@UAEXABUVotingMessage@23@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?LogVote@VetoSystem@Voting@Server@@UAEXABUVotingMessage@23@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 			// static ...; // 0x1073E1B0
 			// static ...; // 0x1073E1A8
 			// Server::Voting::VetoSystem *const this;
@@ -525,19 +667,39 @@ namespace Server
 			// std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,int> > > > it;
 			// Blam::Network::Session *session;
 			// function call : void ()
-			todo("implement");
-			_sub_1073DF30(this, message, name);
+
+			Blam::Network::Session *session = Blam::Network::GetActiveSession();
+			if (!session || !session->IsEstablished() || !session->IsHost() || Utils::Singleton<Modules::ModuleVoting>::Instance().VarServerVotingType->ValueInt != 2 || !voteStartedTime)
+				return;
+			unsigned __int32 vote = message.Vote;
+			auto it = mapVotes.find(name);
+			if (it != mapVotes.end())
+				mapVotes.erase(it);
+			else
+				mapVotes.insert(std::make_pair(name, vote));
+			SendVoteCountsToEveryone();
 		}
 
-		_extern void _sub_1073E280(Server::Voting::VetoSystem *const);
 		void VetoSystem::NewVote() // 0x1073E280
 		{
-			mangled_x86(MANGLED_TODO, "?NewVote@VetoSystem@Voting@Server@@UAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?NewVote@VetoSystem@Voting@Server@@UAEXXZ");
 			// Server::Voting::VetoSystem *const this;
 			// function call : void ()
 			// function call : Server::Voting::MapAndType ()
-			todo("implement");
-			_sub_1073E280(this);
+
+			if (numberOfVetosUsed < static_cast<long>(Modules::ModuleVoting::Instance().VarNumberOfVetoVotes->ValueInt))
+			{
+				mapVotes.clear();
+				voteStartedTime = 0;
+				StartVoting();
+			}
+			else
+			{
+				currentVetoOption = GenerateVotingOption();
+				currentVetoOption.canveto = false;
+				SetGameAndMap();
+				SetStartTimer();
+			}
 		}
 
 		void VetoSystem::EndVote() // 0x1073CD90
@@ -555,10 +717,9 @@ namespace Server
 			BroadcastVotingMessage(newmessage);
 		}
 
-		_extern void _sub_10742800(Server::Voting::VetoSystem *const);
 		void VetoSystem::loadDefaultMapsAndTypes() // 0x10742800
 		{
-			mangled_x86(MANGLED_TODO, "?loadDefaultMapsAndTypes@VetoSystem@Voting@Server@@EAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?loadDefaultMapsAndTypes@VetoSystem@Voting@Server@@EAEXXZ");
 			// static ...; // 0x10742D23
 			// static ...; // 0x10742D1A
 			// static ...; // 0x10742D0E
@@ -571,38 +732,47 @@ namespace Server
 			// std::vector<Server::Voting::HaloType> gameTypes;
 			// __int32 index;
 			// std::vector<Server::Voting::HaloMap> haloMaps;
-			{
 				// std::vector<Server::Voting::SMapListItem> const &<range>$L0;
 				// Server::Voting::SMapListItem const *<begin>$L0;
 				// Server::Voting::SMapListItem const *<end>$L0;
-				{
 					// Server::Voting::SMapListItem const &m;
-					{
 						// Server::Voting::AllowedPlayerCount playerCount;
 						// Server::Voting::HaloMap map;
-					}
-				}
-			}
-			{
 				// std::string const *<end>$L1;
 				// std::string const *<begin>$L1;
 				// std::string const &<range>$L1[8];
-				{
 					// std::string const &t;
-					{
 						// Server::Voting::HaloType type;
-					}
-				}
-			}
-			{
 				// __int32 i;
-				{
 					// Server::Voting::HaloType gametype;
 					// Server::Voting::HaloMap &map;
-				}
+
+			std::vector<Server::Voting::HaloType> gameTypes;
+			std::vector<Server::Voting::HaloMap> haloMaps;
+			for (auto &m : GetDefaultMapList())
+			{
+				if (m.name == "mainmenu")
+					continue;
+				Server::Voting::AllowedPlayerCount playerCount;
+				playerCount.minimumPlayersAllowed = 0;
+				playerCount.maximumPlayersAllowed = 16;
+				Server::Voting::HaloMap map(m.name, m.name, m.displayName, m.name, m.mapId, 0.1f, playerCount);
+				haloMaps.push_back(map);
 			}
-			todo("implement");
-			_sub_10742800(this);
+			__int32 index = 0;
+			for (auto &t : DefaultTypes)
+			{
+				Server::Voting::HaloType type(t, DefaultTypeNames[index]);
+				gameTypes.push_back(type);
+				index++;
+			}
+			for (__int32 i = 0; i < 10; i++)
+			{
+				Server::Voting::HaloType gametype = gameTypes[rand() % gameTypes.size()];
+				Server::Voting::HaloMap &map = haloMaps[rand() % haloMaps.size()];
+				entirePlaylist.push_back(Server::Voting::MapAndType(map, gametype));
+			}
+			currentPlaylist = entirePlaylist;
 		}
 	}
 }

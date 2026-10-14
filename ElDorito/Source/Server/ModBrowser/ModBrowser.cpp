@@ -46,6 +46,10 @@
 #include "Web/Ui/Screen.hpp"
 #include "Web/Ui/ScreenLayer.hpp"
 
+#include "mods/mod_system.hpp"  // hades: added for 0x1070C940
+
+#include "Web/Ui/WebServerModBrowser.hpp"  // hades: added for 0x1070C4E0
+
 #include <Windows.h>
 #include <stdio.h>
 #include <sys/stat.h>
@@ -180,23 +184,25 @@ namespace Blam
 
 /* ---------- public code */
 
-_extern void _sub_1070C4E0(CModBrowserManager *const);
 void CModBrowserManager::Initialize() // 0x1070C4E0
 {
-	mangled_x86(MANGLED_TODO, "?Initialize@CModBrowserManager@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@CModBrowserManager@@QAEXXZ");
 	// static ...; // 0x1070C6B8
 	// static ...; // 0x1070C6AC
 	// static ...; // 0x1070C6A4
 	// CModBrowserManager *const this;
 	// std::shared_ptr<CModBrowserStateHandler_AcquireMod> acquireModsHandler;
-	todo("implement");
-	_sub_1070C4E0(this);
+
+	auto acquireModsHandler = std::make_shared<CModBrowserStateHandler_AcquireMod>();
+	acquireModsHandler->SetUI(Web::Ui::WebServerModBrowser::GetDownloadUISingle());
+	m_stateManager = std::make_shared<CModBrowserStateManager>();
+	m_stateManager->RegisterStateHandler(EModBrowserState::DownloadMod, acquireModsHandler);
+	m_stateManager->AbortEvent.Subscribe([this](EModBrowserAbortReason reason) { OnDownloadAborted(reason); });
 }
 
-_extern bool _sub_1070C940(CModBrowserManager *const, SModBrowserState::SRequestedMod const &);
 bool CModBrowserManager::ShouldDownloadPackage(SModBrowserState::SRequestedMod const &package) // 0x1070C940
 {
-	mangled_x86(MANGLED_TODO, "?ShouldDownloadPackage@CModBrowserManager@@AAE_NABUSRequestedMod@SModBrowserState@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ShouldDownloadPackage@CModBrowserManager@@AAE_NABUSRequestedMod@SModBrowserState@@@Z");
 	// static ...; // 0x1070CAFA
 	// static ...; // 0x1070CAF4
 	// static ...; // 0x1070CAD0
@@ -207,26 +213,55 @@ bool CModBrowserManager::ShouldDownloadPackage(SModBrowserState::SRequestedMod c
 	// unsigned char remote_hash[20];
 	// c_mod_package cache;
 	// c_mod_package_manager &package_manager;
-	todo("implement");
-	bool __result = _sub_1070C940(this, package);
-	return __result;
+
+	unsigned char remote_hash[20];
+	Utils::String::HexStringToBytes(package.hash, remote_hash, sizeof(remote_hash));
+	c_mod_package_manager &package_manager = c_mod_system::get_package_manager();
+	c_mod_package_manager::s_entry package_entry;
+	if (!package_manager.find_package_by_hash(remote_hash, &package_entry))
+	{
+		return true;
+	}
+
+	c_mod_package cache(package_entry.file.filename);
+	if (!cache.initialize(nullptr))
+	{
+		return true;
+	}
+
+	cache.dispose();
+	return false;
 }
 
-_extern bool _sub_1070C070(CModBrowserManager *const, SModBrowserState const &);
 bool CModBrowserManager::DownloadMod(SModBrowserState const &options) // 0x1070C070
 {
-	mangled_x86(MANGLED_TODO, "?DownloadMod@CModBrowserManager@@QAE_NABUSModBrowserState@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?DownloadMod@CModBrowserManager@@QAE_NABUSModBrowserState@@@Z");
 	// static ...; // 0x1070C340
 	// static ...; // 0x1070C338
 	// CModBrowserManager *const this;
 	// SModBrowserState const &options;
 	// SModBrowserState &state;
-	{
 		// Web::Ui::ScreenLayer::SDialogShowParams dialogParams;
+
+	if (m_stateManager->InProgress())
+		return false;
+	if (!ShouldDownloadPackage(options.requestedMod))
+	{
+		Web::Ui::ScreenLayer::SDialogShowParams dialogParams;
+		dialogParams.templateName = "mod_already_installed";
+		dialogParams.callback = [](auto &result) {};
+		Web::Ui::ScreenLayer::ShowDialog(dialogParams);
+		return false;
 	}
-	todo("implement");
-	bool __result = _sub_1070C070(this, options);
-	return __result;
+	SModBrowserState &state = m_stateManager->GetStateMutable();
+	state = {};
+	state.hostname = options.hostname;
+	state.password = options.password;
+	state.serverHost = options.serverHost;
+	state.port = options.port;
+	state.requestedMod = options.requestedMod;
+	m_stateManager->RequestStateChange(EModBrowserState::DownloadMod);
+	return true;
 }
 
 void CModBrowserManager::Update() // 0x1070CCA0
@@ -237,10 +272,9 @@ void CModBrowserManager::Update() // 0x1070CCA0
 	m_stateManager->Update();
 }
 
-_extern void _sub_1070C750(CModBrowserManager *const, EModBrowserAbortReason);
 void CModBrowserManager::OnDownloadAborted(EModBrowserAbortReason reason) // 0x1070C750
 {
-	mangled_x86(MANGLED_TODO, "?OnDownloadAborted@CModBrowserManager@@AAEXW4EModBrowserAbortReason@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnDownloadAborted@CModBrowserManager@@AAEXW4EModBrowserAbortReason@@@Z");
 	// static ...; // 0x1070C8BC
 	// static ...; // 0x1070C8A4
 	// static ...; // 0x1070C89C
@@ -248,12 +282,29 @@ void CModBrowserManager::OnDownloadAborted(EModBrowserAbortReason reason) // 0x1
 	// EModBrowserAbortReason reason;
 	// Web::Ui::ScreenLayer::SDialogShowParams dialogParams;
 	// std::string message;
-	todo("implement");
-	_sub_1070C750(this, reason);
+
+	std::string message;
+	switch (reason)
+	{
+	case AddressResolutionFailed:
+		message = "Failed to resolve hostname.";
+		break;
+	case ModSignatureVerificationFailed:
+		message = "Failed to verify one or more mod package signatures. See dorito.log for details";
+		break;
+	default:
+		return;
+	}
+
+	Web::Ui::ScreenLayer::SDialogShowParams dialogParams;
+	dialogParams.templateName = "mod_download_error";
+	dialogParams.customBody = message;
+	dialogParams.callback = [](std::string const &) {};
+	Web::Ui::ScreenLayer::ShowDialog(dialogParams);
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0CModBrowserStateManager@@QAE@XZ"); no body to assert in
-_inline CModBrowserStateManager::CModBrowserStateManager() = default; // 0x1070A870
+// _inline CModBrowserStateManager::CModBrowserStateManager() = default; // 0x1070A870  // hades: defaulted on its declaration
 
 namespace Web
 {
@@ -287,25 +338,11 @@ _inline SModBrowserState::~SModBrowserState() = default; // 0x1070B670
 // mangled_x86(MANGLED_DEFAULT, "??1SRequestedMod@SModBrowserState@@QAE@XZ"); no body to assert in
 _inline SModBrowserState::SRequestedMod::~SRequestedMod() = default; // 0x1070B700
 
-extern SModBrowserState &_sub_1070B930(SModBrowserState *const, SModBrowserState &);
-_inline SModBrowserState &SModBrowserState::operator=(SModBrowserState &&__that) // 0x1070B930
-{
-	mangled_x86(MANGLED_TODO, "??4SModBrowserState@@QAEAAU0@$$QAU0@@Z");
-	// SModBrowserState &__that;
-	{
-		// unsigned __int32 $S5;
-	}
-	{
-		// unsigned __int32 $S6;
-	}
-	compiler_generated();
-	todo("implement");
-	SModBrowserState & __result = _sub_1070B930(this, __that);
-	return __result;
-}
+// mangled_x86(MANGLED_DEFAULT, "??4SModBrowserState@@QAEAAU0@$$QAU0@@Z"); no body to assert in
+_inline SModBrowserState &SModBrowserState::operator=(SModBrowserState &&__that) noexcept = default; // 0x1070B930
 
 // mangled_x86(MANGLED_DEFAULT, "??4SRequestedMod@SModBrowserState@@QAEAAU01@$$QAU01@@Z"); no body to assert in
-_inline SModBrowserState::SRequestedMod &SModBrowserState::SRequestedMod::operator=(SModBrowserState::SRequestedMod &&__that) = default; // 0x1070BAC0
+_inline SModBrowserState::SRequestedMod &SModBrowserState::SRequestedMod::operator=(SModBrowserState::SRequestedMod &&__that) noexcept = default; // 0x1070BAC0
 
 // mangled_x86(MANGLED_DEFAULT, "??4SRequestedMod@SModBrowserState@@QAEAAU01@ABU01@@Z"); no body to assert in
 _inline SModBrowserState::SRequestedMod &SModBrowserState::SRequestedMod::operator=(SModBrowserState::SRequestedMod const &__that) = default; // 0x1070BC10
@@ -315,4 +352,4 @@ _inline SModBrowserState::SRequestedMod &SModBrowserState::SRequestedMod::operat
 /* ---------- explicit instantiations */
 template CEventSink<enum EModBrowserAbortReason>::CEventSink();
 template CEventSink<enum EModBrowserAbortReason>::~CEventSink();
-template CEventSink<enum EModBrowserAbortReason>::SCallbackEntry::~SCallbackEntry();
+// template CEventSink<enum EModBrowserAbortReason>::SCallbackEntry::~SCallbackEntry();  // hades: implicit now; the sink's destructor emits it

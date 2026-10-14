@@ -12,6 +12,15 @@
 
 /* ---------- prototypes */
 
+namespace Utils
+{
+	template<typename T>
+	T Clamp(T n, T low, T high)
+	{
+		return n >= high ? high : n <= low ? low : n;
+	}
+}
+
 /* ---------- globals */
 
 /* ---------- public code */

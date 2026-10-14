@@ -41,7 +41,6 @@ struct s_visibility_volume
 	short region_cluster_count; // 0x62
 	long plane_index; // 0x64
 	short structure_bsp_index; // 0x68
-	unsigned char __pad0[2]; // 0x6A
 	real_rectangle2d frustum_bounds; // 0x6C
 	unsigned char __pad1[4]; // 0x7C
 	real_point3d points[4]; // 0x80
@@ -95,18 +94,15 @@ struct s_visibility_region
 	s_visibility_projection projections[6]; // 0x4
 	short cluster_count; // 0xC94
 	s_visibility_cluster clusters[128]; // 0xC96
-	unsigned char __pad1[2]; // 0x1996
 	long sorted_clusters[128]; // 0x1998
 	short volume_count; // 0x1B98
 	unsigned char __pad2[2]; // 0x1B9A
 	s_visibility_volume volumes[512]; // 0x1B9C
 	s_cluster_reference cluster_reference; // 0x2E39C
-	unsigned char __pad3[2]; // 0x2E39E
 	long output_user_index; // 0x2E3A0
 	long window_index; // 0x2E3A4
 	long flags; // 0x2E3A8
 	short unknown; // 0x2E3AC
-	unsigned char __pad4[2]; // 0x2E3AE
 	real_point3d bounding_sphere_center; // 0x2E3B0
 	float bounding_sphere_radius; // 0x2E3BC
 	__int32 collection_type; // 0x2E3C0

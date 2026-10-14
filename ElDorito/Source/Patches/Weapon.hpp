@@ -38,12 +38,7 @@ namespace Patches
 		{
 			std::string weapon_type; // 0x0
 			real_vector3d offset; // 0x1C
-			_inline WeaponInfo(Patches::Weapon::WeaponInfo &&__that); /* compiler_generated() */
-			_inline WeaponInfo(Patches::Weapon::WeaponInfo const &__that); /* compiler_generated() */
-			_inline WeaponInfo() = default; /* compiler_generated() */
-			_inline ~WeaponInfo(); /* compiler_generated() */
-			_inline Patches::Weapon::WeaponInfo &operator=(Patches::Weapon::WeaponInfo &&__that); /* compiler_generated() */
-			Patches::Weapon::WeaponInfo &operator=(Patches::Weapon::WeaponInfo const &); /* compiler_generated() */
+			// The special members (move assignment 0x10A265D0 included) are implicit so the struct stays an aggregate (GetEquippedWeapon uses `= {}`).
 		};
 		static_assert(sizeof(Patches::Weapon::WeaponInfo) == 40, "Invalid Patches::Weapon::WeaponInfo size");
 	}
@@ -57,17 +52,11 @@ namespace Patches
 		struct DefaultWeaponInfo
 		{
 			unsigned short index; // 0x0
-			unsigned char __pad0[2]; // 0x2
 			std::string display_name; // 0x4
 			std::string weapon_type; // 0x20
 			real_vector3d offset; // 0x3C
 			real_vector3d centered_offset; // 0x48
-			_inline DefaultWeaponInfo(Patches::Weapon::DefaultWeaponInfo &&__that); /* compiler_generated() */
-			_inline DefaultWeaponInfo(Patches::Weapon::DefaultWeaponInfo const &__that); /* compiler_generated() */
-			DefaultWeaponInfo(); /* compiler_generated() */
-			_inline ~DefaultWeaponInfo(); /* compiler_generated() */
-			Patches::Weapon::DefaultWeaponInfo &operator=(Patches::Weapon::DefaultWeaponInfo &); /* compiler_generated() */
-			Patches::Weapon::DefaultWeaponInfo &operator=(Patches::Weapon::DefaultWeaponInfo const &); /* compiler_generated() */
+			// The special members are implicit so the struct stays an aggregate (InitializeOffsetDefaults uses `= {}`).
 		};
 	}
 }

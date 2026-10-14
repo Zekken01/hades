@@ -30,7 +30,7 @@ struct c_rasterizer
 	static _inline IDirect3D9Ex *get_direct3d();
 	static bool (*const set_indices)(IDirect3DIndexBuffer9 *);
 	static void (*const clear)(long, __int32, float, unsigned char);
-	static bool (*const thread_owns_device)();
+	static constexpr bool (*const thread_owns_device)() = (bool (*)())0xA22390;  // hades: constant so calls fold to mov eax, imm (CDebugDrawBackend::Render)
 	static bool (*const set_vertex_shader)(void *, long, long, long);
 	static void (*const set_using_albedo_sampler)(bool);
 	static bool (*const set_pixel_shader)(void *, long);

@@ -44,24 +44,20 @@ _inline real_vector3d &operator*=(real_vector3d &v, float const c) // 0x10910120
 	return v;
 }
 
-extern real_vector3d _sub_1079B280(float const, real_vector3d const &);
 _inline real_vector3d operator*(float const c, real_vector3d const &v) // 0x1079B280
 {
-	mangled_x86(MANGLED_TODO, "??D@YA?AUreal_vector3d@@MABU0@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??D@YA?AUreal_vector3d@@MABU0@@Z");
 	// real_vector3d const &v;
-	todo("implement");
-	real_vector3d __result = _sub_1079B280(c, v);
-	return __result;
+
+	return { c * v.i, c * v.j, c * v.k };
 }
 
-extern real_vector3d _sub_10968860(real_vector3d const &, float);
 _inline real_vector3d operator*(real_vector3d const &v, float c) // 0x10968860
 {
-	mangled_x86(MANGLED_TODO, "??D@YA?AUreal_vector3d@@ABU0@M@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??D@YA?AUreal_vector3d@@ABU0@M@Z");
 	// float c;
-	todo("implement");
-	real_vector3d __result = _sub_10968860(v, c);
-	return __result;
+
+	return { c * v.i, c * v.j, c * v.k };
 }
 
 _inline real_vector3d operator+(real_vector3d const &v1, real_vector3d const &v2) // 0x1079B3E0
@@ -80,14 +76,12 @@ _inline real_vector3d operator-(real_vector3d const &v1, real_vector3d const &v2
 	return real_vector3d{ v1.i - v2.i, v1.j - v2.j, v1.k - v2.k };
 }
 
-extern real_vector3d _sub_10956EA0(real_vector3d const &);
 _inline real_vector3d operator-(real_vector3d const &v) // 0x10956EA0
 {
-	mangled_x86(MANGLED_TODO, "??G@YA?AUreal_vector3d@@ABU0@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??G@YA?AUreal_vector3d@@ABU0@@Z");
 	// real_vector3d const &v;
-	todo("implement");
-	real_vector3d __result = _sub_10956EA0(v);
-	return __result;
+
+	return { -v.i, -v.j, -v.k };
 }
 
 _inline real_vector3d operator-(real_point3d const &p1, real_point3d const &p2) // 0x1069ED00

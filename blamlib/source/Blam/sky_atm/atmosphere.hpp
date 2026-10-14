@@ -29,7 +29,6 @@ struct s_weighted_atmosphere_parameters;
 struct s_weighted_atmosphere_parameters
 {
 	bool valid; // 0x0
-	unsigned char __pad0[3]; // 0x1
 	real_rgb_color sun_color; // 0x4
 	real_vector3d sun_direction; // 0x10
 	float distance_bias; // 0x1C

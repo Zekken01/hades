@@ -15,6 +15,8 @@
 #include "Utils/Singleton.hpp"
 #include "Utils/String.hpp"
 
+#include "Modules/ModuleServer.hpp"  // hades: added for 0x10729260
+
 #include <Windows.h>
 #include <stdio.h>
 #include <sys/stat.h>
@@ -123,7 +125,7 @@ namespace Server
 {
 	namespace hades_file_local_Server
 	{
-		extern std::string DefaultBanListPath; // 0x11388338
+		// extern std::string DefaultBanListPath; // 0x11388338  // hades: defined (with its initialiser) elsewhere now
 	}
 	using namespace hades_file_local_Server;
 }
@@ -136,7 +138,7 @@ namespace hades_file_local
 	extern HWND__ *Hwnd; // 0x11388354
 	extern HMENU__ *Hmenu; // 0x11388554
 	extern HWND__ *g_parenthWnd; // 0x11388558
-	extern std::thread g_contextMenuthread; // 0x11388330
+	std::thread g_contextMenuthread; // 0x11388330
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -175,9 +177,9 @@ namespace Server
 
 /* ---------- private code */
 
-_extern void _sub_107287B0();
 void CreateWindowExCM() // 0x107287B0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CreateWindowExCM@@YAXXZ");
 	// `anonymous-namespace'::CreateWindowExCM
 	// procedure flags: nofpo
 	// static ...; // 0x10728920
@@ -192,13 +194,31 @@ void CreateWindowExCM() // 0x107287B0
 	// function call : HBRUSH__ *(unsigned long)
 	// function call : unsigned short (tagWNDCLASSEXA const *)
 	// function call : HWND__ *(unsigned long, char const *, char const *, unsigned long, __int32, __int32, __int32, __int32, HWND__ *, HMENU__ *, HINSTANCE__ *, void *)
-	todo("implement");
-	_sub_107287B0();
+
+	HINSTANCE hInstance = GetModuleHandleA("mtndew.dll");
+	WNDCLASSEXA wincl;
+	memset(&wincl, 0, sizeof(wincl));
+	wincl.hInstance = hInstance;
+	wincl.lpszClassName = szClassName;
+	wincl.lpfnWndProc = ContextMenuWindowProc;
+	wincl.style = 0;
+	wincl.cbSize = sizeof(WNDCLASSEXA);
+	wincl.hIcon = LoadIconA(nullptr, MAKEINTRESOURCEA(32512));
+	wincl.hIconSm = LoadIconA(nullptr, MAKEINTRESOURCEA(32512));
+	wincl.hCursor = LoadCursorA(nullptr, MAKEINTRESOURCEA(32512));
+	wincl.lpszMenuName = nullptr;
+	wincl.cbClsExtra = 0;
+	wincl.cbWndExtra = 0;
+	wincl.hbrBackground = CreateSolidBrush(RGB(255, 255, 255));
+	RegisterClassExA(&wincl);
+	Hwnd = CreateWindowExA(0, szClassName, szWindowName, 0, 0, 0, 1, 1, g_parenthWnd, nullptr, hInstance, nullptr);
+	if (!notifyIconData.hWnd)
+		InitNotifyIconData();
 }
 
-_extern void _sub_10729260();
 void UpdateMenu() // 0x10729260
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateMenu@@YAXXZ");
 	// `anonymous-namespace'::UpdateMenu
 	// procedure flags: nofpo
 	// static ...; // 0x107293F8
@@ -206,36 +226,52 @@ void UpdateMenu() // 0x10729260
 	// static ...; // 0x107293E4
 	// std::string serverName;
 	// function call : __int32 (HMENU__ *, unsigned __int32, unsigned __int32, unsigned __int32, char const *)
-	todo("implement");
-	_sub_10729260();
+
+	if (!Hmenu)
+		return;
+	std::string serverName = Utils::Singleton<Modules::ModuleServer>::Instance().VarServerName->ValueString;
+	ModifyMenuA(Hmenu, 0, MF_BYPOSITION | MF_DISABLED, 0, (serverName + ":" + Utils::Singleton<Modules::ModuleServer>::Instance().VarServerPort->ValueString).c_str());
 }
 
-_extern void _sub_10728E90();
 void InitNotifyIconData() // 0x10728E90
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?InitNotifyIconData@@YAXXZ");
 	// `anonymous-namespace'::InitNotifyIconData
 	// procedure flags: nofpo
 	// function call : HINSTANCE__ *(char const *)
 	// function call : HICON__ *(HINSTANCE__ *, char const *)
 	// function call : __int32 (unsigned long, _NOTIFYICONDATAA *)
-	todo("implement");
-	_sub_10728E90();
+
+	memset(&notifyIconData, 0, sizeof(notifyIconData));
+	notifyIconData.cbSize = sizeof(notifyIconData);
+	notifyIconData.hWnd = Hwnd;
+	notifyIconData.uID = 1001;
+	notifyIconData.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
+	notifyIconData.uCallbackMessage = WM_USER + 1;
+	notifyIconData.hIcon = LoadIconA(GetModuleHandleA("mtndew.dll"), MAKEINTRESOURCEA(101));
+	strncpy(notifyIconData.szTip, szTIP, sizeof(szTIP));
+	Shell_NotifyIconA(NIM_ADD, &notifyIconData);
 }
 
-_extern void _sub_107291D0();
 void OnShutdown() // 0x107291D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnShutdown@@YAXXZ");
 	// `anonymous-namespace'::OnShutdown
 	// procedure flags: nofpo
 	// function call : __int32 (unsigned long, _NOTIFYICONDATAA *)
 	// function call : __int32 (HWND__ *)
-	todo("implement");
-	_sub_107291D0();
+
+	if (notifyIconData.hWnd)
+	{
+		notifyIconData.uFlags = 0;
+		Shell_NotifyIconA(NIM_DELETE, &notifyIconData);
+		DestroyWindow(Hwnd);
+	}
 }
 
-_extern void _sub_10728990(unsigned __int32);
 void HandleMenuAction(unsigned __int32 action) // 0x10728990
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleMenuAction@@YAXI@Z");
 	// `anonymous-namespace'::HandleMenuAction
 	// static ...; // 0x10728CEC
 // $LN10:
@@ -250,22 +286,43 @@ void HandleMenuAction(unsigned __int32 action) // 0x10728990
 	// function call : HINSTANCE__ *(HWND__ *, char const *, char const *, char const *, char const *, __int32)
 	// function call : HINSTANCE__ *(HWND__ *, char const *, char const *, char const *, char const *, __int32)
 	// function call : HINSTANCE__ *(HWND__ *, char const *, char const *, char const *, char const *, __int32)
-	todo("implement");
-	_sub_10728990(action);
+
+	switch (action)
+	{
+	case 1002:
+		Utils::Singleton<Modules::CommandMap>::Instance().ExecuteCommand("Exit", false);
+		break;
+	case 1003:
+		Utils::Singleton<Server::TempBanList>::Instance().ClearList();
+		break;
+	case 1004:
+		Utils::Singleton<Modules::CommandMap>::Instance().ExecuteCommand("Voting.ReloadJson", false);
+		break;
+	case 1005:
+		ShellExecuteA(nullptr, "open", Utils::Singleton<ElDorito>::Instance().GetDirectory().c_str(), nullptr, nullptr, 10);
+		break;
+	case 1006:
+		ShellExecuteA(nullptr, "open", (Utils::Singleton<ElDorito>::Instance().GetDirectory() + "/mods").c_str(), nullptr, nullptr, 10);
+		break;
+	case 1007:
+		ShellExecuteA(nullptr, "open", (Utils::Singleton<ElDorito>::Instance().GetDirectory() + Utils::Singleton<Modules::ModuleServer>::Instance().VarChatLogFile->ValueString).c_str(), nullptr, nullptr, 10);
+		break;
+	case 1008:
+		ShellExecuteA(nullptr, "open", ("http://localhost:" + Utils::Singleton<Modules::ModuleServer>::Instance().VarServerPort->ValueString).c_str(), nullptr, nullptr, 10);
+		break;
+	}
 }
 
-_extern long _sub_10728460(HWND__ *, unsigned __int32, unsigned __int32, long);
 long __stdcall ContextMenuWindowProc(HWND__ *hWnd, unsigned __int32 msg, unsigned __int32 wParam, long lParam) // 0x10728460
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ContextMenuWindowProc@@YGJPAUHWND__@@IIJ@Z");
 	// `anonymous-namespace'::ContextMenuWindowProc
 	// HWND__ *hWnd;
 	// unsigned __int32 msg;
 	// unsigned __int32 wParam;
 	// long lParam;
-	{
 		// tagPOINT curPoint;
 		// unsigned __int32 clicked;
-	}
 	// function call : HMENU__ *()
 	// function call : __int32 (HMENU__ *, unsigned __int32, unsigned __int32, char const *)
 	// function call : __int32 (HMENU__ *, unsigned __int32, unsigned __int32, char const *)
@@ -283,9 +340,39 @@ long __stdcall ContextMenuWindowProc(HWND__ *hWnd, unsigned __int32 msg, unsigne
 	// function call : __int32 (HMENU__ *, unsigned __int32, __int32, __int32, HWND__ *, tagTPMPARAMS *)
 	// function call : __int32 (HWND__ *, unsigned __int32, unsigned __int32, long)
 	// function call : long (HWND__ *, unsigned __int32, unsigned __int32, long)
-	todo("implement");
-	long __result = _sub_10728460(hWnd, msg, wParam, lParam);
-	return __result;
+
+	switch (msg)
+	{
+	case WM_USER + 1:
+	{
+		if (lParam == WM_RBUTTONUP)
+		{
+			if (!Hmenu)
+			{
+				Hmenu = CreatePopupMenu();
+				AppendMenuA(Hmenu, MF_DISABLED, 0, "<Server name>");
+				AppendMenuA(Hmenu, MF_SEPARATOR, 0, nullptr);
+				AppendMenuA(Hmenu, MF_STRING, 0x3EB, "Clear Temp Ban List");
+				AppendMenuA(Hmenu, MF_STRING, 0x3EC, "Refresh Voting.json");
+				AppendMenuA(Hmenu, MF_STRING, 0x3ED, "Open Server Directory");
+				AppendMenuA(Hmenu, MF_STRING, 0x3EE, "Open Mods Directory");
+				AppendMenuA(Hmenu, MF_STRING, 0x3EF, "Open Chat.log");
+				AppendMenuA(Hmenu, MF_STRING, 0x3F0, "Open Info Server URL");
+				AppendMenuA(Hmenu, MF_SEPARATOR, 0, nullptr);
+				AppendMenuA(Hmenu, MF_STRING, 0x3EA, "Exit");
+			}
+			POINT curPoint;
+			GetCursorPos(&curPoint);
+			SetForegroundWindow(Hwnd);
+			SendMessageA(g_parenthWnd, WM_USER + 2, 1, 0);
+			UINT clicked = TrackPopupMenuEx(Hmenu, TPM_RETURNCMD | TPM_NONOTIFY, curPoint.x, curPoint.y, hWnd, nullptr);
+			if (clicked)
+				PostMessageA(g_parenthWnd, WM_USER + 2, 0, clicked);
+		}
+		break;
+	}
+	}
+	return DefWindowProcA(hWnd, msg, wParam, lParam);
 }
 
 void ContextMenuThreadProc() // 0x10728390

@@ -6,6 +6,8 @@
 #include "Blam/cseries/enums.inl"
 #include "ChatCommands/ChatCommandMap.hpp"
 
+#include "Blam/cseries/errors.hpp"  // hades: added for 0x10EF7410
+
 #include <Windows.h>
 #include <stdio.h>
 
@@ -56,24 +58,24 @@ void trace_handle(char const *format, ...) // 0x10EF75A0
 	va_end(va);
 }
 
-_extern void _sub_10EF7410(char const *, char const *, __int32, bool);
 void display_assert(char const *reason, char const *file, __int32 line, bool halt) // 0x10EF7410
 {
-	mangled_x86(MANGLED_TODO, "?display_assert@@YAXPBD0H_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?display_assert@@YAXPBD0H_N@Z");
 	// bool halt;
 	// char const *reason_message;
 	// char const *halt_message;
-	todo("implement");
-	_sub_10EF7410(reason, file, line, halt);
+
+	char const *reason_message = reason ? reason : "<no reason given>";
+	char const *halt_message = halt ? "halt" : "warn";
+	error(_error_message_priority_assert, "EXCEPTION %s in %s,#%d: %s", halt_message, file, line, reason_message);
 }
 
-_extern void _sub_10EF7500(__int32);
 __declspec(noreturn) void system_exit(__int32 code) // 0x10EF7500
 {
-	mangled_x86(MANGLED_TODO, "?system_exit@@YAXH@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?system_exit@@YAXH@Z");
 	// __int32 code;
 
-	__debugbreak();
+	__asm int 3
 }
 
 unsigned long system_milliseconds() // 0x10EF7540

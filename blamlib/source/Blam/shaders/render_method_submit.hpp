@@ -75,7 +75,7 @@ struct c_render_method_data
 	static bool *lighting_debug;
 	static unsigned long *m_change_colors;
 	static long &m_context;
-	static float (*m_context_interface)(long, long, long);
+	static inline float (*m_context_interface)(long, long, long) = *reinterpret_cast<float (**)(long, long, long)>(0x50FB610);  // hades: an inline variable; every including file carries the initialiser
 	static s_render_submit_cache *render_submit_cache;
 };
 static_assert(sizeof(c_render_method_data) == 1, "Invalid c_render_method_data size");

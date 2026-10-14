@@ -54,7 +54,6 @@ struct s_model_customization_player_region_permutation
 	unsigned long name; // 0x0
 	unsigned long description; // 0x4
 	unsigned short flags; // 0x8
-	unsigned char __pad0[2]; // 0xA
 	unsigned long achievement_requirement; // 0xC
 	c_tag_block<s_model_customization_region_permutation> variants; // 0x10
 };

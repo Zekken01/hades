@@ -43,6 +43,8 @@
 #include "Utils/Singleton.hpp"
 #include "Utils/String.hpp"
 
+#include "Utils/Logger.hpp"  // hades: added for 0x10746890  // hades: added for 0x10746890
+
 #include <boost/asio.hpp>
 #include <boost/assert.hpp>
 #include <boost/exception/all.hpp>
@@ -161,8 +163,8 @@ namespace Server
 	{
 		namespace hades_file_local_Server_Voting
 		{
-			extern std::string const DefaultTypes[8]; // 0x11388C30
-			extern std::string const DefaultTypeNames[8]; // 0x11388D10
+			// extern std::string const DefaultTypes[8]; // 0x11388C30  // hades: defined in VotingTypes.hpp, one copy per file
+			// extern std::string const DefaultTypeNames[8]; // 0x11388D10  // hades: defined in VotingTypes.hpp, one copy per file
 		}
 		using namespace hades_file_local_Server_Voting;
 	}
@@ -173,10 +175,9 @@ namespace Server
 {
 	namespace Voting
 	{
-		_extern bool _sub_10747C00(std::string const &, Server::Voting::VotingJson &);
 		bool LoadVotingJson(std::string const &filename, Server::Voting::VotingJson &voting) // 0x10747C00
 		{
-			mangled_x86(MANGLED_TODO, "?LoadVotingJson@Voting@Server@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAUVotingJson@12@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?LoadVotingJson@Voting@Server@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAUVotingJson@12@@Z");
 			// static ...; // 0x107483F0
 			// static ...; // 0x107483E7
 			// static ...; // 0x107483E3
@@ -193,45 +194,73 @@ namespace Server
 			// std::ifstream in;
 			// std::string contents;
 			// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> document;
-			{
 				// rapidjson::GenericArray<0,rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > > &<range>$L0;
 				// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > *<begin>$L0;
 				// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > *<end>$L0;
-				{
 					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &mapObject;
-					{
 						// Server::Voting::HaloMap haloMap;
-					}
-				}
-			}
-			{
 				// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > *<end>$L1;
 				// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > *<begin>$L1;
 				// rapidjson::GenericArray<0,rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > > &<range>$L1;
-				{
 					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &typeObject;
-					{
 						// Server::Voting::HaloType ht;
-					}
-				}
-			}
-			{
 				// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > *<end>$L2;
 				// rapidjson::GenericArray<0,rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > > &<range>$L2;
 				// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > *<begin>$L2;
-				{
 					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &itemObject;
-					{
 						// Server::Voting::PlaylistItem item;
+				// std::string errorMsg;
+
+			std::ifstream in(filename, std::ios::in | std::ios::binary);
+			if (!in || !in.is_open())
+			{
+				Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Game, Utils::LogLevel::Error, "Could not find or open 'voting.json' file");
+				return false;
+			}
+			std::string contents;
+			in.seekg(0, std::ios::end);
+			contents.resize(in.tellg());
+			in.seekg(0, std::ios::beg);
+			in.read(&contents[0], contents.size());
+			in.close();
+			rapidjson::Document document;
+			if (!document.Parse<0>(contents.c_str()).HasParseError() && document.IsObject())
+			{
+				if (document.HasMember("maps"))
+				{
+					for (rapidjson::Value const &mapObject : document["maps"].GetArray())
+					{
+						Server::Voting::HaloMap haloMap;
+						if (LoadHaloMap(mapObject, "", haloMap))
+							voting.maps.push_back(std::move(haloMap));
 					}
 				}
+				if (document.HasMember("types"))
+				{
+					for (rapidjson::Value const &typeObject : document["types"].GetArray())
+					{
+						Server::Voting::HaloType ht;
+						if (LoadHaloType(typeObject, ht))
+							voting.types.push_back(ht);
+					}
+				}
+				if (document.HasMember("vetoPlaylist"))
+				{
+					for (rapidjson::Value const &itemObject : document["vetoPlaylist"].GetArray())
+					{
+						Server::Voting::PlaylistItem item;
+						if (LoadPlaylistItem(itemObject, item, voting.types))
+							voting.vetoPlaylist.push_back(item);
+					}
+				}
+				return true;
 			}
+			else
 			{
-				// std::string errorMsg;
+				std::string errorMsg = std::format("Could not parse voting json. Error: {} line {}.  Using defaults instead.", rapidjson::GetParseError_En(document.GetParseError()), Utils::String::GetLineFromOffset(contents, document.GetErrorOffset()));
+				Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Game, Utils::LogLevel::Error, errorMsg);
+				return false;
 			}
-			todo("implement");
-			bool __result = _sub_10747C00(filename, voting);
-			return __result;
 		}
 
 		// mangled_x86(MANGLED_DEFAULT, "??0PlaylistItem@Voting@Server@@QAE@$$QAU012@@Z"); no body to assert in
@@ -248,12 +277,11 @@ namespace Server
 		_inline SMapListItem::~SMapListItem() = default; // 0x10745DE0
 
 		// mangled_x86(MANGLED_DEFAULT, "??4CharacterOverride@HaloType@Voting@Server@@QAEAAU0123@$$QAU0123@@Z"); no body to assert in
-		_inline Server::Voting::HaloType::CharacterOverride &HaloType::CharacterOverride::operator=(Server::Voting::HaloType::CharacterOverride &&__that) = default; // 0x10745E40
+		// _inline Server::Voting::HaloType::CharacterOverride &HaloType::CharacterOverride::operator=(Server::Voting::HaloType::CharacterOverride &&__that) = default; // 0x10745E40  // hades: left implicit
 
-		_extern bool _sub_107477D0(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, Server::Voting::PlaylistItem &, std::vector<Server::Voting::HaloType> const &);
 		bool LoadPlaylistItem(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &c, Server::Voting::PlaylistItem &item, std::vector<Server::Voting::HaloType> const &types) // 0x107477D0
 		{
-			mangled_x86(MANGLED_TODO, "?LoadPlaylistItem@Voting@Server@@YA_NABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@AAUPlaylistItem@12@ABV?$vector@UHaloType@Voting@Server@@V?$allocator@UHaloType@Voting@Server@@@std@@@std@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?LoadPlaylistItem@Voting@Server@@YA_NABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@AAUPlaylistItem@12@ABV?$vector@UHaloType@Voting@Server@@V?$allocator@UHaloType@Voting@Server@@@std@@@std@@@Z");
 			// static ...; // 0x10747B0D
 			// static ...; // 0x10747B04
 			// static ...; // 0x10747AD4
@@ -262,26 +290,45 @@ namespace Server
 			// Server::Voting::PlaylistItem &item;
 			// std::vector<Server::Voting::HaloType> const &types;
 			// std::string modPack;
-			{
 				// std::string errorMsg;
-			}
-			{
 				// unsigned __int32 typeIndex;
-			}
-			{
 				// Server::Voting::HaloType ht;
-			}
+
+			if (!c.HasMember("map"))
 			{
+				std::string errorMsg = std::format("Veto playlist item must have either a 'map' member");
+				return false;
 			}
-			todo("implement");
-			bool __result = _sub_107477D0(c, item, types);
-			return __result;
+			std::string modPack;
+			if (c.HasMember("typeName"))
+			{
+				item.typeName = c["typeName"].GetString();
+				unsigned __int32 typeIndex = FindTypeByName(types, item.typeName);
+				if (typeIndex == -1 || types[typeIndex].isTemplate)
+					return false;
+				modPack = types[typeIndex].modPack;
+			}
+			else if (c.HasMember("type"))
+			{
+				Server::Voting::HaloType ht;
+				if (!LoadHaloType(c["type"], ht))
+					return false;
+				modPack = ht.modPack;
+				item.type = std::move(ht);
+			}
+			else
+			{
+				std::string errorMsg = std::format("Veto playlist item must have either a 'type' or 'typeName' member");
+				return false;
+			}
+			if (!LoadHaloMap(c["map"], modPack, item.map))
+				return false;
+			return true;
 		}
 
-		_extern bool _sub_10746890(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, std::string const &, Server::Voting::HaloMap &);
 		bool LoadHaloMap(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &mapObject, std::string const &modPack, Server::Voting::HaloMap &map) // 0x10746890
 		{
-			mangled_x86(MANGLED_TODO, "?LoadHaloMap@Voting@Server@@YA_NABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAUHaloMap@12@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?LoadHaloMap@Voting@Server@@YA_NABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAUHaloMap@12@@Z");
 			// static ...; // 0x10746C34
 			// static ...; // 0x10746C2C
 			// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &mapObject;
@@ -289,15 +336,41 @@ namespace Server
 			// Server::Voting::HaloMap &map;
 			// std::string displayName;
 			// Server::Voting::SMapListItem mapInfo;
-			todo("implement");
-			bool __result = _sub_10746890(mapObject, modPack, map);
-			return __result;
+
+			std::string displayName = "";
+			if (!mapObject.HasMember("mapName"))
+				return false;
+			if (!mapObject.HasMember("displayName"))
+				map.mapDisplayName = mapObject["mapName"].GetString();
+			else
+				map.mapDisplayName = mapObject["displayName"].GetString();
+			if (map.mapDisplayName.length() > 16)
+				map.mapDisplayName = map.mapDisplayName.substr(0, 16);
+			map.mapName = mapObject["mapName"].GetString();
+			Server::Voting::SMapListItem mapInfo;
+			if (!getMapInfo(map.mapName, modPack, &mapInfo))
+			{
+				Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Game, Utils::LogLevel::Error, "Voting Could not find map '" + map.mapName + "'");
+				return false;
+			}
+			map.mapId = mapInfo.mapId;
+			map.scnrName = mapInfo.name;
+			if (mapObject.HasMember("randomChance"))
+				map.randomChance = mapObject["randomChance"].GetFloat();
+			if (mapObject.HasMember("minPlayersAllowed"))
+				map.allowedPlayerCount.minimumPlayersAllowed = mapObject["minPlayersAllowed"].GetInt();
+			if (mapObject.HasMember("maxPlayersAllowed"))
+				map.allowedPlayerCount.maximumPlayersAllowed = mapObject["maxPlayersAllowed"].GetInt();
+			if (mapObject.HasMember("imageUrl") && strlen(mapObject["imageUrl"].GetString()) > 0)
+				map.imageUri = mapObject["imageUrl"].GetString();
+			else
+				map.imageUri = map.mapName;
+			return true;
 		}
 
-		_extern bool _sub_10746D60(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &, Server::Voting::HaloType &);
 		bool LoadHaloType(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &c, Server::Voting::HaloType &ht) // 0x10746D60
 		{
-			mangled_x86(MANGLED_TODO, "?LoadHaloType@Voting@Server@@YA_NABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@AAUHaloType@12@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?LoadHaloType@Voting@Server@@YA_NABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@AAUHaloType@12@@Z");
 			// static ...; // 0x107475A2
 			// static ...; // 0x1074759D
 			// static ...; // 0x1074759A
@@ -310,37 +383,89 @@ namespace Server
 			// Server::Voting::HaloType &ht;
 			// std::string typeDisplayName;
 			// Server::Voting::AllowedPlayerCount playerCount;
-			{
 				// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &commands;
-				{
 					// unsigned __int32 i;
-				}
-			}
-			{
-				{
-				}
-			}
-			{
 				// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &smaps;
-				{
-					{
 						// Server::Voting::HaloMap haloMap;
-					}
-				}
-			}
-			{
 				// rapidjson::GenericObject<1,rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > > const &overridesArr;
-				{
 					// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > it;
-					{
 						// rapidjson::GenericArray<1,rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > > const &overrideObj;
 						// std::string const &teamDesignator;
+
+			if (!c.HasMember("typeName"))
+				return false;
+			std::string typeDisplayName = "";
+			if (!c.HasMember("displayName"))
+				typeDisplayName = c["typeName"].GetString();
+			else
+				typeDisplayName = c["displayName"].GetString();
+			if (typeDisplayName.length() > 16)
+				typeDisplayName = typeDisplayName.substr(0, 16);
+			if (c.HasMember("isTemplate"))
+				ht.isTemplate = c["isTemplate"].GetBool();
+			if (c.HasMember("inherits"))
+				ht.inherits = c["inherits"].GetString();
+			ht.typeName = c["typeName"].GetString();
+			ht.typeDisplayName = typeDisplayName;
+			if (c.HasMember("modDisplayName"))
+			{
+				ht.modDisplayName = c["modDisplayName"].GetString();
+				ht.modDisplayName = ht.modDisplayName.substr(0, 16);
+			}
+			else if (c.HasMember("modPack"))
+			{
+				ht.modDisplayName = c["modPack"].GetString();
+				ht.modDisplayName = ht.modDisplayName.substr(0, 16);
+			}
+			if (c.HasMember("modPack"))
+				ht.modPack = c["modPack"].GetString();
+			if (c.HasMember("commands"))
+			{
+				rapidjson::Value const &commands = c["commands"];
+				for (unsigned __int32 i = 0; i < commands.Size(); i++)
+					ht.commands.push_back(commands[i].GetString());
+			}
+			if (c.HasMember("endOfMatchCommands"))
+			{
+				rapidjson::Value const &commands = c["endOfMatchCommands"];
+				for (unsigned __int32 i = 0; i < commands.Size(); i++)
+					ht.endOfMatchCommands.push_back(commands[i].GetString());
+			}
+			if (c.HasMember("specificMaps"))
+			{
+				rapidjson::Value const &smaps = c["specificMaps"];
+				if (!smaps.IsNull())
+				{
+					for (unsigned __int32 i = 0; i < smaps.Size(); i++)
+					{
+						Server::Voting::HaloMap haloMap;
+						if (!LoadHaloMap(smaps[i], ht.modPack, haloMap))
+							continue;
+						ht.specificMaps.push_back(std::move(haloMap));
 					}
 				}
 			}
-			todo("implement");
-			bool __result = _sub_10746D60(c, ht);
-			return __result;
+			if (c.HasMember("characterOverrides") && c["characterOverrides"].IsObject())
+			{
+				auto const &overridesArr = c["characterOverrides"].GetObject();
+				for (auto it = overridesArr.MemberBegin(); it != overridesArr.MemberEnd(); ++it)
+				{
+					std::string const &teamDesignator = it->name.GetString();
+					auto const &overrideObj = it->value.GetArray();
+					ht.characterOverrides[teamDesignator] = { overrideObj[0].GetString(), overrideObj[1].GetString() };
+				}
+			}
+			if (c.HasMember("randomChance"))
+				ht.randomChance = c["randomChance"].GetFloat();
+			else
+				ht.randomChance = 0.1f;
+			Server::Voting::AllowedPlayerCount playerCount;
+			if (c.HasMember("minPlayersAllowed"))
+				playerCount.minimumPlayersAllowed = c["minPlayersAllowed"].GetInt();
+			if (c.HasMember("maxPlayersAllowed"))
+				playerCount.maximumPlayersAllowed = c["maxPlayersAllowed"].GetInt();
+			ht.allowedPlayerCount = playerCount;
+			return true;
 		}
 	}
 }

@@ -179,9 +179,9 @@ real_vector3d const global_forward3d = { 1.0f, 0.0f, 0.0f };
 real_vector3d const global_left3d = { 0.0f, 1.0f, 0.0f };
 real_vector3d const global_up3d = { 0.0f, 0.0f, 1.0f };
 
-// Lives in .data and is filled by a dynamic initialiser, so the binary holds no
-// usable value for it.
-extern real_matrix4x3 const global_identity4x3;
+// Also one copy per translation unit, but built from the vectors above, so every
+// file that includes this header carries its own dynamic initialiser (as the original does).
+real_matrix4x3 const global_identity4x3 = { 1.0f, global_forward3d, global_left3d, global_up3d, global_origin3d };
 
 /* ---------- public code */
 

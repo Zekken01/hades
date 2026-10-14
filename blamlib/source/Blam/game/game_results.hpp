@@ -283,7 +283,6 @@ struct s_game_results_hopper
 	short field_42; // 0x42
 	bool ranked; // 0x44
 	bool team_based; // 0x45
-	unsigned char __pad0[2]; // 0x46
 	long field_48; // 0x48
 	long field_4C; // 0x4C
 	long field_50; // 0x50

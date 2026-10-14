@@ -41,7 +41,14 @@
 #include "Pointer.hpp"
 #include "Utils/Macros.hpp"
 #include "Utils/Singleton.hpp"
+#include "Modules/ModuleGame.hpp"  // hades: added for 0x107BCE00
+#include "Modules/ModuleSettings.hpp"  // hades: added for 0x107BCE00
+#include "PersistentMemory/PersistentMemorySystem.hpp"  // hades: added for 0x107BCE00
+#include "mods/mod_system.hpp"  // hades: added for 0x107BCE00
 #include "Utils/String.hpp"
+
+#include "PersistentMemory/PersistentMemorySystem.hpp"  // hades: added for 0x107BDC50
+#include "Modules/ModuleSettings.hpp"  // hades: added for 0x107BDC50
 
 #include <Windows.h>
 #include <stdio.h>
@@ -145,7 +152,7 @@ namespace hades_file_local
 	public:
 		ModListener(ModListener &); /* compiler_generated() */
 		ModListener(ModListener const &); /* compiler_generated() */
-		ModListener(); /* compiler_generated() */
+		ModListener() = default; /* compiler_generated() */ // 0x107BBB20
 		virtual ~ModListener() = default; /* compiler_generated() */
 		ModListener &operator=(ModListener &); /* compiler_generated() */
 		ModListener &operator=(ModListener const &); /* compiler_generated() */
@@ -192,14 +199,17 @@ namespace Patches
 {
 	namespace PregameLobby
 	{
-		_extern void _sub_107BBC90();
 		void ApplyAll() // 0x107BBC90
 		{
-			mangled_x86(MANGLED_TODO, "?ApplyAll@PregameLobby@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@PregameLobby@Patches@@YAXXZ");
 			// procedure flags: nofpo
 			// function call : void (IModListener *)
-			todo("implement");
-			_sub_107BBC90();
+
+			Hook(0x7040A6, c_gui_pregame_setup_manager__handle_item_chosen_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x6FD786, c_gui_pregame_setup_manager__handle_item_chosen_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x67EEAE, c_gui_pregame_setup_manager__initialize_game_mode_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x6A8A00, c_gui_pregame_setup_manager__update_hook).Apply();
+			c_mod_system::GetModManager().AddListener(new ModListener());
 		}
 
 		void Tick() // 0x107BC1F0
@@ -223,9 +233,9 @@ void LoadDefaultModPackageAsync(std::string const &id) // 0x107BC140
 	c_mod_system::load_package_by_identifier(id.c_str());
 }
 
-_extern void _sub_107BCE00(c_gui_pregame_setup_manager *, void *, long, long);
 void __fastcall c_gui_pregame_setup_manager__initialize_game_mode_hook(c_gui_pregame_setup_manager *thisptr, void *unused, long ui_game_mode, long a3) // 0x107BCE00
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_pregame_setup_manager__initialize_game_mode_hook@@YIXPAUc_gui_pregame_setup_manager@@PAXJJ@Z");
 	// `anonymous-namespace'::c_gui_pregame_setup_manager__initialize_game_mode_hook
 	// static ...; // 0x107BD935
 	// static ...; // 0x107BD928
@@ -245,45 +255,110 @@ void __fastcall c_gui_pregame_setup_manager__initialize_game_mode_hook(c_gui_pre
 	// void *unused;
 	// long ui_game_mode;
 	// long a3;
-	{
 		// std::string CampaignPakName;
 		// std::string lastMod;
-		{
 			// c_mod_package_manager::s_entry defaultSetMod;
-			{
 				// c_mod_package_manager::s_entry currentLoadedPackage;
-			}
-		}
-		{
 			// c_mod_package_manager::s_entry packageEntry;
-		}
-	}
-	{
 		// std::string FireFightPakName;
-		{
-			{
-			}
-		}
-		{
-		}
-	}
-	{
 		// std::string MultiplayerPakName;
+	// function call : void (*)(c_gui_pregame_setup_manager *, long, long)
+
+	((void (__thiscall *)(c_gui_pregame_setup_manager *, long, long))0xAA7130)(thisptr, ui_game_mode, a3);
+	if (Utils::Singleton<ElDorito>::Instance().IsDedicated())
+		return;
+	if (ui_game_mode == 0)
+	{
+		std::string CampaignPakName = Utils::Singleton<Modules::ModuleGame>::Instance().VarCampaignMod->ValueString.c_str();
+		std::string lastMod = PersistentMemory::GetLastCampaignMod();
+		if (Utils::Singleton<Modules::ModuleSettings>::Instance().VarPersistentLobby->ValueInt == 1 && (CampaignPakName.length() <= 0 || CampaignPakName == "" || CampaignPakName == "none"))
+			CampaignPakName = lastMod;
+		if (CampaignPakName.length() > 0 && CampaignPakName != "" && CampaignPakName != "none")
 		{
+			c_mod_package_manager::s_entry defaultSetMod;
+			if (c_mod_system::get_mod_info_by_identifier(CampaignPakName.c_str(), &defaultSetMod))
 			{
+				c_mod_package_manager::s_entry currentLoadedPackage;
+				if (c_mod_system::get_mod_info_by_identifier(c_mod_system::get_current_package_hash().c_str(), &currentLoadedPackage))
+				{
+					if (memcmp(currentLoadedPackage.hash, defaultSetMod.hash, 20) == 0)
+						return;
+				}
+				LoadDefaultModPackageAsync(CampaignPakName);
+				return;
 			}
 		}
+		else
 		{
+			c_mod_package_manager::s_entry packageEntry;
+			if (c_mod_system::get_mod_info_by_identifier(c_mod_system::get_current_package_hash().c_str(), &packageEntry))
+				c_mod_system::unload_current_package();
 		}
 	}
-	// function call : void (*)(c_gui_pregame_setup_manager *, long, long)
-	todo("implement");
-	_sub_107BCE00(thisptr, unused, ui_game_mode, a3);
+	if (ui_game_mode == 5)
+	{
+		std::string FireFightPakName = Utils::Singleton<Modules::ModuleGame>::Instance().VarFirefightMod->ValueString.c_str();
+		std::string lastMod = PersistentMemory::GetLastFirefightMod();
+		if (Utils::Singleton<Modules::ModuleSettings>::Instance().VarPersistentLobby->ValueInt == 1 && (FireFightPakName.length() <= 0 || FireFightPakName == "" || FireFightPakName == "none"))
+			FireFightPakName = lastMod;
+		if (FireFightPakName.length() > 0 && FireFightPakName != "" && FireFightPakName != "none")
+		{
+			c_mod_package_manager::s_entry defaultSetMod;
+			if (c_mod_system::get_mod_info_by_identifier(FireFightPakName.c_str(), &defaultSetMod))
+			{
+				c_mod_package_manager::s_entry currentLoadedPackage;
+				if (c_mod_system::get_mod_info_by_identifier(c_mod_system::get_current_package_hash().c_str(), &currentLoadedPackage))
+				{
+					if (memcmp(currentLoadedPackage.hash, defaultSetMod.hash, 20) == 0)
+						return;
+				}
+				LoadDefaultModPackageAsync(FireFightPakName);
+				return;
+			}
+		}
+		else
+		{
+			c_mod_package_manager::s_entry packageEntry;
+			if (c_mod_system::get_mod_info_by_identifier(c_mod_system::get_current_package_hash().c_str(), &packageEntry))
+				c_mod_system::unload_current_package();
+		}
+	}
+	if (ui_game_mode == 2 || ui_game_mode == 3)
+	{
+		std::string MultiplayerPakName = Utils::Singleton<Modules::ModuleGame>::Instance().VarMultiplayerMod->ValueString.c_str();
+		std::string lastMod = PersistentMemory::GetLastMultiplayerMod();
+		if (Utils::Singleton<Modules::ModuleSettings>::Instance().VarPersistentLobby->ValueInt == 1 && (MultiplayerPakName.length() <= 0 || MultiplayerPakName == "" || MultiplayerPakName == "none"))
+			MultiplayerPakName = lastMod;
+		if (MultiplayerPakName.length() > 0 && MultiplayerPakName != "" && MultiplayerPakName != "none")
+		{
+			c_mod_package_manager::s_entry defaultSetMod;
+			if (c_mod_system::get_mod_info_by_identifier(MultiplayerPakName.c_str(), &defaultSetMod))
+			{
+				c_mod_package_manager::s_entry currentLoadedPackage;
+				if (c_mod_system::get_mod_info_by_identifier(c_mod_system::get_current_package_hash().c_str(), &currentLoadedPackage))
+				{
+					if (memcmp(currentLoadedPackage.hash, defaultSetMod.hash, 20) == 0 || currentLoadedPackage.modtype.multiplayer)
+						return;
+				}
+				LoadDefaultModPackageAsync(MultiplayerPakName);
+				return;
+			}
+		}
+		else
+		{
+			c_mod_package_manager::s_entry packageEntry;
+			if (c_mod_system::get_mod_info_by_identifier(c_mod_system::get_current_package_hash().c_str(), &packageEntry))
+			{
+				if (!packageEntry.modtype.multiplayer)
+					c_mod_system::unload_current_package();
+			}
+		}
+	}
 }
 
-_extern void _sub_107BC3F0(c_gui_pregame_setup_manager *, void *, long, c_gui_selected_item *, char, long);
 void __fastcall c_gui_pregame_setup_manager__handle_item_chosen_hook(c_gui_pregame_setup_manager *thisptr, void *__formal, long controller_index, c_gui_selected_item *item, char arg8, long screen_index) // 0x107BC3F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_pregame_setup_manager__handle_item_chosen_hook@@YIXPAUc_gui_pregame_setup_manager@@PAXJPAVc_gui_selected_item@@DJ@Z");
 	// `anonymous-namespace'::c_gui_pregame_setup_manager__handle_item_chosen_hook
 	// static ...; // 0x107BCBC2
 	// static ...; // 0x107BCBBE
@@ -302,55 +377,112 @@ void __fastcall c_gui_pregame_setup_manager__handle_item_chosen_hook(c_gui_prega
 	// char arg8;
 	// long screen_index;
 	// void (*const c_gui_pregame_setup_manager__handle_item_chosen)(c_gui_pregame_setup_manager *, long, c_gui_selected_item *, char, long);
-	{
 		// __int32 mapID;
-		{
 			// c_gui_level_selected_item *selectedItem;
-		}
-		{
 			// c_gui_game_variant_selected_item *selectedItem;
 			// bool valid;
-			{
 				// char *const path;
 				// std::filesystem::path dir;
-				{
 					// std::string parent;
-				}
-			}
-			{
 				// wchar_t *const gameType;
 				// std::wstring GameTypeWString;
 				// std::string gameTypeString;
-			}
-		}
-		{
 			// c_gui_map_selected_item *selectedItem;
-			{
-				{
-				}
-			}
-			{
 				// std::string mapNameString;
 				// std::wstring MapNameWString;
 				// wchar_t *const mapName;
-				{
 					// s_level_datum map_level;
-					{
 						// std::string mapName;
 						// std::filesystem::path dir;
+	// function call : void (*const)(c_gui_pregame_setup_manager *, long, c_gui_selected_item *, char, long)
+
+	void (__thiscall *const c_gui_pregame_setup_manager__handle_item_chosen)(c_gui_pregame_setup_manager *, long, c_gui_selected_item *, char, long) = (void (__thiscall *)(c_gui_pregame_setup_manager *, long, c_gui_selected_item *, char, long))0xAA7DB0;
+	if (!ElDorito::Instance().IsDedicated())
+	{
+		__int32 mapID = -1;
+		if (item->item_type == _gui_selected_item_level)
+		{
+			c_gui_level_selected_item *selectedItem = (c_gui_level_selected_item *)item;
+			mapID = selectedItem->content_header.map_id;
+		}
+		if (item->item_type == _gui_selected_item_game_variant)
+		{
+			c_gui_game_variant_selected_item *selectedItem = (c_gui_game_variant_selected_item *)item;
+			mapID = selectedItem->content_header.map_id;
+			bool valid = false;
+			if (selectedItem->location == 1)
+			{
+				char *const path = selectedItem->file.filename;
+				std::filesystem::path dir(path);
+				if (dir.has_parent_path())
+				{
+					std::string parent = dir.parent_path().filename().string();
+					PersistentMemory::SetLastGameType(parent);
+					valid = true;
+				}
+			}
+			if (selectedItem->location == 0)
+			{
+				wchar_t *const gameType = selectedItem->content_header.name;
+				std::wstring GameTypeWString(gameType);
+				std::string gameTypeString(GameTypeWString.begin(), GameTypeWString.end());
+				if (!gameTypeString.empty())
+				{
+					PersistentMemory::SetLastGameType(gameTypeString);
+					valid = true;
+				}
+			}
+			if (!valid)
+				PersistentMemory::SetLastGameType("");
+			if (mapID != -1)
+				PersistentMemory::SetLastMapID(mapID);
+		}
+		if (item->item_type == _gui_selected_item_map)
+		{
+			c_gui_map_selected_item *selectedItem = (c_gui_map_selected_item *)item;
+			mapID = selectedItem->content_header.map_id;
+			bool valid = false;
+			if (selectedItem->location == 1)
+			{
+				char *const path = selectedItem->file.filename;
+				std::filesystem::path dir(path);
+				if (dir.has_parent_path())
+				{
+					std::string parent = dir.parent_path().filename().string();
+					PersistentMemory::SetLastMapName(parent);
+					valid = true;
+				}
+			}
+			if (selectedItem->location == 0)
+			{
+				wchar_t *const mapName = selectedItem->content_header.name;
+				std::wstring MapNameWString(mapName);
+				std::string mapNameString(MapNameWString.begin(), MapNameWString.end());
+				if (!mapNameString.empty())
+				{
+					s_level_datum map_level;
+					if (levels_find_level_by_map_id(mapID, &map_level))
+					{
+						std::filesystem::path dir(map_level.file_path);
+						std::string mapName = dir.filename().string();
+						PersistentMemory::SetLastMapName(mapName);
+						valid = true;
 					}
 				}
 			}
+			if (!valid)
+				PersistentMemory::SetLastMapName("");
+			if (mapID != -1)
+				PersistentMemory::SetLastMapID(mapID);
 		}
+		PersistentMemory::Save();
 	}
-	// function call : void (*const)(c_gui_pregame_setup_manager *, long, c_gui_selected_item *, char, long)
-	todo("implement");
-	_sub_107BC3F0(thisptr, __formal, controller_index, item, arg8, screen_index);
+	c_gui_pregame_setup_manager__handle_item_chosen(thisptr, controller_index, item, arg8, screen_index);
 }
 
-_extern void _sub_107BDC50(c_gui_pregame_setup_manager *);
 void __fastcall c_gui_pregame_setup_manager__update_hook(c_gui_pregame_setup_manager *thisptr) // 0x107BDC50
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_pregame_setup_manager__update_hook@@YIXPAUc_gui_pregame_setup_manager@@@Z");
 	// `anonymous-namespace'::c_gui_pregame_setup_manager__update_hook
 	// static ...; // 0x107BE02D
 	// static ...; // 0x107BE020
@@ -359,17 +491,11 @@ void __fastcall c_gui_pregame_setup_manager__update_hook(c_gui_pregame_setup_man
 	// c_gui_pregame_setup_manager *thisptr;
 	// void (*const c_gui_screen_pregame_lobby_campaign__restore_save_game)(void *, long);
 	// void (*const restore_game_setup_internal)(c_gui_pregame_setup_manager *, void *);
-	{
 		// bool waiting_for_mod_cache_load;
-		{
 			// IMod *mod;
-		}
-		{
 			// __int32 const lobbyType;
 			// std::string lastGameType;
 			// std::string lastMap;
-		}
-	}
 	// function call : bool (*const)()
 	// function call : bool (*const)()
 	// function call : IMod *(EModIndex) const
@@ -378,17 +504,54 @@ void __fastcall c_gui_pregame_setup_manager__update_hook(c_gui_pregame_setup_man
 	// function call : void (*const)(c_gui_pregame_setup_manager *, e_gui_game_mode)
 	// function call : void (*const)(void *, long)
 	// function call : void (*const)(c_gui_pregame_setup_manager *, void *)
-	todo("implement");
-	_sub_107BDC50(thisptr);
+
+	void (__thiscall *const restore_game_setup_internal)(c_gui_pregame_setup_manager *, void *) = reinterpret_cast<void (__thiscall *)(c_gui_pregame_setup_manager *, void *)>(0xAA72A0);
+	void (__thiscall *const c_gui_screen_pregame_lobby_campaign__restore_save_game)(void *, long) = reinterpret_cast<void (__thiscall *)(void *, long)>(0xB00000);
+	if (((bool (*)())0x5314B0)() && ((bool (*)())0x531E90)())
+	{
+		bool waiting_for_mod_cache_load = false;
+		if (IMod *mod = c_mod_system::GetModManager().GetMod(kGame))
+			waiting_for_mod_cache_load = mod->GetCacheIsLoading();
+		if (levels_dirty && !((bool (*)())0x54B3A0)() && !waiting_for_mod_cache_load)
+		{
+			levels_dirty = false;
+			if (thisptr->ui_game_mode != -1)
+				((void (__thiscall *)(c_gui_pregame_setup_manager *, long))0xAA7190)(thisptr, thisptr->ui_game_mode);
+			if (thisptr->ui_game_mode == 0)
+				c_gui_screen_pregame_lobby_campaign__restore_save_game(nullptr, 0);
+		}
+		if (*reinterpret_cast<long *>(thisptr->storage) != -1)
+		{
+			restore_game_setup_internal(thisptr, thisptr->storage);
+			if (Modules::ModuleSettings::Instance().VarPersistentLobby->ValueInt == 1)
+			{
+				__int32 const lobbyType = Blam::Network::GetLobbyType();
+				std::string lastMap = PersistentMemory::GetLastMapName();
+				std::string lastGameType = PersistentMemory::GetLastGameType();
+				if ((lobbyType == 2 || lobbyType == 3) && !ElDorito::Instance().IsDedicated())
+				{
+					if (!lastMap.empty())
+						Modules::CommandMap::Instance().ExecuteCommand("Game.map \"" + lastMap + "\"");
+					if (!lastGameType.empty() && lobbyType != 3)
+						Modules::CommandMap::Instance().ExecuteCommand("Game.gametype \"" + lastGameType + "\"");
+				}
+			}
+			thisptr->ui_game_mode = *reinterpret_cast<long *>(thisptr->storage);
+			*reinterpret_cast<long *>(thisptr->storage) = -1;
+		}
+	}
 }
 
-_extern void _sub_107BE5C0(EModIndex);
 void notify_mod_package_opened_or_closed(EModIndex index) // 0x107BE5C0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?notify_mod_package_opened_or_closed@@YAXW4EModIndex@@@Z");
 	// `anonymous-namespace'::notify_mod_package_opened_or_closed
 	// EModIndex index;
-	todo("implement");
-	_sub_107BE5C0(index);
+
+	if (index == kGame)
+	{
+		levels_dirty = true;
+	}
 }
 
 void notify_lobby_changed() // 0x107BE510
@@ -472,7 +635,6 @@ _inline void ModListener::OnModChanged(EModIndex index, IMod *mod) // 0x107BC190
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0ModListener@hades_file_local@@QAE@XZ"); no body to assert in
-_inline ModListener::ModListener() = default; // 0x107BBB20
 
 
 /* ---------- template instantiations */

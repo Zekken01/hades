@@ -91,7 +91,6 @@ static_assert(sizeof(s_render_instance_part) == 16, "Invalid s_render_instance_p
 struct s_render_structure_globals
 {
 	unsigned char valid_bsp_mask; // 0x0
-	unsigned char __pad0[3]; // 0x1
 	long bsp_lightmap_bsp_types[16]; // 0x4
 	s_scenario_lightmap_bsp_data *bsp_lightmap_bsps[16]; // 0x44
 	s_render_geometry *bsp_render_geometry[16]; // 0x84
@@ -135,7 +134,7 @@ struct s_wind_definition
 	c_function_definition frequency_mapping; // 0x50
 	float gust_size; // 0x64
 	s_tag_reference gust_noise_bitmap; // 0x68
-	static void (*update)(s_wind_definition *, s_wind_values *);
+	static void (__thiscall *update)(s_wind_definition *, s_wind_values *);
 	static s_wind_definition *(*get)();
 	static s_wind_definition *(*get_wind_definition)(real_point3d *);
 	s_wind_definition(s_wind_definition &); /* compiler_generated() */
@@ -169,7 +168,7 @@ struct s_decorator_set
 	float scale; // 0x6C
 	float offset; // 0x70
 	static s_decorator_set *(*get)(long);
-	static long (*get_explicit_shader_index)(s_decorator_set *);
+	static long (__thiscall *get_explicit_shader_index)(s_decorator_set *);
 	unsigned char __pad2[12]; // 0x74
 };
 static_assert(sizeof(s_decorator_set) == 128, "Invalid s_decorator_set size");

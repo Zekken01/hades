@@ -18,6 +18,12 @@
 // OpenSSL, CEF -- come from recovered_types.h, which emits them in the order they have
 // to be included in (WinSock2 before Windows, above all). Nothing external belongs here.
 
+// blamlib was compiled with strict GS: arrays of any type, and structs holding them,
+// get a cookie (build_match.py defines HADES_STRICT_GS for that project only).
+#ifdef HADES_STRICT_GS
+#pragma strict_gs_check(on)
+#endif
+
 #include "hades/reverse_engineering.h"
 #include "hades/recovered_early_templates.h"
 #include "hades/recovered_types.h"

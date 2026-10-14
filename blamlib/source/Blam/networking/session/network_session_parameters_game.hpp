@@ -51,7 +51,7 @@ public:
 	c_network_session_parameter_ui_game_mode(); /* compiler_generated() */
 	c_network_session_parameter_ui_game_mode &operator=(c_network_session_parameter_ui_game_mode &); /* compiler_generated() */
 	c_network_session_parameter_ui_game_mode &operator=(c_network_session_parameter_ui_game_mode const &); /* compiler_generated() */
-	void __autoclassinit2(unsigned __int32); /* compiler_generated() */
+	// void __autoclassinit2(unsigned __int32); /* compiler_generated() */  // hades: /sdl generates it
 };
 static_assert(sizeof(c_network_session_parameter_ui_game_mode) == 56, "Invalid c_network_session_parameter_ui_game_mode size");
 
@@ -74,7 +74,7 @@ public:
 	c_network_session_parameter_map(); /* compiler_generated() */
 	c_network_session_parameter_map &operator=(c_network_session_parameter_map &); /* compiler_generated() */
 	c_network_session_parameter_map &operator=(c_network_session_parameter_map const &); /* compiler_generated() */
-	void __autoclassinit2(unsigned __int32); /* compiler_generated() */
+	// void __autoclassinit2(unsigned __int32); /* compiler_generated() */  // hades: /sdl generates it
 };
 static_assert(sizeof(c_network_session_parameter_map) == 1072, "Invalid c_network_session_parameter_map size");
 
@@ -99,7 +99,7 @@ public:
 	c_network_session_parameter_initial_participants(); /* compiler_generated() */
 	c_network_session_parameter_initial_participants &operator=(c_network_session_parameter_initial_participants &); /* compiler_generated() */
 	c_network_session_parameter_initial_participants &operator=(c_network_session_parameter_initial_participants const &); /* compiler_generated() */
-	void __autoclassinit2(unsigned __int32); /* compiler_generated() */
+	// void __autoclassinit2(unsigned __int32); /* compiler_generated() */  // hades: /sdl generates it
 };
 static_assert(sizeof(c_network_session_parameter_initial_participants) == 182928, "Invalid c_network_session_parameter_initial_participants size");
 
@@ -120,7 +120,7 @@ public:
 	c_network_session_parameter_game_start_status(); /* compiler_generated() */
 	c_network_session_parameter_game_start_status &operator=(c_network_session_parameter_game_start_status &); /* compiler_generated() */
 	c_network_session_parameter_game_start_status &operator=(c_network_session_parameter_game_start_status const &); /* compiler_generated() */
-	void __autoclassinit2(unsigned __int32); /* compiler_generated() */
+	// void __autoclassinit2(unsigned __int32); /* compiler_generated() */  // hades: /sdl generates it
 };
 static_assert(sizeof(c_network_session_parameter_game_start_status) == 72, "Invalid c_network_session_parameter_game_start_status size");
 
@@ -133,7 +133,7 @@ public:
 	c_network_session_parameter_countdown_timer(); /* compiler_generated() */
 	c_network_session_parameter_countdown_timer &operator=(c_network_session_parameter_countdown_timer &); /* compiler_generated() */
 	c_network_session_parameter_countdown_timer &operator=(c_network_session_parameter_countdown_timer const &); /* compiler_generated() */
-	void __autoclassinit2(unsigned __int32); /* compiler_generated() */
+	// void __autoclassinit2(unsigned __int32); /* compiler_generated() */  // hades: /sdl generates it
 };
 static_assert(sizeof(c_network_session_parameter_countdown_timer) == 64, "Invalid c_network_session_parameter_countdown_timer size");
 
@@ -147,7 +147,7 @@ public:
 	c_network_session_parameter_synchronous_out_of_sync(); /* compiler_generated() */
 	c_network_session_parameter_synchronous_out_of_sync &operator=(c_network_session_parameter_synchronous_out_of_sync &); /* compiler_generated() */
 	c_network_session_parameter_synchronous_out_of_sync &operator=(c_network_session_parameter_synchronous_out_of_sync const &); /* compiler_generated() */
-	void __autoclassinit2(unsigned __int32); /* compiler_generated() */
+	// void __autoclassinit2(unsigned __int32); /* compiler_generated() */  // hades: /sdl generates it
 };
 #pragma pack(pop)
 static_assert(sizeof(c_network_session_parameter_synchronous_out_of_sync) == 52, "Invalid c_network_session_parameter_synchronous_out_of_sync size");
@@ -168,7 +168,7 @@ public:
 	c_network_session_parameter_request_campaign_quit(); /* compiler_generated() */
 	c_network_session_parameter_request_campaign_quit &operator=(c_network_session_parameter_request_campaign_quit &); /* compiler_generated() */
 	c_network_session_parameter_request_campaign_quit &operator=(c_network_session_parameter_request_campaign_quit const &); /* compiler_generated() */
-	void __autoclassinit2(unsigned __int32); /* compiler_generated() */
+	// void __autoclassinit2(unsigned __int32); /* compiler_generated() */  // hades: /sdl generates it
 };
 static_assert(sizeof(c_network_session_parameter_request_campaign_quit) == 64, "Invalid c_network_session_parameter_request_campaign_quit size");
 

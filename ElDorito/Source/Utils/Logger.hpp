@@ -48,7 +48,7 @@ namespace Utils
 		std::chrono::time_point<std::chrono::system_clock,std::chrono::duration<__int64,std::ratio<1,10000000> > > Time; // 0x0
 		Utils::LogTypes Type; // 0x8
 		char const *Message; // 0xC
-		_inline LogEntry() = default; /* compiler_generated() */
+		// hades: no declared constructor, so `LogEntry entry = { };` in Log is aggregate initialization
 	};
 	static_assert(sizeof(Utils::LogEntry) == 16, "Invalid Utils::LogEntry size");
 }

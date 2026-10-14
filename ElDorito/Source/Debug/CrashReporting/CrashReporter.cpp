@@ -181,6 +181,17 @@ namespace Blam
 
 /* ---------- prototypes */
 
+namespace Patches { namespace PlayerUid { extern unsigned long long Get(); } }  // hades: added for 0x106913E0  // hades: added for 0x106913E0
+#include "mods/mod_system.hpp"  // hades: added for 0x106913E0  // hades: added for 0x106913E0
+namespace Utils { namespace FileUtils { char const *GetName(char const *filename); } }  // hades: added for 0x106913E0  // hades: added for 0x106913E0
+extern void player_format_uid(char *string, unsigned long long id); extern long (*const game_time_get)(); extern bool (*const network_session_interface_get_squad_session)(c_network_session **);  // hades: added for 0x106913E0  // hades: added for 0x106913E0
+namespace Debug { namespace CrashReporting { extern std::string TakeScreenshot(); } }  // hades: added for 0x106913E0  // hades: added for 0x106913E0
+
+namespace Debug { namespace CrashReporting { std::string GetFriendlyOSName(); std::string GetCPUName(); bool GetGPUInfo(std::string &description, std::string &driverVersion); } }  // hades: added for 0x1068E610  // hades: added for 0x1068E610
+
+#include "Utils/Logger.hpp"  // hades: added for 0x1068FF20  // hades: added for 0x1068FF20
+namespace Utils { char const *GetLastErrorToText(unsigned long lastError); }  // hades: added for 0x1068FF20  // hades: added for 0x1068FF20
+
 namespace hades_file_local { extern "C" s_static_string<16> buff; }  // hades: added for 0x1068F1A0
 
 namespace Debug
@@ -222,14 +233,14 @@ namespace Debug
 }
 /* ---------- public code */
 
-extern char const *_sub_1068F380(s_game_options *);
+
 namespace Debug
 {
 	namespace CrashReporting
 	{
 		char const *GetGameModeName(s_game_options *options) // 0x1068F380
 		{
-			mangled_x86(MANGLED_TODO, "?GetGameModeName@CrashReporting@Debug@@YAPBDPAUs_game_options@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetGameModeName@CrashReporting@Debug@@YAPBDPAUs_game_options@@@Z");
 			// static ...; // 0x1068F420
 		// $LN8:
 		// $LN7:
@@ -237,14 +248,27 @@ namespace Debug
 		// $LN5:
 		// $LN4:
 			// s_game_options *options;
-			todo("implement");
-			char const * __result = _sub_1068F380(options);
-			return __result;
+
+			switch ((e_game_mode)options->game_mode)
+			{
+			case 0:
+				return "none";
+			case 1:
+				return options->game_is_survival ? "firefight" : "campaign";
+			case 2:
+				return "multiplayer";
+			case 3:
+				return "mainmenu";
+			case 4:
+				return "theater";
+			default:
+				return "unknown";
+			}
 		}
 	}
 }
 
-extern char const *_sub_1068F1A0(unsigned long);
+
 namespace Debug
 {
 	namespace CrashReporting
@@ -259,10 +283,9 @@ namespace Debug
 			return buff.get_string();
 		}
 
-		_extern void _sub_1068EA10(_CONTEXT const &, rapidjson::PrettyWriter<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &);
 		void BuildStackTraceJSON(_CONTEXT const &ctx, rapidjson::PrettyWriter<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer) // 0x1068EA10
 		{
-			mangled_x86(MANGLED_TODO, "?BuildStackTraceJSON@CrashReporting@Debug@@YAXABU_CONTEXT@@AAV?$PrettyWriter@V?$GenericStringBuffer@U?$UTF8@D@rapidjson@@VCrtAllocator@2@@rapidjson@@U?$UTF8@D@2@U32@VCrtAllocator@2@$0A@@rapidjson@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?BuildStackTraceJSON@CrashReporting@Debug@@YAXABU_CONTEXT@@AAV?$PrettyWriter@V?$GenericStringBuffer@U?$UTF8@D@rapidjson@@VCrtAllocator@2@@rapidjson@@U?$UTF8@D@2@U32@VCrtAllocator@2@$0A@@rapidjson@@@Z");
 			// static ...; // 0x1068ECD1
 			// static ...; // 0x1068ECC4
 			// static ...; // 0x1068ECA0
@@ -270,24 +293,50 @@ namespace Debug
 			// _CONTEXT const &ctx;
 			// rapidjson::PrettyWriter<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer;
 			// Debug::CrashReporting::StackWalker stackWalker;
-			{
 				// std::string moduleName;
 				// s_static_string<256> address_line;
 				// HINSTANCE__ *hModule;
-				{
 					// char const *ed_relative_path;
 					// char const *filename;
 					// static s_static_string<4096> address_line; // 0x11371980
+
+			writer.StartArray();
+			StackWalker stackWalker(ctx);
+			while (stackWalker.Next())
+			{
+				writer.StartObject();
+				HINSTANCE__ *hModule = Utils::ProcessUtils::GetModuleFromAddress((void *)stackWalker.GetPCAddress());
+				std::string moduleName = Utils::ProcessUtils::GetModuleNameForDisplay(hModule);
+				s_static_string<256> address_line;
+				address_line.print("%s+%X", moduleName.c_str(), stackWalker.GetPCAddress() - (unsigned __int32)hModule);
+				writer.Key("address");
+				writer.String(address_line.get_string());
+				if (stackWalker.HasLineInfo())
+				{
+					char const *filename = stackWalker.GetFileName();
+					char const *ed_relative_path = strstr(filename, "\\eldorito\\");
+					if (ed_relative_path)
+						filename = &ed_relative_path[10];
+					static s_static_string<4096> address_line;
+					address_line.print("%s:%d", filename, stackWalker.GetLineNumber());
+					writer.Key("name");
+					writer.String(stackWalker.GetFunctionName());
+					writer.Key("line");
+					writer.String(address_line);
 				}
+				else if (stackWalker.HasSymbolInfo())
+				{
+					writer.Key("name");
+					writer.String(stackWalker.GetFunctionName());
+				}
+				writer.EndObject();
 			}
-			todo("implement");
-			_sub_1068EA10(ctx, writer);
+			writer.EndArray();
 		}
 
-		_extern void _sub_1068E610(rapidjson::PrettyWriter<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &);
 		void AddSystemInfo(rapidjson::PrettyWriter<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer) // 0x1068E610
 		{
-			mangled_x86(MANGLED_TODO, "?AddSystemInfo@CrashReporting@Debug@@YAXAAV?$PrettyWriter@V?$GenericStringBuffer@U?$UTF8@D@rapidjson@@VCrtAllocator@2@@rapidjson@@U?$UTF8@D@2@U32@VCrtAllocator@2@$0A@@rapidjson@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?AddSystemInfo@CrashReporting@Debug@@YAXAAV?$PrettyWriter@V?$GenericStringBuffer@U?$UTF8@D@rapidjson@@VCrtAllocator@2@@rapidjson@@U?$UTF8@D@2@U32@VCrtAllocator@2@$0A@@rapidjson@@@Z");
 			// static ...; // 0x1068E8C5
 			// static ...; // 0x1068E8B4
 			// static ...; // 0x1068E8AC
@@ -298,14 +347,35 @@ namespace Debug
 			// _MEMORYSTATUSEX memInfo;
 			// std::string gpuName;
 			// function call : __int32 (_MEMORYSTATUSEX *)
-			todo("implement");
-			_sub_1068E610(writer);
+
+			writer.Key("os");
+			writer.String(GetFriendlyOSName().c_str());
+			writer.Key("cpu");
+			writer.String(GetCPUName().c_str());
+			std::string gpuName;
+			std::string gpuDriverVersion;
+			GetGPUInfo(gpuName, gpuDriverVersion);
+			writer.Key("gpu");
+			writer.String(gpuName.c_str());
+			writer.Key("gpu_driver");
+			writer.String(gpuDriverVersion.c_str());
+			_MEMORYSTATUSEX memInfo = { sizeof(memInfo) };
+			if (GlobalMemoryStatusEx(&memInfo))
+			{
+				writer.Key("mem_total_physical");
+				writer.Uint64(memInfo.ullTotalPhys);
+				writer.Key("mem_avail_physical");
+				writer.Uint64(memInfo.ullAvailPhys);
+				writer.Key("mem_total_virtual");
+				writer.Uint64(memInfo.ullTotalVirtual);
+				writer.Key("mem_avail_virtual");
+				writer.Uint64(memInfo.ullAvailVirtual);
+			}
 		}
 
-		_extern void _sub_106913E0(rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> &, ::Debug::CrashReporting::s_crash_info const &);
 		void WriteDumpForCrashReporter(rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> &buffer, ::Debug::CrashReporting::s_crash_info const &crash) // 0x106913E0
 		{
-			mangled_x86(MANGLED_TODO, "?WriteDumpForCrashReporter@CrashReporting@Debug@@YAXAAV?$GenericStringBuffer@U?$UTF8@D@rapidjson@@VCrtAllocator@2@@rapidjson@@ABUs_crash_info@12@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?WriteDumpForCrashReporter@CrashReporting@Debug@@YAXAAV?$GenericStringBuffer@U?$UTF8@D@rapidjson@@VCrtAllocator@2@@rapidjson@@ABUs_crash_info@12@@Z");
 			// static ...; // 0x10691CC7
 			// static ...; // 0x10691CB6
 			// static ...; // 0x10691CA4
@@ -319,27 +389,15 @@ namespace Debug
 			// char uid[17];
 			// rapidjson::PrettyWriter<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
 			// c_network_session *session;
-			{
 				// s_game_options *game_options;
 				// bool (*const game_time_initialized)();
-				{
 					// s_static_string<16> game_variant_name;
 					// s_static_string<16> map_variant_name;
-				}
-			}
-			{
 				// Ref<IMod> mod;
-			}
-			{
-			}
-			{
 				// std::vector<std::string> const &<range>$L0;
 				// std::string const *<begin>$L0;
 				// std::string const *<end>$L0;
-				{
 					// std::string const &tag_name;
-				}
-			}
 			// function call : bool (*const)()
 			// function call : long (*const)()
 			// function call : Ref<IMod> (EModIndex) const
@@ -347,14 +405,133 @@ namespace Debug
 			// function call : Ref<IMod> (EModIndex) const
 			// function call : char const *() const
 			// function call : bool (*const)(c_network_session **)
-			todo("implement");
-			_sub_106913E0(buffer, crash);
+
+			rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
+			writer.StartObject();
+			writer.Key("timestamp");
+			writer.Int64(_time64(nullptr));
+			writer.Key("build");
+			writer.String("0.7.2-1759537232.debug");
+			writer.Key("build_date");
+			writer.String("Oct 4 2025");
+			char uid[17];
+			player_format_uid(uid, Patches::PlayerUid::Get());
+			writer.Key("player_uid");
+			writer.String(uid);
+			writer.Key("player_name");
+			writer.String(Utils::Singleton<Modules::ModulePlayer>::Instance().VarPlayerName->ValueString.c_str());
+			if (!*(bool *)0x23917F1)
+			{
+				s_game_options *game_options = (s_game_options *)0x2391800;
+				writer.Key("scenario");
+				writer.String(game_options->scenario_path);
+				if (*(bool *)0x23917F0)
+				{
+					writer.Key("map_loading");
+					writer.Bool(true);
+				}
+				writer.Key("game_mode");
+				writer.String(GetGameModeName(game_options));
+				writer.Key("random_seed");
+				writer.Uint(game_options->random_seed);
+				if (game_options->game_mode == _game_mode_multiplayer)
+				{
+					writer.Key("game_engine");
+					writer.String(game_engine_type_get_string(game_options->game_variant.game_engine_type));
+					s_static_string<16> map_variant_name;
+					map_variant_name.set_wchar(game_options->map_variant.metadata.name);
+					s_static_string<16> game_variant_name;
+					game_variant_name.set_wchar(reinterpret_cast<wchar_t const *>(game_options->game_variant.storage + 0x30));
+					writer.Key("game_variant");
+					writer.String(game_variant_name.get_string());
+					writer.Key("map_variant");
+					writer.String(map_variant_name.get_string());
+				}
+				bool (*const game_time_initialized)() = (bool (*)())0x564FA0;
+				if (game_time_initialized())
+				{
+					writer.Key("game_time");
+					writer.Int(game_time_get());
+				}
+			}
+			{
+				Ref<IMod> mod = c_mod_system::GetModManager().GetModShared(kMainMenu);
+				if (mod)
+				{
+					writer.Key("mainmenu_mod");
+					writer.String(Utils::FileUtils::GetName(mod->GetFilename()));
+				}
+			}
+			{
+				Ref<IMod> mod = c_mod_system::GetModManager().GetModShared(kGame);
+				if (mod)
+				{
+					writer.Key("game_mod");
+					writer.String(Utils::FileUtils::GetName(mod->GetFilename()));
+				}
+			}
+			c_network_session *session;
+			if (network_session_interface_get_squad_session(&session) && session->established())
+			{
+				writer.Key("session");
+				writer.StartObject();
+				writer.Key("life_cycle_state");
+				writer.String(kLifeCycleStateNames[*(long *)0x19AB7F8]);
+				writer.Key("host");
+				writer.Bool(session->is_host());
+				writer.Key("player_count");
+				writer.Int(session->get_session_membership()->get_player_count());
+				writer.EndObject();
+			}
+			if (ElDorito::Instance().IsDedicated())
+			{
+				writer.Key("dedicated");
+				writer.Bool(true);
+			}
+			writer.Key("tag_history");
+			writer.StartArray();
+			for (std::string const &tag_name : crash.tag_history)
+				writer.String(tag_name.c_str());
+			writer.EndArray();
+			writer.Key("info");
+			writer.String(crash.info.c_str());
+			writer.Key("stack");
+			BuildStackTraceJSON(*crash.ctx, writer);
+			writer.Key("registers");
+			writer.StartObject();
+			writer.Key("EAX");
+			writer.String(FormatRegister(crash.ctx->Eax));
+			writer.Key("EBX");
+			writer.String(FormatRegister(crash.ctx->Ebx));
+			writer.Key("ECX");
+			writer.String(FormatRegister(crash.ctx->Ecx));
+			writer.Key("EDX");
+			writer.String(FormatRegister(crash.ctx->Edx));
+			writer.Key("ESI");
+			writer.String(FormatRegister(crash.ctx->Esi));
+			writer.Key("EDI");
+			writer.String(FormatRegister(crash.ctx->Edi));
+			writer.Key("EIP");
+			writer.String(FormatRegister(crash.ctx->Eip));
+			writer.Key("ESP");
+			writer.String(FormatRegister(crash.ctx->Esp));
+			writer.Key("EBP");
+			writer.String(FormatRegister(crash.ctx->Ebp));
+			writer.Key("EFL");
+			writer.String(FormatRegister(crash.ctx->EFlags));
+			writer.EndObject();
+			writer.Key("additional_info");
+			writer.StartObject();
+			AddSystemInfo(writer);
+			writer.EndObject();
+			writer.Key("screenshot");
+			writer.String(TakeScreenshot().c_str());
+			writer.EndObject();
 		}
 
-		_extern bool _sub_1068FF20(std::string &);
 		bool LaunchExternalCrashReporter(std::string &LaunchCommand) // 0x1068FF20
 		{
-			mangled_x86(MANGLED_TODO, "?LaunchExternalCrashReporter@CrashReporting@Debug@@YA_NAAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?LaunchExternalCrashReporter@CrashReporting@Debug@@YA_NAAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 			// static ...; // 0x10690060
 			// static ...; // 0x10690054
 			// static ...; // 0x1069003C
@@ -366,15 +543,22 @@ namespace Debug
 			// function call : unsigned long ()
 			// function call : __int32 (void *)
 			// function call : __int32 (void *)
-			todo("implement");
-			bool __result = _sub_1068FF20(LaunchCommand);
-			return __result;
+
+			_STARTUPINFOA info = { sizeof(info) };
+			_PROCESS_INFORMATION processInfo;
+			if (!CreateProcessA(nullptr, LaunchCommand.data(), nullptr, nullptr, FALSE, CREATE_BREAKAWAY_FROM_JOB | DETACHED_PROCESS, nullptr, nullptr, &info, &processInfo))
+			{
+				Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Debug, Utils::LogLevel::Error, "Error Launching CrashReporter: %s", Utils::GetLastErrorToText(GetLastError()));
+				return false;
+			}
+			CloseHandle(processInfo.hProcess);
+			CloseHandle(processInfo.hThread);
+			return true;
 		}
 
-		_extern void _sub_10690840(::Debug::CrashReporting::s_crash_info const &);
 		void ReportCrash(::Debug::CrashReporting::s_crash_info const &crash) // 0x10690840
 		{
-			mangled_x86(MANGLED_TODO, "?ReportCrash@CrashReporting@Debug@@YAXABUs_crash_info@12@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ReportCrash@CrashReporting@Debug@@YAXABUs_crash_info@12@@Z");
 			// static ...; // 0x10690C66
 			// static ...; // 0x10690C58
 			// static ...; // 0x10690C4A
@@ -388,8 +572,20 @@ namespace Debug
 			// std::string LaunchCommand;
 			// std::ofstream crash_dump;
 			// std::string CrashDumpPath;
-			todo("implement");
-			_sub_10690840(crash);
+
+			std::string ReporterPath = "" + ElDorito::Instance().GetDirectory() + "crash_reporter.exe";
+			std::string CrashDumpPath = "" + ElDorito::Instance().GetDirectory() + "crash_dump.json";
+			std::string LaunchCommand = "\"" + ReporterPath + "\" \"" + CrashDumpPath + "\"";
+			if (ElDorito::Instance().IsDedicated())
+				LaunchCommand += " --silent";
+			rapidjson::StringBuffer buffer;
+			WriteDumpForCrashReporter(buffer, crash);
+			std::ofstream crash_dump(CrashDumpPath);
+			crash_dump << buffer.GetString();
+			crash_dump.close();
+			if (!Modules::ModuleDebug::Instance().VarCrashReporting->ValueInt)
+				return;
+			LaunchExternalCrashReporter(LaunchCommand);
 		}
 	}
 }

@@ -44,102 +44,50 @@ static_assert(sizeof(App) == 32, "Invalid App size");
 
 /* ---------- public code */
 
-_extern void _sub_427DD0(CefBaseRefCounted * const);
 _inline void App::AddRef() const // 0x427DD0
 {
-	mangled_x86(MANGLED_TODO, "?AddRef@App@@UBEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?AddRef@App@@UBEXXZ");
 	// __shifted(App, 28);
 	// App const *const this; // local
-	/* function callee list:
-Pointer(
-	PointerType {
-		underlying_type: TypeIndex(0x1323),
-		attributes: PointerAttributes(
-			32778,
-		),
-		containing_class: None,
-	},
-) */
 	// App const *const this; // r18
-	todo("implement");
-	_sub_427DD0((CefBaseRefCounted *)this);
+
+	ref_count_.AddRef();
 }
 
-_extern bool _sub_427FD0(CefBaseRefCounted * const);
 _inline bool App::HasAtLeastOneRef() const // 0x427FD0
 {
-	mangled_x86(MANGLED_TODO, "?HasAtLeastOneRef@App@@UBE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?HasAtLeastOneRef@App@@UBE_NXZ");
 	// __shifted(App, 28);
 	// App const *const this; // local
-	/* function callee list:
-MemberFunction(
-	MemberFunctionType {
-		return_type: TypeIndex(0x3),
-		class_type: TypeIndex(0x132a),
-		this_pointer_type: Some(
-			TypeIndex(0x132b),
-		),
-		attributes: FunctionAttributes(
-			2571,
-		),
-		parameter_count: 1,
-		argument_list: TypeIndex(0x1330),
-		this_adjustment: 0,
-	},
-) */
 	// App const *const this; // r18
-	todo("implement");
-	bool __result = _sub_427FD0((CefBaseRefCounted *)this);
-	return __result;
+
+	return ref_count_.HasAtLeastOneRef();
 }
 
-_extern bool _sub_428000(CefBaseRefCounted * const);
 _inline bool App::HasOneRef() const // 0x428000
 {
-	mangled_x86(MANGLED_TODO, "?HasOneRef@App@@UBE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?HasOneRef@App@@UBE_NXZ");
 	// __shifted(App, 28);
 	// App const *const this; // local
-	/* function callee list:
-Pointer(
-	PointerType {
-		underlying_type: TypeIndex(0x1332),
-		attributes: PointerAttributes(
-			32810,
-		),
-		containing_class: None,
-	},
-) */
 	// App const *const this; // r18
-	todo("implement");
-	bool __result = _sub_428000((CefBaseRefCounted *)this);
-	return __result;
+
+	return ref_count_.HasOneRef();
 }
 
-_extern bool _sub_428790(CefBaseRefCounted * const);
 _inline bool App::Release() const // 0x428790
 {
-	mangled_x86(MANGLED_TODO, "?Release@App@@UBE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Release@App@@UBE_NXZ");
 	// __shifted(App, 28);
 	// App const *const this; // local
-	/* function callee list:
-MemberFunction(
-	MemberFunctionType {
-		return_type: TypeIndex(0x3),
-		class_type: TypeIndex(0x132a),
-		this_pointer_type: None,
-		attributes: FunctionAttributes(
-			0,
-		),
-		parameter_count: 1,
-		argument_list: TypeIndex(0x1336),
-		this_adjustment: 0,
-	},
-) */
 	// App const *const this; // r18
 	// function call : void *(unsigned __int32)
-	todo("implement");
-	bool __result = _sub_428790((CefBaseRefCounted *)this);
-	return __result;
+
+	if (ref_count_.Release())
+	{
+		delete static_cast<App const *>(this);
+		return true;
+	}
+	return false;
 }
 
 /* ---------- private code */

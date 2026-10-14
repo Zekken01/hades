@@ -66,17 +66,17 @@ _inline void c_map_load_error_helper::invalid_tag_index() // 0x10927C10
 	set_last_error(std::format("Tried to load tag dependency with an invalid tag index"));
 }
 
-_extern void _sub_109272A0(c_map_load_error_helper *const, c_file_reference const *, s_cache_tag_instance const *, char const *);
 _inline void c_map_load_error_helper::failed_to_find_mod_tag_in_base(c_file_reference const *mod_file, s_cache_tag_instance const *tag_header, char const *tag_name) // 0x109272A0
 {
-	mangled_x86(MANGLED_TODO, "?failed_to_find_mod_tag_in_base@c_map_load_error_helper@@QAEXPBVc_file_reference@@PBUs_cache_tag_instance@@PBD@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?failed_to_find_mod_tag_in_base@c_map_load_error_helper@@QAEXPBVc_file_reference@@PBUs_cache_tag_instance@@PBD@Z");
 	// c_map_load_error_helper *const this;
 	// c_file_reference const *mod_file;
 	// s_cache_tag_instance const *tag_header;
 	// char const *tag_name;
 	// char tag_filename_buff[256];
-	todo("implement");
-	_sub_109272A0(this, mod_file, tag_header, tag_name);
+
+	char tag_filename_buff[256];
+	set_last_error(std::format("Failed to find a mod tag in the base cache. This can happen when a base cache tag that the mod depends on has been renamed.\n\nMod: {}\nTag: {}", mod_file->filename, tag_filename(tag_filename_buff, tag_header->group.tags[0], tag_name)));
 }
 
 _inline void c_map_load_error_helper::failed_to_find_tag(c_file_reference const *cache_file, long cache_tag_index) // 0x10927440
@@ -143,23 +143,20 @@ _inline void c_map_load_error_helper::failed_to_open_mod_package_map_file(char c
 	set_last_error(std::format("Failed to open mod package map file\n\nMod: {}\nMap: {}", mod_file, map_path));
 }
 
-extern std::string const &_sub_10927BF0(c_map_load_error_helper const *const);
 _inline std::string const &c_map_load_error_helper::get_last_error() const // 0x10927BF0
 {
-	mangled_x86(MANGLED_TODO, "?get_last_error@c_map_load_error_helper@@QBEABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_last_error@c_map_load_error_helper@@QBEABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 	// c_map_load_error_helper const *const this;
-	todo("implement");
-	std::string const & __result = _sub_10927BF0((c_map_load_error_helper const *)this);
-	return __result;
+
+	return m_last_error;
 }
 
-_extern void _sub_10929A90(c_map_load_error_helper *const, std::string const &);
 _inline void c_map_load_error_helper::set_last_error(std::string const &message) // 0x10929A90
 {
-	mangled_x86(MANGLED_TODO, "?set_last_error@c_map_load_error_helper@@QAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_last_error@c_map_load_error_helper@@QAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 	// std::string const &message;
-	todo("implement");
-	_sub_10929A90(this, message);
+
+	m_last_error = message;
 }
 
 _inline void c_map_load_error_helper::reset() // 0x10929590
@@ -170,18 +167,19 @@ _inline void c_map_load_error_helper::reset() // 0x10929590
 	set_last_error("An unknown error has occured.");
 }
 
-extern char const *_sub_10929B40(c_map_load_error_helper *const, char *, unsigned long, char const *);
 _inline char const *c_map_load_error_helper::tag_filename(char *buff, unsigned long group, char const *name) // 0x10929B40
 {
-	mangled_x86(MANGLED_TODO, "?tag_filename@c_map_load_error_helper@@AAEPBDPADKPBD@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?tag_filename@c_map_load_error_helper@@AAEPBDPADKPBD@Z");
 	// c_map_load_error_helper *const this;
 	// char *buff;
 	// unsigned long group;
 	// char const *name;
 	// char ext[5];
-	todo("implement");
-	char const * __result = _sub_10929B40(this, buff, group, name);
-	return __result;
+
+	extern char const *tag_to_string(unsigned long tag, char *buffer, long buffer_length);
+	char ext[5];
+	sprintf_s(buff, 256, "%s.%s", name, tag_to_string(group, ext, 5));
+	return buff;
 }
 
 /* ---------- private code */

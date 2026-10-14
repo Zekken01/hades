@@ -42,6 +42,8 @@
 #include "ThirdParty/rapidjson/writer.h"
 #include "Utils/String.hpp"
 
+#include "Objects/ObjectMessaging.hpp"  // hades: added for 0x108C55D0
+
 #include <Windows.h>
 #include <stdio.h>
 #include <sys/stat.h>
@@ -118,6 +120,10 @@ using namespace ::Blam;
 
 /* ---------- prototypes */
 
+namespace Server { namespace VariableSynchronization { extern void Synchronize(Modules::Command *serverVariable, Modules::Command *clientVariable); } }  // hades: added for 0x108C38A0
+
+extern bool (*const network_session_interface_get_squad_session)(c_network_session **);  // hades: added for 0x108C4E00
+
 extern bool (*game_is_campaign)();  // hades: added for 0X108C5A50
 
 std::string camapgin_difficulty_level_to_string(long level);
@@ -141,28 +147,48 @@ bool CommandCampaignKillEnemies(std::vector<std::string> const &arguments, std::
 
 namespace hades_file_local
 {
-	extern std::string const kCampaignSkullNames[16]; // 0x12408060
+	std::string const kCampaignSkullNames[16] = { "iron", "black_eye", "tough_luck", "catch", "fog", "famine", "thunderstorm", "tilt", "mythic", "assassin", "blind", "superman", "birthday", "daddy", "third_person", "directors_cut" }; // 0x12408060
 }
 using namespace hades_file_local;
 /* ---------- public code */
 
 namespace Modules
 {
-	extern ModuleCampaign* _sub_108C38A0(Modules::ModuleCampaign *const);
-	ModuleCampaign::ModuleCampaign() : ModuleBase(todo_result<std::string>()) // 0x108C38A0
+	ModuleCampaign::ModuleCampaign() : ModuleBase("Campaign") /* hades-mem-init: : ModuleBase(todo_result<std::string>()) */ // 0x108C38A0
 	{
-		mangled_x86(MANGLED_TODO, "??0ModuleCampaign@Modules@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0ModuleCampaign@Modules@@QAE@XZ");
 		// Modules::ModuleCampaign *const this;
-		todo("implement");
-		_sub_108C38A0(this);
+
+		AddCommand("DifficultyLevel", "campaign_difficulty_level", "Sets the campaign difficulty level. (easy, normal, heroic, legendary)", eCommandFlagsNone, CommandCampaignDifficultyLevel);
+		AddCommand("InsertionPoint", "campaign_insertion_point", "Changes the current insertion point.", eCommandFlagsNone, CommandCampaignInsertionPoint);
+		AddCommand("MetagameScoring", "campaign_metagame_scoring", "Changes the metagame scoring options. (off, team, ffa)", eCommandFlagsNone, CommandCampaginMetagameScoring);
+		AddCommand("Skulls", "campaign_skulls", "Set the campaign skulls (" + GetActiveSkullsForDisplay(-1, -1) + ")", eCommandFlagsHostOnly, CommandCampaignSkulls);
+		AddCommand("GetRallyPoints", "get_rally_points", "lists out the currently available rally points for the selected map", eCommandFlagsInternal, CommandCampaignListRallyPoints);
+		AddCommand("Save", "campaign_save", "Forces a campaign checkpoint", eCommandFlagsHostOnly, CommandCampaignSave);
+		AddCommand("Revert", "campaign_revert", "Reverts to the last checkpoint", eCommandFlagsHostOnly, CommandCampaignRevert);
+		AddCommand("KillEnemy", "campaign_kill_enemy", "Kills all enemies on the map", eCommandFlagsNone, CommandCampaignKillEnemies);
+		VarCinematicFrameRate = AddVariableInt("CinematicFrameRate", "cinematic_frame_rate", "Set the cinematic frame rate in seconds", CommandFlags(eCommandFlagsHostOnly | eCommandFlagsReplicated), 0x3C);
+		VarCinematicFrameRate->ValueIntMin = 1;
+		VarCinematicFrameRate->ValueIntMax = 144;
+		VarCinematicFrameRateClient = AddVariableInt("CinematicFrameRateClient", "cinematic_frame_rate_client", "Set the cinematic frame rate in seconds", eCommandFlagsInternal, 0x3C);
+		Server::VariableSynchronization::Synchronize(VarCinematicFrameRate, VarCinematicFrameRateClient);
+		VarPlayerRepresentationEnabled = AddVariableInt("PlayerRepresentationEnabled", "camapign_player_representation_enabled", "Determines whether the player campaign representation will be used.", CommandFlags(eCommandFlagsHostOnly | eCommandFlagsArchived | eCommandFlagsReplicated), 1);
+		VarPlayerRepresentationEnabled->ValueIntMin = 0;
+		VarPlayerRepresentationEnabled->ValueIntMax = 1;
+		VarPlayerRepresentationEnabledClient = AddVariableInt("PlayerRepresentationEnabledClient", "camapign_player_representation_enabled_client", "Determines whether the player campaign representation will be used", eCommandFlagsInternal, 1);
+		Server::VariableSynchronization::Synchronize(VarPlayerRepresentationEnabled, VarPlayerRepresentationEnabledClient);
+		VarCampaignSprintEnabled = AddVariableInt("SprintEnabled", "campaign_sprint_enabled", "Sets whether sprint will be enabled during campaign", eCommandFlagsArchived, 0);
+		VarCampaignSprintEnabled->ValueIntMin = 0;
+		VarCampaignSprintEnabled->ValueIntMax = 1;
+		VarCheckpointsDisabled = AddVariableInt("CheckpointsDisabled", "campaign_checkpoints_disabled", "Disables campaign checkpoints", eCommandFlagsArchived, 0);
 	}
 }
 
 /* ---------- private code */
 
-extern std::string _sub_108C68E0(long);
 std::string camapgin_difficulty_level_to_string(long level) // 0x108C68E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?camapgin_difficulty_level_to_string@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@J@Z");
 	// `anonymous-namespace'::camapgin_difficulty_level_to_string
 	// static ...; // 0x108C69E4
 // $LN7:
@@ -170,9 +196,20 @@ std::string camapgin_difficulty_level_to_string(long level) // 0x108C68E0
 // $LN5:
 // $LN4:
 	// long level;
-	todo("implement");
-	std::string __result = _sub_108C68E0(level);
-	return __result;
+
+	switch (level)
+	{
+	case 0:
+		return "easy";
+	case 1:
+		return "normal";
+	case 2:
+		return "heroic";
+	case 3:
+		return "legendary";
+	}
+
+	return "unknown";
 }
 
 long camapgin_difficulty_level_from_string(std::string const &str) // 0x108C6800
@@ -241,9 +278,9 @@ long camapgin_metagame_scoring_option_from_string(std::string const &str) // 0x1
 	return -1;
 }
 
-_extern bool _sub_108C51A0(std::vector<std::string> const &, std::string &);
 bool CommandCampaignInsertionPoint(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x108C51A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandCampaignInsertionPoint@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandCampaignInsertionPoint
 	// static ...; // 0x108C54E0
 	// static ...; // 0x108C54D8
@@ -257,14 +294,43 @@ bool CommandCampaignInsertionPoint(std::vector<std::string> const &arguments, st
 	// function call : bool (*const)(c_network_session **)
 	// function call : short (*const)()
 	// function call : bool (*const)(short)
-	todo("implement");
-	bool __result = _sub_108C51A0(arguments, returnInfo);
-	return __result;
+
+	c_network_session *session;
+	if (!network_session_interface_get_squad_session(&session))
+	{
+		returnInfo = "Not in active session";
+		return false;
+	}
+	long previous_value = ((short(__cdecl *)())0x435080)();
+	if (arguments.size() < 1)
+	{
+		returnInfo = std::to_string(previous_value);
+		return true;
+	}
+	long new_value = -1;
+	try
+	{
+		new_value = std::stol(arguments[0]);
+		if (new_value < 0 || new_value >= 9)
+			throw std::out_of_range("");
+	}
+	catch (std::logic_error &)
+	{
+		returnInfo = "Invalid index given";
+		return false;
+	}
+	if (!((bool(__cdecl *)(short))0x439580)(new_value))
+	{
+		returnInfo = "Failed to set session parameter";
+		return false;
+	}
+	returnInfo = "Changed insertion point " + std::to_string(previous_value) + " -> " + std::to_string(new_value);
+	return true;
 }
 
-_extern bool _sub_108C4E00(std::vector<std::string> const &, std::string &);
 bool CommandCampaignDifficultyLevel(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x108C4E00
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandCampaignDifficultyLevel@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandCampaignDifficultyLevel
 	// static ...; // 0x108C50C8
 	// static ...; // 0x108C50C0
@@ -276,14 +342,37 @@ bool CommandCampaignDifficultyLevel(std::vector<std::string> const &arguments, s
 	// function call : bool (*const)(c_network_session **)
 	// function call : long (*const)()
 	// function call : bool (*const)(long)
-	todo("implement");
-	bool __result = _sub_108C4E00(arguments, returnInfo);
-	return __result;
+
+	c_network_session *session;
+	if (!network_session_interface_get_squad_session(&session))
+	{
+		returnInfo = "Not in active session";
+		return false;
+	}
+	long previous_value = ((long(__cdecl *)())0x435020)();
+	if (arguments.size() < 1)
+	{
+		returnInfo = camapgin_difficulty_level_to_string(previous_value);
+		return true;
+	}
+	long new_value = camapgin_difficulty_level_from_string(arguments[0]);
+	if (new_value == -1)
+	{
+		returnInfo = "Invalid difficulty level";
+		return false;
+	}
+	if (!((bool(__cdecl *)(long))0x439510)(new_value))
+	{
+		returnInfo = "Failed to set session parameter";
+		return false;
+	}
+	returnInfo = "Changed campaign difficulty " + camapgin_difficulty_level_to_string(previous_value) + " -> " + camapgin_difficulty_level_to_string(new_value);
+	return true;
 }
 
-_extern bool _sub_108C49E0(std::vector<std::string> const &, std::string &);
 bool CommandCampaginMetagameScoring(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x108C49E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandCampaginMetagameScoring@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandCampaginMetagameScoring
 	// static ...; // 0x108C4D14
 	// static ...; // 0x108C4D0C
@@ -297,14 +386,43 @@ bool CommandCampaginMetagameScoring(std::vector<std::string> const &arguments, s
 	// function call : bool (*const)(c_network_session **)
 	// function call : bool (*const)()
 	// function call : bool (*const)(long)
-	todo("implement");
-	bool __result = _sub_108C49E0(arguments, returnInfo);
-	return __result;
+
+	c_network_session *session;
+	if (!network_session_interface_get_squad_session(&session))
+	{
+		returnInfo = "Not in active session";
+		return false;
+	}
+	long previous_value = ((bool(__cdecl *)())0x4350F0)();
+	if (arguments.size() < 1)
+	{
+		returnInfo = camapgin_metagame_scoring_option_to_string(previous_value);
+		return true;
+	}
+	long new_value = -1;
+	try
+	{
+		new_value = camapgin_metagame_scoring_option_from_string(arguments[0]);
+		if (new_value == -1)
+			throw std::invalid_argument("arguments[0]");
+	}
+	catch (std::invalid_argument &)
+	{
+		returnInfo = "Invalid option given";
+		return false;
+	}
+	if (!((bool(__cdecl *)(long))0x4395F0)(new_value))
+	{
+		returnInfo = "Failed to set session parameter";
+		return false;
+	}
+	returnInfo = "Changed metagame scoring " + camapgin_metagame_scoring_option_to_string(previous_value) + " -> " + camapgin_metagame_scoring_option_to_string(new_value);
+	return true;
 }
 
-extern std::string _sub_108C6140(unsigned long, unsigned long);
 std::string GetActiveSkullsForDisplay(unsigned long primarySkulls, unsigned long secondarySkulls) // 0x108C6140
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetActiveSkullsForDisplay@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@KK@Z");
 	// `anonymous-namespace'::GetActiveSkullsForDisplay
 	// static ...; // 0x108C630C
 	// static ...; // 0x108C62F4
@@ -313,15 +431,25 @@ std::string GetActiveSkullsForDisplay(unsigned long primarySkulls, unsigned long
 	// unsigned long secondarySkulls;
 	// std::vector<std::string> skulls;
 	// std::stringstream ss;
-	{
 		// __int32 i;
-	}
-	{
 		// unsigned __int32 i;
+
+	std::vector<std::string> skulls;
+	for (__int32 i = 0; i < _countof(kCampaignSkullNames); i++)
+	{
+		if (i >= 9 && (secondarySkulls >> (i - 9)) & 1)
+			skulls.push_back(kCampaignSkullNames[i]);
+		else if ((primarySkulls >> i) & 1)
+			skulls.push_back(kCampaignSkullNames[i]);
 	}
-	todo("implement");
-	std::string __result = _sub_108C6140(primarySkulls, secondarySkulls);
-	return __result;
+	std::stringstream ss;
+	for (unsigned __int32 i = 0; i < skulls.size(); i++)
+	{
+		ss << skulls[i];
+		if (i < skulls.size() - 1)
+			ss << ", ";
+	}
+	return ss.str();
 }
 
 std::string GetActiveSkullsForDisplay() // 0x108C6390
@@ -346,9 +474,9 @@ std::string GetActiveSkullsForDisplay() // 0x108C6390
 	return GetActiveSkullsForDisplay(primarySkulls, secondarySkulls);
 }
 
-_extern bool _sub_108C56D0(std::vector<std::string> const &, std::string &);
 bool CommandCampaignListRallyPoints(std::vector<std::string> const &arguments, std::string &returninfo) // 0x108C56D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandCampaignListRallyPoints@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandCampaignListRallyPoints
 	// static ...; // 0x108C5985
 	// static ...; // 0x108C597B
@@ -361,47 +489,91 @@ bool CommandCampaignListRallyPoints(std::vector<std::string> const &arguments, s
 	// std::string &returninfo;
 	// long campaignId;
 	// long mapId;
-	{
 		// s_level_insertion_datum insertion;
-		{
 			// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
 			// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
-			{
 				// __int32 i;
-				{
 					// std::string name;
-				}
-			}
-		}
-	}
 	// function call : bool (*const)(long *, long *)
 	// function call : bool (*const)(long, s_level_insertion_datum *)
-	todo("implement");
-	bool __result = _sub_108C56D0(arguments, returninfo);
-	return __result;
+
+	long campaignId;
+	long mapId;
+	if (reinterpret_cast<bool (*)(long *, long *)>(0x4354D0)(&campaignId, &mapId))
+	{
+		s_level_insertion_datum insertion;
+		if (reinterpret_cast<bool (*)(long, s_level_insertion_datum *)>(0x54C9E0)(mapId, &insertion))
+		{
+			rapidjson::StringBuffer jsonBuffer;
+			rapidjson::Writer<rapidjson::StringBuffer> jsonWriter(jsonBuffer);
+			jsonWriter.StartObject();
+			jsonWriter.Key("points");
+			jsonWriter.StartArray();
+			if (Blam::Network::GetLobbyType() == 0)
+			{
+				for (__int32 i = 0; i < 4; i++)
+				{
+					std::string name = Utils::String::ThinString(insertion.names[i].value);
+					if (name != "")
+						jsonWriter.String(name.c_str());
+				}
+			}
+			jsonWriter.EndArray();
+			jsonWriter.EndObject();
+			returninfo = jsonBuffer.GetString();
+			return true;
+		}
+	}
+	returninfo = "{}";
+	return true;
 }
 
-_extern bool _sub_108C5B70(std::vector<std::string> const &, std::string &);
 bool CommandCampaignSkulls(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x108C5B70
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandCampaignSkulls@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandCampaignSkulls
 	// std::string &returnInfo;
-	{
 		// unsigned long secondarySkulls;
 		// bool result;
 		// unsigned long primarySkulls;
-		{
 			// unsigned __int32 i;
-			{
 				// __int32 index;
+	// function call : bool (*const)(unsigned long)
+	// function call : bool (*const)(unsigned long)
+
+	if (arguments.size() < 1)
+	{
+		returnInfo = GetActiveSkullsForDisplay();
+		return true;
+	}
+	else
+	{
+		unsigned long primarySkulls = 0;
+		unsigned long secondarySkulls = 0;
+		if (arguments.size() != 1 || arguments[0] != "none")
+		{
+			for (unsigned __int32 i = 0; i < arguments.size(); i++)
+			{
+				__int32 index = std::find(std::begin(kCampaignSkullNames), std::end(kCampaignSkullNames), arguments[i]) - kCampaignSkullNames;
+				if (index < 0 || index >= _countof(kCampaignSkullNames))
+				{
+					returnInfo = "Unknown skull '" + arguments[i] + "'\nOptions: [" + GetActiveSkullsForDisplay(-1, -1) + "]";
+					return false;
+				}
+				if (index >= 9)
+					secondarySkulls |= 1 << (index - 9);
+				else
+					primarySkulls |= 1 << index;
 			}
 		}
+		bool result = ((bool (*)(unsigned long))0x439430)(primarySkulls);
+		result &= ((bool (*)(unsigned long))0x4394A0)(secondarySkulls);
+		if (result)
+			returnInfo = "Active skulls -> " + GetActiveSkullsForDisplay();
+		else
+			returnInfo = "Failed to set skulls. Are you in the lobby?";
+		return result;
 	}
-	// function call : bool (*const)(unsigned long)
-	// function call : bool (*const)(unsigned long)
-	todo("implement");
-	bool __result = _sub_108C5B70(arguments, returnInfo);
-	return __result;
 }
 
 bool CommandCampaignSave(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x108C5AE0
@@ -446,15 +618,43 @@ bool CommandCampaignRevert(std::vector<std::string> const &arguments, std::strin
 	return true;
 }
 
-_extern bool _sub_108C55D0(std::vector<std::string> const &, std::string &);
 bool CommandCampaignKillEnemies(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x108C55D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandCampaignKillEnemies@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandCampaignKillEnemies
 	// std::string &returnInfo;
 	// constexpr void (*const `CommandCampaignKillEnemies'::`2'::actor_kill)(long, bool, bool); // constant == 21154304
 	// constexpr char (*const `CommandCampaignKillEnemies'::`2'::game_team_is_enemy)(long, long); // constant == 6753152
 	// function call : bool (*)()
-	todo("implement");
-	bool __result = _sub_108C55D0(arguments, returnInfo);
-	return __result;
+
+	static void (*const actor_kill)(long, bool, bool) = reinterpret_cast<void (*)(long, bool, bool)>(0x142C900);
+	static char (*const game_team_is_enemy)(long, long) = reinterpret_cast<char (*)(long, long)>(0x670B80);
+
+	if (!game_is_campaign())
+	{
+		returnInfo = "Not in campaign";
+		return false;
+	}
+
+	Objects::CObjectMessaging::EnqueueAction([]()
+	{
+		auto playerIndex = ((long (*)(long))0x589C30)(0);
+		if (playerIndex == -1)
+			return;
+		auto playerTeam = player_get(playerIndex)->configuration.host.team;
+		auto objects = object_headers_get();
+		for (auto it = objects->begin(); it != objects->end(); ++it)
+		{
+			if (!((1 << (char)it->type) & 0x2003))
+				continue;
+			auto unit = (s_unit_data *)it->data;
+			if (unit->actor_index == -1)
+				continue;
+			auto actor = actor_get(unit->actor_index);
+			if (!game_team_is_enemy(playerTeam, actor->meta.team))
+				continue;
+			actor_kill(unit->actor_index, false, true);
+		}
+	});
+	return true;
 }

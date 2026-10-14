@@ -169,10 +169,9 @@ namespace Utils
 
 /* ---------- public code */
 
-_extern void _sub_1090BE70(CServerConnectStateHandler_Connect *const);
 void CServerConnectStateHandler_Connect::OnEnter() // 0x1090BE70
 {
-	mangled_x86(MANGLED_TODO, "?OnEnter@CServerConnectStateHandler_Connect@@EAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnEnter@CServerConnectStateHandler_Connect@@EAEXXZ");
 	// static ...; // 0x1090C203
 	// static ...; // 0x1090C1EF
 	// static ...; // 0x1090C1E8
@@ -187,8 +186,31 @@ void CServerConnectStateHandler_Connect::OnEnter() // 0x1090BE70
 	// function call : void (*const)()
 	// function call : void (*const)(s_transport_address const *, void const *, void const *)
 	// function call : unsigned long long (*const)()
-	todo("implement");
-	_sub_1090BE70(this);
+
+	Console::WriteLine("Server Connect :: Connecting to game server...");
+	SServerConnectState const &state = GetManager()->GetState();
+	((void(__cdecl *)())0x1596610)();
+	s_transport_address inaddr = {};
+	inaddr.address.ipv4 = state.address;
+	inaddr.address_size = 4;
+	inaddr.port = state.gamePort;
+	((void(__cdecl *)(s_transport_address *, unsigned char const *, unsigned char const *))0x430CD0)(&inaddr, state.xnaddr, state.xnkid);
+	s_network_session_remote_join_data *join_data = (s_network_session_remote_join_data *)0x2240B98;
+	join_data->session_class = 1;
+	memcpy(&join_data->session_id, state.xnkid, 16);
+	memcpy(&join_data->host_secure_address, state.xnaddr, 16);
+	join_data->session_key = {};
+	join_data->join_nonce = ((unsigned long long(__cdecl *)())0x431010)();
+	join_data->platform = 1;
+	std::stringstream discordStringStream;
+	discordStringStream << state.hostname << ":" << state.port << " " << state.password;
+	Utils::Singleton<Discord::DiscordRPC>::Instance().joinString = discordStringStream.str();
+	Web::Ui::ScreenLayer::Hide("console");
+	Web::Ui::ScreenLayer::SDialogShowParams params;
+	params.templateName = "attempting_join";
+	params.callback = [](std::string const &) { int unused = 1; };
+	Web::Ui::ScreenLayer::ShowDialog(params);
+	Complete();
 }
 
 void CServerConnectStateHandler_Connect::OnExit() // 0x1090C2F0

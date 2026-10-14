@@ -54,10 +54,9 @@ namespace Utils
 {
 	namespace Network
 	{
-		extern EResolveAddressResult _sub_1090D620(std::string const &, unsigned __int32 *);
 		Utils::Network::EResolveAddressResult ResolveAddress(std::string const &hostname, unsigned __int32 *outAddr) // 0x1090D620
 		{
-			mangled_x86(MANGLED_TODO, "?ResolveAddress@Network@Utils@@YA?AW4EResolveAddressResult@12@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAI@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ResolveAddress@Network@Utils@@YA?AW4EResolveAddressResult@12@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAI@Z");
 			// static ...; // 0x1090D768
 			// static ...; // 0x1090D760
 			// std::string const &hostname;
@@ -66,16 +65,43 @@ namespace Utils
 			// addrinfo *ptr;
 			// addrinfo *info;
 			// unsigned __int32 rawIpaddr;
-			{
 				// __int32 error;
-			}
 			// function call : __int32 (char const *, char const *, addrinfo const *, addrinfo **)
 			// function call : __int32 ()
 			// function call : unsigned long (unsigned long)
 			// function call : void (addrinfo *)
-			todo("implement");
-			Utils::Network::EResolveAddressResult __result = _sub_1090D620(hostname, outAddr);
-			return __result;
+
+			addrinfo *info = nullptr;
+			__int32 retval = getaddrinfo(hostname.c_str(), nullptr, nullptr, &info);
+			if (retval != 0)
+			{
+				__int32 error = WSAGetLastError();
+				if (error)
+				{
+					if (error == WSAHOST_NOT_FOUND)
+						return HostNotFound;
+					else if (error == WSANO_DATA)
+						return NoData;
+					else
+						return UnknownError;
+				}
+				else
+					return UnknownError;
+			}
+			unsigned __int32 rawIpaddr = 0;
+			addrinfo *ptr = nullptr;
+			for (ptr = info; ptr != nullptr; ptr = ptr->ai_next)
+			{
+				if (ptr->ai_family != AF_INET)
+					continue;
+				rawIpaddr = ntohl(((sockaddr_in *)ptr->ai_addr)->sin_addr.S_un.S_addr);
+				break;
+			}
+			freeaddrinfo(info);
+			if (rawIpaddr == 0)
+				return NoRecords;
+			*outAddr = rawIpaddr;
+			return Success;
 		}
 	}
 }

@@ -343,6 +343,19 @@ _inline c_enum<enum e_game_engine_event_type,char>::operator char() const // 0x1
 	return m_value;
 }
 
+template<> _inline c_enum<enum e_tag_field_type,long>::c_enum(long const &value) // 0x10F00610
+{
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0?$c_enum@W4e_tag_field_type@@J@@QAE@ABJ@Z");
+
+	m_value = value;
+}
+
+template<> _inline c_enum<enum e_tag_field_type,long>::c_enum(e_tag_field_type const &value) : // 0x10F00670
+	c_enum(static_cast<long>(value))
+{
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0?$c_enum@W4e_tag_field_type@@J@@QAE@ABW4e_tag_field_type@@@Z");
+}
+
 /* ---------- private code */
 
 #endif // __BLAM_CSERIES_ENUMS_INL__

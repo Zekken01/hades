@@ -44,11 +44,11 @@ struct s_tag_field_definition
 	c_enum<enum e_tag_field_type,long> type; // 0x0
 	char const *name; // 0x4
 	void *definition; // 0x8
-	s_tag_field_definition(s_tag_field_definition &); /* compiler_generated() */
-	s_tag_field_definition(s_tag_field_definition const &); /* compiler_generated() */
-	s_tag_field_definition(); /* compiler_generated() */
-	s_tag_field_definition &operator=(s_tag_field_definition &); /* compiler_generated() */
-	s_tag_field_definition &operator=(s_tag_field_definition const &); /* compiler_generated() */
+	// s_tag_field_definition(s_tag_field_definition &); /* compiler_generated(): left implicit so the field tables stay aggregates */
+	// s_tag_field_definition(s_tag_field_definition const &); /* compiler_generated(): left implicit so the field tables stay aggregates */
+	// s_tag_field_definition(); /* compiler_generated(): left implicit so the field tables stay aggregates */
+	// s_tag_field_definition &operator=(s_tag_field_definition &); /* compiler_generated(): left implicit so the field tables stay aggregates */
+	// s_tag_field_definition &operator=(s_tag_field_definition const &); /* compiler_generated(): left implicit so the field tables stay aggregates */
 };
 static_assert(sizeof(s_tag_field_definition) == 12, "Invalid s_tag_field_definition size");
 
@@ -133,14 +133,12 @@ extern bool tags_loaded();
 
 /* ---------- public code */
 
-extern s_tag_group _sub_10874460();
 _inline s_tag_group s_tag_group::invalid() // 0x10874460
 {
-	mangled_x86(MANGLED_TODO, "?invalid@s_tag_group@@SA?AU1@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?invalid@s_tag_group@@SA?AU1@XZ");
 	// procedure flags: nofpo
-	todo("implement");
-	s_tag_group __result = _sub_10874460();
-	return __result;
+
+	return { { 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF }, 0 };
 }
 
 /* ---------- private code */

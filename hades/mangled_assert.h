@@ -8,8 +8,9 @@
 
 /* ---------- definitions */
 
-// `mangled_x86` is the x86 analogue of Ares's `mangled_x64`: it pins a reconstructed
-// function to the mangled name the original binary exported. If the signature, calling
+// `mangled_x86` pins a reconstructed function to the mangled name the original binary
+// exported -- the `x86` suffix distinguishes it from the x64 decorations a 64-bit target
+// would carry. If the signature, calling
 // convention, const-ness, namespace or enclosing class drifts, `__FUNCDNAME__` stops
 // matching and the translation unit fails to compile -- so the identity of every ported
 // function is checked by the compiler rather than by eye.

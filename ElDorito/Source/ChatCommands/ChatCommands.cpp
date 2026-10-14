@@ -47,6 +47,8 @@
 #include "Utils/Singleton.hpp"
 #include "Utils/String.hpp"
 
+#include "mods/mod_system.hpp"  // hades: added for 0x106CEA80
+
 #include <Windows.h>
 #include <stdio.h>
 #include <sys/stat.h>
@@ -164,6 +166,14 @@ namespace Blam
 
 /* ---------- prototypes */
 
+#include "Objects/ObjectMessaging.hpp"  // hades: added for 0x106CF2F0
+#include "Blam/game/game_globals.hpp"  // hades: added for 0x106CF2F0
+extern s_object_data *(*const object_try_and_get_and_verify_type)(unsigned long, c_enum<e_object_type, long>);  // hades: added for 0x106CF2F0
+
+namespace Server { namespace ReportHandler { extern void Handle(std::string const &token); } }  // hades: added for 0x106CF550
+
+extern bool (*const network_session_interface_get_squad_session)(c_network_session **out_session);  // hades: added for 0x106CF690
+
 namespace ChatCommands
 {
 	extern void RegisterCommands();
@@ -190,7 +200,7 @@ namespace Server
 {
 	namespace hades_file_local_Server
 	{
-		extern std::string DefaultBanListPath; // 0x11387E58
+		// extern std::string DefaultBanListPath; // 0x11387E58  // hades: defined (with its initialiser) elsewhere now
 	}
 	using namespace hades_file_local_Server;
 }
@@ -198,13 +208,17 @@ namespace Server
 
 namespace ChatCommands
 {
-	_extern void _sub_106CFAB0();
 	void RegisterCommands() // 0x106CFAB0
 	{
-		mangled_x86(MANGLED_TODO, "?RegisterCommands@ChatCommands@@YAXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?RegisterCommands@ChatCommands@@YAXXZ");
 		// procedure flags: nofpo
-		todo("implement");
-		_sub_106CFAB0();
+
+		RegisterCommand("list", "Returns the list of players in the server", (CommandFlags)0, ComamndListPlayers);
+		RegisterCommand("mod", "returns the mod information", (CommandFlags)0, ComamndModInfo);
+		RegisterCommand("listplayers", "Returns the list of players in the server", (CommandFlags)0, ComamndListPlayers);
+		RegisterCommand("help", "Displays the list of commands", (CommandFlags)0, CommandHelp);
+		RegisterCommand("plrrpt", "Report a player", Hidden, CommandReportPlayer);
+		RegisterCommand("kill", "Kills the player that runs this command", (CommandFlags)0, CommandKill);
 	}
 }
 
@@ -221,34 +235,40 @@ namespace ChatCommands
 // mangled_x86(MANGLED_DEFAULT, "??0s_mod_origin_info@@QAE@XZ"); no body to assert in
 
 // mangled_x86(MANGLED_DEFAULT, "??1s_entry@c_mod_package_manager@@QAE@XZ"); no body to assert in
-_inline c_mod_package_manager::s_entry::~s_entry() = default; // 0x106CDE70
+// c_mod_package_manager::s_entry::~s_entry() is implicit; 0x106CDE70
 
 // mangled_x86(MANGLED_DEFAULT, "??1s_mod_origin_info@@QAE@XZ"); no body to assert in
-_inline s_mod_origin_info::~s_mod_origin_info() = default; // 0x106CDED0
+// s_mod_origin_info::~s_mod_origin_info() is implicit; 0x106CDED0
 
 /* ---------- private code */
 
-_extern __int32 _sub_106CF7B0(s_player_identifier const &);
 __int32 FindPlayerInGameWithIdentifier(s_player_identifier const &identifier) // 0x106CF7B0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?FindPlayerInGameWithIdentifier@@YAHABUs_player_identifier@@@Z");
 	// `anonymous-namespace'::FindPlayerInGameWithIdentifier
 	// static ...; // 0x106CF888
 	// static ...; // 0x106CF87C
 	// static ...; // 0x106CF874
 	// s_player_identifier const &identifier;
 	// c_data_array<s_player_datum> *players;
-	{
 		// c_data_iterator<s_player_datum> it;
-	}
 	// function call : bool (*const)()
-	todo("implement");
-	__int32 __result = _sub_106CF7B0(identifier);
-	return __result;
+
+	static bool (*const game_in_progress)() = reinterpret_cast<bool (*)()>(0x5314B0);
+	if (!game_in_progress())
+		return -1;
+	c_data_array<s_player_datum> *players = players_get();
+	for (c_data_iterator<s_player_datum> it = players->begin(); it != players->end(); ++it)
+	{
+		if (it->player_identifier == identifier)
+			return it.current_datum_index;
+	}
+	return -1;
 }
 
-_extern __int32 _sub_106CF690(char);
 __int32 FindNetworkPlayerInGame(char networkPlayerIndex) // 0x106CF690
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?FindNetworkPlayerInGame@@YAHD@Z");
 	// `anonymous-namespace'::FindNetworkPlayerInGame
 	// static ...; // 0x106CF764
 	// static ...; // 0x106CF758
@@ -258,64 +278,83 @@ __int32 FindNetworkPlayerInGame(char networkPlayerIndex) // 0x106CF690
 	// s_network_session_player *networkPlayer;
 	// c_network_session *session;
 	// function call : bool (*const)(c_network_session **)
-	todo("implement");
-	__int32 __result = _sub_106CF690(networkPlayerIndex);
-	return __result;
+
+	c_network_session *session;
+	if (!network_session_interface_get_squad_session(&session) || !session->established())
+		return -1;
+
+	c_network_session_membership *membership = session->get_session_membership();
+	if (!membership->is_player_valid(networkPlayerIndex))
+		return -1;
+
+	s_network_session_player *networkPlayer = membership->get_player(networkPlayerIndex);
+	return FindPlayerInGameWithIdentifier(networkPlayer->player_identifier);
 }
 
-_extern bool _sub_106CF180(__int32, std::vector<std::string> const &, std::string &);
 bool CommandHelp(__int32 peer, std::vector<std::string> const &args, std::string &returnValue) // 0x106CF180
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandHelp@@YA_NHABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandHelp
 	// static ...; // 0x106CF280
 	// static ...; // 0x106CF278
 	// __int32 peer;
 	// std::vector<std::string> const &args;
 	// std::string &returnValue;
-	{
 		// std::vector<std::string> &<range>$L0;
 		// std::string *<begin>$L0;
 		// std::string *<end>$L0;
-		{
 			// std::string i;
-		}
-	}
-	todo("implement");
-	bool __result = _sub_106CF180(peer, args, returnValue);
-	return __result;
+
+	for (auto i : ChatCommands::getHelpText())
+		Server::Chat::SendServerMessage(i, peer);
+	return true;
 }
 
-_extern bool _sub_106CE6E0(__int32, std::vector<std::string> const &, std::string &);
 bool ComamndListPlayers(__int32 peer, std::vector<std::string> const &args, std::string &returnValue) // 0x106CE6E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ComamndListPlayers@@YA_NHABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::ComamndListPlayers
 	// std::string &returnValue;
 	// Blam::Network::Session *session;
 	// __int32 peerIdx;
-	{
 		// __int32 playerIdx;
-		{
 			// Blam::Network::PlayerSession *player;
+
+	Blam::Network::Session *session = Blam::Network::GetActiveSession();
+	__int32 peerIdx = session->MembershipInfo.FindFirstPeer();
+	while (peerIdx != -1)
+	{
+		__int32 playerIdx = session->MembershipInfo.GetPeerPlayer(peerIdx);
+		if (playerIdx != -1)
+		{
+			Blam::Network::PlayerSession *player = &session->MembershipInfo.PlayerSessions[playerIdx];
+			Server::Chat::SendServerMessage("(" + std::to_string(playerIdx) + ") " + "\"" + Utils::String::ThinString(player->Properties.host.player_name) + "\"", peer);
 		}
+		peerIdx = session->MembershipInfo.FindNextPeer(peerIdx);
 	}
-	todo("implement");
-	bool __result = _sub_106CE6E0(peer, args, returnValue);
-	return __result;
+	return true;
 }
 
-_extern bool _sub_106CF550(__int32, std::vector<std::string> const &, std::string &);
 bool CommandReportPlayer(__int32 peer, std::vector<std::string> const &args, std::string &returnValue) // 0x106CF550
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandReportPlayer@@YA_NHABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandReportPlayer
 	// std::string &returnValue;
-	todo("implement");
-	bool __result = _sub_106CF550(peer, args, returnValue);
-	return __result;
+
+	if (args.size() < 1 || args[0].length() <= 128)
+	{
+		returnValue = "Invalid or missing token";
+		return false;
+	}
+
+	returnValue = "Player report received";
+	Server::ReportHandler::Handle(std::string(args[0]));
+	return true;
 }
 
-_extern bool _sub_106CF2F0(__int32, std::vector<std::string> const &, std::string &);
 bool CommandKill(__int32 peer, std::vector<std::string> const &args, std::string &returnValue) // 0x106CF2F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandKill@@YA_NHABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandKill
 	// std::string &returnValue;
 	// s_player_datum *player;
@@ -325,14 +364,62 @@ bool CommandKill(__int32 peer, std::vector<std::string> const &args, std::string
 	// function call : bool (*const)()
 	// function call : c_game_engine *(*const)()
 	// function call : bool (*const)()
-	todo("implement");
-	bool __result = _sub_106CF2F0(peer, args, returnValue);
-	return __result;
+
+	static bool (*const game_in_progress)() = reinterpret_cast<bool (*)()>(0x5314B0);
+	static c_game_engine *(*const current_game_engine)() = reinterpret_cast<c_game_engine *(*)()>(0x5CE150);
+	static bool (*const game_engine_round_in_progress)() = reinterpret_cast<bool (*)()>(0x531B20);
+	Blam::Network::Session *session = Blam::Network::GetActiveSession();
+	if (!session->IsEstablished() || !session->IsHost())
+		return false;
+	__int32 networkPlayerIndex = session->MembershipInfo.GetPeerPlayer(peer);
+	if (networkPlayerIndex == -1)
+		return false;
+	__int32 playerIndex = FindNetworkPlayerInGame(networkPlayerIndex);
+	if (playerIndex == -1)
+		return false;
+	if (!game_in_progress())
+	{
+		returnValue = "The command cannot be run at this time.";
+		return false;
+	}
+	if (!Utils::Singleton<Modules::ModuleServer>::Instance().VarServerKillCommandEnabled->ValueInt || (current_game_engine() && game_engine_round_in_progress() && !Utils::Singleton<Modules::ModuleServer>::Instance().VarServerKillCommandDuringPodiumEnabled->ValueInt))
+	{
+		returnValue = "The kill command is not enabled right now.";
+		return false;
+	}
+	s_player_datum *player = player_get(playerIndex);
+	if (player->unit_index == -1)
+	{
+		returnValue = "Stop, he's already dead!";
+		return false;
+	}
+	Objects::CObjectMessaging::EnqueueAction([unitIndex = player->unit_index, peer]()
+	{
+		s_object_data *unit = object_try_and_get_and_verify_type(unitIndex, 0x2003);
+		if (!unit)
+			return;
+		float const epsilon = 0.001f;
+		if (abs(unit->recent_body_damage - 0.0f) > epsilon || abs(unit->recent_shield_damage - 0.0f) > epsilon)
+		{
+			Server::Chat::SendServerMessage("Man up!", peer);
+			return;
+		}
+		s_damage_data damageData;
+		reinterpret_cast<void (*)(s_damage_data *, long)>(0xB50330)(&damageData, game_globals_get()->PlayerFallingDamage->FallingDamage.index);
+		damageData.flags |= 4;
+		damageData.reporting_info.type = _damage_reporting_type_guardians_unknown;
+		reinterpret_cast<void (*)(unsigned long, s_damage_owner *)>(0xB770E0)(unitIndex, &damageData.damage_owner);
+		reinterpret_cast<void (*)(s_damage_data *, unsigned long, long)>(0xB542A0)(&damageData, unitIndex, 5);
+		std::string response = Utils::Singleton<Modules::ModuleServer>::Instance().VarKillCommandMessage->ValueString;
+		if (response.size() > 0)
+			Server::Chat::SendServerMessage(response, peer);
+	});
+	return true;
 }
 
-_extern bool _sub_106CEA80(__int32, std::vector<std::string> const &, std::string &);
 bool ComamndModInfo(__int32 peer, std::vector<std::string> const &args, std::string &returnValue) // 0x106CEA80
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ComamndModInfo@@YA_NHABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::ComamndModInfo
 	// static ...; // 0x106CEFF9
 	// static ...; // 0x106CEFF4
@@ -349,9 +436,26 @@ bool ComamndModInfo(__int32 peer, std::vector<std::string> const &args, std::str
 	// c_mod_package_manager::s_entry mod_package;
 	// std::string message;
 	// tm *convertedLocal;
-	todo("implement");
-	bool __result = _sub_106CEA80(peer, args, returnValue);
-	return __result;
+
+	std::string modhash = c_mod_system::get_current_package_hash();
+	c_mod_package_manager::s_entry mod_package;
+	bool hasModSet = c_mod_system::get_mod_info_by_hash(modhash.c_str(), &mod_package);
+	if (!hasModSet)
+	{
+		returnValue = "No Mod Loaded";
+		return false;
+	}
+	Server::Chat::SendServerMessage("Mod: " + Utils::String::ThinString(mod_package.name) + " v" + std::to_string(mod_package.version_major) + "." + std::to_string(mod_package.version_minor), peer);
+	tm *convertedLocal = localtime(&mod_package.dateBuilt);
+	char buffer[32];
+	strftime(buffer, 32, "%m/%d/%Y", convertedLocal);
+	Server::Chat::SendServerMessage("Created: " + std::string(buffer), peer);
+	std::string desc = mod_package.description;
+	std::string message = "Desc: " + desc;
+	if (message.size() > 256)
+		message = message.substr(0, 253) + "...";
+	Server::Chat::SendServerMessage(message, peer);
+	return true;
 }
 
 /* ---------- template instantiations */

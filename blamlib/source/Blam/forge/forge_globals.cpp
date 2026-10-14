@@ -18,6 +18,9 @@ struct s_forge_globals_definition;
 
 /* ---------- prototypes */
 
+extern long (*const tag_get_first_in_group)(unsigned long group_tag);  // hades: added for 0x10EF8A30
+extern void *(*const tag_get)(unsigned long, long);  // hades: added for 0x10EF8A30
+
 extern s_forge_globals_definition *forge_globals_get_definition();
 
 /* ---------- globals */
@@ -26,17 +29,21 @@ extern s_forge_globals_definition *forge_globals_get_definition();
 
 /* ---------- public code */
 
-extern s_forge_globals_definition *_sub_10EF8A30();
 s_forge_globals_definition *forge_globals_get_definition() // 0x10EF8A30
 {
-	mangled_x86(MANGLED_TODO, "?forge_globals_get_definition@@YAPAUs_forge_globals_definition@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?forge_globals_get_definition@@YAPAUs_forge_globals_definition@@XZ");
 	// procedure flags: nofpo
 	// long definition_index;
 	// function call : long (*const)(unsigned long)
 	// function call : void *(*const)(unsigned long, long)
-	todo("implement");
-	s_forge_globals_definition * __result = _sub_10EF8A30();
-	return __result;
+
+	long definition_index = tag_get_first_in_group('forg');
+	if (definition_index != -1)
+	{
+		return (s_forge_globals_definition *)tag_get('forg', definition_index);
+	}
+
+	return nullptr;
 }
 
 /* ---------- private code */

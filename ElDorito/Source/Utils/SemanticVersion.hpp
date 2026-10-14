@@ -34,7 +34,7 @@ namespace Utils
 		SemanticVersion(Utils::SemanticVersion &);
 		SemanticVersion(Utils::SemanticVersion const &);
 		SemanticVersion(__int32 major, __int32 minor, __int32 patch, std::string prerelease, std::string build);
-		_inline Utils::SemanticVersion &operator=(Utils::SemanticVersion &&__that);
+		_inline Utils::SemanticVersion &operator=(Utils::SemanticVersion &&__that) noexcept;  // hades: noexcept like the implicit one, so a move from a temporary needs no EH state
 		Utils::SemanticVersion &operator=(Utils::SemanticVersion const &);
 		_inline ~SemanticVersion();
 		static bool TryParse(std::string const &input, Utils::SemanticVersion &outVersion);
@@ -44,6 +44,7 @@ namespace Utils
 	public:
 		__int32 Compare(Utils::SemanticVersion const &) const;
 		std::string ToString() const;
+		friend auto operator<=>(Utils::SemanticVersion const &a, Utils::SemanticVersion const &b) { return Compare(a, b); }  // hades: 0x10C60CD0, emitted where used
 	private:
 		static __int32 ComparePrerelease(std::string_view const &a, std::string_view const &b);
 		static __int32 CompareIdentifier(std::string_view const &a, std::string_view const &b);
@@ -64,7 +65,7 @@ static_assert(sizeof(Utils::SemanticVersion) == 68, "Invalid Utils::SemanticVers
 
 namespace Utils
 {
-	_inline Utils::SemanticVersion &SemanticVersion::operator=(Utils::SemanticVersion &&__that) // 0x10765120
+	_inline Utils::SemanticVersion &SemanticVersion::operator=(Utils::SemanticVersion &&__that) noexcept // 0x10765120
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "??4SemanticVersion@Utils@@QAEAAU01@$$QAU01@@Z");
 		// Utils::SemanticVersion &__that;

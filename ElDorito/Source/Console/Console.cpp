@@ -9,6 +9,8 @@
 #include "Utils/Singleton.hpp"
 #include "Utils/String.hpp"
 
+#include "Utils/Logger.hpp"  // hades: added for 0x10950B80
+
 #include <boost/asio.hpp>
 #include <boost/assert.hpp>
 #include <boost/exception/all.hpp>
@@ -86,7 +88,7 @@ namespace hades_file_local
 		virtual void WriteLine(std::string const &);
 		LogConsoleOutputHandler(LogConsoleOutputHandler &); /* compiler_generated() */
 		LogConsoleOutputHandler(LogConsoleOutputHandler const &); /* compiler_generated() */
-		LogConsoleOutputHandler(); /* compiler_generated() */
+		LogConsoleOutputHandler() = default; /* compiler_generated() */  // hades: not user-provided, so make_shared value-initializes
 		virtual ~LogConsoleOutputHandler() = default; /* compiler_generated() */
 		LogConsoleOutputHandler &operator=(LogConsoleOutputHandler &); /* compiler_generated() */
 		LogConsoleOutputHandler &operator=(LogConsoleOutputHandler const &); /* compiler_generated() */
@@ -116,52 +118,46 @@ using namespace hades_file_local;
 
 namespace Console
 {
-	_extern void _sub_10950840();
 	void Init() // 0x10950840
 	{
-		mangled_x86(MANGLED_TODO, "?Init@Console@@YAXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Init@Console@@YAXXZ");
 		// procedure flags: nofpo
-		todo("implement");
-		_sub_10950840();
+
+		RegisterHandler(std::make_shared<LogConsoleOutputHandler>());
 	}
 
-	_extern void _sub_109509D0(std::string const &);
 	void WriteLine(std::string const &line) // 0x109509D0
 	{
-		mangled_x86(MANGLED_TODO, "?WriteLine@Console@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?WriteLine@Console@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 		// static ...; // 0x10950B24
 		// static ...; // 0x10950B18
 		// static ...; // 0x10950B10
 		// std::string const &line;
 		// std::vector<std::string> lines;
-		{
 			// std::vector<std::string> &<range>$L0;
 			// std::string *<begin>$L0;
 			// std::string *<end>$L0;
-			{
 				// std::string &lineToPrint;
-				{
 					// std::shared_ptr<Console::ConsoleOutputHandler> *<end>$L1;
 					// std::shared_ptr<Console::ConsoleOutputHandler> *<begin>$L1;
 					// std::vector<std::shared_ptr<Console::ConsoleOutputHandler> > &<range>$L1;
-					{
 						// std::shared_ptr<Console::ConsoleOutputHandler> &handler;
-					}
-				}
-			}
-		}
 		// function call : void (std::string const &)
-		todo("implement");
-		_sub_109509D0(line);
+
+		std::vector<std::string> lines = Utils::String::SplitString(line, '\n');
+		for (std::string &lineToPrint : lines)
+		{
+			for (std::shared_ptr<Console::ConsoleOutputHandler> &handler : Handlers)
+				handler->WriteLine(lineToPrint);
+		}
 	}
 
-	_extern void _sub_10950930(std::shared_ptr<Console::ConsoleOutputHandler>);
 	void RegisterHandler(std::shared_ptr<Console::ConsoleOutputHandler> handler) // 0x10950930
 	{
-		mangled_x86(MANGLED_TODO, "?RegisterHandler@Console@@YAXV?$shared_ptr@VConsoleOutputHandler@Console@@@std@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?RegisterHandler@Console@@YAXV?$shared_ptr@VConsoleOutputHandler@Console@@@std@@@Z");
 		// std::shared_ptr<Console::ConsoleOutputHandler> handler;
-		todo("implement");
-		_sub_10950930(handler);
+
+		Handlers.push_back(handler);
 	}
 
 	// mangled_x86(MANGLED_DEFAULT, "??0ConsoleOutputHandler@Console@@QAE@XZ"); no body to assert in
@@ -169,15 +165,15 @@ namespace Console
 
 /* ---------- private code */
 
-_extern void _sub_10950B80(LogConsoleOutputHandler *const, std::string const &);
 void LogConsoleOutputHandler::WriteLine(std::string const &line) // 0x10950B80
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?WriteLine@LogConsoleOutputHandler@hades_file_local@@UAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 	// `anonymous-namespace'::LogConsoleOutputHandler::WriteLine
 	// std::string const &line;
-	todo("implement");
-	_sub_10950B80(this, line);
+
+	Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Debug, Utils::LogLevel::Info, "%s", line.c_str());
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0LogConsoleOutputHandler@hades_file_local@@QAE@XZ"); no body to assert in
-_inline LogConsoleOutputHandler::LogConsoleOutputHandler() = default; // 0x10950350
+// _inline LogConsoleOutputHandler::LogConsoleOutputHandler() = default; // 0x10950350  // hades: defaulted on its declaration
 

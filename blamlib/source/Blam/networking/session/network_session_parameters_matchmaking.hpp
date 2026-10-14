@@ -49,7 +49,7 @@ public:
 	c_network_session_parameter_matchmaking_hopper_list(); /* compiler_generated() */
 	c_network_session_parameter_matchmaking_hopper_list &operator=(c_network_session_parameter_matchmaking_hopper_list &); /* compiler_generated() */
 	c_network_session_parameter_matchmaking_hopper_list &operator=(c_network_session_parameter_matchmaking_hopper_list const &); /* compiler_generated() */
-	void __autoclassinit2(unsigned __int32); /* compiler_generated() */
+	// void __autoclassinit2(unsigned __int32); /* compiler_generated() */  // hades: /sdl generates it
 };
 static_assert(sizeof(c_network_session_parameter_matchmaking_hopper_list) == 3448, "Invalid c_network_session_parameter_matchmaking_hopper_list size");
 
@@ -68,7 +68,7 @@ public:
 	c_network_session_parameter_matchmaking_game_list(); /* compiler_generated() */
 	c_network_session_parameter_matchmaking_game_list &operator=(c_network_session_parameter_matchmaking_game_list &); /* compiler_generated() */
 	c_network_session_parameter_matchmaking_game_list &operator=(c_network_session_parameter_matchmaking_game_list const &); /* compiler_generated() */
-	void __autoclassinit2(unsigned __int32); /* compiler_generated() */
+	// void __autoclassinit2(unsigned __int32); /* compiler_generated() */  // hades: /sdl generates it
 };
 static_assert(sizeof(c_network_session_parameter_matchmaking_game_list) == 912, "Invalid c_network_session_parameter_matchmaking_game_list size");
 
@@ -89,7 +89,7 @@ public:
 	c_network_session_parameter_matchmaking_hopper(); /* compiler_generated() */
 	c_network_session_parameter_matchmaking_hopper &operator=(c_network_session_parameter_matchmaking_hopper &); /* compiler_generated() */
 	c_network_session_parameter_matchmaking_hopper &operator=(c_network_session_parameter_matchmaking_hopper const &); /* compiler_generated() */
-	void __autoclassinit2(unsigned __int32); /* compiler_generated() */
+	// void __autoclassinit2(unsigned __int32); /* compiler_generated() */  // hades: /sdl generates it
 };
 static_assert(sizeof(c_network_session_parameter_matchmaking_hopper) == 200, "Invalid c_network_session_parameter_matchmaking_hopper size");
 
@@ -108,7 +108,7 @@ public:
 	c_network_session_parameter_matchmaking_progress(); /* compiler_generated() */
 	c_network_session_parameter_matchmaking_progress &operator=(c_network_session_parameter_matchmaking_progress &); /* compiler_generated() */
 	c_network_session_parameter_matchmaking_progress &operator=(c_network_session_parameter_matchmaking_progress const &); /* compiler_generated() */
-	void __autoclassinit2(unsigned __int32); /* compiler_generated() */
+	// void __autoclassinit2(unsigned __int32); /* compiler_generated() */  // hades: /sdl generates it
 };
 static_assert(sizeof(c_network_session_parameter_matchmaking_progress) == 112, "Invalid c_network_session_parameter_matchmaking_progress size");
 
@@ -129,7 +129,7 @@ public:
 	c_network_session_parameter_matchmaking_progress_search_criteria(); /* compiler_generated() */
 	c_network_session_parameter_matchmaking_progress_search_criteria &operator=(c_network_session_parameter_matchmaking_progress_search_criteria &); /* compiler_generated() */
 	c_network_session_parameter_matchmaking_progress_search_criteria &operator=(c_network_session_parameter_matchmaking_progress_search_criteria const &); /* compiler_generated() */
-	void __autoclassinit2(unsigned __int32); /* compiler_generated() */
+	// void __autoclassinit2(unsigned __int32); /* compiler_generated() */  // hades: /sdl generates it
 };
 static_assert(sizeof(c_network_session_parameter_matchmaking_progress_search_criteria) == 120, "Invalid c_network_session_parameter_matchmaking_progress_search_criteria size");
 
@@ -150,7 +150,7 @@ public:
 	c_network_session_parameter_matchmaking_rematch_data(); /* compiler_generated() */
 	c_network_session_parameter_matchmaking_rematch_data &operator=(c_network_session_parameter_matchmaking_rematch_data &); /* compiler_generated() */
 	c_network_session_parameter_matchmaking_rematch_data &operator=(c_network_session_parameter_matchmaking_rematch_data const &); /* compiler_generated() */
-	void __autoclassinit2(unsigned __int32); /* compiler_generated() */
+	// void __autoclassinit2(unsigned __int32); /* compiler_generated() */  // hades: /sdl generates it
 };
 static_assert(sizeof(c_network_session_parameter_matchmaking_rematch_data) == 1976, "Invalid c_network_session_parameter_matchmaking_rematch_data size");
 
@@ -163,7 +163,7 @@ public:
 	c_network_session_parameter_matchmaking_hopper_statistics(); /* compiler_generated() */
 	c_network_session_parameter_matchmaking_hopper_statistics &operator=(c_network_session_parameter_matchmaking_hopper_statistics &); /* compiler_generated() */
 	c_network_session_parameter_matchmaking_hopper_statistics &operator=(c_network_session_parameter_matchmaking_hopper_statistics const &); /* compiler_generated() */
-	void __autoclassinit2(unsigned __int32); /* compiler_generated() */
+	// void __autoclassinit2(unsigned __int32); /* compiler_generated() */  // hades: /sdl generates it
 };
 static_assert(sizeof(c_network_session_parameter_matchmaking_hopper_statistics) == 64, "Invalid c_network_session_parameter_matchmaking_hopper_statistics size");
 
@@ -184,7 +184,7 @@ public:
 	c_network_session_parameter_matchmaking_messaging(); /* compiler_generated() */
 	c_network_session_parameter_matchmaking_messaging &operator=(c_network_session_parameter_matchmaking_messaging &); /* compiler_generated() */
 	c_network_session_parameter_matchmaking_messaging &operator=(c_network_session_parameter_matchmaking_messaging const &); /* compiler_generated() */
-	void __autoclassinit2(unsigned __int32); /* compiler_generated() */
+	// void __autoclassinit2(unsigned __int32); /* compiler_generated() */  // hades: /sdl generates it
 };
 static_assert(sizeof(c_network_session_parameter_matchmaking_messaging) == 72, "Invalid c_network_session_parameter_matchmaking_messaging size");
 

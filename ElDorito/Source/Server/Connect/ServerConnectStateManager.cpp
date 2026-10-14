@@ -54,29 +54,49 @@ class CServerConnectStateManager;
 
 /* ---------- public code */
 
-_extern void _sub_10B0D750(CServerConnectStateManager *const, EServerConnectState, std::shared_ptr<CServerConnectStateHandler> const &);
 void CServerConnectStateManager::RegisterStateHandler(EServerConnectState state, std::shared_ptr<CServerConnectStateHandler> const &handler) // 0x10B0D750
 {
-	mangled_x86(MANGLED_TODO, "?RegisterStateHandler@CServerConnectStateManager@@QAEXW4EServerConnectState@@ABV?$shared_ptr@VCServerConnectStateHandler@@@std@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?RegisterStateHandler@CServerConnectStateManager@@QAEXW4EServerConnectState@@ABV?$shared_ptr@VCServerConnectStateHandler@@@std@@@Z");
 	// std::shared_ptr<CServerConnectStateHandler> const &handler;
-	todo("implement");
-	_sub_10B0D750(this, state, handler);
+
+	#line 59 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Server\\Connect\\ServerConnectStateManager.cpp"
+		assert(m_stateHandlers.find(state) == m_stateHandlers.end());
+		#line 65 "C:\\Users\\zekken\\Desktop\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Server\\Connect\\ServerConnectStateManager.cpp"
+	m_stateHandlers.insert(std::make_pair(state, handler));
+	handler->SetManager(this);
 }
 
-_extern void _sub_10B0DC10(CServerConnectStateManager *const);
 void CServerConnectStateManager::Update() // 0x10B0DC10
 {
-	mangled_x86(MANGLED_TODO, "?Update@CServerConnectStateManager@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CServerConnectStateManager@@QAEXXZ");
 	// CServerConnectStateManager *const this;
-	{
 		// bool it;
-		{
 			// EServerConnectState newState;
+	// function call : void ()
+
+	if (m_abortReason)
+	{
+		AbortEvent.PostEvent(m_abortReason);
+		m_abortReason = (EServerConnectAbortReason)0;
+		Complete();
+	}
+	if (m_requestedState)
+	{
+		if (bool it = m_stateHandlers.find(m_requestedState) != std::end(m_stateHandlers))
+		{
+			EServerConnectState newState = m_requestedState;
+			m_requestedState = (EServerConnectState)0;
+			SetStateInternal(newState);
+		}
+		else
+		{
+			#line 91 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Server\\Connect\\ServerConnectStateManager.cpp"
+				assert(!"CServerConnectStateManager :: transitioned to unknown state");
+				#line 96 "C:\\Users\\zekken\\Desktop\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Server\\Connect\\ServerConnectStateManager.cpp"
 		}
 	}
-	// function call : void ()
-	todo("implement");
-	_sub_10B0DC10(this);
+	if (m_currentHandler)
+		m_currentHandler->OnUpdate();
 }
 
 void CServerConnectStateManager::RequestStateChange(EServerConnectState state) // 0x10B0D9D0
@@ -103,15 +123,20 @@ void CServerConnectStateManager::Complete() // 0x10B0D640
 	SetStateInternal((EServerConnectState)0);
 }
 
-_extern void _sub_10B0DA00(CServerConnectStateManager *const, EServerConnectState);
 void CServerConnectStateManager::SetStateInternal(EServerConnectState state) // 0x10B0DA00
 {
-	mangled_x86(MANGLED_TODO, "?SetStateInternal@CServerConnectStateManager@@AAEXW4EServerConnectState@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SetStateInternal@CServerConnectStateManager@@AAEXW4EServerConnectState@@@Z");
 	// EServerConnectState state;
 	// function call : void ()
 	// function call : void ()
-	todo("implement");
-	_sub_10B0DA00(this, state);
+
+	if (m_currentHandler)
+		m_currentHandler->OnExit();
+
+	m_currentHandler = state ? m_stateHandlers[state] : nullptr;
+
+	if (m_currentHandler)
+		m_currentHandler->OnEnter();
 }
 
 /* ---------- private code */

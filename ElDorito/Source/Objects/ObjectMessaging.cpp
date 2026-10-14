@@ -51,6 +51,23 @@ namespace Patches
 
 /* ---------- definitions */
 
+namespace Objects
+{
+	// hades: moved from hades/recovered_types.h onto its real base (was hades::polymorphic_bytes)
+	struct ObjectMessageSystem :
+		public IGameSystem
+	{
+		// mangled_x86(MANGLED_KNOWN_GOOD, "??1ObjectMessageSystem@Objects@@UAE@XZ"); defaulted on its declaration, which skips the vfptr store
+		virtual ~ObjectMessageSystem() = default; // 0x10799710
+		virtual void Initialize();
+		virtual void InitializeForNewMap();
+		virtual void DisposeFromOldMap();
+		virtual void Dispose();
+		virtual void Update();
+	};
+	static_assert32(sizeof(ObjectMessageSystem) == 4, "Invalid ObjectMessageSystem size");
+}
+
 // Objects::ObjectMessageSystem is defined in hades/recovered_types.h, which the synthesised
 // templates in hades/recovered_templates.h inherit from.
 
@@ -60,8 +77,8 @@ namespace Patches
 
 namespace Objects
 {
-	extern ::Objects::ObjectMessageSystem system; // 0x1134DCDC
-	extern std::queue<std::function<void __cdecl(void)> > queuedActions; // 0x1138DD58
+	::Objects::ObjectMessageSystem system; // 0x1134DCDC
+	std::queue<std::function<void __cdecl(void)> > queuedActions; // 0x1138DD58
 }
 
 /* ---------- private variables */
@@ -86,28 +103,29 @@ namespace Objects
 		Patches::Game::RegisterGameSystem((IGameSystem *)&Objects::system);
 	}
 
-	_extern void _sub_10799950(std::function<void __cdecl(void)> &);
 	void CObjectMessaging::EnqueueAction(std::function<void __cdecl(void)> &&action) // 0x10799950
 	{
-		mangled_x86(MANGLED_TODO, "?EnqueueAction@CObjectMessaging@Objects@@SAX$$QAV?$function@$$A6AXXZ@std@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?EnqueueAction@CObjectMessaging@Objects@@SAX$$QAV?$function@$$A6AXXZ@std@@@Z");
 		// std::function<void __cdecl(void)> &action;
-		todo("implement");
-		_sub_10799950(action);
+
+		queuedActions.push(std::move(action));
 	}
 
-	_extern void _sub_10799A60();
 	void CObjectMessaging::RunActions() // 0x10799A60
 	{
-		mangled_x86(MANGLED_TODO, "?RunActions@CObjectMessaging@Objects@@SAXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?RunActions@CObjectMessaging@Objects@@SAXXZ");
 		// procedure flags: nofpo
 		// static ...; // 0x10799B44
 		// static ...; // 0x10799B38
 		// static ...; // 0x10799B30
-		{
 			// std::function<void __cdecl(void)> action;
+
+		while (!queuedActions.empty())
+		{
+			std::function<void __cdecl(void)> action = std::move(queuedActions.front());
+			queuedActions.pop();
+			action();
 		}
-		todo("implement");
-		_sub_10799A60();
 	}
 
 	void CObjectMessaging::Reset() // 0x10799A00
@@ -119,14 +137,6 @@ namespace Objects
 		{
 			Objects::queuedActions.pop();
 		}
-	}
-
-	_inline ObjectMessageSystem::~ObjectMessageSystem() // 0x10799710
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??1ObjectMessageSystem@Objects@@UAE@XZ");
-		// Objects::ObjectMessageSystem *const this;
-
-		compiler_generated();
 	}
 }
 

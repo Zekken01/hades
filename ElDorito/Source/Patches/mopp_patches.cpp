@@ -101,30 +101,36 @@ namespace Patches
 {
 	namespace Mopp
 	{
-		_extern void _sub_10A8BC10();
 		void InitializeForNewMap() // 0x10A8BC10
 		{
-			mangled_x86(MANGLED_TODO, "?InitializeForNewMap@Mopp@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeForNewMap@Mopp@Patches@@YAXXZ");
 			// procedure flags: nofpo
 			// s_scenario *scenario;
-			{
 				// long i;
-				{
 					// s_scenario_structure_bsp *sbsp;
+			// function call : void *(*const)(unsigned long, long)
+
+			ApplyRuntimeMoppFix = false;
+			s_scenario *scenario = global_scenario_get();
+			for (long i = 0; i < scenario->structure_bsps.count; i++)
+			{
+				s_scenario_structure_bsp *sbsp = (s_scenario_structure_bsp *)tag_get('sbsp', reinterpret_cast<s_tag_reference *>(scenario->structure_bsps[i].structure_bsp)->index);
+				if (sbsp->compatibility_flags.test(_scenario_structure_bsp_compatibility_use_mopp_patch_bit))
+				{
+					ApplyRuntimeMoppFix = true;
+					return;
 				}
 			}
-			// function call : void *(*const)(unsigned long, long)
-			todo("implement");
-			_sub_10A8BC10();
 		}
 
-		_extern void _sub_10A8B8E0();
 		void ApplyAll() // 0x10A8B8E0
 		{
-			mangled_x86(MANGLED_TODO, "?ApplyAll@Mopp@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Mopp@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_10A8B8E0();
+
+			Hook(0x90E9E3, loc_D0E9E3_hook).Apply();
+			Hook(0x90D919, loc_D0D919_hook).Apply();
+			Hook(0x90F505, loc_D0F505_hook).Apply();
 		}
 
 		void Tick() // 0x10A8BD10

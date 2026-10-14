@@ -13,6 +13,8 @@
 #include "Utils/String.hpp"
 #include "Web/Bridge/WebRendererQueryHandler.hpp"
 
+#include <format>  // hades: added for 0x10701E90  // hades: added for 0x10701E90
+
 #include <Windows.h>
 #include <stdio.h>
 #include <sys/stat.h>
@@ -99,94 +101,132 @@ namespace Scripting
 {
 	namespace HS
 	{
-		_extern bool _sub_10702520(std::string_view);
 		bool ValidIdentifier(std::string_view name) // 0x10702520
 		{
-			mangled_x86(MANGLED_TODO, "?ValidIdentifier@HS@Scripting@@YA_NV?$basic_string_view@DU?$char_traits@D@std@@@std@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ValidIdentifier@HS@Scripting@@YA_NV?$basic_string_view@DU?$char_traits@D@std@@@std@@@Z");
 			// std::string_view name;
-			{
 				// unsigned __int32 i;
+
+			if (name.empty())
+				return false;
+			if (!isalpha(name[0]))
+				return false;
+			for (unsigned __int32 i = 0; i < name.size(); i++)
+			{
+				if (name[i] == '_')
+					continue;
+				if (!isalnum(name[i]) || !islower(name[i]))
+					return false;
 			}
-			todo("implement");
-			bool __result = _sub_10702520(name);
-			return __result;
+			return true;
 		}
 
-		_extern void _sub_10701260(Scripting::HS::ScriptMethodMap *const, Scripting::HS::ScriptMethod &);
 		void ScriptMethodMap::AddMethod(Scripting::HS::ScriptMethod &&method) // 0x10701260
 		{
-			mangled_x86(MANGLED_TODO, "?AddMethod@ScriptMethodMap@HS@Scripting@@AAEX$$QAUScriptMethod@23@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?AddMethod@ScriptMethodMap@HS@Scripting@@AAEX$$QAUScriptMethod@23@@Z");
 			// Scripting::HS::ScriptMethod &method;
-			{
 				// std::vector<Scripting::HS::ScriptParameter> &<range>$L0;
 				// Scripting::HS::ScriptParameter *<begin>$L0;
 				// Scripting::HS::ScriptParameter *<end>$L0;
-				{
 					// Scripting::HS::ScriptParameter const &parameter;
-				}
+
+			#line 126 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Scripting\\HaloScript\\HsMethodMap.cpp"
+			assert(!m_finalized && "A method cannot be added after Finalize() has been called");
+
+			if (method.name.length() > 30)
+				assert(!"A method name must be 30 characters or less");
+
+			assert(ValidIdentifier(method.name));
+
+			if (method.description.empty())
+				assert(!"A method must have a description");
+			else if (!method.evaluateProc)
+				assert(!"A method must have an evaluate function");
+
+
+
+			else if ((method.flags & HostOnly) && (method.flags & NetworkSafe))
+				assert(!"A method cannot be flagged as both 'HostOnly' and 'NetworkSafe'");
+			else
+			{
+				if ((int)method.parameters.size() > 16)
+					assert(!"The method has too many parameters");
+
+				for (auto const &parameter : method.parameters)
+					assert(ValidIdentifier(parameter.name));
+
+
+				if (m_methods.find(method.name) != m_methods.end())
+					assert(!"A method with that name has already been added.");
+				m_methods.emplace(method.name, method);
 			}
-			todo("implement");
-			_sub_10701260(this, method);
+			#line 164 "C:\\Users\\zekken\\Desktop\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Scripting\\HaloScript\\HsMethodMap.cpp"
 		}
 
 		// mangled_x86(MANGLED_DEFAULT, "??0ScriptMethod@HS@Scripting@@QAE@ABU012@@Z"); no body to assert in
-		_inline ScriptMethod::ScriptMethod(Scripting::HS::ScriptMethod const &__that) = default; // 0x10700770
+		// _inline ScriptMethod::ScriptMethod(Scripting::HS::ScriptMethod const &__that) = default; // 0x10700770  // hades: implicit (ScriptMethod is an aggregate)
 
-		_extern void _sub_10701690(Scripting::HS::ScriptMethodMap *const, std::string_view, std::string_view, Scripting::HS::ScriptMethodFlags, void (*)(short, long, bool), e_hs_type, std::initializer_list<Scripting::HS::ScriptParameter>);
 		void ScriptMethodMap::AddMethod(std::string_view name, std::string_view description, Scripting::HS::ScriptMethodFlags flags, void (*evaluate)(short, long, bool), e_hs_type returnType, std::initializer_list<Scripting::HS::ScriptParameter> parameters) // 0x10701690
 		{
-			mangled_x86(MANGLED_TODO, "?AddMethod@ScriptMethodMap@HS@Scripting@@QAEXV?$basic_string_view@DU?$char_traits@D@std@@@std@@0W4ScriptMethodFlags@23@P6AXFJ_N@ZW4e_hs_type@@V?$initializer_list@UScriptParameter@HS@Scripting@@@5@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?AddMethod@ScriptMethodMap@HS@Scripting@@QAEXV?$basic_string_view@DU?$char_traits@D@std@@@std@@0W4ScriptMethodFlags@23@P6AXFJ_N@ZW4e_hs_type@@V?$initializer_list@UScriptParameter@HS@Scripting@@@5@@Z");
 			// Scripting::HS::ScriptMethodFlags flags;
 			// void (*evaluate)(short, long, bool);
 			// e_hs_type returnType;
 			// std::initializer_list<Scripting::HS::ScriptParameter> parameters;
 			// Scripting::HS::ScriptMethod method;
-			todo("implement");
-			_sub_10701690(this, name, description, flags, evaluate, returnType, parameters);
+
+			ScriptMethod method = {};
+			method.name = name;
+			method.description = description;
+			method.flags = flags;
+			method.evaluateProc = evaluate;
+			method.returnType = returnType;
+			method.parameters = parameters;
+			AddMethod(std::move(method));
 		}
 
-		extern ScriptMethod const *_sub_10701880(Scripting::HS::ScriptMethodMap const *const, std::string_view);
 		Scripting::HS::ScriptMethod const *ScriptMethodMap::FindMethod(std::string_view name) const // 0x10701880
 		{
-			mangled_x86(MANGLED_TODO, "?FindMethod@ScriptMethodMap@HS@Scripting@@QBEPBUScriptMethod@23@V?$basic_string_view@DU?$char_traits@D@std@@@std@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?FindMethod@ScriptMethodMap@HS@Scripting@@QBEPBUScriptMethod@23@V?$basic_string_view@DU?$char_traits@D@std@@@std@@@Z");
 			// static ...; // 0x107019BC
 			// static ...; // 0x107019B4
 			// Scripting::HS::ScriptMethodMap const *const this;
 			// std::string_view name;
-			{
 				// std::_List_const_iterator<std::_List_val<std::_List_simple_types<std::pair<std::string_view const ,Scripting::HS::ScriptMethod> > > > it;
-			}
-			todo("implement");
-			Scripting::HS::ScriptMethod const * __result = _sub_10701880((Scripting::HS::ScriptMethodMap const *)this, name);
-			return __result;
+
+			#line 190 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Scripting\\HaloScript\\HsMethodMap.cpp"
+				assert(m_finalized && "Finalize() must be called first.");
+				#line 200 "C:\\Users\\zekken\\Desktop\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Scripting\\HaloScript\\HsMethodMap.cpp"
+			if (auto it = m_methods.find(name); it != m_methods.end())
+				return &it->second;
+			return nullptr;
 		}
 	}
 }
 
-extern std::string _sub_10701E00(Scripting::HS::ScriptMethodMap *const, Scripting::HS::ScriptMethod const *);
+
 namespace Scripting
 {
 	namespace HS
 	{
 		std::string ScriptMethodMap::GenerateHelp(Scripting::HS::ScriptMethod const *method) // 0x10701E00
 		{
-			mangled_x86(MANGLED_TODO, "?GenerateHelp@ScriptMethodMap@HS@Scripting@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PBUScriptMethod@23@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GenerateHelp@ScriptMethodMap@HS@Scripting@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PBUScriptMethod@23@@Z");
 			// Scripting::HS::ScriptMethod const *method;
-			todo("implement");
-			std::string __result = _sub_10701E00(this, method);
-			return __result;
+
+			return std::string(method->description);
 		}
 	}
 }
 
-extern std::string _sub_10701E90(Scripting::HS::ScriptMethodMap *const, Scripting::HS::ScriptMethod const *);
+
 namespace Scripting
 {
 	namespace HS
 	{
 		std::string ScriptMethodMap::GenerateMethodDeclaration(Scripting::HS::ScriptMethod const *method) // 0x10701E90
 		{
-			mangled_x86(MANGLED_TODO, "?GenerateMethodDeclaration@ScriptMethodMap@HS@Scripting@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PBUScriptMethod@23@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GenerateMethodDeclaration@ScriptMethodMap@HS@Scripting@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PBUScriptMethod@23@@Z");
 			// static ...; // 0x107023BC
 			// static ...; // 0x107023B7
 			// static ...; // 0x107023AF
@@ -196,32 +236,47 @@ namespace Scripting
 			// Scripting::HS::ScriptMethodMap *const this;
 			// Scripting::HS::ScriptMethod const *method;
 			// std::string_view returnType;
-			{
 				// std::stringstream ss;
 				// std::string parameters;
-				{
 					// unsigned __int32 i;
-					{
 						// std::string typeStr;
 						// std::string_view type;
-					}
-				}
+
+			if (!method)
+				return "(null)";
+			std::string_view returnType = hs_get_type_name(method->returnType);
+			if (method->parameters.empty())
+			{
+				return std::format("(script extern {} {})", returnType, method->name);
 			}
-			todo("implement");
-			std::string __result = _sub_10701E90(this, method);
-			return __result;
+			else
+			{
+				std::stringstream ss;
+				for (unsigned __int32 i = 0; i < method->parameters.size(); i++)
+				{
+					std::string_view type = hs_get_type_name(method->parameters[i].type);
+					std::string typeStr(type);
+					Utils::String::ReplaceString(typeStr, " ", "_");
+					typeStr.erase(std::remove(typeStr.begin(), typeStr.end(), '_'), typeStr.end());
+					ss << std::format("({} {})", typeStr, method->parameters[i].name);
+					if (i < method->parameters.size() - 1)
+						ss << " ";
+				}
+				std::string parameters = ss.str();
+				return std::format("(script extern {} ({} {}))", returnType, method->name, parameters);
+			}
 		}
 	}
 }
 
-extern std::string _sub_10701A20(Scripting::HS::ScriptMethodMap const *const);
+
 namespace Scripting
 {
 	namespace HS
 	{
 		std::string ScriptMethodMap::GenerateDocs() const // 0x10701A20
 		{
-			mangled_x86(MANGLED_TODO, "?GenerateDocs@ScriptMethodMap@HS@Scripting@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GenerateDocs@ScriptMethodMap@HS@Scripting@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 			// static ...; // 0x10701D30
 			// static ...; // 0x10701D25
 			// static ...; // 0x10701D1C
@@ -230,27 +285,43 @@ namespace Scripting
 			// Scripting::HS::ScriptMethodMap const *const this;
 			// std::stringstream docs;
 			// Scripting::HS::ScriptMethodMap &methods;
-			{
 				// std::unordered_map<std::string_view,Scripting::HS::ScriptMethod> &<range>$L0;
 				// std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<std::string_view const ,Scripting::HS::ScriptMethod> > > > <begin>$L0;
 				// std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<std::string_view const ,Scripting::HS::ScriptMethod> > > > <end>$L0;
-				{
 					// Scripting::HS::ScriptMethod const &method;
 					// std::string_view const &name;
-				}
+
+			#line 279 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Scripting\\HaloScript\\HsMethodMap.cpp"
+				assert(m_finalized && "Finalize() must be called before generating documentation.");
+				#line 297 "C:\\Users\\zekken\\Desktop\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Scripting\\HaloScript\\HsMethodMap.cpp"
+			std::stringstream docs;
+			ScriptMethodMap &methods = Utils::Singleton<ScriptMethodMap>::Instance();
+			for (auto const &[name, method] : methods.m_methods)
+			{
+				if (method.flags & (ScriptMethodFlags)8)
+					continue;
+				docs << methods.GenerateMethodDeclaration(&method) << "\n";
+				docs << method.description << "\n";
+				if (method.flags & ScriptMethodFlags::HostOnly)
+					docs << "NETWORK SAFE: Host Only\n";
+				else if (method.flags & ScriptMethodFlags::NetworkSafe)
+					docs << "NETWORK SAFE: Yes\n";
+				else
+					docs << "NETWORK SAFE: Unknown\n";
+				docs << "\n";
 			}
-			todo("implement");
-			std::string __result = _sub_10701A20((Scripting::HS::ScriptMethodMap const *)this);
-			return __result;
+			return docs.str();
 		}
 
-		_extern void _sub_107017F0(Scripting::HS::ScriptMethodMap *const);
 		void ScriptMethodMap::Finalize() // 0x107017F0
 		{
-			mangled_x86(MANGLED_TODO, "?Finalize@ScriptMethodMap@HS@Scripting@@QAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Finalize@ScriptMethodMap@HS@Scripting@@QAEXXZ");
 			// Scripting::HS::ScriptMethodMap *const this;
-			todo("implement");
-			_sub_107017F0(this);
+
+			#line 318 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Scripting\\HaloScript\\HsMethodMap.cpp"
+				assert(!m_finalized && "Finalize() has already been called");
+				#line 324 "F:\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Scripting\\HaloScript\\HsMethodMap.cpp"
+			m_finalized = true;
 		}
 	}
 }

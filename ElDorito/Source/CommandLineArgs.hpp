@@ -47,14 +47,18 @@ _inline __int32 CommandLineArgs::GetArgCount() const // 0x106676E0
 	return m_numArgs;
 }
 
-extern char const *_sub_10667640(CommandLineArgs const *const, __int32);
 _inline char const *CommandLineArgs::GetArg(__int32 index) const // 0x10667640
 {
-	mangled_x86(MANGLED_TODO, "?GetArg@CommandLineArgs@@QBEPBDH@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetArg@CommandLineArgs@@QBEPBDH@Z");
 	// __int32 index;
-	todo("implement");
-	char const * __result = _sub_10667640((CommandLineArgs const *)this, index);
-	return __result;
+
+	(void)((!!(index >= 0 && index < GetArgCount())) || (_wassert(L"index >= 0 && index < GetArgCount()", L"C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\CommandLineArgs.hpp", 23), 0));
+	if (index < 0 || index >= GetArgCount())
+	{
+		return nullptr;
+	}
+
+	return m_args[index];
 }
 
 _inline char const *CommandLineArgs::operator[](__int32 index) const // 0x106609F0

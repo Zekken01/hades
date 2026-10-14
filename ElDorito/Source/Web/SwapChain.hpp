@@ -44,11 +44,11 @@ namespace Web
 			public:
 			struct Buffer
 			{
-				unsigned __int32 version; // 0x0
-				IDirect3DTexture9 *texture; // 0x4
-				void *handle; // 0x8
+				unsigned __int32 version = 0; // 0x0
+				IDirect3DTexture9 *texture = nullptr; // 0x4
+				void *handle = nullptr; // 0x8
 				Buffer(Buffer const &);
-				_inline Buffer();
+				_inline Buffer() = default;  // hades: implicit - new Buffer() zero-fills before calling it
 				Buffer &operator=(Buffer const &);
 				_inline ~Buffer();
 			};
@@ -107,15 +107,15 @@ namespace Web
 {
 	namespace Browser
 	{
-		_inline SwapChain::Buffer::Buffer() // 0x10C77670
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0Buffer@SwapChain@Browser@Web@@QAE@XZ");
-			// Web::Browser::SwapChain::Buffer *const this;
-
-			version = 0;
-			texture = nullptr;
-			handle = nullptr;
-		}
+		// SwapChain::Buffer::Buffer() (0x10C77670) is the implicit constructor:
+		// the members carry default initializers in the class.
+		//
+		//
+		//
+		//
+		//
+		//
+		//
 
 		_inline SwapChain::Buffer::~Buffer() // 0x10C77A40
 		{

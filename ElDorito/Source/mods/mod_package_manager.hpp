@@ -39,12 +39,12 @@ public:
 	public:
 	struct mod_type
 	{
-		bool mainmenu : 1; // 0x0
-		bool multiplayer : 1; // 0x0
-		bool campaign : 1; // 0x0
-		bool firefight : 1; // 0x0
-		bool character : 1; // 0x0
-		_inline mod_type() = default; /* compiler_generated() */
+		bool mainmenu : 1 = false; // 0x0
+		bool multiplayer : 1 = false; // 0x0
+		bool campaign : 1 = false; // 0x0
+		bool firefight : 1 = false; // 0x0
+		bool character : 1 = false; // 0x0
+		// hades: default constructor left implicit (enumerate_blocking_internal aggregate-initializes s_entry)
 	};
 	static_assert(sizeof(mod_type) == 1, "Invalid mod_type size");
 	struct s_entry
@@ -65,12 +65,7 @@ public:
 		long long dateBuilt; // 0x5A8
 		mod_type modtype; // 0x5B0
 		s_mod_origin_info origin; // 0x5B4
-		_inline s_entry(s_entry &&__that); /* compiler_generated() */
-		_inline s_entry(s_entry const &__that); /* compiler_generated() */
-		_inline s_entry() = default; /* compiler_generated() */
-		_inline ~s_entry(); /* compiler_generated() */
-		s_entry &operator=(s_entry &); /* compiler_generated() */
-		_inline s_entry &operator=(s_entry const &__that); /* compiler_generated() */
+		// hades: special members left implicit (enumerate_blocking_internal aggregate-initializes entry)
 	};
 	static_assert(sizeof(s_entry) == 1576, "Invalid s_entry size");
 	static_assert(offsetof(s_entry, name) == 0x12E, "s_entry::name moved when its reconstructed padding was removed");

@@ -73,7 +73,6 @@ struct c_gui_custom_bitmap_widget :
 	c_synchronized_int32 m_length; // 0x150
 	s_file_reference file_reference; // 0x154
 	bool unknown_flag; // 0x264
-	unsigned char __pad0[3]; // 0x265
 	long bitmap_format; // 0x268
 	char m_requested_filename[256]; // 0x26C
 	char m_filename[256]; // 0x36C

@@ -163,18 +163,27 @@ namespace Blam
 		return ReadBitsLongImpl(this, bits);
 	}
 
-	_extern void _sub_1092A460(Blam::BitStream *const, unsigned long long, __int32);
 	void BitStream::WriteBits(unsigned long long val, __int32 bits) // 0x1092A460
 	{
-		mangled_x86(MANGLED_TODO, "?WriteBits@BitStream@Blam@@AAEX_KH@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?WriteBits@BitStream@Blam@@AAEX_KH@Z");
 		// __int32 bits;
 		// unsigned long long masked;
-		{
 			// void (*const WriteBits)(Blam::BitStream *, unsigned long long, __int32);
-		}
 		// function call : void (*const)(Blam::BitStream *, unsigned long long, __int32)
-		todo("implement");
-		_sub_1092A460(this, val, bits);
+
+		unsigned long long masked = val & ~(-1LL << bits);
+		if (BitsAvailable(bits))
+		{
+			m_currentStreamBitPosition += bits;
+			m_accumulatorBitsUsed += bits;
+			m_accumulator <<= bits;
+			m_accumulator |= masked;
+		}
+		else
+		{
+			void (__thiscall *const WriteBits)(Blam::BitStream *, unsigned long long, __int32) = (void(__thiscall *const)(Blam::BitStream *, unsigned long long, __int32))0x559EB0;
+			WriteBits(this, masked, bits);
+		}
 	}
 
 	void BitStream::ReadBlock(unsigned __int32 bits, unsigned char *out) // 0x1092A300

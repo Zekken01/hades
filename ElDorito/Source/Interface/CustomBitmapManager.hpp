@@ -29,7 +29,7 @@ class CustomBitmapManager
 {
 public:
 	public:
-	enum ELoadState : unsigned short
+	enum class ELoadState : unsigned short // hades: scoped (the original compares it at word width)
 	{
 		kNone = 0,
 		kLoading,
@@ -75,7 +75,7 @@ private:
 	__int32 FindStorageItemWithPath(std::string const &path);
 	std::shared_mutex m_lock; // 0x0
 	std::array<StorageItem,32> m_storageItems; // 0x4
-	unsigned short m_nextSalt; // 0xC04
+	unsigned short m_nextSalt = 0; // 0xC04
 	unsigned char __pad0[2]; // 0xC06
 	std::string m_currentModHash; // 0xC08
 	unsigned char __pad1[4]; // 0xC24

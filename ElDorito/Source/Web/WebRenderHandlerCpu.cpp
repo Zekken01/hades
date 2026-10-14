@@ -12,6 +12,8 @@
 #include "Web/Ui/ScreenLayer.hpp"
 #include "Web/WebRenderHandlerOsr.hpp"
 
+#include "Utils/Logger.hpp"  // hades: added for 0x10CE8B30
+
 #include <base/cef_atomic_ref_count.h>
 #include <base/cef_lock.h>
 #include <base/cef_logging.h>
@@ -161,41 +163,44 @@ namespace Web
 {
 	namespace Browser
 	{
-		extern RenderHandlerCpu* _sub_10CE7C90(Web::Browser::RenderHandlerCpu *const, IDirect3DDevice9 *, HWND__ *);
-		RenderHandlerCpu::RenderHandlerCpu(IDirect3DDevice9 *device9, HWND__ *window) // 0x10CE7C90
+		RenderHandlerCpu::RenderHandlerCpu(IDirect3DDevice9 *device9, HWND__ *window) : m_Window(window), m_Device(device9), m_Texture(nullptr), m_Sprite(nullptr), m_TextureStride(0), m_PopupVisible(false), m_PopupValid(false) /* hades-mem-init:  */ // 0x10CE7C90
 		{
-			mangled_x86(MANGLED_TODO, "??0RenderHandlerCpu@Browser@Web@@QAE@PAUIDirect3DDevice9@@PAUHWND__@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0RenderHandlerCpu@Browser@Web@@QAE@PAUIDirect3DDevice9@@PAUHWND__@@@Z");
 			// HWND__ *window;
-			todo("implement");
-			_sub_10CE7C90(this, device9, window);
+
+			#line 175 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Web\\WebRenderHandlerCpu.cpp"
+			LOG_ASSERT(device9);
+			LOG_ASSERT(window);
+			#line 175 "C:\\Users\\zekken\\Desktop\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Web\\WebRenderHandlerCpu.cpp"
 		}
 
 		// mangled_x86(MANGLED_DEFAULT, "??0RenderHandlerOsr@Browser@Web@@QAE@XZ"); no body to assert in
 
-		_extern void _sub_10CE95A0(Web::Browser::RenderHandlerCpu *const, scoped_refptr<CefBrowser>, CefRect const &);
 		void RenderHandlerCpu::OnPopupSize(scoped_refptr<CefBrowser> browser, CefRect const &rect) // 0x10CE95A0
 		{
-			mangled_x86(MANGLED_TODO, "?OnPopupSize@RenderHandlerCpu@Browser@Web@@EAEXV?$scoped_refptr@VCefBrowser@@@@ABVCefRect@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnPopupSize@RenderHandlerCpu@Browser@Web@@EAEXV?$scoped_refptr@VCefBrowser@@@@ABVCefRect@@@Z");
 			// CefRect const &rect;
-			todo("implement");
-			_sub_10CE95A0(this, browser, rect);
+
+			m_PopupRect = Utils::Rectangle(rect.x, rect.y, rect.width, rect.height);
+			m_PopupData.resize(rect.width * rect.height * 4);
+			m_PopupValid = false;
 		}
 
-		_extern void _sub_10CE93E0(Web::Browser::RenderHandlerCpu *const, scoped_refptr<CefBrowser>, bool);
 		void RenderHandlerCpu::OnPopupShow(scoped_refptr<CefBrowser> browser, bool show) // 0x10CE93E0
 		{
-			mangled_x86(MANGLED_TODO, "?OnPopupShow@RenderHandlerCpu@Browser@Web@@EAEXV?$scoped_refptr@VCefBrowser@@@@_N@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnPopupShow@RenderHandlerCpu@Browser@Web@@EAEXV?$scoped_refptr@VCefBrowser@@@@_N@Z");
 			// bool show;
 			// function call : scoped_refptr<CefBrowserHost> ()
 			// function call : void (cef_paint_element_type_t)
-			todo("implement");
-			_sub_10CE93E0(this, browser, show);
+
+			m_PopupVisible = show;
+			if (!show)
+				browser->GetHost()->Invalidate(::PET_VIEW);
 		}
 
-		_extern void _sub_10CE8D70(Web::Browser::RenderHandlerCpu *const, scoped_refptr<CefBrowser>, cef_paint_element_type_t, std::vector<CefRect> const &, void const *, __int32, __int32);
 		void RenderHandlerCpu::OnPaint(scoped_refptr<CefBrowser> browser, cef_paint_element_type_t type, std::vector<CefRect> const &dirtyRects, void const *buffer, __int32 width, __int32 height) // 0x10CE8D70
 		{
-			mangled_x86(MANGLED_TODO, "?OnPaint@RenderHandlerCpu@Browser@Web@@EAEXV?$scoped_refptr@VCefBrowser@@@@W4cef_paint_element_type_t@@ABV?$vector@VCefRect@@V?$allocator@VCefRect@@@std@@@std@@PBXHH@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnPaint@RenderHandlerCpu@Browser@Web@@EAEXV?$scoped_refptr@VCefBrowser@@@@W4cef_paint_element_type_t@@ABV?$vector@VCefRect@@V?$allocator@VCefRect@@@std@@@std@@PBXHH@Z");
 			// static ...; // 0x10CE91D0
 			// Web::Browser::RenderHandlerCpu *const this;
 			// scoped_refptr<CefBrowser> browser;
@@ -207,32 +212,53 @@ namespace Web
 			// std::lock_guard<std::mutex> lock;
 			// __int32 stride;
 			// Utils::Rectangle popupDirtyRect;
-			{
 				// std::vector<CefRect> const &<range>$L0;
 				// CefRect const *<begin>$L0;
 				// CefRect const *<end>$L0;
-				{
 					// CefRect const &dirtyRect;
-					{
 						// Utils::Rectangle srcRect;
-						{
 							// Utils::Rectangle popupScreenRect;
-						}
+				// __int32 popupStride;
+				// Utils::Rectangle popupSrcRect;
+
+			if (m_TextureData.size() == 0)
+				return;
+			std::lock_guard<std::mutex> lock(m_TextureLock);
+			__int32 stride = width * 4;
+			Utils::Rectangle popupDirtyRect;
+			for (CefRect const &dirtyRect : dirtyRects)
+			{
+				Utils::Rectangle srcRect(dirtyRect.x, dirtyRect.y, dirtyRect.width, dirtyRect.height);
+				if (type == ::PET_VIEW)
+				{
+					Utils::Rectangle::Copy(m_TextureData.data(), dirtyRect.x, dirtyRect.y, m_TextureStride, buffer, srcRect, stride, 4);
+					m_DirtyRect = m_DirtyRect.Add(srcRect);
+					if (m_PopupVisible && m_PopupValid && srcRect.Intersects(m_PopupRect))
+						popupDirtyRect = popupDirtyRect.Add(srcRect.Intersect(m_PopupRect));
+				}
+				else if (type == ::PET_POPUP)
+				{
+					Utils::Rectangle::Copy(m_PopupData.data(), dirtyRect.x, dirtyRect.y, stride, buffer, srcRect, stride, 4);
+					m_PopupValid = true;
+					if (m_PopupVisible)
+					{
+						Utils::Rectangle popupScreenRect = srcRect.Translate(m_PopupRect.X, m_PopupRect.Y);
+						Utils::Rectangle::Copy(m_TextureData.data(), popupScreenRect.X, popupScreenRect.Y, m_TextureStride, buffer, srcRect, stride, 4);
+						m_DirtyRect = m_DirtyRect.Add(popupScreenRect);
 					}
 				}
 			}
+			if (!popupDirtyRect.IsEmpty())
 			{
-				// __int32 popupStride;
-				// Utils::Rectangle popupSrcRect;
+				__int32 popupStride = m_PopupRect.Width * 4;
+				Utils::Rectangle popupSrcRect = popupDirtyRect.Translate(-m_PopupRect.X, -m_PopupRect.Y);
+				Utils::Rectangle::Copy(m_TextureData.data(), popupDirtyRect.X, popupDirtyRect.Y, m_TextureStride, m_PopupData.data(), popupSrcRect, popupStride, 4);
 			}
-			todo("implement");
-			_sub_10CE8D70(this, browser, type, dirtyRects, buffer, width, height);
 		}
 
-		_extern bool _sub_10CE9E50(Web::Browser::RenderHandlerCpu *const, unsigned __int32, unsigned __int32);
 		bool RenderHandlerCpu::Resize(unsigned __int32 width, unsigned __int32 height) // 0x10CE9E50
 		{
-			mangled_x86(MANGLED_TODO, "?Resize@RenderHandlerCpu@Browser@Web@@UAE_NII@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Resize@RenderHandlerCpu@Browser@Web@@UAE_NII@Z");
 			// static ...; // 0x10CEA0C0
 			// Web::Browser::RenderHandlerCpu *const this;
 			// unsigned __int32 width;
@@ -240,16 +266,27 @@ namespace Web
 			// std::scoped_lock<std::mutex> lock;
 			// unsigned __int32 textureDataSize;
 			// function call : HRESULT (unsigned __int32, unsigned __int32, unsigned __int32, unsigned long, _D3DFORMAT, _D3DPOOL, IDirect3DTexture9 **, void **)
-			todo("implement");
-			bool __result = _sub_10CE9E50(this, width, height);
-			return __result;
+
+			m_ViewSize = CefSize(width, height);
+			unsigned __int32 textureDataSize = width * height * 4;
+			if (!textureDataSize)
+				return false;
+
+			Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Graphics, Utils::LogLevel::Info, "Web::Browser::RenderHandlerCpu::Resize:90 - Tried to allocate 0x%x bytes.", textureDataSize);
+			std::scoped_lock<std::mutex> lock(m_TextureLock);
+			m_TextureData.resize(textureDataSize);
+			m_TextureStride = width * 4;
+			std::fill(m_TextureData.begin(), m_TextureData.end(), 0);
+			if (FAILED(m_Device->CreateTexture(width, height, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &m_Texture, NULL)))
+				return false;
+			return true;
 		}
 	}
 }
 
 namespace Utils
 {
-	extern Rectangle _sub_10CE8950(Web::Browser::RenderHandlerCpu const *const);
+
 }
 
 namespace Web
@@ -296,10 +333,9 @@ namespace Web
 			}
 		}
 
-		_extern bool _sub_10CE99D0(Web::Browser::RenderHandlerCpu *const);
 		bool RenderHandlerCpu::Render() // 0x10CE99D0
 		{
-			mangled_x86(MANGLED_TODO, "?Render@RenderHandlerCpu@Browser@Web@@UAE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Render@RenderHandlerCpu@Browser@Web@@UAE_NXZ");
 			// static ...; // 0x10CE9CDE
 			// static ...; // 0x10CE9CD9
 			// static ...; // 0x10CE9CD0
@@ -307,35 +343,56 @@ namespace Web
 			// static ...; // 0x10CE9CA4
 			// Web::Browser::RenderHandlerCpu *const this;
 			// std::unique_lock<std::mutex> lock;
-			{
 				// _D3DLOCKED_RECT rect;
 				// HRESULT hr;
-				{
 					// Utils::Rectangle copyRect;
 					// unsigned __int32 width;
 					// unsigned __int32 height;
-				}
-			}
 			// function call : HRESULT (unsigned __int32, _D3DLOCKED_RECT *, tagRECT const *, unsigned long)
 			// function call : HRESULT (unsigned __int32)
 			// function call : HRESULT (unsigned long)
 			// function call : HRESULT (IDirect3DTexture9 *, tagRECT const *, D3DXVECTOR3 const *, D3DXVECTOR3 const *, unsigned long)
 			// function call : HRESULT ()
 			// function call : HRESULT ()
-			todo("implement");
-			bool __result = _sub_10CE99D0(this);
-			return __result;
+
+			std::unique_lock<std::mutex> lock(m_TextureLock);
+			if (!m_Texture)
+				return false;
+			if (!GetTextureDirtyRect().IsEmpty())
+			{
+				_D3DLOCKED_RECT rect;
+				HRESULT hr = m_Texture->LockRect(0, &rect, nullptr, D3DLOCK_DISCARD);
+				if (SUCCEEDED(hr))
+				{
+					unsigned __int32 width = m_ViewSize.width;
+					unsigned __int32 height = m_ViewSize.height;
+					Utils::Rectangle copyRect(0, 0, width, height);
+					Utils::Rectangle::Copy(rect.pBits, 0, 0, rect.Pitch, m_TextureData.data(), copyRect, width * 4, 4);
+					m_Texture->UnlockRect(0);
+					ResetTextureDirtyRect();
+				}
+			}
+			lock.unlock();
+			m_Sprite->Begin(D3DXSPRITE_ALPHABLEND);
+			m_Sprite->Draw(m_Texture.Get(), nullptr, nullptr, nullptr, 0xFFFFFFFF);
+			m_Sprite->Flush();
+			m_Sprite->End();
+			return true;
 		}
 
-		_extern bool _sub_10CE8B30(Web::Browser::RenderHandlerCpu *const);
 		bool RenderHandlerCpu::InitRenderer() // 0x10CE8B30
 		{
-			mangled_x86(MANGLED_TODO, "?InitRenderer@RenderHandlerCpu@Browser@Web@@UAE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?InitRenderer@RenderHandlerCpu@Browser@Web@@UAE_NXZ");
 			// Web::Browser::RenderHandlerCpu *const this;
 			// HRESULT hr;
-			todo("implement");
-			bool __result = _sub_10CE8B30(this);
-			return __result;
+
+			HRESULT hr = D3DXCreateSprite(m_Device.Get(), &m_Sprite);
+			if (FAILED(hr))
+			{
+				Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Graphics, Utils::LogLevel::Info, "Web::Browser::RenderHandlerCpu::InitRenderer:170 - Could not create sprite (%x).", hr);
+				return false;
+			}
+			return true;
 		}
 	}
 }

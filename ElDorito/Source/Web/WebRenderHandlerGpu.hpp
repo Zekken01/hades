@@ -57,10 +57,10 @@ namespace Web
 				_inline void Reset();
 				_inline void Resize(unsigned __int32 width, unsigned __int32 height);
 			private:
-				bool m_didResize; // 0x0
+				bool m_didResize = false; // 0x0
 				unsigned char __pad0[3]; // 0x1
-				void *m_handle; // 0x4
-				std::atomic<void *> m_nextHandle; // 0x8
+				void *m_handle = nullptr; // 0x4
+				std::atomic<void *> m_nextHandle = nullptr; // 0x8
 				CefSize m_size; // 0xC
 				Microsoft::WRL::ComPtr<IDirect3DTexture9> m_texture; // 0x1C
 			public:
@@ -119,7 +119,7 @@ namespace Web
 {
 	namespace Browser
 	{
-		_extern void _sub_10CEB0B0(Web::Browser::RenderHandlerGpu * const);
+
 
 		_inline bool RenderHandlerGpu::PopupIsVisible() const // 0x10CEC6B0
 		{

@@ -145,11 +145,7 @@ struct c_object_identifier
 	c_tag_block_index<s_scenario_structure_bsp_reference,short> origin_bsp_index; // 0x4
 	c_enum<enum e_object_type,char> type; // 0x6
 	c_enum<enum e_scenario_object_source,char> source; // 0x7
-	c_object_identifier(c_object_identifier &); /* compiler_generated() */
-	_inline c_object_identifier(c_object_identifier const &__that); /* compiler_generated() */
-	_inline c_object_identifier() = default; /* compiler_generated() */
-	c_object_identifier &operator=(c_object_identifier &); /* compiler_generated() */
-	c_object_identifier &operator=(c_object_identifier const &); /* compiler_generated() */
+	// hades: special members left implicit (s_object_placement_data is aggregate-initialized member by member)
 };
 static_assert(sizeof(c_object_identifier) == 8, "Invalid c_object_identifier size");
 
@@ -402,7 +398,6 @@ static_assert(sizeof(s_scenario_object_node_orientations_orientations) == 2, "In
 struct s_scenario_object_node_orientations
 {
 	short node_count; // 0x0
-	unsigned char __pad0[2]; // 0x2
 	c_tag_block<s_scenario_object_node_orientations_bit_vector> bit_vector; // 0x4
 	c_tag_block<s_scenario_object_node_orientations_orientations> orientations; // 0x10
 };
@@ -466,7 +461,6 @@ struct s_scenario_object_permutation_data
 {
 	unsigned long variant; // 0x0
 	c_flags<enum e_object_change_color,unsigned char> active_change_colors; // 0x4
-	unsigned char __pad0[3]; // 0x5
 	unsigned long change_colors[5]; // 0x8
 	s_scenario_object_permutation_data(s_scenario_object_permutation_data &); /* compiler_generated() */
 	s_scenario_object_permutation_data(s_scenario_object_permutation_data const &); /* compiler_generated() */
@@ -991,7 +985,6 @@ struct s_scenario_trigger_volume
 	short runtime_node_index; // 0x6
 	unsigned long node_name; // 0x8
 	c_enum<enum e_scenario_trigger_volume_type,short> type; // 0xC
-	unsigned char __pad0[2]; // 0xE
 	real_vector3d forward; // 0x10
 	real_vector3d up; // 0x1C
 	real_point3d position; // 0x28
@@ -1052,7 +1045,6 @@ struct s_scenario_decal
 {
 	c_tag_block_index<s_scenario_decal_palette_entry,short> decal_palette_index; // 0x0
 	c_flags<enum e_scenario_decal_flags,unsigned char> flags; // 0x2
-	unsigned char __pad0[1]; // 0x3
 	real_quaternion rotation; // 0x4
 	real_point3d position; // 0x14
 	float scale; // 0x20
@@ -1079,7 +1071,7 @@ struct s_scenario_cutscene_camera_point
 	unsigned short flags; // 0x0
 	c_enum<enum e_scenario_cutscene_camera_point_type,unsigned short> camera_type; // 0x2
 	char name[32]; // 0x4
-	unsigned char __pad0[4]; // 0x24
+	unsigned int : 32; // 0x24  // hades: unnamed, so the implicit copy skips it as the original does
 	real_point3d position; // 0x28
 	real_euler_angles3d orientation; // 0x34
 	s_scenario_cutscene_camera_point(s_scenario_cutscene_camera_point &); /* compiler_generated() */

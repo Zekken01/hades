@@ -5,7 +5,7 @@
 /* ---------- headers */
 
 #include "hades/hades.h"
-
+#undef GetObject  // hades: LoadHaloType calls rapidjson's GetObject, so the Windows macro must not rename it
 #include "Common/Http/HttpHeaders.hpp"
 #include "Server/Voting/VotingTypes.hpp"
 #include "ThirdParty/rapidjson/allocators.h"

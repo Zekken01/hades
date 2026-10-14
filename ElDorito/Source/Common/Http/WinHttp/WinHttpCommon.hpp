@@ -8,6 +8,8 @@
 
 #include "ChatCommands/ChatCommandMap.hpp"
 
+#include <boost/algorithm/string.hpp>  // hades: added for 0x1080BE40  // hades: added for 0x1080BE40
+
 #include <memory>
 #include <string>
 
@@ -60,20 +62,19 @@ namespace Http
 
 namespace Http
 {
-	extern WinHttpErrorCategory &_sub_10808960();
 	_inline Http::WinHttpErrorCategory &WinHttpErrorCategory::Get() // 0x10808960
 	{
-		mangled_x86(MANGLED_TODO, "?Get@WinHttpErrorCategory@Http@@SAAAU12@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Get@WinHttpErrorCategory@Http@@SAAAU12@XZ");
 		// procedure flags: nofpo
 		// static Http::WinHttpErrorCategory instance; // 0x1138F43C
 		// static __int32 $TSS0; // 0x1138F448
-		todo("implement");
-		Http::WinHttpErrorCategory & __result = _sub_10808960();
-		return __result;
+
+		static Http::WinHttpErrorCategory instance;
+		return instance;
 	}
 }
 
-extern char const *_sub_1080C0F0(Http::WinHttpErrorCategory const *const);
+
 namespace Http
 {
 	_inline char const *WinHttpErrorCategory::name() const noexcept // 0x1080C0F0
@@ -85,12 +86,12 @@ namespace Http
 	}
 }
 
-extern std::string _sub_1080BE40(Http::WinHttpErrorCategory const *const, __int32);
+
 namespace Http
 {
 	_inline std::string WinHttpErrorCategory::message(__int32 error) const // 0x1080BE40
 	{
-		mangled_x86(MANGLED_TODO, "?message@WinHttpErrorCategory@Http@@UBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@H@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?message@WinHttpErrorCategory@Http@@UBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@H@Z");
 		// static ...; // 0x1080C054
 		// static ...; // 0x1080C03C
 		// static ...; // 0x1080C034
@@ -103,9 +104,18 @@ namespace Http
 		// function call : HINSTANCE__ *(char const *)
 		// function call : unsigned long (unsigned long, void const *, unsigned long, unsigned long, char *, unsigned long, char **)
 		// function call : void *(void *)
-		todo("implement");
-		std::string __result = _sub_1080BE40((Http::WinHttpErrorCategory const *)this, error);
-		return __result;
+
+		HINSTANCE__ *hInst = LoadLibraryA("winhttp.dll");
+		if (!hInst)
+			return "";
+		char *buffer;
+		unsigned long dwChars = FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_IGNORE_INSERTS | FORMAT_MESSAGE_FROM_HMODULE | FORMAT_MESSAGE_FROM_SYSTEM, hInst, error, 0, (char *)&buffer, 0, nullptr);
+		if (!dwChars)
+			return "Unknown Error";
+		std::string result(buffer, 0, dwChars);
+		boost::algorithm::trim_right(result);
+		LocalFree(buffer);
+		return result;
 	}
 
 	_inline void WinHttpHandlerDeleter::operator()(void *handle) // 0x107F71C0

@@ -105,7 +105,7 @@ namespace hades_file_local
 	#pragma pack(push, 4)
 	struct SDrawBox2dMessage
 	{
-		static EMessageType const MessageType;
+		static EMessageType const MessageType = static_cast<EMessageType>(3);
 		real_rectangle2d bounds; // 0x0
 		long color; // 0x10
 	};
@@ -115,7 +115,7 @@ namespace hades_file_local
 	#pragma pack(push, 4)
 	struct SDrawBoxMessage
 	{
-		static EMessageType const MessageType;
+		static EMessageType const MessageType = static_cast<EMessageType>(4);
 		real_rectangle3d bounds; // 0x0
 		long color; // 0x18
 	};
@@ -124,7 +124,7 @@ namespace hades_file_local
 
 	struct SDrawBoxOrientedMessage
 	{
-		static EMessageType const MessageType;
+		static EMessageType const MessageType = static_cast<EMessageType>(5);
 		real_rectangle3d bounds; // 0x0
 		real_matrix4x3 matrix; // 0x18
 		long color; // 0x4C
@@ -134,7 +134,7 @@ namespace hades_file_local
 	#pragma pack(push, 4)
 	struct SDrawSphereMessage
 	{
-		static EMessageType const MessageType;
+		static EMessageType const MessageType = static_cast<EMessageType>(6);
 		real_point3d center; // 0x0
 		float radius; // 0xC
 		long color; // 0x10
@@ -144,7 +144,7 @@ namespace hades_file_local
 
 	struct SDrawPillMessage
 	{
-		static EMessageType const MessageType;
+		static EMessageType const MessageType = static_cast<EMessageType>(7);
 		real_point3d base; // 0x0
 		real_vector3d height; // 0xC
 		float radius; // 0x18
@@ -155,7 +155,7 @@ namespace hades_file_local
 	#pragma pack(push, 4)
 	struct SDrawConeMessage
 	{
-		static EMessageType const MessageType;
+		static EMessageType const MessageType = static_cast<EMessageType>(9);
 		real_point3d base; // 0x0
 		real_vector3d up; // 0xC
 		float height; // 0x18
@@ -167,7 +167,7 @@ namespace hades_file_local
 
 	struct SDrawTriangleMessage
 	{
-		static EMessageType const MessageType;
+		static EMessageType const MessageType = static_cast<EMessageType>(10);
 		real_point3d p1; // 0x0
 		real_point3d p2; // 0xC
 		real_point3d p3; // 0x18
@@ -178,7 +178,7 @@ namespace hades_file_local
 	#pragma pack(push, 4)
 	struct SDrawLineMessage
 	{
-		static EMessageType const MessageType;
+		static EMessageType const MessageType = static_cast<EMessageType>(1);
 		real_point3d p1; // 0x0
 		real_point3d p2; // 0xC
 		long color; // 0x18
@@ -189,7 +189,7 @@ namespace hades_file_local
 	#pragma pack(push, 4)
 	struct SDrawPointMessage
 	{
-		static EMessageType const MessageType;
+		static EMessageType const MessageType = static_cast<EMessageType>(1);
 		real_point3d point; // 0x0
 		float size; // 0xC
 		long color; // 0x10
@@ -200,7 +200,7 @@ namespace hades_file_local
 	#pragma pack(push, 4)
 	struct SDrawVectorMessage
 	{
-		static EMessageType const MessageType;
+		static EMessageType const MessageType = static_cast<EMessageType>(1);
 		real_point3d point; // 0x0
 		real_vector3d vector; // 0xC
 		long color; // 0x18
@@ -211,7 +211,7 @@ namespace hades_file_local
 	#pragma pack(push, 4)
 	struct SDrawText2dMessage
 	{
-		static EMessageType const MessageType;
+		static EMessageType const MessageType = static_cast<EMessageType>(11);
 		real_point2d point; // 0x0
 		long color; // 0x8
 		__int32 fontId; // 0xC
@@ -223,7 +223,7 @@ namespace hades_file_local
 
 	struct SDrawText3dMessage
 	{
-		static EMessageType const MessageType;
+		static EMessageType const MessageType = static_cast<EMessageType>(12);
 		real_point3d point; // 0x0
 		long color; // 0xC
 		__int32 fontId; // 0x10
@@ -235,7 +235,7 @@ namespace hades_file_local
 	#pragma pack(push, 4)
 	struct SDrawPhysicsShapeCapsuleMessage
 	{
-		static EMessageType const MessageType;
+		static EMessageType const MessageType = static_cast<EMessageType>(13);
 		real_point3d vertex_a; // 0x0
 		real_point3d vertex_b; // 0xC
 		float radius; // 0x18
@@ -248,10 +248,9 @@ namespace hades_file_local
 	#pragma pack(push, 4)
 	struct SClearMessage
 	{
-		static EMessageType const MessageType;
+		static EMessageType const MessageType = static_cast<EMessageType>(14);
 		char const *group; // 0x0
-		DebugDrawKey cacheKey; // 0x4
-		SClearMessage(); /* compiler_generated() */
+		DebugDrawKey cacheKey = nullptr; // 0x4  // hades: an aggregate, as AllocateMessage's `SClearMessage{}` shows
 	};
 	#pragma pack(pop)
 	static_assert(sizeof(SClearMessage) == 12, "Invalid SClearMessage size");
@@ -270,7 +269,7 @@ namespace hades_file_local
 		SRenderThreadMessage(); /* compiler_generated() */
 	public:
 		template<typename t_arg0>
-		t_arg0 GetPayload();
+		t_arg0 &GetPayload();
 	};
 	#pragma pack(pop)
 	static_assert(sizeof(SRenderThreadMessage) == 308, "Invalid SRenderThreadMessage size");
@@ -313,6 +312,18 @@ typedef std::variant<SDrawPointMessage,SDrawLineMessage,SDrawVectorMessage,SDraw
 /* ---------- prototypes */
 
 extern void render_debug_enable_depth_test(bool enable);  // hades: added for 0x1081C570
+extern void render_debug_point(real_point3d const &point, float scale, real_argb_color const &color);  // hades: added for the DrawX backends
+extern void render_debug_line(real_point3d const &p1, real_point3d const &p2, real_argb_color const &color);
+extern void render_debug_vector(real_point3d const &point, real_vector3d const &vector, real_argb_color const &color);
+extern void render_debug_triangle(real_point3d const &p1, real_point3d const &p2, real_point3d const &p3, real_argb_color const &color);
+extern void render_debug_box_outline(real_rectangle3d const &bounds, real_argb_color const &color);
+extern void render_debug_box_oriented(real_rectangle3d const &bounds, real_matrix4x3 const &matrix, real_argb_color const &color);
+extern void render_debug_sphere(real_point3d const &center, float radius, real_argb_color const &color);
+extern void render_debug_pill(real_point3d const &base, real_vector3d const &height, float radius, real_argb_color const &color);
+extern void render_debug_cylinder(real_point3d const &base, real_vector3d const &height, float radius, real_argb_color const &color);
+extern void render_debug_cone_outline(real_point3d const &base, real_vector3d const &up, float theta, float height, real_argb_color const &color);
+extern void render_debug_string_at_point(real_point3d const &point, char const *text, real_argb_color const &color, long fontId, float scale);
+extern void render_debug_physics_shape(hkpShape const *shape, real_matrix4x3 const *matrix, real_argb_color const *color);
 
 extern __int32 AllocateCacheEntry();
 extern __int32 FindCacheEntry(char const *group, DebugDrawKey cacheKey);
@@ -346,10 +357,27 @@ namespace hades_file_local
 
 namespace hades_file_local
 {
-	extern CSimpleMessageQueue<SRenderThreadMessage,4096> renderThreadQueue; // 0x1138F548
-	extern SCacehEntry persistentCache[4096]; // 0x114C7560
+	CSimpleMessageQueue<SRenderThreadMessage,4096> renderThreadQueue; // 0x1138F548  // hades: defined, so its dynamic initializer emits the constructor
+	SCacehEntry persistentCache[4096]; // 0x114C7560
 }
 using namespace hades_file_local;
+
+// hades: one message off the render-thread queue, stamped with this thread's
+// current attributes. Static, so the PDB spells it without a namespace.
+template<typename t_message>
+static SRenderThreadMessage *AllocateMessage()
+{
+	SRenderThreadMessage *message = renderThreadQueue.TryToAllocate();
+	if (!message)
+		return nullptr;
+	message->type = static_cast<EMessageType>(t_message::MessageType);
+	message->payload = t_message{};
+	message->lifetime = threadLocalAttributes.lifetime;
+	message->group = threadLocalAttributes.group;
+	message->cacheKey = threadLocalAttributes.cacheKey;
+	message->depthTest = threadLocalAttributes.depthTest;
+	return message;
+}
 /* ---------- public code */
 
 __int32 AllocateCacheEntry() // 0x10818DD0
@@ -392,188 +420,271 @@ void EvictCacheEntry(char const *group, DebugDrawKey cacheKey) // 0x1081C060
 		persistentCache[index].valid = false;
 }
 
-_extern void _sub_1081AB70(real_point3d const &, float, long);
 void CDebugDrawBackend::DrawPoint(real_point3d const &point, float size, long color) // 0x1081AB70
 {
-	mangled_x86(MANGLED_TODO, "?DrawPoint@CDebugDrawBackend@@SAXABUreal_point3d@@MJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawPoint@CDebugDrawBackend@@SAXABUreal_point3d@@MJ@Z");
 	// static ...; // 0x1081ACAC
 	// real_point3d const &point;
 	// float size;
 	// long color;
-	{
 		// SRenderThreadMessage *message;
-		{
 			// SDrawPointMessage &payload;
-		}
-	}
-	{
 		// real_argb_color realColor;
-	}
 	// function call : bool (*const)()
 	// function call : real_argb_color *(*const)(unsigned long, real_argb_color *)
-	todo("implement");
-	_sub_1081AB70(point, size, color);
+
+	if (!((bool(*)())0xA22390)() || threadLocalAttributes.lifetime != 0.0f)
+	{
+		SRenderThreadMessage *message = AllocateMessage<SDrawPointMessage>();
+		if (message)
+		{
+			SDrawPointMessage &payload = message->GetPayload<SDrawPointMessage>();
+			payload.point = point;
+			payload.size = size;
+			payload.color = color;
+			renderThreadQueue.Add(message);
+		}
+	}
+	else
+	{
+		real_argb_color realColor;
+		((void(*)(long, real_argb_color *))0x5211C0)(color, &realColor);
+		render_debug_point(point, size, realColor);
+	}
 }
 
-_extern void _sub_1081A160(real_point3d const &, real_point3d const &, long);
 void CDebugDrawBackend::DrawLine(real_point3d const &p1, real_point3d const &p2, long color) // 0x1081A160
 {
-	mangled_x86(MANGLED_TODO, "?DrawLine@CDebugDrawBackend@@SAXABUreal_point3d@@0J@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawLine@CDebugDrawBackend@@SAXABUreal_point3d@@0J@Z");
 	// static ...; // 0x1081A2A0
 	// real_point3d const &p1;
 	// real_point3d const &p2;
 	// long color;
-	{
 		// SRenderThreadMessage *message;
-		{
 			// SDrawLineMessage &payload;
-		}
-	}
-	{
 		// real_argb_color realColor;
-	}
 	// function call : bool (*const)()
 	// function call : real_argb_color *(*const)(unsigned long, real_argb_color *)
-	todo("implement");
-	_sub_1081A160(p1, p2, color);
+
+	if (!((bool(*)())0xA22390)() || threadLocalAttributes.lifetime != 0.0f)
+	{
+		SRenderThreadMessage *message = AllocateMessage<SDrawLineMessage>();
+		if (message)
+		{
+			SDrawLineMessage &payload = message->GetPayload<SDrawLineMessage>();
+			payload.color = color;
+			payload.p1 = p1;
+			payload.p2 = p2;
+			renderThreadQueue.Add(message);
+		}
+	}
+	else
+	{
+		real_argb_color realColor;
+		((void(*)(long, real_argb_color *))0x5211C0)(color, &realColor);
+		render_debug_line(p1, p2, realColor);
+	}
 }
 
-_extern void _sub_1081BEA0(real_point3d const &, real_vector3d const &, long);
 void CDebugDrawBackend::DrawVector(real_point3d const &point, real_vector3d const &vector, long color) // 0x1081BEA0
 {
-	mangled_x86(MANGLED_TODO, "?DrawVector@CDebugDrawBackend@@SAXABUreal_point3d@@ABUreal_vector3d@@J@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawVector@CDebugDrawBackend@@SAXABUreal_point3d@@ABUreal_vector3d@@J@Z");
 	// static ...; // 0x1081BFE0
 	// real_point3d const &point;
 	// real_vector3d const &vector;
 	// long color;
-	{
 		// SRenderThreadMessage *message;
-		{
 			// SDrawVectorMessage &payload;
-		}
-	}
-	{
 		// real_argb_color realColor;
-	}
 	// function call : bool (*const)()
 	// function call : real_argb_color *(*const)(unsigned long, real_argb_color *)
-	todo("implement");
-	_sub_1081BEA0(point, vector, color);
+
+	if (!((bool(*)())0xA22390)() || threadLocalAttributes.lifetime != 0.0f)
+	{
+		SRenderThreadMessage *message = AllocateMessage<SDrawVectorMessage>();
+		if (message)
+		{
+			SDrawVectorMessage &payload = message->GetPayload<SDrawVectorMessage>();
+			payload.point = point;
+			payload.vector = vector;
+			payload.color = color;
+			renderThreadQueue.Add(message);
+		}
+	}
+	else
+	{
+		real_argb_color realColor;
+		((void(*)(long, real_argb_color *))0x5211C0)(color, &realColor);
+		render_debug_vector(point, vector, realColor);
+	}
 }
 
-_extern void _sub_1081BBB0(real_point3d const &, real_point3d const &, real_point3d const &, long);
 void CDebugDrawBackend::DrawTriangle(real_point3d const &p1, real_point3d const &p2, real_point3d const &p3, long color) // 0x1081BBB0
 {
-	mangled_x86(MANGLED_TODO, "?DrawTriangle@CDebugDrawBackend@@SAXABUreal_point3d@@00J@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawTriangle@CDebugDrawBackend@@SAXABUreal_point3d@@00J@Z");
 	// real_point3d const &p1;
 	// real_point3d const &p2;
 	// real_point3d const &p3;
 	// long color;
-	{
 		// SRenderThreadMessage *message;
-		{
 			// SDrawTriangleMessage &payload;
-		}
-	}
-	{
 		// real_argb_color realColor;
-	}
 	// function call : bool (*const)()
 	// function call : real_argb_color *(*const)(unsigned long, real_argb_color *)
-	todo("implement");
-	_sub_1081BBB0(p1, p2, p3, color);
+
+	if (!((bool(*)())0xA22390)() || threadLocalAttributes.lifetime != 0.0f)
+	{
+		SRenderThreadMessage *message = AllocateMessage<SDrawTriangleMessage>();
+		if (message)
+		{
+			SDrawTriangleMessage &payload = message->GetPayload<SDrawTriangleMessage>();
+			payload.p1 = p1;
+			payload.p2 = p2;
+			payload.p3 = p3;
+			payload.color = color;
+			renderThreadQueue.Add(message);
+		}
+	}
+	else
+	{
+		real_argb_color realColor;
+		((void(*)(long, real_argb_color *))0x5211C0)(color, &realColor);
+		render_debug_triangle(p1, p2, p3, realColor);
+	}
 }
 
-_extern void _sub_108195A0(real_rectangle3d const &, long);
 void CDebugDrawBackend::DrawBox(real_rectangle3d const &bounds, long color) // 0x108195A0
 {
-	mangled_x86(MANGLED_TODO, "?DrawBox@CDebugDrawBackend@@SAXABUreal_rectangle3d@@J@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawBox@CDebugDrawBackend@@SAXABUreal_rectangle3d@@J@Z");
 	// static ...; // 0x108196DC
 	// static ...; // 0x108196D4
 	// real_rectangle3d const &bounds;
 	// long color;
-	{
 		// SRenderThreadMessage *message;
-		{
 			// SDrawBoxMessage &payload;
-		}
-	}
-	{
 		// real_argb_color realColor;
-	}
 	// function call : bool (*const)()
 	// function call : real_argb_color *(*const)(unsigned long, real_argb_color *)
-	todo("implement");
-	_sub_108195A0(bounds, color);
+
+	if (!((bool(*)())0xA22390)() || threadLocalAttributes.lifetime != 0.0f)
+	{
+		SRenderThreadMessage *message = AllocateMessage<SDrawBoxMessage>();
+		if (message)
+		{
+			SDrawBoxMessage &payload = message->GetPayload<SDrawBoxMessage>();
+			payload.color = color;
+			payload.bounds = bounds;
+			renderThreadQueue.Add(message);
+		}
+	}
+	else
+	{
+		real_argb_color realColor;
+		((void(*)(long, real_argb_color *))0x5211C0)(color, &realColor);
+		render_debug_box_outline(bounds, realColor);
+	}
 }
 
-_extern void _sub_10819860(real_rectangle3d const &, real_matrix4x3 const &, long);
 void CDebugDrawBackend::DrawBoxOriented(real_rectangle3d const &bounds, real_matrix4x3 const &matrix, long color) // 0x10819860
 {
-	mangled_x86(MANGLED_TODO, "?DrawBoxOriented@CDebugDrawBackend@@SAXABUreal_rectangle3d@@ABUreal_matrix4x3@@J@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawBoxOriented@CDebugDrawBackend@@SAXABUreal_rectangle3d@@ABUreal_matrix4x3@@J@Z");
 	// static ...; // 0x108199A8
 	// real_rectangle3d const &bounds;
 	// real_matrix4x3 const &matrix;
 	// long color;
-	{
 		// SRenderThreadMessage *message;
-		{
 			// SDrawBoxOrientedMessage &payload;
-		}
-	}
-	{
 		// real_argb_color realColor;
-	}
 	// function call : bool (*const)()
 	// function call : real_argb_color *(*const)(unsigned long, real_argb_color *)
-	todo("implement");
-	_sub_10819860(bounds, matrix, color);
+
+	if (!((bool(*)())0xA22390)() || threadLocalAttributes.lifetime != 0.0f)
+	{
+		SRenderThreadMessage *message = AllocateMessage<SDrawBoxOrientedMessage>();
+		if (message)
+		{
+			SDrawBoxOrientedMessage &payload = message->GetPayload<SDrawBoxOrientedMessage>();
+			payload.bounds = bounds;
+			payload.matrix = matrix;
+			payload.color = color;
+			renderThreadQueue.Add(message);
+		}
+	}
+	else
+	{
+		real_argb_color realColor;
+		((void(*)(long, real_argb_color *))0x5211C0)(color, &realColor);
+		render_debug_box_oriented(bounds, matrix, realColor);
+	}
 }
 
-_extern void _sub_108191E0(real_rectangle2d const &, long);
 void CDebugDrawBackend::DrawBox2dOutline(real_rectangle2d const &bounds, long color) // 0x108191E0
 {
-	mangled_x86(MANGLED_TODO, "?DrawBox2dOutline@CDebugDrawBackend@@SAXABUreal_rectangle2d@@J@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawBox2dOutline@CDebugDrawBackend@@SAXABUreal_rectangle2d@@J@Z");
 	// static ...; // 0x108193F4
 	// static ...; // 0x108193EC
 	// real_rectangle2d const &bounds;
 	// long color;
-	{
 		// SRenderThreadMessage *message;
-		{
 			// SDrawBox2dMessage &payload;
-		}
-	}
-	{
 		// short_point_2d vertices[5];
-	}
 	// function call : bool (*const)()
 	// function call : void (*const)(short_point_2d const *, long, unsigned long)
-	todo("implement");
-	_sub_108191E0(bounds, color);
+
+	if (!((bool(*)())0xA22390)() || threadLocalAttributes.lifetime != 0.0f)
+	{
+		SRenderThreadMessage *message = AllocateMessage<SDrawBox2dMessage>();
+		if (message)
+		{
+			SDrawBox2dMessage &payload = message->GetPayload<SDrawBox2dMessage>();
+			payload.color = color;
+			payload.bounds = bounds;
+			renderThreadQueue.Add(message);
+		}
+	}
+	else
+	{
+		short_point_2d vertices[5];
+		vertices[0] = short_point_2d{ static_cast<short>(bounds.x0), static_cast<short>(bounds.y1) };
+		vertices[1] = short_point_2d{ static_cast<short>(bounds.x0), static_cast<short>(bounds.y0) };
+		vertices[2] = short_point_2d{ static_cast<short>(bounds.x1), static_cast<short>(bounds.y0) };
+		vertices[3] = short_point_2d{ static_cast<short>(bounds.x1), static_cast<short>(bounds.y1) };
+		vertices[4] = short_point_2d{ static_cast<short>(bounds.x0), static_cast<short>(bounds.y1) };
+		((void(*)(short_point_2d const *, long, unsigned long))0xA45970)(vertices, 5, color);
+	}
 }
 
-_extern void _sub_1081AE30(real_point3d const &, float, long);
 void CDebugDrawBackend::DrawSphereOutline(real_point3d const &center, float radius, long color) // 0x1081AE30
 {
-	mangled_x86(MANGLED_TODO, "?DrawSphereOutline@CDebugDrawBackend@@SAXABUreal_point3d@@MJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawSphereOutline@CDebugDrawBackend@@SAXABUreal_point3d@@MJ@Z");
 	// static ...; // 0x1081AF6C
 	// real_point3d const &center;
 	// float radius;
 	// long color;
-	{
 		// SRenderThreadMessage *message;
-		{
 			// SDrawSphereMessage &payload;
-		}
-	}
-	{
 		// real_argb_color realColor;
-	}
 	// function call : bool (*const)()
 	// function call : real_argb_color *(*const)(unsigned long, real_argb_color *)
-	todo("implement");
-	_sub_1081AE30(center, radius, color);
+
+	if (!((bool(*)())0xA22390)() || threadLocalAttributes.lifetime != 0.0f)
+	{
+		SRenderThreadMessage *message = AllocateMessage<SDrawSphereMessage>();
+		if (message)
+		{
+			SDrawSphereMessage &payload = message->GetPayload<SDrawSphereMessage>();
+			payload.center = center;
+			payload.radius = radius;
+			payload.color = color;
+			renderThreadQueue.Add(message);
+		}
+	}
+	else
+	{
+		real_argb_color realColor;
+		((void(*)(long, real_argb_color *))0x5211C0)(color, &realColor);
+		render_debug_sphere(center, radius, realColor);
+	}
 }
 
 void CDebugDrawBackend::DrawString2d(real_point2d const &point, long color, long fontId, float scale, char const *format, ...) // 0x1081B200
@@ -596,8 +707,7 @@ void CDebugDrawBackend::DrawString2d(real_point2d const &point, long color, long
 	// char *va;
 	// char buffer[256];
 
-	char buffer[260];
-
+	char buffer[256];
 	vsnprintf(buffer, 256, format, va);
 	DrawString2dInternal(point, color, buffer, fontId, scale);
 }
@@ -628,139 +738,209 @@ void CDebugDrawBackend::DrawString3d(real_point3d const &point, long color, long
 	DrawString3dInternal(point, color, buffer, fontId, scale);
 }
 
-_extern void _sub_1081A880(real_point3d const &, real_vector3d const &, float, long);
 void CDebugDrawBackend::DrawPill(real_point3d const &base, real_vector3d const &height, float radius, long color) // 0x1081A880
 {
-	mangled_x86(MANGLED_TODO, "?DrawPill@CDebugDrawBackend@@SAXABUreal_point3d@@ABUreal_vector3d@@MJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawPill@CDebugDrawBackend@@SAXABUreal_point3d@@ABUreal_vector3d@@MJ@Z");
 	// real_point3d const &base;
 	// real_vector3d const &height;
 	// float radius;
 	// long color;
-	{
 		// SRenderThreadMessage *message;
-		{
 			// SDrawPillMessage &payload;
-		}
-	}
-	{
 		// real_argb_color realColor;
-	}
 	// function call : bool (*const)()
 	// function call : real_argb_color *(*const)(unsigned long, real_argb_color *)
-	todo("implement");
-	_sub_1081A880(base, height, radius, color);
+
+	if (!((bool(*)())0xA22390)() || threadLocalAttributes.lifetime != 0.0f)
+	{
+		SRenderThreadMessage *message = AllocateMessage<SDrawPillMessage>();
+		if (message)
+		{
+			SDrawPillMessage &payload = message->GetPayload<SDrawPillMessage>();
+			payload.base = base;
+			payload.height = height;
+			payload.radius = radius;
+			payload.color = color;
+			renderThreadQueue.Add(message);
+		}
+	}
+	else
+	{
+		real_argb_color realColor;
+		((void(*)(long, real_argb_color *))0x5211C0)(color, &realColor);
+		render_debug_pill(base, height, radius, realColor);
+	}
 }
 
-_extern void _sub_10819E70(real_point3d const &, real_vector3d const &, float, long);
 void CDebugDrawBackend::DrawCylinder(real_point3d const &base, real_vector3d const &height, float radius, long color) // 0x10819E70
 {
-	mangled_x86(MANGLED_TODO, "?DrawCylinder@CDebugDrawBackend@@SAXABUreal_point3d@@ABUreal_vector3d@@MJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawCylinder@CDebugDrawBackend@@SAXABUreal_point3d@@ABUreal_vector3d@@MJ@Z");
 	// real_point3d const &base;
 	// real_vector3d const &height;
 	// float radius;
 	// long color;
-	{
 		// SRenderThreadMessage *message;
-		{
 			// SDrawCylinderMessage &payload;
-		}
-	}
-	{
 		// real_argb_color realColor;
-	}
 	// function call : bool (*const)()
 	// function call : real_argb_color *(*const)(unsigned long, real_argb_color *)
-	todo("implement");
-	_sub_10819E70(base, height, radius, color);
+
+	if (!((bool(*)())0xA22390)() || threadLocalAttributes.lifetime != 0.0f)
+	{
+		SRenderThreadMessage *message = AllocateMessage<SDrawCylinderMessage>();
+		if (message)
+		{
+			SDrawCylinderMessage &payload = message->GetPayload<SDrawCylinderMessage>();
+			payload.base = base;
+			*(real_vector3d *)payload.height = height;
+			payload.radius = radius;
+			payload.color = color;
+			renderThreadQueue.Add(message);
+		}
+	}
+	else
+	{
+		real_argb_color realColor;
+		((void(*)(long, real_argb_color *))0x5211C0)(color, &realColor);
+		render_debug_cylinder(base, height, radius, realColor);
+	}
 }
 
-_extern void _sub_10819B50(real_point3d const &, real_vector3d const &, float, float, long);
 void CDebugDrawBackend::DrawCone(real_point3d const &base, real_vector3d const &up, float theta, float height, long color) // 0x10819B50
 {
-	mangled_x86(MANGLED_TODO, "?DrawCone@CDebugDrawBackend@@SAXABUreal_point3d@@ABUreal_vector3d@@MMJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawCone@CDebugDrawBackend@@SAXABUreal_point3d@@ABUreal_vector3d@@MMJ@Z");
 	// real_vector3d const &up;
 	// float theta;
 	// float height;
 	// long color;
-	{
 		// SRenderThreadMessage *message;
-		{
 			// SDrawConeMessage &payload;
-		}
-	}
-	{
 		// real_argb_color realColor;
-	}
 	// function call : bool (*const)()
 	// function call : real_argb_color *(*const)(unsigned long, real_argb_color *)
-	todo("implement");
-	_sub_10819B50(base, up, theta, height, color);
+
+	if (!((bool(*)())0xA22390)() || threadLocalAttributes.lifetime != 0.0f)
+	{
+		SRenderThreadMessage *message = AllocateMessage<SDrawConeMessage>();
+		if (message)
+		{
+			SDrawConeMessage &payload = message->GetPayload<SDrawConeMessage>();
+			payload.base = base;
+			payload.up = up;
+			payload.theta = theta;
+			payload.height = height;
+			payload.color = color;
+			renderThreadQueue.Add(message);
+		}
+	}
+	else
+	{
+		real_argb_color realColor;
+		((void(*)(long, real_argb_color *))0x5211C0)(color, &realColor);
+		render_debug_cone_outline(base, up, theta, height, realColor);
+	}
 }
 
-_extern void _sub_1081A440(real_point3d const &, real_point3d const &, float, real_matrix4x3 const &, long);
 void CDebugDrawBackend::DrawPhysicsShapeCapsule(real_point3d const &vertex_a, real_point3d const &vertex_b, float radius, real_matrix4x3 const &matrix, long color) // 0x1081A440
 {
-	mangled_x86(MANGLED_TODO, "?DrawPhysicsShapeCapsule@CDebugDrawBackend@@SAXABUreal_point3d@@0MABUreal_matrix4x3@@J@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawPhysicsShapeCapsule@CDebugDrawBackend@@SAXABUreal_point3d@@0MABUreal_matrix4x3@@J@Z");
 	// real_point3d const &vertex_a;
 	// real_point3d const &vertex_b;
 	// float radius;
 	// real_matrix4x3 const &matrix;
 	// long color;
-	{
 		// SRenderThreadMessage *message;
-		{
 			// SDrawPhysicsShapeCapsuleMessage &payload;
-		}
-	}
-	{
 		// hkpCapsuleShape shape;
 		// real_argb_color realColor;
-	}
 	// function call : bool (*const)()
 	// function call : real_argb_color *(*const)(unsigned long, real_argb_color *)
-	todo("implement");
-	_sub_1081A440(vertex_a, vertex_b, radius, matrix, color);
-}
 
-_extern void _sub_1081C610();
-void CDebugDrawBackend::Render() // 0x1081C610
-{
-	mangled_x86(MANGLED_TODO, "?Render@CDebugDrawBackend@@SAXXZ");
-	// procedure flags: nofpo
+	if (!((bool(*)())0xA22390)() || threadLocalAttributes.lifetime != 0.0f)
 	{
-		// __int32 i;
-	}
-	// function call : bool (*const)()
-	todo("implement");
-	_sub_1081C610();
-}
-
-_extern void _sub_10818E90(char const *, DebugDrawKey);
-void CDebugDrawBackend::Clear(char const *group, DebugDrawKey key) // 0x10818E90
-{
-	mangled_x86(MANGLED_TODO, "?Clear@CDebugDrawBackend@@SAXPBDUDebugDrawKey@@@Z");
-	// DebugDrawKey key;
-	{
-		// SRenderThreadMessage *message;
+		SRenderThreadMessage *message = AllocateMessage<SDrawPhysicsShapeCapsuleMessage>();
+		if (message)
 		{
-			// SClearMessage &payload;
+			SDrawPhysicsShapeCapsuleMessage &payload = message->GetPayload<SDrawPhysicsShapeCapsuleMessage>();
+			payload.vertex_a = vertex_a;
+			payload.vertex_b = vertex_b;
+			payload.radius = radius;
+			payload.matrix = matrix;
+			payload.color = color;
+			renderThreadQueue.Add(message);
 		}
 	}
+	else
 	{
-		// unsigned __int32 i;
+		real_argb_color realColor;
+		((void(*)(long, real_argb_color *))0x5211C0)(color, &realColor);
+		alignas(16) hkpCapsuleShape shape;
+		memset(&shape, 0, sizeof(shape));
+		shape.m_type = 7;
+		shape.m_radius = radius;
+		shape.m_vertexA = hkVector4{ vertex_a.x, vertex_a.y, vertex_a.z, 0.0f };
+		shape.m_vertexB = hkVector4{ vertex_b.x, vertex_b.y, vertex_b.z, 0.0f };
+		render_debug_physics_shape(&shape, &matrix, &realColor);
 	}
-	// function call : bool (*const)()
-	todo("implement");
-	_sub_10818E90(group, key);
 }
 
-extern CDebugDrawBackend::AttributeScope* _sub_10817C00(CDebugDrawBackend::AttributeScope *const);
-CDebugDrawBackend::AttributeScope::AttributeScope() // 0x10817C00
+void CDebugDrawBackend::Render() // 0x1081C610
 {
-	mangled_x86(MANGLED_TODO, "??0AttributeScope@CDebugDrawBackend@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Render@CDebugDrawBackend@@SAXXZ");
+	// procedure flags: nofpo
+		// __int32 i;
+	// function call : bool (*const)()
+
+	#line 889 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Debug\\DebugDraw.cpp"
+		assert(c_rasterizer::thread_owns_device());
+		#line 897 "C:\\Users\\zekken\\Desktop\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Debug\\DebugDraw.cpp"
+	renderThreadQueue.ConsumeAll(HandleRenderThreadMessage);
+	for (__int32 i = 0; i < sizeof(persistentCache) / sizeof(persistentCache[0]); i++)
+	{
+		if (!persistentCache[i].valid)
+			continue;
+		PreRenderCommand(persistentCache[i].command);
+		std::visit(SPayloadVisitor{}, persistentCache[i].command.payload);
+		PostRenderCommand(persistentCache[i].command);
+		if (c_render_globals::get_frame_time() >= persistentCache[i].expireTime)
+			persistentCache[i].valid = false;
+	}
+}
+
+void CDebugDrawBackend::Clear(char const *group, DebugDrawKey key) // 0x10818E90
+{
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Clear@CDebugDrawBackend@@SAXPBDUDebugDrawKey@@@Z");
+	// DebugDrawKey key;
+		// SRenderThreadMessage *message;
+			// SClearMessage &payload;
+		// unsigned __int32 i;
+	// function call : bool (*const)()
+
+	if (!((bool(*)())0xA22390)() || threadLocalAttributes.lifetime != 0.0f)
+	{
+		SRenderThreadMessage *message = AllocateMessage<SClearMessage>();
+		if (message)
+		{
+			SClearMessage &payload = message->GetPayload<SClearMessage>();
+			payload.group = group;
+			payload.cacheKey = key;
+			renderThreadQueue.Add(message);
+		}
+	}
+	else
+	{
+		for (unsigned __int32 i = 0; i < std::size(persistentCache); i++)
+		{
+			if (persistentCache[i].group == group && (!key || persistentCache[i].cacheKey == key))
+				persistentCache[i].valid = false;
+		}
+	}
+}
+
+CDebugDrawBackend::AttributeScope::AttributeScope() : m_prevAttributes(threadLocalAttributes) /* hades-mem-init:  */ // 0x10817C00
+{
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0AttributeScope@CDebugDrawBackend@@QAE@XZ");
 	// CDebugDrawBackend::AttributeScope *const this;
-	todo("implement");
-	_sub_10817C00(this);
 }
 
 _inline CDebugDrawBackend::Attributes::Attributes() : lifetime(0.0f), cacheKey(nullptr, 0xFFFFFFFF), depthTest(true) /* hades-mem-init: : cacheKey(todo_result<DebugDrawKey>()) */ // 0x10817CA0
@@ -771,20 +951,21 @@ _inline CDebugDrawBackend::Attributes::Attributes() : lifetime(0.0f), cacheKey(n
 	// to reconstruct, and a defaulted constructor would be implicitly deleted.
 }
 
-_extern void _sub_108181F0(CDebugDrawBackend::AttributeScope *const);
 CDebugDrawBackend::AttributeScope::~AttributeScope() // 0x108181F0
 {
-	mangled_x86(MANGLED_TODO, "??1AttributeScope@CDebugDrawBackend@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??1AttributeScope@CDebugDrawBackend@@QAE@XZ");
 	// CDebugDrawBackend::AttributeScope *const this;
-	todo("implement");
-	_sub_108181F0(this);
+
+	threadLocalAttributes = m_prevAttributes;
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??4AttributeScope@CDebugDrawBackend@@QAEAAU01@ABU01@@Z"); no body to assert in
 _inline CDebugDrawBackend::AttributeScope &CDebugDrawBackend::AttributeScope::operator=(CDebugDrawBackend::AttributeScope const &__that) = default; // 0x10818430
 
 // mangled_x86(MANGLED_DEFAULT, "??4CDebugDraw@@QAEAAV0@ABV0@@Z"); no body to assert in
-_inline CDebugDraw &CDebugDraw::operator=(CDebugDraw const &__that) = default; // 0x10818470
+// hades: CDebugDraw::operator=(CDebugDraw const &) is defaulted in the class (0x10818470); it stays trivial, so its
+// body is one block copy, and taking its address makes this object emit it as the original's does.
+extern CDebugDraw &(CDebugDraw::*const hades_keep_cdebugdraw_assign)(CDebugDraw const &) = &CDebugDraw::operator=;
 
 // mangled_x86(MANGLED_DEFAULT, "??4CDebugDrawBackend@@QAEAAU0@$$QAU0@@Z"); no body to assert in
 _inline CDebugDrawBackend &CDebugDrawBackend::operator=(CDebugDrawBackend &&__that) = default; // 0x108184C0
@@ -792,49 +973,45 @@ _inline CDebugDrawBackend &CDebugDrawBackend::operator=(CDebugDrawBackend &&__th
 // mangled_x86(MANGLED_DEFAULT, "??4CDebugDrawBackend@@QAEAAU0@ABU0@@Z"); no body to assert in
 _inline CDebugDrawBackend &CDebugDrawBackend::operator=(CDebugDrawBackend const &__that) = default; // 0x108184F0
 
-_extern void _sub_1081CB70(CDebugDrawBackend::AttributeScope *const, float);
 void CDebugDrawBackend::AttributeScope::SetLifetime(float lifetime) // 0x1081CB70
 {
-	mangled_x86(MANGLED_TODO, "?SetLifetime@AttributeScope@CDebugDrawBackend@@QAEXM@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SetLifetime@AttributeScope@CDebugDrawBackend@@QAEXM@Z");
 	// float lifetime;
-	todo("implement");
-	_sub_1081CB70(this, lifetime);
+
+	threadLocalAttributes.lifetime = lifetime;
 }
 
-_extern void _sub_1081C8C0(CDebugDrawBackend::AttributeScope *const, char const *, DebugDrawKey);
 void CDebugDrawBackend::AttributeScope::SetCacheKey(char const *group, DebugDrawKey key) // 0x1081C8C0
 {
-	mangled_x86(MANGLED_TODO, "?SetCacheKey@AttributeScope@CDebugDrawBackend@@QAEXPBDUDebugDrawKey@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SetCacheKey@AttributeScope@CDebugDrawBackend@@QAEXPBDUDebugDrawKey@@@Z");
 	// DebugDrawKey key;
-	todo("implement");
-	_sub_1081C8C0(this, group, key);
+
+	threadLocalAttributes.group = group;
+	threadLocalAttributes.cacheKey = key;
 }
 
-_extern void _sub_1081CAA0(CDebugDrawBackend::AttributeScope *const, __int32);
 void CDebugDrawBackend::AttributeScope::SetFont(__int32 fontId) // 0x1081CAA0
 {
-	mangled_x86(MANGLED_TODO, "?SetFont@AttributeScope@CDebugDrawBackend@@QAEXH@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SetFont@AttributeScope@CDebugDrawBackend@@QAEXH@Z");
 	// __int32 fontId;
-	todo("implement");
-	_sub_1081CAA0(this, fontId);
+
+	threadLocalAttributes.fontId = fontId;
 }
 
-_extern void _sub_1081CC50(CDebugDrawBackend::AttributeScope *const, float);
 void CDebugDrawBackend::AttributeScope::SetTextScale(float scale) // 0x1081CC50
 {
-	mangled_x86(MANGLED_TODO, "?SetTextScale@AttributeScope@CDebugDrawBackend@@QAEXM@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SetTextScale@AttributeScope@CDebugDrawBackend@@QAEXM@Z");
 	// float scale;
-	todo("implement");
-	_sub_1081CC50(this, scale);
+
+	threadLocalAttributes.textScale = scale;
 }
 
-_extern void _sub_1081C9D0(CDebugDrawBackend::AttributeScope *const, bool);
 void CDebugDrawBackend::AttributeScope::SetDepthTest(bool enable) // 0x1081C9D0
 {
-	mangled_x86(MANGLED_TODO, "?SetDepthTest@AttributeScope@CDebugDrawBackend@@QAEX_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SetDepthTest@AttributeScope@CDebugDrawBackend@@QAEX_N@Z");
 	// bool enable;
-	todo("implement");
-	_sub_1081C9D0(this, enable);
+
+	threadLocalAttributes.depthTest = enable;
 }
 
 float CDebugDraw::GetLineHeight(__int32 fontId) const // 0x1081C220
@@ -859,19 +1036,18 @@ float CDebugDraw::GetLineHeight(__int32 fontId) const // 0x1081C220
 /* ---------- private code */
 
 template<typename t_arg0>
-_inline t_arg0 SRenderThreadMessage::GetPayload()
+_inline t_arg0 &SRenderThreadMessage::GetPayload()
 {
-	todo("implement");
-	return todo_result<t_arg0>();
+	return std::get<t_arg0>(payload);
 }
 
-_extern void _sub_10818640(SPayloadVisitor *const, SDrawBox2dMessage const &);
 _inline void SPayloadVisitor::operator()(SDrawBox2dMessage const &payload) // 0x10818640
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??RSPayloadVisitor@hades_file_local@@QAEXABUSDrawBox2dMessage@1@@Z");
 	// SPayloadVisitor::operator()
 	// SDrawBox2dMessage const &payload;
-	todo("implement");
-	_sub_10818640(this, payload);
+
+	CDebugDrawBackend::DrawBox2dOutline(*(real_rectangle2d const *)&payload, *(long const *)((unsigned char const *)&payload + 0x10));
 }
 
 _inline void SPayloadVisitor::operator()(SDrawBoxMessage const &payload) // 0x108186A0
@@ -880,7 +1056,7 @@ _inline void SPayloadVisitor::operator()(SDrawBoxMessage const &payload) // 0x10
 	// SPayloadVisitor::operator()
 	// SDrawBoxMessage const &payload;
 
-	CDebugDrawBackend::DrawBox(payload.bounds, payload.color);
+	CDebugDrawBackend::DrawBox(*(real_rectangle3d const *)&payload, *(long const *)((unsigned char const *)&payload + 0x18));
 }
 
 _inline void SPayloadVisitor::operator()(SDrawBoxOrientedMessage const &payload) // 0x10818700
@@ -889,7 +1065,7 @@ _inline void SPayloadVisitor::operator()(SDrawBoxOrientedMessage const &payload)
 	// SPayloadVisitor::operator()
 	// SDrawBoxOrientedMessage const &payload;
 
-	CDebugDrawBackend::DrawBoxOriented(payload.bounds, payload.matrix, payload.color);
+	CDebugDrawBackend::DrawBoxOriented(*(real_rectangle3d const *)&payload, *(real_matrix4x3 const *)((unsigned char const *)&payload + 0x18), *(long const *)((unsigned char const *)&payload + 0x4c));
 }
 
 _inline void SPayloadVisitor::operator()(SDrawSphereMessage const &payload) // 0x10818A60
@@ -898,7 +1074,7 @@ _inline void SPayloadVisitor::operator()(SDrawSphereMessage const &payload) // 0
 	// SPayloadVisitor::operator()
 	// SDrawSphereMessage const &payload;
 
-	CDebugDrawBackend::DrawSphereOutline(payload.center, payload.radius, payload.color);
+	CDebugDrawBackend::DrawSphereOutline(*(real_point3d const *)&payload, *(float const *)((unsigned char const *)&payload + 0xc), *(long const *)((unsigned char const *)&payload + 0x10));
 }
 
 _inline void SPayloadVisitor::operator()(SDrawPillMessage const &payload) // 0x10818970
@@ -907,16 +1083,16 @@ _inline void SPayloadVisitor::operator()(SDrawPillMessage const &payload) // 0x1
 	// SPayloadVisitor::operator()
 	// SDrawPillMessage const &payload;
 
-	CDebugDrawBackend::DrawPill(payload.base, payload.height, payload.radius, payload.color);
+	CDebugDrawBackend::DrawPill(*(real_point3d const *)&payload, *(real_vector3d const *)((unsigned char const *)&payload + 0xc), *(float const *)((unsigned char const *)&payload + 0x18), *(long const *)((unsigned char const *)&payload + 0x1c));
 }
 
-_extern void _sub_10818800(SPayloadVisitor *const, SDrawCylinderMessage const &);
 _inline void SPayloadVisitor::operator()(SDrawCylinderMessage const &payload) // 0x10818800
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??RSPayloadVisitor@hades_file_local@@QAEXABUSDrawCylinderMessage@@@Z");
 	// SPayloadVisitor::operator()
 	// SDrawCylinderMessage const &payload;
-	todo("implement");
-	_sub_10818800(this, payload);
+
+	CDebugDrawBackend::DrawCylinder(*(real_point3d const *)&payload, *(real_vector3d const *)((unsigned char const *)&payload + 0xc), *(float const *)((unsigned char const *)&payload + 0x18), *(long const *)((unsigned char const *)&payload + 0x1c));
 }
 
 _inline void SPayloadVisitor::operator()(SDrawConeMessage const &payload) // 0x10818770
@@ -925,7 +1101,7 @@ _inline void SPayloadVisitor::operator()(SDrawConeMessage const &payload) // 0x1
 	// SPayloadVisitor::operator()
 	// SDrawConeMessage const &payload;
 
-	CDebugDrawBackend::DrawBoxOriented(*(real_rectangle3d const *)&payload, *(real_matrix4x3 const *)((unsigned char const *)&payload + 0x18), *(long const *)((unsigned char const *)&payload + 0x4c));
+	CDebugDrawBackend::DrawCone(*(real_point3d const *)&payload, *(real_vector3d const *)((unsigned char const *)&payload + 0xc), *(float const *)((unsigned char const *)&payload + 0x1c), *(float const *)((unsigned char const *)&payload + 0x18), *(long const *)((unsigned char const *)&payload + 0x20));
 }
 
 _inline void SPayloadVisitor::operator()(SDrawLineMessage const &payload) // 0x10818880
@@ -934,7 +1110,7 @@ _inline void SPayloadVisitor::operator()(SDrawLineMessage const &payload) // 0x1
 	// SPayloadVisitor::operator()
 	// SDrawLineMessage const &payload;
 
-	CDebugDrawBackend::DrawLine(payload.p1, payload.p2, payload.color);
+	CDebugDrawBackend::DrawLine(*(real_point3d const *)&payload, *(real_point3d const *)((unsigned char const *)&payload + 0xc), *(long const *)((unsigned char const *)&payload + 0x18));
 }
 
 _inline void SPayloadVisitor::operator()(SDrawVectorMessage const &payload) // 0x10818C40
@@ -943,7 +1119,7 @@ _inline void SPayloadVisitor::operator()(SDrawVectorMessage const &payload) // 0
 	// SPayloadVisitor::operator()
 	// SDrawVectorMessage const &payload;
 
-	CDebugDrawBackend::DrawVector(payload.point, payload.vector, payload.color);
+	CDebugDrawBackend::DrawVector(*(real_point3d const *)&payload, *(real_vector3d const *)((unsigned char const *)&payload + 0xc), *(long const *)((unsigned char const *)&payload + 0x18));
 }
 
 _inline void SPayloadVisitor::operator()(SDrawPointMessage const &payload) // 0x108189F0
@@ -952,7 +1128,7 @@ _inline void SPayloadVisitor::operator()(SDrawPointMessage const &payload) // 0x
 	// SPayloadVisitor::operator()
 	// SDrawPointMessage const &payload;
 
-	CDebugDrawBackend::DrawPoint(payload.point, payload.size, payload.color);
+	CDebugDrawBackend::DrawPoint(*(real_point3d const *)&payload, *(float const *)((unsigned char const *)&payload + 0xc), *(long const *)((unsigned char const *)&payload + 0x10));
 }
 
 _inline void SPayloadVisitor::operator()(SDrawTriangleMessage const &payload) // 0x10818BD0
@@ -961,7 +1137,7 @@ _inline void SPayloadVisitor::operator()(SDrawTriangleMessage const &payload) //
 	// SPayloadVisitor::operator()
 	// SDrawTriangleMessage const &payload;
 
-	CDebugDrawBackend::DrawTriangle(payload.p1, payload.p2, payload.p3, payload.color);
+	CDebugDrawBackend::DrawTriangle(*(real_point3d const *)&payload, *(real_point3d const *)((unsigned char const *)&payload + 0xc), *(real_point3d const *)((unsigned char const *)&payload + 0x18), *(long const *)((unsigned char const *)&payload + 0x24));
 }
 
 _inline void SPayloadVisitor::operator()(SDrawText2dMessage const &payload) // 0x10818AD0
@@ -970,7 +1146,7 @@ _inline void SPayloadVisitor::operator()(SDrawText2dMessage const &payload) // 0
 	// SPayloadVisitor::operator()
 	// SDrawText2dMessage const &payload;
 
-	CDebugDrawBackend::DrawSphereOutline(*(real_point3d const *)&payload, *(float const *)((unsigned char const *)&payload + 0xc), *(long const *)((unsigned char const *)&payload + 0x10));
+	DrawString2dInternal(*(real_point2d const *)&payload, *(long const *)((unsigned char const *)&payload + 0x8), (char const *)((unsigned char const *)&payload + 0x14), *(__int32 const *)((unsigned char const *)&payload + 0xc), *(float const *)((unsigned char const *)&payload + 0x10));
 }
 
 _inline void SPayloadVisitor::operator()(SDrawText3dMessage const &payload) // 0x10818B50
@@ -979,7 +1155,7 @@ _inline void SPayloadVisitor::operator()(SDrawText3dMessage const &payload) // 0
 	// SPayloadVisitor::operator()
 	// SDrawText3dMessage const &payload;
 
-	DrawString3dInternal(payload.point, payload.color, payload.text, payload.fontId, payload.scale);
+	DrawString3dInternal(*(real_point3d const *)&payload, *(long const *)((unsigned char const *)&payload + 0xc), (char const *)((unsigned char const *)&payload + 0x18), *(__int32 const *)((unsigned char const *)&payload + 0x10), *(float const *)((unsigned char const *)&payload + 0x14));
 }
 
 _inline void SPayloadVisitor::operator()(SDrawPhysicsShapeCapsuleMessage const &payload) // 0x108188F0
@@ -988,7 +1164,7 @@ _inline void SPayloadVisitor::operator()(SDrawPhysicsShapeCapsuleMessage const &
 	// SPayloadVisitor::operator()
 	// SDrawPhysicsShapeCapsuleMessage const &payload;
 
-	CDebugDrawBackend::DrawLine(*(real_point3d const *)&payload, *(real_point3d const *)((unsigned char const *)&payload + 0xc), *(long const *)((unsigned char const *)&payload + 0x18));
+	CDebugDrawBackend::DrawPhysicsShapeCapsule(*(real_point3d const *)&payload, *(real_point3d const *)((unsigned char const *)&payload + 0xc), *(float const *)((unsigned char const *)&payload + 0x18), *(real_matrix4x3 const *)((unsigned char const *)&payload + 0x1c), *(long const *)((unsigned char const *)&payload + 0x50));
 }
 
 _inline void SPayloadVisitor::operator()(SClearMessage const &payload) // 0x108185D0
@@ -1018,21 +1194,37 @@ extern "C" void PostRenderCommand(SRenderThreadMessage &command) // 0x1081C570
 	render_debug_enable_depth_test(true);
 }
 
-_extern void _sub_1081C2D0(SRenderThreadMessage *);
 extern "C" void HandleRenderThreadMessage(SRenderThreadMessage *message) // 0x1081C2D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "_HandleRenderThreadMessage");
 	// HandleRenderThreadMessage
 	// SRenderThreadMessage *message;
-	{
 		// __int32 cacheEntryIndex;
+
+	if (message->lifetime != 0.0f)
+	{
+		__int32 cacheEntryIndex = -1;
+		if (message->cacheKey)
+			cacheEntryIndex = FindCacheEntry(message->group, message->cacheKey);
+		if (cacheEntryIndex == -1)
+			cacheEntryIndex = AllocateCacheEntry();
+		if (cacheEntryIndex == -1)
+			return;
+		persistentCache[cacheEntryIndex].valid = true;
+		persistentCache[cacheEntryIndex].expireTime = c_render_globals::get_frame_time() + message->lifetime;
+		persistentCache[cacheEntryIndex].cacheKey = message->cacheKey;
+		persistentCache[cacheEntryIndex].group = message->group;
+		memcpy(&persistentCache[cacheEntryIndex].command, message, sizeof(SRenderThreadMessage));
+		return;
 	}
-	todo("implement");
-	_sub_1081C2D0(message);
+	PreRenderCommand(*message);
+	std::visit(SPayloadVisitor{}, message->payload);
+	PostRenderCommand(*message);
 }
 
-_extern void _sub_1081B280(real_point2d const &, long, char const *, __int32, float);
 void DrawString2dInternal(real_point2d const &point, long color, char const *text, __int32 fontId, float scale) // 0x1081B280
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawString2dInternal@@YAXABUreal_point2d@@JPBDHM@Z");
 	// `anonymous-namespace'::DrawString2dInternal
 	// static ...; // 0x1081B510
 	// static ...; // 0x1081B508
@@ -1041,46 +1233,84 @@ void DrawString2dInternal(real_point2d const &point, long color, char const *tex
 	// char const *text;
 	// __int32 fontId;
 	// float scale;
-	{
 		// SRenderThreadMessage *message;
-		{
 			// SDrawText2dMessage &payload;
-		}
-	}
-	{
 		// real_argb_color colorf;
 		// short_rectangle2d bounds;
 		// c_rasterizer_draw_string m_drawString;
 		// c_font_cache_mt_safe m_fontCache;
-	}
 	// function call : bool (*const)()
 	// function call : void (*const)(short_rectangle2d *, short_rectangle2d *, short_rectangle2d *, short_rectangle2d *)
 	// function call : real_argb_color *(*const)(unsigned long, real_argb_color *)
-	todo("implement");
-	_sub_1081B280(point, color, text, fontId, scale);
+
+	if (!((bool(*)())0xA22390)() || threadLocalAttributes.lifetime != 0.0f)
+	{
+		SRenderThreadMessage *message = AllocateMessage<SDrawText2dMessage>();
+		if (message)
+		{
+			SDrawText2dMessage &payload = message->GetPayload<SDrawText2dMessage>();
+			payload.color = color;
+			payload.point = point;
+			payload.fontId = fontId;
+			payload.scale = scale;
+			strncpy_s(payload.text, text, _TRUNCATE);
+			renderThreadQueue.Add(message);
+		}
+	}
+	else
+	{
+		c_font_cache_mt_safe m_fontCache;
+		c_rasterizer_draw_string m_drawString;
+		short_rectangle2d bounds;
+		((void(*)(long, long, long, short_rectangle2d *))0xA9FAA0)(0, 0, 0, &bounds);
+		bounds.x0 = static_cast<short>(point.x);
+		bounds.y0 = static_cast<short>(point.y);
+		real_argb_color colorf;
+		((void(*)(long, real_argb_color *))0x5211C0)(color, &colorf);
+		m_drawString.set_scale(scale);
+		m_drawString.set_font(fontId);
+		m_drawString.set_color(colorf);
+		m_drawString.set_shadow_color(real_argb_color{ 1.0f, 0.0f, 0.0f, 0.0f });
+		m_drawString.set_drop_shadow_style(2);
+		m_drawString.set_bounds(bounds);
+		m_drawString.draw(&m_fontCache, text);
+	}
 }
 
-_extern void _sub_1081B8C0(real_point3d const &, long, char const *, __int32, float);
 void DrawString3dInternal(real_point3d const &point, long color, char const *text, __int32 fontId, float scale) // 0x1081B8C0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawString3dInternal@@YAXABUreal_point3d@@JPBDHM@Z");
 	// `anonymous-namespace'::DrawString3dInternal
 	// long color;
 	// char const *text;
 	// __int32 fontId;
 	// float scale;
-	{
 		// SRenderThreadMessage *message;
-		{
 			// SDrawText3dMessage &payload;
-		}
-	}
-	{
 		// real_argb_color colorf;
-	}
 	// function call : bool (*const)()
 	// function call : real_argb_color *(*const)(unsigned long, real_argb_color *)
-	todo("implement");
-	_sub_1081B8C0(point, color, text, fontId, scale);
+
+	if (!((bool(*)())0xA22390)() || threadLocalAttributes.lifetime != 0.0f)
+	{
+		SRenderThreadMessage *message = AllocateMessage<SDrawText3dMessage>();
+		if (message)
+		{
+			SDrawText3dMessage &payload = message->GetPayload<SDrawText3dMessage>();
+			payload.color = color;
+			payload.point = point;
+			payload.fontId = fontId;
+			payload.scale = scale;
+			strncpy_s(payload.text, text, _TRUNCATE);
+			renderThreadQueue.Add(message);
+		}
+	}
+	else
+	{
+		real_argb_color colorf;
+		((void(*)(long, real_argb_color *))0x5211C0)(color, &colorf);
+		render_debug_string_at_point(point, text, colorf, fontId, scale);
+	}
 }
 
 _inline SCacehEntry::SCacehEntry() : cacheKey(nullptr, 0xFFFFFFFF) /* hades-mem-init: : cacheKey(todo_result<DebugDrawKey>()) */ // 0x10817E60
@@ -1101,4 +1331,21 @@ _inline SRenderThreadMessage::SRenderThreadMessage() : lifetime(0.0f), cacheKey(
 
 /* ---------- explicit instantiations */
 template _SINGLE_LIST_ENTRY * CSimpleMessageQueue<SRenderThreadMessage,4096>::Reversed(_SINGLE_LIST_ENTRY *);
-template CSimpleMessageQueue<SRenderThreadMessage,4096>::SQueueEntry::SQueueEntry();
+template CSimpleMessageQueue<SRenderThreadMessage,4096>::CSimpleMessageQueue();  // hades: emits SQueueEntry's implicit ctor, as the original's does
+
+/* ---------- explicit instantiations (hades: the original object carries these) */
+template SDrawPointMessage &SRenderThreadMessage::GetPayload<SDrawPointMessage>();
+template SDrawLineMessage &SRenderThreadMessage::GetPayload<SDrawLineMessage>();
+template SDrawVectorMessage &SRenderThreadMessage::GetPayload<SDrawVectorMessage>();
+template SDrawTriangleMessage &SRenderThreadMessage::GetPayload<SDrawTriangleMessage>();
+template SDrawSphereMessage &SRenderThreadMessage::GetPayload<SDrawSphereMessage>();
+template SDrawPillMessage &SRenderThreadMessage::GetPayload<SDrawPillMessage>();
+template SDrawCylinderMessage &SRenderThreadMessage::GetPayload<SDrawCylinderMessage>();
+template SDrawConeMessage &SRenderThreadMessage::GetPayload<SDrawConeMessage>();
+template SDrawBox2dMessage &SRenderThreadMessage::GetPayload<SDrawBox2dMessage>();
+template SDrawBoxMessage &SRenderThreadMessage::GetPayload<SDrawBoxMessage>();
+template SDrawBoxOrientedMessage &SRenderThreadMessage::GetPayload<SDrawBoxOrientedMessage>();
+template SDrawText2dMessage &SRenderThreadMessage::GetPayload<SDrawText2dMessage>();
+template SDrawText3dMessage &SRenderThreadMessage::GetPayload<SDrawText3dMessage>();
+template SDrawPhysicsShapeCapsuleMessage &SRenderThreadMessage::GetPayload<SDrawPhysicsShapeCapsuleMessage>();
+template SClearMessage &SRenderThreadMessage::GetPayload<SClearMessage>();

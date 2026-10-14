@@ -30,7 +30,6 @@ struct s_platform_sound_source_properties
 	float pitch; // 0x8
 	float gain_db; // 0xC
 	short sound_class; // 0x10
-	unsigned char __pad0[2]; // 0x12
 	float direct_path_gain_db; // 0x14
 	float reverb_gain_db; // 0x18
 	float override_speaker_gain; // 0x1C

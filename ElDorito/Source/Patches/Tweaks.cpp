@@ -34,6 +34,9 @@
 #include "ThirdParty/rapidjson/document.h"
 #include "Utils/Singleton.hpp"
 
+#include "Modules/ModuleTweaks.hpp"  // hades: added for 0x10AD2060
+#include "Modules/ModuleServer.hpp"  // hades: added for 0x10AD2060
+
 #include <boost/asio.hpp>
 #include <boost/assert.hpp>
 #include <boost/exception/all.hpp>
@@ -101,6 +104,11 @@ namespace Patches
 
 /* ---------- prototypes */
 
+extern bool tags_loaded();  // hades: added for 0x10AD2300
+#include "Utils/Logger.hpp"  // hades: added for 0x10AD2300
+
+extern void *(*const tag_get)(unsigned long, long);  // hades: added for 0x10AD2100
+
 namespace Patches
 {
 	namespace Tweaks
@@ -128,13 +136,18 @@ namespace Patches
 {
 	namespace Tweaks
 	{
-		_extern void _sub_10AD2060();
 		void ApplyAfterTagsLoaded() // 0x10AD2060
 		{
-			mangled_x86(MANGLED_TODO, "?ApplyAfterTagsLoaded@Tweaks@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAfterTagsLoaded@Tweaks@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_10AD2060();
+
+			tagsloaded = true;
+			if (Utils::Singleton<Modules::ModuleTweaks>::Instance().VarDisableReactorFog->ValueInt)
+			{
+				DisableReactorFog();
+			}
+
+			EnableHitmarkers(Utils::Singleton<Modules::ModuleServer>::Instance().VarHitMarkersEnabledClient->ValueInt);
 		}
 
 		void EnableHitmarkers(bool enabled) // 0x10AD22B0
@@ -149,59 +162,96 @@ namespace Patches
 
 /* ---------- private code */
 
-_extern void _sub_10AD2100();
 void DisableReactorFog() // 0x10AD2100
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?DisableReactorFog@@YAXXZ");
 	// `anonymous-namespace'::DisableReactorFog
 	// procedure flags: nofpo
 	// static ...; // 0x10AD224C
 	// static ...; // 0x10AD2240
 	// static ...; // 0x10AD2238
 	// s_tag_iterator iterator;
-	{
 		// long tag_index;
-		{
 			// s_scenario *scnrDefinition;
-		}
-	}
 	// function call : void (*const)(s_tag_iterator *, long)
 	// function call : long (*const)(s_tag_iterator *)
 	// function call : void *(*const)(unsigned long, long)
-	todo("implement");
-	_sub_10AD2100();
+
+	static void (*const tag_iterator_new)(s_tag_iterator *, long) = reinterpret_cast<void (*)(s_tag_iterator *, long)>(0x5033E0);
+	static long (*const tag_iterator_next)(s_tag_iterator *) = reinterpret_cast<long (*)(s_tag_iterator *)>(0x503400);
+	s_tag_iterator iterator;
+	tag_iterator_new(&iterator, 'scnr');
+	for (long tag_index; (tag_index = tag_iterator_next(&iterator)) != -1; )
+	{
+		s_scenario *scnrDefinition = (s_scenario *)tag_get('scnr', tag_index);
+		if (scnrDefinition && scnrDefinition->map_id == 700)
+		{
+			*(short *)&scnrDefinition->effect_scenery[1] = -1;
+			*(short *)&scnrDefinition->effect_scenery[2] = -1;
+			*(short *)&scnrDefinition->effect_scenery[61] = -1;
+		}
+	}
 }
 
-_extern void _sub_10AD2300(bool);
 void EnableHitmarkersInternal(bool enabled) // 0x10AD2300
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?EnableHitmarkersInternal@@YAX_N@Z");
 	// `anonymous-namespace'::EnableHitmarkersInternal
 	// bool enabled;
 	// bool forceDisabled;
 	// s_game_globals *matgDefinition;
-	{
 		// c_tag_block<s_game_globals_player_representation> &<range>$L0;
 		// s_game_globals_player_representation *<begin>$L0;
 		// s_game_globals_player_representation *<end>$L0;
-		{
 			// s_game_globals_player_representation &representation;
-			{
 				// s_chud_definition *chudDefinition;
 				// s_biped_definition *bipdDefinition;
-				{
 					// s_chud_widget_collection *<end>$L1;
 					// s_chud_widget_collection *<begin>$L1;
 					// c_tag_block<s_chud_widget_collection> &<range>$L1;
-					{
 						// s_chud_widget_collection &hudWidget;
-					}
+	// function call : void *(*const)(unsigned long, long)
+	// function call : void *(*const)(unsigned long, long)
+
+	bool forceDisabled = Utils::Singleton<Modules::ModuleTweaks>::Instance().VarDisableHitMarkers->ValueInt != 0;
+	if (!tags_loaded())
+		return;
+	s_game_globals *matgDefinition = game_globals_get();
+	if (!matgDefinition)
+		return;
+	if (matgDefinition->PlayerRepresentation.count < 1)
+	{
+		Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Debug, Utils::LogLevel::Warning, "no player representations defined in tag 'global\\globals'!");
+		return;
+	}
+	for (s_game_globals_player_representation &representation : matgDefinition->PlayerRepresentation)
+	{
+		s_biped_definition *bipdDefinition = (s_biped_definition *)tag_get('bipd', representation.ThirdPersonUnit.index);
+		if (!bipdDefinition)
+			continue;
+		if (bipdDefinition->hud_interfaces.count < 1 && bipdDefinition->hud_interfaces[0].unit_hud_interface.index != -1)
+			continue;
+		s_chud_definition *chudDefinition = (s_chud_definition *)tag_get('chdt', bipdDefinition->hud_interfaces[0].unit_hud_interface.index);
+		if (!chudDefinition)
+			continue;
+		for (s_chud_widget_collection &hudWidget : chudDefinition->widgets)
+		{
+			if (hudWidget.name == 0x2AAD)
+			{
+				if (enabled && !forceDisabled)
+				{
+					hudWidget.placement[0].scale_x = 1.75f;
+					hudWidget.placement[0].scale_y = 1.75f;
 				}
+				else
+				{
+					hudWidget.placement[0].scale_x = 0.0f;
+					hudWidget.placement[0].scale_y = 0.0f;
+				}
+				break;
 			}
 		}
 	}
-	// function call : void *(*const)(unsigned long, long)
-	// function call : void *(*const)(unsigned long, long)
-	todo("implement");
-	_sub_10AD2300(enabled);
 }
 
 /* ---------- template instantiations */

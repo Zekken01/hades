@@ -86,15 +86,29 @@ unsigned long tag_get_group_tag(long tag_index) // 0x10EFC390
 	return g_cache_file_tag_globals->instances[g_cache_file_tag_globals->index_to_absolute_index_map[tag_index]]->group.tags[0];
 }
 
-_extern bool _sub_10EFC410(long);
 bool tag_loaded(long tag_index) // 0x10EFC410
 {
-	mangled_x86(MANGLED_TODO, "?tag_loaded@@YA_NJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?tag_loaded@@YA_NJ@Z");
 	// long tag_index;
 	// long absolute_index;
-	todo("implement");
-	bool __result = _sub_10EFC410(tag_index);
-	return __result;
+
+	if (!g_cache_file_tag_globals->initialized)
+	{
+		return false;
+	}
+
+	if (tag_index < 0 || tag_index >= 0xFFFF)
+	{
+		return false;
+	}
+
+	long absolute_index = g_cache_file_tag_globals->index_to_absolute_index_map[tag_index];
+	if (absolute_index < 0 || absolute_index >= g_cache_file_tag_globals->loaded_instance_count)
+	{
+		return false;
+	}
+
+	return g_cache_file_tag_globals->instances[absolute_index] != nullptr;
 }
 
 bool tags_loaded() // 0x10EFC640
@@ -107,14 +121,25 @@ bool tags_loaded() // 0x10EFC640
 
 /* ---------- private code */
 
-extern s_cache_tag_instance *_sub_10EFC690(long);
 extern "C" s_cache_tag_instance *try_and_get_instance_internal(long tag_index) // 0x10EFC690
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "_try_and_get_instance_internal");
 	// try_and_get_instance_internal
 	// long tag_index;
 	// s_cache_tag_instance *instance;
 	// long absolute_index;
-	todo("implement");
-	s_cache_tag_instance * __result = _sub_10EFC690(tag_index);
-	return __result;
+
+	if (tag_index < 0 || tag_index >= 0xFFFF)
+	{
+		return nullptr;
+	}
+
+	long absolute_index = g_cache_file_tag_globals->index_to_absolute_index_map[tag_index];
+	if (absolute_index < 0 || absolute_index >= 0xFFFF)
+	{
+		return nullptr;
+	}
+
+	s_cache_tag_instance *instance = g_cache_file_tag_globals->instances[absolute_index];
+	return instance;
 }

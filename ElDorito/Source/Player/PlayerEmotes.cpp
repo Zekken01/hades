@@ -59,6 +59,8 @@
 #include <utility>
 #include "Objects/ObjectMessaging.hpp"
 
+#include "Modules/ModuleServer.hpp"  // hades: added for 0x107EA0D0
+
 /* ---------- forward declarations */
 
 class c_bitstream;
@@ -216,6 +218,11 @@ using namespace hades_file_local;
 
 /* ---------- prototypes */
 
+extern void *(*const tag_get)(unsigned long, long);  // hades: added for 0x107EBE20
+extern s_game_globals *game_globals_get();  // hades: added for 0x107EBE20
+
+template<typename t_arg0> static t_arg0 *object_get(unsigned long object_index) { return (t_arg0 *)object_get(object_index); }  // hades: a file-local template in the original (undecorated `object_get<T>`), defined so it is emitted;  // hades: added for 0x107ED270
+
 namespace hades_file_local { extern c_simulation_player_emote_event_definition emote_definition; }  // hades: added for 0x107EBDD0
 
 s_player_datum *player_get(unsigned long player_index);  // hades: added for 0X107EB8D0
@@ -241,10 +248,9 @@ s_action_definition CPlayerEmoteAction::m_definition; // 0x11352538
 
 namespace Player
 {
-	_extern bool _sub_107EBE20(short);
 	bool CPlayerEmotes::RequestStartEmote(short emoteIndex) // 0x107EBE20
 	{
-		mangled_x86(MANGLED_TODO, "?RequestStartEmote@CPlayerEmotes@Player@@SA_NF@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?RequestStartEmote@CPlayerEmotes@Player@@SA_NF@Z");
 		// static ...; // 0x107EC0EA
 		// static ...; // 0x107EC0E0
 		// static ...; // 0x107EC0D0
@@ -259,17 +265,51 @@ namespace Player
 		// short characterTypeIndex;
 		// __int32 definitionIndex;
 		// __int32 player_character_customization_index;
-		{
 			// __int32 i;
-			{
 				// s_mod_globals_player_character_customization *character;
-			}
-		}
 		// function call : unsigned long (*const)(long)
 		// function call : void *(*const)(unsigned long, long)
-		todo("implement");
-		bool __result = _sub_107EBE20(emoteIndex);
-		return __result;
+
+		long playerIndex = ((unsigned long(__cdecl *const)(long))0x589c30)(0);
+		if (playerIndex == -1)
+			return false;
+		short characterTypeIndex = -1;
+		s_player_datum *player = player_get(playerIndex);
+		if (player->unit_index != -1)
+			characterTypeIndex = player->character_type_index;
+		else
+			return false;
+		s_game_globals const *matg = game_globals_get();
+		s_mod_globals_definition const *modg = mod_globals_get_definition();
+		__int32 player_character_customization_index = -1;
+		for (__int32 i = 0; i < modg->player_character_customizations.count; i++)
+		{
+			s_mod_globals_player_character_customization *character = nullptr;
+			if (!modg->player_character_customizations.try_get_element(i, &character))
+				continue;
+			if (!character || character->global_player_character_type_index >= matg->player_character_types.count)
+				continue;
+			if (!matg->player_character_types[character->global_player_character_type_index].name)
+				continue;
+			if (characterTypeIndex == character->global_player_character_type_index)
+			{
+				player_character_customization_index = i;
+				break;
+			}
+		}
+		if (player_character_customization_index == -1)
+			return false;
+		if (modg->player_character_customizations[player_character_customization_index].action_set.index == -1)
+			return false;
+		__int32 definitionIndex = modg->player_character_customizations[player_character_customization_index].action_set.index;
+		s_mod_player_actions_set_definition *const emoteTag = (s_mod_player_actions_set_definition *)tag_get('pact', definitionIndex);
+		if (!emoteTag)
+			return false;
+		Objects::CObjectMessaging::EnqueueAction([playerIndex, definitionIndex, emoteIndex]()
+		{
+			PlayerStartEmote(playerIndex, definitionIndex, emoteIndex);
+		});
+		return true;
 	}
 
 	void CPlayerEmotes::RequestStopEmote() // 0x107EC1B0
@@ -468,30 +508,34 @@ _inline void CPlayerEmoteAction::SActionRequest::Submit(long unit_index) // 0x10
 	submit_unit_holograms(unit_index);
 }
 
-_extern void _sub_107ECF90(CPlayerEmoteAction::SActionRequest *const, __int32);
 _inline void CPlayerEmoteAction::SActionRequest::submit_unit_holograms(__int32 unit_index) // 0x107ECF90
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?submit_unit_holograms@SActionRequest@CPlayerEmoteAction@hades_file_local@@QAEXH@Z");
 	// `anonymous-namespace'::CPlayerEmoteAction::SActionRequest::submit_unit_holograms
 	// static ...; // 0x107ED0C4
 	// static ...; // 0x107ED0BC
 	// CPlayerEmoteAction::SActionRequest *const this;
 	// __int32 unit_index;
 	// c_data_array<s_object_header> *object_headers;
-	{
 		// c_data_iterator<s_object_header> it;
-		{
 			// s_unit_data *unit;
-		}
-	}
 	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
 	// function call : bool (*const)(long, s_action_request *)
-	todo("implement");
-	_sub_107ECF90(this, unit_index);
+
+	c_data_array<s_object_header> *object_headers = object_headers_get();
+	for (c_data_iterator<s_object_header> it = object_headers->begin(); it != object_headers->end(); ++it)
+	{
+		s_unit_data *unit = (s_unit_data *)object_try_and_get_and_verify_type(it.current_datum_index, 0x2003);
+		if (!unit)
+			continue;
+		if (unit->unit_flags & 0x40000000 && unit->hologram_creator_weak_unit_index == unit_index && it.current_datum_index != -1)
+			((void (*)(long, s_action_request *))0xB69C50)(it.current_datum_index, this);
+	}
 }
 
-_extern void _sub_107ED270(long);
 _inline void CPlayerEmoteAction::unit_put_away_weapons(long unit_index) // 0x107ED270
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_put_away_weapons@CPlayerEmoteAction@hades_file_local@@SAXJ@Z");
 	// `anonymous-namespace'::CPlayerEmoteAction::unit_put_away_weapons
 	// long unit_index;
 	// s_unit_data *unit;
@@ -499,28 +543,44 @@ _inline void CPlayerEmoteAction::unit_put_away_weapons(long unit_index) // 0x107
 	// void (*const unit_send_message_to_first_person)(long, e_unit_messages);
 	// bool (*const weapon_put_away)(long, bool, bool);
 	// void (*const unit_unzoom)(long, bool);
-	{
 		// long i;
-		{
 			// long inventory_index;
-			{
 				// long weapon_index;
-			}
-		}
-	}
 	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
 	// function call : bool (*const)(long, bool, bool)
 	// function call : void (*const)(long, bool)
 	// function call : void (*const)(long, e_unit_messages)
 	// function call : void (*const)(long, bool, char)
 	// function call : char (*const)(long, unsigned long, unsigned long, bool)
-	todo("implement");
-	_sub_107ED270(unit_index);
+
+	bool (*const weapon_put_away)(long, bool, bool) = reinterpret_cast<bool (*)(long, bool, bool)>(0xB65530);
+	void (*const unit_send_message_to_first_person)(long, e_unit_messages) = reinterpret_cast<void (*)(long, e_unit_messages)>(0xBA5750);
+	void (*const unit_action_weapon_put_away_end)(long, bool, char) = reinterpret_cast<void (*)(long, bool, char)>(0xBA5940);
+	void (*const unit_unzoom)(long, bool) = reinterpret_cast<void (*)(long, bool)>(0xB49D80);
+	s_unit_data *unit = object_get<s_unit_data>(unit_index);
+	for (long i = 0; i < 2; i++)
+	{
+		long inventory_index = unit->current_weapon_set.indices[i];
+		if (inventory_index != -1)
+		{
+			long weapon_index = unit->weapon_object_indices[inventory_index];
+			if (object_try_and_get_and_verify_type(weapon_index, 4))
+			{
+				if (weapon_put_away(weapon_index, false, true))
+				{
+					unit_unzoom(unit_index, false);
+					unit_send_message_to_first_person(unit_index, (e_unit_messages)(i + 18));
+				}
+				unit_action_weapon_put_away_end(unit_index, i == 0, 0);
+			}
+		}
+	}
+	((void (*)(long, long, long, bool))0xB8C930)(unit_index, 0x89, 0, true);
 }
 
-_extern bool _sub_107EA0D0(long, s_action_request const *);
 _inline bool CPlayerEmoteAction::ActionSubmit(long unit_index, s_action_request const *action_request) // 0x107EA0D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ActionSubmit@CPlayerEmoteAction@hades_file_local@@SA_NJPBUs_action_request@@@Z");
 	// `anonymous-namespace'::CPlayerEmoteAction::ActionSubmit
 	// s_action_request const *action_request;
 	// Player::CPlayerEmotes::SActionStateData *emoteStateData;
@@ -534,32 +594,72 @@ _inline bool CPlayerEmoteAction::ActionSubmit(long unit_index, s_action_request 
 	// function call : bool (*const)(long)
 	// function call : bool (*const)(long, short, short)
 	// function call : void (*const)(long, e_action)
-	todo("implement");
-	bool __result = _sub_107EA0D0(unit_index, action_request);
-	return __result;
+
+	SActionRequest *request = (SActionRequest *)action_request;
+	s_mod_player_actions_set_definition *actionSet = s_mod_player_actions_set_definition::get(request->definitionIndex);
+	s_mod_player_action *actionDef = actionSet->actions.get_element(request->emoteIndex);
+	if (!actionDef)
+		return false;
+	if (!actionDef->animation_enter)
+		return false;
+	if (!((bool (*)(long, long, long))0xB90C80)(unit_index, 0x57, 15) && (!((bool (*)())0x531B20)() || !Utils::Singleton<Modules::ModuleServer>::Instance().VarServerEmotesDuringPodiumEnabledClient->ValueInt))
+		return false;
+	long active_primary_weapon_index = ((long (*)(long, long))0xB42EF0)(unit_index, 0);
+	if (active_primary_weapon_index != -1 && ((bool (*)(long))0xB641D0)(active_primary_weapon_index))
+		return false;
+	((void (*)(long, long, long))0xB91630)(unit_index, 15, 0);
+	((void (*)(long, long))0xB69CF0)(unit_index, 2);
+	if (!StartAnimation(unit_index, 0, actionDef->animation_enter))
+		return false;
+	if (actionDef->flags & 1)
+		unit_put_away_weapons(unit_index);
+	Player::CPlayerEmotes::SActionStateData *emoteStateData = Player::CPlayerEmotes::GetUnitActionState(unit_index);
+	emoteStateData->definitionIndex = request->definitionIndex;
+	emoteStateData->emoteIndex = request->emoteIndex;
+	emoteStateData->cancelled = false;
+	emoteStateData->playedExit = false;
+	return true;
 }
 
-_extern bool _sub_107EA320(long, e_action);
 _inline bool CPlayerEmoteAction::ActionUpdate(long unit_index, e_action action_type) // 0x107EA320
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ActionUpdate@CPlayerEmoteAction@hades_file_local@@SA_NJW4e_action@@@Z");
 	// `anonymous-namespace'::CPlayerEmoteAction::ActionUpdate
 	// e_action action_type;
 	// Player::CPlayerEmotes::SActionStateData *emoteStateData;
 	// s_mod_player_action *actionDef;
 	// s_mod_player_actions_set_definition *actionSet;
-	{
 		// c_motor_task *task;
-		{
 			// c_animation_channel *channel;
-		}
-	}
 	// function call : c_motor_task *(*const)(long, e_action)
 	// function call : c_animation_channel *(*const)(long, c_motor_task *)
 	// function call : void (*const)(c_animation_channel *, float)
 	// function call : bool (*const)(long, short, short)
-	todo("implement");
-	bool __result = _sub_107EA320(unit_index, action_type);
-	return __result;
+
+	Player::CPlayerEmotes::SActionStateData *emoteStateData = Player::CPlayerEmotes::GetUnitActionState(unit_index);
+	s_mod_player_actions_set_definition *actionSet = s_mod_player_actions_set_definition::get(emoteStateData->definitionIndex);
+	s_mod_player_action *actionDef = actionSet->actions.get_element(emoteStateData->emoteIndex);
+	if (!(actionDef->flags & 0x40))
+	{
+		c_motor_task *task = ((c_motor_task *(*)(long, long))0xB91490)(unit_index, 0x57);
+		if (task)
+		{
+			c_animation_channel *channel = ((c_animation_channel *(*)(long, c_motor_task *))0xB90260)(unit_index, task);
+			if (channel->state_flags & 2)
+			{
+				channel->state_flags &= ~7;
+				channel->settings.playback_flags |= 1;
+				((void (__thiscall *)(c_animation_channel *, float))0x983B30)(channel, 0.0f);
+			}
+		}
+	}
+	if (emoteStateData->cancelled && !emoteStateData->playedExit)
+	{
+		emoteStateData->playedExit = true;
+		((void (*)(long, long, long))0xB91630)(unit_index, 15, 0);
+		StartAnimation(unit_index, 0, actionDef->animation_exit);
+	}
+	return true;
 }
 
 _inline void CPlayerEmoteAction::ActionFinished(long unit_index, e_action action_type) // 0x107EA4F0
@@ -798,28 +898,48 @@ _inline bool c_simulation_player_emote_event_definition::apply_game_event(long r
 	return true;
 }
 
-_extern bool _sub_107EB750(__int32, __int32, short);
 bool PlayerCanEmote(__int32 playerIndex, __int32 definitionIndex, short emoteIndex) // 0x107EB750
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?PlayerCanEmote@@YA_NHHF@Z");
 	// `anonymous-namespace'::PlayerCanEmote
 	// short emoteIndex;
 	// s_player_datum *player;
 	// s_mod_globals_definition *const modg;
 	// s_mod_player_actions_set_definition *const actionSet;
-	{
 		// __int32 i;
-		{
 			// s_mod_globals_player_character_customization *const character;
+
+	s_player_datum *player = player_get(playerIndex);
+	if (!player)
+		return false;
+	if (player->unit_index == -1)
+		return false;
+	if (!object_get(player->unit_index))
+		return false;
+	s_mod_globals_definition *const modg = mod_globals_get_definition();
+	if (modg)
+	{
+		for (__int32 i = 0; i < modg->player_character_customizations.count; i++)
+		{
+			if (modg->player_character_customizations[i].global_player_character_type_index == player->character_type_index)
+			{
+				s_mod_globals_player_character_customization *const character = modg->player_character_customizations.get_element(i);
+				if (!character)
+					return false;
+				if (character->action_set.index != definitionIndex)
+					return false;
+			}
 		}
 	}
-	todo("implement");
-	bool __result = _sub_107EB750(playerIndex, definitionIndex, emoteIndex);
-	return __result;
+	s_mod_player_actions_set_definition *const actionSet = s_mod_player_actions_set_definition::get(definitionIndex);
+	if (emoteIndex < 0 || emoteIndex >= actionSet->actions.count)
+		return false;
+	return true;
 }
 
-_extern void _sub_107EB980(__int32, long, long);
 void PlayerStartEmote(__int32 playerIndex, long definitionIndex, long emoteIndex) // 0x107EB980
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?PlayerStartEmote@@YAXHJJ@Z");
 	// `anonymous-namespace'::PlayerStartEmote
 	// static ...; // 0x107EBAC0
 	// static ...; // 0x107EBAB8
@@ -828,19 +948,30 @@ void PlayerStartEmote(__int32 playerIndex, long definitionIndex, long emoteIndex
 	// long emoteIndex;
 	// s_player_datum *player;
 	// CPlayerEmoteAction::SActionRequest actionRequest;
-	{
 		// s_simulation_player_emote_event_data data;
-	}
 	// function call : bool (*const)(long)
 	// function call : bool (*const)()
 	// function call : void (*const)(e_simulation_event_type, long, long *, long, long, void const *)
-	todo("implement");
-	_sub_107EB980(playerIndex, definitionIndex, emoteIndex);
+
+	if (!PlayerCanEmote(playerIndex, definitionIndex, emoteIndex))
+		return;
+	s_player_datum *player = player_get(playerIndex);
+	CPlayerEmoteAction::SActionRequest actionRequest(definitionIndex, emoteIndex);
+	actionRequest.Submit(player->unit_index);
+	if (((bool (*const)(long))0x53B4E0)(playerIndex) || ((bool (*const)())0x5319C0)())
+	{
+		s_simulation_player_emote_event_data data;
+		data.action_type = 0;
+		data.player_index = playerIndex != -1 ? (unsigned short)playerIndex : -1;
+		data.emote_definition_index = definitionIndex;
+		data.emote_index = emoteIndex;
+		((void (*const)(e_simulation_event_type, long, long *, long, long, void const *))0x4E5A40)((e_simulation_event_type)16, 0, nullptr, playerIndex, sizeof(data), &data);
+	}
 }
 
-_extern void _sub_107EBB50(__int32);
 void PlayerStopEmote(__int32 playerIndex) // 0x107EBB50
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?PlayerStopEmote@@YAXH@Z");
 	// `anonymous-namespace'::PlayerStopEmote
 	// static ...; // 0x107EBD44
 	// static ...; // 0x107EBD38
@@ -850,16 +981,36 @@ void PlayerStopEmote(__int32 playerIndex) // 0x107EBB50
 	// Player::CPlayerEmotes::SActionStateData *emoteStateData;
 	// s_mod_player_action *actionDef;
 	// s_mod_player_actions_set_definition *actionSet;
-	{
 		// s_simulation_player_emote_event_data data;
-	}
 	// function call : bool (*const)(long, e_action)
 	// function call : void (*const)(long, e_action)
 	// function call : bool (*const)(long)
 	// function call : bool (*const)()
 	// function call : void (*const)(e_simulation_event_type, long, long *, long, long, void const *)
-	todo("implement");
-	_sub_107EBB50(playerIndex);
+
+	s_player_datum *player = player_get(playerIndex);
+	if (!player)
+		return;
+	if (player->unit_index == -1 || !object_get(player->unit_index))
+		return;
+	if (!((bool (*const)(long, e_action))0xB69BA0)(player->unit_index, (e_action)0x57))
+		return;
+	if (Player::CPlayerEmotes::UnitCancelInhibited(player->unit_index))
+		return;
+	Player::CPlayerEmotes::SActionStateData *emoteStateData = Player::CPlayerEmotes::GetUnitActionState(player->unit_index);
+	s_mod_player_actions_set_definition *actionSet = s_mod_player_actions_set_definition::get(emoteStateData->definitionIndex);
+	s_mod_player_action *actionDef = actionSet->actions.get_element(emoteStateData->emoteIndex);
+	if (actionDef->flags & 0x20)
+		((void (*const)(long, e_action))0xB69C20)(player->unit_index, (e_action)0x57);
+	else
+		emoteStateData->cancelled = true;
+	if (((bool (*const)(long))0x53B4E0)(playerIndex) || ((bool (*const)())0x5319C0)())
+	{
+		s_simulation_player_emote_event_data data = {};
+		data.action_type = 1;
+		data.player_index = playerIndex != -1 ? (unsigned short)playerIndex : -1;
+		((void (*const)(e_simulation_event_type, long, long *, long, long, void const *))0x4E5A40)((e_simulation_event_type)16, 0, nullptr, playerIndex, sizeof(data), &data);
+	}
 }
 
 /* ---------- template instantiations */

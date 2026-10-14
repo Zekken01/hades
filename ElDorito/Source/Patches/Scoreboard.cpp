@@ -97,6 +97,8 @@ using namespace hades_file_local;
 
 /* ---------- prototypes */
 
+namespace hades_file_local { static PlayerNameString *playerNames[16]; }  // hades: added for 0x10ACADA0
+
 namespace Patches
 {
 	namespace Scoreboard
@@ -166,9 +168,9 @@ __int32 GetUtf16Length(char16_t const *str, __int32 maxLength) // 0x10ACAF70
 	return length;
 }
 
-extern PlayerNameString *_sub_10ACADA0(s_player_datum *, __int32);
 PlayerNameString *GetPlayerName(s_player_datum *playerData, __int32 index) // 0x10ACADA0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetPlayerName@@YAPAUPlayerNameString@hades_file_local@@PAUs_player_datum@@H@Z");
 	// `anonymous-namespace'::GetPlayerName
 	// __int32 index;
 	// void *(*Allocate)(unsigned __int32);
@@ -177,9 +179,34 @@ PlayerNameString *GetPlayerName(s_player_datum *playerData, __int32 index) // 0x
 	// PlayerNameString *result;
 	// function call : void (*)(void *)
 	// function call : void *(*)(unsigned __int32)
-	todo("implement");
-	PlayerNameString * __result = _sub_10ACADA0(playerData, index);
-	return __result;
+
+	if (index == -1)
+		return nullptr;
+	void *(*Allocate)(unsigned __int32) = reinterpret_cast<void *(*)(unsigned __int32)>(0xD874A0);
+	void (*Free)(void *) = reinterpret_cast<void (*)(void *)>(0xD873C0);
+	if (!playerData->configuration.host.player_name[0])
+		return nullptr;
+	PlayerNameString *result = playerNames[index];
+	if (result && !memcmp(result->name, playerData->configuration.host.player_name, 32))
+		return nullptr;
+	if (result)
+	{
+		result->header.refCount--;
+		if (result->header.refCount == 0)
+		{
+			Free(result);
+			result = nullptr;
+		}
+	}
+	result = (PlayerNameString *)Allocate(44);
+	memset(result, 0, 44);
+	result->header.refCount = 1;
+	playerNames[index] = result;
+	memcpy(result->name, playerData->configuration.host.player_name, 32);
+	__int32 length = GetUtf16Length(result->name, 16);
+	result->header.length1 = length;
+	result->header.length2 = length;
+	return playerNames[index];
 }
 
 __declspec(naked) void GLScoreboardPlayerAllocatorHook() // 0x10ACAD50

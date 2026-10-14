@@ -45,6 +45,8 @@
 #include "Web/Ui/Screen.hpp"
 #include "Web/Ui/ScreenLayer.hpp"
 
+#include "Patches/Input.hpp"  // hades: added for 0x10C9A9E0
+
 #include <Windows.h>
 #include <stdio.h>
 #include <sys/stat.h>
@@ -149,6 +151,18 @@ using namespace ::Blam;
 
 /* ---------- definitions */
 
+// hades: moved from hades/recovered_types.h onto its real base (was hades::polymorphic_bytes)
+struct VotingOutputHandler :
+	public Server::Voting::VotingMessageHandler
+{
+	// mangled_x86(MANGLED_KNOWN_GOOD, "??1VotingOutputHandler@@UAE@XZ"); defaulted on its declaration, which skips the vfptr store
+	virtual ~VotingOutputHandler() = default; // 0x10C9A7F0
+	virtual void MessageReceived(Server::Voting::VotingMessage const &);
+public:
+	VotingOutputHandler();
+};
+static_assert32(sizeof(VotingOutputHandler) == 4, "Invalid VotingOutputHandler size");
+
 // VotingOutputHandler is defined in hades/recovered_types.h, which the synthesised
 // templates in hades/recovered_templates.h inherit from.
 
@@ -198,14 +212,6 @@ _inline VotingOutputHandler::VotingOutputHandler() // 0x10C9A6B0
 	// VotingOutputHandler *const this;
 }
 
-_inline VotingOutputHandler::~VotingOutputHandler() // 0x10C9A7F0
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1VotingOutputHandler@@UAE@XZ");
-	// VotingOutputHandler *const this;
-
-	compiler_generated();
-}
-
 namespace Server
 {
 	namespace Voting
@@ -220,13 +226,14 @@ namespace Web
 	{
 		namespace Voting
 		{
-			_extern void _sub_10C9A9E0();
 			void Init() // 0x10C9A9E0
 			{
-				mangled_x86(MANGLED_TODO, "?Init@Voting@Ui@Web@@YAXXZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?Init@Voting@Ui@Web@@YAXXZ");
 				// procedure flags: nofpo
-				todo("implement");
-				_sub_10C9A9E0();
+
+				Server::Voting::AddMessageHandler(std::make_shared<VotingOutputHandler>());
+				Patches::Network::OnLifeCycleStateChanged(LifeCycleStateChanged);
+				Patches::Input::RegisterMenuUIInputHandler(OnUiInputUpdate);
 			}
 
 			void Show() // 0x10C9BB40
@@ -274,23 +281,47 @@ void LifeCycleStateChanged(Blam::Network::LifeCycleState newState) // 0x10C9AB00
 	}
 }
 
-_extern void _sub_10C9B850();
 void OnUiInputUpdate() // 0x10C9B850
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnUiInputUpdate@@YAXXZ");
 	// `anonymous-namespace'::OnUiInputUpdate
 	// procedure flags: nofpo
 	// unsigned char *(*const c_gui_screen_manager__get_first)(void *, unsigned __int32, __int32);
-	{
 		// Blam::Input::ActionState *action;
 		// unsigned char *widget;
 		// unsigned char *screenManager;
-		{
 			// unsigned __int32 name;
+	// function call : unsigned char *(*const)(void *, unsigned __int32, __int32)
+
+	unsigned char *(__thiscall *const c_gui_screen_manager__get_first)(void *, unsigned __int32, __int32) = reinterpret_cast<unsigned char *(__thiscall *)(void *, unsigned __int32, __int32)>(0xAAB320);
+	if (currentlyVoting)
+	{
+		Blam::Input::ActionState *action = Blam::Input::GetActionState(Blam::Input::eGameActionUiY);
+		if (!(action->Flags & Blam::Input::eActionStateFlagsHandled) && action->Ticks == 1)
+		{
+			action->Ticks |= Blam::Input::eActionStateFlagsHandled;
+			Web::Ui::ScreenLayer::Show(Web::Ui::ScreenLayer::Voting, "{ userInvoked: true }");
+		}
+		unsigned char *screenManager = (unsigned char *)0x5260F34;
+		unsigned char *widget = c_gui_screen_manager__get_first(screenManager, 0, 0);
+		if (widget)
+		{
+			unsigned __int32 name = *(unsigned __int32 *)(widget + 0x40);
+			if (name == 0x100B3)
+			{
+				if (temporarilyHidden)
+				{
+					temporarilyHidden = false;
+					Web::Ui::ScreenLayer::Show(Web::Ui::ScreenLayer::Voting, {});
+				}
+			}
+			else
+			{
+				Web::Ui::Voting::Hide();
+				temporarilyHidden = true;
+			}
 		}
 	}
-	// function call : unsigned char *(*const)(void *, unsigned __int32, __int32)
-	todo("implement");
-	_sub_10C9B850();
 }
 
 void OnVotingEnded() // 0x10C9BA30
@@ -300,6 +331,124 @@ void OnVotingEnded() // 0x10C9BA30
 	// procedure flags: nofpo
 
 	currentlyVoting = false;
-	Web::Ui::ScreenLayer::Notify("VoteEnded", "{}", true);
+	Web::Ui::ScreenLayer::NotifyScreen(Web::Ui::ScreenLayer::Voting, "VoteEnded", "{}");
 	Web::Ui::Voting::Hide();
+}
+
+void VotingOutputHandler::MessageReceived(Server::Voting::VotingMessage const &message) // 0x10C9AB70
+{
+
+	if (message.Type == Server::Voting::VotingOptions)
+	{
+		rapidjson::StringBuffer jsonBuffer;
+		rapidjson::Writer<rapidjson::StringBuffer> jsonWriter(jsonBuffer);
+		jsonWriter.StartObject();
+		jsonWriter.Key("timeRemaining");
+		jsonWriter.Int(message.voteTime);
+		jsonWriter.Key("votingOptions");
+		jsonWriter.StartArray();
+		for (int i = 0; i < 6; i++)
+		{
+			jsonWriter.StartObject();
+			jsonWriter.Key("index");
+			jsonWriter.Int(i + 1);
+			jsonWriter.Key("scnrname");
+			jsonWriter.String(message.votingOptions[i].scnrName);
+			jsonWriter.Key("mapname");
+			jsonWriter.String(message.votingOptions[i].mapName);
+			jsonWriter.Key("typename");
+			jsonWriter.String(message.votingOptions[i].typeName);
+			jsonWriter.Key("modname");
+			jsonWriter.String(message.votingOptions[i].modName);
+			jsonWriter.Key("modhash");
+			jsonWriter.String(message.votingOptions[i].modHash);
+			jsonWriter.Key("image");
+			jsonWriter.String(message.votingOptions[i].imageUri);
+			jsonWriter.EndObject();
+		}
+		jsonWriter.EndArray();
+		jsonWriter.EndObject();
+		Web::Ui::Voting::Show();
+		Web::Ui::ScreenLayer::NotifyScreen(Web::Ui::ScreenLayer::Voting, "VotingOptionsUpdated", jsonBuffer.GetString());
+		currentlyVoting = true;
+	}
+	else if (message.Type == Server::Voting::VetoOption)
+	{
+		rapidjson::StringBuffer jsonBuffer;
+		rapidjson::Writer<rapidjson::StringBuffer> jsonWriter(jsonBuffer);
+		jsonWriter.StartObject();
+		jsonWriter.Key("timeRemaining");
+		jsonWriter.Int(message.voteTime);
+		jsonWriter.Key("votesNeededToPass");
+		jsonWriter.Int(message.votesNeededToPass);
+		jsonWriter.Key("vetoOption");
+		jsonWriter.StartObject();
+		jsonWriter.Key("scnrname");
+		jsonWriter.String(message.votingOptions[0].scnrName);
+		jsonWriter.Key("mapname");
+		jsonWriter.String(message.votingOptions[0].mapName);
+		jsonWriter.Key("typename");
+		jsonWriter.String(message.votingOptions[0].typeName);
+		jsonWriter.Key("modname");
+		jsonWriter.String(message.votingOptions[0].modName);
+		jsonWriter.Key("modhash");
+		jsonWriter.String(message.votingOptions[0].modHash);
+		jsonWriter.Key("canveto");
+		jsonWriter.Bool(message.votingOptions[0].canVeto);
+		jsonWriter.Key("image");
+		jsonWriter.String(message.votingOptions[0].imageUri);
+		jsonWriter.EndObject();
+		jsonWriter.EndObject();
+		Web::Ui::Voting::Show();
+		Web::Ui::ScreenLayer::NotifyScreen(Web::Ui::ScreenLayer::Voting, "VetoOptionsUpdated", jsonBuffer.GetString());
+		currentlyVoting = true;
+	}
+	else if (message.Type == Server::Voting::Winner)
+	{
+		rapidjson::StringBuffer jsonBuffer;
+		rapidjson::Writer<rapidjson::StringBuffer> jsonWriter(jsonBuffer);
+		jsonWriter.StartObject();
+		jsonWriter.Key("Winner");
+		jsonWriter.Int(message.winner);
+		jsonWriter.EndObject();
+		Web::Ui::ScreenLayer::NotifyScreen(Web::Ui::ScreenLayer::Voting, "Winner", jsonBuffer.GetString());
+	}
+	else if (message.Type == Server::Voting::VoteTimerUpdated)
+	{
+		rapidjson::StringBuffer jsonBuffer;
+		rapidjson::Writer<rapidjson::StringBuffer> jsonWriter(jsonBuffer);
+		jsonWriter.StartObject();
+		jsonWriter.Key("timeUntilGameStart");
+		jsonWriter.Int(message.voteTime);
+		jsonWriter.Key("shouldUpdateTimer");
+		jsonWriter.Bool(message.shouldUpdateTimer);
+		jsonWriter.EndObject();
+		Web::Ui::ScreenLayer::NotifyScreen(Web::Ui::ScreenLayer::Voting, "VoteTimerUpdated", jsonBuffer.GetString());
+	}
+	else if (message.Type == Server::Voting::VoteTally)
+	{
+		rapidjson::StringBuffer jsonBuffer;
+		rapidjson::Writer<rapidjson::StringBuffer> jsonWriter(jsonBuffer);
+		jsonWriter.StartObject();
+		jsonWriter.Key("votesNeededToPass");
+		jsonWriter.Int(message.votesNeededToPass);
+		jsonWriter.Key("voteCounts");
+		jsonWriter.StartArray();
+		for (int i = 0; i < 6; i++)
+		{
+			jsonWriter.StartObject();
+			jsonWriter.Key("OptionIndex");
+			jsonWriter.Int(i + 1);
+			jsonWriter.Key("Count");
+			jsonWriter.Int(message.votes[i]);
+			jsonWriter.EndObject();
+		}
+		jsonWriter.EndArray();
+		jsonWriter.EndObject();
+		Web::Ui::ScreenLayer::NotifyScreen(Web::Ui::ScreenLayer::Voting, "VoteCountsUpdated", jsonBuffer.GetString());
+	}
+	else if (message.Type == Server::Voting::VoteEnded)
+	{
+		OnVotingEnded();
+	}
 }

@@ -42,7 +42,8 @@ namespace Http
 		std::mutex m_mutex; // 0x4
 		std::vector<std::shared_ptr<Http::IHttpRequest> > m_activeRequests; // 0x34
 	public:
-		_inline ~CHttpManager(); /* compiler_generated() */
+		// mangled_x86(MANGLED_KNOWN_GOOD, "??1CHttpManager@Http@@QAE@XZ"); defaulted on its declaration
+		_inline ~CHttpManager() = default; // 0x107f7100
 	};
 }
 

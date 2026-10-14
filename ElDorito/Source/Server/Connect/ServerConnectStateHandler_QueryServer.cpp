@@ -166,7 +166,10 @@ using namespace hades_file_local;
 
 /* ---------- prototypes */
 
+namespace Job { extern void RunJob(std::function<EJobResult __cdecl(void)> function, SJobCounter *counter, __int32 priority); }  // hades: added for 0x10B12D20
+
 EQueryModsResult QueryModsBlocking(SQueryInfoServerArgs const &args, std::vector<SServerConnectState::SRequiredMod> *outPackages);
+namespace Utils::Version { std::string GetVersionString(); bool IsVersionCompatible(std::string const &version); }  // hades: added for 0x10B14B30, 0x10B13380
 EQueryInfoServerResult QueryInfoServerBlocking(SQueryInfoServerArgs const &args, SQueryInfoServerData *result);
 
 /* ---------- globals */
@@ -175,18 +178,30 @@ EQueryInfoServerResult QueryInfoServerBlocking(SQueryInfoServerArgs const &args,
 
 /* ---------- public code */
 
-_extern void _sub_10B12D20(CServerConnectStateHandler_QueryServer *const);
 void CServerConnectStateHandler_QueryServer::OnEnter() // 0x10B12D20
 {
-	mangled_x86(MANGLED_TODO, "?OnEnter@CServerConnectStateHandler_QueryServer@@EAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnEnter@CServerConnectStateHandler_QueryServer@@EAEXXZ");
 	// static ...; // 0x10B12F68
 	// static ...; // 0x10B12F5C
 	// static ...; // 0x10B12F54
 	// CServerConnectStateHandler_QueryServer *const this;
 	// SQueryInfoServerArgs args;
 	// SServerConnectState const &state;
-	todo("implement");
-	_sub_10B12D20(this);
+
+	Console::WriteLine("Server Connect :: Querying info server...");
+	SServerConnectState const &state = GetManager()->GetState();
+	m_addressLookupAddress = 0;
+	m_addressLookupResult = 0;
+	m_queryInfoServerResult = 0;
+	m_queryModsResult = 0;
+	m_requiredMods.clear();
+	SQueryInfoServerArgs args;
+	args.port = state.port;
+	args.hostname = state.hostname;
+	args.password = state.password;
+	Job::RunJob([this, args]() { return ResolveAddressJobCallback(args.hostname); }, &m_jobCounter, 0);
+	Job::RunJob([this, args]() { return QueryInfoServerJobCallback(args); }, &m_jobCounter, 0);
+	Job::RunJob([this, args]() { return QueryModsJobCallback(args); }, &m_jobCounter, 0);
 }
 
 void CServerConnectStateHandler_QueryServer::OnExit() // 0x10B13000
@@ -195,20 +210,63 @@ void CServerConnectStateHandler_QueryServer::OnExit() // 0x10B13000
 	// CServerConnectStateHandler_QueryServer *const this;
 }
 
-_extern void _sub_10B13020(CServerConnectStateHandler_QueryServer *const);
 void CServerConnectStateHandler_QueryServer::OnUpdate() // 0x10B13020
 {
-	mangled_x86(MANGLED_TODO, "?OnUpdate@CServerConnectStateHandler_QueryServer@@EAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnUpdate@CServerConnectStateHandler_QueryServer@@EAEXXZ");
 	// static ...; // 0x10B132C4
 	// static ...; // 0x10B132B8
 	// static ...; // 0x10B132B0
 	// CServerConnectStateHandler_QueryServer *const this;
-	{
 		// std::unique_lock<std::mutex> lock;
 		// SServerConnectState &state;
+
+	if (m_jobCounter.GetValue() == 0)
+	{
+		std::unique_lock<std::mutex> lock(m_mutex);
+		if (m_addressLookupResult)
+		{
+			Abort((EServerConnectAbortReason)3);
+			return;
+		}
+		if (m_queryInfoServerResult)
+		{
+			switch (m_queryInfoServerResult)
+			{
+			case 4:
+				Abort((EServerConnectAbortReason)1);
+				return;
+			case 6:
+				Abort((EServerConnectAbortReason)2);
+				return;
+			default:
+				Abort(InfoServerQueryFailed);
+				return;
+			}
+		}
+		if (m_queryModsResult)
+		{
+			switch (m_queryModsResult)
+			{
+			case 3:
+				Abort(InvalidModListJson);
+				return;
+			default:
+				Abort(ModsQueryFailed);
+				return;
+			}
+		}
+		SServerConnectState &state = GetManager()->GetStateMutable();
+		state.address = m_addressLookupAddress;
+		state.gamePort = m_infoServerData.gamePort;
+		state.fileServerPort = m_infoServerData.fileServerPort;
+		state.serverName = m_infoServerData.serverName;
+		state.serverHost = m_infoServerData.serverHost;
+		state.requiredMods = std::move(m_requiredMods);
+		m_requiredMods.clear();
+		memcpy(state.xnaddr, m_infoServerData.xnaddr, sizeof(state.xnaddr));
+		memcpy(state.xnkid, m_infoServerData.xnkid, sizeof(state.xnkid));
+		RequestStateChange(AcquireMods);
 	}
-	todo("implement");
-	_sub_10B13020(this);
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0SQueryInfoServerArgs@@QAE@$$QAU0@@Z"); no body to assert in
@@ -230,27 +288,12 @@ _inline SServerConnectState::SRequiredMod::SRequiredMod(SServerConnectState::SRe
 // mangled_x86(MANGLED_DEFAULT, "??1SQueryInfoServerArgs@@QAE@XZ"); no body to assert in
 _inline SQueryInfoServerArgs::~SQueryInfoServerArgs() = default; // 0x10B12630
 
-extern SQueryInfoServerData &_sub_10B128D0(SQueryInfoServerData *const, SQueryInfoServerData &);
-_inline SQueryInfoServerData &SQueryInfoServerData::operator=(SQueryInfoServerData &&__that) // 0x10B128D0
-{
-	mangled_x86(MANGLED_TODO, "??4SQueryInfoServerData@@QAEAAU0@$$QAU0@@Z");
-	// SQueryInfoServerData &__that;
-	{
-		// unsigned __int32 $S1;
-	}
-	{
-		// unsigned __int32 $S2;
-	}
-	compiler_generated();
-	todo("implement");
-	SQueryInfoServerData & __result = _sub_10B128D0(this, __that);
-	return __result;
-}
+// mangled_x86(MANGLED_DEFAULT, "??4SQueryInfoServerData@@QAEAAU0@$$QAU0@@Z"); no body to assert in
+_inline SQueryInfoServerData &SQueryInfoServerData::operator=(SQueryInfoServerData &&__that) noexcept = default; // 0x10B128D0
 
-extern EJobResult _sub_10B14990(CServerConnectStateHandler_QueryServer *const, SQueryInfoServerArgs const &);
 EJobResult CServerConnectStateHandler_QueryServer::QueryInfoServerJobCallback(SQueryInfoServerArgs const &args) // 0x10B14990
 {
-	mangled_x86(MANGLED_TODO, "?QueryInfoServerJobCallback@CServerConnectStateHandler_QueryServer@@AAE?AW4EJobResult@@ABUSQueryInfoServerArgs@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?QueryInfoServerJobCallback@CServerConnectStateHandler_QueryServer@@AAE?AW4EJobResult@@ABUSQueryInfoServerArgs@@@Z");
 	// static ...; // 0x10B14AC8
 	// static ...; // 0x10B14AB0
 	// static ...; // 0x10B14AA8
@@ -259,15 +302,18 @@ EJobResult CServerConnectStateHandler_QueryServer::QueryInfoServerJobCallback(SQ
 	// std::scoped_lock<std::mutex> lock;
 	// SQueryInfoServerData data;
 	// EQueryInfoServerResult result;
-	todo("implement");
-	EJobResult __result = _sub_10B14990(this, args);
-	return __result;
+
+	SQueryInfoServerData data;
+	EQueryInfoServerResult result = QueryInfoServerBlocking(args, &data);
+	std::scoped_lock<std::mutex> lock(m_mutex);
+	m_infoServerData = std::move(data);
+	m_queryInfoServerResult = (__int32)result;
+	return Done;
 }
 
-extern EJobResult _sub_10B15DD0(CServerConnectStateHandler_QueryServer *const, std::string const &);
 EJobResult CServerConnectStateHandler_QueryServer::ResolveAddressJobCallback(std::string const &hostname) // 0x10B15DD0
 {
-	mangled_x86(MANGLED_TODO, "?ResolveAddressJobCallback@CServerConnectStateHandler_QueryServer@@AAE?AW4EJobResult@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ResolveAddressJobCallback@CServerConnectStateHandler_QueryServer@@AAE?AW4EJobResult@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 	// static ...; // 0x10B15E90
 	// static ...; // 0x10B15E78
 	// static ...; // 0x10B15E70
@@ -276,15 +322,19 @@ EJobResult CServerConnectStateHandler_QueryServer::ResolveAddressJobCallback(std
 	// std::scoped_lock<std::mutex> lock;
 	// Utils::Network::EResolveAddressResult result;
 	// unsigned __int32 address;
-	todo("implement");
-	EJobResult __result = _sub_10B15DD0(this, hostname);
-	return __result;
+
+	unsigned __int32 address;
+	Utils::Network::EResolveAddressResult result = Utils::Network::ResolveAddress(hostname, &address);
+	std::scoped_lock<std::mutex> lock(m_mutex);
+	m_addressLookupResult = result;
+	if (result == Utils::Network::Success)
+		m_addressLookupAddress = address;
+	return Done;
 }
 
-extern EJobResult _sub_10B15C50(CServerConnectStateHandler_QueryServer *const, SQueryInfoServerArgs const &);
 EJobResult CServerConnectStateHandler_QueryServer::QueryModsJobCallback(SQueryInfoServerArgs const &args) // 0x10B15C50
 {
-	mangled_x86(MANGLED_TODO, "?QueryModsJobCallback@CServerConnectStateHandler_QueryServer@@AAE?AW4EJobResult@@ABUSQueryInfoServerArgs@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?QueryModsJobCallback@CServerConnectStateHandler_QueryServer@@AAE?AW4EJobResult@@ABUSQueryInfoServerArgs@@@Z");
 	// static ...; // 0x10B15D68
 	// static ...; // 0x10B15D50
 	// static ...; // 0x10B15D48
@@ -293,16 +343,21 @@ EJobResult CServerConnectStateHandler_QueryServer::QueryModsJobCallback(SQueryIn
 	// std::scoped_lock<std::mutex> lock;
 	// std::vector<SServerConnectState::SRequiredMod> requiredMods;
 	// EQueryModsResult result;
-	todo("implement");
-	EJobResult __result = _sub_10B15C50(this, args);
-	return __result;
+
+	std::vector<SServerConnectState::SRequiredMod> requiredMods;
+	EQueryModsResult result = QueryModsBlocking(args, &requiredMods);
+	std::scoped_lock<std::mutex> lock(m_mutex);
+	m_requiredMods = std::move(requiredMods);
+	m_queryModsResult = (__int32)result;
+	requiredMods.clear();
+	return Done;
 }
 
 /* ---------- private code */
 
-extern EQueryModsResult _sub_10B14B30(SQueryInfoServerArgs const &, std::vector<SServerConnectState::SRequiredMod> *);
 EQueryModsResult QueryModsBlocking(SQueryInfoServerArgs const &args, std::vector<SServerConnectState::SRequiredMod> *outPackages) // 0x10B14B30
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?QueryModsBlocking@@YA?AW4EQueryModsResult@hades_file_local@@ABUSQueryInfoServerArgs@@PAV?$vector@USRequiredMod@SServerConnectState@@V?$allocator@USRequiredMod@SServerConnectState@@@std@@@std@@@Z");
 	// `anonymous-namespace'::QueryModsBlocking
 	// static ...; // 0x10B158CD
 	// static ...; // 0x10B158C2
@@ -323,21 +378,58 @@ EQueryModsResult QueryModsBlocking(SQueryInfoServerArgs const &args, std::vector
 	// std::string endpoint;
 	// std::string resp;
 	// std::string authString;
-	{
 		// rapidjson::GenericMemberIterator<0,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > it;
-		{
 			// SServerConnectState::SRequiredMod description;
 			// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &mod;
-		}
+
+	HttpRequest req(L"ElDewrito/" + Utils::String::WidenString(Utils::Version::GetVersionString()), L"", L"");
+	std::string endpoint = "http://" + std::string(args.hostname) + ":" + std::to_string(args.port) + "/mods";
+	std::string authString = "dorito:" + args.password;
+	authString = "Authorization: Basic " + Utils::String::Base64Encode((unsigned char const *)authString.c_str(), authString.length()) + "\r\n";
+	if (!req.SendRequest(Utils::String::WidenString(endpoint), L"GET", L"", L"", Utils::String::WidenString(authString), nullptr, 0))
+		return (EQueryModsResult)1;
+	std::wstring expected = L"HTTP/1.1 200 OK";
+	if (req.responseHeader.length() < expected.length())
+		return (EQueryModsResult)2;
+	std::wstring respHdr = req.responseHeader.substr(0, expected.length());
+	if (respHdr.compare(expected) != 0)
+		return (EQueryModsResult)2;
+	std::string resp(req.responseBody.begin(), req.responseBody.end());
+	rapidjson::Document json;
+	if (json.Parse<0>(resp.c_str()).HasParseError() || !json.IsObject())
+		return (EQueryModsResult)3;
+	for (auto it = json.MemberBegin(); it != json.MemberEnd(); ++it)
+	{
+		rapidjson::Value &mod = it->value;
+		if (!mod.IsObject() || !mod.HasMember("hash") || !mod.HasMember("package_url") || !mod.HasMember("package_size"))
+			return (EQueryModsResult)3;
+		SServerConnectState::SRequiredMod description;
+		description.localName = std::string(it->name.GetString());
+		description.hash = std::string(mod["hash"].GetString());
+		description.packageUrl = std::string(mod["package_url"].GetString());
+		if (description.packageUrl.length() < 2)
+			continue;
+		description.fileSize = mod["package_size"].GetUint64();
+		if (mod.HasMember("mod_author"))
+			description.author = std::string(mod["mod_author"].GetString());
+		if (mod.HasMember("mod_description"))
+			description.description = std::string(mod["mod_description"].GetString());
+		if (mod.HasMember("mod_version"))
+			description.version = std::string(mod["mod_version"].GetString());
+		if (mod.HasMember("mod_website"))
+			description.website = std::string(mod["mod_website"].GetString());
+		if (mod.HasMember("mod_name"))
+			description.name = std::string(mod["mod_name"].GetString());
+		else
+			description.name = it->name.GetString();
+		outPackages->push_back(description);
 	}
-	todo("implement");
-	EQueryModsResult __result = _sub_10B14B30(args, outPackages);
-	return __result;
+	return (EQueryModsResult)0;
 }
 
-extern EQueryInfoServerResult _sub_10B13380(SQueryInfoServerArgs const &, SQueryInfoServerData *);
 EQueryInfoServerResult QueryInfoServerBlocking(SQueryInfoServerArgs const &args, SQueryInfoServerData *result) // 0x10B13380
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?QueryInfoServerBlocking@@YA?AW4EQueryInfoServerResult@hades_file_local@@ABUSQueryInfoServerArgs@@PAUSQueryInfoServerData@@@Z");
 	// `anonymous-namespace'::QueryInfoServerBlocking
 	// static ...; // 0x10B14517
 	// static ...; // 0x10B1450B
@@ -369,7 +461,80 @@ EQueryInfoServerResult QueryInfoServerBlocking(SQueryInfoServerArgs const &args,
 	// std::string edVer;
 	// std::string gameVersion;
 	// function call : unsigned long ()
-	todo("implement");
-	EQueryInfoServerResult __result = _sub_10B13380(args, result);
-	return __result;
+
+	HttpRequest req(L"ElDewrito/" + Utils::String::WidenString(Utils::Version::GetVersionString()), L"", L"");
+	std::wstring usernameStr = L"";
+	std::wstring passwordStr = L"";
+	if (args.password.length() != 0)
+	{
+		usernameStr = L"dorito";
+		passwordStr = Utils::String::WidenString(args.password);
+	}
+	if (!req.SendRequest(Utils::String::WidenString("http://" + args.hostname + ":" + std::to_string(args.port) + "/"), L"GET", usernameStr, passwordStr, L"", nullptr, 0))
+	{
+		result->message = "Unable to connect to server. (error: " + std::to_string(req.lastError) + "/" + std::to_string(GetLastError()) + ")";
+		return (EQueryInfoServerResult)1;
+	}
+	std::wstring expected = L"HTTP/1.1 200 OK";
+	if (req.responseHeader.length() < expected.length())
+	{
+		result->message = "Invalid server query response.";
+		return (EQueryInfoServerResult)2;
+	}
+	std::wstring respHdr = req.responseHeader.substr(0, expected.length());
+	if (respHdr.compare(expected) != 0)
+	{
+		result->message = "Invalid server query header response.";
+		return (EQueryInfoServerResult)2;
+	}
+	std::string resp(req.responseBody.begin(), req.responseBody.end());
+	rapidjson::Document json;
+	if (json.Parse<0>(resp.c_str()).HasParseError() || !json.IsObject())
+	{
+		result->message = "Invalid server query JSON response.";
+		return (EQueryInfoServerResult)3;
+	}
+	if (!json.HasMember("gameVersion") || !json["gameVersion"].IsString() || !json.HasMember("eldewritoVersion") || !json["eldewritoVersion"].IsString() || !json.HasMember("port") || !json["port"].IsNumber())
+	{
+		result->message = "Server query JSON response is missing data.";
+		return (EQueryInfoServerResult)3;
+	}
+	if (json.HasMember("name") && json.HasMember("hostPlayer"))
+	{
+		result->serverName = json["name"].GetString();
+		result->serverHost = json["hostPlayer"].GetString();
+	}
+	result->fileServerPort = 0;
+	if (json.HasMember("fileServerPort") && json["fileServerPort"].IsInt())
+		result->fileServerPort = json["fileServerPort"].GetInt();
+	if (!json.HasMember("xnkid") || !json["xnkid"].IsString() || !json.HasMember("xnaddr") || !json["xnaddr"].IsString())
+	{
+		result->message = "Incorrect password specified.";
+		return (EQueryInfoServerResult)4;
+	}
+	std::string gameVer = json["gameVersion"].GetString();
+	std::string edVer = json["eldewritoVersion"].GetString();
+	std::string ourEdVer = Utils::Version::GetVersionString();
+	std::string gameVersion((char const *)0x199C0F0);
+	if (gameVersion.compare(gameVer) != 0)
+	{
+		result->message = "Server is running a different game version.";
+		return (EQueryInfoServerResult)6;
+	}
+	if (!Utils::Version::IsVersionCompatible(edVer))
+	{
+		result->message = "Server is running a different ElDewrito version.";
+		return (EQueryInfoServerResult)6;
+	}
+	std::string xnkid = json["xnkid"].GetString();
+	std::string xnaddr = json["xnaddr"].GetString();
+	if (xnkid.length() != 32 || xnaddr.length() != 32)
+	{
+		result->message = "Server query XNet info is invalid.";
+		return (EQueryInfoServerResult)5;
+	}
+	result->gamePort = json["port"].GetInt();
+	Utils::String::HexStringToBytes(xnkid, result->xnkid, 16);
+	Utils::String::HexStringToBytes(xnaddr, result->xnaddr, 16);
+	return (EQueryInfoServerResult)0;
 }

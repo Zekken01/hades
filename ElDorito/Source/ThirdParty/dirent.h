@@ -47,7 +47,6 @@ struct dirent
 {
 	long d_ino; // 0x0
 	unsigned short d_reclen; // 0x4
-	unsigned char __pad0[2]; // 0x6
 	unsigned __int32 d_namlen; // 0x8
 	__int32 d_type; // 0xC
 	char d_name[260]; // 0x10
@@ -81,51 +80,134 @@ extern "C" void dirent_set_errno(__int32 error);
 
 /* ---------- private code */
 
-extern _WDIR *_sub_10A41FD0(wchar_t const *);
 _WDIR *_wopendir(wchar_t const *dirname) // 0x10A41FD0
 {
 	// _wopendir
 	// wchar_t const *dirname;
 	// _WDIR *dirp;
 	// __int32 error;
-	{
 		// unsigned long n;
-		{
 			// wchar_t *p;
-		}
+	// function call : unsigned long (wchar_t const *, unsigned long, wchar_t *, wchar_t **)
+	// function call : unsigned long (wchar_t const *, unsigned long, wchar_t *, wchar_t **)
+
+	_WDIR *dirp = NULL;
+	__int32 error;
+	if (dirname == NULL || dirname[0] == '\0')
+	{
+		dirent_set_errno(ENOENT);
+		return NULL;
 	}
-	// function call : unsigned long (wchar_t const *, unsigned long, wchar_t *, wchar_t **)
-	// function call : unsigned long (wchar_t const *, unsigned long, wchar_t *, wchar_t **)
-	todo("implement");
-	_WDIR * __result = _sub_10A41FD0(dirname);
-	return __result;
+	dirp = (_WDIR *)malloc(sizeof(struct _WDIR));
+	if (dirp != NULL)
+	{
+		unsigned long n;
+		dirp->handle = INVALID_HANDLE_VALUE;
+		dirp->patt = NULL;
+		dirp->cached = 0;
+		n = GetFullPathNameW(dirname, 0, NULL, NULL);
+		dirp->patt = (wchar_t *)malloc(sizeof(wchar_t) * n + 16);
+		if (dirp->patt)
+		{
+			n = GetFullPathNameW(dirname, n, dirp->patt, NULL);
+			if (n > 0)
+			{
+				wchar_t *p;
+				p = dirp->patt + n;
+				if (dirp->patt < p)
+				{
+					switch (p[-1])
+					{
+					case '\\':
+					case '/':
+					case ':':
+						break;
+					default:
+						*p++ = '\\';
+					}
+				}
+				*p++ = '*';
+				*p = '\0';
+				if (dirent_first(dirp))
+					error = 0;
+				else
+				{
+					error = 1;
+					dirent_set_errno(ENOENT);
+				}
+			}
+			else
+			{
+				dirent_set_errno(ENOENT);
+				error = 1;
+			}
+		}
+		else
+			error = 1;
+	}
+	else
+		error = 1;
+	if (error && dirp)
+	{
+		_wclosedir(dirp);
+		dirp = NULL;
+	}
+	return dirp;
 }
 
-_extern __int32 _sub_10A41EE0(_WDIR *);
 __int32 _wclosedir(_WDIR *dirp) // 0x10A41EE0
 {
 	// _wclosedir
 	// _WDIR *dirp;
 	// __int32 ok;
 	// function call : __int32 (void *)
-	todo("implement");
-	__int32 __result = _sub_10A41EE0(dirp);
-	return __result;
+
+	__int32 ok;
+	if (dirp)
+	{
+		if (dirp->handle != INVALID_HANDLE_VALUE)
+		{
+			FindClose(dirp->handle);
+			dirp->handle = INVALID_HANDLE_VALUE;
+		}
+		if (dirp->patt)
+		{
+			free(dirp->patt);
+			dirp->patt = NULL;
+		}
+		free(dirp);
+		ok = 0;
+	}
+	else
+	{
+		dirent_set_errno(EBADF);
+		ok = -1;
+	}
+	return ok;
 }
 
-extern _WIN32_FIND_DATAW *_sub_10A42300(_WDIR *);
 extern "C" _WIN32_FIND_DATAW *dirent_first(_WDIR *dirp) // 0x10A42300
 {
 	// dirent_first
 	// _WDIR *dirp;
 	// _WIN32_FIND_DATAW *datap;
 	// function call : void *(wchar_t const *, _WIN32_FIND_DATAW *)
-	todo("implement");
-	_WIN32_FIND_DATAW * __result = _sub_10A42300(dirp);
-	return __result;
+
+	_WIN32_FIND_DATAW *datap;
+	dirp->handle = FindFirstFileW(dirp->patt, &dirp->data);
+	if (dirp->handle != INVALID_HANDLE_VALUE)
+	{
+		datap = &dirp->data;
+		dirp->cached = 1;
+	}
+	else
+	{
+		dirp->cached = 0;
+		datap = NULL;
+	}
+	return datap;
 }
 
-extern _WIN32_FIND_DATAW *_sub_10A42430(_WDIR *);
 extern "C" _WIN32_FIND_DATAW *dirent_next(_WDIR *dirp) // 0x10A42430
 {
 	// dirent_next
@@ -133,12 +215,31 @@ extern "C" _WIN32_FIND_DATAW *dirent_next(_WDIR *dirp) // 0x10A42430
 	// _WIN32_FIND_DATAW *p;
 	// function call : __int32 (void *, _WIN32_FIND_DATAW *)
 	// function call : __int32 (void *)
-	todo("implement");
-	_WIN32_FIND_DATAW * __result = _sub_10A42430(dirp);
-	return __result;
+
+	_WIN32_FIND_DATAW *p;
+	if (dirp->cached != 0)
+	{
+		p = &dirp->data;
+		dirp->cached = 0;
+	}
+	else if (dirp->handle != INVALID_HANDLE_VALUE)
+	{
+		if (FindNextFileW(dirp->handle, &dirp->data) != FALSE)
+			p = &dirp->data;
+		else
+		{
+			FindClose(dirp->handle);
+			dirp->handle = INVALID_HANDLE_VALUE;
+			p = NULL;
+		}
+	}
+	else
+	{
+		p = NULL;
+	}
+	return p;
 }
 
-extern DIR *_sub_10A425F0(char const *);
 extern "C" DIR *opendir(char const *dirname) // 0x10A425F0
 {
 	// opendir
@@ -149,16 +250,47 @@ extern "C" DIR *opendir(char const *dirname) // 0x10A425F0
 	// char const *dirname;
 	// DIR *dirp;
 	// __int32 error;
-	{
 		// unsigned __int32 n;
 		// wchar_t wname[260];
+
+	struct DIR *dirp;
+	__int32 error;
+	if (dirname == NULL || dirname[0] == '\0')
+	{
+		dirent_set_errno(ENOENT);
+		return NULL;
 	}
-	todo("implement");
-	DIR * __result = _sub_10A425F0(dirname);
-	return __result;
+	dirp = (DIR *)malloc(sizeof(struct DIR));
+	if (dirp)
+	{
+		wchar_t wname[260];
+		unsigned __int32 n;
+		error = dirent_mbstowcs_s(&n, wname, 260, dirname, 260);
+		if (!error)
+		{
+			dirp->wdirp = _wopendir(wname);
+			if (dirp->wdirp)
+				error = 0;
+			else
+				error = 1;
+		}
+		else
+		{
+			error = 1;
+		}
+	}
+	else
+	{
+		error = 1;
+	}
+	if (error && dirp)
+	{
+		free(dirp);
+		dirp = NULL;
+	}
+	return dirp;
 }
 
-extern dirent *_sub_10A427A0(DIR *);
 extern "C" dirent *readdir(DIR *dirp) // 0x10A427A0
 {
 	// readdir
@@ -168,58 +300,102 @@ extern "C" dirent *readdir(DIR *dirp) // 0x10A427A0
 	// DIR *dirp;
 	// dirent *entp;
 	// _WIN32_FIND_DATAW *datap;
-	{
 		// unsigned __int32 n;
 		// __int32 error;
-		{
 			// unsigned long attr;
+
+	_WIN32_FIND_DATAW *datap;
+	struct dirent *entp;
+	datap = dirent_next(dirp->wdirp);
+	if (datap)
+	{
+		unsigned __int32 n;
+		__int32 error;
+		error = dirent_wcstombs_s(&n, dirp->ent.d_name, 260, datap->cFileName, 260);
+		if (error && datap->cAlternateFileName[0] != '\0')
+			error = dirent_wcstombs_s(&n, dirp->ent.d_name, 260, datap->cAlternateFileName, 260);
+		if (!error)
+		{
+			unsigned long attr;
+			entp = &dirp->ent;
+			entp->d_namlen = n - 1;
+			attr = datap->dwFileAttributes;
+			if ((attr & FILE_ATTRIBUTE_DEVICE) != 0)
+				entp->d_type = _S_IFCHR;
+			else if ((attr & FILE_ATTRIBUTE_DIRECTORY) != 0)
+				entp->d_type = _S_IFDIR;
+			else
+				entp->d_type = _S_IFREG;
+			entp->d_ino = 0;
+			entp->d_reclen = sizeof(struct dirent);
+		}
+		else
+		{
+			entp = &dirp->ent;
+			entp->d_name[0] = '?';
+			entp->d_name[1] = '\0';
+			entp->d_namlen = 1;
+			entp->d_type = 0;
+			entp->d_ino = 0;
+			entp->d_reclen = 0;
 		}
 	}
-	todo("implement");
-	dirent * __result = _sub_10A427A0(dirp);
-	return __result;
+	else
+	{
+		entp = NULL;
+	}
+	return entp;
 }
 
-_extern __int32 _sub_10A42260(DIR *);
 extern "C" __int32 closedir(DIR *dirp) // 0x10A42260
 {
 	// closedir
 	// DIR *dirp;
 	// __int32 ok;
-	todo("implement");
-	__int32 __result = _sub_10A42260(dirp);
-	return __result;
+
+	__int32 ok;
+	if (dirp)
+	{
+		ok = _wclosedir(dirp->wdirp);
+		dirp->wdirp = NULL;
+		free(dirp);
+	}
+	else
+	{
+		dirent_set_errno(EBADF);
+		ok = -1;
+	}
+	return ok;
 }
 
-_extern __int32 _sub_10A423C0(unsigned __int32 *, wchar_t *, unsigned __int32, char const *, unsigned __int32);
 extern "C" __int32 dirent_mbstowcs_s(unsigned __int32 *pReturnValue, wchar_t *wcstr, unsigned __int32 sizeInWords, char const *mbstr, unsigned __int32 count) // 0x10A423C0
 {
 	// dirent_mbstowcs_s
 	// unsigned __int32 count;
 	// __int32 error;
-	todo("implement");
-	__int32 __result = _sub_10A423C0(pReturnValue, wcstr, sizeInWords, mbstr, count);
-	return __result;
+
+	__int32 error;
+	error = mbstowcs_s(pReturnValue, wcstr, sizeInWords, mbstr, count);
+	return error;
 }
 
-_extern __int32 _sub_10A42580(unsigned __int32 *, char *, unsigned __int32, wchar_t const *, unsigned __int32);
 extern "C" __int32 dirent_wcstombs_s(unsigned __int32 *pReturnValue, char *mbstr, unsigned __int32 sizeInBytes, wchar_t const *wcstr, unsigned __int32 count) // 0x10A42580
 {
 	// dirent_wcstombs_s
 	// unsigned __int32 count;
 	// __int32 error;
-	todo("implement");
-	__int32 __result = _sub_10A42580(pReturnValue, mbstr, sizeInBytes, wcstr, count);
-	return __result;
+
+	__int32 error;
+	error = wcstombs_s(pReturnValue, mbstr, sizeInBytes, wcstr, count);
+	return error;
 }
 
-_extern void _sub_10A42530(__int32);
 extern "C" void dirent_set_errno(__int32 error) // 0x10A42530
 {
 	// dirent_set_errno
 	// __int32 error;
-	todo("implement");
-	_sub_10A42530(error);
+
+	_set_errno(error);
 }
 
 #endif // __THIRDPARTY_DIRENT_H__

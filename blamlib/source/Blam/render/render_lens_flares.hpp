@@ -48,7 +48,6 @@ struct s_lens_flare_definition
 		unsigned short flags; // 0x0
 		short bitmap_group_index; // 0x2
 		char bitmap_index; // 0x4
-		unsigned char __pad0[3]; // 0x5
 		s_tag_reference bitmap_override; // 0x8
 		float rotation_offset; // 0x18
 		float axis_offset; // 0x1C
@@ -83,10 +82,8 @@ struct s_lens_flare_definition
 	c_flags<enum e_flags,unsigned short> flags; // 0x34
 	unsigned short runtime_flags; // 0x36
 	short rotation_function; // 0x38
-	unsigned char __pad0[2]; // 0x3A
 	float rotation_function_scale; // 0x3C
 	short falloff_function; // 0x40
-	unsigned char __pad1[2]; // 0x42
 	c_tag_block<s_reflection> reflections; // 0x44
 	unsigned long animation_flags; // 0x50
 	s_tag_block time_brightness; // 0x54

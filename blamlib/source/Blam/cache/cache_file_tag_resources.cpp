@@ -29,14 +29,24 @@ extern e_cache_file_tag_resource_location tag_resource_get_location(s_tag_resour
 
 /* ---------- public code */
 
-extern e_cache_file_tag_resource_location _sub_10F0C2E0(s_tag_resource *);
 e_cache_file_tag_resource_location tag_resource_get_location(s_tag_resource *resource) // 0x10F0C2E0
 {
-	mangled_x86(MANGLED_TODO, "?tag_resource_get_location@@YA?AW4e_cache_file_tag_resource_location@@PAUs_tag_resource@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?tag_resource_get_location@@YA?AW4e_cache_file_tag_resource_location@@PAUs_tag_resource@@@Z");
 	// s_tag_resource *resource;
-	todo("implement");
-	e_cache_file_tag_resource_location __result = _sub_10F0C2E0(resource);
-	return __result;
+
+	if (resource->page_flags & 0x2)
+		return _cache_file_tag_resource_location_resources;
+	else if (resource->page_flags & 0x4)
+		return _cache_file_tag_resource_location_textures;
+	else if (resource->page_flags & 0x8)
+		return _cache_file_tag_resource_location_textures_b;
+	else if (resource->page_flags & 0x10)
+		return _cache_file_tag_resource_location_audio;
+	else if (resource->page_flags & 0x20)
+		return _cache_file_tag_resource_location_resources_b;
+	else if (resource->page_flags & 0x40)
+		return _cache_file_tag_resource_location_mods;
+	return _cache_file_tag_resource_location_invalid;
 }
 
 /* ---------- private code */

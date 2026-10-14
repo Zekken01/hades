@@ -76,24 +76,39 @@ namespace Forge
 		}
 	}
 
-	_extern void _sub_10680230(long, Forge::ForgeMapModifierProperties &);
 	void CForgeWeather::Update(long mapModifierIndex, Forge::ForgeMapModifierProperties &mapModifierProperties) // 0x10680230
 	{
-		mangled_x86(MANGLED_TODO, "?Update@CForgeWeather@Forge@@SAXJAAUForgeMapModifierProperties@2@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CForgeWeather@Forge@@SAXJAAUForgeMapModifierProperties@2@@Z");
 		// Forge::ForgeMapModifierProperties &mapModifierProperties;
 		// long newWeatherIndex;
 		// s_rasterizer_game_states *rasterizerGameStates;
 		// __int32 desiredWeatherIndex;
 		// s_forge_globals_definition *forge_globals;
 		// function call : void (*const)(unsigned long)
-		todo("implement");
-		_sub_10680230(mapModifierIndex, mapModifierProperties);
+
+		s_forge_globals_definition *forge_globals = forge_globals_get_definition();
+		s_rasterizer_game_states *rasterizerGameStates = tls_getd().rasterizer_game_states;
+		long newWeatherIndex = -1;
+		__int32 desiredWeatherIndex;
+		if ((desiredWeatherIndex = mapModifierProperties.AtmosphereProperties.Weather - 1) >= 0 && desiredWeatherIndex < forge_globals->weather_effects.count)
+			newWeatherIndex = desiredWeatherIndex;
+
+		if (currentWeatherIndex != newWeatherIndex && rasterizerGameStates->weather_effects[0] != -1)
+		{
+			currentWeatherIndex = -1;
+			((void (__cdecl *)(long))0x5B6FC0)(rasterizerGameStates->weather_effects[0]);
+			rasterizerGameStates->weather_effects[0] = -1;
+		}
+		else
+		{
+			currentWeatherIndex = newWeatherIndex;
+			UpdateWeatherEffects();
+		}
 	}
 
-	_extern bool _sub_10680350();
 	bool CForgeWeather::UpdateWeatherEffects() // 0x10680350
 	{
-		mangled_x86(MANGLED_TODO, "?UpdateWeatherEffects@CForgeWeather@Forge@@SA_NXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateWeatherEffects@CForgeWeather@Forge@@SA_NXZ");
 		// procedure flags: nofpo
 		// static ...; // 0x10680478
 		// static ...; // 0x1068046C
@@ -101,14 +116,25 @@ namespace Forge
 		// s_rasterizer_game_states *rasterizerGameStates;
 		// s_forge_globals_definition *forge_globals;
 		// long effectTagIndex;
-		{
 			// s_cluster_reference scenarioLocation;
-		}
 		// function call : long (*const)(long)
 		// function call : void (*const)(unsigned long, s_cluster_reference *)
-		todo("implement");
-		bool __result = _sub_10680350();
-		return __result;
+
+		if (currentWeatherIndex == -1)
+			return false;
+		s_rasterizer_game_states *rasterizerGameStates = tls_getd().rasterizer_game_states;
+		if (rasterizerGameStates->weather_effects[0] != -1)
+			return false;
+		s_forge_globals_definition *forge_globals = forge_globals_get_definition();
+		long effectTagIndex = forge_globals->weather_effects[currentWeatherIndex].effect.index;
+		if (effectTagIndex != -1)
+			rasterizerGameStates->weather_effects[0] = ((long(*)(long))0x5B8BD0)(effectTagIndex);
+		if (rasterizerGameStates->weather_effects[0] != -1)
+		{
+			s_cluster_reference scenarioLocation = {};
+			((void(*)(long, s_cluster_reference *))0x5B9720)(rasterizerGameStates->weather_effects[0], &scenarioLocation);
+		}
+		return true;
 	}
 }
 

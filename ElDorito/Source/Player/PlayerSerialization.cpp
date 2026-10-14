@@ -61,6 +61,9 @@ using namespace ::Blam;
 
 /* ---------- prototypes */
 
+template auto Blam::BitStream::Read<unsigned short>(__int32);
+template auto Blam::BitStream::Read<unsigned long>(__int32);
+
 namespace Player
 {
 	extern void player_model_customization_encode(Blam::BitStream *stream, s_player_model_customization const *customization);
@@ -135,13 +138,20 @@ namespace Player
 		stream->WriteBool(emblem->primaryHex);
 	}
 
-	_extern void _sub_107F0710(Blam::BitStream *, s_player_emblem_configuration *);
 	void player_emblem_configuration_decode(Blam::BitStream *stream, s_player_emblem_configuration *emblem) // 0x107F0710
 	{
-		mangled_x86(MANGLED_TODO, "?player_emblem_configuration_decode@Player@@YAXPAVBitStream@Blam@@PAUs_player_emblem_configuration@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?player_emblem_configuration_decode@Player@@YAXPAVBitStream@Blam@@PAUs_player_emblem_configuration@@@Z");
 		// s_player_emblem_configuration *emblem;
-		todo("implement");
-		_sub_107F0710(stream, emblem);
+
+		emblem->foregroundIndex = stream->Read<unsigned short>(16);
+		emblem->backgroundIndex = stream->Read<unsigned short>(16);
+		emblem->backgroundColor = stream->ReadUnsigned<unsigned int>(24);
+		emblem->secondaryColor = stream->ReadUnsigned<unsigned int>(24);
+		emblem->primaryColor = stream->ReadUnsigned<unsigned int>(24);
+		emblem->iconEnabled = stream->ReadBool();
+		emblem->backgroundHex = stream->ReadBool();
+		emblem->secondaryHex = stream->ReadBool();
+		emblem->primaryHex = stream->ReadBool();
 	}
 
 	void player_appearance_encode(Blam::BitStream *stream, s_player_appearance const *appearance) // 0x107F02F0
@@ -171,20 +181,31 @@ namespace Player
 		stream->Write<long>(appearance->nameplate_index, 32);
 	}
 
-	_extern bool _sub_107F0150(Blam::BitStream *, s_player_appearance *);
 	bool player_appearance_decode(Blam::BitStream *stream, s_player_appearance *appearance) // 0x107F0150
 	{
-		mangled_x86(MANGLED_TODO, "?player_appearance_decode@Player@@YA_NPAVBitStream@Blam@@PAUs_player_appearance@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?player_appearance_decode@Player@@YA_NPAVBitStream@Blam@@PAUs_player_appearance@@@Z");
 		// s_player_appearance *appearance;
-		{
 			// __int32 i;
-			{
 				// s_player_character_customiztion &character;
-			}
+
+		memset(appearance, 0, sizeof(s_player_appearance));
+		appearance->gender = stream->ReadBool();
+		stream->ReadStringFixed(appearance->service_tag);
+		if (!player_model_customization_decode(stream, &appearance->model_customization))
+			return false;
+		appearance->nameplate_color = stream->Read<unsigned long>(32);
+		appearance->preferred_character = stream->Read<unsigned long>(32);
+		appearance->characters_count = stream->Read<long>(0, 16);
+		for (__int32 i = 0; i < appearance->characters_count; i++)
+		{
+			s_player_character_customiztion &character = appearance->characters[i];
+			character.character_name = stream->Read<unsigned long>(32);
+			if (!player_model_customization_decode(stream, (s_player_model_customization *)character.customization))
+				return false;
 		}
-		todo("implement");
-		bool __result = _sub_107F0150(stream, appearance);
-		return __result;
+		player_emblem_configuration_decode(stream, &appearance->emblem_config);
+		appearance->nameplate_index = stream->Read<unsigned long>(32);
+		return true;
 	}
 
 	bool player_configuration_host_decode(Blam::BitStream *stream, s_player_configuration_from_host *configuration, e_player_configuration_encoding_type encoding_type) // 0x107F0480
@@ -263,9 +284,7 @@ _inline bool valid_team_index(long team_index) // 0x107F0A80
 template unsigned __int32 Blam::BitStream::ReadUnsigned<unsigned int>(__int32);
 template unsigned char Blam::BitStream::ReadUnsigned<unsigned char>(__int32);
 template unsigned char Blam::BitStream::ReadUnsigned<unsigned char>(unsigned char, unsigned char);
-template auto Blam::BitStream::Read<unsigned long>(__int32);
 template unsigned long Blam::BitStream::ReadUnsigned<unsigned long>(unsigned long, unsigned long);
-template auto Blam::BitStream::Read<unsigned short>(__int32);
 template void Blam::BitStream::Write<long>(long, long, long);
 template void Blam::BitStream::Write<unsigned char>(unsigned char, unsigned char, unsigned char);
 template void Blam::BitStream::Write<unsigned int>(unsigned __int32, __int32);

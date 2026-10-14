@@ -106,6 +106,9 @@ namespace Player
 
 unsigned __int32 ParseColor(std::string const &value);
 
+extern long tag_find_by_name(unsigned long group_tag, char const *name);  // hades: added for 0x107CBA30
+extern void *(__cdecl *const tag_get)(unsigned long, long);  // hades: added for 0x107CBA30
+
 /* ---------- globals */
 
 namespace Utils
@@ -119,34 +122,40 @@ namespace Utils
 
 namespace Player
 {
-	_extern void _sub_107CA700(unsigned long *, std::map<std::string,std::string> const &);
 	void BuildChangeColors(unsigned long *changeColors, std::map<std::string,std::string> const &colors) // 0x107CA700
 	{
-		mangled_x86(MANGLED_TODO, "?BuildChangeColors@Player@@YAXPAKABV?$map@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@@std@@@2@@std@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?BuildChangeColors@Player@@YAXPAKABV?$map@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@@std@@@2@@std@@@Z");
 		// static ...; // 0x107CA961
 		// static ...; // 0x107CA95C
 		// static ...; // 0x107CA938
 		// static ...; // 0x107CA930
 		// unsigned long *changeColors;
 		// std::map<std::string,std::string> const &colors;
-		{
 			// std::map<std::string,std::string> const &<range>$L0;
 			// std::_Tree_unchecked_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::string> > >,std::_Iterator_base0> <begin>$L0;
 			// std::_Default_sentinel <end>$L0;
-			{
 				// std::pair<std::string const ,std::string> $S10;
 				// std::string const &changeColorAscii;
 				// std::string const &colorValue;
-			}
+
+		for (const auto [changeColorAscii, colorValue] : colors)
+		{
+			if (changeColorAscii == "primary")
+				changeColors[0] = ::ParseColor(colorValue);
+			else if (changeColorAscii == "secondary")
+				changeColors[1] = ::ParseColor(colorValue);
+			else if (changeColorAscii == "tertiary")
+				changeColors[2] = ::ParseColor(colorValue);
+			else if (changeColorAscii == "quaternary")
+				changeColors[3] = ::ParseColor(colorValue);
+			else if (changeColorAscii == "quinary")
+				changeColors[4] = ::ParseColor(colorValue);
 		}
-		todo("implement");
-		_sub_107CA700(changeColors, colors);
 	}
 
-	_extern bool _sub_107CB040(Player::CPlayerCharacterCustomizationBuilder *const, __int32, s_player_character_customiztion *);
 	bool CPlayerCharacterCustomizationBuilder::BuildCustomizationFromPlayerModel(__int32 playerModelIndex, s_player_character_customiztion *data) // 0x107CB040
 	{
-		mangled_x86(MANGLED_TODO, "?BuildCustomizationFromPlayerModel@CPlayerCharacterCustomizationBuilder@Player@@QAE_NHPAUs_player_character_customiztion@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?BuildCustomizationFromPlayerModel@CPlayerCharacterCustomizationBuilder@Player@@QAE_NHPAUs_player_character_customiztion@@@Z");
 		// static ...; // 0x107CB476
 		// static ...; // 0x107CB471
 		// static ...; // 0x107CB46C
@@ -158,33 +167,54 @@ namespace Player
 		// Player::SPersistentCharacterCustomization storedCustomization;
 		// char *characterName;
 		// s_model_customization_selection &playerModel;
-		{
 			// __int32 i;
-			{
 				// __int32 j;
-				{
 					// s_mod_globals_player_character_customization *const modgCustomization;
-				}
-			}
-		}
-		{
 			// std::map<std::string,std::string> &<range>$L0;
 			// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::string> > > > <begin>$L0;
 			// std::_Default_sentinel <end>$L0;
-			{
 				// std::pair<std::string const ,std::string> $S11;
 				// std::string const &regionName;
 				// std::string const &permutationName;
-				{
 					// std::pair<int,int> $S12;
 					// __int32 &region_index;
 					// __int32 &permutation_index;
+
+		if (!Initialize())
+			return false;
+		memset(data, 0, sizeof(s_player_character_customiztion));
+		if (playerModelIndex < 0 || playerModelIndex >= m_mulg->universal->player_model.count)
+			return false;
+		s_model_customization_selection &playerModel = m_mulg->universal->player_model[playerModelIndex];
+		char *characterName = m_stringCache->GetString(playerModel.character_name);
+		if (!characterName)
+			return false;
+		SPersistentCharacterCustomization storedCustomization;
+		if (!Utils::Singleton<CPlayerCustomizationDB>::Instance().GetCharacterCustomization(characterName, storedCustomization))
+		{
+			for (__int32 i = 0; i < m_modg->player_character_customizations.count; i++)
+			{
+				if (m_modg->player_character_customizations[i].global_player_character_type_index == 0)
+				{
+					for (__int32 j = 0; j < 5; j++)
+					{
+						s_mod_globals_player_character_customization *const modgCustomization = &m_modg->player_character_customizations[i];
+						reinterpret_cast<s_player_model_customization *>(data->customization)->colors[j] = reinterpret_cast<s_mod_globals_player_character_colors::s_change_color_block const *>(modgCustomization->character_colors.colors)[j].default_color;
+					}
+					BuildChangeColors(reinterpret_cast<s_player_model_customization *>(data->customization)->colors, storedCustomization.colors);
+					break;
 				}
 			}
 		}
-		todo("implement");
-		bool __result = _sub_107CB040(this, playerModelIndex, data);
-		return __result;
+		data->character_name = playerModel.character_name;
+		for (auto const [regionName, permutationName] : storedCustomization.permutations)
+		{
+			auto [region_index, permutation_index] = FindPlayerModelPermutation(playerModel, regionName, permutationName);
+			if (region_index != -1 && permutation_index != -1)
+				reinterpret_cast<s_player_model_customization *>(data->customization)->armor_section_indices[region_index] = permutation_index;
+		}
+		BuildChangeColors(reinterpret_cast<s_player_model_customization *>(data->customization)->colors, storedCustomization.colors);
+		return true;
 	}
 
 	// mangled_x86(MANGLED_DEFAULT, "??0CPlayerCustomizationDB@Player@@QAE@XZ"); no body to assert in
@@ -194,127 +224,180 @@ namespace Player
 	// mangled_x86(MANGLED_DEFAULT, "??1SPersistentCharacterCustomization@Player@@QAE@XZ"); no body to assert in
 	_inline SPersistentCharacterCustomization::~SPersistentCharacterCustomization() = default; // 0x107C9ED0
 
-	_extern bool _sub_107CAA20(Player::CPlayerCharacterCustomizationBuilder *const, std::string const &, s_player_appearance *);
 	bool CPlayerCharacterCustomizationBuilder::BuildCharacterCustomizations(std::string const &preferredCharacterName, s_player_appearance *data) // 0x107CAA20
 	{
-		mangled_x86(MANGLED_TODO, "?BuildCharacterCustomizations@CPlayerCharacterCustomizationBuilder@Player@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAUs_player_appearance@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?BuildCharacterCustomizations@CPlayerCharacterCustomizationBuilder@Player@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAUs_player_appearance@@@Z");
 		// static ...; // 0x107CAECC
 		// static ...; // 0x107CAEC4
 		// Player::CPlayerCharacterCustomizationBuilder *const this;
 		// std::string const &preferredCharacterName;
 		// s_player_appearance *data;
 		// bool preferredCharacterCustomized;
-		{
 			// __int32 i;
-			{
 				// s_player_character_customiztion customization;
 				// s_model_customization_selection const &playerModel;
-			}
-		}
-		{
 			// Player::SPersistentCharacterCustomization defaultCustomization;
-			{
 				// char *characterName;
 				// s_model_customization_selection &playerModel;
-				{
 					// __int32 i;
-					{
 						// __int32 j;
-						{
 							// s_mod_globals_player_character_customization *const modgCustomization;
+
+		memset(&data->model_customization, 0, sizeof(data->model_customization));
+		memset(data->characters, 0, sizeof(data->characters));
+		data->characters_count = 0;
+		if (!Initialize())
+			return false;
+		bool preferredCharacterCustomized = false;
+		data->preferred_character = m_stringCache->GetStringId(preferredCharacterName);
+		for (__int32 i = 0; i < m_mulg->universal->player_model.count; i++)
+		{
+			s_model_customization_selection const &playerModel = m_mulg->universal->player_model[i];
+			s_player_character_customiztion customization = {};
+			if (!BuildCustomizationFromPlayerModel(i, &customization))
+				continue;
+			memcpy(&data->characters[data->characters_count++], &customization, sizeof(customization));
+			if (playerModel.character_name == data->preferred_character)
+			{
+				memcpy(&data->model_customization, customization.customization, sizeof(data->model_customization));
+				preferredCharacterCustomized = true;
+			}
+		}
+		if (!preferredCharacterCustomized)
+		{
+			Player::SPersistentCharacterCustomization defaultCustomization;
+			if (Utils::Singleton<Player::CPlayerCustomizationDB>::Instance().GetCharacterCustomization(preferredCharacterName, defaultCustomization))
+				BuildChangeColors(data->model_customization.colors, defaultCustomization.colors);
+			else
+			{
+				s_model_customization_selection &playerModel = m_mulg->universal->player_model[0];
+				char *characterName = m_stringCache->GetString(playerModel.character_name);
+				if (characterName && Utils::Singleton<Player::CPlayerCustomizationDB>::Instance().GetCharacterCustomization(characterName, defaultCustomization))
+					BuildChangeColors(data->model_customization.colors, defaultCustomization.colors);
+				else
+				{
+					for (__int32 i = 0; i < m_modg->player_character_customizations.count; i++)
+					{
+						if (m_modg->player_character_customizations[i].global_player_character_type_index == 0)
+						{
+							for (__int32 j = 0; j < 5; j++)
+							{
+								s_mod_globals_player_character_customization *const modgCustomization = &m_modg->player_character_customizations[i];
+								data->model_customization.colors[j] = ((s_mod_globals_player_character_colors::s_change_color_block *)modgCustomization->character_colors.colors)[j].default_color;
+							}
+							break;
 						}
 					}
 				}
 			}
 		}
-		todo("implement");
-		bool __result = _sub_107CAA20(this, preferredCharacterName, data);
-		return __result;
+		return true;
 	}
 
-	_extern bool _sub_107CB5C0(Player::CPlayerCharacterCustomizationBuilder *const, std::string const &, s_player_character_customiztion *);
 	bool CPlayerCharacterCustomizationBuilder::BuildSingleCharacterCustomization(std::string const &characterName, s_player_character_customiztion *data) // 0x107CB5C0
 	{
-		mangled_x86(MANGLED_TODO, "?BuildSingleCharacterCustomization@CPlayerCharacterCustomizationBuilder@Player@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAUs_player_character_customiztion@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?BuildSingleCharacterCustomization@CPlayerCharacterCustomizationBuilder@Player@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAUs_player_character_customiztion@@@Z");
 		// s_player_character_customiztion *data;
 		// __int32 playerModelIndex;
-		todo("implement");
-		bool __result = _sub_107CB5C0(this, characterName, data);
-		return __result;
+
+		if (!Initialize())
+			return false;
+		__int32 playerModelIndex = FindPlayerModel(characterName);
+		return playerModelIndex != -1 && BuildCustomizationFromPlayerModel(playerModelIndex, data);
 	}
 
-	_extern bool _sub_107CBA30(Player::CPlayerCharacterCustomizationBuilder *const);
 	bool CPlayerCharacterCustomizationBuilder::Initialize() // 0x107CBA30
 	{
-		mangled_x86(MANGLED_TODO, "?Initialize@CPlayerCharacterCustomizationBuilder@Player@@AAE_NXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@CPlayerCharacterCustomizationBuilder@Player@@AAE_NXZ");
 		// Player::CPlayerCharacterCustomizationBuilder *const this;
-		{
 			// __int32 mulgIndex;
-		}
-		{
 			// __int32 modgIndex;
-		}
 		// function call : bool (*const)()
 		// function call : void *(*const)(unsigned long, long)
 		// function call : void *(*const)(unsigned long, long)
-		todo("implement");
-		bool __result = _sub_107CBA30(this);
-		return __result;
+
+		if (!((bool (*const)())0x5314B0)())
+			return false;
+		if (!m_mulg)
+		{
+			m_stringCache = Blam::Cache::StringIDCache::GetCurrent();
+			__int32 mulgIndex = tag_find_by_name('mulg', "multiplayer\\multiplayer_globals");
+			if (mulgIndex == -1)
+				return false;
+			m_mulg = (s_multiplayer_globals_definition *)tag_get('mulg', mulgIndex);
+			if (!m_mulg)
+				return false;
+		}
+		if (!m_modg)
+		{
+			__int32 modgIndex = tag_find_by_name('modg', "multiplayer\\mod_globals");
+			if (modgIndex == -1)
+				return false;
+			m_modg = (s_mod_globals_definition *)tag_get('modg', modgIndex);
+			if (!m_modg)
+				return false;
+		}
+		return true;
 	}
 }
 
-extern std::pair<int,int> _sub_107CB790(Player::CPlayerCharacterCustomizationBuilder *const, s_model_customization_selection const &, std::string const &, std::string const &);
+
 namespace Player
 {
 	std::pair<int,int> CPlayerCharacterCustomizationBuilder::FindPlayerModelPermutation(s_model_customization_selection const &selection, std::string const &regionName, std::string const &permutationName) // 0x107CB790
 	{
-		mangled_x86(MANGLED_TODO, "?FindPlayerModelPermutation@CPlayerCharacterCustomizationBuilder@Player@@AAE?AU?$pair@HH@std@@ABUs_model_customization_selection@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@4@1@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?FindPlayerModelPermutation@CPlayerCharacterCustomizationBuilder@Player@@AAE?AU?$pair@HH@std@@ABUs_model_customization_selection@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@4@1@Z");
 		// static ...; // 0x107CB97C
 		// Player::CPlayerCharacterCustomizationBuilder *const this;
 		// s_model_customization_selection const &selection;
 		// std::string const &regionName;
 		// std::string const &permutationName;
-		{
 			// __int32 i;
-			{
 				// char const *currentRegionName;
 				// s_model_customization_player_region const &region;
-				{
 					// __int32 j;
-					{
 						// s_model_customization_player_region_permutation const &permutation;
 						// char const *const currentPermutationName;
-					}
-				}
+
+		for (__int32 i = 0; i < selection.regions.count; i++)
+		{
+			s_model_customization_player_region const &region = selection.regions[i];
+			char const *currentRegionName = m_stringCache->GetString(region.name);
+			if (!currentRegionName || regionName != currentRegionName)
+				continue;
+			for (__int32 j = 0; j < region.permutations.count; j++)
+			{
+				s_model_customization_player_region_permutation const &permutation = region.permutations[j];
+				char const *const currentPermutationName = permutation.variants.count > 0 ? m_stringCache->GetString(permutation.variants[0].permutation_name) : "default";
+				if (currentPermutationName && permutationName == currentPermutationName)
+					return { i, j };
 			}
 		}
-		todo("implement");
-		std::pair<int,int> __result = _sub_107CB790(this, selection, regionName, permutationName);
-		return __result;
+		return { -1, -1 };
 	}
 
-	_extern __int32 _sub_107CB680(Player::CPlayerCharacterCustomizationBuilder *const, std::string const &);
 	__int32 CPlayerCharacterCustomizationBuilder::FindPlayerModel(std::string const &characterName) // 0x107CB680
 	{
-		mangled_x86(MANGLED_TODO, "?FindPlayerModel@CPlayerCharacterCustomizationBuilder@Player@@AAEHABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?FindPlayerModel@CPlayerCharacterCustomizationBuilder@Player@@AAEHABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 		// std::string const &characterName;
-		{
 			// __int32 i;
-			{
 				// char *name;
-			}
+
+		for (__int32 i = 0; i < m_mulg->universal->player_model.count; i++)
+		{
+			char *name = m_stringCache->GetString(m_mulg->universal->player_model[i].character_name);
+			if (name && characterName == name)
+				return i;
 		}
-		todo("implement");
-		__int32 __result = _sub_107CB680(this, characterName);
-		return __result;
+		return -1;
 	}
 }
 
 /* ---------- private code */
 
-_extern unsigned __int32 _sub_107CBD20(std::string const &);
 unsigned __int32 ParseColor(std::string const &value) // 0x107CBD20
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ParseColor@@YAIABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 	// `anonymous-namespace'::ParseColor
 	// static ...; // 0x107CBED7
 	// static ...; // 0x107CBECC
@@ -323,9 +406,13 @@ unsigned __int32 ParseColor(std::string const &value) // 0x107CBD20
 	// std::string const &value;
 	// std::regex expression;
 	// std::match_results<char const *,std::allocator<std::sub_match<char const *> > > what;
-	todo("implement");
-	unsigned __int32 __result = _sub_107CBD20(value);
-	return __result;
+
+	std::cmatch what;
+	std::regex expression("#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})");
+	if (std::regex_match(value.c_str(), what, expression))
+		return std::stoi(value.substr(1), nullptr, 16);
+	else
+		return 0;
 }
 
 /* ---------- template instantiations */

@@ -48,6 +48,8 @@ struct s_scenario_location;
 
 /* ---------- prototypes */
 
+extern void *(*const datum_try_and_get)(s_data_array const *, unsigned long);  // hades: added for 0x10EF8E70
+
 s_object_header *object_header_get(unsigned long object_index);  // hades: added for 0X10EF8CB0
 
 s_object_data *object_get(unsigned long object_index);  // hades: added for 0X10EF8BB0
@@ -85,15 +87,18 @@ c_data_array<s_object_header> *object_headers_get() // 0x10EF8F00
 	return tls_getd().object_header;
 }
 
-extern s_object_header *_sub_10EF8E70(unsigned long);
 s_object_header *object_header_get(unsigned long object_index) // 0x10EF8E70
 {
-	mangled_x86(MANGLED_TODO, "?object_header_get@@YAPAUs_object_header@@K@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?object_header_get@@YAPAUs_object_header@@K@Z");
 	// unsigned long object_index;
 	// function call : void *(*const)(s_data_array const *, unsigned long)
-	todo("implement");
-	s_object_header * __result = _sub_10EF8E70(object_index);
-	return __result;
+
+	if (object_index == -1)
+	{
+		return nullptr;
+	}
+
+	return (s_object_header *)datum_try_and_get(object_headers_get(), object_index);
 }
 
 s_object_data *object_get(unsigned long object_index) // 0x10EF8CB0
@@ -130,41 +135,77 @@ __int32 object_choose_variant(unsigned long object_index, unsigned long variant_
 	return data->variant_index = object_lookup_variant_index_from_name(definition->model.index, variant_name);
 }
 
-_extern __int32 _sub_10EF8F50(__int32, unsigned long);
 __int32 object_lookup_variant_index_from_name(__int32 tag_index, unsigned long variant_name) // 0x10EF8F50
 {
-	mangled_x86(MANGLED_TODO, "?object_lookup_variant_index_from_name@@YAHHK@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?object_lookup_variant_index_from_name@@YAHHK@Z");
 	// unsigned long variant_name;
 	// s_model_definition *model_definition;
 	// long variant_count;
 	// __int32 result;
-	{
 		// c_tag_block<s_model_variant> &<range>$L0;
 		// s_model_variant *<begin>$L0;
 		// s_model_variant *<end>$L0;
-		{
 			// s_model_variant &variant;
-		}
-	}
 	// function call : void *(*const)(unsigned long, long)
-	todo("implement");
-	__int32 __result = _sub_10EF8F50(tag_index, variant_name);
-	return __result;
+
+	if (tag_index == -1)
+		return -1;
+	s_model_definition *model_definition = (s_model_definition *)tag_get('hlmt', tag_index);
+	if (!variant_name)
+	{
+		if (model_definition->variants.count > 0)
+			return 0;
+		return -1;
+	}
+	long variant_count = model_definition->variants.count;
+	__int32 result = 0;
+	if (variant_count <= 0)
+		return -1;
+	for (s_model_variant &variant : model_definition->variants)
+	{
+		if (variant.name != variant_name)
+			break;
+		result++;
+		if (result >= variant_count)
+			return -1;
+	}
+	return result;
 }
 
-_extern unsigned long _sub_10EF8D20(long);
 unsigned long object_get_variant_name(long object_index) // 0x10EF8D20
 {
-	mangled_x86(MANGLED_TODO, "?object_get_variant_name@@YAKJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?object_get_variant_name@@YAKJ@Z");
 	// long object_index;
 	// s_object_data *object;
 	// s_object_definition *const object_def;
 	// s_model_definition *const model;
 	// function call : void *(*const)(unsigned long, long)
 	// function call : void *(*const)(unsigned long, long)
-	todo("implement");
-	unsigned long __result = _sub_10EF8D20(object_index);
-	return __result;
+
+	s_object_data *object = object_get(object_index);
+	if (!object)
+	{
+		return 0;
+	}
+
+	if (object->variant_index == -1)
+	{
+		return 0;
+	}
+
+	s_object_definition *const object_def = (s_object_definition *)tag_get('obje', object->definition_index);
+	if (object_def->model.index == -1)
+	{
+		return 0;
+	}
+
+	s_model_definition *const model = (s_model_definition *)tag_get('hlmt', object_def->model.index);
+	if (object->variant_index >= model->variants.count)
+	{
+		return 0;
+	}
+
+	return model->variants[object->variant_index].name;
 }
 
 /* ---------- private code */

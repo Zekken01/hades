@@ -7,6 +7,8 @@
 #include "Player/PlayerEmblemGenerator.hpp"
 #include "Utils/Singleton.hpp"
 
+#include "Utils/Logger.hpp"  // hades: added for 0x10C78610
+
 #include <boost/asio.hpp>
 #include <boost/assert.hpp>
 #include <boost/exception/all.hpp>
@@ -112,36 +114,48 @@ namespace Web
 			DeleteBuffers();
 		}
 
-		extern SwapChain::Buffer *_sub_10C78200(Web::Browser::SwapChain *const);
 		Web::Browser::SwapChain::Buffer *SwapChain::Flip() // 0x10C78200
 		{
-			mangled_x86(MANGLED_TODO, "?Flip@SwapChain@Browser@Web@@QAEPAUBuffer@123@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Flip@SwapChain@Browser@Web@@QAEPAUBuffer@123@XZ");
 			// static ...; // 0x10C78340
 			// static ...; // 0x10C78334
 			// static ...; // 0x10C7832C
 			// Web::Browser::SwapChain *const this;
 			// std::scoped_lock<std::mutex> lock;
-			{
 				// Web::Browser::SwapChain::Buffer *buff;
+
+			std::scoped_lock<std::mutex> lock(m_mutex);
+			if (m_released)
+				return nullptr;
+			if (m_queue.size())
+			{
+				Buffer *buff = m_queue.front();
+				m_queue.pop();
+				if (m_frontBuffer)
+					ReturnBufferLocked(m_frontBuffer);
+				m_frontBuffer = buff;
 			}
-			todo("implement");
-			Web::Browser::SwapChain::Buffer * __result = _sub_10C78200(this);
-			return __result;
+			return m_frontBuffer;
 		}
 
-		extern SwapChain::BufferHolder _sub_10C77E40(Web::Browser::SwapChain *const);
 		Web::Browser::SwapChain::BufferHolder SwapChain::AcquireBuffer() // 0x10C77E40
 		{
-			mangled_x86(MANGLED_TODO, "?AcquireBuffer@SwapChain@Browser@Web@@QAE?AUBufferHolder@123@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?AcquireBuffer@SwapChain@Browser@Web@@QAE?AUBufferHolder@123@XZ");
 			// static ...; // 0x10C77F98
 			// static ...; // 0x10C77F8C
 			// static ...; // 0x10C77F84
 			// Web::Browser::SwapChain *const this;
 			// std::unique_lock<std::mutex> lock;
 			// Web::Browser::SwapChain::Buffer *buffer;
-			todo("implement");
-			Web::Browser::SwapChain::BufferHolder __result = _sub_10C77E40(this);
-			return __result;
+
+			std::unique_lock<std::mutex> lock(m_mutex);
+			m_emptyCond.wait(lock, [this] { return m_released || !m_pool.empty(); });
+			if (m_released)
+				return BufferHolder();
+
+			Buffer *buffer = m_pool.top();
+			m_pool.pop();
+			return BufferHolder(this, buffer);
 		}
 
 		void SwapChain::ReturnBuffer(Web::Browser::SwapChain::Buffer *buffer) // 0x10C788C0
@@ -158,17 +172,22 @@ namespace Web
 			ReturnBufferLocked(buffer);
 		}
 
-		_extern void _sub_10C783A0(Web::Browser::SwapChain *const, Web::Browser::SwapChain::Buffer *);
 		void SwapChain::PushBuffer(Web::Browser::SwapChain::Buffer *buffer) // 0x10C783A0
 		{
-			mangled_x86(MANGLED_TODO, "?PushBuffer@SwapChain@Browser@Web@@QAEXPAUBuffer@123@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?PushBuffer@SwapChain@Browser@Web@@QAEXPAUBuffer@123@@Z");
 			// static ...; // 0x10C784B0
 			// static ...; // 0x10C784A8
 			// Web::Browser::SwapChain *const this;
 			// Web::Browser::SwapChain::Buffer *buffer;
 			// std::scoped_lock<std::mutex> lock;
-			todo("implement");
-			_sub_10C783A0(this, buffer);
+
+			std::scoped_lock<std::mutex> lock(m_mutex);
+			if (!BufferIsValid(buffer))
+			{
+				delete buffer;
+				return;
+			}
+			m_queue.push(buffer);
 		}
 
 		bool SwapChain::BufferIsValid(Web::Browser::SwapChain::Buffer const *buffer) const // 0x10C78000
@@ -179,26 +198,36 @@ namespace Web
 			return !m_released && buffer->version == m_bufferVersion;
 		}
 
-		_extern void _sub_10C78610(Web::Browser::SwapChain *const, __int32, __int32);
 		void SwapChain::ResizeBuffers(__int32 width, __int32 height) // 0x10C78610
 		{
-			mangled_x86(MANGLED_TODO, "?ResizeBuffers@SwapChain@Browser@Web@@QAEXHH@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ResizeBuffers@SwapChain@Browser@Web@@QAEXHH@Z");
 			// static ...; // 0x10C78808
 			// static ...; // 0x10C78800
 			// Web::Browser::SwapChain *const this;
 			// __int32 width;
 			// __int32 height;
 			// std::scoped_lock<std::mutex> lock;
-			{
 				// __int32 i;
-				{
 					// Web::Browser::SwapChain::Buffer *buffer;
 					// HRESULT hr;
-				}
-			}
 			// function call : HRESULT (unsigned __int32, unsigned __int32, unsigned __int32, unsigned long, _D3DFORMAT, _D3DPOOL, IDirect3DTexture9 **, void **)
-			todo("implement");
-			_sub_10C78610(this, width, height);
+
+			std::scoped_lock<std::mutex> lock(m_mutex);
+			m_bufferVersion++;
+			DeleteBuffers();
+			for (__int32 i = 0; i < m_bufferCount; i++)
+			{
+				Buffer *buffer = new Buffer();
+				buffer->version = m_bufferVersion;
+				HRESULT hr = m_device->CreateTexture(width, height, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &buffer->texture, &buffer->handle);
+				if (FAILED(hr))
+				{
+					Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Graphics, Utils::LogLevel::Info, "Web::Browser::SwapChain::ResizeBuffers:89 - SwapChain Failed to create buffer #%d. Width: %d, Height: %d, Error: %x", i, width, height, hr);
+					break;
+				}
+				m_pool.push(buffer);
+			}
+			m_emptyCond.notify_one();
 		}
 
 		void SwapChain::ReturnBufferLocked(Web::Browser::SwapChain::Buffer *buffer) // 0x10C789B0
@@ -218,13 +247,26 @@ namespace Web
 			m_emptyCond.notify_one();
 		}
 
-		_extern void _sub_10C78070(Web::Browser::SwapChain *const);
 		void SwapChain::DeleteBuffers() // 0x10C78070
 		{
-			mangled_x86(MANGLED_TODO, "?DeleteBuffers@SwapChain@Browser@Web@@AAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?DeleteBuffers@SwapChain@Browser@Web@@AAEXXZ");
 			// Web::Browser::SwapChain *const this;
-			todo("implement");
-			_sub_10C78070(this);
+
+			while (!m_pool.empty())
+			{
+				delete m_pool.top();
+				m_pool.pop();
+			}
+			while (!m_queue.empty())
+			{
+				delete m_queue.front();
+				m_queue.pop();
+			}
+			if (m_frontBuffer)
+			{
+				delete m_frontBuffer;
+				m_frontBuffer = nullptr;
+			}
 		}
 
 		void SwapChain::Release() // 0x10C78510

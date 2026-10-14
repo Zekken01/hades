@@ -119,6 +119,15 @@ namespace Blam
 
 /* ---------- prototypes */
 
+long unit_get_global_player_information_block_index(long unit_index);  // hades: added for 0x108DC110
+s_game_globals *game_globals_get();  // hades: added for 0x108DC110
+
+namespace Blam { class BitStream; }  // hades: added for 0x108D9400
+namespace Player { extern bool player_configuration_host_decode(Blam::BitStream *stream, s_player_configuration_from_host *configuration, e_player_configuration_encoding_type encoding_type); }  // hades: added for 0x108D9400
+namespace Player { extern void player_configuration_host_encode(Blam::BitStream *stream, s_player_configuration_from_host *configuration, e_player_configuration_encoding_type encoding_type); }  // hades: added for 0x108D9400
+
+namespace Patches { namespace PlayerScale { extern void UpdatePlayerScale(int playerIndex); } }  // hades: added for 0x108DBEB0
+
 namespace Patches { namespace Sprint { extern void UpdatePlayerSprint(long player_index); } }  // hades: added for 0x108DC6A0
 namespace Player { namespace PlayerPodium { extern void UpdatePlayer(long player_datum_index); } }  // hades: added for 0x108DC6A0
 
@@ -162,13 +171,43 @@ namespace Patches
 {
 	namespace Player
 	{
-		_extern void _sub_108D9400();
 		void ApplyAll() // 0x108D9400
 		{
-			mangled_x86(MANGLED_TODO, "?ApplyAll@Player@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Player@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_108D9400();
+
+			Patch(0x1360E0, { 0xC3 }).Apply();
+			Patch(0x136750, { 0xC3 }).Apply();
+			Patch(0x136260, { 0xC3 }).Apply();
+			Patch(0x1368D0, { 0xC3 }).Apply();
+			Hook(0x29CAE0, s3d_player_has_gameplay_modifier).Apply();
+			Hook(0x29C160, s3d_player_get_gameplay_modifier_real).Apply();
+			Hook(0x29C110, s3d_player_get_gameplay_modifier_int).Apply();
+			Hook(0xB4DFA, player_spawn_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x141816, player_spawn_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x143EF8, player_spawn_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x143F3E, player_spawn_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x143FEB, player_spawn_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x13B8B7, player_reset_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x13C030, player_reset_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x141AA1, player_reset_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x7A10B0, player_in_multiplayer_object_boundary).Apply();
+			Hook(0x1390FA, game_engine_player_died_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x13B6C2, game_engine_player_died_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x436E0, ::Player::player_configuration_host_decode).Apply();
+			Hook(0x437C0, ::Player::player_configuration_host_encode).Apply();
+			Hook(0x349200, c_game_engine__build_player_baseline).Apply();
+			Hook(0x13CC98, player_set_unit_index_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x34A41F, game_engine_player_update_sub_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x143AE8, player_update_after_game_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Pointer(0x4BAD4E).Write<unsigned char>(0x4);
+			Pointer(0x4BAD54).Write<unsigned char>(0x4);
+			Pointer(0x4BAD57).Write<unsigned char>(0x4);
+			Pointer(0x4BAD64).Write<unsigned char>(0x4);
+			Pointer(0x4BAD67).Write<unsigned char>(0x4);
+			Pointer(0x4BAD73).Write<unsigned char>(0x4);
+			Pointer(0x4BA6E4).Write<unsigned char>(0x4);
+			Patches::Network::PlayerPropertiesExtender::Instance().Add(std::make_unique<::Player::PlayerCustomizationExtensions>());
 		}
 	}
 }
@@ -185,7 +224,7 @@ namespace Patches
 		// mangled_x86(MANGLED_DEFAULT, "??0PlayerPropertiesExtender@Network@Patches@@QAE@XZ"); no body to assert in
 
 		// mangled_x86(MANGLED_DEFAULT, "??0PlayerPropertiesExtensionBase@Network@Patches@@QAE@XZ"); no body to assert in
-		_inline PlayerPropertiesExtensionBase::PlayerPropertiesExtensionBase() = default; // 0x108D8CC0
+		// _inline PlayerPropertiesExtensionBase::PlayerPropertiesExtensionBase() = default; // 0x108D8CC0  // hades: defaulted on its declaration
 	}
 }
 
@@ -293,9 +332,9 @@ void player_set_unit_index_hook(long player_index, long unit_index) // 0x108DC57
 	::Player::CPlayerCharacterSystem::PlayerCharacterEditor(player_index);
 }
 
-_extern bool _sub_108DC300(long, s_multiplayer_object_boundary_geometry_data const *);
 bool player_in_multiplayer_object_boundary(long player_index, s_multiplayer_object_boundary_geometry_data const *geometry_data) // 0x108DC300
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?player_in_multiplayer_object_boundary@@YA_NJPBUs_multiplayer_object_boundary_geometry_data@@@Z");
 	// `anonymous-namespace'::player_in_multiplayer_object_boundary
 	// static ...; // 0x108DC450
 	// static ...; // 0x108DC448
@@ -304,19 +343,29 @@ bool player_in_multiplayer_object_boundary(long player_index, s_multiplayer_obje
 	// s_player_datum *player;
 	// bool (*const point_in_multiplayer_object_boundary)(real_point3d const *, s_multiplayer_object_boundary_geometry_data const *);
 	// bool (*const unit_get_body_position)(long, real_point3d *);
-	{
 		// real_point3d points[2];
 		// long point_count;
-		{
 			// __int32 i;
-		}
-	}
 	// function call : void (*const)(long, real_point3d *)
 	// function call : bool (*const)(long, real_point3d *)
 	// function call : bool (*const)(real_point3d const *, s_multiplayer_object_boundary_geometry_data const *)
-	todo("implement");
-	bool __result = _sub_108DC300(player_index, geometry_data);
-	return __result;
+
+	bool (*const unit_get_body_position)(long, real_point3d *) = reinterpret_cast<bool (*)(long, real_point3d *)>(0xB43630);
+	bool (*const point_in_multiplayer_object_boundary)(real_point3d const *, s_multiplayer_object_boundary_geometry_data const *) = reinterpret_cast<bool (*)(real_point3d const *, s_multiplayer_object_boundary_geometry_data const *)>(0xBA11F0);
+	s_player_datum *player = player_get(player_index);
+	if (player && player->unit_index != -1)
+	{
+		real_point3d points[2];
+		long point_count = 0;
+		((bool (*)(long, real_point3d *))0xB2E5A0)(player->unit_index, &points[point_count++]);
+		unit_get_body_position(player->unit_index, &points[point_count++]);
+		for (__int32 i = 0; i < point_count; i++)
+		{
+			if (point_in_multiplayer_object_boundary(&points[i], geometry_data))
+				return true;
+		}
+	}
+	return false;
 }
 
 void game_engine_player_died_hook(long player_index) // 0x108DBE50
@@ -330,15 +379,17 @@ void game_engine_player_died_hook(long player_index) // 0x108DBE50
 	((void(*)(long))0x53A330)(player_index);
 }
 
-_extern void _sub_108DBEB0(long, long);
 void game_engine_player_update_sub_hook(long player_index, long unit_index) // 0x108DBEB0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_player_update_sub_hook@@YAXJJ@Z");
 	// `anonymous-namespace'::game_engine_player_update_sub_hook
 	// long unit_index;
 	// void (*const player_refresh_object_appearance_full)(long, long);
 	// function call : void (*const)(long, long)
-	todo("implement");
-	_sub_108DBEB0(player_index, unit_index);
+
+	void (*const player_refresh_object_appearance_full)(long, long) = reinterpret_cast<void (*)(long, long)>(0x538ED0);
+	player_refresh_object_appearance_full(player_index, unit_index);
+	Patches::PlayerScale::UpdatePlayerScale(player_index);
 }
 
 void __fastcall c_game_engine__build_player_baseline(void *thisptr, void *unused, __int32 a1, __int32 a2, s_simulation_game_engine_player_state_data *state_data) // 0x108DBCE0
@@ -357,9 +408,9 @@ void __fastcall c_game_engine__build_player_baseline(void *thisptr, void *unused
 	state_data->player_character_type_index = -1;
 }
 
-_extern void _sub_108DC110(long);
 void player_handle_coop_respawn(long player_index) // 0x108DC110
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?player_handle_coop_respawn@@YAXJ@Z");
 	// `anonymous-namespace'::player_handle_coop_respawn
 	// static ...; // 0x108DC284
 	// static ...; // 0x108DC278
@@ -367,16 +418,28 @@ void player_handle_coop_respawn(long player_index) // 0x108DC110
 	// long player_index;
 	// s_player_datum *player;
 	// long (*const effect_new_from_object)(long, s_damage_owner const *, s_damage_reporting_info *, long, float, float, real_rgb_color const *, player_handle_coop_respawn::__l2::effect_vector_field *, long);
-	{
 		// s_game_globals_player_information *player_info;
 		// long info_block_index;
-		{
 			// s_damage_reporting_info reporting_info;
-		}
-	}
 	// function call : long (*const)(long, s_damage_owner const *, s_damage_reporting_info *, long, float, float, real_rgb_color const *, player_handle_coop_respawn::__l2::effect_vector_field *, long)
-	todo("implement");
-	_sub_108DC110(player_index);
+
+	struct effect_vector_field;
+	long (*const effect_new_from_object)(long, s_damage_owner const *, s_damage_reporting_info *, long, float, float, real_rgb_color const *, effect_vector_field *, long) = reinterpret_cast<long (*)(long, s_damage_owner const *, s_damage_reporting_info *, long, float, float, real_rgb_color const *, effect_vector_field *, long)>(0x5B8550);
+	s_player_datum *player = player_get(player_index);
+	if (player->flags & 0x800)
+	{
+		if (player->unit_index != -1)
+		{
+			long info_block_index = unit_get_global_player_information_block_index(player->unit_index);
+			s_game_globals_player_information *player_info = &game_globals_get()->PlayerInformation[info_block_index];
+			if (player_info->coop_respawn_effect.index != -1)
+			{
+				struct { c_enum<e_damage_reporting_type,short> type; char variant; char modifier; } reporting_info = {};
+				effect_new_from_object(player_info->coop_respawn_effect.index, nullptr, (s_damage_reporting_info *)&reporting_info, player->unit_index, 0.0f, 0.0f, nullptr, nullptr, 1);
+			}
+		}
+		false ? player->flags |= 0x800 : player->flags &= ~0x800;
+	}
 }
 
 void player_update_after_game_hook(long player_index) // 0x108DC6A0

@@ -315,7 +315,7 @@ namespace hades_file_local
 		virtual void InputUnblock();
 		WebOverlayInputContext(WebOverlayInputContext &); /* compiler_generated() */
 		WebOverlayInputContext(WebOverlayInputContext const &); /* compiler_generated() */
-		WebOverlayInputContext(); /* compiler_generated() */
+		WebOverlayInputContext() = default; /* compiler_generated() */  // hades: not user-provided, so make_shared value-initializes
 		virtual ~WebOverlayInputContext() = default; /* compiler_generated() */
 		WebOverlayInputContext &operator=(WebOverlayInputContext &); /* compiler_generated() */
 		WebOverlayInputContext &operator=(WebOverlayInputContext const &); /* compiler_generated() */
@@ -354,6 +354,11 @@ namespace Patches
 }
 
 /* ---------- prototypes */
+
+extern long (*const game_time_get)();  // hades: added for 0x10C95510  // hades: added for 0x10C95510
+extern float (*const game_tick_length)();  // hades: added for 0x10C95510  // hades: added for 0x10C95510
+
+extern float (*const game_ticks_to_seconds)(float);  // hades: added for 0x10C94C80
 
 namespace Patches { namespace Core { void OnShutdown(std::function<void()> callback); } }  // hades: added for 0X10C93FE0
 namespace Patches { namespace Input { void RegisterDefaultInputHandler(void (*func)()); } }  // hades: added for 0X10C93FE0
@@ -411,8 +416,8 @@ namespace Web
 	{
 		namespace ScreenLayer
 		{
-			extern CEventSink<> BeforeReload; // 0x1247ECDC
-			extern std::function<void __cdecl(Web::Ui::ScreenLayer::SDialogShowParams const &)> dialogHandler; // 0x1247ECF0
+			CEventSink<> BeforeReload; // 0x1247ECDC
+			std::function<void __cdecl(Web::Ui::ScreenLayer::SDialogShowParams const &)> dialogHandler; // 0x1247ECF0
 		}
 	}
 }
@@ -425,8 +430,8 @@ namespace hades_file_local
 	extern bool InputCaptured; // 0x1247ED2C
 	extern "C" bool PointerCaptured; // 0x1247ED2D
 	extern unsigned __int32 lastVariableUpdateTicks; // 0x1247ED30
-	extern std::vector<Modules::Command const *> lastVariableUpdates; // 0x1247ED18
-	extern std::map<std::string,std::shared_ptr<Web::Ui::WebScreen> > registeredScreens; // 0x1247ECD0
+	std::vector<Modules::Command const *> lastVariableUpdates; // 0x1247ED18
+	std::map<std::string,std::shared_ptr<Web::Ui::WebScreen> > registeredScreens; // 0x1247ECD0
 	extern __int32 g_last_mouse_x; // 0x1247ED34
 	extern __int32 g_last_mouse_y; // 0x1247ED38
 	extern "C" char const *ScreenIdString[16]; // 0x11355298
@@ -451,26 +456,24 @@ namespace Web
 				Modules::CommandMap::Instance().OnVariableUpdate(OnVariableUpdate);
 			}
 
-			_extern void _sub_10C96F00();
 			void Tick() // 0x10C96F00
 			{
-				mangled_x86(MANGLED_TODO, "?Tick@ScreenLayer@Ui@Web@@YAXXZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@ScreenLayer@Ui@Web@@YAXXZ");
 				// procedure flags: nofpo
 				// static ...; // 0x10C9705D
 				// static ...; // 0x10C97054
 				// static ...; // 0x10C9703C
 				// static ...; // 0x10C97034
-				{
 					// std::map<std::string,std::shared_ptr<Web::Ui::WebScreen> > &<range>$L0;
 					// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::shared_ptr<Web::Ui::WebScreen> > > > > <begin>$L0;
 					// std::_Default_sentinel <end>$L0;
-					{
 						// std::pair<std::string const ,std::shared_ptr<Web::Ui::WebScreen> > &screen;
-					}
-				}
 				// function call : void ()
-				todo("implement");
-				_sub_10C96F00();
+
+				Web::Browser::WebRenderer::GetInstance()->Update();
+				NotifyVariablesUpdated();
+				for (auto &screen : registeredScreens)
+					screen.second->OnUpdate();
 			}
 
 			void Resize() // 0x10C96130
@@ -500,26 +503,27 @@ namespace Web
 				webRenderer->ShowRenderer(show, true);
 			}
 
-			_extern void _sub_10C965D0(Web::Ui::ScreenLayer::ScreenId, std::string const &);
 			void Show(Web::Ui::ScreenLayer::ScreenId screenId, std::string const &data) // 0x10C965D0
 			{
-				mangled_x86(MANGLED_TODO, "?Show@ScreenLayer@Ui@Web@@YAXW4ScreenId@123@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?Show@ScreenLayer@Ui@Web@@YAXW4ScreenId@123@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 				// std::string const &data;
-				todo("implement");
-				_sub_10C965D0(screenId, data);
+
+				Show(ScreenIdString[screenId], data);
 			}
 
-			_extern void _sub_10C96350(std::string const &, std::string const &);
 			void Show(std::string const &screenId, std::string const &data) // 0x10C96350
 			{
-				mangled_x86(MANGLED_TODO, "?Show@ScreenLayer@Ui@Web@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?Show@ScreenLayer@Ui@Web@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z");
 				// static ...; // 0x10C96538
 				// static ...; // 0x10C96530
 				// std::string const &screenId;
 				// std::string const &data;
 				// std::string js;
-				todo("implement");
-				_sub_10C96350(screenId, data);
+
+				if (ElDorito::Instance().IsHeadless())
+					return;
+				std::string js = "if (window.ui) ui.requestScreen('" + screenId + "', " + data + ");";
+				Web::Browser::WebRenderer::GetInstance()->ExecuteJavascript(js, true);
 			}
 
 			void Hide(Web::Ui::ScreenLayer::ScreenId screenId) // 0x10C93E40
@@ -530,63 +534,67 @@ namespace Web
 				Web::Ui::ScreenLayer::Hide(ScreenIdString[screenId]);
 			}
 
-			_extern void _sub_10C93B60(std::string const &);
 			void Hide(std::string const &screenId) // 0x10C93B60
 			{
-				mangled_x86(MANGLED_TODO, "?Hide@ScreenLayer@Ui@Web@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?Hide@ScreenLayer@Ui@Web@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 				// static ...; // 0x10C93DA3
 				// static ...; // 0x10C93D9C
 				// static ...; // 0x10C93D84
 				// static ...; // 0x10C93D7C
 				// std::string const &screenId;
 				// std::string js;
-				{
 					// std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::shared_ptr<Web::Ui::WebScreen> > > > > screen;
-				}
 				// function call : void ()
-				todo("implement");
-				_sub_10C93B60(screenId);
+
+				if (ElDorito::Instance().IsHeadless())
+					return;
+				std::string js = "if (window.ui) ui.hideScreen('" + screenId + "');";
+				Web::Browser::WebRenderer::GetInstance()->ExecuteJavascript(js, true);
+				if (auto screen = registeredScreens.find(screenId); screen != registeredScreens.end())
+					screen->second->OnHide();
 			}
 
-			_extern void _sub_10C943A0(std::string const &, std::string const &, bool);
 			void Notify(std::string const &event, std::string const &data, bool broadcast) // 0x10C943A0
 			{
-				mangled_x86(MANGLED_TODO, "?Notify@ScreenLayer@Ui@Web@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0_N@Z");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?Notify@ScreenLayer@Ui@Web@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0_N@Z");
 				// static ...; // 0x10C94620
 				// std::string const &event;
 				// std::string const &data;
 				// bool broadcast;
 				// std::string js;
-				todo("implement");
-				_sub_10C943A0(event, data, broadcast);
+
+				if (ElDorito::Instance().IsHeadless())
+					return;
+				std::string js = "if (window.ui) ui.notify('" + event + "'," + data + "," + (broadcast ? "true" : "false") + ",true);";
+				Web::Browser::WebRenderer::GetInstance()->ExecuteJavascript(js, true);
 			}
 
-			_extern void _sub_10C94A00(Web::Ui::ScreenLayer::ScreenId, std::string const &, std::string const &);
 			void NotifyScreen(Web::Ui::ScreenLayer::ScreenId screenId, std::string const &event, std::string const &data) // 0x10C94A00
 			{
-				mangled_x86(MANGLED_TODO, "?NotifyScreen@ScreenLayer@Ui@Web@@YAXW4ScreenId@123@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@1@Z");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?NotifyScreen@ScreenLayer@Ui@Web@@YAXW4ScreenId@123@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@1@Z");
 				// std::string const &data;
-				todo("implement");
-				_sub_10C94A00(screenId, event, data);
+
+				NotifyScreen(ScreenIdString[screenId], event, data);
 			}
 
-			_extern void _sub_10C946E0(std::string const &, std::string const &, std::string const &);
 			void NotifyScreen(std::string const &screenId, std::string const &event, std::string const &data) // 0x10C946E0
 			{
-				mangled_x86(MANGLED_TODO, "?NotifyScreen@ScreenLayer@Ui@Web@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@00@Z");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?NotifyScreen@ScreenLayer@Ui@Web@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@00@Z");
 				// static ...; // 0x10C94940
 				// std::string const &screenId;
 				// std::string const &event;
 				// std::string const &data;
 				// std::string js;
-				todo("implement");
-				_sub_10C946E0(screenId, event, data);
+
+				if (ElDorito::Instance().IsHeadless())
+					return;
+				std::string js = "if (window.ui) ui.notifyScreen('" + screenId + "', '" + event + "'," + data + ");";
+				Web::Browser::WebRenderer::GetInstance()->ExecuteJavascript(js, true);
 			}
 
-			_extern void _sub_10C94AE0(std::string const &, Web::Ui::ScreenLayer::EScreenState);
 			void NotifyScreenStateChanged(std::string const &screenId, Web::Ui::ScreenLayer::EScreenState state) // 0x10C94AE0
 			{
-				mangled_x86(MANGLED_TODO, "?NotifyScreenStateChanged@ScreenLayer@Ui@Web@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@W4EScreenState@123@@Z");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?NotifyScreenStateChanged@ScreenLayer@Ui@Web@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@W4EScreenState@123@@Z");
 				// static ...; // 0x10C94C10
 				// static ...; // 0x10C94C08
 				// std::string const &screenId;
@@ -594,60 +602,84 @@ namespace Web
 				// std::shared_ptr<Web::Ui::WebScreen> screen;
 				// function call : void ()
 				// function call : void ()
-				todo("implement");
-				_sub_10C94AE0(screenId, state);
+
+				std::shared_ptr<Web::Ui::WebScreen> screen = GetScreen(screenId);
+				if (!screen)
+					return;
+				switch (state)
+				{
+				case Hidden:
+					screen->OnHide();
+					break;
+				case Visbile:
+					screen->OnShow();
+					break;
+				}
 			}
 
-			_extern void _sub_10C92B20(bool, bool);
 			void CaptureInput(bool capture, bool pointerCapture) // 0x10C92B20
 			{
-				mangled_x86(MANGLED_TODO, "?CaptureInput@ScreenLayer@Ui@Web@@YAX_N0@Z");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?CaptureInput@ScreenLayer@Ui@Web@@YAX_N0@Z");
 				// static ...; // 0x10C92D04
 				// static ...; // 0x10C92CFC
 				// bool capture;
 				// bool pointerCapture;
-				{
 					// std::shared_ptr<WebOverlayInputContext> inputContext;
+
+				if ((InputCaptured == capture && PointerCaptured == pointerCapture) || (capture && !Web::Browser::WebRenderer::GetInstance()->IsRendering()))
+					return;
+				InputCaptured = capture;
+				PointerCaptured = pointerCapture;
+				if (capture || pointerCapture)
+				{
+					std::shared_ptr<WebOverlayInputContext> inputContext = std::make_shared<WebOverlayInputContext>();
+					inputContext->allowHandlers = PointerCaptured && !InputCaptured;
+					Patches::Input::PushContext(inputContext);
 				}
-				todo("implement");
-				_sub_10C92B20(capture, pointerCapture);
 			}
 
-			_extern void _sub_10C96800(std::string const &, std::string, Web::Ui::ScreenLayer::AlertIcon, float);
 			void ShowAlert(std::string const &title, std::string body, Web::Ui::ScreenLayer::AlertIcon icon, float height) // 0x10C96800
 			{
-				mangled_x86(MANGLED_TODO, "?ShowAlert@ScreenLayer@Ui@Web@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V45@W4AlertIcon@123@M@Z");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?ShowAlert@ScreenLayer@Ui@Web@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V45@W4AlertIcon@123@M@Z");
 				// std::string const &title;
 				// std::string body;
 				// Web::Ui::ScreenLayer::AlertIcon icon;
 				// float height;
 				// Web::Ui::ScreenLayer::SDialogShowParams params;
-				todo("implement");
-				_sub_10C96800(title, body, icon, height);
+
+				Utils::String::ReplaceString(body, "\r\n", "|r|n");
+				Utils::String::ReplaceString(body, "\n", "|r|n");
+				SDialogShowParams params;
+				params.templateName = "alert_template";
+				params.callback = [](auto &) {};
+				params.customTitle = title;
+				params.customBody = body;
+				params.dialogHeight = height;
+				ShowDialog(params);
 			}
 
-			_extern void _sub_10C95DE0(std::string const &, std::shared_ptr<Web::Ui::WebScreen> const &);
 			void RegisterScreen(std::string const &screenId, std::shared_ptr<Web::Ui::WebScreen> const &screen) // 0x10C95DE0
 			{
-				mangled_x86(MANGLED_TODO, "?RegisterScreen@ScreenLayer@Ui@Web@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV?$shared_ptr@VWebScreen@Ui@Web@@@5@@Z");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?RegisterScreen@ScreenLayer@Ui@Web@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV?$shared_ptr@VWebScreen@Ui@Web@@@5@@Z");
 				// std::shared_ptr<Web::Ui::WebScreen> const &screen;
-				todo("implement");
-				_sub_10C95DE0(screenId, screen);
+
+				if (registeredScreens.find(screenId) != registeredScreens.end())
+					throw std::runtime_error("screen already registered");
+				registeredScreens.insert(std::make_pair(screenId, screen));
 			}
 
-			_extern void _sub_10C95FE0(Web::Ui::ScreenLayer::ScreenId, std::shared_ptr<Web::Ui::WebScreen> const &);
 			void RegisterScreen(Web::Ui::ScreenLayer::ScreenId id, std::shared_ptr<Web::Ui::WebScreen> const &screen) // 0x10C95FE0
 			{
-				mangled_x86(MANGLED_TODO, "?RegisterScreen@ScreenLayer@Ui@Web@@YAXW4ScreenId@123@ABV?$shared_ptr@VWebScreen@Ui@Web@@@std@@@Z");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?RegisterScreen@ScreenLayer@Ui@Web@@YAXW4ScreenId@123@ABV?$shared_ptr@VWebScreen@Ui@Web@@@std@@@Z");
 				// std::shared_ptr<Web::Ui::WebScreen> const &screen;
-				todo("implement");
-				_sub_10C95FE0(id, screen);
+
+				RegisterScreen(ScreenIdString[id], screen);
 			}
 		}
 	}
 }
 
-extern std::shared_ptr<Web::Ui::WebScreen> _sub_10C93690(std::string const &);
+
 namespace Web
 {
 	namespace Ui
@@ -656,54 +688,55 @@ namespace Web
 		{
 			std::shared_ptr<Web::Ui::WebScreen> GetScreen(std::string const &stringId) // 0x10C93690
 			{
-				mangled_x86(MANGLED_TODO, "?GetScreen@ScreenLayer@Ui@Web@@YA?AV?$shared_ptr@VWebScreen@Ui@Web@@@std@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@5@@Z");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?GetScreen@ScreenLayer@Ui@Web@@YA?AV?$shared_ptr@VWebScreen@Ui@Web@@@std@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@5@@Z");
 				// static ...; // 0x10C937FC
 				// static ...; // 0x10C937F0
 				// static ...; // 0x10C937E8
 				// std::string const &stringId;
-				{
 					// std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::shared_ptr<Web::Ui::WebScreen> > > > > it;
-				}
-				todo("implement");
-				std::shared_ptr<Web::Ui::WebScreen> __result = _sub_10C93690(stringId);
-				return __result;
+
+				if (auto it = registeredScreens.find(stringId); it != std::end(registeredScreens))
+					return it->second;
+				return nullptr;
 			}
 
-			_extern void _sub_10C96300(std::function<void __cdecl(Web::Ui::ScreenLayer::SDialogShowParams const &)> const &);
 			void SetDialogHandler(std::function<void __cdecl(Web::Ui::ScreenLayer::SDialogShowParams const &)> const &handler) // 0x10C96300
 			{
-				mangled_x86(MANGLED_TODO, "?SetDialogHandler@ScreenLayer@Ui@Web@@YAXABV?$function@$$A6AXABUSDialogShowParams@ScreenLayer@Ui@Web@@@Z@std@@@Z");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?SetDialogHandler@ScreenLayer@Ui@Web@@YAXABV?$function@$$A6AXABUSDialogShowParams@ScreenLayer@Ui@Web@@@Z@std@@@Z");
 				// std::function<void __cdecl(Web::Ui::ScreenLayer::SDialogShowParams const &)> const &handler;
-				todo("implement");
-				_sub_10C96300(handler);
+
+				dialogHandler = handler;
 			}
 
-			_extern void _sub_10C96A60(Web::Ui::ScreenLayer::SDialogShowParams const &);
 			void ShowDialog(Web::Ui::ScreenLayer::SDialogShowParams const &params) // 0x10C96A60
 			{
-				mangled_x86(MANGLED_TODO, "?ShowDialog@ScreenLayer@Ui@Web@@YAXABUSDialogShowParams@123@@Z");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?ShowDialog@ScreenLayer@Ui@Web@@YAXABUSDialogShowParams@123@@Z");
 				// Web::Ui::ScreenLayer::SDialogShowParams const &params;
-				todo("implement");
-				_sub_10C96A60(params);
+
+				#line 713 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Web\\Ui\\ScreenLayer.cpp"
+				LOG_ASSERT(dialogHandler);
+				#line 719 "C:\\Users\\zekken\\Desktop\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Web\\Ui\\ScreenLayer.cpp"
+				dialogHandler(params);
 			}
 
-			_extern void _sub_10C96C00(std::string const &, std::function<void __cdecl(std::string const &)>);
 			void ShowDialog(std::string const &templateName, std::function<void __cdecl(std::string const &)> callback) // 0x10C96C00
 			{
-				mangled_x86(MANGLED_TODO, "?ShowDialog@ScreenLayer@Ui@Web@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$function@$$A6AXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z@5@@Z");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?ShowDialog@ScreenLayer@Ui@Web@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$function@$$A6AXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z@5@@Z");
 				// static ...; // 0x10C96CE4
 				// static ...; // 0x10C96CDC
 				// std::string const &templateName;
 				// std::function<void __cdecl(std::string const &)> callback;
 				// Web::Ui::ScreenLayer::SDialogShowParams params;
-				todo("implement");
-				_sub_10C96C00(templateName, callback);
+
+				SDialogShowParams params;
+				params.templateName = templateName;
+				params.callback = callback;
+				ShowDialog(params);
 			}
 
-			_extern void _sub_10C92DF0();
 			void CreateScreens() // 0x10C92DF0
 			{
-				mangled_x86(MANGLED_TODO, "?CreateScreens@ScreenLayer@Ui@Web@@YAXXZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?CreateScreens@ScreenLayer@Ui@Web@@YAXXZ");
 				// procedure flags: nofpo
 				// static ...; // 0x10C930B1
 				// static ...; // 0x10C930A4
@@ -713,17 +746,19 @@ namespace Web
 				// static ...; // 0x10C93058
 				// scoped_refptr<Web::Browser::WebRendererHandler> renderHandler;
 				// std::shared_ptr<Web::Browser::Bridge::WebRendererQueryHandler> queryHandler;
-				{
 					// std::map<std::string,std::shared_ptr<Web::Ui::WebScreen> > &<range>$L0;
 					// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::shared_ptr<Web::Ui::WebScreen> > > > > <begin>$L0;
 					// std::_Default_sentinel <end>$L0;
-					{
 						// std::pair<std::string const ,std::shared_ptr<Web::Ui::WebScreen> > &screen;
-					}
-				}
 				// function call : void (Web::Browser::Bridge::WebRendererQueryHandler &)
-				todo("implement");
-				_sub_10C92DF0();
+
+				scoped_refptr<Web::Browser::WebRendererHandler> renderHandler = Web::Browser::WebRenderer::GetInstance()->GetClientHandler();
+				std::shared_ptr<Web::Browser::Bridge::WebRendererQueryHandler> queryHandler = renderHandler->GetQueryHandler();
+				#line 741 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Web\\Ui\\ScreenLayer.cpp"
+				LOG_ASSERT(queryHandler);
+				#line 760 "C:\\Users\\zekken\\Desktop\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Web\\Ui\\ScreenLayer.cpp"
+				for (auto &screen : registeredScreens)
+					screen.second->OnCreate(*queryHandler);
 			}
 		}
 	}
@@ -767,14 +802,22 @@ _inline bool WebOverlayInputContext::GameInputTick() // 0x10C931A0
 	return InputCaptured || PointerCaptured;
 }
 
-_extern bool _sub_10C970D0(WebOverlayInputContext *const);
 _inline bool WebOverlayInputContext::UiInputTick() // 0x10C970D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?UiInputTick@WebOverlayInputContext@hades_file_local@@UAE_NXZ");
 	// `anonymous-namespace'::WebOverlayInputContext::UiInputTick
 	// WebOverlayInputContext *const this;
-	todo("implement");
-	bool __result = _sub_10C970D0(this);
-	return __result;
+
+	if (!Web::Browser::WebRenderer::GetInstance()->IsRendering())
+		InputCaptured = false;
+	if (InputCaptured)
+		OnUIInputUpdated();
+	if (!InputCaptured && PointerCaptured)
+	{
+		Blam::Input::GetActionState(Blam::Input::eGameActionFireLeft)->Flags |= Blam::Input::eActionStateFlagsHandled;
+		Blam::Input::GetActionState(Blam::Input::eGameActionFireRight)->Flags |= Blam::Input::eActionStateFlagsHandled;
+	}
+	return InputCaptured || PointerCaptured;
 }
 
 _inline void WebOverlayInputContext::InputBlock() // 0x10C94110
@@ -832,29 +875,26 @@ void WindowCreated(HWND__ *window) // 0x10C972C0
 	MessageHook = SetWindowsHookExA(WH_GETMESSAGE, GetMsgHook, nullptr, threadId);
 }
 
-_extern void _sub_10C96D40();
 void ShutdownRenderer() // 0x10C96D40
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ShutdownRenderer@@YAXXZ");
 	// `anonymous-namespace'::ShutdownRenderer
 	// procedure flags: nofpo
 	// static ...; // 0x10C96E99
 	// static ...; // 0x10C96E90
 	// static ...; // 0x10C96E78
 	// static ...; // 0x10C96E70
-	{
 		// std::map<std::string,std::shared_ptr<Web::Ui::WebScreen> > &<range>$L0;
 		// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::shared_ptr<Web::Ui::WebScreen> > > > > <begin>$L0;
 		// std::_Default_sentinel <end>$L0;
-		{
 			// std::pair<std::string const ,std::shared_ptr<Web::Ui::WebScreen> > &screen;
-		}
-	}
 	// function call : void ()
-	todo("implement");
-	_sub_10C96D40();
+
+	for (auto &screen : registeredScreens)
+		screen.second->OnDestroy();
+	Web::Browser::WebRenderer::GetInstance()->Shutdown();
 }
 
-extern CefStructBase<CefPlatformEventTraits> _sub_10C94230(tagMSG *);
 CefStructBase<CefPlatformEventTraits> MakeCefPlatformEvent(tagMSG *msg) // 0x10C94230
 {
 	// `anonymous-namespace'::MakeCefPlatformEvent
@@ -863,18 +903,33 @@ CefStructBase<CefPlatformEventTraits> MakeCefPlatformEvent(tagMSG *msg) // 0x10C
 	// static ...; // 0x10C94338
 	// tagMSG *msg;
 	// CefStructBase<CefPlatformEventTraits> event;
-	todo("implement");
-	CefStructBase<CefPlatformEventTraits> __result = _sub_10C94230(msg);
-	return __result;
+
+	CefStructBase<CefPlatformEventTraits> event;
+	event.hwnd = msg->hwnd;
+	event.message = msg->message;
+	event.wParam = (void *)msg->wParam;
+	event.lParam = (void *)msg->lParam;
+	event.time = msg->time;
+	event.pt = { msg->pt.x, msg->pt.y };
+	return event;
 }
 
-_extern void _sub_10C939D0(tagMSG *);
 void HandleMouseMessage(tagMSG *msg) // 0x10C939D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleMouseMessage@@YAXPAUtagMSG@@@Z");
 	// `anonymous-namespace'::HandleMouseMessage
 	// tagMSG *msg;
-	todo("implement");
-	_sub_10C939D0(msg);
+
+	if (msg->message == WM_MOUSEMOVE)
+	{
+		if (msg->pt.x == g_last_mouse_x && msg->pt.y == g_last_mouse_y)
+			return;
+
+		g_last_mouse_x = msg->pt.x;
+		g_last_mouse_y = msg->pt.y;
+	}
+
+	Web::Browser::WebRenderer::GetInstance()->SendPlatformEvent(MakeCefPlatformEvent(msg));
 }
 
 void HandleKeyMessage(tagMSG *msg) // 0x10C93890
@@ -950,9 +1005,9 @@ long __stdcall GetMsgHook(__int32 code, unsigned __int32 wParam, long lParam) //
 	return CallNextHookEx(MessageHook, code, wParam, lParam);
 }
 
-_extern void _sub_10C950F0();
 void OnGameInputUpdated() // 0x10C950F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnGameInputUpdated@@YAXXZ");
 	// `anonymous-namespace'::OnGameInputUpdated
 	// procedure flags: nofpo
 	// static ...; // 0x10C9542C
@@ -960,17 +1015,42 @@ void OnGameInputUpdated() // 0x10C950F0
 	// static ...; // 0x10C95410
 	// static ...; // 0x10C95408
 	// std::shared_ptr<Web::Browser::WebRenderer> webRenderer;
-	{
 		// char url[256];
-	}
 	// function call : HINSTANCE__ *(HWND__ *, char const *, char const *, char const *, char const *, __int32)
-	todo("implement");
-	_sub_10C950F0();
+
+	if (Blam::Input::GetKeyTicks(Blam::Input::eKeyCodeF4, Blam::Input::eInputTypeUi) == 1 && Blam::Input::GetKeyTicks(Blam::Input::eKeyCodeAlt, Blam::Input::eInputTypeUi) > 0)
+		Utils::Singleton<Modules::CommandMap>::Instance().ExecuteCommand("Game.Exit");
+	if (!Utils::Singleton<ElDorito>::Instance().IsWebDebuggingEnabled())
+		return;
+	std::shared_ptr<Web::Browser::WebRenderer> webRenderer = Web::Browser::WebRenderer::GetInstance();
+	if (Blam::Input::GetKeyTicks(Blam::Input::eKeyCodeF5, Blam::Input::eInputTypeUi) == 1)
+	{
+		BeforeReload.PostEvent();
+		webRenderer->ExecuteJavascript("ui.reload();", true);
+	}
+	if (Blam::Input::GetKeyTicks(Blam::Input::eKeyCodeAlt, Blam::Input::eInputTypeUi) > 0 && Blam::Input::GetKeyTicks(Blam::Input::eKeyCodeF4, Blam::Input::eInputTypeUi) == 1)
+		Utils::Singleton<Modules::CommandMap>::Instance().ExecuteCommand("Game.Exit");
+	if (Blam::Input::GetKeyTicks(Blam::Input::eKeyCodeF6, Blam::Input::eInputTypeUi) == 1)
+	{
+		BeforeReload.PostEvent();
+		if (Blam::Input::GetKeyTicks(Blam::Input::eKeyCodeShift, Blam::Input::eInputTypeUi) > 0)
+			webRenderer->OpenUrl("dew://ui");
+		else
+			webRenderer->Reload(true);
+		CaptureInput(false, false);
+		Utils::Singleton<Modules::CommandMap>::Instance().ExecuteCommand("Game.FullScreenBlurLayer reset");
+	}
+	if (Blam::Input::GetKeyTicks(Blam::Input::eKeyCodeF7, Blam::Input::eInputTypeUi) == 1)
+	{
+		char url[256];
+		sprintf_s(url, "http://localhost:%d", Utils::Singleton<ElDorito>::Instance().GetWebDebugPort());
+		ShellExecuteA(nullptr, nullptr, "chrome.exe", url, nullptr, SW_SHOWNORMAL);
+	}
 }
 
-_extern void _sub_10C95510();
 void OnUIInputUpdated() // 0x10C95510
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnUIInputUpdated@@YAXXZ");
 	// `anonymous-namespace'::OnUIInputUpdated
 	// procedure flags: nofpo
 	// static ...; // 0x10C95B4E
@@ -984,16 +1064,80 @@ void OnUIInputUpdated() // 0x10C95510
 	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
 	// OnUIInputUpdated::__l2::ControllerAxes &controllerAxes;
 	// std::string js;
-	{
 		// __int32 i;
-		{
 			// Blam::Input::ActionState *action;
-		}
-	}
 	// function call : long (*const)()
 	// function call : float (*const)()
-	todo("implement");
-	_sub_10C95510();
+
+	Modules::ModuleSettings &moduleSettings = Modules::ModuleSettings::Instance();
+	Modules::ModuleInput &moduleInput = Modules::ModuleInput::Instance();
+	struct ControllerAxes
+	{
+		short LeftX;
+		short LeftY;
+		short RightX;
+		short RightY;
+	};
+	ControllerAxes &controllerAxes = *(ControllerAxes *)0x244D4E4;
+	rapidjson::StringBuffer buffer;
+	rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+	writer.StartObject();
+	writer.Key("gameTicks");
+	writer.Double(game_time_get());
+	writer.Key("secondsPerTick");
+	writer.Double(game_tick_length());
+	writer.Key("AxisLeftX");
+	writer.Double(controllerAxes.LeftX / 32768.0f);
+	writer.Key("AxisLeftY");
+	writer.Double(controllerAxes.LeftY / 32768.0f);
+	writer.Key("AxisRightX");
+	writer.Double(controllerAxes.RightX / 32768.0f);
+	writer.Key("AxisRightY");
+	writer.Double(controllerAxes.RightY / 32768.0f * (moduleInput.VarControllerInvertY->ValueInt ? -1.0f : 1.0f));
+	writer.Key("LeftTrigger");
+	writer.Int(Blam::Input::GetActionState(Blam::Input::eGameActionUiLeftTrigger)->Ticks);
+	writer.Key("RightTrigger");
+	writer.Int(Blam::Input::GetActionState(Blam::Input::eGameActionUiRightTrigger)->Ticks);
+	writer.Key("Up");
+	writer.Int(Blam::Input::GetActionState(Blam::Input::eGameActionUiUp)->Ticks);
+	writer.Key("Down");
+	writer.Int(Blam::Input::GetActionState(Blam::Input::eGameActionUiDown)->Ticks);
+	writer.Key("Left");
+	writer.Int(Blam::Input::GetActionState(Blam::Input::eGameActionUiLeft)->Ticks);
+	writer.Key("Right");
+	writer.Int(Blam::Input::GetActionState(Blam::Input::eGameActionUiRight)->Ticks);
+	writer.Key("Start");
+	writer.Int(Blam::Input::GetActionState(Blam::Input::eGameActionUiStart)->Ticks);
+	writer.Key("Select");
+	writer.Int(Blam::Input::GetActionState(Blam::Input::eGameActionUiSelect)->Ticks);
+	writer.Key("LeftStick");
+	writer.Int(Blam::Input::GetActionState(Blam::Input::eGameActionUiLeftStick)->Ticks);
+	writer.Key("RightStick");
+	writer.Int(Blam::Input::GetActionState(Blam::Input::eGameActionUiRightStick)->Ticks);
+	writer.Key("A");
+	writer.Int(Blam::Input::GetActionState(Blam::Input::eGameActionUiA)->Ticks);
+	writer.Key("B");
+	writer.Int(Blam::Input::GetActionState(Blam::Input::eGameActionUiB)->Ticks);
+	writer.Key("X");
+	writer.Int(Blam::Input::GetActionState(Blam::Input::eGameActionUiX)->Ticks);
+	writer.Key("Y");
+	writer.Int(Blam::Input::GetActionState(Blam::Input::eGameActionUiY)->Ticks);
+	writer.Key("LeftBumper");
+	writer.Int(Blam::Input::GetActionState(Blam::Input::eGameActionUiLeftBumper)->Ticks);
+	writer.Key("RightBumper");
+	writer.Int(Blam::Input::GetActionState(Blam::Input::eGameActionUiRightBumper)->Ticks);
+	writer.EndObject();
+	std::string js = "if (window.ui && window.ui.sendControllerInput) ui.sendControllerInput(" + std::string(buffer.GetString()) + ");";
+	Web::Browser::WebRenderer::GetInstance()->ExecuteJavascript(js, false);
+	controllerAxes.LeftX = 0;
+	controllerAxes.LeftY = 0;
+	controllerAxes.RightX = 0;
+	controllerAxes.RightY = 0;
+	for (__int32 i = 0; i < 16; i++)
+	{
+		Blam::Input::ActionState *action = Blam::Input::GetActionState((Blam::Input::GameAction)i);
+		action->Flags |= Blam::Input::eActionStateFlagsHandled;
+	}
 }
 
 void OnVariableUpdate(Modules::Command const *command) // 0x10C95CF0
@@ -1005,9 +1149,9 @@ void OnVariableUpdate(Modules::Command const *command) // 0x10C95CF0
 	lastVariableUpdates.push_back(command);
 }
 
-_extern void _sub_10C94C80();
 void NotifyVariablesUpdated() // 0x10C94C80
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?NotifyVariablesUpdated@@YAXXZ");
 	// `anonymous-namespace'::NotifyVariablesUpdated
 	// procedure flags: nofpo
 	// static ...; // 0x10C94FFC
@@ -1021,14 +1165,55 @@ void NotifyVariablesUpdated() // 0x10C94C80
 // $LN8:
 	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
 	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-	{
 		// Modules::Command const &command;
-	}
 	// function call : float (*const)(float)
-	todo("implement");
-	_sub_10C94C80();
+
+	if (lastVariableUpdates.size() < 1)
+		return;
+	if (game_ticks_to_seconds((float)lastVariableUpdateTicks++) < 0.25f)
+		return;
+	lastVariableUpdateTicks = 0;
+	rapidjson::StringBuffer buffer;
+	rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+	writer.StartArray();
+	while (lastVariableUpdates.size() > 0)
+	{
+		Modules::Command const &command = *lastVariableUpdates.back();
+		lastVariableUpdates.pop_back();
+		writer.StartObject();
+		writer.Key("type");
+		writer.Int(command.Type);
+		writer.Key("module");
+		writer.String(command.ModuleName.c_str());
+		writer.Key("name");
+		writer.String(command.Name.c_str());
+		writer.Key("shortName");
+		writer.String(command.ShortName.c_str());
+		writer.Key("value");
+		switch (command.Type)
+		{
+		case Modules::eCommandTypeVariableInt:
+			writer.Int(command.ValueInt);
+			break;
+		case Modules::eCommandTypeVariableInt64:
+			writer.Int64(command.ValueInt64);
+			break;
+		case Modules::eCommandTypeVariableFloat:
+			writer.Double(command.ValueFloat);
+			break;
+		case Modules::eCommandTypeVariableString:
+			writer.String(command.ValueString.c_str());
+			break;
+		default:
+			writer.Null();
+			break;
+		}
+		writer.EndObject();
+	}
+	writer.EndArray();
+	Web::Ui::ScreenLayer::Notify("variable_update", buffer.GetString(), true);
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0WebOverlayInputContext@hades_file_local@@QAE@XZ"); no body to assert in
-_inline WebOverlayInputContext::WebOverlayInputContext() = default; // 0x10C91390
+// _inline WebOverlayInputContext::WebOverlayInputContext() = default; // 0x10C91390  // hades: defaulted on its declaration
 

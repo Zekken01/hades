@@ -21,6 +21,7 @@
 #include "Blam/objects/damage.hpp"
 #include "Blam/objects/objects.hpp"
 #include "Blam/structures/cluster_reference.hpp"
+#include "Modules/ModuleDebug.hpp"  // hades: added for 0x10A867F0
 #include "Blam/tag_files/file_reference.inl"
 #include "Blam/tag_files/files.hpp"
 #include "Blam/tag_files/tag_groups.hpp"
@@ -85,6 +86,8 @@
 #include <utility>
 #include <vector>
 #include "Utils/Logger.hpp"
+
+#include "Patches/Core.hpp"  // hades: added for 0x10A85990
 
 /* ---------- forward declarations */
 
@@ -244,6 +247,12 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+namespace Utils { extern std::string GetStackTraceString(__int32 framesToSkip, __int32 framesToCapture); }  // hades: added for 0x10A87430
+
+extern s_cache_file_tag_globals *g_cache_file_tag_globals;  // hades: added for 0x10A85C70
+char const *tag_get_name(long tag_index);  // hades: added for 0x10A85C70
+char const *tag_to_string(unsigned long group_tag, char *buffer, long length);  // hades: added for 0x10A85C70
+
 namespace Blam { namespace Network { PacketTable *GetPacketTable(); } }  // hades: added for 0X10A86DC0
 
 namespace Patches
@@ -278,15 +287,18 @@ extern std::atomic_flag g_gameIsCrashed; // 0x12458D5C
 
 namespace hades_file_local
 {
-	extern Hook DebugLogStringHook; // 0x12458D60
-	extern Hook DebugLogIntHook; // 0x12458D7C
-	extern Hook DebugLogFloatHook; // 0x12458D98
-	extern Hook Game1Hook; // 0x12458DB4
-	extern Hook SSLHook; // 0x12458DD0
-	extern Hook UIHook; // 0x12458DEC
-	extern Hook NetworkLogHook; // 0x12458E08
+	Hook DebugLogStringHook = Hook(0x218A30, (void *)debuglog_string); // 0x12458D60
+	Hook DebugLogIntHook = Hook(0x218A10, (void *)debuglog_int); // 0x12458D7C
+	Hook DebugLogFloatHook = Hook(0x2189F0, (void *)debuglog_float); // 0x12458D98
+	Hook Game1Hook = Hook(0x106FB0, (void *)dbglog); // 0x12458DB4
+	Hook SSLHook = Hook(0xA7FE10, (void *)sslLogHook); // 0x12458DD0
+	Hook UIHook = Hook(0xAED600, (void *)uiLogHook); // 0x12458DEC
+	Hook NetworkLogHook = Hook(0x9858D0, (void *)networkLogHook); // 0x12458E08
 	extern unsigned __int32 origVirtualAllocAddress; // 0x12458E24
 	extern s_extra_exception_info g_extra_exception_info; // 0x12458E28
+	// hades: the per-thread tag history every hook here reads. The name is ours;
+	// the original reaches it only through its TLS offset.
+	thread_local s_per_thread_exception_info perThreadExceptionInfo;
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -295,27 +307,48 @@ namespace Patches
 {
 	namespace Logging
 	{
-		_extern void _sub_10A84AE0();
 		void ApplyAll() // 0x10A84AE0
 		{
-			mangled_x86(MANGLED_TODO, "?ApplyAll@Logging@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Logging@Patches@@YAXXZ");
 			// procedure flags: nofpo
 			// static ...; // 0x10A85690
 			// static ...; // 0x10A85684
 			// static ...; // 0x10A8567C
 			// unsigned long temp;
 			// function call : __int32 (void *, unsigned long, unsigned long, unsigned long *)
-			todo("implement");
-			_sub_10A84AE0();
+
+			*(unsigned __int32 *)0x9053C7 = 0x7FF;
+			Patch(0x11C158, { 0x8D, 0x85, 0x00, 0xFC, 0xFF, 0xFF, 0x50 }).Apply();
+			Patch(0x11C165, { 0x90, 0x90, 0x90, 0x90, 0x90, 0x90 }).Apply();
+			Hook(0x11C15F, ExceptionHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x11BCF0, system_build_exception_information_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Pointer(0x243FB38).Write<bool>(1);
+			NetworkLogHook.Apply();
+			SSLHook.Apply();
+			UIHook.Apply();
+			Game1Hook.Apply();
+			DebugLogFloatHook.Apply();
+			DebugLogIntHook.Apply();
+			DebugLogStringHook.Apply();
+			Hook(0x7D518, packetRecvHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x83EEA, packetRecvHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x7D618, packetSendHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x7D81D, packetSendHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x841F5, packetSendHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			unsigned long temp;
+			VirtualProtect((LPVOID)0x1600194, 4, PAGE_READWRITE, &temp);
+			origVirtualAllocAddress = *(unsigned __int32 *)0x1600194;
+			*(unsigned __int32 *)0x1600194 = (unsigned __int32)&virtualAllocHook;
+			Hook(0x103370, tag_get_hook).Apply();
 		}
 	}
 }
 
 /* ---------- private code */
 
-_extern void _sub_10A85ED0(char const *, char const *, ...);
 void dbglog(char const *module, char const *format, ...) // 0x10A85ED0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?dbglog@@YAXPBD0ZZ");
 	// `anonymous-namespace'::dbglog
 	// static ...; // 0x10A85FC8
 	// char const *module;
@@ -323,8 +356,18 @@ void dbglog(char const *module, char const *format, ...) // 0x10A85ED0
 	// char *ap;
 	// char buff[4096];
 	// char const *backupFormat;
-	todo("implement");
-	_sub_10A85ED0(module, format);
+
+	char const *backupFormat = "";
+	if (!format)
+		format = backupFormat;
+	if (module && !strcmp(module, "game_tick"))
+		return;
+	char *ap;
+	char buff[4096];
+	va_start(ap, format);
+	vsprintf_s(buff, sizeof(buff), format, ap);
+	va_end(ap);
+	Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Debug, Utils::LogLevel::Info, "%s: %s", module, buff);
 }
 
 void __stdcall debuglog_string(char *name, char *value) // 0x10A86160
@@ -354,9 +397,9 @@ void __stdcall debuglog_float(char *name, float value) // 0x10A86030
 	Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Debug, Utils::LogLevel::Info, "%s: %f", name, value);
 }
 
-_extern void _sub_10A86440(char *, ...);
 void networkLogHook(char *format, ...) // 0x10A86440
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?networkLogHook@@YAXPADZZ");
 	// `anonymous-namespace'::networkLogHook
 	// static ...; // 0x10A8671C
 	// static ...; // 0x10A86704
@@ -365,8 +408,20 @@ void networkLogHook(char *format, ...) // 0x10A86440
 	// char *args;
 	// std::string formatStr;
 	// char dstBuf[4096];
-	todo("implement");
-	_sub_10A86440(format);
+
+	if (!Utils::Singleton<Utils::Logger>::Instance().TestLevel(Utils::LogTypes::Network, Utils::LogLevel::Info))
+		return;
+	std::string formatStr = format;
+	Utils::String::ReplaceString(formatStr, "%LX", "%llX");
+	Utils::String::ReplaceString(formatStr, "%Lx", "%llx");
+	Utils::String::ReplaceString(formatStr, "%8X", "%08X");
+	Utils::String::ReplaceString(formatStr, "%8x", "%08x");
+	char dstBuf[4096];
+	char *args;
+	va_start(args, format);
+	vsnprintf_s(dstBuf, 4096, 4095, formatStr.c_str(), args);
+	va_end(args);
+	Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Network, Utils::LogLevel::Info, "%s", dstBuf);
 }
 
 namespace Debug
@@ -386,18 +441,15 @@ void sslLogHook(char a1, __int32 a2, void *a3, void *a4, char a5) // 0x10A86ED0
 
 	char const *str1 = *(char const **)a3;
 	char const *str2 = *(char const **)((unsigned char *)a3 + 8);
-
 	if (!str1)
 		str1 = "";
 	else
 		str1 += 12;
-
 	if (!str2)
 		str2 = "";
 	else
 		str2 += 12;
-
-	Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Debug, Utils::LogLevel::Info, "%s - %s", str1, str2);
+	Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Graphics, Utils::LogLevel::Info, "%s - %s", str1, str2);
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0s_per_thread_exception_info@hades_file_local@@QAE@XZ"); no body to assert in
@@ -407,7 +459,6 @@ namespace Debug
 {
 	namespace CrashReporting
 	{
-		_inline s_crash_info::s_exception::~s_exception() = default; // 0x10A84A90
 	}
 }
 
@@ -476,9 +527,9 @@ void __fastcall packetSendHook(void *thisPtr, __int32 unused, Blam::BitStream *s
 	Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Network, Utils::LogLevel::Info, "SEND %s (size=0x%X)", packet->Name, packetSize);
 }
 
-_extern void _sub_10A85C70(::Debug::CrashReporting::s_crash_info &);
 void build_tag_history_for_crash_report(::Debug::CrashReporting::s_crash_info &crash_info) // 0x10A85C70
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?build_tag_history_for_crash_report@@YAXAAUs_crash_info@CrashReporting@Debug@@@Z");
 	// `anonymous-namespace'::build_tag_history_for_crash_report
 	// static ...; // 0x10A85E3E
 	// static ...; // 0x10A85E32
@@ -486,22 +537,35 @@ void build_tag_history_for_crash_report(::Debug::CrashReporting::s_crash_info &c
 	// static ...; // 0x10A85E04
 	// static ...; // 0x10A85DFC
 	// Debug::CrashReporting::s_crash_info &crash_info;
-	{
 		// long i;
-		{
 			// s_tag_history_entry history_entry;
 			// char group_ascii[5];
 			// s_static_string<256> name_buff;
 			// char const *name;
+
+	if (g_cache_file_tag_globals->initialized)
+	{
+		for (long i = 0; i < g_extra_exception_info.tag_history_count; i++)
+		{
+			s_tag_history_entry history_entry = g_extra_exception_info.tag_history[i];
+			if (history_entry.tag_load_sequence_number != g_cache_file_tag_globals->tag_load_sequence_number)
+				continue;
+			char const *name = tag_get_name(history_entry.index);
+			char group_ascii[5];
+			tag_to_string(history_entry.group_tag, group_ascii, 5);
+			if (name)
+			{
+				s_static_string<256> name_buff;
+				name_buff.print("%s.%s", name, history_entry.group_tag == -1 ? "unknown" : group_ascii);
+				crash_info.tag_history.push_back(name_buff.get_string());
+			}
 		}
 	}
-	todo("implement");
-	_sub_10A85C70(crash_info);
 }
 
-_extern void _sub_10A85990(char *);
 void ExceptionHook(char *msg) // 0x10A85990
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ExceptionHook@@YAXPAD@Z");
 	// `anonymous-namespace'::ExceptionHook
 	// static ...; // 0x10A85BD0
 	// static ...; // 0x10A85BCB
@@ -514,25 +578,45 @@ void ExceptionHook(char *msg) // 0x10A85990
 	// s_exception_information *except;
 	// char info[1024];
 	// Debug::CrashReporting::s_crash_info crash_info;
-	todo("implement");
-	_sub_10A85990(msg);
+
+	g_gameIsCrashed.test_and_set();
+	s_exception_information *except = reinterpret_cast<s_exception_information *>(0x238E888);
+	HINSTANCE__ *hMod = Utils::ProcessUtils::GetModuleFromAddress((void *)except->exception_address);
+	std::string moduleName = Utils::ProcessUtils::GetModuleNameForDisplay(hMod);
+	char info[1024];
+	sprintf_s(info, "%s - %s+%0X", msg, moduleName.c_str(), except->exception_address - (unsigned __int32)hMod);
+	Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Debug, Utils::LogLevel::Error, info);
+	Debug::CrashReporting::s_crash_info crash_info;
+	crash_info.ctx = &except->context;
+	crash_info.info = info;
+	crash_info.exception.address = except->exception_address;
+	crash_info.exception.code = except->_exception_code;
+	crash_info.exception.flags = except->exception_flags;
+	crash_info.exception.msg = msg;
+	crash_info.exception.num_parameters = except->exception_number_of_parameters;
+	build_tag_history_for_crash_report(crash_info);
+	Debug::CrashReporting::ReportCrash(crash_info);
+	Utils::Singleton<Utils::Logger>::Instance().Flush();
+	Patches::Core::ExecuteShutdownCallbacks();
+	exit(0);
 }
 
-_extern void *_sub_10A87430(void *, unsigned __int32, unsigned __int32, unsigned __int32);
 void *__stdcall virtualAllocHook(void *address, unsigned __int32 size, unsigned __int32 allocationType, unsigned __int32 protect) // 0x10A87430
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?virtualAllocHook@@YGPAXPAXIII@Z");
 	// `anonymous-namespace'::virtualAllocHook
 	// unsigned __int32 protect;
 	// void *addr;
 	// function call : void *(*)(void *, unsigned __int32, unsigned __int32, unsigned __int32)
-	todo("implement");
-	void * __result = _sub_10A87430(address, size, allocationType, protect);
-	return __result;
+
+	void *addr = reinterpret_cast<void *(__stdcall *)(void *, unsigned __int32, unsigned __int32, unsigned __int32)>(origVirtualAllocAddress)(address, size, allocationType, protect);
+	Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Memory, Utils::LogLevel::Trace, "VirtualAlloc - Address: 0x%08X, Size: 0x%08X, Type: 0x%08X, Protect: 0x%08X, CallStack: %s", addr, size, allocationType, protect, Utils::GetStackTraceString(1, 5).c_str());
+	return addr;
 }
 
-_extern void _sub_10A867F0(long, long, e_tag_get_failed_reason);
 void notify_tag_get_failed(long cause_group, long cause_tag_index, e_tag_get_failed_reason reason) // 0x10A867F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?notify_tag_get_failed@@YAXJJW4e_tag_get_failed_reason@hades_file_local@@@Z");
 	// `anonymous-namespace'::notify_tag_get_failed
 	// static ...; // 0x10A86B72
 	// static ...; // 0x10A86B64
@@ -548,50 +632,99 @@ void notify_tag_get_failed(long cause_group, long cause_tag_index, e_tag_get_fai
 	// __int32 decision;
 	// unsigned long assertLevel;
 	// s_static_string<8192> msg;
-	{
 		// char actual_group_ascii[5];
 		// unsigned long actual_group;
-	}
-	{
 		// long i;
-		{
 			// s_tag_history_entry history_entry;
 			// char group_ascii[5];
 			// unsigned long group;
 			// char const *name;
-		}
-	}
 	// function call : __int32 (HWND__ *, char const *, char const *, unsigned __int32)
-	todo("implement");
-	_sub_10A867F0(cause_group, cause_tag_index, reason);
+
+	unsigned long assertLevel = Modules::ModuleDebug::Instance().VarAssertLevel->ValueInt;
+	if (!assertLevel)
+		return;
+	if (reason == _tag_get_failed_unexpected_group && assertLevel < 2)
+		return;
+	char const *cause_tag_name = tag_get_name(cause_tag_index);
+	char cause_group_ascii[5];
+	tag_to_string(cause_group, cause_group_ascii, 5);
+	char const *cause_group_name = cause_group != -1 ? cause_group_ascii : "unknown";
+	s_static_string<8192> msg;
+	if (reason == _tag_get_failed_invalid_tag)
+		msg.print("Invalid Tag [0x%04X]\nExpected Group: '%s'", cause_tag_index, cause_group_name);
+	else if (reason == _tag_get_failed_not_loaded)
+		msg.print("Tag not loaded!\n[0x%04X] '%s'\nExpected Group: '%s'", cause_tag_index, cause_tag_name, cause_group_name);
+	else if (reason == _tag_get_failed_unexpected_group)
+	{
+		unsigned long actual_group = tag_get_group_tag(cause_tag_index);
+		char actual_group_ascii[5];
+		tag_to_string(actual_group, actual_group_ascii, 5);
+		msg.print("Tag not in expected group!\n[0x%04X] '%s.%s'\nExpected Group '%s'", cause_tag_index, cause_tag_name, actual_group_ascii, cause_group_name);
+	}
+	msg.append("\n\nTag History:\n");
+	for (long i = perThreadExceptionInfo.tag_history.get_first_index(); i != perThreadExceptionInfo.tag_history.get_last_index(); i++)
+	{
+		s_tag_history_entry history_entry = perThreadExceptionInfo.tag_history.get_element(i);
+		unsigned long group = history_entry.group_tag;
+		char const *name = tag_get_name(history_entry.index);
+		char group_ascii[5];
+		tag_to_string(group, group_ascii, 5);
+		msg.append_print("[0x%04X] %s.%s\n", history_entry.index, name, group == -1 ? "unknown" : group_ascii);
+	}
+	__int32 decision = MessageBoxA(nullptr, msg.get_string(), "tag_get() failed.  Break into the debugger?", MB_YESNO);
+	if (decision == IDYES)
+		__debugbreak();
 }
 
-_extern void *_sub_10A87100(unsigned long, long);
 void *tag_get_hook(unsigned long group, long index) // 0x10A87100
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?tag_get_hook@@YAPAXKJ@Z");
 	// `anonymous-namespace'::tag_get_hook
 	// long index;
 	// s_cache_tag_instance *instance;
 	// long absolute_index;
-	todo("implement");
-	void * __result = _sub_10A87100(group, index);
-	return __result;
+
+	if (index == -1)
+		return nullptr;
+	if (index < 0 || index >= 0xFFFF)
+	{
+		notify_tag_get_failed(group, index, _tag_get_failed_invalid_tag);
+		return nullptr;
+	}
+	long absolute_index = g_cache_file_tag_globals->index_to_absolute_index_map[index];
+	if (absolute_index == -1)
+	{
+		notify_tag_get_failed(group, index, _tag_get_failed_not_loaded);
+		return nullptr;
+	}
+	s_cache_tag_instance *instance = g_cache_file_tag_globals->instances[absolute_index];
+	if (instance->group.tags[0] != group && instance->group.tags[1] != group && instance->group.tags[2] != group)
+		notify_tag_get_failed(group, index, _tag_get_failed_unexpected_group);
+	perThreadExceptionInfo.tag_history.insert(s_tag_history_entry{ g_cache_file_tag_globals->tag_load_sequence_number, instance->group.tags[0], index });
+	return (char *)instance + instance->definition_offset;
 }
 
-_extern void _sub_10A86FB0(_EXCEPTION_POINTERS const *, s_exception_information *);
 void system_build_exception_information_hook(_EXCEPTION_POINTERS const *exception_pointers, s_exception_information *out_info) // 0x10A86FB0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?system_build_exception_information_hook@@YAXPBU_EXCEPTION_POINTERS@@PAUs_exception_information@hades_file_local@@@Z");
 	// `anonymous-namespace'::system_build_exception_information_hook
 	// s_exception_information *out_info;
 	// long count;
 	// c_static_sliding_buffer<s_tag_history_entry,4> &tag_history;
 	// s_extra_exception_info &extra_info;
-	{
 		// long i;
-	}
 	// function call : void (*)(_EXCEPTION_POINTERS const *, s_exception_information *)
-	todo("implement");
-	_sub_10A86FB0(exception_pointers, out_info);
+
+	long count = 0;
+	c_static_sliding_buffer<s_tag_history_entry,4> &tag_history = perThreadExceptionInfo.tag_history;
+	s_extra_exception_info &extra_info = g_extra_exception_info;
+	for (long i = tag_history.get_first_index(); i != tag_history.get_last_index(); i++)
+	{
+		extra_info.tag_history[count++] = tag_history.get_element(i);
+	}
+	_InterlockedExchange(&g_extra_exception_info.tag_history_count, count);
+	((void(*)(_EXCEPTION_POINTERS const *, s_exception_information *))0x51BC10)(exception_pointers, out_info);
 }
 
 /* ---------- explicit instantiations */

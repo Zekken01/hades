@@ -50,43 +50,46 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- public code */
 
-_extern void _sub_10F14560();
 void c_rasterizer::set_DAC_LUT_curve() // 0x10F14560
 {
-	mangled_x86(MANGLED_TODO, "?set_DAC_LUT_curve@c_rasterizer@@SAXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?set_DAC_LUT_curve@c_rasterizer@@SAXXZ");
 	// procedure flags: nofpo
 	// static ...; // 0x10F146B8
 	// static ...; // 0x10F146AC
 	// static ...; // 0x10F146A4
-	{
 		// _D3DLOCKED_RECT locked_lut;
-		{
 			// float *lut_buffer;
-			{
 				// __int32 i;
-			}
-		}
-	}
 	// function call : HRESULT (unsigned __int32, _D3DLOCKED_RECT *, tagRECT const *, unsigned long)
 	// function call : HRESULT (unsigned __int32)
-	todo("implement");
-	_sub_10F14560();
+
+	if (!g_LUT_control.same_curve_as(&g_last_LUT_control))
+	{
+		g_last_LUT_control = g_LUT_control;
+		g_LUT_control.compute_LUT(&g_d3d_gamma_ramp);
+		_D3DLOCKED_RECT locked_lut;
+		if (g_LUT_1D->LockRect(0, &locked_lut, nullptr, 0) >= 0)
+		{
+			float *lut_buffer = (float *)locked_lut.pBits;
+			for (__int32 i = 0; i < 256; i++)
+				lut_buffer[i] = c_rasterizer_LUT_control::sample_ramp(g_d3d_gamma_ramp.red, i / 255.0f);
+			g_LUT_1D->UnlockRect(0);
+			c_rasterizer_LUT_control::update_LUT_gpu();
+		}
+	}
 }
 
-_extern bool _sub_10F142F0(c_rasterizer_LUT_control const *const, c_rasterizer_LUT_control *);
 bool c_rasterizer_LUT_control::same_curve_as(c_rasterizer_LUT_control *x) const // 0x10F142F0
 {
-	mangled_x86(MANGLED_TODO, "?same_curve_as@c_rasterizer_LUT_control@@QBE_NPAV1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?same_curve_as@c_rasterizer_LUT_control@@QBE_NPAV1@@Z");
 	// c_rasterizer_LUT_control *x;
-	todo("implement");
-	bool __result = _sub_10F142F0((c_rasterizer_LUT_control const *)this, x);
-	return __result;
+
+	return m_buffer_type == x->m_buffer_type && m_buffer_curve == x->m_buffer_curve && m_target_curve == x->m_target_curve && m_gamma_mode == x->m_gamma_mode && m_black_level.red == x->m_black_level.red && m_black_level.green == x->m_black_level.green && m_black_level.blue == x->m_black_level.blue && m_white_level.red == x->m_white_level.red && m_white_level.green == x->m_white_level.green && m_white_level.blue == x->m_white_level.blue;
 }
 
-_extern void _sub_10F13A90(c_rasterizer_LUT_control *const, _D3DGAMMARAMP *);
 void c_rasterizer_LUT_control::compute_LUT(_D3DGAMMARAMP *ramp) // 0x10F13A90
 {
-	mangled_x86(MANGLED_TODO, "?compute_LUT@c_rasterizer_LUT_control@@QAEXPAU_D3DGAMMARAMP@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?compute_LUT@c_rasterizer_LUT_control@@QAEXPAU_D3DGAMMARAMP@@@Z");
 	// static ...; // 0x10F13F65
 	// static ...; // 0x10F13F58
 	// static ...; // 0x10F13F34
@@ -96,15 +99,28 @@ void c_rasterizer_LUT_control::compute_LUT(_D3DGAMMARAMP *ramp) // 0x10F13A90
 	// float power;
 	// real_rgb_color colour_scale;
 	// real_rgb_color colour_bias;
-	{
 		// long i;
-		{
 			// real_rgb_color mapped_value;
 			// float linear;
-		}
+
+	m_gamma_mode = ((m_gamma_mode < 4 ? m_gamma_mode : 4) > 0 ? (m_gamma_mode < 4 ? m_gamma_mode : 4) : 0);
+	float power = 1.0f / (m_target_curve * gamma_adjustment[m_gamma_mode]);
+	real_rgb_color colour_bias = { m_black_level.red + black_level_adjustment[m_gamma_mode], m_black_level.green + black_level_adjustment[m_gamma_mode], m_black_level.blue + black_level_adjustment[m_gamma_mode] };
+	real_rgb_color colour_scale = { m_white_level.red - colour_bias.red, m_white_level.green - colour_bias.green, m_white_level.blue - colour_bias.blue };
+	for (long i = 0; i < 256; i++)
+	{
+		float linear = get_linear_buffer_value(i, 255, m_buffer_curve);
+		real_rgb_color mapped_value;
+		mapped_value.red = (0.0f > (1.0f < linear * colour_scale.red + colour_bias.red ? 1.0f : linear * colour_scale.red + colour_bias.red) ? 0.0f : (1.0f < linear * colour_scale.red + colour_bias.red ? 1.0f : linear * colour_scale.red + colour_bias.red));
+		mapped_value.green = (0.0f > (1.0f < linear * colour_scale.green + colour_bias.green ? 1.0f : linear * colour_scale.green + colour_bias.green) ? 0.0f : (1.0f < linear * colour_scale.green + colour_bias.green ? 1.0f : linear * colour_scale.green + colour_bias.green));
+		mapped_value.blue = (0.0f > (1.0f < linear * colour_scale.blue + colour_bias.blue ? 1.0f : linear * colour_scale.blue + colour_bias.blue) ? 0.0f : (1.0f < linear * colour_scale.blue + colour_bias.blue ? 1.0f : linear * colour_scale.blue + colour_bias.blue));
+		mapped_value.red = powf(mapped_value.red, power);
+		mapped_value.green = powf(mapped_value.green, power);
+		mapped_value.blue = powf(mapped_value.blue, power);
+		ramp->red[i] = (WORD)(mapped_value.red * 65535.0f);
+		ramp->green[i] = (WORD)(mapped_value.green * 65535.0f);
+		ramp->blue[i] = (WORD)(mapped_value.blue * 65535.0f);
 	}
-	todo("implement");
-	_sub_10F13A90(this, ramp);
 }
 
 bool c_rasterizer_LUT_control::initialized() // 0x10F14230

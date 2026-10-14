@@ -134,6 +134,15 @@ using namespace ::Objects;
 
 /* ---------- prototypes */
 
+#include <format>  // hades: added for 0x107965A0
+long tag_find_by_name(unsigned long group_tag, char const *name);  // hades: added for 0x107965A0  // hades: added for 0x107965A0
+extern s_object_data *object_get(unsigned long object_index); extern s_object_data *(*const object_try_and_get_and_verify_type)(unsigned long, c_enum<e_object_type, long>);  // hades: added for 0x107965A0; the second for CheatDeleteWeapons' lambda
+
+extern void (*const object_get_world_position)(unsigned long, real_point3d *);  // hades: added for 0x107977F0
+extern void (*const object_placement_data_new)(s_object_placement_data *, long, unsigned long, s_damage_owner *);  // hades: added for 0x107977F0
+s_player_datum *player_get(unsigned long player_index);  // hades: added for 0x107977F0
+bool tag_loaded(long tag_index);  // hades: added for 0x107977F0
+
 void cheat_objects(long const *objects, __int32 count);
 bool cheat_all_objects(long group_tag, bool everything);
 bool CheatAllWeapons(std::vector<std::string> const &args, std::string &returnValue);
@@ -150,21 +159,24 @@ bool CheatSpawn(std::vector<std::string> const &args, std::string &returnValue);
 
 namespace Modules
 {
-	extern ModuleCheat* _sub_107955E0(Modules::ModuleCheat *const);
-	ModuleCheat::ModuleCheat() : ModuleBase(todo_result<std::string>()) // 0x107955E0
+	ModuleCheat::ModuleCheat() : ModuleBase("Cheat") /* hades-mem-init: : ModuleBase(todo_result<std::string>()) */ // 0x107955E0
 	{
-		mangled_x86(MANGLED_TODO, "??0ModuleCheat@Modules@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0ModuleCheat@Modules@@QAE@XZ");
 		// Modules::ModuleCheat *const this;
-		todo("implement");
-		_sub_107955E0(this);
+
+		AddCommand("AllWeapons", "cheat_all_weapons", "Gives the player all weapons", eCommandFlagsHostOnly, CheatAllWeapons);
+		AddCommand("AllVehicles", "cheat_all_vehicles", "Gives the player all vehicles", eCommandFlagsHostOnly, CheatAllVehicles);
+		AddCommand("AllEquipment", "cheat_all_equipment", "Gives the player all equipment", eCommandFlagsHostOnly, CheatAllEquipment);
+		AddCommand("DeleteWeapons", "cheat_delete_weapons", "Deletes the current weapons", eCommandFlagsHostOnly, CheatDeleteWeapons);
+		AddCommand("Spawn", "drop", "Spawn an object", eCommandFlagsHostOnly, CheatSpawn, { "tag name" });
 	}
 }
 
 /* ---------- private code */
 
-_extern void _sub_107977F0(long const *, __int32);
 void cheat_objects(long const *objects, __int32 count) // 0x107977F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?cheat_objects@@YAXPBJH@Z");
 	// `anonymous-namespace'::cheat_objects
 	// static ...; // 0x10797C08
 	// static ...; // 0x10797BFE
@@ -180,19 +192,11 @@ void cheat_objects(long const *objects, __int32 count) // 0x107977F0
 	// float max_radius;
 	// real_vector3d player_up;
 	// void (*const c_map_variant__register_object)(long, long, bool);
-	{
 		// __int32 i;
-		{
 			// s_object_definition *definition;
-		}
-	}
-	{
-		{
 			// s_object_placement_data placement;
 			// long object_index;
 			// float theta;
-		}
-	}
 	// function call : unsigned long (*const)(long)
 	// function call : void (*const)(unsigned long, real_point3d *)
 	// function call : void (*const)(long, real_vector3d *, real_vector3d *)
@@ -201,13 +205,53 @@ void cheat_objects(long const *objects, __int32 count) // 0x107977F0
 	// function call : long (*const)(s_object_placement_data *)
 	// function call : void (*const)(long)
 	// function call : void (*const)(long)
-	todo("implement");
-	_sub_107977F0(objects, count);
+
+	void (*const c_map_variant__register_object)(long, long, bool) = reinterpret_cast<void (*)(long, long, bool)>(0x584790);
+	long player_index = ((unsigned long (*)(long))0x589C30)(0);
+	if (player_index == -1)
+		return;
+	s_player_datum *player = player_get(player_index);
+	if (player->unit_index == -1)
+		return;
+	real_point3d player_position;
+	object_get_world_position(player->unit_index, &player_position);
+	real_vector3d player_forward;
+	real_vector3d player_up;
+	((void (*)(long, real_vector3d *, real_vector3d *))0xB2E490)(player->unit_index, &player_forward, &player_up);
+	float max_radius = 0.0f;
+	for (__int32 i = 0; i < count; i++)
+	{
+		if (!tag_loaded(objects[i]))
+			continue;
+		s_object_definition *definition = (s_object_definition *)tag_get('obje', objects[i]);
+		max_radius = fmaxf(max_radius, definition->bounding_radius * 1.2f + 2.0f);
+	}
+	for (__int32 i = 0; i < count; i++)
+	{
+		if (objects[i] == -1)
+			continue;
+		if (!tag_loaded(objects[i]))
+			continue;
+		float theta = atan2(player_forward.i, player_forward.j) + i * 6.2831855f / count;
+		s_object_placement_data placement;
+		object_placement_data_new(&placement, objects[i], -1, nullptr);
+		placement.forward = player_forward;
+		placement.up = player_up;
+		placement.relative_position.x = cos(theta) * max_radius + player_position.x;
+		placement.relative_position.y = sin(theta) * max_radius + player_position.y;
+		placement.relative_position.z = fmaxf(0.8f, max_radius / 2.0f) + player_position.z;
+		long object_index = ((long (*)(s_object_placement_data *))0xB30440)(&placement);
+		if (object_index != -1)
+		{
+			((void (*)(long))0x4B2CD0)(object_index);
+			((void (*)(long))0x58FFB0)(object_index);
+		}
+	}
 }
 
-_extern bool _sub_107971D0(long, bool);
 bool cheat_all_objects(long group_tag, bool everything) // 0x107971D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?cheat_all_objects@@YA_NJ_N@Z");
 	// `anonymous-namespace'::cheat_all_objects
 	// static ...; // 0x107976A5
 	// static ...; // 0x107976A0
@@ -218,28 +262,62 @@ bool cheat_all_objects(long group_tag, bool everything) // 0x107971D0
 	// __int32 count;
 	// long objects[256];
 	// s_game_globals *globals;
-	{
 		// s_tag_iterator iter;
-		{
 			// long index;
-		}
-	}
-	{
 		// s_multiplayer_globals_definition *mulg;
-		{
 			// __int32 i;
-		}
-		{
-		}
-		{
-		}
-	}
 	// function call : void (*const)(s_tag_iterator *, long)
 	// function call : long (*const)(s_tag_iterator *)
 	// function call : void *(*const)(unsigned long, long)
-	todo("implement");
-	bool __result = _sub_107971D0(group_tag, everything);
-	return __result;
+
+	long objects[256];
+	__int32 count = 0;
+	s_game_globals *globals = game_globals_get();
+	if (everything || globals->MultiplayerGlobals.index == -1)
+	{
+		s_tag_iterator iter;
+		((void(__cdecl *)(s_tag_iterator *, long))0x5033E0)(&iter, group_tag);
+		long index = 0;
+		while (index = ((long(__cdecl *)(s_tag_iterator *))0x503400)(&iter), index != -1 && count < sizeof(objects) / sizeof(objects[0]))
+			objects[count++] = index;
+	}
+	else
+	{
+		s_multiplayer_globals_definition *mulg = (s_multiplayer_globals_definition *)tag_get('mulg', globals->MultiplayerGlobals.index);
+		if (group_tag == 'weap')
+		{
+			for (__int32 i = 0; i < mulg->universal->weapons.count && count < sizeof(objects) / sizeof(objects[0]); i++)
+			{
+				if (mulg->universal->weapons[i].object.index != -1)
+					objects[count++] = mulg->universal->weapons[i].object.index;
+			}
+		}
+		else if (group_tag == 'vehi')
+		{
+			for (__int32 i = 0; i < mulg->universal->vehicles.count && count < sizeof(objects) / sizeof(objects[0]); i++)
+			{
+				if (mulg->universal->vehicles[i].object.index != -1)
+					objects[count++] = mulg->universal->vehicles[i].object.index;
+			}
+		}
+		else if (group_tag == 'eqip')
+		{
+			for (__int32 i = 0; i < mulg->universal->consumables.count && count < sizeof(objects) / sizeof(objects[0]); i++)
+			{
+				if (mulg->universal->consumables[i].object.index != -1)
+					objects[count++] = mulg->universal->consumables[i].object.index;
+			}
+		}
+		else
+		{
+			#line 296 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Modules\\ModuleCheat.cpp"
+				assert(!"not supported");
+				#line 316 "C:\\Users\\zekken\\Desktop\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Modules\\ModuleCheat.cpp"
+			return false;
+		}
+	}
+	Objects::CObjectMessaging::EnqueueAction([objects, count]() { cheat_objects(objects, count); });
+	return true;
 }
 
 bool CheatAllWeapons(std::vector<std::string> const &args, std::string &returnValue) // 0x10796430
@@ -274,22 +352,31 @@ bool CheatDeleteWeapons(std::vector<std::string> const &args, std::string &retur
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CheatDeleteWeapons@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CheatDeleteWeapons
 	// std::string &returnValue;
-		// lambda body (original at 0x10795D30) not written yet - it deletes the
-		// local player unit's weapon_object_indices entries
-		// lambda body (original at 0x10795D30) not written yet - it deletes the
-		// local player unit's weapon_object_indices entries
 
 	Objects::CObjectMessaging::EnqueueAction([]()
 	{
-		// lambda body (original at 0x10795D30) not written yet - it deletes the
-		// local player unit's weapon_object_indices entries
+		void (*const object_delete)(long) = reinterpret_cast<void (*)(long)>(0xB2CF40);
+		long unitIndex = ((long (*)(long))0x589CC0)(0);
+		if (unitIndex == -1)
+			return;
+		auto unit = (s_unit_data *)object_try_and_get_and_verify_type(unitIndex, 0x2003);
+		if (!unit)
+			return;
+		for (int i = 0; i < unit->weapon_object_indices.get_count(); i++)
+		{
+			if (unit->weapon_object_indices[i] != -1)
+			{
+				object_delete(unit->weapon_object_indices[i]);
+				unit->weapon_object_indices[i] = -1;
+			}
+		}
 	});
 	return true;
 }
 
-_extern bool _sub_107965A0(std::vector<std::string> const &, std::string &);
 bool CheatSpawn(std::vector<std::string> const &args, std::string &returnValue) // 0x107965A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CheatSpawn@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CheatSpawn
 	// static ...; // 0x10796950
 	// static ...; // 0x10796946
@@ -306,12 +393,106 @@ bool CheatSpawn(std::vector<std::string> const &args, std::string &returnValue) 
 	// std::string const &specifier;
 	// std::string name;
 	// unsigned __int32 pos;
-	{
 		// __int32 i;
+
+	if (args.empty())
+	{
+		returnValue = "Invalid arguments";
+		return false;
 	}
-	todo("implement");
-	bool __result = _sub_107965A0(args, returnValue);
-	return __result;
+	struct s_group
+	{
+		char const *tag;
+		char const *name;
+	};
+	static s_group groups[] =
+	{
+		{ "obje", "object" },
+		{ "bipd", "biped" },
+		{ "vehi", "vehicle" },
+		{ "weap", "weapon" },
+		{ "eqip", "equipment" },
+		{ "argd", "alternate_reality_device" },
+		{ "term", "terminal" },
+		{ "proj", "projectile" },
+		{ "proj", "projectile" },
+		{ "scen", "scenery" },
+		{ "mach", "machine" },
+		{ "ctrl", "control" },
+		{ "ssce", "sound_scenery" },
+		{ "bloc", "crate" },
+		{ "crea", "creature" },
+		{ "gint", "giant" },
+		{ "efsc", "effect_scenery" },
+		{ "effe", "effect" },
+	};
+	std::string const &specifier = args[0];
+	unsigned __int32 pos = specifier.find_last_of('.');
+	if (pos == std::string::npos)
+	{
+		returnValue = "Invalid tag specified";
+		return false;
+	}
+	std::string group_name = specifier.substr(pos + 1);
+	std::string name = specifier.substr(0, pos);
+	__int32 index = -1;
+	for (__int32 i = 0; i < (__int32)std::size(groups); i++)
+	{
+		if (group_name == groups[i].tag || group_name == groups[i].name)
+			index = i;
+	}
+	if (index == -1)
+	{
+		returnValue = "Invalid group";
+		return false;
+	}
+	unsigned long group_tag;
+	memcpy(&group_tag, groups[index].tag, 4);
+	group_tag = _byteswap_ulong(group_tag);
+	long tag_index = tag_find_by_name(group_tag, name.c_str());
+	if (tag_index == -1)
+	{
+		returnValue = std::format("Could not find any tags named '{}' to drop", args[0]);
+		return false;
+	}
+	Objects::CObjectMessaging::EnqueueAction([group_tag, tag_index]()
+	{
+		long player_index = ((unsigned long (*)(long))0x589C30)(0);
+		if (player_index == -1)
+			return;
+		s_player_datum *player = player_get(player_index);
+		if (player->unit_index == -1)
+			return;
+		s_unit_data *unit = (s_unit_data *)object_get(player->unit_index);
+		real_point3d camera_position;
+		((void (*)(long, real_point3d *))0xB439D0)(player->unit_index, &camera_position);
+		if (group_tag == 'effe')
+		{
+			float const distance = 2.25f;
+			real_point3d position;
+			position.x = 2.25f * unit->aiming_vector.i + camera_position.x;
+			position.y = 2.25f * unit->aiming_vector.j + camera_position.y;
+			position.z = 2.25f * unit->aiming_vector.k + camera_position.z;
+			((void (*)(long, real_point3d const *, real_vector3d const *, real_vector3d const *, long, long, long, long))0x5B87F0)(tag_index, &position, &unit->aiming_vector, &global_up3d, 1, 1, 0, 0);
+		}
+		else
+		{
+			s_object_placement_data placement;
+			object_placement_data_new(&placement, tag_index, -1, nullptr);
+			placement.forward = unit->aiming_vector;
+			placement.up = global_up3d;
+			placement.relative_position.x = 0.5f * unit->aiming_vector.i + camera_position.x;
+			placement.relative_position.y = 0.5f * unit->aiming_vector.j + camera_position.y;
+			placement.relative_position.z = 0.5f * unit->aiming_vector.k + camera_position.z;
+			long object_index = ((long (*)(s_object_placement_data *))0xB30440)(&placement);
+			if (object_index != -1)
+			{
+				((void (*)(long))0x4B2CD0)(object_index);
+				((void (*)(long))0x58FFB0)(object_index);
+			}
+		}
+	});
+	return true;
 }
 
 /* ---------- template instantiations */

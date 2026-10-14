@@ -53,18 +53,39 @@ namespace Utils
 {
 	namespace String
 	{
-		_extern unsigned __int32 _sub_107464B0(std::string_view, unsigned __int32);
 		_inline unsigned __int32 GetLineFromOffset(std::string_view source, unsigned __int32 offset) // 0x107464B0
 		{
-			mangled_x86(MANGLED_TODO, "?GetLineFromOffset@String@Utils@@YAIV?$basic_string_view@DU?$char_traits@D@std@@@std@@I@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetLineFromOffset@String@Utils@@YAIV?$basic_string_view@DU?$char_traits@D@std@@@std@@I@Z");
 			// unsigned __int32 offset;
 			// unsigned __int32 lineNumber;
-			{
 				// unsigned __int32 i;
+
+			unsigned __int32 lineNumber = 1;
+			for (unsigned __int32 i = 0; i < source.length() && i < offset; i++)
+			{
+				if (source[i] == '\n')
+					lineNumber++;
 			}
-			todo("implement");
-			unsigned __int32 __result = _sub_107464B0(source, offset);
-			return __result;
+			return lineNumber;
+		}
+	}
+}
+
+namespace Utils
+{
+	namespace String
+	{
+		template<typename t_char> void StrzCopy(t_char *dest, int dest_size, t_char const *src) // 0x10A8C420
+		{
+
+			(void)((!!(src)) || (_wassert(L"src", L"C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Utils\\String.hpp", 44), 0));  // hades: the original pushes the line as a constant
+			int i = 0;
+			if (src)
+			{
+				while (i < dest_size - 1 && *src)
+					dest[i++] = *src++;
+			}
+			memset(&dest[i], 0, (dest_size - i) * sizeof(t_char));
 		}
 	}
 }

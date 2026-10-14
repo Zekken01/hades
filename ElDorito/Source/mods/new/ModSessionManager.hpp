@@ -38,7 +38,6 @@ private:
 	IModManager &m_modManager; // 0x4
 	unsigned char m_currentPakHash[20]; // 0x8
 	bool m_valid; // 0x1C
-	unsigned char __pad0[3]; // 0x1D
 	unsigned __int32 m_lastCheckTime; // 0x20
 };
 #pragma pack(pop)

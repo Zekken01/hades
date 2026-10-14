@@ -28,7 +28,7 @@ public:
 	c_network_session_parameter_voice_repeater(); /* compiler_generated() */
 	c_network_session_parameter_voice_repeater &operator=(c_network_session_parameter_voice_repeater &); /* compiler_generated() */
 	c_network_session_parameter_voice_repeater &operator=(c_network_session_parameter_voice_repeater const &); /* compiler_generated() */
-	void __autoclassinit2(unsigned __int32); /* compiler_generated() */
+	// void __autoclassinit2(unsigned __int32); /* compiler_generated() */  // hades: /sdl generates it
 };
 static_assert(sizeof(c_network_session_parameter_voice_repeater) == 56, "Invalid c_network_session_parameter_voice_repeater size");
 

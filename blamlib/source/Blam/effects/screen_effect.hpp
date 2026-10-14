@@ -180,7 +180,6 @@ struct s_screen_effect_datum :
 	real_point3d position; // 0xC
 	long attach_object_index; // 0x18
 	short attach_node_index; // 0x1C
-	unsigned char __pad0[2]; // 0x1E
 	real_point3d attach_relative_position; // 0x20
 	real_rectangle2d bounds; // 0x2C
 	bool update_position();

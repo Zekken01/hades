@@ -56,6 +56,12 @@
 #include "Utils/WebSocket.hpp"
 #include "Web/Ui/Screen.hpp"
 
+#include "Utils/Logger.hpp"  // hades: added for 0x10C2EBC0
+
+#include "Modules/ModuleServer.hpp"  // hades: added for 0x10C305F0
+#include "Modules/ModuleUPnP.hpp"  // hades: added for 0x10C305F0
+#include "Web/Ui/ScreenLayer.hpp"  // hades: added for 0x10C305F0
+
 #include <boost/asio.hpp>
 #include <boost/assert.hpp>
 #include <boost/bind/bind.hpp>
@@ -311,14 +317,13 @@ namespace hades_file_local
 		std::string uid; // 0x0
 		std::string subprotocol; // 0x1C
 		bool authed; // 0x38
-		unsigned char __pad0[3]; // 0x39
 		__int32 peerIdx; // 0x3C
-		coninfo(coninfo &); /* compiler_generated() */
-		coninfo(coninfo const &); /* compiler_generated() */
-		coninfo(); /* compiler_generated() */
-		~coninfo() = default;
-		coninfo &operator=(coninfo &); /* compiler_generated() */
-		coninfo &operator=(coninfo const &); /* compiler_generated() */
+		// coninfo(coninfo &&); /* compiler_generated() */ // hades: implicit, so coninfo is an aggregate
+		// coninfo(coninfo const &); /* compiler_generated() */
+		// coninfo(); /* compiler_generated() */
+		// ~coninfo() = default;
+		// coninfo &operator=(coninfo &); /* compiler_generated() */
+		// coninfo &operator=(coninfo const &); /* compiler_generated() */
 	};
 	static_assert(sizeof(coninfo) == 64, "Invalid coninfo size");
 
@@ -348,7 +353,7 @@ namespace hades_file_local
 	public:
 		WebSocketPacketHandler(WebSocketPacketHandler &); /* compiler_generated() */
 		WebSocketPacketHandler(WebSocketPacketHandler const &); /* compiler_generated() */
-		WebSocketPacketHandler(); /* compiler_generated() */
+		WebSocketPacketHandler() = default; /* compiler_generated() */  // hades: not user-provided, so make_shared value-initializes
 		virtual ~WebSocketPacketHandler() = default; /* compiler_generated() */
 		WebSocketPacketHandler &operator=(WebSocketPacketHandler &); /* compiler_generated() */
 		WebSocketPacketHandler &operator=(WebSocketPacketHandler const &); /* compiler_generated() */
@@ -369,7 +374,12 @@ namespace Patches
 
 /* ---------- prototypes */
 
-namespace Utils { namespace Cryptography { extern void RandomPassword(__int32 length, std::string &out); } }  // hades: added for 0x10C2FB60
+namespace Patches { namespace CustomPackets { template<typename TPacket> std::shared_ptr<PacketSender<TPacket> > RegisterPacket(std::string const &name, std::shared_ptr<PacketHandler<TPacket> > handler); } }  // hades: added for 0x10C2E280
+#include "Patches/Core.hpp"  // hades: added for 0x10C2E280
+
+extern void player_format_uid(char *string, unsigned long long id);  // hades: added for 0x10C2F010
+
+namespace Utils { namespace Cryptography { extern bool RandomPassword(__int32 length, std::string &out); } }  // hades: added for 0x10C2FB60
 
 namespace Server
 {
@@ -408,11 +418,11 @@ namespace hades_file_local
 	extern "C" {
 	std::map<std::weak_ptr<void>,coninfo,std::owner_less<std::weak_ptr<void> > > connectedSockets; // 0x12468284
 	}
-	extern "C" std::string authStrings[17]; // 0x12468290
-	extern rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> iceServers; // 0x12468470
+	extern "C" { std::string authStrings[17]; } // 0x12468290
+	rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> iceServers; // 0x12468470
 	extern unsigned short port; // 0x124684F4
-	extern std::shared_ptr<Patches::CustomPackets::PacketSender<WebSocketPacketData> > wspsender; // 0x124684F8
-	extern std::shared_ptr<WebSocketPacketHandler> wsphandler; // 0x12468500
+	std::shared_ptr<Patches::CustomPackets::PacketSender<WebSocketPacketData> > wspsender; // 0x124684F8
+	std::shared_ptr<WebSocketPacketHandler> wsphandler; // 0x12468500
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -421,27 +431,40 @@ namespace Server
 {
 	namespace Signaling
 	{
-		_extern void _sub_10C2E280();
 		void Initialize() // 0x10C2E280
 		{
-			mangled_x86(MANGLED_TODO, "?Initialize@Signaling@Server@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@Signaling@Server@@YAXXZ");
 			// procedure flags: nofpo
 			// static ...; // 0x10C2E5A4
 			// static ...; // 0x10C2E598
 			// static ...; // 0x10C2E590
 		// $LN17:
-			{
 				// websocketpp::exception const &e;
-			}
 			// function call : char const *() const
-			todo("implement");
-			_sub_10C2E280();
+
+			wsphandler = std::make_shared<WebSocketPacketHandler>();
+			wspsender = Patches::CustomPackets::RegisterPacket<WebSocketPacketData>("eldewrito-signal-server-echo", wsphandler);
+			Patches::Network::OnLifeCycleStateChanged(LifeCycleChanged);
+			Patches::Core::OnShutdown(ForceStopServer);
+			try
+			{
+				signalServer.set_access_channels(websocketpp::log::alevel::all);
+				signalServer.set_error_channels(websocketpp::log::elevel::all);
+				signalServer.init_asio();
+				signalServer.set_validate_handler(websocketpp::lib::bind(OnValidate, &signalServer, websocketpp::lib::placeholders::_1));
+				signalServer.set_message_handler(websocketpp::lib::bind(OnMessage, &signalServer, websocketpp::lib::placeholders::_1, websocketpp::lib::placeholders::_2));
+				signalServer.set_close_handler(websocketpp::lib::bind(OnClose, &signalServer, websocketpp::lib::placeholders::_1));
+			}
+			catch (websocketpp::exception const &e)
+			{
+				signalServer.reset();
+				Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Network, Utils::LogLevel::Error, "SignalServer: %s", e.what());
+			}
 		}
 
-		_extern void _sub_10C305F0();
 		void StartServer() // 0x10C305F0
 		{
-			mangled_x86(MANGLED_TODO, "?StartServer@Signaling@Server@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?StartServer@Signaling@Server@@YAXXZ");
 			// procedure flags: nofpo
 			// static ...; // 0x10C308F6
 			// static ...; // 0x10C308F4
@@ -450,34 +473,56 @@ namespace Server
 		// $LN16:
 			// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> dewrito;
 			// Blam::Network::Session *session;
-			{
 				// websocketpp::exception const &e;
-			}
 			// function call : char const *() const
-			todo("implement");
-			_sub_10C305F0();
+
+			rapidjson::Document dewrito = Utils::Singleton<Utils::DewritoReader>::Instance().GetDewritoJson();
+			if (dewrito.HasMember("iceServers"))
+				iceServers.CopyFrom(dewrito["iceServers"], iceServers.GetAllocator());
+			else
+				iceServers.SetArray();
+			Blam::Network::Session *session = Blam::Network::GetActiveSession();
+			CreatePasswords();
+			currentPassword = authStrings[session->MembershipInfo.HostPeerIndex];
+			port = Utils::Singleton<Modules::ModuleServer>::Instance().VarSignalServerPort->ValueInt;
+			Web::Ui::ScreenLayer::Notify("signal-ready", ServerPortJson(), true);
+			if (Utils::Singleton<Modules::ModuleUPnP>::Instance().VarUPnPEnabled->ValueInt)
+				Utils::Singleton<Modules::ModuleUPnP>::Instance().UPnPForwardPort(true, port, port, "Eldewrito Signal Server");
+			if (!signalServer.is_listening())
+			{
+				try
+				{
+					signalServer.listen(port);
+					signalServer.start_accept();
+				}
+				catch (websocketpp::exception const &e)
+				{
+					signalServer.reset();
+					Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Network, Utils::LogLevel::Error, "SignalServer: %s", e.what());
+				}
+			}
 		}
 
-		_extern void _sub_10C309D0();
 		void StopServer() // 0x10C309D0
 		{
-			mangled_x86(MANGLED_TODO, "?StopServer@Signaling@Server@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?StopServer@Signaling@Server@@YAXXZ");
 			// procedure flags: nofpo
 			// static ...; // 0x10C30BA8
 			// static ...; // 0x10C30B9F
 			// static ...; // 0x10C30B98
 			// static ...; // 0x10C30B74
 			// static ...; // 0x10C30B6C
-			{
 				// std::map<std::weak_ptr<void>,coninfo,std::owner_less<std::weak_ptr<void> > > &<range>$L0;
 				// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > > <begin>$L0;
 				// std::_Default_sentinel <end>$L0;
-				{
 					// std::pair<std::weak_ptr<void> const ,coninfo> client;
-				}
+
+			if (signalServer.is_listening())
+			{
+				signalServer.stop_listening();
+				for (auto client : connectedSockets)
+					signalServer.get_con_from_hdl(client.first)->close(websocketpp::close::status::going_away, "Server closing");
 			}
-			todo("implement");
-			_sub_10C309D0();
 		}
 
 		void Tick() // 0x10C30C30
@@ -488,10 +533,9 @@ namespace Server
 			signalServer.poll();
 		}
 
-		_extern void _sub_10C2FC30(__int32);
 		void SendPeerPassword(__int32 playerIndex) // 0x10C2FC30
 		{
-			mangled_x86(MANGLED_TODO, "?SendPeerPassword@Signaling@Server@@YAXH@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?SendPeerPassword@Signaling@Server@@YAXH@Z");
 			// static ...; // 0x10C2FD34
 			// static ...; // 0x10C2FD28
 			// static ...; // 0x10C2FD20
@@ -499,14 +543,19 @@ namespace Server
 			// Blam::Network::Session *session;
 			// Patches::CustomPackets::Packet<WebSocketPacketData> packet;
 			// __int32 peerIdx;
-			todo("implement");
-			_sub_10C2FC30(playerIndex);
+
+			auto packet = wspsender->New();
+			Blam::Network::Session *session = Blam::Network::GetActiveSession();
+			__int32 peerIdx = session->MembershipInfo.GetPlayerPeer(playerIndex);
+			ResetPassword(peerIdx);
+			strncpy_s(packet.Data.echoString, authStrings[peerIdx].c_str(), 8);
+			packet.Data.serverPort = port;
+			wspsender->Send(peerIdx, packet);
 		}
 
-		_extern void _sub_10C2F520(__int32);
 		void RemovePeer(__int32 peerIndex) // 0x10C2F520
 		{
-			mangled_x86(MANGLED_TODO, "?RemovePeer@Signaling@Server@@YAXH@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?RemovePeer@Signaling@Server@@YAXH@Z");
 			// static ...; // 0x10C2FA05
 			// static ...; // 0x10C2F9FA
 			// static ...; // 0x10C2F9F1
@@ -521,52 +570,59 @@ namespace Server
 			// static ...; // 0x10C2F938
 			// __int32 peerIndex;
 			// std::vector<std::weak_ptr<void> > handlesToClose;
-			{
 				// std::map<std::weak_ptr<void>,coninfo,std::owner_less<std::weak_ptr<void> > > &<range>$L0;
 				// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > > <begin>$L0;
 				// std::_Default_sentinel <end>$L0;
-				{
 					// std::pair<std::weak_ptr<void> const ,coninfo> client;
-					{
 						// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
 						// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-						{
 							// std::_Default_sentinel <end>$L1;
 							// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > > <begin>$L1;
 							// std::map<std::weak_ptr<void>,coninfo,std::owner_less<std::weak_ptr<void> > > &<range>$L1;
-							{
 								// std::pair<std::weak_ptr<void> const ,coninfo> otherClient;
-							}
-						}
-					}
-				}
-			}
-			{
 				// std::weak_ptr<void> *<end>$L2;
 				// std::vector<std::weak_ptr<void> > &<range>$L2;
 				// std::weak_ptr<void> *<begin>$L2;
-				{
 					// std::weak_ptr<void> hdl;
+
+			ResetPassword(peerIndex);
+			std::vector<std::weak_ptr<void> > handlesToClose;
+			for (auto client : connectedSockets)
+			{
+				if (client.second.peerIdx == peerIndex)
+				{
+					rapidjson::StringBuffer buffer;
+					buffer.Clear();
+					rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+					writer.StartObject();
+					writer.Key("leave");
+					writer.String(client.second.uid.c_str());
+					writer.EndObject();
+					for (auto otherClient : connectedSockets)
+					{
+						if (!otherClient.second.subprotocol.compare(client.second.subprotocol))
+							signalServer.get_con_from_hdl(otherClient.first)->send(buffer.GetString());
+					}
+					handlesToClose.push_back(client.first);
 				}
 			}
-			todo("implement");
-			_sub_10C2F520(peerIndex);
+			for (auto hdl : handlesToClose)
+				signalServer.get_con_from_hdl(hdl)->close(websocketpp::close::status::normal, "Left session");
 		}
 	}
 }
 
-extern std::string _sub_10C2CEC0();
+
 namespace Server
 {
 	namespace Signaling
 	{
 		std::string GetPassword() // 0x10C2CEC0
 		{
-			mangled_x86(MANGLED_TODO, "?GetPassword@Signaling@Server@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetPassword@Signaling@Server@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 			// procedure flags: nofpo
-			todo("implement");
-			std::string __result = _sub_10C2CEC0();
-			return __result;
+
+			return currentPassword;
 		}
 
 		unsigned short GetPort() // 0x10C2CF30
@@ -687,9 +743,9 @@ void ForceStopServer() // 0x10C2CE00
 	}
 }
 
-_extern bool _sub_10C2ED70(websocketpp::server<Utils::WebSocket::Config> *, std::weak_ptr<void>);
 bool OnValidate(websocketpp::server<Utils::WebSocket::Config> *signalServer, std::weak_ptr<void> hdl) // 0x10C2ED70
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnValidate@@YA_NPAV?$server@UConfig@WebSocket@Utils@@@websocketpp@@V?$weak_ptr@X@std@@@Z");
 	// `anonymous-namespace'::OnValidate
 	// static ...; // 0x10C2EF6D
 	// static ...; // 0x10C2EF68
@@ -700,14 +756,18 @@ bool OnValidate(websocketpp::server<Utils::WebSocket::Config> *signalServer, std
 	// std::vector<std::string> subprotocols;
 	// coninfo info;
 	// std::shared_ptr<websocketpp::connection<Utils::WebSocket::Config> > connection;
-	todo("implement");
-	bool __result = _sub_10C2ED70(signalServer, hdl);
-	return __result;
+
+	std::shared_ptr<websocketpp::connection<Utils::WebSocket::Config> > connection = signalServer->get_con_from_hdl(hdl);
+	std::vector<std::string> subprotocols = connection->get_requested_subprotocols();
+	coninfo info = { "", subprotocols[0], false, -1 };
+	connectedSockets.insert(std::make_pair(hdl, info));
+	connection->select_subprotocol(subprotocols[0]);
+	return true;
 }
 
-_extern void _sub_10C2CF50(websocketpp::server<Utils::WebSocket::Config> *, std::weak_ptr<void>, std::shared_ptr<websocketpp::message_buffer::message<websocketpp::message_buffer::alloc::con_msg_manager> >);
 void HandleMessage(websocketpp::server<Utils::WebSocket::Config> *signalServer, std::weak_ptr<void> hdl, std::shared_ptr<websocketpp::message_buffer::message<websocketpp::message_buffer::alloc::con_msg_manager> > msg) // 0x10C2CF50
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleMessage@@YAXPAV?$server@UConfig@WebSocket@Utils@@@websocketpp@@V?$weak_ptr@X@std@@V?$shared_ptr@V?$message@Vcon_msg_manager@alloc@message_buffer@websocketpp@@@message_buffer@websocketpp@@@4@@Z");
 	// `anonymous-namespace'::HandleMessage
 	// static ...; // 0x10C2DCBA
 	// static ...; // 0x10C2DCB6
@@ -733,59 +793,117 @@ void HandleMessage(websocketpp::server<Utils::WebSocket::Config> *signalServer, 
 	// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> doc;
 	// std::string proto;
 	// rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> &allocator;
-	{
 		// RejectionReason reject;
-		{
 			// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
 			// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-		}
-	}
-	{
 		// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
 		// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > setUid;
 		// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-		{
 			// std::map<std::weak_ptr<void>,coninfo,std::owner_less<std::weak_ptr<void> > > &<range>$L0;
 			// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > > <begin>$L0;
 			// std::_Default_sentinel <end>$L0;
-			{
 				// std::pair<std::weak_ptr<void> const ,coninfo> peer;
-			}
-		}
-	}
-	{
-		{
 			// std::_Default_sentinel <end>$L1;
 			// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > > <begin>$L1;
 			// std::map<std::weak_ptr<void>,coninfo,std::owner_less<std::weak_ptr<void> > > &<range>$L1;
+
+	auto it = connectedSockets.find(hdl);
+	if (it == connectedSockets.end())
+		return;
+	if (!it->second.authed)
+	{
+		RejectionReason reject = ProcessPassword(msg->get_payload().c_str(), it->second);
+		if (reject != eNone)
+		{
+			if (reject == eBadPassword)
+				signalServer->get_con_from_hdl(hdl)->send("bad password");
+			else if (reject == eSessionHasBadInfo)
+				signalServer->get_con_from_hdl(hdl)->send("try again later");
+			return;
+		}
+		else
+		{
+			rapidjson::StringBuffer buffer;
+			rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+			writer.StartObject();
+			writer.Key("auth");
+			writer.Bool(true);
+			writer.Key("uid");
+			writer.String(it->second.uid.c_str());
+			writer.Key("iceServers");
+			iceServers.Accept(writer);
+			writer.EndObject();
+			signalServer->get_con_from_hdl(hdl)->send(buffer.GetString());
+		}
+	}
+	rapidjson::Document doc;
+	doc.Parse(msg->get_payload().c_str());
+	if (doc.HasParseError())
+		return;
+	rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> &allocator = doc.GetAllocator();
+	std::string proto = signalServer->get_con_from_hdl(hdl)->get_requested_subprotocols()[0];
+	if (doc.HasMember("leave") || doc.HasMember("uid"))
+		return;
+	if (doc.HasMember("sendTo") && doc["sendTo"].IsString())
+	{
+		rapidjson::Value setUid;
+		setUid.SetString(it->second.uid.c_str(), allocator);
+		doc.AddMember("uid", setUid, allocator);
+		rapidjson::StringBuffer buffer;
+		buffer.Clear();
+		rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+		doc.Accept(writer);
+		for (auto peer : connectedSockets)
+		{
+			if (peer.second.subprotocol == proto && peer.second.uid == doc["sendTo"].GetString())
 			{
+				signalServer->get_con_from_hdl(peer.first)->send(buffer.GetString());
+				break;
 			}
 		}
 	}
-	todo("implement");
-	_sub_10C2CF50(signalServer, hdl, msg);
+	else if (doc.HasMember("broadcast"))
+	{
+		rapidjson::Value setUid;
+		setUid.SetString(it->second.uid.c_str(), allocator);
+		doc.AddMember("uid", setUid, allocator);
+		rapidjson::StringBuffer buffer;
+		buffer.Clear();
+		rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+		doc.Accept(writer);
+		for (auto peer : connectedSockets)
+		{
+			if (peer.second.authed && peer.second.subprotocol == proto && signalServer->get_con_from_hdl(hdl) != signalServer->get_con_from_hdl(peer.first))
+				signalServer->get_con_from_hdl(peer.first)->send(buffer.GetString());
+		}
+	}
 }
 
-_extern void _sub_10C2EBC0(websocketpp::server<Utils::WebSocket::Config> *, std::weak_ptr<void>, std::shared_ptr<websocketpp::message_buffer::message<websocketpp::message_buffer::alloc::con_msg_manager> >);
 void OnMessage(websocketpp::server<Utils::WebSocket::Config> *signalServer, std::weak_ptr<void> hdl, std::shared_ptr<websocketpp::message_buffer::message<websocketpp::message_buffer::alloc::con_msg_manager> > msg) // 0x10C2EBC0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnMessage@@YAXPAV?$server@UConfig@WebSocket@Utils@@@websocketpp@@V?$weak_ptr@X@std@@V?$shared_ptr@V?$message@Vcon_msg_manager@alloc@message_buffer@websocketpp@@@message_buffer@websocketpp@@@4@@Z");
 	// `anonymous-namespace'::OnMessage
 	// static ...; // 0x10C2ECF8
 // $LN12:
 	// websocketpp::server<Utils::WebSocket::Config> *signalServer;
 	// std::weak_ptr<void> hdl;
 	// std::shared_ptr<websocketpp::message_buffer::message<websocketpp::message_buffer::alloc::con_msg_manager> > msg;
-	{
 		// std::exception const &e;
-	}
 	// function call : char const *() const
-	todo("implement");
-	_sub_10C2EBC0(signalServer, hdl, msg);
+
+	try
+	{
+		HandleMessage(signalServer, hdl, msg);
+	}
+	catch (std::exception const &e)
+	{
+		Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Network, Utils::LogLevel::Error, "SignalServer: %s", e.what());
+	}
 }
 
-_extern void _sub_10C2E730(websocketpp::server<Utils::WebSocket::Config> *, std::weak_ptr<void>);
 void OnClose(websocketpp::server<Utils::WebSocket::Config> *signalServer, std::weak_ptr<void> hdl) // 0x10C2E730
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnClose@@YAXPAV?$server@UConfig@WebSocket@Utils@@@websocketpp@@V?$weak_ptr@X@std@@@Z");
 	// `anonymous-namespace'::OnClose
 	// static ...; // 0x10C2EACB
 	// static ...; // 0x10C2EAC4
@@ -801,21 +919,33 @@ void OnClose(websocketpp::server<Utils::WebSocket::Config> *signalServer, std::w
 	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
 	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
 	// std::string subproto;
-	{
 		// std::map<std::weak_ptr<void>,coninfo,std::owner_less<std::weak_ptr<void> > > &<range>$L0;
 		// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > > <begin>$L0;
 		// std::_Default_sentinel <end>$L0;
-		{
 			// std::pair<std::weak_ptr<void> const ,coninfo> client;
-		}
+
+	auto it = connectedSockets.find(hdl);
+	if (it == connectedSockets.end())
+		return;
+	rapidjson::StringBuffer buffer;
+	buffer.Clear();
+	rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+	writer.StartObject();
+	writer.Key("leave");
+	writer.String(it->second.uid.c_str());
+	writer.EndObject();
+	std::string subproto = it->second.subprotocol;
+	for (auto client : connectedSockets)
+	{
+		if (client.second.subprotocol == subproto)
+			signalServer->get_con_from_hdl(client.first)->send(buffer.GetString());
 	}
-	todo("implement");
-	_sub_10C2E730(signalServer, hdl);
+	connectedSockets.erase(hdl);
 }
 
-extern RejectionReason _sub_10C2F010(char const *, coninfo &);
 RejectionReason ProcessPassword(char const *echo, coninfo &info) // 0x10C2F010
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ProcessPassword@@YA?AW4RejectionReason@hades_file_local@@PBDAAUconinfo@2@@Z");
 	// `anonymous-namespace'::ProcessPassword
 	// static ...; // 0x10C2F2FB
 	// static ...; // 0x10C2F2F8
@@ -825,14 +955,31 @@ RejectionReason ProcessPassword(char const *echo, coninfo &info) // 0x10C2F010
 	// coninfo &info;
 	// Blam::Network::Session *session;
 	// __int32 peerIdx;
-	{
 		// char uid[17];
 		// std::stringstream ss;
 		// std::string name;
+
+	Blam::Network::Session *session = Blam::Network::GetActiveSession();
+	__int32 peerIdx = session->MembershipInfo.FindFirstPeer();
+	while (peerIdx > -1)
+	{
+		if (strcmp(echo, authStrings[peerIdx].c_str()) == 0)
+		{
+			std::string name = Utils::String::ThinString(session->MembershipInfo.PlayerSessions[session->MembershipInfo.GetPeerPlayer(peerIdx)].Properties.host.player_name);
+			if (name == "" || !session->MembershipInfo.PlayerSessions[session->MembershipInfo.GetPeerPlayer(peerIdx)].Properties.host.player_uid)
+				return eSessionHasBadInfo;
+			char uid[17];
+			player_format_uid(uid, session->MembershipInfo.PlayerSessions[session->MembershipInfo.GetPeerPlayer(peerIdx)].Properties.host.player_uid);
+			std::stringstream ss;
+			ss << name << "|" << uid;
+			info.uid = ss.str();
+			info.authed = true;
+			info.peerIdx = peerIdx;
+			return eNone;
+		}
+		peerIdx = session->MembershipInfo.FindNextPeer(peerIdx);
 	}
-	todo("implement");
-	RejectionReason __result = _sub_10C2F010(echo, info);
-	return __result;
+	return eBadPassword;
 }
 
 void CreatePasswords() // 0x10C2CC60
@@ -860,13 +1007,13 @@ void ResetPassword(__int32 peerIndex) // 0x10C2FB60
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0WebSocketPacketHandler@hades_file_local@@QAE@XZ"); no body to assert in
-_inline WebSocketPacketHandler::WebSocketPacketHandler() = default; // 0x10C2B4F0
+// _inline WebSocketPacketHandler::WebSocketPacketHandler() = default; // 0x10C2B4F0  // hades: defaulted on its declaration
 
 // mangled_x86(MANGLED_DEFAULT, "??0coninfo@hades_file_local@@QAE@AAU01@@Z"); no body to assert in
-_inline coninfo::coninfo(coninfo &__that) = default; // 0x10C2B550
+// _inline coninfo::coninfo(coninfo &&__that) = default; // 0x10C2B550 // hades: implicit
 
 // mangled_x86(MANGLED_DEFAULT, "??0coninfo@hades_file_local@@QAE@ABU01@@Z"); no body to assert in
-_inline coninfo::coninfo(coninfo const &__that) = default; // 0x10C2B600
+// _inline coninfo::coninfo(coninfo const &__that) = default; // 0x10C2B600 // hades: implicit
 
 
 

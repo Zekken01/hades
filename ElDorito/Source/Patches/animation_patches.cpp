@@ -63,6 +63,9 @@ namespace Patches
 
 /* ---------- prototypes */
 
+extern float (*const game_tick_length)();  // hades: added for 0x1090D950
+#include "Modules/ModulePlayer.hpp"  // hades: added for 0x1090D950
+
 extern float animation_get_frames_per_second();
 extern bool __fastcall c_animation_manager__update_animation_channel_hook(c_animation_channel *thisptr, void const *__formal, c_animation_manager *animation_manager, float a3, float a4);
 namespace Patches
@@ -87,33 +90,38 @@ float animation_get_frames_per_second() // 0x1090D930
 	return *(float *)0x1615f34;
 }
 
-_extern bool _sub_1090D950(c_animation_channel *, void const *, c_animation_manager *, float, float);
 bool __fastcall c_animation_manager__update_animation_channel_hook(c_animation_channel *thisptr, void const *__formal, c_animation_manager *animation_manager, float a3, float a4) // 0x1090D950
 {
-	mangled_x86(MANGLED_TODO, "?c_animation_manager__update_animation_channel_hook@@YI_NPAUc_animation_channel@@PBXPAUc_animation_manager@@MM@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_animation_manager__update_animation_channel_hook@@YI_NPAUc_animation_channel@@PBXPAUc_animation_manager@@MM@Z");
 	// float a4;
 	// constexpr bool (*const `c_animation_manager__update_animation_channel_hook'::`2'::c_animation_channel__update_to_frame_position)(c_animation_channel *, float, c_animation_manager *, float, float); // constant == 9978800
-	{
 		// float t;
-	}
 	// function call : float (*const)()
 	// function call : bool (*const)(c_animation_channel *, float, c_animation_manager *, float, float)
-	todo("implement");
-	bool __result = _sub_1090D950(thisptr, __formal, animation_manager, a3, a4);
-	return __result;
+
+	thisptr->field_34 |= thisptr->field_2C;
+	thisptr->field_2C = 0;
+	if (thisptr->initialized && thisptr->settings.graph_definition_index != -1 && thisptr->settings.animation_id.animation_index >= 0 && (thisptr->settings.playback_flags & 1) && !(thisptr->state_flags & 5))
+	{
+		float t = thisptr->playback_speed * animation_get_frames_per_second();
+		if (thisptr->settings.animation_name == 0x5FE && Utils::Singleton<Modules::ModulePlayer>::Instance().VarSprintAnimationHack->ValueInt)
+			t *= 0.5f;
+		return ((bool (__thiscall *)(c_animation_channel *, float, c_animation_manager *, float, float))0x9843B0)(thisptr, game_tick_length() * t + thisptr->frame_position, animation_manager, a3, a4);
+	}
+	else
+		return false;
 }
 
 namespace Patches
 {
 	namespace Animation
 	{
-		_extern void _sub_1090D7D0();
 		void ApplyAll() // 0x1090D7D0
 		{
-			mangled_x86(MANGLED_TODO, "?ApplyAll@Animation@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Animation@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_1090D7D0();
+
+			Hook(0x584010, c_animation_manager__update_animation_channel_hook).Apply();
 		}
 	}
 }

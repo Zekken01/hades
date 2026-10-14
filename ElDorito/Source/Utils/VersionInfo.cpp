@@ -66,45 +66,42 @@ namespace Utils
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetVersionInt@Version@Utils@@YAIXZ");
 			// procedure flags: nofpo
 
-			return 0x70000;
+					return 0x70000;
 		}
 	}
 }
 
-extern std::string _sub_10C60DB0();
+
 namespace Utils
 {
 	namespace Version
 	{
 		std::string GetVersionString() // 0x10C60DB0
 		{
-			mangled_x86(MANGLED_TODO, "?GetVersionString@Version@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetVersionString@Version@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 			// procedure flags: nofpo
-			todo("implement");
-			std::string __result = _sub_10C60DB0();
-			return __result;
+
+			return "0.7.2-1759537232.debug";
 		}
 	}
 }
 
-extern std::string _sub_10C60D20();
+
 namespace Utils
 {
 	namespace Version
 	{
 		std::string GetCompatibleVersionString() // 0x10C60D20
 		{
-			mangled_x86(MANGLED_TODO, "?GetCompatibleVersionString@Version@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetCompatibleVersionString@Version@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 			// procedure flags: nofpo
-			todo("implement");
-			std::string __result = _sub_10C60D20();
-			return __result;
+
+			return "0.7.2-1759537232.debug";
 		}
 
-		_extern bool _sub_10C60E20(std::string const &);
 		bool IsVersionCompatible(std::string const &versionString) // 0x10C60E20
 		{
-			mangled_x86(MANGLED_TODO, "?IsVersionCompatible@Version@Utils@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?IsVersionCompatible@Version@Utils@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 			// static ...; // 0x10C61086
 			// static ...; // 0x10C6107B
 			// static ...; // 0x10C61070
@@ -114,9 +111,13 @@ namespace Utils
 			// Utils::SemanticVersion version;
 			// Utils::SemanticVersion minVersion;
 			// Utils::SemanticVersion maxVersion;
-			todo("implement");
-			bool __result = _sub_10C60E20(versionString);
-			return __result;
+
+			SemanticVersion version(0, 0, 0, "", "");
+			if (!SemanticVersion::TryParse(versionString, version))
+				return false;
+			SemanticVersion minVersion = SemanticVersion::Parse(GetCompatibleVersionString());
+			SemanticVersion maxVersion = SemanticVersion::Parse(GetVersionString());
+			return version >= minVersion && version <= maxVersion;
 		}
 	}
 }

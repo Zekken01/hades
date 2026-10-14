@@ -46,6 +46,10 @@ struct s_unit_data;
 
 /* ---------- prototypes */
 
+template<typename t_arg0> static t_arg0 *object_get(unsigned long object_index) { return (t_arg0 *)object_get(object_index); }  // hades: a file-local template in the original (undecorated `object_get<T>`), defined so it is emitted;  // hades: added for 0x10F0D040
+
+extern void (*const object_placement_data_new)(s_object_placement_data *, long, unsigned long, s_damage_owner *);  // hades: added for 0x10F0CB70
+
 extern s_object_data *(*const object_try_and_get_and_verify_type)(unsigned long object_index, c_enum<e_object_type, long> object_type_mask);  // hades: added for 0X10F0CE10
 
 extern long unit_get_ultimate_motion_control_unit_index(long unit_index);
@@ -114,52 +118,60 @@ long unit_get_player_index(long unit_index) // 0x10F0CED0
 		return unit->player_index;
 }
 
-_extern void _sub_10F0CB70(long);
 void unit_drop_grenades(long unit_index) // 0x10F0CB70
 {
-	mangled_x86(MANGLED_TODO, "?unit_drop_grenades@@YAXJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_drop_grenades@@YAXJ@Z");
 	// static ...; // 0x10F0CD70
 	// static ...; // 0x10F0CD64
 	// static ...; // 0x10F0CD5C
 	// long unit_index;
 	// s_unit_data *unit;
 	// s_game_globals *game_globals;
-	{
 		// long i;
-		{
 			// s_game_globals_grenade *grenade_type;
-			{
 				// __int32 j;
-				{
 					// long item_index;
 					// s_object_placement_data placement_data;
-				}
-			}
-		}
-	}
 	// function call : bool (*const)()
 	// function call : void (*const)(s_object_placement_data *, long, unsigned long, s_damage_owner *)
 	// function call : long (*const)(s_object_placement_data *)
 	// function call : void (*const)(long, long)
 	// function call : void (*const)(long, long, long)
-	todo("implement");
-	_sub_10F0CB70(unit_index);
+
+	s_game_globals *game_globals = game_globals_get();
+	s_unit_data *unit = (s_unit_data *)object_get(unit_index);
+	for (long i = 0; i < 4 && i < game_globals->Grenades.count; i++)
+	{
+		s_game_globals_grenade *grenade_type = &game_globals->Grenades[i];
+		for (__int32 j = 0; j < unit->grenade_counts[i]; j++)
+		{
+			if (((bool (*)())0x5319C0)())
+			{
+				s_object_placement_data placement_data;
+				object_placement_data_new(&placement_data, grenade_type->Equipment.index, unit_index, nullptr);
+				long item_index = ((long (*)(s_object_placement_data *))0xB30440)(&placement_data);
+				if (item_index != -1)
+				{
+					((void (*)(long, long))0xB49190)(unit_index, item_index);
+					((void (*)(long, long, long))0xB40A70)(unit_index, item_index, 0);
+				}
+			}
+		}
+		unit->grenade_counts[i] = 0;
+	}
 }
 
-_extern void _sub_10F0C8F0(long, long);
 void unit_drop_equipment(long unit_index, long slot_index) // 0x10F0C8F0
 {
-	mangled_x86(MANGLED_TODO, "?unit_drop_equipment@@YAXJJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_drop_equipment@@YAXJJ@Z");
 	// static ...; // 0x10F0CACC
 	// static ...; // 0x10F0CAC4
 	// long unit_index;
 	// long slot_index;
 	// s_unit_data *unit;
 	// long equipment_index;
-	{
 		// s_object_data *equipment;
 		// unsigned long long component_flags;
-	}
 	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
 	// function call : bool (*const)()
 	// function call : long (*const)(long)
@@ -168,55 +180,84 @@ void unit_drop_equipment(long unit_index, long slot_index) // 0x10F0C8F0
 	// function call : void (*const)(long, long, long)
 	// function call : void (*const)(long)
 	// function call : void (*const)(long, unsigned long long *)
-	todo("implement");
-	_sub_10F0C8F0(unit_index, slot_index);
+
+	s_unit_data *unit = (s_unit_data *)object_try_and_get_and_verify_type(unit_index, 0x2003);
+	long equipment_index = unit->equipment_object_indices[slot_index];
+	if (equipment_index == -1 || !((bool (*)())0x5319C0)())
+		return;
+	if (!((long (*)(long))0xB89190)(equipment_index))
+	{
+		((void (*)(long, long))0xB3FC50)(unit_index, 0);
+	}
+	else
+	{
+		s_object_data *equipment = object_try_and_get_and_verify_type(equipment_index, 8);
+		((void (*)(long, long, long))0xB40A70)(unit_index, equipment_index, 0);
+		if (!(equipment->physics_flags & 0x80))
+			((void (*)(long))0xB31E20)(equipment_index);
+		unit->equipment_object_indices[slot_index] = -1;
+		unsigned long long component_flags = 0x10000000;
+		((void (*)(long, unsigned long long *))0x4B3010)(unit_index, &component_flags);
+	}
 }
 
-_extern bool _sub_10F0D1B0(long);
 bool unit_is_holding_objective(long unit_index) // 0x10F0D1B0
 {
-	mangled_x86(MANGLED_TODO, "?unit_is_holding_objective@@YA_NJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_is_holding_objective@@YA_NJ@Z");
 	// long unit_index;
 	// s_unit_data *unit;
-	{
 		// s_static_array<char,2> &<range>$L0;
 		// char *<begin>$L0;
 		// char *<end>$L0;
-		{
 			// char inventory_index;
-			{
 				// long weapon_index;
 				// s_object_data *weapon;
-			}
-		}
-	}
 	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
 	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
 	// function call : short (*const)(long)
-	todo("implement");
-	bool __result = _sub_10F0D1B0(unit_index);
-	return __result;
+
+	s_unit_data *unit = (s_unit_data *)object_try_and_get_and_verify_type(unit_index, 0x2003);
+	if (!unit)
+		return false;
+	for (char inventory_index : unit->current_weapon_set.indices)
+	{
+		if (inventory_index < 0)
+			continue;
+		long weapon_index = unit->weapon_object_indices[inventory_index];
+		s_object_data *weapon = object_try_and_get_and_verify_type(weapon_index, 4);
+		if (!weapon)
+			continue;
+		if (((short (*)(long))0xB62DB0)(weapon_index))
+			return true;
+	}
+	return false;
 }
 
-_extern bool _sub_10F0D040(long);
 bool unit_has_vision(long unit_index) // 0x10F0D040
 {
-	mangled_x86(MANGLED_TODO, "?unit_has_vision@@YA_NJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_has_vision@@YA_NJ@Z");
 	// long unit_index;
 	// s_unit_data *unit;
-	{
 		// __int32 i;
-		{
 			// s_object_data *equipment;
 			// long equipment_index;
-		}
-	}
 	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
 	// function call : bool (*const)(long)
 	// function call : bool (*const)(long, e_equipment_type)
-	todo("implement");
-	bool __result = _sub_10F0D040(unit_index);
-	return __result;
+
+	s_unit_data *unit = object_get<s_unit_data>(unit_index);
+	if (!unit)
+		return false;
+	for (__int32 i = 0; i < unit->equipment_object_indices.get_count(); i++)
+	{
+		long equipment_index = unit->equipment_object_indices[i];
+		s_object_data *equipment = object_try_and_get_and_verify_type(equipment_index, 8);
+		if (!equipment)
+			continue;
+		if (((bool (*)(long))0xB88C80)(equipment_index) && ((bool (*)(long, long))0xBA0360)(equipment->definition_index, 23))
+			return true;
+	}
+	return false;
 }
 
 /* ---------- private code */

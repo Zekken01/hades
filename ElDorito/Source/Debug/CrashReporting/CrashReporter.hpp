@@ -21,7 +21,6 @@
 
 /* ---------- forward declarations */
 
-struct s_exception;
 struct s_game_options;
 namespace Debug
 {
@@ -41,33 +40,24 @@ namespace Debug
 	{
 		struct s_crash_info
 		{
+			// The exception member's type is unnamed, as in the original: its
+			// destructor is `<unnamed-type-exception>::~<unnamed-type-exception>`.
 			public:
-			struct s_exception
+			_CONTEXT *ctx; // 0x0
+			std::string info; // 0x4
+			struct
 			{
 				std::string msg; // 0x0
 				unsigned __int32 code; // 0x1C
 				unsigned __int32 flags; // 0x20
 				unsigned __int32 address; // 0x24
 				__int32 num_parameters; // 0x28
-				s_exception(s_exception &); /* compiler_generated() */
-				s_exception(s_exception const &); /* compiler_generated() */
-				_inline s_exception() = default; /* compiler_generated() */
-				_inline ~s_exception(); /* compiler_generated() */
-				s_exception &operator=(s_exception &); /* compiler_generated() */
-				s_exception &operator=(s_exception const &); /* compiler_generated() */
-			};
-			// static_assert(sizeof(s_exception) == 44, "Invalid s_exception size");
-			// Withheld: the type inventory does not describe this type, so its
-			// padding could not be reconstructed.
-			public:
-			_CONTEXT *ctx; // 0x0
-			std::string info; // 0x4
-			s_exception exception; // 0x20
+			} exception; // 0x20
 			std::vector<std::string> tag_history; // 0x4C
 			s_crash_info(Debug::CrashReporting::s_crash_info &); /* compiler_generated() */
 			s_crash_info(Debug::CrashReporting::s_crash_info const &); /* compiler_generated() */
 			_inline s_crash_info() = default; /* compiler_generated() */
-			_inline ~s_crash_info(); /* compiler_generated() */
+			// _inline ~s_crash_info(); /* compiler_generated() */ hades: implicit, so every object using it emits its own copy and the unnamed exception member's destructor (0x10A84A90 in Logging)
 			Debug::CrashReporting::s_crash_info &operator=(Debug::CrashReporting::s_crash_info &); /* compiler_generated() */
 			Debug::CrashReporting::s_crash_info &operator=(Debug::CrashReporting::s_crash_info const &); /* compiler_generated() */
 		};

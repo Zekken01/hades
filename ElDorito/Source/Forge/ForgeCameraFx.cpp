@@ -49,13 +49,11 @@ namespace hades_file_local
 {
 	struct ForgeCameraFxState
 	{
-		bool Enabled; // 0x0
-		unsigned char __pad0[3]; // 0x1
-		float Exposure; // 0x4
-		float LightIntensity; // 0x8
-		float BloomIntensity; // 0xC
-		float LightBloomIntensity; // 0x10
-		ForgeCameraFxState(); /* compiler_generated() */
+		bool Enabled = false; // 0x0
+		float Exposure = 0.0f; // 0x4
+		float LightIntensity = 0.0f; // 0x8
+		float BloomIntensity = 0.0f; // 0xC
+		float LightBloomIntensity = 0.0f; // 0x10
 	};
 	static_assert(sizeof(ForgeCameraFxState) == 20, "Invalid ForgeCameraFxState size");
 }
@@ -88,23 +86,33 @@ using namespace hades_file_local;
 
 namespace Forge
 {
-	_extern void _sub_1067BBC0();
 	void CForgeCameraFx::InitializeForNewMap() // 0x1067BBC0
 	{
-		mangled_x86(MANGLED_TODO, "?InitializeForNewMap@CForgeCameraFx@Forge@@SAXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeForNewMap@CForgeCameraFx@Forge@@SAXXZ");
 		// procedure flags: nofpo
-		todo("implement");
-		_sub_1067BBC0();
+
+		state = {};
 	}
 
-	_extern void _sub_1067BE20(long, Forge::ForgeMapModifierProperties &);
 	void CForgeCameraFx::Update(long mapModifierIndex, Forge::ForgeMapModifierProperties &mapModifierProperties) // 0x1067BE20
 	{
-		mangled_x86(MANGLED_TODO, "?Update@CForgeCameraFx@Forge@@SAXJAAUForgeMapModifierProperties@2@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CForgeCameraFx@Forge@@SAXJAAUForgeMapModifierProperties@2@@Z");
 		// Forge::ForgeMapModifierProperties &mapModifierProperties;
 		// float expScale;
-		todo("implement");
-		_sub_1067BE20(mapModifierIndex, mapModifierProperties);
+
+		state.Enabled = true;
+		state.Exposure = pow(mapModifierProperties.CameraFxExposure * 0.05f, 2.2f) * 0.01f;
+		float expScale = state.Exposure;
+		if (abs(state.Exposure) < 0.0001f)
+			expScale = 1.0f;
+
+		state.LightIntensity = mapModifierProperties.CameraFxLightIntensity / expScale * 0.07f;
+		if (state.LightIntensity > 20000.0f)
+			state.LightIntensity = 20000.0f;
+		state.BloomIntensity = mapModifierProperties.CameraFxBloom / expScale * 0.07f;
+		state.LightBloomIntensity = pow(mapModifierProperties.CameraFxLightBloom / 255.0f * 2.0f, 2.2f);
+		if (state.BloomIntensity > 20000.0f)
+			state.BloomIntensity = 20000.0f;
 	}
 
 	void CForgeCameraFx::HandleMapModifierDeleted() // 0x1067BBA0
@@ -115,13 +123,22 @@ namespace Forge
 		state.Enabled = false;
 	}
 
-	_extern void _sub_1067BC80(c_player_view *, float);
 	void CForgeCameraFx::OverrideCameraFxSettings(c_player_view *player_view, float exposure_boost) // 0x1067BC80
 	{
-		mangled_x86(MANGLED_TODO, "?OverrideCameraFxSettings@CForgeCameraFx@Forge@@SAXPAUc_player_view@@M@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?OverrideCameraFxSettings@CForgeCameraFx@Forge@@SAXPAUc_player_view@@M@Z");
 		// float exposure_boost;
-		todo("implement");
-		_sub_1067BC80(player_view, exposure_boost);
+
+		if (!state.Enabled)
+			return;
+
+		if (abs(state.Exposure) >= 0.00001f)
+			*(float *)((char *)player_view + 0x29C) = state.Exposure;
+		if (abs(state.LightIntensity) >= 0.00001f)
+			*(float *)((char *)player_view + 0x1E48) = state.LightIntensity;
+		if (abs(state.BloomIntensity) >= 0.00001f)
+			*(float *)((char *)player_view + 0x2A0) = state.BloomIntensity;
+		if (abs(state.LightBloomIntensity) >= 0.00001f)
+			*(float *)(*(char **)((char *)player_view + 0x298) + 0x290) = state.LightBloomIntensity;
 	}
 
 	bool CForgeCameraFx::IsActive() // 0x1067BC60

@@ -54,7 +54,7 @@ private:
 	s_static_array<s_map_category_item,100> m_items; // 0x5CC
 	long m_item_count; // 0xF7FC
 public:
-	virtual _inline ~c_gui_map_category_datasource() = default; /* compiler_generated() */
+	// virtual _inline ~c_gui_map_category_datasource() = default; /* compiler_generated() */ // hades: implicit
 	c_gui_map_category_datasource &operator=(c_gui_map_category_datasource &); /* compiler_generated() */
 	c_gui_map_category_datasource &operator=(c_gui_map_category_datasource const &); /* compiler_generated() */
 };

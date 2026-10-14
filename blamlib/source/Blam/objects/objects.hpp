@@ -54,7 +54,6 @@ struct s_object_placement_data
 	unsigned long variant_name; // 0xC
 	long scenario_datum_index; // 0x10
 	unsigned char bsp_placement_policy; // 0x14
-	unsigned char __pad0[3]; // 0x15
 	unsigned long placement_flags; // 0x18
 	real_point3d relative_position; // 0x1C
 	real_vector3d forward; // 0x28
@@ -73,18 +72,13 @@ struct s_object_placement_data
 	unsigned short valid_damage_constraints2; // 0x13E
 	short field_140; // 0x140
 	short field_142; // 0x142
-	unsigned char __pad1[4]; // 0x144
+	long field_144; // 0x144  // hades: a scalar, not padding - the original zeroes it in the same run as its neighbours
 	s_scenario_location location; // 0x148
-	unsigned char __pad2[2]; // 0x14A
 	unsigned long parent_object_index; // 0x14C
 	unsigned long child_name; // 0x150
 	unsigned long child_marker_name; // 0x154
 	s_multiplayer_object_properties_definition multiplayer_properties; // 0x158
-	s_object_placement_data(s_object_placement_data &); /* compiler_generated() */
-	s_object_placement_data(s_object_placement_data const &); /* compiler_generated() */
-	_inline s_object_placement_data() = default; /* compiler_generated() */
-	s_object_placement_data &operator=(s_object_placement_data &); /* compiler_generated() */
-	s_object_placement_data &operator=(s_object_placement_data const &); /* compiler_generated() */
+	// hades: special members left implicit (Player::PlayerPodium::DoSpawnPlayer aggregate-initializes placement_data)
 };
 #pragma pack(pop)
 static_assert(sizeof(s_object_placement_data) == 396, "Invalid s_object_placement_data size");
@@ -263,7 +257,7 @@ extern "C" _inline e_object_type object_get_type(long object_index);
 
 // The same function, inlined into 1 other translation unit: 0x1069EA90
 
-extern e_object_type _sub_10CA98A0(long);
+
 // The same function, inlined into 6 other translation units: 0x10A6F570, 0x10A556F0, 0x107C2080, 0x107B07B0, 0x106D7DD0, 0x1069FDC0
 extern "C" _inline e_object_type object_get_type(long object_index) // 0x10CA98A0
 {

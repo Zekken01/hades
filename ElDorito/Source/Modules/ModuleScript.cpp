@@ -93,13 +93,17 @@ namespace Utils
 
 namespace Modules
 {
-	extern ModuleScript* _sub_106D3590(Modules::ModuleScript *const);
-	ModuleScript::ModuleScript() : ModuleBase(todo_result<std::string>()) // 0x106D3590
+	ModuleScript::ModuleScript() : ModuleBase("Script") /* hades-mem-init: : ModuleBase(todo_result<std::string>()) */ // 0x106D3590
 	{
-		mangled_x86(MANGLED_TODO, "??0ModuleScript@Modules@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0ModuleScript@Modules@@QAE@XZ");
 		// Modules::ModuleScript *const this;
-		todo("implement");
-		_sub_106D3590(this);
+
+		VarPrintToConsole = AddVariableInt("PrintToConsole", "script_print_to_console", "Logs hsc print to the console", eCommandFlagsArchived, 0);
+		VarPrintToConsole->ValueIntMin = 0;
+		VarPrintToConsole->ValueIntMax = 1;
+		AddCommand("GenerateDoc", "generate_script_doc", "Generates a doc file containing all Custom Scripts", eCommandFlagsNone, CommandGenerateDoc, {});
+		AddCommand("GenerateMethodDecl", "script_gen_method_decl", "Generates a method declaration for a script method", eCommandFlagsHidden, CommandGenerateMethodDecl, { "method name" });
+		AddCommand("Help", "script_help", "Get help for a script method", eCommandFlagsHidden, CommandScriptHelp, { "method name" });
 	}
 }
 
@@ -182,9 +186,9 @@ bool CommandScriptHelp(std::vector<std::string> const &args, std::string &retVal
 	return true;
 }
 
-_extern bool _sub_106D3FE0(std::vector<std::string> const &, std::string &);
 bool CommandGenerateDoc(std::vector<std::string> const &args, std::string &retValue) // 0x106D3FE0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGenerateDoc@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandGenerateDoc
 	// static ...; // 0x106D4174
 	// static ...; // 0x106D415C
@@ -194,9 +198,22 @@ bool CommandGenerateDoc(std::vector<std::string> const &args, std::string &retVa
 	// std::string documentation;
 	// std::ofstream outFile;
 	// Scripting::HS::ScriptMethodMap &methods;
-	todo("implement");
-	bool __result = _sub_106D3FE0(args, retValue);
-	return __result;
+
+	Scripting::HS::ScriptMethodMap &methods = Utils::Singleton<Scripting::HS::ScriptMethodMap>::Instance();
+	std::string documentation = methods.GenerateDocs();
+	std::ofstream outFile("ed_hs_doc.txt");
+	if (outFile.is_open())
+	{
+		outFile << documentation;
+		outFile.close();
+		retValue = "Wrote output to ed_hs_doc.txt";
+		return true;
+	}
+	else
+	{
+		retValue = "Failed to write file";
+		return false;
+	}
 }
 
 /* ---------- template instantiations */

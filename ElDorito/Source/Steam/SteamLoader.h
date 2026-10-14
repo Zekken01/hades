@@ -33,10 +33,11 @@ namespace Steam
 		void LoadGameOverlayRenderer(std::string const &baseDllPath);
 		void *GetProcAddressInternal(char const *name);
 		// hades: the generator recovered no declaration for this member template,
-		// so no call site could emit ??$GetProcAddress@...@SteamLoader@Steam@@
+		// so no call site could emit ??$GetProcAddress@...@SteamLoader@Steam@@.
+		// It is public: the original decorates it `QAE`, not `AAE`.
+	public:
 		template<typename t_arg0>
 		t_arg0 GetProcAddress(char const *name);
-	public:
 		void Initialize();
 		bool IsSteamRunning(bool ignoreCreateFunc);
 		void *(*GetCreateInterfaceFunc())(char const *, __int32 *);

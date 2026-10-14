@@ -215,6 +215,56 @@ _inline void Blam::BitStream::WriteUnsigned(t_arg0 val, t_arg0 minValue, t_arg0 
 
 	WriteUnsigned<unsigned long long>(val - minValue, Utils::Bits::CountBits(maxValue - minValue));
 }
+
+template<typename t_arg0, int t_arg1>
+_inline bool Blam::BitStream::ReadString(t_arg0 (&str)[t_arg1])
+{
+	mangled_prefix_assert("??$ReadString@");
+
+	// Length
+	auto length = ReadUnsigned<size_t>(0U, t_arg1 - 1);
+	if (length >= t_arg1)
+		return false;
+
+	// String
+	memset(&str, 0, t_arg1 * sizeof(t_arg0));
+	ReadBlock(length * sizeof(t_arg0) * 8, reinterpret_cast<unsigned char *>(&str));
+	return true;
+}
+
+template<typename t_arg0, int t_arg1>
+_inline void Blam::BitStream::ReadStringFixed(t_arg0 (&str)[t_arg1])
+{
+	mangled_prefix_assert("??$ReadStringFixed@");
+
+	ReadBlock((t_arg1 - 1) * sizeof(t_arg0) * 8, reinterpret_cast<unsigned char *>(&str));
+	str[t_arg1 - 1] = 0;
+}
+
+template<typename t_arg0, int t_arg1>
+_inline void Blam::BitStream::WriteString(t_arg0 const (&str)[t_arg1])
+{
+	mangled_prefix_assert("??$WriteString@");
+
+	// Compute length
+	size_t length = 0;
+	while (length < t_arg1 - 1 && str[length])
+		length++;
+
+	// Write length
+	WriteUnsigned<unsigned long long>(length, 0U, t_arg1 - 1);
+
+	// Write string
+	WriteBlock(length * sizeof(t_arg0) * 8, reinterpret_cast<unsigned char const *>(&str));
+}
+
+template<typename t_arg0, int t_arg1>
+_inline void Blam::BitStream::WriteStringFixed(t_arg0 const (&str)[t_arg1])
+{
+	mangled_prefix_assert("??$WriteStringFixed@");
+
+	WriteBlock((t_arg1 - 1) * sizeof(t_arg0) * 8, reinterpret_cast<unsigned char const *>(&str));
+}
 namespace Blam
 {
 	_inline void BitStream::WriteBool(bool b) // 0x107F00F0

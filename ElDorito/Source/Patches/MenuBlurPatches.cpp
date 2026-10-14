@@ -215,13 +215,13 @@ namespace Patches
 {
 	namespace MenuBlur
 	{
-		_extern void _sub_108D17D0();
 		void ApplyAll() // 0x108D17D0
 		{
-			mangled_x86(MANGLED_TODO, "?ApplyAll@MenuBlur@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@MenuBlur@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_108D17D0();
+
+			Hook(0x6B9F75, ui_draw_bitmap_widget_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x71C050, ui_draw_bitmap_widget_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 		}
 
 		void Tick() // 0x108D1FE0
@@ -326,9 +326,9 @@ void scale_ui_screen_vertices(real_point2d *vertices) // 0x108D3490
 	vertices[3].y = vertices[3].y * height_scale;
 }
 
-_extern void _sub_108D2C70(s_gui_bitmap_widget_render_info *, short_rectangle2d *);
 void draw_widget_blur(s_gui_bitmap_widget_render_info *info, short_rectangle2d *display_bounds) // 0x108D2C70
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?draw_widget_blur@@YAXPAUs_gui_bitmap_widget_render_info@@PAUshort_rectangle2d@@@Z");
 	// `anonymous-namespace'::draw_widget_blur
 	// static ...; // 0x108D3160
 	// static ...; // 0x108D3148
@@ -345,11 +345,41 @@ void draw_widget_blur(s_gui_bitmap_widget_render_info *info, short_rectangle2d *
 	// float display_width;
 	// float display_height;
 	// function call : void (*const)(s_rasterizer_screen_geometry_parameters *, s_screen_vertex *)
-	todo("implement");
-	_sub_108D2C70(info, display_bounds);
+
+	e_surface blur_surface = blur_display();
+	s_rasterizer_screen_geometry_parameters params;
+	memset(&params.texture_datum_index, 0, 0x94);
+	params.surface_index = blur_surface;
+	params.texture_datum_index = -1;
+	params.alpha_blend_mode = (short)info->blend_mode;
+	params.explicit_shader_index = info->explicit_shader_index;
+	params.field_40 = 1.0f;
+	params.field_44 = 1.0f;
+	params.field_48 = 1.0f;
+	params.field_4C = 1.0f;
+	float display_width = (float)(display_bounds->x1 - display_bounds->x0);
+	float display_height = (float)(display_bounds->y1 - display_bounds->y0);
+	float min_u = (float)(info->vertices[0].x + 0.5) / display_width;
+	float max_u = (float)(info->vertices[3].x + 0.5) / display_width;
+	float min_v = (float)(info->vertices[2].y + 0.5) / display_height;
+	float max_v = (float)(info->vertices[3].y + 0.5) / display_height;
+	scale_ui_screen_vertices(info->vertices);
+	s_screen_vertex vertices[4];
+	vertices[0].position = { info->vertices[0].x, info->vertices[0].y };
+	vertices[0].texcoord = { min_u + info->offset_u, min_v + info->offset_v };
+	vertices[0].color = info->color;
+	vertices[1].position = { info->vertices[2].x, info->vertices[2].y };
+	vertices[1].texcoord = { max_u + info->offset_u, min_v + info->offset_v };
+	vertices[1].color = info->color;
+	vertices[2].position = { info->vertices[3].x, info->vertices[3].y };
+	vertices[2].texcoord = { max_u + info->offset_u, max_v + info->offset_v };
+	vertices[2].color = info->color;
+	vertices[3].position = { info->vertices[1].x, info->vertices[1].y };
+	vertices[3].texcoord = { min_u + info->offset_u, max_v + info->offset_v };
+	vertices[3].color = info->color;
+	((void (*)(s_rasterizer_screen_geometry_parameters *, s_screen_vertex *))0xA46AD0)(&params, vertices);
 }
 
-_extern void _sub_108D2400(s_gui_bitmap_widget_render_info *, short_rectangle2d *, long);
 void draw_custom_bitmap(s_gui_bitmap_widget_render_info *info, short_rectangle2d *display_bounds, long explicit_shader_index) // 0x108D2400
 {
 	// `anonymous-namespace'::draw_custom_bitmap
@@ -390,8 +420,56 @@ void draw_custom_bitmap(s_gui_bitmap_widget_render_info *info, short_rectangle2d
 	// function call : long (*const)(long)
 	// function call : void (*const)(long)
 	// function call : void (*const)()
-	todo("implement");
-	_sub_108D2400(info, display_bounds, explicit_shader_index);
+
+	void (*const interface_get_current_display_or_window_settings)(short_rectangle2d *, short_rectangle2d *, short_rectangle2d *, short_rectangle2d *) = (void (*const)(short_rectangle2d *, short_rectangle2d *, short_rectangle2d *, short_rectangle2d *))0xA9FA40;
+	void (*const c_vertex_declaration_table__vertex_shader_declaration_set)(long, long, long) = (void (*const)(long, long, long))0xA729B0;
+	long (*const DrawPrimitiveUP)(long, long, void *, long) = (long (*const)(long, long, void *, long))0xA28330;
+	s_rasterizer_screen_geometry_parameters params;
+	memset(&params.texture_datum_index, 0, 0x94);
+	params.alpha_blend_mode = (short)info->blend_mode;
+	params.explicit_shader_index = explicit_shader_index;
+	params.texture_datum_index = -1;
+	params.texture_datum_index_2 = -1;
+	scale_ui_screen_vertices(info->vertices);
+	s_screen_vertex vertices[4];
+	vertices[0].position = info->vertices[0];
+	vertices[0].texcoord = { 0.0f, 0.0f };
+	vertices[0].color = info->color;
+	vertices[1].position = info->vertices[2];
+	vertices[1].texcoord = { 1.0f, 0.0f };
+	vertices[1].color = info->color;
+	vertices[2].position = info->vertices[3];
+	vertices[2].texcoord = { 1.0f, 1.0f };
+	vertices[2].color = info->color;
+	vertices[3].position = info->vertices[1];
+	vertices[3].texcoord = { 0.0f, 1.0f };
+	vertices[3].color = info->color;
+	s_rasterizer_globals *const rasg = c_rasterizer_globals::get();
+	s_explicit_shader_ref *const explicit_shader = &rasg->explicit_shaders[params.explicit_shader_index];
+	if (((s_tag_reference *)explicit_shader->pixel_shader)->index == -1 || ((s_tag_reference *)explicit_shader->vertex_shader)->index == -1)
+		return;
+	void *const vtsh = tag_get('vtsh', ((s_tag_reference *)explicit_shader->vertex_shader)->index);
+	void *const pixl = tag_get('pixl', ((s_tag_reference *)explicit_shader->pixel_shader)->index);
+	if (!vtsh || !pixl)
+		return;
+	((bool (*const)(void *, long, long, long))0xA246E0)(vtsh, 7, 0, 0);
+	((bool (*const)(void *, long))0xA23460)(pixl, 0);
+	long address_mode = params.texture_address_mode1 == 0;
+	((void (*const)(long, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>))0xA23570)(0, address_mode, address_mode, address_mode);
+	long filter_mode = (params.texture_filter_mode == 0) + 1;
+	((void (*const)(long, c_enum<enum e_sampler_filter_mode,long>))0xA23660)(0, filter_mode);
+	((void (*const)(long))0xA22D10)(params.alpha_blend_mode);
+	short_rectangle2d fullscreen_pixel_bounds;
+	interface_get_current_display_or_window_settings(&fullscreen_pixel_bounds, nullptr, nullptr, nullptr);
+	((void (*const)(float, float, float, float, s_screen_vertex *, long))0xA46910)(1.0f / (fullscreen_pixel_bounds.x1 - fullscreen_pixel_bounds.x0), 1.0f / (fullscreen_pixel_bounds.y1 - fullscreen_pixel_bounds.y0), fullscreen_pixel_bounds.x0, fullscreen_pixel_bounds.y0, vertices, 4);
+	((void (*const)(long))0xA232D0)(1);
+	((long (*const)(long))0xA247E0)(2);
+	c_vertex_declaration_table__vertex_shader_declaration_set(7, 0, 0);
+	((bool (*const)(IDirect3DIndexBuffer9 *))0xA233C0)(nullptr);
+	DrawPrimitiveUP(4, 2, vertices, sizeof(s_screen_vertex));
+	((long (*const)(long))0xA247E0)(1);
+	((void (*const)(long))0xA232D0)(2);
+	((void (*const)())0xA22AB0)();
 }
 
 void draw_custom_emblem(s_gui_bitmap_widget_render_info *info, short_rectangle2d *display_bounds, __int32 player_index) // 0x108D2BE0
@@ -435,36 +513,60 @@ void draw_custom_bitmap(s_gui_bitmap_widget_render_info *info, IDirect3DTexture9
 	draw_custom_bitmap(info, display_bounds, 88);
 }
 
-_extern void _sub_108D37E0(s_gui_bitmap_widget_render_info *, short_rectangle2d *);
 void ui_draw_bitmap_widget_hook(s_gui_bitmap_widget_render_info *data, short_rectangle2d *display_bounds) // 0x108D37E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ui_draw_bitmap_widget_hook@@YAXPAUs_gui_bitmap_widget_render_info@@PAUshort_rectangle2d@@@Z");
 	// `anonymous-namespace'::ui_draw_bitmap_widget_hook
 	// short_rectangle2d *display_bounds;
 	// void (*const ui_draw_bitmap_widget)(s_gui_bitmap_widget_render_info *, short_rectangle2d *);
-	{
 		// e_surface old_surface;
-	}
-	{
 		// IDirect3DTexture9 *texture;
-	}
-	{
 		// __int32 player_index;
-	}
-	{
 		// __int32 localPlayerIndex;
 		// Blam::Network::Session *session;
-	}
 	// function call : e_surface (*const)(long)
 	// function call : e_surface (*const)(long, e_surface, long)
 	// function call : void (*const)(s_gui_bitmap_widget_render_info *, short_rectangle2d *)
 	// function call : void (*const)(s_gui_bitmap_widget_render_info *, short_rectangle2d *)
-	todo("implement");
-	_sub_108D37E0(data, display_bounds);
+
+	void (*const ui_draw_bitmap_widget)(s_gui_bitmap_widget_render_info *, short_rectangle2d *) = (void (*)(s_gui_bitmap_widget_render_info *, short_rectangle2d *))0xB170F0;
+	if ((data->flags >> 2) & 1)
+	{
+		e_surface old_surface = ((e_surface (*const)(long))0xA48720)(0);
+		draw_widget_blur(data, display_bounds);
+		((e_surface (*const)(long, e_surface, long))0xA48E40)(0, old_surface, -1);
+	}
+	else if ((data->flags & (1 << 0)) & 1)
+	{
+		IDirect3DTexture9 *texture = CustomBitmapManager::Get()->BitmapGetTexture(data->storage_item_index);
+		if (texture)
+			draw_custom_bitmap(data, texture, display_bounds);
+	}
+	else if (data->bitmap_index != -1 && (data->bitmap_index & 0x8000))
+	{
+		__int32 player_index = data->bitmap_index & 0x7FFF;
+		if (player_index > -1 && player_index < 16)
+			draw_custom_emblem(data, display_bounds, data->bitmap_index & 0x7FFF);
+		else
+			ui_draw_bitmap_widget(data, display_bounds);
+	}
+	else if (data->bitmap_index != -1 && ((data->flags >> 3) & 1))
+	{
+		Blam::Network::Session *session = Blam::Network::GetActiveSession();
+		__int32 localPlayerIndex = 16;
+		if (session && session->IsEstablished())
+			localPlayerIndex = session->MembershipInfo.GetPeerPlayer(session->MembershipInfo.LocalPeerIndex);
+		draw_custom_emblem(data, display_bounds, localPlayerIndex);
+	}
+	else
+	{
+		ui_draw_bitmap_widget(data, display_bounds);
+	}
 }
 
-_extern void _sub_108D1A10(CRenderFullScreenBlur *const);
 void CRenderFullScreenBlur::Render() // 0x108D1A10
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Render@CRenderFullScreenBlur@hades_file_local@@QAEXXZ");
 	// `anonymous-namespace'::CRenderFullScreenBlur::Render
 	// static ...; // 0x108D1E61
 	// static ...; // 0x108D1E58
@@ -480,8 +582,39 @@ void CRenderFullScreenBlur::Render() // 0x108D1A10
 	// unsigned char alpha;
 	// float display_height;
 	// function call : void (*const)(s_rasterizer_screen_geometry_parameters *, s_screen_vertex *)
-	todo("implement");
-	_sub_108D1A10(this);
+
+	if (m_alpha == 0.0f)
+		return;
+	e_surface blur_surface = blur_display();
+	s_rasterizer_screen_geometry_parameters params;
+	memset(&params.texture_datum_index, 0, 0x94);
+	params.surface_index = blur_surface;
+	params.texture_datum_index = -1;
+	params.alpha_blend_mode = 5;
+	params.explicit_shader_index = -1;
+	params.field_40 = 1.0f;
+	params.field_44 = 1.0f;
+	params.field_48 = 1.0f;
+	params.field_4C = 1.0f;
+	unsigned long *g_game_resolution = reinterpret_cast<unsigned long *>(0x19106C0);
+	float display_width = (float)g_game_resolution[0];
+	float display_height = (float)g_game_resolution[1];
+	unsigned char alpha = (unsigned char)(m_alpha * 255.0f);
+	unsigned long color = alpha << 24 | alpha << 16 | alpha << 8 | alpha;
+	s_screen_vertex vertices[4];
+	vertices[0].position = { 0.0f, 0.0f };
+	vertices[0].texcoord = { 0.0f, 0.0f };
+	vertices[0].color = color;
+	vertices[1].position = { display_width, 0.0f };
+	vertices[1].texcoord = { 1.0f, 0.0f };
+	vertices[1].color = color;
+	vertices[2].position = { display_width, display_height };
+	vertices[2].texcoord = { 1.0f, 1.0f };
+	vertices[2].color = color;
+	vertices[3].position = { 0.0f, display_height };
+	vertices[3].texcoord = { 0.0f, 1.0f };
+	vertices[3].color = color;
+	((void (*)(s_rasterizer_screen_geometry_parameters *, s_screen_vertex *))0xA46AD0)(&params, vertices);
 }
 
 void CRenderFullScreenBlur::Update() // 0x108D2030

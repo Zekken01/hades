@@ -55,7 +55,7 @@ private:
 	};
 	static_assert(sizeof(SUndoEntry) == 40, "Invalid SUndoEntry size");
 	private:
-	static unsigned __int32 const kUndoLimit;
+	static unsigned __int32 const kUndoLimit = 16;  // hades: value from AddUndo (cmp eax, 0x10)
 public:
 	bool CanUndo();
 	bool CanRedo();
@@ -71,12 +71,11 @@ public:
 	std::string GetNextRedoSummary() const;
 	CEventSink<> completedEvent; // 0x0
 private:
-	bool m_undoRequested; // 0x14
-	bool m_redoRequested; // 0x15
-	bool m_recording; // 0x16
-	bool m_undoing; // 0x17
-	bool m_redoing; // 0x18
-	unsigned char __pad0[3]; // 0x19
+	bool m_undoRequested = false; // 0x14
+	bool m_redoRequested = false; // 0x15
+	bool m_recording = false; // 0x16
+	bool m_undoing = false; // 0x17
+	bool m_redoing = false; // 0x18
 	std::list<SUndoEntry> m_undoStack; // 0x1C
 	std::list<SUndoEntry> m_redoStack; // 0x28
 	void PerformUndo();

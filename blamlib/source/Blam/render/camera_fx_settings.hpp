@@ -394,7 +394,7 @@ struct c_exposure
 	float field_8; // 0x8
 	float field_C; // 0xC
 	float field_10; // 0x10
-	static float (*const &set_exposure)(c_exposure *, float);
+	static inline float (__thiscall *const &set_exposure)(c_exposure *, float) = reinterpret_cast<float (__thiscall *)(c_exposure *, float)>(0xA2AE30);  // hades: an inline reference bound to a temporary, as the original's `$S` shows
 };
 static_assert(sizeof(c_exposure) == 20, "Invalid c_exposure size");
 

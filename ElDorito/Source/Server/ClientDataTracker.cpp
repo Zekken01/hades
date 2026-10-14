@@ -137,7 +137,7 @@ namespace hades_file_local
 		virtual void HandlePacket(Blam::Network::ObserverChannel *, Patches::CustomPackets::Packet<Server::ClientDataTracker::ClientInfoData> const *);
 		ClientInfoDataPacketHandler(ClientInfoDataPacketHandler &); /* compiler_generated() */
 		ClientInfoDataPacketHandler(ClientInfoDataPacketHandler const &); /* compiler_generated() */
-		ClientInfoDataPacketHandler(); /* compiler_generated() */
+		ClientInfoDataPacketHandler() = default; /* compiler_generated() */  // hades: not user-provided, so make_shared value-initializes
 		virtual ~ClientInfoDataPacketHandler() = default; /* compiler_generated() */
 		ClientInfoDataPacketHandler &operator=(ClientInfoDataPacketHandler &); /* compiler_generated() */
 		ClientInfoDataPacketHandler &operator=(ClientInfoDataPacketHandler const &); /* compiler_generated() */
@@ -178,7 +178,7 @@ namespace Server
 {
 	namespace ClientDataTracker
 	{
-		extern std::unordered_map<int,Server::ClientDataTracker::ClientData> dataMap; // 0x124675A0
+		std::unordered_map<int,Server::ClientDataTracker::ClientData> dataMap; // 0x124675A0
 	}
 }
 
@@ -186,9 +186,11 @@ namespace Server
 
 namespace hades_file_local
 {
-	extern std::shared_ptr<Patches::CustomPackets::PacketSender<Server::ClientDataTracker::ClientInfoData> > PacketSender; // 0x124675C8
+	std::shared_ptr<Patches::CustomPackets::PacketSender<Server::ClientDataTracker::ClientInfoData> > PacketSender; // 0x124675C8
 }
 using namespace hades_file_local;
+namespace Patches { namespace CustomPackets { template<typename TPacket> std::shared_ptr<PacketSender<TPacket> > RegisterPacket(std::string const &name, std::shared_ptr<PacketHandler<TPacket> > handler); } }  // hades: added for 0x10B000B0
+
 /* ---------- public code */
 
 namespace Server
@@ -237,10 +239,9 @@ namespace Server
 			// procedure flags: nofpo
 		}
 
-		_extern void _sub_10B000B0();
 		void Initialize() // 0x10B000B0
 		{
-			mangled_x86(MANGLED_TODO, "?Initialize@ClientDataTracker@Server@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@ClientDataTracker@Server@@YAXXZ");
 			// procedure flags: nofpo
 			// static ...; // 0x10B00229
 			// static ...; // 0x10B00220
@@ -248,17 +249,20 @@ namespace Server
 			// static ...; // 0x10B00200
 			// std::shared_ptr<ClientInfoDataPacketHandler> handler;
 			// std::shared_ptr<Server::ClientDataTracker::MyNetworkSessionListener> listener;
-			todo("implement");
-			_sub_10B000B0();
+
+			auto handler = std::make_shared<hades_file_local::ClientInfoDataPacketHandler>();
+			hades_file_local::PacketSender = Patches::CustomPackets::RegisterPacket<ClientInfoData>("eldewrito-test-packet", handler);
+			auto listener = std::make_shared<MyNetworkSessionListener>();
+			Patches::Network::RegisterSessionListener(listener);
 		}
 
-		extern ClientInfoData* _sub_10AFF060(Server::ClientDataTracker::ClientInfoData *const, std::string const &);
 		ClientInfoData::ClientInfoData(std::string const &body) // 0x10AFF060
 		{
-			mangled_x86(MANGLED_TODO, "??0ClientInfoData@ClientDataTracker@Server@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0ClientInfoData@ClientDataTracker@Server@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 			// std::string const &body;
-			todo("implement");
-			_sub_10AFF060(this, body);
+
+			memset(this, 0, sizeof(*this));
+			strncpy(Body, body.c_str(), sizeof(Body) - 1);
 		}
 	}
 }
@@ -276,7 +280,7 @@ namespace Patches
 	namespace CustomPackets
 	{
 		// mangled_x86(MANGLED_DEFAULT, "??0RawPacketHandler@CustomPackets@Patches@@QAE@XZ"); no body to assert in
-		_inline RawPacketHandler::RawPacketHandler() = default; // 0x10AFF250
+		// _inline RawPacketHandler::RawPacketHandler() = default; // 0x10AFF250  // hades: defaulted on its declaration
 	}
 }
 
@@ -284,19 +288,21 @@ namespace Server
 {
 	namespace ClientDataTracker
 	{
-		_extern bool _sub_10AFFCF0(std::string const &);
 		bool BroadcastClientInfoData(std::string const &body) // 0x10AFFCF0
 		{
-			mangled_x86(MANGLED_TODO, "?BroadcastClientInfoData@ClientDataTracker@Server@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?BroadcastClientInfoData@ClientDataTracker@Server@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 			// static ...; // 0x10AFFDA4
 			// static ...; // 0x10AFFD98
 			// static ...; // 0x10AFFD90
 			// std::string const &body;
 			// Blam::Network::Session *session;
 			// Server::ClientDataTracker::ClientInfoData message;
-			todo("implement");
-			bool __result = _sub_10AFFCF0(body);
-			return __result;
+
+			Blam::Network::Session *session = Blam::Network::GetActiveSession();
+			if (!session || !session->IsEstablished())
+				return false;
+			Server::ClientDataTracker::ClientInfoData message(body);
+			return SendClientMessage(session, message);
 		}
 
 	}
@@ -329,29 +335,48 @@ _inline bool ClientInfoDataPacketHandler::Deserialize(Blam::BitStream *stream, S
 	return true;
 }
 
-_extern void _sub_10AFFF60(ClientInfoDataPacketHandler *const, Blam::Network::ObserverChannel *, Patches::CustomPackets::Packet<Server::ClientDataTracker::ClientInfoData> const *);
 _inline void ClientInfoDataPacketHandler::HandlePacket(Blam::Network::ObserverChannel *sender, Patches::CustomPackets::Packet<Server::ClientDataTracker::ClientInfoData> const *packet) // 0x10AFFF60
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?HandlePacket@ClientInfoDataPacketHandler@hades_file_local@@UAEXPAUObserverChannel@Network@Blam@@PBU?$Packet@UClientInfoData@ClientDataTracker@Server@@@CustomPackets@Patches@@@Z");
 	// `anonymous-namespace'::ClientInfoDataPacketHandler::HandlePacket
 	// Patches::CustomPackets::Packet<Server::ClientDataTracker::ClientInfoData> const *packet;
 	// __int32 peer;
 	// Blam::Network::Session *session;
-	todo("implement");
-	_sub_10AFFF60(this, sender, packet);
+
+	Blam::Network::Session *session = Blam::Network::GetActiveSession();
+	if (!session)
+	{
+		return;
+	}
+
+	__int32 peer = session->GetChannelPeer(sender);
+	if (peer < 0)
+	{
+		return;
+	}
+
+	if (session->IsHost())
+	{
+		HostReceivedMessage(session, peer, packet->Data);
+	}
 }
 
-_extern bool _sub_10B00470(__int32, Server::ClientDataTracker::ClientInfoData const &);
 bool SendMessagePacket(__int32 peer, Server::ClientDataTracker::ClientInfoData const &message) // 0x10B00470
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SendMessagePacket@@YA_NHABUClientInfoData@ClientDataTracker@Server@@@Z");
 	// `anonymous-namespace'::SendMessagePacket
 	// static ...; // 0x10B00540
 	// static ...; // 0x10B00538
 	// __int32 peer;
 	// Server::ClientDataTracker::ClientInfoData const &message;
 	// Patches::CustomPackets::Packet<Server::ClientDataTracker::ClientInfoData> packet;
-	todo("implement");
-	bool __result = _sub_10B00470(peer, message);
-	return __result;
+
+	if (peer < 0)
+		return false;
+	auto packet = hades_file_local::PacketSender->New();
+	memcpy(&packet.Data, &message, sizeof(message));
+	hades_file_local::PacketSender->Send(peer, packet);
+	return true;
 }
 
 bool HostReceivedMessage(Blam::Network::Session *session, __int32 peer, Server::ClientDataTracker::ClientInfoData const &message) // 0x10B00090
@@ -377,7 +402,7 @@ bool SendClientMessage(Blam::Network::Session *session, Server::ClientDataTracke
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0ClientInfoDataPacketHandler@hades_file_local@@QAE@XZ"); no body to assert in
-_inline ClientInfoDataPacketHandler::ClientInfoDataPacketHandler() = default; // 0x10AFF100
+// _inline ClientInfoDataPacketHandler::ClientInfoDataPacketHandler() = default; // 0x10AFF100  // hades: defaulted on its declaration
 
 
 /* ---------- template instantiations */

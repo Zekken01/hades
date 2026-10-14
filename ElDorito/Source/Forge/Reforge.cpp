@@ -157,25 +157,32 @@ namespace Forge
 {
 	namespace Reforge
 	{
-		_extern void _sub_10865AD0();
 		void InitializeForNewMap() // 0x10865AD0
 		{
-			mangled_x86(MANGLED_TODO, "?InitializeForNewMap@Reforge@Forge@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeForNewMap@Reforge@Forge@@YAXXZ");
 			// procedure flags: nofpo
 			// s_forge_globals_definition *forge_globals;
-			{
 				// c_tag_block<s_tag_reference> &<range>$L0;
 				// s_tag_reference *<begin>$L0;
 				// s_tag_reference *<end>$L0;
-				{
 					// s_tag_reference &reforgeObject;
-					{
 						// s_render_model *renderModel;
-					}
-				}
+
+			reforgeGlobals.ReforgeObjects.reset();
+			s_forge_globals_definition *forge_globals = forge_globals_get_definition();
+			if (!forge_globals)
+				return;
+			for (s_tag_reference &reforgeObject : forge_globals->reforge_objects)
+			{
+				if (!tag_loaded(reforgeObject.index))
+					continue;
+				s_render_model *renderModel = GeObjectRenderModel(reforgeObject.index);
+				if (!renderModel)
+					continue;
+				if (forge_globals->materials.count > 0)
+					renderModel->materials = reinterpret_cast<decltype(renderModel->materials) &>(forge_globals->materials);
+				reforgeGlobals.ReforgeObjects.set(reforgeObject.index);
 			}
-			todo("implement");
-			_sub_10865AD0();
 		}
 
 		bool IsReforgeObject(long objectIndex) // 0x108660A0
@@ -210,7 +217,7 @@ namespace Forge
 
 namespace Forge
 {
-	extern ReforgeObjectProperties *_sub_108658A0(long);
+
 }
 
 namespace Forge
@@ -311,17 +318,22 @@ namespace Forge
 			return object->definition_index == forgeGlobals->podium_placement_object.index;
 		}
 
-		_extern bool _sub_10865C00(long);
 		bool IsActiveTeamBarrierObject(long objectIndex) // 0x10865C00
 		{
-			mangled_x86(MANGLED_TODO, "?IsActiveTeamBarrierObject@Reforge@Forge@@YA_NJ@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?IsActiveTeamBarrierObject@Reforge@Forge@@YA_NJ@Z");
 			// long objectIndex;
 			// s_multiplayer_object_properties *multiplayer_properties;
 			// Forge::ReforgeObjectProperties *reforge_properties;
 			// function call : s_multiplayer_object_properties *(*const)(unsigned long)
-			todo("implement");
-			bool __result = _sub_10865C00(objectIndex);
-			return __result;
+
+			s_multiplayer_object_properties *multiplayer_properties = object_get_multiplayer(objectIndex);
+			if (!multiplayer_properties)
+			{
+				return false;
+			}
+
+			Forge::ReforgeObjectProperties *reforge_properties = (Forge::ReforgeObjectProperties *)&multiplayer_properties->boundry_width;
+			return reforge_properties->TeamBarrier != 0;
 		}
 
 		bool TeamBarrierTestPlayer(long barrierObjectIndex, long playerIndex) // 0x10866110
@@ -427,21 +439,37 @@ namespace Forge
 			return index >= 0 && index < renderModel->materials.count;
 		}
 
-		_extern short _sub_10865930(long, Forge::Reforge::SRenderMaterialParameters *);
 		short GetRenderMaterialOverride(long objectIndex, Forge::Reforge::SRenderMaterialParameters *parameters) // 0x10865930
 		{
-			mangled_x86(MANGLED_TODO, "?GetRenderMaterialOverride@Reforge@Forge@@YAFJPAUSRenderMaterialParameters@12@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetRenderMaterialOverride@Reforge@Forge@@YAFJPAUSRenderMaterialParameters@12@@Z");
 			// Forge::Reforge::SRenderMaterialParameters *parameters;
 			// s_multiplayer_object_properties *multiplayerProperties;
 			// unsigned char material_index;
-			{
 				// Forge::ReforgeObjectProperties *reforgeProperties;
 				// float kByteToFixedFloat;
-			}
 			// function call : s_multiplayer_object_properties *(*const)(unsigned long)
-			todo("implement");
-			short __result = _sub_10865930(objectIndex, parameters);
-			return __result;
+
+			if (!IsReforgeObject(objectIndex))
+				return -1;
+			s_multiplayer_object_properties *multiplayerProperties = object_get_multiplayer(objectIndex);
+			unsigned char material_index = multiplayerProperties->teleporter_channel;
+			if (material_index == 0xFF)
+				return -1;
+			if (!ValidRenderMaterialIndex(objectIndex, material_index))
+				return -1;
+			if (parameters)
+			{
+				Forge::ReforgeObjectProperties *reforgeProperties = (Forge::ReforgeObjectProperties *)&multiplayerProperties->boundry_width;
+				float kByteToFixedFloat = 1.0f / 255.0f;
+				parameters->customTextureMode = reforgeProperties->Flags & Forge::ReforgeObjectProperties::MaterialOverrideTextureCoords;
+				if (parameters->customTextureMode)
+				{
+					parameters->textureScale = 1.0f / (reforgeProperties->TextureData.Scale * kByteToFixedFloat * 4.0f);
+					parameters->textureOffsetU = reforgeProperties->TextureData.OffsetX * kByteToFixedFloat;
+					parameters->textureOffsetV = reforgeProperties->TextureData.OffsetY * kByteToFixedFloat;
+				}
+			}
+			return material_index;
 		}
 	}
 }

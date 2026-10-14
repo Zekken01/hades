@@ -81,6 +81,63 @@ namespace Player
 
 /* ---------- definitions */
 
+namespace Player
+{
+	namespace Emblems
+	{
+		// hades: moved from hades/recovered_types.h, where its member types were not visible
+		struct PlayerEmblemRenderTask
+		{
+			s_player_emblem_configuration config; // 0x0
+			std::shared_ptr<Player::Emblems::IPlayerEmblemRenderCallbacks> callback; // 0x14
+		public:
+			PlayerEmblemRenderTask(Player::Emblems::PlayerEmblemRenderTask &&);
+			PlayerEmblemRenderTask(Player::Emblems::PlayerEmblemRenderTask const &);
+			PlayerEmblemRenderTask();
+			~PlayerEmblemRenderTask();
+		};
+		static_assert32(sizeof(PlayerEmblemRenderTask) == 28, "Invalid PlayerEmblemRenderTask size");
+	}
+}
+
+namespace Player
+{
+	namespace Emblems
+	{
+		// hades: moved from hades/recovered_types.h onto its real base (was hades::polymorphic_bytes)
+		struct PlayerEmblemFileStream :
+			public Player::Emblems::IPlayerEmblemStream
+		{
+			virtual ~PlayerEmblemFileStream();
+			virtual bool Read(void *, int, int *);
+			_iobuf * m_fp; // 0x4
+		public:
+			void Close();
+			PlayerEmblemFileStream();
+		};
+		static_assert32(sizeof(PlayerEmblemFileStream) == 8, "Invalid PlayerEmblemFileStream size");
+
+		// hades: moved from hades/recovered_types.h onto its real base (was hades::polymorphic_bytes)
+		struct PlayerEmblemD3DXBufferStream :
+			public Player::Emblems::PlayerEmblemFileStream
+		{
+			virtual ~PlayerEmblemD3DXBufferStream();
+			virtual bool Read(void *, int, int *);
+			ID3DXBuffer * m_buff; // 0x8
+			bool m_ownsBuff; // 0xC
+			unsigned char __pad0[3]; // 0xD
+			int m_pos; // 0x10
+			int m_size; // 0x14
+			unsigned __int8 * m_data; // 0x18
+		public:
+			PlayerEmblemD3DXBufferStream(ID3DXBuffer *, bool);
+		public:
+			PlayerEmblemD3DXBufferStream();
+		};
+		static_assert32(sizeof(PlayerEmblemD3DXBufferStream) == 28, "Invalid PlayerEmblemD3DXBufferStream size");
+	}
+}
+
 // Player::Emblems::PlayerEmblemRenderTask is defined in hades/recovered_types.h, which the synthesised
 // templates in hades/recovered_templates.h inherit from.
 
@@ -112,8 +169,8 @@ namespace Player
 {
 	namespace Emblems
 	{
-		extern std::queue<Player::Emblems::PlayerEmblemRenderTask> g_renderTaskQueue; // 0x1138E3D4
-		extern std::mutex g_renderTaskQueueMutex; // 0x1138E3E8
+		std::queue<Player::Emblems::PlayerEmblemRenderTask> g_renderTaskQueue; // 0x1138E3D4
+		std::mutex g_renderTaskQueueMutex; // 0x1138E3E8
 	}
 }
 
@@ -157,8 +214,7 @@ namespace Player
 	}
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0s_player_emblem_configuration@@QAE@XZ"); no body to assert in
-_inline s_player_emblem_configuration::s_player_emblem_configuration() = default; // 0x107E7210
+// hades: s_player_emblem_configuration's constructor is implicit (0x107E7210)
 
 namespace Player
 {
@@ -214,14 +270,15 @@ namespace Player
 			m_data = (unsigned char *)buff->GetBufferPointer();
 		}
 
-		_extern void _sub_107E7550(Player::Emblems::PlayerEmblemD3DXBufferStream *const);
 		_inline PlayerEmblemD3DXBufferStream::~PlayerEmblemD3DXBufferStream() // 0x107E7550
 		{
-			mangled_x86(MANGLED_TODO, "??1PlayerEmblemD3DXBufferStream@Emblems@Player@@UAE@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??1PlayerEmblemD3DXBufferStream@Emblems@Player@@UAE@XZ");
 			// Player::Emblems::PlayerEmblemD3DXBufferStream *const this;
 			// function call : unsigned long ()
-			todo("implement");
-			_sub_107E7550(this);
+
+			if (m_ownsBuff)
+				m_buff->Release();
+			m_buff = nullptr;
 		}
 
 		_inline bool PlayerEmblemD3DXBufferStream::Read(void *data, __int32 bytesToRead, __int32 *bytesRead) // 0x107E8070
@@ -237,10 +294,9 @@ namespace Player
 			return true;
 		}
 
-		_extern void _sub_107E7DF0(Player::Emblems::PlayerEmblemRenderTask const &);
 		void ProcessRenderTask(Player::Emblems::PlayerEmblemRenderTask const &task) // 0x107E7DF0
 		{
-			mangled_x86(MANGLED_TODO, "?ProcessRenderTask@Emblems@Player@@YAXABUPlayerEmblemRenderTask@12@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ProcessRenderTask@Emblems@Player@@YAXABUPlayerEmblemRenderTask@12@@Z");
 			// static ...; // 0x107E7FE5
 			// static ...; // 0x107E7FE0
 			// static ...; // 0x107E7FD9
@@ -249,24 +305,32 @@ namespace Player
 			// static ...; // 0x107E7F98
 			// Player::Emblems::PlayerEmblemRenderTask const &task;
 			// IDirect3DTexture9 *texture;
-			{
 				// ID3DXBuffer *buff;
-				{
 					// Player::Emblems::PlayerEmblemRenderMetadata metadata;
 					// std::shared_ptr<Player::Emblems::PlayerEmblemD3DXBufferStream> stream;
-				}
-			}
 			// function call : void (Player::Emblems::PlayerEmblemRenderMetadata const &, std::shared_ptr<Player::Emblems::IPlayerEmblemStream>)
 			// function call : void ()
 			// function call : void ()
-			todo("implement");
-			_sub_107E7DF0(task);
+
+			IDirect3DTexture9 *texture;
+			if (GenerateEmblem(task.config, &texture, false))
+			{
+				ID3DXBuffer *buff;
+				if (D3DXSaveTextureToFileInMemory(&buff, D3DXIFF_PNG, texture, nullptr) >= 0)
+				{
+					std::shared_ptr<PlayerEmblemD3DXBufferStream> stream = std::make_shared<PlayerEmblemD3DXBufferStream>(buff, true);
+					PlayerEmblemRenderMetadata metadata;
+					metadata.mimeType = "image/png";
+					task.callback->OnRenderStart(metadata, stream);
+					task.callback->OnRenderDataAvailable();
+					task.callback->OnRenderComplete();
+				}
+			}
 		}
 
-		_extern bool _sub_107E81D0(s_player_emblem_configuration const &, std::shared_ptr<Player::Emblems::IPlayerEmblemRenderCallbacks>);
 		bool PlayerEmblemRenderer::StartRender(s_player_emblem_configuration const &config, std::shared_ptr<Player::Emblems::IPlayerEmblemRenderCallbacks> handler) // 0x107E81D0
 		{
-			mangled_x86(MANGLED_TODO, "?StartRender@PlayerEmblemRenderer@Emblems@Player@@SA_NABUs_player_emblem_configuration@@V?$shared_ptr@VIPlayerEmblemRenderCallbacks@Emblems@Player@@@std@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?StartRender@PlayerEmblemRenderer@Emblems@Player@@SA_NABUs_player_emblem_configuration@@V?$shared_ptr@VIPlayerEmblemRenderCallbacks@Emblems@Player@@@std@@@Z");
 			// static ...; // 0x107E82F8
 			// static ...; // 0x107E82E0
 			// static ...; // 0x107E82D8
@@ -274,15 +338,18 @@ namespace Player
 			// std::shared_ptr<Player::Emblems::IPlayerEmblemRenderCallbacks> handler;
 			// std::scoped_lock<std::mutex> lock;
 			// Player::Emblems::PlayerEmblemRenderTask task;
-			todo("implement");
-			bool __result = _sub_107E81D0(config, handler);
-			return __result;
+
+			PlayerEmblemRenderTask task;
+			task.config = config;
+			task.callback = std::move(handler);
+			std::scoped_lock<std::mutex> lock(g_renderTaskQueueMutex);
+			g_renderTaskQueue.push(task);
+			return true;
 		}
 
-		_extern void _sub_107E7C60();
 		void PlayerEmblemRenderer::DoRender() // 0x107E7C60
 		{
-			mangled_x86(MANGLED_TODO, "?DoRender@PlayerEmblemRenderer@Emblems@Player@@SAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?DoRender@PlayerEmblemRenderer@Emblems@Player@@SAXXZ");
 			// procedure flags: nofpo
 			// static ...; // 0x107E7D9A
 			// static ...; // 0x107E7D95
@@ -290,14 +357,20 @@ namespace Player
 			// static ...; // 0x107E7D6C
 			// static ...; // 0x107E7D64
 			// std::queue<Player::Emblems::PlayerEmblemRenderTask> queue;
-			{
 				// std::scoped_lock<std::mutex> lock;
-			}
-			{
 				// Player::Emblems::PlayerEmblemRenderTask task;
+
+			std::queue<PlayerEmblemRenderTask> queue;
+			{
+				std::scoped_lock<std::mutex> lock(g_renderTaskQueueMutex);
+				queue = std::move(g_renderTaskQueue);
 			}
-			todo("implement");
-			_sub_107E7C60();
+			while (!queue.empty())
+			{
+				PlayerEmblemRenderTask task = std::move(queue.front());
+				queue.pop();
+				ProcessRenderTask(task);
+			}
 		}
 	}
 }

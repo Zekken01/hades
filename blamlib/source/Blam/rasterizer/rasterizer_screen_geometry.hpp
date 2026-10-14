@@ -32,7 +32,6 @@ struct s_rasterizer_screen_geometry_parameters
 	unsigned char __pad3[64]; // 0x50
 	short alpha_blend_mode; // 0x90
 	char texture_filter_mode; // 0x92
-	unsigned char __pad4[1]; // 0x93
 	long explicit_shader_index; // 0x94
 	long surface_index; // 0x98
 };

@@ -27,6 +27,7 @@
 #include "Blam/structures/cluster_reference.hpp"
 #include "Blam/tag_files/tag_block_index.inl"
 #include "Blam/tag_files/tag_groups.hpp"
+#include "Blam/items/items.hpp"
 #include "Blam/units/units.hpp"
 #include "ChatCommands/ChatCommandMap.hpp"
 #include "Player/PlayerCharacterSystem.hpp"
@@ -98,6 +99,12 @@ using namespace hades_file_local;
 
 /* ---------- prototypes */
 
+#include "Player/PlayerCustomization.hpp"  // hades: added for 0x106D71E0
+extern void (*const object_placement_data_new)(s_object_placement_data *, long, unsigned long, s_damage_owner *);  // hades: added for 0x106D7380
+extern void *(*const datum_try_and_get_absolute)(s_data_array const *, unsigned long);  // hades: added for 0x106D7380
+extern void (*const player_refresh_object_appearance_full)(long, long);  // hades: added for 0x106D7380
+template<typename t_arg0> static t_arg0 *object_get(unsigned long object_index) { return (t_arg0 *)object_get(object_index); }  // hades: a file-local template in the original (undecorated `object_get<T>`), defined so it is emitted;  // hades: added for 0x106D71E0
+
 namespace Patches
 {
 	namespace Simulation
@@ -121,40 +128,58 @@ namespace Patches
 {
 	namespace Simulation
 	{
-		_extern void _sub_106D6F20();
 		void apply_unit_entity_patches() // 0x106D6F20
 		{
-			mangled_x86(MANGLED_TODO, "?apply_unit_entity_patches@Simulation@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?apply_unit_entity_patches@Simulation@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_106D6F20();
+
+			Pointer(0x1640FA8).Write(c_simulation_unit_entity_definition__build_object_creation_data_hook);
+			Pointer(0x1640FB4).Write(c_simulation_unit_entity_definition__create_object_hook);
+			Pointer(0x1640F68).Write(c_simulation_unit_entity_definition__entity_creation_encode_hook);
+			Pointer(0x1640F6C).Write(c_simulation_unit_entity_definition__entity_creation_decode_hook);
+			Pointer(0x4BE5A1).Write<unsigned int>(0x50);
 		}
 	}
 }
 
 /* ---------- private code */
 
-_extern void _sub_106D71E0(void *, void *, long, long, s_simulation_unit_creation_data *);
 void __fastcall c_simulation_unit_entity_definition__build_object_creation_data_hook(void *thisptr, void *__formal, long unit_index, long creation_data_size, s_simulation_unit_creation_data *creation_data) // 0x106D71E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_simulation_unit_entity_definition__build_object_creation_data_hook@@YIXPAX0JJPAUs_simulation_unit_creation_data@@@Z");
 	// `anonymous-namespace'::c_simulation_unit_entity_definition__build_object_creation_data_hook
 	// s_simulation_unit_creation_data *creation_data;
 	// s_unit_data *unit;
 	// long controlling_player_index;
 	// long (*const unit_get_last_associated_weak_player_index_for_appearance)(long);
 	// void (*const c_simulation_object_entity_definition__object_build_creation_data)(long, s_simulation_object_creation_data *);
-	{
 		// s_player_datum *player;
-	}
 	// function call : void (*const)(long, s_simulation_object_creation_data *)
 	// function call : long (*const)(long)
-	todo("implement");
-	_sub_106D71E0(thisptr, __formal, unit_index, creation_data_size, creation_data);
+
+	long (*const unit_get_last_associated_weak_player_index_for_appearance)(long) = reinterpret_cast<long (*)(long)>(0xB44340);
+	void (*const c_simulation_object_entity_definition__object_build_creation_data)(long, s_simulation_object_creation_data *) = reinterpret_cast<void (*)(long, s_simulation_object_creation_data *)>(0x4AD200);
+	memset(creation_data, 0, sizeof(s_simulation_unit_creation_data));
+	c_simulation_object_entity_definition__object_build_creation_data(unit_index, creation_data);
+	s_unit_data *unit = object_get<s_unit_data>(unit_index);
+	if (unit->player_index != -1)
+	{
+		s_player_datum *player = player_get(unit->player_index);
+		creation_data->player_appearance = *Player::CPlayerCustomization::GetInGamePlayerCustomization(unit->player_index);
+	}
+	creation_data->variant_name = object_get_variant_name(unit_index);
+	creation_data->team = unit->team;
+	creation_data->hologram_definition_index = unit->hologram_definition_index;
+	creation_data->hologram_position = unit->hologram_destination;
+	creation_data->controlling_player_index = -1;
+	long controlling_player_index = unit_get_last_associated_weak_player_index_for_appearance(unit_index);
+	if (controlling_player_index != -1)
+		creation_data->controlling_player_index = (unsigned short)controlling_player_index;
 }
 
-_extern long _sub_106D7380(void *, void *, long, s_simulation_unit_creation_data *, unsigned long long *, long, s_simulation_unit_state_data *);
 long __fastcall c_simulation_unit_entity_definition__create_object_hook(void *thisptr, void *__formal, long creation_data_size, s_simulation_unit_creation_data *creation_data, unsigned long long *flags, long state_data_size, s_simulation_unit_state_data *state_data) // 0x106D7380
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_simulation_unit_entity_definition__create_object_hook@@YIJPAX0JPAUs_simulation_unit_creation_data@@PA_KJPAUs_simulation_unit_state_data@@@Z");
 	// `anonymous-namespace'::c_simulation_unit_entity_definition__create_object_hook
 	// void *__formal;
 	// long creation_data_size;
@@ -169,17 +194,11 @@ long __fastcall c_simulation_unit_entity_definition__create_object_hook(void *th
 	// s_object_placement_data placement_data;
 	// bool custom_change_colors;
 	// void (*const Armor_Apply)(void *, long);
-	{
 		// s_unit_data *unit;
 		// s_player_datum *player;
 		// long hologram_definition_index;
-		{
 			// long player_unit_index;
-			{
 				// long equipment_index;
-			}
-		}
-	}
 	// function call : void *(*const)(unsigned long, long)
 	// function call : void (*const)(s_object_placement_data *, long, unsigned long, s_damage_owner *)
 	// function call : bool (*const)(s_simulation_object_creation_data *, s_simulation_object_state_data *, unsigned long long *, s_object_placement_data *)
@@ -194,49 +213,122 @@ long __fastcall c_simulation_unit_entity_definition__create_object_hook(void *th
 	// function call : void (*const)(long, long)
 	// function call : void (*const)(long, long)
 	// function call : void (*const)(void *, long)
-	todo("implement");
-	long __result = _sub_106D7380(thisptr, __formal, creation_data_size, creation_data, flags, state_data_size, state_data);
-	return __result;
+
+	void (*const Armor_Apply)(void *, long) = (void (*)(void *, long))0x5A4430;
+	tls_data *tls = &tls_getd();
+	s_object_placement_data placement_data;
+	placement_data.multiplayer_properties.engine_flags = (unsigned short)0;
+	placement_data.multiplayer_properties.spawn_flags = (unsigned char)0;
+	if (creation_data->object_definition_index == -1 || !((void *(*const)(unsigned long, long))0x503510)('unit', creation_data->object_definition_index))
+		return -1;
+	object_placement_data_new(&placement_data, creation_data->object_definition_index, -1, nullptr);
+	((bool (*const)(s_simulation_object_creation_data *, s_simulation_object_state_data *, unsigned long long *, s_object_placement_data *))0x4AE280)(creation_data, state_data, flags, &placement_data);
+	long player_index = -1;
+	if (state_data->controlling_player_index != -1 && datum_try_and_get_absolute(tls_getd().players, state_data->controlling_player_index))
+		player_index = ((long (*const)(long))0x53B1A0)(state_data->controlling_player_index);
+	real_rgb_color colors[5];
+	bool custom_change_colors;
+	((void (*const)(long, s_player_model_customization const *, long, real_rgb_color *, bool *))0x54F250)(player_index, &creation_data->player_appearance, creation_data->team, colors, &custom_change_colors);
+	if (custom_change_colors)
+	{
+		placement_data.valid_change_colors |= 0x1F;
+		memcpy(placement_data.change_colors.begin(), colors, sizeof(colors));
+	}
+	placement_data.variant_name = creation_data->variant_name;
+	long object_index = ((long (__thiscall *const)(void *, s_simulation_object_creation_data *, s_simulation_object_state_data *, unsigned long long *, s_object_placement_data *))0x4AD3E0)(thisptr, creation_data, state_data, flags, &placement_data);
+	if (object_index == -1)
+		return object_index;
+	if (!object_get_type(object_index))
+	{
+		((void (*const)(long))0xB3FAD0)(object_index);
+		s_unit_data *unit = object_get<s_unit_data>(object_index);
+		if (unit->player_index == -1)
+			unit->team = creation_data->team;
+		player_index = ((long (*const)(long))0x53FF70)(creation_data->controlling_player_index);
+		s_player_datum *player = player_get(player_index);
+		long hologram_definition_index = creation_data->hologram_definition_index;
+		if (hologram_definition_index != -1 && player_index != -1)
+			((void (*const)(long, long, long, real_point3d const *))0xB48770)(object_index, player->unit_index, hologram_definition_index, &creation_data->hologram_position);
+		if (((unsigned long)unit->unit_flags & 0x40000000) && player_index != -1)
+		{
+			long player_unit_index = player->unit_index;
+			if (player_unit_index != -1)
+			{
+				long equipment_index = ((long (*const)(long, e_equipment_type))0xB43C70)(player_unit_index, (e_equipment_type)14);
+				((void (*const)(long, long))0xB3E470)(player->unit_index, object_index);
+				player_refresh_object_appearance_full(player_index, object_index);
+				if (equipment_index != -1)
+					object_get<s_item_data>(equipment_index)->owner_unit_index = object_index;
+			}
+			return object_index;
+		}
+		Armor_Apply(&creation_data->player_appearance, object_index);
+	}
+	return object_index;
 }
 
-_extern void _sub_106D7BB0(void *, void *, long, s_simulation_unit_creation_data *, s_simulation_view_telemetry_data *, c_bitstream *, bool);
 void __fastcall c_simulation_unit_entity_definition__entity_creation_encode_hook(void *thisptr, void *__formal, long creation_data_size, s_simulation_unit_creation_data *creation_data, s_simulation_view_telemetry_data *telemetry_data, c_bitstream *bitstream, bool unknown) // 0x106D7BB0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_simulation_unit_entity_definition__entity_creation_encode_hook@@YIXPAX0JPAUs_simulation_unit_creation_data@@PAUs_simulation_view_telemetry_data@@PAVc_bitstream@@_N@Z");
 	// `anonymous-namespace'::c_simulation_unit_entity_definition__entity_creation_encode_hook
 	// bool unknown;
-	{
 		// long i;
-	}
-	{
-	}
 	// function call : void (*const)(s_simulation_object_creation_data *, c_bitstream *, long)
 	// function call : void (*const)(char const *, c_bitstream *, long)
 	// function call : void (*const)(c_bitstream *, real_point3d const *, long, bool, real_rectangle3d const *)
 	// function call : void (*const)(c_bitstream *, char const *, long)
-	todo("implement");
-	_sub_106D7BB0(thisptr, __formal, creation_data_size, creation_data, telemetry_data, bitstream, unknown);
+
+	((void (*)(s_simulation_object_creation_data *, c_bitstream *, long))0x4AD670)(creation_data, bitstream, creation_data_size);
+	for (long i = 0; i < 5; i++)
+		bitstream->write_integer("player-appearance-color", creation_data->player_appearance.colors[i], 24);
+	for (long i = 0; i < 16; i++)
+		bitstream->write_integer("player-appearance-region-permutations", creation_data->player_appearance.armor_section_indices[i], 8);
+	bitstream->write_raw_data("variant-name", &creation_data->variant_name, 32);
+	bitstream->write_bool("team-valid", creation_data->team != -1);
+	if (creation_data->team != -1)
+		bitstream->write_integer("team", creation_data->team != -1, 5);
+	((void (*)(char const *, c_bitstream *, long))0x4B1440)("hologram-definition-index", bitstream, creation_data->hologram_definition_index);
+	if (creation_data->hologram_definition_index != -1)
+	{
+		((void (*)(c_bitstream *, real_point3d const *, long, bool, real_rectangle3d const *))0x46FD80)(bitstream, &creation_data->hologram_position, 16, false, nullptr);
+		((void (__thiscall *)(c_bitstream *, char const *, long))0x4BC310)(bitstream, "controlling-player-index", creation_data->controlling_player_index);
+	}
 }
 
-_extern bool _sub_106D7980(void *, void *, long, s_simulation_unit_creation_data *, c_bitstream *, bool);
 bool __fastcall c_simulation_unit_entity_definition__entity_creation_decode_hook(void *thisptr, void *__formal, long creation_data_size, s_simulation_unit_creation_data *data, c_bitstream *bitstream, bool a4) // 0x106D7980
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_simulation_unit_entity_definition__entity_creation_decode_hook@@YI_NPAX0JPAUs_simulation_unit_creation_data@@PAVc_bitstream@@_N@Z");
 	// `anonymous-namespace'::c_simulation_unit_entity_definition__entity_creation_decode_hook
 	// bool a4;
 	// bool success;
-	{
 		// long i;
-	}
-	{
-	}
-	{
 		// long controlling_player_index;
-	}
 	// function call : bool (*const)(s_simulation_object_creation_data *, c_bitstream *)
 	// function call : long (*const)(char const *, c_bitstream *)
 	// function call : void (*const)(c_bitstream *, real_point3d *, long, real_rectangle3d const *)
-	todo("implement");
-	bool __result = _sub_106D7980(thisptr, __formal, creation_data_size, data, bitstream, a4);
-	return __result;
+
+	bool success = ((bool (*)(s_simulation_unit_creation_data *, c_bitstream *))0x4AD5E0)(data, bitstream);
+	for (long i = 0; i < 5; i++)
+		data->player_appearance.colors[i] = bitstream->read_integer("player-appearance-colors", 24);
+	for (long i = 0; i < 16; i++)
+		data->player_appearance.armor_section_indices[i] = (char)bitstream->read_integer("player-appearance-region-permutations", 8);
+	bitstream->read_raw_data("variant-name", &data->variant_name, 32);
+	if (bitstream->read_bool("team-valid"))
+		data->team = bitstream->read_integer("team", 5);
+	else
+		data->team = -1;
+	data->hologram_definition_index = ((long (*)(char const *, c_bitstream *))0x4B11E0)("hologram-definition-index", bitstream);
+	if (data->hologram_definition_index != -1)
+	{
+		((void (*)(c_bitstream *, real_point3d *, long, bool))0x46F3F0)(bitstream, &data->hologram_position, 16, false);
+		long controlling_player_index;
+		if (bitstream->read_bool("controlling-player-index-valid"))
+			controlling_player_index = -1;
+		else
+			controlling_player_index = bitstream->read_integer("controlling-player-index", 4);
+		data->controlling_player_index = controlling_player_index;
+	}
+	return !bitstream->overflowed() && success;
 }
 
 /* ---------- template instantiations */

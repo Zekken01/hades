@@ -116,10 +116,9 @@ namespace Blam
 			}
 		}
 
-		_extern bool _sub_1092D5E0(Blam::Cache::StringIDCache *const, std::string const &, long long);
 		bool StringIDCache::Load(std::string const &path, long long baseOffset) // 0x1092D5E0
 		{
-			mangled_x86(MANGLED_TODO, "?Load@StringIDCache@Cache@Blam@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@_J@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Load@StringIDCache@Cache@Blam@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@_J@Z");
 			// static ...; // 0x1092D900
 			// Blam::Cache::StringIDCache *const this;
 			// std::string const &path;
@@ -127,32 +126,63 @@ namespace Blam
 			// long long dataOffset;
 			// __int32 *stringOffsets;
 			// std::ifstream stream;
-			{
 				// __int32 i;
+
+			std::ifstream stream;
+			stream.open(path, std::ios::binary);
+			if (!stream.good())
+				return false;
+			stream.seekg(baseOffset);
+			stream.read((char *)&Header, sizeof(Header));
+			Data = new char[Header.StringDataSize + 1];
+			Strings = new char *[Header.StringCount]();
+			__int32 *stringOffsets = new __int32[Header.StringCount];
+			stream.read((char *)stringOffsets, Header.StringCount * (std::streamsize)sizeof(__int32));
+			long long dataOffset = stream.tellg().seekpos();
+			stream.read(Data, Header.StringDataSize);
+			Data[Header.StringDataSize] = 0;
+			for (__int32 i = 0; i < Header.StringCount; i++)
+			{
+				if (stringOffsets[i] < 0 || stringOffsets[i] >= Header.StringDataSize)
+				{
+					Strings[i] = nullptr;
+					continue;
+				}
+				Strings[i] = Data + stringOffsets[i];
 			}
-			todo("implement");
-			bool __result = _sub_1092D5E0(this, path, baseOffset);
-			return __result;
+			stream.close();
+			delete[] stringOffsets;
+			return true;
 		}
 
-		_extern __int32 _sub_1092D210(unsigned __int32);
 		_inline __int32 GetIndex(unsigned __int32 stringId) // 0x1092D210
 		{
-			mangled_x86(MANGLED_TODO, "?GetIndex@Cache@Blam@@YAHI@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetIndex@Cache@Blam@@YAHI@Z");
 			// unsigned __int32 stringId;
-			todo("implement");
-			__int32 __result = _sub_1092D210(stringId);
-			return __result;
+
+			if (stringId >> 31 == 1)
+			{
+				return stringId & 0x7FFFFFFF;
+			}
+			else
+			{
+				return stringId & 0xFFFF;
+			}
 		}
 
-		_extern __int32 _sub_1092D250(unsigned __int32);
 		_inline __int32 GetSet(unsigned __int32 stringId) // 0x1092D250
 		{
-			mangled_x86(MANGLED_TODO, "?GetSet@Cache@Blam@@YAHI@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetSet@Cache@Blam@@YAHI@Z");
 			// unsigned __int32 stringId;
-			todo("implement");
-			__int32 __result = _sub_1092D250(stringId);
-			return __result;
+
+			if (stringId >> 31 == 1)
+			{
+				return 0;
+			}
+			else
+			{
+				return (stringId >> 16) & 0xFF;
+			}
 		}
 
 		__int32 GetStringIndex(unsigned __int32 StringId) // 0x1092D3E0
@@ -191,71 +221,94 @@ namespace Blam
 			return Strings[index];
 		}
 
-		_extern unsigned __int32 _sub_1092D310(Blam::Cache::StringIDCache const *const, std::string_view);
 		unsigned __int32 StringIDCache::GetStringId(std::string_view str) const // 0x1092D310
 		{
-			mangled_x86(MANGLED_TODO, "?GetStringId@StringIDCache@Cache@Blam@@QBEIV?$basic_string_view@DU?$char_traits@D@std@@@std@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetStringId@StringIDCache@Cache@Blam@@QBEIV?$basic_string_view@DU?$char_traits@D@std@@@std@@@Z");
 			// std::string_view str;
-			{
 				// __int32 i;
+
+			for (__int32 i = 0; i < Header.StringCount; i++)
+			{
+				if (Strings[i] && str == Strings[i])
+					return IndexToStringID(i);
 			}
-			todo("implement");
-			unsigned __int32 __result = _sub_1092D310((Blam::Cache::StringIDCache const *)this, str);
-			return __result;
+			return 0;
 		}
 
-		_extern unsigned __int32 _sub_1092D9F0(__int32, __int32);
 		unsigned __int32 MakeStringId(__int32 set, __int32 index) // 0x1092D9F0
 		{
-			mangled_x86(MANGLED_TODO, "?MakeStringId@Cache@Blam@@YAIHH@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?MakeStringId@Cache@Blam@@YAIHH@Z");
 			// __int32 index;
-			todo("implement");
-			unsigned __int32 __result = _sub_1092D9F0(set, index);
-			return __result;
+
+			if (index > 0xFFFF)
+			{
+				#line 242 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Blam\\Cache\\StringIdCache.cpp"
+					assert(set == 0);
+					assert(index >= 0 && index < (1 << 30));
+					#line 249 "F:\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Blam\\Cache\\StringIdCache.cpp"
+				return index | 0x80000000;
+			}
+			else
+			{
+				#line 248 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Blam\\Cache\\StringIdCache.cpp"
+					assert(set >= 0 && set < 256);
+					assert(index >= 0 && index < (1 << 30));
+					#line 257 "F:\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Blam\\Cache\\StringIdCache.cpp"
+				return set << 16 | index;
+			}
 		}
 
-		_extern unsigned __int32 _sub_1092D4B0(Blam::Cache::StringIDCache const *const, __int32);
 		unsigned __int32 StringIDCache::IndexToStringID(__int32 index) const // 0x1092D4B0
 		{
-			mangled_x86(MANGLED_TODO, "?IndexToStringID@StringIDCache@Cache@Blam@@ABEIH@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?IndexToStringID@StringIDCache@Cache@Blam@@ABEIH@Z");
 			// __int32 index;
 			// __int32 set;
 			// __int32 setRelativeIndex;
 			// __int32 minDistance;
-			{
 				// __int32 i;
-				{
 					// __int32 distance;
-				}
+
+			if (index < setMin || index > setMax)
+				return MakeStringId(0, index);
+			__int32 set = 0;
+			__int32 minDistance = std::numeric_limits<__int32>::max();
+			for (__int32 i = 0; i < _countof(setOffsets); i++)
+			{
+				if (index < setOffsets[i])
+					continue;
+				__int32 distance = index - setOffsets[i];
+				if (distance >= minDistance)
+					continue;
+				set = i;
+				minDistance = distance;
 			}
-			todo("implement");
-			unsigned __int32 __result = _sub_1092D4B0((Blam::Cache::StringIDCache const *)this, index);
-			return __result;
+			__int32 setRelativeIndex = index - setOffsets[set];
+			if (set == 0)
+				setRelativeIndex += setMin;
+			return MakeStringId(set, setRelativeIndex);
 		}
 
-		_extern void _sub_1092DB20(std::shared_ptr<Blam::Cache::StringIDCache>);
 		void StringIDCache::SetCurrent(std::shared_ptr<Blam::Cache::StringIDCache> cache) // 0x1092DB20
 		{
-			mangled_x86(MANGLED_TODO, "?SetCurrent@StringIDCache@Cache@Blam@@SAXV?$shared_ptr@UStringIDCache@Cache@Blam@@@std@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?SetCurrent@StringIDCache@Cache@Blam@@SAXV?$shared_ptr@UStringIDCache@Cache@Blam@@@std@@@Z");
 			// std::shared_ptr<Blam::Cache::StringIDCache> cache;
-			todo("implement");
-			_sub_1092DB20(cache);
+
+			m_current = cache;
 		}
 	}
 }
 
-extern std::shared_ptr<Blam::Cache::StringIDCache> _sub_1092D1A0();
+
 namespace Blam
 {
 	namespace Cache
 	{
 		std::shared_ptr<Blam::Cache::StringIDCache> StringIDCache::GetCurrent() // 0x1092D1A0
 		{
-			mangled_x86(MANGLED_TODO, "?GetCurrent@StringIDCache@Cache@Blam@@SA?AV?$shared_ptr@UStringIDCache@Cache@Blam@@@std@@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetCurrent@StringIDCache@Cache@Blam@@SA?AV?$shared_ptr@UStringIDCache@Cache@Blam@@@std@@XZ");
 			// procedure flags: nofpo
-			todo("implement");
-			std::shared_ptr<Blam::Cache::StringIDCache> __result = _sub_1092D1A0();
-			return __result;
+
+			return m_current;
 		}
 	}
 }

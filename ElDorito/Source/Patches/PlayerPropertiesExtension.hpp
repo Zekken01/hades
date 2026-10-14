@@ -76,13 +76,12 @@ namespace Patches
 			// Patches::Network::PlayerPropertiesExtensionBase *const this;
 		}
 
-		_extern void _sub_108D9320(Patches::Network::PlayerPropertiesExtender *const, std::shared_ptr<Patches::Network::PlayerPropertiesExtensionBase>);
 		_inline void PlayerPropertiesExtender::Add(std::shared_ptr<Patches::Network::PlayerPropertiesExtensionBase> extension) // 0x108D9320
 		{
-			mangled_x86(MANGLED_TODO, "?Add@PlayerPropertiesExtender@Network@Patches@@QAEXV?$shared_ptr@VPlayerPropertiesExtensionBase@Network@Patches@@@std@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Add@PlayerPropertiesExtender@Network@Patches@@QAEXV?$shared_ptr@VPlayerPropertiesExtensionBase@Network@Patches@@@std@@@Z");
 			// std::shared_ptr<Patches::Network::PlayerPropertiesExtensionBase> extension;
-			todo("implement");
-			_sub_108D9320(this, extension);
+
+			extensions.push_back(extension);
 		}
 	}
 }

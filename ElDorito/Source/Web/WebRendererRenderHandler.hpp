@@ -84,7 +84,7 @@ namespace Web
 {
 	namespace Browser
 	{
-		_extern void _sub_10CD0560(Web::Browser::WebRendererRenderHandler * const);
+
 
 		_inline void WebRendererRenderHandler::AddRef() const // 0x10CD0B80
 		{

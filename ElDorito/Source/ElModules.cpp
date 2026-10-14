@@ -28,6 +28,19 @@
 #include "Utils/String.hpp"
 #include "Utils/UPnP.hpp"
 
+#include "Modules/ModuleGame.hpp"  // hades: added for 0x108BE780
+#include "Modules/ModulePlayer.hpp"  // hades: added for 0x108BE780
+#include "Modules/ModuleServer.hpp"  // hades: added for 0x108BE780
+#include "Modules/ModuleSettings.hpp"  // hades: added for 0x108BE780
+#include "Modules/ModuleGraphics.hpp"  // hades: added for 0x108BE780
+#include "Modules/ModuleDebug.hpp"  // hades: added for 0x108BE780
+#include "Modules/ModuleForge.hpp"  // hades: added for 0x108BE780
+#include "Modules/ModuleVoIP.hpp"  // hades: added for 0x108BE780
+#include "Modules/ModuleTweaks.hpp"  // hades: added for 0x108BE780
+#include "Modules/ModuleCampaign.hpp"  // hades: added for 0x108BE780
+#include "Modules/ModuleDownload.hpp"  // hades: added for 0x108BE780
+#include "Modules/ModuleVoting.hpp"  // hades: added for 0x108BE780
+
 #include <Windows.h>
 #include <commctrl.h>
 #include <dpa_dsa.h>
@@ -142,21 +155,42 @@ namespace Utils
 
 namespace Modules
 {
-	extern ElModules* _sub_108BE780(Modules::ElModules *const);
-	ElModules::ElModules() : ModuleBase(todo_result<std::string>()) // 0x108BE780
+	ElModules::ElModules() : ModuleBase("") /* hades-mem-init: : ModuleBase(todo_result<std::string>()) */ // 0x108BE780
 	{
-		mangled_x86(MANGLED_TODO, "??0ElModules@Modules@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0ElModules@Modules@@QAE@XZ");
 		// Modules::ElModules *const this;
-		todo("implement");
-		_sub_108BE780(this);
+
+		ModuleGame::Instance();
+		ModulePlayer::Instance();
+		ModuleWeapon::Instance();
+		ModuleServer::Instance();
+		ModuleSettings::Instance();
+		ModuleCamera::Instance();
+		ModuleInput::Instance();
+		ModuleTime::Instance();
+		ModuleGraphics::Instance();
+		ModuleUPnP::Instance();
+		ModuleDebug::Instance();
+		ModuleForge::Instance();
+		ModuleVoIP::Instance();
+		ModuleTweaks::Instance();
+		ModuleCampaign::Instance();
+		ModuleDownload::Instance();
+		ModuleCheat::Instance();
+		ModuleVoting::Instance();
+		ModuleScript::Instance();
+		AddCommand("Help", "help", "Displays this help text", eCommandFlagsNone, CommandHelp);
+		AddCommand("Execute", "exec", "Executes a list of commands", eCommandFlagsNone, CommandExecute, { "filename(string) The list of commands to execute" });
+		AddCommand("WriteConfig", "config_write", "Writes the ElDewrito config file", eCommandFlagsNone, CommandWriteConfig, { "filename(string) Optional, the filename to write the config to" });
+		CommandMap::Instance().FinishAddCommands();
 	}
 }
 
 /* ---------- private code */
 
-_extern bool _sub_108BF6A0(std::vector<std::string> const &, std::string &);
 bool CommandHelp(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x108BF6A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandHelp@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandHelp
 	// static ...; // 0x108BF9B4
 	// static ...; // 0x108BF99C
@@ -164,24 +198,43 @@ bool CommandHelp(std::vector<std::string> const &Arguments, std::string &returnI
 	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// Modules::CommandMap &commandMap;
-	{
 		// std::string cmdName;
 		// Modules::Command *cmd;
-		{
 			// bool isModule;
-			{
 				// std::_Deque_iterator<std::_Deque_val<std::_Deque_simple_types<Modules::Command> > > it;
+
+	Modules::CommandMap &commandMap = Modules::CommandMap::Instance();
+	if (Arguments.size() > 0)
+	{
+		std::string cmdName = Arguments[0];
+		Modules::Command *cmd = commandMap.FindCommand(cmdName);
+		if (!cmd)
+		{
+			bool isModule = false;
+			for (auto it = commandMap.Commands.begin(); it < commandMap.Commands.end(); it++)
+			{
+				if (it->ModuleName.length() > 0 && !_stricmp(it->ModuleName.c_str(), cmdName.c_str()))
+				{
+					isModule = true;
+					break;
+				}
 			}
+			if (isModule)
+				returnInfo = commandMap.GenerateHelpText(cmdName);
+			else
+				returnInfo = "Command/Variable not found";
+			return isModule;
 		}
+		returnInfo = cmd->GenerateHelpText();
+		return true;
 	}
-	todo("implement");
-	bool __result = _sub_108BF6A0(Arguments, returnInfo);
-	return __result;
+	returnInfo = commandMap.GenerateHelpText("");
+	return true;
 }
 
-_extern bool _sub_108BF290(std::vector<std::string> const &, std::string &);
 bool CommandExecute(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x108BF290
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandExecute@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandExecute
 	// static ...; // 0x108BF5C0
 	// static ...; // 0x108BF5A8
@@ -189,13 +242,29 @@ bool CommandExecute(std::vector<std::string> const &Arguments, std::string &retu
 	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// std::ifstream in;
-	{
 		// bool stopOnFirstError;
 		// std::string contents;
+
+	if (Arguments.size() <= 0)
+	{
+		returnInfo = "Usage: Execute <filename>";
+		return false;
 	}
-	todo("implement");
-	bool __result = _sub_108BF290(Arguments, returnInfo);
-	return __result;
+	std::ifstream in(Arguments[0], std::ios::in | std::ios::binary);
+	if (in && in.is_open())
+	{
+		std::string contents;
+		in.seekg(0, std::ios::end);
+		contents.resize(in.tellg());
+		in.seekg(0, std::ios::beg);
+		in.read(&contents[0], contents.size());
+		in.close();
+		bool stopOnFirstError = !(Arguments.size() >= 2 && Arguments[1] == "1");
+		returnInfo = Modules::CommandMap::Instance().ExecuteCommands(contents, true, stopOnFirstError);
+		return true;
+	}
+	returnInfo = "Unable to open file " + Arguments[0] + " for reading.";
+	return false;
 }
 
 bool CommandWriteConfig(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x108BFA90
@@ -254,7 +323,7 @@ bool CommandWriteConfig(std::vector<std::string> const &Arguments, std::string &
 	if (Arguments.size() > 0)
 		prefsFile = Arguments[0];
 	else
-		prefsFile = "data/" + prefsName;
+		prefsFile = "data\\" + prefsName;
 
 	std::ofstream outFile(prefsFile, std::ios::trunc);
 	if (outFile.fail())

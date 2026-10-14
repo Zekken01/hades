@@ -55,22 +55,29 @@ namespace Forge
 {
 	namespace PodiumPoint
 	{
-		_extern long _sub_10698120();
 		long FindPodiumObject() // 0x10698120
 		{
-			mangled_x86(MANGLED_TODO, "?FindPodiumObject@PodiumPoint@Forge@@YAJXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?FindPodiumObject@PodiumPoint@Forge@@YAJXZ");
 			// procedure flags: nofpo
 			// static ...; // 0x106981F4
 			// static ...; // 0x106981E8
 			// static ...; // 0x106981E0
 			// c_data_array<s_object_header> *object_headers;
 			// s_forge_globals_definition const *forge_globals;
-			{
 				// c_data_iterator<s_object_header> it;
+
+			s_forge_globals_definition const *forge_globals = forge_globals_get_definition();
+			if (!forge_globals)
+				return -1;
+			if (forge_globals->podium_placement_object.index == -1)
+				return -1;
+			c_data_array<s_object_header> *object_headers = object_headers_get();
+			for (c_data_iterator<s_object_header> it = object_headers->begin(); it != object_headers->end(); ++it)
+			{
+				if (it->data->definition_index == forge_globals->podium_placement_object.index)
+					return it.current_datum_index;
 			}
-			todo("implement");
-			long __result = _sub_10698120();
-			return __result;
+			return -1;
 		}
 	}
 }

@@ -36,24 +36,43 @@ s_visible_items c_visible_items::m_items; // 0x124C2C90
 
 /* ---------- public code */
 
-_extern void _sub_10F0DF10();
 void c_visible_items::push_marker() // 0x10F0DF10
 {
-	mangled_x86(MANGLED_TODO, "?push_marker@c_visible_items@@SAXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?push_marker@c_visible_items@@SAXXZ");
 	// procedure flags: nofpo
 	// s_visible_items_stack_marker &top;
-	todo("implement");
-	_sub_10F0DF10();
+
+	s_visible_items_stack_marker &top = m_marker_stack[++m_marker_stack_top];
+	top.object_hierarchy_marker = m_items.object_hierarchies.count;
+	top.objects_marker = m_items.objects.count;
+	top.instance_groups_marker = m_items.instance_groups.count;
+	top.instances_marker = m_items.instances.count;
+	top.clusters_marker = m_items.clusters.count;
+	top.lights_marker = m_items.lights.count;
+	top.skies_marker = m_items.skies.count;
+	top.parts_count_marker = m_items.cluster_mesh_part_visibility_size;
+	top.cluster_count_marker = m_items.cluster_group_count;
 }
 
-_extern void _sub_10F0DDB0();
 void c_visible_items::pop_marker() // 0x10F0DDB0
 {
-	mangled_x86(MANGLED_TODO, "?pop_marker@c_visible_items@@SAXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?pop_marker@c_visible_items@@SAXXZ");
 	// procedure flags: nofpo
 	// s_visible_items_stack_marker &top;
-	todo("implement");
-	_sub_10F0DDB0();
+
+	#line 59 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\visibility\\visibility_items.cpp"
+		assert(m_marker_stack_top >= 0);
+		#line 66 "C:\\Users\\zekken\\Desktop\\Project Hades\\Hades\\Source\\blamlib\\source\\Blam\\visibility\\visibility_items.cpp"
+	s_visible_items_stack_marker &top = m_marker_stack[m_marker_stack_top--];
+	m_items.object_hierarchies.count = top.object_hierarchy_marker;
+	m_items.objects.count = top.objects_marker;
+	m_items.instance_groups.count = top.instance_groups_marker;
+	m_items.instances.count = top.instances_marker;
+	m_items.clusters.count = top.clusters_marker;
+	m_items.lights.count = top.lights_marker;
+	m_items.skies.count = top.skies_marker;
+	m_items.cluster_mesh_part_visibility_size = top.parts_count_marker;
+	m_items.cluster_group_count = top.cluster_count_marker;
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0s_visible_items@@QAE@XZ"); no body to assert in
@@ -96,17 +115,17 @@ template bool s_static_array<s_visible_items_stack_marker,3>::valid(__int32);
 template s_visible_items_stack_marker & s_static_array<s_visible_items_stack_marker,3>::operator[](long);
 
 /* ---------- explicit instantiations */
-template s_simple_list<long,6>::s_simple_list();
-template s_simple_list<long,50>::s_simple_list();
-template s_simple_list<s_visible_cluster,1392>::s_simple_list();
-template s_simple_list<s_visible_instance,4608>::s_simple_list();
-template s_simple_list<s_visible_instance_group,4096>::s_simple_list();
-template s_simple_list<s_visible_object,1792>::s_simple_list();
-template s_simple_list<s_visible_object_hierarchy,1536>::s_simple_list();
-template s_simple_list<long,6>::s_simple_list();
-template s_simple_list<long,50>::s_simple_list();
-template s_simple_list<s_visible_cluster,1392>::s_simple_list();
-template s_simple_list<s_visible_instance,4608>::s_simple_list();
-template s_simple_list<s_visible_instance_group,4096>::s_simple_list();
-template s_simple_list<s_visible_object,1792>::s_simple_list();
-template s_simple_list<s_visible_object_hierarchy,1536>::s_simple_list();
+// template s_simple_list<long,6>::s_simple_list();
+// template s_simple_list<long,50>::s_simple_list();
+// template s_simple_list<s_visible_cluster,1392>::s_simple_list();
+// template s_simple_list<s_visible_instance,4608>::s_simple_list();
+// template s_simple_list<s_visible_instance_group,4096>::s_simple_list();
+// template s_simple_list<s_visible_object,1792>::s_simple_list();
+// template s_simple_list<s_visible_object_hierarchy,1536>::s_simple_list();
+// template s_simple_list<long,6>::s_simple_list();
+// template s_simple_list<long,50>::s_simple_list();
+// template s_simple_list<s_visible_cluster,1392>::s_simple_list();
+// template s_simple_list<s_visible_instance,4608>::s_simple_list();
+// template s_simple_list<s_visible_instance_group,4096>::s_simple_list();
+// template s_simple_list<s_visible_object,1792>::s_simple_list();
+// template s_simple_list<s_visible_object_hierarchy,1536>::s_simple_list();

@@ -35,7 +35,6 @@ struct HALO_CHANNEL_PROPERTIES
 	float playback_rate_scale; // 0x4
 	char field_8; // 0x8
 	bool is_3d; // 0x9
-	unsigned char __pad0[2]; // 0xA
 	float d1; // 0xC
 	float d2; // 0x10
 	float d3; // 0x14
@@ -81,16 +80,16 @@ struct FMOD_EventSystem
 struct SYSTEM_FMOD
 {
 	void **vftable; // 0x0
-	unsigned __int32 flags; // 0x4
+	unsigned __int32 flags; unsigned char __pad8[0x24]; // 0x4 (hades: padded to the inventory offsets)
 	__int32 listener_count; // 0x2C
-	FMOD_EventSystem *event_system; // 0x30
-	FMOD_SPEAKERMODE speaker_mode; // 0x40
+	FMOD_EventSystem *event_system; unsigned char __pad34[0xC]; // 0x30
+	FMOD_SPEAKERMODE speaker_mode; unsigned char __pad44[0xC]; // 0x40
 	FMOD_VECTOR listener_positions[4]; // 0x50
 	char unknown[472]; // 0x80
 	FMOD_REVERB_PROPERTIES desired_reverb_properties; // 0x258
 	FMOD_REVERB_PROPERTIES current_reverb_properties; // 0x2D4
 };
-// static_assert(sizeof(SYSTEM_FMOD) == 848, "Invalid SYSTEM_FMOD size");
+static_assert(sizeof(SYSTEM_FMOD) == 848, "Invalid SYSTEM_FMOD size");
 // Withheld: the type inventory does not describe this type, so its
 // padding could not be reconstructed.
 
@@ -140,11 +139,11 @@ struct HALO_PERM_SOUND
 	__int32 first_sample; // 0x34
 	static bool (*isPlaying)(HALO_PERM_SOUND *);
 	static void (*Play)(HALO_PERM_SOUND *, HALO_CHANNEL_PROPERTIES *);
-	static bool (*Init)(HALO_PERM_SOUND *, s_sound_tag_data *, HALO_CHANNEL_PROPERTIES *, HALO_CHANNEL *);
-	static HALO_PERM_SOUND *(*Free)(HALO_PERM_SOUND *);
-	static HALO_PERM_SOUND *(*Reset)(HALO_PERM_SOUND *);
-	static __int32 (*UpdateChannelProperties)(HALO_PERM_SOUND *, HALO_CHANNEL_PROPERTIES *);
-	static __int32 (*InitChannelProperties)(HALO_PERM_SOUND *, HALO_CHANNEL_PROPERTIES *);
+	static bool (__thiscall *Init)(HALO_PERM_SOUND *, s_sound_tag_data *, HALO_CHANNEL_PROPERTIES *, HALO_CHANNEL *);
+	static HALO_PERM_SOUND *(__thiscall *Free)(HALO_PERM_SOUND *);
+	static HALO_PERM_SOUND *(__thiscall *Reset)(HALO_PERM_SOUND *);
+	static __int32 (__thiscall *UpdateChannelProperties)(HALO_PERM_SOUND *, HALO_CHANNEL_PROPERTIES *);
+	static __int32 (__thiscall *InitChannelProperties)(HALO_PERM_SOUND *, HALO_CHANNEL_PROPERTIES *);
 	static void (*Delay)(HALO_PERM_SOUND *, bool);
 	static void (*DelayDSP)(HALO_PERM_SOUND *);
 };

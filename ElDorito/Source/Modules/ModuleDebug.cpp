@@ -57,6 +57,10 @@
 #include "Web/WebRendererRenderHandler.hpp"
 #include "Web/WebRenderHandlerOsr.hpp"
 
+#include "Modules/ModuleServer.hpp"  // hades: added for 0x10980230
+#include <format>  // hades: added for 0x10980230
+#include <shellapi.h>  // hades: added for 0x10980230
+
 #include <base/cef_atomic_ref_count.h>
 #include <base/cef_lock.h>
 #include <base/cef_logging.h>
@@ -311,6 +315,18 @@ namespace Blam
 
 /* ---------- prototypes */
 
+namespace Server { namespace VariableSynchronization { extern void Synchronize(Modules::Command *serverVariable, Modules::Command *clientVariable); } }  // hades: added for 0x1097C0F0
+
+extern s_cache_file_tag_globals *g_cache_file_tag_globals;  // hades: added for 0x1097FBB0
+extern char const *tag_get_name(long tag_index);  // hades: added for 0x1097FBB0
+extern char const *tag_to_string(unsigned long tag, char *dest, long dest_length);  // hades: added for 0x1097FBB0
+
+#include "Blam/objects/multiplayer_game_objects.hpp"  // hades: added for 0x10980000
+extern bool (*const game_engine_is_sandbox)();  // hades: added for 0x10980000
+extern void *(*const tag_get)(unsigned long, long);  // hades: added for 0x10980000
+
+long tag_find_by_name(unsigned long group_tag, char const *name);  // hades: added for 0x1097FE30
+
 namespace Patches { namespace DeterminismDebug { extern bool StopRandomTrace(); } }  // hades: added for 0x10981420
 
 namespace Patches::DeterminismDebug { bool StartRandomTrace(std::string const &); }  // hades: added for 0X10981370
@@ -340,13 +356,77 @@ bool CommandHideForgeObjects(std::vector<std::string> const &Arguments, std::str
 
 namespace Modules
 {
-	extern ModuleDebug* _sub_1097C0F0(Modules::ModuleDebug *const);
-	ModuleDebug::ModuleDebug() : ModuleBase(todo_result<std::string>()) // 0x1097C0F0
+	ModuleDebug::ModuleDebug() : ModuleBase("Debug") /* hades-mem-init: : ModuleBase(todo_result<std::string>()) */ // 0x1097C0F0
 	{
-		mangled_x86(MANGLED_TODO, "??0ModuleDebug@Modules@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0ModuleDebug@Modules@@QAE@XZ");
 		// Modules::ModuleDebug *const this;
-		todo("implement");
-		_sub_1097C0F0(this);
+
+		teleportToCamera = 0;
+		VarCollisionTest = AddVariableInt("CollisionTest", "debug_collision_test", "Displays info about the collision surface under the crosshair", eCommandFlagsNone, 0);
+		VarClusters = AddVariableInt("Clusters", "debug_clusters", "Display the clusters of the current structure bsp", CommandFlags(eCommandFlagsClientAllowable | eCommandFlagsHostOnly), 0);
+		VarCollisionModels = AddVariableInt("CollisionModels", "debug_collision_models", "Displays object collision model geometry", CommandFlags(eCommandFlagsClientAllowable | eCommandFlagsHostOnly), 0);
+		VarPhysicsModels = AddVariableInt("PhysicsModels", "debug_physics_models", "Displays object physics model geometry", CommandFlags(eCommandFlagsClientAllowable | eCommandFlagsHostOnly), 0);
+		VarStructureCollision = AddVariableInt("StructureCollision", "debug_structure_collision", "Displays structure collision geometry", CommandFlags(eCommandFlagsClientAllowable | eCommandFlagsHostOnly), 0);
+		VarMarkerGroups = AddVariableInt("MarkerGroups", "debug_marker_groups", "Displays object markers", CommandFlags(eCommandFlagsClientAllowable | eCommandFlagsHostOnly), 0);
+		VarMarkerGroupFilter = AddVariableString("MarkerGroupFilter", "debug_marker_group_filter", "Filter which marker groups are displayed", eCommandFlagsNone, "");
+		VarDamageAoe = AddVariableInt("DamageAOE", "debug_damage_aoe", "Debug damage area of effect", CommandFlags(eCommandFlagsClientAllowable | eCommandFlagsHostOnly), 0);
+		VarDamageAoeDisplayTime = AddVariableFloat("DamageAOEDisplayTime", "debug_damage_aoe_display_time", "Controls the duration of damage area of effect display", eCommandFlagsNone, 2.0f);
+		VarTriggerVolumes = AddVariableInt("TriggerVolumes", "debug_trigger_volumes", "Displays trigger volumes", CommandFlags(eCommandFlagsClientAllowable | eCommandFlagsHostOnly), 0);
+		VarVisibility = AddVariableInt("Visibility", "debug_visibility", "", CommandFlags(eCommandFlagsClientAllowable | eCommandFlagsHostOnly), 0);
+		VarAcrophobia = AddVariableInt("Acrophobia", "debug_acrophobia", "", eCommandFlagsHostOnly, 0);
+		VarAcrophobiaClient = AddVariableInt("AcrophobiaClient", "debug_acrophobia_client", "", eCommandFlagsInternal, 0);
+		Server::VariableSynchronization::Synchronize(VarAcrophobia, VarAcrophobiaClient);
+		VarPlayerDamageDisabled = AddVariableInt("PlayerDamageDisabled", "debug_player_damage_disabled", "Players take no damage", eCommandFlagsHostOnly, 0);
+		VarPlayerDamageDisabledClient = AddVariableInt("PlayerDamageDisabledClient", "debug_player_damage_disabled_client", "Players take no damage", eCommandFlagsInternal, 0);
+		Server::VariableSynchronization::Synchronize(VarPlayerDamageDisabled, VarPlayerDamageDisabledClient);
+		VarMapBarriersDisabled = AddVariableInt("MapBarriersDisabled", "debug_map_barriers_disabled", "Disables map push/death barriers", eCommandFlagsHostOnly, 0);
+		VarMapBarriersDisabledClient = AddVariableInt("MapBarriersDisabledClient", "debug_map_barriers_disabled_client", "Disables map push/death barriers", eCommandFlagsInternal, 0);
+		Server::VariableSynchronization::Synchronize(VarMapBarriersDisabled, VarMapBarriersDisabledClient);
+		VarSoundDebug = AddVariableInt("SoundSources", "debug_sound_sources", "Displays info about the current active sound sources.", eCommandFlagsNone, 0);
+		VarLoopingSoundDebug = AddVariableInt("LoopingSounds", "debug_looping_sounds", "Displays info about the current active looping sounds.", eCommandFlagsNone, 0);
+		VarSoundFilters = AddVariableInt("FilterSounds", "debug_override_sound_class", "Ignore all sound class excepts the specified value. 65 means all sound classes.", eCommandFlagsNone, 0x41);
+		VarScriptTrace = AddVariableInt("ScriptTrace", "debug_script_trace", "Enable script tracing", eCommandFlagsNone, 0);
+		VarScriptTraceFile = AddVariableString("ScriptTraceFile", "debug_script_trace_file", "File to trace to", eCommandFlagsNone, "");
+		VarScriptName = AddVariableString("ScriptName", "debug_script_name", "Filter trace to the given script", eCommandFlagsNone, "");
+		VarHideForgeObjects = AddVariableInt("HideForgeObjects", "hide_forge_objects", "Hides all forge specific objects", CommandFlags(eCommandFlagsClientAllowable | eCommandFlagsHostOnly), 0, CommandHideForgeObjects);
+		VarHideForgeObjects->ValueIntMin = 0;
+		VarHideForgeObjects->ValueIntMax = 1;
+		VarHavokStats = AddVariableInt("HavokStats", "debug_havok_stats", "Displays havok memory stats", eCommandFlagsNone, 0);
+		VarFModStats = AddVariableInt("FModStats", "debug_fmod", "Displays stats from FMOD", eCommandFlagsNone, 0);
+		VarTraceFilter = AddVariableString("TraceFilter", "debug_trace_filter", "Only messages containing this string will be displayed", eCommandFlagsArchived, "");
+		VarSoundSystemTrace = AddVariableInt("SoundSystemTrace", "debug_sound_system_trace", "Toggle whether sound system tracing is enabled", eCommandFlagsArchived, 0);
+		VarSoundQueueFilter = AddVariableString("SoundQueueFilter", "debug_sound_queue_filter", "Only sounds containing this string will be queued with the sound system", eCommandFlagsArchived, "");
+		VarSoundCache = AddVariableInt("SoundCache", "debug_sound_cache", "", eCommandFlagsNone, 4);
+		VarScriptBreakpoint = AddVariableInt("ScriptBreakpoint", "debug_script_breakpoint", "Expression index to break on", eCommandFlagsNone, 0xFFFFFFFF);
+		VarMouseSupport = AddVariableInt("MouseSupport", "debug_mouse_support", "", eCommandFlagsNone, 0);
+		VarZBuffTest = AddVariableInt("ZBuffTest", "z_buff_test", "", eCommandFlagsNone, 1);
+		VarAnimationPhoneboothTestDraw = AddVariableInt("AnimationPhoneboothTestDraw", "debug_animation_phonebooth_test_draw", "Renders assassination start & end position checks - red: initiator, green: victim", eCommandFlagsNone, 0);
+		VarAnimationPhoneboothDrawTime = AddVariableFloat("AnimationPhoneboothDrawTime", "debug_animation_phonebooth_draw_time", "The duration of time which debug assassination rendering lasts for", eCommandFlagsNone, 1.0f);
+		AddCommand("StartRandomTrace", "debug_start_random_trace", "Starts a random trace log", eCommandFlagsNone, CommandStartRandomTrace, { "filename" });
+		AddCommand("StopRandomTrace", "debug_stop_random_trace", "Stops a random trace log", eCommandFlagsNone, CommandStopRandomTrace);
+		AddCommand("TeleportToCamera", "debug_tpc", "Telports the player to the camera position", eCommandFlagsHostOnly, CommandTeleportToCamera);
+		AddCommand("DebugTint", "debug_tint", "Change the shader debug_tint color", eCommandFlagsNone, CommandDebugTint);
+		AddCommand("RasterizerSetZPlanes", "rasterizer_set_z_planes", "Change the near and far z plane values", eCommandFlagsNone, CommandRasterizerSetZPlanes);
+		AddCommand("dialog", "dialog", "", eCommandFlagsNone, CommandDialogTest);
+		AddCommand("CefOpenURL", "cef_open_url", "opens a url in the main frame", eCommandFlagsNone, CommandCefOpenURL);
+		AddCommand("Crash", "crash", "Forces a game crash", eCommandFlagsNone, CommandCrash);
+		AddCommand("Nuke", "nuke", "Exit back to the os (uncleanly)", eCommandFlagsNone, CommandNuke);
+		AddCommand("LaunchClient", "launch_client", "", eCommandFlagsNone, CommandLaunchClient);
+		AddCommand("Tilewindows", "tile_windows", "", eCommandFlagsNone, CommandTileWindows);
+		AddCommand("ReflectionDebug", "reflection_debug", "", eCommandFlagsNone, CommandReflectionDebug);
+		VarSmaaDebugMode = AddVariableInt("SmaaDebugMode", "smaa_debug_mode", "", eCommandFlagsNone, 0);
+		VarSmaaDebugMode->ValueIntMin = 0;
+		VarSmaaDebugMode->ValueIntMax = 2;
+		AddCommand("RenderGeoHitTestEnabled", "render_geo_hit_test", "", eCommandFlagsNone, CommandRenderGeoHitTest);
+		VarParticleFilter = AddVariableString("ParticleFilter", "particle_filter", "Filters particles to tag names containing the given string", eCommandFlagsNone, "");
+		VarGeometrySamplerQuality = AddVariableInt("GeometrySamplerQuality", "geometry_sampler_quality", "Sets the geometry sampler quality (0 = disabled, 1 = normal, 2 = best)", eCommandFlagsArchived, 1);
+		VarGeometrySamplerQuality->ValueIntMin = 0;
+		VarGeometrySamplerQuality->ValueIntMax = 2;
+		VarD3DResources = AddVariableInt("D3DResources", "d3d_resources", "Display D3D resource allocation counts", eCommandFlagsNone, 0);
+		VarCrashReporting = AddVariableInt("CrashReporting", "crash_reporting", "Enables crash reporting", eCommandFlagsArchived, 1);
+		VarAssertLevel = AddVariableInt("AssertLevel", "assert_level", "Change the assert level (0 = off, 1 = normal, 2 = high)", eCommandFlagsArchived, 1);
+		AddCommand("DumpTags", "dump_tags", "Dumps a list of loaded tags", eCommandFlagsNone, CommandDumpTags);
+		AddCommand("ShowCrte", "showcrte", "Forces a crte scene to display. Use tagname or hex index", eCommandFlagsNone, CommandGameShowCrte);
 	}
 }
 
@@ -395,9 +475,9 @@ bool CommandNuke(std::vector<std::string> const &Arguments, std::string &returnI
 	return true;
 }
 
-_extern bool _sub_1097FBB0(std::vector<std::string> const &, std::string &);
 bool CommandDumpTags(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1097FBB0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandDumpTags@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandDumpTags
 	// static ...; // 0x1097FD94
 	// static ...; // 0x1097FD7C
@@ -406,52 +486,84 @@ bool CommandDumpTags(std::vector<std::string> const &Arguments, std::string &ret
 	// std::string &returnInfo;
 	// _iobuf *fp;
 	// char const *filename;
-	{
 		// __int32 i;
-		{
 			// char const *tag_name;
 			// long index;
 			// char tag_group_name[5];
-		}
+
+	char const *filename = "tag_dump.csv";
+	_iobuf *fp;
+	if (fopen_s(&fp, filename, "w"))
+	{
+		returnInfo = "failed to open file";
+		return false;
 	}
-	todo("implement");
-	bool __result = _sub_1097FBB0(Arguments, returnInfo);
-	return __result;
+	for (__int32 i = 0; i < g_cache_file_tag_globals->loaded_instance_count; i++)
+	{
+		long index = g_cache_file_tag_globals->absolute_index_index_map[i];
+		if (index == -1)
+			continue;
+		char const *tag_name = tag_get_name(index);
+		char tag_group_name[5];
+		tag_to_string(g_cache_file_tag_globals->instances[i]->group.tags[0], tag_group_name, 5);
+		fprintf(fp, "0x%04x, %s.%s\n", index, tag_name, tag_group_name);
+	}
+	fclose(fp);
+	returnInfo = std::string("Tags dumped to ") + filename;
+	return true;
 }
 
-_extern bool _sub_1097FA00(std::vector<std::string> const &, std::string &);
 bool CommandDialogTest(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1097FA00
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandDialogTest@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandDialogTest
 	// static ...; // 0x1097FB40
 	// static ...; // 0x1097FB38
 	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// Web::Ui::ScreenLayer::SDialogShowParams params;
-	todo("implement");
-	bool __result = _sub_1097FA00(Arguments, returnInfo);
-	return __result;
+
+	if (Arguments.size() < 1)
+		return false;
+	Web::Ui::ScreenLayer::SDialogShowParams params;
+	params.templateName = Arguments[0];
+	params.callback = [](std::string const &result) { Console::WriteLine("result: " + result); };
+	if (Arguments.size() > 1)
+		params.customBody = Arguments[1];
+	if (Arguments.size() > 2)
+		params.customTitle = Arguments[2];
+	Web::Ui::ScreenLayer::ShowDialog(params);
+	return true;
 }
 
-_extern bool _sub_1097F5F0(std::vector<std::string> const &, std::string &);
 bool CommandDebugTint(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1097F5F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandDebugTint@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandDebugTint
 	// static ...; // 0x1097F91C
 	// static ...; // 0x1097F914
 	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
-	{
 		// std::stringstream ss;
+
+	if (Arguments.size() != 4)
+	{
+		std::stringstream ss;
+		ss << "4 arguments are required!" << std::endl;
+		ss << "Usage: [red] [green] [blue] [alpha]";
+		returnInfo = ss.str();
+		return false;
 	}
-	todo("implement");
-	bool __result = _sub_1097F5F0(Arguments, returnInfo);
-	return __result;
+	Pointer(0xA3C761).WriteFast<float>(std::stof(Arguments[0]));
+	Pointer(0xA3C768).WriteFast<float>(std::stof(Arguments[1]));
+	Pointer(0xA3C76F).WriteFast<float>(std::stof(Arguments[2]));
+	Pointer(0xA3C776).WriteFast<float>(std::stof(Arguments[3]));
+	return true;
 }
 
-_extern bool _sub_10980970(std::vector<std::string> const &, std::string &);
 bool CommandRasterizerSetZPlanes(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10980970
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandRasterizerSetZPlanes@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandRasterizerSetZPlanes
 	// static ...; // 0x10980EE0
 	// static ...; // 0x10980ED8
@@ -459,16 +571,43 @@ bool CommandRasterizerSetZPlanes(std::vector<std::string> const &Arguments, std:
 	// std::string &returnInfo;
 	// static float `CommandRasterizerSetZPlanes'::`2'::far_clip_plane; // 0x12454D64
 	// static float `CommandRasterizerSetZPlanes'::`2'::near_clip_plane; // 0x12454D60
-	{
 		// float far_plane;
 		// float near_plane;
-	}
-	{
 		// std::stringstream ss;
+
+	static float near_clip_plane = 0.0f;
+	static float far_clip_plane = 0.0f;
+	if (Arguments.size() == 0)
+	{
+		float near_plane = *(float *)0x191068C;
+		float far_plane = *(float *)0x1910690;
+		returnInfo = "Near: " + std::to_string(near_plane) + " Far: " + std::to_string(far_plane);
+		return true;
 	}
-	todo("implement");
-	bool __result = _sub_10980970(Arguments, returnInfo);
-	return __result;
+	if (Arguments.size() == 1 && Arguments[0] == "reset" && near_clip_plane != 0.0f && far_clip_plane != 0.0f)
+	{
+		Pointer(0x191068C).WriteFast<float>(near_clip_plane);
+		Pointer(0x1910690).WriteFast<float>(far_clip_plane);
+		returnInfo = "clip planes reset";
+		return true;
+	}
+	if (Arguments.size() != 2)
+	{
+		std::stringstream ss;
+		ss << "2 arguments are required!" << std::endl;
+		ss << "Usage: [near] [far], rest";
+		returnInfo = ss.str();
+		return false;
+	}
+	if (near_clip_plane == 0.0f && far_clip_plane == 0.0f)
+	{
+		near_clip_plane = *(float *)0x191068C;
+		far_clip_plane = *(float *)0x1910690;
+	}
+	Pointer(0x191068C).WriteFast<float>(std::stof(Arguments[0]));
+	Pointer(0x1910690).WriteFast<float>(std::stof(Arguments[1]));
+	returnInfo = "Planes Set";
+	return true;
 }
 
 bool CommandTeleportToCamera(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10981480
@@ -481,9 +620,9 @@ bool CommandTeleportToCamera(std::vector<std::string> const &Arguments, std::str
 	return true;
 }
 
-_extern bool _sub_10981050(std::vector<std::string> const &, std::string &);
 bool CommandReflectionDebug(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10981050
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandReflectionDebug@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandReflectionDebug
 	// static ...; // 0x109811C4
 	// static ...; // 0x109811BC
@@ -491,12 +630,19 @@ bool CommandReflectionDebug(std::vector<std::string> const &Arguments, std::stri
 	// std::string &returnInfo;
 	// bool &g_reflection_debug;
 	// __int32 const value;
-	{
 		// std::stringstream ss;
+
+	bool &g_reflection_debug = *(bool *)0x5115AFC;
+	if (Arguments.size() < 1)
+	{
+		std::stringstream ss;
+		ss << "Value required!" << std::endl;
+		returnInfo = ss.str();
+		return false;
 	}
-	todo("implement");
-	bool __result = _sub_10981050(Arguments, returnInfo);
-	return __result;
+	__int32 const value = std::stoi(Arguments[0]);
+	g_reflection_debug = value > 0;
+	return true;
 }
 
 bool CommandStartRandomTrace(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10981370
@@ -537,7 +683,6 @@ bool CommandStopRandomTrace(std::vector<std::string> const &Arguments, std::stri
 	return true;
 }
 
-_extern bool _sub_1097F2D0(std::vector<std::string> const &, std::string &);
 bool CommandCefOpenURL(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1097F2D0
 {
 	// `anonymous-namespace'::CommandCefOpenURL
@@ -546,14 +691,22 @@ bool CommandCefOpenURL(std::vector<std::string> const &Arguments, std::string &r
 	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// std::shared_ptr<Web::Browser::WebRenderer> webRenderer;
-	todo("implement");
-	bool __result = _sub_1097F2D0(Arguments, returnInfo);
-	return __result;
+
+	if (Arguments.size() < 1)
+		return false;
+	auto webRenderer = Web::Browser::WebRenderer::GetInstance();
+	if (webRenderer)
+	{
+		webRenderer->OpenUrl(Arguments[0]);
+		webRenderer->ShowRenderer(true, true);
+		Web::Ui::ScreenLayer::CaptureInput(true, true);
+	}
+	return true;
 }
 
-_extern bool _sub_10980230(std::vector<std::string> const &, std::string &);
 bool CommandLaunchClient(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10980230
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandLaunchClient@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandLaunchClient
 	// static ...; // 0x109806B2
 	// static ...; // 0x109806A4
@@ -565,26 +718,46 @@ bool CommandLaunchClient(std::vector<std::string> const &Arguments, std::string 
 	// std::vector<std::string> args;
 	// std::string formattedArgs;
 	// char exePath[260];
-	{
 		// std::vector<std::string> const &<range>$L0;
 		// std::string const *<begin>$L0;
 		// std::string const *<end>$L0;
-		{
 			// std::string const &arg;
-		}
-	}
 	// function call : unsigned long (HINSTANCE__ *, char *, unsigned long)
 	// function call : unsigned long ()
 	// function call : HINSTANCE__ *(HWND__ *, char const *, char const *, char const *, char const *, __int32)
 	// function call : unsigned long ()
-	todo("implement");
-	bool __result = _sub_10980230(Arguments, returnInfo);
-	return __result;
+
+	char exePath[260];
+	if (!GetModuleFileNameA(NULL, exePath, std::size(exePath)))
+	{
+		returnInfo = std::format("Failed get exe file path. Error: {}", GetLastError());
+		return false;
+	}
+	bool hasConnect = false;
+	for (const auto &arg : Arguments)
+	{
+		if ((hasConnect = arg.compare("-connect") == 0))
+			break;
+	}
+	std::vector<std::string> args;
+	if (!hasConnect)
+	{
+		args.push_back("-connect");
+		args.push_back(std::format("localhost:{}", Utils::Singleton<Modules::ModuleServer>::Instance().VarServerPort->ValueInt));
+	}
+	std::copy(Arguments.begin(), Arguments.end(), std::back_inserter(args));
+	std::string formattedArgs = Utils::FormatCommandLine(args);
+	if ((int)ShellExecuteA(NULL, NULL, exePath, formattedArgs.c_str(), NULL, SW_SHOWNORMAL) <= 32)
+	{
+		returnInfo = std::format("Failed to create process. Error: {}", GetLastError());
+		return false;
+	}
+	return true;
 }
 
-_extern bool _sub_109814D0(std::vector<std::string> const &, std::string &);
 bool CommandTileWindows(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109814D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandTileWindows@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandTileWindows
 	// static ...; // 0x1098174B
 	// static ...; // 0x10981748
@@ -600,18 +773,12 @@ bool CommandTileWindows(std::vector<std::string> const &Arguments, std::string &
 	// __int32 numWindows;
 	// __int32 posY;
 	// __int32 screenWidth;
-	{
 		// char windowTitle[1024];
-	}
-	{
 		// __int32 i;
-		{
 			// __int32 ww;
 			// HWND__ *hwnd;
 			// tagRECT wr;
 			// __int32 wh;
-		}
-	}
 	// function call : __int32 (__int32)
 	// function call : __int32 (__int32)
 	// function call : HWND__ *(HWND__ *, HWND__ *, char const *, char const *)
@@ -619,9 +786,42 @@ bool CommandTileWindows(std::vector<std::string> const &Arguments, std::string &
 	// function call : __int32 (HWND__ *, __int32)
 	// function call : __int32 (HWND__ *, tagRECT *)
 	// function call : __int32 (HWND__ *, HWND__ *, __int32, __int32, __int32, __int32, unsigned __int32)
-	todo("implement");
-	bool __result = _sub_109814D0(Arguments, returnInfo);
-	return __result;
+
+	__int32 posX = 0;
+	__int32 posY = 0;
+	__int32 rowHeight = 0;
+	__int32 screenWidth = GetSystemMetrics(SM_CXSCREEN);
+	__int32 screenHeight = GetSystemMetrics(SM_CYSCREEN);
+	HWND windows[32];
+	__int32 numWindows = 0;
+	HWND hwnd = nullptr;
+	while ((hwnd = FindWindowExA(nullptr, hwnd, nullptr, nullptr)) != nullptr)
+	{
+		char windowTitle[1024];
+		GetWindowTextA(hwnd, windowTitle, std::size(windowTitle));
+		if (strstr(windowTitle, "ElDewrito | Version"))
+			windows[numWindows++] = hwnd;
+	}
+	for (__int32 i = 0; i < numWindows; i++)
+	{
+		HWND window = windows[i];
+		ShowWindow(window, SW_RESTORE);
+		RECT wr;
+		GetWindowRect(window, &wr);
+		__int32 width = wr.right - wr.left;
+		__int32 height = wr.bottom - wr.top;
+		if (posX + width > screenWidth)
+		{
+			posY += rowHeight;
+			posX = 0;
+			rowHeight = 0;
+		}
+		SetWindowPos(window, nullptr, posX, posY, 0, 0, SWP_NOSIZE);
+		posX += width;
+		if (height > rowHeight)
+			rowHeight = height;
+	}
+	return true;
 }
 
 bool CommandRenderGeoHitTest(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10981240
@@ -641,9 +841,9 @@ bool CommandRenderGeoHitTest(std::vector<std::string> const &Arguments, std::str
 	return true;
 }
 
-_extern bool _sub_1097FE30(std::vector<std::string> const &, std::string &);
 bool CommandGameShowCrte(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1097FE30
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGameShowCrte@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandGameShowCrte
 	// static ...; // 0x1097FF94
 	// static ...; // 0x1097FF7C
@@ -652,18 +852,26 @@ bool CommandGameShowCrte(std::vector<std::string> const &Arguments, std::string 
 	// std::string &returnInfo;
 	// short tag_index;
 	// constexpr void (*const `CommandGameShowCrte'::`2'::cortana_globals__play_effect)(__int32); // constant == 11267264
-	{
 		// std::stringstream ss;
-	}
 	// function call : void (*const)(__int32)
-	todo("implement");
-	bool __result = _sub_1097FE30(Arguments, returnInfo);
-	return __result;
+
+	if (Arguments.size() < 1)
+		return false;
+	short tag_index = (short)tag_find_by_name('crte', Arguments[0].c_str());
+	static void (*const cortana_globals__play_effect)(__int32) = reinterpret_cast<void (*)(__int32)>(0xABECC0);
+	if (tag_index == -1)
+	{
+		std::stringstream ss;
+		ss << std::hex << Arguments[0];
+		ss >> tag_index;
+	}
+	cortana_globals__play_effect(tag_index);
+	return true;
 }
 
-_extern bool _sub_10980000(std::vector<std::string> const &, std::string &);
 bool CommandHideForgeObjects(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10980000
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandHideForgeObjects@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandHideForgeObjects
 	// static ...; // 0x109801B0
 	// static ...; // 0x109801A8
@@ -672,23 +880,36 @@ bool CommandHideForgeObjects(std::vector<std::string> const &Arguments, std::str
 	// void (*const object_hide)(long, bool);
 	// bool hidden;
 	// Blam::Network::Session *session;
-	{
 		// c_data_array<s_object_header> *object_headers;
-		{
 			// c_data_iterator<s_object_header> it;
-			{
 				// s_object_definition *object_definition;
 				// long definition_index;
 				// unsigned long objectIndex;
-			}
-		}
-	}
 	// function call : bool (*const)()
 	// function call : void *(*const)(unsigned long, long)
 	// function call : void (*const)(long, bool)
-	todo("implement");
-	bool __result = _sub_10980000(Arguments, returnInfo);
-	return __result;
+
+	void (*const object_hide)(long, bool) = reinterpret_cast<void (*)(long, bool)>(0x96E230);
+	if (!game_engine_is_sandbox())
+	{
+		returnInfo = "Only usable in Forge";
+		return false;
+	}
+	Blam::Network::Session *session = Blam::Network::GetActiveSession();
+	bool hidden = Modules::ModuleDebug::Instance().VarHideForgeObjects->ValueInt == 1;
+	if (session && session->IsEstablished())
+	{
+		c_data_array<s_object_header> *object_headers = object_headers_get();
+		for (c_data_iterator<s_object_header> it = object_headers->begin(); it != object_headers->end(); ++it)
+		{
+			unsigned long objectIndex = it.current_datum_index;
+			long definition_index = it->data->definition_index;
+			s_object_definition *object_definition = (s_object_definition *)tag_get('obje', definition_index);
+			if (object_definition && object_definition->multiplayer_object.count > 0 && object_definition->multiplayer_object->flags.test((e_multiplayer_object_flags)0))
+				object_hide(objectIndex, hidden);
+		}
+	}
+	return true;
 }
 
 /* ---------- template instantiations */

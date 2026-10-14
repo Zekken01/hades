@@ -40,7 +40,7 @@ namespace Download
 	{
 	public:
 		CEventSink<> Completed; // 0x4
-		virtual _inline ~IDownload();
+		virtual ~IDownload() = default;  // hades: implicit - the original stores no vftable in it
 		virtual bool IsComplete() const = 0;
 		virtual Download::EDownloadStatus GetStatus() const = 0;
 		virtual Download::EDownloadError GetError() const = 0;
@@ -70,21 +70,15 @@ namespace Download
 
 namespace Download
 {
-	_inline IDownload::~IDownload() // 0x1082CC90
-	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??1IDownload@Download@@UAE@XZ");
-		// Download::IDownload *const this;
-
-		Completed.~CEventSink<>();
-	}
+	// hades: IDownload::~IDownload() is defaulted in the class (0x1082CC90)
 }
 
-extern char const *_sub_108571F0(Download::EDownloadStatus);
+
 namespace Download
 {
 	_inline char const *DownloadStatusToString(Download::EDownloadStatus status) // 0x108571F0
 	{
-		mangled_x86(MANGLED_TODO, "?DownloadStatusToString@Download@@YAPBDW4EDownloadStatus@1@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?DownloadStatusToString@Download@@YAPBDW4EDownloadStatus@1@@Z");
 		// static ...; // 0x1085724C
 	// $LN8:
 	// $LN7:
@@ -92,18 +86,31 @@ namespace Download
 	// $LN5:
 	// $LN4:
 		// Download::EDownloadStatus status;
-		todo("implement");
-		char const * __result = _sub_108571F0(status);
-		return __result;
+
+		switch (status)
+		{
+		case NotStarted:
+			return "NotStarted";
+		case Downloading:
+			return "Downloading";
+		case Cancelled:
+			return "Cancelled";
+		case Success:
+			return "Success";
+		case Failed:
+			return "Failed";
+		}
+
+		return "Unknown";
 	}
 }
 
-extern char const *_sub_10716FB0(Download::EDownloadError);
+
 namespace Download
 {
 	_inline char const *DownloadErrorToString(Download::EDownloadError error) // 0x10716FB0
 	{
-		mangled_x86(MANGLED_TODO, "?DownloadErrorToString@Download@@YAPBDW4EDownloadError@1@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?DownloadErrorToString@Download@@YAPBDW4EDownloadError@1@@Z");
 		// static ...; // 0x10717018
 	// $LN10:
 	// $LN9:
@@ -113,9 +120,26 @@ namespace Download
 	// $LN5:
 	// $LN4:
 		// Download::EDownloadError error;
-		todo("implement");
-		char const * __result = _sub_10716FB0(error);
-		return __result;
+
+		switch (error)
+		{
+		case 0:
+			return "None";
+		case 1:
+			return "Cancelled";
+		case 2:
+			return "NotEnoughDiskSpace";
+		case 3:
+			return "BadResponse";
+		case 4:
+			return "RequestError";
+		case 5:
+			return "FileError";
+		case 6:
+			return "NetworkError";
+		}
+
+		return "Unknown";
 	}
 }
 

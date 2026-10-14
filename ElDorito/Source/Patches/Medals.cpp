@@ -93,6 +93,9 @@ namespace Patches
 
 /* ---------- prototypes */
 
+extern long (*const game_seconds_to_ticks_round)(float);  // hades: added for 0x10A8A270
+extern long (*const game_time_get)();  // hades: added for 0x10A8A270
+
 namespace Patches
 {
 	namespace Medals
@@ -117,13 +120,18 @@ namespace Patches
 {
 	namespace Medals
 	{
-		_extern void _sub_10A89990();
 		void ApplyAll() // 0x10A89990
 		{
-			mangled_x86(MANGLED_TODO, "?ApplyAll@Medals@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Medals@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_10A89990();
+
+			Patches::Events::OnEvent(::OnEvent);
+			Patch::NopFill(Pointer::Base(0x697680), 5);
+			Patch::NopFill(Pointer::Base(0x697687), 4);
+			Hook(0x6970D6, chud_update_h3_medal_animation_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x6970DE, chud_update_saber_medal_animation_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x2E41D1, sound_enqueue_announcer_sound_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x1A1E70, HeadshotHook).Apply();
 		}
 	}
 }
@@ -152,38 +160,64 @@ void OnEvent(unsigned long player, s_game_engine_event_data const *event, s_mult
 	}
 }
 
-_extern void _sub_10A8A430(__int32, void *, __int32);
 void __fastcall chud_update_saber_medal_animation_hook(__int32 thisptr, void *unused, __int32 a2) // 0x10A8A430
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?chud_update_saber_medal_animation_hook@@YIXHPAXH@Z");
+	// the original is empty
 	// `anonymous-namespace'::chud_update_saber_medal_animation_hook
 	// __int32 a2;
-	todo("implement");
-	_sub_10A8A430(thisptr, unused, a2);
 }
 
-_extern void _sub_10A8A270(__int32, void *, __int32);
 void __fastcall chud_update_h3_medal_animation_hook(__int32 thisptr, void *unused, __int32 a2) // 0x10A8A270
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?chud_update_h3_medal_animation_hook@@YIXHPAXH@Z");
 	// `anonymous-namespace'::chud_update_h3_medal_animation_hook
 	// __int32 a2;
 	// void (*const chud_update_h3_medal_animation)(__int32, __int32);
 	// chud_update_h3_medal_animation_hook::__l2::s_chud_h3_medal_state *medals;
 	// long const fadeOutDuration;
-	{
 		// __int32 i;
-		{
 			// long dt;
-			{
 				// float &opacity;
 				// long fadeOutDelta;
-			}
-		}
-	}
 	// function call : void (*const)(__int32, __int32)
 	// function call : long (*const)(float)
 	// function call : long (*const)()
-	todo("implement");
-	_sub_10A8A270(thisptr, unused, a2);
+
+	struct s_chud_h3_medal_state
+	{
+		char Active;
+		__int32 field_4;
+		__int32 StartTime;
+		__int32 InEndTime;
+		__int32 Duration;
+		char InAnimationFinished;
+		__int32 OutPercent;
+		__int32 field_1C;
+		__int32 field_20;
+		float Opacity;
+	};
+	void (__thiscall *const chud_update_h3_medal_animation)(__int32, __int32) = reinterpret_cast<void (__thiscall *)(__int32, __int32)>(0xA973F0);
+	chud_update_h3_medal_animation(thisptr, a2);
+	s_chud_h3_medal_state *medals = (s_chud_h3_medal_state *)thisptr;
+	long const fadeOutDuration = game_seconds_to_ticks_round(1.0f);
+	for (__int32 i = 0; i < 4; i++)
+	{
+		if (medals[i].Active && medals[i].InAnimationFinished)
+		{
+			long dt = game_time_get() - medals[i].StartTime;
+			if (dt > 250)
+			{
+				long fadeOutDelta = dt - 250;
+				if (fadeOutDelta > fadeOutDuration)
+					medals[i].Active = false;
+				float &opacity = medals[i].Opacity;
+				opacity = 1.0f - (float)fadeOutDelta / fadeOutDuration;
+				if (opacity < 0.0f)
+					opacity = 0.0f;
+			}
+		}
+	}
 }
 
 void sound_enqueue_announcer_sound_hook(unsigned __int32 sndTagIndex, __int32 delayTicks) // 0x10A8A460

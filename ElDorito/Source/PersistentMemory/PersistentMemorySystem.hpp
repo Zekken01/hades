@@ -38,29 +38,29 @@ namespace PersistentMemory
 		{
 			std::string player_name; // 0x0
 			std::string player_uid; // 0x1C
-			_inline SPersistantMute(SPersistantMute &&__that); /* compiler_generated() */
-			_inline SPersistantMute(SPersistantMute const &__that); /* compiler_generated() */
-			SPersistantMute(); /* compiler_generated() */
-			_inline ~SPersistantMute(); /* compiler_generated() */
-			_inline SPersistantMute &operator=(SPersistantMute &&__that); /* compiler_generated() */
-			SPersistantMute &operator=(SPersistantMute const &); /* compiler_generated() */
+			// hades: special members left implicit (aggregate init and noexcept moves in LoadPersistentMemory/Load/Add/RemoveMutedVoipPlayer)
+			// hades: special members left implicit (aggregate init and noexcept moves in LoadPersistentMemory/Load/Add/RemoveMutedVoipPlayer)
+			// hades: special members left implicit (aggregate init and noexcept moves in LoadPersistentMemory/Load/Add/RemoveMutedVoipPlayer)
+			// hades: special members left implicit (aggregate init and noexcept moves in LoadPersistentMemory/Load/Add/RemoveMutedVoipPlayer)
+			// hades: special members left implicit (aggregate init and noexcept moves in LoadPersistentMemory/Load/Add/RemoveMutedVoipPlayer)
+			// hades: special members left implicit (aggregate init and noexcept moves in LoadPersistentMemory/Load/Add/RemoveMutedVoipPlayer)
 		};
 		static_assert(sizeof(SPersistantMute) == 56, "Invalid SPersistantMute size");
 		public:
-		__int32 lastMapID; // 0x0
-		std::string lastAnnoucementViewedDate; // 0x4
-		std::string lastMapName; // 0x20
-		std::string lastGameType; // 0x3C
-		std::string lastMultiplayerMod; // 0x58
-		std::string lastCampaignMod; // 0x74
-		std::string lastFirefightMod; // 0x90
+		__int32 lastMapID = 30; // 0x0
+		std::string lastAnnoucementViewedDate = ""; // 0x4
+		std::string lastMapName = ""; // 0x20
+		std::string lastGameType = ""; // 0x3C
+		std::string lastMultiplayerMod = ""; // 0x58
+		std::string lastCampaignMod = ""; // 0x74
+		std::string lastFirefightMod = ""; // 0x90
 		std::vector<SPersistantMute> mutedVoipPlayers; // 0xAC
-		_inline SPersistentMemoryDB(PersistentMemory::SPersistentMemoryDB &&__that); /* compiler_generated() */
-		SPersistentMemoryDB(PersistentMemory::SPersistentMemoryDB const &); /* compiler_generated() */
-		_inline SPersistentMemoryDB() = default; /* compiler_generated() */
-		_inline ~SPersistentMemoryDB(); /* compiler_generated() */
-		_inline PersistentMemory::SPersistentMemoryDB &operator=(PersistentMemory::SPersistentMemoryDB &&__that); /* compiler_generated() */
-		PersistentMemory::SPersistentMemoryDB &operator=(PersistentMemory::SPersistentMemoryDB const &); /* compiler_generated() */
+		// hades: special members left implicit (aggregate init and noexcept moves in LoadPersistentMemory/Load/Add/RemoveMutedVoipPlayer)
+		// hades: special members left implicit (aggregate init and noexcept moves in LoadPersistentMemory/Load/Add/RemoveMutedVoipPlayer)
+		// hades: special members left implicit (aggregate init and noexcept moves in LoadPersistentMemory/Load/Add/RemoveMutedVoipPlayer)
+		// hades: special members left implicit (aggregate init and noexcept moves in LoadPersistentMemory/Load/Add/RemoveMutedVoipPlayer)
+		// hades: special members left implicit (aggregate init and noexcept moves in LoadPersistentMemory/Load/Add/RemoveMutedVoipPlayer)
+		// hades: special members left implicit (aggregate init and noexcept moves in LoadPersistentMemory/Load/Add/RemoveMutedVoipPlayer)
 	};
 }
 

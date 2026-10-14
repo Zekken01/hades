@@ -49,7 +49,7 @@ namespace Patches
 			virtual bool UiInputTick() = 0;
 			virtual _inline void InputBlock();
 			virtual _inline void InputUnblock();
-			bool allowHandlers; // 0x4
+			bool allowHandlers = false; // 0x4
 			InputContext(Patches::Input::InputContext const &); /* compiler_generated() */
 			_inline InputContext() = default; /* compiler_generated() */
 			Patches::Input::InputContext &operator=(Patches::Input::InputContext const &); /* compiler_generated() */

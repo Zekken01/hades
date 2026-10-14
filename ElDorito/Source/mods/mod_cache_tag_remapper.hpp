@@ -46,7 +46,7 @@ public:
 		public:
 		unsigned __int32 group_tag; // 0x0
 		std::string_view name; // 0x4
-		s_name_lookup_key(); /* compiler_generated() */
+		// s_name_lookup_key(); compiler_generated (hades: left implicit so the key stays an aggregate for initialize)
 	};
 #pragma pack(pop)
 	static_assert(sizeof(s_name_lookup_key) == 12, "Invalid s_name_lookup_key size");
@@ -60,13 +60,13 @@ public:
 	void reset();
 	c_tag_name_dictionary &steal_tag_names();
 private:
-	bool m_valid; // 0x0
-	unsigned char __pad0[3]; // 0x1
-	unsigned long m_runtime_memory_size; // 0x4
-	long m_runtime_tag_count; // 0x8
+	bool m_valid = false; // 0x0
+	// 0x1: 3 bytes of implicit padding (hades: no array member, it would add a /GS cookie to stack instances)
+	unsigned long m_runtime_memory_size = 0; // 0x4
+	long m_runtime_tag_count = 0; // 0x8
 	std::unordered_map<long,long> m_runtime_tag_index_to_mod_tag_index; // 0xC
 	std::unordered_map<long,long> m_mod_tag_index_to_runtime_index; // 0x34
-	c_cache_file_tag_cache *m_base_cache; // 0x5C
+	c_cache_file_tag_cache *m_base_cache = nullptr; // 0x5C
 	std::unordered_map<s_name_lookup_key,long,c_mod_cache_tag_remapper::s_name_lookup_key::s_hasher> m_base_tags_by_name; // 0x60
 public:
 	c_mod_cache_tag_remapper(c_mod_cache_tag_remapper &); /* compiler_generated() */

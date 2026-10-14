@@ -93,37 +93,32 @@ namespace Blam
 
 namespace hades_file_local
 {
-	extern std::shared_ptr<c_cache_file_tag_cache> tag_cache; // 0x123AEF10
-	extern std::shared_ptr<Blam::Cache::StringIDCache> string_id_cache; // 0x123AEF18
+	std::shared_ptr<c_cache_file_tag_cache> tag_cache; // 0x123AEF10
+	std::shared_ptr<Blam::Cache::StringIDCache> string_id_cache; // 0x123AEF18
 	extern std::chrono::time_point<std::filesystem::_File_time_clock,std::chrono::duration<__int64,std::ratio<1,10000000> > > previous_last_write_time; // 0x123AEF20
 }
 using namespace hades_file_local;
 /* ---------- public code */
 
-extern std::shared_ptr<c_cache_file_tag_cache> _sub_10879AA0();
 std::shared_ptr<c_cache_file_tag_cache> c_cache_file_tags::get_open_cache() // 0x10879AA0
 {
-	mangled_x86(MANGLED_TODO, "?get_open_cache@c_cache_file_tags@@SA?AV?$shared_ptr@Vc_cache_file_tag_cache@@@std@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_open_cache@c_cache_file_tags@@SA?AV?$shared_ptr@Vc_cache_file_tag_cache@@@std@@XZ");
 	// procedure flags: nofpo
-	todo("implement");
-	std::shared_ptr<c_cache_file_tag_cache> __result = _sub_10879AA0();
-	return __result;
+
+	return tag_cache;
 }
 
-extern std::shared_ptr<Blam::Cache::StringIDCache> _sub_10879B10();
 std::shared_ptr<Blam::Cache::StringIDCache> c_cache_file_tags::get_open_string_id_cache() // 0x10879B10
 {
-	mangled_x86(MANGLED_TODO, "?get_open_string_id_cache@c_cache_file_tags@@SA?AV?$shared_ptr@UStringIDCache@Cache@Blam@@@std@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_open_string_id_cache@c_cache_file_tags@@SA?AV?$shared_ptr@UStringIDCache@Cache@Blam@@@std@@XZ");
 	// procedure flags: nofpo
-	todo("implement");
-	std::shared_ptr<Blam::Cache::StringIDCache> __result = _sub_10879B10();
-	return __result;
+
+	return string_id_cache;
 }
 
-_extern bool _sub_10879F70();
 bool c_cache_file_tags::open_tag_cache() // 0x10879F70
 {
-	mangled_x86(MANGLED_TODO, "?open_tag_cache@c_cache_file_tags@@SA_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?open_tag_cache@c_cache_file_tags@@SA_NXZ");
 	// procedure flags: nofpo
 	// static ...; // 0x1087A435
 	// static ...; // 0x1087A425
@@ -146,12 +141,36 @@ bool c_cache_file_tags::open_tag_cache() // 0x10879F70
 	// c_file_reference file;
 	// c_tag_name_dictionary tag_names;
 	// c_file_open_scope scope;
-	{
 		// s_tag_name_entry entry;
+
+	char const *tags_path = "maps\\tags.dat";
+	char const *tags_names_path = "maps\\tag_list.csv";
+	char const *string_ids_path = "maps\\string_ids.dat";
+	auto last_write_time = std::filesystem::last_write_time(tags_path);
+	if (tag_cache && last_write_time == previous_last_write_time)
+		return true;
+	close_tag_cache();
+	previous_last_write_time = last_write_time;
+	std::shared_ptr<Blam::Cache::StringIDCache> tmp_string_id_cache = std::make_shared<Blam::Cache::StringIDCache>();
+	if (!tmp_string_id_cache->Load(string_ids_path, 0))
+		return false;
+	c_file_reference file(tags_path);
+	c_file_open_scope scope(file, 1);
+	if (!file_is_open(&file))
+		return false;
+	c_tag_name_dictionary tag_names;
+	c_tag_names_csv_file_reader tag_name_reader(tags_names_path);
+	{
+		s_tag_name_entry entry;
+		while (tag_name_reader.read_next(&entry))
+			tag_names.add(entry.index, entry.name);
 	}
-	todo("implement");
-	bool __result = _sub_10879F70();
-	return __result;
+	std::shared_ptr<c_cache_file_tag_cache> tmp_tag_cache = std::make_shared<c_cache_file_tag_cache>(&file, 0, std::move(tag_names));
+	if (!tmp_tag_cache->initialize())
+		return false;
+	tag_cache = tmp_tag_cache;
+	string_id_cache = tmp_string_id_cache;
+	return true;
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??1c_tag_names_csv_file_reader@@QAE@XZ"); no body to assert in

@@ -1,5 +1,6 @@
 /* ---------- headers */
 
+#define PSAPI_VERSION 1  // hades: AntiSpeed imports EnumProcessModules from psapi.dll, not the K32 forwarders
 #include "hades/hades.h"
 
 #include "Blam/BlamNetwork.hpp"
@@ -24,6 +25,7 @@
 #include "Utils/Singleton.hpp"
 
 #include <Windows.h>
+#include <Psapi.h>
 #include <stdio.h>
 #include <sys/stat.h>
 #include <time.h>
@@ -113,10 +115,9 @@ namespace Utils
 {
 	namespace AntiCheat
 	{
-		_extern void _sub_10C53880();
 		void AntiSpeed() // 0x10C53880
 		{
-			mangled_x86(MANGLED_TODO, "?AntiSpeed@AntiCheat@Utils@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?AntiSpeed@AntiCheat@Utils@@YAXXZ");
 			// procedure flags: nofpo
 			// static ...; // 0x10C53A1F
 			// static ...; // 0x10C53A16
@@ -126,13 +127,22 @@ namespace Utils
 			// HINSTANCE__ *hMods[1024];
 			// unsigned __int32 i;
 			// unsigned long cbNeeded;
-			{
 				// char szModName[260];
+			// function call : void *()
+			// function call : void *()
+
+			HMODULE hMods[1024];
+			DWORD cbNeeded;
+			EnumProcessModules(GetCurrentProcess(), hMods, sizeof(hMods), &cbNeeded);
+			for (unsigned __int32 i = 0; i < cbNeeded / sizeof(HMODULE); i++)
+			{
+				char szModName[MAX_PATH];
+				if (GetModuleFileNameExA(GetCurrentProcess(), hMods[i], szModName, sizeof(szModName) / sizeof(char)))
+				{
+					if (strstr(szModName, "speedhack-i386.dll"))
+						Modules::CommandMap::Instance().ExecuteCommand("exit");
+				}
 			}
-			// function call : void *()
-			// function call : void *()
-			todo("implement");
-			_sub_10C53880();
 		}
 
 		__int32 __stdcall AntiTrainer(HWND__ *hwnd, long lParam) // 0x10C53A90

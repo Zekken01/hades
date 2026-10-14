@@ -121,7 +121,6 @@ struct c_collision_bsp_test_vector_result
 	char breakable_surface_index; // 0x16
 	char field_17; // 0x17
 	short material_index; // 0x18
-	unsigned char __pad0[2]; // 0x1A
 	long leaves_count; // 0x1C
 	long leaves[256]; // 0x20
 	char breakable_surface_set_index; // 0x420

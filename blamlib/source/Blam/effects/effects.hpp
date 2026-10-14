@@ -33,7 +33,6 @@ struct s_scenario_location;
 struct s_effect_message
 {
 	c_flags<enum e_effect_message_type,unsigned char> type; // 0x0
-	unsigned char __pad0[3]; // 0x1
 	long effect_index; // 0x4
 	long definition_index; // 0x8
 	long event_index; // 0xC

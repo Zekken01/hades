@@ -50,6 +50,8 @@ struct tls_data;
 
 /* ---------- prototypes */
 
+extern float (*const game_tick_length)();  // hades: added for 0x107C3FF0
+
 extern void widget_patches_apply();
 
 void muffins_update(float time_delta);
@@ -60,20 +62,19 @@ void muffins_update(float time_delta);
 
 /* ---------- public code */
 
-_extern void _sub_107C41A0();
 void widget_patches_apply() // 0x107C41A0
 {
-	mangled_x86(MANGLED_TODO, "?widget_patches_apply@@YAXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?widget_patches_apply@@YAXXZ");
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_107C41A0();
+
+	Hook(0x7C76B0, muffins_update).Apply();
 }
 
 /* ---------- private code */
 
-_extern void _sub_107C3FF0(float);
 void muffins_update(float time_delta) // 0x107C3FF0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?muffins_update@@YAXM@Z");
 	// `anonymous-namespace'::muffins_update
 	// float time_delta;
 	// long (*const data_next_index)(s_data_array *, long);
@@ -81,17 +82,28 @@ void muffins_update(float time_delta) // 0x107C3FF0
 	// tls_data *tls;
 	// void (*const sub_BC6D80)(long);
 	// void (*const sub_BC6920)(long);
-	{
 		// unsigned short i;
-		{
 			// s_muffin_datum *muffin;
-		}
-	}
 	// function call : long (*const)(s_data_array *, long)
 	// function call : long (*const)(s_data_array *, long)
 	// function call : float (*const)()
 	// function call : void (*const)(long)
 	// function call : void (*const)(long)
-	todo("implement");
-	_sub_107C3FF0(time_delta);
+
+	long (*const data_next_index)(s_data_array *, long) = reinterpret_cast<long (*)(s_data_array *, long)>(0x55B130);
+	void (*const sub_BC6D80)(long) = reinterpret_cast<void (*)(long)>(0xBC6D80);
+	void (*const sub_BC6920)(long) = reinterpret_cast<void (*)(long)>(0xBC6920);
+	tls_data *tls = (tls_data *)tls_get(0);
+	char *muffin_array = (char *)tls->muffin->address;
+	for (unsigned short i = data_next_index(tls->muffin, -1); i != 0xFFFF; i = data_next_index(tls->muffin, i))
+	{
+		s_muffin_datum *muffin = (s_muffin_datum *)&muffin_array[i * sizeof(s_muffin_datum)];
+		muffin->seconds_since_last_update += time_delta;
+		if (muffin->seconds_since_last_update >= game_tick_length())
+		{
+			sub_BC6D80(i);
+			muffin->seconds_since_last_update = 0.0f;
+			sub_BC6920(i);
+		}
+	}
 }

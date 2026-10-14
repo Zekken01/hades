@@ -47,7 +47,7 @@ namespace Scripting
 			e_hs_type type; // 0x0
 			std::string_view name; // 0x4
 			std::string_view description; // 0xC
-			ScriptParameter(); /* compiler_generated() */
+			// ScriptParameter() is compiler generated; not declared so the struct stays an aggregate.
 		};
 	}
 }
@@ -68,9 +68,8 @@ namespace Scripting
 			e_hs_type returnType; // 0x14
 			void (*evaluateProc)(short, long, bool); // 0x18
 			std::vector<Scripting::HS::ScriptParameter> parameters; // 0x1C
-			ScriptMethod(Scripting::HS::ScriptMethod &); /* compiler_generated() */
-			_inline ScriptMethod(Scripting::HS::ScriptMethod const &__that); /* compiler_generated() */
-			ScriptMethod(); /* compiler_generated() */
+			// hades: the constructors are implicit, so the struct stays an aggregate -
+			// AddMethod builds its method with `= {}`.
 			_inline ~ScriptMethod(); /* compiler_generated() */
 			Scripting::HS::ScriptMethod &operator=(Scripting::HS::ScriptMethod &); /* compiler_generated() */
 			Scripting::HS::ScriptMethod &operator=(Scripting::HS::ScriptMethod const &); /* compiler_generated() */
@@ -99,8 +98,7 @@ namespace Scripting
 			std::string GenerateMethodDeclaration(Scripting::HS::ScriptMethod const *method);
 			void Finalize();
 		private:
-			bool m_finalized; // 0x0
-			unsigned char __pad0[3]; // 0x1
+			bool m_finalized = false; // 0x0
 			std::unordered_map<std::string_view,Scripting::HS::ScriptMethod> m_methods; // 0x4
 		public:
 			_inline ScriptMethodMap() = default; /* compiler_generated() - defaulted on its

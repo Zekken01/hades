@@ -129,7 +129,6 @@ struct s_weapon_data :
 	short weapon_disabled_by_reload_timer; // 0x19C
 	short multiplayer_weapon_identifier; // 0x19E
 	short simulation_weapon_identifier; // 0x1A0
-	unsigned char __pad0[2]; // 0x1A2
 	float heat; // 0x1A4
 	float age; // 0x1A8
 	float overcharged; // 0x1AC

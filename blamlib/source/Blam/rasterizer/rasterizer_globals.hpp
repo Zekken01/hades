@@ -10,6 +10,7 @@
 #include "Blam/objects/damage_definitions.hpp"
 #include "Blam/rasterizer/rasterizers_textures_cache.hpp"
 #include "Blam/tag_files/tag_groups.hpp"
+#include "Blam/game/game_globals.hpp"  // hades: added for 0x108D32B0
 #include "ChatCommands/ChatCommandMap.hpp"
 
 /* ---------- forward declarations */
@@ -217,7 +218,7 @@ public:
 	static __int32 &g_motion_blur_min_taps;
 	static __int32 &g_motion_blur_max_taps;
 	static _inline s_rasterizer_globals *get();
-	static void (*get_default_texture_rasterizer_texture_ref)(s_rasterizer_globals *, c_rasterizer_texture_ref *, c_enum<enum e_rasterizer_default_bitmap,long>);
+	static void (__thiscall *get_default_texture_rasterizer_texture_ref)(s_rasterizer_globals *, c_rasterizer_texture_ref *, c_enum<enum e_rasterizer_default_bitmap,long>);
 };
 static_assert(sizeof(c_rasterizer_globals) == 1, "Invalid c_rasterizer_globals size");
 
@@ -227,15 +228,13 @@ static_assert(sizeof(c_rasterizer_globals) == 1, "Invalid c_rasterizer_globals s
 
 /* ---------- public code */
 
-extern s_rasterizer_globals *_sub_108D32B0();
 _inline s_rasterizer_globals *c_rasterizer_globals::get() // 0x108D32B0
 {
-	mangled_x86(MANGLED_TODO, "?get@c_rasterizer_globals@@SAPAUs_rasterizer_globals@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get@c_rasterizer_globals@@SAPAUs_rasterizer_globals@@XZ");
 	// procedure flags: nofpo
 	// function call : void *(*const)(unsigned long, long)
-	todo("implement");
-	s_rasterizer_globals * __result = _sub_108D32B0();
-	return __result;
+
+	return (s_rasterizer_globals *)tag_get('rasg', game_globals_get()->RasterizerGlobals.index);
 }
 
 /* ---------- private code */

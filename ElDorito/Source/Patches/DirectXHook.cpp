@@ -33,6 +33,7 @@
 #include "Patches/CustomPackets.hpp"
 #include "Player/PlayerEmblemDownload.hpp"
 #include "Player/PlayerEmblemGenerator.hpp"
+#include "Player/PlayerEmblemRenderer.hpp"
 #include "Pointer.hpp"
 #include "Utils/Macros.hpp"
 #include "Utils/Rectangle.hpp"
@@ -227,6 +228,12 @@ typedef void (*Video_CallsD3DEndScene_ptr)();
 
 /* ---------- prototypes */
 
+#include <detours.h>  // hades: added for 0x109616C0
+extern void render_postprocess_patches_apply_after_init();  // hades: added for 0x109616C0
+
+extern "C" char const *__stdcall DXGetErrorStringA(HRESULT hr);  // hades: added for 0x10961F60
+extern "C" char const *__stdcall DXGetErrorDescriptionA(HRESULT hr);  // hades: added for 0x10961F60
+
 char const *tag_get_name(long tag_index);  // hades: added for 0X10961ED0
 
 namespace DirectXHook
@@ -268,21 +275,26 @@ using namespace hades_file_local;
 
 namespace DirectXHook
 {
-	_extern void _sub_10960980();
 	void ApplyAll() // 0x10960980
 	{
-		mangled_x86(MANGLED_TODO, "?ApplyAll@DirectXHook@@YAXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@DirectXHook@@YAXXZ");
 		// procedure flags: nofpo
-		todo("implement");
-		_sub_10960980();
+
+		Hook(0x620386, InitializeDeviceHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+		Hook(0x62152B, HandleTakeScreenshotHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+		Hook(0x645D4F, set_viewport_window, static_cast<__int32>(HookFlags::IsCall)).Apply();
+		Hook(0x5DFB81, c_rasterizer_texture_ref__allocate_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+		Hook(0x61FC50, get_presentation_parameters_hook).Apply();
+		Hook(0x61FC60, get_last_presentation_parameters_hook).Apply();
+		Patch(0x65D8B7, { 0x8B, 0xC3, 0x90 }).Apply();
 	}
 }
 
 /* ---------- private code */
 
-_extern bool _sub_109616C0(IDirect3DDevice9 *);
 bool HookDirectX(IDirect3DDevice9 *device) // 0x109616C0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?HookDirectX@@YA_NPAUIDirect3DDevice9@@@Z");
 	// `anonymous-namespace'::HookDirectX
 	// static ...; // 0x10961958
 	// static ...; // 0x1096194C
@@ -293,9 +305,32 @@ bool HookDirectX(IDirect3DDevice9 *device) // 0x109616C0
 	// bool webDebugging;
 	// function call : void *()
 	// function call : void (char const *)
-	todo("implement");
-	bool __result = _sub_109616C0(device);
-	return __result;
+
+	unsigned __int32 *directXVTable = *(unsigned __int32 **)device;
+	Video_CallsD3DEndSceneOrginal = reinterpret_cast<void (*)()>(0xA21510);
+	origResetPtr = reinterpret_cast<HRESULT (__stdcall *)(IDirect3DDevice9 *, _D3DPRESENT_PARAMETERS_ *)>(directXVTable[16]);
+	origEndScenePtr = reinterpret_cast<HRESULT (__stdcall *)(IDirect3DDevice9 *)>(directXVTable[42]);
+	DetourTransactionBegin();
+	DetourUpdateThread(GetCurrentThread());
+	DetourAttach(&reinterpret_cast<PVOID &>(origResetPtr), reinterpret_cast<PVOID>(ResetHook));
+	DetourAttach(&reinterpret_cast<PVOID &>(origEndScenePtr), reinterpret_cast<PVOID>(EndSceneHook));
+	c_d3d_resource_allocator__create_texture = reinterpret_cast<HRESULT (*)(unsigned __int32, unsigned __int32, unsigned __int32, unsigned __int32, _D3DFORMAT, _D3DPOOL, IDirect3DTexture9 **, __int32, __int32, void *, char const *)>(0xA75B20);
+	c_d3d_resource_allocator__create_volume_texture = reinterpret_cast<HRESULT (*)(unsigned __int32, unsigned __int32, unsigned __int32, unsigned __int32, unsigned __int32, _D3DFORMAT, _D3DPOOL, IDirect3DVolumeTexture9 **, void *, void *, __int32, char const *)>(0xA75C70);
+	c_d3d_resource_allocator__create_cube_texture = reinterpret_cast<HRESULT (*)(unsigned __int32, unsigned __int32, unsigned __int32, _D3DFORMAT, _D3DPOOL, IDirect3DCubeTexture9 **, __int32, void *, __int32, char const *)>(0xA758F0);
+	DetourAttach(&reinterpret_cast<PVOID &>(c_d3d_resource_allocator__create_texture), reinterpret_cast<PVOID>(c_d3d_resource_allocator__create_texture_hook));
+	DetourAttach(&reinterpret_cast<PVOID &>(c_d3d_resource_allocator__create_volume_texture), reinterpret_cast<PVOID>(c_d3d_resource_allocator__create_volume_texture_hook));
+	DetourAttach(&reinterpret_cast<PVOID &>(c_d3d_resource_allocator__create_cube_texture), reinterpret_cast<PVOID>(c_d3d_resource_allocator__create_cube_texture_hook));
+	if (DetourTransactionCommit() != NO_ERROR)
+	{
+		OutputDebugStringA("DirectX hooks failed.");
+		return false;
+	}
+	if (!Utils::Singleton<ElDorito>::Instance().IsHeadless())
+		render_postprocess_patches_apply_after_init();
+	std::shared_ptr<Web::Browser::WebRenderer> webRenderer = Web::Browser::WebRenderer::GetInstance();
+	bool webDebugging = Utils::Singleton<ElDorito>::Instance().IsWebDebuggingEnabled();
+	Utils::Singleton<Player::PlayerEmblemDownload>::Instance().LoadGenericEmblem(device);
+	return webRenderer->InitRenderer(device) && webRenderer->Init("dew://ui/", webDebugging);
 }
 
 HRESULT __stdcall EndSceneHook(IDirect3DDevice9 *device) // 0x109610E0
@@ -324,10 +359,14 @@ HRESULT __stdcall EndSceneHook(IDirect3DDevice9 *device) // 0x109610E0
 	viewport.Height = windowResolution[1];
 	device->SetViewport(&viewport);
 
+	Player::Emblems::PlayerEmblemRenderer::DoRender();
+
 	// Update the web renderer
 	auto webRenderer = WebRenderer::GetInstance();
 	if (webRenderer->Initialized() && webRenderer->IsRendering())
 		webRenderer->Render(device);
+
+	Utils::Singleton<Player::PlayerEmblemDownload>::Instance().OnEndScene(device);
 	return (*origEndScenePtr)(device);
 }
 
@@ -466,9 +505,9 @@ HRESULT set_viewport_window(short_rectangle2d *rect, float min_z, float max_z) /
 	return ((HRESULT (*)(short_rectangle2d *, float, float))0xA49010)(&new_rect, min_z, max_z);
 }
 
-extern char const *_sub_10961350(_D3DPOOL);
 char const *GetD3DPoolName(_D3DPOOL pool) // 0x10961350
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetD3DPoolName@@YAPBDW4_D3DPOOL@@@Z");
 	// `anonymous-namespace'::GetD3DPoolName
 	// static ...; // 0x109613A4
 // $LN7:
@@ -476,26 +515,41 @@ char const *GetD3DPoolName(_D3DPOOL pool) // 0x10961350
 // $LN5:
 // $LN4:
 	// _D3DPOOL pool;
-	todo("implement");
-	char const * __result = _sub_10961350(pool);
-	return __result;
+
+	switch (pool)
+	{
+	case D3DPOOL_DEFAULT:
+		return "D3DPOOL_DEFAULT";
+	case D3DPOOL_MANAGED:
+		return "D3DPOOL_MANAGED";
+	case D3DPOOL_SYSTEMMEM:
+		return "D3DPOOL_SYSTEMMEM";
+	case D3DPOOL_SCRATCH:
+		return "D3DPOOL_SCRATCH";
+	}
+
+	return "D3DPOOL_UNKNOWN";
 }
 
-extern HRESULT _sub_10961F60(__int32, _D3DPOOL, char const *, HRESULT);
 HRESULT check_create_texture(__int32 type, _D3DPOOL pool, char const *tag_name, HRESULT hr) // 0x10961F60
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?check_create_texture@@YAJHW4_D3DPOOL@@PBDJ@Z");
 	// `anonymous-namespace'::check_create_texture
 	// __int32 type;
 	// _D3DPOOL pool;
 	// char const *tag_name;
 	// HRESULT hr;
-	{
 		// char buff[4096];
-	}
 	// function call : __int32 (HWND__ *, char const *, char const *, unsigned __int32)
-	todo("implement");
-	HRESULT __result = _sub_10961F60(type, pool, tag_name, hr);
-	return __result;
+
+	if (hr < 0)
+	{
+		char buff[4096];
+		sprintf_s(buff, "Failed to create texture for bitmap: '%s', pool: %s\nError: 0x%08X (%s) %s\n", tag_name, GetD3DPoolName(pool), hr, DXGetErrorStringA(hr), DXGetErrorDescriptionA(hr));
+		MessageBoxA(nullptr, buff, "Texture Error", MB_ICONERROR);
+		__debugbreak();
+	}
+	return hr;
 }
 
 HRESULT c_d3d_resource_allocator__create_texture_hook(unsigned __int32 width, unsigned __int32 height, unsigned __int32 levels, unsigned __int32 usage, _D3DFORMAT format, _D3DPOOL pool, IDirect3DTexture9 **out_texture, __int32 a8, __int32 a9, void *data_address, char const *name) // 0x10961D50

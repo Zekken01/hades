@@ -25,7 +25,6 @@ struct s_hud_shader_info
 	long vertex_shader; // 0x0
 	long pixel_shader; // 0x4
 	short blend_mode; // 0x8
-	unsigned char __pad0[2]; // 0xA
 	real_vector4d chud_color_output_a; // 0xC
 	real_vector4d chud_color_output_b; // 0x1C
 	real_vector4d chud_color_output_c; // 0x2C

@@ -171,7 +171,7 @@ void WebVirtualKeyboardHandler(Blam::Input::VirtualKeyboard *keyboard);
 
 namespace hades_file_local
 {
-	extern "C" std::function<void __cdecl(Blam::Input::VirtualKeyboard *)> KeyboardHandler; // 0x124674F8
+	extern "C" std::function<void __cdecl(Blam::Input::VirtualKeyboard *)> KeyboardHandler = [](Blam::Input::VirtualKeyboard *keyboard) { keyboard->Reset(); }; // 0x124674F8  // hades: defined, so the lambda and its std::function members are emitted here
 	extern Blam::Input::VirtualKeyboard *CurrentKeyboard; // 0x12467520
 }
 using namespace hades_file_local;
@@ -203,28 +203,27 @@ namespace Patches
 			Hook(0x1A8F40, ShowVirtualKeyboard).Apply();
 		}
 
-		_extern void _sub_10AEBE70(std::function<void __cdecl(Blam::Input::VirtualKeyboard *)>);
 		void SetKeyboardHandler(std::function<void __cdecl(Blam::Input::VirtualKeyboard *)> callback) // 0x10AEBE70
 		{
-			mangled_x86(MANGLED_TODO, "?SetKeyboardHandler@VirtualKeyboard@Patches@@YAXV?$function@$$A6AXPAVVirtualKeyboard@Input@Blam@@@Z@std@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?SetKeyboardHandler@VirtualKeyboard@Patches@@YAXV?$function@$$A6AXPAVVirtualKeyboard@Input@Blam@@@Z@std@@@Z");
 			// std::function<void __cdecl(Blam::Input::VirtualKeyboard *)> callback;
-			todo("implement");
-			_sub_10AEBE70(callback);
+
+			KeyboardHandler = callback;
 		}
 	}
 }
 
 /* ---------- private code */
 
-//_extern void _sub_10AEB510(<lambda_1> const *const, Blam::Input::VirtualKeyboard *);
-//_inline void <lambda_1>::operator()(Blam::Input::VirtualKeyboard *keyboard) const // 0x10AEB510
-//{
-//	// `anonymous-namespace'::<lambda_1>::operator()
-//	// Blam::Input::VirtualKeyboard *keyboard;
-//	// function call : void ()
-//	todo("implement");
-//	_sub_10AEB510(this, keyboard);
-//}
+// <lambda_1>::operator() is emitted by the compiler from the lambda written in the source.
+
+
+
+
+
+
+
+
 
 Blam::Input::VirtualKeyboard *CreateVirtualKeyboard(char const *file, __int32 line, __int32 unk2, __int32 unk3, __int32 unk4, __int32 unk5, __int32 maxLength, __int32 unk7, __int32 unk8) // 0x10AEBD00
 {
@@ -272,9 +271,9 @@ bool ShowVirtualKeyboard(Blam::Input::VirtualKeyboard *keyboard, char const *fil
 	return true;
 }
 
-_extern void _sub_10AEC080(Blam::Input::VirtualKeyboard *);
 void WebVirtualKeyboardHandler(Blam::Input::VirtualKeyboard *keyboard) // 0x10AEC080
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?WebVirtualKeyboardHandler@@YAXPAVVirtualKeyboard@Input@Blam@@@Z");
 	// `anonymous-namespace'::WebVirtualKeyboardHandler
 	// static ...; // 0x10AEC335
 	// static ...; // 0x10AEC329
@@ -289,6 +288,44 @@ void WebVirtualKeyboardHandler(Blam::Input::VirtualKeyboard *keyboard) // 0x10AE
 	// std::string description;
 	// std::string templateName;
 	// std::string title;
-	todo("implement");
-	_sub_10AEC080(keyboard);
+
+	CurrentKeyboard = keyboard;
+	std::string title = Utils::String::ThinString(CurrentKeyboard->Title);
+	std::string description = Utils::String::ThinString(CurrentKeyboard->Description);
+	std::string defaultValue = Utils::String::ThinString(CurrentKeyboard->DefaultValue);
+	std::string templateName = "edit_variant_name";
+	if (title == "Edit Description")
+		templateName = "edit_variant_description";
+	Web::Ui::ScreenLayer::SDialogShowParams params;
+	params.templateName = templateName;
+	params.customTitle = title.c_str();
+	params.customBody = description.c_str();
+	params.initialValue = defaultValue.c_str();
+	params.callback = [defaultValue](std::string const &value)
+	{
+		if (value != "cancel" && value != defaultValue)
+		{
+			std::wstring wideValue = Utils::String::WidenString(value);
+			if (!CurrentKeyboard)
+				return;
+			std::string illegal = "\\/:?\"<>|";
+			for (auto it = wideValue.begin(); it < wideValue.end(); ++it)
+			{
+				if (illegal.find((char)*it) != std::string::npos)
+					*it = L' ';
+			}
+			CurrentKeyboard->SetValue(wideValue.c_str());
+			CurrentKeyboard->Finish();
+			CurrentKeyboard = nullptr;
+		}
+		else
+		{
+			if (!CurrentKeyboard)
+				return;
+			CurrentKeyboard->Reset();
+			CurrentKeyboard = nullptr;
+		}
+	};
+	CurrentKeyboard->Start();
+	Web::Ui::ScreenLayer::ShowDialog(params);
 }

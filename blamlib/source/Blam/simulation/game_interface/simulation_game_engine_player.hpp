@@ -69,7 +69,6 @@ struct s_simulation_game_engine_player_state_data
 	bool initial_spawn; // 0x1
 	unsigned char __pad0[6]; // 0x2
 	short respawn_timer; // 0x8
-	unsigned char __pad1[2]; // 0xA
 	real_point3d unused_dead_location; // 0xC
 	bool early_respawn_requested; // 0x18
 	unsigned char __pad2[1]; // 0x19
@@ -77,7 +76,6 @@ struct s_simulation_game_engine_player_state_data
 	bool blocking_teleporter; // 0x36
 	unsigned char __pad3[1]; // 0x37
 	short lives_remaining; // 0x38
-	unsigned char __pad4[2]; // 0x3A
 	long last_betrayer_player_index; // 0x3C
 	bool vehicle_entrance_ban; // 0x40
 	bool active_in_game; // 0x41

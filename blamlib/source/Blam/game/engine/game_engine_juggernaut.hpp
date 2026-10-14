@@ -26,7 +26,6 @@ struct s_juggernaut_globals
 	unsigned long juggernaut_player_index; // 0x0
 	short next_juggernaut_delay_seconds; // 0x4
 	bool juggernaut_visited_zone; // 0x6
-	unsigned char __pad0[1]; // 0x7
 	long next_juggernaut_timer; // 0x8
 	c_area_set<c_area,12> goal_zones; // 0xC
 };

@@ -99,814 +99,88 @@ namespace base
 
 /* ---------- public code */
 
-extern App* _sub_426AF0(App *const);
 App::App() // 0x426AF0
 {
-	mangled_x86(MANGLED_TODO, "??0App@@QAE@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0App@@QAE@XZ");
 	// App *const this; // local
 	// CefMessageRouterConfig config; // local
-	/* function callee list:
-MethodList(
-	MethodList {
-		methods: [
-			MethodListEntry {
-				attributes: FieldAttributes(
-					3,
-				),
-				method_type: TypeIndex(0x12e8),
-				vtable_offset: None,
-			},
-			MethodListEntry {
-				attributes: FieldAttributes(
-					3,
-				),
-				method_type: TypeIndex(0x12e9),
-				vtable_offset: None,
-			},
-			MethodListEntry {
-				attributes: FieldAttributes(
-					3,
-				),
-				method_type: TypeIndex(0x12ea),
-				vtable_offset: None,
-			},
-		],
-	},
-)
-MethodList(
-	MethodList {
-		methods: [
-			MethodListEntry {
-				attributes: FieldAttributes(
-					3,
-				),
-				method_type: TypeIndex(0x12e8),
-				vtable_offset: None,
-			},
-			MethodListEntry {
-				attributes: FieldAttributes(
-					3,
-				),
-				method_type: TypeIndex(0x12e9),
-				vtable_offset: None,
-			},
-			MethodListEntry {
-				attributes: FieldAttributes(
-					3,
-				),
-				method_type: TypeIndex(0x12ea),
-				vtable_offset: None,
-			},
-		],
-	},
-)
-MethodList(
-	MethodList {
-		methods: [
-			MethodListEntry {
-				attributes: FieldAttributes(
-					3,
-				),
-				method_type: TypeIndex(0x12e8),
-				vtable_offset: None,
-			},
-			MethodListEntry {
-				attributes: FieldAttributes(
-					3,
-				),
-				method_type: TypeIndex(0x12e9),
-				vtable_offset: None,
-			},
-			MethodListEntry {
-				attributes: FieldAttributes(
-					3,
-				),
-				method_type: TypeIndex(0x12ea),
-				vtable_offset: None,
-			},
-		],
-	},
-)
-MethodList(
-	MethodList {
-		methods: [
-			MethodListEntry {
-				attributes: FieldAttributes(
-					3,
-				),
-				method_type: TypeIndex(0x12e8),
-				vtable_offset: None,
-			},
-			MethodListEntry {
-				attributes: FieldAttributes(
-					3,
-				),
-				method_type: TypeIndex(0x12e9),
-				vtable_offset: None,
-			},
-			MethodListEntry {
-				attributes: FieldAttributes(
-					3,
-				),
-				method_type: TypeIndex(0x12ea),
-				vtable_offset: None,
-			},
-		],
-	},
-)
-MethodList(
-	MethodList {
-		methods: [
-			MethodListEntry {
-				attributes: FieldAttributes(
-					3,
-				),
-				method_type: TypeIndex(0x12e8),
-				vtable_offset: None,
-			},
-			MethodListEntry {
-				attributes: FieldAttributes(
-					3,
-				),
-				method_type: TypeIndex(0x12e9),
-				vtable_offset: None,
-			},
-			MethodListEntry {
-				attributes: FieldAttributes(
-					3,
-				),
-				method_type: TypeIndex(0x12ea),
-				vtable_offset: None,
-			},
-		],
-	},
-)
-MethodList(
-	MethodList {
-		methods: [
-			MethodListEntry {
-				attributes: FieldAttributes(
-					3,
-				),
-				method_type: TypeIndex(0x12e8),
-				vtable_offset: None,
-			},
-			MethodListEntry {
-				attributes: FieldAttributes(
-					3,
-				),
-				method_type: TypeIndex(0x12e9),
-				vtable_offset: None,
-			},
-			MethodListEntry {
-				attributes: FieldAttributes(
-					3,
-				),
-				method_type: TypeIndex(0x12ea),
-				vtable_offset: None,
-			},
-		],
-	},
-)
-MethodList(
-	MethodList {
-		methods: [
-			MethodListEntry {
-				attributes: FieldAttributes(
-					3,
-				),
-				method_type: TypeIndex(0x12e8),
-				vtable_offset: None,
-			},
-			MethodListEntry {
-				attributes: FieldAttributes(
-					3,
-				),
-				method_type: TypeIndex(0x12e9),
-				vtable_offset: None,
-			},
-			MethodListEntry {
-				attributes: FieldAttributes(
-					3,
-				),
-				method_type: TypeIndex(0x12ea),
-				vtable_offset: None,
-			},
-		],
-	},
-)
-MethodList(
-	MethodList {
-		methods: [
-			MethodListEntry {
-				attributes: FieldAttributes(
-					3,
-				),
-				method_type: TypeIndex(0x12e8),
-				vtable_offset: None,
-			},
-			MethodListEntry {
-				attributes: FieldAttributes(
-					3,
-				),
-				method_type: TypeIndex(0x12e9),
-				vtable_offset: None,
-			},
-			MethodListEntry {
-				attributes: FieldAttributes(
-					3,
-				),
-				method_type: TypeIndex(0x12ea),
-				vtable_offset: None,
-			},
-		],
-	},
-)
-MethodList(
-	MethodList {
-		methods: [
-			MethodListEntry {
-				attributes: FieldAttributes(
-					3,
-				),
-				method_type: TypeIndex(0x12e8),
-				vtable_offset: None,
-			},
-			MethodListEntry {
-				attributes: FieldAttributes(
-					3,
-				),
-				method_type: TypeIndex(0x12e9),
-				vtable_offset: None,
-			},
-			MethodListEntry {
-				attributes: FieldAttributes(
-					3,
-				),
-				method_type: TypeIndex(0x12ea),
-				vtable_offset: None,
-			},
-		],
-	},
-)
-MethodList(
-	MethodList {
-		methods: [
-			MethodListEntry {
-				attributes: FieldAttributes(
-					3,
-				),
-				method_type: TypeIndex(0x12e8),
-				vtable_offset: None,
-			},
-			MethodListEntry {
-				attributes: FieldAttributes(
-					3,
-				),
-				method_type: TypeIndex(0x12e9),
-				vtable_offset: None,
-			},
-			MethodListEntry {
-				attributes: FieldAttributes(
-					3,
-				),
-				method_type: TypeIndex(0x12ea),
-				vtable_offset: None,
-			},
-		],
-	},
-)
-MethodList(
-	MethodList {
-		methods: [
-			MethodListEntry {
-				attributes: FieldAttributes(
-					3,
-				),
-				method_type: TypeIndex(0x12e8),
-				vtable_offset: None,
-			},
-			MethodListEntry {
-				attributes: FieldAttributes(
-					3,
-				),
-				method_type: TypeIndex(0x12e9),
-				vtable_offset: None,
-			},
-			MethodListEntry {
-				attributes: FieldAttributes(
-					3,
-				),
-				method_type: TypeIndex(0x12ea),
-				vtable_offset: None,
-			},
-		],
-	},
-) */
 	// App *const this; // r18
 	// CefMessageRouterConfig config;
-	todo("implement");
-	_sub_426AF0(this);
+
+	CefMessageRouterConfig config;
+	config.js_query_function = "dewQuery";
+	config.js_cancel_function = "dewQueryCancel";
+	router = CefMessageRouterRendererSide::Create(config);
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??1App@@UAE@XZ"); no body to assert in
 _inline App::~App() = default; // 0x427690
 
-extern scoped_refptr<CefRenderProcessHandler> _sub_427F50(App *const);
 scoped_refptr<CefRenderProcessHandler> App::GetRenderProcessHandler() // 0x427F50
 {
-	mangled_x86(MANGLED_TODO, "?GetRenderProcessHandler@App@@UAE?AV?$scoped_refptr@VCefRenderProcessHandler@@@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetRenderProcessHandler@App@@UAE?AV?$scoped_refptr@VCefRenderProcessHandler@@@@XZ");
 	// App *const this; // local
-	/* function callee list:
-MemberFunction(
-	MemberFunctionType {
-		return_type: TypeIndex(0x3),
-		class_type: TypeIndex(0x132a),
-		this_pointer_type: Some(
-			TypeIndex(0x132b),
-		),
-		attributes: FunctionAttributes(
-			523,
-		),
-		parameter_count: 2,
-		argument_list: TypeIndex(0x132d),
-		this_adjustment: 0,
-	},
-) */
 	// App *const this; // r18
-	todo("implement");
-	scoped_refptr<CefRenderProcessHandler> __result = _sub_427F50(this);
-	return __result;
+
+	return this;
 }
 
-_extern void _sub_428420(App *const, CefSchemeRegistrar *);
 void App::OnRegisterCustomSchemes(CefSchemeRegistrar * __formal1) // 0x428420
 {
-	mangled_x86(MANGLED_TODO, "?OnRegisterCustomSchemes@App@@UAEXPAVCefSchemeRegistrar@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnRegisterCustomSchemes@App@@UAEXPAVCefSchemeRegistrar@@@Z");
 	// CefSchemeRegistrar *registrar; // local
-	/* function callee list:
-MemberFunction(
-	MemberFunctionType {
-		return_type: TypeIndex(0x1340),
-		class_type: TypeIndex(0x132a),
-		this_pointer_type: Some(
-			TypeIndex(0x132b),
-		),
-		attributes: FunctionAttributes(
-			11,
-		),
-		parameter_count: 1,
-		argument_list: TypeIndex(0x112c),
-		this_adjustment: 0,
-	},
-)
-MemberFunction(
-	MemberFunctionType {
-		return_type: TypeIndex(0x1340),
-		class_type: TypeIndex(0x132a),
-		this_pointer_type: Some(
-			TypeIndex(0x132b),
-		),
-		attributes: FunctionAttributes(
-			11,
-		),
-		parameter_count: 1,
-		argument_list: TypeIndex(0x112c),
-		this_adjustment: 0,
-	},
-)
-MemberFunction(
-	MemberFunctionType {
-		return_type: TypeIndex(0x1340),
-		class_type: TypeIndex(0x132a),
-		this_pointer_type: Some(
-			TypeIndex(0x132b),
-		),
-		attributes: FunctionAttributes(
-			11,
-		),
-		parameter_count: 1,
-		argument_list: TypeIndex(0x112c),
-		this_adjustment: 0,
-	},
-)
-MemberFunction(
-	MemberFunctionType {
-		return_type: TypeIndex(0x1340),
-		class_type: TypeIndex(0x132a),
-		this_pointer_type: Some(
-			TypeIndex(0x132b),
-		),
-		attributes: FunctionAttributes(
-			11,
-		),
-		parameter_count: 1,
-		argument_list: TypeIndex(0x112c),
-		this_adjustment: 0,
-	},
-)
-MemberFunction(
-	MemberFunctionType {
-		return_type: TypeIndex(0x1340),
-		class_type: TypeIndex(0x132a),
-		this_pointer_type: Some(
-			TypeIndex(0x132b),
-		),
-		attributes: FunctionAttributes(
-			11,
-		),
-		parameter_count: 1,
-		argument_list: TypeIndex(0x112c),
-		this_adjustment: 0,
-	},
-)
-MemberFunction(
-	MemberFunctionType {
-		return_type: TypeIndex(0x1340),
-		class_type: TypeIndex(0x132a),
-		this_pointer_type: Some(
-			TypeIndex(0x132b),
-		),
-		attributes: FunctionAttributes(
-			11,
-		),
-		parameter_count: 1,
-		argument_list: TypeIndex(0x112c),
-		this_adjustment: 0,
-	},
-) */
 	// App *const this; // r18
 	// CefSchemeRegistrar *registrar;
 	// function call : bool (CefStringBase<CefStringTraitsUTF16> const &, __int32)
 	// function call : bool (CefStringBase<CefStringTraitsUTF16> const &, __int32)
 	// function call : bool (CefStringBase<CefStringTraitsUTF16> const &, __int32)
-	todo("implement");
-	_sub_428420(this, __formal1);
+
+	__formal1->AddCustomScheme("dew", CEF_SCHEME_OPTION_STANDARD | CEF_SCHEME_OPTION_SECURE | CEF_SCHEME_OPTION_CORS_ENABLED | CEF_SCHEME_OPTION_FETCH_ENABLED);
+	__formal1->AddCustomScheme("medals", CEF_SCHEME_OPTION_STANDARD | CEF_SCHEME_OPTION_SECURE | CEF_SCHEME_OPTION_CORS_ENABLED | CEF_SCHEME_OPTION_FETCH_ENABLED);
+	__formal1->AddCustomScheme("pak", CEF_SCHEME_OPTION_STANDARD | CEF_SCHEME_OPTION_SECURE | CEF_SCHEME_OPTION_CORS_ENABLED | CEF_SCHEME_OPTION_FETCH_ENABLED);
 }
 
-_extern void _sub_4280E0(CefRenderProcessHandler * const, scoped_refptr<CefBrowser>, scoped_refptr<CefFrame>, scoped_refptr<CefV8Context>);
 void App::OnContextCreated(scoped_refptr<CefBrowser> __formal1, scoped_refptr<CefFrame> __formal2, scoped_refptr<CefV8Context> __formal3) // 0x4280E0
 {
-	mangled_x86(MANGLED_TODO, "?OnContextCreated@App@@UAEXV?$scoped_refptr@VCefBrowser@@@@V?$scoped_refptr@VCefFrame@@@@V?$scoped_refptr@VCefV8Context@@@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnContextCreated@App@@UAEXV?$scoped_refptr@VCefBrowser@@@@V?$scoped_refptr@VCefFrame@@@@V?$scoped_refptr@VCefV8Context@@@@@Z");
 	// __shifted(App, 8);
 	// scoped_refptr<CefV8Context> context; // local
-	/* function callee list:
-MemberFunction(
-	MemberFunctionType {
-		return_type: TypeIndex(0x3),
-		class_type: TypeIndex(0x132a),
-		this_pointer_type: Some(
-			TypeIndex(0x132b),
-		),
-		attributes: FunctionAttributes(
-			2059,
-		),
-		parameter_count: 0,
-		argument_list: TypeIndex(0x102a),
-		this_adjustment: 0,
-	},
-)
-MemberFunction(
-	MemberFunctionType {
-		return_type: TypeIndex(0x3),
-		class_type: TypeIndex(0x132a),
-		this_pointer_type: Some(
-			TypeIndex(0x132b),
-		),
-		attributes: FunctionAttributes(
-			2059,
-		),
-		parameter_count: 0,
-		argument_list: TypeIndex(0x102a),
-		this_adjustment: 0,
-	},
-)
-MemberFunction(
-	MemberFunctionType {
-		return_type: TypeIndex(0x3),
-		class_type: TypeIndex(0x132a),
-		this_pointer_type: Some(
-			TypeIndex(0x132b),
-		),
-		attributes: FunctionAttributes(
-			2059,
-		),
-		parameter_count: 0,
-		argument_list: TypeIndex(0x102a),
-		this_adjustment: 0,
-	},
-)
-MemberFunction(
-	MemberFunctionType {
-		return_type: TypeIndex(0x3),
-		class_type: TypeIndex(0x132a),
-		this_pointer_type: Some(
-			TypeIndex(0x132b),
-		),
-		attributes: FunctionAttributes(
-			2059,
-		),
-		parameter_count: 0,
-		argument_list: TypeIndex(0x102a),
-		this_adjustment: 0,
-	},
-)
-MemberFunction(
-	MemberFunctionType {
-		return_type: TypeIndex(0x3),
-		class_type: TypeIndex(0x132a),
-		this_pointer_type: Some(
-			TypeIndex(0x132b),
-		),
-		attributes: FunctionAttributes(
-			2059,
-		),
-		parameter_count: 0,
-		argument_list: TypeIndex(0x102a),
-		this_adjustment: 0,
-	},
-)
-MemberFunction(
-	MemberFunctionType {
-		return_type: TypeIndex(0x3),
-		class_type: TypeIndex(0x132a),
-		this_pointer_type: Some(
-			TypeIndex(0x132b),
-		),
-		attributes: FunctionAttributes(
-			2059,
-		),
-		parameter_count: 0,
-		argument_list: TypeIndex(0x102a),
-		this_adjustment: 0,
-	},
-)
-MemberFunction(
-	MemberFunctionType {
-		return_type: TypeIndex(0x3),
-		class_type: TypeIndex(0x132a),
-		this_pointer_type: Some(
-			TypeIndex(0x132b),
-		),
-		attributes: FunctionAttributes(
-			2059,
-		),
-		parameter_count: 0,
-		argument_list: TypeIndex(0x102a),
-		this_adjustment: 0,
-	},
-) */
 	// App *const this; // r18
 	// scoped_refptr<CefBrowser> browser;
 	// scoped_refptr<CefFrame> frame;
 	// scoped_refptr<CefV8Context> context;
 	// function call : void (scoped_refptr<CefBrowser>, scoped_refptr<CefFrame>, scoped_refptr<CefV8Context>)
-	todo("implement");
-	_sub_4280E0((CefRenderProcessHandler *)this, __formal1, __formal2, __formal3);
+
+	router->OnContextCreated(__formal1, __formal2, __formal3);
 }
 
-_extern void _sub_4281E0(CefRenderProcessHandler * const, scoped_refptr<CefBrowser>, scoped_refptr<CefFrame>, scoped_refptr<CefV8Context>);
 void App::OnContextReleased(scoped_refptr<CefBrowser> __formal1, scoped_refptr<CefFrame> __formal2, scoped_refptr<CefV8Context> __formal3) // 0x4281E0
 {
-	mangled_x86(MANGLED_TODO, "?OnContextReleased@App@@UAEXV?$scoped_refptr@VCefBrowser@@@@V?$scoped_refptr@VCefFrame@@@@V?$scoped_refptr@VCefV8Context@@@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnContextReleased@App@@UAEXV?$scoped_refptr@VCefBrowser@@@@V?$scoped_refptr@VCefFrame@@@@V?$scoped_refptr@VCefV8Context@@@@@Z");
 	// __shifted(App, 8);
 	// scoped_refptr<CefV8Context> context; // local
-	/* function callee list:
-MemberFunction(
-	MemberFunctionType {
-		return_type: TypeIndex(0x3),
-		class_type: TypeIndex(0x132a),
-		this_pointer_type: Some(
-			TypeIndex(0x132b),
-		),
-		attributes: FunctionAttributes(
-			2059,
-		),
-		parameter_count: 0,
-		argument_list: TypeIndex(0x102a),
-		this_adjustment: 0,
-	},
-)
-MemberFunction(
-	MemberFunctionType {
-		return_type: TypeIndex(0x3),
-		class_type: TypeIndex(0x132a),
-		this_pointer_type: Some(
-			TypeIndex(0x132b),
-		),
-		attributes: FunctionAttributes(
-			2059,
-		),
-		parameter_count: 0,
-		argument_list: TypeIndex(0x102a),
-		this_adjustment: 0,
-	},
-)
-MemberFunction(
-	MemberFunctionType {
-		return_type: TypeIndex(0x3),
-		class_type: TypeIndex(0x132a),
-		this_pointer_type: Some(
-			TypeIndex(0x132b),
-		),
-		attributes: FunctionAttributes(
-			2059,
-		),
-		parameter_count: 0,
-		argument_list: TypeIndex(0x102a),
-		this_adjustment: 0,
-	},
-)
-MemberFunction(
-	MemberFunctionType {
-		return_type: TypeIndex(0x3),
-		class_type: TypeIndex(0x132a),
-		this_pointer_type: Some(
-			TypeIndex(0x132b),
-		),
-		attributes: FunctionAttributes(
-			2059,
-		),
-		parameter_count: 0,
-		argument_list: TypeIndex(0x102a),
-		this_adjustment: 0,
-	},
-)
-MemberFunction(
-	MemberFunctionType {
-		return_type: TypeIndex(0x3),
-		class_type: TypeIndex(0x132a),
-		this_pointer_type: Some(
-			TypeIndex(0x132b),
-		),
-		attributes: FunctionAttributes(
-			2059,
-		),
-		parameter_count: 0,
-		argument_list: TypeIndex(0x102a),
-		this_adjustment: 0,
-	},
-)
-MemberFunction(
-	MemberFunctionType {
-		return_type: TypeIndex(0x3),
-		class_type: TypeIndex(0x132a),
-		this_pointer_type: Some(
-			TypeIndex(0x132b),
-		),
-		attributes: FunctionAttributes(
-			2059,
-		),
-		parameter_count: 0,
-		argument_list: TypeIndex(0x102a),
-		this_adjustment: 0,
-	},
-)
-MemberFunction(
-	MemberFunctionType {
-		return_type: TypeIndex(0x3),
-		class_type: TypeIndex(0x132a),
-		this_pointer_type: Some(
-			TypeIndex(0x132b),
-		),
-		attributes: FunctionAttributes(
-			2059,
-		),
-		parameter_count: 0,
-		argument_list: TypeIndex(0x102a),
-		this_adjustment: 0,
-	},
-) */
 	// App *const this; // r18
 	// scoped_refptr<CefBrowser> browser;
 	// scoped_refptr<CefFrame> frame;
 	// scoped_refptr<CefV8Context> context;
 	// function call : void (scoped_refptr<CefBrowser>, scoped_refptr<CefFrame>, scoped_refptr<CefV8Context>)
-	todo("implement");
-	_sub_4281E0((CefRenderProcessHandler *)this, __formal1, __formal2, __formal3);
+
+	router->OnContextReleased(__formal1, __formal2, __formal3);
 }
 
-_extern bool _sub_428310(CefRenderProcessHandler * const, scoped_refptr<CefBrowser>, scoped_refptr<CefFrame>, cef_process_id_t, scoped_refptr<CefProcessMessage>);
 bool App::OnProcessMessageReceived(scoped_refptr<CefBrowser> __formal1, scoped_refptr<CefFrame> __formal2, cef_process_id_t __formal3, scoped_refptr<CefProcessMessage> __formal4) // 0x428310
 {
-	mangled_x86(MANGLED_TODO, "?OnProcessMessageReceived@App@@UAE_NV?$scoped_refptr@VCefBrowser@@@@V?$scoped_refptr@VCefFrame@@@@W4cef_process_id_t@@V?$scoped_refptr@VCefProcessMessage@@@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnProcessMessageReceived@App@@UAE_NV?$scoped_refptr@VCefBrowser@@@@V?$scoped_refptr@VCefFrame@@@@W4cef_process_id_t@@V?$scoped_refptr@VCefProcessMessage@@@@@Z");
 	// __shifted(App, 8);
 	// scoped_refptr<CefProcessMessage> message; // local
-	/* function callee list:
-MemberFunction(
-	MemberFunctionType {
-		return_type: TypeIndex(0x3),
-		class_type: TypeIndex(0x132a),
-		this_pointer_type: Some(
-			TypeIndex(0x132b),
-		),
-		attributes: FunctionAttributes(
-			2059,
-		),
-		parameter_count: 0,
-		argument_list: TypeIndex(0x102a),
-		this_adjustment: 0,
-	},
-)
-MemberFunction(
-	MemberFunctionType {
-		return_type: TypeIndex(0x3),
-		class_type: TypeIndex(0x132a),
-		this_pointer_type: Some(
-			TypeIndex(0x132b),
-		),
-		attributes: FunctionAttributes(
-			2059,
-		),
-		parameter_count: 0,
-		argument_list: TypeIndex(0x102a),
-		this_adjustment: 0,
-	},
-)
-MemberFunction(
-	MemberFunctionType {
-		return_type: TypeIndex(0x3),
-		class_type: TypeIndex(0x132a),
-		this_pointer_type: Some(
-			TypeIndex(0x132b),
-		),
-		attributes: FunctionAttributes(
-			2059,
-		),
-		parameter_count: 0,
-		argument_list: TypeIndex(0x102a),
-		this_adjustment: 0,
-	},
-)
-MemberFunction(
-	MemberFunctionType {
-		return_type: TypeIndex(0x3),
-		class_type: TypeIndex(0x132a),
-		this_pointer_type: Some(
-			TypeIndex(0x132b),
-		),
-		attributes: FunctionAttributes(
-			2059,
-		),
-		parameter_count: 0,
-		argument_list: TypeIndex(0x102a),
-		this_adjustment: 0,
-	},
-)
-MemberFunction(
-	MemberFunctionType {
-		return_type: TypeIndex(0x3),
-		class_type: TypeIndex(0x132a),
-		this_pointer_type: Some(
-			TypeIndex(0x132b),
-		),
-		attributes: FunctionAttributes(
-			2059,
-		),
-		parameter_count: 0,
-		argument_list: TypeIndex(0x102a),
-		this_adjustment: 0,
-	},
-)
-MemberFunction(
-	MemberFunctionType {
-		return_type: TypeIndex(0x3),
-		class_type: TypeIndex(0x132a),
-		this_pointer_type: Some(
-			TypeIndex(0x132b),
-		),
-		attributes: FunctionAttributes(
-			2059,
-		),
-		parameter_count: 0,
-		argument_list: TypeIndex(0x102a),
-		this_adjustment: 0,
-	},
-)
-MemberFunction(
-	MemberFunctionType {
-		return_type: TypeIndex(0x3),
-		class_type: TypeIndex(0x132a),
-		this_pointer_type: Some(
-			TypeIndex(0x132b),
-		),
-		attributes: FunctionAttributes(
-			2059,
-		),
-		parameter_count: 0,
-		argument_list: TypeIndex(0x102a),
-		this_adjustment: 0,
-	},
-) */
 	// App *const this; // r18
 	// scoped_refptr<CefBrowser> browser;
 	// scoped_refptr<CefFrame> frame;
 	// cef_process_id_t source_process;
 	// scoped_refptr<CefProcessMessage> message;
 	// function call : bool (scoped_refptr<CefBrowser>, scoped_refptr<CefFrame>, cef_process_id_t, scoped_refptr<CefProcessMessage>)
-	todo("implement");
-	bool __result = _sub_428310((CefRenderProcessHandler *)this, __formal1, __formal2, __formal3, __formal4);
-	return __result;
+
+	return router->OnProcessMessageReceived(__formal1, __formal2, __formal3, __formal4);
 }
 
 /* ---------- private code */

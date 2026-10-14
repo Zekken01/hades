@@ -62,6 +62,8 @@
 #include "Utils/StlUtil.hpp"
 #include "Utils/String.hpp"
 
+#include "mods/mod_system.hpp"  // hades: added for 0x10902860
+
 #include <Windows.h>
 #include <stdio.h>
 #include <sys/stat.h>
@@ -219,7 +221,7 @@ namespace hades_file_local
 	public:
 		ModListener(ModListener &); /* compiler_generated() */
 		ModListener(ModListener const &); /* compiler_generated() */
-		ModListener(); /* compiler_generated() */
+		ModListener() = default; /* compiler_generated() */
 		virtual ~ModListener() = default; /* compiler_generated() */
 		ModListener &operator=(ModListener &); /* compiler_generated() */
 		ModListener &operator=(ModListener const &); /* compiler_generated() */
@@ -228,6 +230,10 @@ namespace hades_file_local
 }
 using namespace hades_file_local;
 /* ---------- prototypes */
+
+namespace Server { namespace Voting { extern void OnVotePassed(std::function<void __cdecl(Server::Voting::MapAndType)> &&callback); } }  // hades: added for 0x109023F0
+
+float real_random_range(float min, float max); template<typename t_entry, typename t_weight_function> long compute_weighted_random_index(t_entry entries, long count, t_weight_function get_weight) { if (!count) return -1; float total_weight = 0.0f; for (long i = 0; i < count; i++) total_weight += get_weight(entries[i]); float random = real_random_range(0.0f, total_weight); for (long i = 0; i < count; i++) { float weight = get_weight(entries[i]); if (weight != 0.0f && weight > random) return i; random -= weight; } return -1; }  // hades: added for 0x10903B00
 
 long game_engine_get_random_global_player_character_type_index(long character_set_index);
 long game_engine_get_random_global_player_character_set_index();
@@ -245,6 +251,9 @@ void MaybeUpdatePeerProperties();
 
 /* ---------- globals */
 
+extern bool (*const game_is_multiplayer)();  // hades: added for 0x10901700
+extern bool (*const game_engine_is_sandbox)();  // hades: added for 0x10902F20
+extern s_object_data *(*const object_try_and_get_and_verify_type)(unsigned long, c_enum<enum e_object_type,long>);  // hades: added for 0x10902F20
 extern void *(__cdecl *const tag_get)(unsigned long, long);  // hades: added for 0X10901B70
 extern long player_find_character_type_by_name(unsigned long name);
 
@@ -256,19 +265,19 @@ namespace Server
 	{
 		namespace hades_file_local_Server_Voting
 		{
-			extern std::string const DefaultTypes[8]; // 0x12408FF8
-			extern std::string const DefaultTypeNames[8]; // 0x124090D8
+			// extern std::string const DefaultTypes[8]; // 0x12408FF8  // hades: defined in VotingTypes.hpp, one copy per file
+			// extern std::string const DefaultTypeNames[8]; // 0x124090D8  // hades: defined in VotingTypes.hpp, one copy per file
 		}
 		using namespace hades_file_local_Server_Voting;
 	}
 }
 namespace hades_file_local
 {
-	extern std::map<std::string,Server::Voting::HaloType::CharacterOverride> votingCharacterOverrides; // 0x124091B8
+	std::map<std::string,Server::Voting::HaloType::CharacterOverride> votingCharacterOverrides; // 0x124091B8
 	extern __int32 prevUpdateNumber; // 0x124091C4
 	extern __int32 currentUpdateNumber; // 0x124091C8
-	extern std::shared_ptr<c_cache_file_tag_cache> globalBaseTagCache; // 0x124091CC
-	extern std::shared_ptr<Blam::Cache::StringIDCache> globalBaseStringCache; // 0x124091D4
+	std::shared_ptr<c_cache_file_tag_cache> globalBaseTagCache; // 0x124091CC
+	std::shared_ptr<Blam::Cache::StringIDCache> globalBaseStringCache; // 0x124091D4
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -285,24 +294,32 @@ namespace Player
 	// mangled_x86(MANGLED_DEFAULT, "??1SBaseCacheReference@CPlayerCharacterCustomizationBuilder@Player@@QAE@XZ"); no body to assert in
 	_inline CPlayerCharacterCustomizationBuilder::SBaseCacheReference::~SBaseCacheReference() = default; // 0x10901050
 
-	_extern void _sub_109023F0();
 	void CPlayerCharacterSystem::Init() // 0x109023F0
 	{
-		mangled_x86(MANGLED_TODO, "?Init@CPlayerCharacterSystem@Player@@SAXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Init@CPlayerCharacterSystem@Player@@SAXXZ");
 		// procedure flags: nofpo
 		// static ...; // 0x10902767
 		// static ...; // 0x10902764
 		// static ...; // 0x1090274C
 		// static ...; // 0x10902744
-		{
 			// std::string prefsName;
-			{
 				// std::stringstream ss;
-			}
-		}
 		// function call : void (IModListener *)
-		todo("implement");
-		_sub_109023F0();
+
+		if (!Utils::Singleton<ElDorito>::Instance().IsDedicated())
+		{
+			std::string prefsName = "player_customization.json";
+			if (!(Utils::Singleton<ElDorito>::Instance().GetInstanceName() == ""))
+			{
+				std::stringstream ss;
+				ss << "player_customization_" << Utils::Singleton<ElDorito>::Instance().GetInstanceName() << ".json";
+				prefsName = ss.str();
+			}
+			Utils::Singleton<Player::CPlayerCustomizationDB>::Instance().Load("data\\" + prefsName);
+		}
+		Server::Voting::OnVotePassed(OnServerVotePassed);
+		Patches::Network::OnLifeCycleStateChanged(OnLifeCycleChanged);
+		c_mod_system::GetModManager().AddListener(new ModListener());
 	}
 
 	void CPlayerCharacterSystem::Tick() // 0x109032C0
@@ -316,19 +333,28 @@ namespace Player
 			Player::CPlayerCharacterSystem::UpdateLocalPlayerHudGlobals();
 	}
 
-	_extern void _sub_10902990(bool, std::shared_ptr<c_cache_file_tag_cache>, std::shared_ptr<Blam::Cache::StringIDCache>);
 	void CPlayerCharacterSystem::NotifyTagsLoaded(bool isMainMenuMod, std::shared_ptr<c_cache_file_tag_cache> baseCache, std::shared_ptr<Blam::Cache::StringIDCache> baseStringCache) // 0x10902990
 	{
-		mangled_x86(MANGLED_TODO, "?NotifyTagsLoaded@CPlayerCharacterSystem@Player@@SAX_NV?$shared_ptr@Vc_cache_file_tag_cache@@@std@@V?$shared_ptr@UStringIDCache@Cache@Blam@@@4@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?NotifyTagsLoaded@CPlayerCharacterSystem@Player@@SAX_NV?$shared_ptr@Vc_cache_file_tag_cache@@@std@@V?$shared_ptr@UStringIDCache@Cache@Blam@@@4@@Z");
 		// std::shared_ptr<Blam::Cache::StringIDCache> baseStringCache;
-		todo("implement");
-		_sub_10902990(isMainMenuMod, baseCache, baseStringCache);
+
+		if (isMainMenuMod)
+		{
+			globalBaseTagCache = baseCache;
+			globalBaseStringCache = baseStringCache;
+		}
+		else
+		{
+			globalBaseTagCache = nullptr;
+			globalBaseStringCache = nullptr;
+		}
+		currentUpdateNumber++;
+		MaybeUpdatePeerProperties();
 	}
 
-	_extern void _sub_10903320();
 	void CPlayerCharacterSystem::UpdateLocalPlayerHudGlobals() // 0x10903320
 	{
-		mangled_x86(MANGLED_TODO, "?UpdateLocalPlayerHudGlobals@CPlayerCharacterSystem@Player@@SAXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateLocalPlayerHudGlobals@CPlayerCharacterSystem@Player@@SAXXZ");
 		// procedure flags: nofpo
 		// static ...; // 0x109033F0
 		// static ...; // 0x109033E4
@@ -337,65 +363,105 @@ namespace Player
 		// __int32 playerIndex;
 		// void **hudGlobalsPointer;
 		// void *hudGlobals;
-		{
 			// c_wait_for_render_thread renderThreadLock;
-		}
 		// function call : unsigned long (*const)(long)
-		todo("implement");
-		_sub_10903320();
+
+		__int32 playerIndex = ((unsigned long(*)(long))0x589C30)(0);
+		if (playerIndex == -1)
+			return;
+		s_player_datum *player = player_get(playerIndex);
+		if (!player)
+			return;
+		void **hudGlobalsPointer = (void **)0x5257C40;
+		void *hudGlobals = GetCharacterChudGlobals(player->character_type_index);
+		if (hudGlobals != *hudGlobalsPointer)
+		{
+			c_wait_for_render_thread renderThreadLock;
+			InterlockedExchangePointer(hudGlobalsPointer, hudGlobals);
+		}
 	}
 
-	_extern void _sub_10901700(__int32);
 	void CPlayerCharacterSystem::AssignPlayerCharacter(__int32 playerIndex) // 0x10901700
 	{
-		mangled_x86(MANGLED_TODO, "?AssignPlayerCharacter@CPlayerCharacterSystem@Player@@SAXH@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?AssignPlayerCharacter@CPlayerCharacterSystem@Player@@SAXH@Z");
 		// static ...; // 0x10901840
 		// static ...; // 0x10901834
 		// static ...; // 0x1090182C
 		// __int32 playerIndex;
 		// __int32 characterTypeIndex;
-		{
 			// s_player_datum *player;
 			// unsigned long long componentMask;
-		}
 		// function call : bool (*const)()
 		// function call : bool (*const)()
 		// function call : void (*const)(short, unsigned long long const *)
-		todo("implement");
-		_sub_10901700(playerIndex);
+
+		if (!game_is_multiplayer())
+			return;
+		__int32 characterTypeIndex = -1;
+		if (((bool (*const)())0x5319C0)())
+		{
+			s_player_datum *player = player_get(playerIndex);
+			if (characterTypeIndex == -1)
+				characterTypeIndex = player->hsc_forced_character_type_index;
+			if (characterTypeIndex == -1)
+				characterTypeIndex = OverridePlayerCharacter(playerIndex);
+			if (characterTypeIndex == -1)
+				characterTypeIndex = game_engine_get_player_character_type_index(playerIndex);
+			if (characterTypeIndex == -1)
+				characterTypeIndex = GetPreferredCharacterType(playerIndex);
+			if (characterTypeIndex == -1)
+				characterTypeIndex = 0;
+			player->character_type_index = characterTypeIndex;
+			player->previous_character_type_index = characterTypeIndex;
+			unsigned long long componentMask = 0x20000;
+			((void (*const)(short, unsigned long long const *))0x4B26B0)(playerIndex, &componentMask);
+		}
+		UpdateLocalPlayerHudGlobals();
 	}
 
-	_extern void _sub_10902F20(__int32);
 	void CPlayerCharacterSystem::PlayerCharacterEditor(__int32 playerIndex) // 0x10902F20
 	{
-		mangled_x86(MANGLED_TODO, "?PlayerCharacterEditor@CPlayerCharacterSystem@Player@@SAXH@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?PlayerCharacterEditor@CPlayerCharacterSystem@Player@@SAXH@Z");
 		// static ...; // 0x109030C8
 		// static ...; // 0x109030BC
 		// static ...; // 0x109030B4
 		// __int32 playerIndex;
-		{
 			// s_player_datum *player;
 			// unsigned long long componentMask;
-			{
 				// s_unit_data *unit;
 				// s_multiplayer_globals_definition *mulg;
 				// s_game_globals *globals;
-			}
-		}
 		// function call : bool (*const)()
 		// function call : bool (*const)()
 		// function call : bool (*const)()
 		// function call : void *(*const)(unsigned long, long)
 		// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
 		// function call : void (*const)(short, unsigned long long const *)
-		todo("implement");
-		_sub_10902F20(playerIndex);
+
+		if (!game_is_multiplayer())
+			return;
+		if (((bool (*const)())0x5319C0)() && game_engine_is_sandbox())
+		{
+			s_player_datum *player = player_get(playerIndex);
+			if (player->unit_index != -1)
+			{
+				s_game_globals *globals = game_globals_get();
+				s_multiplayer_globals_definition *mulg = (s_multiplayer_globals_definition *)tag_get('mulg', globals->MultiplayerGlobals.index);
+				s_unit_data *unit = (s_unit_data *)object_try_and_get_and_verify_type(player->unit_index, 0x2003);
+				if (unit && unit->definition_index == mulg->runtime->sandbox_editor_unit.index)
+					player->character_type_index = player_find_character_type_by_name(0x111B);
+				else
+					player->character_type_index = player->previous_character_type_index;
+			}
+			unsigned long long componentMask = 0x20000;
+			((void (*const)(short, unsigned long long const *))0x4B26B0)(playerIndex, &componentMask);
+		}
+		UpdateLocalPlayerHudGlobals();
 	}
 
-	_extern bool _sub_109018B0(std::string const &, s_player_model_customization &);
 	bool CPlayerCharacterSystem::BuildCharacterCustomization(std::string const &characterName, s_player_model_customization &customization) // 0x109018B0
 	{
-		mangled_x86(MANGLED_TODO, "?BuildCharacterCustomization@CPlayerCharacterSystem@Player@@SA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAUs_player_model_customization@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?BuildCharacterCustomization@CPlayerCharacterSystem@Player@@SA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAUs_player_model_customization@@@Z");
 		// static ...; // 0x109019C4
 		// static ...; // 0x109019AC
 		// static ...; // 0x109019A4
@@ -403,9 +469,13 @@ namespace Player
 		// s_player_model_customization &customization;
 		// Player::CPlayerCharacterCustomizationBuilder builder;
 		// s_player_character_customiztion tmp;
-		todo("implement");
-		bool __result = _sub_109018B0(characterName, customization);
-		return __result;
+
+		Player::CPlayerCharacterCustomizationBuilder builder;
+		s_player_character_customiztion tmp;
+		if (!builder.BuildSingleCharacterCustomization(characterName, &tmp))
+			return false;
+		memcpy(&customization, tmp.customization, sizeof(tmp.customization));
+		return true;
 	}
 
 	bool CPlayerCharacterSystem::BuildCustomizations(s_player_appearance &appearance) // 0x10901A20
@@ -435,9 +505,9 @@ namespace Player
 
 /* ---------- private code */
 
-_extern long _sub_10903BD0(long);
 long game_engine_get_random_global_player_character_type_index(long character_set_index) // 0x10903BD0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_get_random_global_player_character_type_index@@YAJJ@Z");
 	// `anonymous-namespace'::game_engine_get_random_global_player_character_type_index
 	// static ...; // 0x10903D00
 	// static ...; // 0x10903CF4
@@ -446,20 +516,30 @@ long game_engine_get_random_global_player_character_type_index(long character_se
 	// s_mod_globals_definition *mod_globals;
 	// long index;
 	// s_mod_globals_player_character_set *character_set;
-	todo("implement");
-	long __result = _sub_10903BD0(character_set_index);
-	return __result;
+
+	s_mod_globals_definition *mod_globals = mod_globals_get_definition();
+	if (!mod_globals)
+		return -1;
+	s_mod_globals_player_character_set *character_set;
+	if (!mod_globals->player_character_sets.try_get_element(character_set_index, &character_set))
+		return -1;
+	long index = compute_weighted_random_index(&character_set->characters[0], character_set->characters.count, [](s_mod_globals_player_character const &character) { return character.random_chance; });
+	if (index != -1)
+		index = player_find_character_type_by_name(character_set->characters[index].name);
+	return index;
 }
 
-_extern long _sub_10903B00();
 long game_engine_get_random_global_player_character_set_index() // 0x10903B00
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_get_random_global_player_character_set_index@@YAJXZ");
 	// `anonymous-namespace'::game_engine_get_random_global_player_character_set_index
 	// procedure flags: nofpo
 	// s_mod_globals_definition *mod_globals;
-	todo("implement");
-	long __result = _sub_10903B00();
-	return __result;
+
+	s_mod_globals_definition *mod_globals = mod_globals_get_definition();
+	if (!mod_globals)
+		return -1;
+	return compute_weighted_random_index(&mod_globals->player_character_sets[0], mod_globals->player_character_sets.count, [](s_mod_globals_player_character_set const &character_set) { return character_set.random_chance; });
 }
 
 long game_engine_get_player_character_type_index(long character_set_index, long index) // 0x109039D0
@@ -492,9 +572,9 @@ long game_engine_get_player_character_type_index(long character_set_index, long 
 	return -1;
 }
 
-extern std::string const _sub_10901C20(__int32);
 std::string const GetPlayerTeamDesginatorName(__int32 playerIndex) // 0x10901C20
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetPlayerTeamDesginatorName@@YA?BV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@H@Z");
 	// `anonymous-namespace'::GetPlayerTeamDesginatorName
 	// __int32 playerIndex;
 	// long (*get_player_team_desginator)(c_game_engine *, __int32);
@@ -502,24 +582,47 @@ std::string const GetPlayerTeamDesginatorName(__int32 playerIndex) // 0x10901C20
 	// long teamDesignator;
 	// function call : c_game_engine *(*const)()
 	// function call : long (*)(c_game_engine *, __int32)
-	todo("implement");
-	std::string const __result = _sub_10901C20(playerIndex);
-	return __result;
+
+	c_game_engine *gameEngine = ((c_game_engine *(__cdecl *)())0x5CE150)();
+	if (!gameEngine)
+		return "";
+
+	long (__thiscall *get_player_team_desginator)(c_game_engine *, __int32) = *(long (__thiscall **)(c_game_engine *, __int32))(*(char **)gameEngine + 0xB4);
+	long teamDesignator = get_player_team_desginator(gameEngine, playerIndex);
+	if (teamDesignator < 0 || teamDesignator > 8)
+		return {};
+
+	return "team" + std::to_string(teamDesignator);
 }
 
-_extern long _sub_10903890(long);
 long game_engine_get_player_character_type_index(long player_index) // 0x10903890
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_get_player_character_type_index@@YAJJ@Z");
 	// `anonymous-namespace'::game_engine_get_player_character_type_index
 	// long player_index;
 	// s_player_datum *player;
 	// long player_character_set_index;
-	{
 		// long random_character_set_index;
+
+	s_player_datum *player = player_get(player_index);
+	if (player->traits.extended.player_model_set < 2 || player->traits.extended.player_model_set >= 8)
+		return -1;
+
+	if (player->traits.extended.player_model_set == 2)
+	{
+		long random_character_set_index = game_engine_get_random_global_player_character_set_index();
+		return game_engine_get_random_global_player_character_type_index(random_character_set_index);
 	}
-	todo("implement");
-	long __result = _sub_10903890(player_index);
-	return __result;
+
+	long player_character_set_index = player->traits.extended.player_model_set - 3;
+	if (player->traits.extended.player_model == 2)
+	{
+		return game_engine_get_random_global_player_character_type_index(player_character_set_index);
+	}
+	else
+	{
+		return game_engine_get_player_character_type_index(player_character_set_index, player->traits.extended.player_model - 3);
+	}
 }
 
 void *GetCharacterChudGlobals(__int32 characterTypeIndex) // 0x10901B70
@@ -539,30 +642,46 @@ void *GetCharacterChudGlobals(__int32 characterTypeIndex) // 0x10901B70
 	return tag_get(0x63686764, hudGlobalsIndex);
 }
 
-_extern __int32 _sub_109022A0(__int32);
 __int32 GetPreferredCharacterType(__int32 playerIndex) // 0x109022A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetPreferredCharacterType@@YAHH@Z");
 	// `anonymous-namespace'::GetPreferredCharacterType
 	// __int32 playerIndex;
 	// s_player_datum *player;
 	// s_game_globals const *matg;
 	// s_mod_globals_definition *mod_globals;
 	// long desiredIndex;
-	{
 		// __int32 i;
+
+	s_player_datum *player = player_get(playerIndex);
+	if (!player)
+		return -1;
+	s_mod_globals_definition *mod_globals = mod_globals_get_definition();
+	if (!mod_globals)
+		return -1;
+	s_game_globals const *matg = game_globals_get();
+	if (!matg)
+		return -1;
+	long desiredIndex = player_find_character_type_by_name(player->configuration.host.appearance.preferred_character);
+	for (__int32 i = 0; i < mod_globals->player_character_customizations.count; i++)
+	{
+		if (mod_globals->player_character_customizations[i].global_player_character_type_index == desiredIndex)
+		{
+			if ((char)matg->player_character_types[desiredIndex].multiplayer_armor_customization_block_index == -1)
+				return -1;
+			return desiredIndex;
+		}
 	}
-	todo("implement");
-	__int32 __result = _sub_109022A0(playerIndex);
-	return __result;
+	return -1;
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0ModListener@hades_file_local@@QAE@XZ"); no body to assert in
-_inline ModListener::ModListener() = default; // 0x10900D60
+// hades: ModListener() is defaulted in-class (0x10900D60) - Init value-initialises it
 
 
-extern std::string _sub_10901DF0();
 std::string GetPreferredCharacterName() // 0x10901DF0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetPreferredCharacterName@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 	// `anonymous-namespace'::GetPreferredCharacterName
 	// procedure flags: nofpo
 	// static ...; // 0x10902194
@@ -575,21 +694,45 @@ std::string GetPreferredCharacterName() // 0x10901DF0
 	// std::string modHash;
 	// Player::CPlayerCustomizationDB &customizationDB;
 	// std::string preferredCharacter;
-	{
 		// c_mod_package_manager::s_entry entry;
 		// unsigned char hash[20];
-		{
 			// std::string filename;
+
+	Player::CPlayerCustomizationDB &customizationDB = Utils::Singleton<Player::CPlayerCustomizationDB>::Instance();
+	std::string preferredCharacter;
+	std::string modHash = c_mod_system::get_current_package_hash();
+	if (!modHash.empty())
+	{
+		unsigned char hash[20];
+		Utils::String::HexStringToBytes(modHash, hash, sizeof(hash));
+		c_mod_package_manager::s_entry entry;
+		if (c_mod_system::get_package_manager().find_package_by_hash(hash, &entry))
+		{
+			if (entry.modtype.character)
+			{
+				preferredCharacter = customizationDB.GetPreferredCharacter(modHash);
+				if (preferredCharacter.empty())
+				{
+					std::string filename = std::filesystem::path(entry.file.filename).filename().string();
+					preferredCharacter = customizationDB.GetPreferredCharacter(filename);
+				}
+			}
+			else
+			{
+				preferredCharacter = customizationDB.GetPreferredCharacter("default");
+			}
 		}
 	}
-	todo("implement");
-	std::string __result = _sub_10901DF0();
-	return __result;
+	else
+	{
+		preferredCharacter = customizationDB.GetPreferredCharacter("default");
+	}
+	return preferredCharacter;
 }
 
-_extern __int32 _sub_10902BE0(__int32);
 __int32 OverridePlayerCharacter(__int32 playerIndex) // 0x10902BE0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OverridePlayerCharacter@@YAHH@Z");
 	// `anonymous-namespace'::OverridePlayerCharacter
 	// static ...; // 0x10902E63
 	// static ...; // 0x10902E60
@@ -597,21 +740,29 @@ __int32 OverridePlayerCharacter(__int32 playerIndex) // 0x10902BE0
 	// static ...; // 0x10902E40
 	// __int32 playerIndex;
 	// std::string teamDesignator;
-	{
 		// std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,Server::Voting::HaloType::CharacterOverride> > > > it;
-		{
 			// __int32 characterSetIndex;
-			{
 				// long characterSetIndex;
-			}
-			{
 				// __int32 characterIndex;
-			}
+
+	std::string teamDesignator = GetPlayerTeamDesginatorName(playerIndex);
+	if (auto it = votingCharacterOverrides.find(teamDesignator); it != votingCharacterOverrides.end())
+	{
+		if (it->second.characterSetName == "random")
+		{
+			long characterSetIndex = game_engine_get_random_global_player_character_set_index();
+			return game_engine_get_random_global_player_character_type_index(characterSetIndex);
+		}
+		__int32 characterSetIndex = Mods::CModGlobals::FindCharacterSet(it->second.characterSetName);
+		if (it->second.characterName == "random")
+			return game_engine_get_random_global_player_character_type_index(characterSetIndex);
+		else
+		{
+			__int32 characterIndex = Mods::CModGlobals::FindCharacterInSet(characterSetIndex, it->second.characterName);
+			return game_engine_get_player_character_type_index(characterSetIndex, characterIndex);
 		}
 	}
-	todo("implement");
-	__int32 __result = _sub_10902BE0(playerIndex);
-	return __result;
+	return -1;
 }
 
 void OnLifeCycleChanged(Blam::Network::LifeCycleState newState) // 0x10902AE0
@@ -668,20 +819,27 @@ bool RequestPlayerPropertiesUpdate(__int32 userIndex) // 0x109031B0
 	return true;
 }
 
-_extern void _sub_10902860();
 void MaybeUpdatePeerProperties() // 0x10902860
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?MaybeUpdatePeerProperties@@YAXXZ");
 	// `anonymous-namespace'::MaybeUpdatePeerProperties
 	// procedure flags: nofpo
-	{
 		// IMod *mod;
-	}
 	// function call : bool (*const)()
 	// function call : IMod *(EModIndex) const
 	// function call : bool () const
 	// function call : bool () const
-	todo("implement");
-	_sub_10902860();
+
+	if (!((bool (*)())0x5314B0)())
+		return;
+	if (prevUpdateNumber != currentUpdateNumber)
+	{
+		IMod *mod = c_mod_system::GetModManager().GetMod(EModIndex(0));
+		if (mod && (mod->GetPakIsLoading() || mod->GetCacheIsLoading()))
+			return;
+		if (RequestPlayerPropertiesUpdate(0))
+			prevUpdateNumber = currentUpdateNumber;
+	}
 }
 
 _inline void ModListener::OnModChanged(EModIndex index, IMod *mod) // 0x10902B60

@@ -81,13 +81,12 @@ bool begin_load_map_game_options_verify_hook(s_game_options *options);
 
 /* ---------- public code */
 
-_extern void _sub_1091F4B0();
 void life_cycle_patches_apply() // 0x1091F4B0
 {
-	mangled_x86(MANGLED_TODO, "?life_cycle_patches_apply@@YAXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?life_cycle_patches_apply@@YAXXZ");
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_1091F4B0();
+
+	Hook(0x91F77, begin_load_map_game_options_verify_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 }
 
 /* ---------- private code */

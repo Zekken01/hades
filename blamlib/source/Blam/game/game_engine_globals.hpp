@@ -67,7 +67,6 @@ struct s_game_engine_globals
 	struct s_unknown_waypoint
 	{
 		bool death_acknowledged; // 0x0
-		unsigned char __pad0[3]; // 0x1
 		real_point3d death_position; // 0x4
 		short respawn_timer1; // 0x10
 		short respawn_timer2; // 0x12

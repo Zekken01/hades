@@ -69,7 +69,11 @@ namespace Patches
 
 /* ---------- prototypes */
 
-template<typename t_arg0> t_arg0 *object_get(unsigned long object_index);  // hades: added for 0x1069E560
+extern float (*const game_tick_length)();  // hades: added for 0x1069E640
+extern long (*const game_tick_rate)();  // hades: added for 0x1069E640
+extern void *(__cdecl *const tag_get)(unsigned long, long);  // hades: added for 0x1069E640
+
+template<typename t_arg0> static t_arg0 *object_get(unsigned long object_index) { return (t_arg0 *)object_get(object_index); }  // hades: a file-local template in the original (undecorated `object_get<T>`), defined so it is emitted;  // hades: added for 0x1069E560
 extern long (*const game_time_get)();  // hades: added for 0x1069E560
 
 namespace Patches
@@ -101,22 +105,26 @@ namespace Patches
 {
 	namespace Projectiles
 	{
-		_extern void _sub_1069E000();
 		void ApplyAll() // 0x1069E000
 		{
-			mangled_x86(MANGLED_TODO, "?ApplyAll@Projectiles@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Projectiles@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_1069E000();
+
+			Hook(0x77FAE6, projectile_update_translate_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x77DBB4, projectile_initial_update_translate_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x77DB54, projectile_initial_update_translate_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x77E857, projectile_translate_game_tick_length_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Pointer(0x1948740).Write(projectile_new_hook);
+			Pointer(0x1948710).Write<unsigned short>(0x218);
 		}
 	}
 }
 
 /* ---------- private code */
 
-_extern void _sub_1069E640(long, bool);
 void projectile_translate_tick_delta(long projectile_index, bool force_30hz) // 0x1069E640
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?projectile_translate_tick_delta@@YAXJ_N@Z");
 	// `anonymous-namespace'::projectile_translate_tick_delta
 	// bool force_30hz;
 	// float tick_delta;
@@ -126,8 +134,19 @@ void projectile_translate_tick_delta(long projectile_index, bool force_30hz) // 
 	// function call : void *(*const)(unsigned long, long)
 	// function call : long (*const)()
 	// function call : long (*const)()
-	todo("implement");
-	_sub_1069E640(projectile_index, force_30hz);
+
+	float tick_delta = game_tick_length();
+	s_projectile_data *const projectile = object_get<s_projectile_data>(projectile_index);
+	s_projectile_definition *const definition = (s_projectile_definition *)tag_get('proj', projectile->definition_index);
+	if (definition->projectile_flags.test(static_cast<e_projectile_definition_flags>(5)))
+	{
+		if (force_30hz || projectile->creation_game_time == game_time_get())
+		{
+			tick_delta = game_tick_rate() / 30.0f * tick_delta;
+		}
+	}
+
+	g_projectile_translate_tick_delta = tick_delta;
 }
 
 float projectile_translate_game_tick_length_hook() // 0x1069E620
@@ -172,11 +191,9 @@ bool projectile_new_hook(long projectile_index, void *data) // 0x1069E560
 	// function call : char (*const)(long, void *)
 	// function call : long (*const)()
 
-	s_projectile_data *projectile;
-	bool ret;
-
-	ret = ((unsigned char(*)(long, void *))0xB7DDB0)(projectile_index, data) != 0;
-	projectile = object_get<s_projectile_data>(projectile_index);
+	unsigned char (*const projectile_new)(long, void *) = reinterpret_cast<unsigned char (*)(long, void *)>(0xB7DDB0);
+	bool ret = projectile_new(projectile_index, data);
+	s_projectile_data *projectile = object_get<s_projectile_data>(projectile_index);
 	projectile->creation_game_time = game_time_get();
 	return ret;
 }

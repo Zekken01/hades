@@ -12,6 +12,8 @@
 #include "ThirdParty/rapidjson/stringbuffer.h"
 #include "ThirdParty/rapidjson/writer.h"
 
+#include <format>  // hades: added for 0x1068A4F0  // hades: added for 0x1068A4F0
+
 #include <Windows.h>
 #include <stdio.h>
 #include <sys/stat.h>
@@ -89,31 +91,38 @@ namespace Debug
 			return GetEnvironmentVariableA("STEAM_COMPAT_DATA_PATH", nullptr, 0) > 0;
 		}
 
-		_extern bool _sub_1068A710(_OSVERSIONINFOW *);
 		bool GetOSVersionInfo(_OSVERSIONINFOW *info) // 0x1068A710
 		{
-			mangled_x86(MANGLED_TODO, "?GetOSVersionInfo@CrashReporting@Debug@@YA_NPAU_OSVERSIONINFOW@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetOSVersionInfo@CrashReporting@Debug@@YA_NPAU_OSVERSIONINFOW@@@Z");
 			// _OSVERSIONINFOW *info;
 			// long (*pRtlGetVersion)(_OSVERSIONINFOW *);
 			// HINSTANCE__ *ntdll;
 			// function call : HINSTANCE__ *(char const *)
 			// function call : __int32 (*(HINSTANCE__ *, char const *))()
 			// function call : long (*)(_OSVERSIONINFOW *)
-			todo("implement");
-			bool __result = _sub_1068A710(info);
-			return __result;
+
+			HINSTANCE__ *ntdll = LoadLibraryA("ntdll.dll");
+			if (!ntdll)
+				return false;
+
+			long (__stdcall *pRtlGetVersion)(_OSVERSIONINFOW *) = (long (__stdcall *)(_OSVERSIONINFOW *))GetProcAddress(ntdll, "RtlGetVersion");
+			if (!pRtlGetVersion)
+				return false;
+
+			*info = { sizeof(_OSVERSIONINFOW) };
+			return pRtlGetVersion(info) == 0;
 		}
 	}
 }
 
-extern std::string _sub_1068A260();
+
 namespace Debug
 {
 	namespace CrashReporting
 	{
 		std::string GetFriendlyOSName() // 0x1068A260
 		{
-			mangled_x86(MANGLED_TODO, "?GetFriendlyOSName@CrashReporting@Debug@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetFriendlyOSName@CrashReporting@Debug@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 			// procedure flags: nofpo
 			// static ...; // 0x1068A465
 			// static ...; // 0x1068A458
@@ -121,21 +130,40 @@ namespace Debug
 			// static ...; // 0x1068A438
 			// char const *friendlyName;
 			// _OSVERSIONINFOW ovi;
-			todo("implement");
-			std::string __result = _sub_1068A260();
-			return __result;
+
+			if (IsRunningUnderProton())
+				return "Proton";
+			_OSVERSIONINFOW ovi;
+			if (!GetOSVersionInfo(&ovi))
+				return "Unknown";
+			char const *friendlyName;
+			if (ovi.dwMajorVersion == 10 && ovi.dwBuildNumber >= 22000)
+				friendlyName = "Windows 11+";
+			else if (ovi.dwMajorVersion == 10)
+				friendlyName = "Windows 10";
+			else if (ovi.dwMajorVersion == 6 && ovi.dwMinorVersion == 3)
+				friendlyName = "Windows 8.1";
+			else if (ovi.dwMajorVersion == 6 && ovi.dwMinorVersion == 2)
+				friendlyName = "Windows 8";
+			else if (ovi.dwMajorVersion == 6 && ovi.dwMinorVersion == 1)
+				friendlyName = "Windows 7";
+			else if (ovi.dwMajorVersion == 6 && ovi.dwMinorVersion == 0)
+				friendlyName = "Windows Vista";
+			else
+				friendlyName = "Unknown";
+			return std::format("{} Build {}", friendlyName, ovi.dwBuildNumber);
 		}
 	}
 }
 
-extern std::string _sub_1068A060();
+
 namespace Debug
 {
 	namespace CrashReporting
 	{
 		std::string GetCPUName() // 0x1068A060
 		{
-			mangled_x86(MANGLED_TODO, "?GetCPUName@CrashReporting@Debug@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetCPUName@CrashReporting@Debug@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 			// procedure flags: nofpo
 			// static ...; // 0x1068A1F5
 			// static ...; // 0x1068A1ED
@@ -150,15 +178,26 @@ namespace Debug
 			// function call : long (HKEY__ *, char const *, unsigned long *, unsigned long *, unsigned char *, unsigned long *)
 			// function call : long (HKEY__ *)
 			// function call : long (HKEY__ *)
-			todo("implement");
-			std::string __result = _sub_1068A060();
-			return __result;
+
+			HKEY__ *hKey;
+			long result = RegOpenKeyExA(HKEY_LOCAL_MACHINE, "HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0", 0, KEY_READ, &hKey);
+			if (result != ERROR_SUCCESS)
+				return "";
+			char cpuName[256];
+			unsigned long dataSize = sizeof(cpuName);
+			result = RegQueryValueExA(hKey, "ProcessorNameString", nullptr, nullptr, (unsigned char *)cpuName, &dataSize);
+			if (result != ERROR_SUCCESS)
+			{
+				RegCloseKey(hKey);
+				return "";
+			}
+			RegCloseKey(hKey);
+			return cpuName;
 		}
 
-		_extern bool _sub_1068A4F0(std::string &, std::string &);
 		bool GetGPUInfo(std::string &description, std::string &driverVersion) // 0x1068A4F0
 		{
-			mangled_x86(MANGLED_TODO, "?GetGPUInfo@CrashReporting@Debug@@YA_NAAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetGPUInfo@CrashReporting@Debug@@YA_NAAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z");
 			// static ...; // 0x1068A68D
 			// static ...; // 0x1068A682
 			// static ...; // 0x1068A67C
@@ -173,9 +212,19 @@ namespace Debug
 			// __int32 SubVersion;
 			// __int32 gpuAdapterCount;
 			// __int32 Version;
-			todo("implement");
-			bool __result = _sub_1068A4F0(description, driverVersion);
-			return __result;
+
+			__int32 gpuAdapterCount = *(__int32 *)0x50DD6F0;
+			if (!gpuAdapterCount)
+				return false;
+			__int32 currentGpuAdapterIndex = *(__int32 *)0x50DD9C4;
+			_D3DADAPTER_IDENTIFIER9 *adapter = (_D3DADAPTER_IDENTIFIER9 *)(0x50DCA44 + currentGpuAdapterIndex * 0x658);
+			__int32 Product = HIWORD(adapter->DriverVersion.HighPart);
+			__int32 Version = LOWORD(adapter->DriverVersion.HighPart);
+			__int32 SubVersion = HIWORD(adapter->DriverVersion.LowPart);
+			__int32 Build = LOWORD(adapter->DriverVersion.LowPart);
+			description = adapter->Description;
+			driverVersion = std::format("{}.{}.{}.{}", Product, Version, SubVersion, Build);
+			return true;
 		}
 	}
 }

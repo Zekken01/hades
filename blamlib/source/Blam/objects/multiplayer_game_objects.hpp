@@ -78,19 +78,17 @@ struct s_multiplayer_object_properties_definition
 	c_flags<enum e_multiplayer_object_teleporter_flags,unsigned char> teleporter_passability; // 0x10
 	c_enum<enum e_multiplayer_object_boundary_shape,char> boundary_shape; // 0x11
 	c_enum<enum e_multiplayer_teleporter_channel,char> teleporter_channel; // 0x12
-	unsigned char __pad0[3]; // 0x13
+	unsigned char : 8; // 0x13  // hades: unnamed bit-fields, not padding members - the original leaves 0x13-0x15 alone when it zero-initializes this
+	unsigned short : 16; // 0x14
 	short attached_name; // 0x16
-	unsigned char __pad1[8]; // 0x18
+	long field_18; // 0x18  // hades: scalars, not a padding array - an array would start its own zeroing run
+	long field_1C; // 0x1C
 	float boundary_width; // 0x20
 	float boundary_length; // 0x24
 	float boundary_top; // 0x28
 	float boundary_bottom; // 0x2C
-	s_multiplayer_object_properties_definition(s_multiplayer_object_properties_definition &); /* compiler_generated() */
-	s_multiplayer_object_properties_definition(s_multiplayer_object_properties_definition const &); /* compiler_generated() */
-	_inline s_multiplayer_object_properties_definition() = default; /* compiler_generated() */
-	s_multiplayer_object_properties_definition &operator=(s_multiplayer_object_properties_definition &); /* compiler_generated() */
-	s_multiplayer_object_properties_definition &operator=(s_multiplayer_object_properties_definition const &); /* compiler_generated() */
-	unsigned char __pad2[4]; // 0x30
+	// hades: special members left implicit (s_object_placement_data is aggregate-initialized member by member)
+	long field_30; // 0x30
 };
 #pragma pack(pop)
 static_assert(sizeof(s_multiplayer_object_properties_definition) == 52, "Invalid s_multiplayer_object_properties_definition size");

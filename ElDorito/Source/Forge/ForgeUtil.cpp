@@ -90,6 +90,16 @@ using namespace ::Forge;
 
 /* ---------- prototypes */
 
+extern float normalize3d(real_vector3d *v);  // hades: added for 0x1096A240
+extern real_vector3d *vector_from_points3d(real_point3d const *p1, real_point3d const *p2, real_vector3d *result);  // hades: added for 0x1096A240
+
+extern s_object_data *(*const object_try_and_get_and_verify_type)(unsigned long, c_enum<e_object_type, long>);  // hades: added for 0x10969FB0
+
+extern s_object_data *object_get(unsigned long object_index);  // hades: added for 0x1096A0F0
+
+extern void *(__cdecl *const tag_get)(unsigned long, long);  // hades: added for 0x10969CF0
+extern s_object_data *(*const object_try_and_get_and_verify_type)(unsigned long, c_enum<e_object_type, long>);  // hades: added for 0x10969CF0
+
 extern s_multiplayer_object_properties *(*const object_get_multiplayer)(unsigned long);  // hades: added for 0x10969B90
 
 extern s_map_variant *(*const game_engine_get_runtime_map_variant)();  // hades: added for 0x109699F0
@@ -120,10 +130,10 @@ namespace hades_file_local
 {
 	extern real_vector3d global_zero3d; // 0x1119A698
 }
-using namespace hades_file_local;
+using namespace hades_file_local; extern real_vector3d *matrix4x3_inverse_transform_vector(real_matrix4x3 const *, real_vector3d const *, real_vector3d *);
 /* ---------- public code */
 
-extern s_map_variant *_sub_109699F0();
+
 namespace Forge
 {
 	s_map_variant *GetMapVariant() // 0x109699F0
@@ -145,12 +155,12 @@ namespace Forge
 	}
 }
 
-extern real_rectangle3d const *_sub_10969A40(long);
+
 namespace Forge
 {
 	real_rectangle3d const *GetObjectBoundingBox(long tag_index) // 0x10969A40
 	{
-		mangled_x86(MANGLED_TODO, "?GetObjectBoundingBox@Forge@@YAPBUreal_rectangle3d@@J@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetObjectBoundingBox@Forge@@YAPBUreal_rectangle3d@@J@Z");
 		// long tag_index;
 		// s_object_definition *object_definition;
 		// s_model_definition *model;
@@ -158,9 +168,31 @@ namespace Forge
 		// function call : void *(*const)(unsigned long, long)
 		// function call : void *(*const)(unsigned long, long)
 		// function call : void *(*const)(unsigned long, long)
-		todo("implement");
-		real_rectangle3d const * __result = _sub_10969A40(tag_index);
-		return __result;
+
+		s_object_definition *object_definition = (s_object_definition *)tag_get('obje', tag_index);
+		if (!object_definition || object_definition->model.index == -1)
+		{
+			return nullptr;
+		}
+
+		s_model_definition *model = (s_model_definition *)tag_get('hlmt', object_definition->model.index);
+		if (!model || model->render_model.index == -1)
+		{
+			return nullptr;
+		}
+
+		s_render_model *render_model = (s_render_model *)tag_get('mode', model->render_model.index);
+		if (!render_model)
+		{
+			return nullptr;
+		}
+
+		if (!render_model->render_geometry.compression.count)
+		{
+			return nullptr;
+		}
+
+		return (real_rectangle3d const *)&render_model->render_geometry.compression[0].x;
 	}
 
 	void DeleteObject(long player_index, long map_variant_index) // 0x109695C0
@@ -175,10 +207,9 @@ namespace Forge
 		game_engine_sandbox_apply_delete_object(player_index, map_variant_index);
 	}
 
-	_extern long _sub_10968A20(long, long, float, real_vector3d const &);
 	long CloneObject(long player_index, long object_index, float depth, real_vector3d const &normal) // 0x10968A20
 	{
-		mangled_x86(MANGLED_TODO, "?CloneObject@Forge@@YAJJJMABUreal_vector3d@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?CloneObject@Forge@@YAJJJMABUreal_vector3d@@@Z");
 		// static ...; // 0x1096932C
 		// static ...; // 0x109692FC
 		// static ...; // 0x109692F4
@@ -195,31 +226,62 @@ namespace Forge
 		// s_map_variant *mapv;
 		// real_rectangle3d const *boundsPtr;
 		// real_vector3d displacement;
-		{
 			// float dz;
-		}
-		{
 			// float dy;
-		}
-		{
 			// float dx;
-		}
-		{
 			// float scale;
-		}
 		// function call : s_map_variant *(*const)()
 		// function call : real_matrix4x3 *(*const)(long, real_matrix4x3 *)
 		// function call : s_multiplayer_object_properties *(*const)(unsigned long)
 		// function call : long (*const)(s_map_variant *, long, long, long, real_point3d const *, real_vector3d const *, real_vector3d const *, long, long, s_map_variant_placement_properties const *, short)
-		todo("implement");
-		long __result = _sub_10968A20(player_index, object_index, depth, normal);
-		return __result;
+
+		s_map_variant *mapv = game_engine_get_runtime_map_variant();
+		s_object_data *object = object_get(object_index);
+		if (!mapv || player_index == -1 || object_index == -1 || !object)
+			return -1;
+		real_rectangle3d const *boundsPtr = GetObjectBoundingBox(object->definition_index);
+		if (!boundsPtr)
+			return -1;
+		real_rectangle3d const &bounds = *boundsPtr;
+		s_map_variant_placement_properties const &variantProperties = mapv->objects[object->map_variant_index].properties;
+		real_matrix4x3 objectTransform;
+		((real_matrix4x3 *(*const)(long, real_matrix4x3 *))0xB2EC60)(object_index, &objectTransform);
+		real_vector3d intersectNormal;
+		matrix4x3_inverse_transform_vector(&objectTransform, &normal, &intersectNormal);
+		real_vector3d displacement = global_zero3d;
+		if (abs(intersectNormal.k) > abs(intersectNormal.j) && abs(intersectNormal.k) > abs(intersectNormal.i))
+		{
+			float dz = bounds.z1 - bounds.z0;
+			displacement = intersectNormal.k > 0.0f ? objectTransform.up * dz : objectTransform.up * -dz;
+		}
+		else if (abs(intersectNormal.j) > abs(intersectNormal.k) && abs(intersectNormal.j) > abs(intersectNormal.i))
+		{
+			float dy = bounds.y1 - bounds.y0;
+			displacement = intersectNormal.j > 0.0f ? objectTransform.left * dy : objectTransform.left * -dy;
+		}
+		else if (abs(intersectNormal.i) > abs(intersectNormal.j) && abs(intersectNormal.i) > abs(intersectNormal.k))
+		{
+			float dx = bounds.x1 - bounds.x0;
+			displacement = intersectNormal.i > 0.0f ? objectTransform.forward * dx : objectTransform.forward * -dx;
+		}
+		if (ObjectIsForgeScenery(object_index))
+		{
+			float scale = object_get_multiplayer(object_index)->boundry_width;
+			if (scale >= 0.00001f)
+				depth *= scale;
+		}
+		real_point3d displacedPosition = objectTransform.position + displacement * depth;
+		if (!(displacedPosition.x > mapv->world_bounds.x0 && mapv->world_bounds.x1 > displacedPosition.x && displacedPosition.y > mapv->world_bounds.y0 && mapv->world_bounds.y1 > displacedPosition.y && displacedPosition.z > mapv->world_bounds.z0 && mapv->world_bounds.z1 > displacedPosition.z))
+		{
+			PrintKillFeedText(0, L"Object out of World Bounds", 0);
+			return -1;
+		}
+		return ((long (__thiscall *const)(s_map_variant *, long, long, long, real_point3d const *, real_vector3d const *, real_vector3d const *, long, long, s_map_variant_placement_properties const *, short))0x582110)(GetMapVariant(), object->definition_index, 0, -1, &displacedPosition, &objectTransform.forward, &objectTransform.up, -1, -1, &variantProperties, 0);
 	}
 
-	_extern void _sub_1096A240(long, long, float);
 	void ThrowObject(long player_index, long object_index, float throwForce) // 0x1096A240
 	{
-		mangled_x86(MANGLED_TODO, "?ThrowObject@Forge@@YAXJJM@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?ThrowObject@Forge@@YAXJJM@Z");
 		// static ...; // 0x1096A486
 		// static ...; // 0x1096A483
 		// static ...; // 0x1096A480
@@ -232,13 +294,11 @@ namespace Forge
 		// void (*const simulation_action_generic_object_update)(long, unsigned long);
 		// real_matrix4x3 objectTransform;
 		// void (*const start_tracking_object)(long);
-		{
 			// real_point3d unitHeadPos;
 			// real_vector3d vec;
 			// real_vector3d v2;
 			// s_object_data *unitObjectPtr;
 			// real_vector3d v3;
-		}
 		// function call : real_matrix4x3 *(*const)(long, real_matrix4x3 *)
 		// function call : void (*const)(long, bool)
 		// function call : void (*const)(long, real_point3d *)
@@ -246,43 +306,85 @@ namespace Forge
 		// function call : void (*const)(long, real_vector3d const *, real_vector3d const *)
 		// function call : void (*const)(long, unsigned long)
 		// function call : void (*const)(long)
-		todo("implement");
-		_sub_1096A240(player_index, object_index, throwForce);
+
+		void (*const simulation_action_generic_object_update)(long, unsigned long) = (void (*)(long, unsigned long))0x580AD0;
+		void (*const start_tracking_object)(long) = (void (*)(long))0x59EA10;
+		real_matrix4x3 objectTransform;
+		((real_matrix4x3 *(*const)(long, real_matrix4x3 *))0xB2EC60)(object_index, &objectTransform);
+		s_player_datum *player = player_get(player_index);
+		if (!player)
+			return;
+		((void (*const)(long, bool))0xB327F0)(object_index, false);
+		if (throwForce >= 0.00001f)
+		{
+			s_object_data *unitObjectPtr = object_get(player->unit_index);
+			if (!unitObjectPtr)
+				return;
+			real_point3d unitHeadPos;
+			((void (*const)(long, real_point3d *))0xB439D0)(player->unit_index, &unitHeadPos);
+			real_vector3d vec;
+			vector_from_points3d(&unitHeadPos, &objectTransform.position, &vec);
+			normalize3d(&vec);
+			vec.i = throwForce * 15.0f * vec.i;
+			vec.j = throwForce * 15.0f * vec.j;
+			vec.k = throwForce * 15.0f * vec.k;
+			real_vector3d v2;
+			real_vector3d v3;
+			((void (*const)(long, real_vector3d *, real_vector3d *))0xB2EB30)(object_index, &v2, &v3);
+			((void (*const)(long, real_vector3d const *, real_vector3d const *))0xB34040)(object_index, &v2, &v3);
+			simulation_action_generic_object_update(object_index, 4);
+		}
+		start_tracking_object(object_index);
 	}
 }
 
-extern real_vector3d _sub_10969630(real_vector3d const &);
+
 namespace Forge
 {
 	real_vector3d GetClosestCardianalAxix(real_vector3d const &v) // 0x10969630
 	{
-		mangled_x86(MANGLED_TODO, "?GetClosestCardianalAxix@Forge@@YA?AUreal_vector3d@@ABU2@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetClosestCardianalAxix@Forge@@YA?AUreal_vector3d@@ABU2@@Z");
 		// real_vector3d const &v;
 		// float xn;
 		// float zn;
 		// float yn;
-		todo("implement");
-		real_vector3d __result = _sub_10969630(v);
-		return __result;
+
+		float xn = abs(v.i);
+		float yn = abs(v.j);
+		float zn = abs(v.k);
+		if (xn >= yn && xn >= zn)
+			return v.i > 0.0f ? real_vector3d{ 1.0f, 0.0f, 0.0f } : real_vector3d{ -1.0f, 0.0f, 0.0f };
+		else if (yn > xn && yn > zn)
+			return v.j > 0.0f ? real_vector3d{ 0.0f, 1.0f, 0.0f } : real_vector3d{ 0.0f, -1.0f, 0.0f };
+		else if (zn > xn && zn > yn)
+			return v.k > 0.0f ? real_vector3d{ 0.0f, 0.0f, 1.0f } : real_vector3d{ 0.0f, 0.0f, -1.0f };
+		return { 0.0f, 0.0f, 0.0f };
 	}
 
-	extern ForgeObjectQuota _sub_10968910();
 	Forge::ForgeObjectQuota CalculateObjectQuota() // 0x10968910
 	{
-		mangled_x86(MANGLED_TODO, "?CalculateObjectQuota@Forge@@YA?AUForgeObjectQuota@1@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?CalculateObjectQuota@Forge@@YA?AUForgeObjectQuota@1@XZ");
 		// procedure flags: nofpo
 		// unsigned short totalAvailable;
 		// unsigned short totalUsed;
 		// s_map_variant *mapv;
-		{
 			// unsigned short i;
-			{
 				// s_variant_datum &placement;
+
+		unsigned short totalAvailable = 0;
+		unsigned short totalUsed = 0;
+		s_map_variant *mapv = GetMapVariant();
+		if (mapv)
+		{
+			for (unsigned short i = mapv->scenario_object_count; i < 640; i++)
+			{
+				s_variant_datum &placement = mapv->objects[i];
+				totalAvailable++;
+				if (placement.flags.test(_map_variant_occupied_slot_bit))
+					totalUsed++;
 			}
 		}
-		todo("implement");
-		Forge::ForgeObjectQuota __result = _sub_10968910();
-		return __result;
+		return { totalAvailable, totalUsed };
 	}
 
 	bool PointInWorldBounds(real_point3d const &point) // 0x10969E50
@@ -317,16 +419,42 @@ namespace Forge
 		return Forge::PointInWorldBounds(worldPos);
 	}
 
-	_extern void _sub_1096A0F0(long, Forge::EForgeObjectPhysics, bool);
 	void SetObjectPhysicsMode(long objectIndex, Forge::EForgeObjectPhysics mode, bool atRest) // 0x1096A0F0
 	{
-		mangled_x86(MANGLED_TODO, "?SetObjectPhysicsMode@Forge@@YAXJW4EForgeObjectPhysics@1@_N@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?SetObjectPhysicsMode@Forge@@YAXJW4EForgeObjectPhysics@1@_N@Z");
 		// bool atRest;
 		// s_object_data *object;
 		// void (*const change_object_physics_mode)(long, bool);
 		// function call : void (*const)(long, bool)
-		todo("implement");
-		_sub_1096A0F0(objectIndex, mode, atRest);
+
+		void (*const change_object_physics_mode)(long, bool) = reinterpret_cast<void (*)(long, bool)>(0x59A620);
+		s_object_data *object = object_get(objectIndex);
+		if (!object)
+		{
+			return;
+		}
+
+		switch (mode)
+		{
+		case Forge::Normal:
+			object->physics_flags &= ~0x40;
+			break;
+		case Forge::Phased:
+			object->physics_flags |= 0x40;
+			break;
+		}
+
+		if (!atRest)
+		{
+			object->physics_flags &= ~0x200;
+		}
+		else
+		{
+			object->physics_flags |= 0x200;
+		}
+
+		object->physics_flags &= ~0x100000;
+		change_object_physics_mode(objectIndex, true);
 	}
 
 	Forge::EForgeObjectPhysics GetObjectPhysicsMode(long objectIndex) // 0x10969B90
@@ -348,10 +476,9 @@ namespace Forge
 		}
 	}
 
-	_extern bool _sub_10969CF0(long);
 	bool ObjectIsForgeScenery(long objectIndex) // 0x10969CF0
 	{
-		mangled_x86(MANGLED_TODO, "?ObjectIsForgeScenery@Forge@@YA_NJ@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?ObjectIsForgeScenery@Forge@@YA_NJ@Z");
 		// long objectIndex;
 		// s_object_data *object;
 		// s_model_definition *modelDef;
@@ -359,26 +486,56 @@ namespace Forge
 		// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
 		// function call : void *(*const)(unsigned long, long)
 		// function call : void *(*const)(unsigned long, long)
-		todo("implement");
-		bool __result = _sub_10969CF0(objectIndex);
-		return __result;
+
+		s_object_data *object = object_try_and_get_and_verify_type(objectIndex, 0x80);
+		if (!object)
+		{
+			return false;
+		}
+
+		if (object->map_variant_index == -1)
+		{
+			return false;
+		}
+
+		s_object_definition *objectDef = (s_object_definition *)tag_get('scen', object->definition_index);
+		if (objectDef->model.index == -1)
+		{
+			return false;
+		}
+
+		s_model_definition *modelDef = (s_model_definition *)tag_get('hlmt', objectDef->model.index);
+		if (!modelDef)
+		{
+			return false;
+		}
+
+		return modelDef->physics_model.index == -1;
 	}
 
-	_extern void _sub_10969FB0(long, float);
 	void ScaleForgeSceneryObject(long objectIndex, float scale) // 0x10969FB0
 	{
-		mangled_x86(MANGLED_TODO, "?ScaleForgeSceneryObject@Forge@@YAXJM@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?ScaleForgeSceneryObject@Forge@@YAXJM@Z");
 		// float scale;
 		// s_object_data *object;
-		{
 			// void (*const object_set_scale)(long, float, float);
 			// constexpr void (*const `Forge::ScaleForgeSceneryObject'::`7'::havok_object_rebuild_immediate)(long); // constant == 6058848
-		}
 		// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
 		// function call : void (*const)(long, float, float)
 		// function call : void (*const)(long)
-		todo("implement");
-		_sub_10969FB0(objectIndex, scale);
+
+		s_object_data *object = object_try_and_get_and_verify_type(objectIndex, 0x80);
+		if (!object)
+			return;
+		if (scale >= 0.00001f)
+		{
+			if (abs(object->scale - scale) >= 0.00001f)
+			{
+				void (*const object_set_scale)(long, float, float) = (void(*const)(long, float, float))0xB33BC0;
+				object_set_scale(objectIndex, scale, 0.0f);
+				((void(*)(long))0x5C7360)(objectIndex);
+			}
+		}
 	}
 }
 

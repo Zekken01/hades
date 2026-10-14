@@ -59,6 +59,8 @@
 #include "Blam/cache/physical_memory_map.hpp"
 #include "mods/memory/physical_memory_manager.hpp"
 
+#include "Patches/Core.hpp"  // hades: added for 0x10A8A510
+
 /* ---------- forward declarations */
 
 struct c_restricted_memory;
@@ -190,10 +192,9 @@ namespace Patches
 			return newRuntimeGlobalsSize - origRuntimeGlobalsSize;
 		}
 
-		_extern __int32 _sub_10A8AB70();
 		__int32 ExpandGameStateGlobals() // 0x10A8AB70
 		{
-			mangled_x86(MANGLED_TODO, "?ExpandGameStateGlobals@Memory@Patches@@YAHXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ExpandGameStateGlobals@Memory@Patches@@YAHXZ");
 			// procedure flags: nofpo
 			// unsigned __int32 const origGameStateGlobalsPersistSize;
 			// unsigned __int32 newCachedObjectRenderStatesCount;
@@ -214,9 +215,62 @@ namespace Patches
 			// unsigned __int32 origUnknownSubAllocation5Size;
 			// function call : unsigned long (*const)(long, unsigned long, long)
 			// function call : unsigned long (*const)(long, unsigned long, long)
-			todo("implement");
-			__int32 __result = _sub_10A8AB70();
-			return __result;
+
+			unsigned __int32 subAllocation4ExtraSize = 0;
+			unsigned __int32 oldCachedObjectRenderStatesCount = 384;
+			unsigned __int32 newCachedObjectRenderStatesCount = 1000;
+			unsigned __int32 cachedObjectRenderStatesSize = 0x4D8;
+			*(unsigned __int32 *)0xA452BD = newCachedObjectRenderStatesCount;
+			subAllocation4ExtraSize += data_allocation_size(newCachedObjectRenderStatesCount, cachedObjectRenderStatesSize, 0) - data_allocation_size(oldCachedObjectRenderStatesCount, cachedObjectRenderStatesSize, 0);
+
+			__int32 extraGlobalsSize = 0;
+			unsigned __int32 origUnknownSubAllocation2Size = 0x30000;
+			unsigned __int32 newUnknownSubAllocation2Size = origUnknownSubAllocation2Size;
+			*(unsigned __int32 *)0x510AD6 = newUnknownSubAllocation2Size;
+			*(unsigned __int32 *)0x510AF3 = newUnknownSubAllocation2Size;
+			extraGlobalsSize += newUnknownSubAllocation2Size - origUnknownSubAllocation2Size;
+			unsigned __int32 origUnknownSubAllocation3Size = 0x200000;
+			unsigned __int32 newUnknownSubAllocation3Size = origUnknownSubAllocation3Size;
+			*(unsigned __int32 *)0x510AED = newUnknownSubAllocation3Size;
+			*(unsigned __int32 *)0x510B0B = newUnknownSubAllocation3Size;
+			extraGlobalsSize += newUnknownSubAllocation3Size - origUnknownSubAllocation3Size;
+			unsigned __int32 origUnknownSubAllocation4Size = 0x2D0000;
+			unsigned __int32 newUnknownSubAllocation4Size = origUnknownSubAllocation4Size + subAllocation4ExtraSize;
+			*(unsigned __int32 *)0x510B05 = newUnknownSubAllocation4Size;
+			*(unsigned __int32 *)0x510B23 = newUnknownSubAllocation4Size;
+			extraGlobalsSize += newUnknownSubAllocation4Size - origUnknownSubAllocation4Size;
+			unsigned __int32 origUnknownSubAllocation5Size = 0x480000;
+			unsigned __int32 newUnknownSubAllocation5Size = origUnknownSubAllocation5Size;
+			*(unsigned __int32 *)0x510B1D = newUnknownSubAllocation5Size;
+			*(unsigned __int32 *)0x510B35 = newUnknownSubAllocation5Size;
+			*(unsigned __int32 *)0x510B3B = newUnknownSubAllocation5Size;
+			*(unsigned __int32 *)0x510B4D = newUnknownSubAllocation5Size;
+			*(unsigned __int32 *)0x510B53 = newUnknownSubAllocation5Size;
+			extraGlobalsSize += newUnknownSubAllocation5Size - origUnknownSubAllocation5Size;
+
+			unsigned __int32 const origGameStateGlobalsSize = 0x1280000;
+			unsigned __int32 const newGameStateGlobalsSize = (origGameStateGlobalsSize + extraGlobalsSize + 0xFFFF) & 0xFFFF0000;
+			*(unsigned __int32 *)0x50FDC7 = newGameStateGlobalsSize;
+			*(unsigned __int32 *)0x510337 = newGameStateGlobalsSize;
+			*(unsigned __int32 *)0x510A1B = newGameStateGlobalsSize;
+			*(unsigned __int32 *)0x510A2C = newGameStateGlobalsSize;
+			unsigned __int32 const origGameStateGlobalsPersistSize = 0x980000;
+			unsigned __int32 const newGameGlobalsPersistSize = newGameStateGlobalsSize - newUnknownSubAllocation5Size * 2;
+			*(unsigned __int32 *)0x50FFC7 = newGameGlobalsPersistSize;
+			*(unsigned __int32 *)0x50FFC7 = newGameGlobalsPersistSize;
+			*(unsigned __int32 *)0x5101F8 = newGameGlobalsPersistSize;
+			*(unsigned __int32 *)0x510624 = newGameGlobalsPersistSize;
+			*(unsigned __int32 *)0x510685 = newGameGlobalsPersistSize;
+			*(unsigned __int32 *)0x5107D1 = newGameGlobalsPersistSize;
+			*(unsigned __int32 *)0x5108ED = newGameGlobalsPersistSize;
+			*(unsigned __int32 *)0x510A16 = newGameGlobalsPersistSize;
+			*(unsigned __int32 *)0x510D35 = newGameGlobalsPersistSize;
+			*(unsigned __int32 *)0x510D61 = newGameGlobalsPersistSize;
+			*(unsigned __int32 *)0x510D86 = newGameGlobalsPersistSize;
+			*(unsigned __int32 *)0x510DA3 = newGameGlobalsPersistSize;
+			*(unsigned __int32 *)0x510DFC = newGameGlobalsPersistSize;
+			c_debug_game_state_allocation::begin(newGameStateGlobalsSize);
+			return newGameStateGlobalsSize - origGameStateGlobalsSize;
 		}
 
 		void ExpandRenderGlobals() // 0x10A8AF70
@@ -252,13 +306,17 @@ namespace Patches
 			c_debug_game_state_allocation::end();
 		}
 
-		_extern void _sub_10A8A510();
 		void ApplyAll() // 0x10A8A510
 		{
-			mangled_x86(MANGLED_TODO, "?ApplyAll@Memory@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Memory@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_10A8A510();
+
+			Patch(0x103354, 0x90, 5).Apply();
+			Patch(0x77970, { 0xC3 }).Apply();
+			Patch(0x77930, { 0xC3 }).Apply();
+			Hook(0x11D690, physical_memory_initialize_hook).Apply();
+			Hook(0x1A003C, c_restricted_memory__add_member_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Patches::Core::OnMapLoaded(OnMapLoadCallback);
 		}
 
 		void ApplyAfterInit() // 0x10A8A4D0
@@ -321,25 +379,42 @@ _inline void c_debug_game_state_allocation::begin(unsigned long memory_total) //
 	fprintf(m_fp, "\n");
 }
 
-_extern void _sub_10A8B460();
 _inline void c_debug_game_state_allocation::end() // 0x10A8B460
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?end@c_debug_game_state_allocation@hades_file_local@@SAXXZ");
 	// `anonymous-namespace'::c_debug_game_state_allocation::end
 	// procedure flags: nofpo
-	{
 		// long i;
-		{
 			// long flags;
 			// unsigned long size;
 			// char *region;
-		}
-	}
+
+	if (!m_enabled || !m_fp)
+		return;
+	fprintf(m_fp, "% 44s,% 24s", "FINAL", "RESERVED_SIZE");
+	for (long i = 0; i < 5; i++)
 	{
-		{
-		}
+		char *region = (char *)0x2406494 + i * 0xC88;
+		long flags = *(long *)(region + 0x5C);
+		unsigned long size = 0;
+		if (flags & 1)
+			size = *(unsigned long *)(region + 0x68);
+		fprintf(m_fp, ",% 40d", size);
 	}
-	todo("implement");
-	_sub_10A8B460();
+	fprintf(m_fp, "\n");
+	fprintf(m_fp, "% 44s,% 24s", "FINAL", "WASTED_SIZE");
+	for (long i = 0; i < 5; i++)
+	{
+		char *region = (char *)0x2406494 + i * 0xC88;
+		long flags = *(long *)(region + 0x5C);
+		unsigned long size = 0;
+		if (flags & 1)
+			size = *(unsigned long *)(region + 0x64) - *(unsigned long *)(region + 0x68);
+		fprintf(m_fp, ",% 40d", size);
+	}
+	fprintf(m_fp, "\n");
+	fclose(m_fp);
+	m_enabled = false;
 }
 
 void physical_memory_initialize_hook() // 0x10A8B650
@@ -371,9 +446,9 @@ void physical_memory_initialize_hook() // 0x10A8B650
 	*(void **)0x238ED0C = physical_memory_base_address;
 }
 
-_extern long _sub_10A8B310(c_restricted_memory *, void *, char const *, char const *, unsigned long, unsigned char, void *, void *, void *);
 long __fastcall c_restricted_memory__add_member_hook(c_restricted_memory *thisptr, void *unused, char const *name, char const *type, unsigned long size_in_bytes, unsigned char alignment_bits, void *allocate_function, void *update_function, void *free_function) // 0x10A8B310
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_restricted_memory__add_member_hook@@YIJPAUc_restricted_memory@@PAXPBD2KE111@Z");
 	// `anonymous-namespace'::c_restricted_memory__add_member_hook
 	// void *free_function;
 	// long allocation_type;
@@ -385,7 +460,18 @@ long __fastcall c_restricted_memory__add_member_hook(c_restricted_memory *thispt
 	// long member_index;
 	// unsigned long allocated_size;
 	// function call : long (*const)(c_restricted_memory *, char const *, char const *, unsigned long, unsigned char, void *, void *, void *)
-	todo("implement");
-	long __result = _sub_10A8B310(thisptr, unused, name, type, size_in_bytes, alignment_bits, allocate_function, update_function, free_function);
-	return __result;
+
+	long (__thiscall *const add_member_impl)(c_restricted_memory *, char const *, char const *, unsigned long, unsigned char, void *, void *, void *) = reinterpret_cast<long (__thiscall *)(c_restricted_memory *, char const *, char const *, unsigned long, unsigned char, void *, void *, void *)>(0x65DF00);
+	unsigned long region_total_size = *(unsigned long *)offset_pointer(thisptr, 0x64);
+	unsigned long *region_used_size_ptr = (unsigned long *)offset_pointer(thisptr, 0x68);
+	long allocation_type = *(long *)offset_pointer(thisptr, 0xC84);
+	unsigned long original_used_size = *region_used_size_ptr;
+	long member_index = add_member_impl(thisptr, name, type, size_in_bytes, alignment_bits, allocate_function, update_function, free_function);
+	unsigned long new_region_used_size = *region_used_size_ptr;
+	unsigned long allocated_size = new_region_used_size - original_used_size;
+	#line 481 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Patches\\Memory.cpp"
+		assert(new_region_used_size <= region_total_size || new_region_used_size < original_used_size);
+		#line 475 "C:\\Users\\zekken\\Desktop\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Patches\\Memory.cpp"
+	c_debug_game_state_allocation::record_allocation(allocation_type, name, type, allocated_size);
+	return member_index;
 }

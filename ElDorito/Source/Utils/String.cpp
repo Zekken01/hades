@@ -56,11 +56,16 @@ typedef void bio_info_cb(bio_st *, __int32, char const *, __int32, long, long);
 
 /* ---------- prototypes */
 
+namespace Utils { namespace String { _inline bool is_base64(unsigned char c); } }  // hades: added for 0x10C5D900  // hades: added for 0x10C5D900
+
+namespace Utils { namespace String { _inline std::string &ltrim(std::string &s); _inline std::string &rtrim(std::string &s); } }  // hades: added for 0x10C5F4A0  // hades: added for 0x10C5F4A0
+
 namespace Utils
 {
 	namespace String
 	{
 		extern std::string Base64Encode(unsigned char const *bytes_to_encode, unsigned __int32 in_len);
+		std::string &trim(std::string &s);  // hades: added for 0x10C5F630
 		extern std::string Base64Decode(std::string const &encoded_string);
 		extern unsigned __int32 calcDecodeLength(char const *b64input);
 		extern __int32 Base64DecodeBinary(char *b64message, unsigned char *buffer, unsigned __int32 *length);
@@ -88,20 +93,20 @@ namespace Utils
 {
 	namespace String
 	{
-		extern std::string base64_chars; // 0x1247EC68
+		std::string base64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"; // 0x1247EC68
 	}
 }
 
 /* ---------- public code */
 
-extern std::string _sub_10C5DF30(unsigned char const *, unsigned __int32);
+
 namespace Utils
 {
 	namespace String
 	{
 		std::string Base64Encode(unsigned char const *bytes_to_encode, unsigned __int32 in_len) // 0x10C5DF30
 		{
-			mangled_x86(MANGLED_TODO, "?Base64Encode@String@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PBEI@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Base64Encode@String@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PBEI@Z");
 			// static ...; // 0x10C5E2ED
 			// static ...; // 0x10C5E2E0
 			// static ...; // 0x10C5E2BC
@@ -113,21 +118,52 @@ namespace Utils
 			// __int32 j;
 			// unsigned char char_array_4[4];
 			// unsigned char char_array_3[3];
-			todo("implement");
-			std::string __result = _sub_10C5DF30(bytes_to_encode, in_len);
-			return __result;
+
+			std::string ret;
+			__int32 i = 0;
+			__int32 j = 0;
+			unsigned char char_array_3[3];
+			unsigned char char_array_4[4];
+			while (in_len--)
+			{
+				char_array_3[i++] = *(bytes_to_encode++);
+				if (i == 3)
+				{
+					char_array_4[0] = (char_array_3[0] & 0xfc) >> 2;
+					char_array_4[1] = ((char_array_3[0] & 0x03) << 4) + ((char_array_3[1] & 0xf0) >> 4);
+					char_array_4[2] = ((char_array_3[1] & 0x0f) << 2) + ((char_array_3[2] & 0xc0) >> 6);
+					char_array_4[3] = char_array_3[2] & 0x3f;
+					for (i = 0; i < 4; i++)
+						ret += ((std::string const &)base64_chars)[char_array_4[i]];
+					i = 0;
+				}
+			}
+			if (i)
+			{
+				for (j = i; j < 3; j++)
+					char_array_3[j] = '\0';
+				char_array_4[0] = (char_array_3[0] & 0xfc) >> 2;
+				char_array_4[1] = ((char_array_3[0] & 0x03) << 4) + ((char_array_3[1] & 0xf0) >> 4);
+				char_array_4[2] = ((char_array_3[1] & 0x0f) << 2) + ((char_array_3[2] & 0xc0) >> 6);
+				char_array_4[3] = char_array_3[2] & 0x3f;
+				for (j = 0; j < i + 1; j++)
+					ret += ((std::string const &)base64_chars)[char_array_4[j]];
+				while (i++ < 3)
+					ret += '=';
+			}
+			return ret;
 		}
 	}
 }
 
-extern std::string _sub_10C5D900(std::string const &);
+
 namespace Utils
 {
 	namespace String
 	{
 		std::string Base64Decode(std::string const &encoded_string) // 0x10C5D900
 		{
-			mangled_x86(MANGLED_TODO, "?Base64Decode@String@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV34@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Base64Decode@String@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV34@@Z");
 			// static ...; // 0x10C5DCFD
 			// static ...; // 0x10C5DCF0
 			// static ...; // 0x10C5DCEC
@@ -141,9 +177,42 @@ namespace Utils
 			// __int32 in_;
 			// __int32 in_len;
 			// unsigned char char_array_3[3];
-			todo("implement");
-			std::string __result = _sub_10C5D900(encoded_string);
-			return __result;
+
+			__int32 in_len = encoded_string.size();
+			__int32 i = 0;
+			__int32 j = 0;
+			__int32 in_ = 0;
+			unsigned char char_array_4[4], char_array_3[3];
+			std::string ret;
+			while (in_len-- && (encoded_string[in_] != '=') && is_base64(encoded_string[in_]))
+			{
+				char_array_4[i++] = encoded_string[in_];
+				in_++;
+				if (i == 4)
+				{
+					for (i = 0; i < 4; i++)
+						char_array_4[i] = ((std::string const &)base64_chars)[base64_chars.find(char_array_4[i])];
+					char_array_3[0] = (char_array_4[0] << 2) + ((char_array_4[1] & 0x30) >> 4);
+					char_array_3[1] = ((char_array_4[1] & 0xf) << 4) + ((char_array_4[2] & 0x3c) >> 2);
+					char_array_3[2] = ((char_array_4[2] & 0x3) << 6) + char_array_4[3];
+					for (i = 0; i < 3; i++)
+						ret += char_array_3[i];
+					i = 0;
+				}
+			}
+			if (i)
+			{
+				for (j = i; j < 4; j++)
+					char_array_4[j] = 0;
+				for (j = 0; j < 4; j++)
+					char_array_4[j] = ((std::string const &)base64_chars)[base64_chars.find(char_array_4[j])];
+				char_array_3[0] = (char_array_4[0] << 2) + ((char_array_4[1] & 0x30) >> 4);
+				char_array_3[1] = ((char_array_4[1] & 0xf) << 4) + ((char_array_4[2] & 0x3c) >> 2);
+				char_array_3[2] = ((char_array_4[2] & 0x3) << 6) + char_array_4[3];
+				for (j = 0; j < i - 1; j++)
+					ret += char_array_3[j];
+			}
+			return ret;
 		}
 
 		unsigned __int32 calcDecodeLength(char const *b64input) // 0x10C5FE70
@@ -195,23 +264,20 @@ namespace Utils
 			return 0;
 		}
 
-		_extern void _sub_10C5E930(std::string &, char *);
 		void RemoveCharsFromString(std::string &str, char *charsToRemove) // 0x10C5E930
 		{
-			mangled_x86(MANGLED_TODO, "?RemoveCharsFromString@String@Utils@@YAXAAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAD@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?RemoveCharsFromString@String@Utils@@YAXAAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAD@Z");
 			// char *charsToRemove;
-			{
 				// unsigned __int32 i;
 				// unsigned __int32 j;
-			}
-			todo("implement");
-			_sub_10C5E930(str, charsToRemove);
+
+			for (unsigned __int32 i = 0, j = strlen(charsToRemove); i < j; i++)
+				str.erase(std::remove(str.begin(), str.end(), charsToRemove[i]), str.end());
 		}
 
-		_extern void _sub_10C5E630(std::string const &, void *const, unsigned __int32);
 		void HexStringToBytes(std::string const &in, void *const data, unsigned __int32 length) // 0x10C5E630
 		{
-			mangled_x86(MANGLED_TODO, "?HexStringToBytes@String@Utils@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@QAXI@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?HexStringToBytes@String@Utils@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@QAXI@Z");
 			// static ...; // 0x10C5E86C
 			// static ...; // 0x10C5E848
 			// static ...; // 0x10C5E840
@@ -220,69 +286,91 @@ namespace Utils
 			// unsigned __int32 length;
 			// unsigned char *byteData;
 			// std::stringstream hexStringStream;
-			{
 				// unsigned __int32 dataIndex;
 				// unsigned __int32 strIndex;
-				{
 					// __int32 tmpValue;
 					// char const tmpStr[3];
-				}
+
+			unsigned char *byteData = (unsigned char *)data;
+			if (in.length() < length * 2)
+			{
+				memset(data, 0, length);
+				return;
 			}
-			todo("implement");
-			_sub_10C5E630(in, data, length);
+			std::stringstream hexStringStream;
+			hexStringStream >> std::hex;
+			for (unsigned __int32 strIndex = 0, dataIndex = 0; strIndex < length * 2; dataIndex++)
+			{
+				char const tmpStr[3] = { in[strIndex++], in[strIndex++], 0 };
+				hexStringStream.clear();
+				hexStringStream.str(tmpStr);
+				__int32 tmpValue = 0;
+				hexStringStream >> tmpValue;
+				byteData[dataIndex] = (unsigned char)tmpValue;
+			}
 		}
 
-		_extern void _sub_10C5E400(void const *, unsigned __int32 const, std::string &);
 		void BytesToHexString(void const *data, unsigned __int32 const dataLength, std::string &dest) // 0x10C5E400
 		{
-			mangled_x86(MANGLED_TODO, "?BytesToHexString@String@Utils@@YAXPBXIAAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?BytesToHexString@String@Utils@@YAXPBXIAAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 			// static ...; // 0x10C5E59C
 			// void const *data;
 			// unsigned __int32 const dataLength;
 			// std::string &dest;
 			// unsigned char const *byteData;
 			// std::stringstream hexStringStream;
-			{
 				// unsigned __int32 index;
-			}
-			todo("implement");
-			_sub_10C5E400(data, dataLength, dest);
+
+			unsigned char const *byteData = (unsigned char const *)data;
+			std::stringstream hexStringStream;
+			hexStringStream << std::hex << std::setfill('0');
+			for (unsigned __int32 index = 0; index < dataLength; index++)
+				hexStringStream << std::setw(2) << (__int32)byteData[index];
+			dest = hexStringStream.str();
 		}
 
-		_extern void _sub_10C5EB30(std::string &, char, char);
 		void ReplaceCharacters(std::string &str, char find, char replaceWith) // 0x10C5EB30
 		{
-			mangled_x86(MANGLED_TODO, "?ReplaceCharacters@String@Utils@@YAXAAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@DD@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ReplaceCharacters@String@Utils@@YAXAAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@DD@Z");
 			// char replaceWith;
-			{
 				// unsigned __int32 i;
+
+			for (unsigned __int32 i = 0; i < str.length(); i++)
+			{
+				if (str[i] == find)
+					str[i] = replaceWith;
 			}
-			todo("implement");
-			_sub_10C5EB30(str, find, replaceWith);
 		}
 
-		_extern bool _sub_10C5EBD0(std::string &, std::string const &, std::string const &);
 		bool ReplaceString(std::string &str, std::string const &replace, std::string const &with) // 0x10C5EBD0
 		{
-			mangled_x86(MANGLED_TODO, "?ReplaceString@String@Utils@@YA_NAAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV34@1@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ReplaceString@String@Utils@@YA_NAAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV34@1@Z");
 			// std::string const &with;
 			// unsigned __int32 start_pos;
 			// bool found;
-			todo("implement");
-			bool __result = _sub_10C5EBD0(str, replace, with);
-			return __result;
+
+			unsigned __int32 start_pos = str.find(replace, 0);
+			bool found = false;
+			while (start_pos != std::string::npos)
+			{
+				str.replace(start_pos, replace.length(), with);
+				start_pos += with.length();
+				found = true;
+				start_pos = str.find(replace, start_pos);
+			}
+			return found;
 		}
 	}
 }
 
-extern std::wstring _sub_10C5F680(std::string_view);
+
 namespace Utils
 {
 	namespace String
 	{
 		std::wstring WidenString(std::string_view string) // 0x10C5F680
 		{
-			mangled_x86(MANGLED_TODO, "?WidenString@String@Utils@@YA?AV?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@V?$basic_string_view@DU?$char_traits@D@std@@@4@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?WidenString@String@Utils@@YA?AV?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@V?$basic_string_view@DU?$char_traits@D@std@@@4@@Z");
 			// static ...; // 0x10C5F8A4
 			// static ...; // 0x10C5F898
 			// static ...; // 0x10C5F890
@@ -292,21 +380,40 @@ namespace Utils
 			// __int32 const len;
 			// function call : __int32 (unsigned __int32, unsigned long, char const *, __int32, wchar_t *, __int32)
 			// function call : __int32 (unsigned __int32, unsigned long, char const *, __int32, wchar_t *, __int32)
-			todo("implement");
-			std::wstring __result = _sub_10C5F680(string);
-			return __result;
+
+			__int32 const len = (__int32)string.size();
+			if (len == 0)
+				return L"";
+			__int32 n = MultiByteToWideChar(CP_UTF8, 0, string.data(), len, nullptr, 0);
+			if (n <= 0)
+			{
+				#line 380 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Utils\\String.cpp"
+					assert(false);
+					#line 393 "C:\\Users\\zekken\\Desktop\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Utils\\String.cpp"
+				return L"";
+			}
+			std::wstring result(n, 0);
+			n = MultiByteToWideChar(CP_UTF8, 0, string.data(), len, result.data(), n);
+			if (n <= 0)
+			{
+				#line 388 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Utils\\String.cpp"
+					assert(false);
+					#line 402 "C:\\Users\\zekken\\Desktop\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Utils\\String.cpp"
+				return L"";
+			}
+			return result;
 		}
 	}
 }
 
-extern std::string _sub_10C5EE80(std::wstring_view);
+
 namespace Utils
 {
 	namespace String
 	{
 		std::string ThinString(std::wstring_view wide_string) // 0x10C5EE80
 		{
-			mangled_x86(MANGLED_TODO, "?ThinString@String@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$basic_string_view@_WU?$char_traits@_W@std@@@4@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ThinString@String@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$basic_string_view@_WU?$char_traits@_W@std@@@4@@Z");
 			// static ...; // 0x10C5F0AC
 			// static ...; // 0x10C5F0A0
 			// static ...; // 0x10C5F098
@@ -316,65 +423,91 @@ namespace Utils
 			// __int32 const len;
 			// function call : __int32 (unsigned __int32, unsigned long, wchar_t const *, __int32, char *, __int32, char const *, __int32 *)
 			// function call : __int32 (unsigned __int32, unsigned long, wchar_t const *, __int32, char *, __int32, char const *, __int32 *)
-			todo("implement");
-			std::string __result = _sub_10C5EE80(wide_string);
-			return __result;
+
+			__int32 const len = (__int32)wide_string.size();
+			if (len == 0)
+				return "";
+			__int32 n = WideCharToMultiByte(CP_UTF8, 0, wide_string.data(), len, nullptr, 0, nullptr, nullptr);
+			if (n <= 0)
+			{
+				#line 423 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Utils\\String.cpp"
+					assert(false);
+					#line 436 "C:\\Users\\zekken\\Desktop\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Utils\\String.cpp"
+				return "";
+			}
+			std::string result(n, 0);
+			n = WideCharToMultiByte(CP_UTF8, 0, wide_string.data(), len, result.data(), n, nullptr, nullptr);
+			if (n <= 0)
+			{
+				#line 431 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Utils\\String.cpp"
+					assert(false);
+					#line 445 "C:\\Users\\zekken\\Desktop\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Utils\\String.cpp"
+				return "";
+			}
+			return result;
 		}
 	}
 }
 
-extern std::string _sub_10C5F300(std::string const &);
+
 namespace Utils
 {
 	namespace String
 	{
 		std::string ToLower(std::string const &str) // 0x10C5F300
 		{
-			mangled_x86(MANGLED_TODO, "?ToLower@String@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV34@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ToLower@String@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV34@@Z");
 			// static ...; // 0x10C5F438
 			// static ...; // 0x10C5F42C
 			// static ...; // 0x10C5F424
 			// std::string const &str;
 			// std::string retValue;
-			todo("implement");
-			std::string __result = _sub_10C5F300(str);
-			return __result;
+
+			std::string retValue = str;
+			std::transform(retValue.begin(), retValue.end(), retValue.begin(), tolower);
+			return retValue;
 		}
 	}
 }
 
-extern std::string _sub_10C5F140(std::string const &);
+
 namespace Utils
 {
 	namespace String
 	{
 		std::string TitleCase(std::string const &str) // 0x10C5F140
 		{
-			mangled_x86(MANGLED_TODO, "?TitleCase@String@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV34@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?TitleCase@String@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV34@@Z");
 			// static ...; // 0x10C5F29C
 			// static ...; // 0x10C5F290
 			// static ...; // 0x10C5F288
 			// std::string const &str;
 			// std::string retValue;
 			// unsigned __int32 len;
-			{
 				// unsigned __int32 i;
+
+			std::string retValue = str;
+			unsigned __int32 len = str.length();
+			for (unsigned __int32 i = 0; i < len; i++)
+			{
+				if (str[i] == ' ' && i + 1 < len - 1)
+					retValue[i + 1] = toupper(str[i + 1]);
 			}
-			todo("implement");
-			std::string __result = _sub_10C5F140(str);
-			return __result;
+			if (len > 1)
+				retValue[0] = toupper(retValue[0]);
+			return retValue;
 		}
 	}
 }
 
-extern std::vector<std::string> _sub_10C5EC80(std::string const &, char);
+
 namespace Utils
 {
 	namespace String
 	{
 		std::vector<std::string> SplitString(std::string const &stringToSplit, char delim) // 0x10C5EC80
 		{
-			mangled_x86(MANGLED_TODO, "?SplitString@String@Utils@@YA?AV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@4@D@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?SplitString@String@Utils@@YA?AV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@4@D@Z");
 			// static ...; // 0x10C5EE09
 			// static ...; // 0x10C5EE04
 			// static ...; // 0x10C5EDE0
@@ -384,57 +517,67 @@ namespace Utils
 			// std::stringstream ss;
 			// std::string item;
 			// std::vector<std::string> retValue;
-			todo("implement");
-			std::vector<std::string> __result = _sub_10C5EC80(stringToSplit, delim);
-			return __result;
+
+			std::vector<std::string> retValue;
+			std::stringstream ss(stringToSplit);
+			std::string item;
+			while (std::getline(ss, item, delim))
+				retValue.push_back(item);
+			return retValue;
 		}
 	}
 }
 
-extern std::string &_sub_10C5F630(std::string &);
+
 namespace Utils
 {
 	namespace String
 	{
 		std::string &TrimInline(std::string &string) // 0x10C5F630
 		{
-			mangled_x86(MANGLED_TODO, "?TrimInline@String@Utils@@YAAAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAV34@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?TrimInline@String@Utils@@YAAAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAV34@@Z");
 			// std::string &string;
-			todo("implement");
-			std::string & __result = _sub_10C5F630(string);
-			return __result;
+
+			return trim(string);
 		}
 	}
 }
 
-extern std::string _sub_10C5F4A0(std::string const &, bool);
+
 namespace Utils
 {
 	namespace String
 	{
 		std::string Trim(std::string const &string, bool fromEnd) // 0x10C5F4A0
 		{
-			mangled_x86(MANGLED_TODO, "?Trim@String@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV34@_N@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Trim@String@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV34@_N@Z");
 			// static ...; // 0x10C5F5C8
 			// static ...; // 0x10C5F5C0
 			// std::string const &string;
 			// bool fromEnd;
 			// std::string retValue;
-			todo("implement");
-			std::string __result = _sub_10C5F4A0(string, fromEnd);
-			return __result;
+
+			std::string retValue = string;
+			if (fromEnd)
+			{
+				return rtrim(retValue);
+			}
+			else
+			{
+				return ltrim(retValue);
+			}
 		}
 	}
 }
 
-extern std::vector<std::string> _sub_10C5F940(std::string const &, unsigned __int32);
+
 namespace Utils
 {
 	namespace String
 	{
 		std::vector<std::string> Wrap(std::string const &string, unsigned __int32 lineLength) // 0x10C5F940
 		{
-			mangled_x86(MANGLED_TODO, "?Wrap@String@Utils@@YA?AV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@4@I@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Wrap@String@Utils@@YA?AV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@4@I@Z");
 			// static ...; // 0x10C5FC9D
 			// static ...; // 0x10C5FC91
 			// static ...; // 0x10C5FC88
@@ -446,21 +589,37 @@ namespace Utils
 			// std::vector<std::string> retValue;
 			// std::stringstream sstream;
 			// std::vector<std::string> lines;
-			{
 				// std::string currentLine;
-			}
-			{
 				// unsigned __int32 i;
-				{
 					// std::string currentLine;
-					{
 						// __int32 wordEnd;
-					}
-				}
+
+			std::stringstream sstream;
+			sstream << string;
+			std::vector<std::string> lines;
+			while (sstream.good())
+			{
+				std::string currentLine;
+				std::getline(sstream, currentLine);
+				lines.push_back(currentLine);
 			}
-			todo("implement");
-			std::vector<std::string> __result = _sub_10C5F940(string, lineLength);
-			return __result;
+			std::vector<std::string> retValue;
+			for (unsigned __int32 i = 0; i < lines.size(); i++)
+			{
+				std::string currentLine = lines[i];
+				while (currentLine.length() > lineLength)
+				{
+					__int32 wordEnd = lineLength;
+					while (wordEnd > 0 && !isspace(currentLine[wordEnd]))
+						wordEnd--;
+					if (wordEnd <= 0)
+						wordEnd = lineLength;
+					retValue.push_back(currentLine.substr(0, wordEnd));
+					currentLine = currentLine.substr(wordEnd);
+				}
+				retValue.push_back(currentLine);
+			}
+			return retValue;
 		}
 	}
 }
@@ -482,7 +641,7 @@ namespace Utils
 	}
 }
 
-extern std::string &_sub_10C5FFB0(std::string &);
+
 namespace Utils
 {
 	namespace String
@@ -499,7 +658,7 @@ namespace Utils
 	}
 }
 
-extern std::string &_sub_10C60080(std::string &);
+
 namespace Utils
 {
 	namespace String
@@ -516,7 +675,7 @@ namespace Utils
 	}
 }
 
-extern std::string &_sub_10C60150(std::string &);
+
 namespace Utils
 {
 	namespace String

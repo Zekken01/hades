@@ -27,7 +27,7 @@ class c_tag_name_dictionary;
 class c_tag_name_dictionary
 {
 public:
-	_inline c_tag_name_dictionary(c_tag_name_dictionary &&__that);
+	_inline c_tag_name_dictionary(c_tag_name_dictionary &&__that) noexcept; // hades: noexcept (original has a terminate frame and no std::move call)
 	c_tag_name_dictionary(c_tag_name_dictionary const &);
 	_inline c_tag_name_dictionary(std::unordered_map<int,std::string> &&names);
 	_inline c_tag_name_dictionary();
@@ -58,23 +58,14 @@ _inline c_tag_name_dictionary::c_tag_name_dictionary() // 0x10877860
 	// c_tag_name_dictionary *const this;
 }
 
-extern c_tag_name_dictionary* _sub_1089D060(c_tag_name_dictionary *const, std::unordered_map<int,std::string> &);
-_inline c_tag_name_dictionary::c_tag_name_dictionary(std::unordered_map<int,std::string> &&names) // 0x1089D060
+_inline c_tag_name_dictionary::c_tag_name_dictionary(std::unordered_map<int,std::string> &&names) : m_index_to_name(std::move(names)) /* hades-mem-init:  */ // 0x1089D060
 {
-	mangled_x86(MANGLED_TODO, "??0c_tag_name_dictionary@@QAE@$$QAV?$unordered_map@HV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@U?$hash@H@2@U?$equal_to@H@2@V?$allocator@U?$pair@$$CBHV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@std@@@2@@std@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_tag_name_dictionary@@QAE@$$QAV?$unordered_map@HV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@U?$hash@H@2@U?$equal_to@H@2@V?$allocator@U?$pair@$$CBHV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@std@@@2@@std@@@Z");
 	// std::unordered_map<int,std::string> &names;
-	todo("implement");
-	_sub_1089D060(this, names);
 }
 
-extern c_tag_name_dictionary* _sub_10871760(c_tag_name_dictionary *const, c_tag_name_dictionary &);
-_inline c_tag_name_dictionary::c_tag_name_dictionary(c_tag_name_dictionary &&__that) // 0x10871760
-{
-	mangled_x86(MANGLED_TODO, "??0c_tag_name_dictionary@@QAE@$$QAV0@@Z");
-	// c_tag_name_dictionary &__that;
-	todo("implement");
-	_sub_10871760(this, __that);
-}
+// mangled_x86(MANGLED_DEFAULT, "??0c_tag_name_dictionary@@QAE@$$QAV0@@Z"); no body to assert in
+_inline c_tag_name_dictionary::c_tag_name_dictionary(c_tag_name_dictionary &&__that) noexcept = default; // 0x10871760
 
 _inline c_tag_name_dictionary::~c_tag_name_dictionary() // 0x10877F60
 {
@@ -90,20 +81,18 @@ _inline void c_tag_name_dictionary::add(long index, char const *name) // 0x10879
 	m_index_to_name[index] = name;
 }
 
-extern char const *_sub_10874230(c_tag_name_dictionary const *const, long);
 _inline char const *c_tag_name_dictionary::get_name(long index) const // 0x10874230
 {
-	mangled_x86(MANGLED_TODO, "?get_name@c_tag_name_dictionary@@QBEPBDJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_name@c_tag_name_dictionary@@QBEPBDJ@Z");
 	// static ...; // 0x10874380
 	// static ...; // 0x10874378
 	// c_tag_name_dictionary const *const this;
 	// long index;
-	{
 		// std::_List_const_iterator<std::_List_val<std::_List_simple_types<std::pair<int const ,std::string> > > > it;
-	}
-	todo("implement");
-	char const * __result = _sub_10874230((c_tag_name_dictionary const *)this, index);
-	return __result;
+
+	if (auto it = m_index_to_name.find(index); it != std::end(m_index_to_name))
+		return it->second.c_str();
+	return nullptr;
 }
 
 /* ---------- private code */

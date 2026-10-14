@@ -13,6 +13,8 @@
 #include "Patches/CustomPackets.hpp"
 #include "Utils/String.hpp"
 
+#include "Utils/Uri.hpp"  // hades: added for 0x10808B90
+
 #include <boost/algorithm/string.hpp>
 #include <boost/asio.hpp>
 #include <boost/assert.hpp>
@@ -101,7 +103,22 @@ namespace Http
 
 /* ---------- globals */
 
-template <typename ...Args> void DebugTrace(char const *format, Args &&...args);
+namespace Http
+{
+	// hades: a `static` template in the original (`Http::DebugTrace<...>` carries no
+	// decoration in the PDB); one body, one instantiation per argument pack.
+	template <typename ...Args>
+	static void DebugTrace(char const *format, Args &&...args)
+	{
+		char buffer[8192];
+		int len = sprintf_s(buffer, "Http :: ");
+		sprintf_s(buffer + len, sizeof(buffer) - len, format, std::forward<Args>(args)...);
+
+		static std::mutex mutex;
+		std::scoped_lock lock(mutex);
+		Console::WriteLine(buffer);
+	}
+}
 
 /* ---------- private variables */
 
@@ -150,40 +167,34 @@ namespace Http
 	_inline CHttpHeaders::~CHttpHeaders() = default; // 0x10807570
 }
 
-extern std::shared_ptr<Http::IHttpResponse> _sub_10808A90(Http::CWinHttpRequest *const);
+
 namespace Http
 {
 	std::shared_ptr<Http::IHttpResponse> CWinHttpRequest::GetResponse() // 0x10808A90
 	{
-		mangled_x86(MANGLED_TODO, "?GetResponse@CWinHttpRequest@Http@@UAE?AV?$shared_ptr@VIHttpResponse@Http@@@std@@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetResponse@CWinHttpRequest@Http@@UAE?AV?$shared_ptr@VIHttpResponse@Http@@@std@@XZ");
 		// Http::CWinHttpRequest *const this;
-		todo("implement");
-		std::shared_ptr<Http::IHttpResponse> __result = _sub_10808A90(this);
-		return __result;
-	}
 
-	// mangled_x86(MANGLED_DEFAULT, "??1CWinHttpResponse@Http@@QAE@XZ"); no body to assert in
-	_inline CWinHttpResponse::~CWinHttpResponse() = default; // 0x108076C0
+		return m_response;
+	}
 
 	// mangled_x86(MANGLED_DEFAULT, "??4CHttpHeaders@Http@@QAEAAV01@ABV01@@Z"); no body to assert in
 	_inline Http::CHttpHeaders &CHttpHeaders::operator=(Http::CHttpHeaders const &__that) = default; // 0x10807C10
 
-	_extern void _sub_1080A540(Http::CWinHttpRequest *const, std::string);
 	void CWinHttpRequest::SetMethod(std::string method) // 0x1080A540
 	{
-		mangled_x86(MANGLED_TODO, "?SetMethod@CWinHttpRequest@Http@@UAEXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?SetMethod@CWinHttpRequest@Http@@UAEXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 		// std::string method;
-		todo("implement");
-		_sub_1080A540(this, method);
+
+		m_method = method;
 	}
 
-	_extern void _sub_1080A840(Http::CWinHttpRequest *const, std::string);
 	void CWinHttpRequest::SetUrl(std::string url) // 0x1080A840
 	{
-		mangled_x86(MANGLED_TODO, "?SetUrl@CWinHttpRequest@Http@@UAEXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?SetUrl@CWinHttpRequest@Http@@UAEXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 		// std::string url;
-		todo("implement");
-		_sub_1080A840(this, url);
+
+		m_url = url;
 	}
 
 	void CWinHttpRequest::SetMaxRedirects(__int32 count) // 0x1080A510
@@ -194,13 +205,12 @@ namespace Http
 		m_maxRedirects = count;
 	}
 
-	_extern void _sub_1080A3F0(Http::CWinHttpRequest *const, std::string &);
 	void CWinHttpRequest::SetBody(std::string &&body) // 0x1080A3F0
 	{
-		mangled_x86(MANGLED_TODO, "?SetBody@CWinHttpRequest@Http@@UAEX$$QAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?SetBody@CWinHttpRequest@Http@@UAEX$$QAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 		// std::string &body;
-		todo("implement");
-		_sub_1080A3F0(this, body);
+
+		m_body = std::move(body);
 	}
 
 	void CWinHttpRequest::SetHeaders(Http::CHttpHeaders headers) // 0x1080A460
@@ -211,13 +221,12 @@ namespace Http
 		m_headers = headers;
 	}
 
-	_extern void _sub_1080A720(Http::CWinHttpRequest *const, std::function<bool __cdecl(char const *,unsigned int)> &);
 	void CWinHttpRequest::SetReceiver(std::function<bool __cdecl(char const *,unsigned int)> &&receiver) // 0x1080A720
 	{
-		mangled_x86(MANGLED_TODO, "?SetReceiver@CWinHttpRequest@Http@@UAEX$$QAV?$function@$$A6A_NPBDI@Z@std@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?SetReceiver@CWinHttpRequest@Http@@UAEX$$QAV?$function@$$A6A_NPBDI@Z@std@@@Z");
 		// std::function<bool __cdecl(char const *,unsigned int)> &receiver;
-		todo("implement");
-		_sub_1080A720(this, receiver);
+
+		m_contentReceiver = std::move(receiver);
 	}
 
 	void CWinHttpRequest::SetReceiveBufferSize(unsigned __int32 size) // 0x1080A6B0
@@ -228,10 +237,9 @@ namespace Http
 		m_receiveBuffer.resize(size);
 	}
 
-	_extern bool _sub_10809A50(Http::CWinHttpRequest *const);
 	bool CWinHttpRequest::SendRequestInternal() // 0x10809A50
 	{
-		mangled_x86(MANGLED_TODO, "?SendRequestInternal@CWinHttpRequest@Http@@AAE_NXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?SendRequestInternal@CWinHttpRequest@Http@@AAE_NXZ");
 		// static ...; // 0x1080A1FE
 		// static ...; // 0x1080A1F6
 		// static ...; // 0x1080A1EF
@@ -254,9 +262,44 @@ namespace Http
 		// function call : void *(void *, wchar_t const *, wchar_t const *, wchar_t const *, wchar_t const *, wchar_t const **, unsigned long)
 		// function call : void (*(void *, void (*)(void *, unsigned long, unsigned long, void *, unsigned long), unsigned long, unsigned long))(void *, unsigned long, unsigned long, void *, unsigned long)
 		// function call : __int32 (void *, wchar_t const *, unsigned long, void *, unsigned long, unsigned long, unsigned long)
-		todo("implement");
-		bool __result = _sub_10809A50(this);
-		return __result;
+
+			URL_COMPONENTS uc;
+			memset(&uc, 0, sizeof(uc));
+			uc.dwStructSize = sizeof(uc);
+			uc.dwHostNameLength = (DWORD)-1;
+			uc.dwSchemeLength = (DWORD)-1;
+			uc.dwUrlPathLength = (DWORD)-1;
+			std::wstring wideUrl = Utils::String::WidenString(m_url);
+			std::wstring method = Utils::String::WidenString(m_method);
+			if (!WinHttpCrackUrl(wideUrl.data(), m_url.length(), 0, &uc))
+				return false;
+			std::wstring hostname;
+			if (uc.lpszHostName)
+				hostname = std::wstring(uc.lpszHostName, uc.dwHostNameLength);
+			void *sessHandle = CWinHttpManager::Instance().GetSessionHandle();
+			m_connHandle.reset(WinHttpConnect(sessHandle, hostname.c_str(), uc.nPort, 0));
+			if (!m_connHandle)
+				return false;
+			unsigned long requestFlags = 0;
+			if (uc.nScheme == INTERNET_SCHEME_HTTPS)
+				requestFlags |= WINHTTP_FLAG_SECURE;
+			m_reqHandle.reset(WinHttpOpenRequest(m_connHandle.get(), Utils::String::WidenString(m_method).c_str(), uc.dwUrlPathLength == 0 ? L"/" : uc.lpszUrlPath, nullptr, WINHTTP_NO_REFERER, WINHTTP_DEFAULT_ACCEPT_TYPES, requestFlags));
+			if (!m_reqHandle)
+				return false;
+			CHttpHeaders headers(m_headers);
+			headers.Add("Host", Utils::String::ThinString(hostname), CHttpHeaders::Reject);
+			headers.Add("Accept", "*/*", CHttpHeaders::Reject);
+			std::wstring serializedHeaders = Utils::String::WidenString(headers.ToString());
+			CWinHttpManager::Instance().AddRequest(shared_from_this());
+			SetRequestOptions();
+			WinHttpSetStatusCallback(m_reqHandle.get(), WinHttpStatusCallback, WINHTTP_CALLBACK_FLAG_ALL_NOTIFICATIONS, 0);
+			if (!WinHttpSendRequest(m_reqHandle.get(), serializedHeaders.data(), serializedHeaders.length(), m_body.empty() ? nullptr : (void *)m_body.data(), m_body.length(), m_body.length(), (DWORD_PTR)this))
+			{
+				DebugTrace("WinHttpSendRequest() failed");
+				FinishRequest(false);
+				return false;
+			}
+			return true;
 	}
 
 	bool CWinHttpRequest::Send() // 0x108099F0
@@ -291,20 +334,22 @@ namespace Http
 	}
 }
 
-extern std::shared_ptr<Http::CWinHttpResponse> _sub_108085B0(Http::CWinHttpRequest *const);
+
 namespace Http
 {
 	std::shared_ptr<Http::CWinHttpResponse> CWinHttpRequest::CreateResponse() // 0x108085B0
 	{
-		mangled_x86(MANGLED_TODO, "?CreateResponse@CWinHttpRequest@Http@@QAE?AV?$shared_ptr@VCWinHttpResponse@Http@@@std@@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?CreateResponse@CWinHttpRequest@Http@@QAE?AV?$shared_ptr@VCWinHttpResponse@Http@@@std@@XZ");
 		// static ...; // 0x108086D0
 		// static ...; // 0x108086C4
 		// static ...; // 0x108086BC
 		// Http::CWinHttpRequest *const this;
 		// std::shared_ptr<Http::CWinHttpResponse> response;
-		todo("implement");
-		std::shared_ptr<Http::CWinHttpResponse> __result = _sub_108085B0(this);
-		return __result;
+
+		std::shared_ptr<Http::CWinHttpResponse> response = std::make_shared<Http::CWinHttpResponse>();
+		if (!response->Process(*this))
+			return nullptr;
+		return response;
 	}
 
 	void CWinHttpRequest::ReadNext() // 0x10809910
@@ -333,10 +378,9 @@ namespace Http
 		}
 	}
 
-	_extern void _sub_10808B90(Http::CWinHttpRequest *const);
 	void CWinHttpRequest::HandleHeadersAvailable() // 0x10808B90
 	{
-		mangled_x86(MANGLED_TODO, "?HandleHeadersAvailable@CWinHttpRequest@Http@@QAEXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?HandleHeadersAvailable@CWinHttpRequest@Http@@QAEXXZ");
 		// static ...; // 0x10809002
 		// static ...; // 0x10808FF5
 		// static ...; // 0x10808FEC
@@ -346,14 +390,58 @@ namespace Http
 		// Http::CWinHttpRequest *const this;
 		// __int32 responseCode;
 		// std::shared_ptr<Http::IHttpRequest> self;
-		{
 			// std::string location;
 			// std::string redirectUrl;
-		}
 		// function call : __int32 () const
 		// function call : Http::CHttpHeaders const &() const
-		todo("implement");
-		_sub_10808B90(this);
+
+		auto self = shared_from_this();
+		m_response = CreateResponse();
+		if (!m_response)
+		{
+			DebugTrace("Failed to parse http response");
+			FinishRequest(false);
+			return;
+		}
+		__int32 responseCode = m_response->GetResponseCode();
+		if (responseCode / 100 == 3 && m_maxRedirects > 0)
+		{
+			if (m_redirectCount++ >= m_maxRedirects)
+			{
+				DebugTrace("Maximum number of redirects (%d) exceeded", m_maxRedirects);
+				FinishRequest(false);
+				return;
+			}
+			std::string location = m_response->GetHeaders().Get("Location");
+			if (location.empty())
+			{
+				DebugTrace("Server returned redirect status code: %d without location header", responseCode);
+				FinishRequest(false);
+				return;
+			}
+			std::string redirectUrl;
+			if (!Utils::Uri::ResolveUrl(m_url, location, redirectUrl))
+			{
+				DebugTrace("Failed to resolve redirect location %s", location.c_str());
+				FinishRequest(false);
+				return;
+			}
+			m_url = redirectUrl;
+			SendRequestInternal();
+			return;
+		}
+		if (m_responseCallback)
+			m_responseCallback(self);
+		if (m_contentReceiver)
+		{
+			if (m_receiveBuffer.size() == 0)
+				m_receiveBuffer.resize(0x2000);
+			ReadNext();
+		}
+		else
+		{
+			FinishRequest(true);
+		}
 	}
 
 	void CWinHttpRequest::HandleReadComplete(unsigned __int32 bytesRead) // 0x10809130
@@ -375,17 +463,18 @@ namespace Http
 		}
 	}
 
-	_extern void _sub_108091F0(Http::CWinHttpRequest *const, unsigned __int32);
 	void CWinHttpRequest::HandleRequestError(unsigned __int32 errorCode) // 0x108091F0
 	{
-		mangled_x86(MANGLED_TODO, "?HandleRequestError@CWinHttpRequest@Http@@QAEXI@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?HandleRequestError@CWinHttpRequest@Http@@QAEXI@Z");
 		// static ...; // 0x10809310
 		// static ...; // 0x10809308
 		// Http::CWinHttpRequest *const this;
 		// unsigned __int32 errorCode;
 		// std::error_code ec;
-		todo("implement");
-		_sub_108091F0(this, errorCode);
+
+		std::error_code ec(errorCode, WinHttpErrorCategory::Get());
+		DebugTrace("Request Error. %d (%s)", errorCode, ec.message().c_str());
+		FinishRequest(false);
 	}
 
 	void CWinHttpRequest::HandleStatusCallback(unsigned __int32 status, void *data, unsigned __int32 length) // 0x10809400
@@ -410,10 +499,9 @@ namespace Http
 		}
 	}
 
-	_extern void _sub_10808730(Http::CWinHttpRequest *const, bool);
 	void CWinHttpRequest::FinishRequest(bool success) // 0x10808730
 	{
-		mangled_x86(MANGLED_TODO, "?FinishRequest@CWinHttpRequest@Http@@QAEX_N@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?FinishRequest@CWinHttpRequest@Http@@QAEX_N@Z");
 		// static ...; // 0x108088E0
 		// static ...; // 0x108088C8
 		// static ...; // 0x108088C0
@@ -421,8 +509,16 @@ namespace Http
 		// bool success;
 		// std::function<void __cdecl(std::shared_ptr<Http::IHttpRequest>,bool)> callback;
 		// std::shared_ptr<Http::IHttpRequest> self;
-		todo("implement");
-		_sub_10808730(this, success);
+
+		std::shared_ptr<Http::IHttpRequest> self = shared_from_this();
+		m_reqHandle.reset();
+		m_connHandle.reset();
+		CWinHttpManager::Instance().RemoveRequest(self);
+		m_responseCallback = nullptr;
+		m_contentReceiver = nullptr;
+		std::function<void __cdecl(std::shared_ptr<Http::IHttpRequest>,bool)> callback = std::move(m_completedCallback);
+		if (callback)
+			callback(std::move(self), success);
 	}
 
 	void __stdcall CWinHttpRequest::WinHttpStatusCallback(void *hInternet, unsigned long dwContext, unsigned long dwInternetStatus, void *lpvStatusInformation, unsigned long dwStatusInformationLength) // 0x1080A8F0
@@ -471,9 +567,9 @@ namespace Http
 		return code;
 	}
 
-	_extern void _sub_108095D0(void *, Http::CHttpHeaders &, bool);
 	void QueryHeaders(void *handle, Http::CHttpHeaders &headers, bool request) // 0x108095D0
 	{
+		mangled_x86(MANGLED_KNOWN_GOOD, "?QueryHeaders@Http@@YAXPAXAAVCHttpHeaders@1@_N@Z");
 		// Http::QueryHeaders
 		// static ...; // 0x10809778
 		// static ...; // 0x10809754
@@ -487,7 +583,16 @@ namespace Http
 		// unsigned long headerIndex;
 		// function call : __int32 (void *, unsigned long, wchar_t const *, void *, unsigned long *, unsigned long *)
 		// function call : __int32 (void *, unsigned long, wchar_t const *, void *, unsigned long *, unsigned long *)
-		todo("implement");
-		_sub_108095D0(handle, headers, request);
+
+		unsigned long flags = WINHTTP_QUERY_RAW_HEADERS_CRLF;
+		if (request)
+			flags |= WINHTTP_QUERY_FLAG_REQUEST_HEADERS;
+		std::wstring buffer;
+		unsigned long bytesNeeded = 0;
+		unsigned long headerIndex = 0;
+		WinHttpQueryHeaders(handle, flags, WINHTTP_HEADER_NAME_BY_INDEX, WINHTTP_NO_OUTPUT_BUFFER, &bytesNeeded, &headerIndex);
+		buffer.resize(bytesNeeded / sizeof(wchar_t));
+		WinHttpQueryHeaders(handle, flags, WINHTTP_HEADER_NAME_BY_INDEX, buffer.data(), &bytesNeeded, &headerIndex);
+		CHttpHeaders::Parse(Utils::String::ThinString(buffer), headers);
 	}
 }

@@ -50,34 +50,57 @@ unsigned long c_virtual_page_memory_allocator::get_marker() const // 0x10892300
 	return m_current_size;
 }
 
-_extern void *_sub_108920D0(c_virtual_page_memory_allocator *const, unsigned long, long, unsigned long *);
 void *c_virtual_page_memory_allocator::allocate(unsigned long size, long alignment_bits, unsigned long *out_allocated_size) // 0x108920D0
 {
-	mangled_x86(MANGLED_TODO, "?allocate@c_virtual_page_memory_allocator@@QAEPAXKJPAK@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?allocate@c_virtual_page_memory_allocator@@QAEPAXKJPAK@Z");
 	// unsigned long *out_allocated_size;
 	// unsigned long aligned_size;
 	// unsigned long page_mask;
 	// unsigned long padding;
 	// unsigned long alignment_mask;
 	// void *memory;
-	{
 		// unsigned long page_range_size;
-	}
 	// function call : void *(void *, unsigned long, unsigned long, unsigned long)
-	todo("implement");
-	void * __result = _sub_108920D0(this, size, alignment_bits, out_allocated_size);
-	return __result;
+
+	unsigned long alignment_mask = (1 << alignment_bits) - 1;
+	unsigned long aligned_size = (size + alignment_mask) & ~alignment_mask;
+	unsigned long padding = aligned_size - size;
+	unsigned long page_mask = 0xFFF;
+	if (m_current_size + aligned_size > m_next_uncommitted_page_offset)
+	{
+		if (m_next_uncommitted_page_offset >= m_total_size)
+			return nullptr;
+		unsigned long page_range_size = (aligned_size + page_mask) & ~page_mask;
+		if (!VirtualAlloc(m_memory + m_next_uncommitted_page_offset, page_range_size, MEM_COMMIT, PAGE_READWRITE))
+			return nullptr;
+		m_next_uncommitted_page_offset += page_range_size;
+	}
+	void *memory = &m_memory[m_current_size + padding];
+	m_current_size += aligned_size;
+	if (out_allocated_size)
+		*out_allocated_size = aligned_size;
+	return memory;
 }
 
-_extern void _sub_10892220(c_virtual_page_memory_allocator *const, unsigned long);
 void c_virtual_page_memory_allocator::free_to_marker(unsigned long marker) // 0x10892220
 {
-	mangled_x86(MANGLED_TODO, "?free_to_marker@c_virtual_page_memory_allocator@@QAEXK@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?free_to_marker@c_virtual_page_memory_allocator@@QAEXK@Z");
 	// unsigned long marker;
 	// unsigned long next_page_offset;
 	// function call : __int32 (void *, unsigned long, unsigned long)
-	todo("implement");
-	_sub_10892220(this, marker);
+
+	#line 87 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\memory\\virtual_page_memory_allocator.cpp"
+		assert(marker <= m_current_size);
+		#line 95 "F:\\Project Hades\\Hades\\Source\\ElDorito\\Source\\mods\\memory\\virtual_page_memory_allocator.cpp"
+	if (marker == m_current_size)
+	{
+		return;
+	}
+
+	unsigned long next_page_offset = (marker + 0xFFF) & 0xFFFFF000;
+	VirtualFree(m_memory + next_page_offset, m_current_size - marker, MEM_DECOMMIT);
+	m_current_size = marker;
+	m_next_uncommitted_page_offset = next_page_offset;
 }
 
 /* ---------- private code */

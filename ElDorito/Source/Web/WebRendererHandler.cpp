@@ -23,6 +23,8 @@
 #include "Web/WebRendererRenderHandler.hpp"
 #include "Web/WebRenderHandlerOsr.hpp"
 
+#include "Web/WebRenderer.hpp"  // hades: added for 0x10CCDAD0, 0x10CCDCE0  // hades: added for 0x10CCDAD0
+
 #include <base/cef_atomic_ref_count.h>
 #include <base/cef_lock.h>
 #include <base/cef_logging.h>
@@ -234,6 +236,9 @@ typedef double __std_tzdb_epoch_milli;
 
 /* ---------- prototypes */
 
+#include "Web/Ui/ScreenLayer.hpp"  // hades: added for 0x10CCBE20
+namespace Web { namespace Browser { namespace Bridge { namespace ClientFunctions { QueryError OnShow(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result); QueryError OnHide(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result); QueryError OnScreenState(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result); QueryError OnCommand(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result); QueryError OnSetVariables(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result); QueryError OnPing(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result); QueryError OnCaptureInput(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result); QueryError OnVersion(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result); QueryError OnMapVariantInfo(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result); QueryError OnGameVariantInfo(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result); QueryError OnCommands(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result); QueryError OnSendChat(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result); QueryError OnChatBoxOpened(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result); QueryError OnSessionInfo(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result); QueryError OnScoreboard(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result); QueryError OnScoreboardHide(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result); QueryError OnStats(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result); QueryError OnVoIPSpeakingChanged(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result); QueryError OnVoIPConnectedChanged(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result); QueryError OnVoIPPlayerSpeakingChanged(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result); QueryError OnVoIPPlayerVoipLevelChanged(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result); QueryError OnVoIPPlayerVoipJoined(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result); QueryError OnIsMapLoading(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result); QueryError OnForgeAction(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result); QueryError OnForgePalette(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result); QueryError OnShowLan(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result); QueryError OnPlayerReportInfo(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result); QueryError OnSubmitDialogResult(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result); QueryError OnGetAssetUrl(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result); QueryError OnShowScoreboard(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result); } } } }  // hades: added for 0x10CCBE20  // hades: added for 0x10CCBE20
+
 /* ---------- globals */
 
 /* ---------- private variables */
@@ -244,106 +249,142 @@ namespace Web
 {
 	namespace Browser
 	{
-		extern WebRendererHandler* _sub_10CC9520(Web::Browser::WebRendererHandler *const, scoped_refptr<Web::Browser::WebRendererRenderHandler>);
-		WebRendererHandler::WebRendererHandler(scoped_refptr<Web::Browser::WebRendererRenderHandler> renderHandler) // 0x10CC9520
+		WebRendererHandler::WebRendererHandler(scoped_refptr<Web::Browser::WebRendererRenderHandler> renderHandler) : m_Browser(nullptr), m_RenderHandler(renderHandler) /* hades-mem-init:  */ // 0x10CC9520
 		{
-			mangled_x86(MANGLED_TODO, "??0WebRendererHandler@Browser@Web@@QAE@V?$scoped_refptr@VWebRendererRenderHandler@Browser@Web@@@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0WebRendererHandler@Browser@Web@@QAE@V?$scoped_refptr@VWebRendererRenderHandler@Browser@Web@@@@@Z");
 			// static ...; // 0x10CC97B0
 			// static ...; // 0x10CC97A8
 			// Web::Browser::WebRendererHandler *const this;
 			// scoped_refptr<Web::Browser::WebRendererRenderHandler> renderHandler;
 			// CefMessageRouterConfig routerConfig;
-			todo("implement");
-			_sub_10CC9520(this, renderHandler);
+
+			CefMessageRouterConfig routerConfig;
+			routerConfig.js_query_function = "dewQuery";
+			routerConfig.js_cancel_function = "dewQueryCancel";
+			m_BrowserRouter = CefMessageRouterBrowserSide::Create(routerConfig);
 		}
 
-		_extern void _sub_10CCBE20(CefLifeSpanHandler * const, scoped_refptr<CefBrowser>);
 		void WebRendererHandler::OnAfterCreated(scoped_refptr<CefBrowser> browser) // 0x10CCBE20
 		{
-			mangled_x86(MANGLED_TODO, "?OnAfterCreated@WebRendererHandler@Browser@Web@@UAEXV?$scoped_refptr@VCefBrowser@@@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnAfterCreated@WebRendererHandler@Browser@Web@@UAEXV?$scoped_refptr@VCefBrowser@@@@@Z");
 			// __shifted(Web::Browser::WebRendererHandler, 8);
 			// scoped_refptr<CefBrowser> browser;
 			// function call : bool (CefMessageRouterBrowserSide::Handler *, bool)
-			todo("implement");
-			_sub_10CCBE20((CefLifeSpanHandler *)this, browser);
+
+			m_Browser = browser;
+			if (!m_QueryHandler)
+			{
+				m_QueryHandler = std::make_shared<Bridge::WebRendererQueryHandler>();
+				m_QueryHandler->AddMethod("show", Bridge::ClientFunctions::OnShow);
+				m_QueryHandler->AddMethod("hide", Bridge::ClientFunctions::OnHide);
+				m_QueryHandler->AddMethod("screenState", Bridge::ClientFunctions::OnScreenState);
+				m_QueryHandler->AddMethod("command", Bridge::ClientFunctions::OnCommand);
+				m_QueryHandler->AddMethod("setVariables", Bridge::ClientFunctions::OnSetVariables);
+				m_QueryHandler->AddMethod("ping", Bridge::ClientFunctions::OnPing);
+				m_QueryHandler->AddMethod("captureInput", Bridge::ClientFunctions::OnCaptureInput);
+				m_QueryHandler->AddMethod("version", Bridge::ClientFunctions::OnVersion);
+				m_QueryHandler->AddMethod("mapVariantInfo", Bridge::ClientFunctions::OnMapVariantInfo);
+				m_QueryHandler->AddMethod("gameVariantInfo", Bridge::ClientFunctions::OnGameVariantInfo);
+				m_QueryHandler->AddMethod("commands", Bridge::ClientFunctions::OnCommands);
+				m_QueryHandler->AddMethod("sendChat", Bridge::ClientFunctions::OnSendChat);
+				m_QueryHandler->AddMethod("chatBoxOpened", Bridge::ClientFunctions::OnChatBoxOpened);
+				m_QueryHandler->AddMethod("sessionInfo", Bridge::ClientFunctions::OnSessionInfo);
+				m_QueryHandler->AddMethod("scoreboard", Bridge::ClientFunctions::OnScoreboard);
+				m_QueryHandler->AddMethod("scoreboardHide", Bridge::ClientFunctions::OnScoreboardHide);
+				m_QueryHandler->AddMethod("stats", Bridge::ClientFunctions::OnStats);
+				m_QueryHandler->AddMethod("voipSpeaking", Bridge::ClientFunctions::OnVoIPSpeakingChanged);
+				m_QueryHandler->AddMethod("voipConnected", Bridge::ClientFunctions::OnVoIPConnectedChanged);
+				m_QueryHandler->AddMethod("playerSpeaking", Bridge::ClientFunctions::OnVoIPPlayerSpeakingChanged);
+				m_QueryHandler->AddMethod("playerVoipLevelChanged", Bridge::ClientFunctions::OnVoIPPlayerVoipLevelChanged);
+				m_QueryHandler->AddMethod("voipUserJoined", Bridge::ClientFunctions::OnVoIPPlayerVoipJoined);
+				m_QueryHandler->AddMethod("isMapLoading", Bridge::ClientFunctions::OnIsMapLoading);
+				m_QueryHandler->AddMethod("forgeaction", Bridge::ClientFunctions::OnForgeAction);
+				m_QueryHandler->AddMethod("forgePalette", Bridge::ClientFunctions::OnForgePalette);
+				m_QueryHandler->AddMethod("showlan", Bridge::ClientFunctions::OnShowLan);
+				m_QueryHandler->AddMethod("playerReportInfo", Bridge::ClientFunctions::OnPlayerReportInfo);
+				m_QueryHandler->AddMethod("submitDialogResult", Bridge::ClientFunctions::OnSubmitDialogResult);
+				m_QueryHandler->AddMethod("getAssetUrl", Bridge::ClientFunctions::OnGetAssetUrl);
+				m_QueryHandler->AddMethod("showScoreboard", Bridge::ClientFunctions::OnShowScoreboard);
+				m_BrowserRouter->AddHandler(m_QueryHandler.get(), true);
+			}
+			m_RenderHandler->OnAfterCreated(browser);
+			Ui::ScreenLayer::CreateScreens();
 		}
 
-		_extern void _sub_10CCD280(CefLifeSpanHandler * const, scoped_refptr<CefBrowser>);
 		void WebRendererHandler::OnBeforeClose(scoped_refptr<CefBrowser> browser) // 0x10CCD280
 		{
-			mangled_x86(MANGLED_TODO, "?OnBeforeClose@WebRendererHandler@Browser@Web@@UAEXV?$scoped_refptr@VCefBrowser@@@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnBeforeClose@WebRendererHandler@Browser@Web@@UAEXV?$scoped_refptr@VCefBrowser@@@@@Z");
 			// __shifted(Web::Browser::WebRendererHandler, 8);
 			// scoped_refptr<CefBrowser> browser;
 			// function call : void (scoped_refptr<CefBrowser>)
-			todo("implement");
-			_sub_10CCD280((CefLifeSpanHandler *)this, browser);
+
+			if (m_BrowserRouter)
+				m_BrowserRouter->OnBeforeClose(browser);
+			m_QueryHandler = nullptr;
+			m_BrowserRouter = nullptr;
+			m_Browser = nullptr;
 		}
 	}
 }
 
-extern scoped_refptr<CefBrowser> _sub_10CCB0B0(Web::Browser::WebRendererHandler *const);
+
 namespace Web
 {
 	namespace Browser
 	{
 		scoped_refptr<CefBrowser> WebRendererHandler::GetBrowser() // 0x10CCB0B0
 		{
-			mangled_x86(MANGLED_TODO, "?GetBrowser@WebRendererHandler@Browser@Web@@QAE?AV?$scoped_refptr@VCefBrowser@@@@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetBrowser@WebRendererHandler@Browser@Web@@QAE?AV?$scoped_refptr@VCefBrowser@@@@XZ");
 			// Web::Browser::WebRendererHandler *const this;
-			todo("implement");
-			scoped_refptr<CefBrowser> __result = _sub_10CCB0B0(this);
-			return __result;
+
+			return m_Browser;
 		}
 
-		_extern void _sub_10CCE1A0(CefRequestHandler * const, scoped_refptr<CefBrowser>, cef_termination_status_t);
 		void WebRendererHandler::OnRenderProcessTerminated(scoped_refptr<CefBrowser> browser, cef_termination_status_t status) // 0x10CCE1A0
 		{
-			mangled_x86(MANGLED_TODO, "?OnRenderProcessTerminated@WebRendererHandler@Browser@Web@@UAEXV?$scoped_refptr@VCefBrowser@@@@W4cef_termination_status_t@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnRenderProcessTerminated@WebRendererHandler@Browser@Web@@UAEXV?$scoped_refptr@VCefBrowser@@@@W4cef_termination_status_t@@@Z");
 			// __shifted(Web::Browser::WebRendererHandler, 16);
 			// cef_termination_status_t status;
 			// function call : void (scoped_refptr<CefBrowser>)
-			todo("implement");
-			_sub_10CCE1A0((CefRequestHandler *)this, browser, status);
+
+			if (m_BrowserRouter)
+				m_BrowserRouter->OnRenderProcessTerminated(browser);
 		}
 
-		_extern bool _sub_10CCD0E0(CefRequestHandler * const, scoped_refptr<CefBrowser>, scoped_refptr<CefFrame>, scoped_refptr<CefRequest>, bool, bool);
 		bool WebRendererHandler::OnBeforeBrowse(scoped_refptr<CefBrowser> browser, scoped_refptr<CefFrame> frame, scoped_refptr<CefRequest> request, bool userGesture, bool isRedirect) // 0x10CCD0E0
 		{
-			mangled_x86(MANGLED_TODO, "?OnBeforeBrowse@WebRendererHandler@Browser@Web@@UAE_NV?$scoped_refptr@VCefBrowser@@@@V?$scoped_refptr@VCefFrame@@@@V?$scoped_refptr@VCefRequest@@@@_N3@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnBeforeBrowse@WebRendererHandler@Browser@Web@@UAE_NV?$scoped_refptr@VCefBrowser@@@@V?$scoped_refptr@VCefFrame@@@@V?$scoped_refptr@VCefRequest@@@@_N3@Z");
 			// __shifted(Web::Browser::WebRendererHandler, 16);
 			// bool isRedirect;
 			// function call : void (scoped_refptr<CefBrowser>, scoped_refptr<CefFrame>)
-			todo("implement");
-			bool __result = _sub_10CCD0E0((CefRequestHandler *)this, browser, frame, request, userGesture, isRedirect);
-			return __result;
+
+			if (m_BrowserRouter)
+				m_BrowserRouter->OnBeforeBrowse(browser, frame);
+			return false;
 		}
 
-		_extern bool _sub_10CCDF70(Web::Browser::WebRendererHandler *const, scoped_refptr<CefBrowser>, scoped_refptr<CefFrame>, cef_process_id_t, scoped_refptr<CefProcessMessage>);
 		bool WebRendererHandler::OnProcessMessageReceived(scoped_refptr<CefBrowser> browser, scoped_refptr<CefFrame> frame, cef_process_id_t sourceProcess, scoped_refptr<CefProcessMessage> message) // 0x10CCDF70
 		{
-			mangled_x86(MANGLED_TODO, "?OnProcessMessageReceived@WebRendererHandler@Browser@Web@@UAE_NV?$scoped_refptr@VCefBrowser@@@@V?$scoped_refptr@VCefFrame@@@@W4cef_process_id_t@@V?$scoped_refptr@VCefProcessMessage@@@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnProcessMessageReceived@WebRendererHandler@Browser@Web@@UAE_NV?$scoped_refptr@VCefBrowser@@@@V?$scoped_refptr@VCefFrame@@@@W4cef_process_id_t@@V?$scoped_refptr@VCefProcessMessage@@@@@Z");
 			// scoped_refptr<CefProcessMessage> message;
 			// function call : bool (scoped_refptr<CefBrowser>, scoped_refptr<CefFrame>, cef_process_id_t, scoped_refptr<CefProcessMessage>)
-			todo("implement");
-			bool __result = _sub_10CCDF70(this, browser, frame, sourceProcess, message);
-			return __result;
+
+			return m_BrowserRouter->OnProcessMessageReceived(browser, frame, sourceProcess, message);
 		}
 
-		_extern void _sub_10CCD440(CefContextMenuHandler * const, scoped_refptr<CefBrowser>, scoped_refptr<CefFrame>, scoped_refptr<CefContextMenuParams>, scoped_refptr<CefMenuModel>);
 		void WebRendererHandler::OnBeforeContextMenu(scoped_refptr<CefBrowser> browser, scoped_refptr<CefFrame> frame, scoped_refptr<CefContextMenuParams> params, scoped_refptr<CefMenuModel> model) // 0x10CCD440
 		{
-			mangled_x86(MANGLED_TODO, "?OnBeforeContextMenu@WebRendererHandler@Browser@Web@@UAEXV?$scoped_refptr@VCefBrowser@@@@V?$scoped_refptr@VCefFrame@@@@V?$scoped_refptr@VCefContextMenuParams@@@@V?$scoped_refptr@VCefMenuModel@@@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnBeforeContextMenu@WebRendererHandler@Browser@Web@@UAEXV?$scoped_refptr@VCefBrowser@@@@V?$scoped_refptr@VCefFrame@@@@V?$scoped_refptr@VCefContextMenuParams@@@@V?$scoped_refptr@VCefMenuModel@@@@@Z");
 			// __shifted(Web::Browser::WebRendererHandler, 24);
 			// scoped_refptr<CefMenuModel> model;
 			// function call : bool ()
-			todo("implement");
-			_sub_10CCD440((CefContextMenuHandler *)this, browser, frame, params, model);
+
+			model->Clear();
 		}
 
-		_extern bool _sub_10CCD5B0(CefLifeSpanHandler * const, scoped_refptr<CefBrowser>, scoped_refptr<CefFrame>, CefStringBase<CefStringTraitsUTF16> const &, CefStringBase<CefStringTraitsUTF16> const &, cef_window_open_disposition_t, bool, CefStructBase<CefPopupFeaturesTraits> const &, CefWindowInfo &, scoped_refptr<CefClient> &, CefStructBase<CefBrowserSettingsTraits> &, scoped_refptr<CefDictionaryValue> &, bool *);
 		bool WebRendererHandler::OnBeforePopup(scoped_refptr<CefBrowser> browser, scoped_refptr<CefFrame> frame, CefStringBase<CefStringTraitsUTF16> const &target_url, CefStringBase<CefStringTraitsUTF16> const &target_frame_name, cef_window_open_disposition_t target_disposition, bool user_gesture, CefStructBase<CefPopupFeaturesTraits> const &popupFeatures, CefWindowInfo &windowInfo, scoped_refptr<CefClient> &client, CefStructBase<CefBrowserSettingsTraits> &settings, scoped_refptr<CefDictionaryValue> &extra_info, bool *no_javascript_access) // 0x10CCD5B0
 		{
-			mangled_x86(MANGLED_TODO, "?OnBeforePopup@WebRendererHandler@Browser@Web@@UAE_NV?$scoped_refptr@VCefBrowser@@@@V?$scoped_refptr@VCefFrame@@@@ABV?$CefStringBase@UCefStringTraitsUTF16@@@@2W4cef_window_open_disposition_t@@_NABV?$CefStructBase@UCefPopupFeaturesTraits@@@@AAVCefWindowInfo@@AAV?$scoped_refptr@VCefClient@@@@AAV?$CefStructBase@UCefBrowserSettingsTraits@@@@AAV?$scoped_refptr@VCefDictionaryValue@@@@PA_N@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnBeforePopup@WebRendererHandler@Browser@Web@@UAE_NV?$scoped_refptr@VCefBrowser@@@@V?$scoped_refptr@VCefFrame@@@@ABV?$CefStringBase@UCefStringTraitsUTF16@@@@2W4cef_window_open_disposition_t@@_NABV?$CefStructBase@UCefPopupFeaturesTraits@@@@AAVCefWindowInfo@@AAV?$scoped_refptr@VCefClient@@@@AAV?$CefStructBase@UCefBrowserSettingsTraits@@@@AAV?$scoped_refptr@VCefDictionaryValue@@@@PA_N@Z");
 			// __shifted(Web::Browser::WebRendererHandler, 8);
 			// scoped_refptr<CefClient> &client;
 			// CefStructBase<CefBrowserSettingsTraits> &settings;
@@ -351,29 +392,30 @@ namespace Web
 			// bool *no_javascript_access;
 			// std::wstring s_UrlStr;
 			// function call : HINSTANCE__ *(HWND__ *, wchar_t const *, wchar_t const *, wchar_t const *, wchar_t const *, __int32)
-			todo("implement");
-			bool __result = _sub_10CCD5B0((CefLifeSpanHandler *)this, browser, frame, target_url, target_frame_name, target_disposition, user_gesture, popupFeatures, windowInfo, client, settings, extra_info, no_javascript_access);
-			return __result;
+
+			std::wstring s_UrlStr = target_url.ToWString();
+			if (!boost::istarts_with(s_UrlStr, L"http://") && !boost::istarts_with(s_UrlStr, L"https://"))
+				s_UrlStr = L"http://" + s_UrlStr;
+			ShellExecuteW(nullptr, L"open", s_UrlStr.c_str(), L"", nullptr, SW_SHOWNORMAL);
+			return true;
 		}
 
-		_extern void _sub_10CCDAD0(CefLoadHandler * const, scoped_refptr<CefBrowser>, scoped_refptr<CefFrame>, __int32);
 		void WebRendererHandler::OnLoadEnd(scoped_refptr<CefBrowser> browser, scoped_refptr<CefFrame> frame, __int32 httpStatusCode) // 0x10CCDAD0
 		{
-			mangled_x86(MANGLED_TODO, "?OnLoadEnd@WebRendererHandler@Browser@Web@@UAEXV?$scoped_refptr@VCefBrowser@@@@V?$scoped_refptr@VCefFrame@@@@H@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnLoadEnd@WebRendererHandler@Browser@Web@@UAEXV?$scoped_refptr@VCefBrowser@@@@V?$scoped_refptr@VCefFrame@@@@H@Z");
 			// __shifted(Web::Browser::WebRendererHandler, 32);
 			// __int32 httpStatusCode;
-			todo("implement");
-			_sub_10CCDAD0((CefLoadHandler *)this, browser, frame, httpStatusCode);
+
+			WebRenderer::GetInstance()->OnFrameLoadEnd(browser, frame);
 		}
 
-		_extern void _sub_10CCDCE0(CefLoadHandler * const, scoped_refptr<CefBrowser>, scoped_refptr<CefFrame>, cef_transition_type_t);
 		void WebRendererHandler::OnLoadStart(scoped_refptr<CefBrowser> browser, scoped_refptr<CefFrame> frame, cef_transition_type_t transition_type) // 0x10CCDCE0
 		{
-			mangled_x86(MANGLED_TODO, "?OnLoadStart@WebRendererHandler@Browser@Web@@UAEXV?$scoped_refptr@VCefBrowser@@@@V?$scoped_refptr@VCefFrame@@@@W4cef_transition_type_t@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnLoadStart@WebRendererHandler@Browser@Web@@UAEXV?$scoped_refptr@VCefBrowser@@@@V?$scoped_refptr@VCefFrame@@@@W4cef_transition_type_t@@@Z");
 			// __shifted(Web::Browser::WebRendererHandler, 32);
 			// cef_transition_type_t transition_type;
-			todo("implement");
-			_sub_10CCDCE0((CefLoadHandler *)this, browser, frame, transition_type);
+
+			WebRenderer::GetInstance()->OnFrameLoadStart(browser, frame);
 		}
 	}
 }

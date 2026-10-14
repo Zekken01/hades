@@ -40,12 +40,12 @@ public:
 	CEventSink<enum EServerConnectAbortReason> AbortEvent; // 0x0
 private:
 	std::mutex m_mutex; // 0x14
-	SServerConnectState m_state; // 0x44
-	EServerConnectState m_currentState; // 0xF8
-	EServerConnectState m_requestedState; // 0xFC
+	SServerConnectState m_state = {}; // 0x44
+	EServerConnectState m_currentState = {}; // 0xF8
+	EServerConnectState m_requestedState = {}; // 0xFC
 	std::shared_ptr<CServerConnectStateHandler> m_currentHandler; // 0x100
 	std::unordered_map<enum EServerConnectState,std::shared_ptr<CServerConnectStateHandler> > m_stateHandlers; // 0x108
-	EServerConnectAbortReason m_abortReason; // 0x130
+	EServerConnectAbortReason m_abortReason = {}; // 0x130
 public:
 	void RegisterStateHandler(EServerConnectState state, std::shared_ptr<CServerConnectStateHandler> const &handler);
 	void RequestStateChange(EServerConnectState state);

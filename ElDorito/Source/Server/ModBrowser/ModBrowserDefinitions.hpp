@@ -35,13 +35,12 @@ struct SModBrowserState
 		std::string website; // 0xC4
 		unsigned __int32 fileSize; // 0xE0
 		bool verificationFailed; // 0xE4
-		unsigned char __pad0[3]; // 0xE5
 		std::string downloadPath; // 0xE8
-		SRequestedMod(SRequestedMod &); /* compiler_generated() */
-		SRequestedMod(SRequestedMod const &); /* compiler_generated() */
-		_inline SRequestedMod() = default; /* compiler_generated() */
+		// SRequestedMod(SRequestedMod &); hades: implicit, the original aggregate-initializes it
+		// SRequestedMod(SRequestedMod const &); hades: implicit, the original aggregate-initializes it
+		// _inline SRequestedMod() = default; hades: implicit, the original aggregate-initializes it
 		_inline ~SRequestedMod(); /* compiler_generated() */
-		_inline SRequestedMod &operator=(SRequestedMod &&__that); /* compiler_generated() */
+		_inline SRequestedMod &operator=(SRequestedMod &&__that) noexcept; /* compiler_generated() */
 		_inline SRequestedMod &operator=(SRequestedMod const &__that); /* compiler_generated() */
 	};
 #pragma pack(pop)
@@ -59,11 +58,11 @@ struct SModBrowserState
 	unsigned char xnaddr[16]; // 0x90
 	SRequestedMod requestedMod; // 0xA0
 	bool modDownloadConfirmed; // 0x1A4
-	SModBrowserState(SModBrowserState &); /* compiler_generated() */
-	SModBrowserState(SModBrowserState const &); /* compiler_generated() */
-	_inline SModBrowserState() = default; /* compiler_generated() */
+	// SModBrowserState(SModBrowserState &); hades: implicit, the original aggregate-initializes it
+	// SModBrowserState(SModBrowserState const &); hades: implicit, the original aggregate-initializes it
+	// _inline SModBrowserState() = default; hades: implicit, the original aggregate-initializes it
 	_inline ~SModBrowserState(); /* compiler_generated() */
-	_inline SModBrowserState &operator=(SModBrowserState &&__that); /* compiler_generated() */
+	_inline SModBrowserState &operator=(SModBrowserState &&__that) noexcept; /* compiler_generated() */
 	SModBrowserState &operator=(SModBrowserState const &); /* compiler_generated() */
 };
 static_assert(sizeof(SModBrowserState) == 424, "Invalid SModBrowserState size");

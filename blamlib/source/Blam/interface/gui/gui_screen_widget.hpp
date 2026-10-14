@@ -132,7 +132,7 @@ public:
 	virtual ~c_gui_screen_widget() = default; /* compiler_generated() */
 	c_gui_screen_widget &operator=(c_gui_screen_widget &); /* compiler_generated() */
 	c_gui_screen_widget &operator=(c_gui_screen_widget const &); /* compiler_generated() */
-	void __autoclassinit2(unsigned __int32); /* compiler_generated() */
+	// void __autoclassinit2(unsigned __int32); /* compiler_generated() */  // hades: /sdl generates it
 };
 static_assert(sizeof(c_gui_screen_widget) == 6816, "Invalid c_gui_screen_widget size");
 static_assert(offsetof(c_gui_screen_widget, field_F8) == 0xF8, "c_gui_screen_widget::field_F8 moved when its reconstructed padding was removed");

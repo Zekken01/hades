@@ -68,7 +68,7 @@ private:
 	EModResult LoadPakBlocking();
 	EModResult LoadCacheBlocking(__int32 cacheIndex);
 	EModResult FinishLoadPak(EModResult error);
-	EModResult FinishLoadCache(EModResult error);
+	EModResult FinishLoadCache(EModResult error); template<typename t_function> EModResult BeginLoadAsync(t_function &&function) { if (m_loadThread.joinable()) m_loadThread.detach(); m_loadThread = std::thread(function); return kPending; }  // hades: added for Load/LoadCache
 	std::atomic<int> m_refCount; // 0x4
 	EModResult m_error; // 0x8
 	WaitEvent m_pakLoadEvent; // 0xC

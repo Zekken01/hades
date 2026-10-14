@@ -49,10 +49,9 @@ extern bool (*const network_session_interface_get_squad_session)(c_network_sessi
 
 /* ---------- public code */
 
-_extern bool _sub_10EF8920(s_session_mod_options const *);
 bool network_squad_session_set_mod(s_session_mod_options const *options) // 0x10EF8920
 {
-	mangled_x86(MANGLED_TODO, "?network_squad_session_set_mod@@YA_NPBUs_session_mod_options@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?network_squad_session_set_mod@@YA_NPBUs_session_mod_options@@@Z");
 	// static ...; // 0x10EF89EC
 	// static ...; // 0x10EF89E0
 	// static ...; // 0x10EF89D8
@@ -61,15 +60,26 @@ bool network_squad_session_set_mod(s_session_mod_options const *options) // 0x10
 	// c_network_session_parameters *session_parameters;
 	// c_network_session *session;
 	// function call : bool (*const)(c_network_session **)
-	todo("implement");
-	bool __result = _sub_10EF8920(options);
-	return __result;
+
+	c_network_session *session;
+	if (!((bool (*const)(c_network_session **))0x454F20)(&session))
+	{
+		return false;
+	}
+
+	c_network_session_parameters *session_parameters = session->get_session_parameters();
+	if (!session_parameters)
+	{
+		return false;
+	}
+
+	c_network_session_parameter_base *session_paramerer = session_parameters->parameters[4];
+	return ((c_network_session_parameter_mod *)session_paramerer)->request_change(options);
 }
 
-extern s_session_mod_options const *_sub_10EF8810();
 s_session_mod_options const *network_squad_session_get_mod() // 0x10EF8810
 {
-	mangled_x86(MANGLED_TODO, "?network_squad_session_get_mod@@YAPBUs_session_mod_options@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?network_squad_session_get_mod@@YAPBUs_session_mod_options@@XZ");
 	// procedure flags: nofpo
 	// static ...; // 0x10EF88D8
 	// static ...; // 0x10EF88CC
@@ -78,9 +88,21 @@ s_session_mod_options const *network_squad_session_get_mod() // 0x10EF8810
 	// c_network_session_parameters *session_parameters;
 	// c_network_session *session;
 	// function call : bool (*const)(c_network_session **)
-	todo("implement");
-	s_session_mod_options const * __result = _sub_10EF8810();
-	return __result;
+
+	c_network_session *session;
+	if (!((bool (*const)(c_network_session **))0x454F20)(&session))
+	{
+		return nullptr;
+	}
+
+	c_network_session_parameters *session_parameters = session->get_session_parameters();
+	if (!session_parameters)
+	{
+		return nullptr;
+	}
+
+	c_network_session_parameter_base *session_paramerer = session_parameters->parameters[4];
+	return ((c_network_session_parameter_mod *)session_paramerer)->get();
 }
 
 /* ---------- private code */

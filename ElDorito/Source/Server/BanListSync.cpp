@@ -50,6 +50,9 @@
 #include "Utils/String.hpp"
 #include "Utils/WebSocket.hpp"
 
+#include "Utils/Logger.hpp"  // hades: added for 0x10B18BA0
+namespace Utils::Version { std::string GetVersionString(); }  // hades: added for 0x10B18F00
+
 #include <boost/asio.hpp>
 #include <boost/assert.hpp>
 #include <boost/exception/all.hpp>
@@ -183,6 +186,9 @@ struct s_sharedState
 
 /* ---------- prototypes */
 
+extern "C" unsigned long __stdcall inet_addr(char const *cp);  // hades: added for 0x10B19ED0
+extern "C" unsigned long __stdcall htonl(unsigned long hostlong);  // hades: added for 0x10B19ED0
+
 namespace Server
 {
 	namespace BanListSync
@@ -207,7 +213,7 @@ namespace Server
 {
 	namespace hades_file_local_Server
 	{
-		extern std::string DefaultBanListPath; // 0x12467688
+		// extern std::string DefaultBanListPath; // 0x12467688  // hades: defined (with its initialiser) elsewhere now
 	}
 	using namespace hades_file_local_Server;
 }
@@ -219,6 +225,7 @@ namespace hades_file_local
 	extern bool shouldExit; // 0x124676A4
 	extern bool banlistDirty; // 0x124676A5
 	extern std::vector<std::string> banlistUrls; // 0x12467650
+	extern s_sharedState sharedState; // 0x124675E0
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -227,20 +234,19 @@ namespace Server
 {
 	namespace BanListSync
 	{
-		_extern void _sub_10B18E20();
 		void Init() // 0x10B18E20
 		{
-			mangled_x86(MANGLED_TODO, "?Init@BanListSync@Server@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Init@BanListSync@Server@@YAXXZ");
 			// procedure flags: nofpo
 			// function call : void *(_SECURITY_ATTRIBUTES *, unsigned long, unsigned long (*)(void *), void *, unsigned long, unsigned long *)
-			todo("implement");
-			_sub_10B18E20();
+
+			CreateThread(nullptr, 0, BanListSyncThreadProc, nullptr, 0, nullptr);
+			Patches::Core::OnShutdown(::OnShutdown);
 		}
 
-		_extern void _sub_10B199C0();
 		void Tick() // 0x10B199C0
 		{
-			mangled_x86(MANGLED_TODO, "?Tick@BanListSync@Server@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@BanListSync@Server@@YAXXZ");
 			// procedure flags: nofpo
 			// static ...; // 0x10B19DBD
 			// static ...; // 0x10B19DB5
@@ -251,83 +257,105 @@ namespace Server
 			// unsigned long syncInternval;
 			// Blam::Network::Session *session;
 			// long long now;
-			{
 				// std::unique_lock<std::mutex> lock;
-				{
 					// Server::StatsServersBanList &statsserverBanList;
-					{
 						// std::vector<std::string> &<range>$L0;
 						// std::string *<begin>$L0;
 						// std::string *<end>$L0;
-						{
 							// std::string const &ip;
-						}
-					}
-					{
 						// std::string *<end>$L1;
 						// std::string *<begin>$L1;
 						// std::vector<std::string> &<range>$L1;
-						{
 							// std::string const &uid;
-						}
-					}
-					{
 						// std::string *<end>$L2;
 						// std::vector<std::string> &<range>$L2;
 						// std::string *<begin>$L2;
-						{
 							// std::string const &name;
-						}
-					}
-					{
 						// std::vector<std::string> &<range>$L3;
 						// std::string *<begin>$L3;
 						// std::string *<end>$L3;
-						{
 							// std::string const &subnet;
-							{
 								// unsigned long mask;
 								// unsigned long network;
-							}
-						}
+
+			Blam::Network::Session *session = Blam::Network::GetActiveSession();
+			if (!session || !session->IsEstablished() || !session->IsHost())
+				return;
+			if (banlistDirty)
+			{
+				std::unique_lock<std::mutex> lock(mutex, std::try_to_lock);
+				if (lock.owns_lock())
+				{
+					banlistDirty = false;
+					Server::StatsServersBanList &statsserverBanList = Utils::Singleton<Server::StatsServersBanList>::Instance();
+					statsserverBanList.ClearList();
+					for (std::string const &ip : sharedState.Ips)
+						Utils::Singleton<Server::StatsServersBanList>::Instance().AddIp(ip);
+					for (std::string const &uid : sharedState.Uids)
+						Utils::Singleton<Server::StatsServersBanList>::Instance().AddUID(uid);
+					for (std::string const &name : sharedState.Names)
+						Utils::Singleton<Server::StatsServersBanList>::Instance().AddName(name);
+					for (std::string const &subnet : sharedState.Subnets)
+					{
+						unsigned long network;
+						unsigned long mask;
+						if (TryParseSubnet(subnet, &network, &mask))
+							Utils::Singleton<Server::StatsServersBanList>::Instance().AddSubnet(network, mask);
 					}
+					CheckToBootPlayers();
 				}
 			}
-			todo("implement");
-			_sub_10B199C0();
+			unsigned long syncInternval = Modules::ModuleServer::Instance().VarBanListSyncIntervalSeconds->ValueInt;
+			time_t now;
+			time(&now);
+			if (now - lastSyncTime > syncInternval)
+			{
+				lastSyncTime = now;
+				syncSignal.notify_one();
+			}
 		}
 	}
 }
 
 /* ---------- private code */
 
-_extern bool _sub_10B18BA0();
 bool GetEndpoints() // 0x10B18BA0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetEndpoints@@YA_NXZ");
 	// `anonymous-namespace'::GetEndpoints
 	// procedure flags: nofpo
 	// static ...; // 0x10B18D94
 	// static ...; // 0x10B18D88
 	// static ...; // 0x10B18D80
 	// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
-	{
 		// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &urls;
-		{
 			// unsigned __int32 i;
+
+	if (!Utils::Singleton<Utils::DewritoReader>::Instance().IsValid())
+		return false;
+	auto json = Utils::Singleton<Utils::DewritoReader>::Instance().GetDewritoJson();
+	if (json.IsObject() && json.HasMember("banlistUrls"))
+	{
+		banlistUrls.clear();
+		auto &urls = json["banlistUrls"];
+		if (!urls.IsArray())
+		{
+			Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Network, Utils::LogLevel::Error, "Server::BanListSync::GetEndpoints(): \"banlistUrls\" must be an array");
+			return false;
 		}
+		for (unsigned __int32 i = 0; i < urls.Size(); i++)
+			banlistUrls.push_back(urls[i].GetString());
 	}
-	todo("implement");
-	bool __result = _sub_10B18BA0();
-	return __result;
+	return true;
 }
 
 _inline s_sharedState::s_sharedState() = default; // 0x10B17D40
 
 _inline s_sharedState::~s_sharedState() = default; // 0x10B17E80
 
-_extern void _sub_10B183A0();
 void CheckToBootPlayers() // 0x10B183A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CheckToBootPlayers@@YAXXZ");
 	// `anonymous-namespace'::CheckToBootPlayers
 	// procedure flags: nofpo
 	// static ...; // 0x10B188CF
@@ -338,24 +366,59 @@ void CheckToBootPlayers() // 0x10B183A0
 	// static ...; // 0x10B18884
 	// Blam::Network::Session *session;
 	// __int32 peerIdx;
-	{
 		// __int32 playerIdx;
-		{
 			// Blam::Network::PlayerSession *player;
 			// unsigned long long uid;
 			// std::stringstream stream;
 			// std::string const &ipString;
 			// std::string name;
 			// std::string hexUID;
+
+	Blam::Network::Session *session = Blam::Network::GetActiveSession();
+	if (!session || !session->IsEstablished() || !session->IsHost())
+		return;
+	__int32 peerIdx = session->MembershipInfo.FindFirstPeer();
+	while (peerIdx != -1)
+	{
+		__int32 playerIdx = session->MembershipInfo.GetPeerPlayer(peerIdx);
+		if (playerIdx != -1)
+		{
+			Blam::Network::PlayerSession *player = &session->MembershipInfo.PlayerSessions[playerIdx];
+			std::string name = Utils::String::ThinString(player->Properties.host.player_name);
+			unsigned long long uid = player->Properties.host.player_uid;
+			std::stringstream stream;
+			stream << std::hex << uid;
+			std::string hexUID = stream.str();
+			std::string const &ipString = session->GetPeerAddress(peerIdx).ToString();
+			if (Utils::Singleton<Server::StatsServersBanList>::Instance().ContainsIp(ipString) || Utils::Singleton<Server::StatsServersBanList>::Instance().ContainsSubnet(ipString))
+			{
+				if (!Blam::Network::BootPlayer(playerIdx, 13))
+					Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Network, Utils::LogLevel::Info, "Failed to Kick Banned IP: " + ipString);
+				else
+					Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Network, Utils::LogLevel::Info, "Successfully Kicked Banned IP: " + ipString);
+			}
+			if (Utils::Singleton<Server::StatsServersBanList>::Instance().ContainsUID(hexUID))
+			{
+				if (!Blam::Network::BootPlayer(playerIdx, 13))
+					Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Network, Utils::LogLevel::Info, "Failed to Kick Banned UID: " + hexUID);
+				else
+					Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Network, Utils::LogLevel::Info, "Successfully Kicked Banned UID: " + hexUID);
+			}
+			if (Utils::Singleton<Server::StatsServersBanList>::Instance().ContainsName(name))
+			{
+				if (!Blam::Network::BootPlayer(playerIdx, 13))
+					Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Network, Utils::LogLevel::Info, "Failed to Kick Banned Name: " + name);
+				else
+					Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Network, Utils::LogLevel::Info, "Successfully Kicked Banned Name: " + name);
+			}
 		}
+		peerIdx = session->MembershipInfo.FindNextPeer(peerIdx);
 	}
-	todo("implement");
-	_sub_10B183A0();
 }
 
-_extern bool _sub_10B18F00();
 bool SyncBanList() // 0x10B18F00
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SyncBanList@@YA_NXZ");
 	// `anonymous-namespace'::SyncBanList
 	// procedure flags: nofpo
 	// static ...; // 0x10B1978B
@@ -364,60 +427,94 @@ bool SyncBanList() // 0x10B18F00
 	// static ...; // 0x10B19778
 	// static ...; // 0x10B19748
 	// static ...; // 0x10B19740
-	{
 		// std::vector<std::string> &<range>$L0;
 		// std::string *<begin>$L0;
 		// std::string *<end>$L0;
-		{
 			// std::string &endpoint;
-			{
 				// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
 				// std::wstring expected;
 				// HttpRequest req;
 				// std::string resp;
-				{
 					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &IPs;
-					{
 						// unsigned __int32 i;
-					}
-				}
-				{
 					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &UIDs;
-					{
-					}
-				}
-				{
 					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &Names;
-					{
-					}
-				}
-				{
 					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &Subnets;
-					{
-					}
-				}
-			}
+
+	if (!GetEndpoints())
+		return false;
+	sharedState.Ips.clear();
+	sharedState.Subnets.clear();
+	sharedState.Names.clear();
+	sharedState.Uids.clear();
+	for (auto &endpoint : banlistUrls)
+	{
+		HttpRequest req(L"ElDewrito/" + Utils::String::WidenString(Utils::Version::GetVersionString()), L"", L"");
+		if (!req.SendRequest(Utils::String::WidenString(endpoint), L"GET", L"", L"", L"", nullptr, 0))
+		{
+			Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Network, Utils::LogLevel::Info, "Unable to connect to banlist endpoint. \"%s\"", endpoint.c_str());
+			continue;
+		}
+		std::wstring expected = L"HTTP/1.1 200 OK";
+		if (req.responseHeader.length() < expected.length())
+		{
+			Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Network, Utils::LogLevel::Info, "Invalid server query response. \"%s\"", endpoint.c_str());
+			continue;
+		}
+		std::string resp(req.responseBody.begin(), req.responseBody.end());
+		rapidjson::Document json;
+		if (json.Parse<0>(resp.c_str()).HasParseError() || !json.IsObject())
+		{
+			Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Network, Utils::LogLevel::Info, "Invalid json returned from banlist endpoint. \"%s\"", endpoint.c_str());
+			continue;
+		}
+		if (json.HasMember("ips"))
+		{
+			rapidjson::Value const &IPs = json["ips"];
+			for (unsigned __int32 i = 0; i < IPs.Size(); i++)
+				sharedState.Ips.push_back(IPs[i].GetString());
+		}
+		if (json.HasMember("uids"))
+		{
+			rapidjson::Value const &UIDs = json["uids"];
+			for (unsigned __int32 i = 0; i < UIDs.Size(); i++)
+				sharedState.Uids.push_back(UIDs[i].GetString());
+		}
+		if (json.HasMember("names"))
+		{
+			rapidjson::Value const &Names = json["names"];
+			for (unsigned __int32 i = 0; i < Names.Size(); i++)
+				sharedState.Names.emplace_back(Names[i].GetString());
+		}
+		if (json.HasMember("subnets"))
+		{
+			rapidjson::Value const &Subnets = json["subnets"];
+			for (unsigned __int32 i = 0; i < Subnets.Size(); i++)
+				sharedState.Subnets.emplace_back(Subnets[i].GetString());
 		}
 	}
-	todo("implement");
-	bool __result = _sub_10B18F00();
-	return __result;
+	return true;
 }
 
-_extern unsigned long _sub_10B18260(void *);
 unsigned long __stdcall BanListSyncThreadProc(void *lpParam) // 0x10B18260
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?BanListSyncThreadProc@@YGKPAX@Z");
 	// `anonymous-namespace'::BanListSyncThreadProc
 	// static ...; // 0x10B18354
 	// static ...; // 0x10B18348
 	// static ...; // 0x10B18340
 	// void *lpParam;
-	{
 		// std::unique_lock<std::mutex> lk;
+
+	for (;;)
+	{
+		std::unique_lock<std::mutex> lk(hades_file_local::mutex);
+		syncSignal.wait(lk);
+		if (shouldExit)
+			return 0;
+		if (SyncBanList())
+			banlistDirty = true;
 	}
-	todo("implement");
-	unsigned long __result = _sub_10B18260(lpParam);
-	return __result;
 }
 
 void OnShutdown() // 0x10B18EB0
@@ -430,9 +527,9 @@ void OnShutdown() // 0x10B18EB0
 	syncSignal.notify_one();
 }
 
-_extern bool _sub_10B19ED0(std::string const &, unsigned long *, unsigned long *);
 bool TryParseSubnet(std::string const &cidr, unsigned long *outNetwork, unsigned long *outMask) // 0x10B19ED0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?TryParseSubnet@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAK1@Z");
 	// `anonymous-namespace'::TryParseSubnet
 	// static ...; // 0x10B1A040
 	// static ...; // 0x10B1A038
@@ -443,7 +540,16 @@ bool TryParseSubnet(std::string const &cidr, unsigned long *outNetwork, unsigned
 	// std::string snetwork;
 	// std::string sbits;
 	// unsigned __int32 pos;
-	todo("implement");
-	bool __result = _sub_10B19ED0(cidr, outNetwork, outMask);
-	return __result;
+
+	auto pos = cidr.find_first_of('/');
+	if (pos == std::string::npos || pos + 1 >= cidr.length())
+		return false;
+	auto snetwork = cidr.substr(0, pos);
+	auto sbits = cidr.substr(pos + 1);
+	auto bits = atoi(sbits.c_str());
+	if (bits == 0)
+		return false;
+	*outNetwork = inet_addr(snetwork.c_str());
+	*outMask = htonl(0xFFFFFFFF << (32 - bits));
+	return true;
 }

@@ -23,7 +23,6 @@ struct s_item_data :
 {
 	char item_flags; // 0x178
 	char inventory_state; // 0x179
-	unsigned char __pad0[2]; // 0x17A
 	unsigned long ignore_object_index; // 0x17C
 	long last_relevant_time; // 0x180
 	unsigned long owner_unit_index; // 0x184

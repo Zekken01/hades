@@ -79,18 +79,20 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- public code */
 
-_extern void *_sub_10F02FA0(unsigned long);
 void *hs_get_node_data(unsigned long script_index) // 0x10F02FA0
 {
-	mangled_x86(MANGLED_TODO, "?hs_get_node_data@@YAPAXK@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_get_node_data@@YAPAXK@Z");
 	// unsigned long script_index;
 	// char *allocation_data;
 	// char *deterministic_datum;
 	// __int32 allocation_index;
 	// __int32 allocation_offset;
-	todo("implement");
-	void * __result = _sub_10F02FA0(script_index);
-	return __result;
+
+	char *deterministic_datum = (char *)tls_get(0x68);
+	__int32 allocation_index = *(unsigned short *)(deterministic_datum + *(short *)(deterministic_datum + 0x10) + 0x24) + 0x10;
+	char *allocation_data = (char *)(*g_script_node_runtime_state_allocation)->address;
+	__int32 allocation_offset = *(unsigned short *)(allocation_data + *(unsigned short *)(allocation_data + allocation_index * 0x18) * 0x18 + 8) * 0x18;
+	return allocation_data + allocation_offset;
 }
 
 s_hs_thread *hs_thread_get(unsigned long index) // 0x10F033F0
@@ -233,10 +235,9 @@ char const *hs_get_type_name(e_hs_type type) // 0x10F03050
 	return ((char const **)0x18BEC98)[(short)type];
 }
 
-extern hs_value _sub_10F02A90(e_hs_type);
 hs_value hs_value::get_default(e_hs_type type) // 0x10F02A90
 {
-	mangled_x86(MANGLED_TODO, "?get_default@hs_value@@SA?AU1@W4e_hs_type@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_default@hs_value@@SA?AU1@W4e_hs_type@@@Z");
 	// static ...; // 0x10F02C14
 // $LN16:
 // $LN15:
@@ -249,9 +250,106 @@ hs_value hs_value::get_default(e_hs_type type) // 0x10F02A90
 // $LN6:
 // $LN4:
 	// e_hs_type type;
-	todo("implement");
-	hs_value __result = _sub_10F02A90(type);
-	return __result;
+
+	switch (type)
+	{
+	case _hs_type_unparsed:
+	case _hs_type_special_form:
+		return hs_value::from_long(0);
+	case _hs_type_function_name:
+		return hs_value::from_string("");
+	case _hs_type_passthrough:
+	case _hs_type_void:
+	case _hs_type_boolean:
+		return hs_value::from_long(0);
+	case _hs_type_real:
+		return hs_value::from_real(0.0f);
+	case _hs_type_short:
+		return hs_value::from_short(0);
+	case _hs_type_long:
+		return hs_value::from_long(0);
+	case _hs_type_string:
+		return hs_value::from_string("");
+	case _hs_type_script:
+		return hs_value::from_long(-1);
+	case _hs_type_string_id:
+		return hs_value::from_long(0);
+	case _hs_type_unit_seat_mapping:
+	case _hs_type_trigger_volume:
+	case _hs_type_cutscene_flag:
+	case _hs_type_cutscene_camera_point:
+	case _hs_type_cutscene_title:
+	case _hs_type_cutscene_recording:
+	case _hs_type_device_group:
+	case _hs_type_ai:
+	case _hs_type_ai_command_list:
+	case _hs_type_ai_command_script:
+	case _hs_type_ai_behavior:
+	case _hs_type_ai_orders:
+	case _hs_type_ai_line:
+	case _hs_type_starting_profile:
+	case _hs_type_conversation:
+	case _hs_type_zone_set:
+	case _hs_type_designer_zone:
+	case _hs_type_point_reference:
+	case _hs_type_style:
+	case _hs_type_object_list:
+	case _hs_type_folder:
+	case _hs_type_sound:
+	case _hs_type_effect:
+	case _hs_type_damage:
+	case _hs_type_looping_sound:
+	case _hs_type_animation_graph:
+	case _hs_type_damage_effect:
+	case _hs_type_object_definition:
+	case _hs_type_bitmap:
+	case _hs_type_shader:
+	case _hs_type_render_model:
+	case _hs_type_structure_definition:
+	case _hs_type_lightmap_definition:
+	case _hs_type_cinematic_definition:
+	case _hs_type_cinematic_scene_definition:
+	case _hs_type_bink_definition:
+	case _hs_type_any_tag:
+	case _hs_type_any_tag_not_resolving:
+	case _hs_type_game_difficulty:
+	case _hs_type_team:
+	case _hs_type_mp_team:
+	case _hs_type_controller:
+	case _hs_type_button_preset:
+	case _hs_type_joystick_preset:
+	case _hs_type_unknown_56:
+	case _hs_type_player_color:
+	case _hs_type_player_character_type:
+	case _hs_type_voice_output_setting:
+	case _hs_type_voice_mask:
+	case _hs_type_subtitle_setting:
+	case _hs_type_actor_type:
+	case _hs_type_model_state:
+	case _hs_type_event:
+	case _hs_type_character_physics:
+	case _hs_type_object:
+	case _hs_type_unit:
+	case _hs_type_vehicle:
+	case _hs_type_weapon:
+	case _hs_type_device:
+	case _hs_type_scenery:
+	case _hs_type_effect_scenery:
+	case _hs_type_object_name:
+	case _hs_type_unit_name:
+	case _hs_type_vehicle_name:
+	case _hs_type_weapon_name:
+	case _hs_type_device_name:
+	case _hs_type_scenery_name:
+	case _hs_type_effect_scenery_name:
+	case _hs_type_cinematic_lightprobe:
+	case _hs_type_animation_budget_reference:
+	case _hs_type_looping_sound_budget_reference:
+	case _hs_type_sound_budget_reference:
+		return hs_value::from_long(-1);
+	default:
+		return hs_value::from_long(0);
+	}
 }
 
 /* ---------- private code */

@@ -182,16 +182,13 @@ struct s_simulation_unit_state_data :
 	short controlling_actor_squad_index; // 0xA4
 	short controlling_actor_cell_index; // 0xA6
 	short controlling_actor_spawn_point_index; // 0xA8
-	unsigned char __pad0[2]; // 0xAA
 	long parent_vehicle_entity_index; // 0xAC
 	short parent_seat_index; // 0xB0
-	unsigned char __pad1[2]; // 0xB2
 	real_vector3d desired_aiming_vector; // 0xB4
 	s_unit_weapon_set desired_weapon_set; // 0xC0
 	s_weapon_state_data weapons[4]; // 0xC4
 	char grenade_counts[4]; // 0x104
 	bool active_camo_active; // 0x108
-	unsigned char __pad2[3]; // 0x109
 	float active_camo_maximum; // 0x10C
 	float active_camo; // 0x110
 	float active_camo_regrowth; // 0x114

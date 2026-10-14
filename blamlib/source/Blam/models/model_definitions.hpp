@@ -76,7 +76,6 @@ struct s_model_variant_permutation
 	unsigned long name; // 0x0
 	char render_model_permutation; // 0x4
 	c_flags<enum e_model_permutation_flags,unsigned char> flags; // 0x5
-	unsigned char __pad0[2]; // 0x6
 	float probability; // 0x8
 	c_tag_block<s_model_permutation_state> states; // 0xC
 	char runtime_state_permutation_indices[12]; // 0x18
@@ -235,7 +234,6 @@ struct s_model_region
 	unsigned long name; // 0x0
 	char collision_region_index; // 0x4
 	char physics_region_index; // 0x5
-	unsigned char __pad0[2]; // 0x6
 	c_tag_block<s_model_permutation> permutations; // 0x8
 };
 #pragma pack(pop)
@@ -253,7 +251,6 @@ struct s_model_object_data
 	};
 	public:
 	c_enum<enum e_bounding_sphere_type,short> type; // 0x0
-	unsigned char __pad0[2]; // 0x2
 	real_point3d offset; // 0x4
 	float Radius; // 0x10
 	s_model_object_data(s_model_object_data &); /* compiler_generated() */

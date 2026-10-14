@@ -33,6 +33,8 @@
 #include "mods/mod_package_cache.hpp"
 #include "mods/mod_package_manager.hpp"
 #include "mods/new/IModManager.hpp"
+#include "Patches/Input.hpp"  // hades: added for 0x10CAD540
+#include "mods/mod_system.hpp"  // hades: added for 0x10CAD540
 #include "mods/new/ModListenerSet.hpp"
 #include "mods/tag_name_dictionary.hpp"
 #include "Patch.hpp"
@@ -64,6 +66,8 @@
 #include "Utils/String.hpp"
 #include "Web/Ui/Screen.hpp"
 #include "Web/Ui/ScreenLayer.hpp"
+#include "Modules/ModuleSettings.hpp"
+#include "Modules/ModuleVoting.hpp"
 
 #include <base/cef_atomic_ref_count.h>
 #include <base/cef_lock.h>
@@ -237,6 +241,47 @@ namespace Blam
 
 /* ---------- definitions */
 
+namespace Web
+{
+	namespace Ui
+	{
+		namespace WebMods
+		{
+			// hades: moved from hades/recovered_types.h onto its real base (was hades::polymorphic_bytes)
+			struct CWebModDownloadScreen :
+				public Web::Ui::WebScreen,
+				public IServerConnectModDownloadUI
+			{
+				virtual void OnCreate(Web::Browser::Bridge::WebRendererQueryHandler &);
+				virtual void OnDestroy();
+				virtual void OnShow();
+				virtual void OnHide();
+				virtual void OnUpdate();
+				std::function<void ()> m_confirmCallback; // 0x8
+				std::function<void ()> m_retryCallback; // 0x30
+				std::function<void ()> m_cancelCallback; // 0x58
+				std::function<void ()> m_joinServerCallback; // 0x80
+			public:
+				virtual void Hide();
+				virtual void SetConfirmCallback(std::function<void __cdecl(void)>);
+				virtual void SetRetryCallback(std::function<void __cdecl(void)>);
+				virtual void SetCancelCallback(std::function<void __cdecl(void)>);
+				virtual void SetJoinServerCallback(std::function<void __cdecl(void)>);
+				virtual void OnDownloadStart();
+				virtual void OnDownloadFailed(std::string const &);
+				virtual void OnDownloadFinalizing();
+				virtual void OnDownloadFinished(SServerConnectState const &);
+				virtual void OnDownloadProgress(SServerConnectState::SRequiredMod const &, __int32, long long, long long, __int32);
+				virtual void ShowConfirmation(std::vector<SServerConnectState::SRequiredMod *> const &);
+				CWebModDownloadScreen() = default;  // hades: not user-provided, so make_shared value-initializes
+				// mangled_x86(MANGLED_KNOWN_GOOD, "??1CWebModDownloadScreen@WebMods@Ui@Web@@UAE@XZ"); defaulted on its declaration
+				virtual ~CWebModDownloadScreen() = default; // 0x10caca50
+			};
+			static_assert32(sizeof(CWebModDownloadScreen) == 168, "Invalid CWebModDownloadScreen size");
+		}
+	}
+}
+
 namespace hades_file_local
 {
 	struct DownloadStatusInfo
@@ -262,12 +307,8 @@ namespace hades_file_local
 	private:
 		virtual void OnModChanged(EModIndex, IMod *);
 	public:
-		ModChangeListener(ModChangeListener &); /* compiler_generated() */
-		ModChangeListener(ModChangeListener const &); /* compiler_generated() */
-		ModChangeListener(); /* compiler_generated() */
+		// hades: the other special members are implicit, so `new ModChangeListener()` zeroes the object and calls a noexcept constructor
 		virtual ~ModChangeListener() = default; /* compiler_generated() */
-		ModChangeListener &operator=(ModChangeListener &); /* compiler_generated() */
-		ModChangeListener &operator=(ModChangeListener const &); /* compiler_generated() */
 	};
 	static_assert(sizeof(ModChangeListener) == 4, "Invalid ModChangeListener size");
 }
@@ -322,7 +363,7 @@ namespace Web
 	{
 		namespace WebMods
 		{
-			extern std::shared_ptr<Web::Ui::WebMods::CWebModDownloadScreen> screen; // 0x1247EDD0
+			std::shared_ptr<Web::Ui::WebMods::CWebModDownloadScreen> screen; // 0x1247EDD0
 		}
 	}
 }
@@ -336,7 +377,7 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- public code */
 
-extern std::shared_ptr<IServerConnectModDownloadUI> _sub_10CAD340();
+
 namespace Web
 {
 	namespace Ui
@@ -345,51 +386,46 @@ namespace Web
 		{
 			std::shared_ptr<IServerConnectModDownloadUI> GetDownloadUI() // 0x10CAD340
 			{
-				mangled_x86(MANGLED_TODO, "?GetDownloadUI@WebMods@Ui@Web@@YA?AV?$shared_ptr@VIServerConnectModDownloadUI@@@std@@XZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?GetDownloadUI@WebMods@Ui@Web@@YA?AV?$shared_ptr@VIServerConnectModDownloadUI@@@std@@XZ");
 				// procedure flags: nofpo
-				todo("implement");
-				std::shared_ptr<IServerConnectModDownloadUI> __result = _sub_10CAD340();
-				return __result;
+
+				return screen;
 			}
 
-			_extern void _sub_10CAEDF0(IServerConnectModDownloadUI * const, std::function<void __cdecl(void)>);
 			void CWebModDownloadScreen::SetConfirmCallback(std::function<void __cdecl(void)> callback) // 0x10CAEDF0
 			{
-				mangled_x86(MANGLED_TODO, "?SetConfirmCallback@CWebModDownloadScreen@WebMods@Ui@Web@@UAEXV?$function@$$A6AXXZ@std@@@Z");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?SetConfirmCallback@CWebModDownloadScreen@WebMods@Ui@Web@@UAEXV?$function@$$A6AXXZ@std@@@Z");
 				// __shifted(Web::Ui::WebMods::CWebModDownloadScreen, 4);
 				// std::function<void __cdecl(void)> callback;
-				todo("implement");
-				_sub_10CAEDF0((IServerConnectModDownloadUI *)this, callback);
+
+				m_confirmCallback = callback;
 			}
 
-			_extern void _sub_10CAEF50(IServerConnectModDownloadUI * const, std::function<void __cdecl(void)>);
 			void CWebModDownloadScreen::SetRetryCallback(std::function<void __cdecl(void)> callback) // 0x10CAEF50
 			{
-				mangled_x86(MANGLED_TODO, "?SetRetryCallback@CWebModDownloadScreen@WebMods@Ui@Web@@UAEXV?$function@$$A6AXXZ@std@@@Z");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?SetRetryCallback@CWebModDownloadScreen@WebMods@Ui@Web@@UAEXV?$function@$$A6AXXZ@std@@@Z");
 				// __shifted(Web::Ui::WebMods::CWebModDownloadScreen, 4);
 				// std::function<void __cdecl(void)> callback;
-				todo("implement");
-				_sub_10CAEF50((IServerConnectModDownloadUI *)this, callback);
+
+				m_retryCallback = callback;
 			}
 
-			_extern void _sub_10CAED40(IServerConnectModDownloadUI * const, std::function<void __cdecl(void)>);
 			void CWebModDownloadScreen::SetCancelCallback(std::function<void __cdecl(void)> callback) // 0x10CAED40
 			{
-				mangled_x86(MANGLED_TODO, "?SetCancelCallback@CWebModDownloadScreen@WebMods@Ui@Web@@UAEXV?$function@$$A6AXXZ@std@@@Z");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?SetCancelCallback@CWebModDownloadScreen@WebMods@Ui@Web@@UAEXV?$function@$$A6AXXZ@std@@@Z");
 				// __shifted(Web::Ui::WebMods::CWebModDownloadScreen, 4);
 				// std::function<void __cdecl(void)> callback;
-				todo("implement");
-				_sub_10CAED40((IServerConnectModDownloadUI *)this, callback);
+
+				m_cancelCallback = callback;
 			}
 
-			_extern void _sub_10CAEEA0(IServerConnectModDownloadUI * const, std::function<void __cdecl(void)>);
 			void CWebModDownloadScreen::SetJoinServerCallback(std::function<void __cdecl(void)> callback) // 0x10CAEEA0
 			{
-				mangled_x86(MANGLED_TODO, "?SetJoinServerCallback@CWebModDownloadScreen@WebMods@Ui@Web@@UAEXV?$function@$$A6AXXZ@std@@@Z");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?SetJoinServerCallback@CWebModDownloadScreen@WebMods@Ui@Web@@UAEXV?$function@$$A6AXXZ@std@@@Z");
 				// __shifted(Web::Ui::WebMods::CWebModDownloadScreen, 4);
 				// std::function<void __cdecl(void)> callback;
-				todo("implement");
-				_sub_10CAEEA0((IServerConnectModDownloadUI *)this, callback);
+
+				m_joinServerCallback = callback;
 			}
 
 			void CWebModDownloadScreen::OnDownloadStart() // 0x10CAE620
@@ -401,14 +437,14 @@ namespace Web
 				NotifyDownloadStateChanged("downloading", "downloading");
 			}
 
-			_extern void _sub_10CAE020(IServerConnectModDownloadUI * const, std::string const &);
 			void CWebModDownloadScreen::OnDownloadFailed(std::string const &message) // 0x10CAE020
 			{
-				mangled_x86(MANGLED_TODO, "?OnDownloadFailed@CWebModDownloadScreen@WebMods@Ui@Web@@UAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?OnDownloadFailed@CWebModDownloadScreen@WebMods@Ui@Web@@UAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 				// __shifted(Web::Ui::WebMods::CWebModDownloadScreen, 4);
 				// std::string const &message;
-				todo("implement");
-				_sub_10CAE020((IServerConnectModDownloadUI *)this, message);
+
+				NotifyDownloadStateChanged("download_failed", "download_failed");
+				NotifyDownloadError(message);
 			}
 
 			void CWebModDownloadScreen::OnDownloadFinalizing() // 0x10CAE140
@@ -420,10 +456,9 @@ namespace Web
 				NotifyDownloadStateChanged("downloading", "download_finalizing");
 			}
 
-			_extern void _sub_10CAE240(IServerConnectModDownloadUI * const, SServerConnectState const &);
 			void CWebModDownloadScreen::OnDownloadFinished(SServerConnectState const &state) // 0x10CAE240
 			{
-				mangled_x86(MANGLED_TODO, "?OnDownloadFinished@CWebModDownloadScreen@WebMods@Ui@Web@@UAEXABUSServerConnectState@@@Z");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?OnDownloadFinished@CWebModDownloadScreen@WebMods@Ui@Web@@UAEXABUSServerConnectState@@@Z");
 				// __shifted(Web::Ui::WebMods::CWebModDownloadScreen, 4);
 				// static ...; // 0x10CAE438
 				// static ...; // 0x10CAE420
@@ -432,18 +467,28 @@ namespace Web
 				// SServerConnectState const &state;
 				// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buff;
 				// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-				todo("implement");
-				_sub_10CAE240((IServerConnectModDownloadUI *)this, state);
+
+				rapidjson::StringBuffer buff;
+				rapidjson::Writer<rapidjson::StringBuffer> writer(buff);
+				writer.StartObject();
+				writer.Key("serverName");
+				writer.String(state.serverName.c_str());
+				writer.Key("serverHost");
+				writer.String(state.serverHost.c_str());
+				writer.EndObject();
+				Web::Ui::ScreenLayer::NotifyScreen(Web::Ui::ScreenLayer::ModDownload, "modDownloadFinished", buff.GetString());
+				NotifyDownloadStateChanged("download_finalizing", "download_finished");
 			}
 
-			_extern void _sub_10CAD3B0(IServerConnectModDownloadUI * const);
 			void CWebModDownloadScreen::Hide() // 0x10CAD3B0
 			{
-				mangled_x86(MANGLED_TODO, "?Hide@CWebModDownloadScreen@WebMods@Ui@Web@@UAEXXZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?Hide@CWebModDownloadScreen@WebMods@Ui@Web@@UAEXXZ");
 				// __shifted(Web::Ui::WebMods::CWebModDownloadScreen, 4);
 				// Web::Ui::WebMods::CWebModDownloadScreen *const this;
-				todo("implement");
-				_sub_10CAD3B0((IServerConnectModDownloadUI *)this);
+
+				NotifyDownloadStateChanged("awaiting_confirmation", "awaiting_confirmation");
+				Web::Ui::ScreenLayer::NotifyScreen(Web::Ui::ScreenLayer::ModDownload, "hide_moddownloader", "{}");
+				screenVisible = false;
 			}
 
 			void CWebModDownloadScreen::OnDestroy() // 0x10CAE000
@@ -470,31 +515,48 @@ namespace Web
 				// Web::Ui::WebMods::CWebModDownloadScreen *const this;
 			}
 
-			_extern void _sub_10CAE720();
 			void OnGameInputUpdated() // 0x10CAE720
 			{
-				mangled_x86(MANGLED_TODO, "?OnGameInputUpdated@WebMods@Ui@Web@@YAXXZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?OnGameInputUpdated@WebMods@Ui@Web@@YAXXZ");
 				// procedure flags: nofpo
-				{
 					// Blam::Network::Session *session;
-				}
 				// function call : bool (*const)()
-				todo("implement");
-				_sub_10CAE720();
+
+				if (Utils::Singleton<Modules::ModuleSettings>::Instance().VarGamepadEnabled->ValueInt == 1)
+				{
+					if (Blam::Input::GetActionState(Blam::Input::eGameActionUiY)->Ticks == 1 && !Blam::Input::GetKeyTicks(Blam::Input::eKeyCodeEscape, Blam::Input::eInputTypeUi))
+						ScreenLayer::NotifyScreen(ScreenLayer::ModDownload, "menuMaximizedByController", "{}");
+					Blam::Network::Session *session = Blam::Network::GetActiveSession();
+					if (((bool (*const)())0x531E90)() && Blam::Input::GetActionState(Blam::Input::eGameActionUiY)->Ticks == 1 && !Blam::Input::GetKeyTicks(Blam::Input::eKeyCodeEscape, Blam::Input::eInputTypeUi))
+					{
+						if (session && session->IsEstablished() && !session->IsHost())
+							return;
+						else if (session && session->IsEstablished() && session->IsHost() && Blam::Network::GetNetworkMode() == 3 && Utils::Singleton<Modules::ModuleVoting>::Instance().VarServerVotingType->ValueInt >= 0)
+							return;
+						if (!screenVisible)
+							ScreenLayer::Show("mod_browse", "{}");
+					}
+				}
 			}
 
-			_extern void _sub_10CAD540();
 			void Init() // 0x10CAD540
 			{
-				mangled_x86(MANGLED_TODO, "?Init@WebMods@Ui@Web@@YAXXZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?Init@WebMods@Ui@Web@@YAXXZ");
 				// procedure flags: nofpo
 				// function call : void (IModListener *)
-				todo("implement");
-				_sub_10CAD540();
+
+				screen = std::make_shared<CWebModDownloadScreen>();
+				ScreenLayer::RegisterScreen("mod_download", screen);
+				Patches::Input::RegisterDefaultInputHandler(OnGameInputUpdated);
+				c_mod_system::get_package_manager().enumerated.Subscribe([]()
+				{
+					ScreenLayer::Notify("modsEnumerated", "{}", true);
+				});
+				c_mod_system::GetModManager().AddListener(new ModChangeListener());
 			}
 
 			// mangled_x86(MANGLED_DEFAULT, "??0CWebModDownloadScreen@WebMods@Ui@Web@@QAE@XZ"); no body to assert in
-			_inline CWebModDownloadScreen::CWebModDownloadScreen() = default; // 0x10CAC810
+			// _inline CWebModDownloadScreen::CWebModDownloadScreen() = default; // 0x10CAC810  // hades: defaulted on its declaration
 		}
 	}
 }
@@ -507,13 +569,6 @@ namespace Web
 	{
 		namespace WebMods
 		{
-			_inline CWebModDownloadScreen::~CWebModDownloadScreen() // 0x10CACA50
-			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "??1CWebModDownloadScreen@WebMods@Ui@Web@@UAE@XZ");
-				// Web::Ui::WebMods::CWebModDownloadScreen *const this;
-
-				compiler_generated();
-			}
 		}
 	}
 }
@@ -523,9 +578,9 @@ _inline SServerConnectState::SRequiredMod &SServerConnectState::SRequiredMod::op
 
 /* ---------- private code */
 
-_extern void _sub_10CAEA00(ModChangeListener *const, EModIndex, IMod *);
 _inline void ModChangeListener::OnModChanged(EModIndex index, IMod *mod) // 0x10CAEA00
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnModChanged@ModChangeListener@hades_file_local@@EAEXW4EModIndex@@PAVIMod@@@Z");
 	// `anonymous-namespace'::ModChangeListener::OnModChanged
 	// static ...; // 0x10CAEC50
 	// static ...; // 0x10CAEC2C
@@ -535,18 +590,32 @@ _inline void ModChangeListener::OnModChanged(EModIndex index, IMod *mod) // 0x10
 	// IMod *mod;
 	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buff;
 	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-	{
 		// std::string hash_str;
 		// c_mod_package *pak;
-	}
 	// function call : c_mod_package *(bool) const
-	todo("implement");
-	_sub_10CAEA00(this, index, mod);
+
+	rapidjson::StringBuffer buff;
+	rapidjson::Writer<rapidjson::StringBuffer> writer(buff);
+	writer.StartObject();
+	writer.Key("kind");
+	writer.String(index == kMainMenu ? "mainmenu" : "game");
+	if (mod)
+	{
+		writer.Key("hash");
+		c_mod_package *pak = mod->GetPak(true);
+		if (!pak)
+			return;
+		std::string hash_str;
+		Utils::String::BytesToHexString(pak->get_header()->sha1, sizeof(pak->get_header()->sha1), hash_str);
+		writer.String(hash_str.c_str());
+	}
+	writer.EndObject();
+	Web::Ui::ScreenLayer::Notify("mod_changed", buff.GetString(), true);
 }
 
-_extern void _sub_10CAD960(std::string const &, std::string const &);
 void NotifyDownloadStateChanged(std::string const &fromState, std::string const &toState) // 0x10CAD960
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?NotifyDownloadStateChanged@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z");
 	// `anonymous-namespace'::NotifyDownloadStateChanged
 	// static ...; // 0x10CADAF0
 	// static ...; // 0x10CADAD8
@@ -555,13 +624,21 @@ void NotifyDownloadStateChanged(std::string const &fromState, std::string const 
 	// std::string const &toState;
 	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buff;
 	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-	todo("implement");
-	_sub_10CAD960(fromState, toState);
+
+	rapidjson::StringBuffer buff;
+	rapidjson::Writer<rapidjson::StringBuffer> writer(buff);
+	writer.StartObject();
+	writer.Key("fromState");
+	writer.String(fromState.c_str());
+	writer.Key("toState");
+	writer.String(toState.c_str());
+	writer.EndObject();
+	Web::Ui::ScreenLayer::NotifyScreen(Web::Ui::ScreenLayer::ModDownload, "modDownloadStateChange", buff.GetString());
 }
 
-_extern void _sub_10CADB70(DownloadStatusInfo const &);
 void NotifyDownloadStatus(DownloadStatusInfo const &info) // 0x10CADB70
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?NotifyDownloadStatus@@YAXABUDownloadStatusInfo@hades_file_local@@@Z");
 	// `anonymous-namespace'::NotifyDownloadStatus
 	// static ...; // 0x10CADE27
 	// static ...; // 0x10CADE20
@@ -570,13 +647,37 @@ void NotifyDownloadStatus(DownloadStatusInfo const &info) // 0x10CADB70
 	// DownloadStatusInfo const &info;
 	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buff;
 	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-	todo("implement");
-	_sub_10CADB70(info);
+
+	rapidjson::StringBuffer buff;
+	rapidjson::Writer<rapidjson::StringBuffer> writer(buff);
+	writer.StartObject();
+	writer.Key("index");
+	writer.Int(info.packageIndex);
+	writer.Key("name");
+	writer.String(info.package.name.c_str());
+	writer.Key("desc");
+	writer.String(info.package.description.c_str());
+	writer.Key("website");
+	writer.String(info.package.website.c_str());
+	writer.Key("version");
+	writer.String(info.package.version.c_str());
+	writer.Key("package_url");
+	writer.String(info.package.packageUrl.c_str());
+	writer.Key("hash");
+	writer.Key(info.package.hash.c_str());
+	writer.Key("current");
+	writer.Int64(info.current);
+	writer.Key("total");
+	writer.Int64(info.total);
+	writer.Key("speed");
+	writer.Int64(info.downloadSpeed);
+	writer.EndObject();
+	Web::Ui::ScreenLayer::NotifyScreen(Web::Ui::ScreenLayer::ModDownload, "modDownloadStatus", buff.GetString());
 }
 
-_extern void _sub_10CAD780(std::string const &);
 void NotifyDownloadError(std::string const &reason) // 0x10CAD780
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?NotifyDownloadError@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 	// `anonymous-namespace'::NotifyDownloadError
 	// static ...; // 0x10CAD8FB
 	// static ...; // 0x10CAD8F4
@@ -585,16 +686,123 @@ void NotifyDownloadError(std::string const &reason) // 0x10CAD780
 	// std::string const &reason;
 	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buff;
 	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-	todo("implement");
-	_sub_10CAD780(reason);
+
+	rapidjson::StringBuffer buff;
+	rapidjson::Writer<rapidjson::StringBuffer> writer(buff);
+	writer.StartObject();
+	writer.Key("reason");
+	writer.String(reason.c_str());
+	writer.EndObject();
+	Web::Ui::ScreenLayer::NotifyScreen(Web::Ui::ScreenLayer::ModDownload, "modDownloadFailed", buff.GetString());
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0DownloadStatusInfo@hades_file_local@@QAE@XZ"); no body to assert in
 _inline DownloadStatusInfo::DownloadStatusInfo() = default; // 0x10CAC8C0
 
 // mangled_x86(MANGLED_DEFAULT, "??0ModChangeListener@hades_file_local@@QAE@XZ"); no body to assert in
-_inline ModChangeListener::ModChangeListener() = default; // 0x10CAC940
+// ModChangeListener::ModChangeListener() is implicit; 0x10CAC940
 
 // mangled_x86(MANGLED_DEFAULT, "??1DownloadStatusInfo@hades_file_local@@QAE@XZ"); no body to assert in
 _inline DownloadStatusInfo::~DownloadStatusInfo() = default; // 0x10CACAE0
 
+
+namespace Web
+{
+	namespace Ui
+	{
+		namespace WebMods
+		{
+			void CWebModDownloadScreen::OnDownloadProgress(SServerConnectState::SRequiredMod const &package, __int32 packageIndex, long long current, long long total, __int32 downloadSpeed) // 0x10CAE4D0
+			{
+
+							DownloadStatusInfo info;
+							info.packageIndex = packageIndex;
+							info.package = package;
+							info.current = current;
+							info.total = total;
+							info.downloadSpeed = downloadSpeed;
+							NotifyDownloadStatus(info);
+			}
+		}
+	}
+}
+
+namespace Web
+{
+	namespace Ui
+	{
+		namespace WebMods
+		{
+			void CWebModDownloadScreen::OnCreate(Web::Browser::Bridge::WebRendererQueryHandler &queryHandler) // 0x10CADEE0
+			{
+
+							queryHandler.AddMethod("modDownloadAction", [this](rapidjson::Value const &args, std::string *result) -> Web::Browser::Bridge::QueryError
+							{
+								auto actionMember = args.FindMember("action");
+								if (actionMember == args.MemberEnd() || !actionMember->value.IsString())
+								{
+									*result = "Bad query : A \"action\" argument is required and must be a string";
+									return Web::Browser::Bridge::QueryError_BadQuery;
+								}
+								std::string action = actionMember->value.GetString();
+								if (action == "confirm" && m_confirmCallback)
+									m_confirmCallback();
+								else if (action == "reject" && m_cancelCallback)
+									m_cancelCallback();
+								else if (action == "retry" && m_retryCallback)
+									m_retryCallback();
+								else if (action == "joinServer" && m_joinServerCallback)
+									m_joinServerCallback();
+								return Web::Browser::Bridge::QueryError_Ok;
+							});
+			}
+		}
+	}
+}
+
+// hades: ShowConfirmation was dropped from the tree (an orphaned member); it sits at the
+// end of the file so the functions above keep their line numbers.
+namespace Web
+{
+	namespace Ui
+	{
+		namespace WebMods
+		{
+			void CWebModDownloadScreen::ShowConfirmation(std::vector<SServerConnectState::SRequiredMod *> const &mods) // 0x10CAF000
+			{
+				mangled_x86(MANGLED_KNOWN_GOOD, "?ShowConfirmation@CWebModDownloadScreen@WebMods@Ui@Web@@UAEXABV?$vector@PAUSRequiredMod@SServerConnectState@@V?$allocator@PAUSRequiredMod@SServerConnectState@@@std@@@std@@@Z");
+
+				rapidjson::StringBuffer buff;
+				rapidjson::Writer<rapidjson::StringBuffer> writer(buff);
+				writer.StartObject();
+				for (auto mod : mods)
+				{
+					writer.Key(mod->localName.c_str());
+					writer.StartObject();
+					writer.Key("hash");
+					writer.String(mod->hash.c_str());
+					writer.Key("mod_author");
+					writer.String(mod->author.c_str());
+					writer.Key("mod_description");
+					writer.String(mod->description.c_str());
+					writer.Key("mod_name");
+					writer.String(mod->name.c_str());
+					writer.Key("mod_version");
+					writer.String(mod->version.c_str());
+					writer.Key("mod_website");
+					writer.String(mod->website.c_str());
+					writer.Key("package_size");
+					writer.Int64(mod->fileSize);
+					writer.Key("package_url");
+					writer.String(mod->packageUrl.c_str());
+					writer.EndObject();
+				}
+				writer.EndObject();
+				auto json = buff.GetString();
+				Web::Ui::ScreenLayer::Show(Web::Ui::ScreenLayer::ModDownload, buff.GetString());
+				NotifyDownloadStateChanged("awaiting_confirmation", "awaiting_confirmation");
+				screenVisible = true;
+			}
+		}
+	}
+}

@@ -27,11 +27,11 @@ class ModListenerSet
 {
 public:
 	_inline void Add(IModListener *listener);
-	_inline void Remove(IModListener *listener);
+	_inline void Remove(IModListener *listener); template<typename t_method, typename... t_arguments> void Notify(t_method &&method, t_arguments &&...arguments) { std::shared_lock<std::shared_mutex> lock(m_lock); if (m_dirty) { m_listeners = m_dirtyListeners; m_dirty = false; } lock.unlock(); for (auto listener : m_listeners) (listener->*method)(std::forward<t_arguments &&>(arguments)...); }  // hades: added for ModManager notifications
 private:
 	std::vector<IModListener *> m_listeners; // 0x0
 	std::vector<IModListener *> m_dirtyListeners; // 0x10
-	bool m_dirty; // 0x20
+	bool m_dirty = false; // 0x20
 	unsigned char __pad0[3]; // 0x21
 	std::shared_mutex m_lock; // 0x24
 public:
@@ -46,17 +46,20 @@ static_assert(sizeof(ModListenerSet) == 40, "Invalid ModListenerSet size");
 
 /* ---------- public code */
 
-_extern void _sub_107919F0(ModListenerSet *const, IModListener *);
 _inline void ModListenerSet::Add(IModListener *listener) // 0x107919F0
 {
-	mangled_x86(MANGLED_TODO, "?Add@ModListenerSet@@QAEXPAVIModListener@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Add@ModListenerSet@@QAEXPAVIModListener@@@Z");
 	// static ...; // 0x10791BC0
 	// static ...; // 0x10791BB8
 	// ModListenerSet *const this;
 	// IModListener *listener;
 	// std::scoped_lock<std::shared_mutex> lock;
-	todo("implement");
-	_sub_107919F0(this, listener);
+
+	std::scoped_lock<std::shared_mutex> lock(m_lock);
+	if (std::find(m_listeners.begin(), m_listeners.end(), listener) != m_listeners.end())
+		return;
+	m_dirtyListeners.push_back(listener);
+	m_dirty = true;
 }
 
 _inline void ModListenerSet::Remove(IModListener *listener) // 0x10791F40

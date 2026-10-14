@@ -50,13 +50,10 @@ struct s_cache_tag_instance;
 
 /* ---------- public code */
 
-extern c_cache_file_tag_cache* _sub_108714F0(c_cache_file_tag_cache *const, c_file_reference const *, unsigned long, c_tag_name_dictionary &);
-c_cache_file_tag_cache::c_cache_file_tag_cache(c_file_reference const *file, unsigned long base_offset, c_tag_name_dictionary &&tag_names) : m_base_offset(todo_result<unsigned long>()), m_tag_names(todo_result<c_tag_name_dictionary>()) // 0x108714F0
+c_cache_file_tag_cache::c_cache_file_tag_cache(c_file_reference const *file, unsigned long base_offset, c_tag_name_dictionary &&tag_names) : m_initialized(false), m_file(file->filename), m_base_offset(base_offset), m_tag_names(std::move(tag_names)) /* hades-mem-init: : m_base_offset(todo_result<unsigned long>()), m_tag_names(todo_result<c_tag_name_dictionary>()) */ // 0x108714F0
 {
-	mangled_x86(MANGLED_TODO, "??0c_cache_file_tag_cache@@QAE@PBVc_file_reference@@K$$QAVc_tag_name_dictionary@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_cache_file_tag_cache@@QAE@PBVc_file_reference@@K$$QAVc_tag_name_dictionary@@@Z");
 	// c_tag_name_dictionary &tag_names;
-	todo("implement");
-	_sub_108714F0(this, file, base_offset, tag_names);
 }
 
 bool c_cache_file_tag_cache::initialize() // 0x108743F0
@@ -90,44 +87,68 @@ bool c_cache_file_tag_cache::load_internal() // 0x10874500
 	return true;
 }
 
-_extern bool _sub_108750D0(c_cache_file_tag_cache *const, c_file_reference *, long, unsigned long, unsigned long, void *);
 bool c_cache_file_tag_cache::read_tag_data(c_file_reference *file, long index, unsigned long offset, unsigned long size, void *buffer) // 0x108750D0
 {
-	mangled_x86(MANGLED_TODO, "?read_tag_data@c_cache_file_tag_cache@@QAE_NPAVc_file_reference@@JKKPAX@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?read_tag_data@c_cache_file_tag_cache@@QAE_NPAVc_file_reference@@JKKPAX@Z");
 	// void *buffer;
-	todo("implement");
-	bool __result = _sub_108750D0(this, file, index, offset, size, buffer);
-	return __result;
+
+	#line 92 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\cache_file_tag_cache.cpp"
+		if (!(valid_index(index))) { display_assert("valid_index(index)", __FILE__, __LINE__, true); system_exit(-1); }
+		if (!(buffer)) { display_assert("buffer", __FILE__, __LINE__, true); system_exit(-1); }
+		#line 99 "C:\\Users\\zekken\\Desktop\\Project Hades\\Hades\\Source\\ElDorito\\Source\\mods\\cache_file_tag_cache.cpp"
+	if (!m_tag_offsets[index])
+		return false;
+	return read_data_internal(file, m_tag_offsets[index] + offset, size, buffer);
 }
 
-_extern bool _sub_10874D60(c_cache_file_tag_cache *const, c_file_reference *, long, unsigned long, void *);
 bool c_cache_file_tag_cache::read_and_fixup_tag(c_file_reference *file, long index, unsigned long buffer_size, void *buffer) // 0x10874D60
 {
-	mangled_x86(MANGLED_TODO, "?read_and_fixup_tag@c_cache_file_tag_cache@@QAE_NPAVc_file_reference@@JKPAX@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?read_and_fixup_tag@c_cache_file_tag_cache@@QAE_NPAVc_file_reference@@JKPAX@Z");
 	// void *buffer;
 	// s_cache_tag_instance *instance;
 	// s_cache_tag_instance const *header;
 	// unsigned __int32 *fixups;
-	{
 		// long i;
+
+	#line 106 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\cache_file_tag_cache.cpp"
+		if (!(valid_index(index))) { display_assert("valid_index(index)", __FILE__, __LINE__, true); system_exit(-1); }
+		#line 107 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\cache_file_tag_cache.cpp"
+		if (!(buffer)) { display_assert("buffer", __FILE__, __LINE__, true); system_exit(-1); }
+		#line 118 "C:\\Users\\zekken\\Desktop\\Project Hades\\Hades\\Source\\ElDorito\\Source\\mods\\cache_file_tag_cache.cpp"
+	s_cache_tag_instance const *header = get_instance(index);
+	if (!header)
+		return false;
+	if (header->size > buffer_size)
+	{
+		#line 115 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\cache_file_tag_cache.cpp"
+			if (!(!"insufficent buffer")) { display_assert("!\"insufficent buffer\"", __FILE__, __LINE__, true); system_exit(-1); }
+			#line 126 "C:\\Users\\zekken\\Desktop\\Project Hades\\Hades\\Source\\ElDorito\\Source\\mods\\cache_file_tag_cache.cpp"
+		return false;
 	}
-	todo("implement");
-	bool __result = _sub_10874D60(this, file, index, buffer_size, buffer);
-	return __result;
+	if (!read_tag_data(file, index, 0, header->size, buffer))
+		return false;
+	s_cache_tag_instance *instance = (s_cache_tag_instance *)buffer;
+	unsigned __int32 *fixups = (unsigned __int32 *)&instance[1] + instance->dependency_count;
+	for (long i = 0; i < instance->fixup_count; i++)
+		*(unsigned long *)((char *)instance + fixups[i] - 0x40000000) = (unsigned long)((char *)instance + *(unsigned long *)((char *)instance + fixups[i] - 0x40000000) - 0x40000000);
+	return true;
 }
 
-_extern bool _sub_10874F50(c_cache_file_tag_cache *const, c_file_reference *, unsigned long, unsigned long, void *);
 bool c_cache_file_tag_cache::read_data_internal(c_file_reference *file, unsigned long offset, unsigned long size, void *buffer) // 0x10874F50
 {
-	mangled_x86(MANGLED_TODO, "?read_data_internal@c_cache_file_tag_cache@@AAE_NPAVc_file_reference@@KKPAX@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?read_data_internal@c_cache_file_tag_cache@@AAE_NPAVc_file_reference@@KKPAX@Z");
 	// c_file_reference *file;
 	// unsigned long offset;
 	// unsigned long size;
 	// void *buffer;
 	// c_file_open_scope scope;
-	todo("implement");
-	bool __result = _sub_10874F50(this, file, offset, size, buffer);
-	return __result;
+
+	c_file_open_scope scope(*file, 1);
+	if (!file->set_position(m_base_offset + offset, false))
+		return false;
+	if (!file->read(size, false, buffer))
+		return false;
+	return true;
 }
 
 bool c_cache_file_tag_cache::read_tag_offsets() // 0x10875210
@@ -152,25 +173,38 @@ bool c_cache_file_tag_cache::read_tag_offsets() // 0x10875210
 	return true;
 }
 
-_extern bool _sub_10874660(c_cache_file_tag_cache *const);
 bool c_cache_file_tag_cache::load_tags() // 0x10874660
 {
-	mangled_x86(MANGLED_TODO, "?load_tags@c_cache_file_tag_cache@@AAE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?load_tags@c_cache_file_tag_cache@@AAE_NXZ");
 	// c_cache_file_tag_cache *const this;
 	// long actual_count;
 	// long absolute_index;
-	{
 		// unsigned __int32 tag_index;
-	}
-	{
 		// long tag_index;
-		{
 			// unsigned long const offset;
-		}
+
+	long absolute_index = 0;
+	long actual_count = 0;
+	for (unsigned __int32 tag_index = 0; tag_index < m_tag_offsets.size(); tag_index++)
+	{
+		if (m_tag_offsets[tag_index])
+			actual_count++;
 	}
-	todo("implement");
-	bool __result = _sub_10874660(this);
-	return __result;
+	m_tags.resize(actual_count);
+	m_index_to_absolute_index.resize(m_tag_offsets.size(), -1);
+	m_absolute_index_to_index.resize(actual_count, -1);
+	for (long tag_index = 0; tag_index < (long)m_tag_offsets.size(); tag_index++)
+	{
+		unsigned long const offset = m_tag_offsets[tag_index];
+		if (!offset)
+			continue;
+		if (!read_data_internal(&m_file, offset, sizeof(s_cache_tag_instance), &m_tags[absolute_index]))
+			return false;
+		m_absolute_index_to_index[absolute_index] = tag_index;
+		m_index_to_absolute_index[tag_index] = absolute_index;
+		absolute_index++;
+	}
+	return true;
 }
 
 long c_cache_file_tag_cache::find_by_name(unsigned long group, char const *name) const // 0x10874040
@@ -213,14 +247,23 @@ bool c_cache_file_tag_cache::empty_tag(long index) const // 0x10873EA0
 	return instance->definition_offset == instance->size;
 }
 
-_extern bool _sub_10874AF0(c_cache_file_tag_cache::c_instance_iterator *const);
 bool c_cache_file_tag_cache::c_instance_iterator::next() // 0x10874AF0
 {
-	mangled_x86(MANGLED_TODO, "?next@c_instance_iterator@c_cache_file_tag_cache@@QAE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?next@c_instance_iterator@c_cache_file_tag_cache@@QAE_NXZ");
 	// c_cache_file_tag_cache::c_instance_iterator *const this;
-	todo("implement");
-	bool __result = _sub_10874AF0(this);
-	return __result;
+
+	while (true)
+	{
+		if (++absolute_index >= (long)cache->m_tags.size())
+			return false;
+
+		tag_index = const_cast<c_cache_file_tag_cache *>(cache)->m_absolute_index_to_index.at(absolute_index);
+		instance = &const_cast<c_cache_file_tag_cache *>(cache)->m_tags.at(absolute_index);
+		group = instance->group;
+		if (group_tag_filter == -1 || group_tag_filter == group.tags[0] || group_tag_filter == group.tags[1] || group_tag_filter == group.tags[2])
+			break;
+	}
+	return true;
 }
 
 /* ---------- private code */

@@ -132,6 +132,11 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+extern void (*const data_iterator_new)(s_data_iterator *, s_data_array const *);  // hades: added for 0x108380B0  // hades: added for 0x108380B0
+extern s_datum *(*const data_iterator_next)(s_data_iterator *);  // hades: added for 0x108380B0  // hades: added for 0x108380B0
+extern s_object_data *object_get(unsigned long object_index);  // hades: added for 0x108380B0  // hades: added for 0x108380B0
+namespace Forge { namespace Selection { extern Forge::ObjectSet &GetSelection(); } }  // hades: added for 0x108380B0  // hades: added for 0x108380B0
+
 extern float (*const game_tick_length)();  // hades: added for 0x10838CB0
 
 /* ---------- globals */
@@ -168,31 +173,41 @@ namespace Forge
 		// procedure flags: nofpo
 		// function call : float (*const)()
 
-		Forge::colorAnimation = Forge::colorAnimation + game_tick_length() * 5.0f;
+		Forge::colorAnimation += game_tick_length() * 5.0f;
 		if (Forge::colorAnimation >= 6.2831855f)
 		{
 			Forge::colorAnimation = Forge::colorAnimation - 6.2831855f;
 		}
 	}
 
-	_extern void _sub_108383F0(real_argb_color *);
 	void CForgeVisionRenderer::GetVisionColors(real_argb_color *colors) // 0x108383F0
 	{
-		mangled_x86(MANGLED_TODO, "?GetVisionColors@CForgeVisionRenderer@Forge@@SAXPAUreal_argb_color@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetVisionColors@CForgeVisionRenderer@Forge@@SAXPAUreal_argb_color@@@Z");
 		// static ...; // 0x10838614
 		// static ...; // 0x10838608
 		// static ...; // 0x10838600
 		// real_argb_color *colors;
 		// real_argb_color color;
 		// function call : real_argb_color *(*const)(unsigned long, real_argb_color *)
-		todo("implement");
-		_sub_108383F0(colors);
+
+		real_argb_color color;
+		if (selectionColor == -1)
+		{
+			color.red = sinf(colorAnimation + 0.0f) * 0.5f + 0.5f;
+			color.green = sinf(colorAnimation + 2.0f) * 0.5f + 0.5f;
+			color.blue = sinf(colorAnimation + 4.0f) * 0.5f + 0.5f;
+		}
+		else
+		{
+			((real_argb_color *(*const)(unsigned long, real_argb_color *))0x5211C0)(selectionColor, &color);
+		}
+		colors[0] = { color.red, color.green, color.blue, 0.08f };
+		colors[1] = { color.red, color.green, color.blue, 0.15f };
 	}
 
-	_extern void _sub_108380B0(long, long, long, void const *, bool);
 	void CForgeVisionRenderer::Generate(long windowIndex, long playerIndex, long unitIndex, void const *windowData, bool pass) // 0x108380B0
 	{
-		mangled_x86(MANGLED_TODO, "?Generate@CForgeVisionRenderer@Forge@@SAXJJJPBX_N@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Generate@CForgeVisionRenderer@Forge@@SAXJJJPBX_N@Z");
 		// long playerIndex;
 		// long unitIndex;
 		// void const *windowData;
@@ -205,13 +220,9 @@ namespace Forge
 		// void (*const render_objects_visibility_pop_marker)();
 		// void (*const c_visible_items__pop_marker)();
 		// void (*const objects_render_shadows_generate)(long, long);
-		{
 			// long object_index;
 			// s_object_data *object;
-			{
 				// long vision_output_type;
-			}
-		}
 		// function call : void (*const)(s_data_iterator *, s_data_array const *)
 		// function call : s_datum *(*const)(s_data_iterator *)
 		// function call : void (*const)()
@@ -226,14 +237,50 @@ namespace Forge
 		// function call : e_surface (*const)(long, e_surface, long)
 		// function call : void (*const)()
 		// function call : void (*const)()
-		todo("implement");
-		_sub_108380B0(windowIndex, playerIndex, unitIndex, windowData, pass);
+
+		void (*const objects_render_shadows_generate)(long, long) = reinterpret_cast<void (*)(long, long)>(0xA78F00);
+		void (*const render_objects_visibility_push_marker)() = reinterpret_cast<void (*)()>(0xA78230);
+		void (*const render_objects_visibility_pop_marker)() = reinterpret_cast<void (*)()>(0xA781F0);
+		void (*const c_visible_items__push_marker)() = reinterpret_cast<void (*)()>(0x686FD0);
+		void (*const c_visible_items__pop_marker)() = reinterpret_cast<void (*)()>(0x686DE0);
+		void (*const render_visibility_add_object_to_items)(long, long, bool, bool) = reinterpret_cast<void (*)(long, long, bool, bool)>(0xA53160);
+		void (*const render_visible_objects)(unsigned long) = reinterpret_cast<void (*)(unsigned long)>(0xA7A510);
+		s_data_iterator iter;
+		data_iterator_new(&iter, (s_data_array const *)object_headers_get());
+		while (data_iterator_next(&iter))
+		{
+			long object_index = iter.current_datum_index;
+			if (!Forge::Selection::GetSelection().Contains(object_index))
+				continue;
+			s_object_data *object = object_get(object_index);
+			if (object)
+			{
+				c_visible_items__push_marker();
+				render_objects_visibility_push_marker();
+				render_visibility_add_object_to_items(object_index, windowIndex, false, true);
+				render_visible_objects(0);
+				long vision_output_type = 0;
+				if (pass)
+				{
+					((e_surface (*)(long, e_surface, long))0xA48E40)(1, (e_surface)59, -1);
+				}
+				else
+				{
+					((void (*)(long, unsigned char))0xA242E0)(18, (__int32)floorf((float)((float)vision_output_type * 255.0) * 0.25));
+					((e_surface (*)(long, e_surface, long))0xA48E40)(2, (e_surface)23, -1);
+				}
+				objects_render_shadows_generate(0, 1);
+				((e_surface (*)(long, e_surface, long))0xA48E40)(1, (e_surface)1, 0);
+				((e_surface (*)(long, e_surface, long))0xA48E40)(2, (e_surface)1, 0);
+				render_objects_visibility_pop_marker();
+				c_visible_items__pop_marker();
+			}
+		}
 	}
 
-	_extern void _sub_10838910(long, void *);
 	void CForgeVisionRenderer::Render(long windowIndex, void *view) // 0x10838910
 	{
-		mangled_x86(MANGLED_TODO, "?Render@CForgeVisionRenderer@Forge@@SAXJPAX@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Render@CForgeVisionRenderer@Forge@@SAXJPAX@Z");
 		// static ...; // 0x10838B80
 		// static ...; // 0x10838B78
 		// long windowIndex;
@@ -254,8 +301,36 @@ namespace Forge
 		// function call : void (*const)(s_hud_camera_globals *)
 		// function call : e_surface (*const)(long)
 		// function call : void (*const)(void *, long, void *, s_hud_camera_globals *)
-		todo("implement");
-		_sub_10838910(windowIndex, view);
+
+		void (__thiscall *const sub_14E3720)(void const *, float *) = reinterpret_cast<void (__thiscall *)(void const *, float *)>(0x14E3720);
+		void *(*const vision_mode_definition_get)() = reinterpret_cast<void *(*)()>(0x14E36D0);
+		void (__thiscall *const c_player_view__ctor)(void *) = reinterpret_cast<void (__thiscall *)(void *)>(0x60DC80);
+		void (__thiscall *const s_hud_camera_globals_initialize)(s_hud_camera_globals *) = reinterpret_cast<void (__thiscall *)(s_hud_camera_globals *)>(0xA2CBF0);
+		void (*const vision_mode_setup_camera_globals)(s_hud_camera_globals *) = reinterpret_cast<void (*)(s_hud_camera_globals *)>(0x14E3AE0);
+		void (__thiscall *const c_hud_camera_view__render)(void *, long, void *, s_hud_camera_globals *) = reinterpret_cast<void (__thiscall *)(void *, long, void *, s_hud_camera_globals *)>(0xA2D490);
+		*(long *)0x19995B4 = windowIndex;
+		*(float *)0x584BA50 = 12.0f;
+		s_vision_mode_globals *vision_mode_globals = *(s_vision_mode_globals **)tls_get(0x57C);
+		vision_mode_globals->player_vision_mode[0].vision_time = 0.0f;
+		vision_mode_globals->player_vision_mode[0].last_ping_parameters.distance = 0.0f;
+		vision_mode_globals->player_vision_mode[0].last_ping_parameters.through_walls_distance = 0.0f;
+		vision_mode_globals->player_vision_mode[0].last_ping_parameters.ping_interval = 0.0f;
+		vision_mode_globals->player_vision_mode[0].last_ping_parameters.ping_pulse_duration = 0.0f;
+		vision_mode_globals->player_vision_mode[0].last_ping_parameters.unknown_10 = 0.0f;
+		vision_mode_globals->player_vision_mode[0].ping_time = 100.0f;
+		vision_mode_globals->player_vision_mode[0].field_38 = 0.0f;
+		unsigned char hud_camera_view[10224];
+		c_player_view__ctor(hud_camera_view);
+		*(unsigned long *)hud_camera_view = 0x165E144;
+		sub_14E3720(vision_mode_definition_get(), (float *)&hud_camera_view[0x27D8]);
+		s_hud_camera_globals *hud_camera_globals = (s_hud_camera_globals *)&hud_camera_view[0x26B8];
+		s_hud_camera_globals_initialize(hud_camera_globals);
+		vision_mode_setup_camera_globals(hud_camera_globals);
+		hud_camera_globals->surface = ((e_surface (*const)(long))0xA48720)(0);
+		hud_camera_globals->maximum_distance = 100.0f;
+		hud_camera_globals->flags |= 0x40;
+		c_hud_camera_view__render(hud_camera_view, windowIndex, view, hud_camera_globals);
+		*(long *)0x19995B4 = -1;
 	}
 
 	long CForgeVisionRenderer::GetMaskBitmap(long *bitmapIndex) // 0x108383D0

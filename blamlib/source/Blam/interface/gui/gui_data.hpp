@@ -49,7 +49,8 @@ private:
 	s_disabled_element m_disabled_elements[32]; // 0x8
 	long m_disabled_element_count; // 0x108
 public:
-	virtual _inline ~c_gui_ordered_data(); /* compiler_generated() */
+	// mangled_x86(MANGLED_KNOWN_GOOD, "??1c_gui_ordered_data@@UAE@XZ"); defaulted on its declaration
+	// virtual _inline ~c_gui_ordered_data() = default; // 0x10f1c7b0 // hades: implicit
 	c_gui_ordered_data &operator=(c_gui_ordered_data &); /* compiler_generated() */
 	c_gui_ordered_data &operator=(c_gui_ordered_data const &); /* compiler_generated() */
 };

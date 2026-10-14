@@ -21,14 +21,16 @@ extern __int32 ustrnicmp(wchar_t const *string1, wchar_t const *string2, long co
 
 /* ---------- public code */
 
-_extern __int32 _sub_10F1AAC0(wchar_t const *, wchar_t const *, long);
 __int32 ustrnicmp(wchar_t const *string1, wchar_t const *string2, long count) // 0x10F1AAC0
 {
-	mangled_x86(MANGLED_TODO, "?ustrnicmp@@YAHPB_W0J@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ustrnicmp@@YAHPB_W0J@Z");
 	// long count;
-	todo("implement");
-	__int32 __result = _sub_10F1AAC0(string1, string2, count);
-	return __result;
+
+	#line 26 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\text\\unicode.cpp"
+		assert(string1 != NULL);
+		assert(string2 != NULL);
+		#line 33 "F:\\Project Hades\\Hades\\Source\\blamlib\\source\\Blam\\text\\unicode.cpp"
+	return _wcsnicmp(string1, string2, count);
 }
 
 /* ---------- private code */

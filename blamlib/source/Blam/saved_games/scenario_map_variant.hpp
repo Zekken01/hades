@@ -38,9 +38,9 @@ struct s_map_variant_placement_properties
 	float boundry_length; // 0xC
 	float boundry_top; // 0x10
 	float boundry_bottom; // 0x14
-	s_map_variant_placement_properties(s_map_variant_placement_properties &); /* compiler_generated() */
-	_inline s_map_variant_placement_properties(s_map_variant_placement_properties const &__that); /* compiler_generated() */
-	_inline s_map_variant_placement_properties() = default; /* compiler_generated() */
+	// s_map_variant_placement_properties(s_map_variant_placement_properties &); /* compiler_generated() */ // hades: implicit, so the struct is an aggregate
+	// _inline s_map_variant_placement_properties(s_map_variant_placement_properties const &__that); /* compiler_generated() */
+	// _inline s_map_variant_placement_properties() = default; /* compiler_generated() */
 	s_map_variant_placement_properties &operator=(s_map_variant_placement_properties &); /* compiler_generated() */
 	_inline s_map_variant_placement_properties &operator=(s_map_variant_placement_properties const &__that); /* compiler_generated() */
 };
@@ -50,7 +50,6 @@ static_assert(sizeof(s_map_variant_placement_properties) == 24, "Invalid s_map_v
 struct s_variant_datum
 {
 	c_flags<enum e_variant_object_placement_flags,unsigned short> flags; // 0x0
-	unsigned char __pad0[2]; // 0x2
 	long object_index; // 0x4
 	long editor_object_index; // 0x8
 	long quota_index; // 0xC

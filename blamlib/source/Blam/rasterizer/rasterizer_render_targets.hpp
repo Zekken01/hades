@@ -90,13 +90,11 @@ struct s_surface_group_description
 {
 	c_flags<enum e_surface_variant_flags,long> m_variant_flags; // 0x0
 	bool valid; // 0x4
-	unsigned char __pad0[3]; // 0x5
 	float depth_stencil_width; // 0x8
 	float depth_stencil_height; // 0xC
 	unsigned long depth_stencil_format; // 0x10
 	unsigned char __pad1[4]; // 0x14
 	bool srgb; // 0x18
-	unsigned char __pad2[3]; // 0x19
 	unsigned long multisample_type; // 0x1C
 	float surface_width; // 0x20
 	float surface_height; // 0x24

@@ -59,7 +59,7 @@ namespace Job
 
 namespace hades_file_local
 {
-	extern CJobManager jobManager; // 0x123AEE68
+	CJobManager jobManager; // 0x123AEE68  // hades: defined, so its dynamic initializer emits the constructor
 	extern bool initialized; // 0x123AEEF0
 }
 using namespace hades_file_local;
@@ -67,13 +67,15 @@ using namespace hades_file_local;
 
 namespace Job
 {
-	_extern void _sub_1086CEA0(std::function<enum EJobResult __cdecl(void)>, SJobCounter *, __int32);
 	void RunJob(std::function<enum EJobResult __cdecl(void)> function, SJobCounter *counter, __int32 priority) // 0x1086CEA0
 	{
-		mangled_x86(MANGLED_TODO, "?RunJob@Job@@YAXV?$function@$$A6A?AW4EJobResult@@XZ@std@@PAUSJobCounter@@H@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?RunJob@Job@@YAXV?$function@$$A6A?AW4EJobResult@@XZ@std@@PAUSJobCounter@@H@Z");
 		// __int32 priority;
-		todo("implement");
-		_sub_1086CEA0(function, counter, priority);
+
+		#line 72 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Job\\JobSystem.cpp"
+		assert(initialized);
+		#line 78 "C:\\Users\\zekken\\Desktop\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Job\\JobSystem.cpp"
+		jobManager.AddNewJob(function, priority, counter);
 	}
 
 	void Initialize() // 0x1086CE50
@@ -90,7 +92,7 @@ namespace Job
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Dispose@Job@@YAXXZ");
 		// procedure flags: nofpo
 
-		jobManager.Dispose();
+			jobManager.Dispose();
 	}
 }
 

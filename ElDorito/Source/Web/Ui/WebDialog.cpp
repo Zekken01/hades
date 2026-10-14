@@ -116,7 +116,6 @@ namespace hades_file_local
 	struct SDialogCallbackInfo
 	{
 		__int32 id; // 0x0
-		unsigned char __pad0[4]; // 0x4
 		std::function<void __cdecl(std::string const &)> callback; // 0x8
 		SDialogCallbackInfo(SDialogCallbackInfo &); /* compiler_generated() */
 		SDialogCallbackInfo(SDialogCallbackInfo const &); /* compiler_generated() */
@@ -133,12 +132,12 @@ namespace hades_file_local
 		std::string title; // 0x4
 		std::string body; // 0x20
 		std::string templateName; // 0x3C
-		SDialogQueueInfo(SDialogQueueInfo &); /* compiler_generated() */
-		SDialogQueueInfo(SDialogQueueInfo const &); /* compiler_generated() */
-		SDialogQueueInfo(); /* compiler_generated() */
-		~SDialogQueueInfo(); /* compiler_generated() */
-		SDialogQueueInfo &operator=(SDialogQueueInfo &); /* compiler_generated() */
-		SDialogQueueInfo &operator=(SDialogQueueInfo const &); /* compiler_generated() */
+		// SDialogQueueInfo(SDialogQueueInfo &&);  // hades: implicit /* compiler_generated() */
+		// SDialogQueueInfo(SDialogQueueInfo const &);  // hades: implicit /* compiler_generated() */
+		// SDialogQueueInfo();  // hades: implicit /* compiler_generated() */
+		// ~SDialogQueueInfo();  // hades: implicit /* compiler_generated() */
+		// SDialogQueueInfo &operator=(SDialogQueueInfo &&);  // hades: implicit /* compiler_generated() */  // hades: the PDB's `T &` is the move assignment (it moves the strings)
+		// SDialogQueueInfo &operator=(SDialogQueueInfo const &);  // hades: implicit /* compiler_generated() */
 	};
 	static_assert(sizeof(SDialogQueueInfo) == 88, "Invalid SDialogQueueInfo size");
 }
@@ -161,6 +160,8 @@ namespace hades_file_local
 }
 using namespace hades_file_local;
 /* ---------- prototypes */
+
+namespace Web { namespace Ui { namespace ScreenLayer { extern CEventSink<> BeforeReload; } } }  // hades: added for 0x10CA1CD0
 
 namespace Web
 {
@@ -197,10 +198,9 @@ namespace Web
 	{
 		namespace WebDialog
 		{
-			_extern void _sub_10CA1610(Web::Ui::ScreenLayer::SDialogShowParams const &);
 			void HandleDialogShowRequest(Web::Ui::ScreenLayer::SDialogShowParams const &params) // 0x10CA1610
 			{
-				mangled_x86(MANGLED_TODO, "?HandleDialogShowRequest@WebDialog@Ui@Web@@YAXABUSDialogShowParams@ScreenLayer@23@@Z");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?HandleDialogShowRequest@WebDialog@Ui@Web@@YAXABUSDialogShowParams@ScreenLayer@23@@Z");
 				// static ...; // 0x10CA1B61
 				// static ...; // 0x10CA1B54
 				// static ...; // 0x10CA1B4F
@@ -212,45 +212,122 @@ namespace Web
 				// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
 				// SDialogCallbackInfo callbackInfo;
 				// SDialogQueueInfo queueInfo;
-				{
 					// unsigned __int32 i;
+
+				for (unsigned __int32 i = 0; i < queueList.size(); i++)
+				{
+					if (params.templateName == "alert_template" && params.customTitle == queueList[i].title && params.customBody == queueList[i].body && params.templateName == queueList[i].templateName)
+					{
+						params.callback("ok");
+						return;
+					}
 				}
-				todo("implement");
-				_sub_10CA1610(params);
+				SDialogQueueInfo queueInfo;
+				queueInfo.id = idCounter;
+				queueInfo.title = params.customTitle;
+				queueInfo.body = params.customBody;
+				queueInfo.templateName = params.templateName;
+				queueList.push_back(queueInfo);
+				SDialogCallbackInfo callbackInfo;
+				callbackInfo.id = idCounter++;
+				callbackInfo.callback = params.callback;
+				callbacks.push(callbackInfo);
+				rapidjson::StringBuffer buff;
+				rapidjson::Writer<rapidjson::StringBuffer> writer(buff);
+				writer.StartObject();
+				writer.Key("native");
+				writer.Bool(true);
+				writer.Key("nativeId");
+				writer.Int(callbackInfo.id);
+				writer.Key("template");
+				writer.String(params.templateName.c_str());
+				writer.Key("data");
+				writer.StartObject();
+				if (!params.customTitle.empty())
+				{
+					writer.Key("title");
+					writer.String(params.customTitle.c_str());
+				}
+				if (!params.customBody.empty())
+				{
+					writer.Key("body");
+					writer.String(params.customBody.c_str());
+				}
+				if (!params.initialValue.empty())
+				{
+					writer.Key("initialValue");
+					writer.String(params.initialValue.c_str());
+				}
+				if (params.dialogHeight != 0)
+				{
+					writer.Key("dialogHeight");
+					writer.Double(params.dialogHeight);
+				}
+				if (params.maxLength != 0)
+				{
+					writer.Key("maxLength");
+					writer.Int(params.maxLength);
+				}
+				if (params.numRows != 0)
+				{
+					writer.Key("numRows");
+					writer.Int(params.numRows);
+				}
+				writer.EndObject();
+				writer.EndObject();
+				ScreenLayer::Notify("dialog", buff.GetString(), true);
 			}
 
-			_extern void _sub_10CA1CD0();
 			void Init() // 0x10CA1CD0
 			{
-				mangled_x86(MANGLED_TODO, "?Init@WebDialog@Ui@Web@@YAXXZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?Init@WebDialog@Ui@Web@@YAXXZ");
 				// procedure flags: nofpo
-				todo("implement");
-				_sub_10CA1CD0();
+
+				Web::Ui::ScreenLayer::BeforeReload.Subscribe(Clear);
+				Web::Ui::ScreenLayer::SetDialogHandler(HandleDialogShowRequest);
 			}
 
-			_extern void _sub_10CA1DE0(__int32, std::string const &);
+
 			void SubmitDialogResult(__int32 id, std::string const &result) // 0x10CA1DE0
-			{
-				mangled_x86(MANGLED_TODO, "?SubmitDialogResult@WebDialog@Ui@Web@@YAXHABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-				// static ...; // 0x10CA1FE4
-				// static ...; // 0x10CA1FDC
-				// __int32 id;
-				// std::string const &result;
-				// SDialogCallbackInfo nextCallback;
-				{
-					// unsigned __int32 i;
-				}
-				todo("implement");
-				_sub_10CA1DE0(id, result);
-			}
+			{ mangled_x86(MANGLED_TODO, "?SubmitDialogResult@WebDialog@Ui@Web@@YAXHABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
+				assert(!callbacks.empty());
+				SDialogCallbackInfo nextCallback = callbacks.front();
 
-			_extern void _sub_10CA15B0();
+				assert(nextCallback.id == id);
+				if (nextCallback.id != id)
+					return;
+				nextCallback.callback(result);
+				for (unsigned __int32 i = 0; i < queueList.size(); i++)
+				{
+					if (queueList.at(i).id == nextCallback.id)
+					{
+						// hades: the erase emits vector::begin, the iterator's operator+ and its
+						// (pointer, container) constructor (0x10CA0590) in this object
+						queueList.erase(queueList.begin() + i);
+						break;
+					}
+				}
+				callbacks.pop();
+			}
+			// hades: the PDB notes for SubmitDialogResult (statics at 0x10CA1FE4, 0x10CA1FDC; locals id,
+			// result, nextCallback and the loop's i) were moved here so its asserts sit on the original's
+			// lines relative to the opening brace; the file keeps its line count.
+
+
+
+
+
+
+
 			void Clear() // 0x10CA15B0
 			{
-				mangled_x86(MANGLED_TODO, "?Clear@WebDialog@Ui@Web@@YAXXZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?Clear@WebDialog@Ui@Web@@YAXXZ");
 				// procedure flags: nofpo
-				todo("implement");
-				_sub_10CA15B0();
+
+				while (!callbacks.empty())
+				{
+					callbacks.pop();
+				}
 			}
 		}
 	}
@@ -265,19 +342,19 @@ _inline SDialogCallbackInfo::SDialogCallbackInfo(SDialogCallbackInfo const &__th
 _inline SDialogCallbackInfo::SDialogCallbackInfo() = default; // 0x10CA0910
 
 // mangled_x86(MANGLED_DEFAULT, "??0SDialogQueueInfo@hades_file_local@@QAE@AAU01@@Z"); no body to assert in
-_inline SDialogQueueInfo::SDialogQueueInfo(SDialogQueueInfo &__that) = default; // 0x10CA0970
+// _inline SDialogQueueInfo::SDialogQueueInfo(SDialogQueueInfo &&__that) = default; // 0x10CA0970  // hades: implicit
 
 // mangled_x86(MANGLED_DEFAULT, "??0SDialogQueueInfo@hades_file_local@@QAE@ABU01@@Z"); no body to assert in
-_inline SDialogQueueInfo::SDialogQueueInfo(SDialogQueueInfo const &__that) = default; // 0x10CA0A40
+// _inline SDialogQueueInfo::SDialogQueueInfo(SDialogQueueInfo const &__that) = default; // 0x10CA0A40  // hades: implicit
 
 // mangled_x86(MANGLED_DEFAULT, "??0SDialogQueueInfo@hades_file_local@@QAE@XZ"); no body to assert in
-_inline SDialogQueueInfo::SDialogQueueInfo() = default; // 0x10CA0B50
+// _inline SDialogQueueInfo::SDialogQueueInfo() = default; // 0x10CA0B50  // hades: implicit
 
 
 // mangled_x86(MANGLED_DEFAULT, "??1SDialogQueueInfo@hades_file_local@@QAE@XZ"); no body to assert in
-_inline SDialogQueueInfo::~SDialogQueueInfo() = default; // 0x10CA0FA0
+// _inline SDialogQueueInfo::~SDialogQueueInfo() = default; // 0x10CA0FA0  // hades: implicit
 
-_inline SDialogQueueInfo &SDialogQueueInfo::operator=(SDialogQueueInfo &__that) = default; // 0x10CA1010
+// _inline SDialogQueueInfo &SDialogQueueInfo::operator=(SDialogQueueInfo &&__that) = default; // 0x10CA1010  // hades: implicit
 
 /* ---------- explicit instantiations */
 template class std::_Vector_const_iterator<std::_Vector_val<std::_Simple_types<SDialogQueueInfo> > >;

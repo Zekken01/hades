@@ -78,12 +78,11 @@ namespace Player
 		bool Initialize();
 		std::pair<int,int> FindPlayerModelPermutation(s_model_customization_selection const &selection, std::string const &regionName, std::string const &permutationName);
 		__int32 FindPlayerModel(std::string const &characterName);
-		bool m_initialized; // 0x0
-		bool m_ignoreSession; // 0x1
-		unsigned char __pad0[2]; // 0x2
+		bool m_initialized = false; // 0x0
+		bool m_ignoreSession = false; // 0x1
 		std::shared_ptr<Blam::Cache::StringIDCache> m_stringCache; // 0x4
-		s_multiplayer_globals_definition *m_mulg; // 0xC
-		s_mod_globals_definition *m_modg; // 0x10
+		s_multiplayer_globals_definition *m_mulg = nullptr; // 0xC
+		s_mod_globals_definition *m_modg = nullptr; // 0x10
 		std::vector<char> m_mulgData; // 0x14
 		std::vector<char> m_modgData; // 0x24
 		SBaseCacheReference m_actualBaseCache; // 0x34

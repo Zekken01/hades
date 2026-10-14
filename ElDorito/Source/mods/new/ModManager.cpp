@@ -28,6 +28,8 @@
 #include "mods/new/ModSessionManager.hpp"
 #include "mods/tag_name_dictionary.hpp"
 
+#include "mods/mod_system.hpp"  // hades: added for 0x10792110
+
 #include <Windows.h>
 #include <stdio.h>
 #include <sys/stat.h>
@@ -109,10 +111,9 @@ ModManager::~ModManager() // 0x10791490
 	// ModManager *const this;
 }
 
-extern EModResult _sub_10792110(ModManager *const, EModIndex, char const *, bool);
 EModResult ModManager::SetMod(EModIndex index, char const *filename, bool async) // 0x10792110
 {
-	mangled_x86(MANGLED_TODO, "?SetMod@ModManager@@UAE?AW4EModResult@@W4EModIndex@@PBD_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SetMod@ModManager@@UAE?AW4EModResult@@W4EModIndex@@PBD_N@Z");
 	// static ...; // 0x10792410
 	// static ...; // 0x10792408
 	// ModManager *const this;
@@ -121,18 +122,41 @@ EModResult ModManager::SetMod(EModIndex index, char const *filename, bool async)
 	// bool async;
 	// Mod const *oldMod;
 	// EModResult result;
-	{
 		// std::string path;
 		// std::string file_name;
 		// Ref<Mod> mod;
 		// c_mod_package_manager &package_manager;
 		// unsigned __int32 lastSeparatorIndex;
-	}
 	// function call : char const *() const
 	// function call : EModResult () const
-	todo("implement");
-	EModResult __result = _sub_10792110(this, index, filename, async);
-	return __result;
+
+	#line 116 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\new\\ModManager.cpp"
+		assert(IsMainThread());
+		#line 136 "C:\\Users\\zekken\\Desktop\\Project Hades\\Hades\\Source\\ElDorito\\Source\\mods\\new\\ModManager.cpp"
+	EModResult result = kUnknownError;
+	Mod const *oldMod = m_mods[index];
+	if (!filename)
+	{
+		if (!oldMod)
+			return kSuccess;
+		m_mods[index] = nullptr;
+		result = kSuccess;
+	}
+	else
+	{
+		if (oldMod && !strcmp(oldMod->GetFilename(), filename) && oldMod->GetError() == kSuccess)
+			return kSuccess;
+		Ref<Mod> const mod = new Mod(this, index, filename);
+		m_mods[index] = mod;
+		result = mod->Load(async && true);
+		c_mod_package_manager &package_manager = c_mod_system::get_package_manager();
+		std::string path = filename;
+		unsigned __int32 lastSeparatorIndex = path.find_last_of("\\");
+		std::string file_name = path.substr(lastSeparatorIndex + 1);
+		package_manager.touch_package(file_name.c_str());
+	}
+	m_listeners.Notify(&IModListener::OnModChanged, index, m_mods[index]);
+	return result;
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0IClient@Mod@@QAE@XZ"); no body to assert in
@@ -141,42 +165,56 @@ EModResult ModManager::SetMod(EModIndex index, char const *filename, bool async)
 
 // mangled_x86(MANGLED_DEFAULT, "??0ModListenerSet@@QAE@XZ"); no body to assert in
 
-extern EModResult _sub_10792520(ModManager *const, EModIndex, __int32, bool);
 EModResult ModManager::SetModCache(EModIndex index, __int32 cacheIndex, bool async) // 0x10792520
 {
-	mangled_x86(MANGLED_TODO, "?SetModCache@ModManager@@UAE?AW4EModResult@@W4EModIndex@@H_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SetModCache@ModManager@@UAE?AW4EModResult@@W4EModIndex@@H_N@Z");
 	// ModManager *const this;
 	// EModIndex index;
 	// __int32 cacheIndex;
 	// bool async;
 	// EModResult result;
-	{
 		// Mod *mod;
-	}
 	// function call : EModResult () const
-	todo("implement");
-	EModResult __result = _sub_10792520(this, index, cacheIndex, async);
-	return __result;
+
+	#line 170 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\new\\ModManager.cpp"
+		assert(IsMainThread());
+		#line 182 "C:\\Users\\zekken\\Desktop\\Project Hades\\Hades\\Source\\ElDorito\\Source\\mods\\new\\ModManager.cpp"
+	EModResult result = kUnknownError;
+	if (Mod *mod = m_mods[index])
+	{
+		if (mod->GetCacheIndex() == cacheIndex)
+		{
+			return mod->GetError();
+		}
+
+		result = mod->LoadCache(cacheIndex, async && true);
+		m_listeners.Notify(&IModListener::OnModCacheChanged, index, mod);
+	}
+	else
+	{
+		result = kNoModSet;
+	}
+
+	return result;
 }
 
-extern Ref<IMod> _sub_10791D90(ModManager const *const, EModIndex);
 Ref<IMod> ModManager::GetModShared(EModIndex index) const // 0x10791D90
 {
-	mangled_x86(MANGLED_TODO, "?GetModShared@ModManager@@UBE?AV?$Ref@VIMod@@@@W4EModIndex@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetModShared@ModManager@@UBE?AV?$Ref@VIMod@@@@W4EModIndex@@@Z");
 	// EModIndex index;
-	todo("implement");
-	Ref<IMod> __result = _sub_10791D90((ModManager const *)this, index);
-	return __result;
+
+	return m_mods[index];
 }
 
-extern IMod *_sub_10791CF0(ModManager const *const, EModIndex);
 IMod *ModManager::GetMod(EModIndex index) const // 0x10791CF0
 {
-	mangled_x86(MANGLED_TODO, "?GetMod@ModManager@@UBEPAVIMod@@W4EModIndex@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetMod@ModManager@@UBEPAVIMod@@W4EModIndex@@@Z");
 	// EModIndex index;
-	todo("implement");
-	IMod * __result = _sub_10791CF0((ModManager const *)this, index);
-	return __result;
+
+	#line 212 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\new\\ModManager.cpp"
+		assert(IsMainThread() && "Use GetModShared() for threads other than the main thread");
+		#line 217 "F:\\Project Hades\\Hades\\Source\\ElDorito\\Source\\mods\\new\\ModManager.cpp"
+	return m_mods[index].Get();
 }
 
 void ModManager::AddListener(IModListener *listener) // 0x10791C50
@@ -219,14 +257,13 @@ void ModManager::Tick() // 0x107926C0
 	m_sessionManager.Tick();
 }
 
-_extern void _sub_10791EA0(Mod::IClient * const, Mod *);
 void ModManager::OnModLoadStateChanged(Mod *mod) // 0x10791EA0
 {
-	mangled_x86(MANGLED_TODO, "?OnModLoadStateChanged@ModManager@@EAEXPAVMod@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnModLoadStateChanged@ModManager@@EAEXPAVMod@@@Z");
 	// __shifted(ModManager, 4);
 	// Mod *mod;
-	todo("implement");
-	_sub_10791EA0((Mod::IClient *)this, mod);
+
+	m_listeners.Notify(&IModListener::OnModLoadStateChangedAsync, mod->GetIndex(), mod);
 }
 
 /* ---------- private code */

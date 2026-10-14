@@ -17,6 +17,8 @@
 
 /* ---------- prototypes */
 
+namespace Utils { namespace FileUtils { char const *GetName(char const *filename); } }  // hades: added for 0x1068F570  // hades: added for 0x1068F570
+
 namespace Utils
 {
 	namespace ProcessUtils
@@ -30,7 +32,7 @@ namespace Utils
 
 /* ---------- public code */
 
-extern HINSTANCE__ *_sub_1068F4D0(void *);
+
 namespace Utils
 {
 	namespace ProcessUtils
@@ -53,23 +55,25 @@ namespace Utils
 	}
 }
 
-extern std::string _sub_1068F570(HINSTANCE__ *);
+
 namespace Utils
 {
 	namespace ProcessUtils
 	{
 		_inline std::string GetModuleNameForDisplay(HINSTANCE__ *hMod) // 0x1068F570
 		{
-			mangled_x86(MANGLED_TODO, "?GetModuleNameForDisplay@ProcessUtils@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAUHINSTANCE__@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetModuleNameForDisplay@ProcessUtils@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAUHINSTANCE__@@@Z");
 			// static ...; // 0x1068F660
 			// static ...; // 0x1068F654
 			// static ...; // 0x1068F64C
 			// HINSTANCE__ *hMod;
 			// char modulePath[520];
 			// function call : unsigned long (HINSTANCE__ *, char *, unsigned long)
-			todo("implement");
-			std::string __result = _sub_1068F570(hMod);
-			return __result;
+
+			char modulePath[520];
+			if (!GetModuleFileNameA(hMod, modulePath, std::size(modulePath)))
+				return "??";
+			return Utils::FileUtils::GetName(modulePath);
 		}
 	}
 }

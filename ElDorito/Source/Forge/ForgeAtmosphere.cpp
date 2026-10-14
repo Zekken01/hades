@@ -66,12 +66,11 @@ namespace hades_file_local
 	#pragma pack(push, 4)
 	struct ForgeAtmosphereState
 	{
-		bool Enabled; // 0x0
-		unsigned char __pad0[3]; // 0x1
-		real_rgb_color FogColor; // 0x4
-		float FogDensity; // 0x10
-		float FogVisibility; // 0x14
-		float Brightness; // 0x18
+		bool Enabled = false; // 0x0
+		real_rgb_color FogColor = {}; // 0x4
+		float FogDensity = 0.0f; // 0x10
+		float FogVisibility = 0.0f; // 0x14
+		float Brightness = 0.0f; // 0x18
 		// hades: the generator declared `ForgeAtmosphereState();` here. Nothing
 		// defines it, the inventory has no address for it, and declaring a
 		// constructor is what stops this being an aggregate - so `state = {}`
@@ -98,22 +97,30 @@ using namespace hades_file_local;
 
 namespace Forge
 {
-	_extern void _sub_1067F930();
 	void CForgeAtmosphere::InitializeForNewMap() // 0x1067F930
 	{
-		mangled_x86(MANGLED_TODO, "?InitializeForNewMap@CForgeAtmosphere@Forge@@SAXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeForNewMap@CForgeAtmosphere@Forge@@SAXXZ");
 		// procedure flags: nofpo
-		todo("implement");
-		_sub_1067F930();
+
+		state = {};
 	}
 
-	_extern void _sub_1067FEA0(long, Forge::ForgeMapModifierProperties &);
 	void CForgeAtmosphere::Update(long mapModifierIndex, Forge::ForgeMapModifierProperties &mapModifierProperties) // 0x1067FEA0
 	{
-		mangled_x86(MANGLED_TODO, "?Update@CForgeAtmosphere@Forge@@SAXJAAUForgeMapModifierProperties@2@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CForgeAtmosphere@Forge@@SAXJAAUForgeMapModifierProperties@2@@Z");
 		// Forge::ForgeMapModifierProperties &mapModifierProperties;
-		todo("implement");
-		_sub_1067FEA0(mapModifierIndex, mapModifierProperties);
+
+		state.Enabled = false;
+		if (mapModifierProperties.AtmosphereProperties.Flags & 1)
+		{
+			state.Enabled = true;
+			state.FogColor.red = mapModifierProperties.AtmosphereProperties.FogColorR / 255.0f;
+			state.FogColor.green = mapModifierProperties.AtmosphereProperties.FogColorG / 255.0f;
+			state.FogColor.blue = mapModifierProperties.AtmosphereProperties.FogColorB / 255.0f;
+			state.FogDensity = mapModifierProperties.AtmosphereProperties.FogDensity / 255.0f * 200.0f;
+			state.FogVisibility = mapModifierProperties.AtmosphereProperties.FogVisibility / 255.0f * 200.0f;
+			state.Brightness = mapModifierProperties.AtmosphereProperties.Brightness / 255.0f * 4.0f;
+		}
 	}
 
 	void CForgeAtmosphere::HandleMapModifierDeleted() // 0x1067F910
@@ -124,10 +131,9 @@ namespace Forge
 		state.Enabled = false;
 	}
 
-	_extern bool _sub_1067F9D0(s_cluster_reference, s_weighted_atmosphere_parameters *);
 	bool CForgeAtmosphere::OverrideSkyAtmosphereSettings(s_cluster_reference cluster_reference, s_weighted_atmosphere_parameters *parameters) // 0x1067F9D0
 	{
-		mangled_x86(MANGLED_TODO, "?OverrideSkyAtmosphereSettings@CForgeAtmosphere@Forge@@SA_NUs_cluster_reference@@PAUs_weighted_atmosphere_parameters@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?OverrideSkyAtmosphereSettings@CForgeAtmosphere@Forge@@SA_NUs_cluster_reference@@PAUs_weighted_atmosphere_parameters@@@Z");
 		// static ...; // 0x1067FD88
 		// static ...; // 0x1067FD80
 		// s_cluster_reference cluster_reference;
@@ -137,9 +143,40 @@ namespace Forge
 		// c_atmosphere_setting temp_setting;
 		// function call : void *(*const)(unsigned long, long)
 		// function call : void (*const)(s_cluster_reference, c_atmosphere_setting *, s_weighted_atmosphere_parameters *, float)
-		todo("implement");
-		bool __result = _sub_1067F9D0(cluster_reference, parameters);
-		return __result;
+
+		if (!state.Enabled)
+			return false;
+		c_sky_atm_parameters *skya = (c_sky_atm_parameters *)tag_get('skya', global_scenario_get()->sky_parameters.index);
+		if (!skya)
+			return false;
+		if (!skya->atmosphere_settings.count)
+			return false;
+		c_atmosphere_setting const &template_setting = skya->atmosphere_settings[0];
+		c_atmosphere_setting temp_setting = {};
+		temp_setting.flags = 7;
+		temp_setting.pitch = template_setting.pitch;
+		temp_setting.heading = template_setting.heading;
+		temp_setting.color = state.FogColor;
+		temp_setting.intensity = state.Brightness;
+		temp_setting.sea_level = -100.0f + state.FogVisibility;
+		temp_setting.rayleign_height_scale = 100.0f;
+		temp_setting.mie_height_scale = 25.0f;
+		temp_setting.rayleigh_multiplier = 0.08f;
+		temp_setting.mie_multiplier = 2.5f;
+		temp_setting.sun_phase_function = template_setting.sun_phase_function;
+		temp_setting.de_saturation = 1.0f;
+		temp_setting.distance_bias = -100.0f + state.FogDensity;
+		temp_setting.max_fog_thickness = 65535.0f;
+		temp_setting.beta_m = { 0.0009897007f, 0.0009897007f, 0.0009897007f };
+		temp_setting.beta_p = { 0.1970554f, 0.1970554f, 0.1970554f };
+		temp_setting.beta_m_theta_prefix = { 6.008439e-05f, 6.008439e-05f, 6.008439e-05f };
+		temp_setting.beta_p_theta_prefix = { 0.04638588f, 0.04638588f, 0.04638588f };
+		temp_setting.sheet_density = template_setting.sheet_density;
+		temp_setting.full_intensity_height = template_setting.full_intensity_height;
+		temp_setting.half_intensity_height = template_setting.half_intensity_height;
+		temp_setting.wind_direction = template_setting.wind_direction;
+		((void (*const)(s_cluster_reference, c_atmosphere_setting *, s_weighted_atmosphere_parameters *, float))0x671D90)(cluster_reference, &temp_setting, parameters, 1.0f);
+		return true;
 	}
 }
 

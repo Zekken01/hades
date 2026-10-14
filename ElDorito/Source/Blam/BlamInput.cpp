@@ -236,7 +236,7 @@ namespace Blam
 	}
 }
 
-extern char const *_sub_1092A950(Blam::Input::KeyCode);
+
 namespace Blam
 {
 	namespace Input
@@ -273,13 +273,22 @@ namespace Blam
 			return (Blam::Input::PlayerInputState *)0x244D1F0 + localPlayerIndex;
 		}
 
-		extern VirtualKeyboard* _sub_1092A660(Blam::Input::VirtualKeyboard *const, char const *, __int32, __int32, __int32, __int32, __int32, __int32, __int32, __int32);
 		VirtualKeyboard::VirtualKeyboard(char const *file, __int32 line, __int32 arg2, __int32 arg3, __int32 arg4, __int32 arg5, __int32 maxLength, __int32 arg7, __int32 arg8) // 0x1092A660
 		{
-			mangled_x86(MANGLED_TODO, "??0VirtualKeyboard@Input@Blam@@QAE@PBDHHHHHHHH@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0VirtualKeyboard@Input@Blam@@QAE@PBDHHHHHHHH@Z");
 			// __int32 arg8;
-			todo("implement");
-			_sub_1092A660(this, file, line, arg2, arg3, arg4, arg5, maxLength, arg7, arg8);
+
+			Unknown4 = 0;
+			State = eVirtualKeyboardStateClosed;
+			Unknown8 = 0;
+			UnknownC = 0;
+			Unknown10 = 0;
+			Unknown14 = 0;
+			memset(Value, 0, sizeof(Value));
+			memset(DefaultValue, 0, sizeof(DefaultValue));
+			memset(Title, 0, sizeof(Title));
+			memset(Description, 0, sizeof(Description));
+			MaxLength = Utils::Clamp(maxLength, 0, 256);
 		}
 
 		__int32 VirtualKeyboard::Stub0() // 0x1092AFC0

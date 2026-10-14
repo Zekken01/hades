@@ -106,18 +106,17 @@ namespace Web
 
 /* ---------- public code */
 
-extern scoped_refptr<CefResourceHandler> _sub_10CB67C0(Web::Browser::WebEmblemSchemeHandlerFactory *const, scoped_refptr<CefBrowser>, scoped_refptr<CefFrame>, CefStringBase<CefStringTraitsUTF16> const &, scoped_refptr<CefRequest>);
+
 namespace Web
 {
 	namespace Browser
 	{
 		scoped_refptr<CefResourceHandler> WebEmblemSchemeHandlerFactory::Create(scoped_refptr<CefBrowser> browser, scoped_refptr<CefFrame> frame, CefStringBase<CefStringTraitsUTF16> const &scheme, scoped_refptr<CefRequest> request) // 0x10CB67C0
 		{
-			mangled_x86(MANGLED_TODO, "?Create@WebEmblemSchemeHandlerFactory@Browser@Web@@MAE?AV?$scoped_refptr@VCefResourceHandler@@@@V?$scoped_refptr@VCefBrowser@@@@V?$scoped_refptr@VCefFrame@@@@ABV?$CefStringBase@UCefStringTraitsUTF16@@@@V?$scoped_refptr@VCefRequest@@@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Create@WebEmblemSchemeHandlerFactory@Browser@Web@@MAE?AV?$scoped_refptr@VCefResourceHandler@@@@V?$scoped_refptr@VCefBrowser@@@@V?$scoped_refptr@VCefFrame@@@@ABV?$CefStringBase@UCefStringTraitsUTF16@@@@V?$scoped_refptr@VCefRequest@@@@@Z");
 			// scoped_refptr<CefRequest> request;
-			todo("implement");
-			scoped_refptr<CefResourceHandler> __result = _sub_10CB67C0(this, browser, frame, scheme, request);
-			return __result;
+
+			return new WebEmblemResourceHandler();
 		}
 
 	}

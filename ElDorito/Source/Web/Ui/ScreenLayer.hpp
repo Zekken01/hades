@@ -9,7 +9,6 @@
 #include "Audio/AudioDeviceManager.hpp"
 #include "ChatCommands/ChatCommandMap.hpp"
 #include "Common/Http/HttpHeaders.hpp"
-#include "Download/HttpFileDownload.hpp"
 #include "Patches/CustomPackets.hpp"
 #include "Patches/Ui.hpp"
 
@@ -90,9 +89,9 @@ namespace Web
 				std::string customBody; // 0x48
 				std::string customTitle; // 0x64
 				std::string initialValue; // 0x80
-				short maxLength; // 0x9C
-				short numRows; // 0x9E
-				float dialogHeight; // 0xA0
+				short maxLength = 0; // 0x9C
+				short numRows = 0; // 0x9E
+				float dialogHeight = 0.0f; // 0xA0
 				SDialogShowParams(Web::Ui::ScreenLayer::SDialogShowParams &); /* compiler_generated() */
 				SDialogShowParams(Web::Ui::ScreenLayer::SDialogShowParams const &); /* compiler_generated() */
 				_inline SDialogShowParams() = default; /* compiler_generated() */

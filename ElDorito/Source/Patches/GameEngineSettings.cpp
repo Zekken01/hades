@@ -189,7 +189,7 @@ namespace hades_file_local
 	public:
 		ModListener(ModListener &); /* compiler_generated() */
 		ModListener(ModListener const &); /* compiler_generated() */
-		ModListener(); /* compiler_generated() */
+		ModListener() = default; /* compiler_generated() */
 		virtual ~ModListener() = default; /* compiler_generated() */
 		ModListener &operator=(ModListener &); /* compiler_generated() */
 		ModListener &operator=(ModListener const &); /* compiler_generated() */
@@ -198,6 +198,12 @@ namespace hades_file_local
 }
 using namespace hades_file_local;
 /* ---------- prototypes */
+
+s_game_globals *game_globals_get();  // hades: added for 0x10AA7A20
+extern void *(*const tag_get)(unsigned long, long);  // hades: added for 0x10AA7A20
+
+extern long (*const game_time_get)();  // hades: added for 0x10AA6AB0
+extern float (*const game_ticks_to_seconds)(float);  // hades: added for 0x10AA6AB0
 
 namespace Patches
 {
@@ -257,9 +263,9 @@ extern c_game_variant *(*const game_engine_get_variant)(); // 0x11248CB0
 namespace hades_file_local
 {
 	extern bool g_player_model_proxy_dirty; // 0x113547A0
-	extern c_user_interface_player_model_text_value_pair_proxy g_player_model_options_proxy; // 0x124648E8
-	extern c_user_interface_player_model_set_text_value_pair_proxy g_player_model_set_options_proxy; // 0x12464A48
 	extern c_user_interface_mods_player_character_data g_player_characte_data; // 0x12464BA8
+	c_user_interface_player_model_text_value_pair_proxy g_player_model_options_proxy(&g_player_characte_data); // 0x124648E8
+	c_user_interface_player_model_set_text_value_pair_proxy g_player_model_set_options_proxy(&g_player_characte_data); // 0x12464A48
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -268,7 +274,7 @@ namespace Patches
 {
 	namespace GameEngineSettings
 	{
-		_extern void _sub_10A9EA80();
+
 		void ApplyAll() // 0x10A9EA80
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@GameEngineSettings@Patches@@YAXXZ");
@@ -351,8 +357,8 @@ namespace Patches
 			Hook(0x7200C4, text_value_pair_definition_try_and_get_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x720111, text_value_pair_definition_try_and_get_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x71FED8, text_value_pair_definition_try_and_get_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
-			Pointer(0x16A50AC).Write<unsigned long>(0x0);
-			Pointer(0x16A5028).Write<unsigned long>(0x0);
+			Pointer(0x16A50AC).Write<unsigned long>(reinterpret_cast<unsigned long>(c_gui_screen_game_options__get_string_value_hook));
+			Pointer(0x16A5028).Write<unsigned long>(reinterpret_cast<unsigned long>(c_gui_screen_game_options__begin_transition_hook));
 			Hook(0x70C975, gui_screen_game_options_set_variant_parameter_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			c_mod_system::GetModManager().AddListener(new ModListener());
 		}
@@ -558,9 +564,9 @@ void __fastcall c_player_trait_sensors__set_hook(c_player_trait_sensors *thisptr
 	thisptr->set(traits, can_inherit);
 }
 
-_extern void _sub_10AA6710(long, c_player_trait_extended const *);
 void game_engine_apply_extended_traits(long player_index, c_player_trait_extended const *traits) // 0x10AA6710
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_apply_extended_traits@@YAXJPBUc_player_trait_extended@@@Z");
 	// `anonymous-namespace'::game_engine_apply_extended_traits
 	// static ...; // 0x10AA68E0
 	// static ...; // 0x10AA68D8
@@ -568,17 +574,43 @@ void game_engine_apply_extended_traits(long player_index, c_player_trait_extende
 	// c_player_trait_extended const *traits;
 	// s_player_datum *player;
 	// bool changed;
-	{
 		// unsigned long long const update_mask;
-	}
 	// function call : void (*const)(short, unsigned long long const *)
-	todo("implement");
-	_sub_10AA6710(player_index, traits);
+
+	bool changed = false;
+	s_player_datum *player = player_get(player_index);
+	if (!player)
+		return;
+	if (player->traits.extended.player_model != traits->player_model)
+	{
+		player->traits.extended.set_player_model_absolute_index(traits->player_model, false);
+		changed = true;
+	}
+	if (player->traits.extended.player_model_set != traits->player_model_set)
+	{
+		player->traits.extended.set_player_model_set_absolute_index(traits->player_model_set, false);
+		changed = true;
+	}
+	if (player->traits.extended.sprint_allowed != traits->sprint_allowed)
+	{
+		player->traits.extended.set_sprint_setting((c_player_trait_extended::e_sprint_setting)traits->sprint_allowed, false);
+		changed = true;
+	}
+	if (player->traits.extended.use_third_person_camera != traits->use_third_person_camera)
+	{
+		player->traits.extended.set_third_person_camera_setting((c_player_trait_extended::e_third_person_camera)traits->use_third_person_camera, false);
+		changed = true;
+	}
+	if (changed)
+	{
+		unsigned long long const update_mask = 0x100000;
+		((void (*const)(short, unsigned long long const *))0x4B26B0)((short)player_index, &update_mask);
+	}
 }
 
-_extern void _sub_10AA7A20(s_player_datum *, c_player_trait_weapons const *);
 void try_force_weapon_set(s_player_datum *player, c_player_trait_weapons const *traits) // 0x10AA7A20
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?try_force_weapon_set@@YAXPAUs_player_datum@@PBUc_player_trait_weapons@@@Z");
 	// `anonymous-namespace'::try_force_weapon_set
 	// static ...; // 0x10AA7BFC
 	// static ...; // 0x10AA7BF4
@@ -589,11 +621,9 @@ void try_force_weapon_set(s_player_datum *player, c_player_trait_weapons const *
 	// unsigned long unit_index;
 	// c_tag_block<s_multiplayer_universal_globals_definition> universal;
 	// s_multiplayer_globals_definition *multiplayer_globals;
-	{
 		// long secondary_tag_index;
 		// char pickup_value;
 		// long primary_tag_index;
-	}
 	// function call : bool (*const)()
 	// function call : void *(*const)(unsigned long, long)
 	// function call : long (*const)(short, long)
@@ -601,13 +631,34 @@ void try_force_weapon_set(s_player_datum *player, c_player_trait_weapons const *
 	// function call : void (*const)(long)
 	// function call : __int32 (*const)(long, long, long)
 	// function call : __int32 (*const)(long, long, long)
-	todo("implement");
-	_sub_10AA7A20(player, traits);
+
+	long (*const game_engine_weapon_item_definition_index_from_absolute_weapons_selection_block_index)(short, long) = reinterpret_cast<long (*)(short, long)>(0x5CECD0);
+	unsigned long unit_index = player->unit_index;
+	if (!player || unit_index == -1)
+		return;
+	if (player->game_engine_vehicle_use_timer != -1 || ((bool (*)())0x531B20)())
+		return;
+	s_game_globals *game_globals = game_globals_get();
+	s_multiplayer_globals_definition *multiplayer_globals = (s_multiplayer_globals_definition *)tag_get('mulg', game_globals->MultiplayerGlobals.index);
+	c_tag_block<s_multiplayer_universal_globals_definition> universal = multiplayer_globals->universal;
+	if (universal.count > 0 && universal->weapons.count > 0)
+	{
+		long primary_tag_index = game_engine_weapon_item_definition_index_from_absolute_weapons_selection_block_index(traits->initial_primary_weapon, 0);
+		long secondary_tag_index = game_engine_weapon_item_definition_index_from_absolute_weapons_selection_block_index(traits->initial_secondary_weapon, 1);
+		char pickup_value = player->traits.weapons.weapon_pickup;
+		player->traits.weapons.weapon_pickup = 1;
+		((void (*)(unsigned long))0xB3FAD0)(unit_index);
+		if (primary_tag_index != -1)
+			((void (*)(unsigned long, long, long))0x5CE210)(unit_index, primary_tag_index, 0);
+		if (secondary_tag_index != -1)
+			((void (*)(unsigned long, long, long))0x5CE210)(unit_index, secondary_tag_index, 0);
+		player->traits.weapons.weapon_pickup = pickup_value;
+	}
 }
 
-_extern void _sub_10AA6D70(long, c_player_trait_weapons const *);
 void game_engine_apply_weapons_traits_new(long player_index, c_player_trait_weapons const *traits) // 0x10AA6D70
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_apply_weapons_traits_new@@YAXJPBUc_player_trait_weapons@@@Z");
 	// `anonymous-namespace'::game_engine_apply_weapons_traits_new
 	// c_player_trait_weapons const *traits;
 	// s_player_datum *player;
@@ -615,16 +666,31 @@ void game_engine_apply_weapons_traits_new(long player_index, c_player_trait_weap
 	// short (*const weapon_get_multiplayer_type)(long);
 	// char og_init_primary;
 	// char og_init_secondary;
-	{
 		// unsigned long support_weapon_index;
-	}
 	// function call : void (*const)(long, c_player_trait_weapons const *)
 	// function call : char (*const)()
 	// function call : bool (*const)(long, long *, long *)
 	// function call : long (*const)(long, short)
 	// function call : short (*const)(long)
-	todo("implement");
-	_sub_10AA6D70(player_index, traits);
+
+	void (*const game_engine_apply_weapons_traits)(long, c_player_trait_weapons const *) = reinterpret_cast<void (*)(long, c_player_trait_weapons const *)>(0x5CBE20);
+	short (*const weapon_get_multiplayer_type)(long) = reinterpret_cast<short (*)(long)>(0xB62DB0);
+	s_player_datum *player = player_get(player_index);
+	char og_init_primary = player->traits.weapons.initial_primary_weapon;
+	char og_init_secondary = player->traits.weapons.initial_secondary_weapon;
+	game_engine_apply_weapons_traits(player_index, traits);
+	if (player->dead_timer || ((char (*)())0x5670E0)() || ((bool (*)(long, long *, long *))0x59A6F0)(player_index, nullptr, nullptr))
+		return;
+	if (og_init_primary != traits->initial_primary_weapon || og_init_secondary != traits->initial_secondary_weapon)
+	{
+		if (player->unit_index != -1)
+		{
+			unsigned long support_weapon_index = ((unsigned long (*)(long, long))0xB454D0)(player->unit_index, 2);
+			if (support_weapon_index != -1 && weapon_get_multiplayer_type(support_weapon_index))
+				return;
+		}
+		try_force_weapon_set(player, traits);
+	}
 }
 
 void game_engine_apply_player_traits_hook(long player_index, c_player_traits const *traits) // 0x10AA6980
@@ -678,9 +744,9 @@ void game_engine_apply_respawn_traits_hook(long player_index, c_player_traits *t
 	}
 }
 
-_extern void _sub_10AA6AB0(long, c_player_traits *);
 void game_engine_apply_powerup_traits_hook(long player_index, c_player_traits *traits) // 0x10AA6AB0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_apply_powerup_traits_hook@@YAXJPAUc_player_traits@@@Z");
 	// `anonymous-namespace'::game_engine_apply_powerup_traits_hook
 	// static ...; // 0x10AA6C14
 	// static ...; // 0x10AA6C0C
@@ -692,18 +758,35 @@ void game_engine_apply_powerup_traits_hook(long player_index, c_player_traits *t
 	// long seconds_active;
 	// constexpr void (*const `game_engine_apply_powerup_traits_hook'::`2'::game_engine_get_variant_powerup_traits)(unsigned char, c_player_traits *); // constant == 7757280
 	// long powerup_flavor;
-	{
 		// long i;
-	}
-	{
 		// c_player_traits desired_traits;
-	}
 	// function call : long (*const)()
 	// function call : float (*const)(float)
 	// function call : float (*const)(unsigned char)
 	// function call : void (*const)(unsigned char, c_player_traits *)
-	todo("implement");
-	_sub_10AA6AB0(player_index, traits);
+
+	static float (*const game_get_powerup_duration_in_seconds)(unsigned char) = reinterpret_cast<float (*)(unsigned char)>(0x765D60);
+	static void (*const game_engine_get_variant_powerup_traits)(unsigned char, c_player_traits *) = reinterpret_cast<void (*)(unsigned char, c_player_traits *)>(0x765DE0);
+	s_player_datum *player = player_get(player_index);
+	long most_recent_pickup_time = 0;
+	long powerup_flavor = -1;
+	for (long i = 0; i < 3; i++)
+	{
+		if (player->powerup_pickup_times[i] > most_recent_pickup_time)
+		{
+			most_recent_pickup_time = player->powerup_pickup_times[i];
+			powerup_flavor = i;
+		}
+	}
+	if (powerup_flavor == -1)
+		return;
+	long seconds_active = (long)game_ticks_to_seconds((float)(game_time_get() - most_recent_pickup_time));
+	if (game_get_powerup_duration_in_seconds((unsigned char)powerup_flavor) >= seconds_active)
+	{
+		c_player_traits desired_traits;
+		game_engine_get_variant_powerup_traits((unsigned char)powerup_flavor, &desired_traits);
+		traits->set(&desired_traits, false);
+	}
 }
 
 long game_variant_get_parameter_value_type(long parameter_type) // 0x10AA7790
@@ -725,9 +808,9 @@ long game_variant_get_parameter_value_type(long parameter_type) // 0x10AA7790
 	return ((long(__cdecl *)(long))0x5739a0)(parameter_type);
 }
 
-_extern bool _sub_10AA3BC0(c_game_variant *, void *, e_game_variant_parameter, char, unsigned long *);
 bool __fastcall c_game_variant__get_game_engine_setting_hook(c_game_variant *thisptr, void *unused, e_game_variant_parameter parameter_type, char value_type, unsigned long *out_value) // 0x10AA3BC0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_game_variant__get_game_engine_setting_hook@@YI_NPAUc_game_variant@@PAXW4e_game_variant_parameter@@DPAK@Z");
 	// `anonymous-namespace'::c_game_variant__get_game_engine_setting_hook
 // $LN84:
 // $LN83:
@@ -818,14 +901,275 @@ bool __fastcall c_game_variant__get_game_engine_setting_hook(c_game_variant *thi
 	// u_game_engine_variant *const variant;
 	// constexpr bool (*const `c_game_variant__get_game_engine_setting_hook'::`2'::get_game_engine_setting)(void *, e_game_variant_parameter, char, unsigned long *); // constant == 5719344
 	// function call : bool (*const)(void *, e_game_variant_parameter, char, unsigned long *)
-	todo("implement");
-	bool __result = _sub_10AA3BC0(thisptr, unused, parameter_type, value_type, out_value);
-	return __result;
+
+	u_game_engine_variant *const variant = (u_game_engine_variant *)thisptr->storage;
+	switch (parameter_type)
+	{
+	case _game_variant_parameter__extended__base_traits_player_model:
+		*out_value = variant->base.map_override_options.base_player_traits.extended.player_model;
+		return true;
+	case _game_variant_parameter__extended__respawn_traits_player_model:
+		*out_value = variant->base.respawn_options.player_traits.extended.player_model;
+		return true;
+	case _game_variant_parameter__extended__red_traits_player_model:
+		*out_value = variant->base.map_override_options.red_traits.extended.player_model;
+		return true;
+	case _game_variant_parameter__extended__blue_traits_player_model:
+		*out_value = variant->base.map_override_options.blue_traits.extended.player_model;
+		return true;
+	case _game_variant_parameter__extended__yellow_traits_player_model:
+		*out_value = variant->base.map_override_options.yellow_traits.extended.player_model;
+		return true;
+	case _game_variant_parameter__extended__slayer_leader_traits_player_model:
+		*out_value = variant->slayer.leader_traits.extended.player_model;
+		return true;
+	case _game_variant_parameter__extended__oddball_carrier_traits_player_model:
+		*out_value = variant->oddball.ball_carrier_traits.extended.player_model;
+		return true;
+	case _game_variant_parameter__extended__assault_carrier_traits_player_model:
+		*out_value = variant->assault.bomb_carrier_traits.extended.player_model;
+		return true;
+	case _game_variant_parameter__extended__ctf_carrier_traits_player_model:
+		*out_value = variant->ctf.flag_carrier_traits.extended.player_model;
+		return true;
+	case _game_variant_parameter__extended__juggernaut_carrier_traits_player_model:
+		*out_value = variant->juggernaut.juggernaut_traits.extended.player_model;
+		return true;
+	case _game_variant_parameter__extended__koth_hill_traits_player_model:
+		*out_value = variant->koth.hill_traits.extended.player_model;
+		return true;
+	case _game_variant_parameter__extended__infection_zombie_traits_player_model:
+		*out_value = variant->infection.infected_traits.extended.player_model;
+		return true;
+	case _game_variant_parameter__extended__infection_alpha_zombie_traits_player_model:
+		*out_value = variant->infection.alpha_traits.extended.player_model;
+		return true;
+	case _game_variant_parameter__extended__infection_haven_traits_player_model:
+		*out_value = variant->infection.haven_traits.extended.player_model;
+		return true;
+	case _game_variant_parameter__extended__infection_last_man_standing_traits_player_model:
+		*out_value = variant->infection.last_man_standing_traits.extended.player_model;
+		return true;
+	case _game_variant_parameter__extended__territories_defender_traits_player_model:
+		*out_value = variant->territories.defender_traits.extended.player_model;
+		return true;
+	case _game_variant_parameter__extended__territories_attacker_traits_player_model:
+		*out_value = variant->territories.attacker_traits.extended.player_model;
+		return true;
+	case _game_variant_parameter__extended__vip_defender_traits_player_model:
+		*out_value = variant->vip.vip_team_traits.extended.player_model;
+		return true;
+	case _game_variant_parameter__extended__vip_influence_traits_player_model:
+		*out_value = variant->vip.vip_proximity_traits.extended.player_model;
+		return true;
+	case _game_variant_parameter__extended__vip_vip_traits_player_model:
+		*out_value = variant->vip.vip_traits.extended.player_model;
+		return true;
+	case _game_variant_parameter__extended__editor_traits_player_model:
+		*out_value = variant->sandbox.editor_traits.extended.player_model;
+		return true;
+	case _game_variant_parameter__extended__base_traits_player_model_set:
+		*out_value = variant->base.map_override_options.base_player_traits.extended.player_model_set;
+		return true;
+	case _game_variant_parameter__extended__respawn_traits_player_model_set:
+		*out_value = variant->base.respawn_options.player_traits.extended.player_model_set;
+		return true;
+	case _game_variant_parameter__extended__red_traits_player_model_set:
+		*out_value = variant->base.map_override_options.red_traits.extended.player_model_set;
+		return true;
+	case _game_variant_parameter__extended__blue_traits_player_model_set:
+		*out_value = variant->base.map_override_options.blue_traits.extended.player_model_set;
+		return true;
+	case _game_variant_parameter__extended__yellow_traits_player_model_set:
+		*out_value = variant->base.map_override_options.yellow_traits.extended.player_model_set;
+		return true;
+	case _game_variant_parameter__extended__slayer_leader_traits_player_model_set:
+		*out_value = variant->slayer.leader_traits.extended.player_model_set;
+		return true;
+	case _game_variant_parameter__extended__oddball_carrier_traits_player_model_set:
+		*out_value = variant->oddball.ball_carrier_traits.extended.player_model_set;
+		return true;
+	case _game_variant_parameter__extended__assault_carrier_traits_player_model_set:
+		*out_value = variant->assault.bomb_carrier_traits.extended.player_model_set;
+		return true;
+	case _game_variant_parameter__extended__ctf_carrier_traits_player_model_set:
+		*out_value = variant->ctf.flag_carrier_traits.extended.player_model_set;
+		return true;
+	case _game_variant_parameter__extended__juggernaut_carrier_traits_player_model_set:
+		*out_value = variant->juggernaut.juggernaut_traits.extended.player_model_set;
+		return true;
+	case _game_variant_parameter__extended__koth_hill_traits_player_model_set:
+		*out_value = variant->koth.hill_traits.extended.player_model_set;
+		return true;
+	case _game_variant_parameter__extended__infection_zombie_traits_player_model_set:
+		*out_value = variant->infection.infected_traits.extended.player_model_set;
+		return true;
+	case _game_variant_parameter__extended__infection_alpha_zombie_traits_player_model_set:
+		*out_value = variant->infection.alpha_traits.extended.player_model_set;
+		return true;
+	case _game_variant_parameter__extended__infection_haven_traits_player_model_set:
+		*out_value = variant->infection.haven_traits.extended.player_model_set;
+		return true;
+	case _game_variant_parameter__extended__infection_last_man_standing_traits_player_model_set:
+		*out_value = variant->infection.last_man_standing_traits.extended.player_model_set;
+		return true;
+	case _game_variant_parameter__extended__territories_defender_traits_player_model_set:
+		*out_value = variant->territories.defender_traits.extended.player_model_set;
+		return true;
+	case _game_variant_parameter__extended__territories_attacker_traits_player_model_set:
+		*out_value = variant->territories.attacker_traits.extended.player_model_set;
+		return true;
+	case _game_variant_parameter__extended__vip_defender_traits_player_model_set:
+		*out_value = variant->vip.vip_team_traits.extended.player_model_set;
+		return true;
+	case _game_variant_parameter__extended__vip_influence_traits_player_model_set:
+		*out_value = variant->vip.vip_proximity_traits.extended.player_model_set;
+		return true;
+	case _game_variant_parameter__extended__vip_vip_traits_player_model_set:
+		*out_value = variant->vip.vip_traits.extended.player_model_set;
+		return true;
+	case _game_variant_parameter__extended__editor_traits_player_model_set:
+		*out_value = variant->sandbox.editor_traits.extended.player_model_set;
+		return true;
+	case _game_variant_parameter__extended__base_traits_sprint_allowed:
+		*out_value = variant->base.map_override_options.base_player_traits.extended.sprint_allowed;
+		return true;
+	case _game_variant_parameter__extended__respawn_traits_sprint_allowed:
+		*out_value = variant->base.respawn_options.player_traits.extended.sprint_allowed;
+		return true;
+	case _game_variant_parameter__extended__red_traits_sprint_allowed:
+		*out_value = variant->base.map_override_options.red_traits.extended.sprint_allowed;
+		return true;
+	case _game_variant_parameter__extended__blue_traits_sprint_allowed:
+		*out_value = variant->base.map_override_options.blue_traits.extended.sprint_allowed;
+		return true;
+	case _game_variant_parameter__extended__yellow_traits_sprint_allowed:
+		*out_value = variant->base.map_override_options.yellow_traits.extended.sprint_allowed;
+		return true;
+	case _game_variant_parameter__extended__slayer_leader_traits_sprint_allowed:
+		*out_value = variant->slayer.leader_traits.extended.sprint_allowed;
+		return true;
+	case _game_variant_parameter__extended__oddball_carrier_traits_sprint_allowed:
+		*out_value = variant->oddball.ball_carrier_traits.extended.sprint_allowed;
+		return true;
+	case _game_variant_parameter__extended__assault_carrier_traits_sprint_allowed:
+		*out_value = variant->assault.bomb_carrier_traits.extended.sprint_allowed;
+		return true;
+	case _game_variant_parameter__extended__ctf_carrier_traits_sprint_allowed:
+		*out_value = variant->ctf.flag_carrier_traits.extended.sprint_allowed;
+		return true;
+	case _game_variant_parameter__extended__juggernaut_carrier_traits_sprint_allowed:
+		*out_value = variant->juggernaut.juggernaut_traits.extended.sprint_allowed;
+		return true;
+	case _game_variant_parameter__extended__koth_hill_traits_sprint_allowed:
+		*out_value = variant->koth.hill_traits.extended.sprint_allowed;
+		return true;
+	case _game_variant_parameter__extended__infection_zombie_traits_sprint_allowed:
+		*out_value = variant->infection.infected_traits.extended.sprint_allowed;
+		return true;
+	case _game_variant_parameter__extended__infection_alpha_zombie_traits_sprint_allowed:
+		*out_value = variant->infection.alpha_traits.extended.sprint_allowed;
+		return true;
+	case _game_variant_parameter__extended__infection_haven_traits_sprint_allowed:
+		*out_value = variant->infection.haven_traits.extended.sprint_allowed;
+		return true;
+	case _game_variant_parameter__extended__infection_last_man_standing_traits_sprint_allowed:
+		*out_value = variant->infection.last_man_standing_traits.extended.sprint_allowed;
+		return true;
+	case _game_variant_parameter__extended__territories_defender_traits_sprint_allowed:
+		*out_value = variant->territories.defender_traits.extended.sprint_allowed;
+		return true;
+	case _game_variant_parameter__extended__territories_attacker_traits_sprint_allowed:
+		*out_value = variant->territories.attacker_traits.extended.sprint_allowed;
+		return true;
+	case _game_variant_parameter__extended__vip_defender_traits_sprint_allowed:
+		*out_value = variant->vip.vip_team_traits.extended.sprint_allowed;
+		return true;
+	case _game_variant_parameter__extended__vip_influence_traits_sprint_allowed:
+		*out_value = variant->vip.vip_proximity_traits.extended.sprint_allowed;
+		return true;
+	case _game_variant_parameter__extended__vip_vip_traits_sprint_allowed:
+		*out_value = variant->vip.vip_traits.extended.sprint_allowed;
+		return true;
+	case _game_variant_parameter__extended__editor_traits_sprint_allowed:
+		*out_value = variant->sandbox.editor_traits.extended.sprint_allowed;
+		return true;
+	case _game_variant_parameter__extended__base_traits_use_third_person_camera:
+		*out_value = variant->base.map_override_options.base_player_traits.extended.use_third_person_camera;
+		return true;
+	case _game_variant_parameter__extended__respawn_traits_use_third_person_camera:
+		*out_value = variant->base.respawn_options.player_traits.extended.use_third_person_camera;
+		return true;
+	case _game_variant_parameter__extended__red_traits_use_third_person_camera:
+		*out_value = variant->base.map_override_options.red_traits.extended.use_third_person_camera;
+		return true;
+	case _game_variant_parameter__extended__blue_traits_use_third_person_camera:
+		*out_value = variant->base.map_override_options.blue_traits.extended.use_third_person_camera;
+		return true;
+	case _game_variant_parameter__extended__yellow_traits_use_third_person_camera:
+		*out_value = variant->base.map_override_options.yellow_traits.extended.use_third_person_camera;
+		return true;
+	case _game_variant_parameter__extended__slayer_leader_traits_use_third_person_camera:
+		*out_value = variant->slayer.leader_traits.extended.use_third_person_camera;
+		return true;
+	case _game_variant_parameter__extended__oddball_carrier_traits_use_third_person_camera:
+		*out_value = variant->oddball.ball_carrier_traits.extended.use_third_person_camera;
+		return true;
+	case _game_variant_parameter__extended__assault_carrier_traits_use_third_person_camera:
+		*out_value = variant->assault.bomb_carrier_traits.extended.use_third_person_camera;
+		return true;
+	case _game_variant_parameter__extended__ctf_carrier_traits_use_third_person_camera:
+		*out_value = variant->ctf.flag_carrier_traits.extended.use_third_person_camera;
+		return true;
+	case _game_variant_parameter__extended__juggernaut_carrier_traits_use_third_person_camera:
+		*out_value = variant->juggernaut.juggernaut_traits.extended.use_third_person_camera;
+		return true;
+	case _game_variant_parameter__extended__koth_hill_traits_use_third_person_camera:
+		*out_value = variant->koth.hill_traits.extended.use_third_person_camera;
+		return true;
+	case _game_variant_parameter__extended__infection_zombie_traits_use_third_person_camera:
+		*out_value = variant->infection.infected_traits.extended.use_third_person_camera;
+		return true;
+	case _game_variant_parameter__extended__infection_alpha_zombie_traits_use_third_person_camera:
+		*out_value = variant->infection.alpha_traits.extended.use_third_person_camera;
+		return true;
+	case _game_variant_parameter__extended__infection_haven_traits_use_third_person_camera:
+		*out_value = variant->infection.haven_traits.extended.use_third_person_camera;
+		return true;
+	case _game_variant_parameter__extended__infection_last_man_standing_traits_use_third_person_camera:
+		*out_value = variant->infection.last_man_standing_traits.extended.use_third_person_camera;
+		return true;
+	case _game_variant_parameter__extended__territories_defender_traits_use_third_person_camera:
+		*out_value = variant->territories.defender_traits.extended.use_third_person_camera;
+		return true;
+	case _game_variant_parameter__extended__territories_attacker_traits_use_third_person_camera:
+		*out_value = variant->territories.attacker_traits.extended.use_third_person_camera;
+		return true;
+	case _game_variant_parameter__extended__vip_defender_traits_use_third_person_camera:
+		*out_value = variant->vip.vip_team_traits.extended.use_third_person_camera;
+		return true;
+	case _game_variant_parameter__extended__vip_influence_traits_use_third_person_camera:
+		*out_value = variant->vip.vip_proximity_traits.extended.use_third_person_camera;
+		return true;
+	case _game_variant_parameter__extended__vip_vip_traits_use_third_person_camera:
+		*out_value = variant->vip.vip_traits.extended.use_third_person_camera;
+		return true;
+	case _game_variant_parameter__extended__editor_traits_use_third_person_camera:
+		*out_value = variant->sandbox.editor_traits.extended.use_third_person_camera;
+		return true;
+	default:
+		if (parameter_type == _game_variant_parameter__global__base_traits_visualaura && thisptr->get_base_variant()->map_override_options.base_player_traits.appearance.aura == 1)
+		{
+			*out_value = 0;
+			return true;
+		}
+		return ((bool (__thiscall *)(void *, e_game_variant_parameter, char, unsigned long *))0x574530)(thisptr, parameter_type, value_type, out_value);
+	}
 }
 
-_extern bool _sub_10AA4A10(c_game_variant *, void *, long, char, unsigned long);
 bool __fastcall c_game_variant__set_game_engine_setting_hook(c_game_variant *thisptr, void *unused, long parameter_type, char value_type, unsigned long value) // 0x10AA4A10
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?c_game_variant__set_game_engine_setting_hook@@YI_NPAUc_game_variant@@PAXJDK@Z");
 	// `anonymous-namespace'::c_game_variant__set_game_engine_setting_hook
 // $LN84:
 // $LN83:
@@ -916,14 +1260,270 @@ bool __fastcall c_game_variant__set_game_engine_setting_hook(c_game_variant *thi
 	// u_game_engine_variant *const variant;
 	// constexpr bool (*const `c_game_variant__set_game_engine_setting_hook'::`2'::c_game_variant__set_game_engine_setting)(c_game_variant *, long, char, unsigned long); // constant == 5745328
 	// function call : bool (*const)(c_game_variant *, long, char, unsigned long)
-	todo("implement");
-	bool __result = _sub_10AA4A10(thisptr, unused, parameter_type, value_type, value);
-	return __result;
+
+	u_game_engine_variant *const variant = (u_game_engine_variant *)thisptr->storage;
+	switch (parameter_type)
+	{
+	case _game_variant_parameter__extended__base_traits_player_model:
+		variant->base.map_override_options.base_player_traits.extended.player_model = value;
+		return true;
+	case _game_variant_parameter__extended__respawn_traits_player_model:
+		variant->base.respawn_options.player_traits.extended.player_model = value;
+		return true;
+	case _game_variant_parameter__extended__red_traits_player_model:
+		variant->base.map_override_options.red_traits.extended.player_model = value;
+		return true;
+	case _game_variant_parameter__extended__blue_traits_player_model:
+		variant->base.map_override_options.blue_traits.extended.player_model = value;
+		return true;
+	case _game_variant_parameter__extended__yellow_traits_player_model:
+		variant->base.map_override_options.yellow_traits.extended.player_model = value;
+		return true;
+	case _game_variant_parameter__extended__slayer_leader_traits_player_model:
+		variant->slayer.leader_traits.extended.player_model = value;
+		return true;
+	case _game_variant_parameter__extended__oddball_carrier_traits_player_model:
+		variant->oddball.ball_carrier_traits.extended.player_model = value;
+		return true;
+	case _game_variant_parameter__extended__assault_carrier_traits_player_model:
+		variant->assault.bomb_carrier_traits.extended.player_model = value;
+		return true;
+	case _game_variant_parameter__extended__ctf_carrier_traits_player_model:
+		variant->ctf.flag_carrier_traits.extended.player_model = value;
+		return true;
+	case _game_variant_parameter__extended__juggernaut_carrier_traits_player_model:
+		variant->juggernaut.juggernaut_traits.extended.player_model = value;
+		return true;
+	case _game_variant_parameter__extended__koth_hill_traits_player_model:
+		variant->koth.hill_traits.extended.player_model = value;
+		return true;
+	case _game_variant_parameter__extended__infection_zombie_traits_player_model:
+		variant->infection.infected_traits.extended.player_model = value;
+		return true;
+	case _game_variant_parameter__extended__infection_alpha_zombie_traits_player_model:
+		variant->infection.alpha_traits.extended.player_model = value;
+		return true;
+	case _game_variant_parameter__extended__infection_haven_traits_player_model:
+		variant->infection.haven_traits.extended.player_model = value;
+		return true;
+	case _game_variant_parameter__extended__infection_last_man_standing_traits_player_model:
+		variant->infection.last_man_standing_traits.extended.player_model = value;
+		return true;
+	case _game_variant_parameter__extended__territories_defender_traits_player_model:
+		variant->territories.defender_traits.extended.player_model = value;
+		return true;
+	case _game_variant_parameter__extended__territories_attacker_traits_player_model:
+		variant->territories.attacker_traits.extended.player_model = value;
+		return true;
+	case _game_variant_parameter__extended__vip_defender_traits_player_model:
+		variant->vip.vip_team_traits.extended.player_model = value;
+		return true;
+	case _game_variant_parameter__extended__vip_influence_traits_player_model:
+		variant->vip.vip_proximity_traits.extended.player_model = value;
+		return true;
+	case _game_variant_parameter__extended__vip_vip_traits_player_model:
+		variant->vip.vip_traits.extended.player_model = value;
+		return true;
+	case _game_variant_parameter__extended__editor_traits_player_model:
+		variant->sandbox.editor_traits.extended.player_model = value;
+		return true;
+	case _game_variant_parameter__extended__base_traits_player_model_set:
+		variant->base.map_override_options.base_player_traits.extended.player_model_set = value;
+		return true;
+	case _game_variant_parameter__extended__respawn_traits_player_model_set:
+		variant->base.respawn_options.player_traits.extended.player_model_set = value;
+		return true;
+	case _game_variant_parameter__extended__red_traits_player_model_set:
+		variant->base.map_override_options.red_traits.extended.player_model_set = value;
+		return true;
+	case _game_variant_parameter__extended__blue_traits_player_model_set:
+		variant->base.map_override_options.blue_traits.extended.player_model_set = value;
+		return true;
+	case _game_variant_parameter__extended__yellow_traits_player_model_set:
+		variant->base.map_override_options.yellow_traits.extended.player_model_set = value;
+		return true;
+	case _game_variant_parameter__extended__slayer_leader_traits_player_model_set:
+		variant->slayer.leader_traits.extended.player_model_set = value;
+		return true;
+	case _game_variant_parameter__extended__oddball_carrier_traits_player_model_set:
+		variant->oddball.ball_carrier_traits.extended.player_model_set = value;
+		return true;
+	case _game_variant_parameter__extended__assault_carrier_traits_player_model_set:
+		variant->assault.bomb_carrier_traits.extended.player_model_set = value;
+		return true;
+	case _game_variant_parameter__extended__ctf_carrier_traits_player_model_set:
+		variant->ctf.flag_carrier_traits.extended.player_model_set = value;
+		return true;
+	case _game_variant_parameter__extended__juggernaut_carrier_traits_player_model_set:
+		variant->juggernaut.juggernaut_traits.extended.player_model_set = value;
+		return true;
+	case _game_variant_parameter__extended__koth_hill_traits_player_model_set:
+		variant->koth.hill_traits.extended.player_model_set = value;
+		return true;
+	case _game_variant_parameter__extended__infection_zombie_traits_player_model_set:
+		variant->infection.infected_traits.extended.player_model_set = value;
+		return true;
+	case _game_variant_parameter__extended__infection_alpha_zombie_traits_player_model_set:
+		variant->infection.alpha_traits.extended.player_model_set = value;
+		return true;
+	case _game_variant_parameter__extended__infection_haven_traits_player_model_set:
+		variant->infection.haven_traits.extended.player_model_set = value;
+		return true;
+	case _game_variant_parameter__extended__infection_last_man_standing_traits_player_model_set:
+		variant->infection.last_man_standing_traits.extended.player_model_set = value;
+		return true;
+	case _game_variant_parameter__extended__territories_defender_traits_player_model_set:
+		variant->territories.defender_traits.extended.player_model_set = value;
+		return true;
+	case _game_variant_parameter__extended__territories_attacker_traits_player_model_set:
+		variant->territories.attacker_traits.extended.player_model_set = value;
+		return true;
+	case _game_variant_parameter__extended__vip_defender_traits_player_model_set:
+		variant->vip.vip_team_traits.extended.player_model_set = value;
+		return true;
+	case _game_variant_parameter__extended__vip_influence_traits_player_model_set:
+		variant->vip.vip_proximity_traits.extended.player_model_set = value;
+		return true;
+	case _game_variant_parameter__extended__vip_vip_traits_player_model_set:
+		variant->vip.vip_traits.extended.player_model_set = value;
+		return true;
+	case _game_variant_parameter__extended__editor_traits_player_model_set:
+		variant->sandbox.editor_traits.extended.player_model_set = value;
+		return true;
+	case _game_variant_parameter__extended__base_traits_sprint_allowed:
+		variant->base.map_override_options.base_player_traits.extended.sprint_allowed = value;
+		return true;
+	case _game_variant_parameter__extended__respawn_traits_sprint_allowed:
+		variant->base.respawn_options.player_traits.extended.sprint_allowed = value;
+		return true;
+	case _game_variant_parameter__extended__red_traits_sprint_allowed:
+		variant->base.map_override_options.red_traits.extended.sprint_allowed = value;
+		return true;
+	case _game_variant_parameter__extended__blue_traits_sprint_allowed:
+		variant->base.map_override_options.blue_traits.extended.sprint_allowed = value;
+		return true;
+	case _game_variant_parameter__extended__yellow_traits_sprint_allowed:
+		variant->base.map_override_options.yellow_traits.extended.sprint_allowed = value;
+		return true;
+	case _game_variant_parameter__extended__slayer_leader_traits_sprint_allowed:
+		variant->slayer.leader_traits.extended.sprint_allowed = value;
+		return true;
+	case _game_variant_parameter__extended__oddball_carrier_traits_sprint_allowed:
+		variant->oddball.ball_carrier_traits.extended.sprint_allowed = value;
+		return true;
+	case _game_variant_parameter__extended__assault_carrier_traits_sprint_allowed:
+		variant->assault.bomb_carrier_traits.extended.sprint_allowed = value;
+		return true;
+	case _game_variant_parameter__extended__ctf_carrier_traits_sprint_allowed:
+		variant->ctf.flag_carrier_traits.extended.sprint_allowed = value;
+		return true;
+	case _game_variant_parameter__extended__juggernaut_carrier_traits_sprint_allowed:
+		variant->juggernaut.juggernaut_traits.extended.sprint_allowed = value;
+		return true;
+	case _game_variant_parameter__extended__koth_hill_traits_sprint_allowed:
+		variant->koth.hill_traits.extended.sprint_allowed = value;
+		return true;
+	case _game_variant_parameter__extended__infection_zombie_traits_sprint_allowed:
+		variant->infection.infected_traits.extended.sprint_allowed = value;
+		return true;
+	case _game_variant_parameter__extended__infection_alpha_zombie_traits_sprint_allowed:
+		variant->infection.alpha_traits.extended.sprint_allowed = value;
+		return true;
+	case _game_variant_parameter__extended__infection_haven_traits_sprint_allowed:
+		variant->infection.haven_traits.extended.sprint_allowed = value;
+		return true;
+	case _game_variant_parameter__extended__infection_last_man_standing_traits_sprint_allowed:
+		variant->infection.last_man_standing_traits.extended.sprint_allowed = value;
+		return true;
+	case _game_variant_parameter__extended__territories_defender_traits_sprint_allowed:
+		variant->territories.defender_traits.extended.sprint_allowed = value;
+		return true;
+	case _game_variant_parameter__extended__territories_attacker_traits_sprint_allowed:
+		variant->territories.attacker_traits.extended.sprint_allowed = value;
+		return true;
+	case _game_variant_parameter__extended__vip_defender_traits_sprint_allowed:
+		variant->vip.vip_team_traits.extended.sprint_allowed = value;
+		return true;
+	case _game_variant_parameter__extended__vip_influence_traits_sprint_allowed:
+		variant->vip.vip_proximity_traits.extended.sprint_allowed = value;
+		return true;
+	case _game_variant_parameter__extended__vip_vip_traits_sprint_allowed:
+		variant->vip.vip_traits.extended.sprint_allowed = value;
+		return true;
+	case _game_variant_parameter__extended__editor_traits_sprint_allowed:
+		variant->sandbox.editor_traits.extended.sprint_allowed = value;
+		return true;
+	case _game_variant_parameter__extended__base_traits_use_third_person_camera:
+		variant->base.map_override_options.base_player_traits.extended.use_third_person_camera = value;
+		return true;
+	case _game_variant_parameter__extended__respawn_traits_use_third_person_camera:
+		variant->base.respawn_options.player_traits.extended.use_third_person_camera = value;
+		return true;
+	case _game_variant_parameter__extended__red_traits_use_third_person_camera:
+		variant->base.map_override_options.red_traits.extended.use_third_person_camera = value;
+		return true;
+	case _game_variant_parameter__extended__blue_traits_use_third_person_camera:
+		variant->base.map_override_options.blue_traits.extended.use_third_person_camera = value;
+		return true;
+	case _game_variant_parameter__extended__yellow_traits_use_third_person_camera:
+		variant->base.map_override_options.yellow_traits.extended.use_third_person_camera = value;
+		return true;
+	case _game_variant_parameter__extended__slayer_leader_traits_use_third_person_camera:
+		variant->slayer.leader_traits.extended.use_third_person_camera = value;
+		return true;
+	case _game_variant_parameter__extended__oddball_carrier_traits_use_third_person_camera:
+		variant->oddball.ball_carrier_traits.extended.use_third_person_camera = value;
+		return true;
+	case _game_variant_parameter__extended__assault_carrier_traits_use_third_person_camera:
+		variant->assault.bomb_carrier_traits.extended.use_third_person_camera = value;
+		return true;
+	case _game_variant_parameter__extended__ctf_carrier_traits_use_third_person_camera:
+		variant->ctf.flag_carrier_traits.extended.use_third_person_camera = value;
+		return true;
+	case _game_variant_parameter__extended__juggernaut_carrier_traits_use_third_person_camera:
+		variant->juggernaut.juggernaut_traits.extended.use_third_person_camera = value;
+		return true;
+	case _game_variant_parameter__extended__koth_hill_traits_use_third_person_camera:
+		variant->koth.hill_traits.extended.use_third_person_camera = value;
+		return true;
+	case _game_variant_parameter__extended__infection_zombie_traits_use_third_person_camera:
+		variant->infection.infected_traits.extended.use_third_person_camera = value;
+		return true;
+	case _game_variant_parameter__extended__infection_alpha_zombie_traits_use_third_person_camera:
+		variant->infection.alpha_traits.extended.use_third_person_camera = value;
+		return true;
+	case _game_variant_parameter__extended__infection_haven_traits_use_third_person_camera:
+		variant->infection.haven_traits.extended.use_third_person_camera = value;
+		return true;
+	case _game_variant_parameter__extended__infection_last_man_standing_traits_use_third_person_camera:
+		variant->infection.last_man_standing_traits.extended.use_third_person_camera = value;
+		return true;
+	case _game_variant_parameter__extended__territories_defender_traits_use_third_person_camera:
+		variant->territories.defender_traits.extended.use_third_person_camera = value;
+		return true;
+	case _game_variant_parameter__extended__territories_attacker_traits_use_third_person_camera:
+		variant->territories.attacker_traits.extended.use_third_person_camera = value;
+		return true;
+	case _game_variant_parameter__extended__vip_defender_traits_use_third_person_camera:
+		variant->vip.vip_team_traits.extended.use_third_person_camera = value;
+		return true;
+	case _game_variant_parameter__extended__vip_influence_traits_use_third_person_camera:
+		variant->vip.vip_proximity_traits.extended.use_third_person_camera = value;
+		return true;
+	case _game_variant_parameter__extended__vip_vip_traits_use_third_person_camera:
+		variant->vip.vip_traits.extended.use_third_person_camera = value;
+		return true;
+	case _game_variant_parameter__extended__editor_traits_use_third_person_camera:
+		variant->sandbox.editor_traits.extended.use_third_person_camera = value;
+		return true;
+	default:
+		return ((bool (__thiscall *)(void *, long, char, unsigned long))0x57AAB0)(thisptr, parameter_type, value_type, value);
+	}
 }
 
-_extern long _sub_10AA6F10(long, long);
 long game_variant_get_parameter_type_for_category_hook(long category, long parameter_type) // 0x10AA6F10
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_variant_get_parameter_type_for_category_hook@@YAJJJ@Z");
 	// `anonymous-namespace'::game_variant_get_parameter_type_for_category_hook
 // $LN130:
 // $LN124:
@@ -949,9 +1549,162 @@ long game_variant_get_parameter_type_for_category_hook(long category, long param
 	// long category;
 	// long parameter_type;
 	// bool extended;
-	todo("implement");
-	long __result = _sub_10AA6F10(category, parameter_type);
-	return __result;
+
+	bool extended = parameter_type >= 626;
+	if (parameter_type >= 605)
+	{
+		switch (category)
+		{
+		case 4:
+		case 5:
+		case 6:
+		case 7:
+		case 8:
+		case 9:
+			return extended ? parameter_type + 1 : parameter_type - 558;
+		case 11:
+		case 12:
+		case 13:
+		case 14:
+		case 15:
+		case 16:
+			return extended ? parameter_type + 2 : parameter_type - 588;
+		case 18:
+		case 19:
+		case 20:
+		case 21:
+		case 22:
+		case 23:
+			return extended ? parameter_type + 3 : parameter_type - 535;
+		case 25:
+		case 26:
+		case 27:
+		case 28:
+		case 29:
+		case 30:
+			return extended ? parameter_type + 4 : parameter_type - 514;
+		case 32:
+		case 33:
+		case 34:
+		case 35:
+		case 36:
+		case 37:
+			return extended ? parameter_type + 5 : parameter_type - 493;
+		case 40:
+		case 41:
+		case 42:
+		case 43:
+		case 44:
+		case 45:
+			return extended ? parameter_type + 6 : parameter_type - 454;
+		case 47:
+		case 48:
+		case 49:
+		case 50:
+		case 51:
+		case 52:
+			return extended ? parameter_type + 7 : parameter_type - 421;
+		case 54:
+		case 55:
+		case 56:
+		case 57:
+		case 58:
+		case 59:
+			return extended ? parameter_type + 8 : parameter_type - 55;
+		case 61:
+		case 62:
+		case 63:
+		case 64:
+		case 65:
+		case 66:
+			return extended ? parameter_type + 9 : parameter_type - 388;
+		case 68:
+		case 69:
+		case 70:
+		case 71:
+		case 72:
+		case 73:
+			return extended ? parameter_type + 10 : parameter_type - 101;
+		case 75:
+		case 76:
+		case 77:
+		case 78:
+		case 79:
+		case 80:
+			return extended ? parameter_type + 11 : parameter_type - 263;
+		case 82:
+		case 83:
+		case 84:
+		case 85:
+		case 86:
+		case 87:
+			return extended ? parameter_type + 12 : parameter_type - 356;
+		case 89:
+		case 90:
+		case 91:
+		case 92:
+		case 93:
+		case 94:
+			return extended ? parameter_type + 13 : parameter_type - 335;
+		case 96:
+		case 97:
+		case 98:
+		case 99:
+		case 100:
+		case 101:
+			return extended ? parameter_type + 14 : parameter_type - 314;
+		case 103:
+		case 104:
+		case 105:
+		case 106:
+		case 107:
+		case 108:
+			return extended ? parameter_type + 15 : parameter_type - 293;
+		case 117:
+		case 118:
+		case 119:
+		case 120:
+		case 121:
+		case 122:
+			return extended ? parameter_type + 16 : parameter_type - 237;
+		case 124:
+		case 125:
+		case 126:
+		case 127:
+		case 128:
+		case 129:
+			return extended ? parameter_type + 17 : parameter_type - 216;
+		case 131:
+		case 132:
+		case 133:
+		case 134:
+		case 135:
+		case 136:
+			return extended ? parameter_type + 18 : parameter_type - 179;
+		case 138:
+		case 139:
+		case 140:
+		case 141:
+		case 142:
+		case 143:
+			return extended ? parameter_type + 19 : parameter_type - 158;
+		case 145:
+		case 146:
+		case 147:
+		case 148:
+		case 149:
+		case 150:
+			return extended ? parameter_type + 20 : parameter_type - 137;
+		case 152:
+		case 153:
+		case 154:
+		case 155:
+		case 156:
+		case 157:
+			return extended ? parameter_type + 21 : parameter_type - 21;
+		}
+	}
+	return -1;
 }
 
 long c_gui_screen_game_options__get_category_index(c_gui_screen_game_options *screen) // 0x10AA5C10
@@ -1021,9 +1774,9 @@ _inline c_user_interface_player_model_text_value_pair_proxy::c_user_interface_pl
 }
 
 
-_extern void _sub_10AA82A0(c_user_interface_player_model_text_value_pair_proxy *const, c_gui_screen_game_options *);
 _inline void c_user_interface_player_model_text_value_pair_proxy::update(c_gui_screen_game_options *screen) // 0x10AA82A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?update@c_user_interface_player_model_text_value_pair_proxy@hades_file_local@@QAEXPAUc_gui_screen_game_options@@@Z");
 	// `anonymous-namespace'::c_user_interface_player_model_text_value_pair_proxy::update
 	// static ...; // 0x10AA85F0
 	// static ...; // 0x10AA85E8
@@ -1031,39 +1784,81 @@ _inline void c_user_interface_player_model_text_value_pair_proxy::update(c_gui_s
 	// c_gui_screen_game_options *screen;
 	// s_game_globals *game_globals;
 	// s_multiplayer_globals_definition *multiplayer_globals;
-	{
 		// unsigned long character_set_trait_value;
-		{
 			// long character_index;
-			{
 				// long i;
+	// function call : void *(*const)(unsigned long, long)
+
+	s_game_globals *game_globals = game_globals_get();
+	s_multiplayer_globals_definition *multiplayer_globals = (s_multiplayer_globals_definition *)tag_get('mulg', game_globals->MultiplayerGlobals.index);
+	m_values_count = 0;
+	if (m_data->player_characters_count > 0)
+	{
+		unsigned long character_set_trait_value;
+		if (!c_gui_screen_game_options__try_and_get_parameter_value(screen, 648, &character_set_trait_value))
+			return;
+		if (character_set_trait_value >= 8)
+			return;
+		if (character_set_trait_value != 2)
+		{
+			m_values[m_values_count].name = 66476;
+			m_values[m_values_count++].integer_value = 0;
+		}
+		if (character_set_trait_value > 2)
+		{
+			m_values[m_values_count].name = 262147;
+			m_values[m_values_count++].integer_value = 2;
+			long character_index = 3;
+			for (long i = 0; i < m_data->player_characters_count && m_values_count < 16; i++)
+			{
+				if (m_data->player_characters[i].character_set_index != character_set_trait_value - 3)
+					continue;
+				m_values[m_values_count].name = m_data->player_characters[i].name;
+				m_values[m_values_count++].integer_value = character_index++;
 			}
 		}
 	}
-	// function call : void *(*const)(unsigned long, long)
-	todo("implement");
-	_sub_10AA82A0(this, screen);
+	else
+	{
+		m_values[m_values_count].name = 66476;
+		m_values[m_values_count++].integer_value = 0;
+	}
+	m_tag_definition.values.count = m_values_count;
+	m_tag_definition.values.address = &m_values[0];
 }
 
-_inline ModListener::ModListener() = default; // 0x10A9E880
 
-_extern bool _sub_10AA7DF0(c_user_interface_player_model_text_value_pair_proxy *const, unsigned long, wchar_t *);
 _inline bool c_user_interface_player_model_text_value_pair_proxy::try_get_string(unsigned long id, wchar_t *out_value) // 0x10AA7DF0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?try_get_string@c_user_interface_player_model_text_value_pair_proxy@hades_file_local@@QAE_NKPA_W@Z");
 	// `anonymous-namespace'::c_user_interface_player_model_text_value_pair_proxy::try_get_string
 	// static ...; // 0x10AA7F1C
 	// c_user_interface_player_model_text_value_pair_proxy *const this;
 	// unsigned long id;
 	// wchar_t *out_value;
-	{
 		// long i;
-		{
 			// unsigned __int32 nc;
+
+	if (id == 0)
+	{
+		wcsncpy_s(out_value, 1024, L"NOT AVAILABLE", _TRUNCATE);
+		return true;
+	}
+	if (id == 1)
+	{
+		wcsncpy_s(out_value, 1024, L"DEFAULT", _TRUNCATE);
+		return true;
+	}
+	for (long i = 0; i < m_data->player_characters_count; i++)
+	{
+		if (m_data->player_characters[i].name == id)
+		{
+			unsigned __int32 nc;
+			mbstowcs_s(&nc, out_value, 1024, m_data->player_characters[i].display_name.ascii, _TRUNCATE);
+			return true;
 		}
 	}
-	todo("implement");
-	bool __result = _sub_10AA7DF0(this, id, out_value);
-	return __result;
+	return false;
 }
 
 _inline c_user_interface_player_model_set_text_value_pair_proxy::c_user_interface_player_model_set_text_value_pair_proxy(c_user_interface_mods_player_character_data *data) // 0x10A9E8E0
@@ -1075,35 +1870,61 @@ _inline c_user_interface_player_model_set_text_value_pair_proxy::c_user_interfac
 	m_data = data;
 }
 
-_extern void _sub_10AA7F90(c_user_interface_player_model_set_text_value_pair_proxy *const, c_gui_screen_game_options *);
 _inline void c_user_interface_player_model_set_text_value_pair_proxy::update(c_gui_screen_game_options *screen) // 0x10AA7F90
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?update@c_user_interface_player_model_set_text_value_pair_proxy@hades_file_local@@QAEXPAUc_gui_screen_game_options@@@Z");
 	// `anonymous-namespace'::c_user_interface_player_model_set_text_value_pair_proxy::update
 	// c_gui_screen_game_options *screen;
-	{
 		// long i;
+
+	m_values_count = 0;
+	if (m_data->player_character_set_count > 0)
+	{
+		m_values[m_values_count].name = 0x103AC;
+		m_values[m_values_count++].integer_value = 0;
+		m_values[m_values_count].name = 0x40003;
+		m_values[m_values_count++].integer_value = 2;
+		for (long i = 0; i < m_data->player_character_set_count && m_values_count < 8; i++)
+		{
+			m_values[m_values_count].name = m_data->player_character_sets[i].name;
+			m_values[m_values_count++].integer_value = i + 3;
+		}
 	}
-	todo("implement");
-	_sub_10AA7F90(this, screen);
+	else
+	{
+		m_values[m_values_count].name = 0x103AC;
+		m_values[m_values_count++].integer_value = 0;
+	}
+	m_tag_definition.values.count = m_values_count;
+	m_tag_definition.values.address = &m_values[0];
 }
 
-_extern bool _sub_10AA7C90(c_user_interface_player_model_set_text_value_pair_proxy *const, unsigned long, wchar_t *);
 _inline bool c_user_interface_player_model_set_text_value_pair_proxy::try_get_string(unsigned long id, wchar_t *out_value) // 0x10AA7C90
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?try_get_string@c_user_interface_player_model_set_text_value_pair_proxy@hades_file_local@@QAE_NKPA_W@Z");
 	// `anonymous-namespace'::c_user_interface_player_model_set_text_value_pair_proxy::try_get_string
 	// static ...; // 0x10AA7D8C
 	// c_user_interface_player_model_set_text_value_pair_proxy *const this;
 	// unsigned long id;
 	// wchar_t *out_value;
-	{
 		// long i;
-		{
 			// unsigned __int32 nc;
+
+	if (id == 1)
+	{
+		wcsncpy_s(out_value, 1024, L"NOT AVAILABLE", _TRUNCATE);
+		return true;
+	}
+	for (long i = 0; i < m_data->player_character_set_count; i++)
+	{
+		if (m_data->player_character_sets[i].name == id)
+		{
+			unsigned __int32 nc;
+			mbstowcs_s(&nc, out_value, 1024, m_data->player_character_sets[i].display_name.ascii, _TRUNCATE);
+			return true;
 		}
 	}
-	todo("implement");
-	bool __result = _sub_10AA7C90(this, id, out_value);
-	return __result;
+	return false;
 }
 
 s_text_value_pair_definition *text_value_pair_definition_try_and_get_hook(s_multiplayer_variant_settings_interface_definition *definition, long parameter_type) // 0x10AA7970
@@ -1181,13 +2002,16 @@ bool __fastcall gui_screen_game_options_set_variant_parameter_hook(c_game_varian
 	return ret;
 }
 
-_extern void _sub_10AA3B90(ModListener *const, EModIndex, IMod *);
 _inline void ModListener::OnModChanged(EModIndex index, IMod *mod) // 0x10AA3B90
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OnModChanged@ModListener@hades_file_local@@EAEXW4EModIndex@@PAVIMod@@@Z");
 	// `anonymous-namespace'::ModListener::OnModChanged
 	// IMod *mod;
-	todo("implement");
-	_sub_10AA3B90(this, index, mod);
+
+	if (index == kGame)
+	{
+		g_player_model_proxy_dirty = true;
+	}
 }
 
 /* ---------- template instantiations */

@@ -98,102 +98,96 @@ namespace Web
 {
 	namespace Browser
 	{
-		_extern void _sub_10CCA090(Web::Browser::WebRendererHandler * const);
+
 	}
 }
 
-extern scoped_refptr<CefLifeSpanHandler> _sub_10CCB7D0(Web::Browser::WebRendererHandler *const);
+
 namespace Web
 {
 	namespace Browser
 	{
 		_inline scoped_refptr<CefLifeSpanHandler> WebRendererHandler::GetLifeSpanHandler() // 0x10CCB7D0
 		{
-			mangled_x86(MANGLED_TODO, "?GetLifeSpanHandler@WebRendererHandler@Browser@Web@@UAE?AV?$scoped_refptr@VCefLifeSpanHandler@@@@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetLifeSpanHandler@WebRendererHandler@Browser@Web@@UAE?AV?$scoped_refptr@VCefLifeSpanHandler@@@@XZ");
 			// Web::Browser::WebRendererHandler *const this;
-			todo("implement");
-			scoped_refptr<CefLifeSpanHandler> __result = _sub_10CCB7D0(this);
-			return __result;
+
+			return this;
 		}
 	}
 }
 
-extern scoped_refptr<CefRenderHandler> _sub_10CCBA90(Web::Browser::WebRendererHandler *const);
+
 namespace Web
 {
 	namespace Browser
 	{
 		_inline scoped_refptr<CefRenderHandler> WebRendererHandler::GetRenderHandler() // 0x10CCBA90
 		{
-			mangled_x86(MANGLED_TODO, "?GetRenderHandler@WebRendererHandler@Browser@Web@@UAE?AV?$scoped_refptr@VCefRenderHandler@@@@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetRenderHandler@WebRendererHandler@Browser@Web@@UAE?AV?$scoped_refptr@VCefRenderHandler@@@@XZ");
 			// Web::Browser::WebRendererHandler *const this;
-			todo("implement");
-			scoped_refptr<CefRenderHandler> __result = _sub_10CCBA90(this);
-			return __result;
+
+			return m_RenderHandler;
 		}
 	}
 }
 
-extern scoped_refptr<CefRequestHandler> _sub_10CCBB90(Web::Browser::WebRendererHandler *const);
+
 namespace Web
 {
 	namespace Browser
 	{
 		_inline scoped_refptr<CefRequestHandler> WebRendererHandler::GetRequestHandler() // 0x10CCBB90
 		{
-			mangled_x86(MANGLED_TODO, "?GetRequestHandler@WebRendererHandler@Browser@Web@@UAE?AV?$scoped_refptr@VCefRequestHandler@@@@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetRequestHandler@WebRendererHandler@Browser@Web@@UAE?AV?$scoped_refptr@VCefRequestHandler@@@@XZ");
 			// Web::Browser::WebRendererHandler *const this;
-			todo("implement");
-			scoped_refptr<CefRequestHandler> __result = _sub_10CCBB90(this);
-			return __result;
+
+			return this;
 		}
 	}
 }
 
-extern scoped_refptr<CefContextMenuHandler> _sub_10CCB230(Web::Browser::WebRendererHandler *const);
+
 namespace Web
 {
 	namespace Browser
 	{
 		_inline scoped_refptr<CefContextMenuHandler> WebRendererHandler::GetContextMenuHandler() // 0x10CCB230
 		{
-			mangled_x86(MANGLED_TODO, "?GetContextMenuHandler@WebRendererHandler@Browser@Web@@UAE?AV?$scoped_refptr@VCefContextMenuHandler@@@@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetContextMenuHandler@WebRendererHandler@Browser@Web@@UAE?AV?$scoped_refptr@VCefContextMenuHandler@@@@XZ");
 			// Web::Browser::WebRendererHandler *const this;
-			todo("implement");
-			scoped_refptr<CefContextMenuHandler> __result = _sub_10CCB230(this);
-			return __result;
+
+			return this;
 		}
 	}
 }
 
-extern scoped_refptr<CefLoadHandler> _sub_10CCB8F0(Web::Browser::WebRendererHandler *const);
+
 namespace Web
 {
 	namespace Browser
 	{
 		_inline scoped_refptr<CefLoadHandler> WebRendererHandler::GetLoadHandler() // 0x10CCB8F0
 		{
-			mangled_x86(MANGLED_TODO, "?GetLoadHandler@WebRendererHandler@Browser@Web@@UAE?AV?$scoped_refptr@VCefLoadHandler@@@@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetLoadHandler@WebRendererHandler@Browser@Web@@UAE?AV?$scoped_refptr@VCefLoadHandler@@@@XZ");
 			// Web::Browser::WebRendererHandler *const this;
-			todo("implement");
-			scoped_refptr<CefLoadHandler> __result = _sub_10CCB8F0(this);
-			return __result;
+
+			return this;
 		}
 	}
 }
 
-extern std::shared_ptr<Web::Browser::Bridge::WebRendererQueryHandler> _sub_10C93610(Web::Browser::WebRendererHandler const *const);
+
 namespace Web
 {
 	namespace Browser
 	{
 		_inline std::shared_ptr<Web::Browser::Bridge::WebRendererQueryHandler> WebRendererHandler::GetQueryHandler() const // 0x10C93610
 		{
-			mangled_x86(MANGLED_TODO, "?GetQueryHandler@WebRendererHandler@Browser@Web@@QBE?AV?$shared_ptr@VWebRendererQueryHandler@Bridge@Browser@Web@@@std@@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetQueryHandler@WebRendererHandler@Browser@Web@@QBE?AV?$shared_ptr@VWebRendererQueryHandler@Bridge@Browser@Web@@@std@@XZ");
 			// Web::Browser::WebRendererHandler const *const this;
-			todo("implement");
-			std::shared_ptr<Web::Browser::Bridge::WebRendererQueryHandler> __result = _sub_10C93610((Web::Browser::WebRendererHandler const *)this);
-			return __result;
+
+			return m_QueryHandler;
 		}
 
 		_inline void WebRendererHandler::AddRef() const // 0x10CCAEC0

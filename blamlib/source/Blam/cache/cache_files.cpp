@@ -48,26 +48,29 @@ extern void (*const sub_503470)(void *, void *, long); // 0x1124B968
 
 /* ---------- public code */
 
-_extern void _sub_10F18FC0();
 void cache_file_tag_references_fixup() // 0x10F18FC0
 {
-	mangled_x86(MANGLED_TODO, "?cache_file_tag_references_fixup@@YAXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?cache_file_tag_references_fixup@@YAXXZ");
 	// procedure flags: nofpo
-	{
 		// __int32 i;
-		{
 			// s_cache_tag_instance *instance;
 			// unsigned long *tag_reference_fixups;
-			{
 				// __int32 j;
-				{
 					// s_tag_reference *reference;
-				}
-			}
+
+	for (long i = 0; i < g_cache_file_tag_globals->loaded_instance_count; i++)
+	{
+		s_cache_tag_instance *instance = g_cache_file_tag_globals->instances[i];
+		if (!instance || !instance->tag_reference_fixup_count)
+			continue;
+		unsigned long *tag_reference_fixups = (unsigned long *)(instance + 1) + instance->dependency_count + instance->fixup_count + instance->resource_fixup_count;
+		for (long j = 0; j < instance->tag_reference_fixup_count; j++)
+		{
+			s_tag_reference *reference = (s_tag_reference *)((char *)instance + instance->definition_offset + tag_reference_fixups[j]);
+			if (!reference->name || reference->name_length <= 0)
+				continue;
 		}
 	}
-	todo("implement");
-	_sub_10F18FC0();
 }
 
 void cache_file_tags_close() // 0x10F190F0

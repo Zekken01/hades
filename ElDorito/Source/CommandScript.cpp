@@ -30,6 +30,7 @@
 #include "mods/FileSystem/ModPackageFileSystemView.hpp"
 #include "mods/mod_identifier.hpp"
 #include "mods/mod_package_manager.hpp"
+#include "mods/mod_system.hpp"
 #include "mods/new/IModManager.hpp"
 #include "Patches/CustomPackets.hpp"
 #include "Patches/PlayerPropertiesExtension.hpp"
@@ -195,6 +196,8 @@ namespace Blam
 
 /* ---------- prototypes */
 
+extern bool (*const network_session_interface_get_squad_session)(c_network_session **out_session);  // hades: added for 0x10666F10
+
 namespace Modules
 {
 	bool ParseInt(std::string s, __int32 &delay);
@@ -213,31 +216,55 @@ namespace Utils
 
 namespace Modules
 {
-	_extern void _sub_10666950(Modules::CommandScript *const);
 	void CommandScript::Execute() // 0x10666950
 	{
-		mangled_x86(MANGLED_TODO, "?Execute@CommandScript@Modules@@QAEXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Execute@CommandScript@Modules@@QAEXXZ");
 		// static ...; // 0x10666BCF
 		// static ...; // 0x10666BC3
 		// static ...; // 0x10666BBC
 		// static ...; // 0x10666B98
 		// static ...; // 0x10666B90
 		// Modules::CommandScript *const this;
-		{
 			// CommandLineArgs args;
 			// std::string commandName;
-			{
 				// std::string output;
+
+		if (m_wakeCond && !m_wakeCond())
+			return;
+		m_wakeCond = nullptr;
+		while (!m_finished)
+		{
+			if (!ReadNextLine())
+			{
+				Complete();
+			}
+			else
+			{
+				CommandLineArgs args(m_line);
+				std::string commandName = args.GetArg(0);
+				if (commandName == "sleep")
+				{
+					ExecuteSleep(args);
+					return;
+				}
+				else if (commandName == "waitfor")
+				{
+					ExecuteWaitFor(args);
+					return;
+				}
+				else
+				{
+					std::string output;
+					if (!Modules::CommandMap::Instance().ExecuteCommandWithStatus(m_line, m_isUserInput, &output))
+						HandleError(output);
+				}
 			}
 		}
-		todo("implement");
-		_sub_10666950(this);
 	}
 
-	_extern void _sub_10666F10(Modules::CommandScript *const, CommandLineArgs const &);
 	void CommandScript::ExecuteWaitFor(CommandLineArgs const &args) // 0x10666F10
 	{
-		mangled_x86(MANGLED_TODO, "?ExecuteWaitFor@CommandScript@Modules@@AAEXABVCommandLineArgs@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?ExecuteWaitFor@CommandScript@Modules@@AAEXABVCommandLineArgs@@@Z");
 		// static ...; // 0x106674AE
 		// static ...; // 0x106674A4
 		// static ...; // 0x10667498
@@ -246,31 +273,100 @@ namespace Modules
 		// Modules::CommandScript *const this;
 		// CommandLineArgs const &args;
 		// std::string condition;
-		{
-		}
-		{
-		}
-		{
-		}
-		{
 			// unsigned long establishTime;
-		}
-		{
 			// __int32 lobbyType;
-		}
-		{
 			// __int32 playerCount;
-		}
+
+		if (args.GetArgCount() < 2)
 		{
+			HandleError(std::format("Invalid arguments"));
+			return;
 		}
-		todo("implement");
-		_sub_10666F10(this, args);
+		std::string condition = args.GetArg(1);
+		if (condition == "mainmenu")
+		{
+			m_wakeCond = []() { return ((bool (*)())0x5314B0)() && ((bool (*)())0x531E90)(); };
+		}
+		else if (condition == "in_game")
+		{
+			m_wakeCond = []() { return !((bool (*)())0x5314B0)() && !((bool (*)())0x531E90)(); };
+		}
+		else if (condition == "mod_load")
+		{
+			m_wakeCond = []()
+			{
+				IMod *mod = c_mod_system::GetModManager().GetMod(kGame);
+				if (!mod)
+					return true;
+				return !mod->GetCacheIsLoading() && !((bool (*)())0x54B3A0)();
+			};
+		}
+		else if (condition == "in_session")
+		{
+			unsigned long establishTime = 0;
+			m_wakeCond = [&establishTime]()
+			{
+				c_network_session *session;
+				if (network_session_interface_get_squad_session(&session) && session->established())
+				{
+					unsigned long now = system_milliseconds();
+					if (establishTime == 0)
+						establishTime = now;
+					return now - establishTime >= 1000;
+				}
+				return false;
+			};
+		}
+		else if (condition == "lobbytype")
+		{
+			if (args.GetArgCount() < 3)
+			{
+				HandleError(std::format("Expected lobby type"));
+				return;
+			}
+			__int32 lobbyType;
+			if (!ParseInt(args[2], lobbyType))
+			{
+				HandleError(std::format("Invalid lobby type"));
+				return;
+			}
+			m_wakeCond = [lobbyType]() { return ((long (*)())0x435640)() == lobbyType; };
+		}
+		else if (condition == "player_count")
+		{
+			if (args.GetArgCount() < 3)
+			{
+				HandleError(std::format("Expected player count"));
+				return;
+			}
+			__int32 playerCount;
+			if (!ParseInt(args[2], playerCount))
+			{
+				HandleError(std::format("Invalid player count"));
+				return;
+			}
+			m_wakeCond = [playerCount]()
+			{
+				c_network_session *session;
+				if (network_session_interface_get_squad_session(&session) && session->established())
+					return session->get_player_count() >= playerCount;
+				else
+					return false;
+			};
+		}
+		else if (condition == "spawn")
+		{
+			m_wakeCond = []() { return ((bool (*)())0x5314B0)() && ((long (*)(long))0x589CC0)(0) != -1; };
+		}
+		else
+		{
+			HandleError("Unknown wait condition");
+		}
 	}
 
-	_extern void _sub_10666C80(Modules::CommandScript *const, CommandLineArgs const &);
 	void CommandScript::ExecuteSleep(CommandLineArgs const &args) // 0x10666C80
 	{
-		mangled_x86(MANGLED_TODO, "?ExecuteSleep@CommandScript@Modules@@AAEXABVCommandLineArgs@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?ExecuteSleep@CommandScript@Modules@@AAEXABVCommandLineArgs@@@Z");
 		// static ...; // 0x10666E74
 		// static ...; // 0x10666E5C
 		// static ...; // 0x10666E54
@@ -278,8 +374,20 @@ namespace Modules
 		// CommandLineArgs const &args;
 		// __int32 delay;
 		// std::chrono::time_point<std::chrono::system_clock,std::chrono::duration<__int64,std::ratio<1,10000000> > > wakeTime;
-		todo("implement");
-		_sub_10666C80(this, args);
+
+		if (args.GetArgCount() < 2)
+		{
+			HandleError(std::format("Invalid arguments"));
+			return;
+		}
+		__int32 delay;
+		if (!ParseInt(args.GetArg(1), delay))
+		{
+			HandleError("Invalid delay");
+			return;
+		}
+		auto wakeTime = std::chrono::system_clock::now() + std::chrono::milliseconds(delay);
+		m_wakeCond = [wakeTime]() { return std::chrono::system_clock::now() >= wakeTime; };
 	}
 
 	bool CommandScript::ReadNextLine() // 0x10667C10
@@ -306,13 +414,15 @@ namespace Modules
 		m_finished = true;
 	}
 
-	_extern void _sub_106677A0(Modules::CommandScript *const, std::string const &);
 	void CommandScript::HandleError(std::string const &message) // 0x106677A0
 	{
-		mangled_x86(MANGLED_TODO, "?HandleError@CommandScript@Modules@@AAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?HandleError@CommandScript@Modules@@AAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 		// std::string const &message;
-		todo("implement");
-		_sub_106677A0(this, message);
+
+		m_error << "Error at line " << m_lineNum << ": " << message << std::endl;
+		m_hasError = true;
+		if (m_stopOnFirstError)
+			Complete();
 	}
 
 	bool CommandScript::HasError() const // 0x10667890
@@ -324,16 +434,15 @@ namespace Modules
 	}
 }
 
-extern std::string _sub_10667710(Modules::CommandScript const *const);
+
 namespace Modules
 {
 	std::string CommandScript::GetErrorMessage() const // 0x10667710
 	{
-		mangled_x86(MANGLED_TODO, "?GetErrorMessage@CommandScript@Modules@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?GetErrorMessage@CommandScript@Modules@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 		// Modules::CommandScript const *const this;
-		todo("implement");
-		std::string __result = _sub_10667710((Modules::CommandScript const *)this);
-		return __result;
+
+		return m_error.str();
 	}
 
 	bool CommandScript::IsFinished() const // 0x10667A00
@@ -344,23 +453,34 @@ namespace Modules
 		return m_finished;
 	}
 
-	_extern void _sub_10667B50(Modules::CommandScriptStack *const, std::shared_ptr<Modules::CommandScript>);
 	void CommandScriptStack::PushScript(std::shared_ptr<Modules::CommandScript> script) // 0x10667B50
 	{
-		mangled_x86(MANGLED_TODO, "?PushScript@CommandScriptStack@Modules@@QAEXV?$shared_ptr@VCommandScript@Modules@@@std@@@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?PushScript@CommandScriptStack@Modules@@QAEXV?$shared_ptr@VCommandScript@Modules@@@std@@@Z");
 		// std::shared_ptr<Modules::CommandScript> script;
-		todo("implement");
-		_sub_10667B50(this, script);
+
+		m_stack.emplace(std::move(script));
 	}
 
-	_extern void _sub_10667D30(Modules::CommandScriptStack *const);
 	void CommandScriptStack::Update() // 0x10667D30
 	{
-		mangled_x86(MANGLED_TODO, "?Update@CommandScriptStack@Modules@@QAEXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CommandScriptStack@Modules@@QAEXXZ");
 		// Modules::CommandScriptStack *const this;
 		// std::shared_ptr<Modules::CommandScript> &script;
-		todo("implement");
-		_sub_10667D30(this);
+
+		if (m_stack.empty())
+			return;
+
+		std::shared_ptr<Modules::CommandScript> &script = m_stack.top();
+		script->Execute();
+		if (script->IsFinished())
+		{
+			if (script->HasError())
+			{
+				script->Execute();
+				Console::WriteLine(script->GetErrorMessage());
+			}
+			m_stack.pop();
+		}
 	}
 
 	// mangled_x86(MANGLED_DEFAULT, "??0CommandMap@Modules@@QAE@XZ"); no body to assert in
@@ -370,9 +490,9 @@ namespace Modules
 
 namespace Modules
 {
-	_extern bool _sub_10667A30(std::string, __int32 &);
 	bool ParseInt(std::string s, __int32 &delay) // 0x10667A30
 	{
+		mangled_x86(MANGLED_KNOWN_GOOD, "?ParseInt@Modules@@YA_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAH@Z");
 		// Modules::ParseInt
 		// static ...; // 0x10667B04
 		// static ...; // 0x10667AFC
@@ -383,9 +503,11 @@ namespace Modules
 		// char const *ptr;
 		// char const *start;
 		// char const *end;
-		todo("implement");
-		bool __result = _sub_10667A30(s, delay);
-		return __result;
+
+		char const *start = s.data();
+		char const *end = s.data() + s.size();
+		auto [ptr, ec] = std::from_chars(start, end, delay);
+		return ec == std::errc();
 	}
 }
 

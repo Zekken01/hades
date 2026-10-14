@@ -132,19 +132,33 @@ namespace Web
 {
 	namespace Browser
 	{
-		extern CWebFileReadHandler* _sub_10CB7280(Web::Browser::CWebFileReadHandler *const, std::string const &, long long, long long);
 		CWebFileReadHandler::CWebFileReadHandler(std::string const &filepath, long long offset, long long length) // 0x10CB7280
 		{
-			mangled_x86(MANGLED_TODO, "??0CWebFileReadHandler@Browser@Web@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@_J1@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0CWebFileReadHandler@Browser@Web@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@_J1@Z");
 			// Web::Browser::CWebFileReadHandler *const this;
 			// std::string const &filepath;
 			// long long offset;
 			// long long length;
-			{
 				// std::fpos<_Mbstatet> begin;
+
+			#line 137 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Web\\WebFileReadHandler.cpp"
+				assert(length >= -1);
+				#line 147 "C:\\Users\\zekken\\Desktop\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Web\\WebFileReadHandler.cpp"
+			m_stream = std::ifstream(filepath, std::ios::binary);
+			if (length == -1)
+			{
+				std::fpos<_Mbstatet> begin = m_stream.tellg();
+				m_stream.seekg(0, std::ios::end);
+				length = m_stream.tellg() - begin;
+				m_stream.seekg(0, begin);
+				#line 149 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Web\\WebFileReadHandler.cpp"
+					assert(offset <= length);
+					#line 157 "C:\\Users\\zekken\\Desktop\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Web\\WebFileReadHandler.cpp"
 			}
-			todo("implement");
-			_sub_10CB7280(this, filepath, offset, length);
+			m_baseOffset = offset;
+			m_length = length;
+			m_position = 0;
+			m_stream.seekg(m_baseOffset, std::ios::beg);
 		}
 
 		CWebFileReadHandler::~CWebFileReadHandler() // 0x10CB7690

@@ -38,6 +38,8 @@ struct s_multiplayer_globals_definition;
 
 /* ---------- prototypes */
 
+extern void *(__cdecl *const tag_get)(unsigned long, long);  // hades: added for 0x10EFFD80
+
 extern __int32 game_engine_get_player_assists(unsigned long player_index);
 extern __int32 game_engine_get_player_deaths(unsigned long player_index);
 extern __int32 game_engine_get_player_kills(unsigned long player_index);
@@ -114,18 +116,24 @@ long game_engine_get_team_designator(long player_index) // 0x10EFFEA0
 		return -1;
 }
 
-_extern void _sub_10EFFD80(real_rgb_color *, long);
 void game_engine_get_team_color(real_rgb_color *color, long team) // 0x10EFFD80
 {
-	mangled_x86(MANGLED_TODO, "?game_engine_get_team_color@@YAXPAUreal_rgb_color@@J@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_get_team_color@@YAXPAUreal_rgb_color@@J@Z");
 	// long team;
 	// s_game_globals *globals;
-	{
 		// s_multiplayer_globals_definition *multiplayer_globals;
-	}
 	// function call : void *(*const)(unsigned long, long)
-	todo("implement");
-	_sub_10EFFD80(color, team);
+
+	*color = **reinterpret_cast<real_rgb_color **>(0x189CDBC);
+	s_game_globals *matg = game_globals_get();
+	if (matg)
+	{
+		s_multiplayer_globals_definition *mulg = (s_multiplayer_globals_definition *)tag_get('mulg', matg->MultiplayerGlobals.index);
+		if (mulg && team >= 0 && team < mulg->universal->team_colors.count)
+		{
+			*color = mulg->universal->team_colors[team].color;
+		}
+	}
 }
 
 char const *game_engine_type_get_string(e_game_engine_type type) // 0x10EFFF50

@@ -85,10 +85,9 @@ namespace Player
 {
 	namespace PlayerEmblem
 	{
-		_extern void _sub_107F0CB0(long, long, bool, bool);
 		void set_emblem_texture(long sampler, long player_index, bool use_generic, bool screen_emblem) // 0x107F0CB0
 		{
-			mangled_x86(MANGLED_TODO, "?set_emblem_texture@PlayerEmblem@Player@@YAXJJ_N0@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?set_emblem_texture@PlayerEmblem@Player@@YAXJJ_N0@Z");
 			// bool screen_emblem;
 			// IDirect3DDevice9 *device;
 			// unsigned long stage;
@@ -96,8 +95,22 @@ namespace Player
 			// IDirect3DTexture9 *texture;
 			// function call : HRESULT (unsigned long, IDirect3DBaseTexture9 *)
 			// function call : HRESULT (unsigned long, _D3DSAMPLERSTATETYPE, unsigned long)
-			todo("implement");
-			_sub_107F0CB0(sampler, player_index, use_generic, screen_emblem);
+
+			if (!Player::PlayerEmblemDownload::Instance().IsAvailable())
+			{
+				return;
+			}
+
+			IDirect3DDevice9 *device = *reinterpret_cast<IDirect3DDevice9 **>(0x50DADDC);
+			bool *g_sampler_gamma_correction_array = reinterpret_cast<bool *>(0x50DB200);
+			unsigned long stage = sampler >= 16 ? sampler + 0xF1 : sampler;
+			IDirect3DTexture9 *texture = Player::PlayerEmblemDownload::Instance().GetPlayerEmblem(player_index, use_generic);
+			device->SetTexture(stage, texture);
+			if (g_sampler_gamma_correction_array[sampler] != screen_emblem)
+			{
+				g_sampler_gamma_correction_array[sampler] = screen_emblem;
+				device->SetSamplerState(sampler, D3DSAMP_SRGBTEXTURE, screen_emblem);
+			}
 		}
 
 		void set_emblem_customization_biped(long sampler, bool use_generic, bool screen_emblem) // 0x107F0C50

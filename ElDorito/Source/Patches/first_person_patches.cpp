@@ -105,13 +105,14 @@ namespace Patches
 {
 	namespace FirstPerson
 	{
-		_extern void _sub_10916590();
 		void ApplyAll() // 0x10916590
 		{
-			mangled_x86(MANGLED_TODO, "?ApplyAll@FirstPerson@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@FirstPerson@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_10916590();
+
+			Patch::NopFill(0xA9E564, 5);
+			Hook(0x69B88A, first_person_weapon_offset_hook1_hook).Apply();
+			Hook(0x69B92B, first_person_weapon_offset_hook2_hook).Apply();
 		}
 
 		void Tick() // 0x10916800

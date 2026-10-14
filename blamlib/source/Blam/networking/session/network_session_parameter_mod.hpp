@@ -40,7 +40,7 @@ public:
 	_inline c_network_session_parameter_mod() = default; /* compiler_generated() */
 	c_network_session_parameter_mod &operator=(c_network_session_parameter_mod &); /* compiler_generated() */
 	c_network_session_parameter_mod &operator=(c_network_session_parameter_mod const &); /* compiler_generated() */
-	void __autoclassinit2(unsigned __int32); /* compiler_generated() */
+	// void __autoclassinit2(unsigned __int32); /* compiler_generated() */  // hades: /sdl generates it
 };
 #pragma pack(pop)
 static_assert(sizeof(c_network_session_parameter_mod) == 92, "Invalid c_network_session_parameter_mod size");

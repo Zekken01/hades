@@ -59,6 +59,8 @@ using namespace ::Player;
 
 /* ---------- prototypes */
 
+namespace Scripting { namespace HS { namespace Methods { namespace Player { extern void RegisterMethods(Scripting::HS::ScriptMethodMap &methods); } namespace PlayerPodium { extern void RegisterMethods(Scripting::HS::ScriptMethodMap &methods); } namespace Multiplayer { extern void RegisterMethods(Scripting::HS::ScriptMethodMap &methods); } namespace Object { extern void RegisterMethods(Scripting::HS::ScriptMethodMap &methods); } } } }  // hades: added for 0x106ECC30
+
 namespace Scripting
 {
 	namespace HS
@@ -77,14 +79,18 @@ namespace Scripting
 {
 	namespace HS
 	{
-		_extern void _sub_106ECC30();
 		void RegisterBindings() // 0x106ECC30
 		{
-			mangled_x86(MANGLED_TODO, "?RegisterBindings@HS@Scripting@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?RegisterBindings@HS@Scripting@@YAXXZ");
 			// procedure flags: nofpo
 			// Scripting::HS::ScriptMethodMap &methods;
-			todo("implement");
-			_sub_106ECC30();
+
+			Scripting::HS::ScriptMethodMap &methods = Utils::Singleton<Scripting::HS::ScriptMethodMap>::Instance();
+			Methods::Player::RegisterMethods(methods);
+			Methods::PlayerPodium::RegisterMethods(methods);
+			Methods::Multiplayer::RegisterMethods(methods);
+			Methods::Object::RegisterMethods(methods);
+			methods.Finalize();
 		}
 	}
 }

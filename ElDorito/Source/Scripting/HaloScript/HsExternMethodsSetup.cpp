@@ -21,6 +21,9 @@
 #include "Scripting/HaloScript/HsMethodMap.hpp"
 #include "Utils/Singleton.hpp"
 
+#include "Utils/Logger.hpp"  // hades: added for 0x106EED90
+#include <format>  // hades: added for 0x106EED90
+
 #include <boost/asio.hpp>
 #include <boost/assert.hpp>
 #include <boost/exception/all.hpp>
@@ -117,26 +120,34 @@ namespace Scripting
 {
 	namespace HS
 	{
-		_extern void _sub_106EF0C0(s_hs_script const *, Scripting::HS::ScriptMethod const *, std::vector<std::string> &);
 		void ValidateExternScript(s_hs_script const *script, Scripting::HS::ScriptMethod const *method, std::vector<std::string> &errors) // 0x106EF0C0
 		{
-			mangled_x86(MANGLED_TODO, "?ValidateExternScript@HS@Scripting@@YAXPBUs_hs_script@@PBUScriptMethod@12@AAV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ValidateExternScript@HS@Scripting@@YAXPBUs_hs_script@@PBUScriptMethod@12@AAV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@@Z");
 			// std::vector<std::string> &errors;
-			{
 				// __int32 i;
-				{
 					// s_hs_script_parameter const &scriptParam;
 					// Scripting::HS::ScriptParameter const &methodParam;
+
+			errors.clear();
+			if (script->parameters.count != method->parameters.size())
+				errors.push_back(std::format("Parameter count mismatch: {} <-> {}", reinterpret_cast<long const &>(script->parameters.count), (__int32)method->parameters.size()));
+			if (script->return_type != method->returnType)
+				errors.push_back(std::format("Return type mismatch: {} <-> {}", hs_get_type_name(script->return_type), hs_get_type_name(method->returnType)));
+			if (script->parameters.count == method->parameters.size())
+			{
+				for (__int32 i = 0; i < script->parameters.count; i++)
+				{
+					s_hs_script_parameter const &scriptParam = script->parameters[i];
+					Scripting::HS::ScriptParameter const &methodParam = method->parameters[i];
+					if (script->parameters[i].type != method->parameters[i].type)
+						errors.push_back(std::format("Parameter: '{}' type mismatch: {} <-> {}", methodParam.name, hs_get_type_name(scriptParam.type), hs_get_type_name(methodParam.type)));
 				}
 			}
-			todo("implement");
-			_sub_106EF0C0(script, method, errors);
 		}
 
-		_extern void _sub_106EED90();
 		void InitializeMethodsForNewMap() // 0x106EED90
 		{
-			mangled_x86(MANGLED_TODO, "?InitializeMethodsForNewMap@HS@Scripting@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeMethodsForNewMap@HS@Scripting@@YAXXZ");
 			// procedure flags: nofpo
 			// static ...; // 0x106EF000
 			// static ...; // 0x106EEFF4
@@ -144,25 +155,34 @@ namespace Scripting
 			// Scripting::HS::ScriptMethodMap &methodMap;
 			// std::vector<std::string> validationErrors;
 			// s_scenario *scnr;
-			{
 				// __int32 i;
-				{
 					// s_hs_script *script;
-					{
 						// Scripting::HS::ScriptMethod const *method;
-						{
 							// std::vector<std::string> &<range>$L0;
 							// std::string *<begin>$L0;
 							// std::string *<end>$L0;
-							{
 								// std::string const &error;
-							}
-						}
-					}
+
+			Scripting::HS::ScriptMethodMap &methodMap = Utils::Singleton<Scripting::HS::ScriptMethodMap>::Instance();
+			std::vector<std::string> validationErrors;
+			s_scenario *scnr = global_scenario_get();
+			for (__int32 i = 0; i < scnr->scripts.count; i++)
+			{
+				s_hs_script *script = &scnr->scripts[i];
+				if (script->type != _hs_script_type_extern)
+					continue;
+				script->root_expression_index = 0;
+				Scripting::HS::ScriptMethod const *method = methodMap.FindMethod(script->name.ascii);
+				if (method)
+				{
+					ValidateExternScript(script, method, validationErrors);
+					for (std::string const &error : validationErrors)
+						Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Game, Utils::LogLevel::Warning, std::format("HS :: Validation failed for extern method '{}'. {}.", method->name, error));
+					script->extern_method = (void *)method;
 				}
+				else
+					Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Game, Utils::LogLevel::Warning, std::format("HS :: Script references extern method '{}' but was not found.", script->name.ascii));
 			}
-			todo("implement");
-			_sub_106EED90();
 		}
 	}
 }

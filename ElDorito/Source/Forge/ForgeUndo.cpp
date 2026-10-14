@@ -45,6 +45,8 @@ using namespace ::Utils;
 
 /* ---------- prototypes */
 
+extern long (*const game_time_get)();  // hades: added for 0x108626A0
+
 /* ---------- globals */
 
 /* ---------- private variables */
@@ -83,18 +85,34 @@ void CForgeUndoManager::RequestRedo() // 0x10862EB0
 	m_redoRequested = true;
 }
 
-_extern void _sub_108626A0(CForgeUndoManager *const, std::string const &, std::shared_ptr<IForgeUndo>);
 void CForgeUndoManager::AddUndo(std::string const &summary, std::shared_ptr<IForgeUndo> undo) // 0x108626A0
 {
-	mangled_x86(MANGLED_TODO, "?AddUndo@CForgeUndoManager@@QAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$shared_ptr@UIForgeUndo@@@3@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?AddUndo@CForgeUndoManager@@QAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$shared_ptr@UIForgeUndo@@@3@@Z");
 	// static ...; // 0x1086281C
 	// CForgeUndoManager *const this;
 	// std::string const &summary;
 	// std::shared_ptr<IForgeUndo> undo;
 	// CForgeUndoManager::SUndoEntry entry;
 	// function call : long (*const)()
-	todo("implement");
-	_sub_108626A0(this, summary, undo);
+
+	if (!m_recording)
+		return;
+	SUndoEntry entry;
+	entry.summary = summary;
+	entry.undo = undo;
+	entry.time = game_time_get();
+	if (m_undoing && !m_redoing)
+	{
+		if (m_redoStack.size() >= kUndoLimit)
+			m_redoStack.pop_back();
+		m_redoStack.push_front(entry);
+	}
+	else
+	{
+		if (m_undoStack.size() >= kUndoLimit)
+			m_undoStack.pop_back();
+		m_undoStack.push_front(entry);
+	}
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0SUndoEntry@CForgeUndoManager@@QAE@ABU01@@Z"); no body to assert in
@@ -123,36 +141,46 @@ void CForgeUndoManager::Update() // 0x10862F70
 	}
 }
 
-_extern void _sub_10862D50(CForgeUndoManager *const);
 void CForgeUndoManager::PerformUndo() // 0x10862D50
 {
-	mangled_x86(MANGLED_TODO, "?PerformUndo@CForgeUndoManager@@AAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?PerformUndo@CForgeUndoManager@@AAEXXZ");
 	// static ...; // 0x10862E64
 	// static ...; // 0x10862E58
 	// static ...; // 0x10862E50
 	// CForgeUndoManager *const this;
-	{
 		// CForgeUndoManager::SUndoEntry entry;
-	}
 	// function call : void ()
-	todo("implement");
-	_sub_10862D50(this);
+
+	if (m_undoStack.size() > 0)
+	{
+		SUndoEntry entry = static_cast<SUndoEntry const &>(m_undoStack.front());
+		m_undoing = true;
+		entry.undo->Undo();
+		m_undoing = false;
+		m_undoStack.pop_front();
+		completedEvent.PostEvent();
+	}
 }
 
-_extern void _sub_10862BF0(CForgeUndoManager *const);
 void CForgeUndoManager::PerformRedo() // 0x10862BF0
 {
-	mangled_x86(MANGLED_TODO, "?PerformRedo@CForgeUndoManager@@AAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?PerformRedo@CForgeUndoManager@@AAEXXZ");
 	// static ...; // 0x10862D04
 	// static ...; // 0x10862CF8
 	// static ...; // 0x10862CF0
 	// CForgeUndoManager *const this;
-	{
 		// CForgeUndoManager::SUndoEntry entry;
-	}
 	// function call : void ()
-	todo("implement");
-	_sub_10862BF0(this);
+
+	if (m_redoStack.size() > 0)
+	{
+		SUndoEntry entry = static_cast<SUndoEntry const &>(m_redoStack.front());
+		m_redoing = true;
+		entry.undo->Undo();
+		m_redoing = false;
+		m_redoStack.pop_front();
+		completedEvent.PostEvent();
+	}
 }
 
 void CForgeUndoManager::Clear() // 0x108629A0
@@ -198,24 +226,26 @@ void CForgeUndoManager::StartRecording() // 0x10862F10
 	m_recording = true;
 }
 
-extern std::string _sub_10862B00(CForgeUndoManager const *const);
 std::string CForgeUndoManager::GetNextUndoSummary() const // 0x10862B00
 {
-	mangled_x86(MANGLED_TODO, "?GetNextUndoSummary@CForgeUndoManager@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetNextUndoSummary@CForgeUndoManager@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 	// CForgeUndoManager const *const this;
-	todo("implement");
-	std::string __result = _sub_10862B00((CForgeUndoManager const *)this);
-	return __result;
+
+	#line 231 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Forge\\ForgeUndo.cpp"
+	assert(m_undoStack.size() > 0);
+	#line 237 "C:\\Users\\zekken\\Desktop\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Forge\\ForgeUndo.cpp"
+	return m_undoStack.front().summary;
 }
 
-extern std::string _sub_10862A40(CForgeUndoManager const *const);
 std::string CForgeUndoManager::GetNextRedoSummary() const // 0x10862A40
 {
-	mangled_x86(MANGLED_TODO, "?GetNextRedoSummary@CForgeUndoManager@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetNextRedoSummary@CForgeUndoManager@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 	// CForgeUndoManager const *const this;
-	todo("implement");
-	std::string __result = _sub_10862A40((CForgeUndoManager const *)this);
-	return __result;
+
+	#line 242 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Forge\\ForgeUndo.cpp"
+	assert(m_redoStack.size() > 0);
+	#line 248 "C:\\Users\\zekken\\Desktop\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Forge\\ForgeUndo.cpp"
+	return m_redoStack.front().summary;
 }
 
 /* ---------- private code */

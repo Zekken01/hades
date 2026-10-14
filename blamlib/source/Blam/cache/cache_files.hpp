@@ -143,12 +143,14 @@ static_assert(sizeof(s_cache_tag_instance) == 36, "Invalid s_cache_tag_instance 
 
 struct s_cache_file_segment_header
 {
-	unsigned char __pad0[4]; // 0x0
+	// Unnamed: c_mod_package's value-initialisation of one zeroes from 0x4 on and
+	// leaves this field alone, which only an unnamed bit-field gets.
+	unsigned long : 32; // 0x0
 	unsigned long table_offset; // 0x4
 	unsigned long table_count; // 0x8
-	unsigned char __pad1[4]; // 0xC
+	unsigned long field_C; // 0xC
 	unsigned long long guid; // 0x10
-	unsigned char __pad2[8]; // 0x18
+	unsigned long long field_18; // 0x18
 };
 static_assert(sizeof(s_cache_file_segment_header) == 32, "Invalid s_cache_file_segment_header size");
 

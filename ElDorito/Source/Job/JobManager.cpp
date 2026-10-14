@@ -83,46 +83,44 @@ struct lambda_1;
 
 /* ---------- public code */
 
-_extern void _sub_1086A130(CJobManager *const);
 void CJobManager::Initialize() // 0x1086A130
 {
-	mangled_x86(MANGLED_TODO, "?Initialize@CJobManager@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@CJobManager@@QAEXXZ");
 	// CJobManager *const this;
 	// __int32 const kNumberOfWorkerThreads;
-	{
 		// __int32 i;
-		{
-		}
+
+	__int32 const kNumberOfWorkerThreads = 4;
+	for (__int32 i = 0; i < kNumberOfWorkerThreads; i++)
+	{
+		m_workerThreads.push_back(std::thread([this]() { WorkerThreadProc(); }));
 	}
-	todo("implement");
-	_sub_1086A130(this);
 }
 
-_extern void _sub_10869F80(CJobManager *const);
 void CJobManager::Dispose() // 0x10869F80
 {
-	mangled_x86(MANGLED_TODO, "?Dispose@CJobManager@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Dispose@CJobManager@@QAEXXZ");
 	// static ...; // 0x1086A084
 	// static ...; // 0x1086A078
 	// static ...; // 0x1086A070
 	// CJobManager *const this;
 	// std::unique_lock<std::mutex> lock;
-	{
 		// std::vector<std::thread> &<range>$L0;
 		// std::thread *<begin>$L0;
 		// std::thread *<end>$L0;
-		{
 			// std::thread &t;
-		}
-	}
-	todo("implement");
-	_sub_10869F80(this);
+
+	std::unique_lock<std::mutex> lock(m_mutex);
+	m_disposing = true;
+	m_emptyCondition.notify_all();
+	lock.unlock();
+	for (std::thread &t : m_workerThreads)
+		t.join();
 }
 
-_extern void _sub_10869D00(CJobManager *const, std::function<enum EJobResult __cdecl(void)>, __int32, SJobCounter *);
 void CJobManager::AddNewJob(std::function<enum EJobResult __cdecl(void)> function, __int32 priority, SJobCounter *counter) // 0x10869D00
 {
-	mangled_x86(MANGLED_TODO, "?AddNewJob@CJobManager@@QAEXV?$function@$$A6A?AW4EJobResult@@XZ@std@@HPAUSJobCounter@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?AddNewJob@CJobManager@@QAEXV?$function@$$A6A?AW4EJobResult@@XZ@std@@HPAUSJobCounter@@@Z");
 	// static ...; // 0x10869E84
 	// CJobManager *const this;
 	// std::function<enum EJobResult __cdecl(void)> function;
@@ -130,8 +128,21 @@ void CJobManager::AddNewJob(std::function<enum EJobResult __cdecl(void)> functio
 	// SJobCounter *counter;
 	// CJobManager::SJob job;
 	// std::unique_lock<std::mutex> lock;
-	todo("implement");
-	_sub_10869D00(this, function, priority, counter);
+
+	SJob job;
+	job.callback = function;
+	job.priority = priority;
+	job.counter = counter;
+	std::unique_lock<std::mutex> lock(m_mutex);
+	if (m_disposing)
+		return;
+	job.id = m_jobId++;
+	m_jobs.push(job);
+	if (job.counter)
+		job.counter->Increment();
+	m_jobCounter.Increment();
+	lock.unlock();
+	m_emptyCondition.notify_all();
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0SJob@CJobManager@@QAE@$$QAU01@@Z"); no body to assert in
@@ -148,10 +159,9 @@ _inline CJobManager::SJob::~SJob() = default; // 0x10869750
 // mangled_x86(MANGLED_DEFAULT, "??4SJob@CJobManager@@QAEAAU01@$$QAU01@@Z"); no body to assert in
 _inline CJobManager::SJob &CJobManager::SJob::operator=(CJobManager::SJob &&__that) = default; // 0x108698D0
 
-_extern bool _sub_1086A250(CJobManager *const);
 bool CJobManager::RunJobs() // 0x1086A250
 {
-	mangled_x86(MANGLED_TODO, "?RunJobs@CJobManager@@QAE_NXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?RunJobs@CJobManager@@QAE_NXZ");
 	// static ...; // 0x1086A40C
 	// static ...; // 0x1086A408
 	// static ...; // 0x1086A3F0
@@ -160,9 +170,30 @@ bool CJobManager::RunJobs() // 0x1086A250
 	// std::unique_lock<std::mutex> lock;
 	// CJobManager::SJob job;
 	// EJobResult result;
-	todo("implement");
-	bool __result = _sub_1086A250(this);
-	return __result;
+
+	std::unique_lock<std::mutex> lock(m_mutex);
+	m_emptyCondition.wait(lock, [this] { return !m_jobs.empty() || m_disposing; });
+	if (m_disposing)
+		return false;
+
+	CJobManager::SJob job = m_jobs.top();
+	m_jobs.pop();
+	lock.unlock();
+
+	EJobResult result = job.callback();
+	if (result >= Done)
+	{
+		if (job.counter)
+			job.counter->Decrement();
+		m_jobCounter.Decrement();
+	}
+	else
+	{
+		lock.lock();
+		m_jobs.push(job);
+		lock.unlock();
+	}
+	return true;
 }
 
 void CJobManager::WorkerThreadProc() // 0x1086A490

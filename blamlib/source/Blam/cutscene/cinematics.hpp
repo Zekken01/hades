@@ -69,7 +69,6 @@ struct s_cinematic_globals
 	bool outro_started; // 0x2E
 	bool unknown; // 0x2F
 	bool fade_active_for_user_skip; // 0x30
-	unsigned char __pad0[3]; // 0x31
 	long fade_start_time; // 0x34
 	long cinematic_fade_for_user_skip_end_time; // 0x38
 };

@@ -102,13 +102,10 @@ static_assert(sizeof(Modules::CommandScriptStack) == 20, "Invalid Modules::Comma
 
 namespace Modules
 {
-	extern CommandScript* _sub_10944E20(Modules::CommandScript *const, std::unique_ptr<std::istream>, bool, bool);
-	_inline CommandScript::CommandScript(std::unique_ptr<std::istream> stream, bool isUserInput, bool stopOnFirstError) // 0x10944E20
+	_inline CommandScript::CommandScript(std::unique_ptr<std::istream> stream, bool isUserInput, bool stopOnFirstError) : m_isUserInput(isUserInput), m_finished(false), m_stopOnFirstError(stopOnFirstError), m_stream(std::move(stream)), m_lineNum(0), m_hasError(false) /* hades-mem-init:  */ // 0x10944E20
 	{
-		mangled_x86(MANGLED_TODO, "??0CommandScript@Modules@@QAE@V?$unique_ptr@V?$basic_istream@DU?$char_traits@D@std@@@std@@U?$default_delete@V?$basic_istream@DU?$char_traits@D@std@@@std@@@2@@std@@_N1@Z");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0CommandScript@Modules@@QAE@V?$unique_ptr@V?$basic_istream@DU?$char_traits@D@std@@@std@@U?$default_delete@V?$basic_istream@DU?$char_traits@D@std@@@std@@@2@@std@@_N1@Z");
 		// bool stopOnFirstError;
-		todo("implement");
-		_sub_10944E20(this, std::move(stream), isUserInput, stopOnFirstError);
 	}
 }
 

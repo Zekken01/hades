@@ -33,6 +33,8 @@
 #include "Patches/Audio.hpp"
 #include "Pointer.hpp"
 
+#include "mods/mod_system.hpp"  // hades: added for 0x10A87700
+
 #include <Windows.h>
 #include <stdio.h>
 #include <sys/stat.h>
@@ -123,7 +125,7 @@ namespace hades_file_local
 		virtual void OnModChanged(EModIndex, IMod *);
 		ModListener(ModListener &); /* compiler_generated() */
 		ModListener(ModListener const &); /* compiler_generated() */
-		ModListener(); /* compiler_generated() */
+		ModListener() = default; /* compiler_generated() */ // 0x10A875E0
 		virtual ~ModListener() = default; /* compiler_generated() */
 		ModListener &operator=(ModListener &); /* compiler_generated() */
 		ModListener &operator=(ModListener const &); /* compiler_generated() */
@@ -140,6 +142,23 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+extern bool (*const file_get_size)(s_file_reference *, unsigned long *);  // hades: added for 0x10A882F0
+extern bool (*const file_open)(s_file_reference *, c_flags<enum e_file_permission_flags,long>, unsigned long *);  // hades: added for 0x10A882F0
+extern bool (*const file_read)(s_file_reference *, unsigned long, bool, void *);  // hades: added for 0x10A882F0
+extern bool (*const file_close)(s_file_reference *);  // hades: added for 0x10A882F0
+extern bool (*const cache_file_header_verify)(s_cache_file_header *, char const *, bool);  // hades: added for 0x10A882F0
+bool blf_find_chunk_in_buffer(unsigned char const *buffer, unsigned long buffer_size, unsigned long chunk_type, s_blf_chunk_header *out_chunk_header, unsigned char const **out_chunk_data, unsigned long *out_chunk_size);  // hades: added for 0x10A882F0
+
+extern void levels_close_multiplayer_map(long map_id);  // hades: added for 0x10A89060
+extern void levels_close_campaign_map(long map_id);  // hades: added for 0x10A89060
+extern void (*const levels_add_map_internal)(s_blf_map_information *, bool, char const *, bool);  // hades: added for 0x10A89060
+
+extern bool (*const levels_add_campaign_internal)(s_blf_campaign *, bool, char const *, bool);  // hades: added for 0x10A88E60
+void levels_close_all_campaigns();  // hades: added for 0x10A88E60
+
+extern bool (*const levels_try_and_get_multiplayer_map)(long, s_level_datum *);  // hades: added for 0x10A893B0
+__int32 ustrnicmp(wchar_t const *string1, wchar_t const *string2, long count);  // hades: added for 0x10A893B0
+
 namespace Patches
 {
 	namespace Maps
@@ -154,6 +173,15 @@ void __fastcall c_map_variant_initialize_default_hook(s_map_variant *thisptr, vo
 bool levels_add_map_impl(s_file_reference *file_reference, char const *maps_path);
 bool load_mod_package_campaigns(char const *virtual_path, c_mod_package *mod_package);
 bool load_mod_package_maps(char const *virtual_path, c_mod_package *mod_package, __int32 type_mask);
+extern bool (*const find_files_next)(s_find_file_data *, s_file_reference *, s_file_time *);  // hades: added for 0x10A886A0
+extern void (*const find_files_end)(s_find_file_data *);  // hades: added for 0x10A886A0
+extern void (*const find_files_start)(s_find_file_data *, unsigned long, s_file_reference *);  // hades: added for 0x10A886A0
+extern s_file_reference *(*const file_reference_create_from_path)(s_file_reference *, char const *, bool);  // hades: added for 0x10A886A0
+extern char *(*const file_reference_get_name)(s_file_reference *, c_flags<enum e_file_reference_flags,long>, char *, long);  // hades: added for 0x10A886A0
+extern wchar_t *(*const file_reference_get_name_wide)(s_file_reference *, c_flags<enum e_file_reference_flags,long>, wchar_t *, long);  // hades: added for 0x10A886A0
+extern void (*const levels_add_map)(s_file_reference *, char *);  // hades: added for 0x10A886A0
+extern bool (*const levels_add_campaign)(s_file_reference *, wchar_t *, bool);  // hades: added for 0x10A886A0
+extern char const *(*const cache_files_map_directory)();  // hades: added for 0x10A886A0
 long levels_enumerate_hook(s_levels_enumerate_async_data *data);
 
 /* ---------- globals */
@@ -164,7 +192,7 @@ namespace hades_file_local
 {
 	extern char const *const k_mods_mainmenu_virtual_path; // 0x111B0700
 	extern char const *const k_mods_game_virtual_path; // 0x111B0704
-	extern std::vector<unsigned char> map_file_buffer; // 0x12458E90
+	std::vector<unsigned char> map_file_buffer; // 0x12458E90
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -173,14 +201,24 @@ namespace Patches
 {
 	namespace Maps
 	{
-		_extern void _sub_10A87700();
 		void ApplyAll() // 0x10A87700
 		{
-			mangled_x86(MANGLED_TODO, "?ApplyAll@Maps@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Maps@Patches@@YAXXZ");
 			// procedure flags: nofpo
 			// function call : void (IModListener *)
-			todo("implement");
-			_sub_10A87700();
+
+			Pointer(0x54AD9C).Write<unsigned int>(reinterpret_cast<unsigned int>(levels_enumerate_hook));
+			Hook(0x6A81CF, c_map_variant_initialize_default_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x6A7954, c_map_variant_initialize_default_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x6A77CA, c_map_variant_initialize_default_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x6A78A3, c_map_variant_initialize_default_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x6A79D9, c_map_variant_initialize_default_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Patch(0x14BCA0, { 0xB8, 0x40, 0x01, 0x00, 0x00, 0xC3 }).Apply();
+			Patch(0x7004DF, { 0xEB }).Apply();
+			c_mod_system::GetModManager().AddListener(new ModListener());
+			Hook(0x1A8100, verify_against_multiplayer_levels_hook).Apply();
+			Hook(0x14B610, levels_get_available_map_mask_hook).Apply();
+			Pointer(0x54C19B).Write<unsigned char>(0x64);
 		}
 	}
 }
@@ -196,9 +234,9 @@ _inline void ModListener::OnModChanged(EModIndex index, IMod *mod) // 0x10A88240
 	levels_clear_and_enumerate_async();
 }
 
-_extern bool _sub_10A893B0(wchar_t const *);
 bool verify_against_multiplayer_levels_hook(wchar_t const *name) // 0x10A893B0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?verify_against_multiplayer_levels_hook@@YA_NPB_W@Z");
 	// `anonymous-namespace'::verify_against_multiplayer_levels_hook
 	// static ...; // 0x10A894EC
 	// static ...; // 0x10A894E4
@@ -208,17 +246,22 @@ bool verify_against_multiplayer_levels_hook(wchar_t const *name) // 0x10A893B0
 	// wchar_t const *name;
 	// long map_ids[100];
 	// long map_id_count;
-	{
 		// long i;
-		{
 			// s_level_datum level_datum;
-		}
-	}
 	// function call : long *(*const)(long *, long *)
 	// function call : bool (*const)(long, s_level_datum *)
-	todo("implement");
-	bool __result = _sub_10A893B0(name);
-	return __result;
+
+	static long *(*const levels_get_multiplayer_map_ids)(long *, long *) = reinterpret_cast<long *(*)(long *, long *)>(0x54BEE0);
+	long map_id_count = 100;
+	long map_ids[100];
+	levels_get_multiplayer_map_ids(map_ids, &map_id_count);
+	for (long i = 0; i < map_id_count; i++)
+	{
+		s_level_datum level_datum;
+		if (levels_try_and_get_multiplayer_map(map_ids[i], &level_datum) && !ustrnicmp(level_datum.name, name, 32))
+			return true;
+	}
+	return false;
 }
 
 unsigned long levels_get_available_map_mask_hook() // 0x10A88E40
@@ -239,9 +282,9 @@ void __fastcall c_map_variant_initialize_default_hook(s_map_variant *thisptr, vo
 	c_map_variant_loader::load_default(mapId, thisptr);
 }
 
-_extern bool _sub_10A882F0(s_file_reference *, char const *);
 bool levels_add_map_impl(s_file_reference *file_reference, char const *maps_path) // 0x10A882F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?levels_add_map_impl@@YA_NPAUs_file_reference@@PBD@Z");
 	// `anonymous-namespace'::levels_add_map_impl
 	// static ...; // 0x10A885C8
 	// static ...; // 0x10A885BD
@@ -260,9 +303,7 @@ bool levels_add_map_impl(s_file_reference *file_reference, char const *maps_path
 	// s_blf_chunk_header mapv_chunk;
 	// unsigned long levl_data_size;
 	// unsigned long file_size;
-	{
 		// s_blf_map_information *map_info;
-	}
 	// function call : bool (*const)(s_file_reference *, unsigned long *)
 	// function call : bool (*const)(s_file_reference *, c_flags<enum e_file_permission_flags,long>, unsigned long *)
 	// function call : bool (*const)(s_file_reference *, unsigned long, bool, void *)
@@ -271,18 +312,47 @@ bool levels_add_map_impl(s_file_reference *file_reference, char const *maps_path
 	// function call : bool (*const)(s_file_reference *)
 	// function call : void (*const)(s_blf_map_information *, bool, char const *, bool)
 	// function call : bool (*const)(s_file_reference *)
-	todo("implement");
-	bool __result = _sub_10A882F0(file_reference, maps_path);
-	return __result;
+
+	bool success = false;
+	unsigned long last_error;
+	unsigned long file_size;
+	if (!file_get_size(file_reference, &file_size) || file_size < 0x3390)
+		return false;
+	if (!file_open(file_reference, 1, &last_error))
+		return false;
+	map_file_buffer.resize(file_size);
+	if (!file_read(file_reference, map_file_buffer.size(), false, map_file_buffer.data()))
+	{
+		file_close(file_reference);
+		return false;
+	}
+	if (!cache_file_header_verify((s_cache_file_header *)map_file_buffer.data(), maps_path, false))
+	{
+		file_close(file_reference);
+		return false;
+	}
+	unsigned long map_blf_offset = 0x3390;
+	unsigned char *map_blf = map_file_buffer.data() + map_blf_offset;
+	unsigned long map_blf_size = map_file_buffer.size() - map_blf_offset;
+	s_blf_chunk_header mapv_chunk;
+	unsigned char const *levl_data;
+	unsigned long levl_data_size;
+	if (blf_find_chunk_in_buffer(map_blf, map_blf_size, 'levl', &mapv_chunk, &levl_data, &levl_data_size))
+	{
+		s_blf_map_information *map_info = (s_blf_map_information *)(levl_data - 12);
+		levels_add_map_internal(map_info, false, maps_path, true);
+		success = true;
+	}
+	file_close(file_reference);
+	return success;
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0ModListener@hades_file_local@@QAE@XZ"); no body to assert in
-_inline ModListener::ModListener() = default; // 0x10A875E0
 
 
-_extern bool _sub_10A88E60(char const *, c_mod_package *);
 bool load_mod_package_campaigns(char const *virtual_path, c_mod_package *mod_package) // 0x10A88E60
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?load_mod_package_campaigns@@YA_NPBDPAVc_mod_package@@@Z");
 	// `anonymous-namespace'::load_mod_package_campaigns
 	// static ...; // 0x10A88FEF
 	// static ...; // 0x10A88FE6
@@ -297,14 +367,23 @@ bool load_mod_package_campaigns(char const *virtual_path, c_mod_package *mod_pac
 	// c_file_reference file;
 	// c_file_open_scope scope;
 	// function call : bool (*const)(s_blf_campaign *, bool, char const *, bool)
-	todo("implement");
-	bool __result = _sub_10A88E60(virtual_path, mod_package);
-	return __result;
+
+	c_mod_package *game_mod = mod_package;
+	c_file_reference file = game_mod->get_file();
+	c_file_open_scope scope(file, 1);
+	s_blf_campaign campaign;
+	bool byte_swap = false;
+	if (game_mod->read_campaign(file, &campaign, &byte_swap))
+	{
+		levels_close_all_campaigns();
+		levels_add_campaign_internal(&campaign, byte_swap, virtual_path, false);
+	}
+	return true;
 }
 
-_extern bool _sub_10A89060(char const *, c_mod_package *, __int32);
 bool load_mod_package_maps(char const *virtual_path, c_mod_package *mod_package, __int32 type_mask) // 0x10A89060
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?load_mod_package_maps@@YA_NPBDPAVc_mod_package@@H@Z");
 	// `anonymous-namespace'::load_mod_package_maps
 	// static ...; // 0x10A892EC
 	// static ...; // 0x10A892C8
@@ -317,24 +396,41 @@ bool load_mod_package_maps(char const *virtual_path, c_mod_package *mod_package,
 	// c_mod_package *game_mod;
 	// c_file_reference file;
 	// c_file_open_scope scope;
-	{
 		// __int32 i;
-		{
 			// short map_type;
 			// s_mod_package_map_file_entry const *entry;
 			// static s_blf_map_information `load_mod_package_maps'::`4'::blf_map_information; // 0x12458EA0
 			// static __int32 `load_mod_package_maps'::`4'::$TSS0; // 0x12462760
-		}
-	}
 	// function call : void (*const)(s_blf_map_information *, bool, char const *, bool)
-	todo("implement");
-	bool __result = _sub_10A89060(virtual_path, mod_package, type_mask);
-	return __result;
+
+	c_mod_package *game_mod = mod_package;
+	c_file_reference file = game_mod->get_file();
+	c_file_open_scope scope(file, 1);
+	bool byte_swap = false;
+	long map_count = game_mod->get_map_count();
+	for (__int32 i = 0; i < map_count; i++)
+	{
+		s_mod_package_map_file_entry const *entry = game_mod->get_map_file_entry(i);
+		short map_type;
+		if (!game_mod->read_section_data(file, (e_mod_package_sections)4, entry->offset + 0x13C, 2, &map_type))
+			continue;
+		if (!(type_mask & (1 << map_type)))
+			continue;
+		if (map_type == 1)
+			levels_close_multiplayer_map(entry->map_id);
+		if (map_type == 0)
+			levels_close_campaign_map(entry->map_id);
+		static s_blf_map_information blf_map_information;
+		if (!game_mod->read_map_blf_map_information(file, i, &blf_map_information))
+			continue;
+		levels_add_map_internal(&blf_map_information, false, virtual_path, true);
+	}
+	return true;
 }
 
-_extern long _sub_10A886A0(s_levels_enumerate_async_data *);
 long levels_enumerate_hook(s_levels_enumerate_async_data *data) // 0x10A886A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?levels_enumerate_hook@@YAJPAUs_levels_enumerate_async_data@hades_file_local@@@Z");
 	// `anonymous-namespace'::levels_enumerate_hook
 	// static ...; // 0x10A88CA7
 	// static ...; // 0x10A88C9D
@@ -349,19 +445,9 @@ long levels_enumerate_hook(s_levels_enumerate_async_data *data) // 0x10A886A0
 	// char directory_ascii[256];
 	// s_file_reference file_reference;
 	// wchar_t directory[256];
-	{
 		// Ref<IMod> mod;
-		{
 			// c_mod_package *pak;
-		}
-	}
-	{
-		{
-		}
-	}
-	{
 		// s_file_reference *maps_directory_file_reference;
-	}
 	// function call : bool (*const)(s_find_file_data *, s_file_reference *, s_file_time *)
 	// function call : void (*const)(s_find_file_data *)
 	// function call : char *(*const)(s_file_reference *, c_flags<enum e_file_reference_flags,long>, char *, long)
@@ -378,9 +464,72 @@ long levels_enumerate_hook(s_levels_enumerate_async_data *data) // 0x10A886A0
 	// function call : char const *(*const)()
 	// function call : s_file_reference *(*const)(s_file_reference *, char const *, bool)
 	// function call : void (*const)(s_find_file_data *, unsigned long, s_file_reference *)
-	todo("implement");
-	long __result = _sub_10A886A0(data);
-	return __result;
+
+	char directory_ascii[256];
+	wchar_t directory[256];
+	wchar_t extension[256];
+	s_file_reference file_reference;
+	if (data->state)
+	{
+		if (data->state == 1)
+		{
+			if (!find_files_next(data->find_data, &file_reference, nullptr))
+			{
+				find_files_end(data->find_data);
+				data->state++;
+			}
+			file_reference_get_name(&file_reference, 1, directory_ascii, 256);
+			file_reference_get_name_wide(&file_reference, 1, directory, 256);
+			file_reference_get_name_wide(&file_reference, 8, extension, 256);
+			if (!wcscmp(extension, L"map"))
+			{
+				if (!levels_add_map_impl(&file_reference, directory_ascii))
+					levels_add_map(&file_reference, directory_ascii);
+			}
+			else if (!wcscmp(extension, L"campaign"))
+			{
+				levels_add_campaign(&file_reference, directory, true);
+			}
+		}
+		else if (data->state == 2)
+		{
+			{
+				Ref<IMod> mod = c_mod_system::GetModManager().GetModShared(kGame);
+				if (mod)
+				{
+					if (mod->GetPakIsLoading())
+						return 0;
+					c_mod_package *pak = mod->GetPak(false);
+					if (pak)
+					{
+						load_mod_package_campaigns(k_mods_game_virtual_path, pak);
+						load_mod_package_maps(k_mods_game_virtual_path, pak, 3);
+					}
+				}
+			}
+			{
+				Ref<IMod> mod = c_mod_system::GetModManager().GetModShared(kMainMenu);
+				if (mod)
+				{
+					if (mod->GetPakIsLoading())
+						return 0;
+					c_mod_package *pak = mod->GetPak(false);
+					if (pak)
+					{
+						load_mod_package_maps(k_mods_mainmenu_virtual_path, pak, 4);
+					}
+				}
+			}
+			data->state = 3;
+		}
+	}
+	else
+	{
+		s_file_reference *maps_directory_file_reference = file_reference_create_from_path(&file_reference, cache_files_map_directory(), true);
+		find_files_start(data->find_data, 0, maps_directory_file_reference);
+		data->state++;
+	}
+	return data->state == 3;
 }
 
 /* ---------- template instantiations */

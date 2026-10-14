@@ -49,7 +49,6 @@ static_assert(sizeof(SQueryInfoServerArgs) == 60, "Invalid SQueryInfoServerArgs 
 struct SQueryInfoServerData
 {
 	bool success; // 0x0
-	unsigned char __pad0[3]; // 0x1
 	std::string serverName; // 0x4
 	std::string serverHost; // 0x20
 	std::string message; // 0x3C
@@ -61,7 +60,7 @@ struct SQueryInfoServerData
 	SQueryInfoServerData(SQueryInfoServerData const &); /* compiler_generated() */
 	_inline SQueryInfoServerData() = default; /* compiler_generated() */
 	_inline ~SQueryInfoServerData(); /* compiler_generated() */
-	_inline SQueryInfoServerData &operator=(SQueryInfoServerData &&__that); /* compiler_generated() */
+	_inline SQueryInfoServerData &operator=(SQueryInfoServerData &&__that) noexcept; /* compiler_generated() */  // hades: noexcept, as an implicit one is (no unwind state around its callers)
 	SQueryInfoServerData &operator=(SQueryInfoServerData const &); /* compiler_generated() */
 };
 #pragma pack(pop)
@@ -87,7 +86,8 @@ private:
 	std::vector<SServerConnectState::SRequiredMod> m_requiredMods; // 0xC8
 public:
 	_inline CServerConnectStateHandler_QueryServer() = default; /* compiler_generated() */
-	_inline ~CServerConnectStateHandler_QueryServer(); /* compiler_generated() */
+	// mangled_x86(MANGLED_KNOWN_GOOD, "??1CServerConnectStateHandler_QueryServer@@QAE@XZ"); defaulted on its declaration
+	_inline ~CServerConnectStateHandler_QueryServer() = default; // 0x10b06c60
 };
 static_assert(sizeof(CServerConnectStateHandler_QueryServer) == 216, "Invalid CServerConnectStateHandler_QueryServer size");
 

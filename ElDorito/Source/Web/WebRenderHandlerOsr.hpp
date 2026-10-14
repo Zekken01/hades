@@ -42,7 +42,8 @@ namespace Web
 				PET_POPUP,
 			};
 			public:
-			virtual _inline ~RenderHandlerOsr();
+			// mangled_x86(MANGLED_KNOWN_GOOD, "??1RenderHandlerOsr@Browser@Web@@UAE@XZ"); defaulted on its declaration, which skips the vfptr stores
+			virtual _inline ~RenderHandlerOsr() = default; // 0x10CE8350
 			virtual _inline void OnPopupShow(scoped_refptr<CefBrowser> browser, bool show);
 			virtual _inline void OnPopupSize(scoped_refptr<CefBrowser> browser, CefRect const &rect);
 			virtual _inline void OnPaint(scoped_refptr<CefBrowser> browser, cef_paint_element_type_t type, std::vector<CefRect> const &dirtyRects, void const *buffer, __int32 width, __int32 height);
@@ -71,47 +72,28 @@ namespace Web
 {
 	namespace Browser
 	{
-		_inline RenderHandlerOsr::~RenderHandlerOsr() // 0x10CE8350
-		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??1RenderHandlerOsr@Browser@Web@@UAE@XZ");
-			// __shifted(Web::Browser::RenderHandlerOsr, 8);
-			// Web::Browser::RenderHandlerOsr *const this;
-		}
-
-		_extern void _sub_10CE9550(Web::Browser::RenderHandlerOsr *const, scoped_refptr<CefBrowser>, bool);
 		_inline void RenderHandlerOsr::OnPopupShow(scoped_refptr<CefBrowser> browser, bool show) // 0x10CE9550
 		{
-			mangled_x86(MANGLED_TODO, "?OnPopupShow@RenderHandlerOsr@Browser@Web@@UAEXV?$scoped_refptr@VCefBrowser@@@@_N@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnPopupShow@RenderHandlerOsr@Browser@Web@@UAEXV?$scoped_refptr@VCefBrowser@@@@_N@Z");
 			// bool show;
-			todo("implement");
-			_sub_10CE9550(this, browser, show);
 		}
 
-		_extern void _sub_10CE96D0(Web::Browser::RenderHandlerOsr *const, scoped_refptr<CefBrowser>, CefRect const &);
 		_inline void RenderHandlerOsr::OnPopupSize(scoped_refptr<CefBrowser> browser, CefRect const &rect) // 0x10CE96D0
 		{
-			mangled_x86(MANGLED_TODO, "?OnPopupSize@RenderHandlerOsr@Browser@Web@@UAEXV?$scoped_refptr@VCefBrowser@@@@ABVCefRect@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnPopupSize@RenderHandlerOsr@Browser@Web@@UAEXV?$scoped_refptr@VCefBrowser@@@@ABVCefRect@@@Z");
 			// CefRect const &rect;
-			todo("implement");
-			_sub_10CE96D0(this, browser, rect);
 		}
 
-		_extern void _sub_10CE9390(Web::Browser::RenderHandlerOsr *const, scoped_refptr<CefBrowser>, cef_paint_element_type_t, std::vector<CefRect> const &, void const *, __int32, __int32);
 		_inline void RenderHandlerOsr::OnPaint(scoped_refptr<CefBrowser> browser, cef_paint_element_type_t type, std::vector<CefRect> const &dirtyRects, void const *buffer, __int32 width, __int32 height) // 0x10CE9390
 		{
-			mangled_x86(MANGLED_TODO, "?OnPaint@RenderHandlerOsr@Browser@Web@@UAEXV?$scoped_refptr@VCefBrowser@@@@W4cef_paint_element_type_t@@ABV?$vector@VCefRect@@V?$allocator@VCefRect@@@std@@@std@@PBXHH@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnPaint@RenderHandlerOsr@Browser@Web@@UAEXV?$scoped_refptr@VCefBrowser@@@@W4cef_paint_element_type_t@@ABV?$vector@VCefRect@@V?$allocator@VCefRect@@@std@@@std@@PBXHH@Z");
 			// __int32 height;
-			todo("implement");
-			_sub_10CE9390(this, browser, type, dirtyRects, buffer, width, height);
 		}
 
-		_extern void _sub_10CE8D20(Web::Browser::RenderHandlerOsr *const, scoped_refptr<CefBrowser>, cef_paint_element_type_t, std::vector<CefRect> const &, void *);
 		_inline void RenderHandlerOsr::OnAcceleratedPaint(scoped_refptr<CefBrowser> browser, cef_paint_element_type_t type, std::vector<CefRect> const &dirtyRects, void *sharedHandle) // 0x10CE8D20
 		{
-			mangled_x86(MANGLED_TODO, "?OnAcceleratedPaint@RenderHandlerOsr@Browser@Web@@UAEXV?$scoped_refptr@VCefBrowser@@@@W4cef_paint_element_type_t@@ABV?$vector@VCefRect@@V?$allocator@VCefRect@@@std@@@std@@PAX@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnAcceleratedPaint@RenderHandlerOsr@Browser@Web@@UAEXV?$scoped_refptr@VCefBrowser@@@@W4cef_paint_element_type_t@@ABV?$vector@VCefRect@@V?$allocator@VCefRect@@@std@@@std@@PAX@Z");
 			// void *sharedHandle;
-			todo("implement");
-			_sub_10CE8D20(this, browser, type, dirtyRects, sharedHandle);
 		}
 
 		_inline bool RenderHandlerOsr::InitRenderer() // 0x10CE8C30

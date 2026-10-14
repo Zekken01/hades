@@ -12,6 +12,8 @@
 #include "Common/Http/HttpHeaders.hpp"
 #include "mods/tag_name_dictionary.hpp"
 
+#include "Blam/cseries/cseries.hpp"  // hades: added for 0x10875680
+
 #include <memory>
 #include <vector>
 
@@ -72,7 +74,7 @@ private:
 	bool load_tags();
 	bool load_internal();
 	bool m_initialized; // 0x0
-	unsigned char __pad0[3]; // 0x1
+	// 0x1: 3 bytes of implicit padding (hades: no array member, it would add a /GS cookie to stack instances)
 	c_file_reference m_file; // 0x4
 	unsigned long const m_base_offset; // 0x114
 	std::vector<unsigned long> m_tag_offsets; // 0x118
@@ -101,14 +103,13 @@ _inline c_cache_file_tag_cache::~c_cache_file_tag_cache() // 0x10877EB0
 	// c_cache_file_tag_cache *const this;
 }
 
-_extern bool _sub_10875680(c_cache_file_tag_cache const *const, long);
 _inline bool c_cache_file_tag_cache::valid_index(long index) const // 0x10875680
 {
-	mangled_x86(MANGLED_TODO, "?valid_index@c_cache_file_tag_cache@@QBE_NJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?valid_index@c_cache_file_tag_cache@@QBE_NJ@Z");
 	// long index;
-	todo("implement");
-	bool __result = _sub_10875680((c_cache_file_tag_cache const *)this, index);
-	return __result;
+
+	if (!(m_initialized)) { display_assert("m_initialized", "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\cache_file_tag_cache.hpp", 65, true); system_exit(-1); }
+	return index >= 0 && index < (long)m_tag_offsets.size();
 }
 
 _inline bool c_cache_file_tag_cache::valid_tag(long index) const // 0x10892020
@@ -159,14 +160,12 @@ _inline c_cache_file_tag_cache::c_instance_iterator c_cache_file_tag_cache::crea
 	return c_instance_iterator(this, group_filter);
 }
 
-extern c_file_reference _sub_108C2EE0(c_cache_file_tag_cache const *const);
 _inline c_file_reference c_cache_file_tag_cache::get_file() const // 0x108C2EE0
 {
-	mangled_x86(MANGLED_TODO, "?get_file@c_cache_file_tag_cache@@QBE?AVc_file_reference@@XZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_file@c_cache_file_tag_cache@@QBE?AVc_file_reference@@XZ");
 	// c_cache_file_tag_cache const *const this;
-	todo("implement");
-	c_file_reference __result = _sub_108C2EE0((c_cache_file_tag_cache const *)this);
-	return __result;
+
+	return c_file_reference(m_file.filename);
 }
 
 /* ---------- private code */

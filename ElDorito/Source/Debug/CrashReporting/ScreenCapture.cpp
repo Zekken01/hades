@@ -67,6 +67,8 @@ namespace Debug
 
 /* ---------- prototypes */
 
+namespace Utils { namespace Jpeg { extern void CompressBuf(std::vector<unsigned char> &dest, __int32 quality, unsigned char const *srcBits, __int32 width, __int32 height); } }  // hades: added for 0x106978B0  // hades: added for 0x106978B0
+
 namespace Debug
 {
 	namespace CrashReporting
@@ -81,14 +83,14 @@ namespace Debug
 
 /* ---------- public code */
 
-extern std::string _sub_106978B0();
+
 namespace Debug
 {
 	namespace CrashReporting
 	{
 		std::string TakeScreenshot() // 0x106978B0
 		{
-			mangled_x86(MANGLED_TODO, "?TakeScreenshot@CrashReporting@Debug@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?TakeScreenshot@CrashReporting@Debug@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 			// procedure flags: nofpo
 			// static ...; // 0x10697CD8
 			// static ...; // 0x10697CD4
@@ -96,7 +98,6 @@ namespace Debug
 			// static ...; // 0x10697CAC
 			// static ...; // 0x10697CA4
 		// $LN19:
-			{
 				// HBITMAP__ *bmpDest;
 				// HWND__ *hwndSrc;
 				// unsigned char *bits;
@@ -107,7 +108,6 @@ namespace Debug
 				// HDC__ *dcSrc;
 				// HDC__ *dcDst;
 				// tagBITMAPINFO bmi;
-			}
 			// function call : __int32 (HWND__ *, tagRECT *)
 			// function call : HDC__ *(HWND__ *)
 			// function call : HDC__ *(HDC__ *)
@@ -116,9 +116,47 @@ namespace Debug
 			// function call : __int32 (HDC__ *, __int32, __int32, __int32, __int32, HDC__ *, __int32, __int32, unsigned long)
 			// function call : __int32 (HDC__ *, HBITMAP__ *, unsigned __int32, unsigned __int32, void *, tagBITMAPINFO *, unsigned __int32)
 			// function call : __int32 (HDC__ *, HBITMAP__ *, unsigned __int32, unsigned __int32, void *, tagBITMAPINFO *, unsigned __int32)
-			todo("implement");
-			std::string __result = _sub_106978B0();
-			return __result;
+
+			try
+			{
+				HWND__ *hwndSrc = *(HWND__ **)0x199C014;
+				if (!hwndSrc)
+					return {};
+				tagRECT rc;
+				if (!GetClientRect(hwndSrc, &rc))
+					return {};
+				__int32 sx = rc.right - rc.left;
+				__int32 sy = rc.bottom - rc.top;
+				HDC__ *dcSrc = GetDC(hwndSrc);
+				if (!dcSrc)
+					return {};
+				HDC__ *dcDst = CreateCompatibleDC(dcSrc);
+				if (!dcDst)
+					return {};
+				HBITMAP__ *bmpDest = CreateCompatibleBitmap(dcSrc, sx, sy);
+				if (!bmpDest || !SelectObject(dcDst, bmpDest))
+					return {};
+				if (!BitBlt(dcDst, 0, 0, sx, sy, dcSrc, 0, 0, SRCCOPY))
+					return {};
+				tagBITMAPINFO bmi;
+				memset(&bmi, 0, sizeof(bmi));
+				bmi.bmiHeader.biSize = sizeof(tagBITMAPINFOHEADER);
+				if (!GetDIBits(dcDst, bmpDest, 0, 0, nullptr, &bmi, DIB_RGB_COLORS))
+					return {};
+				bmi.bmiHeader.biBitCount = 32;
+				bmi.bmiHeader.biCompression = BI_RGB;
+				bmi.bmiHeader.biHeight = -bmi.bmiHeader.biHeight;
+				unsigned char *bits = new unsigned char[bmi.bmiHeader.biSizeImage];
+				if (!GetDIBits(dcDst, bmpDest, 0, bmi.bmiHeader.biHeight, bits, &bmi, DIB_RGB_COLORS))
+					return {};
+				std::vector<unsigned char> buf;
+				Utils::Jpeg::CompressBuf(buf, 80, bits, sx, sy);
+				return Utils::String::Base64Encode(buf.data(), buf.size());
+			}
+			catch (...)
+			{
+			}
+			return {};
 		}
 	}
 }

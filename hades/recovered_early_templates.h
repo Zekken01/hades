@@ -188,15 +188,15 @@ public:
 	_inline long get_count();
 	static _inline bool valid(__int32 index);
 	_inline t_type *begin() const;
-	s_static_array(s_static_array &) = default; /* compiler_generated() */
+	// s_static_array(s_static_array &) = default; /* compiler_generated() */
 	_inline t_type *end() const;
-	s_static_array(s_static_array const &) = default; /* compiler_generated() */
+	// s_static_array(s_static_array const &) = default; /* compiler_generated() */
 	_inline t_type *get_elements();
 	// hades: `= default` rather than a declaration with no definition. A
 	// declared-only constructor makes every defaulted constructor of a class
 	// holding one emit a call to it, which the original does not have -
 	// c_network_session_parameter_base's lost its match that way.
-	_inline s_static_array() = default; /* compiler_generated() */
+	// hades: no declared constructors at all, so it stays an aggregate (H7).
 	t_type m_elements[k_count]; // 0x0
 	s_static_array &operator=(s_static_array &) = default; /* compiler_generated() */
 	s_static_array &operator=(s_static_array const &) = default; /* compiler_generated() */
@@ -212,9 +212,9 @@ public:
 	{
 		std::function<void __cdecl(t_args...)> callback; // 0x0
 		int id; // 0x28
-		unsigned char __pad0[4]; // 0x2C
-		SCallbackEntry(SCallbackEntry &&__that);
-		~SCallbackEntry();
+		// hades: no declared special members, so it stays an aggregate - Subscribe
+		// builds its entry with aggregate initialization, and the move constructor
+		// and destructor are the implicit ones.
 	};
 	typedef std::function<void __cdecl(t_args...)> TCallback;
 	_inline __int32 Subscribe(std::function<void __cdecl(t_args...)> const &callable);
@@ -225,7 +225,7 @@ private:
 	std::atomic<int> m_nextId; // 0x0
 	std::vector<CEventSink::SCallbackEntry> m_callbacks; // 0x4
 public:
-	_inline CEventSink(); /* compiler_generated() */
+	CEventSink() = default; /* compiler_generated() */  // hades: implicit (noexcept, no EH in its users)
 	_inline ~CEventSink() = default; /* compiler_generated() */
 };
 

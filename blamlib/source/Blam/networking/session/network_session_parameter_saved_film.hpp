@@ -42,7 +42,7 @@ public:
 	c_network_session_parameter_saved_film_game_options(); /* compiler_generated() */
 	c_network_session_parameter_saved_film_game_options &operator=(c_network_session_parameter_saved_film_game_options &); /* compiler_generated() */
 	c_network_session_parameter_saved_film_game_options &operator=(c_network_session_parameter_saved_film_game_options const &); /* compiler_generated() */
-	void __autoclassinit2(unsigned __int32); /* compiler_generated() */
+	// void __autoclassinit2(unsigned __int32); /* compiler_generated() */  // hades: /sdl generates it
 };
 static_assert(sizeof(c_network_session_parameter_saved_film_game_options) == 370496, "Invalid c_network_session_parameter_saved_film_game_options size");
 

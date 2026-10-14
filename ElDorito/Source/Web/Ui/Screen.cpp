@@ -98,13 +98,12 @@ namespace Web
 {
 	namespace Ui
 	{
-		_extern void _sub_10C8CCA0(Web::Ui::WebScreen *const, std::string const &, std::string const &);
 		void WebScreen::Notify(std::string const &event, std::string const &data) // 0x10C8CCA0
 		{
-			mangled_x86(MANGLED_TODO, "?Notify@WebScreen@Ui@Web@@IAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Notify@WebScreen@Ui@Web@@IAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z");
 			// std::string const &data;
-			todo("implement");
-			_sub_10C8CCA0(this, event, data);
+
+			ScreenLayer::Notify(event, data, false);
 		}
 	}
 }

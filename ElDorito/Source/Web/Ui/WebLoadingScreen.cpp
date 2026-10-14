@@ -12,6 +12,7 @@
 #include "Blam/tag_files/tag_groups.hpp"
 #include "ChatCommands/ChatCommandMap.hpp"
 #include "Console/Console.hpp"
+#include "mods/memory/physical_memory_manager.hpp"
 #include "ElDorito.hpp"
 #include "mods/FileSystem/ModPackageFileSystemView.hpp"
 #include "mods/mod_identifier.hpp"
@@ -194,6 +195,7 @@ namespace hades_file_local
 }
 using namespace hades_file_local;
 /* ---------- prototypes */
+extern s_cache_file_tag_globals *g_cache_file_tag_globals;  // hades: added for 0x10CAA3A0
 
 namespace Web
 {
@@ -218,17 +220,17 @@ namespace Web
 	{
 		namespace WebLoadingScreen
 		{
-			_extern void _sub_10CAAAE0();
 			void Init() // 0x10CAAAE0
 			{
-				mangled_x86(MANGLED_TODO, "?Init@WebLoadingScreen@Ui@Web@@YAXXZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?Init@WebLoadingScreen@Ui@Web@@YAXXZ");
 				// procedure flags: nofpo
 				// static ...; // 0x10CAAB9C
 				// static ...; // 0x10CAAB90
 				// static ...; // 0x10CAAB88
 				// std::shared_ptr<WebLoadingScreenUi> ui;
-				todo("implement");
-				_sub_10CAAAE0();
+
+				std::shared_ptr<WebLoadingScreenUi> ui = std::make_shared<WebLoadingScreenUi>();
+				Patches::LoadingScreen::SetUi(ui);
 			}
 		}
 	}
@@ -244,19 +246,18 @@ namespace Patches
 
 /* ---------- private code */
 
-extern WebLoadingScreenUi* _sub_10CA9FE0(WebLoadingScreenUi *const);
-_inline WebLoadingScreenUi::WebLoadingScreenUi() // 0x10CA9FE0
+_inline WebLoadingScreenUi::WebLoadingScreenUi() : currentBytes(0), totalBytes(0) /* hades-mem-init:  */ // 0x10CA9FE0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0WebLoadingScreenUi@hades_file_local@@QAE@XZ");
+	// the original is empty
 	// `anonymous-namespace'::WebLoadingScreenUi::WebLoadingScreenUi
 	// WebLoadingScreenUi *const this;
-	todo("implement");
-	_sub_10CA9FE0(this);
 }
 
 
-_extern void _sub_10CAAC00(WebLoadingScreenUi *const, Patches::LoadingScreen::LoadingScreenShowInfo const &);
 void WebLoadingScreenUi::Show(Patches::LoadingScreen::LoadingScreenShowInfo const &info) // 0x10CAAC00
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Show@WebLoadingScreenUi@hades_file_local@@UAEXABULoadingScreenShowInfo@LoadingScreen@Patches@@@Z");
 	// `anonymous-namespace'::WebLoadingScreenUi::Show
 	// static ...; // 0x10CAB1CF
 	// static ...; // 0x10CAB1C4
@@ -269,11 +270,68 @@ void WebLoadingScreenUi::Show(Patches::LoadingScreen::LoadingScreenShowInfo cons
 	// std::string mapName;
 	// static bool `WebLoadingScreenUi::Show'::`2'::firstShow; // 0x1247EDC8
 	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
-	{
 		// unsigned __int32 i;
+
+	benchmark_start = std::chrono::steady_clock::now();
+	unsigned __int32 separatorIndex = info.MapPath.find_last_of("\\/");
+	std::string mapName = info.MapPath.substr(separatorIndex + 1);
+	benchmarkMapName = mapName;
+	rapidjson::StringBuffer jsonBuffer;
+	rapidjson::Writer<rapidjson::StringBuffer> jsonWriter(jsonBuffer);
+	jsonWriter.StartObject();
+	jsonWriter.Key("map");
+	jsonWriter.String(mapName.c_str());
+	jsonWriter.Key("mapName");
+	jsonWriter.String(info.MapName.c_str());
+	jsonWriter.Key("mapAuthor");
+	jsonWriter.String(info.MapAuthor.c_str());
+	jsonWriter.Key("serverName");
+	jsonWriter.String(info.ServerName.c_str());
+	jsonWriter.Key("serverMessage");
+	jsonWriter.String(info.ServerMessage.c_str());
+	jsonWriter.Key("mode");
+	jsonWriter.Int(info.VariantType);
+	jsonWriter.Key("gameType");
+	jsonWriter.String(info.VariantName.c_str());
+	jsonWriter.Key("rounds");
+	jsonWriter.Int(info.NumberOfRounds);
+	jsonWriter.Key("timeLimit");
+	jsonWriter.Int(info.TimeLimit);
+	jsonWriter.Key("scoreToWin");
+	jsonWriter.Int(info.ScoreToWin);
+	jsonWriter.Key("gameMode");
+	jsonWriter.Int(info.GameMode);
+	jsonWriter.Key("mapDescription");
+	jsonWriter.String(info.MapDescription.c_str());
+	jsonWriter.Key("insertionPointName");
+	jsonWriter.String(info.InsertionName.c_str());
+	jsonWriter.Key("insertionPointDescription");
+	jsonWriter.String(info.InsertionDescription.c_str());
+	jsonWriter.Key("skulls");
+	jsonWriter.StartArray();
+	for (unsigned __int32 i = 0; i < info.Skulls.size(); i++)
+		jsonWriter.String(info.Skulls[i].c_str());
+	jsonWriter.EndArray();
+	jsonWriter.Key("difficulty");
+	jsonWriter.String(info.Difficulty.c_str());
+	jsonWriter.Key("modHash");
+	jsonWriter.String(info.modHash.c_str());
+	jsonWriter.Key("modName");
+	jsonWriter.String(info.modName.c_str());
+	jsonWriter.Key("modDescription");
+	jsonWriter.String(info.modDescription.c_str());
+	jsonWriter.Key("modAuthor");
+	jsonWriter.String(info.modAuthor.c_str());
+	jsonWriter.Key("modVersion");
+	jsonWriter.String(info.modVersion.c_str());
+	jsonWriter.EndObject();
+	Web::Ui::ScreenLayer::Show(Web::Ui::ScreenLayer::Loading, jsonBuffer.GetString());
+	static bool firstShow = false;
+	if (!firstShow && !ElDorito::Instance().IsConnectingToServer())
+	{
+		Web::Ui::ScreenLayer::Show(Web::Ui::ScreenLayer::Title, "{ firstBoot: true }");
+		firstShow = true;
 	}
-	todo("implement");
-	_sub_10CAAC00(this, info);
 }
 
 void WebLoadingScreenUi::Begin(unsigned __int32 totalBytes) // 0x10CAA320
@@ -287,9 +345,9 @@ void WebLoadingScreenUi::Begin(unsigned __int32 totalBytes) // 0x10CAA320
 	lastUpdateTime = std::chrono::steady_clock::now();
 }
 
-_extern void _sub_10CAB360(WebLoadingScreenUi *const, unsigned __int32);
 void WebLoadingScreenUi::UpdateProgress(unsigned __int32 bytes) // 0x10CAB360
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateProgress@WebLoadingScreenUi@hades_file_local@@UAEXI@Z");
 	// `anonymous-namespace'::WebLoadingScreenUi::UpdateProgress
 	// static ...; // 0x10CAB59B
 	// static ...; // 0x10CAB590
@@ -301,13 +359,27 @@ void WebLoadingScreenUi::UpdateProgress(unsigned __int32 bytes) // 0x10CAB360
 	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
 	// long long elapsed;
 	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
-	todo("implement");
-	_sub_10CAB360(this, bytes);
+
+	currentBytes += bytes;
+	auto currentTime = std::chrono::steady_clock::now();
+	auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - lastUpdateTime).count();
+	if (elapsed < 75)
+		return;
+	lastUpdateTime = currentTime;
+	rapidjson::StringBuffer jsonBuffer;
+	rapidjson::Writer<rapidjson::StringBuffer> jsonWriter(jsonBuffer);
+	jsonWriter.StartObject();
+	jsonWriter.Key("currentBytes");
+	jsonWriter.Int64(currentBytes);
+	jsonWriter.Key("totalBytes");
+	jsonWriter.Int64(totalBytes);
+	jsonWriter.EndObject();
+	Web::Ui::ScreenLayer::NotifyScreen(Web::Ui::ScreenLayer::Loading, "loadprogress", jsonBuffer.GetString());
 }
 
-_extern void _sub_10CAA3A0(WebLoadingScreenUi *const);
 void WebLoadingScreenUi::Hide() // 0x10CAA3A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Hide@WebLoadingScreenUi@hades_file_local@@UAEXXZ");
 	// `anonymous-namespace'::WebLoadingScreenUi::Hide
 	// static ...; // 0x10CAA957
 	// static ...; // 0x10CAA952
@@ -328,6 +400,25 @@ void WebLoadingScreenUi::Hide() // 0x10CAA3A0
 	// float used_tag_memory_size;
 	// std::chrono::duration<double,std::ratio<1> > time_span;
 	// float physical_memory_used_size;
-	todo("implement");
-	_sub_10CAA3A0(this);
+
+	ScreenLayer::Hide(ScreenLayer::Loading);
+	ScreenLayer::Notify("loadingFinished", "{}", true);
+	benchmark_end = std::chrono::steady_clock::now();
+	std::chrono::duration<double> time_span = std::chrono::duration_cast<std::chrono::duration<double>>(benchmark_end - benchmark_start);
+	char buff[256];
+	sprintf_s(buff, "%.2f", time_span.count());
+	Console::WriteLine(benchmarkMapName + " Map loading took " + std::string(buff) + " seconds.");
+	double const k_mb = 1048576.0;
+	float used_tag_memory_size = g_cache_file_tag_globals->memory_used / k_mb;
+	float tag_memory_size = g_cache_file_tag_globals->memory_size / k_mb;
+	float used_data_memory_size = c_physical_memory_manager::get_stage_used_size((e_physical_memory_stage)0) / k_mb;
+	float tag_memory_used = c_physical_memory_manager::get_stage_used_size((e_physical_memory_stage)1) / k_mb;
+	float used_resource_memory_size = c_physical_memory_manager::get_stage_used_size((e_physical_memory_stage)2) / k_mb;
+	float physical_memory_used_size = c_physical_memory_manager::get_used_size() / k_mb;
+	float physical_memory_total_size = c_physical_memory_manager::get_total_size() / k_mb;
+	float physical_memory_percent = physical_memory_used_size / physical_memory_total_size * 100.0;
+	float loaded_tags_percent = (double)g_cache_file_tag_globals->loaded_instance_count / g_cache_file_tag_globals->total_instance_count * 100.0;
+	s_static_string<4096> stats;
+	stats.print("Physical Memory: %.2f MB / %.2f MB (%.2f%%)\nData Memory Used: %.2f MB\nTag Memory Used: %.2f MB\nTag Instance Memory: %.2f / %.2f MB\nResource Memory Used: %.2f MB\nLoaded Tags: %ld / %ld (%.2f%%)\n", physical_memory_used_size, physical_memory_total_size, physical_memory_percent, used_data_memory_size, tag_memory_used, used_tag_memory_size, tag_memory_size, used_resource_memory_size, g_cache_file_tag_globals->loaded_instance_count, g_cache_file_tag_globals->total_instance_count, loaded_tags_percent);
+	Console::WriteLine(stats.get_string());
 }

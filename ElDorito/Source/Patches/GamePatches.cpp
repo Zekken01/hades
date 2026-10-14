@@ -78,7 +78,7 @@ void unused_update_hook();
 
 namespace hades_file_local
 {
-	extern std::vector<IGameSystem *> eldewritoGameSystems; // 0x12408340
+	std::vector<IGameSystem *> eldewritoGameSystems; // 0x12408340
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -87,13 +87,16 @@ namespace Patches
 {
 	namespace Game
 	{
-		_extern void _sub_108D0640();
 		void ApplyAll() // 0x108D0640
 		{
-			mangled_x86(MANGLED_TODO, "?ApplyAll@Game@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Game@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_108D0640();
+
+			Pointer(0x1656AC0).Write(unused_initialize_hook);
+			Pointer(0x1656AC4).Write(unused_dispose_hook);
+			Pointer(0x1656AC8).Write(unused_intialize_for_new_map_hook);
+			Pointer(0x1656ACC).Write(unused_dispose_from_old_map_hook);
+			Hook(0x133800, unused_update_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 		}
 
 		void RegisterGameSystem(IGameSystem *system) // 0x108D0950

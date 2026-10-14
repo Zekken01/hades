@@ -42,18 +42,18 @@ public:
 		std::string mod_name; // 0x10
 		s_mod_origin_info origin; // 0x2C
 		bool signature_verified; // 0x9C
-		_inline s_record(s_record &&__that); /* compiler_generated() */
-		_inline s_record(s_record const &__that); /* compiler_generated() */
-		_inline s_record() = default; /* compiler_generated() */
-		_inline ~s_record(); /* compiler_generated() */
-		s_record &operator=(s_record &); /* compiler_generated() */
-		_inline s_record &operator=(s_record const &__that); /* compiler_generated() */
+		// hades: special members left implicit (create_record aggregate-initializes new_record)
+		//
+		//
+		//
+		//
+		//
 	};
 	static_assert(sizeof(s_record) == 160, "Invalid s_record size");
 	public:
 	c_mod_database(c_mod_database &);
 	c_mod_database(c_mod_database const &);
-	_inline c_mod_database();
+	c_mod_database() = default; // 0x108A4B70
 	~c_mod_database();
 	c_mod_database &operator=(c_mod_database &);
 	c_mod_database &operator=(c_mod_database const &);
@@ -71,8 +71,8 @@ public:
 	void purge_all_not_in_set(std::unordered_set<s_mod_package_id> set);
 	void purge_any(std::function<bool __cdecl(s_mod_package_id const &,s_record const &)> predicate);
 private:
-	bool m_dirty; // 0x0
-	unsigned char __pad0[3]; // 0x1
+	bool m_dirty = false; // 0x0
+	// 0x1: 3 bytes of implicit padding (hades: no array member, it would add a /GS cookie to stack instances)
 	std::string m_filename; // 0x4
 	std::unordered_map<s_mod_package_id,s_record> m_records; // 0x20
 };
@@ -84,11 +84,11 @@ static_assert(sizeof(c_mod_database) == 72, "Invalid c_mod_database size");
 
 /* ---------- public code */
 
-_inline c_mod_database::c_mod_database() : m_dirty(false) /* hades-mem-init:  */ // 0x108A4B70
-{
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_mod_database@@QAE@XZ");
-	// c_mod_database *const this;
-}
+// c_mod_database() is defaulted in its class (0x108A4B70) so that
+// `new c_mod_database()` value-initializes: zero fill, then the
+// constructor, as c_mod_package_manager::initialize does in the original.
+// m_dirty's initializer lives on the member; these lines keep later
+// lines in place.
 
 _inline bool c_mod_database::is_dirty() const // 0x108AA470
 {

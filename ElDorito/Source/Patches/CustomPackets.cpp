@@ -119,7 +119,7 @@ namespace hades_file_local
 		std::shared_ptr<Patches::CustomPackets::RawPacketHandler> Handler; // 0x1C
 		CustomPacket(CustomPacket &); /* compiler_generated() */
 		CustomPacket(CustomPacket const &); /* compiler_generated() */
-		CustomPacket(); /* compiler_generated() */
+		CustomPacket() = default; /* compiler_generated() */  // hades: not user-provided, so make_shared value-initializes
 		~CustomPacket() = default;
 		CustomPacket &operator=(CustomPacket &); /* compiler_generated() */
 		CustomPacket &operator=(CustomPacket const &); /* compiler_generated() */
@@ -130,6 +130,8 @@ namespace hades_file_local
 }
 using namespace hades_file_local;
 /* ---------- prototypes */
+
+namespace Utils { namespace Cryptography { bool Hash32(std::string const &str, unsigned __int32 *out); } }  // hades: added for 0x10A50480  // hades: added for 0x10A50480
 
 namespace Patches
 {
@@ -163,13 +165,13 @@ namespace Patches
 {
 	namespace CustomPackets
 	{
-		_extern void _sub_10A4FBF0();
 		void ApplyAll() // 0x10A4FBF0
 		{
-			mangled_x86(MANGLED_TODO, "?ApplyAll@CustomPackets@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@CustomPackets@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_10A4FBF0();
+
+			Hook(0x9E226, InitializePacketsHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x9CAFA, HandlePacketHook).Apply();
 		}
 
 		void SendPacket(__int32 targetPeer, void const *packet, __int32 packetSize) // 0x10A50660
@@ -190,10 +192,9 @@ namespace Patches
 			session->Observer->ObserverChannelSendMessage(0, channelIndex, false, 0x27, packetSize, packet);
 		}
 
-		_extern unsigned __int32 _sub_10A50480(std::string const &, std::shared_ptr<Patches::CustomPackets::RawPacketHandler>);
 		unsigned __int32 RegisterPacketImpl(std::string const &name, std::shared_ptr<Patches::CustomPackets::RawPacketHandler> handler) // 0x10A50480
 		{
-			mangled_x86(MANGLED_TODO, "?RegisterPacketImpl@CustomPackets@Patches@@YAIABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$shared_ptr@VRawPacketHandler@CustomPackets@Patches@@@4@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?RegisterPacketImpl@CustomPackets@Patches@@YAIABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$shared_ptr@VRawPacketHandler@CustomPackets@Patches@@@4@@Z");
 			// static ...; // 0x10A505F0
 			// static ...; // 0x10A505D8
 			// static ...; // 0x10A505D0
@@ -201,9 +202,17 @@ namespace Patches
 			// std::shared_ptr<Patches::CustomPackets::RawPacketHandler> handler;
 			// unsigned __int32 guid;
 			// CustomPacket packet;
-			todo("implement");
-			unsigned __int32 __result = _sub_10A50480(name, handler);
-			return __result;
+
+			unsigned __int32 guid;
+			if (!Utils::Cryptography::Hash32(name, &guid))
+				throw std::runtime_error("Failed to generate packet GUID");
+			if (LookUpPacketType(guid))
+				throw std::runtime_error("Duplicate packet GUID");
+			CustomPacket packet;
+			packet.Name = name;
+			packet.Handler = handler;
+			customPackets[guid] = packet;
+			return guid;
 		}
 	}
 }
@@ -211,11 +220,11 @@ namespace Patches
 /* ---------- private code */
 
 // mangled_x86(MANGLED_DEFAULT, "??0CustomPacket@hades_file_local@@QAE@XZ"); no body to assert in
-_inline CustomPacket::CustomPacket() = default; // 0x10A4ED70
+// _inline CustomPacket::CustomPacket() = default; // 0x10A4ED70  // hades: defaulted on its declaration
 
-_extern void _sub_10A500D0();
 void InitializePacketsHook() // 0x10A500D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?InitializePacketsHook@@YAXXZ");
 	// `anonymous-namespace'::InitializePacketsHook
 	// procedure flags: nofpo
 	// Blam::Network::PacketTable *customPacketTable;
@@ -223,8 +232,16 @@ void InitializePacketsHook() // 0x10A500D0
 	// __int32 packetCount;
 	// char const *name;
 	// __int32 minSize;
-	todo("implement");
-	_sub_10A500D0();
+
+	__int32 packetCount = 40;
+	Blam::Network::PacketTable *customPacketTable = new Blam::Network::PacketTable[packetCount];
+	Blam::Network::SetPacketTable(customPacketTable);
+	memset(customPacketTable, 0, packetCount * sizeof(Blam::Network::PacketTable));
+	char const *name = "eldewrito-custom-packet";
+	__int32 minSize = 0;
+	__int32 const maxSize = 0x7FFFFFFF;
+	customPacketTable->Register(39, name, 0, minSize, maxSize, SerializeCustomPacket, DeserializeCustomPacket, 0, 0);
+	Patch(0x80022, { 0x28 }).Apply();
 }
 
 
@@ -246,9 +263,9 @@ CustomPacket *LookUpPacketType(unsigned __int32 guid) // 0x10A50360
 	return &it->second;
 }
 
-_extern void _sub_10A50710(Blam::BitStream *, __int32, void const *);
 void SerializeCustomPacket(Blam::BitStream *stream, __int32 packetSize, void const *packet) // 0x10A50710
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SerializeCustomPacket@@YAXPAVBitStream@Blam@@HPBX@Z");
 	// `anonymous-namespace'::SerializeCustomPacket
 	// void const *packet;
 	// Patches::CustomPackets::PacketBase const *packetBase;
@@ -258,13 +275,23 @@ void SerializeCustomPacket(Blam::BitStream *stream, __int32 packetSize, void con
 	// function call : __int32 () const
 	// function call : __int32 () const
 	// function call : void (Blam::BitStream *, __int32, void const *)
-	todo("implement");
-	_sub_10A50710(stream, packetSize, packet);
+
+	Patches::CustomPackets::PacketBase const *packetBase = static_cast<Patches::CustomPackets::PacketBase const *>(packet);
+	stream->WriteBlock(128, packetBase->Header);
+	stream->WriteUnsigned<unsigned int>(packetBase->TypeGuid, 32);
+	CustomPacket *type = LookUpPacketType(packetBase->TypeGuid);
+	if (!type)
+		return;
+	__int32 minSize = type->Handler->GetMinRawPacketSize();
+	__int32 maxSize = type->Handler->GetMaxRawPacketSize();
+	if (packetSize < minSize || packetSize > maxSize)
+		return;
+	type->Handler->SerializeRawPacket(stream, packetSize, packet);
 }
 
-_extern bool _sub_10A4FE30(Blam::BitStream *, __int32, void *);
 bool DeserializeCustomPacket(Blam::BitStream *stream, __int32 packetSize, void *packet) // 0x10A4FE30
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?DeserializeCustomPacket@@YA_NPAVBitStream@Blam@@HPAX@Z");
 	// `anonymous-namespace'::DeserializeCustomPacket
 	// void *packet;
 	// Patches::CustomPackets::PacketBase *packetBase;
@@ -274,22 +301,45 @@ bool DeserializeCustomPacket(Blam::BitStream *stream, __int32 packetSize, void *
 	// function call : __int32 () const
 	// function call : __int32 () const
 	// function call : bool (Blam::BitStream *, __int32, void *)
-	todo("implement");
-	bool __result = _sub_10A4FE30(stream, packetSize, packet);
-	return __result;
+
+	if (packetSize < static_cast<__int32>(sizeof(Patches::CustomPackets::PacketBase)))
+		return false;
+	Patches::CustomPackets::PacketBase *packetBase = static_cast<Patches::CustomPackets::PacketBase *>(packet);
+	stream->ReadBlock(128, packetBase->Header);
+	packetBase->TypeGuid = stream->ReadUnsigned<unsigned int>(32);
+	CustomPacket *type = LookUpPacketType(packetBase->TypeGuid);
+	if (!type)
+		return false;
+	__int32 minSize = type->Handler->GetMinRawPacketSize();
+	__int32 maxSize = type->Handler->GetMaxRawPacketSize();
+	if (packetSize < minSize || packetSize > maxSize)
+		return false;
+	return type->Handler->DeserializeRawPacket(stream, packetSize, packet);
 }
 
-_extern bool _sub_10A4FFC0(__int32, Blam::Network::ObserverChannel *, void const *);
 bool HandleCustomPacket(__int32 id, Blam::Network::ObserverChannel *sender, void const *packet) // 0x10A4FFC0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleCustomPacket@@YA_NHPAUObserverChannel@Network@Blam@@PBX@Z");
 	// `anonymous-namespace'::HandleCustomPacket
 	// void const *packet;
 	// Patches::CustomPackets::PacketBase const *packetBase;
 	// CustomPacket *type;
 	// function call : void (Blam::Network::ObserverChannel *, void const *)
-	todo("implement");
-	bool __result = _sub_10A4FFC0(id, sender, packet);
-	return __result;
+
+	if (id != 0x27)
+	{
+		return false;
+	}
+
+	Patches::CustomPackets::PacketBase const *packetBase = static_cast<Patches::CustomPackets::PacketBase const *>(packet);
+	CustomPacket *type = LookUpPacketType(packetBase->TypeGuid);
+	if (!type)
+	{
+		return false;
+	}
+
+	type->Handler->HandleRawPacket(sender, packet);
+	return true;
 }
 
 __declspec(naked) void HandlePacketHook() // 0x10A50090

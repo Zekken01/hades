@@ -69,7 +69,6 @@ struct s_mouse_state
 	unsigned char __pad0[1]; // 0x11
 	unsigned short down_milliseconds[5]; // 0x12
 	char button_mask; // 0x1C
-	unsigned char __pad1[3]; // 0x1D
 	long raw_x; // 0x20
 	long raw_y; // 0x24
 	long raw_z; // 0x28
@@ -105,7 +104,6 @@ struct s_input_globals
 	bool supressed; // 0x2
 	bool blocked_inputs[3]; // 0x3
 	bool feedback_supressed; // 0x6
-	unsigned char __pad0[1]; // 0x7
 	unsigned long last_update_milliseconds; // 0x8
 	s_key_state key_states[104]; // 0xC
 	short buffered_key_read_index; // 0x1AC

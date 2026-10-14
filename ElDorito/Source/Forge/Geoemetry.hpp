@@ -36,6 +36,35 @@ namespace Forge
 				float V; // 0x10
 			};
 			static_assert(sizeof(Forge::Geoemetry::VertexPosUV) == 20, "Invalid Forge::Geoemetry::VertexPosUV size");
+
+			// Each unit that draws a box keeps its own copy (0x1119A748 in Magnets).
+			Forge::Geoemetry::VertexPosUV const BOX_VERTICES[24] =
+			{
+				{ -0.5f, 0.5f, -0.5f, 0.0f, 0.0f },
+				{ 0.5f, 0.5f, -0.5f, 0.5f, 0.0f },
+				{ -0.5f, -0.5f, -0.5f, 0.0f, 0.5f },
+				{ 0.5f, -0.5f, -0.5f, 0.5f, 0.5f },
+				{ -0.5f, 0.5f, 0.5f, 0.5f, 0.0f },
+				{ -0.5f, -0.5f, 0.5f, 0.5f, 0.5f },
+				{ 0.5f, 0.5f, 0.5f, 0.0f, 0.0f },
+				{ 0.5f, -0.5f, 0.5f, 0.0f, 0.5f },
+				{ -0.5f, 0.5f, 0.5f, 0.0f, 0.0f },
+				{ 0.5f, 0.5f, 0.5f, 0.5f, 0.0f },
+				{ -0.5f, 0.5f, -0.5f, 0.0f, 0.5f },
+				{ 0.5f, 0.5f, -0.5f, 0.5f, 0.5f },
+				{ -0.5f, -0.5f, 0.5f, 0.0f, 0.0f },
+				{ -0.5f, -0.5f, -0.5f, 0.5f, 0.0f },
+				{ 0.5f, -0.5f, 0.5f, 0.0f, 0.5f },
+				{ 0.5f, -0.5f, -0.5f, 0.5f, 0.5f },
+				{ 0.5f, 0.5f, -0.5f, 0.0f, 0.0f },
+				{ 0.5f, 0.5f, 0.5f, 0.5f, 0.0f },
+				{ 0.5f, -0.5f, -0.5f, 0.0f, 0.5f },
+				{ 0.5f, -0.5f, 0.5f, 0.5f, 0.5f },
+				{ -0.5f, 0.5f, -0.5f, 0.5f, 0.0f },
+				{ -0.5f, -0.5f, -0.5f, 0.5f, 0.5f },
+				{ -0.5f, 0.5f, 0.5f, 0.0f, 0.0f },
+				{ -0.5f, -0.5f, 0.5f, 0.0f, 0.5f },
+			};
 		}
 	}
 	using namespace hades_file_local_Forge;

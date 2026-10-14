@@ -31,7 +31,6 @@ namespace Player
 struct s_unit_camera_definition
 {
 	c_flags<enum e_unit_camera_flags,short> flags; // 0x0
-	unsigned char __pad0[2]; // 0x2
 	unsigned long camera_marker_name; // 0x4
 	unsigned long camera_submerged_marker_name; // 0x8
 	float pitch_auto_level; // 0xC

@@ -141,6 +141,14 @@
 #include <vector>
 #include "Blam/interface/gui/gui_screen_manager.hpp"  // hades: added for 0x10993350
 
+#include "mods/mod_system.hpp"  // hades: added for 0x1099A820
+
+#include "PersistentMemory/PersistentMemorySystem.hpp"  // hades: added for 0x109931F0
+
+#include "Utils/Logger.hpp"  // hades: added for 0x10997E90
+
+#include "Blam/Cache/StringIdCache.hpp"  // hades: added for 0x10998800
+
 /* ---------- forward declarations */
 
 class IMod;
@@ -295,6 +303,10 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+namespace Server { namespace VariableSynchronization { extern void Synchronize(Modules::Command *serverVariable, Modules::Command *clientVariable); } }  // hades: added for 0x1098BDE0
+
+template<typename T> __int32 FindDefaultGameVariant(c_tag_block<T> const &variants, std::string const &name) { for (__int32 i = 0; i < variants.count; i++) { if (variants[i].name_ascii[0] && strcmp(variants[i].name_ascii, name.c_str()) == 0) return i; } return -1; }  // hades: added for 0x1099C080
+
 long tag_find_by_name(unsigned long group_tag, char const *name);  // hades: added for 0X1099A180
 
 namespace Patches::Ui { void ShowLanBrowser(); }  // hades: added for 0X1099AE10
@@ -372,7 +384,7 @@ extern bool (*const network_session_interface_get_squad_session)(c_network_sessi
 
 namespace hades_file_local
 {
-	extern std::string const GameTypeExtensions[9]; // 0x12454D80
+	std::string const GameTypeExtensions[9] = { "ctf", "slayer", "oddball", "koth", "jugg", "terries", "assault", "zombiez", "vip" }; // 0x12454D80
 	extern std::map<std::string,bool> layerBlurMap; // 0x12454D70
 }
 using namespace hades_file_local;
@@ -380,13 +392,111 @@ using namespace hades_file_local;
 
 namespace Modules
 {
-	extern ModuleGame* _sub_1098BDE0(Modules::ModuleGame *const);
-	ModuleGame::ModuleGame() : ModuleBase(todo_result<std::string>()) // 0x1098BDE0
+	ModuleGame::ModuleGame() : ModuleBase("Game") /* hades-mem-init: : ModuleBase(todo_result<std::string>()) */ // 0x1098BDE0
 	{
-		mangled_x86(MANGLED_TODO, "??0ModuleGame@Modules@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0ModuleGame@Modules@@QAE@XZ");
 		// Modules::ModuleGame *const this;
-		todo("implement");
-		_sub_1098BDE0(this);
+
+		AddCommand("AnnoucementViewed", "annoucementviewed", "Retrieves or sets the date of the last viewed annoucement message", eCommandFlagsHidden, CommandAnnoucementViewedDate);
+		AddCommand("LogLevel", "loglevel", "Debug log verbosity level", eCommandFlagsNone, CommandGameLogLevel, { "trace|info|warning|error|none The log verbosity level" });
+		AddCommand("LogTypes", "logtypes", "Chooses which kinds of debug messages to print to the log file", eCommandFlagsNone, CommandGameLogTypes, { "game|network|graphics|memory|sound|input|debug|all|none The message types to log" });
+		AddCommand("LogFilter", "debug_filter", "Allows you to set filters to apply to the debug messages", eCommandFlagsNone, CommandGameLogFilter, { "include/exclude The type of filter", "add/remove Add or remove the filter", "string The filter to add" });
+		AddCommand("Info", "info", "Displays information about the game", eCommandFlagsNone, CommandGameInfo);
+		AddCommand("Exit", "exit", "Ends the game process", eCommandFlagsNone, CommandGameExit);
+		AddCommand("Restart", "restart", "Restart the game process", eCommandFlagsNone, CommandGameRestart);
+		AddCommand("ForceLoad", "forceload", "Forces a map to load", eCommandFlagsNone, CommandGameForceLoad, { "mapname(string) The name of the map to load", "gametype(int) The gametype to load", "gamemode(int) The type of gamemode to play" });
+		AddCommand("ShowUI", "show_ui", "Attempts to force a UI widget to open", eCommandFlagsNone, CommandGameShowUI, { "dialogID(int) The dialog ID to open", "arg1(int) Unknown argument", "flags(int) Unknown argument", "parentdialogID(int) The ID of the parent dialog" });
+		AddCommand("Map", "map", "Loads a map or map variant", eCommandFlagsNone, CommandGameLoadMap, { "name(string) The internal name of the map or Forge map to load" });
+		AddCommand("GameType", "gametype", "Loads a gametype", eCommandFlagsNone, CommandGameType, { "name(string) The internal name of the built-in gametype or custom gametype to load" });
+		AddCommand("Start", "start", "Starts or restarts the game", eCommandFlagsNone, CommandGameStart);
+		AddCommand("StartCountdown", "start_countdown", "Starts the game start countdown", eCommandFlagsNone, CommandGameStartCountdown);
+		AddCommand("End", "end", "Ends the game", eCommandFlagsNone, CommandGameEnd);
+		AddCommand("EndRound", "endround", "Ends the round", eCommandFlagsNone, CommandGameEndRound);
+		AddCommand("Stop", "stop", "Stops the game, goes back to lobby", eCommandFlagsNone, CommandGameStop);
+		AddCommand("Leave", "leave", "Leaves the game, goes back to menu", eCommandFlagsNone, CommandGameLeave);
+		AddCommand("Version", "version", "Displays the game's version", eCommandFlagsNone, CommandGameVersion);
+		AddCommand("VersionCompat", "version_compat", "Gets the minimum compatible version", eCommandFlagsHidden, CommandVersionCompat);
+		AddCommand("ListMaps", "maps", "List all available map files", eCommandFlagsNone, CommandListMaps);
+		AddCommand("ShowScreen", "showscreen", "Displays the specified screen", eCommandFlagsArgsNoParse, CommandShowScreen);
+		AddCommand("PlayUiSound", "play_ui_sound", "Plays a ui sound", CommandFlags(eCommandFlagsOmitValueInList | eCommandFlagsHidden), CommandPlayUiSound);
+		AddCommand("PlaySound", "play_sound", "Plays a sound effect", CommandFlags(eCommandFlagsOmitValueInList | eCommandFlagsHidden), CommandPlaySound);
+		AddCommand("PlayLoopingSound", "play_looping_sound", "Plays a looping sound effect", CommandFlags(eCommandFlagsOmitValueInList | eCommandFlagsHidden), CommandPlayLoopingSound);
+		AddCommand("StopLoopingSound", "stop_looping_sound", "Stops a looping sound effect", CommandFlags(eCommandFlagsOmitValueInList | eCommandFlagsHidden), CommandStopLoopingSound);
+		AddCommand("TakeScreenshot", "take_screenshot", "Take a screenshot", eCommandFlagsNone, CommandGameTakeScreenshot);
+		AddCommand("ScenarioScript", "scnr_script", "Executes a scenario script", eCommandFlagsRunOnMainMenu, CommandExecuteScenarioScript);
+		AddCommand("PrintScript", "print_script", "Prints information about a scenario script expression", eCommandFlagsNone, CommandExecutePrintScript);
+		AddCommand("TagAddress", "tag_address", "Gets the address of a tag in memory", eCommandFlagsNone, CommandGetTagAddress);
+		AddCommand("DisableScreenEffect", "disable_sefc", "Used to disable the screen effect for customization", eCommandFlagsHidden, CommandDisableScreenEffect);
+		AddCommand("ShowTickrate", "show_tickrate", "Toggle the on-screen Tickrate", eCommandFlagsNone, CommandShowTickrate);
+		AddCommand("Update", "update", "Update the game to the latest version", eCommandFlagsNone, CommandGameUpdate);
+		AddCommand("ShowLocalServersUI", "show_Local_server_browser", "Opens the local server browser UI", eCommandFlagsRunOnMainMenu, CommandShowLocalServersUI);
+		AddCommand("ShowModBrowser", "show_mod_browser", "Opens the mod browser UI with the correct lobby", CommandFlags(eCommandFlagsHostOnly | eCommandFlagsRunOnMainMenu), CommandShowModBrowser);
+		AddCommand("ShowServerModBrowser", "show_server_mod_browserr", "Opens the server mod browser UI", CommandFlags(eCommandFlagsHostOnly | eCommandFlagsRunOnMainMenu), CommandShowServerModBrowser);
+		AddCommand("ShowModInfo", "show_mod_info", "Opens the mod info UI with details about the currently loaded mod", eCommandFlagsNone, CommandShowModInfo);
+		VarMenuURL = AddVariableString("MenuURL", "menu_url", "url(string) The URL of the page you want to load inside the menu", eCommandFlagsArchived, "dew://screens/browser/");
+		VarConsoleURL = AddVariableString("ConsoleURL", "console_url", "url(string) The URL of the page you want to load for the console screen", eCommandFlagsArchived, "dew://screens/console/");
+		VarChatURL = AddVariableString("ChatURL", "chat_url", "url(string) The URL of the page you want to load for the chat screen", eCommandFlagsArchived, "dew://screens/chat/");
+		VarLoadingURL = AddVariableString("LoadingURL", "loading_url", "url(string) The URL of the page you want to load for the loading screen", eCommandFlagsArchived, "dew://screens/loading/");
+		VarVotingURL = AddVariableString("VotingURL", "voting_url", "url(string) The URL of the page you want to load for the voting screen", eCommandFlagsArchived, "dew://screens/voting/");
+		VarTitleURL = AddVariableString("TitleURL", "title_url", "url(string) The URL of the page you want to load for the title screen", eCommandFlagsArchived, "dew://screens/title/");
+		VarScoreboardURL = AddVariableString("ScoreboardURL", "scoreboard_url", "url(string) The URL of the page you want to load for the scoreboard screen", eCommandFlagsArchived, "dew://screens/scoreboard/");
+		VarDialogURL = AddVariableString("DialogURL", "dialog_url", "url(string) The URL of the page you want to load for the dialog screen", eCommandFlagsArchived, "dew://screens/dialog/");
+		VarSettingsURL = AddVariableString("SettingsURL", "settings_url", "url(string) The URL of the page you want to load for the settings screen", eCommandFlagsArchived, "dew://screens/settings/");
+		VarProfileSettingsURL = AddVariableString("ProfileSettingsURL", "profile_settings_url", "url(string) The URL of the page you want to load for the profile_settings screen", eCommandFlagsArchived, "dew://screens/profile_settings/");
+		VarServerSettingsURL = AddVariableString("ServerSettingsURL", "server_settings_url", "url(string) The URL of the page you want to load for the server_settings screen", eCommandFlagsArchived, "dew://screens/server_settings/");
+		VarForgeObjectPropertiesURL = AddVariableString("ForgeObjectPropertiesURL", "forge_object_properties_url", "url(string) The URL of the page you want to load for the forge_object_properties screen", eCommandFlagsArchived, "dew://screens/forge/object_properties/");
+		VarForgeObjectCreationURL = AddVariableString("ForgeObjectCreationURL", "forge_object_creation_url", "url(string) The URL of the page you want to load for the forge_object_creation screen", eCommandFlagsArchived, "dew://screens/forge/object_creation/");
+		VarVoipURL = AddVariableString("VoipURL", "voip_url", "url(string) The URL of the page you want to load for the voip screen", eCommandFlagsArchived, "dew://screens/voip/");
+		VarWeaponOffsetURL = AddVariableString("WeaponOffsetURL", "weapon_offset_url", "url(string) The URL of the page you want to load for the weapon_offset screen", eCommandFlagsArchived, "dew://screens/weapon_offset/");
+		VarScreenshotNoticeURL = AddVariableString("ScreenshotNoticeURL", "screenshot_notice_url", "url(string) The URL of the page you want to load for the screenshot_notice screen", eCommandFlagsArchived, "dew://screens/screenshot_notice/");
+		VarDiscordURL = AddVariableString("DiscordURL", "discord_url", "url(string) The URL of the page you want to load for the discord screen", eCommandFlagsArchived, "dew://screens/discord/");
+		VarPlayerReportURL = AddVariableString("PlayerReportURL", "player_report_url", "url(string) The URL of the page you want to load for the report screen", eCommandFlagsArchived, "dew://screens/report/");
+		VarInGameVotingURL = AddVariableString("InGameVotingURL", "ingame_voting_url", "url(string) The URL of the page you want to load for the ingame_voting screen", eCommandFlagsArchived, "dew://screens/ingame_voting/");
+		VarEmoteScreenURL = AddVariableString("EmoteScreenURL", "emote_screen_url", "url(string) The URL of the page you want to load for the emote screen", eCommandFlagsArchived, "dew://screens/emote/");
+		VarLanguage = AddVariableString("Language", "language", "The language to use", eCommandFlagsArchived, "english", VariableLanguageUpdated);
+		VarSkipTitleSplash = AddVariableInt("SkipTitleSplash", "titlesplash", "Skip the ElDewrito splash screen and go straight to the main menu", eCommandFlagsArchived, 0);
+		VarSkipTitleSplash->ValueIntMin = 0;
+		VarSkipTitleSplash->ValueIntMax = 1;
+		VarSkipIntroVideos = AddVariableInt("SkipIntroVideos", "skipintro", "Skip the game's intro videos.", eCommandFlagsArchived, 0);
+		VarSkipIntroVideos->ValueIntMin = 0;
+		VarSkipIntroVideos->ValueIntMax = 1;
+		VarLogName = AddVariableString("LogName", "debug_logname", "Filename to store debug log messages", CommandFlags(eCommandFlagsNoRcon | eCommandFlagsArchived), "logs\\dorito.log");
+		VarRconPort = AddVariableInt("RconPort", "rcon_port", "The port to use for rcon in this instance of the game", eCommandFlagsArchived, 0x2E00);
+		VarFirstRun = AddVariableInt("FirstRun", "first_run", "Show the first run setup next time the game starts", eCommandFlagsArchived, 1);
+		VarFirstRun->ValueIntMin = 0;
+		VarFirstRun->ValueIntMax = 1;
+		VarExpandedScoreboard = AddVariableInt("ExpandedScoreboard", "expanded_scoreboard", "Always show full scoreboard, instead of just while locked/postgame", eCommandFlagsArchived, 0);
+		VarExpandedScoreboard->ValueIntMin = 0;
+		VarExpandedScoreboard->ValueIntMax = 1;
+		VarHideChat = AddVariableInt("HideChat", "hide_chat", "Hide in-game chat screen", eCommandFlagsArchived, 0);
+		VarHideChat->ValueIntMin = 0;
+		VarHideChat->ValueIntMax = 1;
+		VarChatMessageLimit = AddVariableInt("ChatMessageLimit", "chat_message_limt", "Sets the max limit for the number of messages in chat history that should be saved", eCommandFlagsArchived, 0x32);
+		VarChatMessageLimit->ValueIntMin = 1;
+		VarChatMessageLimit->ValueIntMax = 10000;
+		VarHideH3UI = AddVariableInt("HideH3UI", "hide_h3ui", "Hide the H3 UI", eCommandFlagsHidden, 0);
+		VarHideH3UI->ValueIntMin = 0;
+		VarHideH3UI->ValueIntMax = 1;
+		VarFullscreenBlur = AddVariableInt("FullscreenBlur", "fullscreen_blur", "Applies a fullscreen blur filter for use in CEF", eCommandFlagsHidden, 0);
+		VarFullscreenBlurTime = AddVariableFloat("FullscreenBlurTime", "fullscreen_blur_time", "Sets the time it takes for fullcreen blur", eCommandFlagsHidden, 5.0f);
+		AddCommand("FullscreenBlurLayer", "fullscreen_blur_screen", "Enable or disable blur from a specific layer name", eCommandFlagsHidden, CommandFullScreenBlurLayer);
+		VarScreenshotsFolder = AddVariableString("ScreenshotsFolder", "screenshots_folder", "The location where the game will save screenshots", eCommandFlagsArchived, "%userprofile%\\Pictures\\Screenshots\\blam");
+		VarScreenshotNoticeDisabled = AddVariableInt("ScreenshotNoticeDisabled", "screenshot_notice_disabled", "Disables the screenshot notifications", eCommandFlagsArchived, 0);
+		VarDiscordEnable = AddVariableInt("Discord.Enable", "discord.enable", "Enable/disable discord integration", eCommandFlagsArchived, 1);
+		VarDiscordAutoAccept = AddVariableInt("Discord.AutoAccept", "discord.auto_accept", "Allow auto accepting join requests", eCommandFlagsArchived, 0);
+		VarCEFGpuEnable = AddVariableInt("CEFGpuEnable", "cef_gpu_enable", "0 = Disable CEF gpu acceleration / 1 = Enable CEF gpu acceleration", CommandFlags(eCommandFlagsRestartRequired | eCommandFlagsArchived), 1);
+		VarCEFAtlasRendererEnable = AddVariableInt("CEFAtlasRendererEnable", "cef_atlas_path_renderer_enable", "Enables CEF Atlas path rendering", CommandFlags(eCommandFlagsRestartRequired | eCommandFlagsArchived), 0);
+		VarMainMenuMod = AddVariableString("MainMenuMod", "main_menu_mod", "The filename of the mod to load on the main menu", eCommandFlagsArchived, "", CommandSetMainMenuMod);
+		VarCampaignMod = AddVariableString("CampaignMod", "campaign_mod", "The filename of the mod to load on loading the campaign lobby", eCommandFlagsArchived, "", CommandSetCampaignMod);
+		VarFirefightMod = AddVariableString("FirefightMod", "firefight_mod", "The filename of the mod to load on loading the firefight lobby", eCommandFlagsArchived, "", CommandSetFirefightMod);
+		VarMultiplayerMod = AddVariableString("MultiplayerMod", "multiplayer_mod", "The filename of the mod to load on loading the Multiplayer lobby", eCommandFlagsArchived, "", CommandSetMultiplayerMod);
+		AddCommand("UnPause", "close_start_menu", "Close the Start menu and unpause the game", eCommandFlagsHidden, CommandCloseStartMenu);
+		VarTickRate = AddVariableInt("TickRate", "tick_rate", "Set the game tick rate in seconds", CommandFlags(eCommandFlagsHostOnly | eCommandFlagsReplicated), 0x3C);
+		VarTickRate->ValueIntMin = 1;
+		VarTickRate->ValueIntMax = 144;
+		VarTickRateClient = AddVariableInt("TickRateClient", "tick_rate_client", "Set the game tick rate in seconds", eCommandFlagsInternal, 0x3C);
+		Server::VariableSynchronization::Synchronize(VarTickRate, VarTickRateClient);
+		AddCommand("FontPackage", "font_package", "set the current font package path", eCommandFlagsNone, CommandFontPackage);
 	}
 }
 
@@ -401,56 +511,107 @@ void GetMapNameList(std::vector<std::string> &mapNames) // 0x1099C4E0
 	// std::vector<std::string> &mapNames;
 	// GetMapNameList::__l2::<lambda_1> addMap;
 
-	auto add_map_name = [&mapNames](s_level_datum *level)
+	auto addMap = [&mapNames](s_level_datum *level)
 	{
-		mapNames.push_back(level->file_path);
+		mapNames.push_back(std::filesystem::path(level->file_path).filename().string());
 	};
 
-	levels_iterate_multiplayer_maps(add_map_name);
-	levels_iterate_campaign_maps(add_map_name);
+	levels_iterate_multiplayer_maps(addMap);
+	levels_iterate_campaign_maps(addMap);
 }
 
-_extern bool _sub_10997E90(std::vector<std::string> const &, std::string &);
 bool CommandGameLogLevel(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10997E90
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGameLogLevel@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandGameLogLevel
 	// static ...; // 0x109980E8
 	// static ...; // 0x109980E0
 	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
-	{
 		// std::vector<std::string> const &<range>$L0;
 		// std::string const *<begin>$L0;
 		// std::string const *<end>$L0;
-		{
 			// std::string arg;
+
+	for (auto arg : Arguments)
+	{
+		if (arg.compare("none") == 0)
+		{
+			Utils::Singleton<Utils::Logger>::Instance().Level = Utils::LogLevel::None;
+			break;
+		}
+		else if (arg.compare("trace") == 0)
+		{
+			Utils::Singleton<Utils::Logger>::Instance().Level = Utils::LogLevel::Trace;
+			break;
+		}
+		else if (arg.compare("info") == 0)
+		{
+			Utils::Singleton<Utils::Logger>::Instance().Level = Utils::LogLevel::Info;
+			break;
+		}
+		else if (arg.compare("warning") == 0)
+		{
+			Utils::Singleton<Utils::Logger>::Instance().Level = Utils::LogLevel::Warning;
+			break;
+		}
+		else if (arg.compare("error") == 0)
+		{
+			Utils::Singleton<Utils::Logger>::Instance().Level = Utils::LogLevel::Error;
+			break;
 		}
 	}
-	todo("implement");
-	bool __result = _sub_10997E90(Arguments, returnInfo);
-	return __result;
+	returnInfo = "Log Level: " + Utils::LogLevelToString(Utils::Singleton<Utils::Logger>::Instance().Level);
+	return true;
 }
 
-_extern bool _sub_109981A0(std::vector<std::string> const &, std::string &);
 bool CommandGameLogTypes(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109981A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGameLogTypes@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandGameLogTypes
 	// static ...; // 0x1099842C
 	// static ...; // 0x10998424
 	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// unsigned __int32 types;
-	{
 		// std::vector<std::string> const &<range>$L0;
 		// std::string const *<begin>$L0;
 		// std::string const *<end>$L0;
-		{
 			// std::string arg;
+
+	unsigned __int32 types = (unsigned __int32)Utils::Singleton<Utils::Logger>::Instance().Types;
+	for (auto arg : Arguments)
+	{
+		if (arg.find("all") != std::string::npos)
+		{
+			types = 0xFFFFFFFF;
+			break;
 		}
+		else if (arg.find("none") != std::string::npos)
+		{
+			types = 0;
+			break;
+		}
+		else
+			types = 0;
+		if (arg.find("game") != std::string::npos)
+			types |= 0x1;
+		if (arg.find("network") != std::string::npos)
+			types |= 0x2;
+		if (arg.find("graphics") != std::string::npos)
+			types |= 0x4;
+		if (arg.find("memory") != std::string::npos)
+			types |= 0x8;
+		if (arg.find("sound") != std::string::npos)
+			types |= 0x10;
+		if (arg.find("input") != std::string::npos)
+			types |= 0x20;
+		if (arg.find("debug") != std::string::npos)
+			types |= 0x80000000;
 	}
-	todo("implement");
-	bool __result = _sub_109981A0(Arguments, returnInfo);
-	return __result;
+	Utils::Singleton<Utils::Logger>::Instance().Types = (Utils::LogTypes)types;
+	returnInfo = "Log Types: " + Utils::LogTypesToString(Utils::Singleton<Utils::Logger>::Instance().Types);
+	return true;
 }
 
 bool CommandGameLogFilter(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109974D0
@@ -523,9 +684,9 @@ bool CommandGameLogFilter(std::vector<std::string> const &Arguments, std::string
 	return true;
 }
 
-_extern bool _sub_10994D20(std::vector<std::string> const &, std::string &);
 bool CommandGameInfo(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10994D20
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGameInfo@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandGameInfo
 	// static ...; // 0x1099662B
 	// static ...; // 0x1099661C
@@ -556,24 +717,59 @@ bool CommandGameInfo(std::vector<std::string> const &Arguments, std::string &ret
 	// std::string MapName;
 	// std::string DevKitName;
 	// std::wstring VariantName;
-	todo("implement");
-	bool __result = _sub_10994D20(Arguments, returnInfo);
-	return __result;
+
+	std::stringstream ss;
+	std::string ArgList((char *)Pointer(0x199C0A4)[0]);
+	std::string LocalSecureKey((char *)Pointer(0x50CCDB5));
+	std::string Xnkid;
+	std::string Xnaddr;
+	std::string Build((char *)Pointer(0x199C0F0));
+	std::string SystemID((char *)Pointer(0x199C130));
+	std::string SessionID((char *)Pointer(0x199C1D0));
+	std::string DevKitName((char *)Pointer(0x160C8C8));
+	std::string DevKitVersion((char *)Pointer(0x199C350));
+	std::string FlashVersion((char *)Pointer(0x199C350));
+	std::string MapName((char *)Pointer(0x22AB018)(0x1A4, 1));
+	std::wstring VariantName((wchar_t *)Pointer(0x23DAF4C));
+	Utils::String::BytesToHexString((char *)Pointer(0x2247B80), 0x10, Xnkid);
+	Utils::String::BytesToHexString((char *)Pointer(0x2247B90), 0x10, Xnaddr);
+	ss << std::hex << "ThreadLocalStorage: 0x" << std::hex << (unsigned __int32)tls_get(0) << std::endl;
+	ss << "Command line args: " << (ArgList.empty() ? "(null)" : ArgList) << std::endl;
+	ss << "Local Secure Key: " << (LocalSecureKey.empty() ? "(null)" : LocalSecureKey) << std::endl;
+	ss << "XNKID: " << Xnkid << std::endl;
+	ss << "XNAddr: " << Xnaddr << std::endl;
+	ss << "Server Port: " << std::dec << Modules::ModuleServer::Instance().VarServerPort->ValueInt << std::endl;
+	ss << "Server Endpoint Port: " << std::dec << Pointer(0x1860454).Read<unsigned int>() << std::endl;
+	ss << "Build: " << (Build.empty() ? "(null)" : Build) << std::endl;
+	ss << "SystemID: " << (SystemID.empty() ? "(null)" : SystemID) << std::endl;
+	ss << "SessionID: " << (SessionID.empty() ? "(null)" : SessionID) << std::endl;
+	ss << "SDK Info: " << (DevKitName.empty() ? "(null)" : DevKitName) << '|';
+	ss << (DevKitVersion.empty() ? "(null)" : DevKitVersion) << std::endl;
+	ss << "Flash Version: " << (FlashVersion.empty() ? "(null)" : FlashVersion) << std::endl;
+	ss << "Current Map: " << (MapName.empty() ? "(null)" : MapName) << std::endl;
+	ss << "Current Map Cache Size: " << std::dec << Pointer(0x22AB018)(0x8, 1).Read<int>() << std::endl;
+	ss << "Loaded Game Variant: " << (VariantName.empty() ? "(null)" : Utils::String::ThinString(VariantName)) << std::endl;
+	ss << "Loaded Game Type: 0x" << std::hex << Pointer(0x23DAF18).Read<int>() << std::endl;
+	ss << "Tag Table Offset: 0x" << std::hex << Pointer(0x22AAFF4).Read<unsigned int>() << std::endl;
+	ss << "Tag Bank Offset: 0x" << std::hex << Pointer(0x22AAFF8).Read<unsigned int>() << std::endl;
+	ss << "Players global addr: 0x" << std::hex << (unsigned __int32)tls_getd().players_globals << std::endl;
+	returnInfo = ss.str();
+	return true;
 }
 
-_extern bool _sub_10993FF0(std::vector<std::string> const &, std::string &);
 bool CommandGameExit(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10993FF0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGameExit@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandGameExit
 	// std::string &returnInfo;
-	todo("implement");
-	bool __result = _sub_10993FF0(Arguments, returnInfo);
-	return __result;
+
+	*reinterpret_cast<bool *>(0x22B473C) = true;
+	return true;
 }
 
-_extern bool _sub_109984F0(std::vector<std::string> const &, std::string &);
 bool CommandGameRestart(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109984F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGameRestart@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandGameRestart
 	// static ...; // 0x1099875B
 	// static ...; // 0x10998758
@@ -590,14 +786,28 @@ bool CommandGameRestart(std::vector<std::string> const &Arguments, std::string &
 	// function call : unsigned long ()
 	// function call : __int32 (void *)
 	// function call : __int32 (void *)
-	todo("implement");
-	bool __result = _sub_109984F0(Arguments, returnInfo);
-	return __result;
+
+	bool ret = true;
+	std::string str = GetCommandLineA();
+	_STARTUPINFOA si = {};
+	_PROCESS_INFORMATION pi = {};
+	si.cb = sizeof(si);
+	si.wShowWindow = SW_SHOWNORMAL;
+	if (!CreateProcessA(NULL, str.data(), NULL, NULL, FALSE, CREATE_BREAKAWAY_FROM_JOB, NULL, NULL, &si, &pi))
+	{
+		returnInfo = std::format("CreateProcess() failed. Error: {}", GetLastError());
+		return false;
+	}
+
+	CloseHandle(pi.hThread);
+	CloseHandle(pi.hProcess);
+	Modules::CommandMap::Instance().ExecuteCommand("exit", false);
+	return ret;
 }
 
-_extern bool _sub_10994020(std::vector<std::string> const &, std::string &);
 bool CommandGameForceLoad(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10994020
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGameForceLoad@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandGameForceLoad
 	// static ...; // 0x10994A76
 	// static ...; // 0x10994A6E
@@ -612,35 +822,90 @@ bool CommandGameForceLoad(std::vector<std::string> const &Arguments, std::string
 	// s_level_datum level;
 	// e_game_mode gameMode;
 	// e_game_engine_type gameType;
-	{
 		// std::vector<std::string> mapNames;
-		{
 			// std::vector<std::string> &<range>$L0;
 			// std::string *<begin>$L0;
 			// std::string *<end>$L0;
-			{
 				// std::string const &map;
+			// long i;
+		// unsigned __int32 i;
+
+	extern char const *game_mode_get_string(e_game_mode);
+	std::stringstream ss;
+	if (Arguments.size() <= 0)
+	{
+		ss << "Current map: " << std::string((char *)0x2391824) << std::endl;
+		ss << "Usage: Game.ForceLoad <mapname> [gametype] [maptype]" << std::endl;
+		ss << "Available maps:";
+		std::vector<std::string> mapNames;
+		GetMapNameList(mapNames);
+		for (std::string const &map : mapNames)
+			ss << std::endl << "\t" << map;
+		ss << std::endl << std::endl << "Valid gametypes:";
+		for (long i = 0; i < k_number_of_game_engine_types; i++)
+			ss << std::endl << "\t" << "[" << i << "] " << game_engine_type_get_string((e_game_engine_type)i);
+		ss << std::endl << std::endl << "Valid gamemodes:";
+		for (long i = 0; i < k_number_of_game_modes; i++)
+			ss << std::endl << "\t" << "[" << i << "] " << game_mode_get_string((e_game_mode)i);
+		returnInfo = ss.str();
+		return false;
+	}
+	std::string mapName = Arguments[0];
+	char const *gameTypeStr = "none";
+	e_game_engine_type gameType = _game_engine_type_none;
+	e_game_mode gameMode = _game_mode_multiplayer;
+	s_level_datum level;
+	if (!levels_find_map_by_name(mapName.c_str(), &level))
+	{
+		returnInfo = "Unable to find map " + mapName;
+		return false;
+	}
+	mapName = ElDorito::Instance().GetMapsFolder() + mapName;
+	if (Arguments.size() >= 2)
+	{
+		unsigned __int32 i;
+		for (i = 0; i < k_number_of_game_engine_types; i++)
+		{
+			if (!_stricmp(game_engine_type_get_string((e_game_engine_type)i), Arguments[1].c_str()))
+			{
+				gameType = (e_game_engine_type)i;
+				break;
 			}
 		}
-		{
-			// long i;
-		}
-		{
-		}
+		if (i == k_number_of_game_engine_types)
+			gameType = (e_game_engine_type)atoi(Arguments[1].c_str());
+		if (gameType > k_number_of_game_engine_types)
+			gameType = _game_engine_type_slayer;
 	}
+	if (Arguments.size() >= 3)
 	{
-		// unsigned __int32 i;
+		unsigned __int32 i;
+		for (i = 0; i < k_number_of_game_modes; i++)
+		{
+			if (!_stricmp(game_mode_get_string((e_game_mode)i), Arguments[2].c_str()))
+			{
+				gameMode = (e_game_mode)i;
+				break;
+			}
+		}
+		if (i == k_number_of_game_modes)
+			gameMode = (e_game_mode)atoi(Arguments[2].c_str());
+		if (gameMode > k_number_of_game_modes)
+			gameMode = _game_mode_multiplayer;
 	}
-	{
-	}
-	todo("implement");
-	bool __result = _sub_10994020(Arguments, returnInfo);
-	return __result;
+	ss << "Loading " << mapName << " gametype: " << game_engine_type_get_string(gameType) << " gamemode: " << game_mode_get_string(gameMode);
+	Pointer(0x2391B2C).Write<unsigned int>(gameType);
+	Pointer(0x2391C51).Write<unsigned char>(0);
+	Pointer(0x2391800).Write<unsigned int>(gameMode);
+	Pointer(0x2391824).Write(mapName.c_str(), mapName.length() + 1);
+	Pointer(0x23917F0).Write<unsigned char>(1);
+	returnInfo = ss.str();
+	return true;
 }
 
-_extern bool _sub_10998800(std::vector<std::string> const &, std::string &);
 bool CommandGameShowUI(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10998800
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGameShowUI@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandGameShowUI
 	// static ...; // 0x10998BD4
 	// static ...; // 0x10998BBC
@@ -654,15 +919,49 @@ bool CommandGameShowUI(std::vector<std::string> const &Arguments, std::string &r
 	// unsigned __int32 dialogParentStringId;
 	// unsigned __int32 dialogStringId;
 	// __int32 dialogFlags;
-	{
 		// std::string str_arg;
-		{
 			// std::string str_arg;
+
+	if (Arguments.size() <= 0)
+	{
+		returnInfo = "You must specify at least a dialog ID!";
+		return false;
+	}
+	unsigned __int32 dialogStringId = 0;
+	__int32 dialogArg1 = 0;
+	__int32 dialogFlags = 4;
+	unsigned __int32 dialogParentStringId = 0x1000C;
+	try
+	{
+		std::string str_arg = Arguments[0];
+		dialogStringId = Blam::Cache::StringIDCache::GetCurrent()->GetStringId(str_arg);
+		if (dialogStringId == 0)
+			dialogStringId = std::stoul(Arguments[0], 0, 0);
+		if (Arguments.size() > 1)
+			dialogArg1 = std::stoi(Arguments[1], 0, 0);
+		if (Arguments.size() > 2)
+			dialogFlags = std::stoi(Arguments[2], 0, 0);
+		if (Arguments.size() > 3)
+		{
+			std::string str_arg = Arguments[3];
+			dialogParentStringId = Blam::Cache::StringIDCache::GetCurrent()->GetStringId(str_arg);
+			if (dialogParentStringId == 0)
+				dialogParentStringId = std::stoul(Arguments[3], 0, 0);
 		}
 	}
-	todo("implement");
-	bool __result = _sub_10998800(Arguments, returnInfo);
-	return __result;
+	catch (std::invalid_argument &)
+	{
+		returnInfo = "Invalid argument given.";
+		return false;
+	}
+	catch (std::out_of_range &)
+	{
+		returnInfo = "Invalid arguments.";
+		return false;
+	}
+	Patches::Ui::ShowDialog(dialogStringId, dialogArg1, dialogFlags, dialogParentStringId);
+	returnInfo = "Sent Show_UI notification to game.";
+	return true;
 }
 
 unsigned __int32 GetFileSize(std::ifstream &file) // 0x1099C310
@@ -741,17 +1040,24 @@ __int32 GetUiGameMode() // 0x1099C5E0
 	return GetUiGameModeImpl();
 }
 
-_extern void _sub_1099D9B0(s_owned_content_item *, bool, char const *);
 void SetOwnedContentData(s_owned_content_item *content_item, bool built_in, char const *file_path) // 0x1099D9B0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?SetOwnedContentData@@YAXPAUs_owned_content_item@hades_file_local@@_NPBD@Z");
 	// `anonymous-namespace'::SetOwnedContentData
 	// char const *file_path;
 	// c_controller_interface *(*const controller_get)(long);
 	// s_player_identifier *(*const c_controller_interface__get_player_identifier)(void *, s_player_identifier *);
 	// function call : c_controller_interface *(*const)(long)
 	// function call : s_player_identifier *(*const)(void *, s_player_identifier *)
-	todo("implement");
-	_sub_1099D9B0(content_item, built_in, file_path);
+
+	c_controller_interface *(*const controller_get)(long) = reinterpret_cast<c_controller_interface *(*)(long)>(0xA7CD50);
+	s_player_identifier *(__thiscall *const c_controller_interface__get_player_identifier)(void *, s_player_identifier *) = reinterpret_cast<s_player_identifier *(__thiscall *)(void *, s_player_identifier *)>(0xA7D500);
+	memset(content_item, 0, sizeof(content_item));
+	content_item->valid = true;
+	content_item->content_type = built_in ? 0 : 1;
+	c_controller_interface__get_player_identifier(controller_get(0), &content_item->player_identifier);
+	if (!built_in)
+		wcsncpy_s(content_item->file_path, std::filesystem::absolute(file_path).c_str(), 255);
 }
 
 void SaveMapVariantToPreferences(unsigned char const *data, bool built_in, char const *file_path) // 0x1099D8D0
@@ -802,9 +1108,9 @@ void SaveGameVariantToPreferences(unsigned char const *data, bool built_in, char
 	*(bool *)0x22C0129 = true;
 }
 
-_extern bool _sub_10996D90(std::vector<std::string> const &, std::string &);
 bool CommandGameLoadMap(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10996D90
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGameLoadMap@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandGameLoadMap
 	// static ...; // 0x10997345
 	// static ...; // 0x10997335
@@ -821,13 +1127,60 @@ bool CommandGameLoadMap(std::vector<std::string> const &Arguments, std::string &
 	// std::ifstream mapVariant;
 	// bool (*LoadMapVariant)(unsigned char *, void *);
 	// bool built_in;
-	{
 		// s_level_datum level;
-	}
 	// function call : bool (*)(unsigned char *, void *)
-	todo("implement");
-	bool __result = _sub_10996D90(Arguments, returnInfo);
-	return __result;
+
+	if (Arguments.size() != 1)
+	{
+		returnInfo = "You must specify an internal map or Forge map name!";
+		return false;
+	}
+	__int32 lobbyType = GetUiGameMode();
+	if (lobbyType != 2 && lobbyType != 3)
+	{
+		returnInfo = "You can only change maps from a Custom Games or Forge lobby.";
+		return false;
+	}
+	std::string mapName = Arguments[0];
+	unsigned char variantData[57488];
+	bool built_in = true;
+	std::string variantFileName = "data/map_variants/" + mapName + "/sandbox.map";
+	returnInfo = "Loading map variant " + variantFileName + "...";
+	std::ifstream mapVariant(variantFileName, std::ios::binary);
+	if (mapVariant.is_open())
+	{
+		built_in = false;
+		returnInfo = "Loading map variant " + variantFileName + "...";
+		if (!c_map_variant_loader::load_from_file(variantFileName.c_str(), (s_map_variant *)variantData))
+		{
+			returnInfo += "\nInvalid map variant file!";
+			return false;
+		}
+	}
+	else
+	{
+		s_level_datum level;
+		if (!levels_find_map_by_name(mapName.c_str(), &level))
+		{
+			returnInfo = "Invalid map!";
+			return false;
+		}
+		returnInfo = "Loading built-in map " + std::string(level.file_path) + ".map...";
+		if (!LoadDefaultMapVariant(mapName, variantData))
+		{
+			returnInfo += "\nInvalid map file!";
+			return false;
+		}
+	}
+	bool (*LoadMapVariant)(unsigned char *, void *) = reinterpret_cast<bool (*)(unsigned char *, void *)>(0xA83AF0);
+	if (!LoadMapVariant(variantData, nullptr))
+	{
+		returnInfo += "\nLoad failed.";
+		return false;
+	}
+	SaveMapVariantToPreferences(variantData, built_in, variantFileName.c_str());
+	returnInfo += "\nMap variant loaded successfully!";
+	return true;
 }
 
 bool LoadGameVariant(std::ifstream &file, unsigned char *out) // 0x1099CF20
@@ -857,9 +1210,9 @@ bool LoadGameVariant(std::ifstream &file, unsigned char *out) // 0x1099CF20
 	return ParseGameVariant(blfData, out, nullptr);
 }
 
-_extern __int32 _sub_1099C080(s_game_engine_settings_definition const *, e_game_engine_type, std::string const &);
 __int32 FindDefaultGameVariant(s_game_engine_settings_definition const *wezr, e_game_engine_type type, std::string const &name) // 0x1099C080
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?FindDefaultGameVariant@@YAHPBUs_game_engine_settings_definition@@W4e_game_engine_type@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 	// `anonymous-namespace'::FindDefaultGameVariant
 // $LN11:
 // $LN10:
@@ -872,9 +1225,29 @@ __int32 FindDefaultGameVariant(s_game_engine_settings_definition const *wezr, e_
 	// s_game_engine_settings_definition const *wezr;
 	// e_game_engine_type type;
 	// std::string const &name;
-	todo("implement");
-	__int32 __result = _sub_1099C080(wezr, type, name);
-	return __result;
+
+	switch (type)
+	{
+	case _game_engine_type_ctf:
+		return FindDefaultGameVariant(wezr->ctf_variants, name);
+	case _game_engine_type_slayer:
+		return FindDefaultGameVariant(wezr->slayer_variants, name);
+	case _game_engine_type_oddball:
+		return FindDefaultGameVariant(wezr->oddball_variants, name);
+	case _game_engine_type_koth:
+		return FindDefaultGameVariant(wezr->koth_variants, name);
+	case _game_engine_type_vip:
+		return FindDefaultGameVariant(wezr->vip_variants, name);
+	case _game_engine_type_juggernaut:
+		return FindDefaultGameVariant(wezr->juggernaut_variants, name);
+	case _game_engine_type_territories:
+		return FindDefaultGameVariant(wezr->territories_variants, name);
+	case _game_engine_type_assault:
+		return FindDefaultGameVariant(wezr->assault_variants, name);
+	case _game_engine_type_infection:
+		return FindDefaultGameVariant(wezr->infection_variants, name);
+	}
+	return -1;
 }
 
 bool LoadDefaultGameVariant(std::string const &name, unsigned char *out) // 0x1099CD30
@@ -919,25 +1292,34 @@ bool LoadDefaultGameVariant(std::string const &name, unsigned char *out) // 0x10
 	return LoadBuiltInGameVariant((e_game_engine_type)type, index, out);
 }
 
-_extern bool _sub_109931F0(std::vector<std::string> const &, std::string &);
 bool CommandAnnoucementViewedDate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109931F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandAnnoucementViewedDate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandAnnoucementViewedDate
 	// static ...; // 0x109932F4
 	// static ...; // 0x109932EC
 	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
-	{
 		// std::string date;
+
+	if (Arguments.size() == 1)
+	{
+		PersistentMemory::SetLastAnnoucementViewedDate(Arguments[0]);
+		PersistentMemory::Save();
+		returnInfo = "Date Updated";
+		return true;
 	}
-	todo("implement");
-	bool __result = _sub_109931F0(Arguments, returnInfo);
-	return __result;
+	else
+	{
+		std::string date = PersistentMemory::GetLastAnnoucementViewedDate();
+		returnInfo = date;
+		return true;
+	}
 }
 
-_extern bool _sub_10999240(std::vector<std::string> const &, std::string &);
 bool CommandGameType(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10999240
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGameType@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandGameType
 	// static ...; // 0x109997A0
 	// static ...; // 0x10999794
@@ -952,18 +1334,62 @@ bool CommandGameType(std::vector<std::string> const &Arguments, std::string &ret
 	// std::string name;
 	// bool (*LoadGameVariant)(unsigned char *);
 	// bool built_in;
-	{
 		// std::string const &<range>$L0[9];
 		// std::string const *<begin>$L0;
 		// std::string const *<end>$L0;
-		{
 			// std::string const &extension;
+	// function call : bool (*)(unsigned char *)
+
+	if (Arguments.size() != 1)
+	{
+		returnInfo = "You must specify a built-in gametype or custom gametype name!";
+		return false;
+	}
+	if (GetUiGameMode() != 2)
+	{
+		returnInfo = "You can only change gametypes from a Custom Games lobby.";
+		return false;
+	}
+	std::string name = Arguments[0];
+	unsigned char variantData[612];
+	bool built_in = true;
+	std::ifstream gameVariant;
+	std::string variantFileName;
+	for (auto &extension : GameTypeExtensions)
+	{
+		variantFileName = "data/game_variants/" + name + "/variant." + extension;
+		gameVariant.open(variantFileName, std::ios::binary);
+		if (gameVariant.is_open())
+			break;
+	}
+	if (gameVariant.is_open())
+	{
+		built_in = false;
+		returnInfo = "Loading game variant " + variantFileName + "...";
+		if (!LoadGameVariant(gameVariant, variantData))
+		{
+			returnInfo += "\nInvalid game variant file!";
+			return false;
 		}
 	}
-	// function call : bool (*)(unsigned char *)
-	todo("implement");
-	bool __result = _sub_10999240(Arguments, returnInfo);
-	return __result;
+	else
+	{
+		returnInfo = "Loading built-in game variant " + name + "...";
+		if (!LoadDefaultGameVariant(name, variantData))
+		{
+			returnInfo += "\nInvalid game variant name!";
+			return false;
+		}
+	}
+	bool (*LoadGameVariant)(unsigned char *) = reinterpret_cast<bool (*)(unsigned char *)>(0x439860);
+	if (!LoadGameVariant(variantData))
+	{
+		returnInfo += "\nLoad failed.";
+		return false;
+	}
+	SaveGameVariantToPreferences(variantData, built_in, variantFileName.c_str());
+	returnInfo += "\nGame variant loaded successfully!";
+	return true;
 }
 
 bool CommandGameStart(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10998CE0
@@ -1046,19 +1472,35 @@ bool CommandGameLeave(std::vector<std::string> const &Arguments, std::string &re
 	return true;
 }
 
-_extern bool _sub_10993DE0(std::vector<std::string> const &, std::string &);
 bool CommandGameEnd(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10993DE0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGameEnd@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandGameEnd
 	// std::string &returnInfo;
 	// Blam::Network::Session *session;
-	{
 		// Blam::Network::Session *session;
-	}
 	// function call : bool (*const)()
-	todo("implement");
-	bool __result = _sub_10993DE0(Arguments, returnInfo);
-	return __result;
+
+	Blam::Network::Session *session = Blam::Network::GetActiveSession();
+	if (!session || !session->IsEstablished() || !session->IsHost())
+	{
+		returnInfo = "Unable to end the game!";
+		return false;
+	}
+	if (((bool(__cdecl *)())0x531B20)())
+	{
+		Blam::Network::Session *session = Blam::Network::GetActiveSession();
+		if (!session || !session->Parameters.SetSessionMode(1))
+		{
+			returnInfo = "Unable to stop the game!";
+			return false;
+		}
+		returnInfo = "Stopping game...";
+		return true;
+	}
+	Blam::Network::EndGame();
+	returnInfo = "Ending game...";
+	return true;
 }
 
 bool CommandGameEndRound(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10993F10
@@ -1164,9 +1606,9 @@ bool CommandShowScreen(std::vector<std::string> const &arguments, std::string &r
 	return true;
 }
 
-_extern bool _sub_1099A270(std::vector<std::string> const &, std::string &);
 bool CommandPlayUiSound(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x1099A270
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandPlayUiSound@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandPlayUiSound
 	// static ...; // 0x1099A348
 	// static ...; // 0x1099A340
@@ -1175,9 +1617,23 @@ bool CommandPlayUiSound(std::vector<std::string> const &arguments, std::string &
 	// char *endp;
 	// long index;
 	// function call : long (*const)(e_user_interface_sound, long)
-	todo("implement");
-	bool __result = _sub_1099A270(arguments, returnInfo);
-	return __result;
+
+	if (arguments.size() < 1)
+	{
+		returnInfo = "Invalid arguments";
+		return false;
+	}
+
+	char *endp;
+	long index = strtol(arguments[0].c_str(), &endp, 10);
+	if (endp == arguments[0].c_str() || index < 0 || index >= 20)
+	{
+		returnInfo = "Invalid index";
+		return false;
+	}
+
+	((long(__cdecl *)(e_user_interface_sound, long))0xAA5CD0)((e_user_interface_sound)index, -1);
+	return true;
 }
 
 bool CommandPlaySound(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x1099A180
@@ -1282,12 +1738,10 @@ bool CommandGameTakeScreenshot(std::vector<std::string> const &Arguments, std::s
 	// function call : wchar_t *(*)()
 
 	wchar_t *(*TakeScreenshotImpl)() = (wchar_t *(*)())0x60f420;
-	return TakeScreenshotImpl() != nullptr;
-
+	return TakeScreenshotImpl();
 	wchar_t *path = TakeScreenshotImpl();
 	std::wstring_convert<std::codecvt_utf8<wchar_t>> wstring_to_string;
 	std::string screenshot_path = wstring_to_string.to_bytes(path);
-
 	if (!Modules::ModuleGame::Instance().VarScreenshotNoticeDisabled->ValueInt)
 	{
 		rapidjson::StringBuffer jsonBuffer;
@@ -1298,47 +1752,90 @@ bool CommandGameTakeScreenshot(std::vector<std::string> const &Arguments, std::s
 		jsonWriter.EndObject();
 		Web::Ui::ScreenLayer::Notify("screenshot_taken", jsonBuffer.GetString(), true);
 	}
-
 	returnInfo = "Screenshot saved to: " + screenshot_path;
 	return true;
 }
 
-_extern bool _sub_10993800(std::vector<std::string> const &, std::string &);
 bool CommandExecuteScenarioScript(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10993800
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandExecuteScenarioScript@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandExecuteScenarioScript
 	// std::string &returnInfo;
 	// s_scenario *scnr;
-	{
 		// __int32 i;
-		{
 			// s_hs_script const &script;
+	// function call : long (*const)(short, e_hs_script_type, e_hs_script_type)
+
+	if (Arguments.size() == 0)
+	{
+		returnInfo = "Expected script name";
+		return false;
+	}
+	if (*(bool *)0x23917F0)
+	{
+		returnInfo = "Can not run script while in a loading screen";
+		return false;
+	}
+	s_scenario *scnr = global_scenario_get();
+	if (!scnr)
+	{
+		returnInfo = "No scenario loaded";
+		return false;
+	}
+	for (__int32 i = 0; i < scnr->scripts.count; i++)
+	{
+		s_hs_script const &script = scnr->scripts[i];
+		if (!_stricmp(script.name.ascii, Arguments[0].c_str()))
+		{
+			if (((long(__cdecl *)(short, e_hs_script_type, e_hs_script_type))0x598050)((short)i, script.type, (e_hs_script_type)3) == -1)
+			{
+				returnInfo = "Failed execution failed";
+				return false;
+			}
+			return true;
 		}
 	}
-	// function call : long (*const)(short, e_hs_script_type, e_hs_script_type)
-	todo("implement");
-	bool __result = _sub_10993800(Arguments, returnInfo);
-	return __result;
+	returnInfo = "Script not found";
+	return false;
 }
 
-_extern bool _sub_109936A0(std::vector<std::string> const &, std::string &);
 bool CommandExecutePrintScript(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109936A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandExecutePrintScript@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandExecutePrintScript
 	// std::string &returnInfo;
 	// s_scenario *scnr;
-	{
 		// __int32 i;
-		{
 			// s_hs_global const &script;
-			{
 				// void *result;
-			}
+
+	if (Arguments.size() == 0)
+	{
+		returnInfo = "Expected script name";
+		return false;
+	}
+	if (*(bool *)0x23917F0)
+	{
+		returnInfo = "Can not print a script while in a loading screen";
+		return false;
+	}
+	s_scenario *scnr = global_scenario_get();
+	if (!scnr)
+	{
+		returnInfo = "No scenario loaded";
+		return false;
+	}
+	for (__int32 i = 0; i < scnr->script_globals.count; i++)
+	{
+		s_hs_global const &script = scnr->script_globals[i];
+		if (!_stricmp(script.name.ascii, Arguments[0].c_str()))
+		{
+			void *result = hs_get_node_data(script.root_expression_index);
+			return true;
 		}
 	}
-	todo("implement");
-	bool __result = _sub_109936A0(Arguments, returnInfo);
-	return __result;
+	returnInfo = "Script not found";
+	return false;
 }
 
 bool CommandGetTagAddress(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10999C70
@@ -1362,21 +1859,18 @@ bool CommandGetTagAddress(std::vector<std::string> const &Arguments, std::string
 		returnInfo = "You must specify a tag index!";
 		return false;
 	}
-
 	int tagIndex = 0;
 	try
 	{
 		tagIndex = std::stoi(Arguments[0], 0, 0);
 	}
-	catch (std::invalid_argument)
+	catch (std::invalid_argument &)
 	{
 		returnInfo = "Invalid argument given.";
 		return false;
 	}
-
 	typedef void *(*GetTagAddressPtr)(int groupTag, uint32_t index);
 	auto GetTagAddressImpl = reinterpret_cast<GetTagAddressPtr>(0x503370);
-
 	void* address = GetTagAddressImpl(0, tagIndex);
 	std::stringstream ss;
 	ss << "Tag 0x" << std::hex << tagIndex << " is located at 0x" << std::hex << (int)address;
@@ -1384,9 +1878,9 @@ bool CommandGetTagAddress(std::vector<std::string> const &Arguments, std::string
 	return true;
 }
 
-_extern bool _sub_109933F0(std::vector<std::string> const &, std::string &);
 bool CommandDisableScreenEffect(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109933F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandDisableScreenEffect@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandDisableScreenEffect
 	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
@@ -1396,9 +1890,48 @@ bool CommandDisableScreenEffect(std::vector<std::string> const &Arguments, std::
 	// __int32 value;
 	// function call : bool (*const)()
 	// function call : void *(*const)(unsigned long, long)
-	todo("implement");
-	bool __result = _sub_109933F0(Arguments, returnInfo);
-	return __result;
+
+	if (Arguments.size() < 2)
+	{
+		returnInfo = "You must include an index and a range!";
+		return false;
+	}
+	__int32 index = 0;
+	__int32 value = 0;
+	try
+	{
+		index = std::stoi(Arguments[0], nullptr, 0);
+		value = std::stof(Arguments[1]);
+	}
+	catch (std::invalid_argument &)
+	{
+		returnInfo = "Invalid argument given.";
+		return false;
+	}
+	if (!((bool(__cdecl *)())0x5314B0)())
+		return false;
+	s_scenario const *scnr = global_scenario_get();
+	if (!scnr)
+	{
+		returnInfo = "A scenario must be loaded!";
+		return false;
+	}
+	if (scnr->default_screen_fx.index == -1)
+	{
+		returnInfo = "Current scenario does not have a default screen fx";
+		return true;
+	}
+	s_area_screen_effect_definition *sefc = (s_area_screen_effect_definition *)tag_get('sefc', scnr->default_screen_fx.index);
+	if (sefc)
+	{
+		if (value)
+			sefc->screen_effects[index].flags |= 1;
+		else
+			sefc->screen_effects[index].flags &= ~1;
+		return true;
+	}
+	returnInfo = "Failed to get sefc";
+	return false;
 }
 
 bool VariableLanguageUpdated(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x1099DD90
@@ -1469,9 +2002,9 @@ bool CommandShowTickrate(std::vector<std::string> const &Arguments, std::string 
 	return true;
 }
 
-_extern bool _sub_10999910(std::vector<std::string> const &, std::string &);
 bool CommandGameUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10999910
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGameUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandGameUpdate
 	// static ...; // 0x10999B33
 	// static ...; // 0x10999B2E
@@ -1483,25 +2016,40 @@ bool CommandGameUpdate(std::vector<std::string> const &Arguments, std::string &r
 	// std::wstring args;
 	// _PROCESS_INFORMATION pi;
 	// _STARTUPINFOW si;
-	{
 		// unsigned long ret;
-		{
 			// char error[256];
-		}
-	}
 	// function call : __int32 (wchar_t const *, wchar_t *, _SECURITY_ATTRIBUTES *, _SECURITY_ATTRIBUTES *, __int32, unsigned long, void *, wchar_t const *, _STARTUPINFOW *, _PROCESS_INFORMATION *)
 	// function call : unsigned long ()
 	// function call : unsigned long ()
 	// function call : __int32 (void *)
 	// function call : __int32 (void *)
-	todo("implement");
-	bool __result = _sub_10999910(Arguments, returnInfo);
-	return __result;
+
+	_STARTUPINFOW si = {};
+	_PROCESS_INFORMATION pi = {};
+	si.cb = sizeof(si);
+	si.wShowWindow = 1;
+	std::wstring args = L"launcher.exe";
+	if (!CreateProcessW(nullptr, args.data(), nullptr, nullptr, FALSE, 0x1000000, nullptr, nullptr, &si, &pi))
+	{
+		unsigned long ret = GetLastError();
+		if (ret == 2 || ret == 3)
+			returnInfo = "\"launcher.exe\" not found in current directory";
+		else
+		{
+			char error[256];
+			sprintf_s(error, "failed to execute launcher. error: %d %d", ret, GetLastError());
+			returnInfo = error;
+		}
+		return false;
+	}
+	CloseHandle(pi.hThread);
+	CloseHandle(pi.hProcess);
+	return CommandGameExit(Arguments, returnInfo);
 }
 
-_extern bool _sub_10993A10(std::vector<std::string> const &, std::string &);
 bool CommandFullScreenBlurLayer(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10993A10
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandFullScreenBlurLayer@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandFullScreenBlurLayer
 	// static ...; // 0x10993D00
 	// static ...; // 0x10993CF5
@@ -1513,17 +2061,39 @@ bool CommandFullScreenBlurLayer(std::vector<std::string> const &Arguments, std::
 	// std::string layerName;
 	// std::string toggle;
 	// bool blurEnabled;
-	{
 		// std::map<std::string,bool> &<range>$L0;
 		// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,bool> > > > <begin>$L0;
 		// std::_Default_sentinel <end>$L0;
-		{
 			// std::pair<std::string const ,bool> const &pair;
+
+	if (Arguments.size() == 1 && Arguments[0] == "reset")
+	{
+		layerBlurMap.clear();
+		Modules::CommandMap::Instance().ExecuteCommand("Game.fullscreenblur 0", false);
+		return true;
+	}
+	if (Arguments.size() != 2)
+		return false;
+	std::string layerName = Arguments[0];
+	std::string toggle = Arguments[1];
+	bool blurEnabled = false;
+	if (toggle == "1")
+		layerBlurMap[layerName] = true;
+	else
+		layerBlurMap.erase(layerName);
+	for (std::pair<std::string const, bool> const &pair : layerBlurMap)
+	{
+		if (pair.second)
+		{
+			blurEnabled = true;
+			break;
 		}
 	}
-	todo("implement");
-	bool __result = _sub_10993A10(Arguments, returnInfo);
-	return __result;
+	if (blurEnabled)
+		Modules::CommandMap::Instance().ExecuteCommand("Game.fullscreenblur 1", false);
+	else
+		Modules::CommandMap::Instance().ExecuteCommand("Game.fullscreenblur 0", false);
+	return true;
 }
 
 bool CommandFontPackage(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109939A0
@@ -1542,9 +2112,9 @@ bool CommandFontPackage(std::vector<std::string> const &Arguments, std::string &
 	return true;
 }
 
-_extern bool _sub_1099A820(std::vector<std::string> const &, std::string &);
 bool CommandSetMainMenuMod(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1099A820
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandSetMainMenuMod@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandSetMainMenuMod
 	// static ...; // 0x1099AAEC
 	// static ...; // 0x1099AAE4
@@ -1559,14 +2129,25 @@ bool CommandSetMainMenuMod(std::vector<std::string> const &Arguments, std::strin
 	// function call : char const *() const
 	// function call : bool (*const)()
 	// function call : void (*const)()
-	todo("implement");
-	bool __result = _sub_1099A820(Arguments, returnInfo);
-	return __result;
+
+	void (*const main_menu_launch_force)() = reinterpret_cast<void (*)()>(0x568190);
+	if (Arguments.empty())
+		return false;
+	if (!((bool(__cdecl *)())0x5314B0)())
+		return true;
+	std::filesystem::path filename = std::filesystem::path(c_mod_system::get_package_directory()) / Arguments[0];
+	IMod const *currentMod = c_mod_system::GetModManager().GetMod(kMainMenu);
+	if ((currentMod && filename == currentMod->GetFilename()) || (!currentMod && Arguments[0] == ""))
+		return true;
+	bool (*const game_is_mainmenu)() = reinterpret_cast<bool (*)()>(0x531E90);
+	if (game_is_mainmenu())
+		main_menu_launch_force();
+	return true;
 }
 
-_extern bool _sub_1099A3A0(std::vector<std::string> const &, std::string &);
 bool CommandSetCampaignMod(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1099A3A0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandSetCampaignMod@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandSetCampaignMod
 	// static ...; // 0x1099A550
 	// static ...; // 0x1099A538
@@ -1575,20 +2156,29 @@ bool CommandSetCampaignMod(std::vector<std::string> const &Arguments, std::strin
 	// std::string &returnInfo;
 	// bool (*const game_is_mainmenu)();
 	// __int32 lobbyType;
-	{
 		// std::string campaignPakName;
 		// s_static_string<256> file_path;
+	// function call : bool (*const)()
+	// function call : bool (*const)()
+
+	if (!((bool(__cdecl *)())0x5314B0)())
+		return true;
+	bool (*const game_is_mainmenu)() = reinterpret_cast<bool (*)()>(0x531E90);
+	__int32 lobbyType = GetUiGameMode();
+	if (game_is_mainmenu() && lobbyType == 0)
+	{
+		s_static_string<256> file_path;
+		std::string campaignPakName = Modules::ModuleGame::Instance().VarCampaignMod->ValueString.c_str();
+		file_path.print("%s\\%s", c_mod_system::get_package_directory(), campaignPakName);
+		if (file_path.length() > 1 && campaignPakName.length() > 0)
+			c_mod_system::load_package_by_identifier(campaignPakName.c_str());
 	}
-	// function call : bool (*const)()
-	// function call : bool (*const)()
-	todo("implement");
-	bool __result = _sub_1099A3A0(Arguments, returnInfo);
-	return __result;
+	return true;
 }
 
-_extern bool _sub_1099A5E0(std::vector<std::string> const &, std::string &);
 bool CommandSetFirefightMod(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1099A5E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandSetFirefightMod@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandSetFirefightMod
 	// static ...; // 0x1099A790
 	// static ...; // 0x1099A778
@@ -1597,20 +2187,29 @@ bool CommandSetFirefightMod(std::vector<std::string> const &Arguments, std::stri
 	// std::string &returnInfo;
 	// bool (*const game_is_mainmenu)();
 	// __int32 lobbyType;
-	{
 		// s_static_string<256> file_path;
 		// std::string FirefightPakName;
+	// function call : bool (*const)()
+	// function call : bool (*const)()
+
+	if (!((bool(__cdecl *)())0x5314B0)())
+		return true;
+	bool (*const game_is_mainmenu)() = reinterpret_cast<bool (*)()>(0x531E90);
+	__int32 lobbyType = GetUiGameMode();
+	if (game_is_mainmenu() && lobbyType == 5)
+	{
+		s_static_string<256> file_path;
+		std::string FirefightPakName = Modules::ModuleGame::Instance().VarFirefightMod->ValueString.c_str();
+		file_path.print("%s\\%s", c_mod_system::get_package_directory(), FirefightPakName);
+		if (file_path.length() > 1 && FirefightPakName.length() > 0)
+			c_mod_system::load_package_by_identifier(FirefightPakName.c_str());
 	}
-	// function call : bool (*const)()
-	// function call : bool (*const)()
-	todo("implement");
-	bool __result = _sub_1099A5E0(Arguments, returnInfo);
-	return __result;
+	return true;
 }
 
-_extern bool _sub_1099ABC0(std::vector<std::string> const &, std::string &);
 bool CommandSetMultiplayerMod(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1099ABC0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandSetMultiplayerMod@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandSetMultiplayerMod
 	// static ...; // 0x1099AD78
 	// static ...; // 0x1099AD60
@@ -1619,15 +2218,24 @@ bool CommandSetMultiplayerMod(std::vector<std::string> const &Arguments, std::st
 	// std::string &returnInfo;
 	// bool (*const game_is_mainmenu)();
 	// __int32 lobbyType;
-	{
 		// std::string MultiplayerPakName;
 		// s_static_string<256> file_path;
+	// function call : bool (*const)()
+	// function call : bool (*const)()
+
+	if (!((bool(__cdecl *)())0x5314B0)())
+		return true;
+	bool (*const game_is_mainmenu)() = reinterpret_cast<bool (*)()>(0x531E90);
+	__int32 lobbyType = GetUiGameMode();
+	if (game_is_mainmenu() && (lobbyType == 2 || lobbyType == 3))
+	{
+		s_static_string<256> file_path;
+		std::string MultiplayerPakName = Modules::ModuleGame::Instance().VarMultiplayerMod->ValueString.c_str();
+		file_path.print("%s\\%s", c_mod_system::get_package_directory(), MultiplayerPakName);
+		if (file_path.length() > 1 && MultiplayerPakName.length() > 0)
+			c_mod_system::load_package_by_identifier(MultiplayerPakName.c_str());
 	}
-	// function call : bool (*const)()
-	// function call : bool (*const)()
-	todo("implement");
-	bool __result = _sub_1099ABC0(Arguments, returnInfo);
-	return __result;
+	return true;
 }
 
 bool CommandCloseStartMenu(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10993350
@@ -1672,28 +2280,46 @@ bool CommandShowLocalServersUI(std::vector<std::string> const &Arguments, std::s
 	}
 }
 
-_extern bool _sub_1099AE90(std::vector<std::string> const &, std::string &);
 bool CommandShowModBrowser(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1099AE90
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandShowModBrowser@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandShowModBrowser
 	// std::string &returnInfo;
 	// bool (*const game_is_mainmenu)();
 	// function call : bool (*const)()
-	todo("implement");
-	bool __result = _sub_1099AE90(Arguments, returnInfo);
-	return __result;
+
+	bool (*const game_in_main_menu)() = reinterpret_cast<bool (*)()>(0x531E90);
+	if (game_in_main_menu())
+	{
+		Web::Ui::ScreenLayer::Show("mod_browse", "{}");
+		return true;
+	}
+	else
+	{
+		returnInfo = "Must be on MainMenu";
+		return false;
+	}
 }
 
-_extern bool _sub_1099B510(std::vector<std::string> const &, std::string &);
 bool CommandShowServerModBrowser(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1099B510
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandShowServerModBrowser@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandShowServerModBrowser
 	// std::string &returnInfo;
 	// bool (*const game_is_mainmenu)();
 	// function call : bool (*const)()
-	todo("implement");
-	bool __result = _sub_1099B510(Arguments, returnInfo);
-	return __result;
+
+	bool (*const game_in_main_menu)() = reinterpret_cast<bool (*)()>(0x531E90);
+	if (game_in_main_menu())
+	{
+		Web::Ui::ScreenLayer::Show("server_mod_browser", "{}");
+		return true;
+	}
+	else
+	{
+		returnInfo = "Must be on MainMenu";
+		return false;
+	}
 }
 
 bool CommandShowModInfo(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1099AFD0

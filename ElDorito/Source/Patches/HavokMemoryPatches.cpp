@@ -9,6 +9,7 @@
 #include "Blam/rasterizer/draw_string.hpp"
 #include "ChatCommands/ChatCommandMap.hpp"
 #include "Patch.hpp"
+#include "Modules/ModuleDebug.hpp"
 #include "Patches/Audio.hpp"
 #include "Pointer.hpp"
 #include "Utils/Singleton.hpp"
@@ -97,7 +98,7 @@ namespace hades_file_local
 	public:
 		CHavokStatsStringOutputHandler(CHavokStatsStringOutputHandler &); /* compiler_generated() */
 		CHavokStatsStringOutputHandler(); /* compiler_generated() */
-		~CHavokStatsStringOutputHandler(); /* compiler_generated() */
+		~CHavokStatsStringOutputHandler() = default; /* compiler_generated() */
 		CHavokStatsStringOutputHandler &operator=(CHavokStatsStringOutputHandler &); /* compiler_generated() */
 	};
 	static_assert(sizeof(CHavokStatsStringOutputHandler) == 184, "Invalid CHavokStatsStringOutputHandler size");
@@ -116,7 +117,7 @@ namespace hades_file_local
 		c_rasterizer_draw_string m_drawString; // 0x14
 		__int32 m_yOffset; // 0x83C
 	public:
-		~CHavokStatsDisplayOutputHandler(); /* compiler_generated() */
+		~CHavokStatsDisplayOutputHandler() = default; /* compiler_generated() */
 		CHavokStatsDisplayOutputHandler &operator=(CHavokStatsDisplayOutputHandler &); /* compiler_generated() */
 		CHavokStatsDisplayOutputHandler &operator=(CHavokStatsDisplayOutputHandler const &); /* compiler_generated() */
 	};
@@ -151,45 +152,120 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- public code */
 
-_extern void _sub_1085F150();
 void ExpandRuntimePool() // 0x1085F150
 {
-	mangled_x86(MANGLED_TODO, "?ExpandRuntimePool@@YAXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ExpandRuntimePool@@YAXXZ");
 	// procedure flags: nofpo
 	// __int32 additionalPageMemorySize;
 	// __int32 additionPages;
-	todo("implement");
-	_sub_1085F150();
+
+	__int32 additionPages = 0x28A;
+	__int32 additionalPageMemorySize = additionPages * 0x2000;
+	*(uint32_t *)0x9F775E += additionalPageMemorySize;
+	*(uint32_t *)0x9F7764 += additionalPageMemorySize;
+	*(uint32_t *)0x9F75CA += additionalPageMemorySize;
+	*(uint32_t *)0x9F75D0 += additionalPageMemorySize;
+	*(uint32_t *)0x9F7805 += additionalPageMemorySize;
+	*(uint32_t *)0x9F6EB4 += additionalPageMemorySize;
+	*(uint32_t *)0x9F6EBA += additionalPageMemorySize;
+	*(uint32_t *)0x9F6F1C += additionalPageMemorySize;
+	*(uint32_t *)0x9F6F41 += additionalPageMemorySize;
+	*(uint32_t *)0x9F6F48 += additionalPageMemorySize;
+	*(uint32_t *)0x9F6F52 += additionalPageMemorySize;
+	*(uint32_t *)0x9F6E89 += additionalPageMemorySize;
+	*(uint32_t *)0x9F741A += additionalPageMemorySize;
+	*(uint32_t *)0x9F7445 += additionalPageMemorySize;
+	*(uint32_t *)0x9F744B += additionalPageMemorySize;
+	*(uint32_t *)0x9F748F += additionalPageMemorySize;
+	*(uint32_t *)0x9F74AB += additionalPageMemorySize;
+	*(uint32_t *)0x9F74B2 += additionalPageMemorySize;
+	*(uint32_t *)0x9F74BC += additionalPageMemorySize;
+	*(uint32_t *)0x9F6E1A += additionalPageMemorySize;
+	*(uint32_t *)0x9F6E4B += additionalPageMemorySize;
+	*(uint32_t *)0x9F6E51 += additionalPageMemorySize;
+	*(uint32_t *)0x9F6E5F += additionalPageMemorySize;
+	*(uint32_t *)0x9F6E69 += additionalPageMemorySize;
+	*(uint32_t *)0x9F7379 += additionalPageMemorySize;
+	*(uint32_t *)0x9F73A2 += additionalPageMemorySize;
+	*(uint32_t *)0x9F73D8 += additionalPageMemorySize;
+	*(uint32_t *)0x9F73EF += additionalPageMemorySize;
+	*(uint32_t *)0x9F73F9 += additionalPageMemorySize;
+	*(uint32_t *)0x9F73AB += additionalPageMemorySize;
+	*(uint32_t *)0x9F718D += additionalPageMemorySize;
+	*(uint32_t *)0x9F71CA += additionalPageMemorySize;
+	*(uint32_t *)0x9F71D0 += additionalPageMemorySize;
+	*(uint32_t *)0x9F71E3 += additionalPageMemorySize;
+	*(uint32_t *)0x9F724B += additionalPageMemorySize;
+	*(uint32_t *)0x9F7252 += additionalPageMemorySize;
+	*(uint32_t *)0x9F7283 += additionalPageMemorySize;
+	*(uint32_t *)0x9F729C += additionalPageMemorySize;
+	*(uint32_t *)0x9F72A2 += additionalPageMemorySize;
+	*(uint32_t *)0x9F72C5 += additionalPageMemorySize;
+	*(uint32_t *)0x9F72D9 += additionalPageMemorySize;
+	*(uint32_t *)0x9F72FC += additionalPageMemorySize;
+	*(uint32_t *)0x9F7303 += additionalPageMemorySize;
+	*(uint32_t *)0x9F7329 += additionalPageMemorySize;
+	*(uint32_t *)0x9F6D85 += additionalPageMemorySize;
+	*(uint32_t *)0x9F6D8B += additionalPageMemorySize;
+	*(uint32_t *)0x9F6D9F += additionalPageMemorySize;
+	*(uint32_t *)0x9F6DA9 += additionalPageMemorySize;
+	*(uint32_t *)0x9F6D67 += additionalPageMemorySize;
+	*(uint32_t *)0x9F6A06 += additionalPageMemorySize;
+	*(uint32_t *)0x9F6A24 += additionalPageMemorySize;
+	*(uint32_t *)0x9F6A4F += additionalPageMemorySize;
+	*(uint32_t *)0x9F6A59 += additionalPageMemorySize;
+	*(uint32_t *)0x9F6A6A += additionalPageMemorySize;
+	*(uint32_t *)0x9F76BC += additionalPageMemorySize;
+	*(uint32_t *)0x9F76C4 += additionalPageMemorySize;
+	*(uint32_t *)0x9F76DB += additionalPageMemorySize;
+	*(uint32_t *)0x9F772B += additionalPageMemorySize;
+	*(uint32_t *)0x9F71D7 = 0x44C;
+	*(uint32_t *)0x9F72B0 = 0x44C;
+	*(uint32_t *)0x9F75C4 = 0x44C;
+	*(uint32_t *)0x9F75BD = 0x898E10;
+	Pointer(0x1690A8C).Write<float>(1100.0f);
 }
 
 namespace Patches
 {
 	namespace HavokMemory
 	{
-		_extern void _sub_1085E750();
 		void ApplyAll() // 0x1085E750
 		{
-			mangled_x86(MANGLED_TODO, "?ApplyAll@HavokMemory@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@HavokMemory@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_1085E750();
+
+			Hook(0x35D38B, havok_memory_init_runtime_pool_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x35D4D0, havok_memory_init_overflow_pool_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x1C5520, havok_display_stats_printf_hook).Apply();
+			Hook(0x35C6BA, havok_out_of_memory_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x35C77A, havok_out_of_memory_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x35C98E, havok_out_of_memory_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x35CD92, havok_out_of_memory_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x35D057, havok_out_of_memory_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x35D23A, havok_out_of_memory_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Patch(0x5F844A, { 0xEB }).Apply();
+			ExpandRuntimePool();
 		}
 
-		_extern void _sub_1085F970();
 		void RenderDebug() // 0x1085F970
 		{
-			mangled_x86(MANGLED_TODO, "?RenderDebug@HavokMemory@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?RenderDebug@HavokMemory@Patches@@YAXXZ");
 			// procedure flags: nofpo
 			// static ...; // 0x1085FA64
 			// static ...; // 0x1085FA58
 			// static ...; // 0x1085FA50
-			{
 				// CHavokStatsDisplayOutputHandler outputHandler;
-			}
 			// function call : bool (*const)()
 			// function call : void (*const)(CHavokStatsOutputHandler *)
-			todo("implement");
-			_sub_1085F970();
+
+			if (!Modules::ModuleDebug::Instance().VarHavokStats->ValueInt)
+				return;
+			if (((bool(*)())0x5C45BB)())
+			{
+				CHavokStatsDisplayOutputHandler outputHandler;
+				((void(*)(CHavokStatsOutputHandler *))0x5C4FC0)(&outputHandler);
+			}
 		}
 	}
 }
@@ -252,14 +328,14 @@ _inline CHavokStatsOutputHandler::CHavokStatsOutputHandler() = default; // 0x108
 _inline CHavokStatsStringOutputHandler::CHavokStatsStringOutputHandler() = default; // 0x1085E620
 
 // mangled_x86(MANGLED_DEFAULT, "??1CHavokStatsDisplayOutputHandler@hades_file_local@@QAE@XZ"); no body to assert in
-_inline CHavokStatsDisplayOutputHandler::~CHavokStatsDisplayOutputHandler() = default; // 0x1085E6A0
+// hades: ~CHavokStatsDisplayOutputHandler() is defaulted in the class (implicit: no vftable store) // 0x1085E6A0
 
 // mangled_x86(MANGLED_DEFAULT, "??1CHavokStatsStringOutputHandler@hades_file_local@@QAE@XZ"); no body to assert in
-_inline CHavokStatsStringOutputHandler::~CHavokStatsStringOutputHandler() = default; // 0x1085E700
+// hades: ~CHavokStatsStringOutputHandler() is defaulted in the class (implicit: no vftable store) // 0x1085E700
 
-_extern void _sub_1085F6C0(CHavokStatsDisplayOutputHandler *const, real_argb_color const *, char const *);
 _inline void CHavokStatsDisplayOutputHandler::OutputLine(real_argb_color const *color, char const *line) // 0x1085F6C0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?OutputLine@CHavokStatsDisplayOutputHandler@hades_file_local@@UAEXPBUreal_argb_color@@PBD@Z");
 	// `anonymous-namespace'::CHavokStatsDisplayOutputHandler::OutputLine
 	// static ...; // 0x1085F868
 	// CHavokStatsDisplayOutputHandler *const this;
@@ -267,8 +343,19 @@ _inline void CHavokStatsDisplayOutputHandler::OutputLine(real_argb_color const *
 	// char const *line;
 	// short_rectangle2d bounds;
 	// function call : void (*const)(short_rectangle2d *, short_rectangle2d *, short_rectangle2d *, short_rectangle2d *)
-	todo("implement");
-	_sub_1085F6C0(this, color, line);
+
+	if (!color)
+		color = (real_argb_color const *)"";
+	short_rectangle2d bounds;
+	((void (*const)(short_rectangle2d *, short_rectangle2d *, short_rectangle2d *, short_rectangle2d *))0xA9FAA0)(nullptr, nullptr, nullptr, &bounds);
+	m_drawString.set_font(0);
+	m_drawString.set_justification(0);
+	m_drawString.set_color(*color);
+	m_drawString.set_shadow_color({ 0.0f, 0.0f, 0.0f, 1.0f });
+	bounds.y0 += m_yOffset;
+	m_yOffset += m_drawString.get_line_height();
+	m_drawString.set_bounds(bounds);
+	m_drawString.draw(&m_fontCache, line);
 }
 
 __int32 havok_display_stats_printf_hook(CHavokStatsOutputHandler *output_handler, real_argb_color const *color, char const *format, ...) // 0x1085FB20

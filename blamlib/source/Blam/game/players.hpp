@@ -196,12 +196,14 @@ struct s_player_datum :
 	unsigned short time_in_hill; // 0x2DEC
 	unsigned short time_outside_Hill; // 0x2DEE
 	unsigned short time_hill_Left; // 0x2DF0
+	unsigned short : 16; // 0x2DF2  // hades: padding the PDB member list omits
 	short nemesis_totals[16]; // 0x2DF4
 	char field_2E14; // 0x2E14
 	unsigned long last_hit_marker_game_time; // 0x2E18
 	long revenge_player_Index; // 0x2E1C
 	s_damage_reporting_info revenge_event_type; // 0x2E20
 	bool revenge_taken; // 0x2E24
+	unsigned char : 8; unsigned char : 8; unsigned char : 8; // 0x2E25  // hades: padding the PDB member list omits
 	unsigned char unknown_damage_reporting_timer; // 0x2E28
 	char unknown_damage_reporting_timer2; // 0x2E29
 	s_damage_reporting_info unknown_damagereportinginfo; // 0x2E2A
@@ -227,9 +229,9 @@ struct s_player_datum :
 	s_player_datum &operator=(s_player_datum &); /* compiler_generated() */
 	s_player_datum &operator=(s_player_datum const &); /* compiler_generated() */
 };
-// static_assert(sizeof(s_player_datum) == 12040, "Invalid s_player_datum size");
-// The layout above is the PDB's member list without its padding, so the
-// size assertion is withheld: it would fail on alignment alone.
+static_assert(sizeof(s_player_datum) == 12040, "Invalid s_player_datum size");
+// hades: the two unnamed padding runs above restore the gaps the PDB member list omits.
+//
 
 struct s_player_interaction
 {
@@ -317,12 +319,10 @@ struct s_players_globals
 	bool field_6; // 0x6
 	bool sprint_disabled; // 0x7
 	bool consumables_disabled; // 0x8
-	unsigned char __pad0[3]; // 0x9
 	unsigned long machine_valid_mask; // 0xC
 	s_machine_identifier machine_identifiers[17]; // 0x10
 	bool local_machine_valid; // 0x120
 	char local_machine_identifier[16]; // 0x121
-	unsigned char __pad1[3]; // 0x131
 	long local_machine_index; // 0x134
 	bool safe_to_respawn; // 0x138
 	unsigned char __pad2[1]; // 0x139
@@ -343,7 +343,6 @@ struct s_players_globals
 	unsigned short terminals_completed_mask; // 0x1EC
 	unsigned short terminals_accessed_mask; // 0x1EE
 	bool player_reading_terminal; // 0x1F0
-	unsigned char __pad3[3]; // 0x1F1
 	long unknown[16]; // 0x1F4
 };
 #pragma pack(pop)

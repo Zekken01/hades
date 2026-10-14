@@ -112,10 +112,9 @@ namespace Utils
 {
 	namespace Jpeg
 	{
-		_extern void _sub_10753AD0(std::vector<unsigned char> &, __int32, unsigned char const *, __int32, __int32);
 		void CompressBuf(std::vector<unsigned char> &dest, __int32 quality, unsigned char const *srcBits, __int32 width, __int32 height) // 0x10753AD0
 		{
-			mangled_x86(MANGLED_TODO, "?CompressBuf@Jpeg@Utils@@YAXAAV?$vector@EV?$allocator@E@std@@@std@@HPBEHH@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?CompressBuf@Jpeg@Utils@@YAXAAV?$vector@EV?$allocator@E@std@@@std@@HPBEHH@Z");
 			// static ...; // 0x10753DD0
 			// static ...; // 0x10753DC8
 			// std::vector<unsigned char> &dest;
@@ -127,13 +126,9 @@ namespace Utils
 			// char err_mgr[132];
 			// std::unique_ptr<unsigned char [0]> row_buf;
 			// jpeg_compress_struct cinfo;
-			{
 				// unsigned char const *src;
 				// unsigned char *dest;
-				{
 					// __int32 i;
-				}
-			}
 			// function call : void *(*const)(void *)
 			// function call : __int32 (*const)(void *, __int32, unsigned __int32)
 			// function call : void (*const)(void *)
@@ -142,17 +137,52 @@ namespace Utils
 			// function call : void (*const)(void *, unsigned char const *const *, unsigned __int32)
 			// function call : void (*const)(void *)
 			// function call : void (*const)(void *)
-			todo("implement");
-			_sub_10753AD0(dest, quality, srcBits, width, height);
+
+			char err_mgr[132];
+			jpeg_compress_struct cinfo;
+			cinfo.err = ((void *(*const)(void *))0xD4C4D0)(err_mgr);
+			((__int32 (*const)(void *, __int32, unsigned __int32))0xD4C520)(&cinfo, 62, 360);
+			jpeg_stdvector_dest(&cinfo, dest);
+			cinfo.image_width = width;
+			cinfo.image_height = height;
+			cinfo.input_components = 3;
+			cinfo.in_color_space = 2;
+			((void (*const)(void *))0xD4D3E0)(&cinfo);
+			((void (*const)(void *, __int32, bool))0xD4CC90)(&cinfo, quality, true);
+			((void (*const)(void *, bool))0xD4D4E0)(&cinfo, true);
+			std::unique_ptr<unsigned char[]> row_buf = std::make_unique<unsigned char[]>(width * 3);
+			unsigned char *row = row_buf.get();
+			if (!row)
+			{
+				dest.resize(0);
+				return;
+			}
+			while (cinfo.next_scanline < cinfo.image_height)
+			{
+				unsigned char const *src = srcBits + cinfo.next_scanline * cinfo.image_width * 4;
+				unsigned char *dest = row;
+				for (__int32 i = 0; i < width; i++)
+				{
+					dest[0] = src[2];
+					dest[1] = src[1];
+					dest[2] = src[0];
+					dest += 3;
+					src += 4;
+				}
+				((void (*const)(void *, unsigned char const *const *, unsigned __int32))0xD4D560)(&cinfo, &row, 1);
+			}
+			((void (*const)(void *))0xD4C680)(&cinfo);
+			((void (*const)(void *))0xD4C5F0)(&cinfo);
 		}
 
-		_extern void _sub_10753EF0(std::wstring, __int32, unsigned char const *, __int32, __int32);
 		void CompressFile(std::wstring destFilename, __int32 quality, unsigned char const *srcBits, __int32 width, __int32 height) // 0x10753EF0
 		{
-			mangled_x86(MANGLED_TODO, "?CompressFile@Jpeg@Utils@@YAXV?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@HPBEHH@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?CompressFile@Jpeg@Utils@@YAXV?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@HPBEHH@Z");
 			// __int32 height;
-			todo("implement");
-			_sub_10753EF0(destFilename, quality, srcBits, width, height);
+
+			#line 180 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Utils\\JpegUtils.cpp"
+			assert(!"not implemented");
+			#line 186 "C:\\Users\\zekken\\Desktop\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Utils\\JpegUtils.cpp"
 		}
 	}
 }

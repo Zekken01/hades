@@ -99,7 +99,6 @@ static_assert(sizeof(s_contrail_system_definition) == 620, "Invalid s_contrail_s
 struct s_contrail_instance :
 	public s_datum
 {
-	unsigned char __pad0[2]; // 0x2
 	long next_instance_datum_index; // 0x4
 	long contrail_gpu_datum_index; // 0x8
 	long first_profile_datum_index; // 0xC

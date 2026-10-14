@@ -109,20 +109,25 @@ s_havok_shape_container_vtable c_decomposed_poop_shape_impl::g_vtable_for_hkpSha
 
 /* ---------- public code */
 
-extern c_scaled_convex_vertices_shape *_sub_10F1B890(c_scaled_convex_vertices_shape *, c_convex_vertices_shape_with_material *, float);
 _inline c_scaled_convex_vertices_shape *c_scaled_convex_vertices_shape_impl::fixup(c_scaled_convex_vertices_shape *shape, c_convex_vertices_shape_with_material *child, float scale) // 0x10F1B890
 {
-	mangled_x86(MANGLED_TODO, "?fixup@c_scaled_convex_vertices_shape_impl@@SAPAUc_scaled_convex_vertices_shape@@PAU2@PAUc_convex_vertices_shape_with_material@@M@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?fixup@c_scaled_convex_vertices_shape_impl@@SAPAUc_scaled_convex_vertices_shape@@PAU2@PAUc_convex_vertices_shape_with_material@@M@Z");
 	// float scale;
-	todo("implement");
-	c_scaled_convex_vertices_shape * __result = _sub_10F1B890(shape, child, scale);
-	return __result;
+
+	shape->vftable = (void **)&g_vtable_for_hkpShape;
+	shape->m_referenceObject.m_memSizeAndFlags = 0;
+	shape->m_referenceObject.m_referenceCount = 128;
+	shape->m_userData = 0xFFFF00AB;
+	shape->m_type = 1;
+	shape->m_radius = child->m_radius;
+	shape->child = child;
+	shape->scale = hkVector4{ scale, scale, scale, scale };
+	return shape;
 }
 
-_extern void _sub_10F1B9B0(c_scaled_convex_vertices_shape *, void *, hkTransform *, float, hkAabb &);
 _inline void __fastcall c_scaled_convex_vertices_shape_impl::getAabbImpl(c_scaled_convex_vertices_shape *this_, void *__formal, hkTransform *transform, float tolerance, hkAabb &aabbOut) // 0x10F1B9B0
 {
-	mangled_x86(MANGLED_TODO, "?getAabbImpl@c_scaled_convex_vertices_shape_impl@@CIXPAUc_scaled_convex_vertices_shape@@PAXPAUhkTransform@@MAAUhkAabb@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?getAabbImpl@c_scaled_convex_vertices_shape_impl@@CIXPAUc_scaled_convex_vertices_shape@@PAXPAUhkTransform@@MAAUhkAabb@@@Z");
 	// c_scaled_convex_vertices_shape *this_;
 	// void *__formal;
 	// hkTransform *transform;
@@ -130,8 +135,18 @@ _inline void __fastcall c_scaled_convex_vertices_shape_impl::getAabbImpl(c_scale
 	// hkAabb &aabbOut;
 	// hkVector4 half_extents;
 	// hkVector4 center;
-	todo("implement");
-	_sub_10F1B9B0(this_, __formal, transform, tolerance, aabbOut);
+
+	hkVector4 half_extents = this_->child->m_aabbHalfExtents;
+	half_extents.x *= this_->scale.x;
+	half_extents.y *= this_->scale.y;
+	half_extents.z *= this_->scale.z;
+	half_extents.w *= this_->scale.w;
+	hkVector4 center = this_->child->m_aabbCenter;
+	center.x *= this_->scale.x;
+	center.y *= this_->scale.y;
+	center.z *= this_->scale.z;
+	center.w *= this_->scale.w;
+	hkAabbUtil::calcAaab(*transform, half_extents, center, this_->m_radius + tolerance, aabbOut);
 }
 
 _inline bool *__fastcall c_scaled_convex_vertices_shape_impl::castRayImpl(c_scaled_convex_vertices_shape *this_, void *__formal, bool *resultOut, hkpShapeRayCastInput const &input, hkpShapeRayCastOutput &ouput) // 0x10F1B360
@@ -218,20 +233,31 @@ _inline void __fastcall c_scaled_convex_vertices_shape_impl::convertVertexIdsToV
 	}
 }
 
-extern c_convex_vertices_shape_with_material *_sub_10F1B5B0(c_convex_vertices_shape_with_material *, s_structure_instanced_geometry_definition *);
 _inline c_convex_vertices_shape_with_material *c_convex_vertices_shape_with_material_impl::fixup(c_convex_vertices_shape_with_material *shape, s_structure_instanced_geometry_definition *instance_definition) // 0x10F1B5B0
 {
-	mangled_x86(MANGLED_TODO, "?fixup@c_convex_vertices_shape_with_material_impl@@SAPAUc_convex_vertices_shape_with_material@@PAU2@PAUs_structure_instanced_geometry_definition@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?fixup@c_convex_vertices_shape_with_material_impl@@SAPAUc_convex_vertices_shape_with_material@@PAU2@PAUs_structure_instanced_geometry_definition@@@Z");
 	// s_structure_instanced_geometry_definition *instance_definition;
 	// long first_plane_index;
 	// s_instanced_geometry_definition_extra_data *extra_data;
 	// long first_vertex_index;
-	{
 		// c_convex_vertices_shape_with_material const *p;
+
+	shape->vftable = (void **)0x165D40C;
+	shape->m_referenceObject.m_memSizeAndFlags = 0;
+	shape->m_referenceObject.m_referenceCount = 128;
+	shape->m_userData = 'poop';
+	shape->m_type = 1;
+	s_instanced_geometry_definition_extra_data *extra_data = &instance_definition->extra_data[0];
+	long first_plane_index = 0;
+	long first_vertex_index = 0;
+	for (c_convex_vertices_shape_with_material const *p = extra_data->polyhedra.begin(); p != shape; p++)
+	{
+		first_plane_index += p->m_planeEquation.m_size;
+		first_vertex_index += p->m_rotatedVertices.m_size;
 	}
-	todo("implement");
-	c_convex_vertices_shape_with_material * __result = _sub_10F1B5B0(shape, instance_definition);
-	return __result;
+	shape->m_rotatedVertices.m_data = &extra_data->polyhedra_four_vectors[first_vertex_index];
+	shape->m_planeEquation.m_data = &extra_data->polyhedra_plane_equations[first_plane_index];
+	return shape;
 }
 
 _inline c_decomposed_poop_shape *c_decomposed_poop_shape_impl::fixup(c_decomposed_poop_shape *shape, s_structure_instanced_geometry_definition *instance_definition) // 0x10F1B770
@@ -272,18 +298,30 @@ _inline __int32 __fastcall c_decomposed_poop_shape_impl::getNumChildShapes(hkSha
 	return extra_data->polyhedra.count;
 }
 
-extern hkpShape *_sub_10F1BBC0(hkShapeContainer *, void *, unsigned __int32, char (&)[512]);
 _inline hkpShape *__fastcall c_decomposed_poop_shape_impl::getChildShape(hkShapeContainer *this_, void *__formal, unsigned __int32 key, char (&buffer)[512]) // 0x10F1BBC0
 {
-	mangled_x86(MANGLED_TODO, "?getChildShape@c_decomposed_poop_shape_impl@@CIPAUhkpShape@@PAUhkShapeContainer@@PAXIAAY0CAA@D@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?getChildShape@c_decomposed_poop_shape_impl@@CIPAUhkpShape@@PAUhkShapeContainer@@PAXIAAY0CAA@D@Z");
 	// char (&buffer)[512];
 	// s_structure_instanced_geometry_definition *instance_definition;
 	// c_convex_vertices_shape_with_material *polyhedron;
 	// c_decomposed_poop_shape *decomposed_poop_shape;
 	// s_instanced_geometry_definition_extra_data *extra_data;
-	todo("implement");
-	hkpShape * __result = _sub_10F1BBC0(this_, __formal, key, buffer);
-	return __result;
+
+	typedef unsigned int hkUint32;
+	c_decomposed_poop_shape *decomposed_poop_shape = (c_decomposed_poop_shape *)havok_shape_from_container(this_);
+	s_structure_instanced_geometry_definition *instance_definition = (s_structure_instanced_geometry_definition *)decomposed_poop_shape->instance_definition;
+	s_instanced_geometry_definition_extra_data *extra_data = &instance_definition->extra_data[0];
+	if (!(key < (hkUint32)extra_data->polyhedra.count))
+	{
+		(void)((!!(key < (hkUint32)extra_data->polyhedra.count)) || (_wassert(L"key < (hkUint32)extra_data->polyhedra.count", L"C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\physics\\physics_shapes.cpp", 220), 0));
+		return nullptr;
+	}
+	c_convex_vertices_shape_with_material *polyhedron = &extra_data->polyhedra[key];
+	if (!polyhedron->vftable)
+		c_convex_vertices_shape_with_material_impl::fixup(polyhedron, instance_definition);
+	if (decomposed_poop_shape->scale != 1.0f)
+		return c_scaled_convex_vertices_shape_impl::fixup((c_scaled_convex_vertices_shape *)buffer, polyhedron, decomposed_poop_shape->scale);
+	return polyhedron;
 }
 
 void c_scaled_convex_vertices_shape::fixup(c_scaled_convex_vertices_shape *definition, c_convex_vertices_shape_with_material *child, float scale) // 0x10F1B820

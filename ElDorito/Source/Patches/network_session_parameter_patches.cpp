@@ -99,7 +99,7 @@ bool network_sesison_parameter_eldewrito_decode(c_bitstream *bitstream, void *da
 namespace hades_file_local
 {
 	extern char const *g_session_mod_parameter_name; // 0x113547E0
-	extern s_static_array<c_network_session_parameter_mod,4> g_session_mod_parameters; // 0x12466598
+	s_static_array<c_network_session_parameter_mod,4> g_session_mod_parameters; // 0x12466598  // hades: defined, so its dynamic initializer emits the constructor
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -120,13 +120,13 @@ void network__session_parameter_types_register_hook(c_network_session_parameter_
 
 // mangled_x86(MANGLED_DEFAULT, "??0c_network_session_parameter_mod@@QAE@XZ"); no body to assert in
 
-_extern void _sub_10AA90D0();
 void network_session_parameter_patches_apply() // 0x10AA90D0
 {
-	mangled_x86(MANGLED_TODO, "?network_session_parameter_patches_apply@@YAXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?network_session_parameter_patches_apply@@YAXXZ");
 	// procedure flags: nofpo
-	todo("implement");
-	_sub_10AA90D0();
+
+	Hook(0x5CB01, c_network_session_parameters__initialize_parameters_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+	Hook(0x9E325, network__session_parameter_types_register_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 }
 
 /* ---------- private code */

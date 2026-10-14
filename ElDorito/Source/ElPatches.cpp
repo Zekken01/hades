@@ -228,6 +228,96 @@ using namespace ::Blam;
 
 /* ---------- prototypes */
 
+namespace Patches { namespace Hf2pExperimental { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace Core { extern void ApplyAll(); } }  // hades: added for 0x10968240
+extern void visibility_patches_apply();  // hades: added for 0x10968240
+extern void effect_system_patches_apply();  // hades: added for 0x10968240
+namespace Patches { namespace Audio { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace Memory { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace Mouse { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace Network { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace Scoreboard { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace Shell { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace Ui { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace Chud { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace VirtualKeyboard { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace RawInput { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace ContentItems { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace PlayerUid { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace PlayerScale { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace Input { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace Forge { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace CustomPackets { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace Logging { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace Events { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace LoadingScreen { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace Equipment { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace Weapon { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace Spectate { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace Medals { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace Simulation { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace SimulationWeapon { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace Camera { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace Maps { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace GameEngineSettings { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace DamageSystem { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace ModSync { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace FirstPerson { extern void ApplyAll(); } }  // hades: added for 0x10968240
+extern void network_session_parameter_patches_apply();  // hades: added for 0x10968240
+extern void player_model_patches_apply();  // hades: added for 0x10968240
+extern void player_character_type_patches_apply();  // hades: added for 0x10968240
+extern void forge_material_patches_apply();  // hades: added for 0x10968240
+namespace Patches { namespace Mopp { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace Animation { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace Sprint { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace geometry_sampler_patches { extern void ApplyAll(); } }  // hades: added for 0x10968240
+extern void render_patches_apply();  // hades: added for 0x10968240
+extern void render_postprocess_patches_apply();  // hades: added for 0x10968240
+extern void physics_patches_apply();  // hades: added for 0x10968240
+namespace Patches { namespace campaign_patches { extern void ApplyAll(); } }  // hades: added for 0x10968240
+extern void game_state_patches_apply();  // hades: added for 0x10968240
+extern void saved_game_patches_apply();  // hades: added for 0x10968240
+extern void life_cycle_patches_apply();  // hades: added for 0x10968240
+extern void game_time_patches_apply();  // hades: added for 0x10968240
+extern void font_patches_apply();  // hades: added for 0x10968240
+namespace Patches { namespace PregameLobby { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace Game { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace Devices { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace Debug { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace DeterminismDebug { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace HavokMemory { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace MouseSupport { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace MenuBlur { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace Vision { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace PlayerControl { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace RenderObject { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace Objects { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace Player { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace ScreenEffects { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace HaloScript { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace GameEngine { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace MotorSystem { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace Biped { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace MapBarriers { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace Projectiles { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace Unit { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace Assassination { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace BreakableSurface { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace Vehicle { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace Bitmaps { extern void ApplyAll(); } }  // hades: added for 0x10968240
+extern void widget_patches_apply();  // hades: added for 0x10968240
+namespace DirectXHook { extern void ApplyAll(); }  // hades: added for 0x10968240
+
+namespace Patches { namespace Sprint { void Tick(); } namespace Forge { void Tick(); } namespace PlayerScale { void Tick(); } namespace ModSync { void Tick(); } namespace Mopp { void Tick(); } namespace MenuBlur { void Tick(); } namespace PregameLobby { void Tick(); } namespace Debug { void Tick(); } namespace FirstPerson { void Tick(); } }  // hades: added for 0x10968600
+void render_postprocess_patches_tick();  // hades: added for 0x10968600
+void effect_system_patches_tick();  // hades: added for 0x10968600
+void render_patches_tick();  // hades: added for 0x10968600
+
+namespace Patches { namespace Core { extern void ApplyAfterInit(); } namespace Memory { extern void ApplyAfterInit(); } namespace Audio { extern void ApplyAfterInit(); } namespace Network { extern void ForceDedicated(); extern void ForceBotClient(); } namespace Reach { extern void ApplyAfterInit(); } }  // hades: added for 0x10968120
+
+extern void RefreshUiPlayer();  // hades: added for 0x109681B0
+namespace Patches { namespace Ui { extern void ApplyAfterTagsLoaded(); extern void ApplyUIResolution(); } namespace Weapon { extern void ApplyAfterTagsLoaded(); } namespace Tweaks { extern void ApplyAfterTagsLoaded(); } namespace Camera { extern void ApplyAfterTagsLoaded(); } namespace Forge { extern void ApplyAfterTagsLoaded(); } }  // hades: added for 0x109681B0
+
 namespace Patches
 {
 	extern void ApplyRequired();
@@ -247,10 +337,9 @@ void UnprotectMemory();
 
 namespace Patches
 {
-	_extern void _sub_10968240();
 	void ApplyRequired() // 0x10968240
 	{
-		mangled_x86(MANGLED_TODO, "?ApplyRequired@Patches@@YAXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyRequired@Patches@@YAXXZ");
 		// procedure flags: nofpo
 		// static ...; // 0x109684D8
 		// static ...; // 0x109684D4
@@ -259,25 +348,120 @@ namespace Patches
 		// bool isdedicated;
 		// wchar_t **szArgList;
 		// __int32 numArgs;
-		{
 			// __int32 i;
-			{
 				// std::wstring arg;
-			}
-		}
 		// function call : wchar_t *()
 		// function call : wchar_t **(wchar_t const *, __int32 *)
-		todo("implement");
-		_sub_10968240();
+
+		UnprotectMemory();
+		Hf2pExperimental::ApplyAll();
+		Core::ApplyAll();
+		visibility_patches_apply();
+		effect_system_patches_apply();
+		Audio::ApplyAll();
+		Memory::ApplyAll();
+		Mouse::ApplyAll();
+		Network::ApplyAll();
+		Scoreboard::ApplyAll();
+		Shell::ApplyAll();
+		Ui::ApplyAll();
+		Chud::ApplyAll();
+		VirtualKeyboard::ApplyAll();
+		RawInput::ApplyAll();
+		ContentItems::ApplyAll();
+		PlayerUid::ApplyAll();
+		PlayerScale::ApplyAll();
+		Input::ApplyAll();
+		Forge::ApplyAll();
+		CustomPackets::ApplyAll();
+		Logging::ApplyAll();
+		Events::ApplyAll();
+		LoadingScreen::ApplyAll();
+		Equipment::ApplyAll();
+		Weapon::ApplyAll();
+		Spectate::ApplyAll();
+		Medals::ApplyAll();
+		Simulation::ApplyAll();
+		SimulationWeapon::ApplyAll();
+		Camera::ApplyAll();
+		Maps::ApplyAll();
+		GameEngineSettings::ApplyAll();
+		DamageSystem::ApplyAll();
+		ModSync::ApplyAll();
+		FirstPerson::ApplyAll();
+		network_session_parameter_patches_apply();
+		player_model_patches_apply();
+		player_character_type_patches_apply();
+		forge_material_patches_apply();
+		Mopp::ApplyAll();
+		Animation::ApplyAll();
+		Sprint::ApplyAll();
+		geometry_sampler_patches::ApplyAll();
+		render_patches_apply();
+		render_postprocess_patches_apply();
+		physics_patches_apply();
+		campaign_patches::ApplyAll();
+		game_state_patches_apply();
+		saved_game_patches_apply();
+		life_cycle_patches_apply();
+		game_time_patches_apply();
+		font_patches_apply();
+		PregameLobby::ApplyAll();
+		Game::ApplyAll();
+		Devices::ApplyAll();
+		Debug::ApplyAll();
+		DeterminismDebug::ApplyAll();
+		HavokMemory::ApplyAll();
+		MouseSupport::ApplyAll();
+		MenuBlur::ApplyAll();
+		Vision::ApplyAll();
+		PlayerControl::ApplyAll();
+		RenderObject::ApplyAll();
+		Objects::ApplyAll();
+		Player::ApplyAll();
+		ScreenEffects::ApplyAll();
+		HaloScript::ApplyAll();
+		GameEngine::ApplyAll();
+		MotorSystem::ApplyAll();
+		Biped::ApplyAll();
+		MapBarriers::ApplyAll();
+		Projectiles::ApplyAll();
+		Unit::ApplyAll();
+		Assassination::ApplyAll();
+		BreakableSurface::ApplyAll();
+		Vehicle::ApplyAll();
+		Bitmaps::ApplyAll();
+		widget_patches_apply();
+		bool isdedicated = false;
+		__int32 numArgs = 0;
+		wchar_t **szArgList = CommandLineToArgvW(GetCommandLineW(), &numArgs);
+		for (__int32 i = 1; i < numArgs; i++)
+		{
+			std::wstring arg = std::wstring(szArgList[i]);
+			if (arg.compare(L"-headless") == 0 || arg.compare(L"-dedicated") == 0)
+				isdedicated = true;
+		}
+		::DirectXHook::ApplyAll();
 	}
 
-	_extern void _sub_10968120();
 	void ApplyAfterInit() // 0x10968120
 	{
-		mangled_x86(MANGLED_TODO, "?ApplyAfterInit@Patches@@YAXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAfterInit@Patches@@YAXXZ");
 		// procedure flags: nofpo
-		todo("implement");
-		_sub_10968120();
+
+		Core::ApplyAfterInit();
+		Memory::ApplyAfterInit();
+		Audio::ApplyAfterInit();
+		if (Utils::Singleton<ElDorito>::Instance().IsDedicated())
+		{
+			Network::ForceDedicated();
+		}
+		else if (Utils::Singleton<ElDorito>::Instance().IsBotClient())
+		{
+			Network::ForceBotClient();
+		}
+
+		Reach::ApplyAfterInit();
 	}
 
 	void ApplyOnFirstTick() // 0x10968220
@@ -286,23 +470,50 @@ namespace Patches
 		// procedure flags: nofpo
 	}
 
-	_extern void _sub_109681B0();
 	void ApplyAfterTagsLoaded() // 0x109681B0
 	{
-		mangled_x86(MANGLED_TODO, "?ApplyAfterTagsLoaded@Patches@@YAXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAfterTagsLoaded@Patches@@YAXXZ");
 		// procedure flags: nofpo
-		todo("implement");
-		_sub_109681B0();
+
+		RefreshUiPlayer();
+		Ui::ApplyAfterTagsLoaded();
+		Ui::ApplyUIResolution();
+		Weapon::ApplyAfterTagsLoaded();
+		Tweaks::ApplyAfterTagsLoaded();
+		Camera::ApplyAfterTagsLoaded();
+		Forge::ApplyAfterTagsLoaded();
 	}
 
-	_extern void _sub_10968600();
 	void Tick() // 0x10968600
 	{
-		mangled_x86(MANGLED_TODO, "?Tick@Patches@@YAXXZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@Patches@@YAXXZ");
 		// procedure flags: nofpo
 		// static bool appliedFirstTickPatches; // 0x1240FB50
-		todo("implement");
-		_sub_10968600();
+
+		static bool appliedFirstTickPatches = false;
+
+		Audio::Tick();
+		Sprint::Tick();
+		Forge::Tick();
+		PlayerScale::Tick();
+		ModSync::Tick();
+		Mopp::Tick();
+		render_postprocess_patches_tick();
+		effect_system_patches_tick();
+		MenuBlur::Tick();
+		PregameLobby::Tick();
+		Debug::Tick();
+		Network::Tick();
+		render_patches_tick();
+		FirstPerson::Tick();
+
+		if (appliedFirstTickPatches)
+		{
+			return;
+		}
+
+		ApplyOnFirstTick();
+		appliedFirstTickPatches = true;
 	}
 }
 

@@ -92,6 +92,8 @@ namespace Patches
 
 /* ---------- prototypes */
 
+extern s_object_data *(*const object_try_and_get_and_verify_type)(unsigned long, c_enum<enum e_object_type,long>);  // hades: added for 0x10AD1E10
+
 namespace Patches
 {
 	namespace Sprint
@@ -131,13 +133,13 @@ namespace Patches
 {
 	namespace Sprint
 	{
-		_extern void _sub_10AD1270();
 		void ApplyAll() // 0x10AD1270
 		{
-			mangled_x86(MANGLED_TODO, "?ApplyAll@Sprint@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Sprint@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_10AD1270();
+
+			Hook(0x1442F4, player_examine_action_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x13E7B0, player_sprint_enter_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 		}
 
 		void SetState(__int32 state) // 0x10AD15D0
@@ -189,29 +191,41 @@ namespace Patches
 			}
 		}
 
-		_extern void _sub_10AD1700(long);
 		void UpdatePlayerSprint(long player_index) // 0x10AD1700
 		{
-			mangled_x86(MANGLED_TODO, "?UpdatePlayerSprint@Sprint@Patches@@YAXJ@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?UpdatePlayerSprint@Sprint@Patches@@YAXJ@Z");
 			// long player_index;
 			// s_player_datum *player;
-			{
 				// s_unit_data *unitObject;
 				// s_unit_data *eqipObject;
-				{
 					// e_equipment_type equipment_type;
-					{
 						// float activeFraction;
-					}
-				}
-			}
 			// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
 			// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
 			// function call : e_equipment_type (*const)(long, long)
 			// function call : float (*const)(long)
 			// function call : long (*const)(long)
-			todo("implement");
-			_sub_10AD1700(player_index);
+
+			s_player_datum *player = player_get(player_index);
+			if (player)
+			{
+				s_unit_data *unitObject = (s_unit_data *)object_try_and_get_and_verify_type(player->unit_index, -1);
+				if (!unitObject)
+					return;
+				s_unit_data *eqipObject = (s_unit_data *)object_try_and_get_and_verify_type(unitObject->equipment_object_indices[0], -1);
+				if (eqipObject)
+				{
+					e_equipment_type equipment_type = ((e_equipment_type (*const)(long, long))0xBA0260)(eqipObject->definition_index, 0);
+					if (equipment_type == _equipment_type_adrenaline && sprintState == 2 && !HasSprintPlayerTrait(player_index))
+					{
+						float activeFraction = ((float (*const)(long))0xB87DA0)(unitObject->equipment_object_indices[0]);
+						if (((long (*const)(long))0xB89190)(unitObject->equipment_object_indices[0]) <= 0 && activeFraction == 0.0f)
+							player->sprint_cooldown2 = 5;
+					}
+				}
+				if (sprintUnlimited && HasSprintPlayerTrait(player_index))
+					player->sprint_depleted_timer = 0;
+			}
 		}
 	}
 }
@@ -231,28 +245,42 @@ bool HasSprintPlayerTrait(long player_index) // 0x10AD14D0
 		|| (sprintState == 2 && player && player->traits.extended.sprint_allowed == c_player_trait_extended::_sprint_enabled);
 }
 
-_extern bool _sub_10AD1B90(long);
 bool player_is_using_adrenaline(long player_index) // 0x10AD1B90
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?player_is_using_adrenaline@@YA_NJ@Z");
 	// `anonymous-namespace'::player_is_using_adrenaline
 	// long player_index;
 	// s_player_datum *player;
-	{
 		// s_unit_data *unitObject;
 		// e_equipment_type equipment_type;
 		// s_unit_data *eqipObject;
-		{
 			// float activeFraction;
-		}
-	}
 	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
 	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
 	// function call : e_equipment_type (*const)(long, long)
 	// function call : float (*const)(long)
 	// function call : long (*const)(long)
-	todo("implement");
-	bool __result = _sub_10AD1B90(player_index);
-	return __result;
+
+	s_player_datum *player = player_get(player_index);
+	if (player)
+	{
+		s_unit_data *unitObject = (s_unit_data *)object_try_and_get_and_verify_type(player->unit_index, -1);
+		if (!unitObject)
+			return false;
+		s_unit_data *eqipObject = (s_unit_data *)object_try_and_get_and_verify_type(unitObject->equipment_object_indices[0], -1);
+		if (!eqipObject)
+			return false;
+		e_equipment_type equipment_type = ((e_equipment_type (*)(long, long))0xBA0260)(eqipObject->definition_index, 0);
+		if (equipment_type == (e_equipment_type)18 && sprintState == 2 && !HasSprintPlayerTrait(player_index))
+		{
+			float activeFraction = ((float (*)(long))0xB87DA0)(unitObject->equipment_object_indices[0]);
+			if (((long (*)(long))0xB89190)(unitObject->equipment_object_indices[0]) <= 0 && activeFraction == 0.0f && player->sprint_depleted_timer < 270)
+				return true;
+			if (activeFraction == 1.0f)
+				return true;
+		}
+	}
+	return false;
 }
 
 bool player_can_sprint(long player_index) // 0x10AD1980
@@ -308,28 +336,35 @@ void player_examine_action_hook(long player_index, long unit_index, s_player_act
 	((void(__cdecl *)(long, long, s_player_action *))0x53d520)(player_index, unit_index, action);
 }
 
-_extern void _sub_10AD1E10(long, e_unit_messages);
 void player_sprint_enter_hook(long unit_index, e_unit_messages message) // 0x10AD1E10
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?player_sprint_enter_hook@@YAXJW4e_unit_messages@@@Z");
 	// `anonymous-namespace'::player_sprint_enter_hook
 	// e_unit_messages message;
 	// void (*const unit_send_message_to_first_person)(long, e_unit_messages);
 	// void (*const weapon_stop_reload)(long, bool);
 	// bool (*const weapon_reloading)(long, long, short *);
-	{
 		// s_unit_data *unit;
-		{
 			// long i;
-			{
 				// long weapon_index;
-			}
-		}
-	}
 	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
 	// function call : long (*const)(long, short)
 	// function call : bool (*const)(long, long, short *)
 	// function call : void (*const)(long, bool)
 	// function call : void (*const)(long, e_unit_messages)
-	todo("implement");
-	_sub_10AD1E10(unit_index, message);
+
+	static long (*const unit_inventory_get_weapon)(long, short) = reinterpret_cast<long (*)(long, short)>(0xB454D0);
+	void (*const unit_send_message_to_first_person)(long, e_unit_messages) = reinterpret_cast<void (*)(long, e_unit_messages)>(0xBA5750);
+	bool (*const weapon_reloading)(long, long, short *) = reinterpret_cast<bool (*)(long, long, short *)>(0xB66220);
+	void (*const weapon_stop_reload)(long, bool) = reinterpret_cast<void (*)(long, bool)>(0xB676D0);
+	if (s_unit_data *unit = (s_unit_data *)object_try_and_get_and_verify_type(unit_index, 0x2003))
+	{
+		for (long i = 0; i < 2; i++)
+		{
+			long weapon_index = unit_inventory_get_weapon(unit_index, unit->current_weapon_set.indices[i]);
+			if (weapon_index != -1 && weapon_reloading(weapon_index, -1, nullptr))
+				weapon_stop_reload(weapon_index, false);
+		}
+	}
+	unit_send_message_to_first_person(unit_index, message);
 }

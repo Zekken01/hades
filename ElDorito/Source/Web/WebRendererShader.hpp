@@ -28,7 +28,7 @@ namespace Web
 		{
 			D3DXVECTOR2 position; // 0x0
 			D3DXVECTOR2 texcoord; // 0x8
-			SCefScreenVertex(); /* compiler_generated() */
+			// implicit: SCefScreenVertex(); /* compiler_generated() */
 		};
 		static_assert(sizeof(Web::Browser::SCefScreenVertex) == 16, "Invalid Web::Browser::SCefScreenVertex size");
 	}

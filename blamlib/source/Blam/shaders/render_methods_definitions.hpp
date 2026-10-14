@@ -155,14 +155,12 @@ _inline c_render_method *c_render_method::get(long index) // 0x108DED70
 	return (c_render_method *)tag_get(0x726D2020, index);
 }
 
-_extern bool _sub_108EFD80(long);
 _inline bool c_render_method::get_is_transparent(long index) // 0x108EFD80
 {
-	mangled_x86(MANGLED_TODO, "?get_is_transparent@c_render_method@@SA_NJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?get_is_transparent@c_render_method@@SA_NJ@Z");
 	// long index;
-	todo("implement");
-	bool __result = _sub_108EFD80(index);
-	return __result;
+
+	return index != -1 && (*reinterpret_cast<c_tag_block<s_render_method_postprocess_definition> *>(get(index)->postprocess))->alpha_blend_mode != static_cast<e_alpha_blend_mode>(0);
 }
 
 _inline bool c_render_method::get_is_decal(long index) // 0x108EFD00

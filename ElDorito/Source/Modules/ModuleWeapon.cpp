@@ -137,13 +137,20 @@ using namespace hades_file_local;
 
 namespace Modules
 {
-	extern ModuleWeapon* _sub_10A25BA0(Modules::ModuleWeapon *const);
-	ModuleWeapon::ModuleWeapon() : ModuleBase(todo_result<std::string>()) // 0x10A25BA0
+	ModuleWeapon::ModuleWeapon() : ModuleBase("Weapon") /* hades-mem-init: : ModuleBase(todo_result<std::string>()) */ // 0x10A25BA0
 	{
-		mangled_x86(MANGLED_TODO, "??0ModuleWeapon@Modules@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0ModuleWeapon@Modules@@QAE@XZ");
 		// Modules::ModuleWeapon *const this;
-		todo("implement");
-		_sub_10A25BA0(this);
+
+		AddCommand("Offset", "weap_off", "This changes weapon offset.", eCommandFlagsNone, CommandWeaponOffset, { "Weapon Name", "I Offset", "J Offset", "K Offset" });
+		AddCommand("Offset.Reset", "weap_off_res", "This resets weapon offset to default.", eCommandFlagsNone, CommandWeaponOffsetReset, { "Weapon Name" });
+		VarWeaponJSON = AddVariableString("JSON.File", "weap_json_file", "The file weapon changes are saved to.", eCommandFlagsArchived, "default");
+		AddCommand("JSON.Load", "weap_json_load", "This loads weapon offset.", eCommandFlagsNone, CommandLoadWeaponsJSON);
+		AddCommand("JSON.Save", "weap_json_save", "This saves weapon offset.", eCommandFlagsNone, CommandSaveWeaponsJSON);
+		AddCommand("JSON.New", "weap_json_new", "This creates a new weapon offset config.", eCommandFlagsNone, CommandNewWeaponsJSON);
+		AddCommand("JSON.Delete", "weap_json_delete", "This delete a new weapon offset config.", eCommandFlagsNone, CommandDeleteWeaponsJSON);
+		AddCommand("JSON.List", "weap_json_list", "This lists all available weapon offset configs.", CommandFlags(eCommandFlagsOmitValueInList | eCommandFlagsHidden), CommandListWeaponConfigsJSON);
+		AddCommand("Equipped", "weap_equipped", "Gives info on the currently equipped weapon.", eCommandFlagsHidden, CommandGetEquippedWeaponInfo);
 	}
 }
 
@@ -154,18 +161,18 @@ namespace Patches
 		// mangled_x86(MANGLED_DEFAULT, "??0WeaponInfo@Weapon@Patches@@QAE@XZ"); no body to assert in
 
 		// mangled_x86(MANGLED_DEFAULT, "??1WeaponInfo@Weapon@Patches@@QAE@XZ"); no body to assert in
-		_inline WeaponInfo::~WeaponInfo() = default; // 0x10A26580
+		// implicit: WeaponInfo::~WeaponInfo() = default; // 0x10A26580
 
 		// mangled_x86(MANGLED_DEFAULT, "??4WeaponInfo@Weapon@Patches@@QAEAAU012@$$QAU012@@Z"); no body to assert in
-		_inline Patches::Weapon::WeaponInfo &WeaponInfo::operator=(Patches::Weapon::WeaponInfo &&__that) = default; // 0x10A265D0
+		// WeaponInfo::operator=(WeaponInfo &&) is defaulted in its class (H8).
 	}
 }
 
 /* ---------- private code */
 
-_extern bool _sub_10A27430(std::vector<std::string> const &, std::string &);
 bool CommandWeaponOffset(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A27430
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandWeaponOffset@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandWeaponOffset
 	// static ...; // 0x10A27A0C
 	// static ...; // 0x10A27A01
@@ -179,21 +186,51 @@ bool CommandWeaponOffset(std::vector<std::string> const &Arguments, std::string 
 	// std::stringstream ss;
 	// real_vector3d offset;
 	// Patches::Weapon::WeaponInfo weapon;
-	{
 		// std::string type;
-	}
-	{
 		// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
 		// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
+
+	if (Arguments.size() < 1)
+	{
+		returnInfo = "Invalid argument";
+		return false;
 	}
-	todo("implement");
-	bool __result = _sub_10A27430(Arguments, returnInfo);
-	return __result;
+	Patches::Weapon::WeaponInfo weapon;
+	if (Utils::String::ToLower(Arguments[0]) == "equipped")
+		weapon = Patches::Weapon::GetEquippedWeapon();
+	else
+	{
+		std::string type = Arguments[0];
+		weapon = Patches::Weapon::GetWeaponByType(type);
+	}
+	if (Arguments.size() != 4)
+	{
+		rapidjson::StringBuffer jsonBuffer;
+		rapidjson::Writer<rapidjson::StringBuffer> jsonWriter(jsonBuffer);
+		jsonWriter.StartObject();
+		jsonWriter.Key("Type");
+		jsonWriter.String(weapon.weapon_type.c_str());
+		jsonWriter.Key("FirstPersonWeaponOffset");
+		jsonWriter.StartArray();
+		jsonWriter.String(std::to_string(weapon.offset.i).c_str());
+		jsonWriter.String(std::to_string(weapon.offset.j).c_str());
+		jsonWriter.String(std::to_string(weapon.offset.k).c_str());
+		jsonWriter.EndArray();
+		jsonWriter.EndObject();
+		returnInfo = jsonBuffer.GetString();
+		return true;
+	}
+	real_vector3d offset = ToOffset(Arguments[1], Arguments[2], Arguments[3]);
+	Patches::Weapon::SetTypeOffset(weapon.weapon_type, offset);
+	std::stringstream ss;
+	ss << "Weapon: " << weapon.weapon_type << ", I: " << weapon.offset.i << ", J: " << weapon.offset.j << ", K: " << weapon.offset.k;
+	returnInfo = ss.str();
+	return true;
 }
 
-_extern bool _sub_10A27BA0(std::vector<std::string> const &, std::string &);
 bool CommandWeaponOffsetReset(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A27BA0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandWeaponOffsetReset@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandWeaponOffsetReset
 	// static ...; // 0x10A27E5F
 	// static ...; // 0x10A27E5C
@@ -203,18 +240,37 @@ bool CommandWeaponOffsetReset(std::vector<std::string> const &Arguments, std::st
 	// std::string &returnInfo;
 	// std::stringstream ss;
 	// Patches::Weapon::WeaponInfo weapon;
-	{
 		// std::string type;
-	}
 	// function call : bool (*)()
-	todo("implement");
-	bool __result = _sub_10A27BA0(Arguments, returnInfo);
-	return __result;
+
+	if (IsMainMenu())
+	{
+		returnInfo = "This command is unavailable at the moment, please try again when not on the mainmenu.";
+		return false;
+	}
+	if (Arguments.size() < 1)
+	{
+		returnInfo = "Invalid argument";
+		return false;
+	}
+	Patches::Weapon::WeaponInfo weapon;
+	if (Utils::String::ToLower(Arguments[0]) == "equipped")
+		weapon = Patches::Weapon::GetEquippedWeapon();
+	else
+	{
+		std::string type = Arguments[0];
+		weapon = Patches::Weapon::GetWeaponByType(type);
+	}
+	Patches::Weapon::SetTypeOffset(weapon.weapon_type, real_vector3d{ 0.0f, 0.0f, 0.0f });
+	std::stringstream ss;
+	ss << "Weapon: " << weapon.weapon_type << " offset reset to default.";
+	returnInfo = ss.str();
+	return true;
 }
 
-_extern bool _sub_10A26E70(std::vector<std::string> const &, std::string &);
 bool CommandLoadWeaponsJSON(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A26E70
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandLoadWeaponsJSON@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandLoadWeaponsJSON
 	// static ...; // 0x10A27048
 	// static ...; // 0x10A27040
@@ -222,17 +278,29 @@ bool CommandLoadWeaponsJSON(std::vector<std::string> const &Arguments, std::stri
 	// std::string &returnInfo;
 	// bool changeJson;
 	// std::string file;
-	{
 		// std::vector<std::string> &<range>$L0;
 		// std::string *<begin>$L0;
 		// std::string *<end>$L0;
-		{
 			// std::string &name;
+
+	bool changeJson = false;
+	if (Arguments.size() > 0)
+	{
+		for (auto &name : Modules::ModuleWeapon::Instance().WeaponsJSONList)
+		{
+			if (Arguments[0] == name)
+				changeJson = true;
 		}
 	}
-	todo("implement");
-	bool __result = _sub_10A26E70(Arguments, returnInfo);
-	return __result;
+	if (changeJson)
+		Modules::ModuleWeapon::Instance().VarWeaponJSON->ValueString = Arguments[0];
+	std::string file = Modules::ModuleWeapon::Instance().VarWeaponJSON->ValueString;
+	if (Utils::String::ToLower(file) == "default")
+		Patches::Weapon::UseDefaultOffsets();
+	else
+		Patches::Weapon::Config::LoadJSON(file);
+	returnInfo = "Weapons json loaded successfully.";
+	return true;
 }
 
 bool CommandSaveWeaponsJSON(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A27390
@@ -254,9 +322,9 @@ bool CommandSaveWeaponsJSON(std::vector<std::string> const &Arguments, std::stri
 	return true;
 }
 
-_extern bool _sub_10A270E0(std::vector<std::string> const &, std::string &);
 bool CommandNewWeaponsJSON(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A270E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandNewWeaponsJSON@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandNewWeaponsJSON
 	// static ...; // 0x10A272F0
 	// static ...; // 0x10A272D8
@@ -264,18 +332,46 @@ bool CommandNewWeaponsJSON(std::vector<std::string> const &Arguments, std::strin
 	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// std::string newConfigName;
-	{
 		// std::regex pattern;
-	}
 	// function call : bool (*)()
-	todo("implement");
-	bool __result = _sub_10A270E0(Arguments, returnInfo);
-	return __result;
+
+	if (IsMainMenu())
+	{
+		returnInfo = "This command is unavailable at the moment, please try again when not on the mainmenu.";
+		return false;
+	}
+	if (Arguments.size() != 1)
+	{
+		returnInfo = "Invalid argument";
+		return false;
+	}
+	std::string newConfigName = Arguments[0];
+	if (Patches::Weapon::Config::ConfigExists(newConfigName))
+	{
+		returnInfo = "Config Already Exists";
+		return true;
+	}
+	else
+	{
+		std::regex pattern("^[a-zA-Z0-9\\-_]+$");
+		if (std::regex_match(newConfigName, pattern))
+		{
+			Patches::Weapon::UseDefaultOffsets();
+			Patches::Weapon::Config::SaveJSON(newConfigName);
+			returnInfo = "Weapons offset config saved successfully.";
+			return true;
+		}
+		else
+		{
+			returnInfo = "Name must only contain letters or numbers or underscore or dash.";
+			return false;
+		}
+	}
 }
 
-_extern bool _sub_10A26650(std::vector<std::string> const &, std::string &);
 bool CommandDeleteWeaponsJSON(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A26650
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandDeleteWeaponsJSON@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandDeleteWeaponsJSON
 	// static ...; // 0x10A268A4
 	// static ...; // 0x10A2688C
@@ -283,18 +379,53 @@ bool CommandDeleteWeaponsJSON(std::vector<std::string> const &Arguments, std::st
 	// std::vector<std::string> const &Arguments;
 	// std::string &returnInfo;
 	// std::string newConfigName;
-	{
 		// std::regex pattern;
-	}
 	// function call : bool (*)()
-	todo("implement");
-	bool __result = _sub_10A26650(Arguments, returnInfo);
-	return __result;
+
+	if (IsMainMenu())
+	{
+		returnInfo = "This command is unavailable at the moment, please try again when not on the mainmenu.";
+		return false;
+	}
+	if (Arguments.size() != 1)
+	{
+		returnInfo = "Invalid argument";
+		return false;
+	}
+	std::string newConfigName = Arguments[0];
+	if (!Patches::Weapon::Config::ConfigExists(newConfigName))
+	{
+		returnInfo = "Config Doesnt Exists";
+		return false;
+	}
+	else
+	{
+		std::regex pattern("^[a-zA-Z0-9\\-_]+$");
+		if (std::regex_match(newConfigName, pattern))
+		{
+			Patches::Weapon::UseDefaultOffsets();
+			if (Patches::Weapon::Config::DeleteJSON(newConfigName))
+			{
+				returnInfo = "Weapons offset deleted successfully.";
+				return true;
+			}
+			else
+			{
+				returnInfo = "Failed to delete weapon offiset config file.";
+				return true;
+			}
+		}
+		else
+		{
+			returnInfo = "Name must only contain letters or numbers or underscore or dash.";
+			return false;
+		}
+	}
 }
 
-_extern bool _sub_10A26960(std::vector<std::string> const &, std::string &);
 bool CommandGetEquippedWeaponInfo(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A26960
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGetEquippedWeaponInfo@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
 	// `anonymous-namespace'::CommandGetEquippedWeaponInfo
 	// static ...; // 0x10A26CAE
 	// static ...; // 0x10A26CA3
@@ -308,9 +439,30 @@ bool CommandGetEquippedWeaponInfo(std::vector<std::string> const &Arguments, std
 	// real_vector3d equippedWeaponOffset;
 	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
 	// function call : bool (*)()
-	todo("implement");
-	bool __result = _sub_10A26960(Arguments, returnInfo);
-	return __result;
+
+	if (IsMainMenu())
+	{
+		returnInfo = "This command is unavailable at the moment, please try again when not on the mainmenu.";
+		return false;
+	}
+	Patches::Weapon::WeaponInfo equippedWeapon = Patches::Weapon::GetEquippedWeapon();
+	real_vector3d equippedWeaponOffset = equippedWeapon.offset;
+	rapidjson::StringBuffer jsonBuffer;
+	rapidjson::Writer<rapidjson::StringBuffer> jsonWriter(jsonBuffer);
+	jsonWriter.StartObject();
+	jsonWriter.Key("Type");
+	jsonWriter.String(equippedWeapon.weapon_type.c_str());
+	jsonWriter.Key("DisplayName");
+	jsonWriter.String(Patches::Weapon::GetTypeDisplayName(equippedWeapon.weapon_type).c_str());
+	jsonWriter.Key("FirstPersonWeaponOffset");
+	jsonWriter.StartArray();
+	jsonWriter.String(std::to_string(equippedWeaponOffset.i).c_str());
+	jsonWriter.String(std::to_string(equippedWeaponOffset.j).c_str());
+	jsonWriter.String(std::to_string(equippedWeaponOffset.k).c_str());
+	jsonWriter.EndArray();
+	jsonWriter.EndObject();
+	returnInfo = jsonBuffer.GetString();
+	return true;
 }
 
 bool CommandListWeaponConfigsJSON(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x10A26DB0
@@ -338,12 +490,11 @@ bool CommandListWeaponConfigsJSON(std::vector<std::string> const &arguments, std
 	return true;
 }
 
-extern real_vector3d _sub_10A27F20(std::string, std::string, std::string);
 real_vector3d ToOffset(std::string I, std::string J, std::string K) // 0x10A27F20
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?ToOffset@@YA?AUreal_vector3d@@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@00@Z");
 	// `anonymous-namespace'::ToOffset
 	// std::string K;
-	todo("implement");
-	real_vector3d __result = _sub_10A27F20(I, J, K);
-	return __result;
+
+	return { std::stof(I), std::stof(J), std::stof(K) };
 }

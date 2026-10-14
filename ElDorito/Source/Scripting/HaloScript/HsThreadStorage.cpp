@@ -185,16 +185,15 @@ namespace Scripting
 			block->previous = nullptr;
 		}
 
-		extern HsThreadStorageManager *_sub_106F3BE0();
 		Scripting::HS::HsThreadStorageManager *HsThreadStorageManager::Get() // 0x106F3BE0
 		{
-			mangled_x86(MANGLED_TODO, "?Get@HsThreadStorageManager@HS@Scripting@@SAPAV123@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Get@HsThreadStorageManager@HS@Scripting@@SAPAV123@XZ");
 			// procedure flags: nofpo
 			// static Scripting::HS::HsThreadStorageManager instance; // 0x113882AC
 			// static __int32 $TSS0; // 0x113882D8
-			todo("implement");
-			Scripting::HS::HsThreadStorageManager * __result = _sub_106F3BE0();
-			return __result;
+
+			static Scripting::HS::HsThreadStorageManager instance;
+			return &instance;
 		}
 
 		void *HsThreadStorageManager::MemAlloc(__int32 threadIndex, unsigned __int32 size) // 0x106F3E20
@@ -247,19 +246,23 @@ namespace Scripting
 				CollectGarbage(time);
 		}
 
-		_extern void _sub_106F37C0(Scripting::HS::HsThreadStorageManager *const, unsigned __int32);
 		void HsThreadStorageManager::CollectGarbage(unsigned __int32 time) // 0x106F37C0
 		{
-			mangled_x86(MANGLED_TODO, "?CollectGarbage@HsThreadStorageManager@HS@Scripting@@AAEXI@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?CollectGarbage@HsThreadStorageManager@HS@Scripting@@AAEXI@Z");
 			// static ...; // 0x106F3968
 			// static ...; // 0x106F3960
 			// Scripting::HS::HsThreadStorageManager *const this;
 			// unsigned __int32 time;
-			{
 				// std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<int const ,Scripting::HS::HsThreadStorage> > > > it;
+
+			m_lastCollectionTime = time;
+			for (auto it = m_threadStorage.begin(); it != m_threadStorage.end();)
+			{
+				if (HsThreadIsDead(it->first))
+					it = m_threadStorage.erase(it);
+				else
+					++it;
 			}
-			todo("implement");
-			_sub_106F37C0(this, time);
 		}
 	}
 }

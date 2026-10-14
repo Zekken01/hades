@@ -82,55 +82,71 @@ namespace Player
 
 /* ---------- public code */
 
-extern s_player_datum *_sub_106D7FD0(__int32);
+
 namespace Player
 {
 	namespace PlayerNetworkUtil
 	{
 		s_player_datum *get_player_from_session_index(__int32 player_session_index) // 0x106D7FD0
 		{
-			mangled_x86(MANGLED_TODO, "?get_player_from_session_index@PlayerNetworkUtil@Player@@YAPAUs_player_datum@@H@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?get_player_from_session_index@PlayerNetworkUtil@Player@@YAPAUs_player_datum@@H@Z");
 			// static ...; // 0x106D80F1
 			// static ...; // 0x106D80E8
 			// static ...; // 0x106D80D0
 			// static ...; // 0x106D80C8
 			// __int32 player_session_index;
 			// Blam::Network::Session *session;
-			{
 				// __int32 peer_index;
-				{
 					// c_data_array<s_player_datum> &<range>$L0;
 					// c_data_iterator<s_player_datum> <begin>$L0;
 					// c_data_iterator<s_player_datum> <end>$L0;
-					{
 						// s_player_datum &player;
-					}
+
+			if (player_session_index == -1)
+				return nullptr;
+			Blam::Network::Session *session = Blam::Network::GetActiveSession();
+			if (session && session->IsEstablished())
+			{
+				__int32 peer_index = session->MembershipInfo.GetPlayerPeer(player_session_index);
+				if (peer_index == -1)
+					return nullptr;
+				for (auto &player : *players_get())
+				{
+					if (player.machine_index == peer_index)
+						return &player;
 				}
 			}
-			todo("implement");
-			s_player_datum * __result = _sub_106D7FD0(player_session_index);
-			return __result;
+			return nullptr;
 		}
 
-		_extern long _sub_106D7E80(__int32);
 		long get_player_datum_index_from_session_index(__int32 player_session_index) // 0x106D7E80
 		{
-			mangled_x86(MANGLED_TODO, "?get_player_datum_index_from_session_index@PlayerNetworkUtil@Player@@YAJH@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?get_player_datum_index_from_session_index@PlayerNetworkUtil@Player@@YAJH@Z");
 			// static ...; // 0x106D7F84
 			// static ...; // 0x106D7F78
 			// static ...; // 0x106D7F70
 			// __int32 player_session_index;
 			// Blam::Network::Session *session;
-			{
 				// c_data_array<s_player_datum> *players;
 				// __int32 peer_index;
-				{
 					// c_data_iterator<s_player_datum> it;
+
+			if (player_session_index == -1)
+				return -1;
+			Blam::Network::Session *session = Blam::Network::GetActiveSession();
+			if (session && session->IsEstablished())
+			{
+				__int32 peer_index = session->MembershipInfo.GetPlayerPeer(player_session_index);
+				if (peer_index == -1)
+					return -1;
+				c_data_array<s_player_datum> *players = players_get();
+				for (c_data_iterator<s_player_datum> it = players->begin(); it != players->end(); ++it)
+				{
+					if (it->machine_index == peer_index)
+						return it.current_datum_index;
 				}
 			}
-			todo("implement");
-			long __result = _sub_106D7E80(player_session_index);
-			return __result;
+			return -1;
 		}
 
 		long get_session_player_index_from_player_datum_index(long player_datum_index) // 0x106D8150

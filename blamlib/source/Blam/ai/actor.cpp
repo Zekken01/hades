@@ -32,9 +32,7 @@ s_actor_datum *actor_get(long index) // 0x10F0D8F0
 	mangled_x86(MANGLED_KNOWN_GOOD, "?actor_get@@YAPAUs_actor_datum@@J@Z");
 	// long index;
 
-	c_data_array<s_actor_datum> *actor = tls_getd().actor;
-
-	return actor->try_and_get(index);
+	return tls_getd().actor->try_and_get(index);
 }
 
 /* ---------- private code */

@@ -116,7 +116,7 @@ namespace hades_file_local
 	public:
 		UidExtension(UidExtension &); /* compiler_generated() */
 		UidExtension(UidExtension const &); /* compiler_generated() */
-		UidExtension(); /* compiler_generated() */
+		UidExtension() = default; /* compiler_generated() */  // hades: not user-provided, so make_shared value-initializes
 		virtual ~UidExtension() = default; /* compiler_generated() */
 		UidExtension &operator=(UidExtension &); /* compiler_generated() */
 		UidExtension &operator=(UidExtension const &); /* compiler_generated() */
@@ -125,6 +125,10 @@ namespace hades_file_local
 }
 using namespace hades_file_local;
 /* ---------- prototypes */
+
+namespace Utils { namespace Cryptography { std::string ReformatKey(bool isPrivateKey, std::string key); } }  // hades: added for 0x10AB49F0  // hades: added for 0x10AB49F0
+
+namespace Utils::Cryptography { bool GenerateRSAKeyPair(__int32 numBits, std::string &privKey, std::string &pubKey); }  // hades: added for 0x10AB42D0
 
 namespace Patches
 {
@@ -146,8 +150,8 @@ unsigned long long GetPlayerUidHook(__int32 unused);
 
 namespace hades_file_local
 {
-	extern Pointer UidValidPtr; // 0x12467320
-	extern "C" Pointer UidPtr; // 0x12467324
+	Pointer UidValidPtr = Pointer::Base(0x15AB728); // 0x12467320
+	extern "C" { Pointer UidPtr = Pointer::Base(0x15AB730); } // 0x12467324
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -156,13 +160,14 @@ namespace Patches
 {
 	namespace PlayerUid
 	{
-		_extern void _sub_10AB3CF0();
 		void ApplyAll() // 0x10AB3CF0
 		{
-			mangled_x86(MANGLED_TODO, "?ApplyAll@PlayerUid@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@PlayerUid@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_10AB3CF0();
+
+			Hook(0x67E005, GetPlayerUidHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Patch(0x67D810, { 0x30, 0xC0, 0xC3 }).Apply();
+			Patches::Network::PlayerPropertiesExtender::Instance().Add(std::make_shared<UidExtension>());
 		}
 
 		unsigned long long Get() // 0x10AB4960
@@ -176,35 +181,40 @@ namespace Patches
 	}
 }
 
-extern std::string _sub_10AB49F0();
+
 namespace Patches
 {
 	namespace PlayerUid
 	{
 		std::string GetFormattedPrivKey() // 0x10AB49F0
 		{
-			mangled_x86(MANGLED_TODO, "?GetFormattedPrivKey@PlayerUid@Patches@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetFormattedPrivKey@PlayerUid@Patches@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 			// procedure flags: nofpo
-			todo("implement");
-			std::string __result = _sub_10AB49F0();
-			return __result;
+
+			EnsureValidUid();
+			return Utils::Cryptography::ReformatKey(true, Modules::ModulePlayer::Instance().VarPlayerPrivKey->ValueString);
 		}
 
-		_extern bool _sub_10AB4AE0(std::string const &, unsigned long long *);
 		bool ParseUid(std::string const &str, unsigned long long *out) // 0x10AB4AE0
 		{
-			mangled_x86(MANGLED_TODO, "?ParseUid@PlayerUid@Patches@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PA_K@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ParseUid@PlayerUid@Patches@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PA_K@Z");
 			// static ...; // 0x10AB4BE4
 			// static ...; // 0x10AB4BDC
 		// $LN9:
 			// std::string const &str;
 			// unsigned long long *out;
-			{
 				// unsigned __int32 end;
+
+			try
+			{
+				unsigned __int32 end;
+				*out = std::stoull(str, &end, 16);
+				return end == str.length();
 			}
-			todo("implement");
-			bool __result = _sub_10AB4AE0(str, out);
-			return __result;
+			catch (...)
+			{
+				return false;
+			}
 		}
 	}
 }
@@ -248,12 +258,12 @@ _inline void UidExtension::Deserialize(Blam::BitStream *stream, unsigned long lo
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0UidExtension@hades_file_local@@QAE@XZ"); no body to assert in
-_inline UidExtension::UidExtension() = default; // 0x10AB39F0
+// _inline UidExtension::UidExtension() = default; // 0x10AB39F0  // hades: defaulted on its declaration
 
 
-_extern void _sub_10AB42D0();
 void EnsureValidUid() // 0x10AB42D0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?EnsureValidUid@@YAXXZ");
 	// `anonymous-namespace'::EnsureValidUid
 	// procedure flags: nofpo
 	// static ...; // 0x10AB4804
@@ -268,11 +278,37 @@ void EnsureValidUid() // 0x10AB42D0
 	// unsigned long long uid;
 	// SHA256state_st sha256;
 	// unsigned char hash[32];
-	{
 		// std::string privKey;
+
+	if (UidValidPtr.Read<bool>())
+		return;
+	Modules::ModulePlayer &playerVars = Modules::ModulePlayer::Instance();
+	std::string pubKey = playerVars.VarPlayerPubKey->ValueString;
+	unsigned long long uid;
+	if (pubKey.length() <= 0)
+	{
+		Console::WriteLine("Generating player keypair, this may take a moment...");
+		std::string privKey;
+		Utils::Cryptography::GenerateRSAKeyPair(4096, privKey, pubKey);
+		Utils::String::ReplaceString(privKey, "\n", "");
+		Utils::String::ReplaceString(privKey, "-----BEGIN RSA PRIVATE KEY-----", "");
+		Utils::String::ReplaceString(privKey, "-----END RSA PRIVATE KEY-----", "");
+		Utils::String::ReplaceString(pubKey, "\n", "");
+		Utils::String::ReplaceString(pubKey, "-----BEGIN PUBLIC KEY-----", "");
+		Utils::String::ReplaceString(pubKey, "-----END PUBLIC KEY-----", "");
+		Modules::CommandMap::Instance().SetVariable(playerVars.VarPlayerPrivKey, privKey, true);
+		Modules::CommandMap::Instance().SetVariable(playerVars.VarPlayerPubKey, pubKey, true);
+		Console::WriteLine("Done!");
+		Modules::CommandMap::Instance().ExecuteCommand("WriteConfig");
 	}
-	todo("implement");
-	_sub_10AB42D0();
+	unsigned char hash[32];
+	SHA256state_st sha256;
+	SHA256_Init(&sha256);
+	SHA256_Update(&sha256, pubKey.c_str(), pubKey.length());
+	SHA256_Final(hash, &sha256);
+	memcpy(&uid, hash, sizeof(uid));
+	UidPtr.WriteFast<unsigned long long>(uid);
+	UidValidPtr.Write<bool>(true);
 }
 
 unsigned long long GetPlayerUidHook(__int32 unused) // 0x10AB4AA0

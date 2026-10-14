@@ -68,23 +68,37 @@ namespace Debug
 {
 	namespace CrashReporting
 	{
-		extern StackWalker* _sub_1068D590(Debug::CrashReporting::StackWalker *const, _CONTEXT);
-		_inline StackWalker::StackWalker(_CONTEXT context) // 0x1068D590
+		_inline StackWalker::StackWalker(_CONTEXT context) : m_hProc(nullptr), m_hThread(nullptr), m_context(), m_stackFrame(), m_line{ sizeof(_IMAGEHLP_LINE) }, m_buffer(), m_hasLineInfo(false), m_hasSymbolInfo(false), m_frameIndex(0), m_maxFrames(32) /* hades-mem-init:  */ // 0x1068D590
 		{
-			mangled_x86(MANGLED_TODO, "??0StackWalker@CrashReporting@Debug@@QAE@U_CONTEXT@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0StackWalker@CrashReporting@Debug@@QAE@U_CONTEXT@@@Z");
 			// _CONTEXT context;
 			// static bool symbolsInitialized; // 0x1137195C
 			// function call : void *()
 			// function call : __int32 (void *, char const *, __int32)
 			// function call : void *()
 			// function call : void *()
-			todo("implement");
-			_sub_1068D590(this, context);
+
+			m_context = context;
+			static bool symbolsInitialized = false;
+			if (!symbolsInitialized)
+			{
+				symbolsInitialized = true;
+				SymInitialize(GetCurrentProcess(), nullptr, TRUE);
+			}
+			m_context = context;
+			m_hProc = GetCurrentProcess();
+			m_hThread = GetCurrentThread();
+			m_stackFrame.AddrPC.Offset = context.Eip;
+			m_stackFrame.AddrPC.Mode = AddrModeFlat;
+			m_stackFrame.AddrStack.Offset = context.Esp;
+			m_stackFrame.AddrStack.Mode = AddrModeFlat;
+			m_stackFrame.AddrFrame.Offset = context.Ebp;
+			m_stackFrame.AddrFrame.Mode = AddrModeFlat;
 		}
 	}
 }
 
-extern __int32 const _sub_1068F470(Debug::CrashReporting::StackWalker const *const);
+
 namespace Debug
 {
 	namespace CrashReporting
@@ -107,7 +121,7 @@ namespace Debug
 	}
 }
 
-extern char const *_sub_1068F2A0(Debug::CrashReporting::StackWalker const *const);
+
 namespace Debug
 {
 	namespace CrashReporting
@@ -122,7 +136,7 @@ namespace Debug
 	}
 }
 
-extern char const *_sub_1068F300(Debug::CrashReporting::StackWalker const *const);
+
 namespace Debug
 {
 	namespace CrashReporting
@@ -151,10 +165,9 @@ namespace Debug
 			return m_hasLineInfo;
 		}
 
-		_extern bool _sub_106900C0(Debug::CrashReporting::StackWalker *const);
 		_inline bool StackWalker::Next() // 0x106900C0
 		{
-			mangled_x86(MANGLED_TODO, "?Next@StackWalker@CrashReporting@Debug@@QAE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Next@StackWalker@CrashReporting@Debug@@QAE_NXZ");
 			// static ...; // 0x106902B1
 			// static ...; // 0x106902A0
 			// static ...; // 0x10690288
@@ -167,14 +180,25 @@ namespace Debug
 			// function call : __int32 (unsigned long, void *, void *, _tagSTACKFRAME *, void *, __int32 (*)(void *, unsigned long, void *, unsigned long, unsigned long *), void *(*)(void *, unsigned long), unsigned long (*)(void *, unsigned long), unsigned long (*)(void *, void *, _tagADDRESS *))
 			// function call : __int32 (void *, unsigned long long, unsigned long long *, _SYMBOL_INFO *)
 			// function call : __int32 (void *, unsigned long, unsigned long *, _IMAGEHLP_LINE *)
-			todo("implement");
-			bool __result = _sub_106900C0(this);
-			return __result;
+
+			if (m_frameIndex++ >= m_maxFrames)
+				return false;
+			__int32 result = StackWalk(IMAGE_FILE_MACHINE_I386, m_hProc, m_hThread, &m_stackFrame, &m_context, nullptr, SymFunctionTableAccess, SymGetModuleBase, nullptr);
+			if (!result)
+				return false;
+			unsigned long long symbolDisplacement;
+			unsigned long lineDisplacement;
+			_SYMBOL_INFO *symbol = reinterpret_cast<_SYMBOL_INFO *>(m_buffer);
+			symbol->SizeOfStruct = sizeof(_SYMBOL_INFO);
+			symbol->MaxNameLen = 2000;
+			m_hasSymbolInfo = SymFromAddr(m_hProc, m_stackFrame.AddrPC.Offset, &symbolDisplacement, reinterpret_cast<_SYMBOL_INFO *>(m_buffer));
+			m_hasLineInfo = SymGetLineFromAddr(m_hProc, m_stackFrame.AddrPC.Offset, &lineDisplacement, &m_line);
+			return true;
 		}
 	}
 }
 
-extern _SYMBOL_INFO const *_sub_1068F7D0(Debug::CrashReporting::StackWalker const *const);
+
 namespace Debug
 {
 	namespace CrashReporting

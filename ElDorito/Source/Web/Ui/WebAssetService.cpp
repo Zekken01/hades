@@ -32,6 +32,8 @@
 #include "Utils/String.hpp"
 #include "Web/WebFileReadHandler.hpp"
 
+#include "mods/mod_system.hpp"  // hades: added for 0x1077E970
+
 #include <base/cef_atomic_ref_count.h>
 #include <base/cef_lock.h>
 #include <base/cef_logging.h>
@@ -160,14 +162,14 @@ namespace Utils
 
 /* ---------- public code */
 
-extern std::string _sub_1077E320(std::string const &, std::string const &, std::vector<std::string_view> const &);
+
 namespace Web
 {
 	namespace Ui
 	{
 		std::string AssetService::FindAssetInModVfs(std::string const &modIdentifier, std::string const &path, std::vector<std::string_view> const &fileTypes) // 0x1077E320
 		{
-			mangled_x86(MANGLED_TODO, "?FindAssetInModVfs@AssetService@Ui@Web@@SA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV45@0ABV?$vector@V?$basic_string_view@DU?$char_traits@D@std@@@std@@V?$allocator@V?$basic_string_view@DU?$char_traits@D@std@@@std@@@2@@5@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?FindAssetInModVfs@AssetService@Ui@Web@@SA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV45@0ABV?$vector@V?$basic_string_view@DU?$char_traits@D@std@@@std@@V?$allocator@V?$basic_string_view@DU?$char_traits@D@std@@@std@@@2@@5@@Z");
 			// static ...; // 0x1077E815
 			// static ...; // 0x1077E80F
 			// static ...; // 0x1077E804
@@ -179,35 +181,39 @@ namespace Web
 			// std::vector<std::string_view> const &actualFileTypes;
 			// std::string vfsId;
 			// std::shared_ptr<CModPackageFileSystemView> vfs;
-			{
 				// CModPackageFileSystemView::SFileEntry entry;
-				{
 					// std::vector<std::string_view> const &<range>$L0;
 					// std::string_view const *<begin>$L0;
 					// std::string_view const *<end>$L0;
-					{
 						// std::string_view const &ext;
-						{
 							// std::string actualPath;
-						}
-					}
+
+			std::vector<std::string_view> const &actualFileTypes = !fileTypes.empty() ? fileTypes : std::vector<std::string_view>{ "" };
+			std::string vfsId;
+			std::shared_ptr<CModPackageFileSystemView> vfs = GetModVFS(modIdentifier, vfsId);
+			if (vfs)
+			{
+				CModPackageFileSystemView::SFileEntry entry;
+				for (std::string_view const &ext : actualFileTypes)
+				{
+					std::string const actualPath = ext.empty() ? std::string(path) : std::format("{}.{}", path, ext);
+					if (vfs->GetFileEntry(actualPath, &entry))
+						return std::format("pak://{}/{}", vfsId, actualPath);
 				}
 			}
-			todo("implement");
-			std::string __result = _sub_1077E320(modIdentifier, path, fileTypes);
-			return __result;
+			return "";
 		}
 	}
 }
 
-extern std::string _sub_1077DCA0(std::string const &, std::vector<std::string_view> const &);
+
 namespace Web
 {
 	namespace Ui
 	{
 		std::string AssetService::FindAssetInBaseDir(std::string const &path, std::vector<std::string_view> const &fileTypes) // 0x1077DCA0
 		{
-			mangled_x86(MANGLED_TODO, "?FindAssetInBaseDir@AssetService@Ui@Web@@SA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV45@ABV?$vector@V?$basic_string_view@DU?$char_traits@D@std@@@std@@V?$allocator@V?$basic_string_view@DU?$char_traits@D@std@@@std@@@2@@5@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?FindAssetInBaseDir@AssetService@Ui@Web@@SA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV45@ABV?$vector@V?$basic_string_view@DU?$char_traits@D@std@@@std@@V?$allocator@V?$basic_string_view@DU?$char_traits@D@std@@@std@@@2@@5@@Z");
 			// static ...; // 0x1077E1C3
 			// static ...; // 0x1077E1B8
 			// static ...; // 0x1077E194
@@ -216,20 +222,21 @@ namespace Web
 			// std::vector<std::string_view> const &fileTypes;
 			// std::vector<std::string_view> const &actualFileTypes;
 			// std::filesystem::path baseDir;
-			{
 				// std::vector<std::string_view> const &<range>$L0;
 				// std::string_view const *<begin>$L0;
 				// std::string_view const *<end>$L0;
-				{
 					// std::string_view const &ext;
-					{
 						// std::string actualPath;
-					}
-				}
+
+			std::vector<std::string_view> const &actualFileTypes = !fileTypes.empty() ? fileTypes : std::vector<std::string_view>{ "" };
+			std::filesystem::path baseDir("ui\\");
+			for (std::string_view const &ext : actualFileTypes)
+			{
+				std::string const actualPath = ext.empty() ? std::string(path) : std::format("{}.{}", path, ext);
+				if (std::filesystem::exists(baseDir / std::filesystem::path(actualPath).lexically_normal()))
+					return std::format("dew://{}", actualPath);
 			}
-			todo("implement");
-			std::string __result = _sub_1077DCA0(path, fileTypes);
-			return __result;
+			return "";
 		}
 	}
 }
@@ -238,9 +245,9 @@ namespace Web
 
 /* ---------- private code */
 
-extern std::shared_ptr<CModPackageFileSystemView> _sub_1077E970(std::string const &, std::string &);
 std::shared_ptr<CModPackageFileSystemView> GetModVFS(std::string const &identifier, std::string &vfsId) // 0x1077E970
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?GetModVFS@@YA?AV?$shared_ptr@VCModPackageFileSystemView@@@std@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@AAV32@@Z");
 	// `anonymous-namespace'::GetModVFS
 	// static ...; // 0x1077EC0C
 	// static ...; // 0x1077EBF4
@@ -248,18 +255,37 @@ std::shared_ptr<CModPackageFileSystemView> GetModVFS(std::string const &identifi
 	// std::string const &identifier;
 	// std::string &vfsId;
 	// EModIndex modIndex;
-	{
 		// Ref<IMod> mod;
-		{
 			// std::string hashStr;
 			// c_mod_package const *pak;
-		}
-	}
 	// function call : Ref<IMod> (EModIndex) const
 	// function call : c_mod_package *(bool) const
-	todo("implement");
-	std::shared_ptr<CModPackageFileSystemView> __result = _sub_1077E970(identifier, vfsId);
-	return __result;
+
+	EModIndex modIndex = kInvalid;
+	if (identifier == "game")
+		modIndex = kGame;
+	else if (identifier == "mainmenu")
+		modIndex = kMainMenu;
+	if (modIndex != kInvalid)
+	{
+		Ref<IMod> mod = c_mod_system::GetModManager().GetModShared(modIndex);
+		if (mod)
+		{
+			c_mod_package const *pak = mod->GetPak(true);
+			if (!pak)
+				return nullptr;
+			std::string hashStr;
+			Utils::String::BytesToHexString(pak->get_header()->sha1, 20, hashStr);
+			vfsId = hashStr;
+			return Utils::Singleton<CModPackageFileSystemViewManager>::Instance().GetView(hashStr);
+		}
+	}
+	else
+	{
+		vfsId = identifier;
+		return Utils::Singleton<CModPackageFileSystemViewManager>::Instance().GetView(identifier);
+	}
+	return nullptr;
 }
 
 /* ---------- template instantiations */

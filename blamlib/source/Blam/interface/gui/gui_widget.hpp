@@ -39,7 +39,6 @@ struct s_runtime_core_widget_definition
 	unsigned long name; // 0x4
 	long field_8; // 0x8
 	short layer; // 0xC
-	unsigned char __pad0[2]; // 0xE
 	real_rectangle2d widescreen_bounds; // 0x10
 	real_rectangle2d standard_bounds; // 0x20
 	long animation_index; // 0x30

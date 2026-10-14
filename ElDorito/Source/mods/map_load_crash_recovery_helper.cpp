@@ -101,15 +101,30 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- public code */
 
-_extern void _sub_107876B0(c_map_load_crash_recovery_helper *const);
 void c_map_load_crash_recovery_helper::map_load_start() // 0x107876B0
 {
-	mangled_x86(MANGLED_TODO, "?map_load_start@c_map_load_crash_recovery_helper@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?map_load_start@c_map_load_crash_recovery_helper@@QAEXXZ");
 	// c_map_load_crash_recovery_helper *const this;
 	// s_game_options *const intermediate_game_options;
 	// function call : __int32 ()
-	todo("implement");
-	_sub_107876B0(this);
+
+	m_dirty_disked = false;
+	m_map_load_end_time = -1;
+	kMapLoadTempFileName = Utils::Singleton<ElDorito>::Instance().GetInstanceName().length() > 0 ? Utils::Singleton<ElDorito>::Instance().GetInstanceName() + "-" + kMapLoadTempFile : kMapLoadTempFile;
+	s_game_options *const intermediate_game_options = (s_game_options *)0x2391800;
+	if (intermediate_game_options->game_mode == _game_mode_mainmenu && (0 || !IsDebuggerPresent()))
+	{
+		if (std::filesystem::exists(kMapLoadTempFileName.c_str()))
+		{
+			Utils::Singleton<Modules::CommandMap>::Instance().ExecuteCommand("Game.MainMenuMod \"\"", true);
+			Utils::Singleton<Modules::CommandMap>::Instance().ExecuteCommand("writeconfig", false);
+			remove(kMapLoadTempFileName.c_str());
+		}
+		else
+		{
+			std::ofstream(kMapLoadTempFileName.c_str());
+		}
+	}
 }
 
 void c_map_load_crash_recovery_helper::map_load_end() // 0x10787660

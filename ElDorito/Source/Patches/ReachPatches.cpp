@@ -41,6 +41,8 @@
 #include "Pointer.hpp"
 #include "Utils/Singleton.hpp"
 
+#include "Blam/scenario/scenario_lightmap_definitions.hpp"  // hades: added for 0x107C0330
+
 #include <Windows.h>
 #include <stdio.h>
 #include <sys/stat.h>
@@ -193,7 +195,7 @@ bool test_instanced_geometry_hook(s_instance_collision_test_arguements *test_arg
 extern s_scenario_structure_bsp *(*const global_structure_bsp_get)(long); // 0x11248AD4
 extern long (*const global_structure_bsp_first_active_index_get)(); // 0x11248ACC
 
-float (*c_render_method_data::m_context_interface)(long, long, long); // 0x1138DEE0
+// float (*c_render_method_data::m_context_interface)(long, long, long); // 0x1138DEE0  // hades: an inline variable now
 namespace Utils
 {
 	Modules::ModuleGraphics *Utils::Singleton<Modules::ModuleGraphics>::m_instance; // 0x1138DEDC
@@ -207,22 +209,30 @@ namespace Patches
 {
 	namespace Reach
 	{
-		_extern void _sub_107BEB80();
 		void ApplyAfterInit() // 0x107BEB80
 		{
-			mangled_x86(MANGLED_TODO, "?ApplyAfterInit@Reach@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAfterInit@Reach@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_107BEB80();
+
+			Hook(0x38D6B0, scenario_structure_bsp_has_valid_lightmap_for_bsp_type_hook).Apply();
+			Hook(0x6210E8, s_render_method_postprocess_definition__query_texture_transform_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0xEACC4, s_render_method_postprocess_definition__query_texture_transform_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0xEAD4A, s_render_method_postprocess_definition__query_texture_transform_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x620150, rasterizer_force_default_lighting_hook).Apply();
+			Hook(0x62FED0, update_cluster_stream_and_determine_lighting_attributes_hook).Apply();
+			Hook(0x293E30, c_instanced_geometry_iterator__next_hook).Apply();
+			Hook(0x28D590, c_instanced_geometry_iterator__ctor_hook).Apply();
+			Hook(0x2D838E, test_instanced_geometry_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Patch(0x38C5E0, { 0x90, 0x90 }).Apply();
 		}
 	}
 }
 
 /* ---------- private code */
 
-_extern bool _sub_107C0330(long, long, long);
 bool scenario_structure_bsp_has_valid_lightmap_for_bsp_type_hook(long definition_index, long bspIndex, long bsp_type) // 0x107C0330
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?scenario_structure_bsp_has_valid_lightmap_for_bsp_type_hook@@YA_NJJJ@Z");
 	// `anonymous-namespace'::scenario_structure_bsp_has_valid_lightmap_for_bsp_type_hook
 	// long bsp_type;
 	// long lightmap_definition_index;
@@ -231,22 +241,62 @@ bool scenario_structure_bsp_has_valid_lightmap_for_bsp_type_hook(long definition
 	// s_scenario *scenario;
 	// s_scenario_lightmap_bsp_data *(*const scenario_lightmap_find_bsp)(long, long, long);
 	// s_scenario_structure_bsp *(*const scenario_structure_bsp_get)(s_scenario const *, long);
-	{
 		// long total_mesh_part_count;
 		// bool valid;
-		{
 			// long cluster_index;
-			{
 				// long mesh_index;
-			}
-		}
-	}
 	// function call : void *(*const)(unsigned long, long)
 	// function call : s_scenario_lightmap_bsp_data *(*const)(long, long, long)
 	// function call : s_scenario_structure_bsp *(*const)(s_scenario const *, long)
-	todo("implement");
-	bool __result = _sub_107C0330(definition_index, bspIndex, bsp_type);
-	return __result;
+
+	s_scenario_lightmap_bsp_data *(*const scenario_lightmap_find_bsp)(long, long, long) = reinterpret_cast<s_scenario_lightmap_bsp_data *(*)(long, long, long)>(0x5F99B0);
+	s_scenario_structure_bsp *(*const scenario_structure_bsp_get)(s_scenario const *, long) = reinterpret_cast<s_scenario_structure_bsp *(*)(s_scenario const *, long)>(0x766280);
+	s_scenario *scenario = (s_scenario *)tag_get('scnr', definition_index);
+	long lightmap_definition_index = scenario->lightmap.index;
+	if (lightmap_definition_index == -1)
+		return false;
+	s_scenario_lightmap_bsp_data *lightmap_bsp_data = scenario_lightmap_find_bsp(lightmap_definition_index, bspIndex, bsp_type);
+	if (bspIndex < 0 || bspIndex >= scenario->structure_bsps.count)
+		return false;
+	s_scenario_structure_bsp *structure_bsp = scenario_structure_bsp_get(scenario, bspIndex);
+	if (structure_bsp->compatibility_flags.test(_scenario_structure_bsp_compatibility_reach_bit))
+		return true;
+	if (lightmap_bsp_data && lightmap_bsp_data->structure_checksum == structure_bsp->bsp_checksum && ((s_render_geometry *)lightmap_bsp_data->render_geometry)->meshes.count == structure_bsp->geometry.meshes.count)
+	{
+		if (bsp_type)
+		{
+			if (bsp_type == 1)
+			{
+				bool valid = ((c_tag_block<s_scenario_lightmap_cluster_static_per_vertex_lighting> *)lightmap_bsp_data->cluster_per_vertex_lighting_buffers)->count > 0;
+				long total_mesh_part_count = 0;
+				if (valid)
+				{
+					long cluster_index = 0;
+					do
+					{
+						if (cluster_index >= ((c_tag_block<s_scenario_lightmap_cluster_static_per_vertex_lighting> *)lightmap_bsp_data->cluster_per_vertex_lighting_buffers)->count)
+							break;
+						long mesh_index = structure_bsp->clusters[cluster_index].mesh_index;
+						if (mesh_index != -1)
+						{
+							total_mesh_part_count += ((s_render_geometry *)lightmap_bsp_data->render_geometry)->meshes[mesh_index].parts.count > 0;
+							if (((s_render_geometry *)lightmap_bsp_data->render_geometry)->meshes[mesh_index].parts.count > 0 && (*(c_tag_block<s_scenario_lightmap_cluster_static_per_vertex_lighting> *)lightmap_bsp_data->cluster_per_vertex_lighting_buffers)[cluster_index].instance_index == -1)
+								valid = false;
+						}
+						cluster_index++;
+					} while (valid);
+				}
+				if (total_mesh_part_count > 0 && valid)
+					return true;
+			}
+		}
+		else
+		{
+			if (((s_tag_reference *)lightmap_bsp_data->lightmap_dominant_light_direction_bitmap)->index != -1 && ((s_tag_reference *)lightmap_bsp_data->lightmap_sh_coefficients_bitmap)->index != -1)
+				return true;
+		}
+	}
+	return false;
 }
 
 bool __fastcall s_render_method_postprocess_definition__query_texture_transform_hook(s_render_method_postprocess_definition *thisptr, void *unused, long bitmap_reference_index, unsigned long *out_color, long *out_bitmap_group_index, long *out_bitmap_index) // 0x107C0280
@@ -292,26 +342,51 @@ bool rasterizer_force_default_lighting_hook() // 0x107C01E0
 	return false;
 }
 
-_extern long _sub_107C09F0(e_entry_point, __int32, s_render_geometry *, s_mesh *, s_part *, s_geometry_material *, s_cluster_reference);
 long update_cluster_stream_and_determine_lighting_attributes_hook(e_entry_point entry_point, __int32 bsp_index, s_render_geometry *geometry, s_mesh *mesh, s_part *part, s_geometry_material *materials, s_cluster_reference cluster) // 0x107C09F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?update_cluster_stream_and_determine_lighting_attributes_hook@@YAJW4e_entry_point@@HPAUs_render_geometry@@PAUs_mesh@@PAUs_part@@PAUs_geometry_material@@Us_cluster_reference@@@Z");
 	// `anonymous-namespace'::update_cluster_stream_and_determine_lighting_attributes_hook
 	// s_cluster_reference cluster;
 	// bool (*const rasterizer_force_default_lighting)();
 	// long result;
-	{
 		// c_rasterizer_vertex_buffer *vertex_buffer;
 		// s_scenario_lightmap_bsp_data *lbsp;
 		// long static_per_vertex_index;
 		// long vertex_buffer_index;
-	}
 	// function call : bool (*const)()
 	// function call : void (*const)()
 	// function call : c_rasterizer_vertex_buffer *(*const)(s_scenario_lightmap_bsp_data *, long)
 	// function call : bool (*const)(c_rasterizer_vertex_buffer const *)
-	todo("implement");
-	long __result = _sub_107C09F0(entry_point, bsp_index, geometry, mesh, part, materials, cluster);
-	return __result;
+
+	bool (*const rasterizer_force_default_lighting)() = reinterpret_cast<bool (*)()>(0xA20150);
+	long result;
+	if (entry_point == _entry_static_per_pixel)
+	{
+		if (!((s_render_structure_globals *)0x50E8938)->bsp_lightmap_bsps[bsp_index] || rasterizer_force_default_lighting() || materials[part->material_index].render_method.group_tag == 'rmfl')
+		{
+			((void (*)())0xA52700)();
+			result = _entry_static_sh;
+		}
+		else
+		{
+			long static_per_vertex_index;
+			long vertex_buffer_index;
+			c_rasterizer_vertex_buffer *vertex_buffer;
+			s_scenario_lightmap_bsp_data *lbsp = ((s_render_structure_globals *)0x50E8938)->bsp_lightmap_bsps[bsp_index];
+			if (lbsp && (static_per_vertex_index = (*(c_tag_block<s_scenario_lightmap_cluster_static_per_vertex_lighting> *)lbsp->cluster_per_vertex_lighting_buffers)[cluster.cluster_index].instance_index) != -1 && (vertex_buffer_index = (*(c_tag_block<s_scenario_lightmap_static_per_vertex_lighting> *)lbsp->per_vertex_lighting_buffers)[static_per_vertex_index].vertex_buffer_index) != -1 && (vertex_buffer = ((c_rasterizer_vertex_buffer *(*)(s_scenario_lightmap_bsp_data *, long))0x5F9980)(lbsp, vertex_buffer_index)) != nullptr && vertex_buffer->get_d3d_buffer())
+			{
+				if (!(part->flags & 0x80))
+					return entry_point;
+				((void (*)(c_rasterizer_vertex_buffer *))0xA5DB60)(vertex_buffer);
+				result = entry_point + 1;
+			}
+			else
+				result = entry_point;
+		}
+	}
+	else
+		result = entry_point;
+	return result;
 }
 
 _inline c_instanced_geometry_iterator::c_instanced_geometry_iterator(s_cluster_reference *cluster_references, s_decal_cylinder *cylinder, long ignore_instance_index) // 0x107BE6E0
@@ -344,14 +419,45 @@ _inline c_instanced_geometry_iterator::c_instanced_geometry_iterator(s_cluster_r
 	next();
 }
 
-_extern bool _sub_107BFE40(c_instanced_geometry_iterator *const);
 _inline bool c_instanced_geometry_iterator::next_instance() // 0x107BFE40
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?next_instance@c_instanced_geometry_iterator@hades_file_local@@QAE_NXZ");
 	// `anonymous-namespace'::c_instanced_geometry_iterator::next_instance
 	// c_instanced_geometry_iterator *const this;
-	todo("implement");
-	bool __result = _sub_107BFE40(this);
-	return __result;
+
+	while (true)
+	{
+		if (m_instance_bucket_instance_index < m_instance_bucket_instance_count)
+		{
+			while (true)
+			{
+				m_instance_index = m_instance_buckets->contents[m_instance_bucket_instance_index].value;
+				if (!((1 << (m_instance_index & 0x1F)) & m_visited_instance_bit_vector[m_instance_index >> 5]))
+				{
+					m_visited_instance_bit_vector[m_instance_index >> 5] |= 1 << (m_instance_index & 0x1F);
+					break;
+				}
+				if (++m_instance_bucket_instance_index >= m_instance_bucket_instance_count)
+					break;
+			}
+		}
+		if (m_instance_bucket_instance_index < m_instance_bucket_instance_count)
+		{
+			m_instance = &m_structure_bsp->instanced_geometry_instances[m_instance_index];
+			m_instance_bucket_instance_index++;
+			return true;
+		}
+		m_instance = nullptr;
+		m_instance_index = -1;
+		m_instance_bucket_instance_index = 0;
+		if (m_instance_bucket_index >= m_instance_bucket_count)
+			break;
+		m_instance_buckets = &m_mesh->instance_parts[m_instance_bucket_index];
+		m_instance_bucket_instance_count = m_instance_buckets->contents.count;
+		m_instance_bucket_index++;
+	}
+	m_instance_bucket_index = 0;
+	return next_cluster();
 }
 
 _inline bool c_instanced_geometry_iterator::next_cluster() // 0x107BFCD0

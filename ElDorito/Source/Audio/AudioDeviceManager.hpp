@@ -84,9 +84,9 @@ namespace Audio
 		public:
 		CEventSink<Audio::SAudioDeviceEvent const &> deviceEvents; // 0x8
 	private:
-		CAudioDeviceManagerImpl *m_impl; // 0x1C
+		CAudioDeviceManagerImpl *m_impl = nullptr; // 0x1C
 	public:
-		_inline CAudioDeviceManager();
+		CAudioDeviceManager() = default;  // hades: implicit, so `new T()` zero-fills first as the original's Instance() does
 		virtual ~CAudioDeviceManager();
 		void Initialize();
 		void Update();
@@ -104,14 +104,7 @@ namespace Audio
 
 namespace Audio
 {
-	extern CAudioDeviceManager* _sub_109637D0(Audio::CAudioDeviceManager *const);
-	_inline CAudioDeviceManager::CAudioDeviceManager() // 0x109637D0
-	{
-		mangled_x86(MANGLED_TODO, "??0CAudioDeviceManager@Audio@@QAE@XZ");
-		// Audio::CAudioDeviceManager *const this;
-		todo("implement");
-		_sub_109637D0(this);
-	}
+	// hades: CAudioDeviceManager::CAudioDeviceManager() is defaulted in the class (0x109637D0)
 }
 
 /* ---------- private code */

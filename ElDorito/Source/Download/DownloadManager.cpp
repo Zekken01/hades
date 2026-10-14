@@ -105,16 +105,15 @@ namespace Download
 	}
 }
 
-extern std::shared_ptr<Download::CHttpFileDownload> _sub_108203B0();
+
 namespace Download
 {
 	std::shared_ptr<Download::CHttpFileDownload> CreateHttpFileDownload() // 0x108203B0
 	{
-		mangled_x86(MANGLED_TODO, "?CreateHttpFileDownload@Download@@YA?AV?$shared_ptr@VCHttpFileDownload@Download@@@std@@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?CreateHttpFileDownload@Download@@YA?AV?$shared_ptr@VCHttpFileDownload@Download@@@std@@XZ");
 		// procedure flags: nofpo
-		todo("implement");
-		std::shared_ptr<Download::CHttpFileDownload> __result = _sub_108203B0();
-		return __result;
+
+		return std::make_shared<Download::CHttpFileDownload>();
 	}
 
 	// mangled_x86(MANGLED_DEFAULT, "??0CHttpFileDownloadManager@Download@@QAE@XZ"); no body to assert in

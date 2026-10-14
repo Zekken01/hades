@@ -50,7 +50,7 @@ public:
 	virtual ~c_gui_list_widget() = default; /* compiler_generated() */
 	c_gui_list_widget &operator=(c_gui_list_widget &); /* compiler_generated() */
 	c_gui_list_widget &operator=(c_gui_list_widget const &); /* compiler_generated() */
-	void __autoclassinit2(unsigned __int32); /* compiler_generated() */
+	// void __autoclassinit2(unsigned __int32); /* compiler_generated() */  // hades: /sdl generates it
 };
 #pragma pack(pop)
 static_assert(sizeof(c_gui_list_widget) == 332, "Invalid c_gui_list_widget size");

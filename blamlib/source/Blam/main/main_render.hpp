@@ -70,7 +70,8 @@ _inline c_wait_for_render_thread::~c_wait_for_render_thread() // 0x109010B0
 	// void (*const unlock_resources_and_resume_render_thread)(long);
 	// function call : void (*const)(long)
 
-	((void(__cdecl *)(unsigned long))0x507940)(m_lock_handle);
+	void (*const unlock_resources_and_resume_render_thread)(long) = (void(*const)(long))0x507940;
+	unlock_resources_and_resume_render_thread(m_lock_handle);
 }
 
 /* ---------- private code */

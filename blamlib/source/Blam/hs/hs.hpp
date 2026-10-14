@@ -239,11 +239,9 @@ struct s_hs_thread :
 {
 	short script_index; // 0x2
 	short previous_script_index; // 0x4
-	unsigned char __pad0[2]; // 0x6
 	long delay_until_time; // 0x8
 	long sleep_time; // 0xC
 	unsigned short stack_offset; // 0x10
-	unsigned char __pad1[2]; // 0x12
 	long return_value; // 0x14
 	long tracking_index; // 0x18
 	char type; // 0x1C

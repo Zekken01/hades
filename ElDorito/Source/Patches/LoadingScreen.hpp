@@ -72,12 +72,12 @@ namespace Patches
 			std::string modDescription; // 0x184
 			std::string modName; // 0x1A0
 			std::string modVersion; // 0x1BC
-			LoadingScreenShowInfo(Patches::LoadingScreen::LoadingScreenShowInfo &); /* compiler_generated() */
-			LoadingScreenShowInfo(Patches::LoadingScreen::LoadingScreenShowInfo const &); /* compiler_generated() */
-			LoadingScreenShowInfo(); /* compiler_generated() */
-			_inline ~LoadingScreenShowInfo(); /* compiler_generated() */
-			Patches::LoadingScreen::LoadingScreenShowInfo &operator=(Patches::LoadingScreen::LoadingScreenShowInfo &); /* compiler_generated() */
-			Patches::LoadingScreen::LoadingScreenShowInfo &operator=(Patches::LoadingScreen::LoadingScreenShowInfo const &); /* compiler_generated() */
+			// LoadingScreenShowInfo(Patches::LoadingScreen::LoadingScreenShowInfo &); /* compiler_generated() */ hades: implicit
+			// LoadingScreenShowInfo(Patches::LoadingScreen::LoadingScreenShowInfo const &); /* compiler_generated() */ hades: implicit
+			// LoadingScreenShowInfo(); /* compiler_generated() */ hades: implicit
+			// _inline ~LoadingScreenShowInfo(); /* compiler_generated() */ hades: implicit
+			// Patches::LoadingScreen::LoadingScreenShowInfo &operator=(Patches::LoadingScreen::LoadingScreenShowInfo &); /* compiler_generated() */ hades: implicit
+			// Patches::LoadingScreen::LoadingScreenShowInfo &operator=(Patches::LoadingScreen::LoadingScreenShowInfo const &); /* compiler_generated() */ hades: implicit
 		};
 		static_assert(sizeof(Patches::LoadingScreen::LoadingScreenShowInfo) == 472, "Invalid Patches::LoadingScreen::LoadingScreenShowInfo size");
 	}

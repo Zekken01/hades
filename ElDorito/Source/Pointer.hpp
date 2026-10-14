@@ -191,10 +191,9 @@ _inline void Pointer::Write(t_arg0 const value) const
 	VirtualProtect(_Pointer, sizeof(t_arg0), temp, &temp2);
 }
 
-_extern void _sub_10699F40(Pointer const *const, void const *, unsigned __int32);
 _inline void Pointer::Write(void const *data, unsigned __int32 size) const // 0x10699F40
 {
-	mangled_x86(MANGLED_TODO, "?Write@Pointer@@QBEXPBXI@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Write@Pointer@@QBEXPBXI@Z");
 	// static ...; // 0x1069A100
 	// static ...; // 0x1069A0DC
 	// static ...; // 0x1069A0D4
@@ -203,20 +202,27 @@ _inline void Pointer::Write(void const *data, unsigned __int32 size) const // 0x
 	// unsigned __int32 size;
 	// unsigned long temp;
 	// unsigned long temp2;
-	{
 		// std::stringstream ss;
-	}
 	// function call : __int32 (void *, unsigned long, unsigned long, unsigned long *)
 	// function call : void (char const *)
 	// function call : __int32 (void *, unsigned long, unsigned long, unsigned long *)
-	todo("implement");
-	_sub_10699F40((Pointer const *)this, data, size);
+
+	unsigned long temp;
+	unsigned long temp2;
+	if (!VirtualProtect(_Pointer, size, PAGE_READWRITE, &temp))
+	{
+		std::stringstream ss;
+		ss << "Failed to set protection on memory address " << std::hex << _Pointer;
+		OutputDebugStringA(ss.str().c_str());
+		return;
+	}
+	memcpy(_Pointer, data, size);
+	VirtualProtect(_Pointer, size, temp, &temp2);
 }
 
-_extern void _sub_1069A190(Pointer const *const, void *, bool);
 _inline void Pointer::WriteCall(void *newFunction, bool isIndirect) const // 0x1069A190
 {
-	mangled_x86(MANGLED_TODO, "?WriteCall@Pointer@@QBEXPAX_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?WriteCall@Pointer@@QBEXPAX_N@Z");
 	// static ...; // 0x1069A3D7
 	// static ...; // 0x1069A3CF
 	// static ...; // 0x1069A3CC
@@ -230,20 +236,31 @@ _inline void Pointer::WriteCall(void *newFunction, bool isIndirect) const // 0x1
 	// __int32 patchSize;
 	// unsigned long temp2;
 	// unsigned char tempJMP[6];
-	{
 		// std::stringstream ss;
-	}
 	// function call : __int32 (void *, unsigned long, unsigned long, unsigned long *)
 	// function call : void (char const *)
 	// function call : __int32 (void *, unsigned long, unsigned long, unsigned long *)
-	todo("implement");
-	_sub_1069A190((Pointer const *)this, newFunction, isIndirect);
+
+	unsigned long temp;
+	unsigned long temp2;
+	unsigned char tempJMP[6] = { 0xE8, 0x90, 0x90, 0x90, 0x90, 0x90 };
+	__int32 patchSize = isIndirect ? 6 : 5;
+	unsigned __int32 JMPSize = (unsigned __int32)newFunction - (unsigned __int32)_Pointer - 5;
+	if (!VirtualProtect(_Pointer, 5, PAGE_READWRITE, &temp))
+	{
+		std::stringstream ss;
+		ss << "Failed to set protection on memory address " << std::hex << _Pointer;
+		OutputDebugStringA(ss.str().c_str());
+		return;
+	}
+	memcpy(&tempJMP[1], &JMPSize, 4);
+	memcpy(_Pointer, tempJMP, patchSize);
+	VirtualProtect(_Pointer, patchSize, temp, &temp2);
 }
 
-_extern void _sub_1069A480(Pointer const *const, void *, __int32);
 _inline void Pointer::WriteJump(void *newFunction, __int32 jmpFlags) const // 0x1069A480
 {
-	mangled_x86(MANGLED_TODO, "?WriteJump@Pointer@@QBEXPAXH@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?WriteJump@Pointer@@QBEXPAXH@Z");
 	// static ...; // 0x1069A72A
 	// static ...; // 0x1069A723
 	// static ...; // 0x1069A71B
@@ -259,14 +276,35 @@ _inline void Pointer::WriteJump(void *newFunction, __int32 jmpFlags) const // 0x
 	// unsigned char tempJE[6];
 	// unsigned long temp2;
 	// unsigned char tempJMP[5];
-	{
 		// std::stringstream ss;
-	}
 	// function call : __int32 (void *, unsigned long, unsigned long, unsigned long *)
 	// function call : void (char const *)
 	// function call : __int32 (void *, unsigned long, unsigned long, unsigned long *)
-	todo("implement");
-	_sub_1069A480((Pointer const *)this, newFunction, jmpFlags);
+
+	unsigned long temp;
+	unsigned long temp2;
+	unsigned char tempJMP[5] = { 0xE9, 0x90, 0x90, 0x90, 0x90 };
+	unsigned char tempJE[6] = { 0x0F, 0x84, 0x90, 0x90, 0x90, 0x90 };
+	unsigned __int32 patchSize = (jmpFlags & 4) ? 6 : 5;
+	unsigned __int32 JMPSize = (unsigned __int32)newFunction - (unsigned __int32)_Pointer - patchSize;
+	if (!VirtualProtect(_Pointer, patchSize, PAGE_READWRITE, &temp))
+	{
+		std::stringstream ss;
+		ss << "Failed to set protection on memory address " << std::hex << _Pointer;
+		OutputDebugStringA(ss.str().c_str());
+		return;
+	}
+	if (jmpFlags & 4)
+	{
+		memcpy(&tempJE[2], &JMPSize, 4);
+		memcpy(_Pointer, tempJE, 6);
+	}
+	else
+	{
+		memcpy(&tempJMP[1], &JMPSize, 4);
+		memcpy(_Pointer, tempJMP, 5);
+	}
+	VirtualProtect(_Pointer, patchSize, temp, &temp2);
 }
 
 _inline void Pointer::Read(void *Dest, unsigned __int32 size) const // 0x10A29540
@@ -277,16 +315,15 @@ _inline void Pointer::Read(void *Dest, unsigned __int32 size) const // 0x10A2954
 	memcpy(Dest, _Pointer, size);
 }
 
-extern Pointer const _sub_10699CA0(unsigned __int32, unsigned __int32);
 _inline Pointer const Pointer::Base(unsigned __int32 Offset, unsigned __int32 Stride) // 0x10699CA0
 {
-	mangled_x86(MANGLED_TODO, "?Base@Pointer@@SA?BV1@II@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Base@Pointer@@SA?BV1@II@Z");
 	// unsigned __int32 Stride;
 	// static Pointer ModuleBase; // 0x11372CCC
 	// static __int32 $TSS0; // 0x11372CD0
-	todo("implement");
-	Pointer const __result = _sub_10699CA0(Offset, Stride);
-	return __result;
+
+	static Pointer const ModuleBase(GetModuleBase());
+	return ModuleBase(Offset, Stride);
 }
 
 /* ---------- private code */

@@ -229,6 +229,47 @@ namespace Blam
 
 /* ---------- definitions */
 
+namespace Web
+{
+	namespace Ui
+	{
+		namespace WebServerModBrowser
+		{
+			// hades: moved from hades/recovered_types.h onto its real base (was hades::polymorphic_bytes)
+			struct CWebModDownloadSingleScreen :
+				public Web::Ui::WebScreen,
+				public IModBrowserModDownloadUI
+			{
+				virtual void OnCreate(Web::Browser::Bridge::WebRendererQueryHandler &);
+				virtual void OnDestroy();
+				virtual void OnShow();
+				virtual void OnHide();
+				virtual void OnUpdate();
+				std::function<void ()> m_confirmCallback; // 0x8
+				std::function<void ()> m_retryCallback; // 0x30
+				std::function<void ()> m_cancelCallback; // 0x58
+				std::function<void ()> m_downloadSingleCallback; // 0x80
+			public:
+				virtual void Hide();
+				virtual void SetConfirmCallback(std::function<void __cdecl(void)>);
+				virtual void SetRetryCallback(std::function<void __cdecl(void)>);
+				virtual void SetCancelCallback(std::function<void __cdecl(void)>);
+				virtual void OnDownloadStart();
+				virtual void OnDownloadFailed(std::string const &);
+				virtual void OnDownloadFinalizing();
+				virtual void OnDownloadFinished(SModBrowserState const &);
+				virtual void OnDownloadProgress(SModBrowserState::SRequestedMod const &, __int32, long long, long long, __int32);
+				virtual void ShowConfirmation(std::vector<SModBrowserState::SRequestedMod *> const &);
+				virtual void SetDownloadSingleFinishedCallback(std::function<void __cdecl(void)>);
+				CWebModDownloadSingleScreen() = default;  // hades: not user-provided, so make_shared value-initializes
+				// mangled_x86(MANGLED_KNOWN_GOOD, "??1CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAE@XZ"); defaulted on its declaration
+				virtual ~CWebModDownloadSingleScreen() = default; // 0x10c7b8a0
+			};
+			static_assert32(sizeof(CWebModDownloadSingleScreen) == 168, "Invalid CWebModDownloadSingleScreen size");
+		}
+	}
+}
+
 namespace hades_file_local
 {
 	struct DownloadStatusInfo
@@ -298,7 +339,7 @@ namespace Web
 	{
 		namespace WebServerModBrowser
 		{
-			extern std::shared_ptr<Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen> screen_single; // 0x1247EC94
+			std::shared_ptr<Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen> screen_single; // 0x1247EC94
 		}
 	}
 }
@@ -312,7 +353,7 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- public code */
 
-extern std::shared_ptr<IModBrowserModDownloadUI> _sub_10C7CC90();
+
 namespace Web
 {
 	namespace Ui
@@ -321,51 +362,46 @@ namespace Web
 		{
 			std::shared_ptr<IModBrowserModDownloadUI> GetDownloadUISingle() // 0x10C7CC90
 			{
-				mangled_x86(MANGLED_TODO, "?GetDownloadUISingle@WebServerModBrowser@Ui@Web@@YA?AV?$shared_ptr@VIModBrowserModDownloadUI@@@std@@XZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?GetDownloadUISingle@WebServerModBrowser@Ui@Web@@YA?AV?$shared_ptr@VIModBrowserModDownloadUI@@@std@@XZ");
 				// procedure flags: nofpo
-				todo("implement");
-				std::shared_ptr<IModBrowserModDownloadUI> __result = _sub_10C7CC90();
-				return __result;
+
+				return screen_single;
 			}
 
-			_extern void _sub_10C7E100(IModBrowserModDownloadUI * const, std::function<void __cdecl(void)>);
 			void CWebModDownloadSingleScreen::SetConfirmCallback(std::function<void __cdecl(void)> callback) // 0x10C7E100
 			{
-				mangled_x86(MANGLED_TODO, "?SetConfirmCallback@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXV?$function@$$A6AXXZ@std@@@Z");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?SetConfirmCallback@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXV?$function@$$A6AXXZ@std@@@Z");
 				// __shifted(Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen, 4);
 				// std::function<void __cdecl(void)> callback;
-				todo("implement");
-				_sub_10C7E100((IModBrowserModDownloadUI *)this, callback);
+
+				m_confirmCallback = callback;
 			}
 
-			_extern void _sub_10C7E260(IModBrowserModDownloadUI * const, std::function<void __cdecl(void)>);
 			void CWebModDownloadSingleScreen::SetRetryCallback(std::function<void __cdecl(void)> callback) // 0x10C7E260
 			{
-				mangled_x86(MANGLED_TODO, "?SetRetryCallback@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXV?$function@$$A6AXXZ@std@@@Z");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?SetRetryCallback@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXV?$function@$$A6AXXZ@std@@@Z");
 				// __shifted(Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen, 4);
 				// std::function<void __cdecl(void)> callback;
-				todo("implement");
-				_sub_10C7E260((IModBrowserModDownloadUI *)this, callback);
+
+				m_retryCallback = callback;
 			}
 
-			_extern void _sub_10C7E050(IModBrowserModDownloadUI * const, std::function<void __cdecl(void)>);
 			void CWebModDownloadSingleScreen::SetCancelCallback(std::function<void __cdecl(void)> callback) // 0x10C7E050
 			{
-				mangled_x86(MANGLED_TODO, "?SetCancelCallback@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXV?$function@$$A6AXXZ@std@@@Z");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?SetCancelCallback@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXV?$function@$$A6AXXZ@std@@@Z");
 				// __shifted(Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen, 4);
 				// std::function<void __cdecl(void)> callback;
-				todo("implement");
-				_sub_10C7E050((IModBrowserModDownloadUI *)this, callback);
+
+				m_cancelCallback = callback;
 			}
 
-			_extern void _sub_10C7E1B0(IModBrowserModDownloadUI * const, std::function<void __cdecl(void)>);
 			void CWebModDownloadSingleScreen::SetDownloadSingleFinishedCallback(std::function<void __cdecl(void)> callback) // 0x10C7E1B0
 			{
-				mangled_x86(MANGLED_TODO, "?SetDownloadSingleFinishedCallback@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXV?$function@$$A6AXXZ@std@@@Z");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?SetDownloadSingleFinishedCallback@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXV?$function@$$A6AXXZ@std@@@Z");
 				// __shifted(Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen, 4);
 				// std::function<void __cdecl(void)> callback;
-				todo("implement");
-				_sub_10C7E1B0((IModBrowserModDownloadUI *)this, callback);
+
+				m_downloadSingleCallback = callback;
 			}
 
 			void CWebModDownloadSingleScreen::OnDownloadStart() // 0x10C7DE90
@@ -377,14 +413,14 @@ namespace Web
 				NotifyDownloadStateChanged("downloading", "downloading");
 			}
 
-			_extern void _sub_10C7D990(IModBrowserModDownloadUI * const, std::string const &);
 			void CWebModDownloadSingleScreen::OnDownloadFailed(std::string const &message) // 0x10C7D990
 			{
-				mangled_x86(MANGLED_TODO, "?OnDownloadFailed@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?OnDownloadFailed@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 				// __shifted(Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen, 4);
 				// std::string const &message;
-				todo("implement");
-				_sub_10C7D990((IModBrowserModDownloadUI *)this, message);
+
+				NotifyDownloadStateChanged("download_failed", "download_failed");
+				NotifyDownloadError(message);
 			}
 
 			void CWebModDownloadSingleScreen::OnDownloadFinalizing() // 0x10C7DAB0
@@ -396,24 +432,25 @@ namespace Web
 				NotifyDownloadStateChanged("downloading", "download_finalizing");
 			}
 
-			_extern void _sub_10C7DBB0(IModBrowserModDownloadUI * const, SModBrowserState const &);
 			void CWebModDownloadSingleScreen::OnDownloadFinished(SModBrowserState const &state) // 0x10C7DBB0
 			{
-				mangled_x86(MANGLED_TODO, "?OnDownloadFinished@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXABUSModBrowserState@@@Z");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?OnDownloadFinished@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXABUSModBrowserState@@@Z");
 				// __shifted(Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen, 4);
 				// SModBrowserState const &state;
-				todo("implement");
-				_sub_10C7DBB0((IModBrowserModDownloadUI *)this, state);
+
+				Web::Ui::ScreenLayer::NotifyScreen(Web::Ui::ScreenLayer::ModDownload, "modDownloadSingleFinished", "{}");
+				NotifyDownloadStateChanged("download_finalizing", "download_single_finished");
 			}
 
-			_extern void _sub_10C7CD00(IModBrowserModDownloadUI * const);
 			void CWebModDownloadSingleScreen::Hide() // 0x10C7CD00
 			{
-				mangled_x86(MANGLED_TODO, "?Hide@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXXZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?Hide@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXXZ");
 				// __shifted(Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen, 4);
 				// Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen *const this;
-				todo("implement");
-				_sub_10C7CD00((IModBrowserModDownloadUI *)this);
+
+				NotifyDownloadStateChanged("awaiting_confirmation_single", "awaiting_confirmation_single");
+				Web::Ui::ScreenLayer::NotifyScreen(Web::Ui::ScreenLayer::ModDownload, "hide_moddownloader", "{}");
+				screenVisible = false;
 			}
 
 			void CWebModDownloadSingleScreen::OnDestroy() // 0x10C7D950
@@ -440,17 +477,17 @@ namespace Web
 				// Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen *const this;
 			}
 
-			_extern void _sub_10C7CE90();
 			void Init() // 0x10C7CE90
 			{
-				mangled_x86(MANGLED_TODO, "?Init@WebServerModBrowser@Ui@Web@@YAXXZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?Init@WebServerModBrowser@Ui@Web@@YAXXZ");
 				// procedure flags: nofpo
-				todo("implement");
-				_sub_10C7CE90();
+
+				screen_single = std::make_shared<CWebModDownloadSingleScreen>();
+				Web::Ui::ScreenLayer::RegisterScreen("mod_download_single", screen_single);
 			}
 
 			// mangled_x86(MANGLED_DEFAULT, "??0CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@QAE@XZ"); no body to assert in
-			_inline CWebModDownloadSingleScreen::CWebModDownloadSingleScreen() = default; // 0x10C7B4E0
+			// _inline CWebModDownloadSingleScreen::CWebModDownloadSingleScreen() = default; // 0x10C7B4E0  // hades: defaulted on its declaration
 		}
 	}
 }
@@ -475,22 +512,15 @@ namespace Web
 	{
 		namespace WebServerModBrowser
 		{
-			_inline CWebModDownloadSingleScreen::~CWebModDownloadSingleScreen() // 0x10C7B8A0
-			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "??1CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAE@XZ");
-				// Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen *const this;
-
-				compiler_generated();
-			}
 		}
 	}
 }
 
 /* ---------- private code */
 
-_extern void _sub_10C7D210(std::string const &, std::string const &);
 void NotifyDownloadStateChanged(std::string const &fromState, std::string const &toState) // 0x10C7D210
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?NotifyDownloadStateChanged@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z");
 	// `anonymous-namespace'::NotifyDownloadStateChanged
 	// static ...; // 0x10C7D3A0
 	// static ...; // 0x10C7D388
@@ -499,13 +529,21 @@ void NotifyDownloadStateChanged(std::string const &fromState, std::string const 
 	// std::string const &toState;
 	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buff;
 	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-	todo("implement");
-	_sub_10C7D210(fromState, toState);
+
+	rapidjson::StringBuffer buff;
+	rapidjson::Writer<rapidjson::StringBuffer> writer(buff);
+	writer.StartObject();
+	writer.Key("fromState");
+	writer.String(fromState.c_str());
+	writer.Key("toState");
+	writer.String(toState.c_str());
+	writer.EndObject();
+	Web::Ui::ScreenLayer::NotifyScreen(Web::Ui::ScreenLayer::ModDownload, "modDownloadStateChange", buff.GetString());
 }
 
-_extern void _sub_10C7D420(DownloadStatusInfo const &);
 void NotifyDownloadStatus(DownloadStatusInfo const &info) // 0x10C7D420
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?NotifyDownloadStatus@@YAXABUDownloadStatusInfo@hades_file_local@@@Z");
 	// `anonymous-namespace'::NotifyDownloadStatus
 	// static ...; // 0x10C7D6D7
 	// static ...; // 0x10C7D6D0
@@ -514,13 +552,37 @@ void NotifyDownloadStatus(DownloadStatusInfo const &info) // 0x10C7D420
 	// DownloadStatusInfo const &info;
 	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buff;
 	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-	todo("implement");
-	_sub_10C7D420(info);
+
+	rapidjson::StringBuffer buff;
+	rapidjson::Writer<rapidjson::StringBuffer> writer(buff);
+	writer.StartObject();
+	writer.Key("index");
+	writer.Int(info.packageIndex);
+	writer.Key("name");
+	writer.String(info.package.name.c_str());
+	writer.Key("desc");
+	writer.String(info.package.description.c_str());
+	writer.Key("website");
+	writer.String(info.package.website.c_str());
+	writer.Key("version");
+	writer.String(info.package.version.c_str());
+	writer.Key("package_url");
+	writer.String(info.package.packageUrl.c_str());
+	writer.Key("hash");
+	writer.Key(info.package.hash.c_str());
+	writer.Key("current");
+	writer.Int64(info.current);
+	writer.Key("total");
+	writer.Int64(info.total);
+	writer.Key("speed");
+	writer.Int64(info.downloadSpeed);
+	writer.EndObject();
+	Web::Ui::ScreenLayer::NotifyScreen(Web::Ui::ScreenLayer::ModDownload, "modDownloadStatus", buff.GetString());
 }
 
-_extern void _sub_10C7D030(std::string const &);
 void NotifyDownloadError(std::string const &reason) // 0x10C7D030
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?NotifyDownloadError@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 	// `anonymous-namespace'::NotifyDownloadError
 	// static ...; // 0x10C7D1AB
 	// static ...; // 0x10C7D1A4
@@ -529,8 +591,14 @@ void NotifyDownloadError(std::string const &reason) // 0x10C7D030
 	// std::string const &reason;
 	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buff;
 	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-	todo("implement");
-	_sub_10C7D030(reason);
+
+	rapidjson::StringBuffer buff;
+	rapidjson::Writer<rapidjson::StringBuffer> writer(buff);
+	writer.StartObject();
+	writer.Key("reason");
+	writer.String(reason.c_str());
+	writer.EndObject();
+	Web::Ui::ScreenLayer::NotifyScreen(Web::Ui::ScreenLayer::ModDownload, "modDownloadFailed", buff.GetString());
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0DownloadStatusInfo@hades_file_local@@QAE@XZ"); no body to assert in
@@ -538,3 +606,175 @@ _inline DownloadStatusInfo::DownloadStatusInfo() = default; // 0x10C7B590
 
 // mangled_x86(MANGLED_DEFAULT, "??1DownloadStatusInfo@hades_file_local@@QAE@XZ"); no body to assert in
 _inline DownloadStatusInfo::~DownloadStatusInfo() = default; // 0x10C7B930
+
+namespace Web
+{
+	namespace Ui
+	{
+		namespace WebServerModBrowser
+		{
+			void CWebModDownloadSingleScreen::OnDownloadProgress(SModBrowserState::SRequestedMod const &package, __int32 packageIndex, long long current, long long total, __int32 downloadSpeed) // 0x10C7DD40
+			{
+
+							DownloadStatusInfo info;
+							info.packageIndex = packageIndex;
+							info.package = package;
+							info.current = current;
+							info.total = total;
+							info.downloadSpeed = downloadSpeed;
+							NotifyDownloadStatus(info);
+			}
+		}
+	}
+}
+
+namespace Web
+{
+	namespace Ui
+	{
+		namespace WebServerModBrowser
+		{
+			void CWebModDownloadSingleScreen::OnCreate(Web::Browser::Bridge::WebRendererQueryHandler &queryHandler) // 0x10C7D790
+			{
+
+							queryHandler.AddMethod("modDownloadActionSingle", [this](rapidjson::Value const &args, std::string *result) -> Web::Browser::Bridge::QueryError
+							{
+								auto actionMember = args.FindMember("action");
+								if (actionMember == args.MemberEnd() || !actionMember->value.IsString())
+								{
+									*result = "Bad query : A \"action\" argument is required and must be a string";
+									return Web::Browser::Bridge::QueryError_BadQuery;
+								}
+								std::string action = actionMember->value.GetString();
+								if (action == "confirm" && m_confirmCallback)
+									m_confirmCallback();
+								else if (action == "reject" && m_cancelCallback)
+									m_cancelCallback();
+								else if (action == "retry" && m_retryCallback)
+									m_retryCallback();
+								else if (action == "confirmFinished" && m_downloadSingleCallback)
+									m_downloadSingleCallback();
+								return Web::Browser::Bridge::QueryError_Ok;
+							});
+							queryHandler.AddMethod("modDownloadOption", [](rapidjson::Value const &args, std::string *result) -> Web::Browser::Bridge::QueryError
+							{
+								auto modMember = args.FindMember("mod");
+								if (modMember == args.MemberEnd() || !modMember->value.IsObject())
+								{
+									*result = "Bad query : A \"mod\" argument is required and must be a object";
+									return Web::Browser::Bridge::QueryError_BadQuery;
+								}
+								const char *requiredMembers[] = { "hash", "name", "host_player", "package_url", "source", "version", "source_ip" };
+								for (auto memberName : requiredMembers)
+								{
+									auto member = modMember->value.FindMember(memberName);
+									if (member == modMember->value.MemberEnd() || !member->value.IsString() || member->value.GetStringLength() == 0)
+									{
+										*result = std::string("Bad query: \"") + memberName + "\" must be a non-empty string";
+										return Web::Browser::Bridge::QueryError_BadQuery;
+									}
+								}
+								const char *optionalMembers[] = { "author", "description", "website" };
+								for (auto memberName : optionalMembers)
+								{
+									auto member = modMember->value.FindMember(memberName);
+									if (member == modMember->value.MemberEnd() || !member->value.IsString())
+									{
+										*result = std::string("Bad query: \"") + memberName + "\" must be a string";
+										return Web::Browser::Bridge::QueryError_BadQuery;
+									}
+								}
+								auto authorMember = modMember->value.FindMember("author");
+								auto descriptionMember = modMember->value.FindMember("description");
+								auto filesizeMember = modMember->value.FindMember("filesize");
+								auto hashMember = modMember->value.FindMember("hash");
+								auto nameMember = modMember->value.FindMember("name");
+								auto urlMember = modMember->value.FindMember("package_url");
+								auto sourceNameMember = modMember->value.FindMember("source");
+								auto versionMember = modMember->value.FindMember("version");
+								auto websiteMember = modMember->value.FindMember("website");
+								auto sourceIPMember = modMember->value.FindMember("source_ip");
+								auto hostPlayerMember = modMember->value.FindMember("host_player");
+								if (!filesizeMember->value.IsUint64())
+								{
+									*result = "Bad query: \"filesize\" must be a number";
+									return Web::Browser::Bridge::QueryError_BadQuery;
+								}
+								auto author = authorMember->value.GetString();
+								auto description = descriptionMember->value.GetString();
+								auto filesize = filesizeMember->value.GetUint64();
+								auto hash = hashMember->value.GetString();
+								auto name = nameMember->value.GetString();
+								auto url = urlMember->value.GetString();
+								auto sourceName = sourceNameMember->value.GetString();
+								auto version = versionMember->value.GetString();
+								auto website = websiteMember->value.GetString();
+								auto sourceIP = sourceIPMember->value.GetString();
+								auto hostPlayer = hostPlayerMember->value.GetString();
+								SModBrowserState options;
+								options = {};
+								options.requestedMod.author = author;
+								options.requestedMod.description = description;
+								options.requestedMod.fileSize = filesize;
+								options.requestedMod.hash = hash;
+								options.requestedMod.name = name;
+								options.requestedMod.packageUrl = url;
+								options.requestedMod.version = version;
+								options.requestedMod.website = website;
+								options.hostname = sourceIP;
+								options.serverName = sourceName;
+								options.serverHost = hostPlayer;
+								Utils::Singleton<CModBrowserManager>::Instance().DownloadMod(options);
+								return Web::Browser::Bridge::QueryError_Ok;
+							});
+			}
+		}
+	}
+}
+
+// hades: ShowConfirmation was dropped from the tree (an orphaned member); it sits at the
+// end of the file so the functions above keep their line numbers.
+namespace Web
+{
+	namespace Ui
+	{
+		namespace WebServerModBrowser
+		{
+			void CWebModDownloadSingleScreen::ShowConfirmation(std::vector<SModBrowserState::SRequestedMod *> const &mods) // 0x10C7E310
+			{
+				mangled_x86(MANGLED_KNOWN_GOOD, "?ShowConfirmation@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXABV?$vector@PAUSRequestedMod@SModBrowserState@@V?$allocator@PAUSRequestedMod@SModBrowserState@@@std@@@std@@@Z");
+
+				rapidjson::StringBuffer buff;
+				rapidjson::Writer<rapidjson::StringBuffer> writer(buff);
+				writer.StartObject();
+				for (auto mod : mods)
+				{
+					writer.Key(mod->localName.c_str());
+					writer.StartObject();
+					writer.Key("hash");
+					writer.String(mod->hash.c_str());
+					writer.Key("mod_author");
+					writer.String(mod->author.c_str());
+					writer.Key("mod_description");
+					writer.String(mod->description.c_str());
+					writer.Key("mod_name");
+					writer.String(mod->name.c_str());
+					writer.Key("mod_version");
+					writer.String(mod->version.c_str());
+					writer.Key("mod_website");
+					writer.String(mod->website.c_str());
+					writer.Key("package_size");
+					writer.Int64(mod->fileSize);
+					writer.Key("package_url");
+					writer.String(mod->packageUrl.c_str());
+					writer.EndObject();
+				}
+				writer.EndObject();
+				auto json = buff.GetString();
+				Web::Ui::ScreenLayer::Show(Web::Ui::ScreenLayer::ModDownload, buff.GetString());
+				NotifyDownloadStateChanged("awaiting_confirmation_single", "awaiting_confirmation_single");
+				screenVisible = true;
+			}
+		}
+	}
+}

@@ -71,6 +71,8 @@ static_assert(sizeof(c_file_open_scope) == 8, "Invalid c_file_open_scope size");
 
 /* ---------- prototypes */
 
+extern bool (*const file_read)(s_file_reference *, unsigned long, bool, void *);  // hades: added for 0x1089EE50
+
 extern bool (__cdecl *const file_close)(struct s_file_reference *);  // hades: added for 0x1074CF30
 
 extern s_file_reference *(*const file_reference_initialize_header)(s_file_reference *, c_enum<enum e_file_reference_location,short>);  // hades: added for 0x106D0FD0
@@ -176,27 +178,28 @@ _inline bool c_file_reference::set_position(unsigned long position, bool flag) /
 	return file_set_position(this, position, flag);
 }
 
-_extern bool _sub_10874CE0(c_file_reference *const, unsigned long, bool, void *);
 _inline bool c_file_reference::read(unsigned long size_in_bytes, bool flag, void *buffer) // 0x10874CE0
 {
-	mangled_x86(MANGLED_TODO, "?read@c_file_reference@@QAE_NK_NPAX@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?read@c_file_reference@@QAE_NK_NPAX@Z");
 	// void *buffer;
 	// function call : bool (*const)(s_file_reference *, unsigned long, bool, void *)
-	todo("implement");
-	bool __result = _sub_10874CE0(this, size_in_bytes, flag, buffer);
-	return __result;
+
+	return file_read(this, size_in_bytes, flag, buffer);
 }
 
-_extern bool _sub_1089EE50(c_file_reference *const, unsigned long, unsigned long, void *);
 _inline bool c_file_reference::read_from_position(unsigned long position, unsigned long size_in_bytes, void *buffer) // 0x1089EE50
 {
-	mangled_x86(MANGLED_TODO, "?read_from_position@c_file_reference@@QAE_NKKPAX@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?read_from_position@c_file_reference@@QAE_NKKPAX@Z");
 	// void *buffer;
 	// function call : bool (*const)(s_file_reference *, unsigned long, bool)
 	// function call : bool (*const)(s_file_reference *, unsigned long, bool, void *)
-	todo("implement");
-	bool __result = _sub_1089EE50(this, position, size_in_bytes, buffer);
-	return __result;
+
+	if (!file_set_position(this, position, false))
+	{
+		return false;
+	}
+
+	return file_read(this, size_in_bytes, false, buffer);
 }
 
 template<typename t_arg0>
@@ -215,18 +218,21 @@ _inline bool c_file_reference::read_from_position(unsigned long position, t_arg0
 	return read_from_position(position, sizeof(*address), address);
 }
 
-extern c_file_open_scope* _sub_1074C680(c_file_open_scope *const, s_file_reference &, long);
-_inline c_file_open_scope::c_file_open_scope(s_file_reference &file, long permission_flags) : m_file(file) // 0x1074C680
+_inline c_file_open_scope::c_file_open_scope(s_file_reference &file, long permission_flags) : m_file(file), m_is_owner(!file_is_open(&m_file)) /* hades-mem-init: : m_file(file) */ // 0x1074C680
 {
-	mangled_x86(MANGLED_TODO, "??0c_file_open_scope@@QAE@AAUs_file_reference@@J@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_file_open_scope@@QAE@AAUs_file_reference@@J@Z");
 	// static ...; // 0x1074C74C
 	// c_file_open_scope *const this;
 	// s_file_reference &file;
 	// long permission_flags;
 	// unsigned long err;
 	// function call : bool (*const)(s_file_reference *, c_flags<enum e_file_permission_flags,long>, unsigned long *)
-	todo("implement");
-	_sub_1074C680(this, file, permission_flags);
+
+	if (m_is_owner)
+	{
+		unsigned long err;
+		file_open(&m_file, permission_flags, &err);
+	}
 }
 
 _inline c_file_open_scope::~c_file_open_scope() // 0x1074CF30

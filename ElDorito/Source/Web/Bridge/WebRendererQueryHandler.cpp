@@ -150,10 +150,9 @@ namespace Web
 				// Web::Browser::Bridge::WebRendererQueryHandler *const this;
 			}
 
-			_extern bool _sub_10C71290(Web::Browser::Bridge::WebRendererQueryHandler *const, scoped_refptr<CefBrowser>, scoped_refptr<CefFrame>, long long, CefStringBase<CefStringTraitsUTF16> const &, bool, scoped_refptr<CefMessageRouterBrowserSide::Callback>);
 			bool WebRendererQueryHandler::OnQuery(scoped_refptr<CefBrowser> browser, scoped_refptr<CefFrame> frame, long long queryId, CefStringBase<CefStringTraitsUTF16> const &request, bool persistent, scoped_refptr<CefMessageRouterBrowserSide::Callback> callback) // 0x10C71290
 			{
-				mangled_x86(MANGLED_TODO, "?OnQuery@WebRendererQueryHandler@Bridge@Browser@Web@@UAE_NV?$scoped_refptr@VCefBrowser@@@@V?$scoped_refptr@VCefFrame@@@@_JABV?$CefStringBase@UCefStringTraitsUTF16@@@@_NV?$scoped_refptr@VCallback@CefMessageRouterBrowserSide@@@@@Z");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?OnQuery@WebRendererQueryHandler@Bridge@Browser@Web@@UAE_NV?$scoped_refptr@VCefBrowser@@@@V?$scoped_refptr@VCefFrame@@@@_JABV?$CefStringBase@UCefStringTraitsUTF16@@@@_NV?$scoped_refptr@VCallback@CefMessageRouterBrowserSide@@@@@Z");
 				// static ...; // 0x10C71BE4
 				// Web::Browser::Bridge::WebRendererQueryHandler *const this;
 				// scoped_refptr<CefBrowser> browser;
@@ -175,36 +174,78 @@ namespace Web
 				// function call : void (__int32, CefStringBase<CefStringTraitsUTF16> const &)
 				// function call : void (__int32, CefStringBase<CefStringTraitsUTF16> const &)
 				// function call : void (__int32, CefStringBase<CefStringTraitsUTF16> const &)
-				todo("implement");
-				bool __result = _sub_10C71290(this, browser, frame, queryId, request, persistent, callback);
-				return __result;
+
+				PendingQuery *query = new PendingQuery();
+				auto &json = query->m_Json;
+				auto s_RequestStr = request.ToString();
+				json.Parse(s_RequestStr.c_str());
+				if (json.HasParseError())
+				{
+					callback->Failure(QueryError_BadQuery, "Bad query: Failed to parse JSON");
+					delete query;
+					return true;
+				}
+				auto s_MethodMember = json.FindMember("method");
+				if (s_MethodMember == json.MemberEnd())
+				{
+					callback->Failure(QueryError_BadQuery, "Bad query: A \"method\" value is required");
+					delete query;
+					return true;
+				}
+				if (!s_MethodMember->value.IsString())
+				{
+					callback->Failure(QueryError_BadQuery, "Bad query: \"method\" must be a string");
+					delete query;
+					return true;
+				}
+				auto method = s_MethodMember->value.GetString();
+				auto methodIt = m_Methods.find(method);
+				if (methodIt == m_Methods.end())
+				{
+					callback->Failure(QueryError_UnsupportedMethod, "Unsupported method: \"" + std::string(method) + "\"");
+					delete query;
+					return true;
+				}
+				query->m_Method = methodIt->second;
+				auto argsMember = json.FindMember("args");
+				if (argsMember == json.MemberEnd())
+				{
+					callback->Failure(QueryError_BadQuery, "Bad query: An \"args\" value is required");
+					delete query;
+					return true;
+				}
+				if (!argsMember->value.IsObject())
+				{
+					callback->Failure(QueryError_BadQuery, "Bad query: \"args\" must be an object");
+					delete query;
+					return true;
+				}
+				query->m_Args = &argsMember->value;
+				query->m_Callback = callback;
+				m_Queries.push(query);
+				return true;
 			}
 
 			// mangled_x86(MANGLED_DEFAULT, "??1PendingQuery@WebRendererQueryHandler@Bridge@Browser@Web@@QAE@XZ"); no body to assert in
 			_inline WebRendererQueryHandler::PendingQuery::~PendingQuery() = default; // 0x10C70100
 
-			_extern void _sub_10C71F40(Web::Browser::Bridge::WebRendererQueryHandler *const, scoped_refptr<CefBrowser>, scoped_refptr<CefFrame>, long long);
 			void WebRendererQueryHandler::OnQueryCanceled(scoped_refptr<CefBrowser> browser, scoped_refptr<CefFrame> frame, long long queryId) // 0x10C71F40
 			{
-				mangled_x86(MANGLED_TODO, "?OnQueryCanceled@WebRendererQueryHandler@Bridge@Browser@Web@@UAEXV?$scoped_refptr@VCefBrowser@@@@V?$scoped_refptr@VCefFrame@@@@_J@Z");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?OnQueryCanceled@WebRendererQueryHandler@Bridge@Browser@Web@@UAEXV?$scoped_refptr@VCefBrowser@@@@V?$scoped_refptr@VCefFrame@@@@_J@Z");
 				// long long queryId;
-				todo("implement");
-				_sub_10C71F40(this, browser, frame, queryId);
 			}
 
-			_extern void _sub_10C70ED0(Web::Browser::Bridge::WebRendererQueryHandler *const, std::string const &, std::function<enum Web::Browser::Bridge::QueryError __cdecl(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &,std::string *)> const &);
 			void WebRendererQueryHandler::AddMethod(std::string const &name, std::function<enum Web::Browser::Bridge::QueryError __cdecl(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &,std::string *)> const &method) // 0x10C70ED0
 			{
-				mangled_x86(MANGLED_TODO, "?AddMethod@WebRendererQueryHandler@Bridge@Browser@Web@@QAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV?$function@$$A6A?AW4QueryError@Bridge@Browser@Web@@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z@6@@Z");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?AddMethod@WebRendererQueryHandler@Bridge@Browser@Web@@QAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV?$function@$$A6A?AW4QueryError@Bridge@Browser@Web@@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z@6@@Z");
 				// std::function<enum Web::Browser::Bridge::QueryError __cdecl(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &,std::string *)> const &method;
-				todo("implement");
-				_sub_10C70ED0(this, name, method);
+
+				m_Methods[name] = method;
 			}
 
-			_extern void _sub_10C721A0(Web::Browser::Bridge::WebRendererQueryHandler *const);
 			void WebRendererQueryHandler::Update() // 0x10C721A0
 			{
-				mangled_x86(MANGLED_TODO, "?Update@WebRendererQueryHandler@Bridge@Browser@Web@@QAEXXZ");
+				mangled_x86(MANGLED_KNOWN_GOOD, "?Update@WebRendererQueryHandler@Bridge@Browser@Web@@QAEXXZ");
 				// static ...; // 0x10C723D5
 				// static ...; // 0x10C723CF
 				// static ...; // 0x10C723C8
@@ -212,15 +253,23 @@ namespace Web
 				// static ...; // 0x10C7239C
 				// Web::Browser::Bridge::WebRendererQueryHandler *const this;
 				// Web::Browser::Bridge::WebRendererQueryHandler::PendingQuery *pendingQuery;
-				{
 					// std::unique_ptr<Web::Browser::Bridge::WebRendererQueryHandler::PendingQuery> query;
 					// Web::Browser::Bridge::QueryError errorCode;
 					// std::string result;
-				}
 				// function call : void (CefStringBase<CefStringTraitsUTF16> const &)
 				// function call : void (__int32, CefStringBase<CefStringTraitsUTF16> const &)
-				todo("implement");
-				_sub_10C721A0(this);
+
+				PendingQuery *pendingQuery;
+				while (m_Queries.pop(pendingQuery))
+				{
+					std::unique_ptr<PendingQuery> query(pendingQuery);
+					std::string result;
+					QueryError errorCode = query->m_Method(*query->m_Args, &result);
+					if (errorCode == QueryError_Ok)
+						query->m_Callback->Success(result);
+					else
+						query->m_Callback->Failure(errorCode, result);
+				}
 			}
 
 			// mangled_x86(MANGLED_DEFAULT, "??0PendingQuery@WebRendererQueryHandler@Bridge@Browser@Web@@QAE@XZ"); no body to assert in

@@ -28,6 +28,8 @@
 #include "Utils/Singleton.hpp"
 #include "Utils/String.hpp"
 
+#include "Discord/DiscordRPC.h"  // hades: added for 0x1092CB20
+
 #include <WinSock2.h>
 #include <WS2tcpip.h>
 #include <Windows.h>
@@ -214,14 +216,17 @@ namespace Blam
 			return MembershipGetPeerPlayer(Peers[peer].PlayerMasks, 16);
 		}
 
-		_extern __int32 _sub_1092C1F0(Blam::Network::SessionMembership const *const, __int32);
 		__int32 SessionMembership::GetPlayerPeer(__int32 player) const // 0x1092C1F0
 		{
-			mangled_x86(MANGLED_TODO, "?GetPlayerPeer@SessionMembership@Network@Blam@@QBEHH@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetPlayerPeer@SessionMembership@Network@Blam@@QBEHH@Z");
 			// __int32 player;
-			todo("implement");
-			__int32 __result = _sub_1092C1F0((Blam::Network::SessionMembership const *)this, player);
-			return __result;
+
+			if (player < 0 || player >= 16)
+			{
+				return -1;
+			}
+
+			return PlayerSessions[player].PeerIndex;
 		}
 
 		__int32 SessionMembership::GetPeerTeam(__int32 peer) const // 0x1092C170
@@ -236,10 +241,9 @@ namespace Blam
 			return PlayerSessions[playerIndex].Properties.host.team;
 		}
 
-		_extern __int32 _sub_1092B760(Blam::Network::SessionMembership *const, std::string const &);
 		__int32 SessionMembership::FindPlayerByName(std::string const &name) // 0x1092B760
 		{
-			mangled_x86(MANGLED_TODO, "?FindPlayerByName@SessionMembership@Network@Blam@@QAEHABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?FindPlayerByName@SessionMembership@Network@Blam@@QAEHABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 			// static ...; // 0x1092B8D0
 			// static ...; // 0x1092B8C8
 			// Blam::Network::SessionMembership *const this;
@@ -247,9 +251,19 @@ namespace Blam
 			// __int32 playerIdx;
 			// std::wstring wideName;
 			// Blam::Network::Session *session;
-			todo("implement");
-			__int32 __result = _sub_1092B760(this, name);
-			return __result;
+
+			Blam::Network::Session *session = Blam::Network::GetActiveSession();
+			if (!session || !session->IsEstablished())
+				return -1;
+			std::wstring wideName = Utils::String::WidenString(name);
+			__int32 playerIdx = session->MembershipInfo.FindFirstPlayer();
+			while (playerIdx != -1)
+			{
+				if (wideName == session->MembershipInfo.PlayerSessions[playerIdx].Properties.host.player_name)
+					return playerIdx;
+				playerIdx = session->MembershipInfo.FindNextPlayer(playerIdx);
+			}
+			return -1;
 		}
 
 		Blam::Network::PlayerSession SessionMembership::GetLocalPlayerSession() const // 0x1092BD50
@@ -370,14 +384,12 @@ namespace Blam
 			return NetworkAddress::FromInAddr(0x0100007F, 11774);
 		}
 
-		extern NetworkAddress _sub_1092C240(Blam::Network::Session const *const);
 		Blam::Network::NetworkAddress Session::GetServerIPAddress() const // 0x1092C240
 		{
-			mangled_x86(MANGLED_TODO, "?GetServerIPAddress@Session@Network@Blam@@QBE?AUNetworkAddress@23@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetServerIPAddress@Session@Network@Blam@@QBE?AUNetworkAddress@23@XZ");
 			// Blam::Network::Session const *const this;
-			todo("implement");
-			Blam::Network::NetworkAddress __result = _sub_1092C240((Blam::Network::Session const *)this);
-			return __result;
+
+			return Observer->Channels[MembershipInfo.PeerChannels[MembershipInfo.HostPeerIndex].ChannelIndex].Address;
 		}
 
 		__int32 SessionParameters::GetSessionMode() // 0x1092C2C0
@@ -418,7 +430,7 @@ namespace Blam
 	}
 }
 
-extern c_game_variant *_sub_1092BA30(Blam::Network::GameVariantSessionParameter const *const);
+
 namespace Blam
 {
 	namespace Network
@@ -437,7 +449,7 @@ namespace Blam
 	}
 }
 
-extern s_map_variant *_sub_1092BAA0(Blam::Network::MapVariantSessionParameter const *const);
+
 namespace Blam
 {
 	namespace Network
@@ -590,17 +602,18 @@ namespace Blam
 			return F(type);
 		}
 
-		_extern bool _sub_1092CB20(__int32);
 		bool SetNetworkMode(__int32 mode) // 0x1092CB20
 		{
-			mangled_x86(MANGLED_TODO, "?SetNetworkMode@Network@Blam@@YA_NH@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?SetNetworkMode@Network@Blam@@YA_NH@Z");
 			// __int32 mode;
 			// bool (*Set_Network_Mode)(__int32);
 			// bool success;
 			// function call : bool (*)(__int32)
-			todo("implement");
-			bool __result = _sub_1092CB20(mode);
-			return __result;
+
+			bool (*Set_Network_Mode)(__int32) = reinterpret_cast<bool (*)(__int32)>(0xA7F950);
+			bool success = Set_Network_Mode(mode);
+			Utils::Singleton<Discord::DiscordRPC>::Instance().UpdatePresence(mode);
+			return success;
 		}
 
 		bool Disconnect() // 0x1092B4C0
@@ -627,31 +640,33 @@ namespace Blam
 			Network_LeaveGame();
 		}
 
-		_extern bool _sub_1092C600(std::string const &, unsigned short, Blam::Network::NetworkAddress *);
 		bool NetworkAddress::Parse(std::string const &addr, unsigned short port, Blam::Network::NetworkAddress *result) // 0x1092C600
 		{
-			mangled_x86(MANGLED_TODO, "?Parse@NetworkAddress@Network@Blam@@SA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@GPAU123@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Parse@NetworkAddress@Network@Blam@@SA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@GPAU123@@Z");
 			// static ...; // 0x1092C6F0
 			// std::string const &addr;
 			// unsigned short port;
 			// Blam::Network::NetworkAddress *result;
 			// in_addr inAddr;
 			// function call : __int32 (__int32, char const *, void *)
-			todo("implement");
-			bool __result = _sub_1092C600(addr, port, result);
-			return __result;
+
+			in_addr inAddr;
+			if (!inet_pton(AF_INET, addr.c_str(), &inAddr))
+				return false;
+			*result = FromInAddr(inAddr.s_addr, port);
+			return true;
 		}
 	}
 }
 
-extern std::string _sub_1092CDA0(Blam::Network::NetworkAddress const *const);
+
 namespace Blam
 {
 	namespace Network
 	{
 		std::string NetworkAddress::ToString() const // 0x1092CDA0
 		{
-			mangled_x86(MANGLED_TODO, "?ToString@NetworkAddress@Network@Blam@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ToString@NetworkAddress@Network@Blam@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 			// static ...; // 0x1092CE8A
 			// static ...; // 0x1092CE84
 			// static ...; // 0x1092CE6C
@@ -659,9 +674,13 @@ namespace Blam
 			// Blam::Network::NetworkAddress const *const this;
 			// char ipStr[22];
 			// in_addr inAddr;
-			todo("implement");
-			std::string __result = _sub_1092CDA0((Blam::Network::NetworkAddress const *)this);
-			return __result;
+
+			in_addr inAddr;
+			inAddr.s_addr = ToInAddr();
+			char ipStr[22];
+			if (!inet_ntop(AF_INET, &inAddr, ipStr, sizeof(ipStr)))
+				return "";
+			return ipStr;
 		}
 	}
 }

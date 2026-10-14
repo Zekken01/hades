@@ -58,7 +58,6 @@ namespace Web
 			HWND__ *m_HostWindow; // 0x10
 			std::queue<std::function<void __cdecl(void)> > m_DomTasks; // 0x14
 			std::atomic<bool> m_MainFrameLoaded; // 0x28
-			unsigned char __pad0[3]; // 0x29
 			std::mutex m_mutex; // 0x2C
 			bool m_useOSR; // 0x5C
 			unsigned char __pad1[3]; // 0x5D

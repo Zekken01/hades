@@ -75,7 +75,6 @@ struct s_global_preferences_settings
 		long mouse_acceleration; // 0x14
 		bool mouse_filter; // 0x18
 		bool invert_mouse; // 0x19
-		unsigned char __pad0[2]; // 0x1A
 		long button_layout; // 0x1C
 		unsigned char bindings[380]; // 0x20
 	};
@@ -135,7 +134,6 @@ struct s_global_preferences
 {
 	bool initialized; // 0x0
 	bool dirty; // 0x1
-	unsigned char __pad0[2]; // 0x2
 	void *file_handle; // 0x4
 	s_global_preferences_data current; // 0x8
 	unsigned char async_buffer[270336]; // 0x42008

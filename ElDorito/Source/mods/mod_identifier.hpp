@@ -53,23 +53,23 @@ _inline s_mod_package_id::s_mod_package_id() : hash() /* hades-mem-init:  */ // 
 	// s_mod_package_id *const this;
 }
 
-_extern unsigned __int32 _sub_1084E890(std::hash<s_mod_package_id> const *const, s_mod_package_id const &);
 _inline unsigned __int32 std::hash<s_mod_package_id>::operator()(s_mod_package_id const &k) const // 0x1084E890
 {
-	mangled_x86(MANGLED_TODO, "??R?$hash@Us_mod_package_id@@@std@@QBEIABUs_mod_package_id@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "??R?$hash@Us_mod_package_id@@@std@@QBEIABUs_mod_package_id@@@Z");
 	// s_mod_package_id const &k;
 	// unsigned __int32 result;
-	{
 		// unsigned char const &<range>$L0[20];
 		// unsigned char const *<begin>$L0;
 		// unsigned char const *<end>$L0;
-		{
 			// unsigned char b;
-		}
+
+	unsigned __int32 result = 0;
+	for (unsigned char b : k.hash)
+	{
+		result ^= b;
+		result *= 0x1000193;
 	}
-	todo("implement");
-	unsigned __int32 __result = _sub_1084E890((std::hash<s_mod_package_id> const *)this, k);
-	return __result;
+	return result;
 }
 
 /* ---------- private code */

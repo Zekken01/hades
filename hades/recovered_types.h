@@ -394,7 +394,7 @@ namespace Blam
 {
 	namespace Input
 	{
-		enum ControllerButton : char
+		enum ControllerButton : unsigned char
 		{
 			eControllerButtonLeftTrigger = 0,
 			eControllerButtonRightTrigger = 1,
@@ -413,7 +413,7 @@ namespace Blam
 			eControllerButtonLeftBumper = 14,
 			eControllerButtonRightBumper = 15,
 			eControllerButton_Count = 16,
-			eControllerButton_None = -1,
+			eControllerButton_None = 255,
 		};
 		static_assert32(sizeof(ControllerButton) == 1, "Invalid ControllerButton size");
 	}
@@ -451,7 +451,7 @@ namespace Blam
 {
 	namespace Input
 	{
-		enum MouseButton : char
+		enum MouseButton : unsigned char
 		{
 			eMouseButtonLeft = 0,
 			eMouseButtonMiddle = 1,
@@ -464,7 +464,7 @@ namespace Blam
 			eMouseButtonWheelUp = 8,
 			eMouseButtonWheelDown = 9,
 			eMouseButton_Count = 10,
-			eMouseButton_None = -1,
+			eMouseButton_None = 255,
 		};
 		static_assert32(sizeof(MouseButton) == 1, "Invalid MouseButton size");
 	}
@@ -4906,8 +4906,19 @@ namespace Audio
 {
 	namespace FMOD
 	{
+		struct IReadStream
+		{
+			virtual ~IReadStream() = default;
+			virtual int Read(void *, int) = 0;
+			virtual void Seek(__int64, int) = 0;
+			virtual __int64 GetPosition() const = 0;
+			virtual __int64 GetLength() const = 0;
+		public:
+			IReadStream();
+		};
+		static_assert32(sizeof(IReadStream) == 4, "Invalid IReadStream size");  // hades: moved above CMemoryReadStream, which derives from it
 		struct CMemoryReadStream :
-	public hades::polymorphic_bytes<4> /* 0x0, Audio::FMOD::IReadStream */
+	public Audio::FMOD::IReadStream /* 0x0 */
 		{
 			virtual ~CMemoryReadStream();
 			virtual int Read(void *, int);
@@ -4955,59 +4966,12 @@ namespace Audio
 {
 	namespace FMOD
 	{
-		struct IReadStream
-		{
-			virtual ~IReadStream() = default;
-			virtual int Read(void *, int);
-			virtual void Seek(__int64, int);
-			virtual __int64 GetPosition();
-			virtual __int64 GetLength();
-		public:
-			IReadStream();
-		};
-		static_assert32(sizeof(IReadStream) == 4, "Invalid IReadStream size");
+		// hades: IReadStream moved above CMemoryReadStream
 	}
 }
 
-struct CDebugTextPrinter
-{
-	unsigned char m_color[16]; // 0x0, real_argb_color
-	unsigned char m_drawString[2088]; // 0x10, c_rasterizer_draw_string
-	unsigned char m_fontCache[8]; // 0x838, c_font_cache_mt_safe
-	int m_yOffset; // 0x840
-public:
-	void WriteLine(char const *, ...);
-	CDebugTextPrinter();
-	~CDebugTextPrinter();
-};
-static_assert32(sizeof(CDebugTextPrinter) == 2116, "Invalid CDebugTextPrinter size");
 
-class CModBrowserStateManager
-{
-	CEventSink<enum EModBrowserAbortReason> AbortEvent; // 0x0  // hades: was unsigned char[20]
-	std::mutex m_mutex; // 0x14
-	unsigned char m_state[424]; // 0x44, SModBrowserState
-	EModBrowserState m_currentState; // 0x1EC
-	EModBrowserState m_requestedState; // 0x1F0
-	std::shared_ptr<CModBrowserStateHandler> m_currentHandler; // 0x1F4  // hades: was unsigned char[8]
-	std::unordered_map<enum EModBrowserState,std::shared_ptr<CModBrowserStateHandler> > m_stateHandlers; // 0x1FC  // hades: was unsigned char[40]
-	EModBrowserAbortReason m_abortReason; // 0x224
-public:
-	void Update();
-	void Complete();
-	void Abort(EModBrowserAbortReason);
-	SModBrowserState const & GetState() const;
-	void RequestStateChange(EModBrowserState);
-	void RegisterStateHandler(EModBrowserState, std::shared_ptr<CModBrowserStateHandler> const &);
-private:
-	void SetStateInternal(EModBrowserState);
-public:
-	SModBrowserState & GetStateMutable();
-	bool InProgress() const;
-	CModBrowserStateManager();
-	~CModBrowserStateManager();
-};
-static_assert32(sizeof(CModBrowserStateManager) == 552, "Invalid CModBrowserStateManager size");
+// CModBrowserStateManager moved to Server/ModBrowser/ModBrowserStateManager.hpp, where SModBrowserState is complete.
 
 class CServerConnectStateHandler
 {
@@ -5028,7 +4992,7 @@ public:
 protected:
 	void RequestStateChange(EServerConnectState);
 public:
-	CServerConnectStateHandler();
+	CServerConnectStateHandler() = default;  // hades: not user-provided (noexcept)
 };
 static_assert32(sizeof(CServerConnectStateHandler) == 8, "Invalid CServerConnectStateHandler size");
 
@@ -5047,7 +5011,7 @@ namespace ChatCommands
 		unsigned char flags[4]; // 0x0, ChatCommands::CommandFlags
 		std::string name; // 0x4
 		std::string description; // 0x20
-		unsigned char __pad0[4]; // 0x3C
+		// 0x3C: natural padding before the 8-aligned std::function (hades: a member here would be copied by the defaulted move ctor)
 		std::function<bool (int,std::vector<std::string> const &,std::string &)> handle; // 0x40  // hades: was unsigned char[40]
 	public:
 		ChatCommand(ChatCommands::ChatCommand &&);
@@ -5059,24 +5023,6 @@ namespace ChatCommands
 
 namespace Download
 {
-	struct CSparseFileSegmentStore :
-	public hades::polymorphic_bytes<4> /* 0x0, Download::CHttpFileDownload::ISegmentStore */
-	{
-		virtual ~CSparseFileSegmentStore();
-		virtual bool CheckAvailableSpace(__int64);
-		virtual bool AdviseFileSize(__int64);
-		std::string m_filename; // 0x4
-		std::mutex m_mutex; // 0x20
-		unsigned char m_streams[40]; // 0x50, std::unordered_map<Download::CHttpFileDownload::SSegment *,void *>
-	public:
-		CSparseFileSegmentStore(std::string const &);
-	private:
-		void * OpenFile(bool);
-		void SeekFile(void *, __int64);
-	public:
-		CSparseFileSegmentStore();
-	};
-	static_assert32(sizeof(CSparseFileSegmentStore) == 120, "Invalid CSparseFileSegmentStore size");
 }
 
 struct ED
@@ -5104,30 +5050,9 @@ public:
 };
 static_assert32(sizeof(LinearAllocator) == 8, "Invalid LinearAllocator size");
 
-struct ModCache :
-	public hades::polymorphic_bytes<4> /* 0x0, c_cache_file_interface */
-{
-	virtual ~ModCache();
-	std::shared_ptr<Blam::Cache::StringIDCache> m_stringCache; // 0x4  // hades: was unsigned char[8]
-	std::shared_ptr<c_cache_file_tag_cache> m_tagCache; // 0xC  // hades: was unsigned char[8]
-public:
-	ModCache();
-};
-static_assert32(sizeof(ModCache) == 20, "Invalid ModCache size");
 
 namespace Objects
 {
-	struct ObjectMessageSystem :
-	public hades::polymorphic_bytes<4> /* 0x0, IGameSystem */
-	{
-		virtual ~ObjectMessageSystem();
-		virtual void Initialize();
-		virtual void InitializeForNewMap();
-		virtual void DisposeFromOldMap();
-		virtual void Dispose();
-		virtual void Update();
-	};
-	static_assert32(sizeof(ObjectMessageSystem) == 4, "Invalid ObjectMessageSystem size");
 }
 
 struct PDB
@@ -5237,7 +5162,7 @@ namespace Patches
 			virtual void HandleRawPacket(Blam::Network::ObserverChannel *, void const *) = 0;
 		public:
 		public:
-			RawPacketHandler();
+			RawPacketHandler() = default;  // hades: not user-provided (noexcept), so derived make_shared needs no EH frame
 		};
 		static_assert32(sizeof(RawPacketHandler) == 4, "Invalid RawPacketHandler size");
 	}
@@ -5255,13 +5180,13 @@ namespace Patches
 			// declaration would make that a new slot instead of an override.
 			virtual ~PlayerPropertiesExtensionBase();
 			virtual void BuildData(__int32, void *) = 0;
+			virtual unsigned __int32 GetDataSize() const = 0;  // slot 2: PlayerPropertiesExtender calls [vftable+0x8] for the size
 			virtual void ApplyData(__int32, s_player_configuration *, void const *) = 0;
 			virtual void Serialize(Blam::BitStream *, void const *) = 0;
 			virtual void Deserialize(Blam::BitStream *, void *) = 0;
-			virtual unsigned __int32 GetDataSize() const = 0;
 		public:
 		public:
-			PlayerPropertiesExtensionBase();
+			PlayerPropertiesExtensionBase() = default;  // hades: not user-provided (noexcept)
 		};
 		static_assert32(sizeof(PlayerPropertiesExtensionBase) == 4, "Invalid PlayerPropertiesExtensionBase size");
 	}
@@ -5271,23 +5196,6 @@ namespace Player
 {
 	namespace Emblems
 	{
-		struct PlayerEmblemD3DXBufferStream :
-	public hades::polymorphic_bytes<8> /* 0x0, Player::Emblems::PlayerEmblemFileStream */
-		{
-			virtual ~PlayerEmblemD3DXBufferStream();
-			virtual bool Read(void *, int, int *);
-			ID3DXBuffer * m_buff; // 0x8
-			bool m_ownsBuff; // 0xC
-			unsigned char __pad0[3]; // 0xD
-			int m_pos; // 0x10
-			int m_size; // 0x14
-			unsigned __int8 * m_data; // 0x18
-		public:
-			PlayerEmblemD3DXBufferStream(ID3DXBuffer *, bool);
-		public:
-			PlayerEmblemD3DXBufferStream();
-		};
-		static_assert32(sizeof(PlayerEmblemD3DXBufferStream) == 28, "Invalid PlayerEmblemD3DXBufferStream size");
 	}
 }
 
@@ -5295,35 +5203,24 @@ namespace Player
 {
 	namespace Emblems
 	{
-		struct PlayerEmblemFileStream :
-	public hades::polymorphic_bytes<4> /* 0x0, Player::Emblems::IPlayerEmblemStream */
-		{
-			virtual ~PlayerEmblemFileStream();
-			virtual bool Read(void *, int, int *);
-			_iobuf * m_fp; // 0x4
-		public:
-			void Close();
-			PlayerEmblemFileStream();
-		};
-		static_assert32(sizeof(PlayerEmblemFileStream) == 8, "Invalid PlayerEmblemFileStream size");
 	}
 }
 
 struct s_player_emblem_configuration
 {
-	__int16 foregroundIndex; // 0x0
-	__int16 backgroundIndex; // 0x2
-	unsigned int backgroundColor; // 0x4
-	unsigned int secondaryColor; // 0x8
-	unsigned int primaryColor; // 0xC
-	bool iconEnabled; // 0x10
-	bool backgroundHex; // 0x11
-	bool secondaryHex; // 0x12
-	bool primaryHex; // 0x13
+	__int16 foregroundIndex = 0; // 0x0
+	__int16 backgroundIndex = 0; // 0x2
+	unsigned int backgroundColor = 0; // 0x4
+	unsigned int secondaryColor = 0; // 0x8
+	unsigned int primaryColor = 0; // 0xC
+	bool iconEnabled = false; // 0x10
+	bool backgroundHex = false; // 0x11
+	bool secondaryHex = false; // 0x12
+	bool primaryHex = false; // 0x13
 public:
 	bool operator==(s_player_emblem_configuration const &) const;
 	bool isUninitialized();
-	s_player_emblem_configuration();
+	// hades: no declared constructor - implicit (noexcept, so its holders need no EH frame) and an aggregate.
 };
 static_assert32(sizeof(s_player_emblem_configuration) == 20, "Invalid s_player_emblem_configuration size");
 
@@ -5331,17 +5228,6 @@ namespace Player
 {
 	namespace Emblems
 	{
-		struct PlayerEmblemRenderTask
-		{
-			s_player_emblem_configuration config; // 0x0
-			unsigned char callback[8]; // 0x14, std::shared_ptr<Player::Emblems::IPlayerEmblemRenderCallbacks>
-		public:
-			PlayerEmblemRenderTask(Player::Emblems::PlayerEmblemRenderTask &&);
-			PlayerEmblemRenderTask(Player::Emblems::PlayerEmblemRenderTask const &);
-			PlayerEmblemRenderTask();
-			~PlayerEmblemRenderTask();
-		};
-		static_assert32(sizeof(PlayerEmblemRenderTask) == 28, "Invalid PlayerEmblemRenderTask size");
 	}
 }
 
@@ -5375,15 +5261,15 @@ namespace Player
 		{
 			struct PlayerPositions
 			{
-				real_point3d position; // 0x0
-				float yaw; // 0xC
-				float pitch; // 0x10
-				bool dirty; // 0x14
-				bool forceRespawn; // 0x15
-				unsigned char __pad0[2]; // 0x16
+				real_point3d position = {}; // 0x0
+				float yaw = 0.0f; // 0xC
+				float pitch = 0.0f; // 0x10
+				bool dirty = false; // 0x14
+				bool forceRespawn = false; // 0x15
+				// hades: 2 bytes of tail padding; a member here would be zeroed by UpdatePlayerState's = {}
 			};
 			static_assert32(sizeof(PlayerPositions) == 24, "Invalid PlayerPositions size");
-			unsigned char player[384]; // 0x0, Player::PlayerPodium::HaloScriptPlayerModelState::PlayerPositions[16]
+			PlayerPositions player[16]; // 0x0
 		};
 		static_assert32(sizeof(HaloScriptPlayerModelState) == 384, "Invalid HaloScriptPlayerModelState size");
 	}
@@ -5420,6 +5306,7 @@ namespace Player
 
 struct SDrawCylinderMessage
 {
+	static int const MessageType = 8;  // hades: DebugDraw's EMessageType::DrawCylinder
 	real_point3d base; // 0x0
 	unsigned char height[12]; // 0xC, real_vector3d
 	float radius; // 0x18
@@ -5437,7 +5324,7 @@ namespace Scripting
 		public:
 			void AddCallback(short);
 			void RemoveCallback(short);
-			ScriptHook();
+			ScriptHook() = default;  // hades: not user-provided; unordered_map::operator[] value-initializes it
 			~ScriptHook();
 		};
 		static_assert32(sizeof(ScriptHook) == 16, "Invalid ScriptHook size");
@@ -5459,22 +5346,22 @@ namespace Server
 	}
 }
 
-struct SignatureVerificationJob
-{
-	std::string m_packagePath; // 0x0
-	bool m_finished; // 0x1C
-	unsigned char __pad0[3]; // 0x1D
-	unsigned char m_result[60]; // 0x20, SSignatureVerificationResult
-public:
-	bool Update();
-	void Complete();
-	SignatureVerificationJob(int, std::string const &);
-	SSignatureVerificationResult const & GetResult();
-	~SignatureVerificationJob();
-public:
-	SignatureVerificationJob();
-};
-static_assert32(sizeof(SignatureVerificationJob) == 92, "Invalid SignatureVerificationJob size");
+// struct SignatureVerificationJob // hades: moved to ServerConnectStateHandler_AcquireMods.hpp (Abort needs SSignatureVerificationResult)
+// {
+// 	std::string m_packagePath; // 0x0
+// 	bool m_finished; // 0x1C
+// 	unsigned char __pad0[3]; // 0x1D
+// 	unsigned char m_result[60]; // 0x20, SSignatureVerificationResult
+// public:
+// 	bool Update();
+// 	void Complete();
+// 	SignatureVerificationJob(int, std::string const &);
+// 	SSignatureVerificationResult const & GetResult();
+// 	~SignatureVerificationJob();
+// public:
+// 	SignatureVerificationJob();
+// };
+// static_assert32(sizeof(SignatureVerificationJob) == 92, "Invalid SignatureVerificationJob size");
 
 struct StackAllocator :
 	public LinearAllocator
@@ -5488,11 +5375,11 @@ struct SyncUpdatePacketData
 };
 static_assert32(sizeof(SyncUpdatePacketData) == 1, "Invalid SyncUpdatePacketData size");
 
-struct SyncUpdatePacketVar
+struct alignas(8) SyncUpdatePacketVar // hades: 8-aligned (Value is a union holding 64-bit members); VariadicPacket::ExtraData sits at 0x20
 {
 	unsigned int ID; // 0x0
-	unsigned char Type[4]; // 0x4, Modules::CommandType
-	unsigned char Value[2056]; // 0x8, SyncUpdatePacketVar::<unnamed_type_Value>
+	Modules::CommandType Type; // 0x4
+	union { unsigned long long Int; float Float; char String[2049]; } Value; // 0x8 (hades: one 64-bit Int for both integer types)
 };
 static_assert32(sizeof(SyncUpdatePacketVar) == 2064, "Invalid SyncUpdatePacketVar size");
 
@@ -5524,12 +5411,12 @@ namespace Utils
 
 	class Logger
 	{
-		std::mutex flushMutex; // 0x0
-		unsigned char Level[4]; // 0x30, Utils::LogLevel
-		unsigned char Types[4]; // 0x34, Utils::LogTypes
+	public: std::mutex flushMutex; // 0x0  // hades: public (H9)
+		Utils::LogLevel Level; // 0x30
+		Utils::LogTypes Types; // 0x34
 		unsigned char Entries[136]; // 0x38, boost::lockfree::queue<Utils::LogEntry,boost::lockfree::fixed_sized<0> >
 	public:
-		void Flush();
+		void Flush(); bool TestLevel(Utils::LogTypes type, Utils::LogLevel level) const;  // hades: added for 0x10A86440
 		void Log(Utils::LogTypes type, Utils::LogLevel level, std::string format, ...);  // hades: added for 0x10A87380
 	private:
 		static unsigned long __stdcall Flusher(void *);
@@ -5545,37 +5432,11 @@ namespace Utils
 	static_assert32(sizeof(Logger) == 192, "Invalid Logger size");
 }
 
-struct VotingOutputHandler :
-	public hades::polymorphic_bytes<4> /* 0x0, Server::Voting::VotingMessageHandler */
-{
-	virtual ~VotingOutputHandler();
-public:
-	VotingOutputHandler();
-};
-static_assert32(sizeof(VotingOutputHandler) == 4, "Invalid VotingOutputHandler size");
 
 namespace Web
 {
 	namespace Browser
 	{
-		struct WebEmblemRenderHandler :
-	public hades::polymorphic_bytes<4> /* 0x0, Player::Emblems::IPlayerEmblemRenderCallbacks */
-		{
-			virtual ~WebEmblemRenderHandler();
-			virtual void OnRenderComplete();
-			virtual void OnRenderDataAvailable();
-			unsigned char m_stream[8]; // 0x4, std::shared_ptr<Player::Emblems::IPlayerEmblemStream>
-			unsigned char m_metadata[28]; // 0xC, Player::Emblems::PlayerEmblemRenderMetadata
-			scoped_refptr<CefCallback> m_cefContinuation; // 0x28
-		public:
-			__int64 GetLength() const;
-			WebEmblemRenderHandler(scoped_refptr<CefCallback>);
-			void SetCefContinuation(scoped_refptr<CefCallback>);
-			std::string const GetMimeType() const;
-		public:
-			WebEmblemRenderHandler();
-		};
-		static_assert32(sizeof(WebEmblemRenderHandler) == 44, "Invalid WebEmblemRenderHandler size");
 	}
 }
 
@@ -5585,32 +5446,6 @@ namespace Web
 	{
 		namespace WebMods
 		{
-			struct CWebModDownloadScreen :
-	public hades::polymorphic_bytes<4> /* 0x0, Web::Ui::WebScreen */
-			{
-				virtual void OnDestroy();
-				virtual void OnShow();
-				virtual void OnHide();
-				virtual void OnUpdate();
-				unsigned char __base0[4]; // 0x4, IServerConnectModDownloadUI
-				std::function<void ()> m_confirmCallback; // 0x8  // hades: was unsigned char[40]
-				std::function<void ()> m_retryCallback; // 0x30  // hades: was unsigned char[40]
-				std::function<void ()> m_cancelCallback; // 0x58  // hades: was unsigned char[40]
-				std::function<void ()> m_joinServerCallback; // 0x80  // hades: was unsigned char[40]
-			public:
-				virtual void Hide();
-				virtual void SetConfirmCallback(std::function<void __cdecl(void)>);
-				virtual void SetRetryCallback(std::function<void __cdecl(void)>);
-				virtual void SetCancelCallback(std::function<void __cdecl(void)>);
-				virtual void SetJoinServerCallback(std::function<void __cdecl(void)>);
-				virtual void OnDownloadStart();
-				virtual void OnDownloadFailed(std::string const &);
-				virtual void OnDownloadFinalizing();
-				virtual void OnDownloadFinished(SServerConnectState const &);
-				CWebModDownloadScreen();
-				virtual ~CWebModDownloadScreen();
-			};
-			static_assert32(sizeof(CWebModDownloadScreen) == 168, "Invalid CWebModDownloadScreen size");
 		}
 	}
 }
@@ -5621,32 +5456,6 @@ namespace Web
 	{
 		namespace WebServerModBrowser
 		{
-			struct CWebModDownloadSingleScreen :
-	public hades::polymorphic_bytes<4> /* 0x0, Web::Ui::WebScreen */
-			{
-				virtual void OnDestroy();
-				virtual void OnShow();
-				virtual void OnHide();
-				virtual void OnUpdate();
-				unsigned char __base0[4]; // 0x4, IModBrowserModDownloadUI
-				std::function<void ()> m_confirmCallback; // 0x8  // hades: was unsigned char[40]
-				std::function<void ()> m_retryCallback; // 0x30  // hades: was unsigned char[40]
-				std::function<void ()> m_cancelCallback; // 0x58  // hades: was unsigned char[40]
-				std::function<void ()> m_downloadSingleCallback; // 0x80  // hades: was unsigned char[40]
-			public:
-				virtual void Hide();
-				virtual void SetConfirmCallback(std::function<void __cdecl(void)>);
-				virtual void SetRetryCallback(std::function<void __cdecl(void)>);
-				virtual void SetCancelCallback(std::function<void __cdecl(void)>);
-				virtual void OnDownloadStart();
-				virtual void OnDownloadFailed(std::string const &);
-				virtual void OnDownloadFinalizing();
-				virtual void OnDownloadFinished(SModBrowserState const &);
-				virtual void SetDownloadSingleFinishedCallback(std::function<void __cdecl(void)>);
-				CWebModDownloadSingleScreen();
-				virtual ~CWebModDownloadSingleScreen();
-			};
-			static_assert32(sizeof(CWebModDownloadSingleScreen) == 168, "Invalid CWebModDownloadSingleScreen size");
 		}
 	}
 }
@@ -5746,78 +5555,6 @@ public:
 };
 static_assert32(sizeof(c_havok_component) == 128, "Invalid c_havok_component size");
 
-class c_mod_package
-{
-public:
-	enum e_error
-	{
-		_error_none = 0,
-		_error_not_found = 1,
-		_error_access_denied = 2,
-		_error_bad_format = 3,
-	};
-	static_assert32(sizeof(e_error) == 4, "Invalid e_error size");
-public:
-	bool m_valid; // 0x0
-	unsigned char __pad0[3]; // 0x1
-	int m_campaign_file_count; // 0x4
-	unsigned int m_tags_section_offset; // 0x8
-	unsigned int m_resource_cache_offset; // 0xC
-	unsigned char m_file[272]; // 0x10, c_file_reference
-	unsigned char m_header[1112]; // 0x120, s_mod_package_header
-	unsigned char m_metadata[1136]; // 0x578, s_mod_package_metadata
-	unsigned char m_resource_cache_header[32]; // 0x9E8, s_cache_file_segment_header
-	unsigned char m_sections[80]; // 0xA08, s_mod_package_section_header[10]
-	int m_tag_cache_count; // 0xA58
-	unsigned char m_tag_cache_entries[1280]; // 0xA5C, s_mod_package_tag_cache_entry[32]
-	int m_map_file_count; // 0xF5C
-	unsigned char m_map_files[1024]; // 0xF60, s_mod_package_map_file_entry[64]
-public:
-	bool valid() const;
-	void dispose();
-	std::shared_ptr<c_cache_file_tag_cache> open_tag_cache(c_file_reference &, long);
-	c_file_reference get_file() const;
-	c_mod_package(char const *);
-	~c_mod_package();
-	char const * get_file_name() const;
-	s_mod_package_header const * get_header() const;
-	s_mod_package_metadata const * get_metadata() const;
-	long get_map_count() const;
-	s_mod_package_map_file_entry const * get_map_file_entry(long) const;
-	bool valid_map_file_index(long) const;
-	long find_map_file_by_map_id(long, unsigned long *);
-	long get_tag_cache_index_for_map_id(long);
-	bool read_campaign(c_file_reference &, s_blf_campaign *, bool *);
-	bool read_map_cache_file_header(c_file_reference &, long, s_cache_file_header *);
-	bool read_map_blf_map_information(c_file_reference &, long, s_blf_map_information *);
-	bool verify_signature();
-	bool compute_hash(unsigned char (&)[20]);
-	bool verify_hash(unsigned char const (&)[20]) const;
-	bool initialize(e_error *);
-	bool get_section_header(e_mod_package_sections, s_mod_package_section_header *);
-	bool read_section_data(c_file_reference &, e_mod_package_sections, unsigned long, unsigned long, void *);
-	bool valid_section(e_mod_package_sections) const;
-	bool valid_section_offset(e_mod_package_sections, unsigned long) const;
-private:
-	e_error initialize_internal();
-	bool read_metadata_section(s_mod_package_metadata *);
-	bool read_tags_section();
-	bool read_resources_section(s_cache_file_segment_header *);
-public:
-	unsigned long get_tag_cache_offset(int) const;
-	unsigned long get_resource_cache_offset() const;
-	std::shared_ptr<Blam::Cache::StringIDCache> open_string_id_cache(c_file_reference &);
-private:
-	bool read_section_headers();
-	bool read_map_files_section();
-public:
-	bool read_map_file_into_buffer(c_file_reference &, long, unsigned long, void *);
-	bool read_font_package_blocking(c_file_reference &, unsigned long, unsigned long, void *);
-	std::unordered_map<int,std::string> read_tag_names(c_file_reference &, int);
-public:
-	c_mod_package();
-};
-static_assert32(sizeof(c_mod_package) == 4960, "Invalid c_mod_package size");
 
 class c_network_session_membership
 {
@@ -6019,13 +5756,16 @@ static_assert32(sizeof(c_render_method) == 64, "Invalid c_render_method size");
 
 struct s_compression_info
 {
+	// The bounds are real_bounds in the original: two floats, so 4-aligned and
+	// copied as one 8-byte struct. With them typed so, the gap after `flags` is
+	// ordinary alignment padding and a defaulted copy does not copy it.
+	struct s_bounds { float lower; float upper; };
 	c_flags<enum e_compression_info_flags,unsigned short> flags; // 0x0  // hades: was unsigned char[2]
-	unsigned char __pad0[2]; // 0x2
-	unsigned char x[8]; // 0x4, real_bounds
-	unsigned char y[8]; // 0xC, real_bounds
-	unsigned char z[8]; // 0x14, real_bounds
-	unsigned char u[8]; // 0x1C, real_bounds
-	unsigned char v[8]; // 0x24, real_bounds
+	s_bounds x; // 0x4, real_bounds
+	s_bounds y; // 0xC, real_bounds
+	s_bounds z; // 0x14, real_bounds
+	s_bounds u; // 0x1C, real_bounds
+	s_bounds v; // 0x24, real_bounds
 public:
 	s_compression_info(s_compression_info const &);
 public:
@@ -6289,15 +6029,6 @@ struct s_mod_globals_player_character_colors
 };
 static_assert32(sizeof(s_mod_globals_player_character_colors) == 64, "Invalid s_mod_globals_player_character_colors size");
 
-struct s_mod_loading_state
-{
-	unsigned char file[272]; // 0x0, s_file_reference
-	std::shared_ptr<c_cache_file_tag_cache> mod_tag_cache; // 0x110  // hades: was unsigned char[8]
-public:
-	s_mod_loading_state();
-	~s_mod_loading_state();
-};
-static_assert32(sizeof(s_mod_loading_state) == 280, "Invalid s_mod_loading_state size");
 
 struct s_mod_package_generic_section_entry
 {
@@ -6313,19 +6044,6 @@ struct s_mod_package_generic_table_entry
 };
 static_assert32(sizeof(s_mod_package_generic_table_entry) == 8, "Invalid s_mod_package_generic_table_entry size");
 
-struct s_mod_system_globals
-{
-	bool initialized; // 0x0
-	bool packages_updated; // 0x1
-	bool dedicated; // 0x2
-	unsigned char __pad0[1]; // 0x3
-	unsigned char package_manager[128]; // 0x4, c_mod_package_manager
-	unsigned char server_package_map[40]; // 0x84, std::unordered_map<std::string,s_mod_server_package_entry>
-public:
-	s_mod_system_globals();
-	~s_mod_system_globals();
-};
-static_assert32(sizeof(s_mod_system_globals) == 172, "Invalid s_mod_system_globals size");
 
 struct s_model_unknown_block
 {

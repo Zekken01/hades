@@ -299,7 +299,7 @@ namespace Blam
 		struct RegisteredPacket
 		{
 			bool Initialized; // 0x0
-			unsigned char __pad0[3]; // 0x1
+			// 0x1: 3 bytes of implicit padding (hades: no array member, it would add a /GS cookie to stack instances)
 			char const *Name; // 0x4
 			__int32 Unknown8; // 0x8
 			__int32 MinSize; // 0xC
@@ -450,11 +450,11 @@ namespace Blam
 			// unsigned short port;
 			// Blam::Network::NetworkAddress result;
 
-			NetworkAddress addr;
-			addr.Address.IPv4 = _byteswap_ulong(address);
-			addr.Port = port;
-			addr.AddressSize = 4;
-			return addr;
+			NetworkAddress result;
+			result.Address.IPv4 = _byteswap_ulong(address);
+			result.Port = port;
+			result.AddressSize = 4;
+			return result;
 		}
 
 		_inline unsigned long NetworkAddress::ToInAddr() const // 0x1092CD40

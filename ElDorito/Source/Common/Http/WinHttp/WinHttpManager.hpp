@@ -54,18 +54,17 @@ namespace Http
 
 namespace Http
 {
-	_extern void _sub_107F7160(Http::CWinHttpManager *const);
 
-	extern CWinHttpManager &_sub_107F7370();
+
 	_inline Http::CWinHttpManager &CWinHttpManager::Instance() // 0x107F7370
 	{
-		mangled_x86(MANGLED_TODO, "?Instance@CWinHttpManager@Http@@SAAAV12@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "?Instance@CWinHttpManager@Http@@SAAAV12@XZ");
 		// procedure flags: nofpo
 		// static Http::CWinHttpManager instance; // 0x1138F3E0
 		// static __int32 $TSS0; // 0x1138F438
-		todo("implement");
-		Http::CWinHttpManager & __result = _sub_107F7370();
-		return __result;
+
+		static Http::CWinHttpManager instance;
+		return instance;
 	}
 
 	_inline void *CWinHttpManager::GetSessionHandle() // 0x10808B40

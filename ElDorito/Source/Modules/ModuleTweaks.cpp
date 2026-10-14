@@ -71,13 +71,23 @@ namespace Patches
 
 namespace Modules
 {
-	extern ModuleTweaks* _sub_10A223E0(Modules::ModuleTweaks *const);
-	ModuleTweaks::ModuleTweaks() : ModuleBase(todo_result<std::string>()) // 0x10A223E0
+	ModuleTweaks::ModuleTweaks() : ModuleBase("Tweaks") /* hades-mem-init: : ModuleBase(todo_result<std::string>()) */ // 0x10A223E0
 	{
-		mangled_x86(MANGLED_TODO, "??0ModuleTweaks@Modules@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0ModuleTweaks@Modules@@QAE@XZ");
 		// Modules::ModuleTweaks *const this;
-		todo("implement");
-		_sub_10A223E0(this);
+
+		VarDisableReactorFog = AddVariableInt("DisableReactorFog", "disablereactorfog", "Disable the fog effects around the moving platforms on the Reactor map to increase performance.", eCommandFlagsArchived, 0);
+		VarDisableReactorFog->ValueIntMin = 0;
+		VarDisableReactorFog->ValueIntMax = 1;
+		VarDisableWeaponOutline = AddVariableInt("DisableWeaponOutline", "disableweaponoutline", "Disables the outline effect on weapons and equipment.", eCommandFlagsArchived, 0);
+		VarDisableWeaponOutline->ValueIntMin = 0;
+		VarDisableWeaponOutline->ValueIntMax = 1;
+		VarDisableHitMarkers = AddVariableInt("DisableHitMarkers", "disablehitmarkers", "Disables weapon hitmarkers.", eCommandFlagsArchived, 0);
+		VarDisableHitMarkers->ValueIntMin = 0;
+		VarDisableHitMarkers->ValueIntMax = 1;
+		VarFlatHUD = AddVariableInt("FlatHUD", "flathud", "Removes distortion from the HUD.", eCommandFlagsArchived, 0);
+		VarFlatHUD->ValueIntMin = 0;
+		VarFlatHUD->ValueIntMax = 1;
 	}
 }
 

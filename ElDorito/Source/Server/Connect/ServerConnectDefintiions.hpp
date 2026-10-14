@@ -55,7 +55,6 @@ struct SServerConnectState
 		std::string website; // 0xC4
 		unsigned __int32 fileSize; // 0xE0
 		bool verificationFailed; // 0xE4
-		unsigned char __pad0[3]; // 0xE5
 		std::string downloadPath; // 0xE8
 		_inline SRequiredMod(SRequiredMod &&__that); /* compiler_generated() */
 		_inline SRequiredMod(SRequiredMod const &__that); /* compiler_generated() */
@@ -79,11 +78,11 @@ struct SServerConnectState
 	unsigned char xnaddr[16]; // 0x90
 	std::vector<SRequiredMod> requiredMods; // 0xA0
 	bool modDownloadConfirmed; // 0xB0
-	SServerConnectState(SServerConnectState &); /* compiler_generated() */
-	SServerConnectState(SServerConnectState const &); /* compiler_generated() */
-	SServerConnectState(); /* compiler_generated() */
+	// implicit copy constructor: SServerConnectState stays an aggregate
+	// implicit copy constructor (const): SServerConnectState stays an aggregate
+	// implicit default constructor: SServerConnectState stays an aggregate
 	_inline ~SServerConnectState(); /* compiler_generated() */
-	_inline SServerConnectState &operator=(SServerConnectState &&__that); /* compiler_generated() */
+	SServerConnectState &operator=(SServerConnectState &&__that) = default; /* compiler_generated() */ // 0x10B07090
 	SServerConnectState &operator=(SServerConnectState const &); /* compiler_generated() */
 };
 #pragma pack(pop)

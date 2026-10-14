@@ -226,36 +226,47 @@ void c_bitstream::reset(c_bitstream::e_state state) // 0x10F02010
 	((void(__thiscall *const)(c_bitstream *, long))0x559be0)(this, state);
 }
 
-_extern void _sub_10F02210(c_bitstream *const, char const *, unsigned long, long);
 void c_bitstream::write_integer(char const *name, unsigned long value, long size_in_bits) // 0x10F02210
 {
-	mangled_x86(MANGLED_TODO, "?write_integer@c_bitstream@@QAEXPBDKJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?write_integer@c_bitstream@@QAEXPBDKJ@Z");
 	// long size_in_bits;
 	// function call : void (*const)(c_bitstream *, char const *, unsigned long, long)
-	todo("implement");
-	_sub_10F02210(this, name, value, size_in_bits);
+
+	#line 231 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\memory\\bitstream.cpp"
+		assert(size_in_bits == 32 || value < (1U << size_in_bits));
+		#line 238 "F:\\Project Hades\\Hades\\Source\\blamlib\\source\\Blam\\memory\\bitstream.cpp"
+	((void (__thiscall *const)(c_bitstream *, char const *, unsigned long, long))0x444BE0)(this, name, value, size_in_bits);
 }
 
-_extern void _sub_10F02570(c_bitstream *const, char const *, long, long);
 void c_bitstream::write_signed_integer(char const *name, long value, long size_in_bits) // 0x10F02570
 {
-	mangled_x86(MANGLED_TODO, "?write_signed_integer@c_bitstream@@QAEXPBDJJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?write_signed_integer@c_bitstream@@QAEXPBDJJ@Z");
 	// long size_in_bits;
 	// long const maximum;
 	// long const minimum;
 	// function call : void (*const)(c_bitstream *, char const *, long, long)
-	todo("implement");
-	_sub_10F02570(this, name, value, size_in_bits);
+
+	long const maximum = (1 << (size_in_bits - 1)) - 1;
+	long const minimum = -1 - maximum;
+	#line 245 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\memory\\bitstream.cpp"
+		assert(value >= minimum);
+		#line 254 "F:\\Project Hades\\Hades\\Source\\blamlib\\source\\Blam\\memory\\bitstream.cpp"
+	#line 246 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\memory\\bitstream.cpp"
+		assert(value <= maximum);
+		#line 257 "F:\\Project Hades\\Hades\\Source\\blamlib\\source\\Blam\\memory\\bitstream.cpp"
+	((void (__thiscall *const)(c_bitstream *, char const *, long, long))0x444C50)(this, name, value, size_in_bits);
 }
 
-_extern void _sub_10F02400(c_bitstream *const, unsigned long long, long);
 void c_bitstream::write_qword(unsigned long long value, long size_in_bits) // 0x10F02400
 {
-	mangled_x86(MANGLED_TODO, "?write_qword@c_bitstream@@QAEX_KJ@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?write_qword@c_bitstream@@QAEX_KJ@Z");
 	// long size_in_bits;
 	// function call : void (*const)(c_bitstream *, unsigned long long, long)
-	todo("implement");
-	_sub_10F02400(this, value, size_in_bits);
+
+	#line 262 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\memory\\bitstream.cpp"
+		assert(size_in_bits == 64 || value < (1ULL << size_in_bits));
+		#line 269 "F:\\Project Hades\\Hades\\Source\\blamlib\\source\\Blam\\memory\\bitstream.cpp"
+	((void (__thiscall *const)(c_bitstream *, unsigned long long, long))0x55A3A0)(this, value, size_in_bits);
 }
 
 void c_bitstream::write_bool(char const *name, bool value) // 0x10F02190
@@ -447,22 +458,34 @@ void c_bitstream::read_point3d(char const *name, real_point3d *point, long axis_
 	((long(__thiscall *const)(c_bitstream *, char const *, real_point3d *, long))0x558c50)(this, name, point, axis_encoding_size_in_bits);
 }
 
-_extern void _sub_10F01810(c_bitstream *const);
 void c_bitstream::push_position() // 0x10F01810
 {
-	mangled_x86(MANGLED_TODO, "?push_position@c_bitstream@@QAEXXZ");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?push_position@c_bitstream@@QAEXXZ");
 	// c_bitstream *const this;
-	todo("implement");
-	_sub_10F01810(this);
+
+	#line 463 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\memory\\bitstream.cpp"
+		assert(reading() || writing());
+		#line 469 "F:\\Project Hades\\Hades\\Source\\blamlib\\source\\Blam\\memory\\bitstream.cpp"
+	#line 464 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\memory\\bitstream.cpp"
+		(void)((!!(m_position_stack_depth < 4)) || (_wassert(L"m_position_stack_depth < k_maximum_position_stack_size", _CRT_WIDE(__FILE__), (unsigned)(__LINE__)), 0));
+		#line 472 "F:\\Project Hades\\Hades\\Source\\blamlib\\source\\Blam\\memory\\bitstream.cpp"
+	csmemcpy(&m_position_stack[m_position_stack_depth], &m_bitstream_data, sizeof(s_bitstream_data));
+	m_position_stack_depth++;
 }
 
-_extern void _sub_10F01740(c_bitstream *const, bool);
 void c_bitstream::pop_position(bool restore) // 0x10F01740
 {
-	mangled_x86(MANGLED_TODO, "?pop_position@c_bitstream@@QAEX_N@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?pop_position@c_bitstream@@QAEX_N@Z");
 	// bool restore;
-	todo("implement");
-	_sub_10F01740(this, restore);
+
+	#line 478 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\memory\\bitstream.cpp"
+		assert(m_position_stack_depth > 0);
+		#line 484 "F:\\Project Hades\\Hades\\Source\\blamlib\\source\\Blam\\memory\\bitstream.cpp"
+	m_position_stack_depth--;
+	if (restore)
+	{
+		csmemcpy(&m_bitstream_data, &m_position_stack[m_position_stack_depth], sizeof(s_bitstream_data));
+	}
 }
 
 /* ---------- private code */

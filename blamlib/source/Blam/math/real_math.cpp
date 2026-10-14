@@ -34,6 +34,9 @@ struct real_vector3d;
 
 /* ---------- prototypes */
 
+extern void matrix4x3_from_point_and_vectors(real_matrix4x3 *matrix, real_point3d const *point, real_vector3d const *forward, real_vector3d const *up);  // hades: added for 0x10EF9C90
+extern void matrix4x3_rotation_to_angles(real_matrix4x3 const *matrix, real_euler_angles3d *angles);  // hades: added for 0x10EF9C90
+
 extern void matrix4x3_rotation_from_angles(real_matrix4x3 *matrix, float yaw, float pitch, float roll);  // hades: added for 0x10EFBF40
 extern void matrix4x3_to_point_and_vectors(real_matrix4x3 *matrix, real_point3d *point, real_vector3d *forward, real_vector3d *up);  // hades: added for 0x10EFBF40
 
@@ -262,17 +265,34 @@ real_vector3d *cross_product3d(real_vector3d const *v1, real_vector3d const *v2,
 	return result;
 }
 
-extern real_vector3d *_sub_10EFA390(real_vector3d const *, real_vector3d *);
 real_vector3d *perpendicular3d(real_vector3d const *v, real_vector3d *result) // 0x10EFA390
 {
-	mangled_x86(MANGLED_TODO, "?perpendicular3d@@YAPAUreal_vector3d@@PBU1@PAU1@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?perpendicular3d@@YAPAUreal_vector3d@@PBU1@PAU1@@Z");
 	// real_vector3d *result;
 	// float abs_i;
 	// float abs_k;
 	// float abs_j;
-	todo("implement");
-	real_vector3d * __result = _sub_10EFA390(v, result);
-	return __result;
+
+	float abs_i = fabs(v->i);
+	float abs_j = fabs(v->j);
+	float abs_k = fabs(v->k);
+	if (abs_i > abs_j || abs_i > abs_k)
+	{
+		if (abs_j > abs_k)
+		{
+			*result = real_vector3d{ v->j, -v->i, 0.0f };
+		}
+		else
+		{
+			*result = real_vector3d{ -v->k, 0.0f, v->i };
+		}
+	}
+	else
+	{
+		*result = real_vector3d{ 0.0f, v->k, -v->j };
+	}
+
+	return result;
 }
 
 real_vector3d *set_real_vector3d(real_vector3d *result, float i, float j, float k) // 0x10EFB810
@@ -381,18 +401,24 @@ real_vector3d *vector3d_from_euler_angles2d(real_vector3d *result, real_euler_an
 	return result;
 }
 
-extern real_euler_angles3d *_sub_10EF9C90(real_euler_angles3d *, real_vector3d const *, real_vector3d const *);
 real_euler_angles3d *euler_angles3d_from_vectors3d(real_euler_angles3d *angles, real_vector3d const *forward, real_vector3d const *up) // 0x10EF9C90
 {
-	mangled_x86(MANGLED_TODO, "?euler_angles3d_from_vectors3d@@YAPAUreal_euler_angles3d@@PAU1@PBUreal_vector3d@@1@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?euler_angles3d_from_vectors3d@@YAPAUreal_euler_angles3d@@PAU1@PBUreal_vector3d@@1@Z");
 	// static ...; // 0x10EF9D80
 	// real_euler_angles3d *angles;
 	// real_vector3d const *forward;
 	// real_vector3d const *up;
 	// real_matrix4x3 matrix;
-	todo("implement");
-	real_euler_angles3d * __result = _sub_10EF9C90(angles, forward, up);
-	return __result;
+
+	#line 406 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\math\\real_math.cpp"
+		assert(forward);
+		assert(up);
+		assert(angles);
+		#line 418 "C:\\Users\\zekken\\Desktop\\Project Hades\\Hades\\Source\\blamlib\\source\\Blam\\math\\real_math.cpp"
+	real_matrix4x3 matrix;
+	matrix4x3_from_point_and_vectors(&matrix, &global_origin3d, forward, up);
+	matrix4x3_rotation_to_angles(&matrix, angles);
+	return angles;
 }
 
 real_vector3d *vector_from_yaw_and_pitch(float yaw, float pitch, real_vector3d *result) // 0x10EFBDF0
@@ -449,20 +475,26 @@ float angle_between_normalized_vectors3d(real_vector3d const *v1, real_vector3d 
 	return arccosine(real_pin(dot_product3d(v1, v2), -1.0f, 1.0f));
 }
 
-_extern float _sub_10EF9570(real_vector3d const *, real_vector3d const *);
 float angle_between_vectors3d(real_vector3d const *v1, real_vector3d const *v2) // 0x10EF9570
 {
-	mangled_x86(MANGLED_TODO, "?angle_between_vectors3d@@YAMPBUreal_vector3d@@0@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?angle_between_vectors3d@@YAMPBUreal_vector3d@@0@Z");
 	// real_vector3d const *v2;
 	// float magnitude_product;
 	// float angle_radians;
-	{
 		// float dot;
 		// float cos_angle;
+
+	float angle_radians = 0.0f;
+	float magnitude_product = magnitude3d(v1) * magnitude3d(v2);
+	if (magnitude_product != 0.0f)
+	{
+		float dot = dot_product3d(v1, v2);
+		float cos_angle = real_pin(2.0f * dot * dot / magnitude_product - 1.0f, -1.0f, 1.0f);
+		angle_radians = arccosine(cos_angle) * 0.5f;
+		if (dot < 0.0f)
+			return 3.14159265f - angle_radians;
 	}
-	todo("implement");
-	float __result = _sub_10EF9570(v1, v2);
-	return __result;
+	return angle_radians;
 }
 
 real_vector3d *rotate_vector_about_axis(real_vector3d *vector, real_vector3d const *axis, float sin_theta, float cos_theta) // 0x10EFB3C0
@@ -520,8 +552,8 @@ void vectors3d_from_euler_angles3d(real_vector3d *forward, real_vector3d *up, re
 	// real_matrix4x3 matrix;
 	// real_point3d point;
 
-	real_point3d point;
 	real_matrix4x3 matrix;
+	real_point3d point;
 
 	matrix4x3_rotation_from_angles(&matrix, angles->yaw, angles->pitch, angles->roll);
 	matrix4x3_to_point_and_vectors(&matrix, &point, forward, up);
@@ -600,20 +632,26 @@ real_vector2d *vector_from_points2d(real_point2d const *p1, real_point2d const *
 	return result;
 }
 
-_extern float _sub_10EF93C0(real_vector2d const *, real_vector2d const *);
 float angle_between_vectors2d(real_vector2d const *v1, real_vector2d const *v2) // 0x10EF93C0
 {
-	mangled_x86(MANGLED_TODO, "?angle_between_vectors2d@@YAMPBUreal_vector2d@@0@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?angle_between_vectors2d@@YAMPBUreal_vector2d@@0@Z");
 	// real_vector2d const *v2;
 	// float magnitude_product;
 	// float angle_radians;
-	{
 		// float dot;
 		// float cos_angle;
+
+	float angle_radians = 0.0f;
+	float magnitude_product = magnitude2d(v1) * magnitude2d(v2);
+	if (magnitude_product != 0.0f)
+	{
+		float dot = dot_product2d(v1, v2);
+		float cos_angle = real_pin(2.0f * dot * dot / magnitude_product - 1.0f, -1.0f, 1.0f);
+		angle_radians = arccosine(cos_angle) * 0.5f;
+		if (dot < 0.0f)
+			return 3.14159265f - angle_radians;
 	}
-	todo("implement");
-	float __result = _sub_10EF93C0(v1, v2);
-	return __result;
+	return angle_radians;
 }
 
 float signed_angle_between_vectors2d(real_vector2d const *v1, real_vector2d const *v2) // 0x10EFB890
@@ -677,13 +715,15 @@ float normalize2d(real_vector2d *v) // 0x10EFA230
 	// float m;
 
 	float m = magnitude2d(v);
-
 	if (m < 0.0000099999997f)
 	{
 		return 0.0f;
 	}
+	else
+	{
+		scale_vector2d(v, 1.0f / m, v);
+	}
 
-	scale_vector2d(v, 1.0f / m, v);
 	return m;
 }
 
@@ -703,20 +743,41 @@ float cross_product2d(real_vector2d const *v1, real_vector2d const *v2) // 0x10E
 	return v1->i * v2->j - v1->j * v2->i;
 }
 
-_extern long _sub_10EFB080(real_rectangle3d const &, long, real_point3d (&)[8]);
 long rectangle3d_build_vertices(real_rectangle3d const &bounds, long maximum_vertex_count, real_point3d (&vertices)[8]) // 0x10EFB080
 {
-	mangled_x86(MANGLED_TODO, "?rectangle3d_build_vertices@@YAJABUreal_rectangle3d@@JAAY07Ureal_point3d@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?rectangle3d_build_vertices@@YAJABUreal_rectangle3d@@JAAY07Ureal_point3d@@@Z");
 	// real_point3d (&vertices)[8];
-	todo("implement");
-	long __result = _sub_10EFB080(bounds, maximum_vertex_count, vertices);
-	return __result;
+
+	vertices->x = bounds.x0;
+	vertices->y = bounds.y0;
+	vertices->z = bounds.z0;
+	vertices[1].x = bounds.x1;
+	vertices[1].y = bounds.y0;
+	vertices[1].z = bounds.z0;
+	vertices[2].x = bounds.x0;
+	vertices[2].y = bounds.y1;
+	vertices[2].z = bounds.z0;
+	vertices[3].x = bounds.x1;
+	vertices[3].y = bounds.y1;
+	vertices[3].z = bounds.z0;
+	vertices[4].x = bounds.x0;
+	vertices[4].y = bounds.y0;
+	vertices[4].z = bounds.z1;
+	vertices[5].x = bounds.x1;
+	vertices[5].y = bounds.y0;
+	vertices[5].z = bounds.z1;
+	vertices[6].x = bounds.x0;
+	vertices[6].y = bounds.y1;
+	vertices[6].z = bounds.z1;
+	vertices[7].x = bounds.x1;
+	vertices[7].y = bounds.y1;
+	vertices[7].z = bounds.z1;
+	return 8;
 }
 
-_extern long _sub_10EFAA50(real_rectangle3d const &,  long, real_point3d (*const edges)[2]);
 long rectangle3d_build_edges(real_rectangle3d const &bounds, long maximum_edge_count, real_point3d (*const edges)[2]) // 0x10EFAA50
 {
-	mangled_x86(MANGLED_TODO, "?rectangle3d_build_edges@@YAJABUreal_rectangle3d@@JQAY01Ureal_point3d@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?rectangle3d_build_edges@@YAJABUreal_rectangle3d@@JQAY01Ureal_point3d@@@Z");
 	// static ...; // 0x10EFAC64
 	// static ...; // 0x10EFAC5C
 	// real_rectangle3d const &bounds;
@@ -724,18 +785,22 @@ long rectangle3d_build_edges(real_rectangle3d const &bounds, long maximum_edge_c
 	// real_point3d *const edges[2];
 	// real_point3d vertices[8];
 	// long const line_vertex_indices[12][2];
-	{
 		// long edge_index;
+
+	real_point3d vertices[8];
+	rectangle3d_build_vertices(bounds, 8, vertices);
+	long const line_vertex_indices[12][2] = { { 0, 2 }, { 2, 3 }, { 3, 1 }, { 1, 0 }, { 0, 4 }, { 1, 5 }, { 2, 6 }, { 3, 7 }, { 4, 5 }, { 5, 7 }, { 7, 6 }, { 6, 4 } };
+	for (long edge_index = 0; edge_index < 12; edge_index++)
+	{
+		edges[edge_index][0] = vertices[line_vertex_indices[edge_index][0]];
+		edges[edge_index][1] = vertices[line_vertex_indices[edge_index][1]];
 	}
-	todo("implement");
-	long __result = _sub_10EFAA50(bounds, maximum_edge_count, edges);
-	return __result;
+	return 12;
 }
 
-_extern void _sub_10EFAD30(real_rectangle3d const &, real_point3d (*const faces)[4]);
 void rectangle3d_build_faces(real_rectangle3d const &bounds, real_point3d (*const faces)[4]) // 0x10EFAD30
 {
-	mangled_x86(MANGLED_TODO, "?rectangle3d_build_faces@@YAXABUreal_rectangle3d@@QAY03Ureal_point3d@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?rectangle3d_build_faces@@YAXABUreal_rectangle3d@@QAY03Ureal_point3d@@@Z");
 	// static ...; // 0x10EFAFB4
 	// static ...; // 0x10EFAF9C
 	// static ...; // 0x10EFAF94
@@ -743,12 +808,19 @@ void rectangle3d_build_faces(real_rectangle3d const &bounds, real_point3d (*cons
 	// real_point3d *const faces[4];
 	// real_point3d vertices[8];
 	// long const face_vertex_indices[6][4];
-	{
 		// long i;
 		// long j;
+
+	long const face_vertex_indices[6][4] = { { 0, 2, 3, 1 }, { 0, 1, 5, 4 }, { 1, 3, 7, 5 }, { 2, 6, 7, 3 }, { 0, 4, 6, 2 }, { 4, 5, 7, 6 } };
+	real_point3d vertices[8];
+	rectangle3d_build_vertices(bounds, 8, vertices);
+	for (long i = 0, j = 0; i < 6; i++)
+	{
+		faces[i][0] = vertices[face_vertex_indices[i][0]];
+		faces[i][1] = vertices[face_vertex_indices[i][1]];
+		faces[i][2] = vertices[face_vertex_indices[i][2]];
+		faces[i][3] = vertices[face_vertex_indices[i][3]];
 	}
-	todo("implement");
-	_sub_10EFAD30(bounds, faces);
 }
 
 /* ---------- private code */

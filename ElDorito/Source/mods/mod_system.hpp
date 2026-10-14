@@ -37,12 +37,12 @@ struct s_mod_server_package_entry
 	std::string package_url; // 0x0
 	std::string local_name; // 0x1C
 	std::string hash; // 0x38
-	_inline s_mod_server_package_entry(s_mod_server_package_entry &&__that); /* compiler_generated() */
-	_inline s_mod_server_package_entry(s_mod_server_package_entry const &__that); /* compiler_generated() */
-	_inline s_mod_server_package_entry() = default; /* compiler_generated() */
-	_inline ~s_mod_server_package_entry(); /* compiler_generated() */
-	s_mod_server_package_entry &operator=(s_mod_server_package_entry &); /* compiler_generated() */
-	_inline s_mod_server_package_entry &operator=(s_mod_server_package_entry const &__that); /* compiler_generated() */
+	// _inline s_mod_server_package_entry(s_mod_server_package_entry &&__that);  // hades: implicit /* compiler_generated() */
+	// _inline s_mod_server_package_entry(s_mod_server_package_entry const &__that);  // hades: implicit /* compiler_generated() */
+	// _inline s_mod_server_package_entry() = default;  // hades: implicit /* compiler_generated() */
+	// _inline ~s_mod_server_package_entry();  // hades: implicit /* compiler_generated() */
+	// hades: no non-const operator= in the original; it captured plain `*entry = it->second` assignments
+	// _inline s_mod_server_package_entry &operator=(s_mod_server_package_entry const &__that);  // hades: implicit /* compiler_generated() */
 };
 #pragma pack(pop)
 static_assert(sizeof(s_mod_server_package_entry) == 84, "Invalid s_mod_server_package_entry size");

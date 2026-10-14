@@ -323,8 +323,8 @@ struct s_sound_manager_environment
 		float unknown1; // 0x0
 		float unknown2; // 0x4
 		long environment_tag_index; // 0x8
+		unsigned char __pad0[16]; // 0xC  // hades: unknown tail; refresh_channel (0x10A34780) reads globals+0x26C
 	};
-	// static_assert(sizeof(s_propagations) == 28, "Invalid s_propagations size");
 	// Withheld: the type inventory does not describe this type, so its
 	// padding could not be reconstructed.
 	public:

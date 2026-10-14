@@ -51,6 +51,8 @@ using namespace ::Modules;
 
 /* ---------- prototypes */
 
+namespace Server { namespace VariableSynchronization { extern void Synchronize(Modules::Command *serverVariable, Modules::Command *clientVariable); } }  // hades: added for 0x10A22130
+
 /* ---------- globals */
 
 /* ---------- private variables */
@@ -59,13 +61,16 @@ using namespace ::Modules;
 
 namespace Modules
 {
-	extern ModuleTime* _sub_10A22130(Modules::ModuleTime *const);
-	ModuleTime::ModuleTime() : ModuleBase(todo_result<std::string>()) // 0x10A22130
+	ModuleTime::ModuleTime() : ModuleBase("Time") /* hades-mem-init: : ModuleBase(todo_result<std::string>()) */ // 0x10A22130
 	{
-		mangled_x86(MANGLED_TODO, "??0ModuleTime@Modules@@QAE@XZ");
+		mangled_x86(MANGLED_KNOWN_GOOD, "??0ModuleTime@Modules@@QAE@XZ");
 		// Modules::ModuleTime *const this;
-		todo("implement");
-		_sub_10A22130(this);
+
+		VarSpeed = AddVariableFloat("GameSpeed", "game_speed", "The game's speed", eCommandFlagsHostOnly, 1.0f);
+		VarSpeed->ValueFloatMin = 0.0f;
+		VarSpeed->ValueFloatMax = 10.0f;
+		VarSpeedClient = AddVariableFloat("GameSpeedClient", "game_speed_client", "The game's speed", eCommandFlagsInternal, 1.0f);
+		Server::VariableSynchronization::Synchronize(VarSpeed, VarSpeedClient);
 	}
 }
 

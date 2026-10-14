@@ -8,6 +8,8 @@
 #include "Web/WebRendererRenderHandler.hpp"
 #include "Web/WebRenderHandlerOsr.hpp"
 
+#include "Web/WebRenderer.hpp"  // hades: added for 0x10CC5330
+
 #include <base/cef_atomic_ref_count.h>
 #include <base/cef_lock.h>
 #include <base/cef_logging.h>
@@ -168,50 +170,51 @@ namespace Web
 {
 	namespace Browser
 	{
-		_extern void _sub_10CC5F90(Web::Browser::WebRendererApp *const, CefSchemeRegistrar *);
 		void WebRendererApp::OnRegisterCustomSchemes(CefSchemeRegistrar *registrar) // 0x10CC5F90
 		{
-			mangled_x86(MANGLED_TODO, "?OnRegisterCustomSchemes@WebRendererApp@Browser@Web@@UAEXPAVCefSchemeRegistrar@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnRegisterCustomSchemes@WebRendererApp@Browser@Web@@UAEXPAVCefSchemeRegistrar@@@Z");
 			// CefSchemeRegistrar *registrar;
 			// __int32 scheme;
 			// function call : bool (CefStringBase<CefStringTraitsUTF16> const &, __int32)
 			// function call : bool (CefStringBase<CefStringTraitsUTF16> const &, __int32)
 			// function call : bool (CefStringBase<CefStringTraitsUTF16> const &, __int32)
 			// function call : bool (CefStringBase<CefStringTraitsUTF16> const &, __int32)
-			todo("implement");
-			_sub_10CC5F90(this, registrar);
+
+			__int32 scheme = CEF_SCHEME_OPTION_STANDARD | CEF_SCHEME_OPTION_SECURE | CEF_SCHEME_OPTION_CORS_ENABLED | CEF_SCHEME_OPTION_FETCH_ENABLED;
+			registrar->AddCustomScheme("dew", scheme);
+			registrar->AddCustomScheme("medals", scheme);
+			registrar->AddCustomScheme("emblems", scheme);
+			registrar->AddCustomScheme("pak", scheme);
 		}
 	}
 }
 
-extern scoped_refptr<CefBrowserProcessHandler> _sub_10CC51F0(Web::Browser::WebRendererApp *const);
+
 namespace Web
 {
 	namespace Browser
 	{
 		scoped_refptr<CefBrowserProcessHandler> WebRendererApp::GetBrowserProcessHandler() // 0x10CC51F0
 		{
-			mangled_x86(MANGLED_TODO, "?GetBrowserProcessHandler@WebRendererApp@Browser@Web@@UAE?AV?$scoped_refptr@VCefBrowserProcessHandler@@@@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetBrowserProcessHandler@WebRendererApp@Browser@Web@@UAE?AV?$scoped_refptr@VCefBrowserProcessHandler@@@@XZ");
 			// Web::Browser::WebRendererApp *const this;
-			todo("implement");
-			scoped_refptr<CefBrowserProcessHandler> __result = _sub_10CC51F0(this);
-			return __result;
+
+			return this;
 		}
 	}
 }
 
-extern scoped_refptr<CefRenderProcessHandler> _sub_10CC5290(Web::Browser::WebRendererApp *const);
+
 namespace Web
 {
 	namespace Browser
 	{
 		scoped_refptr<CefRenderProcessHandler> WebRendererApp::GetRenderProcessHandler() // 0x10CC5290
 		{
-			mangled_x86(MANGLED_TODO, "?GetRenderProcessHandler@WebRendererApp@Browser@Web@@UAE?AV?$scoped_refptr@VCefRenderProcessHandler@@@@XZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetRenderProcessHandler@WebRendererApp@Browser@Web@@UAE?AV?$scoped_refptr@VCefRenderProcessHandler@@@@XZ");
 			// Web::Browser::WebRendererApp *const this;
-			todo("implement");
-			scoped_refptr<CefRenderProcessHandler> __result = _sub_10CC5290(this);
-			return __result;
+
+			return this;
 		}
 
 		void WebRendererApp::OnContextInitialized() // 0x10CC5F70
@@ -221,20 +224,16 @@ namespace Web
 			// Web::Browser::WebRendererApp *const this;
 		}
 
-		_extern void _sub_10CC5F00(CefRenderProcessHandler * const, scoped_refptr<CefBrowser>, scoped_refptr<CefFrame>, scoped_refptr<CefV8Context>);
 		void WebRendererApp::OnContextCreated(scoped_refptr<CefBrowser> browser, scoped_refptr<CefFrame> frame, scoped_refptr<CefV8Context> context) // 0x10CC5F00
 		{
-			mangled_x86(MANGLED_TODO, "?OnContextCreated@WebRendererApp@Browser@Web@@UAEXV?$scoped_refptr@VCefBrowser@@@@V?$scoped_refptr@VCefFrame@@@@V?$scoped_refptr@VCefV8Context@@@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnContextCreated@WebRendererApp@Browser@Web@@UAEXV?$scoped_refptr@VCefBrowser@@@@V?$scoped_refptr@VCefFrame@@@@V?$scoped_refptr@VCefV8Context@@@@@Z");
 			// __shifted(Web::Browser::WebRendererApp, 16);
 			// scoped_refptr<CefV8Context> context;
-			todo("implement");
-			_sub_10CC5F00((CefRenderProcessHandler *)this, browser, frame, context);
 		}
 
-		_extern void _sub_10CC5330(Web::Browser::WebRendererApp *const, CefStringBase<CefStringTraitsUTF16> const &, scoped_refptr<CefCommandLine>);
 		void WebRendererApp::OnBeforeCommandLineProcessing(CefStringBase<CefStringTraitsUTF16> const &process_type, scoped_refptr<CefCommandLine> command_line) // 0x10CC5330
 		{
-			mangled_x86(MANGLED_TODO, "?OnBeforeCommandLineProcessing@WebRendererApp@Browser@Web@@UAEXABV?$CefStringBase@UCefStringTraitsUTF16@@@@V?$scoped_refptr@VCefCommandLine@@@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnBeforeCommandLineProcessing@WebRendererApp@Browser@Web@@UAEXABV?$CefStringBase@UCefStringTraitsUTF16@@@@V?$scoped_refptr@VCefCommandLine@@@@@Z");
 			// scoped_refptr<CefCommandLine> command_line;
 			// function call : void (CefStringBase<CefStringTraitsUTF16> const &, CefStringBase<CefStringTraitsUTF16> const &)
 			// function call : void (CefStringBase<CefStringTraitsUTF16> const &)
@@ -257,8 +256,34 @@ namespace Web
 			// function call : void (CefStringBase<CefStringTraitsUTF16> const &)
 			// function call : void (CefStringBase<CefStringTraitsUTF16> const &)
 			// function call : void (CefStringBase<CefStringTraitsUTF16> const &, CefStringBase<CefStringTraitsUTF16> const &)
-			todo("implement");
-			_sub_10CC5330(this, process_type, command_line);
+
+			if (Web::Browser::WebRenderer::GetInstance()->IsAccelerated())
+			{
+				command_line->AppendSwitchWithValue("use-angle", "d3d11");
+				command_line->AppendSwitch("ignore-gpu-blacklist");
+				command_line->AppendSwitch("ignore-gpu-blocklist");
+				command_line->AppendSwitch("force-gpu-rasterization");
+				command_line->AppendSwitchWithValue("disable-features", "UseSkiaRenderer");
+				command_line->AppendSwitch("disable-gpu-vsync");
+			}
+			else
+			{
+				command_line->AppendSwitch("disable-gpu");
+				command_line->AppendSwitch("disable-gpu-compositing");
+			}
+			command_line->AppendSwitch("disable-extensions");
+			command_line->AppendSwitchWithValue("autoplay-policy", "no-user-gesture-required");
+			command_line->AppendSwitch("enable-experimental-web-platform-features");
+			command_line->AppendSwitch("enable-media-stream");
+			command_line->AppendSwitch("enable-precise-memory-info");
+			command_line->AppendSwitch("no-proxy-server");
+			command_line->AppendSwitch("disable-renderer-backgrounding");
+			command_line->AppendSwitch("file_access_from_file_urls");
+			command_line->AppendSwitch("universal_access_from_file_urls");
+			command_line->AppendSwitch("disable-back-forward-cache");
+			command_line->AppendSwitch("disable-renderer-accessibility");
+			command_line->AppendSwitch("disable-site-isolation-trials");
+			command_line->AppendSwitchWithValue("force-device-scale-factor", "1");
 		}
 	}
 }

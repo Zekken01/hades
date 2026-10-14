@@ -29,15 +29,15 @@ struct end;
 
 /* ---------- public code */
 
-_extern __int32 _sub_108572B0(CEventSink<> *const, std::function<void __cdecl(void)> const &);
 _inline __int32 CEventSink<>::Subscribe(std::function<void __cdecl(void)> const &callable) // 0x108572B0
 {
-	mangled_x86(MANGLED_TODO, "?Subscribe@?$CEventSink@$$V@@QAEHABV?$function@$$A6AXXZ@std@@@Z");
+	mangled_x86(MANGLED_KNOWN_GOOD, "?Subscribe@?$CEventSink@$$V@@QAEHABV?$function@$$A6AXXZ@std@@@Z");
 	// std::function<void __cdecl(void)> const &callable;
 	// __int32 id;
-	todo("implement");
-	__int32 __result = _sub_108572B0((CEventSink<> *)this, callable);
-	return __result;
+
+	__int32 id = m_nextId.fetch_add(1);
+	m_callbacks.push_back({ callable, id });
+	return id;
 }
 
 _inline void CEventSink<>::PostEvent() // 0x108315F0

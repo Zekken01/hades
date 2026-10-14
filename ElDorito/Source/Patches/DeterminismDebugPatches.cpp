@@ -19,6 +19,8 @@
 #include "Utils/StlUtil.hpp"
 #include "Web/Bridge/WebRendererQueryHandler.hpp"
 
+#include "Patches/Core.hpp"  // hades: added for 0x107A32D0
+
 #include <Windows.h>
 #include <stdio.h>
 #include <sys/stat.h>
@@ -117,11 +119,11 @@ namespace hades_file_local
 	private:
 		void LogEvent(SRandomEvent const &);
 		void LogThreadProc();
-		bool m_active; // 0x0
+		bool m_active = false; // 0x0
 		unsigned char __pad0[3]; // 0x1
-		__int32 m_outOfSync; // 0x4
-		unsigned __int32 m_currentUpdateNumber; // 0x8
-		__int32 m_callCounter; // 0xC
+		__int32 m_outOfSync = 0; // 0x4
+		unsigned __int32 m_currentUpdateNumber = 0xFFFFFFFF; // 0x8
+		__int32 m_callCounter = -1; // 0xC
 		std::ofstream m_file; // 0x10
 		std::mutex m_mutex; // 0xC0
 		std::condition_variable m_logThreadWakeEvent; // 0xF0
@@ -131,7 +133,7 @@ namespace hades_file_local
 		std::string m_currentMapName; // 0x158
 		char m_logLineBuffer[16384]; // 0x174
 	public:
-		CDebugRandomTraceManager(); /* compiler_generated() */
+		CDebugRandomTraceManager() = default; /* compiler_generated() */
 		~CDebugRandomTraceManager() = default; /* compiler_generated() */
 	unsigned char __pad1[4]; // 0x4174
 	};
@@ -180,23 +182,29 @@ namespace Patches
 {
 	namespace DeterminismDebug
 	{
-		_extern void _sub_107A32D0();
 		void ApplyAll() // 0x107A32D0
 		{
-			mangled_x86(MANGLED_TODO, "?ApplyAll@DeterminismDebug@Patches@@YAXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@DeterminismDebug@Patches@@YAXXZ");
 			// procedure flags: nofpo
-			todo("implement");
-			_sub_107A32D0();
+
+			Patches::Core::OnShutdown([]()
+			{
+				CDebugRandomTraceManager::Instance().StopTrace();
+			});
+			Patches::Core::OnMapLoaded([](char const *mapPath)
+			{
+				CDebugRandomTraceManager::Instance().InitializeForNewMap(mapPath);
+			});
+			Hook(0x41F90, simulation_record_update_hook).Apply();
+			Hook(0x11F000, get_random_seed_address_hook).Apply();
 		}
 
-		_extern bool _sub_107A4390(std::string const &);
 		bool StartRandomTrace(std::string const &filePath) // 0x107A4390
 		{
-			mangled_x86(MANGLED_TODO, "?StartRandomTrace@DeterminismDebug@Patches@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?StartRandomTrace@DeterminismDebug@Patches@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 			// std::string const &filePath;
-			todo("implement");
-			bool __result = _sub_107A4390(filePath);
-			return __result;
+
+			return Utils::Singleton<CDebugRandomTraceManager>::Instance().StartTrace(filePath);
 		}
 
 		bool StopRandomTrace() // 0x107A4590
@@ -211,33 +219,48 @@ namespace Patches
 
 /* ---------- private code */
 
-_extern bool _sub_107A43F0(CDebugRandomTraceManager *const, std::string const &);
 _inline bool CDebugRandomTraceManager::StartTrace(std::string const &filePath) // 0x107A43F0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?StartTrace@CDebugRandomTraceManager@hades_file_local@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 	// `anonymous-namespace'::CDebugRandomTraceManager::StartTrace
 	// std::string const &filePath;
-	todo("implement");
-	bool __result = _sub_107A43F0(this, filePath);
-	return __result;
+
+	StopTrace();
+	m_file = std::ofstream(filePath);
+	if (!m_file.is_open())
+		return false;
+	m_active = true;
+	m_moduleNames.clear();
+	m_thread = std::thread(std::bind_front(&CDebugRandomTraceManager::LogThreadProc, this));
+	return true;
 }
 
-_extern bool _sub_107A45E0(CDebugRandomTraceManager *const);
 _inline bool CDebugRandomTraceManager::StopTrace() // 0x107A45E0
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?StopTrace@CDebugRandomTraceManager@hades_file_local@@QAE_NXZ");
 	// `anonymous-namespace'::CDebugRandomTraceManager::StopTrace
 	// static ...; // 0x107A4738
 	// static ...; // 0x107A472C
 	// static ...; // 0x107A4724
 	// CDebugRandomTraceManager *const this;
 	// std::unique_lock<std::mutex> lock;
-	todo("implement");
-	bool __result = _sub_107A45E0(this);
-	return __result;
+
+	std::unique_lock<std::mutex> lock(m_mutex);
+	if (!m_active)
+		return true;
+
+	m_active = false;
+	lock.unlock();
+	m_logThreadWakeEvent.notify_one();
+	if (m_thread.joinable())
+		m_thread.join();
+	m_file = {};
+	return true;
 }
 
-_extern void _sub_107A3560(CDebugRandomTraceManager *const, std::string const &);
 _inline void CDebugRandomTraceManager::InitializeForNewMap(std::string const &mapPath) // 0x107A3560
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeForNewMap@CDebugRandomTraceManager@hades_file_local@@QAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 	// `anonymous-namespace'::CDebugRandomTraceManager::InitializeForNewMap
 	// static ...; // 0x107A3694
 	// static ...; // 0x107A368C
@@ -245,8 +268,18 @@ _inline void CDebugRandomTraceManager::InitializeForNewMap(std::string const &ma
 	// std::string const &mapPath;
 	// __int32 lastPathSeparator;
 	// std::string name;
-	todo("implement");
-	_sub_107A3560(this, mapPath);
+
+	std::string name;
+	__int32 lastPathSeparator = mapPath.find_last_of("\\");
+	if (lastPathSeparator != -1)
+		name = mapPath.substr(lastPathSeparator + 1);
+	else
+		name = mapPath;
+
+	m_outOfSync = 0;
+	m_currentUpdateNumber = -1;
+	m_currentMapName = name;
+	m_callCounter = 0;
 }
 
 _inline void CDebugRandomTraceManager::RecordSimulationUpdate(s_simulation_update const &update) // 0x107A4280
@@ -273,9 +306,9 @@ _inline void CDebugRandomTraceManager::RecordSimulationUpdate(s_simulation_updat
 		m_outOfSync |= 2;
 }
 
-_extern void _sub_107A4040(CDebugRandomTraceManager *const, unsigned __int32);
 _inline void CDebugRandomTraceManager::RecordRandomSeed(unsigned __int32 seed) // 0x107A4040
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?RecordRandomSeed@CDebugRandomTraceManager@hades_file_local@@QAEXI@Z");
 	// `anonymous-namespace'::CDebugRandomTraceManager::RecordRandomSeed
 	// static ...; // 0x107A41F8
 	// static ...; // 0x107A41E0
@@ -283,18 +316,30 @@ _inline void CDebugRandomTraceManager::RecordRandomSeed(unsigned __int32 seed) /
 	// CDebugRandomTraceManager *const this;
 	// unsigned __int32 seed;
 	// CDebugRandomTraceManager::SRandomEvent event;
-	{
 		// std::scoped_lock<std::mutex> lock;
-	}
 	// function call : unsigned short (unsigned long, unsigned long, void **, unsigned long *)
 	// function call : long (*const)()
-	todo("implement");
-	_sub_107A4040(this, seed);
+
+	if (!m_active || m_currentUpdateNumber == -1)
+		return;
+	SRandomEvent event;
+	event.updateNumber = m_currentUpdateNumber;
+	event.randomSeed = seed;
+	event.numStackFrames = RtlCaptureStackBackTrace(2, 6, event.stackFrames, nullptr);
+	event.outOfSync = m_outOfSync;
+	event.time = game_time_get();
+	event.callNum = m_callCounter++;
+	strncpy_s(event.mapName, m_currentMapName.c_str(), sizeof(event.mapName) - 1);
+	{
+		std::scoped_lock<std::mutex> lock(m_mutex);
+		m_queue.push_back(event);
+	}
+	m_logThreadWakeEvent.notify_one();
 }
 
-_extern void _sub_107A3850(CDebugRandomTraceManager *const, CDebugRandomTraceManager::SRandomEvent const &);
 _inline void CDebugRandomTraceManager::LogEvent(CDebugRandomTraceManager::SRandomEvent const &e) // 0x107A3850
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?LogEvent@CDebugRandomTraceManager@hades_file_local@@AAEXABUSRandomEvent@12@@Z");
 	// `anonymous-namespace'::CDebugRandomTraceManager::LogEvent
 	// static ...; // 0x107A3CE0
 	// static ...; // 0x107A3CD8
@@ -307,53 +352,72 @@ _inline void CDebugRandomTraceManager::LogEvent(CDebugRandomTraceManager::SRando
 	// char stackBuffer[8192];
 	// __int32 stackLen;
 	// __int32 len;
-	{
 		// __int32 i;
-		{
 			// std::string moduleName;
-			{
 				// HINSTANCE__ *hModule;
-				{
 					// unsigned __int32 relativeAddress;
-					{
 						// std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<HINSTANCE__ * const,std::string> > > > it;
-						{
 							// std::string name;
-						}
-					}
-				}
-			}
-		}
-	}
 	// function call : __int32 (unsigned long, char const *, HINSTANCE__ **)
 	// function call : unsigned long (HINSTANCE__ *, char *, unsigned long)
-	todo("implement");
-	_sub_107A3850(this, e);
+
+	char stackBuffer[8192];
+	__int32 stackLen = 0;
+	for (__int32 i = 0; i < e.numStackFrames; i++)
+	{
+		std::string moduleName;
+		HMODULE hModule;
+		if (GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCSTR)e.stackFrames[i], &hModule) && hModule)
+		{
+			if (auto it = m_moduleNames.find(hModule); it == m_moduleNames.end())
+			{
+				std::string name;
+				name.resize(MAX_PATH + 1);
+				GetModuleFileNameA(hModule, name.data(), name.length() - 1);
+				name = name.substr(name.find_last_of('\\') + 1);
+				m_moduleNames.insert({ hModule, name });
+				moduleName = name;
+			}
+			else
+			{
+				moduleName = it->second;
+			}
+			unsigned __int32 relativeAddress = (unsigned __int32)e.stackFrames[i] - (unsigned __int32)hModule;
+			stackLen += sprintf(&stackBuffer[stackLen], "%s+%X%s", moduleName.empty() ? "unknown" : moduleName.c_str(), relativeAddress, i < e.numStackFrames - 1 ? " -> " : "");
+		}
+	}
+	__int32 len = sprintf_s(m_logLineBuffer, "map: %s, time: %u, update: %u, desync: %d, call: %d, seed: %u, stack: %s\n", e.mapName, e.time, e.updateNumber, e.outOfSync, e.callNum, e.randomSeed, stackBuffer);
+	m_file.write(m_logLineBuffer, len);
 }
 
-_extern void _sub_107A3E20(CDebugRandomTraceManager *const);
 _inline void CDebugRandomTraceManager::LogThreadProc() // 0x107A3E20
 {
+	mangled_x86(MANGLED_KNOWN_GOOD, "?LogThreadProc@CDebugRandomTraceManager@hades_file_local@@AAEXXZ");
 	// `anonymous-namespace'::CDebugRandomTraceManager::LogThreadProc
 	// static ...; // 0x107A3FC6
 	// static ...; // 0x107A3FC0
 	// static ...; // 0x107A3FA8
 	// static ...; // 0x107A3FA0
 	// CDebugRandomTraceManager *const this;
-	{
 		// std::unique_lock<std::mutex> lock;
 		// std::vector<CDebugRandomTraceManager::SRandomEvent> queue;
-		{
 			// std::vector<CDebugRandomTraceManager::SRandomEvent> &<range>$L0;
 			// CDebugRandomTraceManager::SRandomEvent *<begin>$L0;
 			// CDebugRandomTraceManager::SRandomEvent *<end>$L0;
-			{
 				// CDebugRandomTraceManager::SRandomEvent const &e;
-			}
-		}
+
+	for (;;)
+	{
+		std::unique_lock<std::mutex> lock(m_mutex);
+		m_logThreadWakeEvent.wait_for(lock, std::chrono::milliseconds(1000));
+		std::vector<SRandomEvent> queue = std::move(m_queue);
+		lock.unlock();
+		for (auto const &e : queue)
+			LogEvent(e);
+		m_file.flush();
+		if (!m_active)
+			break;
 	}
-	todo("implement");
-	_sub_107A3E20(this);
 }
 
 void simulation_record_update_hook(s_simulation_update *update) // 0x107A7F10
@@ -378,7 +442,7 @@ unsigned long *get_random_seed_address_hook() // 0x107A7850
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0CDebugRandomTraceManager@hades_file_local@@QAE@XZ"); no body to assert in
-_inline CDebugRandomTraceManager::CDebugRandomTraceManager() = default; // 0x107A1F50
+// hades: CDebugRandomTraceManager::CDebugRandomTraceManager() is defaulted in the class (implicit, so `new T()` zero-fills first) // 0x107A1F50
 
 // mangled_x86(MANGLED_DEFAULT, "??0SRandomEvent@CDebugRandomTraceManager@hades_file_local@@QAE@XZ"); no body to assert in
 _inline CDebugRandomTraceManager::SRandomEvent::SRandomEvent() // 0x107A20A0

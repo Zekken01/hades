@@ -16,6 +16,12 @@
 #include "Web/WebRenderHandlerNull.hpp"
 #include "Web/WebRenderHandlerOsr.hpp"
 
+#include "Web/WebRenderer.hpp"  // hades: added for 0x10CD1E60
+
+#include "Utils/Logger.hpp"  // hades: added for 0x10CD2450
+
+#include "Modules/ModuleGame.hpp"  // hades: added for 0x10CD1350
+
 #include <base/cef_atomic_ref_count.h>
 #include <base/cef_lock.h>
 #include <base/cef_logging.h>
@@ -189,28 +195,21 @@ namespace Web
 {
 	namespace Browser
 	{
-		extern WebRendererRenderHandler* _sub_10CD0220(Web::Browser::WebRendererRenderHandler *const, IDirect3DDevice9 *, HWND__ *);
-		WebRendererRenderHandler::WebRendererRenderHandler(IDirect3DDevice9 *device9, HWND__ *window) // 0x10CD0220
+		WebRendererRenderHandler::WebRendererRenderHandler(IDirect3DDevice9 *device9, HWND__ *window) : m_Device(device9), m_GpuEnable(false), m_Window(window) /* hades-mem-init:  */ // 0x10CD0220
 		{
-			mangled_x86(MANGLED_TODO, "??0WebRendererRenderHandler@Browser@Web@@QAE@PAUIDirect3DDevice9@@PAUHWND__@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "??0WebRendererRenderHandler@Browser@Web@@QAE@PAUIDirect3DDevice9@@PAUHWND__@@@Z");
 			// HWND__ *window;
-			todo("implement");
-			_sub_10CD0220(this, device9, window);
 		}
 
-		_extern void _sub_10CD1A40(Web::Browser::WebRendererRenderHandler *const, scoped_refptr<CefBrowser>);
 		void WebRendererRenderHandler::OnAfterCreated(scoped_refptr<CefBrowser> browser) // 0x10CD1A40
 		{
-			mangled_x86(MANGLED_TODO, "?OnAfterCreated@WebRendererRenderHandler@Browser@Web@@QAEXV?$scoped_refptr@VCefBrowser@@@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnAfterCreated@WebRendererRenderHandler@Browser@Web@@QAEXV?$scoped_refptr@VCefBrowser@@@@@Z");
 			// scoped_refptr<CefBrowser> browser;
-			todo("implement");
-			_sub_10CD1A40(this, browser);
 		}
 
-		_extern void _sub_10CD1080(Web::Browser::WebRendererRenderHandler *const, scoped_refptr<CefBrowser>, CefRect &);
 		void WebRendererRenderHandler::GetViewRect(scoped_refptr<CefBrowser> browser, CefRect &rect) // 0x10CD1080
 		{
-			mangled_x86(MANGLED_TODO, "?GetViewRect@WebRendererRenderHandler@Browser@Web@@EAEXV?$scoped_refptr@VCefBrowser@@@@AAVCefRect@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetViewRect@WebRendererRenderHandler@Browser@Web@@EAEXV?$scoped_refptr@VCefBrowser@@@@AAVCefRect@@@Z");
 			// static ...; // 0x10CD11B0
 			// static ...; // 0x10CD11A8
 			// Web::Browser::WebRendererRenderHandler *const this;
@@ -218,14 +217,18 @@ namespace Web
 			// CefRect &rect;
 			// unsigned __int32 width;
 			// unsigned __int32 height;
-			todo("implement");
-			_sub_10CD1080(this, browser, rect);
+
+			unsigned __int32 width = 0;
+			unsigned __int32 height = 0;
+			if (!GetViewportInformation(width, height))
+				return;
+			rect = CefRect(0, 0, width, height);
+			return;
 		}
 
-		_extern bool _sub_10CD0D40(Web::Browser::WebRendererRenderHandler *const, scoped_refptr<CefBrowser>, CefScreenInfo &);
 		bool WebRendererRenderHandler::GetScreenInfo(scoped_refptr<CefBrowser> browser, CefScreenInfo &screenInfo) // 0x10CD0D40
 		{
-			mangled_x86(MANGLED_TODO, "?GetScreenInfo@WebRendererRenderHandler@Browser@Web@@EAE_NV?$scoped_refptr@VCefBrowser@@@@AAVCefScreenInfo@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetScreenInfo@WebRendererRenderHandler@Browser@Web@@EAE_NV?$scoped_refptr@VCefBrowser@@@@AAVCefScreenInfo@@@Z");
 			// static ...; // 0x10CD0E98
 			// static ...; // 0x10CD0E90
 			// Web::Browser::WebRendererRenderHandler *const this;
@@ -233,64 +236,75 @@ namespace Web
 			// CefScreenInfo &screenInfo;
 			// unsigned __int32 width;
 			// unsigned __int32 height;
-			todo("implement");
-			bool __result = _sub_10CD0D40(this, browser, screenInfo);
-			return __result;
+
+			unsigned __int32 width = 0;
+			unsigned __int32 height = 0;
+			if (!GetViewportInformation(width, height))
+				return false;
+			screenInfo.device_scale_factor = 1.0f;
+			screenInfo.depth = 32;
+			screenInfo.depth_per_component = 8;
+			screenInfo.is_monochrome = 0;
+			screenInfo.rect.x = 0;
+			screenInfo.rect.y = 0;
+			screenInfo.rect.width = width;
+			screenInfo.rect.height = height;
+			screenInfo.available_rect = screenInfo.rect;
+			return true;
 		}
 
-		_extern bool _sub_10CD0F80(Web::Browser::WebRendererRenderHandler *const, scoped_refptr<CefBrowser>, __int32, __int32, __int32 &, __int32 &);
 		bool WebRendererRenderHandler::GetScreenPoint(scoped_refptr<CefBrowser> browser, __int32 viewX, __int32 viewY, __int32 &screenX, __int32 &screenY) // 0x10CD0F80
 		{
-			mangled_x86(MANGLED_TODO, "?GetScreenPoint@WebRendererRenderHandler@Browser@Web@@EAE_NV?$scoped_refptr@VCefBrowser@@@@HHAAH1@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?GetScreenPoint@WebRendererRenderHandler@Browser@Web@@EAE_NV?$scoped_refptr@VCefBrowser@@@@HHAAH1@Z");
 			// __int32 viewX;
 			// __int32 viewY;
 			// __int32 &screenX;
 			// __int32 &screenY;
 			// tagPOINT point;
 			// function call : __int32 (HWND__ *, tagPOINT *)
-			todo("implement");
-			bool __result = _sub_10CD0F80(this, browser, viewX, viewY, screenX, screenY);
-			return __result;
+
+			tagPOINT point = { viewX, viewY };
+			if (!ClientToScreen(m_Window, &point))
+				return false;
+			screenX = point.x;
+			screenY = point.y;
+			return true;
 		}
 
-		_extern void _sub_10CD1C30(Web::Browser::WebRendererRenderHandler *const, scoped_refptr<CefBrowser>, bool);
 		void WebRendererRenderHandler::OnPopupShow(scoped_refptr<CefBrowser> browser, bool show) // 0x10CD1C30
 		{
-			mangled_x86(MANGLED_TODO, "?OnPopupShow@WebRendererRenderHandler@Browser@Web@@EAEXV?$scoped_refptr@VCefBrowser@@@@_N@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnPopupShow@WebRendererRenderHandler@Browser@Web@@EAEXV?$scoped_refptr@VCefBrowser@@@@_N@Z");
 			// bool show;
 			// function call : void (scoped_refptr<CefBrowser>, bool)
-			todo("implement");
-			_sub_10CD1C30(this, browser, show);
+
+			m_Deglate->OnPopupShow(browser, show);
 		}
 
-		_extern void _sub_10CD1D70(Web::Browser::WebRendererRenderHandler *const, scoped_refptr<CefBrowser>, CefRect const &);
 		void WebRendererRenderHandler::OnPopupSize(scoped_refptr<CefBrowser> browser, CefRect const &rect) // 0x10CD1D70
 		{
-			mangled_x86(MANGLED_TODO, "?OnPopupSize@WebRendererRenderHandler@Browser@Web@@EAEXV?$scoped_refptr@VCefBrowser@@@@ABVCefRect@@@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnPopupSize@WebRendererRenderHandler@Browser@Web@@EAEXV?$scoped_refptr@VCefBrowser@@@@ABVCefRect@@@Z");
 			// CefRect const &rect;
 			// function call : void (scoped_refptr<CefBrowser>, CefRect const &)
-			todo("implement");
-			_sub_10CD1D70(this, browser, rect);
+
+			m_Deglate->OnPopupSize(browser, rect);
 		}
 
-		_extern void _sub_10CD1940(Web::Browser::WebRendererRenderHandler *const, scoped_refptr<CefBrowser>, cef_paint_element_type_t, std::vector<CefRect> const &, void *);
 		void WebRendererRenderHandler::OnAcceleratedPaint(scoped_refptr<CefBrowser> browser, cef_paint_element_type_t type, std::vector<CefRect> const &dirtyRects, void *sharedHandle) // 0x10CD1940
 		{
-			mangled_x86(MANGLED_TODO, "?OnAcceleratedPaint@WebRendererRenderHandler@Browser@Web@@EAEXV?$scoped_refptr@VCefBrowser@@@@W4cef_paint_element_type_t@@ABV?$vector@VCefRect@@V?$allocator@VCefRect@@@std@@@std@@PAX@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnAcceleratedPaint@WebRendererRenderHandler@Browser@Web@@EAEXV?$scoped_refptr@VCefBrowser@@@@W4cef_paint_element_type_t@@ABV?$vector@VCefRect@@V?$allocator@VCefRect@@@std@@@std@@PAX@Z");
 			// void *sharedHandle;
 			// function call : void (scoped_refptr<CefBrowser>, cef_paint_element_type_t, std::vector<CefRect> const &, void *)
-			todo("implement");
-			_sub_10CD1940(this, browser, type, dirtyRects, sharedHandle);
+
+			m_Deglate->OnAcceleratedPaint(browser, type, dirtyRects, sharedHandle);
 		}
 
-		_extern void _sub_10CD1AE0(Web::Browser::WebRendererRenderHandler *const, scoped_refptr<CefBrowser>, cef_paint_element_type_t, std::vector<CefRect> const &, void const *, __int32, __int32);
 		void WebRendererRenderHandler::OnPaint(scoped_refptr<CefBrowser> browser, cef_paint_element_type_t type, std::vector<CefRect> const &dirtyRects, void const *buffer, __int32 width, __int32 height) // 0x10CD1AE0
 		{
-			mangled_x86(MANGLED_TODO, "?OnPaint@WebRendererRenderHandler@Browser@Web@@EAEXV?$scoped_refptr@VCefBrowser@@@@W4cef_paint_element_type_t@@ABV?$vector@VCefRect@@V?$allocator@VCefRect@@@std@@@std@@PBXHH@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnPaint@WebRendererRenderHandler@Browser@Web@@EAEXV?$scoped_refptr@VCefBrowser@@@@W4cef_paint_element_type_t@@ABV?$vector@VCefRect@@V?$allocator@VCefRect@@@std@@@std@@PBXHH@Z");
 			// __int32 height;
 			// function call : void (scoped_refptr<CefBrowser>, cef_paint_element_type_t, std::vector<CefRect> const &, void const *, __int32, __int32)
-			todo("implement");
-			_sub_10CD1AE0(this, browser, type, dirtyRects, buffer, width, height);
+
+			m_Deglate->OnPaint(browser, type, dirtyRects, buffer, width, height);
 		}
 
 		bool WebRendererRenderHandler::GetViewportInformation(unsigned __int32 &width, unsigned __int32 &height) // 0x10CD1230
@@ -306,15 +320,14 @@ namespace Web
 			return true;
 		}
 
-		_extern bool _sub_10CD2450(Web::Browser::WebRendererRenderHandler *const, unsigned __int32, unsigned __int32);
 		bool WebRendererRenderHandler::Resize(unsigned __int32 width, unsigned __int32 height) // 0x10CD2450
 		{
-			mangled_x86(MANGLED_TODO, "?Resize@WebRendererRenderHandler@Browser@Web@@QAE_NII@Z");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?Resize@WebRendererRenderHandler@Browser@Web@@QAE_NII@Z");
 			// unsigned __int32 height;
 			// function call : bool (unsigned __int32, unsigned __int32)
-			todo("implement");
-			bool __result = _sub_10CD2450(this, width, height);
-			return __result;
+
+			Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Graphics, Utils::LogLevel::Info, "Web::Browser::WebRendererRenderHandler::Resize:92 - Resize called: %dx%d.", width, height);
+			return m_Deglate->Resize(width, height);
 		}
 
 		void WebRendererRenderHandler::OnPreResetDevice() // 0x10CD2010
@@ -326,10 +339,9 @@ namespace Web
 			m_Deglate->OnPreResetDevice();
 		}
 
-		_extern void _sub_10CD1E60(Web::Browser::WebRendererRenderHandler *const);
 		void WebRendererRenderHandler::OnPostResetDevice() // 0x10CD1E60
 		{
-			mangled_x86(MANGLED_TODO, "?OnPostResetDevice@WebRendererRenderHandler@Browser@Web@@QAEXXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?OnPostResetDevice@WebRendererRenderHandler@Browser@Web@@QAEXXZ");
 			// static ...; // 0x10CD1FB3
 			// static ...; // 0x10CD1FAC
 			// static ...; // 0x10CD1F94
@@ -338,20 +350,40 @@ namespace Web
 			// unsigned __int32 width;
 			// unsigned __int32 height;
 			// function call : void ()
-			todo("implement");
-			_sub_10CD1E60(this);
+
+			m_Deglate->OnPostResetDevice();
+			unsigned __int32 width, height;
+			if (GetViewportInformation(width, height))
+				WebRenderer::GetInstance()->Resize(width, height);
 		}
 
-		_extern bool _sub_10CD1350(Web::Browser::WebRendererRenderHandler *const);
 		bool WebRendererRenderHandler::InitRenderer() // 0x10CD1350
 		{
-			mangled_x86(MANGLED_TODO, "?InitRenderer@WebRendererRenderHandler@Browser@Web@@QAE_NXZ");
+			mangled_x86(MANGLED_KNOWN_GOOD, "?InitRenderer@WebRendererRenderHandler@Browser@Web@@QAE_NXZ");
 			// Web::Browser::WebRendererRenderHandler *const this;
 			// function call : bool ()
 			// function call : bool ()
-			todo("implement");
-			bool __result = _sub_10CD1350(this);
-			return __result;
+
+			Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Graphics, Utils::LogLevel::Info, "Web::Browser::WebRendererRenderHandler::InitRenderer:114 - WebRenderer InitRenderer.");
+			m_GpuEnable = Modules::ModuleGame::Instance().VarCEFGpuEnable->ValueInt != 0;
+			if (m_GpuEnable)
+			{
+				m_Deglate = new RenderHandlerGpu(m_Device.Get(), m_Window);
+				if (!m_Deglate->InitRenderer())
+				{
+					Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Graphics, Utils::LogLevel::Info, "Web::Browser::WebRendererRenderHandler::InitRenderer:123 - GPU acceleration unavailable");
+					m_GpuEnable = false;
+				}
+			}
+			if (!m_GpuEnable)
+			{
+				m_Deglate = new RenderHandlerCpu(m_Device.Get(), m_Window);
+				if (!m_Deglate->InitRenderer())
+					return false;
+			}
+			if (!m_GpuEnable)
+				Modules::CommandMap::Instance().SetVariable(Modules::ModuleGame::Instance().VarCEFGpuEnable, "0", false);
+			return true;
 		}
 
 		bool WebRendererRenderHandler::Render(bool clear) // 0x10CD2360

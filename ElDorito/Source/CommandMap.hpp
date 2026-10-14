@@ -59,13 +59,13 @@ namespace Modules
 		std::string DirtyValue; // 0xFC
 		std::string CommittedValue; // 0x118
 		std::vector<std::string> CommandArgs; // 0x134
-		_inline Command(Modules::Command &&__that); /* compiler_generated() */
-		_inline Command(Modules::Command const &__that); /* compiler_generated() */
+		// _inline Command(Modules::Command &&__that);  // hades: implicit /* compiler_generated() */
+		// _inline Command(Modules::Command const &__that);  // hades: implicit /* compiler_generated() */
 		Command();
 		std::string GenerateHelpText();
-		_inline ~Command(); /* compiler_generated() */
-		_inline Modules::Command &operator=(Modules::Command &&__that); /* compiler_generated() */
-		Modules::Command &operator=(Modules::Command const &); /* compiler_generated() */
+		// _inline ~Command();  // hades: implicit /* compiler_generated() */
+		// _inline Modules::Command &operator=(Modules::Command &&__that);  // hades: implicit /* compiler_generated() */
+		// Modules::Command &operator=(Modules::Command const &);  // hades: implicit /* compiler_generated() */
 	};
 	static_assert(sizeof(Modules::Command) == 328, "Invalid Modules::Command size");
 	static_assert(offsetof(Modules::Command, DefaultValueInt64) == 0xB0, "Modules::Command::DefaultValueInt64 moved when its reconstructed padding was removed");
