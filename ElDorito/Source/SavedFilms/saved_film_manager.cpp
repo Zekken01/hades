@@ -16,6 +16,7 @@
 #include "mods/new/IModManager.hpp"
 
 #include <Windows.h>
+#include <share.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
@@ -94,6 +95,7 @@ namespace SavedFilms
 
 		// c_simulation_world fields.
 		long const k_world_type = 0x8;
+		long const k_world_next_update_number = 0x34;
 		long const k_world_update_queue_next_update_number_to_dequeue = 0x14EC;
 		long const k_world_update_queue_latest_received_type = 0x14F0;
 		long const k_world_update_queue_latest_received_update_number = 0x14F4;
@@ -271,8 +273,8 @@ namespace SavedFilms
 			if (!g_playback_log)
 			{
 				CreateDirectoryA(films_directory().c_str(), nullptr);
-				if (fopen_s(&g_playback_log, (films_directory() + "\\film_playback.log").c_str(), "w") != 0)
-					g_playback_log = nullptr;
+				// Shared, so the log can be read while the game runs.
+				g_playback_log = _fsopen((films_directory() + "\\film_playback.log").c_str(), "w", _SH_DENYNO);
 				if (!g_playback_log)
 					return;
 			}
@@ -461,6 +463,55 @@ namespace SavedFilms
 			not_multiplayer:
 				push    0x00A86C64
 				ret
+			}
+		}
+
+		/* ---------- out of sync */
+
+		auto const get_random_seed = reinterpret_cast<unsigned long (*)()>(0x0051EFE0);
+		auto const world_go_out_of_sync = reinterpret_cast<void(__thiscall *)(void *, bool)>(0x004695E0);
+
+		long const k_simulation_update_verify_game_time = 0x15F0;
+		long const k_simulation_update_verify_random_seed = 0x15F4;
+
+		// simulation_build_update checks each update a playback world consumes against the
+		// world - its number, game time and random seed - and takes the world out of sync
+		// on a mismatch. An online client's updates come from the host, whose time and
+		// random seed the client's own simulation never tracked (a distributed client skips
+		// the check), so a client's film fails it straight away. During playback the
+		// mismatch is logged and the film plays on.
+		void __cdecl build_update_out_of_sync(void *world, unsigned char const *update, bool determinism_failure)
+		{
+			if (!g_playback.is_open() || game_playback_get() != k_game_playback_film)
+			{
+				world_go_out_of_sync(world, determinism_failure);
+				return;
+			}
+
+			static long logged = 0;
+			if (logged < 20)
+			{
+				logged++;
+				playback_log("update #%ld fails the sync check: world expects #%ld, time %ld (local %ld), seed %08lX (local %08lX)",
+					*reinterpret_cast<long const *>(update),
+					*reinterpret_cast<long const *>(static_cast<unsigned char *>(world) + k_world_next_update_number),
+					*reinterpret_cast<long const *>(update + k_simulation_update_verify_game_time), game_time_get(),
+					*reinterpret_cast<unsigned long const *>(update + k_simulation_update_verify_random_seed), get_random_seed());
+			}
+		}
+
+		// Replaces "call c_simulation_world::go_out_of_sync" at 0x4411B1 in
+		// simulation_build_update (ecx is the world, esi the update, the argument pushed).
+		__declspec(naked) void build_update_out_of_sync_hook()
+		{
+			__asm
+			{
+				push    dword ptr [esp + 4]
+				push    esi
+				push    ecx
+				call    build_update_out_of_sync
+				add     esp, 12
+				ret     4
 			}
 		}
 
@@ -1014,6 +1065,7 @@ namespace SavedFilms
 		// ran. Skip it (jz -> jmp) and leave the speed to Time.GameSpeed / Film.Speed.
 		Patch(0x00565277 - 0x00400000, { 0xEB }).Apply();
 		Hook(0x00A86C2F - 0x00400000, reinterpret_cast<void *>(chud_saved_film_state_hook)).Apply();
+		Hook(0x004411B1 - 0x00400000, reinterpret_cast<void *>(build_update_out_of_sync_hook), static_cast<__int32>(HookFlags::IsCall)).Apply();
 		Patches::Core::OnShutdown([]()
 		{
 			stop_recording();
