@@ -562,7 +562,7 @@ void CollectObject(unsigned __int32 objectIndex) // 0x109547E0
 	s_object_data *object = object_get(objectIndex);
 	if (!object)
 		return;
-	if (object->object_identifier.type == (e_object_type)2)
+	if (object->object_identifier.type == _object_type_weapon)
 	{
 		short mpWeaponType = ((short(__cdecl *)(unsigned __int32))0xB62DB0)(objectIndex);
 		switch (mpWeaponType)
@@ -650,7 +650,7 @@ void FindVolumes() // 0x109549C0
 	c_data_array<s_object_header> *object_headers = object_headers_get();
 	for (c_data_iterator<s_object_header> it = object_headers->begin(); it != object_headers->end(); ++it)
 	{
-		if (it->type != (e_object_type)11 || !it->data)
+		if (it->type != _object_type_crate || !it->data)
 			continue;
 		s_multiplayer_object_properties *mpProperties = object_get_multiplayer(it.current_datum_index);
 		if (!mpProperties)

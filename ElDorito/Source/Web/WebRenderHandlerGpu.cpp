@@ -387,8 +387,8 @@ namespace Web
 			((bool (*)(IDirect3DVertexShader9 *))0xA247B0)(m_VertexShader.Get());
 			((bool (*)(IDirect3DPixelShader9 *))0xA23500)(m_PixelShader.Get());
 			c_rasterizer_samplers::sampler_srgb_states[5] = 1;
-			((void (*)(long, c_enum<e_sampler_filter_mode, long>))0xA23660)(5, (e_sampler_filter_mode)2);
-			((void (*)(long, c_enum<e_sampler_address_mode, long>, c_enum<e_sampler_address_mode, long>, c_enum<e_sampler_address_mode, long>))0xA23570)(5, (e_sampler_address_mode)1, (e_sampler_address_mode)1, (e_sampler_address_mode)1);
+			((void (*)(long, c_enum<e_sampler_filter_mode, long>))0xA23660)(5, _filter_bilinear);
+			((void (*)(long, c_enum<e_sampler_address_mode, long>, c_enum<e_sampler_address_mode, long>, c_enum<e_sampler_address_mode, long>))0xA23570)(5, _address_mode_clamp, _address_mode_clamp, _address_mode_clamp);
 			((void (*)(long))0xA232D0)(2);
 			((bool (*)(IDirect3DIndexBuffer9 *))0xA233C0)(nullptr);
 			float gamma = moduleGraphicxs.VarGammaPower->ValueFloatMax - moduleGraphicxs.VarGammaPower->ValueFloat + 0.6f;

@@ -759,7 +759,7 @@ bool CommandHideForgeObjects(std::vector<std::string> const &Arguments, std::str
 			unsigned long objectIndex = it.current_datum_index;
 			long definition_index = it->data->definition_index;
 			s_object_definition *object_definition = (s_object_definition *)tag_get('obje', definition_index);
-			if (object_definition && object_definition->multiplayer_object.count > 0 && object_definition->multiplayer_object->flags.test((e_multiplayer_object_flags)0))
+			if (object_definition && object_definition->multiplayer_object.count > 0 && object_definition->multiplayer_object->flags.test(_multiplayer_object_only_render_in_editor_bit))
 				object_hide(objectIndex, hidden);
 		}
 	}

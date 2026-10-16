@@ -1451,7 +1451,7 @@ bool CommandExecuteScenarioScript(std::vector<std::string> const &Arguments, std
 		s_hs_script const &script = scnr->scripts[i];
 		if (!_stricmp(script.name.ascii, Arguments[0].c_str()))
 		{
-			if (((long(__cdecl *)(short, e_hs_script_type, e_hs_script_type))0x598050)((short)i, script.type, (e_hs_script_type)3) == -1)
+			if (((long(__cdecl *)(short, e_hs_script_type, e_hs_script_type))0x598050)((short)i, script.type, _hs_script_type_static) == -1)
 			{
 				returnInfo = "Failed execution failed";
 				return false;

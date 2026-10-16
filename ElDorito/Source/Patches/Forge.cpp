@@ -756,7 +756,7 @@ void GrabObject(long player_index, long map_variant_index) // 0x10A656C0
 		for (long i = 0; i < 640; i++)
 		{
 			s_variant_datum const &placement = map_variant->objects[i];
-			if (!placement.flags.test((e_variant_object_placement_flags)0) || placement.object_index == object_index)
+			if (!placement.flags.test(_map_variant_occupied_slot_bit) || placement.object_index == object_index)
 				continue;
 			long selection_object_index = placement.object_index;
 			if (selection.Contains(selection_object_index))
@@ -861,7 +861,7 @@ void CanvasMap() // 0x10A64E10
 	for (long i = 0; i < 640; i++)
 	{
 		s_variant_datum &placement = map_variant->objects[i];
-		if (!placement.flags.test((e_variant_object_placement_flags)0))
+		if (!placement.flags.test(_map_variant_occupied_slot_bit))
 			continue;
 		s_variant_quota &budget = map_variant->object_quotas[placement.quota_index];
 		if (budget.definition_index == -1 || budget.cost < 0.0f)
@@ -1081,7 +1081,7 @@ void HandleOpenMapOptions() // 0x10A66460
 
 	if (mapModifierObjectIndex == -1)
 	{
-		eldorado::chud_messaging_post(0, L"Failed to spawn map modifier object. Out of objects?", (e_chud_message_context)0);
+		eldorado::chud_messaging_post(0, L"Failed to spawn map modifier object. Out of objects?", _chud_message_context_self);
 	}
 	else
 	{
@@ -1274,7 +1274,7 @@ void UpdateSelectionManipulationState(__int32 rootObjectIndex) // 0x10A678D0
 	for (long i = 0; i < 640; i++)
 	{
 		s_variant_datum &placement = map_variant->objects[i];
-		if (!placement.flags.test((e_variant_object_placement_flags)0) || placement.object_index == -1 || placement.object_index == rootObjectIndex)
+		if (!placement.flags.test(_map_variant_occupied_slot_bit) || placement.object_index == -1 || placement.object_index == rootObjectIndex)
 			continue;
 		if (!selection.Contains(placement.object_index))
 			continue;
@@ -1426,7 +1426,7 @@ void RecalculateMapVariantBudget() // 0x10A66B90
 	for (long i = 0; i < 640; i++)
 	{
 		s_variant_datum &placement = map_variant->objects[i];
-		if (placement.flags.test((e_variant_object_placement_flags)0))
+		if (placement.flags.test(_map_variant_occupied_slot_bit))
 			map_variant->object_quotas[placement.quota_index].placed_on_map++;
 	}
 	for (long i = 0; i < 256; i++)
@@ -1776,7 +1776,7 @@ void game_engine_sandbox_delete_object_hook(long map_variant_index, long player_
 		for (long i = 0; i < 640; i++)
 		{
 			s_variant_datum const &placement = map_variant->objects[i];
-			if (!placement.flags.test((e_variant_object_placement_flags)0) || placement.object_index == -1 || placement.object_index == deletedObjectIndex)
+			if (!placement.flags.test(_map_variant_occupied_slot_bit) || placement.object_index == -1 || placement.object_index == deletedObjectIndex)
 				continue;
 			if (selection.Contains(placement.object_index))
 				game_engine_sandbox_delete_object(i, player_index);
@@ -1815,7 +1815,7 @@ void ApplyObjectPropertiesToSelection(long playerIndex, long rootObjectIndex, s_
 	for (long i = 0; i < 640; i++)
 	{
 		s_variant_datum &placement = map_variant->objects[i];
-		if (!placement.flags.test((e_variant_object_placement_flags)0) || placement.object_index == -1 || placement.object_index == rootObjectIndex)
+		if (!placement.flags.test(_map_variant_occupied_slot_bit) || placement.object_index == -1 || placement.object_index == rootObjectIndex)
 			continue;
 		if (!selection.Contains(placement.object_index))
 			continue;

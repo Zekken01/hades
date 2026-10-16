@@ -337,9 +337,9 @@ extern "C" void optimize_forge_globals(s_cache_tag_instance *tag_instance) // 0x
 	g_reforge_render_models.clear();
 	g_reforge_material_indices.clear();
 	s_game_options const *game_options = get_intermediate_game_options();
-	if (game_options->game_variant.game_engine_type == (e_game_engine_type)5)
+	if (game_options->game_variant.game_engine_type == _game_engine_type_sandbox)
 		return;
-	if (game_options->game_mode != (e_game_mode)2)
+	if (game_options->game_mode != _game_mode_multiplayer)
 	{
 		dependencies_to_null.set_all();
 	}

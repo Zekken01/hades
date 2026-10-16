@@ -310,11 +310,11 @@ _inline e_async_completion c_tag_resource_stream_task::async_callback(c_tag_reso
 
 	if (!task->update())
 	{
-		return (e_async_completion)0;
+		return _async_completion_none;
 	}
 
 	task->dispose();
-	return (e_async_completion)1;
+	return _async_completion_done;
 }
 
 /* ---------- template instantiations */

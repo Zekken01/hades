@@ -136,7 +136,7 @@ void CForgeUndoMapVariant::Undo() // 0x10864F40
 	{
 		if (it.current_datum_index == -1 || it->data->parent_object_index != -1)
 			continue;
-		if (it->type == (e_object_type)0)
+		if (it->type == _object_type_biped)
 		{
 			s_unit_data *unit = (s_unit_data *)it->data;
 			if (*(long *)((unsigned char *)unit + 0x198) != -1 || *(long *)((unsigned char *)unit + 0x19C) != -1 || *(long *)((unsigned char *)unit + 0x4A8) != -1)

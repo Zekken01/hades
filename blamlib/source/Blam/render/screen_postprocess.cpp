@@ -83,18 +83,18 @@ e_surface c_screen_postprocess::blur_display(float blur_x, float blur_y) // 0x10
 
 	if (((e_surface (*)(long))0xA48720)(0) == 29)
 	{
-		e_surface blur_surface = (e_surface)29;
+		e_surface blur_surface = _surface_screenshot_display;
 		void *player_view = *(void **)0x50DEDF0;
 		if (player_view)
 			blur_surface = *(e_surface *)offset_pointer(player_view, 0x26B0);
-		((e_surface (*)(long, e_surface, long))0xA48E40)(0, (e_surface)34, -1);
+		((e_surface (*)(long, e_surface, long))0xA48E40)(0, _surface_aux_small, -1);
 		((void (*)(long, __int32, float, unsigned char))0xA213F0)(1, 0xFF000000, 0.0f, 0);
 		((void (*)(long, long))0xA231E0)(0, 7);
-		((void (*)(long, e_surface, e_surface, long, long, float, float, float, float, real_rectangle2d *))0xA60460)(39, blur_surface, (e_surface)34, 2, 1, 1.0f, 1.0f, 1.0f, 1.0f, nullptr);
+		((void (*)(long, e_surface, e_surface, long, long, float, float, float, float, real_rectangle2d *))0xA60460)(39, blur_surface, _surface_aux_small, 2, 1, 1.0f, 1.0f, 1.0f, 1.0f, nullptr);
 		((void (*)(long, long))0xA231E0)(0, 15);
-		((void (*)(e_surface, e_surface, float, float))0xA60D60)((e_surface)34, (e_surface)45, blur_x, blur_y);
+		((void (*)(e_surface, e_surface, float, float))0xA60D60)(_surface_aux_small, _surface_aux_small2, blur_x, blur_y);
 	}
-	return (e_surface)34;
+	return _surface_aux_small;
 }
 
 e_surface c_screen_postprocess::blur_display(float blur_x, float blur_y, e_surface blur_surface) // 0x10F10D20
@@ -103,14 +103,14 @@ e_surface c_screen_postprocess::blur_display(float blur_x, float blur_y, e_surfa
 
 	if (((e_surface (*)(long))0xA48720)(0) == 29)
 	{
-		((e_surface (*)(long, e_surface, long))0xA48E40)(0, (e_surface)34, -1);
+		((e_surface (*)(long, e_surface, long))0xA48E40)(0, _surface_aux_small, -1);
 		((void (*)(long, __int32, float, unsigned char))0xA213F0)(1, 0xFF000000, 0.0f, 0);
 		((void (*)(long, long))0xA231E0)(0, 7);
-		((void (*)(long, e_surface, e_surface, long, long, float, float, float, float, real_rectangle2d *))0xA60460)(39, blur_surface, (e_surface)34, 2, 1, 1.0f, 1.0f, 1.0f, 1.0f, nullptr);
+		((void (*)(long, e_surface, e_surface, long, long, float, float, float, float, real_rectangle2d *))0xA60460)(39, blur_surface, _surface_aux_small, 2, 1, 1.0f, 1.0f, 1.0f, 1.0f, nullptr);
 		((void (*)(long, long))0xA231E0)(0, 15);
-		((void (*)(e_surface, e_surface, float, float))0xA60D60)((e_surface)34, (e_surface)45, blur_x, blur_y);
+		((void (*)(e_surface, e_surface, float, float))0xA60D60)(_surface_aux_small, _surface_aux_small2, blur_x, blur_y);
 	}
-	return (e_surface)34;
+	return _surface_aux_small;
 }
 
 void c_screen_postprocess::render_screen_effect_blur(float x_blur, float y_blur) // 0x10F113D0
@@ -122,12 +122,12 @@ void c_screen_postprocess::render_screen_effect_blur(float x_blur, float y_blur)
 		float blur_x = fmaxf(x_blur - 0.5f, 0.35f);
 		float blur_y = fmaxf(y_blur - 0.5f, 0.35f);
 		((void (*)(long))0xA63510)(0);
-		e_surface blurred_surface = c_screen_postprocess::blur_display(blur_x, blur_y, (e_surface)29);
+		e_surface blurred_surface = c_screen_postprocess::blur_display(blur_x, blur_y, _surface_screenshot_display);
 		((void (*)(long))0xA22D10)(13);
 		float blur_blend = fminf(fmaxf(x_blur, y_blur) * 300.0f, 255.0f);
 		__int32 blur_blendi = *(__int32 *)&blur_blend;
 		((void (*)(unsigned long))0xA231A0)((((blur_blendi << 8) | blur_blendi) << 8 | blur_blendi) << 8 | blur_blendi);
-		((void (*)(long, e_surface, e_surface, long, long, float, float, float, float, real_rectangle2d *))0xA60460)(51, blurred_surface, (e_surface)29, 2, 1, 1.0f, 1.0f, 1.0f, 1.0f, nullptr);
+		((void (*)(long, e_surface, e_surface, long, long, float, float, float, float, real_rectangle2d *))0xA60460)(51, blurred_surface, _surface_screenshot_display, 2, 1, 1.0f, 1.0f, 1.0f, 1.0f, nullptr);
 		((void (*)(long))0xA22D10)(0);
 	}
 }
@@ -181,8 +181,8 @@ void c_screen_postprocess::smaa_render_velocity(IDirect3DDevice9 *device, e_surf
 				device->SetRenderTarget(0, smaa_globals.velocity_srf);
 			device->SetTexture(7, smaa_globals.prev_depth);
 			((void (*)(long, long))0xA23530)(7, 0);
-			((void (*)(long, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>))0xA23570)(7, (e_sampler_address_mode)1, (e_sampler_address_mode)1, (e_sampler_address_mode)1);
-			((void (*)(long, c_enum<enum e_sampler_filter_mode,long>))0xA23660)(7, (e_sampler_filter_mode)2);
+			((void (*)(long, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>))0xA23570)(7, _address_mode_clamp, _address_mode_clamp, _address_mode_clamp);
+			((void (*)(long, c_enum<enum e_sampler_filter_mode,long>))0xA23660)(7, _filter_bilinear);
 			((void (*)(long, long, real_vector4d const *))0xA66270)(4, 4, (real_vector4d const *)&view_proj[0][0]);
 			((void (*)(long, long, real_vector4d const *))0xA66410)(4, 4, (real_vector4d const *)&view_proj[0][0]);
 			((void (*)(long, long, real_vector4d const *))0xA66270)(8, 4, (real_vector4d const *)&smaa_globals.last_view_proj[0][0]);
@@ -205,10 +205,10 @@ bool c_screen_postprocess::smaa_render(e_surface src_surface, e_surface dst_surf
 		bool result = debug_mode == s_smaa_globals::_smaa_debug_mode_velocity_postprocessed;
 		float z_near;
 		float z_far;
-		eldorado::c_rasterizer_set_render_target(1, (e_surface)0, -1);
-		eldorado::c_rasterizer_set_render_target(2, (e_surface)0, -1);
-		eldorado::c_rasterizer_set_render_target(3, (e_surface)0, -1);
-		eldorado::c_rasterizer_set_surface_as_texture(1, (e_surface)23);
+		eldorado::c_rasterizer_set_render_target(1, _surface_none, -1);
+		eldorado::c_rasterizer_set_render_target(2, _surface_none, -1);
+		eldorado::c_rasterizer_set_render_target(3, _surface_none, -1);
+		eldorado::c_rasterizer_set_surface_as_texture(1, _surface_depth_fp32);
 		eldorado::c_rasterizer_set_sampler_address_mode(1, _address_mode_clamp, _address_mode_clamp, _address_mode_clamp);
 		eldorado::c_rasterizer_set_sampler_filter_mode(1, _filter_bilinear);
 		void (*const rasterizer_get_z_planes)(float *, float *) = (void (*)(float *, float *))0xA25AA0;
@@ -265,12 +265,12 @@ bool c_screen_postprocess::smaa_render(e_surface src_surface, e_surface dst_surf
 				{
 					s_rasterizer_globals *rasg = c_rasterizer_globals::get();
 					c_rasterizer_texture_ref area_tex(-1);
-					c_rasterizer_globals::get_default_texture_rasterizer_texture_ref(rasg, &area_tex, (e_rasterizer_default_bitmap)15);
+					c_rasterizer_globals::get_default_texture_rasterizer_texture_ref(rasg, &area_tex, _default_bitmap_smaa_area);
 					eldorado::c_rasterizer_set_sampler_texture(3, area_tex);
 					eldorado::c_rasterizer_set_sampler_address_mode(3, _address_mode_clamp, _address_mode_clamp, _address_mode_clamp);
 					eldorado::c_rasterizer_set_sampler_filter_mode(3, _filter_bilinear);
 					c_rasterizer_texture_ref search_tex(-1);
-					c_rasterizer_globals::get_default_texture_rasterizer_texture_ref(rasg, &search_tex, (e_rasterizer_default_bitmap)16);
+					c_rasterizer_globals::get_default_texture_rasterizer_texture_ref(rasg, &search_tex, _default_bitmap_smaa_search);
 					eldorado::c_rasterizer_set_sampler_texture(4, search_tex);
 					eldorado::c_rasterizer_set_sampler_address_mode(4, _address_mode_clamp, _address_mode_clamp, _address_mode_clamp);
 					eldorado::c_rasterizer_set_sampler_filter_mode(4, _filter_bilinear);
@@ -326,7 +326,7 @@ bool c_screen_postprocess::smaa_render(e_surface src_surface, e_surface dst_surf
 		if (result)
 		{
 			eldorado::c_rasterizer_clear_sampler_textures();
-			eldorado::c_rasterizer_set_render_target(0, (e_surface)0, -1);
+			eldorado::c_rasterizer_set_render_target(0, _surface_none, -1);
 			if (smaa_globals.temporal_enabled)
 			{
 				if (!smaa_globals.temporal_valid)
@@ -340,7 +340,7 @@ bool c_screen_postprocess::smaa_render(e_surface src_surface, e_surface dst_surf
 			return true;
 		}
 	}
-	eldorado::c_rasterizer_set_render_target(0, (e_surface)0, -1);
+	eldorado::c_rasterizer_set_render_target(0, _surface_none, -1);
 	IDirect3DSurface9 *src = ((c_surface_group *)0x510D8D0)[src_surface].surfaces[0].m_surface;
 	IDirect3DSurface9 *dst = ((c_surface_group *)0x510D8D0)[dst_surface].surfaces[0].m_surface;
 	device->StretchRect(src, nullptr, dst, nullptr, D3DTEXF_NONE);

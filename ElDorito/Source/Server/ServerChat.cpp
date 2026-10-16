@@ -372,7 +372,7 @@ namespace Server
 				s_game_options *game = game_options_get();
 				if (game)
 				{
-					if (game_options_get()->game_variant.game_engine_type != (e_game_engine_type)10)
+					if (game_options_get()->game_variant.game_engine_type != _game_engine_type_infection)
 						return false;
 				}
 				else
@@ -594,7 +594,7 @@ bool GetTeamPeers(Blam::Network::Session *session, __int32 senderPeer, std::bits
 	s_game_options *(*const game_options_get)() = reinterpret_cast<s_game_options *(*)()>(0x5322D0);
 	result->reset();
 	s_game_options *game = game_options_get();
-	if (game && ((c_game_engine *(__cdecl *)())0x5CE150)() && ((bool(__cdecl *)())0x5314B0)() && game->game_variant.game_engine_type == (e_game_engine_type)10)
+	if (game && ((c_game_engine *(__cdecl *)())0x5CE150)() && ((bool(__cdecl *)())0x5314B0)() && game->game_variant.game_engine_type == _game_engine_type_infection)
 	{
 		Blam::Network::SessionMembership *membership = &session->MembershipInfo;
 		long player_datum_index = membership->GetPeerPlayer(senderPeer);

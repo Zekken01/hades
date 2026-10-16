@@ -348,7 +348,7 @@ void render_object_add_mesh_parts_hook(s_render_object *render_object, s_visible
 				material_index = reforge_material_index;
 			if (material_index < 0 || material_index >= render_model->materials.count)
 				continue;
-			if (part->type == (e_part_type)5 || part->type == (e_part_type)6)
+			if (part->type == _part_type_lightmap_only || part->type == _part_type_unknown6)
 				continue;
 			long render_method_index = materials[material_index].render_method.index;
 			if (render_method_index == -1)
@@ -358,7 +358,7 @@ void render_object_add_mesh_parts_hook(s_render_object *render_object, s_visible
 				continue;
 			if (((bool *)0x1699294)[static_cast<char>(object->object_identifier.type)])
 				object_entry_point_flags |= 0x10;
-			*(long *)0x524B6DC |= ((c_flags<enum e_render_method_flags,short> *)((char *)render_method + 0x34))->test((e_render_method_flags)2);
+			*(long *)0x524B6DC |= ((c_flags<enum e_render_method_flags,short> *)((char *)render_method + 0x34))->test(_render_method_calculate_z_camera_bit);
 			bool uses_z_pre_pass = eldorado::render_method_uses_z_pre_pass(render_method_index);
 			bool is_decal = eldorado::c_render_method_get_is_decal(render_method_index);
 			bool uses_alpha_blending = ((c_tag_block<s_render_method_postprocess_definition> *)((char *)render_method + 0x28))->operator->()->alpha_blend_mode != 0;
@@ -373,14 +373,14 @@ void render_object_add_mesh_parts_hook(s_render_object *render_object, s_visible
 			long element_index = eldorado::c_object_renderer_add_context_mesh_part(render_object, &render_info->info, render_info->subpart_visibility, mesh_index, part_index, region_index, material_index, entry_point_flags);
 			if (uses_z_pre_pass)
 			{
-				if (mesh->vertex_type == (e_vertex_type)2 || mesh->vertex_type == (e_vertex_type)1 || mesh->vertex_type == (e_vertex_type)22)
+				if (mesh->vertex_type == _vertex_type_skinned || mesh->vertex_type == _vertex_type_rigid || mesh->vertex_type == _vertex_type_dual_quat)
 					eldorado::z_pre_pass_add_callback((void *)0xA791A0, render_object, element_index);
 				unknown_transparency_flag = false;
 			}
 			if (camo && eldorado::render_method_uses_distortion(render_method_index))
 			{
 				real_point3d sorting_position = global_origin3d;
-				if (part->transparent_sorting_index != -1 && !mesh->flags.test((e_mesh_flags)1))
+				if (part->transparent_sorting_index != -1 && !mesh->flags.test(_mesh_use_region_index_for_sorting_bit))
 					sorting_position = render_model->render_geometry.sorting[part->transparent_sorting_index].position;
 				eldorado::c_object_renderer_add_transparent_mesh_part(&render_model->render_geometry, mesh, part, region_index, render_info->info.skinning_memory_designator, render_object, element_index, &sorting_position, uses_fixed_oreder_transparency, static_cast<char>(*(c_enum<enum e_sorting_layer,char> *)((char *)render_method + 0x36)), sort_index, (void *)0xA78480);
 				ridiculous_transparency_sort_bias_bit |= sort_index != -1;
@@ -388,7 +388,7 @@ void render_object_add_mesh_parts_hook(s_render_object *render_object, s_visible
 			if (a4 && (object_entry_point_flags & 1) && (unknown_transparency_flag || has_shield_impact))
 			{
 				real_point3d sorting_position = global_origin3d;
-				if (part->transparent_sorting_index != -1 && !mesh->flags.test((e_mesh_flags)1))
+				if (part->transparent_sorting_index != -1 && !mesh->flags.test(_mesh_use_region_index_for_sorting_bit))
 					sorting_position = render_model->render_geometry.sorting[part->transparent_sorting_index].position;
 				if (unknown_transparency_flag)
 				{
@@ -586,9 +586,9 @@ void render_object_update_change_colors_hook(long object_index, bool force) // 0
 						color.green = reforge->ColorG / 255.0f;
 						color.blue = reforge->ColorB / 255.0f;
 					}
-					else if (multiplayer->multiplayer_object_type == (e_multiplayer_object_type)12 || Forge::Reforge::IsPrematchCameraObject(object_index))
+					else if (multiplayer->multiplayer_object_type == _object_multiplayer_type_player_spawn_location || Forge::Reforge::IsPrematchCameraObject(object_index))
 					{
-						if (multiplayer->team_designator >= (e_multiplayer_team_designator)0 && multiplayer->team_designator < (e_multiplayer_team_designator)8)
+						if (multiplayer->team_designator >= _multiplayer_team_designator_defender && multiplayer->team_designator < _multiplayer_team_designator_neutral)
 							network_get_team_color(&color, (short)multiplayer->team_designator);
 					}
 					else if (!((1 << (char)object->object_identifier.type) & 0xD))

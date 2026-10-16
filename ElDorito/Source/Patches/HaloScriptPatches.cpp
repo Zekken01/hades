@@ -1374,7 +1374,7 @@ void hs_dew_method_stub_evaluate(short op, __int32 thread_index, char a3) // 0x1
 	}
 	else
 	{
-		eldorado::hs_return(thread_index, hs_value::get_default((e_hs_type)4));
+		eldorado::hs_return(thread_index, hs_value::get_default(_hs_type_void));
 	}
 }
 
@@ -1672,7 +1672,7 @@ long *hs_macro_function_evaluate_hook(short function_index, long thread_index, b
 	long *(*const hs_arguments_evaluate)(long, short, short const *, bool) = reinterpret_cast<long *(*)(long, short, short const *, bool)>(0x594140);
 	hs_stack_frame *stack = hs_thread_stack(thread_index);
 	s_hs_syntax_node *node = eldorado::hs_syntax_get(stack->expression_index);
-	if (node->flags.test((e_hs_syntax_node_flags)5))
+	if (node->flags.test(_hs_syntax_node_extern_bit))
 	{
 		s_hs_script *script = &global_scenario_get()->scripts[node->line_number];
 		short types[16];
@@ -1705,17 +1705,17 @@ void hs_return_hook(long thread_index, hs_value value) // 0x107B8410
 	s_hs_thread *thread = hs_thread_get(thread_index);
 	hs_stack_frame *stack = hs_thread_stack(thread_index);
 	s_hs_syntax_node *node = eldorado::hs_syntax_get(stack->expression_index);
-	e_hs_type return_type = (e_hs_type)4;
-	if (node->flags.test((e_hs_syntax_node_flags)5))
+	e_hs_type return_type = _hs_type_void;
+	if (node->flags.test(_hs_syntax_node_extern_bit))
 	{
 		return_type = global_scenario_get()->scripts[node->line_number].return_type;
 	}
-	else if (node->flags.test((e_hs_syntax_node_flags)1))
+	else if (node->flags.test(_hs_syntax_node_script_index_bit))
 	{
 		short script_index = node->opcode;
 		if (script_index == -1)
 		{
-			return_type = (e_hs_type)4;
+			return_type = _hs_type_void;
 		}
 		else
 		{

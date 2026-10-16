@@ -1135,7 +1135,7 @@ void cache_file_tag_resource_table_read(s_cache_file_tag_resource_table *out_tab
 	c_mod_package *current_mod = resource_loader_state.mod_cache;
 	out_table->count = 0;
 	out_table->file_offsets = nullptr;
-	for (e_cache_file_tag_resource_location location = (e_cache_file_tag_resource_location)0; location < 6; location = (e_cache_file_tag_resource_location)(location + 1))
+	for (e_cache_file_tag_resource_location location = _cache_file_tag_resource_location_resources; location < 6; location = (e_cache_file_tag_resource_location)(location + 1))
 	{
 		long map_file_index = location + 1;
 		completion_flag.set(0);

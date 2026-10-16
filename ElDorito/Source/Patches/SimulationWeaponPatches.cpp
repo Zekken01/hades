@@ -297,7 +297,7 @@ void simulation_action_weapon_fire_hook(long weapon_index, long barrel_index, bo
 		return;
 	s_weapon_data *weapon = object_get<s_weapon_data>(weapon_index);
 	s_weapon_definition *weapon_definiton = (s_weapon_definition *)tag_get('weap', weapon->definition_index);
-	if (weapon_definiton->barrels[barrel_index].prediction_type == (e_weapon_barrel_prediction_type)1)
+	if (weapon_definiton->barrels[barrel_index].prediction_type == _weapon_barrel_prediction_type_continuous)
 		return;
 	long weapon_owner_unit_index = eldorado::weapon_get_owner_unit_index(weapon_index);
 	long unit_inventory_index = eldorado::weapon_get_owner_unit_inventory_index(weapon_index);
@@ -317,7 +317,7 @@ void simulation_action_weapon_fire_hook(long weapon_index, long barrel_index, bo
 		object_index = weapon_owner_unit_index;
 		object_references[0] = weapon_owner_unit_index;
 	}
-	if (object_header_get(object_index)->type == (e_object_type)1)
+	if (object_header_get(object_index)->type == _object_type_vehicle)
 	{
 		s_unit_data *unit = object_get<s_unit_data>(object_index);
 		long weapon_control_unit_index = unit->weapon_control_unit_index;
@@ -396,7 +396,7 @@ void simulation_action_weapon_fire_hook(long weapon_index, long barrel_index, bo
 	if (generated_from_host_live_fire)
 		eldorado::simulation_event_generate_for_simulation_queue(17, 1, object_references, sizeof(event_data), &event_data);
 	else
-		eldorado::simulation_event_generate_for_remote_peers((e_simulation_event_type)17, 1, object_references, player_index, sizeof(event_data), &event_data);
+		eldorado::simulation_event_generate_for_remote_peers(_simulation_event_type_weapon_fire, 1, object_references, player_index, sizeof(event_data), &event_data);
 }
 
 void __fastcall c_simulation_weapon_fire_event_definition__apply_game_event_hook(void *thisptr, void *__formal, long a1, long const *object_references, long object_reference_count, s_weapon_fire_event_sending_data *payload) // 0x1069EF80

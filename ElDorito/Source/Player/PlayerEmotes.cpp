@@ -797,7 +797,7 @@ void PlayerStartEmote(__int32 playerIndex, long definitionIndex, long emoteIndex
 		data.player_index = playerIndex != -1 ? (unsigned short)playerIndex : -1;
 		data.emote_definition_index = definitionIndex;
 		data.emote_index = emoteIndex;
-		eldorado::simulation_event_generate_for_remote_peers((e_simulation_event_type)16, 0, nullptr, playerIndex, sizeof(data), &data);
+		eldorado::simulation_event_generate_for_remote_peers(_simulation_event_type_player_taunt_request, 0, nullptr, playerIndex, sizeof(data), &data);
 	}
 }
 
@@ -826,7 +826,7 @@ void PlayerStopEmote(__int32 playerIndex) // 0x107EBB50
 		s_simulation_player_emote_event_data data = {};
 		data.action_type = 1;
 		data.player_index = playerIndex != -1 ? (unsigned short)playerIndex : -1;
-		eldorado::simulation_event_generate_for_remote_peers((e_simulation_event_type)16, 0, nullptr, playerIndex, sizeof(data), &data);
+		eldorado::simulation_event_generate_for_remote_peers(_simulation_event_type_player_taunt_request, 0, nullptr, playerIndex, sizeof(data), &data);
 	}
 }
 

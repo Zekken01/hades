@@ -165,7 +165,7 @@ namespace Forge
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?PrintKillFeedText@Forge@@YAXJPB_WJ@Z");
 
-		eldorado::chud_messaging_post(user_index, message, (e_chud_message_context)0);
+		eldorado::chud_messaging_post(user_index, message, _chud_message_context_self);
 	}
 }
 

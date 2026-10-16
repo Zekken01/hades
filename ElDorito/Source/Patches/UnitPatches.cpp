@@ -171,7 +171,7 @@ bool unit_compute_function_value_hook(long unit_index, unsigned long function_na
 	if (function_name == 0x9C65 || function_name == 0x9C66)
 	{
 		s_unit_data *unit = (s_unit_data *)object_try_and_get_and_verify_type(unit_index, 0x2003);
-		if (unit->assassination_event_flags.test(function_name == 0x9C65 ? (e_assassination_event_flags)0 : (e_assassination_event_flags)1))
+		if (unit->assassination_event_flags.test(function_name == 0x9C65 ? _assassination_event_a : _assassination_event_b))
 		{
 			s_game_time_globals *time_globals = game_time_get_globals();
 			float function_value = unit->assassination_event_ticks * time_globals->tick_length / 0.5f;
@@ -263,14 +263,14 @@ void unit_update_assassination_events(long unit_index) // 0x106A32F0
 	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_update_assassination_events@@YAXJ@Z");
 
 	s_unit_data *unit = (s_unit_data *)object_try_and_get_and_verify_type(unit_index, 0x2003);
-	if (unit->assassination_event_flags.test((e_assassination_event_flags)2))
+	if (unit->assassination_event_flags.test(_assassination_event_reset))
 	{
 		if (unit->assassination_event_ticks)
 			unit->assassination_event_ticks--;
 		else if (unit->assassination_event_flags != 0)
 			unit->assassination_event_flags = 0;
 	}
-	else if (unit->assassination_event_flags.test((e_assassination_event_flags)0) || unit->assassination_event_flags.test((e_assassination_event_flags)1))
+	else if (unit->assassination_event_flags.test(_assassination_event_a) || unit->assassination_event_flags.test(_assassination_event_b))
 	{
 		if (unit->assassination_event_ticks != 0xFF)
 			unit->assassination_event_ticks++;

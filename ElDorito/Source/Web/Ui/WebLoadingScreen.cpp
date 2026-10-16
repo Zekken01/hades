@@ -357,9 +357,9 @@ void WebLoadingScreenUi::Hide() // 0x10CAA3A0
 	double const k_mb = 1048576.0;
 	float used_tag_memory_size = g_cache_file_tag_globals->memory_used / k_mb;
 	float tag_memory_size = g_cache_file_tag_globals->memory_size / k_mb;
-	float used_data_memory_size = c_physical_memory_manager::get_stage_used_size((e_physical_memory_stage)0) / k_mb;
-	float tag_memory_used = c_physical_memory_manager::get_stage_used_size((e_physical_memory_stage)1) / k_mb;
-	float used_resource_memory_size = c_physical_memory_manager::get_stage_used_size((e_physical_memory_stage)2) / k_mb;
+	float used_data_memory_size = c_physical_memory_manager::get_stage_used_size(_physical_memory_stage_shared) / k_mb;
+	float tag_memory_used = c_physical_memory_manager::get_stage_used_size(_physical_memory_stage_tags) / k_mb;
+	float used_resource_memory_size = c_physical_memory_manager::get_stage_used_size(_physical_memory_stage_resources) / k_mb;
 	float physical_memory_used_size = c_physical_memory_manager::get_used_size() / k_mb;
 	float physical_memory_total_size = c_physical_memory_manager::get_total_size() / k_mb;
 	float physical_memory_percent = physical_memory_used_size / physical_memory_total_size * 100.0;

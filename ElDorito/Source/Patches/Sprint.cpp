@@ -244,7 +244,7 @@ bool player_is_using_adrenaline(long player_index) // 0x10AD1B90
 		if (!eqipObject)
 			return false;
 		e_equipment_type equipment_type = ((e_equipment_type (*)(long, long))0xBA0260)(eqipObject->definition_index, 0);
-		if (equipment_type == (e_equipment_type)18 && sprintState == 2 && !HasSprintPlayerTrait(player_index))
+		if (equipment_type == _equipment_type_adrenaline && sprintState == 2 && !HasSprintPlayerTrait(player_index))
 		{
 			float activeFraction = ((float (*)(long))0xB87DA0)(unitObject->equipment_object_indices[0]);
 			if (((long (*)(long))0xB89190)(unitObject->equipment_object_indices[0]) <= 0 && activeFraction == 0.0f && player->sprint_depleted_timer < 270)

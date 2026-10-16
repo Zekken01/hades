@@ -1991,7 +1991,7 @@ void __fastcall c_gui_roster_list_widget_update_hook(c_gui_screen_widget *thispt
 	void *data = c_gui_list_widget__get_data(thisptr);
 	if (!data)
 		return;
-	c_gui_widget *item = thisptr->find_first_child((e_gui_widget)5);
+	c_gui_widget *item = thisptr->find_first_child(_gui_widget_listItem);
 	while (item)
 	{
 		c_gui_bitmap_widget *rank_widget = item->get_child_bitmap_widget(0x103E1);
@@ -2317,7 +2317,7 @@ void __fastcall c_gui_roster_list_widget__update_render_state(c_gui_screen_widge
 	static bool teamsEnabled;
 	if (session->IsEstablished())
 		teamsEnabled = session->HasTeams();
-	c_gui_widget *item = thisPtr->find_first_child((e_gui_widget)5);
+	c_gui_widget *item = thisPtr->find_first_child(_gui_widget_listItem);
 	while (item)
 	{
 		c_gui_bitmap_widget *nameplateWidget = item->get_child_bitmap_widget(0x10144);

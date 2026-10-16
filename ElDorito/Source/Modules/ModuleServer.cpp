@@ -1304,21 +1304,21 @@ bool DoKickPlayerCommand(KickType type, std::vector<std::string> const &Argument
 		return false;
 	}
 	std::stringstream ss;
-	e_network_session_boot_reason banReason = (e_network_session_boot_reason)4;
+	e_network_session_boot_reason banReason = _network_session_boot_reason_host_booted_player;
 	ss << "You have been ";
 	switch (type)
 	{
 	case Ban:
 		ss << "banned.";
-		banReason = (e_network_session_boot_reason)13;
+		banReason = _network_session_boot_reason_host_banned_player;
 		break;
 	case TempBan:
 		ss << "temporarily banned.";
-		banReason = (e_network_session_boot_reason)14;
+		banReason = _network_session_boot_reason_host_temp_banned_player;
 		break;
 	case Kick:
 		ss << "kicked.";
-		banReason = (e_network_session_boot_reason)4;
+		banReason = _network_session_boot_reason_host_booted_player;
 		break;
 	}
 	Server::Chat::SendServerMessage(ss.str().c_str(), peer);
@@ -1369,17 +1369,17 @@ bool DoKickUidCommand(KickType type, std::vector<std::string> const &Arguments, 
 		returnInfo = "Player with UID " + Arguments[0] + " not found.";
 		return false;
 	}
-	e_network_session_boot_reason banReason = (e_network_session_boot_reason)4;
+	e_network_session_boot_reason banReason = _network_session_boot_reason_host_booted_player;
 	switch (type)
 	{
 	case Ban:
-		banReason = (e_network_session_boot_reason)13;
+		banReason = _network_session_boot_reason_host_banned_player;
 		break;
 	case TempBan:
-		banReason = (e_network_session_boot_reason)14;
+		banReason = _network_session_boot_reason_host_temp_banned_player;
 		break;
 	case Kick:
-		banReason = (e_network_session_boot_reason)4;
+		banReason = _network_session_boot_reason_host_booted_player;
 		break;
 	}
 	bool success = false;

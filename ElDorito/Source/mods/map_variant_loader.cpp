@@ -165,13 +165,13 @@ bool c_map_variant_loader::load_from_buffer(long blf_size, unsigned char const *
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?load_from_buffer@c_map_variant_loader@@SA_NJPBEPAUs_map_variant@@@Z");
 
-	last_error = (e_map_variant_load_error)0;
+	last_error = _map_variant_load_success;
 	s_blf_chunk_header mapv_chunk;
 	unsigned char const *mapv_data;
 	unsigned long mapv_data_size;
 	if (!blf_find_chunk_in_buffer(blf, blf_size, 0x6D617076, &mapv_chunk, &mapv_data, &mapv_data_size))
 	{
-		last_error = (e_map_variant_load_error)2;
+		last_error = _map_variant_load_invalid_format;
 		return false;
 	}
 
@@ -179,13 +179,13 @@ bool c_map_variant_loader::load_from_buffer(long blf_size, unsigned char const *
 	s_level_datum level;
 	if (!levels_try_and_get_multiplayer_map(out_map_variant->map_id, &level))
 	{
-		last_error = (e_map_variant_load_error)3;
+		last_error = _map_variant_load_base_map_not_found;
 		return false;
 	}
 
 	if (!c_map_variant_tag_fixups::fixup_map_variant_in_memory((unsigned char *)blf, blf_size, out_map_variant))
 	{
-		last_error = (e_map_variant_load_error)4;
+		last_error = _map_variant_load_error_fixup_failed;
 		return false;
 	}
 

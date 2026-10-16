@@ -232,16 +232,16 @@ namespace Forge
 				long vision_output_type = 0;
 				if (pass)
 				{
-					((e_surface (*)(long, e_surface, long))0xA48E40)(1, (e_surface)59, -1);
+					((e_surface (*)(long, e_surface, long))0xA48E40)(1, _surface_surface_depth_visr, -1);
 				}
 				else
 				{
 					((void (*)(long, unsigned char))0xA242E0)(18, (__int32)floorf((float)((float)vision_output_type * 255.0) * 0.25));
-					((e_surface (*)(long, e_surface, long))0xA48E40)(2, (e_surface)23, -1);
+					((e_surface (*)(long, e_surface, long))0xA48E40)(2, _surface_depth_fp32, -1);
 				}
 				objects_render_shadows_generate(0, 1);
-				((e_surface (*)(long, e_surface, long))0xA48E40)(1, (e_surface)1, 0);
-				((e_surface (*)(long, e_surface, long))0xA48E40)(2, (e_surface)1, 0);
+				((e_surface (*)(long, e_surface, long))0xA48E40)(1, _surface_disable, 0);
+				((e_surface (*)(long, e_surface, long))0xA48E40)(2, _surface_disable, 0);
 				render_objects_visibility_pop_marker();
 				c_visible_items__pop_marker();
 			}

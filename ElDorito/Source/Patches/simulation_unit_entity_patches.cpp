@@ -236,7 +236,7 @@ long __fastcall c_simulation_unit_entity_definition__create_object_hook(void *th
 			long player_unit_index = player->unit_index;
 			if (player_unit_index != -1)
 			{
-				long equipment_index = eldorado::unit_get_active_equipment_of_type(player_unit_index, (e_equipment_type)14);
+				long equipment_index = eldorado::unit_get_active_equipment_of_type(player_unit_index, _equipment_type_hologram);
 				eldorado::unit_copy_armor_customization(player->unit_index, object_index);
 				player_refresh_object_appearance_full(player_index, object_index);
 				if (equipment_index != -1)

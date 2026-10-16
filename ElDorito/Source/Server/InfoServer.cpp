@@ -414,14 +414,14 @@ std::string BuildInfoServerPayload(std::string const &inDataBuffer) // 0x10B1B3F
 	Utils::String::BytesToHexString((char *)Pointer(0x2247B90), 0x10, xnaddr);
 	e_game_mode gameMode = game_options_get()->game_mode;
 	e_game_engine_type variantType = Pointer(0x23DAF18).Read<e_game_engine_type>();
-	if (gameMode == (e_game_mode)3)
+	if (gameMode == _game_mode_mainmenu)
 	{
 		if (mapName == "mainmenu")
 		{
 			status = "InLobby";
 			mapName = std::string((char *)Pointer(0x19A5E49));
 			variantName = L"none";
-			variantType = (e_game_engine_type)0;
+			variantType = _game_engine_type_none;
 		}
 		else
 			status = "Loading";

@@ -178,7 +178,7 @@ long FindMapModifierObject() // 0x1067C780
 	c_data_array<s_object_header> *object_headers = object_headers_get();
 	for (c_data_iterator<s_object_header> it = object_headers->begin(); it != object_headers->end(); ++it)
 	{
-		if (it->type != (e_object_type)7)
+		if (it->type != _object_type_scenery)
 			continue;
 		long definition_index = it->data->definition_index;
 		if (definition_index == forge_globals->map_modifier_object.index)

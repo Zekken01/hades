@@ -420,7 +420,7 @@ void SystemMenu() // 0x10A73850
 		if (!screenManager->any_active_screens(0) && !screenManager->find_screen(4, 0x100BE))
 		{
 			uiStartAction->Flags |= 1;
-			user_interface_play_sound((e_user_interface_sound)7, -1);
+			user_interface_play_sound(_user_interface_sound_button_start, -1);
 			Patches::Ui::ShowDialog(0x10084, 0, 4, 0x1000C);
 		}
 		else if (isUsingController)

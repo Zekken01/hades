@@ -184,9 +184,9 @@ EForgeDeviceType CForgeDeviceManager::GetDeviceType(long objectIndex) // 0x10860
 	s_device_data *device = (s_device_data *)object_get(objectIndex);
 	if (device)
 	{
-		if (device->object_identifier.type == (e_object_type)9)
+		if (device->object_identifier.type == _object_type_control)
 			return Control;
-		else if (device->object_identifier.type == (e_object_type)8)
+		else if (device->object_identifier.type == _object_type_machine)
 		{
 			s_machine_definition *machineDef = (s_machine_definition *)tag_get('mach', device->definition_index);
 			switch ((short)machineDef->machine_type)
@@ -237,7 +237,7 @@ void UpdateDevice(unsigned long objectIndex) // 0x10861320
 		((void (*)(unsigned long, long))0xB943C0)(objectIndex, 0x86);
 		((void (*)(unsigned long, long))0xB94460)(objectIndex, 0x87);
 	}
-	if (device->object_identifier.type == (e_object_type)8)
+	if (device->object_identifier.type == _object_type_machine)
 	{
 		unsigned long *machine_flags = (unsigned long *)offset_pointer(device, 0x250);
 		CForgeDeviceObjectProperties *deviceProperties = (CForgeDeviceObjectProperties *)&multiplayerProperties->boundry_width;

@@ -585,7 +585,7 @@ bool unit_update_weapons_hook(long unit_index) // 0x10A579B0
 			e_equipment_type equipment_type = ((e_equipment_type (*)(long, long))0xBA0260)(eqipObject->definition_index, 0);
 			bool equipment_Empty = ((long (*)(long))0xB89190)(equipment_index) <= 0 && ((float (*)(long))0xB87DA0)(equipment_index) == 0.0f;
 			s_player_datum *player = player_get(unit->player_index);
-			if (player && equipment_type == (e_equipment_type)18 && Patches::Sprint::GetState() == 2 && !Patches::Sprint::PlayerHasSprintTrait(unit->player_index) && equipment_Empty && player->sprint_depleted_timer < 270)
+			if (player && equipment_type == _equipment_type_adrenaline && Patches::Sprint::GetState() == 2 && !Patches::Sprint::PlayerHasSprintTrait(unit->player_index) && equipment_Empty && player->sprint_depleted_timer < 270)
 				continue;
 			if (equipment_Empty)
 				((void (*)(long, long))0xB3FC50)(unit_index, 0);
@@ -707,7 +707,7 @@ void equipment_update_hook(long equipment_index, long unit_index) // 0x10A553F0
 	s_equipment_data *equipment;
 	equipment_update(equipment_index, unit_index);
 	equipment = object_get<s_equipment_data>(equipment_index);
-	if (((bool(*)(long, e_equipment_type))0xBA0360)(equipment->definition_index, (e_equipment_type)23))
+	if (((bool(*)(long, e_equipment_type))0xBA0360)(equipment->definition_index, _equipment_type_vision))
 	{
 		update_equipment_vision(equipment_index, unit_index);
 	}

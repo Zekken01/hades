@@ -451,11 +451,11 @@ void c_screen_postprocess__postprocess_player_view_hook(c_camera_fx_values *came
 		float a8 = c_screen_postprocess::x_settings.field_24;
 		float a7 = c_screen_postprocess::x_settings.field_24;
 		e_surface v14 = eldorado::c_rasterizer_get_display_surface();
-		eldorado::c_screen_postprocess_copy(7, (e_surface)7, v14, 1, 1, a7, a8, v20, 1.0f, nullptr);
+		eldorado::c_screen_postprocess_copy(7, _surface_accum_LDR, v14, 1, 1, a7, a8, v20, 1.0f, nullptr);
 		return;
 	}
 	if (dof_enabled)
-		eldorado::c_screen_postprocess_copy(51, (e_surface)7, (e_surface)49, 2, 1, 1.0f, 1.0f, 1.0f, 1.0f, nullptr);
+		eldorado::c_screen_postprocess_copy(51, _surface_accum_LDR, _surface_aux_depth_of_field, 2, 1, 1.0f, 1.0f, 1.0f, 1.0f, nullptr);
 	float exposure = c_exposure::set_exposure(&tls_getd().scripted_exposure_globals->exposure, camera_fx_values->exposure);
 	float exposure_power = fmaxf(powf(2.0f, (exposure + c_camera_fx_values::g_exposure_stops + camera_fx_values->exposure_boost) * camera_fx_values->exposure_scale), 1.0f);
 	float final_exposure = c_screen_postprocess::x_settings.field_2C / 1.4938016f * exposure_power;
@@ -465,9 +465,9 @@ void c_screen_postprocess__postprocess_player_view_hook(c_camera_fx_values *came
 	bloom_intensity_vector[2] = 0.114f;
 	bloom_intensity_vector[3] = 0.0f;
 	eldorado::c_rasterizer_set_pixel_shader_constant(3, 1, &bloom_intensity_vector);
-	eldorado::c_screen_postprocess_apply_binary_op_ex((e_rasterizer_default_shader)48, (e_surface)8, (e_surface)0, (e_surface)34, 2, (e_sampler_address_mode)1, camera_fx_values->highlight_bloom * final_exposure, camera_fx_values->inherent_bloom, 1.0f, 1.0f);
-	eldorado::c_screen_postprocess_apply_binary_op_ex((e_rasterizer_default_shader)67, (e_surface)34, (e_surface)7, (e_surface)45, 2, (e_sampler_address_mode)1, camera_fx_values->highlight_bloom * final_exposure, camera_fx_values->inherent_bloom, 1.0f, 1.0f);
-	e_surface bloom_buffer_surface = eldorado::c_screen_postprocess_postprocess_bloom_buffer((e_surface)45, camera_fx_values, 0);
+	eldorado::c_screen_postprocess_apply_binary_op_ex(_default_shader_downsample_4x4_block_bloom, _surface_accum_HDR, _surface_none, _surface_aux_small, 2, _address_mode_clamp, camera_fx_values->highlight_bloom * final_exposure, camera_fx_values->inherent_bloom, 1.0f, 1.0f);
+	eldorado::c_screen_postprocess_apply_binary_op_ex(_default_shader_downsample_4x4_block_bloom_ldr, _surface_aux_small, _surface_accum_LDR, _surface_aux_small2, 2, _address_mode_clamp, camera_fx_values->highlight_bloom * final_exposure, camera_fx_values->inherent_bloom, 1.0f, 1.0f);
+	e_surface bloom_buffer_surface = eldorado::c_screen_postprocess_postprocess_bloom_buffer(_surface_aux_small2, camera_fx_values, 0);
 	if (bloom_buffer_surface)
 	{
 		float s = c_screen_postprocess::x_settings.field_24;
@@ -478,13 +478,13 @@ void c_screen_postprocess__postprocess_player_view_hook(c_camera_fx_values *came
 	if (dof_enabled)
 	{
 		float blur_sigma = s_depth_of_field::get_depth_of_field_blur_sigma(s_depth_of_field::get());
-		eldorado::c_screen_postprocess_gaussian_blur((e_surface)49, (e_surface)48, blur_sigma * 0.25f, blur_sigma * 0.25f);
+		eldorado::c_screen_postprocess_gaussian_blur(_surface_aux_depth_of_field, _surface_aux_depth_of_field2, blur_sigma * 0.25f, blur_sigma * 0.25f);
 	}
 	bool render_light_shafts = (camera_fx_values->light_shafts.flags & 2) && g_render_light_shafts_enabled && global_preferenced_get_effects_quality();
 	bool anti_aliasing = global_preferences_get_anti_aliasing() && g_render_anti_aliasing_enabled;
 	e_surface composite_surface;
 	if (render_light_shafts || anti_aliasing)
-		composite_surface = (e_surface)9;
+		composite_surface = _surface_albedo;
 	else
 		composite_surface = eldorado::c_rasterizer_get_display_surface();
 	real_vector4d pixel_space_xform;
@@ -529,10 +529,10 @@ void c_screen_postprocess__postprocess_player_view_hook(c_camera_fx_values *came
 	eldorado::copy_accumulation_target(composite_surface, *(e_surface *)0x5115AF8, 1.0f, camera_fx_values->bloom_intensity, camera_fx_values->bling_intensity, 0.5f, dof_enabled, depth_of_field);
 	if (render_light_shafts)
 	{
-		eldorado::c_screen_postprocess_render_lightshafts(&camera_fx_values->light_shafts, projection, camera, (e_surface)9, (e_surface)9);
+		eldorado::c_screen_postprocess_render_lightshafts(&camera_fx_values->light_shafts, projection, camera, _surface_albedo, _surface_albedo);
 		if (!anti_aliasing)
 		{
-			eldorado::c_screen_postprocess_copy(51, (e_surface)9, eldorado::c_rasterizer_get_display_surface(), 1, 1, 1.0f, 1.0f, 1.0f, 1.0f, nullptr);
+			eldorado::c_screen_postprocess_copy(51, _surface_albedo, eldorado::c_rasterizer_get_display_surface(), 1, 1, 1.0f, 1.0f, 1.0f, 1.0f, nullptr);
 			return;
 		}
 	}
@@ -547,10 +547,10 @@ void c_screen_postprocess__postprocess_player_view_hook(c_camera_fx_values *came
 	unsigned long debug = Utils::Singleton<Modules::ModuleDebug>::Instance().VarSmaaDebugMode->ValueInt;
 	if (Modules::ModuleSettings::Instance().VarAntialiasing->ValueInt == 2)
 	{
-		c_screen_postprocess::smaa_render((e_surface)9, eldorado::c_rasterizer_get_display_surface(), debug);
+		c_screen_postprocess::smaa_render(_surface_albedo, eldorado::c_rasterizer_get_display_surface(), debug);
 		return;
 	}
-	eldorado::c_screen_postprocess_copy(93, (e_surface)9, eldorado::c_rasterizer_get_display_surface(), 2, 1, 1.0f, 1.0f, 1.0f, 1.0f, nullptr);
+	eldorado::c_screen_postprocess_copy(93, _surface_albedo, eldorado::c_rasterizer_get_display_surface(), 2, 1, 1.0f, 1.0f, 1.0f, 1.0f, nullptr);
 }
 
 void __fastcall c_camera_fx_settings__s_real_exposure_parameter__calculate_new_value_hook(s_camera_fx_exposure_struct *_this, void *_, c_camera_fx_values *camera_fx, __int32 flags, float forced_exposure, float forced_auto_exposure, float min, float max) // 0x10ABFC70

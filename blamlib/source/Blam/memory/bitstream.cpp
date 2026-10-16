@@ -70,7 +70,7 @@ c_bitstream::c_bitstream() // 0x10F00F80
 	m_data = nullptr;
 	m_data_max = nullptr;
 	m_data_size_bytes = 0;
-	reset((e_state)0);
+	reset(_state_none);
 }
 
 c_bitstream::c_bitstream(unsigned char *data, long data_length) // 0x10F00EF0

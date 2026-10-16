@@ -1636,7 +1636,7 @@ void sound_cache_new_hook() // 0x10A35120
 	g_xbox_sound_cache = ((s_lruv_cache *(*)(char const *, long, long, long, long, void (*)(void *, long, bool), bool (*)(void *, long), long, void *, long))0x9678D0)("xbox sound cache", 0x2000, 14, 512, 0, sound_cache_delete_block_proc, sound_cache_locked_block_proc, 0, *(void **)0x189D394, -1);
 	((void (*)(s_lruv_cache *, long))0x967AC0)(g_xbox_sound_cache, 2);
 	unsigned long const memory_size = (1 << g_xbox_sound_cache->page_size_bits) * g_xbox_sound_cache->maximum_page_count;
-	g_sound_cache_memory = c_physical_memory_manager::allocate((e_physical_memory_stage)0, "sound cache", memory_size, 2, nullptr);
+	g_sound_cache_memory = c_physical_memory_manager::allocate(_physical_memory_stage_shared, "sound cache", memory_size, 2, nullptr);
 	#line 2033 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Patches\\Audio.cpp"
 		assert(g_sound_cache_memory);
 		#line 2025 "C:\\Users\\zekken\\Desktop\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Patches\\Audio.cpp"

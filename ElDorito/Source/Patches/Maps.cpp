@@ -332,7 +332,7 @@ bool load_mod_package_maps(char const *virtual_path, c_mod_package *mod_package,
 	{
 		s_mod_package_map_file_entry const *entry = game_mod->get_map_file_entry(i);
 		short map_type;
-		if (!game_mod->read_section_data(file, (e_mod_package_sections)4, entry->offset + 0x13C, 2, &map_type))
+		if (!game_mod->read_section_data(file, _mod_package_section_map_files, entry->offset + 0x13C, 2, &map_type))
 			continue;
 		if (!(type_mask & (1 << map_type)))
 			continue;

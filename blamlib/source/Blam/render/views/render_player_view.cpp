@@ -117,21 +117,21 @@ void draw_fullscreen_displacement(short_rectangle2d *bounds, DirectX::XMMATRIX *
 	long *g_game_resolution = (long *)0x19106C0;
 	void (*const set_motion_blur_parameters)() = (void (*)())0xA47060;
 	void (*const screenshot_get_scales)(float *, float *) = (void (*)(float *, float *))0x6102C0;
-	bool distortion_surface_valid = eldorado::c_rasterizer_surface_valid((e_surface)50);
+	bool distortion_surface_valid = eldorado::c_rasterizer_surface_valid(_surface_distortion);
 	if (distortion_surface_valid || render_motion_blur)
 	{
 		if (distortion_surface_valid)
-			eldorado::c_rasterizer_set_surface_as_texture(0, (e_surface)50);
+			eldorado::c_rasterizer_set_surface_as_texture(0, _surface_distortion);
 		else
-			eldorado::c_rasterizer_set_possibly_stale_surface_as_texture(0, (e_surface)50);
+			eldorado::c_rasterizer_set_possibly_stale_surface_as_texture(0, _surface_distortion);
 		eldorado::c_rasterizer_set_sampler_address_mode(0, _address_mode_mirror, _address_mode_mirror, _address_mode_mirror);
 		eldorado::c_rasterizer_set_sampler_filter_mode(0, _filter_point);
-		eldorado::c_rasterizer_set_surface_as_texture(1, (e_surface)13);
+		eldorado::c_rasterizer_set_surface_as_texture(1, _surface_post_LDR);
 		eldorado::c_rasterizer_set_sampler_address_mode(1, _address_mode_mirror, _address_mode_mirror, _address_mode_mirror);
 		eldorado::c_rasterizer_set_sampler_filter_mode(1, _filter_bilinear);
 		if (render_motion_blur)
 		{
-			eldorado::c_rasterizer_set_surface_as_texture(3, (e_surface)23);
+			eldorado::c_rasterizer_set_surface_as_texture(3, _surface_depth_fp32);
 			eldorado::c_rasterizer_set_sampler_address_mode(3, _address_mode_mirror, _address_mode_mirror, _address_mode_mirror);
 			eldorado::c_rasterizer_set_sampler_filter_mode(3, _filter_point);
 			set_motion_blur_parameters();
@@ -251,8 +251,8 @@ void __fastcall c_player_view::apply_distortions_new(c_player_view *_this, real_
 		DirectX::XMMATRIX previous_view_projection = motion_suck_translation * prev_wtv * prev_view_to_world;
 		DirectX::XMMATRIX screen_to_world = DirectX::XMMatrixInverse(nullptr, current_view_projection);
 		IDirect3DDevice9Ex *const device = c_rasterizer::get_device();
-		device->StretchRect(((c_render_surface *(__thiscall *)(c_surface_group *, e_surface))0xA48740)((c_surface_group *)0x510DB1C, (e_surface)7)->m_surface, nullptr, ((c_render_surface *(__thiscall *)(c_surface_group *, e_surface))0xA48740)((c_surface_group *)0x510DD14, (e_surface)0xD)->m_surface, nullptr, D3DTEXF_POINT);
-		eldorado::c_rasterizer_set_depth_stencil_surface((e_surface)0);
+		device->StretchRect(((c_render_surface *(__thiscall *)(c_surface_group *, e_surface))0xA48740)((c_surface_group *)0x510DB1C, _surface_accum_LDR)->m_surface, nullptr, ((c_render_surface *(__thiscall *)(c_surface_group *, e_surface))0xA48740)((c_surface_group *)0x510DD14, (e_surface)0xD)->m_surface, nullptr, D3DTEXF_POINT);
+		eldorado::c_rasterizer_set_depth_stencil_surface(_surface_none);
 		draw_fullscreen_displacement(&_this->rasterizer_camera.window_pixel_bounds, &current_view_projection, &previous_view_projection, &view_to_world, &screen_to_world, render_motion_blur);
 		eldorado::c_rasterizer_restore_last_viewport();
 		eldorado::c_render_globals_set_distortion_visible(false);
