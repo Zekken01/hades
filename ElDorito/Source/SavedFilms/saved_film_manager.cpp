@@ -10,6 +10,8 @@
 #include "Patches/Core.hpp"
 #include "Patches/Input.hpp"
 #include "Web/Ui/ScreenLayer.hpp"
+#include "Utils/String.hpp"
+#include "mods/mod_package_cache.hpp"
 #include "mods/mod_system.hpp"
 #include "mods/new/IModManager.hpp"
 
@@ -89,6 +91,9 @@ namespace SavedFilms
 		long const k_world_state_active = 4;
 
 		long const k_simulation_update_metadata_from_saved_film = 1 << 2;
+
+		std::string loaded_mod_hash();
+		std::string g_loaded_mod_hash; // loaded_mod_hash() as of this frame, set on the main thread
 
 		c_saved_film g_recording;
 		long g_last_recorded_update = -1;
@@ -180,7 +185,7 @@ namespace SavedFilms
 				CreateDirectoryA(films_directory().c_str(), nullptr);
 				std::string path = film_path(new_film_name(options));
 				if (!g_recording.open_for_write(path.c_str(), reinterpret_cast<s_game_options const *>(options),
-					c_mod_system::get_current_package_hash().c_str(), c_mod_system::get_current_package_filename(EModIndex(0)).c_str()))
+					g_loaded_mod_hash.c_str(), c_mod_system::get_current_package_filename(EModIndex(0)).c_str()))
 				{
 					print("Film: could not create %s", path.c_str());
 					return;
@@ -450,13 +455,29 @@ namespace SavedFilms
 			playback_log("starting the film's game: map %s", reinterpret_cast<char const *>(options + k_game_options_scenario_path));
 		}
 
+		// The hash of the mod package that is loaded, "" when none is. (The squad session's
+		// mod, which c_mod_system::get_current_package_hash reports, is not set at the
+		// main menu, so the loaded package is asked directly.)
+		std::string loaded_mod_hash()
+		{
+			IMod *mod = c_mod_system::GetModManager().GetMod(EModIndex(0));
+			if (!mod)
+				return "";
+			c_mod_package *package = mod->GetPak(true);
+			if (!package)
+				return "";
+			std::string hash;
+			Utils::String::BytesToHexString(package->get_header()->sha1, sizeof(package->get_header()->sha1), hash);
+			return hash;
+		}
+
 		bool film_mod_ready(std::string const &hash)
 		{
 			IMod *mod = c_mod_system::GetModManager().GetMod(EModIndex(0));
 			if (hash.empty())
 				return mod == nullptr;
 			return mod && !mod->GetPakIsLoading() && !mod->GetCacheIsLoading() && mod->GetError() == kSuccess
-				&& _stricmp(c_mod_system::get_current_package_hash().c_str(), hash.c_str()) == 0;
+				&& _stricmp(loaded_mod_hash().c_str(), hash.c_str()) == 0;
 		}
 
 		void update_play_request()
@@ -465,13 +486,13 @@ namespace SavedFilms
 			{
 				std::string hash = g_playback.get_mod_hash();
 				// Films from before the mod was recorded keep whatever mod is active.
-				if (!g_playback.has_mod_info() || _stricmp(c_mod_system::get_current_package_hash().c_str(), hash.c_str()) == 0)
+				if (!g_playback.has_mod_info() || film_mod_ready(hash))
 				{
 					start_film_game();
 					return;
 				}
 
-				playback_log("switching mod from '%s' to '%s' (%s)", c_mod_system::get_current_package_hash().c_str(), hash.c_str(), film_mod_description().c_str());
+				playback_log("switching mod from '%s' to '%s' (%s)", loaded_mod_hash().c_str(), hash.c_str(), film_mod_description().c_str());
 				bool switched = hash.empty()
 					? c_mod_system::unload_current_package()
 					: c_mod_system::load_package_by_identifier(hash.c_str());
@@ -496,6 +517,12 @@ namespace SavedFilms
 				}
 				IMod *mod = c_mod_system::GetModManager().GetMod(EModIndex(0));
 				EModResult error = mod ? mod->GetError() : kSuccess;
+				{
+					char state[256];
+					sprintf_s(state, "waiting for mod: loaded '%s' pak_loading %d cache_loading %d error %d",
+						loaded_mod_hash().c_str(), mod ? mod->GetPakIsLoading() : -1, mod ? mod->GetCacheIsLoading() : -1, int(error));
+					playback_log_state(state);
+				}
 				if (mod && error != kSuccess && error != kPending)
 					cancel_play(("the mod " + film_mod_description() + " failed to load").c_str());
 				else if (GetTickCount() - g_play_wait_start > 30000)
@@ -506,6 +533,7 @@ namespace SavedFilms
 		void simulation_update_hook()
 		{
 			simulation_update();
+			g_loaded_mod_hash = loaded_mod_hash();
 			update_play_request();
 
 			if (g_playback.is_open())
