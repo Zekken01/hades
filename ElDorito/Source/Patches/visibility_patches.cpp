@@ -1013,3 +1013,6 @@ template s_scenario_zone_set_pvs & c_tag_block<s_scenario_zone_set_pvs>::operato
 template s_scenario_zone_set_pvs * c_tag_block<s_scenario_zone_set_pvs>::get_element(__int32) const;
 template s_seam_mapping & s_static_array<s_seam_mapping,128>::operator[](long);
 template s_structure_cluster const & c_tag_block<s_structure_cluster>::operator[](__int32) const;
+
+/* ---------- data definitions */
+real_argb_color const CDebugTextPrinter::kDefaultColor = { 1.0f, 1.0f, 1.0f, 1.0f };

@@ -524,3 +524,4 @@ template unsigned long c_data_array<s_screen_effect_datum>::delete_datum(unsigne
 // through the constant pointers still load them from memory, as the original's did.
 namespace hades_file_local { s_forge_sky_definition mapDefaultSky; }
 namespace hades_file_local { namespace hades_file_local_ForgeSkies { real_rectangle2d global_null_rectangle2d; } }
+namespace hades_file_local { ForgeSkyState state; }

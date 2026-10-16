@@ -1059,3 +1059,5 @@ template std::pair<std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<st
 // through the constant pointers still load them from memory, as the original's did.
 namespace hades_file_local { websocketpp::server<Utils::WebSocket::Config> signalServer; }
 namespace hades_file_local { unsigned short port; }
+
+namespace hades_file_local { extern "C" { std::string currentPassword; } }

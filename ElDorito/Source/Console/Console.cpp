@@ -177,3 +177,8 @@ void LogConsoleOutputHandler::WriteLine(std::string const &line) // 0x10950B80
 // mangled_x86(MANGLED_DEFAULT, "??0LogConsoleOutputHandler@hades_file_local@@QAE@XZ"); no body to assert in
 // _inline LogConsoleOutputHandler::LogConsoleOutputHandler() = default; // 0x10950350  // hades: defaulted on its declaration
 
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { std::vector<std::shared_ptr<Console::ConsoleOutputHandler> > Handlers; }

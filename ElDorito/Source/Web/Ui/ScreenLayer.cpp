@@ -1225,3 +1225,7 @@ namespace hades_file_local { bool InputCaptured; }
 namespace hades_file_local { unsigned __int32 lastVariableUpdateTicks; }
 namespace hades_file_local { namespace hades_file_local_ScreenLayer { __int32 g_last_mouse_x; } }
 namespace hades_file_local { namespace hades_file_local_ScreenLayer { __int32 g_last_mouse_y; } }
+
+namespace hades_file_local { extern "C" { HHOOK__ *MessageHook; } }
+namespace hades_file_local { extern "C" { bool PointerCaptured; } }
+namespace hades_file_local { extern "C" char const *ScreenIdString[16] = { "alert", "browser", "chat", "console", "forge_object_creation", "forge_object_properties", "loading", "mod_download", "profile_settings", "scoreboard", "server_settings", "settings", "title", "voting", "mainmenu", "podium" }; }

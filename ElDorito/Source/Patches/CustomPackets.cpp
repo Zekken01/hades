@@ -117,11 +117,11 @@ namespace hades_file_local
 	{
 		std::string Name; // 0x0
 		std::shared_ptr<Patches::CustomPackets::RawPacketHandler> Handler; // 0x1C
-		CustomPacket(CustomPacket &); /* compiler_generated() */
-		CustomPacket(CustomPacket const &); /* compiler_generated() */
+		// CustomPacket(CustomPacket &); /* compiler_generated(): left implicit, as the original's was */
+		// CustomPacket(CustomPacket const &); /* compiler_generated(): left implicit, as the original's was */
 		CustomPacket() = default; /* compiler_generated() */  // hades: not user-provided, so make_shared value-initializes
 		~CustomPacket() = default;
-		CustomPacket &operator=(CustomPacket &); /* compiler_generated() */
+		// CustomPacket &operator=(CustomPacket &); /* compiler_generated(): left implicit, as the original's was */
 		CustomPacket &operator=(CustomPacket const &); /* compiler_generated() */
 	};
 	#pragma pack(pop)

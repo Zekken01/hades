@@ -1169,3 +1169,5 @@ template void Pointer::Write<char const *>(char const *const) const;
 // Initial values as linked into mtndew.dll. Defined after every use, so calls
 // through the constant pointers still load them from memory, as the original's did.
 namespace hades_file_local { _LARGE_INTEGER startTime; }
+
+namespace hades_file_local { extern "C" { long long cpuFrequencyMs; } }

@@ -4980,9 +4980,9 @@ namespace Audio
 class CServerConnectStateHandler
 {
 public:
-	virtual void OnEnter();
-	virtual void OnExit();
-	virtual void OnUpdate();
+	virtual void OnEnter() = 0;
+	virtual void OnExit() = 0;
+	virtual void OnUpdate() = 0;
 public:
 	void *m_manager; // 0x4, CServerConnectStateManager *
 protected:

@@ -173,3 +173,7 @@ s_bink_globals *s_bink_globals::get() // 0x10F187F0
 }
 
 /* ---------- private code */
+
+/* ---------- data definitions */
+namespace hades_file_local { __int32 *g_bink_frame_width = reinterpret_cast<__int32 *>(0x18BB398); }
+namespace hades_file_local { __int32 *g_bink_frame_height = reinterpret_cast<__int32 *>(0x18BB39C); }

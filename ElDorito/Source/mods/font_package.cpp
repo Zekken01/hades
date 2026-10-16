@@ -609,3 +609,4 @@ s_font_loading_state *g_font_loading_state = reinterpret_cast<s_font_loading_sta
 s_font_package_file_header *g_font_load_buffer = reinterpret_cast<s_font_package_file_header *>(0x22B8108);
 s_font_package_file_header **g_font_package_file_header = reinterpret_cast<s_font_package_file_header **>(0x22B8104);
 EModIndex g_mod_package_index;
+s_static_string<256> g_font_package_file_path;

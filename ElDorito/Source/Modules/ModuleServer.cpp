@@ -391,7 +391,7 @@ namespace Server
 }
 namespace hades_file_local
 {
-	namespace hades_file_local_ModuleServer { extern unsigned short PingId; } using namespace hades_file_local_ModuleServer; // 0x1245605C
+	extern unsigned short PingId; // 0x1245605C
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -3240,4 +3240,4 @@ bool CommandRefreshServerFilters(std::vector<std::string> const &Arguments, std:
 
 // Initial values as linked into mtndew.dll. Defined after every use, so calls
 // through the constant pointers still load them from memory, as the original's did.
-namespace hades_file_local { namespace hades_file_local_ModuleServer { unsigned short PingId; } }
+namespace hades_file_local { unsigned short PingId; }  // shared with ClientFunctions.cpp, as in the original

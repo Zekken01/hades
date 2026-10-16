@@ -108,10 +108,10 @@ namespace hades_file_local
 		c_flags<enum e_suppressed_game_engine_event_flags,unsigned char> flags; // 0x4
 		unsigned char : 8; unsigned char : 8; unsigned char : 8; // 0x5  // hades: unnamed, so the implicit copies skip it as the original's do
 		s_game_engine_event_data metadata; // 0x8
-		s_suppressed_game_engine_event(s_suppressed_game_engine_event &); /* compiler_generated() */
-		s_suppressed_game_engine_event(s_suppressed_game_engine_event const &); /* compiler_generated() */
+		// s_suppressed_game_engine_event(s_suppressed_game_engine_event &); /* compiler_generated(): left implicit, as the original's was */
+		// s_suppressed_game_engine_event(s_suppressed_game_engine_event const &); /* compiler_generated(): left implicit, as the original's was */
 		s_suppressed_game_engine_event(); /* compiler_generated() */
-		s_suppressed_game_engine_event &operator=(s_suppressed_game_engine_event &); /* compiler_generated() */
+		// s_suppressed_game_engine_event &operator=(s_suppressed_game_engine_event &); /* compiler_generated(): left implicit, as the original's was */
 		s_suppressed_game_engine_event &operator=(s_suppressed_game_engine_event const &); /* compiler_generated() */
 	};
 	static_assert(sizeof(s_suppressed_game_engine_event) == 48, "Invalid s_suppressed_game_engine_event size");

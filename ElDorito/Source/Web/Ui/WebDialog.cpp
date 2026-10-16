@@ -117,12 +117,12 @@ namespace hades_file_local
 	{
 		__int32 id; // 0x0
 		std::function<void __cdecl(std::string const &)> callback; // 0x8
-		SDialogCallbackInfo(SDialogCallbackInfo &); /* compiler_generated() */
+		// SDialogCallbackInfo(SDialogCallbackInfo &); /* compiler_generated(): left implicit, as the original's was */
 		SDialogCallbackInfo(SDialogCallbackInfo const &); /* compiler_generated() */
 		SDialogCallbackInfo(); /* compiler_generated() */
 		~SDialogCallbackInfo() = default;
-		SDialogCallbackInfo &operator=(SDialogCallbackInfo &); /* compiler_generated() */
-		SDialogCallbackInfo &operator=(SDialogCallbackInfo const &); /* compiler_generated() */
+		// SDialogCallbackInfo &operator=(SDialogCallbackInfo &); /* compiler_generated(): left implicit, as the original's was */
+		// SDialogCallbackInfo &operator=(SDialogCallbackInfo const &); /* compiler_generated(): left implicit, as the original's was */
 	};
 	static_assert(sizeof(SDialogCallbackInfo) == 48, "Invalid SDialogCallbackInfo size");
 

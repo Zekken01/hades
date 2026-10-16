@@ -225,3 +225,4 @@ namespace hades_file_local { _D3DGAMMARAMP g_d3d_gamma_ramp; }
 namespace hades_file_local { c_rasterizer_LUT_control g_last_LUT_control; }
 namespace hades_file_local { float gamma_adjustment[5] = { 0.7599999904632568f, 0.8799999952316284f, 1.0f, 1.1200000047683716f, 1.2400000095367432f }; }
 namespace hades_file_local { float black_level_adjustment[5]; }
+namespace hades_file_local { c_rasterizer_LUT_control g_LUT_control = { 0, 2.200000047683716f, 1.9500000476837158f, 2, { 1.0f, 1.0f, 1.0f }, { 0.0f, 0.0f, 0.0f } }; }

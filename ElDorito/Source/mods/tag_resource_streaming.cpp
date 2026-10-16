@@ -368,3 +368,6 @@ template void c_static_bit_vector<32>::unset(long);
 
 /* ---------- explicit instantiations */
 template void c_block_allocator<1048568,8>::free(void *);
+
+/* ---------- data definitions */
+namespace hades_file_local { c_tag_resource_stream_task::s_packet c_tag_resource_stream_task::m_packets[32]; }

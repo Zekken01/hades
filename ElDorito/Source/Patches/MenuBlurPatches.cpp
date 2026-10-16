@@ -170,7 +170,7 @@ namespace hades_file_local
 	private:
 		float m_alpha; // 0x0
 	public:
-		CRenderFullScreenBlur(); /* compiler_generated() */
+		// CRenderFullScreenBlur(); /* compiler_generated(): left implicit, as the original's was */
 	};
 	static_assert(sizeof(CRenderFullScreenBlur) == 4, "Invalid CRenderFullScreenBlur size");
 }

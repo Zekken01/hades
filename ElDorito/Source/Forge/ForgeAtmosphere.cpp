@@ -193,3 +193,9 @@ template c_atmosphere_setting & c_tag_block<c_atmosphere_setting>::operator[](__
 template c_atmosphere_setting * c_tag_block<c_atmosphere_setting>::get_element(__int32) const;
 template c_flags<enum e_atmosphere_flags,unsigned short> & c_flags<enum e_atmosphere_flags,unsigned short>::operator=(unsigned short const &);
 template c_flags<enum e_atmosphere_flags,unsigned short>::c_flags();
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { ForgeAtmosphereState state; }

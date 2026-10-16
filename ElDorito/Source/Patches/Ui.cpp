@@ -4644,3 +4644,5 @@ namespace Patches { namespace Ui { char16_t chud_talking_player_name[32]; } }
 namespace hades_file_local { bool tagsInitiallyLoaded; }
 namespace hades_file_local { __int32 localDesiredTeam = -1; }
 namespace hades_file_local { namespace hades_file_local_Ui { bool (*IsMapLoading)() = reinterpret_cast<decltype(IsMapLoading)>(0x5670E0); } }
+
+namespace hades_file_local { extern "C" { bool (__thiscall *c_gui_screen_pregame_lobby_handle_item_chosen)(void *, void *, unsigned long, c_gui_list_item_widget *, c_gui_data *); } }

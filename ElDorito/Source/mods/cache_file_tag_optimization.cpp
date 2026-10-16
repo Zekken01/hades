@@ -798,3 +798,13 @@ template void c_static_bit_vector<65535>::clear();
 template void c_static_bit_vector<65535>::set(long);
 template void c_static_bit_vector<65535>::set_all();
 template void c_static_bit_vector<65535>::unset(long);
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+extern "C" { c_static_bit_vector<65535> g_reforge_objects; }
+extern "C" { c_static_bit_vector<65535> g_reforge_models; }
+extern "C" { c_static_bit_vector<65535> g_reforge_render_models; }
+extern "C" { c_static_bit_vector<256> g_reforge_material_indices; }
+extern "C" { c_static_bit_vector<65535> g_reforge_material_tags; }

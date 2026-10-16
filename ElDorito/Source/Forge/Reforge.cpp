@@ -92,7 +92,7 @@ namespace hades_file_local
 	struct SReforgeGlobals
 	{
 		std::bitset<65535> ReforgeObjects; // 0x0
-		SReforgeGlobals(); /* compiler_generated() */
+		// SReforgeGlobals(); /* compiler_generated(): left implicit, as the original's was */
 	};
 	static_assert(sizeof(SReforgeGlobals) == 8192, "Invalid SReforgeGlobals size");
 }

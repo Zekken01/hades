@@ -449,3 +449,6 @@ _inline CDebugRandomTraceManager::SRandomEvent::SRandomEvent() // 0x107A20A0
 {
 	numStackFrames = 0;
 }
+
+/* ---------- data definitions */
+namespace Utils { hades_file_local::CDebugRandomTraceManager *Utils::Singleton<hades_file_local::CDebugRandomTraceManager>::m_instance; }

@@ -154,9 +154,9 @@ extern s_file_reference *(*const file_reference_create_from_path_wide)(s_file_re
 
 namespace hades_file_local
 {
-	extern wchar_t const *k_game_state_path; // 0x113533A0
-	extern wchar_t const *k_game_state_filename; // 0x113533A4
-	extern wchar_t const *k_game_state_header_filename; // 0x113533A8
+	extern wchar_t const *const k_game_state_path; // 0x113533A0
+	extern wchar_t const *const k_game_state_filename; // 0x113533A4
+	extern wchar_t const *const k_game_state_header_filename; // 0x113533A8
 	extern void **const global_game_state_data; // 0x11197A30
 }
 using namespace hades_file_local;
@@ -530,3 +530,6 @@ void c_saved_games__delete_campaign_save_blocking(long controller_index) // 0x10
 // Initial values as linked into mtndew.dll. Defined after every use, so calls
 // through the constant pointers still load them from memory, as the original's did.
 namespace hades_file_local { void **const global_game_state_data = reinterpret_cast<void **>(0x2497CD4); }
+namespace hades_file_local { wchar_t const *const k_game_state_path = L"data\\game_saves\\"; }
+namespace hades_file_local { wchar_t const *const k_game_state_filename = L"\\mmiof.bmf"; }
+namespace hades_file_local { wchar_t const *const k_game_state_header_filename = L"\\gamestate.hdr"; }

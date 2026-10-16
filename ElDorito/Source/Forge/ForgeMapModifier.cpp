@@ -262,3 +262,9 @@ template c_data_iterator<s_object_header>::c_data_iterator(s_data_array *);
 template c_enum<enum e_multiplayer_object_boundary_shape,char> & c_enum<enum e_multiplayer_object_boundary_shape,char>::operator=(char const &);
 template s_object_header & c_data_iterator<s_object_header>::next();
 template s_object_header * c_data_iterator<s_object_header>::operator->();
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { ForgeMapModifierState state; }

@@ -3469,3 +3469,5 @@ namespace hades_file_local { float const HELDOBJECT_DISTANCE_CHANGE_MULTIPLIER =
 namespace hades_file_local { float const MONITOR_MOVEMENT_SPEEDS[7] = { 0.0010000000474974513f, 0.05000000074505806f, 0.25f, 1.0f, 2.0f, 4.0f, 8.0f }; }
 namespace hades_file_local { std::vector<void (__cdecl*)(unsigned int)> s_ItemSpawnedCallbacks; }
 namespace hades_file_local { namespace hades_file_local_Forge { real_vector3d global_zero3d; } }
+namespace hades_file_local { s_monitorState monitorState; }
+namespace hades_file_local { wchar_t const *MONITOR_MOVEMENT_SPEED_NAMES[7] = { L"0.001 (Z-Fight Fixer)", L"Slower", L"Slow", L"Normal", L"Fast", L"Faster", L"Fastest" }; }

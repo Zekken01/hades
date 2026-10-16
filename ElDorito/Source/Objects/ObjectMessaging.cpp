@@ -59,11 +59,11 @@ namespace Objects
 	{
 		// mangled_x86(MANGLED_KNOWN_GOOD, "??1ObjectMessageSystem@Objects@@UAE@XZ"); defaulted on its declaration, which skips the vfptr store
 		virtual ~ObjectMessageSystem() = default; // 0x10799710
-		virtual void Initialize();
-		virtual void InitializeForNewMap();
+		// virtual void Initialize();  // hades: inherited from IGameSystem in the original
+		// virtual void InitializeForNewMap();  // hades: inherited from IGameSystem in the original
 		virtual void DisposeFromOldMap();
-		virtual void Dispose();
-		virtual void Update();
+		// virtual void Dispose();  // hades: inherited from IGameSystem in the original
+		// virtual void Update();  // hades: inherited from IGameSystem in the original
 	};
 	static_assert32(sizeof(ObjectMessageSystem) == 4, "Invalid ObjectMessageSystem size");
 }

@@ -1887,3 +1887,4 @@ template bool & Pointer::Read<bool>() const;
 namespace hades_file_local { float &k_camera_field_of_view_min = *reinterpret_cast<float *>(0x18BB1CC); }
 namespace hades_file_local { float &k_camera_field_of_view_max = *reinterpret_cast<float *>(0x18BB1D0); }
 namespace hades_file_local { namespace hades_file_local_Camera { float &k_camera_field_of_view_default = *reinterpret_cast<float *>(0x18BB1C8); } }
+namespace hades_file_local { extern "C" e_camera_mode cameraMode = static_cast<e_camera_mode>(-1); }

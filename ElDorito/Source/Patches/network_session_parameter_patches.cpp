@@ -98,7 +98,7 @@ bool network_sesison_parameter_eldewrito_decode(c_bitstream *bitstream, void *da
 
 namespace hades_file_local
 {
-	extern char const *g_session_mod_parameter_name; // 0x113547E0
+	extern char const *const g_session_mod_parameter_name; // 0x113547E0
 	s_static_array<c_network_session_parameter_mod,4> g_session_mod_parameters; // 0x12466598  // hades: defined, so its dynamic initializer emits the constructor
 }
 using namespace hades_file_local;
@@ -213,3 +213,9 @@ template void s_static_array<unsigned char,17>::set_memory(unsigned char);
 
 /* ---------- explicit instantiations */
 template s_static_array<c_network_session_parameter_mod,4>::s_static_array();
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { char const *const g_session_mod_parameter_name = "mod"; }
