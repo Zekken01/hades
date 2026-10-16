@@ -154,7 +154,7 @@ namespace SavedFilms
 		};
 
 		// c_gui_saved_film_category_datasource
-		unsigned long const k_category_datasource_initialize_slot = 0x0169E6D4;
+		unsigned long const k_category_datasource_initialize_slot = 0x0169E6D8; // vtable 0x169E6D4 +4
 		auto const category_datasource_initialize = reinterpret_cast<bool(__thiscall *)(void *, long)>(0x00ADD210);
 		auto const category_datasource_add_category = reinterpret_cast<void(__thiscall *)(void *, long, long, long, long)>(0x00ADC7D0);
 		long const k_category_datasource_count = 0x144C;
