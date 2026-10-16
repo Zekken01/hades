@@ -77,6 +77,7 @@
 #include "Modules/ModuleServer.hpp"  // hades: added for 0x10CB27C0
 #include "Player/PlayerCustomization.hpp"  // hades: added for 0x10CB27C0
 #include "Player/PlayerInfo.hpp"  // hades: added for 0x10CB27C0
+#include "SavedFilms/saved_film_manager.hpp"
 #include "mods/mod_system.hpp"  // hades: added for 0x10CB27C0
 
 #include <Windows.h>
@@ -894,6 +895,15 @@ void serialize_update(rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson
 	writer.EndObject(0);
 }
 
+// A film's players are the game's, not the squad session's (which holds only the
+// viewer): while one plays, the scoreboard lists the players in the game.
+bool scoreboard_player_valid(c_network_session *session, long absolute_player_index)
+{
+	if (SavedFilms::film_is_playing())
+		return players_get()->try_and_get_absolute(absolute_player_index) != nullptr;
+	return session->get_session_membership()->is_player_valid(absolute_player_index);
+}
+
 void build_score_update(s_scores_update &update) // 0x10CB1DE0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?build_score_update@@YAXAAUs_scores_update@hades_file_local@@@Z");
@@ -912,7 +922,7 @@ void build_score_update(s_scores_update &update) // 0x10CB1DE0
 	update.alpha_player_mask = 0;
 	for (long i = 0; i < 16; i++)
 	{
-		if (!session->get_session_membership()->is_player_valid(i))
+		if (!scoreboard_player_valid(session, i))
 			continue;
 		s_player_datum *player = players_get()->try_and_get_absolute(i);
 		if (!player)
@@ -968,28 +978,36 @@ void build_session_update(s_session_update &update) // 0x10CB27C0
 	if (!network_session_interface_get_squad_session(&session))
 		return;
 	s_game_options *game_options = eldorado::game_options_get();
+	bool film = SavedFilms::film_is_playing();
 	for (long i = 0; i < 16; i++)
 	{
-		if (!session->get_session_membership()->is_player_valid(i))
+		if (!scoreboard_player_valid(session, i))
 			continue;
 		s_player_datum *game_player = players_get()->try_and_get_absolute(i);
-		s_network_session_player *player = session->get_session_membership()->get_player(i);
+		s_player_configuration_from_host const *host;
+		if (film)
+			host = &game_player->configuration.host;
+		else
+			host = &session->get_session_membership()->get_player(i)->configuration.host;
 		s_session_player *player_update = &update.players[update.player_count++];
 		s_static_string<16> player_name;
 		s_static_string<5> service_tag;
-		service_tag.set_wchar(player->configuration.host.appearance.service_tag);
-		player_name.set_wchar(player->configuration.host.player_name);
-		player_update->uid = player->configuration.host.player_uid;
+		service_tag.set_wchar(host->appearance.service_tag);
+		player_name.set_wchar(host->player_name);
+		player_update->uid = host->player_uid;
 		player_update->service_tag = service_tag.get_string();
 		player_update->player_name = player_name.get_string();
-		if (Modules::ModuleServer::Instance().VarServerDedicatedClient->ValueInt == 1)
+		if (film || Modules::ModuleServer::Instance().VarServerDedicatedClient->ValueInt == 1)
 			player_update->is_host = false;
 		else
 			player_update->is_host = i == session->get_session_membership()->host_peer_index();
 		player_update->session_player_index = i;
-		player_update->team_index = player->configuration.host.team;
-		player_update->color = Player::CPlayerCustomization::GetPlayerPrimaryColor(i);
-		player_update->emblem = Player::Emblems::BuildUrl(player->configuration.host.appearance.emblem_config);
+		player_update->team_index = host->team;
+		if (film)
+			player_update->color = Player::CPlayerCustomization::GetInGamePlayerCustomization(eldorado::player_index_from_absolute_player_index(i))->colors[0];
+		else
+			player_update->color = Player::CPlayerCustomization::GetPlayerPrimaryColor(i);
+		player_update->emblem = Player::Emblems::BuildUrl(host->appearance.emblem_config);
 	}
 	update.is_host = session->is_host();
 	update.game_engine_type = (long)game_options->game_variant.game_engine_type;
@@ -1048,6 +1066,22 @@ void check_to_send_update() // 0x10CB3270
 	{
 		membership_changed = true;
 		globals.last_membership_update_number = session->get_session_membership_update_number();
+	}
+	// A film's players come and go with the film, not the session.
+	static unsigned long last_film_player_mask = 0;
+	unsigned long film_player_mask = 0;
+	if (SavedFilms::film_is_playing())
+	{
+		for (long i = 0; i < 16; i++)
+		{
+			if (players_get()->try_and_get_absolute(i))
+				film_player_mask |= 1 << i;
+		}
+	}
+	if (film_player_mask != last_film_player_mask)
+	{
+		membership_changed = true;
+		last_film_player_mask = film_player_mask;
 	}
 	globals.update_timer++;
 	if (game_ticks_to_seconds((float)globals.update_timer) >= 0.25f || membership_changed || is_final_update)
