@@ -72,6 +72,13 @@ namespace SavedFilms
 		long const k_game_options_game_network_type = 0x5;
 		long const k_game_options_tick_rate = 0x6;
 		unsigned char const k_game_simulation_local = 1;
+		long const k_game_options_game_instance = 0x8;
+
+		// _game_simulation_synchronous_client and _game_simulation_distributed_client.
+		bool simulation_is_client(unsigned char simulation)
+		{
+			return simulation == 2 || simulation == 4;
+		}
 		unsigned char const k_network_game_simulation_local = 1;
 		long const k_game_options_game_engine = 0x32C; // the multiplayer variant's engine; Game.ForceLoad writes the same field
 		long const k_game_options_scenario_path = 0x24;
@@ -175,6 +182,22 @@ namespace SavedFilms
 			long game_mode = *reinterpret_cast<long *>(options + k_game_options_game_mode);
 			if (!enabled || (game_mode != k_game_mode_campaign && game_mode != k_game_mode_multiplayer))
 			{
+				stop_recording();
+				return;
+			}
+
+			// A client of an online game is sent the other players and objects by the
+			// host, so its own simulation updates cannot replay the game (playback goes
+			// out of sync at once); only the host's and local games are recorded.
+			if (simulation_is_client(options[k_game_options_game_simulation]))
+			{
+				static unsigned long long noticed_game = 0;
+				unsigned long long game_instance = *reinterpret_cast<unsigned long long *>(options + k_game_options_game_instance);
+				if (noticed_game != game_instance)
+				{
+					noticed_game = game_instance;
+					print("Film: not recording - films can only be recorded by the host of an online game");
+				}
 				stop_recording();
 				return;
 			}
@@ -650,6 +673,12 @@ namespace SavedFilms
 			if (!g_playback.open_for_read(path.c_str()))
 			{
 				result = "Could not open film " + path;
+				return false;
+			}
+			if (simulation_is_client(reinterpret_cast<unsigned char const *>(g_playback.get_game_options())[k_game_options_game_simulation]))
+			{
+				g_playback.close();
+				result = "This film was recorded as a client of an online game and cannot be played back; only the host's films can";
 				return false;
 			}
 
