@@ -138,7 +138,7 @@ void InitializeIfNeeded();
 namespace hades_file_local
 {
 	s_buff buff; // 0x1168F568
-	extern std::atomic<bool> initialized; // 0x116A3614
+	namespace hades_file_local_DebugTrace { extern std::atomic<bool> initialized; } using namespace hades_file_local_DebugTrace; // 0x116A3614
 	extern std::atomic<bool> clearRequested; // 0x116A3615
 	CSimpleMessageQueue<STraceLine,128> queue; // 0x116A3618
 }
@@ -265,3 +265,4 @@ template void CSimpleMessageQueue<STraceLine,128>::FreeElement(CSimpleMessageQue
 // Initial values as linked into mtndew.dll. Defined after every use, so calls
 // through the constant pointers still load them from memory, as the original's did.
 namespace hades_file_local { std::atomic<bool> clearRequested; }
+namespace hades_file_local { namespace hades_file_local_DebugTrace { std::atomic<bool> initialized; } }

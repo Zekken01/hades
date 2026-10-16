@@ -890,3 +890,9 @@ namespace hades_file_local { long driver_forced_msaa_value = 1; }
 namespace hades_file_local { long g_exposure_occlusion_pixels_passed; }
 namespace hades_file_local { IDirect3DSurface9 *g_exposure_dup_surface; }
 namespace hades_file_local { bool reflections_enabled; }
+float const &c_camera_fx_values::g_exposure_stops = *reinterpret_cast<float const *>(0x50E8920);
+int &c_rasterizer_globals::g_motion_blur_min_width = *reinterpret_cast<int *>(0x1914BAC);
+int &c_rasterizer_globals::g_motion_blur_max_width = *reinterpret_cast<int *>(0x1914BB0);
+int &c_rasterizer_globals::g_motion_blur_min_taps = *reinterpret_cast<int *>(0x1914BB4);
+int &c_rasterizer_globals::g_motion_blur_max_taps = *reinterpret_cast<int *>(0x1914BB8);
+c_screen_postprocess::s_settings const &c_screen_postprocess::x_settings = *reinterpret_cast<c_screen_postprocess::s_settings const *>(0x1917D18);

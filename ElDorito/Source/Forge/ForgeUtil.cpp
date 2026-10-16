@@ -128,7 +128,7 @@ namespace Forge
 
 namespace hades_file_local
 {
-	extern real_vector3d global_zero3d; // 0x1119A698
+	namespace hades_file_local_ForgeUtil { extern real_vector3d global_zero3d; } using namespace hades_file_local_ForgeUtil; // 0x1119A698
 }
 using namespace hades_file_local; extern real_vector3d *matrix4x3_inverse_transform_vector(real_matrix4x3 const *, real_vector3d const *, real_vector3d *);
 /* ---------- public code */
@@ -548,3 +548,9 @@ namespace Forge
 // reaches an object without being used. Generated - see build_instantiations.py.
 
 template bool c_flags<enum e_variant_object_placement_flags,unsigned short>::test(e_variant_object_placement_flags) const;
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { namespace hades_file_local_ForgeUtil { real_vector3d global_zero3d; } }

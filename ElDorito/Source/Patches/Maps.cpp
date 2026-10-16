@@ -190,8 +190,8 @@ long levels_enumerate_hook(s_levels_enumerate_async_data *data);
 
 namespace hades_file_local
 {
-	extern char const *const k_mods_mainmenu_virtual_path; // 0x111B0700
-	extern char const *const k_mods_game_virtual_path; // 0x111B0704
+	namespace hades_file_local_Maps { extern char const *const k_mods_mainmenu_virtual_path; } using namespace hades_file_local_Maps; // 0x111B0700
+	namespace hades_file_local_Maps { extern char const *const k_mods_game_virtual_path; } using namespace hades_file_local_Maps; // 0x111B0704
 	std::vector<unsigned char> map_file_buffer; // 0x12458E90
 }
 using namespace hades_file_local;
@@ -539,3 +539,10 @@ long levels_enumerate_hook(s_levels_enumerate_async_data *data) // 0x10A886A0
 // reaches an object without being used. Generated - see build_instantiations.py.
 
 template c_flags<enum e_file_reference_flags,long>::c_flags(long const &);
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { namespace hades_file_local_Maps { char const *const k_mods_mainmenu_virtual_path = "mods\\mainmenu"; } }
+namespace hades_file_local { namespace hades_file_local_Maps { char const *const k_mods_game_virtual_path = "mods\\game"; } }

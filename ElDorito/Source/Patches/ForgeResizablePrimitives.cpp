@@ -135,8 +135,8 @@ hkpEntity *__fastcall c_havok_component__build_rigid_body(c_havok_component *thi
 
 namespace hades_file_local
 {
-	extern real_vector3d global_zero3d; // 0x11197984
-	extern s_globals globals; // 0x124094A0
+	namespace hades_file_local_ForgeResizablePrimitives { extern real_vector3d global_zero3d; } using namespace hades_file_local_ForgeResizablePrimitives; // 0x11197984
+	namespace hades_file_local_ForgeResizablePrimitives { extern s_globals globals; } using namespace hades_file_local_ForgeResizablePrimitives; // 0x124094A0
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -325,3 +325,10 @@ hkpEntity *__fastcall c_havok_component__build_rigid_body(c_havok_component *thi
 	}
 	return ((hkpEntity *(__thiscall *)(c_havok_component *, hkpShape *, float, bool, hkVector4 *, float, float, hkMatrix3 *, float, long, hkMatrix4 *, unsigned long, __int32, bool, float, float))0x5E3C50)(thisptr, shape, allowed_penetration_depth_scale, is_static, center_of_mass_local, friction, restitution, inertia_tensor, mass, motion_type, transform, collision_filter, a13, only_collides_with_environment, maximum_linear_velocity, maximum_angular_velocity);
 }
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { namespace hades_file_local_ForgeResizablePrimitives { real_vector3d global_zero3d; } }
+namespace hades_file_local { namespace hades_file_local_ForgeResizablePrimitives { s_globals globals; } }

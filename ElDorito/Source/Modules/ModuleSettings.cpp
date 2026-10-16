@@ -1525,3 +1525,4 @@ template void Pointer::WriteFast<unsigned long>(unsigned long const) const;
 namespace hades_file_local { __int32 (__stdcall *SSL_SetAntialiasing)(bool) = reinterpret_cast<decltype(SSL_SetAntialiasing)>(0x79B240); }
 namespace hades_file_local { __int32 (__stdcall *SSL_SetMusicVolume)(__int32, bool) = reinterpret_cast<decltype(SSL_SetMusicVolume)>(0x79B940); }
 namespace hades_file_local { __int32 (__stdcall *SSL_SetTeamColor)(__int32) = reinterpret_cast<decltype(SSL_SetTeamColor)>(0x79BAF0); }
+char &c_rasterizer_globals::g_motion_blur_parameters_set = *reinterpret_cast<char *>(0x5106FAC);

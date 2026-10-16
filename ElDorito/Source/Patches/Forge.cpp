@@ -541,7 +541,7 @@ extern s_multiplayer_object_properties *(*const object_get_multiplayer)(unsigned
 
 namespace hades_file_local
 {
-	extern real_vector3d global_zero3d; // 0x111AFB58
+	namespace hades_file_local_Forge { extern real_vector3d global_zero3d; } using namespace hades_file_local_Forge; // 0x111AFB58
 	extern float const HELDOBJECT_DISTANCE_MIN; // 0x111AFB88
 	extern float const HELDOBJECT_DISTANCE_CHANGE_MULTIPLIER; // 0x111AFB8C
 	extern float const MONITOR_MOVEMENT_SPEEDS[7]; // 0x111AFB90
@@ -3468,3 +3468,4 @@ namespace hades_file_local { float const HELDOBJECT_DISTANCE_MIN = 0.10000000149
 namespace hades_file_local { float const HELDOBJECT_DISTANCE_CHANGE_MULTIPLIER = 0.10000000149011612f; }
 namespace hades_file_local { float const MONITOR_MOVEMENT_SPEEDS[7] = { 0.0010000000474974513f, 0.05000000074505806f, 0.25f, 1.0f, 2.0f, 4.0f, 8.0f }; }
 namespace hades_file_local { std::vector<void (__cdecl*)(unsigned int)> s_ItemSpawnedCallbacks; }
+namespace hades_file_local { namespace hades_file_local_Forge { real_vector3d global_zero3d; } }

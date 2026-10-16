@@ -348,7 +348,7 @@ namespace hades_file_local
 	extern float kAirborneAccelerationScale; // 0x113548B8
 	extern float kGroundAccelerationScale; // 0x113548BC
 	float const kMaxPlayerScale = kPlayerScales[_countof(kPlayerScales) - 1]; // 0x12466758
-	extern s_state state; // 0x12466760
+	namespace hades_file_local_PlayerScale { extern s_state state; } using namespace hades_file_local_PlayerScale; // 0x12466760
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -1490,3 +1490,4 @@ namespace hades_file_local { float kGravityExp = 0.375f; }
 namespace hades_file_local { float kJumpVelocityExp = 0.5600000023841858f; }
 namespace hades_file_local { float kAirborneAccelerationScale = 0.4000000059604645f; }
 namespace hades_file_local { float kGroundAccelerationScale = 0.8500000238418579f; }
+namespace hades_file_local { namespace hades_file_local_PlayerScale { s_state state; } }

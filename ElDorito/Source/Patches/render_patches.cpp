@@ -367,7 +367,7 @@ extern "C" { static __int32 *g_bink_frame_height; } // 0x11352EE4
 
 namespace hades_file_local
 {
-	extern float &k_camera_field_of_view_default; // 0x11352ED4
+	namespace hades_file_local_render_patches { extern float &k_camera_field_of_view_default; } using namespace hades_file_local_render_patches; // 0x11352ED4
 	extern s_extern_description const g_new_extern_descriptions[55]; // 0x11195C80
 	extern s_wind_values &g_wind_values; // 0x11352EDC
 	extern bool &g_invalidate_render_cache; // 0x11352ED8
@@ -4040,3 +4040,15 @@ namespace hades_file_local { long &render_debug_depth_render = *reinterpret_cast
 namespace hades_file_local { bool &render_dynamic_shadow_enabled = *reinterpret_cast<bool *>(0x191C921); }
 namespace hades_file_local { bool &render_water_interaction_enabled = *reinterpret_cast<bool *>(0x19146F2); }
 namespace hades_file_local { bool &render_water_wireframe_enabled = *reinterpret_cast<bool *>(0x50FAAEC); }
+float const &c_lights_view::g_render_light_intensity = *reinterpret_cast<float const *>(0x19180BC);
+bool &c_rasterizer_states::initialized = *reinterpret_cast<bool *>(0x1914B84);
+long &c_render_method_data::m_context = *reinterpret_cast<long *>(0x19148B0);
+bool &c_rasterizer::m_use_floating_point_z_buffer = *reinterpret_cast<bool *>(0x50DAE03);
+long &c_rasterizer::g_depth_stencil_surface = *reinterpret_cast<long *>(0x50DB1EC);
+c_rasterizer_texture_ref &c_rasterizer::m_albedo_texture = *reinterpret_cast<c_rasterizer_texture_ref *>(0x1910104);
+c_rasterizer_texture_ref &c_rasterizer::m_normal_texture = *reinterpret_cast<c_rasterizer_texture_ref *>(0x1910108);
+float &c_player_view::render_debug_depth_render_scale_r = *reinterpret_cast<float *>(0x19147BC);
+float &c_player_view::render_debug_depth_render_scale_g = *reinterpret_cast<float *>(0x19147C0);
+float &c_player_view::render_debug_depth_render_scale_b = *reinterpret_cast<float *>(0x19147C4);
+long &c_atmosphere_fog_interface::g_custom_setting_index = *reinterpret_cast<long *>(0x18BE9DC);
+namespace hades_file_local { namespace hades_file_local_render_patches { float &k_camera_field_of_view_default = *reinterpret_cast<float *>(0x18BB1C8); } }

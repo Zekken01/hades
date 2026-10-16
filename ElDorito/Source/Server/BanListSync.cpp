@@ -220,9 +220,9 @@ namespace Server
 namespace hades_file_local
 {
 	extern long long lastSyncTime; // 0x124676A8
-	extern std::mutex mutex; // 0x12467620
+	namespace hades_file_local_BanListSync { extern std::mutex mutex; } using namespace hades_file_local_BanListSync; // 0x12467620
 	extern std::condition_variable syncSignal; // 0x12467660
-	extern bool shouldExit; // 0x124676A4
+	namespace hades_file_local_BanListSync { extern bool shouldExit; } using namespace hades_file_local_BanListSync; // 0x124676A4
 	extern bool banlistDirty; // 0x124676A5
 	extern std::vector<std::string> banlistUrls; // 0x12467650
 	extern s_sharedState sharedState; // 0x124675E0
@@ -563,3 +563,5 @@ namespace hades_file_local { std::condition_variable syncSignal; }
 namespace hades_file_local { bool banlistDirty; }
 namespace hades_file_local { std::vector<std::string> banlistUrls; }
 namespace hades_file_local { s_sharedState sharedState; }
+namespace hades_file_local { namespace hades_file_local_BanListSync { std::mutex mutex; } }
+namespace hades_file_local { namespace hades_file_local_BanListSync { bool shouldExit; } }

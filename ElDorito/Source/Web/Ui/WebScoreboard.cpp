@@ -431,7 +431,7 @@ extern long (*const game_time_get)();  // hades: added for 0x10CB0990
 
 namespace hades_file_local
 {
-	extern s_globals globals; // 0x1247EDDC
+	namespace hades_file_local_WebScoreboard { extern s_globals globals; } using namespace hades_file_local_WebScoreboard; // 0x1247EDDC
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -1228,3 +1228,9 @@ template void s_static_string<5>::set_wchar(wchar_t const *);
 template bool s_static_array<s_session_player,16>::valid(__int32);
 template s_session_player const & s_static_array<s_session_player,16>::operator[](long) const; // 0x10CB0690
 template s_session_player & s_static_array<s_session_player,16>::operator[](long); // 0x10CB0610
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { namespace hades_file_local_WebScoreboard { s_globals globals; } }

@@ -318,7 +318,7 @@ bool game_engine_in_round_hook();
 namespace hades_file_local
 {
 	s_session_player_ping players_ping[16]; // 0x12458580
-	extern unsigned short PingId; // 0x124587C0
+	namespace hades_file_local_Hf2pExperimental { extern unsigned short PingId; } using namespace hades_file_local_Hf2pExperimental; // 0x124587C0
 	extern long long game_end_time; // 0x124587C8
 	extern long long last_ping_time; // 0x124587D0
 }
@@ -1024,3 +1024,4 @@ template unsigned char & Pointer::Read<unsigned char>() const;
 // through the constant pointers still load them from memory, as the original's did.
 namespace hades_file_local { long long game_end_time; }
 namespace hades_file_local { long long last_ping_time; }
+namespace hades_file_local { namespace hades_file_local_Hf2pExperimental { unsigned short PingId; } }

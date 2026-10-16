@@ -107,7 +107,7 @@ namespace Patches
 
 namespace hades_file_local
 {
-	extern real_vector3d global_zero3d; // 0x11182860
+	namespace hades_file_local_BipedPatches { extern real_vector3d global_zero3d; } using namespace hades_file_local_BipedPatches; // 0x11182860
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -249,3 +249,9 @@ namespace Patches
 }
 
 /* ---------- private code */
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { namespace hades_file_local_BipedPatches { real_vector3d global_zero3d; } }

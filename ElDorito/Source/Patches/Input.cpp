@@ -1947,3 +1947,5 @@ namespace hades_file_local { unsigned __int32 s_ControllerVibrationTestTicks; }
 namespace hades_file_local { IDirectInput8A *g_diInterface; }
 namespace hades_file_local { IDirectInputDevice8A *g_diKeyboardDevice; }
 namespace hades_file_local { bool g_diInitialized; }
+s_input_globals &input_globals = *reinterpret_cast<s_input_globals *>(0x238DBE8);
+s_input_abstraction_globals &input_abstraction_globals = *reinterpret_cast<s_input_abstraction_globals *>(0x244C9D0);

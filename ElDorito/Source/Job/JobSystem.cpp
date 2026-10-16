@@ -60,7 +60,7 @@ namespace Job
 namespace hades_file_local
 {
 	CJobManager jobManager; // 0x123AEE68  // hades: defined, so its dynamic initializer emits the constructor
-	extern bool initialized; // 0x123AEEF0
+	namespace hades_file_local_JobSystem { extern bool initialized; } using namespace hades_file_local_JobSystem; // 0x123AEEF0
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -104,3 +104,9 @@ namespace Job
 _inline CJobManager::~CJobManager() = default; // 0x1086CD80
 
 /* ---------- private code */
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { namespace hades_file_local_JobSystem { bool initialized; } }

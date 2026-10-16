@@ -55,3 +55,13 @@ extern bool (*sound_is_active)(); // 0x1135A294
 /* ---------- public code */
 
 /* ---------- private code */
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+c_data_array<s_sound_source_datum> **g_sound_sources = reinterpret_cast<c_data_array<s_sound_source_datum> **>(0x238E860);
+c_data_array<looping_sound_datum> **g_looping_sounds = reinterpret_cast<c_data_array<looping_sound_datum> **>(0x2497D20);
+sound_channel_datum **g_sound_channels = reinterpret_cast<sound_channel_datum **>(0x238E85C);
+c_data_array<s_xbox_sound_datum> **g_xbox_sounds = reinterpret_cast<c_data_array<s_xbox_sound_datum> **>(0x2497CF8);
+s_sound_manager_globals **g_sound_manager_globals = reinterpret_cast<s_sound_manager_globals **>(0x238E858);

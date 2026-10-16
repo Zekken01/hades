@@ -135,8 +135,8 @@ extern "C" bool render_object_is_third_person(long user_index, long object_index
 
 namespace hades_file_local
 {
-	extern real_vector3d global_zero3d; // 0x1118E940
-	extern real_rectangle2d global_null_rectangle2d; // 0x1118E970
+	namespace hades_file_local_ScreenEffectPatches { extern real_vector3d global_zero3d; } using namespace hades_file_local_ScreenEffectPatches; // 0x1118E940
+	namespace hades_file_local_ScreenEffectPatches { extern real_rectangle2d global_null_rectangle2d; } using namespace hades_file_local_ScreenEffectPatches; // 0x1118E970
 	extern float g_screen_effect_user_camera_shake[4]; // 0x1138E3B4
 	extern float &g_screen_effect_hud_alpha_scale; // 0x113523E0
 }
@@ -720,3 +720,5 @@ template s_single_screen_effect_definition * c_tag_block<s_single_screen_effect_
 // through the constant pointers still load them from memory, as the original's did.
 namespace hades_file_local { float g_screen_effect_user_camera_shake[4]; }
 namespace hades_file_local { float &g_screen_effect_hud_alpha_scale = *reinterpret_cast<float *>(0x18BF528); }
+namespace hades_file_local { namespace hades_file_local_ScreenEffectPatches { real_vector3d global_zero3d; } }
+namespace hades_file_local { namespace hades_file_local_ScreenEffectPatches { real_rectangle2d global_null_rectangle2d; } }

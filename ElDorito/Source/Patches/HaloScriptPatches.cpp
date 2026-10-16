@@ -413,7 +413,7 @@ extern "C" { static char const *script_op_names[1707]; } // 0x1134F888
 
 namespace hades_file_local
 {
-	extern real_rectangle2d global_null_rectangle2d; // 0x11182F0C
+	namespace hades_file_local_HaloScriptPatches { extern real_rectangle2d global_null_rectangle2d; } using namespace hades_file_local_HaloScriptPatches; // 0x11182F0C
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -2503,3 +2503,9 @@ namespace hades_file_local
 	s_hs_script_op_definition<3> hs_vehicle_test_seat_legacy_op = { _hs_type_boolean, hs_vehicle_test_seat_legacy_evaluate, "", 3, { _hs_type_vehicle, _hs_type_string_id, _hs_type_unit } };
 	s_hs_script_op_definition<3> hs_vehicle_test_seat_list_legacy_op = { _hs_type_boolean, hs_vehicle_test_seat_list_legacy_evaluate, "", 3, { _hs_type_vehicle, _hs_type_string_id, _hs_type_object_list } };
 }
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { namespace hades_file_local_HaloScriptPatches { real_rectangle2d global_null_rectangle2d; } }

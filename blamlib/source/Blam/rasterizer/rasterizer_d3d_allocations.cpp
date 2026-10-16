@@ -739,3 +739,10 @@ void d3d_resource_tracker_output_allocated_resource_counts() // 0x10F0FA40
 }
 
 /* ---------- private code */
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+IDirect3DDevice9 * &c_d3d_resource_allocator::m_d3d_device_ptr = *reinterpret_cast<IDirect3DDevice9 * *>(0x524B6AC);
+bool &c_rasterizer::g_d3d9ex = *reinterpret_cast<bool *>(0x1910700);

@@ -198,7 +198,7 @@ void __fastcall c_particle_emitter_definition__initialize_particle_call_hook(s_p
 namespace hades_file_local
 {
 	extern c_flags<enum e_effect_message_type,unsigned long> g_effect_message_filter; // 0x1240936C
-	extern real_vector3d global_zero3d; // 0x111978AC
+	namespace hades_file_local_effect_system_patches { extern real_vector3d global_zero3d; } using namespace hades_file_local_effect_system_patches; // 0x111978AC
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -1043,3 +1043,4 @@ template s_effect_location_datum * c_data_array<s_effect_location_datum>::get_ab
 // Initial values as linked into mtndew.dll. Defined after every use, so calls
 // through the constant pointers still load them from memory, as the original's did.
 namespace hades_file_local { c_flags<enum e_effect_message_type,unsigned long> g_effect_message_filter; }
+namespace hades_file_local { namespace hades_file_local_effect_system_patches { real_vector3d global_zero3d; } }

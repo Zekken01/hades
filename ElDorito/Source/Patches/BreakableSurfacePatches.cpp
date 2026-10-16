@@ -163,7 +163,7 @@ void breakable_surfaces_reset_hook();
 
 namespace hades_file_local
 {
-	extern real_vector3d global_zero3d; // 0x1117520C
+	namespace hades_file_local_BreakableSurfacePatches { extern real_vector3d global_zero3d; } using namespace hades_file_local_BreakableSurfacePatches; // 0x1117520C
 	extern long g_breakable_surface_group_gamestate_mapping[16][1024]; // 0x11372CD8
 }
 using namespace hades_file_local;
@@ -709,3 +709,4 @@ template void Pointer::Write<void (__cdecl*)(void)>(void (*const value)()) const
 // Initial values as linked into mtndew.dll. Defined after every use, so calls
 // through the constant pointers still load them from memory, as the original's did.
 namespace hades_file_local { long g_breakable_surface_group_gamestate_mapping[16][1024]; }
+namespace hades_file_local { namespace hades_file_local_BreakableSurfacePatches { real_vector3d global_zero3d; } }

@@ -160,11 +160,11 @@ static void OnShutdown();
 
 namespace hades_file_local
 {
-	extern std::mutex mutex; // 0x12467960
+	namespace hades_file_local_ReportHandler { extern std::mutex mutex; } using namespace hades_file_local_ReportHandler; // 0x12467960
 	extern std::condition_variable signal; // 0x12467990
 	extern std::vector<std::string> playerReportUrls; // 0x124679B8
 	std::vector<ReportRequest> pending; // 0x124679C8
-	extern bool shouldExit; // 0x124679D8
+	namespace hades_file_local_ReportHandler { extern bool shouldExit; } using namespace hades_file_local_ReportHandler; // 0x124679D8
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -454,3 +454,6 @@ template std::_Vector_iterator<std::_Vector_val<std::_Simple_types<ReportRequest
 // Initial values as linked into mtndew.dll. Defined after every use, so calls
 // through the constant pointers still load them from memory, as the original's did.
 namespace hades_file_local { std::vector<std::string> playerReportUrls; }
+namespace hades_file_local { namespace hades_file_local_ReportHandler { std::mutex mutex; } }
+namespace hades_file_local { std::condition_variable signal; }
+namespace hades_file_local { namespace hades_file_local_ReportHandler { bool shouldExit; } }

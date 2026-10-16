@@ -129,3 +129,10 @@ template s_visible_items_stack_marker & s_static_array<s_visible_items_stack_mar
 // template s_simple_list<s_visible_instance_group,4096>::s_simple_list();
 // template s_simple_list<s_visible_object,1792>::s_simple_list();
 // template s_simple_list<s_visible_object_hierarchy,1536>::s_simple_list();
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+s_static_array<s_visible_items_stack_marker,3> &c_visible_items::m_marker_stack = *reinterpret_cast<s_static_array<s_visible_items_stack_marker,3> *>(0x24B0A58);
+long &c_visible_items::m_marker_stack_top = *reinterpret_cast<long *>(0x18BF6B0);

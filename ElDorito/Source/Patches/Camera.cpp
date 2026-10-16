@@ -255,7 +255,7 @@ extern bool (*const game_time_get_paused)();  // hades: added for 0x1095D3B0
 namespace hades_file_local
 {
 	extern "C" e_camera_mode cameraMode; // 0x11353BB0
-	extern float &k_camera_field_of_view_default; // 0x11353BA4
+	namespace hades_file_local_Camera { extern float &k_camera_field_of_view_default; } using namespace hades_file_local_Camera; // 0x11353BA4
 	extern float &k_camera_field_of_view_min; // 0x11353BA8
 	extern float &k_camera_field_of_view_max; // 0x11353BAC
 }
@@ -1886,3 +1886,4 @@ template bool & Pointer::Read<bool>() const;
 // through the constant pointers still load them from memory, as the original's did.
 namespace hades_file_local { float &k_camera_field_of_view_min = *reinterpret_cast<float *>(0x18BB1CC); }
 namespace hades_file_local { float &k_camera_field_of_view_max = *reinterpret_cast<float *>(0x18BB1D0); }
+namespace hades_file_local { namespace hades_file_local_Camera { float &k_camera_field_of_view_default = *reinterpret_cast<float *>(0x18BB1C8); } }

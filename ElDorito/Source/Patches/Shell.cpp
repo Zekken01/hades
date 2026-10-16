@@ -164,8 +164,8 @@ extern unsigned __int32 const c_DwmMaxAdapters; // 0x111B2194
 
 namespace hades_file_local
 {
-	extern __int32 g_last_mouse_x; // 0x12467408
-	extern __int32 g_last_mouse_y; // 0x1246740C
+	namespace hades_file_local_Shell { extern __int32 g_last_mouse_x; } using namespace hades_file_local_Shell; // 0x12467408
+	namespace hades_file_local_Shell { extern __int32 g_last_mouse_y; } using namespace hades_file_local_Shell; // 0x1246740C
 }
 using namespace hades_file_local;
 namespace Server
@@ -420,3 +420,10 @@ namespace Patches
 		}
 	}
 }
+
+/* ---------- data definitions */
+
+// Initial values as linked into mtndew.dll. Defined after every use, so calls
+// through the constant pointers still load them from memory, as the original's did.
+namespace hades_file_local { namespace hades_file_local_Shell { __int32 g_last_mouse_x; } }
+namespace hades_file_local { namespace hades_file_local_Shell { __int32 g_last_mouse_y; } }

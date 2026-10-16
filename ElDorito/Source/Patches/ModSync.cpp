@@ -436,8 +436,8 @@ extern s_cache_file_tag_globals *g_cache_file_tag_globals;  // hades: added for 
 
 namespace hades_file_local
 {
-	extern char const *const k_mods_mainmenu_virtual_path; // 0x11197DC0
-	extern char const *const k_mods_game_virtual_path; // 0x11197DC4
+	namespace hades_file_local_ModSync { extern char const *const k_mods_mainmenu_virtual_path; } using namespace hades_file_local_ModSync; // 0x11197DC0
+	namespace hades_file_local_ModSync { extern char const *const k_mods_game_virtual_path; } using namespace hades_file_local_ModSync; // 0x11197DC4
 	extern s_static_array<s_cached_map_file,15> &g_cached_map_files; // 0x113534AC
 	extern "C" { c_map_load_crash_recovery_helper crash_recovery_helper; } // 0x12409560  // hades: defined, so its dynamic initializer emits the constructor
 	c_map_load_error_helper error_helper; // 0x12409584  // hades: defined, so its dynamic initializer emits the constructor
@@ -1908,3 +1908,6 @@ namespace hades_file_local { s_static_array<s_cached_map_file,15> &g_cached_map_
 namespace hades_file_local { s_cache_file_loaded_state loader_state; }
 namespace hades_file_local { Ref<IMod> current_mod; }
 namespace hades_file_local { s_resource_loaded_state resource_loader_state; }
+namespace hades_file_local { namespace hades_file_local_ModSync { char const *const k_mods_mainmenu_virtual_path = "mods\\mainmenu"; } }
+namespace hades_file_local { namespace hades_file_local_ModSync { char const *const k_mods_game_virtual_path = "mods\\game"; } }
+void (*const security_get_working_memory)(long, void **, long *) = reinterpret_cast<decltype(security_get_working_memory)>(0x508DB0);

@@ -139,7 +139,7 @@ bool VariableOldViewOffsetScaleUpdate(std::vector<std::string> const &Arguments,
 
 namespace hades_file_local
 {
-	extern float &k_camera_field_of_view_default; // 0x11353EC0
+	namespace hades_file_local_ModuleCamera { extern float &k_camera_field_of_view_default; } using namespace hades_file_local_ModuleCamera; // 0x11353EC0
 	extern real_euler_angles2d inputAngularVelocity; // 0x12454D54
 }
 using namespace hades_file_local;
@@ -427,3 +427,4 @@ bool VariableOldViewOffsetScaleUpdate(std::vector<std::string> const &Arguments,
 // Initial values as linked into mtndew.dll. Defined after every use, so calls
 // through the constant pointers still load them from memory, as the original's did.
 namespace hades_file_local { real_euler_angles2d inputAngularVelocity; }
+namespace hades_file_local { namespace hades_file_local_ModuleCamera { float &k_camera_field_of_view_default = *reinterpret_cast<float *>(0x18BB1C8); } }

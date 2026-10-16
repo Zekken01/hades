@@ -289,7 +289,7 @@ void RenderVolumes();
 namespace hades_file_local
 {
 	extern float const kGarbageCollectionIntervals[4]; // 0x11199D78
-	extern s_state state; // 0x1240DAB8
+	namespace hades_file_local_ForgeVolumes { extern s_state state; } using namespace hades_file_local_ForgeVolumes; // 0x1240DAB8
 }
 using namespace hades_file_local;
 /* ---------- public code */
@@ -923,3 +923,4 @@ void RenderVolumes() // 0x10954E30
 // Initial values as linked into mtndew.dll. Defined after every use, so calls
 // through the constant pointers still load them from memory, as the original's did.
 namespace hades_file_local { float const kGarbageCollectionIntervals[4] = { 0.0f, 3.0f, 5.0f, 10.0f }; }
+namespace hades_file_local { namespace hades_file_local_ForgeVolumes { s_state state; } }

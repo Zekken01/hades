@@ -259,7 +259,7 @@ extern "C" _inline e_object_type object_get_type(long object_index);
 
 
 // The same function, inlined into 6 other translation units: 0x10A6F570, 0x10A556F0, 0x107C2080, 0x107B07B0, 0x106D7DD0, 0x1069FDC0
-extern "C" _inline e_object_type object_get_type(long object_index) // 0x10CA98A0
+extern "C" inline e_object_type object_get_type(long object_index) // 0x10CA98A0
 {
 	// object_get_type
 	// long object_index;

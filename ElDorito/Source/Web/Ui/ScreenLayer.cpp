@@ -432,8 +432,8 @@ namespace hades_file_local
 	extern unsigned __int32 lastVariableUpdateTicks; // 0x1247ED30
 	std::vector<Modules::Command const *> lastVariableUpdates; // 0x1247ED18
 	std::map<std::string,std::shared_ptr<Web::Ui::WebScreen> > registeredScreens; // 0x1247ECD0
-	extern __int32 g_last_mouse_x; // 0x1247ED34
-	extern __int32 g_last_mouse_y; // 0x1247ED38
+	namespace hades_file_local_ScreenLayer { extern __int32 g_last_mouse_x; } using namespace hades_file_local_ScreenLayer; // 0x1247ED34
+	namespace hades_file_local_ScreenLayer { extern __int32 g_last_mouse_y; } using namespace hades_file_local_ScreenLayer; // 0x1247ED38
 	extern "C" char const *ScreenIdString[16]; // 0x11355298
 }
 using namespace hades_file_local;
@@ -1223,3 +1223,5 @@ void NotifyVariablesUpdated() // 0x10C94C80
 // through the constant pointers still load them from memory, as the original's did.
 namespace hades_file_local { bool InputCaptured; }
 namespace hades_file_local { unsigned __int32 lastVariableUpdateTicks; }
+namespace hades_file_local { namespace hades_file_local_ScreenLayer { __int32 g_last_mouse_x; } }
+namespace hades_file_local { namespace hades_file_local_ScreenLayer { __int32 g_last_mouse_y; } }

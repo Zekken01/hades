@@ -130,7 +130,7 @@ extern long screen_effect_new(long definition_index, long attach_object_index, s
 
 namespace hades_file_local
 {
-	extern real_rectangle2d global_null_rectangle2d; // 0x11172F9C
+	namespace hades_file_local_ForgeSkies { extern real_rectangle2d global_null_rectangle2d; } using namespace hades_file_local_ForgeSkies; // 0x11172F9C
 	extern ForgeSkyState state; // 0x1134D10C
 	extern s_forge_sky_definition mapDefaultSky; // 0x11371850
 }
@@ -523,3 +523,4 @@ template unsigned long c_data_array<s_screen_effect_datum>::delete_datum(unsigne
 // Initial values as linked into mtndew.dll. Defined after every use, so calls
 // through the constant pointers still load them from memory, as the original's did.
 namespace hades_file_local { s_forge_sky_definition mapDefaultSky; }
+namespace hades_file_local { namespace hades_file_local_ForgeSkies { real_rectangle2d global_null_rectangle2d; } }
