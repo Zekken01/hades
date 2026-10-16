@@ -62,6 +62,7 @@ namespace SavedFilms
 
 		// game_options fields.
 		auto const main_menu_launch = reinterpret_cast<void (*)()>(0x005680E0);
+		auto const game_time_get = reinterpret_cast<long (*)()>(0x00564D50);
 
 		long const k_game_options_game_mode = 0x0;
 		long const k_game_options_tick_rate = 0x6;
@@ -320,6 +321,83 @@ namespace SavedFilms
 					g_playback.close();
 					return;
 				}
+			}
+		}
+
+		/* ---------- film HUD */
+
+		// The chud's saved film timeline reads this; the release build's chud asked the
+		// stripped film manager for it and so always drew 00:00.
+		struct s_saved_film_hud_interface_state
+		{
+			float duration_in_seconds;
+			float marker_position_in_seconds;
+			long number_of_chapters_available;
+			float buffered_theta;
+			float current_position_theta;
+			float recording_start_theta;
+			bool recording;
+			float chapter_mark_theta[10];
+		};
+		static_assert(sizeof(s_saved_film_hud_interface_state) == 0x44, "Invalid s_saved_film_hud_interface_state size");
+
+		long film_tick_rate()
+		{
+			if (s_game_options const *options = g_playback.get_game_options())
+			{
+				short rate = *reinterpret_cast<short const *>(reinterpret_cast<unsigned char const *>(options) + k_game_options_tick_rate);
+				if (rate > 0)
+					return rate;
+			}
+			return 60;
+		}
+
+		// The film tick the game is showing (the film is read a little ahead of it).
+		long film_playback_tick()
+		{
+			long tick = game_time_get();
+			long length = g_playback.get_length_in_ticks();
+			return tick < 0 ? 0 : tick > length ? length : tick;
+		}
+
+		void __cdecl saved_film_get_hud_interface_state(s_saved_film_hud_interface_state *state)
+		{
+			memset(state, 0, sizeof(*state));
+			if (!g_playback.is_open() || game_playback_get() != k_game_playback_film)
+				return;
+
+			float rate = float(film_tick_rate());
+			long length = g_playback.get_length_in_ticks();
+			state->duration_in_seconds = length / rate;
+			state->marker_position_in_seconds = film_playback_tick() / rate;
+			if (length > 0)
+			{
+				state->current_position_theta = float(film_playback_tick()) / length;
+				state->buffered_theta = float(g_playback.get_current_tick() > length ? length : g_playback.get_current_tick()) / length;
+			}
+		}
+
+		// Replaces "call game_is_multiplayer; test al, al; jz 0xA86C64" at 0xA86C2F in the
+		// chud's per-user update (edi is the user's chud data, the film state at +0x8BC),
+		// as ManagedDonkey's saved_film_manager_get_hud_interface_state_inline does.
+		__declspec(naked) void chud_saved_film_state_hook()
+		{
+			__asm
+			{
+				lea     eax, [edi + 0x8BC]
+				push    eax
+				call    saved_film_get_hud_interface_state
+				add     esp, 4
+
+				mov     eax, 0x00531C00 // game_is_multiplayer
+				call    eax
+				test    al, al
+				jz      not_multiplayer
+				push    0x00A86C38
+				ret
+			not_multiplayer:
+				push    0x00A86C64
+				ret
 			}
 		}
 
@@ -591,7 +669,7 @@ namespace SavedFilms
 				g_recording.is_writing() ? "true" : "false",
 				playing_film() ? "true" : "false",
 				g_playback_ended ? "true" : "false",
-				g_playback.is_open() ? g_playback.get_current_tick() : 0,
+				playing_film() ? film_playback_tick() : 0,
 				g_playback.is_open() ? g_playback.get_length_in_ticks() : 0,
 				tick_rate,
 				speed ? double(speed->ValueFloat) : 1.0);
@@ -702,6 +780,7 @@ namespace SavedFilms
 		// playback; with the manager stripped that became a constant 0, so films never
 		// ran. Skip it (jz -> jmp) and leave the speed to Time.GameSpeed / Film.Speed.
 		Patch(0x00565277 - 0x00400000, { 0xEB }).Apply();
+		Hook(0x00A86C2F - 0x00400000, reinterpret_cast<void *>(chud_saved_film_state_hook)).Apply();
 		Patches::Core::OnShutdown([]()
 		{
 			stop_recording();
