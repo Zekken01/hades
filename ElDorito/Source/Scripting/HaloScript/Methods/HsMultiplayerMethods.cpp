@@ -1,6 +1,7 @@
 /* ---------- headers */
 
 #include "hades/hades.h"
+#include "SavedFilms/saved_film_manager.hpp"
 
 #include "Blam/BlamNetwork.hpp"
 #include "Blam/cache/cache_files.hpp"
@@ -529,7 +530,18 @@ void hs_lobby_size_evaluate(short op, long thread_index, bool initial) // 0x106F
 	if (args)
 	{
 		Blam::Network::Session *session = Blam::Network::GetActiveSession();
-		if (session && session->IsEstablished())
+		if (SavedFilms::film_is_playing())
+		{
+			// A film's players are the game's; its session holds only the viewer.
+			short player_count = 0;
+			for (long i = 0; i < 16; i++)
+			{
+				if (players_get()->try_and_get_absolute(i))
+					player_count++;
+			}
+			eldorado::hs_return(thread_index, hs_value::from_short(player_count));
+		}
+		else if (session && session->IsEstablished())
 		{
 			eldorado::hs_return(thread_index, hs_value::from_short(session->MembershipInfo.PlayerCount));
 		}
