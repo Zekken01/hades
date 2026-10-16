@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Theater</title>
+    <link href="theater.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="overlay"></div>
+
+    <!-- The film browser, shown outside of a film. -->
+    <div id="browser" class="panel">
+        <div class="panel_header">
+            <div class="panel_title">THEATER</div>
+            <div class="panel_subtitle" id="film_count"></div>
+        </div>
+        <div class="panel_body">
+            <ul id="film_list"></ul>
+            <div id="film_details">
+                <div class="details_map" id="details_map"></div>
+                <div class="details_gametype" id="details_gametype"></div>
+                <table class="details_table">
+                    <tr><td>LENGTH</td><td id="details_length"></td></tr>
+                    <tr><td>RECORDED</td><td id="details_date"></td></tr>
+                    <tr><td>SIZE</td><td id="details_size"></td></tr>
+                    <tr><td>FILE</td><td id="details_name"></td></tr>
+                </table>
+                <div id="empty_message" class="faded">No saved films yet. Games are recorded to the films folder while Film.Record is on.</div>
+            </div>
+        </div>
+        <div class="panel_footer">
+            <span class="button" onclick="playSelected()"><b>A</b> / ENTER &nbsp;Play</span>
+            <span class="button" onclick="deleteSelected()"><b>X</b> / DEL &nbsp;Delete</span>
+            <span class="button" onclick="closeTheater()"><b>B</b> / ESC &nbsp;Back</span>
+        </div>
+    </div>
+
+    <!-- The playback controls, shown while a film plays. -->
+    <div id="controls" class="panel">
+        <div class="controls_title">
+            <span id="controls_name"></span>
+            <span id="controls_state"></span>
+        </div>
+        <div class="progress"><div class="progress_fill" id="progress_fill"></div></div>
+        <div class="controls_time"><span id="time_current">0:00</span><span id="time_length">0:00</span></div>
+        <div class="controls_buttons">
+            <span class="button" onclick="changeSpeed(-1)"><b>LB</b> / &larr; &nbsp;Slower</span>
+            <span class="button" onclick="togglePause()"><b>A</b> / SPACE &nbsp;<span id="pause_label">Pause</span></span>
+            <span class="button" onclick="changeSpeed(1)"><b>RB</b> / &rarr; &nbsp;Faster</span>
+            <span class="button" onclick="endFilm()"><b>Y</b> / E &nbsp;End film</span>
+            <span class="button" onclick="closeTheater()"><b>B</b> / ESC &nbsp;Hide</span>
+        </div>
+    </div>
+
+    <script src="dew://lib/jquery-2.2.1.min.js"></script>
+    <script src="dew://lib/dew.js"></script>
+    <script src="dew://lib/input.js"></script>
+    <script src="theater.js"></script>
+</body>
+</html>
