@@ -277,6 +277,7 @@ namespace SavedFilms
 		m_end_of_data_offset = k_saved_film_header_size + data_size;
 		m_current_tick = 0;
 		m_path = path;
+		m_players_info.clear();
 		return true;
 	}
 
@@ -295,6 +296,8 @@ namespace SavedFilms
 			return false;
 		m_current_offset += sizeof(record) + size;
 
+		if (type == _saved_film_update_type_players_info)
+			m_players_info.assign(reinterpret_cast<char const *>(g_update_buffer), size);
 		if (type != _saved_film_update_type_simulation_update)
 			return read_simulation_update(simulation_update_out); // game states are not used for playback from the start
 
@@ -357,6 +360,11 @@ namespace SavedFilms
 	unsigned long c_saved_film::get_recorded_time() const
 	{
 		return m_header.empty() ? 0 : read_header_long(k_film_header_recorded_time_offset);
+	}
+
+	std::string const &c_saved_film::get_players_info() const
+	{
+		return m_players_info;
 	}
 
 	std::string const &c_saved_film::get_path() const

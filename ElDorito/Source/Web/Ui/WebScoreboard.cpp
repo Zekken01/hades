@@ -1018,7 +1018,11 @@ void build_session_update(s_session_update &update) // 0x10CB27C0
 	update.number_of_rounds = eldorado::game_engine_get_number_of_rounds();
 	update.current_round = eldorado::game_engine_get_round() + 1;
 	std::string playersInfo = Modules::ModuleServer::Instance().VarPlayersInfoClient->ValueString;
-	if (playersInfo.empty() || playersInfo == "{}")
+	if (film)
+		playersInfo = SavedFilms::get_film_players_info();
+	if (film && playersInfo.empty())
+		playersInfo = "{}"; // a film recorded without it; the session's would be the viewer's
+	else if (playersInfo.empty() || playersInfo == "{}")
 		playersInfo = Player::CPlayersInfo::GeneratePlayerInfo();
 	update.players_info = playersInfo;
 	update.players_ping_info = Modules::ModuleServer::Instance().VarPlayersPingInfoClient->ValueString;
@@ -1078,10 +1082,13 @@ void check_to_send_update() // 0x10CB3270
 				film_player_mask |= 1 << i;
 		}
 	}
-	if (film_player_mask != last_film_player_mask)
+	static std::string last_film_players_info;
+	std::string film_players_info = SavedFilms::get_film_players_info();
+	if (film_player_mask != last_film_player_mask || film_players_info != last_film_players_info)
 	{
 		membership_changed = true;
 		last_film_player_mask = film_player_mask;
+		last_film_players_info = film_players_info;
 	}
 	globals.update_timer++;
 	if (game_ticks_to_seconds((float)globals.update_timer) >= 0.25f || membership_changed || is_final_update)

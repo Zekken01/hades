@@ -23,6 +23,7 @@
 #include "Blam/structures/cluster_reference.hpp"
 #include "Blam/tag_files/tag_groups.hpp"
 
+#include "SavedFilms/saved_film_manager.hpp"
 #include <Windows.h>
 #include <stdio.h>
 #include <sys/stat.h>
@@ -87,12 +88,24 @@ namespace Player
 {
 	namespace PlayerNetworkUtil
 	{
+		// A film's players are in the game but not the session (which holds only the
+		// viewer); while one plays, a player's "session index" is its absolute index in
+		// the game, which in the recorded game was its session index.
+		bool session_player_valid(c_network_session *session, long player_session_index)
+		{
+			if (SavedFilms::film_is_playing())
+				return player_session_index >= 0 && player_session_index < 16 && players_get()->try_and_get_absolute(player_session_index) != nullptr;
+			return session->get_session_membership()->is_player_valid(player_session_index);
+		}
+
 		s_player_datum *get_player_from_session_index(__int32 player_session_index) // 0x106D7FD0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?get_player_from_session_index@PlayerNetworkUtil@Player@@YAPAUs_player_datum@@H@Z");
 
 			if (player_session_index == -1)
 				return nullptr;
+			if (SavedFilms::film_is_playing())
+				return player_session_index >= 0 && player_session_index < 16 ? players_get()->try_and_get_absolute(player_session_index) : nullptr;
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			if (session && session->IsEstablished())
 			{
@@ -114,6 +127,12 @@ namespace Player
 
 			if (player_session_index == -1)
 				return -1;
+			if (SavedFilms::film_is_playing())
+			{
+				if (player_session_index < 0 || player_session_index >= 16 || !players_get()->try_and_get_absolute(player_session_index))
+					return -1;
+				return reinterpret_cast<long (*)(long)>(0x0053B1A0)(player_session_index); // player_index_from_absolute_player_index
+			}
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			if (session && session->IsEstablished())
 			{
@@ -136,6 +155,8 @@ namespace Player
 
 			if (player_datum_index == -1)
 				return -1;
+			if (SavedFilms::film_is_playing())
+				return player_get(player_datum_index) ? (player_datum_index & 0xFFFF) : -1;
 
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			if (session && session->IsEstablished())

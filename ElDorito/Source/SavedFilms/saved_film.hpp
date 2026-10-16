@@ -32,6 +32,7 @@ namespace SavedFilms
 		_saved_film_update_type_simulation_update = 0,
 		_saved_film_update_type_gamestate,
 		_saved_film_update_type_replication_packet, // ElDewrito: what an online client was sent (saved_film_replication.cpp)
+		_saved_film_update_type_players_info, // ElDewrito: Server.PlayersInfoClient (ranks, emblems) as it changed
 	};
 
 	class c_saved_film
@@ -69,6 +70,7 @@ namespace SavedFilms
 		long get_length_in_ticks() const;
 		unsigned long get_recorded_time() const; // time()
 		std::string const &get_path() const;
+		std::string const &get_players_info() const; // the latest players info record read
 
 	private:
 		bool write_finish();
@@ -84,6 +86,7 @@ namespace SavedFilms
 		long m_end_of_data_offset;
 		long m_current_tick;
 		std::string m_path;
+		std::string m_players_info;
 	};
 
 	// The film header's fields, as offsets into s_blf_saved_film.

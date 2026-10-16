@@ -1,5 +1,6 @@
 /* ---------- headers */
 
+#include "SavedFilms/saved_film_manager.hpp"
 #include "hades/hades.h"
 
 #include "Blam/BlamNetwork.hpp"
@@ -281,7 +282,7 @@ extern void matrix4x3_rotation_to_angles(real_matrix4x3 const *matrix, real_eule
 extern s_scenario **g_scenario_definition;  // hades: added for 0x106DFDA0
 extern s_object_data *(*const object_try_and_get_and_verify_type)(unsigned long, c_enum<enum e_object_type,long>);  // hades: added for 0x106DFDA0
 
-namespace Player { namespace PlayerNetworkUtil { extern long get_session_player_index_from_player_datum_index(long player_datum_index); } }  // hades: added for 0x106E0FB0
+namespace Player { namespace PlayerNetworkUtil { extern long get_session_player_index_from_player_datum_index(long player_datum_index); extern bool session_player_valid(c_network_session *session, long player_session_index); } }  // hades: added for 0x106E0FB0
 
 extern bool (*const network_session_interface_get_squad_session)(c_network_session **);  // hades: added for 0x106DEB10
 namespace Player { namespace PlayerNetworkUtil { extern long get_player_datum_index_from_session_index(__int32 player_session_index); } } namespace Player { namespace Emblems { extern std::string BuildUrl(s_player_emblem_configuration emblem); } } extern void player_format_uid(char *string, unsigned long long id);  // hades: added for 0x106DEB10, 0x106E0330
@@ -459,7 +460,7 @@ namespace Player
 					std::vector<PlayerPlace> player_places;
 					for (long i = 0; i < 16; i++)
 					{
-						if (session->get_session_membership()->is_player_valid(i))
+						if (PlayerNetworkUtil::session_player_valid(session, i))
 						{
 							long player_datum_index = PlayerNetworkUtil::get_player_datum_index_from_session_index(i);
 							s_player_datum *player = players_get()->try_and_get(player_datum_index);
@@ -475,12 +476,16 @@ namespace Player
 					if (scoreboard)
 					{
 						std::string playersInfo = Modules::ModuleServer::Instance().VarPlayersInfoClient->ValueString;
-						if (playersInfo.empty() || playersInfo == "{}")
+						if (SavedFilms::film_is_playing())
+							playersInfo = SavedFilms::get_film_players_info();
+						if (SavedFilms::film_is_playing() && playersInfo.empty())
+							playersInfo = "{}";
+						else if (playersInfo.empty() || playersInfo == "{}")
 							playersInfo = Player::CPlayersInfo::GeneratePlayerInfo();
 						if (player_places.size() > 0 && desiredPlace < (short)player_places.size())
 						{
 							short player_session_idx = player_places[desiredPlace].player_session_idx;
-							if (session->get_session_membership()->is_player_valid(player_session_idx))
+							if (PlayerNetworkUtil::session_player_valid(session, player_session_idx))
 							{
 								long player_datum_index = PlayerNetworkUtil::get_player_datum_index_from_session_index(player_session_idx);
 								s_player_datum *player = players_get()->try_and_get(player_datum_index);
@@ -706,6 +711,10 @@ namespace Player
 			mangled_x86(MANGLED_KNOWN_GOOD, "?PodiumEnabled@PlayerPodium@Player@@YA_NXZ");
 
 			__int32 lobbytype = Blam::Network::GetLobbyType();
+			// A film (the theater lobby) has the podium of the game it recorded: Forge's
+			// or multiplayer's.
+			if (SavedFilms::film_is_playing())
+				lobbytype = *reinterpret_cast<long const *>(reinterpret_cast<unsigned char *(*)()>(0x005322D0)() + 0x32C) == 5 ? 3 : 2; // game_options_get()->game variant's engine is sandbox
 			unsigned long PodiumEnabledValue = Utils::Singleton<Modules::ModuleServer>::Instance().VarServerPodiumEnabledClient->ValueInt;
 
 			if (lobbytype == 3)
@@ -822,7 +831,7 @@ namespace Player
 				std::vector<PlayerPlace> player_places;
 				for (long i = 0; i < 16; i++)
 				{
-					if (session->get_session_membership()->is_player_valid(i))
+					if (PlayerNetworkUtil::session_player_valid(session, i))
 					{
 						long datum_index = PlayerNetworkUtil::get_player_datum_index_from_session_index(i);
 						s_player_datum *player = players_get()->try_and_get(datum_index);

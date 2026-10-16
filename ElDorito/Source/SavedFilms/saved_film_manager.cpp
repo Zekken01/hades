@@ -8,6 +8,7 @@
 #include "Modules/ModuleBase.hpp"
 #include "Patch.hpp"
 #include "Patches/Core.hpp"
+#include "Modules/ModuleServer.hpp"
 #include "Modules/ModuleTime.hpp"
 #include "SavedFilms/saved_film_manager.hpp"
 #include "Utils/String.hpp"
@@ -118,6 +119,7 @@ namespace SavedFilms
 		long long const k_pending_packet_bytes_max = 64 * 1024 * 1024;
 		long g_last_recorded_update = -1;
 		unsigned long long g_recording_game_instance = 0;
+		std::string g_last_recorded_players_info;
 
 		c_saved_film g_playback;
 		long g_clip_start_tick = -1; // a clip being recorded from the film, from this tick
@@ -244,6 +246,7 @@ namespace SavedFilms
 					return;
 				}
 				print("Film recording: %s (from update #%ld)", path.c_str(), update_number);
+				g_last_recorded_players_info.clear();
 				for (std::vector<unsigned char> const &packet : g_pending_packets)
 					g_recording.write_record(_saved_film_update_type_replication_packet, packet.data(), long(packet.size()));
 				g_pending_packets.clear();
@@ -253,7 +256,17 @@ namespace SavedFilms
 			if (g_recording.write_simulation_update(update))
 				g_last_recorded_update = update_number;
 			else
+			{
 				stop_recording();
+				return;
+			}
+
+			// The players' ranks and emblems come from the server (Server.PlayersInfoClient),
+			// which a film's playback has none of; they are recorded as they change.
+			std::string const &players_info = Modules::ModuleServer::Instance().VarPlayersInfoClient->ValueString;
+			if (players_info != g_last_recorded_players_info && !players_info.empty() && players_info != "{}"
+				&& g_recording.write_record(_saved_film_update_type_players_info, players_info.data(), long(players_info.size())))
+				g_last_recorded_players_info = players_info;
 		}
 
 		// Leaving a game closes a recording. Playback is closed by the main loop once a
@@ -993,6 +1006,11 @@ namespace SavedFilms
 	void film_log(char const *text)
 	{
 		playback_log("%s", text);
+	}
+
+	std::string get_film_players_info()
+	{
+		return film_game_running() ? g_playback.get_players_info() : std::string();
 	}
 
 	std::string get_films_directory()
