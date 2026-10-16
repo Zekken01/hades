@@ -8,6 +8,7 @@ namespace SavedFilms
 	void ApplyAll();
 	void ApplyControlPad();
 	void ApplyReplication();
+	void ApplyTheater();
 
 	// Online-client films: the replication packets the host sent (saved_film_replication.cpp).
 	void record_replication_packet(void const *data, long size);

@@ -1080,6 +1080,7 @@ namespace SavedFilms
 		});
 		ApplyControlPad();
 		ApplyReplication();
+		ApplyTheater();
 	}
 }
 
