@@ -752,24 +752,12 @@ namespace SavedFilms
 				return false;
 			}
 
-			stop_recording();
 			std::string path = film_path(arguments[0]);
-			if (!g_playback.open_for_read(path.c_str()))
+			if (!play_film(path.c_str()))
 			{
 				result = "Could not open film " + path;
 				return false;
 			}
-
-			// The main loop starts it (update_play_request), with the film's mod; a clip
-			// then runs at full speed to its start.
-			g_play_state = _play_state_requested;
-			g_clip_start_tick = -1;
-			g_pending_skip_target = g_playback.is_snippet() ? g_playback.get_snippet_start_tick() : -1;
-			g_playback_pending = true;
-			g_playback_ended = false;
-			g_last_logged_state.clear();
-			playback_log("play %s: %ld ticks, mod '%s' (%s)", path.c_str(), g_playback.get_length_in_ticks(),
-				g_playback.has_mod_info() ? g_playback.get_mod_hash().c_str() : "not recorded", film_mod_description().c_str());
 			result = "Playing " + path + " (" + std::to_string(g_playback.get_length_in_ticks()) + " ticks)";
 			return true;
 		}
@@ -908,6 +896,25 @@ namespace SavedFilms
 				AddCommand("End", "film_end", "Stops the film that is playing and returns to the main menu", eCommandFlagsNone, command_end);
 			}
 		};
+	}
+
+	bool play_film(char const *path)
+	{
+		stop_recording();
+		if (!g_playback.open_for_read(path))
+			return false;
+
+		// The main loop starts it (update_play_request), with the film's mod; a clip
+		// then runs at full speed to its start.
+		g_play_state = _play_state_requested;
+		g_clip_start_tick = -1;
+		g_pending_skip_target = g_playback.is_snippet() ? g_playback.get_snippet_start_tick() : -1;
+		g_playback_pending = true;
+		g_playback_ended = false;
+		g_last_logged_state.clear();
+		playback_log("play %s: %ld ticks, mod '%s' (%s)", path, g_playback.get_length_in_ticks(),
+			g_playback.has_mod_info() ? g_playback.get_mod_hash().c_str() : "not recorded", film_mod_description().c_str());
+		return true;
 	}
 
 	std::string get_films_directory()

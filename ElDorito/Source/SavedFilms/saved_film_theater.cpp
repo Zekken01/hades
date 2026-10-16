@@ -341,6 +341,116 @@ namespace SavedFilms
 				*out_start_tick = film.get_snippet_start_tick();
 			return true;
 		}
+
+		/* ---------- choosing and starting a film */
+
+		// c_gui_pregame_setup_manager::set_selected_item reads a chosen film's details,
+		// then - its film case cut down in the release build - always gives the squad an
+		// invalid film and posts gui_alert::pregame_selected_film_invalid. The theater
+		// lobby's two calls (choosing a film, and the lobby picking the most recent one)
+		// handle films here, as ManagedDonkey's set_selected_item_type_film does.
+		auto const set_selected_item = reinterpret_cast<void(__thiscall *)(void *, long, void const *, bool, long)>(0x00AA7DB0);
+		unsigned long const k_set_selected_item_calls[] = { 0x00B02DD1, 0x00B040A6 };
+		auto const user_interface_squad_set_film = reinterpret_cast<bool (*)(void const *)>(0x00A836F0);
+		auto const user_interface_squad_set_saved_film_game_options = reinterpret_cast<bool (*)(long, long, void const *)>(0x00A83C90);
+		auto const user_interface_squad_get_ui_game_mode = reinterpret_cast<long (*)()>(0x00A83180);
+		auto const window_manager_get = reinterpret_cast<void *(*)()>(0x00AAD930);
+		auto const window_manager_get_screen_by_screen_index = reinterpret_cast<void *(__thiscall *)(void *, long)>(0x00AAB5B0);
+		auto const screen_widget_transition_out = reinterpret_cast<void(__thiscall *)(void *, long)>(0x00AB2830);
+
+		long const k_gui_selection_type_film = 5;
+		long const k_gui_game_setup_mode_theater = 4;
+		long const k_transition_out_normal = 0;
+		long const k_saved_film_category_invalid = 7;
+
+		// c_gui_selected_item / c_gui_saved_film_selected_item
+		long const k_selected_item_selection_type = 0x8;
+		long const k_selected_item_metadata_display_name = 0x18 + 0x8; // s_ui_saved_game_item_metadata
+		long const k_selected_item_metadata_length_seconds = 0x18 + 0x158;
+		long const k_selected_item_metadata_map_id = 0x18 + 0x160;
+		long const k_saved_film_selected_item_category = 0x2B0;
+
+		struct s_saved_film_description
+		{
+			long category;
+			long campaign_id;
+			long map_id;
+			short campaign_insertion_point;
+			bool campaign_survival_enabled;
+			unsigned char pad;
+			long difficulty;
+			wchar_t film_path[256];
+			wchar_t film_name[128];
+			long controller_index;
+			long length_seconds;
+		};
+		static_assert(sizeof(s_saved_film_description) == 0x31C, "Invalid s_saved_film_description size");
+
+		std::string g_selected_film_path; // the film the theater lobby starts
+
+		void dispose_screen(long screen_index)
+		{
+			if (screen_index == -1)
+				return;
+			if (void *screen = window_manager_get_screen_by_screen_index(window_manager_get(), screen_index))
+				screen_widget_transition_out(screen, k_transition_out_normal);
+		}
+
+		void select_film(long controller_index, unsigned char const *item, long source_screen_index_to_dispose)
+		{
+			static unsigned char options[k_game_options_size];
+			long length_in_ticks = 0;
+			long start_tick = 0;
+			char const *path = reinterpret_cast<char const *>(item + k_saved_film_selected_item_file_path);
+
+			s_saved_film_description description = {};
+			if (saved_film_selected_item_get_film_details_hook(item, nullptr, options, &length_in_ticks, &start_tick))
+			{
+				description.category = *reinterpret_cast<long const *>(item + k_saved_film_selected_item_category);
+				description.campaign_id = -1;
+				description.map_id = *reinterpret_cast<long const *>(item + k_selected_item_metadata_map_id);
+				description.controller_index = controller_index;
+				description.length_seconds = *reinterpret_cast<long const *>(item + k_selected_item_metadata_length_seconds);
+				MultiByteToWideChar(CP_ACP, 0, path, -1, description.film_path, _countof(description.film_path) - 1);
+				wcsncpy_s(description.film_name, reinterpret_cast<wchar_t const *>(item + k_selected_item_metadata_display_name), 15);
+
+				if (user_interface_squad_set_film(&description))
+				{
+					user_interface_squad_set_saved_film_game_options(length_in_ticks, start_tick, options);
+					g_selected_film_path = path;
+					dispose_screen(source_screen_index_to_dispose);
+					return;
+				}
+			}
+
+			s_saved_film_description invalid_film = {};
+			invalid_film.category = k_saved_film_category_invalid;
+			user_interface_squad_set_film(&invalid_film);
+			g_selected_film_path.clear();
+		}
+
+		void __fastcall set_selected_item_hook(void *manager, void *, long controller_index, unsigned char const *item, bool selected_from_recent_list, long source_screen_index_to_dispose)
+		{
+			if (item && *reinterpret_cast<long const *>(item + k_selected_item_selection_type) == k_gui_selection_type_film)
+			{
+				select_film(controller_index, item, source_screen_index_to_dispose);
+				return;
+			}
+			set_selected_item(manager, controller_index, item, selected_from_recent_list, source_screen_index_to_dispose);
+		}
+
+		// The lobby's start (the list item and its button) starts the squad's countdown,
+		// after which the game would start the film through the release build's stripped
+		// film manager. In the theater lobby the film is played as Film.Play plays it.
+		auto const user_interface_squad_start_countdown_timer = reinterpret_cast<bool (*)(long, long, long)>(0x00A83CF0);
+		unsigned long const k_lobby_start_countdown_calls[] = { 0x00B21A8F, 0x00B2204C };
+
+		bool __cdecl lobby_start_countdown_timer_hook(long controller_index, long countdown_seconds, long accelerate_seconds)
+		{
+			if (user_interface_squad_get_ui_game_mode() != k_gui_game_setup_mode_theater)
+				return user_interface_squad_start_countdown_timer(controller_index, countdown_seconds, accelerate_seconds);
+			return !g_selected_film_path.empty() && play_film(g_selected_film_path.c_str());
+		}
 	}
 
 	void ApplyTheater()
@@ -351,5 +461,9 @@ namespace SavedFilms
 		Hook(k_subitem_update_autosave_enumeration - 0x00400000, reinterpret_cast<void *>(&subitem_update_enumeration_hook)).Apply();
 		Hook(k_subitem_update_content_enumeration - 0x00400000, reinterpret_cast<void *>(&subitem_update_enumeration_hook)).Apply();
 		Hook(k_saved_film_selected_item_get_film_details - 0x00400000, reinterpret_cast<void *>(&saved_film_selected_item_get_film_details_hook)).Apply();
+		for (unsigned long call : k_set_selected_item_calls)
+			Hook(call - 0x00400000, reinterpret_cast<void *>(&set_selected_item_hook), static_cast<__int32>(HookFlags::IsCall)).Apply();
+		for (unsigned long call : k_lobby_start_countdown_calls)
+			Hook(call - 0x00400000, reinterpret_cast<void *>(&lobby_start_countdown_timer_hook), static_cast<__int32>(HookFlags::IsCall)).Apply();
 	}
 }

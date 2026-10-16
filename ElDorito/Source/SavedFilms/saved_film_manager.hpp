@@ -13,6 +13,7 @@ namespace SavedFilms
 	void ApplyTheater();
 
 	std::string get_films_directory();
+	bool play_film(char const *path); // starts the film from the main loop, as Film.Play does
 
 	// Online-client films: the replication packets the host sent (saved_film_replication.cpp).
 	void record_replication_packet(void const *data, long size);
