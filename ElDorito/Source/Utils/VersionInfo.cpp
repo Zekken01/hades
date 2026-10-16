@@ -79,7 +79,7 @@ namespace Utils
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetVersionString@Version@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 
-			return "0.7.2-1759537232.debug";
+			return "0.7.1-1759537232.debug";
 		}
 	}
 }
@@ -93,7 +93,7 @@ namespace Utils
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetCompatibleVersionString@Version@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 
-			return "0.7.2-1759537232.debug";
+			return "0.7.1-1759537232.debug";
 		}
 
 		bool IsVersionCompatible(std::string const &versionString) // 0x10C60E20
