@@ -295,7 +295,7 @@ extern long (*const global_structure_bsp_first_active_index_get)(); // 0x11248AC
 extern long (*const global_structure_bsp_next_active_index_get)(long); // 0x11248AD0
 real_point3d *matrix4x3_transform_point(real_matrix4x3 const *matrix, real_point3d const *point, real_point3d *result);  // hades: added for 0x108CB2E0
 char const *tag_get_name(long tag_index);  // hades: added for 0x108C7E20
-char const *tag_to_string(unsigned long tag, char *dest, long dest_length);  // hades: added for 0x108C7E20
+char const *tag_to_string(unsigned long tag, char *dest, long dest_length); namespace DebugMenu { void Initialize(); void Render(); }  // hades: added for 0x108C7E20; DebugMenu for the debug menu
 
 /* ---------- private variables */
 
@@ -354,7 +354,7 @@ namespace Patches
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Debug@Patches@@YAXXZ");
 
-			Hook(0x2047E6, render_debug_frame_render, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x2047E6, render_debug_frame_render, static_cast<__int32>(HookFlags::IsCall)).Apply(); DebugMenu::Initialize();
 			Hook(0x74E2D9, area_of_effect_cause_damage_objects_in_sphere_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x7A9381, havok_world_shape_collides_hook_initiator, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x7A9399, havok_world_shape_collides_hook_target, static_cast<__int32>(HookFlags::IsCall)).Apply();
@@ -820,7 +820,7 @@ void render_debug_frame_render() // 0x108CBEB0
 	render_d3d_resource_tracker();
 	Patches::HavokMemory::RenderDebug();
 	CDebugTrace::Render();
-	CDebugDrawBackend::Render();
+	CDebugDrawBackend::Render(); DebugMenu::Render();
 }
 
 void render_debug_damage_submit(s_damage_data const *data, float radius) // 0x108CB5A0
