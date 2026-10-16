@@ -353,6 +353,8 @@ namespace SavedFilms
 		unsigned long const k_set_selected_item_calls[] = { 0x00B02DD1, 0x00B040A6 };
 		auto const user_interface_squad_set_film = reinterpret_cast<bool (*)(void const *)>(0x00A836F0);
 		auto const user_interface_squad_set_saved_film_game_options = reinterpret_cast<bool (*)(long, long, void const *)>(0x00A83C90);
+		auto const user_interface_squad_set_map_variant = reinterpret_cast<bool (*)(void const *)>(0x00A83AB0);
+		long const k_game_options_map_variant = 0x590;
 		auto const user_interface_squad_get_ui_game_mode = reinterpret_cast<long (*)()>(0x00A83180);
 		auto const window_manager_get = reinterpret_cast<void *(*)()>(0x00AAD930);
 		auto const window_manager_get_screen_by_screen_index = reinterpret_cast<void *(__thiscall *)(void *, long)>(0x00AAB5B0);
@@ -417,8 +419,13 @@ namespace SavedFilms
 
 				// The lobby shows the squad's film; starting plays the one chosen here either way.
 				g_selected_film_path = path;
+				// The theater lobby can start once the squad has the film, its game options
+				// and its map (user_interface_session_parameters_are_valid_for_ui_game_mode).
 				if (user_interface_squad_set_film(&description))
+				{
 					user_interface_squad_set_saved_film_game_options(length_in_ticks, start_tick, options);
+					user_interface_squad_set_map_variant(options + k_game_options_map_variant);
+				}
 				dispose_screen(source_screen_index_to_dispose);
 				return;
 			}
