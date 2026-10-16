@@ -1,5 +1,6 @@
 /* ---------- headers */
 
+#include "SavedFilms/saved_film_manager.hpp"
 #include "hades/hades.h"
 
 #include "Blam/BlamInput.hpp"
@@ -1217,7 +1218,15 @@ void __fastcall c_flying_camera__update_hook(c_flying_camera *thisptr, void *__f
 	moveSpeed *= boostPow;
 	vertSpeed *= boostPow;
 	bool controllerEnabled = Pointer::Base(0x204DE98).Read<bool>();
-	if (controllerEnabled)
+	if (controllerEnabled && SavedFilms::film_is_playing())
+	{
+		// The aiming velocity comes from the local player's control input, which a film
+		// (with no local player) never runs; its free camera turns with the stick itself.
+		float const k_film_camera_turn_rate = 3.1415927f; // radians per second at full tilt
+		thisptr->angles.yaw -= state->LookHorizontal * k_film_camera_turn_rate * dt;
+		thisptr->angles.pitch += state->LookVertical * k_film_camera_turn_rate * dt;
+	}
+	else if (controllerEnabled)
 	{
 		real_euler_angles2d vel;
 		Modules::ModuleCamera::Instance().GetInputAngularVelocity(&vel);
