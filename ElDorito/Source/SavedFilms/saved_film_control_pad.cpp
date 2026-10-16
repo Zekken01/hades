@@ -304,6 +304,25 @@ namespace SavedFilms
 			return film_is_ended();
 		}
 
+		// The director opens the pad focused on Play (or Eject), which the pad hides while
+		// the film plays (update_enabled_menu_items shows Pause there) and once it has
+		// ended (Replay): with nothing to focus, the pad took no input. It is focused on
+		// the button the pad shows. Replaces the director's user_interface_messaging_post
+		// call at 0x727D6B.
+		unsigned long const k_director_post_control_pad = 0x00727D6B;
+		auto const user_interface_messaging_post = reinterpret_cast<void (*)(void *)>(0x00A93450);
+		long const k_load_screen_message_focus_on_load_column_value = 0x2C;
+
+		void __cdecl director_post_control_pad(unsigned char *message)
+		{
+			if (message)
+			{
+				*reinterpret_cast<long *>(message + k_load_screen_message_focus_on_load_column_value) =
+					film_is_ended() ? k_replay_film : get_playback_speed() > 0.0f ? k_pause_film : k_play_film;
+			}
+			user_interface_messaging_post(message);
+		}
+
 		__declspec(naked) void director_x_update_hook()
 		{
 			__asm
@@ -338,6 +357,7 @@ namespace SavedFilms
 	{
 		Hook(k_director_x_update - 0x00400000, reinterpret_cast<void *>(&director_x_update_hook)).Apply();
 		Patch::NopFill(Pointer::Base(k_director_x_authoritative_only - 0x00400000), 2);
+		Hook(k_director_post_control_pad - 0x00400000, reinterpret_cast<void *>(&director_post_control_pad), static_cast<__int32>(HookFlags::IsCall)).Apply();
 		Patches::Core::OnMapLoaded(fix_gui_item_string_ids);
 		Pointer(k_control_pad_vtable + k_slot_update).Write(reinterpret_cast<unsigned long>(&control_pad_update_hook));
 		Pointer(k_control_pad_vtable + k_slot_handle_list_item_chosen).Write(reinterpret_cast<unsigned long>(&control_pad_handle_list_item_chosen_hook));
