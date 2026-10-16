@@ -294,6 +294,15 @@ void MouseSupportUpdate() // 0x108D50B0
 	if (activeScreen)
 	{
 		c_gui_widget *focusedWidget = activeScreen->get_focused_widget();
+		// The saved film control pad leaves the film's camera to the sticks, as the
+		// game's camera_input_inhibited does: with a controller, game input stays on.
+		bool const k_controller_in_use = *(bool *)0x244DE98;
+		unsigned long const k_saved_film_control_pad = 0x100D2;
+		if (focusedWidget && k_controller_in_use && activeScreen->get_name_string_id() == k_saved_film_control_pad)
+		{
+			SetMouseContext(Game);
+			return;
+		}
 		if (focusedWidget)
 		{
 			SetMouseContext(TagUI);
