@@ -350,7 +350,7 @@ namespace Debug
 			writer.Key("timestamp");
 			writer.Int64(_time64(nullptr));
 			writer.Key("build");
-			writer.String("0.7.1-1759537232.debug");
+			writer.String("0.7.1");
 			writer.Key("build_date");
 			writer.String("Oct 4 2025");
 			char uid[17];
