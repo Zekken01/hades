@@ -5,8 +5,6 @@
 #include "Patches/Core.hpp"
 #include "Pointer.hpp"
 
-#include <stdarg.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
@@ -546,29 +544,8 @@ namespace SavedFilms
 			g_applied_with_mod_ready = mod_ready;
 	}
 
-	namespace
-	{
-		// The network life cycle reports why a game did not start only through
-		// event_generate, whose output the release build drops; its messages about the
-		// life cycle and saved films go to the playback log.
-		unsigned long const k_event_generate = 0x00D858D0;
-
-		void __cdecl event_generate_hook(char const *format, ...)
-		{
-			if (!format || (!strstr(format, "life_cycle") && !strstr(format, "saved film") && !strstr(format, "saved_film")))
-				return;
-			char text[1024];
-			va_list arguments;
-			va_start(arguments, format);
-			vsnprintf_s(text, _TRUNCATE, format, arguments);
-			va_end(arguments);
-			film_log(text);
-		}
-	}
-
 	void ApplyTheater()
 	{
-		Hook(k_event_generate - 0x00400000, reinterpret_cast<void *>(&event_generate_hook)).Apply();
 		Patches::Core::OnMapLoaded(main_menu_add_theater);
 
 		Pointer(k_category_datasource_initialize_slot).Write(reinterpret_cast<unsigned long>(&category_datasource_initialize_hook));

@@ -384,13 +384,6 @@ namespace Player
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?RespawnPlayerOffset@PlayerPodium@Player@@YAXFFMMMMM@Z");
 
-			if (SavedFilms::film_is_playing())
-			{
-				char text[128];
-				sprintf_s(text, "film: podium respawn player %d at camera point %d", int(player_session_idx), int(cutscene_camera_point_index));
-				SavedFilms::film_log(text);
-			}
-
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			if (session && session->IsEstablished())
 			{
@@ -454,12 +447,6 @@ namespace Player
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ShowPlace@PlayerPodium@Player@@YAXFF@Z");
 
 			long (*const game_engine_get_player_place)(long) = (long (*)(long))0x5506F0;
-			if (SavedFilms::film_is_playing())
-			{
-				char text[128];
-				sprintf_s(text, "film: podium show place %d stats %d", int(desiredPlace), int(stats_player_session_idx));
-				SavedFilms::film_log(text);
-			}
 			c_network_session *session;
 			if (network_session_interface_get_squad_session(&session))
 			{
@@ -793,32 +780,6 @@ namespace Player
 			long roundTime = eldorado::game_engine_round_time_get();
 			if (!game_is_multiplayer())
 				return;
-			// Diagnostics: the players' units while a film plays.
-			if (SavedFilms::film_is_playing())
-			{
-				static DWORD last_report = 0;
-				DWORD now = GetTickCount();
-				if (now - last_report > (eldorado::game_is_finished() ? 500u : 5000u))
-				{
-					last_report = now;
-					char text[256];
-					for (long i = 0; i < 16; i++)
-					{
-						s_player_datum *player = players_get()->try_and_get_absolute(i);
-						if (!player)
-							continue;
-						s_object_data *unit = player->unit_index != -1 ? object_get(player->unit_index) : nullptr;
-						sprintf_s(text, "film: player %ld '%s' flags %08lX unit %08lX exists %d at %.1f %.1f %.1f hidden %d object flags %08lX inhibited %02X cluster %08lX scale %.2f definition %08lX local %08lX",
-							i, Utils::String::ThinString(player->configuration.host.player_name).c_str(), player->flags, player->unit_index, int(unit != nullptr),
-							unit ? unit->bounding_sphere_center.x : 0.0f, unit ? unit->bounding_sphere_center.y : 0.0f, unit ? unit->bounding_sphere_center.z : 0.0f,
-							unit ? int(reinterpret_cast<bool (*)(long)>(0xB2F1D0)(player->unit_index)) : -1,
-							unit ? *reinterpret_cast<unsigned long const *>(reinterpret_cast<unsigned char const *>(unit) + 0x4) : 0ul,
-							unit ? unsigned(unit->inhibited_flags) : 0u, unit ? unit->first_cluster_reference_index : -1, unit ? unit->scale : 0.0f,
-							unit ? unit->definition_index : -1, reinterpret_cast<long (*)(long)>(0x589C30)(0));
-						SavedFilms::film_log(text);
-					}
-				}
-			}
 			if (InPrematchState(4))
 			{
 				podiumReady = false;
@@ -838,20 +799,6 @@ namespace Player
 						Scripting::HS::ExecuteScript("podium", {});
 				}
 				s_PodiumStates.inPostGame = true;
-				if (SavedFilms::film_is_playing())
-				{
-					char text[256];
-					sprintf_s(text, "film: podium starts (authoritative %d)", int(eldorado::game_is_authoritative()));
-					SavedFilms::film_log(text);
-					for (long i = 0; i < 16; i++)
-					{
-						if (s_player_datum *player = players_get()->try_and_get_absolute(i))
-						{
-							sprintf_s(text, "film: podium player %ld '%s' unit %08lX flags %08lX", i, Utils::String::ThinString(player->configuration.host.player_name).c_str(), player->unit_index, player->flags);
-							SavedFilms::film_log(text);
-						}
-					}
-				}
 			}
 			else if (eldorado::current_game_engine() && !eldorado::game_is_finished() && s_PodiumStates.inPostGame)
 			{

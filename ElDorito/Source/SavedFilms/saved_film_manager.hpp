@@ -16,7 +16,6 @@ namespace SavedFilms
 	// While a film plays: its players' Server.PlayersInfoClient (ranks, emblems), keyed by
 	// player index as recorded; "" when it has none.
 	std::string get_film_players_info();
-	void film_log(char const *text); // to films\film_playback.log
 	bool play_film(char const *path); // starts the film from the main loop, as Film.Play does
 	// The squad session's theater game is starting with these (the session's film's)
 	// game_options: opens the film and sets them up for playback.

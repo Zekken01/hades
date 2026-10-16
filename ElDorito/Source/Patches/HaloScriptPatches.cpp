@@ -1,7 +1,6 @@
 /* ---------- headers */
 
 #include "hades/hades.h"
-#include "SavedFilms/saved_film_manager.hpp"
 
 #include "Blam/BitStream.hpp"
 #include "Blam/BlamNetwork.hpp"
@@ -592,13 +591,6 @@ _inline bool c_simulation_hs_script_wake_event_definition::apply_game_event(long
 	if (data->script_index < 0 || data->script_index >= scnr->scripts.count)
 	{
 		return false;
-	}
-
-	if (SavedFilms::film_is_playing())
-	{
-		char text[128];
-		sprintf_s(text, "film: hs wake script %d '%s'", int(data->script_index), reinterpret_cast<char const *>(&scnr->scripts[data->script_index].name));
-		SavedFilms::film_log(text);
 	}
 
 	long thread_index = ((long(__cdecl *)(unsigned short))0x596130)(data->script_index);

@@ -41,8 +41,6 @@ void simulation_record_update_hook(s_simulation_update *update);
 //                                                                   simulation_update
 // Films are written to <game directory>\films and started with Film.Play.
 
-void FilmEmoteTick(); // Player/PlayerEmotes.cpp
-
 namespace SavedFilms
 {
 	namespace
@@ -735,7 +733,6 @@ namespace SavedFilms
 		void simulation_update_hook()
 		{
 			simulation_update();
-			::FilmEmoteTick();
 			g_loaded_mod_hash = loaded_mod_hash();
 			update_play_request();
 			update_theater();
@@ -1004,11 +1001,6 @@ namespace SavedFilms
 	std::string get_loaded_mod_hash()
 	{
 		return g_loaded_mod_hash;
-	}
-
-	void film_log(char const *text)
-	{
-		playback_log("%s", text);
 	}
 
 	std::string get_film_players_info()

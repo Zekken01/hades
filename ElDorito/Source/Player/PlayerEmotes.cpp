@@ -248,8 +248,6 @@ namespace hades_file_local { extern c_simulation_player_emote_event_definition e
 s_player_datum *player_get(unsigned long player_index);  // hades: added for 0X107EB8D0
 
 bool PlayerCanEmote(__int32 playerIndex, __int32 definitionIndex, short emoteIndex);
-extern long g_film_emote_unit;
-extern long g_film_emote_checks;
 void PlayerStartEmote(__int32 playerIndex, long definitionIndex, long emoteIndex);
 void PlayerStopEmote(__int32 playerIndex);
 
@@ -741,28 +739,10 @@ _inline bool c_simulation_player_emote_event_definition::apply_game_event(long r
 		return false;
 	}
 
-	if (SavedFilms::film_is_playing())
-	{
-		char text[256];
-		sprintf_s(text, "film: emote event action %d player %d (datum %08lX) unit %08lX definition %08lX emote %ld can %d",
-			int(data->action_type), int(data->player_index), player_index, player ? player->unit_index : 0xFFFFFFFFul,
-			data->emote_definition_index, data->emote_index,
-			data->action_type == s_simulation_player_emote_event_data::_action_start ? int(PlayerCanEmote(player_index, data->emote_definition_index, short(data->emote_index))) : -1);
-		SavedFilms::film_log(text);
-	}
-
 	switch (data->action_type)
 	{
 	case s_simulation_player_emote_event_data::_action_start:
 		PlayerStartEmote(player_index, data->emote_definition_index, data->emote_index);
-		if (SavedFilms::film_is_playing() && player && player->unit_index != -1)
-		{
-			char text[128];
-			sprintf_s(text, "film: emote on unit %08lX executing %d", player->unit_index, int(eldorado::action_executing(player->unit_index, (e_action)0x57)));
-			SavedFilms::film_log(text);
-			g_film_emote_unit = player->unit_index;
-			g_film_emote_checks = 12;
-		}
 		break;
 	case s_simulation_player_emote_event_data::_action_stop:
 		PlayerStopEmote(player_index);
@@ -770,23 +750,6 @@ _inline bool c_simulation_player_emote_event_definition::apply_game_event(long r
 	}
 
 	return true;
-}
-
-// Diagnostics: whether a film's emote keeps running (FilmEmoteTick, every frame).
-long g_film_emote_unit = -1;
-long g_film_emote_checks = 0;
-
-void FilmEmoteTick()
-{
-	static DWORD last_check = 0;
-	if (g_film_emote_checks <= 0 || GetTickCount() - last_check < 250)
-		return;
-	last_check = GetTickCount();
-	g_film_emote_checks--;
-	char text[128];
-	sprintf_s(text, "film: emote unit %08lX exists %d executing %d game time %ld", g_film_emote_unit, int(object_get(g_film_emote_unit) != nullptr),
-		int(object_get(g_film_emote_unit) && eldorado::action_executing(g_film_emote_unit, (e_action)0x57)), reinterpret_cast<long (*)()>(0x564D50)());
-	SavedFilms::film_log(text);
 }
 
 bool PlayerCanEmote(__int32 playerIndex, __int32 definitionIndex, short emoteIndex) // 0x107EB750
