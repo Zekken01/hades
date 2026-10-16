@@ -103,7 +103,6 @@ using namespace hades_file_local;
 std::shared_ptr<c_cache_file_tag_cache> c_cache_file_tags::get_open_cache() // 0x10879AA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_open_cache@c_cache_file_tags@@SA?AV?$shared_ptr@Vc_cache_file_tag_cache@@@std@@XZ");
-	// procedure flags: nofpo
 
 	return tag_cache;
 }
@@ -111,7 +110,6 @@ std::shared_ptr<c_cache_file_tag_cache> c_cache_file_tags::get_open_cache() // 0
 std::shared_ptr<Blam::Cache::StringIDCache> c_cache_file_tags::get_open_string_id_cache() // 0x10879B10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_open_string_id_cache@c_cache_file_tags@@SA?AV?$shared_ptr@UStringIDCache@Cache@Blam@@@std@@XZ");
-	// procedure flags: nofpo
 
 	return string_id_cache;
 }
@@ -119,29 +117,6 @@ std::shared_ptr<Blam::Cache::StringIDCache> c_cache_file_tags::get_open_string_i
 bool c_cache_file_tags::open_tag_cache() // 0x10879F70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?open_tag_cache@c_cache_file_tags@@SA_NXZ");
-	// procedure flags: nofpo
-	// static ...; // 0x1087A435
-	// static ...; // 0x1087A425
-	// static ...; // 0x1087A411
-	// static ...; // 0x1087A40C
-	// static ...; // 0x1087A406
-	// static ...; // 0x1087A3FC
-	// static ...; // 0x1087A3EC
-	// static ...; // 0x1087A3E6
-	// static ...; // 0x1087A3D8
-	// static ...; // 0x1087A36C
-	// static ...; // 0x1087A364
-	// std::shared_ptr<c_cache_file_tag_cache> tmp_tag_cache;
-	// char const *tags_names_path;
-	// c_tag_names_csv_file_reader tag_name_reader;
-	// std::shared_ptr<Blam::Cache::StringIDCache> tmp_string_id_cache;
-	// char const *tags_path;
-	// std::chrono::time_point<std::filesystem::_File_time_clock,std::chrono::duration<__int64,std::ratio<1,10000000> > > last_write_time;
-	// char const *string_ids_path;
-	// c_file_reference file;
-	// c_tag_name_dictionary tag_names;
-	// c_file_open_scope scope;
-		// s_tag_name_entry entry;
 
 	char const *tags_path = "maps\\tags.dat";
 	char const *tags_names_path = "maps\\tag_list.csv";
@@ -179,7 +154,6 @@ _inline c_tag_names_csv_file_reader::~c_tag_names_csv_file_reader() = default; /
 void c_cache_file_tags::close_tag_cache() // 0x108799C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?close_tag_cache@c_cache_file_tags@@SAXXZ");
-	// procedure flags: nofpo
 
 	tag_cache = nullptr;
 	string_id_cache = nullptr;

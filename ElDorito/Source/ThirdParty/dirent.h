@@ -82,14 +82,6 @@ extern "C" void dirent_set_errno(__int32 error);
 
 _WDIR *_wopendir(wchar_t const *dirname) // 0x10A41FD0
 {
-	// _wopendir
-	// wchar_t const *dirname;
-	// _WDIR *dirp;
-	// __int32 error;
-		// unsigned long n;
-			// wchar_t *p;
-	// function call : unsigned long (wchar_t const *, unsigned long, wchar_t *, wchar_t **)
-	// function call : unsigned long (wchar_t const *, unsigned long, wchar_t *, wchar_t **)
 
 	_WDIR *dirp = NULL;
 	__int32 error;
@@ -157,10 +149,6 @@ _WDIR *_wopendir(wchar_t const *dirname) // 0x10A41FD0
 
 __int32 _wclosedir(_WDIR *dirp) // 0x10A41EE0
 {
-	// _wclosedir
-	// _WDIR *dirp;
-	// __int32 ok;
-	// function call : __int32 (void *)
 
 	__int32 ok;
 	if (dirp)
@@ -188,10 +176,6 @@ __int32 _wclosedir(_WDIR *dirp) // 0x10A41EE0
 
 extern "C" _WIN32_FIND_DATAW *dirent_first(_WDIR *dirp) // 0x10A42300
 {
-	// dirent_first
-	// _WDIR *dirp;
-	// _WIN32_FIND_DATAW *datap;
-	// function call : void *(wchar_t const *, _WIN32_FIND_DATAW *)
 
 	_WIN32_FIND_DATAW *datap;
 	dirp->handle = FindFirstFileW(dirp->patt, &dirp->data);
@@ -210,11 +194,6 @@ extern "C" _WIN32_FIND_DATAW *dirent_first(_WDIR *dirp) // 0x10A42300
 
 extern "C" _WIN32_FIND_DATAW *dirent_next(_WDIR *dirp) // 0x10A42430
 {
-	// dirent_next
-	// _WDIR *dirp;
-	// _WIN32_FIND_DATAW *p;
-	// function call : __int32 (void *, _WIN32_FIND_DATAW *)
-	// function call : __int32 (void *)
 
 	_WIN32_FIND_DATAW *p;
 	if (dirp->cached != 0)
@@ -242,16 +221,6 @@ extern "C" _WIN32_FIND_DATAW *dirent_next(_WDIR *dirp) // 0x10A42430
 
 extern "C" DIR *opendir(char const *dirname) // 0x10A425F0
 {
-	// opendir
-	// static ...; // 0x10A4273E
-	// static ...; // 0x10A4273C
-	// static ...; // 0x10A42724
-	// static ...; // 0x10A4271C
-	// char const *dirname;
-	// DIR *dirp;
-	// __int32 error;
-		// unsigned __int32 n;
-		// wchar_t wname[260];
 
 	struct DIR *dirp;
 	__int32 error;
@@ -293,16 +262,6 @@ extern "C" DIR *opendir(char const *dirname) // 0x10A425F0
 
 extern "C" dirent *readdir(DIR *dirp) // 0x10A427A0
 {
-	// readdir
-	// static ...; // 0x10A42944
-	// static ...; // 0x10A42938
-	// static ...; // 0x10A42930
-	// DIR *dirp;
-	// dirent *entp;
-	// _WIN32_FIND_DATAW *datap;
-		// unsigned __int32 n;
-		// __int32 error;
-			// unsigned long attr;
 
 	_WIN32_FIND_DATAW *datap;
 	struct dirent *entp;
@@ -349,9 +308,6 @@ extern "C" dirent *readdir(DIR *dirp) // 0x10A427A0
 
 extern "C" __int32 closedir(DIR *dirp) // 0x10A42260
 {
-	// closedir
-	// DIR *dirp;
-	// __int32 ok;
 
 	__int32 ok;
 	if (dirp)
@@ -370,9 +326,6 @@ extern "C" __int32 closedir(DIR *dirp) // 0x10A42260
 
 extern "C" __int32 dirent_mbstowcs_s(unsigned __int32 *pReturnValue, wchar_t *wcstr, unsigned __int32 sizeInWords, char const *mbstr, unsigned __int32 count) // 0x10A423C0
 {
-	// dirent_mbstowcs_s
-	// unsigned __int32 count;
-	// __int32 error;
 
 	__int32 error;
 	error = mbstowcs_s(pReturnValue, wcstr, sizeInWords, mbstr, count);
@@ -381,9 +334,6 @@ extern "C" __int32 dirent_mbstowcs_s(unsigned __int32 *pReturnValue, wchar_t *wc
 
 extern "C" __int32 dirent_wcstombs_s(unsigned __int32 *pReturnValue, char *mbstr, unsigned __int32 sizeInBytes, wchar_t const *wcstr, unsigned __int32 count) // 0x10A42580
 {
-	// dirent_wcstombs_s
-	// unsigned __int32 count;
-	// __int32 error;
 
 	__int32 error;
 	error = wcstombs_s(pReturnValue, mbstr, sizeInBytes, wcstr, count);
@@ -392,8 +342,6 @@ extern "C" __int32 dirent_wcstombs_s(unsigned __int32 *pReturnValue, char *mbstr
 
 extern "C" void dirent_set_errno(__int32 error) // 0x10A42530
 {
-	// dirent_set_errno
-	// __int32 error;
 
 	_set_errno(error);
 }

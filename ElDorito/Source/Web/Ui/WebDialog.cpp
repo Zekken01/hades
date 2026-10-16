@@ -201,18 +201,6 @@ namespace Web
 			void HandleDialogShowRequest(Web::Ui::ScreenLayer::SDialogShowParams const &params) // 0x10CA1610
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?HandleDialogShowRequest@WebDialog@Ui@Web@@YAXABUSDialogShowParams@ScreenLayer@23@@Z");
-				// static ...; // 0x10CA1B61
-				// static ...; // 0x10CA1B54
-				// static ...; // 0x10CA1B4F
-				// static ...; // 0x10CA1B48
-				// static ...; // 0x10CA1B18
-				// static ...; // 0x10CA1B10
-				// Web::Ui::ScreenLayer::SDialogShowParams const &params;
-				// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buff;
-				// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-				// SDialogCallbackInfo callbackInfo;
-				// SDialogQueueInfo queueInfo;
-					// unsigned __int32 i;
 
 				for (unsigned __int32 i = 0; i < queueList.size(); i++)
 				{
@@ -281,7 +269,6 @@ namespace Web
 			void Init() // 0x10CA1CD0
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?Init@WebDialog@Ui@Web@@YAXXZ");
-				// procedure flags: nofpo
 
 				Web::Ui::ScreenLayer::BeforeReload.Subscribe(Clear);
 				Web::Ui::ScreenLayer::SetDialogHandler(HandleDialogShowRequest);
@@ -322,7 +309,6 @@ namespace Web
 			void Clear() // 0x10CA15B0
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?Clear@WebDialog@Ui@Web@@YAXXZ");
-				// procedure flags: nofpo
 
 				while (!callbacks.empty())
 				{

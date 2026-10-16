@@ -168,7 +168,6 @@ namespace Forge
 		Forge::ObjectSet &GetSelection() // 0x109749C0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetSelection@Selection@Forge@@YAAAVObjectSet@2@XZ");
-			// procedure flags: nofpo
 
 			return s_SelectedObjects;
 		}
@@ -180,7 +179,6 @@ namespace Forge
 	bool IsEmpty() // 0x10974B50
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?IsEmpty@Forge@@YA_NXZ");
-		// procedure flags: nofpo
 
 		return !s_SelectedObjects.Any();
 	}
@@ -188,14 +186,6 @@ namespace Forge
 	long GetCurrentObjectIndex(long playerIndex) // 0x109748B0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetCurrentObjectIndex@Forge@@YAJJ@Z");
-		// static ...; // 0x10974971
-		// static ...; // 0x1097495C
-		// static ...; // 0x10974944
-		// static ...; // 0x1097493C
-		// long playerIndex;
-		// long heldObjectIndex;
-		// long crosshairObjectIndex;
-		// function call : bool (*const)(long, long *, long *)
 
 		long heldObjectIndex;
 		long crosshairObjectIndex;
@@ -216,13 +206,6 @@ namespace Forge
 		void SelectAll() // 0x10974C40
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?SelectAll@Selection@Forge@@YAXXZ");
-			// procedure flags: nofpo
-			// s_object_data *currentObject;
-			// unsigned long playerIndex;
-			// s_map_variant *const mapv;
-				// __int32 i;
-					// s_variant_datum &placement;
-			// function call : unsigned long (*const)(long)
 
 			unsigned long playerIndex = ((unsigned long(__cdecl *)(long))0x589C30)(0);
 			s_object_data *currentObject = object_get(GetCurrentObjectIndex(playerIndex));
@@ -270,12 +253,6 @@ namespace Forge
 		void SelectEverything() // 0x10974F60
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?SelectEverything@Selection@Forge@@YAXXZ");
-			// procedure flags: nofpo
-			// s_map_variant *const mapv;
-				// __int32 i;
-					// s_variant_datum &placement;
-					// s_variant_quota &budget;
-					// char const *tagName;
 
 			s_map_variant *const mapv = GetMapVariant();
 			s_SelectedObjects.Clear();
@@ -298,17 +275,6 @@ namespace Forge
 		void SelectAllMaterial() // 0x10974D50
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?SelectAllMaterial@Selection@Forge@@YAXXZ");
-			// procedure flags: nofpo
-			// static ...; // 0x10974EDC
-			// static ...; // 0x10974ED0
-			// static ...; // 0x10974EC8
-			// s_variant_datum currentObjectPlacement;
-			// s_object_data *currentObject;
-			// unsigned long playerIndex;
-			// s_map_variant *const mapv;
-				// __int32 i;
-					// s_variant_datum &placement;
-			// function call : unsigned long (*const)(long)
 
 			unsigned long playerIndex = ((unsigned long (*)(long))0x589C30)(0);
 			s_object_data *currentObject = object_get(GetCurrentObjectIndex(playerIndex));
@@ -329,13 +295,6 @@ namespace Forge
 		void DeselectAllOf() // 0x10974330
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?DeselectAllOf@Selection@Forge@@YAXXZ");
-			// procedure flags: nofpo
-			// s_object_data *currentObject;
-			// unsigned long playerIndex;
-			// s_map_variant *const mapv;
-				// __int32 i;
-					// s_variant_datum &placement;
-			// function call : unsigned long (*const)(long)
 
 			unsigned long playerIndex = ((unsigned long(__cdecl *)(long))0x589C30)(0);
 			s_object_data *currentObject = object_get(GetCurrentObjectIndex(playerIndex));
@@ -363,14 +322,6 @@ namespace Forge
 		void Invert() // 0x109749E0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Invert@Selection@Forge@@YAXXZ");
-			// procedure flags: nofpo
-			// static ...; // 0x10974AF4
-			// static ...; // 0x10974AE8
-			// static ...; // 0x10974AE0
-			// Forge::ObjectSet newSelection;
-			// s_map_variant *const mapv;
-				// __int32 i;
-					// s_variant_datum &placement;
 
 			ObjectSet newSelection;
 			s_map_variant *mapv = GetMapVariant();
@@ -386,21 +337,6 @@ namespace Forge
 		void Expand(float amount) // 0x10974440
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Expand@Selection@Forge@@YAXM@Z");
-			// static ...; // 0x109747C4
-			// static ...; // 0x109747C0
-			// static ...; // 0x109747BC
-			// static ...; // 0x10974798
-			// static ...; // 0x10974790
-			// float amount;
-			// real_point3d centroid;
-			// float radius2;
-			// real_point3d min;
-			// float s;
-			// __int32 selectedObjectCount;
-			// real_point3d max;
-			// s_map_variant *const mapv;
-				// __int32 i;
-					// s_variant_datum &placement;
 
 			s_map_variant *const mapv = GetMapVariant();
 			real_point3d centroid = { 0.0f, 0.0f, 0.0f };
@@ -450,7 +386,6 @@ namespace Forge
 		void Clear() // 0x10973BB0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Clear@Selection@Forge@@YAXXZ");
-			// procedure flags: nofpo
 
 					s_SelectedObjects.Clear();
 		}
@@ -458,15 +393,6 @@ namespace Forge
 		void Delete() // 0x109741D0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Delete@Selection@Forge@@YAXXZ");
-			// procedure flags: nofpo
-			// s_object_data *object;
-			// unsigned long playerHandle;
-			// long objectIndex;
-			// s_map_variant *mapv;
-				// __int32 i;
-					// s_variant_datum const &placement;
-					// s_variant_quota const &budget;
-			// function call : unsigned long (*const)(long)
 
 			s_map_variant *mapv = GetMapVariant();
 			if (!mapv)
@@ -493,37 +419,6 @@ namespace Forge
 		bool Clone() // 0x10973C00
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Clone@Selection@Forge@@YA_NXZ");
-			// procedure flags: nofpo
-			// static ...; // 0x10974097
-			// static ...; // 0x10974083
-			// static ...; // 0x10974072
-			// static ...; // 0x10974061
-			// static ...; // 0x10974054
-			// static ...; // 0x10974018
-			// static ...; // 0x10974010
-			// s_object_data *referenceObject;
-			// Forge::ObjectSet &selection;
-			// real_point3d const &crosshairPoint;
-			// unsigned __int32 (*const spawn_object)(s_map_variant *, long, long, long, real_point3d const *, real_vector3d const *, real_vector3d const *, long, long, s_map_variant_placement_properties const *, unsigned short);
-			// unsigned long playerHandle;
-			// std::stack<unsigned int> cloneStack;
-			// s_map_variant *mapv;
-			// real_point3d const &referencePoint;
-				// __int32 i;
-					// s_variant_datum const &placement;
-					// Forge::ObjectSet const &selection;
-				// real_point3d new_position;
-				// long object_index;
-				// real_vector3d crosshair_offset;
-				// long new_object_index;
-				// s_object_data *object;
-				// s_map_variant_placement_properties *variantProperties;
-				// real_matrix4x3 object_world_matrix;
-				// real_vector3d reference_offset;
-			// function call : s_map_variant *(*const)()
-			// function call : unsigned long (*const)(long)
-			// function call : real_matrix4x3 *(*const)(long, real_matrix4x3 *)
-			// function call : unsigned __int32 (*const)(s_map_variant *, long, long, long, real_point3d const *, real_vector3d const *, real_vector3d const *, long, long, s_map_variant_placement_properties const *, unsigned short)
 
 			unsigned __int32 (__thiscall *const spawn_object)(s_map_variant *, long, long, long, real_point3d const *, real_vector3d const *, real_vector3d const *, long, long, s_map_variant_placement_properties const *, unsigned short) = reinterpret_cast<unsigned __int32 (__thiscall *)(s_map_variant *, long, long, long, real_point3d const *, real_vector3d const *, real_vector3d const *, long, long, s_map_variant_placement_properties const *, unsigned short)>(0x582110);
 			std::stack<unsigned int> cloneStack;
@@ -576,19 +471,6 @@ namespace Forge
 		void Update() // 0x109750C0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Update@Selection@Forge@@YAXXZ");
-			// procedure flags: nofpo
-			// static ...; // 0x1097522D
-			// static ...; // 0x10975218
-			// static ...; // 0x10975200
-			// static ...; // 0x109751F8
-			// long heldObjectIndex;
-			// static bool s_IsPaintSelecting; // 0x1244FB70
-			// unsigned long playerIndex;
-			// long crosshairObjectIndex;
-			// Blam::Input::ActionState *fireRight;
-				// Forge::ObjectSet &selection;
-			// function call : unsigned long (*const)(long)
-			// function call : bool (*const)(long, long *, long *)
 
 			unsigned long playerIndex = eldorado::player_mapping_get_player_by_input_user(0);
 			long heldObjectIndex;

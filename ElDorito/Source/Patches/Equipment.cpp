@@ -242,7 +242,6 @@ namespace Patches
 		void ApplyAll() // 0x10A53110
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Equipment@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			Hook(0x1394A0, player_examine_nearby_item_hook).Apply();
 			Hook(0x739110, unit_add_starting_profile_equipment_hook).Apply();
@@ -279,23 +278,6 @@ namespace Patches
 		void PlayerConsiderEquipmentInteraction(long playerIndex, long equipmentIndex, s_player_action_context *outActionContext) // 0x10A54CF0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?PlayerConsiderEquipmentInteraction@Equipment@Patches@@YAXJJPAUs_player_action_context@@@Z");
-			// static ...; // 0x10A54F00
-			// long playerIndex;
-			// long equipmentIndex;
-			// s_player_action_context *outActionContext;
-			// s_player_datum const *player;
-			// s_unit_data const *unit;
-			// long active_primary_weapon_index;
-			// s_equipment_data const *equipment;
-			// bool (*const player_evaluate_interaction)(long, s_player_interaction *, s_player_interaction *);
-			// s_player_interaction interaction;
-			// float const radius;
-			// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-			// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-			// function call : long (*const)(long, long *)
-			// function call : bool (*const)(long)
-			// function call : bool (*const)(long, long)
-			// function call : bool (*const)(long, s_player_interaction *, s_player_interaction *)
 
 			bool (*const player_evaluate_interaction)(long, s_player_interaction *, s_player_interaction *) = reinterpret_cast<bool (*)(long, s_player_interaction *, s_player_interaction *)>(0x539240);
 			s_player_datum const *player = player_get(playerIndex);
@@ -328,105 +310,6 @@ namespace Patches
 void player_examine_nearby_item_hook(long player_index, long item_index) // 0x10A55750
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?player_examine_nearby_item_hook@@YAXJJ@Z");
-	// `anonymous-namespace'::player_examine_nearby_item_hook
-	// static ...; // 0x10A56402
-	// static ...; // 0x10A563F3
-	// static ...; // 0x10A563EA
-	// static ...; // 0x10A563E1
-	// static ...; // 0x10A563D3
-	// static ...; // 0x10A563C4
-	// static ...; // 0x10A56370
-	// static ...; // 0x10A56368
-	// long player_index;
-	// long item_index;
-	// bool (*const player_should_auto_pickup_weapon)(long, long);
-	// s_player_datum *player;
-	// s_unit_data *unit;
-	// void (*const simulation_request_pickup_grenade)(long, long);
-	// float pickup_radius_squared;
-	// bool (*const unit_can_access_object)(long, long);
-	// __int32 (*const equipment_play_pickup_sound)(long, long);
-	// void (*const simulation_request_pickup_powerup)(long, long);
-	// void (*const simulation_request_pickup_weapon)(long, long, long);
-	// void (*const player_use_multiplayer_powerup)(long, long);
-	// s_item_data *item;
-	// bool (*const unit_can_pickup_equipment)(long, long);
-	// bool (*const weapon_handle_potential_inventory_item)(long, long, long, long, short *);
-	// long (*const game_get_grenade_type_index_from_item_defintion)(long);
-	// bool (*const unit_add_grenade_to_inventory)(long, long);
-	// bool v8;
-	// bool (*const object_is_multiplayer_cinematic_object)(long);
-	// long const k_parent_mask;
-	// float distance_squared;
-	// __int32 (*const chud_picked_up_powerup)(long, long);
-	// bool (*const unit_can_pickup_weapon)(long, long, long, player_examine_nearby_item_hook::__l2::s_unit_weapon_pickup_result *);
-	// void (*const game_engine_player_nearby_item)(long, long);
-	// void (*const chud_picked_up_grenade)(long, long);
-	// void (*const simulation_action_pickup_powerup)(long, long);
-	// void (*const chud_picked_up_ammunition)(long, long, short);
-	// void (*const object_destroy)(long);
-		// void *equipment_def;
-		// long loop_weapon_index;
-		// player_examine_nearby_item_hook::__l2::s_unit_weapon_pickup_result pickup_result;
-			// __int32 i;
-				// long weapon_index;
-				// long inventory_index;
-					// short rounds_picked_up;
-						// c_player_output_user_iterator iterator;
-							// s_object_data *weapon;
-						// s_object_data *weapon;
-			// s_item_data *equipment;
-				// long current_equipment_index;
-				// long equipment_type;
-					// long output_index_index;
-					// player_examine_nearby_item_hook::__l2::s_unit_weapon_pickup_action_request action_request;
-					// c_player_output_user_iterator iterator;
-				// c_player_output_user_iterator iterator;
-			// player_examine_nearby_item_hook::__l2::s_unit_weapon_pickup_action_request action_request;
-	// function call : bool (*const)(long)
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : bool (*const)()
-	// function call : bool (*const)(long, long)
-	// function call : void *(*const)(unsigned long, long)
-	// function call : bool (*const)(long, long, long, long, short *)
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : void (*const)(long, long, short)
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : void (*const)(long)
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : long (*const)(long)
-	// function call : bool (*const)(long, long)
-	// function call : e_equipment_type (*const)(long, long)
-	// function call : bool (*const)()
-	// function call : void (*const)(long, long)
-	// function call : void (*const)(long, long)
-	// function call : bool (*const)()
-	// function call : bool (*const)(long, long, bool)
-	// function call : void (*const)(long, long)
-	// function call : long (*const)(long)
-	// function call : void (*const)(long, long)
-	// function call : long (*const)(long, long)
-	// function call : void (*const)(long)
-	// function call : void (*const)(long, long)
-	// function call : bool (*const)()
-	// function call : bool (*const)(long, s_action_request *)
-	// function call : __int32 (*const)(long, long)
-	// function call : __int32 (*const)(long, long)
-	// function call : void (*const)(long, long)
-	// function call : void (*const)(long, long)
-	// function call : bool (*const)()
-	// function call : bool (*const)()
-	// function call : bool (*const)(long, long)
-	// function call : void (*const)(long, long)
-	// function call : void (*const)(long, long)
-	// function call : bool (*const)(long, long, long, player_examine_nearby_item_hook::__l2::s_unit_weapon_pickup_result *)
-	// function call : bool (*const)(long, long)
-	// function call : bool (*const)()
-	// function call : bool (*const)(long, s_action_request *)
-	// function call : void (*const)(long, long, long)
-	// function call : void (*const)(long, long)
 
 	struct s_unit_weapon_pickup_result
 	{
@@ -615,21 +498,6 @@ void player_examine_nearby_item_hook(long player_index, long item_index) // 0x10
 void unit_add_initial_loadout_hook(long unit_index) // 0x10A56920
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_add_initial_loadout_hook@@YAXJ@Z");
-	// `anonymous-namespace'::unit_add_initial_loadout_hook
-	// long unit_index;
-	// void (*const unit_add_initial_loadout)(long);
-		// s_unit_data *unit;
-		// s_player_datum *player;
-		// s_scenario *scnr;
-		// Blam::Network::Session *session;
-			// bool useRespawn;
-			// __int32 character_profile;
-	// function call : bool (*)()
-	// function call : bool (*const)()
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : bool (*const)()
-	// function call : bool (*const)()
-	// function call : void (*const)(long)
 
 	void (*const unit_add_initial_loadout)(long) = reinterpret_cast<void (*)(long)>(0x5A30F0);
 	if (game_is_campaign() || eldorado::game_is_survival())
@@ -656,20 +524,6 @@ void unit_add_initial_loadout_hook(long unit_index) // 0x10A56920
 void unit_add_starting_profile_equipment_hook(long unit_index, short profile_index, bool reset, bool mark_as_garbage) // 0x10A56BB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_add_starting_profile_equipment_hook@@YAXJF_N0@Z");
-	// `anonymous-namespace'::unit_add_starting_profile_equipment_hook
-	// bool mark_as_garbage;
-	// s_unit_data *unit;
-	// bool (*const unit_add_weapon_to_inventory)(long, long, long);
-	// long (*const unit_create_starting_weapon)(long, s_starting_weapon_info *, bool);
-	// void (*const unit_delete_all_weapons)(long);
-	// s_scenario_profile &profile;
-		// long i;
-			// long weapon_index;
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : void (*const)(long)
-	// function call : long (*const)(long, s_starting_weapon_info *, bool)
-	// function call : bool (*const)(long, long, long)
-	// function call : void (*const)(long)
 
 	long (*const unit_create_starting_weapon)(long, s_starting_weapon_info *, bool) = reinterpret_cast<long (*)(long, s_starting_weapon_info *, bool)>(0xB3E9F0);
 	void (*const unit_delete_all_weapons)(long) = reinterpret_cast<void (*)(long)>(0xB3FAD0);
@@ -708,25 +562,6 @@ void unit_add_starting_profile_equipment_hook(long unit_index, short profile_ind
 bool unit_update_weapons_hook(long unit_index) // 0x10A579B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_update_weapons_hook@@YA_NJ@Z");
-	// `anonymous-namespace'::unit_update_weapons_hook
-	// long unit_index;
-	// bool ret;
-	// bool (*const unit_update_weapons)(unsigned __int32);
-		// s_unit_data *unit;
-			// __int32 i;
-				// s_player_datum *player;
-				// bool equipment_Empty;
-				// e_equipment_type equipment_type;
-				// s_unit_data *eqipObject;
-				// long equipment_index;
-	// function call : bool (*const)(unsigned __int32)
-	// function call : bool (*const)()
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : e_equipment_type (*const)(long, long)
-	// function call : long (*const)(long)
-	// function call : float (*const)(long)
-	// function call : void (*const)(long, long)
 
 	bool (*const unit_update_weapons)(unsigned __int32) = reinterpret_cast<bool (*)(unsigned __int32)>(0xB4C6D0);
 	bool ret = unit_update_weapons(unit_index);
@@ -756,16 +591,6 @@ bool unit_update_weapons_hook(long unit_index) // 0x10A579B0
 void EquipmentUseHook(__int32 unitObjectIndex, __int32 slotIndex, unsigned __int32 isClient) // 0x10A54A70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?EquipmentUseHook@@YAXHHI@Z");
-	// `anonymous-namespace'::EquipmentUseHook
-	// unsigned __int32 isClient;
-	// s_unit_data *unit;
-	// void (*const EquipmentUse)(__int32, __int32, unsigned __int32);
-	// long equipment_index;
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : long (*const)(long)
-	// function call : float (*const)(long)
-	// function call : void (*const)(__int32, __int32, unsigned __int32)
 
 	void (*const EquipmentUse)(__int32, __int32, unsigned __int32) = reinterpret_cast<void (*)(__int32, __int32, unsigned __int32)>(0xB4CE90);
 	s_unit_data *unit = (s_unit_data *)object_try_and_get_and_verify_type(unitObjectIndex, 0x2003);
@@ -786,12 +611,6 @@ void EquipmentUseHook(__int32 unitObjectIndex, __int32 slotIndex, unsigned __int
 __int32 GetMPGlobalsEquipmentBlockIndex(unsigned __int32 tagIndex) // 0x10A54C00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetMPGlobalsEquipmentBlockIndex@@YAHI@Z");
-	// `anonymous-namespace'::GetMPGlobalsEquipmentBlockIndex
-	// unsigned __int32 tagIndex;
-	// s_game_globals *game_globals;
-	// s_multiplayer_globals_definition *multiplayer_globals;
-		// __int32 i;
-	// function call : void *(*const)(unsigned long, long)
 
 	s_game_globals *game_globals = game_globals_get();
 	s_multiplayer_globals_definition *multiplayer_globals = (s_multiplayer_globals_definition *)tag_get('mulg', game_globals->MultiplayerGlobals.index);
@@ -808,12 +627,6 @@ __int32 GetMPGlobalsEquipmentBlockIndex(unsigned __int32 tagIndex) // 0x10A54C00
 
 void *Player_GetArmorAbilitiesCHUDHook(s_player_datum *playerDatum) // 0x10A54FB0
 {
-	// `anonymous-namespace'::Player_GetArmorAbilitiesCHUDHook
-	// s_player_datum *playerDatum;
-	// s_unit_data *unitObject;
-	// static unsigned char `Player_GetArmorAbilitiesCHUDHook'::`2'::data[8]; // 0x124584A0
-	// s_object_data *itemObject;
-	// long primaryEquipmentObjectIndex;
 
 	static unsigned char data[8];
 	memset(data, 0, sizeof(data));
@@ -837,8 +650,6 @@ void *Player_GetArmorAbilitiesCHUDHook(s_player_datum *playerDatum) // 0x10A54FB
 void unit_drop_on_death_hook(long unit_index) // 0x10A57680
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_drop_on_death_hook@@YAXJ@Z");
-	// `anonymous-namespace'::unit_drop_on_death_hook
-	// long unit_index;
 
 	unit_drop_grenades(unit_index);
 }
@@ -846,17 +657,6 @@ void unit_drop_on_death_hook(long unit_index) // 0x10A57680
 void unit_drop_equipment_hook(long unit_index, long slot_index) // 0x10A574F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_drop_equipment_hook@@YAXJJ@Z");
-	// `anonymous-namespace'::unit_drop_equipment_hook
-	// long slot_index;
-	// s_unit_data *unit;
-	// void *equipment_def;
-	// s_unit_data *equipment;
-	// void (*const equipment_update_function)(long, long);
-	// long equipment_index;
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : void *(*const)(unsigned long, long)
-	// function call : void (*const)(long, long)
 
 	void (*const equipment_update_function)(long, long) = reinterpret_cast<void (*)(long, long)>(0xB88470);
 	s_unit_data *unit = (s_unit_data *)object_try_and_get_and_verify_type(unit_index, 0x2003);
@@ -875,21 +675,6 @@ void unit_drop_equipment_hook(long unit_index, long slot_index) // 0x10A574F0
 void update_equipment_vision(long equipment_index, long unit_index) // 0x10A57C80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?update_equipment_vision@@YAXJJ@Z");
-	// `anonymous-namespace'::update_equipment_vision
-	// static ...; // 0x10A57DDC
-	// static ...; // 0x10A57DD4
-	// long equipment_index;
-	// long unit_index;
-	// s_equipment_vision_block *(*const equipment_get_vision_definition)(long);
-	// s_equipment_data *equipment;
-	// long time_since_used;
-		// c_data_array<s_screen_effect_datum> *screen_effects;
-		// s_equipment_vision_block *vision;
-			// c_data_iterator<s_screen_effect_datum> it;
-	// function call : long (*const)()
-	// function call : float (*const)(long)
-	// function call : long (*const)(float)
-	// function call : s_equipment_vision_block *(*const)(long)
 
 	s_equipment_vision_block *(*const equipment_get_vision_definition)(long) = reinterpret_cast<s_equipment_vision_block *(*)(long)>(0xBA0650);
 	s_equipment_data *equipment = object_get<s_equipment_data>(equipment_index);
@@ -911,12 +696,6 @@ void update_equipment_vision(long equipment_index, long unit_index) // 0x10A57C8
 void equipment_update_hook(long equipment_index, long unit_index) // 0x10A553F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?equipment_update_hook@@YAXJJ@Z");
-	// `anonymous-namespace'::equipment_update_hook
-	// long unit_index;
-	// s_equipment_data *equipment;
-	// void (*const equipment_update)(long, long);
-	// function call : void (*const)(long, long)
-	// function call : bool (*const)(long, e_equipment_type)
 
 	const auto equipment_update = (void(*)(long, long))0xB891F0;
 	s_equipment_data *equipment;
@@ -931,11 +710,6 @@ void equipment_update_hook(long equipment_index, long unit_index) // 0x10A553F0
 void unit_toss_item_object_detach_hook(long item_index) // 0x10A576D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_toss_item_object_detach_hook@@YAXJ@Z");
-	// `anonymous-namespace'::unit_toss_item_object_detach_hook
-	// long item_index;
-	// void (*const object_detach)(long);
-	// function call : bool (*const)()
-	// function call : void (*const)(long)
 
 	void (*const object_detach)(long) = reinterpret_cast<void (*)(long)>(0xB2D180);
 	if (game_is_multiplayer() && Forge::GetObjectPhysicsMode(item_index) == static_cast<Forge::EForgeObjectPhysics>(1))
@@ -949,9 +723,6 @@ void unit_toss_item_object_detach_hook(long item_index) // 0x10A576D0
 __declspec(naked) void TankModeCrashFixHook() // 0x10A550B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?TankModeCrashFixHook@@YAXXZ");
-	// `anonymous-namespace'::TankModeCrashFixHook
-	// procedure flags: nofpo
-	// invalid_player:
 
 	__asm
 	{
@@ -969,29 +740,6 @@ __declspec(naked) void TankModeCrashFixHook() // 0x10A550B0
 bool __fastcall c_simulation_unit_pickup_event_definition__apply_game_event_hook(void *thisptr, void *__formal, long reference_gamestate_count, long *game_state_indices, long payload_size, s_simulation_unit_pickup_event_data *payload) // 0x10A55110
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_simulation_unit_pickup_event_definition__apply_game_event_hook@@YI_NPAX0JPAJJPAUs_simulation_unit_pickup_event_data@@@Z");
-	// `anonymous-namespace'::c_simulation_unit_pickup_event_definition__apply_game_event_hook
-	// long reference_gamestate_count;
-	// long *game_state_indices;
-	// long payload_size;
-	// s_simulation_unit_pickup_event_data *payload;
-	// s_unit_data *unit;
-	// bool (*const c_simulation_unit_pickup_event_definition__apply_game_event)(void *, long, long *, long, s_simulation_unit_pickup_event_data *);
-	// long (*const simulation_gamestate_entity_get_and_verify_type)(long, long);
-	// long unit_index;
-	// long (*const tag_try_and_get_unsafe)(long, unsigned short);
-	// long (*const unspatialized_impulse_sound_new)(long, float);
-	// long (*const effect_new_from_object)(long, s_damage_owner *, long *, long, float, float, real_rgb_color *, void *, long);
-		// long damage_reporting_type;
-		// long output_index_index;
-		// s_equipment_definition *definition;
-	// function call : long (*const)(long, long)
-	// function call : void *(*const)(unsigned long, long)
-	// function call : void (*const)(long, long)
-	// function call : long (*const)(long, s_damage_owner *, long *, long, float, float, real_rgb_color *, void *, long)
-	// function call : long (*const)(long)
-	// function call : void (*const)(long, long)
-	// function call : long (*const)(long, long)
-	// function call : bool (*const)(void *, long, long *, long, s_simulation_unit_pickup_event_data *)
 
 	long (*const tag_try_and_get_unsafe)(long, unsigned short) = reinterpret_cast<long (*)(long, unsigned short)>(0x503510);
 	long (*const simulation_gamestate_entity_get_and_verify_type)(long, long) = reinterpret_cast<long (*)(long, long)>(0x471F50);
@@ -1025,14 +773,6 @@ bool __fastcall c_simulation_unit_pickup_event_definition__apply_game_event_hook
 void simulation_action_pickup_healthpack(long unit_index, long definition_index) // 0x10A56750
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?simulation_action_pickup_healthpack@@YAXJJ@Z");
-	// `anonymous-namespace'::simulation_action_pickup_healthpack
-	// static ...; // 0x10A56810
-	// static ...; // 0x10A56808
-	// long unit_index;
-	// long definition_index;
-		// long player_index;
-			// s_simulation_unit_pickup_event_data data;
-	// function call : void (*const)(long, long, long *, long, long, void const *)
 
 	static void (*const simulation_action_unit_event)(long, long, long *, long, long, void const *) = reinterpret_cast<void (*)(long, long, long *, long, long, void const *)>(0x4E5810);
 	if (unit_index != -1 && definition_index != -1)
@@ -1052,21 +792,6 @@ void simulation_action_pickup_healthpack(long unit_index, long definition_index)
 bool unit_can_pickup_healthpack(long unit_index, long equipment_index) // 0x10A57210
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_can_pickup_healthpack@@YA_NJJ@Z");
-	// `anonymous-namespace'::unit_can_pickup_healthpack
-	// long equipment_index;
-	// s_unit_data *unit;
-	// s_unit_definition *unit_definition;
-	// s_equipment_data *equipment;
-	// s_equipment_definition *equipment_definition;
-		// long i;
-			// float body;
-			// s_equipment_health_pack_block *healthpack_type;
-			// float shield;
-	// function call : void *(*const)(unsigned long, long)
-	// function call : void *(*const)(unsigned long, long)
-	// function call : long (*const)()
-	// function call : long (*const)()
-	// function call : long (*const)()
 
 	s_unit_data *unit = object_get<s_unit_data>(unit_index);
 	s_equipment_data *equipment = object_get<s_equipment_data>(equipment_index);
@@ -1096,26 +821,6 @@ bool unit_can_pickup_healthpack(long unit_index, long equipment_index) // 0x10A5
 bool unit_can_pickup_equipment_hook(long unit_index, long equipment_index) // 0x10A56F20
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_can_pickup_equipment_hook@@YA_NJJ@Z");
-	// `anonymous-namespace'::unit_can_pickup_equipment_hook
-	// long equipment_index;
-	// long player_index;
-	// bool (*const c_player_trait_weapons__get_weapon_pickup_allowed)(void *);
-	// long current_equipment_index;
-	// s_equipment_data *equipment;
-	// long equipment_type;
-	// bool (*const game_engine_running)();
-		// float active_fraction;
-			// long remaining_chages;
-	// function call : e_equipment_type (*const)(long, long)
-	// function call : bool (*const)(long, e_action)
-	// function call : long (*const)(unsigned short)
-	// function call : bool (*const)()
-	// function call : bool (*const)()
-	// function call : bool (*const)(long, e_equipment_type)
-	// function call : long (*const)(unsigned short)
-	// function call : long (*const)(unsigned short)
-	// function call : float (*const)(long)
-	// function call : bool (*const)(void *)
 
 	bool (*const game_engine_running)() = reinterpret_cast<bool (*)()>(0x552410);
 	bool (__thiscall *const c_player_trait_weapons__get_weapon_pickup_allowed)(void *) = reinterpret_cast<bool (__thiscall *)(void *)>(0x5CC5C0);
@@ -1153,17 +858,6 @@ bool unit_can_pickup_equipment_hook(long unit_index, long equipment_index) // 0x
 void unit_update_health_pack_hook(long unit_index) // 0x10A57780
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_update_health_pack_hook@@YAXJ@Z");
-	// `anonymous-namespace'::unit_update_health_pack_hook
-	// static ...; // 0x10A5792C
-	// static ...; // 0x10A57920
-	// static ...; // 0x10A57918
-	// long unit_index;
-	// s_unit_data *unit;
-		// float tick_length;
-		// unsigned long long update_flags;
-	// function call : long (*const)()
-	// function call : float (*const)()
-	// function call : void (*const)(long, unsigned long long *)
 
 	s_unit_data *unit = object_get<s_unit_data>(unit_index);
 	if (!(unit->damage_flags & 4) && unit->health_pack_end_time > game_time_get())

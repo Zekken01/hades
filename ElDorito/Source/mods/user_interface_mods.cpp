@@ -110,11 +110,6 @@ namespace eldorado
 bool c_user_interface_mods_player_character_data::build_from_mod_globals(s_mod_globals_definition *mod_globals) // 0x108C2480
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?build_from_mod_globals@c_user_interface_mods_player_character_data@@AAE_NPAUs_mod_globals_definition@@@Z");
-	// s_mod_globals_definition *mod_globals;
-		// long i;
-			// s_mod_globals_player_character_set *character_set;
-				// long j;
-					// s_mod_globals_player_character *character;
 
 	if (!mod_globals)
 		return false;
@@ -139,8 +134,6 @@ bool c_user_interface_mods_player_character_data::build_from_mod_globals(s_mod_g
 bool c_user_interface_mods_player_character_data::build_from_cache() // 0x108C2420
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?build_from_cache@c_user_interface_mods_player_character_data@@AAE_NXZ");
-	// c_user_interface_mods_player_character_data *const this;
-	// s_game_globals *game_globals;
 
 	s_game_globals *game_globals = game_globals_get();
 
@@ -150,35 +143,6 @@ bool c_user_interface_mods_player_character_data::build_from_cache() // 0x108C24
 bool c_user_interface_mods_player_character_data::build_from_mod_package() // 0x108C2730
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?build_from_mod_package@c_user_interface_mods_player_character_data@@AAE_NXZ");
-	// static ...; // 0x108C2D23
-	// static ...; // 0x108C2D1C
-	// static ...; // 0x108C2D12
-	// static ...; // 0x108C2D08
-	// static ...; // 0x108C2D03
-	// static ...; // 0x108C2CF8
-	// static ...; // 0x108C2CB0
-	// static ...; // 0x108C2CA8
-	// c_user_interface_mods_player_character_data *const this;
-	// std::shared_ptr<c_cache_file_tag_cache> tag_cache;
-	// long map_id;
-	// long modg_tag_index;
-	// std::unique_ptr<unsigned char> tag_memory;
-	// std::shared_ptr<c_cache_file_interface> mod_cache;
-	// c_file_reference file;
-	// IMod *mod;
-	// long campaign_id;
-	// long cache_index;
-	// c_mod_package *mod_package;
-	// s_cache_tag_instance const *header;
-	// s_mod_globals_definition *definition;
-	// s_cache_tag_instance *tag_instance;
-	// unsigned long *fixups;
-		// long i;
-	// function call : IMod *(EModIndex) const
-	// function call : c_mod_package *(bool) const
-	// function call : bool (*const)(long *, long *)
-	// function call : std::shared_ptr<c_cache_file_interface> (bool) const
-	// function call : std::shared_ptr<c_cache_file_tag_cache> () const
 
 	IMod *mod = c_mod_system::GetModManager().GetMod(kGame);
 	if (!mod)
@@ -224,7 +188,6 @@ bool c_user_interface_mods_player_character_data::build_from_mod_package() // 0x
 void c_user_interface_mods_player_character_data::update() // 0x108C2F60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?update@c_user_interface_mods_player_character_data@@QAEXXZ");
-	// c_user_interface_mods_player_character_data *const this;
 
 	if (build_from_mod_package())
 	{

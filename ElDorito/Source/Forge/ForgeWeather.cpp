@@ -53,7 +53,6 @@ namespace Forge
 	void CForgeWeather::InitializeForNewMap() // 0x10680200
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeForNewMap@CForgeWeather@Forge@@SAXXZ");
-		// procedure flags: nofpo
 
 		currentWeatherIndex = -1;
 	}
@@ -61,9 +60,6 @@ namespace Forge
 	void CForgeWeather::HandleMapModifierDeleted() // 0x10680140
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?HandleMapModifierDeleted@CForgeWeather@Forge@@SAXXZ");
-		// procedure flags: nofpo
-			// s_rasterizer_game_states *rasterizer_game_states;
-		// function call : void (*const)(unsigned long)
 
 		if (currentWeatherIndex != -1)
 		{
@@ -79,12 +75,6 @@ namespace Forge
 	void CForgeWeather::Update(long mapModifierIndex, Forge::ForgeMapModifierProperties &mapModifierProperties) // 0x10680230
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CForgeWeather@Forge@@SAXJAAUForgeMapModifierProperties@2@@Z");
-		// Forge::ForgeMapModifierProperties &mapModifierProperties;
-		// long newWeatherIndex;
-		// s_rasterizer_game_states *rasterizerGameStates;
-		// __int32 desiredWeatherIndex;
-		// s_forge_globals_definition *forge_globals;
-		// function call : void (*const)(unsigned long)
 
 		s_forge_globals_definition *forge_globals = forge_globals_get_definition();
 		s_rasterizer_game_states *rasterizerGameStates = tls_getd().rasterizer_game_states;
@@ -109,16 +99,6 @@ namespace Forge
 	bool CForgeWeather::UpdateWeatherEffects() // 0x10680350
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateWeatherEffects@CForgeWeather@Forge@@SA_NXZ");
-		// procedure flags: nofpo
-		// static ...; // 0x10680478
-		// static ...; // 0x1068046C
-		// static ...; // 0x10680464
-		// s_rasterizer_game_states *rasterizerGameStates;
-		// s_forge_globals_definition *forge_globals;
-		// long effectTagIndex;
-			// s_cluster_reference scenarioLocation;
-		// function call : long (*const)(long)
-		// function call : void (*const)(unsigned long, s_cluster_reference *)
 
 		if (currentWeatherIndex == -1)
 			return false;

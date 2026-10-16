@@ -181,12 +181,6 @@ EQueryInfoServerResult QueryInfoServerBlocking(SQueryInfoServerArgs const &args,
 void CServerConnectStateHandler_QueryServer::OnEnter() // 0x10B12D20
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnEnter@CServerConnectStateHandler_QueryServer@@EAEXXZ");
-	// static ...; // 0x10B12F68
-	// static ...; // 0x10B12F5C
-	// static ...; // 0x10B12F54
-	// CServerConnectStateHandler_QueryServer *const this;
-	// SQueryInfoServerArgs args;
-	// SServerConnectState const &state;
 
 	Console::WriteLine("Server Connect :: Querying info server...");
 	SServerConnectState const &state = GetManager()->GetState();
@@ -207,18 +201,11 @@ void CServerConnectStateHandler_QueryServer::OnEnter() // 0x10B12D20
 void CServerConnectStateHandler_QueryServer::OnExit() // 0x10B13000
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnExit@CServerConnectStateHandler_QueryServer@@EAEXXZ");
-	// CServerConnectStateHandler_QueryServer *const this;
 }
 
 void CServerConnectStateHandler_QueryServer::OnUpdate() // 0x10B13020
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnUpdate@CServerConnectStateHandler_QueryServer@@EAEXXZ");
-	// static ...; // 0x10B132C4
-	// static ...; // 0x10B132B8
-	// static ...; // 0x10B132B0
-	// CServerConnectStateHandler_QueryServer *const this;
-		// std::unique_lock<std::mutex> lock;
-		// SServerConnectState &state;
 
 	if (m_jobCounter.GetValue() == 0)
 	{
@@ -294,14 +281,6 @@ _inline SQueryInfoServerData &SQueryInfoServerData::operator=(SQueryInfoServerDa
 EJobResult CServerConnectStateHandler_QueryServer::QueryInfoServerJobCallback(SQueryInfoServerArgs const &args) // 0x10B14990
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?QueryInfoServerJobCallback@CServerConnectStateHandler_QueryServer@@AAE?AW4EJobResult@@ABUSQueryInfoServerArgs@@@Z");
-	// static ...; // 0x10B14AC8
-	// static ...; // 0x10B14AB0
-	// static ...; // 0x10B14AA8
-	// CServerConnectStateHandler_QueryServer *const this;
-	// SQueryInfoServerArgs const &args;
-	// std::scoped_lock<std::mutex> lock;
-	// SQueryInfoServerData data;
-	// EQueryInfoServerResult result;
 
 	SQueryInfoServerData data;
 	EQueryInfoServerResult result = QueryInfoServerBlocking(args, &data);
@@ -314,14 +293,6 @@ EJobResult CServerConnectStateHandler_QueryServer::QueryInfoServerJobCallback(SQ
 EJobResult CServerConnectStateHandler_QueryServer::ResolveAddressJobCallback(std::string const &hostname) // 0x10B15DD0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ResolveAddressJobCallback@CServerConnectStateHandler_QueryServer@@AAE?AW4EJobResult@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-	// static ...; // 0x10B15E90
-	// static ...; // 0x10B15E78
-	// static ...; // 0x10B15E70
-	// CServerConnectStateHandler_QueryServer *const this;
-	// std::string const &hostname;
-	// std::scoped_lock<std::mutex> lock;
-	// Utils::Network::EResolveAddressResult result;
-	// unsigned __int32 address;
 
 	unsigned __int32 address;
 	Utils::Network::EResolveAddressResult result = Utils::Network::ResolveAddress(hostname, &address);
@@ -335,14 +306,6 @@ EJobResult CServerConnectStateHandler_QueryServer::ResolveAddressJobCallback(std
 EJobResult CServerConnectStateHandler_QueryServer::QueryModsJobCallback(SQueryInfoServerArgs const &args) // 0x10B15C50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?QueryModsJobCallback@CServerConnectStateHandler_QueryServer@@AAE?AW4EJobResult@@ABUSQueryInfoServerArgs@@@Z");
-	// static ...; // 0x10B15D68
-	// static ...; // 0x10B15D50
-	// static ...; // 0x10B15D48
-	// CServerConnectStateHandler_QueryServer *const this;
-	// SQueryInfoServerArgs const &args;
-	// std::scoped_lock<std::mutex> lock;
-	// std::vector<SServerConnectState::SRequiredMod> requiredMods;
-	// EQueryModsResult result;
 
 	std::vector<SServerConnectState::SRequiredMod> requiredMods;
 	EQueryModsResult result = QueryModsBlocking(args, &requiredMods);
@@ -358,29 +321,6 @@ EJobResult CServerConnectStateHandler_QueryServer::QueryModsJobCallback(SQueryIn
 EQueryModsResult QueryModsBlocking(SQueryInfoServerArgs const &args, std::vector<SServerConnectState::SRequiredMod> *outPackages) // 0x10B14B30
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?QueryModsBlocking@@YA?AW4EQueryModsResult@hades_file_local@@ABUSQueryInfoServerArgs@@PAV?$vector@USRequiredMod@SServerConnectState@@V?$allocator@USRequiredMod@SServerConnectState@@@std@@@std@@@Z");
-	// `anonymous-namespace'::QueryModsBlocking
-	// static ...; // 0x10B158CD
-	// static ...; // 0x10B158C2
-	// static ...; // 0x10B158B9
-	// static ...; // 0x10B158B1
-	// static ...; // 0x10B158AC
-	// static ...; // 0x10B158A7
-	// static ...; // 0x10B158A4
-	// static ...; // 0x10B15898
-	// static ...; // 0x10B1582C
-	// static ...; // 0x10B15824
-	// SQueryInfoServerArgs const &args;
-	// std::vector<SServerConnectState::SRequiredMod> *outPackages;
-	// std::wstring respHdr;
-	// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
-	// std::wstring expected;
-	// HttpRequest req;
-	// std::string endpoint;
-	// std::string resp;
-	// std::string authString;
-		// rapidjson::GenericMemberIterator<0,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > it;
-			// SServerConnectState::SRequiredMod description;
-			// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &mod;
 
 	HttpRequest req(L"ElDewrito/" + Utils::String::WidenString(Utils::Version::GetVersionString()), L"", L"");
 	std::string endpoint = "http://" + std::string(args.hostname) + ":" + std::to_string(args.port) + "/mods";
@@ -430,37 +370,6 @@ EQueryModsResult QueryModsBlocking(SQueryInfoServerArgs const &args, std::vector
 EQueryInfoServerResult QueryInfoServerBlocking(SQueryInfoServerArgs const &args, SQueryInfoServerData *result) // 0x10B13380
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?QueryInfoServerBlocking@@YA?AW4EQueryInfoServerResult@hades_file_local@@ABUSQueryInfoServerArgs@@PAUSQueryInfoServerData@@@Z");
-	// `anonymous-namespace'::QueryInfoServerBlocking
-	// static ...; // 0x10B14517
-	// static ...; // 0x10B1450B
-	// static ...; // 0x10B14502
-	// static ...; // 0x10B144FA
-	// static ...; // 0x10B144F5
-	// static ...; // 0x10B144F0
-	// static ...; // 0x10B144E8
-	// static ...; // 0x10B144E2
-	// static ...; // 0x10B144D9
-	// static ...; // 0x10B144CD
-	// static ...; // 0x10B144C7
-	// static ...; // 0x10B144C0
-	// static ...; // 0x10B14424
-	// static ...; // 0x10B1441C
-	// SQueryInfoServerArgs const &args;
-	// SQueryInfoServerData *result;
-	// std::string xnkid;
-	// std::wstring respHdr;
-	// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
-	// std::string gameVer;
-	// std::wstring usernameStr;
-	// std::string ourEdVer;
-	// std::wstring passwordStr;
-	// std::wstring expected;
-	// HttpRequest req;
-	// std::string xnaddr;
-	// std::string resp;
-	// std::string edVer;
-	// std::string gameVersion;
-	// function call : unsigned long ()
 
 	HttpRequest req(L"ElDewrito/" + Utils::String::WidenString(Utils::Version::GetVersionString()), L"", L"");
 	std::wstring usernameStr = L"";

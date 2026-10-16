@@ -49,7 +49,6 @@ class CServerConnectStateManager;
 CServerConnectStateManager *CServerConnectStateHandler::GetManager() // 0x10B0A9E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetManager@CServerConnectStateHandler@@QAEPAVCServerConnectStateManager@@XZ");
-	// CServerConnectStateHandler *const this;
 
 	return static_cast<CServerConnectStateManager *>(m_manager);
 }
@@ -57,7 +56,6 @@ CServerConnectStateManager *CServerConnectStateHandler::GetManager() // 0x10B0A9
 void CServerConnectStateHandler::SetManager(CServerConnectStateManager *manager) // 0x10B0AA80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SetManager@CServerConnectStateHandler@@QAEXPAVCServerConnectStateManager@@@Z");
-	// CServerConnectStateManager *manager;
 
 	m_manager = manager;
 }
@@ -65,7 +63,6 @@ void CServerConnectStateHandler::SetManager(CServerConnectStateManager *manager)
 void CServerConnectStateHandler::RequestStateChange(EServerConnectState state) // 0x10B0AA10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?RequestStateChange@CServerConnectStateHandler@@IAEXW4EServerConnectState@@@Z");
-	// EServerConnectState state;
 
 	static_cast<CServerConnectStateManager *>(m_manager)->RequestStateChange(state);
 }
@@ -73,7 +70,6 @@ void CServerConnectStateHandler::RequestStateChange(EServerConnectState state) /
 void CServerConnectStateHandler::Abort(EServerConnectAbortReason reason) // 0x10B0A920
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Abort@CServerConnectStateHandler@@IAEXW4EServerConnectAbortReason@@@Z");
-	// EServerConnectAbortReason reason;
 
 	static_cast<CServerConnectStateManager *>(m_manager)->Abort(reason);
 }
@@ -81,7 +77,6 @@ void CServerConnectStateHandler::Abort(EServerConnectAbortReason reason) // 0x10
 void CServerConnectStateHandler::Complete() // 0x10B0A990
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Complete@CServerConnectStateHandler@@IAEXXZ");
-	// CServerConnectStateHandler *const this;
 
 	static_cast<CServerConnectStateManager *>(m_manager)->Complete();
 }

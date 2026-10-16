@@ -87,9 +87,6 @@ namespace Patches
 		bool CheckKillTriggersHook(__int32 a0, void *a1) // 0x107BA250
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?CheckKillTriggersHook@MapBarriers@Patches@@YA_NHPAX@Z");
-			// void *a1;
-			// bool (*CheckKillTriggers)(__int32, void *);
-			// function call : bool (*)(__int32, void *)
 
 			if (Utils::Singleton<Modules::ModuleDebug>::Instance().VarMapBarriersDisabledClient->ValueInt)
 			{
@@ -108,9 +105,6 @@ namespace Patches
 		bool ObjectSafeZoneHook(void *a0) // 0x107BA2F0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ObjectSafeZoneHook@MapBarriers@Patches@@YA_NPAX@Z");
-			// void *a0;
-			// bool (*CheckSafeZones)(void *);
-			// function call : bool (*)(void *)
 
 			if (Utils::Singleton<Modules::ModuleDebug>::Instance().VarMapBarriersDisabledClient->ValueInt)
 			{
@@ -129,9 +123,6 @@ namespace Patches
 		void *PushBarriersGetStructureDesignHook(__int32 index) // 0x107BA390
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?PushBarriersGetStructureDesignHook@MapBarriers@Patches@@YAPAXH@Z");
-			// __int32 index;
-			// void *(*GetStructureDesign)(__int32);
-			// function call : void *(*)(__int32)
 
 			if (Utils::Singleton<Modules::ModuleDebug>::Instance().VarMapBarriersDisabledClient->ValueInt)
 			{
@@ -150,7 +141,6 @@ namespace Patches
 		void ApplyAll() // 0x107B98E0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@MapBarriers@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			Hook(0x771C7D, CheckKillTriggersHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x7B4C32, CheckKillTriggersHook, static_cast<__int32>(HookFlags::IsCall)).Apply();

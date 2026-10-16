@@ -92,7 +92,6 @@ namespace Scripting
 				void RegisterMethods(Scripting::HS::ScriptMethodMap &methods) // 0x106807C0
 				{
 					mangled_x86(MANGLED_KNOWN_GOOD, "?RegisterMethods@Math@Methods@HS@Scripting@@YAXAAVScriptMethodMap@34@@Z");
-					// Scripting::HS::ScriptMethodMap &methods;
 
 					methods.AddMethod("math_sine", "Math operation for Sine", NetworkSafe, hs_math_sine_evaluate, _hs_type_real, { { _hs_type_real, "input", "input" } });
 					methods.AddMethod("math_cosine", "Math operation for cosine", NetworkSafe, hs_math_cosine_evaluate, _hs_type_real, { { _hs_type_real, "input", "input" } });
@@ -114,8 +113,6 @@ namespace Scripting
 
 void hs_math_sine_evaluate(short op, long thread_index, bool initial) // 0x106819D0
 {
-	// `anonymous-namespace'::hs_math_sine_evaluate
-	// bool initial;
 
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
@@ -128,8 +125,6 @@ void hs_math_sine_evaluate(short op, long thread_index, bool initial) // 0x10681
 
 void hs_math_cosine_evaluate(short op, long thread_index, bool initial) // 0x10681450
 {
-	// `anonymous-namespace'::hs_math_cosine_evaluate
-	// bool initial;
 
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
@@ -142,8 +137,6 @@ void hs_math_cosine_evaluate(short op, long thread_index, bool initial) // 0x106
 
 void hs_math_tangent_evaluate(short op, long thread_index, bool initial) // 0x10681BB0
 {
-	// `anonymous-namespace'::hs_math_tangent_evaluate
-	// bool initial;
 
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
@@ -156,8 +149,6 @@ void hs_math_tangent_evaluate(short op, long thread_index, bool initial) // 0x10
 
 void hs_math_square_root_evaluate(short op, long thread_index, bool initial) // 0x10681AC0
 {
-	// `anonymous-namespace'::hs_math_square_root_evaluate
-	// bool initial;
 
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
@@ -170,8 +161,6 @@ void hs_math_square_root_evaluate(short op, long thread_index, bool initial) // 
 
 void hs_math_absolute_evaluate(short op, long thread_index, bool initial) // 0x10681280
 {
-	// `anonymous-namespace'::hs_math_absolute_evaluate
-	// bool initial;
 
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
@@ -184,8 +173,6 @@ void hs_math_absolute_evaluate(short op, long thread_index, bool initial) // 0x1
 
 void hs_math_floating_absolute_evaluate(short op, long thread_index, bool initial) // 0x10681540
 {
-	// `anonymous-namespace'::hs_math_floating_absolute_evaluate
-	// bool initial;
 
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
@@ -198,8 +185,6 @@ void hs_math_floating_absolute_evaluate(short op, long thread_index, bool initia
 
 void hs_math_ceiling_evaluate(short op, long thread_index, bool initial) // 0x10681360
 {
-	// `anonymous-namespace'::hs_math_ceiling_evaluate
-	// bool initial;
 
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
@@ -212,8 +197,6 @@ void hs_math_ceiling_evaluate(short op, long thread_index, bool initial) // 0x10
 
 void hs_math_floor_evaluate(short op, long thread_index, bool initial) // 0x106817B0
 {
-	// `anonymous-namespace'::hs_math_floor_evaluate
-	// bool initial;
 
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
@@ -227,15 +210,6 @@ void hs_math_floor_evaluate(short op, long thread_index, bool initial) // 0x1068
 void hs_math_modulus_evaluate(short op, long thread_index, bool initial) // 0x106818A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_math_modulus_evaluate@@YAXFJ_N@Z");
-	// `anonymous-namespace'::hs_math_modulus_evaluate
-	// bool initial;
-		// hs_value *args;
-			// long input1;
-			// long input2;
-			// long result;
-	// function call : hs_value *(*const)(short, long, bool)
-	// function call : void (*const)(long, hs_value)
-	// function call : void (*const)(long, hs_value)
 
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
@@ -257,15 +231,6 @@ void hs_math_modulus_evaluate(short op, long thread_index, bool initial) // 0x10
 void hs_math_floating_modulus_evaluate(short op, long thread_index, bool initial) // 0x10681630
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_math_floating_modulus_evaluate@@YAXFJ_N@Z");
-	// `anonymous-namespace'::hs_math_floating_modulus_evaluate
-	// bool initial;
-		// hs_value *args;
-			// float input1;
-			// float input2;
-			// float result;
-	// function call : hs_value *(*const)(short, long, bool)
-	// function call : void (*const)(long, hs_value)
-	// function call : void (*const)(long, hs_value)
 
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)

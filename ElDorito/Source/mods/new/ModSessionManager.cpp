@@ -112,8 +112,6 @@ bool network_squad_session_set_mod(s_session_mod_options const *);  // hades: ad
 ModSessionManager::ModSessionManager(IModManager &modManager) : m_modManager(modManager) // 0x10793CC0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0ModSessionManager@@QAE@AAVIModManager@@@Z");
-	// IModManager &modManager;
-	// function call : void (IModListener *)
 
 	memset(m_currentPakHash, 0, 20);
 	m_modManager.AddListener(this);
@@ -124,8 +122,6 @@ ModSessionManager::ModSessionManager(IModManager &modManager) : m_modManager(mod
 ModSessionManager::~ModSessionManager() // 0x10793E00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??1ModSessionManager@@UAE@XZ");
-	// ModSessionManager *const this;
-	// function call : void (IModListener *)
 
 	m_modManager.RemoveListener(this);
 }
@@ -133,7 +129,6 @@ ModSessionManager::~ModSessionManager() // 0x10793E00
 void ModSessionManager::Tick() // 0x10794630
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@ModSessionManager@@QAEXXZ");
-	// ModSessionManager *const this;
 
 	CheckSession();
 }
@@ -141,17 +136,6 @@ void ModSessionManager::Tick() // 0x10794630
 void ModSessionManager::CheckSession() // 0x10793FC0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CheckSession@ModSessionManager@@AAEXXZ");
-	// static ...; // 0x10794154
-	// static ...; // 0x10794148
-	// static ...; // 0x10794140
-	// ModSessionManager *const this;
-	// unsigned __int32 currentTime;
-	// bool valid;
-	// c_network_session *session;
-		// s_session_mod_options const *options;
-	// function call : char (*const)()
-	// function call : bool (*const)(c_network_session **)
-	// function call : EModResult (EModIndex, char const *, bool)
 
 	if (eldorado::main_game_change_in_progress())
 		return;
@@ -187,14 +171,6 @@ void ModSessionManager::CheckSession() // 0x10793FC0
 bool ModSessionManager::HandleSessionModChanged(s_session_mod_options const &options) // 0x107941D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleSessionModChanged@ModSessionManager@@AAE_NABUs_session_mod_options@@@Z");
-	// static ...; // 0x1079435C
-	// static ...; // 0x10794354
-	// ModSessionManager *const this;
-	// s_session_mod_options const &options;
-	// c_mod_package_manager &packageManager;
-	// c_mod_package_manager::s_entry entry;
-		// EModResult result;
-	// function call : EModResult (EModIndex, char const *, bool)
 
 	c_mod_package_manager &packageManager = c_mod_system::get_package_manager();
 	c_mod_package_manager::s_entry entry;
@@ -210,17 +186,6 @@ bool ModSessionManager::HandleSessionModChanged(s_session_mod_options const &opt
 void ModSessionManager::OnModChanged(EModIndex index, IMod *mod) // 0x10794420
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnModChanged@ModSessionManager@@EAEXW4EModIndex@@PAVIMod@@@Z");
-	// static ...; // 0x10794590
-	// static ...; // 0x1079456C
-	// static ...; // 0x10794564
-	// ModSessionManager *const this;
-	// EModIndex index;
-	// IMod *mod;
-	// c_network_session *session;
-		// s_session_mod_options options;
-		// c_mod_package *package;
-	// function call : bool (*const)(c_network_session **)
-	// function call : c_mod_package *(bool) const
 
 	if (index != 0)
 		return;

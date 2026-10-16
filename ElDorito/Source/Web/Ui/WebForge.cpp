@@ -276,30 +276,6 @@ namespace Web
 			std::string BuildForgePaletteJSON() // 0x10CA6A10
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?BuildForgePaletteJSON@WebForge@Ui@Web@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-				// procedure flags: nofpo
-				// static ...; // 0x10CA6F8B
-				// static ...; // 0x10CA6F84
-				// static ...; // 0x10CA6F6C
-				// static ...; // 0x10CA6F64
-				// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
-				// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-				// s_forge_globals_definition *forge_globals;
-					// c_tag_block<s_forge_palette_item> &<range>$L0;
-					// s_forge_palette_item *<begin>$L0;
-					// s_forge_palette_item *<end>$L0;
-						// s_forge_palette_item &item;
-							// s_forge_object_property_setter *<end>$L1;
-							// s_forge_object_property_setter *<begin>$L1;
-							// c_tag_block<s_forge_object_property_setter> &<range>$L1;
-								// s_forge_object_property_setter &setter;
-					// s_forge_palette_category *<end>$L2;
-					// c_tag_block<s_forge_palette_category> &<range>$L2;
-					// s_forge_palette_category *<begin>$L2;
-						// s_forge_palette_category &category;
-					// c_tag_block<s_forge_description_text_entry> &<range>$L3;
-					// s_forge_description_text_entry *<begin>$L3;
-					// s_forge_description_text_entry *<end>$L3;
-						// s_forge_description_text_entry &description;
 
 				rapidjson::StringBuffer buffer;
 				rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
@@ -393,9 +369,6 @@ namespace Web
 			void OnItemSpawned(unsigned __int32 objectIndex) // 0x10CA7900
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?OnItemSpawned@WebForge@Ui@Web@@YAXI@Z");
-				// unsigned __int32 objectIndex;
-				// s_object_data *object;
-				// function call : unsigned long (*const)(long)
 
 				s_object_data *object = object_get(objectIndex);
 				if (!object || object->map_variant_index == -1) { return; }
@@ -405,13 +378,6 @@ namespace Web
 			void ShowObjectProperties(unsigned __int32 objectIndex) // 0x10CA9010
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?ShowObjectProperties@WebForge@Ui@Web@@YAXI@Z");
-				// static ...; // 0x10CA914C
-				// static ...; // 0x10CA9140
-				// static ...; // 0x10CA9138
-				// unsigned __int32 objectIndex;
-				// s_object_data *currentObject;
-					// s_variant_datum placement;
-					// s_map_variant *mapv;
 
 				s_object_data *currentObject = object_get(objectIndex);
 				if (currentObject)
@@ -429,18 +395,6 @@ namespace Web
 			void ShowObjectCreation() // 0x10CA8CE0
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?ShowObjectCreation@WebForge@Ui@Web@@YAXXZ");
-				// procedure flags: nofpo
-				// static ...; // 0x10CA8F60
-				// static ...; // 0x10CA8F59
-				// static ...; // 0x10CA8F54
-				// static ...; // 0x10CA8F30
-				// static ...; // 0x10CA8F28
-				// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
-				// char buff[256];
-				// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-				// s_map_variant *const mapv;
-					// __int32 i;
-						// s_variant_quota const &itemBudget;
 
 				s_map_variant *const mapv = Forge::GetMapVariant();
 				if (!mapv)
@@ -492,19 +446,6 @@ namespace Web
 			Web::Browser::Bridge::QueryError ProcessAction(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10CA79A0
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?ProcessAction@WebForge@Ui@Web@@YA?AW4QueryError@Bridge@Browser@3@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-				// static ...; // 0x10CA7BDD
-				// static ...; // 0x10CA7BD8
-				// static ...; // 0x10CA7BB4
-				// static ...; // 0x10CA7BAC
-				// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args;
-				// std::string *p_Result;
-				// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > data;
-				// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > type;
-					// s_object_data *currentObject;
-						// Forge::CDefaultPropertyAccessor sink;
-						// unsigned long playerIndex;
-						// s_map_variant *mapv;
-				// function call : unsigned long (*const)(long)
 
 				auto type = p_Args.FindMember("type");
 				auto data = p_Args.FindMember("data");
@@ -548,8 +489,6 @@ namespace Web
 void SerializeProperty(rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, char const *key, __int32 value) // 0x10CA8B80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SerializeProperty@@YAXAAV?$Writer@V?$GenericStringBuffer@U?$UTF8@D@rapidjson@@VCrtAllocator@2@@rapidjson@@U?$UTF8@D@2@U32@VCrtAllocator@2@$0A@@rapidjson@@PBDH@Z");
-	// `anonymous-namespace'::SerializeProperty
-	// __int32 value;
 
 	writer.Key(key);
 	writer.Int(value);
@@ -558,8 +497,6 @@ void SerializeProperty(rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjso
 void SerializeProperty(rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, char const *key, float value) // 0x10CA8BE0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SerializeProperty@@YAXAAV?$Writer@V?$GenericStringBuffer@U?$UTF8@D@rapidjson@@VCrtAllocator@2@@rapidjson@@U?$UTF8@D@2@U32@VCrtAllocator@2@$0A@@rapidjson@@PBDM@Z");
-	// `anonymous-namespace'::SerializeProperty
-	// float value;
 
 	if (!isnan(value) && !isinf(value))
 	{
@@ -571,8 +508,6 @@ void SerializeProperty(rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjso
 void SerializeProperty(rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, char const *key, bool value) // 0x10CA8C80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SerializeProperty@@YAXAAV?$Writer@V?$GenericStringBuffer@U?$UTF8@D@rapidjson@@VCrtAllocator@2@@rapidjson@@U?$UTF8@D@2@U32@VCrtAllocator@2@$0A@@rapidjson@@PBD_N@Z");
-	// `anonymous-namespace'::SerializeProperty
-	// bool value;
 
 	writer.Key(key);
 	writer.Bool(value);
@@ -581,17 +516,6 @@ void SerializeProperty(rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjso
 bool IsForgeLight(unsigned __int32 objectIndex) // 0x10CA7590
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?IsForgeLight@@YA_NI@Z");
-	// `anonymous-namespace'::IsForgeLight
-	// unsigned __int32 objectIndex;
-	// s_object_data *object;
-	// s_object_definition *objectDef;
-		// c_tag_block<s_object_attachment_definition> &<range>$L0;
-		// s_object_attachment_definition *<begin>$L0;
-		// s_object_attachment_definition *<end>$L0;
-			// s_object_attachment_definition const &attachment;
-				// unsigned __int32 lightFlags;
-	// function call : void *(*const)(unsigned long, long)
-	// function call : void *(*const)(unsigned long, long)
 
 	s_object_data *object = object_get(objectIndex);
 	if (!object)
@@ -613,15 +537,6 @@ bool IsForgeLight(unsigned __int32 objectIndex) // 0x10CA7590
 bool IsForgeScreenEffectObject(unsigned __int32 objectIndex) // 0x10CA76E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?IsForgeScreenEffectObject@@YA_NI@Z");
-	// `anonymous-namespace'::IsForgeScreenEffectObject
-	// unsigned __int32 objectIndex;
-	// s_object_data *object;
-	// s_object_definition *objectDef;
-		// c_tag_block<s_object_attachment_definition> &<range>$L0;
-		// s_object_attachment_definition *<begin>$L0;
-		// s_object_attachment_definition *<end>$L0;
-			// s_object_attachment_definition const &attachment;
-	// function call : void *(*const)(unsigned long, long)
 
 	s_object_data *object = object_get(objectIndex);
 	if (!object)
@@ -642,12 +557,6 @@ bool IsForgeScreenEffectObject(unsigned __int32 objectIndex) // 0x10CA76E0
 long ObjectGetChangeColors(long objectIndex, real_rgb_color *outColors) // 0x10CA7800
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ObjectGetChangeColors@@YAJJPAUreal_rgb_color@@@Z");
-	// `anonymous-namespace'::ObjectGetChangeColors
-	// real_rgb_color *outColors;
-	// real_rgb_color *colors;
-	// s_object_data *object;
-	// unsigned __int32 count;
-		// __int32 i;
 
 	s_object_data *object = object_get(objectIndex);
 	if (!object)
@@ -663,19 +572,6 @@ long ObjectGetChangeColors(long objectIndex, real_rgb_color *outColors) // 0x10C
 
 void SerializeObjectProperties(rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, ::Forge::CObjectPropertyAccessor &accessor) // 0x10CA8900
 {
-	// `anonymous-namespace'::SerializeObjectProperties
-	// static ...; // 0x10CA8AEC
-	// static ...; // 0x10CA8AE4
-	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer;
-	// Forge::CObjectPropertyAccessor &accessor;
-	// Forge::CObjectPropertyManager &propertyManager;
-		// std::array<Forge::SPropertyDefinition,90> const &<range>$L0;
-		// Forge::SPropertyDefinition const *<begin>$L0;
-		// Forge::SPropertyDefinition const *<end>$L0;
-			// Forge::SPropertyDefinition const &propertyDef;
-				// float value;
-	// function call : Forge::SPropertyValue (Forge::EObjectProperty)
-	// function call : Forge::SPropertyValue (Forge::EObjectProperty)
 
 	::Forge::CObjectPropertyManager &propertyManager = Utils::Singleton<::Forge::CObjectPropertyManager>::Instance();
 	for (::Forge::SPropertyDefinition const &propertyDef : propertyManager.GetProperties())
@@ -703,58 +599,6 @@ void SerializeObjectProperties(rapidjson::Writer<rapidjson::GenericStringBuffer<
 std::string SerializeObjectProperties(short placementIndex) // 0x10CA7C80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SerializeObjectProperties@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@F@Z");
-	// `anonymous-namespace'::SerializeObjectProperties
-	// static ...; // 0x10CA8674
-	// static ...; // 0x10CA866D
-	// static ...; // 0x10CA8666
-	// static ...; // 0x10CA8659
-	// static ...; // 0x10CA8650
-	// static ...; // 0x10CA864D
-	// static ...; // 0x10CA8648
-	// static ...; // 0x10CA85F4
-	// static ...; // 0x10CA85EC
-// $LN30:
-	// short placementIndex;
-	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
-	// s_variant_datum placement;
-	// Forge::ForgeScreenFxProperties const *screenFxProperties;
-	// s_variant_quota const &budget;
-	// s_object_data *object;
-	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-	// Forge::ForgeKillVolumeProperties const *killVolumeProperties;
-	// static bool (*`SerializeObjectProperties'::`2'::Weapon_HasSpareClips)(unsigned __int32); // 0x113553F4
-	// EForgeDeviceType forgeDeviceType;
-	// long playerIndex;
-	// Forge::ReforgeObjectProperties const *reforgeProperties;
-	// s_multiplayer_object_properties &properties;
-	// Forge::ForgeLightProperties const *lightProperties;
-	// CForgeDeviceObjectProperties const *deviceProperties;
-	// real_rgb_color changeColors[5];
-	// s_forge_globals_definition *forge_globals;
-	// Forge::CDefaultPropertyAccessor accessor;
-	// s_map_variant *mapv;
-	// __int32 changeColorCount;
-	// s_multiplayer_object_properties *mpProperties;
-	// Forge::ForgeMapModifierProperties const *mapModifierProperties;
-	// Forge::ForgeGarbageVolumeProperties const *garbageVolumeProperties;
-		// c_tag_block<s_forge_sky_definition> &<range>$L0;
-		// s_forge_sky_definition *<begin>$L0;
-		// s_forge_sky_definition *<end>$L0;
-			// s_forge_sky_definition &sky;
-		// s_forge_weather_definition *<end>$L1;
-		// s_forge_weather_definition *<begin>$L1;
-		// c_tag_block<s_forge_weather_definition> &<range>$L1;
-			// s_forge_weather_definition &weatherEffect;
-		// s_forge_material_type *<end>$L2;
-		// c_tag_block<s_forge_material_type> &<range>$L2;
-		// s_forge_material_type *<begin>$L2;
-			// s_forge_material_type &mateiral_type;
-		// std::exception ex;
-		// char buff[4096];
-	// function call : s_multiplayer_object_properties *(*const)(unsigned long)
-	// function call : bool (*)(unsigned __int32)
-	// function call : unsigned long (*const)(long)
-	// function call : __int32 (HWND__ *, char const *, char const *, unsigned __int32)
 
 	static bool (*Weapon_HasSpareClips)(unsigned __int32) = (bool (*)(unsigned __int32))0xB624E0;
 	s_map_variant *mapv = Forge::GetMapVariant();
@@ -857,26 +701,6 @@ std::string SerializeObjectProperties(short placementIndex) // 0x10CA7C80
 void DeserializeObjectProperties(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &json, ::Forge::CObjectPropertyAccessor &sink) // 0x10CA7100
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DeserializeObjectProperties@@YAXABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@AAVCObjectPropertyAccessor@Forge@@@Z");
-	// `anonymous-namespace'::DeserializeObjectProperties
-	// static ...; // 0x10CA73AA
-	// static ...; // 0x10CA73A4
-	// static ...; // 0x10CA73A1
-	// static ...; // 0x10CA739C
-	// static ...; // 0x10CA7360
-	// static ...; // 0x10CA7358
-// $LN17:
-	// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &json;
-	// Forge::CObjectPropertyAccessor &sink;
-	// Forge::CObjectPropertyManager &propertyManager;
-		// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > it;
-			// Forge::EObjectProperty property;
-			// Forge::SPropertyDefinition const *propertyDef;
-			// char const *const &name;
-			// Forge::SPropertyValue value;
-				// std::exception ex;
-				// char buff[4096];
-	// function call : void (Forge::EObjectProperty, Forge::SPropertyValue)
-	// function call : __int32 (HWND__ *, char const *, char const *, unsigned __int32)
 
 	Forge::CObjectPropertyManager &propertyManager = Utils::Singleton<Forge::CObjectPropertyManager>::Instance();
 	for (auto it = json.MemberBegin(); it != json.MemberEnd(); ++it)

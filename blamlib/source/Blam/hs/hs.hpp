@@ -325,7 +325,6 @@ extern char const *hs_get_type_name(e_hs_type type);
 inline hs_value hs_value::from_long(long value) // 0x10681220
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?from_long@hs_value@@SA?AU1@J@Z");
-	// long value;
 
 	return hs_value{ .long_value = value };
 }
@@ -333,7 +332,6 @@ inline hs_value hs_value::from_long(long value) // 0x10681220
 inline hs_value hs_value::from_short(short value) // 0x106F7950
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?from_short@hs_value@@SA?AU1@F@Z");
-	// short value;
 
 	return hs_value{ .short_value = value };
 }
@@ -341,7 +339,6 @@ inline hs_value hs_value::from_short(short value) // 0x106F7950
 inline hs_value hs_value::from_real(float value) // 0x10681250
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?from_real@hs_value@@SA?AU1@M@Z");
-	// float value;
 
 	return hs_value{ .real_value = value };
 }
@@ -349,7 +346,6 @@ inline hs_value hs_value::from_real(float value) // 0x10681250
 inline hs_value hs_value::from_bool(bool value) // 0x107059A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?from_bool@hs_value@@SA?AU1@_N@Z");
-	// bool value;
 
 	return hs_value{ .bool_value = value };
 }
@@ -357,7 +353,6 @@ inline hs_value hs_value::from_bool(bool value) // 0x107059A0
 inline hs_value hs_value::from_string(char const *value) // 0x106EC650
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?from_string@hs_value@@SA?AU1@PBD@Z");
-	// char const *value;
 
 	return hs_value{ .string_value = value };
 }

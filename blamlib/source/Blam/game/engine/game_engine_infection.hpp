@@ -45,7 +45,6 @@ extern _inline s_infection_globals *get_infection_globals();
 inline s_infection_globals *get_infection_globals() // 0x10C25580
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_infection_globals@@YAPAUs_infection_globals@@XZ");
-	// procedure flags: nofpo
 
 	return reinterpret_cast<s_infection_globals *>(tls_getd().game_engine_globals->engine_storage);
 }

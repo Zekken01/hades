@@ -108,8 +108,6 @@ namespace Player
 		bool ParseQueryParameter(std::string_view const &str, std::string_view &name, std::string_view &value) // 0x107DF560
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ParseQueryParameter@Emblems@Player@@YA_NABV?$basic_string_view@DU?$char_traits@D@std@@@std@@AAV34@1@Z");
-			// std::string_view &value;
-			// __int32 separatorPos;
 
 			__int32 separatorPos = str.find('=');
 			if (separatorPos == -1)
@@ -122,18 +120,6 @@ namespace Player
 		bool ParseQuery(std::string_view const &query, std::vector<std::pair<std::string_view,std::string_view> > &parameters) // 0x107DF3D0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ParseQuery@Emblems@Player@@YA_NABV?$basic_string_view@DU?$char_traits@D@std@@@std@@AAV?$vector@U?$pair@V?$basic_string_view@DU?$char_traits@D@std@@@std@@V12@@std@@V?$allocator@U?$pair@V?$basic_string_view@DU?$char_traits@D@std@@@std@@V12@@std@@@2@@4@@Z");
-			// static ...; // 0x107DF4F6
-			// static ...; // 0x107DF4F0
-			// static ...; // 0x107DF4CC
-			// static ...; // 0x107DF4C4
-			// std::string_view const &query;
-			// std::vector<std::pair<std::string_view,std::string_view> > &parameters;
-			// __int32 pos;
-			// __int32 len;
-				// std::string_view parameter;
-				// __int32 nextPos;
-				// std::string_view name;
-				// std::string_view value;
 
 			__int32 pos = 0;
 			__int32 len = query.length();
@@ -155,11 +141,6 @@ namespace Player
 		bool ParseHex(std::string_view const &str, unsigned __int32 &value) // 0x107DF260
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ParseHex@Emblems@Player@@YA_NABV?$basic_string_view@DU?$char_traits@D@std@@@std@@AAI@Z");
-			// static ...; // 0x107DF374
-			// static ...; // 0x107DF36C
-			// std::string_view const &str;
-			// unsigned __int32 &value;
-			// std::stringstream ss;
 
 			std::stringstream ss;
 			ss << std::hex << str;
@@ -170,11 +151,6 @@ namespace Player
 		bool ParseBool(std::string_view const &str, bool &value) // 0x107DF190
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ParseBool@Emblems@Player@@YA_NABV?$basic_string_view@DU?$char_traits@D@std@@@std@@AA_N@Z");
-			// static ...; // 0x107DF21C
-			// static ...; // 0x107DF214
-			// std::string_view const &str;
-			// bool &value;
-			// char val;
 
 			char val;
 			if (!ParseInt(str, val, 0, 1))
@@ -186,18 +162,6 @@ namespace Player
 		bool ParseURL(std::string const &url, s_player_emblem_configuration &config) // 0x107DF620
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ParseURL@Emblems@Player@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAUs_player_emblem_configuration@@@Z");
-			// static ...; // 0x107DFAFC
-			// static ...; // 0x107DFAE4
-			// static ...; // 0x107DFADC
-			// std::string const &url;
-			// s_player_emblem_configuration &config;
-			// Utils::Uri::UriComponents uric;
-			// std::vector<std::pair<std::string_view,std::string_view> > params;
-				// std::vector<std::pair<std::string_view,std::string_view> > &<range>$L0;
-				// std::pair<std::string_view,std::string_view> *<begin>$L0;
-				// std::pair<std::string_view,std::string_view> *<end>$L0;
-					// std::string_view const &name;
-					// std::string_view const &value;
 
 			Utils::Uri::UriComponents uric;
 			if (!Utils::Uri::ParseUriComponents(url, uric))
@@ -235,14 +199,6 @@ namespace Player
 		std::string HexToStrHex(__int32 hexValue) // 0x107DEE70
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?HexToStrHex@Emblems@Player@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@H@Z");
-			// static ...; // 0x107DF0EC
-			// static ...; // 0x107DF0E0
-			// static ...; // 0x107DF0D8
-			// __int32 hexValue;
-			// __int32 green;
-			// std::stringstream hex;
-			// __int32 blue;
-			// __int32 red;
 
 			__int32 red = (hexValue >> 16) & 0xFF;
 			__int32 green = (hexValue >> 8) & 0xFF;
@@ -264,11 +220,6 @@ namespace Player
 		std::string BuildUrl(s_player_emblem_configuration config) // 0x107DE4E0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?BuildUrl@Emblems@Player@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@Us_player_emblem_configuration@@@Z");
-			// static ...; // 0x107DEC7C
-			// static ...; // 0x107DEC70
-			// static ...; // 0x107DEC68
-			// s_player_emblem_configuration config;
-			// std::string emblem;
 
 			std::string emblem = "emblems://emblem";
 			emblem += "?1=" + (config.backgroundHex ? HexToStrHex(config.backgroundColor) : std::to_string(config.backgroundColor)) + "&2=" + (config.secondaryHex ? HexToStrHex(config.secondaryColor) : std::to_string(config.secondaryColor)) + "&3=" + (config.primaryHex ? HexToStrHex(config.primaryColor) : std::to_string(config.primaryColor)) + "&fi=" + std::to_string(config.foregroundIndex) + "&bi=" + std::to_string(config.backgroundIndex) + "&fl=" + std::to_string(config.iconEnabled);

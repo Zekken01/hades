@@ -53,7 +53,6 @@ extern void font_patches_apply();
 void font_patches_apply() // 0x109168F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?font_patches_apply@@YAXXZ");
-	// procedure flags: nofpo
 
 	font_package_set_defaults();
 	Hook(0x25C5D0, font_package_do_work).Apply();

@@ -39,8 +39,6 @@ s_visible_items c_visible_items::m_items; // 0x124C2C90
 void c_visible_items::push_marker() // 0x10F0DF10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?push_marker@c_visible_items@@SAXXZ");
-	// procedure flags: nofpo
-	// s_visible_items_stack_marker &top;
 
 	s_visible_items_stack_marker &top = m_marker_stack[++m_marker_stack_top];
 	top.object_hierarchy_marker = m_items.object_hierarchies.count;
@@ -54,6 +52,7 @@ void c_visible_items::push_marker() // 0x10F0DF10
 	top.cluster_count_marker = m_items.cluster_group_count;
 }
 
+#line 57
 void c_visible_items::pop_marker() // 0x10F0DDB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?pop_marker@c_visible_items@@SAXXZ");
@@ -80,7 +79,6 @@ void c_visible_items::pop_marker() // 0x10F0DDB0
 void c_visible_items::clear_all() // 0x10F0DC80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?clear_all@c_visible_items@@SAXXZ");
-	// procedure flags: nofpo
 
 	csmemset((unsigned char *)&m_items + 0x5dffc, 0, *(short *)((unsigned char *)&m_items + 0x5e7fc) * sizeof(long));
 	*(short *)((unsigned char *)&m_items + 0x2) = 0;
@@ -98,7 +96,6 @@ void c_visible_items::clear_all() // 0x10F0DC80
 s_visible_items_stack_marker &c_visible_items::get_current_markers() // 0x10F0DD50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_current_markers@c_visible_items@@SAAAUs_visible_items_stack_marker@@XZ");
-	// procedure flags: nofpo
 
 	return m_marker_stack[m_marker_stack_top];
 }

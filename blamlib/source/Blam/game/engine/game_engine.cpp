@@ -65,8 +65,6 @@ using namespace hades_file_local;
 __int32 game_engine_get_player_assists(unsigned long player_index) // 0x10EFFC00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_get_player_assists@@YAHK@Z");
-	// unsigned long player_index;
-	// function call : __int32 (*)(unsigned long)
 
 	return ((__int32(__cdecl *)(unsigned long))0x5504e0)(player_index);
 }
@@ -74,8 +72,6 @@ __int32 game_engine_get_player_assists(unsigned long player_index) // 0x10EFFC00
 __int32 game_engine_get_player_deaths(unsigned long player_index) // 0x10EFFC60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_get_player_deaths@@YAHK@Z");
-	// unsigned long player_index;
-	// function call : __int32 (*)(unsigned long)
 
 	return ((__int32(__cdecl *const)(unsigned long))0x550580)(player_index);
 }
@@ -83,8 +79,6 @@ __int32 game_engine_get_player_deaths(unsigned long player_index) // 0x10EFFC60
 __int32 game_engine_get_player_kills(unsigned long player_index) // 0x10EFFCC0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_get_player_kills@@YAHK@Z");
-	// unsigned long player_index;
-	// function call : __int32 (*)(unsigned long)
 
 	return ((__int32(__cdecl *)(unsigned long))0x550620)(player_index);
 }
@@ -92,8 +86,6 @@ __int32 game_engine_get_player_kills(unsigned long player_index) // 0x10EFFCC0
 __int32 game_engine_get_player_score(unsigned long player_index) // 0x10EFFD20
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_get_player_score@@YAHK@Z");
-	// unsigned long player_index;
-	// function call : __int32 (*)(unsigned long)
 
 	return ((__int32(__cdecl *)(unsigned long))0x550720)(player_index);
 }
@@ -101,11 +93,6 @@ __int32 game_engine_get_player_score(unsigned long player_index) // 0x10EFFD20
 long game_engine_get_team_designator(long player_index) // 0x10EFFEA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_get_team_designator@@YAJJ@Z");
-	// long player_index;
-	// long (*get_player_team_designator)(c_game_engine *, __int32);
-	// c_game_engine *game_engine;
-	// function call : c_game_engine *(*const)()
-	// function call : long (*)(c_game_engine *, __int32)
 
 	void *game_engine = ((void *(__cdecl *)())0x5ce150)();
 	long (__thiscall *const get_team_designator)(void *, long) = *(long (__thiscall **)(void *, long))(*(unsigned char **)game_engine + 0xb4);
@@ -119,10 +106,6 @@ long game_engine_get_team_designator(long player_index) // 0x10EFFEA0
 void game_engine_get_team_color(real_rgb_color *color, long team) // 0x10EFFD80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_get_team_color@@YAXPAUreal_rgb_color@@J@Z");
-	// long team;
-	// s_game_globals *globals;
-		// s_multiplayer_globals_definition *multiplayer_globals;
-	// function call : void *(*const)(unsigned long, long)
 
 	*color = **reinterpret_cast<real_rgb_color **>(0x189CDBC);
 	s_game_globals *matg = game_globals_get();
@@ -139,7 +122,6 @@ void game_engine_get_team_color(real_rgb_color *color, long team) // 0x10EFFD80
 char const *game_engine_type_get_string(e_game_engine_type type) // 0x10EFFF50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_type_get_string@@YAPBDW4e_game_engine_type@@@Z");
-	// e_game_engine_type type;
 
 	if (type < 0 || type >= 11)
 	{

@@ -192,51 +192,6 @@ namespace Player
 		unsigned long __stdcall GetServiceRecord_Thread(void *lpParam) // 0x106C73A0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetServiceRecord_Thread@ServiceRecord@Player@@YGKPAX@Z");
-			// static ...; // 0x106C8AFF
-			// static ...; // 0x106C8AFD
-			// static ...; // 0x106C8AF6
-			// static ...; // 0x106C8AF2
-			// static ...; // 0x106C8AEE
-			// static ...; // 0x106C8AE7
-			// static ...; // 0x106C8ADC
-			// static ...; // 0x106C8AD3
-			// static ...; // 0x106C8ACE
-			// static ...; // 0x106C8AC9
-			// static ...; // 0x106C8AC5
-			// static ...; // 0x106C8ABA
-			// static ...; // 0x106C8AB4
-			// static ...; // 0x106C8A18
-			// static ...; // 0x106C8A10
-		// $LN64:
-			// void *lpParam;
-			// char uid[17];
-			// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> s;
-			// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-			// Player::ServiceRecord::ServiceRecord record;
-			// HttpRequest req;
-			// Player::ServiceRecord::ServiceRecordPlayer playerRecord;
-				// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
-				// std::string sendObject;
-				// std::wstring expected;
-				// std::string resp;
-					// __int32 id;
-					// char const *name;
-					// unsigned long long uid;
-					// char const *uid_str;
-					// __int32 exp;
-					// __int32 skill;
-					// __int32 total_games;
-					// __int32 total_wins;
-					// __int32 total_kills;
-					// __int32 total_deaths;
-					// __int32 total_medals;
-					// __int32 best_streak;
-					// __int32 ranked_matches;
-					// __int32 social_matches;
-					// __int32 custom_games;
-					// rapidjson::GenericArray<0,rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > > top_medals;
-						// __int32 x;
-							// Player::ServiceRecord::PlayerTopMedals medal;
 
 			ServiceRecordPlayer playerRecord = currentDesiredRecord;
 			if (!ValidNetworkPlayerIndex(playerRecord.networkPlayerIndex))
@@ -441,7 +396,6 @@ namespace Player
 		::Player::ServiceRecord::ServiceRecord getCachedServiceRecord(__int32 networkPlayerIndex) // 0x106CA2C0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?getCachedServiceRecord@ServiceRecord@Player@@YA?AU112@H@Z");
-			// __int32 networkPlayerIndex;
 
 			return hades_file_local::ServiceRecords[networkPlayerIndex];
 		}
@@ -449,7 +403,6 @@ namespace Player
 		void clearCache() // 0x106CA000
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?clearCache@ServiceRecord@Player@@YAXXZ");
-			// procedure flags: nofpo
 
 			clearCachedServiceRecords();
 		}
@@ -457,17 +410,6 @@ namespace Player
 		void requestPlayerServiceRecord(__int32 networkPlayerIndex) // 0x106CAB50
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?requestPlayerServiceRecord@ServiceRecord@Player@@YAXH@Z");
-			// static ...; // 0x106CAD27
-			// static ...; // 0x106CAD20
-			// static ...; // 0x106CAD08
-			// static ...; // 0x106CAD00
-			// __int32 networkPlayerIndex;
-			// s_network_session_player *networkPlayer;
-			// c_network_session *session;
-				// Player::ServiceRecord::ServiceRecordPlayer player;
-				// void *thread;
-			// function call : bool (*const)(c_network_session **)
-			// function call : void *(_SECURITY_ATTRIBUTES *, unsigned long, unsigned long (*)(void *), void *, unsigned long, unsigned long *)
 
 			if (!ValidNetworkPlayerIndex(networkPlayerIndex))
 				return;
@@ -500,13 +442,6 @@ namespace Player
 void GetServiceRecordEndpoint() // 0x106C7200
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetServiceRecordEndpoint@@YAXXZ");
-	// `anonymous-namespace'::GetServiceRecordEndpoint
-	// procedure flags: nofpo
-	// static ...; // 0x106C733C
-	// static ...; // 0x106C7330
-	// static ...; // 0x106C7328
-	// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
-		// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &statsObject;
 
 	if (!Utils::Singleton<Utils::DewritoReader>::Instance().IsValid())
 		return;
@@ -522,8 +457,6 @@ void GetServiceRecordEndpoint() // 0x106C7200
 static bool ValidNetworkPlayerIndex(__int32 networkPlayerIndex) // 0x106C9A30
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ValidNetworkPlayerIndex@@YA_NH@Z");
-	// `anonymous-namespace'::ValidNetworkPlayerIndex
-	// __int32 networkPlayerIndex;
 
 	return networkPlayerIndex >= 0 && networkPlayerIndex < 16;
 }
@@ -531,14 +464,6 @@ static bool ValidNetworkPlayerIndex(__int32 networkPlayerIndex) // 0x106C9A30
 std::wstring processNumber(__int32 num) // 0x106CA7E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?processNumber@@YA?AV?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@H@Z");
-	// `anonymous-namespace'::processNumber
-	// static ...; // 0x106CAA18
-	// static ...; // 0x106CAA0C
-	// static ...; // 0x106CAA04
-	// __int32 num;
-	// std::ostringstream oss;
-		// double numInK;
-		// double numInM;
 
 	std::ostringstream oss;
 	if (num < 1000)
@@ -559,9 +484,6 @@ std::wstring processNumber(__int32 num) // 0x106CA7E0
 void clearCachedServiceRecords() // 0x106CA040
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?clearCachedServiceRecords@@YAXXZ");
-	// `anonymous-namespace'::clearCachedServiceRecords
-	// procedure flags: nofpo
-		// __int32 i;
 
 	for (__int32 i = 0; i < 16; i++)
 		hades_file_local::ServiceRecords[i] = {};

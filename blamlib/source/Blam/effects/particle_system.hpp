@@ -68,9 +68,6 @@ static_assert(sizeof(c_particle_system) == 88, "Invalid c_particle_system size")
 inline void *c_particle_system::get_particle_definition() // 0x10913010
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_particle_definition@c_particle_system@@QAEPAXXZ");
-	// c_particle_system *const this;
-	// void *(*const c_particle_system__get_particle_definition)(c_particle_system *);
-	// function call : void *(*const)(c_particle_system *)
 
 	void * (__thiscall *const c_particle_system__get_particle_definition)(c_particle_system *) = (void *(__thiscall *const)(c_particle_system *))0x74f290;
 
@@ -80,9 +77,6 @@ inline void *c_particle_system::get_particle_definition() // 0x10913010
 inline float c_particle_system::real_internal_random_range(float min, float max) // 0x10913DE0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?real_internal_random_range@c_particle_system@@QAEMMM@Z");
-	// float max;
-	// float (*const c_particle_system__real_internal_random_range)(c_particle_system *, float, float);
-	// function call : float (*const)(c_particle_system *, float, float)
 
 	float (__thiscall *const c_particle_system__real_internal_random_range)(c_particle_system *, float, float) = (float(__thiscall *const)(c_particle_system *, float, float))0x74f820;
 
@@ -92,9 +86,6 @@ inline float c_particle_system::real_internal_random_range(float min, float max)
 inline void c_particle_system::internal_random_direction3d(real_vector3d *direction) // 0x10913C60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?internal_random_direction3d@c_particle_system@@QAEXPAUreal_vector3d@@@Z");
-	// real_vector3d *direction;
-	// void (*const c_particle_system__internal_random_direction3d)(c_particle_system *, real_vector3d *);
-	// function call : void (*const)(c_particle_system *, real_vector3d *)
 
 	void (__thiscall *const c_particle_system__internal_random_direction3d)(c_particle_system *, real_vector3d *) = (void(__thiscall *const)(c_particle_system *, real_vector3d *))0x9ee030;
 
@@ -104,9 +95,6 @@ inline void c_particle_system::internal_random_direction3d(real_vector3d *direct
 inline void c_particle_system::initialize_particle(void *state_list, c_particle *particle) // 0x109131A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?initialize_particle@c_particle_system@@QAEXPAXPAUc_particle@@@Z");
-	// c_particle *particle;
-	// void (*const c_particle_system__initialize_particle)(c_particle_system *, void *, c_particle *);
-	// function call : void (*const)(c_particle_system *, void *, c_particle *)
 
 	void (__thiscall *const c_particle_system__initialize_particle)(c_particle_system *, void *, c_particle *) = (void(__thiscall *const)(c_particle_system *, void *, c_particle *))0x74f540;
 

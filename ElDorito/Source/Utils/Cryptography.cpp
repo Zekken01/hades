@@ -96,17 +96,6 @@ namespace Utils
 		std::string ReformatKey(bool isPrivateKey, std::string key) // 0x10C550A0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ReformatKey@Cryptography@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@_NV34@@Z");
-			// static ...; // 0x10C552FF
-			// static ...; // 0x10C552FC
-			// static ...; // 0x10C552D8
-			// static ...; // 0x10C552D0
-			// bool isPrivateKey;
-			// std::string key;
-			// std::string returnKey;
-			// std::stringstream ss;
-			// unsigned __int32 pos;
-			// std::string keyType;
-				// __int32 toCopy;
 
 			unsigned __int32 pos = 0;
 			std::string returnKey;
@@ -128,14 +117,6 @@ namespace Utils
 		bool PrivateEncrypt(std::string privateKey, void *data, unsigned __int32 dataSize, std::string &encrypted) // 0x10C54830
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?PrivateEncrypt@Cryptography@Utils@@YA_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAXIAAV34@@Z");
-			// std::string privateKey;
-			// void *data;
-			// unsigned __int32 dataSize;
-			// std::string &encrypted;
-			// bio_st *privKeyBuff;
-			// rsa_st *rsa;
-			// unsigned char buf[4098];
-			// __int32 retVal;
 
 			bio_st *privKeyBuff = BIO_new_mem_buf(privateKey.c_str(), privateKey.length());
 			if (!privKeyBuff)
@@ -157,14 +138,6 @@ namespace Utils
 		bool PublicEncrypt(std::string publicKey, void *data, unsigned __int32 dataSize, std::string &encrypted) // 0x10C54AC0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?PublicEncrypt@Cryptography@Utils@@YA_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAXIAAV34@@Z");
-			// std::string publicKey;
-			// void *data;
-			// unsigned __int32 dataSize;
-			// std::string &encrypted;
-			// bio_st *pubKeyBuff;
-			// rsa_st *rsa;
-			// unsigned char buf[4098];
-			// __int32 retVal;
 
 			bio_st *pubKeyBuff = BIO_new_mem_buf(publicKey.c_str(), publicKey.length());
 			if (!pubKeyBuff)
@@ -199,16 +172,6 @@ namespace Utils
 		std::string GetEncryptedTimestamp(std::string unformattedkey, bool isPrivate) // 0x10C54460
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetEncryptedTimestamp@Cryptography@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V34@_N@Z");
-			// static ...; // 0x10C54600
-			// static ...; // 0x10C545FC
-			// static ...; // 0x10C545D8
-			// static ...; // 0x10C545D0
-			// std::string unformattedkey;
-			// bool isPrivate;
-			// std::string encryptedString;
-			// char buf[42];
-			// tm *now_tm;
-			// long long now;
 
 			std::string encryptedString;
 			long long now = time(nullptr);
@@ -222,19 +185,6 @@ namespace Utils
 		bool CreateRSASignature(std::string privateKey, void *data, unsigned __int32 dataSize, std::string &signature) // 0x10C53EA0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?CreateRSASignature@Cryptography@Utils@@YA_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAXIAAV34@@Z");
-			// static ...; // 0x10C540E4
-			// static ...; // 0x10C540DC
-			// std::string privateKey;
-			// void *data;
-			// unsigned __int32 dataSize;
-			// std::string &signature;
-			// unsigned __int32 siglen;
-			// void *sigret;
-			// bio_st *privKeyBuff;
-			// rsa_st *rsa;
-			// unsigned char hash[32];
-			// __int32 retVal;
-			// SHA256state_st sha;
 
 			bio_st *privKeyBuff = BIO_new_mem_buf(privateKey.c_str(), privateKey.length());
 			if (!privKeyBuff)
@@ -261,19 +211,6 @@ namespace Utils
 		bool VerifyRSASignature(std::string pubKey, std::string signature, void *data, unsigned __int32 dataSize) // 0x10C553B0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?VerifyRSASignature@Cryptography@Utils@@YA_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0PAXI@Z");
-			// static ...; // 0x10C55684
-			// static ...; // 0x10C5567C
-			// std::string pubKey;
-			// std::string signature;
-			// void *data;
-			// unsigned __int32 dataSize;
-			// unsigned char *sigBuf;
-			// unsigned __int32 length;
-			// bio_st *pubKeyBuff;
-			// rsa_st *rsa;
-			// unsigned char hash[32];
-			// __int32 retVal;
-			// SHA256state_st sha;
 
 			bio_st *pubKeyBuff = BIO_new_mem_buf(pubKey.c_str(), pubKey.length());
 			if (!pubKeyBuff)
@@ -302,23 +239,6 @@ namespace Utils
 		bool GenerateRSAKeyPair(__int32 numBits, std::string &privKey, std::string &pubKey) // 0x10C541C0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GenerateRSAKeyPair@Cryptography@Utils@@YA_NHAAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z");
-			// static ...; // 0x10C543C0
-			// static ...; // 0x10C5439C
-			// static ...; // 0x10C54394
-			// __int32 numBits;
-			// std::string &privKey;
-			// std::string &pubKey;
-			// bio_st *bio_err;
-			// bio_st *pubKeyBuff;
-			// bio_st *privKeyBuff;
-			// char *privKeyData;
-			// rsa_st *rsa;
-			// bn_gencb_st cb;
-			// char *pubKeyData;
-			// long privKeySize;
-			// long pubKeySize;
-			// bignum_st *bn;
-				// bn_gencb_st *tmp_gencb;
 
 			rsa_st *rsa = RSA_new();
 			bignum_st *bn = BN_new();
@@ -347,13 +267,6 @@ namespace Utils
 		bool Hash32(std::string const &str, unsigned __int32 *out) // 0x10C54690
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Hash32@Cryptography@Utils@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAI@Z");
-			// static ...; // 0x10C547C8
-			// static ...; // 0x10C547B0
-			// static ...; // 0x10C547A8
-			// std::string const &str;
-			// unsigned __int32 *out;
-			// unsigned char digest[20];
-			// SHAstate_st context;
 
 			unsigned char digest[20];
 			SHA_CTX context;
@@ -370,9 +283,6 @@ namespace Utils
 		bool RandomBytes(__int32 num, unsigned char *out) // 0x10C54D70
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?RandomBytes@Cryptography@Utils@@YA_NHPAE@Z");
-			// unsigned char *out;
-			// unsigned long provider;
-			// function call : __int32 (unsigned long, unsigned long, unsigned char *)
 
 			HCRYPTPROV provider = AcquireProvider();
 			if (!provider)
@@ -383,13 +293,6 @@ namespace Utils
 		bool RandomString(__int32 length, std::string const &chars, std::string &out) // 0x10C54EF0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?RandomString@Cryptography@Utils@@YA_NHABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAV34@@Z");
-			// static ...; // 0x10C5502C
-			// __int32 length;
-			// std::string const &chars;
-			// std::string &out;
-			// std::unique_ptr<unsigned char [0]> bytes;
-				// __int32 i;
-					// unsigned __int32 charIndex;
 
 			std::unique_ptr<unsigned char []> bytes = std::make_unique<unsigned char []>(length);
 			if (!RandomBytes(length, &bytes[0]))
@@ -406,7 +309,6 @@ namespace Utils
 		bool RandomPassword(__int32 length, std::string &out) // 0x10C54E10
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?RandomPassword@Cryptography@Utils@@YA_NHAAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-			// std::string &out;
 
 			return RandomString(length, PasswordChars, out);
 		}
@@ -422,12 +324,6 @@ namespace Utils
 		__int32 genrsa_cb(__int32 p, __int32 n, bn_gencb_st *cb) // 0x10C55780
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?genrsa_cb@Cryptography@Utils@@YAHHHPAUbn_gencb_st@@@Z");
-			// Utils::Cryptography::genrsa_cb
-			// static ...; // 0x10C5581C
-			// __int32 p;
-			// __int32 n;
-			// bn_gencb_st *cb;
-			// char c;
 
 			char c = '*';
 
@@ -449,10 +345,6 @@ namespace Utils
 
 unsigned long AcquireProvider() // 0x10C53E20
 {
-	// `anonymous-namespace'::AcquireProvider
-	// procedure flags: nofpo
-	// static unsigned long `AcquireProvider'::`2'::handle; // 0x1247EC64
-	// function call : __int32 (unsigned long *, char const *, char const *, unsigned long, unsigned long)
 
 	static HCRYPTPROV handle;
 	if (handle || CryptAcquireContextA(&handle, nullptr, nullptr, 1, 0xF0000040))

@@ -54,18 +54,6 @@ extern void SetPageAccess(unsigned __int32 Offset, unsigned __int32 Size, unsign
 unsigned __int32 GetMainThreadId() // 0x10AF8CE0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetMainThreadId@@YAIXZ");
-	// procedure flags: nofpo
-	// static ...; // 0x10AF8E33
-	// static ...; // 0x10AF8E2C
-	// static ...; // 0x10AF8E14
-	// static ...; // 0x10AF8E0C
-	// tagTHREADENTRY32 tEntry;
-	// unsigned long currentPID;
-	// unsigned long result;
-	// std::shared_ptr<void> hThreadSnapshot;
-		// __int32 success;
-	// function call : unsigned long ()
-	// function call : unsigned long ()
 
 	const std::shared_ptr<void> hThreadSnapshot(CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0), CloseHandle);
 	if( hThreadSnapshot.get() == INVALID_HANDLE_VALUE )
@@ -88,18 +76,6 @@ unsigned __int32 GetMainThreadId() // 0x10AF8CE0
 unsigned __int32 GetMainThreadId(unsigned __int32 ProcessId) // 0x10AF8BB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetMainThreadId@@YAII@Z");
-	// static ...; // 0x10AF8C96
-	// static ...; // 0x10AF8C90
-	// static ...; // 0x10AF8C78
-	// static ...; // 0x10AF8C70
-	// unsigned __int32 ProcessId;
-	// unsigned long dwTid;
-	// void *hProcess;
-	// void *lpTid;
-	// function call : void *(unsigned long, __int32, unsigned long)
-	// function call : __int32 (void *, void const *, void *, unsigned long, unsigned long *)
-	// function call : __int32 (void *)
-	// function call : __int32 (void *)
 
 	LPVOID lpTid;
 
@@ -129,16 +105,6 @@ unsigned __int32 GetMainThreadId(unsigned __int32 ProcessId) // 0x10AF8BB0
 void *GetModuleBase() // 0x10AF9010
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetModuleBase@@YAPAXXZ");
-	// procedure flags: nofpo
-	// static ...; // 0x10AF9114
-	// static ...; // 0x10AF9108
-	// static ...; // 0x10AF9100
-	// static void *Base; // 0x12467578
-		// void *hSnapShot;
-		// __int32 bRet;
-		// tagMODULEENTRY32 lpModuleEntry;
-	// function call : unsigned long ()
-	// function call : __int32 (void *)
 
 	static void *Base = nullptr;
 	if (!Base)
@@ -158,16 +124,6 @@ void *GetModuleBase() // 0x10AF9010
 void *GetModuleBase(std::string const &ModuleName) // 0x10AF8EA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetModuleBase@@YAPAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-	// static ...; // 0x10AF8FB8
-	// static ...; // 0x10AF8FAC
-	// static ...; // 0x10AF8FA4
-	// std::string const &ModuleName;
-	// void *hSnapShot;
-	// __int32 bModule;
-	// tagMODULEENTRY32 lpModuleEntry;
-	// function call : unsigned long ()
-	// function call : __int32 (void *)
-	// function call : __int32 (void *)
 
 	void *hSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, GetCurrentProcessId());
 	if (hSnapShot == INVALID_HANDLE_VALUE)
@@ -191,12 +147,6 @@ void *GetModuleBase(std::string const &ModuleName) // 0x10AF8EA0
 void SetPageAccess(unsigned __int32 Offset, unsigned __int32 Size, unsigned __int32 AccessFlags) // 0x10AF9170
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SetPageAccess@@YAXIII@Z");
-	// static ...; // 0x10AF91D0
-	// unsigned __int32 Offset;
-	// unsigned __int32 Size;
-	// unsigned __int32 AccessFlags;
-	// unsigned long temp;
-	// function call : __int32 (void *, unsigned long, unsigned long, unsigned long *)
 
 	DWORD temp;
 

@@ -209,7 +209,6 @@ using namespace hades_file_local;
 _inline VotingOutputHandler::VotingOutputHandler() // 0x10C9A6B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0VotingOutputHandler@@QAE@XZ");
-	// VotingOutputHandler *const this;
 }
 
 namespace Server
@@ -229,7 +228,6 @@ namespace Web
 			void Init() // 0x10C9A9E0
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?Init@Voting@Ui@Web@@YAXXZ");
-				// procedure flags: nofpo
 
 				Server::Voting::AddMessageHandler(std::make_shared<VotingOutputHandler>());
 				Patches::Network::OnLifeCycleStateChanged(LifeCycleStateChanged);
@@ -239,7 +237,6 @@ namespace Web
 			void Show() // 0x10C9BB40
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?Show@Voting@Ui@Web@@YAXXZ");
-				// procedure flags: nofpo
 
 				ScreenLayer::Show(ScreenLayer::ScreenId::Voting, "{}");
 			}
@@ -247,7 +244,6 @@ namespace Web
 			void Hide() // 0x10C9A990
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?Hide@Voting@Ui@Web@@YAXXZ");
-				// procedure flags: nofpo
 
 				ScreenLayer::Hide(ScreenLayer::Voting);
 			}
@@ -255,7 +251,6 @@ namespace Web
 			void VotingEnded() // 0x10C9BC10
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?VotingEnded@Voting@Ui@Web@@YAXXZ");
-				// procedure flags: nofpo
 
 				currentlyVoting = false;
 			}
@@ -268,8 +263,6 @@ namespace Web
 void LifeCycleStateChanged(Blam::Network::LifeCycleState newState) // 0x10C9AB00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?LifeCycleStateChanged@@YAXW4LifeCycleState@Network@Blam@@@Z");
-	// `anonymous-namespace'::LifeCycleStateChanged
-	// Blam::Network::LifeCycleState newState;
 
 	switch (newState)
 	{
@@ -284,14 +277,6 @@ void LifeCycleStateChanged(Blam::Network::LifeCycleState newState) // 0x10C9AB00
 void OnUiInputUpdate() // 0x10C9B850
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnUiInputUpdate@@YAXXZ");
-	// `anonymous-namespace'::OnUiInputUpdate
-	// procedure flags: nofpo
-	// unsigned char *(*const c_gui_screen_manager__get_first)(void *, unsigned __int32, __int32);
-		// Blam::Input::ActionState *action;
-		// unsigned char *widget;
-		// unsigned char *screenManager;
-			// unsigned __int32 name;
-	// function call : unsigned char *(*const)(void *, unsigned __int32, __int32)
 
 	unsigned char *(__thiscall *const c_gui_screen_manager__get_first)(void *, unsigned __int32, __int32) = reinterpret_cast<unsigned char *(__thiscall *)(void *, unsigned __int32, __int32)>(0xAAB320);
 	if (currentlyVoting)
@@ -327,8 +312,6 @@ void OnUiInputUpdate() // 0x10C9B850
 void OnVotingEnded() // 0x10C9BA30
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnVotingEnded@@YAXXZ");
-	// `anonymous-namespace'::OnVotingEnded
-	// procedure flags: nofpo
 
 	currentlyVoting = false;
 	Web::Ui::ScreenLayer::NotifyScreen(Web::Ui::ScreenLayer::Voting, "VoteEnded", "{}");

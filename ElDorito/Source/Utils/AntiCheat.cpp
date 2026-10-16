@@ -118,18 +118,6 @@ namespace Utils
 		void AntiSpeed() // 0x10C53880
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?AntiSpeed@AntiCheat@Utils@@YAXXZ");
-			// procedure flags: nofpo
-			// static ...; // 0x10C53A1F
-			// static ...; // 0x10C53A16
-			// static ...; // 0x10C53A0C
-			// static ...; // 0x10C539E8
-			// static ...; // 0x10C539E0
-			// HINSTANCE__ *hMods[1024];
-			// unsigned __int32 i;
-			// unsigned long cbNeeded;
-				// char szModName[260];
-			// function call : void *()
-			// function call : void *()
 
 			HMODULE hMods[1024];
 			DWORD cbNeeded;
@@ -148,14 +136,6 @@ namespace Utils
 		__int32 __stdcall AntiTrainer(HWND__ *hwnd, long lParam) // 0x10C53A90
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?AntiTrainer@AntiCheat@Utils@@YGHPAUHWND__@@J@Z");
-			// static ...; // 0x10C53BBC
-			// static ...; // 0x10C53BB4
-			// HWND__ *hwnd;
-			// long lParam;
-			// char title[80];
-				// Blam::Network::Session *session;
-			// function call : __int32 (HWND__ *, char *, __int32)
-			// function call : __int32 (HWND__ *, char const *, char const *, unsigned __int32)
 
 			char title[80];
 			GetWindowText(hwnd, title, sizeof(title));
@@ -175,7 +155,6 @@ namespace Utils
 		void OnTickCheck() // 0x10C53C20
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?OnTickCheck@AntiCheat@Utils@@YAXXZ");
-			// procedure flags: nofpo
 		}
 	}
 }

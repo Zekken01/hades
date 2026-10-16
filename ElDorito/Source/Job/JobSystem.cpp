@@ -81,7 +81,6 @@ namespace Job
 	void Initialize() // 0x1086CE50
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@Job@@YAXXZ");
-		// procedure flags: nofpo
 
 		initialized = true;
 		jobManager.Initialize();
@@ -90,7 +89,6 @@ namespace Job
 	void Dispose() // 0x1086CE00
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Dispose@Job@@YAXXZ");
-		// procedure flags: nofpo
 
 			jobManager.Dispose();
 	}

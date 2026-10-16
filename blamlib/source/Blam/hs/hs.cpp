@@ -89,11 +89,6 @@ using namespace hades_file_local;
 void *hs_get_node_data(unsigned long script_index) // 0x10F02FA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_get_node_data@@YAPAXK@Z");
-	// unsigned long script_index;
-	// char *allocation_data;
-	// char *deterministic_datum;
-	// __int32 allocation_index;
-	// __int32 allocation_offset;
 
 	char *deterministic_datum = (char *)tls_get(0x68);
 	__int32 allocation_index = *(unsigned short *)(deterministic_datum + *(short *)(deterministic_datum + 0x10) + 0x24) + 0x10;
@@ -105,7 +100,6 @@ void *hs_get_node_data(unsigned long script_index) // 0x10F02FA0
 s_hs_thread *hs_thread_get(unsigned long index) // 0x10F033F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_thread_get@@YAPAUs_hs_thread@@K@Z");
-	// unsigned long index;
 
 	return tls_getd().hs_thread_deterministic_data->try_and_get(index);
 }
@@ -113,11 +107,6 @@ s_hs_thread *hs_thread_get(unsigned long index) // 0x10F033F0
 void hs_find_dormant_script(char const *script_name, long *out_script_index) // 0x10F02E90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_find_dormant_script@@YAXPBDPAJ@Z");
-	// long *out_script_index;
-	// long thread_index;
-		// s_scenario *scenario;
-		// s_hs_thread *thread;
-	// function call : long (*const)(char const *)
 
 	*out_script_index = -1;
 	long thread_index = eldorado::hs_find_thread_by_name(script_name);
@@ -135,8 +124,6 @@ void hs_find_dormant_script(char const *script_name, long *out_script_index) // 
 hs_stack_frame *hs_thread_stack(long thread_index) // 0x10F03460
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_thread_stack@@YAPAUhs_stack_frame@@J@Z");
-	// long thread_index;
-	// s_hs_thread *thread;
 
 	s_hs_thread *thread = hs_thread_get(thread_index);
 	if (thread == nullptr)
@@ -149,7 +136,6 @@ hs_stack_frame *hs_thread_stack(long thread_index) // 0x10F03460
 s_hs_global_external *hs_global_external_get(short index) // 0x10F030A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_global_external_get@@YAPAUs_hs_global_external@@F@Z");
-	// short index;
 
 	return g_hs_global_externals[index];
 }
@@ -157,10 +143,6 @@ s_hs_global_external *hs_global_external_get(short index) // 0x10F030A0
 e_hs_type hs_global_get_type(short global_index) // 0x10F03220
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_global_get_type@@YA?AW4e_hs_type@@F@Z");
-	// short global_index;
-	// short absolute_index;
-		// s_scenario *scnr;
-			// s_hs_global *global;
 
 	short absolute_index = global_index & 0x7FFF;
 	if (global_index & 0x8000)
@@ -180,8 +162,6 @@ e_hs_type hs_global_get_type(short global_index) // 0x10F03220
 char const *hs_global_get_name(short global_index) // 0x10F03100
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_global_get_name@@YAPBDF@Z");
-	// short global_index;
-	// short absolute_index;
 
 	short masked_index = global_index & 0x7FFF;
 	if (global_index & 0x8000)
@@ -197,8 +177,6 @@ char const *hs_global_get_name(short global_index) // 0x10F03100
 short hs_global_get_runtime_index(short global_index) // 0x10F031A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_global_get_runtime_index@@YAFF@Z");
-	// short global_index;
-	// short runtime_index;
 
 	short runtime_index = global_index & 0x7FFF;
 	if ((global_index & 0x8000) == 0)
@@ -211,7 +189,6 @@ short hs_global_get_runtime_index(short global_index) // 0x10F031A0
 s_hs_global_runtime *hs_global_runtime_get(short global_index) // 0x10F032F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_global_runtime_get@@YAPAUs_hs_global_runtime@@F@Z");
-	// short global_index;
 
 	return tls_getd().hs_global_data->try_and_get_absolute(hs_global_get_runtime_index(global_index));
 }
@@ -219,8 +196,6 @@ s_hs_global_runtime *hs_global_runtime_get(short global_index) // 0x10F032F0
 hs_value const *hs_evaluate_arguments2(short op, long thread_index, bool initial) // 0x10F02E20
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_evaluate_arguments2@@YAPBUhs_value@@FJ_N@Z");
-	// bool initial;
-	// function call : hs_value *(*const)(short, long, bool)
 
 	return ((hs_value const *(__cdecl *)(unsigned short, long, bool))0x5972f0)(op, thread_index, initial);
 }
@@ -228,8 +203,6 @@ hs_value const *hs_evaluate_arguments2(short op, long thread_index, bool initial
 void hs_return2(long thread_index, hs_value value) // 0x10F03380
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_return2@@YAXJUhs_value@@@Z");
-	// hs_value value;
-	// function call : void (*const)(long, hs_value)
 
 	eldorado::hs_return(thread_index, value);
 }
@@ -237,7 +210,6 @@ void hs_return2(long thread_index, hs_value value) // 0x10F03380
 char const *hs_get_type_name(e_hs_type type) // 0x10F03050
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_get_type_name@@YAPBDW4e_hs_type@@@Z");
-	// e_hs_type type;
 
 	return ((char const **)0x18BEC98)[(short)type];
 }
@@ -245,18 +217,6 @@ char const *hs_get_type_name(e_hs_type type) // 0x10F03050
 hs_value hs_value::get_default(e_hs_type type) // 0x10F02A90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_default@hs_value@@SA?AU1@W4e_hs_type@@@Z");
-	// static ...; // 0x10F02C14
-// $LN16:
-// $LN15:
-// $LN14:
-// $LN13:
-// $LN12:
-// $LN11:
-// $LN10:
-// $LN7:
-// $LN6:
-// $LN4:
-	// e_hs_type type;
 
 	switch (type)
 	{

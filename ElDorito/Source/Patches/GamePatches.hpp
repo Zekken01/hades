@@ -64,7 +64,6 @@ namespace Patches
 inline void IGameSystem::DisposeFromOldMap() // 0x108CEC20
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DisposeFromOldMap@IGameSystem@@UAEXXZ");
-	// IGameSystem *const this;
 }
 
 

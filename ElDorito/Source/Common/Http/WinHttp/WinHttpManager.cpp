@@ -84,8 +84,6 @@ namespace Http
 	CWinHttpManager::CWinHttpManager() : m_sessHandle(CreateSession()) /* hades-mem-init:  */ // 0x10803520
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "??0CWinHttpManager@Http@@AAE@XZ");
-		// Http::CWinHttpManager *const this;
-		// function call : unsigned long ()
 
 		if (!m_sessHandle)
 		{
@@ -100,18 +98,6 @@ namespace Http
 	std::unique_ptr<void *,Http::WinHttpHandlerDeleter> CWinHttpManager::CreateSession() // 0x108039C0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?CreateSession@CWinHttpManager@Http@@QAE?AV?$unique_ptr@PAXUWinHttpHandlerDeleter@Http@@@std@@XZ");
-		// static ...; // 0x10803AE6
-		// static ...; // 0x10803ADC
-		// static ...; // 0x10803AD8
-		// static ...; // 0x10803AB4
-		// static ...; // 0x10803AAC
-		// Http::CWinHttpManager *const this;
-		// unsigned long protocols;
-		// unsigned long val;
-		// std::unique_ptr<void *,Http::WinHttpHandlerDeleter> session;
-		// function call : void *(wchar_t const *, unsigned long, wchar_t const *, wchar_t const *, unsigned long)
-		// function call : __int32 (void *, unsigned long, void *, unsigned long)
-		// function call : __int32 (void *, unsigned long, void *, unsigned long)
 
 		std::unique_ptr<void *,Http::WinHttpHandlerDeleter> session(WinHttpOpen(nullptr, WINHTTP_ACCESS_TYPE_DEFAULT_PROXY, WINHTTP_NO_PROXY_NAME, WINHTTP_NO_PROXY_BYPASS, WINHTTP_FLAG_ASYNC));
 		unsigned long protocols = WINHTTP_FLAG_SECURE_PROTOCOL_TLS1 | WINHTTP_FLAG_SECURE_PROTOCOL_TLS1_1 | WINHTTP_FLAG_SECURE_PROTOCOL_TLS1_2;
@@ -128,7 +114,6 @@ namespace Http
 	std::shared_ptr<Http::IHttpRequest> CWinHttpManager::CreateRequest() // 0x10803910
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?CreateRequest@CWinHttpManager@Http@@UAE?AV?$shared_ptr@VIHttpRequest@Http@@@std@@XZ");
-		// Http::CWinHttpManager *const this;
 
 		return std::make_shared<Http::CWinHttpRequest>(*this);
 	}

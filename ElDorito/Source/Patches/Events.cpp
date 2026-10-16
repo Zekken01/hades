@@ -167,7 +167,6 @@ namespace Patches
 		void ApplyAll() // 0x10A59630
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Events@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 					Hook(0x16669C, RunEventHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 					Hook(0x165CE2, RunEventHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
@@ -179,7 +178,6 @@ namespace Patches
 		void OnEvent(std::function<void __cdecl(unsigned long,s_game_engine_event_data const *,s_multiplayer_event_response_definition const *)> callback) // 0x10A59B30
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?OnEvent@Events@Patches@@YAXV?$function@$$A6AXKPBUs_game_engine_event_data@@PBUs_multiplayer_event_response_definition@@@Z@std@@@Z");
-			// std::function<void __cdecl(unsigned long,s_game_engine_event_data const *,s_multiplayer_event_response_definition const *)> callback;
 
 			OnEventCallbacks.push_back(callback);
 		}
@@ -194,14 +192,6 @@ _inline s_game_engine_event_data &s_game_engine_event_data::operator=(s_game_eng
 void RunEventHook(unsigned long player, s_game_engine_event_data const *event, s_multiplayer_event_response_definition const *definition) // 0x10A59BD0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?RunEventHook@@YAXKPBUs_game_engine_event_data@@PBUs_multiplayer_event_response_definition@@@Z");
-	// `anonymous-namespace'::RunEventHook
-	// s_multiplayer_event_response_definition const *definition;
-	// void (*RunEvent)(unsigned long, s_game_engine_event_data const *, s_multiplayer_event_response_definition const *);
-		// std::vector<std::function<void __cdecl(unsigned long,s_game_engine_event_data const *,s_multiplayer_event_response_definition const *)> > &<range>$L0;
-		// std::function<void __cdecl(unsigned long,s_game_engine_event_data const *,s_multiplayer_event_response_definition const *)> *<begin>$L0;
-		// std::function<void __cdecl(unsigned long,s_game_engine_event_data const *,s_multiplayer_event_response_definition const *)> *<end>$L0;
-			// std::function<void __cdecl(unsigned long,s_game_engine_event_data const *,s_multiplayer_event_response_definition const *)> &callback;
-	// function call : void (*)(unsigned long, s_game_engine_event_data const *, s_multiplayer_event_response_definition const *)
 
 	for (auto &callback : OnEventCallbacks)
 		callback(player, event, definition);
@@ -218,9 +208,6 @@ _inline s_suppressed_game_engine_event_collection::s_suppressed_game_engine_even
 bool player_has_name(long player_index) // 0x10A5B150
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?player_has_name@@YA_NJ@Z");
-	// `anonymous-namespace'::player_has_name
-	// long player_index;
-	// s_player_datum *player;
 
 	if (player_index == -1)
 	{
@@ -236,35 +223,6 @@ _inline s_suppressed_game_engine_event &s_suppressed_game_engine_event::operator
 void game_engine_update_game_events_hook() // 0x10A5AAA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_update_game_events_hook@@YAXXZ");
-	// `anonymous-namespace'::game_engine_update_game_events_hook
-	// procedure flags: nofpo
-	// static ...; // 0x10A5AEEC
-	// static ...; // 0x10A5AEE0
-	// static ...; // 0x10A5AED8
-	// constexpr void (*const `game_engine_update_game_events_hook'::`2'::game_engine_event_play)(s_game_engine_event_data const *); // constant == 5659808
-	// long default_delay_ticks;
-	// char *game_engine_globals;
-	// long delay_for_join_in_ticks;
-	// s_suppressed_game_engine_event_collection sorted_events;
-	// long current_time;
-	// s_suppressed_game_engine_event_collection *events;
-	// long grief_time_in_ticks;
-		// s_static_array<s_suppressed_game_engine_event,64> &<range>$L0;
-		// s_suppressed_game_engine_event *<begin>$L0;
-		// s_suppressed_game_engine_event *<end>$L0;
-			// s_suppressed_game_engine_event &event;
-				// long delay_for_ticks;
-		// __int32 (*comparator)(void const *, void const *);
-			// s_suppressed_game_engine_event *<end>$L1;
-			// s_suppressed_game_engine_event *<begin>$L1;
-			// s_static_array<s_suppressed_game_engine_event,64> &<range>$L1;
-				// s_suppressed_game_engine_event const &sorted_event;
-					// s_suppressed_game_engine_event &event;
-	// function call : long (*const)()
-	// function call : long (*const)(float)
-	// function call : long (*const)(float)
-	// function call : long (*const)(float)
-	// function call : void (*const)(s_game_engine_event_data const *)
 
 	extern long (*const game_time_get)();
 	extern long (*const game_seconds_to_ticks_round)(float);
@@ -319,9 +277,6 @@ void game_engine_update_game_events_hook() // 0x10A5AAA0
 void game_event_set_cause_player_hook(long player_index, s_game_engine_event_data *event) // 0x10A5B010
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?game_event_set_cause_player_hook@@YAXJPAUs_game_engine_event_data@@@Z");
-	// `anonymous-namespace'::game_event_set_cause_player_hook
-	// s_game_engine_event_data *event;
-	// s_player_datum *player;
 
 	event->cause_player_index = -1;
 	event->cause_team_index = -1;

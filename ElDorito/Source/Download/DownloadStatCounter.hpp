@@ -48,7 +48,6 @@ namespace Download
 	inline __int32 CDownloadStatCounter::GetRate() const // 0x108301E0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetRate@CDownloadStatCounter@Download@@QBEHXZ");
-		// Download::CDownloadStatCounter const *const this;
 
 		return m_average;
 	}
@@ -56,8 +55,6 @@ namespace Download
 	inline void CDownloadStatCounter::SecondTick(__int32 deltaMs) // 0x10831BC0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?SecondTick@CDownloadStatCounter@Download@@QAEXH@Z");
-		// __int32 deltaMs;
-		// long long sample;
 
 		long long sample = m_counter * 1000LL / deltaMs;
 		(void)((!!(sample >= 0)) || (_wassert(L"sample >= 0", L"C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Download\\DownloadStatCounter.hpp", 22), 0));
@@ -68,7 +65,6 @@ namespace Download
 	inline void CDownloadStatCounter::Clear() // 0x1082EB10
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Clear@CDownloadStatCounter@Download@@QAEXXZ");
-		// Download::CDownloadStatCounter *const this;
 
 		m_counter = 0;
 		m_average = 0;
@@ -78,7 +74,6 @@ namespace Download
 	inline void CDownloadStatCounter::Add(__int32 count) // 0x1082DEC0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Add@CDownloadStatCounter@Download@@QAEXH@Z");
-		// __int32 count;
 
 		(void)((!!(m_counter < (std::numeric_limits<std::int32_t>::max)() - count)) || (_wassert(L"m_counter < (std::numeric_limits<std::int32_t>::max)() - count", L"C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Download\\DownloadStatCounter.hpp", 36), 0));
 		m_counter += count;

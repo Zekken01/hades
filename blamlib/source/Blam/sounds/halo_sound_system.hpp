@@ -233,8 +233,6 @@ struct HALO_SOUND_SYSTEM
 _inline HALO_CHANNEL *HALO_SOUND_SYSTEM::FindChannel(__int32 id) // 0x10A2F840
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?FindChannel@HALO_SOUND_SYSTEM@@QAEPAUHALO_CHANNEL@@H@Z");
-	// __int32 id;
-		// __int32 i;
 
 	for (__int32 i = 0; i < channels.count; i++)
 	{
@@ -248,7 +246,6 @@ _inline HALO_CHANNEL *HALO_SOUND_SYSTEM::FindChannel(__int32 id) // 0x10A2F840
 _inline HALO_SOUND_SYSTEM *HALO_SOUND_SYSTEM::Get() // 0x10A2F8F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Get@HALO_SOUND_SYSTEM@@SAPAU1@XZ");
-	// procedure flags: nofpo
 
 	return *(HALO_SOUND_SYSTEM * *)0x18bc9c8;
 }

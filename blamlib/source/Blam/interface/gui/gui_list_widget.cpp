@@ -29,9 +29,6 @@ class c_gui_list_widget;
 void c_gui_list_widget::select_item(long index) // 0x10F13950
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?select_item@c_gui_list_widget@@QAEXJ@Z");
-	// long index;
-	// void (*const select_item)(c_gui_list_widget *, long, bool);
-	// function call : void (*const)(c_gui_list_widget *, long, bool)
 
 	void (__thiscall *const select_item_internal)(c_gui_list_widget *, long, bool) = (void(__thiscall *const)(c_gui_list_widget *, long, bool))0xb162e0;
 
@@ -41,9 +38,6 @@ void c_gui_list_widget::select_item(long index) // 0x10F13950
 long c_gui_list_widget::get_selected_data_item_index() const // 0x10F138D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_selected_data_item_index@c_gui_list_widget@@QBEJXZ");
-	// c_gui_list_widget const *const this;
-	// long (*const get_scrolled_index)(c_gui_list_widget const *, long);
-	// function call : long (*const)(c_gui_list_widget const *, long)
 
 	long (__thiscall *const F)(const c_gui_list_widget *, long) = (long(__thiscall *const)(const c_gui_list_widget *, long))0xb15060;
 
@@ -53,8 +47,6 @@ long c_gui_list_widget::get_selected_data_item_index() const // 0x10F138D0
 long c_gui_list_widget::get_item_count(bool count_hidden) const // 0x10F13860
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_item_count@c_gui_list_widget@@QBEJ_N@Z");
-	// bool count_hidden;
-	// function call : long (*)(c_gui_list_widget const *, bool)
 
 	return ((long(__thiscall *)(const c_gui_list_widget *, bool))0xb15170)(this, count_hidden);
 }

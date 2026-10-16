@@ -89,13 +89,6 @@ namespace Patches
 		unsigned __int32 PlayerPropertiesExtender::GetTotalSize() // 0x10AAD630
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetTotalSize@PlayerPropertiesExtender@Network@Patches@@QAEIXZ");
-			// static ...; // 0x10AAD7A0
-			// static ...; // 0x10AAD794
-			// static ...; // 0x10AAD78C
-			// Patches::Network::PlayerPropertiesExtender *const this;
-			// unsigned __int32 result;
-				// std::_Vector_iterator<std::_Vector_val<std::_Simple_types<std::shared_ptr<Patches::Network::PlayerPropertiesExtensionBase> > > > it;
-			// function call : unsigned __int32 () const
 
 			unsigned __int32 result = 0;
 			for (auto it = extensions.begin(); it != extensions.end(); ++it)
@@ -106,14 +99,6 @@ namespace Patches
 		void PlayerPropertiesExtender::BuildData(__int32 playerIndex, void *out) // 0x10AAD1D0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?BuildData@PlayerPropertiesExtender@Network@Patches@@QAEXHPAX@Z");
-			// static ...; // 0x10AAD370
-			// Patches::Network::PlayerPropertiesExtender *const this;
-			// __int32 playerIndex;
-			// void *out;
-			// unsigned char *ptr;
-				// std::_Vector_iterator<std::_Vector_val<std::_Simple_types<std::shared_ptr<Patches::Network::PlayerPropertiesExtensionBase> > > > it;
-			// function call : void (__int32, void *)
-			// function call : unsigned __int32 () const
 
 			unsigned char *ptr = static_cast<unsigned char *>(out);
 			for (auto it = extensions.begin(); it != extensions.end(); ++it)
@@ -126,14 +111,6 @@ namespace Patches
 		void PlayerPropertiesExtender::ApplyData(__int32 playerIndex, s_player_configuration *properties, void const *data) // 0x10AACFA0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyData@PlayerPropertiesExtender@Network@Patches@@QAEXHPAUs_player_configuration@@PBX@Z");
-			// Patches::Network::PlayerPropertiesExtender *const this;
-			// __int32 playerIndex;
-			// s_player_configuration *properties;
-			// void const *data;
-			// unsigned char const *ptr;
-				// std::_Vector_iterator<std::_Vector_val<std::_Simple_types<std::shared_ptr<Patches::Network::PlayerPropertiesExtensionBase> > > > it;
-			// function call : void (__int32, s_player_configuration *, void const *)
-			// function call : unsigned __int32 () const
 
 			unsigned char const *ptr = static_cast<unsigned char const *>(data);
 			for (auto it = extensions.begin(); it != extensions.end(); ++it)
@@ -146,14 +123,6 @@ namespace Patches
 		void PlayerPropertiesExtender::SerializeData(Blam::BitStream *stream, void const *data) // 0x10AAD800
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?SerializeData@PlayerPropertiesExtender@Network@Patches@@QAEXPAVBitStream@Blam@@PBX@Z");
-			// static ...; // 0x10AAD9A0
-			// Patches::Network::PlayerPropertiesExtender *const this;
-			// Blam::BitStream *stream;
-			// void const *data;
-			// unsigned char const *ptr;
-				// std::_Vector_iterator<std::_Vector_val<std::_Simple_types<std::shared_ptr<Patches::Network::PlayerPropertiesExtensionBase> > > > it;
-			// function call : void (Blam::BitStream *, void const *)
-			// function call : unsigned __int32 () const
 
 			unsigned char const *ptr = static_cast<unsigned char const *>(data);
 			for (auto it = extensions.begin(); it != extensions.end(); ++it)
@@ -166,14 +135,6 @@ namespace Patches
 		void PlayerPropertiesExtender::DeserializeData(Blam::BitStream *stream, void *out) // 0x10AAD400
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?DeserializeData@PlayerPropertiesExtender@Network@Patches@@QAEXPAVBitStream@Blam@@PAX@Z");
-			// static ...; // 0x10AAD5A0
-			// Patches::Network::PlayerPropertiesExtender *const this;
-			// Blam::BitStream *stream;
-			// void *out;
-			// unsigned char *ptr;
-				// std::_Vector_iterator<std::_Vector_val<std::_Simple_types<std::shared_ptr<Patches::Network::PlayerPropertiesExtensionBase> > > > it;
-			// function call : void (Blam::BitStream *, void *)
-			// function call : unsigned __int32 () const
 
 			unsigned char *ptr = static_cast<unsigned char *>(out);
 			for (auto it = extensions.begin(); it != extensions.end(); ++it)

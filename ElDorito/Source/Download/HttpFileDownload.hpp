@@ -197,7 +197,6 @@ namespace Download
 	inline bool CHttpFileDownload::IsComplete() const // 0x108308B0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?IsComplete@CHttpFileDownload@Download@@UBE_NXZ");
-		// Download::CHttpFileDownload const *const this;
 
 		return m_bFinished;
 	}
@@ -205,7 +204,6 @@ namespace Download
 	inline long long CHttpFileDownload::GetDownloadedBytes() const // 0x1082FB60
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetDownloadedBytes@CHttpFileDownload@Download@@UBE_JXZ");
-		// Download::CHttpFileDownload const *const this;
 
 		return m_downloadedBytes;
 	}
@@ -213,7 +211,6 @@ namespace Download
 	inline long long CHttpFileDownload::GetTotalBytes() const // 0x10830370
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetTotalBytes@CHttpFileDownload@Download@@UBE_JXZ");
-		// Download::CHttpFileDownload const *const this;
 
 		return m_totalBytes;
 	}
@@ -221,7 +218,6 @@ namespace Download
 	inline __int32 CHttpFileDownload::GetDownloadSpeed() const // 0x1082FB30
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetDownloadSpeed@CHttpFileDownload@Download@@UBEHXZ");
-		// Download::CHttpFileDownload const *const this;
 
 		return m_downloadSpeed;
 	}
@@ -229,7 +225,6 @@ namespace Download
 	inline __int32 CHttpFileDownload::GetTotalRequests() const // 0x10857280
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetTotalRequests@CHttpFileDownload@Download@@QBEHXZ");
-		// Download::CHttpFileDownload const *const this;
 
 		return m_totalRequestsMade;
 	}
@@ -237,18 +232,11 @@ namespace Download
 	inline void CHttpFileDownloadManager::Init() // 0x10820420
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Init@CHttpFileDownloadManager@Download@@QAEXXZ");
-		// Download::CHttpFileDownloadManager *const this;
 	}
 
 	inline void CHttpFileDownloadManager::Shutdown() // 0x10820580
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Shutdown@CHttpFileDownloadManager@Download@@QAEXXZ");
-		// Download::CHttpFileDownloadManager *const this;
-			// std::vector<std::shared_ptr<Download::CHttpFileDownload> > &<range>$L0;
-			// std::shared_ptr<Download::CHttpFileDownload> *<begin>$L0;
-			// std::shared_ptr<Download::CHttpFileDownload> *<end>$L0;
-				// std::shared_ptr<Download::CHttpFileDownload> &download;
-		// function call : void ()
 
 		for (auto &download : m_downloads)
 		{
@@ -259,15 +247,6 @@ namespace Download
 	inline void CHttpFileDownloadManager::Tick() // 0x10820690
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@CHttpFileDownloadManager@Download@@QAEXXZ");
-		// static ...; // 0x1082077C
-		// static ...; // 0x10820770
-		// static ...; // 0x10820768
-		// Download::CHttpFileDownloadManager *const this;
-		// std::vector<std::shared_ptr<Download::CHttpFileDownload> > downloads;
-			// std::vector<std::shared_ptr<Download::CHttpFileDownload> > &<range>$L0;
-			// std::shared_ptr<Download::CHttpFileDownload> *<begin>$L0;
-			// std::shared_ptr<Download::CHttpFileDownload> *<end>$L0;
-				// std::shared_ptr<Download::CHttpFileDownload> &download;
 
 		std::vector<std::shared_ptr<Download::CHttpFileDownload> > downloads = m_downloads;
 		for (auto &download : downloads)
@@ -277,7 +256,6 @@ namespace Download
 	inline void CHttpFileDownloadManager::AddDownload(std::shared_ptr<Download::CHttpFileDownload> download) // 0x1082DFD0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?AddDownload@CHttpFileDownloadManager@Download@@QAEXV?$shared_ptr@VCHttpFileDownload@Download@@@std@@@Z");
-		// std::shared_ptr<Download::CHttpFileDownload> download;
 
 		m_downloads.push_back(download);
 	}
@@ -285,11 +263,6 @@ namespace Download
 	inline void CHttpFileDownloadManager::RemoveDownload(std::shared_ptr<Download::CHttpFileDownload> download) // 0x10831950
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?RemoveDownload@CHttpFileDownloadManager@Download@@QAEXV?$shared_ptr@VCHttpFileDownload@Download@@@std@@@Z");
-		// static ...; // 0x10831AF0
-		// static ...; // 0x10831AE8
-		// Download::CHttpFileDownloadManager *const this;
-		// std::shared_ptr<Download::CHttpFileDownload> download;
-			// std::_Vector_iterator<std::_Vector_val<std::_Simple_types<std::shared_ptr<Download::CHttpFileDownload> > > > it;
 
 		auto it = std::find(std::begin(m_downloads), std::end(m_downloads), download);
 		if (it != std::end(m_downloads))

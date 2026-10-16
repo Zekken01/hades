@@ -173,7 +173,6 @@ namespace Modules
 	ModuleGraphics::ModuleGraphics() : ModuleBase("Graphics") /* hades-mem-init: : ModuleBase(todo_result<std::string>()) */ // 0x109A4B30
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "??0ModuleGraphics@Modules@@QAE@XZ");
-		// Modules::ModuleGraphics *const this;
 
 		VarSaturation = AddVariableFloat("Saturation", "saturation", "The saturation", eCommandFlagsArchived, 1.0f, VariableSaturationUpdate);
 		VarSaturation->ValueFloatMin = -10.0f;
@@ -255,14 +254,6 @@ namespace Modules
 bool VariableSaturationUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109A7060
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSaturationUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::VariableSaturationUpdate
-	// static ...; // 0x109A71B4
-	// static ...; // 0x109A71AC
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// s_hue_saturation_control *hue_saturation_control;
-	// std::stringstream ss;
-	// float saturation;
 
 	float saturation = Modules::ModuleGraphics::Instance().VarSaturation->ValueFloat;
 	s_hue_saturation_control *hue_saturation_control = tls_getd().hue_saturation_control;
@@ -279,14 +270,6 @@ bool VariableSaturationUpdate(std::vector<std::string> const &Arguments, std::st
 bool VariableRedHueUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109A6EA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableRedHueUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::VariableRedHueUpdate
-	// static ...; // 0x109A6FF4
-	// static ...; // 0x109A6FEC
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// s_hue_saturation_control *hue_saturation_control;
-	// std::stringstream ss;
-	// float redHue;
 
 	float redHue = Modules::ModuleGraphics::Instance().VarRedHue->ValueFloat;
 	s_hue_saturation_control *hue_saturation_control = tls_getd().hue_saturation_control;
@@ -303,14 +286,6 @@ bool VariableRedHueUpdate(std::vector<std::string> const &Arguments, std::string
 bool VariableGreenHueUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109A6AE0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableGreenHueUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::VariableGreenHueUpdate
-	// static ...; // 0x109A6C34
-	// static ...; // 0x109A6C2C
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// s_hue_saturation_control *hue_saturation_control;
-	// float greenHue;
-	// std::stringstream ss;
 
 	float greenHue = Modules::ModuleGraphics::Instance().VarGreenHue->ValueFloat;
 	s_hue_saturation_control *hue_saturation_control = tls_getd().hue_saturation_control;
@@ -327,14 +302,6 @@ bool VariableGreenHueUpdate(std::vector<std::string> const &Arguments, std::stri
 bool VariableBlueHueUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109A61F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableBlueHueUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::VariableBlueHueUpdate
-	// static ...; // 0x109A6344
-	// static ...; // 0x109A633C
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// s_hue_saturation_control *hue_saturation_control;
-	// std::stringstream ss;
-	// float blueHue;
 
 	float blueHue = Modules::ModuleGraphics::Instance().VarGreenHue->ValueFloat;
 	s_hue_saturation_control *hue_saturation_control = tls_getd().hue_saturation_control;
@@ -351,14 +318,6 @@ bool VariableBlueHueUpdate(std::vector<std::string> const &Arguments, std::strin
 bool VariableGammaPowerUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109A6930
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableGammaPowerUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::VariableGammaPowerUpdate
-	// static ...; // 0x109A6A74
-	// static ...; // 0x109A6A6C
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// float gamma;
-	// std::stringstream ss;
-	// float max;
 
 	float max = Modules::ModuleGraphics::Instance().VarGammaPower->ValueFloatMax;
 	float gamma = Modules::ModuleGraphics::Instance().VarGammaPower->ValueFloat;
@@ -371,15 +330,6 @@ bool VariableGammaPowerUpdate(std::vector<std::string> const &Arguments, std::st
 bool VariableDepthOfFieldUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109A6760
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableDepthOfFieldUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::VariableDepthOfFieldUpdate
-	// static ...; // 0x109A68C0
-	// static ...; // 0x109A68B8
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// float dof;
-	// std::stringstream ss;
-	// s_depth_of_field *globals;
-	// function call : s_depth_of_field *(*)()
 
 	float dof = Modules::ModuleGraphics::Instance().VarDepthOfField->ValueFloat;
 	s_depth_of_field *globals = s_depth_of_field::get();
@@ -397,14 +347,6 @@ bool VariableDepthOfFieldUpdate(std::vector<std::string> const &Arguments, std::
 bool VariableLetterboxUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109A6CA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableLetterboxUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::VariableLetterboxUpdate
-	// static ...; // 0x109A6E20
-	// static ...; // 0x109A6E18
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// unsigned long enabled;
-	// std::stringstream ss;
-	// s_cinematic_globals *globals;
 
 	unsigned long enabled = Modules::ModuleGraphics::Instance().VarLetterbox->ValueInt;
 	s_cinematic_globals *globals = tls_getd().cinematic_globals;
@@ -421,8 +363,6 @@ bool VariableLetterboxUpdate(std::vector<std::string> const &Arguments, std::str
 bool VariableUIScalingUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109A7220
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableUIScalingUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::VariableUIScalingUpdate
-	// std::string &returnInfo;
 
 	if (!Modules::ModuleGraphics::Instance().VarUIScaling->ValueInt)
 	{
@@ -438,8 +378,6 @@ bool VariableUIScalingUpdate(std::vector<std::string> const &Arguments, std::str
 bool VariableCustomHUDColorsEnabledUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109A63B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableCustomHUDColorsEnabledUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::VariableCustomHUDColorsEnabledUpdate
-	// std::string &returnInfo;
 
 	if (Utils::Singleton<Modules::ModuleGraphics>::Instance().VarCustomHUDColorsEnabled->ValueInt == 1)
 	{
@@ -456,14 +394,6 @@ bool VariableCustomHUDColorsEnabledUpdate(std::vector<std::string> const &Argume
 bool VariableCustomHUDColorsUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109A6410
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableCustomHUDColorsUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::VariableCustomHUDColorsUpdate
-	// static ...; // 0x109A66A4
-	// static ...; // 0x109A668C
-	// static ...; // 0x109A6684
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// std::regex expression;
-	// std::match_results<char const *,std::allocator<std::sub_match<char const *> > > what;
 
 	std::match_results<char const *,std::allocator<std::sub_match<char const *> > > what;
 	std::regex expression("#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})");
@@ -488,21 +418,6 @@ bool VariableCustomHUDColorsUpdate(std::vector<std::string> const &Arguments, st
 bool CommandSupportedResolutions(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109A5EA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandSupportedResolutions@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandSupportedResolutions
-	// static ...; // 0x109A6136
-	// static ...; // 0x109A6128
-	// static ...; // 0x109A6104
-	// static ...; // 0x109A60FC
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
-	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-	// __int32 adapterIndex;
-		// std::vector<Common::D3DAdapters::DisplayMode> const &<range>$L0;
-		// Common::D3DAdapters::DisplayMode const *<begin>$L0;
-		// Common::D3DAdapters::DisplayMode const *<end>$L0;
-			// Common::D3DAdapters::DisplayMode const &d;
-				// std::string resolutionStr;
 
 	__int32 adapterIndex = Common::D3DAdapters::GetCurrentAdapterIndex();
 	rapidjson::StringBuffer buffer;

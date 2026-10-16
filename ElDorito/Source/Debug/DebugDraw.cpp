@@ -383,8 +383,6 @@ static SRenderThreadMessage *AllocateMessage()
 __int32 AllocateCacheEntry() // 0x10818DD0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?AllocateCacheEntry@@YAHXZ");
-	// procedure flags: nofpo
-		// __int32 i;
 
 	for (__int32 i = 0; i < sizeof(persistentCache) / sizeof(persistentCache[0]); i++)
 	{
@@ -397,8 +395,6 @@ __int32 AllocateCacheEntry() // 0x10818DD0
 __int32 FindCacheEntry(char const *group, DebugDrawKey cacheKey) // 0x1081C0D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?FindCacheEntry@@YAHPBDUDebugDrawKey@@@Z");
-	// DebugDrawKey cacheKey;
-		// __int32 i;
 
 	for (unsigned __int32 i = 0; i < 4096; i++)
 	{
@@ -412,8 +408,6 @@ __int32 FindCacheEntry(char const *group, DebugDrawKey cacheKey) // 0x1081C0D0
 void EvictCacheEntry(char const *group, DebugDrawKey cacheKey) // 0x1081C060
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?EvictCacheEntry@@YAXPBDUDebugDrawKey@@@Z");
-	// DebugDrawKey cacheKey;
-	// long index;
 
 	int index = FindCacheEntry(group, cacheKey);
 	if (index != -1)
@@ -423,15 +417,6 @@ void EvictCacheEntry(char const *group, DebugDrawKey cacheKey) // 0x1081C060
 void CDebugDrawBackend::DrawPoint(real_point3d const &point, float size, long color) // 0x1081AB70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawPoint@CDebugDrawBackend@@SAXABUreal_point3d@@MJ@Z");
-	// static ...; // 0x1081ACAC
-	// real_point3d const &point;
-	// float size;
-	// long color;
-		// SRenderThreadMessage *message;
-			// SDrawPointMessage &payload;
-		// real_argb_color realColor;
-	// function call : bool (*const)()
-	// function call : real_argb_color *(*const)(unsigned long, real_argb_color *)
 
 	if (!((bool(*)())0xA22390)() || threadLocalAttributes.lifetime != 0.0f)
 	{
@@ -456,15 +441,6 @@ void CDebugDrawBackend::DrawPoint(real_point3d const &point, float size, long co
 void CDebugDrawBackend::DrawLine(real_point3d const &p1, real_point3d const &p2, long color) // 0x1081A160
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawLine@CDebugDrawBackend@@SAXABUreal_point3d@@0J@Z");
-	// static ...; // 0x1081A2A0
-	// real_point3d const &p1;
-	// real_point3d const &p2;
-	// long color;
-		// SRenderThreadMessage *message;
-			// SDrawLineMessage &payload;
-		// real_argb_color realColor;
-	// function call : bool (*const)()
-	// function call : real_argb_color *(*const)(unsigned long, real_argb_color *)
 
 	if (!((bool(*)())0xA22390)() || threadLocalAttributes.lifetime != 0.0f)
 	{
@@ -489,15 +465,6 @@ void CDebugDrawBackend::DrawLine(real_point3d const &p1, real_point3d const &p2,
 void CDebugDrawBackend::DrawVector(real_point3d const &point, real_vector3d const &vector, long color) // 0x1081BEA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawVector@CDebugDrawBackend@@SAXABUreal_point3d@@ABUreal_vector3d@@J@Z");
-	// static ...; // 0x1081BFE0
-	// real_point3d const &point;
-	// real_vector3d const &vector;
-	// long color;
-		// SRenderThreadMessage *message;
-			// SDrawVectorMessage &payload;
-		// real_argb_color realColor;
-	// function call : bool (*const)()
-	// function call : real_argb_color *(*const)(unsigned long, real_argb_color *)
 
 	if (!((bool(*)())0xA22390)() || threadLocalAttributes.lifetime != 0.0f)
 	{
@@ -522,15 +489,6 @@ void CDebugDrawBackend::DrawVector(real_point3d const &point, real_vector3d cons
 void CDebugDrawBackend::DrawTriangle(real_point3d const &p1, real_point3d const &p2, real_point3d const &p3, long color) // 0x1081BBB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawTriangle@CDebugDrawBackend@@SAXABUreal_point3d@@00J@Z");
-	// real_point3d const &p1;
-	// real_point3d const &p2;
-	// real_point3d const &p3;
-	// long color;
-		// SRenderThreadMessage *message;
-			// SDrawTriangleMessage &payload;
-		// real_argb_color realColor;
-	// function call : bool (*const)()
-	// function call : real_argb_color *(*const)(unsigned long, real_argb_color *)
 
 	if (!((bool(*)())0xA22390)() || threadLocalAttributes.lifetime != 0.0f)
 	{
@@ -556,15 +514,6 @@ void CDebugDrawBackend::DrawTriangle(real_point3d const &p1, real_point3d const 
 void CDebugDrawBackend::DrawBox(real_rectangle3d const &bounds, long color) // 0x108195A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawBox@CDebugDrawBackend@@SAXABUreal_rectangle3d@@J@Z");
-	// static ...; // 0x108196DC
-	// static ...; // 0x108196D4
-	// real_rectangle3d const &bounds;
-	// long color;
-		// SRenderThreadMessage *message;
-			// SDrawBoxMessage &payload;
-		// real_argb_color realColor;
-	// function call : bool (*const)()
-	// function call : real_argb_color *(*const)(unsigned long, real_argb_color *)
 
 	if (!((bool(*)())0xA22390)() || threadLocalAttributes.lifetime != 0.0f)
 	{
@@ -588,15 +537,6 @@ void CDebugDrawBackend::DrawBox(real_rectangle3d const &bounds, long color) // 0
 void CDebugDrawBackend::DrawBoxOriented(real_rectangle3d const &bounds, real_matrix4x3 const &matrix, long color) // 0x10819860
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawBoxOriented@CDebugDrawBackend@@SAXABUreal_rectangle3d@@ABUreal_matrix4x3@@J@Z");
-	// static ...; // 0x108199A8
-	// real_rectangle3d const &bounds;
-	// real_matrix4x3 const &matrix;
-	// long color;
-		// SRenderThreadMessage *message;
-			// SDrawBoxOrientedMessage &payload;
-		// real_argb_color realColor;
-	// function call : bool (*const)()
-	// function call : real_argb_color *(*const)(unsigned long, real_argb_color *)
 
 	if (!((bool(*)())0xA22390)() || threadLocalAttributes.lifetime != 0.0f)
 	{
@@ -621,15 +561,6 @@ void CDebugDrawBackend::DrawBoxOriented(real_rectangle3d const &bounds, real_mat
 void CDebugDrawBackend::DrawBox2dOutline(real_rectangle2d const &bounds, long color) // 0x108191E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawBox2dOutline@CDebugDrawBackend@@SAXABUreal_rectangle2d@@J@Z");
-	// static ...; // 0x108193F4
-	// static ...; // 0x108193EC
-	// real_rectangle2d const &bounds;
-	// long color;
-		// SRenderThreadMessage *message;
-			// SDrawBox2dMessage &payload;
-		// short_point_2d vertices[5];
-	// function call : bool (*const)()
-	// function call : void (*const)(short_point_2d const *, long, unsigned long)
 
 	if (!((bool(*)())0xA22390)() || threadLocalAttributes.lifetime != 0.0f)
 	{
@@ -657,15 +588,6 @@ void CDebugDrawBackend::DrawBox2dOutline(real_rectangle2d const &bounds, long co
 void CDebugDrawBackend::DrawSphereOutline(real_point3d const &center, float radius, long color) // 0x1081AE30
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawSphereOutline@CDebugDrawBackend@@SAXABUreal_point3d@@MJ@Z");
-	// static ...; // 0x1081AF6C
-	// real_point3d const &center;
-	// float radius;
-	// long color;
-		// SRenderThreadMessage *message;
-			// SDrawSphereMessage &payload;
-		// real_argb_color realColor;
-	// function call : bool (*const)()
-	// function call : real_argb_color *(*const)(unsigned long, real_argb_color *)
 
 	if (!((bool(*)())0xA22390)() || threadLocalAttributes.lifetime != 0.0f)
 	{
@@ -690,7 +612,6 @@ void CDebugDrawBackend::DrawSphereOutline(real_point3d const &center, float radi
 void CDebugDrawBackend::DrawString2d(real_point2d const &point, long color, long fontId, float scale, char const *format, ...) // 0x1081B200
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawString2d@CDebugDrawBackend@@SAXABUreal_point2d@@JJMPBDZZ");
-	// char *va;
 
 	va_list va;
 	va_start(va, format);
@@ -701,11 +622,6 @@ void CDebugDrawBackend::DrawString2d(real_point2d const &point, long color, long
 void CDebugDrawBackend::DrawString2d(real_point2d const &point, long color, long fontId, float scale, char const *format, char *va) // 0x1081B110
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawString2d@CDebugDrawBackend@@SAXABUreal_point2d@@JJMPBDPAD@Z");
-	// long fontId;
-	// float scale;
-	// char const *format;
-	// char *va;
-	// char buffer[256];
 
 	char buffer[256];
 	vsnprintf(buffer, 256, format, va);
@@ -715,7 +631,6 @@ void CDebugDrawBackend::DrawString2d(real_point2d const &point, long color, long
 void CDebugDrawBackend::DrawString3d(real_point3d const &point, long color, long fontId, float scale, char const *format, ...) // 0x1081B840
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawString3d@CDebugDrawBackend@@SAXABUreal_point3d@@JJMPBDZZ");
-	// char *va;
 
 	va_list va;
 	va_start(va, format);
@@ -726,11 +641,6 @@ void CDebugDrawBackend::DrawString3d(real_point3d const &point, long color, long
 void CDebugDrawBackend::DrawString3d(real_point3d const &point, long color, long fontId, float scale, char const *format, char *va) // 0x1081B750
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawString3d@CDebugDrawBackend@@SAXABUreal_point3d@@JJMPBDPAD@Z");
-	// long fontId;
-	// float scale;
-	// char const *format;
-	// char *va;
-	// char buffer[256];
 
 	char buffer[256];
 
@@ -741,15 +651,6 @@ void CDebugDrawBackend::DrawString3d(real_point3d const &point, long color, long
 void CDebugDrawBackend::DrawPill(real_point3d const &base, real_vector3d const &height, float radius, long color) // 0x1081A880
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawPill@CDebugDrawBackend@@SAXABUreal_point3d@@ABUreal_vector3d@@MJ@Z");
-	// real_point3d const &base;
-	// real_vector3d const &height;
-	// float radius;
-	// long color;
-		// SRenderThreadMessage *message;
-			// SDrawPillMessage &payload;
-		// real_argb_color realColor;
-	// function call : bool (*const)()
-	// function call : real_argb_color *(*const)(unsigned long, real_argb_color *)
 
 	if (!((bool(*)())0xA22390)() || threadLocalAttributes.lifetime != 0.0f)
 	{
@@ -775,15 +676,6 @@ void CDebugDrawBackend::DrawPill(real_point3d const &base, real_vector3d const &
 void CDebugDrawBackend::DrawCylinder(real_point3d const &base, real_vector3d const &height, float radius, long color) // 0x10819E70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawCylinder@CDebugDrawBackend@@SAXABUreal_point3d@@ABUreal_vector3d@@MJ@Z");
-	// real_point3d const &base;
-	// real_vector3d const &height;
-	// float radius;
-	// long color;
-		// SRenderThreadMessage *message;
-			// SDrawCylinderMessage &payload;
-		// real_argb_color realColor;
-	// function call : bool (*const)()
-	// function call : real_argb_color *(*const)(unsigned long, real_argb_color *)
 
 	if (!((bool(*)())0xA22390)() || threadLocalAttributes.lifetime != 0.0f)
 	{
@@ -809,15 +701,6 @@ void CDebugDrawBackend::DrawCylinder(real_point3d const &base, real_vector3d con
 void CDebugDrawBackend::DrawCone(real_point3d const &base, real_vector3d const &up, float theta, float height, long color) // 0x10819B50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawCone@CDebugDrawBackend@@SAXABUreal_point3d@@ABUreal_vector3d@@MMJ@Z");
-	// real_vector3d const &up;
-	// float theta;
-	// float height;
-	// long color;
-		// SRenderThreadMessage *message;
-			// SDrawConeMessage &payload;
-		// real_argb_color realColor;
-	// function call : bool (*const)()
-	// function call : real_argb_color *(*const)(unsigned long, real_argb_color *)
 
 	if (!((bool(*)())0xA22390)() || threadLocalAttributes.lifetime != 0.0f)
 	{
@@ -844,17 +727,6 @@ void CDebugDrawBackend::DrawCone(real_point3d const &base, real_vector3d const &
 void CDebugDrawBackend::DrawPhysicsShapeCapsule(real_point3d const &vertex_a, real_point3d const &vertex_b, float radius, real_matrix4x3 const &matrix, long color) // 0x1081A440
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawPhysicsShapeCapsule@CDebugDrawBackend@@SAXABUreal_point3d@@0MABUreal_matrix4x3@@J@Z");
-	// real_point3d const &vertex_a;
-	// real_point3d const &vertex_b;
-	// float radius;
-	// real_matrix4x3 const &matrix;
-	// long color;
-		// SRenderThreadMessage *message;
-			// SDrawPhysicsShapeCapsuleMessage &payload;
-		// hkpCapsuleShape shape;
-		// real_argb_color realColor;
-	// function call : bool (*const)()
-	// function call : real_argb_color *(*const)(unsigned long, real_argb_color *)
 
 	if (!((bool(*)())0xA22390)() || threadLocalAttributes.lifetime != 0.0f)
 	{
@@ -884,6 +756,7 @@ void CDebugDrawBackend::DrawPhysicsShapeCapsule(real_point3d const &vertex_a, re
 	}
 }
 
+#line 887
 void CDebugDrawBackend::Render() // 0x1081C610
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Render@CDebugDrawBackend@@SAXXZ");
@@ -910,11 +783,6 @@ void CDebugDrawBackend::Render() // 0x1081C610
 void CDebugDrawBackend::Clear(char const *group, DebugDrawKey key) // 0x10818E90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Clear@CDebugDrawBackend@@SAXPBDUDebugDrawKey@@@Z");
-	// DebugDrawKey key;
-		// SRenderThreadMessage *message;
-			// SClearMessage &payload;
-		// unsigned __int32 i;
-	// function call : bool (*const)()
 
 	if (!((bool(*)())0xA22390)() || threadLocalAttributes.lifetime != 0.0f)
 	{
@@ -940,21 +808,16 @@ void CDebugDrawBackend::Clear(char const *group, DebugDrawKey key) // 0x10818E90
 CDebugDrawBackend::AttributeScope::AttributeScope() : m_prevAttributes(threadLocalAttributes) /* hades-mem-init:  */ // 0x10817C00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0AttributeScope@CDebugDrawBackend@@QAE@XZ");
-	// CDebugDrawBackend::AttributeScope *const this;
 }
 
 _inline CDebugDrawBackend::Attributes::Attributes() : lifetime(0.0f), cacheKey(nullptr, 0xFFFFFFFF), depthTest(true) /* hades-mem-init: : cacheKey(todo_result<DebugDrawKey>()) */ // 0x10817CA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0Attributes@CDebugDrawBackend@@QAE@XZ");
-	// Cannot be `= default` while `cacheKey` is initialised from `todo_result`:
-	// the generator writes that because DebugDrawKey has no default constructor
-	// to reconstruct, and a defaulted constructor would be implicitly deleted.
 }
 
 CDebugDrawBackend::AttributeScope::~AttributeScope() // 0x108181F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??1AttributeScope@CDebugDrawBackend@@QAE@XZ");
-	// CDebugDrawBackend::AttributeScope *const this;
 
 	threadLocalAttributes = m_prevAttributes;
 }
@@ -976,7 +839,6 @@ _inline CDebugDrawBackend &CDebugDrawBackend::operator=(CDebugDrawBackend const 
 void CDebugDrawBackend::AttributeScope::SetLifetime(float lifetime) // 0x1081CB70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SetLifetime@AttributeScope@CDebugDrawBackend@@QAEXM@Z");
-	// float lifetime;
 
 	threadLocalAttributes.lifetime = lifetime;
 }
@@ -984,7 +846,6 @@ void CDebugDrawBackend::AttributeScope::SetLifetime(float lifetime) // 0x1081CB7
 void CDebugDrawBackend::AttributeScope::SetCacheKey(char const *group, DebugDrawKey key) // 0x1081C8C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SetCacheKey@AttributeScope@CDebugDrawBackend@@QAEXPBDUDebugDrawKey@@@Z");
-	// DebugDrawKey key;
 
 	threadLocalAttributes.group = group;
 	threadLocalAttributes.cacheKey = key;
@@ -993,7 +854,6 @@ void CDebugDrawBackend::AttributeScope::SetCacheKey(char const *group, DebugDraw
 void CDebugDrawBackend::AttributeScope::SetFont(__int32 fontId) // 0x1081CAA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SetFont@AttributeScope@CDebugDrawBackend@@QAEXH@Z");
-	// __int32 fontId;
 
 	threadLocalAttributes.fontId = fontId;
 }
@@ -1001,7 +861,6 @@ void CDebugDrawBackend::AttributeScope::SetFont(__int32 fontId) // 0x1081CAA0
 void CDebugDrawBackend::AttributeScope::SetTextScale(float scale) // 0x1081CC50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SetTextScale@AttributeScope@CDebugDrawBackend@@QAEXM@Z");
-	// float scale;
 
 	threadLocalAttributes.textScale = scale;
 }
@@ -1009,7 +868,6 @@ void CDebugDrawBackend::AttributeScope::SetTextScale(float scale) // 0x1081CC50
 void CDebugDrawBackend::AttributeScope::SetDepthTest(bool enable) // 0x1081C9D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SetDepthTest@AttributeScope@CDebugDrawBackend@@QAEX_N@Z");
-	// bool enable;
 
 	threadLocalAttributes.depthTest = enable;
 }
@@ -1017,13 +875,6 @@ void CDebugDrawBackend::AttributeScope::SetDepthTest(bool enable) // 0x1081C9D0
 float CDebugDraw::GetLineHeight(__int32 fontId) const // 0x1081C220
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetLineHeight@CDebugDraw@@QBEMH@Z");
-	// __int32 fontId;
-	// s_font_header *(*const font_get_header)(long);
-	// long (*const font_get_line_height)(s_font_header *);
-	// s_font_header *header;
-	// float height;
-	// function call : s_font_header *(*const)(long)
-	// function call : long (*const)(s_font_header *)
 
 	void *(__cdecl *const GetFontHeader)(__int32) = (void *(__cdecl *const)(__int32))0x5092f0;
 	__int32 (__cdecl *const GetFontHeaderLineHeight)(void *) = (__int32(__cdecl *const)(void *))0x65b5e0;
@@ -1044,8 +895,6 @@ _inline t_arg0 &SRenderThreadMessage::GetPayload()
 _inline void SPayloadVisitor::operator()(SDrawBox2dMessage const &payload) // 0x10818640
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??RSPayloadVisitor@hades_file_local@@QAEXABUSDrawBox2dMessage@1@@Z");
-	// SPayloadVisitor::operator()
-	// SDrawBox2dMessage const &payload;
 
 	CDebugDrawBackend::DrawBox2dOutline(*(real_rectangle2d const *)&payload, *(long const *)((unsigned char const *)&payload + 0x10));
 }
@@ -1053,8 +902,6 @@ _inline void SPayloadVisitor::operator()(SDrawBox2dMessage const &payload) // 0x
 _inline void SPayloadVisitor::operator()(SDrawBoxMessage const &payload) // 0x108186A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??RSPayloadVisitor@hades_file_local@@QAEXABUSDrawBoxMessage@1@@Z");
-	// SPayloadVisitor::operator()
-	// SDrawBoxMessage const &payload;
 
 	CDebugDrawBackend::DrawBox(*(real_rectangle3d const *)&payload, *(long const *)((unsigned char const *)&payload + 0x18));
 }
@@ -1062,8 +909,6 @@ _inline void SPayloadVisitor::operator()(SDrawBoxMessage const &payload) // 0x10
 _inline void SPayloadVisitor::operator()(SDrawBoxOrientedMessage const &payload) // 0x10818700
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??RSPayloadVisitor@hades_file_local@@QAEXABUSDrawBoxOrientedMessage@1@@Z");
-	// SPayloadVisitor::operator()
-	// SDrawBoxOrientedMessage const &payload;
 
 	CDebugDrawBackend::DrawBoxOriented(*(real_rectangle3d const *)&payload, *(real_matrix4x3 const *)((unsigned char const *)&payload + 0x18), *(long const *)((unsigned char const *)&payload + 0x4c));
 }
@@ -1071,8 +916,6 @@ _inline void SPayloadVisitor::operator()(SDrawBoxOrientedMessage const &payload)
 _inline void SPayloadVisitor::operator()(SDrawSphereMessage const &payload) // 0x10818A60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??RSPayloadVisitor@hades_file_local@@QAEXABUSDrawSphereMessage@1@@Z");
-	// SPayloadVisitor::operator()
-	// SDrawSphereMessage const &payload;
 
 	CDebugDrawBackend::DrawSphereOutline(*(real_point3d const *)&payload, *(float const *)((unsigned char const *)&payload + 0xc), *(long const *)((unsigned char const *)&payload + 0x10));
 }
@@ -1080,8 +923,6 @@ _inline void SPayloadVisitor::operator()(SDrawSphereMessage const &payload) // 0
 _inline void SPayloadVisitor::operator()(SDrawPillMessage const &payload) // 0x10818970
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??RSPayloadVisitor@hades_file_local@@QAEXABUSDrawPillMessage@1@@Z");
-	// SPayloadVisitor::operator()
-	// SDrawPillMessage const &payload;
 
 	CDebugDrawBackend::DrawPill(*(real_point3d const *)&payload, *(real_vector3d const *)((unsigned char const *)&payload + 0xc), *(float const *)((unsigned char const *)&payload + 0x18), *(long const *)((unsigned char const *)&payload + 0x1c));
 }
@@ -1089,8 +930,6 @@ _inline void SPayloadVisitor::operator()(SDrawPillMessage const &payload) // 0x1
 _inline void SPayloadVisitor::operator()(SDrawCylinderMessage const &payload) // 0x10818800
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??RSPayloadVisitor@hades_file_local@@QAEXABUSDrawCylinderMessage@@@Z");
-	// SPayloadVisitor::operator()
-	// SDrawCylinderMessage const &payload;
 
 	CDebugDrawBackend::DrawCylinder(*(real_point3d const *)&payload, *(real_vector3d const *)((unsigned char const *)&payload + 0xc), *(float const *)((unsigned char const *)&payload + 0x18), *(long const *)((unsigned char const *)&payload + 0x1c));
 }
@@ -1098,8 +937,6 @@ _inline void SPayloadVisitor::operator()(SDrawCylinderMessage const &payload) //
 _inline void SPayloadVisitor::operator()(SDrawConeMessage const &payload) // 0x10818770
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??RSPayloadVisitor@hades_file_local@@QAEXABUSDrawConeMessage@1@@Z");
-	// SPayloadVisitor::operator()
-	// SDrawConeMessage const &payload;
 
 	CDebugDrawBackend::DrawCone(*(real_point3d const *)&payload, *(real_vector3d const *)((unsigned char const *)&payload + 0xc), *(float const *)((unsigned char const *)&payload + 0x1c), *(float const *)((unsigned char const *)&payload + 0x18), *(long const *)((unsigned char const *)&payload + 0x20));
 }
@@ -1107,8 +944,6 @@ _inline void SPayloadVisitor::operator()(SDrawConeMessage const &payload) // 0x1
 _inline void SPayloadVisitor::operator()(SDrawLineMessage const &payload) // 0x10818880
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??RSPayloadVisitor@hades_file_local@@QAEXABUSDrawLineMessage@1@@Z");
-	// SPayloadVisitor::operator()
-	// SDrawLineMessage const &payload;
 
 	CDebugDrawBackend::DrawLine(*(real_point3d const *)&payload, *(real_point3d const *)((unsigned char const *)&payload + 0xc), *(long const *)((unsigned char const *)&payload + 0x18));
 }
@@ -1116,8 +951,6 @@ _inline void SPayloadVisitor::operator()(SDrawLineMessage const &payload) // 0x1
 _inline void SPayloadVisitor::operator()(SDrawVectorMessage const &payload) // 0x10818C40
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??RSPayloadVisitor@hades_file_local@@QAEXABUSDrawVectorMessage@1@@Z");
-	// SPayloadVisitor::operator()
-	// SDrawVectorMessage const &payload;
 
 	CDebugDrawBackend::DrawVector(*(real_point3d const *)&payload, *(real_vector3d const *)((unsigned char const *)&payload + 0xc), *(long const *)((unsigned char const *)&payload + 0x18));
 }
@@ -1125,8 +958,6 @@ _inline void SPayloadVisitor::operator()(SDrawVectorMessage const &payload) // 0
 _inline void SPayloadVisitor::operator()(SDrawPointMessage const &payload) // 0x108189F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??RSPayloadVisitor@hades_file_local@@QAEXABUSDrawPointMessage@1@@Z");
-	// SPayloadVisitor::operator()
-	// SDrawPointMessage const &payload;
 
 	CDebugDrawBackend::DrawPoint(*(real_point3d const *)&payload, *(float const *)((unsigned char const *)&payload + 0xc), *(long const *)((unsigned char const *)&payload + 0x10));
 }
@@ -1134,8 +965,6 @@ _inline void SPayloadVisitor::operator()(SDrawPointMessage const &payload) // 0x
 _inline void SPayloadVisitor::operator()(SDrawTriangleMessage const &payload) // 0x10818BD0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??RSPayloadVisitor@hades_file_local@@QAEXABUSDrawTriangleMessage@1@@Z");
-	// SPayloadVisitor::operator()
-	// SDrawTriangleMessage const &payload;
 
 	CDebugDrawBackend::DrawTriangle(*(real_point3d const *)&payload, *(real_point3d const *)((unsigned char const *)&payload + 0xc), *(real_point3d const *)((unsigned char const *)&payload + 0x18), *(long const *)((unsigned char const *)&payload + 0x24));
 }
@@ -1143,8 +972,6 @@ _inline void SPayloadVisitor::operator()(SDrawTriangleMessage const &payload) //
 _inline void SPayloadVisitor::operator()(SDrawText2dMessage const &payload) // 0x10818AD0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??RSPayloadVisitor@hades_file_local@@QAEXABUSDrawText2dMessage@1@@Z");
-	// SPayloadVisitor::operator()
-	// SDrawText2dMessage const &payload;
 
 	DrawString2dInternal(*(real_point2d const *)&payload, *(long const *)((unsigned char const *)&payload + 0x8), (char const *)((unsigned char const *)&payload + 0x14), *(__int32 const *)((unsigned char const *)&payload + 0xc), *(float const *)((unsigned char const *)&payload + 0x10));
 }
@@ -1152,8 +979,6 @@ _inline void SPayloadVisitor::operator()(SDrawText2dMessage const &payload) // 0
 _inline void SPayloadVisitor::operator()(SDrawText3dMessage const &payload) // 0x10818B50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??RSPayloadVisitor@hades_file_local@@QAEXABUSDrawText3dMessage@1@@Z");
-	// SPayloadVisitor::operator()
-	// SDrawText3dMessage const &payload;
 
 	DrawString3dInternal(*(real_point3d const *)&payload, *(long const *)((unsigned char const *)&payload + 0xc), (char const *)((unsigned char const *)&payload + 0x18), *(__int32 const *)((unsigned char const *)&payload + 0x10), *(float const *)((unsigned char const *)&payload + 0x14));
 }
@@ -1161,8 +986,6 @@ _inline void SPayloadVisitor::operator()(SDrawText3dMessage const &payload) // 0
 _inline void SPayloadVisitor::operator()(SDrawPhysicsShapeCapsuleMessage const &payload) // 0x108188F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??RSPayloadVisitor@hades_file_local@@QAEXABUSDrawPhysicsShapeCapsuleMessage@1@@Z");
-	// SPayloadVisitor::operator()
-	// SDrawPhysicsShapeCapsuleMessage const &payload;
 
 	CDebugDrawBackend::DrawPhysicsShapeCapsule(*(real_point3d const *)&payload, *(real_point3d const *)((unsigned char const *)&payload + 0xc), *(float const *)((unsigned char const *)&payload + 0x18), *(real_matrix4x3 const *)((unsigned char const *)&payload + 0x1c), *(long const *)((unsigned char const *)&payload + 0x50));
 }
@@ -1170,8 +993,6 @@ _inline void SPayloadVisitor::operator()(SDrawPhysicsShapeCapsuleMessage const &
 _inline void SPayloadVisitor::operator()(SClearMessage const &payload) // 0x108185D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??RSPayloadVisitor@hades_file_local@@QAEXABUSClearMessage@1@@Z");
-	// SPayloadVisitor::operator()
-	// SClearMessage const &payload;
 
 	CDebugDrawBackend::Clear(payload.group, payload.cacheKey);
 }
@@ -1179,8 +1000,6 @@ _inline void SPayloadVisitor::operator()(SClearMessage const &payload) // 0x1081
 extern "C" void PreRenderCommand(SRenderThreadMessage &command) // 0x1081C5C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_PreRenderCommand");
-	// PreRenderCommand
-	// SRenderThreadMessage &command;
 
 	render_debug_enable_depth_test(command.depthTest);
 }
@@ -1188,8 +1007,6 @@ extern "C" void PreRenderCommand(SRenderThreadMessage &command) // 0x1081C5C0
 extern "C" void PostRenderCommand(SRenderThreadMessage &command) // 0x1081C570
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_PostRenderCommand");
-	// PostRenderCommand
-	// SRenderThreadMessage &command;
 
 	render_debug_enable_depth_test(true);
 }
@@ -1197,9 +1014,6 @@ extern "C" void PostRenderCommand(SRenderThreadMessage &command) // 0x1081C570
 extern "C" void HandleRenderThreadMessage(SRenderThreadMessage *message) // 0x1081C2D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_HandleRenderThreadMessage");
-	// HandleRenderThreadMessage
-	// SRenderThreadMessage *message;
-		// __int32 cacheEntryIndex;
 
 	if (message->lifetime != 0.0f)
 	{
@@ -1225,23 +1039,6 @@ extern "C" void HandleRenderThreadMessage(SRenderThreadMessage *message) // 0x10
 void DrawString2dInternal(real_point2d const &point, long color, char const *text, __int32 fontId, float scale) // 0x1081B280
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawString2dInternal@@YAXABUreal_point2d@@JPBDHM@Z");
-	// `anonymous-namespace'::DrawString2dInternal
-	// static ...; // 0x1081B510
-	// static ...; // 0x1081B508
-	// real_point2d const &point;
-	// long color;
-	// char const *text;
-	// __int32 fontId;
-	// float scale;
-		// SRenderThreadMessage *message;
-			// SDrawText2dMessage &payload;
-		// real_argb_color colorf;
-		// short_rectangle2d bounds;
-		// c_rasterizer_draw_string m_drawString;
-		// c_font_cache_mt_safe m_fontCache;
-	// function call : bool (*const)()
-	// function call : void (*const)(short_rectangle2d *, short_rectangle2d *, short_rectangle2d *, short_rectangle2d *)
-	// function call : real_argb_color *(*const)(unsigned long, real_argb_color *)
 
 	if (!((bool(*)())0xA22390)() || threadLocalAttributes.lifetime != 0.0f)
 	{
@@ -1280,16 +1077,6 @@ void DrawString2dInternal(real_point2d const &point, long color, char const *tex
 void DrawString3dInternal(real_point3d const &point, long color, char const *text, __int32 fontId, float scale) // 0x1081B8C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DrawString3dInternal@@YAXABUreal_point3d@@JPBDHM@Z");
-	// `anonymous-namespace'::DrawString3dInternal
-	// long color;
-	// char const *text;
-	// __int32 fontId;
-	// float scale;
-		// SRenderThreadMessage *message;
-			// SDrawText3dMessage &payload;
-		// real_argb_color colorf;
-	// function call : bool (*const)()
-	// function call : real_argb_color *(*const)(unsigned long, real_argb_color *)
 
 	if (!((bool(*)())0xA22390)() || threadLocalAttributes.lifetime != 0.0f)
 	{
@@ -1316,17 +1103,11 @@ void DrawString3dInternal(real_point3d const &point, long color, char const *tex
 _inline SCacehEntry::SCacehEntry() : cacheKey(nullptr, 0xFFFFFFFF) /* hades-mem-init: : cacheKey(todo_result<DebugDrawKey>()) */ // 0x10817E60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0SCacehEntry@hades_file_local@@QAE@XZ");
-	// Cannot be `= default` while `cacheKey` is initialised from `todo_result`:
-	// DebugDrawKey has no default constructor to reconstruct, so a defaulted
-	// constructor would be implicitly deleted.
 }
 
 _inline SRenderThreadMessage::SRenderThreadMessage() : lifetime(0.0f), cacheKey(nullptr, 0xFFFFFFFF) /* hades-mem-init: : cacheKey(todo_result<DebugDrawKey>()) */ // 0x10817F40
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0SRenderThreadMessage@hades_file_local@@QAE@XZ");
-	// Cannot be `= default` while `cacheKey` is initialised from `todo_result`:
-	// DebugDrawKey has no default constructor to reconstruct, so a defaulted
-	// constructor would be implicitly deleted.
 }
 
 /* ---------- explicit instantiations */

@@ -64,7 +64,6 @@ namespace Modules
 	ModuleTime::ModuleTime() : ModuleBase("Time") /* hades-mem-init: : ModuleBase(todo_result<std::string>()) */ // 0x10A22130
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "??0ModuleTime@Modules@@QAE@XZ");
-		// Modules::ModuleTime *const this;
 
 		VarSpeed = AddVariableFloat("GameSpeed", "game_speed", "The game's speed", eCommandFlagsHostOnly, 1.0f);
 		VarSpeed->ValueFloatMin = 0.0f;

@@ -175,7 +175,6 @@ namespace Download
 	_inline long long CHttpFileDownload::SSegment::GetRemaining() const // 0x10830210
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetRemaining@SSegment@CHttpFileDownload@Download@@QBE_JXZ");
-		// Download::CHttpFileDownload::SSegment const *const this;
 
 		return length - downloaded;
 	}
@@ -183,10 +182,6 @@ namespace Download
 	_inline Download::CHttpFileDownload::SSegment *CHttpFileDownload::SSegment::Split() // 0x10831F40
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Split@SSegment@CHttpFileDownload@Download@@QAEPAU123@XZ");
-		// Download::CHttpFileDownload::SSegment *const this;
-		// long long s2Length;
-		// long long s2Offset;
-		// long long remaining;
 
 		long long remaining = GetRemaining();
 		long long s2Offset = offset + length - remaining / 2;
@@ -198,13 +193,11 @@ namespace Download
 	_inline CHttpFileDownload::SSegment::SSegment(long long offset, long long length) : offset(offset), length(length) /* hades-mem-init: : offset(offset) */ // 0x1082BB40
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "??0SSegment@CHttpFileDownload@Download@@QAE@_J0@Z");
-		// long long length;
 	}
 
 	_inline CHttpFileDownload::SSegment::~SSegment() // 0x1082CDA0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "??1SSegment@CHttpFileDownload@Download@@QAE@XZ");
-		// Download::CHttpFileDownload::SSegment *const this;
 	}
 
 }
@@ -223,15 +216,11 @@ namespace Download
 	_inline void CHttpFileDownload::ISegmentStore::BeforeStartSegment(Download::CHttpFileDownload::SSegment *segment) // 0x1082E2B0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?BeforeStartSegment@ISegmentStore@CHttpFileDownload@Download@@UAEXPAUSSegment@23@@Z");
-		// Download::CHttpFileDownload::SSegment *segment;
 	}
 
 	_inline CSparseFileSegmentStore::CSparseFileSegmentStore(std::string const &filename) : m_filename(std::filesystem::absolute(filename).string()) /* hades-mem-init:  */ // 0x1082B8C0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "??0CSparseFileSegmentStore@Download@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// std::string const &filename;
-		// void *hFile;
-		// function call : __int32 (void *)
 
 		void *hFile = OpenFile(true);
 		CloseHandle(hFile);
@@ -252,20 +241,13 @@ namespace Download
 	_inline CSparseFileSegmentStore::~CSparseFileSegmentStore() // 0x1082CA90
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "??1CSparseFileSegmentStore@Download@@UAE@XZ");
-		// static ...; // 0x1082CC1F
-		// static ...; // 0x1082CC1C
-		// static ...; // 0x1082CC04
-		// static ...; // 0x1082CBFC
-		// Download::CSparseFileSegmentStore *const this;
-		// std::scoped_lock<std::mutex> lock;
-			// std::_List_const_iterator<std::_List_val<std::_List_simple_types<std::pair<Download::CHttpFileDownload::SSegment * const,void *> > > > it;
-		// function call : __int32 (void *)
 
 		std::scoped_lock<std::mutex> lock(m_mutex);
 		for (auto it = m_streams.cbegin(); it != m_streams.cend(); ++it)
 			CloseHandle(it->second);
 	}
 
+#line 269
 	_inline bool CSparseFileSegmentStore::CheckAvailableSpace(long long size) // 0x1082E880
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?CheckAvailableSpace@CSparseFileSegmentStore@Download@@UAE_N_J@Z");
@@ -288,15 +270,6 @@ namespace Download
 	_inline bool CSparseFileSegmentStore::AdviseFileSize(long long size) // 0x1082E090
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?AdviseFileSize@CSparseFileSegmentStore@Download@@UAE_N_J@Z");
-		// static ...; // 0x1082E154
-		// static ...; // 0x1082E14C
-		// Download::CSparseFileSegmentStore *const this;
-		// long long size;
-		// unsigned long dw;
-		// void *hFile;
-		// function call : __int32 (void *, unsigned long, void *, unsigned long, void *, unsigned long, unsigned long *, _OVERLAPPED *)
-		// function call : __int32 (void *)
-		// function call : __int32 (void *)
 
 		void *hFile = OpenFile(false);
 		DWORD dw;
@@ -313,8 +286,6 @@ namespace Download
 	_inline void *CSparseFileSegmentStore::OpenFile(bool overwrite) // 0x10831540
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?OpenFile@CSparseFileSegmentStore@Download@@AAEPAX_N@Z");
-		// bool overwrite;
-		// function call : void *(char const *, unsigned long, unsigned long, _SECURITY_ATTRIBUTES *, unsigned long, unsigned long, void *)
 
 		return CreateFileA(m_filename.c_str(), GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr, overwrite ? CREATE_ALWAYS : OPEN_ALWAYS, 0, nullptr);
 	}
@@ -322,19 +293,13 @@ namespace Download
 	_inline void CSparseFileSegmentStore::SeekFile(void *handle, long long offset) // 0x10831CC0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?SeekFile@CSparseFileSegmentStore@Download@@AAEXPAX_J@Z");
-		// static ...; // 0x10831D3C
-		// Download::CSparseFileSegmentStore *const this;
-		// void *handle;
-		// long long offset;
-		// long hi;
-		// long lo;
-		// function call : unsigned long (void *, long, long *, unsigned long)
 
 		long lo = (long)offset;
 		long hi = (long)((unsigned long long)offset >> 32);
 		SetFilePointer(handle, lo, &hi, FILE_BEGIN);
 	}
 
+#line 338
 	CHttpFileDownload::~CHttpFileDownload() // 0x1082C910
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "??1CHttpFileDownload@Download@@UAE@XZ");
@@ -348,8 +313,6 @@ namespace Download
 	CHttpFileDownload::CHttpFileDownload() : m_maxConnections(1), m_minSegmentSize(2 * 1024 * 1024), m_maxSegmentRetryCount(5), m_receiveBufferSize(16 * 1024), m_bStarted(false), m_bFinished(false), m_abortReason(EAbortReason::None), m_segmentStore(nullptr), m_remainingSegmentCount(0), m_downloadSpeed(0), m_totalRequestsMade(0), m_downloadedBytes(0), m_totalBytes(0), m_supportsSegmentation(true) /* hades-mem-init:  */ // 0x1082B570
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "??0CHttpFileDownload@Download@@QAE@XZ");
-		// Download::CHttpFileDownload *const this;
-		// Modules::ModuleDownload &moduleDownload;
 
 		Modules::ModuleDownload &moduleDownload = Modules::ModuleDownload::Instance();
 		m_maxConnections = moduleDownload.VarMaxHttpConnections->ValueInt;
@@ -371,7 +334,6 @@ namespace Download
 	void CHttpFileDownload::SetUrl(std::string const &url) // 0x10831EE0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?SetUrl@CHttpFileDownload@Download@@QAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// std::string const &url;
 
 		m_url = url;
 	}
@@ -379,7 +341,6 @@ namespace Download
 	void CHttpFileDownload::SetDestinationFile(std::string const &filepath) // 0x10831D80
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?SetDestinationFile@CHttpFileDownload@Download@@QAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// std::string const &filepath;
 
 		m_destinationFilePath = filepath;
 	}
@@ -387,7 +348,6 @@ namespace Download
 	void CHttpFileDownload::SetMaxConnections(__int32 num) // 0x10831DE0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?SetMaxConnections@CHttpFileDownload@Download@@QAEXH@Z");
-		// __int32 num;
 
 		m_maxConnections = num;
 	}
@@ -395,7 +355,6 @@ namespace Download
 	void CHttpFileDownload::SetMaxRetries(__int32 count) // 0x10831E10
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?SetMaxRetries@CHttpFileDownload@Download@@QAEXH@Z");
-		// __int32 count;
 
 		m_maxSegmentRetryCount = count;
 	}
@@ -403,7 +362,6 @@ namespace Download
 	void CHttpFileDownload::SetReceiveBufferSize(__int32 size) // 0x10831E40
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?SetReceiveBufferSize@CHttpFileDownload@Download@@QAEXH@Z");
-		// __int32 size;
 
 		m_receiveBufferSize = size;
 	}
@@ -411,11 +369,6 @@ namespace Download
 	void CHttpFileDownload::Start() // 0x108320C0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Start@CHttpFileDownload@Download@@UAEXXZ");
-		// static ...; // 0x10832250
-		// static ...; // 0x10832244
-		// static ...; // 0x1083223C
-		// Download::CHttpFileDownload *const this;
-		// std::shared_ptr<Download::CHttpFileDownload> self;
 
 		std::shared_ptr<CHttpFileDownload> self = shared_from_this();
 		DebugTrace("Download started for url '%s'", m_url.c_str());
@@ -428,7 +381,6 @@ namespace Download
 	__int32 CHttpFileDownload::GetElapsedSeconds() const // 0x1082FB90
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetElapsedSeconds@CHttpFileDownload@Download@@QBEHXZ");
-		// Download::CHttpFileDownload const *const this;
 
 		return std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - m_startTime).count();
 	}
@@ -436,15 +388,6 @@ namespace Download
 	Download::EDownloadError CHttpFileDownload::GetError() const // 0x1082FC20
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetError@CHttpFileDownload@Download@@UBE?AW4EDownloadError@2@XZ");
-		// static ...; // 0x1082FCB4
-	// $LN10:
-	// $LN9:
-	// $LN8:
-	// $LN7:
-	// $LN6:
-	// $LN5:
-	// $LN4:
-		// Download::CHttpFileDownload const *const this;
 
 		switch (m_abortReason)
 		{
@@ -470,7 +413,6 @@ namespace Download
 	Download::EDownloadStatus CHttpFileDownload::GetStatus() const // 0x10830250
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetStatus@CHttpFileDownload@Download@@UBE?AW4EDownloadStatus@2@XZ");
-		// Download::CHttpFileDownload const *const this;
 
 		if (m_abortReason == EAbortReason::Cancelled)
 			return EDownloadStatus::Cancelled;
@@ -494,7 +436,6 @@ namespace Download
 	std::string CHttpFileDownload::GetFilePath() const // 0x1082FD00
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetFilePath@CHttpFileDownload@Download@@UBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-		// Download::CHttpFileDownload const *const this;
 
 		return m_destinationFilePath;
 	}
@@ -502,7 +443,6 @@ namespace Download
 	float CHttpFileDownload::GetProgress() const // 0x108300D0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetProgress@CHttpFileDownload@Download@@UBEMXZ");
-		// Download::CHttpFileDownload const *const this;
 
 		return (float)(m_totalBytes <= 0 ? 0.0 : m_downloadedBytes * 1.0 / m_totalBytes);
 	}
@@ -510,7 +450,6 @@ namespace Download
 	void CHttpFileDownload::Cancel() // 0x1082E2D0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Cancel@CHttpFileDownload@Download@@UAEXXZ");
-		// Download::CHttpFileDownload *const this;
 
 		Abort(Cancelled);
 	}
@@ -518,23 +457,6 @@ namespace Download
 	void CHttpFileDownload::OnHttpResponse(Download::CHttpFileDownload::SSegment *segment, std::shared_ptr<Http::IHttpRequest> request) // 0x10830E90
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?OnHttpResponse@CHttpFileDownload@Download@@AAEXPAUSSegment@12@V?$shared_ptr@VIHttpRequest@Http@@@std@@@Z");
-		// static ...; // 0x108313C8
-		// static ...; // 0x108313A4
-		// static ...; // 0x1083139C
-		// Download::CHttpFileDownload *const this;
-		// Download::CHttpFileDownload::SSegment *segment;
-		// std::shared_ptr<Http::IHttpRequest> request;
-		// __int32 responseCode;
-		// std::shared_ptr<Http::IHttpResponse> response;
-		// __int32 category;
-			// Http::CHttpHeaders const &headers;
-				// std::scoped_lock<std::mutex> lock;
-		// function call : std::shared_ptr<Http::IHttpResponse> ()
-		// function call : __int32 () const
-		// function call : Http::CHttpHeaders const &() const
-		// function call : bool (long long)
-		// function call : bool (long long)
-		// function call : void ()
 
 		if (m_abortReason)
 			return;
@@ -582,13 +504,6 @@ namespace Download
 	void CHttpFileDownload::OnHttpRequestComplete(Download::CHttpFileDownload::SSegment *segment, std::shared_ptr<Http::IHttpRequest> request, bool success) // 0x10830C70
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?OnHttpRequestComplete@CHttpFileDownload@Download@@AAEXPAUSSegment@12@V?$shared_ptr@VIHttpRequest@Http@@@std@@_N@Z");
-		// Download::CHttpFileDownload *const this;
-		// Download::CHttpFileDownload::SSegment *segment;
-		// std::shared_ptr<Http::IHttpRequest> request;
-		// bool success;
-		// std::scoped_lock<std::mutex> lock;
-		// bool failed;
-		// function call : void (Download::CHttpFileDownload::SSegment *)
 
 		if (m_abortReason)
 			return;
@@ -611,13 +526,6 @@ namespace Download
 	bool CHttpFileDownload::OnHttpReadData(Download::CHttpFileDownload::SSegment *segment, std::shared_ptr<Http::IHttpRequest> request, char const *buffer, unsigned __int32 length) // 0x108308E0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?OnHttpReadData@CHttpFileDownload@Download@@AAE_NPAUSSegment@12@V?$shared_ptr@VIHttpRequest@Http@@@std@@PBDI@Z");
-		// Download::CHttpFileDownload::SSegment *segment;
-		// std::shared_ptr<Http::IHttpRequest> request;
-		// char const *buffer;
-		// unsigned __int32 length;
-		// std::unique_lock<std::mutex> segmentLock;
-			// unsigned __int32 overflow;
-		// function call : bool (Download::CHttpFileDownload::SSegment *, char const *, unsigned __int32)
 
 		if (m_abortReason)
 			return false;
@@ -651,21 +559,6 @@ namespace Download
 	std::shared_ptr<Http::IHttpRequest> CHttpFileDownload::CreateSegmentRequest(Download::CHttpFileDownload::SSegment *segment) // 0x1082EC80
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?CreateSegmentRequest@CHttpFileDownload@Download@@AAE?AV?$shared_ptr@VIHttpRequest@Http@@@std@@PAUSSegment@12@@Z");
-		// static ...; // 0x1082F2F8
-		// static ...; // 0x1082F2F0
-		// static ...; // 0x1082F2CC
-		// static ...; // 0x1082F2C4
-		// Download::CHttpFileDownload *const this;
-		// Download::CHttpFileDownload::SSegment *segment;
-		// Http::CHttpHeaders headers;
-		// char buff[256];
-		// std::shared_ptr<Http::IHttpRequest> request;
-		// function call : void (Http::CHttpHeaders)
-		// function call : void (unsigned __int32)
-		// function call : void (std::function<void __cdecl(std::shared_ptr<Http::IHttpRequest>)> &)
-		// function call : void (std::function<void __cdecl(std::shared_ptr<Http::IHttpRequest>,bool)> &)
-		// function call : void (std::function<bool __cdecl(char const *,unsigned int)> &)
-		// function call : void (std::string)
 
 		char buff[256];
 		if (segment->length > 0)
@@ -692,13 +585,6 @@ namespace Download
 	long long CHttpFileDownload::ExtractContentLengthFromResponse(__int32 statusCode, Http::CHttpHeaders const &headers) // 0x1082F4B0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?ExtractContentLengthFromResponse@CHttpFileDownload@Download@@AAE_JHABVCHttpHeaders@Http@@@Z");
-		// static ...; // 0x1082F784
-		// static ...; // 0x1082F77C
-		// Download::CHttpFileDownload *const this;
-		// __int32 statusCode;
-		// Http::CHttpHeaders const &headers;
-		// long long contentLength;
-		// Http::SContentRangeHeader contentRange;
 
 		long long contentLength;
 		if (!headers.GetInt("Content-Length", contentLength))
@@ -717,7 +603,6 @@ namespace Download
 	void CHttpFileDownload::SetSupportsSegmentation(bool support) // 0x10831E70
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?SetSupportsSegmentation@CHttpFileDownload@Download@@AAEX_N@Z");
-		// bool support;
 
 		m_supportsSegmentation.store(support);
 	}
@@ -725,7 +610,6 @@ namespace Download
 	bool CHttpFileDownload::GetSupportsSegmentation() // 0x10830310
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetSupportsSegmentation@CHttpFileDownload@Download@@AAE_NXZ");
-		// Download::CHttpFileDownload *const this;
 
 		return m_supportsSegmentation.load();
 	}
@@ -733,11 +617,6 @@ namespace Download
 	void CHttpFileDownload::Abort(Download::CHttpFileDownload::EAbortReason reason) // 0x1082DDF0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Abort@CHttpFileDownload@Download@@AAEXW4EAbortReason@12@@Z");
-		// static ...; // 0x1082DE84
-		// static ...; // 0x1082DE7C
-		// Download::CHttpFileDownload *const this;
-		// Download::CHttpFileDownload::EAbortReason reason;
-		// Download::CHttpFileDownload::EAbortReason exp;
 
 		EAbortReason exp = None;
 		if (m_abortReason.compare_exchange_strong(exp, reason))
@@ -749,12 +628,6 @@ namespace Download
 	void CHttpFileDownload::CancelAllSegmentRequests() // 0x1082E320
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?CancelAllSegmentRequests@CHttpFileDownload@Download@@AAEXXZ");
-		// Download::CHttpFileDownload *const this;
-			// std::vector<Download::CHttpFileDownload::SSegment *> &<range>$L0;
-			// Download::CHttpFileDownload::SSegment **<begin>$L0;
-			// Download::CHttpFileDownload::SSegment **<end>$L0;
-				// Download::CHttpFileDownload::SSegment *segment;
-		// function call : void ()
 
 		for (auto segment : m_segments)
 		{
@@ -769,16 +642,6 @@ namespace Download
 	void CHttpFileDownload::FinishDownload(bool success) // 0x1082F880
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?FinishDownload@CHttpFileDownload@Download@@AAEX_N@Z");
-		// static ...; // 0x1082FA8C
-		// static ...; // 0x1082FA84
-		// Download::CHttpFileDownload *const this;
-		// bool success;
-		// std::vector<Download::CHttpFileDownload::SSegment *> segments;
-			// std::vector<Download::CHttpFileDownload::SSegment *> &<range>$L0;
-			// Download::CHttpFileDownload::SSegment **<begin>$L0;
-			// Download::CHttpFileDownload::SSegment **<end>$L0;
-				// Download::CHttpFileDownload::SSegment *segment;
-		// function call : void *(unsigned __int32)
 
 		DebugTrace("Finishing download...");
 		if (!success)
@@ -802,17 +665,6 @@ namespace Download
 	void CHttpFileDownload::HandleFailedSegments() // 0x108304F0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?HandleFailedSegments@CHttpFileDownload@Download@@AAEXXZ");
-		// static ...; // 0x108306EC
-		// static ...; // 0x108306E0
-		// static ...; // 0x108306C8
-		// static ...; // 0x108306C0
-		// Download::CHttpFileDownload *const this;
-		// std::vector<Download::CHttpFileDownload::SSegment *> failed;
-			// std::vector<Download::CHttpFileDownload::SSegment *> &<range>$L0;
-			// Download::CHttpFileDownload::SSegment **<begin>$L0;
-			// Download::CHttpFileDownload::SSegment **<end>$L0;
-				// Download::CHttpFileDownload::SSegment *segment;
-					// std::scoped_lock<std::mutex> segmentLock;
 
 		using namespace std::chrono_literals;
 		std::vector<SSegment *> failed = std::move(m_failedSegments);
@@ -836,15 +688,6 @@ namespace Download
 	void CHttpFileDownload::HandleCompletedSegments() // 0x108303A0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?HandleCompletedSegments@CHttpFileDownload@Download@@AAEXXZ");
-		// static ...; // 0x108304A0
-		// static ...; // 0x10830494
-		// static ...; // 0x1083048C
-		// Download::CHttpFileDownload *const this;
-		// std::vector<Download::CHttpFileDownload::SSegment *> completed;
-			// std::vector<Download::CHttpFileDownload::SSegment *> &<range>$L0;
-			// Download::CHttpFileDownload::SSegment **<begin>$L0;
-			// Download::CHttpFileDownload::SSegment **<end>$L0;
-				// Download::CHttpFileDownload::SSegment *segment;
 
 		std::vector<Download::CHttpFileDownload::SSegment *> completed = std::move(m_completedSegments);
 		for (auto segment : completed)
@@ -858,11 +701,6 @@ namespace Download
 	void CHttpFileDownload::CheckAndHandleSegments() // 0x1082E440
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?CheckAndHandleSegments@CHttpFileDownload@Download@@AAEXXZ");
-		// static ...; // 0x1082E4F8
-		// static ...; // 0x1082E4EC
-		// static ...; // 0x1082E4E4
-		// Download::CHttpFileDownload *const this;
-		// std::scoped_lock<std::mutex> lock;
 
 		std::scoped_lock<std::mutex> lock(m_mutex);
 
@@ -873,14 +711,6 @@ namespace Download
 	void CHttpFileDownload::CheckAndStartSegment(Download::CHttpFileDownload::SSegment *segment) // 0x1082E530
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?CheckAndStartSegment@CHttpFileDownload@Download@@AAEXPAUSSegment@12@@Z");
-		// static ...; // 0x1082E7BC
-		// static ...; // 0x1082E7B4
-		// Download::CHttpFileDownload *const this;
-		// Download::CHttpFileDownload::SSegment *segment;
-		// bool retrying;
-			// std::scoped_lock<std::mutex> segmentLock;
-		// function call : void (Download::CHttpFileDownload::SSegment *)
-		// function call : bool ()
 
 		bool retrying = segment->retrying;
 		if (!segment->started || segment->retrying && std::chrono::steady_clock::now() >= segment->retryAt)
@@ -914,23 +744,6 @@ namespace Download
 	__int32 CHttpFileDownload::UpdateSegments() // 0x10832560
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateSegments@CHttpFileDownload@Download@@AAEHXZ");
-		// static ...; // 0x1083280F
-		// static ...; // 0x1083280C
-		// static ...; // 0x108327F4
-		// static ...; // 0x108327EC
-		// Download::CHttpFileDownload *const this;
-		// long long totalDownloaded;
-		// Download::CHttpFileDownload::SSegment *maxSegment;
-		// __int32 finished;
-		// long long maxSegmentRemaining;
-		// __int32 started;
-			// std::vector<Download::CHttpFileDownload::SSegment *> &<range>$L0;
-			// Download::CHttpFileDownload::SSegment **<begin>$L0;
-			// Download::CHttpFileDownload::SSegment **<end>$L0;
-				// Download::CHttpFileDownload::SSegment *segment;
-					// long long remaining;
-			// std::scoped_lock<std::mutex> lock;
-				// Download::CHttpFileDownload::SSegment *s2;
 
 		SSegment *maxSegment = nullptr;
 		long long maxSegmentRemaining = 0;
@@ -969,24 +782,6 @@ namespace Download
 	void CHttpFileDownload::PrintDebugStats() // 0x10831690
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?PrintDebugStats@CHttpFileDownload@Download@@AAEXXZ");
-		// static ...; // 0x108318B1
-		// static ...; // 0x108318AB
-		// static ...; // 0x108318A1
-		// static ...; // 0x10831894
-		// static ...; // 0x10831890
-		// static ...; // 0x10831854
-		// static ...; // 0x1083184C
-		// Download::CHttpFileDownload *const this;
-		// __int32 speed;
-		// char const *speedUnit;
-		// long long downloaded;
-		// float progress;
-		// float displaySpeed;
-		// long long total;
-		// __int32 eta;
-		// function call : long long () const
-		// function call : long long () const
-		// function call : __int32 () const
 
 		long long downloaded = GetDownloadedBytes();
 		long long total = GetTotalBytes();
@@ -1006,20 +801,6 @@ namespace Download
 	void CHttpFileDownload::UpdateStats() // 0x108328D0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateStats@CHttpFileDownload@Download@@AAEXXZ");
-		// static ...; // 0x10832B51
-		// static ...; // 0x10832B4C
-		// static ...; // 0x10832B34
-		// static ...; // 0x10832B2C
-		// Download::CHttpFileDownload *const this;
-		// __int32 dt;
-		// __int32 totalRate;
-		// long long total;
-		// std::chrono::time_point<std::chrono::steady_clock,std::chrono::duration<__int64,std::ratio<1,1000000000> > > now;
-			// std::vector<Download::CHttpFileDownload::SSegment *> &<range>$L0;
-			// Download::CHttpFileDownload::SSegment **<begin>$L0;
-			// Download::CHttpFileDownload::SSegment **<end>$L0;
-				// Download::CHttpFileDownload::SSegment *segment;
-					// std::scoped_lock<std::mutex> lock;
 
 		using namespace std::chrono_literals;
 		std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
@@ -1045,12 +826,6 @@ namespace Download
 	void CHttpFileDownload::Tick() // 0x108322C0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@CHttpFileDownload@Download@@QAEXXZ");
-		// static ...; // 0x108324CC
-		// static ...; // 0x108324C0
-		// static ...; // 0x108324B8
-		// Download::CHttpFileDownload *const this;
-		// __int32 remaining;
-		// std::chrono::time_point<std::chrono::steady_clock,std::chrono::duration<__int64,std::ratio<1,1000000000> > > now;
 
 		using namespace std::chrono_literals;
 		std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();

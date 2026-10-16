@@ -220,7 +220,6 @@ extern bool mod_package_header_valid(s_mod_package_header const *header);
 inline char const *c_mod_package::get_error_string(c_mod_package::e_error err) // 0x1071D070
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_error_string@c_mod_package@@SAPBDW4e_error@1@@Z");
-	// c_mod_package::e_error err;
 
 	switch (err)
 	{

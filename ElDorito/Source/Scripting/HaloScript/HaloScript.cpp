@@ -159,11 +159,6 @@ namespace Scripting
 		_inline void ScriptHook::AddCallback(short callback) // 0x106E84C0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?AddCallback@ScriptHook@HS@Scripting@@QAEXF@Z");
-			// static ...; // 0x106E8600
-			// static ...; // 0x106E85F8
-			// Scripting::HS::ScriptHook *const this;
-			// short callback;
-				// std::_Vector_iterator<std::_Vector_val<std::_Simple_types<short> > > it;
 
 			if (auto it = std::find(callbacks.begin(), callbacks.end(), callback); it != callbacks.end())
 				return;
@@ -173,7 +168,6 @@ namespace Scripting
 		_inline void ScriptHook::RemoveCallback(short callback) // 0x106E91E0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?RemoveCallback@ScriptHook@HS@Scripting@@QAEXF@Z");
-			// short callback;
 
 			callbacks.erase(std::remove(callbacks.begin(), callbacks.end(), callback));
 		}
@@ -188,8 +182,6 @@ namespace Scripting
 		char const *MarshalString(__int32 threadIndex, std::string_view str) // 0x106E8E10
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?MarshalString@HS@Scripting@@YAPBDHV?$basic_string_view@DU?$char_traits@D@std@@@std@@@Z");
-			// std::string_view str;
-			// char *mem;
 
 			char *mem = (char *)HsThreadStorageManager::Get()->MemAlloc(threadIndex, str.size() + 1);
 			memcpy(mem, &str[0], str.size() + 1);
@@ -206,7 +198,6 @@ namespace Scripting
 		hs_value MarshalArgument(long threadIndex, e_hs_type type, hs_value const &value) // 0x106E8D50
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?MarshalArgument@HS@Scripting@@YA?AUhs_value@@JW4e_hs_type@@ABU3@@Z");
-			// hs_value const &value;
 
 			switch (type)
 			{
@@ -226,7 +217,6 @@ namespace Scripting
 		hs_value MarshalReturn(long threadIndex, e_hs_type type, hs_value value) // 0x106E8DF0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?MarshalReturn@HS@Scripting@@YA?AUhs_value@@JW4e_hs_type@@U3@@Z");
-			// hs_value value;
 
 			return value;
 		}
@@ -234,9 +224,6 @@ namespace Scripting
 		__int32 FindScriptByName(std::string_view name) // 0x106E8BB0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?FindScriptByName@HS@Scripting@@YAHV?$basic_string_view@DU?$char_traits@D@std@@@std@@@Z");
-			// std::string_view name;
-			// s_scenario const *scnr;
-				// __int32 i;
 
 			s_scenario const *scnr = global_scenario_get();
 			for (__int32 i = 0; i < scnr->scripts.count; i++)
@@ -250,7 +237,6 @@ namespace Scripting
 		void InitializeForNewMap() // 0x106E8CF0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeForNewMap@HS@Scripting@@YAXXZ");
-			// procedure flags: nofpo
 
 			Scripting::HS::HsThreadStorageManager::Get()->Reset();
 			Scripting::HS::hooks.clear();
@@ -259,7 +245,6 @@ namespace Scripting
 		void Init() // 0x106E8C80
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Init@HS@Scripting@@YAXXZ");
-			// procedure flags: nofpo
 
 			Patches::Core::OnMapLoaded([](char const *map)
 			{
@@ -270,8 +255,6 @@ namespace Scripting
 		void Tick() // 0x106E9390
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@HS@Scripting@@YAXXZ");
-			// procedure flags: nofpo
-			// unsigned __int32 time;
 
 			unsigned int time = system_milliseconds();
 			Scripting::HS::HsThreadStorageManager::Get()->Update(time);
@@ -280,27 +263,6 @@ namespace Scripting
 		void PushScript(long threadIndex, short scriptIndex, long **outReturnValueAddr, std::span<hs_value const> arguments) // 0x106E8EE0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?PushScript@HS@Scripting@@YAXJFPAPAJV?$span@$$CBUhs_value@@$0PPPPPPPP@@std@@@Z");
-			// static ...; // 0x106E9108
-			// long threadIndex;
-			// short scriptIndex;
-			// long **outReturnValueAddr;
-			// std::span<hs_value const> arguments;
-			// long *return_value;
-			// long *arg_count;
-			// long *args;
-			// s_hs_script const *script;
-			// short stack_offset;
-			// s_scenario const *scnr;
-			// short args_stack_offset;
-			// hs_stack_frame *stack;
-			// s_hs_thread *thread;
-			// long *next_expression_index;
-				// long i;
-			// function call : void *(*const)(long, long, long, short *)
-			// function call : void *(*const)(long, long, long, short *)
-			// function call : void *(*const)(long, long, long, short *)
-			// function call : void *(*const)(long, long, long, short *)
-			// function call : bool (*const)(long, long, long, long *)
 
 			s_scenario const *scnr = global_scenario_get();
 			if (scriptIndex < 0 || scriptIndex >= scnr->scripts.count)
@@ -328,11 +290,6 @@ namespace Scripting
 		void ExecuteScript(__int32 scriptIndex, std::span<hs_value const> arguments) // 0x106E8790
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ExecuteScript@HS@Scripting@@YAXHV?$span@$$CBUhs_value@@$0PPPPPPPP@@std@@@Z");
-			// std::span<hs_value const> arguments;
-			// long thread_index;
-			// s_hs_script const *script;
-			// s_scenario const *scnr;
-			// function call : long (*const)(e_hs_script_type, short)
 
 			s_scenario const *scnr = global_scenario_get();
 			if (scriptIndex < 0 || scriptIndex >= scnr->scripts.count)
@@ -353,8 +310,6 @@ namespace Scripting
 		void ExecuteScript(std::string_view name, std::span<hs_value const> arguments) // 0x106E8880
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ExecuteScript@HS@Scripting@@YAXV?$basic_string_view@DU?$char_traits@D@std@@@std@@V?$span@$$CBUhs_value@@$0PPPPPPPP@@4@@Z");
-			// std::span<hs_value const> arguments;
-			// __int32 scriptIndex;
 
 			__int32 scriptIndex = FindScriptByName(name);
 			if (scriptIndex != -1)
@@ -371,17 +326,6 @@ namespace Scripting
 		hs_value ExecuteScriptWithReturn(short scriptIndex, std::span<hs_value const> arguments) // 0x106E8900
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ExecuteScriptWithReturn@HS@Scripting@@YA?AUhs_value@@FV?$span@$$CBUhs_value@@$0PPPPPPPP@@std@@@Z");
-			// static ...; // 0x106E8A84
-			// static ...; // 0x106E8A7C
-			// short scriptIndex;
-			// std::span<hs_value const> arguments;
-			// long thread_index;
-			// long *retValueAddr;
-			// s_hs_script const *script;
-			// s_scenario const *scnr;
-			// function call : long (*const)(e_hs_script_type, short)
-			// function call : void (*const)(long)
-			// function call : void (*const)(long)
 
 			s_scenario const *scnr = global_scenario_get();
 			if (scriptIndex < 0 || scriptIndex >= scnr->scripts.count)
@@ -407,8 +351,6 @@ namespace Scripting
 		hs_value ExecuteScriptWithReturn(std::string_view name, std::span<hs_value const> arguments) // 0x106E8B10
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ExecuteScriptWithReturn@HS@Scripting@@YA?AUhs_value@@V?$basic_string_view@DU?$char_traits@D@std@@@std@@V?$span@$$CBUhs_value@@$0PPPPPPPP@@5@@Z");
-			// std::span<hs_value const> arguments;
-			// __int32 scriptIndex;
 
 			__int32 scriptIndex = FindScriptByName(name);
 			if (scriptIndex != -1)
@@ -419,7 +361,6 @@ namespace Scripting
 		void AddHookCallback(std::string_view name, short callbackScriptIndex) // 0x106E8670
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?AddHookCallback@HS@Scripting@@YAXV?$basic_string_view@DU?$char_traits@D@std@@@std@@F@Z");
-			// short callbackScriptIndex;
 
 			hooks[name].AddCallback(callbackScriptIndex);
 		}
@@ -427,7 +368,6 @@ namespace Scripting
 		void RemoveHookCallback(std::string_view name, short callbackScriptIndex) // 0x106E9320
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?RemoveHookCallback@HS@Scripting@@YAXV?$basic_string_view@DU?$char_traits@D@std@@@std@@F@Z");
-			// short callbackScriptIndex;
 
 			hooks[name].RemoveCallback(callbackScriptIndex);
 		}
@@ -435,11 +375,6 @@ namespace Scripting
 		void CallHook(std::string_view name, std::span<hs_value const> arguments) // 0x106E86E0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?CallHook@HS@Scripting@@YAXV?$basic_string_view@DU?$char_traits@D@std@@@std@@V?$span@$$CBUhs_value@@$0PPPPPPPP@@4@@Z");
-			// std::span<hs_value const> arguments;
-				// std::vector<short> &<range>$L0;
-				// short *<begin>$L0;
-				// short *<end>$L0;
-					// __int32 scriptIndex;
 
 			for (__int32 scriptIndex : hooks[name].callbacks)
 				ExecuteScript(scriptIndex, arguments);

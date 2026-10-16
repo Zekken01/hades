@@ -200,55 +200,41 @@ namespace Server
 		void MyNetworkSessionListener::SessionCreated() // 0x10B00680
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?SessionCreated@MyNetworkSessionListener@ClientDataTracker@Server@@UAEXXZ");
-			// Server::ClientDataTracker::MyNetworkSessionListener *const this;
 		}
 
 		void MyNetworkSessionListener::SessionDestroyed() // 0x10B006A0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?SessionDestroyed@MyNetworkSessionListener@ClientDataTracker@Server@@UAEXXZ");
-			// Server::ClientDataTracker::MyNetworkSessionListener *const this;
 		}
 
 		void MyNetworkSessionListener::PeerAdded(__int32 peerIndex) // 0x10B00300
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?PeerAdded@MyNetworkSessionListener@ClientDataTracker@Server@@UAEXH@Z");
-			// __int32 peerIndex;
 		}
 
 		void MyNetworkSessionListener::PeerRemoved(__int32 peerIndex) // 0x10B00320
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?PeerRemoved@MyNetworkSessionListener@ClientDataTracker@Server@@UAEXH@Z");
-			// __int32 peerIndex;
 		}
 
 		void MyNetworkSessionListener::PlayerAdded(__int32 playerIndex) // 0x10B00340
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?PlayerAdded@MyNetworkSessionListener@ClientDataTracker@Server@@UAEXH@Z");
-			// __int32 playerIndex;
 		}
 
 		void MyNetworkSessionListener::PlayerRemoved(__int32 playerIndex) // 0x10B00360
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?PlayerRemoved@MyNetworkSessionListener@ClientDataTracker@Server@@UAEXH@Z");
-			// __int32 playerIndex;
 		}
 
 		void Tick() // 0x10B006C0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@ClientDataTracker@Server@@YAXXZ");
-			// procedure flags: nofpo
 		}
 
 		void Initialize() // 0x10B000B0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@ClientDataTracker@Server@@YAXXZ");
-			// procedure flags: nofpo
-			// static ...; // 0x10B00229
-			// static ...; // 0x10B00220
-			// static ...; // 0x10B00208
-			// static ...; // 0x10B00200
-			// std::shared_ptr<ClientInfoDataPacketHandler> handler;
-			// std::shared_ptr<Server::ClientDataTracker::MyNetworkSessionListener> listener;
 
 			auto handler = std::make_shared<hades_file_local::ClientInfoDataPacketHandler>();
 			hades_file_local::PacketSender = Patches::CustomPackets::RegisterPacket<ClientInfoData>("eldewrito-test-packet", handler);
@@ -259,7 +245,6 @@ namespace Server
 		ClientInfoData::ClientInfoData(std::string const &body) // 0x10AFF060
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "??0ClientInfoData@ClientDataTracker@Server@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-			// std::string const &body;
 
 			memset(this, 0, sizeof(*this));
 			strncpy(Body, body.c_str(), sizeof(Body) - 1);
@@ -291,12 +276,6 @@ namespace Server
 		bool BroadcastClientInfoData(std::string const &body) // 0x10AFFCF0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?BroadcastClientInfoData@ClientDataTracker@Server@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-			// static ...; // 0x10AFFDA4
-			// static ...; // 0x10AFFD98
-			// static ...; // 0x10AFFD90
-			// std::string const &body;
-			// Blam::Network::Session *session;
-			// Server::ClientDataTracker::ClientInfoData message;
 
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			if (!session || !session->IsEstablished())
@@ -313,8 +292,6 @@ namespace Server
 _inline void ClientInfoDataPacketHandler::Serialize(Blam::BitStream *stream, Server::ClientDataTracker::ClientInfoData const *data) // 0x10B00590
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Serialize@ClientInfoDataPacketHandler@hades_file_local@@UAEXPAVBitStream@Blam@@PBUClientInfoData@ClientDataTracker@Server@@@Z");
-	// `anonymous-namespace'::ClientInfoDataPacketHandler::Serialize
-	// Server::ClientDataTracker::ClientInfoData const *data;
 
 	stream->WriteString<char, 4096>(data->Body);
 }
@@ -322,8 +299,6 @@ _inline void ClientInfoDataPacketHandler::Serialize(Blam::BitStream *stream, Ser
 _inline bool ClientInfoDataPacketHandler::Deserialize(Blam::BitStream *stream, Server::ClientDataTracker::ClientInfoData *data) // 0x10AFFDE0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Deserialize@ClientInfoDataPacketHandler@hades_file_local@@UAE_NPAVBitStream@Blam@@PAUClientInfoData@ClientDataTracker@Server@@@Z");
-	// `anonymous-namespace'::ClientInfoDataPacketHandler::Deserialize
-	// Server::ClientDataTracker::ClientInfoData *data;
 
 	memset(data, 0, sizeof(Server::ClientDataTracker::ClientInfoData));
 
@@ -338,10 +313,6 @@ _inline bool ClientInfoDataPacketHandler::Deserialize(Blam::BitStream *stream, S
 _inline void ClientInfoDataPacketHandler::HandlePacket(Blam::Network::ObserverChannel *sender, Patches::CustomPackets::Packet<Server::ClientDataTracker::ClientInfoData> const *packet) // 0x10AFFF60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?HandlePacket@ClientInfoDataPacketHandler@hades_file_local@@UAEXPAUObserverChannel@Network@Blam@@PBU?$Packet@UClientInfoData@ClientDataTracker@Server@@@CustomPackets@Patches@@@Z");
-	// `anonymous-namespace'::ClientInfoDataPacketHandler::HandlePacket
-	// Patches::CustomPackets::Packet<Server::ClientDataTracker::ClientInfoData> const *packet;
-	// __int32 peer;
-	// Blam::Network::Session *session;
 
 	Blam::Network::Session *session = Blam::Network::GetActiveSession();
 	if (!session)
@@ -364,12 +335,6 @@ _inline void ClientInfoDataPacketHandler::HandlePacket(Blam::Network::ObserverCh
 bool SendMessagePacket(__int32 peer, Server::ClientDataTracker::ClientInfoData const &message) // 0x10B00470
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SendMessagePacket@@YA_NHABUClientInfoData@ClientDataTracker@Server@@@Z");
-	// `anonymous-namespace'::SendMessagePacket
-	// static ...; // 0x10B00540
-	// static ...; // 0x10B00538
-	// __int32 peer;
-	// Server::ClientDataTracker::ClientInfoData const &message;
-	// Patches::CustomPackets::Packet<Server::ClientDataTracker::ClientInfoData> packet;
 
 	if (peer < 0)
 		return false;
@@ -382,8 +347,6 @@ bool SendMessagePacket(__int32 peer, Server::ClientDataTracker::ClientInfoData c
 bool HostReceivedMessage(Blam::Network::Session *session, __int32 peer, Server::ClientDataTracker::ClientInfoData const &message) // 0x10B00090
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?HostReceivedMessage@@YA_NPAUSession@Network@Blam@@HABUClientInfoData@ClientDataTracker@Server@@@Z");
-	// `anonymous-namespace'::HostReceivedMessage
-	// Server::ClientDataTracker::ClientInfoData const &message;
 
 	return true;
 }
@@ -391,8 +354,6 @@ bool HostReceivedMessage(Blam::Network::Session *session, __int32 peer, Server::
 bool SendClientMessage(Blam::Network::Session *session, Server::ClientDataTracker::ClientInfoData const &message) // 0x10B003E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SendClientMessage@@YA_NPAUSession@Network@Blam@@ABUClientInfoData@ClientDataTracker@Server@@@Z");
-	// `anonymous-namespace'::SendClientMessage
-	// Server::ClientDataTracker::ClientInfoData const &message;
 
 	if (session->IsHost())
 	{

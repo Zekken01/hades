@@ -123,10 +123,6 @@ namespace Scripting
 		void ValidateExternScript(s_hs_script const *script, Scripting::HS::ScriptMethod const *method, std::vector<std::string> &errors) // 0x106EF0C0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ValidateExternScript@HS@Scripting@@YAXPBUs_hs_script@@PBUScriptMethod@12@AAV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@@Z");
-			// std::vector<std::string> &errors;
-				// __int32 i;
-					// s_hs_script_parameter const &scriptParam;
-					// Scripting::HS::ScriptParameter const &methodParam;
 
 			errors.clear();
 			if (script->parameters.count != method->parameters.size())
@@ -148,20 +144,6 @@ namespace Scripting
 		void InitializeMethodsForNewMap() // 0x106EED90
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeMethodsForNewMap@HS@Scripting@@YAXXZ");
-			// procedure flags: nofpo
-			// static ...; // 0x106EF000
-			// static ...; // 0x106EEFF4
-			// static ...; // 0x106EEFEC
-			// Scripting::HS::ScriptMethodMap &methodMap;
-			// std::vector<std::string> validationErrors;
-			// s_scenario *scnr;
-				// __int32 i;
-					// s_hs_script *script;
-						// Scripting::HS::ScriptMethod const *method;
-							// std::vector<std::string> &<range>$L0;
-							// std::string *<begin>$L0;
-							// std::string *<end>$L0;
-								// std::string const &error;
 
 			Scripting::HS::ScriptMethodMap &methodMap = Utils::Singleton<Scripting::HS::ScriptMethodMap>::Instance();
 			std::vector<std::string> validationErrors;

@@ -185,7 +185,6 @@ namespace Patches
 		void Init() // 0x10AEBE10
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Init@VirtualKeyboard@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			SetKeyboardHandler(WebVirtualKeyboardHandler);
 		}
@@ -193,7 +192,6 @@ namespace Patches
 		void ApplyAll() // 0x10AEB800
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@VirtualKeyboard@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			// Implement virtual keyboard stubs
 			Hook(0xE1840, CreateVirtualKeyboard).Apply();
@@ -206,7 +204,6 @@ namespace Patches
 		void SetKeyboardHandler(std::function<void __cdecl(Blam::Input::VirtualKeyboard *)> callback) // 0x10AEBE70
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?SetKeyboardHandler@VirtualKeyboard@Patches@@YAXV?$function@$$A6AXPAVVirtualKeyboard@Input@Blam@@@Z@std@@@Z");
-			// std::function<void __cdecl(Blam::Input::VirtualKeyboard *)> callback;
 
 			KeyboardHandler = callback;
 		}
@@ -228,8 +225,6 @@ namespace Patches
 Blam::Input::VirtualKeyboard *CreateVirtualKeyboard(char const *file, __int32 line, __int32 unk2, __int32 unk3, __int32 unk4, __int32 unk5, __int32 maxLength, __int32 unk7, __int32 unk8) // 0x10AEBD00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CreateVirtualKeyboard@@YAPAVVirtualKeyboard@Input@Blam@@PBDHHHHHHHH@Z");
-	// `anonymous-namespace'::CreateVirtualKeyboard
-	// __int32 unk8;
 
 	return new Blam::Input::VirtualKeyboard(file, line, unk2, unk3, unk4, unk5, maxLength, unk7, unk8);
 }
@@ -237,8 +232,6 @@ Blam::Input::VirtualKeyboard *CreateVirtualKeyboard(char const *file, __int32 li
 void __fastcall SetVirtualKeyboardDefaultValue(Blam::Input::VirtualKeyboard *keyboard, void *unused, wchar_t *newDefaultValue) // 0x10AEBF10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SetVirtualKeyboardDefaultValue@@YIXPAVVirtualKeyboard@Input@Blam@@PAXPA_W@Z");
-	// `anonymous-namespace'::SetVirtualKeyboardDefaultValue
-	// wchar_t *newDefaultValue;
 
 	keyboard->SetDefaultValue(newDefaultValue);
 }
@@ -246,8 +239,6 @@ void __fastcall SetVirtualKeyboardDefaultValue(Blam::Input::VirtualKeyboard *key
 void __fastcall SetVirtualKeyboardTitle(Blam::Input::VirtualKeyboard *keyboard, void *unused, wchar_t *newTitle) // 0x10AEBFD0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SetVirtualKeyboardTitle@@YIXPAVVirtualKeyboard@Input@Blam@@PAXPA_W@Z");
-	// `anonymous-namespace'::SetVirtualKeyboardTitle
-	// wchar_t *newTitle;
 
 	keyboard->SetTitle(newTitle);
 }
@@ -255,8 +246,6 @@ void __fastcall SetVirtualKeyboardTitle(Blam::Input::VirtualKeyboard *keyboard, 
 void __fastcall SetVirtualKeyboardDescription(Blam::Input::VirtualKeyboard *keyboard, void *unused, wchar_t *newDescription) // 0x10AEBF70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SetVirtualKeyboardDescription@@YIXPAVVirtualKeyboard@Input@Blam@@PAXPA_W@Z");
-	// `anonymous-namespace'::SetVirtualKeyboardDescription
-	// wchar_t *newDescription;
 
 	keyboard->SetDescription(newDescription);
 }
@@ -264,8 +253,6 @@ void __fastcall SetVirtualKeyboardDescription(Blam::Input::VirtualKeyboard *keyb
 bool ShowVirtualKeyboard(Blam::Input::VirtualKeyboard *keyboard, char const *file, __int32 line) // 0x10AEC030
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ShowVirtualKeyboard@@YA_NPAVVirtualKeyboard@Input@Blam@@PBDH@Z");
-	// `anonymous-namespace'::ShowVirtualKeyboard
-	// __int32 line;
 
 	KeyboardHandler(keyboard);
 	return true;
@@ -274,20 +261,6 @@ bool ShowVirtualKeyboard(Blam::Input::VirtualKeyboard *keyboard, char const *fil
 void WebVirtualKeyboardHandler(Blam::Input::VirtualKeyboard *keyboard) // 0x10AEC080
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?WebVirtualKeyboardHandler@@YAXPAVVirtualKeyboard@Input@Blam@@@Z");
-	// `anonymous-namespace'::WebVirtualKeyboardHandler
-	// static ...; // 0x10AEC335
-	// static ...; // 0x10AEC329
-	// static ...; // 0x10AEC31C
-	// static ...; // 0x10AEC30F
-	// static ...; // 0x10AEC308
-	// static ...; // 0x10AEC2CC
-	// static ...; // 0x10AEC2C4
-	// Blam::Input::VirtualKeyboard *keyboard;
-	// Web::Ui::ScreenLayer::SDialogShowParams params;
-	// std::string defaultValue;
-	// std::string description;
-	// std::string templateName;
-	// std::string title;
 
 	CurrentKeyboard = keyboard;
 	std::string title = Utils::String::ThinString(CurrentKeyboard->Title);

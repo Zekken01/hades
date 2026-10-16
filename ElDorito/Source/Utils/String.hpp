@@ -56,9 +56,6 @@ namespace Utils
 		inline unsigned __int32 GetLineFromOffset(std::string_view source, unsigned __int32 offset) // 0x107464B0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetLineFromOffset@String@Utils@@YAIV?$basic_string_view@DU?$char_traits@D@std@@@std@@I@Z");
-			// unsigned __int32 offset;
-			// unsigned __int32 lineNumber;
-				// unsigned __int32 i;
 
 			unsigned __int32 lineNumber = 1;
 			for (unsigned __int32 i = 0; i < source.length() && i < offset; i++)

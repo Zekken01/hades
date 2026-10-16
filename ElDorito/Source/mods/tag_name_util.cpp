@@ -22,12 +22,6 @@ extern char const *tag_to_string(unsigned long tag, char *dest, long dest_length
 bool parse_tag_file_name(char const *path, char *out_tag_name, unsigned long *out_group_tag) // 0x108C1F00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?parse_tag_file_name@@YA_NPBDPADPAK@Z");
-	// unsigned long *out_group_tag;
-	// unsigned __int32 name_legnth;
-	// unsigned long tmp;
-	// char const *ext_part;
-	// unsigned __int32 len;
-		// unsigned __int32 i;
 
 	char const *ext_part = strrchr(path, '.');
 	if (!ext_part)
@@ -52,7 +46,6 @@ bool parse_tag_file_name(char const *path, char *out_tag_name, unsigned long *ou
 char const *tag_to_string(unsigned long tag, char *dest, long dest_length) // 0x108C2020
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?tag_to_string@@YAPBDKPADJ@Z");
-	// long dest_length;
 
 	if (dest_length < 5)
 	{

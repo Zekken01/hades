@@ -168,7 +168,6 @@ namespace Forge
 		void ApplyPatches() // 0x109766D0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyPatches@SelectionRenderer@Forge@@YAXXZ");
-			// procedure flags: nofpo
 
 			Hook(0x62E760, SpecialWeaponHUDHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x63B409, RasterizeImplicitGeometryHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
@@ -177,17 +176,6 @@ namespace Forge
 		void Update() // 0x10977300
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Update@SelectionRenderer@Forge@@YAXXZ");
-			// procedure flags: nofpo
-			// static ...; // 0x109775FC
-			// static ...; // 0x109775F0
-			// static ...; // 0x109775E8
-				// Forge::ObjectSet const &selection;
-				// c_data_array<s_object_header> *objects;
-					// c_data_iterator<s_object_header> it;
-						// SelectionItem &item;
-						// real_rectangle3d const *boundingBox;
-			// function call : real_matrix4x3 *(*const)(long, real_matrix4x3 *)
-			// function call : float (*const)()
 
 			if (s_RendererType == eRendererImplicit)
 			{
@@ -223,7 +211,6 @@ namespace Forge
 		void SetEnabled(bool enabled) // 0x10976F60
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?SetEnabled@SelectionRenderer@Forge@@YAX_N@Z");
-			// bool enabled;
 
 			s_Enabled = enabled;
 
@@ -236,7 +223,6 @@ namespace Forge
 		void SetRendererType(Forge::SelectionRenderer::RendererImplementationType type) // 0x10976FA0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?SetRendererType@SelectionRenderer@Forge@@YAXW4RendererImplementationType@12@@Z");
-			// Forge::SelectionRenderer::RendererImplementationType type;
 
 			s_RendererType = type;
 		}
@@ -244,8 +230,6 @@ namespace Forge
 		void Initialize() // 0x10976940
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@SelectionRenderer@Forge@@YAXXZ");
-			// procedure flags: nofpo
-			// s_forge_globals_definition *forgeGlobals;
 
 			auto *forge_globals = forge_globals_get_definition();
 			if (forge_globals)
@@ -255,7 +239,6 @@ namespace Forge
 		void Dispose() // 0x10976910
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Dispose@SelectionRenderer@Forge@@YAXXZ");
-			// procedure flags: nofpo
 
 			s_NumActiveItems = 0;
 		}
@@ -267,35 +250,6 @@ namespace Forge
 void SpecialWeaponHUDHook(__int32 a1, unsigned __int32 unitObjectIndex, __int32 a3, unsigned __int32 *objectsInCluster, short objectcount, unsigned char *activeSpecialChudTypes) // 0x10976FD0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SpecialWeaponHUDHook@@YAXHIHPAIFPAE@Z");
-	// `anonymous-namespace'::SpecialWeaponHUDHook
-	// unsigned char *activeSpecialChudTypes;
-	// static void (*`SpecialWeaponHUDHook'::`2'::sub_A7A510)(__int32); // 0x11353E60
-	// static __int32 (*`SpecialWeaponHUDHook'::`2'::sub_A781F0)(); // 0x11353E70
-	// static void (*`SpecialWeaponHUDHook'::`2'::sub_A53160)(__int32, __int32, char, char); // 0x11353E5C
-	// static void (*`SpecialWeaponHUDHook'::`2'::sub_686FD0)(); // 0x11353E54
-	// Forge::ObjectSet const &selection;
-	// static __int32 (*`SpecialWeaponHUDHook'::`2'::sub_A78F00)(__int32, __int32); // 0x11353E6C
-	// static __int32 (*`SpecialWeaponHUDHook'::`2'::sub_A48E40)(__int32, __int32, __int32); // 0x11353E68
-	// static void (*`SpecialWeaponHUDHook'::`2'::sub_A2CAA0)(__int32, unsigned __int32, __int32, unsigned __int32 *, short, unsigned char *); // 0x11353E50
-	// static __int32 (*`SpecialWeaponHUDHook'::`2'::sub_686DE0)(); // 0x11353E74
-	// static unsigned char (*`SpecialWeaponHUDHook'::`2'::sub_A242E0)(__int32, __int32); // 0x11353E64
-	// s_map_variant *mapv;
-	// static void (*`SpecialWeaponHUDHook'::`2'::sub_A78230)(); // 0x11353E58
-		// __int32 i;
-			// s_variant_datum &placement;
-				// __int32 const specialHudType;
-	// function call : void (*)(__int32, unsigned __int32, __int32, unsigned __int32 *, short, unsigned char *)
-	// function call : void (*)()
-	// function call : void (*)()
-	// function call : void (*)(__int32, __int32, char, char)
-	// function call : void (*)(__int32)
-	// function call : unsigned char (*)(__int32, __int32)
-	// function call : __int32 (*)(__int32, __int32, __int32)
-	// function call : __int32 (*)(__int32, __int32)
-	// function call : __int32 (*)(__int32, __int32, __int32)
-	// function call : __int32 (*)(__int32, __int32, __int32)
-	// function call : __int32 (*)()
-	// function call : __int32 (*)()
 
 	static void (*sub_A2CAA0)(__int32, unsigned __int32, __int32, unsigned __int32 *, short, unsigned char *) = reinterpret_cast<void (*)(__int32, unsigned __int32, __int32, unsigned __int32 *, short, unsigned char *)>(0xA2CAA0);
 	static void (*sub_686FD0)() = reinterpret_cast<void (*)()>(0x686FD0);
@@ -344,40 +298,6 @@ void SpecialWeaponHUDHook(__int32 a1, unsigned __int32 unitObjectIndex, __int32 
 void RenderImplicit() // 0x10976A10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?RenderImplicit@@YAXXZ");
-	// `anonymous-namespace'::RenderImplicit
-	// procedure flags: nofpo
-	// static ...; // 0x10976E42
-	// static ...; // 0x10976E3C
-	// static ...; // 0x10976E24
-	// static ...; // 0x10976E1C
-	// constexpr __int32 (*const `RenderImplicit'::`2'::DrawPrimitive)(__int32, __int32, void *, __int32); // constant == 10650416
-	// s_forge_globals_definition *forgeGlobals;
-	// __int32 s_ImplicitShader;
-	// constexpr __int32 (*const `RenderImplicit'::`2'::sub_A232D0)(__int32); // constant == 10629840
-	// void *shaderDef;
-	// constexpr bool (*const `RenderImplicit'::`2'::UseDefaultShader)(__int32, __int32, __int32, __int32); // constant == 10629888
-	// constexpr void (*const `RenderImplicit'::`2'::sub_A3CA60)(unsigned __int32, void *, __int32, unsigned __int32, __int32, __int32); // constant == 10734176
-	// constexpr __int32 (*const `RenderImplicit'::`2'::sub_A22BA0)(); // constant == 10628000
-	// constexpr void (*const `RenderImplicit'::`2'::SetArgument)(__int32, __int32, void *); // constant == 10904592
-	// __int32 const PT_TRIANGLESTRIP;
-		// __int32 i;
-			// float color[4];
-			// __int32 v14;
-			// SelectionItem const &item;
-			// float m[12];
-	// function call : bool (*const)(__int32, __int32, __int32, __int32)
-	// function call : void *(*const)(unsigned long, long)
-	// function call : void (*const)(unsigned __int32, void *, __int32, unsigned __int32, __int32, __int32)
-	// function call : void (*const)(__int32, __int32, void *)
-	// function call : void (*const)(__int32, __int32, void *)
-	// function call : __int32 (*const)()
-	// function call : __int32 (*const)(__int32)
-	// function call : __int32 (*const)(__int32, __int32, void *, __int32)
-	// function call : __int32 (*const)(__int32, __int32, void *, __int32)
-	// function call : __int32 (*const)(__int32, __int32, void *, __int32)
-	// function call : __int32 (*const)(__int32, __int32, void *, __int32)
-	// function call : __int32 (*const)(__int32, __int32, void *, __int32)
-	// function call : __int32 (*const)(__int32, __int32, void *, __int32)
 
 	Forge::Magnets::Render();
 	if (s_RendererType != eRendererImplicit)
@@ -430,10 +350,6 @@ void RenderImplicit() // 0x10976A10
 void RasterizeImplicitGeometryHook() // 0x109769B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?RasterizeImplicitGeometryHook@@YAXXZ");
-	// `anonymous-namespace'::RasterizeImplicitGeometryHook
-	// procedure flags: nofpo
-	// constexpr void (*const `RasterizeImplicitGeometryHook'::`2'::RasterizeImplicitGeometry)(); // constant == 10961840
-	// function call : void (*const)()
 
 	((void (*)())0xa743b0)();
 

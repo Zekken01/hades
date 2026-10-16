@@ -252,11 +252,6 @@ namespace Web
 		WebRendererHandler::WebRendererHandler(scoped_refptr<Web::Browser::WebRendererRenderHandler> renderHandler) : m_Browser(nullptr), m_RenderHandler(renderHandler) /* hades-mem-init:  */ // 0x10CC9520
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "??0WebRendererHandler@Browser@Web@@QAE@V?$scoped_refptr@VWebRendererRenderHandler@Browser@Web@@@@@Z");
-			// static ...; // 0x10CC97B0
-			// static ...; // 0x10CC97A8
-			// Web::Browser::WebRendererHandler *const this;
-			// scoped_refptr<Web::Browser::WebRendererRenderHandler> renderHandler;
-			// CefMessageRouterConfig routerConfig;
 
 			CefMessageRouterConfig routerConfig;
 			routerConfig.js_query_function = "dewQuery";
@@ -267,9 +262,6 @@ namespace Web
 		void WebRendererHandler::OnAfterCreated(scoped_refptr<CefBrowser> browser) // 0x10CCBE20
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?OnAfterCreated@WebRendererHandler@Browser@Web@@UAEXV?$scoped_refptr@VCefBrowser@@@@@Z");
-			// __shifted(Web::Browser::WebRendererHandler, 8);
-			// scoped_refptr<CefBrowser> browser;
-			// function call : bool (CefMessageRouterBrowserSide::Handler *, bool)
 
 			m_Browser = browser;
 			if (!m_QueryHandler)
@@ -314,9 +306,6 @@ namespace Web
 		void WebRendererHandler::OnBeforeClose(scoped_refptr<CefBrowser> browser) // 0x10CCD280
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?OnBeforeClose@WebRendererHandler@Browser@Web@@UAEXV?$scoped_refptr@VCefBrowser@@@@@Z");
-			// __shifted(Web::Browser::WebRendererHandler, 8);
-			// scoped_refptr<CefBrowser> browser;
-			// function call : void (scoped_refptr<CefBrowser>)
 
 			if (m_BrowserRouter)
 				m_BrowserRouter->OnBeforeClose(browser);
@@ -335,7 +324,6 @@ namespace Web
 		scoped_refptr<CefBrowser> WebRendererHandler::GetBrowser() // 0x10CCB0B0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetBrowser@WebRendererHandler@Browser@Web@@QAE?AV?$scoped_refptr@VCefBrowser@@@@XZ");
-			// Web::Browser::WebRendererHandler *const this;
 
 			return m_Browser;
 		}
@@ -343,9 +331,6 @@ namespace Web
 		void WebRendererHandler::OnRenderProcessTerminated(scoped_refptr<CefBrowser> browser, cef_termination_status_t status) // 0x10CCE1A0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?OnRenderProcessTerminated@WebRendererHandler@Browser@Web@@UAEXV?$scoped_refptr@VCefBrowser@@@@W4cef_termination_status_t@@@Z");
-			// __shifted(Web::Browser::WebRendererHandler, 16);
-			// cef_termination_status_t status;
-			// function call : void (scoped_refptr<CefBrowser>)
 
 			if (m_BrowserRouter)
 				m_BrowserRouter->OnRenderProcessTerminated(browser);
@@ -354,9 +339,6 @@ namespace Web
 		bool WebRendererHandler::OnBeforeBrowse(scoped_refptr<CefBrowser> browser, scoped_refptr<CefFrame> frame, scoped_refptr<CefRequest> request, bool userGesture, bool isRedirect) // 0x10CCD0E0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?OnBeforeBrowse@WebRendererHandler@Browser@Web@@UAE_NV?$scoped_refptr@VCefBrowser@@@@V?$scoped_refptr@VCefFrame@@@@V?$scoped_refptr@VCefRequest@@@@_N3@Z");
-			// __shifted(Web::Browser::WebRendererHandler, 16);
-			// bool isRedirect;
-			// function call : void (scoped_refptr<CefBrowser>, scoped_refptr<CefFrame>)
 
 			if (m_BrowserRouter)
 				m_BrowserRouter->OnBeforeBrowse(browser, frame);
@@ -366,8 +348,6 @@ namespace Web
 		bool WebRendererHandler::OnProcessMessageReceived(scoped_refptr<CefBrowser> browser, scoped_refptr<CefFrame> frame, cef_process_id_t sourceProcess, scoped_refptr<CefProcessMessage> message) // 0x10CCDF70
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?OnProcessMessageReceived@WebRendererHandler@Browser@Web@@UAE_NV?$scoped_refptr@VCefBrowser@@@@V?$scoped_refptr@VCefFrame@@@@W4cef_process_id_t@@V?$scoped_refptr@VCefProcessMessage@@@@@Z");
-			// scoped_refptr<CefProcessMessage> message;
-			// function call : bool (scoped_refptr<CefBrowser>, scoped_refptr<CefFrame>, cef_process_id_t, scoped_refptr<CefProcessMessage>)
 
 			return m_BrowserRouter->OnProcessMessageReceived(browser, frame, sourceProcess, message);
 		}
@@ -375,9 +355,6 @@ namespace Web
 		void WebRendererHandler::OnBeforeContextMenu(scoped_refptr<CefBrowser> browser, scoped_refptr<CefFrame> frame, scoped_refptr<CefContextMenuParams> params, scoped_refptr<CefMenuModel> model) // 0x10CCD440
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?OnBeforeContextMenu@WebRendererHandler@Browser@Web@@UAEXV?$scoped_refptr@VCefBrowser@@@@V?$scoped_refptr@VCefFrame@@@@V?$scoped_refptr@VCefContextMenuParams@@@@V?$scoped_refptr@VCefMenuModel@@@@@Z");
-			// __shifted(Web::Browser::WebRendererHandler, 24);
-			// scoped_refptr<CefMenuModel> model;
-			// function call : bool ()
 
 			model->Clear();
 		}
@@ -385,13 +362,6 @@ namespace Web
 		bool WebRendererHandler::OnBeforePopup(scoped_refptr<CefBrowser> browser, scoped_refptr<CefFrame> frame, CefStringBase<CefStringTraitsUTF16> const &target_url, CefStringBase<CefStringTraitsUTF16> const &target_frame_name, cef_window_open_disposition_t target_disposition, bool user_gesture, CefStructBase<CefPopupFeaturesTraits> const &popupFeatures, CefWindowInfo &windowInfo, scoped_refptr<CefClient> &client, CefStructBase<CefBrowserSettingsTraits> &settings, scoped_refptr<CefDictionaryValue> &extra_info, bool *no_javascript_access) // 0x10CCD5B0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?OnBeforePopup@WebRendererHandler@Browser@Web@@UAE_NV?$scoped_refptr@VCefBrowser@@@@V?$scoped_refptr@VCefFrame@@@@ABV?$CefStringBase@UCefStringTraitsUTF16@@@@2W4cef_window_open_disposition_t@@_NABV?$CefStructBase@UCefPopupFeaturesTraits@@@@AAVCefWindowInfo@@AAV?$scoped_refptr@VCefClient@@@@AAV?$CefStructBase@UCefBrowserSettingsTraits@@@@AAV?$scoped_refptr@VCefDictionaryValue@@@@PA_N@Z");
-			// __shifted(Web::Browser::WebRendererHandler, 8);
-			// scoped_refptr<CefClient> &client;
-			// CefStructBase<CefBrowserSettingsTraits> &settings;
-			// scoped_refptr<CefDictionaryValue> &extra_info;
-			// bool *no_javascript_access;
-			// std::wstring s_UrlStr;
-			// function call : HINSTANCE__ *(HWND__ *, wchar_t const *, wchar_t const *, wchar_t const *, wchar_t const *, __int32)
 
 			std::wstring s_UrlStr = target_url.ToWString();
 			if (!boost::istarts_with(s_UrlStr, L"http://") && !boost::istarts_with(s_UrlStr, L"https://"))
@@ -403,8 +373,6 @@ namespace Web
 		void WebRendererHandler::OnLoadEnd(scoped_refptr<CefBrowser> browser, scoped_refptr<CefFrame> frame, __int32 httpStatusCode) // 0x10CCDAD0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?OnLoadEnd@WebRendererHandler@Browser@Web@@UAEXV?$scoped_refptr@VCefBrowser@@@@V?$scoped_refptr@VCefFrame@@@@H@Z");
-			// __shifted(Web::Browser::WebRendererHandler, 32);
-			// __int32 httpStatusCode;
 
 			WebRenderer::GetInstance()->OnFrameLoadEnd(browser, frame);
 		}
@@ -412,8 +380,6 @@ namespace Web
 		void WebRendererHandler::OnLoadStart(scoped_refptr<CefBrowser> browser, scoped_refptr<CefFrame> frame, cef_transition_type_t transition_type) // 0x10CCDCE0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?OnLoadStart@WebRendererHandler@Browser@Web@@UAEXV?$scoped_refptr@VCefBrowser@@@@V?$scoped_refptr@VCefFrame@@@@W4cef_transition_type_t@@@Z");
-			// __shifted(Web::Browser::WebRendererHandler, 32);
-			// cef_transition_type_t transition_type;
 
 			WebRenderer::GetInstance()->OnFrameLoadStart(browser, frame);
 		}

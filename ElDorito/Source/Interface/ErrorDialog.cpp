@@ -70,14 +70,6 @@ std::string NormalizeLineEndings(std::string input);
 void ErrorDialog::Show(std::string const &title, std::string const &message) // 0x10787170
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Show@ErrorDialog@@SAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z");
-	// static ...; // 0x107872E4
-	// static ...; // 0x107872DC
-	// std::string const &title;
-	// std::string const &message;
-	// std::unique_ptr<DialogInitParams> initParams;
-	// HINSTANCE__ *hModule;
-	// function call : HINSTANCE__ *(char const *)
-	// function call : __int32 (HINSTANCE__ *, char const *, HWND__ *, __int32 (*)(HWND__ *, unsigned __int32, unsigned __int32, long), long)
 
 	HINSTANCE__ *hModule = GetModuleHandleA("mtndew.dll");
 	std::unique_ptr<DialogInitParams> initParams = std::make_unique<DialogInitParams>();
@@ -91,29 +83,6 @@ void ErrorDialog::Show(std::string const &title, std::string const &message) // 
 __int32 __stdcall DialogProc(HWND__ *hWnd, unsigned __int32 msg, unsigned __int32 wParam, long lParam) // 0x10786D50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DialogProc@@YGHPAUHWND__@@IIJ@Z");
-	// `anonymous-namespace'::DialogProc
-	// static ...; // 0x10786F68
-	// static ...; // 0x10786F60
-	// HWND__ *hWnd;
-	// unsigned __int32 msg;
-	// unsigned __int32 wParam;
-	// long lParam;
-		// tagRECT ec;
-		// std::unique_ptr<DialogInitParams> initParams;
-		// HRESULT hr;
-		// __int32 const margin;
-		// HICON__ *hIcon;
-	// function call : __int32 (unsigned __int32)
-	// function call : __int32 (HWND__ *, char const *)
-	// function call : __int32 (HWND__ *, __int32, char const *)
-	// function call : HRESULT (HINSTANCE__ *, wchar_t const *, __int32, __int32, HICON__ **)
-	// function call : long (HWND__ *, unsigned __int32, unsigned __int32, long)
-	// function call : long (HWND__ *, __int32, unsigned __int32, unsigned __int32, long)
-	// function call : long (HWND__ *, __int32, unsigned __int32, unsigned __int32, long)
-	// function call : __int32 (tagRECT *, __int32, __int32)
-	// function call : long (HWND__ *, __int32, unsigned __int32, unsigned __int32, long)
-	// function call : __int32 (HWND__ *, __int32)
-	// function call : __int32 (HWND__ *, __int32)
 
 	if (msg == WM_INITDIALOG)
 	{
@@ -157,9 +126,6 @@ _inline DialogInitParams::~DialogInitParams() = default; // 0x10786BD0
 std::string NormalizeLineEndings(std::string input) // 0x10787040
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?NormalizeLineEndings@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@@Z");
-	// `anonymous-namespace'::NormalizeLineEndings
-	// std::string input;
-	// unsigned __int32 pos;
 
 	size_t pos = 0;
 	while ((pos = input.find("\n", pos)) != std::string::npos)

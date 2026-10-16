@@ -65,9 +65,6 @@ static_assert(sizeof(c_structure_surface) == 28, "Invalid c_structure_surface si
 _inline c_structure_surface::c_structure_surface(s_scenario_structure_bsp *structure_bsp, long instance_index, long surface_index) : m_valid(false), m_instance_definition(nullptr), m_cache_file_resources(nullptr), m_tag_resources(nullptr), m_structure_bsp(structure_bsp), m_instance_index(instance_index), m_surface_index(surface_index) /* hades-mem-init:  */ // 0x1091B9B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_structure_surface@@QAE@PAUs_scenario_structure_bsp@@JJ@Z");
-	// long surface_index;
-	// function call : void *(*const)(void *)
-	// function call : void *(*const)(void *)
 
 	m_cache_file_resources = (s_structure_bsp_cache_file_resources *)((void *(*)(void *))0x563E10)(&structure_bsp->pathfinding_resource);
 	m_tag_resources = (s_structure_bsp_resources *)((void *(*)(void *))0x563E10)(&structure_bsp->collision_bsp_resource);
@@ -89,12 +86,6 @@ _inline c_structure_surface::c_structure_surface(s_scenario_structure_bsp *struc
 _inline bool c_structure_surface::sanity_check() const // 0x1091EF50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?sanity_check@c_structure_surface@@QBE_NXZ");
-	// static ...; // 0x1091F024
-	// static ...; // 0x1091F018
-	// static ...; // 0x1091F010
-	// c_structure_surface const *const this;
-	// c_collision_bsp_reference collision_bsp;
-	// long surface_index;
 
 	c_collision_bsp_reference collision_bsp;
 	get_collision_bsp(&collision_bsp);
@@ -109,7 +100,6 @@ _inline bool c_structure_surface::sanity_check() const // 0x1091EF50
 _inline bool c_structure_surface::is_valid() const // 0x1091EEE0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?is_valid@c_structure_surface@@QBE_NXZ");
-	// c_structure_surface const *const this;
 
 	return m_valid;
 }
@@ -117,7 +107,6 @@ _inline bool c_structure_surface::is_valid() const // 0x1091EEE0
 _inline long c_structure_surface::get_surface_index() const // 0x1091EA40
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_surface_index@c_structure_surface@@QBEJXZ");
-	// c_structure_surface const *const this;
 
 	return m_surface_index;
 }
@@ -125,7 +114,6 @@ _inline long c_structure_surface::get_surface_index() const // 0x1091EA40
 _inline long c_structure_surface::get_triangle_count() const // 0x1091EC90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_triangle_count@c_structure_surface@@QBEJXZ");
-	// c_structure_surface const *const this;
 
 	if (m_instance_definition)
 	{
@@ -140,7 +128,6 @@ _inline long c_structure_surface::get_triangle_count() const // 0x1091EC90
 _inline long c_structure_surface::get_first_triangle_index() const // 0x1091E440
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_first_triangle_index@c_structure_surface@@QBEJXZ");
-	// c_structure_surface const *const this;
 
 	if (m_instance_definition)
 		return m_instance_definition->surface_planes[m_surface_index].plane_index;
@@ -151,7 +138,6 @@ _inline long c_structure_surface::get_first_triangle_index() const // 0x1091E440
 _inline long c_structure_surface::get_section_index(long index) const // 0x1091E5D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_section_index@c_structure_surface@@QBEJJ@Z");
-	// long index;
 
 	return get_triangle_mapping(index)->cluster_index;
 }
@@ -159,7 +145,6 @@ _inline long c_structure_surface::get_section_index(long index) const // 0x1091E
 _inline long c_structure_surface::get_mesh_index(long index) const // 0x1091E520
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_mesh_index@c_structure_surface@@QBEJJ@Z");
-	// long index;
 
 	if (m_instance_definition)
 	{
@@ -174,7 +159,6 @@ _inline long c_structure_surface::get_mesh_index(long index) const // 0x1091E520
 _inline long c_structure_surface::get_triangle_vertex_index(long index) const // 0x1091EDF0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_triangle_vertex_index@c_structure_surface@@QBEJJ@Z");
-	// long index;
 
 	return get_triangle_mapping(index)->index_offset;
 }
@@ -182,7 +166,6 @@ _inline long c_structure_surface::get_triangle_vertex_index(long index) const //
 _inline s_structure_plane const *c_structure_surface::get_triangle_mapping(long index) const // 0x1091ED40
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_triangle_mapping@c_structure_surface@@QBEPBUs_structure_plane@@J@Z");
-	// long index;
 
 	if (m_instance_definition)
 	{
@@ -197,7 +180,6 @@ _inline s_structure_plane const *c_structure_surface::get_triangle_mapping(long 
 _inline long c_structure_surface::get_compression_info_index() const // 0x1091DF30
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_compression_info_index@c_structure_surface@@QBEJXZ");
-	// c_structure_surface const *const this;
 
 	if (m_instance_definition)
 	{
@@ -212,7 +194,6 @@ _inline long c_structure_surface::get_compression_info_index() const // 0x1091DF
 _inline s_structure_instanced_geometry_definition const *c_structure_surface::get_instance_definition() const // 0x1091E4F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_instance_definition@c_structure_surface@@QBEPBUs_structure_instanced_geometry_definition@@XZ");
-	// c_structure_surface const *const this;
 
 	return m_instance_definition;
 }
@@ -220,7 +201,6 @@ _inline s_structure_instanced_geometry_definition const *c_structure_surface::ge
 _inline void c_structure_surface::get_collision_bsp(c_collision_bsp_reference *bsp_reference) const // 0x1091DE10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_collision_bsp@c_structure_surface@@QBEXPAUc_collision_bsp_reference@@@Z");
-	// c_collision_bsp_reference *bsp_reference;
 
 	bsp_reference->bsp = nullptr;
 	bsp_reference->large_bsp = nullptr;

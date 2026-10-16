@@ -359,7 +359,6 @@ namespace Modules
 	ModuleDebug::ModuleDebug() : ModuleBase("Debug") /* hades-mem-init: : ModuleBase(todo_result<std::string>()) */ // 0x1097C0F0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "??0ModuleDebug@Modules@@QAE@XZ");
-		// Modules::ModuleDebug *const this;
 
 		teleportToCamera = 0;
 		VarCollisionTest = AddVariableInt("CollisionTest", "debug_collision_test", "Displays info about the collision surface under the crosshair", eCommandFlagsNone, 0);
@@ -435,13 +434,6 @@ namespace Modules
 bool CommandCrash(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1097F460
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandCrash@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandCrash
-	// static ...; // 0x1097F588
-	// static ...; // 0x1097F580
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// std::stringstream ss;
-	// __int32 volatile *a;
 
 	std::stringstream ss;
 	ss << "FORCE CRASH\n";
@@ -457,14 +449,6 @@ bool CommandCrash(std::vector<std::string> const &Arguments, std::string &return
 bool CommandNuke(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109807F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandNuke@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandNuke
-	// static ...; // 0x1098090C
-	// static ...; // 0x10980904
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// std::stringstream ss;
-	// function call : void *()
-	// function call : __int32 (void *, unsigned __int32)
 
 	std::stringstream ss;
 	ss << "Console Requested application TerminateProcess";
@@ -478,18 +462,6 @@ bool CommandNuke(std::vector<std::string> const &Arguments, std::string &returnI
 bool CommandDumpTags(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1097FBB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandDumpTags@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandDumpTags
-	// static ...; // 0x1097FD94
-	// static ...; // 0x1097FD7C
-	// static ...; // 0x1097FD74
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// _iobuf *fp;
-	// char const *filename;
-		// __int32 i;
-			// char const *tag_name;
-			// long index;
-			// char tag_group_name[5];
 
 	char const *filename = "tag_dump.csv";
 	_iobuf *fp;
@@ -516,12 +488,6 @@ bool CommandDumpTags(std::vector<std::string> const &Arguments, std::string &ret
 bool CommandDialogTest(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1097FA00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandDialogTest@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandDialogTest
-	// static ...; // 0x1097FB40
-	// static ...; // 0x1097FB38
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// Web::Ui::ScreenLayer::SDialogShowParams params;
 
 	if (Arguments.size() < 1)
 		return false;
@@ -539,12 +505,6 @@ bool CommandDialogTest(std::vector<std::string> const &Arguments, std::string &r
 bool CommandDebugTint(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1097F5F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandDebugTint@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandDebugTint
-	// static ...; // 0x1097F91C
-	// static ...; // 0x1097F914
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-		// std::stringstream ss;
 
 	if (Arguments.size() != 4)
 	{
@@ -564,16 +524,6 @@ bool CommandDebugTint(std::vector<std::string> const &Arguments, std::string &re
 bool CommandRasterizerSetZPlanes(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10980970
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandRasterizerSetZPlanes@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandRasterizerSetZPlanes
-	// static ...; // 0x10980EE0
-	// static ...; // 0x10980ED8
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// static float `CommandRasterizerSetZPlanes'::`2'::far_clip_plane; // 0x12454D64
-	// static float `CommandRasterizerSetZPlanes'::`2'::near_clip_plane; // 0x12454D60
-		// float far_plane;
-		// float near_plane;
-		// std::stringstream ss;
 
 	static float near_clip_plane = 0.0f;
 	static float far_clip_plane = 0.0f;
@@ -613,8 +563,6 @@ bool CommandRasterizerSetZPlanes(std::vector<std::string> const &Arguments, std:
 bool CommandTeleportToCamera(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10981480
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandTeleportToCamera@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandTeleportToCamera
-	// std::string &returnInfo;
 
 	Modules::ModuleDebug::Instance().teleportToCamera = true;
 	return true;
@@ -623,14 +571,6 @@ bool CommandTeleportToCamera(std::vector<std::string> const &Arguments, std::str
 bool CommandReflectionDebug(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10981050
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandReflectionDebug@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandReflectionDebug
-	// static ...; // 0x109811C4
-	// static ...; // 0x109811BC
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// bool &g_reflection_debug;
-	// __int32 const value;
-		// std::stringstream ss;
 
 	bool &g_reflection_debug = *(bool *)0x5115AFC;
 	if (Arguments.size() < 1)
@@ -648,8 +588,6 @@ bool CommandReflectionDebug(std::vector<std::string> const &Arguments, std::stri
 bool CommandStartRandomTrace(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10981370
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandStartRandomTrace@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandStartRandomTrace
-	// std::string &returnInfo;
 
 	if (Arguments.size() < 1)
 	{
@@ -672,8 +610,6 @@ bool CommandStartRandomTrace(std::vector<std::string> const &Arguments, std::str
 bool CommandStopRandomTrace(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10981420
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandStopRandomTrace@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandStopRandomTrace
-	// std::string &returnInfo;
 
 	if (Patches::DeterminismDebug::StopRandomTrace())
 	{
@@ -685,12 +621,6 @@ bool CommandStopRandomTrace(std::vector<std::string> const &Arguments, std::stri
 
 bool CommandCefOpenURL(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1097F2D0
 {
-	// `anonymous-namespace'::CommandCefOpenURL
-	// static ...; // 0x1097F3F0
-	// static ...; // 0x1097F3E8
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// std::shared_ptr<Web::Browser::WebRenderer> webRenderer;
 
 	if (Arguments.size() < 1)
 		return false;
@@ -707,25 +637,6 @@ bool CommandCefOpenURL(std::vector<std::string> const &Arguments, std::string &r
 bool CommandLaunchClient(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10980230
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandLaunchClient@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandLaunchClient
-	// static ...; // 0x109806B2
-	// static ...; // 0x109806A4
-	// static ...; // 0x10980680
-	// static ...; // 0x10980678
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// bool hasConnect;
-	// std::vector<std::string> args;
-	// std::string formattedArgs;
-	// char exePath[260];
-		// std::vector<std::string> const &<range>$L0;
-		// std::string const *<begin>$L0;
-		// std::string const *<end>$L0;
-			// std::string const &arg;
-	// function call : unsigned long (HINSTANCE__ *, char *, unsigned long)
-	// function call : unsigned long ()
-	// function call : HINSTANCE__ *(HWND__ *, char const *, char const *, char const *, char const *, __int32)
-	// function call : unsigned long ()
 
 	char exePath[260];
 	if (!GetModuleFileNameA(NULL, exePath, std::size(exePath)))
@@ -758,34 +669,6 @@ bool CommandLaunchClient(std::vector<std::string> const &Arguments, std::string 
 bool CommandTileWindows(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109814D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandTileWindows@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandTileWindows
-	// static ...; // 0x1098174B
-	// static ...; // 0x10981748
-	// static ...; // 0x10981724
-	// static ...; // 0x1098171C
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// HWND__ *windows[32];
-	// __int32 rowHeight;
-	// __int32 posX;
-	// __int32 screenHeight;
-	// HWND__ *hwnd;
-	// __int32 numWindows;
-	// __int32 posY;
-	// __int32 screenWidth;
-		// char windowTitle[1024];
-		// __int32 i;
-			// __int32 ww;
-			// HWND__ *hwnd;
-			// tagRECT wr;
-			// __int32 wh;
-	// function call : __int32 (__int32)
-	// function call : __int32 (__int32)
-	// function call : HWND__ *(HWND__ *, HWND__ *, char const *, char const *)
-	// function call : __int32 (HWND__ *, char *, __int32)
-	// function call : __int32 (HWND__ *, __int32)
-	// function call : __int32 (HWND__ *, tagRECT *)
-	// function call : __int32 (HWND__ *, HWND__ *, __int32, __int32, __int32, __int32, unsigned __int32)
 
 	__int32 posX = 0;
 	__int32 posY = 0;
@@ -827,9 +710,6 @@ bool CommandTileWindows(std::vector<std::string> const &Arguments, std::string &
 bool CommandRenderGeoHitTest(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10981240
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandRenderGeoHitTest@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandRenderGeoHitTest
-	// std::string &returnInfo;
-	// bool &globalVar;
 
 	bool &globalVar = *(bool *)0x0471A33E;
 
@@ -844,16 +724,6 @@ bool CommandRenderGeoHitTest(std::vector<std::string> const &Arguments, std::str
 bool CommandGameShowCrte(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1097FE30
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGameShowCrte@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandGameShowCrte
-	// static ...; // 0x1097FF94
-	// static ...; // 0x1097FF7C
-	// static ...; // 0x1097FF74
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// short tag_index;
-	// constexpr void (*const `CommandGameShowCrte'::`2'::cortana_globals__play_effect)(__int32); // constant == 11267264
-		// std::stringstream ss;
-	// function call : void (*const)(__int32)
 
 	if (Arguments.size() < 1)
 		return false;
@@ -872,22 +742,6 @@ bool CommandGameShowCrte(std::vector<std::string> const &Arguments, std::string 
 bool CommandHideForgeObjects(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10980000
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandHideForgeObjects@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandHideForgeObjects
-	// static ...; // 0x109801B0
-	// static ...; // 0x109801A8
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// void (*const object_hide)(long, bool);
-	// bool hidden;
-	// Blam::Network::Session *session;
-		// c_data_array<s_object_header> *object_headers;
-			// c_data_iterator<s_object_header> it;
-				// s_object_definition *object_definition;
-				// long definition_index;
-				// unsigned long objectIndex;
-	// function call : bool (*const)()
-	// function call : void *(*const)(unsigned long, long)
-	// function call : void (*const)(long, bool)
 
 	void (*const object_hide)(long, bool) = reinterpret_cast<void (*)(long, bool)>(0x96E230);
 	if (!game_engine_is_sandbox())

@@ -79,13 +79,6 @@ namespace Download
 	inline char const *DownloadStatusToString(Download::EDownloadStatus status) // 0x108571F0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?DownloadStatusToString@Download@@YAPBDW4EDownloadStatus@1@@Z");
-		// static ...; // 0x1085724C
-	// $LN8:
-	// $LN7:
-	// $LN6:
-	// $LN5:
-	// $LN4:
-		// Download::EDownloadStatus status;
 
 		switch (status)
 		{
@@ -111,15 +104,6 @@ namespace Download
 	inline char const *DownloadErrorToString(Download::EDownloadError error) // 0x10716FB0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?DownloadErrorToString@Download@@YAPBDW4EDownloadError@1@@Z");
-		// static ...; // 0x10717018
-	// $LN10:
-	// $LN9:
-	// $LN8:
-	// $LN7:
-	// $LN6:
-	// $LN5:
-	// $LN4:
-		// Download::EDownloadError error;
 
 		switch (error)
 		{

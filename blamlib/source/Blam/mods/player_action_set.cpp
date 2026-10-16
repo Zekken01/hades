@@ -41,8 +41,6 @@ extern void *(*const tag_get)(unsigned long, long);  // hades: added for 0x10F07
 s_mod_player_actions_set_definition *s_mod_player_actions_set_definition::get(long definition_index) // 0x10F07F20
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get@s_mod_player_actions_set_definition@@SAPAU1@J@Z");
-	// long definition_index;
-	// function call : void *(*const)(unsigned long, long)
 
 	return (s_mod_player_actions_set_definition *)tag_get(0x70616374, definition_index);
 }

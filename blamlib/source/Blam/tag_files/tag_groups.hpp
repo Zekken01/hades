@@ -136,7 +136,6 @@ extern bool tags_loaded();
 inline s_tag_group s_tag_group::invalid() // 0x10874460
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?invalid@s_tag_group@@SA?AU1@XZ");
-	// procedure flags: nofpo
 
 	return { { 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF }, 0 };
 }

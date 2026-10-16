@@ -35,7 +35,6 @@ static_assert(sizeof(c_view_stack) == 1, "Invalid c_view_stack size");
 _inline c_player_view *c_view_stack::get_player_view() // 0x108EFE70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_player_view@c_view_stack@@SAPAUc_player_view@@XZ");
-	// procedure flags: nofpo
 
 	return *(c_player_view * *)0x50dedf0;
 }

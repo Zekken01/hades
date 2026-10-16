@@ -174,7 +174,6 @@ namespace Patches
 		void ApplyAll() // 0x108D9400
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Player@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			Patch(0x1360E0, { 0xC3 }).Apply();
 			Patch(0x136750, { 0xC3 }).Apply();
@@ -237,8 +236,6 @@ namespace Player
 bool s3d_player_has_gameplay_modifier(s_player_datum *playerdatum, long index) // 0x108DC840
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?s3d_player_has_gameplay_modifier@@YA_NPAUs_player_datum@@J@Z");
-	// `anonymous-namespace'::s3d_player_has_gameplay_modifier
-	// long index;
 
 	return false;
 }
@@ -246,8 +243,6 @@ bool s3d_player_has_gameplay_modifier(s_player_datum *playerdatum, long index) /
 long s3d_player_get_gameplay_modifier_int(s_player_datum *playerDatum, long index, long default_value) // 0x108DC800
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?s3d_player_get_gameplay_modifier_int@@YAJPAUs_player_datum@@JJ@Z");
-	// `anonymous-namespace'::s3d_player_get_gameplay_modifier_int
-	// long default_value;
 
 	return default_value;
 }
@@ -255,8 +250,6 @@ long s3d_player_get_gameplay_modifier_int(s_player_datum *playerDatum, long inde
 float s3d_player_get_gameplay_modifier_real(s_player_datum *playerDatum, long index, float default_value) // 0x108DC820
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?s3d_player_get_gameplay_modifier_real@@YAMPAUs_player_datum@@JM@Z");
-	// `anonymous-namespace'::s3d_player_get_gameplay_modifier_real
-	// float default_value;
 
 	return default_value;
 }
@@ -264,8 +257,6 @@ float s3d_player_get_gameplay_modifier_real(s_player_datum *playerDatum, long in
 bool BeforePlayerSpawn(long playerIndex) // 0x108DB000
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?BeforePlayerSpawn@@YA_NJ@Z");
-	// `anonymous-namespace'::BeforePlayerSpawn
-	// long playerIndex;
 
 	::Player::CPlayerCharacterSystem::AssignPlayerCharacter(playerIndex);
 	return true;
@@ -274,19 +265,11 @@ bool BeforePlayerSpawn(long playerIndex) // 0x108DB000
 void AfterPlayerSpawn(long playerIndex) // 0x108D93E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?AfterPlayerSpawn@@YAXJ@Z");
-	// the original is empty
-	// `anonymous-namespace'::AfterPlayerSpawn
-	// long playerIndex;
 }
 
 bool player_spawn_hook(long player_index) // 0x108DC5F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?player_spawn_hook@@YA_NJ@Z");
-	// `anonymous-namespace'::player_spawn_hook
-	// long player_index;
-	// bool (*const player_spawn)(long, real_point3d *, float *);
-	// bool did_spawn;
-	// function call : bool (*const)(long, real_point3d *, float *)
 
 	bool (__cdecl *const player_spawn)(long, int, int) = (bool(__cdecl *const)(long, int, int))0x53ce60;
 
@@ -305,11 +288,6 @@ bool player_spawn_hook(long player_index) // 0x108DC5F0
 void player_reset_hook(long player_index, bool a2, bool a3, void *data) // 0x108DC4C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?player_reset_hook@@YAXJ_N0PAX@Z");
-	// `anonymous-namespace'::player_reset_hook
-	// void *data;
-	// s_player_datum *player;
-	// constexpr void (*const `player_reset_hook'::`2'::player_reset)(long, bool, bool, void *); // constant == 5488752
-	// function call : void (*const)(long, bool, bool, void *)
 
 	((void(__cdecl *)(long, bool, bool, void *))0x53c070)(player_index, a2, a3, data);
 	s_player_datum *player = player_get(player_index);
@@ -321,10 +299,6 @@ void player_reset_hook(long player_index, bool a2, bool a3, void *data) // 0x108
 void player_set_unit_index_hook(long player_index, long unit_index) // 0x108DC570
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?player_set_unit_index_hook@@YAXJJ@Z");
-	// `anonymous-namespace'::player_set_unit_index_hook
-	// long unit_index;
-	// void (*const player_mapping_set_player_unit)(long, long);
-	// function call : void (*const)(long, long)
 
 	void (__cdecl *const player_mapping_set_player_unit)(long, long) = (void(__cdecl *const)(long, long))0x58a2b0;
 
@@ -335,20 +309,6 @@ void player_set_unit_index_hook(long player_index, long unit_index) // 0x108DC57
 bool player_in_multiplayer_object_boundary(long player_index, s_multiplayer_object_boundary_geometry_data const *geometry_data) // 0x108DC300
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?player_in_multiplayer_object_boundary@@YA_NJPBUs_multiplayer_object_boundary_geometry_data@@@Z");
-	// `anonymous-namespace'::player_in_multiplayer_object_boundary
-	// static ...; // 0x108DC450
-	// static ...; // 0x108DC448
-	// long player_index;
-	// s_multiplayer_object_boundary_geometry_data const *geometry_data;
-	// s_player_datum *player;
-	// bool (*const point_in_multiplayer_object_boundary)(real_point3d const *, s_multiplayer_object_boundary_geometry_data const *);
-	// bool (*const unit_get_body_position)(long, real_point3d *);
-		// real_point3d points[2];
-		// long point_count;
-			// __int32 i;
-	// function call : void (*const)(long, real_point3d *)
-	// function call : bool (*const)(long, real_point3d *)
-	// function call : bool (*const)(real_point3d const *, s_multiplayer_object_boundary_geometry_data const *)
 
 	bool (*const unit_get_body_position)(long, real_point3d *) = reinterpret_cast<bool (*)(long, real_point3d *)>(0xB43630);
 	bool (*const point_in_multiplayer_object_boundary)(real_point3d const *, s_multiplayer_object_boundary_geometry_data const *) = reinterpret_cast<bool (*)(real_point3d const *, s_multiplayer_object_boundary_geometry_data const *)>(0xBA11F0);
@@ -371,10 +331,6 @@ bool player_in_multiplayer_object_boundary(long player_index, s_multiplayer_obje
 void game_engine_player_died_hook(long player_index) // 0x108DBE50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_player_died_hook@@YAXJ@Z");
-	// `anonymous-namespace'::game_engine_player_died_hook
-	// long player_index;
-	// constexpr void (*const `game_engine_player_died_hook'::`2'::game_engine_player_died)(long); // constant == 5481264
-	// function call : void (*const)(long)
 
 	((void(*)(long))0x53A330)(player_index);
 }
@@ -382,10 +338,6 @@ void game_engine_player_died_hook(long player_index) // 0x108DBE50
 void game_engine_player_update_sub_hook(long player_index, long unit_index) // 0x108DBEB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_player_update_sub_hook@@YAXJJ@Z");
-	// `anonymous-namespace'::game_engine_player_update_sub_hook
-	// long unit_index;
-	// void (*const player_refresh_object_appearance_full)(long, long);
-	// function call : void (*const)(long, long)
 
 	void (*const player_refresh_object_appearance_full)(long, long) = reinterpret_cast<void (*)(long, long)>(0x538ED0);
 	player_refresh_object_appearance_full(player_index, unit_index);
@@ -395,8 +347,6 @@ void game_engine_player_update_sub_hook(long player_index, long unit_index) // 0
 void __fastcall c_game_engine__build_player_baseline(void *thisptr, void *unused, __int32 a1, __int32 a2, s_simulation_game_engine_player_state_data *state_data) // 0x108DBCE0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_game_engine__build_player_baseline@@YIXPAX0HHPAUs_simulation_game_engine_player_state_data@@@Z");
-	// `anonymous-namespace'::c_game_engine__build_player_baseline
-	// s_simulation_game_engine_player_state_data *state_data;
 
 	memset(state_data, 0, 0x74);
 	state_data->initial_spawn = true;
@@ -411,17 +361,6 @@ void __fastcall c_game_engine__build_player_baseline(void *thisptr, void *unused
 void player_handle_coop_respawn(long player_index) // 0x108DC110
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?player_handle_coop_respawn@@YAXJ@Z");
-	// `anonymous-namespace'::player_handle_coop_respawn
-	// static ...; // 0x108DC284
-	// static ...; // 0x108DC278
-	// static ...; // 0x108DC270
-	// long player_index;
-	// s_player_datum *player;
-	// long (*const effect_new_from_object)(long, s_damage_owner const *, s_damage_reporting_info *, long, float, float, real_rgb_color const *, player_handle_coop_respawn::__l2::effect_vector_field *, long);
-		// s_game_globals_player_information *player_info;
-		// long info_block_index;
-			// s_damage_reporting_info reporting_info;
-	// function call : long (*const)(long, s_damage_owner const *, s_damage_reporting_info *, long, float, float, real_rgb_color const *, player_handle_coop_respawn::__l2::effect_vector_field *, long)
 
 	struct effect_vector_field;
 	long (*const effect_new_from_object)(long, s_damage_owner const *, s_damage_reporting_info *, long, float, float, real_rgb_color const *, effect_vector_field *, long) = reinterpret_cast<long (*)(long, s_damage_owner const *, s_damage_reporting_info *, long, float, float, real_rgb_color const *, effect_vector_field *, long)>(0x5B8550);
@@ -445,10 +384,6 @@ void player_handle_coop_respawn(long player_index) // 0x108DC110
 void player_update_after_game_hook(long player_index) // 0x108DC6A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?player_update_after_game_hook@@YAXJ@Z");
-	// `anonymous-namespace'::player_update_after_game_hook
-	// long player_index;
-	// void (*const player_after_game)(long);
-	// function call : void (*const)(long)
 
 	const auto player_update_after_game = (void(*)(long))0x68A100;
 

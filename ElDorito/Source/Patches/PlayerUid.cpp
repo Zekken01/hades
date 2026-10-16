@@ -163,7 +163,6 @@ namespace Patches
 		void ApplyAll() // 0x10AB3CF0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@PlayerUid@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			Hook(0x67E005, GetPlayerUidHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Patch(0x67D810, { 0x30, 0xC0, 0xC3 }).Apply();
@@ -173,7 +172,6 @@ namespace Patches
 		unsigned long long Get() // 0x10AB4960
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Get@PlayerUid@Patches@@YA_KXZ");
-			// procedure flags: nofpo
 
 			EnsureValidUid();
 			return UidPtr.Read<unsigned long long>();
@@ -189,7 +187,6 @@ namespace Patches
 		std::string GetFormattedPrivKey() // 0x10AB49F0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetFormattedPrivKey@PlayerUid@Patches@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-			// procedure flags: nofpo
 
 			EnsureValidUid();
 			return Utils::Cryptography::ReformatKey(true, Modules::ModulePlayer::Instance().VarPlayerPrivKey->ValueString);
@@ -198,12 +195,6 @@ namespace Patches
 		bool ParseUid(std::string const &str, unsigned long long *out) // 0x10AB4AE0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ParseUid@PlayerUid@Patches@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PA_K@Z");
-			// static ...; // 0x10AB4BE4
-			// static ...; // 0x10AB4BDC
-		// $LN9:
-			// std::string const &str;
-			// unsigned long long *out;
-				// unsigned __int32 end;
 
 			try
 			{
@@ -224,8 +215,6 @@ namespace Patches
 _inline void UidExtension::BuildData(__int32 playerIndex, unsigned long long *out) // 0x10AB4190
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?BuildData@UidExtension@hades_file_local@@MAEXHPA_K@Z");
-	// `anonymous-namespace'::UidExtension::BuildData
-	// unsigned long long *out;
 
 	*out = Patches::PlayerUid::Get();
 }
@@ -233,8 +222,6 @@ _inline void UidExtension::BuildData(__int32 playerIndex, unsigned long long *ou
 _inline void UidExtension::ApplyData(__int32 playerIndex, s_player_configuration *properties, unsigned long long const &data) // 0x10AB40D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyData@UidExtension@hades_file_local@@MAEXHPAUs_player_configuration@@AB_K@Z");
-	// `anonymous-namespace'::UidExtension::ApplyData
-	// unsigned long long const &data;
 
 	properties->host.player_uid = data;
 }
@@ -242,8 +229,6 @@ _inline void UidExtension::ApplyData(__int32 playerIndex, s_player_configuration
 _inline void UidExtension::Serialize(Blam::BitStream *stream, unsigned long long const &data) // 0x10AB4CC0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Serialize@UidExtension@hades_file_local@@MAEXPAVBitStream@Blam@@AB_K@Z");
-	// `anonymous-namespace'::UidExtension::Serialize
-	// unsigned long long const &data;
 
 	stream->WriteUnsigned<unsigned long long>(data, 64);
 }
@@ -251,8 +236,6 @@ _inline void UidExtension::Serialize(Blam::BitStream *stream, unsigned long long
 _inline void UidExtension::Deserialize(Blam::BitStream *stream, unsigned long long *out) // 0x10AB4270
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Deserialize@UidExtension@hades_file_local@@MAEXPAVBitStream@Blam@@PA_K@Z");
-	// `anonymous-namespace'::UidExtension::Deserialize
-	// unsigned long long *out;
 
 	*out = stream->ReadUnsigned<unsigned __int64>(64);
 }
@@ -264,21 +247,6 @@ _inline void UidExtension::Deserialize(Blam::BitStream *stream, unsigned long lo
 void EnsureValidUid() // 0x10AB42D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?EnsureValidUid@@YAXXZ");
-	// `anonymous-namespace'::EnsureValidUid
-	// procedure flags: nofpo
-	// static ...; // 0x10AB4804
-	// static ...; // 0x10AB4800
-	// static ...; // 0x10AB47F8
-	// static ...; // 0x10AB47F3
-	// static ...; // 0x10AB47EC
-	// static ...; // 0x10AB47B0
-	// static ...; // 0x10AB47A8
-	// Modules::ModulePlayer &playerVars;
-	// std::string pubKey;
-	// unsigned long long uid;
-	// SHA256state_st sha256;
-	// unsigned char hash[32];
-		// std::string privKey;
 
 	if (UidValidPtr.Read<bool>())
 		return;
@@ -314,8 +282,6 @@ void EnsureValidUid() // 0x10AB42D0
 unsigned long long GetPlayerUidHook(__int32 unused) // 0x10AB4AA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetPlayerUidHook@@YA_KH@Z");
-	// `anonymous-namespace'::GetPlayerUidHook
-	// __int32 unused;
 
 	return Patches::PlayerUid::Get();
 }

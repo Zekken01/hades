@@ -104,11 +104,6 @@ namespace Patches
 		void InitializeForNewMap() // 0x10A8BC10
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeForNewMap@Mopp@Patches@@YAXXZ");
-			// procedure flags: nofpo
-			// s_scenario *scenario;
-				// long i;
-					// s_scenario_structure_bsp *sbsp;
-			// function call : void *(*const)(unsigned long, long)
 
 			ApplyRuntimeMoppFix = false;
 			s_scenario *scenario = global_scenario_get();
@@ -126,7 +121,6 @@ namespace Patches
 		void ApplyAll() // 0x10A8B8E0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Mopp@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			Hook(0x90E9E3, loc_D0E9E3_hook).Apply();
 			Hook(0x90D919, loc_D0D919_hook).Apply();
@@ -136,7 +130,6 @@ namespace Patches
 		void Tick() // 0x10A8BD10
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@Mopp@Patches@@YAXXZ");
-			// procedure flags: nofpo
 		}
 	}
 }
@@ -146,9 +139,6 @@ namespace Patches
 __declspec(naked) void fixMoppAddress() // 0x10A8BD30
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?fixMoppAddress@@YAXXZ");
-	// `anonymous-namespace'::fixMoppAddress
-	// procedure flags: nofpo
-// skip_fixup:
 
 	__asm
 	{
@@ -172,8 +162,6 @@ __declspec(naked) void fixMoppAddress() // 0x10A8BD30
 __declspec(naked) void loc_D0E9E3_hook() // 0x10A8BD90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?loc_D0E9E3_hook@@YAXXZ");
-	// `anonymous-namespace'::loc_D0E9E3_hook
-	// procedure flags: nofpo
 
 	__asm
 	{
@@ -189,8 +177,6 @@ __declspec(naked) void loc_D0E9E3_hook() // 0x10A8BD90
 __declspec(naked) void loc_D0D919_hook() // 0x10A8BD60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?loc_D0D919_hook@@YAXXZ");
-	// `anonymous-namespace'::loc_D0D919_hook
-	// procedure flags: nofpo
 
 	__asm
 	{
@@ -209,8 +195,6 @@ __declspec(naked) void loc_D0D919_hook() // 0x10A8BD60
 __declspec(naked) void loc_D0F505_hook() // 0x10A8BDB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?loc_D0F505_hook@@YAXXZ");
-	// `anonymous-namespace'::loc_D0F505_hook
-	// procedure flags: nofpo
 
 	__asm
 	{

@@ -167,7 +167,6 @@ static_assert(sizeof(c_gui_widget) == 220, "Invalid c_gui_widget size");
 inline c_gui_widget *c_gui_widget::get_parent() const // 0x108D5F20
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_parent@c_gui_widget@@QBEPAV1@XZ");
-	// c_gui_widget const *const this;
 
 	return m_parent.widget;
 }
@@ -175,7 +174,6 @@ inline c_gui_widget *c_gui_widget::get_parent() const // 0x108D5F20
 inline c_gui_widget *c_gui_widget::get_first_child() const // 0x108D5E30
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_first_child@c_gui_widget@@QBEPAV1@XZ");
-	// c_gui_widget const *const this;
 
 	return m_first_child.widget;
 }
@@ -183,7 +181,6 @@ inline c_gui_widget *c_gui_widget::get_first_child() const // 0x108D5E30
 inline c_gui_widget *c_gui_widget::get_next_sibling() const // 0x108D5EF0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_next_sibling@c_gui_widget@@QBEPAV1@XZ");
-	// c_gui_widget const *const this;
 
 	return m_next_sibling.widget;
 }
@@ -191,7 +188,6 @@ inline c_gui_widget *c_gui_widget::get_next_sibling() const // 0x108D5EF0
 inline unsigned long c_gui_widget::get_name_string_id() const // 0x108D5EC0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_name_string_id@c_gui_widget@@QBEKXZ");
-	// c_gui_widget const *const this;
 
 	return m_name;
 }
@@ -199,7 +195,6 @@ inline unsigned long c_gui_widget::get_name_string_id() const // 0x108D5EC0
 inline e_gui_widget c_gui_widget::get_type() const // 0x108D5F80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_type@c_gui_widget@@QBE?AW4e_gui_widget@@XZ");
-	// c_gui_widget const *const this;
 
 	return static_cast<e_gui_widget>(m_type);
 }
@@ -207,7 +202,6 @@ inline e_gui_widget c_gui_widget::get_type() const // 0x108D5F80
 inline bool c_gui_widget::is_visible() const // 0x108D5FB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?is_visible@c_gui_widget@@QBE_NXZ");
-	// c_gui_widget const *const this;
 
 	return m_visible;
 }

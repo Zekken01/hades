@@ -88,13 +88,6 @@ namespace Player
 		void set_emblem_texture(long sampler, long player_index, bool use_generic, bool screen_emblem) // 0x107F0CB0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?set_emblem_texture@PlayerEmblem@Player@@YAXJJ_N0@Z");
-			// bool screen_emblem;
-			// IDirect3DDevice9 *device;
-			// unsigned long stage;
-			// bool *g_sampler_gamma_correction_array;
-			// IDirect3DTexture9 *texture;
-			// function call : HRESULT (unsigned long, IDirect3DBaseTexture9 *)
-			// function call : HRESULT (unsigned long, _D3DSAMPLERSTATETYPE, unsigned long)
 
 			if (!Player::PlayerEmblemDownload::Instance().IsAvailable())
 			{
@@ -116,7 +109,6 @@ namespace Player
 		void set_emblem_customization_biped(long sampler, bool use_generic, bool screen_emblem) // 0x107F0C50
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?set_emblem_customization_biped@PlayerEmblem@Player@@YAXJ_N0@Z");
-			// bool screen_emblem;
 
 			set_emblem_texture(sampler, 16, use_generic, screen_emblem);
 		}

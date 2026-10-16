@@ -164,16 +164,11 @@ namespace Web
 		CWebFileReadHandler::~CWebFileReadHandler() // 0x10CB7690
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "??1CWebFileReadHandler@Browser@Web@@UAE@XZ");
-			// __shifted(Web::Browser::CWebFileReadHandler, 228);
-			// Web::Browser::CWebFileReadHandler *const this;
 		}
 
 		unsigned __int32 CWebFileReadHandler::Read(void *ptr, unsigned __int32 size, unsigned __int32 n) // 0x10CB7B80
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Read@CWebFileReadHandler@Browser@Web@@UAEIPAXII@Z");
-			// unsigned __int32 n;
-			// long long chunkBytes;
-			// long long remainingBytes;
 
 			long long remaining = m_length - m_position;
 			long long chunkBytes = size * n;
@@ -187,7 +182,6 @@ namespace Web
 		__int32 CWebFileReadHandler::Seek(long long offset, __int32 whence) // 0x10CB7D80
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Seek@CWebFileReadHandler@Browser@Web@@UAEH_JH@Z");
-			// __int32 whence;
 
 			if (whence == 1)
 			{
@@ -209,7 +203,6 @@ namespace Web
 		long long CWebFileReadHandler::Tell() // 0x10CB7EB0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Tell@CWebFileReadHandler@Browser@Web@@UAE_JXZ");
-			// Web::Browser::CWebFileReadHandler *const this;
 
 			return m_position;
 		}
@@ -217,7 +210,6 @@ namespace Web
 		__int32 CWebFileReadHandler::Eof() // 0x10CB79C0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Eof@CWebFileReadHandler@Browser@Web@@UAEHXZ");
-			// Web::Browser::CWebFileReadHandler *const this;
 
 			return m_position >= m_length || m_stream.eof();
 		}
@@ -225,7 +217,6 @@ namespace Web
 		bool CWebFileReadHandler::MayBlock() // 0x10CB7B60
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?MayBlock@CWebFileReadHandler@Browser@Web@@UAE_NXZ");
-			// Web::Browser::CWebFileReadHandler *const this;
 
 			return true;
 		}

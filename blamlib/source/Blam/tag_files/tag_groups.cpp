@@ -51,8 +51,6 @@ extern s_tag_padding_definition pad64; // 0x113595D0
 void *tag_try_and_get_and_verify_group(unsigned long group_tag, long tag_index) // 0x10EFC4F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?tag_try_and_get_and_verify_group@@YAPAXKJ@Z");
-	// long tag_index;
-	// s_cache_tag_instance *instance;
 
 	s_cache_tag_instance *instance = try_and_get_instance_internal(tag_index);
 	if (!instance)
@@ -69,8 +67,6 @@ void *tag_try_and_get_and_verify_group(unsigned long group_tag, long tag_index) 
 unsigned long tag_try_and_get_group_tag(long tag_index) // 0x10EFC5C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?tag_try_and_get_group_tag@@YAKJ@Z");
-	// long tag_index;
-	// s_cache_tag_instance *instance;
 
 	auto instance = try_and_get_instance_internal(tag_index);
 	if (!instance)
@@ -81,7 +77,6 @@ unsigned long tag_try_and_get_group_tag(long tag_index) // 0x10EFC5C0
 unsigned long tag_get_group_tag(long tag_index) // 0x10EFC390
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?tag_get_group_tag@@YAKJ@Z");
-	// long tag_index;
 
 	return g_cache_file_tag_globals->instances[g_cache_file_tag_globals->index_to_absolute_index_map[tag_index]]->group.tags[0];
 }
@@ -89,8 +84,6 @@ unsigned long tag_get_group_tag(long tag_index) // 0x10EFC390
 bool tag_loaded(long tag_index) // 0x10EFC410
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?tag_loaded@@YA_NJ@Z");
-	// long tag_index;
-	// long absolute_index;
 
 	if (!g_cache_file_tag_globals->initialized)
 	{
@@ -114,7 +107,6 @@ bool tag_loaded(long tag_index) // 0x10EFC410
 bool tags_loaded() // 0x10EFC640
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?tags_loaded@@YA_NXZ");
-	// procedure flags: nofpo
 
 	return g_cache_file_tag_globals->initialized;
 }
@@ -124,10 +116,6 @@ bool tags_loaded() // 0x10EFC640
 extern "C" s_cache_tag_instance *try_and_get_instance_internal(long tag_index) // 0x10EFC690
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_try_and_get_instance_internal");
-	// try_and_get_instance_internal
-	// long tag_index;
-	// s_cache_tag_instance *instance;
-	// long absolute_index;
 
 	if (tag_index < 0 || tag_index >= 0xFFFF)
 	{

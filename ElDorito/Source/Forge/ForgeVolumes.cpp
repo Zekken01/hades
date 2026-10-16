@@ -301,9 +301,6 @@ namespace Forge
 		void InitializeForNewRound() // 0x10954D00
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeForNewRound@Volumes@Forge@@YAXXZ");
-			// procedure flags: nofpo
-				// __int32 i;
-					// ForgeVolume *volume;
 
 			memset(&state, 0, sizeof(state));
 
@@ -320,7 +317,6 @@ namespace Forge
 		void DisposeFromOldRound() // 0x109548F0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?DisposeFromOldRound@Volumes@Forge@@YAXXZ");
-			// procedure flags: nofpo
 
 			state.IsValid = false;
 		}
@@ -328,10 +324,6 @@ namespace Forge
 		void Update() // 0x109556B0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Update@Volumes@Forge@@YAXXZ");
-			// procedure flags: nofpo
-			// bool (*const game_engine_round_in_progress)();
-			// function call : bool (*const)()
-			// function call : float (*const)(float)
 
 			bool (*const game_engine_round_in_progress)() = (bool (*)())0x550F90;
 			if (game_engine_round_in_progress())
@@ -362,25 +354,6 @@ namespace Forge
 void ApplyUnitDamage(ForgeVolume &killVolume, unsigned __int32 unitObjectIndex) // 0x10954590
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyUnitDamage@@YAXAAUForgeVolume@hades_file_local@@I@Z");
-	// `anonymous-namespace'::ApplyUnitDamage
-	// static ...; // 0x10954750
-	// static ...; // 0x10954748
-	// ForgeVolume &killVolume;
-	// unsigned __int32 unitObjectIndex;
-	// void (*const damage_determine_cause)(unsigned __int32, void *);
-	// s_game_globals *matg;
-	// __int32 damageCauseType;
-	// Forge::ForgeKillVolumeProperties *killVolumeProperties;
-	// __int32 damageEffectTagIndex;
-	// __int32 (*const damage_data_new)(DamageData *, __int32);
-	// void (*const unit_cause_damage)(DamageData *, __int32, __int32);
-	// s_object_data *volumeObject;
-	// s_multiplayer_object_properties *mpProperties;
-		// DamageData damage;
-	// function call : s_multiplayer_object_properties *(*const)(unsigned long)
-	// function call : __int32 (*const)(DamageData *, __int32)
-	// function call : void (*const)(unsigned __int32, void *)
-	// function call : void (*const)(DamageData *, __int32, __int32)
 
 	__int32 (*const damage_data_new)(DamageData *, __int32) = reinterpret_cast<__int32 (*)(DamageData *, __int32)>(0xB50330);
 	void (*const unit_cause_damage)(DamageData *, __int32, __int32) = reinterpret_cast<void (*)(DamageData *, __int32, __int32)>(0xB542A0);
@@ -423,9 +396,6 @@ void ApplyUnitDamage(ForgeVolume &killVolume, unsigned __int32 unitObjectIndex) 
 void ResetVolume(__int32 index) // 0x10955210
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ResetVolume@@YAXH@Z");
-	// `anonymous-namespace'::ResetVolume
-	// __int32 index;
-	// ForgeVolume &volume;
 
 	ForgeVolume &volume = state.Volumes[index];
 	memset(&volume, 0, sizeof(volume));
@@ -436,35 +406,6 @@ void ResetVolume(__int32 index) // 0x10955210
 void UpdateKillVolume(ForgeVolume &volume) // 0x10955CA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateKillVolume@@YAXAAUForgeVolume@hades_file_local@@@Z");
-	// `anonymous-namespace'::UpdateKillVolume
-	// static ...; // 0x10956055
-	// static ...; // 0x1095604C
-	// static ...; // 0x10956034
-	// static ...; // 0x1095602C
-	// ForgeVolume &volume;
-	// bool (*const ZoneShape__ContainsPlayer)(void *, __int32);
-	// long clusterObjects[128];
-	// short clusterObjectCount;
-	// c_data_array<s_player_datum> *players;
-	// __int32 objectTypeMask;
-	// Forge::ForgeKillVolumeProperties *properties;
-	// s_object_data *volumeObject;
-	// s_multiplayer_object_properties *mpProperties;
-		// __int32 i;
-			// s_object_data *clusterObject;
-			// unsigned char objectType;
-				// s_player_datum *player;
-				// unsigned __int32 playerIndex;
-				// s_unit_data *driverUnitObject;
-				// unsigned __int32 driverUnitObjectIndex;
-				// real_point3d position;
-					// s_player_datum *player;
-					// long playerIndex;
-	// function call : s_multiplayer_object_properties *(*const)(unsigned long)
-	// function call : short (*const)(long, long, s_cluster_reference const *, real_point3d const *, float, long *, short)
-	// function call : bool (*const)(void *, __int32)
-	// function call : void (*const)(long, real_point3d *)
-	// function call : bool (*const)(real_point3d const *, s_multiplayer_object_boundary_geometry_data const *)
 
 	bool (__thiscall *const ZoneShape__ContainsPlayer)(void *, __int32) = reinterpret_cast<bool (__thiscall *)(void *, __int32)>(0x765C80);
 	c_data_array<s_player_datum> *players = players_get();
@@ -516,28 +457,6 @@ void UpdateKillVolume(ForgeVolume &volume) // 0x10955CA0
 bool ShouldGarbageCollectObject(unsigned __int32 objectIndex, ForgeVolume &volume) // 0x10955290
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ShouldGarbageCollectObject@@YA_NIAAUForgeVolume@hades_file_local@@@Z");
-	// `anonymous-namespace'::ShouldGarbageCollectObject
-	// static ...; // 0x109555C0
-	// static ...; // 0x109555A8
-	// static ...; // 0x109555A0
-	// unsigned __int32 objectIndex;
-	// ForgeVolume &volume;
-	// s_object_data *object;
-	// e_object_type objectType;
-	// s_object_data *volumeObject;
-	// Forge::ForgeGarbageVolumeProperties *garbageVolumeProperties;
-		// unsigned __int32 driverObjectIndex;
-		// unsigned __int32 ownerUnitObjectIndex;
-		// short mpWeaponType;
-		// c_data_array<s_player_datum> &<range>$L0;
-		// c_data_iterator<s_player_datum> <begin>$L0;
-		// c_data_iterator<s_player_datum> <end>$L0;
-			// s_player_datum const &player;
-		// bool isGrenade;
-			// unsigned __int32 ownerUnitObjectIndex;
-	// function call : s_multiplayer_object_properties *(*const)(unsigned long)
-	// function call : short (*const)(unsigned __int32)
-	// function call : __int32 (*const)(__int32)
 
 	s_object_data *volumeObject = object_get(volume.ObjectIndex);
 	if (!volumeObject)
@@ -600,10 +519,6 @@ bool ShouldGarbageCollectObject(unsigned __int32 objectIndex, ForgeVolume &volum
 s_multiplayer_weapon_tracker *FindEngineObject(unsigned __int32 objectIndex) // 0x10954910
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?FindEngineObject@@YAPAUs_multiplayer_weapon_tracker@@I@Z");
-	// `anonymous-namespace'::FindEngineObject
-	// unsigned __int32 objectIndex;
-	// s_game_engine_globals *game_engine_globals;
-		// long i;
 
 	s_game_engine_globals *game_engine_globals = tls_getd().game_engine_globals;
 
@@ -619,16 +534,6 @@ s_multiplayer_weapon_tracker *FindEngineObject(unsigned __int32 objectIndex) // 
 void ResetCtfObject(long objectIndex) // 0x109550B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ResetCtfObject@@YAXJ@Z");
-	// `anonymous-namespace'::ResetCtfObject
-	// long objectIndex;
-	// s_ctf_engine_globals *ctf_globals;
-	// s_multiplayer_weapon_tracker *engineObject;
-	// void (*const flag_reset)(long);
-	// c_game_engine *engine;
-	// function call : c_game_engine *(*const)()
-	// function call : void (*)(void *, short, bool)
-	// function call : void (*const)(long)
-	// function call : void (*)(void *, short)
 
 	void (*const flag_reset)(long) = reinterpret_cast<void (*)(long)>(0x97DD00);
 	c_game_engine *engine = ((c_game_engine *(__cdecl *)())0x5CE150)();
@@ -652,13 +557,6 @@ void ResetCtfObject(long objectIndex) // 0x109550B0
 void CollectObject(unsigned __int32 objectIndex) // 0x109547E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CollectObject@@YAXI@Z");
-	// `anonymous-namespace'::CollectObject
-	// unsigned __int32 objectIndex;
-	// s_object_data *object;
-	// void (*const objects_dispose)(unsigned __int32);
-		// short mpWeaponType;
-	// function call : short (*const)(unsigned __int32)
-	// function call : void (*const)(unsigned __int32)
 
 	void (*const objects_dispose)(unsigned __int32) = reinterpret_cast<void (*)(unsigned __int32)>(0xB2CD10);
 	s_object_data *object = object_get(objectIndex);
@@ -680,33 +578,6 @@ void CollectObject(unsigned __int32 objectIndex) // 0x109547E0
 void UpdateGarbageCollectionVolume(ForgeVolume &volume) // 0x10955820
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateGarbageCollectionVolume@@YAXAAUForgeVolume@hades_file_local@@@Z");
-	// `anonymous-namespace'::UpdateGarbageCollectionVolume
-	// static ...; // 0x10955BA4
-	// static ...; // 0x10955B94
-	// static ...; // 0x10955B88
-	// static ...; // 0x10955B80
-// $LN15:
-// $LN14:
-// $LN12:
-	// ForgeVolume &volume;
-	// long currentTime;
-	// long clusterObjects[128];
-	// __int32 const collectionMask;
-	// float interval;
-	// short clusterObjectCount;
-	// __int32 intervalIndex;
-	// s_object_data *volumeObject;
-	// Forge::ForgeGarbageVolumeProperties *garbageVolumeProperties;
-		// __int32 i;
-			// long clusterObjectIndex;
-			// s_object_data *clusterObject;
-			// unsigned __int32 lastActiveTicks;
-	// function call : float (*const)(float)
-	// function call : s_multiplayer_object_properties *(*const)(unsigned long)
-	// function call : short (*const)(long, long, s_cluster_reference const *, real_point3d const *, float, long *, short)
-	// function call : long (*const)()
-	// function call : float (*const)(float)
-	// function call : bool (*const)(real_point3d const *, s_multiplayer_object_boundary_geometry_data const *)
 
 	if (game_ticks_to_seconds(volume.Data.GarbageVolume.CollectionTicks++) < 0.25f)
 		return;
@@ -759,10 +630,6 @@ void UpdateGarbageCollectionVolume(ForgeVolume &volume) // 0x10955820
 __int32 GetNextVolumeIndex(unsigned __int32 objectIndex) // 0x10954C80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetNextVolumeIndex@@YAHI@Z");
-	// `anonymous-namespace'::GetNextVolumeIndex
-	// unsigned __int32 objectIndex;
-		// __int32 i;
-			// ForgeVolume &volume;
 
 	for (int i = 0; i < 64; i++)
 	{
@@ -778,20 +645,6 @@ __int32 GetNextVolumeIndex(unsigned __int32 objectIndex) // 0x10954C80
 void FindVolumes() // 0x109549C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?FindVolumes@@YAXXZ");
-	// `anonymous-namespace'::FindVolumes
-	// procedure flags: nofpo
-	// static ...; // 0x10954BEC
-	// static ...; // 0x10954BE0
-	// static ...; // 0x10954BD8
-	// c_data_array<s_object_header> *object_headers;
-	// s_forge_globals_definition *forge_globals;
-		// c_data_iterator<s_object_header> it;
-			// __int32 volumeIndex;
-			// ForgeVolume &volume;
-			// s_multiplayer_object_properties *mpProperties;
-				// Forge::ForgeKillVolumeProperties *killVolumeProperties;
-	// function call : s_multiplayer_object_properties *(*const)(unsigned long)
-	// function call : void (*const)(long, s_multiplayer_object_boundary_geometry_data *, long)
 
 	s_forge_globals_definition *forge_globals = forge_globals_get_definition();
 	c_data_array<s_object_header> *object_headers = object_headers_get();
@@ -830,9 +683,6 @@ void FindVolumes() // 0x109549C0
 bool ObjectIsVolume(__int32 tagIndex) // 0x10954DA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ObjectIsVolume@@YA_NH@Z");
-	// `anonymous-namespace'::ObjectIsVolume
-	// __int32 tagIndex;
-	// s_forge_globals_definition *forge_globals;
 
 	s_forge_globals_definition *forge_globals = forge_globals_get_definition();
 	return tagIndex == forge_globals->kill_volume_object.index || tagIndex == forge_globals->garbage_volume_object.index;
@@ -841,12 +691,6 @@ bool ObjectIsVolume(__int32 tagIndex) // 0x10954DA0
 void UpdateVolumes() // 0x10956160
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateVolumes@@YAXXZ");
-	// `anonymous-namespace'::UpdateVolumes
-	// procedure flags: nofpo
-		// __int32 i;
-			// ForgeVolume &volume;
-			// s_object_data *volumeObject;
-	// function call : void (*const)(long, s_multiplayer_object_boundary_geometry_data *, long)
 
 	for (__int32 i = 0; i < 64; i++)
 	{
@@ -875,20 +719,6 @@ void UpdateVolumes() // 0x10956160
 void RenderVolumes() // 0x10954E30
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?RenderVolumes@@YAXXZ");
-	// `anonymous-namespace'::RenderVolumes
-	// procedure flags: nofpo
-	// static ...; // 0x1095501E
-	// static ...; // 0x10955018
-	// static ...; // 0x10955000
-	// static ...; // 0x10954FF8
-		// __int32 i;
-			// ForgeVolume const &volume;
-			// s_object_data *volumeObject;
-				// real_argb_color color;
-	// function call : unsigned long (*const)(long)
-	// function call : bool (*const)(long, long *, long *)
-	// function call : void (*const)(s_multiplayer_object_boundary_geometry_data const *, real_argb_color const *, long)
-	// function call : void (*const)(s_multiplayer_object_boundary_geometry_data const *, real_argb_color const *, long)
 
 	for (__int32 i = 0; i < 64; i++)
 	{

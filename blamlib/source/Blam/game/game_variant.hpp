@@ -313,7 +313,6 @@ static_assert(sizeof(c_game_engine_infection_variant) == 592, "Invalid c_game_en
 inline c_game_engine_base_variant *c_game_variant::get_base_variant() // 0x1092CFD0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_base_variant@c_game_variant@@QAEPAUc_game_engine_base_variant@@XZ");
-	// c_game_variant *const this;
 
 	return (c_game_engine_base_variant *)storage;
 }

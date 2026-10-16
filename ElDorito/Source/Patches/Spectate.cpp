@@ -246,7 +246,6 @@ namespace Patches
 		void ApplyAll() // 0x10AD0360
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Spectate@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			Hook(0x32A8D6, GetObserverCameraSensitivityHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x1930FB, c_director__player_switch_update__object_get_ultimate_parent_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
@@ -263,13 +262,6 @@ namespace Patches
 void GetObserverCameraSensitivityHook(__int32 localPlayerIndex, float *sensitivity) // 0x10AD08C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetObserverCameraSensitivityHook@@YAXHPAM@Z");
-	// `anonymous-namespace'::GetObserverCameraSensitivityHook
-	// float *sensitivity;
-	// Modules::ModuleSettings &moduleSettings;
-	// bool const isUsingController;
-	// Blam::Input::BindingsTable *bindings;
-	// Modules::ModuleInput &moduleInput;
-	// float sens;
 
 	auto& moduleInput = Modules::ModuleInput::Instance();
 	auto& moduleSettings = Modules::ModuleSettings::Instance();
@@ -295,8 +287,6 @@ void GetObserverCameraSensitivityHook(__int32 localPlayerIndex, float *sensitivi
 long c_director__player_switch_update__object_get_ultimate_parent_hook(long object_index) // 0x10AD0CF0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_director__player_switch_update__object_get_ultimate_parent_hook@@YAJJ@Z");
-	// `anonymous-namespace'::c_director__player_switch_update__object_get_ultimate_parent_hook
-	// long object_index;
 
 	return object_index;
 }
@@ -304,26 +294,6 @@ long c_director__player_switch_update__object_get_ultimate_parent_hook(long obje
 void __fastcall c_director__player_switch_gui_create_or_update_hook(c_director *thisptr) // 0x10AD0AC0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_director__player_switch_gui_create_or_update_hook@@YIXPAVc_director@@@Z");
-	// `anonymous-namespace'::c_director__player_switch_gui_create_or_update_hook
-	// c_director *thisptr;
-	// c_observer_camera_list_screen *camera_list_screen;
-	// long controller_index;
-	// long window_index;
-		// bool is_playback;
-	// function call : bool (*const)(char)
-	// function call : bool (*const)()
-	// function call : bool (*const)()
-	// function call : bool (*const)()
-	// function call : char (*const)(c_director *)
-	// function call : unsigned long (*const)(long)
-	// function call : long (*const)(long)
-	// function call : c_observer_camera_list_screen *(*const)(long)
-	// function call : bool (*const)(long)
-	// function call : c_observer_camera_list_screen *(*const)(long)
-	// function call : void (*const)(c_director *)
-	// function call : bool (*const)()
-	// function call : void (*const)(c_gui_widget *, bool)
-	// function call : void (*const)(c_gui_widget *, long, bool)
 
 	if (((bool (*)(long))0x5523A0)(4))
 		return;
@@ -357,16 +327,6 @@ void __fastcall c_director__player_switch_gui_create_or_update_hook(c_director *
 long c_game_director__update_watched_player_when_unit_deleted_fix(long avoid_player_index, long starting_player_index, long a2, long direction, bool same_team, bool a6, bool a7, long *out_unit_index) // 0x10AD0D10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_game_director__update_watched_player_when_unit_deleted_fix@@YAJJJJJ_N00PAJ@Z");
-	// `anonymous-namespace'::c_game_director__update_watched_player_when_unit_deleted_fix
-	// long *out_unit_index;
-	// void (*const c_director__set_watched_player)(c_director *, long);
-	// long (*const c_director__player_get_next_player_with_a_unit)(long, long, long, long, bool, bool, bool, long *);
-	// long next_player_index;
-		// long output_user_index;
-	// function call : long (*const)(long, long, long, long, bool, bool, bool, long *)
-	// function call : long (*const)(long)
-	// function call : c_director *(*const)(long)
-	// function call : void (*const)(c_director *, long)
 
 	void (__thiscall *const c_player_view__set_watched_player_index)(void *player_view, long player_index) = (void (__thiscall *)(void *, long))0x5934D0;
 	long (*const c_game_director__update_watched_player_when_unit_deleted)(long, long, long, long, bool, bool, bool, long *) = (long (*)(long, long, long, long, bool, bool, bool, long *))0x592A80;
@@ -386,16 +346,6 @@ long c_game_director__update_watched_player_when_unit_deleted_fix(long avoid_pla
 long get_player_index_from_list_item(c_observer_camera_list_screen *screen, c_gui_list_item_widget *item) // 0x10AD1160
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_player_index_from_list_item@@YAJPAUc_observer_camera_list_screen@hades_file_local@@PAVc_gui_list_item_widget@@@Z");
-	// `anonymous-namespace'::get_player_index_from_list_item
-	// static ...; // 0x10AD1220
-	// static ...; // 0x10AD1218
-	// c_observer_camera_list_screen *screen;
-	// c_gui_list_item_widget *item;
-	// c_gui_data *data;
-	// long element_handle;
-	// get_player_index_from_list_item::__l2::s_player_info player_info;
-	// function call : long ()
-	// function call : bool (long, void *, long)
 
 	struct s_player_info
 	{
@@ -421,13 +371,6 @@ long get_player_index_from_list_item(c_observer_camera_list_screen *screen, c_gu
 void __fastcall c_observer_camera_list_screen__update_hook(c_observer_camera_list_screen *thisptr, void *__formal, unsigned long milliseconds) // 0x10AD0E10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_observer_camera_list_screen__update_hook@@YIXPAUc_observer_camera_list_screen@hades_file_local@@PAXK@Z");
-	// `anonymous-namespace'::c_observer_camera_list_screen__update_hook
-	// unsigned long milliseconds;
-	// long player_index;
-	// long player_idx;
-	// void (*const c_observer_camera_list_screen__update)(c_observer_camera_list_screen *, unsigned long);
-	// c_gui_bitmap_widget *player_emblem_widget;
-	// function call : void (*const)(c_observer_camera_list_screen *, unsigned long)
 
 	void (__thiscall *const c_observer_camera_list_screen__update)(c_observer_camera_list_screen *, unsigned long) = (void (__thiscall *)(c_observer_camera_list_screen *, unsigned long))0xABBB30;
 
@@ -459,22 +402,6 @@ void __fastcall c_observer_camera_list_screen__update_hook(c_observer_camera_lis
 void __fastcall c_observer_camera_list_screen__update_render_state_hook(c_observer_camera_list_screen *thisptr, void *__formal, unsigned long milliseconds) // 0x10AD0F40
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_observer_camera_list_screen__update_render_state_hook@@YIXPAUc_observer_camera_list_screen@hades_file_local@@PAXK@Z");
-	// `anonymous-namespace'::c_observer_camera_list_screen__update_render_state_hook
-	// static ...; // 0x10AD10D4
-	// c_observer_camera_list_screen *thisptr;
-	// void *__formal;
-	// unsigned long milliseconds;
-	// void (*const update_render_state)(c_gui_widget *, unsigned long);
-	// long player_index;
-	// c_gui_bitmap_widget *base_color_widget;
-		// s_player_datum *player;
-		// long player_idx;
-		// real_argb_color base_color;
-	// function call : void (*const)(c_gui_widget *, unsigned long)
-	// function call : bool (*const)()
-	// function call : void (*const)(c_gui_widget *, long, bool)
-	// function call : real_argb_color *(*const)(unsigned long, real_argb_color *)
-	// function call : void (*const)(c_gui_widget *, real_argb_color const *)
 
 	void (__thiscall *const update_render_state)(c_gui_widget *, unsigned long) = reinterpret_cast<void (__thiscall *)(c_gui_widget *, unsigned long)>(0xABB1A0);
 	update_render_state(thisptr, milliseconds);

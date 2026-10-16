@@ -32,9 +32,6 @@ extern s_mod_globals_definition *mod_globals_get_definition();
 s_mod_globals_definition *mod_globals_get_definition() // 0x10F02990
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?mod_globals_get_definition@@YAPAUs_mod_globals_definition@@XZ");
-	// procedure flags: nofpo
-	// function call : long (*const)(unsigned long)
-	// function call : void *(*const)(unsigned long, long)
 
 	return (s_mod_globals_definition *)tag_get(0x6D6F6467, tag_get_first_in_group(0x6D6F6467));
 }

@@ -51,12 +51,6 @@ extern void (*const sub_503470)(void *, void *, long); // 0x1124B968
 void cache_file_tag_references_fixup() // 0x10F18FC0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?cache_file_tag_references_fixup@@YAXXZ");
-	// procedure flags: nofpo
-		// __int32 i;
-			// s_cache_tag_instance *instance;
-			// unsigned long *tag_reference_fixups;
-				// __int32 j;
-					// s_tag_reference *reference;
 
 	for (long i = 0; i < g_cache_file_tag_globals->loaded_instance_count; i++)
 	{
@@ -76,8 +70,6 @@ void cache_file_tag_references_fixup() // 0x10F18FC0
 void cache_file_tags_close() // 0x10F190F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?cache_file_tags_close@@YAXXZ");
-	// procedure flags: nofpo
-	// function call : bool (*const)(s_file_reference *)
 
 	file_close(&g_cache_file_tag_globals->cache_file_reference);
 }

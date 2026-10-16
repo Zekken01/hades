@@ -40,7 +40,6 @@ struct s_network_session_player;
 bool c_network_session_membership::is_leader() const // 0x10F00BB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?is_leader@c_network_session_membership@@QBE_NXZ");
-	// c_network_session_membership const *const this;
 
 	return has_membership() && ((s_network_session_shared_membership const *)m_shared_network_membership)->leader_peer_index == m_local_peer_index;
 }
@@ -48,7 +47,6 @@ bool c_network_session_membership::is_leader() const // 0x10F00BB0
 bool c_network_session_membership::is_peer_valid(long peer_index) const // 0x10F00C50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?is_peer_valid@c_network_session_membership@@QBE_NJ@Z");
-	// long peer_index;
 
 	return (((s_network_session_shared_membership const *)m_shared_network_membership)->peer_valid_mask >> peer_index) & 1;
 }
@@ -56,11 +54,11 @@ bool c_network_session_membership::is_peer_valid(long peer_index) const // 0x10F
 bool c_network_session_membership::is_player_valid(long player_index) const // 0x10F00CC0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?is_player_valid@c_network_session_membership@@QBE_NJ@Z");
-	// long player_index;
 
 	return (((s_network_session_shared_membership const *)m_shared_network_membership)->player_valid_mask >> player_index) & 1;
 }
 
+#line 64
 s_network_session_player *c_network_session_membership::get_player(long player_index) // 0x10F00B00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_player@c_network_session_membership@@QAEPAUs_network_session_player@@J@Z");
@@ -108,8 +106,6 @@ long c_network_session_membership::get_channel_index(long peer_index) const // 0
 long c_network_session_membership::get_first_peer() // 0x10F00840
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_first_peer@c_network_session_membership@@QAEJXZ");
-	// c_network_session_membership *const this;
-		// long index;
 
 	for (long index = 0; index < 17; index++)
 	{
@@ -120,6 +116,7 @@ long c_network_session_membership::get_first_peer() // 0x10F00840
 	return -1;
 }
 
+#line 123
 long c_network_session_membership::get_next_peer(long peer_index) // 0x10F00980
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_next_peer@c_network_session_membership@@QAEJJ@Z");

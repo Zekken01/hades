@@ -126,10 +126,6 @@ static_assert(sizeof(c_screen_postprocess) == 1, "Invalid c_screen_postprocess s
 inline bool c_screen_postprocess::s_smaa_globals::init_surface(IDirect3DDevice9 *device, IDirect3DTexture9 **tex, IDirect3DSurface9 **srf, _D3DFORMAT format) // 0x10F11160
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?init_surface@s_smaa_globals@c_screen_postprocess@@AAE_NPAUIDirect3DDevice9@@PAPAUIDirect3DTexture9@@PAPAUIDirect3DSurface9@@W4_D3DFORMAT@@@Z");
-	// _D3DFORMAT format;
-	// function call : HRESULT (unsigned __int32, unsigned __int32, unsigned __int32, unsigned long, _D3DFORMAT, _D3DPOOL, IDirect3DTexture9 **, void **)
-	// function call : HRESULT (unsigned __int32, IDirect3DSurface9 **)
-	// function call : unsigned long ()
 
 	if (FAILED(device->CreateTexture(res_x, res_y, 1, D3DUSAGE_RENDERTARGET, format, D3DPOOL_DEFAULT, tex, nullptr)))
 		return false;
@@ -147,7 +143,6 @@ inline bool c_screen_postprocess::s_smaa_globals::init_surface(IDirect3DDevice9 
 inline void c_screen_postprocess::s_smaa_globals::set_reinit() // 0x10A22100
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?set_reinit@s_smaa_globals@c_screen_postprocess@@QAEXXZ");
-	// c_screen_postprocess::s_smaa_globals *const this;
 
 	valid = false;
 	reinit_next_frame = true;
@@ -156,7 +151,6 @@ inline void c_screen_postprocess::s_smaa_globals::set_reinit() // 0x10A22100
 inline void c_screen_postprocess::s_smaa_globals::set_resolution(long res_x, long res_y) // 0x10F11660
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?set_resolution@s_smaa_globals@c_screen_postprocess@@QAEXJJ@Z");
-	// long res_y;
 
 	this->res_x = res_x;
 	this->res_y = res_y;
@@ -165,7 +159,6 @@ inline void c_screen_postprocess::s_smaa_globals::set_resolution(long res_x, lon
 inline bool c_screen_postprocess::s_smaa_globals::init_surfaces(IDirect3DDevice9 *device) // 0x10F11290
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?init_surfaces@s_smaa_globals@c_screen_postprocess@@QAE_NPAUIDirect3DDevice9@@@Z");
-	// IDirect3DDevice9 *device;
 
 	if (!init_surface(device, &edge_buffer, &edge_srf, D3DFMT_A8R8G8B8) ||
 		!init_surface(device, &blend_buffer, &blend_srf, D3DFMT_A8R8G8B8) ||
@@ -182,17 +175,6 @@ inline bool c_screen_postprocess::s_smaa_globals::init_surfaces(IDirect3DDevice9
 inline void c_screen_postprocess::s_smaa_globals::destroy_surfaces() // 0x10F10EC0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?destroy_surfaces@s_smaa_globals@c_screen_postprocess@@QAEXXZ");
-	// c_screen_postprocess::s_smaa_globals *const this;
-	// function call : unsigned long ()
-	// function call : unsigned long ()
-	// function call : unsigned long ()
-	// function call : unsigned long ()
-	// function call : unsigned long ()
-	// function call : unsigned long ()
-	// function call : unsigned long ()
-	// function call : unsigned long ()
-	// function call : unsigned long ()
-	// function call : unsigned long ()
 
 	if (edge_srf)
 	{

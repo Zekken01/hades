@@ -137,25 +137,6 @@ namespace Forge
 		void Update(unsigned __int32 playerIndex, unsigned __int32 heldObjectIndex) // 0x10971C90
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Update@RotationSnap@Forge@@YAXII@Z");
-			// static ...; // 0x1097205C
-			// static ...; // 0x10972047
-			// static ...; // 0x10972040
-			// static ...; // 0x10972010
-			// static ...; // 0x10972008
-			// unsigned __int32 playerIndex;
-			// unsigned __int32 heldObjectIndex;
-			// static Modules::ModuleForge &moduleForge; // 0x1244FA40
-			// real_quaternion interpolatedRotation;
-			// unsigned long currentSnapIndex;
-			// real_matrix3x3 matrix;
-			// static __int32 $TSS0; // 0x1244FA44
-			// float const snapAngleDegrees;
-				// real_matrix4x3 objectTransform;
-				// real_quaternion startRotation;
-			// function call : long (*const)()
-			// function call : float (*const)()
-			// function call : real_matrix4x3 *(*const)(long, real_matrix4x3 *)
-			// function call : void (*const)(bool, long, real_point3d const *, real_vector3d const *, real_vector3d const *)
 
 			if (heldObjectIndex == -1)
 				return;
@@ -202,24 +183,6 @@ namespace Forge
 		void RotateSnapped(real_vector3d const &axis) // 0x10971520
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?RotateSnapped@RotationSnap@Forge@@YAXABUreal_vector3d@@@Z");
-			// static ...; // 0x1097179B
-			// static ...; // 0x1097178D
-			// static ...; // 0x10971781
-			// static ...; // 0x10971774
-			// static ...; // 0x10971744
-			// static ...; // 0x1097173C
-			// real_vector3d const &axis;
-			// float const snapAngleRadians;
-			// unsigned long currentSnap;
-			// static Modules::ModuleForge &moduleForge; // 0x1244FA48
-			// real_quaternion axisRotation;
-			// real_matrix4x3 objectTransform;
-			// real_quaternion startRotation;
-			// static __int32 $TSS0; // 0x1244FA4C
-			// float const snapAngleDegrees;
-			// real_quaternion endRotation;
-			// function call : real_matrix4x3 *(*const)(long, real_matrix4x3 *)
-			// function call : long (*const)()
 
 			static Modules::ModuleForge &moduleForge = Modules::ModuleForge::Instance();
 			unsigned long currentSnap = moduleForge.VarRotationSnap->ValueInt;
@@ -246,15 +209,6 @@ namespace Forge
 		void RotateToScripted(unsigned __int32 objectIndex, real_quaternion const &rotation) // 0x10971850
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?RotateToScripted@RotationSnap@Forge@@YAXIABUreal_quaternion@@@Z");
-			// static ...; // 0x10971968
-			// static ...; // 0x10971950
-			// static ...; // 0x10971948
-			// unsigned __int32 objectIndex;
-			// real_quaternion const &rotation;
-			// real_matrix4x3 objectTransform;
-			// real_quaternion startRotation;
-			// function call : real_matrix4x3 *(*const)(long, real_matrix4x3 *)
-			// function call : long (*const)()
 
 			real_matrix4x3 objectTransform;
 			real_quaternion startRotation;
@@ -275,18 +229,6 @@ namespace Forge
 void SetSnap(__int32 value) // 0x109719E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SetSnap@@YAXH@Z");
-	// `anonymous-namespace'::SetSnap
-	// static ...; // 0x10971C01
-	// static ...; // 0x10971BFC
-	// static ...; // 0x10971BE4
-	// static ...; // 0x10971BDC
-	// __int32 value;
-	// std::string prev;
-	// static void (*`SetSnap'::`2'::PrintKillFeedText)(unsigned __int32, wchar_t *, __int32); // 0x11353DC8
-	// static Modules::ModuleForge &`SetSnap'::`2'::moduleForge; // 0x1244FA50
-	// wchar_t buff[256];
-	// static __int32 `SetSnap'::`2'::$TSS0; // 0x1244FA54
-	// function call : void (*)(unsigned __int32, wchar_t *, __int32)
 
 	static void (*PrintKillFeedText)(unsigned __int32, wchar_t *, __int32) = (void (*)(unsigned __int32, wchar_t *, __int32))0xA95920;
 	static Modules::ModuleForge &moduleForge = Utils::Singleton<Modules::ModuleForge>::Instance();
@@ -306,14 +248,6 @@ void SetSnap(__int32 value) // 0x109719E0
 
 void HandleInput() // 0x10971350
 {
-	// `anonymous-namespace'::HandleInput
-	// procedure flags: nofpo
-	// __int32 currentSnap;
-	// static Modules::ModuleForge &`HandleInput'::`2'::moduleForge; // 0x1244FA58
-	// Blam::Input::ActionState *uiLeftAction;
-	// Blam::Input::ActionState *uiRightAction;
-	// __int32 snapAngleCount;
-	// static __int32 `HandleInput'::`2'::$TSS0; // 0x1244FA5C
 
 	using namespace Blam::Input;
 

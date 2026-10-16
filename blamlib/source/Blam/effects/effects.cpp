@@ -33,7 +33,6 @@ extern c_data_array<s_effect_datum> *effects_get();
 c_data_array<s_effect_datum> *effects_get() // 0x10F18840
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?effects_get@@YAPAV?$c_data_array@Us_effect_datum@@@@XZ");
-	// procedure flags: nofpo
 
 	return tls_getd().effect;
 }

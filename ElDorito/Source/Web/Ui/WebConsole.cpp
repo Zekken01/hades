@@ -167,7 +167,6 @@ namespace Web
 			void Init() // 0x10C9DCE0
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?Init@WebConsole@Ui@Web@@YAXXZ");
-				// procedure flags: nofpo
 
 				Console::RegisterHandler(std::make_shared<WebConsoleOutputHandler>());
 				Patches::Input::RegisterDefaultInputHandler(OnGameInputUpdated);
@@ -176,7 +175,6 @@ namespace Web
 			void Show() // 0x10C9DE50
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?Show@WebConsole@Ui@Web@@YAXXZ");
-				// procedure flags: nofpo
 
 				ScreenLayer::Show(ScreenLayer::Console, "{}");
 			}
@@ -184,7 +182,6 @@ namespace Web
 			void Hide() // 0x10C9DC90
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?Hide@WebConsole@Ui@Web@@YAXXZ");
-				// procedure flags: nofpo
 
 				ScreenLayer::Hide(ScreenLayer::Console);
 			}
@@ -197,14 +194,6 @@ namespace Web
 void WebConsoleOutputHandler::WriteLine(std::string const &line) // 0x10C9DF20
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?WriteLine@WebConsoleOutputHandler@hades_file_local@@UAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-	// `anonymous-namespace'::WebConsoleOutputHandler::WriteLine
-	// static ...; // 0x10C9E098
-	// static ...; // 0x10C9E080
-	// static ...; // 0x10C9E078
-	// WebConsoleOutputHandler *const this;
-	// std::string const &line;
-	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
-	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
 
 	// Create a JSON object with the line
 	rapidjson::StringBuffer jsonBuffer;
@@ -221,8 +210,6 @@ void WebConsoleOutputHandler::WriteLine(std::string const &line) // 0x10C9DF20
 static void OnGameInputUpdated() // 0x10C9DDE0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnGameInputUpdated@@YAXXZ");
-	// `anonymous-namespace'::OnGameInputUpdated
-	// procedure flags: nofpo
 
 	if (Blam::Input::GetKeyTicks(Blam::Input::eKeyCodeTilde, Blam::Input::eInputTypeUi) == 1 || Blam::Input::GetKeyTicks(Blam::Input::eKeyCodeF1, Blam::Input::eInputTypeUi) == 1)
 		Show();

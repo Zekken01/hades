@@ -85,7 +85,6 @@ namespace Patches
 float animation_get_frames_per_second() // 0x1090D930
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?animation_get_frames_per_second@@YAMXZ");
-	// procedure flags: nofpo
 
 	return *(float *)0x1615f34;
 }
@@ -93,11 +92,6 @@ float animation_get_frames_per_second() // 0x1090D930
 bool __fastcall c_animation_manager__update_animation_channel_hook(c_animation_channel *thisptr, void const *__formal, c_animation_manager *animation_manager, float a3, float a4) // 0x1090D950
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_animation_manager__update_animation_channel_hook@@YI_NPAUc_animation_channel@@PBXPAUc_animation_manager@@MM@Z");
-	// float a4;
-	// constexpr bool (*const `c_animation_manager__update_animation_channel_hook'::`2'::c_animation_channel__update_to_frame_position)(c_animation_channel *, float, c_animation_manager *, float, float); // constant == 9978800
-		// float t;
-	// function call : float (*const)()
-	// function call : bool (*const)(c_animation_channel *, float, c_animation_manager *, float, float)
 
 	thisptr->field_34 |= thisptr->field_2C;
 	thisptr->field_2C = 0;
@@ -119,7 +113,6 @@ namespace Patches
 		void ApplyAll() // 0x1090D7D0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Animation@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			Hook(0x584010, c_animation_manager__update_animation_channel_hook).Apply();
 		}

@@ -71,7 +71,6 @@ namespace Utils
 	SemanticVersion::SemanticVersion(__int32 major, __int32 minor, __int32 patch, std::string prerelease, std::string build) : major(major), minor(minor), patch(patch), prerelease(prerelease), build(build) /* hades-mem-init:  */ // 0x107627C0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "??0SemanticVersion@Utils@@QAE@HHHV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z");
-		// std::string build;
 
 		if (major < 0 || minor < 0 || patch < 0)
 			throw std::invalid_argument("Version components cannot be negative.");
@@ -84,11 +83,6 @@ namespace Utils
 	std::string SemanticVersion::ToString() const // 0x10768300
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?ToString@SemanticVersion@Utils@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-		// static ...; // 0x107684D8
-		// static ...; // 0x107684CC
-		// static ...; // 0x107684C4
-		// Utils::SemanticVersion const *const this;
-		// std::string result;
 
 		std::string result = std::format("{}.{}.{}", major, minor, patch);
 		if (!prerelease.empty())
@@ -101,8 +95,6 @@ namespace Utils
 	bool SemanticVersion::TryParse(std::string const &input, Utils::SemanticVersion &outVersion) // 0x10768560
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?TryParse@SemanticVersion@Utils@@SA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAU12@@Z");
-		// std::string const &input;
-		// Utils::SemanticVersion &outVersion;
 
 		try
 		{
@@ -118,11 +110,6 @@ namespace Utils
 	Utils::SemanticVersion SemanticVersion::Parse(std::string const &input) // 0x10767DF0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Parse@SemanticVersion@Utils@@SA?AU12@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// static ...; // 0x107680F0
-		// static ...; // 0x107680E4
-		// static ...; // 0x107680DC
-		// std::string const &input;
-		// std::match_results<std::_String_const_iterator<std::_String_val<std::_Simple_types<char> > >,std::allocator<std::sub_match<std::_String_const_iterator<std::_String_val<std::_Simple_types<char> > > > > > matches;
 
 		std::smatch matches;
 		if (!std::regex_match(input, matches, kPattern))
@@ -133,7 +120,6 @@ namespace Utils
 	__int32 SemanticVersion::Compare(Utils::SemanticVersion const &a, Utils::SemanticVersion const &b) // 0x107678E0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Compare@SemanticVersion@Utils@@CAHABU12@0@Z");
-		// Utils::SemanticVersion const &b;
 
 		if (a.major != b.major)
 			return a.major < b.major ? -1 : 1;
@@ -147,18 +133,6 @@ namespace Utils
 	__int32 SemanticVersion::ComparePrerelease(std::string_view const &a, std::string_view const &b) // 0x10767BF0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?ComparePrerelease@SemanticVersion@Utils@@CAHABV?$basic_string_view@DU?$char_traits@D@std@@@std@@0@Z");
-		// static ...; // 0x10767D70
-		// static ...; // 0x10767D58
-		// static ...; // 0x10767D50
-		// std::string_view const &a;
-		// std::string_view const &b;
-		// unsigned __int32 pos1;
-		// unsigned __int32 pos2;
-			// unsigned __int32 next_pos1;
-			// std::string_view identifier1;
-			// unsigned __int32 next_pos2;
-			// __int32 cmp;
-			// std::string_view identifier2;
 
 		if (a.empty() && b.empty())
 			return 0;
@@ -191,16 +165,6 @@ namespace Utils
 	__int32 SemanticVersion::CompareIdentifier(std::string_view const &a, std::string_view const &b) // 0x10767A60
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?CompareIdentifier@SemanticVersion@Utils@@CAHABV?$basic_string_view@DU?$char_traits@D@std@@@std@@0@Z");
-		// static ...; // 0x10767B94
-		// static ...; // 0x10767B7C
-		// static ...; // 0x10767B74
-		// std::string_view const &a;
-		// std::string_view const &b;
-		// bool a_num;
-		// __int32 num2;
-		// __int32 num1;
-		// bool b_num;
-			// __int32 const cmp;
 
 		__int32 num1, num2;
 		bool a_num = ParseNumericIdentifier(a, num1);
@@ -224,12 +188,6 @@ namespace Utils
 	bool SemanticVersion::ParseNumericIdentifier(std::string_view const &input, __int32 &value) // 0x107681C0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?ParseNumericIdentifier@SemanticVersion@Utils@@CA_NABV?$basic_string_view@DU?$char_traits@D@std@@@std@@AAH@Z");
-		// static ...; // 0x107682B0
-		// static ...; // 0x107682A8
-		// std::string_view const &input;
-		// __int32 &value;
-		// __int32 count;
-			// std::_String_view_iterator<std::char_traits<char> > it;
 
 		value = 0;
 		__int32 count = 0;

@@ -196,7 +196,6 @@ namespace Scripting
 				void RegisterMethods(Scripting::HS::ScriptMethodMap &methods) // 0x106FABC0
 				{
 					mangled_x86(MANGLED_KNOWN_GOOD, "?RegisterMethods@Player@Methods@HS@Scripting@@YAXAAVScriptMethodMap@34@@Z");
-					// Scripting::HS::ScriptMethodMap &methods;
 
 					methods.AddMethod("player_get_uid", "Gets a player uid from for the given player session index", NetworkSafe, hs_player_get_uid_evaluate, _hs_type_string, { { _hs_type_short, "idx", "The index of a player in the session" } });
 					methods.AddMethod("player_get_name", "Gets the player name for the given player session index", NetworkSafe, hs_player_name_evaluate, _hs_type_string, { { _hs_type_short, "idx", "The index of a player in the session" } });
@@ -220,19 +219,6 @@ namespace Scripting
 void hs_player_get_uid_evaluate(short op, long thread_index, bool initial) // 0x106FBD10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_player_get_uid_evaluate@@YAXFJ_N@Z");
-	// `anonymous-namespace'::hs_player_get_uid_evaluate
-	// static ...; // 0x106FBEB4
-	// short op;
-	// long thread_index;
-	// bool initial;
-		// hs_value *args;
-			// short idx;
-				// Blam::Network::Session *session;
-					// Blam::Network::PlayerSession &playerSession;
-					// std::string buff;
-	// function call : hs_value *(*const)(short, long, bool)
-	// function call : void (*const)(long, hs_value)
-	// function call : void (*const)(long, hs_value)
 
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
@@ -254,19 +240,6 @@ void hs_player_get_uid_evaluate(short op, long thread_index, bool initial) // 0x
 void hs_player_name_evaluate(short op, long thread_index, bool initial) // 0x106FBF40
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_player_name_evaluate@@YAXFJ_N@Z");
-	// `anonymous-namespace'::hs_player_name_evaluate
-	// static ...; // 0x106FC0E8
-	// short op;
-	// long thread_index;
-	// bool initial;
-		// hs_value *args;
-			// short idx;
-				// Blam::Network::Session *session;
-					// Blam::Network::PlayerSession &playerSession;
-					// std::string name;
-	// function call : hs_value *(*const)(short, long, bool)
-	// function call : void (*const)(long, hs_value)
-	// function call : void (*const)(long, hs_value)
 
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
@@ -287,14 +260,6 @@ void hs_player_name_evaluate(short op, long thread_index, bool initial) // 0x106
 void hs_player_get_by_idx_evaluate(short op, long thread_index, bool initial) // 0x106FB730
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_player_get_by_idx_evaluate@@YAXFJ_N@Z");
-	// `anonymous-namespace'::hs_player_get_by_idx_evaluate
-	// bool initial;
-		// hs_value *args;
-			// s_player_datum *player;
-			// short session_player_index;
-	// function call : hs_value *(*const)(short, long, bool)
-	// function call : void (*const)(long, hs_value)
-	// function call : void (*const)(long, hs_value)
 
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
@@ -315,17 +280,6 @@ void hs_player_get_by_idx_evaluate(short op, long thread_index, bool initial) //
 void hs_get_player_idx_by_unit_evaluate(short op, long thread_index, bool initial) // 0x106FB5A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_get_player_idx_by_unit_evaluate@@YAXFJ_N@Z");
-	// `anonymous-namespace'::hs_get_player_idx_by_unit_evaluate
-	// bool initial;
-		// hs_value *args;
-			// s_unit_data *unit;
-			// long unit_object;
-				// s_player_datum *player;
-					// long player_session_index;
-	// function call : hs_value *(*const)(short, long, bool)
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : void (*const)(long, hs_value)
-	// function call : void (*const)(long, hs_value)
 
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
@@ -349,8 +303,6 @@ void hs_get_player_idx_by_unit_evaluate(short op, long thread_index, bool initia
 void hs_player_get_idx_by_place_evaluate(short op, long thread_index, bool initial) // 0x106FB860
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_player_get_idx_by_place_evaluate@@YAXFJ_N@Z");
-	// `anonymous-namespace'::hs_player_get_idx_by_place_evaluate
-	// bool initial;
 
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
@@ -364,14 +316,6 @@ void hs_player_get_idx_by_place_evaluate(short op, long thread_index, bool initi
 void hs_player_reset_sprint_evaluate(short op, long thread_index, bool initial) // 0x106FC180
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_player_reset_sprint_evaluate@@YAXFJ_N@Z");
-	// `anonymous-namespace'::hs_player_reset_sprint_evaluate
-	// bool initial;
-		// hs_value *args;
-			// unsigned long player_datum_index;
-				// s_player_datum *player;
-	// function call : hs_value *(*const)(short, long, bool)
-	// function call : unsigned long (*const)(long)
-	// function call : void (*const)(long, hs_value)
 
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
@@ -391,38 +335,6 @@ void hs_player_reset_sprint_evaluate(short op, long thread_index, bool initial) 
 void hs_unit_give_weapon_evaluate(short op, long thread_index, bool initial) // 0x106FC920
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_unit_give_weapon_evaluate@@YAXFJ_N@Z");
-	// `anonymous-namespace'::hs_unit_give_weapon_evaluate
-	// static ...; // 0x106FCCE0
-	// static ...; // 0x106FCCD4
-	// static ...; // 0x106FCCA4
-	// static ...; // 0x106FCC9C
-	// short op;
-	// long thread_index;
-	// bool initial;
-	// bool (*const unit_add_weapon_to_inventory)(long, long, long);
-	// long (*const unit_create_starting_weapon)(long, s_starting_weapon_info *, bool);
-	// void (*const unit_delete_all_weapons)(long);
-		// hs_value *args;
-			// long player_unit;
-			// long secondary_weapon;
-			// long primary_weapon;
-				// Blam::Network::Session *session;
-					// s_tag_reference primary;
-					// s_tag_reference secondary;
-						// s_unit_data *unit;
-							// long weapon_index;
-							// s_starting_weapon_info weapon_info;
-	// function call : hs_value *(*const)(short, long, bool)
-	// function call : bool (*const)()
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : void (*const)(long)
-	// function call : long (*const)(long, s_starting_weapon_info *, bool)
-	// function call : bool (*const)(long, long, long)
-	// function call : void (*const)(long)
-	// function call : long (*const)(long, s_starting_weapon_info *, bool)
-	// function call : bool (*const)(long, long, long)
-	// function call : void (*const)(long)
-	// function call : void (*const)(long, hs_value)
 
 	long (*const unit_create_starting_weapon)(long, s_starting_weapon_info *, bool) = reinterpret_cast<long (*)(long, s_starting_weapon_info *, bool)>(0xB3E9F0);
 	void (*const unit_delete_all_weapons)(long) = reinterpret_cast<void (*)(long)>(0xB3FAD0);
@@ -481,21 +393,6 @@ void hs_unit_give_weapon_evaluate(short op, long thread_index, bool initial) // 
 void hs_player_get_local_idx_evaluate(short op, long thread_index, bool initial) // 0x106FB940
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_player_get_local_idx_evaluate@@YAXFJ_N@Z");
-	// `anonymous-namespace'::hs_player_get_local_idx_evaluate
-	// static ...; // 0x106FBAAC
-	// short op;
-	// long thread_index;
-	// bool initial;
-		// hs_value *args;
-			// c_network_session *session;
-				// s_player_datum *player;
-				// Blam::Network::Session *blam_session;
-					// __int32 player_session_index;
-	// function call : hs_value *(*const)(short, long, bool)
-	// function call : bool (*const)(c_network_session **)
-	// function call : unsigned long (*const)(long)
-	// function call : void (*const)(long, hs_value)
-	// function call : void (*const)(long, hs_value)
 
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
@@ -519,21 +416,6 @@ void hs_player_get_local_idx_evaluate(short op, long thread_index, bool initial)
 void hs_player_get_local_team_designator_evaluate(short op, long thread_index, bool initial) // 0x106FBB30
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_player_get_local_team_designator_evaluate@@YAXFJ_N@Z");
-	// `anonymous-namespace'::hs_player_get_local_team_designator_evaluate
-	// static ...; // 0x106FBC88
-	// short op;
-	// long thread_index;
-	// bool initial;
-		// hs_value *args;
-			// c_network_session *session;
-				// s_player_datum *player;
-				// unsigned long playerIndex;
-					// long team_designator;
-	// function call : hs_value *(*const)(short, long, bool)
-	// function call : bool (*const)(c_network_session **)
-	// function call : unsigned long (*const)(long)
-	// function call : void (*const)(long, hs_value)
-	// function call : void (*const)(long, hs_value)
 
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
@@ -564,27 +446,6 @@ void hs_player_get_local_team_designator_evaluate(short op, long thread_index, b
 void hs_set_player_character_type_evaluate(short op, long thread_index, bool initial) // 0x106FC270
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_set_player_character_type_evaluate@@YAXFJ_N@Z");
-	// `anonymous-namespace'::hs_set_player_character_type_evaluate
-	// static ...; // 0x106FC48C
-	// short op;
-	// long thread_index;
-	// bool initial;
-		// hs_value *args;
-			// Blam::Network::Session *session;
-				// s_player_datum *player;
-				// long desired_character_type_string_id;
-				// s_game_globals *game_globals;
-				// bool force_respawn;
-				// short session_player_index;
-				// __int32 character_type_index;
-					// __int32 i;
-						// s_game_globals_player_character_type character;
-					// s_unit_data *player_unit;
-	// function call : hs_value *(*const)(short, long, bool)
-	// function call : bool (*const)()
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : void (*const)(long)
-	// function call : void (*const)(long, hs_value)
 
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
@@ -633,35 +494,6 @@ void hs_set_player_character_type_evaluate(short op, long thread_index, bool ini
 void hs_set_team_character_type_evaluate(short op, long thread_index, bool initial) // 0x106FC540
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_set_team_character_type_evaluate@@YAXFJ_N@Z");
-	// `anonymous-namespace'::hs_set_team_character_type_evaluate
-	// static ...; // 0x106FC82C
-	// static ...; // 0x106FC824
-	// short op;
-	// long thread_index;
-	// bool initial;
-	// long (*const player_get_team_index)(long);
-		// hs_value *args;
-			// Blam::Network::Session *session;
-				// long desired_character_type_string_id;
-				// s_game_globals *game_globals;
-				// bool force_respawn;
-				// c_data_array<s_player_datum> *players;
-				// short mp_team;
-				// __int32 character_type_index;
-					// __int32 i;
-						// s_game_globals_player_character_type character;
-					// c_data_iterator<s_player_datum> it;
-						// s_player_datum *player;
-						// unsigned long player_index;
-							// long player_team;
-								// s_unit_data *player_unit;
-	// function call : hs_value *(*const)(short, long, bool)
-	// function call : bool (*const)()
-	// function call : bool (*const)()
-	// function call : long (*const)(long)
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : void (*const)(long)
-	// function call : void (*const)(long, hs_value)
 
 	long (*const player_get_team_index)(long) = reinterpret_cast<long (*)(long)>(0x591F30);
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);

@@ -79,7 +79,6 @@ namespace Audio
 	_inline CAudioDeviceManager::CAudioDeviceManagerImpl::~CAudioDeviceManagerImpl() // 0x107F16E0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "??1CAudioDeviceManagerImpl@CAudioDeviceManager@Audio@@QAE@XZ");
-		// Audio::CAudioDeviceManager::CAudioDeviceManagerImpl *const this;
 
 		Dispose();
 	}
@@ -87,10 +86,6 @@ namespace Audio
 	_inline bool CAudioDeviceManager::CAudioDeviceManagerImpl::Initialize(Audio::IAudioDeviceListener *deviceListener) // 0x107F1DB0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@CAudioDeviceManagerImpl@CAudioDeviceManager@Audio@@QAE_NPAUIAudioDeviceListener@3@@Z");
-		// Audio::IAudioDeviceListener *deviceListener;
-		// HRESULT hr;
-		// function call : HRESULT (_GUID const &, IUnknown *, unsigned long, _GUID const &, void **)
-		// function call : HRESULT (IMMNotificationClient *)
 
 		HRESULT hr = CoCreateInstance(__uuidof(MMDeviceEnumerator), nullptr, CLSCTX_INPROC_SERVER, __uuidof(IMMDeviceEnumerator), (LPVOID *)&m_pDeviceEnumerator);
 		if (hr < 0)
@@ -114,10 +109,6 @@ namespace Audio
 	_inline void CAudioDeviceManager::CAudioDeviceManagerImpl::Dispose() // 0x107F1A30
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Dispose@CAudioDeviceManagerImpl@CAudioDeviceManager@Audio@@QAEXXZ");
-		// Audio::CAudioDeviceManager::CAudioDeviceManagerImpl *const this;
-		// __int32 count;
-		// function call : HRESULT (IMMNotificationClient *)
-		// function call : unsigned long ()
 
 		m_pDeviceListener = nullptr;
 
@@ -141,7 +132,6 @@ namespace Audio
 	_inline void CAudioDeviceManager::CAudioDeviceManagerImpl::Update() // 0x107F2440
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CAudioDeviceManagerImpl@CAudioDeviceManager@Audio@@QAEXXZ");
-		// Audio::CAudioDeviceManager::CAudioDeviceManagerImpl *const this;
 
 		m_eventQueue.ConsumeAll([this](auto e) {
 			if (m_pDeviceListener)
@@ -156,9 +146,6 @@ namespace Audio
 	_inline HRESULT __stdcall CAudioDeviceManager::CAudioDeviceManagerImpl::QueryInterface(_GUID const &riid, void **ppvObject) // 0x107F21E0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?QueryInterface@CAudioDeviceManagerImpl@CAudioDeviceManager@Audio@@EAGJABU_GUID@@PAPAX@Z");
-		// void **ppvObject;
-		// function call : unsigned long ()
-		// function call : unsigned long ()
 
 		if (riid == IID_IUnknown)
 		{
@@ -180,7 +167,6 @@ namespace Audio
 	_inline unsigned long __stdcall CAudioDeviceManager::CAudioDeviceManagerImpl::AddRef() // 0x107F1A00
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?AddRef@CAudioDeviceManagerImpl@CAudioDeviceManager@Audio@@EAGKXZ");
-		// Audio::CAudioDeviceManager::CAudioDeviceManagerImpl *const this;
 
 		return _InterlockedIncrement(&m_referenceCount);
 	}
@@ -188,7 +174,6 @@ namespace Audio
 	_inline unsigned long __stdcall CAudioDeviceManager::CAudioDeviceManagerImpl::Release() // 0x107F22C0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Release@CAudioDeviceManagerImpl@CAudioDeviceManager@Audio@@EAGKXZ");
-		// Audio::CAudioDeviceManager::CAudioDeviceManagerImpl *const this;
 
 		return InterlockedDecrement(&m_referenceCount);
 	}
@@ -202,7 +187,6 @@ namespace Audio
 	_inline HRESULT __stdcall CAudioDeviceManager::CAudioDeviceManagerImpl::OnDeviceStateChanged(wchar_t const *pwstrDeviceId, unsigned long dwNewState) // 0x107F2070
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?OnDeviceStateChanged@CAudioDeviceManagerImpl@CAudioDeviceManager@Audio@@EAGJPB_WK@Z");
-		// unsigned long dwNewState;
 
 		return E_NOTIMPL;
 	}
@@ -214,8 +198,6 @@ namespace Audio
 	_inline HRESULT __stdcall CAudioDeviceManager::CAudioDeviceManagerImpl::OnDeviceAdded(wchar_t const *pwstrDeviceId) // 0x107F1F50
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?OnDeviceAdded@CAudioDeviceManagerImpl@CAudioDeviceManager@Audio@@EAGJPB_W@Z");
-		// wchar_t const *pwstrDeviceId;
-		// Audio::SAudioDeviceEvent *e;
 
 		SAudioDeviceEvent *e = m_eventQueue.TryToAllocate();
 		if (e)
@@ -233,8 +215,6 @@ namespace Audio
 	_inline HRESULT __stdcall CAudioDeviceManager::CAudioDeviceManagerImpl::OnDeviceRemoved(wchar_t const *pwstrDeviceId) // 0x107F1FE0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?OnDeviceRemoved@CAudioDeviceManagerImpl@CAudioDeviceManager@Audio@@EAGJPB_W@Z");
-		// wchar_t const *pwstrDeviceId;
-		// Audio::SAudioDeviceEvent *e;
 
 		SAudioDeviceEvent *e = m_eventQueue.TryToAllocate();
 		if (e)
@@ -252,8 +232,6 @@ namespace Audio
 	_inline HRESULT __stdcall CAudioDeviceManager::CAudioDeviceManagerImpl::OnDefaultDeviceChanged(__MIDL___MIDL_itf_mmdeviceapi_0000_0000_0001 flow, __MIDL___MIDL_itf_mmdeviceapi_0000_0000_0002 role, wchar_t const *pwstrDefaultDeviceId) // 0x107F1EC0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?OnDefaultDeviceChanged@CAudioDeviceManagerImpl@CAudioDeviceManager@Audio@@EAGJW4__MIDL___MIDL_itf_mmdeviceapi_0000_0000_0001@@W4__MIDL___MIDL_itf_mmdeviceapi_0000_0000_0002@@PB_W@Z");
-		// wchar_t const *pwstrDefaultDeviceId;
-		// Audio::SAudioDeviceEvent *e;
 
 		SAudioDeviceEvent *e = m_eventQueue.TryToAllocate();
 		if (e)
@@ -271,7 +249,6 @@ namespace Audio
 	_inline HRESULT __stdcall CAudioDeviceManager::CAudioDeviceManagerImpl::OnPropertyValueChanged(wchar_t const *pwstrDeviceId, _tagpropertykey const key) // 0x107F2100
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?OnPropertyValueChanged@CAudioDeviceManagerImpl@CAudioDeviceManager@Audio@@EAGJPB_WU_tagpropertykey@@@Z");
-		// _tagpropertykey key;
 
 		return E_NOTIMPL;
 	}
@@ -279,7 +256,6 @@ namespace Audio
 	CAudioDeviceManager::~CAudioDeviceManager() // 0x107F1630
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "??1CAudioDeviceManager@Audio@@UAE@XZ");
-		// Audio::CAudioDeviceManager *const this;
 
 		if (m_impl)
 		{
@@ -290,7 +266,6 @@ namespace Audio
 	void CAudioDeviceManager::Initialize() // 0x107F1C80
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@CAudioDeviceManager@Audio@@QAEXXZ");
-		// Audio::CAudioDeviceManager *const this;
 
 		m_impl = new CAudioDeviceManagerImpl();
 		m_impl->Initialize(this);
@@ -299,7 +274,6 @@ namespace Audio
 	void CAudioDeviceManager::Update() // 0x107F23F0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CAudioDeviceManager@Audio@@QAEXXZ");
-		// Audio::CAudioDeviceManager *const this;
 
 		m_impl->Update();
 	}
@@ -307,7 +281,6 @@ namespace Audio
 	void CAudioDeviceManager::OnEvent(Audio::SAudioDeviceEvent const &e) // 0x107F2090
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?OnEvent@CAudioDeviceManager@Audio@@EAEXABUSAudioDeviceEvent@2@@Z");
-		// Audio::SAudioDeviceEvent const &e;
 
 		deviceEvents.PostEvent(e);
 	}

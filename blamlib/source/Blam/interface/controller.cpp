@@ -29,7 +29,6 @@ extern void *offset_pointer(void *pointer, long offset);  // hades: added for 0x
 c_player_profile_interface *c_controller_interface::get_player_profile_interface() // 0x10F18BB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_player_profile_interface@c_controller_interface@@QAEPAVc_player_profile_interface@@XZ");
-	// c_controller_interface *const this;
 
 	return (c_player_profile_interface *)offset_pointer(this, 8);
 }

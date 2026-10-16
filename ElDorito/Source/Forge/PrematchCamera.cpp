@@ -91,15 +91,6 @@ namespace Forge
 		long FindCameraObjectForTeamDesignator(short team_designator) // 0x10956360
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?FindCameraObjectForTeamDesignator@PrematchCamera@Forge@@YAJF@Z");
-			// static ...; // 0x10956488
-			// static ...; // 0x1095647C
-			// static ...; // 0x10956474
-			// short team_designator;
-			// c_data_array<s_object_header> *object_headers;
-			// s_forge_globals_definition *forge_globals;
-				// c_data_iterator<s_object_header> it;
-					// s_multiplayer_object_properties *multiplayer;
-			// function call : s_multiplayer_object_properties *(*const)(unsigned long)
 
 			s_forge_globals_definition *forge_globals = forge_globals_get_definition();
 			if (!forge_globals)
@@ -122,28 +113,6 @@ namespace Forge
 		void PlaceCameraObject(short team) // 0x10956500
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?PlaceCameraObject@PrematchCamera@Forge@@YAXF@Z");
-			// static ...; // 0x1095676B
-			// static ...; // 0x10956760
-			// static ...; // 0x10956748
-			// static ...; // 0x10956740
-			// short team;
-			// s_player_datum *player;
-			// long player_index;
-			// real_matrix4x3 unit_world_matrix;
-			// void (*const game_engine_sandbox_update_variant_object_properties)(long, long, s_map_variant_placement_properties const *);
-			// unsigned __int32 (*const spawn_object)(s_map_variant *, long, long, long, real_point3d const *, real_vector3d const *, real_vector3d const *, long, long, s_map_variant_placement_properties const *, unsigned short);
-			// s_map_variant *map_variant;
-			// long camera_object_index;
-				// s_map_variant_placement_properties properties;
-				// long prematch_camera_tag_index;
-					// s_variant_datum &placement;
-					// s_object_data *camera_object;
-			// function call : unsigned long (*const)(long)
-			// function call : s_map_variant *(*const)()
-			// function call : real_matrix4x3 *(*const)(long, real_matrix4x3 *)
-			// function call : unsigned __int32 (*const)(s_map_variant *, long, long, long, real_point3d const *, real_vector3d const *, real_vector3d const *, long, long, s_map_variant_placement_properties const *, unsigned short)
-			// function call : void (*const)(long, long, s_map_variant_placement_properties const *)
-			// function call : void (*const)(bool, long, real_point3d const *, real_vector3d const *, real_vector3d const *)
 
 			unsigned __int32 (__thiscall *const spawn_object)(s_map_variant *, long, long, long, real_point3d const *, real_vector3d const *, real_vector3d const *, long, long, s_map_variant_placement_properties const *, unsigned short) = (unsigned __int32 (__thiscall *)(s_map_variant *, long, long, long, real_point3d const *, real_vector3d const *, real_vector3d const *, long, long, s_map_variant_placement_properties const *, unsigned short))0x582110;
 			void (*const game_engine_sandbox_update_variant_object_properties)(long, long, s_map_variant_placement_properties const *) = (void (*)(long, long, s_map_variant_placement_properties const *))0x59B720;
@@ -180,7 +149,6 @@ namespace Forge
 		bool IsForgePrematchCameraDisabled() // 0x109564E0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?IsForgePrematchCameraDisabled@PrematchCamera@Forge@@YA_NXZ");
-			// procedure flags: nofpo
 
 			return prematchCameraDisabled;
 		}
@@ -188,7 +156,6 @@ namespace Forge
 		void SetForgePrematchCameraDisabled(bool disabled) // 0x10956820
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?SetForgePrematchCameraDisabled@PrematchCamera@Forge@@YAX_N@Z");
-			// bool disabled;
 
 			prematchCameraDisabled = disabled;
 		}

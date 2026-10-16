@@ -87,7 +87,6 @@ static_assert(sizeof(s_director_globals) == 1472, "Invalid s_director_globals si
 inline c_camera *c_director::get_camera() // 0x1095B280
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_camera@c_director@@QAEPAVc_camera@@XZ");
-	// c_director *const this;
 
 	return (c_camera *)camera_storage;
 }

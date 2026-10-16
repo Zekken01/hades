@@ -150,7 +150,6 @@ namespace Server
 		__int32 __stdcall HandleWindowMessage(HWND__ *hWnd, unsigned __int32 msg, unsigned __int32 wParam, long lParam, bool *outHandled) // 0x10728DF0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?HandleWindowMessage@ContextMenu@Server@@YGHPAUHWND__@@IIJPA_N@Z");
-			// bool *outHandled;
 
 			switch (msg)
 			{
@@ -180,20 +179,6 @@ namespace Server
 void CreateWindowExCM() // 0x107287B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CreateWindowExCM@@YAXXZ");
-	// `anonymous-namespace'::CreateWindowExCM
-	// procedure flags: nofpo
-	// static ...; // 0x10728920
-	// static ...; // 0x10728914
-	// static ...; // 0x1072890C
-	// HINSTANCE__ *hInstance;
-	// tagWNDCLASSEXA wincl;
-	// function call : HINSTANCE__ *(char const *)
-	// function call : HICON__ *(HINSTANCE__ *, char const *)
-	// function call : HICON__ *(HINSTANCE__ *, char const *)
-	// function call : HICON__ *(HINSTANCE__ *, char const *)
-	// function call : HBRUSH__ *(unsigned long)
-	// function call : unsigned short (tagWNDCLASSEXA const *)
-	// function call : HWND__ *(unsigned long, char const *, char const *, unsigned long, __int32, __int32, __int32, __int32, HWND__ *, HMENU__ *, HINSTANCE__ *, void *)
 
 	HINSTANCE hInstance = GetModuleHandleA("mtndew.dll");
 	WNDCLASSEXA wincl;
@@ -219,13 +204,6 @@ void CreateWindowExCM() // 0x107287B0
 void UpdateMenu() // 0x10729260
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateMenu@@YAXXZ");
-	// `anonymous-namespace'::UpdateMenu
-	// procedure flags: nofpo
-	// static ...; // 0x107293F8
-	// static ...; // 0x107293EC
-	// static ...; // 0x107293E4
-	// std::string serverName;
-	// function call : __int32 (HMENU__ *, unsigned __int32, unsigned __int32, unsigned __int32, char const *)
 
 	if (!Hmenu)
 		return;
@@ -236,11 +214,6 @@ void UpdateMenu() // 0x10729260
 void InitNotifyIconData() // 0x10728E90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?InitNotifyIconData@@YAXXZ");
-	// `anonymous-namespace'::InitNotifyIconData
-	// procedure flags: nofpo
-	// function call : HINSTANCE__ *(char const *)
-	// function call : HICON__ *(HINSTANCE__ *, char const *)
-	// function call : __int32 (unsigned long, _NOTIFYICONDATAA *)
 
 	memset(&notifyIconData, 0, sizeof(notifyIconData));
 	notifyIconData.cbSize = sizeof(notifyIconData);
@@ -256,10 +229,6 @@ void InitNotifyIconData() // 0x10728E90
 static void OnShutdown() // 0x107291D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnShutdown@@YAXXZ");
-	// `anonymous-namespace'::OnShutdown
-	// procedure flags: nofpo
-	// function call : __int32 (unsigned long, _NOTIFYICONDATAA *)
-	// function call : __int32 (HWND__ *)
 
 	if (notifyIconData.hWnd)
 	{
@@ -272,20 +241,6 @@ static void OnShutdown() // 0x107291D0
 void HandleMenuAction(unsigned __int32 action) // 0x10728990
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleMenuAction@@YAXI@Z");
-	// `anonymous-namespace'::HandleMenuAction
-	// static ...; // 0x10728CEC
-// $LN10:
-// $LN9:
-// $LN8:
-// $LN7:
-// $LN6:
-// $LN5:
-// $LN4:
-	// unsigned __int32 action;
-	// function call : HINSTANCE__ *(HWND__ *, char const *, char const *, char const *, char const *, __int32)
-	// function call : HINSTANCE__ *(HWND__ *, char const *, char const *, char const *, char const *, __int32)
-	// function call : HINSTANCE__ *(HWND__ *, char const *, char const *, char const *, char const *, __int32)
-	// function call : HINSTANCE__ *(HWND__ *, char const *, char const *, char const *, char const *, __int32)
 
 	switch (action)
 	{
@@ -316,30 +271,6 @@ void HandleMenuAction(unsigned __int32 action) // 0x10728990
 long __stdcall ContextMenuWindowProc(HWND__ *hWnd, unsigned __int32 msg, unsigned __int32 wParam, long lParam) // 0x10728460
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ContextMenuWindowProc@@YGJPAUHWND__@@IIJ@Z");
-	// `anonymous-namespace'::ContextMenuWindowProc
-	// HWND__ *hWnd;
-	// unsigned __int32 msg;
-	// unsigned __int32 wParam;
-	// long lParam;
-		// tagPOINT curPoint;
-		// unsigned __int32 clicked;
-	// function call : HMENU__ *()
-	// function call : __int32 (HMENU__ *, unsigned __int32, unsigned __int32, char const *)
-	// function call : __int32 (HMENU__ *, unsigned __int32, unsigned __int32, char const *)
-	// function call : __int32 (HMENU__ *, unsigned __int32, unsigned __int32, char const *)
-	// function call : __int32 (HMENU__ *, unsigned __int32, unsigned __int32, char const *)
-	// function call : __int32 (HMENU__ *, unsigned __int32, unsigned __int32, char const *)
-	// function call : __int32 (HMENU__ *, unsigned __int32, unsigned __int32, char const *)
-	// function call : __int32 (HMENU__ *, unsigned __int32, unsigned __int32, char const *)
-	// function call : __int32 (HMENU__ *, unsigned __int32, unsigned __int32, char const *)
-	// function call : __int32 (HMENU__ *, unsigned __int32, unsigned __int32, char const *)
-	// function call : __int32 (HMENU__ *, unsigned __int32, unsigned __int32, char const *)
-	// function call : __int32 (tagPOINT *)
-	// function call : __int32 (HWND__ *)
-	// function call : long (HWND__ *, unsigned __int32, unsigned __int32, long)
-	// function call : __int32 (HMENU__ *, unsigned __int32, __int32, __int32, HWND__ *, tagTPMPARAMS *)
-	// function call : __int32 (HWND__ *, unsigned __int32, unsigned __int32, long)
-	// function call : long (HWND__ *, unsigned __int32, unsigned __int32, long)
 
 	switch (msg)
 	{
@@ -378,15 +309,6 @@ long __stdcall ContextMenuWindowProc(HWND__ *hWnd, unsigned __int32 msg, unsigne
 void ContextMenuThreadProc() // 0x10728390
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ContextMenuThreadProc@@YAXXZ");
-	// `anonymous-namespace'::ContextMenuThreadProc
-	// procedure flags: nofpo
-	// static ...; // 0x10728430
-	// static ...; // 0x10728424
-	// static ...; // 0x1072841C
-	// tagMSG msg;
-	// function call : __int32 (tagMSG *, HWND__ *, unsigned __int32, unsigned __int32)
-	// function call : __int32 (tagMSG const *)
-	// function call : long (tagMSG const *)
 
 	tagMSG msg;
 
@@ -402,12 +324,6 @@ void ContextMenuThreadProc() // 0x10728390
 void Initialize(void *parentHwnd) // 0x10728F90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@@YAXPAX@Z");
-	// `anonymous-namespace'::Initialize
-	// static ...; // 0x10729060
-	// static ...; // 0x10729054
-	// static ...; // 0x1072904C
-	// void *parentHwnd;
-	// std::thread thread;
 
 	g_parenthWnd = (HWND__ *)parentHwnd;
 

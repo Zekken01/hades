@@ -104,7 +104,6 @@ static_assert(sizeof(c_rasterizer_states) == 1, "Invalid c_rasterizer_states siz
 inline void c_rasterizer_states::set_separate_alpha_blend_enabled(bool b) // 0x108F6990
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?set_separate_alpha_blend_enabled@c_rasterizer_states@@SAX_N@Z");
-	// bool b;
 
 	*(bool *)0x5106FA0 = b;
 }

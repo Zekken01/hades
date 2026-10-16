@@ -112,64 +112,6 @@ extern void *(*const tag_get)(unsigned long, long);  // hades: added for 0x10F17
 void draw_fullscreen_displacement(short_rectangle2d *bounds, DirectX::XMMATRIX *view_projection, DirectX::XMMATRIX *previous_view_projection, DirectX::XMMATRIX *view_to_world, DirectX::XMMATRIX *screen_to_world, bool render_motion_blur) // 0x10F174C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?draw_fullscreen_displacement@@YAXPAUshort_rectangle2d@@PAUXMMATRIX@DirectX@@111_N@Z");
-	// static ...; // 0x10F17E30
-	// static ...; // 0x10F17E28
-	// short_rectangle2d *bounds;
-	// DirectX::XMMATRIX *view_projection;
-	// DirectX::XMMATRIX *previous_view_projection;
-	// DirectX::XMMATRIX *view_to_world;
-	// DirectX::XMMATRIX *screen_to_world;
-	// bool render_motion_blur;
-	// void (*const screenshot_get_scales)(float *, float *);
-	// long *g_game_resolution;
-	// void (*const set_motion_blur_parameters)();
-	// bool distortion_surface_valid;
-	// long *g_client_resolution;
-		// short_rectangle2d viewport_bounds;
-		// real_vector4d zbuffer_xform;
-		// float texcoord_x_scale;
-		// s_screen_vertex vertices[4];
-		// __int32 displacement_shader_index;
-		// s_rasterizer_globals *const rasg;
-		// float texcoord_y_scale;
-		// real_vector4d screen_constants;
-		// void *const vtsh;
-		// real_vector4d window_bounds;
-		// void *const pixl;
-	// function call : bool (*const)(e_surface)
-	// function call : void (*const)(long, e_surface)
-	// function call : void (*const)(long, e_surface)
-	// function call : void (*const)(long, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>)
-	// function call : void (*const)(long, c_enum<enum e_sampler_filter_mode,long>)
-	// function call : void (*const)(long, e_surface)
-	// function call : void (*const)(long, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>)
-	// function call : void (*const)(long, c_enum<enum e_sampler_filter_mode,long>)
-	// function call : void (*const)(long, e_surface)
-	// function call : void (*const)(long, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>)
-	// function call : void (*const)(long, c_enum<enum e_sampler_filter_mode,long>)
-	// function call : void (*const)()
-	// function call : void (*const)(long)
-	// function call : long (*const)(long)
-	// function call : void (*const)(bool)
-	// function call : void *(*const)(unsigned long, long)
-	// function call : void *(*const)(unsigned long, long)
-	// function call : bool (*const)(void *, long, long, long)
-	// function call : bool (*const)(void *, long)
-	// function call : void (*const)(short_rectangle2d *, float, float)
-	// function call : void (*const)(float *, float *)
-	// function call : void (*const)(long, long, real_vector4d const *)
-	// function call : void (*const)(long, long, real_vector4d const *)
-	// function call : void (*const)(long, long, real_vector4d const *)
-	// function call : void (*const)(long, long, real_vector4d const *)
-	// function call : void (*const)(long, long, real_vector4d const *)
-	// function call : void (*const)(long, long, real_vector4d const *)
-	// function call : void (*const)(long)
-	// function call : bool (*const)(IDirect3DIndexBuffer9 *)
-	// function call : void (*const)(long, long, void *, long)
-	// function call : void (*const)(long)
-	// function call : long (*const)(long)
-	// function call : void (*const)()
-	// function call : void (*const)()
 
 	long *g_client_resolution = (long *)0x19106E4;
 	long *g_game_resolution = (long *)0x19106C0;
@@ -270,53 +212,6 @@ void draw_fullscreen_displacement(short_rectangle2d *bounds, DirectX::XMMATRIX *
 void __fastcall c_player_view::apply_distortions_new(c_player_view *_this, real_vector3d *motion_suck_dir, bool force_motion_blur) // 0x10F16B80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?apply_distortions_new@c_player_view@@SIXPAU1@PAUreal_vector3d@@_N@Z");
-	// static ...; // 0x10F172BF
-	// static ...; // 0x10F172B1
-	// static ...; // 0x10F17299
-	// static ...; // 0x10F17290
-	// static ...; // 0x10F1727D
-	// static ...; // 0x10F17265
-	// static ...; // 0x10F1724C
-	// static ...; // 0x10F1723C
-	// static ...; // 0x10F171C4
-	// static ...; // 0x10F171BC
-	// c_player_view *_this;
-	// real_vector3d *motion_suck_dir;
-	// bool force_motion_blur;
-	// bool (*const preferences_get_motion_blur)();
-	// long (*const preferences_get_effects_quality)();
-	// bool (*const sub_610190)();
-	// c_player_render_camera_iterator render_camera_it;
-	// void (*const unpack_distortion_matrices)(real_matrix4x3 *, DirectX::XMMATRIX *, DirectX::XMMATRIX *, DirectX::XMMATRIX *);
-	// bool render_motion_blur;
-	// long window_count;
-		// float up_vector_velocity;
-		// float forward_vector_velocity;
-		// float distortion_magnitude;
-		// real_vector3d velocity_vector;
-		// DirectX::XMMATRIX wtv;
-		// DirectX::XMMATRIX current_view_projection;
-		// IDirect3DDevice9Ex *const device;
-		// DirectX::XMMATRIX motion_suck_translation;
-		// DirectX::XMMATRIX prev_view_to_world;
-		// DirectX::XMMATRIX prev_wtv;
-		// DirectX::XMMATRIX previous_view_projection;
-		// DirectX::XMMATRIX screen_to_world;
-		// DirectX::XMMATRIX view_to_world;
-	// function call : long (*const)(c_player_render_camera_iterator *)
-	// function call : bool (*const)()
-	// function call : bool (*const)()
-	// function call : bool (*const)()
-	// function call : bool (*const)()
-	// function call : long (*const)()
-	// function call : void (*const)(real_matrix4x3 *, DirectX::XMMATRIX *, DirectX::XMMATRIX *, DirectX::XMMATRIX *)
-	// function call : void (*const)(real_matrix4x3 *, DirectX::XMMATRIX *, DirectX::XMMATRIX *, DirectX::XMMATRIX *)
-	// function call : c_render_surface *(*const)(c_surface_group *, e_surface)
-	// function call : c_render_surface *(*const)(c_surface_group *, e_surface)
-	// function call : HRESULT (IDirect3DSurface9 *, tagRECT const *, IDirect3DSurface9 *, tagRECT const *, _D3DTEXTUREFILTERTYPE)
-	// function call : e_surface (*const)(e_surface)
-	// function call : void (*const)()
-	// function call : void (*const)(bool)
 
 	long (*const preferences_get_effects_quality)() = (long (*)())0x50B150;
 	bool (*const preferences_get_motion_blur)() = (bool (*)())0x50B990;

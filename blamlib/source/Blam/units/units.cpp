@@ -71,9 +71,6 @@ extern bool (*const unit_is_dual_wielding)(unsigned long); // 0x11249FDC
 long unit_get_ultimate_motion_control_unit_index(long unit_index) // 0x10F0CF80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_get_ultimate_motion_control_unit_index@@YAJJ@Z");
-	// long unit_index;
-		// s_unit_data *unit;
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
 
 	for (;;)
 	{
@@ -90,9 +87,6 @@ long unit_get_ultimate_motion_control_unit_index(long unit_index) // 0x10F0CF80
 long unit_get_current_or_last_weak_player_index(long unit_index) // 0x10F0CE10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_get_current_or_last_weak_player_index@@YAJJ@Z");
-	// long unit_index;
-	// s_unit_data *unit;
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
 
 	s_unit_data *unit = (s_unit_data *)object_try_and_get_and_verify_type(unit_index, 0x2003);
 	if (!unit)
@@ -107,9 +101,6 @@ long unit_get_current_or_last_weak_player_index(long unit_index) // 0x10F0CE10
 long unit_get_player_index(long unit_index) // 0x10F0CED0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_get_player_index@@YAJJ@Z");
-	// long unit_index;
-	// s_unit_data *unit;
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
 
 	s_unit_data *unit = (s_unit_data *)object_try_and_get_and_verify_type(unit_index, 0x2003);
 	if (!unit)
@@ -121,22 +112,6 @@ long unit_get_player_index(long unit_index) // 0x10F0CED0
 void unit_drop_grenades(long unit_index) // 0x10F0CB70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_drop_grenades@@YAXJ@Z");
-	// static ...; // 0x10F0CD70
-	// static ...; // 0x10F0CD64
-	// static ...; // 0x10F0CD5C
-	// long unit_index;
-	// s_unit_data *unit;
-	// s_game_globals *game_globals;
-		// long i;
-			// s_game_globals_grenade *grenade_type;
-				// __int32 j;
-					// long item_index;
-					// s_object_placement_data placement_data;
-	// function call : bool (*const)()
-	// function call : void (*const)(s_object_placement_data *, long, unsigned long, s_damage_owner *)
-	// function call : long (*const)(s_object_placement_data *)
-	// function call : void (*const)(long, long)
-	// function call : void (*const)(long, long, long)
 
 	s_game_globals *game_globals = game_globals_get();
 	s_unit_data *unit = (s_unit_data *)object_get(unit_index);
@@ -164,22 +139,6 @@ void unit_drop_grenades(long unit_index) // 0x10F0CB70
 void unit_drop_equipment(long unit_index, long slot_index) // 0x10F0C8F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_drop_equipment@@YAXJJ@Z");
-	// static ...; // 0x10F0CACC
-	// static ...; // 0x10F0CAC4
-	// long unit_index;
-	// long slot_index;
-	// s_unit_data *unit;
-	// long equipment_index;
-		// s_object_data *equipment;
-		// unsigned long long component_flags;
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : bool (*const)()
-	// function call : long (*const)(long)
-	// function call : void (*const)(long, long)
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : void (*const)(long, long, long)
-	// function call : void (*const)(long)
-	// function call : void (*const)(long, unsigned long long *)
 
 	s_unit_data *unit = (s_unit_data *)object_try_and_get_and_verify_type(unit_index, 0x2003);
 	long equipment_index = unit->equipment_object_indices[slot_index];
@@ -204,17 +163,6 @@ void unit_drop_equipment(long unit_index, long slot_index) // 0x10F0C8F0
 bool unit_is_holding_objective(long unit_index) // 0x10F0D1B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_is_holding_objective@@YA_NJ@Z");
-	// long unit_index;
-	// s_unit_data *unit;
-		// s_static_array<char,2> &<range>$L0;
-		// char *<begin>$L0;
-		// char *<end>$L0;
-			// char inventory_index;
-				// long weapon_index;
-				// s_object_data *weapon;
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : short (*const)(long)
 
 	s_unit_data *unit = (s_unit_data *)object_try_and_get_and_verify_type(unit_index, 0x2003);
 	if (!unit)
@@ -236,14 +184,6 @@ bool unit_is_holding_objective(long unit_index) // 0x10F0D1B0
 bool unit_has_vision(long unit_index) // 0x10F0D040
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_has_vision@@YA_NJ@Z");
-	// long unit_index;
-	// s_unit_data *unit;
-		// __int32 i;
-			// s_object_data *equipment;
-			// long equipment_index;
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : bool (*const)(long)
-	// function call : bool (*const)(long, e_equipment_type)
 
 	s_unit_data *unit = object_get<s_unit_data>(unit_index);
 	if (!unit)

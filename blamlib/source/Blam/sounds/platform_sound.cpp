@@ -23,8 +23,6 @@ extern bool platform_sound_source_is_playing(long source_index);
 bool platform_sound_source_is_playing(long source_index) // 0x10F1AA30
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?platform_sound_source_is_playing@@YA_NJ@Z");
-	// long source_index;
-	// function call : short (*const)(long)
 
 	return ((short(__cdecl *)(long))0x667850)(source_index) > 0;
 }

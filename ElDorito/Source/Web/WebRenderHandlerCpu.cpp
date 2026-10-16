@@ -166,7 +166,6 @@ namespace Web
 		RenderHandlerCpu::RenderHandlerCpu(IDirect3DDevice9 *device9, HWND__ *window) : m_Window(window), m_Device(device9), m_Texture(nullptr), m_Sprite(nullptr), m_TextureStride(0), m_PopupVisible(false), m_PopupValid(false) /* hades-mem-init:  */ // 0x10CE7C90
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "??0RenderHandlerCpu@Browser@Web@@QAE@PAUIDirect3DDevice9@@PAUHWND__@@@Z");
-			// HWND__ *window;
 
 			#line 175 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Web\\WebRenderHandlerCpu.cpp"
 			LOG_ASSERT(device9);
@@ -179,7 +178,6 @@ namespace Web
 		void RenderHandlerCpu::OnPopupSize(scoped_refptr<CefBrowser> browser, CefRect const &rect) // 0x10CE95A0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?OnPopupSize@RenderHandlerCpu@Browser@Web@@EAEXV?$scoped_refptr@VCefBrowser@@@@ABVCefRect@@@Z");
-			// CefRect const &rect;
 
 			m_PopupRect = Utils::Rectangle(rect.x, rect.y, rect.width, rect.height);
 			m_PopupData.resize(rect.width * rect.height * 4);
@@ -189,9 +187,6 @@ namespace Web
 		void RenderHandlerCpu::OnPopupShow(scoped_refptr<CefBrowser> browser, bool show) // 0x10CE93E0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?OnPopupShow@RenderHandlerCpu@Browser@Web@@EAEXV?$scoped_refptr@VCefBrowser@@@@_N@Z");
-			// bool show;
-			// function call : scoped_refptr<CefBrowserHost> ()
-			// function call : void (cef_paint_element_type_t)
 
 			m_PopupVisible = show;
 			if (!show)
@@ -201,25 +196,6 @@ namespace Web
 		void RenderHandlerCpu::OnPaint(scoped_refptr<CefBrowser> browser, cef_paint_element_type_t type, std::vector<CefRect> const &dirtyRects, void const *buffer, __int32 width, __int32 height) // 0x10CE8D70
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?OnPaint@RenderHandlerCpu@Browser@Web@@EAEXV?$scoped_refptr@VCefBrowser@@@@W4cef_paint_element_type_t@@ABV?$vector@VCefRect@@V?$allocator@VCefRect@@@std@@@std@@PBXHH@Z");
-			// static ...; // 0x10CE91D0
-			// Web::Browser::RenderHandlerCpu *const this;
-			// scoped_refptr<CefBrowser> browser;
-			// cef_paint_element_type_t type;
-			// std::vector<CefRect> const &dirtyRects;
-			// void const *buffer;
-			// __int32 width;
-			// __int32 height;
-			// std::lock_guard<std::mutex> lock;
-			// __int32 stride;
-			// Utils::Rectangle popupDirtyRect;
-				// std::vector<CefRect> const &<range>$L0;
-				// CefRect const *<begin>$L0;
-				// CefRect const *<end>$L0;
-					// CefRect const &dirtyRect;
-						// Utils::Rectangle srcRect;
-							// Utils::Rectangle popupScreenRect;
-				// __int32 popupStride;
-				// Utils::Rectangle popupSrcRect;
 
 			if (m_TextureData.size() == 0)
 				return;
@@ -259,13 +235,6 @@ namespace Web
 		bool RenderHandlerCpu::Resize(unsigned __int32 width, unsigned __int32 height) // 0x10CE9E50
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Resize@RenderHandlerCpu@Browser@Web@@UAE_NII@Z");
-			// static ...; // 0x10CEA0C0
-			// Web::Browser::RenderHandlerCpu *const this;
-			// unsigned __int32 width;
-			// unsigned __int32 height;
-			// std::scoped_lock<std::mutex> lock;
-			// unsigned __int32 textureDataSize;
-			// function call : HRESULT (unsigned __int32, unsigned __int32, unsigned __int32, unsigned long, _D3DFORMAT, _D3DPOOL, IDirect3DTexture9 **, void **)
 
 			m_ViewSize = CefSize(width, height);
 			unsigned __int32 textureDataSize = width * height * 4;
@@ -296,7 +265,6 @@ namespace Web
 		Utils::Rectangle RenderHandlerCpu::GetTextureDirtyRect() const // 0x10CE8950
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetTextureDirtyRect@RenderHandlerCpu@Browser@Web@@ABE?AURectangle@Utils@@XZ");
-			// Web::Browser::RenderHandlerCpu const *const this;
 
 			return m_DirtyRect;
 		}
@@ -304,7 +272,6 @@ namespace Web
 		void RenderHandlerCpu::ResetTextureDirtyRect() // 0x10CE9DD0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ResetTextureDirtyRect@RenderHandlerCpu@Browser@Web@@AAEXXZ");
-			// Web::Browser::RenderHandlerCpu *const this;
 
 			m_DirtyRect = Utils::Rectangle();
 		}
@@ -312,8 +279,6 @@ namespace Web
 		void RenderHandlerCpu::OnPreResetDevice() // 0x10CE97D0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?OnPreResetDevice@RenderHandlerCpu@Browser@Web@@UAEXXZ");
-			// Web::Browser::RenderHandlerCpu *const this;
-			// function call : HRESULT ()
 
 			if (m_Sprite)
 			{
@@ -324,8 +289,6 @@ namespace Web
 		void RenderHandlerCpu::OnPostResetDevice() // 0x10CE9720
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?OnPostResetDevice@RenderHandlerCpu@Browser@Web@@UAEXXZ");
-			// Web::Browser::RenderHandlerCpu *const this;
-			// function call : HRESULT ()
 
 			if (m_Sprite)
 			{
@@ -336,24 +299,6 @@ namespace Web
 		bool RenderHandlerCpu::Render() // 0x10CE99D0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Render@RenderHandlerCpu@Browser@Web@@UAE_NXZ");
-			// static ...; // 0x10CE9CDE
-			// static ...; // 0x10CE9CD9
-			// static ...; // 0x10CE9CD0
-			// static ...; // 0x10CE9CAC
-			// static ...; // 0x10CE9CA4
-			// Web::Browser::RenderHandlerCpu *const this;
-			// std::unique_lock<std::mutex> lock;
-				// _D3DLOCKED_RECT rect;
-				// HRESULT hr;
-					// Utils::Rectangle copyRect;
-					// unsigned __int32 width;
-					// unsigned __int32 height;
-			// function call : HRESULT (unsigned __int32, _D3DLOCKED_RECT *, tagRECT const *, unsigned long)
-			// function call : HRESULT (unsigned __int32)
-			// function call : HRESULT (unsigned long)
-			// function call : HRESULT (IDirect3DTexture9 *, tagRECT const *, D3DXVECTOR3 const *, D3DXVECTOR3 const *, unsigned long)
-			// function call : HRESULT ()
-			// function call : HRESULT ()
 
 			std::unique_lock<std::mutex> lock(m_TextureLock);
 			if (!m_Texture)
@@ -383,8 +328,6 @@ namespace Web
 		bool RenderHandlerCpu::InitRenderer() // 0x10CE8B30
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?InitRenderer@RenderHandlerCpu@Browser@Web@@UAE_NXZ");
-			// Web::Browser::RenderHandlerCpu *const this;
-			// HRESULT hr;
 
 			HRESULT hr = D3DXCreateSprite(m_Device.Get(), &m_Sprite);
 			if (FAILED(hr))

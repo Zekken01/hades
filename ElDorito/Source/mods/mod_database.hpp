@@ -93,7 +93,6 @@ static_assert(sizeof(c_mod_database) == 72, "Invalid c_mod_database size");
 inline bool c_mod_database::is_dirty() const // 0x108AA470
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?is_dirty@c_mod_database@@QBE_NXZ");
-	// c_mod_database const *const this;
 
 	return m_dirty;
 }

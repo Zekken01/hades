@@ -188,7 +188,6 @@ real_matrix4x3 const global_identity4x3 = { 1.0f, global_forward3d, global_left3
 inline float &real_vector4d::operator[](long index) // 0x108E3DF0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??Areal_vector4d@@QAEAAMJ@Z");
-	// long index;
 
 	return ((float *)this)[index];
 }

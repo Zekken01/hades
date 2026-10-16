@@ -25,8 +25,6 @@ class c_motor_task;
 bool c_motor_task::valid() const // 0x10F06870
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?valid@c_motor_task@@QBE_NXZ");
-	// c_motor_task const *const this;
-	// function call : bool (*)(c_motor_task const *)
 
 	return ((bool(__thiscall *const)(const c_motor_task *))0xb74bc0)(this);
 }
@@ -34,8 +32,6 @@ bool c_motor_task::valid() const // 0x10F06870
 bool c_motor_task::program_default() const // 0x10F06800
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?program_default@c_motor_task@@QBE_NXZ");
-	// c_motor_task const *const this;
-	// function call : bool (*)(c_motor_task const *)
 
 	return ((bool(__thiscall *)(const c_motor_task *))0xb74b40)(this);
 }

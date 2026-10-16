@@ -340,18 +340,6 @@ namespace Patches
 	void ApplyRequired() // 0x10968240
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyRequired@Patches@@YAXXZ");
-		// procedure flags: nofpo
-		// static ...; // 0x109684D8
-		// static ...; // 0x109684D4
-		// static ...; // 0x109684BC
-		// static ...; // 0x109684B4
-		// bool isdedicated;
-		// wchar_t **szArgList;
-		// __int32 numArgs;
-			// __int32 i;
-				// std::wstring arg;
-		// function call : wchar_t *()
-		// function call : wchar_t **(wchar_t const *, __int32 *)
 
 		UnprotectMemory();
 		Hf2pExperimental::ApplyAll();
@@ -447,7 +435,6 @@ namespace Patches
 	void ApplyAfterInit() // 0x10968120
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAfterInit@Patches@@YAXXZ");
-		// procedure flags: nofpo
 
 		Core::ApplyAfterInit();
 		Memory::ApplyAfterInit();
@@ -467,13 +454,11 @@ namespace Patches
 	void ApplyOnFirstTick() // 0x10968220
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyOnFirstTick@Patches@@YAXXZ");
-		// procedure flags: nofpo
 	}
 
 	void ApplyAfterTagsLoaded() // 0x109681B0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAfterTagsLoaded@Patches@@YAXXZ");
-		// procedure flags: nofpo
 
 		RefreshUiPlayer();
 		Ui::ApplyAfterTagsLoaded();
@@ -487,8 +472,6 @@ namespace Patches
 	void Tick() // 0x10968600
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@Patches@@YAXXZ");
-		// procedure flags: nofpo
-		// static bool appliedFirstTickPatches; // 0x1240FB50
 
 		static bool appliedFirstTickPatches = false;
 
@@ -522,16 +505,6 @@ namespace Patches
 void UnprotectMemory() // 0x109686B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?UnprotectMemory@@YAXXZ");
-	// `anonymous-namespace'::UnprotectMemory
-	// procedure flags: nofpo
-	// static ...; // 0x1096876C
-	// static ...; // 0x10968760
-	// static ...; // 0x10968758
-	// unsigned __int32 Total;
-	// _MEMORY_BASIC_INFORMATION MemInfo;
-	// unsigned __int32 Offset;
-	// function call : unsigned long (void const *, _MEMORY_BASIC_INFORMATION *, unsigned long)
-	// function call : __int32 (void *, unsigned long, unsigned long, unsigned long *)
 
 	// Enable write to all executable memory
 	size_t Offset, Total;

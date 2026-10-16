@@ -176,13 +176,6 @@ namespace Server
 		void Handle(std::string const &token) // 0x10B22A80
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Handle@ReportHandler@Server@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-			// static ...; // 0x10B22B8C
-			// static ...; // 0x10B22B84
-			// static ...; // 0x10B22B6C
-			// static ...; // 0x10B22B64
-			// std::string const &token;
-				// std::lock_guard<std::mutex> guard;
-				// ReportRequest request;
 
 			{
 				std::lock_guard<std::mutex> guard(hades_file_local::mutex);
@@ -197,14 +190,11 @@ namespace Server
 		void Tick() // 0x10B23BF0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@ReportHandler@Server@@YAXXZ");
-			// procedure flags: nofpo
 		}
 
 		void Init() // 0x10B23B10
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Init@ReportHandler@Server@@YAXXZ");
-			// procedure flags: nofpo
-			// function call : void *(_SECURITY_ATTRIBUTES *, unsigned long, unsigned long (*)(void *), void *, unsigned long, unsigned long *)
 
 			Patches::Core::OnShutdown(::OnShutdown);
 			CreateThread(nullptr, 0, HandledReportsThreadProc, nullptr, 0, nullptr);
@@ -217,14 +207,6 @@ namespace Server
 void GetEndpoints() // 0x10B22890
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetEndpoints@@YAXXZ");
-	// `anonymous-namespace'::GetEndpoints
-	// procedure flags: nofpo
-	// static ...; // 0x10B22A0C
-	// static ...; // 0x10B22A00
-	// static ...; // 0x10B229F8
-	// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
-		// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &urls;
-			// unsigned __int32 i;
 
 	if (!Utils::Singleton<Utils::DewritoReader>::Instance().IsValid())
 		return;
@@ -241,22 +223,6 @@ void GetEndpoints() // 0x10B22890
 bool ForwardReportToEndpoint(std::string const &endpoint, std::string const &report) // 0x10B21ED0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ForwardReportToEndpoint@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z");
-	// `anonymous-namespace'::ForwardReportToEndpoint
-	// static ...; // 0x10B22604
-	// static ...; // 0x10B225F9
-	// static ...; // 0x10B225F4
-	// static ...; // 0x10B225EC
-	// static ...; // 0x10B225B0
-	// static ...; // 0x10B225A8
-// $LN43:
-// $LN44:
-	// std::string const &endpoint;
-	// std::string const &report;
-	// std::wstring expected;
-	// HttpRequest req;
-	// std::wstring statusCode;
-	// std::string resp;
-	// std::ofstream logfile;
 
 	HttpRequest req(L"ElDewrito/" + Utils::String::WidenString(Utils::Version::GetVersionString()), L"", L"");
 	try
@@ -306,12 +272,6 @@ bool ForwardReportToEndpoint(std::string const &endpoint, std::string const &rep
 void ForwardReportToEndpoints(std::string const &report) // 0x10B227F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ForwardReportToEndpoints@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-	// `anonymous-namespace'::ForwardReportToEndpoints
-	// std::string const &report;
-		// std::vector<std::string> &<range>$L0;
-		// std::string *<begin>$L0;
-		// std::string *<end>$L0;
-			// std::string &endpoint;
 
 	for (auto &url : playerReportUrls)
 		ForwardReportToEndpoint(url, report);
@@ -320,24 +280,6 @@ void ForwardReportToEndpoints(std::string const &report) // 0x10B227F0
 bool HandleReport(std::string const &token) // 0x10B22BE0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleReport@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-	// `anonymous-namespace'::HandleReport
-	// static ...; // 0x10B23459
-	// static ...; // 0x10B23451
-	// static ...; // 0x10B23448
-	// static ...; // 0x10B2343D
-	// static ...; // 0x10B23438
-	// static ...; // 0x10B23430
-	// static ...; // 0x10B233E8
-	// static ...; // 0x10B233E0
-// $LN39:
-// $LN10:
-	// std::string const &token;
-	// std::wstring expected;
-	// HttpRequest req;
-	// std::wstring statusCode;
-	// std::string resp;
-	// std::ofstream logfile;
-		// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> dewrito;
 
 	HttpRequest req(L"ElDewrito/" + Utils::String::WidenString(Utils::Version::GetVersionString()), L"", L"");
 	try
@@ -381,14 +323,6 @@ bool HandleReport(std::string const &token) // 0x10B22BE0
 void HandleReports() // 0x10B23680
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleReports@@YAXXZ");
-	// `anonymous-namespace'::HandleReports
-	// procedure flags: nofpo
-	// static ...; // 0x10B238F4
-	// static ...; // 0x10B238E8
-	// static ...; // 0x10B238E0
-		// std::_Vector_iterator<std::_Vector_val<std::_Simple_types<ReportRequest> > > it;
-			// long long deltaTime;
-			// ReportRequest &request;
 
 	if (pending.size() == 0)
 		return;
@@ -412,14 +346,6 @@ void HandleReports() // 0x10B23680
 unsigned long __stdcall HandledReportsThreadProc(void *lpParam) // 0x10B239A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?HandledReportsThreadProc@@YGKPAX@Z");
-	// `anonymous-namespace'::HandledReportsThreadProc
-	// static ...; // 0x10B23AC4
-	// static ...; // 0x10B23AC0
-	// static ...; // 0x10B23AA8
-	// static ...; // 0x10B23AA0
-	// void *lpParam;
-		// std::unique_lock<std::mutex> lk;
-		// std::chrono::time_point<std::chrono::system_clock,std::chrono::duration<__int64,std::ratio<1,10000000> > > now;
 
 	for (;;)
 	{
@@ -436,8 +362,6 @@ unsigned long __stdcall HandledReportsThreadProc(void *lpParam) // 0x10B239A0
 static void OnShutdown() // 0x10B23BA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnShutdown@@YAXXZ");
-	// `anonymous-namespace'::OnShutdown
-	// procedure flags: nofpo
 
 	shouldExit = true;
 	hades_file_local::signal.notify_one();

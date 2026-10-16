@@ -90,7 +90,6 @@ namespace Patches
 		void ApplyAll() // 0x108D0640
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Game@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			Pointer(0x1656AC0).Write(unused_initialize_hook);
 			Pointer(0x1656AC4).Write(unused_dispose_hook);
@@ -102,7 +101,6 @@ namespace Patches
 		void RegisterGameSystem(IGameSystem *system) // 0x108D0950
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?RegisterGameSystem@Game@Patches@@YAXPAUIGameSystem@@@Z");
-			// IGameSystem *system;
 
 			eldewritoGameSystems.push_back(system);
 		}
@@ -114,13 +112,6 @@ namespace Patches
 void unused_initialize_hook() // 0x108D1590
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?unused_initialize_hook@@YAXXZ");
-	// `anonymous-namespace'::unused_initialize_hook
-	// procedure flags: nofpo
-		// std::vector<IGameSystem *> &<range>$L0;
-		// IGameSystem **<begin>$L0;
-		// IGameSystem **<end>$L0;
-			// IGameSystem *system;
-	// function call : void ()
 
 	for (IGameSystem *system : eldewritoGameSystems)
 		system->Initialize();
@@ -129,13 +120,6 @@ void unused_initialize_hook() // 0x108D1590
 void unused_dispose_hook() // 0x108D14F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?unused_dispose_hook@@YAXXZ");
-	// `anonymous-namespace'::unused_dispose_hook
-	// procedure flags: nofpo
-		// std::vector<IGameSystem *> &<range>$L0;
-		// IGameSystem **<begin>$L0;
-		// IGameSystem **<end>$L0;
-			// IGameSystem *system;
-	// function call : void ()
 
 	for (IGameSystem *system : eldewritoGameSystems)
 		system->Dispose();
@@ -144,13 +128,6 @@ void unused_dispose_hook() // 0x108D14F0
 void unused_intialize_for_new_map_hook() // 0x108D1630
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?unused_intialize_for_new_map_hook@@YAXXZ");
-	// `anonymous-namespace'::unused_intialize_for_new_map_hook
-	// procedure flags: nofpo
-		// std::vector<IGameSystem *> &<range>$L0;
-		// IGameSystem **<begin>$L0;
-		// IGameSystem **<end>$L0;
-			// IGameSystem *system;
-	// function call : void ()
 
 	for (IGameSystem *system : eldewritoGameSystems)
 		system->InitializeForNewMap();
@@ -159,13 +136,6 @@ void unused_intialize_for_new_map_hook() // 0x108D1630
 void unused_dispose_from_old_map_hook() // 0x108D1450
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?unused_dispose_from_old_map_hook@@YAXXZ");
-	// `anonymous-namespace'::unused_dispose_from_old_map_hook
-	// procedure flags: nofpo
-		// std::vector<IGameSystem *> &<range>$L0;
-		// IGameSystem **<begin>$L0;
-		// IGameSystem **<end>$L0;
-			// IGameSystem *system;
-	// function call : void ()
 
 	for (IGameSystem *system : eldewritoGameSystems)
 		system->DisposeFromOldMap();
@@ -174,13 +144,6 @@ void unused_dispose_from_old_map_hook() // 0x108D1450
 void unused_update_hook() // 0x108D16D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?unused_update_hook@@YAXXZ");
-	// `anonymous-namespace'::unused_update_hook
-	// procedure flags: nofpo
-		// std::vector<IGameSystem *> &<range>$L0;
-		// IGameSystem **<begin>$L0;
-		// IGameSystem **<end>$L0;
-			// IGameSystem *system;
-	// function call : void ()
 
 	for (IGameSystem *system : eldewritoGameSystems)
 		system->Update();

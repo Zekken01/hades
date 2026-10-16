@@ -141,7 +141,6 @@ static_assert(sizeof(c_visible_items) == 1, "Invalid c_visible_items size");
 inline s_visible_items &c_visible_items::get_global_items() // 0x108CAC20
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_global_items@c_visible_items@@SAAAUs_visible_items@@XZ");
-	// procedure flags: nofpo
 
 	return m_items;
 }

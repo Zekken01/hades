@@ -187,11 +187,6 @@ namespace Blam
 void CModBrowserManager::Initialize() // 0x1070C4E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@CModBrowserManager@@QAEXXZ");
-	// static ...; // 0x1070C6B8
-	// static ...; // 0x1070C6AC
-	// static ...; // 0x1070C6A4
-	// CModBrowserManager *const this;
-	// std::shared_ptr<CModBrowserStateHandler_AcquireMod> acquireModsHandler;
 
 	auto acquireModsHandler = std::make_shared<CModBrowserStateHandler_AcquireMod>();
 	acquireModsHandler->SetUI(Web::Ui::WebServerModBrowser::GetDownloadUISingle());
@@ -203,16 +198,6 @@ void CModBrowserManager::Initialize() // 0x1070C4E0
 bool CModBrowserManager::ShouldDownloadPackage(SModBrowserState::SRequestedMod const &package) // 0x1070C940
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ShouldDownloadPackage@CModBrowserManager@@AAE_NABUSRequestedMod@SModBrowserState@@@Z");
-	// static ...; // 0x1070CAFA
-	// static ...; // 0x1070CAF4
-	// static ...; // 0x1070CAD0
-	// static ...; // 0x1070CAC8
-	// CModBrowserManager *const this;
-	// SModBrowserState::SRequestedMod const &package;
-	// c_mod_package_manager::s_entry package_entry;
-	// unsigned char remote_hash[20];
-	// c_mod_package cache;
-	// c_mod_package_manager &package_manager;
 
 	unsigned char remote_hash[20];
 	Utils::String::HexStringToBytes(package.hash, remote_hash, sizeof(remote_hash));
@@ -236,12 +221,6 @@ bool CModBrowserManager::ShouldDownloadPackage(SModBrowserState::SRequestedMod c
 bool CModBrowserManager::DownloadMod(SModBrowserState const &options) // 0x1070C070
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DownloadMod@CModBrowserManager@@QAE_NABUSModBrowserState@@@Z");
-	// static ...; // 0x1070C340
-	// static ...; // 0x1070C338
-	// CModBrowserManager *const this;
-	// SModBrowserState const &options;
-	// SModBrowserState &state;
-		// Web::Ui::ScreenLayer::SDialogShowParams dialogParams;
 
 	if (m_stateManager->InProgress())
 		return false;
@@ -267,7 +246,6 @@ bool CModBrowserManager::DownloadMod(SModBrowserState const &options) // 0x1070C
 void CModBrowserManager::Update() // 0x1070CCA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CModBrowserManager@@QAEXXZ");
-	// CModBrowserManager *const this;
 
 	m_stateManager->Update();
 }
@@ -275,13 +253,6 @@ void CModBrowserManager::Update() // 0x1070CCA0
 void CModBrowserManager::OnDownloadAborted(EModBrowserAbortReason reason) // 0x1070C750
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnDownloadAborted@CModBrowserManager@@AAEXW4EModBrowserAbortReason@@@Z");
-	// static ...; // 0x1070C8BC
-	// static ...; // 0x1070C8A4
-	// static ...; // 0x1070C89C
-	// CModBrowserManager *const this;
-	// EModBrowserAbortReason reason;
-	// Web::Ui::ScreenLayer::SDialogShowParams dialogParams;
-	// std::string message;
 
 	std::string message;
 	switch (reason)

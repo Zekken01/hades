@@ -211,7 +211,6 @@ namespace ChatCommands
 	void RegisterCommands() // 0x106CFAB0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?RegisterCommands@ChatCommands@@YAXXZ");
-		// procedure flags: nofpo
 
 		RegisterCommand("list", "Returns the list of players in the server", (CommandFlags)0, ComamndListPlayers);
 		RegisterCommand("mod", "returns the mod information", (CommandFlags)0, ComamndModInfo);
@@ -245,14 +244,6 @@ namespace ChatCommands
 __int32 FindPlayerInGameWithIdentifier(s_player_identifier const &identifier) // 0x106CF7B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?FindPlayerInGameWithIdentifier@@YAHABUs_player_identifier@@@Z");
-	// `anonymous-namespace'::FindPlayerInGameWithIdentifier
-	// static ...; // 0x106CF888
-	// static ...; // 0x106CF87C
-	// static ...; // 0x106CF874
-	// s_player_identifier const &identifier;
-	// c_data_array<s_player_datum> *players;
-		// c_data_iterator<s_player_datum> it;
-	// function call : bool (*const)()
 
 	static bool (*const game_in_progress)() = reinterpret_cast<bool (*)()>(0x5314B0);
 	if (!game_in_progress())
@@ -269,15 +260,6 @@ __int32 FindPlayerInGameWithIdentifier(s_player_identifier const &identifier) //
 __int32 FindNetworkPlayerInGame(char networkPlayerIndex) // 0x106CF690
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?FindNetworkPlayerInGame@@YAHD@Z");
-	// `anonymous-namespace'::FindNetworkPlayerInGame
-	// static ...; // 0x106CF764
-	// static ...; // 0x106CF758
-	// static ...; // 0x106CF750
-	// char networkPlayerIndex;
-	// c_network_session_membership *membership;
-	// s_network_session_player *networkPlayer;
-	// c_network_session *session;
-	// function call : bool (*const)(c_network_session **)
 
 	c_network_session *session;
 	if (!network_session_interface_get_squad_session(&session) || !session->established())
@@ -294,16 +276,6 @@ __int32 FindNetworkPlayerInGame(char networkPlayerIndex) // 0x106CF690
 bool CommandHelp(__int32 peer, std::vector<std::string> const &args, std::string &returnValue) // 0x106CF180
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandHelp@@YA_NHABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandHelp
-	// static ...; // 0x106CF280
-	// static ...; // 0x106CF278
-	// __int32 peer;
-	// std::vector<std::string> const &args;
-	// std::string &returnValue;
-		// std::vector<std::string> &<range>$L0;
-		// std::string *<begin>$L0;
-		// std::string *<end>$L0;
-			// std::string i;
 
 	for (auto i : ChatCommands::getHelpText())
 		Server::Chat::SendServerMessage(i, peer);
@@ -313,12 +285,6 @@ bool CommandHelp(__int32 peer, std::vector<std::string> const &args, std::string
 bool ComamndListPlayers(__int32 peer, std::vector<std::string> const &args, std::string &returnValue) // 0x106CE6E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ComamndListPlayers@@YA_NHABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::ComamndListPlayers
-	// std::string &returnValue;
-	// Blam::Network::Session *session;
-	// __int32 peerIdx;
-		// __int32 playerIdx;
-			// Blam::Network::PlayerSession *player;
 
 	Blam::Network::Session *session = Blam::Network::GetActiveSession();
 	__int32 peerIdx = session->MembershipInfo.FindFirstPeer();
@@ -338,8 +304,6 @@ bool ComamndListPlayers(__int32 peer, std::vector<std::string> const &args, std:
 bool CommandReportPlayer(__int32 peer, std::vector<std::string> const &args, std::string &returnValue) // 0x106CF550
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandReportPlayer@@YA_NHABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandReportPlayer
-	// std::string &returnValue;
 
 	if (args.size() < 1 || args[0].length() <= 128)
 	{
@@ -355,15 +319,6 @@ bool CommandReportPlayer(__int32 peer, std::vector<std::string> const &args, std
 bool CommandKill(__int32 peer, std::vector<std::string> const &args, std::string &returnValue) // 0x106CF2F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandKill@@YA_NHABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandKill
-	// std::string &returnValue;
-	// s_player_datum *player;
-	// __int32 playerIndex;
-	// __int32 networkPlayerIndex;
-	// Blam::Network::Session *session;
-	// function call : bool (*const)()
-	// function call : c_game_engine *(*const)()
-	// function call : bool (*const)()
 
 	static bool (*const game_in_progress)() = reinterpret_cast<bool (*)()>(0x5314B0);
 	static c_game_engine *(*const current_game_engine)() = reinterpret_cast<c_game_engine *(*)()>(0x5CE150);
@@ -420,22 +375,6 @@ bool CommandKill(__int32 peer, std::vector<std::string> const &args, std::string
 bool ComamndModInfo(__int32 peer, std::vector<std::string> const &args, std::string &returnValue) // 0x106CEA80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ComamndModInfo@@YA_NHABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::ComamndModInfo
-	// static ...; // 0x106CEFF9
-	// static ...; // 0x106CEFF4
-	// static ...; // 0x106CEFEC
-	// static ...; // 0x106CEFB0
-	// static ...; // 0x106CEFA8
-	// __int32 peer;
-	// std::vector<std::string> const &args;
-	// std::string &returnValue;
-	// char buffer[32];
-	// std::string desc;
-	// bool hasModSet;
-	// std::string modhash;
-	// c_mod_package_manager::s_entry mod_package;
-	// std::string message;
-	// tm *convertedLocal;
 
 	std::string modhash = c_mod_system::get_current_package_hash();
 	c_mod_package_manager::s_entry mod_package;

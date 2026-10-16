@@ -120,7 +120,6 @@ namespace Patches
 		void ApplyAll() // 0x108DC8C0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@PlayerControl@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			Hook(0x139B20, player_find_nearby_interactions_hook).Apply();
 			Hook(0x139900, player_find_nearby_items_hook).Apply();
@@ -138,8 +137,6 @@ namespace Patches
 bool sphere_intersects_sphere(real_point3d const &c0, float r0, real_point3d const &c1, float r1) // 0x108DD9A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?sphere_intersects_sphere@@YA_NABUreal_point3d@@M0M@Z");
-	// `anonymous-namespace'::sphere_intersects_sphere
-	// float r1;
 
 	return distance_squared3d(&c0, &c1) <= (r0 + r1) * (r0 + r1);
 }
@@ -147,25 +144,6 @@ bool sphere_intersects_sphere(real_point3d const &c0, float r0, real_point3d con
 void player_find_nearby_items_hook(long player_index) // 0x108DD6D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?player_find_nearby_items_hook@@YAXJ@Z");
-	// `anonymous-namespace'::player_find_nearby_items_hook
-	// static ...; // 0x108DD8FC
-	// static ...; // 0x108DD8F0
-	// static ...; // 0x108DD8E8
-	// long player_index;
-	// long unit_index;
-	// void (*const player_examine_nearby_item)(long, long);
-		// long num_objects;
-		// long nearby_objects[256];
-		// long root_object_index;
-		// s_unit_data *unit_object;
-			// long i;
-				// long object_index;
-				// s_object_data *nearby_object;
-				// long object_type;
-					// long child_object_index;
-	// function call : long (*const)(long)
-	// function call : short (*const)(long, long, s_cluster_reference const *, real_point3d const *, float, long *, short)
-	// function call : void (*const)(long, long)
 
 	void (*const player_examine_nearby_item)(long, long) = reinterpret_cast<void (*)(long, long)>(0x5394A0);
 	long unit_index = player_get(player_index)->unit_index;
@@ -198,39 +176,6 @@ void player_find_nearby_items_hook(long player_index) // 0x108DD6D0
 void player_find_nearby_interactions_hook(long player_index, s_player_action_context *out_action_context) // 0x108DD0C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?player_find_nearby_interactions_hook@@YAXJPAUs_player_action_context@@@Z");
-	// `anonymous-namespace'::player_find_nearby_interactions_hook
-	// static ...; // 0x108DD565
-	// static ...; // 0x108DD55C
-	// static ...; // 0x108DD544
-	// static ...; // 0x108DD53C
-// $LN26:
-// $LN25:
-// $LN19:
-// $LN16:
-// $LN15:
-// EXPLICIT_DEFAULT:
-	// long player_index;
-	// s_player_action_context *out_action_context;
-	// s_player_datum *player;
-	// s_object_data *unit;
-	// long k_ignore_distance_filter;
-	// long num_objects;
-	// s_cluster_reference location;
-	// long results[256];
-	// long k_base_object_filter;
-	// float radius;
-		// long i;
-			// long object_index;
-			// s_object_data *object;
-				// long child_filter;
-					// s_object_data *child_object;
-						// long child_object_index;
-	// function call : void (*const)(long, s_cluster_reference *)
-	// function call : short (*const)(long, long, s_cluster_reference const *, real_point3d const *, float, long *, short)
-	// function call : bool (*const)(long, long, s_player_action_context *)
-	// function call : bool (*const)(long, long, s_player_action_context *)
-	// function call : bool (*const)(long, long, s_player_action_context *)
-	// function call : bool (*const)(long, long, s_player_action_context *)
 
 	long k_base_object_filter = 0x2BBF;
 	out_action_context->interaction.object_index = -1;
@@ -300,10 +245,6 @@ void player_find_nearby_interactions_hook(long player_index, s_player_action_con
 void player_control_update_player_hook(long player_index, long input_user_index, long controller_index, float world_delta, float game_delta) // 0x108DCFD0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?player_control_update_player_hook@@YAXJJJMM@Z");
-	// `anonymous-namespace'::player_control_update_player_hook
-	// float game_delta;
-	// void (*const player_control_update_player)(long, long, long, float, float);
-	// function call : void (*const)(long, long, long, float, float)
 
 	g_player_control_delta_msec = (long)(world_delta * 1000.0f);
 
@@ -315,9 +256,6 @@ void player_control_update_player_hook(long player_index, long input_user_index,
 __declspec(naked) void player_control_zoom_hold_timer_fix1_hook() // 0x108DD080
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?player_control_zoom_hold_timer_fix1_hook@@YAXXZ");
-	// `anonymous-namespace'::player_control_zoom_hold_timer_fix1_hook
-	// procedure flags: nofpo
-	// skip:
 
 	__asm
 	{
@@ -335,8 +273,6 @@ __declspec(naked) void player_control_zoom_hold_timer_fix1_hook() // 0x108DD080
 __declspec(naked) void player_control_zoom_hold_timer_fix2_hook() // 0x108DD0A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?player_control_zoom_hold_timer_fix2_hook@@YAXXZ");
-	// `anonymous-namespace'::player_control_zoom_hold_timer_fix2_hook
-	// procedure flags: nofpo
 
 	__asm
 	{
@@ -349,9 +285,6 @@ __declspec(naked) void player_control_zoom_hold_timer_fix2_hook() // 0x108DD0A0
 __declspec(naked) void player_control_crouch_hold_timer_fix1_hook() // 0x108DCF80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?player_control_crouch_hold_timer_fix1_hook@@YAXXZ");
-	// `anonymous-namespace'::player_control_crouch_hold_timer_fix1_hook
-	// procedure flags: nofpo
-	// skip:
 
 	__asm
 	{
@@ -369,8 +302,6 @@ __declspec(naked) void player_control_crouch_hold_timer_fix1_hook() // 0x108DCF8
 __declspec(naked) void player_control_crouch_hold_timer_fix2_hook() // 0x108DCFB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?player_control_crouch_hold_timer_fix2_hook@@YAXXZ");
-	// `anonymous-namespace'::player_control_crouch_hold_timer_fix2_hook
-	// procedure flags: nofpo
 
 	__asm
 	{

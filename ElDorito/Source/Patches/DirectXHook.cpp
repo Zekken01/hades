@@ -278,7 +278,6 @@ namespace DirectXHook
 	void ApplyAll() // 0x10960980
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@DirectXHook@@YAXXZ");
-		// procedure flags: nofpo
 
 		Hook(0x620386, InitializeDeviceHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 		Hook(0x62152B, HandleTakeScreenshotHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
@@ -295,16 +294,6 @@ namespace DirectXHook
 bool HookDirectX(IDirect3DDevice9 *device) // 0x109616C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?HookDirectX@@YA_NPAUIDirect3DDevice9@@@Z");
-	// `anonymous-namespace'::HookDirectX
-	// static ...; // 0x10961958
-	// static ...; // 0x1096194C
-	// static ...; // 0x10961944
-	// IDirect3DDevice9 *device;
-	// std::shared_ptr<Web::Browser::WebRenderer> webRenderer;
-	// unsigned __int32 *directXVTable;
-	// bool webDebugging;
-	// function call : void *()
-	// function call : void (char const *)
 
 	unsigned __int32 *directXVTable = *(unsigned __int32 **)device;
 	Video_CallsD3DEndSceneOrginal = reinterpret_cast<void (*)()>(0xA21510);
@@ -336,18 +325,6 @@ bool HookDirectX(IDirect3DDevice9 *device) // 0x109616C0
 HRESULT __stdcall EndSceneHook(IDirect3DDevice9 *device) // 0x109610E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?EndSceneHook@@YGJPAUIDirect3DDevice9@@@Z");
-	// `anonymous-namespace'::EndSceneHook
-	// static ...; // 0x109612C0
-	// static ...; // 0x109612B4
-	// static ...; // 0x1096129C
-	// static ...; // 0x10961294
-	// IDirect3DDevice9 *device;
-	// std::shared_ptr<Web::Browser::WebRenderer> webRenderer;
-	// _D3DVIEWPORT9 viewport;
-	// __int32 *windowResolution;
-	// function call : HRESULT (_D3DVIEWPORT9 *)
-	// function call : HRESULT (_D3DVIEWPORT9 const *)
-	// function call : HRESULT (*)(IDirect3DDevice9 *)
 
 	//Fixes the viewport if the game is in fullscreen with an incorrect aspect ratio.
 	auto *windowResolution = reinterpret_cast<int *>(0x19106E4);
@@ -373,10 +350,6 @@ HRESULT __stdcall EndSceneHook(IDirect3DDevice9 *device) // 0x109610E0
 bool InitializeDeviceHook(bool useDesktopDC, bool nullRefDevice) // 0x10961A10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeDeviceHook@@YA_N_N0@Z");
-	// `anonymous-namespace'::InitializeDeviceHook
-	// bool nullRefDevice;
-	// bool (*const InitializeDevice)(bool, bool);
-	// function call : bool (*const)(bool, bool)
 
 	bool (__cdecl *const InitializeDevice)(bool, bool) = (bool (__cdecl *const)(bool, bool))0xA21B40;
 
@@ -395,14 +368,6 @@ bool InitializeDeviceHook(bool useDesktopDC, bool nullRefDevice) // 0x10961A10
 HRESULT __stdcall ResetHook(IDirect3DDevice9 *device, _D3DPRESENT_PARAMETERS_ *params) // 0x10961B00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ResetHook@@YGJPAUIDirect3DDevice9@@PAU_D3DPRESENT_PARAMETERS_@@@Z");
-	// `anonymous-namespace'::ResetHook
-	// static ...; // 0x10961BE8
-	// static ...; // 0x10961BE0
-	// IDirect3DDevice9 *device;
-	// _D3DPRESENT_PARAMETERS_ *params;
-	// std::shared_ptr<Web::Browser::WebRenderer> webRenderer;
-	// HRESULT result;
-	// function call : HRESULT (*)(IDirect3DDevice9 *, _D3DPRESENT_PARAMETERS_ *)
 
 	auto webRenderer = WebRenderer::GetInstance();
 	webRenderer->PreReset();
@@ -414,30 +379,6 @@ HRESULT __stdcall ResetHook(IDirect3DDevice9 *device, _D3DPRESENT_PARAMETERS_ *p
 void HandleTakeScreenshotHook() // 0x109613D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleTakeScreenshotHook@@YAXXZ");
-	// `anonymous-namespace'::HandleTakeScreenshotHook
-	// procedure flags: nofpo
-	// static ...; // 0x1096161A
-	// static ...; // 0x10961610
-	// static ...; // 0x1096160B
-	// static ...; // 0x10961600
-	// static ...; // 0x109615D0
-	// static ...; // 0x109615C8
-	// _D3DSURFACE_DESC desc;
-	// IDirect3DDevice9 *device;
-	// bool (*const write_jpeg)(unsigned char *, __int32, __int32, wchar_t *);
-	// unsigned char &takeScreenshot;
-	// IDirect3DSurface9 *backBuffer;
-	// IDirect3DSurface9 *tmpBuffer;
-	// _D3DLOCKED_RECT lockedRect;
-	// function call : HRESULT (unsigned __int32, unsigned __int32, _D3DBACKBUFFER_TYPE, IDirect3DSurface9 **)
-	// function call : HRESULT (_D3DSURFACE_DESC *)
-	// function call : HRESULT (unsigned __int32, unsigned __int32, _D3DFORMAT, _D3DPOOL, IDirect3DSurface9 **, void **)
-	// function call : HRESULT (IDirect3DSurface9 *, IDirect3DSurface9 *)
-	// function call : HRESULT (_D3DLOCKED_RECT *, tagRECT const *, unsigned long)
-	// function call : bool (*const)(unsigned char *, __int32, __int32, wchar_t *)
-	// function call : HRESULT ()
-	// function call : unsigned long ()
-	// function call : unsigned long ()
 
 	const auto write_jpeg = (bool(*)(BYTE *pBits, int width, int height, wchar_t *path))(0x0060F5D0);
 
@@ -473,16 +414,6 @@ void HandleTakeScreenshotHook() // 0x109613D0
 HRESULT set_viewport_window(short_rectangle2d *rect, float min_z, float max_z) // 0x109621A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?set_viewport_window@@YAJPAUshort_rectangle2d@@MM@Z");
-	// `anonymous-namespace'::set_viewport_window
-	// static ...; // 0x10962284
-	// short_rectangle2d *rect;
-	// float min_z;
-	// float max_z;
-	// short_rectangle2d new_rect;
-	// unsigned long *g_game_resolution;
-	// constexpr HRESULT (*const `set_viewport_window'::`2'::set_viewport)(short_rectangle2d *, float, float); // constant == 10784784
-	// unsigned long *g_client_resolution;
-	// function call : HRESULT (*const)(short_rectangle2d *, float, float)
 
 	unsigned long *g_client_resolution = (unsigned long *)0x19106E4;
 	unsigned long *g_game_resolution = (unsigned long *)0x19106C0;
@@ -508,13 +439,6 @@ HRESULT set_viewport_window(short_rectangle2d *rect, float min_z, float max_z) /
 char const *GetD3DPoolName(_D3DPOOL pool) // 0x10961350
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetD3DPoolName@@YAPBDW4_D3DPOOL@@@Z");
-	// `anonymous-namespace'::GetD3DPoolName
-	// static ...; // 0x109613A4
-// $LN7:
-// $LN6:
-// $LN5:
-// $LN4:
-	// _D3DPOOL pool;
 
 	switch (pool)
 	{
@@ -534,13 +458,6 @@ char const *GetD3DPoolName(_D3DPOOL pool) // 0x10961350
 HRESULT check_create_texture(__int32 type, _D3DPOOL pool, char const *tag_name, HRESULT hr) // 0x10961F60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?check_create_texture@@YAJHW4_D3DPOOL@@PBDJ@Z");
-	// `anonymous-namespace'::check_create_texture
-	// __int32 type;
-	// _D3DPOOL pool;
-	// char const *tag_name;
-	// HRESULT hr;
-		// char buff[4096];
-	// function call : __int32 (HWND__ *, char const *, char const *, unsigned __int32)
 
 	if (hr < 0)
 	{
@@ -555,10 +472,6 @@ HRESULT check_create_texture(__int32 type, _D3DPOOL pool, char const *tag_name, 
 HRESULT c_d3d_resource_allocator__create_texture_hook(unsigned __int32 width, unsigned __int32 height, unsigned __int32 levels, unsigned __int32 usage, _D3DFORMAT format, _D3DPOOL pool, IDirect3DTexture9 **out_texture, __int32 a8, __int32 a9, void *data_address, char const *name) // 0x10961D50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_d3d_resource_allocator__create_texture_hook@@YAJIIIIW4_D3DFORMAT@@W4_D3DPOOL@@PAPAUIDirect3DTexture9@@HHPAXPBD@Z");
-	// `anonymous-namespace'::c_d3d_resource_allocator__create_texture_hook
-	// char const *name;
-	// HRESULT hr;
-	// function call : HRESULT (*)(unsigned __int32, unsigned __int32, unsigned __int32, unsigned __int32, _D3DFORMAT, _D3DPOOL, IDirect3DTexture9 **, __int32, __int32, void *, char const *)
 
 	HRESULT hr = c_d3d_resource_allocator__create_texture(width, height, levels, usage, format, pool, out_texture, a8, a9, data_address, name);
 	return check_create_texture(0, pool, name, hr);
@@ -567,10 +480,6 @@ HRESULT c_d3d_resource_allocator__create_texture_hook(unsigned __int32 width, un
 HRESULT c_d3d_resource_allocator__create_cube_texture_hook(unsigned __int32 edge_length, unsigned __int32 levels, unsigned __int32 usage, _D3DFORMAT format, _D3DPOOL pool, IDirect3DCubeTexture9 **out_texture, __int32 a7, void *a8, __int32 a9, char const *name) // 0x10961CA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_d3d_resource_allocator__create_cube_texture_hook@@YAJIIIW4_D3DFORMAT@@W4_D3DPOOL@@PAPAUIDirect3DCubeTexture9@@HPAXHPBD@Z");
-	// `anonymous-namespace'::c_d3d_resource_allocator__create_cube_texture_hook
-	// char const *name;
-	// HRESULT hr;
-	// function call : HRESULT (*)(unsigned __int32, unsigned __int32, unsigned __int32, _D3DFORMAT, _D3DPOOL, IDirect3DCubeTexture9 **, __int32, void *, __int32, char const *)
 
 	HRESULT hr = c_d3d_resource_allocator__create_cube_texture(edge_length, levels, usage, format, pool, out_texture, a7, a8, a9, name);
 	return check_create_texture(1, pool, name, hr);
@@ -579,10 +488,6 @@ HRESULT c_d3d_resource_allocator__create_cube_texture_hook(unsigned __int32 edge
 HRESULT c_d3d_resource_allocator__create_volume_texture_hook(unsigned __int32 width, unsigned __int32 height, unsigned __int32 depth, unsigned __int32 levels, unsigned __int32 usage, _D3DFORMAT format, _D3DPOOL pool, IDirect3DVolumeTexture9 **out_texture, void *unk, void *data, __int32 a11, char const *name) // 0x10961E10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_d3d_resource_allocator__create_volume_texture_hook@@YAJIIIIIW4_D3DFORMAT@@W4_D3DPOOL@@PAPAUIDirect3DVolumeTexture9@@PAX3HPBD@Z");
-	// `anonymous-namespace'::c_d3d_resource_allocator__create_volume_texture_hook
-	// char const *name;
-	// HRESULT hr;
-	// function call : HRESULT (*)(unsigned __int32, unsigned __int32, unsigned __int32, unsigned __int32, unsigned __int32, _D3DFORMAT, _D3DPOOL, IDirect3DVolumeTexture9 **, void *, void *, __int32, char const *)
 
 	HRESULT hr = c_d3d_resource_allocator__create_volume_texture(width, height, depth, levels, usage, format, pool, out_texture, unk, data, a11, name);
 	return check_create_texture(2, pool, name, hr);
@@ -591,10 +496,6 @@ HRESULT c_d3d_resource_allocator__create_volume_texture_hook(unsigned __int32 wi
 c_rasterizer_texture_ref *c_rasterizer_texture_ref__allocate_hook(c_rasterizer_texture_ref *data, s_bitmap_image *bitmap_data, char const *name, bool a4) // 0x10961ED0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_rasterizer_texture_ref__allocate_hook@@YAPAUc_rasterizer_texture_ref@@PAU1@PAUs_bitmap_image@@PBD_N@Z");
-	// `anonymous-namespace'::c_rasterizer_texture_ref__allocate_hook
-	// bool a4;
-	// c_rasterizer_texture_ref *(*const c_rasterizer_texture_ref__allocate)(c_rasterizer_texture_ref *, s_bitmap_image *, char const *, bool);
-	// function call : c_rasterizer_texture_ref *(*const)(c_rasterizer_texture_ref *, s_bitmap_image *, char const *, bool)
 
 	c_rasterizer_texture_ref *(__cdecl *const allocate)(c_rasterizer_texture_ref *, s_bitmap_image *, char const *, bool) = (c_rasterizer_texture_ref *(__cdecl *const)(c_rasterizer_texture_ref *, s_bitmap_image *, char const *, bool))0xa6dff0;
 
@@ -605,9 +506,6 @@ c_rasterizer_texture_ref *c_rasterizer_texture_ref__allocate_hook(c_rasterizer_t
 void update_present_parameters(_D3DPRESENT_PARAMETERS_ *present_params) // 0x109622F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?update_present_parameters@@YAXPAU_D3DPRESENT_PARAMETERS_@@@Z");
-	// `anonymous-namespace'::update_present_parameters
-	// _D3DPRESENT_PARAMETERS_ *present_params;
-	// Modules::ModuleSettings *const moduleSettings;
 
 	Modules::ModuleSettings &module_settings = Utils::Singleton<Modules::ModuleSettings>::Instance();
 	present_params->PresentationInterval = module_settings.VarVSync->ValueInt ? 1 : 0x80000000;
@@ -616,9 +514,6 @@ void update_present_parameters(_D3DPRESENT_PARAMETERS_ *present_params) // 0x109
 _D3DPRESENT_PARAMETERS_ *get_presentation_parameters_hook() // 0x10962140
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_presentation_parameters_hook@@YAPAU_D3DPRESENT_PARAMETERS_@@XZ");
-	// `anonymous-namespace'::get_presentation_parameters_hook
-	// procedure flags: nofpo
-	// _D3DPRESENT_PARAMETERS_ *present_params;
 
 	_D3DPRESENT_PARAMETERS_ *present_params = (_D3DPRESENT_PARAMETERS_ *)0x50dd928;
 
@@ -629,9 +524,6 @@ _D3DPRESENT_PARAMETERS_ *get_presentation_parameters_hook() // 0x10962140
 _D3DPRESENT_PARAMETERS_ *get_last_presentation_parameters_hook() // 0x109620E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_last_presentation_parameters_hook@@YAPAU_D3DPRESENT_PARAMETERS_@@XZ");
-	// `anonymous-namespace'::get_last_presentation_parameters_hook
-	// procedure flags: nofpo
-	// _D3DPRESENT_PARAMETERS_ *last_present_params;
 
 	_D3DPRESENT_PARAMETERS_ *last_present_params = (_D3DPRESENT_PARAMETERS_ *)0x50dd960;
 

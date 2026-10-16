@@ -25,7 +25,6 @@
 inline bool s_player_emblem_configuration::operator==(s_player_emblem_configuration const &val) const // 0x108FC620
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??8s_player_emblem_configuration@@QBE_NABU0@@Z");
-	// s_player_emblem_configuration const &val;
 
 	return foregroundIndex == val.foregroundIndex && backgroundIndex == val.backgroundIndex && backgroundColor == val.backgroundColor && secondaryColor == val.secondaryColor && primaryColor == val.primaryColor && iconEnabled == val.iconEnabled && backgroundHex == val.backgroundHex && secondaryHex == val.secondaryHex && primaryHex == val.primaryHex;
 }
@@ -33,7 +32,6 @@ inline bool s_player_emblem_configuration::operator==(s_player_emblem_configurat
 inline bool s_player_emblem_configuration::isUninitialized() // 0x108FF880
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?isUninitialized@s_player_emblem_configuration@@QAE_NXZ");
-	// s_player_emblem_configuration *const this;
 
 	return !foregroundIndex && !backgroundIndex && !backgroundColor && !secondaryColor && !primaryColor && !iconEnabled && !backgroundHex && !secondaryHex && !primaryHex;
 }

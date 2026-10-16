@@ -65,8 +65,6 @@ static_assert(sizeof(c_entity_update_encode_helper) == 80, "Invalid c_entity_upd
 inline bool c_entity_update_encode_helper::start_encoding_update(c_bitstream *stream, long parent_update_component_count, long update_component_first_index, long update_component_count, unsigned long long *mask) // 0x107B0880
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?start_encoding_update@c_entity_update_encode_helper@@QAE_NPAVc_bitstream@@JJJPA_K@Z");
-	// unsigned long long *mask;
-	// function call : bool (*const)(c_entity_update_encode_helper *, c_bitstream *, long, long, long, unsigned long long *)
 
 	return ((bool(__thiscall *const)(c_entity_update_encode_helper *, c_bitstream *, long, long, long, unsigned long long *))0x4e5510)(this, stream, parent_update_component_count, update_component_first_index, update_component_count, mask);
 }
@@ -74,8 +72,6 @@ inline bool c_entity_update_encode_helper::start_encoding_update(c_bitstream *st
 inline bool c_entity_update_encode_helper::start_component(long update_component_index, char const *update_component_name) // 0x107B0810
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?start_component@c_entity_update_encode_helper@@QAE_NJPBD@Z");
-	// char const *update_component_name;
-	// function call : bool (*const)(c_entity_update_encode_helper *, long, char const *)
 
 	return ((bool(__thiscall *const)(c_entity_update_encode_helper *, long, char const *))0x4e55e0)(this, update_component_index, update_component_name);
 }
@@ -83,8 +79,6 @@ inline bool c_entity_update_encode_helper::start_component(long update_component
 inline void c_entity_update_encode_helper::finish_component() // 0x107AE7A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?finish_component@c_entity_update_encode_helper@@QAEXXZ");
-	// c_entity_update_encode_helper *const this;
-	// function call : void (*const)(c_entity_update_encode_helper *)
 
 	((void(__thiscall *const)(c_entity_update_encode_helper *))0x4e53f0)(this);
 }
@@ -92,8 +86,6 @@ inline void c_entity_update_encode_helper::finish_component() // 0x107AE7A0
 inline void c_entity_update_encode_helper::finish_encoding_update(unsigned long long *update_mask_written) // 0x107AE800
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?finish_encoding_update@c_entity_update_encode_helper@@QAEXPA_K@Z");
-	// unsigned long long *update_mask_written;
-	// function call : void (*const)(c_entity_update_encode_helper *, unsigned long long *)
 
 	((void(__thiscall *const)(c_entity_update_encode_helper *, unsigned long long *))0x4e54f0)(this, update_mask_written);
 }

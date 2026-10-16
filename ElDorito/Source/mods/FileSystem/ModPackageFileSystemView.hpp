@@ -66,7 +66,6 @@ static_assert(sizeof(CModPackageFileSystemView) == 80, "Invalid CModPackageFileS
 inline std::string const &CModPackageFileSystemView::GetFilePath() const // 0x10784D00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetFilePath@CModPackageFileSystemView@@QBEABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-	// CModPackageFileSystemView const *const this;
 
 	return m_filePath;
 }
@@ -74,7 +73,6 @@ inline std::string const &CModPackageFileSystemView::GetFilePath() const // 0x10
 inline long long CModPackageFileSystemView::GetBaseOffset() const // 0x10784CD0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetBaseOffset@CModPackageFileSystemView@@QBE_JXZ");
-	// CModPackageFileSystemView const *const this;
 
 	return m_baseOffset;
 }

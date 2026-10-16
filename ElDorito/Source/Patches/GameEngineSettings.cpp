@@ -284,7 +284,6 @@ namespace Patches
 		void ApplyAll() // 0x10A9EA80
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@GameEngineSettings@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			Patch(0x1CB9A3, { 0x03 }).Apply();
 			Patch(0x1CBF34, { 0x03 }).Apply();
@@ -376,8 +375,6 @@ namespace Patches
 float __fastcall c_player_health_traits__get_damage_resistance_hook(c_player_trait_shield_vitality *thisptr, void *__formal) // 0x10AA5F10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_health_traits__get_damage_resistance_hook@@YIMPAUc_player_trait_shield_vitality@@PAX@Z");
-	// `anonymous-namespace'::c_player_health_traits__get_damage_resistance_hook
-	// void *__formal;
 
 	return thisptr->get_damage_resistance_percentage();
 }
@@ -385,8 +382,6 @@ float __fastcall c_player_health_traits__get_damage_resistance_hook(c_player_tra
 float __fastcall c_player_movement_traits__get_walking_speed_hook(c_player_trait_movement *thisptr, void *__formal) // 0x10AA5FB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_movement_traits__get_walking_speed_hook@@YIMPAUc_player_trait_movement@@PAX@Z");
-	// `anonymous-namespace'::c_player_movement_traits__get_walking_speed_hook
-	// void *__formal;
 
 	return thisptr->get_speed();
 }
@@ -394,8 +389,6 @@ float __fastcall c_player_movement_traits__get_walking_speed_hook(c_player_trait
 float __fastcall c_player_movement_traits__get_personal_gravity_hook(c_player_trait_movement *thisptr, void *__formal) // 0x10AA5F60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_movement_traits__get_personal_gravity_hook@@YIMPAUc_player_trait_movement@@PAX@Z");
-	// `anonymous-namespace'::c_player_movement_traits__get_personal_gravity_hook
-	// void *__formal;
 
 	return thisptr->get_gravity();
 }
@@ -403,8 +396,6 @@ float __fastcall c_player_movement_traits__get_personal_gravity_hook(c_player_tr
 void __fastcall c_player_traits__encode_hook(c_player_traits &traits, void *unused, c_bitstream *stream) // 0x10AA6600
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_traits__encode_hook@@YIXAAUc_player_traits@@PAXPAVc_bitstream@@@Z");
-	// `anonymous-namespace'::c_player_traits__encode_hook
-	// c_bitstream *stream;
 
 	traits.encode(stream);
 }
@@ -412,8 +403,6 @@ void __fastcall c_player_traits__encode_hook(c_player_traits &traits, void *unus
 void __fastcall c_player_traits__decode_hook(c_player_traits &traits, void *unused, c_bitstream *stream) // 0x10AA65A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_traits__decode_hook@@YIXAAUc_player_traits@@PAXPAVc_bitstream@@@Z");
-	// `anonymous-namespace'::c_player_traits__decode_hook
-	// c_bitstream *stream;
 
 	traits.decode(stream);
 }
@@ -421,8 +410,6 @@ void __fastcall c_player_traits__decode_hook(c_player_traits &traits, void *unus
 void __fastcall c_player_trait_shield_vitality__encode_hook(c_player_trait_shield_vitality *traits, void *unused, c_bitstream *stream) // 0x10AA63C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_trait_shield_vitality__encode_hook@@YIXPAUc_player_trait_shield_vitality@@PAXPAVc_bitstream@@@Z");
-	// `anonymous-namespace'::c_player_trait_shield_vitality__encode_hook
-	// c_bitstream *stream;
 
 	traits->encode(stream);
 }
@@ -430,8 +417,6 @@ void __fastcall c_player_trait_shield_vitality__encode_hook(c_player_trait_shiel
 void __fastcall c_player_trait_shield_vitality__decode_hook(c_player_trait_shield_vitality *traits, void *unused, c_bitstream *stream) // 0x10AA6360
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_trait_shield_vitality__decode_hook@@YIXPAUc_player_trait_shield_vitality@@PAXPAVc_bitstream@@@Z");
-	// `anonymous-namespace'::c_player_trait_shield_vitality__decode_hook
-	// c_bitstream *stream;
 
 	traits->decode(stream);
 }
@@ -439,8 +424,6 @@ void __fastcall c_player_trait_shield_vitality__decode_hook(c_player_trait_shiel
 void __fastcall c_player_trait_weapons__encode_hook(c_player_trait_weapons &traits, void *unused, c_bitstream *stream) // 0x10AA64E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_trait_weapons__encode_hook@@YIXAAUc_player_trait_weapons@@PAXPAVc_bitstream@@@Z");
-	// `anonymous-namespace'::c_player_trait_weapons__encode_hook
-	// c_bitstream *stream;
 
 	traits.encode(stream);
 }
@@ -448,8 +431,6 @@ void __fastcall c_player_trait_weapons__encode_hook(c_player_trait_weapons &trai
 void __fastcall c_player_trait_weapons__decode_hook(c_player_trait_weapons &traits, void *unused, c_bitstream *stream) // 0x10AA6480
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_trait_weapons__decode_hook@@YIXAAUc_player_trait_weapons@@PAXPAVc_bitstream@@@Z");
-	// `anonymous-namespace'::c_player_trait_weapons__decode_hook
-	// c_bitstream *stream;
 
 	traits.decode(stream);
 }
@@ -457,8 +438,6 @@ void __fastcall c_player_trait_weapons__decode_hook(c_player_trait_weapons &trai
 void __fastcall c_player_trait_movement__encode_hook(c_player_trait_movement &traits, void *unused, c_bitstream *stream) // 0x10AA6180
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_trait_movement__encode_hook@@YIXAAUc_player_trait_movement@@PAXPAVc_bitstream@@@Z");
-	// `anonymous-namespace'::c_player_trait_movement__encode_hook
-	// c_bitstream *stream;
 
 	traits.encode(stream);
 }
@@ -466,8 +445,6 @@ void __fastcall c_player_trait_movement__encode_hook(c_player_trait_movement &tr
 void __fastcall c_player_trait_movement__decode_hook(c_player_trait_movement &traits, void *unused, c_bitstream *stream) // 0x10AA6120
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_trait_movement__decode_hook@@YIXAAUc_player_trait_movement@@PAXPAVc_bitstream@@@Z");
-	// `anonymous-namespace'::c_player_trait_movement__decode_hook
-	// c_bitstream *stream;
 
 	traits.decode(stream);
 }
@@ -475,16 +452,12 @@ void __fastcall c_player_trait_movement__decode_hook(c_player_trait_movement &tr
 void __fastcall c_player_trait_appearance__encode_hook(c_player_trait_appearance &traits, void *unused, c_bitstream *stream) // 0x10AA6060
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_trait_appearance__encode_hook@@YIXAAUc_player_trait_appearance@@PAXPAVc_bitstream@@@Z");
-	// `anonymous-namespace'::c_player_trait_appearance__encode_hook
-	// c_bitstream *stream;
 
 	traits.encode(stream);
 }
 
 void __fastcall c_player_trait_appearance__decode_hook(c_player_trait_appearance &traits, void *unused, c_bitstream *stream) // 0x10AA6000
 {
-	// `anonymous-namespace'::c_player_trait_appearance__decode_hook
-	// c_bitstream *stream;
 
 	traits.decode(stream);
 }
@@ -492,8 +465,6 @@ void __fastcall c_player_trait_appearance__decode_hook(c_player_trait_appearance
 void __fastcall c_player_trait_sensors__encode_hook(c_player_trait_sensors &traits, void *unused, c_bitstream *stream) // 0x10AA62A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_trait_sensors__encode_hook@@YIXAAUc_player_trait_sensors@@PAXPAVc_bitstream@@@Z");
-	// `anonymous-namespace'::c_player_trait_sensors__encode_hook
-	// c_bitstream *stream;
 
 	traits.encode(stream);
 }
@@ -501,8 +472,6 @@ void __fastcall c_player_trait_sensors__encode_hook(c_player_trait_sensors &trai
 void __fastcall c_player_trait_sensors__decode_hook(c_player_trait_sensors &traits, void *unused, c_bitstream *stream) // 0x10AA6240
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_trait_sensors__decode_hook@@YIXAAUc_player_trait_sensors@@PAXPAVc_bitstream@@@Z");
-	// `anonymous-namespace'::c_player_trait_sensors__decode_hook
-	// c_bitstream *stream;
 
 	traits.decode(stream);
 }
@@ -510,8 +479,6 @@ void __fastcall c_player_trait_sensors__decode_hook(c_player_trait_sensors &trai
 void __fastcall c_player_traits__initialize_hook(c_player_traits *thisptr) // 0x10AA6660
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_traits__initialize_hook@@YIXPAUc_player_traits@@@Z");
-	// `anonymous-namespace'::c_player_traits__initialize_hook
-	// c_player_traits *thisptr;
 
 	thisptr->initialize();
 }
@@ -519,8 +486,6 @@ void __fastcall c_player_traits__initialize_hook(c_player_traits *thisptr) // 0x
 void __fastcall c_player_traits__set_hook(c_player_traits *thisptr, void *__formal, c_player_traits *traits, bool can_inherit) // 0x10AA66B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_traits__set_hook@@YIXPAUc_player_traits@@PAX0_N@Z");
-	// `anonymous-namespace'::c_player_traits__set_hook
-	// bool can_inherit;
 
 	thisptr->set(traits, can_inherit);
 }
@@ -528,8 +493,6 @@ void __fastcall c_player_traits__set_hook(c_player_traits *thisptr, void *__form
 void __fastcall c_player_trait_shield_vitality__set_hook(c_player_trait_shield_vitality *thisptr, void *__formal, c_player_trait_shield_vitality const *traits, bool can_inherit) // 0x10AA6420
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_trait_shield_vitality__set_hook@@YIXPAUc_player_trait_shield_vitality@@PAXPBU1@_N@Z");
-	// `anonymous-namespace'::c_player_trait_shield_vitality__set_hook
-	// bool can_inherit;
 
 	thisptr->set(traits, can_inherit);
 }
@@ -537,8 +500,6 @@ void __fastcall c_player_trait_shield_vitality__set_hook(c_player_trait_shield_v
 void __fastcall c_player_trait_weapons__set_hook(c_player_trait_weapons *thisptr, void *__formal, c_player_trait_weapons const *traits, bool can_inherit) // 0x10AA6540
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_trait_weapons__set_hook@@YIXPAUc_player_trait_weapons@@PAXPBU1@_N@Z");
-	// `anonymous-namespace'::c_player_trait_weapons__set_hook
-	// bool can_inherit;
 
 	thisptr->set(traits, can_inherit);
 }
@@ -546,8 +507,6 @@ void __fastcall c_player_trait_weapons__set_hook(c_player_trait_weapons *thisptr
 void __fastcall c_player_trait_movement__set_hook(c_player_trait_movement *thisptr, void *__formal, c_player_trait_movement const *traits, bool can_inherit) // 0x10AA61E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_trait_movement__set_hook@@YIXPAUc_player_trait_movement@@PAXPBU1@_N@Z");
-	// `anonymous-namespace'::c_player_trait_movement__set_hook
-	// bool can_inherit;
 
 	thisptr->set(traits, can_inherit);
 }
@@ -555,8 +514,6 @@ void __fastcall c_player_trait_movement__set_hook(c_player_trait_movement *thisp
 void __fastcall c_player_trait_appearance__set_hook(c_player_trait_appearance *thisptr, void *__formal, c_player_trait_appearance const *traits, bool can_inherit) // 0x10AA60C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_trait_appearance__set_hook@@YIXPAUc_player_trait_appearance@@PAXPBU1@_N@Z");
-	// `anonymous-namespace'::c_player_trait_appearance__set_hook
-	// bool can_inherit;
 
 	thisptr->set(traits, can_inherit);
 }
@@ -564,8 +521,6 @@ void __fastcall c_player_trait_appearance__set_hook(c_player_trait_appearance *t
 void __fastcall c_player_trait_sensors__set_hook(c_player_trait_sensors *thisptr, void *__formal, c_player_trait_sensors const *traits, bool can_inherit) // 0x10AA6300
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_trait_sensors__set_hook@@YIXPAUc_player_trait_sensors@@PAXPBU1@_N@Z");
-	// `anonymous-namespace'::c_player_trait_sensors__set_hook
-	// bool can_inherit;
 
 	thisptr->set(traits, can_inherit);
 }
@@ -573,15 +528,6 @@ void __fastcall c_player_trait_sensors__set_hook(c_player_trait_sensors *thisptr
 void game_engine_apply_extended_traits(long player_index, c_player_trait_extended const *traits) // 0x10AA6710
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_apply_extended_traits@@YAXJPBUc_player_trait_extended@@@Z");
-	// `anonymous-namespace'::game_engine_apply_extended_traits
-	// static ...; // 0x10AA68E0
-	// static ...; // 0x10AA68D8
-	// long player_index;
-	// c_player_trait_extended const *traits;
-	// s_player_datum *player;
-	// bool changed;
-		// unsigned long long const update_mask;
-	// function call : void (*const)(short, unsigned long long const *)
 
 	bool changed = false;
 	s_player_datum *player = player_get(player_index);
@@ -617,26 +563,6 @@ void game_engine_apply_extended_traits(long player_index, c_player_trait_extende
 void try_force_weapon_set(s_player_datum *player, c_player_trait_weapons const *traits) // 0x10AA7A20
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?try_force_weapon_set@@YAXPAUs_player_datum@@PBUc_player_trait_weapons@@@Z");
-	// `anonymous-namespace'::try_force_weapon_set
-	// static ...; // 0x10AA7BFC
-	// static ...; // 0x10AA7BF4
-	// s_player_datum *player;
-	// c_player_trait_weapons const *traits;
-	// s_game_globals *game_globals;
-	// long (*const game_engine_weapon_item_definition_index_from_absolute_weapons_selection_block_index)(short, long);
-	// unsigned long unit_index;
-	// c_tag_block<s_multiplayer_universal_globals_definition> universal;
-	// s_multiplayer_globals_definition *multiplayer_globals;
-		// long secondary_tag_index;
-		// char pickup_value;
-		// long primary_tag_index;
-	// function call : bool (*const)()
-	// function call : void *(*const)(unsigned long, long)
-	// function call : long (*const)(short, long)
-	// function call : long (*const)(short, long)
-	// function call : void (*const)(long)
-	// function call : __int32 (*const)(long, long, long)
-	// function call : __int32 (*const)(long, long, long)
 
 	long (*const game_engine_weapon_item_definition_index_from_absolute_weapons_selection_block_index)(short, long) = reinterpret_cast<long (*)(short, long)>(0x5CECD0);
 	unsigned long unit_index = player->unit_index;
@@ -665,19 +591,6 @@ void try_force_weapon_set(s_player_datum *player, c_player_trait_weapons const *
 void game_engine_apply_weapons_traits_new(long player_index, c_player_trait_weapons const *traits) // 0x10AA6D70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_apply_weapons_traits_new@@YAXJPBUc_player_trait_weapons@@@Z");
-	// `anonymous-namespace'::game_engine_apply_weapons_traits_new
-	// c_player_trait_weapons const *traits;
-	// s_player_datum *player;
-	// void (*const game_engine_apply_weapons_traits)(long, c_player_trait_weapons const *);
-	// short (*const weapon_get_multiplayer_type)(long);
-	// char og_init_primary;
-	// char og_init_secondary;
-		// unsigned long support_weapon_index;
-	// function call : void (*const)(long, c_player_trait_weapons const *)
-	// function call : char (*const)()
-	// function call : bool (*const)(long, long *, long *)
-	// function call : long (*const)(long, short)
-	// function call : short (*const)(long)
 
 	void (*const game_engine_apply_weapons_traits)(long, c_player_trait_weapons const *) = reinterpret_cast<void (*)(long, c_player_trait_weapons const *)>(0x5CBE20);
 	short (*const weapon_get_multiplayer_type)(long) = reinterpret_cast<short (*)(long)>(0xB62DB0);
@@ -702,17 +615,6 @@ void game_engine_apply_weapons_traits_new(long player_index, c_player_trait_weap
 void game_engine_apply_player_traits_hook(long player_index, c_player_traits const *traits) // 0x10AA6980
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_apply_player_traits_hook@@YAXJPBUc_player_traits@@@Z");
-	// `anonymous-namespace'::game_engine_apply_player_traits_hook
-	// c_player_traits const *traits;
-	// void (*const game_engine_apply_weapons_traits)(long, c_player_trait_weapons const *);
-	// void (*const game_engine_apply_vitality_traits)(long, c_player_trait_shield_vitality const *);
-	// void (*const game_engine_apply_appearance_trait)(long, c_player_trait_appearance const *);
-	// void (*const game_engine_apply_sensors_traits)(long, c_player_trait_sensors const *);
-	// void (*const game_engine_apply_movement_traits)(long, c_player_trait_movement const *);
-	// function call : void (*const)(long, c_player_trait_shield_vitality const *)
-	// function call : void (*const)(long, c_player_trait_movement const *)
-	// function call : void (*const)(long, c_player_trait_appearance const *)
-	// function call : void (*const)(long, c_player_trait_sensors const *)
 
 	const auto game_engine_apply_vitality_traits = (void(*)(long, c_player_trait_shield_vitality const *))0x5CBD30;
 	const auto game_engine_apply_weapons_traits = (void(*)(long, c_player_trait_weapons const *))0x5CBE20;
@@ -731,12 +633,6 @@ void game_engine_apply_player_traits_hook(long player_index, c_player_traits con
 void game_engine_apply_respawn_traits_hook(long player_index, c_player_traits *traits) // 0x10AA6C90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_apply_respawn_traits_hook@@YAXJPAUc_player_traits@@@Z");
-	// `anonymous-namespace'::game_engine_apply_respawn_traits_hook
-	// c_player_traits *traits;
-	// s_player_datum *player;
-	// u_game_engine_variant *const variant;
-	// c_game_variant *game_variant;
-	// function call : c_game_variant *(*const)()
 
 	c_game_variant *game_variant = game_engine_get_variant();
 	s_player_datum *player = player_get(player_index);
@@ -753,23 +649,6 @@ void game_engine_apply_respawn_traits_hook(long player_index, c_player_traits *t
 void game_engine_apply_powerup_traits_hook(long player_index, c_player_traits *traits) // 0x10AA6AB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_apply_powerup_traits_hook@@YAXJPAUc_player_traits@@@Z");
-	// `anonymous-namespace'::game_engine_apply_powerup_traits_hook
-	// static ...; // 0x10AA6C14
-	// static ...; // 0x10AA6C0C
-	// long player_index;
-	// c_player_traits *traits;
-	// s_player_datum *player;
-	// long most_recent_pickup_time;
-	// constexpr float (*const `game_engine_apply_powerup_traits_hook'::`2'::game_get_powerup_duration_in_seconds)(unsigned char); // constant == 7757152
-	// long seconds_active;
-	// constexpr void (*const `game_engine_apply_powerup_traits_hook'::`2'::game_engine_get_variant_powerup_traits)(unsigned char, c_player_traits *); // constant == 7757280
-	// long powerup_flavor;
-		// long i;
-		// c_player_traits desired_traits;
-	// function call : long (*const)()
-	// function call : float (*const)(float)
-	// function call : float (*const)(unsigned char)
-	// function call : void (*const)(unsigned char, c_player_traits *)
 
 	static float (*const game_get_powerup_duration_in_seconds)(unsigned char) = reinterpret_cast<float (*)(unsigned char)>(0x765D60);
 	static void (*const game_engine_get_variant_powerup_traits)(unsigned char, c_player_traits *) = reinterpret_cast<void (*)(unsigned char, c_player_traits *)>(0x765DE0);
@@ -798,11 +677,6 @@ void game_engine_apply_powerup_traits_hook(long player_index, c_player_traits *t
 long game_variant_get_parameter_value_type(long parameter_type) // 0x10AA7790
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?game_variant_get_parameter_value_type@@YAJJ@Z");
-	// `anonymous-namespace'::game_variant_get_parameter_value_type
-	// long parameter_type;
-	// constexpr long (*const `game_variant_get_parameter_value_type'::`2'::game_variant_get_parameter_value_type)(long); // constant == 5716384
-	// bool extended;
-	// function call : long (*const)(long)
 
 	bool valid = parameter_type >= 626;
 
@@ -817,96 +691,6 @@ long game_variant_get_parameter_value_type(long parameter_type) // 0x10AA7790
 bool __fastcall c_game_variant__get_game_engine_setting_hook(c_game_variant *thisptr, void *unused, e_game_variant_parameter parameter_type, char value_type, unsigned long *out_value) // 0x10AA3BC0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_game_variant__get_game_engine_setting_hook@@YI_NPAUc_game_variant@@PAXW4e_game_variant_parameter@@DPAK@Z");
-	// `anonymous-namespace'::c_game_variant__get_game_engine_setting_hook
-// $LN84:
-// $LN83:
-// $LN82:
-// $LN81:
-// $LN80:
-// $LN79:
-// $LN78:
-// $LN77:
-// $LN76:
-// $LN75:
-// $LN74:
-// $LN73:
-// $LN72:
-// $LN71:
-// $LN70:
-// $LN69:
-// $LN68:
-// $LN67:
-// $LN66:
-// $LN65:
-// $LN64:
-// $LN63:
-// $LN62:
-// $LN61:
-// $LN60:
-// $LN59:
-// $LN58:
-// $LN57:
-// $LN56:
-// $LN55:
-// $LN54:
-// $LN53:
-// $LN52:
-// $LN51:
-// $LN50:
-// $LN49:
-// $LN48:
-// $LN47:
-// $LN46:
-// $LN45:
-// $LN44:
-// $LN43:
-// $LN42:
-// $LN41:
-// $LN40:
-// $LN39:
-// $LN38:
-// $LN37:
-// $LN36:
-// $LN35:
-// $LN34:
-// $LN33:
-// $LN32:
-// $LN31:
-// $LN30:
-// $LN29:
-// $LN28:
-// $LN27:
-// $LN26:
-// $LN25:
-// $LN24:
-// $LN23:
-// $LN22:
-// $LN21:
-// $LN20:
-// $LN19:
-// $LN18:
-// $LN17:
-// $LN16:
-// $LN15:
-// $LN14:
-// $LN13:
-// $LN12:
-// $LN11:
-// $LN10:
-// $LN9:
-// $LN8:
-// $LN7:
-// $LN6:
-// $LN5:
-// $LN4:
-	// c_game_variant *thisptr;
-	// void *unused;
-	// e_game_variant_parameter parameter_type;
-	// char value_type;
-	// unsigned long *out_value;
-	// u_game_engine_variant *const variant;
-	// constexpr bool (*const `c_game_variant__get_game_engine_setting_hook'::`2'::get_game_engine_setting)(void *, e_game_variant_parameter, char, unsigned long *); // constant == 5719344
-	// function call : bool (*const)(void *, e_game_variant_parameter, char, unsigned long *)
 
 	u_game_engine_variant *const variant = (u_game_engine_variant *)thisptr->storage;
 	switch (parameter_type)
@@ -1176,96 +960,6 @@ bool __fastcall c_game_variant__get_game_engine_setting_hook(c_game_variant *thi
 bool __fastcall c_game_variant__set_game_engine_setting_hook(c_game_variant *thisptr, void *unused, long parameter_type, char value_type, unsigned long value) // 0x10AA4A10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_game_variant__set_game_engine_setting_hook@@YI_NPAUc_game_variant@@PAXJDK@Z");
-	// `anonymous-namespace'::c_game_variant__set_game_engine_setting_hook
-// $LN84:
-// $LN83:
-// $LN82:
-// $LN81:
-// $LN80:
-// $LN79:
-// $LN78:
-// $LN77:
-// $LN76:
-// $LN75:
-// $LN74:
-// $LN73:
-// $LN72:
-// $LN71:
-// $LN70:
-// $LN69:
-// $LN68:
-// $LN67:
-// $LN66:
-// $LN65:
-// $LN64:
-// $LN63:
-// $LN62:
-// $LN61:
-// $LN60:
-// $LN59:
-// $LN58:
-// $LN57:
-// $LN56:
-// $LN55:
-// $LN54:
-// $LN53:
-// $LN52:
-// $LN51:
-// $LN50:
-// $LN49:
-// $LN48:
-// $LN47:
-// $LN46:
-// $LN45:
-// $LN44:
-// $LN43:
-// $LN42:
-// $LN41:
-// $LN40:
-// $LN39:
-// $LN38:
-// $LN37:
-// $LN36:
-// $LN35:
-// $LN34:
-// $LN33:
-// $LN32:
-// $LN31:
-// $LN30:
-// $LN29:
-// $LN28:
-// $LN27:
-// $LN26:
-// $LN25:
-// $LN24:
-// $LN23:
-// $LN22:
-// $LN21:
-// $LN20:
-// $LN19:
-// $LN18:
-// $LN17:
-// $LN16:
-// $LN15:
-// $LN14:
-// $LN13:
-// $LN12:
-// $LN11:
-// $LN10:
-// $LN9:
-// $LN8:
-// $LN7:
-// $LN6:
-// $LN5:
-// $LN4:
-	// c_game_variant *thisptr;
-	// void *unused;
-	// long parameter_type;
-	// char value_type;
-	// unsigned long value;
-	// u_game_engine_variant *const variant;
-	// constexpr bool (*const `c_game_variant__set_game_engine_setting_hook'::`2'::c_game_variant__set_game_engine_setting)(c_game_variant *, long, char, unsigned long); // constant == 5745328
-	// function call : bool (*const)(c_game_variant *, long, char, unsigned long)
 
 	u_game_engine_variant *const variant = (u_game_engine_variant *)thisptr->storage;
 	switch (parameter_type)
@@ -1530,31 +1224,6 @@ bool __fastcall c_game_variant__set_game_engine_setting_hook(c_game_variant *thi
 long game_variant_get_parameter_type_for_category_hook(long category, long parameter_type) // 0x10AA6F10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?game_variant_get_parameter_type_for_category_hook@@YAJJJ@Z");
-	// `anonymous-namespace'::game_variant_get_parameter_type_for_category_hook
-// $LN130:
-// $LN124:
-// $LN118:
-// $LN112:
-// $LN106:
-// $LN100:
-// $LN94:
-// $LN88:
-// $LN82:
-// $LN76:
-// $LN70:
-// $LN64:
-// $LN58:
-// $LN52:
-// $LN46:
-// $LN40:
-// $LN34:
-// $LN28:
-// $LN22:
-// $LN16:
-// $LN10:
-	// long category;
-	// long parameter_type;
-	// bool extended;
 
 	bool extended = parameter_type >= 626;
 	if (parameter_type >= 605)
@@ -1716,10 +1385,6 @@ long game_variant_get_parameter_type_for_category_hook(long category, long param
 long c_gui_screen_game_options__get_category_index(c_gui_screen_game_options *screen) // 0x10AA5C10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_screen_game_options__get_category_index@@YAJPAUc_gui_screen_game_options@@@Z");
-	// `anonymous-namespace'::c_gui_screen_game_options__get_category_index
-	// c_gui_screen_game_options *screen;
-	// long index;
-	// long category_index;
 
 	long result = -1;
 	long index = *(long *)((char *)screen + 0x202C);
@@ -1733,9 +1398,6 @@ long c_gui_screen_game_options__get_category_index(c_gui_screen_game_options *sc
 long c_gui_screen_game_options__get_parameter_type_for_current_category(c_gui_screen_game_options *screen, long parameter_type) // 0x10AA5C80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_screen_game_options__get_parameter_type_for_current_category@@YAJPAUc_gui_screen_game_options@@J@Z");
-	// `anonymous-namespace'::c_gui_screen_game_options__get_parameter_type_for_current_category
-	// long parameter_type;
-	// long category_index;
 
 	long category_index = c_gui_screen_game_options__get_category_index(screen);
 	return game_variant_get_parameter_type_for_category_hook(category_index, parameter_type);
@@ -1744,9 +1406,6 @@ long c_gui_screen_game_options__get_parameter_type_for_current_category(c_gui_sc
 bool c_gui_screen_game_options__try_and_get_parameter_value(c_gui_screen_game_options *screen, long parameter_type, unsigned long *out_value) // 0x10AA5DF0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_screen_game_options__try_and_get_parameter_value@@YA_NPAUc_gui_screen_game_options@@JPAK@Z");
-	// `anonymous-namespace'::c_gui_screen_game_options__try_and_get_parameter_value
-	// unsigned long *out_value;
-	// c_game_variant *variant;
 
 
 	parameter_type = c_gui_screen_game_options__get_parameter_type_for_current_category(screen, parameter_type);
@@ -1759,9 +1418,6 @@ bool c_gui_screen_game_options__try_and_get_parameter_value(c_gui_screen_game_op
 bool c_gui_screen_game_options__try_set_parameter_value(c_gui_screen_game_options *screen, long parameter_type, unsigned long value) // 0x10AA5E80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_screen_game_options__try_set_parameter_value@@YA_NPAUc_gui_screen_game_options@@JK@Z");
-	// `anonymous-namespace'::c_gui_screen_game_options__try_set_parameter_value
-	// unsigned long value;
-	// c_game_variant *variant;
 
 	parameter_type = c_gui_screen_game_options__get_parameter_type_for_current_category(screen, parameter_type);
 	if (parameter_type == -1)
@@ -1773,8 +1429,6 @@ bool c_gui_screen_game_options__try_set_parameter_value(c_gui_screen_game_option
 _inline c_user_interface_player_model_text_value_pair_proxy::c_user_interface_player_model_text_value_pair_proxy(c_user_interface_mods_player_character_data *data) // 0x10A9E910
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_user_interface_player_model_text_value_pair_proxy@hades_file_local@@QAE@PAVc_user_interface_mods_player_character_data@@@Z");
-	// `anonymous-namespace'::c_user_interface_player_model_text_value_pair_proxy::c_user_interface_player_model_text_value_pair_proxy
-	// c_user_interface_mods_player_character_data *data;
 
 	m_data = data;
 }
@@ -1783,17 +1437,6 @@ _inline c_user_interface_player_model_text_value_pair_proxy::c_user_interface_pl
 _inline void c_user_interface_player_model_text_value_pair_proxy::update(c_gui_screen_game_options *screen) // 0x10AA82A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?update@c_user_interface_player_model_text_value_pair_proxy@hades_file_local@@QAEXPAUc_gui_screen_game_options@@@Z");
-	// `anonymous-namespace'::c_user_interface_player_model_text_value_pair_proxy::update
-	// static ...; // 0x10AA85F0
-	// static ...; // 0x10AA85E8
-	// c_user_interface_player_model_text_value_pair_proxy *const this;
-	// c_gui_screen_game_options *screen;
-	// s_game_globals *game_globals;
-	// s_multiplayer_globals_definition *multiplayer_globals;
-		// unsigned long character_set_trait_value;
-			// long character_index;
-				// long i;
-	// function call : void *(*const)(unsigned long, long)
 
 	s_game_globals *game_globals = game_globals_get();
 	s_multiplayer_globals_definition *multiplayer_globals = (s_multiplayer_globals_definition *)tag_get('mulg', game_globals->MultiplayerGlobals.index);
@@ -1837,13 +1480,6 @@ _inline void c_user_interface_player_model_text_value_pair_proxy::update(c_gui_s
 _inline bool c_user_interface_player_model_text_value_pair_proxy::try_get_string(unsigned long id, wchar_t *out_value) // 0x10AA7DF0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?try_get_string@c_user_interface_player_model_text_value_pair_proxy@hades_file_local@@QAE_NKPA_W@Z");
-	// `anonymous-namespace'::c_user_interface_player_model_text_value_pair_proxy::try_get_string
-	// static ...; // 0x10AA7F1C
-	// c_user_interface_player_model_text_value_pair_proxy *const this;
-	// unsigned long id;
-	// wchar_t *out_value;
-		// long i;
-			// unsigned __int32 nc;
 
 	if (id == 0)
 	{
@@ -1870,8 +1506,6 @@ _inline bool c_user_interface_player_model_text_value_pair_proxy::try_get_string
 _inline c_user_interface_player_model_set_text_value_pair_proxy::c_user_interface_player_model_set_text_value_pair_proxy(c_user_interface_mods_player_character_data *data) // 0x10A9E8E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_user_interface_player_model_set_text_value_pair_proxy@hades_file_local@@QAE@PAVc_user_interface_mods_player_character_data@@@Z");
-	// `anonymous-namespace'::c_user_interface_player_model_set_text_value_pair_proxy::c_user_interface_player_model_set_text_value_pair_proxy
-	// c_user_interface_mods_player_character_data *data;
 
 	m_data = data;
 }
@@ -1879,9 +1513,6 @@ _inline c_user_interface_player_model_set_text_value_pair_proxy::c_user_interfac
 _inline void c_user_interface_player_model_set_text_value_pair_proxy::update(c_gui_screen_game_options *screen) // 0x10AA7F90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?update@c_user_interface_player_model_set_text_value_pair_proxy@hades_file_local@@QAEXPAUc_gui_screen_game_options@@@Z");
-	// `anonymous-namespace'::c_user_interface_player_model_set_text_value_pair_proxy::update
-	// c_gui_screen_game_options *screen;
-		// long i;
 
 	m_values_count = 0;
 	if (m_data->player_character_set_count > 0)
@@ -1908,13 +1539,6 @@ _inline void c_user_interface_player_model_set_text_value_pair_proxy::update(c_g
 _inline bool c_user_interface_player_model_set_text_value_pair_proxy::try_get_string(unsigned long id, wchar_t *out_value) // 0x10AA7C90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?try_get_string@c_user_interface_player_model_set_text_value_pair_proxy@hades_file_local@@QAE_NKPA_W@Z");
-	// `anonymous-namespace'::c_user_interface_player_model_set_text_value_pair_proxy::try_get_string
-	// static ...; // 0x10AA7D8C
-	// c_user_interface_player_model_set_text_value_pair_proxy *const this;
-	// unsigned long id;
-	// wchar_t *out_value;
-		// long i;
-			// unsigned __int32 nc;
 
 	if (id == 1)
 	{
@@ -1936,10 +1560,6 @@ _inline bool c_user_interface_player_model_set_text_value_pair_proxy::try_get_st
 s_text_value_pair_definition *text_value_pair_definition_try_and_get_hook(s_multiplayer_variant_settings_interface_definition *definition, long parameter_type) // 0x10AA7970
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?text_value_pair_definition_try_and_get_hook@@YAPAUs_text_value_pair_definition@@PAUs_multiplayer_variant_settings_interface_definition@@J@Z");
-	// `anonymous-namespace'::text_value_pair_definition_try_and_get_hook
-	// long parameter_type;
-	// constexpr s_text_value_pair_definition *(*const `text_value_pair_definition_try_and_get_hook'::`2'::text_value_pair_definition_try_and_get_recursive)(s_multiplayer_variant_settings_interface_definition *, long); // constant == 11665456
-	// function call : s_text_value_pair_definition *(*const)(s_multiplayer_variant_settings_interface_definition *, long)
 
 	if (parameter_type >= 626 && parameter_type <= 647)
 		return g_player_model_options_proxy.get_tag_definition();
@@ -1951,13 +1571,6 @@ s_text_value_pair_definition *text_value_pair_definition_try_and_get_hook(s_mult
 bool __fastcall c_gui_screen_game_options__get_string_value_hook(c_gui_screen_widget *thisptr, void *unused, unsigned long id, wchar_t *out_value) // 0x10AA5CF0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_screen_game_options__get_string_value_hook@@YI_NPAVc_gui_screen_widget@@PAXKPA_W@Z");
-	// `anonymous-namespace'::c_gui_screen_game_options__get_string_value_hook
-	// wchar_t *out_value;
-	// constexpr bool (*const `c_gui_screen_game_options__get_string_value_hook'::`2'::c_gui_screen_widget__get_string_value)(c_gui_screen_widget *, unsigned long, wchar_t *); // constant == 11210752
-	// constexpr bool (*const `c_gui_screen_game_options__get_string_value_hook'::`2'::string_list_valid_string)(long, unsigned long); // constant == 5365696
-	// long strings_definition_index;
-	// function call : bool (*const)(long, unsigned long)
-	// function call : bool (*const)(c_gui_screen_widget *, unsigned long, wchar_t *)
 
 	long strings_definition_index = *(long *)((char *)thisptr + 0x158);
 	if (strings_definition_index != -1 && !((bool(*)(long, unsigned long))0x51dfc0)(strings_definition_index, id))
@@ -1973,10 +1586,6 @@ bool __fastcall c_gui_screen_game_options__get_string_value_hook(c_gui_screen_wi
 void __fastcall c_gui_screen_game_options__begin_transition_hook(c_gui_screen_game_options *thisptr) // 0x10AA5B70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_screen_game_options__begin_transition_hook@@YIXPAUc_gui_screen_game_options@@@Z");
-	// `anonymous-namespace'::c_gui_screen_game_options__begin_transition_hook
-	// c_gui_screen_game_options *thisptr;
-	// constexpr void (*const `c_gui_screen_game_options__begin_transition_hook'::`2'::c_gui_screen_widget__begin_transition)(void *); // constant == 11587296
-	// function call : void (*const)(void *)
 
 	if (g_player_model_proxy_dirty)
 	{
@@ -1991,12 +1600,6 @@ void __fastcall c_gui_screen_game_options__begin_transition_hook(c_gui_screen_ga
 bool __fastcall gui_screen_game_options_set_variant_parameter_hook(c_game_variant *thisptr, void *unused, long parameter_type, unsigned long value) // 0x10AA78A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?gui_screen_game_options_set_variant_parameter_hook@@YI_NPAUc_game_variant@@PAXJK@Z");
-	// `anonymous-namespace'::gui_screen_game_options_set_variant_parameter_hook
-	// unsigned long value;
-	// bool ret;
-	// constexpr bool (*const `gui_screen_game_options_set_variant_parameter_hook'::`2'::c_game_engine_variant__set_parameter)(c_game_variant *, long, unsigned long); // constant == 5768992
-		// c_gui_screen_game_options *options_screen;
-	// function call : bool (*const)(c_game_variant *, long, unsigned long)
 
 	bool ret = ((bool(__thiscall *)(c_game_variant *, long, unsigned long))0x580720)(thisptr, parameter_type, value);
 	if (ret && parameter_type >= 648 && parameter_type <= 669)
@@ -2011,8 +1614,6 @@ bool __fastcall gui_screen_game_options_set_variant_parameter_hook(c_game_varian
 _inline void ModListener::OnModChanged(EModIndex index, IMod *mod) // 0x10AA3B90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnModChanged@ModListener@hades_file_local@@EAEXW4EModIndex@@PAVIMod@@@Z");
-	// `anonymous-namespace'::ModListener::OnModChanged
-	// IMod *mod;
 
 	if (index == kGame)
 	{

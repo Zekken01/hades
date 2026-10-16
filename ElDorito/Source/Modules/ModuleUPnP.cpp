@@ -108,7 +108,6 @@ namespace Modules
 	ModuleUPnP::ModuleUPnP() : ModuleBase("UPnP"), lastDiscover(0), numPendingRequests(0) /* hades-mem-init: : ModuleBase(todo_result<std::string>()) */ // 0x10A230D0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "??0ModuleUPnP@Modules@@QAE@XZ");
-		// Modules::ModuleUPnP *const this;
 
 		VarUPnPEnabled = AddVariableInt("Enabled", "upnp_enabled", "Enables UPnP to automatically port forward when hosting a game.", eCommandFlagsArchived, 1);
 		VarUPnPEnabled->ValueIntMin = 0;
@@ -121,7 +120,6 @@ namespace Modules
 	void ModuleUPnP::UPnPForwardPort(bool tcp, __int32 externalport, __int32 internalport, std::string const &ruleName) // 0x10A235C0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?UPnPForwardPort@ModuleUPnP@Modules@@QAEX_NHHABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// std::string const &ruleName;
 
 		Job::RunJob([this, tcp, externalport, internalport, ruleName]()
 		{
@@ -141,24 +139,6 @@ namespace Modules
 	Utils::UPnPResult ModuleUPnP::UPnPForwardPort_Blocking(bool tcp, __int32 externalport, __int32 internalport, std::string const &ruleName) // 0x10A23670
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?UPnPForwardPort_Blocking@ModuleUPnP@Modules@@QAE?AUUPnPResult@Utils@@_NHHABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// static ...; // 0x10A23C1C
-		// static ...; // 0x10A23BE0
-		// static ...; // 0x10A23BD8
-		// Modules::ModuleUPnP *const this;
-		// bool tcp;
-		// __int32 externalport;
-		// __int32 internalport;
-		// std::string const &ruleName;
-		// std::unique_lock<std::mutex> lock;
-		// char const *protocol;
-		// __int32 ret;
-		// Utils::UPnPErrorType type;
-			// char lanaddr[16];
-			// __int32 ret;
-			// IGDdatas data;
-			// __int32 upnpDiscoverError;
-			// UPNPDev *upnpDevice;
-			// UPNPUrls urls;
 
 		std::unique_lock<std::mutex> lock(mutex);
 		if (lastDiscover == 0 || (difftime(time(nullptr), lastDiscover) >= 3600.0 && numPendingRequests == 0))

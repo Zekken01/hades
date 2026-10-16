@@ -100,8 +100,6 @@ extern "C" _inline s_extern_description const *get_extern_description(long rende
 extern "C" _inline s_extern_description const *get_extern_description(long render_method_extern) // 0x108EFC80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_get_extern_description");
-	// get_extern_description
-	// long render_method_extern;
 
 	extern s_extern_description const g_new_extern_descriptions[55];
 

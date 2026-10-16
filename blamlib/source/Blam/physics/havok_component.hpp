@@ -61,7 +61,6 @@ extern c_havok_component *havok_component_get(unsigned long havok_component_inde
 inline long c_havok_component::get_object_index() const // 0x10917FC0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_object_index@c_havok_component@@QBEJXZ");
-	// c_havok_component const *const this;
 
 	return m_object_index;
 }

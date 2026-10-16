@@ -28,8 +28,6 @@ extern _inline bool network_life_cycle_in_squad_session(c_network_session **out_
 _inline bool network_life_cycle_in_squad_session(c_network_session **out_session) // 0x10903ED0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?network_life_cycle_in_squad_session@@YA_NPAPAVc_network_session@@@Z");
-	// c_network_session **out_session;
-	// function call : bool (*)(c_network_session **)
 
 	return ((bool(__cdecl *const)(c_network_session **))0x454ea0)(out_session);
 }

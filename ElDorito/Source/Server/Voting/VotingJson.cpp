@@ -178,38 +178,6 @@ namespace Server
 		bool LoadVotingJson(std::string const &filename, Server::Voting::VotingJson &voting) // 0x10747C00
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?LoadVotingJson@Voting@Server@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAUVotingJson@12@@Z");
-			// static ...; // 0x107483F0
-			// static ...; // 0x107483E7
-			// static ...; // 0x107483E3
-			// static ...; // 0x107483DB
-			// static ...; // 0x107483D6
-			// static ...; // 0x107483D3
-			// static ...; // 0x107483CE
-			// static ...; // 0x107483C9
-			// static ...; // 0x107483C0
-			// static ...; // 0x10748348
-			// static ...; // 0x10748340
-			// std::string const &filename;
-			// Server::Voting::VotingJson &voting;
-			// std::ifstream in;
-			// std::string contents;
-			// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> document;
-				// rapidjson::GenericArray<0,rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > > &<range>$L0;
-				// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > *<begin>$L0;
-				// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > *<end>$L0;
-					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &mapObject;
-						// Server::Voting::HaloMap haloMap;
-				// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > *<end>$L1;
-				// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > *<begin>$L1;
-				// rapidjson::GenericArray<0,rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > > &<range>$L1;
-					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &typeObject;
-						// Server::Voting::HaloType ht;
-				// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > *<end>$L2;
-				// rapidjson::GenericArray<0,rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > > &<range>$L2;
-				// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > *<begin>$L2;
-					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &itemObject;
-						// Server::Voting::PlaylistItem item;
-				// std::string errorMsg;
 
 			std::ifstream in(filename, std::ios::in | std::ios::binary);
 			if (!in || !in.is_open())
@@ -282,17 +250,6 @@ namespace Server
 		bool LoadPlaylistItem(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &c, Server::Voting::PlaylistItem &item, std::vector<Server::Voting::HaloType> const &types) // 0x107477D0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?LoadPlaylistItem@Voting@Server@@YA_NABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@AAUPlaylistItem@12@ABV?$vector@UHaloType@Voting@Server@@V?$allocator@UHaloType@Voting@Server@@@std@@@std@@@Z");
-			// static ...; // 0x10747B0D
-			// static ...; // 0x10747B04
-			// static ...; // 0x10747AD4
-			// static ...; // 0x10747ACC
-			// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &c;
-			// Server::Voting::PlaylistItem &item;
-			// std::vector<Server::Voting::HaloType> const &types;
-			// std::string modPack;
-				// std::string errorMsg;
-				// unsigned __int32 typeIndex;
-				// Server::Voting::HaloType ht;
 
 			if (!c.HasMember("map"))
 			{
@@ -329,13 +286,6 @@ namespace Server
 		bool LoadHaloMap(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &mapObject, std::string const &modPack, Server::Voting::HaloMap &map) // 0x10746890
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?LoadHaloMap@Voting@Server@@YA_NABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAUHaloMap@12@@Z");
-			// static ...; // 0x10746C34
-			// static ...; // 0x10746C2C
-			// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &mapObject;
-			// std::string const &modPack;
-			// Server::Voting::HaloMap &map;
-			// std::string displayName;
-			// Server::Voting::SMapListItem mapInfo;
 
 			std::string displayName = "";
 			if (!mapObject.HasMember("mapName"))
@@ -371,26 +321,6 @@ namespace Server
 		bool LoadHaloType(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &c, Server::Voting::HaloType &ht) // 0x10746D60
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?LoadHaloType@Voting@Server@@YA_NABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@AAUHaloType@12@@Z");
-			// static ...; // 0x107475A2
-			// static ...; // 0x1074759D
-			// static ...; // 0x1074759A
-			// static ...; // 0x10747595
-			// static ...; // 0x10747590
-			// static ...; // 0x10747584
-			// static ...; // 0x10747530
-			// static ...; // 0x10747528
-			// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &c;
-			// Server::Voting::HaloType &ht;
-			// std::string typeDisplayName;
-			// Server::Voting::AllowedPlayerCount playerCount;
-				// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &commands;
-					// unsigned __int32 i;
-				// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &smaps;
-						// Server::Voting::HaloMap haloMap;
-				// rapidjson::GenericObject<1,rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > > const &overridesArr;
-					// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > it;
-						// rapidjson::GenericArray<1,rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > > const &overrideObj;
-						// std::string const &teamDesignator;
 
 			if (!c.HasMember("typeName"))
 				return false;
@@ -479,9 +409,6 @@ namespace Server
 		unsigned __int32 FindTypeByName(std::vector<Server::Voting::HaloType> const &types, std::string const &name) // 0x10746060
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?FindTypeByName@Voting@Server@@YAIABV?$vector@UHaloType@Voting@Server@@V?$allocator@UHaloType@Voting@Server@@@std@@@std@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@4@@Z");
-			// Server::Voting::FindTypeByName
-			// std::string const &name;
-				// unsigned __int32 i;
 
 			for (unsigned __int32 i = 0; i < types.size(); i++)
 			{

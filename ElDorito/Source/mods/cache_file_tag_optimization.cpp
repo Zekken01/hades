@@ -119,12 +119,6 @@ using namespace hades_file_local;
 void optimize_scenario(s_cache_tag_instance *tag_instance) // 0x1087CB10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?optimize_scenario@@YAXPAUs_cache_tag_instance@@@Z");
-	// static ...; // 0x1087CBEC
-	// static ...; // 0x1087CBE0
-	// static ...; // 0x1087CBD8
-	// s_cache_tag_instance *tag_instance;
-	// s_game_options const *game_options;
-	// c_static_bit_vector<65535> dependencies_to_null;
 
 	c_static_bit_vector<65535> dependencies_to_null;
 
@@ -143,9 +137,6 @@ void optimize_scenario(s_cache_tag_instance *tag_instance) // 0x1087CB10
 void optimize_game_engine_event_response(s_multiplayer_event_response_definition const *response, e_game_engine_type game_engine_type, c_static_bit_vector<65535> *dependencies_to_null) // 0x1087B4B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?optimize_game_engine_event_response@@YAXPBUs_multiplayer_event_response_definition@@W4e_game_engine_type@@PAU?$c_static_bit_vector@$0PPPP@@@@Z");
-	// c_static_bit_vector<65535> *dependencies_to_null;
-	// s_game_options const *game_options;
-		// long i;
 
 	s_game_options const *game_options = get_intermediate_game_options();
 
@@ -166,10 +157,6 @@ void optimize_game_engine_event_response(s_multiplayer_event_response_definition
 void optimize_object(long runtime_tag_index, s_cache_tag_instance *tag_instance) // 0x1087C690
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?optimize_object@@YAXJPAUs_cache_tag_instance@@@Z");
-	// s_cache_tag_instance *tag_instance;
-		// void *object;
-		// s_object_definition *const definition;
-	// function call : void *(*const)(unsigned long, long)
 
 	if (g_reforge_objects.test(runtime_tag_index))
 	{
@@ -186,10 +173,6 @@ void optimize_object(long runtime_tag_index, s_cache_tag_instance *tag_instance)
 void optimize_model(long runtime_tag_index, s_cache_tag_instance *tag_instance) // 0x1087B940
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?optimize_model@@YAXJPAUs_cache_tag_instance@@@Z");
-	// s_cache_tag_instance *tag_instance;
-		// s_model_definition *const definition;
-		// void *model;
-	// function call : void *(*const)(unsigned long, long)
 
 	if (g_reforge_models.test(runtime_tag_index))
 	{
@@ -206,14 +189,6 @@ void optimize_model(long runtime_tag_index, s_cache_tag_instance *tag_instance) 
 void optimize_render_model(long runtime_tag_index, s_cache_tag_instance *tag_instance) // 0x1087C8B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?optimize_render_model@@YAXJPAUs_cache_tag_instance@@@Z");
-	// static ...; // 0x1087CA74
-	// static ...; // 0x1087CA6C
-	// long runtime_tag_index;
-	// s_cache_tag_instance *tag_instance;
-	// c_static_bit_vector<65535> dependencies_to_null;
-	// s_render_model *const definition;
-		// unsigned char material_index;
-			// long render_method_index;
 
 	c_static_bit_vector<65535> dependencies_to_null;
 	dependencies_to_null.clear();
@@ -241,7 +216,6 @@ void optimize_render_model(long runtime_tag_index, s_cache_tag_instance *tag_ins
 void cache_file_tags_optimize(long runtime_tag_index, s_cache_tag_instance *tag_instance) // 0x1087AA80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?cache_file_tags_optimize@@YAXJPAUs_cache_tag_instance@@@Z");
-	// s_cache_tag_instance *tag_instance;
 
 	switch (tag_instance->group.tags[0])
 	{
@@ -279,8 +253,6 @@ void cache_file_tags_optimize(long runtime_tag_index, s_cache_tag_instance *tag_
 extern "C" s_game_options *get_intermediate_game_options() // 0x1087B0F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_get_intermediate_game_options");
-	// get_intermediate_game_options
-	// procedure flags: nofpo
 
 	return (s_game_options *)0x2391800;
 }
@@ -288,11 +260,6 @@ extern "C" s_game_options *get_intermediate_game_options() // 0x1087B0F0
 extern "C" void null_tag_dependencies(s_cache_tag_instance *tag_instance, c_static_bit_vector<65535> *dependencies_to_null) // 0x1087B110
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_null_tag_dependencies");
-	// null_tag_dependencies
-	// c_static_bit_vector<65535> *dependencies_to_null;
-	// long *dependencies;
-		// long i;
-			// long tag_index;
 
 	long *dependencies = (long *)&tag_instance[1];
 
@@ -310,15 +277,6 @@ extern "C" void null_tag_dependencies(s_cache_tag_instance *tag_instance, c_stat
 extern "C" void optimize_main_menu(s_cache_tag_instance *tag_instance, c_static_bit_vector<65535> *dependencies_to_null) // 0x1087B830
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_optimize_main_menu");
-	// optimize_main_menu
-	// c_static_bit_vector<65535> *dependencies_to_null;
-	// s_tag_block *sound_scenery_palette_block;
-	// s_tag_block *sound_scenery_block;
-	// char *definition;
-		// long i;
-			// short palette_index;
-			// long tag_index;
-			// s_scenario_object_palette_entry *item;
 
 	char *definition = (char *)tag_instance + tag_instance->definition_offset;
 	s_tag_block *sound_scenery_block = (s_tag_block *)(definition + 0x1AC);
@@ -348,15 +306,6 @@ extern "C" void optimize_main_menu(s_cache_tag_instance *tag_instance, c_static_
 extern "C" void optimize_reforge_objects(s_forge_globals_definition *definition) // 0x1087C750
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_optimize_reforge_objects");
-	// optimize_reforge_objects
-	// s_forge_globals_definition *definition;
-	// s_game_options const *game_options;
-	// s_map_variant const *map_variant;
-		// __int32 i;
-			// long object_tag_index;
-		// __int32 placement_index;
-			// long palette_index;
-			// s_variant_quota const *palette_entry;
 
 	s_game_options const *game_options = get_intermediate_game_options();
 	s_map_variant const *map_variant = &game_options->map_variant;
@@ -380,18 +329,6 @@ extern "C" void optimize_reforge_objects(s_forge_globals_definition *definition)
 extern "C" void optimize_forge_globals(s_cache_tag_instance *tag_instance) // 0x1087B1D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_optimize_forge_globals");
-	// optimize_forge_globals
-	// static ...; // 0x1087B408
-	// static ...; // 0x1087B3FC
-	// static ...; // 0x1087B3F4
-	// s_cache_tag_instance *tag_instance;
-	// s_game_options const *game_options;
-	// c_static_bit_vector<65535> dependencies_to_null;
-		// c_tag_block<s_forge_palette_item> &palette;
-		// s_forge_globals_definition *const definition;
-			// long i;
-				// s_forge_palette_item *palette_entry;
-				// long tag_index;
 
 	c_static_bit_vector<65535> dependencies_to_null;
 	dependencies_to_null.clear();
@@ -430,12 +367,6 @@ extern "C" void optimize_forge_globals(s_cache_tag_instance *tag_instance) // 0x
 extern "C" void optimize_game_engine_event_response_tag_block(s_cache_tag_instance *tag_instance, c_tag_block<s_multiplayer_event_response_definition> *tag_block, e_game_engine_type game_engine_type, c_static_bit_vector<65535> *dependencies_to_null) // 0x1087B580
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_optimize_game_engine_event_response_tag_block");
-	// optimize_game_engine_event_response_tag_block
-	// c_static_bit_vector<65535> *dependencies_to_null;
-		// c_tag_block<s_multiplayer_event_response_definition> &<range>$L0;
-		// s_multiplayer_event_response_definition *<begin>$L0;
-		// s_multiplayer_event_response_definition *<end>$L0;
-			// s_multiplayer_event_response_definition &response;
 
 	for (s_multiplayer_event_response_definition &response : *tag_block)
 	{
@@ -446,19 +377,6 @@ extern "C" void optimize_game_engine_event_response_tag_block(s_cache_tag_instan
 extern "C" void optimize_multiplayer_runtime_globals_for_engine_type(s_cache_tag_instance *tag_instance, s_multiplayer_runtime_globals_definition *runtime, e_game_engine_type game_engine_type, c_static_bit_vector<65535> *dependencies_to_null) // 0x1087C070
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_optimize_multiplayer_runtime_globals_for_engine_type");
-	// optimize_multiplayer_runtime_globals_for_engine_type
-	// c_static_bit_vector<65535> *dependencies_to_null;
-	// s_game_options const *game_options;
-		// s_tag_block &projectiles_block;
-		// s_tag_block &multiplayer_constants_block;
-		// s_tag_block &weapons_block;
-		// s_tag_block &vehicles_block;
-		// s_tag_block &equipment_block;
-			// long i;
-				// s_tag_reference *weapon;
-				// s_tag_reference *vehicle;
-				// s_tag_reference *projectile;
-				// s_tag_reference *equipment;
 
 	s_game_options const *game_options = get_intermediate_game_options();
 	if (game_engine_type != _game_engine_type_sandbox)
@@ -568,41 +486,6 @@ extern "C" void optimize_multiplayer_runtime_globals_for_engine_type(s_cache_tag
 extern "C" void optimize_multiplayer_globals(s_cache_tag_instance *tag_instance) // 0x1087BA00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_optimize_multiplayer_globals");
-	// optimize_multiplayer_globals
-	// static ...; // 0x1087BF10
-	// static ...; // 0x1087BF04
-	// static ...; // 0x1087BEFC
-	// s_cache_tag_instance *tag_instance;
-	// s_game_options const *game_options;
-	// c_tag_block<s_multiplayer_runtime_globals_definition> &runtime_block;
-	// c_static_bit_vector<65535> dependencies_to_null;
-	// c_tag_block<s_multiplayer_universal_globals_definition> &universal_block;
-	// c_tag_block<s_multiplayer_consumable> &consumables_block;
-	// c_tag_block<s_multiplayer_object_set> &vehicle_sets_list;
-	// s_multiplayer_globals_definition *const definition;
-	// c_tag_block<s_multiplayer_vehicle> &vehicles_block;
-	// c_tag_block<s_multiplayer_equipment> &equipment_block;
-		// c_tag_block<s_multiplayer_consumable> &<range>$L0;
-		// s_multiplayer_consumable *<begin>$L0;
-		// s_multiplayer_consumable *<end>$L0;
-			// s_multiplayer_consumable &consumable;
-		// s_multiplayer_equipment *<end>$L1;
-		// s_multiplayer_equipment *<begin>$L1;
-		// c_tag_block<s_multiplayer_equipment> &<range>$L1;
-			// s_multiplayer_equipment &equipment;
-		// s_multiplayer_vehicle *<end>$L2;
-		// c_tag_block<s_multiplayer_vehicle> &<range>$L2;
-		// s_multiplayer_vehicle *<begin>$L2;
-			// s_multiplayer_vehicle &vehicle;
-				// bool null_this;
-					// c_tag_block<s_multiplayer_object_set> &<range>$L3;
-					// s_multiplayer_object_set *<begin>$L3;
-					// s_multiplayer_object_set *<end>$L3;
-						// s_multiplayer_object_set &set;
-							// s_multiplayer_object_substitution *<end>$L4;
-							// s_multiplayer_object_substitution *<begin>$L4;
-							// c_tag_block<s_multiplayer_object_substitution> &<range>$L4;
-								// s_multiplayer_object_substitution &sub;
 
 	c_static_bit_vector<65535> dependencies_to_null;
 	dependencies_to_null.clear();
@@ -661,15 +544,6 @@ extern "C" void optimize_multiplayer_globals(s_cache_tag_instance *tag_instance)
 extern "C" void optimize_user_interface_shared_globals(s_cache_tag_instance *tag_instance) // 0x1087CE20
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_optimize_user_interface_shared_globals");
-	// optimize_user_interface_shared_globals
-	// static ...; // 0x1087CF20
-	// static ...; // 0x1087CF14
-	// static ...; // 0x1087CF0C
-	// s_cache_tag_instance *tag_instance;
-	// s_game_options const *game_options;
-	// c_static_bit_vector<65535> dependencies_to_null;
-	// s_multiplayer_globals_definition *const definition;
-	// long main_menu_loop_index;
 
 	c_static_bit_vector<65535> dependencies_to_null;
 
@@ -690,19 +564,6 @@ extern "C" void optimize_user_interface_shared_globals(s_cache_tag_instance *tag
 extern "C" void optimize_globals(s_cache_tag_instance *tag_instance) // 0x1087B620
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_optimize_globals");
-	// optimize_globals
-	// static ...; // 0x1087B7A8
-	// static ...; // 0x1087B79C
-	// static ...; // 0x1087B794
-	// s_cache_tag_instance *tag_instance;
-	// s_game_options const *game_options;
-	// c_static_bit_vector<65535> dependencies_to_null;
-	// s_game_globals *const definition;
-		// c_tag_block<s_global_material_definition> &materials_block;
-			// c_tag_block<s_global_material_definition> &<range>$L0;
-			// s_global_material_definition *<begin>$L0;
-			// s_global_material_definition *<end>$L0;
-				// s_global_material_definition &material;
 
 	c_static_bit_vector<65535> dependencies_to_null;
 	dependencies_to_null.clear();
@@ -725,18 +586,6 @@ extern "C" void optimize_globals(s_cache_tag_instance *tag_instance) // 0x1087B6
 extern "C" void optimize_user_interface_map_list(s_cache_tag_instance *tag_instance) // 0x1087CC40
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_optimize_user_interface_map_list");
-	// optimize_user_interface_map_list
-	// static ...; // 0x1087CDA0
-	// static ...; // 0x1087CD94
-	// static ...; // 0x1087CD8C
-	// s_cache_tag_instance *tag_instance;
-	// s_game_options const *game_options;
-	// c_static_bit_vector<65535> dependencies_to_null;
-	// s_user_interface_map_list *const definition;
-		// c_tag_block<s_user_interface_map_image> &<range>$L0;
-		// s_user_interface_map_image *<begin>$L0;
-		// s_user_interface_map_image *<end>$L0;
-			// s_user_interface_map_image &image;
 
 	c_static_bit_vector<65535> dependencies_to_null;
 	dependencies_to_null.clear();

@@ -32,10 +32,6 @@ extern s_forge_globals_definition *forge_globals_get_definition();
 s_forge_globals_definition *forge_globals_get_definition() // 0x10EF8A30
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?forge_globals_get_definition@@YAPAUs_forge_globals_definition@@XZ");
-	// procedure flags: nofpo
-	// long definition_index;
-	// function call : long (*const)(unsigned long)
-	// function call : void *(*const)(unsigned long, long)
 
 	long definition_index = tag_get_first_in_group('forg');
 	if (definition_index != -1)

@@ -83,7 +83,6 @@ namespace Download
 	void Init() // 0x10820440
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Init@Download@@YAXXZ");
-		// procedure flags: nofpo
 
 		Download::CHttpFileDownloadManager::Instance().Init();
 	}
@@ -91,7 +90,6 @@ namespace Download
 	void Shutdown() // 0x10820640
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Shutdown@Download@@YAXXZ");
-		// procedure flags: nofpo
 
 		Download::CHttpFileDownloadManager::Instance().Shutdown();
 	}
@@ -99,7 +97,6 @@ namespace Download
 	void Tick() // 0x108207D0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@Download@@YAXXZ");
-		// procedure flags: nofpo
 
 		Download::CHttpFileDownloadManager::Instance().Tick();
 	}
@@ -111,7 +108,6 @@ namespace Download
 	std::shared_ptr<Download::CHttpFileDownload> CreateHttpFileDownload() // 0x108203B0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?CreateHttpFileDownload@Download@@YA?AV?$shared_ptr@VCHttpFileDownload@Download@@@std@@XZ");
-		// procedure flags: nofpo
 
 		return std::make_shared<Download::CHttpFileDownload>();
 	}

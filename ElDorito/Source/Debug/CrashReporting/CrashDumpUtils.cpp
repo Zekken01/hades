@@ -85,8 +85,6 @@ namespace Debug
 		bool IsRunningUnderProton() // 0x1068A850
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?IsRunningUnderProton@CrashReporting@Debug@@YA_NXZ");
-			// procedure flags: nofpo
-			// function call : unsigned long (char const *, char *, unsigned long)
 
 			return GetEnvironmentVariableA("STEAM_COMPAT_DATA_PATH", nullptr, 0) > 0;
 		}
@@ -94,12 +92,6 @@ namespace Debug
 		bool GetOSVersionInfo(_OSVERSIONINFOW *info) // 0x1068A710
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetOSVersionInfo@CrashReporting@Debug@@YA_NPAU_OSVERSIONINFOW@@@Z");
-			// _OSVERSIONINFOW *info;
-			// long (*pRtlGetVersion)(_OSVERSIONINFOW *);
-			// HINSTANCE__ *ntdll;
-			// function call : HINSTANCE__ *(char const *)
-			// function call : __int32 (*(HINSTANCE__ *, char const *))()
-			// function call : long (*)(_OSVERSIONINFOW *)
 
 			HINSTANCE__ *ntdll = LoadLibraryA("ntdll.dll");
 			if (!ntdll)
@@ -123,13 +115,6 @@ namespace Debug
 		std::string GetFriendlyOSName() // 0x1068A260
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetFriendlyOSName@CrashReporting@Debug@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-			// procedure flags: nofpo
-			// static ...; // 0x1068A465
-			// static ...; // 0x1068A458
-			// static ...; // 0x1068A440
-			// static ...; // 0x1068A438
-			// char const *friendlyName;
-			// _OSVERSIONINFOW ovi;
 
 			if (IsRunningUnderProton())
 				return "Proton";
@@ -164,20 +149,6 @@ namespace Debug
 		std::string GetCPUName() // 0x1068A060
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetCPUName@CrashReporting@Debug@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-			// procedure flags: nofpo
-			// static ...; // 0x1068A1F5
-			// static ...; // 0x1068A1ED
-			// static ...; // 0x1068A1E4
-			// static ...; // 0x1068A1C0
-			// static ...; // 0x1068A1B8
-			// unsigned long dataSize;
-			// HKEY__ *hKey;
-			// long result;
-			// char cpuName[256];
-			// function call : long (HKEY__ *, char const *, unsigned long, unsigned long, HKEY__ **)
-			// function call : long (HKEY__ *, char const *, unsigned long *, unsigned long *, unsigned char *, unsigned long *)
-			// function call : long (HKEY__ *)
-			// function call : long (HKEY__ *)
 
 			HKEY__ *hKey;
 			long result = RegOpenKeyExA(HKEY_LOCAL_MACHINE, "HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0", 0, KEY_READ, &hKey);
@@ -198,20 +169,6 @@ namespace Debug
 		bool GetGPUInfo(std::string &description, std::string &driverVersion) // 0x1068A4F0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetGPUInfo@CrashReporting@Debug@@YA_NAAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z");
-			// static ...; // 0x1068A68D
-			// static ...; // 0x1068A682
-			// static ...; // 0x1068A67C
-			// static ...; // 0x1068A64C
-			// static ...; // 0x1068A644
-			// std::string &description;
-			// std::string &driverVersion;
-			// __int32 Build;
-			// __int32 currentGpuAdapterIndex;
-			// _D3DADAPTER_IDENTIFIER9 *adapter;
-			// __int32 Product;
-			// __int32 SubVersion;
-			// __int32 gpuAdapterCount;
-			// __int32 Version;
 
 			__int32 gpuAdapterCount = *(__int32 *)0x50DD6F0;
 			if (!gpuAdapterCount)

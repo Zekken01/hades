@@ -151,7 +151,6 @@ static_assert(sizeof(s_network_session_shared_membership) == 95528, "Invalid s_n
 inline bool c_network_session_membership::has_membership() const // 0x10A9E1F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?has_membership@c_network_session_membership@@QBE_NXZ");
-	// c_network_session_membership const *const this;
 
 	return update_number() != -1;
 }
@@ -159,7 +158,6 @@ inline bool c_network_session_membership::has_membership() const // 0x10A9E1F0
 inline long c_network_session_membership::update_number() const // 0x10A9E850
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?update_number@c_network_session_membership@@QBEJXZ");
-	// c_network_session_membership const *const this;
 
 	return ((s_network_session_shared_membership const *)m_shared_network_membership)->update_number;
 }
@@ -167,7 +165,6 @@ inline long c_network_session_membership::update_number() const // 0x10A9E850
 inline long c_network_session_membership::local_peer_index() const // 0x10EF8720
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?local_peer_index@c_network_session_membership@@QBEJXZ");
-	// c_network_session_membership const *const this;
 
 	return m_local_peer_index;
 }
@@ -175,7 +172,6 @@ inline long c_network_session_membership::local_peer_index() const // 0x10EF8720
 inline long c_network_session_membership::host_peer_index() const // 0x10A9E270
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?host_peer_index@c_network_session_membership@@QBEJXZ");
-	// c_network_session_membership const *const this;
 
 	return ((s_network_session_shared_membership const *)m_shared_network_membership)->host_peer_index;
 }
@@ -183,7 +179,6 @@ inline long c_network_session_membership::host_peer_index() const // 0x10A9E270
 inline long c_network_session_membership::get_player_count() const // 0x10693C50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_player_count@c_network_session_membership@@QBEJXZ");
-	// c_network_session_membership const *const this;
 
 	return ((s_network_session_shared_membership const *)m_shared_network_membership)->player_count;
 }
@@ -191,7 +186,6 @@ inline long c_network_session_membership::get_player_count() const // 0x10693C50
 inline s_network_session_shared_membership const *c_network_session_membership::get_current_membership() const // 0x10A9E1C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_current_membership@c_network_session_membership@@QBEPBUs_network_session_shared_membership@@XZ");
-	// c_network_session_membership const *const this;
 
 	return (s_network_session_shared_membership const *)m_shared_network_membership;
 }

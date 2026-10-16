@@ -158,7 +158,6 @@ using namespace hades_file_local;
 void player_character_type_patches_apply() // 0x10ABC410
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?player_character_type_patches_apply@@YAXXZ");
-	// procedure flags: nofpo
 
 	Hook(0x139F70, player_find_player_character_unit_and_variant_info_hook).Apply();
 	Hook(0x137430, player_get_model_variant_hook).Apply();
@@ -202,15 +201,6 @@ void player_character_type_patches_apply() // 0x10ABC410
 void player_find_player_character_unit_and_variant_info(long player_index, long character_type_index, long *out_unit_definition_index, unsigned long *out_variant_name) // 0x10ABE740
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?player_find_player_character_unit_and_variant_info@@YAXJJPAJPAK@Z");
-	// `anonymous-namespace'::player_find_player_character_unit_and_variant_info
-	// long player_index;
-	// long character_type_index;
-	// long *out_unit_definition_index;
-	// unsigned long *out_variant_name;
-	// long representation_index;
-	// s_game_globals_player_representation *player_representation;
-	// long third_person_unit_index;
-	// long thid_person_variant_name;
 
 	long third_person_unit_index = -1;
 	long thid_person_variant_name = 0;
@@ -231,8 +221,6 @@ void player_find_player_character_unit_and_variant_info(long player_index, long 
 bool find_best_starting_location_index__game_is_survival_hook() // 0x10ABC180
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?find_best_starting_location_index__game_is_survival_hook@@YA_NXZ");
-	// `anonymous-namespace'::find_best_starting_location_index__game_is_survival_hook
-	// procedure flags: nofpo
 
 	return false;
 }
@@ -240,18 +228,6 @@ bool find_best_starting_location_index__game_is_survival_hook() // 0x10ABC180
 bool player_find_best_spawn_location_hook(long player_index, real_point3d *position, float *facing, float *pitch, bool a5, bool a6) // 0x10ABE530
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?player_find_best_spawn_location_hook@@YA_NJPAUreal_point3d@@PAM1_N2@Z");
-	// `anonymous-namespace'::player_find_best_spawn_location_hook
-	// bool a6;
-	// constexpr bool (*const `player_find_best_spawn_location_hook'::`2'::player_find_best_spawn_location)(long, real_point3d *, float *, float *, bool, bool); // constant == 5479984
-	// long (*const scenario_find_best_starting_location_index)(long, bool, bool);
-	// bool found;
-		// long starting_location_index;
-			// s_scenario *scnr;
-			// char *sandbox_globals;
-	// function call : bool (*const)(long, real_point3d *, float *, float *, bool, bool)
-	// function call : bool (*const)()
-	// function call : bool (*const)()
-	// function call : long (*const)(long, bool, bool)
 
 	long (*const scenario_find_best_starting_location_index)(long, bool, bool) = reinterpret_cast<long (*)(long, bool, bool)>(0x5375B0);
 	bool found = ((bool (*)(long, real_point3d *, float *, float *, bool, bool))0x539E30)(player_index, position, facing, pitch, a5, a6);
@@ -283,14 +259,6 @@ bool player_find_best_spawn_location_hook(long player_index, real_point3d *posit
 long chud_character_globals_index_from_output_user_hook(long output_user_index) // 0x10ABBF00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?chud_character_globals_index_from_output_user_hook@@YAJJ@Z");
-	// `anonymous-namespace'::chud_character_globals_index_from_output_user_hook
-	// static ...; // 0x10ABBF98
-	// static ...; // 0x10ABBF8C
-	// static ...; // 0x10ABBF84
-	// long output_user_index;
-	// long unit_index;
-	// s_game_globals_player_character_type *player_character;
-	// function call : unsigned long (*const)(long)
 
 	long unit_index = ((long (*)(long))0x589CC0)(output_user_index);
 	s_game_globals_player_character_type *player_character;
@@ -302,16 +270,6 @@ long chud_character_globals_index_from_output_user_hook(long output_user_index) 
 void player_find_player_character_unit_and_variant_info_hook(long player_index, long *out_unit_definition_index, unsigned long *out_variant_name) // 0x10ABE860
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?player_find_player_character_unit_and_variant_info_hook@@YAXJPAJPAK@Z");
-	// `anonymous-namespace'::player_find_player_character_unit_and_variant_info_hook
-	// unsigned long *out_variant_name;
-	// s_player_datum *player;
-	// short index;
-		// s_scenario *scnr;
-		// Blam::Network::Session *session;
-			// short i;
-				// __int32 player_session_index;
-				// unsigned long name;
-	// function call : bool (*const)()
 
 	s_player_datum *player = player_get(player_index);
 	short index = -1;
@@ -347,16 +305,6 @@ void player_find_player_character_unit_and_variant_info_hook(long player_index, 
 s_weapon_first_person_block *weapon_definition_get_first_person_interface_by_character_hook(s_weapon_definition *weapon_definition, long representation_index) // 0x10ABEE10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?weapon_definition_get_first_person_interface_by_character_hook@@YAPAUs_weapon_first_person_block@@PAUs_weapon_definition@@J@Z");
-	// `anonymous-namespace'::weapon_definition_get_first_person_interface_by_character_hook
-	// static ...; // 0x10ABEEF8
-	// static ...; // 0x10ABEEF0
-	// s_weapon_definition *weapon_definition;
-	// long representation_index;
-	// s_game_globals *game_globals;
-		// long i;
-			// s_game_globals_player_character_type *const character_type;
-			// long expected_representation_index;
-				// s_weapon_first_person_block *fp_interface;
 
 	s_game_globals *game_globals = game_globals_get();
 	for (long i = 0; i < game_globals->player_character_types.count; i++)
@@ -376,7 +324,6 @@ s_weapon_first_person_block *weapon_definition_get_first_person_interface_by_cha
 __declspec(naked) void player_submit_actions_53E2B2() // 0x10ABECC0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?player_submit_actions_53E2B2@@YAXXZ");
-	// procedure flags: nofpo
 
 	__asm
 	{
@@ -389,7 +336,6 @@ __declspec(naked) void player_submit_actions_53E2B2() // 0x10ABECC0
 __declspec(naked) void player_submit_actions_53E4F6() // 0x10ABECD0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?player_submit_actions_53E4F6@@YAXXZ");
-	// procedure flags: nofpo
 
 	__asm
 	{
@@ -402,7 +348,6 @@ __declspec(naked) void player_submit_actions_53E4F6() // 0x10ABECD0
 __declspec(naked) void player_submit_actions_53EA06() // 0x10ABECE0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?player_submit_actions_53EA06@@YAXXZ");
-	// procedure flags: nofpo
 
 	__asm
 	{
@@ -415,12 +360,6 @@ __declspec(naked) void player_submit_actions_53EA06() // 0x10ABECE0
 bool player_submit_actions_53D580_hook(long unit_index) // 0x10ABEBE0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?player_submit_actions_53D580_hook@@YA_NJ@Z");
-	// `anonymous-namespace'::player_submit_actions_53D580_hook
-	// long unit_index;
-	// long player_info_block_index;
-	// bool (*const unit_movement_inhibited_by_equipment)(long);
-	// long player_control_block_index;
-	// function call : bool (*const)(long)
 
 	bool (__cdecl *const player_submit_actions_53D580)(long) = (bool(__cdecl *const)(long))0xb44f90;
 	long player_control_block_index = unit_get_global_player_control_block_index(unit_index);
@@ -433,11 +372,6 @@ bool player_submit_actions_53D580_hook(long unit_index) // 0x10ABEBE0
 long game_globals_player_representation_index_from_player_index_hook(long player_index) // 0x10ABC220
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?game_globals_player_representation_index_from_player_index_hook@@YAJJ@Z");
-	// `anonymous-namespace'::game_globals_player_representation_index_from_player_index_hook
-	// long player_index;
-	// s_player_datum *player;
-	// long unit;
-	// function call : unsigned long (*const)(long)
 
 	s_player_datum *player = player_get(player_index);
 	void *player_representation = ((void *(__cdecl *)(long))0x589cc0)(0);
@@ -450,9 +384,6 @@ long game_globals_player_representation_index_from_player_index_hook(long player
 s_game_globals_player_representation *game_globals_player_representation_from_player_index_hook(long player_index) // 0x10ABC1A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?game_globals_player_representation_from_player_index_hook@@YAPAUs_game_globals_player_representation@@J@Z");
-	// `anonymous-namespace'::game_globals_player_representation_from_player_index_hook
-	// long player_index;
-	// long index;
 
 	long index = game_globals_player_representation_index_from_player_index_hook(player_index);
 
@@ -462,21 +393,6 @@ s_game_globals_player_representation *game_globals_player_representation_from_pl
 void chud_sounds_fix_hook(long player_index) // 0x10ABBFE0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?chud_sounds_fix_hook@@YAXJ@Z");
-	// `anonymous-namespace'::chud_sounds_fix_hook
-	// static ...; // 0x10ABC114
-	// static ...; // 0x10ABC108
-	// static ...; // 0x10ABC100
-	// long player_index;
-	// s_player_datum *player;
-	// constexpr void (*const `chud_sounds_fix_hook'::`2'::chud_update_sounds)(long, unsigned __int32, c_tag_block<s_chud_sound> *, long *, unsigned short *); // constant == 11049584
-	// long output_unit_index;
-		// s_chud_per_character_globals *character_hud_globals;
-		// s_chud_globals_definition *hud_globals;
-		// long character_hud_globals_index;
-			// char *persistent_chud_data;
-	// function call : unsigned long (*const)(long)
-	// function call : void (*const)(long, unsigned __int32, c_tag_block<s_chud_sound> *, long *, unsigned short *)
-	// function call : void (*)(long, long)
 
 	long output_unit_index = ((long (*)(long))0x589CC0)(0);
 	s_player_datum *player = player_get(player_index);
@@ -497,20 +413,6 @@ void chud_sounds_fix_hook(long player_index) // 0x10ABBFE0
 s_model_variant *player_get_model_variant_hook(long player_index) // 0x10ABEA10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?player_get_model_variant_hook@@YAPAUs_model_variant@@J@Z");
-	// `anonymous-namespace'::player_get_model_variant_hook
-	// static ...; // 0x10ABEB61
-	// static ...; // 0x10ABEB54
-	// static ...; // 0x10ABEB3C
-	// static ...; // 0x10ABEB34
-	// long player_index;
-	// long biped_definition_index;
-	// s_biped_definition *biped;
-	// unsigned long variant_name;
-	// s_game_globals_player_representation *representation;
-	// long model_variant_index;
-	// s_model_definition *model;
-	// function call : void *(*const)(unsigned long, long)
-	// function call : void *(*const)(unsigned long, long)
 
 	s_game_globals_player_representation *representation = game_globals_player_representation_from_player_index_hook(player_index);
 	if (!representation || representation->ThirdPersonUnit.index == -1)

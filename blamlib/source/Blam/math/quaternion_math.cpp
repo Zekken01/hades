@@ -65,7 +65,6 @@ extern real_vector3d *negate_vector3d(real_vector3d const *v, real_vector3d *res
 bool quaternion_is_identity(real_quaternion const *q) // 0x10F194F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?quaternion_is_identity@@YA_NPBUreal_quaternion@@@Z");
-	// real_quaternion const *q;
 
 	return fabsf(q->w - 1.0f) < 0.00001f;
 }
@@ -73,7 +72,6 @@ bool quaternion_is_identity(real_quaternion const *q) // 0x10F194F0
 void quaternion_inverse(real_quaternion *q) // 0x10F19490
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?quaternion_inverse@@YAXPAUreal_quaternion@@@Z");
-	// real_quaternion *q;
 
 	q->w = q->w * -1.0f;
 }
@@ -81,9 +79,6 @@ void quaternion_inverse(real_quaternion *q) // 0x10F19490
 void quaternion_normalize(real_quaternion *q) // 0x10F195A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?quaternion_normalize@@YAXPAUreal_quaternion@@@Z");
-	// real_quaternion *q;
-	// float dot;
-		// float rs;
 
 	float dot = dot_product3d(&q->v, &q->v) + q->w * q->w;
 	if (dot <= 0.0)
@@ -104,8 +99,6 @@ void quaternion_normalize(real_quaternion *q) // 0x10F195A0
 void quaternion_to_angle_and_vector(real_quaternion *q, float *angle, real_vector3d *vector) // 0x10F19730
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?quaternion_to_angle_and_vector@@YAXPAUreal_quaternion@@PAMPAUreal_vector3d@@@Z");
-	// real_vector3d *vector;
-	// float length;
 
 	vector->i = q->i;
 	vector->j = q->j;
@@ -124,7 +117,6 @@ void quaternion_to_angle_and_vector(real_quaternion *q, float *angle, real_vecto
 void quaternion_to_euler_angles(real_quaternion const *q, real_euler_angles3d *euler) // 0x10F19850
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?quaternion_to_euler_angles@@YAXPBUreal_quaternion@@PAUreal_euler_angles3d@@@Z");
-	// real_euler_angles3d *euler;
 
 	quaternion_to_euler_angles_internal(q, euler, 0.00001f);
 }
@@ -132,10 +124,6 @@ void quaternion_to_euler_angles(real_quaternion const *q, real_euler_angles3d *e
 void quaternion_from_axis_and_angle(real_vector3d const *axis, float angle, real_quaternion *quaternion) // 0x10F19360
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?quaternion_from_axis_and_angle@@YAXPBUreal_vector3d@@MPAUreal_quaternion@@@Z");
-	// real_quaternion *quaternion;
-	// float cos_theta;
-	// float sin_theta;
-	// float half_angle;
 
 	float half_angle = angle * 0.5f;
 	float sin_theta = sinf(half_angle);
@@ -144,6 +132,7 @@ void quaternion_from_axis_and_angle(real_vector3d const *axis, float angle, real
 	*quaternion = real_quaternion{ { { axis->i * sin_theta, axis->j * sin_theta, axis->k * sin_theta } }, cos_theta };
 }
 
+#line 147
 void quaternion_transform_point(real_quaternion const *q, real_point3d const *point, real_point3d *result) // 0x10F19C10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?quaternion_transform_point@@YAXPBUreal_quaternion@@PBUreal_point3d@@PAU2@@Z");
@@ -198,7 +187,6 @@ void quaternion_transform_point(real_quaternion const *q, real_point3d const *po
 float quaternions_dot(real_quaternion const *q1, real_quaternion const *q2) // 0x10F19FA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?quaternions_dot@@YAMPBUreal_quaternion@@0@Z");
-	// real_quaternion const *q2;
 
 	return q1->i * q2->i + q1->j * q2->j + q1->k * q2->k + q1->w * q2->w;
 }
@@ -206,8 +194,6 @@ float quaternions_dot(real_quaternion const *q1, real_quaternion const *q2) // 0
 void quaternions_interpolate(real_quaternion const *q1, real_quaternion const *q2, float t, real_quaternion *result) // 0x10F1A060
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?quaternions_interpolate@@YAXPBUreal_quaternion@@0MPAU1@@Z");
-	// real_quaternion *result;
-	// float const one_minus_t;
 
 	float const one_minus_t = 1.0f - t;
 
@@ -222,6 +208,7 @@ void quaternions_interpolate(real_quaternion const *q1, real_quaternion const *q
 	result->w = one_minus_t * q1->w + t * q2->w;
 }
 
+#line 225
 void quaternions_slerp_interpolate(real_quaternion const *q1, real_quaternion const *q2, float t, real_quaternion *result) // 0x10F1A430
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?quaternions_slerp_interpolate@@YAXPBUreal_quaternion@@0MPAU1@@Z");
@@ -298,12 +285,12 @@ void quaternions_slerp_interpolate(real_quaternion const *q1, real_quaternion co
 void quaternions_slerp_interpolate_and_normalize(real_quaternion const *q1, real_quaternion const *q2, float t, real_quaternion *result) // 0x10F1A9B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?quaternions_slerp_interpolate_and_normalize@@YAXPBUreal_quaternion@@0MPAU1@@Z");
-	// real_quaternion *result;
 
 	quaternions_slerp_interpolate(q1, q2, t, result);
 	quaternion_normalize(result);
 }
 
+#line 307
 void quaternions_multiply(real_quaternion const *q1, real_quaternion const *q2, real_quaternion *result) // 0x10F1A1C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?quaternions_multiply@@YAXPBUreal_quaternion@@0PAU1@@Z");

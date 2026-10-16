@@ -148,12 +148,6 @@ namespace Server
 		bool AbstractVotingSystem::ReloadVotingJson(std::string fileName, bool loadFileFromDisc) // 0x1072D740
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ReloadVotingJson@AbstractVotingSystem@Voting@Server@@QAE_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@_N@Z");
-			// bool loadFileFromDisc;
-			// bool success;
-			// function call : bool (std::string)
-			// function call : void ()
-			// function call : void ()
-			// function call : void ()
 
 			bool success = true;
 			if (loadFileFromDisc && !LoadJson(fileName))
@@ -172,7 +166,6 @@ namespace Server
 		__int32 AbstractVotingSystem::getVoteNeededToPass() // 0x1072E450
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?getVoteNeededToPass@AbstractVotingSystem@Voting@Server@@UAEHXZ");
-			// Server::Voting::AbstractVotingSystem *const this;
 
 			return (Blam::Network::GetNumPlayers() - 1) * Modules::ModuleVoting::Instance().VarVetoVotePassPercentage->ValueInt / 100 + 1;
 		}
@@ -180,14 +173,6 @@ namespace Server
 		void AbstractVotingSystem::GenerateVotingOptionsMessage(__int32 peer) // 0x1072D550
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GenerateVotingOptionsMessage@AbstractVotingSystem@Voting@Server@@QAEXH@Z");
-			// static ...; // 0x1072D654
-			// static ...; // 0x1072D64C
-			// Server::Voting::AbstractVotingSystem *const this;
-			// __int32 peer;
-			// Server::Voting::VotingMessage newmessage;
-			// Blam::Network::Session *session;
-			// function call : bool ()
-			// function call : Server::Voting::VotingMessage (bool)
 
 			auto* session = Blam::Network::GetActiveSession();
 			if (!(session && session->IsEstablished() && session->IsHost() && session->Parameters.GetSessionMode() == 1 && isEnabled()))
@@ -200,7 +185,6 @@ namespace Server
 		void AbstractVotingSystem::NotifyVotePassed(Server::Voting::MapAndType const &winner) // 0x1072D6C0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?NotifyVotePassed@AbstractVotingSystem@Voting@Server@@IAEXABUMapAndType@23@@Z");
-			// Server::Voting::MapAndType const &winner;
 
 			(*(std::function<void(Server::Voting::MapAndType)> *)((unsigned char *)this + 0x10))(winner);
 		}
@@ -208,7 +192,6 @@ namespace Server
 		void AbstractVotingSystem::CheckAndLoadJson() // 0x1072D4B0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?CheckAndLoadJson@AbstractVotingSystem@Voting@Server@@QAEXXZ");
-			// Server::Voting::AbstractVotingSystem *const this;
 
 			if (jsonLoaded)
 				return;

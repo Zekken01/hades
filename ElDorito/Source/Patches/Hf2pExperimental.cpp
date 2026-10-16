@@ -344,7 +344,6 @@ namespace Patches
 		void ApplyAll() // 0x10A708B0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Hf2pExperimental@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			Hook(0x200630, Hf2pInitHook).Apply();
 			Patch(0x24F6B0, { 0xC3 }).Apply();
@@ -378,11 +377,6 @@ _inline s_session_player_ping::~s_session_player_ping() = default; // 0x10A70860
 void Hf2pInitHook() // 0x10A723E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Hf2pInitHook@@YAXXZ");
-	// `anonymous-namespace'::Hf2pInitHook
-	// procedure flags: nofpo
-	// function call : void (*)()
-	// InitSoundSystem
-	// InitSoundSystem
 
 	*(unsigned __int32 *)0x50CCB3C = 0;
 	*(unsigned __int32 *)0x244ED28 = 0;
@@ -396,9 +390,6 @@ void Hf2pInitHook() // 0x10A723E0
 void Hf2pShutdownHook() // 0x10A72B60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Hf2pShutdownHook@@YAXXZ");
-	// `anonymous-namespace'::Hf2pShutdownHook
-	// procedure flags: nofpo
-	// function call : void (*)()
 
 	((void(__cdecl *const)())0x652ee0)();
 }
@@ -406,15 +397,6 @@ void Hf2pShutdownHook() // 0x10A72B60
 void SystemMenu() // 0x10A73850
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SystemMenu@@YAXXZ");
-	// `anonymous-namespace'::SystemMenu
-	// procedure flags: nofpo
-	// Blam::Input::ActionState *uiStartAction;
-		// bool isUsingController;
-		// c_gui_screen_manager *screenManager;
-			// c_gui_screen_widget *screenWidget;
-	// function call : bool (*const)()
-	// function call : long (*const)(e_user_interface_sound, long)
-	// function call : void (*const)(void *, __int32)
 
 	static bool (*const game_in_progress)() = reinterpret_cast<bool (*)()>(0x531E90);
 	static long (*const user_interface_play_sound)(e_user_interface_sound, long) = reinterpret_cast<long (*)(e_user_interface_sound, long)>(0xAA5CD0);
@@ -447,12 +429,6 @@ void SystemMenu() // 0x10A73850
 __int32 GetSecondsRemainingUntilPlayerSpawn() // 0x10A721B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetSecondsRemainingUntilPlayerSpawn@@YAHXZ");
-	// `anonymous-namespace'::GetSecondsRemainingUntilPlayerSpawn
-	// procedure flags: nofpo
-	// s_player_datum *const player;
-	// unsigned long playerIndex;
-	// function call : unsigned long (*const)(long)
-	// function call : unsigned long (*const)(long)
 
 	unsigned long playerIndex = ((unsigned long (__cdecl *)(long))0x589C30)(0);
 	s_player_datum *const player = players_get()->try_and_get(((unsigned long (__cdecl *)(long))0x589C30)(0));
@@ -462,13 +438,6 @@ __int32 GetSecondsRemainingUntilPlayerSpawn() // 0x10A721B0
 bool PingPlayer(std::string ip, unsigned short port) // 0x10A734F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?PingPlayer@@YA_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@G@Z");
-	// `anonymous-namespace'::PingPlayer
-	// static ...; // 0x10A73648
-	// static ...; // 0x10A73640
-	// std::string ip;
-	// unsigned short port;
-	// Blam::Network::Session *session;
-		// Blam::Network::NetworkAddress blamAddress;
 
 	Blam::Network::Session *session = Blam::Network::GetActiveSession();
 	if (session)
@@ -486,9 +455,6 @@ bool PingPlayer(std::string ip, unsigned short port) // 0x10A734F0
 static void PongReceived(Blam::Network::NetworkAddress const &from, unsigned __int32 timestamp, unsigned short id, unsigned __int32 latency) // 0x10A736C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?PongReceived@@YAXABUNetworkAddress@Network@Blam@@IGI@Z");
-	// `anonymous-namespace'::PongReceived
-	// unsigned __int32 latency;
-		// __int32 i;
 
 	if (id != PingId)
 		return;
@@ -505,26 +471,6 @@ static void PongReceived(Blam::Network::NetworkAddress const &from, unsigned __i
 void BuildPlayerPing() // 0x10A71CF0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?BuildPlayerPing@@YAXXZ");
-	// `anonymous-namespace'::BuildPlayerPing
-	// procedure flags: nofpo
-	// static ...; // 0x10A720B0
-	// static ...; // 0x10A720AD
-	// static ...; // 0x10A720AB
-	// static ...; // 0x10A720A4
-	// static ...; // 0x10A72074
-	// static ...; // 0x10A7206C
-	// static bool (*`BuildPlayerPing'::`2'::IsMapLoading)(); // 0x113543F0
-	// Blam::Network::Session *session;
-		// long long elapsed;
-		// long long curTime1;
-			// __int32 playerIdx;
-			// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> s;
-			// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-				// Blam::Network::NetworkAddress ip;
-				// __int32 i;
-	// function call : bool (*const)()
-	// function call : bool (*const)()
-	// function call : bool (*)()
 
 	static bool (*IsMapLoading)() = reinterpret_cast<bool (*)()>(0x5670E0);
 	if (((bool (*)())0x531E90)() || !((bool (*)())0x5319C0)() || IsMapLoading())
@@ -576,59 +522,6 @@ void BuildPlayerPing() // 0x10A71CF0
 void Hf2pTickHook() // 0x10A72BB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Hf2pTickHook@@YAXXZ");
-	// `anonymous-namespace'::Hf2pTickHook
-	// procedure flags: nofpo
-	// static ...; // 0x10A7325C
-	// static ...; // 0x10A73244
-	// static ...; // 0x10A7322C
-	// static ...; // 0x10A73224
-	// static void (*`Hf2pTickHook'::`2'::InitMpDirector)(); // 0x113543FC
-	// static bool (*`Hf2pTickHook'::`2'::IsMapLoading)(); // 0x11354400
-	// __int32 secondsUntilPlayerSpawn;
-	// void (*const camera_control)(__int32);
-	// static bool `Hf2pTickHook'::`2'::s_MatchStarted; // 0x124587C2
-	// static __int32 `Hf2pTickHook'::`2'::s_CameraObjectIndex; // 0x11354408
-	// static bool (*`Hf2pTickHook'::`2'::IsMainMenu)(); // 0x11354404
-	// static bool (*`Hf2pTickHook'::`2'::UpdatePreMatchCamera)(); // 0x113543F8
-	// void (*const scripted_camera_set_internal)(__int32, real_point3d const *, real_euler_angles3d const *, float, short, long);
-	// unsigned long roundTimer;
-	// static bool `Hf2pTickHook'::`2'::prematch_script_called; // 0x124587C3
-	// static bool (*`Hf2pTickHook'::`2'::InPrematchState)(char); // 0x113543F4
-		// s_object_data *scenObject;
-			// s_player_datum *player;
-			// unsigned long playerIndex;
-				// long team_designator;
-					// unsigned long foundCameraObjectIndex;
-			// real_euler_angles3d cameraObjectOrientation;
-			// real_matrix4x3 cameraObjectTransform;
-		// unsigned long time;
-		// float game_engine_finish_wait_seconds;
-		// long game_finished_wait_time_ticks;
-	// function call : bool (*const)()
-	// function call : c_game_engine *(*const)()
-	// function call : bool (*)(char)
-	// function call : bool (*const)()
-	// function call : c_game_variant *(*const)()
-	// function call : unsigned long (*const)(long)
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : real_matrix4x3 *(*const)(long, real_matrix4x3 *)
-	// function call : void (*const)(__int32)
-	// function call : void (*const)(__int32, real_point3d const *, real_euler_angles3d const *, float, short, long)
-	// function call : bool (*)()
-	// function call : void (*)()
-	// function call : bool (*const)()
-	// function call : float (*const)(float)
-	// function call : c_game_engine *(*const)()
-	// function call : float (*const)(float)
-	// function call : void (*const)(char const *, float, short)
-	// function call : float (*const)(float)
-	// function call : void (*const)(char const *, float, short)
-	// function call : float (*const)(float)
-	// function call : void (*const)(char const *, float, short)
-	// function call : float (*const)(float)
-	// function call : void (*const)(char const *, float, short)
-	// function call : bool (*)()
-	// function call : bool (*)()
 
 	static bool (*InPrematchState)(char) = reinterpret_cast<bool (*)(char)>(0x5523A0);
 	static bool (*UpdatePreMatchCamera)() = reinterpret_cast<bool (*)()>(0x72D580);
@@ -733,8 +626,6 @@ void Hf2pTickHook() // 0x10A72BB0
 s_global_preferences_settings::e_level LevelStringToSetting(std::string const &value) // 0x10A73430
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?LevelStringToSetting@@YA?AW4e_level@s_global_preferences_settings@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-	// `anonymous-namespace'::LevelStringToSetting
-	// std::string const &value;
 
 	return value == "low" ? (s_global_preferences_settings::e_level)0 : value == "medium" ? (s_global_preferences_settings::e_level)1 : (s_global_preferences_settings::e_level)2;
 }
@@ -742,23 +633,6 @@ s_global_preferences_settings::e_level LevelStringToSetting(std::string const &v
 void Hf2pLoadPreferencesHook() // 0x10A72490
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Hf2pLoadPreferencesHook@@YAXXZ");
-	// `anonymous-namespace'::Hf2pLoadPreferencesHook
-	// procedure flags: nofpo
-	// static ...; // 0x10A729E3
-	// static ...; // 0x10A729CC
-	// static ...; // 0x10A729C0
-	// static ...; // 0x10A7299C
-	// static ...; // 0x10A72994
-	// Modules::ModuleSettings const &moduleSettings;
-	// Common::D3DAdapters::DisplayMode displayMode;
-	// Modules::ModuleInput const &moduleInput;
-	// void (*const global_preferences_create_default)();
-	// __int32 screenResolutionWidth;
-	// long (*const create_default_input_settings)(s_global_preferences_settings::s_input_settings *);
-	// Modules::ModuleCamera const &moduleCamera;
-	// s_global_preferences *prefs;
-	// __int32 screenResolutionHeight;
-	// function call : long (*const)(s_global_preferences_settings::s_input_settings *)
 
 	Modules::ModuleSettings const &moduleSettings = Utils::Singleton<Modules::ModuleSettings>::Instance();
 	Modules::ModuleCamera const &moduleCamera = Utils::Singleton<Modules::ModuleCamera>::Instance();
@@ -820,11 +694,6 @@ void Hf2pLoadPreferencesHook() // 0x10A72490
 void __fastcall c_game_engine_object_runtime_manager__update_hook(void *thisptr, void *unused) // 0x10A739D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_game_engine_object_runtime_manager__update_hook@@YIXPAX0@Z");
-	// `anonymous-namespace'::c_game_engine_object_runtime_manager__update_hook
-	// void *unused;
-	// void (*const c_game_engine_object_runtime_manager__update)(void *);
-	// function call : bool (*const)(char)
-	// function call : void (*const)(void *)
 
 	void (__thiscall *const c_game_engine_object_runtime_manager__update)(void *) = (void(__thiscall *const)(void *))0x5913e0;
 
@@ -835,19 +704,6 @@ void __fastcall c_game_engine_object_runtime_manager__update_hook(void *thisptr,
 void ApplyDefaultScreenFx() // 0x10A71BC0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyDefaultScreenFx@@YAXXZ");
-	// `anonymous-namespace'::ApplyDefaultScreenFx
-	// procedure flags: nofpo
-	// static ...; // 0x10A71CA4
-	// static ...; // 0x10A71C98
-	// static ...; // 0x10A71C90
-	// s_scenario *scnrDefinition;
-	// constexpr void (*const `ApplyDefaultScreenFx'::`2'::SpawnScreenEffect)(unsigned __int32, unsigned __int32, __int32, void *, void *); // constant == 6828128
-	// unsigned char unk[60];
-	// s_scenario **scnrDefinitionPtr;
-	// unsigned __int32 unitObjectIndex;
-	// constexpr unsigned __int32 (*const `ApplyDefaultScreenFx'::`2'::GetLocalPlayerUnitObjectIndex)(__int32); // constant == 5807296
-	// function call : unsigned __int32 (*const)(__int32)
-	// function call : void (*const)(unsigned __int32, unsigned __int32, __int32, void *, void *)
 
 	s_scenario **scnrDefinitionPtr = (s_scenario **)0x22AAEB4;
 
@@ -870,10 +726,6 @@ void ApplyDefaultScreenFx() // 0x10A71BC0
 void game_initialize_for_new_map_call_hook(s_game_options *game_options) // 0x10A73F90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?game_initialize_for_new_map_call_hook@@YAXPAUs_game_options@@@Z");
-	// `anonymous-namespace'::game_initialize_for_new_map_call_hook
-	// s_game_options *game_options;
-	// constexpr void (*const `game_initialize_for_new_map_call_hook'::`2'::game_initialize_for_new_map)(s_game_options *); // constant == 5445120
-	// function call : void (*const)(s_game_options *)
 
 	((void(__cdecl *)(s_game_options *))0x531600)(game_options);
 
@@ -883,11 +735,6 @@ void game_initialize_for_new_map_call_hook(s_game_options *game_options) // 0x10
 bool game_finish_should_mute_sounds() // 0x10A73D90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?game_finish_should_mute_sounds@@YA_NXZ");
-	// `anonymous-namespace'::game_finish_should_mute_sounds
-	// procedure flags: nofpo
-	// char (*const sound_set_class_volume)(char *, __int32, __int32, __int32);
-	// bool (*const game_engine_running)();
-	// function call : bool (*const)()
 
 	const auto game_engine_running = (bool(*)())0x552410;
 	const auto sound_set_class_volume = (char(*)(char *, __int32, __int32, __int32))0x660F40;
@@ -905,11 +752,6 @@ bool game_finish_should_mute_sounds() // 0x10A73D90
 void game_finished_wait_time_add_hook(float seconds) // 0x10A73E10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?game_finished_wait_time_add_hook@@YAXM@Z");
-	// `anonymous-namespace'::game_finished_wait_time_add_hook
-	// float seconds;
-	// void (*const game_finished_wait_time_add)(float);
-	// unsigned char fade_time;
-	// function call : void (*const)(float)
 
 	void (*const game_finished_wait_time_add)(float) = reinterpret_cast<void (*)(float)>(0x530FF0);
 	unsigned char fade_time = Pointer(0x553750).Read<unsigned char>();
@@ -920,26 +762,6 @@ void game_finished_wait_time_add_hook(float seconds) // 0x10A73E10
 bool game_engine_should_start_music_hook() // 0x10A73AE0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_should_start_music_hook@@YA_NXZ");
-	// `anonymous-namespace'::game_engine_should_start_music_hook
-	// procedure flags: nofpo
-	// static ...; // 0x10A73D04
-	// static ...; // 0x10A73CF8
-	// static ...; // 0x10A73CF0
-	// long (*const game_engine_get_team_score)(unsigned __int32);
-	// unsigned long near_victory_muisc_enabled;
-	// long (*const game_engine_variant_get_score_to_win)();
-	// unsigned long score_to_start_music_percentage;
-		// unsigned long const score_needed;
-		// long const score_to_win;
-		// __int32 highest_score;
-			// __int32 i;
-				// long team_score;
-			// c_data_array<s_player_datum> *players;
-				// c_data_iterator<s_player_datum> it;
-					// __int32 cur_player_score;
-	// function call : long (*const)()
-	// function call : bool (*const)()
-	// function call : long (*const)(unsigned __int32)
 
 	long (*const game_engine_variant_get_score_to_win)() = reinterpret_cast<long (*)()>(0x550B50);
 	long (*const game_engine_get_team_score)(unsigned __int32) = reinterpret_cast<long (*)(unsigned __int32)>(0x550C90);
@@ -987,12 +809,6 @@ bool game_engine_should_start_music_hook() // 0x10A73AE0
 long scenario_multiplayer_globals_try_and_get_runtime_data_hook() // 0x10A73FF0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?scenario_multiplayer_globals_try_and_get_runtime_data_hook@@YAJXZ");
-	// `anonymous-namespace'::scenario_multiplayer_globals_try_and_get_runtime_data_hook
-	// procedure flags: nofpo
-	// long result;
-	// long (*const scenario_multiplayer_globals_try_and_get_runtime_data)();
-	// function call : long (*const)()
-	// function call : bool (*const)()
 
 	const auto scenario_multiplayer_globals_try_and_get_runtime_data = (long(*)())0x69D310;
 
@@ -1009,11 +825,6 @@ long scenario_multiplayer_globals_try_and_get_runtime_data_hook() // 0x10A73FF0
 bool game_engine_in_round_hook() // 0x10A73A60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_in_round_hook@@YA_NXZ");
-	// `anonymous-namespace'::game_engine_in_round_hook
-	// procedure flags: nofpo
-	// bool roundInProgress;
-	// bool (*const game_engine_round_in_progress)();
-	// function call : bool (*const)()
 
 	const auto game_engine_in_round = (bool(*)())0x550F90;
 

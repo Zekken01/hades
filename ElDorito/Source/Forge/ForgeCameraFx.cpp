@@ -89,7 +89,6 @@ namespace Forge
 	void CForgeCameraFx::InitializeForNewMap() // 0x1067BBC0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeForNewMap@CForgeCameraFx@Forge@@SAXXZ");
-		// procedure flags: nofpo
 
 		state = {};
 	}
@@ -97,8 +96,6 @@ namespace Forge
 	void CForgeCameraFx::Update(long mapModifierIndex, Forge::ForgeMapModifierProperties &mapModifierProperties) // 0x1067BE20
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CForgeCameraFx@Forge@@SAXJAAUForgeMapModifierProperties@2@@Z");
-		// Forge::ForgeMapModifierProperties &mapModifierProperties;
-		// float expScale;
 
 		state.Enabled = true;
 		state.Exposure = pow(mapModifierProperties.CameraFxExposure * 0.05f, 2.2f) * 0.01f;
@@ -118,7 +115,6 @@ namespace Forge
 	void CForgeCameraFx::HandleMapModifierDeleted() // 0x1067BBA0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?HandleMapModifierDeleted@CForgeCameraFx@Forge@@SAXXZ");
-		// procedure flags: nofpo
 
 		state.Enabled = false;
 	}
@@ -126,7 +122,6 @@ namespace Forge
 	void CForgeCameraFx::OverrideCameraFxSettings(c_player_view *player_view, float exposure_boost) // 0x1067BC80
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?OverrideCameraFxSettings@CForgeCameraFx@Forge@@SAXPAUc_player_view@@M@Z");
-		// float exposure_boost;
 
 		if (!state.Enabled)
 			return;
@@ -144,7 +139,6 @@ namespace Forge
 	bool CForgeCameraFx::IsActive() // 0x1067BC60
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?IsActive@CForgeCameraFx@Forge@@SA_NXZ");
-		// procedure flags: nofpo
 
 		return state.Enabled;
 	}
@@ -152,7 +146,6 @@ namespace Forge
 	float CForgeCameraFx::GetBloomIntensity() // 0x1067BB80
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetBloomIntensity@CForgeCameraFx@Forge@@SAMXZ");
-		// procedure flags: nofpo
 
 		return state.BloomIntensity;
 	}

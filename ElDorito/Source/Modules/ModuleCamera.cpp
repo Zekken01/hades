@@ -150,7 +150,6 @@ namespace Modules
 	ModuleCamera::ModuleCamera() : ModuleBase("Camera"), HideHudPatch(0x151CC64, 0, 1), HideKillFeedPatch(0x695929, { 0xEB }) /* hades-mem-init: : ModuleBase(todo_result<std::string>()) */ // 0x10978AE0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "??0ModuleCamera@Modules@@QAE@XZ");
-		// Modules::ModuleCamera *const this;
 
 		VarCameraCenteredCrosshairFirst = AddVariableInt("CenteredCrosshairFirst", "crosshair1p", "Controls whether the crosshair should be centered in first person", eCommandFlagsArchived, 0);
 		VarCameraCenteredCrosshairFirst->ValueIntMin = 0;
@@ -194,7 +193,6 @@ namespace Modules
 	void ModuleCamera::SetInputAngularVelocity(real_euler_angles2d const *velocity) // 0x10979E30
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?SetInputAngularVelocity@ModuleCamera@Modules@@QAEXPBUreal_euler_angles2d@@@Z");
-		// real_euler_angles2d const *velocity;
 
 		inputAngularVelocity = *velocity;
 	}
@@ -202,7 +200,6 @@ namespace Modules
 	void ModuleCamera::GetInputAngularVelocity(real_euler_angles2d *velocity) const // 0x10979DF0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetInputAngularVelocity@ModuleCamera@Modules@@QBEXPAUreal_euler_angles2d@@@Z");
-		// real_euler_angles2d *velocity;
 
 		*velocity = inputAngularVelocity;
 	}
@@ -213,10 +210,6 @@ namespace Modules
 bool VariableCameraFovUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10979E70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableCameraFovUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::VariableCameraFovUpdate
-	// std::string &returnInfo;
-	// Modules::ModuleCamera &moduleCamera;
-	// float value;
 
 	auto &moduleCamera = Modules::ModuleCamera::Instance();
 	float value = moduleCamera.VarCameraFov->ValueFloat;
@@ -228,14 +221,6 @@ bool VariableCameraFovUpdate(std::vector<std::string> const &Arguments, std::str
 bool VariableCameraHideHudUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1097A000
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableCameraHideHudUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::VariableCameraHideHudUpdate
-	// static ...; // 0x1097A1C4
-	// static ...; // 0x1097A1BC
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// bool statusBool;
-	// std::string status;
-	// unsigned long value;
 
 	unsigned long value = Modules::ModuleCamera::Instance().VarCameraHideHud->ValueInt;
 	std::string status = "shown.";
@@ -251,14 +236,6 @@ bool VariableCameraHideHudUpdate(std::vector<std::string> const &Arguments, std:
 bool VariableCameraHideKillFeedUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1097A250
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableCameraHideKillFeedUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::VariableCameraHideKillFeedUpdate
-	// static ...; // 0x1097A414
-	// static ...; // 0x1097A40C
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// bool statusBool;
-	// std::string status;
-	// unsigned long value;
 
 	unsigned long value = Modules::ModuleCamera::Instance().VarCameraHideKillFeed->ValueInt;
 	std::string status = "shown.";
@@ -274,13 +251,6 @@ bool VariableCameraHideKillFeedUpdate(std::vector<std::string> const &Arguments,
 bool VariableCameraSpeedUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1097AD40
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableCameraSpeedUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::VariableCameraSpeedUpdate
-	// static ...; // 0x1097AE6C
-	// static ...; // 0x1097AE64
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// float speed;
-	// std::stringstream ss;
 
 	float speed = Modules::ModuleCamera::Instance().VarCameraSpeed->ValueFloat;
 
@@ -294,28 +264,6 @@ bool VariableCameraSpeedUpdate(std::vector<std::string> const &Arguments, std::s
 bool VariableCameraPositionUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1097A670
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableCameraPositionUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::VariableCameraPositionUpdate
-	// static ...; // 0x1097AA77
-	// static ...; // 0x1097AA73
-	// static ...; // 0x1097AA6C
-	// static ...; // 0x1097AA64
-	// static ...; // 0x1097AA28
-	// static ...; // 0x1097AA20
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// c_director *director;
-	// c_camera *camera;
-	// real_point3d pos;
-		// s_observer_result const *observer_camera;
-		// std::stringstream ss;
-		// real_euler_angles3d euler;
-		// real_euler_angles2d angles;
-		// real_vector3d forward;
-	// function call : c_director *(*const)(long)
-	// function call : bool (*const)()
-	// function call : s_observer_result *(*const)(long)
-	// function call : void (real_point3d const *)
-	// function call : void (real_vector3d const *)
 
 	c_director *director = ((c_director *(__cdecl *)(long))0x591990)(0);
 	c_camera *camera = director->get_camera();
@@ -349,15 +297,6 @@ bool VariableCameraPositionUpdate(std::vector<std::string> const &Arguments, std
 bool VariableCameraModeUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1097A4A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableCameraModeUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::VariableCameraModeUpdate
-	// static ...; // 0x1097A5FC
-	// static ...; // 0x1097A5F4
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// constexpr bool (*const `VariableCameraModeUpdate'::`2'::player_terminal_chud_set)(bool); // constant == 11050832
-	// bool result;
-	// std::string mode;
-	// function call : bool (*const)()
 
 	std::string mode = Utils::String::ToLower(Modules::ModuleCamera::Instance().VarCameraMode->ValueString);
 	if (!((bool(__cdecl *)())0x5314B0)())
@@ -377,13 +316,6 @@ bool VariableCameraModeUpdate(std::vector<std::string> const &Arguments, std::st
 bool VariableCameraShowCoordinatesUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1097AB90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableCameraShowCoordinatesUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::VariableCameraShowCoordinatesUpdate
-	// static ...; // 0x1097ACD0
-	// static ...; // 0x1097ACC8
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// Blam::Network::Session *session;
-	// std::string status;
 
 	Blam::Network::Session *session = Blam::Network::GetActiveSession();
 	if (!session || Arguments.size() != 1)
@@ -405,8 +337,6 @@ bool VariableCameraShowCoordinatesUpdate(std::vector<std::string> const &Argumen
 bool VariableOldViewOffsetScaleUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1097AED0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableOldViewOffsetScaleUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::VariableOldViewOffsetScaleUpdate
-	// std::string &returnInfo;
 
 	if (!Modules::ModuleCamera::Instance().VarOldViewOffsetScale->ValueInt)
 	{

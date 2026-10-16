@@ -179,7 +179,6 @@ namespace Modules
 	ModuleForge::ModuleForge() : ModuleBase("Forge") /* hades-mem-init: : ModuleBase(todo_result<std::string>()) */ // 0x10982310
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "??0ModuleForge@Modules@@QAE@XZ");
-		// Modules::ModuleForge *const this;
 
 		VarCloneDepth = AddVariableFloat("CloneDepth", "forge_clone_depth", "Depth at which the object will be cloned", eCommandFlagsNone, 1.0f);
 		VarCloneMultiplier = AddVariableInt("CloneMultiplier", "forge_clone_multiplier", "Number of consecutive times the object will be cloned", eCommandFlagsNone, 1);
@@ -245,8 +244,6 @@ namespace Modules
 bool CommandDeleteAll(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109842D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandDeleteAll@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandDeleteAll
-	// std::string &returnInfo;
 
 	Forge::Selection::Delete();
 	return true;
@@ -255,9 +252,6 @@ bool CommandDeleteAll(std::vector<std::string> const &Arguments, std::string &re
 bool CommandCanvas(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10984280
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandCanvas@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandCanvas
-	// std::string &returnInfo;
-	// Modules::ModuleForge &moduleForge;
 
 	Modules::ModuleForge &moduleForge = Modules::ModuleForge::Instance();
 
@@ -268,8 +262,6 @@ bool CommandCanvas(std::vector<std::string> const &Arguments, std::string &retur
 bool CommandDeselectAll(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10984590
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandDeselectAll@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandDeselectAll
-	// std::string &returnInfo;
 
 	Forge::Selection::Clear();
 	return true;
@@ -278,8 +270,6 @@ bool CommandDeselectAll(std::vector<std::string> const &Arguments, std::string &
 bool CommandDeselectAllOf(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109845D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandDeselectAllOf@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandDeselectAllOf
-	// std::string &returnInfo;
 
 	Forge::Selection::DeselectAllOf();
 	return true;
@@ -288,8 +278,6 @@ bool CommandDeselectAllOf(std::vector<std::string> const &Arguments, std::string
 bool CommandSelectAll(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10985880
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandSelectAll@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandSelectAll
-	// std::string &returnInfo;
 
 	Forge::Selection::SelectAll();
 	return true;
@@ -298,8 +286,6 @@ bool CommandSelectAll(std::vector<std::string> const &Arguments, std::string &re
 bool CommandSelectAllMaterial(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109858C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandSelectAllMaterial@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandSelectAllMaterial
-	// std::string &returnInfo;
 
 	Forge::Selection::SelectAllMaterial();
 	return true;
@@ -308,8 +294,6 @@ bool CommandSelectAllMaterial(std::vector<std::string> const &Arguments, std::st
 bool CommandSelectEverything(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10985900
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandSelectEverything@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandSelectEverything
-	// std::string &returnInfo;
 
 	Forge::Selection::SelectEverything();
 	return true;
@@ -318,13 +302,6 @@ bool CommandSelectEverything(std::vector<std::string> const &Arguments, std::str
 bool CommandExpandSelection(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10984C40
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandExpandSelection@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandExpandSelection
-	// static ...; // 0x10984CEC
-	// static ...; // 0x10984CE4
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// char *endp;
-	// float radius;
 
 	if (Arguments.size() < 1)
 		return false;
@@ -340,8 +317,6 @@ bool CommandExpandSelection(std::vector<std::string> const &Arguments, std::stri
 bool CommandInvertSelection(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10985040
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandInvertSelection@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandInvertSelection
-	// std::string &returnInfo;
 
 	Forge::Selection::Invert();
 	return true;
@@ -350,16 +325,6 @@ bool CommandInvertSelection(std::vector<std::string> const &Arguments, std::stri
 bool CommandSavePrefab(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10985550
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandSavePrefab@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandSavePrefab
-	// static ...; // 0x109857C0
-	// static ...; // 0x109857A8
-	// static ...; // 0x109857A0
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// Modules::ModuleForge &moduleForge;
-	// std::filesystem::path p;
-	// std::filesystem::path prefabDirectory;
-	// std::string const &name;
 
 	if (Arguments.empty())
 	{
@@ -388,15 +353,6 @@ bool CommandSavePrefab(std::vector<std::string> const &Arguments, std::string &r
 bool CommandLoadPrefab(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10985080
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandLoadPrefab@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandLoadPrefab
-	// static ...; // 0x109852CC
-	// static ...; // 0x109852B4
-	// static ...; // 0x109852AC
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// Modules::ModuleForge &moduleForge;
-	// std::filesystem::path p;
-	// std::filesystem::path prefabDirectory;
 
 	if (Arguments.empty())
 	{
@@ -422,28 +378,6 @@ bool CommandLoadPrefab(std::vector<std::string> const &Arguments, std::string &r
 bool CommandDumpPrefabs(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10984610
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandDumpPrefabs@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandDumpPrefabs
-	// static ...; // 0x10984AF2
-	// static ...; // 0x10984AEB
-	// static ...; // 0x10984AE4
-	// static ...; // 0x10984AE0
-	// static ...; // 0x10984ADB
-	// static ...; // 0x10984AD7
-	// static ...; // 0x10984AD3
-	// static ...; // 0x10984ACC
-	// static ...; // 0x10984A60
-	// static ...; // 0x10984A58
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// std::filesystem::directory_iterator end_itr;
-	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
-	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-	// std::filesystem::path p;
-		// std::filesystem::directory_iterator itr;
-			// std::filesystem::path path;
-			// std::string const &ext;
-			// std::string const &name;
-				// Forge::Prefabs::PrefabHeader header;
 
 	std::filesystem::path p(PREFAB_DIR);
 	std::filesystem::directory_iterator end_itr;
@@ -483,14 +417,6 @@ bool CommandDumpPrefabs(std::vector<std::string> const &Arguments, std::string &
 bool CommandDeletePrefab(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10984310
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandDeletePrefab@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandDeletePrefab
-	// static ...; // 0x109844F4
-	// static ...; // 0x109844DC
-	// static ...; // 0x109844D4
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// std::filesystem::path p;
-	// std::filesystem::path prefabDirectory;
 
 	std::filesystem::path prefabDirectory(PREFAB_DIR);
 	std::filesystem::path p = (prefabDirectory / Arguments[0]).replace_extension(PREFAB_EXT);
@@ -506,13 +432,6 @@ bool CommandDeletePrefab(std::vector<std::string> const &Arguments, std::string 
 bool TryParseTagIndex(std::string const &str, unsigned __int32 *value) // 0x10985B00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?TryParseTagIndex@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAI@Z");
-	// `anonymous-namespace'::TryParseTagIndex
-	// static ...; // 0x10985BA0
-	// static ...; // 0x10985B98
-	// std::string const &str;
-	// unsigned __int32 *value;
-	// char const *c_str;
-	// char *endp;
 
 	if (str.length() == 0)
 		return false;
@@ -528,13 +447,6 @@ bool TryParseTagIndex(std::string const &str, unsigned __int32 *value) // 0x1098
 bool CommandSpawnItem(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10985940
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandSpawnItem@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandSpawnItem
-	// static ...; // 0x109859D8
-	// static ...; // 0x109859D0
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// Modules::ModuleForge &moduleForge;
-	// unsigned __int32 tagIndex;
 
 	uint32_t tagIndex;
 	if (Arguments.size() < 1 || !TryParseTagIndex(Arguments[0], &tagIndex)) {
@@ -550,13 +462,6 @@ bool CommandSpawnItem(std::vector<std::string> const &Arguments, std::string &re
 static bool TryParseInt(std::string const &str, __int32 *value) // 0x10985A20
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?TryParseInt@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAH@Z");
-	// `anonymous-namespace'::TryParseInt
-	// static ...; // 0x10985AC0
-	// static ...; // 0x10985AB8
-	// std::string const &str;
-	// __int32 *value;
-	// char const *c_str;
-	// char *endp;
 
 	if (str.length() == 0)
 		return false;
@@ -572,13 +477,6 @@ static bool TryParseInt(std::string const &str, __int32 *value) // 0x10985A20
 bool CommandPrematchCamera(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109853D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandPrematchCamera@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandPrematchCamera
-	// static ...; // 0x109854B0
-	// static ...; // 0x109854A8
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// Modules::ModuleForge &moduleForge;
-		// __int32 team;
 
 	Modules::ModuleForge &moduleForge = Modules::ModuleForge::Instance();
 	if (Arguments.size() < 1)
@@ -605,9 +503,6 @@ bool CommandPrematchCamera(std::vector<std::string> const &Arguments, std::strin
 bool CommandResetRuntime(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10985500
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandResetRuntime@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandResetRuntime
-	// std::string &returnInfo;
-	// Modules::ModuleForge &moduleForge;
 
 	Modules::ModuleForge &moduleForge = Modules::ModuleForge::Instance();
 
@@ -618,16 +513,6 @@ bool CommandResetRuntime(std::vector<std::string> const &Arguments, std::string 
 bool CommandForgeBudget(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10984D30
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandForgeBudget@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandForgeBudget
-	// static ...; // 0x10984EBF
-	// static ...; // 0x10984EB8
-	// static ...; // 0x10984E94
-	// static ...; // 0x10984E8C
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
-	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-	// Forge::ForgeObjectQuota const &quota;
 
 	const auto &quota = Forge::CalculateObjectQuota();
 
@@ -650,9 +535,6 @@ bool CommandForgeBudget(std::vector<std::string> const &Arguments, std::string &
 bool CommandMapOptions(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10985380
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandMapOptions@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandMapOptions
-	// std::string &returnInfo;
-	// Modules::ModuleForge &moduleForge;
 
 	Modules::ModuleForge &moduleForge = Modules::ModuleForge::Instance();
 
@@ -663,8 +545,6 @@ bool CommandMapOptions(std::vector<std::string> const &Arguments, std::string &r
 bool CommandForgeUndo(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10984FC0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandForgeUndo@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandForgeUndo
-	// std::string &returnInfo;
 
 	if (!CForgeUndoManager::Instance().CanUndo())
 	{
@@ -679,8 +559,6 @@ bool CommandForgeUndo(std::vector<std::string> const &Arguments, std::string &re
 bool CommandForgeRedo(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10984F40
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandForgeRedo@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandForgeRedo
-	// std::string &returnInfo;
 
 	if (!CForgeUndoManager::Instance().CanRedo())
 	{

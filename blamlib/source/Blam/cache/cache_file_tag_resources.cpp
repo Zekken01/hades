@@ -32,7 +32,6 @@ extern e_cache_file_tag_resource_location tag_resource_get_location(s_tag_resour
 e_cache_file_tag_resource_location tag_resource_get_location(s_tag_resource *resource) // 0x10F0C2E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?tag_resource_get_location@@YA?AW4e_cache_file_tag_resource_location@@PAUs_tag_resource@@@Z");
-	// s_tag_resource *resource;
 
 	if (resource->page_flags & 0x2)
 		return _cache_file_tag_resource_location_resources;

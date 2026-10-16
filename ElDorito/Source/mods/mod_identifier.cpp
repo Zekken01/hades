@@ -53,7 +53,6 @@ using namespace ::Utils;
 s_mod_package_id::s_mod_package_id(unsigned char const (&hash)[20]) : hash() /* hades-mem-init:  */ // 0x108539C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_mod_package_id@@QAE@AAY0BE@$$CBE@Z");
-	// unsigned char const (&hash)[20];
 
 	memcpy(this->hash, hash, sizeof(this->hash));
 }
@@ -61,11 +60,6 @@ s_mod_package_id::s_mod_package_id(unsigned char const (&hash)[20]) : hash() /* 
 std::string const s_mod_package_id::to_string() const // 0x10853BF0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?to_string@s_mod_package_id@@QBE?BV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-	// static ...; // 0x10853CDC
-	// static ...; // 0x10853CD0
-	// static ...; // 0x10853CC8
-	// s_mod_package_id const *const this;
-	// std::string result;
 
 	std::string result;
 	Utils::String::BytesToHexString(hash, sizeof(hash), result);
@@ -75,11 +69,6 @@ std::string const s_mod_package_id::to_string() const // 0x10853BF0
 s_mod_package_id s_mod_package_id::from_string(std::string const &str) // 0x10853B10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?from_string@s_mod_package_id@@SA?AU1@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-	// static ...; // 0x10853BB8
-	// static ...; // 0x10853BAC
-	// static ...; // 0x10853BA4
-	// std::string const &str;
-	// s_mod_package_id result;
 
 	s_mod_package_id result;
 	Utils::String::HexStringToBytes(str, result.hash, sizeof(result.hash));
@@ -89,7 +78,6 @@ s_mod_package_id s_mod_package_id::from_string(std::string const &str) // 0x1085
 bool s_mod_package_id::operator==(s_mod_package_id const &rhs) const // 0x10853A80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??8s_mod_package_id@@QBE_NABU0@@Z");
-	// s_mod_package_id const &rhs;
 
 	return memcmp(this, &rhs, 20) == 0;
 }

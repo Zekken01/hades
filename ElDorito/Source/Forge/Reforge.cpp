@@ -160,13 +160,6 @@ namespace Forge
 		void InitializeForNewMap() // 0x10865AD0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeForNewMap@Reforge@Forge@@YAXXZ");
-			// procedure flags: nofpo
-			// s_forge_globals_definition *forge_globals;
-				// c_tag_block<s_tag_reference> &<range>$L0;
-				// s_tag_reference *<begin>$L0;
-				// s_tag_reference *<end>$L0;
-					// s_tag_reference &reforgeObject;
-						// s_render_model *renderModel;
 
 			reforgeGlobals.ReforgeObjects.reset();
 			s_forge_globals_definition *forge_globals = forge_globals_get_definition();
@@ -188,8 +181,6 @@ namespace Forge
 		bool IsReforgeObject(long objectIndex) // 0x108660A0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?IsReforgeObject@Reforge@Forge@@YA_NJ@Z");
-			// long objectIndex;
-			// s_object_data *object;
 
 			s_object_data *object = object_get(objectIndex);
 			if (!object)
@@ -202,8 +193,6 @@ namespace Forge
 		bool IsForgeScenery(long objectIndex) // 0x10865CC0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?IsForgeScenery@Reforge@Forge@@YA_NJ@Z");
-			// long objectIndex;
-			// s_object_data *object;
 
 			s_object_data *object = object_get(objectIndex);
 			if (!object)
@@ -227,8 +216,6 @@ namespace Forge
 		Forge::ReforgeObjectProperties *GetReforgeObject(long objectIndex) // 0x108658A0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetReforgeObject@Reforge@Forge@@YAPAUReforgeObjectProperties@2@J@Z");
-			// long objectIndex;
-			// function call : s_multiplayer_object_properties *(*const)(unsigned long)
 
 			if (!Forge::Reforge::IsReforgeObject(objectIndex))
 			{
@@ -241,9 +228,6 @@ namespace Forge
 		bool IsMapModifierObject(long objectIndex) // 0x10865E90
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?IsMapModifierObject@Reforge@Forge@@YA_NJ@Z");
-			// long objectIndex;
-			// s_forge_globals_definition *forgeGlobals;
-			// s_object_data *object;
 
 			s_forge_globals_definition *forgeGlobals = forge_globals_get_definition();
 			if (!forgeGlobals)
@@ -257,9 +241,6 @@ namespace Forge
 		bool IsGarbageCollectionObject(long objectIndex) // 0x10865D30
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?IsGarbageCollectionObject@Reforge@Forge@@YA_NJ@Z");
-			// long objectIndex;
-			// s_forge_globals_definition *forgeGlobals;
-			// s_object_data *object;
 
 			s_forge_globals_definition *forgeGlobals = forge_globals_get_definition();
 			if (!forgeGlobals)
@@ -273,9 +254,6 @@ namespace Forge
 		bool IsKillVolumeObject(long objectIndex) // 0x10865DE0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?IsKillVolumeObject@Reforge@Forge@@YA_NJ@Z");
-			// long objectIndex;
-			// s_forge_globals_definition *forgeGlobals;
-			// s_object_data *object;
 
 			s_forge_globals_definition *forgeGlobals = forge_globals_get_definition();
 			if (!forgeGlobals)
@@ -289,9 +267,6 @@ namespace Forge
 		bool IsPrematchCameraObject(long objectIndex) // 0x10865FF0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?IsPrematchCameraObject@Reforge@Forge@@YA_NJ@Z");
-			// long objectIndex;
-			// s_forge_globals_definition *forgeGlobals;
-			// s_object_data *object;
 
 			s_forge_globals_definition *forgeGlobals = forge_globals_get_definition();
 			if (!forgeGlobals)
@@ -305,9 +280,6 @@ namespace Forge
 		bool IsPodiumPointObject(long objectIndex) // 0x10865F40
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?IsPodiumPointObject@Reforge@Forge@@YA_NJ@Z");
-			// long objectIndex;
-			// s_forge_globals_definition *forgeGlobals;
-			// s_object_data *object;
 
 			s_forge_globals_definition *forgeGlobals = forge_globals_get_definition();
 			if (!forgeGlobals)
@@ -321,10 +293,6 @@ namespace Forge
 		bool IsActiveTeamBarrierObject(long objectIndex) // 0x10865C00
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?IsActiveTeamBarrierObject@Reforge@Forge@@YA_NJ@Z");
-			// long objectIndex;
-			// s_multiplayer_object_properties *multiplayer_properties;
-			// Forge::ReforgeObjectProperties *reforge_properties;
-			// function call : s_multiplayer_object_properties *(*const)(unsigned long)
 
 			s_multiplayer_object_properties *multiplayer_properties = object_get_multiplayer(objectIndex);
 			if (!multiplayer_properties)
@@ -339,13 +307,6 @@ namespace Forge
 		bool TeamBarrierTestPlayer(long barrierObjectIndex, long playerIndex) // 0x10866110
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?TeamBarrierTestPlayer@Reforge@Forge@@YA_NJJ@Z");
-			// long playerIndex;
-			// s_multiplayer_object_properties *multiplayer_properties;
-			// long team_designator;
-			// Forge::ReforgeObjectProperties *reforge_properties;
-			// function call : bool (*const)()
-			// function call : s_multiplayer_object_properties *(*const)(unsigned long)
-			// function call : c_game_engine *(*const)()
 
 			if (!game_is_multiplayer())
 			{
@@ -384,10 +345,6 @@ namespace Forge
 		bool TeamBarrierTestUnit(long barrierObjectIndex, long unitIndex) // 0x10866280
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?TeamBarrierTestUnit@Reforge@Forge@@YA_NJJ@Z");
-			// long unitIndex;
-			// s_unit_data *unit;
-			// long player_index;
-			// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
 
 			s_unit_data *unit = (s_unit_data *)object_try_and_get_and_verify_type(unitIndex, 0x2003);
 
@@ -416,14 +373,6 @@ namespace Forge
 		bool ValidRenderMaterialIndex(long objectIndex, __int32 index) // 0x10866360
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ValidRenderMaterialIndex@Reforge@Forge@@YA_NJH@Z");
-			// __int32 index;
-			// s_object_data *object;
-			// s_model_definition *modelDef;
-			// s_object_definition *objectDef;
-			// s_render_model *renderModel;
-			// function call : void *(*const)(unsigned long, long)
-			// function call : void *(*const)(unsigned long, long)
-			// function call : void *(*const)(unsigned long, long)
 
 			s_object_data *object = object_get(objectIndex);
 
@@ -442,12 +391,6 @@ namespace Forge
 		short GetRenderMaterialOverride(long objectIndex, Forge::Reforge::SRenderMaterialParameters *parameters) // 0x10865930
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetRenderMaterialOverride@Reforge@Forge@@YAFJPAUSRenderMaterialParameters@12@@Z");
-			// Forge::Reforge::SRenderMaterialParameters *parameters;
-			// s_multiplayer_object_properties *multiplayerProperties;
-			// unsigned char material_index;
-				// Forge::ReforgeObjectProperties *reforgeProperties;
-				// float kByteToFixedFloat;
-			// function call : s_multiplayer_object_properties *(*const)(unsigned long)
 
 			if (!IsReforgeObject(objectIndex))
 				return -1;
@@ -483,12 +426,6 @@ namespace Forge
 		long get_controlling_unit(long unit_index) // 0x108666E0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?get_controlling_unit@Reforge@Forge@@YAJJ@Z");
-			// Forge::Reforge::get_controlling_unit
-			// long unit_index;
-			// long object_index;
-			// s_unit_data *root_unit;
-			// function call : long (*)(long)
-			// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
 
 			long object_index = ((long(__cdecl *)(long))0x58f590)(unit_index);
 
@@ -512,13 +449,6 @@ namespace Forge
 s_render_model *GeObjectRenderModel(long objectTagIndex) // 0x108657A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GeObjectRenderModel@@YAPAUs_render_model@@J@Z");
-	// `anonymous-namespace'::GeObjectRenderModel
-	// long objectTagIndex;
-	// s_object_definition *objectDef;
-	// s_model_definition *model;
-	// function call : void *(*const)(unsigned long, long)
-	// function call : void *(*const)(unsigned long, long)
-	// function call : void *(*const)(unsigned long, long)
 
 	s_object_definition *objectDef = (s_object_definition *)tag_get(0x6F626A65, objectTagIndex);
 

@@ -162,7 +162,6 @@ static_assert32(sizeof(ModCache) == 20, "Invalid ModCache size");
 Mod::Mod(Mod::IClient *client, EModIndex index, char const *filename) : m_error((EModResult)1), m_pakLoadEvent(false), m_cacheLoadEvent(false), m_cache(), m_index(index), m_client(client), m_cacheIndex(-1), m_filename(filename) /* hades-mem-init: : m_pakLoadEvent(todo_result<WaitEvent>()), m_cacheLoadEvent(todo_result<WaitEvent>()) */ // 0x1078B5A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0Mod@@QAE@PAVIClient@0@W4EModIndex@@PBD@Z");
-	// char const *filename;
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0ModCache@@QAE@XZ"); no body to assert in
@@ -173,7 +172,6 @@ Mod::Mod(Mod::IClient *client, EModIndex index, char const *filename) : m_error(
 Mod::~Mod() // 0x1078BD60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??1Mod@@UAE@XZ");
-	// Mod *const this;
 
 	Finish();
 }
@@ -181,7 +179,6 @@ Mod::~Mod() // 0x1078BD60
 void Mod::AddRef() // 0x1078C9E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?AddRef@Mod@@UAEXXZ");
-	// Mod *const this;
 
 	m_refCount++;
 }
@@ -189,8 +186,6 @@ void Mod::AddRef() // 0x1078C9E0
 void Mod::Release() // 0x1078D920
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Release@Mod@@UAEXXZ");
-	// Mod *const this;
-	// function call : void *(unsigned __int32)
 
 	if (m_refCount-- == 1)
 		delete this;
@@ -199,7 +194,6 @@ void Mod::Release() // 0x1078D920
 EModIndex Mod::GetIndex() const // 0x1078CE10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetIndex@Mod@@QBE?AW4EModIndex@@XZ");
-	// Mod const *const this;
 
 	return m_index;
 }
@@ -207,7 +201,6 @@ EModIndex Mod::GetIndex() const // 0x1078CE10
 __int32 Mod::GetCacheIndex() const // 0x1078CCD0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetCacheIndex@Mod@@QBEHXZ");
-	// Mod const *const this;
 
 	return m_cacheIndex;
 }
@@ -215,7 +208,6 @@ __int32 Mod::GetCacheIndex() const // 0x1078CCD0
 char const *Mod::GetFilename() const // 0x1078CDC0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetFilename@Mod@@UBEPBDXZ");
-	// Mod const *const this;
 
 	return m_filename.c_str();
 }
@@ -223,7 +215,6 @@ char const *Mod::GetFilename() const // 0x1078CDC0
 bool Mod::GetPakIsLoading() const // 0x1078CEC0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetPakIsLoading@Mod@@UBE_NXZ");
-	// Mod const *const this;
 
 	return !m_pakLoadEvent.Wait(0);
 }
@@ -231,7 +222,6 @@ bool Mod::GetPakIsLoading() const // 0x1078CEC0
 bool Mod::GetCacheIsLoading() const // 0x1078CD00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetCacheIsLoading@Mod@@UBE_NXZ");
-	// Mod const *const this;
 
 	return !m_cacheLoadEvent.Wait(0);
 }
@@ -239,7 +229,6 @@ bool Mod::GetCacheIsLoading() const // 0x1078CD00
 EModResult Mod::GetError() const // 0x1078CD90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetError@Mod@@UBE?AW4EModResult@@XZ");
-	// Mod const *const this;
 
 	return m_error;
 }
@@ -247,7 +236,6 @@ EModResult Mod::GetError() const // 0x1078CD90
 c_mod_package *Mod::GetPak(bool wait) const // 0x1078CE40
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetPak@Mod@@UBEPAVc_mod_package@@_N@Z");
-	// bool wait;
 
 	if (wait)
 	{
@@ -260,13 +248,13 @@ c_mod_package *Mod::GetPak(bool wait) const // 0x1078CE40
 std::shared_ptr<c_cache_file_interface> Mod::GetCache(bool wait) const // 0x1078CC20
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetCache@Mod@@UBE?AV?$shared_ptr@Uc_cache_file_interface@@@std@@_N@Z");
-	// bool wait;
 
 	if (wait)
 		m_cacheLoadEvent.Wait(-1);
 	return m_cache;
 }
 
+#line 270
 EModResult Mod::Load(bool async) // 0x1078CF50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Load@Mod@@QAE?AW4EModResult@@_N@Z");
@@ -292,7 +280,6 @@ EModResult Mod::Load(bool async) // 0x1078CF50
 EModResult Mod::LoadCache(__int32 cacheIndex, bool async) // 0x1078D130
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?LoadCache@Mod@@QAE?AW4EModResult@@H_N@Z");
-	// bool async;
 
 	if (m_cacheIndex == cacheIndex)
 		return m_error;
@@ -312,13 +299,6 @@ EModResult Mod::LoadCache(__int32 cacheIndex, bool async) // 0x1078D130
 EModResult Mod::LoadPakBlocking() // 0x1078D6C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?LoadPakBlocking@Mod@@AAE?AW4EModResult@@XZ");
-	// static ...; // 0x1078D8A0
-	// static ...; // 0x1078D89C
-	// static ...; // 0x1078D884
-	// static ...; // 0x1078D87C
-	// Mod *const this;
-	// c_mod_package::e_error err;
-	// std::unique_ptr<c_mod_package> pak;
 
 	auto pak = std::make_unique<c_mod_package>(m_filename.c_str());
 	c_mod_package::e_error err;
@@ -335,8 +315,6 @@ EModResult Mod::LoadPakBlocking() // 0x1078D6C0
 EModResult Mod::FinishLoadPak(EModResult error) // 0x1078CB60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?FinishLoadPak@Mod@@AAE?AW4EModResult@@W42@@Z");
-	// EModResult error;
-	// function call : void (Mod *)
 
 	m_error = error;
 	m_pakLoadEvent.Set();
@@ -352,8 +330,6 @@ EModResult Mod::FinishLoadPak(EModResult error) // 0x1078CB60
 EModResult Mod::FinishLoadCache(EModResult error) // 0x1078CAB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?FinishLoadCache@Mod@@AAE?AW4EModResult@@W42@@Z");
-	// EModResult error;
-	// function call : void (Mod *)
 
 	m_error = error;
 	m_cacheLoadEvent.Set();
@@ -366,15 +342,6 @@ EModResult Mod::FinishLoadCache(EModResult error) // 0x1078CAB0
 EModResult Mod::LoadCacheBlocking(__int32 cacheIndex) // 0x1078D2F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?LoadCacheBlocking@Mod@@AAE?AW4EModResult@@H@Z");
-	// static ...; // 0x1078D5EE
-	// static ...; // 0x1078D5E8
-	// static ...; // 0x1078D5C4
-	// static ...; // 0x1078D5BC
-	// Mod *const this;
-	// __int32 cacheIndex;
-	// c_file_reference file;
-	// std::shared_ptr<ModCache> cache;
-	// c_file_open_scope scope;
 
 	m_pakLoadEvent.Wait(4294967295);
 	auto cache = std::make_shared<ModCache>();
@@ -393,7 +360,6 @@ EModResult Mod::LoadCacheBlocking(__int32 cacheIndex) // 0x1078D2F0
 void Mod::Finish() // 0x1078CA40
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Finish@Mod@@QAEXXZ");
-	// Mod *const this;
 
 	m_cacheLoadEvent.Wait(4294967295);
 	m_loadThread.detach();

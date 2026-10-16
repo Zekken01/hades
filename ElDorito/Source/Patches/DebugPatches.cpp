@@ -316,7 +316,6 @@ namespace Patches
 		void OnMapLoaded(char const *mapPath) // 0x108C8D00
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?OnMapLoaded@Debug@Patches@@YAXPBD@Z");
-			// char const *mapPath;
 
 			CRenderDebugCollisionTest::ResetForNewMap();
 			Modules::ModuleDebug::Instance().VarCollisionTest->ValueInt = 0;
@@ -354,7 +353,6 @@ namespace Patches
 		void ApplyAll() // 0x108C76E0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Debug@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			Hook(0x2047E6, render_debug_frame_render, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x74E2D9, area_of_effect_cause_damage_objects_in_sphere_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
@@ -367,8 +365,6 @@ namespace Patches
 		void Tick() // 0x108C9470
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@Debug@Patches@@YAXXZ");
-			// procedure flags: nofpo
-			// function call : bool (*const)()
 
 			if (eldorado::game_in_progress())
 			{
@@ -379,7 +375,6 @@ namespace Patches
 		void RenderPlayerView() // 0x108C9370
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?RenderPlayerView@Debug@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			DisplayClusters();
 			render_debug_objects();
@@ -395,8 +390,6 @@ namespace Patches
 _inline void CRenderDebugCollisionTest::Update() // 0x108C94D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CRenderDebugCollisionTest@hades_file_local@@SAXXZ");
-	// `anonymous-namespace'::CRenderDebugCollisionTest::Update
-	// procedure flags: nofpo
 
 	if (!Modules::ModuleDebug::Instance().VarCollisionTest->ValueInt)
 	{
@@ -411,24 +404,6 @@ _inline void CRenderDebugCollisionTest::Update() // 0x108C94D0
 _inline void CRenderDebugCollisionTest::UpdateInternal() // 0x108C95C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateInternal@CRenderDebugCollisionTest@hades_file_local@@SAXXZ");
-	// `anonymous-namespace'::CRenderDebugCollisionTest::UpdateInternal
-	// procedure flags: nofpo
-	// static ...; // 0x108C98B3
-	// static ...; // 0x108C98AC
-	// static ...; // 0x108C98A5
-	// static ...; // 0x108C98A0
-	// static ...; // 0x108C9870
-	// static ...; // 0x108C9868
-	// s_unit_data *unit;
-	// real_point3d cameraPos;
-	// real_vector3d vector;
-	// s_collision_result result;
-	// long unitIndex;
-		// std::scoped_lock<std::mutex> lock;
-	// function call : unsigned long (*const)(long)
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : void (*const)(long, real_point3d *)
-	// function call : bool (*const)(unsigned long, unsigned long, real_point3d const &, real_vector3d const &, long, long, s_collision_result *)
 
 	static unsigned long (*const player_mapping_get_unit_by_output_user)(long) = reinterpret_cast<unsigned long (*)(long)>(0x589CC0);
 	static void (*const unit_get_camera_position)(long, real_point3d *) = reinterpret_cast<void (*)(long, real_point3d *)>(0xB439D0);
@@ -457,23 +432,6 @@ _inline void CRenderDebugCollisionTest::UpdateInternal() // 0x108C95C0
 _inline void CRenderDebugCollisionTest::Render() // 0x108C9010
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Render@CRenderDebugCollisionTest@hades_file_local@@SAXXZ");
-	// `anonymous-namespace'::CRenderDebugCollisionTest::Render
-	// procedure flags: nofpo
-	// static ...; // 0x108C92B6
-	// static ...; // 0x108C92B1
-	// static ...; // 0x108C92A5
-	// static ...; // 0x108C929E
-	// static ...; // 0x108C9298
-	// static ...; // 0x108C9290
-	// static ...; // 0x108C9248
-	// static ...; // 0x108C9240
-	// std::string description;
-	// short_rectangle2d bounds;
-	// c_rasterizer_draw_string drawstr;
-	// c_font_cache_mt_safe cache;
-	// s_collision_result result;
-		// std::scoped_lock<std::mutex> lock;
-	// function call : void (*const)(short_rectangle2d *, short_rectangle2d *, short_rectangle2d *, short_rectangle2d *)
 
 	static void (*const interface_get_current_display_settings)(short_rectangle2d *, short_rectangle2d *, short_rectangle2d *, short_rectangle2d *) = reinterpret_cast<void (*)(short_rectangle2d *, short_rectangle2d *, short_rectangle2d *, short_rectangle2d *)>(0xA9FAA0);
 	s_collision_result result;
@@ -500,56 +458,6 @@ _inline void CRenderDebugCollisionTest::Render() // 0x108C9010
 _inline std::string CRenderDebugCollisionTest::GetHitDescription(s_collision_result const &hit) // 0x108C7FA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetHitDescription@CRenderDebugCollisionTest@hades_file_local@@SA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABUs_collision_result@@@Z");
-	// `anonymous-namespace'::CRenderDebugCollisionTest::GetHitDescription
-	// static ...; // 0x108C8A44
-	// static ...; // 0x108C8A39
-	// static ...; // 0x108C8A2E
-	// static ...; // 0x108C8A20
-	// static ...; // 0x108C8A18
-	// static ...; // 0x108C8A15
-	// static ...; // 0x108C8A0D
-	// static ...; // 0x108C89F7
-	// static ...; // 0x108C89E4
-	// static ...; // 0x108C89DA
-	// static ...; // 0x108C89C5
-	// static ...; // 0x108C89C0
-	// static ...; // 0x108C8930
-	// static ...; // 0x108C8928
-	// s_collision_result const &hit;
-	// real_euler_angles3d object_angles;
-	// std::string sbspName;
-	// real_point3d cameraPos;
-	// long scnrIndex;
-	// long renderMaterialIndex;
-	// std::string collisionMaterialName;
-	// char info[8224];
-	// std::string renderMaterialName;
-	// long (*const find_render_method_index_from_collision)(long, __int32, long, long);
-	// std::string objectName;
-	// std::string hitType;
-	// s_scenario *scenario;
-	// char bspIndex;
-	// long mapvPlacementIndex;
-	// float distance;
-	// long unitIndex;
-	// std::string global_material_name;
-	// s_global_material_definition *(*const global_get_material)(short);
-	// real_point3d object_pos;
-		// s_object_data *object;
-			// real_vector3d forward;
-			// real_vector3d up;
-		// s_structure_collision_material *collisionMaterial;
-			// s_geometry_material *renderMaterial;
-		// s_global_material_definition *global_material;
-			// char *material_name;
-	// function call : void (*const)(long, real_point3d *)
-	// function call : void (*const)(long, real_vector3d *, real_vector3d *)
-	// function call : unsigned long (*const)(long)
-	// function call : void (*const)(long, real_point3d *)
-	// function call : s_scenario_structure_bsp *(*const)(long)
-	// function call : long (*const)(long, __int32, long, long)
-	// function call : s_scenario_structure_bsp *(*const)(long)
-	// function call : s_global_material_definition *(*const)(short)
 
 	long (*const find_render_method_index_from_collision)(long, __int32, long, long) = reinterpret_cast<long (*)(long, __int32, long, long)>(0x750810);
 	s_global_material_definition * (*const global_get_material)(short) = reinterpret_cast<s_global_material_definition * (*)(short)>(0x5CA640);
@@ -631,16 +539,6 @@ _inline std::string CRenderDebugCollisionTest::GetHitDescription(s_collision_res
 _inline std::string CRenderDebugCollisionTest::GetFriendlyTagName(long tagindex) // 0x108C7E20
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetFriendlyTagName@CRenderDebugCollisionTest@hades_file_local@@SA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@J@Z");
-	// `anonymous-namespace'::CRenderDebugCollisionTest::GetFriendlyTagName
-	// static ...; // 0x108C7F3D
-	// static ...; // 0x108C7F38
-	// static ...; // 0x108C7F20
-	// static ...; // 0x108C7F18
-	// long tagindex;
-	// char groupAscii[5];
-	// char buff[256];
-	// unsigned long group;
-	// char const *name;
 
 	if (tagindex == -1)
 	{
@@ -659,12 +557,6 @@ _inline std::string CRenderDebugCollisionTest::GetFriendlyTagName(long tagindex)
 _inline void CRenderDebugCollisionTest::ResetForNewMap() // 0x108C93D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ResetForNewMap@CRenderDebugCollisionTest@hades_file_local@@SAXXZ");
-	// `anonymous-namespace'::CRenderDebugCollisionTest::ResetForNewMap
-	// procedure flags: nofpo
-	// static ...; // 0x108C9440
-	// static ...; // 0x108C9434
-	// static ...; // 0x108C942C
-	// std::scoped_lock<std::mutex> lock;
 
 	std::scoped_lock<std::mutex> lock(m_mutex);
 
@@ -674,19 +566,6 @@ _inline void CRenderDebugCollisionTest::ResetForNewMap() // 0x108C93D0
 void DisplayClusters() // 0x108C7C00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DisplayClusters@@YAXXZ");
-	// `anonymous-namespace'::DisplayClusters
-	// procedure flags: nofpo
-	// static ...; // 0x108C7DA0
-	// static ...; // 0x108C7D94
-	// static ...; // 0x108C7D8C
-	// s_observer_result *camera;
-	// s_cluster_reference cluster;
-	// void (*const scenario_location_from_point)(s_cluster_reference *, real_point3d *);
-		// s_scenario_structure_bsp *sbsp;
-			// __int32 i;
-	// function call : s_observer_result *(*const)(long)
-	// function call : void (*const)(s_cluster_reference *, real_point3d *)
-	// function call : s_scenario_structure_bsp *(*const)(long)
 
 	if (!Utils::Singleton<Modules::ModuleDebug>::Instance().VarClusters->ValueInt)
 		return;
@@ -708,35 +587,6 @@ void DisplayClusters() // 0x108C7C00
 void render_d3d_resource_tracker() // 0x108CAE30
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?render_d3d_resource_tracker@@YAXXZ");
-	// `anonymous-namespace'::render_d3d_resource_tracker
-	// procedure flags: nofpo
-	// static ...; // 0x108CB170
-	// static ...; // 0x108CB161
-	// static ...; // 0x108CB152
-	// static ...; // 0x108CB144
-	// static ...; // 0x108CB13B
-	// static ...; // 0x108CB132
-	// static ...; // 0x108CB11E
-	// static ...; // 0x108CB119
-	// static ...; // 0x108CB112
-	// static ...; // 0x108CB10C
-	// static ...; // 0x108CB104
-	// static ...; // 0x108CB080
-	// static ...; // 0x108CB078
-		// long vertex_buffers;
-		// long pixel_shaders;
-		// long vertex_shaders;
-		// long vertex_declarations;
-		// char buff[256];
-		// short_rectangle2d bounds;
-		// c_rasterizer_draw_string drawstr;
-		// long released_index_buffers;
-		// c_font_cache_mt_safe cache;
-		// long surfaces;
-		// long index_buffers;
-		// long textures;
-		// long index_buffer_ptr;
-	// function call : void (*const)(short_rectangle2d *, short_rectangle2d *, short_rectangle2d *, short_rectangle2d *)
 
 	static void (*const interface_get_current_display_settings)(short_rectangle2d *, short_rectangle2d *, short_rectangle2d *, short_rectangle2d *) = reinterpret_cast<void (*)(short_rectangle2d *, short_rectangle2d *, short_rectangle2d *, short_rectangle2d *)>(0xA9FAA0);
 	if (Utils::Singleton<Modules::ModuleDebug>::Instance().VarD3DResources->ValueInt)
@@ -770,27 +620,6 @@ void render_d3d_resource_tracker() // 0x108CAE30
 void render_debug_physics_model(s_physics_model_instance const *instance, real_argb_color const *color) // 0x108CCC50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_physics_model@@YAXPBUs_physics_model_instance@@PBUreal_argb_color@@@Z");
-	// `anonymous-namespace'::render_debug_physics_model
-	// static ...; // 0x108CCF18
-	// static ...; // 0x108CCF10
-	// s_physics_model_instance const *instance;
-	// real_argb_color const *color;
-	// s_object_data *object;
-	// s_object_definition *object_def;
-		// long runtime_region_index;
-			// char runtime_permutation_index;
-			// s_model_permutation *runtime_permutation;
-			// s_model_region *runtime_region;
-			// s_physics_model_permutation *physics_model_permutation;
-			// s_physics_model_region *physics_model_region;
-				// c_tag_block<short> &<range>$L0;
-				// short *<begin>$L0;
-				// short *<end>$L0;
-					// long rigid_body_index;
-						// real_matrix4x3 const *node_matrix;
-						// real_point3d center_of_mass;
-						// s_physics_model_rigid_body *rigid_body;
-	// function call : void *(*const)(unsigned long, long)
 
 	s_object_data *object = object_get(instance->object_index);
 	s_object_definition *object_def = (s_object_definition *)tag_get('obje', object->definition_index);
@@ -824,15 +653,6 @@ void render_debug_physics_model(s_physics_model_instance const *instance, real_a
 void render_debug_collision_edge(collision_bsp const *bsp, long index, real_matrix4x3 const *matrix, long color) // 0x108CB2E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_collision_edge@@YAXPBUcollision_bsp@@JPBUreal_matrix4x3@@J@Z");
-	// `anonymous-namespace'::render_debug_collision_edge
-	// static ...; // 0x108CB3F4
-	// collision_bsp const *bsp;
-	// long index;
-	// real_matrix4x3 const *matrix;
-	// long color;
-	// real_point3d p2;
-	// real_point3d p1;
-	// collision_edge const &edge;
 
 	collision_edge const &edge = bsp->edges[index];
 	real_point3d p1 = bsp->vertices[edge.start_vertex].position;
@@ -850,15 +670,6 @@ void render_debug_collision_edge(collision_bsp const *bsp, long index, real_matr
 void render_debug_large_collision_edge(s_large_collision_bsp const *bsp, long index, real_matrix4x3 const *matrix, long color) // 0x108CBF90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_large_collision_edge@@YAXPBUs_large_collision_bsp@@JPBUreal_matrix4x3@@J@Z");
-	// `anonymous-namespace'::render_debug_large_collision_edge
-	// static ...; // 0x108CC0A4
-	// s_large_collision_bsp const *bsp;
-	// long index;
-	// real_matrix4x3 const *matrix;
-	// long color;
-	// real_point3d p2;
-	// real_point3d p1;
-	// s_large_collision_edge const &edge;
 
 	s_large_collision_edge const &edge = bsp->edges[index];
 	real_point3d p1 = bsp->vertices[edge.start_vertex].position;
@@ -876,9 +687,6 @@ void render_debug_large_collision_edge(s_large_collision_bsp const *bsp, long in
 void render_debug_collision_bsp(collision_bsp const *bsp, real_matrix4x3 const *matrix, unsigned long color) // 0x108CB260
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_collision_bsp@@YAXPBUcollision_bsp@@PBUreal_matrix4x3@@K@Z");
-	// `anonymous-namespace'::render_debug_collision_bsp
-	// unsigned long color;
-		// long i;
 
 	long i;
 
@@ -891,9 +699,6 @@ void render_debug_collision_bsp(collision_bsp const *bsp, real_matrix4x3 const *
 void render_debug_large_collision_bsp(s_large_collision_bsp const *bsp, real_matrix4x3 const *matrix, unsigned long color) // 0x108CBF10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_large_collision_bsp@@YAXPBUs_large_collision_bsp@@PBUreal_matrix4x3@@K@Z");
-	// `anonymous-namespace'::render_debug_large_collision_bsp
-	// unsigned long color;
-		// long i;
 
 	long i;
 
@@ -906,15 +711,6 @@ void render_debug_large_collision_bsp(s_large_collision_bsp const *bsp, real_mat
 void render_debug_collision_model(collision_model_instance const *instance) // 0x108CB470
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_collision_model@@YAXPBUcollision_model_instance@@@Z");
-	// `anonymous-namespace'::render_debug_collision_model
-	// static ...; // 0x108CB550
-	// static ...; // 0x108CB544
-	// static ...; // 0x108CB53C
-	// collision_model_instance const *instance;
-	// s_collision_model_bsp_iterator iterator;
-		// unsigned char node_index;
-	// function call : void (*const)(s_collision_model_bsp_iterator *, model_definition const *, collision_model_definition const *, unsigned char const *)
-	// function call : bool (*const)(s_collision_model_bsp_iterator *)
 
 	s_collision_model_bsp_iterator iterator;
 	eldorado::collision_model_bsp_iterator_new(&iterator, instance->model, instance->collision_model, instance->permutations);
@@ -928,32 +724,6 @@ void render_debug_collision_model(collision_model_instance const *instance) // 0
 void render_debug_object_markers(long object_index) // 0x108CC380
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_object_markers@@YAXJ@Z");
-	// `anonymous-namespace'::render_debug_object_markers
-	// static ...; // 0x108CC9C0
-	// static ...; // 0x108CC9B4
-	// static ...; // 0x108CC9AC
-	// long object_index;
-	// s_object_data *object;
-	// std::string const &groupFilter;
-	// s_object_marker markers[64];
-	// s_object_definition *object_def;
-	// s_model_definition *model;
-	// s_render_model *render_model;
-		// long i;
-			// unsigned long color;
-			// float r;
-			// float g;
-			// s_render_model_marker_group &marker_group;
-			// float b;
-			// char *group_name;
-			// short marker_count;
-			// float theta;
-				// __int32 j;
-	// function call : void *(*const)(unsigned long, long)
-	// function call : void *(*const)(unsigned long, long)
-	// function call : void *(*const)(unsigned long, long)
-	// function call : unsigned long (*const)(real_argb_color const &)
-	// function call : short (*const)(long, unsigned long, s_object_marker *, short)
 
 	s_object_data *object = object_get(object_index);
 	if (!object)
@@ -993,23 +763,6 @@ void render_debug_object_markers(long object_index) // 0x108CC380
 void render_debug_object(long object_index) // 0x108CC120
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_object@@YAXJ@Z");
-	// `anonymous-namespace'::render_debug_object
-	// static ...; // 0x108CC2F4
-	// static ...; // 0x108CC2EB
-	// static ...; // 0x108CC2E2
-	// static ...; // 0x108CC2DC
-	// static ...; // 0x108CC2AC
-	// static ...; // 0x108CC2A4
-	// long object_index;
-	// real_point3d position;
-	// Modules::ModuleDebug const &moduleDebug;
-	// c_player_view *view;
-		// collision_model_instance instance;
-		// s_physics_model_instance instance;
-			// real_argb_color color;
-	// function call : void (*const)(long, real_point3d *)
-	// function call : bool (*const)(collision_model_instance *, long)
-	// function call : bool (*const)(s_physics_model_instance *, long)
 
 	static void (*const object_get_origin)(long, real_point3d *) = reinterpret_cast<void (*)(long, real_point3d *)>(0xB2E5A0);
 	static bool (*const collision_model_instance_new)(collision_model_instance *, long) = reinterpret_cast<bool (*)(collision_model_instance *, long)>(0x980E40);
@@ -1042,13 +795,6 @@ void render_debug_object(long object_index) // 0x108CC120
 void render_debug_objects() // 0x108CCB60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_objects@@YAXXZ");
-	// `anonymous-namespace'::render_debug_objects
-	// procedure flags: nofpo
-	// short starting_index;
-	// s_visible_items *visible_items;
-		// __int32 i;
-			// s_visible_object_hierarchy &object_hierarchy;
-				// __int32 j;
 
 	s_visible_items &visible_items = c_visible_items::get_global_items();
 	short marker = *(short *)&c_visible_items::get_current_markers();
@@ -1069,8 +815,6 @@ void render_debug_objects() // 0x108CCB60
 void render_debug_frame_render() // 0x108CBEB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_frame_render@@YAXXZ");
-	// `anonymous-namespace'::render_debug_frame_render
-	// procedure flags: nofpo
 
 	CRenderDebugCollisionTest::Render();
 	render_d3d_resource_tracker();
@@ -1082,25 +826,6 @@ void render_debug_frame_render() // 0x108CBEB0
 void render_debug_damage_submit(s_damage_data const *data, float radius) // 0x108CB5A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_damage_submit@@YAXPBUs_damage_data@@M@Z");
-	// `anonymous-namespace'::render_debug_damage_submit
-	// static ...; // 0x108CBCD0
-	// static ...; // 0x108CBCC8
-	// s_damage_data const *data;
-	// float radius;
-	// __int32 const color_emp_radius;
-	// float line_height;
-	// CDebugDraw dd;
-	// __int32 const color_aoe_radius;
-	// float x;
-	// s_damage_effect_definition *damage_effect;
-	// __int32 const color_effect_radius_lower;
-	// float y;
-	// __int32 const color_direction_vector;
-	// __int32 const color_core_radius;
-	// __int32 const color_spike_radius;
-	// __int32 const color_effect_radius_upper;
-	// __int32 const color_shake_radius;
-	// function call : void *(*const)(unsigned long, long)
 
 	__int32 const color_aoe_radius = 0xFFFFFF00;
 	__int32 const color_direction_vector = 0xFFFF0000;
@@ -1142,11 +867,6 @@ void render_debug_damage_submit(s_damage_data const *data, float radius) // 0x10
 short area_of_effect_cause_damage_objects_in_sphere_hook(long flags, long object_mask, s_cluster_reference *cluster, real_point3d const *center, float radius, long *objects, short max_objects) // 0x108C9980
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?area_of_effect_cause_damage_objects_in_sphere_hook@@YAFJJPAUs_cluster_reference@@PBUreal_point3d@@MPAJF@Z");
-	// `anonymous-namespace'::area_of_effect_cause_damage_objects_in_sphere_hook
-	// short max_objects;
-	// short num_objects;
-		// s_damage_data *damage_data;
-	// function call : short (*const)(long, long, s_cluster_reference const *, real_point3d const *, float, long *, short)
 
 	short num_objects = eldorado::objects_in_sphere(flags, object_mask, cluster, center, radius, objects, max_objects);
 	if (Modules::ModuleDebug::Instance().VarDamageAoe->ValueInt)
@@ -1160,22 +880,6 @@ short area_of_effect_cause_damage_objects_in_sphere_hook(long flags, long object
 void render_debug_trigger_volume(s_scenario_trigger_volume *volume, long color) // 0x108CD2F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_trigger_volume@@YAXPAUs_scenario_trigger_volume@@J@Z");
-	// `anonymous-namespace'::render_debug_trigger_volume
-	// static ...; // 0x108CD607
-	// static ...; // 0x108CD600
-	// static ...; // 0x108CD5DC
-	// static ...; // 0x108CD5D4
-	// s_scenario_trigger_volume *volume;
-	// long color;
-	// bool (*const visibility_test_sphere)(real_point3d *, float);
-	// real_rectangle3d bounds;
-	// void (*const trigger_volume_get_matrix)(s_scenario_trigger_volume *, real_matrix4x3 *);
-	// float enclosing_radius;
-	// real_matrix4x3 matrix;
-	// real_point3d center;
-	// char const *name;
-	// function call : void (*const)(s_scenario_trigger_volume *, real_matrix4x3 *)
-	// function call : bool (*const)(real_point3d *, float)
 
 	void (*const trigger_volume_get_matrix)(s_scenario_trigger_volume *, real_matrix4x3 *) = reinterpret_cast<void (*)(s_scenario_trigger_volume *, real_matrix4x3 *)>(0x5FACC0);
 	bool (*const visibility_test_sphere)(real_point3d *, float) = reinterpret_cast<bool (*)(real_point3d *, float)>(0xA7BDA0);
@@ -1204,19 +908,6 @@ void render_debug_trigger_volume(s_scenario_trigger_volume *volume, long color) 
 void render_debug_trigger_volumes() // 0x108CD6E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_trigger_volumes@@YAXXZ");
-	// `anonymous-namespace'::render_debug_trigger_volumes
-	// procedure flags: nofpo
-	// static ...; // 0x108CDAB4
-	// static ...; // 0x108CDAAE
-	// static ...; // 0x108CDAA8
-	// static ...; // 0x108CDAA2
-	// static ...; // 0x108CDAA0
-	// static ...; // 0x108CDA64
-	// static ...; // 0x108CDA5C
-	// std::vector<short> usedIndices;
-	// s_scenario *scenario;
-		// long i;
-			// short index;
 
 	if (!Utils::Singleton<Modules::ModuleDebug>::Instance().VarTriggerVolumes->ValueInt)
 		return;
@@ -1259,23 +950,6 @@ void render_debug_trigger_volumes() // 0x108CD6E0
 void render_debug_structure_bsp(long bsp_index) // 0x108CD090
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_structure_bsp@@YAXJ@Z");
-	// `anonymous-namespace'::render_debug_structure_bsp
-	// long bsp_index;
-	// s_scenario_structure_bsp *structure_bsp;
-	// s_structure_bsp_resources *bsp_resources;
-		// c_tag_block<collision_bsp> &<range>$L0;
-		// collision_bsp *<begin>$L0;
-		// collision_bsp *<end>$L0;
-			// collision_bsp const &bsp;
-		// s_large_collision_bsp *<end>$L1;
-		// s_large_collision_bsp *<begin>$L1;
-		// c_tag_block<s_large_collision_bsp> &<range>$L1;
-			// s_large_collision_bsp const &bsp;
-		// long i;
-			// s_structure_instanced_geometry_instance *const instance;
-			// s_structure_instanced_geometry_definition *const definition;
-	// function call : s_scenario_structure_bsp *(*const)(long)
-	// function call : void *(*const)(void *)
 
 	s_scenario_structure_bsp *structure_bsp = global_structure_bsp_get(bsp_index);
 	s_structure_bsp_resources *bsp_resources = ((s_structure_bsp_resources *(*)(void *))0x563E10)(&structure_bsp->collision_bsp_resource);
@@ -1301,11 +975,6 @@ void render_debug_structure_bsp(long bsp_index) // 0x108CD090
 void render_debug_structure() // 0x108CCFF0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_structure@@YAXXZ");
-	// `anonymous-namespace'::render_debug_structure
-	// procedure flags: nofpo
-	// long bsp_index;
-	// function call : long (*const)()
-	// function call : long (*const)(long)
 
 	long bsp_index = global_structure_bsp_first_active_index_get();
 	while (bsp_index != -1)
@@ -1318,19 +987,6 @@ void render_debug_structure() // 0x108CCFF0
 void draw_assassination_capsule(char const *key, hkpCapsuleShape const *shape, real_matrix4x3 const *transform, long color) // 0x108C9EF0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?draw_assassination_capsule@@YAXPBDPBUhkpCapsuleShape@@PBUreal_matrix4x3@@J@Z");
-	// `anonymous-namespace'::draw_assassination_capsule
-	// static ...; // 0x108CA09C
-	// static ...; // 0x108CA06C
-	// static ...; // 0x108CA064
-	// char const *key;
-	// hkpCapsuleShape const *shape;
-	// real_matrix4x3 const *transform;
-	// long color;
-	// CDebugDraw draw;
-	// real_point3d vertex_b;
-	// real_point3d vertex_a;
-	// float radius;
-	// real_matrix4x3 matrix_copy;
 
 	#line 745 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Patches\\DebugPatches.cpp"
 		CDebugDraw draw(std::source_location::
@@ -1354,10 +1010,6 @@ void draw_assassination_capsule(char const *key, hkpCapsuleShape const *shape, r
 bool havok_world_shape_collides_hook_initiator(hkpShape const *shape, long unknown, real_matrix4x3 const *transform, long havok_group) // 0x108CAC70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?havok_world_shape_collides_hook_initiator@@YA_NPBUhkpShape@@JPBUreal_matrix4x3@@J@Z");
-	// `anonymous-namespace'::havok_world_shape_collides_hook_initiator
-	// long havok_group;
-	// bool (*havok_world_shape_collides)(hkpShape const *, long, real_matrix4x3 const *, long);
-	// function call : bool (*)(hkpShape const *, long, real_matrix4x3 const *, long)
 
 	bool (*havok_world_shape_collides)(hkpShape const *, long, real_matrix4x3 const *, long) = (bool (*)(hkpShape const *, long, real_matrix4x3 const *, long))0x5c8010;
 	if (Modules::ModuleDebug::Instance().VarAnimationPhoneboothTestDraw->ValueInt >= 1 && shape->m_type == 7)
@@ -1371,10 +1023,6 @@ bool havok_world_shape_collides_hook_initiator(hkpShape const *shape, long unkno
 bool havok_world_shape_collides_hook_target(hkpShape const *shape, long unknown, real_matrix4x3 const *transform, long havok_group) // 0x108CAD50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?havok_world_shape_collides_hook_target@@YA_NPBUhkpShape@@JPBUreal_matrix4x3@@J@Z");
-	// `anonymous-namespace'::havok_world_shape_collides_hook_target
-	// long havok_group;
-	// bool (*havok_world_shape_collides)(hkpShape const *, long, real_matrix4x3 const *, long);
-	// function call : bool (*)(hkpShape const *, long, real_matrix4x3 const *, long)
 
 	bool (*havok_world_shape_collides)(hkpShape const *, long, real_matrix4x3 const *, long) = (bool (*)(hkpShape const *, long, real_matrix4x3 const *, long))0x5c8010;
 	if (Modules::ModuleDebug::Instance().VarAnimationPhoneboothTestDraw->ValueInt >= 1 && shape->m_type == 7)
@@ -1388,25 +1036,6 @@ bool havok_world_shape_collides_hook_target(hkpShape const *shape, long unknown,
 bool assassination_sync_action_point_on_slope_or_falls_hook(long object_index, float height_standing, float physics_radius, real_point3d const *action_point, bool allow_success, float *out_slope_offset) // 0x108C9A50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?assassination_sync_action_point_on_slope_or_falls_hook@@YA_NJMMPBUreal_point3d@@_NPAM@Z");
-	// `anonymous-namespace'::assassination_sync_action_point_on_slope_or_falls_hook
-	// static ...; // 0x108C9D08
-	// static ...; // 0x108C9D00
-	// long object_index;
-	// float height_standing;
-	// float physics_radius;
-	// real_point3d const *action_point;
-	// bool allow_success;
-	// float *out_slope_offset;
-	// real_point3d top_point;
-	// float end_point_offset;
-	// bool (*collision_test_line)(long long, bool, real_point3d *, real_point3d *, __int32, __int32, __int32, s_collision_result *);
-	// s_collision_result collision_result;
-	// float v30;
-	// real_point3d end_point;
-	// static long `assassination_sync_action_point_on_slope_or_falls_hook'::`2'::assassination_point_counter; // 0x12408318
-		// real_point3d world_collision_point;
-		// CDebugDraw draw;
-	// function call : bool (*)(long long, bool, real_point3d *, real_point3d *, __int32, __int32, __int32, s_collision_result *)
 
 	static long assassination_point_counter = 0;
 	bool (*collision_test_line)(long long, bool, real_point3d *, real_point3d *, __int32, __int32, __int32, s_collision_result *) = reinterpret_cast<bool (*)(long long, bool, real_point3d *, real_point3d *, __int32, __int32, __int32, s_collision_result *)>(0x6D67E0);

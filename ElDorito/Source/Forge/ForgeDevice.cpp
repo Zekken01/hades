@@ -97,10 +97,6 @@ using namespace hades_file_local;
 void CForgeDeviceManager::InitializeForNewMap() // 0x10860FE0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeForNewMap@CForgeDeviceManager@@EAEXXZ");
-	// CForgeDeviceManager *const this;
-		// __int32 i;
-			// SDeviceChannel &channel;
-	// function call : c_game_engine *(*const)()
 
 	if (!((c_game_engine *(__cdecl *)())0x5CE150)())
 		return;
@@ -115,15 +111,6 @@ void CForgeDeviceManager::InitializeForNewMap() // 0x10860FE0
 void CForgeDeviceManager::Update() // 0x10861180
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CForgeDeviceManager@@EAEXXZ");
-	// static ...; // 0x108612C4
-	// static ...; // 0x108612B8
-	// static ...; // 0x108612B0
-	// CForgeDeviceManager *const this;
-	// bool (*const game_engine_in_round)();
-		// c_data_array<s_object_header> *objectHeaders;
-			// c_data_iterator<s_object_header> it;
-	// function call : c_game_engine *(*const)()
-	// function call : bool (*const)()
 
 	if (!((c_game_engine *(__cdecl *)())0x5CE150)())
 		return;
@@ -150,8 +137,6 @@ void CForgeDeviceManager::Update() // 0x10861180
 void CForgeDeviceManager::InitializeDeviceObject(long objectIndex) // 0x10860F50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeDeviceObject@CForgeDeviceManager@@QAEXJ@Z");
-	// long objectIndex;
-	// s_device_data *device;
 
 	UpdateDevice(objectIndex);
 
@@ -168,11 +153,6 @@ void CForgeDeviceManager::InitializeDeviceObject(long objectIndex) // 0x10860F50
 bool CForgeDeviceManager::IsForgeDevice(long objectIndex) // 0x108610C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?IsForgeDevice@CForgeDeviceManager@@QAE_NJ@Z");
-	// long objectIndex;
-	// s_device_data *device;
-	// s_multiplayer_object_properties *multiplayerProperties;
-	// unsigned char channelIndex;
-	// function call : s_multiplayer_object_properties *(*const)(unsigned long)
 
 	s_object_data *object = object_get(objectIndex);
 
@@ -200,10 +180,6 @@ bool CForgeDeviceManager::IsForgeDevice(long objectIndex) // 0x108610C0
 EForgeDeviceType CForgeDeviceManager::GetDeviceType(long objectIndex) // 0x10860DD0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetDeviceType@CForgeDeviceManager@@QAE?AW4EForgeDeviceType@@J@Z");
-	// long objectIndex;
-	// s_device_data *device;
-		// s_machine_definition *machineDef;
-	// function call : void *(*const)(unsigned long, long)
 
 	s_device_data *device = (s_device_data *)object_get(objectIndex);
 	if (device)
@@ -232,27 +208,6 @@ EForgeDeviceType CForgeDeviceManager::GetDeviceType(long objectIndex) // 0x10860
 void UpdateDevice(unsigned long objectIndex) // 0x10861320
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateDevice@@YAXK@Z");
-	// `anonymous-namespace'::UpdateDevice
-	// static ...; // 0x1086165B
-	// static ...; // 0x1086164C
-	// static ...; // 0x10861634
-	// static ...; // 0x1086162C
-	// unsigned long objectIndex;
-	// void (*const simulation_action_object_update)(long, unsigned long long *);
-	// s_device_data *device;
-	// s_multiplayer_object_properties *multiplayerProperties;
-	// unsigned char channelIndex;
-	// SDeviceChannel *channel;
-		// s_device_group_datum *powerGroup;
-		// s_device_group_datum *positionGroup;
-		// CForgeDeviceObjectProperties *deviceProperties;
-		// unsigned long *machine_flags;
-		// unsigned long long component_mask;
-	// function call : s_multiplayer_object_properties *(*const)(unsigned long)
-	// function call : bool (*const)(long, unsigned long)
-	// function call : bool (*const)(long, unsigned long)
-	// function call : void (*const)(long, unsigned long long *)
-	// function call : void (*const)(long, unsigned long long *)
 
 	void (*const simulation_action_object_update)(long, unsigned long long *) = reinterpret_cast<void (*)(long, unsigned long long *)>(0x4B3010);
 	s_device_data *device = (s_device_data *)object_get(objectIndex);

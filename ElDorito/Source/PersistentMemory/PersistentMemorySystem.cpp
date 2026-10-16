@@ -164,37 +164,6 @@ namespace PersistentMemory
 	PersistentMemory::SPersistentMemoryDB LoadPersistentMemory(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &value) // 0x106B58F0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?LoadPersistentMemory@PersistentMemory@@YA?AUSPersistentMemoryDB@1@AAV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@@Z");
-		// static ...; // 0x106B5E6B
-		// static ...; // 0x106B5E67
-		// static ...; // 0x106B5E63
-		// static ...; // 0x106B5E5E
-		// static ...; // 0x106B5E59
-		// static ...; // 0x106B5E54
-		// static ...; // 0x106B5E4F
-		// static ...; // 0x106B5E4A
-		// static ...; // 0x106B5E45
-		// static ...; // 0x106B5E40
-		// static ...; // 0x106B5E3B
-		// static ...; // 0x106B5E30
-		// static ...; // 0x106B5DA0
-		// static ...; // 0x106B5D98
-		// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &value;
-		// PersistentMemory::SPersistentMemoryDB persistentMemory;
-			// char const *const &lastAnnoucementViewedDate;
-			// __int32 const &lastMapID;
-			// char const *const &lastMapName;
-			// char const *const &lastGameType;
-			// char const *const &lastMultiplayerMod;
-			// char const *const &lastCampaignMod;
-			// char const *const &lastFirefightMod;
-			// rapidjson::GenericArray<0,rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > > const &mutedVoipPlayers;
-				// rapidjson::GenericArray<0,rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > > const &<range>$L0;
-				// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > *<begin>$L0;
-				// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > *<end>$L0;
-					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &player;
-						// char const *const &uid;
-						// PersistentMemory::SPersistentMemoryDB::SPersistantMute new_player;
-						// char const *const &name;
 
 		PersistentMemory::SPersistentMemoryDB persistentMemory;
 		if (value.HasMember("lastAnnoucementViewedDate"))
@@ -263,15 +232,6 @@ namespace PersistentMemory
 	bool Load(std::string const &filename) // 0x106B5600
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Load@PersistentMemory@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// static ...; // 0x106B5850
-		// static ...; // 0x106B584C
-		// static ...; // 0x106B5848
-		// static ...; // 0x106B5824
-		// static ...; // 0x106B581C
-		// std::string const &filename;
-		// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> doc;
-		// std::ifstream stream;
-		// rapidjson::BasicIStreamWrapper<std::istream > isw;
 
 		persistentMemoryPath = filename;
 		std::ifstream stream(std::filesystem::absolute(filename));
@@ -302,19 +262,6 @@ namespace PersistentMemory
 	void Save() // 0x106B75E0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Save@PersistentMemory@@YAXXZ");
-		// procedure flags: nofpo
-		// static ...; // 0x106B7963
-		// static ...; // 0x106B795F
-		// static ...; // 0x106B7958
-		// static ...; // 0x106B7934
-		// static ...; // 0x106B792C
-		// rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::ostream >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-		// std::ofstream stream;
-		// rapidjson::BasicOStreamWrapper<std::ostream > isw;
-			// std::vector<PersistentMemory::SPersistentMemoryDB::SPersistantMute> &<range>$L0;
-			// PersistentMemory::SPersistentMemoryDB::SPersistantMute *<begin>$L0;
-			// PersistentMemory::SPersistentMemoryDB::SPersistantMute *<end>$L0;
-				// PersistentMemory::SPersistentMemoryDB::SPersistantMute const &player;
 
 		std::ofstream stream(std::filesystem::absolute(persistentMemoryPath), std::ios::out);
 		rapidjson::OStreamWrapper isw(stream);
@@ -352,13 +299,6 @@ namespace PersistentMemory
 	void Init() // 0x106B4BC0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Init@PersistentMemory@@YAXXZ");
-		// procedure flags: nofpo
-		// static ...; // 0x106B4E53
-		// static ...; // 0x106B4E50
-		// static ...; // 0x106B4E38
-		// static ...; // 0x106B4E30
-		// std::string prefsName;
-			// std::stringstream ss;
 
 		if (Utils::Singleton<ElDorito>::Instance().IsDedicated())
 			return;
@@ -379,7 +319,6 @@ namespace PersistentMemory
 	std::string GetLastAnnoucementViewedDate() // 0x106B4570
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetLastAnnoucementViewedDate@PersistentMemory@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-		// procedure flags: nofpo
 
 		return persistentMemoryDB.lastAnnoucementViewedDate;
 	}
@@ -387,7 +326,6 @@ namespace PersistentMemory
 	void SetLastAnnoucementViewedDate(std::string annoucementViewedDate) // 0x106B7C00
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?SetLastAnnoucementViewedDate@PersistentMemory@@YAXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// std::string annoucementViewedDate;
 
 		persistentMemoryDB.lastAnnoucementViewedDate = annoucementViewedDate;
 	}
@@ -395,7 +333,6 @@ namespace PersistentMemory
 	__int32 GetLastMapID() // 0x106B4730
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetLastMapID@PersistentMemory@@YAHXZ");
-		// procedure flags: nofpo
 
 			return persistentMemoryDB.lastMapID;
 	}
@@ -403,7 +340,6 @@ namespace PersistentMemory
 	void SetLastMapID(__int32 mapID) // 0x106B7E80
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?SetLastMapID@PersistentMemory@@YAXH@Z");
-		// __int32 mapID;
 
 		persistentMemoryDB.lastMapID = mapID;
 	}
@@ -415,7 +351,6 @@ namespace PersistentMemory
 	std::string GetLastMapName() // 0x106B4750
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetLastMapName@PersistentMemory@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-		// procedure flags: nofpo
 
 		return persistentMemoryDB.lastMapName;
 	}
@@ -423,7 +358,6 @@ namespace PersistentMemory
 	void SetLastMapName(std::string mapName) // 0x106B7EB0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?SetLastMapName@PersistentMemory@@YAXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// std::string mapName;
 
 		persistentMemoryDB.lastMapName = mapName;
 	}
@@ -435,7 +369,6 @@ namespace PersistentMemory
 	std::string GetLastGameType() // 0x106B46C0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetLastGameType@PersistentMemory@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-		// procedure flags: nofpo
 
 		return persistentMemoryDB.lastGameType;
 	}
@@ -443,7 +376,6 @@ namespace PersistentMemory
 	void SetLastGameType(std::string gameType) // 0x106B7DE0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?SetLastGameType@PersistentMemory@@YAXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// std::string gameType;
 
 		persistentMemoryDB.lastGameType = gameType;
 	}
@@ -455,7 +387,6 @@ namespace PersistentMemory
 	std::string GetLastMultiplayerMod() // 0x106B47C0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetLastMultiplayerMod@PersistentMemory@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-		// procedure flags: nofpo
 
 		return persistentMemoryDB.lastMultiplayerMod;
 	}
@@ -463,7 +394,6 @@ namespace PersistentMemory
 	void SetLastMultiplayerMod(std::string multiplayerMod) // 0x106B7F50
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?SetLastMultiplayerMod@PersistentMemory@@YAXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// std::string multiplayerMod;
 
 		persistentMemoryDB.lastMultiplayerMod = multiplayerMod;
 	}
@@ -475,7 +405,6 @@ namespace PersistentMemory
 	std::string GetLastCampaignMod() // 0x106B45E0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetLastCampaignMod@PersistentMemory@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-		// procedure flags: nofpo
 
 		return persistentMemoryDB.lastCampaignMod;
 	}
@@ -483,7 +412,6 @@ namespace PersistentMemory
 	void SetLastCampaignMod(std::string campaignMod) // 0x106B7CA0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?SetLastCampaignMod@PersistentMemory@@YAXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// std::string campaignMod;
 
 		persistentMemoryDB.lastCampaignMod = campaignMod;
 	}
@@ -495,7 +423,6 @@ namespace PersistentMemory
 	std::string GetLastFirefightMod() // 0x106B4650
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetLastFirefightMod@PersistentMemory@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-		// procedure flags: nofpo
 
 		return persistentMemoryDB.lastFirefightMod;
 	}
@@ -503,7 +430,6 @@ namespace PersistentMemory
 	void SetLastFirefightMod(std::string firefightMod) // 0x106B7D40
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?SetLastFirefightMod@PersistentMemory@@YAXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// std::string firefightMod;
 
 		persistentMemoryDB.lastFirefightMod = firefightMod;
 	}
@@ -511,11 +437,6 @@ namespace PersistentMemory
 	void AddMutedVoipPlayer(std::string name, std::string uid) // 0x106B2B50
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?AddMutedVoipPlayer@PersistentMemory@@YAXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z");
-		// static ...; // 0x106B2C2C
-		// static ...; // 0x106B2C24
-		// std::string name;
-		// std::string uid;
-		// PersistentMemory::SPersistentMemoryDB::SPersistantMute muted;
 
 		PersistentMemory::SPersistentMemoryDB::SPersistantMute muted = { name, uid };
 		persistentMemoryDB.mutedVoipPlayers.push_back(muted);
@@ -524,11 +445,6 @@ namespace PersistentMemory
 	bool RemoveMutedVoipPlayer(std::string uid) // 0x106B7410
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?RemoveMutedVoipPlayer@PersistentMemory@@YA_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// static ...; // 0x106B7578
-		// static ...; // 0x106B756C
-		// static ...; // 0x106B7564
-		// std::string uid;
-			// std::_Vector_iterator<std::_Vector_val<std::_Simple_types<PersistentMemory::SPersistentMemoryDB::SPersistantMute> > > it;
 
 		for (auto it = persistentMemoryDB.mutedVoipPlayers.begin(); it != persistentMemoryDB.mutedVoipPlayers.end(); ++it)
 		{
@@ -544,11 +460,6 @@ namespace PersistentMemory
 	bool PlayerIsVoipMuted(std::string uid) // 0x106B6A70
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?PlayerIsVoipMuted@PersistentMemory@@YA_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// static ...; // 0x106B6BA4
-		// static ...; // 0x106B6B98
-		// static ...; // 0x106B6B90
-		// std::string uid;
-			// std::_Vector_iterator<std::_Vector_val<std::_Simple_types<PersistentMemory::SPersistentMemoryDB::SPersistantMute> > > it;
 
 		for (std::vector<PersistentMemory::SPersistentMemoryDB::SPersistantMute>::iterator it = persistentMemoryDB.mutedVoipPlayers.begin(); it != persistentMemoryDB.mutedVoipPlayers.end(); ++it)
 		{

@@ -129,12 +129,6 @@ namespace Player
 	__int32 FindPlayerInGameWithIdentifier(s_player_identifier const &identifier) // 0x10904010
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?FindPlayerInGameWithIdentifier@Player@@YAHABUs_player_identifier@@@Z");
-		// static ...; // 0x109040CC
-		// static ...; // 0x109040C0
-		// static ...; // 0x109040B8
-		// s_player_identifier const &identifier;
-		// c_data_array<s_player_datum> *players;
-			// c_data_iterator<s_player_datum> it;
 
 		c_data_array<s_player_datum> *players = players_get();
 		for (c_data_iterator<s_player_datum> it = players->begin(); it != players->end(); ++it)
@@ -152,8 +146,6 @@ namespace Player
 	s_player_model_customization const *GetDefaultCharacterCustomization(__int32 playerIndex, __int32 characterIndex) // 0x10904100
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetDefaultCharacterCustomization@Player@@YAPBUs_player_model_customization@@HH@Z");
-		// __int32 characterIndex;
-		// __int32 absoluteIndex;
 
 		if (playerIndex == -1)
 			return &nullCustomization;
@@ -172,20 +164,6 @@ namespace Player
 	s_player_model_customization const *CPlayerCustomization::GetInGamePlayerCustomization(__int32 playerIndex) // 0x10904250
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetInGamePlayerCustomization@CPlayerCustomization@Player@@SAPBUs_player_model_customization@@H@Z");
-		// __int32 playerIndex;
-		// s_player_datum *player;
-		// s_game_globals *matg;
-		// short characterTypeIndex;
-			// s_scenario *scnr;
-			// Blam::Network::Session *session;
-				// __int32 player_session_index;
-					// unsigned long name;
-						// __int32 i;
-			// unsigned long character_name;
-			// s_player_model_customization const *defaultCharacterCustomizaation;
-			// s_player_appearance &appearance;
-				// __int32 i;
-		// function call : bool (*)()
 
 		s_player_datum *player = player_get(playerIndex);
 		if (!player)
@@ -232,16 +210,6 @@ namespace Player
 	unsigned __int32 CPlayerCustomization::GetPlayerPrimaryColor(signed char networkPlayerIndex) // 0x109044E0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetPlayerPrimaryColor@CPlayerCustomization@Player@@SAIC@Z");
-		// static ...; // 0x109045EC
-		// static ...; // 0x109045E0
-		// static ...; // 0x109045D8
-		// char networkPlayerIndex;
-		// s_network_session_player *networkPlayer;
-		// c_network_session *session;
-			// __int32 playerIndex;
-		// function call : bool (*const)(c_network_session **)
-		// function call : bool (*const)()
-		// function call : bool (*const)()
 
 		c_network_session *session;
 		if (!network_session_interface_get_squad_session(&session) || !session->established())

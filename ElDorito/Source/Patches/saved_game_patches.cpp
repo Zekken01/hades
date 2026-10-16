@@ -238,8 +238,6 @@ _inline s_blf_chunk_end_of_file &s_blf_chunk_end_of_file::operator=(s_blf_chunk_
 void saved_game_patches_apply() // 0x10AC9930
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?saved_game_patches_apply@@YAXXZ");
-	// procedure flags: nofpo
-	// long const k__mapv_rename_buffer_size;
 
 	Hook(0x6EB794, save_map_variant_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 	Hook(0x6EA4AC, save_map_variant_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
@@ -262,44 +260,6 @@ void saved_game_patches_apply() // 0x10AC9930
 long save_map_variant_hook(long controller_index, long content_item_index, long content_type, unsigned char *data, unsigned long size, c_async_completion_flag completion_flag) // 0x10AC9230
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?save_map_variant_hook@@YAJJJJPAEKUc_async_completion_flag@@@Z");
-	// `anonymous-namespace'::save_map_variant_hook
-	// static ...; // 0x10AC9774
-	// static ...; // 0x10AC972C
-	// static ...; // 0x10AC9724
-	// long controller_index;
-	// long content_item_index;
-	// long content_type;
-	// unsigned char *data;
-	// unsigned long size;
-	// c_async_completion_flag completion_flag;
-	// static std::string `save_map_variant_hook'::`2'::buffer; // 0x12467378
-	// unsigned char const *chunk_data;
-	// c_blf_writer blf_writer;
-	// s_blf_chunk_header chunk_header;
-	// unsigned long const blf_size_minus_eof;
-	// unsigned long new_blf_size;
-	// unsigned long chunk_data_size;
-	// IMod *mod;
-	// s_map_variant *map_variant;
-	// long (*const content_item_write_task_submit)(long, long, long, unsigned char *, unsigned long, c_async_completion_flag);
-	// s_blf_chunk_mapv_tag_names *tag_names;
-	// c_blf_reader blf_reader;
-	// static __int32 `save_map_variant_hook'::`2'::$TSS0; // 0x12467394
-		// void *dest_chunk;
-		// s_mod_package_metadata const *const mod_metadata;
-		// s_blf_chunk_mod_package_reference *ref;
-		// c_mod_package const *mod_package;
-		// __int32 i;
-		// long i;
-			// long tag_index;
-				// char const *tag_name;
-				// unsigned long group_tag;
-				// char group_tag_ascii[5];
-				// char *dest_tag_name;
-				// unsigned __int32 len;
-	// function call : IMod *(EModIndex) const
-	// function call : c_mod_package *(bool) const
-	// function call : long (*const)(long, long, long, unsigned char *, unsigned long, c_async_completion_flag)
 
 	long (*const content_item_write_task_submit)(long, long, long, unsigned char *, unsigned long, c_async_completion_flag) = (long (*)(long, long, long, unsigned char *, unsigned long, c_async_completion_flag))0x527040;
 	unsigned long const blf_size_minus_eof = 0xE1D8;
@@ -369,13 +329,6 @@ long save_map_variant_hook(long controller_index, long content_item_index, long 
 char const *map_variant_load_error_string(e_map_variant_load_error error) // 0x10AC8B50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?map_variant_load_error_string@@YAPBDW4e_map_variant_load_error@@@Z");
-	// `anonymous-namespace'::map_variant_load_error_string
-	// static ...; // 0x10AC8BB4
-// $LN7:
-// $LN6:
-// $LN5:
-// $LN4:
-	// e_map_variant_load_error error;
 
 	switch (error)
 	{
@@ -395,28 +348,6 @@ char const *map_variant_load_error_string(e_map_variant_load_error error) // 0x1
 bool read_mod_package_metadata(s_file_reference file, short *out_version, s_mod_package_reference *metadata) // 0x10AC8BF0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?read_mod_package_metadata@@YA_NUs_file_reference@@PAFPAUs_mod_package_reference@@@Z");
-	// `anonymous-namespace'::read_mod_package_metadata
-	// static ...; // 0x10AC8F4C
-	// static ...; // 0x10AC8F3F
-	// static ...; // 0x10AC8F34
-	// static ...; // 0x10AC8F24
-	// static ...; // 0x10AC8EDC
-	// static ...; // 0x10AC8ED4
-	// s_file_reference file;
-	// short *out_version;
-	// s_mod_package_reference *metadata;
-	// std::string buffer;
-	// unsigned char const *chunk_data;
-	// unsigned long err;
-	// s_blf_chunk_header chunk_header;
-	// unsigned long chunk_data_size;
-	// bool result;
-	// unsigned long file_size;
-		// s_mod_package_reference_v1 *v1;
-	// function call : bool (*const)(s_file_reference *, unsigned long *)
-	// function call : bool (*const)(s_file_reference *, c_flags<enum e_file_permission_flags,long>, unsigned long *)
-	// function call : bool (*const)(s_file_reference *, unsigned long, bool, void *)
-	// function call : bool (*const)(s_file_reference *)
 
 	memset(metadata, 0, sizeof(s_mod_package_reference));
 	std::string buffer;
@@ -455,19 +386,6 @@ bool read_mod_package_metadata(s_file_reference file, short *out_version, s_mod_
 bool __fastcall c_gui_map_selected_item__get_map_variant_hook(_c_gui_map_selected_item *thisptr, void *unused, s_map_variant *map_variant) // 0x10AC8760
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_map_selected_item__get_map_variant_hook@@YI_NPAU_c_gui_map_selected_item@hades_file_local@@PAXPAUs_map_variant@@@Z");
-	// `anonymous-namespace'::c_gui_map_selected_item__get_map_variant_hook
-	// static ...; // 0x10AC8A14
-	// static ...; // 0x10AC89F0
-	// static ...; // 0x10AC89E8
-	// _c_gui_map_selected_item *thisptr;
-	// void *unused;
-	// s_map_variant *map_variant;
-	// bool (*const c_gui_map_selected_item__get_map_variant)(_c_gui_map_selected_item *, s_map_variant *);
-	// s_static_string<8192> error_message;
-	// __int32 height;
-		// e_map_variant_load_error error;
-			// s_mod_package_reference metdata;
-			// short version;
 
 	bool (__fastcall *const c_gui_map_selected_item__get_map_variant)(_c_gui_map_selected_item *, s_map_variant *) = reinterpret_cast<bool (__fastcall *)(_c_gui_map_selected_item *, s_map_variant *)>(0xAD9A30);
 	s_static_string<8192> error_message;
@@ -500,8 +418,6 @@ bool __fastcall c_gui_map_selected_item__get_map_variant_hook(_c_gui_map_selecte
 void __fastcall s_blf_header__setup_hook(s_blf_chunk_header *header, void *unused, unsigned long signature, unsigned long size, short version_major, short version_minor) // 0x10AC91C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?s_blf_header__setup_hook@@YIXPAUs_blf_chunk_header@@PAXKKFF@Z");
-	// `anonymous-namespace'::s_blf_header__setup_hook
-	// short version_minor;
 
 	header->setup(signature, size, version_major, version_minor);
 }
@@ -509,8 +425,6 @@ void __fastcall s_blf_header__setup_hook(s_blf_chunk_header *header, void *unuse
 void __fastcall s_blf_chunk_start_of_file__ctor_hook(s_blf_chunk_start_of_file *chunk) // 0x10AC9140
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?s_blf_chunk_start_of_file__ctor_hook@@YIXPAUs_blf_chunk_start_of_file@@@Z");
-	// `anonymous-namespace'::s_blf_chunk_start_of_file__ctor_hook
-	// s_blf_chunk_start_of_file *chunk;
 
 	*chunk = s_blf_chunk_start_of_file();
 }
@@ -518,8 +432,6 @@ void __fastcall s_blf_chunk_start_of_file__ctor_hook(s_blf_chunk_start_of_file *
 void __fastcall s_blf_chunk_end_of_file__ctor_hook(s_blf_chunk_end_of_file *chunk) // 0x10AC90C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?s_blf_chunk_end_of_file__ctor_hook@@YIXPAUs_blf_chunk_end_of_file@@@Z");
-	// `anonymous-namespace'::s_blf_chunk_end_of_file__ctor_hook
-	// s_blf_chunk_end_of_file *chunk;
 
 	*chunk = s_blf_chunk_end_of_file();
 }
@@ -527,8 +439,6 @@ void __fastcall s_blf_chunk_end_of_file__ctor_hook(s_blf_chunk_end_of_file *chun
 void __fastcall s_blf_chunk_content_header__initialize_hook(s_blf_chunk_content_header *chunk) // 0x10AC9040
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?s_blf_chunk_content_header__initialize_hook@@YIXPAUs_blf_chunk_content_header@@@Z");
-	// `anonymous-namespace'::s_blf_chunk_content_header__initialize_hook
-	// s_blf_chunk_content_header *chunk;
 
 	*chunk = s_blf_chunk_content_header();
 }
@@ -536,8 +446,6 @@ void __fastcall s_blf_chunk_content_header__initialize_hook(s_blf_chunk_content_
 bool __fastcall c_map_variant__is_valid_hook(s_map_variant *thisptr) // 0x10AC8AF0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_map_variant__is_valid_hook@@YI_NPAUs_map_variant@@@Z");
-	// `anonymous-namespace'::c_map_variant__is_valid_hook
-	// s_map_variant *thisptr;
 
 	return thisptr->version == 12;
 }

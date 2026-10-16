@@ -75,31 +75,26 @@ namespace Web
 		inline void RenderHandlerOsr::OnPopupShow(scoped_refptr<CefBrowser> browser, bool show) // 0x10CE9550
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?OnPopupShow@RenderHandlerOsr@Browser@Web@@UAEXV?$scoped_refptr@VCefBrowser@@@@_N@Z");
-			// bool show;
 		}
 
 		inline void RenderHandlerOsr::OnPopupSize(scoped_refptr<CefBrowser> browser, CefRect const &rect) // 0x10CE96D0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?OnPopupSize@RenderHandlerOsr@Browser@Web@@UAEXV?$scoped_refptr@VCefBrowser@@@@ABVCefRect@@@Z");
-			// CefRect const &rect;
 		}
 
 		inline void RenderHandlerOsr::OnPaint(scoped_refptr<CefBrowser> browser, cef_paint_element_type_t type, std::vector<CefRect> const &dirtyRects, void const *buffer, __int32 width, __int32 height) // 0x10CE9390
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?OnPaint@RenderHandlerOsr@Browser@Web@@UAEXV?$scoped_refptr@VCefBrowser@@@@W4cef_paint_element_type_t@@ABV?$vector@VCefRect@@V?$allocator@VCefRect@@@std@@@std@@PBXHH@Z");
-			// __int32 height;
 		}
 
 		inline void RenderHandlerOsr::OnAcceleratedPaint(scoped_refptr<CefBrowser> browser, cef_paint_element_type_t type, std::vector<CefRect> const &dirtyRects, void *sharedHandle) // 0x10CE8D20
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?OnAcceleratedPaint@RenderHandlerOsr@Browser@Web@@UAEXV?$scoped_refptr@VCefBrowser@@@@W4cef_paint_element_type_t@@ABV?$vector@VCefRect@@V?$allocator@VCefRect@@@std@@@std@@PAX@Z");
-			// void *sharedHandle;
 		}
 
 		inline bool RenderHandlerOsr::InitRenderer() // 0x10CE8C30
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?InitRenderer@RenderHandlerOsr@Browser@Web@@UAE_NXZ");
-			// Web::Browser::RenderHandlerOsr *const this;
 
 			return true;
 		}
@@ -107,7 +102,6 @@ namespace Web
 		inline bool RenderHandlerOsr::Resize(unsigned __int32 width, unsigned __int32 height) // 0x10CEA180
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Resize@RenderHandlerOsr@Browser@Web@@UAE_NII@Z");
-			// unsigned __int32 height;
 
 			return true;
 		}
@@ -115,7 +109,6 @@ namespace Web
 		inline bool RenderHandlerOsr::Render() // 0x10CE9DB0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Render@RenderHandlerOsr@Browser@Web@@UAE_NXZ");
-			// Web::Browser::RenderHandlerOsr *const this;
 
 			return true;
 		}
@@ -123,19 +116,16 @@ namespace Web
 		inline void RenderHandlerOsr::OnPreResetDevice() // 0x10CE9860
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?OnPreResetDevice@RenderHandlerOsr@Browser@Web@@UAEXXZ");
-			// Web::Browser::RenderHandlerOsr *const this;
 		}
 
 		inline void RenderHandlerOsr::OnPostResetDevice() // 0x10CE97B0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?OnPostResetDevice@RenderHandlerOsr@Browser@Web@@UAEXXZ");
-			// Web::Browser::RenderHandlerOsr *const this;
 		}
 
 		inline void RenderHandlerOsr::Shutdown() // 0x10CEA2A0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Shutdown@RenderHandlerOsr@Browser@Web@@UAEXXZ");
-			// Web::Browser::RenderHandlerOsr *const this;
 		}
 	}
 }

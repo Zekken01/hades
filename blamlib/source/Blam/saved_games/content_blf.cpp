@@ -27,9 +27,6 @@ struct s_blf_chunk_content_header;
 s_blf_chunk_content_header::s_blf_chunk_content_header() // 0x10F1C3A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_blf_chunk_content_header@@QAE@XZ");
-	// s_blf_chunk_content_header *const this;
-	// function call : long (*const)()
-	// function call : long (*const)()
 
 	setup('chdr', sizeof(s_blf_chunk_content_header), 9, 3);
 	build_version_major = (short)reinterpret_cast<long (*)()>(0x501420)();

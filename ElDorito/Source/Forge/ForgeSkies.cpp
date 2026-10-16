@@ -154,12 +154,6 @@ namespace Forge
 	void CForgeSkies::InitializeForNewMap() // 0x1067DE20
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeForNewMap@CForgeSkies@Forge@@SAXXZ");
-		// procedure flags: nofpo
-		// static ...; // 0x1067E0F4
-		// static ...; // 0x1067E0E8
-		// static ...; // 0x1067E0E0
-		// s_tag_reference null_tag_reference;
-		// s_scenario *scenario;
 
 		state = {};
 		if (!forge_globals_get_definition())
@@ -184,26 +178,6 @@ namespace Forge
 	void CForgeSkies::Update(long modifierObjectIndex, Forge::ForgeMapModifierProperties &mapModifierProperties) // 0x1067EB10
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CForgeSkies@Forge@@SAXJAAUForgeMapModifierProperties@2@@Z");
-		// static ...; // 0x1067EDF7
-		// static ...; // 0x1067EDF4
-		// static ...; // 0x1067EDD0
-		// static ...; // 0x1067EDC8
-		// long modifierObjectIndex;
-		// Forge::ForgeMapModifierProperties &mapModifierProperties;
-		// s_forge_globals_definition *forge_globals;
-		// long desiredSkyIndex;
-			// s_forge_sky_definition *desiredSky;
-			// s_forge_globals_definition *forge_globals;
-			// s_object_data *mapModifierObject;
-				// real_point3d position;
-				// float zOffset;
-			// real_vector3d forward;
-			// s_forge_sky_definition *forgeSky;
-			// real_vector3d up;
-		// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-		// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-		// function call : void (*const)(unsigned long, real_point3d *, real_vector3d *, real_vector3d *, s_scenario_location *)
-		// function call : void (*const)(unsigned long, real_point3d *, real_vector3d *, real_vector3d *, s_scenario_location *)
 
 		s_forge_globals_definition *forge_globals = forge_globals_get_definition();
 		if (!forge_globals->skies.count)
@@ -253,9 +227,6 @@ namespace Forge
 	void CForgeSkies::HandleMapModifierDeleted() // 0x1067DBE0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?HandleMapModifierDeleted@CForgeSkies@Forge@@SAXXZ");
-		// procedure flags: nofpo
-		// s_scenario *scenario;
-		// function call : void (*const)(unsigned long)
 
 		if (!IsActive())
 			return;
@@ -281,7 +252,6 @@ namespace Forge
 	bool CForgeSkies::IsActive() // 0x1067E1C0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?IsActive@CForgeSkies@Forge@@SA_NXZ");
-		// procedure flags: nofpo
 
 		return GetForgeSky() != nullptr;
 	}
@@ -292,13 +262,6 @@ namespace Forge
 unsigned long FindObjectByName(e_object_type type, short name) // 0x1067DA10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?FindObjectByName@@YAKW4e_object_type@@F@Z");
-	// `anonymous-namespace'::FindObjectByName
-	// static ...; // 0x1067DAF4
-	// static ...; // 0x1067DAEC
-	// e_object_type type;
-	// short name;
-	// c_data_array<s_object_header> *object_headers;
-		// c_data_iterator<s_object_header> it;
 
 	if (name == -1)
 		return -1;
@@ -314,9 +277,6 @@ unsigned long FindObjectByName(e_object_type type, short name) // 0x1067DA10
 s_forge_sky_definition *GetForgeSky() // 0x1067DB40
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetForgeSky@@YAPAUs_forge_sky_definition@@XZ");
-	// `anonymous-namespace'::GetForgeSky
-	// procedure flags: nofpo
-	// s_forge_globals_definition *forge_globals;
 
 	s_forge_globals_definition *forge_globals = forge_globals_get_definition();
 	if (state.SkyIndex < 0 || state.SkyIndex >= forge_globals->skies.count)
@@ -330,28 +290,6 @@ s_forge_sky_definition *GetForgeSky() // 0x1067DB40
 void ReplaceForgeSkyScenery(long newSceneryTagIndex) // 0x1067E7D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ReplaceForgeSkyScenery@@YAXJ@Z");
-	// `anonymous-namespace'::ReplaceForgeSkyScenery
-	// static ...; // 0x1067EA54
-	// static ...; // 0x1067EA48
-	// static ...; // 0x1067EA40
-	// long newSceneryTagIndex;
-	// long skySceneryIndex;
-	// s_scenario *scenario;
-	// s_object_placement_data objectPlacementData;
-		// c_tag_block<s_scenario_sky_reference> &<range>$L0;
-		// s_scenario_sky_reference *<begin>$L0;
-		// s_scenario_sky_reference *<end>$L0;
-			// s_scenario_sky_reference &skyRef;
-				// s_scenario_scenery *<end>$L1;
-				// s_scenario_scenery *<begin>$L1;
-				// c_tag_block<s_scenario_scenery> &<range>$L1;
-					// s_scenario_scenery &scenery;
-						// unsigned long objectIndex;
-		// s_object_data *skyObject;
-	// function call : void (*const)(long)
-	// function call : void (*const)(long)
-	// function call : void (*const)(s_object_placement_data *, long, unsigned long, s_damage_owner *)
-	// function call : long (*const)(s_object_placement_data *)
 
 	s_scenario *scenario = global_scenario_get();
 	for (s_scenario_sky_reference &skyRef : scenario->skies)
@@ -389,28 +327,6 @@ void ReplaceForgeSkyScenery(long newSceneryTagIndex) // 0x1067E7D0
 void ReplaceForgeSky(s_forge_sky_definition *desiredSky) // 0x1067E230
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ReplaceForgeSky@@YAXPAUs_forge_sky_definition@@@Z");
-	// `anonymous-namespace'::ReplaceForgeSky
-	// static ...; // 0x1067E6A1
-	// static ...; // 0x1067E69E
-	// static ...; // 0x1067E69B
-	// static ...; // 0x1067E698
-	// static ...; // 0x1067E668
-	// static ...; // 0x1067E660
-	// s_forge_sky_definition *desiredSky;
-	// c_data_array<s_screen_effect_datum> *screenEffects;
-	// s_scenario *scenario;
-	// c_data_array<s_game_looping_sound_datum> *loopingSounds;
-		// c_data_iterator<s_screen_effect_datum> it;
-		// unsigned long unit_index;
-			// c_data_iterator<s_screen_effect_datum> it;
-		// c_data_array<s_object_header> *object_headers;
-		// long skyObjectTagIndex;
-			// c_data_iterator<s_object_header> it;
-		// c_data_iterator<s_game_looping_sound_datum> it;
-	// function call : unsigned long (*const)(long)
-	// function call : void (*const)(unsigned long)
-	// function call : void (*const)(unsigned long)
-	// function call : long (*const)(long, long, float)
 
 	s_scenario *scenario = global_scenario_get();
 	c_data_array<s_screen_effect_datum> *screenEffects = tls_getd().screen_effects;

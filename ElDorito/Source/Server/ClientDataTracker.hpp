@@ -103,14 +103,12 @@ namespace Server
 		inline ClientInfoData::ClientInfoData() // 0x10AFF0E0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "??0ClientInfoData@ClientDataTracker@Server@@QAE@XZ");
-			// Server::ClientDataTracker::ClientInfoData *const this;
 
 		}
 
 		inline MyNetworkSessionListener::MyNetworkSessionListener() // 0x10AFF160
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "??0MyNetworkSessionListener@ClientDataTracker@Server@@QAE@XZ");
-			// Server::ClientDataTracker::MyNetworkSessionListener *const this;
 		}
 	}
 }

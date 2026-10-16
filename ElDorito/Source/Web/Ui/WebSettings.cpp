@@ -200,7 +200,6 @@ namespace Web
 			void Init() // 0x10CB52B0
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?Init@WebSettings@Ui@Web@@YAXXZ");
-				// procedure flags: nofpo
 
 				Patches::Input::RegisterDefaultInputHandler(OnGameInputUpdated);
 				Web::Ui::ScreenLayer::RegisterScreen(Web::Ui::ScreenLayer::Settings, std::make_shared<WebSettingsScreen>());
@@ -209,7 +208,6 @@ namespace Web
 			void Show() // 0x10CB57D0
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?Show@WebSettings@Ui@Web@@YAXXZ");
-				// procedure flags: nofpo
 
 				ScreenLayer::Show(ScreenLayer::ScreenId::Settings, "{}");
 			}
@@ -222,11 +220,6 @@ namespace Web
 static void OnGameInputUpdated() // 0x10CB53C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnGameInputUpdated@@YAXXZ");
-	// `anonymous-namespace'::OnGameInputUpdated
-	// procedure flags: nofpo
-	// function call : long (*const)(e_user_interface_sound, long)
-	// function call : bool (*const)()
-	// function call : long (*const)(e_user_interface_sound, long)
 
 	if (Utils::Singleton<Modules::ModuleSettings>::Instance().VarGamepadEnabled->ValueInt == 1)
 	{

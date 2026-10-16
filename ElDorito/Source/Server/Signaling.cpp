@@ -434,13 +434,6 @@ namespace Server
 		void Initialize() // 0x10C2E280
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@Signaling@Server@@YAXXZ");
-			// procedure flags: nofpo
-			// static ...; // 0x10C2E5A4
-			// static ...; // 0x10C2E598
-			// static ...; // 0x10C2E590
-		// $LN17:
-				// websocketpp::exception const &e;
-			// function call : char const *() const
 
 			wsphandler = std::make_shared<WebSocketPacketHandler>();
 			wspsender = Patches::CustomPackets::RegisterPacket<WebSocketPacketData>("eldewrito-signal-server-echo", wsphandler);
@@ -465,16 +458,6 @@ namespace Server
 		void StartServer() // 0x10C305F0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?StartServer@Signaling@Server@@YAXXZ");
-			// procedure flags: nofpo
-			// static ...; // 0x10C308F6
-			// static ...; // 0x10C308F4
-			// static ...; // 0x10C308DC
-			// static ...; // 0x10C308D4
-		// $LN16:
-			// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> dewrito;
-			// Blam::Network::Session *session;
-				// websocketpp::exception const &e;
-			// function call : char const *() const
 
 			rapidjson::Document dewrito = Utils::Singleton<Utils::DewritoReader>::Instance().GetDewritoJson();
 			if (dewrito.HasMember("iceServers"))
@@ -506,16 +489,6 @@ namespace Server
 		void StopServer() // 0x10C309D0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?StopServer@Signaling@Server@@YAXXZ");
-			// procedure flags: nofpo
-			// static ...; // 0x10C30BA8
-			// static ...; // 0x10C30B9F
-			// static ...; // 0x10C30B98
-			// static ...; // 0x10C30B74
-			// static ...; // 0x10C30B6C
-				// std::map<std::weak_ptr<void>,coninfo,std::owner_less<std::weak_ptr<void> > > &<range>$L0;
-				// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > > <begin>$L0;
-				// std::_Default_sentinel <end>$L0;
-					// std::pair<std::weak_ptr<void> const ,coninfo> client;
 
 			if (signalServer.is_listening())
 			{
@@ -528,7 +501,6 @@ namespace Server
 		void Tick() // 0x10C30C30
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@Signaling@Server@@YAXXZ");
-			// procedure flags: nofpo
 
 			signalServer.poll();
 		}
@@ -536,13 +508,6 @@ namespace Server
 		void SendPeerPassword(__int32 playerIndex) // 0x10C2FC30
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?SendPeerPassword@Signaling@Server@@YAXH@Z");
-			// static ...; // 0x10C2FD34
-			// static ...; // 0x10C2FD28
-			// static ...; // 0x10C2FD20
-			// __int32 playerIndex;
-			// Blam::Network::Session *session;
-			// Patches::CustomPackets::Packet<WebSocketPacketData> packet;
-			// __int32 peerIdx;
 
 			auto packet = wspsender->New();
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
@@ -556,34 +521,6 @@ namespace Server
 		void RemovePeer(__int32 peerIndex) // 0x10C2F520
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?RemovePeer@Signaling@Server@@YAXH@Z");
-			// static ...; // 0x10C2FA05
-			// static ...; // 0x10C2F9FA
-			// static ...; // 0x10C2F9F1
-			// static ...; // 0x10C2F9EA
-			// static ...; // 0x10C2F9E3
-			// static ...; // 0x10C2F9DC
-			// static ...; // 0x10C2F9D1
-			// static ...; // 0x10C2F9C8
-			// static ...; // 0x10C2F9BC
-			// static ...; // 0x10C2F9B8
-			// static ...; // 0x10C2F940
-			// static ...; // 0x10C2F938
-			// __int32 peerIndex;
-			// std::vector<std::weak_ptr<void> > handlesToClose;
-				// std::map<std::weak_ptr<void>,coninfo,std::owner_less<std::weak_ptr<void> > > &<range>$L0;
-				// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > > <begin>$L0;
-				// std::_Default_sentinel <end>$L0;
-					// std::pair<std::weak_ptr<void> const ,coninfo> client;
-						// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
-						// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-							// std::_Default_sentinel <end>$L1;
-							// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > > <begin>$L1;
-							// std::map<std::weak_ptr<void>,coninfo,std::owner_less<std::weak_ptr<void> > > &<range>$L1;
-								// std::pair<std::weak_ptr<void> const ,coninfo> otherClient;
-				// std::weak_ptr<void> *<end>$L2;
-				// std::vector<std::weak_ptr<void> > &<range>$L2;
-				// std::weak_ptr<void> *<begin>$L2;
-					// std::weak_ptr<void> hdl;
 
 			ResetPassword(peerIndex);
 			std::vector<std::weak_ptr<void> > handlesToClose;
@@ -620,7 +557,6 @@ namespace Server
 		std::string GetPassword() // 0x10C2CEC0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetPassword@Signaling@Server@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-			// procedure flags: nofpo
 
 			return currentPassword;
 		}
@@ -628,7 +564,6 @@ namespace Server
 		unsigned short GetPort() // 0x10C2CF30
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetPort@Signaling@Server@@YAGXZ");
-			// procedure flags: nofpo
 
 			return port;
 		}
@@ -640,8 +575,6 @@ namespace Server
 void LifeCycleChanged(Blam::Network::LifeCycleState state) // 0x10C2E670
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?LifeCycleChanged@@YAXW4LifeCycleState@Network@Blam@@@Z");
-	// `anonymous-namespace'::LifeCycleChanged
-	// Blam::Network::LifeCycleState state;
 
 	if (state == Blam::Network::eLifeCycleStateNone || state == Blam::Network::eLifeCycleStateLeaving)
 	{
@@ -652,8 +585,6 @@ void LifeCycleChanged(Blam::Network::LifeCycleState state) // 0x10C2E670
 void WebSocketPacketHandler::Serialize(Blam::BitStream *stream, WebSocketPacketData const *data) // 0x10C2FD80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Serialize@WebSocketPacketHandler@hades_file_local@@EAEXPAVBitStream@Blam@@PBUWebSocketPacketData@2@@Z");
-	// `anonymous-namespace'::WebSocketPacketHandler::Serialize
-	// WebSocketPacketData const *data;
 
 	stream->WriteString<char, 9>(data->echoString);
 	stream->WriteUnsigned<unsigned short>(port, 0, 0xFFFF);
@@ -662,8 +593,6 @@ void WebSocketPacketHandler::Serialize(Blam::BitStream *stream, WebSocketPacketD
 bool WebSocketPacketHandler::Deserialize(Blam::BitStream *stream, WebSocketPacketData *data) // 0x10C2CCF0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Deserialize@WebSocketPacketHandler@hades_file_local@@EAE_NPAVBitStream@Blam@@PAUWebSocketPacketData@2@@Z");
-	// `anonymous-namespace'::WebSocketPacketHandler::Deserialize
-	// WebSocketPacketData *data;
 
 	if (!stream->ReadString<char, 9>(data->echoString))
 	{
@@ -677,10 +606,6 @@ bool WebSocketPacketHandler::Deserialize(Blam::BitStream *stream, WebSocketPacke
 void WebSocketPacketHandler::HandlePacket(Blam::Network::ObserverChannel *sender, Patches::CustomPackets::Packet<WebSocketPacketData> const *packet) // 0x10C2E030
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?HandlePacket@WebSocketPacketHandler@hades_file_local@@EAEXPAUObserverChannel@Network@Blam@@PBU?$Packet@UWebSocketPacketData@hades_file_local@@@CustomPackets@Patches@@@Z");
-	// `anonymous-namespace'::WebSocketPacketHandler::HandlePacket
-	// Patches::CustomPackets::Packet<WebSocketPacketData> const *packet;
-	// Blam::Network::Session *session;
-	// __int32 sendingPeer;
 
 	auto *session = Blam::Network::GetActiveSession();
 	auto sendingPeer = session->GetChannelPeer(sender);
@@ -699,17 +624,6 @@ void WebSocketPacketHandler::HandlePacket(Blam::Network::ObserverChannel *sender
 std::string ServerPortJson() // 0x10C2FE80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ServerPortJson@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-	// `anonymous-namespace'::ServerPortJson
-	// procedure flags: nofpo
-	// static ...; // 0x10C3033A
-	// static ...; // 0x10C30333
-	// static ...; // 0x10C30330
-	// static ...; // 0x10C3030C
-	// static ...; // 0x10C30304
-	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
-	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-	// std::string ip;
-	// Blam::Network::Session *session;
 
 	auto session = Blam::Network::GetActiveSession();
 	rapidjson::StringBuffer buffer;
@@ -734,8 +648,6 @@ std::string ServerPortJson() // 0x10C2FE80
 static void ForceStopServer() // 0x10C2CE00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ForceStopServer@@YAXXZ");
-	// `anonymous-namespace'::ForceStopServer
-	// procedure flags: nofpo
 
 	if (signalServer.is_listening())
 	{
@@ -746,16 +658,6 @@ static void ForceStopServer() // 0x10C2CE00
 static bool OnValidate(websocketpp::server<Utils::WebSocket::Config> *signalServer, std::weak_ptr<void> hdl) // 0x10C2ED70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnValidate@@YA_NPAV?$server@UConfig@WebSocket@Utils@@@websocketpp@@V?$weak_ptr@X@std@@@Z");
-	// `anonymous-namespace'::OnValidate
-	// static ...; // 0x10C2EF6D
-	// static ...; // 0x10C2EF68
-	// static ...; // 0x10C2EF44
-	// static ...; // 0x10C2EF3C
-	// websocketpp::server<Utils::WebSocket::Config> *signalServer;
-	// std::weak_ptr<void> hdl;
-	// std::vector<std::string> subprotocols;
-	// coninfo info;
-	// std::shared_ptr<websocketpp::connection<Utils::WebSocket::Config> > connection;
 
 	std::shared_ptr<websocketpp::connection<Utils::WebSocket::Config> > connection = signalServer->get_con_from_hdl(hdl);
 	std::vector<std::string> subprotocols = connection->get_requested_subprotocols();
@@ -768,44 +670,6 @@ static bool OnValidate(websocketpp::server<Utils::WebSocket::Config> *signalServ
 void HandleMessage(websocketpp::server<Utils::WebSocket::Config> *signalServer, std::weak_ptr<void> hdl, std::shared_ptr<websocketpp::message_buffer::message<websocketpp::message_buffer::alloc::con_msg_manager> > msg) // 0x10C2CF50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleMessage@@YAXPAV?$server@UConfig@WebSocket@Utils@@@websocketpp@@V?$weak_ptr@X@std@@V?$shared_ptr@V?$message@Vcon_msg_manager@alloc@message_buffer@websocketpp@@@message_buffer@websocketpp@@@4@@Z");
-	// `anonymous-namespace'::HandleMessage
-	// static ...; // 0x10C2DCBA
-	// static ...; // 0x10C2DCB6
-	// static ...; // 0x10C2DCB0
-	// static ...; // 0x10C2DCA9
-	// static ...; // 0x10C2DCA2
-	// static ...; // 0x10C2DC9B
-	// static ...; // 0x10C2DC90
-	// static ...; // 0x10C2DC87
-	// static ...; // 0x10C2DC82
-	// static ...; // 0x10C2DC7B
-	// static ...; // 0x10C2DC74
-	// static ...; // 0x10C2DC6D
-	// static ...; // 0x10C2DC62
-	// static ...; // 0x10C2DC59
-	// static ...; // 0x10C2DC54
-	// static ...; // 0x10C2DB88
-	// static ...; // 0x10C2DB80
-	// websocketpp::server<Utils::WebSocket::Config> *signalServer;
-	// std::weak_ptr<void> hdl;
-	// std::shared_ptr<websocketpp::message_buffer::message<websocketpp::message_buffer::alloc::con_msg_manager> > msg;
-	// std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > > it;
-	// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> doc;
-	// std::string proto;
-	// rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> &allocator;
-		// RejectionReason reject;
-			// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
-			// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-		// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
-		// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > setUid;
-		// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-			// std::map<std::weak_ptr<void>,coninfo,std::owner_less<std::weak_ptr<void> > > &<range>$L0;
-			// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > > <begin>$L0;
-			// std::_Default_sentinel <end>$L0;
-				// std::pair<std::weak_ptr<void> const ,coninfo> peer;
-			// std::_Default_sentinel <end>$L1;
-			// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > > <begin>$L1;
-			// std::map<std::weak_ptr<void>,coninfo,std::owner_less<std::weak_ptr<void> > > &<range>$L1;
 
 	auto it = connectedSockets.find(hdl);
 	if (it == connectedSockets.end())
@@ -882,14 +746,6 @@ void HandleMessage(websocketpp::server<Utils::WebSocket::Config> *signalServer, 
 static void OnMessage(websocketpp::server<Utils::WebSocket::Config> *signalServer, std::weak_ptr<void> hdl, std::shared_ptr<websocketpp::message_buffer::message<websocketpp::message_buffer::alloc::con_msg_manager> > msg) // 0x10C2EBC0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnMessage@@YAXPAV?$server@UConfig@WebSocket@Utils@@@websocketpp@@V?$weak_ptr@X@std@@V?$shared_ptr@V?$message@Vcon_msg_manager@alloc@message_buffer@websocketpp@@@message_buffer@websocketpp@@@4@@Z");
-	// `anonymous-namespace'::OnMessage
-	// static ...; // 0x10C2ECF8
-// $LN12:
-	// websocketpp::server<Utils::WebSocket::Config> *signalServer;
-	// std::weak_ptr<void> hdl;
-	// std::shared_ptr<websocketpp::message_buffer::message<websocketpp::message_buffer::alloc::con_msg_manager> > msg;
-		// std::exception const &e;
-	// function call : char const *() const
 
 	try
 	{
@@ -904,25 +760,6 @@ static void OnMessage(websocketpp::server<Utils::WebSocket::Config> *signalServe
 static void OnClose(websocketpp::server<Utils::WebSocket::Config> *signalServer, std::weak_ptr<void> hdl) // 0x10C2E730
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnClose@@YAXPAV?$server@UConfig@WebSocket@Utils@@@websocketpp@@V?$weak_ptr@X@std@@@Z");
-	// `anonymous-namespace'::OnClose
-	// static ...; // 0x10C2EACB
-	// static ...; // 0x10C2EAC4
-	// static ...; // 0x10C2EABB
-	// static ...; // 0x10C2EAB0
-	// static ...; // 0x10C2EAA7
-	// static ...; // 0x10C2EAA0
-	// static ...; // 0x10C2EA4C
-	// static ...; // 0x10C2EA44
-	// websocketpp::server<Utils::WebSocket::Config> *signalServer;
-	// std::weak_ptr<void> hdl;
-	// std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > > it;
-	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
-	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-	// std::string subproto;
-		// std::map<std::weak_ptr<void>,coninfo,std::owner_less<std::weak_ptr<void> > > &<range>$L0;
-		// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::weak_ptr<void> const ,coninfo> > > > <begin>$L0;
-		// std::_Default_sentinel <end>$L0;
-			// std::pair<std::weak_ptr<void> const ,coninfo> client;
 
 	auto it = connectedSockets.find(hdl);
 	if (it == connectedSockets.end())
@@ -946,18 +783,6 @@ static void OnClose(websocketpp::server<Utils::WebSocket::Config> *signalServer,
 RejectionReason ProcessPassword(char const *echo, coninfo &info) // 0x10C2F010
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ProcessPassword@@YA?AW4RejectionReason@hades_file_local@@PBDAAUconinfo@2@@Z");
-	// `anonymous-namespace'::ProcessPassword
-	// static ...; // 0x10C2F2FB
-	// static ...; // 0x10C2F2F8
-	// static ...; // 0x10C2F2D4
-	// static ...; // 0x10C2F2CC
-	// char const *echo;
-	// coninfo &info;
-	// Blam::Network::Session *session;
-	// __int32 peerIdx;
-		// char uid[17];
-		// std::stringstream ss;
-		// std::string name;
 
 	Blam::Network::Session *session = Blam::Network::GetActiveSession();
 	__int32 peerIdx = session->MembershipInfo.FindFirstPeer();
@@ -985,9 +810,6 @@ RejectionReason ProcessPassword(char const *echo, coninfo &info) // 0x10C2F010
 void CreatePasswords() // 0x10C2CC60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CreatePasswords@@YAXXZ");
-	// `anonymous-namespace'::CreatePasswords
-	// procedure flags: nofpo
-		// __int32 i;
 
 	for (__int32 i = 0; i < 17; i++)
 	{
@@ -999,8 +821,6 @@ void CreatePasswords() // 0x10C2CC60
 void ResetPassword(__int32 peerIndex) // 0x10C2FB60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ResetPassword@@YAXH@Z");
-	// `anonymous-namespace'::ResetPassword
-	// __int32 peerIndex;
 
 	authStrings[peerIndex] = "";
 	Utils::Cryptography::RandomPassword(8, authStrings[peerIndex]);

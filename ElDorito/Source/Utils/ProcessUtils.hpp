@@ -40,12 +40,6 @@ namespace Utils
 		inline HINSTANCE__ *GetModuleFromAddress(void *address) // 0x1068F4D0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetModuleFromAddress@ProcessUtils@Utils@@YAPAUHINSTANCE__@@PAX@Z");
-			// static ...; // 0x1068F548
-			// static ...; // 0x1068F53C
-			// static ...; // 0x1068F534
-			// void *address;
-			// HINSTANCE__ *hMod;
-			// function call : __int32 (unsigned long, char const *, HINSTANCE__ **)
 
 			HMODULE hMod;
 			if (!GetModuleHandleExA(6, (LPCSTR)address, &hMod))
@@ -63,12 +57,6 @@ namespace Utils
 		inline std::string GetModuleNameForDisplay(HINSTANCE__ *hMod) // 0x1068F570
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetModuleNameForDisplay@ProcessUtils@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAUHINSTANCE__@@@Z");
-			// static ...; // 0x1068F660
-			// static ...; // 0x1068F654
-			// static ...; // 0x1068F64C
-			// HINSTANCE__ *hMod;
-			// char modulePath[520];
-			// function call : unsigned long (HINSTANCE__ *, char *, unsigned long)
 
 			char modulePath[520];
 			if (!GetModuleFileNameA(hMod, modulePath, std::size(modulePath)))

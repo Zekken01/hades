@@ -60,7 +60,6 @@ using namespace ::Utils;
 bool c_mod_cache_tag_remapper::is_valid() const // 0x1089B630
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?is_valid@c_mod_cache_tag_remapper@@QBE_NXZ");
-	// c_mod_cache_tag_remapper const *const this;
 
 	return m_valid;
 }
@@ -68,7 +67,6 @@ bool c_mod_cache_tag_remapper::is_valid() const // 0x1089B630
 long c_mod_cache_tag_remapper::get_runtime_tag_count() const // 0x1089B280
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_runtime_tag_count@c_mod_cache_tag_remapper@@QBEJXZ");
-	// c_mod_cache_tag_remapper const *const this;
 
 	return m_runtime_tag_count;
 }
@@ -76,12 +74,6 @@ long c_mod_cache_tag_remapper::get_runtime_tag_count() const // 0x1089B280
 long c_mod_cache_tag_remapper::get_mod_tag_index(long runtime_index) const // 0x1089B0E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_mod_tag_index@c_mod_cache_tag_remapper@@QBEJJ@Z");
-	// static ...; // 0x1089B21C
-	// static ...; // 0x1089B214
-	// c_mod_cache_tag_remapper const *const this;
-	// long runtime_index;
-	// std::unordered_map<long,long> const &map;
-		// std::_List_const_iterator<std::_List_val<std::_List_simple_types<std::pair<long const ,long> > > > it;
 
 	std::unordered_map<long,long> const &map = m_runtime_tag_index_to_mod_tag_index;
 	if (std::_List_const_iterator<std::_List_val<std::_List_simple_types<std::pair<long const ,long> > > > it = map.find(runtime_index); it != std::end(map))
@@ -92,12 +84,6 @@ long c_mod_cache_tag_remapper::get_mod_tag_index(long runtime_index) const // 0x
 long c_mod_cache_tag_remapper::get_runtime_tag_index(long mod_index) const // 0x1089B2B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_runtime_tag_index@c_mod_cache_tag_remapper@@QBEJJ@Z");
-	// static ...; // 0x1089B3EC
-	// static ...; // 0x1089B3E4
-	// c_mod_cache_tag_remapper const *const this;
-	// long mod_index;
-	// std::unordered_map<long,long> const &map;
-		// std::_List_const_iterator<std::_List_val<std::_List_simple_types<std::pair<long const ,long> > > > it;
 
 	std::unordered_map<long,long> const &map = m_mod_tag_index_to_runtime_index;
 	if (std::_List_const_iterator<std::_List_val<std::_List_simple_types<std::pair<long const ,long> > > > it = map.find(mod_index); it != std::end(map))
@@ -105,6 +91,7 @@ long c_mod_cache_tag_remapper::get_runtime_tag_index(long mod_index) const // 0x
 	return -1;
 }
 
+#line 108
 bool c_mod_cache_tag_remapper::initialize(c_cache_file_tag_cache *base_cache) // 0x1089B450
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?initialize@c_mod_cache_tag_remapper@@QAE_NPAVc_cache_file_tag_cache@@@Z");
@@ -199,7 +186,6 @@ bool c_mod_cache_tag_remapper::add_mod(c_cache_file_tag_cache const *mod_cache) 
 void c_mod_cache_tag_remapper::reset() // 0x1089BA60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?reset@c_mod_cache_tag_remapper@@QAEXXZ");
-	// c_mod_cache_tag_remapper *const this;
 
 	m_valid = false;
 	m_runtime_tag_count = 0;

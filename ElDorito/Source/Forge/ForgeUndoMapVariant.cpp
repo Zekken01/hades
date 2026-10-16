@@ -100,7 +100,6 @@ namespace Utils
 CForgeUndoMapVariant::CForgeUndoMapVariant(std::string const &summary, s_map_variant const &mapVariant) : m_summary(summary) /* hades-mem-init:  */ // 0x10864890
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0CForgeUndoMapVariant@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABUs_map_variant@@@Z");
-	// s_map_variant const &mapVariant;
 
 	memcpy(&m_storedMapVariant, &mapVariant, sizeof(s_map_variant));
 }
@@ -114,40 +113,6 @@ CForgeUndoMapVariant::CForgeUndoMapVariant(std::string const &summary, s_map_var
 void CForgeUndoMapVariant::Undo() // 0x10864F40
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Undo@CForgeUndoMapVariant@@EAEXXZ");
-	// static ...; // 0x10865324
-	// static ...; // 0x10865318
-	// static ...; // 0x10865310
-	// CForgeUndoMapVariant *const this;
-	// void (*const breakable_surfaces_reset)();
-	// void (*const effects_reset)();
-	// c_candy_monitor_manager *candyMonitorManager;
-	// long lock_flags;
-	// void (*const hs_runtime_reset)();
-	// s_map_variant *mapVariant;
-	// void (*const game_create_objects)(long);
-	// c_data_array<s_object_header> *objects;
-	// void (*const lights_delete_all)();
-	// void (*const device_groups_reset)();
-	// bool &g_havok_garbage_collection_locked;
-	// void (*const game_sound_reset_at_round_finish)();
-	// void (*const object_delete_immediately)(long);
-	// void (*const object_placement_create_active_zone_set_objects)(long);
-		// c_data_iterator<s_object_header> it;
-			// s_unit_data *unit;
-		// __int32 i;
-	// function call : long (*const)()
-	// function call : s_map_variant *(*const)()
-	// function call : void (*const)(long)
-	// function call : void (*const)()
-	// function call : void (*const)()
-	// function call : void (*const)()
-	// function call : void (*const)()
-	// function call : void (*const)()
-	// function call : void (*const)()
-	// function call : void (*const)(long)
-	// function call : void (*const)(long)
-	// function call : void (*const)(s_map_variant *)
-	// function call : long (*const)(long)
 
 	void (*const breakable_surfaces_reset)() = reinterpret_cast<void (*)()>(0x56B960);
 	void (*const effects_reset)() = reinterpret_cast<void (*)()>(0x5BD040);

@@ -186,11 +186,6 @@ namespace Blam
 void CServerConnectManager::Initialize() // 0x10B079E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@CServerConnectManager@@QAEXXZ");
-	// static ...; // 0x10B07CB0
-	// static ...; // 0x10B07CA4
-	// static ...; // 0x10B07C9C
-	// CServerConnectManager *const this;
-	// std::shared_ptr<CServerConnectStateHandler_AcquireMods> acquireModsHandler;
 
 	auto acquireModsHandler = std::make_shared<CServerConnectStateHandler_AcquireMods>();
 	acquireModsHandler->SetUI(Web::Ui::WebMods::GetDownloadUI());
@@ -204,7 +199,6 @@ void CServerConnectManager::Initialize() // 0x10B079E0
 void CServerConnectManager::Update() // 0x10B08170
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CServerConnectManager@@QAEXXZ");
-	// CServerConnectManager *const this;
 
 	m_stateManager->Update();
 }
@@ -212,8 +206,6 @@ void CServerConnectManager::Update() // 0x10B08170
 bool CServerConnectManager::ConnectToServer(SServerConnectOptions const &options) // 0x10B07780
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ConnectToServer@CServerConnectManager@@QAE_NABUSServerConnectOptions@@@Z");
-	// SServerConnectOptions const &options;
-	// SServerConnectState &state;
 
 	if (m_stateManager->InProgress())
 		return false;
@@ -230,22 +222,6 @@ bool CServerConnectManager::ConnectToServer(SServerConnectOptions const &options
 void CServerConnectManager::OnConnectionAborted(EServerConnectAbortReason reason) // 0x10B07D80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnConnectionAborted@CServerConnectManager@@AAEXW4EServerConnectAbortReason@@@Z");
-	// static ...; // 0x10B07FA5
-	// static ...; // 0x10B07F98
-	// static ...; // 0x10B07F80
-	// static ...; // 0x10B07F78
-// $LN10:
-// $LN9:
-// $LN8:
-// $LN7:
-// $LN6:
-// $LN5:
-// $LN4:
-	// CServerConnectManager *const this;
-	// EServerConnectAbortReason reason;
-	// Web::Ui::ScreenLayer::SDialogShowParams dialogParams;
-	// bool allowRetry;
-	// std::string message;
 
 	std::string message;
 	bool allowRetry = false;

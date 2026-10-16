@@ -103,7 +103,6 @@ extern bool mod_package_header_valid(s_mod_package_header const *header);
 c_mod_package::c_mod_package(char const *file_path) : m_valid(false), m_campaign_file_count(0), m_tags_section_offset(0), m_resource_cache_offset(0), m_file(file_path), m_metadata(), m_resource_cache_header{}, m_tag_cache_count(0), m_map_file_count(0) /* hades-mem-init:  */ // 0x1089CF00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_mod_package@@QAE@PBD@Z");
-	// char const *file_path;
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0s_file_reference@@QAE@ABU0@@Z"); no body to assert in
@@ -114,7 +113,6 @@ _inline s_file_reference::s_file_reference(s_file_reference const &__that) = def
 c_mod_package::~c_mod_package() // 0x1089D270
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??1c_mod_package@@QAE@XZ");
-	// c_mod_package *const this;
 
 	dispose();
 }
@@ -125,7 +123,6 @@ _inline c_file_reference::c_file_reference(c_file_reference const &__that) = def
 void c_mod_package::dispose() // 0x1089D8F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?dispose@c_mod_package@@QAEXXZ");
-	// c_mod_package *const this;
 
 	m_valid = false;
 	m_file.close();
@@ -134,7 +131,6 @@ void c_mod_package::dispose() // 0x1089D8F0
 bool c_mod_package::valid() const // 0x108A0080
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?valid@c_mod_package@@QBE_NXZ");
-	// c_mod_package const *const this;
 
 	return m_valid == true;
 }
@@ -142,11 +138,11 @@ bool c_mod_package::valid() const // 0x108A0080
 char const *c_mod_package::get_file_name() const // 0x1089DBE0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_file_name@c_mod_package@@QBEPBDXZ");
-	// c_mod_package const *const this;
 
 	return m_file.filename;
 }
 
+#line 150
 s_mod_package_header const *c_mod_package::get_header() const // 0x1089DC10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_header@c_mod_package@@QBEPBUs_mod_package_header@@XZ");
@@ -184,7 +180,6 @@ s_mod_package_metadata const *c_mod_package::get_metadata() const // 0x1089DD50
 long c_mod_package::get_map_count() const // 0x1089DCA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_map_count@c_mod_package@@QBEJXZ");
-	// c_mod_package const *const this;
 
 	return m_map_file_count;
 }
@@ -192,7 +187,6 @@ long c_mod_package::get_map_count() const // 0x1089DCA0
 s_mod_package_map_file_entry const *c_mod_package::get_map_file_entry(long index) const // 0x1089DCD0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_map_file_entry@c_mod_package@@QBEPBUs_mod_package_map_file_entry@@J@Z");
-	// long index;
 
 	if (!valid_map_file_index(index))
 	{
@@ -205,11 +199,11 @@ s_mod_package_map_file_entry const *c_mod_package::get_map_file_entry(long index
 bool c_mod_package::valid_map_file_index(long map_file_index) const // 0x108A00D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?valid_map_file_index@c_mod_package@@QBE_NJ@Z");
-	// long map_file_index;
 
 	return map_file_index >= 0 && map_file_index < m_map_file_count;
 }
 
+#line 213
 long c_mod_package::find_map_file_by_map_id(long map_id, unsigned long *out_size) // 0x1089D9C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?find_map_file_by_map_id@c_mod_package@@QAEJJPAK@Z");
@@ -466,7 +460,6 @@ bool c_mod_package::verify_hash(unsigned char const (&hash)[20]) const // 0x108A
 bool mod_package_header_valid(s_mod_package_header const *header) // 0x1089E480
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?mod_package_header_valid@@YA_NPBUs_mod_package_header@@@Z");
-	// s_mod_package_header const *header;
 
 	if (header->signature != 0x6D6F6421)
 	{
@@ -489,7 +482,6 @@ bool mod_package_header_valid(s_mod_package_header const *header) // 0x1089E480
 bool c_mod_package::read_metadata_section(s_mod_package_metadata *metadata) // 0x1089F610
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?read_metadata_section@c_mod_package@@AAE_NPAUs_mod_package_metadata@@@Z");
-	// s_mod_package_metadata *metadata;
 
 	if (!((s_mod_package_section_header *)m_sections)[_mod_package_section_metadata].offset)
 	{
@@ -504,14 +496,6 @@ bool c_mod_package::read_metadata_section(s_mod_package_metadata *metadata) // 0
 bool c_mod_package::read_tags_section() // 0x1089FF00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?read_tags_section@c_mod_package@@AAE_NXZ");
-	// static ...; // 0x108A0018
-	// static ...; // 0x108A000C
-	// static ...; // 0x108A0004
-	// c_mod_package *const this;
-	// unsigned long section_offset;
-	// s_mod_package_section_table tag_cache_table;
-		// long i;
-			// s_mod_package_tag_cache_entry *entry;
 
 	unsigned long section_offset = ((s_mod_package_section_header *)m_sections)[_mod_package_section_tags].offset;
 	s_mod_package_section_table tag_cache_table;
@@ -541,7 +525,6 @@ bool c_mod_package::read_tags_section() // 0x1089FF00
 bool c_mod_package::read_resources_section(s_cache_file_segment_header *header) // 0x1089F6B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?read_resources_section@c_mod_package@@AAE_NPAUs_cache_file_segment_header@@@Z");
-	// s_cache_file_segment_header *header;
 
 	m_resource_cache_offset = ((s_mod_package_section_header *)m_sections)[_mod_package_section_resources].offset;
 
@@ -551,7 +534,6 @@ bool c_mod_package::read_resources_section(s_cache_file_segment_header *header) 
 unsigned long c_mod_package::get_tag_cache_offset(__int32 tag_cache_index) const // 0x1089DF60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_tag_cache_offset@c_mod_package@@QBEKH@Z");
-	// __int32 tag_cache_index;
 
 	if (tag_cache_index < 0 || tag_cache_index >= m_tag_cache_count)
 	{
@@ -565,11 +547,11 @@ unsigned long c_mod_package::get_tag_cache_offset(__int32 tag_cache_index) const
 unsigned long c_mod_package::get_resource_cache_offset() const // 0x1089DDE0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_resource_cache_offset@c_mod_package@@QBEKXZ");
-	// c_mod_package const *const this;
 
 	return m_resource_cache_offset;
 }
 
+#line 573
 std::shared_ptr<c_cache_file_tag_cache> c_mod_package::open_tag_cache(c_file_reference &file, long index) // 0x1089E770
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?open_tag_cache@c_mod_package@@QAE?AV?$shared_ptr@Vc_cache_file_tag_cache@@@std@@AAVc_file_reference@@J@Z");
@@ -614,7 +596,6 @@ std::shared_ptr<Blam::Cache::StringIDCache> c_mod_package::open_string_id_cache(
 bool c_mod_package::read_section_headers() // 0x1089F8D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?read_section_headers@c_mod_package@@AAE_NXZ");
-	// c_mod_package *const this;
 
 	return m_file.read_from_position(
 		m_header.section_table.offset,
@@ -625,13 +606,6 @@ bool c_mod_package::read_section_headers() // 0x1089F8D0
 bool c_mod_package::read_map_files_section() // 0x1089F4A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?read_map_files_section@c_mod_package@@AAE_NXZ");
-	// static ...; // 0x1089F5B8
-	// static ...; // 0x1089F5AC
-	// static ...; // 0x1089F5A4
-	// c_mod_package *const this;
-	// s_mod_package_section_table map_file_table;
-	// unsigned long table_size;
-	// s_mod_package_section_header &section;
 
 	s_mod_package_section_table map_file_table;
 	s_mod_package_section_header &section = ((s_mod_package_section_header *)m_sections)[_mod_package_section_map_files];
@@ -668,6 +642,7 @@ bool c_mod_package::read_map_files_section() // 0x1089F4A0
 	return true;
 }
 
+#line 671
 bool c_mod_package::read_map_file_into_buffer(c_file_reference &file, long map_file_index, unsigned long buffer_size, void *buffer) // 0x1089F380
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?read_map_file_into_buffer@c_mod_package@@QAE_NAAVc_file_reference@@JKPAX@Z");
@@ -695,12 +670,6 @@ bool c_mod_package::read_map_file_into_buffer(c_file_reference &file, long map_f
 bool c_mod_package::read_font_package_blocking(c_file_reference &file, unsigned long offset, unsigned long size, void *buffer) // 0x1089ECE0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?read_font_package_blocking@c_mod_package@@QAE_NAAVc_file_reference@@KKPAX@Z");
-	// c_file_reference &file;
-	// unsigned long offset;
-	// unsigned long size;
-	// void *buffer;
-	// s_mod_package_section_header *section;
-	// c_file_open_scope scope;
 
 	c_file_open_scope scope(file, 1);
 	s_mod_package_section_header *section = &m_sections[_mod_package_section_map_files];
@@ -712,23 +681,6 @@ bool c_mod_package::read_font_package_blocking(c_file_reference &file, unsigned 
 std::unordered_map<int,std::string> c_mod_package::read_tag_names(c_file_reference &file, __int32 tag_cache_index) // 0x1089F960
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?read_tag_names@c_mod_package@@QAE?AV?$unordered_map@HV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@U?$hash@H@2@U?$equal_to@H@2@V?$allocator@U?$pair@$$CBHV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@std@@@2@@std@@AAVc_file_reference@@H@Z");
-	// static ...; // 0x1089FDB2
-	// static ...; // 0x1089FD9E
-	// static ...; // 0x1089FD8F
-	// static ...; // 0x1089FD80
-	// static ...; // 0x1089FD38
-	// static ...; // 0x1089FD30
-	// c_mod_package *const this;
-	// c_file_reference &file;
-	// __int32 tag_cache_index;
-	// std::unordered_map<int,std::string> tag_names;
-	// unsigned long offset;
-	// s_mod_package_generic_table_entry tag_name_file_entry;
-	// s_mod_package_generic_section_entry tag_name_table;
-	// s_mod_package_section_table tag_name_file_table;
-	// c_file_open_scope scope;
-		// long i;
-			// s_mod_package_tag_name_entry tag_name_entry;
 
 	c_file_open_scope scope(file, 1);
 	std::unordered_map<int,std::string> tag_names;
@@ -761,11 +713,6 @@ std::unordered_map<int,std::string> c_mod_package::read_tag_names(c_file_referen
 c_file_reference c_mod_package::get_file() const // 0x1089DAB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_file@c_mod_package@@QBE?AVc_file_reference@@XZ");
-	// static ...; // 0x1089DB9C
-	// static ...; // 0x1089DB90
-	// static ...; // 0x1089DB88
-	// c_mod_package const *const this;
-	// c_file_reference copy;
 
 	c_file_reference copy(m_file.filename);
 
@@ -847,6 +794,7 @@ bool c_mod_package::get_section_header(e_mod_package_sections section, s_mod_pac
 	return true;
 }
 
+#line 850
 bool c_mod_package::read_section_data(c_file_reference &file, e_mod_package_sections section, unsigned long offset, unsigned long size, void *buffer) // 0x1089F740
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?read_section_data@c_mod_package@@QAE_NAAVc_file_reference@@W4e_mod_package_sections@@KKPAX@Z");

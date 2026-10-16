@@ -65,7 +65,6 @@ void muffins_update(float time_delta);
 void widget_patches_apply() // 0x107C41A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?widget_patches_apply@@YAXXZ");
-	// procedure flags: nofpo
 
 	Hook(0x7C76B0, muffins_update).Apply();
 }
@@ -75,20 +74,6 @@ void widget_patches_apply() // 0x107C41A0
 void muffins_update(float time_delta) // 0x107C3FF0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?muffins_update@@YAXM@Z");
-	// `anonymous-namespace'::muffins_update
-	// float time_delta;
-	// long (*const data_next_index)(s_data_array *, long);
-	// char *muffin_array;
-	// tls_data *tls;
-	// void (*const sub_BC6D80)(long);
-	// void (*const sub_BC6920)(long);
-		// unsigned short i;
-			// s_muffin_datum *muffin;
-	// function call : long (*const)(s_data_array *, long)
-	// function call : long (*const)(s_data_array *, long)
-	// function call : float (*const)()
-	// function call : void (*const)(long)
-	// function call : void (*const)(long)
 
 	long (*const data_next_index)(s_data_array *, long) = reinterpret_cast<long (*)(s_data_array *, long)>(0x55B130);
 	void (*const sub_BC6D80)(long) = reinterpret_cast<void (*)(long)>(0xBC6D80);

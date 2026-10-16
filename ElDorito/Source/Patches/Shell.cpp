@@ -182,16 +182,6 @@ namespace Server
 
 __int32 __stdcall WndProcHook(HWND__ *hWnd, unsigned __int32 msg, unsigned __int32 wParam, long lParam) // 0x10ACBDE0
 {
-	// `anonymous-namespace'::WndProcHook
-	// static ...; // 0x10ACC06C
-	// static ...; // 0x10ACC064
-	// HWND__ *hWnd;
-	// unsigned __int32 msg;
-	// unsigned __int32 wParam;
-	// long lParam;
-	// bool handled;
-	// __int32 result;
-	// constexpr __int32 (*const `WndProcHook'::`2'::Game_WndProc)(HWND__ *, unsigned __int32, unsigned __int32, long); // constant == 4384416
 	{
 		// __int32 mouseXButton;
 		// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
@@ -240,18 +230,6 @@ __int32 __stdcall WndProcHook(HWND__ *hWnd, unsigned __int32 msg, unsigned __int
 void EnableImmersiveDarkMode(HWND__ *hWnd) // 0x10ACBBA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?EnableImmersiveDarkMode@@YAXPAUHWND__@@@Z");
-	// `anonymous-namespace'::EnableImmersiveDarkMode
-	// static ...; // 0x10ACBC75
-	// static ...; // 0x10ACBC72
-	// static ...; // 0x10ACBC6C
-	// static ...; // 0x10ACBC48
-	// static ...; // 0x10ACBC40
-	// HWND__ *hWnd;
-	// unsigned long cb;
-	// __int32 appsUseLightTheme;
-		// __int32 value;
-	// function call : long (HKEY__ *, wchar_t const *, wchar_t const *, unsigned long, unsigned long *, void *, unsigned long *)
-	// function call : HRESULT (HWND__ *, unsigned long, void const *, unsigned long)
 
 	__int32 appsUseLightTheme;
 	unsigned long cb = sizeof(appsUseLightTheme);
@@ -264,15 +242,6 @@ void EnableImmersiveDarkMode(HWND__ *hWnd) // 0x10ACBBA0
 
 __int32 __stdcall SetWindowPosHook(HWND__ *hWnd, HWND__ *hWndInsertAfter, __int32 x, __int32 y, __int32 cx, __int32 cy, unsigned __int32 uFlags) // 0x10ACBCC0
 {
-	// `anonymous-namespace'::SetWindowPosHook
-	// __int32 y;
-	// __int32 cx;
-	// __int32 cy;
-	// unsigned __int32 uFlags;
-	// tagRECT rc;
-	// function call : HWND__ *()
-	// function call : __int32 (HWND__ *, tagRECT *)
-	// function call : __int32 (HWND__ *, HWND__ *, __int32, __int32, __int32, __int32, unsigned __int32)
 
 	tagRECT rc;
 	GetClientRect(GetDesktopWindow(), &rc);
@@ -284,15 +253,6 @@ __int32 __stdcall SetWindowPosHook(HWND__ *hWnd, HWND__ *hWndInsertAfter, __int3
 void DisplayCreateWindowError() // 0x10ACBAA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DisplayCreateWindowError@@YAXXZ");
-	// `anonymous-namespace'::DisplayCreateWindowError
-	// procedure flags: nofpo
-	// static ...; // 0x10ACBB60
-	// static ...; // 0x10ACBB54
-	// static ...; // 0x10ACBB4C
-	// char buffer[1024];
-	// function call : unsigned long ()
-	// function call : unsigned long (unsigned long, void const *, unsigned long, unsigned long, char *, unsigned long, char **)
-	// function call : __int32 (HWND__ *, char const *, char const *, unsigned __int32)
 
 	char buffer[1024];
 
@@ -303,44 +263,6 @@ void DisplayCreateWindowError() // 0x10ACBAA0
 static HWND__ *CreateGameWindowHook() // 0x10ACB3C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CreateGameWindowHook@@YAPAUHWND__@@XZ");
-	// `anonymous-namespace'::CreateGameWindowHook
-	// procedure flags: nofpo
-	// static ...; // 0x10ACB938
-	// static ...; // 0x10ACB92C
-	// static ...; // 0x10ACB920
-	// static ...; // 0x10ACB8FC
-	// static ...; // 0x10ACB8F4
-	// __int32 ret;
-	// tagRECT client_rect;
-	// unsigned long old_window_style;
-	// HICON__ *hcursor;
-	// HWND__ *hwnd;
-	// unsigned long swp_flags;
-	// bool is_fullscreen;
-	// tagWNDCLASSEXA wc;
-	// bool (*const global_preferences_get_fullscreen)();
-	// std::string windowTitle;
-	// unsigned long window_style;
-	// long *resolution;
-	// long *client_resolution;
-	// long width;
-	// long height;
-	// unsigned short atom;
-	// function call : HINSTANCE__ *(char const *)
-	// function call : HICON__ *(HINSTANCE__ *, char const *)
-	// function call : void *(HINSTANCE__ *, char const *, unsigned __int32, __int32, __int32, unsigned __int32)
-	// function call : HINSTANCE__ *(char const *)
-	// function call : void *(HINSTANCE__ *, char const *, unsigned __int32, __int32, __int32, unsigned __int32)
-	// function call : HICON__ *(HINSTANCE__ *, char const *)
-	// function call : void *(__int32)
-	// function call : unsigned short (tagWNDCLASSEXA const *)
-	// function call : HWND__ *()
-	// function call : HWND__ *(unsigned long, char const *, char const *, unsigned long, __int32, __int32, __int32, __int32, HWND__ *, HMENU__ *, HINSTANCE__ *, void *)
-	// function call : bool (*const)()
-	// function call : long (HWND__ *, __int32, long)
-	// function call : __int32 (tagRECT *, unsigned long, __int32)
-	// function call : __int32 (HWND__ *, __int32)
-	// function call : __int32 (HWND__ *, tagRECT *)
 
 	bool (*const global_preferences_get_fullscreen)() = (bool (*)())0x50B250;
 	long *resolution = (long *)0x19106C8;

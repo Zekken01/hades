@@ -243,7 +243,6 @@ namespace Web
 			void Init() // 0x10C9C760
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?Init@WebChat@Ui@Web@@YAXXZ");
-				// procedure flags: nofpo
 
 				Server::Chat::AddHandler(std::make_shared<GameChatHandler>());
 				Patches::Input::RegisterDefaultInputHandler(OnGameInputUpdated);
@@ -252,14 +251,6 @@ namespace Web
 			void Show(bool teamChat) // 0x10C9D080
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?Show@WebChat@Ui@Web@@YAX_N@Z");
-				// static ...; // 0x10C9D20B
-				// static ...; // 0x10C9D200
-				// static ...; // 0x10C9D1E8
-				// static ...; // 0x10C9D1E0
-				// bool teamChat;
-				// Blam::Network::Session *session;
-					// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
-					// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
 
 				Blam::Network::Session *session = Blam::Network::GetActiveSession();
 				if (session && session->IsEstablished())
@@ -279,7 +270,6 @@ namespace Web
 			void Hide() // 0x10C9C710
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?Hide@WebChat@Ui@Web@@YAXXZ");
-				// procedure flags: nofpo
 
 				ScreenLayer::Hide(ScreenLayer::Chat);
 			}
@@ -287,7 +277,6 @@ namespace Web
 			void SetChatBoxVisible(bool visible) // 0x10C9D050
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?SetChatBoxVisible@WebChat@Ui@Web@@YAX_N@Z");
-				// bool visible;
 
 				isChatBoxVisible = visible;
 			}
@@ -295,7 +284,6 @@ namespace Web
 			bool IsChatBoxVisible() // 0x10C9C860
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?IsChatBoxVisible@WebChat@Ui@Web@@YA_NXZ");
-				// procedure flags: nofpo
 
 				return isChatBoxVisible;
 			}
@@ -316,35 +304,11 @@ namespace Server
 void GameChatHandler::MessageSent(__int32 senderPeer, Server::Chat::ChatMessage *message, bool *ignore) // 0x10C9CE80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?MessageSent@GameChatHandler@hades_file_local@@UAEXHPAUChatMessage@Chat@Server@@PA_N@Z");
-	// the original is empty
-	// `anonymous-namespace'::GameChatHandler::MessageSent
-	// bool *ignore;
 }
 
 void GameChatHandler::MessageReceived(Server::Chat::ChatMessage const &message) // 0x10C9C880
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?MessageReceived@GameChatHandler@hades_file_local@@UAEXABUChatMessage@Chat@Server@@@Z");
-	// `anonymous-namespace'::GameChatHandler::MessageReceived
-	// static ...; // 0x10C9CD30
-	// static ...; // 0x10C9CD25
-	// static ...; // 0x10C9CD1E
-	// static ...; // 0x10C9CD1A
-	// static ...; // 0x10C9CD14
-	// static ...; // 0x10C9CCD8
-	// static ...; // 0x10C9CCD0
-// $LN8:
-// $LN7:
-// $LN6:
-// $LN5:
-	// GameChatHandler *const this;
-	// Server::Chat::ChatMessage const &message;
-	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
-	// char const *chatType;
-	// Blam::Network::Session *session;
-	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
-		// Blam::Network::PlayerSession player;
-		// std::stringstream color;
-		// char uid[17];
 
 	Blam::Network::Session *session = Blam::Network::GetActiveSession();
 	if (!session)
@@ -404,13 +368,6 @@ void GameChatHandler::MessageReceived(Server::Chat::ChatMessage const &message) 
 static void OnGameInputUpdated() // 0x10C9CEA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnGameInputUpdated@@YAXXZ");
-	// `anonymous-namespace'::OnGameInputUpdated
-	// procedure flags: nofpo
-	// static ...; // 0x10C9CFEC
-	// static ...; // 0x10C9CFE0
-	// static ...; // 0x10C9CFD8
-	// Blam::Input::BindingsTable bindings;
-	// function call : bool (*const)()
 
 	Blam::Input::BindingsTable bindings;
 	Blam::Input::GetBindings(0, &bindings);

@@ -131,24 +131,6 @@ c_static_bit_vector<32> c_tag_resource_stream_task::m_used_packets; // 0x118F4E8
 long tag_resource_stream_async(long resource_handle, void *buffer, long buffer_size, c_async_completion_flag *completed) // 0x10854430
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?tag_resource_stream_async@@YAJJPAXJPAUc_async_completion_flag@@@Z");
-	// static ...; // 0x108545D4
-	// long resource_handle;
-	// void *buffer;
-	// long buffer_size;
-	// c_async_completion_flag *completed;
-	// s_cache_file_tag_resource_table_runtime *resource_table;
-	// s_cache_file_resource_shared_file *(*const get_shared_file_handle)(void *, e_cache_file_tag_resource_location);
-	// bool (*const get_page)(void *, __int32, __int32, s_indirect_cache_file_page *);
-	// s_tag_resource *resource;
-	// void *page_atlas;
-	// e_cache_file_tag_resource_location resource_location;
-	// s_indirect_cache_file_page page;
-	// s_cache_file_resource_shared_file *shared_file;
-	// c_tag_resource_stream_task task;
-	// void *resource_runtime_manager;
-	// short resource_index;
-	// function call : s_cache_file_resource_shared_file *(*const)(void *, e_cache_file_tag_resource_location)
-	// function call : bool (*const)(void *, __int32, __int32, s_indirect_cache_file_page *)
 
 	bool (__thiscall *const get_page)(void *, __int32, __int32, s_indirect_cache_file_page *) = *reinterpret_cast<bool (__thiscall **)(void *, __int32, __int32, s_indirect_cache_file_page *)>(0x1658634);
 	s_cache_file_resource_shared_file *(__thiscall *const get_shared_file_handle)(void *, e_cache_file_tag_resource_location) = reinterpret_cast<s_cache_file_resource_shared_file *(__thiscall *)(void *, e_cache_file_tag_resource_location)>(0x561520);
@@ -181,8 +163,6 @@ _inline c_tag_resource_stream_task::c_tag_resource_stream_task() = default; // 0
 _inline bool c_tag_resource_stream_task::s_packet::is_filled() const // 0x10854290
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?is_filled@s_packet@c_tag_resource_stream_task@hades_file_local@@QBE_NXZ");
-	// `anonymous-namespace'::c_tag_resource_stream_task::s_packet::is_filled
-	// c_tag_resource_stream_task::s_packet const *const this;
 
 	return overlapped.InternalHigh >= length;
 }
@@ -190,8 +170,6 @@ _inline bool c_tag_resource_stream_task::s_packet::is_filled() const // 0x108542
 _inline void c_tag_resource_stream_task::initialize(void *file_handle, unsigned long file_offset, unsigned long compressed_size, unsigned long uncompressed_size, void *buffer, unsigned long buffer_size, c_async_completion_flag *completion_flag) // 0x108541A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?initialize@c_tag_resource_stream_task@hades_file_local@@QAEXPAXKKK0KPAUc_async_completion_flag@@@Z");
-	// `anonymous-namespace'::c_tag_resource_stream_task::initialize
-	// c_async_completion_flag *completion_flag;
 
 	m_file_handle = file_handle;
 	m_file_offset = file_offset;
@@ -215,8 +193,6 @@ _inline void c_tag_resource_stream_task::initialize(void *file_handle, unsigned 
 _inline void c_tag_resource_stream_task::dispose() // 0x10854030
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?dispose@c_tag_resource_stream_task@hades_file_local@@QAEXXZ");
-	// `anonymous-namespace'::c_tag_resource_stream_task::dispose
-	// c_tag_resource_stream_task *const this;
 
 	block_allocator::get().free(m_block_buffer);
 }
@@ -224,9 +200,6 @@ _inline void c_tag_resource_stream_task::dispose() // 0x10854030
 _inline long c_tag_resource_stream_task::next_free_packet_index() // 0x108542F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?next_free_packet_index@c_tag_resource_stream_task@hades_file_local@@QAEJXZ");
-	// `anonymous-namespace'::c_tag_resource_stream_task::next_free_packet_index
-	// c_tag_resource_stream_task *const this;
-		// __int32 j;
 
 	for (long i = 0; i < 32; i++)
 	{
@@ -242,20 +215,6 @@ _inline long c_tag_resource_stream_task::next_free_packet_index() // 0x108542F0
 _inline bool c_tag_resource_stream_task::update() // 0x108547F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?update@c_tag_resource_stream_task@hades_file_local@@QAE_NXZ");
-	// `anonymous-namespace'::c_tag_resource_stream_task::update
-	// c_tag_resource_stream_task *const this;
-		// c_tag_resource_stream_task::s_lz_block_header *block_header;
-			// long packet_index;
-			// __int32 bRet;
-			// unsigned long err;
-			// __int32 j;
-				// long input_length;
-				// char *input_buffer;
-			// long overflow;
-	// function call : __int32 (void *, void *, unsigned long, unsigned long *, _OVERLAPPED *)
-	// function call : unsigned long ()
-	// function call : unsigned long ()
-	// function call : long (*const)(void *, void *, long)
 
 	(void)((!!(m_initialized)) || (_wassert(L"m_initialized", L"C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\tag_resource_streaming.cpp", 147), 0));
 	if (m_total_bytes_decompressed < m_uncompressed_size)
@@ -333,8 +292,6 @@ _inline bool c_tag_resource_stream_task::update() // 0x108547F0
 _inline void c_tag_resource_stream_task::abort(e_tag_resource_stream_abort_reason reason) // 0x10853E80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?abort@c_tag_resource_stream_task@hades_file_local@@QAEXW4e_tag_resource_stream_abort_reason@@@Z");
-	// `anonymous-namespace'::c_tag_resource_stream_task::abort
-	// e_tag_resource_stream_abort_reason reason;
 
 	m_completion_flag->set_internal_data(reason);
 	m_aborted = true;
@@ -343,8 +300,6 @@ _inline void c_tag_resource_stream_task::abort(e_tag_resource_stream_abort_reaso
 _inline e_async_completion c_tag_resource_stream_task::async_callback(c_tag_resource_stream_task *task) // 0x10853FD0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?async_callback@c_tag_resource_stream_task@hades_file_local@@SA?AW4e_async_completion@@PAV12@@Z");
-	// `anonymous-namespace'::c_tag_resource_stream_task::async_callback
-	// c_tag_resource_stream_task *task;
 
 	if (!task->update())
 	{

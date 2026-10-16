@@ -41,7 +41,6 @@ extern long device_group_new(long device_index, float initial_value, unsigned lo
 c_data_array<s_device_group_datum> *device_groups_get() // 0x10F0C5C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?device_groups_get@@YAPAV?$c_data_array@Us_device_group_datum@@@@XZ");
-	// procedure flags: nofpo
 
 	return tls_getd().device_groups;
 }
@@ -49,11 +48,6 @@ c_data_array<s_device_group_datum> *device_groups_get() // 0x10F0C5C0
 long device_group_new(long device_index, float initial_value, unsigned long flags) // 0x10F0C4E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?device_group_new@@YAJJMK@Z");
-	// unsigned long flags;
-	// s_device_group_datum *datum;
-	// unsigned long datum_index;
-	// c_data_array<s_device_group_datum> *device_groups;
-	// function call : unsigned long (*const)(s_data_array *)
 
 	c_data_array<s_device_group_datum> *device_groups = device_groups_get();
 	unsigned long datum_index = datum_new(device_groups);

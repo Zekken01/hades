@@ -29,7 +29,6 @@ extern s_observer *observer_get(long output_user_index);
 s_observer *observer_get(long output_user_index) // 0x10F19300
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?observer_get@@YAPAUs_observer@@J@Z");
-	// long output_user_index;
 
 	return &tls_getd().observer_globals->observers[output_user_index];
 }

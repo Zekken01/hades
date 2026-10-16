@@ -172,20 +172,6 @@ namespace Utils
 void CServerConnectStateHandler_Connect::OnEnter() // 0x1090BE70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnEnter@CServerConnectStateHandler_Connect@@EAEXXZ");
-	// static ...; // 0x1090C203
-	// static ...; // 0x1090C1EF
-	// static ...; // 0x1090C1E8
-	// static ...; // 0x1090C1C4
-	// static ...; // 0x1090C1BC
-	// CServerConnectStateHandler_Connect *const this;
-	// Web::Ui::ScreenLayer::SDialogShowParams params;
-	// s_transport_address inaddr;
-	// std::stringstream discordStringStream;
-	// SServerConnectState const &state;
-	// s_network_session_remote_join_data *join_data;
-	// function call : void (*const)()
-	// function call : void (*const)(s_transport_address const *, void const *, void const *)
-	// function call : unsigned long long (*const)()
 
 	Console::WriteLine("Server Connect :: Connecting to game server...");
 	SServerConnectState const &state = GetManager()->GetState();
@@ -216,13 +202,11 @@ void CServerConnectStateHandler_Connect::OnEnter() // 0x1090BE70
 void CServerConnectStateHandler_Connect::OnExit() // 0x1090C2F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnExit@CServerConnectStateHandler_Connect@@EAEXXZ");
-	// CServerConnectStateHandler_Connect *const this;
 }
 
 void CServerConnectStateHandler_Connect::OnUpdate() // 0x1090C310
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnUpdate@CServerConnectStateHandler_Connect@@EAEXXZ");
-	// CServerConnectStateHandler_Connect *const this;
 }
 
 /* ---------- private code */

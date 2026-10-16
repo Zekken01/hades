@@ -82,7 +82,6 @@ extern short (*const objects_get_in_cluster)(long, c_flags<enum e_object_type,lo
 c_data_array<s_object_header> *object_headers_get() // 0x10EF8F00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?object_headers_get@@YAPAV?$c_data_array@Us_object_header@@@@XZ");
-	// procedure flags: nofpo
 
 	return tls_getd().object_header;
 }
@@ -90,8 +89,6 @@ c_data_array<s_object_header> *object_headers_get() // 0x10EF8F00
 s_object_header *object_header_get(unsigned long object_index) // 0x10EF8E70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?object_header_get@@YAPAUs_object_header@@K@Z");
-	// unsigned long object_index;
-	// function call : void *(*const)(s_data_array const *, unsigned long)
 
 	if (object_index == -1)
 	{
@@ -104,8 +101,6 @@ s_object_header *object_header_get(unsigned long object_index) // 0x10EF8E70
 s_object_data *object_get(unsigned long object_index) // 0x10EF8CB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?object_get@@YAPAUs_object_data@@K@Z");
-	// unsigned long object_index;
-	// s_object_header *object_header;
 
 	s_object_header *object_header = object_header_get(object_index);
 	if (object_header == nullptr)
@@ -116,10 +111,6 @@ s_object_data *object_get(unsigned long object_index) // 0x10EF8CB0
 __int32 object_choose_variant(unsigned long object_index, unsigned long variant_name) // 0x10EF8BB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?object_choose_variant@@YAHKK@Z");
-	// unsigned long variant_name;
-	// s_object_data *data;
-	// s_object_definition *definition;
-	// function call : void *(*const)(unsigned long, long)
 
 	s_object_data *data = object_get(object_index);
 	if (!data)
@@ -138,15 +129,6 @@ __int32 object_choose_variant(unsigned long object_index, unsigned long variant_
 __int32 object_lookup_variant_index_from_name(__int32 tag_index, unsigned long variant_name) // 0x10EF8F50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?object_lookup_variant_index_from_name@@YAHHK@Z");
-	// unsigned long variant_name;
-	// s_model_definition *model_definition;
-	// long variant_count;
-	// __int32 result;
-		// c_tag_block<s_model_variant> &<range>$L0;
-		// s_model_variant *<begin>$L0;
-		// s_model_variant *<end>$L0;
-			// s_model_variant &variant;
-	// function call : void *(*const)(unsigned long, long)
 
 	if (tag_index == -1)
 		return -1;
@@ -175,12 +157,6 @@ __int32 object_lookup_variant_index_from_name(__int32 tag_index, unsigned long v
 unsigned long object_get_variant_name(long object_index) // 0x10EF8D20
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?object_get_variant_name@@YAKJ@Z");
-	// long object_index;
-	// s_object_data *object;
-	// s_object_definition *const object_def;
-	// s_model_definition *const model;
-	// function call : void *(*const)(unsigned long, long)
-	// function call : void *(*const)(unsigned long, long)
 
 	s_object_data *object = object_get(object_index);
 	if (!object)

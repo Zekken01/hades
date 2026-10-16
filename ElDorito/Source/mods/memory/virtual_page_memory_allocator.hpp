@@ -42,7 +42,6 @@ static_assert(sizeof(c_virtual_page_memory_allocator) == 16, "Invalid c_virtual_
 inline void *c_virtual_page_memory_allocator::get_base_address() // 0x108BDD50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_base_address@c_virtual_page_memory_allocator@@QAEPAXXZ");
-	// c_virtual_page_memory_allocator *const this;
 
 	return m_memory;
 }
@@ -50,7 +49,6 @@ inline void *c_virtual_page_memory_allocator::get_base_address() // 0x108BDD50
 inline unsigned long c_virtual_page_memory_allocator::get_used_size() const // 0x108BE060
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_used_size@c_virtual_page_memory_allocator@@QBEKXZ");
-	// c_virtual_page_memory_allocator const *const this;
 
 	return m_current_size;
 }
@@ -58,7 +56,6 @@ inline unsigned long c_virtual_page_memory_allocator::get_used_size() const // 0
 inline unsigned long c_virtual_page_memory_allocator::get_total_size() const // 0x108BDF90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_total_size@c_virtual_page_memory_allocator@@QBEKXZ");
-	// c_virtual_page_memory_allocator const *const this;
 
 	return m_total_size;
 }

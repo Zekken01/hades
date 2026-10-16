@@ -58,14 +58,6 @@ extern bool (*const network_session_interface_get_squad_session)(c_network_sessi
 bool network_squad_session_set_mod(s_session_mod_options const *options) // 0x10EF8920
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?network_squad_session_set_mod@@YA_NPBUs_session_mod_options@@@Z");
-	// static ...; // 0x10EF89EC
-	// static ...; // 0x10EF89E0
-	// static ...; // 0x10EF89D8
-	// s_session_mod_options const *options;
-	// c_network_session_parameter_base *session_paramerer;
-	// c_network_session_parameters *session_parameters;
-	// c_network_session *session;
-	// function call : bool (*const)(c_network_session **)
 
 	c_network_session *session;
 	if (!eldorado::network_life_cycle_in_squad_session(&session))
@@ -86,14 +78,6 @@ bool network_squad_session_set_mod(s_session_mod_options const *options) // 0x10
 s_session_mod_options const *network_squad_session_get_mod() // 0x10EF8810
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?network_squad_session_get_mod@@YAPBUs_session_mod_options@@XZ");
-	// procedure flags: nofpo
-	// static ...; // 0x10EF88D8
-	// static ...; // 0x10EF88CC
-	// static ...; // 0x10EF88C4
-	// c_network_session_parameter_base *session_paramerer;
-	// c_network_session_parameters *session_parameters;
-	// c_network_session *session;
-	// function call : bool (*const)(c_network_session **)
 
 	c_network_session *session;
 	if (!eldorado::network_life_cycle_in_squad_session(&session))

@@ -262,7 +262,6 @@ namespace Forge
 		bool Initialize() // 0x1096D1B0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@Magnets@Forge@@YA_NXZ");
-			// procedure flags: nofpo
 
 			markerGroupName = Blam::Cache::StringIDCache::GetCurrent()->GetStringId(MARKER_GROUP_NAME);
 			if (!s_MagnetManager)
@@ -280,7 +279,6 @@ namespace Forge
 		void Shutdown() // 0x1096DE20
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Shutdown@Magnets@Forge@@YAXXZ");
-			// procedure flags: nofpo
 
 			s_MagnetManager.reset(nullptr);
 		}
@@ -288,7 +286,6 @@ namespace Forge
 		void Update() // 0x1096E210
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Update@Magnets@Forge@@YAXXZ");
-			// procedure flags: nofpo
 
 			if (!MagnetsEnabled())
 				return;
@@ -300,7 +297,6 @@ namespace Forge
 		void Render() // 0x1096D8C0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Render@Magnets@Forge@@YAXXZ");
-			// procedure flags: nofpo
 
 			if (!MagnetsEnabled() || !MagnetsVisible())
 				return;
@@ -312,8 +308,6 @@ namespace Forge
 		Forge::Magnets::MagnetPair const &GetMagnetPair() // 0x1096CB80
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetMagnetPair@Magnets@Forge@@YAABUMagnetPair@12@XZ");
-			// procedure flags: nofpo
-			// static Forge::Magnets::MagnetPair nullMagnetPair; // 0x1240FB5C
 
 			if (!s_MagnetManager || !MagnetsEnabled())
 			{
@@ -330,8 +324,6 @@ namespace Forge
 _inline MagnetManager::MagnetManager() // 0x1096C1A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0MagnetManager@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::MagnetManager::MagnetManager
-	// MagnetManager *const this;
 
 	m_LastCheck = 0;
 	m_NumSourceMagnets = 0;
@@ -349,8 +341,6 @@ namespace Forge
 _inline Forge::Magnets::MagnetPair const &MagnetManager::GetMagnetPair() const // 0x1096CB50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetMagnetPair@MagnetManager@hades_file_local@@QBEABUMagnetPair@Magnets@Forge@@XZ");
-	// `anonymous-namespace'::MagnetManager::GetMagnetPair
-	// MagnetManager const *const this;
 
 	return m_MagnetPairing;
 }
@@ -358,8 +348,6 @@ _inline Forge::Magnets::MagnetPair const &MagnetManager::GetMagnetPair() const /
 bool MagnetsEnabled() // 0x1096D360
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?MagnetsEnabled@@YA_NXZ");
-	// `anonymous-namespace'::MagnetsEnabled
-	// procedure flags: nofpo
 
 	return Modules::ModuleForge::Instance().VarMagnetsEnabled->ValueInt;
 }
@@ -367,8 +355,6 @@ bool MagnetsEnabled() // 0x1096D360
 bool MagnetsVisible() // 0x1096D3D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?MagnetsVisible@@YA_NXZ");
-	// `anonymous-namespace'::MagnetsVisible
-	// procedure flags: nofpo
 
 	return Modules::ModuleForge::Instance().VarMagnetsVisible->ValueInt;
 }
@@ -376,28 +362,6 @@ bool MagnetsVisible() // 0x1096D3D0
 void MagnetManager::Update() // 0x1096DE70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Update@MagnetManager@hades_file_local@@QAEXXZ");
-	// `anonymous-namespace'::MagnetManager::Update
-	// static ...; // 0x1096E13D
-	// static ...; // 0x1096E12C
-	// static ...; // 0x1096E114
-	// static ...; // 0x1096E10C
-	// MagnetManager *const this;
-	// long heldObjectIndex;
-	// Forge::ObjectSet const &selection;
-	// unsigned long playerIndex;
-		// s_object_data const *heldObject;
-			// long objectIndex;
-				// s_object_data *object;
-		// short numProximityObjects;
-		// long proximityObjects[256];
-			// __int32 i;
-				// long objectIndex;
-	// function call : unsigned long (*const)(long)
-	// function call : bool (*const)(long, long *, long *)
-	// function call : long (*const)()
-	// function call : float (*const)(float)
-	// function call : long (*const)()
-	// function call : short (*const)(long, long, s_cluster_reference const *, real_point3d const *, float, long *, short)
 
 	unsigned long playerIndex = ((unsigned long (*)(long))0x589C30)(0);
 	if (playerIndex == -1)
@@ -444,25 +408,6 @@ void MagnetManager::Update() // 0x1096DE70
 void MagnetManager::PerformPairing() // 0x1096D440
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?PerformPairing@MagnetManager@hades_file_local@@AAEXXZ");
-	// `anonymous-namespace'::MagnetManager::PerformPairing
-	// static ...; // 0x1096D69C
-	// static ...; // 0x1096D690
-	// static ...; // 0x1096D688
-	// MagnetManager *const this;
-	// s_player_datum *player;
-	// float shortestDistance;
-	// unsigned long playerIndex;
-	// real_matrix4x3 unitTransform;
-	// float const minDistance;
-	// float shortestUnitDistance;
-		// __int32 i;
-			// float unitDistance;
-			// Forge::Magnets::Magnet const &sourceMagnet;
-				// __int32 j;
-					// float distance2;
-					// Forge::Magnets::Magnet const &destMagnet;
-	// function call : unsigned long (*const)(long)
-	// function call : real_matrix4x3 *(*const)(long, real_matrix4x3 *)
 
 	m_MagnetPairing.IsValid = false;
 	unsigned long playerIndex = reinterpret_cast<unsigned long (*)(long)>(0x589C30)(0);
@@ -499,39 +444,6 @@ void MagnetManager::PerformPairing() // 0x1096D440
 void MagnetManager::RenderMagnet(Forge::Magnets::Magnet const &magnet) // 0x1096D940
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?RenderMagnet@MagnetManager@hades_file_local@@QAEXABUMagnet@Magnets@Forge@@@Z");
-	// `anonymous-namespace'::MagnetManager::RenderMagnet
-	// static ...; // 0x1096DD1A
-	// static ...; // 0x1096DD12
-	// static ...; // 0x1096DD0D
-	// static ...; // 0x1096DD0A
-	// static ...; // 0x1096DD08
-	// static ...; // 0x1096DCC0
-	// static ...; // 0x1096DCB8
-	// MagnetManager *const this;
-	// Forge::Magnets::Magnet const &magnet;
-	// __int32 v14;
-	// constexpr __int32 (*const `MagnetManager::RenderMagnet'::`2'::DrawPrimitive)(__int32, __int32, void *, __int32); // constant == 10650416
-	// real_vector3d forward;
-	// constexpr __int32 (*const `MagnetManager::RenderMagnet'::`2'::sub_A232D0)(__int32); // constant == 10629840
-	// constexpr __int32 (*const `MagnetManager::RenderMagnet'::`2'::sub_A22BA0)(); // constant == 10628000
-	// float const scale;
-	// constexpr void (*const `MagnetManager::RenderMagnet'::`2'::SetShaderConstant)(__int32, __int32, float const *); // constant == 10904592
-	// real_vector3d left;
-	// real_vector3d up;
-	// float m[12];
-		// float const color[4];
-	// function call : void (*const)(__int32, __int32, float const *)
-	// function call : void (*const)(__int32, __int32, float const *)
-	// function call : void (*const)(__int32, __int32, float const *)
-	// function call : __int32 (*const)()
-	// function call : __int32 (*const)(__int32)
-	// function call : __int32 (*const)(__int32, __int32, void *, __int32)
-	// function call : __int32 (*const)(__int32, __int32, void *, __int32)
-	// function call : __int32 (*const)(__int32, __int32, void *, __int32)
-	// function call : __int32 (*const)(__int32, __int32, void *, __int32)
-	// function call : __int32 (*const)(__int32, __int32, void *, __int32)
-	// function call : __int32 (*const)(__int32, __int32, void *, __int32)
-	// function call : __int32 (*const)(__int32)
 
 	if (m_MagnetPairing.IsValid && (m_MagnetPairing.Dest == &magnet || m_MagnetPairing.Source == &magnet))
 	{
@@ -567,10 +479,6 @@ void MagnetManager::RenderMagnet(Forge::Magnets::Magnet const &magnet) // 0x1096
 
 unsigned short GetPlasmaShaderTagIndex() // 0x1096D120
 {
-	// `anonymous-namespace'::GetPlasmaShaderTagIndex
-	// procedure flags: nofpo
-	// static long `GetPlasmaShaderTagIndex'::`2'::tagIndex; // 0x11353D44
-	// static bool `GetPlasmaShaderTagIndex'::`2'::tagLookup; // 0x11353D40
 
 	static bool tagLookup = true;
 	static long tagIndex = -1;
@@ -588,16 +496,6 @@ unsigned short GetPlasmaShaderTagIndex() // 0x1096D120
 void MagnetManager::Render() // 0x1096D750
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Render@MagnetManager@hades_file_local@@QAEXXZ");
-	// `anonymous-namespace'::MagnetManager::Render
-	// MagnetManager *const this;
-	// void *shaderDef;
-	// constexpr bool (*const `MagnetManager::Render'::`2'::UseDefaultShader)(__int32, __int32, __int32, __int32); // constant == 10629888
-	// constexpr void (*const `MagnetManager::Render'::`2'::sub_A3CA60)(unsigned __int32, void *, __int32, unsigned __int32, __int32, __int32); // constant == 10734176
-	// unsigned short const SHADER_TAGINDEX;
-		// __int32 i;
-	// function call : bool (*const)(__int32, __int32, __int32, __int32)
-	// function call : void *(*const)(unsigned long, long)
-	// function call : void (*const)(unsigned __int32, void *, __int32, unsigned __int32, __int32, __int32)
 
 	unsigned short const SHADER_TAGINDEX = GetPlasmaShaderTagIndex();
 	if (!((bool (*)(__int32, __int32, __int32, __int32))0xA23300)(64, 0x14, 0, 0))
@@ -616,9 +514,6 @@ void MagnetManager::Render() // 0x1096D750
 __int32 FindMagnetMarkerGroup(s_render_model const *renderModel) // 0x1096CAA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?FindMagnetMarkerGroup@@YAHPBUs_render_model@@@Z");
-	// `anonymous-namespace'::FindMagnetMarkerGroup
-	// s_render_model const *renderModel;
-		// __int32 i;
 
 	if (!markerGroupName)
 		return -1;
@@ -635,25 +530,6 @@ __int32 FindMagnetMarkerGroup(s_render_model const *renderModel) // 0x1096CAA0
 void GetMagnetsFromCollisionModel(unsigned __int32 objectIndex, std::vector<real_point3d> &markers) // 0x1096CC00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetMagnetsFromCollisionModel@@YAXIAAV?$vector@Ureal_point3d@@V?$allocator@Ureal_point3d@@@std@@@std@@@Z");
-	// `anonymous-namespace'::GetMagnetsFromCollisionModel
-	// static ...; // 0x1096CDAD
-	// static ...; // 0x1096CDA9
-	// static ...; // 0x1096CD9C
-	// static ...; // 0x1096CD6C
-	// static ...; // 0x1096CD64
-	// unsigned __int32 objectIndex;
-	// std::vector<real_point3d> &markers;
-		// collision_model_instance instance;
-			// s_collision_model_bsp_iterator iterator;
-				// c_tag_block<collision_vertex> const &vertices;
-				// long node_index;
-					// __int32 k;
-						// real_matrix4x3 world_matrix;
-						// real_point3d pos;
-	// function call : bool (*const)(collision_model_instance *, long)
-	// function call : void (*const)(s_collision_model_bsp_iterator *, model_definition const *, collision_model_definition const *, unsigned char const *)
-	// function call : bool (*const)(s_collision_model_bsp_iterator *)
-	// function call : real_matrix4x3 *(*const)(long, real_matrix4x3 *)
 
 	collision_model_instance instance;
 	if (((bool (*)(collision_model_instance *, long))0x980E40)(&instance, objectIndex))
@@ -680,20 +556,6 @@ void GetMagnetsFromCollisionModel(unsigned __int32 objectIndex, std::vector<real
 void MagnetManager::GetObjectMarkers(unsigned __int32 objectIndex, std::vector<real_point3d> &markers) // 0x1096CE30
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetObjectMarkers@MagnetManager@hades_file_local@@AAEXIAAV?$vector@Ureal_point3d@@V?$allocator@Ureal_point3d@@@std@@@std@@@Z");
-	// `anonymous-namespace'::MagnetManager::GetObjectMarkers
-	// std::vector<real_point3d> &markers;
-	// __int32 const markerGroupIndex;
-	// s_object_data *object;
-	// s_object_definition *objectDef;
-	// s_model_definition *model;
-	// s_render_model *renderModel;
-		// s_render_model_marker_group const *markerGroup;
-			// __int32 i;
-				// float scale;
-				// real_point3d const &pos;
-	// function call : void *(*const)(unsigned long, long)
-	// function call : void *(*const)(unsigned long, long)
-	// function call : void *(*const)(unsigned long, long)
 
 	s_object_data *object = object_get(objectIndex);
 	s_object_definition *objectDef = (s_object_definition *)tag_get('obje', object->definition_index);
@@ -737,17 +599,6 @@ void MagnetManager::GetObjectMarkers(unsigned __int32 objectIndex, std::vector<r
 void MagnetManager::AddSourceObject(unsigned __int32 objectIndex) // 0x1096C880
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?AddSourceObject@MagnetManager@hades_file_local@@AAEXI@Z");
-	// `anonymous-namespace'::MagnetManager::AddSourceObject
-	// static ...; // 0x1096CA0C
-	// static ...; // 0x1096CA04
-	// MagnetManager *const this;
-	// unsigned __int32 objectIndex;
-	// s_object_data *const object;
-	// static std::vector<real_point3d> `MagnetManager::AddSourceObject'::`2'::markers; // 0x1240FB68
-	// real_matrix4x3 objectTransform;
-	// static __int32 `MagnetManager::AddSourceObject'::`2'::$TSS0; // 0x1240FB78
-		// unsigned __int32 i;
-	// function call : real_matrix4x3 *(*const)(long, real_matrix4x3 *)
 
 	s_object_data *const object = object_get(objectIndex);
 	if (!object)
@@ -769,17 +620,6 @@ void MagnetManager::AddSourceObject(unsigned __int32 objectIndex) // 0x1096C880
 void MagnetManager::AddDestObject(unsigned __int32 objectIndex) // 0x1096C650
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?AddDestObject@MagnetManager@hades_file_local@@AAEXI@Z");
-	// `anonymous-namespace'::MagnetManager::AddDestObject
-	// static ...; // 0x1096C7EC
-	// static ...; // 0x1096C7E4
-	// MagnetManager *const this;
-	// unsigned __int32 objectIndex;
-	// s_object_data *object;
-	// static std::vector<real_point3d> `MagnetManager::AddDestObject'::`2'::markers; // 0x1240FB7C
-	// real_matrix4x3 objectTransform;
-	// static __int32 `MagnetManager::AddDestObject'::`2'::$TSS0; // 0x1240FB8C
-		// unsigned __int32 i;
-	// function call : real_matrix4x3 *(*const)(long, real_matrix4x3 *)
 
 	s_object_data *object = object_get(objectIndex);
 	if (!object || object->map_variant_index == -1)

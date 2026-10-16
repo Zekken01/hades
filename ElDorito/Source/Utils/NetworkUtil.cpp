@@ -57,19 +57,6 @@ namespace Utils
 		Utils::Network::EResolveAddressResult ResolveAddress(std::string const &hostname, unsigned __int32 *outAddr) // 0x1090D620
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ResolveAddress@Network@Utils@@YA?AW4EResolveAddressResult@12@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAI@Z");
-			// static ...; // 0x1090D768
-			// static ...; // 0x1090D760
-			// std::string const &hostname;
-			// unsigned __int32 *outAddr;
-			// __int32 retval;
-			// addrinfo *ptr;
-			// addrinfo *info;
-			// unsigned __int32 rawIpaddr;
-				// __int32 error;
-			// function call : __int32 (char const *, char const *, addrinfo const *, addrinfo **)
-			// function call : __int32 ()
-			// function call : unsigned long (unsigned long)
-			// function call : void (addrinfo *)
 
 			addrinfo *info = nullptr;
 			__int32 retval = getaddrinfo(hostname.c_str(), nullptr, nullptr, &info);

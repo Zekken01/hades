@@ -43,7 +43,6 @@ extern _inline s_juggernaut_globals *get_juggernaut_globals();
 _inline s_juggernaut_globals *get_juggernaut_globals() // 0x10CB3A80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_juggernaut_globals@@YAPAUs_juggernaut_globals@@XZ");
-	// procedure flags: nofpo
 
 	return reinterpret_cast<s_juggernaut_globals *>(tls_getd().game_engine_globals->engine_storage);
 }

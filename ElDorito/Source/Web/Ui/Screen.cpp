@@ -101,7 +101,6 @@ namespace Web
 		void WebScreen::Notify(std::string const &event, std::string const &data) // 0x10C8CCA0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Notify@WebScreen@Ui@Web@@IAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z");
-			// std::string const &data;
 
 			ScreenLayer::Notify(event, data, false);
 		}

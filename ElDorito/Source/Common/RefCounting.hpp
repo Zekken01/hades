@@ -27,7 +27,6 @@ class Mod;
 template<> inline Ref<Mod>::operator Mod *() const // 0x10791830
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??B?$Ref@VMod@@@@QBEPAVMod@@XZ");
-	// Ref<Mod> const *const this;
 
 	return p;
 }
@@ -35,7 +34,6 @@ template<> inline Ref<Mod>::operator Mod *() const // 0x10791830
 template<> inline Ref<IMod>::operator IMod *() const // 0x1068DF20
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??B?$Ref@VIMod@@@@QBEPAVIMod@@XZ");
-	// Ref<IMod> const *const this;
 
 	return p;
 }

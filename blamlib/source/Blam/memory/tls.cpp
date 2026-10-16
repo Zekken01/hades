@@ -22,8 +22,6 @@ extern void *tls_get(unsigned long const offset);
 void *tls_get(unsigned long const offset) // 0x10EF90A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?tls_get@@YAPAXK@Z");
-	// unsigned long const offset;
-	// void *address;
 
 	void *address = nullptr;
 	__asm

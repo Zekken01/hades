@@ -162,9 +162,6 @@ using namespace hades_file_local;
 void ExpandRuntimePool() // 0x1085F150
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ExpandRuntimePool@@YAXXZ");
-	// procedure flags: nofpo
-	// __int32 additionalPageMemorySize;
-	// __int32 additionPages;
 
 	__int32 additionPages = 0x28A;
 	__int32 additionalPageMemorySize = additionPages * 0x2000;
@@ -240,7 +237,6 @@ namespace Patches
 		void ApplyAll() // 0x1085E750
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@HavokMemory@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			Hook(0x35D38B, havok_memory_init_runtime_pool_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x35D4D0, havok_memory_init_overflow_pool_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
@@ -258,13 +254,6 @@ namespace Patches
 		void RenderDebug() // 0x1085F970
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?RenderDebug@HavokMemory@Patches@@YAXXZ");
-			// procedure flags: nofpo
-			// static ...; // 0x1085FA64
-			// static ...; // 0x1085FA58
-			// static ...; // 0x1085FA50
-				// CHavokStatsDisplayOutputHandler outputHandler;
-			// function call : bool (*const)()
-			// function call : void (*const)(CHavokStatsOutputHandler *)
 
 			if (!Modules::ModuleDebug::Instance().VarHavokStats->ValueInt)
 				return;
@@ -282,9 +271,6 @@ namespace Patches
 void *havok_memory_init_runtime_pool_hook(void *buff) // 0x1085FCB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?havok_memory_init_runtime_pool_hook@@YAPAXPAX@Z");
-	// `anonymous-namespace'::havok_memory_init_runtime_pool_hook
-	// void *buff;
-	// function call : void *(*)(void *)
 
 	return ((void *(__cdecl *)(void *))0x9f7790)(g_runtimePoolMemory);
 }
@@ -292,9 +278,6 @@ void *havok_memory_init_runtime_pool_hook(void *buff) // 0x1085FCB0
 void *havok_memory_init_overflow_pool_hook(void *pool, void *buff, __int32 buff_size) // 0x1085FC40
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?havok_memory_init_overflow_pool_hook@@YAPAXPAX0H@Z");
-	// `anonymous-namespace'::havok_memory_init_overflow_pool_hook
-	// __int32 buff_size;
-	// function call : void *(*)(void *, void *, __int32)
 
 	return ((void *(__cdecl *)(void *, void *, __int32))0x9f8480)(pool, (char *)buff - 0x384E10, 0x384E10);
 }
@@ -302,8 +285,6 @@ void *havok_memory_init_overflow_pool_hook(void *pool, void *buff, __int32 buff_
 _inline void CHavokStatsStringOutputHandler::OutputLine(real_argb_color const *color, char const *line) // 0x1085F900
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OutputLine@CHavokStatsStringOutputHandler@hades_file_local@@UAEXPBUreal_argb_color@@PBD@Z");
-	// `anonymous-namespace'::CHavokStatsStringOutputHandler::OutputLine
-	// char const *line;
 
 	m_buffer << line << "\r\n";
 }
@@ -311,8 +292,6 @@ _inline void CHavokStatsStringOutputHandler::OutputLine(real_argb_color const *c
 _inline std::string CHavokStatsStringOutputHandler::GetString() const // 0x1085F630
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetString@CHavokStatsStringOutputHandler@hades_file_local@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-	// `anonymous-namespace'::CHavokStatsStringOutputHandler::GetString
-	// CHavokStatsStringOutputHandler const *const this;
 
 	return m_buffer.str();
 }
@@ -320,9 +299,6 @@ _inline std::string CHavokStatsStringOutputHandler::GetString() const // 0x1085F
 _inline CHavokStatsDisplayOutputHandler::CHavokStatsDisplayOutputHandler() // 0x1085E4F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0CHavokStatsDisplayOutputHandler@hades_file_local@@QAE@XZ");
-	// `anonymous-namespace'::CHavokStatsDisplayOutputHandler::CHavokStatsDisplayOutputHandler
-	// CHavokStatsDisplayOutputHandler *const this;
-	// function call : void (*const)(short_rectangle2d *, short_rectangle2d *, short_rectangle2d *, short_rectangle2d *)
 
 	m_yOffset = 0;
 	eldorado::interface_get_current_display_settings(nullptr, nullptr, nullptr, &m_displayBounds);
@@ -343,13 +319,6 @@ _inline CHavokStatsStringOutputHandler::CHavokStatsStringOutputHandler() = defau
 _inline void CHavokStatsDisplayOutputHandler::OutputLine(real_argb_color const *color, char const *line) // 0x1085F6C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OutputLine@CHavokStatsDisplayOutputHandler@hades_file_local@@UAEXPBUreal_argb_color@@PBD@Z");
-	// `anonymous-namespace'::CHavokStatsDisplayOutputHandler::OutputLine
-	// static ...; // 0x1085F868
-	// CHavokStatsDisplayOutputHandler *const this;
-	// real_argb_color const *color;
-	// char const *line;
-	// short_rectangle2d bounds;
-	// function call : void (*const)(short_rectangle2d *, short_rectangle2d *, short_rectangle2d *, short_rectangle2d *)
 
 	if (!color)
 	{ static real_argb_color const white = { 1.0f, 1.0f, 1.0f, 1.0f }; color = &white; } // 0x11191FD8
@@ -368,14 +337,6 @@ _inline void CHavokStatsDisplayOutputHandler::OutputLine(real_argb_color const *
 __int32 havok_display_stats_printf_hook(CHavokStatsOutputHandler *output_handler, real_argb_color const *color, char const *format, ...) // 0x1085FB20
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?havok_display_stats_printf_hook@@YAHPAUCHavokStatsOutputHandler@hades_file_local@@PBUreal_argb_color@@PBDZZ");
-	// `anonymous-namespace'::havok_display_stats_printf_hook
-	// CHavokStatsOutputHandler *output_handler;
-	// real_argb_color const *color;
-	// char const *format;
-	// __int32 n;
-	// char buff[8192];
-	// char *va;
-	// function call : void (real_argb_color const *, char const *)
 
 	if (output_handler == (CHavokStatsOutputHandler *)1)
 		return -1;
@@ -394,14 +355,6 @@ __int32 havok_display_stats_printf_hook(CHavokStatsOutputHandler *output_handler
 void havok_out_of_memory_hook() // 0x1085FD10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?havok_out_of_memory_hook@@YAXXZ");
-	// `anonymous-namespace'::havok_out_of_memory_hook
-	// procedure flags: nofpo
-	// static ...; // 0x1085FE24
-	// static ...; // 0x1085FE18
-	// static ...; // 0x1085FE10
-	// CHavokStatsStringOutputHandler buff;
-	// function call : void (*const)(CHavokStatsOutputHandler *)
-	// function call : __int32 (HWND__ *, char const *, char const *, unsigned __int32)
 
 	CHavokStatsStringOutputHandler buff;
 	eldorado::havok_display_stats(&buff);

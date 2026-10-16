@@ -86,9 +86,6 @@ struct lambda_1;
 void CJobManager::Initialize() // 0x1086A130
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@CJobManager@@QAEXXZ");
-	// CJobManager *const this;
-	// __int32 const kNumberOfWorkerThreads;
-		// __int32 i;
 
 	__int32 const kNumberOfWorkerThreads = 4;
 	for (__int32 i = 0; i < kNumberOfWorkerThreads; i++)
@@ -100,15 +97,6 @@ void CJobManager::Initialize() // 0x1086A130
 void CJobManager::Dispose() // 0x10869F80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Dispose@CJobManager@@QAEXXZ");
-	// static ...; // 0x1086A084
-	// static ...; // 0x1086A078
-	// static ...; // 0x1086A070
-	// CJobManager *const this;
-	// std::unique_lock<std::mutex> lock;
-		// std::vector<std::thread> &<range>$L0;
-		// std::thread *<begin>$L0;
-		// std::thread *<end>$L0;
-			// std::thread &t;
 
 	std::unique_lock<std::mutex> lock(m_mutex);
 	m_disposing = true;
@@ -121,13 +109,6 @@ void CJobManager::Dispose() // 0x10869F80
 void CJobManager::AddNewJob(std::function<enum EJobResult __cdecl(void)> function, __int32 priority, SJobCounter *counter) // 0x10869D00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?AddNewJob@CJobManager@@QAEXV?$function@$$A6A?AW4EJobResult@@XZ@std@@HPAUSJobCounter@@@Z");
-	// static ...; // 0x10869E84
-	// CJobManager *const this;
-	// std::function<enum EJobResult __cdecl(void)> function;
-	// __int32 priority;
-	// SJobCounter *counter;
-	// CJobManager::SJob job;
-	// std::unique_lock<std::mutex> lock;
 
 	SJob job;
 	job.callback = function;
@@ -162,14 +143,6 @@ _inline CJobManager::SJob &CJobManager::SJob::operator=(CJobManager::SJob &&__th
 bool CJobManager::RunJobs() // 0x1086A250
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?RunJobs@CJobManager@@QAE_NXZ");
-	// static ...; // 0x1086A40C
-	// static ...; // 0x1086A408
-	// static ...; // 0x1086A3F0
-	// static ...; // 0x1086A3E8
-	// CJobManager *const this;
-	// std::unique_lock<std::mutex> lock;
-	// CJobManager::SJob job;
-	// EJobResult result;
 
 	std::unique_lock<std::mutex> lock(m_mutex);
 	m_emptyCondition.wait(lock, [this] { return !m_jobs.empty() || m_disposing; });
@@ -199,7 +172,6 @@ bool CJobManager::RunJobs() // 0x1086A250
 void CJobManager::WorkerThreadProc() // 0x1086A490
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?WorkerThreadProc@CJobManager@@AAEXXZ");
-	// CJobManager *const this;
 
 	while (RunJobs())
 	{

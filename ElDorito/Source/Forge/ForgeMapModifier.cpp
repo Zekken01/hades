@@ -103,7 +103,6 @@ namespace Forge
 	void CForgeMapModifier::InitializeForNewMap() // 0x1067C930
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeForNewMap@CForgeMapModifier@Forge@@SAXXZ");
-		// procedure flags: nofpo
 
 		state = {};
 	}
@@ -111,16 +110,6 @@ namespace Forge
 	void CForgeMapModifier::Update() // 0x1067C9B0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CForgeMapModifier@Forge@@SAXXZ");
-		// procedure flags: nofpo
-		// bool roundInProgress;
-		// s_object_data *mapModifierObject;
-		// long mapModifierObjectIndex;
-		// s_multiplayer_object_properties *mpProperties;
-		// Forge::ForgeMapModifierProperties *mapModifierProperties;
-		// function call : bool (*const)()
-		// function call : float (*const)(float)
-		// function call : s_multiplayer_object_properties *(*const)(unsigned long)
-		// function call : float (*const)(float)
 
 		long mapModifierObjectIndex = FindMapModifierObject();
 		state.ObjectIndex = mapModifierObjectIndex;
@@ -160,8 +149,6 @@ namespace Forge
 	long CForgeMapModifier::GetOrCreateMapModifierObject() // 0x1067C8D0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetOrCreateMapModifierObject@CForgeMapModifier@Forge@@SAJXZ");
-		// procedure flags: nofpo
-		// long object_index;
 
 		long object_index = FindMapModifierObject();
 
@@ -174,7 +161,6 @@ namespace Forge
 	void CForgeMapModifier::OnUndoRedoCompleted() // 0x1067C990
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?OnUndoRedoCompleted@CForgeMapModifier@Forge@@SAXXZ");
-		// procedure flags: nofpo
 
 		state.WaitingForNewRound = true;
 	}
@@ -185,15 +171,6 @@ namespace Forge
 long FindMapModifierObject() // 0x1067C780
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?FindMapModifierObject@@YAJXZ");
-	// `anonymous-namespace'::FindMapModifierObject
-	// procedure flags: nofpo
-	// static ...; // 0x1067C888
-	// static ...; // 0x1067C87C
-	// static ...; // 0x1067C874
-	// c_data_array<s_object_header> *object_headers;
-	// s_forge_globals_definition *forge_globals;
-		// c_data_iterator<s_object_header> it;
-			// long tagIndex;
 
 	s_forge_globals_definition *forge_globals = forge_globals_get_definition();
 	if (!forge_globals)
@@ -213,19 +190,6 @@ long FindMapModifierObject() // 0x1067C780
 long CreateMapmodifierObject() // 0x1067C5A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CreateMapmodifierObject@@YAJXZ");
-	// `anonymous-namespace'::CreateMapmodifierObject
-	// procedure flags: nofpo
-	// s_object_data *mapModifierObject;
-	// s_variant_datum &placement;
-	// long object_index;
-	// long playerIndex;
-	// s_map_variant *map_variant;
-	// s_forge_globals_definition *forge_globals;
-	// function call : s_map_variant *(*const)()
-	// function call : long (*const)(s_map_variant *, long, long, long, real_point3d const *, real_vector3d const *, real_vector3d const *, long, long, s_map_variant_placement_properties const *, short)
-	// function call : unsigned long (*const)(long)
-	// function call : void (*const)(long, long, s_map_variant_placement_properties const *)
-	// function call : void (*const)(long, long)
 
 	s_forge_globals_definition *forge_globals = forge_globals_get_definition();
 	if (!forge_globals)

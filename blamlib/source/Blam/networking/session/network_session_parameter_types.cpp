@@ -27,8 +27,6 @@ class c_network_session_parameter_type_collection;
 void c_network_session_parameter_type_collection::register_session_parameter_type(e_network_session_parameter_type session_parameter_type, char const *session_parameter_name, bool (*update_encode)(c_bitstream *, void *), bool (*update_decode)(c_bitstream *, void *), long update_size, bool (*change_request_encode)(c_bitstream *, void *), bool (*change_request_decode)(c_bitstream *, void *), long change_request_size) // 0x10F1AC00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?register_session_parameter_type@c_network_session_parameter_type_collection@@QAEXW4e_network_session_parameter_type@@PBDP6A_NPAVc_bitstream@@PAX@Z4J44J@Z");
-	// long change_request_size;
-	// c_network_session_parameter_type_collection::s_type *element;
 
 	s_type *element = &m_types[session_parameter_type];
 	element->parameter_name = session_parameter_name;

@@ -118,7 +118,6 @@ extern void d3d_resource_tracker_output_allocated_resource_counts();
 inline long c_d3d_resource_tracker::get_index_buffer_ptr() // 0x108CAC40
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_index_buffer_ptr@c_d3d_resource_tracker@@SAJXZ");
-	// procedure flags: nofpo
 
 	return (long)m_allocated_d3d_vertex_buffers[m_num_of_allocated_index_buffers + 16383].resource;
 }

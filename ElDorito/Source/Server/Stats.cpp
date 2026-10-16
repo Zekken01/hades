@@ -281,14 +281,6 @@ namespace Server
 		void GetStatsEndpoints(std::vector<std::string> &destVect) // 0x10B28760
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetStatsEndpoints@Stats@Server@@YAXAAV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@@Z");
-			// static ...; // 0x10B288F8
-			// static ...; // 0x10B288EC
-			// static ...; // 0x10B288E4
-			// std::vector<std::string> &destVect;
-			// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
-				// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &statsObject;
-					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &submitUrls;
-						// unsigned __int32 i;
 
 			if (!Utils::Singleton<Utils::DewritoReader>::Instance().IsValid())
 				return;
@@ -308,12 +300,6 @@ namespace Server
 		void GetPlayersInfoEndpoint() // 0x10B271C0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetPlayersInfoEndpoint@Stats@Server@@YAXXZ");
-			// procedure flags: nofpo
-			// static ...; // 0x10B272FC
-			// static ...; // 0x10B272F0
-			// static ...; // 0x10B272E8
-			// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
-				// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &statsObject;
 
 			if (!Utils::Singleton<Utils::DewritoReader>::Instance().IsValid())
 				return;
@@ -329,12 +315,6 @@ namespace Server
 		void GetStatsPublicKey(std::string &dest) // 0x10B2BE60
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetStatsPublicKey@Stats@Server@@YAXAAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-			// static ...; // 0x10B2BF98
-			// static ...; // 0x10B2BF8C
-			// static ...; // 0x10B2BF84
-			// std::string &dest;
-			// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
-				// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &statsObject;
 
 			if (!Utils::Singleton<Utils::DewritoReader>::Instance().IsValid())
 				return;
@@ -350,36 +330,6 @@ namespace Server
 		unsigned long __stdcall GetPlayersInfo_Thread(void *lpParam) // 0x10B27360
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetPlayersInfo_Thread@Stats@Server@@YGKPAX@Z");
-			// static ...; // 0x10B28353
-			// static ...; // 0x10B2834C
-			// static ...; // 0x10B28345
-			// static ...; // 0x10B2833F
-			// static ...; // 0x10B2833B
-			// static ...; // 0x10B2832E
-			// static ...; // 0x10B2832A
-			// static ...; // 0x10B2831F
-			// static ...; // 0x10B28316
-			// static ...; // 0x10B28311
-			// static ...; // 0x10B2830C
-			// static ...; // 0x10B28288
-			// static ...; // 0x10B28280
-		// $LN69:
-			// void *lpParam;
-			// __int32 player_index;
-			// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> s;
-			// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-			// HttpRequest req;
-			// Blam::Network::Session *session;
-				// Blam::Network::PlayerSession *player;
-				// char ipStr[22];
-				// s_player_emblem_configuration emblemConfig;
-				// char uid[17];
-				// unsigned short team;
-				// in_addr inAddr;
-				// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
-				// std::string sendObject;
-				// std::wstring expected;
-				// std::string resp;
 
 			if (playersInfoEndpoint.empty())
 				return false;
@@ -472,17 +422,6 @@ namespace Server
 		bool AnnounceStats(std::string payload, std::vector<std::string> endpoints) // 0x10B26B90
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?AnnounceStats@Stats@Server@@YA_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@4@@Z");
-			// static ...; // 0x10B27010
-			// static ...; // 0x10B26FF8
-			// static ...; // 0x10B26FF0
-		// $LN29:
-			// std::string payload;
-			// std::vector<std::string> endpoints;
-				// std::vector<std::string> &<range>$L0;
-				// std::string *<begin>$L0;
-				// std::string *<end>$L0;
-					// std::string server;
-						// HttpRequest req;
 
 			for (auto server : endpoints)
 			{
@@ -510,76 +449,6 @@ namespace Server
 		std::string GetStatsPayload() // 0x10B28970
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetStatsPayload@Stats@Server@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-			// procedure flags: nofpo
-			// static ...; // 0x10B2B3B2
-			// static ...; // 0x10B2B3AE
-			// static ...; // 0x10B2B3AA
-			// static ...; // 0x10B2B3A3
-			// static ...; // 0x10B2B399
-			// static ...; // 0x10B2B397
-			// static ...; // 0x10B2B390
-			// static ...; // 0x10B2B38C
-			// static ...; // 0x10B2B384
-			// static ...; // 0x10B2B375
-			// static ...; // 0x10B2B369
-			// static ...; // 0x10B2B35C
-			// static ...; // 0x10B2B354
-			// static ...; // 0x10B2B34E
-			// static ...; // 0x10B2B347
-			// static ...; // 0x10B2B341
-			// static ...; // 0x10B2B33D
-			// static ...; // 0x10B2B335
-			// static ...; // 0x10B2B328
-			// static ...; // 0x10B2B244
-			// static ...; // 0x10B2B23C
-			// std::string modHash;
-			// char const *const sig;
-			// std::string pubKey;
-			// std::string signature;
-			// char uid[17];
-			// __int32 matchLengthSeconds;
-			// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> s;
-			// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-			// std::string mapName;
-			// c_mod_package_manager::s_entry packageEntry;
-			// c_game_statborg *scoreboard;
-			// e_game_engine_type variantType;
-			// std::string encryptedString;
-			// char buf[42];
-			// Blam::Network::Session *session;
-			// unsigned __int32 TeamMode;
-			// tm *now_tm;
-			// std::wstring mapVariantName;
-			// std::wstring variantName;
-			// __int32 roundCount;
-			// e_game_mode gameMode;
-			// long long now;
-				// c_game_statborg *statborg;
-					// __int32 t;
-						// c_game_statborg::s_team_row &teamScore;
-				// __int32 peerIdx;
-					// Blam::Network::PlayerSession *player;
-					// std::stringstream color;
-					// __int32 nemesisIdx;
-					// __int32 playerIdx;
-					// char ipStr[22];
-					// s_player_emblem_configuration emblemConfig;
-					// char uid[17];
-					// s_game_results_player_statistics *player_stats;
-					// c_game_results *current_results;
-					// in_addr inAddr;
-					// unsigned short team;
-					// Pointer pvpBase;
-						// __int32 i;
-						// __int32 nemesisKills;
-							// unsigned short currKills;
-				// __int32 e;
-					// s_game_results_events *resultsEvent;
-			// function call : c_game_statborg *(*const)()
-			// function call : long (*const)()
-			// function call : s_game_options *(*)()
-			// function call : c_game_engine *(*const)()
-			// function call : c_game_statborg *(*const)()
 
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			if (Blam::Network::GetLobbyType() != 2 || Blam::Network::GetNetworkMode() != 3)
@@ -961,8 +830,6 @@ namespace Server
 		void LifeCycleStateChanged(Blam::Network::LifeCycleState newState) // 0x10B2C0B0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?LifeCycleStateChanged@Stats@Server@@YAXW4LifeCycleState@Network@Blam@@@Z");
-			// Blam::Network::LifeCycleState newState;
-			// Blam::Network::Session *session;
 
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			if (!session || !session->IsEstablished() || !session->IsHost())
@@ -986,9 +853,6 @@ namespace Server
 		void OnGameStart() // 0x10B2CBA0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?OnGameStart@Stats@Server@@YAXXZ");
-			// procedure flags: nofpo
-			// Blam::Network::Session *session;
-			// function call : long (*const)()
 
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			if (!session || !session->IsEstablished() || !session->IsHost())
@@ -999,9 +863,6 @@ namespace Server
 		unsigned __int32 GetPeerIp(Blam::Network::Session *session, __int32 peer) // 0x10B27140
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetPeerIp@Stats@Server@@YAIPAUSession@Network@Blam@@H@Z");
-			// __int32 peer;
-			// Blam::Network::SessionMembership *membership;
-			// __int32 channelIndex;
 
 			Blam::Network::SessionMembership *membership = &session->MembershipInfo;
 			__int32 channelIndex = membership->PeerChannels[peer].ChannelIndex;
@@ -1011,37 +872,6 @@ namespace Server
 		void LogListPlayers() // 0x10B2C170
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?LogListPlayers@Stats@Server@@YAXXZ");
-			// procedure flags: nofpo
-			// static ...; // 0x10B2C7DE
-			// static ...; // 0x10B2C7CB
-			// static ...; // 0x10B2C7BF
-			// static ...; // 0x10B2C7AF
-			// static ...; // 0x10B2C7A7
-			// static ...; // 0x10B2C7A3
-			// static ...; // 0x10B2C79E
-			// static ...; // 0x10B2C797
-			// static ...; // 0x10B2C792
-			// static ...; // 0x10B2C78B
-			// static ...; // 0x10B2C784
-			// static ...; // 0x10B2C700
-			// static ...; // 0x10B2C6F8
-			// std::filesystem::path parentDirectory;
-			// std::stringstream ss;
-			// std::ofstream logFile;
-			// long long time;
-			// std::filesystem::path logFilePath;
-			// Blam::Network::Session *session;
-			// std::string listPlayersLogFile;
-			// tm gmTime;
-			// std::chrono::time_point<std::chrono::system_clock,std::chrono::duration<__int64,std::ratio<1,10000000> > > now;
-			// __int32 peerIdx;
-				// __int32 playerIdx;
-					// Blam::Network::PlayerSession *player;
-					// unsigned long long uid;
-					// unsigned __int32 ip;
-					// std::stringstream stream;
-					// std::string name;
-					// std::string hexUID;
 
 			if (Modules::ModuleServer::Instance().VarListPlayersLogEnabled->ValueInt != 1)
 				return;
@@ -1085,15 +915,6 @@ namespace Server
 		void OnEvent(unsigned long player, s_game_engine_event_data const *event, s_multiplayer_event_response_definition const *definition) // 0x10B2C980
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?OnEvent@Stats@Server@@YAXKPBUs_game_engine_event_data@@PBUs_multiplayer_event_response_definition@@@Z");
-		// $LN15:
-		// $LN6:
-		// $LN1:
-			// unsigned long player;
-			// s_game_engine_event_data const *event;
-			// s_multiplayer_event_response_definition const *definition;
-			// Blam::Network::Session *session;
-			// function call : long (*const)()
-			// function call : __int32 (*const)()
 
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			if (!session || !session->IsEstablished())
@@ -1129,7 +950,6 @@ namespace Server
 		void Init() // 0x10B2BFF0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Init@Stats@Server@@YAXXZ");
-			// procedure flags: nofpo
 
 			Patches::Network::OnLifeCycleStateChanged(LifeCycleStateChanged);
 			Patches::Events::OnEvent(OnEvent);
@@ -1141,9 +961,6 @@ namespace Server
 		void UpdatePlayersInfo() // 0x10B2CF80
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?UpdatePlayersInfo@Stats@Server@@YAXXZ");
-			// procedure flags: nofpo
-			// void *thread;
-			// function call : void *(_SECURITY_ATTRIBUTES *, unsigned long, unsigned long (*)(void *), void *, unsigned long, unsigned long *)
 
 			HANDLE thread = CreateThread(nullptr, 0, Server::Stats::GetPlayersInfo_Thread, (LPVOID)"", 0, nullptr);
 		}
@@ -1151,19 +968,6 @@ namespace Server
 		void Tick() // 0x10B2CC30
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@Stats@Server@@YAXXZ");
-			// procedure flags: nofpo
-			// static ...; // 0x10B2CEC6
-			// static ...; // 0x10B2CEB7
-			// static ...; // 0x10B2CEAA
-			// static ...; // 0x10B2CEA0
-			// static ...; // 0x10B2CE70
-			// static ...; // 0x10B2CE68
-			// long long curTime1;
-			// Blam::Network::Session *session;
-				// long long elapsed;
-					// std::vector<std::string> statsEndpoints;
-						// std::string statsPayload;
-							// std::thread SendStats;
 
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			long long curTime1;
@@ -1208,7 +1012,6 @@ namespace Server
 		bool localPlayerIsPostMatch() // 0x10B2D5E0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?localPlayerIsPostMatch@Stats@Server@@YA_NXZ");
-			// procedure flags: nofpo
 
 			return postMatch;
 		}

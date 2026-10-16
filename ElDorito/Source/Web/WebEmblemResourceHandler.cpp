@@ -163,7 +163,6 @@ namespace Web
 		_inline WebEmblemRenderHandler::WebEmblemRenderHandler(scoped_refptr<CefCallback> callback) : m_cefContinuation(callback) /* hades-mem-init:  */ // 0x10C826F0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "??0WebEmblemRenderHandler@Browser@Web@@QAE@V?$scoped_refptr@VCefCallback@@@@@Z");
-			// scoped_refptr<CefCallback> callback;
 		}
 
 	}
@@ -185,14 +184,11 @@ namespace Web
 		_inline void WebEmblemRenderHandler::OnRenderComplete() // 0x10C842D0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?OnRenderComplete@WebEmblemRenderHandler@Browser@Web@@UAEXXZ");
-			// Web::Browser::WebEmblemRenderHandler *const this;
 		}
 
 		_inline void WebEmblemRenderHandler::OnRenderDataAvailable() // 0x10C842F0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?OnRenderDataAvailable@WebEmblemRenderHandler@Browser@Web@@UAEXXZ");
-			// Web::Browser::WebEmblemRenderHandler *const this;
-			// function call : void ()
 
 			m_cefContinuation->Continue();
 		}
@@ -200,7 +196,6 @@ namespace Web
 		_inline void WebEmblemRenderHandler::SetCefContinuation(scoped_refptr<CefCallback> callback) // 0x10C84DD0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?SetCefContinuation@WebEmblemRenderHandler@Browser@Web@@QAEXV?$scoped_refptr@VCefCallback@@@@@Z");
-			// scoped_refptr<CefCallback> callback;
 
 			m_cefContinuation = callback;
 		}
@@ -215,7 +210,6 @@ namespace Web
 		_inline std::string const WebEmblemRenderHandler::GetMimeType() const // 0x10C83F20
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetMimeType@WebEmblemRenderHandler@Browser@Web@@QBE?BV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-			// Web::Browser::WebEmblemRenderHandler const *const this;
 
 			return m_metadata.mimeType;
 		}
@@ -223,7 +217,6 @@ namespace Web
 		_inline long long WebEmblemRenderHandler::GetLength() const // 0x10C83EF0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetLength@WebEmblemRenderHandler@Browser@Web@@QBE_JXZ");
-			// Web::Browser::WebEmblemRenderHandler const *const this;
 
 			return -1;
 		}
@@ -245,22 +238,6 @@ namespace Web
 		bool WebEmblemResourceHandler::ProcessRequest(scoped_refptr<CefRequest> request, scoped_refptr<CefCallback> callback) // 0x10C84460
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ProcessRequest@WebEmblemResourceHandler@Browser@Web@@UAE_NV?$scoped_refptr@VCefRequest@@@@V?$scoped_refptr@VCefCallback@@@@@Z");
-			// static ...; // 0x10C84933
-			// static ...; // 0x10C8492F
-			// static ...; // 0x10C84928
-			// static ...; // 0x10C848EC
-			// static ...; // 0x10C848E4
-			// Web::Browser::WebEmblemResourceHandler *const this;
-			// scoped_refptr<CefRequest> request;
-			// scoped_refptr<CefCallback> callback;
-			// std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<CefStringBase<CefStringTraitsUTF16> const ,CefStringBase<CefStringTraitsUTF16> > > > > it;
-			// s_player_emblem_configuration config;
-			// std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16> > requestHeaders;
-			// std::string url;
-			// CefStringBase<CefStringTraitsUTF16> origin;
-			// function call : void (std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16> > &)
-			// function call : CefStringBase<CefStringTraitsUTF16> ()
-			// function call : void ()
 
 			std::multimap<CefString,CefString> requestHeaders;
 			request->GetHeaderMap(requestHeaders);
@@ -286,11 +263,6 @@ namespace Web
 		void WebEmblemResourceHandler::GetResponseHeaders(scoped_refptr<CefResponse> response, long long &response_length, CefStringBase<CefStringTraitsUTF16> &redirectUrl) // 0x10C83FA0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetResponseHeaders@WebEmblemResourceHandler@Browser@Web@@UAEXV?$scoped_refptr@VCefResponse@@@@AA_JAAV?$CefStringBase@UCefStringTraitsUTF16@@@@@Z");
-			// CefStringBase<CefStringTraitsUTF16> &redirectUrl;
-			// function call : void (std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16> > const &)
-			// function call : void (__int32)
-			// function call : void (CefStringBase<CefStringTraitsUTF16> const &)
-			// function call : void (__int32)
 
 			response->SetHeaderMap(m_responseHeaders);
 			if (m_emblemRender != nullptr)
@@ -309,10 +281,6 @@ namespace Web
 		bool WebEmblemResourceHandler::ReadResponse(void *data_out, __int32 bytes_to_read, __int32 &bytes_read, scoped_refptr<CefCallback> callback) // 0x10C84A90
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ReadResponse@WebEmblemResourceHandler@Browser@Web@@UAE_NPAXHAAHV?$scoped_refptr@VCefCallback@@@@@Z");
-			// scoped_refptr<CefCallback> callback;
-			// Player::Emblems::IPlayerEmblemStream *stream;
-			// function call : bool (void *, __int32, __int32 *)
-			// function call : void ()
 
 			Player::Emblems::IPlayerEmblemStream *stream = m_emblemRender->GetStream();
 			if (stream)
@@ -335,7 +303,6 @@ namespace Web
 		void WebEmblemResourceHandler::Cancel() // 0x10C83E20
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Cancel@WebEmblemResourceHandler@Browser@Web@@UAEXXZ");
-			// Web::Browser::WebEmblemResourceHandler *const this;
 		}
 	}
 }

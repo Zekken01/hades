@@ -96,7 +96,6 @@ namespace Modules
 	ModuleScript::ModuleScript() : ModuleBase("Script") /* hades-mem-init: : ModuleBase(todo_result<std::string>()) */ // 0x106D3590
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "??0ModuleScript@Modules@@QAE@XZ");
-		// Modules::ModuleScript *const this;
 
 		VarPrintToConsole = AddVariableInt("PrintToConsole", "script_print_to_console", "Logs hsc print to the console", eCommandFlagsArchived, 0);
 		VarPrintToConsole->ValueIntMin = 0;
@@ -135,10 +134,6 @@ namespace Scripting
 bool CommandGenerateMethodDecl(std::vector<std::string> const &args, std::string &retValue) // 0x106D4200
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGenerateMethodDecl@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandGenerateMethodDecl
-	// std::string &retValue;
-	// Scripting::HS::ScriptMethod const *method;
-	// Scripting::HS::ScriptMethodMap &methods;
 
 	if (args.size() < 1)
 	{
@@ -162,10 +157,6 @@ bool CommandGenerateMethodDecl(std::vector<std::string> const &args, std::string
 bool CommandScriptHelp(std::vector<std::string> const &args, std::string &retValue) // 0x106D4330
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandScriptHelp@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandScriptHelp
-	// std::string &retValue;
-	// Scripting::HS::ScriptMethod const *method;
-	// Scripting::HS::ScriptMethodMap &methods;
 
 	if (args.size() < 1)
 	{
@@ -189,15 +180,6 @@ bool CommandScriptHelp(std::vector<std::string> const &args, std::string &retVal
 bool CommandGenerateDoc(std::vector<std::string> const &args, std::string &retValue) // 0x106D3FE0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGenerateDoc@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandGenerateDoc
-	// static ...; // 0x106D4174
-	// static ...; // 0x106D415C
-	// static ...; // 0x106D4154
-	// std::vector<std::string> const &args;
-	// std::string &retValue;
-	// std::string documentation;
-	// std::ofstream outFile;
-	// Scripting::HS::ScriptMethodMap &methods;
 
 	Scripting::HS::ScriptMethodMap &methods = Utils::Singleton<Scripting::HS::ScriptMethodMap>::Instance();
 	std::string documentation = methods.GenerateDocs();

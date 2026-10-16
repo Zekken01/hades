@@ -175,24 +175,6 @@ namespace Modules
 	void ModuleVoIP::Tick() // 0x10A24EC0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@ModuleVoIP@Modules@@QAEXXZ");
-		// static ...; // 0x10A253D0
-		// static ...; // 0x10A253C4
-		// static ...; // 0x10A253BC
-		// Modules::ModuleVoIP *const this;
-		// bool isUsingController;
-		// Blam::Input::BindingsTable bindings;
-			// short kbmKeySecondary;
-			// unsigned char *mouseButtons;
-			// Blam::Input::KeyCode secondaryBind;
-			// bool mousePrimary;
-			// bool infocus;
-			// bool mouseSeconday;
-			// HWND__ *hWnd;
-			// Blam::Input::KeyCode primaryBind;
-			// short kbmKeyPrimary;
-		// function call : HWND__ *()
-		// function call : short (__int32)
-		// function call : short (__int32)
 
 		bool isUsingController = *(bool *)0x244DE98;
 		Blam::Input::BindingsTable bindings;
@@ -252,7 +234,6 @@ namespace Modules
 	ModuleVoIP::ModuleVoIP() : ModuleBase("VoIP"), voipConnected(false), voiceDetected(false), playersSpeaking(0), playersSpoke(0), playersMuted(0) /* hades-mem-init: : ModuleBase(todo_result<std::string>()) */ // 0x10A24050
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "??0ModuleVoIP@Modules@@QAE@XZ");
-		// Modules::ModuleVoIP *const this;
 
 		VarVoipEnabled = AddVariableInt("Enabled", "enabled", "Toggle voip on or off", eCommandFlagsArchived, 1);
 		VarVoipEnabled->ValueIntMin = 0;
@@ -296,7 +277,6 @@ namespace Modules
 	bool ModuleVoIP::IsChatting() // 0x10A24D90
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?IsChatting@ModuleVoIP@Modules@@QAE_NXZ");
-		// Modules::ModuleVoIP *const this;
 
 		return isChatting;
 	}
@@ -307,14 +287,6 @@ namespace Modules
 bool UpdateVoip(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A25520
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateVoip@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::UpdateVoip
-	// static ...; // 0x10A257F8
-	// static ...; // 0x10A257E0
-	// static ...; // 0x10A257D8
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
-	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
 
 	if (!ready)
 	{
@@ -351,8 +323,6 @@ bool UpdateVoip(std::vector<std::string> const &Arguments, std::string &returnIn
 void RendererStarted(char const *map) // 0x10A24DC0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?RendererStarted@@YAXPBD@Z");
-	// `anonymous-namespace'::RendererStarted
-	// char const *map;
 
 	if (std::string(map).find("mainmenu") == std::string::npos)
 		isMainMenu = false;
@@ -364,14 +334,6 @@ void RendererStarted(char const *map) // 0x10A24DC0
 bool VariableListenToMicrophone(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x10A258C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableListenToMicrophone@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::VariableListenToMicrophone
-	// static ...; // 0x10A25A5C
-	// static ...; // 0x10A25A44
-	// static ...; // 0x10A25A3C
-	// std::vector<std::string> const &arguments;
-	// std::string &returnInfo;
-	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
-	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
 
 	rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
 	rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer(buffer);

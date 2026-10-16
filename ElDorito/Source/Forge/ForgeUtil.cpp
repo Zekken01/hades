@@ -150,8 +150,6 @@ namespace Forge
 	s_map_variant *GetMapVariant() // 0x109699F0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetMapVariant@Forge@@YAPAUs_map_variant@@XZ");
-		// procedure flags: nofpo
-		// function call : s_map_variant *(*const)()
 
 		return game_engine_get_runtime_map_variant();
 	}
@@ -159,8 +157,6 @@ namespace Forge
 	void PrintKillFeedText(long user_index, wchar_t const *message, long unused) // 0x10969F50
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?PrintKillFeedText@Forge@@YAXJPB_WJ@Z");
-		// long unused;
-		// function call : void (*const)(long, wchar_t const *, e_chud_message_context)
 
 		((void(__cdecl *const)(long, wchar_t const *, e_chud_message_context))0xa95920)(user_index, message, (e_chud_message_context)0);
 	}
@@ -172,13 +168,6 @@ namespace Forge
 	real_rectangle3d const *GetObjectBoundingBox(long tag_index) // 0x10969A40
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetObjectBoundingBox@Forge@@YAPBUreal_rectangle3d@@J@Z");
-		// long tag_index;
-		// s_object_definition *object_definition;
-		// s_model_definition *model;
-		// s_render_model *render_model;
-		// function call : void *(*const)(unsigned long, long)
-		// function call : void *(*const)(unsigned long, long)
-		// function call : void *(*const)(unsigned long, long)
 
 		s_object_definition *object_definition = (s_object_definition *)tag_get('obje', tag_index);
 		if (!object_definition || object_definition->model.index == -1)
@@ -209,9 +198,6 @@ namespace Forge
 	void DeleteObject(long player_index, long map_variant_index) // 0x109695C0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?DeleteObject@Forge@@YAXJJ@Z");
-		// long map_variant_index;
-		// void (*const game_engine_sandbox_apply_delete_object)(long, long);
-		// function call : void (*const)(long, long)
 
 		void (__cdecl *const game_engine_sandbox_apply_delete_object)(long, long) = (void(__cdecl *const)(long, long))0x59cbe0;
 
@@ -221,30 +207,6 @@ namespace Forge
 	long CloneObject(long player_index, long object_index, float depth, real_vector3d const &normal) // 0x10968A20
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?CloneObject@Forge@@YAJJJMABUreal_vector3d@@@Z");
-		// static ...; // 0x1096932C
-		// static ...; // 0x109692FC
-		// static ...; // 0x109692F4
-		// long player_index;
-		// long object_index;
-		// float depth;
-		// real_vector3d const &normal;
-		// real_vector3d intersectNormal;
-		// s_object_data *object;
-		// real_rectangle3d const &bounds;
-		// s_map_variant_placement_properties const &variantProperties;
-		// real_matrix4x3 objectTransform;
-		// real_point3d displacedPosition;
-		// s_map_variant *mapv;
-		// real_rectangle3d const *boundsPtr;
-		// real_vector3d displacement;
-			// float dz;
-			// float dy;
-			// float dx;
-			// float scale;
-		// function call : s_map_variant *(*const)()
-		// function call : real_matrix4x3 *(*const)(long, real_matrix4x3 *)
-		// function call : s_multiplayer_object_properties *(*const)(unsigned long)
-		// function call : long (*const)(s_map_variant *, long, long, long, real_point3d const *, real_vector3d const *, real_vector3d const *, long, long, s_map_variant_placement_properties const *, short)
 
 		s_map_variant *mapv = game_engine_get_runtime_map_variant();
 		s_object_data *object = object_get(object_index);
@@ -293,30 +255,6 @@ namespace Forge
 	void ThrowObject(long player_index, long object_index, float throwForce) // 0x1096A240
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?ThrowObject@Forge@@YAXJJM@Z");
-		// static ...; // 0x1096A486
-		// static ...; // 0x1096A483
-		// static ...; // 0x1096A480
-		// static ...; // 0x1096A444
-		// static ...; // 0x1096A43C
-		// long player_index;
-		// long object_index;
-		// float throwForce;
-		// s_player_datum *player;
-		// void (*const simulation_action_generic_object_update)(long, unsigned long);
-		// real_matrix4x3 objectTransform;
-		// void (*const start_tracking_object)(long);
-			// real_point3d unitHeadPos;
-			// real_vector3d vec;
-			// real_vector3d v2;
-			// s_object_data *unitObjectPtr;
-			// real_vector3d v3;
-		// function call : real_matrix4x3 *(*const)(long, real_matrix4x3 *)
-		// function call : void (*const)(long, bool)
-		// function call : void (*const)(long, real_point3d *)
-		// function call : void (*const)(long, real_vector3d *, real_vector3d *)
-		// function call : void (*const)(long, real_vector3d const *, real_vector3d const *)
-		// function call : void (*const)(long, unsigned long)
-		// function call : void (*const)(long)
 
 		void (*const simulation_action_generic_object_update)(long, unsigned long) = (void (*)(long, unsigned long))0x580AD0;
 		void (*const start_tracking_object)(long) = (void (*)(long))0x59EA10;
@@ -355,10 +293,6 @@ namespace Forge
 	real_vector3d GetClosestCardianalAxix(real_vector3d const &v) // 0x10969630
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetClosestCardianalAxix@Forge@@YA?AUreal_vector3d@@ABU2@@Z");
-		// real_vector3d const &v;
-		// float xn;
-		// float zn;
-		// float yn;
 
 		float xn = abs(v.i);
 		float yn = abs(v.j);
@@ -375,12 +309,6 @@ namespace Forge
 	Forge::ForgeObjectQuota CalculateObjectQuota() // 0x10968910
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?CalculateObjectQuota@Forge@@YA?AUForgeObjectQuota@1@XZ");
-		// procedure flags: nofpo
-		// unsigned short totalAvailable;
-		// unsigned short totalUsed;
-		// s_map_variant *mapv;
-			// unsigned short i;
-				// s_variant_datum &placement;
 
 		unsigned short totalAvailable = 0;
 		unsigned short totalUsed = 0;
@@ -401,8 +329,6 @@ namespace Forge
 	bool PointInWorldBounds(real_point3d const &point) // 0x10969E50
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?PointInWorldBounds@Forge@@YA_NABUreal_point3d@@@Z");
-		// real_point3d const &point;
-		// s_map_variant *mapv;
 
 		s_map_variant *mapv = Forge::GetMapVariant();
 		return point.x >= mapv->world_bounds.x0
@@ -416,12 +342,6 @@ namespace Forge
 	bool ObjectInWorldBounds(long objectIndex) // 0x10969C30
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?ObjectInWorldBounds@Forge@@YA_NJ@Z");
-		// static ...; // 0x10969CC0
-		// static ...; // 0x10969CB4
-		// static ...; // 0x10969CAC
-		// long objectIndex;
-		// real_point3d worldPos;
-		// function call : void (*const)(long, real_point3d *)
 
 		real_point3d worldPos;
 
@@ -433,10 +353,6 @@ namespace Forge
 	void SetObjectPhysicsMode(long objectIndex, Forge::EForgeObjectPhysics mode, bool atRest) // 0x1096A0F0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?SetObjectPhysicsMode@Forge@@YAXJW4EForgeObjectPhysics@1@_N@Z");
-		// bool atRest;
-		// s_object_data *object;
-		// void (*const change_object_physics_mode)(long, bool);
-		// function call : void (*const)(long, bool)
 
 		void (*const change_object_physics_mode)(long, bool) = reinterpret_cast<void (*)(long, bool)>(0x59A620);
 		s_object_data *object = object_get(objectIndex);
@@ -471,9 +387,6 @@ namespace Forge
 	Forge::EForgeObjectPhysics GetObjectPhysicsMode(long objectIndex) // 0x10969B90
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetObjectPhysicsMode@Forge@@YA?AW4EForgeObjectPhysics@1@J@Z");
-		// long objectIndex;
-		// s_multiplayer_object_properties *multiplayerProperties;
-		// function call : s_multiplayer_object_properties *(*const)(unsigned long)
 
 		s_multiplayer_object_properties *multiplayerProperties = object_get_multiplayer(objectIndex);
 
@@ -490,13 +403,6 @@ namespace Forge
 	bool ObjectIsForgeScenery(long objectIndex) // 0x10969CF0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?ObjectIsForgeScenery@Forge@@YA_NJ@Z");
-		// long objectIndex;
-		// s_object_data *object;
-		// s_model_definition *modelDef;
-		// s_object_definition *objectDef;
-		// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-		// function call : void *(*const)(unsigned long, long)
-		// function call : void *(*const)(unsigned long, long)
 
 		s_object_data *object = object_try_and_get_and_verify_type(objectIndex, 0x80);
 		if (!object)
@@ -527,13 +433,6 @@ namespace Forge
 	void ScaleForgeSceneryObject(long objectIndex, float scale) // 0x10969FB0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?ScaleForgeSceneryObject@Forge@@YAXJM@Z");
-		// float scale;
-		// s_object_data *object;
-			// void (*const object_set_scale)(long, float, float);
-			// constexpr void (*const `Forge::ScaleForgeSceneryObject'::`7'::havok_object_rebuild_immediate)(long); // constant == 6058848
-		// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-		// function call : void (*const)(long, float, float)
-		// function call : void (*const)(long)
 
 		s_object_data *object = object_try_and_get_and_verify_type(objectIndex, 0x80);
 		if (!object)

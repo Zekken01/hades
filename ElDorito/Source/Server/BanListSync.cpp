@@ -237,8 +237,6 @@ namespace Server
 		void Init() // 0x10B18E20
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Init@BanListSync@Server@@YAXXZ");
-			// procedure flags: nofpo
-			// function call : void *(_SECURITY_ATTRIBUTES *, unsigned long, unsigned long (*)(void *), void *, unsigned long, unsigned long *)
 
 			CreateThread(nullptr, 0, BanListSyncThreadProc, nullptr, 0, nullptr);
 			Patches::Core::OnShutdown(::OnShutdown);
@@ -247,36 +245,6 @@ namespace Server
 		void Tick() // 0x10B199C0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@BanListSync@Server@@YAXXZ");
-			// procedure flags: nofpo
-			// static ...; // 0x10B19DBD
-			// static ...; // 0x10B19DB5
-			// static ...; // 0x10B19DB0
-			// static ...; // 0x10B19DAC
-			// static ...; // 0x10B19D7C
-			// static ...; // 0x10B19D74
-			// unsigned long syncInternval;
-			// Blam::Network::Session *session;
-			// long long now;
-				// std::unique_lock<std::mutex> lock;
-					// Server::StatsServersBanList &statsserverBanList;
-						// std::vector<std::string> &<range>$L0;
-						// std::string *<begin>$L0;
-						// std::string *<end>$L0;
-							// std::string const &ip;
-						// std::string *<end>$L1;
-						// std::string *<begin>$L1;
-						// std::vector<std::string> &<range>$L1;
-							// std::string const &uid;
-						// std::string *<end>$L2;
-						// std::vector<std::string> &<range>$L2;
-						// std::string *<begin>$L2;
-							// std::string const &name;
-						// std::vector<std::string> &<range>$L3;
-						// std::string *<begin>$L3;
-						// std::string *<end>$L3;
-							// std::string const &subnet;
-								// unsigned long mask;
-								// unsigned long network;
 
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			if (!session || !session->IsEstablished() || !session->IsHost())
@@ -322,14 +290,6 @@ namespace Server
 bool GetEndpoints() // 0x10B18BA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetEndpoints@@YA_NXZ");
-	// `anonymous-namespace'::GetEndpoints
-	// procedure flags: nofpo
-	// static ...; // 0x10B18D94
-	// static ...; // 0x10B18D88
-	// static ...; // 0x10B18D80
-	// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
-		// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &urls;
-			// unsigned __int32 i;
 
 	if (!Utils::Singleton<Utils::DewritoReader>::Instance().IsValid())
 		return false;
@@ -356,23 +316,6 @@ _inline s_sharedState::~s_sharedState() = default; // 0x10B17E80
 void CheckToBootPlayers() // 0x10B183A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CheckToBootPlayers@@YAXXZ");
-	// `anonymous-namespace'::CheckToBootPlayers
-	// procedure flags: nofpo
-	// static ...; // 0x10B188CF
-	// static ...; // 0x10B188C8
-	// static ...; // 0x10B188C1
-	// static ...; // 0x10B188BC
-	// static ...; // 0x10B1888C
-	// static ...; // 0x10B18884
-	// Blam::Network::Session *session;
-	// __int32 peerIdx;
-		// __int32 playerIdx;
-			// Blam::Network::PlayerSession *player;
-			// unsigned long long uid;
-			// std::stringstream stream;
-			// std::string const &ipString;
-			// std::string name;
-			// std::string hexUID;
 
 	Blam::Network::Session *session = Blam::Network::GetActiveSession();
 	if (!session || !session->IsEstablished() || !session->IsHost())
@@ -419,27 +362,6 @@ void CheckToBootPlayers() // 0x10B183A0
 bool SyncBanList() // 0x10B18F00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SyncBanList@@YA_NXZ");
-	// `anonymous-namespace'::SyncBanList
-	// procedure flags: nofpo
-	// static ...; // 0x10B1978B
-	// static ...; // 0x10B19782
-	// static ...; // 0x10B1977D
-	// static ...; // 0x10B19778
-	// static ...; // 0x10B19748
-	// static ...; // 0x10B19740
-		// std::vector<std::string> &<range>$L0;
-		// std::string *<begin>$L0;
-		// std::string *<end>$L0;
-			// std::string &endpoint;
-				// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
-				// std::wstring expected;
-				// HttpRequest req;
-				// std::string resp;
-					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &IPs;
-						// unsigned __int32 i;
-					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &UIDs;
-					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &Names;
-					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &Subnets;
 
 	if (!GetEndpoints())
 		return false;
@@ -499,12 +421,6 @@ bool SyncBanList() // 0x10B18F00
 unsigned long __stdcall BanListSyncThreadProc(void *lpParam) // 0x10B18260
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?BanListSyncThreadProc@@YGKPAX@Z");
-	// `anonymous-namespace'::BanListSyncThreadProc
-	// static ...; // 0x10B18354
-	// static ...; // 0x10B18348
-	// static ...; // 0x10B18340
-	// void *lpParam;
-		// std::unique_lock<std::mutex> lk;
 
 	for (;;)
 	{
@@ -520,8 +436,6 @@ unsigned long __stdcall BanListSyncThreadProc(void *lpParam) // 0x10B18260
 static void OnShutdown() // 0x10B18EB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnShutdown@@YAXXZ");
-	// `anonymous-namespace'::OnShutdown
-	// procedure flags: nofpo
 
 	shouldExit = true;
 	syncSignal.notify_one();
@@ -530,16 +444,6 @@ static void OnShutdown() // 0x10B18EB0
 bool TryParseSubnet(std::string const &cidr, unsigned long *outNetwork, unsigned long *outMask) // 0x10B19ED0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?TryParseSubnet@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAK1@Z");
-	// `anonymous-namespace'::TryParseSubnet
-	// static ...; // 0x10B1A040
-	// static ...; // 0x10B1A038
-	// std::string const &cidr;
-	// unsigned long *outNetwork;
-	// unsigned long *outMask;
-	// __int32 bits;
-	// std::string snetwork;
-	// std::string sbits;
-	// unsigned __int32 pos;
 
 	auto pos = cidr.find_first_of('/');
 	if (pos == std::string::npos || pos + 1 >= cidr.length())

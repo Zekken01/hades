@@ -215,7 +215,6 @@ namespace Player
 	bool CPlayersInfo::IsAvailable() // 0x107EE670
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?IsAvailable@CPlayersInfo@Player@@SA_NXZ");
-		// procedure flags: nofpo
 
 		return isAvailable;
 	}
@@ -223,9 +222,6 @@ namespace Player
 	bool GetRankedUpRecently() // 0x107EE500
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetRankedUpRecently@Player@@YA_NXZ");
-		// procedure flags: nofpo
-		// __int32 localPeer;
-		// __int32 localPlayerIdx;
 
 		__int32 localPeer = Blam::Network::GetActiveSession()->MembershipInfo.LocalPeerIndex;
 		__int32 localPlayerIdx = Blam::Network::GetActiveSession()->MembershipInfo.GetPeerPlayer(localPeer);
@@ -243,21 +239,6 @@ namespace Player
 	std::string CPlayersInfo::GeneratePlayerInfo() // 0x107EE0C0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GeneratePlayerInfo@CPlayersInfo@Player@@SA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-		// procedure flags: nofpo
-		// static ...; // 0x107EE3B3
-		// static ...; // 0x107EE3A8
-		// static ...; // 0x107EE3A0
-		// static ...; // 0x107EE39C
-		// static ...; // 0x107EE36C
-		// static ...; // 0x107EE364
-		// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
-		// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
-			// __int32 i;
-				// char uid[17];
-				// s_network_session_player *networkPlayer;
-				// c_network_session *session;
-				// bool validIndex;
-		// function call : bool (*const)(c_network_session **)
 
 		rapidjson::StringBuffer jsonBuffer;
 		rapidjson::Writer<rapidjson::StringBuffer> jsonWriter(jsonBuffer);
@@ -292,8 +273,6 @@ namespace Player
 	void ClearRankUp() // 0x107EDE50
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?ClearRankUp@Player@@YAXXZ");
-		// procedure flags: nofpo
-			// __int32 i;
 
 		for (__int32 i = 0; i < 16; i++)
 		{
@@ -304,7 +283,6 @@ namespace Player
 	__int32 CPlayersInfo::GetRank(__int32 networkPlayerIndex) // 0x107EE480
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetRank@CPlayersInfo@Player@@SAHH@Z");
-		// __int32 networkPlayerIndex;
 
 		if (!ValidNetworkPlayerIndex(networkPlayerIndex))
 		{
@@ -322,7 +300,6 @@ namespace Player
 	__int32 CPlayersInfo::GetSkill(__int32 networkPlayerIndex) // 0x107EE590
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetSkill@CPlayersInfo@Player@@SAHH@Z");
-		// __int32 networkPlayerIndex;
 
 		if (!ValidNetworkPlayerIndex(networkPlayerIndex))
 		{
@@ -344,15 +321,6 @@ namespace Player
 	std::string getLocalEmblem(__int32 networkPlayerIndex) // 0x107EF4E0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?getLocalEmblem@Player@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@H@Z");
-		// static ...; // 0x107EF723
-		// static ...; // 0x107EF718
-		// static ...; // 0x107EF700
-		// static ...; // 0x107EF6F8
-		// __int32 networkPlayerIndex;
-		// s_player_emblem_configuration emblem_cfg;
-		// s_network_session_player *networkPlayer;
-		// c_network_session *session;
-		// function call : bool (*const)(c_network_session **)
 
 		c_network_session *session;
 		if (!network_session_interface_get_squad_session(&session) || !session->established())
@@ -388,18 +356,6 @@ namespace Player
 	void CPlayersInfo::Update(std::string const &payload) // 0x107EE980
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CPlayersInfo@Player@@SAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// static ...; // 0x107EEE54
-		// static ...; // 0x107EEE50
-		// static ...; // 0x107EEE38
-		// static ...; // 0x107EEE30
-		// std::string const &payload;
-		// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
-			// __int32 i;
-				// std::string key;
-					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &info;
-						// bool rankUp;
-						// __int32 rank;
-						// __int32 skill;
 
 		ClearCache();
 		rapidjson::Document json;
@@ -459,8 +415,6 @@ namespace Player
 	void LifeCycleStateChanged(Blam::Network::LifeCycleState newState) // 0x107EE690
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?LifeCycleStateChanged@Player@@YAXW4LifeCycleState@Network@Blam@@@Z");
-		// Blam::Network::LifeCycleState newState;
-		// Blam::Network::Session *session;
 
 		Blam::Network::Session *session = Blam::Network::GetActiveSession();
 		if (!session || !session->IsEstablished())
@@ -484,7 +438,6 @@ namespace Player
 	void CPlayersInfo::Init() // 0x107EE610
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Init@CPlayersInfo@Player@@SAXXZ");
-		// procedure flags: nofpo
 
 		Patches::Network::OnLifeCycleStateChanged(Player::LifeCycleStateChanged);
 	}
@@ -492,16 +445,6 @@ namespace Player
 	void CPlayersInfo::Tick() // 0x107EE750
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@CPlayersInfo@Player@@SAXXZ");
-		// procedure flags: nofpo
-		// static ...; // 0x107EE900
-		// static ...; // 0x107EE8F4
-		// static ...; // 0x107EE8EC
-		// static bool (*IsMapLoading)(); // 0x113525C8
-		// long long curTime1;
-		// Blam::Network::Session *session;
-			// long long elapsed;
-		// function call : bool (*)()
-		// function call : bool (*const)()
 
 		static bool (*IsMapLoading)() = (bool (*)())0x5670E0;
 		Blam::Network::Session *session = Blam::Network::GetActiveSession();
@@ -535,8 +478,6 @@ namespace Player
 
 bool ValidNetworkPlayerIndex(__int32 networkPlayerIndex) // 0x107EEF90
 {
-	// `anonymous-namespace'::ValidNetworkPlayerIndex
-	// __int32 networkPlayerIndex;
 
 	return networkPlayerIndex >= 0 && networkPlayerIndex < 16;
 }
@@ -544,9 +485,6 @@ bool ValidNetworkPlayerIndex(__int32 networkPlayerIndex) // 0x107EEF90
 void ClearCache() // 0x107EDCB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ClearCache@@YAXXZ");
-	// `anonymous-namespace'::ClearCache
-	// procedure flags: nofpo
-		// __int32 i;
 
 	for (__int32 i = 0; i < 16; i++)
 		infoCache[i] = {};
@@ -555,9 +493,6 @@ void ClearCache() // 0x107EDCB0
 void ClearEmblemCache() // 0x107EDD90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ClearEmblemCache@@YAXXZ");
-	// `anonymous-namespace'::ClearEmblemCache
-	// procedure flags: nofpo
-		// __int32 i;
 
 	for (__int32 i = 0; i < 16; i++)
 		localEmblemCache[i] = {};

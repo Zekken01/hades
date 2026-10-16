@@ -304,14 +304,6 @@ namespace Player
 	void CPlayerCharacterSystem::Init() // 0x109023F0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Init@CPlayerCharacterSystem@Player@@SAXXZ");
-		// procedure flags: nofpo
-		// static ...; // 0x10902767
-		// static ...; // 0x10902764
-		// static ...; // 0x1090274C
-		// static ...; // 0x10902744
-			// std::string prefsName;
-				// std::stringstream ss;
-		// function call : void (IModListener *)
 
 		if (!Utils::Singleton<ElDorito>::Instance().IsDedicated())
 		{
@@ -332,8 +324,6 @@ namespace Player
 	void CPlayerCharacterSystem::Tick() // 0x109032C0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@CPlayerCharacterSystem@Player@@SAXXZ");
-		// procedure flags: nofpo
-		// function call : bool (*const)()
 
 		MaybeUpdatePeerProperties();
 		if (((bool(__cdecl *)())0x5314B0)())
@@ -343,7 +333,6 @@ namespace Player
 	void CPlayerCharacterSystem::NotifyTagsLoaded(bool isMainMenuMod, std::shared_ptr<c_cache_file_tag_cache> baseCache, std::shared_ptr<Blam::Cache::StringIDCache> baseStringCache) // 0x10902990
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?NotifyTagsLoaded@CPlayerCharacterSystem@Player@@SAX_NV?$shared_ptr@Vc_cache_file_tag_cache@@@std@@V?$shared_ptr@UStringIDCache@Cache@Blam@@@4@@Z");
-		// std::shared_ptr<Blam::Cache::StringIDCache> baseStringCache;
 
 		if (isMainMenuMod)
 		{
@@ -362,16 +351,6 @@ namespace Player
 	void CPlayerCharacterSystem::UpdateLocalPlayerHudGlobals() // 0x10903320
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateLocalPlayerHudGlobals@CPlayerCharacterSystem@Player@@SAXXZ");
-		// procedure flags: nofpo
-		// static ...; // 0x109033F0
-		// static ...; // 0x109033E4
-		// static ...; // 0x109033DC
-		// s_player_datum *player;
-		// __int32 playerIndex;
-		// void **hudGlobalsPointer;
-		// void *hudGlobals;
-			// c_wait_for_render_thread renderThreadLock;
-		// function call : unsigned long (*const)(long)
 
 		__int32 playerIndex = ((unsigned long(*)(long))0x589C30)(0);
 		if (playerIndex == -1)
@@ -391,16 +370,6 @@ namespace Player
 	void CPlayerCharacterSystem::AssignPlayerCharacter(__int32 playerIndex) // 0x10901700
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?AssignPlayerCharacter@CPlayerCharacterSystem@Player@@SAXH@Z");
-		// static ...; // 0x10901840
-		// static ...; // 0x10901834
-		// static ...; // 0x1090182C
-		// __int32 playerIndex;
-		// __int32 characterTypeIndex;
-			// s_player_datum *player;
-			// unsigned long long componentMask;
-		// function call : bool (*const)()
-		// function call : bool (*const)()
-		// function call : void (*const)(short, unsigned long long const *)
 
 		if (!game_is_multiplayer())
 			return;
@@ -429,21 +398,6 @@ namespace Player
 	void CPlayerCharacterSystem::PlayerCharacterEditor(__int32 playerIndex) // 0x10902F20
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?PlayerCharacterEditor@CPlayerCharacterSystem@Player@@SAXH@Z");
-		// static ...; // 0x109030C8
-		// static ...; // 0x109030BC
-		// static ...; // 0x109030B4
-		// __int32 playerIndex;
-			// s_player_datum *player;
-			// unsigned long long componentMask;
-				// s_unit_data *unit;
-				// s_multiplayer_globals_definition *mulg;
-				// s_game_globals *globals;
-		// function call : bool (*const)()
-		// function call : bool (*const)()
-		// function call : bool (*const)()
-		// function call : void *(*const)(unsigned long, long)
-		// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-		// function call : void (*const)(short, unsigned long long const *)
 
 		if (!game_is_multiplayer())
 			return;
@@ -469,13 +423,6 @@ namespace Player
 	bool CPlayerCharacterSystem::BuildCharacterCustomization(std::string const &characterName, s_player_model_customization &customization) // 0x109018B0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?BuildCharacterCustomization@CPlayerCharacterSystem@Player@@SA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAUs_player_model_customization@@@Z");
-		// static ...; // 0x109019C4
-		// static ...; // 0x109019AC
-		// static ...; // 0x109019A4
-		// std::string const &characterName;
-		// s_player_model_customization &customization;
-		// Player::CPlayerCharacterCustomizationBuilder builder;
-		// s_player_character_customiztion tmp;
 
 		Player::CPlayerCharacterCustomizationBuilder builder;
 		s_player_character_customiztion tmp;
@@ -488,11 +435,6 @@ namespace Player
 	bool CPlayerCharacterSystem::BuildCustomizations(s_player_appearance &appearance) // 0x10901A20
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?BuildCustomizations@CPlayerCharacterSystem@Player@@SA_NAAUs_player_appearance@@@Z");
-		// static ...; // 0x10901B20
-		// static ...; // 0x10901B14
-		// static ...; // 0x10901B0C
-		// s_player_appearance &appearance;
-		// Player::CPlayerCharacterCustomizationBuilder builder;
 
 
 		CPlayerCharacterCustomizationBuilder builder;
@@ -503,7 +445,6 @@ namespace Player
 	void CPlayerCharacterSystem::ReloadCustomizations() // 0x10903150
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?ReloadCustomizations@CPlayerCharacterSystem@Player@@SAXXZ");
-		// procedure flags: nofpo
 
 		Player::CPlayerCustomizationDB::Instance().Reload();
 		currentUpdateNumber++;
@@ -515,14 +456,6 @@ namespace Player
 long game_engine_get_random_global_player_character_type_index(long character_set_index) // 0x10903BD0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_get_random_global_player_character_type_index@@YAJJ@Z");
-	// `anonymous-namespace'::game_engine_get_random_global_player_character_type_index
-	// static ...; // 0x10903D00
-	// static ...; // 0x10903CF4
-	// static ...; // 0x10903CEC
-	// long character_set_index;
-	// s_mod_globals_definition *mod_globals;
-	// long index;
-	// s_mod_globals_player_character_set *character_set;
 
 	s_mod_globals_definition *mod_globals = mod_globals_get_definition();
 	if (!mod_globals)
@@ -539,9 +472,6 @@ long game_engine_get_random_global_player_character_type_index(long character_se
 long game_engine_get_random_global_player_character_set_index() // 0x10903B00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_get_random_global_player_character_set_index@@YAJXZ");
-	// `anonymous-namespace'::game_engine_get_random_global_player_character_set_index
-	// procedure flags: nofpo
-	// s_mod_globals_definition *mod_globals;
 
 	s_mod_globals_definition *mod_globals = mod_globals_get_definition();
 	if (!mod_globals)
@@ -552,15 +482,6 @@ long game_engine_get_random_global_player_character_set_index() // 0x10903B00
 long game_engine_get_player_character_type_index(long character_set_index, long index) // 0x109039D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_get_player_character_type_index@@YAJJJ@Z");
-	// `anonymous-namespace'::game_engine_get_player_character_type_index
-	// static ...; // 0x10903AA4
-	// static ...; // 0x10903A8C
-	// static ...; // 0x10903A84
-	// long character_set_index;
-	// long index;
-	// s_mod_globals_definition *mod_globals;
-	// s_mod_globals_player_character_set *character_set;
-	// s_mod_globals_player_character *character;
 
 
 	s_mod_globals_definition *mod_globals = mod_globals_get_definition();
@@ -582,13 +503,6 @@ long game_engine_get_player_character_type_index(long character_set_index, long 
 std::string const GetPlayerTeamDesginatorName(__int32 playerIndex) // 0x10901C20
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetPlayerTeamDesginatorName@@YA?BV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@H@Z");
-	// `anonymous-namespace'::GetPlayerTeamDesginatorName
-	// __int32 playerIndex;
-	// long (*get_player_team_desginator)(c_game_engine *, __int32);
-	// c_game_engine *gameEngine;
-	// long teamDesignator;
-	// function call : c_game_engine *(*const)()
-	// function call : long (*)(c_game_engine *, __int32)
 
 	c_game_engine *gameEngine = ((c_game_engine *(__cdecl *)())0x5CE150)();
 	if (!gameEngine)
@@ -605,11 +519,6 @@ std::string const GetPlayerTeamDesginatorName(__int32 playerIndex) // 0x10901C20
 long game_engine_get_player_character_type_index(long player_index) // 0x10903890
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_get_player_character_type_index@@YAJJ@Z");
-	// `anonymous-namespace'::game_engine_get_player_character_type_index
-	// long player_index;
-	// s_player_datum *player;
-	// long player_character_set_index;
-		// long random_character_set_index;
 
 	s_player_datum *player = player_get(player_index);
 	if (player->traits.extended.player_model_set < 2 || player->traits.extended.player_model_set >= 8)
@@ -635,10 +544,6 @@ long game_engine_get_player_character_type_index(long player_index) // 0x1090389
 void *GetCharacterChudGlobals(__int32 characterTypeIndex) // 0x10901B70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetCharacterChudGlobals@@YAPAXH@Z");
-	// `anonymous-namespace'::GetCharacterChudGlobals
-	// __int32 characterTypeIndex;
-	// __int32 hudGlobalsIndex;
-	// function call : void *(*const)(unsigned long, long)
 
 	__int32 hudGlobalsIndex = Mods::CModGlobals::GetCharacterHudGlobals(characterTypeIndex);
 	if (hudGlobalsIndex == NONE)
@@ -652,13 +557,6 @@ void *GetCharacterChudGlobals(__int32 characterTypeIndex) // 0x10901B70
 __int32 GetPreferredCharacterType(__int32 playerIndex) // 0x109022A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetPreferredCharacterType@@YAHH@Z");
-	// `anonymous-namespace'::GetPreferredCharacterType
-	// __int32 playerIndex;
-	// s_player_datum *player;
-	// s_game_globals const *matg;
-	// s_mod_globals_definition *mod_globals;
-	// long desiredIndex;
-		// __int32 i;
 
 	s_player_datum *player = player_get(playerIndex);
 	if (!player)
@@ -689,21 +587,6 @@ __int32 GetPreferredCharacterType(__int32 playerIndex) // 0x109022A0
 std::string GetPreferredCharacterName() // 0x10901DF0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetPreferredCharacterName@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-	// `anonymous-namespace'::GetPreferredCharacterName
-	// procedure flags: nofpo
-	// static ...; // 0x10902194
-	// static ...; // 0x1090218C
-	// static ...; // 0x10902187
-	// static ...; // 0x10902181
-	// static ...; // 0x10902178
-	// static ...; // 0x1090213C
-	// static ...; // 0x10902134
-	// std::string modHash;
-	// Player::CPlayerCustomizationDB &customizationDB;
-	// std::string preferredCharacter;
-		// c_mod_package_manager::s_entry entry;
-		// unsigned char hash[20];
-			// std::string filename;
 
 	Player::CPlayerCustomizationDB &customizationDB = Utils::Singleton<Player::CPlayerCustomizationDB>::Instance();
 	std::string preferredCharacter;
@@ -740,17 +623,6 @@ std::string GetPreferredCharacterName() // 0x10901DF0
 __int32 OverridePlayerCharacter(__int32 playerIndex) // 0x10902BE0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OverridePlayerCharacter@@YAHH@Z");
-	// `anonymous-namespace'::OverridePlayerCharacter
-	// static ...; // 0x10902E63
-	// static ...; // 0x10902E60
-	// static ...; // 0x10902E48
-	// static ...; // 0x10902E40
-	// __int32 playerIndex;
-	// std::string teamDesignator;
-		// std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,Server::Voting::HaloType::CharacterOverride> > > > it;
-			// __int32 characterSetIndex;
-				// long characterSetIndex;
-				// __int32 characterIndex;
 
 	std::string teamDesignator = GetPlayerTeamDesginatorName(playerIndex);
 	if (auto it = votingCharacterOverrides.find(teamDesignator); it != votingCharacterOverrides.end())
@@ -775,8 +647,6 @@ __int32 OverridePlayerCharacter(__int32 playerIndex) // 0x10902BE0
 void OnLifeCycleChanged(Blam::Network::LifeCycleState newState) // 0x10902AE0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnLifeCycleChanged@@YAXW4LifeCycleState@Network@Blam@@@Z");
-	// `anonymous-namespace'::OnLifeCycleChanged
-	// Blam::Network::LifeCycleState newState;
 
 	switch (newState)
 	{
@@ -789,8 +659,6 @@ void OnLifeCycleChanged(Blam::Network::LifeCycleState newState) // 0x10902AE0
 void OnServerVotePassed(Server::Voting::MapAndType const &winner) // 0x10902B90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnServerVotePassed@@YAXABUMapAndType@Voting@Server@@@Z");
-	// `anonymous-namespace'::OnServerVotePassed
-	// Server::Voting::MapAndType const &winner;
 
 	votingCharacterOverrides = winner.haloType.characterOverrides;
 }
@@ -798,15 +666,6 @@ void OnServerVotePassed(Server::Voting::MapAndType const &winner) // 0x10902B90
 bool RequestPlayerPropertiesUpdate(__int32 userIndex) // 0x109031B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?RequestPlayerPropertiesUpdate@@YA_NH@Z");
-	// `anonymous-namespace'::RequestPlayerPropertiesUpdate
-	// static ...; // 0x10903280
-	// static ...; // 0x10903274
-	// static ...; // 0x1090326C
-	// __int32 userIndex;
-	// char *user;
-	// void (*const user_interface_controller_update_network_properties)(__int32);
-	// c_network_session *session;
-	// function call : void (*const)(__int32)
 
 
 	void (*const user_interface_controller_update_network_properties)(__int32) = (void (*const)(__int32))0xa95170;
@@ -829,13 +688,6 @@ bool RequestPlayerPropertiesUpdate(__int32 userIndex) // 0x109031B0
 void MaybeUpdatePeerProperties() // 0x10902860
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?MaybeUpdatePeerProperties@@YAXXZ");
-	// `anonymous-namespace'::MaybeUpdatePeerProperties
-	// procedure flags: nofpo
-		// IMod *mod;
-	// function call : bool (*const)()
-	// function call : IMod *(EModIndex) const
-	// function call : bool () const
-	// function call : bool () const
 
 	if (!((bool (*)())0x5314B0)())
 		return;
@@ -852,8 +704,6 @@ void MaybeUpdatePeerProperties() // 0x10902860
 _inline void ModListener::OnModChanged(EModIndex index, IMod *mod) // 0x10902B60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnModChanged@ModListener@hades_file_local@@EAEXW4EModIndex@@PAVIMod@@@Z");
-	// `anonymous-namespace'::ModListener::OnModChanged
-	// IMod *mod;
 
 	currentUpdateNumber = currentUpdateNumber + 1;
 }

@@ -89,8 +89,6 @@ namespace Player
 	void player_model_customization_encode(Blam::BitStream *stream, s_player_model_customization const *customization) // 0x107F09C0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?player_model_customization_encode@Player@@YAXPAVBitStream@Blam@@PBUs_player_model_customization@@@Z");
-		// s_player_model_customization const *customization;
-			// __int32 i;
 
 		for (__int32 i = 0; i < 5; i++)
 		{
@@ -106,8 +104,6 @@ namespace Player
 	bool player_model_customization_decode(Blam::BitStream *stream, s_player_model_customization *customization) // 0x107F0900
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?player_model_customization_decode@Player@@YA_NPAVBitStream@Blam@@PAUs_player_model_customization@@@Z");
-		// s_player_model_customization *customization;
-			// __int32 i;
 
 		for (__int32 i = 0; i < 5; i++)
 		{
@@ -125,7 +121,6 @@ namespace Player
 	void player_emblem_configuration_encode(Blam::BitStream *stream, s_player_emblem_configuration const *emblem) // 0x107F0800
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?player_emblem_configuration_encode@Player@@YAXPAVBitStream@Blam@@PBUs_player_emblem_configuration@@@Z");
-		// s_player_emblem_configuration const *emblem;
 
 		stream->Write(emblem->foregroundIndex, 16);
 		stream->Write(emblem->backgroundIndex, 16);
@@ -141,7 +136,6 @@ namespace Player
 	void player_emblem_configuration_decode(Blam::BitStream *stream, s_player_emblem_configuration *emblem) // 0x107F0710
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?player_emblem_configuration_decode@Player@@YAXPAVBitStream@Blam@@PAUs_player_emblem_configuration@@@Z");
-		// s_player_emblem_configuration *emblem;
 
 		emblem->foregroundIndex = stream->Read<unsigned short>(16);
 		emblem->backgroundIndex = stream->Read<unsigned short>(16);
@@ -157,9 +151,6 @@ namespace Player
 	void player_appearance_encode(Blam::BitStream *stream, s_player_appearance const *appearance) // 0x107F02F0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?player_appearance_encode@Player@@YAXPAVBitStream@Blam@@PBUs_player_appearance@@@Z");
-		// s_player_appearance const *appearance;
-			// __int32 i;
-				// s_player_character_customiztion const &character;
 
 		stream->WriteBool(appearance->gender);
 		stream->WriteStringFixed(appearance->service_tag);
@@ -184,9 +175,6 @@ namespace Player
 	bool player_appearance_decode(Blam::BitStream *stream, s_player_appearance *appearance) // 0x107F0150
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?player_appearance_decode@Player@@YA_NPAVBitStream@Blam@@PAUs_player_appearance@@@Z");
-		// s_player_appearance *appearance;
-			// __int32 i;
-				// s_player_character_customiztion &character;
 
 		memset(appearance, 0, sizeof(s_player_appearance));
 		appearance->gender = stream->ReadBool();
@@ -211,7 +199,6 @@ namespace Player
 	bool player_configuration_host_decode(Blam::BitStream *stream, s_player_configuration_from_host *configuration, e_player_configuration_encoding_type encoding_type) // 0x107F0480
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?player_configuration_host_decode@Player@@YA_NPAVBitStream@Blam@@PAUs_player_configuration_from_host@@W4e_player_configuration_encoding_type@@@Z");
-		// e_player_configuration_encoding_type encoding_type;
 
 		memset(configuration, 0, sizeof(s_player_configuration_from_host));
 
@@ -244,7 +231,6 @@ namespace Player
 	void player_configuration_host_encode(Blam::BitStream *stream, s_player_configuration_from_host *configuration, e_player_configuration_encoding_type encoding_type) // 0x107F05E0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?player_configuration_host_encode@Player@@YAXPAVBitStream@Blam@@PAUs_player_configuration_from_host@@W4e_player_configuration_encoding_type@@@Z");
-		// e_player_configuration_encoding_type encoding_type;
 
 		stream->WriteBlock(64, (unsigned char const *)configuration);
 		stream->WriteStringFixed(configuration->player_name);
@@ -269,8 +255,6 @@ namespace Player
 _inline bool valid_team_index(long team_index) // 0x107F0A80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?valid_team_index@@YA_NJ@Z");
-	// `anonymous-namespace'::valid_team_index
-	// long team_index;
 
 	return team_index >= 0 && team_index < 16;
 }

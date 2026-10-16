@@ -177,43 +177,6 @@ namespace Forge
 		bool Save(std::string const &author, std::string &name, std::string const &path) // 0x10970530
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Save@Prefabs@Forge@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAV34@0@Z");
-			// static ...; // 0x10970D28
-			// static ...; // 0x10970D1B
-			// static ...; // 0x10970D18
-			// static ...; // 0x10970D08
-			// static ...; // 0x10970CFB
-			// static ...; // 0x10970CF4
-			// static ...; // 0x10970C94
-			// static ...; // 0x10970C8C
-			// std::string const &author;
-			// std::string &name;
-			// std::string const &path;
-			// static PrefabPlacement placements[640]; // 0x1240FBA0
-			// std::ofstream fs;
-			// long placementCount;
-			// std::unordered_map<long,long> tagIndexToPaletteIndex;
-			// Forge::ObjectSet &objectSet;
-			// real_point3d const &crosshairPoint;
-			// unsigned long playerHandle;
-			// static PrefabPaletteEntry palette[256]; // 0x1241A5A8
-			// long paletteItemCount;
-			// Forge::Prefabs::PrefabHeader header;
-			// s_map_variant *mapv;
-			// static __int32 $TSS0; // 0x1241A5A0
-				// __int32 i;
-					// long paletteIndex;
-					// s_variant_datum &placement;
-					// long tagIndex;
-					// PrefabPlacement *prefabPlacement;
-					// real_vector3d displacement;
-						// std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<long const ,long> > > > it;
-							// char const *tag_name;
-							// unsigned long group_tag;
-							// char group_tag_ascii[5];
-							// char *dest_tag_name;
-							// unsigned __int32 len;
-			// function call : s_map_variant *(*const)()
-			// function call : unsigned long (*const)(long)
 
 			static PrefabPaletteEntry palette[256];
 			std::ofstream fs(path, std::ios::binary);
@@ -282,39 +245,6 @@ namespace Forge
 		bool Load(std::string const &path) // 0x1096FAB0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Load@Prefabs@Forge@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-			// static ...; // 0x1097016F
-			// static ...; // 0x10970168
-			// static ...; // 0x10970162
-			// static ...; // 0x10970150
-			// static ...; // 0x10970147
-			// static ...; // 0x1097013D
-			// static ...; // 0x10970134
-			// static ...; // 0x109700E0
-			// static ...; // 0x109700D8
-			// std::string const &path;
-			// static PrefabPlacement placements[640]; // 0x1242A5A8
-			// long paletteTagIndices[256];
-			// std::ifstream fs;
-			// Forge::ObjectSet &objectSet;
-			// real_point3d const &crosshairPoint;
-			// __int32 remainingObjects;
-			// long playerHandle;
-			// Forge::ForgeObjectQuota quota;
-			// static PrefabPaletteEntry palette[256]; // 0x12434FA8
-			// Forge::Prefabs::PrefabHeader header;
-			// s_map_variant *mapv;
-			// static __int32 $TSS0; // 0x1241A5A4
-				// long needed;
-				// __int32 i;
-					// char tag_name[256];
-					// long tag_index;
-					// unsigned long group_tag;
-					// PrefabPlacement &prefabPlacement;
-					// real_point3d position;
-					// long newObjectIndex;
-			// function call : s_map_variant *(*const)()
-			// function call : unsigned long (*const)(long)
-			// function call : long (*const)(s_map_variant *, long, long, long, real_point3d const *, real_vector3d const *, real_vector3d const *, long, long, s_map_variant_placement_properties const *, short)
 
 			static PrefabPaletteEntry palette[256];
 			std::ifstream fs(path, std::ios::binary);
@@ -385,11 +315,6 @@ namespace Forge
 		bool ReadHeader(std::string const &path, Forge::Prefabs::PrefabHeader &header) // 0x109703E0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ReadHeader@Prefabs@Forge@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAUPrefabHeader@12@@Z");
-			// static ...; // 0x109704D8
-			// static ...; // 0x109704D0
-			// std::string const &path;
-			// Forge::Prefabs::PrefabHeader &header;
-			// std::ifstream fs;
 
 			std::ifstream fs(path, std::ios::binary);
 			return fs.is_open() && ::ReadHeader(fs, header);
@@ -405,8 +330,6 @@ _inline PrefabPlacement::PrefabPlacement() = default; // 0x1096F6D0
 bool ReadHeader(std::ifstream &stream, Forge::Prefabs::PrefabHeader &header) // 0x10970330
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ReadHeader@@YA_NAAV?$basic_ifstream@DU?$char_traits@D@std@@@std@@AAUPrefabHeader@Prefabs@Forge@@@Z");
-	// `anonymous-namespace'::ReadHeader
-	// Forge::Prefabs::PrefabHeader &header;
 
 	stream.read((char *)&header, 56);
 	return !stream.fail() && header.Magic == 1886545506 && header.Version == 1;

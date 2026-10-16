@@ -112,7 +112,6 @@ namespace Modules
 	ModuleDownload::ModuleDownload() : ModuleBase("Download") /* hades-mem-init: : ModuleBase(todo_result<std::string>()) */ // 0x108563E0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "??0ModuleDownload@Modules@@QAE@XZ");
-		// Modules::ModuleDownload *const this;
 
 		AddCommand("DownloadHttp", "download_http", "", eCommandFlagsInternal, CommandDownloadHttp);
 		VarDebugTrace = AddVariableInt("DebugTrace", "download_debug_trace", "", eCommandFlagsNone, 0);
@@ -130,15 +129,6 @@ namespace Modules
 bool CommandDownloadHttp(std::vector<std::string> const &args, std::string &retValue) // 0x10856F10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandDownloadHttp@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandDownloadHttp
-	// static ...; // 0x10857144
-	// static ...; // 0x1085712C
-	// static ...; // 0x10857124
-	// std::vector<std::string> const &args;
-	// std::string &retValue;
-	// std::shared_ptr<Download::CHttpFileDownload> download;
-	// std::shared_ptr<`CommandDownloadHttp'::`2'::ScopedDebugTrace> debugTrace;
-	// function call : void ()
 
 	struct ScopedDebugTrace
 	{

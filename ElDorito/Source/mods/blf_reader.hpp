@@ -44,7 +44,6 @@ extern bool blf_find_chunk_in_buffer(unsigned char const *buffer, unsigned long 
 inline bool c_blf_reader::read_next_chunk(s_blf_chunk_header *out_header, unsigned char const **out_data, unsigned long *out_data_size) // 0x1086D5E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?read_next_chunk@c_blf_reader@@QAE_NPAUs_blf_chunk_header@@PAPBEPAK@Z");
-	// unsigned long *out_data_size;
 
 	return read_next_chunk_internal(out_header, out_data, out_data_size);
 }

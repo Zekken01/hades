@@ -104,8 +104,6 @@ namespace Scripting
 		bool ValidIdentifier(std::string_view name) // 0x10702520
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ValidIdentifier@HS@Scripting@@YA_NV?$basic_string_view@DU?$char_traits@D@std@@@std@@@Z");
-			// std::string_view name;
-				// unsigned __int32 i;
 
 			if (name.empty())
 				return false;
@@ -121,6 +119,7 @@ namespace Scripting
 			return true;
 		}
 
+#line 124
 		void ScriptMethodMap::AddMethod(Scripting::HS::ScriptMethod &&method) // 0x10701260
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?AddMethod@ScriptMethodMap@HS@Scripting@@AAEX$$QAUScriptMethod@23@@Z");
@@ -169,11 +168,6 @@ namespace Scripting
 		void ScriptMethodMap::AddMethod(std::string_view name, std::string_view description, Scripting::HS::ScriptMethodFlags flags, void (*evaluate)(short, long, bool), e_hs_type returnType, std::initializer_list<Scripting::HS::ScriptParameter> parameters) // 0x10701690
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?AddMethod@ScriptMethodMap@HS@Scripting@@QAEXV?$basic_string_view@DU?$char_traits@D@std@@@std@@0W4ScriptMethodFlags@23@P6AXFJ_N@ZW4e_hs_type@@V?$initializer_list@UScriptParameter@HS@Scripting@@@5@@Z");
-			// Scripting::HS::ScriptMethodFlags flags;
-			// void (*evaluate)(short, long, bool);
-			// e_hs_type returnType;
-			// std::initializer_list<Scripting::HS::ScriptParameter> parameters;
-			// Scripting::HS::ScriptMethod method;
 
 			ScriptMethod method = {};
 			method.name = name;
@@ -185,6 +179,7 @@ namespace Scripting
 			AddMethod(std::move(method));
 		}
 
+#line 188
 		Scripting::HS::ScriptMethod const *ScriptMethodMap::FindMethod(std::string_view name) const // 0x10701880
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?FindMethod@ScriptMethodMap@HS@Scripting@@QBEPBUScriptMethod@23@V?$basic_string_view@DU?$char_traits@D@std@@@std@@@Z");
@@ -212,7 +207,6 @@ namespace Scripting
 		std::string ScriptMethodMap::GenerateHelp(Scripting::HS::ScriptMethod const *method) // 0x10701E00
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GenerateHelp@ScriptMethodMap@HS@Scripting@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PBUScriptMethod@23@@Z");
-			// Scripting::HS::ScriptMethod const *method;
 
 			return std::string(method->description);
 		}
@@ -227,20 +221,6 @@ namespace Scripting
 		std::string ScriptMethodMap::GenerateMethodDeclaration(Scripting::HS::ScriptMethod const *method) // 0x10701E90
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GenerateMethodDeclaration@ScriptMethodMap@HS@Scripting@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PBUScriptMethod@23@@Z");
-			// static ...; // 0x107023BC
-			// static ...; // 0x107023B7
-			// static ...; // 0x107023AF
-			// static ...; // 0x107023A4
-			// static ...; // 0x10702368
-			// static ...; // 0x10702360
-			// Scripting::HS::ScriptMethodMap *const this;
-			// Scripting::HS::ScriptMethod const *method;
-			// std::string_view returnType;
-				// std::stringstream ss;
-				// std::string parameters;
-					// unsigned __int32 i;
-						// std::string typeStr;
-						// std::string_view type;
 
 			if (!method)
 				return "(null)";
@@ -274,6 +254,7 @@ namespace Scripting
 {
 	namespace HS
 	{
+#line 277
 		std::string ScriptMethodMap::GenerateDocs() const // 0x10701A20
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GenerateDocs@ScriptMethodMap@HS@Scripting@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");

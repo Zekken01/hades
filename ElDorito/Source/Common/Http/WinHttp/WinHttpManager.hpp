@@ -59,9 +59,6 @@ namespace Http
 	inline Http::CWinHttpManager &CWinHttpManager::Instance() // 0x107F7370
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Instance@CWinHttpManager@Http@@SAAAV12@XZ");
-		// procedure flags: nofpo
-		// static Http::CWinHttpManager instance; // 0x1138F3E0
-		// static __int32 $TSS0; // 0x1138F438
 
 		static Http::CWinHttpManager instance;
 		return instance;
@@ -70,7 +67,6 @@ namespace Http
 	inline void *CWinHttpManager::GetSessionHandle() // 0x10808B40
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetSessionHandle@CWinHttpManager@Http@@QAEPAXXZ");
-		// Http::CWinHttpManager *const this;
 
 		return m_sessHandle.get();
 	}

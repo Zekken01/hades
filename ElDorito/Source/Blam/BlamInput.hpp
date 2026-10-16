@@ -464,9 +464,6 @@ namespace Blam
 		inline unsigned char ActionState::GetDownTicks() const // 0x10A79440
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetDownTicks@ActionState@Input@Blam@@QBEEXZ");
-			// Blam::Input::ActionState const *const this;
-			// unsigned char result;
-				// unsigned char v2;
 
 			unsigned char downTicks = 0;
 			if (!(Flags & 1))

@@ -401,9 +401,6 @@ namespace Modules
 	ModuleServer::ModuleServer() : ModuleBase("Server") /* hades-mem-init: : ModuleBase(todo_result<std::string>()) */ // 0x109FE0E0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "??0ModuleServer@Modules@@QAE@XZ");
-		// Modules::ModuleServer *const this;
-		// Modules::Command *syncTestServer;
-		// Modules::Command *syncTestClient;
 
 		VarServerName = AddVariableString("Name", "server_name", "The name of the server (limited to 128 characters)", CommandFlags(eCommandFlagsArchived | eCommandFlagsReplicated), "HaloOnline Server", VarServerNameUpdated);
 		VarServerNameClient = AddVariableString("NameClient", "server_name_client", "", eCommandFlagsInternal, "");
@@ -687,32 +684,6 @@ namespace Modules
 	void ModuleServer::refreshServerFilters() // 0x10A186A0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?refreshServerFilters@ModuleServer@Modules@@QAEXXZ");
-		// static ...; // 0x10A18ED5
-		// static ...; // 0x10A18ECC
-		// static ...; // 0x10A18EC7
-		// static ...; // 0x10A18EC2
-		// static ...; // 0x10A18EBD
-		// static ...; // 0x10A18EB5
-		// static ...; // 0x10A18EAD
-		// static ...; // 0x10A18EAB
-		// static ...; // 0x10A18EA4
-		// static ...; // 0x10A18E38
-		// static ...; // 0x10A18E30
-		// Modules::ModuleServer *const this;
-		// std::ifstream in;
-			// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
-			// std::string contents;
-				// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &namesArray;
-					// unsigned __int32 i;
-						// std::string name;
-				// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &wordsArray;
-						// std::string word;
-				// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &patternArray;
-						// std::string pattern;
-				// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &replacementWord;
-			// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> s;
-			// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-			// std::ofstream outFile;
 
 		NonAllowedNames.clear();
 		FilteredWords.clear();
@@ -800,7 +771,6 @@ namespace Modules
 	std::unordered_set<std::string> ModuleServer::GetFilteredWordsList() // 0x10A139E0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetFilteredWordsList@ModuleServer@Modules@@QAE?AV?$unordered_set@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@U?$hash@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@U?$equal_to@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@XZ");
-		// Modules::ModuleServer *const this;
 
 		return FilteredWords;
 	}
@@ -812,7 +782,6 @@ namespace Modules
 	std::unordered_set<std::string> ModuleServer::GetFilteredPatternsList() // 0x10A13960
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetFilteredPatternsList@ModuleServer@Modules@@QAE?AV?$unordered_set@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@U?$hash@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@U?$equal_to@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@XZ");
-		// Modules::ModuleServer *const this;
 
 		return FilteredPatterns;
 	}
@@ -824,7 +793,6 @@ namespace Modules
 	std::string ModuleServer::GetFilterReplacementWord() // 0x10A138E0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetFilterReplacementWord@ModuleServer@Modules@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-		// Modules::ModuleServer *const this;
 
 		return FilterReplacementWord;
 	}
@@ -835,8 +803,6 @@ namespace Modules
 bool VarServerNameUpdated(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A148A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?VarServerNameUpdated@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::VarServerNameUpdated
-	// std::string &returnInfo;
 
 	//Trim server name to 128 characters
 	if (Modules::ModuleServer::Instance().VarServerName->ValueString.length() > 128)
@@ -848,9 +814,6 @@ bool VarServerNameUpdated(std::vector<std::string> const &Arguments, std::string
 bool VariablePostGameFadeDelayUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A14A50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?VariablePostGameFadeDelayUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::VariablePostGameFadeDelayUpdate
-	// std::string &returnInfo;
-	// unsigned long seconds;
 
 	unsigned long seconds = Modules::ModuleServer::Instance().VarPostGameFadeStartDelay->ValueInt;
 
@@ -861,10 +824,6 @@ bool VariablePostGameFadeDelayUpdate(std::vector<std::string> const &Arguments, 
 bool VariableServerCountdownUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A14B50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableServerCountdownUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::VariableServerCountdownUpdate
-	// std::string &returnInfo;
-	// unsigned long offset;
-	// unsigned long seconds;
 
 	unsigned long seconds = Modules::ModuleServer::Instance().VarServerCountdownClient->ValueInt;
 	unsigned long offset = 4;
@@ -889,10 +848,6 @@ bool VariableServerCountdownUpdate(std::vector<std::string> const &Arguments, st
 bool VariableServerMaxPlayersUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A15010
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableServerMaxPlayersUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::VariableServerMaxPlayersUpdate
-	// std::string &returnInfo;
-	// char (*network_squad_session_set_maximum_player_count)(__int32);
-	// function call : char (*)(__int32)
 
 	char (__cdecl *network_squad_session_set_maximum_player_count)(__int32) = (char(__cdecl *)(__int32))0x439ba0;
 
@@ -903,8 +858,6 @@ bool VariableServerMaxPlayersUpdate(std::vector<std::string> const &Arguments, s
 bool VariableServerGamePortUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A14FC0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableServerGamePortUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::VariableServerGamePortUpdate
-	// std::string &returnInfo;
 
 	returnInfo = "Requires a game restart to apply.";
 	return true;
@@ -913,14 +866,6 @@ bool VariableServerGamePortUpdate(std::vector<std::string> const &Arguments, std
 void GetEndpoints(std::vector<std::string> &destVect, std::string endpointType) // 0x10A136F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetEndpoints@@YAXAAV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::GetEndpoints
-	// static ...; // 0x10A1386C
-	// static ...; // 0x10A13864
-	// std::vector<std::string> &destVect;
-	// std::string endpointType;
-		// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
-			// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &mastersArray;
-				// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > *it;
 
 	if (Utils::DewritoReader::Instance().IsValid())
 	{
@@ -937,20 +882,6 @@ void GetEndpoints(std::vector<std::string> &destVect, std::string endpointType) 
 bool GetEndpoint(std::string endpointName, std::string &returnInfo) // 0x10A132A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetEndpoint@@YA_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAV12@@Z");
-	// `anonymous-namespace'::GetEndpoint
-	// static ...; // 0x10A13600
-	// static ...; // 0x10A135F9
-	// static ...; // 0x10A135F0
-	// static ...; // 0x10A135C0
-	// static ...; // 0x10A135B8
-	// std::string endpointName;
-	// std::string &returnInfo;
-		// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
-			// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
-			// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-			// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &mastersArray;
-				// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > *it;
-			// std::string endpoint;
 
 	if (Utils::DewritoReader::Instance().IsValid())
 	{
@@ -986,35 +917,6 @@ bool GetEndpoint(std::string endpointName, std::string &returnInfo) // 0x10A132A
 unsigned long __stdcall CommandServerAnnounce_Thread(void *lpParam) // 0x10A09A70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandServerAnnounce_Thread@@YGKPAX@Z");
-	// `anonymous-namespace'::CommandServerAnnounce_Thread
-	// static ...; // 0x10A0A82F
-	// static ...; // 0x10A0A81D
-	// static ...; // 0x10A0A816
-	// static ...; // 0x10A0A812
-	// static ...; // 0x10A0A809
-	// static ...; // 0x10A0A801
-	// static ...; // 0x10A0A7FC
-	// static ...; // 0x10A0A7F7
-	// static ...; // 0x10A0A7F0
-	// static ...; // 0x10A0A784
-	// static ...; // 0x10A0A77C
-// $LN47:
-// $LN49:
-	// void *lpParam;
-	// std::stringstream ss;
-	// std::string errors;
-	// std::vector<std::string> announceEndpoints;
-		// std::vector<std::string> &<range>$L0;
-		// std::string *<begin>$L0;
-		// std::string *<end>$L0;
-			// std::string server;
-				// std::wstring respHdr;
-				// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
-				// std::wstring expected;
-				// HttpRequest req;
-				// std::string resp;
-				// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &result;
-	// function call : unsigned long ()
 
 	std::stringstream ss;
 	std::vector<std::string> announceEndpoints;
@@ -1085,35 +987,6 @@ unsigned long __stdcall CommandServerAnnounce_Thread(void *lpParam) // 0x10A09A7
 unsigned long __stdcall CommandServerUnannounce_Thread(void *lpParam) // 0x10A0F2D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandServerUnannounce_Thread@@YGKPAX@Z");
-	// `anonymous-namespace'::CommandServerUnannounce_Thread
-	// static ...; // 0x10A100CF
-	// static ...; // 0x10A100BD
-	// static ...; // 0x10A100B6
-	// static ...; // 0x10A100B2
-	// static ...; // 0x10A100A9
-	// static ...; // 0x10A100A1
-	// static ...; // 0x10A1009C
-	// static ...; // 0x10A10097
-	// static ...; // 0x10A10090
-	// static ...; // 0x10A10024
-	// static ...; // 0x10A1001C
-// $LN48:
-// $LN50:
-	// void *lpParam;
-	// std::stringstream ss;
-	// std::string errors;
-	// std::vector<std::string> announceEndpoints;
-		// std::vector<std::string> &<range>$L0;
-		// std::string *<begin>$L0;
-		// std::string *<end>$L0;
-			// std::string server;
-				// std::wstring respHdr;
-				// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
-				// std::wstring expected;
-				// HttpRequest req;
-				// std::string resp;
-				// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &result;
-	// function call : unsigned long ()
 
 	std::stringstream ss;
 	std::vector<std::string> announceEndpoints;
@@ -1184,14 +1057,6 @@ unsigned long __stdcall CommandServerUnannounce_Thread(void *lpParam) // 0x10A0F
 bool CommandServerAnnounce(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A09760
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandServerAnnounce@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandServerAnnounce
-	// static ...; // 0x10A099BC
-	// static ...; // 0x10A099B4
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-		// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
-			// void *thread;
-	// function call : void *(_SECURITY_ATTRIBUTES *, unsigned long, unsigned long (*)(void *), void *, unsigned long, unsigned long *)
 
 	returnInfo = "Not available in debug builds";
 	return false;
@@ -1220,10 +1085,6 @@ bool CommandServerAnnounce(std::vector<std::string> const &Arguments, std::strin
 bool CommandServerUnannounce(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A0F240
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandServerUnannounce@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandServerUnannounce
-	// std::string &returnInfo;
-	// void *thread;
-	// function call : void *(_SECURITY_ATTRIBUTES *, unsigned long, unsigned long (*)(void *), void *, unsigned long, unsigned long *)
 
 	if (!Server::InfoServer::IsInfoSocketOpen())
 	{
@@ -1238,12 +1099,6 @@ bool CommandServerUnannounce(std::vector<std::string> const &Arguments, std::str
 bool VariableServerShouldAnnounceUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A15090
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableServerShouldAnnounceUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::VariableServerShouldAnnounceUpdate
-	// static ...; // 0x10A15158
-	// static ...; // 0x10A15150
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// std::string returnValueIgnored;
 
 	std::string returnValueIgnored;
 	if (!Modules::ModuleServer::Instance().VarServerShouldAnnounce->ValueInt)
@@ -1254,25 +1109,6 @@ bool VariableServerShouldAnnounceUpdate(std::vector<std::string> const &Argument
 bool CommandServerConnect(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A0B280
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandServerConnect@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandServerConnect
-	// static ...; // 0x10A0B676
-	// static ...; // 0x10A0B671
-	// static ...; // 0x10A0B66C
-	// static ...; // 0x10A0B664
-	// static ...; // 0x10A0B628
-	// static ...; // 0x10A0B620
-// $LN19:
-// $LN8:
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// SServerConnectOptions options;
-	// std::string host;
-	// std::string password;
-	// unsigned __int32 rawIpaddr;
-	// __int32 httpPort;
-	// unsigned __int32 portOffset;
-	// std::string address;
-		// std::string port;
 
 	if (Arguments.size() <= 0)
 	{
@@ -1317,13 +1153,6 @@ bool CommandServerConnect(std::vector<std::string> const &Arguments, std::string
 __int32 FindPlayerByName(std::string const &name, bool findPeer) // 0x10A12E90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?FindPlayerByName@@YAHABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@_N@Z");
-	// `anonymous-namespace'::FindPlayerByName
-	// bool findPeer;
-	// Blam::Network::SessionMembership *membership;
-	// Blam::Network::Session *session;
-		// __int32 peerIdx;
-			// Blam::Network::PlayerSession *player;
-			// __int32 playerIdx;
 
 	Blam::Network::Session *session = Blam::Network::GetActiveSession();
 	if (!session || !session->IsEstablished() || !session->IsHost())
@@ -1349,18 +1178,6 @@ __int32 FindPlayerByName(std::string const &name, bool findPeer) // 0x10A12E90
 std::vector<int> FindPlayersByUid(unsigned long long uid) // 0x10A13040
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?FindPlayersByUid@@YA?AV?$vector@HV?$allocator@H@std@@@std@@_K@Z");
-	// `anonymous-namespace'::FindPlayersByUid
-	// static ...; // 0x10A13216
-	// static ...; // 0x10A1320C
-	// static ...; // 0x10A131F4
-	// static ...; // 0x10A131EC
-	// unsigned long long uid;
-	// Blam::Network::SessionMembership *membership;
-	// Blam::Network::Session *session;
-	// std::vector<int> indices;
-		// __int32 peerIdx;
-			// Blam::Network::PlayerSession *player;
-			// __int32 playerIdx;
 
 	std::vector<int> indices;
 	Blam::Network::Session *session = Blam::Network::GetActiveSession();
@@ -1382,12 +1199,6 @@ std::vector<int> FindPlayersByUid(unsigned long long uid) // 0x10A13040
 void BanIp(std::string const &ip) // 0x10A079B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?BanIp@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-	// `anonymous-namespace'::BanIp
-	// static ...; // 0x10A07A78
-	// static ...; // 0x10A07A6C
-	// static ...; // 0x10A07A64
-	// std::string const &ip;
-	// Server::BanList banList;
 
 	auto banList = Server::LoadDefaultBanList();
 	banList.AddIp(ip);
@@ -1397,14 +1208,6 @@ void BanIp(std::string const &ip) // 0x10A079B0
 void BanUid(std::string const &playerUid) // 0x10A07BD0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?BanUid@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-	// `anonymous-namespace'::BanUid
-	// static ...; // 0x10A07CC8
-	// static ...; // 0x10A07CC0
-	// static ...; // 0x10A07CA8
-	// static ...; // 0x10A07CA0
-	// std::string const &playerUid;
-	// unsigned long long uid;
-		// Server::BanList banList;
 
 	unsigned long long uid;
 	if (Patches::PlayerUid::ParseUid(playerUid, &uid))
@@ -1418,12 +1221,6 @@ void BanUid(std::string const &playerUid) // 0x10A07BD0
 void BanName(std::string const &name) // 0x10A07AC0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?BanName@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-	// `anonymous-namespace'::BanName
-	// static ...; // 0x10A07B88
-	// static ...; // 0x10A07B7C
-	// static ...; // 0x10A07B74
-	// std::string const &name;
-	// Server::BanList banList;
 
 	auto banList = Server::LoadDefaultBanList();
 	banList.AddName(name);
@@ -1433,8 +1230,6 @@ void BanName(std::string const &name) // 0x10A07AC0
 void TempBanIP(std::string const &ip) // 0x10A14150
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?TempBanIP@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-	// `anonymous-namespace'::TempBanIP
-	// std::string const &ip;
 
 	Utils::Singleton<Server::TempBanList>::Instance().AddIp(ip);
 }
@@ -1442,12 +1237,6 @@ void TempBanIP(std::string const &ip) // 0x10A14150
 bool UnbanIp(std::string const &ip) // 0x10A14240
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?UnbanIp@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-	// `anonymous-namespace'::UnbanIp
-	// static ...; // 0x10A1433C
-	// static ...; // 0x10A14330
-	// static ...; // 0x10A14328
-	// std::string const &ip;
-	// Server::BanList banList;
 
 	auto banList = Server::LoadDefaultBanList();
 	if (!banList.RemoveIp(ip))
@@ -1459,14 +1248,6 @@ bool UnbanIp(std::string const &ip) // 0x10A14240
 bool UnbanUid(std::string const &playerUid) // 0x10A144E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?UnbanUid@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-	// `anonymous-namespace'::UnbanUid
-	// static ...; // 0x10A14634
-	// static ...; // 0x10A14630
-	// static ...; // 0x10A14618
-	// static ...; // 0x10A14610
-	// std::string const &playerUid;
-	// Server::BanList banList;
-	// unsigned long long uid;
 
 	auto banList = Server::LoadDefaultBanList();
 	unsigned long long uid;
@@ -1486,12 +1267,6 @@ bool UnbanUid(std::string const &playerUid) // 0x10A144E0
 bool UnbanName(std::string const &name) // 0x10A14390
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?UnbanName@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-	// `anonymous-namespace'::UnbanName
-	// static ...; // 0x10A1448C
-	// static ...; // 0x10A14480
-	// static ...; // 0x10A14478
-	// std::string const &name;
-	// Server::BanList banList;
 
 	auto banList = Server::LoadDefaultBanList();
 	if (!banList.RemoveName(name))
@@ -1503,20 +1278,6 @@ bool UnbanName(std::string const &name) // 0x10A14390
 bool DoKickPlayerCommand(KickType type, std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A11AA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DoKickPlayerCommand@@YA_NW4KickType@hades_file_local@@ABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@4@@Z");
-	// `anonymous-namespace'::DoKickPlayerCommand
-	// static ...; // 0x10A12194
-	// static ...; // 0x10A12170
-	// static ...; // 0x10A12168
-	// KickType type;
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// __int32 peer;
-	// __int32 playerIdx;
-	// std::stringstream ss;
-	// std::string kickPlayerName;
-	// std::string ip;
-	// Blam::Network::Session *session;
-	// e_network_session_boot_reason banReason;
 
 	if (Arguments.size() <= 0)
 	{
@@ -1584,25 +1345,6 @@ bool DoKickPlayerCommand(KickType type, std::vector<std::string> const &Argument
 bool DoKickUidCommand(KickType type, std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A12370
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DoKickUidCommand@@YA_NW4KickType@hades_file_local@@ABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@4@@Z");
-	// `anonymous-namespace'::DoKickUidCommand
-	// static ...; // 0x10A12A53
-	// static ...; // 0x10A12A44
-	// static ...; // 0x10A12A14
-	// static ...; // 0x10A12A0C
-	// KickType type;
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// bool success;
-	// unsigned long long uid;
-	// Blam::Network::Session *session;
-	// e_network_session_boot_reason banReason;
-	// std::vector<int> indices;
-		// std::vector<int> &<range>$L0;
-		// __int32 *<begin>$L0;
-		// __int32 *<end>$L0;
-			// __int32 playerIdx;
-				// std::string kickPlayerName;
-				// std::string ip;
 
 	if (Arguments.size() != 1)
 	{
@@ -1669,21 +1411,6 @@ bool DoKickUidCommand(KickType type, std::vector<std::string> const &Arguments, 
 bool DoKickIndexCommand(KickType type, std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A11390
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DoKickIndexCommand@@YA_NW4KickType@hades_file_local@@ABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@4@@Z");
-	// `anonymous-namespace'::DoKickIndexCommand
-	// static ...; // 0x10A11920
-	// static ...; // 0x10A118FC
-	// static ...; // 0x10A118F4
-// $LN33:
-	// KickType type;
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// Blam::Network::PlayerSession *player;
-	// __int32 index;
-	// std::string kickPlayerName;
-	// std::string ip;
-	// Blam::Network::Session *session;
-	// __int32 banReason;
-	// unsigned __int32 pos;
 
 	if (Arguments.size() != 1)
 	{
@@ -1748,8 +1475,6 @@ bool DoKickIndexCommand(KickType type, std::vector<std::string> const &Arguments
 bool CommandServerKickPlayer(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A0C500
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandServerKickPlayer@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandServerKickPlayer
-	// std::string &returnInfo;
 
 	return DoKickPlayerCommand(Kick, Arguments, returnInfo);
 }
@@ -1757,8 +1482,6 @@ bool CommandServerKickPlayer(std::vector<std::string> const &Arguments, std::str
 bool CommandServerBanPlayer(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A0B0F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandServerBanPlayer@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandServerBanPlayer
-	// std::string &returnInfo;
 
 	return DoKickPlayerCommand(Ban, Arguments, returnInfo);
 }
@@ -1766,8 +1489,6 @@ bool CommandServerBanPlayer(std::vector<std::string> const &Arguments, std::stri
 bool CommandServerKickPlayerUid(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A0C5A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandServerKickPlayerUid@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandServerKickPlayerUid
-	// std::string &returnInfo;
 
 	return DoKickUidCommand(Kick, Arguments, returnInfo);
 }
@@ -1775,8 +1496,6 @@ bool CommandServerKickPlayerUid(std::vector<std::string> const &Arguments, std::
 bool CommandServerTempBanPlayer(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A0F1A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandServerTempBanPlayer@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandServerTempBanPlayer
-	// std::string &returnInfo;
 
 	return DoKickPlayerCommand(TempBan, Arguments, returnInfo);
 }
@@ -1784,8 +1503,6 @@ bool CommandServerTempBanPlayer(std::vector<std::string> const &Arguments, std::
 bool CommandServerTempBanPlayerUid(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A0F1F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandServerTempBanPlayerUid@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandServerTempBanPlayerUid
-	// std::string &returnInfo;
 
 	return DoKickUidCommand(TempBan, Arguments, returnInfo);
 }
@@ -1793,8 +1510,6 @@ bool CommandServerTempBanPlayerUid(std::vector<std::string> const &Arguments, st
 bool CommandServerBanPlayerUid(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A0B190
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandServerBanPlayerUid@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandServerBanPlayerUid
-	// std::string &returnInfo;
 
 	return DoKickUidCommand(Ban, Arguments, returnInfo);
 }
@@ -1802,8 +1517,6 @@ bool CommandServerBanPlayerUid(std::vector<std::string> const &Arguments, std::s
 bool CommandServerKickPlayerIndex(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A0C550
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandServerKickPlayerIndex@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandServerKickPlayerIndex
-	// std::string &returnInfo;
 
 	return DoKickIndexCommand(Kick, Arguments, returnInfo);
 }
@@ -1811,8 +1524,6 @@ bool CommandServerKickPlayerIndex(std::vector<std::string> const &Arguments, std
 bool CommandServerBanPlayerIndex(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A0B140
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandServerBanPlayerIndex@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandServerBanPlayerIndex
-	// std::string &returnInfo;
 
 	return DoKickIndexCommand(Ban, Arguments, returnInfo);
 }
@@ -1820,33 +1531,6 @@ bool CommandServerBanPlayerIndex(std::vector<std::string> const &Arguments, std:
 bool CommandServerKickBan(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A0B810
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandServerKickBan@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandServerKickBan
-	// static ...; // 0x10A0C258
-	// static ...; // 0x10A0C24F
-	// static ...; // 0x10A0C245
-	// static ...; // 0x10A0C241
-	// static ...; // 0x10A0C239
-	// static ...; // 0x10A0C234
-	// static ...; // 0x10A0C1E0
-	// static ...; // 0x10A0C1D8
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// Blam::Network::Session *session;
-	// std::string banType;
-		// Blam::Network::SessionMembership *membership;
-		// std::string ip;
-			// __int32 peerIdx;
-				// __int32 playerIdx;
-				// std::string playerIp;
-		// unsigned long long uid;
-		// std::string playerUid;
-			// std::vector<int> indices;
-				// std::vector<int> &<range>$L0;
-				// __int32 *<begin>$L0;
-				// __int32 *<end>$L0;
-					// __int32 playerIdx;
-		// __int32 playerIdx;
-		// std::string name;
 
 	if (Arguments.size() != 2)
 	{
@@ -1933,18 +1617,6 @@ bool CommandServerKickBan(std::vector<std::string> const &Arguments, std::string
 bool CommandServerBan(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A0ABB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandServerBan@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandServerBan
-	// static ...; // 0x10A0AFCD
-	// static ...; // 0x10A0AFC9
-	// static ...; // 0x10A0AFC4
-	// static ...; // 0x10A0AF94
-	// static ...; // 0x10A0AF8C
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// std::string banType;
-		// std::string ip;
-		// std::string uid;
-		// std::string name;
 
 	if (Arguments.size() != 2)
 	{
@@ -1981,18 +1653,6 @@ bool CommandServerBan(std::vector<std::string> const &Arguments, std::string &re
 bool CommandServerUnban(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A10460
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandServerUnban@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandServerUnban
-	// static ...; // 0x10A10A81
-	// static ...; // 0x10A10A7D
-	// static ...; // 0x10A10A78
-	// static ...; // 0x10A10A48
-	// static ...; // 0x10A10A40
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// std::string banType;
-		// std::string ip;
-		// std::string uid;
-		// std::string name;
 
 	if (Arguments.size() != 2)
 	{
@@ -2040,17 +1700,6 @@ bool CommandServerUnban(std::vector<std::string> const &Arguments, std::string &
 bool CommandServerMutePlayer(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A0DAB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandServerMutePlayer@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandServerMutePlayer
-	// static ...; // 0x10A0DC68
-	// static ...; // 0x10A0DC60
-// $LN14:
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// Blam::Network::PlayerSession *player;
-	// __int32 index;
-	// Blam::Network::Session *session;
-	// bool result;
-	// unsigned __int32 pos;
 
 	if (Arguments.size() != 1)
 	{
@@ -2092,17 +1741,6 @@ bool CommandServerMutePlayer(std::vector<std::string> const &Arguments, std::str
 bool CommandServerUnmutePlayer(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A10C20
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandServerUnmutePlayer@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandServerUnmutePlayer
-	// static ...; // 0x10A10DD8
-	// static ...; // 0x10A10DD0
-// $LN14:
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// Blam::Network::PlayerSession *player;
-	// __int32 index;
-	// Blam::Network::Session *session;
-	// bool result;
-	// unsigned __int32 pos;
 
 	if (Arguments.size() != 1)
 	{
@@ -2144,8 +1782,6 @@ bool CommandServerUnmutePlayer(std::vector<std::string> const &Arguments, std::s
 bool CommandServerClearAllMutes(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A0B1E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandServerClearAllMutes@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandServerClearAllMutes
-	// std::string &returnInfo;
 
 	Server::Chat::ClearAllPlayersMuteStatus();
 
@@ -2155,8 +1791,6 @@ bool CommandServerClearAllMutes(std::vector<std::string> const &Arguments, std::
 bool CommandServerClearTempBans(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A0B220
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandServerClearTempBans@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandServerClearTempBans
-	// std::string &returnInfo;
 
 	Server::TempBanList::Instance().ClearList();
 	returnInfo = "Temporary Bans Cleared";
@@ -2166,25 +1800,6 @@ bool CommandServerClearTempBans(std::vector<std::string> const &Arguments, std::
 bool CommandServerRemoveTempBan(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A0E3A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandServerRemoveTempBan@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandServerRemoveTempBan
-	// static ...; // 0x10A0E78E
-	// static ...; // 0x10A0E783
-	// static ...; // 0x10A0E77A
-	// static ...; // 0x10A0E774
-	// static ...; // 0x10A0E738
-	// static ...; // 0x10A0E730
-// $LN21:
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// std::map<std::string,int> list;
-	// std::string arg;
-	// __int32 i;
-	// __int32 index;
-		// bool success;
-		// std::map<std::string,int> &<range>$L0;
-		// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,int> > > > <begin>$L0;
-		// std::_Default_sentinel <end>$L0;
-			// std::pair<std::string const ,int> entry;
 
 	if (Arguments.size() != 1)
 	{
@@ -2238,22 +1853,6 @@ bool CommandServerRemoveTempBan(std::vector<std::string> const &Arguments, std::
 bool CommandServerListTempBans(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A0D020
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandServerListTempBans@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandServerListTempBans
-	// static ...; // 0x10A0D2C6
-	// static ...; // 0x10A0D2BB
-	// static ...; // 0x10A0D2B2
-	// static ...; // 0x10A0D2AC
-	// static ...; // 0x10A0D270
-	// static ...; // 0x10A0D268
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// std::map<std::string,int> list;
-	// std::stringstream ss;
-	// __int32 i;
-		// std::map<std::string,int> &<range>$L0;
-		// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,int> > > > <begin>$L0;
-		// std::_Default_sentinel <end>$L0;
-			// std::pair<std::string const ,int> entry;
 
 	std::map<std::string, int> list = Server::TempBanList::Instance().TempBannedList();
 	std::stringstream ss;
@@ -2270,22 +1869,6 @@ bool CommandServerListTempBans(std::vector<std::string> const &Arguments, std::s
 bool CommandServerListPlayers(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A0C5F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandServerListPlayers@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandServerListPlayers
-	// static ...; // 0x10A0C9B0
-	// static ...; // 0x10A0C9AB
-	// static ...; // 0x10A0C9A7
-	// static ...; // 0x10A0C9A4
-	// static ...; // 0x10A0C968
-	// static ...; // 0x10A0C960
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// __int32 playerIdx;
-	// std::stringstream ss;
-	// Blam::Network::Session *session;
-		// Blam::Network::PlayerSession player;
-		// char uid[17];
-		// std::string name;
-			// Blam::Network::NetworkAddress ip;
 
 	std::stringstream ss;
 	Blam::Network::Session *session = Blam::Network::GetActiveSession();
@@ -2317,22 +1900,6 @@ bool CommandServerListPlayers(std::vector<std::string> const &Arguments, std::st
 bool CommandServerListPlayersJSON(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A0CAB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandServerListPlayersJSON@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandServerListPlayersJSON
-	// static ...; // 0x10A0CEF5
-	// static ...; // 0x10A0CEEE
-	// static ...; // 0x10A0CEEA
-	// static ...; // 0x10A0CEE4
-	// static ...; // 0x10A0CEA8
-	// static ...; // 0x10A0CEA0
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
-	// __int32 playerIdx;
-	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-	// Blam::Network::Session *session;
-		// Blam::Network::PlayerSession player;
-		// std::stringstream color;
-		// char uid[17];
 
 	rapidjson::StringBuffer buffer;
 	rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
@@ -2373,12 +1940,6 @@ bool CommandServerListPlayersJSON(std::vector<std::string> const &Arguments, std
 bool CommandServerMode(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A0D720
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandServerMode@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandServerMode
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// __int32 previous;
-	// __int32 serverMode;
-	// bool retVal;
 
 	if (Arguments.size() < 1 || Arguments.size() > 1)
 	{
@@ -2418,15 +1979,6 @@ bool CommandServerMode(std::vector<std::string> const &Arguments, std::string &r
 bool CommandServerLobbyType(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A0D380
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandServerLobbyType@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandServerLobbyType
-	// static ...; // 0x10A0D650
-	// static ...; // 0x10A0D648
-// $LN18:
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// std::string previous;
-	// __int32 lobbyType;
-	// bool retVal;
 
 	if (Arguments.size() < 1 || Arguments.size() > 1) {
 		returnInfo = std::to_string(Blam::Network::GetLobbyType());
@@ -2460,18 +2012,6 @@ bool CommandServerLobbyType(std::vector<std::string> const &Arguments, std::stri
 bool CommandServerPing(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A0E040
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandServerPing@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandServerPing
-	// static ...; // 0x10A0E2CC
-	// static ...; // 0x10A0E2C4
-// $LN17:
-// $LN14:
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// Blam::Network::SessionMembership *membership;
-	// __int32 channelIndex;
-	// Blam::Network::Session *session;
-		// Blam::Network::NetworkAddress blamAddress;
-		// unsigned short port;
 
 	if (Arguments.size() > 2)
 	{
@@ -2541,30 +2081,6 @@ bool CommandServerPing(std::vector<std::string> const &Arguments, std::string &r
 bool CommandServerShuffleTeams(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A0EAC0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandServerShuffleTeams@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandServerShuffleTeams
-	// static ...; // 0x10A0EEDE
-	// static ...; // 0x10A0EED8
-	// static ...; // 0x10A0EEB4
-	// static ...; // 0x10A0EEAC
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// __int32 numTeams;
-	// __int32 teamIndex;
-	// Modules::ModuleServer &moduleServer;
-	// Blam::Network::SessionMembership *membership;
-	// __int32 minTeams;
-	// std::bitset<17> peers;
-	// __int32 numPlayers;
-	// static __int32 `CommandServerShuffleTeams'::`2'::$TSS1; // 0x12456064
-	// __int32 players[16];
-	// unsigned long minTeamSize;
-	// unsigned long maxPlayers;
-	// static std::random_device `CommandServerShuffleTeams'::`2'::rng; // 0x1245605E
-	// Blam::Network::Session *session;
-	// static std::mersenne_twister_engine<unsigned int,32,624,397,31,2567483615,11,4294967295,7,2636928640,15,4022730752,18,1812433253> `CommandServerShuffleTeams'::`2'::urng; // 0x12456068
-	// static __int32 `CommandServerShuffleTeams'::`2'::$TSS0; // 0x12456060
-		// __int32 player;
-		// __int32 i;
 
 	Blam::Network::Session *session = Blam::Network::GetActiveSession();
 	if (!session || !session->IsEstablished())
@@ -2622,8 +2138,6 @@ bool CommandServerShuffleTeams(std::vector<std::string> const &Arguments, std::s
 bool CommandServerGetEndpoint(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A0B790
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandServerGetEndpoint@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandServerGetEndpoint
-	// std::string &returnInfo;
 
 	return GetEndpoint(Arguments[0], returnInfo);
 }
@@ -2631,14 +2145,6 @@ bool CommandServerGetEndpoint(std::vector<std::string> const &Arguments, std::st
 static void PongReceived(Blam::Network::NetworkAddress const &from, unsigned __int32 timestamp, unsigned short id, unsigned __int32 latency) // 0x10A13AF0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?PongReceived@@YAXABUNetworkAddress@Network@Blam@@IGI@Z");
-	// `anonymous-namespace'::PongReceived
-	// static ...; // 0x10A13DB4
-	// Blam::Network::NetworkAddress const &from;
-	// unsigned __int32 timestamp;
-	// unsigned short id;
-	// unsigned __int32 latency;
-	// std::string ipStr;
-	// std::string message;
 
 	if (id != PingId)
 		return;
@@ -2650,10 +2156,6 @@ static void PongReceived(Blam::Network::NetworkAddress const &from, unsigned __i
 bool HitmarkersEnabledChanged(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A13A60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?HitmarkersEnabledChanged@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::HitmarkersEnabledChanged
-	// std::string &returnInfo;
-	// bool enabled;
-	// Modules::ModuleServer &serverModule;
 
 	Modules::ModuleServer &module = Modules::ModuleServer::Instance();
 	bool enabled = module.VarHitMarkersEnabledClient->ValueInt != 0;
@@ -2665,10 +2167,6 @@ bool HitmarkersEnabledChanged(std::vector<std::string> const &Arguments, std::st
 bool SprintStateChanged(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A140E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SprintStateChanged@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::SprintStateChanged
-	// std::string &returnInfo;
-	// unsigned long state;
-	// Modules::ModuleServer &serverModule;
 
 	auto &serverModule = Modules::ModuleServer::Instance();
 	auto state = serverModule.VarServerSprintStateClient->ValueInt;
@@ -2679,10 +2177,6 @@ bool SprintStateChanged(std::vector<std::string> const &Arguments, std::string &
 bool BottomlessClipEnabledChanged(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A07D10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?BottomlessClipEnabledChanged@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::BottomlessClipEnabledChanged
-	// std::string &returnInfo;
-	// bool enabled;
-	// Modules::ModuleServer &serverModule;
 
 	Modules::ModuleServer &serverModule = Utils::Singleton<Modules::ModuleServer>::Instance();
 	bool enabled = serverModule.VarServerBottomlessClipEnabledClient->ValueInt != 0;
@@ -2693,10 +2187,6 @@ bool BottomlessClipEnabledChanged(std::vector<std::string> const &Arguments, std
 bool UnlimitedSprintEnabledChanged(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A146A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?UnlimitedSprintEnabledChanged@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::UnlimitedSprintEnabledChanged
-	// std::string &returnInfo;
-	// Modules::ModuleServer &serverModule;
-	// bool unlimited;
 
 	Modules::ModuleServer &moduleServer = Utils::Singleton<Modules::ModuleServer>::Instance();
 	bool unlimited = moduleServer.VarServerSprintUnlimitedClient->ValueInt != 0;
@@ -2707,14 +2197,6 @@ bool UnlimitedSprintEnabledChanged(std::vector<std::string> const &Arguments, st
 bool CommandServerSubmitVote(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A0F000
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandServerSubmitVote@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandServerSubmitVote
-	// static ...; // 0x10A0F12C
-	// static ...; // 0x10A0F124
-// $LN10:
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// __int32 vote;
-	// unsigned __int32 pos;
 
 	if (Arguments.size() <= 0)
 	{
@@ -2743,17 +2225,6 @@ bool CommandServerSubmitVote(std::vector<std::string> const &Arguments, std::str
 bool CommandServerSay(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A0E8A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandServerSay@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandServerSay
-	// static ...; // 0x10A0EA34
-	// static ...; // 0x10A0EA2C
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// Blam::Network::Session *session;
-	// std::string message;
-		// std::vector<std::string> const &<range>$L0;
-		// std::string const *<begin>$L0;
-		// std::string const *<end>$L0;
-			// std::string const &word;
 
 	Blam::Network::Session *session = Blam::Network::GetActiveSession();
 	if (!session || !session->IsEstablished())
@@ -2776,16 +2247,6 @@ bool CommandServerSay(std::vector<std::string> const &Arguments, std::string &re
 bool CommandServerPM(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A0DCF0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandServerPM@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandServerPM
-	// static ...; // 0x10A0DF78
-	// static ...; // 0x10A0DF60
-	// static ...; // 0x10A0DF58
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// __int32 peer;
-	// std::string playerName;
-	// Blam::Network::Session *session;
-	// std::string message;
 
 	if (Arguments.size() <= 1)
 	{
@@ -2816,19 +2277,6 @@ bool CommandServerPM(std::vector<std::string> const &Arguments, std::string &ret
 bool EncryptMessageWithPublicKey(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A12C20
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?EncryptMessageWithPublicKey@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::EncryptMessageWithPublicKey
-	// static ...; // 0x10A12DFB
-	// static ...; // 0x10A12DF4
-	// static ...; // 0x10A12DD0
-	// static ...; // 0x10A12DC8
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// Modules::ModulePlayer &modulePlayer;
-	// char const *const PasswordChars;
-	// std::string pubKey;
-	// Modules::ModuleServer &moduleServer;
-	// std::string encryptedString;
-	// std::string value;
 
 	if (Arguments.size() < 1)
 	{
@@ -2850,17 +2298,6 @@ bool EncryptMessageWithPublicKey(std::vector<std::string> const &Arguments, std:
 bool CommandWebsocketInfo(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A10E60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandWebsocketInfo@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandWebsocketInfo
-	// static ...; // 0x10A11273
-	// static ...; // 0x10A11270
-	// static ...; // 0x10A1124C
-	// static ...; // 0x10A11244
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
-	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-	// std::string ip;
-	// Blam::Network::Session *session;
 
 	Blam::Network::Session *session = Blam::Network::GetActiveSession();
 	if (!session || !session->IsEstablished())
@@ -2888,9 +2325,6 @@ bool CommandWebsocketInfo(std::vector<std::string> const &Arguments, std::string
 void UpdatePersistentMod(std::string mod) // 0x10A14740
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdatePersistentMod@@YAXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-	// `anonymous-namespace'::UpdatePersistentMod
-	// std::string mod;
-	// __int32 lobbyType;
 
 	if (ElDorito::Instance().IsDedicated())
 		return;
@@ -2907,9 +2341,6 @@ void UpdatePersistentMod(std::string mod) // 0x10A14740
 bool CommandLoadMod(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A094E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandLoadMod@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandLoadMod
-	// std::string &returnInfo;
-	// std::string const &path;
 
 	if (Arguments.size() < 1)
 	{
@@ -2953,28 +2384,6 @@ bool CommandLoadMod(std::vector<std::string> const &Arguments, std::string &retu
 bool CommandListMods(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A08C10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandListMods@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandListMods
-	// static ...; // 0x10A0930E
-	// static ...; // 0x10A0930B
-	// static ...; // 0x10A092FD
-	// static ...; // 0x10A092F4
-	// static ...; // 0x10A092EB
-	// static ...; // 0x10A092E3
-	// static ...; // 0x10A092DC
-	// static ...; // 0x10A0927C
-	// static ...; // 0x10A09274
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// c_mod_package_manager::c_threadsafe_iterator it;
-	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
-	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-	// c_mod_package_manager &package_manager;
-		// char buffer[32];
-		// std::string version;
-		// std::string hash_str;
-		// std::string filename;
-		// tm *convertedLocal;
-		// s_static_string<32> metadata_name;
 
 	rapidjson::StringBuffer buffer;
 	rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
@@ -3039,30 +2448,6 @@ bool CommandListMods(std::vector<std::string> const &Arguments, std::string &ret
 bool CommandListModInfo(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A08250
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandListModInfo@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandListModInfo
-	// static ...; // 0x10A08A0E
-	// static ...; // 0x10A08A0B
-	// static ...; // 0x10A08A03
-	// static ...; // 0x10A089FA
-	// static ...; // 0x10A089EC
-	// static ...; // 0x10A089E3
-	// static ...; // 0x10A089DB
-	// static ...; // 0x10A089D4
-	// static ...; // 0x10A08968
-	// static ...; // 0x10A08960
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// c_mod_package_manager::c_threadsafe_iterator it;
-	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buffer;
-	// std::string modHash;
-	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-	// c_mod_package_manager &package_manager;
-		// char buffer[32];
-		// std::string version;
-		// std::string hash_str;
-		// std::string filename;
-		// tm *convertedLocal;
-		// s_static_string<32> metadata_name;
 
 	rapidjson::StringBuffer buffer;
 	rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
@@ -3132,25 +2517,6 @@ bool CommandListModInfo(std::vector<std::string> const &Arguments, std::string &
 bool CommandListModFiles(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A07EB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandListModFiles@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandListModFiles
-	// static ...; // 0x10A0817E
-	// static ...; // 0x10A08173
-	// static ...; // 0x10A08168
-	// static ...; // 0x10A0815F
-	// static ...; // 0x10A08155
-	// static ...; // 0x10A08150
-	// static ...; // 0x10A080FC
-	// static ...; // 0x10A080F4
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-		// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
-		// std::unordered_map<std::string,CModPackageFileSystemView::SFileEntry> modFileList;
-		// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
-			// std::unordered_map<std::string,CModPackageFileSystemView::SFileEntry> &<range>$L0;
-			// std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<std::string const ,CModPackageFileSystemView::SFileEntry> > > > <begin>$L0;
-			// std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<std::string const ,CModPackageFileSystemView::SFileEntry> > > > <end>$L0;
-				// std::pair<std::string const ,CModPackageFileSystemView::SFileEntry> fileEntry;
-					// std::string file;
 
 	if (Arguments.size() == 1)
 	{
@@ -3177,9 +2543,6 @@ bool CommandListModFiles(std::vector<std::string> const &Arguments, std::string 
 bool CommandEnumerateMods(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A07E50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandEnumerateMods@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandEnumerateMods
-	// std::string &returnInfo;
-	// c_mod_package_manager &package_manager;
 
 	c_mod_package_manager *package_manager = &c_mod_system::get_package_manager();
 
@@ -3190,9 +2553,6 @@ bool CommandEnumerateMods(std::vector<std::string> const &Arguments, std::string
 bool CommandDeleteMod(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A07DA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandDeleteMod@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandDeleteMod
-	// std::string &returnInfo;
-	// c_mod_package_manager &package_manager;
 
 	if (Arguments.size() < 1)
 		return false;
@@ -3212,8 +2572,6 @@ bool CommandDeleteMod(std::vector<std::string> const &Arguments, std::string &re
 bool VariablePlayersInfoClientUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A149E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?VariablePlayersInfoClientUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::VariablePlayersInfoClientUpdate
-	// std::string &returnInfo;
 
 	if (Arguments.empty())
 	{
@@ -3228,8 +2586,6 @@ bool VariablePlayersInfoClientUpdate(std::vector<std::string> const &Arguments, 
 bool CommandRefreshServerFilters(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A09700
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandRefreshServerFilters@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandRefreshServerFilters
-	// std::string &returnInfo;
 
 	Modules::ModuleServer::Instance().refreshServerFilters();
 	returnInfo = "Refreshed server.json data";

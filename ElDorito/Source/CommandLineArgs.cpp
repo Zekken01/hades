@@ -43,7 +43,6 @@ char **CommandLineToArgvA(char *CmdLine, __int32 *_argc);
 CommandLineArgs::CommandLineArgs(std::string const &line) // 0x106D12C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0CommandLineArgs@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-	// std::string const &line;
 
 	m_args = (char const **)CommandLineToArgvA((char *)line.c_str(), &m_numArgs);
 }
@@ -51,8 +50,6 @@ CommandLineArgs::CommandLineArgs(std::string const &line) // 0x106D12C0
 CommandLineArgs::~CommandLineArgs() // 0x106D1330
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??1CommandLineArgs@@QAE@XZ");
-	// CommandLineArgs *const this;
-	// function call : void *(void *)
 
 	if (m_args)
 		GlobalFree((HGLOBAL)m_args);
@@ -63,24 +60,6 @@ CommandLineArgs::~CommandLineArgs() // 0x106D1330
 char **CommandLineToArgvA(char *CmdLine, __int32 *_argc) // 0x106D13A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandLineToArgvA@@YAPAPADPADPAH@Z");
-	// `anonymous-namespace'::CommandLineToArgvA
-	// static ...; // 0x106D158C
-// $LN18:
-// $LN16:
-// $LN11:
-	// char *CmdLine;
-	// __int32 *_argc;
-	// unsigned long argc;
-	// unsigned char in_QM;
-	// unsigned long i;
-	// unsigned long j;
-	// char *_argv;
-	// unsigned char in_TEXT;
-	// unsigned char in_SPACE;
-	// char **argv;
-	// char a;
-	// unsigned long len;
-	// function call : void *(unsigned __int32, unsigned long)
 
 	char **argv;
 	char *_argv;

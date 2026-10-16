@@ -65,9 +65,6 @@ namespace Http
 	inline Http::WinHttpErrorCategory &WinHttpErrorCategory::Get() // 0x10808960
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Get@WinHttpErrorCategory@Http@@SAAAU12@XZ");
-		// procedure flags: nofpo
-		// static Http::WinHttpErrorCategory instance; // 0x1138F43C
-		// static __int32 $TSS0; // 0x1138F448
 
 		static Http::WinHttpErrorCategory instance;
 		return instance;
@@ -80,7 +77,6 @@ namespace Http
 	inline char const *WinHttpErrorCategory::name() const noexcept // 0x1080C0F0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?name@WinHttpErrorCategory@Http@@UBEPBDXZ");
-		// Http::WinHttpErrorCategory const *const this;
 
 		return "WinHttp";
 	}
@@ -92,18 +88,6 @@ namespace Http
 	inline std::string WinHttpErrorCategory::message(__int32 error) const // 0x1080BE40
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?message@WinHttpErrorCategory@Http@@UBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@H@Z");
-		// static ...; // 0x1080C054
-		// static ...; // 0x1080C03C
-		// static ...; // 0x1080C034
-		// Http::WinHttpErrorCategory const *const this;
-		// __int32 error;
-		// char *buffer;
-		// std::string result;
-		// HINSTANCE__ *hInst;
-		// unsigned long dwChars;
-		// function call : HINSTANCE__ *(char const *)
-		// function call : unsigned long (unsigned long, void const *, unsigned long, unsigned long, char *, unsigned long, char **)
-		// function call : void *(void *)
 
 		HINSTANCE__ *hInst = LoadLibraryA("winhttp.dll");
 		if (!hInst)
@@ -121,8 +105,6 @@ namespace Http
 	inline void WinHttpHandlerDeleter::operator()(void *handle) // 0x107F71C0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "??RWinHttpHandlerDeleter@Http@@QAEXPAX@Z");
-		// void *handle;
-		// function call : __int32 (void *)
 
 		WinHttpCloseHandle(handle);
 	}

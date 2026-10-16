@@ -59,15 +59,6 @@ using namespace hades_file_local;
 void c_rasterizer::set_DAC_LUT_curve() // 0x10F14560
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?set_DAC_LUT_curve@c_rasterizer@@SAXXZ");
-	// procedure flags: nofpo
-	// static ...; // 0x10F146B8
-	// static ...; // 0x10F146AC
-	// static ...; // 0x10F146A4
-		// _D3DLOCKED_RECT locked_lut;
-			// float *lut_buffer;
-				// __int32 i;
-	// function call : HRESULT (unsigned __int32, _D3DLOCKED_RECT *, tagRECT const *, unsigned long)
-	// function call : HRESULT (unsigned __int32)
 
 	if (!g_LUT_control.same_curve_as(&g_last_LUT_control))
 	{
@@ -88,7 +79,6 @@ void c_rasterizer::set_DAC_LUT_curve() // 0x10F14560
 bool c_rasterizer_LUT_control::same_curve_as(c_rasterizer_LUT_control *x) const // 0x10F142F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?same_curve_as@c_rasterizer_LUT_control@@QBE_NPAV1@@Z");
-	// c_rasterizer_LUT_control *x;
 
 	return m_buffer_type == x->m_buffer_type && m_buffer_curve == x->m_buffer_curve && m_target_curve == x->m_target_curve && m_gamma_mode == x->m_gamma_mode && m_black_level.red == x->m_black_level.red && m_black_level.green == x->m_black_level.green && m_black_level.blue == x->m_black_level.blue && m_white_level.red == x->m_white_level.red && m_white_level.green == x->m_white_level.green && m_white_level.blue == x->m_white_level.blue;
 }
@@ -96,18 +86,6 @@ bool c_rasterizer_LUT_control::same_curve_as(c_rasterizer_LUT_control *x) const 
 void c_rasterizer_LUT_control::compute_LUT(_D3DGAMMARAMP *ramp) // 0x10F13A90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?compute_LUT@c_rasterizer_LUT_control@@QAEXPAU_D3DGAMMARAMP@@@Z");
-	// static ...; // 0x10F13F65
-	// static ...; // 0x10F13F58
-	// static ...; // 0x10F13F34
-	// static ...; // 0x10F13F2C
-	// c_rasterizer_LUT_control *const this;
-	// _D3DGAMMARAMP *ramp;
-	// float power;
-	// real_rgb_color colour_scale;
-	// real_rgb_color colour_bias;
-		// long i;
-			// real_rgb_color mapped_value;
-			// float linear;
 
 	m_gamma_mode = ((m_gamma_mode < 4 ? m_gamma_mode : 4) > 0 ? (m_gamma_mode < 4 ? m_gamma_mode : 4) : 0);
 	float power = 1.0f / (m_target_curve * gamma_adjustment[m_gamma_mode]);
@@ -132,7 +110,6 @@ void c_rasterizer_LUT_control::compute_LUT(_D3DGAMMARAMP *ramp) // 0x10F13A90
 bool c_rasterizer_LUT_control::initialized() // 0x10F14230
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?initialized@c_rasterizer_LUT_control@@SA_NXZ");
-	// procedure flags: nofpo
 
 	return g_LUT_initialized;
 }
@@ -140,7 +117,6 @@ bool c_rasterizer_LUT_control::initialized() // 0x10F14230
 bool c_rasterizer_LUT_control::initialize_LUT_textures() // 0x10F14140
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?initialize_LUT_textures@c_rasterizer_LUT_control@@SA_NXZ");
-	// procedure flags: nofpo
 
 	if (initialized())
 	{
@@ -164,10 +140,6 @@ bool c_rasterizer_LUT_control::initialize_LUT_textures() // 0x10F14140
 void c_rasterizer_LUT_control::set_LUT_texture(long sampler) // 0x10F14720
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?set_LUT_texture@c_rasterizer_LUT_control@@SAXJ@Z");
-	// long sampler;
-	// function call : void (*const)(long)
-	// function call : void (*const)(long, IDirect3DBaseTexture9 *)
-	// function call : void (*const)(long, long)
 
 	((void(__cdecl *const)(long))0xa22a90)(sampler);
 	((void(__cdecl *const)(long, IDirect3DTexture9 *))0xa23980)(sampler, g_LUT_1D_gpu);
@@ -177,7 +149,6 @@ void c_rasterizer_LUT_control::set_LUT_texture(long sampler) // 0x10F14720
 void c_rasterizer_LUT_control::release_textures() // 0x10F14280
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?release_textures@c_rasterizer_LUT_control@@SAXXZ");
-	// procedure flags: nofpo
 
 	c_d3d_resource_allocator::release_texture(g_LUT_1D);
 	c_d3d_resource_allocator::release_texture(g_LUT_1D_gpu);
@@ -187,10 +158,6 @@ void c_rasterizer_LUT_control::release_textures() // 0x10F14280
 float c_rasterizer_LUT_control::sample_ramp(unsigned short *ramp_channel, float coord) // 0x10F14470
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?sample_ramp@c_rasterizer_LUT_control@@SAMPAGM@Z");
-	// float coord;
-	// long i;
-	// float s;
-	// float indexF;
 
 	float f = coord * 255.0f;
 	long i = (long)f;
@@ -202,7 +169,6 @@ float c_rasterizer_LUT_control::sample_ramp(unsigned short *ramp_channel, float 
 void c_rasterizer_LUT_control::update_LUT_gpu() // 0x10F147D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?update_LUT_gpu@c_rasterizer_LUT_control@@SAXXZ");
-	// procedure flags: nofpo
 
 	if (initialized())
 	{
@@ -213,7 +179,6 @@ void c_rasterizer_LUT_control::update_LUT_gpu() // 0x10F147D0
 float get_linear_buffer_value(long a1, long max_pixel_value, float a3) // 0x10F140C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_linear_buffer_value@@YAMJJM@Z");
-	// float a3;
 
 	return powf((float)a1 / (float)max_pixel_value, a3);
 }

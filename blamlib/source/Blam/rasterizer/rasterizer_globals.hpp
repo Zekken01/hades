@@ -231,8 +231,6 @@ static_assert(sizeof(c_rasterizer_globals) == 1, "Invalid c_rasterizer_globals s
 inline s_rasterizer_globals *c_rasterizer_globals::get() // 0x108D32B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get@c_rasterizer_globals@@SAPAUs_rasterizer_globals@@XZ");
-	// procedure flags: nofpo
-	// function call : void *(*const)(unsigned long, long)
 
 	return (s_rasterizer_globals *)tag_get('rasg', game_globals_get()->RasterizerGlobals.index);
 }

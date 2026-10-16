@@ -46,13 +46,6 @@ extern bool render_camera_world_to_window(s_render_camera const *camera, s_rende
 bool render_camera_view_to_screen(s_render_camera const *camera, s_render_projection const *projection, short_rectangle2d const *window_display_bounds, real_point3d const *view_point, real_point2d *screen_point) // 0x10F1D640
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?render_camera_view_to_screen@@YA_NPBUs_render_camera@@PBUs_render_projection@@PBUshort_rectangle2d@@PBUreal_point3d@@PAUreal_point2d@@@Z");
-	// real_point2d *screen_point;
-	// bool result;
-		// float w;
-		// float h;
-		// float cx;
-		// float cy;
-		// float m;
 
 	bool result = false;
 	if (isfinite(view_point->z) && view_point->z < 0.0)
@@ -78,11 +71,6 @@ bool render_camera_view_to_screen(s_render_camera const *camera, s_render_projec
 bool render_camera_world_to_window(s_render_camera const *camera, s_render_projection const *projection, short_rectangle2d const *window_display_bounds, real_point3d const *world_point, real_point2d *screen_point) // 0x10F1D8F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?render_camera_world_to_window@@YA_NPBUs_render_camera@@PBUs_render_projection@@PBUshort_rectangle2d@@PBUreal_point3d@@PAUreal_point2d@@@Z");
-	// s_render_projection const *projection;
-	// short_rectangle2d const *window_display_bounds;
-	// real_point3d const *world_point;
-	// real_point2d *screen_point;
-	// real_point3d view_point;
 
 	real_point3d view_point;
 

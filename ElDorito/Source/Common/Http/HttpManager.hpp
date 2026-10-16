@@ -61,7 +61,6 @@ namespace Http
 	inline CHttpManager::CHttpManager() // 0x108034B0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "??0CHttpManager@Http@@QAE@XZ");
-		// Http::CHttpManager *const this;
 	}
 }
 

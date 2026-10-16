@@ -54,7 +54,6 @@ namespace Forge
 	inline bool CForgeVisionRenderer::VisibleThroughWalls() // 0x108F8CF0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?VisibleThroughWalls@CForgeVisionRenderer@Forge@@SA_NXZ");
-		// procedure flags: nofpo
 
 		return m_visibleThroughWalls;
 	}
@@ -62,7 +61,6 @@ namespace Forge
 	inline bool CForgeVisionRenderer::IsActive() // 0x108E41E0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?IsActive@CForgeVisionRenderer@Forge@@SA_NXZ");
-		// procedure flags: nofpo
 
 		return m_bActive;
 	}

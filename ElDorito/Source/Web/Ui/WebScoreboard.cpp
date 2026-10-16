@@ -463,11 +463,6 @@ namespace Web
 			void OnGameInputUpdated() // 0x10CB0C10
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?OnGameInputUpdated@WebScoreboard@Ui@Web@@YAXXZ");
-				// procedure flags: nofpo
-				// Blam::Input::ActionState *uiSelect;
-					// float movementAmount;
-					// float *values;
-						// __int32 i;
 
 				if (globals.scoreboard_state == _game_scoreboard_state_round_over || globals.scoreboard_state == _game_scoreboard_state_game_over)
 					return;
@@ -505,7 +500,6 @@ namespace Web
 			void OnLifeCycleStateChanged(Blam::Network::LifeCycleState newState) // 0x10CB10C0
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?OnLifeCycleStateChanged@WebScoreboard@Ui@Web@@YAXW4LifeCycleState@Network@Blam@@@Z");
-				// Blam::Network::LifeCycleState newState;
 
 				if (newState == Blam::Network::eLifeCycleStateStartGame)
 				{
@@ -516,12 +510,6 @@ namespace Web
 			void OnEvent(unsigned long player, s_game_engine_event_data const *event, s_multiplayer_event_response_definition const *definition) // 0x10CB0990
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?OnEvent@WebScoreboard@Ui@Web@@YAXKPBUs_game_engine_event_data@@PBUs_multiplayer_event_response_definition@@@Z");
-				// s_multiplayer_event_response_definition const *definition;
-					// s_player_datum *player;
-						// unsigned long firstTimeSpawning;
-						// long secondsUntilSpawn;
-				// function call : long (*const)()
-				// function call : unsigned long (*const)(long)
 
 				if (event->name == 0x4004D || event->name == 0x4005A)
 				{
@@ -557,7 +545,6 @@ namespace Web
 			void Init() // 0x10CB08F0
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?Init@WebScoreboard@Ui@Web@@YAXXZ");
-				// procedure flags: nofpo
 
 				Patches::Input::RegisterDefaultInputHandler(OnGameInputUpdated);
 				Patches::Network::OnLifeCycleStateChanged(OnLifeCycleStateChanged);
@@ -567,15 +554,6 @@ namespace Web
 			void Show(bool locked, bool pregame, bool animate) // 0x10CB1200
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?Show@WebScoreboard@Ui@Web@@YAX_N00@Z");
-				// static ...; // 0x10CB14CC
-				// static ...; // 0x10CB14A8
-				// static ...; // 0x10CB14A0
-				// bool locked;
-				// bool pregame;
-				// bool animate;
-				// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-				// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> string_buff;
-				// s_scoreboard_update update;
 
 				rapidjson::StringBuffer string_buff;
 				rapidjson::Writer<rapidjson::StringBuffer> writer(string_buff);
@@ -598,7 +576,6 @@ namespace Web
 			void Hide() // 0x10CB0810
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?Hide@WebScoreboard@Ui@Web@@YAXXZ");
-				// procedure flags: nofpo
 
 				globals.shown = false;
 				globals.was_tapped_last_tick = false;
@@ -608,24 +585,6 @@ namespace Web
 			void Tick() // 0x10CB15A0
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@WebScoreboard@Ui@Web@@YAXXZ");
-				// procedure flags: nofpo
-				// s_player_datum *player;
-				// static bool previousHasUnit; // 0x1247EE10
-				// short round_condition_flags;
-				// static __int32 previousMapLoadingState; // 0x1247EE08
-				// unsigned long roundCountdown;
-				// void *engine_globals;
-				// static __int32 previous_round_condition_flags; // 0x1247EE0C
-				// bool currentMapLoadingState;
-				// function call : bool (*const)()
-				// function call : bool (*const)()
-				// function call : long (*const)()
-				// function call : float (*const)(float)
-				// function call : bool (*const)()
-				// function call : bool (*const)()
-				// function call : bool (*const)()
-				// function call : bool (*const)()
-				// function call : unsigned long (*const)(long)
 
 				static __int32 previousMapLoadingState = 0;
 				static __int32 previous_round_condition_flags = 0;
@@ -714,15 +673,6 @@ namespace Web
 			std::string getScoreboard() // 0x10CB37C0
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?getScoreboard@WebScoreboard@Ui@Web@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-				// procedure flags: nofpo
-				// static ...; // 0x10CB39CA
-				// static ...; // 0x10CB39C3
-				// static ...; // 0x10CB39BC
-				// static ...; // 0x10CB3998
-				// static ...; // 0x10CB3990
-				// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-				// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> string_buff;
-				// s_session_update update;
 
 				rapidjson::StringBuffer string_buff;
 				rapidjson::Writer<rapidjson::StringBuffer> writer(string_buff);
@@ -751,12 +701,6 @@ _inline s_session_update::~s_session_update() = default; // 0x10CB0140
 void serialize_session_player(rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, s_session_player const &player) // 0x10CB4150
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?serialize_session_player@@YAXAAV?$Writer@V?$GenericStringBuffer@U?$UTF8@D@rapidjson@@VCrtAllocator@2@@rapidjson@@U?$UTF8@D@2@U32@VCrtAllocator@2@$0A@@rapidjson@@ABUs_session_player@hades_file_local@@@Z");
-	// `anonymous-namespace'::serialize_session_player
-	// static ...; // 0x10CB4300
-	// static ...; // 0x10CB42F8
-	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer;
-	// s_session_player const &player;
-	// char buff[17];
 
 	writer.StartObject();
 	writer.Key("isHost");
@@ -785,9 +729,6 @@ void serialize_session_player(rapidjson::Writer<rapidjson::GenericStringBuffer<r
 void serialize_session_update(rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, s_session_update const &update) // 0x10CB4390
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?serialize_session_update@@YAXAAV?$Writer@V?$GenericStringBuffer@U?$UTF8@D@rapidjson@@VCrtAllocator@2@@rapidjson@@U?$UTF8@D@2@U32@VCrtAllocator@2@$0A@@rapidjson@@ABUs_session_update@hades_file_local@@@Z");
-	// `anonymous-namespace'::serialize_session_update
-	// s_session_update const &update;
-		// long i;
 
 	writer.StartObject();
 	writer.Key("gameMode");
@@ -833,11 +774,6 @@ void serialize_session_update(rapidjson::Writer<rapidjson::GenericStringBuffer<r
 void serialize_scores_update(rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, s_scores_update const &update) // 0x10CB3AF0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?serialize_scores_update@@YAXAAV?$Writer@V?$GenericStringBuffer@U?$UTF8@D@rapidjson@@VCrtAllocator@2@@rapidjson@@U?$UTF8@D@2@U32@VCrtAllocator@2@$0A@@rapidjson@@ABUs_scores_update@hades_file_local@@@Z");
-	// `anonymous-namespace'::serialize_scores_update
-	// s_scores_update const &update;
-		// long i;
-			// s_game_results_player_statistics const &stats;
-			// c_game_statborg::s_player_row const &scores;
 
 	writer.StartObject();
 	writer.Key("gameFinished");
@@ -933,8 +869,6 @@ void serialize_scores_update(rapidjson::Writer<rapidjson::GenericStringBuffer<ra
 void serialize_update(rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, s_scoreboard_update const &update) // 0x10CB4760
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?serialize_update@@YAXAAV?$Writer@V?$GenericStringBuffer@U?$UTF8@D@rapidjson@@VCrtAllocator@2@@rapidjson@@U?$UTF8@D@2@U32@VCrtAllocator@2@$0A@@rapidjson@@ABUs_scoreboard_update@hades_file_local@@@Z");
-	// `anonymous-namespace'::serialize_update
-	// s_scoreboard_update const &update;
 
 	writer.StartObject();
 	if (update.session_update.valid)
@@ -953,48 +887,6 @@ void serialize_update(rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson
 void build_score_update(s_scores_update &update) // 0x10CB1DE0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?build_score_update@@YAXAAUs_scores_update@hades_file_local@@@Z");
-	// `anonymous-namespace'::build_score_update
-	// static ...; // 0x10CB25B9
-	// static ...; // 0x10CB25A8
-	// static ...; // 0x10CB2590
-	// static ...; // 0x10CB2588
-	// s_scores_update &update;
-	// bool in_game_engine;
-	// bool (*const player_is_vip)(long, __int32 *);
-	// c_game_statborg *scoreboard;
-	// c_network_session *session;
-		// long i;
-			// s_player_datum *player;
-			// long player_datum_index;
-				// c_enum<enum e_game_engine_type,long> current_gametype;
-				// bool is_juggernaut;
-				// bool is_zombie;
-				// bool is_alpha_zombie;
-		// bool tie;
-	// function call : bool (*const)(c_network_session **)
-	// function call : c_game_statborg *(*const)()
-	// function call : bool (*const)()
-	// function call : long (*const)(long)
-	// function call : bool (*const)()
-	// function call : bool (*const)()
-	// function call : bool (*)()
-	// function call : bool (*const)()
-	// function call : c_game_engine *(*const)()
-	// function call : s_game_options *(*const)()
-	// function call : bool (*const)()
-	// function call : bool (*const)(long, __int32 *)
-	// function call : bool (*const)()
-	// function call : long (*const)(long)
-	// function call : bool (*const)(long)
-	// function call : long (*const)(long)
-	// function call : bool (*const)()
-	// function call : s_game_options *(*const)()
-	// function call : bool (*const)()
-	// function call : bool (*const)()
-	// function call : bool (*const)()
-	// function call : bool (*const)()
-	// function call : bool (*const)()
-	// function call : bool (*const)()
 
 	bool (*const player_is_vip)(long, __int32 *) = (bool (*)(long, __int32 *))0x9DEBD0;
 	c_network_session *session;
@@ -1061,33 +953,6 @@ void build_score_update(s_scores_update &update) // 0x10CB1DE0
 void build_session_update(s_session_update &update) // 0x10CB27C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?build_session_update@@YAXAAUs_session_update@hades_file_local@@@Z");
-	// `anonymous-namespace'::build_session_update
-	// static ...; // 0x10CB303C
-	// static ...; // 0x10CB3030
-	// static ...; // 0x10CB3024
-	// static ...; // 0x10CB3018
-	// static ...; // 0x10CB3010
-	// static ...; // 0x10CB3004
-	// static ...; // 0x10CB2FBC
-	// static ...; // 0x10CB2FB4
-	// s_session_update &update;
-	// s_game_options *game_options;
-	// bool hasModSet;
-	// std::string playersInfo;
-	// std::string modhash;
-	// c_network_session *session;
-	// c_mod_package_manager::s_entry mod_package;
-		// long i;
-			// s_network_session_player *player;
-			// s_static_string<5> service_tag;
-			// s_player_datum *game_player;
-			// s_session_player *player_update;
-			// s_static_string<16> player_name;
-	// function call : bool (*const)(c_network_session **)
-	// function call : s_game_options *(*const)()
-	// function call : bool (*const)()
-	// function call : long (*const)()
-	// function call : __int32 (*const)()
 
 	c_network_session *session;
 	if (!network_session_interface_get_squad_session(&session))
@@ -1142,8 +1007,6 @@ void build_session_update(s_session_update &update) // 0x10CB27C0
 void build_full_update(s_scoreboard_update &update) // 0x10CB1D80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?build_full_update@@YAXAAUs_scoreboard_update@hades_file_local@@@Z");
-	// `anonymous-namespace'::build_full_update
-	// s_scoreboard_update &update;
 
 	build_session_update(update.session_update);
 	build_score_update(update.scores_update);
@@ -1152,25 +1015,6 @@ void build_full_update(s_scoreboard_update &update) // 0x10CB1D80
 void check_to_send_update() // 0x10CB3270
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?check_to_send_update@@YAXXZ");
-	// `anonymous-namespace'::check_to_send_update
-	// procedure flags: nofpo
-	// static ...; // 0x10CB36A3
-	// static ...; // 0x10CB369C
-	// static ...; // 0x10CB3690
-	// static ...; // 0x10CB3684
-	// static ...; // 0x10CB3654
-	// static ...; // 0x10CB364C
-	// bool membership_changed;
-	// bool is_final_update;
-	// bool (*const game_results_get_game_finalized)();
-	// c_network_session *session;
-		// s_scoreboard_update update;
-			// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> string_buff;
-			// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> json_writer;
-	// function call : bool (*const)(c_network_session **)
-	// function call : bool (*const)()
-	// function call : bool (*const)()
-	// function call : float (*const)(float)
 
 	bool (*const game_results_get_game_finalized)() = reinterpret_cast<bool (*)()>(0x56E570);
 	c_network_session *session;

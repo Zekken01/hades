@@ -27,7 +27,6 @@ struct s_session_mod_options;
 bool c_network_session_parameter_mod::request_change(s_session_mod_options const *options) // 0x10F1D510
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?request_change@c_network_session_parameter_mod@@QAE_NPBUs_session_mod_options@@@Z");
-	// s_session_mod_options const *options;
 
 	return set_allowed() && set(options);
 }
@@ -35,7 +34,6 @@ bool c_network_session_parameter_mod::request_change(s_session_mod_options const
 s_session_mod_options const *c_network_session_parameter_mod::get() const // 0x10F1D4A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get@c_network_session_parameter_mod@@QBEPBUs_session_mod_options@@XZ");
-	// c_network_session_parameter_mod const *const this;
 
 	if (!get_allowed())
 		return nullptr;
@@ -46,7 +44,6 @@ s_session_mod_options const *c_network_session_parameter_mod::get() const // 0x1
 bool c_network_session_parameter_mod::set(s_session_mod_options const *options) // 0x10F1D5B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?set@c_network_session_parameter_mod@@QAE_NPBUs_session_mod_options@@@Z");
-	// s_session_mod_options const *options;
 
 	if (!set_allowed())
 		return false;

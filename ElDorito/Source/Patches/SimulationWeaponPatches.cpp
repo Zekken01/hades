@@ -241,7 +241,6 @@ namespace Patches
 		void ApplyAll() // 0x1069EDB0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@SimulationWeapon@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			Hook(0x75F2B9, simulation_action_weapon_fire_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Pointer(0x1643450).Write(c_simulation_weapon_fire_event_definition__apply_game_event_hook);
@@ -254,53 +253,6 @@ namespace Patches
 void simulation_action_weapon_fire_hook(long weapon_index, long barrel_index, bool barrel_should_recover, long tracked_gamestate_index, float projectile_error, short unit_zoom_level, s_simulation_action_projectile_fire_result *projectile_results, long projectile_result_count, bool generated_from_host_live_fire) // 0x1069FE20
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?simulation_action_weapon_fire_hook@@YAXJJ_NJMFPAUs_simulation_action_projectile_fire_result@hades_file_local@@J0@Z");
-	// `anonymous-namespace'::simulation_action_weapon_fire_hook
-	// long tracked_gamestate_index;
-	// float projectile_error;
-	// short unit_zoom_level;
-	// s_simulation_action_projectile_fire_result *projectile_results;
-	// long projectile_result_count;
-	// bool generated_from_host_live_fire;
-	// long player_index;
-	// long object_index;
-	// long object_references[1];
-	// s_weapon_fire_event_sending_data event_data;
-	// long aim_assist_unit_index;
-	// s_weapon_definition *weapon_definiton;
-	// long weapon_owner_unit_index;
-	// long unit_inventory_index;
-	// s_weapon_data *weapon;
-		// s_unit_data *unit;
-		// long weapon_control_unit_index;
-		// s_aim_assist_targeting_result *aim_assist_targeting_result;
-		// long i;
-			// long index;
-			// s_simulation_action_projectile_fire_result const *current_fire_result;
-				// long entity_index;
-					// long target_index;
-						// long j;
-		// c_aim_target_object *aim_target;
-	// function call : bool (*const)()
-	// function call : bool (*const)()
-	// function call : void *(*const)(unsigned long, long)
-	// function call : long (*const)(long)
-	// function call : long (*const)(long)
-	// function call : long (*const)(long)
-	// function call : long (*const)(long)
-	// function call : bool (*const)(long, long, long *)
-	// function call : void (*const)(c_aim_target_predicted *)
-	// function call : void (*const)(long, real_vector3d *)
-	// function call : void (*const)(s_aim_assist_targeting_result *, s_player_predicted_aim_assist *)
-	// function call : bool (*const)()
-	// function call : long (*const)(long)
-	// function call : long (*const)(long)
-	// function call : unsigned long (*const)(unsigned short)
-	// function call : bool (*const)(long)
-	// function call : bool (*const)(c_target_tracking_system *)
-	// function call : c_aim_target_object *(*const)(c_target_tracking_system *)
-	// function call : bool (*const)(c_aim_target_object *, c_aim_target_simulation_entity *)
-	// function call : void (*const)(long, long, long *, long, void const *)
-	// function call : void (*const)(e_simulation_event_type, long, long *, long, long, void const *)
 
 	if (!game_is_distributed() || eldorado::game_is_playback())
 		return;
@@ -411,68 +363,6 @@ void simulation_action_weapon_fire_hook(long weapon_index, long barrel_index, bo
 void __fastcall c_simulation_weapon_fire_event_definition__apply_game_event_hook(void *thisptr, void *__formal, long a1, long const *object_references, long object_reference_count, s_weapon_fire_event_sending_data *payload) // 0x1069EF80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_simulation_weapon_fire_event_definition__apply_game_event_hook@@YIXPAX0JPBJJPAUs_weapon_fire_event_sending_data@hades_file_local@@@Z");
-	// `anonymous-namespace'::c_simulation_weapon_fire_event_definition__apply_game_event_hook
-	// static ...; // 0x1069F984
-	// static ...; // 0x1069F980
-	// static ...; // 0x1069F97C
-	// static ...; // 0x1069F91C
-	// static ...; // 0x1069F914
-	// void *thisptr;
-	// void *__formal;
-	// long a1;
-	// long const *object_references;
-	// long object_reference_count;
-	// s_weapon_fire_event_sending_data *payload;
-	// long weapon_index;
-	// long object_index;
-	// s_predicted_weapon_fire_data fire_data;
-	// long weapon_control_unit_index;
-	// s_weapon_data *weapon;
-	// long delay;
-	// short reloading_time;
-	// long object_type;
-	// s_weapon_definition *weapon_def;
-	// long barrel_index;
-		// s_unit_data *unit;
-		// long weapon_set_index;
-		// long unit_inventory_index;
-		// real_point3d position;
-		// real_vector3d *event_data_aiming_vector;
-		// real_vector3d aiming_vector;
-			// long i;
-				// long index;
-				// s_weapon_fire_event_sending_data::s_predicted_projectile_fire_data *projectile_element;
-				// bool valid;
-					// long target_index;
-						// long gamestate_index;
-							// long predicted_object_index;
-								// real_matrix4x3 *node_matrices;
-								// long node_index;
-								// long node_matrix_count;
-		// long v67;
-		// long reloading_time;
-		// long v57;
-	// function call : long (*const)(long)
-	// function call : long (*const)(long)
-	// function call : void *(*const)(unsigned long, long)
-	// function call : long (*const)(long)
-	// function call : real_matrix4x3 *(*const)(long, long *)
-	// function call : char (*const)(long, real_point3d *)
-	// function call : void (*const)(long, real_vector3d const *, real_vector3d const *)
-	// function call : bool (*const)(c_aim_target_object *)
-	// function call : bool (*const)(long)
-	// function call : char (*const)(c_aim_target_simulation_entity *)
-	// function call : bool (*const)(c_target_tracking_system *, c_aim_target_simulation_entity *, s_unit_target_tracking_block *)
-	// function call : long (*const)(float)
-	// function call : bool (*const)(long, long, short *)
-	// function call : void (*const)(long, bool)
-	// function call : char (*const)(long, long, long *, long *, long *)
-	// function call : bool (*const)()
-	// function call : bool (*const)(long, short)
-	// function call : char (*const)(long, short, bool)
-	// function call : long (*const)(long, short)
-	// function call : long (*const)(long, short, float)
-	// function call : void (*const)(long, s_predicted_weapon_fire_data *, bool, long)
 
 	if (object_references[0] == -1)
 		return;

@@ -219,15 +219,6 @@ namespace Modules
 	void CommandScript::Execute() // 0x10666950
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Execute@CommandScript@Modules@@QAEXXZ");
-		// static ...; // 0x10666BCF
-		// static ...; // 0x10666BC3
-		// static ...; // 0x10666BBC
-		// static ...; // 0x10666B98
-		// static ...; // 0x10666B90
-		// Modules::CommandScript *const this;
-			// CommandLineArgs args;
-			// std::string commandName;
-				// std::string output;
 
 		if (m_wakeCond && !m_wakeCond())
 			return;
@@ -265,17 +256,6 @@ namespace Modules
 	void CommandScript::ExecuteWaitFor(CommandLineArgs const &args) // 0x10666F10
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?ExecuteWaitFor@CommandScript@Modules@@AAEXABVCommandLineArgs@@@Z");
-		// static ...; // 0x106674AE
-		// static ...; // 0x106674A4
-		// static ...; // 0x10667498
-		// static ...; // 0x10667468
-		// static ...; // 0x10667460
-		// Modules::CommandScript *const this;
-		// CommandLineArgs const &args;
-		// std::string condition;
-			// unsigned long establishTime;
-			// __int32 lobbyType;
-			// __int32 playerCount;
 
 		if (args.GetArgCount() < 2)
 		{
@@ -367,13 +347,6 @@ namespace Modules
 	void CommandScript::ExecuteSleep(CommandLineArgs const &args) // 0x10666C80
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?ExecuteSleep@CommandScript@Modules@@AAEXABVCommandLineArgs@@@Z");
-		// static ...; // 0x10666E74
-		// static ...; // 0x10666E5C
-		// static ...; // 0x10666E54
-		// Modules::CommandScript *const this;
-		// CommandLineArgs const &args;
-		// __int32 delay;
-		// std::chrono::time_point<std::chrono::system_clock,std::chrono::duration<__int64,std::ratio<1,10000000> > > wakeTime;
 
 		if (args.GetArgCount() < 2)
 		{
@@ -393,7 +366,6 @@ namespace Modules
 	bool CommandScript::ReadNextLine() // 0x10667C10
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?ReadNextLine@CommandScript@Modules@@AAE_NXZ");
-		// Modules::CommandScript *const this;
 
 		while (std::getline(*m_stream, m_line))
 		{
@@ -409,7 +381,6 @@ namespace Modules
 	void CommandScript::Complete() // 0x10666920
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Complete@CommandScript@Modules@@QAEXXZ");
-		// Modules::CommandScript *const this;
 
 		m_finished = true;
 	}
@@ -417,7 +388,6 @@ namespace Modules
 	void CommandScript::HandleError(std::string const &message) // 0x106677A0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?HandleError@CommandScript@Modules@@AAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// std::string const &message;
 
 		m_error << "Error at line " << m_lineNum << ": " << message << std::endl;
 		m_hasError = true;
@@ -428,7 +398,6 @@ namespace Modules
 	bool CommandScript::HasError() const // 0x10667890
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?HasError@CommandScript@Modules@@QBE_NXZ");
-		// Modules::CommandScript const *const this;
 
 		return m_hasError;
 	}
@@ -440,7 +409,6 @@ namespace Modules
 	std::string CommandScript::GetErrorMessage() const // 0x10667710
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetErrorMessage@CommandScript@Modules@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-		// Modules::CommandScript const *const this;
 
 		return m_error.str();
 	}
@@ -448,7 +416,6 @@ namespace Modules
 	bool CommandScript::IsFinished() const // 0x10667A00
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?IsFinished@CommandScript@Modules@@QBE_NXZ");
-		// Modules::CommandScript const *const this;
 
 		return m_finished;
 	}
@@ -456,7 +423,6 @@ namespace Modules
 	void CommandScriptStack::PushScript(std::shared_ptr<Modules::CommandScript> script) // 0x10667B50
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?PushScript@CommandScriptStack@Modules@@QAEXV?$shared_ptr@VCommandScript@Modules@@@std@@@Z");
-		// std::shared_ptr<Modules::CommandScript> script;
 
 		m_stack.emplace(std::move(script));
 	}
@@ -464,8 +430,6 @@ namespace Modules
 	void CommandScriptStack::Update() // 0x10667D30
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CommandScriptStack@Modules@@QAEXXZ");
-		// Modules::CommandScriptStack *const this;
-		// std::shared_ptr<Modules::CommandScript> &script;
 
 		if (m_stack.empty())
 			return;
@@ -493,16 +457,6 @@ namespace Modules
 	bool ParseInt(std::string s, __int32 &delay) // 0x10667A30
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?ParseInt@Modules@@YA_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAH@Z");
-		// Modules::ParseInt
-		// static ...; // 0x10667B04
-		// static ...; // 0x10667AFC
-		// std::string s;
-		// __int32 &delay;
-		// std::errc ec;
-		// std::from_chars_result $S15;
-		// char const *ptr;
-		// char const *start;
-		// char const *end;
 
 		char const *start = s.data();
 		char const *end = s.data() + s.size();

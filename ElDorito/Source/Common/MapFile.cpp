@@ -78,11 +78,6 @@ struct s_map_variant;
 CMapFile::CMapFile(std::string const &filePath) : m_data(nullptr), m_dataSize(0), m_mapInfo(nullptr), m_cacheFileHeader(nullptr), m_mapVariant(nullptr) /* hades-mem-init:  */ // 0x1085FEF0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0CMapFile@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-	// static ...; // 0x10860014
-	// static ...; // 0x1086000C
-	// CMapFile *const this;
-	// std::string const &filePath;
-	// std::ifstream stream;
 
 	std::ifstream stream(filePath, std::ios::binary);
 	if (!stream.is_open())
@@ -93,7 +88,6 @@ CMapFile::CMapFile(std::string const &filePath) : m_data(nullptr), m_dataSize(0)
 CMapFile::CMapFile(void const *data, unsigned __int32 size) : m_data(nullptr), m_dataSize(0), m_mapInfo(nullptr), m_cacheFileHeader(nullptr), m_mapVariant(nullptr) /* hades-mem-init:  */ // 0x10860080
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0CMapFile@@QAE@PBXI@Z");
-	// unsigned __int32 size;
 
 	LoadFromBuffer((unsigned char const *)data, size);
 }
@@ -101,7 +95,6 @@ CMapFile::CMapFile(void const *data, unsigned __int32 size) : m_data(nullptr), m
 bool CMapFile::IsValid() const // 0x10860890
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?IsValid@CMapFile@@QBE_NXZ");
-	// CMapFile const *const this;
 
 	return m_buffer.size() > 0;
 }
@@ -109,7 +102,6 @@ bool CMapFile::IsValid() const // 0x10860890
 bool CMapFile::HasMapInfo() const // 0x108607F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?HasMapInfo@CMapFile@@QBE_NXZ");
-	// CMapFile const *const this;
 
 	return m_mapInfo != nullptr;
 }
@@ -117,11 +109,11 @@ bool CMapFile::HasMapInfo() const // 0x108607F0
 bool CMapFile::HasMapVariant() const // 0x10860840
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?HasMapVariant@CMapFile@@QBE_NXZ");
-	// CMapFile const *const this;
 
 	return m_mapVariant != nullptr;
 }
 
+#line 125
 s_map_variant const *CMapFile::GetMapVariant() const // 0x10860460
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetMapVariant@CMapFile@@QBEPBUs_map_variant@@XZ");
@@ -201,7 +193,6 @@ __int32 CMapFile::GetMapId() const // 0x108603D0
 void CMapFile::LoadFromFile(std::ifstream &stream) // 0x10860B10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?LoadFromFile@CMapFile@@AAEXAAV?$basic_ifstream@DU?$char_traits@D@std@@@std@@@Z");
-	// std::ifstream &stream;
 
 	stream.seekg(0, std::ios::end);
 	m_buffer.resize(stream.tellg());
@@ -217,18 +208,6 @@ void CMapFile::LoadFromFile(std::ifstream &stream) // 0x10860B10
 void CMapFile::LoadFromBuffer(unsigned char const *data, unsigned __int32 size) // 0x10860910
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?LoadFromBuffer@CMapFile@@AAEXPBEI@Z");
-	// static ...; // 0x10860A78
-	// static ...; // 0x10860A54
-	// static ...; // 0x10860A4C
-	// CMapFile *const this;
-	// unsigned char const *data;
-	// unsigned __int32 size;
-	// unsigned char const *dataEnd;
-	// unsigned char const *blfData;
-	// unsigned char const *blfChunkData;
-	// unsigned long blfChunkSize;
-	// s_blf_chunk_header blfChunkHeader;
-	// bool chunkFound;
 
 	if (size < 0x3390)
 		return;

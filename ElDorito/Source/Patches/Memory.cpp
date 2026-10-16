@@ -150,19 +150,6 @@ namespace Patches
 		__int32 ExpandRuntimeStateGlobals() // 0x10A8AF90
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ExpandRuntimeStateGlobals@Memory@Patches@@YAHXZ");
-			// procedure flags: nofpo
-			// unsigned __int32 xboxSoundSize;
-			// unsigned __int32 const origRuntimeGlobalsSize;
-			// unsigned __int32 newGameStateCompressionScratchSize;
-			// unsigned __int32 origGameStateCompressionScratchSize;
-			// unsigned __int32 extraSize;
-			// unsigned __int32 oldXboxSoundCount;
-			// unsigned __int32 newXboxSoundSize;
-			// unsigned __int32 newRuntimeGlobalsSize;
-			// unsigned __int32 newXboxSoundCount;
-			// function call : unsigned long (*const)(long, unsigned long, long)
-			// function call : unsigned long (*const)(long, unsigned long, long)
-			// function call : unsigned long (*const)(long)
 
 			const unsigned __int32 origRuntimeGlobalsSize = 0x380000;
 			unsigned __int32 extraSize = 0;
@@ -195,26 +182,6 @@ namespace Patches
 		__int32 ExpandGameStateGlobals() // 0x10A8AB70
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ExpandGameStateGlobals@Memory@Patches@@YAHXZ");
-			// procedure flags: nofpo
-			// unsigned __int32 const origGameStateGlobalsPersistSize;
-			// unsigned __int32 newCachedObjectRenderStatesCount;
-			// unsigned __int32 origUnknownSubAllocation3Size;
-			// unsigned __int32 origUnknownSubAllocation2Size;
-			// unsigned __int32 const origGameStateGlobalsSize;
-			// unsigned __int32 subAllocation4ExtraSize;
-			// unsigned __int32 oldCachedObjectRenderStatesCount;
-			// unsigned __int32 origUnknownSubAllocation4Size;
-			// unsigned __int32 const newGameGlobalsPersistSize;
-			// unsigned __int32 cachedObjectRenderStatesSize;
-			// unsigned __int32 newUnknownSubAllocation3Size;
-			// unsigned __int32 newUnknownSubAllocation4Size;
-			// unsigned __int32 newUnknownSubAllocation2Size;
-			// unsigned __int32 newUnknownSubAllocation5Size;
-			// unsigned __int32 const newGameStateGlobalsSize;
-			// __int32 extraGlobalsSize;
-			// unsigned __int32 origUnknownSubAllocation5Size;
-			// function call : unsigned long (*const)(long, unsigned long, long)
-			// function call : unsigned long (*const)(long, unsigned long, long)
 
 			unsigned __int32 subAllocation4ExtraSize = 0;
 			unsigned __int32 oldCachedObjectRenderStatesCount = 384;
@@ -276,15 +243,11 @@ namespace Patches
 		void ExpandRenderGlobals() // 0x10A8AF70
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ExpandRenderGlobals@Memory@Patches@@YAXXZ");
-			// procedure flags: nofpo
 		}
 
 		void ExpandMainGlobalMemoryMap() // 0x10A8AEC0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ExpandMainGlobalMemoryMap@Memory@Patches@@YAXXZ");
-			// procedure flags: nofpo
-			// unsigned __int32 dataSizeIncrease;
-			// Modules::ModuleGame &moduleGame;
 
 			auto &gameModule = Modules::ModuleGame::Instance();
 
@@ -301,7 +264,6 @@ namespace Patches
 		void OnMapLoadCallback(char const *mapName) // 0x10A8B140
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?OnMapLoadCallback@Memory@Patches@@YAXPBD@Z");
-			// char const *mapName;
 
 			c_debug_game_state_allocation::end();
 		}
@@ -309,7 +271,6 @@ namespace Patches
 		void ApplyAll() // 0x10A8A510
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Memory@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			Patch(0x103354, 0x90, 5).Apply();
 			Patch(0x77970, { 0xC3 }).Apply();
@@ -322,7 +283,6 @@ namespace Patches
 		void ApplyAfterInit() // 0x10A8A4D0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAfterInit@Memory@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			Patches::Memory::ExpandMainGlobalMemoryMap();
 		}
@@ -334,10 +294,6 @@ namespace Patches
 _inline void c_debug_game_state_allocation::record_allocation(long allocation_type, char const *name, char const *type, unsigned long size) // 0x10A8B7F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?record_allocation@c_debug_game_state_allocation@hades_file_local@@SAXJPBD0K@Z");
-	// `anonymous-namespace'::c_debug_game_state_allocation::record_allocation
-	// unsigned long size;
-		// long i;
-			// unsigned long size;
 
 	if (!m_enabled || !m_fp)
 		return;
@@ -359,11 +315,6 @@ _inline void c_debug_game_state_allocation::record_allocation(long allocation_ty
 _inline void c_debug_game_state_allocation::begin(unsigned long memory_total) // 0x10A8B180
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?begin@c_debug_game_state_allocation@hades_file_local@@SAXK@Z");
-	// `anonymous-namespace'::c_debug_game_state_allocation::begin
-	// unsigned long memory_total;
-	// char const *(*const version_get_full_string)();
-		// long i;
-	// function call : char const *(*const)()
 
 	if (!m_enabled || fopen_s(&m_fp, "gamestate.txt", "w"))
 		return;
@@ -382,12 +333,6 @@ _inline void c_debug_game_state_allocation::begin(unsigned long memory_total) //
 _inline void c_debug_game_state_allocation::end() // 0x10A8B460
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?end@c_debug_game_state_allocation@hades_file_local@@SAXXZ");
-	// `anonymous-namespace'::c_debug_game_state_allocation::end
-	// procedure flags: nofpo
-		// long i;
-			// long flags;
-			// unsigned long size;
-			// char *region;
 
 	if (!m_enabled || !m_fp)
 		return;
@@ -420,9 +365,6 @@ _inline void c_debug_game_state_allocation::end() // 0x10A8B460
 void physical_memory_initialize_hook() // 0x10A8B650
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?physical_memory_initialize_hook@@YAXXZ");
-	// `anonymous-namespace'::physical_memory_initialize_hook
-	// procedure flags: nofpo
-	// void *physical_memory_base_address;
 
 	c_physical_memory_manager::initialize(physicalMemorySize);
 
@@ -446,6 +388,7 @@ void physical_memory_initialize_hook() // 0x10A8B650
 	*(void **)0x238ED0C = physical_memory_base_address;
 }
 
+#line 449
 long __fastcall c_restricted_memory__add_member_hook(c_restricted_memory *thisptr, void *unused, char const *name, char const *type, unsigned long size_in_bytes, unsigned char alignment_bits, void *allocate_function, void *update_function, void *free_function) // 0x10A8B310
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_restricted_memory__add_member_hook@@YIJPAUc_restricted_memory@@PAXPBD2KE111@Z");

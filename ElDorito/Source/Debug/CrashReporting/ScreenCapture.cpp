@@ -91,31 +91,6 @@ namespace Debug
 		std::string TakeScreenshot() // 0x106978B0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?TakeScreenshot@CrashReporting@Debug@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-			// procedure flags: nofpo
-			// static ...; // 0x10697CD8
-			// static ...; // 0x10697CD4
-			// static ...; // 0x10697CD0
-			// static ...; // 0x10697CAC
-			// static ...; // 0x10697CA4
-		// $LN19:
-				// HBITMAP__ *bmpDest;
-				// HWND__ *hwndSrc;
-				// unsigned char *bits;
-				// tagRECT rc;
-				// __int32 sx;
-				// std::vector<unsigned char> buf;
-				// __int32 sy;
-				// HDC__ *dcSrc;
-				// HDC__ *dcDst;
-				// tagBITMAPINFO bmi;
-			// function call : __int32 (HWND__ *, tagRECT *)
-			// function call : HDC__ *(HWND__ *)
-			// function call : HDC__ *(HDC__ *)
-			// function call : HBITMAP__ *(HDC__ *, __int32, __int32)
-			// function call : void *(HDC__ *, void *)
-			// function call : __int32 (HDC__ *, __int32, __int32, __int32, __int32, HDC__ *, __int32, __int32, unsigned long)
-			// function call : __int32 (HDC__ *, HBITMAP__ *, unsigned __int32, unsigned __int32, void *, tagBITMAPINFO *, unsigned __int32)
-			// function call : __int32 (HDC__ *, HBITMAP__ *, unsigned __int32, unsigned __int32, void *, tagBITMAPINFO *, unsigned __int32)
 
 			try
 			{

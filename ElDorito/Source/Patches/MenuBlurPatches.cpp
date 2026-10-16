@@ -234,7 +234,6 @@ namespace Patches
 		void ApplyAll() // 0x108D17D0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@MenuBlur@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			Hook(0x6B9F75, ui_draw_bitmap_widget_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x71C050, ui_draw_bitmap_widget_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
@@ -243,7 +242,6 @@ namespace Patches
 		void Tick() // 0x108D1FE0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@MenuBlur@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			g_fullscreenMenuBlur.Update();
 		}
@@ -251,7 +249,6 @@ namespace Patches
 		void RenderUIPostProcess() // 0x108D1F80
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?RenderUIPostProcess@MenuBlur@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			g_fullscreenMenuBlur.Render();
 			CustomBitmapManager::Get()->UpdateRender();
@@ -264,10 +261,6 @@ namespace Patches
 void get_blur_factors(float *blur_x, float *blur_y) // 0x108D3330
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_blur_factors@@YAXPAM0@Z");
-	// `anonymous-namespace'::get_blur_factors
-	// float *blur_y;
-	// s_user_interface_shared_globals *ui_shared_globals;
-	// function call : s_user_interface_shared_globals *(*const)()
 
 	s_user_interface_shared_globals *ui_shared_globals = ((s_user_interface_shared_globals *(*)())0xA84D20)();
 
@@ -286,21 +279,6 @@ void get_blur_factors(float *blur_x, float *blur_y) // 0x108D3330
 e_surface blur_display() // 0x108D2190
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?blur_display@@YA?AW4e_surface@@XZ");
-	// `anonymous-namespace'::blur_display
-	// procedure flags: nofpo
-	// static ...; // 0x108D22A3
-	// static ...; // 0x108D229C
-	// static ...; // 0x108D2284
-	// static ...; // 0x108D227C
-	// float blur_x;
-	// e_surface surface;
-	// float blur_y;
-	// function call : void (*const)(bool)
-	// function call : e_surface (*const)(e_surface)
-	// function call : e_surface (*const)(long, e_surface, long)
-	// function call : e_surface (*const)(e_surface)
-	// function call : void (*const)()
-	// function call : void (*const)()
 
 	float blur_x, blur_y;
 	get_blur_factors(&blur_x, &blur_y);
@@ -321,11 +299,6 @@ e_surface blur_display() // 0x108D2190
 void scale_ui_screen_vertices(real_point2d *vertices) // 0x108D3490
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?scale_ui_screen_vertices@@YAXPAUreal_point2d@@@Z");
-	// `anonymous-namespace'::scale_ui_screen_vertices
-	// real_point2d *vertices;
-	// unsigned long *g_game_resolution;
-	// float width_scale;
-	// float height_scale;
 
 	unsigned long *g_game_resolution = (unsigned long *)0x19106C0;
 
@@ -345,22 +318,6 @@ void scale_ui_screen_vertices(real_point2d *vertices) // 0x108D3490
 void draw_widget_blur(s_gui_bitmap_widget_render_info *info, short_rectangle2d *display_bounds) // 0x108D2C70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?draw_widget_blur@@YAXPAUs_gui_bitmap_widget_render_info@@PAUshort_rectangle2d@@@Z");
-	// `anonymous-namespace'::draw_widget_blur
-	// static ...; // 0x108D3160
-	// static ...; // 0x108D3148
-	// static ...; // 0x108D3140
-	// s_gui_bitmap_widget_render_info *info;
-	// short_rectangle2d *display_bounds;
-	// e_surface blur_surface;
-	// s_rasterizer_screen_geometry_parameters params;
-	// float max_v;
-	// s_screen_vertex vertices[4];
-	// float min_u;
-	// float max_u;
-	// float min_v;
-	// float display_width;
-	// float display_height;
-	// function call : void (*const)(s_rasterizer_screen_geometry_parameters *, s_screen_vertex *)
 
 	e_surface blur_surface = blur_display();
 	s_rasterizer_screen_geometry_parameters params;
@@ -398,44 +355,6 @@ void draw_widget_blur(s_gui_bitmap_widget_render_info *info, short_rectangle2d *
 
 void draw_custom_bitmap(s_gui_bitmap_widget_render_info *info, short_rectangle2d *display_bounds, long explicit_shader_index) // 0x108D2400
 {
-	// `anonymous-namespace'::draw_custom_bitmap
-	// static ...; // 0x108D2A2C
-	// static ...; // 0x108D2A20
-	// static ...; // 0x108D2A08
-	// static ...; // 0x108D29CC
-	// static ...; // 0x108D29C4
-	// s_gui_bitmap_widget_render_info *info;
-	// short_rectangle2d *display_bounds;
-	// long explicit_shader_index;
-	// long (*const DrawPrimitiveUP)(long, long, void *, long);
-	// s_rasterizer_screen_geometry_parameters params;
-	// s_screen_vertex vertices[4];
-	// void (*const interface_get_current_display_or_window_settings)(short_rectangle2d *, short_rectangle2d *, short_rectangle2d *, short_rectangle2d *);
-	// s_rasterizer_globals *const rasg;
-	// void *const vtsh;
-	// long address_mode;
-	// void *const pixl;
-	// long filter_mode;
-	// void (*const c_vertex_declaration_table__vertex_shader_declaration_set)(long, long, long);
-	// s_explicit_shader_ref *const explicit_shader;
-	// short_rectangle2d fullscreen_pixel_bounds;
-	// function call : void *(*const)(unsigned long, long)
-	// function call : void *(*const)(unsigned long, long)
-	// function call : bool (*const)(void *, long, long, long)
-	// function call : bool (*const)(void *, long)
-	// function call : void (*const)(long, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>)
-	// function call : void (*const)(long, c_enum<enum e_sampler_filter_mode,long>)
-	// function call : void (*const)(long)
-	// function call : void (*const)(short_rectangle2d *, short_rectangle2d *, short_rectangle2d *, short_rectangle2d *)
-	// function call : void (*const)(float, float, float, float, s_screen_vertex *, long)
-	// function call : void (*const)(long)
-	// function call : long (*const)(long)
-	// function call : void (*const)(long, long, long)
-	// function call : bool (*const)(IDirect3DIndexBuffer9 *)
-	// function call : long (*const)(long, long, void *, long)
-	// function call : long (*const)(long)
-	// function call : void (*const)(long)
-	// function call : void (*const)()
 
 	void (*const interface_get_current_display_or_window_settings)(short_rectangle2d *, short_rectangle2d *, short_rectangle2d *, short_rectangle2d *) = (void (*const)(short_rectangle2d *, short_rectangle2d *, short_rectangle2d *, short_rectangle2d *))0xA9FA40;
 	void (*const c_vertex_declaration_table__vertex_shader_declaration_set)(long, long, long) = (void (*const)(long, long, long))0xA729B0;
@@ -491,9 +410,6 @@ void draw_custom_bitmap(s_gui_bitmap_widget_render_info *info, short_rectangle2d
 void draw_custom_emblem(s_gui_bitmap_widget_render_info *info, short_rectangle2d *display_bounds, __int32 player_index) // 0x108D2BE0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?draw_custom_emblem@@YAXPAUs_gui_bitmap_widget_render_info@@PAUshort_rectangle2d@@H@Z");
-	// `anonymous-namespace'::draw_custom_emblem
-	// __int32 player_index;
-	// long *g_sampler_texture_refs;
 
 	long *g_sampler_texture_refs = (long *)0x1910560;
 
@@ -505,16 +421,6 @@ void draw_custom_emblem(s_gui_bitmap_widget_render_info *info, short_rectangle2d
 void draw_custom_bitmap(s_gui_bitmap_widget_render_info *info, IDirect3DTexture9 *texture, short_rectangle2d *display_bounds) // 0x108D22F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?draw_custom_bitmap@@YAXPAUs_gui_bitmap_widget_render_info@@PAUIDirect3DTexture9@@PAUshort_rectangle2d@@@Z");
-	// `anonymous-namespace'::draw_custom_bitmap
-	// short_rectangle2d *display_bounds;
-	// long (*const DrawPrimitiveUP)(long, long, void *, long);
-	// IDirect3DDevice9 *device;
-	// void (*const interface_get_current_display_or_window_settings)(short_rectangle2d *, short_rectangle2d *, short_rectangle2d *, short_rectangle2d *);
-	// long *g_sampler_texture_refs;
-	// bool *g_sampler_gamma_correction_array;
-	// void (*const c_vertex_declaration_table__vertex_shader_declaration_set)(long, long, long);
-	// function call : HRESULT (unsigned long, IDirect3DBaseTexture9 *)
-	// function call : HRESULT (unsigned long, _D3DSAMPLERSTATETYPE, unsigned long)
 
 	void (*const interface_get_current_display_or_window_settings)(short_rectangle2d *, short_rectangle2d *, short_rectangle2d *, short_rectangle2d *) = (void (*const)(short_rectangle2d *, short_rectangle2d *, short_rectangle2d *, short_rectangle2d *))0xA9FA40;
 	void (*const c_vertex_declaration_table__vertex_shader_declaration_set)(long, long, long) = (void (*const)(long, long, long))0xA729B0;
@@ -532,18 +438,6 @@ void draw_custom_bitmap(s_gui_bitmap_widget_render_info *info, IDirect3DTexture9
 void ui_draw_bitmap_widget_hook(s_gui_bitmap_widget_render_info *data, short_rectangle2d *display_bounds) // 0x108D37E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ui_draw_bitmap_widget_hook@@YAXPAUs_gui_bitmap_widget_render_info@@PAUshort_rectangle2d@@@Z");
-	// `anonymous-namespace'::ui_draw_bitmap_widget_hook
-	// short_rectangle2d *display_bounds;
-	// void (*const ui_draw_bitmap_widget)(s_gui_bitmap_widget_render_info *, short_rectangle2d *);
-		// e_surface old_surface;
-		// IDirect3DTexture9 *texture;
-		// __int32 player_index;
-		// __int32 localPlayerIndex;
-		// Blam::Network::Session *session;
-	// function call : e_surface (*const)(long)
-	// function call : e_surface (*const)(long, e_surface, long)
-	// function call : void (*const)(s_gui_bitmap_widget_render_info *, short_rectangle2d *)
-	// function call : void (*const)(s_gui_bitmap_widget_render_info *, short_rectangle2d *)
 
 	void (*const ui_draw_bitmap_widget)(s_gui_bitmap_widget_render_info *, short_rectangle2d *) = (void (*)(s_gui_bitmap_widget_render_info *, short_rectangle2d *))0xB170F0;
 	if ((data->flags >> 2) & 1)
@@ -583,21 +477,6 @@ void ui_draw_bitmap_widget_hook(s_gui_bitmap_widget_render_info *data, short_rec
 void CRenderFullScreenBlur::Render() // 0x108D1A10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Render@CRenderFullScreenBlur@hades_file_local@@QAEXXZ");
-	// `anonymous-namespace'::CRenderFullScreenBlur::Render
-	// static ...; // 0x108D1E61
-	// static ...; // 0x108D1E58
-	// static ...; // 0x108D1E40
-	// static ...; // 0x108D1E38
-	// CRenderFullScreenBlur *const this;
-	// unsigned long color;
-	// e_surface blur_surface;
-	// s_rasterizer_screen_geometry_parameters params;
-	// s_screen_vertex vertices[4];
-	// unsigned long *g_game_resolution;
-	// float display_width;
-	// unsigned char alpha;
-	// float display_height;
-	// function call : void (*const)(s_rasterizer_screen_geometry_parameters *, s_screen_vertex *)
 
 	if (m_alpha == 0.0f)
 		return;
@@ -636,11 +515,6 @@ void CRenderFullScreenBlur::Render() // 0x108D1A10
 void CRenderFullScreenBlur::Update() // 0x108D2030
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CRenderFullScreenBlur@hades_file_local@@QAEXXZ");
-	// `anonymous-namespace'::CRenderFullScreenBlur::Update
-	// CRenderFullScreenBlur *const this;
-	// bool enabled;
-	// float m_transitionRateSeconds;
-	// function call : float (*const)()
 
 	bool enabled = Utils::Singleton<Modules::ModuleGame>::Instance().VarFullscreenBlur->ValueInt != 0;
 	float m_transitionRateSeconds = Utils::Singleton<Modules::ModuleGame>::Instance().VarFullscreenBlurTime->ValueFloat;

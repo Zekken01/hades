@@ -44,17 +44,6 @@ namespace Steam
 	void SteamLoader::Initialize() // 0x10C52550
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@SteamLoader@Steam@@QAEXXZ");
-		// static ...; // 0x10C526D3
-		// static ...; // 0x10C526C4
-		// static ...; // 0x10C526AC
-		// static ...; // 0x10C526A4
-		// Steam::SteamLoader *const this;
-			// static char pathBuffer[65536]; // 0x1246B930
-			// std::string steamDllPath;
-			// std::string steamDirectory;
-		// function call : unsigned long (char const *, char *, unsigned long)
-		// function call : __int32 (char const *, char const *)
-		// function call : HINSTANCE__ *(char const *)
 
 		if (IsSteamRunning(true))
 		{
@@ -73,7 +62,6 @@ namespace Steam
 void *(*Steam::SteamLoader::GetCreateInterfaceFunc())(char const *, __int32 *) // 0x10C52220
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetCreateInterfaceFunc@SteamLoader@Steam@@QAEP6APAXPBDPAH@ZXZ");
-	// Steam::SteamLoader *const this;
 
 	return GetProcAddress<void *(__cdecl *)(char const *, int *)>("CreateInterface");
 }
@@ -83,9 +71,6 @@ namespace Steam
 	void *SteamLoader::GetProcAddressInternal(char const *name) // 0x10C52280
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetProcAddressInternal@SteamLoader@Steam@@AAEPAXPBD@Z");
-		// char const *name;
-		// void *func;
-		// function call : __int32 (*(HINSTANCE__ *, char const *))()
 
 		void *func = nullptr;
 		if (m_hSteamClient)
@@ -96,12 +81,6 @@ namespace Steam
 	bool SteamLoader::IsSteamRunning(bool ignoreCreateFunc) // 0x10C52750
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?IsSteamRunning@SteamLoader@Steam@@QAE_N_N@Z");
-		// bool ignoreCreateFunc;
-		// bool retval;
-		// unsigned __int32 pid;
-			// void *steamProcess;
-		// function call : void *(unsigned long, __int32, unsigned long)
-		// function call : __int32 (void *)
 
 		bool retval = false;
 		DWORD pid = GetSteamProcessId();
@@ -124,14 +103,6 @@ namespace Steam
 	unsigned __int32 SteamLoader::GetSteamProcessId() // 0x10C52470
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetSteamProcessId@SteamLoader@Steam@@AAEIXZ");
-		// static ...; // 0x10C5251C
-		// static ...; // 0x10C52514
-		// static ...; // 0x10C524FC
-		// static ...; // 0x10C524F4
-		// Steam::SteamLoader *const this;
-		// unsigned long pid;
-		// unsigned long pidSize;
-		// function call : long (HKEY__ *, char const *, char const *, unsigned long, unsigned long *, void *, unsigned long *)
 
 		DWORD pid;
 		DWORD pidSize = sizeof(pid);
@@ -149,14 +120,6 @@ namespace Steam
 	std::string SteamLoader::GetSteamDllPath() // 0x10C52300
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetSteamDllPath@SteamLoader@Steam@@AAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-		// static ...; // 0x10C52417
-		// static ...; // 0x10C52408
-		// static ...; // 0x10C523F0
-		// static ...; // 0x10C523E8
-		// Steam::SteamLoader *const this;
-		// char pathString[512];
-		// unsigned long pathStringSize;
-		// function call : long (HKEY__ *, char const *, char const *, unsigned long, unsigned long *, void *, unsigned long *)
 
 		char pathString[512];
 		unsigned long pathStringSize = sizeof(pathString);
@@ -168,12 +131,6 @@ namespace Steam
 	void SteamLoader::LoadGameOverlayRenderer(std::string const &baseDllPath) // 0x10C52820
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?LoadGameOverlayRenderer@SteamLoader@Steam@@AAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// static ...; // 0x10C52928
-		// static ...; // 0x10C52920
-		// Steam::SteamLoader *const this;
-		// std::string const &baseDllPath;
-		// std::string overlayDllPath;
-		// function call : HINSTANCE__ *(char const *)
 
 		std::string overlayDllPath = baseDllPath.substr(0, baseDllPath.rfind('\\')) + "\\GameOverlayRenderer.dll";
 		LoadLibraryA(overlayDllPath.c_str());

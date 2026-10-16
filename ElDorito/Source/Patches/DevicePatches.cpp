@@ -137,7 +137,6 @@ namespace Patches
 		void ApplyAll() // 0x108CE320
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Devices@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			Pointer(0x1948C2C).Write<unsigned long>(reinterpret_cast<unsigned long>(machine_update_hook));
 			Hook(0x7925D1, device_block_interaction_odst_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
@@ -154,9 +153,6 @@ namespace Patches
 		bool PlayerConsiderDeviceInteraction(long player_index, long device_index, s_player_action_context *out_action_context) // 0x108CED20
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?PlayerConsiderDeviceInteraction@Devices@Patches@@YA_NJJPAUs_player_action_context@@@Z");
-			// s_player_action_context *out_action_context;
-			// bool (*const player_consider_device_interaction)(long, long, s_player_action_context *);
-			// function call : bool (*const)(long, long, s_player_action_context *)
 
 			bool (__cdecl *const player_consider_device_interaction)(long, long, s_player_action_context *) = (bool(__cdecl *const)(long, long, s_player_action_context *))0x5388d0;
 
@@ -179,25 +175,6 @@ namespace Patches
 void machine_update_hook(long machine_index) // 0x108CF450
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?machine_update_hook@@YAXJ@Z");
-	// `anonymous-namespace'::machine_update_hook
-	// long machine_index;
-	// float old_proximity_radius;
-	// s_object_data *machine;
-	// float old_position_time;
-	// void (*const machine_update)(long);
-	// EForgeDeviceType device_type;
-	// CForgeDeviceManager &deviceManager;
-	// s_machine_definition *machine_def;
-	// CForgeDeviceObjectProperties *device_properties;
-	// s_multiplayer_object_properties *properties;
-	// float old_door_open_time;
-		// float radius;
-		// float delayTime;
-	// function call : void (*const)(long)
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : void *(*const)(unsigned long, long)
-	// function call : s_multiplayer_object_properties *(*const)(unsigned long)
-	// function call : void (*const)(long)
 
 	void (*const machine_update)(long) = reinterpret_cast<void (*)(long)>(0xBB5500);
 	CForgeDeviceManager &deviceManager = Utils::Singleton<CForgeDeviceManager>::Instance();
@@ -237,14 +214,6 @@ void machine_update_hook(long machine_index) // 0x108CF450
 bool device_block_interaction_odst_hook(long object_index) // 0x108CF0C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?device_block_interaction_odst_hook@@YA_NJ@Z");
-	// `anonymous-namespace'::device_block_interaction_odst_hook
-	// long object_index;
-	// s_device_data *device;
-	// s_device_group_datum *device_group;
-	// s_device_data *parent_device;
-	// s_device_definition *parent_device_definition;
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : void *(*const)(unsigned long, long)
 
 	s_device_data *device = (s_device_data *)object_get(object_index);
 	if (!device || device->parent_object_index == -1)
@@ -270,18 +239,6 @@ bool device_block_interaction_odst_hook(long object_index) // 0x108CF0C0
 bool device_allows_player_interaction(long device_index, long player_index) // 0x108CEF50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?device_allows_player_interaction@@YA_NJJ@Z");
-	// `anonymous-namespace'::device_allows_player_interaction
-	// long player_index;
-		// c_game_engine *game_engine;
-			// s_multiplayer_object_properties *multiplayer_properties;
-				// short player_team;
-				// bool is_neutral;
-				// long (*const get_player_team_desginator)(c_game_engine *, __int32);
-				// short device_team;
-	// function call : bool (*)()
-	// function call : c_game_engine *(*const)()
-	// function call : s_multiplayer_object_properties *(*const)(unsigned long)
-	// function call : long (*const)(c_game_engine *, __int32)
 
 	if (game_is_campaign())
 		return true;
@@ -305,11 +262,6 @@ bool device_allows_player_interaction(long device_index, long player_index) // 0
 bool device_allows_object_interaction(long device_index, long object_index) // 0x108CEE80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?device_allows_object_interaction@@YA_NJJ@Z");
-	// `anonymous-namespace'::device_allows_object_interaction
-	// long object_index;
-		// long player_index;
-		// long unit_index;
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
 
 	if (object_try_and_get_and_verify_type(object_index, 0x2003))
 	{
@@ -327,10 +279,6 @@ bool device_allows_object_interaction(long device_index, long object_index) // 0
 void device_touched_hook(long device_index, long unit_index, bool a3) // 0x108CF270
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?device_touched_hook@@YAXJJ_N@Z");
-	// `anonymous-namespace'::device_touched_hook
-	// bool a3;
-	// void (*const device_touched)(long, long, bool);
-	// function call : void (*const)(long, long, bool)
 
 	void (__cdecl *const device_touched)(long, long, bool) = (void(__cdecl *const)(long, long, bool))0xb94500;
 
@@ -345,17 +293,6 @@ void device_touched_hook(long device_index, long unit_index, bool a3) // 0x108CF
 bool machine_door_test_object_hook(long machine_index, long const *object_indices, short object_indices_count) // 0x108CF300
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?machine_door_test_object_hook@@YA_NJPBJF@Z");
-	// `anonymous-namespace'::machine_door_test_object_hook
-	// static ...; // 0x108CF3DC
-	// long machine_index;
-	// long const *object_indices;
-	// short object_indices_count;
-	// bool (*const machine_door_test_object)(long, long const *, short);
-	// long new_object_indices[16];
-	// short new_object_indices_count;
-		// long i;
-			// long object_index;
-	// function call : bool (*const)(long, long const *, short)
 
 	bool (*const machine_door_test_object)(long, long const *, short) = reinterpret_cast<bool (*)(long, long const *, short)>(0xBB4FF0);
 	long new_object_indices[16];
@@ -373,13 +310,6 @@ bool machine_door_test_object_hook(long machine_index, long const *object_indice
 void control_touched_hook(long device_index, long unit_index) // 0x108CEDB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?control_touched_hook@@YAXJJ@Z");
-	// `anonymous-namespace'::control_touched_hook
-	// long unit_index;
-	// s_object_data *control;
-	// s_control_definition *control_definition;
-	// void (*const control_toggle)(long);
-	// function call : void *(*const)(unsigned long, long)
-	// function call : void (*const)(long)
 
 	void (*const device_touched)(long) = reinterpret_cast<void (*)(long)>(0xBBFC30);
 	s_object_data *control = object_get(device_index);

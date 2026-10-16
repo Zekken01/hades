@@ -169,15 +169,6 @@ void CDebugTrace::Trace(__int32 color, char const *format, ...) // 0x1081E310
 void CDebugTrace::Render() // 0x1081E0F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Render@CDebugTrace@@SAXXZ");
-	// procedure flags: nofpo
-	// static ...; // 0x1081E23B
-	// static ...; // 0x1081E234
-	// static ...; // 0x1081E21C
-	// static ...; // 0x1081E214
-	// real_point2d offset;
-		// bool exp;
-		// __int32 i;
-			// STraceLine *line;
 
 	if (!initialized.load())
 		return;
@@ -206,8 +197,6 @@ void CDebugTrace::Render() // 0x1081E0F0
 
 _inline void s_buff::Add(STraceLine *line) // 0x1081DD80
 {
-	// `anonymous-namespace'::<unnamed-type-buff>::Add
-	// STraceLine *line;
 
 	elements[head] = *line;
 	head = (head + 1) % 40;
@@ -223,8 +212,6 @@ _inline void s_buff::Add(STraceLine *line) // 0x1081DD80
 
 _inline void s_buff::Clear() // 0x1081DE40
 {
-	// `anonymous-namespace'::<unnamed-type-buff>::Clear
-	// s_buff *const this;
 
 	head = 0, tail = 0, count = 0;
 }
@@ -232,12 +219,6 @@ _inline void s_buff::Clear() // 0x1081DE40
 void InitializeIfNeeded() // 0x1081E010
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeIfNeeded@@YAXXZ");
-	// `anonymous-namespace'::InitializeIfNeeded
-	// procedure flags: nofpo
-	// static ...; // 0x1081E0BC
-	// static ...; // 0x1081E0B0
-	// static ...; // 0x1081E0A8
-		// bool exp;
 
 	{
 		bool exp = false;

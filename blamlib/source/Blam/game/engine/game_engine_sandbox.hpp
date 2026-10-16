@@ -64,7 +64,6 @@ extern _inline s_sandbox_globals *get_sandbox_globals();
 inline s_sandbox_globals *get_sandbox_globals() // 0x1067CD80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_sandbox_globals@@YAPAUs_sandbox_globals@@XZ");
-	// procedure flags: nofpo
 
 	return reinterpret_cast<s_sandbox_globals *>(tls_getd().game_engine_globals->engine_storage);
 }

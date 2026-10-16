@@ -64,7 +64,6 @@ extern bool (*const file_rename_wide)(s_file_reference *, wchar_t const *); // 0
 void invalidate_file_handle(s_file_handle *handle) // 0x10F00E40
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?invalidate_file_handle@@YAXPAUs_file_handle@@@Z");
-	// s_file_handle *handle;
 
 	handle->handle = 0xFFFFFFFF;
 }
@@ -72,7 +71,6 @@ void invalidate_file_handle(s_file_handle *handle) // 0x10F00E40
 bool file_is_open(s_file_reference const *reference) // 0x10F00DB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?file_is_open@@YA_NPBUs_file_reference@@@Z");
-	// s_file_reference const *reference;
 
 	return reference->handle && reference->handle != -1;
 }

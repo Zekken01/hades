@@ -50,7 +50,6 @@ namespace Job
 	void WaitForCounter(SJobCounter const *counter) // 0x1086D2A0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?WaitForCounter@Job@@YAXPBUSJobCounter@@@Z");
-		// SJobCounter const *counter;
 
 		while (counter->GetValue())
 		{

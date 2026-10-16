@@ -83,18 +83,6 @@ namespace Blam
 std::shared_ptr<CModPackageFileSystemView> CModPackageFileSystemViewManager::GetView(std::string const &identifier) // 0x10886210
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetView@CModPackageFileSystemViewManager@@QAE?AV?$shared_ptr@VCModPackageFileSystemView@@@std@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@3@@Z");
-	// static ...; // 0x1088652A
-	// static ...; // 0x1088651D
-	// static ...; // 0x10886518
-	// static ...; // 0x108864E8
-	// static ...; // 0x108864E0
-	// CModPackageFileSystemViewManager *const this;
-	// std::string const &identifier;
-	// std::scoped_lock<std::mutex> lock;
-	// c_mod_package_manager::s_entry packageEntry;
-	// c_mod_package_manager const &manager;
-		// std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<std::string const ,std::shared_ptr<CModPackageFileSystemView> > > > > it;
-		// unsigned char hash[20];
 
 	std::scoped_lock<std::mutex> lock(m_mutex);
 	if (auto it = m_views.find(identifier); it != std::end(m_views))
@@ -114,18 +102,6 @@ std::shared_ptr<CModPackageFileSystemView> CModPackageFileSystemViewManager::Get
 bool CModPackageFileSystemViewManager::ViewExists(std::string const &identifier) // 0x10886600
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ViewExists@CModPackageFileSystemViewManager@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-	// static ...; // 0x10886866
-	// static ...; // 0x10886859
-	// static ...; // 0x10886854
-	// static ...; // 0x10886824
-	// static ...; // 0x1088681C
-	// CModPackageFileSystemViewManager *const this;
-	// std::string const &identifier;
-	// std::scoped_lock<std::mutex> lock;
-	// c_mod_package_manager::s_entry packageEntry;
-	// c_mod_package_manager const &manager;
-		// std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<std::string const ,std::shared_ptr<CModPackageFileSystemView> > > > > it;
-		// unsigned char hash[20];
 
 	std::scoped_lock<std::mutex> lock(m_mutex);
 	if (auto it = m_views.find(identifier); it != std::end(m_views))
@@ -148,11 +124,6 @@ _inline CModPackageFileSystemView::~CModPackageFileSystemView() = default; // 0x
 void CModPackageFileSystemViewManager::Flush() // 0x10886170
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Flush@CModPackageFileSystemViewManager@@QAEXXZ");
-	// static ...; // 0x108861E8
-	// static ...; // 0x108861DC
-	// static ...; // 0x108861D4
-	// CModPackageFileSystemViewManager *const this;
-	// std::scoped_lock<std::mutex> lock;
 
 	std::scoped_lock<std::mutex> lock(m_mutex);
 	m_views.clear();

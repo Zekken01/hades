@@ -58,17 +58,6 @@ namespace Debug
 	void AssertHandle(char const *filename, char const *funcName, __int32 lineNum, char const *expr, char const *msg, ...) // 0x106D1810
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?AssertHandle@Debug@@YAXPBD0H00ZZ");
-		// char const *funcName;
-		// __int32 lineNum;
-		// char const *expr;
-		// char const *msg;
-		// __int32 msgLen;
-		// char messageBuff[8192];
-		// std::stringstream ss;
-		// unsigned long decision;
-			// char *va;
-		// function call : __int32 (HWND__ *, char const *, char const *, unsigned __int32)
-		// function call : void ()
 
 		char messageBuff[8192];
 		__int32 msgLen = 0;

@@ -144,7 +144,6 @@ namespace Patches
 		void ApplyAll() // 0x10AD1270
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Sprint@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			Hook(0x1442F4, player_examine_action_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x13E7B0, player_sprint_enter_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
@@ -153,7 +152,6 @@ namespace Patches
 		void SetState(__int32 state) // 0x10AD15D0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?SetState@Sprint@Patches@@YAXH@Z");
-			// __int32 state;
 
 			sprintState = state;
 		}
@@ -161,7 +159,6 @@ namespace Patches
 		__int32 GetState() // 0x10AD14B0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetState@Sprint@Patches@@YAHXZ");
-			// procedure flags: nofpo
 
 			return sprintState;
 		}
@@ -169,7 +166,6 @@ namespace Patches
 		void SetUnlimited(bool unlimited) // 0x10AD1600
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?SetUnlimited@Sprint@Patches@@YAX_N@Z");
-			// bool unlimited;
 
 			sprintUnlimited = unlimited;
 		}
@@ -177,7 +173,6 @@ namespace Patches
 		bool PlayerHasSprintTrait(long player_index) // 0x10AD1580
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?PlayerHasSprintTrait@Sprint@Patches@@YA_NJ@Z");
-			// long player_index;
 
 			return HasSprintPlayerTrait(player_index);
 		}
@@ -185,10 +180,6 @@ namespace Patches
 		void Tick() // 0x10AD1630
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@Sprint@Patches@@YAXXZ");
-			// procedure flags: nofpo
-				// long player_index;
-			// function call : bool (*const)()
-			// function call : unsigned long (*const)(long)
 
 			if (((bool(__cdecl *)())0x5314b0)())
 			{
@@ -202,17 +193,6 @@ namespace Patches
 		void UpdatePlayerSprint(long player_index) // 0x10AD1700
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?UpdatePlayerSprint@Sprint@Patches@@YAXJ@Z");
-			// long player_index;
-			// s_player_datum *player;
-				// s_unit_data *unitObject;
-				// s_unit_data *eqipObject;
-					// e_equipment_type equipment_type;
-						// float activeFraction;
-			// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-			// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-			// function call : e_equipment_type (*const)(long, long)
-			// function call : float (*const)(long)
-			// function call : long (*const)(long)
 
 			s_player_datum *player = player_get(player_index);
 			if (player)
@@ -243,9 +223,6 @@ namespace Patches
 bool HasSprintPlayerTrait(long player_index) // 0x10AD14D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?HasSprintPlayerTrait@@YA_NJ@Z");
-	// `anonymous-namespace'::HasSprintPlayerTrait
-	// long player_index;
-	// s_player_datum *player;
 
 	s_player_datum *player = player_get(player_index);
 
@@ -256,18 +233,6 @@ bool HasSprintPlayerTrait(long player_index) // 0x10AD14D0
 bool player_is_using_adrenaline(long player_index) // 0x10AD1B90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?player_is_using_adrenaline@@YA_NJ@Z");
-	// `anonymous-namespace'::player_is_using_adrenaline
-	// long player_index;
-	// s_player_datum *player;
-		// s_unit_data *unitObject;
-		// e_equipment_type equipment_type;
-		// s_unit_data *eqipObject;
-			// float activeFraction;
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : e_equipment_type (*const)(long, long)
-	// function call : float (*const)(long)
-	// function call : long (*const)(long)
 
 	s_player_datum *player = player_get(player_index);
 	if (player)
@@ -294,14 +259,6 @@ bool player_is_using_adrenaline(long player_index) // 0x10AD1B90
 bool player_can_sprint(long player_index) // 0x10AD1980
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?player_can_sprint@@YA_NJ@Z");
-	// `anonymous-namespace'::player_can_sprint
-	// long player_index;
-	// s_player_datum *player;
-	// bool (*const game_is_cooperative)();
-	// function call : bool (*const)(unsigned long)
-	// function call : bool (*)()
-	// function call : bool (*const)()
-	// function call : bool (*const)()
 
 	bool (__cdecl *const game_is_cooperative)() = (bool(__cdecl *const)())0x531a80;
 
@@ -333,10 +290,6 @@ bool player_can_sprint(long player_index) // 0x10AD1980
 void player_examine_action_hook(long player_index, long unit_index, s_player_action *action) // 0x10AD1B00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?player_examine_action_hook@@YAXJJPAUs_player_action@@@Z");
-	// `anonymous-namespace'::player_examine_action_hook
-	// s_player_action *action;
-	// constexpr void (*const `player_examine_action_hook'::`2'::player_examine_action)(long, long, s_player_action *); // constant == 5494048
-	// function call : void (*const)(long, long, s_player_action *)
 
 	if (!player_can_sprint(player_index))
 		action->control_flags &= -257;
@@ -347,19 +300,6 @@ void player_examine_action_hook(long player_index, long unit_index, s_player_act
 void player_sprint_enter_hook(long unit_index, e_unit_messages message) // 0x10AD1E10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?player_sprint_enter_hook@@YAXJW4e_unit_messages@@@Z");
-	// `anonymous-namespace'::player_sprint_enter_hook
-	// e_unit_messages message;
-	// void (*const unit_send_message_to_first_person)(long, e_unit_messages);
-	// void (*const weapon_stop_reload)(long, bool);
-	// bool (*const weapon_reloading)(long, long, short *);
-		// s_unit_data *unit;
-			// long i;
-				// long weapon_index;
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : long (*const)(long, short)
-	// function call : bool (*const)(long, long, short *)
-	// function call : void (*const)(long, bool)
-	// function call : void (*const)(long, e_unit_messages)
 
 	static long (*const unit_inventory_get_weapon)(long, short) = reinterpret_cast<long (*)(long, short)>(0xB454D0);
 	void (*const unit_send_message_to_first_person)(long, e_unit_messages) = reinterpret_cast<void (*)(long, e_unit_messages)>(0xBA5750);

@@ -78,7 +78,6 @@ static_assert(sizeof(Hook) == 28, "Invalid Hook size");
 inline void Patch::Apply(bool revert, Pointer offset) const // 0x107A9530
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Apply@Patch@@QBEX_NVPointer@@@Z");
-	// Pointer offset;
 
 	if (revert)
 	{
@@ -93,7 +92,6 @@ inline void Patch::Apply(bool revert, Pointer offset) const // 0x107A9530
 inline void Patch::Reset(Pointer offset) const // 0x107AB3C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Reset@Patch@@QBEXVPointer@@@Z");
-	// Pointer offset;
 
 	if (Orig.size())
 		offset(Offset, 1).Write(&Orig[0], Orig.size());
@@ -102,7 +100,6 @@ inline void Patch::Reset(Pointer offset) const // 0x107AB3C0
 inline void Patch::NopFill(Pointer offset, unsigned __int32 length) // 0x108E4200
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?NopFill@Patch@@SAXVPointer@@I@Z");
-	// unsigned __int32 length;
 
 	memset(offset, 0x90, length);
 }
@@ -110,7 +107,6 @@ inline void Patch::NopFill(Pointer offset, unsigned __int32 length) // 0x108E420
 inline void Hook::Apply(bool revert, Pointer offset) const // 0x10699840
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Apply@Hook@@QBEX_NVPointer@@@Z");
-	// Pointer offset;
 
 	if (revert)
 	{
@@ -127,7 +123,6 @@ inline void Hook::Apply(bool revert, Pointer offset) const // 0x10699840
 inline void Hook::Reset(Pointer offset) const // 0x10699DE0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Reset@Hook@@QBEXVPointer@@@Z");
-	// Pointer offset;
 
 	if (Orig.size())
 		offset(Offset, 1).Write(&Orig[0], Orig.size());

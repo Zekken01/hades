@@ -108,7 +108,6 @@ namespace Patches
 		void ApplyAll() // 0x1069E000
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Projectiles@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			Hook(0x77FAE6, projectile_update_translate_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x77DBB4, projectile_initial_update_translate_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
@@ -125,15 +124,6 @@ namespace Patches
 void projectile_translate_tick_delta(long projectile_index, bool force_30hz) // 0x1069E640
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?projectile_translate_tick_delta@@YAXJ_N@Z");
-	// `anonymous-namespace'::projectile_translate_tick_delta
-	// bool force_30hz;
-	// float tick_delta;
-	// s_projectile_data *const projectile;
-	// s_projectile_definition *const definition;
-	// function call : float (*const)()
-	// function call : void *(*const)(unsigned long, long)
-	// function call : long (*const)()
-	// function call : long (*const)()
 
 	float tick_delta = game_tick_length();
 	s_projectile_data *const projectile = object_get<s_projectile_data>(projectile_index);
@@ -152,8 +142,6 @@ void projectile_translate_tick_delta(long projectile_index, bool force_30hz) // 
 float projectile_translate_game_tick_length_hook() // 0x1069E620
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?projectile_translate_game_tick_length_hook@@YAMXZ");
-	// `anonymous-namespace'::projectile_translate_game_tick_length_hook
-	// procedure flags: nofpo
 
 	return g_projectile_translate_tick_delta;
 }
@@ -161,9 +149,6 @@ float projectile_translate_game_tick_length_hook() // 0x1069E620
 void projectile_update_translate_hook(long projectile_index, real_vector3d *unswept_velocity) // 0x1069E770
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?projectile_update_translate_hook@@YAXJPAUreal_vector3d@@@Z");
-	// `anonymous-namespace'::projectile_update_translate_hook
-	// real_vector3d *unswept_velocity;
-	// function call : void (*const)(long, real_vector3d *)
 
 	projectile_translate_tick_delta(projectile_index, 0);
 	((void(__cdecl *)(long, real_vector3d *))0xb7e800)(projectile_index, unswept_velocity);
@@ -172,9 +157,6 @@ void projectile_update_translate_hook(long projectile_index, real_vector3d *unsw
 void projectile_initial_update_translate_hook(long projectile_index, real_vector3d *unswept_velocity) // 0x1069E4F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?projectile_initial_update_translate_hook@@YAXJPAUreal_vector3d@@@Z");
-	// `anonymous-namespace'::projectile_initial_update_translate_hook
-	// real_vector3d *unswept_velocity;
-	// function call : void (*const)(long, real_vector3d *)
 
 	projectile_translate_tick_delta(projectile_index, 1);
 	((void(__cdecl *)(long, real_vector3d *))0xb7e800)(projectile_index, unswept_velocity);
@@ -183,13 +165,6 @@ void projectile_initial_update_translate_hook(long projectile_index, real_vector
 bool projectile_new_hook(long projectile_index, void *data) // 0x1069E560
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?projectile_new_hook@@YA_NJPAX@Z");
-	// `anonymous-namespace'::projectile_new_hook
-	// void *data;
-	// bool ret;
-	// char (*const projectile_new)(long, void *);
-	// s_projectile_data *const projectile;
-	// function call : char (*const)(long, void *)
-	// function call : long (*const)()
 
 	unsigned char (*const projectile_new)(long, void *) = reinterpret_cast<unsigned char (*)(long, void *)>(0xB7DDB0);
 	bool ret = projectile_new(projectile_index, data);

@@ -120,8 +120,6 @@ namespace Web
 		_inline SwapChain::Buffer::~Buffer() // 0x10C77A40
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "??1Buffer@SwapChain@Browser@Web@@QAE@XZ");
-			// Web::Browser::SwapChain::Buffer *const this;
-			// function call : unsigned long ()
 
 			texture->Release();
 			handle = nullptr;
@@ -130,7 +128,6 @@ namespace Web
 		_inline SwapChain::BufferHolder::BufferHolder(Web::Browser::SwapChain *owner, Web::Browser::SwapChain::Buffer *buffer) // 0x10C776C0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "??0BufferHolder@SwapChain@Browser@Web@@QAE@PAV123@PAUBuffer@123@@Z");
-			// Web::Browser::SwapChain::Buffer *buffer;
 
 			m_owner = owner;
 			m_buffer = (Buffer *)buffer;
@@ -139,7 +136,6 @@ namespace Web
 		_inline SwapChain::BufferHolder::BufferHolder() // 0x10C77700
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "??0BufferHolder@SwapChain@Browser@Web@@QAE@XZ");
-			// Web::Browser::SwapChain::BufferHolder *const this;
 
 			m_owner = nullptr;
 			m_buffer = nullptr;

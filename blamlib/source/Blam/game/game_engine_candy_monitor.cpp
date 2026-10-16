@@ -30,7 +30,6 @@ extern c_candy_monitor_manager *get_candy_monitor_manager();
 c_candy_monitor_manager *get_candy_monitor_manager() // 0x10F03560
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_candy_monitor_manager@@YAPAUc_candy_monitor_manager@@XZ");
-	// procedure flags: nofpo
 
 	return (c_candy_monitor_manager *)offset_pointer(*(void **)tls_get(72), 66972);
 }

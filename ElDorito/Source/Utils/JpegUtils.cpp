@@ -115,28 +115,6 @@ namespace Utils
 		void CompressBuf(std::vector<unsigned char> &dest, __int32 quality, unsigned char const *srcBits, __int32 width, __int32 height) // 0x10753AD0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?CompressBuf@Jpeg@Utils@@YAXAAV?$vector@EV?$allocator@E@std@@@std@@HPBEHH@Z");
-			// static ...; // 0x10753DD0
-			// static ...; // 0x10753DC8
-			// std::vector<unsigned char> &dest;
-			// __int32 quality;
-			// unsigned char const *srcBits;
-			// __int32 width;
-			// __int32 height;
-			// unsigned char *row;
-			// char err_mgr[132];
-			// std::unique_ptr<unsigned char [0]> row_buf;
-			// jpeg_compress_struct cinfo;
-				// unsigned char const *src;
-				// unsigned char *dest;
-					// __int32 i;
-			// function call : void *(*const)(void *)
-			// function call : __int32 (*const)(void *, __int32, unsigned __int32)
-			// function call : void (*const)(void *)
-			// function call : void (*const)(void *, __int32, bool)
-			// function call : void (*const)(void *, bool)
-			// function call : void (*const)(void *, unsigned char const *const *, unsigned __int32)
-			// function call : void (*const)(void *)
-			// function call : void (*const)(void *)
 
 			char err_mgr[132];
 			jpeg_compress_struct cinfo;
@@ -175,6 +153,7 @@ namespace Utils
 			((void (*const)(void *))0xD4C5F0)(&cinfo);
 		}
 
+#line 178
 		void CompressFile(std::wstring destFilename, __int32 quality, unsigned char const *srcBits, __int32 width, __int32 height) // 0x10753EF0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?CompressFile@Jpeg@Utils@@YAXV?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@HPBEHH@Z");
@@ -192,18 +171,11 @@ namespace Utils
 void init_stdvector_destination(jpeg_compress_struct *__formal) // 0x10754710
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?init_stdvector_destination@@YAXPAUjpeg_compress_struct@hades_file_local@@@Z");
-	// the original is empty
-	// `anonymous-namespace'::init_stdvector_destination
-	// jpeg_compress_struct *__formal;
 }
 
 bool empty_stdvector_output_buffer(jpeg_compress_struct *cinfo) // 0x10754630
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?empty_stdvector_output_buffer@@YA_NPAUjpeg_compress_struct@hades_file_local@@@Z");
-	// `anonymous-namespace'::empty_stdvector_output_buffer
-	// jpeg_compress_struct *cinfo;
-	// unsigned __int32 const currentSize;
-	// stdvector_destination_mgr *dest;
 
 	stdvector_destination_mgr *dest = (stdvector_destination_mgr *)cinfo->dest;
 	unsigned int currentSize = dest->vec->size();
@@ -216,10 +188,6 @@ bool empty_stdvector_output_buffer(jpeg_compress_struct *cinfo) // 0x10754630
 void term_stdvector_destination(jpeg_compress_struct *cinfo) // 0x10754950
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?term_stdvector_destination@@YAXPAUjpeg_compress_struct@hades_file_local@@@Z");
-	// `anonymous-namespace'::term_stdvector_destination
-	// jpeg_compress_struct *cinfo;
-	// stdvector_destination_mgr *dest;
-	// unsigned __int32 const used_bytes;
 
 	stdvector_destination_mgr *dest = (stdvector_destination_mgr *)cinfo->dest;
 	size_t newSize = dest->vec->capacity() - dest->pub.free_in_buffer;
@@ -229,10 +197,6 @@ void term_stdvector_destination(jpeg_compress_struct *cinfo) // 0x10754950
 void jpeg_stdvector_dest(jpeg_compress_struct *cinfo, std::vector<unsigned char> &vec) // 0x10754730
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?jpeg_stdvector_dest@@YAXPAUjpeg_compress_struct@hades_file_local@@AAV?$vector@EV?$allocator@E@std@@@std@@@Z");
-	// `anonymous-namespace'::jpeg_stdvector_dest
-	// std::vector<unsigned char> &vec;
-	// stdvector_destination_mgr *dest;
-	// function call : void *(*)(void *, __int32, unsigned __int32)
 
 	if (cinfo->dest == nullptr)
 	{

@@ -40,7 +40,6 @@ extern s_game_globals *game_globals_get();
 s_game_globals *game_globals_get() // 0x10F005C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?game_globals_get@@YAPAUs_game_globals@@XZ");
-	// procedure flags: nofpo
 
 	return *(s_game_globals * *)0x22aaeb8;
 }

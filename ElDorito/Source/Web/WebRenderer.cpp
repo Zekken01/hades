@@ -269,9 +269,6 @@ namespace Web
 		WebRenderer::WebRenderer() : m_Handler(nullptr), m_RenderHandler(nullptr), m_App(nullptr), m_State(RendererState_Disabled), m_HostWindow(nullptr), m_MainFrameLoaded(false), m_useOSR(false), m_cefPath(std::filesystem::absolute("bin\\cef")) /* hades-mem-init:  */ // 0x10CBA660
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "??0WebRenderer@Browser@Web@@QAE@XZ");
-			// Web::Browser::WebRenderer *const this;
-			// function call : __int32 (wchar_t const *)
-			// function call : HINSTANCE__ *(wchar_t const *)
 
 			Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Graphics, Utils::LogLevel::Info, "Web::Browser::WebRenderer::WebRenderer:26 - WebRenderer Ctor.");
 			SetDllDirectoryW(m_cefPath.wstring().c_str());
@@ -290,9 +287,6 @@ namespace Web
 		std::shared_ptr<Web::Browser::WebRenderer> WebRenderer::GetInstance() // 0x10CBDF10
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetInstance@WebRenderer@Browser@Web@@SA?AV?$shared_ptr@VWebRenderer@Browser@Web@@@std@@XZ");
-			// procedure flags: nofpo
-			// static std::shared_ptr<Web::Browser::WebRenderer> instance; // 0x1247EE1C
-			// static __int32 $TSS0; // 0x1247EE24
 
 			static std::shared_ptr<Web::Browser::WebRenderer> instance = std::make_shared<Web::Browser::WebRenderer>();
 			return instance;
@@ -311,7 +305,6 @@ namespace Web
 		std::string WebRenderer::GetUIDirectory() // 0x10CBE270
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetUIDirectory@WebRenderer@Browser@Web@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-			// Web::Browser::WebRenderer *const this;
 
 			return std::filesystem::absolute("ui").string();
 		}
@@ -319,7 +312,6 @@ namespace Web
 		bool WebRenderer::IsAccelerated() const // 0x10CC0D90
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?IsAccelerated@WebRenderer@Browser@Web@@QBE_NXZ");
-			// Web::Browser::WebRenderer const *const this;
 
 			if (!m_RenderHandler)
 			{
@@ -332,41 +324,6 @@ namespace Web
 		bool WebRenderer::Init(std::string const &url, bool debugEnable) // 0x10CBE930
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Init@WebRenderer@Browser@Web@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@_N@Z");
-			// static ...; // 0x10CC0279
-			// static ...; // 0x10CC0271
-			// static ...; // 0x10CC0268
-			// static ...; // 0x10CC0265
-			// static ...; // 0x10CC0255
-			// static ...; // 0x10CC024A
-			// static ...; // 0x10CC0247
-			// static ...; // 0x10CC0239
-			// static ...; // 0x10CC022D
-			// static ...; // 0x10CC0227
-			// static ...; // 0x10CC0220
-			// static ...; // 0x10CC0184
-			// static ...; // 0x10CC017C
-			// Web::Browser::WebRenderer *const this;
-			// std::string const &url;
-			// bool debugEnable;
-			// std::error_code ec;
-			// std::string uiDirectory;
-			// std::string logFile;
-			// std::filesystem::path cefCache;
-			// std::string containerPath;
-			// __int32 res;
-			// CefWindowInfo windowInfo;
-			// std::filesystem::path log_dir;
-			// CefStructBase<CefBrowserSettingsTraits> browserSettings;
-			// unsigned __int32 width;
-			// CefMainArgs mainArgs;
-			// CefStructBase<CefSettingsTraits> settings;
-			// unsigned __int32 height;
-				// tagRECT rc;
-			// function call : HINSTANCE__ *(char const *)
-			// function call : void *()
-			// function call : __int32 (void *, unsigned __int32)
-			// function call : void (unsigned __int32)
-			// function call : __int32 (HWND__ *, tagRECT *)
 
 			if (GetState() != RendererState_Startup)
 				return false;
@@ -493,13 +450,6 @@ namespace Web
 		bool WebRenderer::InitRenderer(IDirect3DDevice9 *device) // 0x10CC09F0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?InitRenderer@WebRenderer@Browser@Web@@QAE_NPAUIDirect3DDevice9@@@Z");
-			// static ...; // 0x10CC0C4C
-			// static ...; // 0x10CC0C44
-			// Web::Browser::WebRenderer *const this;
-			// IDirect3DDevice9 *device;
-			// _D3DDEVICE_CREATION_PARAMETERS d3dpp;
-			// HRESULT hr;
-			// function call : HRESULT (_D3DDEVICE_CREATION_PARAMETERS *)
 
 			if (GetState() != RendererState_Disabled)
 				return false;
@@ -533,8 +483,6 @@ namespace Web
 		bool WebRenderer::Render(IDirect3DDevice9 *device) // 0x10CC2510
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Render@WebRenderer@Browser@Web@@QAE_NPAUIDirect3DDevice9@@@Z");
-			// IDirect3DDevice9 *device;
-			// Web::Browser::RendererState state;
 
 			Web::Browser::RendererState state = GetState();
 			if (state != Web::Browser::RendererState_Overlay && state != Web::Browser::RendererState_Shown)
@@ -548,11 +496,6 @@ namespace Web
 		bool WebRenderer::Update() // 0x10CC3EB0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Update@WebRenderer@Browser@Web@@QAE_NXZ");
-			// static ...; // 0x10CC3FA4
-			// static ...; // 0x10CC3F98
-			// static ...; // 0x10CC3F90
-			// Web::Browser::WebRenderer *const this;
-			// std::shared_ptr<Web::Browser::Bridge::WebRendererQueryHandler> queryHandler;
 
 			if (!Initialized())
 				return false;
@@ -566,8 +509,6 @@ namespace Web
 		bool WebRenderer::Initialized() // 0x10CC0D00
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Initialized@WebRenderer@Browser@Web@@QAE_NXZ");
-			// Web::Browser::WebRenderer *const this;
-			// Web::Browser::RendererState state;
 
 			Web::Browser::RendererState state = GetState();
 			return state == Web::Browser::RendererState_Overlay || state == Web::Browser::RendererState_Shown || state == Web::Browser::RendererState_Hidden;
@@ -576,7 +517,6 @@ namespace Web
 		bool WebRenderer::IsRendering() // 0x10CC0E10
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?IsRendering@WebRenderer@Browser@Web@@QAE_NXZ");
-			// Web::Browser::WebRenderer *const this;
 
 			return GetState() == Web::Browser::RendererState_Overlay || GetState() == Web::Browser::RendererState_Shown;
 		}
@@ -584,17 +524,6 @@ namespace Web
 		bool WebRenderer::ShowRenderer(bool show, bool overlay) // 0x10CC3790
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ShowRenderer@WebRenderer@Browser@Web@@QAE_N_N0@Z");
-			// static ...; // 0x10CC3A70
-			// static ...; // 0x10CC3A68
-			// Web::Browser::WebRenderer *const this;
-			// bool show;
-			// bool overlay;
-			// Web::Browser::RendererState state;
-				// scoped_refptr<CefBrowser> browser;
-			// function call : scoped_refptr<CefBrowserHost> ()
-			// function call : void (bool)
-			// function call : scoped_refptr<CefBrowserHost> ()
-			// function call : void (bool)
 
 			Web::Browser::RendererState state = GetState();
 			if (state == RendererState_Hidden && show)
@@ -625,25 +554,6 @@ namespace Web
 		bool WebRenderer::Resize(unsigned __int32 width, unsigned __int32 height) // 0x10CC25C0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Resize@WebRenderer@Browser@Web@@QAE_NII@Z");
-			// static ...; // 0x10CC2A08
-			// Web::Browser::WebRenderer *const this;
-			// unsigned __int32 width;
-			// unsigned __int32 height;
-			// CefBrowser *browser;
-			// bool res;
-				// tagRECT rc;
-			// function call : __int32 (HWND__ *, tagRECT *)
-			// function call : scoped_refptr<CefBrowserHost> ()
-			// function call : HWND__ *()
-			// function call : __int32 (HWND__ *, HWND__ *, __int32, __int32, __int32, __int32, unsigned __int32)
-			// function call : scoped_refptr<CefBrowserHost> ()
-			// function call : void ()
-			// function call : scoped_refptr<CefBrowserHost> ()
-			// function call : void ()
-			// function call : scoped_refptr<CefBrowserHost> ()
-			// function call : void (cef_paint_element_type_t)
-			// function call : scoped_refptr<CefBrowserHost> ()
-			// function call : void (cef_paint_element_type_t)
 
 			if (!m_Handler)
 				return false;
@@ -673,10 +583,6 @@ namespace Web
 		bool WebRenderer::SendMouseMoveEvent(CefStructBase<CefMouseEventTraits> const &p_Event, bool p_MouseLeave) // 0x10CC2FE0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?SendMouseMoveEvent@WebRenderer@Browser@Web@@QAE_NABV?$CefStructBase@UCefMouseEventTraits@@@@_N@Z");
-			// bool p_MouseLeave;
-			// CefBrowser *browser;
-			// function call : scoped_refptr<CefBrowserHost> ()
-			// function call : void (CefStructBase<CefMouseEventTraits> const &, bool)
 
 			if (!m_Handler || !IsRendering())
 				return false;
@@ -690,13 +596,6 @@ namespace Web
 		bool WebRenderer::SendMouseClickEvent(CefStructBase<CefMouseEventTraits> const &event, cef_mouse_button_type_t button, bool mouseUp, __int32 clickCount) // 0x10CC2D70
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?SendMouseClickEvent@WebRenderer@Browser@Web@@QAE_NABV?$CefStructBase@UCefMouseEventTraits@@@@W4cef_mouse_button_type_t@@_NH@Z");
-			// CefStructBase<CefMouseEventTraits> const &event;
-			// cef_mouse_button_type_t button;
-			// bool mouseUp;
-			// __int32 clickCount;
-			// scoped_refptr<CefBrowser> browser;
-			// function call : scoped_refptr<CefBrowserHost> ()
-			// function call : void (CefStructBase<CefMouseEventTraits> const &, cef_mouse_button_type_t, bool, __int32)
 
 			if (clickCount < 1)
 				clickCount = 1;
@@ -714,13 +613,6 @@ namespace Web
 		bool WebRenderer::SendMouseWheelEvent(CefStructBase<CefMouseEventTraits> const &event, __int32 deltaX, __int32 deltaY) // 0x10CC31D0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?SendMouseWheelEvent@WebRenderer@Browser@Web@@QAE_NABV?$CefStructBase@UCefMouseEventTraits@@@@HH@Z");
-			// Web::Browser::WebRenderer *const this;
-			// CefStructBase<CefMouseEventTraits> const &event;
-			// __int32 deltaX;
-			// __int32 deltaY;
-			// scoped_refptr<CefBrowser> browser;
-			// function call : scoped_refptr<CefBrowserHost> ()
-			// function call : void (CefStructBase<CefMouseEventTraits> const &, __int32, __int32)
 
 			if (!m_Handler || !IsRendering())
 				return false;
@@ -734,13 +626,6 @@ namespace Web
 		bool WebRenderer::SendKeyEvent(CefStructBase<CefKeyEventTraits> const &p_Event) // 0x10CC2B40
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?SendKeyEvent@WebRenderer@Browser@Web@@QAE_NABV?$CefStructBase@UCefKeyEventTraits@@@@@Z");
-			// static ...; // 0x10CC2CEC
-			// static ...; // 0x10CC2CE4
-			// Web::Browser::WebRenderer *const this;
-			// CefStructBase<CefKeyEventTraits> const &p_Event;
-			// scoped_refptr<CefBrowser> browser;
-			// function call : scoped_refptr<CefBrowserHost> ()
-			// function call : void (CefStructBase<CefKeyEventTraits> const &)
 
 			if (!m_Handler || !IsRendering())
 				return false;
@@ -754,13 +639,6 @@ namespace Web
 		bool WebRenderer::SendPlatformEvent(CefStructBase<CefPlatformEventTraits> const &event) // 0x10CC3410
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?SendPlatformEvent@WebRenderer@Browser@Web@@QAE_NABV?$CefStructBase@UCefPlatformEventTraits@@@@@Z");
-			// static ...; // 0x10CC35BC
-			// static ...; // 0x10CC35B4
-			// Web::Browser::WebRenderer *const this;
-			// CefStructBase<CefPlatformEventTraits> const &event;
-			// scoped_refptr<CefBrowser> browser;
-			// function call : scoped_refptr<CefBrowserHost> ()
-			// function call : void (CefStructBase<CefPlatformEventTraits> const &)
 
 			if (!m_Handler || !IsRendering())
 				return false;
@@ -774,13 +652,6 @@ namespace Web
 		bool WebRenderer::OpenUrl(std::string const &p_Url) // 0x10CC1500
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?OpenUrl@WebRenderer@Browser@Web@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-			// static ...; // 0x10CC16D8
-			// static ...; // 0x10CC16D0
-			// Web::Browser::WebRenderer *const this;
-			// std::string const &p_Url;
-			// scoped_refptr<CefBrowser> browser;
-			// function call : scoped_refptr<CefFrame> ()
-			// function call : void (CefStringBase<CefStringTraitsUTF16> const &)
 
 			if (!m_Handler || !Initialized())
 				return false;
@@ -795,13 +666,6 @@ namespace Web
 		bool WebRenderer::Reload(bool p_IgnoreCache) // 0x10CC2330
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Reload@WebRenderer@Browser@Web@@QAE_N_N@Z");
-			// static ...; // 0x10CC249C
-			// static ...; // 0x10CC2494
-			// Web::Browser::WebRenderer *const this;
-			// bool p_IgnoreCache;
-			// scoped_refptr<CefBrowser> browser;
-			// function call : void ()
-			// function call : void ()
 
 			if (!m_Handler || !Initialized())
 				return false;
@@ -820,8 +684,6 @@ namespace Web
 		bool WebRenderer::RegisterScheme(std::string const &p_Name, std::string const &p_Directory) // 0x10CC1910
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?RegisterScheme@WebRenderer@Browser@Web@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z");
-			// std::string const &p_Directory;
-			// Web::Browser::WebRendererSchemeHandlerFactory *schemeHandlerFactory;
 
 			if (!std::filesystem::exists(p_Directory))
 				return false;
@@ -836,13 +698,6 @@ namespace Web
 		bool WebRenderer::ExecuteJavascript(std::string p_Code, bool deferIfNeeded) // 0x10CBD950
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ExecuteJavascript@WebRenderer@Browser@Web@@QAE_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@_N@Z");
-			// static ...; // 0x10CBDC1C
-			// Web::Browser::WebRenderer *const this;
-			// std::string p_Code;
-			// bool deferIfNeeded;
-			// scoped_refptr<CefBrowser> browser;
-			// function call : scoped_refptr<CefFrame> ()
-			// function call : void (CefStringBase<CefStringTraitsUTF16> const &, CefStringBase<CefStringTraitsUTF16> const &, __int32)
 
 			if (!m_Handler)
 				return false;
@@ -861,7 +716,6 @@ namespace Web
 		bool WebRenderer::PreReset() // 0x10CC17E0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?PreReset@WebRenderer@Browser@Web@@QAE_NXZ");
-			// Web::Browser::WebRenderer *const this;
 
 			if (m_RenderHandler)
 			{
@@ -874,7 +728,6 @@ namespace Web
 		bool WebRenderer::PostReset() // 0x10CC1770
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?PostReset@WebRenderer@Browser@Web@@QAE_NXZ");
-			// Web::Browser::WebRenderer *const this;
 
 			if (m_RenderHandler)
 			{
@@ -887,17 +740,6 @@ namespace Web
 		bool WebRenderer::Shutdown() // 0x10CC3B60
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Shutdown@WebRenderer@Browser@Web@@QAE_NXZ");
-			// static ...; // 0x10CC3DFC
-			// static ...; // 0x10CC3DF0
-			// static ...; // 0x10CC3DE8
-		// $LN15:
-		// $LN10:
-			// Web::Browser::WebRenderer *const this;
-			// scoped_refptr<CefBrowser> browser;
-			// function call : scoped_refptr<CefBrowserHost> ()
-			// function call : void (bool)
-			// function call : bool () const
-			// function call : void (unsigned long)
 
 			if (m_State == RendererState_Disabled || m_State == RendererState_Shutdown)
 				return false;
@@ -932,7 +774,6 @@ namespace Web
 		Web::Browser::RendererState WebRenderer::GetState() // 0x10CBE240
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetState@WebRenderer@Browser@Web@@QAE?AW4RendererState@23@XZ");
-			// Web::Browser::WebRenderer *const this;
 
 			return m_State;
 		}
@@ -940,7 +781,6 @@ namespace Web
 		bool WebRenderer::SetState(Web::Browser::RendererState p_State) // 0x10CC3730
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?SetState@WebRenderer@Browser@Web@@QAE_NW4RendererState@23@@Z");
-			// Web::Browser::RendererState p_State;
 
 			if (m_State == p_State)
 			{
@@ -964,7 +804,6 @@ namespace Web
 		scoped_refptr<Web::Browser::WebRendererHandler> WebRenderer::GetClientHandler() const // 0x10CBDE10
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetClientHandler@WebRenderer@Browser@Web@@QBE?AV?$scoped_refptr@VWebRendererHandler@Browser@Web@@@@XZ");
-			// Web::Browser::WebRenderer const *const this;
 
 			return m_Handler;
 		}
@@ -980,7 +819,6 @@ namespace Web
 		scoped_refptr<Web::Browser::WebRendererRenderHandler> WebRenderer::GetRenderHandler() const // 0x10CBE0C0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetRenderHandler@WebRenderer@Browser@Web@@QBE?AV?$scoped_refptr@VWebRendererRenderHandler@Browser@Web@@@@XZ");
-			// Web::Browser::WebRenderer const *const this;
 
 			return m_RenderHandler;
 		}
@@ -988,7 +826,6 @@ namespace Web
 		void WebRenderer::InitPakFileSystem() // 0x10CC08F0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?InitPakFileSystem@WebRenderer@Browser@Web@@AAEXXZ");
-			// Web::Browser::WebRenderer *const this;
 
 			RegisterScheme("pak", "mods");
 		}
@@ -996,11 +833,6 @@ namespace Web
 		void WebRenderer::PurgeDOMTasks() // 0x10CC1850
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?PurgeDOMTasks@WebRenderer@Browser@Web@@AAEXXZ");
-			// static ...; // 0x10CC18E0
-			// static ...; // 0x10CC18D4
-			// static ...; // 0x10CC18CC
-			// Web::Browser::WebRenderer *const this;
-			// std::scoped_lock<std::mutex> lock;
 
 			std::scoped_lock<std::mutex> lock(m_mutex);
 
@@ -1013,11 +845,6 @@ namespace Web
 		void WebRenderer::EnqueueDOMTask(std::function<void __cdecl(void)> &&task) // 0x10CBD670
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?EnqueueDOMTask@WebRenderer@Browser@Web@@QAEX$$QAV?$function@$$A6AXXZ@std@@@Z");
-			// static ...; // 0x10CBD734
-			// static ...; // 0x10CBD72C
-			// Web::Browser::WebRenderer *const this;
-			// std::function<void __cdecl(void)> &task;
-			// std::scoped_lock<std::mutex> lock;
 
 			std::scoped_lock<std::mutex> lock(m_mutex);
 			m_DomTasks.push(std::move(task));
@@ -1026,13 +853,6 @@ namespace Web
 		void WebRenderer::ExecuteDOMTasks() // 0x10CBD780
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ExecuteDOMTasks@WebRenderer@Browser@Web@@AAEXXZ");
-			// static ...; // 0x10CBD8E6
-			// static ...; // 0x10CBD8E0
-			// static ...; // 0x10CBD8C8
-			// static ...; // 0x10CBD8C0
-			// Web::Browser::WebRenderer *const this;
-			// std::unique_lock<std::mutex> lock;
-			// std::queue<std::function<void __cdecl(void)> > tasks;
 
 			std::unique_lock<std::mutex> lock(m_mutex);
 			std::queue<std::function<void __cdecl(void)> > tasks(std::move(m_DomTasks));
@@ -1049,8 +869,6 @@ namespace Web
 		void WebRenderer::OnFrameLoadStart(scoped_refptr<CefBrowser> browser, scoped_refptr<CefFrame> frame) // 0x10CC12A0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?OnFrameLoadStart@WebRenderer@Browser@Web@@QAEXV?$scoped_refptr@VCefBrowser@@@@V?$scoped_refptr@VCefFrame@@@@@Z");
-			// scoped_refptr<CefFrame> frame;
-			// function call : bool ()
 
 			if (frame->IsMain())
 				m_MainFrameLoaded.store(false);
@@ -1059,8 +877,6 @@ namespace Web
 		void WebRenderer::OnFrameLoadEnd(scoped_refptr<CefBrowser> browser, scoped_refptr<CefFrame> frame) // 0x10CC1190
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?OnFrameLoadEnd@WebRenderer@Browser@Web@@QAEXV?$scoped_refptr@VCefBrowser@@@@V?$scoped_refptr@VCefFrame@@@@@Z");
-			// scoped_refptr<CefFrame> frame;
-			// function call : bool ()
 
 			if (frame->IsMain())
 			{

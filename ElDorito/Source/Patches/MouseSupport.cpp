@@ -223,7 +223,6 @@ namespace Patches
 		void ApplyAll() // 0x108D3B60
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@MouseSupport@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			Hook(0x684F49, MouseSupportUpdate, static_cast<__int32>(HookFlags::IsCall)).Apply();
 		}
@@ -231,10 +230,6 @@ namespace Patches
 		void NotifyMouseMove(__int32 x, __int32 y) // 0x108D5390
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?NotifyMouseMove@MouseSupport@Patches@@YAXHH@Z");
-			// __int32 y;
-			// float deltaSquared;
-			// __int32 deltaX;
-			// __int32 deltaY;
 
 			int deltaX = abs(x - globalMouseX);
 			int deltaY = abs(y - globalMouseY);
@@ -251,12 +246,6 @@ namespace Patches
 void SetMouseContext(EMouseContext ctx) // 0x108D5630
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SetMouseContext@@YAXW4EMouseContext@hades_file_local@@@Z");
-	// `anonymous-namespace'::SetMouseContext
-	// EMouseContext ctx;
-	// static EMouseContext `SetMouseContext'::`2'::lastCtx; // 0x11352D84
-		// c_gui_screen_widget *activeScreen;
-		// bool tagUiOpen;
-			// c_gui_widget *focusedWidget;
 
 	static EMouseContext lastCtx = Game;
 	if (ctx != lastCtx)
@@ -278,17 +267,6 @@ void SetMouseContext(EMouseContext ctx) // 0x108D5630
 void MouseSupportUpdate() // 0x108D50B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?MouseSupportUpdate@@YAXXZ");
-	// `anonymous-namespace'::MouseSupportUpdate
-	// procedure flags: nofpo
-	// static ...; // 0x108D52F0
-	// static ...; // 0x108D52E4
-	// static ...; // 0x108D52DC
-	// static SMouseSupportContext `MouseSupportUpdate'::`2'::ctx; // 0x12408364
-	// bool isDebug;
-	// c_gui_screen_widget *activeScreen;
-		// CDebugDraw dd;
-		// c_gui_widget *focusedWidget;
-	// function call : HWND__ *()
 
 	static SMouseSupportContext ctx;
 	bool isDebug = Utils::Singleton<Modules::ModuleDebug>::Instance().VarMouseSupport->ValueInt != 0;
@@ -330,14 +308,6 @@ void MouseSupportUpdate() // 0x108D50B0
 void ScrollListWidget(c_gui_screen_widget *screenWidget, c_gui_list_widget *listWidget, __int32 amount) // 0x108D54F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ScrollListWidget@@YAXPAVc_gui_screen_widget@@PAVc_gui_list_widget@@H@Z");
-	// `anonymous-namespace'::ScrollListWidget
-	// __int32 amount;
-	// long &visibleItemCount;
-	// c_gui_data *data;
-	// long &pageOffset;
-	// long newIndex;
-	// long dataItemCount;
-	// function call : long ()
 
 	if (!amount)
 		return;
@@ -365,13 +335,6 @@ void ScrollListWidget(c_gui_screen_widget *screenWidget, c_gui_list_widget *list
 bool HandleScreen(c_gui_screen_widget *screenWidget, SMouseSupportContext &ctx) // 0x108D48A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleScreen@@YA_NPAVc_gui_screen_widget@@AAUSMouseSupportContext@hades_file_local@@@Z");
-	// `anonymous-namespace'::HandleScreen
-	// SMouseSupportContext &ctx;
-	// c_gui_widget *focusedWidget;
-	// static long `HandleScreen'::`2'::lastScreenWidgetName; // 0x11352D88
-		// c_gui_list_widget *listWidget;
-			// __int32 amount;
-			// long index;
 
 	if (ctx.rightButtonDownTicks == 1)
 	{
@@ -412,10 +375,6 @@ bool HandleScreen(c_gui_screen_widget *screenWidget, SMouseSupportContext &ctx) 
 bool HandleListWidgets(c_gui_screen_widget *screenWidget, SMouseSupportContext &ctx, c_gui_widget *parentWidget) // 0x108D47A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleListWidgets@@YA_NPAVc_gui_screen_widget@@AAUSMouseSupportContext@hades_file_local@@PAVc_gui_widget@@@Z");
-	// `anonymous-namespace'::HandleListWidgets
-	// c_gui_widget *parentWidget;
-	// bool handled;
-		// c_gui_widget *widget;
 
 	bool handled = false;
 
@@ -446,20 +405,6 @@ bool HandleListWidgets(c_gui_screen_widget *screenWidget, SMouseSupportContext &
 bool HandleListWidget(c_gui_screen_widget *screenWidget, c_gui_list_widget *listWidget, SMouseSupportContext &ctx) // 0x108D3FD0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleListWidget@@YA_NPAVc_gui_screen_widget@@PAVc_gui_list_widget@@AAUSMouseSupportContext@hades_file_local@@@Z");
-	// `anonymous-namespace'::HandleListWidget
-	// static ...; // 0x108D45EC
-	// static ...; // 0x108D45E4
-	// c_gui_screen_widget *screenWidget;
-	// c_gui_list_widget *listWidget;
-	// SMouseSupportContext &ctx;
-	// bool isDebug;
-	// bool handled;
-	// c_gui_list_item_widget *listItem;
-		// CDebugDraw dd;
-		// real_rectangle2d bounds;
-			// bool isTransitioning;
-			// long transitionStateFlags;
-			// c_gui_widget *focused_widget;
 
 	bool isDebug = Utils::Singleton<Modules::ModuleDebug>::Instance().VarMouseSupport->ValueInt != 0;
 	bool handled = false;
@@ -534,16 +479,6 @@ bool HandleListWidget(c_gui_screen_widget *screenWidget, c_gui_list_widget *list
 bool HandleSpinnerListWidgetFocus(c_gui_screen_widget *screenWidget, c_gui_list_widget *listWidget, SMouseSupportContext &ctx) // 0x108D4A60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleSpinnerListWidgetFocus@@YA_NPAVc_gui_screen_widget@@PAVc_gui_list_widget@@AAUSMouseSupportContext@hades_file_local@@@Z");
-	// `anonymous-namespace'::HandleSpinnerListWidgetFocus
-	// SMouseSupportContext &ctx;
-	// c_gui_widget *focusedParent;
-	// void (*const animateArrowButton)(c_gui_list_widget *, c_gui_widget *, __int32);
-	// c_gui_widget *focused;
-		// __int32 amount;
-		// c_gui_data *data;
-		// long index;
-		// long dataItemCount;
-	// function call : long ()
 
 	void (*const animateArrowButton)(c_gui_list_widget *, c_gui_widget *, __int32) = reinterpret_cast<void (*)(c_gui_list_widget *, c_gui_widget *, __int32)>(0xB157F0);
 	c_gui_widget *focused = screenWidget->get_focused_widget();
@@ -573,12 +508,6 @@ bool HandleSpinnerListWidgetFocus(c_gui_screen_widget *screenWidget, c_gui_list_
 void ComputeListItemBounds(c_gui_list_item_widget *itemWidget, real_rectangle2d &bounds) // 0x108D3CC0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ComputeListItemBounds@@YAXPAVc_gui_list_item_widget@@AAUreal_rectangle2d@@@Z");
-	// `anonymous-namespace'::ComputeListItemBounds
-	// static ...; // 0x108D3D84
-	// static ...; // 0x108D3D7C
-	// c_gui_list_item_widget *itemWidget;
-	// real_rectangle2d &bounds;
-	// real_point2d anchorPos;
 
 	ComputeWidgetBounds(itemWidget, &bounds, [](auto const &widget)
 	{
@@ -594,8 +523,6 @@ void ComputeListItemBounds(c_gui_list_item_widget *itemWidget, real_rectangle2d 
 void UpdateMouseMovementTracking(SMouseSupportContext &state) // 0x108D5970
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateMouseMovementTracking@@YAXAAUSMouseSupportContext@hades_file_local@@@Z");
-	// `anonymous-namespace'::UpdateMouseMovementTracking
-	// SMouseSupportContext &state;
 
 	if (globalMouseMoveDelta > 0.00001f)
 	{
@@ -622,10 +549,6 @@ void UpdateMouseMovementTracking(SMouseSupportContext &state) // 0x108D5970
 void UpdateMouseState(SMouseSupportContext &state) // 0x108D5A20
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateMouseState@@YAXAAUSMouseSupportContext@hades_file_local@@@Z");
-	// `anonymous-namespace'::UpdateMouseState
-	// SMouseSupportContext &state;
-	// unsigned long *clientResolution;
-	// unsigned long *renderBoundaries;
 
 	unsigned long *clientResolution = (unsigned long *)0x19106D0;
 	unsigned long *renderBoundaries = (unsigned long *)0x19106E4;
@@ -642,14 +565,6 @@ void UpdateMouseState(SMouseSupportContext &state) // 0x108D5A20
 void ComputeWidgetBounds(c_gui_widget *widget, real_rectangle2d *accumulatedBounds, bool (*childFilter)(c_gui_widget const &)) // 0x108D3DD0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ComputeWidgetBounds@@YAXPAVc_gui_widget@@PAUreal_rectangle2d@@P6A_NABV1@@Z@Z");
-	// `anonymous-namespace'::ComputeWidgetBounds
-	// static ...; // 0x108D3F4C
-	// c_gui_widget *widget;
-	// real_rectangle2d *accumulatedBounds;
-	// bool (*childFilter)(c_gui_widget const &);
-	// c_gui_widget *child;
-		// real_rectangle2d bounds;
-	// function call : bool (*)(c_gui_widget const &)
 
 	c_gui_widget *child;
 
@@ -688,24 +603,6 @@ void ComputeWidgetBounds(c_gui_widget *widget, real_rectangle2d *accumulatedBoun
 void MapWidgetBoundsToWindowCoords(real_rectangle2d const &windowBounds, real_rectangle2d &widgetBounds) // 0x108D4BE0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?MapWidgetBoundsToWindowCoords@@YAXABUreal_rectangle2d@@AAU1@@Z");
-	// `anonymous-namespace'::MapWidgetBoundsToWindowCoords
-	// static ...; // 0x108D4F95
-	// static ...; // 0x108D4F88
-	// static ...; // 0x108D4F64
-	// static ...; // 0x108D4F5C
-	// real_rectangle2d const &windowBounds;
-	// real_rectangle2d &widgetBounds;
-	// long (*const interface_get_closest_authored_ui_aspect_ratio)();
-	// float ui_aspect_ratio;
-	// float window_height;
-	// float ui_tag_resolutions[2][2];
-	// long *ui_resolution;
-	// float widescreen_factor;
-	// float window_width;
-	// long display_mode;
-	// real_point2d window_scale;
-	// real_point2d ui_scale;
-	// function call : long (*const)()
 
 	long (*const interface_get_closest_authored_ui_aspect_ratio)() = reinterpret_cast<long (*)()>(0xA9F980);
 	long display_mode = interface_get_closest_authored_ui_aspect_ratio();
@@ -742,8 +639,6 @@ void MapWidgetBoundsToWindowCoords(real_rectangle2d const &windowBounds, real_re
 bool RectangleContainsPoint(real_rectangle2d const &rect, real_point2d const &point) // 0x108D5460
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?RectangleContainsPoint@@YA_NABUreal_rectangle2d@@ABUreal_point2d@@@Z");
-	// `anonymous-namespace'::RectangleContainsPoint
-	// real_point2d const &point;
 
 	return point.x >= rect.x0 && rect.x1 >= point.x && point.y >= rect.y0 && rect.y1 >= point.y;
 }

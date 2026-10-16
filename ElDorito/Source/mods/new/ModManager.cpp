@@ -99,7 +99,6 @@ template<typename Method, typename ...Args> void Notify(Method &&method, Args &&
 ModManager::ModManager() : m_sessionManager(*this) /* hades-mem-init: : m_sessionManager(todo_result<ModSessionManager>()) */ // 0x10791060
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0ModManager@@QAE@XZ");
-	// ModManager *const this;
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??1ModListenerSet@@QAE@XZ"); no body to assert in
@@ -108,9 +107,9 @@ _inline ModListenerSet::~ModListenerSet() = default; // 0x10791420
 ModManager::~ModManager() // 0x10791490
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??1ModManager@@UAE@XZ");
-	// ModManager *const this;
 }
 
+#line 114
 EModResult ModManager::SetMod(EModIndex index, char const *filename, bool async) // 0x10792110
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SetMod@ModManager@@UAE?AW4EModResult@@W4EModIndex@@PBD_N@Z");
@@ -201,11 +200,11 @@ EModResult ModManager::SetModCache(EModIndex index, __int32 cacheIndex, bool asy
 Ref<IMod> ModManager::GetModShared(EModIndex index) const // 0x10791D90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetModShared@ModManager@@UBE?AV?$Ref@VIMod@@@@W4EModIndex@@@Z");
-	// EModIndex index;
 
 	return m_mods[index];
 }
 
+#line 209
 IMod *ModManager::GetMod(EModIndex index) const // 0x10791CF0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetMod@ModManager@@UBEPAVIMod@@W4EModIndex@@@Z");
@@ -220,7 +219,6 @@ IMod *ModManager::GetMod(EModIndex index) const // 0x10791CF0
 void ModManager::AddListener(IModListener *listener) // 0x10791C50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?AddListener@ModManager@@UAEXPAVIModListener@@@Z");
-	// IModListener *listener;
 
 	m_listeners.Add(listener);
 }
@@ -228,7 +226,6 @@ void ModManager::AddListener(IModListener *listener) // 0x10791C50
 void ModManager::RemoveListener(IModListener *listener) // 0x10792040
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?RemoveListener@ModManager@@UAEXPAVIModListener@@@Z");
-	// IModListener *listener;
 
 	m_listeners.Remove(listener);
 }
@@ -236,7 +233,6 @@ void ModManager::RemoveListener(IModListener *listener) // 0x10792040
 void ModManager::SetMainThread() // 0x107920B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SetMainThread@ModManager@@QAEXXZ");
-	// ModManager *const this;
 
 	m_mainThreadId = std::this_thread::get_id();
 }
@@ -244,7 +240,6 @@ void ModManager::SetMainThread() // 0x107920B0
 bool ModManager::IsMainThread() const // 0x10791E10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?IsMainThread@ModManager@@QBE_NXZ");
-	// ModManager const *const this;
 
 	return std::this_thread::get_id() == m_mainThreadId;
 }
@@ -252,7 +247,6 @@ bool ModManager::IsMainThread() const // 0x10791E10
 void ModManager::Tick() // 0x107926C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@ModManager@@UAEXXZ");
-	// ModManager *const this;
 
 	m_sessionManager.Tick();
 }
@@ -260,8 +254,6 @@ void ModManager::Tick() // 0x107926C0
 void ModManager::OnModLoadStateChanged(Mod *mod) // 0x10791EA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnModLoadStateChanged@ModManager@@EAEXPAVMod@@@Z");
-	// __shifted(ModManager, 4);
-	// Mod *mod;
 
 	m_listeners.Notify(&IModListener::OnModLoadStateChangedAsync, mod->GetIndex(), mod);
 }

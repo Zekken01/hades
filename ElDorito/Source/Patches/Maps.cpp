@@ -204,8 +204,6 @@ namespace Patches
 		void ApplyAll() // 0x10A87700
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Maps@Patches@@YAXXZ");
-			// procedure flags: nofpo
-			// function call : void (IModListener *)
 
 			Pointer(0x54AD9C).Write<unsigned int>(reinterpret_cast<unsigned int>(levels_enumerate_hook));
 			Hook(0x6A81CF, c_map_variant_initialize_default_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
@@ -228,8 +226,6 @@ namespace Patches
 _inline void ModListener::OnModChanged(EModIndex index, IMod *mod) // 0x10A88240
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnModChanged@ModListener@hades_file_local@@UAEXW4EModIndex@@PAVIMod@@@Z");
-	// `anonymous-namespace'::ModListener::OnModChanged
-	// IMod *mod;
 
 	levels_clear_and_enumerate_async();
 }
@@ -237,19 +233,6 @@ _inline void ModListener::OnModChanged(EModIndex index, IMod *mod) // 0x10A88240
 bool verify_against_multiplayer_levels_hook(wchar_t const *name) // 0x10A893B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?verify_against_multiplayer_levels_hook@@YA_NPB_W@Z");
-	// `anonymous-namespace'::verify_against_multiplayer_levels_hook
-	// static ...; // 0x10A894EC
-	// static ...; // 0x10A894E4
-	// static ...; // 0x10A894D8
-	// static ...; // 0x10A894B4
-	// static ...; // 0x10A894AC
-	// wchar_t const *name;
-	// long map_ids[100];
-	// long map_id_count;
-		// long i;
-			// s_level_datum level_datum;
-	// function call : long *(*const)(long *, long *)
-	// function call : bool (*const)(long, s_level_datum *)
 
 	static long *(*const levels_get_multiplayer_map_ids)(long *, long *) = reinterpret_cast<long *(*)(long *, long *)>(0x54BEE0);
 	long map_id_count = 100;
@@ -267,8 +250,6 @@ bool verify_against_multiplayer_levels_hook(wchar_t const *name) // 0x10A893B0
 unsigned long levels_get_available_map_mask_hook() // 0x10A88E40
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?levels_get_available_map_mask_hook@@YAKXZ");
-	// `anonymous-namespace'::levels_get_available_map_mask_hook
-	// procedure flags: nofpo
 
 	return 0;
 }
@@ -276,8 +257,6 @@ unsigned long levels_get_available_map_mask_hook() // 0x10A88E40
 void __fastcall c_map_variant_initialize_default_hook(s_map_variant *thisptr, void *unused, long mapId) // 0x10A88290
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_map_variant_initialize_default_hook@@YIXPAUs_map_variant@@PAXJ@Z");
-	// `anonymous-namespace'::c_map_variant_initialize_default_hook
-	// long mapId;
 
 	c_map_variant_loader::load_default(mapId, thisptr);
 }
@@ -285,33 +264,6 @@ void __fastcall c_map_variant_initialize_default_hook(s_map_variant *thisptr, vo
 bool levels_add_map_impl(s_file_reference *file_reference, char const *maps_path) // 0x10A882F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?levels_add_map_impl@@YA_NPAUs_file_reference@@PBD@Z");
-	// `anonymous-namespace'::levels_add_map_impl
-	// static ...; // 0x10A885C8
-	// static ...; // 0x10A885BD
-	// static ...; // 0x10A885B3
-	// static ...; // 0x10A885A4
-	// static ...; // 0x10A88568
-	// static ...; // 0x10A88560
-	// s_file_reference *file_reference;
-	// char const *maps_path;
-	// unsigned long last_error;
-	// unsigned long map_blf_offset;
-	// unsigned char *map_blf;
-	// unsigned long map_blf_size;
-	// bool success;
-	// unsigned char const *levl_data;
-	// s_blf_chunk_header mapv_chunk;
-	// unsigned long levl_data_size;
-	// unsigned long file_size;
-		// s_blf_map_information *map_info;
-	// function call : bool (*const)(s_file_reference *, unsigned long *)
-	// function call : bool (*const)(s_file_reference *, c_flags<enum e_file_permission_flags,long>, unsigned long *)
-	// function call : bool (*const)(s_file_reference *, unsigned long, bool, void *)
-	// function call : bool (*const)(s_file_reference *)
-	// function call : bool (*const)(s_cache_file_header *, char const *, bool)
-	// function call : bool (*const)(s_file_reference *)
-	// function call : void (*const)(s_blf_map_information *, bool, char const *, bool)
-	// function call : bool (*const)(s_file_reference *)
 
 	bool success = false;
 	unsigned long last_error;
@@ -353,20 +305,6 @@ bool levels_add_map_impl(s_file_reference *file_reference, char const *maps_path
 bool load_mod_package_campaigns(char const *virtual_path, c_mod_package *mod_package) // 0x10A88E60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?load_mod_package_campaigns@@YA_NPBDPAVc_mod_package@@@Z");
-	// `anonymous-namespace'::load_mod_package_campaigns
-	// static ...; // 0x10A88FEF
-	// static ...; // 0x10A88FE6
-	// static ...; // 0x10A88FDC
-	// static ...; // 0x10A88FAC
-	// static ...; // 0x10A88FA4
-	// char const *virtual_path;
-	// c_mod_package *mod_package;
-	// bool byte_swap;
-	// s_blf_campaign campaign;
-	// c_mod_package *game_mod;
-	// c_file_reference file;
-	// c_file_open_scope scope;
-	// function call : bool (*const)(s_blf_campaign *, bool, char const *, bool)
 
 	c_mod_package *game_mod = mod_package;
 	c_file_reference file = game_mod->get_file();
@@ -384,24 +322,6 @@ bool load_mod_package_campaigns(char const *virtual_path, c_mod_package *mod_pac
 bool load_mod_package_maps(char const *virtual_path, c_mod_package *mod_package, __int32 type_mask) // 0x10A89060
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?load_mod_package_maps@@YA_NPBDPAVc_mod_package@@H@Z");
-	// `anonymous-namespace'::load_mod_package_maps
-	// static ...; // 0x10A892EC
-	// static ...; // 0x10A892C8
-	// static ...; // 0x10A892C0
-	// char const *virtual_path;
-	// c_mod_package *mod_package;
-	// __int32 type_mask;
-	// bool byte_swap;
-	// long map_count;
-	// c_mod_package *game_mod;
-	// c_file_reference file;
-	// c_file_open_scope scope;
-		// __int32 i;
-			// short map_type;
-			// s_mod_package_map_file_entry const *entry;
-			// static s_blf_map_information `load_mod_package_maps'::`4'::blf_map_information; // 0x12458EA0
-			// static __int32 `load_mod_package_maps'::`4'::$TSS0; // 0x12462760
-	// function call : void (*const)(s_blf_map_information *, bool, char const *, bool)
 
 	c_mod_package *game_mod = mod_package;
 	c_file_reference file = game_mod->get_file();
@@ -431,39 +351,6 @@ bool load_mod_package_maps(char const *virtual_path, c_mod_package *mod_package,
 long levels_enumerate_hook(s_levels_enumerate_async_data *data) // 0x10A886A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?levels_enumerate_hook@@YAJPAUs_levels_enumerate_async_data@hades_file_local@@@Z");
-	// `anonymous-namespace'::levels_enumerate_hook
-	// static ...; // 0x10A88CA7
-	// static ...; // 0x10A88C9D
-	// static ...; // 0x10A88C93
-	// static ...; // 0x10A88C84
-	// static ...; // 0x10A88C80
-	// static ...; // 0x10A88C7C
-	// static ...; // 0x10A88C34
-	// static ...; // 0x10A88C2C
-	// s_levels_enumerate_async_data *data;
-	// wchar_t extension[256];
-	// char directory_ascii[256];
-	// s_file_reference file_reference;
-	// wchar_t directory[256];
-		// Ref<IMod> mod;
-			// c_mod_package *pak;
-		// s_file_reference *maps_directory_file_reference;
-	// function call : bool (*const)(s_find_file_data *, s_file_reference *, s_file_time *)
-	// function call : void (*const)(s_find_file_data *)
-	// function call : char *(*const)(s_file_reference *, c_flags<enum e_file_reference_flags,long>, char *, long)
-	// function call : wchar_t *(*const)(s_file_reference *, c_flags<enum e_file_reference_flags,long>, wchar_t *, long)
-	// function call : wchar_t *(*const)(s_file_reference *, c_flags<enum e_file_reference_flags,long>, wchar_t *, long)
-	// function call : void (*const)(s_file_reference *, char *)
-	// function call : bool (*const)(s_file_reference *, wchar_t *, bool)
-	// function call : Ref<IMod> (EModIndex) const
-	// function call : bool () const
-	// function call : c_mod_package *(bool) const
-	// function call : Ref<IMod> (EModIndex) const
-	// function call : bool () const
-	// function call : c_mod_package *(bool) const
-	// function call : char const *(*const)()
-	// function call : s_file_reference *(*const)(s_file_reference *, char const *, bool)
-	// function call : void (*const)(s_find_file_data *, unsigned long, s_file_reference *)
 
 	char directory_ascii[256];
 	wchar_t directory[256];

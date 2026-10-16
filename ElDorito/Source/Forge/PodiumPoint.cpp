@@ -58,13 +58,6 @@ namespace Forge
 		long FindPodiumObject() // 0x10698120
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?FindPodiumObject@PodiumPoint@Forge@@YAJXZ");
-			// procedure flags: nofpo
-			// static ...; // 0x106981F4
-			// static ...; // 0x106981E8
-			// static ...; // 0x106981E0
-			// c_data_array<s_object_header> *object_headers;
-			// s_forge_globals_definition const *forge_globals;
-				// c_data_iterator<s_object_header> it;
 
 			s_forge_globals_definition const *forge_globals = forge_globals_get_definition();
 			if (!forge_globals)

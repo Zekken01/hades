@@ -65,7 +65,6 @@ static_assert(sizeof(c_rasterizer_index_buffer) == 16, "Invalid c_rasterizer_ind
 inline unsigned char c_rasterizer_vertex_buffer::get_vertex_stride() const // 0x108EFEC0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_vertex_stride@c_rasterizer_vertex_buffer@@QBEEXZ");
-	// c_rasterizer_vertex_buffer const *const this;
 
 	return vertex_stride;
 }
@@ -73,7 +72,6 @@ inline unsigned char c_rasterizer_vertex_buffer::get_vertex_stride() const // 0x
 inline short c_rasterizer_vertex_buffer::get_vertex_count() const // 0x108EFE90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_vertex_count@c_rasterizer_vertex_buffer@@QBEFXZ");
-	// c_rasterizer_vertex_buffer const *const this;
 
 	return vertex_count;
 }
@@ -81,7 +79,6 @@ inline short c_rasterizer_vertex_buffer::get_vertex_count() const // 0x108EFE90
 inline IDirect3DVertexBuffer9 *c_rasterizer_vertex_buffer::get_d3d_buffer() // 0x107BF780
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_d3d_buffer@c_rasterizer_vertex_buffer@@QAEPAUIDirect3DVertexBuffer9@@XZ");
-	// c_rasterizer_vertex_buffer *const this;
 
 	return d3d_buffer;
 }
@@ -89,7 +86,6 @@ inline IDirect3DVertexBuffer9 *c_rasterizer_vertex_buffer::get_d3d_buffer() // 0
 inline void const *c_rasterizer_vertex_buffer::get_data() const // 0x108EF040
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_data@c_rasterizer_vertex_buffer@@QBEPBXXZ");
-	// c_rasterizer_vertex_buffer const *const this;
 
 	return data;
 }
@@ -97,7 +93,6 @@ inline void const *c_rasterizer_vertex_buffer::get_data() const // 0x108EF040
 inline void const *c_rasterizer_index_buffer::get_data() const // 0x108EF010
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_data@c_rasterizer_index_buffer@@QBEPBXXZ");
-	// c_rasterizer_index_buffer const *const this;
 
 	return data;
 }
@@ -105,7 +100,6 @@ inline void const *c_rasterizer_index_buffer::get_data() const // 0x108EF010
 inline unsigned long const c_rasterizer_index_buffer::get_index_count() const // 0x108EFCD0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_index_count@c_rasterizer_index_buffer@@QBE?BKXZ");
-	// c_rasterizer_index_buffer const *const this;
 
 	return index_count;
 }

@@ -39,11 +39,6 @@ namespace Player
 	real_point3d CalculateBipedPosition(real_point3d const *point, real_euler_angles3d const *euler, float distance, float right_distance) // 0x106805F0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?CalculateBipedPosition@Player@@YA?AUreal_point3d@@PBU2@PBUreal_euler_angles3d@@MM@Z");
-		// real_point3d const *point;
-		// real_euler_angles3d const *euler;
-		// float distance;
-		// float right_distance;
-		// real_matrix4x3 matrix;
 
 		real_matrix4x3 matrix;
 		matrix4x3_rotation_from_angles(&matrix, euler->yaw, euler->pitch, euler->roll);

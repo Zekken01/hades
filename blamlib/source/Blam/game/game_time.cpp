@@ -41,7 +41,6 @@ extern void (*const game_time_set_paused)(bool, c_enum<enum e_game_time_pause_re
 s_game_time_globals *game_time_get_globals() // 0x10F003C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?game_time_get_globals@@YAPAUs_game_time_globals@@XZ");
-	// procedure flags: nofpo
 
 	return tls_getd().game_time;
 }
@@ -49,7 +48,6 @@ s_game_time_globals *game_time_get_globals() // 0x10F003C0
 void game_time_set_speed(float speed) // 0x10F00410
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?game_time_set_speed@@YAXM@Z");
-	// float speed;
 
 	game_time_get_globals()->game_speed = speed;
 }

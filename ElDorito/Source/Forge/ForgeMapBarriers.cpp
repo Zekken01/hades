@@ -43,7 +43,6 @@ namespace Forge
 	void CForgeMapBarriers::InitializeForNewMap() // 0x1067C130
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeForNewMap@CForgeMapBarriers@Forge@@SAXXZ");
-		// procedure flags: nofpo
 
 		Reset();
 	}
@@ -51,7 +50,6 @@ namespace Forge
 	void CForgeMapBarriers::Update(long mapModifierIndex, Forge::ForgeMapModifierProperties &mapModifierProperties) // 0x1067C1E0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CForgeMapBarriers@Forge@@SAXJAAUForgeMapModifierProperties@2@@Z");
-		// Forge::ForgeMapModifierProperties &mapModifierProperties;
 
 		killBarrierDisabled = (mapModifierProperties.Flags & 2) != 0;
 		pushBarrierDisabled = (mapModifierProperties.Flags & 1) != 0;
@@ -60,7 +58,6 @@ namespace Forge
 	void CForgeMapBarriers::HandleMapModifierDeleted() // 0x1067C0F0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?HandleMapModifierDeleted@CForgeMapBarriers@Forge@@SAXXZ");
-		// procedure flags: nofpo
 
 		Reset();
 	}
@@ -68,7 +65,6 @@ namespace Forge
 	bool CForgeMapBarriers::KillBarrierDisabled() // 0x1067C170
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?KillBarrierDisabled@CForgeMapBarriers@Forge@@SA_NXZ");
-		// procedure flags: nofpo
 
 		return killBarrierDisabled;
 	}
@@ -76,7 +72,6 @@ namespace Forge
 	bool CForgeMapBarriers::PushBarrierDisabled() // 0x1067C190
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?PushBarrierDisabled@CForgeMapBarriers@Forge@@SA_NXZ");
-		// procedure flags: nofpo
 
 		return pushBarrierDisabled;
 	}
@@ -87,8 +82,6 @@ namespace Forge
 void Reset() // 0x1067C1B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Reset@@YAXXZ");
-	// `anonymous-namespace'::Reset
-	// procedure flags: nofpo
 
 	killBarrierDisabled = false;
 	pushBarrierDisabled = false;

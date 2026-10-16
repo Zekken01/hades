@@ -128,7 +128,6 @@ static_assert(sizeof(s_input_abstraction_globals) == 5396, "Invalid s_input_abst
 inline void c_abstract_button::update(unsigned short msec, unsigned char frames, unsigned char amount) // 0x10A818D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?update@c_abstract_button@@QAEXGEE@Z");
-	// unsigned char amount;
 
 	down_msec = msec;
 	down_frames = frames;
@@ -140,7 +139,6 @@ inline void c_abstract_button::update(unsigned short msec, unsigned char frames,
 inline void c_abstract_button::unlatch() // 0x10A81870
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?unlatch@c_abstract_button@@QAEXXZ");
-	// c_abstract_button *const this;
 
 	update(0, 0, 0);
 }
@@ -148,7 +146,6 @@ inline void c_abstract_button::unlatch() // 0x10A81870
 inline void c_abstract_button::set_latched_bit(bool value) // 0x10A81750
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?set_latched_bit@c_abstract_button@@AAEX_N@Z");
-	// bool value;
 
 	value ? flags |= 1 : flags &= ~1;
 }

@@ -56,7 +56,6 @@ static_assert32(sizeof(CModBrowserStateManager) == 552, "Invalid CModBrowserStat
 inline SModBrowserState &CModBrowserStateManager::GetStateMutable() // 0x1070C420
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetStateMutable@CModBrowserStateManager@@QAEAAUSModBrowserState@@XZ");
-	// CModBrowserStateManager *const this;
 
 	return m_state;
 }
@@ -64,7 +63,6 @@ inline SModBrowserState &CModBrowserStateManager::GetStateMutable() // 0x1070C42
 inline SModBrowserState const &CModBrowserStateManager::GetState() const // 0x10717380
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetState@CModBrowserStateManager@@QBEABUSModBrowserState@@XZ");
-	// CModBrowserStateManager const *const this;
 
 	return m_state;
 }
@@ -72,7 +70,6 @@ inline SModBrowserState const &CModBrowserStateManager::GetState() const // 0x10
 inline bool CModBrowserStateManager::InProgress() const // 0x1070C450
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?InProgress@CModBrowserStateManager@@QBE_NXZ");
-	// CModBrowserStateManager const *const this;
 
 	return !(m_currentHandler == nullptr);
 }

@@ -145,7 +145,6 @@ extern long long filetime_to_timet(_FILETIME const &ft);
 inline c_mod_package_manager::c_mod_package_manager() : m_database(nullptr), m_enumeration_number(0), m_previous_enumeration_number(0) /* hades-mem-init:  */ // 0x108B6A60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_mod_package_manager@@QAE@XZ");
-	// c_mod_package_manager *const this;
 
 	// the original body is empty
 }
@@ -153,7 +152,6 @@ inline c_mod_package_manager::c_mod_package_manager() : m_database(nullptr), m_e
 inline c_mod_package_manager::s_entry const *c_mod_package_manager::c_threadsafe_iterator::get() const // 0x10A182C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get@c_threadsafe_iterator@c_mod_package_manager@@QBEPBUs_entry@2@XZ");
-	// c_mod_package_manager::c_threadsafe_iterator const *const this;
 
 	return m_entry;
 }
@@ -161,7 +159,6 @@ inline c_mod_package_manager::s_entry const *c_mod_package_manager::c_threadsafe
 inline c_mod_package_manager::s_entry const *c_mod_package_manager::c_threadsafe_iterator::operator->() const // 0x10A074B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??Cc_threadsafe_iterator@c_mod_package_manager@@QBEPBUs_entry@1@XZ");
-	// c_mod_package_manager::c_threadsafe_iterator const *const this;
 
 	return get();
 }

@@ -84,7 +84,6 @@ bool begin_load_map_game_options_verify_hook(s_game_options *options);
 void life_cycle_patches_apply() // 0x1091F4B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?life_cycle_patches_apply@@YAXXZ");
-	// procedure flags: nofpo
 
 	Hook(0x91F77, begin_load_map_game_options_verify_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 }
@@ -94,10 +93,6 @@ void life_cycle_patches_apply() // 0x1091F4B0
 bool begin_load_map_game_options_verify_hook(s_game_options *options) // 0x1091F420
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?begin_load_map_game_options_verify_hook@@YA_NPAUs_game_options@@@Z");
-	// `anonymous-namespace'::begin_load_map_game_options_verify_hook
-	// s_game_options *options;
-	// Modules::ModuleCampaign *moduleCampaign;
-	// Modules::ModuleGame *moduleGame;
 
 	Modules::ModuleCampaign *moduleCampaign = &Modules::ModuleCampaign::Instance();
 	Modules::ModuleGame *moduleGame = &Modules::ModuleGame::Instance();

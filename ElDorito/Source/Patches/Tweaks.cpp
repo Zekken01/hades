@@ -139,7 +139,6 @@ namespace Patches
 		void ApplyAfterTagsLoaded() // 0x10AD2060
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAfterTagsLoaded@Tweaks@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			tagsloaded = true;
 			if (Utils::Singleton<Modules::ModuleTweaks>::Instance().VarDisableReactorFog->ValueInt)
@@ -153,7 +152,6 @@ namespace Patches
 		void EnableHitmarkers(bool enabled) // 0x10AD22B0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?EnableHitmarkers@Tweaks@Patches@@YAX_N@Z");
-			// bool enabled;
 
 			EnableHitmarkersInternal(enabled);
 		}
@@ -165,17 +163,6 @@ namespace Patches
 void DisableReactorFog() // 0x10AD2100
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DisableReactorFog@@YAXXZ");
-	// `anonymous-namespace'::DisableReactorFog
-	// procedure flags: nofpo
-	// static ...; // 0x10AD224C
-	// static ...; // 0x10AD2240
-	// static ...; // 0x10AD2238
-	// s_tag_iterator iterator;
-		// long tag_index;
-			// s_scenario *scnrDefinition;
-	// function call : void (*const)(s_tag_iterator *, long)
-	// function call : long (*const)(s_tag_iterator *)
-	// function call : void *(*const)(unsigned long, long)
 
 	static void (*const tag_iterator_new)(s_tag_iterator *, long) = reinterpret_cast<void (*)(s_tag_iterator *, long)>(0x5033E0);
 	static long (*const tag_iterator_next)(s_tag_iterator *) = reinterpret_cast<long (*)(s_tag_iterator *)>(0x503400);
@@ -196,22 +183,6 @@ void DisableReactorFog() // 0x10AD2100
 void EnableHitmarkersInternal(bool enabled) // 0x10AD2300
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?EnableHitmarkersInternal@@YAX_N@Z");
-	// `anonymous-namespace'::EnableHitmarkersInternal
-	// bool enabled;
-	// bool forceDisabled;
-	// s_game_globals *matgDefinition;
-		// c_tag_block<s_game_globals_player_representation> &<range>$L0;
-		// s_game_globals_player_representation *<begin>$L0;
-		// s_game_globals_player_representation *<end>$L0;
-			// s_game_globals_player_representation &representation;
-				// s_chud_definition *chudDefinition;
-				// s_biped_definition *bipdDefinition;
-					// s_chud_widget_collection *<end>$L1;
-					// s_chud_widget_collection *<begin>$L1;
-					// c_tag_block<s_chud_widget_collection> &<range>$L1;
-						// s_chud_widget_collection &hudWidget;
-	// function call : void *(*const)(unsigned long, long)
-	// function call : void *(*const)(unsigned long, long)
 
 	bool forceDisabled = Utils::Singleton<Modules::ModuleTweaks>::Instance().VarDisableHitMarkers->ValueInt != 0;
 	if (!tags_loaded())

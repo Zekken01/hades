@@ -111,11 +111,6 @@ namespace Utils
 	DewritoReader::DewritoReader() : dewrito_json_filepath("data\\dewrito.json"), dewrito_json_user_filepath("data\\dewrito.user.json") /* hades-mem-init:  */ // 0x10C56FE0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "??0DewritoReader@Utils@@QAE@XZ");
-		// static ...; // 0x10C57140
-		// static ...; // 0x10C57134
-		// static ...; // 0x10C5712C
-		// Utils::DewritoReader *const this;
-		// std::error_code ec;
 
 		m_dewrito_json.SetObject();
 		m_isValid = ReadFile(dewrito_json_filepath);
@@ -131,11 +126,6 @@ namespace Utils
 	rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> DewritoReader::GetDewritoJson() // 0x10C572B0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetDewritoJson@DewritoReader@Utils@@QAE?AV?$GenericDocument@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@VCrtAllocator@2@@rapidjson@@XZ");
-		// static ...; // 0x10C573AC
-		// static ...; // 0x10C573A0
-		// static ...; // 0x10C57398
-		// Utils::DewritoReader *const this;
-		// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> copy;
 
 		rapidjson::Document copy;
 		copy.CopyFrom(m_dewrito_json, copy.GetAllocator());
@@ -145,17 +135,6 @@ namespace Utils
 	bool DewritoReader::ReadFile(char const *path) // 0x10C57620
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?ReadFile@DewritoReader@Utils@@AAE_NPBD@Z");
-		// static ...; // 0x10C57941
-		// static ...; // 0x10C5793C
-		// static ...; // 0x10C57918
-		// static ...; // 0x10C57910
-		// Utils::DewritoReader *const this;
-		// char const *path;
-		// std::ifstream in;
-		// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> json;
-		// std::stringstream ss;
-			// char const *error;
-		// function call : unsigned long ()
 
 		std::ifstream in(path, std::ios::in | std::ios::binary);
 		if (!in || !in.is_open())
@@ -182,16 +161,6 @@ namespace Utils
 void MergeDocuments(rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> &dest, rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> &src, rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> &allocator) // 0x10C57400
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?MergeDocuments@@YAXAAV?$GenericDocument@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@VCrtAllocator@2@@rapidjson@@0AAV?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@Z");
-	// `anonymous-namespace'::MergeDocuments
-	// static ...; // 0x10C5759C
-	// static ...; // 0x10C57578
-	// static ...; // 0x10C57570
-	// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> &dest;
-	// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> &src;
-	// rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> &allocator;
-		// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > itr;
-			// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > key;
-			// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > value;
 
 	if (!src.IsObject() || !dest.IsObject())
 		return;

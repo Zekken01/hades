@@ -137,7 +137,6 @@ namespace Patches
 		void apply_unit_entity_patches() // 0x106D6F20
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?apply_unit_entity_patches@Simulation@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			Pointer(0x1640FA8).Write(c_simulation_unit_entity_definition__build_object_creation_data_hook);
 			Pointer(0x1640FB4).Write(c_simulation_unit_entity_definition__create_object_hook);
@@ -153,15 +152,6 @@ namespace Patches
 void __fastcall c_simulation_unit_entity_definition__build_object_creation_data_hook(void *thisptr, void *__formal, long unit_index, long creation_data_size, s_simulation_unit_creation_data *creation_data) // 0x106D71E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_simulation_unit_entity_definition__build_object_creation_data_hook@@YIXPAX0JJPAUs_simulation_unit_creation_data@@@Z");
-	// `anonymous-namespace'::c_simulation_unit_entity_definition__build_object_creation_data_hook
-	// s_simulation_unit_creation_data *creation_data;
-	// s_unit_data *unit;
-	// long controlling_player_index;
-	// long (*const unit_get_last_associated_weak_player_index_for_appearance)(long);
-	// void (*const c_simulation_object_entity_definition__object_build_creation_data)(long, s_simulation_object_creation_data *);
-		// s_player_datum *player;
-	// function call : void (*const)(long, s_simulation_object_creation_data *)
-	// function call : long (*const)(long)
 
 	long (*const unit_get_last_associated_weak_player_index_for_appearance)(long) = reinterpret_cast<long (*)(long)>(0xB44340);
 	void (*const c_simulation_object_entity_definition__object_build_creation_data)(long, s_simulation_object_creation_data *) = reinterpret_cast<void (*)(long, s_simulation_object_creation_data *)>(0x4AD200);
@@ -186,39 +176,6 @@ void __fastcall c_simulation_unit_entity_definition__build_object_creation_data_
 long __fastcall c_simulation_unit_entity_definition__create_object_hook(void *thisptr, void *__formal, long creation_data_size, s_simulation_unit_creation_data *creation_data, unsigned long long *flags, long state_data_size, s_simulation_unit_state_data *state_data) // 0x106D7380
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_simulation_unit_entity_definition__create_object_hook@@YIJPAX0JPAUs_simulation_unit_creation_data@@PA_KJPAUs_simulation_unit_state_data@@@Z");
-	// `anonymous-namespace'::c_simulation_unit_entity_definition__create_object_hook
-	// void *__formal;
-	// long creation_data_size;
-	// s_simulation_unit_creation_data *creation_data;
-	// unsigned long long *flags;
-	// long state_data_size;
-	// s_simulation_unit_state_data *state_data;
-	// real_rgb_color colors[5];
-	// long player_index;
-	// long object_index;
-	// tls_data *tls;
-	// s_object_placement_data placement_data;
-	// bool custom_change_colors;
-	// void (*const Armor_Apply)(void *, long);
-		// s_unit_data *unit;
-		// s_player_datum *player;
-		// long hologram_definition_index;
-			// long player_unit_index;
-				// long equipment_index;
-	// function call : void *(*const)(unsigned long, long)
-	// function call : void (*const)(s_object_placement_data *, long, unsigned long, s_damage_owner *)
-	// function call : bool (*const)(s_simulation_object_creation_data *, s_simulation_object_state_data *, unsigned long long *, s_object_placement_data *)
-	// function call : void *(*const)(s_data_array const *, unsigned long)
-	// function call : long (*const)(long)
-	// function call : void (*const)(long, s_player_model_customization const *, long, real_rgb_color *, bool *)
-	// function call : long (*const)(void *, s_simulation_object_creation_data *, s_simulation_object_state_data *, unsigned long long *, s_object_placement_data *)
-	// function call : void (*const)(long)
-	// function call : long (*const)(long)
-	// function call : void (*const)(long, long, long, real_point3d const *)
-	// function call : long (*const)(long, e_equipment_type)
-	// function call : void (*const)(long, long)
-	// function call : void (*const)(long, long)
-	// function call : void (*const)(void *, long)
 
 	void (*const Armor_Apply)(void *, long) = (void (*)(void *, long))0x5A4430;
 	tls_data *tls = &tls_getd();
@@ -276,13 +233,6 @@ long __fastcall c_simulation_unit_entity_definition__create_object_hook(void *th
 void __fastcall c_simulation_unit_entity_definition__entity_creation_encode_hook(void *thisptr, void *__formal, long creation_data_size, s_simulation_unit_creation_data *creation_data, s_simulation_view_telemetry_data *telemetry_data, c_bitstream *bitstream, bool unknown) // 0x106D7BB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_simulation_unit_entity_definition__entity_creation_encode_hook@@YIXPAX0JPAUs_simulation_unit_creation_data@@PAUs_simulation_view_telemetry_data@@PAVc_bitstream@@_N@Z");
-	// `anonymous-namespace'::c_simulation_unit_entity_definition__entity_creation_encode_hook
-	// bool unknown;
-		// long i;
-	// function call : void (*const)(s_simulation_object_creation_data *, c_bitstream *, long)
-	// function call : void (*const)(char const *, c_bitstream *, long)
-	// function call : void (*const)(c_bitstream *, real_point3d const *, long, bool, real_rectangle3d const *)
-	// function call : void (*const)(c_bitstream *, char const *, long)
 
 	((void (*)(s_simulation_object_creation_data *, c_bitstream *, long))0x4AD670)(creation_data, bitstream, creation_data_size);
 	for (long i = 0; i < 5; i++)
@@ -304,14 +254,6 @@ void __fastcall c_simulation_unit_entity_definition__entity_creation_encode_hook
 bool __fastcall c_simulation_unit_entity_definition__entity_creation_decode_hook(void *thisptr, void *__formal, long creation_data_size, s_simulation_unit_creation_data *data, c_bitstream *bitstream, bool a4) // 0x106D7980
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_simulation_unit_entity_definition__entity_creation_decode_hook@@YI_NPAX0JPAUs_simulation_unit_creation_data@@PAVc_bitstream@@_N@Z");
-	// `anonymous-namespace'::c_simulation_unit_entity_definition__entity_creation_decode_hook
-	// bool a4;
-	// bool success;
-		// long i;
-		// long controlling_player_index;
-	// function call : bool (*const)(s_simulation_object_creation_data *, c_bitstream *)
-	// function call : long (*const)(char const *, c_bitstream *)
-	// function call : void (*const)(c_bitstream *, real_point3d *, long, real_rectangle3d const *)
 
 	bool success = ((bool (*)(s_simulation_unit_creation_data *, c_bitstream *))0x4AD5E0)(data, bitstream);
 	for (long i = 0; i < 5; i++)

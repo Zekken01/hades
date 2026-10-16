@@ -222,11 +222,6 @@ namespace Server
 		void Initialize() // 0x10C3CB00
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@VariableSynchronization@Server@@YAXXZ");
-			// procedure flags: nofpo
-			// static ...; // 0x10C3CC28
-			// static ...; // 0x10C3CC1C
-			// static ...; // 0x10C3CC14
-			// std::shared_ptr<SyncUpdateHandler> updateHandler;
 
 			auto updateHandler = std::make_shared<SyncUpdateHandler>();
 			updateSender = Patches::CustomPackets::RegisterVariadicPacket<SyncUpdatePacketData, SyncUpdatePacketVar>("eldewrito-sync-var", updateHandler);
@@ -235,11 +230,6 @@ namespace Server
 		void Synchronize(Modules::Command *serverVariable, Modules::Command *clientVariable) // 0x10C3D8F0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Synchronize@VariableSynchronization@Server@@YAXPAUCommand@Modules@@0@Z");
-			// static ...; // 0x10C3D9B4
-			// static ...; // 0x10C3D9AC
-			// Modules::Command *serverVariable;
-			// Modules::Command *clientVariable;
-			// SynchronizationBinding binding;
 
 			if (serverVariable->Type != clientVariable->Type)
 			{
@@ -257,8 +247,6 @@ namespace Server
 		void Tick() // 0x10C3DE10
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@VariableSynchronization@Server@@YAXXZ");
-			// procedure flags: nofpo
-			// Blam::Network::Session *session;
 
 			auto session = Blam::Network::GetActiveSession();
 			if (session)
@@ -275,9 +263,6 @@ namespace Server
 _inline SyncUpdateHandler::SyncUpdateHandler() : VariadicPacketHandler(1) /* hades-mem-init:  */ // 0x10C3A1B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0SyncUpdateHandler@hades_file_local@@QAE@XZ");
-	// the original is empty
-	// `anonymous-namespace'::SyncUpdateHandler::SyncUpdateHandler
-	// SyncUpdateHandler *const this;
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0SynchronizationBinding@hades_file_local@@QAE@XZ"); no body to assert in
@@ -287,14 +272,6 @@ _inline SyncUpdateHandler::SyncUpdateHandler() : VariadicPacketHandler(1) /* had
 unsigned __int32 GenerateID(SynchronizationBinding const &binding) // 0x10C3C5F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GenerateID@@YAIABUSynchronizationBinding@hades_file_local@@@Z");
-	// `anonymous-namespace'::GenerateID
-	// static ...; // 0x10C3C707
-	// static ...; // 0x10C3C700
-	// static ...; // 0x10C3C6E8
-	// static ...; // 0x10C3C6E0
-	// SynchronizationBinding const &binding;
-	// std::string str;
-	// unsigned __int32 result;
 
 	std::string str = binding.ServerVariable->Name + binding.ClientVariable->Name;
 	unsigned __int32 result;
@@ -306,8 +283,6 @@ unsigned __int32 GenerateID(SynchronizationBinding const &binding) // 0x10C3C5F0
 void AddBinding(SynchronizationBinding const &binding) // 0x10C3B810
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?AddBinding@@YAXABUSynchronizationBinding@hades_file_local@@@Z");
-	// `anonymous-namespace'::AddBinding
-	// SynchronizationBinding const &binding;
 
 	if (syncBindings.find(binding.ID) != syncBindings.end())
 		throw std::runtime_error("Duplicate sync ID");
@@ -317,13 +292,6 @@ void AddBinding(SynchronizationBinding const &binding) // 0x10C3B810
 bool CompareVariables(Modules::Command const *lhs, Modules::Command const *rhs) // 0x10C3BEE0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CompareVariables@@YA_NPBUCommand@Modules@@0@Z");
-	// `anonymous-namespace'::CompareVariables
-// $LN8:
-// $LN7:
-// $LN6:
-// $LN5:
-	// Modules::Command const *lhs;
-	// Modules::Command const *rhs;
 
 	if (lhs->Type != rhs->Type)
 		throw std::runtime_error("Cannot compare variables of different types");
@@ -345,18 +313,6 @@ bool CompareVariables(Modules::Command const *lhs, Modules::Command const *rhs) 
 void SetVariable(Modules::Command *var, Modules::Command const *value) // 0x10C3D1A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SetVariable@@YAXPAUCommand@Modules@@PBU12@@Z");
-	// `anonymous-namespace'::SetVariable
-	// static ...; // 0x10C3D420
-	// static ...; // 0x10C3D414
-	// static ...; // 0x10C3D40C
-// $LN8:
-// $LN7:
-// $LN6:
-// $LN5:
-	// Modules::Command *var;
-	// Modules::Command const *value;
-		// std::string returnInfo;
-	// function call : bool (*)(std::vector<std::string> const &, std::string &)
 
 	if (var->Type != value->Type)
 		throw std::runtime_error("Cannot set a variable of one type to a variable of another type");
@@ -387,18 +343,6 @@ void SetVariable(Modules::Command *var, Modules::Command const *value) // 0x10C3
 
 void SetVariable(Modules::Command *var, SyncUpdatePacketVar const *value) // 0x10C3D4F0
 {
-	// `anonymous-namespace'::SetVariable
-	// static ...; // 0x10C3D7FC
-	// static ...; // 0x10C3D7F0
-	// static ...; // 0x10C3D7E8
-// $LN8:
-// $LN7:
-// $LN6:
-// $LN5:
-	// Modules::Command *var;
-	// SyncUpdatePacketVar const *value;
-		// std::string returnInfo;
-	// function call : bool (*)(std::vector<std::string> const &, std::string &)
 
 	if (var->Type != value->Type)
 		return;
@@ -433,8 +377,6 @@ void SetVariable(Modules::Command *var, SyncUpdatePacketVar const *value) // 0x1
 void TickBinding(SynchronizationBinding *binding) // 0x10C3DE80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?TickBinding@@YAXPAUSynchronizationBinding@hades_file_local@@@Z");
-	// `anonymous-namespace'::TickBinding
-	// SynchronizationBinding *binding;
 
 	if (CompareVariables(binding->ServerVariable, binding->ClientVariable))
 		return;
@@ -446,16 +388,6 @@ void TickBinding(SynchronizationBinding *binding) // 0x10C3DE80
 void TickBindings() // 0x10C3DF10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?TickBindings@@YAXXZ");
-	// `anonymous-namespace'::TickBindings
-	// procedure flags: nofpo
-	// static ...; // 0x10C3DFD1
-	// static ...; // 0x10C3DFC8
-	// static ...; // 0x10C3DFB0
-	// static ...; // 0x10C3DFA8
-		// std::unordered_map<unsigned int,SynchronizationBinding> &<range>$L0;
-		// std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,SynchronizationBinding> > > > <begin>$L0;
-		// std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,SynchronizationBinding> > > > <end>$L0;
-			// std::pair<unsigned int const ,SynchronizationBinding> &binding;
 
 	for (auto &binding : syncBindings)
 		TickBinding(&binding.second);
@@ -464,18 +396,6 @@ void TickBindings() // 0x10C3DF10
 std::vector<SynchronizationBinding *> FindOutOfDateBindings(__int32 peerIndex) // 0x10C3C370
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?FindOutOfDateBindings@@YA?AV?$vector@PAUSynchronizationBinding@hades_file_local@@V?$allocator@PAUSynchronizationBinding@hades_file_local@@@std@@@std@@H@Z");
-	// `anonymous-namespace'::FindOutOfDateBindings
-	// static ...; // 0x10C3C540
-	// static ...; // 0x10C3C535
-	// static ...; // 0x10C3C52C
-	// static ...; // 0x10C3C508
-	// static ...; // 0x10C3C500
-	// __int32 peerIndex;
-	// std::vector<SynchronizationBinding *> result;
-		// std::unordered_map<unsigned int,SynchronizationBinding> &<range>$L0;
-		// std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,SynchronizationBinding> > > > <begin>$L0;
-		// std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,SynchronizationBinding> > > > <end>$L0;
-			// std::pair<unsigned int const ,SynchronizationBinding> &binding;
 
 	std::vector<SynchronizationBinding *> result;
 	for (auto &binding : syncBindings)
@@ -489,14 +409,6 @@ std::vector<SynchronizationBinding *> FindOutOfDateBindings(__int32 peerIndex) /
 void BuildVariableUpdate(SynchronizationBinding const *binding, SyncUpdatePacketVar *result) // 0x10C3BCB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?BuildVariableUpdate@@YAXPBUSynchronizationBinding@hades_file_local@@PAUSyncUpdatePacketVar@@@Z");
-	// `anonymous-namespace'::BuildVariableUpdate
-// $LN7:
-// $LN6:
-// $LN5:
-// $LN4:
-	// SynchronizationBinding const *binding;
-	// SyncUpdatePacketVar *result;
-	// Modules::Command *var;
 
 	Modules::Command *var = binding->ServerVariable;
 	result->ID = binding->ID;
@@ -524,15 +436,6 @@ void BuildVariableUpdate(SynchronizationBinding const *binding, SyncUpdatePacket
 std::shared_ptr<Patches::CustomPackets::VariadicPacket<SyncUpdatePacketData,SyncUpdatePacketVar> > BuildUpdatePacket(std::vector<SynchronizationBinding *> const &bindings) // 0x10C3BB00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?BuildUpdatePacket@@YA?AV?$shared_ptr@V?$VariadicPacket@USyncUpdatePacketData@@USyncUpdatePacketVar@@@CustomPackets@Patches@@@std@@ABV?$vector@PAUSynchronizationBinding@hades_file_local@@V?$allocator@PAUSynchronizationBinding@hades_file_local@@@std@@@2@@Z");
-	// `anonymous-namespace'::BuildUpdatePacket
-	// static ...; // 0x10C3BC48
-	// static ...; // 0x10C3BC3C
-	// static ...; // 0x10C3BC34
-	// std::vector<SynchronizationBinding *> const &bindings;
-	// std::shared_ptr<Patches::CustomPackets::VariadicPacket<SyncUpdatePacketData,SyncUpdatePacketVar> > result;
-		// unsigned __int32 i;
-			// SynchronizationBinding *binding;
-			// SyncUpdatePacketVar *update;
 
 	auto result = updateSender->New(bindings.size());
 	for (size_t i = 0; i < bindings.size(); i++)
@@ -547,18 +450,6 @@ std::shared_ptr<Patches::CustomPackets::VariadicPacket<SyncUpdatePacketData,Sync
 void SynchronizePeer(__int32 peerIndex) // 0x10C3DA00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SynchronizePeer@@YAXH@Z");
-	// `anonymous-namespace'::SynchronizePeer
-	// static ...; // 0x10C3DBA7
-	// static ...; // 0x10C3DBA0
-	// static ...; // 0x10C3DB88
-	// static ...; // 0x10C3DB80
-	// __int32 peerIndex;
-	// std::vector<SynchronizationBinding *> outOfDateBindings;
-	// std::shared_ptr<Patches::CustomPackets::VariadicPacket<SyncUpdatePacketData,SyncUpdatePacketVar> > packet;
-		// std::vector<SynchronizationBinding *> &<range>$L0;
-		// SynchronizationBinding **<begin>$L0;
-		// SynchronizationBinding **<end>$L0;
-			// SynchronizationBinding *binding;
 
 	auto outOfDateBindings = FindOutOfDateBindings(peerIndex);
 	if (!outOfDateBindings.size())
@@ -572,10 +463,6 @@ void SynchronizePeer(__int32 peerIndex) // 0x10C3DA00
 bool IsPeerReady(Blam::Network::Session *session, __int32 peerIndex) // 0x10C3CC90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?IsPeerReady@@YA_NPAUSession@Network@Blam@@H@Z");
-	// `anonymous-namespace'::IsPeerReady
-	// __int32 peerIndex;
-	// Blam::Network::PeerChannel *channelInfo;
-	// Blam::Network::SessionMembership *membership;
 
 	auto *membership = &session->MembershipInfo;
 	if (peerIndex == membership->LocalPeerIndex || !membership->Peers[peerIndex].IsEstablished())
@@ -589,20 +476,6 @@ bool IsPeerReady(Blam::Network::Session *session, __int32 peerIndex) // 0x10C3CC
 void SynchronizePeers(Blam::Network::Session *session) // 0x10C3DC30
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SynchronizePeers@@YAXPAUSession@Network@Blam@@@Z");
-	// `anonymous-namespace'::SynchronizePeers
-	// static ...; // 0x10C3DDA0
-	// static ...; // 0x10C3DD95
-	// static ...; // 0x10C3DD8C
-	// static ...; // 0x10C3DD68
-	// static ...; // 0x10C3DD60
-	// Blam::Network::Session *session;
-	// Blam::Network::SessionMembership *membership;
-	// std::bitset<17> visitedPeers;
-		// __int32 peer;
-		// std::unordered_map<unsigned int,SynchronizationBinding> &<range>$L0;
-		// std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,SynchronizationBinding> > > > <begin>$L0;
-		// std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,SynchronizationBinding> > > > <end>$L0;
-			// std::pair<unsigned int const ,SynchronizationBinding> &binding;
 
 	std::bitset<17> visitedPeers;
 	Blam::Network::SessionMembership *membership = &session->MembershipInfo;
@@ -621,8 +494,6 @@ void SynchronizePeers(Blam::Network::Session *session) // 0x10C3DC30
 void HostTick(Blam::Network::Session *session) // 0x10C3CAB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?HostTick@@YAXPAUSession@Network@Blam@@@Z");
-	// `anonymous-namespace'::HostTick
-	// Blam::Network::Session *session;
 
 	TickBindings();
 	SynchronizePeers(session);
@@ -631,15 +502,6 @@ void HostTick(Blam::Network::Session *session) // 0x10C3CAB0
 void SyncUpdateHandler::Serialize(Blam::BitStream *stream, SyncUpdatePacketData const *data, __int32 extraDataCount, SyncUpdatePacketVar const *extraData) // 0x10C3CF10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Serialize@SyncUpdateHandler@hades_file_local@@UAEXPAVBitStream@Blam@@PBUSyncUpdatePacketData@@HPBUSyncUpdatePacketVar@@@Z");
-	// `anonymous-namespace'::SyncUpdateHandler::Serialize
-// $LN7:
-	// SyncUpdateHandler *const this;
-	// Blam::BitStream *stream;
-	// SyncUpdatePacketData const *data;
-	// __int32 extraDataCount;
-	// SyncUpdatePacketVar const *extraData;
-		// __int32 i;
-			// SyncUpdatePacketVar const *var;
 
 	for (__int32 i = 0; i < extraDataCount; i++)
 	{
@@ -669,15 +531,6 @@ void SyncUpdateHandler::Serialize(Blam::BitStream *stream, SyncUpdatePacketData 
 bool SyncUpdateHandler::Deserialize(Blam::BitStream *stream, SyncUpdatePacketData *data, __int32 extraDataCount, SyncUpdatePacketVar *extraData) // 0x10C3C100
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Deserialize@SyncUpdateHandler@hades_file_local@@UAE_NPAVBitStream@Blam@@PAUSyncUpdatePacketData@@HPAUSyncUpdatePacketVar@@@Z");
-	// `anonymous-namespace'::SyncUpdateHandler::Deserialize
-// $LN7:
-	// SyncUpdateHandler *const this;
-	// Blam::BitStream *stream;
-	// SyncUpdatePacketData *data;
-	// __int32 extraDataCount;
-	// SyncUpdatePacketVar *extraData;
-		// __int32 i;
-			// SyncUpdatePacketVar *var;
 
 	for (__int32 i = 0; i < extraDataCount; i++)
 	{
@@ -708,15 +561,6 @@ bool SyncUpdateHandler::Deserialize(Blam::BitStream *stream, SyncUpdatePacketDat
 void SyncUpdateHandler::HandlePacket(Blam::Network::ObserverChannel *sender, Patches::CustomPackets::VariadicPacket<SyncUpdatePacketData,SyncUpdatePacketVar> const *packet) // 0x10C3C850
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?HandlePacket@SyncUpdateHandler@hades_file_local@@UAEXPAUObserverChannel@Network@Blam@@PBV?$VariadicPacket@USyncUpdatePacketData@@USyncUpdatePacketVar@@@CustomPackets@Patches@@@Z");
-	// `anonymous-namespace'::SyncUpdateHandler::HandlePacket
-	// static ...; // 0x10C3C9B4
-	// SyncUpdateHandler *const this;
-	// Blam::Network::ObserverChannel *sender;
-	// Patches::CustomPackets::VariadicPacket<SyncUpdatePacketData,SyncUpdatePacketVar> const *packet;
-	// Blam::Network::Session *session;
-		// __int32 i;
-			// std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,SynchronizationBinding> > > > it;
-			// SyncUpdatePacketVar const *value;
 
 	Blam::Network::Session *session = Blam::Network::GetActiveSession();
 	if (!session || session->IsHost())

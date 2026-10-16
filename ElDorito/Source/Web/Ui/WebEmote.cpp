@@ -218,7 +218,6 @@ namespace Web
 			void Init() // 0x10CA4A60
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?Init@WebEmote@Ui@Web@@YAXXZ");
-				// procedure flags: nofpo
 
 				Patches::Input::RegisterDefaultInputHandler(OnInput);
 			}
@@ -226,41 +225,6 @@ namespace Web
 			void Show() // 0x10CA4DD0
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?Show@WebEmote@Ui@Web@@YAXXZ");
-				// procedure flags: nofpo
-				// static ...; // 0x10CA55F1
-				// static ...; // 0x10CA55E9
-				// static ...; // 0x10CA55DE
-				// static ...; // 0x10CA55D3
-				// static ...; // 0x10CA55CE
-				// static ...; // 0x10CA55CC
-				// static ...; // 0x10CA5584
-				// static ...; // 0x10CA557C
-				// s_player_datum *player;
-				// std::string modHash;
-				// bool enabled;
-				// s_game_globals const *matg;
-				// tagRECT rect;
-				// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
-				// unsigned long playerIndex;
-				// s_mod_globals_definition const *modg;
-				// tagPOINT p;
-				// s_mod_player_actions_set_definition *const emoteTag;
-				// short characterTypeIndex;
-				// __int32 definitionIndex;
-				// HWND__ *hWnd;
-				// Modules::ModuleServer &serverModule;
-				// __int32 player_character_customization_index;
-				// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
-					// __int32 i;
-						// s_mod_globals_player_character_customization *character;
-					// __int32 e;
-						// s_mod_player_action &emote;
-						// char *animation_string;
-				// function call : unsigned long (*const)(long)
-				// function call : void *(*const)(unsigned long, long)
-				// function call : __int32 (HWND__ *, tagRECT *)
-				// function call : __int32 (HWND__ *, tagPOINT *)
-				// function call : __int32 (__int32, __int32)
 
 				Modules::ModuleServer &serverModule = Modules::ModuleServer::Instance();
 				bool enabled = serverModule.VarServerEmotesEnabledClient->ValueInt != 0;
@@ -355,12 +319,6 @@ namespace Web
 			void Tick() // 0x10CA5810
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@WebEmote@Ui@Web@@YAXXZ");
-				// procedure flags: nofpo
-				// static __int32 previousMapLoadingState; // 0x1247ED88
-				// bool currentMapLoadingState;
-				// function call : bool (*const)()
-				// function call : bool (*const)()
-				// function call : bool (*const)()
 
 				static __int32 previousMapLoadingState = 0;
 
@@ -381,7 +339,6 @@ namespace Web
 			void Hide() // 0x10CA4990
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?Hide@WebEmote@Ui@Web@@YAXXZ");
-				// procedure flags: nofpo
 
 				ScreenLayer::Hide("emote");
 			}
@@ -394,19 +351,6 @@ namespace Web
 void OnInput() // 0x10CA4AB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnInput@@YAXXZ");
-	// `anonymous-namespace'::OnInput
-	// procedure flags: nofpo
-	// double threshold;
-	// float leftx;
-	// static __int32 `OnInput'::`2'::joystickMoveTicks; // 0x1247ED84
-	// OnInput::__l2::ControllerAxes &controllerAxes;
-	// bool isEmoting;
-	// float lefty;
-		// long playerIndex;
-			// s_player_datum *player;
-	// function call : unsigned long (*const)(long)
-	// function call : unsigned long (*const)(long)
-	// function call : unsigned long (*const)(long)
 
 	struct ControllerAxes
 	{

@@ -259,18 +259,6 @@ namespace Player
 	void StartImageDownload(std::string url, __int32 player_index) // 0x108FE180
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?StartImageDownload@Player@@YAXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@H@Z");
-		// static ...; // 0x108FE5CC
-		// static ...; // 0x108FE5C4
-		// std::string url;
-		// __int32 player_index;
-		// std::shared_ptr<Http::IHttpRequest> req;
-		// function call : void (std::string)
-		// function call : void (std::string)
-		// function call : void (Http::CHttpHeaders)
-		// function call : void (std::function<void __cdecl(std::shared_ptr<Http::IHttpRequest>)> &)
-		// function call : void (std::function<bool __cdecl(char const *,unsigned int)> &)
-		// function call : void (std::function<void __cdecl(std::shared_ptr<Http::IHttpRequest>,bool)> &)
-		// function call : bool ()
 
 		std::shared_ptr<Http::IHttpRequest> req = Http::CreateRequest();
 		req->SetUrl(url);
@@ -286,8 +274,6 @@ namespace Player
 	void ResetCosmeticSlot(__int32 player_index) // 0x108FDE10
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?ResetCosmeticSlot@Player@@YAXH@Z");
-		// __int32 player_index;
-		// function call : unsigned long ()
 
 		player_emblems[player_index].active = false;
 		player_emblems[player_index].attempts = 0;
@@ -303,7 +289,6 @@ namespace Player
 	void InvalidateCosmeticSlot(__int32 player_index) // 0x108FD3F0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?InvalidateCosmeticSlot@Player@@YAXH@Z");
-		// __int32 player_index;
 
 		player_emblems[player_index].active = false;
 	}
@@ -311,10 +296,6 @@ namespace Player
 	void DXInitEmblem(__int32 player_index) // 0x108FCCD0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?DXInitEmblem@Player@@YAXH@Z");
-		// __int32 player_index;
-		// IDirect3DDevice9 *device;
-		// HRESULT result;
-		// function call : unsigned long ()
 
 		IDirect3DDevice9 *device = *(IDirect3DDevice9 **)0x50daddc;
 		if (player_emblems[player_index].texture)
@@ -331,8 +312,6 @@ namespace Player
 	void DXGenerateEmblem(__int32 player_index) // 0x108FCBD0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?DXGenerateEmblem@Player@@YAXH@Z");
-		// __int32 player_index;
-		// function call : unsigned long ()
 
 		if (player_emblems[player_index].texture)
 			player_emblems[player_index].texture->Release();
@@ -346,13 +325,6 @@ namespace Player
 	void CheckDirty(__int32 player_index) // 0x108FC890
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?CheckDirty@Player@@YAXH@Z");
-		// static ...; // 0x108FCB1F
-		// static ...; // 0x108FCB14
-		// static ...; // 0x108FCAFC
-		// static ...; // 0x108FCAF4
-		// __int32 player_index;
-		// std::string url;
-			// s_player_emblem_configuration tempConfig;
 
 			std::string url;
 			url = CPlayersInfo::GeEmblemUrl(player_index);
@@ -378,15 +350,6 @@ namespace Player
 	void InitPlayer(__int32 player_index, bool is_customization_biped) // 0x108FCFF0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?InitPlayer@Player@@YAXH_N@Z");
-		// static ...; // 0x108FD314
-		// static ...; // 0x108FD2FC
-		// static ...; // 0x108FD2F4
-		// __int32 player_index;
-		// bool is_customization_biped;
-		// unsigned short player_slot_join_number;
-		// std::string url;
-			// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> dewrito;
-				// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &emblemGeneratorURL;
 
 		std::string url;
 		if (is_customization_biped)
@@ -424,13 +387,6 @@ namespace Player
 	void RetrySlot(__int32 player_index) // 0x108FDF30
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?RetrySlot@Player@@YAXH@Z");
-		// __int32 player_index;
-			// float secondsSince;
-		// function call : float (*const)(float)
-		// function call : long (*const)()
-		// function call : float (*const)(float)
-		// function call : long (*const)()
-		// function call : long (*const)()
 
 		if (player_emblems[player_index].attempts > 15)
 		{
@@ -484,8 +440,6 @@ namespace Player
 	void PlayerEmblemDownload::LoadGenericEmblem(IDirect3DDevice9 *device) // 0x108FD420
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?LoadGenericEmblem@PlayerEmblemDownload@Player@@QAEXPAUIDirect3DDevice9@@@Z");
-		// IDirect3DDevice9 *device;
-		// HRESULT res;
 
 		HRESULT result = D3DXCreateTextureFromFileA(device, "ui/assets/emblems/generic.png", &generic_emblem);
 		if (result)
@@ -495,20 +449,6 @@ namespace Player
 	void PlayerEmblemDownload::Tick() // 0x108FE700
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@PlayerEmblemDownload@Player@@QAEXXZ");
-		// static ...; // 0x108FEACD
-		// static ...; // 0x108FEAC8
-		// static ...; // 0x108FEAB0
-		// static ...; // 0x108FEAA8
-		// Player::PlayerEmblemDownload *const this;
-		// float secondsSince;
-		// Blam::Network::Session *session;
-			// __int32 player;
-				// std::unique_lock<std::mutex> lock;
-			// std::scoped_lock<std::mutex> lock;
-		// function call : float (*const)(float)
-		// function call : long (*const)()
-		// function call : float (*const)(float)
-		// function call : bool (*const)()
 
 		if (failedInit)
 			return;
@@ -565,12 +505,6 @@ namespace Player
 	void PlayerEmblemDownload::OnEndScene(IDirect3DDevice9 *device) // 0x108FDAE0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?OnEndScene@PlayerEmblemDownload@Player@@QAEXPAUIDirect3DDevice9@@@Z");
-		// static ...; // 0x108FDC10
-		// static ...; // 0x108FDC08
-		// Player::PlayerEmblemDownload *const this;
-		// IDirect3DDevice9 *device;
-			// __int32 player;
-				// std::scoped_lock<std::mutex> lock;
 
 		if (failedInit)
 			return;
@@ -595,7 +529,6 @@ namespace Player
 	void PlayerEmblemDownload::UpdateLocalEmblem() // 0x108FEBD0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateLocalEmblem@PlayerEmblemDownload@Player@@QAEXXZ");
-		// Player::PlayerEmblemDownload *const this;
 
 		emblemUpdate = true;
 	}
@@ -603,7 +536,6 @@ namespace Player
 	void PlayerEmblemDownload::SetLastJoinTime(long time) // 0x108FE150
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?SetLastJoinTime@PlayerEmblemDownload@Player@@QAEXJ@Z");
-		// long time;
 
 		server_join_tick = time;
 	}
@@ -615,11 +547,6 @@ namespace Player
 	IDirect3DTexture9 *PlayerEmblemDownload::GetPlayerEmblem(long player_index, bool use_generic) // 0x108FCE40
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetPlayerEmblem@PlayerEmblemDownload@Player@@QAEPAUIDirect3DTexture9@@J_N@Z");
-		// static ...; // 0x108FCF78
-		// Player::PlayerEmblemDownload *const this;
-		// long player_index;
-		// bool use_generic;
-			// std::unique_lock<std::mutex> lock;
 
 		if (player_index > -1 && player_index <= 16)
 		{
@@ -637,23 +564,6 @@ namespace Player
 	void PlayerEmblemDownload::OnDownloadResponse(__int32 player_index, std::shared_ptr<Http::IHttpRequest> request) // 0x108FD6B0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?OnDownloadResponse@PlayerEmblemDownload@Player@@QAEXHV?$shared_ptr@VIHttpRequest@Http@@@std@@@Z");
-		// static ...; // 0x108FD9F1
-		// static ...; // 0x108FD9EC
-		// static ...; // 0x108FD9BC
-		// static ...; // 0x108FD9B4
-		// Player::PlayerEmblemDownload *const this;
-		// __int32 player_index;
-		// std::shared_ptr<Http::IHttpRequest> request;
-		// Http::CHttpHeaders headers;
-		// long long length;
-		// std::shared_ptr<Http::IHttpResponse> response;
-			// std::unique_lock<std::mutex> lock;
-			// std::string *data;
-		// function call : std::shared_ptr<Http::IHttpResponse> ()
-		// function call : __int32 () const
-		// function call : void ()
-		// function call : Http::CHttpHeaders const &() const
-		// function call : void ()
 
 		std::shared_ptr<Http::IHttpResponse> response = request->GetResponse();
 		if (response->GetResponseCode() != 200)
@@ -682,12 +592,6 @@ namespace Player
 	void PlayerEmblemDownload::OnDownloadComplete(__int32 player_index, std::shared_ptr<Http::IHttpRequest> request, bool success) // 0x108FD490
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?OnDownloadComplete@PlayerEmblemDownload@Player@@QAEXHV?$shared_ptr@VIHttpRequest@Http@@@std@@_N@Z");
-		// Player::PlayerEmblemDownload *const this;
-		// __int32 player_index;
-		// std::shared_ptr<Http::IHttpRequest> request;
-		// bool success;
-		// std::unique_lock<std::mutex> lock;
-			// std::string *data;
 
 		std::unique_lock<std::mutex> lock(player_emblems[player_index].mutex);
 		if (!success)
@@ -708,12 +612,6 @@ namespace Player
 	bool PlayerEmblemDownload::OnRecieve(__int32 player_index, char const *buffer, unsigned __int32 length) // 0x108FDC80
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?OnRecieve@PlayerEmblemDownload@Player@@QAE_NHPBDI@Z");
-		// Player::PlayerEmblemDownload *const this;
-		// __int32 player_index;
-		// char const *buffer;
-		// unsigned __int32 length;
-		// std::unique_lock<std::mutex> lock;
-		// std::string *data;
 
 		std::unique_lock<std::mutex> lock(player_emblems[player_index].mutex);
 		std::string *data = &player_emblems[player_index].data;

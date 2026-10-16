@@ -428,7 +428,6 @@ namespace Server
 ElDorito::ElDorito() : GameHasMenuShown(false), executeCommandQueue(false), isDedicated(false), isBotClient(false), isHighPriority(false), webDebugging(false), webDebugLogging(false), webdebugPort(8884), connectToServer(false), serverAddress(""), serverPassword(""), instanceName("") /* hades-mem-init:  */ // 0x109638F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0ElDorito@@QAE@XZ");
-	// ElDorito *const this;
 }
 
 namespace Audio
@@ -457,45 +456,6 @@ namespace Utils { void LogEthernetAdapterInfo(); namespace Version { std::string
 void ElDorito::Initialize() // 0x10965070
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@ElDorito@@QAEXXZ");
-	// static ...; // 0x1096622A
-	// static ...; // 0x10966226
-	// static ...; // 0x10966219
-	// static ...; // 0x10966209
-	// static ...; // 0x109661FE
-	// static ...; // 0x109661F4
-	// static ...; // 0x109661F1
-	// static ...; // 0x109661EE
-	// static ...; // 0x109661E4
-	// static ...; // 0x109661E0
-	// static ...; // 0x109661D8
-	// static ...; // 0x109661CF
-	// static ...; // 0x109661C7
-	// static ...; // 0x109661BE
-	// static ...; // 0x109661B0
-	// static ...; // 0x109660FC
-	// static ...; // 0x109660F4
-	// ElDorito *const this;
-	// std::wstring wide_ed_appdata;
-	// __int32 numArgs;
-	// CommandLineArgs cmdArgs;
-	// wchar_t *localAppdata;
-	// std::string ed_appdata;
-		// __int32 i;
-			// std::string arg;
-		// std::stringstream ss;
-		// std::stringstream keystream;
-			// std::string argvalue;
-			// unsigned __int32 pos;
-			// std::string argname;
-				// __int32 proc;
-				// std::string command;
-				// std::string filePath;
-		// std::stringstream connectString;
-	// function call : HRESULT (void *)
-	// function call : unsigned long ()
-	// function call : __int32 (char const *, _SECURITY_ATTRIBUTES *)
-	// function call : wchar_t *()
-	// function call : __int32 (char const *, _SECURITY_ATTRIBUTES *)
 
 	if (FAILED(CoInitialize(NULL)))
 		return;
@@ -682,7 +642,6 @@ namespace Debug
 void ElDorito::Shutdown() // 0x10966B70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Shutdown@ElDorito@@QAEXXZ");
-	// ElDorito *const this;
 
 	Utils::Singleton<Utils::Logger>::Instance().Flush();
 	Download::Shutdown();
@@ -691,21 +650,11 @@ void ElDorito::Shutdown() // 0x10966B70
 void ElDorito::SetMapsFolder(std::string const &path) // 0x10966B50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SetMapsFolder@ElDorito@@AAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-	// std::string const &path;
 }
 
 void ElDorito::Tick() // 0x10966BD0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@ElDorito@@QAEXXZ");
-	// static ...; // 0x10966DEC
-	// static ...; // 0x10966DE0
-	// static ...; // 0x10966DD8
-	// ElDorito *const this;
-		// float speed;
-		// c_network_session *session;
-		// Modules::ModuleTime const &moduleTime;
-	// function call : bool (*const)()
-	// function call : bool (*const)(c_network_session **)
 
 	Server::VariableSynchronization::Tick();
 	if (IsDedicated())
@@ -762,20 +711,6 @@ void ElDorito::Tick() // 0x10966BD0
 std::string ElDorito::GetDirectory() // 0x10964690
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetDirectory@ElDorito@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-	// static ...; // 0x1096493D
-	// static ...; // 0x10964938
-	// static ...; // 0x10964934
-	// static ...; // 0x10964910
-	// static ...; // 0x10964908
-	// ElDorito *const this;
-	// HINSTANCE__ *hMod;
-	// char Path[260];
-	// std::string Dir;
-		// __int32 Error;
-	// function call : __int32 (unsigned long, char const *, HINSTANCE__ **)
-	// function call : unsigned long ()
-	// function call : void (char const *)
-	// function call : unsigned long (HINSTANCE__ *, char *, unsigned long)
 
 	char Path[260];
 	HINSTANCE__ *hMod;
@@ -793,7 +728,6 @@ std::string ElDorito::GetDirectory() // 0x10964690
 void ElDorito::OnMainMenuShown() // 0x10966AA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnMainMenuShown@ElDorito@@QAEXXZ");
-	// ElDorito *const this;
 
 	if (GameHasMenuShown)
 		return;
@@ -807,12 +741,6 @@ void ElDorito::OnMainMenuShown() // 0x10966AA0
 void ElDorito::setWatermarkText(std::string const &Message) // 0x10967AF0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?setWatermarkText@ElDorito@@AAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-	// static ...; // 0x10967D3C
-	// static ...; // 0x10967D34
-	// ElDorito *const this;
-	// std::string const &Message;
-	// static wchar_t msgBuf[256]; // 0x1240F878
-	// std::wstring msgUnicode;
 
 	static wchar_t msgBuf[256];
 	wmemset(msgBuf, 0, 256);
@@ -827,37 +755,6 @@ void ElDorito::setWatermarkText(std::string const &Message) // 0x10967AF0
 bool CanAccessFolder(char const *folderName, unsigned long genericAccessRights) // 0x10964160
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CanAccessFolder@@YA_NPBDK@Z");
-	// static ...; // 0x1096445C
-	// static ...; // 0x10964449
-	// static ...; // 0x10964441
-	// static ...; // 0x10964436
-	// static ...; // 0x10964428
-	// static ...; // 0x10964417
-	// static ...; // 0x10964410
-	// static ...; // 0x109643B0
-	// static ...; // 0x109643A8
-	// char const *folderName;
-	// unsigned long genericAccessRights;
-	// bool bRet;
-	// unsigned long length;
-		// void *security;
-			// void *hToken;
-				// void *hImpersonatedToken;
-					// unsigned long privilegesLength;
-					// unsigned long grantedAccess;
-					// _GENERIC_MAPPING mapping;
-					// __int32 result;
-					// _PRIVILEGE_SET privileges;
-	// function call : __int32 (char const *, unsigned long, void *, unsigned long, unsigned long *)
-	// function call : unsigned long ()
-	// function call : __int32 (char const *, unsigned long, void *, unsigned long, unsigned long *)
-	// function call : void *()
-	// function call : __int32 (void *, unsigned long, void **)
-	// function call : __int32 (void *, _SECURITY_IMPERSONATION_LEVEL, void **)
-	// function call : void (unsigned long *, _GENERIC_MAPPING *)
-	// function call : __int32 (void *, void *, unsigned long, _GENERIC_MAPPING *, _PRIVILEGE_SET *, unsigned long *, unsigned long *, __int32 *)
-	// function call : __int32 (void *)
-	// function call : __int32 (void *)
 
 	bool bRet = false;
 	DWORD length = 0;
@@ -898,16 +795,6 @@ bool CanAccessFolder(char const *folderName, unsigned long genericAccessRights) 
 bool EnsureChildProcessTermination() // 0x10964530
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?EnsureChildProcessTermination@@YA_NXZ");
-	// procedure flags: nofpo
-	// static ...; // 0x10964624
-	// static ...; // 0x10964618
-	// static ...; // 0x10964610
-	// void *hJob;
-		// _JOBOBJECT_EXTENDED_LIMIT_INFORMATION jobLimits;
-	// function call : void *(_SECURITY_ATTRIBUTES *, char const *)
-	// function call : __int32 (void *, _JOBOBJECTINFOCLASS, void *, unsigned long)
-	// function call : void *()
-	// function call : __int32 (void *, void *)
 
 	void *hJob = ::CreateJobObjectA(nullptr, nullptr);
 	if (hJob)
@@ -928,13 +815,6 @@ bool EnsureChildProcessTermination() // 0x10964530
 std::string GetExceptionMessage(_EXCEPTION_RECORD const &exceptionRecord) // 0x10964A30
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetExceptionMessage@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABU_EXCEPTION_RECORD@@@Z");
-	// static ...; // 0x10964C5C
-	// static ...; // 0x10964C50
-	// static ...; // 0x10964C48
-	// _EXCEPTION_RECORD const &exceptionRecord;
-	// char const *(*const exception_get_name)(unsigned long);
-	// char const *name;
-	// function call : char const *(*const)(unsigned long)
 
 	char const *(*const exception_get_name)(unsigned long) = reinterpret_cast<char const *(*)(unsigned long)>(0x51BE40);
 	char const *name = exception_get_name(exceptionRecord.ExceptionCode);
@@ -955,19 +835,6 @@ std::string GetExceptionMessage(_EXCEPTION_RECORD const &exceptionRecord) // 0x1
 long __stdcall TopLevelExceptionFilter(_EXCEPTION_POINTERS *ExceptionInfo) // 0x10966E80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?TopLevelExceptionFilter@@YGJPAU_EXCEPTION_POINTERS@@@Z");
-	// static ...; // 0x109670EF
-	// static ...; // 0x109670EB
-	// static ...; // 0x109670E6
-	// static ...; // 0x109670DC
-	// static ...; // 0x109670AC
-	// static ...; // 0x109670A4
-	// _EXCEPTION_POINTERS *ExceptionInfo;
-	// HINSTANCE__ *hMod;
-	// std::string moduleName;
-	// static bool handling; // 0x1240F695
-	// char info[1024];
-	// Debug::CrashReporting::s_crash_info crashInfo;
-	// std::string msg;
 
 	if (handling)
 		return EXCEPTION_EXECUTE_HANDLER;
@@ -993,10 +860,6 @@ long __stdcall TopLevelExceptionFilter(_EXCEPTION_POINTERS *ExceptionInfo) // 0x
 __int32 __stdcall WinMainHook(HINSTANCE__ *hInstance, HINSTANCE__ *hPrevInstance, char *lpCmdLine, __int32 nCmdShow) // 0x109671A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?WinMainHook@@YGHPAUHINSTANCE__@@0PADH@Z");
-	// __int32 nCmdShow;
-	// __int32 (*const WinMain)(HINSTANCE__ *, HINSTANCE__ *, char *, __int32);
-	// function call : long (*(long (*)(_EXCEPTION_POINTERS *)))(_EXCEPTION_POINTERS *)
-	// function call : __int32 (*const)(HINSTANCE__ *, HINSTANCE__ *, char *, __int32)
 
 	__int32 (__stdcall *const WinMainPtr)(HINSTANCE__ *, HINSTANCE__ *, char *, __int32) = (__int32(__stdcall *const)(HINSTANCE__ *, HINSTANCE__ *, char *, __int32))0x42eb10;
 
@@ -1009,18 +872,6 @@ __int32 __stdcall WinMainHook(HINSTANCE__ *hInstance, HINSTANCE__ *hPrevInstance
 __int32 InitInstance(HINSTANCE__ *hModule) // 0x10964D10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?InitInstance@@YAHPAUHINSTANCE__@@@Z");
-	// static ...; // 0x10964FB3
-	// static ...; // 0x10964FAC
-	// static ...; // 0x10964F94
-	// static ...; // 0x10964F8C
-	// HINSTANCE__ *hModule;
-	// std::string EDPath;
-	// char appPath[260];
-	// function call : __int32 (HINSTANCE__ *)
-	// function call : __int32 ()
-	// function call : unsigned long (HINSTANCE__ *, char *, unsigned long)
-	// function call : __int32 (char const *)
-	// function call : __int32 (HWND__ *, char const *, char const *, unsigned __int32)
 
 	DisableThreadLibraryCalls(hModule);
 	SetProcessDPIAware();
@@ -1044,7 +895,6 @@ __int32 InitInstance(HINSTANCE__ *hModule) // 0x10964D10
 __int32 ExitInstance() // 0x10964670
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ExitInstance@@YAHXZ");
-	// procedure flags: nofpo
 
 	return 1;
 }
@@ -1052,7 +902,6 @@ __int32 ExitInstance() // 0x10964670
 __int32 GetEDVersion() // 0x109649F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetEDVersion@@YAHXZ");
-	// procedure flags: nofpo
 
 	return Utils::Version::GetVersionInt();
 }
@@ -1060,21 +909,6 @@ __int32 GetEDVersion() // 0x109649F0
 extern "C" __int32 __stdcall DllMain(HINSTANCE__ *hModule, unsigned long Reason, void *Misc) noexcept(false) // 0x10967E50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_DllMain@12");
-	// static ...; // 0x1096806C
-	// static ...; // 0x10968064
-// $LN11:
-// $LN10:
-// $LN9:
-// $LN8:
-	// HINSTANCE__ *hModule;
-	// unsigned long Reason;
-	// void *Misc;
-		// std::string str;
-		// __int32 offset;
-		// char *cmd;
-	// function call : char *()
-	// function call : char *()
-	// function call : HINSTANCE__ *(HWND__ *, char const *, char const *, char const *, char const *, __int32)
 
 	switch (Reason)
 	{
@@ -1114,9 +948,6 @@ namespace Debug
 void HandleFinder() // 0x10964CF0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleFinder@@YAXXZ");
-	// the original is empty
-	// `anonymous-namespace'::HandleFinder
-	// procedure flags: nofpo
 }
 
 /* ---------- template instantiations */

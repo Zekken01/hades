@@ -170,23 +170,6 @@ namespace Web
 		std::string AssetService::FindAssetInModVfs(std::string const &modIdentifier, std::string const &path, std::vector<std::string_view> const &fileTypes) // 0x1077E320
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?FindAssetInModVfs@AssetService@Ui@Web@@SA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV45@0ABV?$vector@V?$basic_string_view@DU?$char_traits@D@std@@@std@@V?$allocator@V?$basic_string_view@DU?$char_traits@D@std@@@std@@@2@@5@@Z");
-			// static ...; // 0x1077E815
-			// static ...; // 0x1077E80F
-			// static ...; // 0x1077E804
-			// static ...; // 0x1077E7C8
-			// static ...; // 0x1077E7C0
-			// std::string const &modIdentifier;
-			// std::string const &path;
-			// std::vector<std::string_view> const &fileTypes;
-			// std::vector<std::string_view> const &actualFileTypes;
-			// std::string vfsId;
-			// std::shared_ptr<CModPackageFileSystemView> vfs;
-				// CModPackageFileSystemView::SFileEntry entry;
-					// std::vector<std::string_view> const &<range>$L0;
-					// std::string_view const *<begin>$L0;
-					// std::string_view const *<end>$L0;
-						// std::string_view const &ext;
-							// std::string actualPath;
 
 			std::vector<std::string_view> const &actualFileTypes = !fileTypes.empty() ? fileTypes : std::vector<std::string_view>{ "" };
 			std::string vfsId;
@@ -214,19 +197,6 @@ namespace Web
 		std::string AssetService::FindAssetInBaseDir(std::string const &path, std::vector<std::string_view> const &fileTypes) // 0x1077DCA0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?FindAssetInBaseDir@AssetService@Ui@Web@@SA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV45@ABV?$vector@V?$basic_string_view@DU?$char_traits@D@std@@@std@@V?$allocator@V?$basic_string_view@DU?$char_traits@D@std@@@std@@@2@@5@@Z");
-			// static ...; // 0x1077E1C3
-			// static ...; // 0x1077E1B8
-			// static ...; // 0x1077E194
-			// static ...; // 0x1077E18C
-			// std::string const &path;
-			// std::vector<std::string_view> const &fileTypes;
-			// std::vector<std::string_view> const &actualFileTypes;
-			// std::filesystem::path baseDir;
-				// std::vector<std::string_view> const &<range>$L0;
-				// std::string_view const *<begin>$L0;
-				// std::string_view const *<end>$L0;
-					// std::string_view const &ext;
-						// std::string actualPath;
 
 			std::vector<std::string_view> const &actualFileTypes = !fileTypes.empty() ? fileTypes : std::vector<std::string_view>{ "" };
 			std::filesystem::path baseDir("ui\\");
@@ -248,18 +218,6 @@ namespace Web
 std::shared_ptr<CModPackageFileSystemView> GetModVFS(std::string const &identifier, std::string &vfsId) // 0x1077E970
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetModVFS@@YA?AV?$shared_ptr@VCModPackageFileSystemView@@@std@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@AAV32@@Z");
-	// `anonymous-namespace'::GetModVFS
-	// static ...; // 0x1077EC0C
-	// static ...; // 0x1077EBF4
-	// static ...; // 0x1077EBEC
-	// std::string const &identifier;
-	// std::string &vfsId;
-	// EModIndex modIndex;
-		// Ref<IMod> mod;
-			// std::string hashStr;
-			// c_mod_package const *pak;
-	// function call : Ref<IMod> (EModIndex) const
-	// function call : c_mod_package *(bool) const
 
 	EModIndex modIndex = kInvalid;
 	if (identifier == "game")

@@ -163,8 +163,6 @@ namespace Patches
 		void ApplyAll() // 0x10ABEF90
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@RawInput@Patches@@YAXXZ");
-			// procedure flags: nofpo
-			// Hook the input handling routine to fix mouse acceleration
 
 			Hook(0x2E7A9, RawInputHook, 1).Apply();
 		}
@@ -172,16 +170,6 @@ namespace Patches
 		void UpdateCameraYawPitch(float deltaX, float deltaY, float &yaw, float &pitch) // 0x10ABF8E0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateCameraYawPitch@RawInput@Patches@@YAXMMAAM0@Z");
-			// float &pitch;
-			// s_global_preferences_settings::s_input_settings *const input_settings;
-			// float weaponSensitivity;
-			// long player_index;
-			// float maxVertAngle;
-			// float yaxisSens;
-			// s_global_preferences *prefs;
-			// float xaxisSens;
-			// function call : unsigned long (*const)(long)
-			// function call : bool (*const)(long)
 
 			float weaponSensitivity = Pointer::Base(0x4CDEF14).Read<float>();
 			float maxVertAngle = Pointer::Base(0x14B49E4).Read<float>();
@@ -221,20 +209,6 @@ namespace Patches
 bool ShouldDisableRawInput() // 0x10ABF5C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ShouldDisableRawInput@@YA_NXZ");
-	// `anonymous-namespace'::ShouldDisableRawInput
-	// procedure flags: nofpo
-	// static ...; // 0x10ABF82C
-	// static ...; // 0x10ABF820
-	// static ...; // 0x10ABF818
-	// bool (*const game_engine_round_in_progress)();
-		// s_player_datum *player;
-		// long heldObjectIndex;
-		// bool leftMouseDown;
-		// unsigned long playerIndex;
-		// short activeScreenCount;
-	// function call : bool (*const)()
-	// function call : unsigned long (*const)(long)
-	// function call : bool (*const)(long, long *, long *)
 
 	bool (*const game_engine_round_in_progress)() = reinterpret_cast<bool (*)()>(0x550F90);
 	if (game_engine_round_in_progress())
@@ -258,15 +232,6 @@ bool ShouldDisableRawInput() // 0x10ABF5C0
 bool RawInputHookImpl(tagRAWINPUT *rwInput) // 0x10ABF380
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?RawInputHookImpl@@YA_NPAUtagRAWINPUT@@@Z");
-	// `anonymous-namespace'::RawInputHookImpl
-	// tagRAWINPUT *rwInput;
-	// bool (*const game_is_mainmenu)();
-	// bool inhibit_movement;
-	// bool controllerEnabled;
-	// s_player_control_input_state *player_control;
-	// bool isFlying;
-	// function call : bool (*const)()
-	// function call : bool (*const)(__int32)
 
 	bool (*const game_is_mainmenu)() = reinterpret_cast<bool (*)()>(0x531E90);
 	bool isFlying = Patches::Camera::GetForcedCameraMode() == _camera_mode_flying;
@@ -290,17 +255,6 @@ bool RawInputHookImpl(tagRAWINPUT *rwInput) // 0x10ABF380
 void RawInputHook(__int32 unused, unsigned __int32 wParam, HRAWINPUT__ *hRawInput) // 0x10ABF0F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?RawInputHook@@YAXHIPAUHRAWINPUT__@@@Z");
-	// `anonymous-namespace'::RawInputHook
-	// static ...; // 0x10ABF2D8
-	// static ...; // 0x10ABF2D0
-	// __int32 unused;
-	// unsigned __int32 wParam;
-	// HRAWINPUT__ *hRawInput;
-	// RawMouseState *mouseState;
-	// bool const mouseEnabled;
-	// unsigned __int32 cbSize;
-	// tagRAWINPUT input;
-	// function call : unsigned __int32 (HRAWINPUT__ *, unsigned __int32, void *, unsigned __int32 *, unsigned __int32)
 
 	bool const mouseEnabled = *(bool *)0x512356;
 	RawMouseState *mouseState = (RawMouseState *)0x238E6BC;

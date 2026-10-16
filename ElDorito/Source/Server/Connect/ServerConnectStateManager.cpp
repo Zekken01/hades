@@ -102,7 +102,6 @@ void CServerConnectStateManager::Update() // 0x10B0DC10
 void CServerConnectStateManager::RequestStateChange(EServerConnectState state) // 0x10B0D9D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?RequestStateChange@CServerConnectStateManager@@QAEXW4EServerConnectState@@@Z");
-	// EServerConnectState state;
 
 	m_requestedState = state;
 }
@@ -110,7 +109,6 @@ void CServerConnectStateManager::RequestStateChange(EServerConnectState state) /
 void CServerConnectStateManager::Abort(EServerConnectAbortReason reason) // 0x10B0D610
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Abort@CServerConnectStateManager@@QAEXW4EServerConnectAbortReason@@@Z");
-	// EServerConnectAbortReason reason;
 
 	m_abortReason = reason;
 }
@@ -118,7 +116,6 @@ void CServerConnectStateManager::Abort(EServerConnectAbortReason reason) // 0x10
 void CServerConnectStateManager::Complete() // 0x10B0D640
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Complete@CServerConnectStateManager@@QAEXXZ");
-	// CServerConnectStateManager *const this;
 
 	SetStateInternal((EServerConnectState)0);
 }
@@ -126,9 +123,6 @@ void CServerConnectStateManager::Complete() // 0x10B0D640
 void CServerConnectStateManager::SetStateInternal(EServerConnectState state) // 0x10B0DA00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SetStateInternal@CServerConnectStateManager@@AAEXW4EServerConnectState@@@Z");
-	// EServerConnectState state;
-	// function call : void ()
-	// function call : void ()
 
 	if (m_currentHandler)
 		m_currentHandler->OnExit();

@@ -92,8 +92,6 @@ extern void *(*const tag_get)(unsigned long, long);  // hades: added for 0x108EE
 _inline c_render_method_template *c_render_method_template::get(long index) // 0x108EEF70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get@c_render_method_template@@SAPAU1@J@Z");
-	// long index;
-	// function call : void *(*const)(unsigned long, long)
 
 	return (c_render_method_template *)tag_get(0x726D7432, index);
 }

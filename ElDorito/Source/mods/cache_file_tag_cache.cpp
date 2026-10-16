@@ -53,13 +53,11 @@ struct s_cache_tag_instance;
 c_cache_file_tag_cache::c_cache_file_tag_cache(c_file_reference const *file, unsigned long base_offset, c_tag_name_dictionary &&tag_names) : m_initialized(false), m_file(file->filename), m_base_offset(base_offset), m_tag_names(std::move(tag_names)) /* hades-mem-init: : m_base_offset(todo_result<unsigned long>()), m_tag_names(todo_result<c_tag_name_dictionary>()) */ // 0x108714F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_cache_file_tag_cache@@QAE@PBVc_file_reference@@K$$QAVc_tag_name_dictionary@@@Z");
-	// c_tag_name_dictionary &tag_names;
 }
 
 bool c_cache_file_tag_cache::initialize() // 0x108743F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?initialize@c_cache_file_tag_cache@@QAE_NXZ");
-	// c_cache_file_tag_cache *const this;
 
 	if (m_initialized)
 		return true;
@@ -70,11 +68,6 @@ bool c_cache_file_tag_cache::initialize() // 0x108743F0
 bool c_cache_file_tag_cache::load_internal() // 0x10874500
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?load_internal@c_cache_file_tag_cache@@AAE_NXZ");
-	// static ...; // 0x10874614
-	// static ...; // 0x10874608
-	// static ...; // 0x10874600
-	// c_cache_file_tag_cache *const this;
-	// c_file_open_scope scope;
 
 	c_file_open_scope scope(m_file, 1);
 
@@ -87,6 +80,7 @@ bool c_cache_file_tag_cache::load_internal() // 0x10874500
 	return true;
 }
 
+#line 90
 bool c_cache_file_tag_cache::read_tag_data(c_file_reference *file, long index, unsigned long offset, unsigned long size, void *buffer) // 0x108750D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?read_tag_data@c_cache_file_tag_cache@@QAE_NPAVc_file_reference@@JKKPAX@Z");
@@ -137,11 +131,6 @@ bool c_cache_file_tag_cache::read_and_fixup_tag(c_file_reference *file, long ind
 bool c_cache_file_tag_cache::read_data_internal(c_file_reference *file, unsigned long offset, unsigned long size, void *buffer) // 0x10874F50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?read_data_internal@c_cache_file_tag_cache@@AAE_NPAVc_file_reference@@KKPAX@Z");
-	// c_file_reference *file;
-	// unsigned long offset;
-	// unsigned long size;
-	// void *buffer;
-	// c_file_open_scope scope;
 
 	c_file_open_scope scope(*file, 1);
 	if (!file->set_position(m_base_offset + offset, false))
@@ -154,11 +143,6 @@ bool c_cache_file_tag_cache::read_data_internal(c_file_reference *file, unsigned
 bool c_cache_file_tag_cache::read_tag_offsets() // 0x10875210
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?read_tag_offsets@c_cache_file_tag_cache@@AAE_NXZ");
-	// static ...; // 0x10875318
-	// static ...; // 0x1087530C
-	// static ...; // 0x10875304
-	// c_cache_file_tag_cache *const this;
-	// s_cache_file_segment_header tags_header;
 
 	s_cache_file_segment_header tags_header;
 
@@ -176,12 +160,6 @@ bool c_cache_file_tag_cache::read_tag_offsets() // 0x10875210
 bool c_cache_file_tag_cache::load_tags() // 0x10874660
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?load_tags@c_cache_file_tag_cache@@AAE_NXZ");
-	// c_cache_file_tag_cache *const this;
-	// long actual_count;
-	// long absolute_index;
-		// unsigned __int32 tag_index;
-		// long tag_index;
-			// unsigned long const offset;
 
 	long absolute_index = 0;
 	long actual_count = 0;
@@ -210,12 +188,6 @@ bool c_cache_file_tag_cache::load_tags() // 0x10874660
 long c_cache_file_tag_cache::find_by_name(unsigned long group, char const *name) const // 0x10874040
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?find_by_name@c_cache_file_tag_cache@@QBEJKPBD@Z");
-	// static ...; // 0x10874108
-	// c_cache_file_tag_cache const *const this;
-	// unsigned long group;
-	// char const *name;
-	// c_cache_file_tag_cache::c_instance_iterator iterator;
-		// char const *instance_name;
 
 	c_instance_iterator iterator = create_iterator(group);
 
@@ -236,8 +208,6 @@ long c_cache_file_tag_cache::find_by_name(unsigned long group, char const *name)
 bool c_cache_file_tag_cache::empty_tag(long index) const // 0x10873EA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?empty_tag@c_cache_file_tag_cache@@QBE_NJ@Z");
-	// long index;
-	// s_cache_tag_instance const *instance;
 
 	const s_cache_tag_instance *instance = get_instance(index);
 
@@ -250,7 +220,6 @@ bool c_cache_file_tag_cache::empty_tag(long index) const // 0x10873EA0
 bool c_cache_file_tag_cache::c_instance_iterator::next() // 0x10874AF0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?next@c_instance_iterator@c_cache_file_tag_cache@@QAE_NXZ");
-	// c_cache_file_tag_cache::c_instance_iterator *const this;
 
 	while (true)
 	{

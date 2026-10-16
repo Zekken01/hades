@@ -110,7 +110,6 @@ _inline Pointer::operator t_arg0 *() const
 inline void *GetBasePointer() // 0x10968590
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetBasePointer@@YAPAXXZ");
-	// procedure flags: nofpo
 
 	return GetModuleBase();
 }
@@ -118,7 +117,6 @@ inline void *GetBasePointer() // 0x10968590
 inline Pointer::Pointer(void *Pointer) // 0x10698D80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0Pointer@@QAE@PAX@Z");
-	// void *Pointer;
 
 	_Pointer = Pointer;
 }
@@ -126,7 +124,6 @@ inline Pointer::Pointer(void *Pointer) // 0x10698D80
 inline Pointer::Pointer(unsigned __int32 Offset) // 0x10698D50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0Pointer@@QAE@I@Z");
-	// unsigned __int32 Offset;
 
 	_Pointer = (void *)Offset;
 }
@@ -134,13 +131,11 @@ inline Pointer::Pointer(unsigned __int32 Offset) // 0x10698D50
 inline Pointer::~Pointer() // 0x10699000
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??1Pointer@@QAE@XZ");
-	// Pointer *const this;
 }
 
 inline Pointer Pointer::operator[](__int32 const Offset) const // 0x10992670
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??APointer@@QBE?AV0@H@Z");
-	// __int32 const Offset;
 
 	if (_Pointer != nullptr && (char *)_Pointer + Offset != nullptr)
 	{
@@ -152,7 +147,6 @@ inline Pointer Pointer::operator[](__int32 const Offset) const // 0x10992670
 inline Pointer Pointer::operator()(unsigned __int32 Offset, unsigned __int32 Stride) const // 0x10699490
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??RPointer@@QBE?AV0@II@Z");
-	// unsigned __int32 Stride;
 
 	return Pointer((void *)((char *)_Pointer + Offset * Stride));
 }
@@ -160,7 +154,6 @@ inline Pointer Pointer::operator()(unsigned __int32 Offset, unsigned __int32 Str
 inline void Pointer::operator=(Pointer Pointer) // 0x10A90100
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??4Pointer@@QAEXV0@@Z");
-	// Pointer Pointer;
 
 	_Pointer = Pointer._Pointer;
 }
@@ -168,7 +161,6 @@ inline void Pointer::operator=(Pointer Pointer) // 0x10A90100
 inline Pointer::operator void *() const // 0x108E4020
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??BPointer@@QBEPAXXZ");
-	// Pointer const *const this;
 
 	return _Pointer;
 }
@@ -194,18 +186,6 @@ _inline void Pointer::Write(t_arg0 const value) const
 inline void Pointer::Write(void const *data, unsigned __int32 size) const // 0x10699F40
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Write@Pointer@@QBEXPBXI@Z");
-	// static ...; // 0x1069A100
-	// static ...; // 0x1069A0DC
-	// static ...; // 0x1069A0D4
-	// Pointer const *const this;
-	// void const *data;
-	// unsigned __int32 size;
-	// unsigned long temp;
-	// unsigned long temp2;
-		// std::stringstream ss;
-	// function call : __int32 (void *, unsigned long, unsigned long, unsigned long *)
-	// function call : void (char const *)
-	// function call : __int32 (void *, unsigned long, unsigned long, unsigned long *)
 
 	unsigned long temp;
 	unsigned long temp2;
@@ -223,23 +203,6 @@ inline void Pointer::Write(void const *data, unsigned __int32 size) const // 0x1
 inline void Pointer::WriteCall(void *newFunction, bool isIndirect) const // 0x1069A190
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?WriteCall@Pointer@@QBEXPAX_N@Z");
-	// static ...; // 0x1069A3D7
-	// static ...; // 0x1069A3CF
-	// static ...; // 0x1069A3CC
-	// static ...; // 0x1069A390
-	// static ...; // 0x1069A388
-	// Pointer const *const this;
-	// void *newFunction;
-	// bool isIndirect;
-	// unsigned __int32 JMPSize;
-	// unsigned long temp;
-	// __int32 patchSize;
-	// unsigned long temp2;
-	// unsigned char tempJMP[6];
-		// std::stringstream ss;
-	// function call : __int32 (void *, unsigned long, unsigned long, unsigned long *)
-	// function call : void (char const *)
-	// function call : __int32 (void *, unsigned long, unsigned long, unsigned long *)
 
 	unsigned long temp;
 	unsigned long temp2;
@@ -261,25 +224,6 @@ inline void Pointer::WriteCall(void *newFunction, bool isIndirect) const // 0x10
 inline void Pointer::WriteJump(void *newFunction, __int32 jmpFlags) const // 0x1069A480
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?WriteJump@Pointer@@QBEXPAXH@Z");
-	// static ...; // 0x1069A72A
-	// static ...; // 0x1069A723
-	// static ...; // 0x1069A71B
-	// static ...; // 0x1069A718
-	// static ...; // 0x1069A6D0
-	// static ...; // 0x1069A6C8
-	// Pointer const *const this;
-	// void *newFunction;
-	// __int32 jmpFlags;
-	// unsigned __int32 JMPSize;
-	// unsigned long temp;
-	// unsigned __int32 patchSize;
-	// unsigned char tempJE[6];
-	// unsigned long temp2;
-	// unsigned char tempJMP[5];
-		// std::stringstream ss;
-	// function call : __int32 (void *, unsigned long, unsigned long, unsigned long *)
-	// function call : void (char const *)
-	// function call : __int32 (void *, unsigned long, unsigned long, unsigned long *)
 
 	unsigned long temp;
 	unsigned long temp2;
@@ -310,7 +254,6 @@ inline void Pointer::WriteJump(void *newFunction, __int32 jmpFlags) const // 0x1
 inline void Pointer::Read(void *Dest, unsigned __int32 size) const // 0x10A29540
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Read@Pointer@@QBEXPAXI@Z");
-	// unsigned __int32 size;
 
 	memcpy(Dest, _Pointer, size);
 }
@@ -318,9 +261,6 @@ inline void Pointer::Read(void *Dest, unsigned __int32 size) const // 0x10A29540
 inline Pointer const Pointer::Base(unsigned __int32 Offset, unsigned __int32 Stride) // 0x10699CA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Base@Pointer@@SA?BV1@II@Z");
-	// unsigned __int32 Stride;
-	// static Pointer ModuleBase; // 0x11372CCC
-	// static __int32 $TSS0; // 0x11372CD0
 
 	static Pointer const ModuleBase(GetModuleBase());
 	return ModuleBase(Offset, Stride);

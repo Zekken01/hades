@@ -157,7 +157,6 @@ namespace Web
 			void Init() // 0x10C8A6A0
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?Init@MpEventDispatcher@Ui@Web@@YAXXZ");
-				// procedure flags: nofpo
 
 				Patches::Events::OnEvent(::OnEvent);
 			}
@@ -170,18 +169,6 @@ namespace Web
 static void OnEvent(unsigned long player, s_game_engine_event_data const *event, s_multiplayer_event_response_definition const *definition) // 0x10C8A700
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnEvent@@YAXKPBUs_game_engine_event_data@@PBUs_multiplayer_event_response_definition@@@Z");
-	// `anonymous-namespace'::OnEvent
-	// static ...; // 0x10C8A91C
-	// static ...; // 0x10C8A8F8
-	// static ...; // 0x10C8A8F0
-	// unsigned long player;
-	// s_game_engine_event_data const *event;
-	// s_multiplayer_event_response_definition const *definition;
-	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
-	// std::string eventName;
-	// unsigned __int32 (*GetLocalPlayer)(__int32);
-	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
-	// function call : unsigned __int32 (*)(__int32)
 
 	unsigned __int32 (*GetLocalPlayer)(__int32) = reinterpret_cast<unsigned __int32 (*)(__int32)>(0x589C30);
 	if (player != GetLocalPlayer(0))
@@ -203,16 +190,6 @@ static void OnEvent(unsigned long player, s_game_engine_event_data const *event,
 std::string GetEventName(unsigned __int32 stringId) // 0x10C8A3E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetEventName@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@I@Z");
-	// `anonymous-namespace'::GetEventName
-	// static ...; // 0x10C8A60E
-	// static ...; // 0x10C8A60B
-	// static ...; // 0x10C8A608
-	// static ...; // 0x10C8A5E4
-	// static ...; // 0x10C8A5DC
-	// unsigned __int32 stringId;
-	// std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<unsigned int const ,std::string> > > > it;
-	// std::ostringstream ss;
-	// std::string name;
 
 	// Try to find the stringID in the event names list
 	std::string name;

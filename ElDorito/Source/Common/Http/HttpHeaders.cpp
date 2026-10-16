@@ -67,12 +67,6 @@ namespace Http
 	CHttpHeaders::CHttpHeaders(std::initializer_list<std::pair<std::string,std::string> > const &values) // 0x107FA7A0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "??0CHttpHeaders@Http@@QAE@ABV?$initializer_list@U?$pair@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@@std@@@std@@@Z");
-		// std::initializer_list<std::pair<std::string,std::string> > const &values;
-			// std::initializer_list<std::pair<std::string,std::string> > const &<range>$L0;
-			// std::pair<std::string,std::string> const *<begin>$L0;
-			// std::pair<std::string,std::string> const *<end>$L0;
-				// std::string const &k;
-				// std::string const &v;
 
 		for (auto const &[key, value] : values)
 			Add(key, value, Coalesce);
@@ -85,11 +79,6 @@ namespace Http
 	std::string const CHttpHeaders::Get(std::string const &headerKey) const // 0x107FB750
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Get@CHttpHeaders@Http@@QBE?BV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV34@@Z");
-		// static ...; // 0x107FB8C8
-		// static ...; // 0x107FB8C0
-		// Http::CHttpHeaders const *const this;
-		// std::string const &headerKey;
-			// std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::string> > > > it;
 
 		if (auto it = m_map.find(headerKey); it != m_map.end())
 			return it->second;
@@ -99,15 +88,6 @@ namespace Http
 	bool CHttpHeaders::GetInt(std::string const &headerKey, long long &value) const // 0x107FBB20
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetInt@CHttpHeaders@Http@@QBE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AA_J@Z");
-		// static ...; // 0x107FBC54
-		// static ...; // 0x107FBC4C
-		// Http::CHttpHeaders const *const this;
-		// std::string const &headerKey;
-		// long long &value;
-		// std::errc ec;
-		// std::string str;
-		// std::from_chars_result $S2;
-		// char const *p;
 
 		std::string const str = Get(headerKey);
 		if (str.empty())
@@ -119,7 +99,6 @@ namespace Http
 	bool CHttpHeaders::Contains(std::string const &headerKey) const // 0x107FB620
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Contains@CHttpHeaders@Http@@QBE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// std::string const &headerKey;
 
 		return m_map.find(headerKey) != m_map.end();
 	}
@@ -127,11 +106,6 @@ namespace Http
 	bool CHttpHeaders::Add(std::string const &headerKey, std::string const &headerValue, Http::CHttpHeaders::ECollisionOp collisionOp) // 0x107FB2B0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Add@CHttpHeaders@Http@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0W4ECollisionOp@12@@Z");
-		// Http::CHttpHeaders *const this;
-		// std::string const &headerKey;
-		// std::string const &headerValue;
-		// Http::CHttpHeaders::ECollisionOp collisionOp;
-			// std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::string> > > > it;
 
 		auto it = m_map.find(headerKey);
 		if (it != m_map.end())
@@ -161,11 +135,6 @@ namespace Http
 	bool CHttpHeaders::Remove(std::string const &headerKey) // 0x107FBF10
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Remove@CHttpHeaders@Http@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// static ...; // 0x107FC04C
-		// static ...; // 0x107FC044
-		// Http::CHttpHeaders *const this;
-		// std::string const &headerKey;
-			// std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::string> > > > it;
 
 		if (auto it = m_map.find(headerKey); it != m_map.end())
 		{
@@ -178,18 +147,6 @@ namespace Http
 	void CHttpHeaders::Parse(std::string const &str, Http::CHttpHeaders &headers) // 0x107FBCD0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Parse@CHttpHeaders@Http@@SAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAV12@@Z");
-		// static ...; // 0x107FBE82
-		// static ...; // 0x107FBE7C
-		// static ...; // 0x107FBE58
-		// static ...; // 0x107FBE50
-		// std::string const &str;
-		// Http::CHttpHeaders &headers;
-		// unsigned __int32 pos;
-			// std::string key;
-			// std::string headerLine;
-			// unsigned __int32 sp;
-			// unsigned __int32 eol;
-			// std::string value;
 
 		unsigned __int32 start = 0;
 		for (;;)
@@ -217,19 +174,6 @@ namespace Http
 	std::string CHttpHeaders::ToString() const // 0x107FC0B0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?ToString@CHttpHeaders@Http@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-		// static ...; // 0x107FC330
-		// static ...; // 0x107FC325
-		// static ...; // 0x107FC31C
-		// static ...; // 0x107FC2F8
-		// static ...; // 0x107FC2F0
-		// Http::CHttpHeaders const *const this;
-		// std::stringstream ss;
-			// std::string const &last;
-				// Http::CHttpHeaders const &<range>$L0;
-				// std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::string> > > > <begin>$L0;
-				// std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::string> > > > <end>$L0;
-					// std::string const &k;
-					// std::string const &v;
 
 		std::stringstream ss;
 		if (!m_map.empty())
@@ -252,18 +196,6 @@ namespace Http
 	std::vector<std::tuple<std::string,std::string> > CHttpHeaders::GetHeaders() // 0x107FB940
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetHeaders@CHttpHeaders@Http@@QAE?AV?$vector@V?$tuple@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@@std@@V?$allocator@V?$tuple@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@@std@@@2@@std@@XZ");
-		// static ...; // 0x107FBAB4
-		// static ...; // 0x107FBAA9
-		// static ...; // 0x107FBAA0
-		// static ...; // 0x107FBA7C
-		// static ...; // 0x107FBA74
-		// Http::CHttpHeaders *const this;
-		// std::vector<std::tuple<std::string,std::string> > headers;
-			// std::map<std::string,std::string,Http::CHttpHeaders::SHeaderKeyComparator> &<range>$L0;
-			// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::string> > > > <begin>$L0;
-			// std::_Default_sentinel <end>$L0;
-				// std::string const &k;
-				// std::string const &v;
 
 		std::vector<std::tuple<std::string,std::string> > headers;
 		for (auto const &[k, v] : m_map)

@@ -71,12 +71,6 @@ namespace Debug
 		_inline StackWalker::StackWalker(_CONTEXT context) : m_hProc(nullptr), m_hThread(nullptr), m_context(), m_stackFrame(), m_line{ sizeof(_IMAGEHLP_LINE) }, m_buffer(), m_hasLineInfo(false), m_hasSymbolInfo(false), m_frameIndex(0), m_maxFrames(32) /* hades-mem-init:  */ // 0x1068D590
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "??0StackWalker@CrashReporting@Debug@@QAE@U_CONTEXT@@@Z");
-			// _CONTEXT context;
-			// static bool symbolsInitialized; // 0x1137195C
-			// function call : void *()
-			// function call : __int32 (void *, char const *, __int32)
-			// function call : void *()
-			// function call : void *()
 
 			m_context = context;
 			static bool symbolsInitialized = false;
@@ -106,7 +100,6 @@ namespace Debug
 		_inline __int32 const StackWalker::GetLineNumber() const // 0x1068F470
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetLineNumber@StackWalker@CrashReporting@Debug@@QBE?BHXZ");
-			// Debug::CrashReporting::StackWalker const *const this;
 
 			return m_hasLineInfo ? m_line.LineNumber : 0;
 		}
@@ -114,7 +107,6 @@ namespace Debug
 		_inline unsigned __int32 StackWalker::GetPCAddress() const // 0x1068F6B0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetPCAddress@StackWalker@CrashReporting@Debug@@QBEIXZ");
-			// Debug::CrashReporting::StackWalker const *const this;
 
 			return m_stackFrame.AddrPC.Offset;
 		}
@@ -129,7 +121,6 @@ namespace Debug
 		_inline char const *StackWalker::GetFileName() const // 0x1068F2A0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetFileName@StackWalker@CrashReporting@Debug@@QBEPBDXZ");
-			// Debug::CrashReporting::StackWalker const *const this;
 
 			return m_hasLineInfo ? m_line.FileName : nullptr;
 		}
@@ -144,7 +135,6 @@ namespace Debug
 		_inline char const *StackWalker::GetFunctionName() const // 0x1068F300
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetFunctionName@StackWalker@CrashReporting@Debug@@QBEPBDXZ");
-			// Debug::CrashReporting::StackWalker const *const this;
 
 			return m_hasSymbolInfo ? GetSymbol()->Name : nullptr;
 		}
@@ -152,7 +142,6 @@ namespace Debug
 		_inline bool StackWalker::HasSymbolInfo() const // 0x1068F860
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?HasSymbolInfo@StackWalker@CrashReporting@Debug@@QBE_NXZ");
-			// Debug::CrashReporting::StackWalker const *const this;
 
 			return m_hasSymbolInfo;
 		}
@@ -160,7 +149,6 @@ namespace Debug
 		_inline bool StackWalker::HasLineInfo() const // 0x1068F830
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?HasLineInfo@StackWalker@CrashReporting@Debug@@QBE_NXZ");
-			// Debug::CrashReporting::StackWalker const *const this;
 
 			return m_hasLineInfo;
 		}
@@ -168,18 +156,6 @@ namespace Debug
 		_inline bool StackWalker::Next() // 0x106900C0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Next@StackWalker@CrashReporting@Debug@@QAE_NXZ");
-			// static ...; // 0x106902B1
-			// static ...; // 0x106902A0
-			// static ...; // 0x10690288
-			// static ...; // 0x10690280
-			// Debug::CrashReporting::StackWalker *const this;
-			// unsigned long lineDisplacement;
-			// unsigned long long symbolDisplacement;
-			// __int32 result;
-			// _SYMBOL_INFO *symbol;
-			// function call : __int32 (unsigned long, void *, void *, _tagSTACKFRAME *, void *, __int32 (*)(void *, unsigned long, void *, unsigned long, unsigned long *), void *(*)(void *, unsigned long), unsigned long (*)(void *, unsigned long), unsigned long (*)(void *, void *, _tagADDRESS *))
-			// function call : __int32 (void *, unsigned long long, unsigned long long *, _SYMBOL_INFO *)
-			// function call : __int32 (void *, unsigned long, unsigned long *, _IMAGEHLP_LINE *)
 
 			if (m_frameIndex++ >= m_maxFrames)
 				return false;
@@ -206,7 +182,6 @@ namespace Debug
 		_inline _SYMBOL_INFO const *StackWalker::GetSymbol() const // 0x1068F7D0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetSymbol@StackWalker@CrashReporting@Debug@@ABEPBU_SYMBOL_INFO@@XZ");
-			// Debug::CrashReporting::StackWalker const *const this;
 
 			return m_hasSymbolInfo ? (_SYMBOL_INFO const *)m_buffer : nullptr;
 		}

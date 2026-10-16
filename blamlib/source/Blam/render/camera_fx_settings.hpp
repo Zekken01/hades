@@ -425,8 +425,6 @@ extern void *(__cdecl *const tag_get)(unsigned long group, long index);  // hade
 inline c_camera_fx_settings *c_camera_fx_settings::get(long index) // 0x108EEF00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get@c_camera_fx_settings@@SAPAU1@J@Z");
-	// long index;
-	// function call : void *(*const)(unsigned long, long)
 
 	return (c_camera_fx_settings *)tag_get(0x63667873, index);
 }

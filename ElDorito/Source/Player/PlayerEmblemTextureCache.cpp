@@ -76,7 +76,6 @@ namespace Player
 		bool PlayerEmblemTextureCache::GetEmblemTexture(__int32 index, IDirect3DTexture9 **texture) // 0x107E9EC0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetEmblemTexture@PlayerEmblemTextureCache@Emblems@Player@@SA_NHPAPAUIDirect3DTexture9@@@Z");
-			// IDirect3DTexture9 **texture;
 
 			return GetTextureInternal(index, texture);
 		}
@@ -88,12 +87,6 @@ namespace Player
 bool LoadEmblemTexture(__int32 index, IDirect3DTexture9 **texture) // 0x107E9FC0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?LoadEmblemTexture@@YA_NHPAPAUIDirect3DTexture9@@@Z");
-	// `anonymous-namespace'::LoadEmblemTexture
-	// static ...; // 0x107EA084
-	// static ...; // 0x107EA07C
-	// __int32 index;
-	// IDirect3DTexture9 **texture;
-	// char path[260];
 
 	char path[260];
 
@@ -104,9 +97,6 @@ bool LoadEmblemTexture(__int32 index, IDirect3DTexture9 **texture) // 0x107E9FC0
 bool GetTextureInternal(__int32 index, IDirect3DTexture9 **texture) // 0x107E9F10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetTextureInternal@@YA_NHPAPAUIDirect3DTexture9@@@Z");
-	// `anonymous-namespace'::GetTextureInternal
-	// IDirect3DTexture9 **texture;
-	// CachedTexture &cachedTexture;
 
 	if (index < 0 || index >= 256)
 		return false;

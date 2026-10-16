@@ -134,18 +134,6 @@ namespace Player
 	Player::SPersistentCharacterCustomization LoadCustomization(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &value) // 0x107D70B0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?LoadCustomization@Player@@YA?AUSPersistentCharacterCustomization@1@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@@Z");
-		// static ...; // 0x107D739E
-		// static ...; // 0x107D739A
-		// static ...; // 0x107D7396
-		// static ...; // 0x107D7393
-		// static ...; // 0x107D7390
-		// static ...; // 0x107D7354
-		// static ...; // 0x107D734C
-		// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &value;
-		// rapidjson::GenericObject<1,rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > > const &colors;
-		// Player::SPersistentCharacterCustomization customization;
-		// rapidjson::GenericObject<1,rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > > const &permutations;
-			// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > it;
 
 		Player::SPersistentCharacterCustomization customization;
 		auto const &permutations = value["permutations"].GetObject();
@@ -164,13 +152,6 @@ namespace Player
 	std::map<std::string,Player::SPersistentCharacterCustomization> LoadCustomizations(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &value) // 0x107D7470
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?LoadCustomizations@Player@@YA?AV?$map@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@USPersistentCharacterCustomization@Player@@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@USPersistentCharacterCustomization@Player@@@std@@@2@@std@@AAV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@@Z");
-		// static ...; // 0x107D764F
-		// static ...; // 0x107D764C
-		// static ...; // 0x107D7634
-		// static ...; // 0x107D762C
-		// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &value;
-		// std::map<std::string,Player::SPersistentCharacterCustomization> customizations;
-			// rapidjson::GenericMemberIterator<0,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > it;
 
 		std::map<std::string,Player::SPersistentCharacterCustomization> customizations;
 		for (auto it = value.MemberBegin(); it != value.MemberEnd(); ++it)
@@ -181,23 +162,6 @@ namespace Player
 	void SaveCustomization(rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::ostream >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, Player::SPersistentCharacterCustomization const &customization) // 0x107D7CA0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?SaveCustomization@Player@@YAXAAV?$PrettyWriter@V?$BasicOStreamWrapper@V?$basic_ostream@DU?$char_traits@D@std@@@std@@@rapidjson@@U?$UTF8@D@2@U32@VCrtAllocator@2@$0A@@rapidjson@@ABUSPersistentCharacterCustomization@1@@Z");
-		// static ...; // 0x107D7E9C
-		// static ...; // 0x107D7E91
-		// static ...; // 0x107D7E88
-		// static ...; // 0x107D7E58
-		// static ...; // 0x107D7E50
-		// rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::ostream >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer;
-		// Player::SPersistentCharacterCustomization const &customization;
-			// std::map<std::string,std::string> const &<range>$L0;
-			// std::_Tree_unchecked_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::string> > >,std::_Iterator_base0> <begin>$L0;
-			// std::_Default_sentinel <end>$L0;
-				// std::string const &regionName;
-				// std::string const &permutationName;
-			// std::_Default_sentinel <end>$L1;
-			// std::_Tree_unchecked_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::string> > >,std::_Iterator_base0> <begin>$L1;
-			// std::map<std::string,std::string> const &<range>$L1;
-				// std::string const &colorName;
-				// std::string const &colorValue;
 
 		writer.StartObject();
 		writer.Key("permutations");
@@ -222,16 +186,6 @@ namespace Player
 	void SaveCustomizations(rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::ostream >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, std::map<std::string,Player::SPersistentCharacterCustomization> const &customizations) // 0x107D7F40
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?SaveCustomizations@Player@@YAXAAV?$PrettyWriter@V?$BasicOStreamWrapper@V?$basic_ostream@DU?$char_traits@D@std@@@std@@@rapidjson@@U?$UTF8@D@2@U32@VCrtAllocator@2@$0A@@rapidjson@@ABV?$map@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@USPersistentCharacterCustomization@Player@@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@USPersistentCharacterCustomization@Player@@@std@@@2@@std@@@Z");
-		// static ...; // 0x107D803C
-		// static ...; // 0x107D8024
-		// static ...; // 0x107D801C
-		// rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::ostream >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer;
-		// std::map<std::string,Player::SPersistentCharacterCustomization> const &customizations;
-			// std::map<std::string,Player::SPersistentCharacterCustomization> const &<range>$L0;
-			// std::_Tree_unchecked_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,Player::SPersistentCharacterCustomization> > >,std::_Iterator_base0> <begin>$L0;
-			// std::_Default_sentinel <end>$L0;
-				// Player::SPersistentCharacterCustomization const &customization;
-				// std::string const &characterName;
 
 		writer.StartObject();
 		for (auto const &[characterName, customization] : customizations)
@@ -249,13 +203,6 @@ namespace Player
 	std::map<std::string,std::string> LoadPreferredCharacters(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &value) // 0x107D76E0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?LoadPreferredCharacters@Player@@YA?AV?$map@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@@std@@@2@@std@@AAV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@@Z");
-		// static ...; // 0x107D7887
-		// static ...; // 0x107D7884
-		// static ...; // 0x107D786C
-		// static ...; // 0x107D7864
-		// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &value;
-		// std::map<std::string,std::string> results;
-			// rapidjson::GenericMemberIterator<0,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > it;
 
 		std::map<std::string,std::string> results;
 		for (auto it = value.MemberBegin(); it != value.MemberEnd(); ++it)
@@ -269,16 +216,6 @@ namespace Player
 	void SavePreferredCharacters(rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::ostream >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, std::map<std::string,std::string> const &preferredCharacters) // 0x107D80A0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?SavePreferredCharacters@Player@@YAXAAV?$PrettyWriter@V?$BasicOStreamWrapper@V?$basic_ostream@DU?$char_traits@D@std@@@std@@@rapidjson@@U?$UTF8@D@2@U32@VCrtAllocator@2@$0A@@rapidjson@@ABV?$map@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@@std@@@2@@std@@@Z");
-		// static ...; // 0x107D819C
-		// static ...; // 0x107D8184
-		// static ...; // 0x107D817C
-		// rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::ostream >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer;
-		// std::map<std::string,std::string> const &preferredCharacters;
-			// std::map<std::string,std::string> const &<range>$L0;
-			// std::_Tree_unchecked_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::string> > >,std::_Iterator_base0> <begin>$L0;
-			// std::_Default_sentinel <end>$L0;
-				// std::string const &target;
-				// std::string const &characterName;
 
 		writer.StartObject();
 		for (auto const &[target, characterName] : preferredCharacters)
@@ -295,17 +232,6 @@ namespace Player
 	bool CPlayerCustomizationDB::Load(std::string const &filename) // 0x107D6D00
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Load@CPlayerCustomizationDB@Player@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// static ...; // 0x107D6FE1
-		// static ...; // 0x107D6FDD
-		// static ...; // 0x107D6FD8
-		// static ...; // 0x107D6FA8
-		// static ...; // 0x107D6FA0
-		// Player::CPlayerCustomizationDB *const this;
-		// std::string const &filename;
-		// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> doc;
-		// rapidjson::GenericObject<0,rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > > const &root;
-		// std::ifstream stream;
-		// rapidjson::BasicIStreamWrapper<std::istream > isw;
 
 		m_fileName = filename;
 		std::ifstream stream(std::filesystem::absolute(filename));
@@ -326,7 +252,6 @@ namespace Player
 	void CPlayerCustomizationDB::Save(std::string const &filename) // 0x107D79B0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Save@CPlayerCustomizationDB@Player@@QAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// std::string const &filename;
 
 		m_fileName = filename;
 		Save();
@@ -335,15 +260,6 @@ namespace Player
 	void CPlayerCustomizationDB::Save() // 0x107D7A10
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Save@CPlayerCustomizationDB@Player@@QAEXXZ");
-		// static ...; // 0x107D7C0F
-		// static ...; // 0x107D7C0B
-		// static ...; // 0x107D7C04
-		// static ...; // 0x107D7BE0
-		// static ...; // 0x107D7BD8
-		// Player::CPlayerCustomizationDB *const this;
-		// rapidjson::PrettyWriter<rapidjson::BasicOStreamWrapper<std::ostream >,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
-		// std::ofstream stream;
-		// rapidjson::BasicOStreamWrapper<std::ostream > isw;
 
 		std::ofstream stream(std::filesystem::absolute(m_fileName));
 		rapidjson::OStreamWrapper isw(stream);
@@ -361,7 +277,6 @@ namespace Player
 	void CPlayerCustomizationDB::Reload() // 0x107D7900
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Reload@CPlayerCustomizationDB@Player@@QAEXXZ");
-		// Player::CPlayerCustomizationDB *const this;
 
 		Load(m_fileName);
 	}
@@ -369,7 +284,6 @@ namespace Player
 	void CPlayerCustomizationDB::Reset() // 0x107D7950
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Reset@CPlayerCustomizationDB@Player@@QAEXXZ");
-		// Player::CPlayerCustomizationDB *const this;
 
 		m_customizations.clear();
 		m_preferredCharacters.clear();
@@ -378,11 +292,6 @@ namespace Player
 	bool CPlayerCustomizationDB::GetCharacterCustomization(std::string const &characterName, Player::SPersistentCharacterCustomization &customization) const // 0x107D65E0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetCharacterCustomization@CPlayerCustomizationDB@Player@@QBE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAUSPersistentCharacterCustomization@2@@Z");
-		// static ...; // 0x107D672C
-		// Player::CPlayerCustomizationDB const *const this;
-		// std::string const &characterName;
-		// Player::SPersistentCharacterCustomization &customization;
-			// std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,Player::SPersistentCharacterCustomization> > > > it;
 
 		if (auto it = m_customizations.find(characterName); it != m_customizations.end())
 		{
@@ -395,7 +304,6 @@ namespace Player
 	bool CPlayerCustomizationDB::SetCharacterCustomization(std::string const &characterName, Player::SPersistentCharacterCustomization const &customization) // 0x107D8290
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?SetCharacterCustomization@CPlayerCustomizationDB@Player@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABUSPersistentCharacterCustomization@2@@Z");
-		// Player::SPersistentCharacterCustomization const &customization;
 
 		if (customization.permutations.empty() && customization.colors.empty())
 			m_customizations.erase(characterName);
@@ -407,7 +315,6 @@ namespace Player
 	bool CPlayerCustomizationDB::SetCharacterColor(std::string const &characterName, std::string const &colorName, std::string const &colorValue) // 0x107D8200
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?SetCharacterColor@CPlayerCustomizationDB@Player@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@00@Z");
-		// std::string const &colorValue;
 
 		m_customizations[characterName].colors[colorName] = colorValue;
 		return true;
@@ -416,7 +323,6 @@ namespace Player
 	bool CPlayerCustomizationDB::SetCharacterPermutation(std::string const &characterName, std::string const &regionName, std::string const &permutationName) // 0x107D8360
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?SetCharacterPermutation@CPlayerCustomizationDB@Player@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@00@Z");
-		// std::string const &permutationName;
 
 		m_customizations[characterName].permutations[regionName] = permutationName;
 		return true;
@@ -429,11 +335,6 @@ namespace Player
 	std::string CPlayerCustomizationDB::GetPreferredCharacter(std::string const &target) const // 0x107D6B00
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetPreferredCharacter@CPlayerCustomizationDB@Player@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV34@@Z");
-		// static ...; // 0x107D6C80
-		// static ...; // 0x107D6C78
-		// Player::CPlayerCustomizationDB const *const this;
-		// std::string const &target;
-			// std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::string> > > > it;
 
 		if (auto it = m_preferredCharacters.find(target); it != m_preferredCharacters.end())
 			return it->second;
@@ -443,7 +344,6 @@ namespace Player
 	bool CPlayerCustomizationDB::SetPreferredCharacter(std::string const &target, std::string const &characterName) // 0x107D8400
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?SetPreferredCharacter@CPlayerCustomizationDB@Player@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z");
-		// std::string const &characterName;
 
 		m_preferredCharacters[target] = characterName;
 		return true;
@@ -456,18 +356,6 @@ namespace Player
 	std::vector<std::string> CPlayerCustomizationDB::GetCharacters() // 0x107D67A0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetCharacters@CPlayerCustomizationDB@Player@@QAE?AV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@XZ");
-		// static ...; // 0x107D6924
-		// static ...; // 0x107D6919
-		// static ...; // 0x107D6910
-		// static ...; // 0x107D68EC
-		// static ...; // 0x107D68E4
-		// Player::CPlayerCustomizationDB *const this;
-		// std::vector<std::string> characterNames;
-			// std::map<std::string,Player::SPersistentCharacterCustomization> &<range>$L0;
-			// std::_Tree_unchecked_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,Player::SPersistentCharacterCustomization> > > > <begin>$L0;
-			// std::_Default_sentinel <end>$L0;
-				// Player::SPersistentCharacterCustomization const &_;
-				// std::string const &characterName;
 
 		std::vector<std::string> characterNames;
 		characterNames.reserve(m_customizations.size());

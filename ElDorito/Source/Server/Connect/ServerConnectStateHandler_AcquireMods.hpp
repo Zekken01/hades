@@ -142,7 +142,6 @@ static_assert(sizeof(CServerConnectStateHandler_AcquireMods) == 352, "Invalid CS
 inline CServerConnectStateHandler_AcquireMods::EState CServerConnectStateHandler_AcquireMods::GetLocalState() // 0x10907530
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetLocalState@CServerConnectStateHandler_AcquireMods@@QAE?AW4EState@1@XZ");
-	// CServerConnectStateHandler_AcquireMods *const this;
 
 	return m_state;
 }

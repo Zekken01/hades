@@ -157,7 +157,6 @@ namespace Discord
 	void DiscordRPC::SetJoinString(std::string join) // 0x10953000
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?SetJoinString@DiscordRPC@Discord@@QAEXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// std::string join;
 
 		joinMtx.lock();
 		joinString.assign(join);
@@ -167,11 +166,6 @@ namespace Discord
 	void DiscordRPC::UpdatePresence() // 0x10953270
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?UpdatePresence@DiscordRPC@Discord@@QAEXXZ");
-		// static ...; // 0x10953370
-		// static ...; // 0x10953364
-		// static ...; // 0x1095335C
-		// Discord::DiscordRPC *const this;
-		// long long curTime;
 
 		long long curTime;
 		time(&curTime);
@@ -192,10 +186,6 @@ namespace Discord
 	void DiscordRPC::UpdatePresence(__int32 networkMode) // 0x10953190
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?UpdatePresence@DiscordRPC@Discord@@QAEXH@Z");
-		// __int32 networkMode;
-		// Blam::Network::Session *session;
-			// void *thread;
-		// function call : void *(_SECURITY_ATTRIBUTES *, unsigned long, unsigned long (*)(void *), void *, unsigned long, unsigned long *)
 
 		if (!Modules::ModuleGame::Instance().VarDiscordEnable->ValueInt)
 		{
@@ -219,16 +209,6 @@ namespace Discord
 	DiscordRPC::DiscordRPC() : lastUpdate(0), discordUpdateTime(20) /* hades-mem-init: : discordUpdateTime(todo_result<long long>()) */ // 0x109520A0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "??0DiscordRPC@Discord@@QAE@XZ");
-		// static ...; // 0x10952325
-		// static ...; // 0x1095231C
-		// static ...; // 0x10952304
-		// static ...; // 0x109522FC
-		// Discord::DiscordRPC *const this;
-		// DiscordEventHandlers handlers;
-		// HINSTANCE__ *hModule;
-		// wchar_t appPath[260];
-		// function call : HINSTANCE__ *(wchar_t const *)
-		// function call : unsigned long (HINSTANCE__ *, wchar_t *, unsigned long)
 
 		joinString = "";
 		detailString = "";
@@ -252,7 +232,6 @@ namespace Discord
 	void DiscordRPC::ReplyToJoinRequest(char const *userId, __int32 reply) // 0x10952FA0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?ReplyToJoinRequest@DiscordRPC@Discord@@QAEXPBDH@Z");
-		// __int32 reply;
 
 		Discord_Respond(userId, reply);
 	}
@@ -260,7 +239,6 @@ namespace Discord
 	void DiscordRPC::Shutdown() // 0x109530E0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Shutdown@DiscordRPC@Discord@@QAEXXZ");
-		// Discord::DiscordRPC *const this;
 
 		Discord_Shutdown();
 	}
@@ -268,7 +246,6 @@ namespace Discord
 	void DiscordRPC::Update() // 0x10953130
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Update@DiscordRPC@Discord@@QAEXXZ");
-		// Discord::DiscordRPC *const this;
 
 		UpdatePresence();
 		Discord_RunCallbacks();
@@ -280,24 +257,16 @@ namespace Discord
 void handleDiscordDisconnected(__int32 errorCode, char const *message) // 0x10954210
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?handleDiscordDisconnected@@YAXHPBD@Z");
-	// the original is empty
-	// `anonymous-namespace'::handleDiscordDisconnected
-	// char const *message;
 }
 
 void handleDiscordError(__int32 errorCode, char const *message) // 0x10954230
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?handleDiscordError@@YAXHPBD@Z");
-	// the original is empty
-	// `anonymous-namespace'::handleDiscordError
-	// char const *message;
 }
 
 void handleDiscordJoin(char const *joinSecret) // 0x10954250
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?handleDiscordJoin@@YAXPBD@Z");
-	// `anonymous-namespace'::handleDiscordJoin
-	// char const *joinSecret;
 
 	Modules::CommandMap::Instance().ExecuteCommand("connect " + std::string(joinSecret));
 }
@@ -305,16 +274,11 @@ void handleDiscordJoin(char const *joinSecret) // 0x10954250
 void handleDiscordSpectate(char const *spectateSecret) // 0x10954430
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?handleDiscordSpectate@@YAXPBD@Z");
-	// the original is empty
-	// `anonymous-namespace'::handleDiscordSpectate
-	// char const *spectateSecret;
 }
 
 void handleDiscordJoinRequest(DiscordJoinRequest const *joinRequest) // 0x10954380
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?handleDiscordJoinRequest@@YAXPBUDiscordJoinRequest@@@Z");
-	// `anonymous-namespace'::handleDiscordJoinRequest
-	// DiscordJoinRequest const *joinRequest;
 
 	if (Utils::Singleton<Modules::ModuleGame>::Instance().VarDiscordAutoAccept->ValueInt == 1)
 	{
@@ -325,17 +289,6 @@ void handleDiscordJoinRequest(DiscordJoinRequest const *joinRequest) // 0x109543
 void UpdateRichPresence() // 0x109533C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateRichPresence@@YAXXZ");
-	// `anonymous-namespace'::UpdateRichPresence
-	// procedure flags: nofpo
-	// static ...; // 0x10953C14
-	// static ...; // 0x10953C08
-	// static ...; // 0x10953C00
-	// Blam::Network::Session *session;
-		// c_game_variant *game;
-		// __int32 plyIndex;
-		// __int32 players;
-		// s_map_variant *map;
-			// std::stringstream ss;
 
 	Discord::DiscordRPC::Instance().detailString.clear();
 	memset(&Discord::DiscordRPC::Instance().discordPresence, 0, sizeof(Discord::DiscordRPC::discordPresence));
@@ -408,8 +361,6 @@ void UpdateRichPresence() // 0x109533C0
 void handleDiscordReady() // 0x109543E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?handleDiscordReady@@YAXXZ");
-	// `anonymous-namespace'::handleDiscordReady
-	// procedure flags: nofpo
 
 	Discord::DiscordRPC::Instance().Update();
 }
@@ -417,19 +368,6 @@ void handleDiscordReady() // 0x109543E0
 unsigned long __stdcall DiscordRetrieveExternalIP_Thread(void *lpParam) // 0x10952610
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DiscordRetrieveExternalIP_Thread@@YGKPAX@Z");
-	// `anonymous-namespace'::DiscordRetrieveExternalIP_Thread
-	// static ...; // 0x10952D73
-	// static ...; // 0x10952D6A
-	// static ...; // 0x10952D62
-	// static ...; // 0x10952D5C
-	// static ...; // 0x10952D2C
-	// static ...; // 0x10952D24
-	// void *lpParam;
-	// HttpRequest req;
-		// __int32 i;
-			// std::wstring respHdr;
-			// std::string extIp;
-			// std::wstring expected;
 
 	HttpRequest req(L"ElDewrito/" + Utils::String::WidenString(Utils::Version::GetVersionString()), L"", L"");
 	for (__int32 i = 0; i < 3; i++)
@@ -466,8 +404,6 @@ unsigned long __stdcall DiscordRetrieveExternalIP_Thread(void *lpParam) // 0x109
 static void OnShutdown() // 0x10952F50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnShutdown@@YAXXZ");
-	// `anonymous-namespace'::OnShutdown
-	// procedure flags: nofpo
 
 	Discord::DiscordRPC::Instance().Shutdown();
 }

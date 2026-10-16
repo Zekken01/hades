@@ -108,7 +108,6 @@ namespace Patches
 		void ApplyAll() // 0x10916590
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@FirstPerson@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			Patch::NopFill(0xA9E564, 5);
 			Hook(0x69B88A, first_person_weapon_offset_hook1_hook).Apply();
@@ -118,7 +117,6 @@ namespace Patches
 		void Tick() // 0x10916800
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@FirstPerson@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			g_first_weapon_offset_field_offset = !Utils::Singleton<Modules::ModuleCamera>::Instance().VarCameraCenteredCrosshairFirst->ValueInt ? 1324 : 1368;
 		}
@@ -130,7 +128,6 @@ namespace Patches
 __declspec(naked) void first_person_weapon_offset_hook1_hook() // 0x10916880
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?first_person_weapon_offset_hook1_hook@@YAXXZ");
-	// procedure flags: nofpo
 
 	__asm
 	{
@@ -143,8 +140,6 @@ __declspec(naked) void first_person_weapon_offset_hook1_hook() // 0x10916880
 __declspec(naked) void first_person_weapon_offset_hook2_hook() // 0x10916890
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?first_person_weapon_offset_hook2_hook@@YAXXZ");
-	// `anonymous-namespace'::first_person_weapon_offset_hook2_hook
-	// procedure flags: nofpo
 
 	__asm
 	{

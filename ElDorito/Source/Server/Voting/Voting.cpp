@@ -190,7 +190,6 @@ namespace Server
 		void OnVotePassed(std::function<void __cdecl(Server::Voting::MapAndType)> &&callback) // 0x10C43AB0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?OnVotePassed@Voting@Server@@YAX$$QAV?$function@$$A6AXUMapAndType@Voting@Server@@@Z@std@@@Z");
-			// std::function<void __cdecl(Server::Voting::MapAndType)> &callback;
 
 			votePassedCallbacks.push_back(std::move(callback));
 		}
@@ -198,11 +197,6 @@ namespace Server
 		void NotifyVotePassed(Server::Voting::MapAndType const &winner) // 0x10C43A00
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?NotifyVotePassed@Voting@Server@@YAXABUMapAndType@12@@Z");
-			// Server::Voting::MapAndType const &winner;
-				// std::vector<std::function<void __cdecl(Server::Voting::MapAndType)> > &<range>$L0;
-				// std::function<void __cdecl(Server::Voting::MapAndType)> *<begin>$L0;
-				// std::function<void __cdecl(Server::Voting::MapAndType)> *<end>$L0;
-					// std::function<void __cdecl(Server::Voting::MapAndType)> &callback;
 
 			for (auto &callback : votePassedCallbacks)
 			{
@@ -213,7 +207,6 @@ namespace Server
 		void MapLoadedCallback(char const *mapPath) // 0x10C43990
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?MapLoadedCallback@Voting@Server@@YAXPBD@Z");
-			// char const *mapPath;
 
 			if(Blam::Network::GetActiveSession()->Parameters.GetSessionMode() == 1 && Blam::Network::GetNetworkMode() == 3){
 				StartNewVote();
@@ -223,19 +216,6 @@ namespace Server
 		void LifeCycleStateChanged(Blam::Network::LifeCycleState newState) // 0x10C435D0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?LifeCycleStateChanged@Voting@Server@@YAXW4LifeCycleState@Network@Blam@@@Z");
-			// Blam::Network::LifeCycleState newState;
-				// std::vector<Server::Voting::AbstractVotingSystem *> &<range>$L0;
-				// Server::Voting::AbstractVotingSystem **<begin>$L0;
-				// Server::Voting::AbstractVotingSystem **<end>$L0;
-					// Server::Voting::AbstractVotingSystem *elem;
-				// Server::Voting::AbstractVotingSystem **<end>$L1;
-				// Server::Voting::AbstractVotingSystem **<begin>$L1;
-				// std::vector<Server::Voting::AbstractVotingSystem *> &<range>$L1;
-			// function call : bool ()
-			// function call : void ()
-			// function call : bool ()
-			// function call : void ()
-			// function call : void ()
 
 			switch (newState)
 			{
@@ -264,12 +244,6 @@ namespace Server
 		void Init() // 0x10C43480
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Init@Voting@Server@@YAXXZ");
-			// procedure flags: nofpo
-				// std::vector<Server::Voting::AbstractVotingSystem *> &<range>$L0;
-				// Server::Voting::AbstractVotingSystem **<begin>$L0;
-				// Server::Voting::AbstractVotingSystem **<end>$L0;
-					// Server::Voting::AbstractVotingSystem *elem;
-			// function call : void ()
 
 			InitializePackets();
 			Patches::Core::OnMapLoaded(MapLoadedCallback);
@@ -286,7 +260,6 @@ namespace Server
 		bool ReloadVotingJson(bool loadFileFromDisc) // 0x10C43EA0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ReloadVotingJson@Voting@Server@@YA_N_N@Z");
-			// bool loadFileFromDisc;
 
 			return votingSystem.ReloadVotingJson(Utils::Singleton<Modules::ModuleVoting>::Instance().VarVotingJsonPath->ValueString, loadFileFromDisc);
 		}
@@ -294,7 +267,6 @@ namespace Server
 		bool ReloadVetoJson(bool loadFileFromDisc) // 0x10C43E10
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ReloadVetoJson@Voting@Server@@YA_N_N@Z");
-			// bool loadFileFromDisc;
 
 			return vetoSystem.ReloadVotingJson(Utils::Singleton<Modules::ModuleVoting>::Instance().VarVotingJsonPath->ValueString, loadFileFromDisc);
 		}
@@ -302,14 +274,6 @@ namespace Server
 		void Tick() // 0x10C44070
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@Voting@Server@@YAXXZ");
-			// procedure flags: nofpo
-			// Blam::Network::Session *session;
-				// std::vector<Server::Voting::AbstractVotingSystem *> &<range>$L0;
-				// Server::Voting::AbstractVotingSystem **<begin>$L0;
-				// Server::Voting::AbstractVotingSystem **<end>$L0;
-					// Server::Voting::AbstractVotingSystem *elem;
-			// function call : bool ()
-			// function call : void ()
 
 			auto* session = Blam::Network::GetActiveSession();
 			if (!(session && session->IsEstablished() && session->IsHost()))
@@ -326,16 +290,6 @@ namespace Server
 		void PlayerJoinedVoteInProgress(__int32 playerIndex) // 0x10C43B10
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?PlayerJoinedVoteInProgress@Voting@Server@@YAXH@Z");
-			// __int32 playerIndex;
-			// Blam::Network::Session *session;
-			// __int32 peerIdx;
-				// std::vector<Server::Voting::AbstractVotingSystem *> &<range>$L0;
-				// Server::Voting::AbstractVotingSystem **<begin>$L0;
-				// Server::Voting::AbstractVotingSystem **<end>$L0;
-					// Server::Voting::AbstractVotingSystem *elem;
-			// function call : bool ()
-			// function call : bool ()
-			// function call : void ()
 
 			//if we aren't in a vote or voting isn't enabled, then do nothing
 			auto* session = Blam::Network::GetActiveSession();
@@ -360,12 +314,6 @@ namespace Server
 		void PlayerLeftVoting(std::string name) // 0x10C43C90
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?PlayerLeftVoting@Voting@Server@@YAXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-			// static ...; // 0x10C43DB4
-			// static ...; // 0x10C43DA8
-			// static ...; // 0x10C43DA0
-			// std::string name;
-			// Blam::Network::Session *session;
-			// Server::Voting::VotingMessage message;
 
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			if (!session || !session->IsEstablished() || !session->IsHost() || Blam::Network::GetLobbyType() != 2)
@@ -378,15 +326,6 @@ namespace Server
 		void StartNewVote() // 0x10C43F30
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?StartNewVote@Voting@Server@@YAXXZ");
-			// procedure flags: nofpo
-			// Blam::Network::Session *session;
-				// std::vector<Server::Voting::AbstractVotingSystem *> &<range>$L0;
-				// Server::Voting::AbstractVotingSystem **<begin>$L0;
-				// Server::Voting::AbstractVotingSystem **<end>$L0;
-					// Server::Voting::AbstractVotingSystem *elem;
-			// function call : bool ()
-			// function call : void ()
-			// function call : void ()
 
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			if (!session || !session->IsEstablished() || !session->IsHost() || Blam::Network::GetLobbyType() != 2)
@@ -405,14 +344,6 @@ namespace Server
 		bool CancelVoteInProgress() // 0x10C43380
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?CancelVoteInProgress@Voting@Server@@YA_NXZ");
-			// procedure flags: nofpo
-			// Blam::Network::Session *session;
-				// std::vector<Server::Voting::AbstractVotingSystem *> &<range>$L0;
-				// Server::Voting::AbstractVotingSystem **<begin>$L0;
-				// Server::Voting::AbstractVotingSystem **<end>$L0;
-					// Server::Voting::AbstractVotingSystem *elem;
-			// function call : void ()
-			// function call : void ()
 
 			auto* session = Blam::Network::GetActiveSession();
 			if (!(session && session->IsEstablished() && session->IsHost()))
@@ -430,14 +361,6 @@ namespace Server
 		void LogVote(Server::Voting::VotingMessage const &message, std::string name) // 0x10C43800
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?LogVote@Voting@Server@@YAXABUVotingMessage@12@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-			// std::string name;
-			// Blam::Network::Session *session;
-				// std::vector<Server::Voting::AbstractVotingSystem *> &<range>$L0;
-				// Server::Voting::AbstractVotingSystem **<begin>$L0;
-				// Server::Voting::AbstractVotingSystem **<end>$L0;
-					// Server::Voting::AbstractVotingSystem *elem;
-			// function call : bool ()
-			// function call : void (Server::Voting::VotingMessage const &, std::string)
 
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			if (!session || !session->IsEstablished() || !session->IsHost())

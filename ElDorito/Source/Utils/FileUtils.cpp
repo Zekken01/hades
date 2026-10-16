@@ -53,12 +53,6 @@ namespace Utils
 		long long GetFileSize64(char const *filename) // 0x10C57CE0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetFileSize64@FileUtils@Utils@@YA_JPBD@Z");
-			// static ...; // 0x10C57D94
-			// static ...; // 0x10C57D88
-			// static ...; // 0x10C57D80
-			// char const *filename;
-			// _stat64 stat_buf;
-			// __int32 rc;
 
 			struct _stat64 stat_buf;
 			int result = _stat64(filename, &stat_buf);
@@ -69,12 +63,6 @@ namespace Utils
 		__int32 GetFileSize(char const *filename) // 0x10C57DD0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetFileSize@FileUtils@Utils@@YAHPBD@Z");
-			// static ...; // 0x10C57E6C
-			// static ...; // 0x10C57E60
-			// static ...; // 0x10C57E58
-			// char const *filename;
-			// _stat64i32 stat_buf;
-			// __int32 rc;
 
 			struct _stat64i32 stat_buf;
 			__int32 rc = _stat64i32(filename, &stat_buf);
@@ -92,8 +80,6 @@ namespace Utils
 		char const *GetName(char const *filename) // 0x10C57EA0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetName@FileUtils@Utils@@YAPBDPBD@Z");
-			// char const *filename;
-			// char const *name;
 
 			char const *lastSlash = strrchr(filename, '\\');
 			return lastSlash ? lastSlash + 1 : filename;

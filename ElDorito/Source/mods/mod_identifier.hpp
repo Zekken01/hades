@@ -50,18 +50,11 @@ static_assert(sizeof(std::hash<s_mod_package_id>) == 1, "Invalid std::hash<s_mod
 inline s_mod_package_id::s_mod_package_id() : hash() /* hades-mem-init:  */ // 0x10853A40
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_mod_package_id@@QAE@XZ");
-	// s_mod_package_id *const this;
 }
 
 inline unsigned __int32 std::hash<s_mod_package_id>::operator()(s_mod_package_id const &k) const // 0x1084E890
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??R?$hash@Us_mod_package_id@@@std@@QBEIABUs_mod_package_id@@@Z");
-	// s_mod_package_id const &k;
-	// unsigned __int32 result;
-		// unsigned char const &<range>$L0[20];
-		// unsigned char const *<begin>$L0;
-		// unsigned char const *<end>$L0;
-			// unsigned char b;
 
 	unsigned __int32 result = 0;
 	for (unsigned char b : k.hash)

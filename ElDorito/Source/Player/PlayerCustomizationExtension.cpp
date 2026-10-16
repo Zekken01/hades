@@ -123,8 +123,6 @@ namespace Player
 	bool ValidServiceTag(wchar_t (&tag)[5]) // 0x107DB6E0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?ValidServiceTag@Player@@YA_NAAY04_W@Z");
-		// wchar_t (&tag)[5];
-			// __int32 i;
 
 		for (long i = 0; i < 4; i++)
 		{
@@ -141,13 +139,6 @@ namespace Player
 	unsigned __int32 ParseColor(std::string const &value) // 0x107DB3F0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?ParseColor@Player@@YAIABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// static ...; // 0x107DB5A7
-		// static ...; // 0x107DB59C
-		// static ...; // 0x107DB584
-		// static ...; // 0x107DB57C
-		// std::string const &value;
-		// std::regex expression;
-		// std::match_results<char const *,std::allocator<std::sub_match<char const *> > > what;
 
 		std::cmatch what;
 		std::regex expression("#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})");
@@ -164,7 +155,6 @@ namespace Player
 	void PlayerCustomizationExtensions::Serialize(Blam::BitStream *stream, s_player_appearance const &data) // 0x107DB680
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Serialize@PlayerCustomizationExtensions@Player@@MAEXPAVBitStream@Blam@@ABUs_player_appearance@@@Z");
-		// s_player_appearance const &data;
 
 		Player::player_appearance_encode(stream, &data);
 	}
@@ -172,7 +162,6 @@ namespace Player
 	void PlayerCustomizationExtensions::Deserialize(Blam::BitStream *stream, s_player_appearance *out) // 0x107DB390
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Deserialize@PlayerCustomizationExtensions@Player@@MAEXPAVBitStream@Blam@@PAUs_player_appearance@@@Z");
-		// s_player_appearance *out;
 
 		Player::player_appearance_decode(stream, out);
 	}
@@ -180,12 +169,6 @@ namespace Player
 	void PlayerCustomizationExtensions::BuildData(__int32 playerIndex, s_player_appearance *out) // 0x107DB030
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?BuildData@PlayerCustomizationExtensions@Player@@MAEXHPAUs_player_appearance@@@Z");
-		// static ...; // 0x107DB2BC
-		// Player::PlayerCustomizationExtensions *const this;
-		// __int32 playerIndex;
-		// s_player_appearance *out;
-		// Modules::ModulePlayer const &modulePlayer;
-		// s_player_emblem_configuration emblemConfig;
 
 		memset(out, 0, sizeof(s_player_appearance));
 		Modules::ModulePlayer const &modulePlayer = Modules::ModulePlayer::Instance();
@@ -215,8 +198,6 @@ namespace Player
 	void SanitizeModelCustomization(s_player_model_customization *customization) // 0x107DB620
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?SanitizeModelCustomization@Player@@YAXPAUs_player_model_customization@@@Z");
-		// s_player_model_customization *customization;
-			// __int32 i;
 
 		for (__int32 i = 0; i < 5; i++)
 		{
@@ -224,6 +205,7 @@ namespace Player
 		}
 	}
 
+#line 227
 	void PlayerCustomizationExtensions::ApplyData(__int32 playerIndex, s_player_configuration *properties, s_player_appearance const &data) // 0x107DAD70
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyData@PlayerCustomizationExtensions@Player@@MAEXHPAUs_player_configuration@@ABUs_player_appearance@@@Z");

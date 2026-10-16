@@ -30,7 +30,6 @@ struct s_blf_chunk_start_of_file;
 void s_blf_chunk_header::setup(unsigned long signature, unsigned long size, short version_major, short version_minor) // 0x10F0D870
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?setup@s_blf_chunk_header@@QAEXKKFF@Z");
-	// short version_minor;
 
 	this->signature = signature;
 	this->size = size;
@@ -41,7 +40,6 @@ void s_blf_chunk_header::setup(unsigned long signature, unsigned long size, shor
 s_blf_chunk_start_of_file::s_blf_chunk_start_of_file() // 0x10F0D780
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_blf_chunk_start_of_file@@QAE@XZ");
-	// s_blf_chunk_start_of_file *const this;
 
 	setup(0x5F626C66, 48, 1, 2);
 	byte_order_marker = -2;
@@ -51,7 +49,6 @@ s_blf_chunk_start_of_file::s_blf_chunk_start_of_file() // 0x10F0D780
 s_blf_chunk_end_of_file::s_blf_chunk_end_of_file() // 0x10F0D6D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_blf_chunk_end_of_file@@QAE@XZ");
-	// s_blf_chunk_end_of_file *const this;
 
 	setup(0x5F656F66, 17, 1, 1);
 	authentication_data_size = 0;

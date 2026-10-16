@@ -126,7 +126,6 @@ namespace Patches
 		void ApplyAll() // 0x10ACA2A0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Scoreboard@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			// Scoreboard hooks
 			Hook(0x301A47, GLScoreboardPlayerAllocatorHook).Apply();
@@ -156,9 +155,6 @@ namespace Patches
 __int32 GetUtf16Length(char16_t const *str, __int32 maxLength) // 0x10ACAF70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetUtf16Length@@YAHPB_SH@Z");
-	// `anonymous-namespace'::GetUtf16Length
-	// __int32 maxLength;
-	// __int32 length;
 
 	__int32 length = 0;
 	while (length < maxLength && str[length])
@@ -171,14 +167,6 @@ __int32 GetUtf16Length(char16_t const *str, __int32 maxLength) // 0x10ACAF70
 PlayerNameString *GetPlayerName(s_player_datum *playerData, __int32 index) // 0x10ACADA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetPlayerName@@YAPAUPlayerNameString@hades_file_local@@PAUs_player_datum@@H@Z");
-	// `anonymous-namespace'::GetPlayerName
-	// __int32 index;
-	// void *(*Allocate)(unsigned __int32);
-	// __int32 length;
-	// void (*Free)(void *);
-	// PlayerNameString *result;
-	// function call : void (*)(void *)
-	// function call : void *(*)(unsigned __int32)
 
 	if (index == -1)
 		return nullptr;
@@ -212,8 +200,6 @@ PlayerNameString *GetPlayerName(s_player_datum *playerData, __int32 index) // 0x
 __declspec(naked) void GLScoreboardPlayerAllocatorHook() // 0x10ACAD50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GLScoreboardPlayerAllocatorHook@@YAXXZ");
-	// `anonymous-namespace'::GLScoreboardPlayerAllocatorHook
-	// procedure flags: nofpo
 
 	__asm
 	{
@@ -227,8 +213,6 @@ __declspec(naked) void GLScoreboardPlayerAllocatorHook() // 0x10ACAD50
 __declspec(naked) void GLScoreboardPlayerConstructorHook() // 0x10ACAD70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GLScoreboardPlayerConstructorHook@@YAXXZ");
-	// `anonymous-namespace'::GLScoreboardPlayerConstructorHook
-	// procedure flags: nofpo
 
 	__asm
 	{
@@ -247,9 +231,6 @@ __declspec(naked) void GLScoreboardPlayerConstructorHook() // 0x10ACAD70
 __declspec(naked) void ScoreboardUpdateHook() // 0x10ACAFC0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ScoreboardUpdateHook@@YAXXZ");
-	// `anonymous-namespace'::ScoreboardUpdateHook
-	// procedure flags: nofpo
-// done:
 
 	__asm
 	{

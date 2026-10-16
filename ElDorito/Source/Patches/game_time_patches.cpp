@@ -85,7 +85,6 @@ void game_time_set_rate_scale_direct_hook(float scale);
 void game_time_patches_apply() // 0x1091B3B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?game_time_patches_apply@@YAXXZ");
-	// procedure flags: nofpo
 
 	Hook(0x165110, game_time_set_rate_scale_direct_hook).Apply();
 }
@@ -95,15 +94,6 @@ void game_time_patches_apply() // 0x1091B3B0
 void game_time_set_rate_scale_direct_hook(float scale) // 0x1091B510
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?game_time_set_rate_scale_direct_hook@@YAXM@Z");
-	// `anonymous-namespace'::game_time_set_rate_scale_direct_hook
-	// float scale;
-	// s_game_options *options;
-	// float target_tick_rate;
-	// long new_tick_rate;
-	// s_game_time_globals *globals;
-	// function call : s_game_options *(*)()
-	// function call : bool (*)()
-	// function call : bool (*const)()
 
 	s_game_options *options = game_options_get();
 	if (scale < 0.00001f)

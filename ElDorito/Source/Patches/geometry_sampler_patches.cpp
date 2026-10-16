@@ -190,7 +190,6 @@ namespace Patches
 		void ApplyAll() // 0x1091BF20
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@geometry_sampler_patches@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			Hook(0x6444B4, interpoloate_lighting_sample_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x350C60, geometry_test_collision_result_hook).Apply();
@@ -204,8 +203,6 @@ namespace Patches
 _inline void s_structure_lighting_data::set_per_vertex_buffer(c_rasterizer_vertex_buffer *buffer) // 0x1091F100
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?set_per_vertex_buffer@s_structure_lighting_data@hades_file_local@@QAEXPAVc_rasterizer_vertex_buffer@@@Z");
-	// `anonymous-namespace'::s_structure_lighting_data::set_per_vertex_buffer
-	// c_rasterizer_vertex_buffer *buffer;
 
 	per_vertex_count = buffer->get_vertex_count();
 	per_vertex_stride = buffer->get_vertex_stride();
@@ -215,8 +212,6 @@ _inline void s_structure_lighting_data::set_per_vertex_buffer(c_rasterizer_verte
 _inline void s_structure_lighting_data::set_per_pixel_buffer(c_rasterizer_vertex_buffer *buffer) // 0x1091F0A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?set_per_pixel_buffer@s_structure_lighting_data@hades_file_local@@QAEXPAVc_rasterizer_vertex_buffer@@@Z");
-	// `anonymous-namespace'::s_structure_lighting_data::set_per_pixel_buffer
-	// c_rasterizer_vertex_buffer *buffer;
 
 	per_pixel_data = buffer->get_data();
 }
@@ -224,8 +219,6 @@ _inline void s_structure_lighting_data::set_per_pixel_buffer(c_rasterizer_vertex
 _inline void s_structure_lighting_data::set_lightprobe_index(long index) // 0x1091F070
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?set_lightprobe_index@s_structure_lighting_data@hades_file_local@@QAEXJ@Z");
-	// `anonymous-namespace'::s_structure_lighting_data::set_lightprobe_index
-	// long index;
 
 	lightprobe_index = index;
 }
@@ -243,9 +236,6 @@ _inline s_structure_lighting_data::s_structure_lighting_data() // 0x1091BB60
 long interpoloate_lighting_sample_hook(s_geometry_sample *current_sample, s_geometry_sample *next_sample, float interpolation_parameter, char a4) // 0x1091EE50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?interpoloate_lighting_sample_hook@@YAJPAUs_geometry_sample@@0MD@Z");
-	// `anonymous-namespace'::interpoloate_lighting_sample_hook
-	// char a4;
-	// function call : long (*)(s_geometry_sample *, s_geometry_sample *, float, char)
 
 	return c_geometry_sampler::interpolate_geometry_samples(current_sample, next_sample, interpolation_parameter / 2.0f, 1);
 }
@@ -253,16 +243,6 @@ long interpoloate_lighting_sample_hook(s_geometry_sample *current_sample, s_geom
 _inline void extract_world_vertex(s_render_geometry const *render_geometry, long mesh_index, long triangle_index, s_uncompressed_triangle *triangle) // 0x1091CD70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?extract_world_vertex@@YAXPBUs_render_geometry@@JJPAUs_uncompressed_triangle@@@Z");
-	// `anonymous-namespace'::extract_world_vertex
-	// s_uncompressed_triangle *triangle;
-	// c_rasterizer_index_buffer const *index_buffer;
-	// s_rasterizer_vertex_world *const world_vertices;
-	// c_rasterizer_vertex_buffer const *world_vertex_buffer;
-	// s_mesh const *mesh;
-	// unsigned short *const indices;
-	// function call : c_rasterizer_vertex_buffer *(*const)(s_render_geometry const *, long)
-	// function call : c_rasterizer_index_buffer *(*const)(s_render_geometry const *, long)
-	// function call : void (*const)(s_rasterizer_vertex_world *, long, unsigned short const *, unsigned long, s_uncompressed_triangle *)
 
 	s_mesh const *mesh = &render_geometry->meshes[mesh_index];
 	c_rasterizer_vertex_buffer *world_vertex_buffer = ((c_rasterizer_vertex_buffer *(__cdecl *)(s_render_geometry const *, long))0x78C930)(render_geometry, mesh->vertex_buffer_indices[0]);
@@ -275,17 +255,6 @@ _inline void extract_world_vertex(s_render_geometry const *render_geometry, long
 _inline void extract_rigid_vertex(s_render_geometry const *render_geometry, long mesh_index, long triangle_index, long compression_index, s_uncompressed_triangle *triangle) // 0x1091CC20
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?extract_rigid_vertex@@YAXPBUs_render_geometry@@JJJPAUs_uncompressed_triangle@@@Z");
-	// `anonymous-namespace'::extract_rigid_vertex
-	// s_uncompressed_triangle *triangle;
-	// s_compression_info const *compression_info;
-	// c_rasterizer_vertex_buffer *const rigid_vertex_buffer;
-	// c_rasterizer_index_buffer *const index_buffer;
-	// s_rasterizer_vertex_rigid *const rigid_vertex;
-	// s_mesh const *mesh;
-	// unsigned short *const indices;
-	// function call : c_rasterizer_vertex_buffer *(*const)(s_render_geometry const *, long)
-	// function call : c_rasterizer_index_buffer *(*const)(s_render_geometry const *, long)
-	// function call : void (*const)(s_rasterizer_vertex_rigid const *, s_compression_info const *, long, unsigned short const *, unsigned long, s_uncompressed_triangle *)
 
 	s_mesh const *mesh = &render_geometry->meshes[mesh_index];
 	c_rasterizer_vertex_buffer *rigid_vertex_buffer = ((c_rasterizer_vertex_buffer *(__cdecl *)(s_render_geometry const *, long))0x78C930)(render_geometry, mesh->vertex_buffer_indices[0]);
@@ -299,32 +268,6 @@ _inline void extract_rigid_vertex(s_render_geometry const *render_geometry, long
 bool get_structure_lighting(long bsp_index, long section_index, long instance_index, s_structure_lighting_data *lighting) // 0x1091E630
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_structure_lighting@@YA_NJJJPAUs_structure_lighting_data@hades_file_local@@@Z");
-	// `anonymous-namespace'::get_structure_lighting
-// $LN7:
-	// long bsp_index;
-	// long section_index;
-	// long instance_index;
-	// s_structure_lighting_data *lighting;
-	// s_scenario_lightmap_bsp_data *bsp_lightmap_data;
-	// s_render_geometry *render_geometry;
-	// s_scenario_structure_bsp *bsp;
-		// s_structure_instanced_geometry_instance *instance;
-			// long lod_index;
-				// long vertex_buffer_index;
-			// long mesh_index;
-		// long lightmap_bsp_type;
-			// long instance_data_index;
-				// long per_vertex_buffer_index;
-			// s_structure_cluster *const cluster;
-				// s_mesh const *mesh;
-	// function call : s_scenario_structure_bsp *(*const)(long)
-	// function call : s_scenario_lightmap_bsp_data *(*const)(long)
-	// function call : s_render_geometry *(*const)(long)
-	// function call : c_rasterizer_vertex_buffer *(*const)(s_render_geometry const *, long)
-	// function call : c_rasterizer_vertex_buffer *(*const)(s_scenario_lightmap_bsp_data *, long)
-	// function call : long (*const)(long)
-	// function call : c_rasterizer_vertex_buffer *(*const)(s_render_geometry const *, long)
-	// function call : c_rasterizer_vertex_buffer *(*const)(s_render_geometry const *, long)
 
 	s_scenario_structure_bsp *bsp = global_structure_bsp_get(bsp_index);
 	s_scenario_lightmap_bsp_data *bsp_lightmap_data = ((s_scenario_lightmap_bsp_data *(*)(long))0xA2EEC0)(bsp_index);
@@ -387,22 +330,6 @@ bool get_structure_lighting(long bsp_index, long section_index, long instance_in
 _inline void barycentric_coordinates(real_point3d const &p, real_point3d const &a, real_point3d const &b, real_point3d const &c, float &u, float &v, float &w) // 0x1091C250
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?barycentric_coordinates@@YAXABUreal_point3d@@000AAM11@Z");
-	// `anonymous-namespace'::barycentric_coordinates
-	// real_point3d const &a;
-	// real_point3d const &b;
-	// real_point3d const &c;
-	// float &u;
-	// float &v;
-	// float &w;
-	// real_vector3d ac;
-	// real_vector3d ap;
-	// float const d01;
-	// float const denom;
-	// float const d00;
-	// real_vector3d ab;
-	// float const d21;
-	// float const d11;
-	// float const d20;
 
 	real_vector3d ab = b - a;
 	real_vector3d ac = c - a;
@@ -421,29 +348,6 @@ _inline void barycentric_coordinates(real_point3d const &p, real_point3d const &
 void closest_point_on_triangle(real_point3d const &p, real_point3d const &a, real_point3d const &b, real_point3d const &c, real_point3d &closest_point) // 0x1091C560
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?closest_point_on_triangle@@YAXABUreal_point3d@@000AAU1@@Z");
-	// `anonymous-namespace'::closest_point_on_triangle
-	// static ...; // 0x1091CAB6
-	// static ...; // 0x1091CAB3
-	// static ...; // 0x1091CAB0
-	// static ...; // 0x1091CA5C
-	// static ...; // 0x1091CA54
-	// real_point3d const &p;
-	// real_point3d const &a;
-	// real_point3d const &b;
-	// real_point3d const &c;
-	// real_point3d &closest_point;
-	// float u;
-	// float w;
-	// float v;
-		// bool const sw;
-		// bool const su;
-		// bool const sv;
-			// real_point3d r;
-			// real_vector3d qr;
-			// float const length;
-			// real_point3d q;
-			// real_vector3d pq;
-				// float const t;
 
 	float u;
 	float v;
@@ -499,15 +403,6 @@ void closest_point_on_triangle(real_point3d const &p, real_point3d const &a, rea
 void get_surface_plane(real_plane3d *plane, c_structure_surface const &structure_surface) // 0x1091EA70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_surface_plane@@YAXPAUreal_plane3d@@ABUc_structure_surface@@@Z");
-	// `anonymous-namespace'::get_surface_plane
-	// static ...; // 0x1091EC04
-	// static ...; // 0x1091EBFC
-	// real_plane3d *plane;
-	// c_structure_surface const &structure_surface;
-	// bool negated;
-	// c_collision_bsp_reference collision_bsp;
-		// s_large_collision_surface *const surface;
-		// collision_surface *const surface;
 
 	c_collision_bsp_reference collision_bsp;
 	structure_surface.get_collision_bsp(&collision_bsp);
@@ -531,39 +426,6 @@ void get_surface_plane(real_plane3d *plane, c_structure_surface const &structure
 long find_best_triangle_closest(c_structure_surface const &structure_surface, s_render_geometry const *render_geometry, real_point3d const &point, s_uncompressed_triangle &triangle, float &s, float &t) // 0x1091CEA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?find_best_triangle_closest@@YAJABUc_structure_surface@@PBUs_render_geometry@@ABUreal_point3d@@AAUs_uncompressed_triangle@@AAM4@Z");
-	// `anonymous-namespace'::find_best_triangle_closest
-	// static ...; // 0x1091D282
-	// static ...; // 0x1091D280
-	// static ...; // 0x1091D27E
-	// static ...; // 0x1091D27C
-	// static ...; // 0x1091D210
-	// static ...; // 0x1091D208
-	// c_structure_surface const &structure_surface;
-	// s_render_geometry const *render_geometry;
-	// real_point3d const &point;
-	// s_uncompressed_triangle &triangle;
-	// float &s;
-	// float &t;
-	// long end_index;
-	// long best_triangle_index;
-	// long first_index;
-	// float min_point_distance;
-	// real_plane3d surface_plane;
-	// real_point3d min_point;
-		// long i;
-			// long const vertex_index;
-			// real_vector3d v1;
-			// s_structure_plane const *triangle_mapping;
-			// real_vector3d triangle_normal;
-			// real_point3d closest_point;
-			// long const mesh_index;
-			// real_vector3d v2;
-			// float const distance;
-		// float u;
-		// long const vertex_index;
-		// float w;
-		// long const mesh_index;
-		// float v;
 
 	long first_index = structure_surface.get_first_triangle_index();
 	long end_index = first_index + structure_surface.get_triangle_count() - 1;
@@ -623,30 +485,6 @@ long find_best_triangle_closest(c_structure_surface const &structure_surface, s_
 long find_best_triangle_h3(c_structure_surface const &structure_surface, s_render_geometry const *render_geometry, real_point3d const &point, s_uncompressed_triangle &triangle, float &s, float &t) // 0x1091D3D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?find_best_triangle_h3@@YAJABUc_structure_surface@@PBUs_render_geometry@@ABUreal_point3d@@AAUs_uncompressed_triangle@@AAM4@Z");
-	// `anonymous-namespace'::find_best_triangle_h3
-	// static ...; // 0x1091D654
-	// c_structure_surface const &structure_surface;
-	// s_render_geometry const *render_geometry;
-	// real_point3d const &point;
-	// s_uncompressed_triangle &triangle;
-	// float &s;
-	// float &t;
-	// float min_area;
-	// long const end_index;
-	// long best_triangle_index;
-	// long const first_index;
-	// float min_s;
-	// float min_t;
-		// long i;
-			// long const vertex_index;
-			// float t;
-			// float s;
-			// s_structure_plane const *triangle_mapping;
-			// long const mesh_index;
-			// float const a;
-		// long const vertex_index;
-		// long const mesh_index;
-	// function call : float (*const)(real_point3d const *, real_point3d const *, real_point3d const *, real_point3d const *, float *, float *)
 
 	long const first_index = structure_surface.get_first_triangle_index();
 	long const end_index = first_index + structure_surface.get_triangle_count() - 1;
@@ -693,38 +531,6 @@ long find_best_triangle_h3(c_structure_surface const &structure_surface, s_rende
 bool geometry_test_collision_result_impl(long bsp_index, long object_index, long instance_index, long surface_index, real_point3d const *test_point, bool unknown_flag, bool find_material_flag, bool *out_test_result_valid, s_geometry_test_result *test_result) // 0x1091D7B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?geometry_test_collision_result_impl@@YA_NJJJJPBUreal_point3d@@_N1PA_NPAUs_geometry_test_result@@@Z");
-	// `anonymous-namespace'::geometry_test_collision_result_impl
-	// long bsp_index;
-	// long object_index;
-	// long instance_index;
-	// long surface_index;
-	// real_point3d const *test_point;
-	// bool unknown_flag;
-	// bool find_material_flag;
-	// bool *out_test_result_valid;
-	// s_geometry_test_result *test_result;
-		// long (*const object_has_unknown_lighting)(long);
-		// long (*const object_has_light_volume_samples)(long);
-		// s_scenario_lightmap_bsp_data *const bsp_lightmap_data;
-		// float t;
-		// __int32 const quality;
-		// long section_index;
-		// float s;
-		// s_render_geometry *const render_geometry;
-		// s_uncompressed_triangle triangle;
-		// s_scenario_structure_bsp *structure_bsp;
-		// long triangle_index;
-		// s_structure_lighting_data lighting;
-		// real_point3d point;
-		// long triangle_vertex_index;
-		// c_structure_surface structure_surface;
-	// function call : long (*const)(long)
-	// function call : long (*const)(long)
-	// function call : s_scenario_lightmap_bsp_data *(*const)(long)
-	// function call : s_render_geometry *(*const)(long)
-	// function call : long (*const)(long, long, long, long)
-	// function call : s_scenario_structure_bsp *(*const)(long)
-	// function call : bool (*const)(real_point3d const *, s_uncompressed_triangle const *, float, float, __int32, void const *, void const *, long, unsigned long, long, s_structure_instanced_geometry_instance const *, s_geometry_test_result *, long, s_scenario_lightmap_bsp_data const *)
 
 	*out_test_result_valid = false;
 	if (object_index != -1)
@@ -801,8 +607,6 @@ bool geometry_test_collision_result_impl(long bsp_index, long object_index, long
 _inline bool geometry_test_collision_result_hook(long bsp_index, long object_index, long instance_index, long surface_index, real_point3d const *test_point, bool unknown_flag, bool find_material_flag, bool *out_test_result_valid, s_geometry_test_result *test_result) // 0x1091D740
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?geometry_test_collision_result_hook@@YA_NJJJJPBUreal_point3d@@_N1PA_NPAUs_geometry_test_result@@@Z");
-	// `anonymous-namespace'::geometry_test_collision_result_hook
-	// s_geometry_test_result *test_result;
 
 	return geometry_test_collision_result_impl(bsp_index, object_index, instance_index, surface_index, test_point, unknown_flag, find_material_flag, out_test_result_valid, test_result);
 }
@@ -810,10 +614,6 @@ _inline bool geometry_test_collision_result_hook(long bsp_index, long object_ind
 __declspec(naked) void sample_airprobes_hook() // 0x1091EF10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?sample_airprobes_hook@@YAXXZ");
-	// `anonymous-namespace'::sample_airprobes_hook
-	// procedure flags: nofpo
-// bad_probe:
-// good_probe:
 
 	__asm
 	{

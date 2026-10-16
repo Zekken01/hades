@@ -100,7 +100,6 @@ namespace Forge
 	void CForgeAtmosphere::InitializeForNewMap() // 0x1067F930
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeForNewMap@CForgeAtmosphere@Forge@@SAXXZ");
-		// procedure flags: nofpo
 
 		state = {};
 	}
@@ -108,7 +107,6 @@ namespace Forge
 	void CForgeAtmosphere::Update(long mapModifierIndex, Forge::ForgeMapModifierProperties &mapModifierProperties) // 0x1067FEA0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CForgeAtmosphere@Forge@@SAXJAAUForgeMapModifierProperties@2@@Z");
-		// Forge::ForgeMapModifierProperties &mapModifierProperties;
 
 		state.Enabled = false;
 		if (mapModifierProperties.AtmosphereProperties.Flags & 1)
@@ -126,7 +124,6 @@ namespace Forge
 	void CForgeAtmosphere::HandleMapModifierDeleted() // 0x1067F910
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?HandleMapModifierDeleted@CForgeAtmosphere@Forge@@SAXXZ");
-		// procedure flags: nofpo
 
 		state.Enabled = false;
 	}
@@ -134,15 +131,6 @@ namespace Forge
 	bool CForgeAtmosphere::OverrideSkyAtmosphereSettings(s_cluster_reference cluster_reference, s_weighted_atmosphere_parameters *parameters) // 0x1067F9D0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?OverrideSkyAtmosphereSettings@CForgeAtmosphere@Forge@@SA_NUs_cluster_reference@@PAUs_weighted_atmosphere_parameters@@@Z");
-		// static ...; // 0x1067FD88
-		// static ...; // 0x1067FD80
-		// s_cluster_reference cluster_reference;
-		// s_weighted_atmosphere_parameters *parameters;
-		// c_sky_atm_parameters *skya;
-		// c_atmosphere_setting const &template_setting;
-		// c_atmosphere_setting temp_setting;
-		// function call : void *(*const)(unsigned long, long)
-		// function call : void (*const)(s_cluster_reference, c_atmosphere_setting *, s_weighted_atmosphere_parameters *, float)
 
 		if (!state.Enabled)
 			return false;

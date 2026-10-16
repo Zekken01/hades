@@ -63,7 +63,6 @@ static_assert(sizeof(s_blf_chunk_mod_package_reference) == 1168, "Invalid s_blf_
 _inline s_blf_chunk_mod_package_reference::s_blf_chunk_mod_package_reference() // 0x10AC8640
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_blf_chunk_mod_package_reference@@QAE@XZ");
-	// s_blf_chunk_mod_package_reference *const this;
 
 	setup(0x6D6F6470, 0x490, 2, 0);
 }

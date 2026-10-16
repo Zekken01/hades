@@ -25,7 +25,6 @@ class c_network_session_parameter_session_size;
 long c_network_session_parameter_session_size::get_max_player_count() const // 0x10F1D420
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_max_player_count@c_network_session_parameter_session_size@@QBEJXZ");
-	// c_network_session_parameter_session_size const *const this;
 
 	if (get_allowed())
 	{

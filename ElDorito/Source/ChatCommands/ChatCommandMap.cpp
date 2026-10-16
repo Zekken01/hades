@@ -202,13 +202,6 @@ namespace ChatCommands
 	void LifeCycleStateChanged(Blam::Network::LifeCycleState newState) // 0x1093A9A0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?LifeCycleStateChanged@ChatCommands@@YAXW4LifeCycleState@Network@Blam@@@Z");
-		// Blam::Network::LifeCycleState newState;
-		// Blam::Network::Session *session;
-			// std::vector<ChatCommands::VotingChatCommand *> &<range>$L0;
-			// ChatCommands::VotingChatCommand **<begin>$L0;
-			// ChatCommands::VotingChatCommand **<end>$L0;
-				// ChatCommands::VotingChatCommand *elem;
-		// function call : void ()
 
 		Blam::Network::Session *session = Blam::Network::GetActiveSession();
 		if (!session || !session->IsEstablished() || !session->IsHost())
@@ -237,7 +230,6 @@ namespace ChatCommands
 	void Init() // 0x1093A890
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Init@ChatCommands@@YAXXZ");
-		// procedure flags: nofpo
 
 			Patches::Network::OnLifeCycleStateChanged(LifeCycleStateChanged);
 			votingCommands.push_back(&kickPlayerCommand);
@@ -251,13 +243,6 @@ namespace ChatCommands
 	bool addToVoteTimes(unsigned long long sender) // 0x1093CB80
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?addToVoteTimes@ChatCommands@@YA_N_K@Z");
-		// static ...; // 0x1093CD6F
-		// static ...; // 0x1093CD6C
-		// static ...; // 0x1093CD54
-		// static ...; // 0x1093CD4C
-		// unsigned long long sender;
-		// std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<unsigned __int64 const ,__int64> > > > it;
-		// long long curTime;
 
 		time_t curTime;
 		time(&curTime);
@@ -278,12 +263,6 @@ namespace ChatCommands
 	void Tick() // 0x1093AC40
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@ChatCommands@@YAXXZ");
-		// procedure flags: nofpo
-		// Blam::Network::Session *session;
-			// std::vector<ChatCommands::VotingChatCommand *> &<range>$L0;
-			// ChatCommands::VotingChatCommand **<begin>$L0;
-			// ChatCommands::VotingChatCommand **<end>$L0;
-				// ChatCommands::VotingChatCommand *elem;
 
 		Blam::Network::Session *session = Blam::Network::GetActiveSession();
 		if (!session || !session->IsEstablished() || !session->IsHost())
@@ -314,20 +293,6 @@ namespace ChatCommands
 	std::vector<std::string> getHelpText() // 0x1093D450
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?getHelpText@ChatCommands@@YA?AV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@XZ");
-		// procedure flags: nofpo
-		// static ...; // 0x1093D800
-		// static ...; // 0x1093D7F4
-		// static ...; // 0x1093D7EC
-		// std::vector<std::string> helpText;
-			// std::vector<ChatCommands::VotingChatCommand *> &<range>$L0;
-			// ChatCommands::VotingChatCommand **<begin>$L0;
-			// ChatCommands::VotingChatCommand **<end>$L0;
-				// ChatCommands::VotingChatCommand *elem;
-			// ChatCommands::ChatCommand *<end>$L1;
-			// ChatCommands::ChatCommand *<begin>$L1;
-			// std::vector<ChatCommands::ChatCommand> &<range>$L1;
-				// ChatCommands::ChatCommand const &command;
-		// function call : bool ()
 
 		std::vector<std::string> helpText;
 		for (auto elem : votingCommands)
@@ -347,11 +312,6 @@ namespace ChatCommands
 	void RegisterCommand(std::string const &name, std::string const &description, ChatCommands::CommandFlags flags, std::function<bool __cdecl(int,std::vector<std::string> const &,std::string &)> &&handler) // 0x1093AB00
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?RegisterCommand@ChatCommands@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0W4CommandFlags@1@$$QAV?$function@$$A6A_NHABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z@3@@Z");
-		// std::string const &name;
-		// std::string const &description;
-		// ChatCommands::CommandFlags flags;
-		// std::function<bool __cdecl(int,std::vector<std::string> const &,std::string &)> &handler;
-		// ChatCommands::ChatCommand command;
 
 		ChatCommands::ChatCommand command;
 		*(ChatCommands::CommandFlags *)command.flags = flags;
@@ -364,8 +324,6 @@ namespace ChatCommands
 	ChatCommands::ChatCommand *FindChatCommand(std::string const &name) // 0x1093A7E0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?FindChatCommand@ChatCommands@@YAPAUChatCommand@1@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-		// std::string const &name;
-			// unsigned __int32 i;
 
 		for (unsigned __int32 i = 0; i < chatCommands.size(); i++)
 		{
@@ -378,34 +336,6 @@ namespace ChatCommands
 	bool handleChatMessage(Server::Chat::ChatMessage const &message, __int32 peer) // 0x1093D900
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?handleChatMessage@ChatCommands@@YA_NABUChatMessage@Chat@Server@@H@Z");
-		// static ...; // 0x1093E063
-		// static ...; // 0x1093E05F
-		// static ...; // 0x1093E05A
-		// static ...; // 0x1093E04E
-		// static ...; // 0x1093E049
-		// static ...; // 0x1093E040
-		// static ...; // 0x1093DFEC
-		// static ...; // 0x1093DFE4
-		// Server::Chat::ChatMessage const &message;
-		// __int32 peer;
-		// __int32 numArgs;
-		// std::vector<std::string> args;
-		// CommandLineArgs cmdArgs;
-		// std::string line;
-		// std::string cmd;
-			// unsigned __int32 i;
-			// ChatCommands::ChatCommand *command;
-				// std::string returnValue;
-			// std::vector<ChatCommands::VotingChatCommand *> &<range>$L0;
-			// ChatCommands::VotingChatCommand **<begin>$L0;
-			// ChatCommands::VotingChatCommand **<end>$L0;
-				// ChatCommands::VotingChatCommand *elem;
-			// ChatCommands::VotingChatCommand **<end>$L1;
-			// ChatCommands::VotingChatCommand **<begin>$L1;
-			// std::vector<ChatCommands::VotingChatCommand *> &<range>$L1;
-					// std::string name;
-						// std::vector<std::string> argsVect;
-							// __int32 i;
 
 		std::string line = Utils::String::Trim(std::string(message.Body), true);
 		if (line.empty())

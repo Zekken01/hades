@@ -228,7 +228,6 @@ _inline c_mod_package_updater_blocking::s_mod_package_description::~s_mod_packag
 void c_mod_package_updater_blocking::initialize(bool dedicated, char const *package_list_filename, char const *package_directory) // 0x108B1070
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?initialize@c_mod_package_updater_blocking@@QAEX_NPBD1@Z");
-	// char const *package_directory;
 
 	m_dedicated = dedicated;
 	m_package_list_filename.set(package_list_filename);
@@ -238,24 +237,6 @@ void c_mod_package_updater_blocking::initialize(bool dedicated, char const *pack
 bool c_mod_package_updater_blocking::locate_packages() // 0x108B1190
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?locate_packages@c_mod_package_updater_blocking@@AAE_NXZ");
-	// static ...; // 0x108B169B
-	// static ...; // 0x108B1697
-	// static ...; // 0x108B1693
-	// static ...; // 0x108B168F
-	// static ...; // 0x108B168C
-	// static ...; // 0x108B1680
-	// static ...; // 0x108B1638
-	// static ...; // 0x108B1630
-	// c_mod_package_updater_blocking *const this;
-	// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> doc;
-	// std::stringstream ss;
-	// std::string src;
-	// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &mods;
-	// std::ifstream ifs;
-		// rapidjson::GenericMemberIterator<1,rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > it;
-			// c_mod_package_updater_blocking::s_mod_package_description description;
-			// char const *package_url;
-			// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &mod;
 
 	printf("locating packages...\n");
 	std::stringstream ss;
@@ -291,26 +272,6 @@ bool c_mod_package_updater_blocking::locate_packages() // 0x108B1190
 bool c_mod_package_updater_blocking::download_package(char const *package_url, char const *filename) // 0x108B08C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?download_package@c_mod_package_updater_blocking@@AAE_NPBD0@Z");
-	// static ...; // 0x108B0D00
-	// c_mod_package_updater_blocking *const this;
-	// char const *package_url;
-	// char const *filename;
-	// std::shared_ptr<Download::CHttpFileDownload> download;
-		// __int32 speed;
-		// long long position;
-		// long long length;
-			// float complete_fraction;
-		// __int32 x;
-	// function call : void ()
-	// function call : long long () const
-	// function call : long long () const
-	// function call : __int32 () const
-	// function call : bool () const
-	// function call : void (unsigned long)
-	// function call : Download::EDownloadStatus () const
-	// function call : Download::EDownloadError () const
-	// function call : Download::EDownloadError () const
-	// function call : Download::EDownloadError () const
 
 	printf("downloading...\n");
 	std::shared_ptr<Download::CHttpFileDownload> download = Download::CreateHttpFileDownload();
@@ -357,6 +318,7 @@ bool c_mod_package_updater_blocking::download_package(char const *package_url, c
 	}
 }
 
+#line 360
 void c_mod_package_updater_blocking::build_mod_package_description(c_mod_package &package, c_mod_package_updater_blocking::s_mod_package_description *description) // 0x108B0040
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?build_mod_package_description@c_mod_package_updater_blocking@@AAEXAAVc_mod_package@@PAUs_mod_package_description@1@@Z");
@@ -381,28 +343,6 @@ void c_mod_package_updater_blocking::build_mod_package_description(c_mod_package
 bool download_mod_package_header(char const *url, s_mod_package_header *out_header, bool use_range) // 0x108B02E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?download_mod_package_header@@YA_NPBDPAUs_mod_package_header@@_N@Z");
-	// static ...; // 0x108B0771
-	// static ...; // 0x108B0769
-	// static ...; // 0x108B0761
-	// static ...; // 0x108B0758
-	// static ...; // 0x108B0710
-	// static ...; // 0x108B0708
-	// char const *url;
-	// s_mod_package_header *out_header;
-	// bool use_range;
-	// Http::CHttpHeaders headers;
-	// char *ptr;
-	// std::atomic<bool> completion_flag;
-	// char *end;
-	// std::shared_ptr<Http::IHttpResponse> response;
-	// std::shared_ptr<Http::IHttpRequest> request;
-	// function call : void (Http::CHttpHeaders)
-	// function call : void (std::string)
-	// function call : bool ()
-	// function call : void (std::function<void __cdecl(std::shared_ptr<Http::IHttpRequest>,bool)> &)
-	// function call : void (std::function<bool __cdecl(char const *,unsigned int)> &)
-	// function call : std::shared_ptr<Http::IHttpResponse> ()
-	// function call : __int32 () const
 
 	char *ptr = (char *)out_header;
 	char *end = (char *)&out_header[1];
@@ -438,41 +378,6 @@ bool download_mod_package_header(char const *url, s_mod_package_header *out_head
 bool c_mod_package_updater_blocking::update_package(c_mod_package_updater_blocking::s_mod_package_description *description) // 0x108B23B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?update_package@c_mod_package_updater_blocking@@AAE_NPAUs_mod_package_description@1@@Z");
-	// static ...; // 0x108B2C90
-	// static ...; // 0x108B2C87
-	// static ...; // 0x108B2C79
-	// static ...; // 0x108B2C65
-	// static ...; // 0x108B2C5D
-	// static ...; // 0x108B2C59
-	// static ...; // 0x108B2C56
-	// static ...; // 0x108B2C4D
-	// static ...; // 0x108B2C41
-	// static ...; // 0x108B2C38
-	// static ...; // 0x108B2BB4
-	// static ...; // 0x108B2BAC
-	// c_mod_package_updater_blocking *const this;
-	// c_mod_package_updater_blocking::s_mod_package_description *description;
-	// c_mod_package_manager::s_entry package_entry;
-	// char const *package_url;
-	// bool needs_downloading;
-	// static s_mod_package_header remote_header; // 0x12407980
-	// c_mod_package_manager &package_manager;
-	// static __int32 $TSS0; // 0x12407DD8
-		// c_file_reference const &local_file;
-			// c_mod_package local_package;
-		// s_static_string<256> temp_filename;
-		// c_mod_package::e_error err;
-		// c_mod_package package;
-		// std::string hash_str;
-		// std::string mod_version;
-		// std::string mod_name;
-		// std::wstring ws;
-		// s_static_string<256> new_name;
-		// s_file_reference temp_file_reference;
-	// function call : s_file_reference *(*const)(s_file_reference *, char const *, bool)
-	// function call : bool (*const)(s_file_reference *)
-	// function call : bool (*const)(s_file_reference *)
-	// function call : bool (*const)(s_file_reference *, char const *)
 
 	char const *package_url = description->package_url.c_str();
 	printf("checking remote package '%s'...\n", package_url);
@@ -547,10 +452,6 @@ bool c_mod_package_updater_blocking::update_package(c_mod_package_updater_blocki
 bool c_mod_package_updater_blocking::process_queue() // 0x108B1BF0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?process_queue@c_mod_package_updater_blocking@@AAE_NXZ");
-	// c_mod_package_updater_blocking *const this;
-	// c_mod_package_manager &package_manager;
-		// c_mod_package_updater_blocking::s_mod_package_description &package_description;
-	// function call : void (unsigned long)
 
 	c_mod_package_manager &package_manager = c_mod_system::get_package_manager();
 	package_manager.enumerate_blocking();
@@ -573,8 +474,6 @@ bool c_mod_package_updater_blocking::process_queue() // 0x108B1BF0
 bool c_mod_package_updater_blocking::update_packages_blocking() // 0x108B2EF0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?update_packages_blocking@c_mod_package_updater_blocking@@QAE_NXZ");
-	// c_mod_package_updater_blocking *const this;
-	// bool result;
 
 	shell_allocate_console();
 	printf("updating mods...\n");
@@ -590,25 +489,6 @@ bool c_mod_package_updater_blocking::update_packages_blocking() // 0x108B2EF0
 void shell_allocate_console() // 0x108B1F00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?shell_allocate_console@@YAXXZ");
-	// `anonymous-namespace'::shell_allocate_console
-	// procedure flags: nofpo
-	// static ...; // 0x108B2089
-	// static ...; // 0x108B2080
-	// static ...; // 0x108B2078
-	// static ...; // 0x108B2054
-	// static ...; // 0x108B204C
-	// _iobuf *fpStdIn;
-	// long style;
-	// HWND__ *consoleWindow;
-	// _iobuf *fpStdOut;
-	// _iobuf *fpStdErr;
-	// function call : __int32 ()
-	// function call : HWND__ *()
-	// function call : long (HWND__ *, __int32)
-	// function call : long (HWND__ *, __int32, long)
-	// function call : HMENU__ *(HWND__ *, __int32)
-	// function call : __int32 (HMENU__ *, unsigned __int32, unsigned __int32)
-	// function call : __int32 (HWND__ *, HWND__ *, __int32, __int32, __int32, __int32, unsigned __int32)
 
 	AllocConsole();
 	HWND__ *consoleWindow = GetConsoleWindow();
@@ -628,21 +508,6 @@ void shell_allocate_console() // 0x108B1F00
 void shell_free_console(bool dedicated) // 0x108B2100
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?shell_free_console@@YAX_N@Z");
-	// `anonymous-namespace'::shell_free_console
-	// static ...; // 0x108B229D
-	// static ...; // 0x108B2294
-	// static ...; // 0x108B228C
-	// static ...; // 0x108B2268
-	// static ...; // 0x108B2260
-	// bool dedicated;
-	// HWND__ *consoleWindow;
-		// _iobuf *fpStdIn;
-		// _iobuf *fpStdOut;
-		// _iobuf *fpStdErr;
-	// function call : HWND__ *()
-	// function call : HMENU__ *(HWND__ *, __int32)
-	// function call : __int32 (HMENU__ *, unsigned __int32, unsigned __int32)
-	// function call : __int32 ()
 
 	HWND consoleWindow = GetConsoleWindow();
 	EnableMenuItem(GetSystemMenu(consoleWindow, TRUE), SC_CLOSE, MF_BYCOMMAND | MF_DISABLED | MF_GRAYED);

@@ -57,7 +57,6 @@ extern _inline s_ctf_engine_globals *get_ctf_globals();
 _inline s_ctf_engine_globals *get_ctf_globals() // 0x109562B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_ctf_globals@@YAPAUs_ctf_engine_globals@@XZ");
-	// procedure flags: nofpo
 
 	return reinterpret_cast<s_ctf_engine_globals *>(tls_getd().game_engine_globals->engine_storage);
 }

@@ -49,10 +49,6 @@ char const *tag_name_strip_path(char const *name) // 0x10F18F00
 char const *tag_name_get_directory(char const *tag_name) // 0x10F18C90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?tag_name_get_directory@@YAPBDPBD@Z");
-	// char const *tag_name;
-	// thread_local char buffer[256]; // 0x12579668
-	// unsigned long position;
-	// long length;
 
 	thread_local char buffer[256];
 	buffer[0] = 0;
@@ -68,11 +64,6 @@ char const *tag_name_get_directory(char const *tag_name) // 0x10F18C90
 char const *tag_name_get_filename_without_extension(char const *tag_name) // 0x10F18DC0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?tag_name_get_filename_without_extension@@YAPBDPBD@Z");
-	// char const *tag_name;
-	// thread_local char buffer[256]; // 0x12579568
-	// unsigned long position;
-	// long length;
-	// char const *filename;
 
 	thread_local char buffer[256];
 	buffer[0] = 0;

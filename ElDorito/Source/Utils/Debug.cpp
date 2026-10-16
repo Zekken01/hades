@@ -89,16 +89,6 @@ namespace Utils
 	std::string GetStackTraceString(__int32 framesToSkip, __int32 framesToCapture) // 0x10C56120
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetStackTraceString@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@HH@Z");
-		// static ...; // 0x10C56398
-		// static ...; // 0x10C56380
-		// static ...; // 0x10C56378
-		// __int32 framesToSkip;
-		// __int32 framesToCapture;
-		// std::vector<unsigned int> backTrace;
-		// std::stringstream ss;
-		// __int32 capturedFrames;
-			// __int32 i;
-		// function call : unsigned short (unsigned long, unsigned long, void **, unsigned long *)
 
 		std::stringstream ss;
 		std::vector<unsigned int> backTrace(framesToCapture);
@@ -116,16 +106,6 @@ namespace Utils
 	void LogEthernetAdapterInfo() // 0x10C56450
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?LogEthernetAdapterInfo@Utils@@YAXXZ");
-		// procedure flags: nofpo
-		// static ...; // 0x10C569B8
-		// static ...; // 0x10C569AC
-		// static ...; // 0x10C569A4
-		// _IP_ADAPTER_INFO *pAdapterInfo;
-		// _IP_ADAPTER_INFO *pAdapter;
-		// unsigned long dwRetVal;
-		// unsigned long ulOutBufLen;
-		// function call : unsigned long (_IP_ADAPTER_INFO *, unsigned long *)
-		// function call : unsigned long (_IP_ADAPTER_INFO *, unsigned long *)
 
 		PIP_ADAPTER_INFO pAdapterInfo;
 		PIP_ADAPTER_INFO pAdapter;
@@ -195,10 +175,6 @@ namespace Utils
 	char const *GetLastErrorToText(unsigned long lastError) // 0x10C55FC0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetLastErrorToText@Utils@@YAPBDK@Z");
-		// unsigned long lastError;
-		// thread_local char buf[256]; // 0x12579430
-			// char *ptr;
-		// function call : unsigned long (unsigned long, void const *, unsigned long, unsigned long, char *, unsigned long, char **)
 
 		thread_local char buf[256];
 		FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, nullptr, lastError, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), buf, 256, nullptr);
@@ -219,7 +195,6 @@ namespace Utils
 	std::string GetLastErrorToString(unsigned long lastError) // 0x10C55F40
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetLastErrorToString@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@K@Z");
-		// unsigned long lastError;
 
 		return GetLastErrorToText(lastError);
 	}

@@ -116,7 +116,6 @@ namespace Patches
 		void ApplyAll() // 0x10A297C0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Assassination@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			Hook(0x13B3B6, player_can_assassinate_object_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x753A92, object_can_be_melee_instant_killed_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
@@ -132,11 +131,6 @@ namespace Patches
 bool object_has_invincibility(long object_index) // 0x10A29E40
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?object_has_invincibility@@YA_NJ@Z");
-	// `anonymous-namespace'::object_has_invincibility
-	// long object_index;
-	// s_unit_data *unit;
-		// s_player_datum *player;
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
 
 	s_unit_data *unit = (s_unit_data *)object_try_and_get_and_verify_type(object_index, 0x2003);
 	if (unit && unit->player_index != -1)
@@ -154,10 +148,6 @@ bool object_has_invincibility(long object_index) // 0x10A29E40
 bool player_can_assassinate_object_hook(long player_index, long object_index) // 0x10A29F10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?player_can_assassinate_object_hook@@YA_NJJ@Z");
-	// `anonymous-namespace'::player_can_assassinate_object_hook
-	// long object_index;
-	// bool (*const player_can_assassinate_object)(long, long);
-	// function call : bool (*const)(long, long)
 
 	bool (*const player_can_assassinate_object)(long, long) = reinterpret_cast<bool (*)(long, long)>(0x538510);
 	if (!Utils::Singleton<Modules::ModuleServer>::Instance().VarServerAssassinationEnabledClient->ValueInt)
@@ -176,10 +166,6 @@ bool player_can_assassinate_object_hook(long player_index, long object_index) //
 bool object_can_be_melee_instant_killed_hook(long object_index) // 0x10A29D90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?object_can_be_melee_instant_killed_hook@@YA_NJ@Z");
-	// `anonymous-namespace'::object_can_be_melee_instant_killed_hook
-	// long object_index;
-	// bool (*const object_can_be_melee_instant_killed)(long);
-	// function call : bool (*const)(long)
 
 	bool (__cdecl *const object_can_be_melee_instant_killed)(long) = (bool(__cdecl *const)(long))0xb2a780;
 
@@ -194,13 +180,6 @@ bool object_can_be_melee_instant_killed_hook(long object_index) // 0x10A29D90
 bool motor_system_biped_physics_preupdate_moving_hook(long biped_index, void *physics_input, void *physics_output, bool a4, bool a5, float a6, bool a7, bool a8) // 0x10A29CA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?motor_system_biped_physics_preupdate_moving_hook@@YA_NJPAX0_N1M11@Z");
-	// `anonymous-namespace'::motor_system_biped_physics_preupdate_moving_hook
-	// bool a8;
-	// bool (*const motor_system_biped_physics_preupdate_moving)(long, void *, void *, bool, bool, float, bool, bool);
-	// bool ret;
-	// bool (*const object_is_running_sync_action)(long);
-	// function call : bool (*const)(long, void *, void *, bool, bool, float, bool, bool)
-	// function call : bool (*const)(long)
 
 	bool (*const object_is_running_sync_action)(long) = reinterpret_cast<bool (*)(long)>(0xB2F430);
 	bool (*const motor_system_biped_physics_preupdate_moving)(long, void *, void *, bool, bool, float, bool, bool) = reinterpret_cast<bool (*)(long, void *, void *, bool, bool, float, bool, bool)>(0xBB1A50);
@@ -216,27 +195,6 @@ bool motor_system_biped_physics_preupdate_moving_hook(long biped_index, void *ph
 bool sync_action_compatible_with_participant_current_states_hook(long initiator_index, long target_index, unsigned long sync_action_name) // 0x10A29FE0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?sync_action_compatible_with_participant_current_states_hook@@YA_NJJK@Z");
-	// `anonymous-namespace'::sync_action_compatible_with_participant_current_states_hook
-	// unsigned long sync_action_name;
-	// bool (*const initiator_satisfies_airborne_state)(long, long, bool);
-	// c_animation_manager *initiator_manager;
-	// s_object_data *target;
-	// bool (*const target_satisfies_airborne_state)(long, long, bool);
-	// s_object_data *initiator;
-	// s_animation_sync_action_participant *target_participant;
-	// bool initiator_valid;
-	// s_animation_sync_action *target_sync_action;
-	// s_animation_sync_action_participant *initiator_participant;
-	// bool target_valid;
-	// c_animation_manager *target_manager;
-	// s_animation_sync_action *initiator_sync_action;
-		// long i;
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : s_animation_sync_action *(*const)(c_animation_manager const *, unsigned long, unsigned long, unsigned long)
-	// function call : s_animation_sync_action *(*const)(c_animation_manager const *, unsigned long, unsigned long, unsigned long)
-	// function call : bool (*const)(long, long, bool)
-	// function call : bool (*const)(long, long, bool)
 
 	bool (*const initiator_satisfies_airborne_state)(long, long, bool) = reinterpret_cast<bool (*)(long, long, bool)>(0xBAA750);
 	bool (*const target_satisfies_airborne_state)(long, long, bool) = reinterpret_cast<bool (*)(long, long, bool)>(0xBAB740);

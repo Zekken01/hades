@@ -249,23 +249,16 @@ namespace Job { extern void RunJob(std::function<EJobResult __cdecl(void)> funct
 CServerConnectStateHandler_AcquireMods::CServerConnectStateHandler_AcquireMods() : m_state(EState::None), m_queueIndex(-1), m_downloadStarted(false), m_cancelled(false), m_hasEnumerated(false), m_pendingVerificationJobs(0), m_ui(nullptr) /* hades-mem-init:  */ // 0x10906B70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0CServerConnectStateHandler_AcquireMods@@QAE@XZ");
-	// CServerConnectStateHandler_AcquireMods *const this;
 }
 
 CServerConnectStateHandler_AcquireMods::~CServerConnectStateHandler_AcquireMods() // 0x10906E60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??1CServerConnectStateHandler_AcquireMods@@QAE@XZ");
-	// CServerConnectStateHandler_AcquireMods *const this;
 }
 
 void CServerConnectStateHandler_AcquireMods::SetUI(std::shared_ptr<IServerConnectModDownloadUI> const &ui) // 0x10908E40
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SetUI@CServerConnectStateHandler_AcquireMods@@QAEXABV?$shared_ptr@VIServerConnectModDownloadUI@@@std@@@Z");
-	// std::shared_ptr<IServerConnectModDownloadUI> const &ui;
-	// function call : void (std::function<void __cdecl(void)>)
-	// function call : void (std::function<void __cdecl(void)>)
-	// function call : void (std::function<void __cdecl(void)>)
-	// function call : void (std::function<void __cdecl(void)>)
 
 	m_ui = ui;
 	if (!m_ui)
@@ -279,13 +272,6 @@ void CServerConnectStateHandler_AcquireMods::SetUI(std::shared_ptr<IServerConnec
 void CServerConnectStateHandler_AcquireMods::OnEnter() // 0x109084C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnEnter@CServerConnectStateHandler_AcquireMods@@EAEXXZ");
-	// CServerConnectStateHandler_AcquireMods *const this;
-	// SServerConnectState &state;
-		// std::vector<SServerConnectState::SRequiredMod> &<range>$L0;
-		// SServerConnectState::SRequiredMod *<begin>$L0;
-		// SServerConnectState::SRequiredMod *<end>$L0;
-			// SServerConnectState::SRequiredMod &mod;
-	// function call : void (std::vector<SServerConnectState::SRequiredMod *> const &)
 
 	Console::WriteLine("Server Connect :: Acquiring mods...");
 	SetLocalState(Confirmation);
@@ -322,17 +308,6 @@ void CServerConnectStateHandler_AcquireMods::OnEnter() // 0x109084C0
 void CServerConnectStateHandler_AcquireMods::OnExit() // 0x10908780
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnExit@CServerConnectStateHandler_AcquireMods@@EAEXXZ");
-	// static ...; // 0x10908A07
-	// static ...; // 0x10908A04
-	// static ...; // 0x109089EC
-	// static ...; // 0x109089E4
-	// CServerConnectStateHandler_AcquireMods *const this;
-		// unsigned __int32 i;
-			// std::filesystem::path tempPath;
-				// std::error_code ec;
-	// function call : void ()
-	// function call : bool () const
-	// function call : void ()
 
 	if (m_activeDownload)
 	{
@@ -361,13 +336,6 @@ void CServerConnectStateHandler_AcquireMods::OnExit() // 0x10908780
 void CServerConnectStateHandler_AcquireMods::OnUpdate() // 0x10908CF0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnUpdate@CServerConnectStateHandler_AcquireMods@@EAEXXZ");
-	// static ...; // 0x10908DB0
-// $LN8:
-// $LN7:
-// $LN6:
-// $LN5:
-// $LN4:
-	// CServerConnectStateHandler_AcquireMods *const this;
 
 	m_verificationQueue.ConsumeAll([this](auto *result) { HandleSignatureVerificationResult(*result); });
 	switch (GetLocalState())
@@ -393,22 +361,11 @@ void CServerConnectStateHandler_AcquireMods::OnUpdate() // 0x10908CF0
 void CServerConnectStateHandler_AcquireMods::UpdateConfirmation() // 0x109098B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateConfirmation@CServerConnectStateHandler_AcquireMods@@AAEXXZ");
-	// CServerConnectStateHandler_AcquireMods *const this;
 }
 
 void CServerConnectStateHandler_AcquireMods::UpdateDownloading() // 0x109098D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateDownloading@CServerConnectStateHandler_AcquireMods@@AAEXXZ");
-	// CServerConnectStateHandler_AcquireMods *const this;
-		// long long position;
-		// long long length;
-		// __int32 downloadSpeed;
-			// SServerConnectState::SRequiredMod *currentPackage;
-	// function call : bool () const
-	// function call : long long () const
-	// function call : long long () const
-	// function call : __int32 () const
-	// function call : void (SServerConnectState::SRequiredMod const &, __int32, long long, long long, __int32)
 
 	if (!m_downloadStarted)
 		StartNextDownload();
@@ -440,9 +397,6 @@ void CServerConnectStateHandler_AcquireMods::UpdateDownloading() // 0x109098D0
 void CServerConnectStateHandler_AcquireMods::UpdateCancelling() // 0x10909760
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateCancelling@CServerConnectStateHandler_AcquireMods@@AAEXXZ");
-	// CServerConnectStateHandler_AcquireMods *const this;
-	// c_mod_package_manager &packageManager;
-	// function call : bool () const
 
 	if (m_activeDownload && !m_activeDownload->IsComplete())
 	{
@@ -471,11 +425,6 @@ void CServerConnectStateHandler_AcquireMods::UpdateCancelling() // 0x10909760
 void CServerConnectStateHandler_AcquireMods::UpdateFinalizing() // 0x10909B90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateFinalizing@CServerConnectStateHandler_AcquireMods@@AAEXXZ");
-	// CServerConnectStateHandler_AcquireMods *const this;
-	// c_mod_package_manager &packageManager;
-		// unsigned __int32 i;
-		// SServerConnectState const &state;
-	// function call : void (SServerConnectState const &)
 
 	if (m_pendingVerificationJobs > 0)
 		return;
@@ -508,7 +457,6 @@ void CServerConnectStateHandler_AcquireMods::UpdateFinalizing() // 0x10909B90
 void CServerConnectStateHandler_AcquireMods::UpdateFinished() // 0x10909D60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateFinished@CServerConnectStateHandler_AcquireMods@@AAEXXZ");
-	// CServerConnectStateHandler_AcquireMods *const this;
 
 	RequestStateChange(Connect);
 }
@@ -516,9 +464,6 @@ void CServerConnectStateHandler_AcquireMods::UpdateFinished() // 0x10909D60
 void CServerConnectStateHandler_AcquireMods::EnterFinalizationState() // 0x109074A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?EnterFinalizationState@CServerConnectStateHandler_AcquireMods@@AAEXXZ");
-	// CServerConnectStateHandler_AcquireMods *const this;
-	// c_mod_package_manager &packageManager;
-	// function call : void ()
 
 	c_mod_package_manager &package_manager = c_mod_system::get_package_manager();
 
@@ -529,8 +474,6 @@ void CServerConnectStateHandler_AcquireMods::EnterFinalizationState() // 0x10907
 void CServerConnectStateHandler_AcquireMods::EnterFailedState(Download::EDownloadError error) // 0x10907340
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?EnterFailedState@CServerConnectStateHandler_AcquireMods@@AAEXW4EDownloadError@Download@@@Z");
-	// Download::EDownloadError error;
-	// function call : void (std::string const &)
 
 	if (m_cancelled)
 	{
@@ -553,7 +496,6 @@ void CServerConnectStateHandler_AcquireMods::EnterFailedState(Download::EDownloa
 void CServerConnectStateHandler_AcquireMods::SetLocalState(CServerConnectStateHandler_AcquireMods::EState state) // 0x10908E10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SetLocalState@CServerConnectStateHandler_AcquireMods@@AAEXW4EState@1@@Z");
-	// CServerConnectStateHandler_AcquireMods::EState state;
 
 	m_state = state;
 }
@@ -561,18 +503,6 @@ void CServerConnectStateHandler_AcquireMods::SetLocalState(CServerConnectStateHa
 void CServerConnectStateHandler_AcquireMods::StartNextDownload() // 0x109092A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?StartNextDownload@CServerConnectStateHandler_AcquireMods@@AAEXXZ");
-	// static ...; // 0x10909665
-	// static ...; // 0x1090965C
-	// static ...; // 0x10909644
-	// static ...; // 0x1090963C
-	// CServerConnectStateHandler_AcquireMods *const this;
-	// std::shared_ptr<Download::CHttpFileDownload> download;
-	// std::filesystem::path p;
-	// SServerConnectState::SRequiredMod *next;
-		// SServerConnectState::SRequiredMod *currentPackage;
-	// function call : void ()
-	// function call : void ()
-	// function call : void (SServerConnectState::SRequiredMod const &, __int32, long long, long long, __int32)
 
 	if (m_queueIndex >= m_downloadQueue.size())
 		return;
@@ -596,6 +526,7 @@ void CServerConnectStateHandler_AcquireMods::StartNextDownload() // 0x109092A0
 	}
 }
 
+#line 599
 void CServerConnectStateHandler_AcquireMods::HandleSignatureVerificationResult(SSignatureVerificationResult const &result) // 0x109079A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleSignatureVerificationResult@CServerConnectStateHandler_AcquireMods@@AAEXABUSSignatureVerificationResult@@@Z");
@@ -664,11 +595,6 @@ void CServerConnectStateHandler_AcquireMods::HandleSignatureVerificationResult(S
 void CServerConnectStateHandler_AcquireMods::KickSignatureVerificationJob(__int32 queueIndex) // 0x10908260
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?KickSignatureVerificationJob@CServerConnectStateHandler_AcquireMods@@AAEXH@Z");
-	// static ...; // 0x10908434
-	// static ...; // 0x1090842C
-	// CServerConnectStateHandler_AcquireMods *const this;
-	// __int32 queueIndex;
-	// SignatureVerificationJob *job;
 
 	Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Network, Utils::LogLevel::Trace, "ServerConnect: Started mod package signature verification job '%s'", m_downloadQueue[queueIndex]->localName.c_str());
 	m_pendingVerificationJobs++;
@@ -689,17 +615,6 @@ void CServerConnectStateHandler_AcquireMods::KickSignatureVerificationJob(__int3
 void CServerConnectStateHandler_AcquireMods::HandleDownloadStopped() // 0x109075C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleDownloadStopped@CServerConnectStateHandler_AcquireMods@@AAEXXZ");
-	// static ...; // 0x109078D0
-	// static ...; // 0x109078CC
-	// static ...; // 0x109078B4
-	// static ...; // 0x109078AC
-	// CServerConnectStateHandler_AcquireMods *const this;
-	// Download::EDownloadStatus error;
-		// std::error_code err;
-		// std::filesystem::path p;
-	// function call : Download::EDownloadStatus () const
-	// function call : Download::EDownloadError () const
-	// function call : Download::EDownloadError () const
 
 	Download::EDownloadStatus error = m_activeDownload->GetStatus();
 	if (error == Download::Success)
@@ -727,16 +642,6 @@ void CServerConnectStateHandler_AcquireMods::HandleDownloadStopped() // 0x109075
 bool CServerConnectStateHandler_AcquireMods::ShouldDownloadPackage(SServerConnectState::SRequiredMod const &package) // 0x10909050
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ShouldDownloadPackage@CServerConnectStateHandler_AcquireMods@@AAE_NABUSRequiredMod@SServerConnectState@@@Z");
-	// static ...; // 0x1090920A
-	// static ...; // 0x10909204
-	// static ...; // 0x109091E0
-	// static ...; // 0x109091D8
-	// CServerConnectStateHandler_AcquireMods *const this;
-	// SServerConnectState::SRequiredMod const &package;
-	// c_mod_package_manager::s_entry package_entry;
-	// unsigned char remote_hash[20];
-	// c_mod_package cache;
-	// c_mod_package_manager &package_manager;
 
 	unsigned char remote_hash[20];
 	Utils::String::HexStringToBytes(package.hash, remote_hash, sizeof(remote_hash));
@@ -757,6 +662,7 @@ bool CServerConnectStateHandler_AcquireMods::ShouldDownloadPackage(SServerConnec
 	return false;
 }
 
+#line 760
 void CServerConnectStateHandler_AcquireMods::OnUIActionConfirm() // 0x10908B80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnUIActionConfirm@CServerConnectStateHandler_AcquireMods@@AAEXXZ");
@@ -772,9 +678,6 @@ void CServerConnectStateHandler_AcquireMods::OnUIActionConfirm() // 0x10908B80
 void CServerConnectStateHandler_AcquireMods::OnUIActionCancel() // 0x10908AC0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnUIActionCancel@CServerConnectStateHandler_AcquireMods@@AAEXXZ");
-	// CServerConnectStateHandler_AcquireMods *const this;
-	// c_mod_package_manager &package_manager;
-	// function call : void ()
 
 	c_mod_package_manager &package_manager = c_mod_system::get_package_manager();
 	package_manager.begin_enumerate();
@@ -787,7 +690,6 @@ void CServerConnectStateHandler_AcquireMods::OnUIActionCancel() // 0x10908AC0
 void CServerConnectStateHandler_AcquireMods::OnUIActionRetry() // 0x10908C80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnUIActionRetry@CServerConnectStateHandler_AcquireMods@@AAEXXZ");
-	// CServerConnectStateHandler_AcquireMods *const this;
 
 	if (GetLocalState() == EState::DownloadFailed)
 	{
@@ -799,7 +701,6 @@ void CServerConnectStateHandler_AcquireMods::OnUIActionRetry() // 0x10908C80
 void CServerConnectStateHandler_AcquireMods::OnUIActionJoinServer() // 0x10908C20
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnUIActionJoinServer@CServerConnectStateHandler_AcquireMods@@AAEXXZ");
-	// CServerConnectStateHandler_AcquireMods *const this;
 
 	if (GetLocalState() == WaitingOnUser)
 		SetLocalState(finished);

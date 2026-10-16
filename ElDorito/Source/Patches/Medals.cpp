@@ -123,7 +123,6 @@ namespace Patches
 		void ApplyAll() // 0x10A89990
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Medals@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			Patches::Events::OnEvent(::OnEvent);
 			Patch::NopFill(Pointer::Base(0x697680), 5);
@@ -141,11 +140,6 @@ namespace Patches
 static void OnEvent(unsigned long player, s_game_engine_event_data const *event, s_multiplayer_event_response_definition const *definition) // 0x10A89ED0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnEvent@@YAXKPBUs_game_engine_event_data@@PBUs_multiplayer_event_response_definition@@@Z");
-	// `anonymous-namespace'::OnEvent
-	// s_multiplayer_event_response_definition const *definition;
-		// void (*const chud_show_medal)(__int32, __int32);
-	// function call : unsigned long (*const)(long)
-	// function call : void (*const)(__int32, __int32)
 
 	if (definition->medal_award && definition->medal_award != -1)
 	{
@@ -163,26 +157,11 @@ static void OnEvent(unsigned long player, s_game_engine_event_data const *event,
 void __fastcall chud_update_saber_medal_animation_hook(__int32 thisptr, void *unused, __int32 a2) // 0x10A8A430
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?chud_update_saber_medal_animation_hook@@YIXHPAXH@Z");
-	// the original is empty
-	// `anonymous-namespace'::chud_update_saber_medal_animation_hook
-	// __int32 a2;
 }
 
 void __fastcall chud_update_h3_medal_animation_hook(__int32 thisptr, void *unused, __int32 a2) // 0x10A8A270
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?chud_update_h3_medal_animation_hook@@YIXHPAXH@Z");
-	// `anonymous-namespace'::chud_update_h3_medal_animation_hook
-	// __int32 a2;
-	// void (*const chud_update_h3_medal_animation)(__int32, __int32);
-	// chud_update_h3_medal_animation_hook::__l2::s_chud_h3_medal_state *medals;
-	// long const fadeOutDuration;
-		// __int32 i;
-			// long dt;
-				// float &opacity;
-				// long fadeOutDelta;
-	// function call : void (*const)(__int32, __int32)
-	// function call : long (*const)(float)
-	// function call : long (*const)()
 
 	struct s_chud_h3_medal_state
 	{
@@ -223,10 +202,6 @@ void __fastcall chud_update_h3_medal_animation_hook(__int32 thisptr, void *unuse
 void sound_enqueue_announcer_sound_hook(unsigned __int32 sndTagIndex, __int32 delayTicks) // 0x10A8A460
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?sound_enqueue_announcer_sound_hook@@YAXIH@Z");
-	// `anonymous-namespace'::sound_enqueue_announcer_sound_hook
-	// __int32 delayTicks;
-	// void (*const sound_enqueue_announcer_sound)(unsigned __int32, __int32);
-	// function call : void (*const)(unsigned __int32, __int32)
 
 	void (__cdecl *const sound_enqueue_announcer_sound)(unsigned __int32, __int32) = (void(__cdecl *const)(unsigned __int32, __int32))0x6e4630;
 
@@ -236,10 +211,6 @@ void sound_enqueue_announcer_sound_hook(unsigned __int32 sndTagIndex, __int32 de
 __declspec(naked) void HeadshotHook() // 0x10A89EA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?HeadshotHook@@YAXXZ");
-	// `anonymous-namespace'::HeadshotHook
-	// procedure flags: nofpo
-// DEFAULT:
-// NO_MEDAL:
 
 	__asm
 	{

@@ -137,11 +137,6 @@ namespace Server
 		void HaloTypeInheritance::MergeMaps(std::vector<Server::Voting::HaloMap> &maps, std::vector<Server::Voting::HaloMap> const &newMaps) // 0x10733A40
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?MergeMaps@HaloTypeInheritance@Voting@Server@@SAXAAV?$vector@UHaloMap@Voting@Server@@V?$allocator@UHaloMap@Voting@Server@@@std@@@std@@ABV45@@Z");
-			// std::vector<Server::Voting::HaloMap> const &newMaps;
-				// std::vector<Server::Voting::HaloMap> const &<range>$L0;
-				// Server::Voting::HaloMap const *<begin>$L0;
-				// Server::Voting::HaloMap const *<end>$L0;
-					// Server::Voting::HaloMap const &map;
 
 			for (Server::Voting::HaloMap const &map : newMaps)
 			{
@@ -153,28 +148,6 @@ namespace Server
 		bool HaloTypeInheritance::BuildHaloType(Server::Voting::HaloType &newType, Server::Voting::HaloType const &currentType, std::vector<Server::Voting::HaloType> const &types) // 0x10733360
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?BuildHaloType@HaloTypeInheritance@Voting@Server@@SA_NAAUHaloType@23@ABU423@ABV?$vector@UHaloType@Voting@Server@@V?$allocator@UHaloType@Voting@Server@@@std@@@std@@@Z");
-			// static ...; // 0x107336EC
-			// static ...; // 0x107336E4
-			// Server::Voting::HaloType &newType;
-			// Server::Voting::HaloType const &currentType;
-			// std::vector<Server::Voting::HaloType> const &types;
-				// unsigned __int32 baseTypeIndex;
-				// std::vector<std::string> const &<range>$L0;
-				// std::string const *<begin>$L0;
-				// std::string const *<end>$L0;
-					// std::string const &cmd;
-				// std::string const *<end>$L1;
-				// std::string const *<begin>$L1;
-				// std::vector<std::string> const &<range>$L1;
-				// std::_Default_sentinel <end>$L2;
-				// std::map<std::string,Server::Voting::HaloType::CharacterOverride> const &<range>$L2;
-				// std::_Tree_unchecked_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,Server::Voting::HaloType::CharacterOverride> > >,std::_Iterator_base0> <begin>$L2;
-					// std::string const &k;
-					// Server::Voting::HaloType::CharacterOverride const &v;
-				// std::vector<Server::Voting::HaloMap> const &<range>$L3;
-				// Server::Voting::HaloMap const *<begin>$L3;
-				// Server::Voting::HaloMap const *<end>$L3;
-					// Server::Voting::HaloMap const &map;
 
 			if (!currentType.inherits.empty())
 			{
@@ -222,15 +195,6 @@ namespace Server
 		void HaloTypeInheritance::BuildHaloTypes(std::vector<Server::Voting::HaloType> &newTypes, std::vector<Server::Voting::HaloType> const &allTypes) // 0x10733810
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?BuildHaloTypes@HaloTypeInheritance@Voting@Server@@SAXAAV?$vector@UHaloType@Voting@Server@@V?$allocator@UHaloType@Voting@Server@@@std@@@std@@ABV45@@Z");
-			// static ...; // 0x107339AC
-			// static ...; // 0x107339A4
-			// std::vector<Server::Voting::HaloType> &newTypes;
-			// std::vector<Server::Voting::HaloType> const &allTypes;
-				// std::vector<Server::Voting::HaloType> const &<range>$L0;
-				// Server::Voting::HaloType const *<begin>$L0;
-				// Server::Voting::HaloType const *<end>$L0;
-					// Server::Voting::HaloType const &ht;
-						// Server::Voting::HaloType newHaloType;
 
 			for (Server::Voting::HaloType const &ht : allTypes)
 			{

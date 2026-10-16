@@ -496,7 +496,6 @@ using namespace hades_file_local;
 void render_patches_apply() // 0x108F1E10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?render_patches_apply@@YAXXZ");
-	// procedure flags: nofpo
 
 	Hook(0x639960, c_player_view__render_hook).Apply();
 	Hook(0x670950, c_texture_camera_view__render_hook).Apply();
@@ -569,7 +568,6 @@ void render_patches_apply() // 0x108F1E10
 void render_patches_set_customization_biped(std::vector<int> characterBipeds) // 0x108F5A80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?render_patches_set_customization_biped@@YAXV?$vector@HV?$allocator@H@std@@@std@@@Z");
-	// std::vector<int> characterBipeds;
 
 	customization_biped_index_array = characterBipeds;
 }
@@ -577,8 +575,6 @@ void render_patches_set_customization_biped(std::vector<int> characterBipeds) //
 void render_patches_tick() // 0x108F5B20
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?render_patches_tick@@YAXXZ");
-	// procedure flags: nofpo
-	// Modules::ModuleSettings const &settingsModule;
 
 	auto *settingsModule = &Utils::Singleton<Modules::ModuleSettings>::Instance();
 	g_decorator_distance_scale = settingsModule->VarDecoratorDistance->ValueFloat;
@@ -590,18 +586,6 @@ void render_patches_tick() // 0x108F5B20
 void get_extern_constant_hook(long render_method_extern, real_vector4d *out_constant) // 0x108EFA30
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_extern_constant_hook@@YAXJPAUreal_vector4d@@@Z");
-	// `anonymous-namespace'::get_extern_constant_hook
-	// real_vector4d *out_constant;
-		// float z_near;
-		// float z_far;
-		// c_view *view;
-		// long width;
-		// long height;
-	// function call : c_view *(*const)()
-	// function call : c_view *(*const)()
-	// function call : long (*const)(long)
-	// function call : long (*const)(long)
-	// function call : void (*const)(c_enum<enum e_render_method_extern,long>, real_vector4d *)
 
 	if (render_method_extern == 0x33)
 	{
@@ -643,8 +627,6 @@ void get_extern_constant_hook(long render_method_extern, real_vector4d *out_cons
 _inline long const render_get_extern_volatility_level_hook(long render_method_extern) // 0x108F09F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?render_get_extern_volatility_level_hook@@YA?BJJ@Z");
-	// `anonymous-namespace'::render_get_extern_volatility_level_hook
-	// long render_method_extern;
 
 	return g_new_extern_descriptions[render_method_extern].m_volatility_level;
 }
@@ -652,31 +634,6 @@ _inline long const render_get_extern_volatility_level_hook(long render_method_ex
 void submit_extern_texture_hook(void *device, long a2, long render_method_extern, long sampler) // 0x108F6D50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?submit_extern_texture_hook@@YAXPAXJJJ@Z");
-	// `anonymous-namespace'::submit_extern_texture_hook
-	// static ...; // 0x108F7104
-	// static ...; // 0x108F70FC
-	// void *device;
-	// long a2;
-	// long render_method_extern;
-	// long sampler;
-	// bool (*const game_is_ui_shell)();
-		// s_rasterizer_globals *rasg;
-		// c_rasterizer_texture_ref texture_ref;
-		// unsigned __int32 i;
-		// s_unit_data *unit_data;
-			// s_unit_data *unit;
-			// short player_index;
-		// long index;
-	// function call : void (*)(s_rasterizer_globals *, c_rasterizer_texture_ref *, c_enum<enum e_rasterizer_default_bitmap,long>)
-	// function call : void (*const)(long, c_rasterizer_texture_ref)
-	// function call : bool (*const)()
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : void (*const)(long, c_enum<enum e_sampler_filter_mode,long>)
-	// function call : void (*const)(long, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>)
-	// function call : void (*)(s_rasterizer_globals *, c_rasterizer_texture_ref *, c_enum<enum e_rasterizer_default_bitmap,long>)
-	// function call : void (*const)(long, c_rasterizer_texture_ref)
-	// function call : void (*const)(void *, long, c_enum<enum e_render_method_extern,long>, long)
 
 	bool (*const game_is_ui_shell)() = reinterpret_cast<bool (*)()>(0x531E90);
 	if (render_method_extern == 49)
@@ -752,20 +709,6 @@ void submit_extern_texture_hook(void *device, long a2, long render_method_extern
 void render_method_submit_externs_hook(c_render_method const *render_method, c_enum<enum e_entry_point,long> entry_point, long volatility, bool ignore_real_volatility) // 0x108F1310
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?render_method_submit_externs_hook@@YAXPBVc_render_method@@V?$c_enum@W4e_entry_point@@J@@J_N@Z");
-	// `anonymous-namespace'::render_method_submit_externs_hook
-	// static ...; // 0x108F15E0
-	// c_render_method const *render_method;
-	// c_enum<enum e_entry_point,long> entry_point;
-	// long volatility;
-	// bool ignore_real_volatility;
-	// s_render_method_template_pass const *pass;
-	// c_render_method_template const *rmt2;
-		// __int32 i;
-			// s_render_method_template_routing_info const *routing_info;
-				// real_vector4d extern_constant;
-	// function call : void (*const)(long)
-	// function call : void (*const)(long, long, real_vector4d const *)
-	// function call : void (*const)(long, long, real_vector4d const *)
 
 	c_render_method_template const *rmt2 = c_render_method_template::get((*reinterpret_cast<c_tag_block<s_render_method_postprocess_definition> const *>(reinterpret_cast<char const *>(render_method) + 0x28))[0].render_method_template.index);
 	s_render_method_template_pass const *pass = &rmt2->passes[rmt2->entry_points[(long)entry_point].get_offset()];
@@ -804,15 +747,6 @@ void render_method_submit_externs_hook(c_render_method const *render_method, c_e
 void render_method_submit_single_extern_hook(long render_method_extern, bool a2) // 0x108F1CE0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?render_method_submit_single_extern_hook@@YAXJ_N@Z");
-	// `anonymous-namespace'::render_method_submit_single_extern_hook
-	// static ...; // 0x108F1DB8
-	// static ...; // 0x108F1DB0
-	// long render_method_extern;
-	// bool a2;
-	// s_extern_description const *const extern_desc;
-		// real_vector4d constant;
-	// function call : void (*const)(long, long, real_vector4d const *)
-	// function call : void (*const)(long, long, real_vector4d const *)
 
 	s_extern_description const *const extern_desc = get_extern_description(render_method_extern);
 	if (!a2 && extern_desc->unknown_0C)
@@ -833,17 +767,6 @@ void render_method_submit_single_extern_hook(long render_method_extern, bool a2)
 void render_method_submit_set_bsp_call_hook(long lightmap_bsp_data_handle) // 0x108F1B70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?render_method_submit_set_bsp_call_hook@@YAXJ@Z");
-	// `anonymous-namespace'::render_method_submit_set_bsp_call_hook
-	// static ...; // 0x108F1C84
-	// static ...; // 0x108F1C78
-	// static ...; // 0x108F1C70
-	// long lightmap_bsp_data_handle;
-	// long *g_lightmap_bsp_data_handle;
-		// __int32 i;
-			// s_extern_description const *const extern_desc;
-				// real_vector4d constant;
-	// function call : void (*const)(long, long, real_vector4d const *)
-	// function call : void (*const)(long, long, real_vector4d const *)
 
 	for (__int32 i = 0; i < 55; i++)
 	{
@@ -872,35 +795,6 @@ void render_method_submit_set_bsp_call_hook(long lightmap_bsp_data_handle) // 0x
 float evaluate_function_hook(long rm_index, s_render_method_animated_parameter *function) // 0x108EEA20
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?evaluate_function_hook@@YAMJPAUs_render_method_animated_parameter@@@Z");
-	// `anonymous-namespace'::evaluate_function_hook
-	// s_render_method_animated_parameter *function;
-	// void *(*const scenario_interpolator_get)(unsigned long);
-	// bool (*const sub_687DE0)(void *);
-	// float (*const sub_687B50)(void *, long);
-	// float (*const m_context_interface)(long, long, long);
-	// float scalar;
-	// bool is_scnr_interpolator;
-	// bool is_unique_id;
-	// float range_output;
-	// float (*const sub_687D80)(void *, long);
-	// float scalar_output;
-		// float scalar;
-		// float sec_elapsed;
-			// float unique_id;
-			// void *interpolator_block;
-	// function call : float (*const)()
-	// function call : char (*const)(s_tag_data *)
-	// function call : float (*const)(s_tag_data *, float, float)
-	// function call : void *(*const)(unsigned long)
-	// function call : bool (*const)(void *)
-	// function call : float (*const)(void *, long)
-	// function call : float (*const)(void *, long)
-	// function call : float (*const)(s_tag_data *, float, float)
-	// function call : char (*const)(s_tag_data *)
-	// function call : float (*const)(s_tag_data *, float, float)
-	// function call : float (*const)(long, long, long)
-	// function call : float (*const)(long, long, long)
-	// function call : float (*const)(s_tag_data *, float, float)
 
 	void *(*const scenario_interpolator_get)(unsigned long) = reinterpret_cast<void *(*)(unsigned long)>(0x688850);
 	bool (*const sub_687DE0)(void *) = reinterpret_cast<bool (*)(void *)>(0x687DE0);
@@ -944,36 +838,6 @@ float evaluate_function_hook(long rm_index, s_render_method_animated_parameter *
 void update_constants_hook(long render_method_index, real_vector4d *source, s_destination_info *destination_info, long *destination_count, s_tag_block_index *routing_index, c_tag_block<s_render_method_routing_info> *routing_block, c_tag_block<s_render_method_animated_parameter> *functions_block) // 0x108F77F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?update_constants_hook@@YAXJPAUreal_vector4d@@PAUs_destination_info@@PAJPAVs_tag_block_index@@PAV?$c_tag_block@Us_render_method_routing_info@@@@PAV?$c_tag_block@Us_render_method_animated_parameter@@@@@Z");
-	// `anonymous-namespace'::update_constants_hook
-// $LN16:
-// $LN15:
-// $LN13:
-	// long render_method_index;
-	// real_vector4d *source;
-	// s_destination_info *destination_info;
-	// long *destination_count;
-	// s_tag_block_index *routing_index;
-	// c_tag_block<s_render_method_routing_info> *routing_block;
-	// c_tag_block<s_render_method_animated_parameter> *functions_block;
-	// float (*const c_function_definition__map_to_output_range_legacy)(s_tag_data const *, float);
-	// real_rgb_color out_colour;
-	// s_render_method_animated_parameter const *functions;
-	// s_render_method_routing_info const *routing_info;
-	// float (*const evaluate_function)(long, s_render_method_animated_parameter const *);
-	// __int32 const offset;
-	// void (*const c_function_definition__map_to_color_range_legacy)(s_tag_data const *, float, real_rgb_color *);
-		// __int32 i;
-			// s_render_method_animated_parameter const *function;
-			// long count;
-			// s_render_method_routing_info const *route;
-				// long cc_index;
-				// float function_result;
-					// float mapped_result;
-				// __int32 in;
-	// function call : real_rgb_color *(*const)(unsigned long, real_rgb_color *)
-	// function call : float (*const)(long, s_render_method_animated_parameter const *)
-	// function call : void (*const)(s_tag_data const *, float, real_rgb_color *)
-	// function call : float (*const)(s_tag_data const *, float)
 
 	float (*const evaluate_function)(long, s_render_method_animated_parameter const *) = reinterpret_cast<float (*)(long, s_render_method_animated_parameter const *)>(0xA3C040);
 	void (__thiscall *const c_function_definition__map_to_color_range_legacy)(s_tag_data const *, float, real_rgb_color *) = reinterpret_cast<void (__thiscall *)(s_tag_data const *, float, real_rgb_color *)>(0x94A530);
@@ -1057,8 +921,6 @@ void update_constants_hook(long render_method_index, real_vector4d *source, s_de
 
 bool z_buffer_fix_enabled() // 0x108F7F10
 {
-	// `anonymous-namespace'::z_buffer_fix_enabled
-	// procedure flags: nofpo
 
 	return Modules::ModuleDebug::Instance().VarZBuffTest->ValueInt != 0;
 }
@@ -1066,8 +928,6 @@ bool z_buffer_fix_enabled() // 0x108F7F10
 void rasterizer_get_z_planes_hook(float *near_clip, float *far_clip) // 0x108F0830
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?rasterizer_get_z_planes_hook@@YAXPAM0@Z");
-	// `anonymous-namespace'::rasterizer_get_z_planes_hook
-	// float *far_clip;
 
 	if (z_buffer_fix_enabled())
 	{
@@ -1084,8 +944,6 @@ void rasterizer_get_z_planes_hook(float *near_clip, float *far_clip) // 0x108F08
 bool depth_stencil_format_is_float(_D3DFORMAT format) // 0x108EE9A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?depth_stencil_format_is_float@@YA_NW4_D3DFORMAT@@@Z");
-	// `anonymous-namespace'::depth_stencil_format_is_float
-	// _D3DFORMAT format;
 
 	switch (format)
 	{
@@ -1102,15 +960,6 @@ bool depth_stencil_format_is_float(_D3DFORMAT format) // 0x108EE9A0
 void c_surface__set_depth_stencil(e_surface surface) // 0x108EB8D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_surface__set_depth_stencil@@YAXW4e_surface@@@Z");
-	// `anonymous-namespace'::c_surface__set_depth_stencil
-	// e_surface surface;
-	// IDirect3D9Ex *d3d9ex;
-	// IDirect3DDevice9Ex *device;
-	// c_render_surface *render_surface;
-		// c_render_surface *color_render_surface;
-	// function call : HRESULT (IDirect3DSurface9 *)
-	// function call : HRESULT (unsigned __int32, _D3DDEVTYPE, _D3DFORMAT, _D3DFORMAT)
-	// function call : HRESULT (IDirect3DSurface9 *)
 
 	IDirect3DDevice9Ex *device = c_rasterizer::get_device();
 	IDirect3D9Ex *d3d9ex = c_rasterizer::get_direct3d();
@@ -1133,15 +982,6 @@ void c_surface__set_depth_stencil(e_surface surface) // 0x108EB8D0
 void c_surface__set_depth_stencil_surface(IDirect3DSurface9 *surface) // 0x108EBA70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_surface__set_depth_stencil_surface@@YAXPAUIDirect3DSurface9@@@Z");
-	// `anonymous-namespace'::c_surface__set_depth_stencil_surface
-	// static ...; // 0x108EBB44
-	// static ...; // 0x108EBB38
-	// static ...; // 0x108EBB30
-	// IDirect3DSurface9 *surface;
-	// IDirect3DDevice9Ex *device;
-	// _D3DSURFACE_DESC surface_desc;
-	// function call : HRESULT (_D3DSURFACE_DESC *)
-	// function call : HRESULT (IDirect3DSurface9 *)
 
 	IDirect3DDevice9Ex *device = c_rasterizer::get_device();
 	_D3DSURFACE_DESC surface_desc;
@@ -1153,28 +993,6 @@ void c_surface__set_depth_stencil_surface(IDirect3DSurface9 *surface) // 0x108EB
 void __fastcall c_first_person_view__override_projection(c_first_person_view *thisptr, void *unused, bool a2) // 0x108E4F90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_first_person_view__override_projection@@YIXPAUc_first_person_view@@PAX_N@Z");
-	// `anonymous-namespace'::c_first_person_view__override_projection
-	// static ...; // 0x108E53E8
-	// c_first_person_view *thisptr;
-	// void *unused;
-	// bool a2;
-	// float aspect_ratio;
-	// float c_first_person_view__m_z_far_scale;
-	// real_rectangle2d frustum_bounds;
-	// float (*const cortana_effect_get_fov_scale)();
-	// float (*const sub_A8E700)();
-	// bool use_view_offset_scaling;
-	// __int32 width;
-	// float c_first_person_view__m_fov_scale;
-	// __int32 height;
-		// float const k_magic_halo3_shipped_ratio;
-		// float const fov_scale;
-		// float z_near_scale;
-	// function call : float (*const)()
-	// function call : float (*const)()
-	// function call : bool (*const)(s_render_camera *, real_rectangle2d *)
-	// function call : void (*const)(s_render_camera *, real_rectangle2d *, s_render_projection *, float)
-	// function call : void (*const)(s_render_camera *, s_render_projection *)
 
 	float (*const cortana_effect_get_fov_scale)() = reinterpret_cast<float (*)()>(0xABEA20);
 	float (*const sub_A8E700)() = reinterpret_cast<float (*)()>(0xA8E700);
@@ -1230,12 +1048,6 @@ void __fastcall c_first_person_view__override_projection(c_first_person_view *th
 s_observer_result *observer_get_camera__call_hook(long output_user_index) // 0x108F0600
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?observer_get_camera__call_hook@@YAPAUs_observer_result@@J@Z");
-	// `anonymous-namespace'::observer_get_camera__call_hook
-	// long output_user_index;
-	// float fov_rad;
-	// s_observer_result *observer_camera;
-	// float horizontal_fov;
-	// function call : s_observer_result *(*const)(long)
 
 	s_observer_result *observer_camera = ((s_observer_result *(__cdecl *)(long))0x6127c0)(output_user_index);
 	float fov_rad = Modules::ModuleCamera::Instance().VarCameraFov->ValueFloat * 0.017453292f;
@@ -1249,10 +1061,6 @@ s_observer_result *observer_get_camera__call_hook(long output_user_index) // 0x1
 void post_render_player_view_hook() // 0x108F07D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?post_render_player_view_hook@@YAXXZ");
-	// `anonymous-namespace'::post_render_player_view_hook
-	// procedure flags: nofpo
-	// void (*const c_view__end)();
-	// function call : void (*const)()
 
 	void (*const c_view__end)() = reinterpret_cast<void (*)()>(0xA28B10);
 	c_view__end();
@@ -1262,41 +1070,6 @@ void post_render_player_view_hook() // 0x108F07D0
 void render_underwater_fog_hook() // 0x108F5D40
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?render_underwater_fog_hook@@YAXXZ");
-	// `anonymous-namespace'::render_underwater_fog_hook
-	// procedure flags: nofpo
-	// static ...; // 0x108F647D
-	// static ...; // 0x108F6476
-	// static ...; // 0x108F6470
-	// static ...; // 0x108F6451
-	// static ...; // 0x108F6448
-	// static ...; // 0x108F640C
-	// static ...; // 0x108F6404
-	// unsigned long *g_game_resolution;
-	// long &g_render_underwater_fog;
-		// s_screen_vertex vertices[4];
-		// real_vector4d ps_screen_constants;
-		// real_vector4d k_ps_water_view_depth_constant;
-		// float z_near;
-		// float z_far;
-	// function call : long (*const)(long)
-	// function call : void (*const)(long)
-	// function call : void (*const)(long, long)
-	// function call : bool (*const)(long, long, long, long)
-	// function call : void (*const)(long, long, real_vector4d const *)
-	// function call : void (*const)(long, long, real_vector4d const *)
-	// function call : void (*const)(long, long, real_vector4d const *)
-	// function call : void (*const)(long, long, real_vector4d const *)
-	// function call : void (*const)(long, long, real_vector4d const *)
-	// function call : void (*const)(long, long, real_vector4d const *)
-	// function call : void (*const)(long, long, real_vector4d const *)
-	// function call : void (*const)(long, e_surface)
-	// function call : void (*const)(long, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>)
-	// function call : void (*const)(long, c_enum<enum e_sampler_filter_mode,long>)
-	// function call : void (*const)(long, e_surface)
-	// function call : void (*const)(long, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>)
-	// function call : void (*const)(long, c_enum<enum e_sampler_filter_mode,long>)
-	// function call : bool (*const)(IDirect3DIndexBuffer9 *)
-	// function call : void (*const)(long, long, void *, long)
 
 	unsigned long *g_game_resolution = (unsigned long *)0x19106C0;
 	long &g_render_underwater_fog = *(long *)0x50FAAEC;
@@ -1355,25 +1128,6 @@ void render_underwater_fog_hook() // 0x108F5D40
 void sub_14E3A00_vision_call_hook(s_render_projection *render_proj, float *proj_matrix, s_render_projection *out_render_proj, float *out_proj_matrix) // 0x108F6A00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?sub_14E3A00_vision_call_hook@@YAXPAUs_render_projection@@PAM01@Z");
-	// `anonymous-namespace'::sub_14E3A00_vision_call_hook
-	// static ...; // 0x108F6BF8
-	// static ...; // 0x108F6BF0
-	// s_render_projection *render_proj;
-	// float *proj_matrix;
-	// s_render_projection *out_render_proj;
-	// float *out_proj_matrix;
-	// bool cached_use_fp_z;
-	// real_rectangle2d bounds;
-	// s_render_projection new_render_proj;
-	// c_player_view *x_current_player_view;
-	// real_vector4d zbuf_params;
-	// void (*const sub_14E3A00)(s_render_projection *, float *, s_render_projection *, float *);
-	// function call : bool (*const)(s_render_camera *, real_rectangle2d *)
-	// function call : void (*const)(s_render_camera *, real_rectangle2d *, s_render_projection *, float)
-	// function call : void (*const)(s_render_projection *, float *, s_render_projection *, float *)
-	// function call : long (*const)(long)
-	// function call : long (*const)(long)
-	// function call : void (*const)(long, long, real_vector4d const *)
 
 	static bool (*const render_camera_build_viewport_frustum_bounds)(s_render_camera *, real_rectangle2d *) = reinterpret_cast<bool (*)(s_render_camera *, real_rectangle2d *)>(0xA64A50);
 	static void (*const render_camera_build_projection)(s_render_camera *, real_rectangle2d *, s_render_projection *, float) = reinterpret_cast<void (*)(s_render_camera *, real_rectangle2d *, s_render_projection *, float)>(0xA64140);
@@ -1401,46 +1155,6 @@ void sub_14E3A00_vision_call_hook(s_render_projection *render_proj, float *proj_
 void render_mesh_part_default_hook(s_render_geometry *geometry, s_mesh *mesh, s_part *part, e_entry_point entry_point, unsigned long *subpart_visibility, s_geometry_material *materials) // 0x108F0A20
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?render_mesh_part_default_hook@@YAXPAUs_render_geometry@@PAUs_mesh@@PAUs_part@@W4e_entry_point@@PAKPAUs_geometry_material@@@Z");
-	// `anonymous-namespace'::render_mesh_part_default_hook
-	// s_geometry_material *materials;
-	// c_rasterizer_vertex_buffer *vertex_buffer;
-	// bool alpha_test_enabled;
-	// bool (*const player_reading_terminal)();
-	// c_rasterizer_index_buffer *index_buffer;
-	// c_rasterizer_vertex_buffer *lighting_buffer;
-	// long (*const global_preferenced_get_lighting_quality)();
-	// bool prevent_backface_culling;
-	// c_rasterizer_index_buffer *(*const render_geometry_get_index_buffer)(s_render_geometry *, long);
-	// bool (*const render_method_submit)(long, c_render_method *, e_vertex_type, e_prt_vertex_type, e_entry_point, bool);
-	// c_render_method *render_method;
-	// long render_method_index;
-	// long cached_cull_mode;
-		// c_rasterizer_vertex_buffer *ambient_ptr_buffer;
-		// long *g_prt_type_to_entry_point;
-		// long index_start;
-		// long index_end;
-			// long i;
-				// s_subpart *subpart;
-	// function call : c_rasterizer_index_buffer *(*const)(s_render_geometry *, long)
-	// function call : c_rasterizer_vertex_buffer *(*const)(s_render_geometry *, s_mesh *, e_vertex_buffer_usage)
-	// function call : bool (*const)(c_rasterizer_vertex_buffer const *)
-	// function call : c_rasterizer_vertex_buffer *(*const)(s_render_geometry *, s_mesh *, e_vertex_buffer_usage)
-	// function call : c_rasterizer_vertex_buffer *(*const)(s_render_geometry *, s_mesh *, e_vertex_buffer_usage)
-	// function call : bool (*const)(c_rasterizer_vertex_buffer const *)
-	// function call : c_rasterizer_vertex_buffer *(*const)(s_render_geometry *, s_mesh *, e_vertex_buffer_usage)
-	// function call : bool (*const)(c_rasterizer_vertex_buffer const *)
-	// function call : bool (*const)()
-	// function call : bool (*const)()
-	// function call : long (*const)()
-	// function call : bool (*const)(long, c_render_method *, e_vertex_type, e_prt_vertex_type, e_entry_point, bool)
-	// function call : long (*const)()
-	// function call : void (*const)(long)
-	// function call : void (*const)(bool)
-	// function call : void (*const)(c_rasterizer_index_buffer const *, long, long, long, long)
-	// function call : void (*const)(c_rasterizer_index_buffer const *, long, long, long, long)
-	// function call : void (*const)(c_rasterizer_index_buffer const *, long, long, long, long)
-	// function call : void (*const)(bool)
-	// function call : void (*const)(long)
 
 	bool (*const player_reading_terminal)() = (bool (*)())0x53B570;
 	c_rasterizer_index_buffer *(*const render_geometry_get_index_buffer)(s_render_geometry *, long) = (c_rasterizer_index_buffer *(*)(s_render_geometry *, long))0x78C870;
@@ -1535,30 +1249,6 @@ void render_mesh_part_default_hook(s_render_geometry *geometry, s_mesh *mesh, s_
 void c_structure_renderer__render_cluster_mesh_part_hook(long cluster_visibility_index, e_entry_point entry_point, long flags) // 0x108E8D60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_structure_renderer__render_cluster_mesh_part_hook@@YAXJW4e_entry_point@@J@Z");
-	// `anonymous-namespace'::c_structure_renderer__render_cluster_mesh_part_hook
-	// long flags;
-	// s_render_cluster_part *cluster;
-	// e_entry_point (*const update_cluster_stream_and_determine_lighting_attributes)(e_entry_point, long, s_render_geometry *, s_mesh *, s_part *, s_geometry_material *, s_cluster_reference);
-		// s_geometry_material *materials;
-		// long bsp_index;
-		// s_scenario_structure_bsp *structure_bsp;
-			// s_render_geometry *geometry;
-			// s_part *part;
-			// long cubemap_index;
-			// s_mesh *mesh;
-				// long breakable_surface_set_index;
-				// unsigned long *subpart_visibility;
-				// long context;
-					// s_breakable_surface_set *breakable_surface_set;
-	// function call : s_scenario_structure_bsp *(*const)(long)
-	// function call : long (*const)(s_cluster_reference)
-	// function call : s_render_geometry *(*const)(long)
-	// function call : s_breakable_surface_set *(*const)(long, long, long)
-	// function call : e_entry_point (*const)(e_entry_point, long, s_render_geometry *, s_mesh *, s_part *, s_geometry_material *, s_cluster_reference)
-	// function call : s_cluster_reference (*const)(bool, long, s_cluster_reference, long, s_cluster_reference, long, s_cluster_reference, long, float, unsigned long *, long, long, long, void *)
-	// function call : void (*const)(long long, s_render_geometry *, s_mesh *, s_part *, e_entry_point, unsigned long *, s_geometry_material *)
-	// function call : void (*const)(long, long, long)
-	// function call : void (*const)(bool)
 
 	static long (*const render_cubemap_index_get)(s_cluster_reference) = reinterpret_cast<long (*)(s_cluster_reference)>(0xA7A5D0);
 	static s_render_geometry *(*const render_structure_get_geometry)(long) = reinterpret_cast<s_render_geometry *(*)(long)>(0xA2EF00);
@@ -1607,45 +1297,6 @@ void c_structure_renderer__render_cluster_mesh_part_hook(long cluster_visibility
 void c_structure_renderer__render_instance_mesh_part_hook(long render_instance_index, e_entry_point entry_point, long flags) // 0x108EA030
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_structure_renderer__render_instance_mesh_part_hook@@YAXJW4e_entry_point@@J@Z");
-	// `anonymous-namespace'::c_structure_renderer__render_instance_mesh_part_hook
-	// static ...; // 0x108EA588
-	// long render_instance_index;
-	// e_entry_point entry_point;
-	// long flags;
-	// e_entry_point (*const update_cluster_instance_stream_and_determine_lighting_attributes)(e_entry_point, long, s_scenario_lightmap_bsp_data *, s_render_geometry *, s_mesh *, s_part *, s_geometry_material *, long, s_structure_instanced_geometry_instance *);
-	// s_render_instance_part *render_instance_part;
-		// long bsp_index;
-		// s_scenario_structure_bsp *structure_bsp;
-			// s_scenario_lightmap_bsp_data *lightmap_data;
-			// s_structure_instanced_geometry_instance *instance;
-			// s_geometry_material *materials;
-			// s_render_geometry *geometry;
-				// long current_definition_index;
-				// s_compression_info *compression_info;
-				// long breakable_surface_set_index;
-				// s_part *part;
-				// long definition_index;
-				// s_structure_instanced_geometry_definition *instance_geometry_definition;
-				// s_cluster_reference cluster_reference;
-				// unsigned long *subpart_visibility;
-				// long instance_index;
-				// s_mesh *mesh;
-					// s_breakable_surface_set *breakable_surface_set;
-	// function call : s_scenario_structure_bsp *(*const)(long)
-	// function call : s_scenario_lightmap_bsp_data *(*const)(long)
-	// function call : s_render_geometry *(*const)(long)
-	// function call : s_structure_instanced_geometry_definition *(*const)(long, long)
-	// function call : void (*const)(s_compression_info const *)
-	// function call : void (*const)(real_matrix4x3 const *)
-	// function call : s_cluster_reference (*const)(bool, long, s_cluster_reference, long, s_cluster_reference, long, s_cluster_reference, long, float, unsigned long *, long, long, long, void *)
-	// function call : e_entry_point (*const)(e_entry_point, long, s_scenario_lightmap_bsp_data *, s_render_geometry *, s_mesh *, s_part *, s_geometry_material *, long, s_structure_instanced_geometry_instance *)
-	// function call : void (*const)(long, long, long, long)
-	// function call : s_breakable_surface_set *(*const)(long, long, long)
-	// function call : void (*const)(long)
-	// function call : void (*const)(long long, s_render_geometry *, s_mesh *, s_part *, e_entry_point, unsigned long *, s_geometry_material *)
-	// function call : void (*const)()
-	// function call : void (*const)(long, long, long)
-	// function call : void (*const)(bool)
 
 	e_entry_point (*const update_cluster_instance_stream_and_determine_lighting_attributes)(e_entry_point, long, s_scenario_lightmap_bsp_data *, s_render_geometry *, s_mesh *, s_part *, s_geometry_material *, long, s_structure_instanced_geometry_instance *) = reinterpret_cast<e_entry_point (*)(e_entry_point, long, s_scenario_lightmap_bsp_data *, s_render_geometry *, s_mesh *, s_part *, s_geometry_material *, long, s_structure_instanced_geometry_instance *)>(0xA2FF80);
 	s_render_instance_part *render_instance_part = &((s_render_structure_globals *)0x50E8938)->instance_parts[render_instance_index];
@@ -1719,41 +1370,6 @@ void c_structure_renderer__render_instance_mesh_part_hook(long render_instance_i
 void c_structure_renderer__submit_cluster_visibility(bool include_transparent) // 0x108EA710
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_structure_renderer__submit_cluster_visibility@@YAX_N@Z");
-	// `anonymous-namespace'::c_structure_renderer__submit_cluster_visibility
-	// static ...; // 0x108EAD0B
-	// static ...; // 0x108EAD05
-	// static ...; // 0x108EACFC
-	// static ...; // 0x108EACD8
-	// static ...; // 0x108EACD0
-	// bool include_transparent;
-	// long iterator;
-	// long cluster_starting_index;
-	// s_visible_items &visible_items;
-		// s_visible_cluster *cluster;
-			// s_render_geometry *geometry;
-			// s_scenario_structure_bsp *structure_bsp;
-			// s_mesh *mesh;
-			// long structure_bsp_index;
-				// long part_index;
-					// unsigned long flags;
-					// s_render_cluster_part *render_part;
-					// bool is_decal;
-					// s_part *part;
-					// c_render_method *render_method;
-					// long render_method_index;
-					// bool is_transparent;
-					// bool use_z_prepass;
-						// real_point3d position;
-						// real_plane3d plane;
-						// float radius;
-							// short sorting_index;
-							// s_sorting_position *sorting_position;
-	// function call : s_scenario_structure_bsp *(*const)(long)
-	// function call : s_render_geometry *(*const)(long)
-	// function call : bool (*const)(s_part *, s_geometry_material *)
-	// function call : bool (*const)(long)
-	// function call : long (*const)(void *, void *, long)
-	// function call : long (*const)(real_point3d const *, real_plane3d const *, float, e_sorting_layer, void (*)(void const *, long), void *, long, float)
 
 	s_visible_items &visible_items = c_visible_items::get_global_items();
 	long cluster_starting_index = c_visible_items::get_current_markers().clusters_marker;
@@ -1829,51 +1445,6 @@ void c_structure_renderer__submit_cluster_visibility(bool include_transparent) /
 void c_structure_renderer__submit_instance_visibility(bool include_transparent) // 0x108EAEA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_structure_renderer__submit_instance_visibility@@YAX_N@Z");
-	// `anonymous-namespace'::c_structure_renderer__submit_instance_visibility
-	// static ...; // 0x108EB66B
-	// static ...; // 0x108EB665
-	// static ...; // 0x108EB65C
-	// static ...; // 0x108EB638
-	// static ...; // 0x108EB630
-	// bool include_transparent;
-	// long count;
-	// bool (*const instance_list_sort_proc)(unsigned short, unsigned short, void const *);
-	// s_sorter<s_visible_instance_group,4096> sorter;
-	// long instance_group_start_index;
-	// s_visible_items &visible_items;
-		// unsigned short i;
-		// long i;
-			// long instance_end_index;
-			// s_render_geometry *geometry;
-			// long instance_start_index;
-			// s_visible_instance_group *instance_list;
-			// s_scenario_structure_bsp *structure_bsp;
-			// s_mesh *mesh;
-			// long structure_bsp_index;
-				// long part_index;
-					// s_part *part;
-					// long render_method_index;
-						// long k;
-							// unsigned long flags;
-							// s_visible_instance *instance;
-							// s_render_instance_part *render_part;
-							// bool is_decal;
-							// c_render_method *render_method;
-							// long render_method_index;
-							// bool is_transparent;
-							// bool use_z_prepass;
-								// real_point3d position;
-								// real_plane3d plane;
-								// real_matrix4x3 *matrix;
-								// float radius;
-									// short sorting_index;
-									// s_sorting_position *sorting_position;
-	// function call : void (*const)(void *, long, bool (*)(unsigned short, unsigned short, void const *), void const *)
-	// function call : s_scenario_structure_bsp *(*const)(long)
-	// function call : s_render_geometry *(*const)(long)
-	// function call : bool (*const)(s_part *, s_geometry_material *)
-	// function call : bool (*const)(long)
-	// function call : long (*const)(real_point3d const *, real_plane3d const *, float, e_sorting_layer, void (*)(void const *, long), void *, long, float)
 
 	extern real_point3d *matrix4x3_transform_point(real_matrix4x3 const *, real_point3d const *, real_point3d *);
 	extern real_plane3d *matrix4x3_transform_plane(real_matrix4x3 const *, real_plane3d const *, real_plane3d *);
@@ -1971,8 +1542,6 @@ void c_structure_renderer__submit_instance_visibility(bool include_transparent) 
 void c_structure_renderer__submit_visibility_hook(bool include_transparent) // 0x108EB870
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_structure_renderer__submit_visibility_hook@@YAX_N@Z");
-	// `anonymous-namespace'::c_structure_renderer__submit_visibility_hook
-	// bool include_transparent;
 
 	c_structure_renderer__submit_cluster_visibility(include_transparent);
 	c_structure_renderer__submit_instance_visibility(include_transparent);
@@ -1981,104 +1550,6 @@ void c_structure_renderer__submit_visibility_hook(bool include_transparent) // 0
 void c_structure_renderer__render_decorators_hook() // 0x108E9110
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_structure_renderer__render_decorators_hook@@YAXXZ");
-	// `anonymous-namespace'::c_structure_renderer__render_decorators_hook
-	// procedure flags: nofpo
-	// static ...; // 0x108E9D22
-	// static ...; // 0x108E9D12
-	// static ...; // 0x108E9D04
-	// static ...; // 0x108E9CF0
-	// static ...; // 0x108E9CC0
-	// static ...; // 0x108E9CB8
-	// long (*const preferences_get_detail_quality)();
-	// void (*const sub_A28480)(__int32);
-	// void (*const rasterizer_set_vertex_buffer_stream)(c_rasterizer_vertex_buffer *, long);
-	// float cull_modifier;
-	// bool (*const visibility_region_test_sphere)(void *, long, real_point3d *, float, bool *);
-	// long (*const scenario_zone_set_structure_bsp_cluster_visible_sky_index_get)(s_scenario *, long, long, long);
-	// bool &g_render_decorators;
-	// long (*const scenario_zone_set_index_get)();
-	// float (*const rasterizer_camera_get_fov_pixel_linear_scale)();
-	// bool &byte_50E8931;
-	// void (*const sub_A301E0)(long);
-	// void (*const clear_cached_sun_constants)();
-		// IDirect3DDevice9Ex *const g_device;
-		// s_wind_definition *const wind;
-		// c_player_view *player_view;
-		// real_point3d &camera_position;
-			// c_visibility_collection *collection;
-			// float fov_scale;
-			// s_visibility_region *region;
-				// __int32 i;
-					// s_scenario_structure_bsp *const global_sbsp;
-					// s_structure_cluster *const cluster;
-					// long cluster_index;
-					// long structure_bsp_index;
-						// long zone_set_index;
-						// long visible_sky_index;
-						// __int32 j;
-							// long dctr_index;
-							// s_decorator_set *const decorator_set;
-							// s_decorator_grid *const decorator_grid;
-								// float cull_end;
-								// float cull_start;
-								// real_vector3d pos;
-								// float position_magnitude;
-									// bool fully_contained;
-										// c_rasterizer_vertex_buffer *vertex_buffer;
-										// real_vector4d LOD_constants;
-										// s_render_geometry *const render_geometry;
-										// c_rasterizer_index_buffer *const index_buffer;
-										// c_rasterizer_vertex_buffer *sbsp_vertex_buffer;
-										// real_vector4d variant_index_count;
-										// s_mesh *const mesh;
-										// long instance_index_count;
-										// s_render_model *const render_model;
-	// function call : s_wind_definition *(*)(real_point3d *)
-	// function call : void (*)(s_wind_definition *, s_wind_values *)
-	// function call : long (*const)(long)
-	// function call : void (*const)(long, long)
-	// function call : void (*const)(s_wind_definition *, s_wind_values *)
-	// function call : long (*const)(long)
-	// function call : void (*const)()
-	// function call : c_visibility_collection *(*const)()
-	// function call : float (*const)()
-	// function call : s_scenario_structure_bsp *(*const)(long)
-	// function call : long (*const)()
-	// function call : long (*const)(s_scenario *, long, long, long)
-	// function call : void (*const)(long)
-	// function call : void (*const)(bool)
-	// function call : s_decorator_set *(*)(long)
-	// function call : bool (*const)(void *, long, real_point3d *, float, bool *)
-	// function call : long (*)(s_decorator_set *)
-	// function call : bool (*const)(long, long, long, long)
-	// function call : void (*const)(long, long, real_vector4d const *)
-	// function call : void (*const)(long, long, real_vector4d const *)
-	// function call : void (*const)(long, long, real_vector4d const *)
-	// function call : void (*const)(long, long, real_vector4d const *)
-	// function call : void (*const)(long)
-	// function call : void *(*const)(unsigned long, long)
-	// function call : c_rasterizer_vertex_buffer *(*const)(s_render_geometry const *, long)
-	// function call : bool (*const)(c_rasterizer_vertex_buffer const *)
-	// function call : void (*const)(s_compression_info const *, float)
-	// function call : void (*const)(long, long, long)
-	// function call : void (*const)(long, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>)
-	// function call : void (*const)(long, c_enum<enum e_sampler_filter_mode,long>)
-	// function call : c_rasterizer_vertex_buffer *(*const)(s_render_geometry const *, long)
-	// function call : void (*const)(c_rasterizer_vertex_buffer *, long)
-	// function call : void (*const)(long, long, real_vector4d const *)
-	// function call : void (*const)(c_rasterizer_vertex_buffer *, long)
-	// function call : void (*const)(long, long, real_vector4d const *)
-	// function call : HRESULT (unsigned __int32, unsigned __int32)
-	// function call : HRESULT (unsigned __int32, unsigned __int32)
-	// function call : void (*const)(__int32)
-	// function call : c_rasterizer_index_buffer *(*const)(s_render_geometry const *, long)
-	// function call : void (*const)(c_rasterizer_index_buffer const *, long, long, long, long)
-	// function call : HRESULT (unsigned __int32, unsigned __int32)
-	// function call : HRESULT (unsigned __int32, unsigned __int32)
-	// function call : void (*const)(__int32)
-	// function call : void (*const)(bool)
-	// function call : void (*const)(bool)
-	// function call : long (*const)(long)
 
 	long (*const preferences_get_detail_quality)() = reinterpret_cast<long (*)()>(0x50AF50);
 	void (*const sub_A28480)(__int32) = reinterpret_cast<void (*)(__int32)>(0xA28480);
@@ -2199,48 +1670,6 @@ void c_structure_renderer__render_decorators_hook() // 0x108E9110
 void c_object_renderer__submit_object_mesh_parts_for_active_camo_hook(s_render_object *render_object, s_visible_object *visible_object, bool a3, __int32 is_first_person) // 0x108E6520
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_object_renderer__submit_object_mesh_parts_for_active_camo_hook@@YAXPAUs_render_object@@PAUs_visible_object@@_NH@Z");
-	// `anonymous-namespace'::c_object_renderer__submit_object_mesh_parts_for_active_camo_hook
-	// static ...; // 0x108E6A8C
-	// static ...; // 0x108E6A84
-	// s_render_object *render_object;
-	// s_visible_object *visible_object;
-	// bool a3;
-	// __int32 is_first_person;
-	// void (*const s_model_skinning_matrix_to_real_matrix4x3)(real_matrix4x3 *, void *);
-	// void (*const sub_A73840)();
-	// void *(*const model_skinning_get_rigid_region_matrix)(void *, long);
-	// void *(*const object_get_active_shield_render_parameters)(s_object_data *, long);
-	// void (*const sub_A731A0)(long, long);
-	// long (*const render_objects_add_element)(s_render_object *, s_render_object_info *, unsigned long *, short, short, short, short, __int32);
-	// void *(*const sub_A6DAA0)(long);
-	// s_render_model *const mode;
-		// void *shield_impact;
-			// __int32 region_index;
-				// unsigned char region_mesh_index;
-				// short transparent_sort_index;
-					// s_mesh const *mesh;
-						// __int32 part_index;
-							// s_part const *part;
-							// long render_object_mesh_part_index;
-							// c_render_method *const render_method;
-							// unsigned long render_method_index;
-								// s_render_object_globals *render_object_globals;
-								// real_point3d sorting_position;
-									// real_point3d position;
-									// real_matrix4x3 skinning_matrix;
-									// void *model_skinning;
-									// void *model_skinning_matrix;
-									// long element;
-	// function call : void *(*const)(unsigned long, long)
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : void *(*const)(s_object_data *, long)
-	// function call : long (*const)(s_render_object *, s_render_object_info *, unsigned long *, short, short, short, short, __int32)
-	// function call : void (*const)()
-	// function call : void *(*const)(long)
-	// function call : void *(*const)(void *, long)
-	// function call : void (*const)(real_matrix4x3 *, void *)
-	// function call : long (*const)(real_point3d const *, real_plane3d const *, float, e_sorting_layer, void (*)(void const *, long), void *, long, float)
-	// function call : void (*const)(long, long)
 
 	void * (*const object_get_active_shield_render_parameters)(s_object_data *, long) = reinterpret_cast<void * (*)(s_object_data *, long)>(0xA78030);
 	long (*const render_objects_add_element)(s_render_object *, s_render_object_info *, unsigned long *, short, short, short, short, __int32) = reinterpret_cast<long (*)(s_render_object *, s_render_object_info *, unsigned long *, short, short, short, short, __int32)>(0xA77AC0);
@@ -2303,56 +1732,6 @@ void c_object_renderer__submit_object_mesh_parts_for_active_camo_hook(s_render_o
 void c_water_renderer__render_water_part_hook(s_render_geometry *geometry, __int32 mesh_index, __int32 part_index, e_entry_point entry_point, s_geometry_material *materials) // 0x108EDE80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_water_renderer__render_water_part_hook@@YAXPAUs_render_geometry@@HHW4e_entry_point@@PAUs_geometry_material@@@Z");
-	// `anonymous-namespace'::c_water_renderer__render_water_part_hook
-	// static ...; // 0x108EE48C
-	// s_render_geometry *geometry;
-	// __int32 mesh_index;
-	// __int32 part_index;
-	// e_entry_point entry_point;
-	// s_geometry_material *materials;
-	// c_rasterizer_index_buffer *g_water_geometry_index_buffer;
-	// c_rasterizer_vertex_buffer *(*const mesh_get_vertex_buffer)(s_render_geometry *, s_mesh *, long);
-	// s_part *const mesh_part;
-	// bool (*const c_water_renderer__is_active_ripple_exist)();
-	// float &k_ripple_buffer_radius;
-	// void (*const c_rasterizer__set_vertex_stream_with_offset)(long, void *, long, unsigned __int32);
-	// bool &g_render_water_tesselation;
-	// c_rasterizer_vertex_buffer *g_water_memexport_vertex_buffer;
-	// s_mesh *const mesh;
-		// unsigned long rm_index;
-			// c_render_method *const render_method;
-				// real_vector4d unknown_water_instance_constant;
-					// __int32 k_is_water_tesselated;
-					// __int32 active_water_interaction;
-						// long vertex_count;
-						// IDirect3DDevice9Ex *g_device;
-						// c_rasterizer_vertex_buffer *water_vertex_buffer_2;
-						// c_rasterizer_vertex_buffer *water_vertex_buffer_1;
-	// function call : bool (*const)(long, c_render_method const *, e_vertex_type, e_prt_vertex_type, e_entry_point, bool)
-	// function call : void (*const)(long, long, real_vector4d const *)
-	// function call : void (*const)(long, long, real_vector4d const *)
-	// function call : bool (*const)()
-	// function call : void (*const)(long, long, __int32 const *)
-	// function call : void (*const)(long, long, __int32 const *)
-	// function call : void (*const)(long, e_surface)
-	// function call : void (*const)(long, c_enum<enum e_sampler_filter_mode,long>)
-	// function call : void (*const)(long, e_surface)
-	// function call : void (*const)(long, c_enum<enum e_sampler_filter_mode,long>)
-	// function call : void (*const)(long, long, __int32 const *)
-	// function call : c_rasterizer_vertex_buffer *(*const)(s_render_geometry *, s_mesh *, long)
-	// function call : c_rasterizer_vertex_buffer *(*const)(s_render_geometry *, s_mesh *, long)
-	// function call : void (*const)(long, void *, long, unsigned __int32)
-	// function call : void (*const)(long, void *, long, unsigned __int32)
-	// function call : void (*const)(long, void *, long, unsigned __int32)
-	// function call : HRESULT (unsigned __int32, unsigned __int32)
-	// function call : HRESULT (unsigned __int32, unsigned __int32)
-	// function call : HRESULT (unsigned __int32, unsigned __int32)
-	// function call : HRESULT (unsigned __int32, unsigned __int32)
-	// function call : void (*const)(c_rasterizer_index_buffer const *, long, long, long, long)
-	// function call : HRESULT (unsigned __int32, unsigned __int32)
-	// function call : HRESULT (unsigned __int32, unsigned __int32)
-	// function call : HRESULT (unsigned __int32, unsigned __int32)
-	// function call : HRESULT (unsigned __int32, unsigned __int32)
 
 	bool (*const c_water_renderer__is_active_ripple_exist)() = (bool (*)())0xA362B0;
 	c_rasterizer_vertex_buffer *(*const mesh_get_vertex_buffer)(s_render_geometry *, s_mesh *, long) = (c_rasterizer_vertex_buffer *(*)(s_render_geometry *, s_mesh *, long))0x78C750;
@@ -2416,17 +1795,6 @@ void c_water_renderer__render_water_part_hook(s_render_geometry *geometry, __int
 void c_water_renderer__update_water_structure_part_list_hook(long *water_part_indices, long *out_count) // 0x108EE6B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_water_renderer__update_water_structure_part_list_hook@@YAXPAJ0@Z");
-	// `anonymous-namespace'::c_water_renderer__update_water_structure_part_list_hook
-	// long *out_count;
-	// long count;
-	// long start_index;
-	// bool (*const cluster_sort_proc)(unsigned short, unsigned short, void const *);
-		// __int32 i;
-			// s_render_cluster_part *mesh_part;
-			// s_render_geometry *geometry;
-			// long structure_bsp_index;
-	// function call : void (*const)(void *, long, bool (*)(unsigned short, unsigned short, void const *), void const *)
-	// function call : s_render_geometry *(*const)(long)
 
 	bool (*const cluster_sort_proc)(unsigned short, unsigned short, void const *) = reinterpret_cast<bool (*)(unsigned short, unsigned short, void const *)>(0xA2ED40);
 	*out_count = 0;
@@ -2448,18 +1816,6 @@ void c_water_renderer__update_water_structure_part_list_hook(long *water_part_in
 void __fastcall s_render_shield_parts__render_hook(s_render_shield_parts *thisptr, void *unused, s_visible_object *visible_object, char flags) // 0x108F6670
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?s_render_shield_parts__render_hook@@YIXPAUs_render_shield_parts@@PAXPAUs_visible_object@@D@Z");
-	// `anonymous-namespace'::s_render_shield_parts__render_hook
-	// s_render_shield_parts *thisptr;
-	// void *unused;
-	// s_visible_object *visible_object;
-	// char flags;
-	// void (*const sub_A79260)(s_render_object_mesh_part *);
-	// void (*const render_mesh_part_no_material)(s_render_geometry *, long, long);
-		// s_render_object_mesh_part render_object_mesh_part;
-	// function call : void *(*const)(unsigned long, long)
-	// function call : bool (*const)(long, long, long, long)
-	// function call : void (*const)(s_render_object_mesh_part *)
-	// function call : void (*const)(s_render_geometry *, long, long)
 
 	void (*const sub_A79260)(s_render_object_mesh_part *) = reinterpret_cast<void (*)(s_render_object_mesh_part *)>(0xA79260);
 	void (*const render_mesh_part_no_material)(s_render_geometry *, long, long) = reinterpret_cast<void (*)(s_render_geometry *, long, long)>(0xA47820);
@@ -2499,37 +1855,6 @@ void __fastcall s_render_shield_parts__render_hook(s_render_shield_parts *thispt
 void c_object_renderer__render_object_context_instances_hook(s_render_object_mesh_part *render_part, e_entry_point entry_point, unsigned long *subpart_visibility, s_lod_alphas alphas) // 0x108E5BE0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_object_renderer__render_object_context_instances_hook@@YAXPAUs_render_object_mesh_part@@W4e_entry_point@@PAKUs_lod_alphas@@@Z");
-	// `anonymous-namespace'::c_object_renderer__render_object_context_instances_hook
-	// static ...; // 0x108E60F4
-	// static ...; // 0x108E60EC
-	// s_render_object_mesh_part *render_part;
-	// e_entry_point entry_point;
-	// unsigned long *subpart_visibility;
-	// s_lod_alphas alphas;
-	// s_render_model *render_model;
-		// s_compression_info *compression_info;
-		// long active_bsp_index;
-		// long count;
-		// s_mesh *mesh;
-			// long i;
-				// s_render_model_instance_placement *placement;
-				// s_part *part;
-				// float skinning_matrix[12];
-				// real_matrix4x3 matrix;
-				// real_matrix4x3 *skinning;
-				// unsigned long local_subpart_visibility[2];
-	// function call : void *(*const)(unsigned long, long)
-	// function call : void (*const)(s_compression_info const *)
-	// function call : long (*const)()
-	// function call : void (*const)(long, s_shader_extern_info const *)
-	// function call : bool (*const)(s_part *, s_geometry_material *)
-	// function call : void *(*const)(long)
-	// function call : float *(*const)(void const *, long, real_matrix4x3 *)
-	// function call : void (*const)(float *, __int32)
-	// function call : void (*const)(long)
-	// function call : void (*const)(long long, s_render_geometry *, s_mesh *, s_part *, e_entry_point, unsigned long *, s_geometry_material *)
-	// function call : void (*const)(long)
-	// function call : void (*const)(bool)
 
 	s_render_model *render_model = (s_render_model *)tag_get('mode', render_part->info->info.render_model_index);
 	if (render_model->instance_mesh_index != -1 && render_model->materials.count > 0)
@@ -2585,21 +1910,6 @@ void c_object_renderer__render_object_context_instances_hook(s_render_object_mes
 void c_object_renderer__render_object_context_mesh_part_hook(s_render_object_mesh_part *mesh_part, e_entry_point entry_point, long mesh_part_mask, bool a4) // 0x108E62B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_object_renderer__render_object_context_mesh_part_hook@@YAXPAUs_render_object_mesh_part@@W4e_entry_point@@J_N@Z");
-	// `anonymous-namespace'::c_object_renderer__render_object_context_mesh_part_hook
-	// bool a4;
-	// s_mesh *mesh;
-	// s_render_model *render_model;
-		// long next_clip_plane_index;
-		// long active_clip_plane_mask;
-		// real_plane3d *g_cinematic_clip_planes;
-			// long i;
-	// function call : void *(*const)(unsigned long, long)
-	// function call : void (*const)(s_render_object_mesh_part const *)
-	// function call : long (*const)(long, float const *)
-	// function call : long (*const)(long)
-	// function call : void (*const)(long long, s_render_geometry *, s_mesh *, s_part *, e_entry_point, unsigned long *, s_geometry_material *)
-	// function call : long (*const)(long)
-	// function call : void (*const)(bool)
 
 	static void (*const render_object_mesh_part_begin)(s_render_object_mesh_part const *) = reinterpret_cast<void (*)(s_render_object_mesh_part const *)>(0xA79260);
 	static long (*const rasterizer_set_clip_plane)(long, float const *) = reinterpret_cast<long (*)(long, float const *)>(0xA231C0);
@@ -2636,17 +1946,6 @@ void c_object_renderer__render_object_context_mesh_part_hook(s_render_object_mes
 void render_mesh_part_no_material(s_render_geometry *geometry, __int32 mesh_index, __int32 part_index) // 0x108F1190
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?render_mesh_part_no_material@@YAXPAUs_render_geometry@@HH@Z");
-	// `anonymous-namespace'::render_mesh_part_no_material
-	// __int32 part_index;
-	// c_rasterizer_vertex_buffer *vertex_buffer;
-	// c_rasterizer_vertex_buffer *(*const mesh_get_vertex_buffer)(s_render_geometry *, s_mesh *, long);
-	// s_part *const mesh_part;
-	// c_rasterizer_index_buffer *index_buffer;
-	// s_mesh *const mesh;
-	// function call : c_rasterizer_index_buffer *(*const)(s_render_geometry const *, long)
-	// function call : c_rasterizer_vertex_buffer *(*const)(s_render_geometry *, s_mesh *, long)
-	// function call : bool (*const)(c_rasterizer_vertex_buffer const *)
-	// function call : void (*const)(c_rasterizer_index_buffer const *, long, long, long, long)
 
 	c_rasterizer_vertex_buffer *(__cdecl *const mesh_get_vertex_buffer)(s_render_geometry *, s_mesh *, long) = (c_rasterizer_vertex_buffer *(__cdecl *const)(s_render_geometry *, s_mesh *, long))0x78c750;
 	s_mesh *const mesh = &geometry->meshes[mesh_index];
@@ -2663,23 +1962,6 @@ void render_mesh_part_no_material(s_render_geometry *geometry, __int32 mesh_inde
 long c_geometry_sampler__find_render_method_index_from_collision_hook(long structure_bsp_index, long a2, long instance_index, long surface_index) // 0x108E5530
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_geometry_sampler__find_render_method_index_from_collision_hook@@YAJJJJJ@Z");
-	// `anonymous-namespace'::c_geometry_sampler__find_render_method_index_from_collision_hook
-	// long surface_index;
-	// s_render_geometry *geometry;
-	// s_scenario_structure_bsp *structure_bsp;
-		// s_structure_surface_plane *leaf;
-		// s_structure_bsp_cache_file_resources *cache_file_tag_resources;
-			// long i;
-				// s_structure_plane *surface;
-				// s_structure_cluster *cluster;
-				// s_mesh *mesh;
-					// long part_index;
-						// s_part *part;
-		// s_structure_instanced_geometry_definition *definition;
-	// function call : s_scenario_structure_bsp *(*const)(long)
-	// function call : s_render_geometry *(*const)(long)
-	// function call : void *(*const)(void *)
-	// function call : s_structure_instanced_geometry_definition *(*const)(long, long)
 
 	if (a2 != -1)
 		return -1;
@@ -2736,8 +2018,6 @@ long c_geometry_sampler__find_render_method_index_from_collision_hook(long struc
 bool part_is_renderable_hook(s_part const *part, s_geometry_material const *materials) // 0x108F06E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?part_is_renderable_hook@@YA_NPBUs_part@@PBUs_geometry_material@@@Z");
-	// `anonymous-namespace'::part_is_renderable_hook
-	// s_geometry_material const *materials;
 
 	if (part->material_index == -1 || materials[part->material_index].render_method.index == -1)
 	{
@@ -2755,35 +2035,6 @@ bool part_is_renderable_hook(s_part const *part, s_geometry_material const *mate
 void muffins_render_opaque(short datum_index, e_entry_point entry_point) // 0x108F0190
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?muffins_render_opaque@@YAXFW4e_entry_point@@@Z");
-	// `anonymous-namespace'::muffins_render_opaque
-	// e_entry_point entry_point;
-	// char *muffin_array;
-	// long cached_render_state_index;
-	// void (*const set_render_object_shader_extern_info)(__int32, s_shader_extern_info *);
-	// void (*const sub_A528C0)(s_render_lighting *, e_entry_point);
-	// bool (*const sub_A47430)(s_part *, s_geometry_material *);
-	// tls_data *tls;
-	// s_muffin_datum *muffin;
-	// void (*const render_mesh_submit_matrices)(real_matrix4x3 *, long);
-	// s_muffin_definition *const muffin_definition;
-		// s_object_cached_render_state_datum *cached_object_render_state;
-		// s_render_model *const render_model;
-			// __int32 i;
-				// s_muffin *muffin_part;
-					// s_mesh *const mesh;
-						// __int32 j;
-							// s_part *const mesh_part;
-								// long long identifier;
-	// function call : s_muffin_definition *(*)(long)
-	// function call : long (*const)(long)
-	// function call : void *(*const)(unsigned long, long)
-	// function call : void (*const)(s_compression_info const *)
-	// function call : long (*const)()
-	// function call : void (*const)(__int32, s_shader_extern_info *)
-	// function call : void (*const)(s_render_lighting *, e_entry_point)
-	// function call : void (*const)(real_matrix4x3 *, long)
-	// function call : bool (*const)(s_part *, s_geometry_material *)
-	// function call : void (*const)(long long, s_render_geometry *, s_mesh *, s_part *, e_entry_point, unsigned long *, s_geometry_material *)
 
 	void (*const set_render_object_shader_extern_info)(__int32, s_shader_extern_info *) = reinterpret_cast<void (*)(__int32, s_shader_extern_info *)>(0xA3CC20);
 	void (*const sub_A528C0)(s_render_lighting *, e_entry_point) = reinterpret_cast<void (*)(s_render_lighting *, e_entry_point)>(0xA528C0);
@@ -2826,13 +2077,6 @@ void muffins_render_opaque(short datum_index, e_entry_point entry_point) // 0x10
 bool mesh_get_data_hook(s_render_geometry *render_geometry, long mesh_index, void const **out_vertex_data, void const **out_index_data, unsigned char *out_vertex_stride, long *out_vertex_count, long *out_index_count) // 0x108F0070
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?mesh_get_data_hook@@YA_NPAUs_render_geometry@@JPAPBX1PAEPAJ3@Z");
-	// `anonymous-namespace'::mesh_get_data_hook
-	// long *out_index_count;
-	// c_rasterizer_vertex_buffer *vertex_buffer;
-	// c_rasterizer_index_buffer *index_buffer;
-	// s_mesh *mesh;
-	// function call : c_rasterizer_vertex_buffer *(*const)(s_render_geometry const *, long)
-	// function call : c_rasterizer_index_buffer *(*const)(s_render_geometry const *, long)
 
 	s_mesh *mesh = &render_geometry->meshes[mesh_index];
 	c_rasterizer_vertex_buffer *vertex_buffer = ((c_rasterizer_vertex_buffer *(__cdecl *)(s_render_geometry *, long))0x78c930)(render_geometry, mesh->vertex_buffer_indices[0]);
@@ -2848,18 +2092,6 @@ bool mesh_get_data_hook(s_render_geometry *render_geometry, long mesh_index, voi
 bool render_method_submit_particle_gpu_emitter_render_hook(long tag_index, c_render_method const *render_method, e_vertex_type vertex_type, e_prt_vertex_type prt_type, e_entry_point entry_point, bool a6) // 0x108F16F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?render_method_submit_particle_gpu_emitter_render_hook@@YA_NJPBVc_render_method@@W4e_vertex_type@@W4e_prt_vertex_type@@W4e_entry_point@@_N@Z");
-	// `anonymous-namespace'::render_method_submit_particle_gpu_emitter_render_hook
-	// e_vertex_type vertex_type;
-	// e_prt_vertex_type prt_type;
-	// e_entry_point entry_point;
-	// bool a6;
-	// __int32 is_normal_basemap;
-	// c_render_method_template *rmt2;
-		// __int32 i;
-			// s_bitmap_definition *bitmap;
-	// function call : void *(*const)(unsigned long, long)
-	// function call : void (*const)(long, long, __int32 const *)
-	// function call : bool (*const)(long, c_render_method const *, e_vertex_type, e_prt_vertex_type, e_entry_point, bool)
 
 	c_render_method_template *rmt2 = c_render_method_template::get((*reinterpret_cast<c_tag_block<s_render_method_postprocess_definition> const *>(reinterpret_cast<char const *>(render_method) + 0x28))[0].render_method_template.index);
 	__int32 is_normal_basemap = 1;
@@ -2887,10 +2119,6 @@ bool render_method_submit_particle_gpu_emitter_render_hook(long tag_index, c_ren
 bool sub_610230__ssao_call_hook() // 0x108F6CD0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?sub_610230__ssao_call_hook@@YA_NXZ");
-	// `anonymous-namespace'::sub_610230__ssao_call_hook
-	// procedure flags: nofpo
-	// bool (*const sub_610230)();
-	// function call : bool (*const)()
 
 	bool (__cdecl *const sub_610230)() = (bool(__cdecl *const)())0x610230;
 
@@ -2907,14 +2135,6 @@ bool sub_610230__ssao_call_hook() // 0x108F6CD0
 void c_render_shield__render_object_internal_hook(s_render_object_info *info, s_render_object_mesh_part *data, shield_impact_definition *shield_impact, float recent_shield_damage, float current_shield_damage, float unknown_amount, float overshield_amount, float t) // 0x108E8BE0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_render_shield__render_object_internal_hook@@YAXPAUs_render_object_info@@PAUs_render_object_mesh_part@@PAUshield_impact_definition@@MMMMM@Z");
-	// `anonymous-namespace'::c_render_shield__render_object_internal_hook
-	// float t;
-	// void (*const c_render_shield__render_object_internal)(s_render_object_info *, s_render_object_mesh_part *, shield_impact_definition *, float, float, float, float, float);
-	// s_part const *part;
-	// s_mesh const *mesh;
-	// s_render_model *render_model;
-	// function call : void *(*const)(unsigned long, long)
-	// function call : void (*const)(s_render_object_info *, s_render_object_mesh_part *, shield_impact_definition *, float, float, float, float, float)
 
 	void (*const c_render_shield__render_object_internal)(s_render_object_info *, s_render_object_mesh_part *, shield_impact_definition *, float, float, float, float, float) = reinterpret_cast<void (*)(s_render_object_info *, s_render_object_mesh_part *, shield_impact_definition *, float, float, float, float, float)>(0xA53AC0);
 	s_render_model *render_model = (s_render_model *)tag_get(0x6D6F6465, data->info->info.render_model_index);
@@ -2928,26 +2148,6 @@ void c_render_shield__render_object_internal_hook(s_render_object_info *info, s_
 void __fastcall c_dynamic_cubemap_sample__search_for_cubemap_sample_in_cluster_hook(c_dynamic_cubemap_sample *thisptr, void *__formal, s_cluster_reference test_location, real_point3d *test_point, float tolerance) // 0x108E4A80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_dynamic_cubemap_sample__search_for_cubemap_sample_in_cluster_hook@@YIXPAUc_dynamic_cubemap_sample@@PAXUs_cluster_reference@@PAUreal_point3d@@M@Z");
-	// `anonymous-namespace'::c_dynamic_cubemap_sample__search_for_cubemap_sample_in_cluster_hook
-	// float tolerance;
-	// s_scenario_structure_bsp *old_structure_bsp;
-	// bool is_better;
-	// s_structure_cluster *test_cluster;
-	// s_structure_cluster_cubemap_info *old_cubemap_info;
-	// s_structure_cluster_cubemap_info *best_cubemap_info;
-	// s_scenario_structure_bsp *test_structure_bsp;
-	// long best_reference_index;
-	// long best_index;
-	// float best_distance;
-	// float distance;
-	// float old_distance;
-	// s_structure_cluster *old_cluster;
-		// long i;
-			// s_structure_cluster_cubemap_info *cubemap_info;
-				// long j;
-					// s_cubemap_reference_point *reference;
-	// function call : s_scenario_structure_bsp *(*const)(long)
-	// function call : s_scenario_structure_bsp *(*const)(long)
 
 	s_structure_cluster *test_cluster;
 	s_structure_cluster *old_cluster;
@@ -3037,12 +2237,6 @@ void __fastcall c_dynamic_cubemap_sample__search_for_cubemap_sample_in_cluster_h
 float render_projection_sphere_diameter_in_pixels_hook(s_render_projection const *render_projection, real_point3d const *center, float radius) // 0x108F5BB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?render_projection_sphere_diameter_in_pixels_hook@@YAMPBUs_render_projection@@PBUreal_point3d@@M@Z");
-	// `anonymous-namespace'::render_projection_sphere_diameter_in_pixels_hook
-	// float radius;
-	// float scale;
-	// float distance;
-	// function call : bool (*const)()
-	// function call : bool (*const)()
 
 	float distance = fabsf(render_projection->world_to_view.left.k * center->y + render_projection->world_to_view.forward.k * center->x + render_projection->world_to_view.up.k * center->z + render_projection->world_to_view.position.z);
 
@@ -3062,10 +2256,6 @@ float render_projection_sphere_diameter_in_pixels_hook(s_render_projection const
 void bink_playback_allocate_framebuffers_hook() // 0x108E49D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?bink_playback_allocate_framebuffers_hook@@YAXXZ");
-	// `anonymous-namespace'::bink_playback_allocate_framebuffers_hook
-	// procedure flags: nofpo
-	// void (*const bink_playback_allocate_framebuffers)();
-	// function call : void (*const)()
 
 	void (*const bink_playback_allocate_framebuffers)() = reinterpret_cast<void (*)()>(0x6165A0);
 	Utils::Singleton<Modules::ModuleSettings>::Instance().GetScreenResolution(g_bink_frame_width, g_bink_frame_height);
@@ -3075,123 +2265,6 @@ void bink_playback_allocate_framebuffers_hook() // 0x108E49D0
 void __fastcall c_player_view__render_hook(c_player_view *view) // 0x108E6C50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_view__render_hook@@YIXPAUc_player_view@@@Z");
-	// `anonymous-namespace'::c_player_view__render_hook
-	// static ...; // 0x108E7CB7
-	// static ...; // 0x108E7C9B
-	// static ...; // 0x108E7C85
-	// static ...; // 0x108E7C73
-	// static ...; // 0x108E7C65
-	// static ...; // 0x108E7C62
-	// static ...; // 0x108E7C4C
-	// static ...; // 0x108E7BF8
-	// static ...; // 0x108E7BF0
-	// c_player_view *view;
-	// s_weighted_atmosphere_parameters atmosphere_parameters;
-	// s_screen_effect_settings screen_effect;
-	// s_screen_effect_shader_sample_result screen_effect_shader_sample;
-	// s_cluster_reference cluster_reference;
-	// short_rectangle2d window_bounds;
-		// float fov_rad;
-		// bool should_render_render;
-		// unsigned char a2;
-		// float horizontal_fov;
-		// bool render_albedo;
-			// bool v10;
-				// c_render_surface *v5;
-				// c_render_surface *v4;
-				// c_render_surface *v6;
-				// real_vector4d shadow_map_pixel_size;
-				// float sm_ps;
-	// function call : char (*const)(long)
-	// function call : void (*const)()
-	// function call : s_cluster_reference (*const)(c_player_view *, s_cluster_reference *)
-	// function call : void (*const)(s_cluster_reference, real_point3d *)
-	// function call : void (*const)(long)
-	// function call : void (*const)(long)
-	// function call : void (*const)(long, unsigned char *)
-	// function call : bool (*const)()
-	// function call : bool (*const)()
-	// function call : void (*const)()
-	// function call : void (*const)()
-	// function call : void (*const)(long)
-	// function call : void (*const)(c_player_view *, float)
-	// function call : void (*const)()
-	// function call : long (*const)(c_lights_view *, long)
-	// function call : void (*const)(c_lights_view *, long)
-	// function call : void (*const)(s_cluster_reference, s_weighted_atmosphere_parameters *)
-	// function call : void (*const)(s_weighted_atmosphere_parameters *, bool, bool)
-	// function call : void (*const)(s_weighted_atmosphere_parameters *, bool, bool)
-	// function call : void (*const)()
-	// function call : void (*const)()
-	// function call : bool (*const)(c_player_view *)
-	// function call : bool (*const)()
-	// function call : void (*const)(bool)
-	// function call : bool (*const)()
-	// function call : unsigned long (*const)()
-	// function call : void (*const)(long, long)
-	// function call : void (*const)()
-	// function call : void (*const)(c_player_view *)
-	// function call : void (*const)(long, long, real_vector4d const *)
-	// function call : char (*const)(c_player_view *)
-	// function call : void (*const)(float, float, bool, float, bool, char, bool)
-	// function call : c_render_surface *(*const)(c_surface_group *, e_surface)
-	// function call : c_render_surface *(*const)(c_surface_group *, e_surface)
-	// function call : c_render_surface *(*const)(c_surface_group *, e_surface)
-	// function call : void (*const)(c_lights_view *, long, long, IDirect3DSurface9 *, IDirect3DSurface9 *, IDirect3DSurface9 *)
-	// function call : void (*const)(float, float, bool, float, bool, char, bool)
-	// function call : void (*const)(c_player_view *, char)
-	// function call : char (*const)()
-	// function call : void (*const)(long, short_rectangle2d *)
-	// function call : bool (*const)()
-	// function call : void (*const)(s_render_projection *, s_render_camera *, e_surface, e_surface, e_surface, e_surface, e_surface, e_surface, e_surface, e_surface, e_surface, e_surface, e_surface, e_surface)
-	// function call : void (*const)(float, float, bool, float, bool, char, bool)
-	// function call : void (*const)()
-	// function call : void (*const)(c_player_view *)
-	// function call : void (*const)(c_player_view *)
-	// function call : void (*const)(c_player_view *)
-	// function call : bool (*const)()
-	// function call : char (*const)(char)
-	// function call : void (*const)(long)
-	// function call : void (*const)(bool)
-	// function call : void (*const)(c_player_view *, char)
-	// function call : void (*const)(bool)
-	// function call : void (*const)(c_player_view *)
-	// function call : bool (*const)()
-	// function call : unsigned long (*const)()
-	// function call : void (*const)(long, long)
-	// function call : bool (*const)(unsigned long)
-	// function call : void (*const)(bool)
-	// function call : void (*const)(float, float, float)
-	// function call : e_surface (*const)(long, e_surface, long)
-	// function call : void (*const)(unsigned long)
-	// function call : void (*const)(s_render_camera *, s_render_projection *)
-	// function call : void (*const)(float, float, bool, float, bool, char, bool)
-	// function call : void (*const)(c_player_view *)
-	// function call : bool (*const)()
-	// function call : void (*const)(c_camera_fx_values *, s_render_projection *, s_render_camera *, s_screen_effect_settings *, long, s_observer_depth_of_field *, long)
-	// function call : void (*const)()
-	// function call : bool (*const)()
-	// function call : void (*const)()
-	// function call : void (*const)()
-	// function call : void (*const)(float, float, float)
-	// function call : void (*const)(long, c_player_view *)
-	// function call : void (*const)(long, c_player_view *, float, float, float, long, long)
-	// function call : e_surface (*const)()
-	// function call : void (*const)(s_screen_effect_shader_sample_result *, char, e_surface, e_surface, real_rectangle2d *)
-	// function call : void (*const)(unsigned long)
-	// function call : void (*const)(unsigned long)
-	// function call : void (*const)(short_rectangle2d *, short_rectangle2d *, short_rectangle2d *, short_rectangle2d *)
-	// function call : e_surface (*const)()
-	// function call : void (*const)(long, long, unsigned long, short_rectangle2d *, e_surface, long)
-	// function call : void (*const)()
-	// function call : void (*const)(unsigned long)
-	// function call : e_surface (*const)()
-	// function call : void (*const)(s_screen_effect_shader_sample_result *, char, e_surface, e_surface, real_rectangle2d *)
-	// function call : void (*const)(long)
-	// function call : void (*const)(long)
-	// function call : bool (*const)()
-	// function call : long (*const)(long)
-	// function call : void (*const)()
 
 	s_screen_effect_settings screen_effect;
 	s_screen_effect_shader_sample_result screen_effect_shader_sample;
@@ -3365,16 +2438,6 @@ void __fastcall c_player_view__render_hook(c_player_view *view) // 0x108E6C50
 void __fastcall c_player_view__render_lightmap_shadows_hook(c_player_view *_this, void *__savedreg) // 0x108E80F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_view__render_lightmap_shadows_hook@@YIXPAUc_player_view@@PAX@Z");
-	// `anonymous-namespace'::c_player_view__render_lightmap_shadows_hook
-	// static ...; // 0x108E81FC
-	// static ...; // 0x108E81F4
-	// c_player_view *_this;
-	// void *__savedreg;
-	// void (*const c_player_view__render_lightmap_shadows)(c_player_view *);
-	// real_vector4d shadow_map_pixel_size;
-	// float sm_ps;
-	// function call : void (*const)(long, long, real_vector4d const *)
-	// function call : void (*const)(c_player_view *)
 
 	void (__thiscall *const c_player_view__render_lightmap_shadows)(c_player_view *) = (void(__thiscall *const)(c_player_view *))0xa3a700;
 	float sm_ps = 1.0f / Utils::Singleton<Modules::ModuleSettings>::Instance().VarShadowResolution->ValueInt;
@@ -3393,185 +2456,6 @@ void __fastcall c_player_view__render_lightmap_shadows_hook(c_player_view *_this
 void __fastcall c_texture_camera_view__render_hook(c_texture_camera_view *thisptr) // 0x108EBB90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_texture_camera_view__render_hook@@YIXPAUc_texture_camera_view@@@Z");
-	// `anonymous-namespace'::c_texture_camera_view__render_hook
-	// static ...; // 0x108ED776
-	// static ...; // 0x108ED76F
-	// static ...; // 0x108ED766
-	// static ...; // 0x108ED760
-	// static ...; // 0x108ED759
-	// static ...; // 0x108ED74B
-	// static ...; // 0x108ED736
-	// static ...; // 0x108ED71F
-	// static ...; // 0x108ED712
-	// static ...; // 0x108ED707
-	// static ...; // 0x108ED6FD
-	// static ...; // 0x108ED6E8
-	// static ...; // 0x108ED6D4
-	// static ...; // 0x108ED6C4
-	// static ...; // 0x108ED6AF
-	// static ...; // 0x108ED69D
-	// static ...; // 0x108ED683
-	// static ...; // 0x108ED677
-	// static ...; // 0x108ED66A
-	// static ...; // 0x108ED657
-	// static ...; // 0x108ED645
-	// static ...; // 0x108ED638
-	// static ...; // 0x108ED530
-	// static ...; // 0x108ED528
-	// c_texture_camera_view *thisptr;
-	// bool byte_19186F4;
-	// s_screen_effect_shader_sample_result shader_sample_result;
-	// void (*const c_texture_camera_view__copy_texture)(c_texture_camera_view *, c_enum<long,enum e_rasterizer_default_shader>, c_rasterizer_texture_ref, c_rasterizer_texture_ref, float, float, bool);
-	// float contrast;
-	// bool (*const bitmap_group_try_get_texture)(long, long, c_rasterizer_texture_ref *);
-	// float dword_19186EC;
-	// s_screen_effect_settings screen_effect;
-	// float dword_19186F0;
-	// void (*const s_color_grading_parameter__update)(s_camera_fx_color_grading_struct *, bool, char);
-	// float dword_19186F8;
-	// long width;
-	// real_vector4d p_postprocess_contrast;
-	// float *g_texture_camera_exposure;
-	// long height;
-	// c_camera_fx_settings *camera_fx;
-		// short_rectangle2d viewport;
-		// long width;
-		// long height;
-		// c_render_surface *depth_surface;
-		// IDirect3DSurface9 *accum_surface;
-		// real_vector4d intensity;
-		// unsigned long *random_seed_address;
-		// real_vector4d pixel_space_xform;
-		// long noise_height;
-		// float noise_random2;
-		// c_rasterizer_texture_ref default_noise_texture_ref;
-		// real_vector4d cg_blend_factor;
-		// _D3DSURFACE_DESC accum_surface_desc;
-		// unsigned long random_seed;
-		// c_rasterizer_texture_ref dark_surface;
-		// s_rasterizer_globals *const rasg;
-		// real_vector4d tone_curve_constants;
-		// float noise_random1;
-		// long frame_index;
-		// real_vector4d noise_params;
-		// real_vector4d pixel_size;
-		// real_vector4d bloom_sampler_xform;
-		// real_vector4d gamma_power_constant;
-		// long noise_width;
-		// real_vector4d noise_space_xform;
-	// function call : void (*const)(c_view *)
-	// function call : void (*const)()
-	// function call : e_surface (*const)(long, e_surface, long)
-	// function call : e_surface (*const)(long, e_surface, long)
-	// function call : long (*const)(c_lights_view *, long)
-	// function call : void (*const)(c_lights_view *, long)
-	// function call : void (*const)()
-	// function call : long (*const)(long, c_rasterizer_texture_ref, long, long)
-	// function call : long (*const)(long, c_rasterizer_texture_ref, long, long)
-	// function call : void (*const)(bool)
-	// function call : e_surface (*const)(e_surface)
-	// function call : bool (*const)(c_rasterizer_texture_ref *, long, long *, long *)
-	// function call : void (*const)(short_rectangle2d *, float, float)
-	// function call : void (*const)(long, __int32, float, unsigned char)
-	// function call : void (*const)(unsigned long)
-	// function call : void (*const)()
-	// function call : void (*const)(long, long)
-	// function call : void (*const)(long, long)
-	// function call : void (*const)()
-	// function call : long (*const)(long, c_rasterizer_texture_ref, long, long)
-	// function call : void (*const)(c_enum<enum e_render_method_extern,long>, bool)
-	// function call : void (*const)(c_enum<enum e_render_method_extern,long>, bool)
-	// function call : e_surface (*const)(long, e_surface, long)
-	// function call : void (*const)(long, __int32, float, unsigned char)
-	// function call : void (*const)(float, float, float)
-	// function call : void (*const)()
-	// function call : void (*const)(bool)
-	// function call : void (*const)(s_simple_light *, long)
-	// function call : void (*const)(bool)
-	// function call : void (*const)(unsigned long)
-	// function call : void (*const)()
-	// function call : void (*const)(long, long)
-	// function call : void (*const)()
-	// function call : long (*const)(long, c_rasterizer_texture_ref, long, long)
-	// function call : e_surface (*const)(e_surface)
-	// function call : void (*const)(long, __int32, float, unsigned char)
-	// function call : long (*const)(long)
-	// function call : void (*const)(long, long)
-	// function call : c_render_surface *(*const)(e_surface)
-	// function call : IDirect3DSurface9 *(*const)(c_rasterizer_texture_ref *, long, long)
-	// function call : void (*const)(c_lights_view *, long, long, IDirect3DSurface9 *, IDirect3DSurface9 *, IDirect3DSurface9 *)
-	// function call : void (*const)(c_enum<enum e_render_method_extern,long>, bool)
-	// function call : void (*const)(c_enum<enum e_render_method_extern,long>, bool)
-	// function call : void (*const)(c_enum<enum e_render_method_extern,long>, bool)
-	// function call : void (*const)(s_simple_light *, long)
-	// function call : void (*const)(bool)
-	// function call : void (*const)(long, long)
-	// function call : void (*const)()
-	// function call : void (*const)(bool)
-	// function call : void (*const)(bool)
-	// function call : void (*)(void *)
-	// function call : bool (*const)(c_rasterizer_texture_ref *, long, long *, long *)
-	// function call : void (*const)(long)
-	// function call : void (*const)(long)
-	// function call : void (*const)(short_rectangle2d *)
-	// function call : long (*const)(long)
-	// function call : void (*const)(long, long)
-	// function call : void (*const)(c_texture_camera_view *, c_enum<long,enum e_rasterizer_default_shader>, c_rasterizer_texture_ref, c_rasterizer_texture_ref, float, float, bool)
-	// function call : void (*const)(long)
-	// function call : void (*const)(long, long)
-	// function call : long (*const)(long, c_rasterizer_texture_ref, long, long)
-	// function call : void (*const)(long, __int32, float, unsigned char)
-	// function call : void (*const)(s_hue_saturation_control *, float, float, float, real_rgb_color const *, real_rgb_color const *)
-	// function call : void (*const)(long, long, real_vector4d const *)
-	// function call : void (*const)(s_camera_fx_color_grading_struct *, bool, char)
-	// function call : bool (*const)(long, long, long, long)
-	// function call : void (*const)(long, c_enum<enum e_sampler_filter_mode,long>)
-	// function call : void (*const)(long, c_enum<enum e_sampler_filter_mode,long>)
-	// function call : void (*const)(long, c_rasterizer_texture_ref)
-	// function call : void (*)(s_rasterizer_globals *, c_rasterizer_texture_ref *, c_enum<enum e_rasterizer_default_bitmap,long>)
-	// function call : void (*const)(long, c_rasterizer_texture_ref)
-	// function call : void (*const)(long, c_rasterizer_texture_ref)
-	// function call : void (*const)(long, c_rasterizer_texture_ref)
-	// function call : HRESULT (unsigned long, IDirect3DBaseTexture9 *)
-	// function call : void (*const)(long, long)
-	// function call : void (*const)(long, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>)
-	// function call : void (*const)(long, c_enum<enum e_sampler_filter_mode,long>)
-	// function call : HRESULT (unsigned long, IDirect3DBaseTexture9 *)
-	// function call : void (*const)(long, long)
-	// function call : void (*const)(long, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>)
-	// function call : void (*const)(long, c_enum<enum e_sampler_filter_mode,long>)
-	// function call : void (*const)(long, long, real_vector4d const *)
-	// function call : void (*const)(long, long, real_vector4d const *)
-	// function call : void (*const)(long, long, real_vector4d const *)
-	// function call : void (*const)(long, long, real_vector4d const *)
-	// function call : void (*const)(long, long, real_vector4d const *)
-	// function call : void (*const)(long, long, real_vector4d const *)
-	// function call : void (*const)(long, long, real_vector4d const *)
-	// function call : void (*)(s_rasterizer_globals *, c_rasterizer_texture_ref *, c_enum<enum e_rasterizer_default_bitmap,long>)
-	// function call : void (*const)(long, c_rasterizer_texture_ref)
-	// function call : void (*const)(long, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>)
-	// function call : void (*const)(long, c_enum<enum e_sampler_filter_mode,long>)
-	// function call : bool (*const)(c_rasterizer_texture_ref *, long, long *, long *)
-	// function call : IDirect3DSurface9 *(*const)(c_rasterizer_texture_ref *, long, long)
-	// function call : HRESULT (_D3DSURFACE_DESC *)
-	// function call : unsigned long *(*)()
-	// function call : unsigned long *(*)()
-	// function call : void (*const)(long, long, real_vector4d const *)
-	// function call : void (*const)(long, long, real_vector4d const *)
-	// function call : void (*const)(long, long)
-	// function call : void (*const)(long, c_rasterizer_texture_ref)
-	// function call : void (*const)(long, c_rasterizer_texture_ref)
-	// function call : void (*const)(long, c_rasterizer_texture_ref)
-	// function call : void (*const)(long, c_rasterizer_texture_ref)
-	// function call : void (*const)(long, c_rasterizer_texture_ref)
-	// function call : void (*const)(long, c_rasterizer_texture_ref)
-	// function call : void (*const)(long, c_rasterizer_texture_ref)
-	// function call : void (*const)(long, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>)
-	// function call : void (*const)(long, c_enum<enum e_sampler_filter_mode,long>)
-	// function call : void (*const)(c_texture_camera_view *, c_enum<long,enum e_rasterizer_default_shader>, c_rasterizer_texture_ref, c_rasterizer_texture_ref, float, float, bool)
-	// function call : void (*const)(long, c_rasterizer_texture_ref)
-	// function call : void (*const)()
-	// function call : void (*const)()
 
 	bool (*const bitmap_group_try_get_texture)(long, long, c_rasterizer_texture_ref *) = reinterpret_cast<bool (*)(long, long, c_rasterizer_texture_ref *)>(0x718D10);
 	void (*const s_color_grading_parameter__update)(s_camera_fx_color_grading_struct *, bool, char) = reinterpret_cast<void (*)(s_camera_fx_color_grading_struct *, bool, char)>(0xA6FDD0);
@@ -3815,40 +2699,6 @@ void __fastcall c_texture_camera_view__render_hook(c_texture_camera_view *thispt
 void __fastcall c_player_view__render_static_lighting(c_player_view *_this, void *_savedreg) // 0x108E8270
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_view__render_static_lighting@@YIXPAUc_player_view@@PAX@Z");
-	// `anonymous-namespace'::c_player_view__render_static_lighting
-	// static ...; // 0x108E8704
-	// static ...; // 0x108E86EC
-	// static ...; // 0x108E86E4
-	// c_player_view *_this;
-	// void *_savedreg;
-	// bool (*const sub_A84D50)();
-		// __int32 surface_width;
-		// __int32 surface_height;
-		// real_vector4d scale;
-		// real_vector4d pixel_size;
-	// function call : void (*const)(c_player_view *)
-	// function call : void (*const)(s_simple_light *, long)
-	// function call : bool (*const)()
-	// function call : bool (*const)()
-	// function call : void (*const)(long, long)
-	// function call : void (*const)(long)
-	// function call : void (*const)(unsigned long)
-	// function call : void (*const)()
-	// function call : void (*const)(long, long)
-	// function call : void (*const)(long)
-	// function call : void (*const)(bool)
-	// function call : void (*const)(long)
-	// function call : bool (*const)(long, long, long, long)
-	// function call : void (*const)(long, e_surface)
-	// function call : void (*const)(long, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>)
-	// function call : void (*const)(long, c_enum<enum e_sampler_filter_mode,long>)
-	// function call : void (*const)(long, long, real_vector4d const *)
-	// function call : long (*const)(long)
-	// function call : long (*const)(long)
-	// function call : void (*const)(long, long, real_vector4d const *)
-	// function call : void (*const)(long, long)
-	// function call : void (*const)(long)
-	// function call : void (*const)(long)
 
 	bool (*const sub_A84D50)() = reinterpret_cast<bool (*)()>(0xA84D50);
 	((void (__thiscall *)(c_player_view *))0xA3BD10)(_this);
@@ -3897,11 +2747,6 @@ void __fastcall c_player_view__render_static_lighting(c_player_view *_this, void
 void __fastcall c_lightmap_shadows_view__render_shadow_apply_call_hook(void *_this, void *_savedreg, float shadow_alpha, float quality_scale) // 0x108E5A10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_lightmap_shadows_view__render_shadow_apply_call_hook@@YIXPAX0MM@Z");
-	// `anonymous-namespace'::c_lightmap_shadows_view__render_shadow_apply_call_hook
-	// float quality_scale;
-	// void (*const c_lightmap_shadows_view__render_shadow_apply)(void *, float, float);
-	// function call : void (*const)(void *, float, float)
-	// function call : void (*const)(void *, float, float)
 
 	void (__thiscall *const render_shadow_apply)(void *, float, float) = (void(__thiscall *const)(void *, float, float))0xa6b4b0;
 
@@ -3914,11 +2759,6 @@ void __fastcall c_lightmap_shadows_view__render_shadow_apply_call_hook(void *_th
 void __fastcall c_lightmap_shadows_view__submit_visibility_and_render_call_hook(void *_this, void *_savedreg, float shadow_alpha, float quality_scale, long object_index, long model_tag_index) // 0x108E5AF0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_lightmap_shadows_view__submit_visibility_and_render_call_hook@@YIXPAX0MMJJ@Z");
-	// `anonymous-namespace'::c_lightmap_shadows_view__submit_visibility_and_render_call_hook
-	// long model_tag_index;
-	// void (*const c_lightmap_shadows_view__submit_visibility_and_render)(void *, float, float, __int32, long);
-	// function call : void (*const)(void *, float, float, __int32, long)
-	// function call : void (*const)(void *, float, float, __int32, long)
 
 	const auto c_lightmap_shadows_view__submit_visibility_and_render = (void(__thiscall *)(void *, float, float, __int32, long))0xA68F30;
 
@@ -3935,13 +2775,6 @@ void __fastcall c_lightmap_shadows_view__submit_visibility_and_render_call_hook(
 void rasterizer_wait_for_device_query_hook(long index) // 0x108F08C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?rasterizer_wait_for_device_query_hook@@YAXJ@Z");
-	// `anonymous-namespace'::rasterizer_wait_for_device_query_hook
-	// long index;
-	// bool *g_device_queries_issued;
-	// IDirect3DQuery9 **g_device_queries;
-	// unsigned long start_time;
-	// long cycles;
-	// function call : HRESULT (void *, unsigned long, unsigned long)
 
 	IDirect3DQuery9 **queries = (IDirect3DQuery9 **)0x50DADE4;
 	bool *pending = (bool *)0x50DADE0;
@@ -3965,14 +2798,6 @@ void rasterizer_wait_for_device_query_hook(long index) // 0x108F08C0
 void c_rasterizer__draw_primitive_up_hook(e_primitive_type primitive_type, unsigned long primitive_count, void const *vertex_data, unsigned long stride) // 0x108E8840
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_rasterizer__draw_primitive_up_hook@@YAXW4e_primitive_type@@KPBXK@Z");
-	// `anonymous-namespace'::c_rasterizer__draw_primitive_up_hook
-	// unsigned long stride;
-	// void (*const c_rasterizer_shaders__clear_cached_vertex_stream)(long);
-	// void (*const c_rasterizer_shaders__submit_cached_shader_constants)();
-	// function call : void (*const)()
-	// function call : void (*const)(long)
-	// function call : HRESULT (_D3DPRIMITIVETYPE, unsigned __int32, unsigned __int32, unsigned __int32, void const *, _D3DFORMAT, void const *, unsigned __int32)
-	// function call : HRESULT (_D3DPRIMITIVETYPE, unsigned __int32, void const *, unsigned __int32)
 
 	void (*const c_rasterizer_shaders__submit_cached_shader_constants)() = reinterpret_cast<void (*)()>(0xA66670);
 	void (*const c_rasterizer_shaders__clear_cached_vertex_stream)(long) = reinterpret_cast<void (*)(long)>(0xA22CB0);
@@ -3989,11 +2814,6 @@ void c_rasterizer__draw_primitive_up_hook(e_primitive_type primitive_type, unsig
 void c_rasterizer__end_frame_set_surface_as_texture_call_hook(long sampler, e_surface surface) // 0x108E8A40
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_rasterizer__end_frame_set_surface_as_texture_call_hook@@YAXJW4e_surface@@@Z");
-	// `anonymous-namespace'::c_rasterizer__end_frame_set_surface_as_texture_call_hook
-	// e_surface surface;
-	// function call : void (*const)(long, e_surface)
-	// function call : void (*const)(long, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>)
-	// function call : void (*const)(long, c_enum<enum e_sampler_filter_mode,long>)
 
 	((void (*)(long, e_surface))0xA48F20)(sampler, surface);
 	if (c_rasterizer_LUT_control::initialized())
@@ -4008,10 +2828,6 @@ void c_rasterizer__end_frame_set_surface_as_texture_call_hook(long sampler, e_su
 void c_rasterizer__end_frame_set_sampler_texture_call_hook(long sampler, c_rasterizer_texture_ref ref) // 0x108E89C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_rasterizer__end_frame_set_sampler_texture_call_hook@@YAXJUc_rasterizer_texture_ref@@@Z");
-	// `anonymous-namespace'::c_rasterizer__end_frame_set_sampler_texture_call_hook
-	// c_rasterizer_texture_ref ref;
-	// function call : void (*const)(long, c_rasterizer_texture_ref)
-	// function call : void (*const)(long, c_rasterizer_texture_ref)
 
 	((void(__cdecl *)(long, c_rasterizer_texture_ref))0xa23810)(sampler, ref);
 	((void(__cdecl *)(long, c_rasterizer_texture_ref))0xa23810)(1, -1);
@@ -4020,11 +2836,6 @@ void c_rasterizer__end_frame_set_sampler_texture_call_hook(long sampler, c_raste
 bool c_rasterizer__initialize_after_device_creation_or_reset_call_hook() // 0x108E8B60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_rasterizer__initialize_after_device_creation_or_reset_call_hook@@YA_NXZ");
-	// `anonymous-namespace'::c_rasterizer__initialize_after_device_creation_or_reset_call_hook
-	// procedure flags: nofpo
-	// bool (*const initialize_after_device_creation_or_reset)();
-	// bool result;
-	// function call : bool (*const)()
 
 	const auto c_rasterizer__initialize_after_device_creation_or_reset = (bool(*)())0xA1FD80;
 

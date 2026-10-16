@@ -39,7 +39,6 @@ static_assert(sizeof(c_blf_writer) == 12, "Invalid c_blf_writer size");
 inline c_blf_writer::c_blf_writer(unsigned long buffer_size, void *buffer) // 0x10AC8590
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_blf_writer@@QAE@KPAX@Z");
-	// void *buffer;
 
 	m_position = 0;
 	m_buffer_size = buffer_size;

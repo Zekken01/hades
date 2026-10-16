@@ -103,13 +103,11 @@ namespace Web
 		SwapChain::SwapChain(IDirect3DDevice9 *device, __int32 bufferCount) : m_device(device), m_bufferCount(bufferCount), m_bufferVersion(0), m_frontBuffer(nullptr), m_released(false) /* hades-mem-init:  */ // 0x10C77740
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "??0SwapChain@Browser@Web@@QAE@PAUIDirect3DDevice9@@H@Z");
-			// __int32 bufferCount;
 		}
 
 		SwapChain::~SwapChain() // 0x10C77AF0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "??1SwapChain@Browser@Web@@QAE@XZ");
-			// Web::Browser::SwapChain *const this;
 
 			DeleteBuffers();
 		}
@@ -117,12 +115,6 @@ namespace Web
 		Web::Browser::SwapChain::Buffer *SwapChain::Flip() // 0x10C78200
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Flip@SwapChain@Browser@Web@@QAEPAUBuffer@123@XZ");
-			// static ...; // 0x10C78340
-			// static ...; // 0x10C78334
-			// static ...; // 0x10C7832C
-			// Web::Browser::SwapChain *const this;
-			// std::scoped_lock<std::mutex> lock;
-				// Web::Browser::SwapChain::Buffer *buff;
 
 			std::scoped_lock<std::mutex> lock(m_mutex);
 			if (m_released)
@@ -141,12 +133,6 @@ namespace Web
 		Web::Browser::SwapChain::BufferHolder SwapChain::AcquireBuffer() // 0x10C77E40
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?AcquireBuffer@SwapChain@Browser@Web@@QAE?AUBufferHolder@123@XZ");
-			// static ...; // 0x10C77F98
-			// static ...; // 0x10C77F8C
-			// static ...; // 0x10C77F84
-			// Web::Browser::SwapChain *const this;
-			// std::unique_lock<std::mutex> lock;
-			// Web::Browser::SwapChain::Buffer *buffer;
 
 			std::unique_lock<std::mutex> lock(m_mutex);
 			m_emptyCond.wait(lock, [this] { return m_released || !m_pool.empty(); });
@@ -161,11 +147,6 @@ namespace Web
 		void SwapChain::ReturnBuffer(Web::Browser::SwapChain::Buffer *buffer) // 0x10C788C0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ReturnBuffer@SwapChain@Browser@Web@@QAEXPAUBuffer@123@@Z");
-			// static ...; // 0x10C7896C
-			// static ...; // 0x10C78964
-			// Web::Browser::SwapChain *const this;
-			// Web::Browser::SwapChain::Buffer *buffer;
-			// std::scoped_lock<std::mutex> lock;
 
 			std::scoped_lock<std::mutex> lock(m_mutex);
 
@@ -175,11 +156,6 @@ namespace Web
 		void SwapChain::PushBuffer(Web::Browser::SwapChain::Buffer *buffer) // 0x10C783A0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?PushBuffer@SwapChain@Browser@Web@@QAEXPAUBuffer@123@@Z");
-			// static ...; // 0x10C784B0
-			// static ...; // 0x10C784A8
-			// Web::Browser::SwapChain *const this;
-			// Web::Browser::SwapChain::Buffer *buffer;
-			// std::scoped_lock<std::mutex> lock;
 
 			std::scoped_lock<std::mutex> lock(m_mutex);
 			if (!BufferIsValid(buffer))
@@ -193,7 +169,6 @@ namespace Web
 		bool SwapChain::BufferIsValid(Web::Browser::SwapChain::Buffer const *buffer) const // 0x10C78000
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?BufferIsValid@SwapChain@Browser@Web@@QBE_NPBUBuffer@123@@Z");
-			// Web::Browser::SwapChain::Buffer const *buffer;
 
 			return !m_released && buffer->version == m_bufferVersion;
 		}
@@ -201,16 +176,6 @@ namespace Web
 		void SwapChain::ResizeBuffers(__int32 width, __int32 height) // 0x10C78610
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ResizeBuffers@SwapChain@Browser@Web@@QAEXHH@Z");
-			// static ...; // 0x10C78808
-			// static ...; // 0x10C78800
-			// Web::Browser::SwapChain *const this;
-			// __int32 width;
-			// __int32 height;
-			// std::scoped_lock<std::mutex> lock;
-				// __int32 i;
-					// Web::Browser::SwapChain::Buffer *buffer;
-					// HRESULT hr;
-			// function call : HRESULT (unsigned __int32, unsigned __int32, unsigned __int32, unsigned long, _D3DFORMAT, _D3DPOOL, IDirect3DTexture9 **, void **)
 
 			std::scoped_lock<std::mutex> lock(m_mutex);
 			m_bufferVersion++;
@@ -233,7 +198,6 @@ namespace Web
 		void SwapChain::ReturnBufferLocked(Web::Browser::SwapChain::Buffer *buffer) // 0x10C789B0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ReturnBufferLocked@SwapChain@Browser@Web@@AAEXPAUBuffer@123@@Z");
-			// Web::Browser::SwapChain::Buffer *buffer;
 
 			if (buffer->version != m_bufferVersion)
 			{
@@ -250,7 +214,6 @@ namespace Web
 		void SwapChain::DeleteBuffers() // 0x10C78070
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?DeleteBuffers@SwapChain@Browser@Web@@AAEXXZ");
-			// Web::Browser::SwapChain *const this;
 
 			while (!m_pool.empty())
 			{
@@ -272,11 +235,6 @@ namespace Web
 		void SwapChain::Release() // 0x10C78510
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Release@SwapChain@Browser@Web@@QAEXXZ");
-			// static ...; // 0x10C785D8
-			// static ...; // 0x10C785CC
-			// static ...; // 0x10C785C4
-			// Web::Browser::SwapChain *const this;
-				// std::scoped_lock<std::mutex> lock;
 
 			{
 				std::scoped_lock<std::mutex> lock(m_mutex);

@@ -64,7 +64,6 @@ namespace Utils
 		unsigned __int32 GetVersionInt() // 0x10C60D90
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetVersionInt@Version@Utils@@YAIXZ");
-			// procedure flags: nofpo
 
 					return 0x70000;
 		}
@@ -79,7 +78,6 @@ namespace Utils
 		std::string GetVersionString() // 0x10C60DB0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetVersionString@Version@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-			// procedure flags: nofpo
 
 			return "0.7.2-1759537232.debug";
 		}
@@ -94,7 +92,6 @@ namespace Utils
 		std::string GetCompatibleVersionString() // 0x10C60D20
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetCompatibleVersionString@Version@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-			// procedure flags: nofpo
 
 			return "0.7.2-1759537232.debug";
 		}
@@ -102,15 +99,6 @@ namespace Utils
 		bool IsVersionCompatible(std::string const &versionString) // 0x10C60E20
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?IsVersionCompatible@Version@Utils@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-			// static ...; // 0x10C61086
-			// static ...; // 0x10C6107B
-			// static ...; // 0x10C61070
-			// static ...; // 0x10C6104C
-			// static ...; // 0x10C61044
-			// std::string const &versionString;
-			// Utils::SemanticVersion version;
-			// Utils::SemanticVersion minVersion;
-			// Utils::SemanticVersion maxVersion;
 
 			SemanticVersion version(0, 0, 0, "", "");
 			if (!SemanticVersion::TryParse(versionString, version))

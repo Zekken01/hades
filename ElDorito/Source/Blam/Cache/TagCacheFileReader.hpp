@@ -80,7 +80,6 @@ namespace Blam
 		_inline bool CTagCacheFileReader::ValidTagIndex(__int32 index) const // 0x107F5490
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ValidTagIndex@CTagCacheFileReader@Cache@Blam@@QBE_NH@Z");
-			// __int32 index;
 
 			(void)((!!(m_stream.good())) || (_wassert(L"m_stream.good()", L"C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Blam\\Cache\\TagCacheFileReader.hpp", 21), 0));
 			return index >= 0 && index < m_tagCount;

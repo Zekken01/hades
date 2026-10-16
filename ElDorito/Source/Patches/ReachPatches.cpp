@@ -212,7 +212,6 @@ namespace Patches
 		void ApplyAfterInit() // 0x107BEB80
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAfterInit@Reach@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			Hook(0x38D6B0, scenario_structure_bsp_has_valid_lightmap_for_bsp_type_hook).Apply();
 			Hook(0x6210E8, s_render_method_postprocess_definition__query_texture_transform_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
@@ -233,21 +232,6 @@ namespace Patches
 bool scenario_structure_bsp_has_valid_lightmap_for_bsp_type_hook(long definition_index, long bspIndex, long bsp_type) // 0x107C0330
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?scenario_structure_bsp_has_valid_lightmap_for_bsp_type_hook@@YA_NJJJ@Z");
-	// `anonymous-namespace'::scenario_structure_bsp_has_valid_lightmap_for_bsp_type_hook
-	// long bsp_type;
-	// long lightmap_definition_index;
-	// s_scenario_lightmap_bsp_data *lightmap_bsp_data;
-	// s_scenario_structure_bsp *structure_bsp;
-	// s_scenario *scenario;
-	// s_scenario_lightmap_bsp_data *(*const scenario_lightmap_find_bsp)(long, long, long);
-	// s_scenario_structure_bsp *(*const scenario_structure_bsp_get)(s_scenario const *, long);
-		// long total_mesh_part_count;
-		// bool valid;
-			// long cluster_index;
-				// long mesh_index;
-	// function call : void *(*const)(unsigned long, long)
-	// function call : s_scenario_lightmap_bsp_data *(*const)(long, long, long)
-	// function call : s_scenario_structure_bsp *(*const)(s_scenario const *, long)
 
 	s_scenario_lightmap_bsp_data *(*const scenario_lightmap_find_bsp)(long, long, long) = reinterpret_cast<s_scenario_lightmap_bsp_data *(*)(long, long, long)>(0x5F99B0);
 	s_scenario_structure_bsp *(*const scenario_structure_bsp_get)(s_scenario const *, long) = reinterpret_cast<s_scenario_structure_bsp *(*)(s_scenario const *, long)>(0x766280);
@@ -302,11 +286,6 @@ bool scenario_structure_bsp_has_valid_lightmap_for_bsp_type_hook(long definition
 bool __fastcall s_render_method_postprocess_definition__query_texture_transform_hook(s_render_method_postprocess_definition *thisptr, void *unused, long bitmap_reference_index, unsigned long *out_color, long *out_bitmap_group_index, long *out_bitmap_index) // 0x107C0280
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?s_render_method_postprocess_definition__query_texture_transform_hook@@YI_NPAUs_render_method_postprocess_definition@@PAXJPAKPAJ3@Z");
-	// `anonymous-namespace'::s_render_method_postprocess_definition__query_texture_transform_hook
-	// long *out_bitmap_index;
-	// bool (*const query_texture_transform)(s_render_method_postprocess_definition *, long, unsigned long *, long *, long *);
-	// long texture_constant_index;
-	// function call : bool (*const)(s_render_method_postprocess_definition *, long, unsigned long *, long *, long *)
 
 	bool (__thiscall *const query_texture_transform)(s_render_method_postprocess_definition *, long, unsigned long *, long *, long *) = (bool(__thiscall *const)(s_render_method_postprocess_definition *, long, unsigned long *, long *, long *))0xa20df0;
 
@@ -321,12 +300,6 @@ bool __fastcall s_render_method_postprocess_definition__query_texture_transform_
 bool rasterizer_force_default_lighting_hook() // 0x107C01E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?rasterizer_force_default_lighting_hook@@YA_NXZ");
-	// `anonymous-namespace'::rasterizer_force_default_lighting_hook
-	// procedure flags: nofpo
-	// long sbsp_index;
-		// s_scenario_structure_bsp *sbsp;
-	// function call : long (*const)()
-	// function call : s_scenario_structure_bsp *(*const)(long)
 
 	long sbsp_index = global_structure_bsp_first_active_index_get();
 	if (sbsp_index != NONE)
@@ -345,18 +318,6 @@ bool rasterizer_force_default_lighting_hook() // 0x107C01E0
 long update_cluster_stream_and_determine_lighting_attributes_hook(e_entry_point entry_point, __int32 bsp_index, s_render_geometry *geometry, s_mesh *mesh, s_part *part, s_geometry_material *materials, s_cluster_reference cluster) // 0x107C09F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?update_cluster_stream_and_determine_lighting_attributes_hook@@YAJW4e_entry_point@@HPAUs_render_geometry@@PAUs_mesh@@PAUs_part@@PAUs_geometry_material@@Us_cluster_reference@@@Z");
-	// `anonymous-namespace'::update_cluster_stream_and_determine_lighting_attributes_hook
-	// s_cluster_reference cluster;
-	// bool (*const rasterizer_force_default_lighting)();
-	// long result;
-		// c_rasterizer_vertex_buffer *vertex_buffer;
-		// s_scenario_lightmap_bsp_data *lbsp;
-		// long static_per_vertex_index;
-		// long vertex_buffer_index;
-	// function call : bool (*const)()
-	// function call : void (*const)()
-	// function call : c_rasterizer_vertex_buffer *(*const)(s_scenario_lightmap_bsp_data *, long)
-	// function call : bool (*const)(c_rasterizer_vertex_buffer const *)
 
 	bool (*const rasterizer_force_default_lighting)() = reinterpret_cast<bool (*)()>(0xA20150);
 	long result;
@@ -392,9 +353,6 @@ long update_cluster_stream_and_determine_lighting_attributes_hook(e_entry_point 
 _inline c_instanced_geometry_iterator::c_instanced_geometry_iterator(s_cluster_reference *cluster_references, s_decal_cylinder *cylinder, long ignore_instance_index) // 0x107BE6E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_instanced_geometry_iterator@hades_file_local@@QAE@PAUs_cluster_reference@@PAUs_decal_cylinder@1@J@Z");
-	// `anonymous-namespace'::c_instanced_geometry_iterator::c_instanced_geometry_iterator
-	// long ignore_instance_index;
-	// static unsigned long `c_instanced_geometry_iterator::c_instanced_geometry_iterator'::`2'::static_visited_instance_bit_vector[256]; // 0x1138DEE8
 
 	m_cylinder = cylinder;
 	m_cluster_references = cluster_references;
@@ -422,8 +380,6 @@ _inline c_instanced_geometry_iterator::c_instanced_geometry_iterator(s_cluster_r
 _inline bool c_instanced_geometry_iterator::next_instance() // 0x107BFE40
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?next_instance@c_instanced_geometry_iterator@hades_file_local@@QAE_NXZ");
-	// `anonymous-namespace'::c_instanced_geometry_iterator::next_instance
-	// c_instanced_geometry_iterator *const this;
 
 	while (true)
 	{
@@ -463,10 +419,6 @@ _inline bool c_instanced_geometry_iterator::next_instance() // 0x107BFE40
 _inline bool c_instanced_geometry_iterator::next_cluster() // 0x107BFCD0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?next_cluster@c_instanced_geometry_iterator@hades_file_local@@QAE_NXZ");
-	// `anonymous-namespace'::c_instanced_geometry_iterator::next_cluster
-	// c_instanced_geometry_iterator *const this;
-	// s_cluster_reference &cluster_ref;
-	// function call : s_scenario_structure_bsp *(*const)(long)
 
 	if (m_cluster_reference_index >= 4)
 	{
@@ -492,8 +444,6 @@ _inline bool c_instanced_geometry_iterator::next_cluster() // 0x107BFCD0
 _inline bool c_instanced_geometry_iterator::next_instance_bucket() // 0x107C0100
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?next_instance_bucket@c_instanced_geometry_iterator@hades_file_local@@QAE_NXZ");
-	// `anonymous-namespace'::c_instanced_geometry_iterator::next_instance_bucket
-	// c_instanced_geometry_iterator *const this;
 
 	if (m_instance_bucket_index >= m_instance_bucket_count)
 	{
@@ -512,10 +462,6 @@ _inline bool c_instanced_geometry_iterator::next_instance_bucket() // 0x107C0100
 _inline void c_instanced_geometry_iterator::next() // 0x107BFBD0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?next@c_instanced_geometry_iterator@hades_file_local@@QAEXXZ");
-	// `anonymous-namespace'::c_instanced_geometry_iterator::next
-	// c_instanced_geometry_iterator *const this;
-	// bool (*const collision_point_in_cylinder)(real_point3d const *, real_matrix4x3 const *, float, float, float *);
-	// function call : bool (*const)(real_point3d const *, real_matrix4x3 const *, float, float, float *)
 
 	bool (*const collision_point_in_cylinder)(real_point3d const *, real_matrix4x3 const *, float, float, float *) = (bool (*const)(real_point3d const *, real_matrix4x3 const *, float, float, float *))0x97a530;
 
@@ -529,8 +475,6 @@ _inline void c_instanced_geometry_iterator::next() // 0x107BFBD0
 void __fastcall c_instanced_geometry_iterator__next_hook(c_instanced_geometry_iterator *thisptr) // 0x107BF730
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_instanced_geometry_iterator__next_hook@@YIXPAUc_instanced_geometry_iterator@hades_file_local@@@Z");
-	// `anonymous-namespace'::c_instanced_geometry_iterator__next_hook
-	// c_instanced_geometry_iterator *thisptr;
 
 	thisptr->next();
 }
@@ -538,8 +482,6 @@ void __fastcall c_instanced_geometry_iterator__next_hook(c_instanced_geometry_it
 void __fastcall c_instanced_geometry_iterator__ctor_hook(c_instanced_geometry_iterator *thisptr, void *__formal, s_cluster_reference *cluster_references, s_decal_cylinder *cylinder, long ignore_instance_index) // 0x107BF6B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_instanced_geometry_iterator__ctor_hook@@YIXPAUc_instanced_geometry_iterator@hades_file_local@@PAXPAUs_cluster_reference@@PAUs_decal_cylinder@2@J@Z");
-	// `anonymous-namespace'::c_instanced_geometry_iterator__ctor_hook
-	// long ignore_instance_index;
 
 	new (thisptr) c_instanced_geometry_iterator(cluster_references, cylinder, ignore_instance_index);
 }
@@ -547,10 +489,6 @@ void __fastcall c_instanced_geometry_iterator__ctor_hook(c_instanced_geometry_it
 bool test_instanced_geometry_hook(s_instance_collision_test_arguements *test_arguments, long instance_index, s_structure_instanced_geometry_instance *instance, s_structure_instanced_geometry_definition *definition, unsigned long flags) // 0x107C06E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?test_instanced_geometry_hook@@YA_NPAUs_instance_collision_test_arguements@hades_file_local@@JPAUs_structure_instanced_geometry_instance@@PAUs_structure_instanced_geometry_definition@@K@Z");
-	// `anonymous-namespace'::test_instanced_geometry_hook
-	// unsigned long flags;
-	// bool (*const test_instanced_geometry)(s_instance_collision_test_arguements *, long, s_structure_instanced_geometry_instance *, s_structure_instanced_geometry_definition *, unsigned long);
-	// function call : bool (*const)(s_instance_collision_test_arguements *, long, s_structure_instanced_geometry_instance *, s_structure_instanced_geometry_definition *, unsigned long)
 
 	bool (__cdecl *const test_instanced_geometry)(s_instance_collision_test_arguements *, long, s_structure_instanced_geometry_instance *, s_structure_instanced_geometry_definition *, unsigned long) = (bool(__cdecl *const)(s_instance_collision_test_arguements *, long, s_structure_instanced_geometry_instance *, s_structure_instanced_geometry_definition *, unsigned long))0x6d9230;
 

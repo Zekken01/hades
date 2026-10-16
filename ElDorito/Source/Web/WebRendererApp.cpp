@@ -173,12 +173,6 @@ namespace Web
 		void WebRendererApp::OnRegisterCustomSchemes(CefSchemeRegistrar *registrar) // 0x10CC5F90
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?OnRegisterCustomSchemes@WebRendererApp@Browser@Web@@UAEXPAVCefSchemeRegistrar@@@Z");
-			// CefSchemeRegistrar *registrar;
-			// __int32 scheme;
-			// function call : bool (CefStringBase<CefStringTraitsUTF16> const &, __int32)
-			// function call : bool (CefStringBase<CefStringTraitsUTF16> const &, __int32)
-			// function call : bool (CefStringBase<CefStringTraitsUTF16> const &, __int32)
-			// function call : bool (CefStringBase<CefStringTraitsUTF16> const &, __int32)
 
 			__int32 scheme = CEF_SCHEME_OPTION_STANDARD | CEF_SCHEME_OPTION_SECURE | CEF_SCHEME_OPTION_CORS_ENABLED | CEF_SCHEME_OPTION_FETCH_ENABLED;
 			registrar->AddCustomScheme("dew", scheme);
@@ -197,7 +191,6 @@ namespace Web
 		scoped_refptr<CefBrowserProcessHandler> WebRendererApp::GetBrowserProcessHandler() // 0x10CC51F0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetBrowserProcessHandler@WebRendererApp@Browser@Web@@UAE?AV?$scoped_refptr@VCefBrowserProcessHandler@@@@XZ");
-			// Web::Browser::WebRendererApp *const this;
 
 			return this;
 		}
@@ -212,7 +205,6 @@ namespace Web
 		scoped_refptr<CefRenderProcessHandler> WebRendererApp::GetRenderProcessHandler() // 0x10CC5290
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetRenderProcessHandler@WebRendererApp@Browser@Web@@UAE?AV?$scoped_refptr@VCefRenderProcessHandler@@@@XZ");
-			// Web::Browser::WebRendererApp *const this;
 
 			return this;
 		}
@@ -220,42 +212,16 @@ namespace Web
 		void WebRendererApp::OnContextInitialized() // 0x10CC5F70
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?OnContextInitialized@WebRendererApp@Browser@Web@@UAEXXZ");
-			// __shifted(Web::Browser::WebRendererApp, 8);
-			// Web::Browser::WebRendererApp *const this;
 		}
 
 		void WebRendererApp::OnContextCreated(scoped_refptr<CefBrowser> browser, scoped_refptr<CefFrame> frame, scoped_refptr<CefV8Context> context) // 0x10CC5F00
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?OnContextCreated@WebRendererApp@Browser@Web@@UAEXV?$scoped_refptr@VCefBrowser@@@@V?$scoped_refptr@VCefFrame@@@@V?$scoped_refptr@VCefV8Context@@@@@Z");
-			// __shifted(Web::Browser::WebRendererApp, 16);
-			// scoped_refptr<CefV8Context> context;
 		}
 
 		void WebRendererApp::OnBeforeCommandLineProcessing(CefStringBase<CefStringTraitsUTF16> const &process_type, scoped_refptr<CefCommandLine> command_line) // 0x10CC5330
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?OnBeforeCommandLineProcessing@WebRendererApp@Browser@Web@@UAEXABV?$CefStringBase@UCefStringTraitsUTF16@@@@V?$scoped_refptr@VCefCommandLine@@@@@Z");
-			// scoped_refptr<CefCommandLine> command_line;
-			// function call : void (CefStringBase<CefStringTraitsUTF16> const &, CefStringBase<CefStringTraitsUTF16> const &)
-			// function call : void (CefStringBase<CefStringTraitsUTF16> const &)
-			// function call : void (CefStringBase<CefStringTraitsUTF16> const &)
-			// function call : void (CefStringBase<CefStringTraitsUTF16> const &)
-			// function call : void (CefStringBase<CefStringTraitsUTF16> const &, CefStringBase<CefStringTraitsUTF16> const &)
-			// function call : void (CefStringBase<CefStringTraitsUTF16> const &)
-			// function call : void (CefStringBase<CefStringTraitsUTF16> const &)
-			// function call : void (CefStringBase<CefStringTraitsUTF16> const &)
-			// function call : void (CefStringBase<CefStringTraitsUTF16> const &)
-			// function call : void (CefStringBase<CefStringTraitsUTF16> const &, CefStringBase<CefStringTraitsUTF16> const &)
-			// function call : void (CefStringBase<CefStringTraitsUTF16> const &)
-			// function call : void (CefStringBase<CefStringTraitsUTF16> const &)
-			// function call : void (CefStringBase<CefStringTraitsUTF16> const &)
-			// function call : void (CefStringBase<CefStringTraitsUTF16> const &)
-			// function call : void (CefStringBase<CefStringTraitsUTF16> const &)
-			// function call : void (CefStringBase<CefStringTraitsUTF16> const &)
-			// function call : void (CefStringBase<CefStringTraitsUTF16> const &)
-			// function call : void (CefStringBase<CefStringTraitsUTF16> const &)
-			// function call : void (CefStringBase<CefStringTraitsUTF16> const &)
-			// function call : void (CefStringBase<CefStringTraitsUTF16> const &)
-			// function call : void (CefStringBase<CefStringTraitsUTF16> const &, CefStringBase<CefStringTraitsUTF16> const &)
 
 			if (Web::Browser::WebRenderer::GetInstance()->IsAccelerated())
 			{

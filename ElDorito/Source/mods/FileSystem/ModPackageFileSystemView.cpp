@@ -86,7 +86,6 @@ namespace Blam
 CModPackageFileSystemView::CModPackageFileSystemView(std::string const &filePath) : m_baseOffset(0), m_filePath(filePath) /* hades-mem-init:  */ // 0x10880470
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0CModPackageFileSystemView@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-	// std::string const &filePath;
 
 	Initialize();
 }
@@ -94,11 +93,6 @@ CModPackageFileSystemView::CModPackageFileSystemView(std::string const &filePath
 bool CModPackageFileSystemView::GetFileEntry(std::string const &virtualPath, CModPackageFileSystemView::SFileEntry *outEntry) // 0x10881150
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetFileEntry@CModPackageFileSystemView@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAUSFileEntry@1@@Z");
-	// static ...; // 0x10881298
-	// CModPackageFileSystemView *const this;
-	// std::string const &virtualPath;
-	// CModPackageFileSystemView::SFileEntry *outEntry;
-		// std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<std::string const ,CModPackageFileSystemView::SFileEntry> > > > it;
 
 	if (auto it = m_files.find(virtualPath); it != std::end(m_files))
 	{
@@ -111,7 +105,6 @@ bool CModPackageFileSystemView::GetFileEntry(std::string const &virtualPath, CMo
 std::unordered_map<std::string,CModPackageFileSystemView::SFileEntry> CModPackageFileSystemView::GetFileList() // 0x10881310
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetFileList@CModPackageFileSystemView@@QAE?AV?$unordered_map@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@USFileEntry@CModPackageFileSystemView@@U?$hash@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@U?$equal_to@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@USFileEntry@CModPackageFileSystemView@@@std@@@2@@std@@XZ");
-	// CModPackageFileSystemView *const this;
 
 	return m_files;
 }
@@ -119,11 +112,6 @@ std::unordered_map<std::string,CModPackageFileSystemView::SFileEntry> CModPackag
 void CModPackageFileSystemView::Initialize() // 0x10881390
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@CModPackageFileSystemView@@AAEXXZ");
-	// static ...; // 0x10881458
-	// static ...; // 0x1088144C
-	// static ...; // 0x10881444
-	// CModPackageFileSystemView *const this;
-	// std::ifstream stream;
 
 	std::ifstream stream(m_filePath, std::ios::binary);
 	ReadFileTable(stream);
@@ -132,26 +120,6 @@ void CModPackageFileSystemView::Initialize() // 0x10881390
 bool CModPackageFileSystemView::ReadFileTable(std::istream &stream) // 0x108814A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ReadFileTable@CModPackageFileSystemView@@AAE_NAAV?$basic_istream@DU?$char_traits@D@std@@@std@@@Z");
-	// static ...; // 0x10881937
-	// static ...; // 0x1088192D
-	// static ...; // 0x10881922
-	// static ...; // 0x10881918
-	// static ...; // 0x108818DC
-	// static ...; // 0x108818D4
-	// CModPackageFileSystemView *const this;
-	// std::istream &stream;
-	// long long sectionSize;
-	// s_mod_package_section_header sectionHeaders[10];
-	// s_mod_package_header packageHeader;
-	// s_mod_package_section_header const &section;
-	// s_mod_package_section_table fileTable;
-		// __int32 i;
-			// CModPackageFileSystemView::SFileEntry fileEntry;
-			// s_mod_package_file_entry tableEntry;
-				// char &<range>$L0[256];
-				// char *<begin>$L0;
-				// char *<end>$L0;
-					// char &c;
 
 	m_files.clear();
 	s_mod_package_header packageHeader = {};

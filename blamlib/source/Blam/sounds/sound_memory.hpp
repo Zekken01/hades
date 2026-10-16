@@ -393,7 +393,6 @@ struct s_sound_manager_globals
 inline bool s_xbox_sound_datum_ex::io_pending() const // 0x10A342E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?io_pending@s_xbox_sound_datum_ex@@QBE_NXZ");
-	// s_xbox_sound_datum_ex const *const this;
 
 	return !io_completion.is_done() && is_loading;
 }

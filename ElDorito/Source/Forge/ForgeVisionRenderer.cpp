@@ -177,8 +177,6 @@ namespace Forge
 	void CForgeVisionRenderer::Update() // 0x10838CB0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CForgeVisionRenderer@Forge@@SAXXZ");
-		// procedure flags: nofpo
-		// function call : float (*const)()
 
 		Forge::colorAnimation += game_tick_length() * 5.0f;
 		if (Forge::colorAnimation >= 6.2831855f)
@@ -190,12 +188,6 @@ namespace Forge
 	void CForgeVisionRenderer::GetVisionColors(real_argb_color *colors) // 0x108383F0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetVisionColors@CForgeVisionRenderer@Forge@@SAXPAUreal_argb_color@@@Z");
-		// static ...; // 0x10838614
-		// static ...; // 0x10838608
-		// static ...; // 0x10838600
-		// real_argb_color *colors;
-		// real_argb_color color;
-		// function call : real_argb_color *(*const)(unsigned long, real_argb_color *)
 
 		real_argb_color color;
 		if (selectionColor == -1)
@@ -215,35 +207,6 @@ namespace Forge
 	void CForgeVisionRenderer::Generate(long windowIndex, long playerIndex, long unitIndex, void const *windowData, bool pass) // 0x108380B0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Generate@CForgeVisionRenderer@Forge@@SAXJJJPBX_N@Z");
-		// long playerIndex;
-		// long unitIndex;
-		// void const *windowData;
-		// bool pass;
-		// void (*const c_visible_items__push_marker)();
-		// void (*const render_visibility_add_object_to_items)(long, long, bool, bool);
-		// void (*const render_objects_visibility_push_marker)();
-		// void (*const render_visible_objects)(unsigned long);
-		// s_data_iterator iter;
-		// void (*const render_objects_visibility_pop_marker)();
-		// void (*const c_visible_items__pop_marker)();
-		// void (*const objects_render_shadows_generate)(long, long);
-			// long object_index;
-			// s_object_data *object;
-				// long vision_output_type;
-		// function call : void (*const)(s_data_iterator *, s_data_array const *)
-		// function call : s_datum *(*const)(s_data_iterator *)
-		// function call : void (*const)()
-		// function call : void (*const)()
-		// function call : void (*const)(long, long, bool, bool)
-		// function call : void (*const)(unsigned long)
-		// function call : e_surface (*const)(long, e_surface, long)
-		// function call : void (*const)(long, unsigned char)
-		// function call : e_surface (*const)(long, e_surface, long)
-		// function call : void (*const)(long, long)
-		// function call : e_surface (*const)(long, e_surface, long)
-		// function call : e_surface (*const)(long, e_surface, long)
-		// function call : void (*const)()
-		// function call : void (*const)()
 
 		void (*const objects_render_shadows_generate)(long, long) = reinterpret_cast<void (*)(long, long)>(0xA78F00);
 		void (*const render_objects_visibility_push_marker)() = reinterpret_cast<void (*)()>(0xA78230);
@@ -288,26 +251,6 @@ namespace Forge
 	void CForgeVisionRenderer::Render(long windowIndex, void *view) // 0x10838910
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Render@CForgeVisionRenderer@Forge@@SAXJPAX@Z");
-		// static ...; // 0x10838B80
-		// static ...; // 0x10838B78
-		// long windowIndex;
-		// void *view;
-		// void (*const vision_mode_setup_camera_globals)(s_hud_camera_globals *);
-		// s_hud_camera_globals *hud_camera_globals;
-		// void (*const s_hud_camera_globals_initialize)(s_hud_camera_globals *);
-		// void *(*const vision_mode_definition_get)();
-		// unsigned char hud_camera_view[10224];
-		// s_vision_mode_globals *vision_mode_globals;
-		// void (*const c_player_view__ctor)(void *);
-		// void (*const sub_14E3720)(void const *, float *);
-		// void (*const c_hud_camera_view__render)(void *, long, void *, s_hud_camera_globals *);
-		// function call : void (*const)(void *)
-		// function call : void *(*const)()
-		// function call : void (*const)(void const *, float *)
-		// function call : void (*const)(s_hud_camera_globals *)
-		// function call : void (*const)(s_hud_camera_globals *)
-		// function call : e_surface (*const)(long)
-		// function call : void (*const)(void *, long, void *, s_hud_camera_globals *)
 
 		void (__thiscall *const sub_14E3720)(void const *, float *) = reinterpret_cast<void (__thiscall *)(void const *, float *)>(0x14E3720);
 		void *(*const vision_mode_definition_get)() = reinterpret_cast<void *(*)()>(0x14E36D0);
@@ -343,7 +286,6 @@ namespace Forge
 	long CForgeVisionRenderer::GetMaskBitmap(long *bitmapIndex) // 0x108383D0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?GetMaskBitmap@CForgeVisionRenderer@Forge@@SAJPAJ@Z");
-		// long *bitmapIndex;
 
 		return -1;
 	}
@@ -351,7 +293,6 @@ namespace Forge
 	void CForgeVisionRenderer::SetActive(bool active) // 0x10838C40
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?SetActive@CForgeVisionRenderer@Forge@@SAX_N@Z");
-		// bool active;
 
 		if (m_bActive != active)
 		{
@@ -367,8 +308,6 @@ namespace Forge
 	void CForgeVisionRenderer::OnActivate() // 0x108387E0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?OnActivate@CForgeVisionRenderer@Forge@@CAXXZ");
-		// procedure flags: nofpo
-		// std::string const &color;
 
 		std::string &selectionColorString = *(std::string *)((unsigned char *)Modules::ModuleForge::Instance().VarSelectionColor + 0x8C);
 		if (selectionColorString == "rainbow")

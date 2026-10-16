@@ -239,15 +239,6 @@ namespace Server
 		__int32 getCustomMapID(std::string mapName) // 0x10751AB0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?getCustomMapID@Voting@Server@@YAHV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-			// static ...; // 0x10751CAD
-			// static ...; // 0x10751CA2
-			// static ...; // 0x10751C9C
-			// static ...; // 0x10751C78
-			// static ...; // 0x10751C70
-			// std::string mapName;
-			// std::string variantFileName;
-			// std::ifstream mapVariant;
-				// __int32 mapId;
 
 			std::string variantFileName = "data/map_variants/" + mapName + "/sandbox.map";
 			std::ifstream mapVariant(variantFileName, std::ios::binary);
@@ -264,23 +255,6 @@ namespace Server
 		bool findMapInfoInModPackage(__int32 mapId, std::string const &mapName, std::string const &identifier, Server::Voting::SMapListItem *info) // 0x10751560
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?findMapInfoInModPackage@Voting@Server@@YA_NHABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0PAUSMapListItem@12@@Z");
-			// static ...; // 0x10751952
-			// static ...; // 0x1075194C
-			// static ...; // 0x10751944
-			// static ...; // 0x107518FC
-			// static ...; // 0x107518F4
-			// __int32 mapId;
-			// std::string const &mapName;
-			// std::string const &identifier;
-			// Server::Voting::SMapListItem *info;
-			// c_mod_package::e_error err;
-			// c_mod_package package;
-			// c_mod_package_manager::s_entry packageEntry;
-			// c_file_reference file;
-			// c_file_open_scope scope;
-				// __int32 i;
-					// static s_cache_file_header mapHeader; // 0x11389028
-						// s_blf_map_information mapInfo;
 
 			c_mod_package_manager::s_entry packageEntry;
 			if (!c_mod_system::get_mod_info_by_identifier(identifier.c_str(), &packageEntry))
@@ -317,16 +291,6 @@ namespace Server
 		bool getMapInfo(std::string const &mapName, std::string const &modpack, Server::Voting::SMapListItem *info) // 0x10751D40
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?getMapInfo@Voting@Server@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0PAUSMapListItem@12@@Z");
-			// static ...; // 0x107520C4
-			// static ...; // 0x107520A0
-			// static ...; // 0x10752098
-			// std::string const &mapName;
-			// std::string const &modpack;
-			// Server::Voting::SMapListItem *info;
-			// Modules::ModuleGame const &moduleGame;
-			// std::vector<Server::Voting::SMapListItem> const &defaultMaps;
-			// __int32 mapId;
-				// std::_Vector_const_iterator<std::_Vector_val<std::_Simple_types<Server::Voting::SMapListItem> > > it;
 
 			Modules::ModuleGame const &moduleGame = Modules::ModuleGame::Instance();
 			info->mapId = -1;
@@ -364,8 +328,6 @@ namespace Server
 		unsigned __int32 FindMapByName(std::vector<Server::Voting::HaloMap> const &maps, std::string const &name) // 0x1074DDB0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?FindMapByName@Voting@Server@@YAIABV?$vector@UHaloMap@Voting@Server@@V?$allocator@UHaloMap@Voting@Server@@@std@@@std@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@4@@Z");
-			// std::string const &name;
-				// unsigned __int32 i;
 
 			for (unsigned __int32 i = 0; i < maps.size(); i++)
 			{
@@ -378,8 +340,6 @@ namespace Server
 		static unsigned __int32 FindTypeByName(std::vector<Server::Voting::HaloType> const &types, std::string const &name) // 0x1074DE50
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?FindTypeByName@Voting@Server@@YAIABV?$vector@UHaloType@Voting@Server@@V?$allocator@UHaloType@Voting@Server@@@std@@@std@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@4@@Z");
-			// std::string const &name;
-				// unsigned __int32 i;
 
 			for (unsigned __int32 i = 0; i < types.size(); i++)
 			{
@@ -392,18 +352,6 @@ namespace Server
 		void BuildRandomPlaylist(std::vector<Server::Voting::MapAndType> &playlist, unsigned __int32 size, std::vector<Server::Voting::HaloType> const &types, std::vector<Server::Voting::HaloMap> const &maps) // 0x1074DA70
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?BuildRandomPlaylist@Voting@Server@@YAXAAV?$vector@UMapAndType@Voting@Server@@V?$allocator@UMapAndType@Voting@Server@@@std@@@std@@IABV?$vector@UHaloType@Voting@Server@@V?$allocator@UHaloType@Voting@Server@@@std@@@4@ABV?$vector@UHaloMap@Voting@Server@@V?$allocator@UHaloMap@Voting@Server@@@std@@@4@@Z");
-			// static ...; // 0x1074DCFC
-			// static ...; // 0x1074DCCC
-			// static ...; // 0x1074DCC4
-			// std::vector<Server::Voting::MapAndType> &playlist;
-			// unsigned __int32 size;
-			// std::vector<Server::Voting::HaloType> const &types;
-			// std::vector<Server::Voting::HaloMap> const &maps;
-			// std::random_device rd;
-			// std::mersenne_twister_engine<unsigned int,32,624,397,31,2567483615,11,4294967295,7,2636928640,15,4022730752,18,1812433253> g;
-				// unsigned __int32 i;
-					// Server::Voting::HaloType ht;
-					// Server::Voting::HaloMap hm;
 
 			std::random_device rd;
 			std::mt19937 g(rd());
@@ -429,21 +377,6 @@ namespace Server
 		std::vector<Server::Voting::SMapListItem> const &GetDefaultMapList() // 0x1074DEF0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetDefaultMapList@Voting@Server@@YAABV?$vector@USMapListItem@Voting@Server@@V?$allocator@USMapListItem@Voting@Server@@@std@@@std@@XZ");
-			// procedure flags: nofpo
-			// static ...; // 0x1074E44E
-			// static ...; // 0x1074E446
-			// static ...; // 0x1074E442
-			// static ...; // 0x1074E439
-			// static ...; // 0x1074E431
-			// static ...; // 0x1074E42C
-			// static ...; // 0x1074E3E4
-			// static ...; // 0x1074E3DC
-				// std::filesystem::directory_iterator end_itr;
-				// std::filesystem::path mapFolderPath;
-					// std::filesystem::directory_iterator itr;
-						// std::string fullPath;
-						// CMapFile mapFile;
-						// Server::Voting::SMapListItem item;
 
 			if (!MapListValid)
 			{

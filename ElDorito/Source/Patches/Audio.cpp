@@ -327,7 +327,6 @@ namespace Patches
 		void ApplyAll() // 0x10A2DCC0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Audio@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 					Patch(0x100DA75, { 0x02 }).Apply();
 					Pointer(0x176CA18).Write<unsigned int>(reinterpret_cast<unsigned int>(SYSTEM_FMOD_Init_Hook));
@@ -358,7 +357,6 @@ namespace Patches
 		void ApplyAfterInit() // 0x10A2C1E0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAfterInit@Audio@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			Hook(0x251480, HALO_CHANNEL_Queue).Apply();
 			Hook(0x253470, HALO_CHANNEL_Update).Apply();
@@ -397,8 +395,6 @@ namespace Patches
 		bool SetOutputDevice(__int32 deviceIndex) // 0x10A32220
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?SetOutputDevice@Audio@Patches@@YA_NH@Z");
-			// __int32 deviceIndex;
-			// HALO_SOUND_SYSTEM *soundSystem;
 
 			HALO_SOUND_SYSTEM *soundSystem = HALO_SOUND_SYSTEM::Get();
 			if (soundSystem == nullptr)
@@ -411,8 +407,6 @@ namespace Patches
 		bool GetDeviceInfo(__int32 deviceIndex, Patches::Audio::SAudioDeviceInfo *outInfo) // 0x10A2F9D0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetDeviceInfo@Audio@Patches@@YA_NHPAUSAudioDeviceInfo@12@@Z");
-			// Patches::Audio::SAudioDeviceInfo *outInfo;
-			// HALO_SOUND_SYSTEM *soundSystem;
 
 			HALO_SOUND_SYSTEM *soundSystem = HALO_SOUND_SYSTEM::Get();
 			if (soundSystem == nullptr)
@@ -423,12 +417,6 @@ namespace Patches
 		__int32 GetDeviceCount() // 0x10A2F910
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetDeviceCount@Audio@Patches@@YAHXZ");
-			// procedure flags: nofpo
-			// static ...; // 0x10A2F994
-			// static ...; // 0x10A2F988
-			// static ...; // 0x10A2F980
-			// HALO_SOUND_SYSTEM *soundSystem;
-			// __int32 numDrivers;
 
 			HALO_SOUND_SYSTEM *soundSystem;
 			__int32 numDrivers;
@@ -450,7 +438,6 @@ namespace Patches
 		void Tick() // 0x10A324F0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@Audio@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			debug_display_sound_system();
 			debug_display_fmod_stats();
@@ -463,8 +450,6 @@ namespace Patches
 _inline c_large_integer::c_large_integer(unsigned long long value) // 0x10A2BAF0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_large_integer@hades_file_local@@QAE@_K@Z");
-	// `anonymous-namespace'::c_large_integer::c_large_integer
-	// unsigned long long value;
 
 	hi = (unsigned int)(value >> 32);
 	lo = (unsigned int)value;
@@ -473,8 +458,6 @@ _inline c_large_integer::c_large_integer(unsigned long long value) // 0x10A2BAF0
 _inline c_large_integer::c_large_integer(unsigned __int32 hi, unsigned __int32 lo) // 0x10A2BAB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_large_integer@hades_file_local@@QAE@II@Z");
-	// `anonymous-namespace'::c_large_integer::c_large_integer
-	// unsigned __int32 lo;
 
 	this->hi = hi;
 	this->lo = lo;
@@ -483,8 +466,6 @@ _inline c_large_integer::c_large_integer(unsigned __int32 hi, unsigned __int32 l
 _inline unsigned long long c_large_integer::value() const // 0x10A362D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?value@c_large_integer@hades_file_local@@QBE_KXZ");
-	// `anonymous-namespace'::c_large_integer::value
-	// c_large_integer const *const this;
 
 	return ((unsigned long long)hi << 32) | lo;
 }
@@ -492,12 +473,6 @@ _inline unsigned long long c_large_integer::value() const // 0x10A362D0
 _inline c_large_integer operator+(c_large_integer const &lhs, c_large_integer const &rhs) // 0x10A2C0A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??H@YA?AUc_large_integer@hades_file_local@@ABU01@0@Z");
-	// `anonymous-namespace'::operator+
-	// c_large_integer const &rhs;
-	// unsigned __int32 hi;
-	// unsigned __int32 lo;
-	// unsigned long long sum;
-	// unsigned __int32 carry;
 
 	unsigned long long sum = (unsigned long long)lhs.lo + rhs.lo;
 	unsigned __int32 carry = (unsigned __int32)(sum >> 32);
@@ -512,8 +487,6 @@ _inline c_large_integer operator+(c_large_integer const &lhs, c_large_integer co
 _inline c_large_integer &c_large_integer::operator+=(c_large_integer const &rhs) // 0x10A2C160
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??Yc_large_integer@hades_file_local@@QAEAAU01@ABU01@@Z");
-	// `anonymous-namespace'::c_large_integer::operator+=
-	// c_large_integer const &rhs;
 
 	return *this = *this + rhs;
 }
@@ -521,8 +494,6 @@ _inline c_large_integer &c_large_integer::operator+=(c_large_integer const &rhs)
 _inline c_sound_debug_printer::c_sound_debug_printer(__int32 xoffset, __int32 yoffset) // 0x10A2BB60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_sound_debug_printer@hades_file_local@@QAE@HH@Z");
-	// `anonymous-namespace'::c_sound_debug_printer::c_sound_debug_printer
-	// __int32 yoffset;
 
 	m_yOffset = 0.0f;
 	m_xOffset = 0.0f;
@@ -533,12 +504,6 @@ _inline c_sound_debug_printer::c_sound_debug_printer(__int32 xoffset, __int32 yo
 _inline void __cdecl c_sound_debug_printer::print_line(long color, char const *format, ...) // 0x10A345D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?print_line@c_sound_debug_printer@hades_file_local@@QAAXJPBDZZ");
-	// `anonymous-namespace'::c_sound_debug_printer::print_line
-	// c_sound_debug_printer *const this;
-	// long color;
-	// char const *format;
-	// char buff[4096];
-	// char *va;
 
 	char buff[4096];
 	va_list va;
@@ -554,16 +519,12 @@ _inline void __cdecl c_sound_debug_printer::print_line(long color, char const *f
 _inline void c_sound_debug_printer::skip_line() // 0x10A34B00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?skip_line@c_sound_debug_printer@hades_file_local@@QAEXXZ");
-	// `anonymous-namespace'::c_sound_debug_printer::skip_line
-	// c_sound_debug_printer *const this;
 
 	m_yOffset += 16.0f;
 }
 
 bool SoundSystemTraceEnabled() // 0x10A32370
 {
-	// `anonymous-namespace'::SoundSystemTraceEnabled
-	// procedure flags: nofpo
 
 	return Modules::ModuleDebug::Instance().VarSoundSystemTrace->ValueInt != 0;
 }
@@ -571,9 +532,6 @@ bool SoundSystemTraceEnabled() // 0x10A32370
 bool SoundQueueFilter(s_sound_tag_data const *request) // 0x10A322B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SoundQueueFilter@@YA_NPBUs_sound_tag_data@@@Z");
-	// `anonymous-namespace'::SoundQueueFilter
-	// s_sound_tag_data const *request;
-	// std::string &filterStr;
 
 	std::string &filterStr = Modules::ModuleDebug::Instance().VarSoundQueueFilter->ValueString;
 
@@ -591,9 +549,6 @@ bool SoundQueueFilter(s_sound_tag_data const *request) // 0x10A322B0
 FMOD_RESULT FMOD_CheckError(FMOD_RESULT err, char const *func_name) // 0x10A2F050
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?FMOD_CheckError@@YA?AW4FMOD_RESULT@@W41@PBD@Z");
-	// `anonymous-namespace'::FMOD_CheckError
-	// char const *func_name;
-		// char const *err_string;
 
 	char const *err_string;
 
@@ -609,29 +564,6 @@ FMOD_RESULT FMOD_CheckError(FMOD_RESULT err, char const *func_name) // 0x10A2F05
 void debug_display_sound_system() // 0x10A33C20
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?debug_display_sound_system@@YAXXZ");
-	// `anonymous-namespace'::debug_display_sound_system
-	// procedure flags: nofpo
-	// static ...; // 0x10A33F85
-	// static ...; // 0x10A33F7C
-	// static ...; // 0x10A33F64
-	// static ...; // 0x10A33F5C
-	// c_data_array<looping_sound_datum> *looping_sounds;
-	// bool looping_sound_debug;
-	// c_sound_debug_printer debug_printer;
-	// s_data_iterator iterator;
-	// bool sound_sources_debug;
-	// c_data_array<s_sound_source_datum> *sound_sources;
-		// long color;
-		// long current_sound_count;
-		// long max_sound_count;
-			// s_sound_source_datum *sound_source;
-				// long tag_index;
-				// char const *name;
-			// looping_sound_datum *looping_sound;
-	// function call : void (*const)(s_data_iterator *, s_data_array const *)
-	// function call : s_datum *(*const)(s_data_iterator *)
-	// function call : void (*const)(s_data_iterator *, s_data_array const *)
-	// function call : s_datum *(*const)(s_data_iterator *)
 
 	bool sound_sources_debug = false;
 	bool looping_sound_debug = false;
@@ -692,38 +624,6 @@ void debug_display_sound_system() // 0x10A33C20
 void debug_display_fmod_stats() // 0x10A33350
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?debug_display_fmod_stats@@YAXXZ");
-	// `anonymous-namespace'::debug_display_fmod_stats
-	// procedure flags: nofpo
-	// static ...; // 0x10A33A4B
-	// static ...; // 0x10A33A41
-	// static ...; // 0x10A33A30
-	// static ...; // 0x10A33A1E
-	// static ...; // 0x10A33A16
-	// static ...; // 0x10A33A08
-	// static ...; // 0x10A339F2
-	// static ...; // 0x10A339E0
-	// static ...; // 0x10A339D8
-	// static ...; // 0x10A3396C
-	// static ...; // 0x10A33964
-	// constexpr debug_display_fmod_stats::__l2::e_cpu_usage _cpu_dsp; // constant == 0
-	// constexpr debug_display_fmod_stats::__l2::e_cpu_usage k_cpu_stats_count; // constant == 5
-	// unsigned __int32 version;
-	// unsigned __int32 memory_used_breakdown[48];
-	// unsigned __int32 memory_used_total;
-	// constexpr debug_display_fmod_stats::__l2::e_cpu_usage _cpu_stream; // constant == 1
-	// float cpu_usage[5];
-	// __int32 num_listeners;
-	// constexpr debug_display_fmod_stats::__l2::e_cpu_usage _cpu_update; // constant == 3
-	// constexpr debug_display_fmod_stats::__l2::e_cpu_usage _cpu_total; // constant == 4
-	// HALO_SOUND_SYSTEM *sound_system;
-	// __int32 software_channels;
-	// float const k_bytes_to_mb;
-	// constexpr debug_display_fmod_stats::__l2::e_cpu_usage _cpu_geometry; // constant == 2
-	// c_sound_debug_printer printer;
-	// __int32 result;
-	// __int32 playing_channels;
-	// char const *memtype_names[48];
-		// __int32 i;
 
 	enum e_cpu_usage
 	{
@@ -829,19 +729,6 @@ void debug_display_fmod_stats() // 0x10A33350
 bool SYSTEM_FMOD_InitEventSystem(SYSTEM_FMOD *thisptr) // 0x10A31E20
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SYSTEM_FMOD_InitEventSystem@@YA_NPAUSYSTEM_FMOD@@@Z");
-	// `anonymous-namespace'::SYSTEM_FMOD_InitEventSystem
-	// static ...; // 0x10A31FE1
-	// static ...; // 0x10A31FDC
-	// static ...; // 0x10A31FC4
-	// static ...; // 0x10A31FBC
-	// SYSTEM_FMOD *thisptr;
-	// FMOD_RESULT (*EventSystem_init)(FMOD_EventSystem *, __int32, __int32, void *, __int32);
-	// FMOD_SYSTEM *fmod_system;
-	// unsigned __int32 caps;
-	// FMOD_RESULT result;
-	// FMOD_ADVANCEDSETTINGS settings;
-	// function call : FMOD_RESULT (*)(FMOD_EventSystem *, __int32, __int32, void *, __int32)
-	// function call : FMOD_RESULT (*)(FMOD_EventSystem *, __int32, __int32, void *, __int32)
 
 	FMOD_SYSTEM *fmod_system = *(FMOD_SYSTEM **)0x69AD05C;
 	FMOD_System_SetHardwareChannels(fmod_system, 0, 0, 0, 0);
@@ -873,20 +760,6 @@ bool SYSTEM_FMOD_InitEventSystem(SYSTEM_FMOD *thisptr) // 0x10A31E20
 bool __fastcall SYSTEM_FMOD_Init_Hook(char *thisptr, void *unused, __int32 a2, __int32 a3) // 0x10A32060
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SYSTEM_FMOD_Init_Hook@@YI_NPADPAXHH@Z");
-	// `anonymous-namespace'::SYSTEM_FMOD_Init_Hook
-	// __int32 a3;
-	// bool (*const snd_SYSTEM_FMOD_InitEventSystem)(void *, void *);
-	// HALO_SOUND_SYSTEM **g_halo_sound_system_ptr;
-	// HALO_SOUND_SYSTEM *haloSoundSystem;
-	// unsigned long outputDevice;
-	// bool (*const snd_SYSTEM_FMOD_PrepareInit)();
-	// bool (*const HALO_SOUND_SYSTEM_Init)(void *, __int32, __int32);
-	// bool (*const EventSystem_Create)(void *);
-	// function call : unsigned long ()
-	// function call : bool (*const)()
-	// function call : bool (*const)(void *)
-	// function call : __int32 (*)(unsigned __int32, void *)
-	// function call : bool (*const)(void *, __int32, __int32)
 
 	bool (*const snd_SYSTEM_FMOD_PrepareInit)() = reinterpret_cast<bool (*)()>(0x404D10);
 	bool (*const snd_SYSTEM_FMOD_InitEventSystem)(void *, void *) = reinterpret_cast<bool (*)(void *, void *)>(0x404D70);
@@ -910,12 +783,6 @@ bool __fastcall SYSTEM_FMOD_Init_Hook(char *thisptr, void *unused, __int32 a2, _
 long long MapSamples(FMOD_CHANNEL *channel, unsigned __int32 samples) // 0x10A31C20
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?MapSamples@@YA_JPAUFMOD_CHANNEL@@I@Z");
-	// `anonymous-namespace'::MapSamples
-	// static ...; // 0x10A31CE8
-	// static ...; // 0x10A31CE0
-	// FMOD_CHANNEL *channel;
-	// unsigned __int32 samples;
-	// float sample_rate;
 
 	float sample_rate;
 
@@ -931,10 +798,6 @@ long long MapSamples(FMOD_CHANNEL *channel, unsigned __int32 samples) // 0x10A31
 long GetQueuedSoundCount(HALO_CHANNEL const *channel) // 0x10A2FA70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetQueuedSoundCount@@YAJPBUHALO_CHANNEL@@@Z");
-	// `anonymous-namespace'::GetQueuedSoundCount
-	// HALO_CHANNEL const *channel;
-	// long count;
-		// long i;
 
 	long count = 0;
 	for (unsigned long i = 0; i < 2; i++)
@@ -950,23 +813,6 @@ long GetQueuedSoundCount(HALO_CHANNEL const *channel) // 0x10A2FA70
 void DelayPermutation(HALO_CHANNEL *channel, __int32 index, bool sync_time) // 0x10A2ED10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DelayPermutation@@YAXPAUHALO_CHANNEL@@H_N@Z");
-	// `anonymous-namespace'::DelayPermutation
-	// static ...; // 0x10A2EF80
-	// static ...; // 0x10A2EF75
-	// static ...; // 0x10A2EF6C
-	// static ...; // 0x10A2EF30
-	// static ...; // 0x10A2EF28
-	// HALO_CHANNEL *channel;
-	// __int32 index;
-	// bool sync_time;
-	// HALO_PERM_SOUND &queued_sound;
-	// unsigned __int32 length_pcm;
-	// HALO_SOUND_SYSTEM *sound_system;
-	// c_large_integer end_time;
-	// c_large_integer start_time;
-		// unsigned __int32 length_pcm;
-		// HALO_PERM_SOUND &previous_queued_sound;
-			// unsigned __int32 position;
 
 	HALO_SOUND_SYSTEM *sound_system = HALO_SOUND_SYSTEM::Get();
 	HALO_PERM_SOUND &queued_sound = channel->queue[index];
@@ -1009,15 +855,6 @@ void DelayPermutation(HALO_CHANNEL *channel, __int32 index, bool sync_time) // 0
 void HALO_CHANNEL_PlaySound(HALO_CHANNEL *channel, __int32 i) // 0x10A2FAE0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?HALO_CHANNEL_PlaySound@@YAXPAUHALO_CHANNEL@@H@Z");
-	// `anonymous-namespace'::HALO_CHANNEL_PlaySound
-	// static ...; // 0x10A2FBF8
-	// static ...; // 0x10A2FBF0
-	// HALO_CHANNEL *channel;
-	// __int32 i;
-	// __int32 num_channels;
-	// HALO_SOUND_SYSTEM *sound_system;
-	// function call : __int32 (*)(HALO_PERM_SOUND *, HALO_CHANNEL_PROPERTIES *)
-	// function call : __int32 (*)(HALO_PERM_SOUND *, HALO_CHANNEL_PROPERTIES *)
 
 	HALO_SOUND_SYSTEM *sound_system = HALO_SOUND_SYSTEM::Get();
 	__int32 num_channels;
@@ -1036,25 +873,6 @@ void HALO_CHANNEL_PlaySound(HALO_CHANNEL *channel, __int32 i) // 0x10A2FAE0
 void __fastcall HALO_CHANNEL_Update(HALO_CHANNEL *channel) // 0x10A2FF60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?HALO_CHANNEL_Update@@YIXPAUHALO_CHANNEL@@@Z");
-	// `anonymous-namespace'::HALO_CHANNEL_Update
-	// static ...; // 0x10A30327
-	// static ...; // 0x10A3031C
-	// static ...; // 0x10A3030F
-	// static ...; // 0x10A30304
-	// static ...; // 0x10A302D4
-	// static ...; // 0x10A302CC
-	// HALO_CHANNEL *channel;
-	// __int32 queued_count;
-	// bool is_playing;
-		// __int32 i;
-			// FMOD_SOUND *playing_sound;
-				// float channel_freq;
-				// float sound_freq;
-		// char *permutation_name;
-		// char const *tag_name;
-	// function call : __int32 (*)(HALO_PERM_SOUND *, HALO_CHANNEL_PROPERTIES *)
-	// function call : HALO_PERM_SOUND *(*)(HALO_PERM_SOUND *)
-	// function call : HALO_PERM_SOUND *(*)(HALO_PERM_SOUND *)
 
 	__int32 queued_count = GetQueuedSoundCount(channel);
 	for (__int32 i = 0; i < queued_count; i++)
@@ -1101,11 +919,6 @@ void __fastcall HALO_CHANNEL_Update(HALO_CHANNEL *channel) // 0x10A2FF60
 short HALO_SOUND_SYSTEM_GetChannelState(long source_index) // 0x10A31640
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?HALO_SOUND_SYSTEM_GetChannelState@@YAFJ@Z");
-	// `anonymous-namespace'::HALO_SOUND_SYSTEM_GetChannelState
-	// long source_index;
-	// HALO_SOUND_SYSTEM *sound_system;
-	// HALO_CHANNEL *channels;
-		// __int32 i;
 
 	HALO_SOUND_SYSTEM *sound_system = HALO_SOUND_SYSTEM::Get();
 	HALO_CHANNEL *channels = sound_system->channels.elements;
@@ -1131,10 +944,6 @@ short HALO_SOUND_SYSTEM_GetChannelState(long source_index) // 0x10A31640
 void __fastcall HALO_SOUND_SYSTEM_Update_Hook(HALO_SOUND_SYSTEM *sound_system) // 0x10A31BA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?HALO_SOUND_SYSTEM_Update_Hook@@YIXPAUHALO_SOUND_SYSTEM@@@Z");
-	// `anonymous-namespace'::HALO_SOUND_SYSTEM_Update_Hook
-	// HALO_SOUND_SYSTEM *sound_system;
-	// void (*const HALO_SOUND_SYSTEM_Update)(HALO_SOUND_SYSTEM *);
-	// function call : void (*const)(HALO_SOUND_SYSTEM *)
 
 	const auto HALO_SOUND_SYSTEM_Update = (void(__thiscall *)(HALO_SOUND_SYSTEM *))0x653AA0;
 
@@ -1146,10 +955,6 @@ void __fastcall HALO_SOUND_SYSTEM_Update_Hook(HALO_SOUND_SYSTEM *sound_system) /
 bool sound_plays_when_paused(long definition_index) // 0x10A35F20
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?sound_plays_when_paused@@YA_NJ@Z");
-	// `anonymous-namespace'::sound_plays_when_paused
-	// long definition_index;
-	// s_sound_definition *sound;
-	// function call : void *(*const)(unsigned long, long)
 
 	s_sound_definition *sound = (s_sound_definition *)tag_get(0x736E6421, definition_index);
 
@@ -1159,23 +964,6 @@ bool sound_plays_when_paused(long definition_index) // 0x10A35F20
 void __fastcall HALO_SOUND_SYSTEM_Pause(HALO_SOUND_SYSTEM *thisptr, void *unused, bool paused) // 0x10A31720
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?HALO_SOUND_SYSTEM_Pause@@YIXPAUHALO_SOUND_SYSTEM@@PAX_N@Z");
-	// `anonymous-namespace'::HALO_SOUND_SYSTEM_Pause
-	// static ...; // 0x10A31AA2
-	// static ...; // 0x10A31A97
-	// static ...; // 0x10A31A8C
-	// static ...; // 0x10A31A50
-	// static ...; // 0x10A31A48
-	// HALO_SOUND_SYSTEM *thisptr;
-	// void *unused;
-	// bool paused;
-	// void *(*const sub_650640)(bool);
-		// c_large_integer clock;
-			// __int32 i;
-				// HALO_CHANNEL *channel;
-					// __int32 j;
-		// c_large_integer delta_time;
-		// c_large_integer pause_time;
-						// c_large_integer start_time;
 
 	void *(__stdcall *const sub_650640)(bool) = reinterpret_cast<void *(__stdcall *)(bool)>(0x650640);
 	if (((thisptr->flags & 2) != 0) == paused)
@@ -1226,6 +1014,7 @@ void __fastcall HALO_SOUND_SYSTEM_Pause(HALO_SOUND_SYSTEM *thisptr, void *unused
 	}
 }
 
+#line 1229
 void __fastcall HALO_CHANNEL_Queue(HALO_CHANNEL *channel, void *unused, s_sound_tag_data *request) // 0x10A2FC60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?HALO_CHANNEL_Queue@@YIXPAUHALO_CHANNEL@@PAXPAUs_sound_tag_data@@@Z");
@@ -1272,21 +1061,6 @@ void __fastcall HALO_CHANNEL_Queue(HALO_CHANNEL *channel, void *unused, s_sound_
 void __fastcall HALO_PERM_SOUND_InitChannelProperties(HALO_PERM_SOUND *thisptr, void *unused, HALO_CHANNEL_PROPERTIES *channel_properties) // 0x10A30430
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?HALO_PERM_SOUND_InitChannelProperties@@YIXPAUHALO_PERM_SOUND@@PAXPAUHALO_CHANNEL_PROPERTIES@@@Z");
-	// `anonymous-namespace'::HALO_PERM_SOUND_InitChannelProperties
-	// static ...; // 0x10A30EF7
-	// static ...; // 0x10A30EF0
-	// static ...; // 0x10A30EC0
-	// static ...; // 0x10A30EB8
-	// HALO_PERM_SOUND *thisptr;
-	// void *unused;
-	// HALO_CHANNEL_PROPERTIES *channel_properties;
-	// __int32 num_channels;
-	// HALO_SOUND_SYSTEM *sound_system;
-	// FMOD_SOUND *sound;
-	// FMOD_CHANNELGROUP **channel_group;
-	// float levels[16];
-	// unsigned __int32 mode;
-		// float max_distance;
 
 	HALO_SOUND_SYSTEM *sound_system = HALO_SOUND_SYSTEM::Get();
 	FMOD_CHANNELGROUP **channel_group;
@@ -1413,24 +1187,6 @@ void __fastcall HALO_PERM_SOUND_InitChannelProperties(HALO_PERM_SOUND *thisptr, 
 void __fastcall HALO_PERM_SOUND_UpdateChannelProperties(HALO_PERM_SOUND *thisptr, void *unused, HALO_CHANNEL_PROPERTIES *channel_properties) // 0x10A311D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?HALO_PERM_SOUND_UpdateChannelProperties@@YIXPAUHALO_PERM_SOUND@@PAXPAUHALO_CHANNEL_PROPERTIES@@@Z");
-	// `anonymous-namespace'::HALO_PERM_SOUND_UpdateChannelProperties
-	// static ...; // 0x10A3153A
-	// static ...; // 0x10A31528
-	// static ...; // 0x10A314F8
-	// static ...; // 0x10A314F0
-	// HALO_PERM_SOUND *thisptr;
-	// void *unused;
-	// HALO_CHANNEL_PROPERTIES *channel_properties;
-	// float frequency;
-	// HALO_SOUND_SYSTEM *sound_system;
-	// float volume;
-	// float playback_rate_scale;
-	// FMOD_SOUND *current_sound;
-	// float (*const calculate_distance_attenuation)(float *, float);
-		// float envelope[4];
-		// __int32 room;
-		// FMOD_REVERB_CHANNELPROPERTIES reverb_properties;
-	// function call : float (*const)(float *, float)
 
 	float (*const calculate_distance_attenuation)(float *, float) = reinterpret_cast<float (*)(float *, float)>(0x662EB0);
 	HALO_SOUND_SYSTEM *sound_system = HALO_SOUND_SYSTEM::Get();
@@ -1471,36 +1227,6 @@ void __fastcall HALO_PERM_SOUND_UpdateChannelProperties(HALO_PERM_SOUND *thisptr
 FMOD_RESULT CreateSoundHook(s_sound_tag_data *request, FMOD_SOUND **sound, void **out_data) // 0x10A2E5A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CreateSoundHook@@YA?AW4FMOD_RESULT@@PAUs_sound_tag_data@@PAPAUFMOD_SOUND@@PAPAX@Z");
-	// `anonymous-namespace'::CreateSoundHook
-	// static ...; // 0x10A2EB53
-	// static ...; // 0x10A2EB4C
-	// static ...; // 0x10A2EB34
-	// static ...; // 0x10A2EB2C
-// $LN10:
-// $LN9:
-// $LN8:
-// $LN7:
-// $LN6:
-	// s_sound_tag_data *request;
-	// FMOD_SOUND **sound;
-	// void **out_data;
-	// s_sound_definition *sound_definition;
-	// void *raw_address;
-	// unsigned long sample_size;
-	// unsigned char compression_type;
-	// char const *compression_name;
-	// s_sound_permutation_chunk *chunk;
-	// unsigned long length;
-	// HALO_SOUND_SYSTEM *sound_system;
-	// unsigned long raw_size;
-	// FMOD_CREATESOUNDEXINFO exinfo;
-	// __int32 *g_sound_encoding_numchannels;
-	// void *sample_address;
-	// bool should_stream;
-	// FMOD_RESULT result;
-	// unsigned __int32 mode;
-		// char *permutation_name;
-		// char const *tag_name;
 
 	HALO_SOUND_SYSTEM *sound_system = HALO_SOUND_SYSTEM::Get();
 	__int32 *g_sound_encoding_numchannels = (__int32 *)0x166B1FC;
@@ -1604,14 +1330,6 @@ FMOD_RESULT CreateSoundHook(s_sound_tag_data *request, FMOD_SOUND **sound, void 
 FMOD_RESULT FMOD_Sound_ReleaseSub_Hook(FMOD_SOUND *sound, FMOD_SYSTEM **out_system) // 0x10A2F770
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?FMOD_Sound_ReleaseSub_Hook@@YA?AW4FMOD_RESULT@@PAUFMOD_SOUND@@PAPAUFMOD_SYSTEM@@@Z");
-	// `anonymous-namespace'::FMOD_Sound_ReleaseSub_Hook
-	// static ...; // 0x10A2F800
-	// static ...; // 0x10A2F7F8
-	// FMOD_SOUND *sound;
-	// FMOD_SYSTEM **out_system;
-	// s_sound_permutation_chunk *chunk;
-	// FMOD_RESULT (*const _FMOD_Sound_GetSystemObject)(FMOD_SOUND *, FMOD_SYSTEM **);
-	// function call : FMOD_RESULT (*const)(FMOD_SOUND *, FMOD_SYSTEM **)
 
 	FMOD_RESULT (*const _FMOD_Sound_GetSystemObject)(FMOD_SOUND *, FMOD_SYSTEM **) = (FMOD_RESULT (*const)(FMOD_SOUND *, FMOD_SYSTEM **))0x139eb22;
 	s_sound_permutation_chunk *chunk;
@@ -1627,8 +1345,6 @@ FMOD_RESULT FMOD_Sound_ReleaseSub_Hook(FMOD_SOUND *sound, FMOD_SYSTEM **out_syst
 __int32 sound_permutation_get_unique_id(s_sound_permutation *permutation) // 0x10A35F00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?sound_permutation_get_unique_id@@YAHPAUs_sound_permutation@@@Z");
-	// `anonymous-namespace'::sound_permutation_get_unique_id
-	// s_sound_permutation *permutation;
 
 	return (__int32)permutation;
 }
@@ -1636,14 +1352,6 @@ __int32 sound_permutation_get_unique_id(s_sound_permutation *permutation) // 0x1
 void loop_track_fade_hook(long definition_index, bool is_alternate, __int32 reason, float seconds, long sound_index) // 0x10A34370
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?loop_track_fade_hook@@YAXJ_NHMJ@Z");
-	// `anonymous-namespace'::loop_track_fade_hook
-	// long sound_index;
-	// void (*const loop_track_fade)(long, bool, __int32, float, long);
-		// s_user_interface_shared_globals *wigl;
-		// unsigned long lobby_countdown_seconds;
-	// function call : bool (*const)()
-	// function call : s_user_interface_shared_globals *(*const)()
-	// function call : void (*const)(long, bool, __int32, float, long)
 
 	const auto loop_track_fade = (void(*)(long, bool, __int32, float, long))0x664490;
 
@@ -1669,12 +1377,6 @@ void loop_track_fade_hook(long definition_index, bool is_alternate, __int32 reas
 void channel_signal_complete(short channel_index) // 0x10A331A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?channel_signal_complete@@YAXF@Z");
-	// `anonymous-namespace'::channel_signal_complete
-	// short channel_index;
-	// sound_channel_datum *channel;
-		// char *permutation_name;
-		// char const *tag_name;
-		// HALO_CHANNEL *haloChannel;
 
 	sound_channel_datum *channel = &(*g_sound_channels)[channel_index];
 	if (SoundSystemTraceEnabled())
@@ -1689,23 +1391,6 @@ void channel_signal_complete(short channel_index) // 0x10A331A0
 void refresh_channel(short channel_index) // 0x10A34780
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?refresh_channel@@YAXF@Z");
-	// `anonymous-namespace'::refresh_channel
-	// short channel_index;
-	// sound_channel_datum *channel;
-	// bool (*const sound_permutation_release)(s_sound_permutation_chunk *);
-	// bool (*const sound_permutation_available_to_start)(s_sound_permutation_chunk *);
-	// short state;
-		// s_sound_permutation_chunk *next_chunk;
-		// s_sound_permutation_chunk *chunk;
-		// s_sound_permutation_chunk *playing_chunk;
-	// function call : short (*const)(long)
-	// function call : s_sound_permutation_chunk *(*const)(s_sound_permutation *, short)
-	// function call : bool (*const)(s_sound_permutation_chunk *)
-	// function call : short (*const)(s_sound_permutation *, short)
-	// function call : s_sound_permutation_chunk *(*const)(s_sound_permutation *, short)
-	// function call : bool (*const)(s_sound_permutation_chunk *)
-	// function call : s_sound_permutation_chunk *(*const)(s_sound_permutation *, short)
-	// function call : bool (*const)(s_sound_permutation_chunk *)
 
 	bool (*const sound_permutation_available_to_start)(s_sound_permutation_chunk *) = reinterpret_cast<bool (*)(s_sound_permutation_chunk *)>(0x660270);
 	bool (*const sound_permutation_release)(s_sound_permutation_chunk *) = reinterpret_cast<bool (*)(s_sound_permutation_chunk *)>(0x660150);
@@ -1749,9 +1434,6 @@ void refresh_channel(short channel_index) // 0x10A34780
 void refresh_channels() // 0x10A34A80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?refresh_channels@@YAXXZ");
-	// `anonymous-namespace'::refresh_channels
-	// procedure flags: nofpo
-		// __int32 i;
 
 	for (long i = 0; i < (*g_sound_manager_globals)->channel_count; i++)
 	{
@@ -1762,10 +1444,6 @@ void refresh_channels() // 0x10A34A80
 void build_channel_transmission_sources_hook(void *listener, void *voices, void *sources) // 0x10A330C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?build_channel_transmission_sources_hook@@YAXPAX00@Z");
-	// `anonymous-namespace'::build_channel_transmission_sources_hook
-	// void *sources;
-	// void (*const build_channel_transmission_sources)(void *, void *, void *);
-	// function call : void (*const)(void *, void *, void *)
 
 	const auto build_channel_transmission_sources = (void(*)(void *, void *, void *))0x51B070;
 
@@ -1777,10 +1455,6 @@ void build_channel_transmission_sources_hook(void *listener, void *voices, void 
 void update_hardware_channels_hook(void *a1, void *a2) // 0x10A36230
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?update_hardware_channels_hook@@YAXPAX0@Z");
-	// `anonymous-namespace'::update_hardware_channels_hook
-	// void *a2;
-	// void (*const update_hardware_channels)(void *, void *);
-	// function call : void (*const)(void *, void *)
 
 	void (__cdecl *const update_hardware_channels)(void *, void *) = (void(__cdecl *const)(void *, void *))0x51b7d0;
 
@@ -1789,6 +1463,7 @@ void update_hardware_channels_hook(void *a1, void *a2) // 0x10A36230
 	update_hardware_channels(&g_channel_transmission_sources1, &g_channel_transmission_sources2);
 }
 
+#line 1792
 short sound_commit_looping_find_pitch_range_by_pitch_hook(s_sound_definition *sndDef, float pitchModifier, short fallbackIndex) // 0x10A35CD0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?sound_commit_looping_find_pitch_range_by_pitch_hook@@YAFPAUs_sound_definition@@MF@Z");
@@ -1834,10 +1509,6 @@ short sound_commit_looping_find_pitch_range_by_pitch_hook(s_sound_definition *sn
 bool sound_attachment_is_sky_hook(long object_index) // 0x10A34B40
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?sound_attachment_is_sky_hook@@YA_NJ@Z");
-	// `anonymous-namespace'::sound_attachment_is_sky_hook
-	// long object_index;
-	// s_object_header *object_header;
-	// function call : long (*const)(long)
 
 	object_index = ((long(__cdecl *)(long))0xB2EAB0)(object_index);
 	s_object_header *object_header = object_header_get(object_index);
@@ -1851,10 +1522,6 @@ bool sound_attachment_is_sky_hook(long object_index) // 0x10A34B40
 void unit_set_mouth_aperture_hook(long unit_index, float t) // 0x10A36130
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_set_mouth_aperture_hook@@YAXJM@Z");
-	// `anonymous-namespace'::unit_set_mouth_aperture_hook
-	// float t;
-	// float const k_max_step;
-	// s_unit_data *unit;
 
 	const float k_max_step = 0.3f;
 
@@ -1866,14 +1533,6 @@ void unit_set_mouth_aperture_hook(long unit_index, float t) // 0x10A36130
 void OnAudioDeviceEvent(::Audio::SAudioDeviceEvent const &e) // 0x10A31D40
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnAudioDeviceEvent@@YAXABUSAudioDeviceEvent@Audio@@@Z");
-	// `anonymous-namespace'::OnAudioDeviceEvent
-	// static ...; // 0x10A31DEC
-	// static ...; // 0x10A31DE0
-	// static ...; // 0x10A31DD8
-	// Audio::SAudioDeviceEvent const &e;
-	// FMOD_SYSTEM *fmod_system;
-	// HALO_SOUND_SYSTEM *sound_system;
-	// FMOD_OUTPUTTYPE output;
 
 	HALO_SOUND_SYSTEM *sound_system = HALO_SOUND_SYSTEM::Get();
 	FMOD_SYSTEM *fmod_system = sound_system->fmod_system;
@@ -1893,10 +1552,6 @@ void OnAudioDeviceEvent(::Audio::SAudioDeviceEvent const &e) // 0x10A31D40
 void sound_cache_sound_delete_hook(s_sound_permutation_chunk *chunk) // 0x10A352F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?sound_cache_sound_delete_hook@@YAXPAUs_sound_permutation_chunk@@@Z");
-	// `anonymous-namespace'::sound_cache_sound_delete_hook
-	// s_sound_permutation_chunk *chunk;
-	// function call : void (*const)(s_data_array *, long)
-	// function call : void (*const)(s_lruv_cache *, long)
 
 	if (chunk->runtime_index != -1)
 	{
@@ -1908,9 +1563,6 @@ void sound_cache_sound_delete_hook(s_sound_permutation_chunk *chunk) // 0x10A352
 void *sound_cache_sound_hardware_lock(s_sound_permutation_chunk *chunk, unsigned long *out_size) // 0x10A35490
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?sound_cache_sound_hardware_lock@@YAPAXPAUs_sound_permutation_chunk@@PAK@Z");
-	// `anonymous-namespace'::sound_cache_sound_hardware_lock
-	// unsigned long *out_size;
-	// s_xbox_sound_datum_ex *cache_sound;
 
 	s_xbox_sound_datum_ex *cache_sound = (s_xbox_sound_datum_ex *)(*g_xbox_sounds)->try_and_get(chunk->runtime_index);
 	SoundCacheDebugLog(1, 0xFFFF00FF, "sound_cache_sound_hardware_lock() %s, chunk %x", tag_get_name(cache_sound->sound_tag_index), chunk);
@@ -1923,9 +1575,6 @@ void *sound_cache_sound_hardware_lock(s_sound_permutation_chunk *chunk, unsigned
 void sound_cache_sound_hardware_unlock(s_sound_permutation_chunk *chunk) // 0x10A35580
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?sound_cache_sound_hardware_unlock@@YAXPAUs_sound_permutation_chunk@@@Z");
-	// `anonymous-namespace'::sound_cache_sound_hardware_unlock
-	// s_sound_permutation_chunk *chunk;
-	// s_xbox_sound_datum_ex *cache_sound;
 
 	s_xbox_sound_datum_ex *cache_sound = (s_xbox_sound_datum_ex *)(*g_xbox_sounds)->try_and_get(chunk->runtime_index);
 	if (!cache_sound)
@@ -1938,12 +1587,6 @@ void sound_cache_sound_hardware_unlock(s_sound_permutation_chunk *chunk) // 0x10
 void sound_cache_delete_block_proc(void *context, long block_index, bool moved) // 0x10A34C30
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?sound_cache_delete_block_proc@@YAXPAXJ_N@Z");
-	// `anonymous-namespace'::sound_cache_delete_block_proc
-	// bool moved;
-	// s_xbox_sound_datum_ex *cache_sound;
-	// s_sound_permutation_chunk *chunk;
-		// s_sound_permutation_chunk *next;
-	// function call : void (*const)(s_data_array *, long)
 
 	s_xbox_sound_datum_ex *cache_sound = (s_xbox_sound_datum_ex *)(*g_xbox_sounds)->try_and_get(block_index);
 	if (!cache_sound)
@@ -1969,9 +1612,6 @@ void sound_cache_delete_block_proc(void *context, long block_index, bool moved) 
 bool sound_cache_locked_block_proc(void *context, long block_index) // 0x10A35070
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?sound_cache_locked_block_proc@@YA_NPAXJ@Z");
-	// `anonymous-namespace'::sound_cache_locked_block_proc
-	// long block_index;
-	// s_xbox_sound_datum_ex *cache_sound;
 
 	s_xbox_sound_datum_ex *cache_sound;
 
@@ -1997,13 +1637,11 @@ bool sound_cache_locked_block_proc(void *context, long block_index) // 0x10A3507
 void sound_cache_idle_hook() // 0x10A35010
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?sound_cache_idle_hook@@YAXXZ");
-	// `anonymous-namespace'::sound_cache_idle_hook
-	// procedure flags: nofpo
-	// function call : void (*const)(s_lruv_cache *)
 
 	((void(__cdecl *const)(s_lruv_cache *))0x9677b0)(g_xbox_sound_cache);
 }
 
+#line 2007
 void sound_cache_new_hook() // 0x10A35120
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?sound_cache_new_hook@@YAXXZ");
@@ -2027,12 +1665,6 @@ void sound_cache_new_hook() // 0x10A35120
 long find_cache_block_for_sound(long definition_index) // 0x10A34130
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?find_cache_block_for_sound@@YAJJ@Z");
-	// `anonymous-namespace'::find_cache_block_for_sound
-	// static ...; // 0x10A341F4
-	// static ...; // 0x10A341E8
-	// static ...; // 0x10A341E0
-	// long definition_index;
-		// c_data_iterator<s_xbox_sound_datum> it;
 
 	for (c_data_iterator<s_xbox_sound_datum> it = (*g_xbox_sounds)->begin(); it != (*g_xbox_sounds)->end(); ++it)
 	{
@@ -2045,6 +1677,7 @@ long find_cache_block_for_sound(long definition_index) // 0x10A34130
 	return -1;
 }
 
+#line 2048
 void sound_cache_sound_new(long definition_index, s_sound_permutation_chunk *chunk) // 0x10A35650
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?sound_cache_sound_new@@YAXJPAUs_sound_permutation_chunk@@@Z");
@@ -2126,18 +1759,6 @@ void sound_cache_sound_new(long definition_index, s_sound_permutation_chunk *chu
 long sound_cache_sound_request_hook(long definition_index, s_sound_permutation_chunk *chunk, long flags) // 0x10A35A90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?sound_cache_sound_request_hook@@YAJJPAUs_sound_permutation_chunk@@J@Z");
-	// `anonymous-namespace'::sound_cache_sound_request_hook
-	// long flags;
-	// char const *tag_name;
-	// long result_flags;
-	// long sound_cache_index;
-		// long cache_block_index;
-			// s_xbox_sound_datum_ex *datum;
-		// s_xbox_sound_datum_ex *datum;
-		// s_xbox_sound_datum *datum;
-	// function call : void *(*const)(s_data_array const *, unsigned long)
-	// function call : void *(*const)(s_data_array const *, unsigned long)
-	// function call : void (*const)(s_lruv_cache *, long)
 
 	char const *tag_name = tag_get_name(definition_index);
 	if (chunk->runtime_index == -1 && definition_index != -1 && (flags & 1))
@@ -2178,9 +1799,6 @@ long sound_cache_sound_request_hook(long definition_index, s_sound_permutation_c
 bool sound_cache_sound_add_reference_hook(s_sound_permutation_chunk *chunk) // 0x10A35290
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?sound_cache_sound_add_reference_hook@@YA_NPAUs_sound_permutation_chunk@@@Z");
-	// `anonymous-namespace'::sound_cache_sound_add_reference_hook
-	// s_sound_permutation_chunk *chunk;
-	// function call : unsigned long (*const)(long, s_sound_permutation_chunk *, unsigned long)
 
 	return (((unsigned __int32)((unsigned __int32(__cdecl *)(long, s_sound_permutation_chunk *, long))0x65fcb0)(-1, chunk, 2)) >> 2) & 1;
 }
@@ -2188,10 +1806,6 @@ bool sound_cache_sound_add_reference_hook(s_sound_permutation_chunk *chunk) // 0
 void sound_cache_sound_finished_hook(s_sound_permutation_chunk *chunk) // 0x10A353A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?sound_cache_sound_finished_hook@@YAXPAUs_sound_permutation_chunk@@@Z");
-	// `anonymous-namespace'::sound_cache_sound_finished_hook
-	// s_sound_permutation_chunk *chunk;
-	// s_xbox_sound_datum_ex *cache_sound;
-	// function call : void (*const)(s_lruv_cache *, long)
 
 	s_xbox_sound_datum_ex *cache_sound = (s_xbox_sound_datum_ex *)(*g_xbox_sounds)->try_and_get(chunk->runtime_index);
 
@@ -2209,23 +1823,6 @@ void sound_cache_sound_finished_hook(s_sound_permutation_chunk *chunk) // 0x10A3
 void sound_cache_flush_all_sound_guaranteed_hook() // 0x10A34E00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?sound_cache_flush_all_sound_guaranteed_hook@@YAXXZ");
-	// `anonymous-namespace'::sound_cache_flush_all_sound_guaranteed_hook
-	// procedure flags: nofpo
-	// static ...; // 0x10A34F98
-	// static ...; // 0x10A34F8C
-	// static ...; // 0x10A34F84
-	// unsigned long start_time;
-	// s_data_iterator iterator;
-	// void (*const async_idle)();
-	// void (*const tag_resources_pump_io)();
-		// s_xbox_sound_datum_ex *datum;
-	// function call : void (*const)(s_data_iterator *, s_data_array const *)
-	// function call : s_datum *(*const)(s_data_iterator *)
-	// function call : s_datum *(*const)(s_data_iterator *)
-	// function call : void (*const)()
-	// function call : void (*const)(s_lruv_cache *)
-	// function call : void (*const)()
-	// function call : void (*const)(s_lruv_cache *, long)
 
 	void (*const async_idle)() = reinterpret_cast<void (*)()>(0x5084E0);
 	void (*const tag_resources_pump_io)() = reinterpret_cast<void (*)()>(0x564010);
@@ -2251,11 +1848,6 @@ void sound_cache_flush_all_sound_guaranteed_hook() // 0x10A34E00
 unsigned __int32 sound_try_to_get_global_propagation_hook(char a1) // 0x10A35FC0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?sound_try_to_get_global_propagation_hook@@YAID@Z");
-	// `anonymous-namespace'::sound_try_to_get_global_propagation_hook
-	// char a1;
-	// unsigned __int32 (*const sound_try_to_get_global_propagation)(char);
-	// function call : bool (*const)()
-	// function call : unsigned __int32 (*const)(char)
 
 	const auto sound_try_to_get_global_propagation = (unsigned __int32(*)(char))0x51A270;
 

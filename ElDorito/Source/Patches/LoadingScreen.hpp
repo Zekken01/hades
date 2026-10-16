@@ -105,7 +105,6 @@ namespace Patches
 		inline LoadingScreenUi::~LoadingScreenUi() // 0x10CAA140
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "??1LoadingScreenUi@LoadingScreen@Patches@@UAE@XZ");
-			// Patches::LoadingScreen::LoadingScreenUi *const this;
 		}
 	}
 }

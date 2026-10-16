@@ -116,13 +116,6 @@ namespace Web
 			void Start(std::string const &type, __int32 initialValue) // 0x10CB5BB0
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?Start@WebTimer@Ui@Web@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@H@Z");
-				// static ...; // 0x10CB5D5C
-				// static ...; // 0x10CB5D44
-				// static ...; // 0x10CB5D3C
-				// std::string const &type;
-				// __int32 initialValue;
-				// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
-				// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
 
 				rapidjson::StringBuffer jsonBuffer;
 				rapidjson::Writer<rapidjson::StringBuffer> jsonWriter(jsonBuffer);
@@ -140,13 +133,6 @@ namespace Web
 			void Update(__int32 value) // 0x10CB5DF0
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?Update@WebTimer@Ui@Web@@YAXH@Z");
-				// static ...; // 0x10CB5F67
-				// static ...; // 0x10CB5F5C
-				// static ...; // 0x10CB5F44
-				// static ...; // 0x10CB5F3C
-				// __int32 value;
-				// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
-				// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
 
 				rapidjson::StringBuffer jsonBuffer;
 				rapidjson::Writer<rapidjson::StringBuffer> jsonWriter(jsonBuffer);
@@ -162,13 +148,6 @@ namespace Web
 			void End() // 0x10CB5A00
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?End@WebTimer@Ui@Web@@YAXXZ");
-				// procedure flags: nofpo
-				// static ...; // 0x10CB5B4B
-				// static ...; // 0x10CB5B40
-				// static ...; // 0x10CB5B28
-				// static ...; // 0x10CB5B20
-				// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
-				// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
 
 				rapidjson::StringBuffer jsonBuffer;
 				rapidjson::Writer<rapidjson::StringBuffer> jsonWriter(jsonBuffer);

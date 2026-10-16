@@ -79,7 +79,6 @@ namespace Patches
 		void ApplyAll() // 0x10699A70
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Bitmaps@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			Pointer(0x1682F6A).Write<unsigned short>(0x8);
 			Pointer(0x1696E4C).Write<unsigned long>(0x35545844);
@@ -96,12 +95,6 @@ _inline Hook::~Hook() = default; // 0x10698FB0
 bool bitmap_format_is_default_srgb_hook(short format) // 0x1069A9E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?bitmap_format_is_default_srgb_hook@@YA_NF@Z");
-	// `anonymous-namespace'::bitmap_format_is_default_srgb_hook
-	// static ...; // 0x1069AA38
-	// static ...; // 0x1069AA30
-// $LN14:
-// $LN2:
-	// short format;
 
 	switch (format)
 	{

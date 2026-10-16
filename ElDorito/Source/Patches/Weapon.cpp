@@ -295,14 +295,6 @@ namespace Patches
 		void MapLoadedCallback(char const *mapPath) // 0x10AF3CD0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?MapLoadedCallback@Weapon@Patches@@YAXPBD@Z");
-			// static ...; // 0x10AF3E54
-			// static ...; // 0x10AF3E4C
-			// static ...; // 0x10AF3E34
-			// static ...; // 0x10AF3E2C
-			// char const *mapPath;
-			// unsigned __int32 separatorIndex;
-			// std::string currentMap;
-			// std::string mapName;
 
 			std::string currentMap(mapPath);
 			unsigned __int32 separatorIndex = currentMap.find_first_of("\\/");
@@ -324,7 +316,6 @@ namespace Patches
 		void ApplyAll() // 0x10AEFF90
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Weapon@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			JSONName = Modules::ModuleWeapon::Instance().VarWeaponJSON->ValueString;
 			Config::CreateList();
@@ -355,7 +346,6 @@ namespace Patches
 		void SetBottomlessClip(bool enable) // 0x10AF4E20
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?SetBottomlessClip@Weapon@Patches@@YAX_N@Z");
-			// bool enable;
 
 			cheat_bottomless_clip = enable;
 		}
@@ -363,7 +353,6 @@ namespace Patches
 		void ApplyAfterTagsLoaded() // 0x10AEFF70
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAfterTagsLoaded@Weapon@Patches@@YAXXZ");
-			// procedure flags: nofpo
 		}
 	}
 }
@@ -376,12 +365,6 @@ namespace Patches
 		std::string ResolveString(unsigned __int32 unicTagIndex, unsigned __int32 strindId) // 0x10AF3ED0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ResolveString@Weapon@Patches@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@II@Z");
-			// unsigned __int32 strindId;
-			// __int32 (*const ui_get_prefered_lanquage)();
-			// char *(*const ui_resolve_string)(unsigned __int32, unsigned __int32, __int32);
-			// char *resolvedString;
-			// function call : __int32 (*const)()
-			// function call : char *(*const)(unsigned __int32, unsigned __int32, __int32)
 
 			__int32 (*const ui_get_prefered_lanquage)() = reinterpret_cast<__int32 (*)()>(0x52FC40);
 			char *(*const ui_resolve_string)(unsigned __int32, unsigned __int32, __int32) = reinterpret_cast<char *(*)(unsigned __int32, unsigned __int32, __int32)>(0x51E290);
@@ -395,10 +378,6 @@ namespace Patches
 		Patches::Weapon::WeaponInfo GetWeaponByType(std::string const &weaponType) // 0x10AF2EF0
 		{
 			mangled_x86(MANGLED_TODO, "?GetWeaponByType@Weapon@Patches@@YA?AUWeaponInfo@12@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-			// static ...; // 0x10AF30F8
-			// static ...; // 0x10AF30EC
-			// static ...; // 0x10AF30E4
-			// std::string const &weaponType;
 			{
 				// std::vector<Patches::Weapon::WeaponInfo> &<range>$L0;
 				// Patches::Weapon::WeaponInfo *<begin>$L0;
@@ -449,11 +428,6 @@ namespace Patches
 		real_vector3d GetOffsetByType(std::string const &weaponType) // 0x10AF2C40
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetOffsetByType@Weapon@Patches@@YA?AUreal_vector3d@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-			// std::string const &weaponType;
-				// std::vector<Patches::Weapon::WeaponInfo> &<range>$L0;
-				// Patches::Weapon::WeaponInfo *<begin>$L0;
-				// Patches::Weapon::WeaponInfo *<end>$L0;
-					// Patches::Weapon::WeaponInfo &weapon;
 
 			for (Patches::Weapon::WeaponInfo &weapon : weapon_infos)
 			{
@@ -466,23 +440,6 @@ namespace Patches
 		Patches::Weapon::WeaponInfo GetEquippedWeapon() // 0x10AF2780
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetEquippedWeapon@Weapon@Patches@@YA?AUWeaponInfo@12@XZ");
-			// procedure flags: nofpo
-			// static ...; // 0x10AF2B44
-			// static ...; // 0x10AF2B2C
-			// static ...; // 0x10AF2B14
-			// static ...; // 0x10AF2B0C
-			// s_unit_data *unit;
-			// long weaponIndex;
-			// char inventoryIndex;
-			// s_object_data *weaponObject;
-			// std::string weapon_type_name_string;
-			// s_weapon_definition *weapon_definition;
-			// Patches::Weapon::WeaponInfo weapon;
-			// __int32 unitIndex;
-			// function call : unsigned long (*const)(long)
-			// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-			// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-			// function call : void *(*const)(unsigned long, long)
 
 			WeaponInfo weapon = {};
 			__int32 unitIndex = eldorado::player_mapping_get_unit_by_output_user(0);
@@ -508,20 +465,6 @@ namespace Patches
 		void UseDefaultOffsets() // 0x10AF5250
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?UseDefaultOffsets@Weapon@Patches@@YAXXZ");
-			// procedure flags: nofpo
-			// static ...; // 0x10AF53FC
-			// static ...; // 0x10AF53F0
-			// static ...; // 0x10AF53E8
-			// std::vector<std::string> updatedTypeList;
-				// std::vector<Patches::Weapon::DefaultWeaponInfo> &<range>$L0;
-				// Patches::Weapon::DefaultWeaponInfo *<begin>$L0;
-				// Patches::Weapon::DefaultWeaponInfo *<end>$L0;
-					// Patches::Weapon::DefaultWeaponInfo &weapon;
-						// bool duplicate;
-							// std::string *<end>$L1;
-							// std::string *<begin>$L1;
-							// std::vector<std::string> &<range>$L1;
-								// std::string &type;
 
 			weapon_infos.clear();
 			std::vector<std::string> updatedTypeList;
@@ -547,30 +490,6 @@ namespace Patches
 		bool InitializeOffsetDefaults() // 0x10AF3190
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeOffsetDefaults@Weapon@Patches@@YA_NXZ");
-			// procedure flags: nofpo
-			// static ...; // 0x10AF35E2
-			// static ...; // 0x10AF35D3
-			// static ...; // 0x10AF35CC
-			// static ...; // 0x10AF35BC
-			// static ...; // 0x10AF35A4
-			// static ...; // 0x10AF3568
-			// static ...; // 0x10AF3560
-			// long tag_index;
-			// s_tag_iterator iterator;
-				// s_weapon_definition *weapon_definition;
-					// bool default_set;
-						// std::vector<Patches::Weapon::DefaultWeaponInfo> &<range>$L0;
-						// Patches::Weapon::DefaultWeaponInfo *<begin>$L0;
-						// Patches::Weapon::DefaultWeaponInfo *<end>$L0;
-							// Patches::Weapon::DefaultWeaponInfo &default_weapon;
-						// long const weapon_names_unic;
-						// real_vector3d centered_offset;
-						// std::string weapon_type_name_string;
-						// real_vector3d offset;
-						// Patches::Weapon::DefaultWeaponInfo default_weapon;
-			// function call : void (*const)(s_tag_iterator *, long)
-			// function call : long (*const)(s_tag_iterator *)
-			// function call : void *(*const)(unsigned long, long)
 
 			if (IsMainMenu)
 				return false;
@@ -623,11 +542,6 @@ namespace Patches
 		std::string GetTypeDisplayName(std::string const &weaponType) // 0x10AF2DF0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetTypeDisplayName@Weapon@Patches@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV34@@Z");
-			// std::string const &weaponType;
-				// std::vector<Patches::Weapon::DefaultWeaponInfo> &<range>$L0;
-				// Patches::Weapon::DefaultWeaponInfo *<begin>$L0;
-				// Patches::Weapon::DefaultWeaponInfo *<end>$L0;
-					// Patches::Weapon::DefaultWeaponInfo &weapon;
 
 			for (Patches::Weapon::DefaultWeaponInfo &weapon : default_weapon_infos)
 			{
@@ -640,22 +554,6 @@ namespace Patches
 		bool SetTypeOffset(std::string const &weaponType, real_vector3d const &weaponOffset) // 0x10AF4E80
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?SetTypeOffset@Weapon@Patches@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABUreal_vector3d@@@Z");
-			// static ...; // 0x10AF5158
-			// static ...; // 0x10AF5150
-			// std::string const &weaponType;
-			// real_vector3d const &weaponOffset;
-			// bool found;
-				// std::vector<Patches::Weapon::WeaponInfo> &<range>$L0;
-				// Patches::Weapon::WeaponInfo *<begin>$L0;
-				// Patches::Weapon::WeaponInfo *<end>$L0;
-					// Patches::Weapon::WeaponInfo &weapon;
-				// Patches::Weapon::WeaponInfo weapon;
-				// Patches::Weapon::DefaultWeaponInfo *<end>$L1;
-				// Patches::Weapon::DefaultWeaponInfo *<begin>$L1;
-				// std::vector<Patches::Weapon::DefaultWeaponInfo> &<range>$L1;
-					// Patches::Weapon::DefaultWeaponInfo &weapon;
-						// s_weapon_definition *weaponDefinition;
-			// function call : void *(*const)(unsigned long, long)
 
 			if (IsMainMenu)
 				return false;
@@ -702,28 +600,6 @@ namespace Patches
 			bool CreateList() // 0x10AF13C0
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?CreateList@Config@Weapon@Patches@@YA_NXZ");
-				// procedure flags: nofpo
-				// static ...; // 0x10AF1AD8
-				// static ...; // 0x10AF1AD4
-				// static ...; // 0x10AF1AC9
-				// static ...; // 0x10AF1ABE
-				// static ...; // 0x10AF1ABB
-				// static ...; // 0x10AF1AB2
-				// static ...; // 0x10AF1AA9
-				// static ...; // 0x10AF1AA0
-				// static ...; // 0x10AF1A40
-				// static ...; // 0x10AF1A38
-				// std::ifstream in;
-				// std::error_code err;
-					// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
-					// std::ofstream out;
-					// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
-					// std::string contents;
-					// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> document;
-						// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &offsets;
-							// unsigned __int32 i;
-								// std::string offsetId;
-								// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &offsetObject;
 
 				Modules::ModuleWeapon::Instance().WeaponsJSONList.clear();
 				std::error_code err;
@@ -785,20 +661,6 @@ namespace Patches
 			bool LoadJSON(std::string const &Name) // 0x10AF3710
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?LoadJSON@Config@Weapon@Patches@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-				// static ...; // 0x10AF3BA2
-				// static ...; // 0x10AF3B99
-				// static ...; // 0x10AF3B90
-				// static ...; // 0x10AF3B6C
-				// static ...; // 0x10AF3B64
-				// std::string const &Name;
-				// std::ifstream in;
-				// std::string contents;
-				// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> document;
-					// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &weaps;
-						// unsigned __int32 i;
-							// char const *weapType;
-							// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &weapObject;
-							// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &offsets;
 
 				std::ifstream in("data/weapon_offsets/offsets/" + Name + ".json", std::ios::in | std::ios::binary);
 				if (!in || !in.is_open())
@@ -831,15 +693,6 @@ namespace Patches
 			bool ConfigExists(std::string const &Name) // 0x10AF11B0
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?ConfigExists@Config@Weapon@Patches@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-				// static ...; // 0x10AF1344
-				// static ...; // 0x10AF1338
-				// static ...; // 0x10AF1330
-				// std::string const &Name;
-				// bool IsCreated;
-					// std::vector<std::string> &<range>$L0;
-					// std::string *<begin>$L0;
-					// std::string *<end>$L0;
-						// std::string offsetName;
 
 				bool IsCreated = false;
 				for (std::string offsetName : Utils::Singleton<Modules::ModuleWeapon>::Instance().WeaponsJSONList)
@@ -853,38 +706,6 @@ namespace Patches
 			bool SaveJSON(std::string const &Name) // 0x10AF4070
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?SaveJSON@Config@Weapon@Patches@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-				// static ...; // 0x10AF4B58
-				// static ...; // 0x10AF4B4F
-				// static ...; // 0x10AF4B46
-				// static ...; // 0x10AF4B42
-				// static ...; // 0x10AF4B37
-				// static ...; // 0x10AF4B2C
-				// static ...; // 0x10AF4B23
-				// static ...; // 0x10AF4B1A
-				// static ...; // 0x10AF4B16
-				// static ...; // 0x10AF4B0B
-				// static ...; // 0x10AF4B00
-				// static ...; // 0x10AF4A7C
-				// static ...; // 0x10AF4A74
-				// std::string const &Name;
-				// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
-				// std::ofstream out;
-				// std::string filePath;
-				// rapidjson::PrettyWriter<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
-					// std::ifstream in;
-						// std::string contents;
-						// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> document;
-							// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
-							// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &offsets;
-							// std::ofstream out;
-							// rapidjson::PrettyWriter<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
-								// unsigned __int32 i;
-									// std::string offsetId;
-									// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &offsetObject;
-					// std::vector<Patches::Weapon::WeaponInfo> &<range>$L0;
-					// Patches::Weapon::WeaponInfo *<begin>$L0;
-					// Patches::Weapon::WeaponInfo *<end>$L0;
-						// Patches::Weapon::WeaponInfo const &weapon;
 
 				CreateList();
 				Utils::Singleton<Modules::ModuleWeapon>::Instance().VarWeaponJSON->ValueString = Name;
@@ -975,31 +796,6 @@ namespace Patches
 			bool DeleteJSON(std::string const &Name) // 0x10AF1CB0
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?DeleteJSON@Config@Weapon@Patches@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-				// static ...; // 0x10AF24F3
-				// static ...; // 0x10AF24EA
-				// static ...; // 0x10AF24E1
-				// static ...; // 0x10AF24DD
-				// static ...; // 0x10AF24D2
-				// static ...; // 0x10AF24C7
-				// static ...; // 0x10AF24BE
-				// static ...; // 0x10AF24B5
-				// static ...; // 0x10AF24AC
-				// static ...; // 0x10AF2440
-				// static ...; // 0x10AF2438
-			// $LN32:
-				// std::string const &Name;
-				// std::filesystem::path fullPath;
-				// std::string fileName;
-					// std::ifstream in;
-						// std::string contents;
-						// rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> document;
-							// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
-							// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &offsets;
-							// std::ofstream out;
-							// rapidjson::PrettyWriter<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
-								// unsigned __int32 i;
-									// std::string offsetId;
-									// rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &offsetObject;
 
 				if (Name == "default")
 					return false;
@@ -1078,12 +874,6 @@ namespace Patches
 void bottomless_clip_apply(long weapon_index, short barrel_index, bottomless_clip_state *state) // 0x10AF6680
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?bottomless_clip_apply@@YAXJFPAUbottomless_clip_state@@@Z");
-	// bottomless_clip_state *state;
-	// s_weapon_barrel_definition *barrel_definition;
-	// s_weapon_data *weapon_data;
-	// s_weapon_definition *definition;
-		// s_weapon_magazine *magazine;
-	// function call : void *(*const)(unsigned long, long)
 
 	state->applied = false;
 	s_weapon_data *weapon_data = (s_weapon_data *)object_get(weapon_index);
@@ -1107,12 +897,6 @@ void bottomless_clip_apply(long weapon_index, short barrel_index, bottomless_cli
 void bottomless_clip_restore(long weapon_index, short barrel_index, bottomless_clip_state *state) // 0x10AF6820
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?bottomless_clip_restore@@YAXJFPAUbottomless_clip_state@@@Z");
-	// bottomless_clip_state *state;
-	// s_weapon_barrel_definition *barrel_definition;
-	// s_weapon_data *weapon_data;
-	// s_weapon_definition *definition;
-		// s_weapon_magazine *magazine;
-	// function call : void *(*const)(unsigned long, long)
 
 	if (!state->applied)
 		return;
@@ -1134,13 +918,6 @@ void bottomless_clip_restore(long weapon_index, short barrel_index, bottomless_c
 void weapon_barrel_fire(long weapon_index, short barrel_index, bool simulated) // 0x10AF73E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?weapon_barrel_fire@@YAXJF_N@Z");
-	// static ...; // 0x10AF7488
-	// long weapon_index;
-	// short barrel_index;
-	// bool simulated;
-	// void (*const weapon_barrel_fire)(long, short, bool);
-	// bottomless_clip_state bottomless_clip;
-	// function call : void (*const)(long, short, bool)
 
 	void (__cdecl *const weapon_barrel_fire)(long, short, bool) = (void(__cdecl *const)(long, short, bool))0xB5F860;
 	bottomless_clip_state bottomless_clip;
@@ -1153,7 +930,6 @@ void weapon_barrel_fire(long weapon_index, short barrel_index, bool simulated) /
 bool player_has_bottomless_clip(long player_index) // 0x10AF6F60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?player_has_bottomless_clip@@YA_NJ@Z");
-	// long player_index;
 
 
 	if (cheat_bottomless_clip)
@@ -1191,11 +967,6 @@ namespace Patches
 bool weapon_has_bottomless_clip(long weapon_index) // 0x10AF8180
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?weapon_has_bottomless_clip@@YA_NJ@Z");
-	// long weapon_index;
-	// s_unit_data *unit;
-	// long unit_index;
-	// s_weapon_data *weapon_data;
-	// function call : long (*const)(long)
 
 	s_weapon_data *weapon_data = (s_weapon_data *)object_get(weapon_index);
 	long unit_index = ((long(__cdecl *)(long))0xB62DF0)(weapon_index);
@@ -1211,12 +982,6 @@ bool weapon_has_bottomless_clip(long weapon_index) // 0x10AF8180
 bool weapon_can_be_dual_wielded_hook(long weapon_index) // 0x10AF7E70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?weapon_can_be_dual_wielded_hook@@YA_NJ@Z");
-	// `anonymous-namespace'::weapon_can_be_dual_wielded_hook
-	// long weapon_index;
-	// bool can_dual_wield;
-	// s_weapon_definition *weapon_definition;
-	// s_object_data *weapon;
-	// function call : void *(*const)(unsigned long, long)
 
 	if (!Modules::ModuleServer::Instance().VarServerDualWieldEnabledClient->ValueInt)
 		return false;
@@ -1236,11 +1001,6 @@ bool weapon_can_be_dual_wielded_hook(long weapon_index) // 0x10AF7E70
 short unit_rotate_zoom_level_hook(long unit_index, short level) // 0x10AF7190
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_rotate_zoom_level_hook@@YAFJF@Z");
-	// `anonymous-namespace'::unit_rotate_zoom_level_hook
-	// short level;
-	// short (*const unit_rotate_zoom_level)(long, short);
-	// function call : bool (*const)(unsigned long)
-	// function call : short (*const)(long, short)
 
 	short (__cdecl *const unit_rotate_zoom_level)(long, unsigned short) = (short(__cdecl *const)(long, unsigned short))0xb47630;
 
@@ -1253,16 +1013,6 @@ short unit_rotate_zoom_level_hook(long unit_index, short level) // 0x10AF7190
 bool weapon_should_apply_bloom(unsigned __int32 weaponObjectIndex, __int32 barrelIndex, ProjectilePenaltyType type) // 0x10AF8330
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?weapon_should_apply_bloom@@YA_NIHW4ProjectilePenaltyType@hades_file_local@@@Z");
-	// `anonymous-namespace'::weapon_should_apply_bloom
-	// ProjectilePenaltyType type;
-	// s_object_data *unitObject;
-	// s_weapon_definition *weaponDefinition;
-	// s_object_data *weaponObject;
-	// __int32 functionIndex;
-	// bool isCrouching;
-	// function call : bool (*const)(long)
-	// function call : long (*const)(long)
-	// function call : void *(*const)(unsigned long, long)
 
 	if (!((bool (__cdecl *)(long))0xB63EA0)(weaponObjectIndex))
 		return false;
@@ -1297,10 +1047,6 @@ bool weapon_should_apply_bloom(unsigned __int32 weaponObjectIndex, __int32 barre
 void weapon_apply_firing_penalty_hook(unsigned __int32 weaponObjectIndex, __int32 barrelIndex) // 0x10AF7230
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?weapon_apply_firing_penalty_hook@@YAXIH@Z");
-	// `anonymous-namespace'::weapon_apply_firing_penalty_hook
-	// __int32 barrelIndex;
-	// void (*const weapon_apply_firing_penalty)(unsigned __int32, __int32);
-	// function call : void (*const)(unsigned __int32, __int32)
 
 	void (__cdecl *const weapon_apply_firing_penalty)(unsigned __int32, __int32) = (void(__cdecl *const)(unsigned __int32, __int32))0xb5c2e0;
 
@@ -1313,10 +1059,6 @@ void weapon_apply_firing_penalty_hook(unsigned __int32 weaponObjectIndex, __int3
 void weapon_apply_movement_penalty_hook(unsigned __int32 weaponObjectIndex, __int32 barrelIndex) // 0x10AF72C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?weapon_apply_movement_penalty_hook@@YAXIH@Z");
-	// `anonymous-namespace'::weapon_apply_movement_penalty_hook
-	// __int32 barrelIndex;
-	// void (*const weapon_apply_movement_penalty)(unsigned __int32, __int32);
-	// function call : void (*const)(unsigned __int32, __int32)
 
 	void (__cdecl *const weapon_apply_movement_penalty)(unsigned __int32, __int32) = (void(__cdecl *const)(unsigned __int32, __int32))0xb5c450;
 
@@ -1329,10 +1071,6 @@ void weapon_apply_movement_penalty_hook(unsigned __int32 weaponObjectIndex, __in
 void weapon_apply_turning_penalty_hook(unsigned __int32 weaponObjectIndex, __int32 barrelIndex) // 0x10AF7350
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?weapon_apply_turning_penalty_hook@@YAXIH@Z");
-	// `anonymous-namespace'::weapon_apply_turning_penalty_hook
-	// __int32 barrelIndex;
-	// void (*const weapon_apply_turning_penalty)(unsigned __int32, __int32);
-	// function call : void (*const)(unsigned __int32, __int32)
 
 	void (__cdecl *const weapon_apply_turning_penalty)(unsigned __int32, __int32) = (void(__cdecl *const)(unsigned __int32, __int32))0xb5c630;
 
@@ -1345,8 +1083,6 @@ void weapon_apply_turning_penalty_hook(unsigned __int32 weaponObjectIndex, __int
 bool SupportWeaponStartHook(__int32 weaponObjectIndex) // 0x10AF5230
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SupportWeaponStartHook@@YA_NH@Z");
-	// `anonymous-namespace'::SupportWeaponStartHook
-	// __int32 weaponObjectIndex;
 
 	return false;
 }
@@ -1354,27 +1090,6 @@ bool SupportWeaponStartHook(__int32 weaponObjectIndex) // 0x10AF5230
 float weapon_calculate_error_angle_hook(unsigned __int32 weaponObjectIndex, __int32 barrelIndex, bool forcedScope, unsigned char scopeLevel, float error) // 0x10AF7AE0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?weapon_calculate_error_angle_hook@@YAMIH_NEM@Z");
-	// `anonymous-namespace'::weapon_calculate_error_angle_hook
-	// float error;
-	// float fireTimePenalty;
-	// float errorAngleMin;
-	// float magnificationFactor;
-	// s_weapon_definition *weaponDefinition;
-	// float min;
-	// float (*weapon_caclulate_magnification)(unsigned __int32, unsigned short);
-	// s_object_data *weaponObject;
-	// s_weapon_barrel_definition &barrelDefinition;
-	// unsigned __int32 unitObjectIndex;
-	// float max;
-	// float errorAngleMax;
-	// float errorAngle;
-		// s_object_data *unitObject;
-		// unsigned char magnificationLevel;
-		// float magnification;
-	// function call : void *(*const)(unsigned long, long)
-	// function call : float (*)(unsigned __int32, unsigned short)
-	// function call : float (*const)(unsigned __int32, unsigned __int32)
-	// function call : bool (*const)(unsigned __int32)
 
 	float (*weapon_caclulate_magnification)(unsigned __int32, unsigned short) = reinterpret_cast<float (*)(unsigned __int32, unsigned short)>(0xB636E0);
 	s_object_data *weaponObject = object_get(weaponObjectIndex);
@@ -1419,30 +1134,6 @@ float weapon_calculate_error_angle_hook(unsigned __int32 weaponObjectIndex, __in
 unsigned __int32 weapon_barrel_update_hook(unsigned __int32 weaponObjectIndex, __int32 barrelIndex) // 0x10AF75A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?weapon_barrel_update_hook@@YAIIH@Z");
-	// `anonymous-namespace'::weapon_barrel_update_hook
-	// __int32 barrelIndex;
-	// s_weapon_definition *weaponDefinition;
-	// s_object_data *weaponObject;
-	// bool (*const weapon_update_barrel)(unsigned __int32, __int32);
-	// bool result;
-		// s_weapon_barrel *barrels;
-		// s_weapon_barrel &barrel;
-		// float secondsPerTick;
-		// s_weapon_barrel_definition &barrelDefinition;
-			// s_object_data *unitObject;
-			// float t;
-			// unsigned char weaponObjectFlags;
-			// bool hasBloomFunction;
-			// unsigned __int32 unitObjectIndex;
-			// bool isCrouching;
-				// float fireTimePenalty;
-				// float errorAccelerationTime;
-	// function call : bool (*const)(unsigned __int32, __int32)
-	// function call : void *(*const)(unsigned long, long)
-	// function call : float (*const)()
-	// function call : float (*const)()
-	// function call : float (*const)(unsigned __int32, unsigned __int32)
-	// function call : bool (*const)(unsigned __int32)
 
 	bool (*const weapon_update_barrel)(unsigned __int32, __int32) = reinterpret_cast<bool (*)(unsigned __int32, __int32)>(0xB60BD0);
 	bool result = weapon_update_barrel(weaponObjectIndex, barrelIndex);
@@ -1500,8 +1191,6 @@ unsigned __int32 weapon_barrel_update_hook(unsigned __int32 weaponObjectIndex, _
 bool weapon_bloom_decay_hook(unsigned __int32 weaponObjectIndex, __int32 barrelIndex) // 0x10AF7AC0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?weapon_bloom_decay_hook@@YA_NIH@Z");
-	// `anonymous-namespace'::weapon_bloom_decay_hook
-	// __int32 barrelIndex;
 
 	return false;
 }
@@ -1509,14 +1198,6 @@ bool weapon_bloom_decay_hook(unsigned __int32 weaponObjectIndex, __int32 barrelI
 bool weapon_compute_function_value_hook(long weapon_index, unsigned long function_name, long definition_index, float *out_value, bool *out_value_valid, bool *a6) // 0x10AF7FB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?weapon_compute_function_value_hook@@YA_NJKJPAMPA_N1@Z");
-	// `anonymous-namespace'::weapon_compute_function_value_hook
-	// bool *a6;
-	// bool (*const weapon_compute_function_value)(long, unsigned long, long, float *, bool *, bool *);
-		// s_weapon_data *weapon;
-		// long barrel_index;
-	// function call : float (*const)(float)
-	// function call : long (*const)()
-	// function call : bool (*const)(long, unsigned long, long, float *, bool *, bool *)
 
 	bool (__cdecl *const weapon_compute_function_value)(long, unsigned long, long, float *, bool *, bool *) = (bool(__cdecl *const)(long, unsigned long, long, float *, bool *, bool *))0xB61920;
 
@@ -1540,14 +1221,6 @@ bool weapon_compute_function_value_hook(long weapon_index, unsigned long functio
 bool weapon_has_infinite_ammo_hook(long weapon_index) // 0x10AF8260
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?weapon_has_infinite_ammo_hook@@YA_NJ@Z");
-	// `anonymous-namespace'::weapon_has_infinite_ammo_hook
-	// long weapon_index;
-	// bool (*const player_has_infinite_ammo)(long);
-	// s_weapon_data *weapon;
-	// long owner_unit_index;
-		// s_unit_data *unit;
-	// function call : long (*const)(long)
-	// function call : bool (*const)(long)
 
 
 	bool (__cdecl *const player_has_infinite_ammo)(long) = (bool(__cdecl *const)(long))0x551E50;
@@ -1568,8 +1241,6 @@ bool weapon_has_infinite_ammo_hook(long weapon_index) // 0x10AF8260
 bool player_has_infinite_ammo_hook(long player_index) // 0x10AF7000
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?player_has_infinite_ammo_hook@@YA_NJ@Z");
-	// `anonymous-namespace'::player_has_infinite_ammo_hook
-	// long player_index;
 
 	if (player_index == -1)
 	{
@@ -1585,11 +1256,6 @@ bool player_has_infinite_ammo_hook(long player_index) // 0x10AF7000
 void weapon_barrel_fire__unit_active_camouflage_ding_hook(long unit_index, float camo, float time) // 0x10AF74E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?weapon_barrel_fire__unit_active_camouflage_ding_hook@@YAXJMM@Z");
-	// `anonymous-namespace'::weapon_barrel_fire__unit_active_camouflage_ding_hook
-	// float time;
-	// void (*const unit_active_camouflage_ding)(long, float, float);
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : void (*const)(long, float, float)
 
 
 	if (!object_try_and_get_and_verify_type(unit_index, 0x2003))

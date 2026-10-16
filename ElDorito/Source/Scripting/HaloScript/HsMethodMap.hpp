@@ -135,7 +135,6 @@ namespace Scripting
 		inline Scripting::HS::ScriptMethodFlags operator&(Scripting::HS::ScriptMethodFlags lhs, Scripting::HS::ScriptMethodFlags rhs) // 0x10701240
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "??IHS@Scripting@@YA?AW4ScriptMethodFlags@01@W4201@0@Z");
-			// Scripting::HS::ScriptMethodFlags rhs;
 
 			return static_cast<Scripting::HS::ScriptMethodFlags>(static_cast<int>(lhs) & static_cast<int>(rhs));
 		}

@@ -53,11 +53,6 @@ extern bool (*const levels_try_and_get_multiplayer_map)(long, s_level_datum *); 
 c_gui_map_category_datasource::c_gui_map_category_datasource(wchar_t const *recent_maps_item_name, wchar_t const *recent_maps_item_description, wchar_t const *file_share_item_name, wchar_t const *file_share_item_description) // 0x10F1C5C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_gui_map_category_datasource@@QAE@PB_W000@Z");
-	// wchar_t const *file_share_item_description;
-	// function call : wchar_t *(*const)(wchar_t *, wchar_t const *, long)
-	// function call : wchar_t *(*const)(wchar_t *, wchar_t const *, long)
-	// function call : wchar_t *(*const)(wchar_t *, wchar_t const *, long)
-	// function call : wchar_t *(*const)(wchar_t *, wchar_t const *, long)
 
 	memset(&m_items, 0, sizeof(m_items));
 	((wchar_t *(*)(wchar_t *, wchar_t const *, long))0x4ECCD0)(m_recent_item_name, recent_maps_item_name, 48);
@@ -71,22 +66,6 @@ c_gui_map_category_datasource::c_gui_map_category_datasource(wchar_t const *rece
 bool c_gui_map_category_datasource::initialize(unsigned long name) // 0x10F1CEF0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?initialize@c_gui_map_category_datasource@@UAE_NK@Z");
-	// static ...; // 0x10F1D16C
-	// static ...; // 0x10F1D160
-	// static ...; // 0x10F1D13C
-	// static ...; // 0x10F1D134
-	// c_gui_map_category_datasource *const this;
-	// unsigned long name;
-	// __int32 (*const map_selected_item_sort_proc)(void const *, void const *);
-	// long map_ids[100];
-	// long map_id_count;
-		// long i;
-			// s_level_datum level_datum;
-				// c_gui_map_category_datasource::s_map_category_item &new_item;
-	// function call : long *(*const)(long *, long *)
-	// function call : bool (*const)(long, s_level_datum *)
-	// function call : wchar_t *(*const)(wchar_t *, wchar_t const *, long)
-	// function call : wchar_t *(*const)(wchar_t *, wchar_t const *, long)
 
 	if (!c_gui_data::initialize(name))
 		return false;
@@ -112,6 +91,7 @@ bool c_gui_map_category_datasource::initialize(unsigned long name) // 0x10F1CEF0
 	return true;
 }
 
+#line 115
 void c_gui_map_category_datasource::get_column_names(unsigned long *names, long *out_name_count) // 0x10F1C900
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_column_names@c_gui_map_category_datasource@@UAEXPAKPAJ@Z");
@@ -205,7 +185,6 @@ _inline bool c_gui_map_category_datasource::get_string_id_value(long element_han
 _inline long c_gui_map_category_datasource::get_current_item_count_internal() // 0x10F1CA10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_current_item_count_internal@c_gui_map_category_datasource@@MAEJXZ");
-	// c_gui_map_category_datasource *const this;
 
 	return m_item_count;
 }

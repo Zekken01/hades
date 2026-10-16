@@ -32,8 +32,6 @@ class c_gui_widget;
 c_gui_widget *c_gui_screen_widget::get_focused_widget() const // 0x10F136D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_focused_widget@c_gui_screen_widget@@QBEPAVc_gui_widget@@XZ");
-	// c_gui_screen_widget const *const this;
-	// function call : c_gui_widget *(*)(c_gui_screen_widget const *)
 
 	return ((c_gui_widget *(__thiscall *const)(const c_gui_screen_widget *))0xab0f40)(this);
 }
@@ -41,9 +39,6 @@ c_gui_widget *c_gui_screen_widget::get_focused_widget() const // 0x10F136D0
 void c_gui_screen_widget::select_list_item(c_gui_list_widget *list_widget, long item_index, bool flag1, bool flag2) // 0x10F13740
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?select_list_item@c_gui_screen_widget@@QAEXPAVc_gui_list_widget@@J_N1@Z");
-	// bool flag2;
-	// void (*const select_list_item)(c_gui_screen_widget *, c_gui_list_widget *, long, bool, bool);
-	// function call : void (*const)(c_gui_screen_widget *, c_gui_list_widget *, long, bool, bool)
 
 	void (__thiscall *const select_list_item)(c_gui_screen_widget *, c_gui_list_widget *, long, bool, bool) = (void(__thiscall *const)(c_gui_screen_widget *, c_gui_list_widget *, long, bool, bool))0xab2640;
 
@@ -53,13 +48,6 @@ void c_gui_screen_widget::select_list_item(c_gui_list_widget *list_widget, long 
 c_gui_data *c_gui_screen_widget::get_datasource(unsigned long name) const // 0x10F13600
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_datasource@c_gui_screen_widget@@QBEPAVc_gui_data@@K@Z");
-	// static ...; // 0x10F13698
-	// static ...; // 0x10F13690
-	// c_gui_screen_widget const *const this;
-	// unsigned long name;
-	// long a1;
-	// c_gui_data *(*const get_datasource)(c_gui_screen_widget const *, unsigned long, long *);
-	// function call : c_gui_data *(*const)(c_gui_screen_widget const *, unsigned long, long *)
 
 	c_gui_data *(__thiscall *const get_datasource)(c_gui_screen_widget const *, unsigned long, long *) = reinterpret_cast<c_gui_data *(__thiscall *)(c_gui_screen_widget const *, unsigned long, long *)>(0xAB0DB0);
 	long a1 = -1;
@@ -69,8 +57,6 @@ c_gui_data *c_gui_screen_widget::get_datasource(unsigned long name) const // 0x1
 void c_gui_screen_widget::transition_out(__int32 type) // 0x10F137D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?transition_out@c_gui_screen_widget@@QAEXH@Z");
-	// __int32 type;
-	// function call : void (long, long)
 
 	transition_out_internal(type, 0);
 }

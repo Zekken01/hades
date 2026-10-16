@@ -89,7 +89,6 @@ namespace Server
 		void Init() // 0x10B1AB70
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Init@DedicatedServer@Server@@YAXXZ");
-			// procedure flags: nofpo
 
 			Blam::Network::SetLobbyType(2);
 			needToSetMode = true;
@@ -98,7 +97,6 @@ namespace Server
 		void Tick() // 0x10B1ABC0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@DedicatedServer@Server@@YAXXZ");
-			// procedure flags: nofpo
 
 			if (!needToSetMode)
 			{

@@ -134,11 +134,6 @@ namespace Player
 		Player::Emblems::e_emblem_color HexToRgb(__int32 hexValue) // 0x1090D570
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?HexToRgb@Emblems@Player@@YA?AUe_emblem_color@12@H@Z");
-			// static ...; // 0x1090D5F4
-			// static ...; // 0x1090D5E8
-			// static ...; // 0x1090D5E0
-			// __int32 hexValue;
-			// Player::Emblems::e_emblem_color color;
 
 			Player::Emblems::e_emblem_color color;
 			color.red = (hexValue >> 16) & 0xFF;
@@ -150,14 +145,6 @@ namespace Player
 		bool CopyToGPUTexture(IDirect3DDevice9 *device, IDirect3DTexture9 *texture, IDirect3DTexture9 **outGpuTexture) // 0x1090C790
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?CopyToGPUTexture@Emblems@Player@@YA_NPAUIDirect3DDevice9@@PAUIDirect3DTexture9@@PAPAU4@@Z");
-			// static ...; // 0x1090C864
-			// IDirect3DDevice9 *device;
-			// IDirect3DTexture9 *texture;
-			// IDirect3DTexture9 **outGpuTexture;
-			// IDirect3DTexture9 *gpuTexture;
-			// function call : HRESULT (unsigned __int32, unsigned __int32, unsigned __int32, unsigned long, _D3DFORMAT, _D3DPOOL, IDirect3DTexture9 **, void **)
-			// function call : HRESULT (IDirect3DBaseTexture9 *, IDirect3DBaseTexture9 *)
-			// function call : unsigned long ()
 
 			IDirect3DTexture9 *gpuTexture;
 
@@ -179,9 +166,6 @@ namespace Player
 		_inline void ColorPixel(float *pixelDest, Player::Emblems::e_emblem_color color, float alpha) // 0x1090C5E0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ColorPixel@Emblems@Player@@YAXPAMUe_emblem_color@12@M@Z");
-			// float alpha;
-			// float final_a;
-			// float dest_a;
 
 			float dest_a = pixelDest[3];
 			float final_a = alpha + dest_a - dest_a * alpha;
@@ -194,33 +178,6 @@ namespace Player
 		bool GenerateEmblem(IDirect3DTexture9 *destTexture, IDirect3DTexture9 *backgroundTexture, IDirect3DTexture9 *foregroundTexture, bool secondaryEnabled, Player::Emblems::e_emblem_color const &background, Player::Emblems::e_emblem_color const &primary, Player::Emblems::e_emblem_color const &secondary) // 0x1090CBB0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GenerateEmblem@Emblems@Player@@YA_NPAUIDirect3DTexture9@@00_NABUe_emblem_color@12@22@Z");
-			// static ...; // 0x1090D078
-			// IDirect3DTexture9 *destTexture;
-			// IDirect3DTexture9 *backgroundTexture;
-			// IDirect3DTexture9 *foregroundTexture;
-			// bool secondaryEnabled;
-			// Player::Emblems::e_emblem_color const &background;
-			// Player::Emblems::e_emblem_color const &primary;
-			// Player::Emblems::e_emblem_color const &secondary;
-			// _D3DLOCKED_RECT lockedDest;
-			// bool result;
-				// _D3DLOCKED_RECT bgLockedSrc;
-					// unsigned char *bgPixelsSrc;
-					// _D3DLOCKED_RECT fgLockedSrc;
-					// bool reuseTexture;
-					// unsigned char *fgPixelsSrc;
-						// unsigned char *pixelsDest;
-							// __int32 i;
-								// unsigned char *bgPixelSrc;
-								// unsigned char *fgPixelSrc;
-								// float decPixelDest[4];
-								// unsigned char *pixelDest;
-			// function call : HRESULT (unsigned __int32, _D3DLOCKED_RECT *, tagRECT const *, unsigned long)
-			// function call : HRESULT (unsigned __int32, _D3DLOCKED_RECT *, tagRECT const *, unsigned long)
-			// function call : HRESULT (unsigned __int32, _D3DLOCKED_RECT *, tagRECT const *, unsigned long)
-			// function call : HRESULT (unsigned __int32)
-			// function call : HRESULT (unsigned __int32)
-			// function call : HRESULT (unsigned __int32)
 
 			bool result = false;
 			D3DLOCKED_RECT lockedDest;
@@ -279,7 +236,6 @@ namespace Player
 		Player::Emblems::e_emblem_color GetPrimaryColor(s_player_emblem_configuration const &config) // 0x1090D350
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetPrimaryColor@Emblems@Player@@YA?AUe_emblem_color@12@ABUs_player_emblem_configuration@@@Z");
-			// s_player_emblem_configuration const &config;
 
 			return config.primaryHex ? Player::Emblems::HexToRgb(config.primaryColor) : color_list[config.primaryColor];
 		}
@@ -287,7 +243,6 @@ namespace Player
 		Player::Emblems::e_emblem_color GetSecondaryColor(s_player_emblem_configuration const &config) // 0x1090D460
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetSecondaryColor@Emblems@Player@@YA?AUe_emblem_color@12@ABUs_player_emblem_configuration@@@Z");
-			// s_player_emblem_configuration const &config;
 
 			return config.secondaryHex ? Player::Emblems::HexToRgb(config.secondaryColor) : Player::Emblems::color_list[config.secondaryColor];
 		}
@@ -295,7 +250,6 @@ namespace Player
 		Player::Emblems::e_emblem_color GetBackgroundColor(s_player_emblem_configuration const &config) // 0x1090D240
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetBackgroundColor@Emblems@Player@@YA?AUe_emblem_color@12@ABUs_player_emblem_configuration@@@Z");
-			// s_player_emblem_configuration const &config;
 
 			return config.backgroundHex ? Player::Emblems::HexToRgb(config.backgroundColor) : Player::Emblems::color_list[config.backgroundColor];
 		}
@@ -303,20 +257,6 @@ namespace Player
 		bool GenerateEmblem(s_player_emblem_configuration const &emblem_config, IDirect3DTexture9 **outEmblem, bool forGPU) // 0x1090C8C0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GenerateEmblem@Emblems@Player@@YA_NABUs_player_emblem_configuration@@PAPAUIDirect3DTexture9@@_N@Z");
-			// static ...; // 0x1090CAE4
-			// static ...; // 0x1090CAC0
-			// static ...; // 0x1090CAB8
-			// s_player_emblem_configuration const &emblem_config;
-			// IDirect3DTexture9 **outEmblem;
-			// bool forGPU;
-			// IDirect3DDevice9Ex *device;
-			// IDirect3DTexture9 *texture;
-				// IDirect3DTexture9 *backgroundTexture;
-				// IDirect3DTexture9 *foregroundTexture;
-					// bool result;
-			// function call : HRESULT (unsigned __int32, unsigned __int32, unsigned __int32, unsigned long, _D3DFORMAT, _D3DPOOL, IDirect3DTexture9 **, void **)
-			// function call : unsigned long ()
-			// function call : unsigned long ()
 
 			if (emblem_config.foregroundIndex > 185 || emblem_config.backgroundIndex > 52)
 				return false;

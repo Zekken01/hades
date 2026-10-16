@@ -136,7 +136,6 @@ namespace Patches
 		void ApplyAll() // 0x108D6330
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Objects@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			Hook(0x730BD8, object_type_new_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Pointer(0x194AB04).Write<unsigned int>(reinterpret_cast<unsigned int>(objects_handle_deleted_object_hook));
@@ -151,11 +150,6 @@ namespace Patches
 bool object_type_new_hook(long object_index, s_object_placement_data &placement_data, bool *unused) // 0x108D7240
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?object_type_new_hook@@YA_NJAAUs_object_placement_data@@PA_N@Z");
-	// `anonymous-namespace'::object_type_new_hook
-	// bool *unused;
-	// bool (*const object_type_new)(long, s_object_placement_data &, bool *);
-	// bool result;
-	// function call : bool (*const)(long, s_object_placement_data &, bool *)
 
 	bool (__cdecl *const object_type_new)(long, s_object_placement_data &, bool *) = (bool(__cdecl *const)(long, s_object_placement_data &, bool *))0xb73c60;
 
@@ -170,10 +164,6 @@ bool object_type_new_hook(long object_index, s_object_placement_data &placement_
 void objects_handle_deleted_object_hook(__int32 object_index) // 0x108D72C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?objects_handle_deleted_object_hook@@YAXH@Z");
-	// `anonymous-namespace'::objects_handle_deleted_object_hook
-	// __int32 object_index;
-	// void (*const objects_handle_deleted_object)(__int32);
-	// function call : void (*const)(__int32)
 
 	void (__cdecl *const objects_handle_deleted_object)(__int32) = (void(__cdecl *const)(__int32))0xb35870;
 
@@ -183,10 +173,6 @@ void objects_handle_deleted_object_hook(__int32 object_index) // 0x108D72C0
 void objects_update_hook() // 0x108D7320
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?objects_update_hook@@YAXXZ");
-	// `anonymous-namespace'::objects_update_hook
-	// procedure flags: nofpo
-	// void (*const objects_update)();
-	// function call : void (*const)()
 
 	void (*const objects_update)() = reinterpret_cast<void (*)()>(0xB36840);
 	::Objects::CObjectMessaging::RunActions();
@@ -196,13 +182,6 @@ void objects_update_hook() // 0x108D7320
 float object_compute_service_tag_function_value(long object_index, short character_index) // 0x108D7060
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?object_compute_service_tag_function_value@@YAMJF@Z");
-	// `anonymous-namespace'::object_compute_service_tag_function_value
-	// short character_index;
-	// wchar_t character;
-		// s_unit_data *unit;
-		// s_player_datum *player;
-	// function call : bool (*const)()
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
 
 	wchar_t character = 0;
 	if (character_index < 0 || character_index > 3)
@@ -234,24 +213,6 @@ float object_compute_service_tag_function_value(long object_index, short charact
 float object_compute_region_permutation_function_value(long object_index, long model_region_index) // 0x108D6D80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?object_compute_region_permutation_function_value@@YAMJJ@Z");
-	// `anonymous-namespace'::object_compute_region_permutation_function_value
-	// static ...; // 0x108D6F98
-	// static ...; // 0x108D6F80
-	// static ...; // 0x108D6F78
-	// long object_index;
-	// long model_region_index;
-	// s_model_variant const *variant;
-	// s_object_definition const *object_definition;
-	// s_model_variant_region const *model_region;
-	// long render_region_count;
-	// char const *render_region_permutations;
-	// s_object_data const *object;
-	// void (*const object_get_region_information)(long, long *, char const **, char const **, s_object_region_information const **);
-	// s_model_definition const *model;
-		// long model_permutation_index;
-	// function call : void *(*const)(unsigned long, long)
-	// function call : void *(*const)(unsigned long, long)
-	// function call : void (*const)(long, long *, char const **, char const **, s_object_region_information const **)
 
 	void (*const object_get_region_information)(long, long *, char const **, char const **, s_object_region_information const **) = reinterpret_cast<void (*)(long, long *, char const **, char const **, s_object_region_information const **)>(0xB2E770);
 	s_object_data const *object = object_get(object_index);
@@ -281,18 +242,6 @@ float object_compute_region_permutation_function_value(long object_index, long m
 bool object_compute_function_value_hook(__int32 object_index, unsigned long name, long a4, float *out_value, bool *valid_value, bool *a7) // 0x108D6860
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?object_compute_function_value_hook@@YA_NHKJPAMPA_N1@Z");
-	// `anonymous-namespace'::object_compute_function_value_hook
-	// long a4;
-	// float *out_value;
-	// bool *valid_value;
-	// bool *a7;
-	// bool (*const object_compute_function_value)(long, unsigned long, long, float *, bool *, bool *);
-		// s_unit_data *unit;
-		// long output_user_index;
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : long (*const)(long)
-	// function call : e_director_perspective (*const)(long)
-	// function call : bool (*const)(long, unsigned long, long, float *, bool *, bool *)
 
 	bool (*const object_compute_function_value)(long, unsigned long, long, float *, bool *, bool *) = reinterpret_cast<bool (*)(long, unsigned long, long, float *, bool *, bool *)>(0xB2B120);
 	switch (name)

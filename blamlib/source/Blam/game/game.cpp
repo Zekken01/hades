@@ -26,7 +26,6 @@ extern char const *k_game_mode_names[6]; // 0x11359720
 char const *game_mode_get_string(e_game_mode mode) // 0x10F00470
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?game_mode_get_string@@YAPBDW4e_game_mode@@@Z");
-	// e_game_mode mode;
 
 	if (mode < 0 || mode >= 6)
 	{

@@ -90,7 +90,6 @@ namespace Objects
 	_inline void ObjectMessageSystem::DisposeFromOldMap() // 0x10798290
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?DisposeFromOldMap@ObjectMessageSystem@Objects@@UAEXXZ");
-		// Objects::ObjectMessageSystem *const this;
 
 		CObjectMessaging::Reset();
 	}
@@ -98,7 +97,6 @@ namespace Objects
 	void CObjectMessaging::Init() // 0x107999B0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Init@CObjectMessaging@Objects@@SAXXZ");
-		// procedure flags: nofpo
 
 		Patches::Game::RegisterGameSystem((IGameSystem *)&Objects::system);
 	}
@@ -106,7 +104,6 @@ namespace Objects
 	void CObjectMessaging::EnqueueAction(std::function<void __cdecl(void)> &&action) // 0x10799950
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?EnqueueAction@CObjectMessaging@Objects@@SAX$$QAV?$function@$$A6AXXZ@std@@@Z");
-		// std::function<void __cdecl(void)> &action;
 
 		queuedActions.push(std::move(action));
 	}
@@ -114,11 +111,6 @@ namespace Objects
 	void CObjectMessaging::RunActions() // 0x10799A60
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?RunActions@CObjectMessaging@Objects@@SAXXZ");
-		// procedure flags: nofpo
-		// static ...; // 0x10799B44
-		// static ...; // 0x10799B38
-		// static ...; // 0x10799B30
-			// std::function<void __cdecl(void)> action;
 
 		while (!queuedActions.empty())
 		{
@@ -131,7 +123,6 @@ namespace Objects
 	void CObjectMessaging::Reset() // 0x10799A00
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Reset@CObjectMessaging@Objects@@SAXXZ");
-		// procedure flags: nofpo
 
 		while (!Objects::queuedActions.empty())
 		{
@@ -146,23 +137,19 @@ namespace Objects
 void IGameSystem::Initialize() // 0x10798210
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@IGameSystem@@UAEXXZ");
-	// IGameSystem *const this;
 }
 
 void IGameSystem::InitializeForNewMap() // 0x10798230
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeForNewMap@IGameSystem@@UAEXXZ");
-	// IGameSystem *const this;
 }
 
 void IGameSystem::Dispose() // 0x10798250
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Dispose@IGameSystem@@UAEXXZ");
-	// IGameSystem *const this;
 }
 
 void IGameSystem::Update() // 0x10798270
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Update@IGameSystem@@UAEXXZ");
-	// IGameSystem *const this;
 }

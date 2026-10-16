@@ -114,7 +114,6 @@ namespace Web
 		scoped_refptr<CefResourceHandler> WebEmblemSchemeHandlerFactory::Create(scoped_refptr<CefBrowser> browser, scoped_refptr<CefFrame> frame, CefStringBase<CefStringTraitsUTF16> const &scheme, scoped_refptr<CefRequest> request) // 0x10CB67C0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Create@WebEmblemSchemeHandlerFactory@Browser@Web@@MAE?AV?$scoped_refptr@VCefResourceHandler@@@@V?$scoped_refptr@VCefBrowser@@@@V?$scoped_refptr@VCefFrame@@@@ABV?$CefStringBase@UCefStringTraitsUTF16@@@@V?$scoped_refptr@VCefRequest@@@@@Z");
-			// scoped_refptr<CefRequest> request;
 
 			return new WebEmblemResourceHandler();
 		}

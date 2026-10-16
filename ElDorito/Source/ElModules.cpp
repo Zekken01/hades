@@ -158,7 +158,6 @@ namespace Modules
 	ElModules::ElModules() : ModuleBase("") /* hades-mem-init: : ModuleBase(todo_result<std::string>()) */ // 0x108BE780
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "??0ElModules@Modules@@QAE@XZ");
-		// Modules::ElModules *const this;
 
 		ModuleGame::Instance();
 		ModulePlayer::Instance();
@@ -191,17 +190,6 @@ namespace Modules
 bool CommandHelp(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x108BF6A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandHelp@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandHelp
-	// static ...; // 0x108BF9B4
-	// static ...; // 0x108BF99C
-	// static ...; // 0x108BF994
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// Modules::CommandMap &commandMap;
-		// std::string cmdName;
-		// Modules::Command *cmd;
-			// bool isModule;
-				// std::_Deque_iterator<std::_Deque_val<std::_Deque_simple_types<Modules::Command> > > it;
 
 	Modules::CommandMap &commandMap = Modules::CommandMap::Instance();
 	if (Arguments.size() > 0)
@@ -235,15 +223,6 @@ bool CommandHelp(std::vector<std::string> const &Arguments, std::string &returnI
 bool CommandExecute(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x108BF290
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandExecute@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandExecute
-	// static ...; // 0x108BF5C0
-	// static ...; // 0x108BF5A8
-	// static ...; // 0x108BF5A0
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// std::ifstream in;
-		// bool stopOnFirstError;
-		// std::string contents;
 
 	if (Arguments.size() <= 0)
 	{
@@ -270,31 +249,6 @@ bool CommandExecute(std::vector<std::string> const &Arguments, std::string &retu
 bool CommandWriteConfig(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x108BFA90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandWriteConfig@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-	// `anonymous-namespace'::CommandWriteConfig
-	// static ...; // 0x108C045F
-	// static ...; // 0x108C0454
-	// static ...; // 0x108C044C
-	// static ...; // 0x108C0442
-	// static ...; // 0x108C043F
-	// static ...; // 0x108C0435
-	// static ...; // 0x108C0432
-	// static ...; // 0x108C0428
-	// static ...; // 0x108C0420
-	// static ...; // 0x108C0418
-	// static ...; // 0x108C0394
-	// static ...; // 0x108C038C
-	// std::vector<std::string> const &Arguments;
-	// std::string &returnInfo;
-	// std::wstring wide_ed_appdata;
-	// std::ofstream outKeys;
-	// std::string prefsFile;
-	// std::string prefsName;
-	// wchar_t *localAppdata;
-	// std::ofstream outFile;
-	// std::string ed_appdata;
-	// std::string keyFile;
-		// std::stringstream ss;
-		// std::stringstream keystream;
 
 	PWSTR localAppdata;
 	SHGetKnownFolderPath(FOLDERID_LocalAppData, NULL, NULL, &localAppdata);

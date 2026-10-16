@@ -87,7 +87,6 @@ namespace Patches
 		inline NetworkSessionListener::~NetworkSessionListener() // 0x10AFF880
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "??1NetworkSessionListener@Network@Patches@@UAE@XZ");
-			// Patches::Network::NetworkSessionListener *const this;
 		}
 	}
 }

@@ -360,7 +360,6 @@ namespace Patches
 		void ApplyAll() // 0x10AAE0C0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@PlayerScale@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			Hook(0x2842B0, SprintCameraShakeHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x790774, WalkAnimationHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
@@ -398,11 +397,6 @@ namespace Patches
 		void Tick() // 0x10AB2060
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@PlayerScale@Patches@@YAXXZ");
-			// procedure flags: nofpo
-			// bool (*const game_options_is_valid)();
-				// __int32 i;
-					// PlayerState &playerState;
-			// function call : bool (*const)()
 
 			const auto game_options_is_valid = (bool(*)())(0x00532650);
 			if (!game_options_is_valid())
@@ -428,7 +422,6 @@ namespace Patches
 		void UpdatePlayerScale(__int32 playerIndex) // 0x10AB2150
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?UpdatePlayerScale@PlayerScale@Patches@@YAXH@Z");
-			// __int32 playerIndex;
 
 			UpdatePlayerSize(playerIndex);
 		}
@@ -440,8 +433,6 @@ namespace Patches
 float SmoothStep(float from, float to, float t, float max) // 0x10AB1E60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SmoothStep@@YAMMMMM@Z");
-	// `anonymous-namespace'::SmoothStep
-	// float max;
 
 	if (t > 1.0f)
 		t = 1.0f;
@@ -456,17 +447,6 @@ float SmoothStep(float from, float to, float t, float max) // 0x10AB1E60
 void ObjectDeleteAttachedEffects(unsigned __int32 objectIndex) // 0x10AB10D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ObjectDeleteAttachedEffects@@YAXI@Z");
-	// `anonymous-namespace'::ObjectDeleteAttachedEffects
-	// unsigned __int32 objectIndex;
-	// s_object_data *unitObject;
-	// unsigned __int32 attachmentBlock;
-	// void (*const effect_delete)(unsigned __int32);
-	// ObjectDeleteAttachedEffects::__l2::s_object_attachment *attachments;
-	// unsigned __int32 attachmentsOffset;
-	// unsigned __int32 attachmentsCount;
-		// unsigned char i;
-			// ObjectDeleteAttachedEffects::__l2::s_object_attachment &attachment;
-	// function call : void (*const)(unsigned __int32)
 
 	struct s_object_attachment
 	{
@@ -501,11 +481,6 @@ void ObjectDeleteAttachedEffects(unsigned __int32 objectIndex) // 0x10AB10D0
 void ObjectDeleteEffectAttachmentsRecursive(unsigned __int32 unitObjectIndex) // 0x10AB1210
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ObjectDeleteEffectAttachmentsRecursive@@YAXI@Z");
-	// `anonymous-namespace'::ObjectDeleteEffectAttachmentsRecursive
-	// unsigned __int32 unitObjectIndex;
-	// s_object_data *unitObject;
-	// long objectIndex;
-		// s_object_data *childObject;
 
 	s_object_data *object = object_get(unitObjectIndex);
 	if (!object)
@@ -528,23 +503,6 @@ void ObjectDeleteEffectAttachmentsRecursive(unsigned __int32 unitObjectIndex) //
 void UpdatePlayerSize(unsigned __int32 playerIndex) // 0x10AB21A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdatePlayerSize@@YAXI@Z");
-	// `anonymous-namespace'::UpdatePlayerSize
-	// unsigned __int32 playerIndex;
-	// PlayerState &playerState;
-	// s_player_datum *player;
-	// s_object_data *unitObject;
-	// __int32 playerScaleIndex;
-	// float desiredScale;
-	// float currentScale;
-	// function call : void (*const)(unsigned __int32, float, float)
-	// function call : __int32 (*const)(unsigned __int32, unsigned __int32)
-	// function call : void (*const)(unsigned __int32, float, float)
-	// function call : __int32 (*const)(unsigned __int32, unsigned __int32)
-	// function call : void (*const)(unsigned __int32, float, float)
-	// function call : float (*const)()
-	// function call : void (*const)(unsigned __int32, float, float)
-	// function call : float (*const)(float)
-	// function call : __int32 (*const)(unsigned __int32, unsigned __int32)
 
 	PlayerState &playerState = state.Players[playerIndex & 0xF];
 	if (!playerState.IsValid)
@@ -607,9 +565,6 @@ void UpdatePlayerSize(unsigned __int32 playerIndex) // 0x10AB21A0
 bool biped_can_ragdoll(long biped_index) // 0x10AB2780
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?biped_can_ragdoll@@YA_NJ@Z");
-	// `anonymous-namespace'::biped_can_ragdoll
-	// long biped_index;
-	// s_object_data *biped;
 
 	s_object_data *biped = object_get(biped_index);
 	if (!biped)
@@ -620,10 +575,6 @@ bool biped_can_ragdoll(long biped_index) // 0x10AB2780
 bool biped_start_relaxation_hook(long biped_index, bool a1) // 0x10AB2B60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?biped_start_relaxation_hook@@YA_NJ_N@Z");
-	// `anonymous-namespace'::biped_start_relaxation_hook
-	// bool a1;
-	// char (*const biped_start_relaxation)(long, bool);
-	// function call : char (*const)(long, bool)
 
 	char (__cdecl *const biped_start_relaxation)(long, bool) = (char(__cdecl *const)(long, bool))0xbd80d0;
 
@@ -638,12 +589,6 @@ bool biped_start_relaxation_hook(long biped_index, bool a1) // 0x10AB2B60
 bool SprintCameraShakeHook(unsigned __int32 playerIndex, float *outValue) // 0x10AB1F50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SprintCameraShakeHook@@YA_NIPAM@Z");
-	// `anonymous-namespace'::SprintCameraShakeHook
-	// float *outValue;
-	// s_player_datum *player;
-	// s_object_data *unitObject;
-	// bool (*const player_get_sprinting)(unsigned __int32, float *);
-	// function call : bool (*const)(unsigned __int32, float *)
 
 	bool (__cdecl *const player_get_sprinting)(unsigned __int32, float *) = (bool(__cdecl *const)(unsigned __int32, float *))0x53b590;
 
@@ -661,15 +606,6 @@ bool SprintCameraShakeHook(unsigned __int32 playerIndex, float *outValue) // 0x1
 void *GetScaledShape(unsigned __int32 bipedObjectIndex, s_biped_physics *bipedPhysicsData, __int32 shapeIndex) // 0x10AB09A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetScaledShape@@YAPAXIPAUs_biped_physics@hades_file_local@@H@Z");
-	// `anonymous-namespace'::GetScaledShape
-	// __int32 shapeIndex;
-	// s_player_datum *player;
-	// PlayerState &playerState;
-	// s_object_data *bipedObject;
-	// hkCapsuleShape &stateCapsule;
-	// float s;
-	// unsigned __int32 playerIndex;
-	// s_havok_shape_data<hkCapsuleShape> &pillShape;
 
 	s_object_data *bipedObject = object_get(bipedObjectIndex);
 	if (!bipedObject)
@@ -702,13 +638,6 @@ void *GetScaledShape(unsigned __int32 bipedObjectIndex, s_biped_physics *bipedPh
 void *GetBipedPhysicsShape(unsigned __int32 bipedObjectIndex, s_biped_physics *bipedPhysics, __int32 shapeIndex) // 0x10AB0880
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetBipedPhysicsShape@@YAPAXIPAUs_biped_physics@hades_file_local@@H@Z");
-	// `anonymous-namespace'::GetBipedPhysicsShape
-	// __int32 shapeIndex;
-		// s_object_data *bipedObject;
-			// unsigned __int32 playerIndex;
-				// PlayerState &playerState;
-				// void *shape;
-		// unsigned char *data;
 
 	if (bipedPhysics->PillShapes.count)
 	{
@@ -738,8 +667,6 @@ void *GetBipedPhysicsShape(unsigned __int32 bipedObjectIndex, s_biped_physics *b
 __declspec(naked) void BipedPhysicsHook_4B10E0() // 0x10AB0460
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?BipedPhysicsHook_4B10E0@@YAXXZ");
-	// `anonymous-namespace'::BipedPhysicsHook_4B10E0
-	// procedure flags: nofpo
 
 	__asm
 	{
@@ -754,8 +681,6 @@ __declspec(naked) void BipedPhysicsHook_4B10E0() // 0x10AB0460
 __declspec(naked) void BipedPhysicsHook_5E23BC() // 0x10AB0480
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?BipedPhysicsHook_5E23BC@@YAXXZ");
-	// `anonymous-namespace'::BipedPhysicsHook_5E23BC
-	// procedure flags: nofpo
 
 	__asm
 	{
@@ -770,8 +695,6 @@ __declspec(naked) void BipedPhysicsHook_5E23BC() // 0x10AB0480
 __declspec(naked) void BipedPhysicsHook_B7156F() // 0x10AB04A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?BipedPhysicsHook_B7156F@@YAXXZ");
-	// `anonymous-namespace'::BipedPhysicsHook_B7156F
-	// procedure flags: nofpo
 
 	__asm
 	{
@@ -786,8 +709,6 @@ __declspec(naked) void BipedPhysicsHook_B7156F() // 0x10AB04A0
 __declspec(naked) void BipedPhysicsHook_BAF4CF() // 0x10AB04C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?BipedPhysicsHook_BAF4CF@@YAXXZ");
-	// `anonymous-namespace'::BipedPhysicsHook_BAF4CF
-	// procedure flags: nofpo
 
 	__asm
 	{
@@ -802,29 +723,6 @@ __declspec(naked) void BipedPhysicsHook_BAF4CF() // 0x10AB04C0
 bool biped_can_spawn_at_location_unobstructed(long biped_index, real_point3d *position, bool validate_location) // 0x10AB2830
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?biped_can_spawn_at_location_unobstructed@@YA_NJPAUreal_point3d@@_N@Z");
-	// `anonymous-namespace'::biped_can_spawn_at_location_unobstructed
-	// static ...; // 0x10AB2A9C
-	// static ...; // 0x10AB2A78
-	// static ...; // 0x10AB2A70
-	// long biped_index;
-	// real_point3d *position;
-	// bool validate_location;
-	// bool (*const collision_test_point)(unsigned long, unsigned long, real_point3d *, long, long);
-	// s_object_data *biped;
-	// real_point3d adjusted_postion;
-	// bool (*const havok_world_shape_collides)(void *, long, real_matrix4x3 *, long);
-	// void *shape;
-	// s_scenario_location location;
-	// s_biped_definition *biped_definiton;
-	// void (*const scenario_location_from_point)(s_scenario_location *, real_point3d *);
-	// real_matrix4x3 matrix;
-	// float height;
-	// function call : bool (*)()
-	// function call : bool (*const)()
-	// function call : void (*const)(s_scenario_location *, real_point3d *)
-	// function call : void *(*const)(unsigned long, long)
-	// function call : bool (*const)(void *, long, real_matrix4x3 *, long)
-	// function call : bool (*const)(unsigned long, unsigned long, real_point3d *, long, long)
 
 	void (*const scenario_location_from_point)(s_scenario_location *, real_point3d *) = reinterpret_cast<void (*)(s_scenario_location *, real_point3d *)>(0x4EA940);
 	bool (*const havok_world_shape_collides)(void *, long, real_matrix4x3 *, long) = reinterpret_cast<bool (*)(void *, long, real_matrix4x3 *, long)>(0x5C8010);
@@ -854,31 +752,6 @@ bool biped_can_spawn_at_location_unobstructed(long biped_index, real_point3d *po
 bool teleporter_is_blocked_for_object_hook(c_teleporter_area *source_teleporter, c_teleporter_area *destination_teleporter, long teleported_object_index) // 0x10AB2D70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?teleporter_is_blocked_for_object_hook@@YA_NPAUc_teleporter_area@@0J@Z");
-	// `anonymous-namespace'::teleporter_is_blocked_for_object_hook
-	// static ...; // 0x10AB301D
-	// static ...; // 0x10AB3014
-	// static ...; // 0x10AB2FE4
-	// static ...; // 0x10AB2FDC
-	// c_teleporter_area *source_teleporter;
-	// c_teleporter_area *destination_teleporter;
-	// long teleported_object_index;
-	// real_point3d destination_position;
-	// bool (*const teleporter_has_object_inside_boundary_area)(c_teleporter_area *, long *);
-	// bool (*const game_engine_vehicle_can_spawn_at_location_unobstructed)(long, real_point3d *, bool);
-	// bool valid;
-	// real_point3d *(*const teleporter_get_teleport_destination_position)(c_teleporter_area *, c_teleporter_area *, long, real_point3d *);
-	// real_point3d *(*const object_get_origin)(long, real_point3d *);
-	// s_object_data *teleported_object;
-	// void (*const object_get_center_of_mass)(long, real_point3d *);
-		// real_point3d origin_position;
-		// s_scenario_location location;
-		// real_point3d center_point;
-	// function call : bool (*const)(c_teleporter_area *, long *)
-	// function call : real_point3d *(*const)(c_teleporter_area *, c_teleporter_area *, long, real_point3d *)
-	// function call : bool (*const)(long, real_point3d *, bool)
-	// function call : void (*const)(long, real_point3d *)
-	// function call : real_point3d *(*const)(long, real_point3d *)
-	// function call : void (*const)(s_scenario_location *, real_point3d *)
 
 	bool (*const teleporter_has_object_inside_boundary_area)(c_teleporter_area *, long *) = reinterpret_cast<bool (*)(c_teleporter_area *, long *)>(0x5C9560);
 	real_point3d * (*const teleporter_get_teleport_destination_position)(c_teleporter_area *, c_teleporter_area *, long, real_point3d *) = reinterpret_cast<real_point3d * (*)(c_teleporter_area *, c_teleporter_area *, long, real_point3d *)>(0x5C94A0);
@@ -914,24 +787,6 @@ bool teleporter_is_blocked_for_object_hook(c_teleporter_area *source_teleporter,
 void PlayerSpawnLocationHook(unsigned __int32 playerIndex, real_vector3d *position, real_vector3d *orientation, __int32 *pStartingLocationIndex) // 0x10AB1620
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?PlayerSpawnLocationHook@@YAXIPAUreal_vector3d@@0PAH@Z");
-	// `anonymous-namespace'::PlayerSpawnLocationHook
-	// unsigned __int32 playerIndex;
-	// real_vector3d *position;
-	// real_vector3d *orientation;
-	// __int32 *pStartingLocationIndex;
-	// void (*const player_get_spawn_location)(unsigned __int32, real_vector3d *, real_vector3d *, __int32 *);
-	// unsigned __int32 (*const player_get_third_person_representation)(unsigned __int32, unsigned __int32 *, unsigned __int32 *);
-	// unsigned __int32 thirdPersonUnitTagIndex;
-		// s_biped_definition *bipedDefinition;
-			// PlayerState &playerState;
-				// void *oldPointer;
-				// static s_physics_model_pill `PlayerSpawnLocationHook'::`11'::shapes[2]; // 0x12467068
-				// float s;
-					// __int32 i;
-	// function call : unsigned __int32 (*const)(unsigned __int32, unsigned __int32 *, unsigned __int32 *)
-	// function call : void *(*const)(unsigned long, long)
-	// function call : void (*const)(unsigned __int32, real_vector3d *, real_vector3d *, __int32 *)
-	// function call : void (*const)(unsigned __int32, real_vector3d *, real_vector3d *, __int32 *)
 
 	void (*const player_get_spawn_location)(unsigned __int32, real_vector3d *, real_vector3d *, __int32 *) = reinterpret_cast<void (*)(unsigned __int32, real_vector3d *, real_vector3d *, __int32 *)>(0x539E30);
 	unsigned __int32 (*const player_get_third_person_representation)(unsigned __int32, unsigned __int32 *, unsigned __int32 *) = reinterpret_cast<unsigned __int32 (*)(unsigned __int32, unsigned __int32 *, unsigned __int32 *)>(0x539F70);
@@ -970,30 +825,6 @@ void PlayerSpawnLocationHook(unsigned __int32 playerIndex, real_vector3d *positi
 bool PlayerZoneTestHook(unsigned __int32 playerIndex, ZoneShape *zone) // 0x10AB1920
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?PlayerZoneTestHook@@YA_NIPAUZoneShape@hades_file_local@@@Z");
-	// `anonymous-namespace'::PlayerZoneTestHook
-	// static ...; // 0x10AB1C03
-	// static ...; // 0x10AB1BFC
-	// static ...; // 0x10AB1BF5
-	// static ...; // 0x10AB1BE8
-	// static ...; // 0x10AB1BAC
-	// static ...; // 0x10AB1BA4
-	// unsigned __int32 playerIndex;
-	// ZoneShape *zone;
-	// s_player_datum *player;
-	// s_object_data *bipedObject;
-	// bool (*const zone_test_point)(real_vector3d *, ZoneShape *);
-	// void (*const object_get_center_of_mass)(unsigned __int32, real_vector3d *);
-		// real_vector3d points[2];
-		// real_vector3d position;
-		// float cameraHeight;
-		// float headOffset;
-		// float height;
-		// float radius;
-		// real_vector3d centerOfMass;
-	// function call : bool (*const)(real_vector3d *, ZoneShape *)
-	// function call : bool (*const)(real_vector3d *, ZoneShape *)
-	// function call : void (*const)(unsigned __int32, real_vector3d *)
-	// function call : bool (*const)(real_vector3d *, ZoneShape *)
 
 	void (*const object_get_center_of_mass)(unsigned __int32, real_vector3d *) = reinterpret_cast<void (*)(unsigned __int32, real_vector3d *)>(0xB2DD90);
 	bool (*const zone_test_point)(real_vector3d *, ZoneShape *) = reinterpret_cast<bool (*)(real_vector3d *, ZoneShape *)>(0xBA11F0);
@@ -1031,19 +862,6 @@ bool PlayerZoneTestHook(unsigned __int32 playerIndex, ZoneShape *zone) // 0x10AB
 void BipedShapeHook(unsigned __int32 objectIndex, real_vector3d *outPosition, float *outHeight, float *outRadius) // 0x10AB04E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?BipedShapeHook@@YAXIPAUreal_vector3d@@PAM1@Z");
-	// `anonymous-namespace'::BipedShapeHook
-	// float *outRadius;
-	// float heightStanding;
-	// s_object_data *bipedObject;
-	// s_biped_physics *bipedPhysics;
-	// char *bipedDefinition;
-	// float heightCrouching;
-	// float radius;
-		// unsigned __int32 unitFlags;
-		// float v6;
-		// float v7;
-	// function call : void *(*const)(unsigned long, long)
-	// function call : void (*const)(unsigned __int32, real_vector3d *)
 
 	s_object_data *bipedObject = object_get(objectIndex);
 	if (!bipedObject)
@@ -1076,20 +894,6 @@ void BipedShapeHook(unsigned __int32 objectIndex, real_vector3d *outPosition, fl
 void MeleeRangeHook(unsigned __int32 unitObjectIndex, unsigned __int32 name, __int32 a3, void *damageData) // 0x10AB0DB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?MeleeRangeHook@@YAXIIHPAX@Z");
-	// `anonymous-namespace'::MeleeRangeHook
-	// void *damageData;
-	// s_object_data *unitObject;
-	// unsigned char *equippedWeapons;
-	// void (*const sub_B3C360)(__int32, unsigned __int32, __int32, void *);
-		// unsigned __int32 *weapons;
-		// s_object_data *weaponObject;
-		// unsigned __int32 weaponObjectIndex;
-			// s_weapon_definition *weaponDefinition;
-			// float scale;
-			// float oldDepth;
-	// function call : void *(*const)(unsigned long, long)
-	// function call : void (*const)(__int32, unsigned __int32, __int32, void *)
-	// function call : void (*const)(__int32, unsigned __int32, __int32, void *)
 
 	void (*const sub_B3C360)(__int32, unsigned __int32, __int32, void *) = reinterpret_cast<void (*)(__int32, unsigned __int32, __int32, void *)>(0xB3C360);
 	s_object_data *unitObject = object_get(unitObjectIndex);
@@ -1118,9 +922,6 @@ void MeleeRangeHook(unsigned __int32 unitObjectIndex, unsigned __int32 name, __i
 void ScaleCollisionDamage(unsigned __int32 objectIndex, unsigned char *damageData) // 0x10AB1CD0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ScaleCollisionDamage@@YAXIPAE@Z");
-	// `anonymous-namespace'::ScaleCollisionDamage
-	// unsigned char *damageData;
-	// s_object_data *bipedObject;
 
 	s_object_data *bipedObject = object_get(objectIndex);
 	if (bipedObject)
@@ -1133,8 +934,6 @@ void ScaleCollisionDamage(unsigned __int32 objectIndex, unsigned char *damageDat
 __declspec(naked) void CollisionDamageHook() // 0x10AB0710
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CollisionDamageHook@@YAXXZ");
-	// `anonymous-namespace'::CollisionDamageHook
-	// procedure flags: nofpo
 
 	__asm
 	{
@@ -1150,16 +949,6 @@ __declspec(naked) void CollisionDamageHook() // 0x10AB0710
 void BipedMovementPhysics(s_biped_physics_data1 *data, __int32 a2, char a3, char a4, char a5, char a6, __int32 a7, float sneak) // 0x10AAFEA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?BipedMovementPhysics@@YAXPAUs_biped_physics_data1@hades_file_local@@HDDDDHM@Z");
-	// `anonymous-namespace'::BipedMovementPhysics
-	// float sneak;
-	// void (*const sub_7209E0)(void *, __int32, char, char, char, char, __int32, float);
-	// float s;
-	// c_data_array<s_datum> *havokComponents;
-	// float scale;
-	// unsigned char *havokComponent;
-		// unsigned __int32 objectIndex;
-			// s_object_data *object;
-	// function call : void (*const)(void *, __int32, char, char, char, char, __int32, float)
 
 	void (*const sub_7209E0)(void *, __int32, char, char, char, char, __int32, float) = reinterpret_cast<void (*)(void *, __int32, char, char, char, char, __int32, float)>(0x7209E0);
 	float scale = 1.0f;
@@ -1187,12 +976,6 @@ void BipedMovementPhysics(s_biped_physics_data1 *data, __int32 a2, char a3, char
 bool __fastcall WalkAnimationHook(void *thisptr, void *unused, unsigned __int32 unitObjectIndex, real_vector3d *a3, bool a4) // 0x10AB2680
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?WalkAnimationHook@@YI_NPAX0IPAUreal_vector3d@@_N@Z");
-	// `anonymous-namespace'::WalkAnimationHook
-	// bool a4;
-	// bool (*const sub_6DEFF0)(void *, unsigned __int32, real_vector3d *, bool);
-	// s_object_data *object;
-		// float scale;
-	// function call : bool (*const)(void *, unsigned __int32, real_vector3d *, bool)
 
 	bool (__thiscall *const sub_6DEFF0)(void *, unsigned __int32, real_vector3d *, bool) = (bool(__thiscall *const)(void *, unsigned __int32, real_vector3d *, bool))0x6deff0;
 
@@ -1211,14 +994,6 @@ bool __fastcall WalkAnimationHook(void *thisptr, void *unused, unsigned __int32 
 void JumpVelocityScaleHook(unsigned __int32 bipedObjectIndex) // 0x10AB0BB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?JumpVelocityScaleHook@@YAXI@Z");
-	// `anonymous-namespace'::JumpVelocityScaleHook
-	// unsigned __int32 bipedObjectIndex;
-	// s_object_data *bipedObject;
-	// float oldJumpVelocity;
-	// s_biped_definition *bipedDefinition;
-	// char (*const sub_BE1B30)(unsigned __int32);
-	// function call : void *(*const)(unsigned long, long)
-	// function call : char (*const)(unsigned __int32)
 
 	char (__cdecl *const sub_BE1B30)(unsigned __int32) = (char (__cdecl *const)(unsigned __int32))0xbe1b30;
 
@@ -1236,12 +1011,6 @@ void JumpVelocityScaleHook(unsigned __int32 bipedObjectIndex) // 0x10AB0BB0
 float __fastcall PlayerPersonalGravity(void *traits, unsigned __int32 unitObjectIndex) // 0x10AB1510
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?PlayerPersonalGravity@@YIMPAXI@Z");
-	// `anonymous-namespace'::PlayerPersonalGravity
-	// unsigned __int32 unitObjectIndex;
-	// s_object_data *unitObject;
-	// float s;
-	// float (*const c_player_movement_traits__get_personal_gravity)(void *);
-	// function call : float (*const)(void *)
 
 	float (__thiscall *const c_player_movement_traits__get_personal_gravity)(void *) = (float(__thiscall *const)(void *))0x5cc200;
 
@@ -1256,7 +1025,6 @@ float __fastcall PlayerPersonalGravity(void *traits, unsigned __int32 unitObject
 __declspec(naked) void PlayerPersonalGravityHook() // 0x10AB1600
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?PlayerPersonalGravityHook@@YAXXZ");
-	// procedure flags: nofpo
 
 	__asm
 	{
@@ -1270,14 +1038,6 @@ __declspec(naked) void PlayerPersonalGravityHook() // 0x10AB1600
 void *__fastcall BipedCreateRigidBodyHook(void *thisptr, void *unused, s_biped_physics *bipedPhysics, __int32 a4, __int32 a5, unsigned __int32 collisionFilter_, __int32 shapeIndex, bool hasFriction, char a9) // 0x10AAFD10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?BipedCreateRigidBodyHook@@YIPAXPAX0PAUs_biped_physics@hades_file_local@@HHIH_ND@Z");
-	// `anonymous-namespace'::BipedCreateRigidBodyHook
-	// char a9;
-	// s_object_data *object;
-	// void *(*const BipedCreateRigidBody)(void *, s_biped_physics *, __int32, __int32, unsigned __int32, __int32, bool, char);
-		// void *ret;
-		// float oldMass;
-	// function call : void *(*const)(void *, s_biped_physics *, __int32, __int32, unsigned __int32, __int32, bool, char)
-	// function call : void *(*const)(void *, s_biped_physics *, __int32, __int32, unsigned __int32, __int32, bool, char)
 
 	void *(__thiscall *const BipedCreateRigidBody)(void *, s_biped_physics *, __int32, __int32, unsigned __int32, __int32, bool, char) = (void *(__thiscall *const)(void *, s_biped_physics *, __int32, __int32, unsigned __int32, __int32, bool, char))0x5e22c0;
 
@@ -1297,16 +1057,6 @@ void *__fastcall BipedCreateRigidBodyHook(void *thisptr, void *unused, s_biped_p
 bool PlayerCollisionDamageHook(unsigned __int32 bipedObjectIndex, unsigned __int32 otherBipedObjectIndex) // 0x10AB12C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?PlayerCollisionDamageHook@@YA_NII@Z");
-	// `anonymous-namespace'::PlayerCollisionDamageHook
-	// unsigned __int32 otherBipedObjectIndex;
-	// bool *const game_is_multiplayer;
-	// bool (*const multiplayer_object_should_cause_collision_damage)(unsigned __int32, unsigned __int32);
-		// s_object_data *objectB;
-		// s_object_data *objectA;
-			// float d;
-			// float maxScale;
-			// float minScale;
-	// function call : bool (*const)(unsigned __int32, unsigned __int32)
 
 	bool *const game_is_multiplayer = (bool *)0x531AF0;
 	bool (*const multiplayer_object_should_cause_collision_damage)(unsigned __int32, unsigned __int32) = reinterpret_cast<bool (*)(unsigned __int32, unsigned __int32)>(0x763710);
@@ -1331,10 +1081,6 @@ bool PlayerCollisionDamageHook(unsigned __int32 bipedObjectIndex, unsigned __int
 void LandingDamageResponseHook(unsigned __int32 unitObjectIndex, unsigned __int32 a2, unsigned __int32 damageEffectTagIndex, real_vector3d *a4, real_vector3d *a5, float a6, float responseScale, __int32 a8) // 0x10AB0D00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?LandingDamageResponseHook@@YAXIIIPAUreal_vector3d@@0MMH@Z");
-	// `anonymous-namespace'::LandingDamageResponseHook
-	// __int32 a8;
-	// void (*const LandingDamageResponse)(unsigned __int32, unsigned __int32, unsigned __int32, real_vector3d *, real_vector3d *, float, float, __int32);
-	// function call : void (*const)(unsigned __int32, unsigned __int32, unsigned __int32, real_vector3d *, real_vector3d *, float, float, __int32)
 
 	void (__cdecl *const LandingDamageResponse)(unsigned __int32, unsigned __int32, unsigned __int32, real_vector3d *, real_vector3d *, float, float, __int32) = (void(__cdecl *const)(unsigned __int32, unsigned __int32, unsigned __int32, real_vector3d *, real_vector3d *, float, float, __int32))0x684df0;
 
@@ -1346,11 +1092,6 @@ void LandingDamageResponseHook(unsigned __int32 unitObjectIndex, unsigned __int3
 void DamageResponsePlayerEffectsHook(unsigned __int32 uintObjectIndex, __int32 localPlayerIndex, unsigned __int32 damageResponseTagIndex, __int32 a4, real_vector3d *a5, float a6, float scale, bool a8) // 0x10AB0730
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?DamageResponsePlayerEffectsHook@@YAXIHIHPAUreal_vector3d@@MM_N@Z");
-	// `anonymous-namespace'::DamageResponsePlayerEffectsHook
-	// bool a8;
-	// s_object_data *unitObject;
-	// void (*const sub_684F30)(unsigned __int32, __int32, unsigned __int32, __int32, real_vector3d *, float, float, bool);
-	// function call : void (*const)(unsigned __int32, __int32, unsigned __int32, __int32, real_vector3d *, float, float, bool)
 
 	void (__cdecl *const sub_684F30)(unsigned __int32, __int32, unsigned __int32, __int32, real_vector3d *, float, float, bool) = (void (__cdecl *const)(unsigned __int32, __int32, unsigned __int32, __int32, real_vector3d *, float, float, bool))0x684f30;
 
@@ -1373,14 +1114,6 @@ void DamageResponsePlayerEffectsHook(unsigned __int32 uintObjectIndex, __int32 l
 bool ModelTargetTestHook(__int32 a1, unsigned __int32 objectIndex, __int32 a3, char a4, char a5, char a6, __int32 a7, unsigned char *target, __int32 a9, __int32 a10, real_vector3d *a11, __int32 a12, void *data) // 0x10AB0FA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ModelTargetTestHook@@YA_NHIHDDDHPAEHHPAUreal_vector3d@@HPAX@Z");
-	// `anonymous-namespace'::ModelTargetTestHook
-	// void *data;
-	// bool (*const model_target_test)(__int32, unsigned __int32, __int32, char, char, char, __int32, unsigned char *, __int32, __int32, real_vector3d *, __int32, void *);
-	// s_object_data *object;
-	// float oldRadius;
-	// bool result;
-	// float &targetRadius;
-	// function call : bool (*const)(__int32, unsigned __int32, __int32, char, char, char, __int32, unsigned char *, __int32, __int32, real_vector3d *, __int32, void *)
 
 	bool (__cdecl *const model_target_test)(__int32, unsigned __int32, __int32, char, char, char, __int32, unsigned char *, __int32, __int32, real_vector3d *, __int32, void *) = (bool (__cdecl *const)(__int32, unsigned __int32, __int32, char, char, char, __int32, unsigned char *, __int32, __int32, real_vector3d *, __int32, void *))0x58af40;
 
@@ -1403,12 +1136,6 @@ bool ModelTargetTestHook(__int32 a1, unsigned __int32 objectIndex, __int32 a3, c
 void ShieldDownParticleEffectHook(unsigned __int32 effectDatumIndex, unsigned short eventIndex) // 0x10AB1D70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ShieldDownParticleEffectHook@@YAXIG@Z");
-	// `anonymous-namespace'::ShieldDownParticleEffectHook
-	// unsigned short eventIndex;
-	// s_effect_datum *effect;
-	// void (*const ShieldDownParticleEffect)(unsigned __int32, unsigned short);
-		// s_object_data *object;
-	// function call : void (*const)(unsigned __int32, unsigned short)
 
 	void (__cdecl *const ShieldDownParticleEffect)(unsigned __int32, unsigned short) = (void(__cdecl *const)(unsigned __int32, unsigned short))0x5bdf40;
 
@@ -1426,11 +1153,6 @@ void ShieldDownParticleEffectHook(unsigned __int32 effectDatumIndex, unsigned sh
 void BipedPhysicsHook2(unsigned __int32 objectIndex, __int32 a2, void *a3) // 0x10AB02F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?BipedPhysicsHook2@@YAXIHPAX@Z");
-	// `anonymous-namespace'::BipedPhysicsHook2
-	// void *a3;
-	// s_object_data *object;
-	// constexpr void (*const `BipedPhysicsHook2'::`2'::sub_BB01B0)(unsigned __int32, __int32, void *); // constant == 12255664
-	// function call : void (*const)(unsigned __int32, __int32, void *)
 
 	static void (*const sub_BB01B0)(unsigned __int32, __int32, void *) = (void (*)(unsigned __int32, __int32, void *))0xBB01B0;
 	s_object_data *object = object_get(objectIndex);
@@ -1445,14 +1167,6 @@ void BipedPhysicsHook2(unsigned __int32 objectIndex, __int32 a2, void *a3) // 0x
 void BipedPhysicsHook1(__int32 objectIndex) // 0x10AB0130
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?BipedPhysicsHook1@@YAXH@Z");
-	// `anonymous-namespace'::BipedPhysicsHook1
-	// static ...; // 0x10AB0280
-	// static ...; // 0x10AB0274
-	// static ...; // 0x10AB026C
-	// __int32 objectIndex;
-	// void (*const sub_B73C00)(unsigned __int32);
-	// s_object_data *object;
-	// function call : void (*const)(unsigned __int32)
 
 	void (*const sub_B73C00)(unsigned __int32) = reinterpret_cast<void (*)(unsigned __int32)>(0xB73C00);
 	s_object_data *object = object_get(objectIndex);

@@ -106,13 +106,6 @@ namespace Utils
 	std::string LogLevelToString(Utils::LogLevel level) // 0x10C5A850
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?LogLevelToString@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@W4LogLevel@1@@Z");
-		// static ...; // 0x10C5A978
-	// $LN8:
-	// $LN7:
-	// $LN6:
-	// $LN5:
-	// $LN4:
-		// Utils::LogLevel level;
 
 		switch (level)
 		{
@@ -137,15 +130,6 @@ namespace Utils
 	std::string LogTypesToString(Utils::LogTypes types) // 0x10C5A9E0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?LogTypesToString@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@W4LogTypes@1@@Z");
-		// static ...; // 0x10C5AEE7
-		// static ...; // 0x10C5AEE4
-		// static ...; // 0x10C5AECC
-		// static ...; // 0x10C5AEC4
-		// Utils::LogTypes types;
-			// std::stringstream ss;
-			// std::vector<std::string> bits;
-				// __int32 bit;
-				// unsigned __int32 i;
 
 		switch (types)
 		{
@@ -202,7 +186,6 @@ namespace Utils
 	unsigned long __stdcall Logger::Flusher(void *lpParam) // 0x10C5A5E0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Flusher@Logger@Utils@@CGKPAX@Z");
-		// void *lpParam;
 
 		while (true)
 		{
@@ -214,8 +197,6 @@ namespace Utils
 	Logger::Logger() // 0x10C59920
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "??0Logger@Utils@@QAE@XZ");
-		// Utils::Logger *const this;
-		// function call : void *(_SECURITY_ATTRIBUTES *, unsigned long, unsigned long (*)(void *), void *, unsigned long, unsigned long *)
 
 		typedef boost::lockfree::queue<Utils::LogEntry, boost::lockfree::fixed_sized<false> > entry_queue;
 		reinterpret_cast<entry_queue *>(Entries)->entry_queue::queue(0);
@@ -227,36 +208,6 @@ namespace Utils
 	void Logger::Flush() // 0x10C59E20
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?Flush@Logger@Utils@@QAEXXZ");
-		// static ...; // 0x10C5A44B
-		// static ...; // 0x10C5A43F
-		// static ...; // 0x10C5A42F
-		// static ...; // 0x10C5A427
-		// static ...; // 0x10C5A421
-		// static ...; // 0x10C5A419
-		// static ...; // 0x10C5A412
-		// static ...; // 0x10C5A40B
-		// static ...; // 0x10C5A409
-		// static ...; // 0x10C5A3FC
-		// static ...; // 0x10C5A384
-		// static ...; // 0x10C5A37C
-	// closefile:
-		// Utils::Logger *const this;
-		// std::filesystem::path parentDirectory;
-		// std::lock_guard<std::mutex> lock;
-		// Modules::ModuleGame &gameModule;
-		// std::ofstream outfile;
-		// std::filesystem::path logFilePath;
-		// Utils::LogEntry entry;
-			// long long t;
-			// tm ourLocalTime;
-			// std::string message;
-				// std::vector<std::string> &<range>$L0;
-				// std::string *<begin>$L0;
-				// std::string *<end>$L0;
-					// std::string filter;
-				// std::string *<end>$L1;
-				// std::string *<begin>$L1;
-				// std::vector<std::string> &<range>$L1;
 
 		if (reinterpret_cast<boost::lockfree::queue<Utils::LogEntry, boost::lockfree::fixed_sized<false> > *>(Entries)->empty())
 			return;

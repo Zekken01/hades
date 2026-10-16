@@ -363,7 +363,6 @@ namespace Web
 			std::shared_ptr<IModBrowserModDownloadUI> GetDownloadUISingle() // 0x10C7CC90
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?GetDownloadUISingle@WebServerModBrowser@Ui@Web@@YA?AV?$shared_ptr@VIModBrowserModDownloadUI@@@std@@XZ");
-				// procedure flags: nofpo
 
 				return screen_single;
 			}
@@ -371,8 +370,6 @@ namespace Web
 			void CWebModDownloadSingleScreen::SetConfirmCallback(std::function<void __cdecl(void)> callback) // 0x10C7E100
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?SetConfirmCallback@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXV?$function@$$A6AXXZ@std@@@Z");
-				// __shifted(Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen, 4);
-				// std::function<void __cdecl(void)> callback;
 
 				m_confirmCallback = callback;
 			}
@@ -380,8 +377,6 @@ namespace Web
 			void CWebModDownloadSingleScreen::SetRetryCallback(std::function<void __cdecl(void)> callback) // 0x10C7E260
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?SetRetryCallback@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXV?$function@$$A6AXXZ@std@@@Z");
-				// __shifted(Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen, 4);
-				// std::function<void __cdecl(void)> callback;
 
 				m_retryCallback = callback;
 			}
@@ -389,8 +384,6 @@ namespace Web
 			void CWebModDownloadSingleScreen::SetCancelCallback(std::function<void __cdecl(void)> callback) // 0x10C7E050
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?SetCancelCallback@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXV?$function@$$A6AXXZ@std@@@Z");
-				// __shifted(Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen, 4);
-				// std::function<void __cdecl(void)> callback;
 
 				m_cancelCallback = callback;
 			}
@@ -398,8 +391,6 @@ namespace Web
 			void CWebModDownloadSingleScreen::SetDownloadSingleFinishedCallback(std::function<void __cdecl(void)> callback) // 0x10C7E1B0
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?SetDownloadSingleFinishedCallback@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXV?$function@$$A6AXXZ@std@@@Z");
-				// __shifted(Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen, 4);
-				// std::function<void __cdecl(void)> callback;
 
 				m_downloadSingleCallback = callback;
 			}
@@ -407,8 +398,6 @@ namespace Web
 			void CWebModDownloadSingleScreen::OnDownloadStart() // 0x10C7DE90
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?OnDownloadStart@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXXZ");
-				// __shifted(Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen, 4);
-				// Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen *const this;
 
 				NotifyDownloadStateChanged("downloading", "downloading");
 			}
@@ -416,8 +405,6 @@ namespace Web
 			void CWebModDownloadSingleScreen::OnDownloadFailed(std::string const &message) // 0x10C7D990
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?OnDownloadFailed@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-				// __shifted(Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen, 4);
-				// std::string const &message;
 
 				NotifyDownloadStateChanged("download_failed", "download_failed");
 				NotifyDownloadError(message);
@@ -426,8 +413,6 @@ namespace Web
 			void CWebModDownloadSingleScreen::OnDownloadFinalizing() // 0x10C7DAB0
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?OnDownloadFinalizing@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXXZ");
-				// __shifted(Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen, 4);
-				// Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen *const this;
 
 				NotifyDownloadStateChanged("downloading", "download_finalizing");
 			}
@@ -435,8 +420,6 @@ namespace Web
 			void CWebModDownloadSingleScreen::OnDownloadFinished(SModBrowserState const &state) // 0x10C7DBB0
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?OnDownloadFinished@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXABUSModBrowserState@@@Z");
-				// __shifted(Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen, 4);
-				// SModBrowserState const &state;
 
 				Web::Ui::ScreenLayer::NotifyScreen(Web::Ui::ScreenLayer::ModDownload, "modDownloadSingleFinished", "{}");
 				NotifyDownloadStateChanged("download_finalizing", "download_single_finished");
@@ -445,8 +428,6 @@ namespace Web
 			void CWebModDownloadSingleScreen::Hide() // 0x10C7CD00
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?Hide@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXXZ");
-				// __shifted(Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen, 4);
-				// Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen *const this;
 
 				NotifyDownloadStateChanged("awaiting_confirmation_single", "awaiting_confirmation_single");
 				Web::Ui::ScreenLayer::NotifyScreen(Web::Ui::ScreenLayer::ModDownload, "hide_moddownloader", "{}");
@@ -456,31 +437,26 @@ namespace Web
 			void CWebModDownloadSingleScreen::OnDestroy() // 0x10C7D950
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?OnDestroy@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXXZ");
-				// Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen *const this;
 			}
 
 			void CWebModDownloadSingleScreen::OnShow() // 0x10C7DFD0
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?OnShow@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXXZ");
-				// Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen *const this;
 			}
 
 			void CWebModDownloadSingleScreen::OnHide() // 0x10C7DF90
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?OnHide@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXXZ");
-				// Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen *const this;
 			}
 
 			void CWebModDownloadSingleScreen::OnUpdate() // 0x10C7E010
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?OnUpdate@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXXZ");
-				// Web::Ui::WebServerModBrowser::CWebModDownloadSingleScreen *const this;
 			}
 
 			void Init() // 0x10C7CE90
 			{
 				mangled_x86(MANGLED_KNOWN_GOOD, "?Init@WebServerModBrowser@Ui@Web@@YAXXZ");
-				// procedure flags: nofpo
 
 				screen_single = std::make_shared<CWebModDownloadSingleScreen>();
 				Web::Ui::ScreenLayer::RegisterScreen("mod_download_single", screen_single);
@@ -521,14 +497,6 @@ namespace Web
 static void NotifyDownloadStateChanged(std::string const &fromState, std::string const &toState) // 0x10C7D210
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?NotifyDownloadStateChanged@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z");
-	// `anonymous-namespace'::NotifyDownloadStateChanged
-	// static ...; // 0x10C7D3A0
-	// static ...; // 0x10C7D388
-	// static ...; // 0x10C7D380
-	// std::string const &fromState;
-	// std::string const &toState;
-	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buff;
-	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
 
 	rapidjson::StringBuffer buff;
 	rapidjson::Writer<rapidjson::StringBuffer> writer(buff);
@@ -544,14 +512,6 @@ static void NotifyDownloadStateChanged(std::string const &fromState, std::string
 static void NotifyDownloadStatus(DownloadStatusInfo const &info) // 0x10C7D420
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?NotifyDownloadStatus@@YAXABUDownloadStatusInfo@hades_file_local@@@Z");
-	// `anonymous-namespace'::NotifyDownloadStatus
-	// static ...; // 0x10C7D6D7
-	// static ...; // 0x10C7D6D0
-	// static ...; // 0x10C7D6B8
-	// static ...; // 0x10C7D6B0
-	// DownloadStatusInfo const &info;
-	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buff;
-	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
 
 	rapidjson::StringBuffer buff;
 	rapidjson::Writer<rapidjson::StringBuffer> writer(buff);
@@ -583,14 +543,6 @@ static void NotifyDownloadStatus(DownloadStatusInfo const &info) // 0x10C7D420
 static void NotifyDownloadError(std::string const &reason) // 0x10C7D030
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?NotifyDownloadError@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-	// `anonymous-namespace'::NotifyDownloadError
-	// static ...; // 0x10C7D1AB
-	// static ...; // 0x10C7D1A4
-	// static ...; // 0x10C7D18C
-	// static ...; // 0x10C7D184
-	// std::string const &reason;
-	// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> buff;
-	// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> writer;
 
 	rapidjson::StringBuffer buff;
 	rapidjson::Writer<rapidjson::StringBuffer> writer(buff);
