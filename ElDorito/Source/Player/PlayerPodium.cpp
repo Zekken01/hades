@@ -787,12 +787,12 @@ namespace Player
 			long roundTime = eldorado::game_engine_round_time_get();
 			if (!game_is_multiplayer())
 				return;
-			// Diagnostics: the players' units after a film's game ends.
-			if (SavedFilms::film_is_playing() && eldorado::game_is_finished())
+			// Diagnostics: the players' units while a film plays.
+			if (SavedFilms::film_is_playing())
 			{
 				static DWORD last_report = 0;
 				DWORD now = GetTickCount();
-				if (now - last_report > 2000)
+				if (now - last_report > 5000)
 				{
 					last_report = now;
 					char text[256];
@@ -802,9 +802,13 @@ namespace Player
 						if (!player)
 							continue;
 						s_object_data *unit = player->unit_index != -1 ? object_get(player->unit_index) : nullptr;
-						sprintf_s(text, "film: finished: player %ld '%s' unit %08lX exists %d at %.1f %.1f %.1f",
-							i, Utils::String::ThinString(player->configuration.host.player_name).c_str(), player->unit_index, int(unit != nullptr),
-							unit ? unit->bounding_sphere_center.x : 0.0f, unit ? unit->bounding_sphere_center.y : 0.0f, unit ? unit->bounding_sphere_center.z : 0.0f);
+						sprintf_s(text, "film: player %ld '%s' flags %08lX unit %08lX exists %d at %.1f %.1f %.1f hidden %d object flags %08lX inhibited %02X cluster %08lX scale %.2f definition %08lX local %08lX",
+							i, Utils::String::ThinString(player->configuration.host.player_name).c_str(), player->flags, player->unit_index, int(unit != nullptr),
+							unit ? unit->bounding_sphere_center.x : 0.0f, unit ? unit->bounding_sphere_center.y : 0.0f, unit ? unit->bounding_sphere_center.z : 0.0f,
+							unit ? int(reinterpret_cast<bool (*)(long)>(0xB2F1D0)(player->unit_index)) : -1,
+							unit ? *reinterpret_cast<unsigned long const *>(reinterpret_cast<unsigned char const *>(unit) + 0x4) : 0ul,
+							unit ? unsigned(unit->inhibited_flags) : 0u, unit ? unit->first_cluster_reference_index : -1, unit ? unit->scale : 0.0f,
+							unit ? unit->definition_index : -1, reinterpret_cast<long (*)(long)>(0x589C30)(0));
 						SavedFilms::film_log(text);
 					}
 				}
