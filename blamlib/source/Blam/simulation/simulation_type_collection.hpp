@@ -39,11 +39,11 @@ public:
 	virtual bool event_payload_decode(long, void *, c_bitstream *, bool) const = 0;
 	virtual void prepare_event_data_for_gameworld(long, void *) = 0;
 	virtual bool apply_game_event(long, long const *, long, void const *) = 0;
-	c_simulation_event_definition(c_simulation_event_definition &); /* compiler_generated() */
-	c_simulation_event_definition(c_simulation_event_definition const &); /* compiler_generated() */
-	c_simulation_event_definition(); /* compiler_generated() */
-	c_simulation_event_definition &operator=(c_simulation_event_definition &); /* compiler_generated() */
-	c_simulation_event_definition &operator=(c_simulation_event_definition const &); /* compiler_generated() */
+	// c_simulation_event_definition(c_simulation_event_definition &); /* compiler_generated(): left implicit, as the original's was */
+	// c_simulation_event_definition(c_simulation_event_definition const &); /* compiler_generated(): left implicit, as the original's was */
+	// c_simulation_event_definition(); /* compiler_generated(): left implicit, as the original's was */
+	// c_simulation_event_definition &operator=(c_simulation_event_definition &); /* compiler_generated(): left implicit, as the original's was */
+	// c_simulation_event_definition &operator=(c_simulation_event_definition const &); /* compiler_generated(): left implicit, as the original's was */
 };
 static_assert(sizeof(c_simulation_event_definition) == 4, "Invalid c_simulation_event_definition size");
 

@@ -63,7 +63,7 @@ namespace hades_file_local
 			unsigned long bytes_read; // 0x10008
 			_OVERLAPPED overlapped; // 0x1000C
 			bool is_filled() const;
-			s_packet(); /* compiler_generated() */
+			// s_packet(); /* compiler_generated(): left implicit, as the original's was */
 		};
 		static_assert(sizeof(s_packet) == 65568, "Invalid s_packet size");
 		struct s_lz_block_header

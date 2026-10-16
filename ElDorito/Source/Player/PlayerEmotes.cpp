@@ -179,11 +179,11 @@ namespace hades_file_local
 		virtual void prepare_event_data_for_gameworld(long, void *);
 		virtual bool apply_game_event(long, long const *, long, void const *);
 	public:
-		c_simulation_player_emote_event_definition(c_simulation_player_emote_event_definition &); /* compiler_generated() */
-		c_simulation_player_emote_event_definition(c_simulation_player_emote_event_definition const &); /* compiler_generated() */
-		c_simulation_player_emote_event_definition(); /* compiler_generated() */
-		c_simulation_player_emote_event_definition &operator=(c_simulation_player_emote_event_definition &); /* compiler_generated() */
-		c_simulation_player_emote_event_definition &operator=(c_simulation_player_emote_event_definition const &); /* compiler_generated() */
+		// c_simulation_player_emote_event_definition(c_simulation_player_emote_event_definition &); /* compiler_generated(): left implicit, as the original's was */
+		// c_simulation_player_emote_event_definition(c_simulation_player_emote_event_definition const &); /* compiler_generated(): left implicit, as the original's was */
+		// c_simulation_player_emote_event_definition(); /* compiler_generated(): left implicit, as the original's was */
+		// c_simulation_player_emote_event_definition &operator=(c_simulation_player_emote_event_definition &); /* compiler_generated(): left implicit, as the original's was */
+		// c_simulation_player_emote_event_definition &operator=(c_simulation_player_emote_event_definition const &); /* compiler_generated(): left implicit, as the original's was */
 	};
 	static_assert(sizeof(c_simulation_player_emote_event_definition) == 4, "Invalid c_simulation_player_emote_event_definition size");
 }
@@ -1031,3 +1031,6 @@ template s_unit_camera_definition * c_tag_block<s_unit_camera_definition>::get_e
 
 /* ---------- explicit instantiations */
 template class std::_Invoker_ret<void,1>;
+
+/* ---------- data definitions */
+namespace hades_file_local { c_simulation_player_emote_event_definition emote_definition; }

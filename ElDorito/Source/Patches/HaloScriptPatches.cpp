@@ -261,11 +261,11 @@ namespace hades_file_local
 		virtual void prepare_event_data_for_gameworld(long, void *);
 		virtual bool apply_game_event(long, long const *, long, void const *);
 	public:
-		c_simulation_hs_script_wake_event_definition(c_simulation_hs_script_wake_event_definition &); /* compiler_generated() */
-		c_simulation_hs_script_wake_event_definition(c_simulation_hs_script_wake_event_definition const &); /* compiler_generated() */
-		c_simulation_hs_script_wake_event_definition(); /* compiler_generated() */
-		c_simulation_hs_script_wake_event_definition &operator=(c_simulation_hs_script_wake_event_definition &); /* compiler_generated() */
-		c_simulation_hs_script_wake_event_definition &operator=(c_simulation_hs_script_wake_event_definition const &); /* compiler_generated() */
+		// c_simulation_hs_script_wake_event_definition(c_simulation_hs_script_wake_event_definition &); /* compiler_generated(): left implicit, as the original's was */
+		// c_simulation_hs_script_wake_event_definition(c_simulation_hs_script_wake_event_definition const &); /* compiler_generated(): left implicit, as the original's was */
+		// c_simulation_hs_script_wake_event_definition(); /* compiler_generated(): left implicit, as the original's was */
+		// c_simulation_hs_script_wake_event_definition &operator=(c_simulation_hs_script_wake_event_definition &); /* compiler_generated(): left implicit, as the original's was */
+		// c_simulation_hs_script_wake_event_definition &operator=(c_simulation_hs_script_wake_event_definition const &); /* compiler_generated(): left implicit, as the original's was */
 	};
 	static_assert(sizeof(c_simulation_hs_script_wake_event_definition) == 4, "Invalid c_simulation_hs_script_wake_event_definition size");
 
@@ -295,11 +295,11 @@ namespace hades_file_local
 		virtual void prepare_event_data_for_gameworld(long, void *);
 		virtual bool apply_game_event(long, long const *, long, void const *);
 	public:
-		c_simulation_hs_sync_global_event_definition(c_simulation_hs_sync_global_event_definition &); /* compiler_generated() */
-		c_simulation_hs_sync_global_event_definition(c_simulation_hs_sync_global_event_definition const &); /* compiler_generated() */
-		c_simulation_hs_sync_global_event_definition(); /* compiler_generated() */
-		c_simulation_hs_sync_global_event_definition &operator=(c_simulation_hs_sync_global_event_definition &); /* compiler_generated() */
-		c_simulation_hs_sync_global_event_definition &operator=(c_simulation_hs_sync_global_event_definition const &); /* compiler_generated() */
+		// c_simulation_hs_sync_global_event_definition(c_simulation_hs_sync_global_event_definition &); /* compiler_generated(): left implicit, as the original's was */
+		// c_simulation_hs_sync_global_event_definition(c_simulation_hs_sync_global_event_definition const &); /* compiler_generated(): left implicit, as the original's was */
+		// c_simulation_hs_sync_global_event_definition(); /* compiler_generated(): left implicit, as the original's was */
+		// c_simulation_hs_sync_global_event_definition &operator=(c_simulation_hs_sync_global_event_definition &); /* compiler_generated(): left implicit, as the original's was */
+		// c_simulation_hs_sync_global_event_definition &operator=(c_simulation_hs_sync_global_event_definition const &); /* compiler_generated(): left implicit, as the original's was */
 	};
 	static_assert(sizeof(c_simulation_hs_sync_global_event_definition) == 4, "Invalid c_simulation_hs_sync_global_event_definition size");
 }
@@ -2509,3 +2509,5 @@ namespace hades_file_local
 // Initial values as linked into mtndew.dll. Defined after every use, so calls
 // through the constant pointers still load them from memory, as the original's did.
 namespace hades_file_local { namespace hades_file_local_HaloScriptPatches { real_rectangle2d global_null_rectangle2d; } }
+namespace hades_file_local { c_simulation_hs_script_wake_event_definition hs_wake_script_event_definition; }
+namespace hades_file_local { c_simulation_hs_sync_global_event_definition hs_sync_global_event_definition; }
