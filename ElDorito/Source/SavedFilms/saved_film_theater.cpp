@@ -495,6 +495,8 @@ namespace SavedFilms
 		// takes the clients' path (jz -> jmp at 0x491C52), and its main_game_change call
 		// opens the session's film and sets the options up as Film.Play does.
 		unsigned long const k_begin_load_map_host_film_check = 0x00491C52;
+		unsigned long const k_host_update_countdown_film_case = 0x0048F7C8 + 3 * 4; // jpt_48F67F[_network_game_start_mode_film]
+		unsigned long const k_host_update_countdown_start_game = 0x0048F7B8; // push _network_session_mode_setup; session_mode.set
 		unsigned long const k_begin_load_map_main_game_change_call = 0x00491F96;
 		auto const main_game_change = reinterpret_cast<void (*)(void const *)>(0x00566E70);
 		long const k_game_options_game_playback = 0x130;
@@ -575,6 +577,11 @@ namespace SavedFilms
 		Hook(k_saved_film_selected_item_get_film_details - 0x00400000, reinterpret_cast<void *>(&saved_film_selected_item_get_film_details_hook)).Apply();
 		for (unsigned long call : k_set_selected_item_calls)
 			Hook(call - 0x00400000, reinterpret_cast<void *>(&set_selected_item_hook), static_cast<__int32>(HookFlags::IsCall)).Apply();
+		// c_life_cycle_state_handler_pre_game::host_update_countdown's film case, where the
+		// host checked the film with the stripped saved film manager, became "film
+		// invalid, clearing and stopping countdown". Its jump table entry goes to the
+		// custom game case's end instead, which starts the game (session mode setup).
+		Pointer(k_host_update_countdown_film_case).Write<unsigned long>(k_host_update_countdown_start_game);
 		Patch(k_begin_load_map_host_film_check - 0x00400000, { 0xEB }).Apply();
 		Hook(k_begin_load_map_main_game_change_call - 0x00400000, reinterpret_cast<void *>(&begin_load_map_main_game_change_hook), static_cast<__int32>(HookFlags::IsCall)).Apply();
 	}
