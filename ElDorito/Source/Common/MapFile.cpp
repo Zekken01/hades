@@ -117,7 +117,7 @@ bool CMapFile::HasMapVariant() const // 0x10860840
 s_map_variant const *CMapFile::GetMapVariant() const // 0x10860460
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetMapVariant@CMapFile@@QBEPBUs_map_variant@@XZ");
-	// CMapFile const *const this;
+#line 129
 
 	#line 127 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Common\\MapFile.cpp"
 		assert(HasMapVariant());
@@ -128,7 +128,7 @@ s_map_variant const *CMapFile::GetMapVariant() const // 0x10860460
 std::string const CMapFile::GetScenarioPath() const // 0x10860690
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetScenarioPath@CMapFile@@QBE?BV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-	// CMapFile const *const this;
+#line 140
 
 	#line 138 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Common\\MapFile.cpp"
 		assert(IsValid());
@@ -139,7 +139,7 @@ std::string const CMapFile::GetScenarioPath() const // 0x10860690
 std::string const CMapFile::GetScenarioName() const // 0x108604E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetScenarioName@CMapFile@@QBE?BV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-	// CMapFile const *const this;
+#line 151
 
 	#line 149 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Common\\MapFile.cpp"
 		assert(IsValid());
@@ -150,7 +150,7 @@ std::string const CMapFile::GetScenarioName() const // 0x108604E0
 std::wstring const CMapFile::GetDisplayName(__int32 language) const // 0x108602A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetDisplayName@CMapFile@@QBE?BV?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@H@Z");
-	// __int32 language;
+#line 162
 
 	#line 160 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Common\\MapFile.cpp"
 		assert(IsValid());
@@ -166,7 +166,7 @@ std::wstring const CMapFile::GetDisplayName(__int32 language) const // 0x108602A
 std::wstring const CMapFile::GetDescription(__int32 language) const // 0x10860170
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetDescription@CMapFile@@QBE?BV?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@H@Z");
-	// __int32 language;
+#line 178
 
 	#line 176 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Common\\MapFile.cpp"
 		assert(IsValid());
@@ -182,7 +182,7 @@ std::wstring const CMapFile::GetDescription(__int32 language) const // 0x1086017
 __int32 CMapFile::GetMapId() const // 0x108603D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetMapId@CMapFile@@QBEHXZ");
-	// CMapFile const *const this;
+#line 194
 
 	#line 192 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Common\\MapFile.cpp"
 		assert(IsValid());

@@ -208,8 +208,7 @@ _inline e_physical_memory_stage c_physical_memory_stack::get_current_stage() con
 void c_physical_memory_stack::push(e_physical_memory_stage stage) // 0x108BE3C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?push@c_physical_memory_stack@hades_file_local@@QAEXW4e_physical_memory_stage@@@Z");
-	// `anonymous-namespace'::c_physical_memory_stack::push
-	// e_physical_memory_stage stage;
+#line 235
 
 	#line 232 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\memory\\physical_memory_manager.cpp"
 		(void)((!!(m_current_stage + 1 < 3)) || (_wassert(L"m_current_stage + 1 < k_physical_memory_stage_count", _CRT_WIDE(__FILE__), (unsigned)(__LINE__)), 0));
@@ -223,8 +222,7 @@ void c_physical_memory_stack::push(e_physical_memory_stage stage) // 0x108BE3C0
 void c_physical_memory_stack::pop(e_physical_memory_stage stage) // 0x108BE1F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?pop@c_physical_memory_stack@hades_file_local@@QAEXW4e_physical_memory_stage@@@Z");
-	// `anonymous-namespace'::c_physical_memory_stack::pop
-	// e_physical_memory_stage stage;
+#line 250
 
 	#line 247 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\memory\\physical_memory_manager.cpp"
 		assert(stage == m_current_stage);
@@ -258,13 +256,7 @@ bool c_physical_memory_stack::initialize(unsigned long m_total_size) // 0x108BE0
 void *c_physical_memory_stack::allocate(e_physical_memory_stage stage, unsigned long size, long alignment_bits, unsigned long *out_allocated_size) // 0x108BDB40
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?allocate@c_physical_memory_stack@hades_file_local@@QAEPAXW4e_physical_memory_stage@@KJPAK@Z");
-	// `anonymous-namespace'::c_physical_memory_stack::allocate
-	// e_physical_memory_stage stage;
-	// unsigned long size;
-	// long alignment_bits;
-	// unsigned long *out_allocated_size;
-	// void *memory;
-	// unsigned long allocated_size;
+#line 292
 
 	#line 284 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\memory\\physical_memory_manager.cpp"
 		assert(m_current_stage != -1);

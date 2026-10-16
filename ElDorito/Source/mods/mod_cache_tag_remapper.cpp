@@ -95,12 +95,7 @@ long c_mod_cache_tag_remapper::get_runtime_tag_index(long mod_index) const // 0x
 bool c_mod_cache_tag_remapper::initialize(c_cache_file_tag_cache *base_cache) // 0x1089B450
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?initialize@c_mod_cache_tag_remapper@@QAE_NPAVc_cache_file_tag_cache@@@Z");
-	// static ...; // 0x1089B5B0
-	// static ...; // 0x1089B5A8
-	// c_mod_cache_tag_remapper *const this;
-	// c_cache_file_tag_cache *base_cache;
-	// c_cache_file_tag_cache::c_instance_iterator base_it;
-		// char const *base_tag_name;
+#line 117
 
 	reset();
 	m_base_cache = base_cache;
@@ -125,20 +120,7 @@ bool c_mod_cache_tag_remapper::initialize(c_cache_file_tag_cache *base_cache) //
 bool c_mod_cache_tag_remapper::add_mod(c_cache_file_tag_cache const *mod_cache) // 0x1089A150
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?add_mod@c_mod_cache_tag_remapper@@QAE_NPBVc_cache_file_tag_cache@@@Z");
-	// static ...; // 0x1089A4E9
-	// static ...; // 0x1089A4E6
-	// static ...; // 0x1089A4D4
-	// static ...; // 0x1089A4A4
-	// static ...; // 0x1089A49C
-	// c_mod_cache_tag_remapper *const this;
-	// c_cache_file_tag_cache const *mod_cache;
-	// long used_mod_tag_count;
-	// c_cache_file_tag_cache::c_instance_iterator mod_it;
-		// std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<c_mod_cache_tag_remapper::s_name_lookup_key const ,long> > > > it;
-		// char const *mod_tag_name;
-		// s_cache_tag_instance const *base_tag;
-		// long base_tag_index;
-		// long runtime_tag_index;
+#line 155
 
 	if (!m_valid)
 		return false;

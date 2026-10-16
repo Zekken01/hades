@@ -220,7 +220,7 @@ namespace Blam
 		unsigned __int32 MakeStringId(__int32 set, __int32 index) // 0x1092D9F0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?MakeStringId@Cache@Blam@@YAIHH@Z");
-			// __int32 index;
+#line 242
 
 			if (index > 0xFFFF)
 			{

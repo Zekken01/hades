@@ -378,25 +378,6 @@ namespace Patches
 		Patches::Weapon::WeaponInfo GetWeaponByType(std::string const &weaponType) // 0x10AF2EF0
 		{
 			mangled_x86(MANGLED_TODO, "?GetWeaponByType@Weapon@Patches@@YA?AUWeaponInfo@12@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-			{
-				// std::vector<Patches::Weapon::WeaponInfo> &<range>$L0;
-				// Patches::Weapon::WeaponInfo *<begin>$L0;
-				// Patches::Weapon::WeaponInfo *<end>$L0;
-				{
-					// Patches::Weapon::WeaponInfo &weapon;
-				}
-			}
-			{
-				// Patches::Weapon::DefaultWeaponInfo *<end>$L1;
-				// Patches::Weapon::DefaultWeaponInfo *<begin>$L1;
-				// std::vector<Patches::Weapon::DefaultWeaponInfo> &<range>$L1;
-				{
-					// Patches::Weapon::DefaultWeaponInfo &default_weapon;
-					{
-						// Patches::Weapon::WeaponInfo newWeapon;
-					}
-				}
-			}
 
 			// hades: written by hand; this function has no symbol-map entry, but its copy of a
 			// weapon_infos element keeps the implicit WeaponInfo copy ctor (0x10AEFAA0) emitted.

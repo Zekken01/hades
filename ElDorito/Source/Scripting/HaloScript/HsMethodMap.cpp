@@ -123,11 +123,7 @@ namespace Scripting
 		void ScriptMethodMap::AddMethod(Scripting::HS::ScriptMethod &&method) // 0x10701260
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?AddMethod@ScriptMethodMap@HS@Scripting@@AAEX$$QAUScriptMethod@23@@Z");
-			// Scripting::HS::ScriptMethod &method;
-				// std::vector<Scripting::HS::ScriptParameter> &<range>$L0;
-				// Scripting::HS::ScriptParameter *<begin>$L0;
-				// Scripting::HS::ScriptParameter *<end>$L0;
-					// Scripting::HS::ScriptParameter const &parameter;
+#line 132
 
 			#line 126 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Scripting\\HaloScript\\HsMethodMap.cpp"
 			assert(!m_finalized && "A method cannot be added after Finalize() has been called");
@@ -183,11 +179,7 @@ namespace Scripting
 		Scripting::HS::ScriptMethod const *ScriptMethodMap::FindMethod(std::string_view name) const // 0x10701880
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?FindMethod@ScriptMethodMap@HS@Scripting@@QBEPBUScriptMethod@23@V?$basic_string_view@DU?$char_traits@D@std@@@std@@@Z");
-			// static ...; // 0x107019BC
-			// static ...; // 0x107019B4
-			// Scripting::HS::ScriptMethodMap const *const this;
-			// std::string_view name;
-				// std::_List_const_iterator<std::_List_val<std::_List_simple_types<std::pair<std::string_view const ,Scripting::HS::ScriptMethod> > > > it;
+#line 196
 
 			#line 190 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Scripting\\HaloScript\\HsMethodMap.cpp"
 				assert(m_finalized && "Finalize() must be called first.");
@@ -258,19 +250,7 @@ namespace Scripting
 		std::string ScriptMethodMap::GenerateDocs() const // 0x10701A20
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GenerateDocs@ScriptMethodMap@HS@Scripting@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-			// static ...; // 0x10701D30
-			// static ...; // 0x10701D25
-			// static ...; // 0x10701D1C
-			// static ...; // 0x10701CF8
-			// static ...; // 0x10701CF0
-			// Scripting::HS::ScriptMethodMap const *const this;
-			// std::stringstream docs;
-			// Scripting::HS::ScriptMethodMap &methods;
-				// std::unordered_map<std::string_view,Scripting::HS::ScriptMethod> &<range>$L0;
-				// std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<std::string_view const ,Scripting::HS::ScriptMethod> > > > <begin>$L0;
-				// std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<std::string_view const ,Scripting::HS::ScriptMethod> > > > <end>$L0;
-					// Scripting::HS::ScriptMethod const &method;
-					// std::string_view const &name;
+#line 293
 
 			#line 279 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Scripting\\HaloScript\\HsMethodMap.cpp"
 				assert(m_finalized && "Finalize() must be called before generating documentation.");
@@ -297,7 +277,7 @@ namespace Scripting
 		void ScriptMethodMap::Finalize() // 0x107017F0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Finalize@ScriptMethodMap@HS@Scripting@@QAEXXZ");
-			// Scripting::HS::ScriptMethodMap *const this;
+#line 320
 
 			#line 318 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Scripting\\HaloScript\\HsMethodMap.cpp"
 				assert(!m_finalized && "Finalize() has already been called");

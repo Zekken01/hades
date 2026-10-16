@@ -24,7 +24,7 @@ extern __int32 ustrnicmp(wchar_t const *string1, wchar_t const *string2, long co
 __int32 ustrnicmp(wchar_t const *string1, wchar_t const *string2, long count) // 0x10F1AAC0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ustrnicmp@@YAHPB_W0J@Z");
-	// long count;
+#line 28
 
 	#line 26 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\text\\unicode.cpp"
 		assert(string1 != NULL);

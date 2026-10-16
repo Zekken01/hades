@@ -182,16 +182,6 @@ namespace Server
 
 __int32 __stdcall WndProcHook(HWND__ *hWnd, unsigned __int32 msg, unsigned __int32 wParam, long lParam) // 0x10ACBDE0
 {
-	{
-		// __int32 mouseXButton;
-		// rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> jsonBuffer;
-		// rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> jsonWriter;
-	}
-	{
-		// __int32 x;
-		// __int32 y;
-	}
-	// function call : __int32 (*const)(HWND__ *, unsigned __int32, unsigned __int32, long)
 	bool handled = false;
 	__int32 result = Server::InfoServer::networkWndProc(hWnd, msg, wParam, lParam, &handled);
 	if (handled)

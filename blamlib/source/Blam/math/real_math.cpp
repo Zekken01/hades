@@ -366,11 +366,7 @@ real_vector3d *vector3d_from_euler_angles2d(real_vector3d *result, real_euler_an
 real_euler_angles3d *euler_angles3d_from_vectors3d(real_euler_angles3d *angles, real_vector3d const *forward, real_vector3d const *up) // 0x10EF9C90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?euler_angles3d_from_vectors3d@@YAPAUreal_euler_angles3d@@PAU1@PBUreal_vector3d@@1@Z");
-	// static ...; // 0x10EF9D80
-	// real_euler_angles3d *angles;
-	// real_vector3d const *forward;
-	// real_vector3d const *up;
-	// real_matrix4x3 matrix;
+#line 412
 
 	#line 406 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\math\\real_math.cpp"
 		assert(forward);

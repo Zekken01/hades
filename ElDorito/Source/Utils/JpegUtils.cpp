@@ -171,7 +171,7 @@ namespace Utils
 		void CompressFile(std::wstring destFilename, __int32 quality, unsigned char const *srcBits, __int32 width, __int32 height) // 0x10753EF0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?CompressFile@Jpeg@Utils@@YAXV?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@HPBEHH@Z");
-			// __int32 height;
+#line 182
 
 			#line 180 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Utils\\JpegUtils.cpp"
 			assert(!"not implemented");

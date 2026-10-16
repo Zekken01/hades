@@ -224,23 +224,7 @@ void cheat_objects(long const *objects, __int32 count) // 0x107977F0
 bool cheat_all_objects(long group_tag, bool everything) // 0x107971D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?cheat_all_objects@@YA_NJ_N@Z");
-	// `anonymous-namespace'::cheat_all_objects
-	// static ...; // 0x107976A5
-	// static ...; // 0x107976A0
-	// static ...; // 0x1079767C
-	// static ...; // 0x10797674
-	// long group_tag;
-	// bool everything;
-	// __int32 count;
-	// long objects[256];
-	// s_game_globals *globals;
-		// s_tag_iterator iter;
-			// long index;
-		// s_multiplayer_globals_definition *mulg;
-			// __int32 i;
-	// function call : void (*const)(s_tag_iterator *, long)
-	// function call : long (*const)(s_tag_iterator *)
-	// function call : void *(*const)(unsigned long, long)
+#line 272
 
 	long objects[256];
 	__int32 count = 0;

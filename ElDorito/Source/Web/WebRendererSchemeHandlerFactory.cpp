@@ -218,7 +218,6 @@ namespace Web
 		WebRendererSchemeHandlerFactory::WebRendererSchemeHandlerFactory(std::string const &scheme, std::string const &directory) : m_Directory(directory), m_Scheme(scheme) /* hades-mem-init: : m_Directory(todo_result<std::string>()), m_Scheme(todo_result<std::string>()) */ // 0x10CDD890
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "??0WebRendererSchemeHandlerFactory@Browser@Web@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z");
-			// std::string const &directory;
 		}
 	}
 }
@@ -231,39 +230,6 @@ namespace Web
 		scoped_refptr<CefResourceHandler> WebRendererSchemeHandlerFactory::Create(scoped_refptr<CefBrowser> browser, scoped_refptr<CefFrame> frame, CefStringBase<CefStringTraitsUTF16> const &schemeName, scoped_refptr<CefRequest> request) // 0x10CE0480
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Create@WebRendererSchemeHandlerFactory@Browser@Web@@MAE?AV?$scoped_refptr@VCefResourceHandler@@@@V?$scoped_refptr@VCefBrowser@@@@V?$scoped_refptr@VCefFrame@@@@ABV?$CefStringBase@UCefStringTraitsUTF16@@@@V?$scoped_refptr@VCefRequest@@@@@Z");
-			// static ...; // 0x10CE13D1
-			// static ...; // 0x10CE13C7
-			// static ...; // 0x10CE13C0
-			// static ...; // 0x10CE13BC
-			// static ...; // 0x10CE13B3
-			// static ...; // 0x10CE13AE
-			// static ...; // 0x10CE13A4
-			// static ...; // 0x10CE1398
-			// static ...; // 0x10CE1390
-			// static ...; // 0x10CE12F4
-			// static ...; // 0x10CE12EC
-			// Web::Browser::WebRendererSchemeHandlerFactory *const this;
-			// scoped_refptr<CefBrowser> browser;
-			// scoped_refptr<CefFrame> frame;
-			// CefStringBase<CefStringTraitsUTF16> const &schemeName;
-			// scoped_refptr<CefRequest> request;
-			// std::filesystem::path fpath;
-			// std::string extension;
-			// std::string host;
-			// std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16> > headers;
-			// std::string path;
-			// scoped_refptr<CefStreamReader> stream;
-			// std::string contentType;
-			// std::string scheme;
-				// CModPackageFileSystemView::SFileEntry fileEntry;
-				// std::shared_ptr<CModPackageFileSystemView> fsView;
-				// std::filesystem::_Path_iterator<std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t> > > > &it;
-				// std::filesystem::_Path_iterator<std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t> > > > &_;
-				// std::pair<std::filesystem::_Path_iterator<std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t> > > >,std::filesystem::_Path_iterator<std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t> > > > > $S11;
-				// std::filesystem::path dir;
-				// std::filesystem::path filePath;
-			// function call : CefStringBase<CefStringTraitsUTF16> ()
-			// function call : bool ()
 
 			std::string scheme;
 			std::string host;
@@ -311,12 +277,6 @@ namespace Web
 std::string GetMimeType(std::string extension) // 0x10CE1B50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetMimeType@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@@Z");
-	// `anonymous-namespace'::GetMimeType
-	// static ...; // 0x10CE1CF8
-	// static ...; // 0x10CE1CEC
-	// static ...; // 0x10CE1CE4
-	// std::string extension;
-	// std::_List_const_iterator<std::_List_val<std::_List_simple_types<std::pair<std::string const ,std::string> > > > it;
 
 	if (extension.empty())
 		return kDefaultMimetype;
@@ -329,14 +289,6 @@ std::string GetMimeType(std::string extension) // 0x10CE1B50
 scoped_refptr<CefResourceHandler> CreateError(scoped_refptr<CefRequest> request, __int32 statusCode, std::string const &statusText) // 0x10CE17D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CreateError@@YA?AV?$scoped_refptr@VCefResourceHandler@@@@V?$scoped_refptr@VCefRequest@@@@HABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-	// `anonymous-namespace'::CreateError
-	// static ...; // 0x10CE1A6C
-	// static ...; // 0x10CE1A64
-	// scoped_refptr<CefRequest> request;
-	// __int32 statusCode;
-	// std::string const &statusText;
-	// std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16> > headers;
-	// scoped_refptr<CefStreamReader> stream;
 
 	scoped_refptr<CefStreamReader> stream = CefStreamReader::CreateForData((void *)statusText.c_str(), statusText.length());
 	std::multimap<CefStringBase<CefStringTraitsUTF16>, CefStringBase<CefStringTraitsUTF16> > headers;
@@ -347,21 +299,6 @@ scoped_refptr<CefResourceHandler> CreateError(scoped_refptr<CefRequest> request,
 bool HandleContentRange(std::string const &range_query, scoped_refptr<CefStreamReader> stream, std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16> > &header_map, long long &content_length) // 0x10CE2680
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleContentRange@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$scoped_refptr@VCefStreamReader@@@@AAV?$multimap@V?$CefStringBase@UCefStringTraitsUTF16@@@@V1@U?$less@V?$CefStringBase@UCefStringTraitsUTF16@@@@@std@@V?$allocator@U?$pair@$$CBV?$CefStringBase@UCefStringTraitsUTF16@@@@V1@@std@@@3@@2@AA_J@Z");
-	// `anonymous-namespace'::HandleContentRange
-	// static ...; // 0x10CE2C20
-	// std::string const &range_query;
-	// scoped_refptr<CefStreamReader> stream;
-	// std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16> > &header_map;
-	// long long &content_length;
-	// long long range_begin;
-	// long long total_bytes;
-	// long long range_end;
-	// std::stringstream content_length_ss;
-	// std::stringstream content_range_ss;
-		// unsigned __int32 hyphen_pos;
-	// function call : __int32 (long long, __int32)
-	// function call : long long ()
-	// function call : __int32 (long long, __int32)
 
 	int64 total_bytes = 0;
 	std::stringstream content_range_ss;
@@ -420,15 +357,6 @@ bool HandleContentRange(std::string const &range_query, scoped_refptr<CefStreamR
 bool ParseRequestUri(scoped_refptr<CefRequest> const &request, std::string &scheme, std::string &host, std::string &path) // 0x10CE3180
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ParseRequestUri@@YA_NABV?$scoped_refptr@VCefRequest@@@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@11@Z");
-	// `anonymous-namespace'::ParseRequestUri
-	// static ...; // 0x10CE344C
-	// scoped_refptr<CefRequest> const &request;
-	// std::string &scheme;
-	// std::string &host;
-	// std::string &path;
-	// std::string url;
-	// Utils::Uri::UriComponents components;
-	// function call : CefStringBase<CefStringTraitsUTF16> ()
 
 	std::string url = request->GetURL().ToString();
 	boost::replace_all(url, " ", "%20");
@@ -449,17 +377,6 @@ bool ParseRequestUri(scoped_refptr<CefRequest> const &request, std::string &sche
 void BuildResponseHeaders(scoped_refptr<CefRequest> const &request, std::string const &contentType, scoped_refptr<CefStreamReader> const &stream, std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16> > &headers) // 0x10CE0160
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?BuildResponseHeaders@@YAXABV?$scoped_refptr@VCefRequest@@@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV?$scoped_refptr@VCefStreamReader@@@@AAV?$multimap@V?$CefStringBase@UCefStringTraitsUTF16@@@@V1@U?$less@V?$CefStringBase@UCefStringTraitsUTF16@@@@@std@@V?$allocator@U?$pair@$$CBV?$CefStringBase@UCefStringTraitsUTF16@@@@V1@@std@@@3@@3@@Z");
-	// `anonymous-namespace'::BuildResponseHeaders
-	// static ...; // 0x10CE0398
-	// static ...; // 0x10CE0390
-	// scoped_refptr<CefRequest> const &request;
-	// std::string const &contentType;
-	// scoped_refptr<CefStreamReader> const &stream;
-	// std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16> > &headers;
-	// std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<CefStringBase<CefStringTraitsUTF16> const ,CefStringBase<CefStringTraitsUTF16> > > > > it;
-	// std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16> > requestHeaders;
-	// CefStringBase<CefStringTraitsUTF16> origin;
-	// function call : void (std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16> > &)
 
 	CefResponse::HeaderMap requestHeaders;
 	request->GetHeaderMap(requestHeaders);
@@ -476,15 +393,6 @@ void BuildResponseHeaders(scoped_refptr<CefRequest> const &request, std::string 
 bool ParseRequestRange(scoped_refptr<CefRequest> request, std::string &range) // 0x10CE2EA0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ParseRequestRange@@YA_NV?$scoped_refptr@VCefRequest@@@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-	// `anonymous-namespace'::ParseRequestRange
-	// static ...; // 0x10CE30D0
-	// static ...; // 0x10CE30B8
-	// static ...; // 0x10CE30B0
-	// scoped_refptr<CefRequest> request;
-	// std::string &range;
-	// std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16> > headers;
-	// std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<CefStringBase<CefStringTraitsUTF16> const ,CefStringBase<CefStringTraitsUTF16> > > > > findRange;
-	// function call : void (std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16> > &)
 
 	CefRequest::HeaderMap headers;
 	request->GetHeaderMap(headers);
@@ -498,19 +406,11 @@ bool ParseRequestRange(scoped_refptr<CefRequest> request, std::string &range) //
 	return false;
 }
 
+#line 501
 scoped_refptr<CefStreamResourceHandler> GetStreamResourceHandler(scoped_refptr<CefRequest> request, std::string const &mimeType, std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16> > &headers, scoped_refptr<CefStreamReader> stream) // 0x10CE1D70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetStreamResourceHandler@@YA?AV?$scoped_refptr@VCefStreamResourceHandler@@@@V?$scoped_refptr@VCefRequest@@@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAV?$multimap@V?$CefStringBase@UCefStringTraitsUTF16@@@@V1@U?$less@V?$CefStringBase@UCefStringTraitsUTF16@@@@@std@@V?$allocator@U?$pair@$$CBV?$CefStringBase@UCefStringTraitsUTF16@@@@V1@@std@@@3@@4@V?$scoped_refptr@VCefStreamReader@@@@@Z");
-	// `anonymous-namespace'::GetStreamResourceHandler
-	// static ...; // 0x10CE246C
-	// static ...; // 0x10CE2464
-	// scoped_refptr<CefRequest> request;
-	// std::string const &mimeType;
-	// std::multimap<CefStringBase<CefStringTraitsUTF16>,CefStringBase<CefStringTraitsUTF16> > &headers;
-	// scoped_refptr<CefStreamReader> stream;
-	// scoped_refptr<CefStreamResourceHandler> handler;
-	// std::string range;
-		// long long content_length;
+#line 514
 
 	#line 503 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Web\\WebRendererSchemeHandlerFactory.cpp"
 	DCHECK(request);

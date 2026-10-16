@@ -86,7 +86,7 @@ bool c_network_session::is_leader() const // 0x10EF86C0
 long c_network_session::get_session_membership_update_number() const // 0x10EF8480
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_session_membership_update_number@c_network_session@@QBEJXZ");
-	// c_network_session const *const this;
+#line 87
 
 	#line 85 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\networking\\session\\network_session.cpp"
 		if (!(established())) { display_assert("established()", __FILE__, __LINE__, true); system_exit(-1); }
@@ -98,7 +98,7 @@ long c_network_session::get_session_membership_update_number() const // 0x10EF84
 c_network_session_membership *c_network_session::get_session_membership() // 0x10EF81F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_session_membership@c_network_session@@QAEPAVc_network_session_membership@@XZ");
-	// c_network_session *const this;
+#line 99
 
 	#line 97 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\networking\\session\\network_session.cpp"
 		if (!(established())) { display_assert("established()", __FILE__, __LINE__, true); system_exit(-1); }
@@ -181,7 +181,7 @@ long c_network_session::get_player_count() const // 0x10EF80E0
 s_network_session_player *c_network_session::get_player(long player_index) // 0x10EF8020
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_player@c_network_session@@QAEPAUs_network_session_player@@J@Z");
-	// long player_index;
+#line 190
 
 	#line 188 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\networking\\session\\network_session.cpp"
 		if (!(!disconnected())) { display_assert("!disconnected()", __FILE__, __LINE__, true); system_exit(-1); }
@@ -192,7 +192,7 @@ s_network_session_player *c_network_session::get_player(long player_index) // 0x
 long c_network_session::get_peer_channel_index(long peer_index) const // 0x10EF7F30
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_peer_channel_index@c_network_session@@QBEJJ@Z");
-	// long peer_index;
+#line 201
 
 	#line 199 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\networking\\session\\network_session.cpp"
 		if (!(established())) { display_assert("established()", __FILE__, __LINE__, true); system_exit(-1); }
@@ -223,9 +223,7 @@ long c_network_session::get_maximum_player_count() const // 0x10EF7D80
 void c_network_session::boot_peer(long peer_index, e_network_session_boot_reason reason) // 0x10EF78E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?boot_peer@c_network_session@@QAEXJW4e_network_session_boot_reason@@@Z");
-	// e_network_session_boot_reason reason;
-	// constexpr bool (*const `c_network_session::boot_peer'::`2'::c_network_session__boot_peer)(c_network_session *, __int32, e_network_session_boot_reason); // constant == 4564160
-	// function call : bool (*const)(c_network_session *, __int32, e_network_session_boot_reason)
+#line 235
 
 	#line 231 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\networking\\session\\network_session.cpp"
 		if (!(established() && is_host())) { display_assert("established() && is_host()", __FILE__, __LINE__, true); system_exit(-1); }
@@ -236,8 +234,7 @@ void c_network_session::boot_peer(long peer_index, e_network_session_boot_reason
 void c_network_session::boot_player(long player_index, e_network_session_boot_reason reason) // 0x10EF79B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?boot_player@c_network_session@@QAEXJW4e_network_session_boot_reason@@@Z");
-	// e_network_session_boot_reason reason;
-	// s_network_session_player *player;
+#line 247
 
 	#line 244 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\networking\\session\\network_session.cpp"
 		if (!(established() && is_host())) { display_assert("established() && is_host()", __FILE__, __LINE__, true); system_exit(-1); }

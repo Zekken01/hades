@@ -136,23 +136,7 @@ void quaternion_from_axis_and_angle(real_vector3d const *axis, float angle, real
 void quaternion_transform_point(real_quaternion const *q, real_point3d const *point, real_point3d *result) // 0x10F19C10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?quaternion_transform_point@@YAXPBUreal_quaternion@@PBUreal_point3d@@PAU2@@Z");
-	// real_point3d *result;
-	// float const zz;
-	// float const yz;
-	// float const xz;
-	// float const w;
-	// float const px;
-	// float const x;
-	// float const wy;
-	// float const xx;
-	// float const y;
-	// float const pz;
-	// float const yy;
-	// float const py;
-	// float const wx;
-	// float const wz;
-	// float const z;
-	// float const xy;
+#line 167
 
 	#line 149 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\math\\quaternion_math.cpp"
 		assert(q);
@@ -212,21 +196,7 @@ void quaternions_interpolate(real_quaternion const *q1, real_quaternion const *q
 void quaternions_slerp_interpolate(real_quaternion const *q1, real_quaternion const *q2, float t, real_quaternion *result) // 0x10F1A430
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?quaternions_slerp_interpolate@@YAXPBUreal_quaternion@@0MPAU1@@Z");
-	// real_quaternion *result;
-	// float w2;
-	// float z1;
-	// float x2;
-	// float dot;
-	// float z2;
-	// float w1;
-	// float x1;
-	// float y1;
-	// float y2;
-		// float sin_theta;
-		// float sign;
-		// float theta;
-			// float b;
-			// float a;
+#line 243
 
 	#line 227 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\math\\quaternion_math.cpp"
 		assert(q1);
@@ -294,15 +264,7 @@ void quaternions_slerp_interpolate_and_normalize(real_quaternion const *q1, real
 void quaternions_multiply(real_quaternion const *q1, real_quaternion const *q2, real_quaternion *result) // 0x10F1A1C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?quaternions_multiply@@YAXPBUreal_quaternion@@0PAU1@@Z");
-	// real_quaternion *result;
-	// float const w2;
-	// float const z1;
-	// float const x2;
-	// float const z2;
-	// float const w1;
-	// float const x1;
-	// float const y1;
-	// float const y2;
+#line 319
 
 	#line 309 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\math\\quaternion_math.cpp"
 		assert(q1);
@@ -328,13 +290,7 @@ void quaternions_multiply(real_quaternion const *q1, real_quaternion const *q2, 
 extern "C" void quaternion_to_euler_angles_internal(real_quaternion const *q, real_euler_angles3d *euler, float epsilon) // 0x10F198C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_quaternion_to_euler_angles_internal");
-	// quaternion_to_euler_angles_internal
-	// float epsilon;
-	// float const w;
-	// float const x;
-	// float const y;
-	// float sinp;
-	// float const z;
+#line 351
 
 	#line 343 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\Blam\\math\\quaternion_math.cpp"
 		assert(q);

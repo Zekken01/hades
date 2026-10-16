@@ -100,7 +100,7 @@ def main():
     os.makedirs(objdir, exist_ok=True)
 
     srcs = sources()
-    includes = " ".join('/I"%s"' % os.path.join(HERE, i).rstrip("\/") for i in INCLUDES)  # a trailing \ would escape the quote
+    includes = " ".join('/I"%s"' % os.path.join(HERE, i).rstrip("\\/") for i in INCLUDES)  # a trailing \ would escape the quote
     defines = " ".join("/D" + d for d in DEFINES)
 
     def compile_one(item):

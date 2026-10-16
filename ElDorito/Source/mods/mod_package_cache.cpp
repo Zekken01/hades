@@ -146,7 +146,7 @@ char const *c_mod_package::get_file_name() const // 0x1089DBE0
 s_mod_package_header const *c_mod_package::get_header() const // 0x1089DC10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_header@c_mod_package@@QBEPBUs_mod_package_header@@XZ");
-	// c_mod_package const *const this;
+#line 154
 
 	#line 152 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\mod_package_cache.cpp"
 		assert(m_valid);
@@ -163,7 +163,7 @@ s_mod_package_header const *c_mod_package::get_header() const // 0x1089DC10
 s_mod_package_metadata const *c_mod_package::get_metadata() const // 0x1089DD50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_metadata@c_mod_package@@QBEPBUs_mod_package_metadata@@XZ");
-	// c_mod_package const *const this;
+#line 171
 
 	#line 169 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\mod_package_cache.cpp"
 		assert(m_valid);
@@ -207,9 +207,7 @@ bool c_mod_package::valid_map_file_index(long map_file_index) const // 0x108A00D
 long c_mod_package::find_map_file_by_map_id(long map_id, unsigned long *out_size) // 0x1089D9C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?find_map_file_by_map_id@c_mod_package@@QAEJJPAK@Z");
-	// unsigned long *out_size;
-	// long map_file_index;
-		// long i;
+#line 219
 
 	#line 215 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\mod_package_cache.cpp"
 		assert(m_valid);
@@ -236,8 +234,7 @@ long c_mod_package::find_map_file_by_map_id(long map_id, unsigned long *out_size
 long c_mod_package::get_tag_cache_index_for_map_id(long map_id) // 0x1089DE60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_tag_cache_index_for_map_id@c_mod_package@@QAEJJ@Z");
-	// long map_id;
-	// long map_file_index;
+#line 247
 
 	#line 244 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\mod_package_cache.cpp"
 		assert(m_valid);
@@ -265,15 +262,7 @@ long c_mod_package::get_tag_cache_index_for_map_id(long map_id) // 0x1089DE60
 bool c_mod_package::read_campaign(c_file_reference &file, s_blf_campaign *out_campaign, bool *out_byte_swap) // 0x1089EA00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?read_campaign@c_mod_package@@QAE_NAAVc_file_reference@@PAUs_blf_campaign@@PA_N@Z");
-	// static ...; // 0x1089EC10
-	// c_mod_package *const this;
-	// c_file_reference &file;
-	// s_blf_campaign *out_campaign;
-	// bool *out_byte_swap;
-	// long const k_required_campaign_size;
-	// s_mod_package_section_header &section;
-	// s_blf_chunk_start_of_file start_of_file;
-	// c_file_open_scope scope;
+#line 283
 
 	long const k_required_campaign_size = 0x1348;
 	#line 275 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\mod_package_cache.cpp"
@@ -301,11 +290,7 @@ bool c_mod_package::read_campaign(c_file_reference &file, s_blf_campaign *out_ca
 bool c_mod_package::read_map_cache_file_header(c_file_reference &file, long map_index, s_cache_file_header *out_header) // 0x1089F120
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?read_map_cache_file_header@c_mod_package@@QAE_NAAVc_file_reference@@JPAUs_cache_file_header@@@Z");
-	// c_mod_package *const this;
-	// c_file_reference &file;
-	// long map_index;
-	// s_cache_file_header *out_header;
-	// c_file_open_scope scope;
+#line 315
 
 	#line 309 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\mod_package_cache.cpp"
 		if (!(valid())) { display_assert("valid()", __FILE__, __LINE__, true); system_exit(-1); }
@@ -326,13 +311,7 @@ bool c_mod_package::read_map_cache_file_header(c_file_reference &file, long map_
 bool c_mod_package::read_map_blf_map_information(c_file_reference &file, long map_index, s_blf_map_information *out_information) // 0x1089EF10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?read_map_blf_map_information@c_mod_package@@QAE_NAAVc_file_reference@@JPAUs_blf_map_information@@@Z");
-	// c_mod_package *const this;
-	// c_file_reference &file;
-	// long map_index;
-	// s_blf_map_information *out_information;
-	// constexpr unsigned __int32 const `c_mod_package::read_map_blf_map_information'::`2'::k_blf_map_information_offset; // constant == 13248
-	// constexpr unsigned __int32 const `c_mod_package::read_map_blf_map_information'::`2'::k_required_map_size; // constant == 52352
-	// c_file_open_scope scope;
+#line 342
 
 	static constexpr unsigned __int32 const k_blf_map_information_offset = 0x33C0;
 	static constexpr unsigned __int32 const k_required_map_size = 0xCC80;
@@ -355,15 +334,7 @@ bool c_mod_package::read_map_blf_map_information(c_file_reference &file, long ma
 bool c_mod_package::verify_signature() // 0x108A03B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?verify_signature@c_mod_package@@QAE_NXZ");
-	// static ...; // 0x108A051E
-	// static ...; // 0x108A051C
-	// static ...; // 0x108A0504
-	// static ...; // 0x108A04FC
-	// c_mod_package *const this;
-	// unsigned char const *p;
-	// rsa_st *rsa;
-	// unsigned char hash[20];
-	// __int32 retVal;
+#line 373
 
 	#line 363 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\mod_package_cache.cpp"
 		assert(m_valid);
@@ -387,22 +358,7 @@ bool c_mod_package::verify_signature() // 0x108A03B0
 bool c_mod_package::compute_hash(unsigned char (&out_hash)[20]) // 0x1089D3D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?compute_hash@c_mod_package@@QAE_NAAY0BE@E@Z");
-	// static ...; // 0x1089D7D3
-	// static ...; // 0x1089D7C9
-	// static ...; // 0x1089D7C5
-	// static ...; // 0x1089D7B8
-	// static ...; // 0x1089D77C
-	// static ...; // 0x1089D774
-	// c_mod_package *const this;
-	// unsigned char (&out_hash)[20];
-	// SHAstate_st ctx;
-	// unsigned char block_buffer[8192];
-	// c_file_reference file;
-	// unsigned long long bytes_remaining;
-	// unsigned long file_size;
-	// c_file_open_scope scope;
-		// unsigned long long block_size;
-	// function call : bool (*const)(s_file_reference *, unsigned long *)
+#line 412
 
 	#line 395 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\mod_package_cache.cpp"
 		assert(m_valid);
@@ -439,9 +395,7 @@ bool c_mod_package::compute_hash(unsigned char (&out_hash)[20]) // 0x1089D3D0
 bool c_mod_package::verify_hash(unsigned char const (&hash)[20]) const // 0x108A0240
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?verify_hash@c_mod_package@@QBE_NAAY0BE@$$CBE@Z");
-	// unsigned char const (&hash)[20];
-	// unsigned long const *ul_expected_hash;
-	// unsigned long const *ul_input_hash;
+#line 451
 
 	#line 447 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\mod_package_cache.cpp"
 		assert(m_valid);
@@ -555,11 +509,7 @@ unsigned long c_mod_package::get_resource_cache_offset() const // 0x1089DDE0
 std::shared_ptr<c_cache_file_tag_cache> c_mod_package::open_tag_cache(c_file_reference &file, long index) // 0x1089E770
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?open_tag_cache@c_mod_package@@QAE?AV?$shared_ptr@Vc_cache_file_tag_cache@@@std@@AAVc_file_reference@@J@Z");
-	// static ...; // 0x1089E958
-	// c_mod_package *const this;
-	// c_file_reference &file;
-	// long index;
-	// std::shared_ptr<c_cache_file_tag_cache> tag_cache;
+#line 581
 
 	#line 575 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\mod_package_cache.cpp"
 		assert(m_valid);
@@ -573,13 +523,7 @@ std::shared_ptr<c_cache_file_tag_cache> c_mod_package::open_tag_cache(c_file_ref
 std::shared_ptr<Blam::Cache::StringIDCache> c_mod_package::open_string_id_cache(c_file_reference &file) // 0x1089E4E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?open_string_id_cache@c_mod_package@@QAE?AV?$shared_ptr@UStringIDCache@Cache@Blam@@@std@@AAVc_file_reference@@@Z");
-	// static ...; // 0x1089E6D4
-	// static ...; // 0x1089E6BC
-	// static ...; // 0x1089E6B4
-	// c_mod_package *const this;
-	// c_file_reference &file;
-	// s_mod_package_section_header string_id_section;
-	// std::shared_ptr<Blam::Cache::StringIDCache> cache;
+#line 601
 
 	#line 593 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\mod_package_cache.cpp"
 		assert(m_valid);
@@ -646,7 +590,7 @@ bool c_mod_package::read_map_files_section() // 0x1089F4A0
 bool c_mod_package::read_map_file_into_buffer(c_file_reference &file, long map_file_index, unsigned long buffer_size, void *buffer) // 0x1089F380
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?read_map_file_into_buffer@c_mod_package@@QAE_NAAVc_file_reference@@JKPAX@Z");
-	// void *buffer;
+#line 675
 
 	if (!valid_map_file_index(map_file_index))
 	{

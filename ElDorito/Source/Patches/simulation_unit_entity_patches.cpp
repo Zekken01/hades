@@ -101,6 +101,13 @@ using namespace hades_file_local;
 
 namespace eldorado
 {
+	// Functions in eldorado.exe, named from the game's own symbols where it has them.
+	static auto const unit_copy_armor_customization = reinterpret_cast<void (*)(long, long)>(0xB3E470);  // no symbol; named from what it does
+	static auto const unit_get_active_equipment_of_type = reinterpret_cast<long (*)(long, e_equipment_type)>(0xB43C70);  // no symbol; named from what it does
+}
+
+namespace eldorado
+{
 	// Functions in eldorado.exe, named from the game's own symbols.
 	static auto const c_simulation_object_entity_definition_object_create_object = reinterpret_cast<long (__thiscall *)(void *, s_simulation_object_creation_data *, s_simulation_object_state_data *, unsigned long long *, s_object_placement_data *)>(0x4AD3E0);
 	static auto const c_simulation_object_entity_definition_object_setup_placement_data = reinterpret_cast<bool (*)(s_simulation_object_creation_data *, s_simulation_object_state_data *, unsigned long long *, s_object_placement_data *)>(0x4AE280);
@@ -229,8 +236,8 @@ long __fastcall c_simulation_unit_entity_definition__create_object_hook(void *th
 			long player_unit_index = player->unit_index;
 			if (player_unit_index != -1)
 			{
-				long equipment_index = ((long (*const)(long, e_equipment_type))0xB43C70)(player_unit_index, (e_equipment_type)14);
-				((void (*const)(long, long))0xB3E470)(player->unit_index, object_index);
+				long equipment_index = eldorado::unit_get_active_equipment_of_type(player_unit_index, (e_equipment_type)14);
+				eldorado::unit_copy_armor_customization(player->unit_index, object_index);
 				player_refresh_object_appearance_full(player_index, object_index);
 				if (equipment_index != -1)
 					object_get<s_item_data>(equipment_index)->owner_unit_index = object_index;

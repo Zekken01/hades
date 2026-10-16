@@ -209,8 +209,7 @@ namespace Player
 	void PlayerCustomizationExtensions::ApplyData(__int32 playerIndex, s_player_configuration *properties, s_player_appearance const &data) // 0x107DAD70
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyData@PlayerCustomizationExtensions@Player@@MAEXHPAUs_player_configuration@@ABUs_player_appearance@@@Z");
-		// s_player_appearance const &data;
-			// __int32 i;
+#line 232
 
 		#line 229 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Player\\PlayerCustomizationExtension.cpp"
 			assert(&properties->host.appearance != &data);

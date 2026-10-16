@@ -210,7 +210,6 @@ namespace Patches
 		void ApplyAll() // 0x10A45AD0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Core@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			QueryPerformanceCounter(&startTime);
 			_LARGE_INTEGER cpuFreq;
@@ -272,11 +271,6 @@ namespace Patches
 		void ApplyAfterInit() // 0x10A44ED0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAfterInit@Core@Patches@@YAXXZ");
-			// procedure flags: nofpo
-			// static ...; // 0x10A4585C
-			// static ...; // 0x10A45850
-			// static ...; // 0x10A45848
-			// std::string path;
 
 			std::string path = ElDorito::Instance().GetMapsFolder();
 			MapsFolder = path;
@@ -311,7 +305,6 @@ namespace Patches
 		void OnShutdown(std::function<void __cdecl(void)> callback) // 0x10A49010
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?OnShutdown@Core@Patches@@YAXV?$function@$$A6AXXZ@std@@@Z");
-			// std::function<void __cdecl(void)> callback;
 
 			shutdownCallbacks.push_back(callback);
 		}
@@ -319,11 +312,6 @@ namespace Patches
 		void ExecuteShutdownCallbacks() // 0x10A48680
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ExecuteShutdownCallbacks@Core@Patches@@YAXXZ");
-			// procedure flags: nofpo
-				// std::vector<std::function<void __cdecl(void)> > &<range>$L0;
-				// std::function<void __cdecl(void)> *<begin>$L0;
-				// std::function<void __cdecl(void)> *<end>$L0;
-					// std::function<void __cdecl(void)> &callback;
 
 			for (auto &&callback : shutdownCallbacks)
 				callback();
@@ -334,7 +322,6 @@ namespace Patches
 		void OnMapLoaded(std::function<void __cdecl(char const *)> callback) // 0x10A48F70
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?OnMapLoaded@Core@Patches@@YAXV?$function@$$A6AXPBD@Z@std@@@Z");
-			// std::function<void __cdecl(char const *)> callback;
 
 			mapLoadedCallbacks.push_back(callback);
 		}
@@ -342,7 +329,6 @@ namespace Patches
 		void OnGameStart(std::function<void __cdecl(void)> callback) // 0x10A48ED0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?OnGameStart@Core@Patches@@YAXV?$function@$$A6AXXZ@std@@@Z");
-			// std::function<void __cdecl(void)> callback;
 
 			gameStartCallbacks.push_back(callback);
 		}
@@ -354,10 +340,6 @@ namespace Patches
 void GameTickHook() // 0x10A487F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GameTickHook@@YAXXZ");
-	// `anonymous-namespace'::GameTickHook
-	// procedure flags: nofpo
-	// void (*sub_5547F0)();
-	// function call : void (*)()
 
 	ElDorito::Instance().Tick();
 
@@ -369,10 +351,6 @@ void GameTickHook() // 0x10A487F0
 void ShutdownHook() // 0x10A490B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ShutdownHook@@YAXXZ");
-	// `anonymous-namespace'::ShutdownHook
-	// procedure flags: nofpo
-	// void (*EngineShutdown)();
-	// function call : void (*)()
 
 	ElDorito::Instance().Shutdown();
 	Patches::Core::ExecuteShutdownCallbacks();
@@ -384,8 +362,6 @@ void ShutdownHook() // 0x10A490B0
 char const *GetMapsFolderHook() // 0x10A488D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetMapsFolderHook@@YAPBDXZ");
-	// `anonymous-namespace'::GetMapsFolderHook
-	// procedure flags: nofpo
 
 	return MapsFolder.c_str();
 }
@@ -393,14 +369,6 @@ char const *GetMapsFolderHook() // 0x10A488D0
 bool LoadMapHook(void *data) // 0x10A48DF0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?LoadMapHook@@YA_NPAX@Z");
-	// `anonymous-namespace'::LoadMapHook
-	// void *data;
-	// bool (*LoadMap)(void *);
-		// std::vector<std::function<void __cdecl(char const *)> > &<range>$L0;
-		// std::function<void __cdecl(char const *)> *<begin>$L0;
-		// std::function<void __cdecl(char const *)> *<end>$L0;
-			// std::function<void __cdecl(char const *)> &callback;
-	// function call : bool (*)(void *)
 
 	typedef bool(*LoadMapPtr)(void *data);
 	auto LoadMap = reinterpret_cast<LoadMapPtr>(0x566EF0);
@@ -416,10 +384,6 @@ bool LoadMapHook(void *data) // 0x10A48DF0
 void LoadLevelHook(unsigned char *data, char n2, __int32 n3, __int32 n4) // 0x10A48D40
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?LoadLevelHook@@YAXPAEDHH@Z");
-	// `anonymous-namespace'::LoadLevelHook
-	// __int32 n4;
-	// __int32 (*LoadLevel)(unsigned char *, char, __int32, __int32);
-	// function call : __int32 (*)(unsigned char *, char, __int32, __int32)
 
 	void (__cdecl *LoadLevel)(unsigned char *, unsigned char, __int32, __int32) = (void(__cdecl *)(unsigned char *, unsigned char, __int32, __int32))0x54A6C0;
 
@@ -432,15 +396,6 @@ void LoadLevelHook(unsigned char *data, char n2, __int32 n3, __int32 n4) // 0x10
 __int32 levels_get_campaign_next_map_id_hook(__int32 campaign_id, __int32 map_id) // 0x10A4AAF0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?levels_get_campaign_next_map_id_hook@@YAHHH@Z");
-	// `anonymous-namespace'::levels_get_campaign_next_map_id_hook
-	// __int32 map_id;
-	// __int32 (*const levels_get_campaign_next_map_id)(unsigned __int32, unsigned __int32);
-	// __int32 (*const game_progression_globals_get_tag)();
-	// __int32 gpdt_map_block_index;
-	// __int32 game_progression_type;
-		// __int32 gpdt_tag;
-	// function call : __int32 (*const)()
-	// function call : __int32 (*const)(unsigned __int32, unsigned __int32)
 
 	__int32 (*const levels_get_campaign_next_map_id)(unsigned __int32, unsigned __int32) = reinterpret_cast<__int32 (*)(unsigned __int32, unsigned __int32)>(0x54BB80);
 	__int32 (*const game_progression_globals_get_tag)() = reinterpret_cast<__int32 (*)()>(0x671D00);
@@ -459,14 +414,6 @@ __int32 levels_get_campaign_next_map_id_hook(__int32 campaign_id, __int32 map_id
 void GameStartHook() // 0x10A48740
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GameStartHook@@YAXXZ");
-	// `anonymous-namespace'::GameStartHook
-	// procedure flags: nofpo
-	// void (*GameStart)();
-		// std::vector<std::function<void __cdecl(void)> > &<range>$L0;
-		// std::function<void __cdecl(void)> *<begin>$L0;
-		// std::function<void __cdecl(void)> *<end>$L0;
-			// std::function<void __cdecl(void)> &callback;
-	// function call : void (*)()
 
 	typedef void(*GameStartPtr)();
 	auto GameStart = reinterpret_cast<GameStartPtr>(0x551590);
@@ -479,11 +426,6 @@ void GameStartHook() // 0x10A48740
 bool main_load_map_hook(long campaign_id, long map_id, char const *map_path) // 0x10A4AC90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?main_load_map_hook@@YA_NJJPBD@Z");
-	// `anonymous-namespace'::main_load_map_hook
-	// char const *map_path;
-	// bool loaded;
-	// constexpr bool (*const `main_load_map_hook'::`2'::main_load_map)(long, long, char const *); // constant == 5154272
-	// function call : bool (*const)(long, long, char const *)
 
 	mainLoadMapPath = map_path;
 	bool loaded = ((bool(__cdecl *)(long, long, char const *))0x4ea5e0)(campaign_id, map_id, map_path);
@@ -499,8 +441,6 @@ bool main_load_map_hook(long campaign_id, long map_id, char const *map_path) // 
 __declspec(naked) void FovHook() // 0x10A48720
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?FovHook@@YAXXZ");
-	// `anonymous-namespace'::FovHook
-	// procedure flags: nofpo
 
 	__asm
 	{
@@ -515,8 +455,6 @@ __declspec(naked) void FovHook() // 0x10A48720
 static bool z_buffer_fix_enabled() // 0x10A4C430
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?z_buffer_fix_enabled@@YA_NXZ");
-	// `anonymous-namespace'::z_buffer_fix_enabled
-	// procedure flags: nofpo
 
 	return Utils::Singleton<Modules::ModuleDebug>::Instance().VarZBuffTest->ValueInt != 0;
 }
@@ -524,17 +462,6 @@ static bool z_buffer_fix_enabled() // 0x10A4C430
 void ActiveCamoViewModelClipHook(float *nearPlane, float *farPlane) // 0x10A44CB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ActiveCamoViewModelClipHook@@YAXPAM0@Z");
-	// `anonymous-namespace'::ActiveCamoViewModelClipHook
-	// float *farPlane;
-	// void (*const view_get_clip_planes)(float *, float *);
-		// s_player_datum const *player;
-		// unsigned long const playerIndex;
-			// s_unit_data *unitObject;
-			// float activeCamoPower;
-				// float const globalNear;
-				// float const globalFar;
-	// function call : unsigned long (*const)(long)
-	// function call : void (*const)(float *, float *)
 
 	void (*const view_get_clip_planes)(float *, float *) = reinterpret_cast<void (*)(float *, float *)>(0xA25AA0);
 	if (!z_buffer_fix_enabled())
@@ -574,9 +501,6 @@ void ActiveCamoViewModelClipHook(float *nearPlane, float *farPlane) // 0x10A44CB
 double AspectRatioHook() // 0x10A48620
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?AspectRatioHook@@YANXZ");
-	// `anonymous-namespace'::AspectRatioHook
-	// procedure flags: nofpo
-	// __int32 *gameResolution;
 
 	int* gameResolution = reinterpret_cast<int*>(0x19106C0);
 	return ((double)gameResolution[0] / (double)gameResolution[1]);
@@ -585,9 +509,6 @@ double AspectRatioHook() // 0x10A48620
 char GetBinkVideoPathHook(__int32 p_VideoID, char *p_DestBuf) // 0x10A48860
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetBinkVideoPathHook@@YADHPAD@Z");
-	// `anonymous-namespace'::GetBinkVideoPathHook
-	// char *p_DestBuf;
-	// function call : char (*const)(__int32, char *)
 
 	if (Utils::Singleton<Modules::ModuleGame>::Instance().VarSkipIntroVideos->ValueInt == 1)
 	{
@@ -600,20 +521,6 @@ char GetBinkVideoPathHook(__int32 p_VideoID, char *p_DestBuf) // 0x10A48860
 void GetScreenshotFolderHook(wchar_t *path) // 0x10A48920
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetScreenshotFolderHook@@YAXPA_W@Z");
-	// `anonymous-namespace'::GetScreenshotFolderHook
-	// static ...; // 0x10A48B69
-	// static ...; // 0x10A48B58
-	// static ...; // 0x10A48B54
-	// static ...; // 0x10A48B30
-	// static ...; // 0x10A48B28
-	// wchar_t *path;
-	// std::wstring_convert<std::codecvt_utf8<wchar_t,1114111,0>,wchar_t,std::allocator<wchar_t>,std::allocator<char> > wstring_to_string;
-	// unsigned long return_code;
-	// std::wstring unprocessed_path;
-	// std::filesystem::path dir;
-		// static void (*`GetScreenshotFolderHook'::`5'::GetScreenshotsFolder)(wchar_t *); // 0x11354268
-	// function call : unsigned long (wchar_t const *, wchar_t *, unsigned long)
-	// function call : void (*)(wchar_t *)
 
 	std::wstring_convert<std::codecvt_utf8<wchar_t>> wstring_to_string;
 	std::wstring unprocessed_path = wstring_to_string.from_bytes(Utils::Singleton<Modules::ModuleGame>::Instance().VarScreenshotsFolder->ValueString);
@@ -633,8 +540,6 @@ void GetScreenshotFolderHook(wchar_t *path) // 0x10A48920
 void HsPrintHook(char const *message) // 0x10A48C20
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?HsPrintHook@@YAXPBD@Z");
-	// `anonymous-namespace'::HsPrintHook
-	// char const *message;
 
 	if (!Utils::Singleton<Modules::ModuleScript>::Instance().VarPrintToConsole->ValueInt)
 		return;
@@ -648,10 +553,6 @@ void HsPrintHook(char const *message) // 0x10A48C20
 void sub_757890_call_hook(__int32 a1, __int32 a2) // 0x10A4C2F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?sub_757890_call_hook@@YAXHH@Z");
-	// `anonymous-namespace'::sub_757890_call_hook
-	// __int32 a2;
-	// constexpr void (*const `sub_757890_call_hook'::`2'::sub_757890)(__int32, __int32); // constant == 7698576
-	// function call : void (*const)(__int32, __int32)
 
 	if (!Utils::Singleton<Modules::ModuleGraphics>::Instance().VarDisableContrails->ValueInt)
 	{
@@ -659,14 +560,11 @@ void sub_757890_call_hook(__int32 a1, __int32 a2) // 0x10A4C2F0
 	}
 }
 
+#line 655
 long long main_time_get_absolute_milliseconds() // 0x10A4B3A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?main_time_get_absolute_milliseconds@@YA_JXZ");
-	// `anonymous-namespace'::main_time_get_absolute_milliseconds
-	// procedure flags: nofpo
-	// long long ms;
-	// long long last_milliseconds;
-	// unsigned __int32 milliseconds;
+#line 663
 
 	unsigned __int32 milliseconds = system_milliseconds();
 	long long last_milliseconds = tls_getd().main_time_globals->last_milliseconds;

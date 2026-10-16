@@ -34,6 +34,12 @@ struct tls_data;
 
 namespace eldorado
 {
+	// Functions in eldorado.exe, named from the game's own symbols where it has them.
+	static auto const bink_copy_frame_planes = reinterpret_cast<void (*)(s_bink_globals::s_bink_runtime::s_bink_video_frame *, __int32)>(0x615EE0);  // no symbol; named from what it does
+}
+
+namespace eldorado
+{
 	// Functions in eldorado.exe, named from the game's own symbols.
 	static auto const bink_setup_rasterizer = reinterpret_cast<void (*)(__int32)>(0x6179B0);
 	static auto const c_rasterizer_normalize_screenspace_vertices = reinterpret_cast<void (*)(float, float, float, float, s_screen_vertex *, long)>(0xA46910);
@@ -84,7 +90,7 @@ void bink_display_frame(short_rectangle2d *rect) // 0x10F18130
 	if (eldorado::bink_playback_active() && texture_index != -1)
 	{
 		eldorado::release_unused_textures(texture_index);
-		((void (*const)(s_bink_globals::s_bink_runtime::s_bink_video_frame *, __int32))0x615EE0)(&bink_globals->bink_runtime.frame, texture_index);
+		eldorado::bink_copy_frame_planes(&bink_globals->bink_runtime.frame, texture_index);
 		__int32 buffer_width = bink_globals->bink_runtime.frame.framebuffers.YABufferWidth;
 		__int32 buffer_height = bink_globals->bink_runtime.frame.framebuffers.YABufferHeight;
 		__int32 width = rect->x1 - rect->x0;

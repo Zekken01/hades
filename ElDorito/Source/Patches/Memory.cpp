@@ -392,17 +392,7 @@ void physical_memory_initialize_hook() // 0x10A8B650
 long __fastcall c_restricted_memory__add_member_hook(c_restricted_memory *thisptr, void *unused, char const *name, char const *type, unsigned long size_in_bytes, unsigned char alignment_bits, void *allocate_function, void *update_function, void *free_function) // 0x10A8B310
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_restricted_memory__add_member_hook@@YIJPAUc_restricted_memory@@PAXPBD2KE111@Z");
-	// `anonymous-namespace'::c_restricted_memory__add_member_hook
-	// void *free_function;
-	// long allocation_type;
-	// unsigned long original_used_size;
-	// unsigned long new_region_used_size;
-	// unsigned long region_total_size;
-	// long (*const add_member_impl)(c_restricted_memory *, char const *, char const *, unsigned long, unsigned char, void *, void *, void *);
-	// unsigned long *region_used_size_ptr;
-	// long member_index;
-	// unsigned long allocated_size;
-	// function call : long (*const)(c_restricted_memory *, char const *, char const *, unsigned long, unsigned char, void *, void *, void *)
+#line 463
 
 	long (__thiscall *const add_member_impl)(c_restricted_memory *, char const *, char const *, unsigned long, unsigned char, void *, void *, void *) = reinterpret_cast<long (__thiscall *)(c_restricted_memory *, char const *, char const *, unsigned long, unsigned char, void *, void *, void *)>(0x65DF00);
 	unsigned long region_total_size = *(unsigned long *)offset_pointer(thisptr, 0x64);

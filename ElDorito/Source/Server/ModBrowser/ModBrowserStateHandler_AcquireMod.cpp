@@ -594,24 +594,7 @@ void CModBrowserStateHandler_AcquireMod::StartNextDownload() // 0x107191A0
 void CModBrowserStateHandler_AcquireMod::HandleSignatureVerificationResult(SSignatureVerificationResult const &result) // 0x10717790
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleSignatureVerificationResult@CModBrowserStateHandler_AcquireMod@@AAEXABUSSignatureVerificationResult@@@Z");
-	// static ...; // 0x10717E7D
-	// static ...; // 0x10717E75
-	// static ...; // 0x10717E73
-	// static ...; // 0x10717E6F
-	// static ...; // 0x10717E68
-	// static ...; // 0x10717E20
-	// static ...; // 0x10717E18
-	// CModBrowserStateHandler_AcquireMod *const this;
-	// SSignatureVerificationResult const &result;
-	// std::error_code err;
-	// SModBrowserState::SRequestedMod *package;
-	// std::filesystem::path newPath;
-	// SModBrowserState const &state;
-	// std::filesystem::path p;
-	// s_mod_package_id hash;
-	// s_mod_origin_info origin;
-		// std::string const &identifier;
-		// std::error_code err;
+#line 693
 
 	if (result.queueIndex < 0 || result.queueIndex >= (__int32)m_downloadQueue.size())
 	{
@@ -730,7 +713,7 @@ bool CModBrowserStateHandler_AcquireMod::ShouldDownloadPackage(SModBrowserState:
 void CModBrowserStateHandler_AcquireMod::OnUIActionConfirm() // 0x10718A70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnUIActionConfirm@CModBrowserStateHandler_AcquireMod@@AAEXXZ");
-	// CModBrowserStateHandler_AcquireMod *const this;
+#line 837
 
 	#line 835 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Server\\ModBrowser\\ModBrowserStateHandler_AcquireMod.cpp"
 		assert(GetLocalState() == EState::Confirmation);

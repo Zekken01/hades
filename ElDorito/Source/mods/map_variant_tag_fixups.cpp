@@ -177,7 +177,6 @@ extern s_mod_loading_state g_mod_loading_state; // 0x12407830
 _inline bool operator==(s_name_lookup_key const &lhs, s_name_lookup_key const &rhs) // 0x1088EA80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??8@YA_NABUs_name_lookup_key@@0@Z");
-	// s_name_lookup_key const &rhs;
 
 	return lhs.group_tag == rhs.group_tag && lhs.name == rhs.name;
 }
@@ -185,7 +184,6 @@ _inline bool operator==(s_name_lookup_key const &lhs, s_name_lookup_key const &r
 _inline unsigned __int32 s_name_lookup_key::s_hasher::operator()(s_name_lookup_key const &k) const // 0x1088EF80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "??Rs_hasher@s_name_lookup_key@@QBEIABU1@@Z");
-	// s_name_lookup_key const &k;
 
 	return Utils::stl::hash_combine<unsigned int, std::string_view>(k.group_tag, k.name);
 }
@@ -199,15 +197,6 @@ _inline s_mod_loading_state::~s_mod_loading_state() = default; // 0x1088E8D0
 bool c_map_variant_tag_fixups::fixup_map_variant_in_memory(unsigned char *buffer, unsigned long buffer_size, s_map_variant *map_variant) // 0x10890DD0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?fixup_map_variant_in_memory@c_map_variant_tag_fixups@@SA_NPAEKPAUs_map_variant@@@Z");
-	// static ...; // 0x10890E94
-	// static ...; // 0x10890E70
-	// static ...; // 0x10890E68
-	// unsigned char *buffer;
-	// unsigned long buffer_size;
-	// s_map_variant *map_variant;
-	// s_blf_chunk_header chunk_header;
-	// unsigned char const *data;
-	// unsigned long data_size;
 
 	s_blf_chunk_header chunk_header;
 	unsigned char const *data;
@@ -222,20 +211,6 @@ bool c_map_variant_tag_fixups::fixup_map_variant_in_memory(unsigned char *buffer
 bool c_map_variant_tag_fixups::fixup_map_variant_from_file(s_file_reference *file, s_map_variant *map_variant) // 0x10890AD0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?fixup_map_variant_from_file@c_map_variant_tag_fixups@@SA_NPAUs_file_reference@@PAUs_map_variant@@@Z");
-	// static ...; // 0x10890D1C
-	// static ...; // 0x10890D18
-	// static ...; // 0x10890CF4
-	// static ...; // 0x10890CEC
-	// s_file_reference *file;
-	// s_map_variant *map_variant;
-	// std::string file_buff;
-	// unsigned long err;
-	// bool result;
-	// unsigned long file_size;
-	// function call : bool (*const)(s_file_reference *, unsigned long *)
-	// function call : bool (*const)(s_file_reference *, c_flags<enum e_file_permission_flags,long>, unsigned long *)
-	// function call : bool (*const)(s_file_reference *, unsigned long, bool, void *)
-	// function call : bool (*const)(s_file_reference *)
 
 	std::string file_buff;
 	unsigned long file_size;
@@ -257,7 +232,6 @@ bool c_map_variant_tag_fixups::fixup_map_variant_from_file(s_file_reference *fil
 void c_map_variant_tag_fixups::initialize() // 0x10891BF0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?initialize@c_map_variant_tag_fixups@@SAXXZ");
-	// procedure flags: nofpo
 }
 
 /* ---------- private code */
@@ -265,8 +239,6 @@ void c_map_variant_tag_fixups::initialize() // 0x10891BF0
 static bool in_tag_group(s_tag_group const &group, long needle) // 0x10891B70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?in_tag_group@@YA_NABUs_tag_group@@J@Z");
-	// in_tag_group
-	// long needle;
 
 	return group.tags[0] == needle || group.tags[1] == needle || group.tags[2] == needle;
 }
@@ -274,12 +246,6 @@ static bool in_tag_group(s_tag_group const &group, long needle) // 0x10891B70
 static void log_error(char const *message) // 0x10891C10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?log_error@@YAXPBD@Z");
-	// log_error
-	// static ...; // 0x10891CCC
-	// static ...; // 0x10891CC0
-	// static ...; // 0x10891CB8
-	// char const *message;
-	// char buff[8192];
 
 	char buff[0x2000];
 	sprintf_s(buff, "[ERROR]: c_map_variant_loader :: %s", message);
@@ -289,12 +255,6 @@ static void log_error(char const *message) // 0x10891C10
 static void log_errorf(char const *format, ...) // 0x10891D10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?log_errorf@@YAXPBDZZ");
-	// log_errorf
-	// static ...; // 0x10891DB0
-	// static ...; // 0x10891DA8
-	// char const *format;
-	// char buff[8192];
-	// char *va;
 
 	char buff[8192];
 	va_list va;
@@ -304,56 +264,11 @@ static void log_errorf(char const *format, ...) // 0x10891D10
 	log_error(buff);
 }
 
+#line 300
 bool fixup_map_variant_internal(s_blf_chunk_mapv_tag_names const *fixup_data, s_map_variant *map_variant) // 0x10890EF0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?fixup_map_variant_internal@@YA_NPBUs_blf_chunk_mapv_tag_names@@PAUs_map_variant@@@Z");
-	// fixup_map_variant_internal
-	// static ...; // 0x10891800
-	// static ...; // 0x108917FD
-	// static ...; // 0x108917F3
-	// static ...; // 0x108917ED
-	// static ...; // 0x108917E3
-	// static ...; // 0x108917DA
-	// static ...; // 0x108917C8
-	// static ...; // 0x108917BC
-	// static ...; // 0x108917AF
-	// static ...; // 0x108917AC
-	// static ...; // 0x10891728
-	// static ...; // 0x10891720
-	// s_blf_chunk_mapv_tag_names const *fixup_data;
-	// s_map_variant *map_variant;
-	// std::unordered_map<s_name_lookup_key,long,s_name_lookup_key::s_hasher> runtime_tags_by_name;
-	// std::shared_ptr<c_cache_file_tag_cache> base_cache;
-	// IMod *mod;
-	// bool succeeded;
-		// c_cache_file_tag_cache::c_instance_iterator it;
-			// long tag_index;
-			// char const *name;
-		// long used_mod_tag_count;
-		// std::shared_ptr<c_cache_file_tag_cache> mod_cache;
-		// c_cache_file_tag_cache::c_instance_iterator iterator;
-		// long cache_index;
-		// std::shared_ptr<c_cache_file_interface> cache;
-		// long tag_count;
-		// c_mod_package *mod_package;
-		// long counter;
-			// char const *mod_tag_name;
-			// unsigned long mod_tag_group;
-			// long runtime_tag_index;
-			// long mod_tag_index;
-		// long i;
-			// std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<s_name_lookup_key const ,long> > > > it;
-			// char pe_tag_name[256];
-			// char const *const pe_tag_path;
-			// unsigned long pe_group_tag;
-			// s_variant_quota &palette_entry;
-	// function call : IMod *(EModIndex) const
-	// function call : c_mod_package *(bool) const
-	// function call : bool () const
-	// function call : __int32 ()
-	// function call : void (*const)()
-	// function call : std::shared_ptr<c_cache_file_interface> (bool) const
-	// function call : std::shared_ptr<c_cache_file_tag_cache> () const
+#line 350
 
 	std::shared_ptr<c_cache_file_tag_cache> base_cache = c_cache_file_tags::get_open_cache();
 	if (base_cache == nullptr)

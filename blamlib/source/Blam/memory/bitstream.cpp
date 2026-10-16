@@ -234,8 +234,7 @@ void c_bitstream::reset(c_bitstream::e_state state) // 0x10F02010
 void c_bitstream::write_integer(char const *name, unsigned long value, long size_in_bits) // 0x10F02210
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?write_integer@c_bitstream@@QAEXPBDKJ@Z");
-	// long size_in_bits;
-	// function call : void (*const)(c_bitstream *, char const *, unsigned long, long)
+#line 234
 
 	#line 231 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\memory\\bitstream.cpp"
 		assert(size_in_bits == 32 || value < (1U << size_in_bits));
@@ -246,10 +245,7 @@ void c_bitstream::write_integer(char const *name, unsigned long value, long size
 void c_bitstream::write_signed_integer(char const *name, long value, long size_in_bits) // 0x10F02570
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?write_signed_integer@c_bitstream@@QAEXPBDJJ@Z");
-	// long size_in_bits;
-	// long const maximum;
-	// long const minimum;
-	// function call : void (*const)(c_bitstream *, char const *, long, long)
+#line 248
 
 	long const maximum = (1 << (size_in_bits - 1)) - 1;
 	long const minimum = -1 - maximum;
@@ -265,8 +261,7 @@ void c_bitstream::write_signed_integer(char const *name, long value, long size_i
 void c_bitstream::write_qword(unsigned long long value, long size_in_bits) // 0x10F02400
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?write_qword@c_bitstream@@QAEX_KJ@Z");
-	// long size_in_bits;
-	// function call : void (*const)(c_bitstream *, unsigned long long, long)
+#line 265
 
 	#line 262 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\memory\\bitstream.cpp"
 		assert(size_in_bits == 64 || value < (1ULL << size_in_bits));
@@ -425,7 +420,7 @@ void c_bitstream::read_point3d(char const *name, real_point3d *point, long axis_
 void c_bitstream::push_position() // 0x10F01810
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?push_position@c_bitstream@@QAEXXZ");
-	// c_bitstream *const this;
+#line 465
 
 	#line 463 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\memory\\bitstream.cpp"
 		assert(reading() || writing());
@@ -440,7 +435,7 @@ void c_bitstream::push_position() // 0x10F01810
 void c_bitstream::pop_position(bool restore) // 0x10F01740
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?pop_position@c_bitstream@@QAEX_N@Z");
-	// bool restore;
+#line 480
 
 	#line 478 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\memory\\bitstream.cpp"
 		assert(m_position_stack_depth > 0);

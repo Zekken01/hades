@@ -95,7 +95,7 @@ bool c_gui_map_category_datasource::initialize(unsigned long name) // 0x10F1CEF0
 void c_gui_map_category_datasource::get_column_names(unsigned long *names, long *out_name_count) // 0x10F1C900
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_column_names@c_gui_map_category_datasource@@UAEXPAKPAJ@Z");
-	// long *out_name_count;
+#line 119
 
 	#line 117 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\interface\\gui_selected_items_map.cpp"
 		assert(names);
@@ -110,7 +110,7 @@ void c_gui_map_category_datasource::get_column_names(unsigned long *names, long 
 bool c_gui_map_category_datasource::get_integer_value(long element_handle, unsigned long name, long *value) // 0x10F1CAD0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_integer_value@c_gui_map_category_datasource@@UAE_NJKPAJ@Z");
-	// long *value;
+#line 134
 
 	#line 132 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\interface\\gui_selected_items_map.cpp"
 		assert(value);
@@ -142,9 +142,7 @@ bool c_gui_map_category_datasource::get_integer_value(long element_handle, unsig
 bool c_gui_map_category_datasource::get_text_value(long element_handle, unsigned long name, wchar_t (&value)[1024]) // 0x10F1CD80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_text_value@c_gui_map_category_datasource@@UAE_NJKAAY0EAA@_W@Z");
-	// wchar_t (&value)[1024];
-	// function call : wchar_t *(*const)(wchar_t *, wchar_t const *, long)
-	// function call : wchar_t *(*const)(wchar_t *, wchar_t const *, long)
+#line 168
 
 	#line 164 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\interface\\gui_selected_items_map.cpp"
 		assert(value);
@@ -168,7 +166,7 @@ bool c_gui_map_category_datasource::get_text_value(long element_handle, unsigned
 _inline bool c_gui_map_category_datasource::get_string_id_value(long element_handle, unsigned long name, unsigned long *value) // 0x10F1CCE0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_string_id_value@c_gui_map_category_datasource@@UAE_NJKPAK@Z");
-	// unsigned long *value;
+#line 192
 
 	#line 190 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\interface\\gui_selected_items_map.cpp"
 		assert(value);

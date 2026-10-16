@@ -56,8 +56,7 @@ void c_visible_items::push_marker() // 0x10F0DF10
 void c_visible_items::pop_marker() // 0x10F0DDB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?pop_marker@c_visible_items@@SAXXZ");
-	// procedure flags: nofpo
-	// s_visible_items_stack_marker &top;
+#line 62
 
 	#line 59 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\visibility\\visibility_items.cpp"
 		assert(m_marker_stack_top >= 0);

@@ -184,10 +184,6 @@ extern "C" unsigned char const *scenario_pvs_connected_clusters_get_hook(s_clust
 long __stdcall sub_6870A0_hook(short region_cluster_index) // 0x10AC7640
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?sub_6870A0_hook@@YGJF@Z");
-	// short region_cluster_index;
-	// long group_index;
-	// s_visible_items &visible_items;
-		// long group_offset;
 
 	s_visible_items &visible_items = c_visible_items::get_global_items();
 	long group_index = visible_items.cluster_group_count++;
@@ -213,15 +209,6 @@ long __stdcall sub_6870A0_hook(short region_cluster_index) // 0x10AC7640
 _inline void __cdecl CDebugTextPrinter::WriteLine(char const *format, ...) // 0x10AC3F90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?WriteLine@CDebugTextPrinter@@QAAXPBDZZ");
-	// static ...; // 0x10AC4178
-	// static ...; // 0x10AC4170
-	// CDebugTextPrinter *const this;
-	// char const *format;
-	// short_rectangle2d bounds;
-	// char *va;
-	// void (*const interface_get_current_display_settings)(short_rectangle2d *, short_rectangle2d *, short_rectangle2d *, short_rectangle2d *);
-	// char line[8192];
-	// function call : void (*const)(short_rectangle2d *, short_rectangle2d *, short_rectangle2d *, short_rectangle2d *)
 
 	void (*const interface_get_current_display_settings)(short_rectangle2d *, short_rectangle2d *, short_rectangle2d *, short_rectangle2d *) = reinterpret_cast<void (*)(short_rectangle2d *, short_rectangle2d *, short_rectangle2d *, short_rectangle2d *)>(0xA9FAA0);
 	char line[8192];
@@ -250,17 +237,6 @@ _inline CDebugTextPrinter::~CDebugTextPrinter() = default; // 0x10AC3AD0
 void render_debug_visibility() // 0x10AC61B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_visibility@@YAXXZ");
-	// procedure flags: nofpo
-	// static ...; // 0x10AC6534
-	// static ...; // 0x10AC6528
-	// static ...; // 0x10AC6520
-	// long visible_parts;
-	// s_render_object_globals *render_object_globals;
-	// s_visible_items const &visible_items;
-	// CDebugTextPrinter debugTextPrinter;
-		// long i;
-			// unsigned long value;
-				// long j;
 
 	if (!Utils::Singleton<Modules::ModuleDebug>::Instance().VarVisibility->ValueInt)
 		return;
@@ -294,13 +270,6 @@ void render_debug_visibility() // 0x10AC61B0
 void __fastcall c_visibility_collection__generate_cluster_visible_parts(void *thisptr, void *unused, s_visible_cluster *visible_cluster) // 0x10AC4B00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_visibility_collection__generate_cluster_visible_parts@@YIXPAX0PAUs_visible_cluster@@@Z");
-	// s_visible_cluster *visible_cluster;
-	// unsigned __int32 *(*const reserve_cluster_mesh_part_visibility)(__int32);
-	// s_render_geometry *render_geometry;
-	// s_mesh &mesh;
-	// unsigned __int32 *visibility;
-	// function call : s_render_geometry *(*const)(long)
-	// function call : unsigned __int32 *(*const)(__int32)
 
 	unsigned __int32 *(*const reserve_cluster_mesh_part_visibility)(__int32) = (unsigned __int32 *(*const)(__int32))0x686bc0;
 	s_render_geometry *render_geometry = ((s_render_geometry *(*)(long))0xa2ef00)(visible_cluster->cluster_reference.bsp_index);
@@ -313,12 +282,11 @@ void __fastcall c_visibility_collection__generate_cluster_visible_parts(void *th
 	visible_cluster->flags &= ~4;
 }
 
+#line 299
 s_structure_globals *get_structure_globals() // 0x10AC50A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_structure_globals@@YAPAUs_structure_globals@@XZ");
-	// procedure flags: nofpo
-	// long current_thread_index;
-	// s_structure_globals *per_thread_globals;
+#line 305
 
 	s_structure_globals *per_thread_globals = (s_structure_globals *)0x2497e88;
 	long current_thread_index = tls_getd().current_thread_index;
@@ -333,16 +301,7 @@ s_structure_globals *get_structure_globals() // 0x10AC50A0
 bool structure_seams_connected_cluster_references_get_reach(long scenario_index, s_cluster_reference cluster_reference, bool include_self, c_seam_connected_cluster_references *out_cluster_refs) // 0x10AC7240
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?structure_seams_connected_cluster_references_get_reach@@YA_NJUs_cluster_reference@@_NPAUc_seam_connected_cluster_references@@@Z");
-	// c_seam_connected_cluster_references *out_cluster_refs;
-	// s_scenario_zone_set_pvs &zone_set_pvs;
-	// s_scenario_zone_set_bsp_seam_cluster_mapping &cluster_mapping;
-	// long bsp_pvs_index;
-	// s_scenario *scenario;
-	// s_scenario_zone_set &zone_set;
-	// s_scenario_zone_set_bsp_pvs &bsp_pvs;
-		// long i;
-	// function call : void *(*const)(unsigned long, long)
-	// function call : long (*const)()
+#line 329
 
 	out_cluster_refs->reference_count = 0;
 	if (include_self)
@@ -370,26 +329,7 @@ bool structure_seams_connected_cluster_references_get_reach(long scenario_index,
 bool structure_seams_connected_cluster_references_get_h3(long scenario_index, s_cluster_reference cluster_reference, bool add_self, c_seam_connected_cluster_references *out_cluster_refs) // 0x10AC6AE0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?structure_seams_connected_cluster_references_get_h3@@YA_NJUs_cluster_reference@@_NPAUc_seam_connected_cluster_references@@@Z");
-	// static ...; // 0x10AC7010
-	// long scenario_index;
-	// s_cluster_reference cluster_reference;
-	// bool add_self;
-	// c_seam_connected_cluster_references *out_cluster_refs;
-	// s_scenario_structure_bsp *structure;
-	// s_scenario *scenario;
-	// s_structure_cluster &structure_cluster;
-		// c_tag_block<char> &<range>$L0;
-		// char *<begin>$L0;
-		// char *<end>$L0;
-			// long seam_index;
-				// bool above;
-				// bool bad_connection;
-				// s_seam_mapping const &mapping;
-					// long cluster_mapping_index;
-						// s_seam_mapping::s_seam_cluster_mapping const &cluster_mapping;
-							// s_cluster_reference cluster_ref;
-	// function call : void *(*const)(unsigned long, long)
-	// function call : s_scenario_structure_bsp *(*const)(s_scenario *, long)
+#line 376
 
 	s_scenario *scenario = (s_scenario *)tag_get('scnr', scenario_index);
 	s_scenario_structure_bsp *structure = eldorado::scenario_structure_bsp_get(scenario, cluster_reference.bsp_index);
@@ -442,9 +382,6 @@ bool structure_seams_connected_cluster_references_get_h3(long scenario_index, s_
 bool structure_seams_connected_cluster_references_get_hook(long scenario_index, s_cluster_reference cluster_reference, bool include_self, c_seam_connected_cluster_references *out_cluster_refs) // 0x10AC71B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?structure_seams_connected_cluster_references_get_hook@@YA_NJUs_cluster_reference@@_NPAUc_seam_connected_cluster_references@@@Z");
-	// c_seam_connected_cluster_references *out_cluster_refs;
-	// s_scenario_structure_bsp *structure;
-	// function call : s_scenario_structure_bsp *(*const)(long)
 
 	s_scenario_structure_bsp *structure_bsp = global_structure_bsp_get(cluster_reference.bsp_index);
 
@@ -454,7 +391,6 @@ bool structure_seams_connected_cluster_references_get_hook(long scenario_index, 
 void visibility_patches_apply() // 0x10AC7A10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?visibility_patches_apply@@YAXXZ");
-	// procedure flags: nofpo
 
 	patch_visibility();
 	patch_render_object_globals();
@@ -475,9 +411,6 @@ void visibility_patches_apply() // 0x10AC7A10
 extern "C" void sub_687070_hook(__int32 region_index, __int32 cluster_index) // 0x10AC75B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_sub_687070_hook");
-	// sub_687070_hook
-	// __int32 cluster_index;
-	// long index;
 
 	int index = 4 * region_index + (cluster_index >> 5);
 	c_visible_items::get_global_items().cluster_group_visibility[index] |= 1 << (cluster_index & 0x1F);
@@ -486,11 +419,6 @@ extern "C" void sub_687070_hook(__int32 region_index, __int32 cluster_index) // 
 extern "C" unsigned long *sub_686BC0_hook(long part_count) // 0x10AC74E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_sub_686BC0_hook");
-	// sub_686BC0_hook
-	// long part_count;
-	// unsigned long *result;
-	// s_visible_items &visible_items;
-		// long allocation_size;
 
 	s_visible_items &visible_items = c_visible_items::get_global_items();
 	unsigned long *result;
@@ -517,13 +445,11 @@ extern "C" unsigned long *sub_686BC0_hook(long part_count) // 0x10AC74E0
 	return result;
 }
 
+#line 503
 void patch_visibility() // 0x10AC5500
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_patch_visibility");
-	// patch_visibility
-	// procedure flags: nofpo
-	// long object_base;
-	// long offset;
+#line 510
 
 	Hook(0x286FD0, c_visible_items::push_marker).Apply();
 	Hook(0x286DE0, c_visible_items::pop_marker).Apply();
@@ -671,9 +597,6 @@ void patch_visibility() // 0x10AC5500
 extern "C" void patch_render_object_globals() // 0x10AC5210
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_patch_render_object_globals");
-	// patch_render_object_globals
-	// procedure flags: nofpo
-	// long offset;
 
 	long offset;
 	offset = 0x8000;
@@ -751,16 +674,11 @@ extern "C" void patch_render_object_globals() // 0x10AC5210
 	*(long *)0xA7814C = 0x40040;
 }
 
+#line 737
 extern "C" bool structure_instanced_geometry_mark(long structure_bsp_index, long instance_index) // 0x10AC66A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_structure_instanced_geometry_mark");
-	// structure_instanced_geometry_mark
-	// long instance_index;
-	// bool is_marked;
-	// unsigned long *bit_vector;
-	// unsigned long bit_mask;
-	// long dword_index;
-	// s_structure_globals *structure_globals;
+#line 747
 
 	s_structure_globals *structure_globals = get_structure_globals();
 
@@ -781,8 +699,7 @@ extern "C" bool structure_instanced_geometry_mark(long structure_bsp_index, long
 extern "C" bool structure_instanced_geometry_mark_get_user_data(short structure_bsp_index, short instance_index, long *user_data) // 0x10AC67D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_structure_instanced_geometry_mark_get_user_data");
-	// structure_instanced_geometry_mark_get_user_data
-	// long *user_data;
+#line 769
 
 	#line 766 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Patches\\visibility_patches.cpp"
 		assert(!"should no longer be used");
@@ -794,8 +711,7 @@ extern "C" bool structure_instanced_geometry_mark_get_user_data(short structure_
 extern "C" bool structure_instanced_geometry_mark_with_user_data(short structure_bsp_index, short instance_index, long user_data) // 0x10AC6840
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_structure_instanced_geometry_mark_with_user_data");
-	// structure_instanced_geometry_mark_with_user_data
-	// long user_data;
+#line 782
 
 	#line 779 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Patches\\visibility_patches.cpp"
 		assert(!"should no longer be used");
@@ -807,9 +723,7 @@ extern "C" bool structure_instanced_geometry_mark_with_user_data(short structure
 extern "C" void structure_instanced_geometry_marker_begin() // 0x10AC68B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_structure_instanced_geometry_marker_begin");
-	// structure_instanced_geometry_marker_begin
-	// procedure flags: nofpo
-	// s_structure_globals *structure_globals;
+#line 796
 
 	s_structure_globals *structure_globals = get_structure_globals();
 
@@ -824,9 +738,7 @@ extern "C" void structure_instanced_geometry_marker_begin() // 0x10AC68B0
 extern "C" void structure_instanced_geometry_marker_end() // 0x10AC6960
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_structure_instanced_geometry_marker_end");
-	// structure_instanced_geometry_marker_end
-	// procedure flags: nofpo
-	// s_structure_globals *structure_globals;
+#line 813
 
 	s_structure_globals *structure_globals = get_structure_globals();
 
@@ -840,12 +752,7 @@ extern "C" void structure_instanced_geometry_marker_end() // 0x10AC6960
 extern "C" bool structure_instanced_geometry_unmarked(short structure_bsp_index, short instance_index) // 0x10AC69F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_structure_instanced_geometry_unmarked");
-	// structure_instanced_geometry_unmarked
-	// short instance_index;
-	// unsigned long *bit_vector;
-	// unsigned long bit_mask;
-	// long dword_index;
-	// s_structure_globals *structure_globals;
+#line 832
 
 	s_structure_globals *structure_globals = get_structure_globals();
 

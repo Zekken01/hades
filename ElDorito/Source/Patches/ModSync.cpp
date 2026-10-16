@@ -500,7 +500,6 @@ namespace Patches
 		void ApplyAll() // 0x10922620
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@ModSync@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			Hook(0x1679C4, main_game_initialize_for_new_map_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0xEA5EE, main_load_map_internal_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
@@ -527,7 +526,6 @@ namespace Patches
 		void Tick() // 0x10923950
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@ModSync@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 					crash_recovery_helper.tick();
 		}
@@ -537,8 +535,6 @@ namespace Patches
 s_cache_tag_instance *cache_tag_instance_get(long tag_index) // 0x109265E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?cache_tag_instance_get@@YAPAUs_cache_tag_instance@@J@Z");
-	// long tag_index;
-	// long const absolute_index;
 
 	if (tag_index < 0 || tag_index >= k_maximum_number_of_cache_tag_instances)
 	{
@@ -557,8 +553,6 @@ s_cache_tag_instance *cache_tag_instance_get(long tag_index) // 0x109265E0
 char const *tag_get_name(long tag_index) // 0x10929D50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?tag_get_name@@YAPBDJ@Z");
-	// long tag_index;
-	// s_cache_tag_instance const *instance;
 
 	if (!g_cache_file_tag_globals->initialized)
 	{
@@ -577,10 +571,6 @@ char const *tag_get_name(long tag_index) // 0x10929D50
 long tag_find_by_name(unsigned long group_tag, char const *name) // 0x10929C10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?tag_find_by_name@@YAJKPBD@Z");
-	// char const *name;
-		// long i;
-			// s_cache_tag_instance *instance;
-			// long tag_index;
 
 	for (long i = 0; i < g_cache_file_tag_globals->loaded_instance_count; i++)
 	{
@@ -598,25 +588,11 @@ long tag_find_by_name(unsigned long group_tag, char const *name) // 0x10929C10
 
 /* ---------- private code */
 
+#line 585
 bool fixup_mod_tag(long tag_index, s_cache_tag_instance *instance) // 0x109278B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?fixup_mod_tag@@YA_NJPAUs_cache_tag_instance@@@Z");
-	// `anonymous-namespace'::fixup_mod_tag
-	// s_cache_tag_instance *instance;
-	// long **tag_reference_fixups;
-	// long *dependencies;
-		// long j;
-			// long *tag_index_pointer;
-			// long remapped_tag_index;
-		// s_scenario *scenario;
-			// c_tag_block<s_hs_syntax_node> &<range>$L0;
-			// s_hs_syntax_node *<begin>$L0;
-			// s_hs_syntax_node *<end>$L0;
-				// s_hs_syntax_node &expr;
-					// long remapped_tag_index;
-					// long *ref;
-		// long i;
-			// long dependency_tag_index;
+#line 604
 
 	long **tag_reference_fixups = reinterpret_cast<long **>(reinterpret_cast<long *>(&instance[1]) + instance->dependency_count + instance->fixup_count + instance->resource_fixup_count);
 	for (long j = 0; j < instance->tag_reference_fixup_count; j++)
@@ -664,27 +640,7 @@ bool fixup_mod_tag(long tag_index, s_cache_tag_instance *instance) // 0x109278B0
 bool cache_file_load_tag(long tag_index) // 0x10925170
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?cache_file_load_tag@@YA_NJ@Z");
-	// `anonymous-namespace'::cache_file_load_tag
-	// static ...; // 0x109255F4
-	// static ...; // 0x109255E8
-	// static ...; // 0x109255E0
-	// long tag_index;
-	// char const *tag_name;
-	// unsigned long size;
-	// s_cache_tag_instance *instance;
-	// s_cache_file_tag_globals *global_state;
-	// void *tag_address;
-	// c_cache_file_tag_cache *cache;
-	// c_file_reference *cache_file;
-	// long cache_tag_index;
-	// s_cache_tag_instance const *header;
-	// long absolute_index;
-	// unsigned long *fixups;
-	// long *dependencies;
-	// long mod_tag_index;
-		// s_cache_tag_instance const *mod_tag_instance;
-		// long i;
-			// long dependency_tag_index;
+#line 672
 
 	s_cache_file_tag_globals *global_state = g_cache_file_tag_globals;
 	if (tag_index < 0 || tag_index >= 0xFFFF)
@@ -782,12 +738,7 @@ bool cache_file_load_tag(long tag_index) // 0x10925170
 bool cache_file_allocate_tags() // 0x10924670
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?cache_file_allocate_tags@@YA_NXZ");
-	// `anonymous-namespace'::cache_file_allocate_tags
-	// procedure flags: nofpo
-	// unsigned long const max_table_size;
-	// s_cache_file_tag_globals *global_state;
-	// long const runtime_tag_count;
-	// unsigned long const table_size;
+#line 775
 
 	s_cache_file_tag_globals *global_state = g_cache_file_tag_globals;
 	long const runtime_tag_count = loader_state.tag_remapper.get_runtime_tag_count();
@@ -835,24 +786,6 @@ bool cache_file_allocate_tags() // 0x10924670
 void cache_file_compute_and_verify_signature() // 0x10924960
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?cache_file_compute_and_verify_signature@@YAXXZ");
-	// `anonymous-namespace'::cache_file_compute_and_verify_signature
-	// procedure flags: nofpo
-	// s_cache_file_secure_memory *(*const cache_file_get_secure_working_memory)();
-	// s_cache_file_secure_memory *secure_memory;
-	// void (*const cache_file_builder_security_clean_header)(s_cache_file_header *);
-		// unsigned char *block;
-		// long bytes_remaining;
-			// long block_size;
-	// function call : s_cache_file_secure_memory *(*const)()
-	// function call : void (*const)(s_cache_file_header *)
-	// function call : bool (*const)(void *, long, bool)
-	// function call : void (*const)(void *, long, void const *, unsigned long)
-	// function call : void (*const)()
-	// function call : void (*const)(void *, long, void *)
-	// function call : bool (*const)(void *, long, bool, void *)
-	// function call : void (*const)()
-	// function call : s_cache_file_secure_memory *(*const)()
-	// function call : bool (*const)(void const *, void *)
 
 	s_cache_file_secure_memory *(*const cache_file_get_secure_working_memory)() = reinterpret_cast<s_cache_file_secure_memory *(*)()>(0x5018F0);
 	void (*const cache_file_builder_security_clean_header)(s_cache_file_header *) = reinterpret_cast<void (*)(s_cache_file_header *)>(0x601BF0);
@@ -903,15 +836,6 @@ void cache_file_compute_and_verify_signature() // 0x10924960
 void cache_file_invalidate_signature() // 0x10924D90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?cache_file_invalidate_signature@@YAXXZ");
-	// `anonymous-namespace'::cache_file_invalidate_signature
-	// procedure flags: nofpo
-	// static ...; // 0x10924E4F
-	// static ...; // 0x10924E3C
-	// static ...; // 0x10924E24
-	// static ...; // 0x10924E1C
-	// void *secure_memory;
-	// long secure_memory_size;
-	// function call : void (*const)(long, void **, long *)
 
 	void *secure_memory;
 	long secure_memory_size;
@@ -926,16 +850,6 @@ void cache_file_invalidate_signature() // 0x10924D90
 bool cache_file_load_allocate_tags() // 0x10924E90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?cache_file_load_allocate_tags@@YA_NXZ");
-	// `anonymous-namespace'::cache_file_load_allocate_tags
-	// procedure flags: nofpo
-	// long game_globals_tag;
-	// bool mainmenu_mod;
-	// long scenario_tag_index;
-		// long scenario_mod_tag_index;
-		// std::shared_ptr<c_cache_file_tag_cache> &mod_cache;
-	// function call : long (*const)(long)
-	// function call : void *(*const)(unsigned long, long)
-	// function call : void *(*const)(unsigned long, long)
 
 	cache_file_invalidate_signature();
 	long scenario_tag_index = loader_state.base_cache->find_by_name('scnr', g_cache_file_tag_globals->cache_file_header.scenario_path);
@@ -966,12 +880,6 @@ bool cache_file_load_allocate_tags() // 0x10924E90
 bool open_mod_package_resource_cache(char const *filepath) // 0x109294C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?open_mod_package_resource_cache@@YA_NPBD@Z");
-	// `anonymous-namespace'::open_mod_package_resource_cache
-	// char const *filepath;
-	// constexpr bool (*const `open_mod_package_resource_cache'::`2'::cache_file_open)(s_cached_map_file *, char const *); // constant == 5945824
-	// constexpr bool (*const `open_mod_package_resource_cache'::`2'::cache_file_read_header)(__int32); // constant == 5946320
-	// function call : bool (*const)(s_cached_map_file *, char const *)
-	// function call : bool (*const)(__int32)
 
 	if (!eldorado::cached_map_file_open(&g_cached_map_files[6], filepath))
 	{
@@ -990,10 +898,6 @@ bool open_mod_package_resource_cache(char const *filepath) // 0x109294C0
 void close_mod_package_resource_cache() // 0x10926750
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?close_mod_package_resource_cache@@YAXXZ");
-	// `anonymous-namespace'::close_mod_package_resource_cache
-	// procedure flags: nofpo
-	// void (*const cached_map_file_close)(long);
-	// function call : void (*const)(long)
 
 	void (__cdecl *const close_resource_cache)(int) = (void(__cdecl *const)(int))0x5ab630;
 
@@ -1003,15 +907,6 @@ void close_mod_package_resource_cache() // 0x10926750
 bool do_load_main_menu_mod_package() // 0x10926D30
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?do_load_main_menu_mod_package@@YA_NXZ");
-	// `anonymous-namespace'::do_load_main_menu_mod_package
-	// procedure flags: nofpo
-	// static ...; // 0x10926F4C
-	// static ...; // 0x10926F40
-	// static ...; // 0x10926F38
-	// std::string &MainMenuMod;
-	// s_static_string<256> file_path;
-	// EModResult result;
-	// function call : EModResult (EModIndex, char const *, bool)
 
 	s_static_string<256> file_path;
 	std::string &MainMenuMod = Utils::Singleton<Modules::ModuleGame>::Instance().VarMainMenuMod->ValueString;
@@ -1029,8 +924,6 @@ bool do_load_main_menu_mod_package() // 0x10926D30
 void loader_reset() // 0x10928790
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?loader_reset@@YAXXZ");
-	// `anonymous-namespace'::loader_reset
-	// procedure flags: nofpo
 
 	loader_state.tag_remapper.reset();
 	loader_state.base_cache = nullptr;
@@ -1046,18 +939,6 @@ void loader_reset() // 0x10928790
 bool load_string_id_cache() // 0x10927E90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?load_string_id_cache@@YA_NXZ");
-	// `anonymous-namespace'::load_string_id_cache
-	// procedure flags: nofpo
-	// static ...; // 0x10928146
-	// static ...; // 0x1092813C
-	// static ...; // 0x10928124
-	// static ...; // 0x1092811C
-	// IMod *mod;
-	// std::shared_ptr<Blam::Cache::StringIDCache> string_id_cache;
-		// std::shared_ptr<c_cache_file_interface> mod_cache;
-	// function call : IMod *(EModIndex) const
-	// function call : std::shared_ptr<c_cache_file_interface> (bool) const
-	// function call : std::shared_ptr<Blam::Cache::StringIDCache> () const
 
 	std::shared_ptr<Blam::Cache::StringIDCache> string_id_cache;
 	IMod *mod = c_mod_system::GetModManager().GetMod(loader_state.loading_main_menu ? kMainMenu : kGame);
@@ -1083,18 +964,6 @@ bool load_string_id_cache() // 0x10927E90
 bool loader_initialize(long map_id, bool is_mainmenu) // 0x10928210
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?loader_initialize@@YA_NJ_N@Z");
-	// `anonymous-namespace'::loader_initialize
-	// static ...; // 0x1092865C
-	// static ...; // 0x10928654
-	// long map_id;
-	// bool is_mainmenu;
-	// IMod *mod;
-		// std::shared_ptr<c_cache_file_interface> mod_cache;
-	// function call : IMod *(EModIndex) const
-	// function call : std::shared_ptr<c_cache_file_interface> (bool) const
-	// function call : std::shared_ptr<c_cache_file_tag_cache> () const
-	// function call : c_mod_package *(bool) const
-	// function call : char const *() const
 
 	error_helper.reset();
 	loader_reset();
@@ -1134,18 +1003,6 @@ bool loader_initialize(long map_id, bool is_mainmenu) // 0x10928210
 bool main_load_map_internal_hook(char const *map_path) // 0x109289F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?main_load_map_internal_hook@@YA_NPBD@Z");
-	// `anonymous-namespace'::main_load_map_internal_hook
-	// static ...; // 0x10928BB8
-	// static ...; // 0x10928BAC
-	// static ...; // 0x10928BA4
-	// char const *map_path;
-	// s_cache_file_tag_globals *global_state;
-	// s_cache_file_header header;
-	// function call : bool (*const)(char const *, s_cache_file_header *)
-	// function call : bool (*const)(s_cache_file_header *, char const *, bool)
-	// function call : void (*const)(e_basic_loading_phase, unsigned long)
-	// function call : void (*const)()
-	// function call : void (*const)()
 
 	crash_recovery_helper.map_load_start();
 	c_physical_memory_manager::prepare_for_new_map();
@@ -1174,10 +1031,6 @@ bool main_load_map_internal_hook(char const *map_path) // 0x109289F0
 void canonicalize_map_path_hook(char const *path, char *canonical_path) // 0x10926660
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?canonicalize_map_path_hook@@YAXPBDPAD@Z");
-	// `anonymous-namespace'::canonicalize_map_path_hook
-	// char *canonical_path;
-		// char const *filename;
-		// char const *directory;
 
 	if (strstr(path, "mods\\") == path)
 	{
@@ -1197,26 +1050,6 @@ void canonicalize_map_path_hook(char const *path, char *canonical_path) // 0x109
 bool open_mod_package_map_file(EModIndex index, IMod *mod, long map_file_index, char const *virtual_file_path) // 0x10929090
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?open_mod_package_map_file@@YA_NW4EModIndex@@PAVIMod@@JPBD@Z");
-	// `anonymous-namespace'::open_mod_package_map_file
-	// static ...; // 0x109293B0
-	// static ...; // 0x109293A8
-	// EModIndex index;
-	// IMod *mod;
-	// long map_file_index;
-	// char const *virtual_file_path;
-	// s_level_datum datum;
-	// s_cached_map_file *map_file;
-	// char level_path[260];
-	// c_mod_package *package;
-	// c_file_reference file;
-	// __int32 package_map_file_index;
-	// long cache_index;
-	// static s_cache_file_header `open_mod_package_map_file'::`2'::header; // 0x12409868
-	// EModResult result;
-		// char *p;
-		// __int32 i;
-	// function call : c_mod_package *(bool) const
-	// function call : EModResult (EModIndex, __int32, bool)
 
 	c_mod_package *package = mod->GetPak(true);
 	if (!package)
@@ -1261,17 +1094,6 @@ bool open_mod_package_map_file(EModIndex index, IMod *mod, long map_file_index, 
 bool cache_file_open_internal_hook(long map_file_index, char *map_file_path) // 0x10925720
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?cache_file_open_internal_hook@@YA_NJPAD@Z");
-	// `anonymous-namespace'::cache_file_open_internal_hook
-	// static ...; // 0x109258B9
-	// long map_file_index;
-	// char *map_file_path;
-	// char (*const cache_file_open_internal)(__int32, char *);
-	// EModIndex index;
-	// IMod *mod;
-	// function call : IMod *(EModIndex) const
-	// function call : IMod *(EModIndex) const
-	// function call : char const *() const
-	// function call : char (*const)(__int32, char *)
 
 	char (*const cache_file_open_internal)(__int32, char *) = reinterpret_cast<char (*)(__int32, char *)>(0x5ABAD0);
 	IMod *mod = nullptr;
@@ -1296,35 +1118,11 @@ bool cache_file_open_internal_hook(long map_file_index, char *map_file_path) // 
 	return cache_file_open_internal(map_file_index, map_file_path);
 }
 
+#line 1283
 void cache_file_tag_resource_table_read(s_cache_file_tag_resource_table *out_table) // 0x109260E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?cache_file_tag_resource_table_read@@YAXPAUs_cache_file_tag_resource_table@@@Z");
-	// `anonymous-namespace'::cache_file_tag_resource_table_read
-	// static ...; // 0x109264C9
-	// static ...; // 0x109264B9
-	// static ...; // 0x109264AC
-	// static ...; // 0x10926488
-	// static ...; // 0x10926480
-	// s_cache_file_tag_resource_table *out_table;
-	// constexpr __int32 (*const `cache_file_tag_resource_table_read'::`2'::async_read_position)(s_file_handle, void *, long, unsigned long, long, long, c_synchronized_int32 *, c_async_completion_flag *); // constant == 5954176
-	// s_cache_file_tag_resource_cache_file_header file_headers[6];
-	// long total_resource_count;
-	// unsigned long *file_offsets;
-	// constexpr void (*const `cache_file_tag_resource_table_read'::`2'::async_yield_until_done_internal)(c_async_completion_flag *, bool, bool); // constant == 5278240
-	// c_async_completion_flag completion_flag;
-	// s_static_array<s_cached_map_file,15> &cached_map_files;
-	// c_synchronized_int32 bytes_read;
-	// c_mod_package *current_mod;
-		// e_cache_file_tag_resource_location location;
-			// long map_file_index;
-			// unsigned long base_offset;
-		// long offset;
-		// long location_index;
-			// long table_size;
-	// function call : __int32 (*const)(s_file_handle, void *, long, unsigned long, long, long, c_synchronized_int32 *, c_async_completion_flag *)
-	// function call : void (*const)(c_async_completion_flag *, bool, bool)
-	// function call : __int32 (*const)(s_file_handle, void *, long, unsigned long, long, long, c_synchronized_int32 *, c_async_completion_flag *)
-	// function call : void (*const)(c_async_completion_flag *, bool, bool)
+#line 1312
 
 	static __int32 (*const async_read_position)(s_file_handle, void *, long, unsigned long, long, long, c_synchronized_int32 *, c_async_completion_flag *) = reinterpret_cast<__int32 (*)(s_file_handle, void *, long, unsigned long, long, long, c_synchronized_int32 *, c_async_completion_flag *)>(0x5ADA80);
 	s_static_array<s_cached_map_file,15> &cached_map_files = *reinterpret_cast<s_static_array<s_cached_map_file,15> *>(0x240B1E8);
@@ -1389,37 +1187,7 @@ void cache_file_tag_resource_table_read(s_cache_file_tag_resource_table *out_tab
 s_tag_resource_data *cache_file_tag_load_resource_table_hook() // 0x10925930
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?cache_file_tag_load_resource_table_hook@@YAPAUs_tag_resource_data@@XZ");
-	// `anonymous-namespace'::cache_file_tag_load_resource_table_hook
-	// procedure flags: nofpo
-	// static ...; // 0x10925E20
-	// static ...; // 0x10925E14
-	// static ...; // 0x10925E0C
-	// s_cache_file_tag_resource_table resource_table;
-	// long total_resource_count;
-	// unsigned long resource_page_memory_scratch_size;
-	// s_tag_resource_data *runtime_data;
-	// long v10;
-	// unsigned long table_size;
-	// unsigned long total_uncompressed_size;
-	// unsigned long runtime_data_size;
-	// long total_fixup_count;
-	// unsigned long resource_page_memory_size;
-	// c_mod_package *current_mod;
-		// long i;
-		// __int32 i;
-			// long tag_index;
-			// unsigned long *resource_fixups;
-			// s_cache_tag_instance *tag_instance;
-				// __int32 j;
-					// long *entry_ptr;
-						// s_tag_resource *pageable;
-						// bool zero_size;
-							// bool (*const bitmap_group_needs_backing_strorage)(long);
-							// unsigned long resource_page_size;
-							// long offset;
-							// long location_index;
-								// unsigned long resource_count;
-	// function call : bool (*const)(long)
+#line 1407
 
 	s_cache_file_tag_resource_table resource_table;
 	cache_file_tag_resource_table_read(&resource_table);
@@ -1507,19 +1275,7 @@ s_tag_resource_data *cache_file_tag_load_resource_table_hook() // 0x10925930
 bool __fastcall c_cache_file_tag_resource_runtime_manager__get_page_hook(c_indirect_cache_file_location_atlas *thisptr, void *unused, long index, long a4, s_indirect_cache_file_page *out_location) // 0x10924330
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_cache_file_tag_resource_runtime_manager__get_page_hook@@YI_NPAUc_indirect_cache_file_location_atlas@@PAXJJPAUs_indirect_cache_file_page@@@Z");
-	// `anonymous-namespace'::c_cache_file_tag_resource_runtime_manager__get_page_hook
-	// s_indirect_cache_file_page *out_location;
-	// s_tag_resource_page *physical_location;
-	// unsigned long base_offset;
-	// unsigned long shared_file_handle2;
-	// long resource_location;
-	// s_cache_file_resource_shared_file *shared_file;
-	// constexpr s_tag_resource_page *(*const `c_cache_file_tag_resource_runtime_manager__get_page_hook'::`2'::c_cache_file_tag_resource_page_handler__get_physical_location)(c_cache_file_tag_resource_page_handler *, long); // constant == 7260016
-	// unsigned long shared_file_handle;
-	// c_mod_package *current_mod;
-	// function call : s_tag_resource_page *(*const)(c_cache_file_tag_resource_page_handler *, long)
-	// function call : void *(*const)(s_data_array const *, unsigned long)
-	// function call : void *(*const)(s_data_array const *, unsigned long)
+#line 1507
 
 	static s_tag_resource_page *(__thiscall *const c_cache_file_tag_resource_page_handler__get_physical_location)(c_cache_file_tag_resource_page_handler *, long) = reinterpret_cast<s_tag_resource_page *(__thiscall *)(c_cache_file_tag_resource_page_handler *, long)>(0x6EC770);
 	long resource_location = -1;
@@ -1568,8 +1324,6 @@ bool __fastcall c_cache_file_tag_resource_runtime_manager__get_page_hook(c_indir
 void display_dirty_disk() // 0x10926A30
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?display_dirty_disk@@YAXXZ");
-	// `anonymous-namespace'::display_dirty_disk
-	// procedure flags: nofpo
 
 	Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Game, Utils::LogLevel::Error, std::format("Dirty Disk: {}", error_helper.get_last_error()));
 	if (Utils::Singleton<ElDorito>::Instance().IsHeadless())
@@ -1587,15 +1341,6 @@ void display_dirty_disk() // 0x10926A30
 void main_menu_launch_safe() // 0x10928EB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?main_menu_launch_safe@@YAXXZ");
-	// `anonymous-namespace'::main_menu_launch_safe
-	// procedure flags: nofpo
-	// void (*const network_life_cycle_end)();
-	// void (*const network_life_cycle_request_leave)(__int32);
-	// bool (*const network_life_cycle_get_state)();
-	// function call : bool (*const)()
-	// function call : void (*const)(__int32)
-	// function call : void (*const)()
-	// function call : void (*const)()
 
 	bool (*const main_menu_is_loaded)() = (bool(*const)())0x454db0;
 	void (*const main_menu_launch)(int) = (void(*const)(int))0x455260;
@@ -1616,10 +1361,6 @@ void main_menu_launch_safe() // 0x10928EB0
 void dirty_disk_hook() // 0x109267B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?dirty_disk_hook@@YAXXZ");
-	// `anonymous-namespace'::dirty_disk_hook
-	// procedure flags: nofpo
-	// function call : unsigned long ()
-	// function call : IMod *(EModIndex) const
 
 	if (*(bool *)0x22B7FAF)
 		Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Game, Utils::LogLevel::Error, std::format("Dirty Disk: Failed to load font package"));
@@ -1641,20 +1382,11 @@ void dirty_disk_hook() // 0x109267B0
 	main_menu_launch_safe();
 }
 
+#line 1628
 c_basic_buffer<void> *cache_file_tag_resource_runtime_manager__allocate_memory_buffer_hook(c_basic_buffer<void> *buffer) // 0x10925F70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?cache_file_tag_resource_runtime_manager__allocate_memory_buffer_hook@@YAPAV?$c_basic_buffer@X@@PAV1@@Z");
-	// `anonymous-namespace'::cache_file_tag_resource_runtime_manager__allocate_memory_buffer_hook
-	// static ...; // 0x10926080
-	// static ...; // 0x10926074
-	// static ...; // 0x1092606C
-	// c_basic_buffer<void> *buffer;
-	// unsigned long actual_size;
-	// unsigned long overhead;
-	// void (*const physical_memory_stage_push)(__int32);
-	// unsigned long required_size;
-	// void *memory;
-	// function call : void (*const)(__int32)
+#line 1642
 
 	void (*const physical_memory_stage_push)(__int32) = reinterpret_cast<void (*)(__int32)>(0x51DC00);
 	physical_memory_stage_push(1);

@@ -202,6 +202,12 @@ using namespace hades_file_local;
 
 namespace eldorado
 {
+	// Functions in eldorado.exe, named from the game's own symbols where it has them.
+	static auto const object_is_biped = reinterpret_cast<unsigned long (*)(unsigned short)>(0x46EF20);  // no symbol; named from what it does
+}
+
+namespace eldorado
+{
 	// Functions in eldorado.exe, named from the game's own symbols.
 	static auto const c_aim_target_object_is_valid = reinterpret_cast<bool (__thiscall *)(c_aim_target_object *)>(0x589020);
 	static auto const c_aim_target_object_setup = reinterpret_cast<bool (__thiscall *)(c_aim_target_object *, c_aim_target_simulation_entity *)>(0x589400);
@@ -361,7 +367,7 @@ void simulation_action_weapon_fire_hook(long weapon_index, long barrel_index, bo
 				if (target_index == event_data.predicted_impact_target_count)
 				{
 					event_data.predicted_impact_targets[event_data.predicted_impact_target_count].weapon_fire_impact_entitiy_index = entity_index;
-					event_data.predicted_impact_targets[event_data.predicted_impact_target_count].encoding_type = ((unsigned long (*const)(unsigned short))0x46EF20)((unsigned short)current_fire_result->impact_object_index);
+					event_data.predicted_impact_targets[event_data.predicted_impact_target_count].encoding_type = eldorado::object_is_biped((unsigned short)current_fire_result->impact_object_index);
 					target_index = event_data.predicted_impact_target_count++;
 				}
 				event_data.predicted_projectile_fire_data[index].object_node_index = current_fire_result->impact_node_index;

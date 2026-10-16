@@ -251,13 +251,7 @@ namespace Download
 	_inline bool CSparseFileSegmentStore::CheckAvailableSpace(long long size) // 0x1082E880
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?CheckAvailableSpace@CSparseFileSegmentStore@Download@@UAE_N_J@Z");
-		// static ...; // 0x1082EA78
-		// static ...; // 0x1082EA60
-		// static ...; // 0x1082EA58
-		// Download::CSparseFileSegmentStore *const this;
-		// long long size;
-		// std::filesystem::space_info si;
-		// std::filesystem::path directory;
+#line 279
 
 		(void)((!!(size >= 0)) || (_wassert(L"size >= 0", L"C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Download\\HttpFileDownload.cpp", 105), 0));  // hades: the original pushes the line as a constant, not through __LINE__Var
 		if (size < 0)

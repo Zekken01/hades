@@ -113,21 +113,7 @@ ModManager::~ModManager() // 0x10791490
 EModResult ModManager::SetMod(EModIndex index, char const *filename, bool async) // 0x10792110
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SetMod@ModManager@@UAE?AW4EModResult@@W4EModIndex@@PBD_N@Z");
-	// static ...; // 0x10792410
-	// static ...; // 0x10792408
-	// ModManager *const this;
-	// EModIndex index;
-	// char const *filename;
-	// bool async;
-	// Mod const *oldMod;
-	// EModResult result;
-		// std::string path;
-		// std::string file_name;
-		// Ref<Mod> mod;
-		// c_mod_package_manager &package_manager;
-		// unsigned __int32 lastSeparatorIndex;
-	// function call : char const *() const
-	// function call : EModResult () const
+#line 132
 
 	#line 116 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\new\\ModManager.cpp"
 		assert(IsMainThread());
@@ -167,13 +153,7 @@ EModResult ModManager::SetMod(EModIndex index, char const *filename, bool async)
 EModResult ModManager::SetModCache(EModIndex index, __int32 cacheIndex, bool async) // 0x10792520
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SetModCache@ModManager@@UAE?AW4EModResult@@W4EModIndex@@H_N@Z");
-	// ModManager *const this;
-	// EModIndex index;
-	// __int32 cacheIndex;
-	// bool async;
-	// EModResult result;
-		// Mod *mod;
-	// function call : EModResult () const
+#line 178
 
 	#line 170 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\new\\ModManager.cpp"
 		assert(IsMainThread());
@@ -208,7 +188,7 @@ Ref<IMod> ModManager::GetModShared(EModIndex index) const // 0x10791D90
 IMod *ModManager::GetMod(EModIndex index) const // 0x10791CF0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetMod@ModManager@@UBEPAVIMod@@W4EModIndex@@@Z");
-	// EModIndex index;
+#line 213
 
 	#line 212 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\new\\ModManager.cpp"
 		assert(IsMainThread() && "Use GetModShared() for threads other than the main thread");

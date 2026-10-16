@@ -760,9 +760,7 @@ void CDebugDrawBackend::DrawPhysicsShapeCapsule(real_point3d const &vertex_a, re
 void CDebugDrawBackend::Render() // 0x1081C610
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Render@CDebugDrawBackend@@SAXXZ");
-	// procedure flags: nofpo
-		// __int32 i;
-	// function call : bool (*const)()
+#line 893
 
 	#line 889 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Debug\\DebugDraw.cpp"
 		assert(c_rasterizer::thread_owns_device());

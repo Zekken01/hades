@@ -84,7 +84,7 @@ bool c_cache_file_tag_cache::load_internal() // 0x10874500
 bool c_cache_file_tag_cache::read_tag_data(c_file_reference *file, long index, unsigned long offset, unsigned long size, void *buffer) // 0x108750D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?read_tag_data@c_cache_file_tag_cache@@QAE_NPAVc_file_reference@@JKKPAX@Z");
-	// void *buffer;
+#line 94
 
 	#line 92 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\cache_file_tag_cache.cpp"
 		if (!(valid_index(index))) { display_assert("valid_index(index)", __FILE__, __LINE__, true); system_exit(-1); }
@@ -98,11 +98,7 @@ bool c_cache_file_tag_cache::read_tag_data(c_file_reference *file, long index, u
 bool c_cache_file_tag_cache::read_and_fixup_tag(c_file_reference *file, long index, unsigned long buffer_size, void *buffer) // 0x10874D60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?read_and_fixup_tag@c_cache_file_tag_cache@@QAE_NPAVc_file_reference@@JKPAX@Z");
-	// void *buffer;
-	// s_cache_tag_instance *instance;
-	// s_cache_tag_instance const *header;
-	// unsigned __int32 *fixups;
-		// long i;
+#line 112
 
 	#line 106 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\cache_file_tag_cache.cpp"
 		if (!(valid_index(index))) { display_assert("valid_index(index)", __FILE__, __LINE__, true); system_exit(-1); }

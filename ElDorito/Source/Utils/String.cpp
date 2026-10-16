@@ -314,15 +314,7 @@ namespace Utils
 		std::wstring WidenString(std::string_view string) // 0x10C5F680
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?WidenString@String@Utils@@YA?AV?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@V?$basic_string_view@DU?$char_traits@D@std@@@4@@Z");
-			// static ...; // 0x10C5F8A4
-			// static ...; // 0x10C5F898
-			// static ...; // 0x10C5F890
-			// std::string_view string;
-			// __int32 n;
-			// std::wstring result;
-			// __int32 const len;
-			// function call : __int32 (unsigned __int32, unsigned long, char const *, __int32, wchar_t *, __int32)
-			// function call : __int32 (unsigned __int32, unsigned long, char const *, __int32, wchar_t *, __int32)
+#line 383
 
 			__int32 const len = (__int32)string.size();
 			if (len == 0)
@@ -357,15 +349,7 @@ namespace Utils
 		std::string ThinString(std::wstring_view wide_string) // 0x10C5EE80
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ThinString@String@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$basic_string_view@_WU?$char_traits@_W@std@@@4@@Z");
-			// static ...; // 0x10C5F0AC
-			// static ...; // 0x10C5F0A0
-			// static ...; // 0x10C5F098
-			// std::wstring_view wide_string;
-			// __int32 n;
-			// std::string result;
-			// __int32 const len;
-			// function call : __int32 (unsigned __int32, unsigned long, wchar_t const *, __int32, char *, __int32, char const *, __int32 *)
-			// function call : __int32 (unsigned __int32, unsigned long, wchar_t const *, __int32, char *, __int32, char const *, __int32 *)
+#line 426
 
 			__int32 const len = (__int32)wide_string.size();
 			if (len == 0)

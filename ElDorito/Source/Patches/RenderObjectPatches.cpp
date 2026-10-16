@@ -164,6 +164,16 @@ namespace Patches
 
 namespace eldorado
 {
+	// Functions in eldorado.exe, named from the game's own symbols where it has them.
+	static auto const render_method_uses_distortion = reinterpret_cast<bool (*)(long)>(0xA20D40);  // no symbol; named from what it does
+	static auto const render_method_uses_z_pre_pass = reinterpret_cast<bool (*)(long)>(0xA77D20);  // no symbol; named from what it does
+	static auto const transparent_sort_push_marker = reinterpret_cast<void (*)()>(0xA73620);  // no symbol; named from what it does
+	static auto const z_pre_pass_add_callback = reinterpret_cast<long (*)(void *, void *, long)>(0xA7AC90);  // no symbol; named from what it does
+}
+#line 164
+
+namespace eldorado
+{
 	// Functions in eldorado.exe, named from the game's own symbols.
 	static auto const c_object_renderer_add_context_mesh_part = reinterpret_cast<long (*)(s_render_object *, s_render_object_info *, unsigned long *, short, short, short, short, __int32)>(0xA77AC0);
 	static auto const c_object_renderer_add_transparent_mesh_part = reinterpret_cast<void (*)(s_render_geometry *, s_mesh *, s_part *, long, long, void *, __int32, real_point3d *, char, long, long, void *)>(0xA77B70);
@@ -238,7 +248,6 @@ namespace Patches
 		void ApplyAll() // 0x108DE300
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@RenderObject@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			Hook(0x678B9E, render_object_mesh_part_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x679136, render_object_mesh_part_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
@@ -264,7 +273,6 @@ namespace Patches
 		bool GetPRTDisabled() // 0x108DEC70
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?GetPRTDisabled@RenderObject@Patches@@YA_NXZ");
-			// procedure flags: nofpo
 
 			return g_prt_disabled;
 		}
@@ -276,8 +284,6 @@ namespace Patches
 void render_object_set_shield_impact(long element_index, void *definition) // 0x108E06E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?render_object_set_shield_impact@@YAXJPAX@Z");
-	// `anonymous-namespace'::render_object_set_shield_impact
-	// void *definition;
 
 	render_object_globals_get()->parts[element_index].shield_definition = definition;
 }
@@ -285,20 +291,6 @@ void render_object_set_shield_impact(long element_index, void *definition) // 0x
 bool object_should_render(long object_index) // 0x108DF6D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?object_should_render@@YA_NJ@Z");
-	// `anonymous-namespace'::object_should_render
-	// long object_index;
-	// s_object_data *object;
-	// bool is_invisible_material;
-	// s_forge_globals_definition *forge_globals;
-		// s_multiplayer_object_properties *multiplayer_properties;
-		// Forge::ForgeKillVolumeProperties *kill_volume_properties;
-		// long player_index;
-		// bool show_invisibles;
-	// function call : bool (*const)()
-	// function call : bool (*const)()
-	// function call : s_multiplayer_object_properties *(*const)(unsigned long)
-	// function call : unsigned long (*const)(long)
-	// function call : bool (*const)(long, long *, long *)
 
 	s_object_data *object = object_get(object_index);
 	if (!object)
@@ -328,52 +320,6 @@ bool object_should_render(long object_index) // 0x108DF6D0
 void render_object_add_mesh_parts_hook(s_render_object *render_object, s_visible_object *render_info, long object_entry_point_flags, bool a4, bool has_shield_impact, bool isFpShit, bool camo) // 0x108DF930
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?render_object_add_mesh_parts_hook@@YAXPAUs_render_object@@PAUs_visible_object@@J_N222@Z");
-	// `anonymous-namespace'::render_object_add_mesh_parts_hook
-	// long object_entry_point_flags;
-	// bool a4;
-	// bool has_shield_impact;
-	// bool isFpShit;
-	// bool camo;
-	// bool uses_fixed_oreder_transparency;
-	// s_geometry_material *materials;
-	// s_object_data *object;
-	// bool ridiculous_transparency_sort_bias_bit;
-	// s_render_model *render_model;
-		// __int32 region_index;
-			// short sort_index;
-			// unsigned char mesh_index;
-			// s_mesh *mesh;
-				// __int32 part_index;
-					// long reforge_material_index;
-					// bool uses_z_pre_pass;
-					// bool is_decal;
-					// bool unknown_transparency_flag;
-					// long element_index;
-					// s_part *part;
-					// bool uses_alpha_blending;
-					// c_render_method *render_method;
-					// long entry_point_flags;
-					// long render_method_index;
-					// short material_index;
-						// real_point3d sorting_position;
-							// void *callback;
-							// unsigned char sorting_layer;
-							// bool uses_distortion;
-							// void *shield_impact;
-	// function call : void *(*const)(unsigned long, long)
-	// function call : bool (*const)(long)
-	// function call : bool (*const)(long)
-	// function call : long (*const)(s_render_object *, s_render_object_info *, unsigned long *, short, short, short, short, __int32)
-	// function call : long (*const)(void *, void *, long)
-	// function call : bool (*const)(long)
-	// function call : void (*const)(s_render_geometry *, s_mesh *, s_part *, long, long, void *, __int32, real_point3d *, char, long, long, void *)
-	// function call : bool (*const)(long)
-	// function call : void (*const)(s_render_geometry *, s_mesh *, s_part *, long, long, void *, __int32, real_point3d *, char, long, long, void *)
-	// function call : void (*const)(bool)
-	// function call : void (*const)(bool)
-	// function call : void (*const)(s_render_geometry *, s_mesh *, s_part *, long, long, void *, __int32, real_point3d *, char, long, long, void *)
-	// function call : s_shield_parameters *(*const)(s_object_data *, bool)
-	// function call : void (*const)()
 
 	bool uses_fixed_oreder_transparency = (object_entry_point_flags >> 6) & 1;
 	s_render_model *render_model = (s_render_model *)tag_get('mode', render_info->info.render_model_index);
@@ -413,7 +359,7 @@ void render_object_add_mesh_parts_hook(s_render_object *render_object, s_visible
 			if (((bool *)0x1699294)[static_cast<char>(object->object_identifier.type)])
 				object_entry_point_flags |= 0x10;
 			*(long *)0x524B6DC |= ((c_flags<enum e_render_method_flags,short> *)((char *)render_method + 0x34))->test((e_render_method_flags)2);
-			bool uses_z_pre_pass = ((bool (*const)(long))0xA77D20)(render_method_index);
+			bool uses_z_pre_pass = eldorado::render_method_uses_z_pre_pass(render_method_index);
 			bool is_decal = eldorado::c_render_method_get_is_decal(render_method_index);
 			bool uses_alpha_blending = ((c_tag_block<s_render_method_postprocess_definition> *)((char *)render_method + 0x28))->operator->()->alpha_blend_mode != 0;
 			bool unknown_transparency_flag = uses_alpha_blending && !is_decal;
@@ -428,10 +374,10 @@ void render_object_add_mesh_parts_hook(s_render_object *render_object, s_visible
 			if (uses_z_pre_pass)
 			{
 				if (mesh->vertex_type == (e_vertex_type)2 || mesh->vertex_type == (e_vertex_type)1 || mesh->vertex_type == (e_vertex_type)22)
-					((long (*const)(void *, void *, long))0xA7AC90)((void *)0xA791A0, render_object, element_index);
+					eldorado::z_pre_pass_add_callback((void *)0xA791A0, render_object, element_index);
 				unknown_transparency_flag = false;
 			}
-			if (camo && ((bool (*const)(long))0xA20D40)(render_method_index))
+			if (camo && eldorado::render_method_uses_distortion(render_method_index))
 			{
 				real_point3d sorting_position = global_origin3d;
 				if (part->transparent_sorting_index != -1 && !mesh->flags.test((e_mesh_flags)1))
@@ -447,7 +393,7 @@ void render_object_add_mesh_parts_hook(s_render_object *render_object, s_visible
 				if (unknown_transparency_flag)
 				{
 					unsigned char sorting_layer = *(unsigned char *)offset_pointer(render_method, 0x36);
-					bool uses_distortion = ((bool (*const)(long))0xA20D40)(render_method_index);
+					bool uses_distortion = eldorado::render_method_uses_distortion(render_method_index);
 					void *callback = (void *)0xA790E0;
 					if (render_info->flags & 0x10)
 						callback = (void *)0xA79160;
@@ -472,25 +418,12 @@ void render_object_add_mesh_parts_hook(s_render_object *render_object, s_visible
 		}
 	}
 	if (ridiculous_transparency_sort_bias_bit)
-		((void (*const)())0xA73620)();
+		eldorado::transparent_sort_push_marker();
 }
 
 void render_reforge_object_mesh_part(s_render_object_mesh_part *element, long entry_point, long entry_point_flags, bool a4, long material_index, ::Forge::Reforge::SRenderMaterialParameters const &parameters) // 0x108E0D80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?render_reforge_object_mesh_part@@YAXPAUs_render_object_mesh_part@@JJ_NJABUSRenderMaterialParameters@Reforge@Forge@@@Z");
-	// `anonymous-namespace'::render_reforge_object_mesh_part
-	// long entry_point_flags;
-	// bool a4;
-	// long material_index;
-	// Forge::Reforge::SRenderMaterialParameters const &parameters;
-	// long old_material_index;
-	// s_compression_info custom_compression_info;
-	// s_part *part;
-	// void *old_compression_info_adress;
-	// s_mesh *mesh;
-	// s_render_model *render_model;
-	// function call : void *(*const)(unsigned long, long)
-	// function call : void (*const)(s_render_object_mesh_part *, long, long, bool)
 
 	s_render_model *render_model = (s_render_model *)tag_get('mode', element->info->info.render_model_index);
 	s_mesh *mesh = &render_model->render_geometry.meshes[element->mesh_index];
@@ -513,15 +446,6 @@ void render_reforge_object_mesh_part(s_render_object_mesh_part *element, long en
 long object_get_prt_disabled(long object_index) // 0x108DF440
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?object_get_prt_disabled@@YAJJ@Z");
-	// `anonymous-namespace'::object_get_prt_disabled
-	// static ...; // 0x108DF520
-	// static ...; // 0x108DF514
-	// static ...; // 0x108DF50C
-	// long object_index;
-	// float const k_spartan_scale_threshold;
-	// s_object_data *object;
-		// c_enum<enum e_object_type,char> object_type;
-	// function call : long (*const)(long)
 
 	float const k_spartan_scale_threshold = 1.5f;
 	object_index = ((long (*)(long))0xB2EAB0)(object_index);
@@ -535,17 +459,11 @@ long object_get_prt_disabled(long object_index) // 0x108DF440
 	return 0;
 }
 
+#line 517
 void render_object_mesh_part_hook(s_render_object_mesh_part *element, long entry_point, long entry_point_flags, bool a4) // 0x108E0540
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?render_object_mesh_part_hook@@YAXPAUs_render_object_mesh_part@@JJ_N@Z");
-	// `anonymous-namespace'::render_object_mesh_part_hook
-	// s_render_object_mesh_part *element;
-	// long entry_point;
-	// long entry_point_flags;
-	// bool a4;
-	// short reforge_material_index;
-	// Forge::Reforge::SRenderMaterialParameters reforgeParameters;
-	// function call : void (*const)(s_render_object_mesh_part *, long, long, bool)
+#line 528
 
 	#line 519 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Patches\\RenderObjectPatches.cpp"
 		assert(element->info);

@@ -70,7 +70,7 @@ namespace Job
 	void RunJob(std::function<enum EJobResult __cdecl(void)> function, SJobCounter *counter, __int32 priority) // 0x1086CEA0
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?RunJob@Job@@YAXV?$function@$$A6A?AW4EJobResult@@XZ@std@@PAUSJobCounter@@H@Z");
-		// __int32 priority;
+#line 74
 
 		#line 72 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Job\\JobSystem.cpp"
 		assert(initialized);

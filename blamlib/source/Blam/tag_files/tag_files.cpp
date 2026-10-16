@@ -27,8 +27,7 @@ extern char const *tag_name_get_filename_without_extension(char const *tag_name)
 char const *tag_name_strip_path(char const *name) // 0x10F18F00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?tag_name_strip_path@@YAPBDPBD@Z");
-	// char const *name;
-	// char const *result;
+#line 32
 
 	#line 29 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\tag_files\\tag_files.cpp"
 		if (!(name)) { display_assert("name", __FILE__, __LINE__, true); system_exit(-1); }

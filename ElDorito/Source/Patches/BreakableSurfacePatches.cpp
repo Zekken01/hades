@@ -192,7 +192,6 @@ namespace Patches
 		void ApplyAll() // 0x1069BA50
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@BreakableSurface@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			Hook(0x16B960, breakable_surfaces_reset_hook).Apply();
 			Hook(0x1689E6, breakable_surface_break_sub_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
@@ -212,8 +211,6 @@ namespace Patches
 _inline long c_breakable_surface_group_handle::create(long bsp_index, long group_index) // 0x1069D5E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?create@c_breakable_surface_group_handle@hades_file_local@@SAJJJ@Z");
-	// `anonymous-namespace'::c_breakable_surface_group_handle::create
-	// long group_index;
 
 	(void)((!!(bsp_index >= 0 && bsp_index < 16)) || (_wassert(L"bsp_index >= 0 && bsp_index < k_maximum_structure_bsps_per_scenario", L"C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Patches\\BreakableSurfacePatches.cpp", 50), 0));
 	(void)((!!(group_index >= 0 && group_index < 1024)) || (_wassert(L"group_index >= 0 && group_index < k_maximum_breakable_surface_groups", L"C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Patches\\BreakableSurfacePatches.cpp", 51), 0));
@@ -223,8 +220,6 @@ _inline long c_breakable_surface_group_handle::create(long bsp_index, long group
 _inline long c_breakable_surface_group_handle::get_bsp_index(long handle) // 0x1069D680
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_bsp_index@c_breakable_surface_group_handle@hades_file_local@@SAJJ@Z");
-	// `anonymous-namespace'::c_breakable_surface_group_handle::get_bsp_index
-	// long handle;
 
 	return handle >> 10;
 }
@@ -232,19 +227,15 @@ _inline long c_breakable_surface_group_handle::get_bsp_index(long handle) // 0x1
 _inline long c_breakable_surface_group_handle::get_group_index(long handle) // 0x1069D800
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_group_index@c_breakable_surface_group_handle@hades_file_local@@SAJJ@Z");
-	// `anonymous-namespace'::c_breakable_surface_group_handle::get_group_index
-	// long handle;
 
 	return handle & 0x3FF;
 }
 
+#line 225
 long breakable_surface_group_get_gamestate_index(long bsp_index, long group_index) // 0x1069C800
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?breakable_surface_group_get_gamestate_index@@YAJJJ@Z");
-	// `anonymous-namespace'::breakable_surface_group_get_gamestate_index
-	// long group_index;
-	// long group_count;
-	// function call : long (*const)(long)
+#line 232
 
 	#line 227 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Patches\\BreakableSurfacePatches.cpp"
 		(void)((!!(bsp_index >= 0 && bsp_index < 16)) || (_wassert(L"bsp_index >= 0 && bsp_index < k_maximum_structure_bsps_per_scenario", _CRT_WIDE(__FILE__), (unsigned)(__LINE__)), 0));
@@ -262,8 +253,7 @@ long breakable_surface_group_get_gamestate_index(long bsp_index, long group_inde
 void breakable_surface_group_set_gamestate_index(long bsp_index, long group_index, long gamestate_index) // 0x1069C8F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?breakable_surface_group_set_gamestate_index@@YAXJJJ@Z");
-	// `anonymous-namespace'::breakable_surface_group_set_gamestate_index
-	// long gamestate_index;
+#line 251
 
 	#line 248 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Patches\\BreakableSurfacePatches.cpp"
 		(void)((!!(bsp_index >= 0 && bsp_index < 16)) || (_wassert(L"bsp_index >= 0 && bsp_index < k_maximum_structure_bsps_per_scenario", _CRT_WIDE(__FILE__), (unsigned)(__LINE__)), 0));
@@ -275,11 +265,7 @@ void breakable_surface_group_set_gamestate_index(long bsp_index, long group_inde
 bool breakable_surface_get_surface_information(long bsp_index, long surface_index, long *instanced_geometry_instance_index_out, long *breakable_surface_set_index_out, long *breakable_surface_index_out) // 0x1069C680
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?breakable_surface_get_surface_information@@YA_NJJPAJ00@Z");
-	// `anonymous-namespace'::breakable_surface_get_surface_information
-	// long *breakable_surface_index_out;
-	// s_scenario_structure_bsp const *structure_bsp;
-		// s_structure_breakable_surface const *entry;
-	// function call : s_scenario_structure_bsp *(*const)(long)
+#line 267
 
 	#line 261 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Patches\\BreakableSurfacePatches.cpp"
 		assert(instanced_geometry_instance_index_out);
@@ -305,9 +291,7 @@ bool breakable_surface_get_surface_information(long bsp_index, long surface_inde
 long breakable_surface_get_surface_count(long bsp_index) // 0x1069C540
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?breakable_surface_get_surface_count@@YAJJ@Z");
-	// `anonymous-namespace'::breakable_surface_get_surface_count
-	// long bsp_index;
-	// function call : s_scenario_structure_bsp *(*const)(long)
+#line 295
 
 	#line 291 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Patches\\BreakableSurfacePatches.cpp"
 		(void)((!!(bsp_index >= 0 && bsp_index < 16)) || (_wassert(L"bsp_index >= 0 && bsp_index < k_maximum_structure_bsps_per_scenario", _CRT_WIDE(__FILE__), (unsigned)(__LINE__)), 0));
@@ -318,19 +302,6 @@ long breakable_surface_get_surface_count(long bsp_index) // 0x1069C540
 long breakable_surface_get_group_index(long bsp_index, long instanced_geometry_instance, long breakable_surface_set_index, long breakable_surface_index) // 0x1069C380
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?breakable_surface_get_group_index@@YAJJJJJ@Z");
-	// `anonymous-namespace'::breakable_surface_get_group_index
-	// static ...; // 0x1069C458
-	// static ...; // 0x1069C450
-	// long bsp_index;
-	// long instanced_geometry_instance;
-	// long breakable_surface_set_index;
-	// long breakable_surface_index;
-	// long surface_count;
-		// long i;
-			// long instanced_geometry_instance_index_out;
-			// long breakable_surface_set_index_out;
-			// bool valid;
-			// long breakable_surface_index_out;
 
 	long surface_count = breakable_surface_get_surface_count(bsp_index);
 	for (long i = 0; i < surface_count; i++)
@@ -351,10 +322,6 @@ long breakable_surface_get_group_index(long bsp_index, long instanced_geometry_i
 long breakable_surface_get_surface_index_from_group_index_and_offset(long bsp_index, long group_index, long offset) // 0x1069C5E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?breakable_surface_get_surface_index_from_group_index_and_offset@@YAJJJJ@Z");
-	// `anonymous-namespace'::breakable_surface_get_surface_index_from_group_index_and_offset
-	// long offset;
-	// long group_count;
-	// function call : long (*const)(long)
 
 	long group_count = ((long(__cdecl *)(long))0x569d30)(bsp_index);
 
@@ -371,22 +338,11 @@ long breakable_surface_get_surface_index_from_group_index_and_offset(long bsp_in
 	return group_index * 32 + offset;
 }
 
+#line 358
 void simulation_action_breakable_surface_update(long bsp_index, long group_index) // 0x1069D8B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?simulation_action_breakable_surface_update@@YAXJJ@Z");
-	// `anonymous-namespace'::simulation_action_breakable_surface_update
-	// static ...; // 0x1069D9F4
-	// static ...; // 0x1069D9EC
-	// long bsp_index;
-	// long group_index;
-	// long gamestate_index;
-		// long entity_indx;
-			// unsigned long long flags;
-	// function call : bool (*const)()
-	// function call : bool (*const)()
-	// function call : bool (*const)()
-	// function call : long (*const)(long)
-	// function call : void (*const)(long, long, unsigned long long *)
+#line 374
 
 	#line 360 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Patches\\BreakableSurfacePatches.cpp"
 		(void)((!!(bsp_index >= 0 && bsp_index < 16)) || (_wassert(L"bsp_index >= 0 && bsp_index < k_maximum_structure_bsps_per_scenario", _CRT_WIDE(__FILE__), (unsigned)(__LINE__)), 0));
@@ -409,12 +365,6 @@ void simulation_action_breakable_surface_update(long bsp_index, long group_index
 void breakable_surface_break_sub_hook(real_point3d const *position, real_vector3d const *direction, s_scenario_location const *location, long bsp_index, long instance_index, long breakable_surface_set_index, long breakable_surface_index, long surface_index) // 0x1069C280
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?breakable_surface_break_sub_hook@@YAXPBUreal_point3d@@PBUreal_vector3d@@PBUs_scenario_location@@JJJJJ@Z");
-	// `anonymous-namespace'::breakable_surface_break_sub_hook
-	// long surface_index;
-	// void (*const breakable_surface_break_sub)(real_point3d const *, real_vector3d const *, s_scenario_location const *, long, long, long, long, long);
-		// long group_index;
-	// function call : void (*const)(real_point3d const *, real_vector3d const *, s_scenario_location const *, long, long, long, long, long)
-	// function call : void (*const)(long, long, long, real_point3d const *, s_scenario_location const *)
 
 	void (*const breakable_surface_break_sub)(real_point3d const *position, real_vector3d const *direction, s_scenario_location const *location, long bsp_index, long instance_index, long breakable_surface_set_index, long breakable_surface_index, long surface_index) = (void (*const)(real_point3d const *, real_vector3d const *, s_scenario_location const *, long, long, long, long, long))0x569820;
 
@@ -432,28 +382,6 @@ void breakable_surface_break_sub_hook(real_point3d const *position, real_vector3
 void simulation_action_breakable_surfaces_create_hook() // 0x1069DA60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?simulation_action_breakable_surfaces_create_hook@@YAXXZ");
-	// `anonymous-namespace'::simulation_action_breakable_surfaces_create_hook
-	// procedure flags: nofpo
-		// long bsp_index;
-			// long group_count;
-				// long group_index;
-					// long gamestate_index;
-					// long handle;
-						// long entity_index;
-							// void *entity_manager;
-							// void *entity_database;
-	// function call : bool (*const)()
-	// function call : bool (*const)()
-	// function call : long (*const)()
-	// function call : long (*const)(long)
-	// function call : long (*const)(long)
-	// function call : long (*const)()
-	// function call : long (*const)(long, long)
-	// function call : bool (*const)()
-	// function call : bool (*const)()
-	// function call : long (*const)(long, long, long)
-	// function call : c_simulation_world *(*const)()
-	// function call : void (*const)(void *, short)
 
 	if (!game_is_server() || !game_is_distributed())
 		return;
@@ -483,27 +411,6 @@ void simulation_action_breakable_surfaces_create_hook() // 0x1069DA60
 void __fastcall c_simulation_breakable_surface_break_event_definition__apply_game_event_hook(void *thisptr, void *__formal, long const *entitiy_references, long entity_reference_count, long payload_size, s_simulation_breakable_surface_break_event_data const *payload) // 0x1069CD70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_simulation_breakable_surface_break_event_definition__apply_game_event_hook@@YIXPAX0PBJJJPBUs_simulation_breakable_surface_break_event_data@hades_file_local@@@Z");
-	// `anonymous-namespace'::c_simulation_breakable_surface_break_event_definition__apply_game_event_hook
-	// void *__formal;
-	// long const *entitiy_references;
-	// long entity_reference_count;
-	// long payload_size;
-	// s_simulation_breakable_surface_break_event_data const *payload;
-	// c_collision_surface_reference surface_reference;
-	// long breakable_surface_set_index;
-	// long surface_index;
-	// long bsp_index;
-	// s_scenario_structure_bsp const *structure_bsp;
-	// long breakable_surface_index;
-	// c_collision_bsp_reference bsp_reference;
-	// function call : s_scenario_structure_bsp *(*const)(long)
-	// function call : void (*const)(c_collision_bsp_reference *, s_scenario_structure_bsp const *)
-	// function call : void (*const)(c_collision_bsp_reference *, s_scenario_structure_bsp const *, long, bool)
-	// function call : void (*const)(c_collision_surface_reference *, c_collision_bsp_reference, long)
-	// function call : unsigned char (*const)(c_collision_surface_reference *)
-	// function call : long (*const)(c_collision_surface_reference *)
-	// function call : long (*const)(c_collision_surface_reference *)
-	// function call : void (*const)(long, long, long, long, long, real_point3d const *, s_scenario_location const *, real_vector3d const *)
 
 	long bsp_index = payload->location.cluster_reference.bsp_index;
 	long surface_index = payload->surface_index;
@@ -524,28 +431,11 @@ void __fastcall c_simulation_breakable_surface_break_event_definition__apply_gam
 	((void (*)(long, long, long, long, long, real_point3d const *, s_scenario_location const *, real_vector3d const *))0x568810)(payload->location.cluster_reference.bsp_index, payload->instanced_geometry_instance_index, breakable_surface_index, breakable_surface_set_index, payload->surface_index, &payload->position, &payload->location, &global_zero3d);
 }
 
+#line 511
 bool __fastcall c_simulation_breakable_surface_group_entity_definition__build_updated_state_data_hook(void *thisptr, void *__formal, void *entity, unsigned long *update_mask, long update_state_data_size, s_simulation_breakable_surface_group_state_data *update_state_data) // 0x1069CFC0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_simulation_breakable_surface_group_entity_definition__build_updated_state_data_hook@@YI_NPAX00PAKJPAUs_simulation_breakable_surface_group_state_data@hades_file_local@@@Z");
-	// `anonymous-namespace'::c_simulation_breakable_surface_group_entity_definition__build_updated_state_data_hook
-	// void *thisptr;
-	// void *__formal;
-	// void *entity;
-	// unsigned long *update_mask;
-	// long update_state_data_size;
-	// s_simulation_breakable_surface_group_state_data *update_state_data;
-	// long gamestate_index;
-	// unsigned long new_surface_bits;
-	// long bsp_index;
-	// long group_index;
-	// long handle;
-		// long i;
-			// long breakable_surface_set_index;
-			// long surface_index;
-			// long breakable_surface_index;
-			// long instanced_geometry_instance_index;
-	// function call : long (*const)(long)
-	// function call : bool (*const)(long, long, long, long)
+#line 533
 
 	if (!(*update_mask & 1))
 		return true;
@@ -587,26 +477,7 @@ bool __fastcall c_simulation_breakable_surface_group_entity_definition__build_up
 bool __fastcall c_simulation_breakable_surface_group_entity_definition__update_game_entity_hook(c_simulation_entity_definition *thisptr, void *__formal, long gamestate_index, unsigned long *update_mask, long update_state_data_size, s_simulation_breakable_surface_group_state_data *update_state_data) // 0x1069D2E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?c_simulation_breakable_surface_group_entity_definition__update_game_entity_hook@@YI_NPAUc_simulation_entity_definition@@PAXJPAKJPAUs_simulation_breakable_surface_group_state_data@hades_file_local@@@Z");
-	// `anonymous-namespace'::c_simulation_breakable_surface_group_entity_definition__update_game_entity_hook
-	// c_simulation_entity_definition *thisptr;
-	// void *__formal;
-	// long gamestate_index;
-	// unsigned long *update_mask;
-	// long update_state_data_size;
-	// s_simulation_breakable_surface_group_state_data *update_state_data;
-	// bool (*const gameworld_attachment_valid)(void *, long);
-	// long bsp_index;
-	// long group_index;
-	// long handle;
-		// long i;
-			// long breakable_surface_set_index;
-			// long surface_index;
-			// long breakable_surface_index;
-			// long instance_index;
-	// function call : bool (*const)(void *, long)
-	// function call : long (*const)(long)
-	// function call : bool (*const)(long, long, long, long)
-	// function call : void (*const)(long, long, long, long, bool)
+#line 594
 
 	bool (__thiscall *const gameworld_attachment_valid)(void *, long) = *(bool (__thiscall **)(void *, long))offset_pointer(*(void **)thisptr, 0x20);
 	if (!gameworld_attachment_valid(thisptr, gamestate_index))

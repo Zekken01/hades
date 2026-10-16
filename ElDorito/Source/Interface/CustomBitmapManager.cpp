@@ -182,14 +182,7 @@ CustomBitmapManager *CustomBitmapManager::Get() // 0x10784CB0
 __int32 CustomBitmapManager::FindOrAllocateBitmap(std::string const &path) // 0x10784900
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?FindOrAllocateBitmap@CustomBitmapManager@@QAEHABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-	// static ...; // 0x10784AFC
-	// static ...; // 0x10784AF4
-	// CustomBitmapManager *const this;
-	// std::string const &path;
-	// std::scoped_lock<std::shared_mutex> lock;
-	// CustomBitmapManager::StorageItem *item;
-	// __int32 itemIndex;
-		// CustomBitmapManager::StorageItem *item;
+#line 193
 
 	std::scoped_lock<std::shared_mutex> lock(m_lock);
 	__int32 itemIndex = FindStorageItemWithPath(path);

@@ -265,9 +265,6 @@ extern UiPlayerModelState s_UiPlayerModelState; // 0x12467330
 static s_game_globals *try_and_get_game_globals() // 0x10ABB040
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?try_and_get_game_globals@@YAPAUs_game_globals@@XZ");
-	// procedure flags: nofpo
-	// function call : long (*const)(unsigned long)
-	// function call : void *(*const)(unsigned long, long)
 
 	return (s_game_globals *)tag_get(0x6D617467, tag_get_first_in_group(0x6D617467));
 }
@@ -275,19 +272,6 @@ static s_game_globals *try_and_get_game_globals() // 0x10ABB040
 long get_multiplayer_player_model_customization_block_index(long unit_index) // 0x10AB8400
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_multiplayer_player_model_customization_block_index@@YAJJ@Z");
-	// static ...; // 0x10AB8534
-	// static ...; // 0x10AB8528
-	// static ...; // 0x10AB8520
-	// long unit_index;
-	// s_game_globals *game_globals;
-	// s_unit_data *unit_object;
-		// c_tag_block<s_game_globals_player_character_type> &<range>$L0;
-		// s_game_globals_player_character_type *<begin>$L0;
-		// s_game_globals_player_character_type *<end>$L0;
-			// s_game_globals_player_character_type &character_type;
-				// long player_representation_index;
-				// s_game_globals_player_representation *player_representation;
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
 
 	s_game_globals *game_globals = game_globals_get();
 	s_unit_data *unit_object = (s_unit_data *)object_try_and_get_and_verify_type(unit_index, 0x2003);
@@ -306,13 +290,6 @@ long get_multiplayer_player_model_customization_block_index(long unit_index) // 
 s_player_model_customization const *player_get_model_customization(s_player_datum *player) // 0x10AB8E10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?player_get_model_customization@@YAPBUs_player_model_customization@@PAUs_player_datum@@@Z");
-	// s_player_datum *player;
-	// __int32 player_index;
-	// c_data_array<s_player_datum> *players;
-	// __int32 offset;
-	// __int32 absolute_index;
-		// s_player_datum *datum;
-		// s_player_datum *player;
 
 	c_data_array<s_player_datum> *players = players_get();
 	__int32 offset = (char *)player - (char *)players->address;
@@ -337,32 +314,6 @@ s_player_model_customization const *player_get_model_customization(s_player_datu
 void player_refresh_object_appearance_full_hook(long player_index, long object_index) // 0x10ABA680
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?player_refresh_object_appearance_full_hook@@YAXJJ@Z");
-	// static ...; // 0x10ABA94C
-	// static ...; // 0x10ABA934
-	// static ...; // 0x10ABA92C
-	// long player_index;
-	// long object_index;
-	// s_player_datum *player;
-	// real_rgb_color colors[5];
-	// long team_index;
-	// char (*const set_object_base_change_color_by_index)(long, long, real_rgb_color const *);
-	// s_player_model_customization const *customization;
-	// s_object_data *object;
-	// void (*const object_set_initial_change_colors)(long, __int32, real_rgb_color const *);
-	// long (*const game_engine_get_change_colors)(long, s_player_model_customization const *, long, real_rgb_color *, bool *);
-	// bool custom_colors;
-	// void (*const object_apply_change_colors)(long);
-		// s_unit_data *unit;
-		// long i;
-		// long child_index;
-			// s_object_data *child_object;
-	// function call : bool (*const)()
-	// function call : bool (*const)()
-	// function call : long (*const)(long, s_player_model_customization const *, long, real_rgb_color *, bool *)
-	// function call : char (*const)(long, long, real_rgb_color const *)
-	// function call : void (*const)(long, __int32, real_rgb_color const *)
-	// function call : void (*const)(long)
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
 
 	long (*const game_engine_get_change_colors)(long, s_player_model_customization const *, long, real_rgb_color *, bool *) = reinterpret_cast<long (*)(long, s_player_model_customization const *, long, real_rgb_color *, bool *)>(0x54F250);
 	void (*const object_apply_change_colors)(long) = reinterpret_cast<void (*)(long)>(0x5A2FA0);
@@ -415,20 +366,6 @@ void player_refresh_object_appearance_full_hook(long player_index, long object_i
 void recreate_child_objects_for_customization(long object_index, long region_discard_mask, s_model_customization_region_permutation *region_permutations, long region_permutations_count) // 0x10ABAA80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?recreate_child_objects_for_customization@@YAXJJPAUs_model_customization_region_permutation@@J@Z");
-	// long region_permutations_count;
-	// void (*const object_detach)(long);
-	// void (*const object_create_children)(long);
-	// s_unit_data *object;
-	// void (*const object_delete_immediately)(long);
-		// long child_index;
-			// s_object_data *child_object;
-			// long next_index;
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : void (*const)(long)
-	// function call : void (*const)(long)
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : void (*const)(long, unsigned long, s_model_customization_region_permutation const *, long)
 
 	void (*const object_delete_immediately)(long) = reinterpret_cast<void (*)(long)>(0xB2CF40);
 	void (*const object_create_children)(long) = reinterpret_cast<void (*)(long)>(0xB2C980);
@@ -462,33 +399,11 @@ void recreate_child_objects_for_customization(long object_index, long region_dis
 	}
 }
 
+#line 456
 void player_model_customize(s_player_model_customization const *customization_data, long unit_index) // 0x10AB8F00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?player_model_customize@@YAXPBUs_player_model_customization@@J@Z");
-	// static ...; // 0x10AB92C0
-	// static ...; // 0x10AB92B8
-	// s_player_model_customization const *customization_data;
-	// long unit_index;
-	// s_unit_data *unit;
-	// s_multiplayer_globals_definition *multiplayer_globals_definition;
-	// s_game_globals *globals_definition;
-	// unsigned long region_discard_mask;
-	// s_multiplayer_universal_globals_definition *universal_globals;
-	// long region_permutation_count;
-	// s_model_customization_selection *selected_model;
-	// s_static_array<s_model_customization_region_permutation,16> region_permutations;
-	// long player_model_index;
-	// long customize_from_unit_index;
-		// __int32 region_index;
-			// s_model_customization_player_region_permutation *permutation;
-			// char permutation_index;
-			// s_model_customization_player_region *region;
-				// __int32 variant_index;
-	// function call : bool (*)()
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : void *(*const)(unsigned long, long)
-	// function call : void (*const)(long, unsigned long, s_model_customization_region_permutation const *, long)
+#line 483
 
 	if (game_is_campaign() && Modules::ModuleCampaign::Instance().VarPlayerRepresentationEnabledClient->ValueInt)
 		return;
@@ -537,7 +452,6 @@ void player_model_customize(s_player_model_customization const *customization_da
 void model_permutation_possibility_set(long permutation_index, s_model_permutation_possibility *possibility) // 0x10AB8690
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?model_permutation_possibility_set@@YAXJPAUs_model_permutation_possibility@@@Z");
-	// s_model_permutation_possibility *possibility;
 
 	possibility->runtime_permutation_index = permutation_index;
 	possibility->variant_permutation_index = -1;
@@ -551,32 +465,6 @@ void model_permutation_possibility_set(long permutation_index, s_model_permutati
 void model_select_initial_permutation(long model_definition_index, long variant_index, unsigned char *region_permutation_indices, s_object_region_information *region_info, unsigned long discard_mask, s_model_customization_region_permutation *region_permutations, long region_permutation_count) // 0x10AB8700
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?model_select_initial_permutation@@YAXJJPAEPAUs_object_region_information@@KPAUs_model_customization_region_permutation@@J@Z");
-	// unsigned char *region_permutation_indices;
-	// s_object_region_information *region_info;
-	// unsigned long discard_mask;
-	// s_model_customization_region_permutation *region_permutations;
-	// long region_permutation_count;
-	// void (*const model_find_permutation_possibilities)(s_model_variant_region *, long, long, long, bool, long *, long, s_model_permutation_possibility *);
-	// s_model_permutation_possibility possibilities[128];
-	// long (*const model_select_permutation_possibility)(long, s_model_permutation_possibility *);
-	// s_model_definition *model;
-		// __int32 i;
-			// long possibility_count;
-			// s_model_region &region;
-				// s_model_variant &variant;
-				// long variant_region_index;
-					// s_model_variant_region &variant_region;
-				// __int32 k;
-					// s_model_permutation &permutation;
-				// s_model_permutation_possibility &chosen_possibility;
-				// long chosen_possibility_index;
-					// long j;
-						// long k;
-							// long permutation_index;
-								// s_model_permutation &permutation;
-	// function call : void *(*const)(unsigned long, long)
-	// function call : void (*const)(s_model_variant_region *, long, long, long, bool, long *, long, s_model_permutation_possibility *)
-	// function call : long (*const)(long, s_model_permutation_possibility *)
 
 	void (*const model_find_permutation_possibilities)(s_model_variant_region *, long, long, long, bool, long *, long, s_model_permutation_possibility *) = (void (*)(s_model_variant_region *, long, long, long, bool, long *, long, s_model_permutation_possibility *))0x6D9640;
 	long (*const model_select_permutation_possibility)(long, s_model_permutation_possibility *) = (long (*)(long, s_model_permutation_possibility *))0x6DA070;
@@ -652,9 +540,6 @@ void model_select_initial_permutation(long model_definition_index, long variant_
 long find_player_character_by_name(char const *name) // 0x10AB7CD0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?find_player_character_by_name@@YAJPBD@Z");
-	// char const *name;
-	// s_game_globals *game_globals;
-		// long i;
 
 	s_game_globals *game_globals = game_globals_get();
 	for (long i = 0; i < game_globals->player_character_types.count; i++)
@@ -668,26 +553,6 @@ long find_player_character_by_name(char const *name) // 0x10AB7CD0
 std::string GetCurrentPreferredCharacter() // 0x10AB6C90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetCurrentPreferredCharacter@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-	// procedure flags: nofpo
-	// static ...; // 0x10AB7155
-	// static ...; // 0x10AB714D
-	// static ...; // 0x10AB7148
-	// static ...; // 0x10AB7142
-	// static ...; // 0x10AB7138
-	// static ...; // 0x10AB70FC
-	// static ...; // 0x10AB70F4
-	// std::string modHash;
-	// s_game_globals const *game_globals;
-	// bool modIsCharacterType;
-	// s_mod_globals_definition const *mod_globals;
-	// std::string loadedMod;
-	// c_mod_package_manager::s_entry entry;
-	// unsigned char hash[20];
-	// std::string character;
-		// __int32 i;
-			// char *currentName;
-				// __int32 j;
-	// function call : bool (*const)()
 
 	if (!eldorado::game_in_progress())
 		return "";
@@ -724,7 +589,6 @@ std::string GetCurrentPreferredCharacter() // 0x10AB6C90
 void clearCachedCharacter() // 0x10AB7C70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?clearCachedCharacter@@YAXXZ");
-	// procedure flags: nofpo
 
 	customization_biped_index = -1;
 	customization_char_platform_index = -1;
@@ -733,8 +597,6 @@ void clearCachedCharacter() // 0x10AB7C70
 s_mod_globals_player_character_customization *try_get_customization_character(std::string const &name) // 0x10ABB0E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?try_get_customization_character@@YAPAUs_mod_globals_player_character_customization@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-	// std::string const &name;
-		// long character_type_index;
 
 	if (!name.empty())
 	{
@@ -748,12 +610,6 @@ s_mod_globals_player_character_customization *try_get_customization_character(st
 long scenario_find_named_object(long name_index) // 0x10ABACB0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?scenario_find_named_object@@YAJJ@Z");
-	// static ...; // 0x10ABAD68
-	// static ...; // 0x10ABAD5C
-	// static ...; // 0x10ABAD54
-	// long name_index;
-		// c_data_array<s_object_header> *object_headers;
-			// c_data_iterator<s_object_header> it;
 
 	if (name_index != -1)
 	{
@@ -770,9 +626,6 @@ long scenario_find_named_object(long name_index) // 0x10ABACB0
 long user_interface_find_model_customization_biped() // 0x10ABBC50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?user_interface_find_model_customization_biped@@YAJXZ");
-	// procedure flags: nofpo
-	// s_mod_globals_player_character_customization *const character;
-		// long object_index;
 
 	s_mod_globals_player_character_customization *const character = try_get_customization_character(GetCurrentPreferredCharacter());
 	if (character && character->character_position_data.biped_name_index != -1)
@@ -791,8 +644,6 @@ long user_interface_find_model_customization_biped() // 0x10ABBC50
 long user_interface_find_char_platform() // 0x10ABBB40
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?user_interface_find_char_platform@@YAJXZ");
-	// procedure flags: nofpo
-	// s_mod_globals_player_character_customization *const character;
 
 	s_mod_globals_player_character_customization *const character = try_get_customization_character(GetCurrentPreferredCharacter());
 
@@ -807,11 +658,6 @@ long user_interface_find_char_platform() // 0x10ABBB40
 void unit_refresh_hologram_appearance_hook(long creator_unit_index, long hologram_unit_index) // 0x10ABB830
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_refresh_hologram_appearance_hook@@YAXJJ@Z");
-	// long hologram_unit_index;
-		// s_object_data *hologram_unit;
-		// s_unit_data *creator_unit;
-			// s_player_model_customization const *customization;
-			// s_player_datum *creator_player;
 
 	if (creator_unit_index != -1 && hologram_unit_index != -1)
 	{
@@ -830,10 +676,6 @@ void unit_refresh_hologram_appearance_hook(long creator_unit_index, long hologra
 static real_rgb_color *network_get_team_color(real_rgb_color *color, long team) // 0x10AB8D00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?network_get_team_color@@YAPAUreal_rgb_color@@PAU1@J@Z");
-	// long team;
-	// s_game_globals *matg;
-		// s_multiplayer_globals_definition *mulg;
-	// function call : void *(*const)(unsigned long, long)
 
 	*color = **reinterpret_cast<real_rgb_color **>(0x189CDBC);
 	s_game_globals *matg = try_and_get_game_globals();
@@ -852,9 +694,6 @@ static real_rgb_color *network_get_team_color(real_rgb_color *color, long team) 
 unsigned char get_character_team_color_override_flags(long character_type_index) // 0x10AB8300
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_character_team_color_override_flags@@YAEJ@Z");
-	// long character_type_index;
-	// s_mod_globals_definition *modg;
-		// __int32 i;
 
 	s_mod_globals_definition *mod_globals = NULL;
 
@@ -880,9 +719,6 @@ unsigned char get_character_team_color_override_flags(long character_type_index)
 unsigned char get_player_team_color_override_flags(long player_index) // 0x10AB85A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_player_team_color_override_flags@@YAEJ@Z");
-	// long player_index;
-	// unsigned char flags;
-		// s_player_datum *player;
 
 	unsigned char flags = 0;
 	if (s_player_datum *player = player_get(player_index))
@@ -895,10 +731,6 @@ unsigned char get_player_team_color_override_flags(long player_index) // 0x10AB8
 bool find_player_customized_character_by_name(long player_index, unsigned long character_name) // 0x10AB7E80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?find_player_customized_character_by_name@@YA_NJK@Z");
-	// unsigned long character_name;
-	// s_player_datum *player;
-	// s_player_appearance const &appearance;
-		// __int32 i;
 
 	s_player_datum *player = player_get(player_index);
 	s_player_appearance const &appearance = player->configuration.host.appearance;
@@ -917,11 +749,6 @@ bool find_player_customized_character_by_name(long player_index, unsigned long c
 void game_engine_get_player_colors(long player_index, s_player_model_customization const *customization, real_rgb_color *out_colors) // 0x10AB7F30
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_get_player_colors@@YAXJPBUs_player_model_customization@@PAUreal_rgb_color@@@Z");
-	// real_rgb_color *out_colors;
-	// s_player_datum *player;
-		// s_game_globals_player_character_type *character_type;
-		// long i;
-	// function call : real_rgb_color *(*const)(unsigned long, real_rgb_color *)
 
 	s_player_datum *player = player_get(player_index);
 
@@ -946,16 +773,6 @@ void game_engine_get_player_colors(long player_index, s_player_model_customizati
 void game_engine_get_player_colors_hook(long player_index, s_player_model_customization const *customization, long team_index, real_rgb_color *out_colors, bool *custom_colors) // 0x10AB8070
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_get_player_colors_hook@@YAXJPBUs_player_model_customization@@JPAUreal_rgb_color@@PA_N@Z");
-	// bool *custom_colors;
-	// s_player_datum *player;
-	// unsigned char forced_color_team;
-	// unsigned char team_override_flags;
-	// s_game_globals *globals;
-		// long i;
-	// function call : bool (*)()
-	// function call : c_game_engine *(*const)()
-	// function call : bool (*const)()
-	// function call : bool (*const)()
 
 	if (game_is_campaign() && !Modules::ModuleCampaign::Instance().VarPlayerRepresentationEnabledClient->ValueInt && player_index != -1)
 	{
@@ -997,21 +814,11 @@ void game_engine_get_player_colors_hook(long player_index, s_player_model_custom
 	}
 }
 
+#line 991
 long ui_get_player_model_id_hook() // 0x10ABB170
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?ui_get_player_model_id_hook@@YAJXZ");
-	// procedure flags: nofpo
-	// static ...; // 0x10ABB454
-	// static ...; // 0x10ABB448
-	// static ...; // 0x10ABB440
-	// std::string preferredCharacterName;
-	// s_game_globals *matg;
-	// s_mod_globals_definition *modg;
-		// __int32 i;
-			// s_game_globals_player_character_type &player_representation_block;
-			// __int32 rep_index;
-	// function call : long (*const)(unsigned long)
-	// function call : void *(*const)(unsigned long, long)
+#line 1006
 
 	std::string preferredCharacterName = GetCurrentPreferredCharacter();
 	s_game_globals *matg = try_and_get_game_globals();
@@ -1043,9 +850,6 @@ long ui_get_player_model_id_hook() // 0x10ABB170
 void player_model_patches_apply() // 0x10AB9BC0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?player_model_patches_apply@@YAXXZ");
-	// procedure flags: nofpo
-	// Modules::ModuleGame &gameModule;
-	// Modules::ModulePlayer &playerModule;
 
 	Hook(0x1A4430, player_model_customize).Apply();
 	Hook(0x73E470, unit_refresh_hologram_appearance_hook).Apply();
@@ -1070,7 +874,6 @@ void player_model_patches_apply() // 0x10AB9BC0
 void RefreshUiPlayer() // 0x10AB7390
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?RefreshUiPlayer@@YAXXZ");
-	// procedure flags: nofpo
 
 	updateUiPlayerArmor = true;
 }
@@ -1078,7 +881,6 @@ void RefreshUiPlayer() // 0x10AB7390
 __declspec(naked) void PoseWithWeapon(unsigned __int32 unit, unsigned __int32 weaponTag) // 0x10AB7370
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?PoseWithWeapon@@YAXII@Z");
-	// unsigned __int32 weaponTag;
 
 	__asm
 	{
@@ -1095,28 +897,11 @@ __declspec(naked) void PoseWithWeapon(unsigned __int32 unit, unsigned __int32 we
 	}
 }
 
+#line 1089
 __int32 player_model_get_region_permutation(__int32 player_model_index, char const *region_name, char const *permutation_name) // 0x10AB96A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?player_model_get_region_permutation@@YAHHPBD0@Z");
-	// static ...; // 0x10AB9A94
-	// static ...; // 0x10AB9A88
-	// static ...; // 0x10AB9A58
-	// static ...; // 0x10AB9A50
-	// __int32 player_model_index;
-	// char const *region_name;
-	// char const *permutation_name;
-	// bool is_default;
-	// s_game_globals *matg;
-	// s_model_customization_selection *customization;
-	// s_multiplayer_globals_definition *mulg;
-	// s_game_globals_player_character_type *character;
-		// __int32 i;
-			// bool region_found;
-			// s_model_customization_player_region *region;
-				// __int32 perm_index;
-					// s_model_customization_player_region_permutation *permutation;
-					// char *perm_name;
-	// function call : void *(*const)(unsigned long, long)
+#line 1111
 
 	s_game_globals_player_character_type *character = nullptr;
 	s_model_customization_selection *customization = nullptr;
@@ -1164,28 +949,6 @@ __int32 player_model_get_region_permutation(__int32 player_model_index, char con
 void unit_copy_player_appearance(long source_player_unit_index, long target_unit_index) // 0x10ABB530
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_copy_player_appearance@@YAXJJ@Z");
-	// static ...; // 0x10ABB780
-	// static ...; // 0x10ABB768
-	// static ...; // 0x10ABB760
-	// long source_player_unit_index;
-	// long target_unit_index;
-	// char (*const set_object_base_change_color_by_index)(long, long, real_rgb_color const *);
-	// void (*const object_set_initial_change_colors)(long, __int32, real_rgb_color const *);
-	// long (*const game_engine_get_change_colors)(long, s_player_model_customization const *, long, real_rgb_color *, bool *);
-	// void (*const object_apply_change_colors)(long);
-		// s_unit_data *player_unit_object;
-			// s_unit_data *target_unit;
-				// real_rgb_color colors[5];
-				// s_player_model_customization const *customization;
-				// bool custom_colors;
-				// s_player_datum *source_player;
-					// long i;
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : long (*const)(long, s_player_model_customization const *, long, real_rgb_color *, bool *)
-	// function call : char (*const)(long, long, real_rgb_color const *)
-	// function call : void (*const)(long, __int32, real_rgb_color const *)
-	// function call : void (*const)(long)
 
 	long (*const game_engine_get_change_colors)(long, s_player_model_customization const *, long, real_rgb_color *, bool *) = reinterpret_cast<long (*)(long, s_player_model_customization const *, long, real_rgb_color *, bool *)>(0x54F250);
 	void (*const object_apply_change_colors)(long) = reinterpret_cast<void (*)(long)>(0x5A2FA0);
@@ -1223,19 +986,11 @@ void unit_copy_player_appearance(long source_player_unit_index, long target_unit
 	}
 }
 
+#line 1217
 unsigned char player_model_get_index(char const *name) // 0x10AB93E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?player_model_get_index@@YAEPBD@Z");
-	// char const *name;
-	// s_game_globals *matg;
-	// s_mod_globals_definition *modg;
-		// __int32 i;
-			// char *character_name;
-			// s_game_globals_player_character_type &player_representation_block;
-			// __int32 &rep_index;
-			// s_mod_globals_player_character_customization &character_customization_block;
-	// function call : long (*const)(unsigned long)
-	// function call : void *(*const)(unsigned long, long)
+#line 1230
 
 	s_game_globals *matg = try_and_get_game_globals();
 	#line 1220 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Patches\\player_model_patches.cpp"
@@ -1268,23 +1023,6 @@ unsigned char player_model_get_index(char const *name) // 0x10AB93E0
 void CustomizeObjectColors(long objectIndex, s_player_model_customization const *customization) // 0x10AB68E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CustomizeObjectColors@@YAXJPBUs_player_model_customization@@@Z");
-	// static ...; // 0x10AB6ABC
-	// static ...; // 0x10AB6AB4
-	// long objectIndex;
-	// s_player_model_customization const *customization;
-	// constexpr void (*const `CustomizeObjectColors'::`2'::UpdateArmorColors)(unsigned __int32); // constant == 5910432
-	// s_object_data *object;
-	// constexpr void (*const `CustomizeObjectColors'::`2'::ApplyArmor)(s_player_model_customization *, unsigned __int32); // constant == 5915696
-	// constexpr void (*const `CustomizeObjectColors'::`2'::ApplyArmorColor)(unsigned __int32, __int32, float *); // constant == 11741424
-		// __int32 i;
-			// float colorData[3];
-				// __int32 j;
-		// long child_index;
-			// s_object_data *child_object;
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : void (*const)(unsigned __int32, __int32, float *)
-	// function call : void (*const)(unsigned __int32)
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
 
 	static void (*const UpdateArmorColors)(unsigned __int32) = reinterpret_cast<void (*)(unsigned __int32)>(0x5A2FA0);
 	s_object_data *object = object_try_and_get_and_verify_type(objectIndex, -1);
@@ -1312,32 +1050,11 @@ void CustomizeObjectColors(long objectIndex, s_player_model_customization const 
 	}
 }
 
+#line 1306
 void CustomizeBipeds() // 0x10AB63E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CustomizeBipeds@@YAXXZ");
-	// procedure flags: nofpo
-	// static ...; // 0x10AB67CD
-	// static ...; // 0x10AB67BF
-	// static ...; // 0x10AB67BC
-	// static ...; // 0x10AB6798
-	// static ...; // 0x10AB6790
-	// constexpr void (*const `CustomizeBipeds'::`2'::UpdateArmorColors)(unsigned __int32); // constant == 5910432
-	// s_game_globals *matg;
-	// s_mod_globals_definition *modg;
-	// constexpr void (*const `CustomizeBipeds'::`2'::ApplyArmor)(s_player_model_customization *, unsigned __int32); // constant == 5915696
-	// constexpr void (*const `CustomizeBipeds'::`2'::ApplyArmorColor)(unsigned __int32, __int32, float *); // constant == 11741424
-		// __int32 i;
-			// char *character_name;
-			// unsigned __int32 bipedObject;
-			// c_data_array<s_object_header> *object_headers;
-			// s_player_model_customization customization;
-			// __int32 rep_index;
-			// __int32 character_index;
-			// s_mod_globals_player_character_customization *character;
-				// c_data_iterator<s_object_header> it;
-	// function call : long (*const)(unsigned long)
-	// function call : void *(*const)(unsigned long, long)
-	// function call : void (*const)(s_player_model_customization *, unsigned __int32)
+#line 1332
 
 	s_game_globals *matg = try_and_get_game_globals();
 	#line 1312 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Patches\\player_model_patches.cpp"

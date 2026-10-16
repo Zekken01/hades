@@ -57,7 +57,7 @@ class CModBrowserStateManager;
 void CModBrowserStateManager::RegisterStateHandler(EModBrowserState state, std::shared_ptr<CModBrowserStateHandler> const &handler) // 0x10724970
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?RegisterStateHandler@CModBrowserStateManager@@QAEXW4EModBrowserState@@ABV?$shared_ptr@VCModBrowserStateHandler@@@std@@@Z");
-	// std::shared_ptr<CModBrowserStateHandler> const &handler;
+#line 61
 
 	#line 59 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Server\\ModBrowser\\ModBrowserStateManager.cpp"
 		assert(m_stateHandlers.find(state) == m_stateHandlers.end());
@@ -69,10 +69,7 @@ void CModBrowserStateManager::RegisterStateHandler(EModBrowserState state, std::
 void CModBrowserStateManager::Update() // 0x10724E30
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CModBrowserStateManager@@QAEXXZ");
-	// CModBrowserStateManager *const this;
-		// bool it;
-			// EModBrowserState newState;
-	// function call : void ()
+#line 76
 
 	if (m_abortReason)
 	{

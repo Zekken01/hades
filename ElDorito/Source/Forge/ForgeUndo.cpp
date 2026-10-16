@@ -203,7 +203,7 @@ void CForgeUndoManager::StartRecording() // 0x10862F10
 std::string CForgeUndoManager::GetNextUndoSummary() const // 0x10862B00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetNextUndoSummary@CForgeUndoManager@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-	// CForgeUndoManager const *const this;
+#line 233
 
 	#line 231 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Forge\\ForgeUndo.cpp"
 	assert(m_undoStack.size() > 0);
@@ -214,7 +214,7 @@ std::string CForgeUndoManager::GetNextUndoSummary() const // 0x10862B00
 std::string CForgeUndoManager::GetNextRedoSummary() const // 0x10862A40
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?GetNextRedoSummary@CForgeUndoManager@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-	// CForgeUndoManager const *const this;
+#line 244
 
 	#line 242 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Forge\\ForgeUndo.cpp"
 	assert(m_redoStack.size() > 0);

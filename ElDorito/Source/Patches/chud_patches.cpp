@@ -138,6 +138,12 @@ namespace Patches
 
 namespace eldorado
 {
+	// Functions in eldorado.exe, named from the game's own symbols where it has them.
+	static auto const chud_navpoint_get_color = reinterpret_cast<unsigned long (*)(s_chud_managed_navpoint *)>(0xAD15E0);  // no symbol; named from what it does
+}
+
+namespace eldorado
+{
 	// Functions in eldorado.exe, named from the game's own symbols.
 	static auto const c_curved_hud_test_construct = reinterpret_cast<void (__thiscall *)(c_curved_hud_test *)>(0xAC5190);
 }
@@ -794,7 +800,7 @@ void __fastcall c_chud_navpoint_manager__draw_hook(c_chud_navpoint_manager *this
 			{
 				float height = chud_build_geometry_from_navpoint(output_user_index, 0, managed_navpoint->navpoint.objective_icon, offscreen_amount, scale, &geometry);
 				offscreen_amount -= height;
-				chud_expand_pixel32(((unsigned long (*const)(s_chud_managed_navpoint *))0xAD15E0)(managed_navpoint), render_data.colors);
+				chud_expand_pixel32(eldorado::chud_navpoint_get_color(managed_navpoint), render_data.colors);
 				render_data.opacity = managed_navpoint->opacity * managed_navpoint->navpoint.opacity;
 				if (chud_apply_render_data(&render_data, false))
 					chud_draw_widget_geometry(&geometry, &matrix, 0, 0);

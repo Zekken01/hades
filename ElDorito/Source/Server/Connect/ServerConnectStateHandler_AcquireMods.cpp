@@ -530,24 +530,7 @@ void CServerConnectStateHandler_AcquireMods::StartNextDownload() // 0x109092A0
 void CServerConnectStateHandler_AcquireMods::HandleSignatureVerificationResult(SSignatureVerificationResult const &result) // 0x109079A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleSignatureVerificationResult@CServerConnectStateHandler_AcquireMods@@AAEXABUSSignatureVerificationResult@@@Z");
-	// static ...; // 0x1090808D
-	// static ...; // 0x10908085
-	// static ...; // 0x10908083
-	// static ...; // 0x1090807F
-	// static ...; // 0x10908078
-	// static ...; // 0x10908030
-	// static ...; // 0x10908028
-	// CServerConnectStateHandler_AcquireMods *const this;
-	// SSignatureVerificationResult const &result;
-	// std::error_code err;
-	// SServerConnectState::SRequiredMod *package;
-	// std::filesystem::path newPath;
-	// SServerConnectState const &state;
-	// std::filesystem::path p;
-	// s_mod_package_id hash;
-	// s_mod_origin_info origin;
-		// std::string const &identifier;
-		// std::error_code err;
+#line 620
 
 	if (result.queueIndex < 0 || result.queueIndex >= (__int32)m_downloadQueue.size())
 	{
@@ -666,7 +649,7 @@ bool CServerConnectStateHandler_AcquireMods::ShouldDownloadPackage(SServerConnec
 void CServerConnectStateHandler_AcquireMods::OnUIActionConfirm() // 0x10908B80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnUIActionConfirm@CServerConnectStateHandler_AcquireMods@@AAEXXZ");
-	// CServerConnectStateHandler_AcquireMods *const this;
+#line 764
 
 	#line 762 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Server\\Connect\\ServerConnectStateHandler_AcquireMods.cpp"
 		assert(GetLocalState() == EState::Confirmation);

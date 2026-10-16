@@ -258,7 +258,7 @@ std::shared_ptr<c_cache_file_interface> Mod::GetCache(bool wait) const // 0x1078
 EModResult Mod::Load(bool async) // 0x1078CF50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Load@Mod@@QAE?AW4EModResult@@_N@Z");
-	// bool async;
+#line 274
 
 	#line 272 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\new\\Mod.cpp"
 		assert(m_error == EModResult::kNotLoaded);

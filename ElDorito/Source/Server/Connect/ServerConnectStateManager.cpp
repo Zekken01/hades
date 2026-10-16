@@ -57,7 +57,7 @@ class CServerConnectStateManager;
 void CServerConnectStateManager::RegisterStateHandler(EServerConnectState state, std::shared_ptr<CServerConnectStateHandler> const &handler) // 0x10B0D750
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?RegisterStateHandler@CServerConnectStateManager@@QAEXW4EServerConnectState@@ABV?$shared_ptr@VCServerConnectStateHandler@@@std@@@Z");
-	// std::shared_ptr<CServerConnectStateHandler> const &handler;
+#line 61
 
 	#line 59 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Server\\Connect\\ServerConnectStateManager.cpp"
 		assert(m_stateHandlers.find(state) == m_stateHandlers.end());
@@ -69,10 +69,7 @@ void CServerConnectStateManager::RegisterStateHandler(EServerConnectState state,
 void CServerConnectStateManager::Update() // 0x10B0DC10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CServerConnectStateManager@@QAEXXZ");
-	// CServerConnectStateManager *const this;
-		// bool it;
-			// EServerConnectState newState;
-	// function call : void ()
+#line 76
 
 	if (m_abortReason)
 	{

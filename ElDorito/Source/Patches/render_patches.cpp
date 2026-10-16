@@ -271,6 +271,12 @@ typedef unsigned __int32 U32;
 
 namespace eldorado
 {
+	// Functions in eldorado.exe, named from the game's own symbols where it has them.
+	static auto const breakable_surface_set_get = reinterpret_cast<s_breakable_surface_set *(*)(long, long, long)>(0x569D70);  // no symbol; named from what it does
+}
+
+namespace eldorado
+{
 	// Functions in eldorado.exe, named from the game's own symbols.
 	static auto const breakable_surface_render_cracks = reinterpret_cast<void (*)(long, long, long)>(0x56A360);
 	static auto const breakable_surface_set_crack_stencil_decal_state = reinterpret_cast<void (*)()>(0x56A8E0);
@@ -1388,7 +1394,7 @@ void c_structure_renderer__render_instance_mesh_part_hook(long render_instance_i
 				long breakable_surface_set_index = materials[part->material_index].breakable_surface_set_index;
 				if (breakable_surface_set_index != -1 && !(instance->flags & 2))
 				{
-					s_breakable_surface_set *breakable_surface_set = ((s_breakable_surface_set *(*const)(long, long, long))0x569D70)(render_instance_part->structure_bsp_index, render_instance_part->instance_index, breakable_surface_set_index);
+					s_breakable_surface_set *breakable_surface_set = eldorado::breakable_surface_set_get(render_instance_part->structure_bsp_index, render_instance_part->instance_index, breakable_surface_set_index);
 					if (breakable_surface_set)
 						subpart_visibility = breakable_surface_set->subpart_visibility;
 					else

@@ -135,11 +135,7 @@ namespace Web
 		CWebFileReadHandler::CWebFileReadHandler(std::string const &filepath, long long offset, long long length) // 0x10CB7280
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "??0CWebFileReadHandler@Browser@Web@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@_J1@Z");
-			// Web::Browser::CWebFileReadHandler *const this;
-			// std::string const &filepath;
-			// long long offset;
-			// long long length;
-				// std::fpos<_Mbstatet> begin;
+#line 143
 
 			#line 137 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Web\\WebFileReadHandler.cpp"
 				assert(length >= -1);

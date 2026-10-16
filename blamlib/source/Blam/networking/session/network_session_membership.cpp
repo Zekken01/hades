@@ -62,7 +62,7 @@ bool c_network_session_membership::is_player_valid(long player_index) const // 0
 s_network_session_player *c_network_session_membership::get_player(long player_index) // 0x10F00B00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_player@c_network_session_membership@@QAEPAUs_network_session_player@@J@Z");
-	// long player_index;
+#line 68
 
 	#line 66 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\networking\\session\\network_session_membership.cpp"
 		if (!(is_player_valid(player_index))) { display_assert("is_player_valid(player_index)", __FILE__, __LINE__, true); system_exit(-1); }
@@ -73,7 +73,7 @@ s_network_session_player *c_network_session_membership::get_player(long player_i
 s_network_session_peer *c_network_session_membership::get_peer(long peer_index) // 0x10F00A50
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_peer@c_network_session_membership@@QAEPAUs_network_session_peer@@J@Z");
-	// long peer_index;
+#line 79
 
 	#line 77 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\networking\\session\\network_session_membership.cpp"
 		if (!(is_peer_valid(peer_index))) { display_assert("is_peer_valid(peer_index)", __FILE__, __LINE__, true); system_exit(-1); }
@@ -84,7 +84,7 @@ s_network_session_peer *c_network_session_membership::get_peer(long peer_index) 
 s_network_session_peer *c_network_session_membership::get_local_peer() // 0x10F008D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_local_peer@c_network_session_membership@@QAEPAUs_network_session_peer@@XZ");
-	// c_network_session_membership *const this;
+#line 90
 
 	#line 88 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\networking\\session\\network_session_membership.cpp"
 		if (!(is_peer_valid(m_local_peer_index))) { display_assert("is_peer_valid(m_local_peer_index)", __FILE__, __LINE__, true); system_exit(-1); }
@@ -95,7 +95,7 @@ s_network_session_peer *c_network_session_membership::get_local_peer() // 0x10F0
 long c_network_session_membership::get_channel_index(long peer_index) const // 0x10F00780
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_channel_index@c_network_session_membership@@QBEJJ@Z");
-	// long peer_index;
+#line 101
 
 	#line 99 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\networking\\session\\network_session_membership.cpp"
 		if (!(is_peer_valid(peer_index))) { display_assert("is_peer_valid(peer_index)", __FILE__, __LINE__, true); system_exit(-1); }
@@ -120,8 +120,7 @@ long c_network_session_membership::get_first_peer() // 0x10F00840
 long c_network_session_membership::get_next_peer(long peer_index) // 0x10F00980
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_next_peer@c_network_session_membership@@QAEJJ@Z");
-	// long peer_index;
-		// long index;
+#line 128
 
 	#line 125 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\networking\\session\\network_session_membership.cpp"
 		if (!(peer_index != -1)) { display_assert("peer_index != NONE", __FILE__, __LINE__, true); system_exit(-1); }

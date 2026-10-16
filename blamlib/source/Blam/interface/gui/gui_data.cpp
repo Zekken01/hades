@@ -139,7 +139,7 @@ long c_gui_data::add_element() // 0x10F1DD80
 void c_gui_data::delete_element(long element_handle) // 0x10F1DEC0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?delete_element@c_gui_data@@UAEXJ@Z");
-	// long element_handle;
+#line 159
 
 	#line 157 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\interface\\gui\\gui_data.cpp"
 		assert(!"not implemented");
@@ -149,7 +149,7 @@ void c_gui_data::delete_element(long element_handle) // 0x10F1DEC0
 void c_gui_data::set_element(long element_handle, void const *element, long element_size) // 0x10F1ED40
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?set_element@c_gui_data@@UAEXJPBXJ@Z");
-	// long element_size;
+#line 169
 
 	#line 167 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\interface\\gui\\gui_data.cpp"
 		assert(!"not implemented");
@@ -167,7 +167,7 @@ bool c_gui_data::get_invoked_control(long __formal, long *name) // 0x10F1E5D0
 void c_gui_data::clear_disabled_elements() // 0x10F1DDE0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?clear_disabled_elements@c_gui_data@@UAEXXZ");
-	// c_gui_data *const this;
+#line 187
 
 	#line 185 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\interface\\gui\\gui_data.cpp"
 		assert(!"datasource doesn't support enabling and disabling");
@@ -177,7 +177,7 @@ void c_gui_data::clear_disabled_elements() // 0x10F1DDE0
 void c_gui_data::set_disabled_element(long element_index, unsigned long name) // 0x10F1EC20
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?set_disabled_element@c_gui_data@@UAEXJK@Z");
-	// unsigned long name;
+#line 197
 
 	#line 195 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\interface\\gui\\gui_data.cpp"
 		assert(!"datasource doesn't support enabling and disabling");
@@ -187,7 +187,7 @@ void c_gui_data::set_disabled_element(long element_index, unsigned long name) //
 void c_gui_data::disable_all_elements(unsigned long name) // 0x10F1DF40
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?disable_all_elements@c_gui_data@@UAEXK@Z");
-	// unsigned long name;
+#line 207
 
 	#line 205 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\interface\\gui\\gui_data.cpp"
 		assert(!"datasource doesn't support enabling and disabling");
@@ -197,7 +197,7 @@ void c_gui_data::disable_all_elements(unsigned long name) // 0x10F1DF40
 void c_gui_data::enable_element(long element_index, unsigned long name) // 0x10F1E1B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?enable_element@c_gui_data@@UAEXJK@Z");
-	// unsigned long name;
+#line 217
 
 	#line 215 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\interface\\gui\\gui_data.cpp"
 		assert(!"datasource doesn't support enabling and disabling");

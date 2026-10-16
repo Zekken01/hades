@@ -322,11 +322,7 @@ bool c_mod_package_updater_blocking::download_package(char const *package_url, c
 void c_mod_package_updater_blocking::build_mod_package_description(c_mod_package &package, c_mod_package_updater_blocking::s_mod_package_description *description) // 0x108B0040
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?build_mod_package_description@c_mod_package_updater_blocking@@AAEXAAVc_mod_package@@PAUs_mod_package_description@1@@Z");
-	// static ...; // 0x108B0160
-	// c_mod_package_updater_blocking *const this;
-	// c_mod_package &package;
-	// c_mod_package_updater_blocking::s_mod_package_description *description;
-	// s_static_string<32> metadata_name;
+#line 368
 
 	#line 362 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\mod_package_updater.cpp"
 		if (!(package.valid())) { display_assert("package.valid()", __FILE__, __LINE__, true); system_exit(-1); }

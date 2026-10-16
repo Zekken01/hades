@@ -320,7 +320,7 @@ void matrix4x3_rotation_from_vectors(real_matrix4x3 *matrix, real_vector3d const
 void matrix4x3_from_point_and_vectors(real_matrix4x3 *matrix, real_point3d const *point, real_vector3d const *forward, real_vector3d const *up) // 0x10EFDB30
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?matrix4x3_from_point_and_vectors@@YAXPAUreal_matrix4x3@@PBUreal_point3d@@PBUreal_vector3d@@2@Z");
-	// real_vector3d const *up;
+#line 385
 
 	#line 383 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\math\\matrix_math.cpp"
 		assert(point);

@@ -116,6 +116,13 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named from the game's own symbols where it has them.
+	static auto const lz4_decompress_fast = reinterpret_cast<long (*)(void *, void *, long)>(0xF34960);  // no symbol; named from what it does
+}
+#line 118
+
 template<typename t_task_data> static long const async_task_add_ex(long priority, t_task_data *data, long category, e_async_completion (*callback)(t_task_data *), c_async_completion_flag *completion_flag) { if (!(sizeof(t_task_data) <= 554)) { display_assert("sizeof(t_task_data) <= 554", "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\async\\async.hpp", 23, true); system_exit(-1); } return ((long (*)(long, void *, long, void *, c_async_completion_flag *))0x5085C0)(priority, data, category, (void *)callback, completion_flag); }  // hades: added for 0x10854430
 
 extern long tag_resource_stream_async(long resource_handle, void *buffer, long buffer_size, c_async_completion_flag *completed);
@@ -264,7 +271,7 @@ _inline bool c_tag_resource_stream_task::update() // 0x108547F0
 		s_lz_block_header *block_header = (s_lz_block_header *)m_block_buffer;
 		if (m_block_pos >= block_header->compressed_size + 8)
 		{
-			if (((long (*const)(void *, void *, long))0xF34960)(m_block_buffer + 8, m_dest_ptr, block_header->uncompressed_size) < 0 && m_block_buffer)
+			if (eldorado::lz4_decompress_fast(m_block_buffer + 8, m_dest_ptr, block_header->uncompressed_size) < 0 && m_block_buffer)
 			{
 				abort(_tag_resource_stream_abort_decompression_error);
 				return true;

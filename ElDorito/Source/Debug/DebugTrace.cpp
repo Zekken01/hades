@@ -148,8 +148,7 @@ using namespace hades_file_local;
 void CDebugTrace::Trace(__int32 color, char const *format, ...) // 0x1081E310
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Trace@CDebugTrace@@SAXHPBDZZ");
-	// char *va;
-	// STraceLine *line;
+#line 153
 
 	InitializeIfNeeded();
 	STraceLine *line = queue.TryToAllocate();

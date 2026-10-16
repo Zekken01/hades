@@ -179,7 +179,6 @@ namespace Patches
 		void ApplyAll() // 0x1090DC40
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@campaign_patches@Patches@@YAXXZ");
-			// procedure flags: nofpo
 
 			Hook(0x207DD1, campaign_metagame_globals_initialize_for_new_map_patch, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x150B80, campaign_scoreboard_patch).Apply();
@@ -201,8 +200,6 @@ namespace Patches
 		void fixup_campaign_metagame_flags() // 0x1090F9E0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?fixup_campaign_metagame_flags@campaign_patches@Patches@@YAXXZ");
-			// procedure flags: nofpo
-			// unsigned long flags;
 
 			unsigned long flags = (*g_campaign_metagame)->dword_flags;
 			(*g_campaign_metagame)->dword_flags &= ~0x10;
@@ -211,10 +208,6 @@ namespace Patches
 		long campaign_metagame_globals_initialize_for_new_map_patch() // 0x1090F060
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?campaign_metagame_globals_initialize_for_new_map_patch@campaign_patches@Patches@@YAJXZ");
-			// procedure flags: nofpo
-			// long result;
-			// function call : long (*)()
-			// function call : bool (*)()
 
 			long result = campaign_metagame_globals_initialize_for_new_map();
 			if (game_is_campaign())
@@ -225,10 +218,6 @@ namespace Patches
 		long *campaign_scoreboard_patch() // 0x1090F0E0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?campaign_scoreboard_patch@campaign_patches@Patches@@YAPAJXZ");
-			// procedure flags: nofpo
-			// function call : long (*)()
-			// function call : bool (*)()
-			// function call : long *(*)()
 
 			if (game_get_current_engine())
 			{
@@ -244,23 +233,6 @@ namespace Patches
 		void assassin_skull_hook(unsigned long unit_index) // 0x1090EE60
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?assassin_skull_hook@campaign_patches@Patches@@YAXK@Z");
-			// static ...; // 0x1090EFE8
-			// static ...; // 0x1090EFDC
-			// static ...; // 0x1090EFD4
-			// unsigned long unit_index;
-			// bool (*const game_team_is_enemy)(long, long);
-			// void (*const unit_camo_update)(unsigned long);
-			// unsigned long secondary_skulls;
-				// s_unit_data *player_unit_object;
-				// long player_unit_index;
-				// s_unit_data *unit_object;
-			// function call : unsigned long *(*const)(unsigned long *)
-			// function call : bool (*)()
-			// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-			// function call : unsigned long (*const)(long)
-			// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-			// function call : bool (*const)(long, long)
-			// function call : void (*const)(unsigned long)
 
 			void (*const unit_camo_update)(unsigned long) = (void (*)(unsigned long))0xB4A020;
 			bool (*const game_team_is_enemy)(long, long) = (bool (*)(long, long))0x670B80;
@@ -283,10 +255,6 @@ namespace Patches
 		void cinematic_start_hook() // 0x1090F8E0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?cinematic_start_hook@campaign_patches@Patches@@YAXXZ");
-			// procedure flags: nofpo
-			// void (*const cinematic_start)();
-			// function call : void (*const)()
-			// function call : void (*const)(float)
 
 			const auto cinematic_start = (void(*)())0x67E990;
 
@@ -297,10 +265,6 @@ namespace Patches
 		void cinematic_stop_hook() // 0x1090F960
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?cinematic_stop_hook@campaign_patches@Patches@@YAXXZ");
-			// procedure flags: nofpo
-			// void (*const scripted_camera_set_cinematic)();
-			// function call : void (*const)()
-			// function call : void (*const)(float)
 
 			const auto cinematic_stop = (void(*)())0x72D920;
 
@@ -308,29 +272,11 @@ namespace Patches
 			((void(*)(float))0x565110)(1.0f);
 		}
 
+#line 293
 		long cinematic_scripting_get_scene_object_hook(long cinematic_index, long scene_index, long index) // 0x1090F500
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?cinematic_scripting_get_scene_object_hook@campaign_patches@Patches@@YAJJJJ@Z");
-			// static ...; // 0x1090F7F0
-			// long cinematic_index;
-			// long scene_index;
-			// long index;
-			// long (*const cinematic_object_from_string)(char const *);
-			// s_cinematic_scene_definition *scene;
-			// long (*const object_index_from_name_index)(short);
-			// short (*const scenario_object_name_index_from_string)(s_scenario *, char const *);
-			// s_cinematic_scene_object *scene_object;
-				// char const *player_names[4];
-					// __int32 i;
-						// s_player_datum *player;
-				// long name_index;
-			// function call : s_cinematic_scene_definition *(*const)(long, long)
-			// function call : bool (*const)(long)
-			// function call : bool (*const)()
-			// function call : bool (*const)()
-			// function call : short (*const)(s_scenario *, char const *)
-			// function call : long (*const)(short)
-			// function call : long (*const)(char const *)
+#line 316
 
 			long (*const cinematic_object_from_string)(char const *) = reinterpret_cast<long (*)(char const *)>(0x67DAB0);
 			short (*const scenario_object_name_index_from_string)(s_scenario *, char const *) = reinterpret_cast<short (*)(s_scenario *, char const *)>(0x4EB080);

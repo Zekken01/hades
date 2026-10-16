@@ -1025,16 +1025,7 @@ void __fastcall HALO_SOUND_SYSTEM_Pause(HALO_SOUND_SYSTEM *thisptr, void *unused
 void __fastcall HALO_CHANNEL_Queue(HALO_CHANNEL *channel, void *unused, s_sound_tag_data *request) // 0x10A2FC60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?HALO_CHANNEL_Queue@@YIXPAUHALO_CHANNEL@@PAXPAUs_sound_tag_data@@@Z");
-	// `anonymous-namespace'::HALO_CHANNEL_Queue
-	// static ...; // 0x10A2FEA0
-	// HALO_CHANNEL *channel;
-	// void *unused;
-	// s_sound_tag_data *request;
-	// __int32 queued_count;
-		// char *permutation_name;
-		// char const *tag_name;
-		// unsigned __int32 length_pcm;
-	// function call : bool (*)(HALO_PERM_SOUND *, s_sound_tag_data *, HALO_CHANNEL_PROPERTIES *, HALO_CHANNEL *)
+#line 1242
 
 	#line 1231 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Patches\\Audio.cpp"
 		assert(channel->state != HALO_CHANNEL::_STATE_FULL);
@@ -1474,20 +1465,7 @@ void update_hardware_channels_hook(void *a1, void *a2) // 0x10A36230
 short sound_commit_looping_find_pitch_range_by_pitch_hook(s_sound_definition *sndDef, float pitchModifier, short fallbackIndex) // 0x10A35CD0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?sound_commit_looping_find_pitch_range_by_pitch_hook@@YAFPAUs_sound_definition@@MF@Z");
-	// `anonymous-namespace'::sound_commit_looping_find_pitch_range_by_pitch_hook
-	// static ...; // 0x10A35E70
-	// s_sound_definition *sndDef;
-	// float pitchModifier;
-	// short fallbackIndex;
-	// short ret;
-	// short (*const sound_definition_find_pitch_range_by_pitch)(void *, float, short);
-		// long sound_tag_index;
-		// char message[4096];
-			// __int32 i;
-				// s_cache_tag_instance *tag;
-	// function call : short (*const)(void *, float, short)
-	// function call : __int32 (HWND__ *, char const *, char const *, unsigned __int32)
-	// function call : void ()
+#line 1809
 
 	short (*const sound_definition_find_pitch_range_by_pitch)(void *, float, short) = reinterpret_cast<short (*)(void *, float, short)>(0x661C20);
 	short ret = sound_definition_find_pitch_range_by_pitch(sndDef, pitchModifier, fallbackIndex);
@@ -1652,12 +1630,7 @@ void sound_cache_idle_hook() // 0x10A35010
 void sound_cache_new_hook() // 0x10A35120
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?sound_cache_new_hook@@YAXXZ");
-	// `anonymous-namespace'::sound_cache_new_hook
-	// procedure flags: nofpo
-	// unsigned long const memory_size;
-	// function call : void *(*const)(char const *, long, unsigned long, long, void *)
-	// function call : s_lruv_cache *(*const)(char const *, long, long, long, void *, void (*)(void *, long, bool), bool (*)(void *, long), unsigned char (*)(void *, long), c_allocation_interface *, long)
-	// function call : void (*const)(s_lruv_cache *, e_hole_algorithm)
+#line 2016
 
 	*g_xbox_sounds = (c_data_array<s_xbox_sound_datum> *)data_new("xbox sound", 512, 32, 0, *(void **)0x189D394);
 	g_xbox_sound_cache = ((s_lruv_cache *(*)(char const *, long, long, long, long, void (*)(void *, long, bool), bool (*)(void *, long), long, void *, long))0x9678D0)("xbox sound cache", 0x2000, 14, 512, 0, sound_cache_delete_block_proc, sound_cache_locked_block_proc, 0, *(void **)0x189D394, -1);
@@ -1688,30 +1661,7 @@ long find_cache_block_for_sound(long definition_index) // 0x10A34130
 void sound_cache_sound_new(long definition_index, s_sound_permutation_chunk *chunk) // 0x10A35650
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?sound_cache_sound_new@@YAXJPAUs_sound_permutation_chunk@@@Z");
-	// `anonymous-namespace'::sound_cache_sound_new
-	// s_sound_permutation_chunk *chunk;
-	// s_cache_file_tag_resource_table_runtime *resource_table;
-	// s_xbox_sound_datum_ex *datum;
-	// char *buffer;
-	// s_tag_resource *resource;
-	// unsigned long buffer_size;
-	// long datum_index;
-	// unsigned long const memory_size;
-	// void *page_atlas;
-	// long task_id;
-	// s_cache_tag_instance **tag_instance;
-	// s_sound_definition *sound_def;
-	// void *resource_runtime_manager;
-	// short resource_index;
-	// long block_index;
-	// unsigned long address;
-	// function call : void *(*const)(unsigned long, long)
-	// function call : long (*const)(s_lruv_cache *, long, long)
-	// function call : unsigned long (*const)(s_lruv_cache *, long)
-	// function call : long (*const)(s_data_array *, long)
-	// function call : void (*const)(s_lruv_cache *, long)
-	// function call : void *(*const)(s_data_array const *, unsigned long)
-	// function call : void (*const)(s_lruv_cache *, long)
+#line 2075
 
 	s_sound_definition *sound_def = (s_sound_definition *)tag_get('snd!', definition_index);
 	s_cache_tag_instance **tag_instance = &g_cache_file_tag_globals->instances[g_cache_file_tag_globals->index_to_absolute_index_map[definition_index]];

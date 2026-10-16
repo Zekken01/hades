@@ -74,9 +74,7 @@ void *c_virtual_page_memory_allocator::allocate(unsigned long size, long alignme
 void c_virtual_page_memory_allocator::free_to_marker(unsigned long marker) // 0x10892220
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?free_to_marker@c_virtual_page_memory_allocator@@QAEXK@Z");
-	// unsigned long marker;
-	// unsigned long next_page_offset;
-	// function call : __int32 (void *, unsigned long, unsigned long)
+#line 91
 
 	#line 87 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\memory\\virtual_page_memory_allocator.cpp"
 		assert(marker <= m_current_size);
