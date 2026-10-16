@@ -353,8 +353,23 @@ namespace SavedFilms
 		}
 	}
 
+	namespace
+	{
+		// can_switch_to_first_person lets a film's camera view only the recorder's unit in
+		// first person (c_saved_film_director::unit_is_film_recorder). As ManagedDonkey's
+		// player_is_film_recorder_for_unit_is_film_recorder does, every player counts:
+		// replaces unit_is_film_recorder's player_is_film_recorder call at 0x727B51.
+		unsigned long const k_unit_is_film_recorder_player_call = 0x00727B51;
+
+		bool __cdecl player_is_film_recorder_for_first_person(long)
+		{
+			return true;
+		}
+	}
+
 	void ApplyControlPad()
 	{
+		Hook(k_unit_is_film_recorder_player_call - 0x00400000, reinterpret_cast<void *>(&player_is_film_recorder_for_first_person), static_cast<__int32>(HookFlags::IsCall)).Apply();
 		Hook(k_director_x_update - 0x00400000, reinterpret_cast<void *>(&director_x_update_hook)).Apply();
 		Patch::NopFill(Pointer::Base(k_director_x_authoritative_only - 0x00400000), 2);
 		Hook(k_director_post_control_pad - 0x00400000, reinterpret_cast<void *>(&director_post_control_pad), static_cast<__int32>(HookFlags::IsCall)).Apply();
