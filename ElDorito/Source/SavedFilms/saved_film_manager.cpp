@@ -552,11 +552,17 @@ namespace SavedFilms
 
 			static unsigned char options[k_game_options_size];
 			memcpy(options, g_playback.get_game_options(), k_game_options_size);
-			// A film recorded in an online game carries that game's simulation (a
-			// distributed client or server); playback is always a local game, as
-			// ManagedDonkey's main_game_reload_map_by_name sets it.
-			playback_log("film simulation %d, network %d; playing as local", options[k_game_options_game_simulation], options[k_game_options_game_network_type]);
-			options[k_game_options_game_simulation] = k_game_simulation_local;
+			// A film recorded in an online game carries that game's simulation. The
+			// playback world is a local playback world either way (the world type comes
+			// from game_playback alone), but a distributed client's film keeps its
+			// simulation: the host's entity creations, updates and promotions reach the
+			// client through the simulation queues in its updates, and the queue
+			// handlers apply them only in a distributed game (with a playback path for
+			// creations). A host's film, like a local one, plays as a local game.
+			bool distributed_client = options[k_game_options_game_simulation] == k_game_simulation_distributed_client;
+			playback_log("film simulation %d, network %d; playing as %s", options[k_game_options_game_simulation], options[k_game_options_game_network_type], distributed_client ? "a distributed client" : "local");
+			if (!distributed_client)
+				options[k_game_options_game_simulation] = k_game_simulation_local;
 			options[k_game_options_game_network_type] = k_network_game_simulation_local;
 			*reinterpret_cast<unsigned short *>(options + k_game_options_game_playback) = k_game_playback_film;
 			options[k_game_options_record_saved_film] = 0;
