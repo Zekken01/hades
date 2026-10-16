@@ -355,13 +355,11 @@ namespace SavedFilms
 		auto const user_interface_squad_set_saved_film_game_options = reinterpret_cast<bool (*)(long, long, void const *)>(0x00A83C90);
 		auto const user_interface_squad_set_map_variant = reinterpret_cast<bool (*)(void const *)>(0x00A83AB0);
 		long const k_game_options_map_variant = 0x590;
-		auto const user_interface_squad_get_ui_game_mode = reinterpret_cast<long (*)()>(0x00A83180);
 		auto const window_manager_get = reinterpret_cast<void *(*)()>(0x00AAD930);
 		auto const window_manager_get_screen_by_screen_index = reinterpret_cast<void *(__thiscall *)(void *, long)>(0x00AAB5B0);
 		auto const screen_widget_transition_out = reinterpret_cast<void(__thiscall *)(void *, long)>(0x00AB2830);
 
 		long const k_gui_selection_type_film = 5;
-		long const k_gui_game_setup_mode_theater = 4;
 		long const k_transition_out_normal = 0;
 		long const k_saved_film_category_invalid = 7;
 
@@ -388,7 +386,7 @@ namespace SavedFilms
 		};
 		static_assert(sizeof(s_saved_film_description) == 0x31C, "Invalid s_saved_film_description size");
 
-		std::string g_selected_film_path; // the film the theater lobby starts
+		std::string g_selected_film_path; // the last film chosen, should the session's not say
 
 		void dispose_screen(long screen_index)
 		{
@@ -417,7 +415,6 @@ namespace SavedFilms
 				MultiByteToWideChar(CP_ACP, 0, path, -1, description.film_path, _countof(description.film_path) - 1);
 				wcsncpy_s(description.film_name, reinterpret_cast<wchar_t const *>(item + k_selected_item_metadata_display_name), 15);
 
-				// The lobby shows the squad's film; starting plays the one chosen here either way.
 				g_selected_film_path = path;
 				// The theater lobby can start once the squad has the film, its game options
 				// and its map (user_interface_session_parameters_are_valid_for_ui_game_mode).
@@ -446,17 +443,32 @@ namespace SavedFilms
 			set_selected_item(manager, controller_index, item, selected_from_recent_list, source_screen_index_to_dispose);
 		}
 
-		// The lobby's start (the list item and its button) starts the squad's countdown,
-		// after which the game would start the film through the release build's stripped
-		// film manager. In the theater lobby the film is played as Film.Play plays it.
-		auto const user_interface_squad_start_countdown_timer = reinterpret_cast<bool (*)(long, long, long)>(0x00A83CF0);
-		unsigned long const k_lobby_start_countdown_calls[] = { 0x00B21A8F, 0x00B2204C };
+		// Starting the lobby's game: c_life_cycle_state_handler_in_game::begin_load_map
+		// builds a theater game from the session's saved_film_game_options. The host
+		// opened the film there through the saved film manager, which the release build
+		// stripped - leaving "host failed to open saved film" and no game - so the host
+		// takes the clients' path (jz -> jmp at 0x491C52), and its main_game_change call
+		// opens the session's film and sets the options up as Film.Play does.
+		unsigned long const k_begin_load_map_host_film_check = 0x00491C52;
+		unsigned long const k_begin_load_map_main_game_change_call = 0x00491F96;
+		auto const main_game_change = reinterpret_cast<void (*)(void const *)>(0x00566E70);
+		auto const network_life_cycle_session_get_film = reinterpret_cast<s_saved_film_description const *(*)()>(0x00435250);
+		long const k_game_options_game_playback = 0x130;
 
-		bool __cdecl lobby_start_countdown_timer_hook(long controller_index, long countdown_seconds, long accelerate_seconds)
+		void __cdecl begin_load_map_main_game_change_hook(unsigned char *options)
 		{
-			if (user_interface_squad_get_ui_game_mode() != k_gui_game_setup_mode_theater)
-				return user_interface_squad_start_countdown_timer(controller_index, countdown_seconds, accelerate_seconds);
-			return !g_selected_film_path.empty() && play_film(g_selected_film_path.c_str());
+			if (*reinterpret_cast<unsigned short const *>(options + k_game_options_game_playback) != 0)
+			{
+				std::string path = g_selected_film_path;
+				if (s_saved_film_description const *film = network_life_cycle_session_get_film())
+				{
+					char film_path[MAX_PATH] = {};
+					if (WideCharToMultiByte(CP_ACP, 0, film->film_path, -1, film_path, sizeof(film_path) - 1, nullptr, nullptr) > 1)
+						path = film_path;
+				}
+				begin_session_film(options, path.c_str());
+			}
+			main_game_change(options);
 		}
 	}
 
@@ -470,7 +482,7 @@ namespace SavedFilms
 		Hook(k_saved_film_selected_item_get_film_details - 0x00400000, reinterpret_cast<void *>(&saved_film_selected_item_get_film_details_hook)).Apply();
 		for (unsigned long call : k_set_selected_item_calls)
 			Hook(call - 0x00400000, reinterpret_cast<void *>(&set_selected_item_hook), static_cast<__int32>(HookFlags::IsCall)).Apply();
-		for (unsigned long call : k_lobby_start_countdown_calls)
-			Hook(call - 0x00400000, reinterpret_cast<void *>(&lobby_start_countdown_timer_hook), static_cast<__int32>(HookFlags::IsCall)).Apply();
+		Patch(k_begin_load_map_host_film_check - 0x00400000, { 0xEB }).Apply();
+		Hook(k_begin_load_map_main_game_change_call - 0x00400000, reinterpret_cast<void *>(&begin_load_map_main_game_change_hook), static_cast<__int32>(HookFlags::IsCall)).Apply();
 	}
 }

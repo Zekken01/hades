@@ -546,12 +546,9 @@ namespace SavedFilms
 			g_play_state = _play_state_none;
 		}
 
-		void start_film_game()
+		// The film's game_options, as a film's game plays them.
+		void set_film_playback_options(unsigned char *options)
 		{
-			simulation_end(k_simulation_abort_reason_preparing_to_play_film);
-
-			static unsigned char options[k_game_options_size];
-			memcpy(options, g_playback.get_game_options(), k_game_options_size);
 			// A film recorded in an online game carries that game's simulation. The
 			// playback world is a local playback world either way (the world type comes
 			// from game_playback alone), but a distributed client's film keeps its
@@ -568,6 +565,15 @@ namespace SavedFilms
 			options[k_game_options_record_saved_film] = 0;
 			*reinterpret_cast<long *>(options + k_game_options_playback_start_tick) = 0;
 			*reinterpret_cast<long *>(options + k_game_options_playback_length_in_ticks) = g_playback.get_length_in_ticks();
+		}
+
+		void start_film_game()
+		{
+			simulation_end(k_simulation_abort_reason_preparing_to_play_film);
+
+			static unsigned char options[k_game_options_size];
+			memcpy(options, g_playback.get_game_options(), k_game_options_size);
+			set_film_playback_options(options);
 			game_options_validate(options);
 			main_game_change(options);
 
@@ -914,6 +920,30 @@ namespace SavedFilms
 		g_last_logged_state.clear();
 		playback_log("play %s: %ld ticks, mod '%s' (%s)", path, g_playback.get_length_in_ticks(),
 			g_playback.has_mod_info() ? g_playback.get_mod_hash().c_str() : "not recorded", film_mod_description().c_str());
+		return true;
+	}
+
+	bool begin_session_film(void *options, char const *path)
+	{
+		stop_recording();
+		if (!g_playback.open_for_read(path))
+		{
+			playback_log("session film: could not open %s", path);
+			return false;
+		}
+
+		g_play_state = _play_state_none;
+		g_clip_start_tick = -1;
+		g_pending_skip_target = g_playback.is_snippet() ? g_playback.get_snippet_start_tick() : -1;
+		g_playback_pending = true;
+		g_playback_ended = false;
+		g_last_logged_state.clear();
+		playback_log("session film %s: %ld ticks", path, g_playback.get_length_in_ticks());
+
+		// The session's copy of the film's game_options, overridden as for Film.Play.
+		set_film_playback_options(static_cast<unsigned char *>(options));
+		game_options_validate(static_cast<unsigned char *>(options));
+		playback_log("starting the film's game: map %s", static_cast<char const *>(options) + k_game_options_scenario_path);
 		return true;
 	}
 

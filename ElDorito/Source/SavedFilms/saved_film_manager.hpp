@@ -14,6 +14,9 @@ namespace SavedFilms
 
 	std::string get_films_directory();
 	bool play_film(char const *path); // starts the film from the main loop, as Film.Play does
+	// The squad session's theater game is starting with these (the session's film's)
+	// game_options: opens the film and sets them up for playback.
+	bool begin_session_film(void *options, char const *path);
 
 	// Online-client films: the replication packets the host sent (saved_film_replication.cpp).
 	void record_replication_packet(void const *data, long size);
