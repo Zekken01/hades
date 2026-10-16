@@ -279,8 +279,65 @@ namespace SavedFilms
 		}
 	}
 
+	namespace
+	{
+		/* ---------- opening the control pad */
+
+		// c_saved_film_director::update opens the control pad when X is released after
+		// being pressed with no pad up. In the release build the film manager's "no ticks
+		// remaining" check, which picks Eject over Play, was compiled out to true, and the
+		// code after it opened the pad every frame in an authoritative playback, so the
+		// pad came straight back when closed. And the X press that closes the pad, still
+		// held once the pad has gone, armed the director, so its release reopened it.
+		//
+		// Replaces 0x727CE0-0x727CFE: dl is X's down frames, edi the director, bl whether X
+		// was released after a press, [ebp-0xD] play_or_eject. X arms the director only
+		// when freshly pressed; the pad opens only on its release; Eject is offered once
+		// the film has ended.
+		unsigned long const k_director_x_update = 0x00727CE0;
+		unsigned long const k_director_open_control_pad = 0x00727CFE;
+		unsigned long const k_director_skip_control_pad = 0x00727D78;
+		unsigned long const k_director_x_authoritative_only = 0x00727CA8; // jz: X does nothing in a client's playback
+
+		bool __cdecl director_film_ended()
+		{
+			return film_is_ended();
+		}
+
+		__declspec(naked) void director_x_update_hook()
+		{
+			__asm
+			{
+				movzx   eax, dl
+				cmp     byte ptr [edi + 0x159], 0
+				jnz     was_down
+				cmp     eax, 1
+				sete    al
+				jmp     store
+			was_down:
+				test    eax, eax
+				setnz   al
+			store:
+				mov     byte ptr [edi + 0x159], al
+
+				call    director_film_ended
+				mov     byte ptr [ebp - 0x0D], al
+
+				test    bl, bl
+				jz      no_pad
+				push    k_director_open_control_pad
+				ret
+			no_pad:
+				push    k_director_skip_control_pad
+				ret
+			}
+		}
+	}
+
 	void ApplyControlPad()
 	{
+		Hook(k_director_x_update - 0x00400000, reinterpret_cast<void *>(&director_x_update_hook)).Apply();
+		Patch::NopFill(Pointer::Base(k_director_x_authoritative_only - 0x00400000), 2);
 		Patches::Core::OnMapLoaded(fix_gui_item_string_ids);
 		Pointer(k_control_pad_vtable + k_slot_update).Write(reinterpret_cast<unsigned long>(&control_pad_update_hook));
 		Pointer(k_control_pad_vtable + k_slot_handle_list_item_chosen).Write(reinterpret_cast<unsigned long>(&control_pad_handle_list_item_chosen_hook));
