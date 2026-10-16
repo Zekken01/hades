@@ -84,7 +84,8 @@ namespace SavedFilms
 		}
 
 		// Which items the pad lists: play or pause while the film runs, replay once it
-		// has ended. Clips and the screenshot upload variants are not supported.
+		// has ended, record clip or stop recording (ManagedDonkey's snippet states:
+		// none / recording). The screenshot upload variants are not supported.
 		void __fastcall update_enabled_menu_items(void *control_pad, void *)
 		{
 			void *data = c_gui_screen_widget_get_data(control_pad, k_saved_film_control_buttons, nullptr);
@@ -99,9 +100,8 @@ namespace SavedFilms
 			virtual_function<void(__thiscall *)(void *)>(data, k_data_clear_disabled_elements)(data);
 			disable(k_take_screenshot_upload);
 			disable(k_take_screenshot_disabled);
-			disable(k_stop_recording);
 			disable(k_end_preview);
-			disable(k_record_clip);
+			disable(clip_is_recording() ? k_record_clip : k_stop_recording);
 
 			if (film_is_ended())
 			{
@@ -149,6 +149,12 @@ namespace SavedFilms
 				case k_replay_film:
 					set_enabled(button, playing);
 					break;
+				case k_record_clip:
+					set_enabled(button, playing && !ended && !is_skipping());
+					break;
+				case k_stop_recording:
+					set_enabled(button, clip_is_recording());
+					break;
 				}
 			}
 		}
@@ -174,6 +180,12 @@ namespace SavedFilms
 					return true;
 				case k_replay_film:
 					replay_film();
+					return true;
+				case k_record_clip:
+					clip_start();
+					return true;
+				case k_stop_recording:
+					clip_stop();
 					return true;
 				}
 			}

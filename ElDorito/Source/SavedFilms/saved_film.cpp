@@ -137,6 +137,61 @@ namespace SavedFilms
 		return true;
 	}
 
+	bool c_saved_film::write_clip(char const *source_path, char const *clip_path, long start_tick, long stop_tick)
+	{
+		c_saved_film source;
+		if (!source.open_for_read(source_path) || stop_tick <= start_tick)
+			return false;
+
+		c_saved_film clip;
+		if (fopen_s(&clip.m_file, clip_path, "wb") != 0 || !clip.m_file)
+		{
+			clip.m_file = nullptr;
+			return false;
+		}
+		clip.m_header = source.m_header;
+		clip.m_big_endian = source.m_big_endian;
+		clip.m_writing = true;
+		clip.m_path = clip_path;
+		clip.m_header[k_film_header_is_snippet_offset] = 1;
+		clip.write_header_long(k_film_header_snippet_start_tick_offset, unsigned long(start_tick));
+		clip.write_header_long(k_film_header_recorded_time_offset, unsigned long(time(nullptr)));
+		if (fwrite(clip.m_header.data(), 1, clip.m_header.size(), clip.m_file) != clip.m_header.size())
+			return false;
+		clip.m_current_offset = k_saved_film_header_size;
+
+		// The updates are copied as they are; only the first stop_tick of them.
+		while (clip.m_current_tick < stop_tick && !source.at_end())
+		{
+			unsigned long record;
+			if (fread(&record, sizeof(record), 1, source.m_file) != 1)
+				break;
+			long size = long(record & k_saved_film_update_size_max);
+			if (size <= 0 || size > long(sizeof(g_update_buffer)) || fread(g_update_buffer, 1, size, source.m_file) != size_t(size))
+				break;
+			source.m_current_offset += sizeof(record) + size;
+			if (fwrite(&record, sizeof(record), 1, clip.m_file) != 1 || fwrite(g_update_buffer, 1, size, clip.m_file) != size_t(size))
+				return false;
+			clip.m_current_offset += sizeof(record) + size;
+			if ((record >> k_saved_film_update_size_bits) == _saved_film_update_type_simulation_update)
+				clip.m_current_tick++;
+		}
+
+		bool complete = clip.m_current_tick > start_tick;
+		clip.close();
+		return complete;
+	}
+
+	bool c_saved_film::is_snippet() const
+	{
+		return !m_header.empty() && m_header[k_film_header_is_snippet_offset] != 0;
+	}
+
+	long c_saved_film::get_snippet_start_tick() const
+	{
+		return is_snippet() ? long(read_header_long(k_film_header_snippet_start_tick_offset)) : 0;
+	}
+
 	bool c_saved_film::write_finish()
 	{
 		long data_end = m_current_offset;

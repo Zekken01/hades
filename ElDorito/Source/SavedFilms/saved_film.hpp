@@ -41,6 +41,12 @@ namespace SavedFilms
 
 		// mod_hash/mod_file name the ElDewrito mod package the game ran from ("" for none).
 		bool open_for_write(char const *path, s_game_options const *options, char const *mod_hash, char const *mod_file);
+		// A clip (snippet): the source film's updates up to stop_tick, played from
+		// start_tick, as ManagedDonkey's mark_film_as_snippet marks it.
+		static bool write_clip(char const *source_path, char const *clip_path, long start_tick, long stop_tick);
+		bool is_snippet() const;
+		long get_snippet_start_tick() const;
+
 		bool has_mod_info() const; // films recorded before the mod was stored have none
 		std::string get_mod_hash() const;
 		std::string get_mod_file() const;
@@ -80,7 +86,9 @@ namespace SavedFilms
 	enum
 	{
 		k_film_header_offset = 0x188, // 'flmh'
+		k_film_header_is_snippet_offset = k_film_header_offset + 0x92,
 		k_film_header_game_options_offset = k_film_header_offset + 0x118,
+		k_film_header_snippet_start_tick_offset = k_film_header_offset + 0x24C68,
 		k_film_header_recorded_time_offset = k_film_header_offset + 0x24C60,
 		k_film_header_length_in_ticks_offset = k_film_header_offset + 0x24C64,
 		k_film_data_offset = 0x25B74, // 'flmd'

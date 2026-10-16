@@ -17,4 +17,9 @@ namespace SavedFilms
 	bool is_skipping();
 	void replay_film();
 	void end_film(); // stops the film and returns to the main menu
+
+	// Clips (ManagedDonkey's snippets): the film from start to stop, saved beside it.
+	bool clip_is_recording();
+	bool clip_start();
+	bool clip_stop();
 }

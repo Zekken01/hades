@@ -99,6 +99,7 @@ namespace SavedFilms
 		long g_last_recorded_update = -1;
 
 		c_saved_film g_playback;
+		long g_clip_start_tick = -1; // a clip being recorded from the film, from this tick
 		bool g_playback_pending = false; // Film.Play was issued; the film's game is loading
 		bool g_playback_ended = false;
 
@@ -377,6 +378,11 @@ namespace SavedFilms
 			if (length > 0)
 			{
 				state->current_position_theta = float(film_playback_tick()) / length;
+				if (g_clip_start_tick >= 0)
+				{
+					state->recording = true;
+					state->recording_start_theta = float(g_clip_start_tick) / length;
+				}
 				state->buffered_theta = float(g_playback.get_current_tick() > length ? length : g_playback.get_current_tick()) / length;
 			}
 		}
@@ -582,6 +588,7 @@ namespace SavedFilms
 
 		void reset_playback_state()
 		{
+			g_clip_start_tick = -1;
 			g_skip_target = -1;
 			g_pending_skip_target = -1;
 			speed_set(1.0f);
@@ -602,6 +609,8 @@ namespace SavedFilms
 				reset_playback_state();
 			}
 			update_skip();
+			if (g_clip_start_tick >= 0 && film_is_ended())
+				clip_stop();
 
 			if (g_playback.is_open())
 			{
@@ -634,8 +643,11 @@ namespace SavedFilms
 				return false;
 			}
 
-			// The main loop starts it (update_play_request), with the film's mod.
+			// The main loop starts it (update_play_request), with the film's mod; a clip
+			// then runs at full speed to its start.
 			g_play_state = _play_state_requested;
+			g_clip_start_tick = -1;
+			g_pending_skip_target = g_playback.is_snippet() ? g_playback.get_snippet_start_tick() : -1;
 			g_playback_pending = true;
 			g_playback_ended = false;
 			g_last_logged_state.clear();
@@ -818,6 +830,7 @@ namespace SavedFilms
 		else
 		{
 			// There are no snapshots to rewind to: replay from the start and run to it.
+			clip_stop();
 			float speed = get_playback_speed();
 			replay_film();
 			g_speed_before_skip = speed > 0.0f ? speed : 1.0f;
@@ -835,6 +848,7 @@ namespace SavedFilms
 		if (!g_playback.is_open())
 			return;
 		std::string path = g_playback.get_path();
+		clip_stop();
 		g_skip_target = -1;
 		g_pending_skip_target = -1;
 		if (!g_playback.open_for_read(path.c_str()))
@@ -842,6 +856,8 @@ namespace SavedFilms
 		g_playback_pending = true;
 		g_playback_ended = false;
 		g_play_state = _play_state_requested;
+		if (g_playback.is_snippet())
+			g_pending_skip_target = g_playback.get_snippet_start_tick();
 		playback_log("replay %s", path.c_str());
 	}
 
@@ -849,11 +865,55 @@ namespace SavedFilms
 	{
 		if (!g_playback.is_open())
 			return;
+		clip_stop();
 		g_playback.close();
 		g_playback_pending = false;
 		g_play_state = _play_state_none;
 		reset_playback_state();
 		main_menu_launch();
+	}
+
+	bool clip_is_recording()
+	{
+		return g_clip_start_tick >= 0;
+	}
+
+	bool clip_start()
+	{
+		if (!film_game_running() || film_is_ended() || is_skipping() || g_clip_start_tick >= 0)
+			return false;
+		g_clip_start_tick = film_playback_tick();
+		print("Film: recording a clip from %ld:%02ld", g_clip_start_tick / film_tick_rate() / 60, g_clip_start_tick / film_tick_rate() % 60);
+		return true;
+	}
+
+	bool clip_stop()
+	{
+		if (g_clip_start_tick < 0)
+			return false;
+		long start_tick = g_clip_start_tick;
+		long stop_tick = film_game_running() ? film_playback_tick() : -1;
+		g_clip_start_tick = -1;
+		if (stop_tick <= start_tick)
+			return false;
+
+		// <film>_clip_<mm>-<ss>.film beside the film.
+		std::string source = g_playback.get_path();
+		std::string base = source.substr(0, source.size() - 5);
+		char suffix[32];
+		long seconds = start_tick / film_tick_rate();
+		sprintf_s(suffix, "_clip_%02ld-%02ld", seconds / 60, seconds % 60);
+		std::string clip = base + suffix + ".film";
+		for (int n = 2; GetFileAttributesA(clip.c_str()) != INVALID_FILE_ATTRIBUTES; n++)
+			clip = base + suffix + "_" + std::to_string(n) + ".film";
+
+		if (!c_saved_film::write_clip(source.c_str(), clip.c_str(), start_tick, stop_tick))
+		{
+			print("Film: could not save the clip");
+			return false;
+		}
+		print("Film: clip saved: %s (%ld seconds)", clip.c_str(), (stop_tick - start_tick) / film_tick_rate());
+		return true;
 	}
 
 	void ApplyAll()
