@@ -752,6 +752,12 @@ _inline bool c_simulation_player_emote_event_definition::apply_game_event(long r
 	{
 	case s_simulation_player_emote_event_data::_action_start:
 		PlayerStartEmote(player_index, data->emote_definition_index, data->emote_index);
+		if (SavedFilms::film_is_playing() && player && player->unit_index != -1)
+		{
+			char text[128];
+			sprintf_s(text, "film: emote on unit %08lX executing %d", player->unit_index, int(eldorado::action_executing(player->unit_index, (e_action)0x57)));
+			SavedFilms::film_log(text);
+		}
 		break;
 	case s_simulation_player_emote_event_data::_action_stop:
 		PlayerStopEmote(player_index);

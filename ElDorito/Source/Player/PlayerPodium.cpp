@@ -787,6 +787,28 @@ namespace Player
 			long roundTime = eldorado::game_engine_round_time_get();
 			if (!game_is_multiplayer())
 				return;
+			// Diagnostics: the players' units after a film's game ends.
+			if (SavedFilms::film_is_playing() && eldorado::game_is_finished())
+			{
+				static DWORD last_report = 0;
+				DWORD now = GetTickCount();
+				if (now - last_report > 2000)
+				{
+					last_report = now;
+					char text[256];
+					for (long i = 0; i < 16; i++)
+					{
+						s_player_datum *player = players_get()->try_and_get_absolute(i);
+						if (!player)
+							continue;
+						s_object_data *unit = player->unit_index != -1 ? object_get(player->unit_index) : nullptr;
+						sprintf_s(text, "film: finished: player %ld '%s' unit %08lX exists %d at %.1f %.1f %.1f",
+							i, Utils::String::ThinString(player->configuration.host.player_name).c_str(), player->unit_index, int(unit != nullptr),
+							unit ? unit->bounding_sphere_center.x : 0.0f, unit ? unit->bounding_sphere_center.y : 0.0f, unit ? unit->bounding_sphere_center.z : 0.0f);
+						SavedFilms::film_log(text);
+					}
+				}
+			}
 			if (InPrematchState(4))
 			{
 				podiumReady = false;
