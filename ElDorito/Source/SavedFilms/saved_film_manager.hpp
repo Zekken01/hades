@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 // Saved film playback controls, used by the game's own film control pad
 // (saved_film_control_pad.cpp) and the Film.* console commands.
 
@@ -9,6 +11,8 @@ namespace SavedFilms
 	void ApplyControlPad();
 	void ApplyReplication();
 	void ApplyTheater();
+
+	std::string get_films_directory();
 
 	// Online-client films: the replication packets the host sent (saved_film_replication.cpp).
 	void record_replication_packet(void const *data, long size);

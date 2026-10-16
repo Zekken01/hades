@@ -910,6 +910,11 @@ namespace SavedFilms
 		};
 	}
 
+	std::string get_films_directory()
+	{
+		return films_directory();
+	}
+
 	bool film_is_playing()
 	{
 		return film_game_running();

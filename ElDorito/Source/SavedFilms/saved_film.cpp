@@ -354,6 +354,11 @@ namespace SavedFilms
 		return m_header.empty() ? nullptr : reinterpret_cast<s_game_options *>(&m_header[k_film_header_game_options_offset]);
 	}
 
+	unsigned long c_saved_film::get_recorded_time() const
+	{
+		return m_header.empty() ? 0 : read_header_long(k_film_header_recorded_time_offset);
+	}
+
 	std::string const &c_saved_film::get_path() const
 	{
 		return m_path;

@@ -67,6 +67,7 @@ namespace SavedFilms
 		s_game_options *get_game_options(); // written with the header when the film closes
 		long get_current_tick() const;
 		long get_length_in_ticks() const;
+		unsigned long get_recorded_time() const; // time()
 		std::string const &get_path() const;
 
 	private:
