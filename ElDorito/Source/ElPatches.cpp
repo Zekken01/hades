@@ -283,7 +283,7 @@ extern void font_patches_apply();  // hades: added for 0x10968240
 namespace Patches { namespace PregameLobby { extern void ApplyAll(); } }  // hades: added for 0x10968240
 namespace Patches { namespace Game { extern void ApplyAll(); } }  // hades: added for 0x10968240
 namespace Patches { namespace Devices { extern void ApplyAll(); } }  // hades: added for 0x10968240
-namespace Patches { namespace Debug { extern void ApplyAll(); } }  // hades: added for 0x10968240
+namespace Patches { namespace Debug { extern void ApplyAll(); } } namespace SavedFilms { void ApplyAll(); }  // hades: added for 0x10968240; SavedFilms for saved films
 namespace Patches { namespace DeterminismDebug { extern void ApplyAll(); } }  // hades: added for 0x10968240
 namespace Patches { namespace HavokMemory { extern void ApplyAll(); } }  // hades: added for 0x10968240
 namespace Patches { namespace MouseSupport { extern void ApplyAll(); } }  // hades: added for 0x10968240
@@ -398,7 +398,7 @@ namespace Patches
 		Game::ApplyAll();
 		Devices::ApplyAll();
 		Debug::ApplyAll();
-		DeterminismDebug::ApplyAll();
+		DeterminismDebug::ApplyAll(); ::SavedFilms::ApplyAll(); // after DeterminismDebug, whose simulation_record_update hook the film hook chains to
 		HavokMemory::ApplyAll();
 		MouseSupport::ApplyAll();
 		MenuBlur::ApplyAll();

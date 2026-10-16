@@ -177,7 +177,7 @@ namespace Modules
 		ModuleDownload::Instance();
 		ModuleCheat::Instance();
 		ModuleVoting::Instance();
-		ModuleScript::Instance();
+		ModuleScript::Instance(); void RegisterSavedFilmModule(); RegisterSavedFilmModule();
 		AddCommand("Help", "help", "Displays this help text", eCommandFlagsNone, CommandHelp);
 		AddCommand("Execute", "exec", "Executes a list of commands", eCommandFlagsNone, CommandExecute, { "filename(string) The list of commands to execute" });
 		AddCommand("WriteConfig", "config_write", "Writes the ElDewrito config file", eCommandFlagsNone, CommandWriteConfig, { "filename(string) Optional, the filename to write the config to" });
