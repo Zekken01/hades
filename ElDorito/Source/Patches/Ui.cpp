@@ -535,6 +535,13 @@ using namespace hades_file_local;
 
 namespace eldorado
 {
+	// Functions in eldorado.exe, named from the game's own symbols.
+	static auto const equipment_get_use_duration = reinterpret_cast<float (*)(long)>(0xB889F0);
+	static auto const equipment_has_remaining_use_duration = reinterpret_cast<bool (*)(long)>(0xB88C80);
+}
+
+namespace eldorado
+{
 	// Functions in eldorado.exe, named as in ManagedDonkey.
 	static auto const controller_get = reinterpret_cast<unsigned char *(*)(__int32)>(0xA7CD50);
 	static auto const levels_try_and_get_campaign_insertion = reinterpret_cast<bool (*)(long, void *)>(0x54C9E0);
@@ -3109,10 +3116,10 @@ void __fastcall c_chud_update_user_data__ctor_hook(c_chud_update_user_data *this
 			thisptr->interfaces[4].object_index = unit->equipment_object_indices[0];
 			thisptr->interfaces[4].chud_definition_index = equipment_definition->hud_interface.index;
 			thisptr->consumable_flags |= 0x100;
-			if (((bool (*const)(long))0xB88C80)(unit->equipment_object_indices[0]))
+			if (eldorado::equipment_has_remaining_use_duration(unit->equipment_object_indices[0]))
 			{
 				float time_since_use = game_ticks_to_seconds((float)(game_time_get() - equipment->last_use_time));
-				float max_use_duration = ((float (*const)(long))0xB889F0)(unit->equipment_object_indices[0]);
+				float max_use_duration = eldorado::equipment_get_use_duration(unit->equipment_object_indices[0]);
 				float remaining_time = max_use_duration - time_since_use;
 				float remaining_fraction = 1.0f - time_since_use / max_use_duration;
 				thisptr->consumables[0].time_remaining = remaining_time;

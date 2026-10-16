@@ -88,6 +88,20 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named from the game's own symbols.
+	static auto const jpeg_CreateCompress = reinterpret_cast<__int32 (*)(void *, __int32, unsigned __int32)>(0xD4C520);
+	static auto const jpeg_destroy_compress = reinterpret_cast<void (*)(void *)>(0xD4C5F0);
+	static auto const jpeg_finish_compress = reinterpret_cast<void (*)(void *)>(0xD4C680);
+	static auto const jpeg_set_defaults = reinterpret_cast<void (*)(void *)>(0xD4D3E0);
+	static auto const jpeg_set_quality = reinterpret_cast<void (*)(void *, __int32, bool)>(0xD4CC90);
+	static auto const jpeg_start_compress = reinterpret_cast<void (*)(void *, bool)>(0xD4D4E0);
+	static auto const jpeg_std_error = reinterpret_cast<void *(*)(void *)>(0xD4C4D0);
+	static auto const jpeg_write_scanlines = reinterpret_cast<void (*)(void *, unsigned char const *const *, unsigned __int32)>(0xD4D560);
+}
+#line 90
+
 namespace Utils
 {
 	namespace Jpeg
@@ -118,16 +132,16 @@ namespace Utils
 
 			char err_mgr[132];
 			jpeg_compress_struct cinfo;
-			cinfo.err = ((void *(*const)(void *))0xD4C4D0)(err_mgr);
-			((__int32 (*const)(void *, __int32, unsigned __int32))0xD4C520)(&cinfo, 62, 360);
+			cinfo.err = eldorado::jpeg_std_error(err_mgr);
+			eldorado::jpeg_CreateCompress(&cinfo, 62, 360);
 			jpeg_stdvector_dest(&cinfo, dest);
 			cinfo.image_width = width;
 			cinfo.image_height = height;
 			cinfo.input_components = 3;
 			cinfo.in_color_space = 2;
-			((void (*const)(void *))0xD4D3E0)(&cinfo);
-			((void (*const)(void *, __int32, bool))0xD4CC90)(&cinfo, quality, true);
-			((void (*const)(void *, bool))0xD4D4E0)(&cinfo, true);
+			eldorado::jpeg_set_defaults(&cinfo);
+			eldorado::jpeg_set_quality(&cinfo, quality, true);
+			eldorado::jpeg_start_compress(&cinfo, true);
 			std::unique_ptr<unsigned char[]> row_buf = std::make_unique<unsigned char[]>(width * 3);
 			unsigned char *row = row_buf.get();
 			if (!row)
@@ -147,10 +161,10 @@ namespace Utils
 					dest += 3;
 					src += 4;
 				}
-				((void (*const)(void *, unsigned char const *const *, unsigned __int32))0xD4D560)(&cinfo, &row, 1);
+				eldorado::jpeg_write_scanlines(&cinfo, &row, 1);
 			}
-			((void (*const)(void *))0xD4C680)(&cinfo);
-			((void (*const)(void *))0xD4C5F0)(&cinfo);
+			eldorado::jpeg_finish_compress(&cinfo);
+			eldorado::jpeg_destroy_compress(&cinfo);
 		}
 
 #line 178

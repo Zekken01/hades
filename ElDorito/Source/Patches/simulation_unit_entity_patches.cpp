@@ -101,6 +101,18 @@ using namespace hades_file_local;
 
 namespace eldorado
 {
+	// Functions in eldorado.exe, named from the game's own symbols.
+	static auto const c_simulation_object_entity_definition_object_create_object = reinterpret_cast<long (__thiscall *)(void *, s_simulation_object_creation_data *, s_simulation_object_state_data *, unsigned long long *, s_object_placement_data *)>(0x4AD3E0);
+	static auto const c_simulation_object_entity_definition_object_setup_placement_data = reinterpret_cast<bool (*)(s_simulation_object_creation_data *, s_simulation_object_state_data *, unsigned long long *, s_object_placement_data *)>(0x4AE280);
+	static auto const game_engine_get_change_colors = reinterpret_cast<void (*)(long, s_player_model_customization const *, long, real_rgb_color *, bool *)>(0x54F250);
+	static auto const player_try_and_get_player_index_from_absolute_player_index = reinterpret_cast<long (*)(long)>(0x53FF70);
+	static auto const tag_try_and_get_unsafe = reinterpret_cast<void *(*)(unsigned long, long)>(0x503510);
+	static auto const unit_delete_all_weapons = reinterpret_cast<void (*)(long)>(0xB3FAD0);
+	static auto const unit_set_hologram = reinterpret_cast<void (*)(long, long, long, real_point3d const *)>(0xB48770);
+}
+
+namespace eldorado
+{
 	// Functions in eldorado.exe, named as in ManagedDonkey.
 	static auto const player_index_from_absolute_player_index = reinterpret_cast<long (*)(long)>(0x53B1A0);
 }
@@ -182,36 +194,36 @@ long __fastcall c_simulation_unit_entity_definition__create_object_hook(void *th
 	s_object_placement_data placement_data;
 	placement_data.multiplayer_properties.engine_flags = (unsigned short)0;
 	placement_data.multiplayer_properties.spawn_flags = (unsigned char)0;
-	if (creation_data->object_definition_index == -1 || !((void *(*const)(unsigned long, long))0x503510)('unit', creation_data->object_definition_index))
+	if (creation_data->object_definition_index == -1 || !eldorado::tag_try_and_get_unsafe('unit', creation_data->object_definition_index))
 		return -1;
 	object_placement_data_new(&placement_data, creation_data->object_definition_index, -1, nullptr);
-	((bool (*const)(s_simulation_object_creation_data *, s_simulation_object_state_data *, unsigned long long *, s_object_placement_data *))0x4AE280)(creation_data, state_data, flags, &placement_data);
+	eldorado::c_simulation_object_entity_definition_object_setup_placement_data(creation_data, state_data, flags, &placement_data);
 	long player_index = -1;
 	if (state_data->controlling_player_index != -1 && datum_try_and_get_absolute(tls_getd().players, state_data->controlling_player_index))
 		player_index = eldorado::player_index_from_absolute_player_index(state_data->controlling_player_index);
 	real_rgb_color colors[5];
 	bool custom_change_colors;
-	((void (*const)(long, s_player_model_customization const *, long, real_rgb_color *, bool *))0x54F250)(player_index, &creation_data->player_appearance, creation_data->team, colors, &custom_change_colors);
+	eldorado::game_engine_get_change_colors(player_index, &creation_data->player_appearance, creation_data->team, colors, &custom_change_colors);
 	if (custom_change_colors)
 	{
 		placement_data.valid_change_colors |= 0x1F;
 		memcpy(placement_data.change_colors.begin(), colors, sizeof(colors));
 	}
 	placement_data.variant_name = creation_data->variant_name;
-	long object_index = ((long (__thiscall *const)(void *, s_simulation_object_creation_data *, s_simulation_object_state_data *, unsigned long long *, s_object_placement_data *))0x4AD3E0)(thisptr, creation_data, state_data, flags, &placement_data);
+	long object_index = eldorado::c_simulation_object_entity_definition_object_create_object(thisptr, creation_data, state_data, flags, &placement_data);
 	if (object_index == -1)
 		return object_index;
 	if (!object_get_type(object_index))
 	{
-		((void (*const)(long))0xB3FAD0)(object_index);
+		eldorado::unit_delete_all_weapons(object_index);
 		s_unit_data *unit = object_get<s_unit_data>(object_index);
 		if (unit->player_index == -1)
 			unit->team = creation_data->team;
-		player_index = ((long (*const)(long))0x53FF70)(creation_data->controlling_player_index);
+		player_index = eldorado::player_try_and_get_player_index_from_absolute_player_index(creation_data->controlling_player_index);
 		s_player_datum *player = player_get(player_index);
 		long hologram_definition_index = creation_data->hologram_definition_index;
 		if (hologram_definition_index != -1 && player_index != -1)
-			((void (*const)(long, long, long, real_point3d const *))0xB48770)(object_index, player->unit_index, hologram_definition_index, &creation_data->hologram_position);
+			eldorado::unit_set_hologram(object_index, player->unit_index, hologram_definition_index, &creation_data->hologram_position);
 		if (((unsigned long)unit->unit_flags & 0x40000000) && player_index != -1)
 		{
 			long player_unit_index = player->unit_index;

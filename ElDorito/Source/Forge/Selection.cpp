@@ -98,6 +98,12 @@ namespace Blam
 
 namespace eldorado
 {
+	// Functions in eldorado.exe, named from the game's own symbols.
+	static auto const game_engine_is_player_in_edit_mode = reinterpret_cast<bool (*)(long, long *, long *)>(0x59A6F0);
+}
+
+namespace eldorado
+{
 	// Functions in eldorado.exe, named as in ManagedDonkey.
 	static auto const object_get_world_matrix = reinterpret_cast<real_matrix4x3 *(*)(long, real_matrix4x3 *)>(0xB2EC60);
 	static auto const player_mapping_get_player_by_input_user = reinterpret_cast<unsigned long (*)(long)>(0x589C30);
@@ -475,7 +481,7 @@ namespace Forge
 			unsigned long playerIndex = eldorado::player_mapping_get_player_by_input_user(0);
 			long heldObjectIndex;
 			long crosshairObjectIndex;
-			if (!((bool (*const)(long, long *, long *))0x59A6F0)(playerIndex, &heldObjectIndex, &crosshairObjectIndex))
+			if (!eldorado::game_engine_is_player_in_edit_mode(playerIndex, &heldObjectIndex, &crosshairObjectIndex))
 				return;
 			Blam::Input::ActionState *fireRight = GetActionState(eGameActionFireRight);
 			if (heldObjectIndex != -1)

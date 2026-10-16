@@ -360,6 +360,14 @@ using namespace hades_file_local;
 
 namespace eldorado
 {
+	// Functions in eldorado.exe, named from the game's own symbols.
+	static auto const cached_map_file_open = reinterpret_cast<bool(__cdecl *)(s_cached_map_file *, char const *)>(0x5AB9E0);
+	static auto const cached_map_file_read_header = reinterpret_cast<bool(__cdecl *)(__int32)>(0x5ABBD0);
+}
+#line 360
+
+namespace eldorado
+{
 	// Functions in eldorado.exe, named as in ManagedDonkey.
 	static auto const game_in_progress = reinterpret_cast<bool (*)()>(0x5314B0);
 	static auto const game_is_ui_shell = reinterpret_cast<bool (*)()>(0x531E90);
@@ -965,12 +973,12 @@ bool open_mod_package_resource_cache(char const *filepath) // 0x109294C0
 	// function call : bool (*const)(s_cached_map_file *, char const *)
 	// function call : bool (*const)(__int32)
 
-	if (!((bool(__cdecl *const)(s_cached_map_file *, char const *))0x5ab9e0)(&g_cached_map_files[6], filepath))
+	if (!eldorado::cached_map_file_open(&g_cached_map_files[6], filepath))
 	{
 		return false;
 	}
 
-	if (!((bool(__cdecl *const)(__int32))0x5abbd0)(6))
+	if (!eldorado::cached_map_file_read_header(6))
 	{
 		return false;
 	}

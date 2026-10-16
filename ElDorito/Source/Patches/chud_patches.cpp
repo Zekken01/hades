@@ -138,6 +138,15 @@ namespace Patches
 
 namespace eldorado
 {
+	// Functions in eldorado.exe, named from the game's own symbols.
+	static auto const c_chud_navpoint_manager_get_managed_navpoint_text_color = reinterpret_cast<unsigned long (*)(s_chud_managed_navpoint *)>(0xAD1680);
+	static auto const c_chud_point_tracker_prepare_for_draw = reinterpret_cast<void (__thiscall *)(c_chud_point_tracker *, float)>(0xAD2360);
+	static auto const c_curved_hud_test_set_constants = reinterpret_cast<void (__thiscall *)(c_curved_hud_test *, long)>(0xAD2B20);
+	static auto const c_curved_hud_test_transform = reinterpret_cast<void (__thiscall *)(c_curved_hud_test *, float, float, real_point2d *)>(0xAD2D30);
+}
+
+namespace eldorado
+{
 	// Functions in eldorado.exe, named as in ManagedDonkey.
 	static auto const c_rasterizer_set_alpha_blend_mode = reinterpret_cast<void (*)(long)>(0xA22D10);
 	static auto const c_rasterizer_set_cull_mode = reinterpret_cast<void (*)(long)>(0xA232D0);
@@ -524,14 +533,14 @@ bool chud_draw_begin_hook(long output_user_index, float alpha, bool a3, bool cur
 	else
 		g_chud_draw_warp_modifier = persistent_user_data->warp_modifier;
 	((void (__thiscall *const)(c_curved_hud_test *))0xAC5190)(&curved_hud_test);
-	((void (__thiscall *const)(c_curved_hud_test *, long))0xAD2B20)(&curved_hud_test, output_user_index);
+	eldorado::c_curved_hud_test_set_constants(&curved_hud_test, output_user_index);
 	if (curve_flag)
 	{
 		g_chud_draw_warp_modifier = persistent_user_data->warp_modifier;
 		((void (__thiscall *const)(c_curved_hud_test *))0xAC5190)(&curved_hud_test2);
-		((void (__thiscall *const)(c_curved_hud_test *, float, float, real_point2d *))0xAD2D30)(&curved_hud_test2, 0.0f, 1.0f, &g_chud_draw_curved_hud_point1);
-		((void (__thiscall *const)(c_curved_hud_test *, float, float, real_point2d *))0xAD2D30)(&curved_hud_test2, 1.0f, 0.0f, &g_chud_draw_curved_hud_point2);
-		((void (__thiscall *const)(c_curved_hud_test *, float, float, real_point2d *))0xAD2D30)(&curved_hud_test2, 0.5f, 1.0f, &g_chud_draw_curved_hud_point3);
+		eldorado::c_curved_hud_test_transform(&curved_hud_test2, 0.0f, 1.0f, &g_chud_draw_curved_hud_point1);
+		eldorado::c_curved_hud_test_transform(&curved_hud_test2, 1.0f, 0.0f, &g_chud_draw_curved_hud_point2);
+		eldorado::c_curved_hud_test_transform(&curved_hud_test2, 0.5f, 1.0f, &g_chud_draw_curved_hud_point3);
 		float v57 = g_chud_draw_curved_hud_point2.x - g_chud_draw_curved_hud_point1.x;
 		float v58 = g_chud_draw_curved_hud_point2.y - g_chud_draw_curved_hud_point1.y;
 		if (fabsf(g_chud_draw_curved_hud_point2.x - g_chud_draw_curved_hud_point1.x) < 0.000099999997f)
@@ -556,13 +565,13 @@ bool chud_draw_begin_hook(long output_user_index, float alpha, bool a3, bool cur
 	{
 		persistent_user_data->point_tracker.valid = true;
 		persistent_user_data->point_tracker.world_point = persistent_user_data->unknown_pooint1;
-		((void (__thiscall *const)(c_chud_point_tracker *, float))0xAD2360)(&persistent_user_data->point_tracker, 1.0f);
+		eldorado::c_chud_point_tracker_prepare_for_draw(&persistent_user_data->point_tracker, 1.0f);
 	}
 	if (persistent_user_data->use_pointer_tracker2)
 	{
 		persistent_user_data->pointer_tracker2.valid = true;
 		persistent_user_data->pointer_tracker2.world_point = persistent_user_data->unknown_point2;
-		((void (__thiscall *const)(c_chud_point_tracker *, float))0xAD2360)(&persistent_user_data->pointer_tracker2, 1.0f);
+		eldorado::c_chud_point_tracker_prepare_for_draw(&persistent_user_data->pointer_tracker2, 1.0f);
 		persistent_user_data->use_pointer_tracker2 = persistent_user_data->pointer_tracker2.offscreen_amount < 0.000099999997;
 	}
 	eldorado::c_rasterizer_set_alpha_blend_mode(3);
@@ -766,7 +775,7 @@ void __fastcall c_chud_navpoint_manager__draw_hook(c_chud_navpoint_manager *this
 				(*(real_vector3d *)geometry.angles).i = 0.0f;
 				(*(real_vector3d *)geometry.angles).j = 0.0f;
 				(*(real_vector3d *)geometry.angles).k = 0.0f;
-				chud_expand_pixel32(((unsigned long (*const)(s_chud_managed_navpoint *))0xAD1680)(managed_navpoint), render_data.colors);
+				chud_expand_pixel32(eldorado::c_chud_navpoint_manager_get_managed_navpoint_text_color(managed_navpoint), render_data.colors);
 				render_data.opacity = managed_navpoint->opacity * managed_navpoint->navpoint.opacity;
 				if (chud_apply_render_data(&render_data, false))
 					chud_draw_widget_geometry(&geometry, &matrix, 0, 0);
@@ -822,7 +831,7 @@ void __fastcall c_chud_navpoint_manager__draw_hook(c_chud_navpoint_manager *this
 				(*(real_vector3d *)geometry.angles).j = 0.0f;
 				(*(real_vector3d *)geometry.angles).k = 0.0f;
 				offscreen_amount -= ((*(real_rectangle2d *)geometry.string_bounds).y1 - (*(real_rectangle2d *)geometry.string_bounds).y0) * scale;
-				chud_expand_pixel32(((unsigned long (*const)(s_chud_managed_navpoint *))0xAD1680)(managed_navpoint), render_data.colors);
+				chud_expand_pixel32(eldorado::c_chud_navpoint_manager_get_managed_navpoint_text_color(managed_navpoint), render_data.colors);
 				render_data.opacity = managed_navpoint->opacity * managed_navpoint->navpoint.opacity;
 				if (chud_apply_render_data(&render_data, false))
 					chud_draw_widget_geometry(&geometry, &matrix, 0, 0);

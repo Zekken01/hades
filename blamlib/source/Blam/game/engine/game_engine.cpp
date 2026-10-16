@@ -38,6 +38,12 @@ struct s_multiplayer_globals_definition;
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named from the game's own symbols.
+	static auto const game_engine_get_player_deaths = reinterpret_cast<__int32(__cdecl *)(unsigned long)>(0x550580);
+}
+
 extern void *(__cdecl *const tag_get)(unsigned long, long);  // hades: added for 0x10EFFD80
 
 extern __int32 game_engine_get_player_assists(unsigned long player_index);
@@ -73,7 +79,7 @@ __int32 game_engine_get_player_deaths(unsigned long player_index) // 0x10EFFC60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_get_player_deaths@@YAHK@Z");
 
-	return ((__int32(__cdecl *const)(unsigned long))0x550580)(player_index);
+	return eldorado::game_engine_get_player_deaths(player_index);
 }
 
 __int32 game_engine_get_player_kills(unsigned long player_index) // 0x10EFFCC0

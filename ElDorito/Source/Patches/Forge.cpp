@@ -385,6 +385,17 @@ namespace Patches
 
 namespace eldorado
 {
+	// Functions in eldorado.exe, named from the game's own symbols.
+	static auto const chud_messaging_post = reinterpret_cast<void(__cdecl *)(long, wchar_t const *, e_chud_message_context)>(0xA95920);
+	static auto const game_engine_is_player_in_edit_mode = reinterpret_cast<bool(__cdecl *)(long, long *, long *)>(0x59A6F0);
+	static auto const game_engine_is_player_in_edit_mode_2 = reinterpret_cast<bool (*)(long, long *, long *)>(0x59A6F0);
+	static auto const object_attach_to_node = reinterpret_cast<void (*)(long, long, long)>(0xB2A250);
+	static auto const sandbox_update_object_position = reinterpret_cast<void (*)(bool, long, real_point3d const *, real_vector3d const *, real_vector3d const *)>(0x59E340);
+}
+#line 385
+
+namespace eldorado
+{
 	// Functions in eldorado.exe, named as in ManagedDonkey.
 	static auto const game_engine_object_is_fixed = reinterpret_cast<bool (*)(long)>(0x59A7B0);
 	static auto const object_get_origin = reinterpret_cast<void (*)(long, real_point3d *)>(0xB2E5A0);
@@ -793,7 +804,7 @@ void GrabObject(long player_index, long map_variant_index) // 0x10A656C0
 			if (selection.Contains(selection_object_index))
 			{
 				c_map_variant__remove_object(map_variant, i, 2);
-				((void (*const)(long, long, long))0xB2A250)(object_index, selection_object_index, 0);
+				eldorado::object_attach_to_node(object_index, selection_object_index, 0);
 				change_object_physics_mode(selection_object_index, 1);
 			}
 		}
@@ -1215,7 +1226,7 @@ void HandleOpenMapOptions() // 0x10A66460
 
 	if (mapModifierObjectIndex == -1)
 	{
-		((void(__cdecl *const)(long, wchar_t const *, e_chud_message_context))0xa95920)(0, L"Failed to spawn map modifier object. Out of objects?", (e_chud_message_context)0);
+		eldorado::chud_messaging_post(0, L"Failed to spawn map modifier object. Out of objects?", (e_chud_message_context)0);
 	}
 	else
 	{
@@ -1260,7 +1271,7 @@ void HandleRotationReset() // 0x10A66650
 		uiUpAction->Flags |= 1;
 
 		long heldObjectIndex;
-		if (((bool(__cdecl *const)(long, long *, long *))0x59a6f0)(eldorado::player_mapping_get_player_by_input_user_2(0), &heldObjectIndex, 0))
+		if (eldorado::game_engine_is_player_in_edit_mode(eldorado::player_mapping_get_player_by_input_user_2(0), &heldObjectIndex, 0))
 		{
 			real_quaternion ident;
 			ident.i = 0.0f;
@@ -2148,7 +2159,7 @@ void game_engine_sandbox_delete_object_hook(long map_variant_index, long player_
 	AddMapVariantUndoPoint("Object Deleted");
 	long heldObjectIndex = -1;
 	long crosshairObjectIndex = -1;
-	((bool (*const)(long, long *, long *))0x59A6F0)(player_index, &heldObjectIndex, &crosshairObjectIndex);
+	eldorado::game_engine_is_player_in_edit_mode_2(player_index, &heldObjectIndex, &crosshairObjectIndex);
 	if (heldObjectIndex != -1 && crosshairObjectIndex != -1)
 	{
 		s_object_data *heldObject = object_get(heldObjectIndex);
@@ -2244,7 +2255,7 @@ void ApplyObjectPropertiesToSelection(long playerIndex, long rootObjectIndex, s_
 					tmp.boundry_width = it->second.scale * deltaScale;
 					real_point3d newPos;
 					point_from_line3d(&selectionState.initialPosition, &it->second.displacement, deltaScale, &newPos);
-					((void (*const)(bool, long, real_point3d const *, real_vector3d const *, real_vector3d const *))0x59E340)(false, placement.object_index, &newPos, nullptr, nullptr);
+					eldorado::sandbox_update_object_position(false, placement.object_index, &newPos, nullptr, nullptr);
 				}
 			}
 		}
@@ -2310,7 +2321,7 @@ void character_physics_update_input_datum_initialize_flying_hook(long unit_index
 	void (*const character_physics_update_input_datum_initialize_flying)(long, s_character_physics_update_input_datum *, c_character_physics_component *, float, float) = (void (*)(long, s_character_physics_update_input_datum *, c_character_physics_component *, float, float))0x7205D0;
 	long playerIndex = eldorado::player_mapping_get_player_by_input_user(0);
 	s_player_datum *player = player_get(playerIndex);
-	if (player && player->unit_index == unit_index && ((bool (*const)(long, long *, long *))0x59A6F0)(playerIndex, nullptr, nullptr))
+	if (player && player->unit_index == unit_index && eldorado::game_engine_is_player_in_edit_mode_2(playerIndex, nullptr, nullptr))
 	{
 		Modules::ModuleForge &moduleForge = Modules::ModuleForge::Instance();
 		float &monitorSpeed = *(float *)offset_pointer(physics_input, 0x150);
@@ -2990,14 +3001,14 @@ bool collision_test_object_hook(long object_index, s_object_header *object_heade
 	s_forge_globals_definition *forge_globals = forge_globals_get_definition();
 	if (!forge_globals)
 		return true;
-	if ((object->definition_index == forge_globals->prematch_camera_object.index || object->definition_index == forge_globals->kill_volume_object.index || object->definition_index == forge_globals->garbage_volume_object.index) && !((bool (*const)(long, long *, long *))0x59A6F0)(playerIndex, nullptr, nullptr))
+	if ((object->definition_index == forge_globals->prematch_camera_object.index || object->definition_index == forge_globals->kill_volume_object.index || object->definition_index == forge_globals->garbage_volume_object.index) && !eldorado::game_engine_is_player_in_edit_mode_2(playerIndex, nullptr, nullptr))
 		return false;
 	s_multiplayer_object_properties *mpProperties = object_get_multiplayer(object_index);
 	if (mpProperties && ::Forge::Reforge::IsReforgeObject(object_index))
 	{
 		::Forge::ReforgeObjectProperties *reforgeProperties = (::Forge::ReforgeObjectProperties *)((unsigned char *)mpProperties + 0x14);
 		bool allowsProjectiles = (reforgeProperties->Flags & ::Forge::ReforgeObjectProperties::MaterialAllowsProjectiles) != 0;
-		if (allowsProjectiles && !((bool (*const)(long, long *, long *))0x59A6F0)(eldorado::player_mapping_get_player_by_input_user(0), nullptr, nullptr))
+		if (allowsProjectiles && !eldorado::game_engine_is_player_in_edit_mode_2(eldorado::player_mapping_get_player_by_input_user(0), nullptr, nullptr))
 		{
 			if (reforgeProperties->TeamBarrier)
 				return !TestBarrierTestProjectile(object_index, ignore_object_index_3);

@@ -17,6 +17,12 @@
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named from the game's own symbols.
+	static auto const system_milliseconds = reinterpret_cast<unsigned long(__cdecl *)()>(0x4EC110);
+}
+
 extern void assert_handle(char const *info, char const *filepath, long line);
 extern void trace_handle(char const *format, ...);
 extern void display_assert(char const *reason, char const *file, __int32 line, bool halt);
@@ -76,7 +82,7 @@ unsigned long system_milliseconds() // 0x10EF7540
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?system_milliseconds@@YAKXZ");
 
-	return ((unsigned long(__cdecl *const)())0x4ec110)();
+	return eldorado::system_milliseconds();
 }
 
 char *csstrnlwr(char *string, unsigned long size) // 0x10EF70C0

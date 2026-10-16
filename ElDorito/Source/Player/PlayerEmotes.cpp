@@ -220,6 +220,13 @@ using namespace hades_file_local;
 
 namespace eldorado
 {
+	// Functions in eldorado.exe, named from the game's own symbols.
+	static auto const action_interrupt = reinterpret_cast<void (*)(long, e_action)>(0xB69C20);
+	static auto const simulation_event_generate_for_remote_peers = reinterpret_cast<void (*)(e_simulation_event_type, long, long *, long, long, void const *)>(0x4E5A40);
+}
+
+namespace eldorado
+{
 	// Functions in eldorado.exe, named as in ManagedDonkey.
 	static auto const action_executing = reinterpret_cast<bool (*)(long, e_action)>(0xB69BA0);
 	static auto const action_submit0 = reinterpret_cast<bool(__cdecl *)(long, s_action_request *)>(0xB69C50);
@@ -790,7 +797,7 @@ void PlayerStartEmote(__int32 playerIndex, long definitionIndex, long emoteIndex
 		data.player_index = playerIndex != -1 ? (unsigned short)playerIndex : -1;
 		data.emote_definition_index = definitionIndex;
 		data.emote_index = emoteIndex;
-		((void (*const)(e_simulation_event_type, long, long *, long, long, void const *))0x4E5A40)((e_simulation_event_type)16, 0, nullptr, playerIndex, sizeof(data), &data);
+		eldorado::simulation_event_generate_for_remote_peers((e_simulation_event_type)16, 0, nullptr, playerIndex, sizeof(data), &data);
 	}
 }
 
@@ -811,7 +818,7 @@ void PlayerStopEmote(__int32 playerIndex) // 0x107EBB50
 	s_mod_player_actions_set_definition *actionSet = s_mod_player_actions_set_definition::get(emoteStateData->definitionIndex);
 	s_mod_player_action *actionDef = actionSet->actions.get_element(emoteStateData->emoteIndex);
 	if (actionDef->flags & 0x20)
-		((void (*const)(long, e_action))0xB69C20)(player->unit_index, (e_action)0x57);
+		eldorado::action_interrupt(player->unit_index, (e_action)0x57);
 	else
 		emoteStateData->cancelled = true;
 	if (eldorado::player_is_local(playerIndex) || eldorado::game_is_authoritative())
@@ -819,7 +826,7 @@ void PlayerStopEmote(__int32 playerIndex) // 0x107EBB50
 		s_simulation_player_emote_event_data data = {};
 		data.action_type = 1;
 		data.player_index = playerIndex != -1 ? (unsigned short)playerIndex : -1;
-		((void (*const)(e_simulation_event_type, long, long *, long, long, void const *))0x4E5A40)((e_simulation_event_type)16, 0, nullptr, playerIndex, sizeof(data), &data);
+		eldorado::simulation_event_generate_for_remote_peers((e_simulation_event_type)16, 0, nullptr, playerIndex, sizeof(data), &data);
 	}
 }
 

@@ -104,6 +104,12 @@ namespace Patches
 
 namespace eldorado
 {
+	// Functions in eldorado.exe, named from the game's own symbols.
+	static auto const c_aim_target_simulation_entity_setup = reinterpret_cast<bool (__thiscall *)(c_aim_target_simulation_entity *, c_aim_target_object *)>(0x589520);
+}
+
+namespace eldorado
+{
 	// Functions in eldorado.exe, named as in ManagedDonkey.
 	static auto const object_get_markers_by_string_id = reinterpret_cast<short (*)(long, unsigned long, s_object_marker *, short)>(0xB2E3C0);
 	static auto const unit_inventory_get_weapon = reinterpret_cast<long (*)(long, short)>(0xB454D0);
@@ -532,7 +538,7 @@ extern "C" bool __fastcall c_tracked_target__set_from_weapon_fire_event_hook(c_t
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "@c_tracked_target__set_from_weapon_fire_event_hook@16");
 
-	if (((bool (__thiscall *const)(c_aim_target_simulation_entity *, c_aim_target_object *))0x589520)(aim_target, &thisptr->aim_target))
+	if (eldorado::c_aim_target_simulation_entity_setup(aim_target, &thisptr->aim_target))
 	{
 		return true;
 	}

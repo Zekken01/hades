@@ -66,6 +66,12 @@ struct short_rectangle2d;
 
 namespace eldorado
 {
+	// Functions in eldorado.exe, named from the game's own symbols.
+	static auto const matrix4x3_from_hkTransform = reinterpret_cast<void (*)(real_matrix4x3 *, hkTransform *)>(0x717B70);
+}
+
+namespace eldorado
+{
 	// Functions in eldorado.exe, named as in ManagedDonkey.
 	static auto const real_argb_color_to_pixel32 = reinterpret_cast<unsigned long (*)(real_argb_color const &)>(0x521810);
 }
@@ -631,7 +637,7 @@ void render_debug_physics_shape(hkpShape const *shape, real_matrix4x3 const *mat
 	{
 		hkpConvexTransformShape *convex_transform = (hkpConvexTransformShape *)shape;
 		real_matrix4x3 transform;
-		((void (*const)(real_matrix4x3 *, hkTransform *))0x717B70)(&transform, &convex_transform->m_transform);
+		eldorado::matrix4x3_from_hkTransform(&transform, &convex_transform->m_transform);
 		matrix4x3_multiply(matrix, &transform, &transform);
 		hkpShape *child_shape = convex_transform->m_childShape.m_childShape;
 		render_debug_physics_shape(child_shape, &transform, color);

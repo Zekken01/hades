@@ -204,6 +204,13 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named from the game's own symbols.
+	static auto const lruv_idle = reinterpret_cast<void(__cdecl *)(s_lruv_cache *)>(0x9677B0);
+}
+#line 206
+
 namespace Audio { namespace FMOD { extern FMOD_RESULT CreateOggVorbisStream(FMOD_SYSTEM *system, void *data, unsigned __int32 length, unsigned __int32 mode, FMOD_SOUND **sound); } }  // hades: added for 0x10A2E5A0  // hades: added for 0x10A2E5A0
 
 extern c_data_array<s_sound_source_datum> **g_sound_sources;  // hades: added for 0x10A33C20
@@ -1638,7 +1645,7 @@ void sound_cache_idle_hook() // 0x10A35010
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?sound_cache_idle_hook@@YAXXZ");
 
-	((void(__cdecl *const)(s_lruv_cache *))0x9677b0)(g_xbox_sound_cache);
+	eldorado::lruv_idle(g_xbox_sound_cache);
 }
 
 #line 2007

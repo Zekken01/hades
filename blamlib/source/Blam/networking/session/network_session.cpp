@@ -39,6 +39,13 @@ struct s_transport_secure_identifier;
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named from the game's own symbols.
+	static auto const c_network_session_boot_peer = reinterpret_cast<void (__thiscall *)(c_network_session *, long, e_network_session_boot_reason)>(0x45A4C0);
+}
+#line 41
+
 /* ---------- globals */
 
 /* ---------- private variables */
@@ -223,7 +230,7 @@ void c_network_session::boot_peer(long peer_index, e_network_session_boot_reason
 	#line 231 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\networking\\session\\network_session.cpp"
 		if (!(established() && is_host())) { display_assert("established() && is_host()", __FILE__, __LINE__, true); system_exit(-1); }
 		#line 239 "F:\\Project Hades\\Hades\\Source\\blamlib\\source\\Blam\\networking\\session\\network_session.cpp"
-	((void (__thiscall *const)(c_network_session *, long, e_network_session_boot_reason))0x45A4C0)(this, peer_index, reason);
+	eldorado::c_network_session_boot_peer(this, peer_index, reason);
 }
 
 void c_network_session::boot_player(long player_index, e_network_session_boot_reason reason) // 0x10EF79B0

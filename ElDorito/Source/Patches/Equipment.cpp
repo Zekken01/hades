@@ -166,6 +166,12 @@ namespace Blam
 
 namespace eldorado
 {
+	// Functions in eldorado.exe, named from the game's own symbols.
+	static auto const chud_messaging_picked_up_weapon = reinterpret_cast<void (*)(long, long)>(0xA95890);
+}
+
+namespace eldorado
+{
 	// Functions in eldorado.exe, named as in ManagedDonkey.
 	static auto const action_submit0 = reinterpret_cast<bool (*)(long, s_action_request *)>(0xB69C50);
 	static auto const equipment_activate = reinterpret_cast<bool (*)(long, long, bool)>(0xB86C20);
@@ -419,7 +425,7 @@ void player_examine_nearby_item_hook(long player_index, long item_index) // 0x10
 								long output_index_index = eldorado::player_mapping_get_first_output_user(unit->player_index);
 								while (output_index_index != -1)
 								{
-									((void (*const)(long, long))0xA95890)(output_index_index, equipment->definition_index);
+									eldorado::chud_messaging_picked_up_weapon(output_index_index, equipment->definition_index);
 									output_index_index = eldorado::player_mapping_get_next_output_user(unit->player_index, output_index_index);
 								}
 								object_destroy(item_index);

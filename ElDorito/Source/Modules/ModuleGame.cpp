@@ -303,6 +303,12 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named from the game's own symbols.
+	static auto const game_engine_settings_try_and_get = reinterpret_cast<s_game_engine_settings_definition const *(__cdecl *)()>(0x719290);
+}
+
 namespace Server { namespace VariableSynchronization { extern void Synchronize(Modules::Command *serverVariable, Modules::Command *clientVariable); } }  // hades: added for 0x1098BDE0
 
 template<typename T> __int32 FindDefaultGameVariant(c_tag_block<T> const &variants, std::string const &name) { for (__int32 i = 0; i < variants.count; i++) { if (variants[i].name_ascii[0] && strcmp(variants[i].name_ascii, name.c_str()) == 0) return i; } return -1; }  // hades: added for 0x1099C080
@@ -1045,7 +1051,7 @@ bool LoadDefaultGameVariant(std::string const &name, unsigned char *out) // 0x10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?LoadDefaultGameVariant@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAE@Z");
 
-	s_game_engine_settings_definition const *wezr = ((s_game_engine_settings_definition const *(__cdecl *const)())0x719290)();
+	s_game_engine_settings_definition const *wezr = eldorado::game_engine_settings_try_and_get();
 	if (!wezr)
 	{
 		return false;

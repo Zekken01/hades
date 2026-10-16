@@ -114,6 +114,13 @@ using namespace hades_file_local;
 
 namespace eldorado
 {
+	// Functions in eldorado.exe, named from the game's own symbols.
+	static auto const unattached_looping_sound_start = reinterpret_cast<long (*)(long, long, float)>(0x5DE1F0);
+	static auto const unattached_looping_sound_stop = reinterpret_cast<void (*)(unsigned long)>(0x5DE2D0);
+}
+
+namespace eldorado
+{
 	// Functions in eldorado.exe, named as in ManagedDonkey.
 	static auto const player_mapping_get_unit_by_output_user = reinterpret_cast<unsigned long (*)(long)>(0x589CC0);
 }
@@ -234,7 +241,7 @@ namespace Forge
 		ReplaceForgeSkyScenery(mapDefaultSky.object.index);
 		if (state.BackgroundSoundDatumIndex != -1)
 		{
-			((void (*const)(unsigned long))0x5DE2D0)(state.BackgroundSoundDatumIndex);
+			eldorado::unattached_looping_sound_stop(state.BackgroundSoundDatumIndex);
 			state.BackgroundSoundDatumIndex = -1;
 		}
 		if (state.ScreenEffectDatumIndex != -1)
@@ -367,14 +374,14 @@ void ReplaceForgeSky(s_forge_sky_definition *desiredSky) // 0x1067E230
 	for (c_data_iterator<s_game_looping_sound_datum> it = loopingSounds->begin(); it != loopingSounds->end(); ++it)
 	{
 		if (it->flags & 3)
-			((void (*const)(unsigned long))0x5DE2D0)(it.current_datum_index);
+			eldorado::unattached_looping_sound_stop(it.current_datum_index);
 	}
 	if (state.BackgroundSoundDatumIndex != -1)
 	{
-		((void (*const)(unsigned long))0x5DE2D0)(state.BackgroundSoundDatumIndex);
+		eldorado::unattached_looping_sound_stop(state.BackgroundSoundDatumIndex);
 		state.BackgroundSoundDatumIndex = -1;
 	}
-	state.BackgroundSoundDatumIndex = ((long (*const)(long, long, float))0x5DE1F0)(desiredSky->background_sound.index, -1, 1.0f);
+	state.BackgroundSoundDatumIndex = eldorado::unattached_looping_sound_start(desiredSky->background_sound.index, -1, 1.0f);
 	ReplaceForgeSkyScenery(desiredSky->object.index);
 	scenario->sky_parameters = desiredSky->parameters;
 	scenario->global_lighting = desiredSky->global_lighting;

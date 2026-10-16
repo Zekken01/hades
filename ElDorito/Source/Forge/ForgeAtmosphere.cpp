@@ -84,6 +84,12 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named from the game's own symbols.
+	static auto const c_atmosphere_fog_interface_accumulate_atmosphere_settings = reinterpret_cast<void (*)(s_cluster_reference, c_atmosphere_setting *, s_weighted_atmosphere_parameters *, float)>(0x671D90);
+}
+
 /* ---------- globals */
 
 /* ---------- private variables */
@@ -163,7 +169,7 @@ namespace Forge
 		temp_setting.full_intensity_height = template_setting.full_intensity_height;
 		temp_setting.half_intensity_height = template_setting.half_intensity_height;
 		temp_setting.wind_direction = template_setting.wind_direction;
-		((void (*const)(s_cluster_reference, c_atmosphere_setting *, s_weighted_atmosphere_parameters *, float))0x671D90)(cluster_reference, &temp_setting, parameters, 1.0f);
+		eldorado::c_atmosphere_fog_interface_accumulate_atmosphere_settings(cluster_reference, &temp_setting, parameters, 1.0f);
 		return true;
 	}
 }

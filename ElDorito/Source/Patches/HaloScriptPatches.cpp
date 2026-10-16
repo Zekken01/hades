@@ -325,6 +325,13 @@ typedef void (*hs_evaluate_func)(short, long, bool);
 
 namespace eldorado
 {
+	// Functions in eldorado.exe, named from the game's own symbols.
+	static auto const simulation_event_generate_for_client_player_mask = reinterpret_cast<void (*)(e_simulation_event_type, long, long *, long, long, void const *)>(0x4E5920);
+	static auto const simulation_event_generate_for_clients = reinterpret_cast<void(__cdecl *)(e_simulation_event_type, long, long *, long, long, void const *)>(0x4E5A30);
+}
+
+namespace eldorado
+{
 	// Functions in eldorado.exe, named as in ManagedDonkey.
 	static auto const game_is_authoritative = reinterpret_cast<bool (*)()>(0x5319C0);
 	static auto const hs_evaluate_runtime = reinterpret_cast<bool (*)(long, long, long, long *)>(0x594510);
@@ -754,7 +761,7 @@ void simulation_action_hs_sync_global(short global_index, unsigned short player_
 	s_simulation_hs_sync_global_event_data data;
 	data.global_index = global_index;
 	data.value = value;
-	((void (*const)(e_simulation_event_type, long, long *, long, long, void const *))0x4E5920)((e_simulation_event_type)0x28, 0, nullptr, player_mask, sizeof(data), &data);
+	eldorado::simulation_event_generate_for_client_player_mask((e_simulation_event_type)0x28, 0, nullptr, player_mask, sizeof(data), &data);
 	Console::WriteLine(std::format("sent hs global \"{}\" to player mask: {}", hs_global_get_name(global_index), player_mask));
 }
 
@@ -771,7 +778,7 @@ void simulation_action_hs_script_wake(short script_index) // 0x107B8D00
 	{
 		s_simulation_hs_script_wake_event_data data{};
 		data.script_index = script_index;
-		((void(__cdecl *const)(e_simulation_event_type, long, long *, long, long, void const *))0x4e5a30)(_simulation_event_type_hs_wake_script, 0, nullptr, NONE, 2, &data);
+		eldorado::simulation_event_generate_for_clients(_simulation_event_type_hs_wake_script, 0, nullptr, NONE, 2, &data);
 	}
 }
 

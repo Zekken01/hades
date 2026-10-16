@@ -179,6 +179,12 @@ using namespace hades_file_local;
 
 namespace eldorado
 {
+	// Functions in eldorado.exe, named from the game's own symbols.
+	static auto const c_rasterizer_normalize_screenspace_vertices = reinterpret_cast<void (*)(float, float, float, float, s_screen_vertex *, long)>(0xA46910);
+}
+
+namespace eldorado
+{
 	// Functions in eldorado.exe, named as in ManagedDonkey.
 	static auto const c_rasterizer_clear_sampler_textures = reinterpret_cast<void (*)()>(0xA22AB0);
 	static auto const c_rasterizer_get_render_target = reinterpret_cast<e_surface (*)(long)>(0xA48720);
@@ -396,7 +402,7 @@ void draw_custom_bitmap(s_gui_bitmap_widget_render_info *info, short_rectangle2d
 	eldorado::c_rasterizer_set_alpha_blend_mode(params.alpha_blend_mode);
 	short_rectangle2d fullscreen_pixel_bounds;
 	interface_get_current_display_or_window_settings(&fullscreen_pixel_bounds, nullptr, nullptr, nullptr);
-	((void (*const)(float, float, float, float, s_screen_vertex *, long))0xA46910)(1.0f / (fullscreen_pixel_bounds.x1 - fullscreen_pixel_bounds.x0), 1.0f / (fullscreen_pixel_bounds.y1 - fullscreen_pixel_bounds.y0), fullscreen_pixel_bounds.x0, fullscreen_pixel_bounds.y0, vertices, 4);
+	eldorado::c_rasterizer_normalize_screenspace_vertices(1.0f / (fullscreen_pixel_bounds.x1 - fullscreen_pixel_bounds.x0), 1.0f / (fullscreen_pixel_bounds.y1 - fullscreen_pixel_bounds.y0), fullscreen_pixel_bounds.x0, fullscreen_pixel_bounds.y0, vertices, 4);
 	eldorado::c_rasterizer_set_cull_mode(1);
 	eldorado::c_rasterizer_set_z_buffer_mode(2);
 	c_vertex_declaration_table__vertex_shader_declaration_set(7, 0, 0);

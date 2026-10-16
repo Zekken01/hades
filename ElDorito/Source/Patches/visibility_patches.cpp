@@ -131,6 +131,16 @@ static_assert32(sizeof(CDebugTextPrinter) == 2116, "Invalid CDebugTextPrinter si
 
 namespace eldorado
 {
+	// Functions in eldorado.exe, named from the game's own symbols.
+	static auto const c_structure_renderer_get_render_geometry = reinterpret_cast<s_render_geometry *(*)(long)>(0xA2EF00);
+	static auto const c_visibility_collection_compute_instance_alpha = reinterpret_cast<float (*)(s_structure_instanced_geometry_instance const *, long)>(0x974260);
+	static auto const c_visibility_collection_generate_structure_visible_subparts = reinterpret_cast<void (__thiscall *)(c_visibility_collection *)>(0x974AF0);
+	static auto const c_visibility_collection_sphere_is_visible = reinterpret_cast<char (__thiscall *)(c_visibility_collection *, real_point3d const *, float, short, bool, bool *, bool *, bool *)>(0x6873A0);
+}
+#line 131
+
+namespace eldorado
+{
 	// Functions in eldorado.exe, named as in ManagedDonkey.
 	static auto const scenario_structure_bsp_get = reinterpret_cast<s_scenario_structure_bsp *(*)(s_scenario *, long)>(0x766280);
 }
@@ -864,7 +874,7 @@ extern "C" void __fastcall c_visibility_collection__collect_structure_elements_f
 			long structure_index = visible_cluster->cluster_reference.bsp_index;
 			s_scenario_structure_bsp const *structure = global_structure_bsp_get(structure_index);
 			s_structure_cluster const *structure_cluster = &structure->clusters[visible_cluster->cluster_reference.cluster_index];
-			s_render_geometry const *structure_render_geometry = ((s_render_geometry *(*const)(long))0xA2EF00)(structure_index);
+			s_render_geometry const *structure_render_geometry = eldorado::c_structure_renderer_get_render_geometry(structure_index);
 			long cluster_mesh_index = structure_cluster->mesh_index;
 			if (cluster_mesh_index < 0 || cluster_mesh_index >= structure_render_geometry->meshes.count)
 				continue;
@@ -904,9 +914,9 @@ extern "C" void __fastcall c_visibility_collection__collect_structure_elements_f
 						bool fully_contained;
 						bool lit;
 						bool shadow_casting;
-						if (((char (__thiscall *const)(c_visibility_collection *, real_point3d const *, float, short, bool, bool *, bool *, bool *))0x6873A0)(thisptr, &structure_instance->bounding_sphere_offset, structure_instance->bounding_sphere_radius_minimum, (short)region_cluster_index, false, &fully_contained, &lit, &shadow_casting) || (thisptr->visbility_region->flags & 0x40) != 0)
+						if (eldorado::c_visibility_collection_sphere_is_visible(thisptr, &structure_instance->bounding_sphere_offset, structure_instance->bounding_sphere_radius_minimum, (short)region_cluster_index, false, &fully_contained, &lit, &shadow_casting) || (thisptr->visbility_region->flags & 0x40) != 0)
 						{
-							float instance_alpha = ((float (*const)(s_structure_instanced_geometry_instance const *, long))0x974260)(structure_instance, structure_index);
+							float instance_alpha = eldorado::c_visibility_collection_compute_instance_alpha(structure_instance, structure_index);
 							if (instance_alpha <= 0.0f)
 								continue;
 							long visibility_instance_index = visible_items->instances.add();
@@ -929,7 +939,7 @@ extern "C" void __fastcall c_visibility_collection__collect_structure_elements_f
 			}
 		}
 	}
-	((void (__thiscall *const)(c_visibility_collection *))0x974AF0)(thisptr);
+	eldorado::c_visibility_collection_generate_structure_visible_subparts(thisptr);
 	structure_instanced_geometry_marker_end();
 }
 

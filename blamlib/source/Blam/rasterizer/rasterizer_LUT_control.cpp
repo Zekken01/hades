@@ -32,6 +32,13 @@ struct real_rgb_color;
 
 namespace eldorado
 {
+	// Functions in eldorado.exe, named from the game's own symbols.
+	static auto const c_rasterizer_samplers_clear_sampler_texture_cache = reinterpret_cast<void(__cdecl *)(long)>(0xA22A90);
+	static auto const c_rasterizer_set_sampler_texture_direct_2 = reinterpret_cast<void(__cdecl *)(long, IDirect3DTexture9 *)>(0xA23980);
+}
+
+namespace eldorado
+{
 	// Functions in eldorado.exe, named as in ManagedDonkey.
 	static auto const c_rasterizer_set_sampler_texture_direct = reinterpret_cast<void(__cdecl *)(long, long)>(0xA23530);
 }
@@ -141,8 +148,8 @@ void c_rasterizer_LUT_control::set_LUT_texture(long sampler) // 0x10F14720
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?set_LUT_texture@c_rasterizer_LUT_control@@SAXJ@Z");
 
-	((void(__cdecl *const)(long))0xa22a90)(sampler);
-	((void(__cdecl *const)(long, IDirect3DTexture9 *))0xa23980)(sampler, g_LUT_1D_gpu);
+	eldorado::c_rasterizer_samplers_clear_sampler_texture_cache(sampler);
+	eldorado::c_rasterizer_set_sampler_texture_direct_2(sampler, g_LUT_1D_gpu);
 	eldorado::c_rasterizer_set_sampler_texture_direct(sampler, 0);
 }
 

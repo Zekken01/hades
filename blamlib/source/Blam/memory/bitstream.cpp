@@ -22,6 +22,41 @@ struct utf8;
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named from the game's own symbols.
+	static auto const c_bitstream_begin_consistency_check = reinterpret_cast<void(__thiscall *)(c_bitstream *)>(0x557490);
+	static auto const c_bitstream_begin_reading = reinterpret_cast<void(__thiscall *)(c_bitstream *)>(0x5574A0);
+	static auto const c_bitstream_begin_writing = reinterpret_cast<void(__thiscall *)(c_bitstream *, long)>(0x5574B0);
+	static auto const c_bitstream_discard_remaining_data = reinterpret_cast<void(__thiscall *)(c_bitstream *)>(0x557F60);
+	static auto const c_bitstream_finish_reading = reinterpret_cast<void(__thiscall *)(c_bitstream *)>(0x5580C0);
+	static auto const c_bitstream_finish_writing = reinterpret_cast<void(__thiscall *)(c_bitstream *, long *)>(0x5580D0);
+	static auto const c_bitstream_read_bits_internal = reinterpret_cast<void(__thiscall *)(c_bitstream *, void *, long)>(0x558740);
+	static auto const c_bitstream_read_bool = reinterpret_cast<bool(__thiscall *)(c_bitstream *)>(0x558570);
+	static auto const c_bitstream_read_dword_internal = reinterpret_cast<unsigned long(__thiscall *)(c_bitstream *, long)>(0x5589A0);
+	static auto const c_bitstream_read_point3d = reinterpret_cast<long(__thiscall *)(c_bitstream *, char const *, real_point3d *, long)>(0x558C50);
+	static auto const c_bitstream_read_quantized_real = reinterpret_cast<float(__thiscall *)(c_bitstream *, char const *, float, float, __int32, bool, bool)>(0x559080);
+	static auto const c_bitstream_read_qword_internal = reinterpret_cast<unsigned long long(__thiscall *)(c_bitstream *, long)>(0x559160);
+	static auto const c_bitstream_read_string = reinterpret_cast<void(__thiscall *)(c_bitstream *, char const *, char *, long)>(0x559380);
+	static auto const c_bitstream_read_string_utf8 = reinterpret_cast<void(__thiscall *)(c_bitstream *, char const *, utf8 *, long)>(0x559670);
+	static auto const c_bitstream_read_string_wchar = reinterpret_cast<void(__thiscall *)(c_bitstream *, char const *, wchar_t *, long)>(0x559880);
+	static auto const c_bitstream_read_unit_vector = reinterpret_cast<void(__thiscall *)(c_bitstream *, char const *, real_vector3d *, long)>(0x559A90);
+	static auto const c_bitstream_read_vector = reinterpret_cast<void(__thiscall *)(c_bitstream *, char const *, real_vector3d *, float, float, long, long)>(0x559AB0);
+	static auto const c_bitstream_reset = reinterpret_cast<void(__thiscall *)(c_bitstream *, long)>(0x559BE0);
+	static auto const c_bitstream_write_bits_internal = reinterpret_cast<void(__thiscall *)(c_bitstream *, unsigned char const *, long, bool)>(0x55A000);
+	static auto const c_bitstream_write_bool = reinterpret_cast<void(__thiscall *)(c_bitstream *const, char const *, bool)>(0x444B30);
+	static auto const c_bitstream_write_integer = reinterpret_cast<void (__thiscall *)(c_bitstream *, char const *, unsigned long, long)>(0x444BE0);
+	static auto const c_bitstream_write_point3d = reinterpret_cast<void(__thiscall *)(c_bitstream *, char const *, real_point3d const *, long)>(0x55A1E0);
+	static auto const c_bitstream_write_quantized_real = reinterpret_cast<void(__thiscall *)(c_bitstream *, char const *, float, float, float, __int32, bool, bool)>(0x55A2B0);
+	static auto const c_bitstream_write_qword_internal = reinterpret_cast<void (__thiscall *)(c_bitstream *, unsigned long long, long)>(0x55A3A0);
+	static auto const c_bitstream_write_signed_integer = reinterpret_cast<void (__thiscall *)(c_bitstream *, char const *, long, long)>(0x444C50);
+	static auto const c_bitstream_write_string = reinterpret_cast<void(__thiscall *)(c_bitstream *, char const *, char const *, long)>(0x55A430);
+	static auto const c_bitstream_write_string_utf8 = reinterpret_cast<void(__thiscall *)(c_bitstream *, char const *, utf8 const *, long)>(0x55A650);
+	static auto const c_bitstream_write_string_wchar = reinterpret_cast<void(__thiscall *)(c_bitstream *, char const *, wchar_t const *, long)>(0x55A6D0);
+	static auto const c_bitstream_write_unit_vector = reinterpret_cast<void(__thiscall *)(c_bitstream *, char const *, real_vector3d const *, long)>(0x55A750);
+}
+#line 24
+
 /* ---------- globals */
 
 /* ---------- private variables */
@@ -143,56 +178,56 @@ void c_bitstream::begin_reading() // 0x10F01160
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?begin_reading@c_bitstream@@QAEXXZ");
 
-	((void(__thiscall *const)(c_bitstream *const))0x5574a0)(this);
+	eldorado::c_bitstream_begin_reading(this);
 }
 
 void c_bitstream::begin_consistency_check() // 0x10F010F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?begin_consistency_check@c_bitstream@@QAEXXZ");
 
-	((void(__thiscall *const)(c_bitstream *const))0x557490)(this);
+	eldorado::c_bitstream_begin_consistency_check(this);
 }
 
 void c_bitstream::begin_writing(long data_size_alignment) // 0x10F011D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?begin_writing@c_bitstream@@QAEXJ@Z");
 
-	((void(__thiscall *const)(c_bitstream *, long))0x5574b0)(this, data_size_alignment);
+	eldorado::c_bitstream_begin_writing(this, data_size_alignment);
 }
 
 void c_bitstream::finish_reading() // 0x10F013C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?finish_reading@c_bitstream@@QAEXXZ");
 
-	((void(__thiscall *const)(c_bitstream *const))0x5580c0)(this);
+	eldorado::c_bitstream_finish_reading(this);
 }
 
 void c_bitstream::finish_consistency_check() // 0x10F01350
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?finish_consistency_check@c_bitstream@@QAEXXZ");
 
-	((void(__thiscall *const)(c_bitstream *const))0x5580c0)(this);
+	eldorado::c_bitstream_finish_reading(this);
 }
 
 void c_bitstream::finish_writing(long *out_size) // 0x10F01430
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?finish_writing@c_bitstream@@QAEXPAJ@Z");
 
-	((void(__thiscall *const)(c_bitstream *, long *))0x5580d0)(this, out_size);
+	eldorado::c_bitstream_finish_writing(this, out_size);
 }
 
 void c_bitstream::discard_remaining_data() // 0x10F01240
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?discard_remaining_data@c_bitstream@@QAEXXZ");
 
-	((void(__thiscall *const)(c_bitstream *const))0x557f60)(this);
+	eldorado::c_bitstream_discard_remaining_data(this);
 }
 
 void c_bitstream::reset(c_bitstream::e_state state) // 0x10F02010
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?reset@c_bitstream@@QAEXW4e_state@1@@Z");
 
-	((void(__thiscall *const)(c_bitstream *, long))0x559be0)(this, state);
+	eldorado::c_bitstream_reset(this, state);
 }
 
 #line 229
@@ -205,7 +240,7 @@ void c_bitstream::write_integer(char const *name, unsigned long value, long size
 	#line 231 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\memory\\bitstream.cpp"
 		assert(size_in_bits == 32 || value < (1U << size_in_bits));
 		#line 238 "F:\\Project Hades\\Hades\\Source\\blamlib\\source\\Blam\\memory\\bitstream.cpp"
-	((void (__thiscall *const)(c_bitstream *, char const *, unsigned long, long))0x444BE0)(this, name, value, size_in_bits);
+	eldorado::c_bitstream_write_integer(this, name, value, size_in_bits);
 }
 
 void c_bitstream::write_signed_integer(char const *name, long value, long size_in_bits) // 0x10F02570
@@ -224,7 +259,7 @@ void c_bitstream::write_signed_integer(char const *name, long value, long size_i
 	#line 246 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\memory\\bitstream.cpp"
 		assert(value <= maximum);
 		#line 257 "F:\\Project Hades\\Hades\\Source\\blamlib\\source\\Blam\\memory\\bitstream.cpp"
-	((void (__thiscall *const)(c_bitstream *, char const *, long, long))0x444C50)(this, name, value, size_in_bits);
+	eldorado::c_bitstream_write_signed_integer(this, name, value, size_in_bits);
 }
 
 void c_bitstream::write_qword(unsigned long long value, long size_in_bits) // 0x10F02400
@@ -236,42 +271,42 @@ void c_bitstream::write_qword(unsigned long long value, long size_in_bits) // 0x
 	#line 262 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\memory\\bitstream.cpp"
 		assert(size_in_bits == 64 || value < (1ULL << size_in_bits));
 		#line 269 "F:\\Project Hades\\Hades\\Source\\blamlib\\source\\Blam\\memory\\bitstream.cpp"
-	((void (__thiscall *const)(c_bitstream *, unsigned long long, long))0x55A3A0)(this, value, size_in_bits);
+	eldorado::c_bitstream_write_qword_internal(this, value, size_in_bits);
 }
 
 void c_bitstream::write_bool(char const *name, bool value) // 0x10F02190
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?write_bool@c_bitstream@@QAEXPBD_N@Z");
 
-	((void(__thiscall *const)(c_bitstream *const, char const *, bool))0x444b30)(this, name, value);
+	eldorado::c_bitstream_write_bool(this, name, value);
 }
 
 void c_bitstream::write_raw_data(char const *name, void const *data, long data_length) // 0x10F024F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?write_raw_data@c_bitstream@@QAEXPBDPBXJ@Z");
 
-	((void(__thiscall *const)(c_bitstream *, unsigned char const *, long, bool))0x55a000)(this, (unsigned char const *)data, data_length, false);
+	eldorado::c_bitstream_write_bits_internal(this, (unsigned char const *)data, data_length, false);
 }
 
 void c_bitstream::write_string(char const *name, char const *str, long max_string_size) // 0x10F02670
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?write_string@c_bitstream@@QAEXPBD0J@Z");
 
-	((void(__thiscall *const)(c_bitstream *, char const *, char const *, long))0x55a430)(this, name, str, max_string_size);
+	eldorado::c_bitstream_write_string(this, name, str, max_string_size);
 }
 
 void c_bitstream::write_string_utf8(char const *name, utf8 const *str, long max_string_size) // 0x10F026F0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?write_string_utf8@c_bitstream@@QAEXPBDPBUutf8@@J@Z");
 
-	((void(__thiscall *const)(c_bitstream *, char const *, utf8 const *, long))0x55a650)(this, name, str, max_string_size);
+	eldorado::c_bitstream_write_string_utf8(this, name, str, max_string_size);
 }
 
 void c_bitstream::write_string_wchar(char const *name, wchar_t const *str, long max_string_size) // 0x10F02770
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?write_string_wchar@c_bitstream@@QAEXPBDPB_WJ@Z");
 
-	((void(__thiscall *const)(c_bitstream *, char const *, wchar_t const *, long))0x55a6d0)(this, name, str, max_string_size);
+	eldorado::c_bitstream_write_string_wchar(this, name, str, max_string_size);
 }
 
 void c_bitstream::write_vector(char const *name, real_vector3d const *vector, float magnitude_min, float magnitude_max, __int32 size_in_bits_min, __int32 size_in_bits_max) // 0x10F02870
@@ -285,105 +320,105 @@ void c_bitstream::write_unit_vector(char const *name, real_vector3d const *vecto
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?write_unit_vector@c_bitstream@@QAEXPBDPBUreal_vector3d@@H@Z");
 
-	((void(__thiscall *const)(c_bitstream *, char const *, real_vector3d const *, long))0x55a750)(this, name, vector, size_in_bits);
+	eldorado::c_bitstream_write_unit_vector(this, name, vector, size_in_bits);
 }
 
 void c_bitstream::write_point3d(char const *name, real_point3d const *point, long axis_encoding_size_in_bits) // 0x10F022D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?write_point3d@c_bitstream@@QAEXPBDPBUreal_point3d@@J@Z");
 
-	((void(__thiscall *const)(c_bitstream *, char const *, real_point3d const *, long))0x55a1e0)(this, name, point, axis_encoding_size_in_bits);
+	eldorado::c_bitstream_write_point3d(this, name, point, axis_encoding_size_in_bits);
 }
 
 void c_bitstream::write_quantized_real(char const *name, float value, float min_value, float max_value, __int32 size_in_bits, bool exact_midpoint, bool unknown) // 0x10F02350
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?write_quantized_real@c_bitstream@@QAEXPBDMMMH_N1@Z");
 
-	((void(__thiscall *const)(c_bitstream *, char const *, float, float, float, __int32, bool, bool))0x55a2b0)(this, name, value, min_value, max_value, size_in_bits, exact_midpoint, unknown);
+	eldorado::c_bitstream_write_quantized_real(this, name, value, min_value, max_value, size_in_bits, exact_midpoint, unknown);
 }
 
 unsigned long c_bitstream::read_integer(char const *name, long size_in_bits) // 0x10F01980
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?read_integer@c_bitstream@@QAEKPBDJ@Z");
 
-	return ((unsigned long(__thiscall *const)(c_bitstream *, long))0x5589a0)(this, size_in_bits);
+	return eldorado::c_bitstream_read_dword_internal(this, size_in_bits);
 }
 
 long c_bitstream::read_signed_integer(char const *name, long size_in_bits) // 0x10F01C80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?read_signed_integer@c_bitstream@@QAEJPBDJ@Z");
 
-	return ((unsigned long(__thiscall *const)(c_bitstream *, long))0x5589a0)(this, size_in_bits);
+	return eldorado::c_bitstream_read_dword_internal(this, size_in_bits);
 }
 
 unsigned long long c_bitstream::read_qword(char const *name, long size_in_bits) // 0x10F01B90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?read_qword@c_bitstream@@QAE_KPBDJ@Z");
 
-	return ((unsigned long long(__thiscall *const)(c_bitstream *, long))0x559160)(this, size_in_bits);
+	return eldorado::c_bitstream_read_qword_internal(this, size_in_bits);
 }
 
 bool c_bitstream::read_bool(char const *name) // 0x10F01910
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?read_bool@c_bitstream@@QAE_NPBD@Z");
 
-	return ((bool(__thiscall *const)(c_bitstream *))0x558570)(this);
+	return eldorado::c_bitstream_read_bool(this);
 }
 
 void c_bitstream::read_raw_data(char const *name, void *buffer, long size_in_bits) // 0x10F01C00
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?read_raw_data@c_bitstream@@QAEXPBDPAXJ@Z");
 
-	((void(__thiscall *const)(c_bitstream *, void *, long))0x558740)(this, buffer, size_in_bits);
+	eldorado::c_bitstream_read_bits_internal(this, buffer, size_in_bits);
 }
 
 void c_bitstream::read_string(char const *name, char *buffer, long max_string_size) // 0x10F01CF0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?read_string@c_bitstream@@QAEXPBDPADJ@Z");
 
-	((void(__thiscall *const)(c_bitstream *, char const *, char *, long))0x559380)(this, name, buffer, max_string_size);
+	eldorado::c_bitstream_read_string(this, name, buffer, max_string_size);
 }
 
 void c_bitstream::read_string_utf8(char const *name, utf8 *buffer, long max_string_size) // 0x10F01D70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?read_string_utf8@c_bitstream@@QAEXPBDPAUutf8@@J@Z");
 
-	((void(__thiscall *const)(c_bitstream *, char const *, utf8 *, long))0x559670)(this, name, buffer, max_string_size);
+	eldorado::c_bitstream_read_string_utf8(this, name, buffer, max_string_size);
 }
 
 void c_bitstream::read_string_wchar(char const *name, wchar_t *buffer, long max_string_size) // 0x10F01DF0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?read_string_wchar@c_bitstream@@QAEXPBDPA_WJ@Z");
 
-	((void(__thiscall *const)(c_bitstream *, char const *, wchar_t *, long))0x559880)(this, name, buffer, max_string_size);
+	eldorado::c_bitstream_read_string_wchar(this, name, buffer, max_string_size);
 }
 
 void c_bitstream::read_vector(char const *name, real_vector3d *vector, float magnitude_min, float magnitude_max, long size_in_bits_min, long size_in_bits_max) // 0x10F01EF0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?read_vector@c_bitstream@@QAEXPBDPAUreal_vector3d@@MMJJ@Z");
 
-	((void(__thiscall *const)(c_bitstream *, char const *, real_vector3d *, float, float, long, long))0x559ab0)(this, name, vector, magnitude_min, magnitude_max, size_in_bits_min, size_in_bits_max);
+	eldorado::c_bitstream_read_vector(this, name, vector, magnitude_min, magnitude_max, size_in_bits_min, size_in_bits_max);
 }
 
 float c_bitstream::read_quantized_real(char const *name, float min_value, float max_value, __int32 size_in_bits, bool exact_midpoint, bool unknown) // 0x10F01AF0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?read_quantized_real@c_bitstream@@QAEMPBDMMH_N1@Z");
 
-	return ((float(__thiscall *const)(c_bitstream *, char const *, float, float, __int32, bool, bool))0x559080)(this, name, min_value, max_value, size_in_bits, exact_midpoint, unknown);
+	return eldorado::c_bitstream_read_quantized_real(this, name, min_value, max_value, size_in_bits, exact_midpoint, unknown);
 }
 
 void c_bitstream::read_unit_vector(char const *name, real_vector3d *vector, long size_in_bits) // 0x10F01E70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?read_unit_vector@c_bitstream@@QAEXPBDPAUreal_vector3d@@J@Z");
 
-	((void(__thiscall *const)(c_bitstream *, char const *, real_vector3d *, long))0x559a90)(this, name, vector, size_in_bits);
+	eldorado::c_bitstream_read_unit_vector(this, name, vector, size_in_bits);
 }
 
 void c_bitstream::read_point3d(char const *name, real_point3d *point, long axis_encoding_size_in_bits) // 0x10F01A70
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?read_point3d@c_bitstream@@QAEXPBDPAUreal_point3d@@J@Z");
 
-	((long(__thiscall *const)(c_bitstream *, char const *, real_point3d *, long))0x558c50)(this, name, point, axis_encoding_size_in_bits);
+	eldorado::c_bitstream_read_point3d(this, name, point, axis_encoding_size_in_bits);
 }
 
 #line 461

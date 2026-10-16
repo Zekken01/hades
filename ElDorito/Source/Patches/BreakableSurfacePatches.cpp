@@ -121,6 +121,13 @@ using namespace hades_file_local;
 
 namespace eldorado
 {
+	// Functions in eldorado.exe, named from the game's own symbols.
+	static auto const breakable_surface_get_group_count = reinterpret_cast<long (*)(long)>(0x569D30);
+}
+#line 121
+
+namespace eldorado
+{
 	// Functions in eldorado.exe, named as in ManagedDonkey.
 	static auto const game_is_playback = reinterpret_cast<bool (*)()>(0x531D10);
 	static auto const simulation_entity_update = reinterpret_cast<void (*)(long, long, unsigned long long *)>(0x4AFC20);
@@ -243,7 +250,7 @@ long breakable_surface_group_get_gamestate_index(long bsp_index, long group_inde
 		(void)((!!(bsp_index >= 0 && bsp_index < 16)) || (_wassert(L"bsp_index >= 0 && bsp_index < k_maximum_structure_bsps_per_scenario", _CRT_WIDE(__FILE__), (unsigned)(__LINE__)), 0));
 		(void)((!!(group_index >= 0 && group_index < 1024)) || (_wassert(L"group_index >= 0 && group_index < k_maximum_breakable_surface_groups", _CRT_WIDE(__FILE__), (unsigned)(__LINE__)), 0));
 		#line 237 "F:\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Patches\\BreakableSurfacePatches.cpp"
-	long group_count = ((long (*const)(long))0x569D30)(bsp_index);
+	long group_count = eldorado::breakable_surface_get_group_count(bsp_index);
 	if (group_index < 0 || group_index >= group_count)
 	{
 		return -1;

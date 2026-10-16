@@ -23,6 +23,12 @@ class c_gui_widget;
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named from the game's own symbols.
+	static auto const c_gui_screen_widget_get_focused_widget = reinterpret_cast<c_gui_widget *(__thiscall *)(const c_gui_screen_widget *)>(0xAB0F40);
+}
+
 /* ---------- globals */
 
 /* ---------- private variables */
@@ -33,7 +39,7 @@ c_gui_widget *c_gui_screen_widget::get_focused_widget() const // 0x10F136D0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?get_focused_widget@c_gui_screen_widget@@QBEPAVc_gui_widget@@XZ");
 
-	return ((c_gui_widget *(__thiscall *const)(const c_gui_screen_widget *))0xab0f40)(this);
+	return eldorado::c_gui_screen_widget_get_focused_widget(this);
 }
 
 void c_gui_screen_widget::select_list_item(c_gui_list_widget *list_widget, long item_index, bool flag1, bool flag2) // 0x10F13740

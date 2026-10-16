@@ -133,6 +133,13 @@ using namespace hades_file_local;
 
 namespace eldorado
 {
+	// Functions in eldorado.exe, named from the game's own symbols.
+	static auto const damage_compute_damage_owner_from_object_index = reinterpret_cast<void(__cdecl *)(long, s_damage_owner *)>(0xB770E0);
+	static auto const object_cause_damage_simple = reinterpret_cast<void(__cdecl *)(s_damage_data *, long, long)>(0xB542A0);
+}
+
+namespace eldorado
+{
 	// Functions in eldorado.exe, named as in ManagedDonkey.
 	static auto const object_new = reinterpret_cast<long (*)(s_object_placement_data *)>(0xB30440);
 }
@@ -216,7 +223,7 @@ long effect_new_from_object__effect_new_from_creation_data_hook(s_effect_creatio
 	s_damage_owner *damage_owner = (s_damage_owner *)offset_pointer(creation_data, 12);
 	if (damage_owner->object_index == -1)
 	{
-		((void(__cdecl *const)(long, s_damage_owner *))0xb770e0)(object_index, damage_owner);
+		eldorado::damage_compute_damage_owner_from_object_index(object_index, damage_owner);
 	}
 
 	return effect_new_from_creation_data(creation_data);
@@ -227,7 +234,7 @@ void MeleeDamageHook(s_damage_data *damageData, unsigned __int32 unitObjectIndex
 	mangled_x86(MANGLED_KNOWN_GOOD, "?MeleeDamageHook@@YAXPAUs_damage_data@@IH@Z");
 
 	damageData->acceleration_scale = 1.0f;
-	((void(__cdecl *const)(s_damage_data *, long, long))0xb542a0)(damageData, unitObjectIndex, predictability);
+	eldorado::object_cause_damage_simple(damageData, unitObjectIndex, predictability);
 }
 
 void object_cause_damage_hook(s_damage_data *damage_data, long object_index, short node_index, short region_index, short material_index, long predictability) // 0x10960490

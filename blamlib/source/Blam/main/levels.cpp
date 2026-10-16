@@ -56,6 +56,12 @@ struct s_levels_globals;
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named from the game's own symbols.
+	static auto const internal_async_yield_until_done_attributed = reinterpret_cast<void(__cdecl *)(c_async_completion_flag *, bool, bool)>(0x508A40);
+}
+
 extern s_file_reference *(*const file_reference_create_from_path)(s_file_reference *, char const *, bool);  // hades: added for 0x10F07550
 extern char *(*const file_reference_get_name)(s_file_reference *, c_flags<enum e_file_reference_flags,long>, char *, long);  // hades: added for 0x10F07550
 
@@ -113,7 +119,7 @@ void levels_yield_until_enumerate_done() // 0x10F07D10
 
 	if (g_level_globals->enumeration_async_task_id != -1)
 	{
-		((void(__cdecl *const)(c_async_completion_flag *, bool, bool))0x508a40)((c_async_completion_flag *)0x189ece4, false, false);
+		eldorado::internal_async_yield_until_done_attributed((c_async_completion_flag *)0x189ece4, false, false);
 	}
 }
 

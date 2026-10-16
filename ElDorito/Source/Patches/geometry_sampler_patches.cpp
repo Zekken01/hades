@@ -136,6 +136,15 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named from the game's own symbols.
+	static auto const c_geometry_sampler_find_render_method_index_from_collision = reinterpret_cast<long (*)(long, long, long, long)>(0x750810);
+	static auto const c_geometry_sampler_geometry_test_triangle = reinterpret_cast<bool (*)(real_point3d const *, s_uncompressed_triangle const *, float, float, long, void const *, void const *, long, long, long, bool, s_geometry_test_result *, long, s_scenario_lightmap_bsp_data *)>(0x751730);
+	static auto const c_structure_renderer_get_lightmap_bsp_data = reinterpret_cast<s_scenario_lightmap_bsp_data *(*)(long)>(0xA2EEC0);
+	static auto const c_structure_renderer_get_render_geometry = reinterpret_cast<s_render_geometry *(*)(long)>(0xA2EF00);
+}
+
 extern s_scenario_structure_bsp *(*const global_structure_bsp_get)(long);  // hades: added for 0x1091E630
 real_point3d *matrix4x3_inverse_transform_point(real_matrix4x3 const *matrix, real_point3d const *point, real_point3d *result);  // hades: added for 0x1091D7B0
 #include "Blam/scenario/scenario_lightmap_definitions.hpp"  // hades: added for 0x1091E630
@@ -546,15 +555,15 @@ bool geometry_test_collision_result_impl(long bsp_index, long object_index, long
 	{
 		if (bsp_index == -1)
 			return false;
-		s_scenario_lightmap_bsp_data *const bsp_lightmap_data = ((s_scenario_lightmap_bsp_data *(*const)(long))0xA2EEC0)(bsp_index);
+		s_scenario_lightmap_bsp_data *const bsp_lightmap_data = eldorado::c_structure_renderer_get_lightmap_bsp_data(bsp_index);
 		if (!unknown_flag && !bsp_lightmap_data)
 			return false;
-		s_render_geometry *const render_geometry = ((s_render_geometry *(*const)(long))0xA2EF00)(bsp_index);
+		s_render_geometry *const render_geometry = eldorado::c_structure_renderer_get_render_geometry(bsp_index);
 		if (!render_geometry)
 			return false;
 		test_result->bsp_index = bsp_index;
 		if (find_material_flag)
-			test_result->material_index = ((long (*const)(long, long, long, long))0x750810)(bsp_index, -1, instance_index, surface_index);
+			test_result->material_index = eldorado::c_geometry_sampler_find_render_method_index_from_collision(bsp_index, -1, instance_index, surface_index);
 		else
 			test_result->material_index = -1;
 		s_scenario_structure_bsp *structure_bsp = global_structure_bsp_get(bsp_index);
@@ -593,7 +602,7 @@ bool geometry_test_collision_result_impl(long bsp_index, long object_index, long
 			test_result->use_per_vertex_lighting = lighting.per_vertex_data != nullptr;
 			test_result->use_per_pixel_lighting = lighting.per_pixel_data != nullptr;
 		}
-		if (!((bool (*const)(real_point3d const *, s_uncompressed_triangle const *, float, float, long, void const *, void const *, long, long, long, bool, s_geometry_test_result *, long, s_scenario_lightmap_bsp_data *))0x751730)(&point, &triangle, s, t, (triangle_vertex_index - 2) / 3, lighting.per_pixel_data, lighting.per_vertex_data, lighting.per_vertex_count, lighting.per_vertex_stride, lighting.lightprobe_index, false, test_result, bsp_index, bsp_lightmap_data))
+		if (!eldorado::c_geometry_sampler_geometry_test_triangle(&point, &triangle, s, t, (triangle_vertex_index - 2) / 3, lighting.per_pixel_data, lighting.per_vertex_data, lighting.per_vertex_count, lighting.per_vertex_stride, lighting.lightprobe_index, false, test_result, bsp_index, bsp_lightmap_data))
 			return false;
 		if (instance_index != -1)
 			test_result->instanced_geometry_index = instance_index;

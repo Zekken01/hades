@@ -385,6 +385,16 @@ struct s_globals
 
 namespace eldorado
 {
+	// Functions in eldorado.exe, named from the game's own symbols.
+	static auto const game_engine_are_players_tied = reinterpret_cast<bool (*)()>(0x54D9C0);
+	static auto const game_engine_are_teams_tied = reinterpret_cast<bool (*)()>(0x54DA50);
+	static auto const game_engine_get_number_of_rounds = reinterpret_cast<long (*)()>(0x5504C0);
+	static auto const game_engine_get_round = reinterpret_cast<__int32 (*)()>(0x550AD0);
+	static auto const game_engine_is_team_active = reinterpret_cast<bool (*)(long)>(0x556610);
+}
+
+namespace eldorado
+{
 	// Functions in eldorado.exe, named as in ManagedDonkey.
 	static auto const current_game_engine = reinterpret_cast<c_game_engine *(*)()>(0x5CE150);
 	static auto const game_engine_get_player_place = reinterpret_cast<long (*)(long)>(0x5506F0);
@@ -930,7 +940,7 @@ void build_score_update(s_scores_update &update) // 0x10CB1DE0
 	update.valid_team_mask = 0;
 	for (long i = 0; i < 8; i++)
 	{
-		if (!((bool (*const)(long))0x556610)(i))
+		if (!eldorado::game_engine_is_team_active(i))
 			continue;
 		if (in_game_engine)
 			update.team_place[i] = eldorado::game_engine_get_team_place(i);
@@ -943,7 +953,7 @@ void build_score_update(s_scores_update &update) // 0x10CB1DE0
 	update.game_finished = eldorado::game_is_finished();
 	if (update.game_finished)
 	{
-		bool tie = eldorado::game_engine_has_teams() ? ((bool (*const)())0x54DA50)() : ((bool (*const)())0x54D9C0)();
+		bool tie = eldorado::game_engine_has_teams() ? eldorado::game_engine_are_teams_tied() : eldorado::game_engine_are_players_tied();
 		update.game_tied = tie;
 	}
 	update.round_over = !eldorado::game_is_finished() && !eldorado::game_engine_in_round();
@@ -987,8 +997,8 @@ void build_session_update(s_session_update &update) // 0x10CB27C0
 	update.game_mode = game_options->game_mode;
 	update.game_id = game_options->game_id;
 	update.has_teams = eldorado::game_engine_has_teams();
-	update.number_of_rounds = ((long (*const)())0x5504C0)();
-	update.current_round = ((__int32 (*const)())0x550AD0)() + 1;
+	update.number_of_rounds = eldorado::game_engine_get_number_of_rounds();
+	update.current_round = eldorado::game_engine_get_round() + 1;
 	std::string playersInfo = Modules::ModuleServer::Instance().VarPlayersInfoClient->ValueString;
 	if (playersInfo.empty() || playersInfo == "{}")
 		playersInfo = Player::CPlayersInfo::GeneratePlayerInfo();

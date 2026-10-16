@@ -92,6 +92,13 @@ using namespace ::Forge;
 
 namespace eldorado
 {
+	// Functions in eldorado.exe, named from the game's own symbols.
+	static auto const c_map_variant_create_object = reinterpret_cast<long (__thiscall *)(s_map_variant *, long, long, long, real_point3d const *, real_vector3d const *, real_vector3d const *, long, long, s_map_variant_placement_properties const *, short)>(0x582110);
+	static auto const chud_messaging_post = reinterpret_cast<void(__cdecl *)(long, wchar_t const *, e_chud_message_context)>(0xA95920);
+}
+
+namespace eldorado
+{
 	// Functions in eldorado.exe, named as in ManagedDonkey.
 	static auto const object_get_origin = reinterpret_cast<void(__cdecl *)(long, real_point3d *)>(0xB2E5A0);
 	static auto const object_get_velocities = reinterpret_cast<void (*)(long, real_vector3d *, real_vector3d *)>(0xB2EB30);
@@ -158,7 +165,7 @@ namespace Forge
 	{
 		mangled_x86(MANGLED_KNOWN_GOOD, "?PrintKillFeedText@Forge@@YAXJPB_WJ@Z");
 
-		((void(__cdecl *const)(long, wchar_t const *, e_chud_message_context))0xa95920)(user_index, message, (e_chud_message_context)0);
+		eldorado::chud_messaging_post(user_index, message, (e_chud_message_context)0);
 	}
 }
 
@@ -249,7 +256,7 @@ namespace Forge
 			PrintKillFeedText(0, L"Object out of World Bounds", 0);
 			return -1;
 		}
-		return ((long (__thiscall *const)(s_map_variant *, long, long, long, real_point3d const *, real_vector3d const *, real_vector3d const *, long, long, s_map_variant_placement_properties const *, short))0x582110)(GetMapVariant(), object->definition_index, 0, -1, &displacedPosition, &objectTransform.forward, &objectTransform.up, -1, -1, &variantProperties, 0);
+		return eldorado::c_map_variant_create_object(GetMapVariant(), object->definition_index, 0, -1, &displacedPosition, &objectTransform.forward, &objectTransform.up, -1, -1, &variantProperties, 0);
 	}
 
 	void ThrowObject(long player_index, long object_index, float throwForce) // 0x1096A240

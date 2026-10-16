@@ -273,6 +273,15 @@ using namespace hades_file_local;
 
 namespace eldorado
 {
+	// Functions in eldorado.exe, named from the game's own symbols.
+	static auto const fmod_dispose = reinterpret_cast<void(__cdecl *)()>(0x652EE0);
+	static auto const fmod_initialize = reinterpret_cast<void(__cdecl *)()>(0x64E190);
+	static auto const game_engine_round_condition_test = reinterpret_cast<bool(__cdecl *)(int)>(0x5523A0);
+	static auto const scripting_sound_class_set_gain = reinterpret_cast<void (*)(char const *, float, short)>(0x660B50);
+}
+
+namespace eldorado
+{
 	// Functions in eldorado.exe, named as in ManagedDonkey.
 	static auto const current_game_engine = reinterpret_cast<c_game_engine *(*)()>(0x5CE150);
 	static auto const game_engine_has_teams = reinterpret_cast<bool (*)()>(0x5565E0);
@@ -382,7 +391,7 @@ void Hf2pInitHook() // 0x10A723E0
 	*(unsigned __int32 *)0x244ED28 = 0;
 
 	// InitSoundSystem
-	((void(__cdecl *const)())0x64e190)();
+	eldorado::fmod_initialize();
 
 	PingId = Patches::Network::OnPong(PongReceived);
 }
@@ -391,7 +400,7 @@ void Hf2pShutdownHook() // 0x10A72B60
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?Hf2pShutdownHook@@YAXXZ");
 
-	((void(__cdecl *const)())0x652ee0)();
+	eldorado::fmod_dispose();
 }
 
 void SystemMenu() // 0x10A73850
@@ -604,10 +613,10 @@ void Hf2pTickHook() // 0x10A72BB0
 		{
 			if (eldorado::current_game_engine() && !Modules::ModuleServer::Instance().VarServerMuteSoundsDuringPostGameClient->ValueInt)
 			{
-				((void (*const)(char const *, float, short))0x660B50)("", 0.0f, (short)game_seconds_to_ticks_real(3.0f));
-				((void (*const)(char const *, float, short))0x660B50)("ambient_nature", 0.2f, (short)game_seconds_to_ticks_real(3.0f));
-				((void (*const)(char const *, float, short))0x660B50)("ambient_machinery", 0.2f, (short)game_seconds_to_ticks_real(3.0f));
-				((void (*const)(char const *, float, short))0x660B50)("ambient_computers", 0.2f, (short)game_seconds_to_ticks_real(3.0f));
+				eldorado::scripting_sound_class_set_gain("", 0.0f, (short)game_seconds_to_ticks_real(3.0f));
+				eldorado::scripting_sound_class_set_gain("ambient_nature", 0.2f, (short)game_seconds_to_ticks_real(3.0f));
+				eldorado::scripting_sound_class_set_gain("ambient_machinery", 0.2f, (short)game_seconds_to_ticks_real(3.0f));
+				eldorado::scripting_sound_class_set_gain("ambient_computers", 0.2f, (short)game_seconds_to_ticks_real(3.0f));
 			}
 			game_end_time = 0;
 		}
@@ -697,7 +706,7 @@ void __fastcall c_game_engine_object_runtime_manager__update_hook(void *thisptr,
 
 	void (__thiscall *const c_game_engine_object_runtime_manager__update)(void *) = (void(__thiscall *const)(void *))0x5913e0;
 
-	if (!((bool(__cdecl *const)(int))0x5523a0)(4))
+	if (!eldorado::game_engine_round_condition_test(4))
 		c_game_engine_object_runtime_manager__update(thisptr);
 }
 

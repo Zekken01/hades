@@ -186,6 +186,12 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named from the game's own symbols.
+	static auto const simulation_event_generate_for_clients = reinterpret_cast<void(__cdecl *)(long, long, long, long, long, void *)>(0x4E5A30);
+}
+
 extern s_object_header *object_header_get(unsigned long object_index);  // hades: added for 0x10ACF190
 
 extern bool (*const game_is_server)();  // hades: added for 0x10ACF3D0
@@ -499,7 +505,7 @@ void simulation_damage_aftermath_hook(long event_type, long a2, long a3, long pl
 	mangled_x86(MANGLED_KNOWN_GOOD, "?simulation_damage_aftermath_hook@@YAXJJJJJPAX@Z");
 
 	*(bool *)((unsigned char *)data + 0xa) = true;
-	((void(__cdecl *const)(long, long, long, long, long, void *))0x4e5a30)(event_type, a2, a3, player_index, data_size, data);
+	eldorado::simulation_event_generate_for_clients(event_type, a2, a3, player_index, data_size, data);
 }
 
 void ragdoll_object_damage_aftermath_hook(long object_index, void *damage_data) // 0x10ACF020

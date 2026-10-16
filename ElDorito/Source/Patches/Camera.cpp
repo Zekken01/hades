@@ -182,6 +182,12 @@ namespace Blam
 
 namespace eldorado
 {
+	// Functions in eldorado.exe, named from the game's own symbols.
+	static auto const c_director_set_camera_mode_internal = reinterpret_cast<bool(__thiscall *)(void *, __int32, float, bool)>(0x593210);
+}
+
+namespace eldorado
+{
 	// Functions in eldorado.exe, named as in ManagedDonkey.
 	static auto const cinematic_in_progress = reinterpret_cast<bool (*)()>(0x67D270);
 	static auto const player_mapping_get_player_by_output_user = reinterpret_cast<unsigned long (*)(long)>(0x589C60);
@@ -772,7 +778,7 @@ bool __fastcall c_director__set_camera_mode_internal_hook(void *thisPtr, void *u
 
 	if (Patches::Camera::GetForcedCameraMode() == _camera_mode_flying || Patches::Camera::GetForcedCameraMode() == _camera_mode_static)
 		return false;
-	return ((bool(__thiscall *const)(void *, __int32, float, bool))0x593210)(thisPtr, camera_mode, camera_speed, a4);
+	return eldorado::c_director_set_camera_mode_internal(thisPtr, camera_mode, camera_speed, a4);
 }
 
 __int32 scripted_camera__player_mapping_get_input_controller_hook(short a1) // 0x1095D2A0

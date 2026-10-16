@@ -52,6 +52,12 @@ using namespace ::Forge;
 
 namespace eldorado
 {
+	// Functions in eldorado.exe, named from the game's own symbols.
+	static auto const sandbox_update_object_position = reinterpret_cast<void (*)(bool, long, real_point3d const *, real_vector3d const *, real_vector3d const *)>(0x59E340);
+}
+
+namespace eldorado
+{
 	// Functions in eldorado.exe, named as in ManagedDonkey.
 	static auto const object_get_world_matrix = reinterpret_cast<real_matrix4x3 *(*)(long, real_matrix4x3 *)>(0xB2EC60);
 	static auto const player_mapping_get_player_by_input_user = reinterpret_cast<unsigned long (*)(long)>(0x589C30);
@@ -142,7 +148,7 @@ namespace Forge
 			}
 			else
 			{
-				((void (*const)(bool, long, real_point3d const *, real_vector3d const *, real_vector3d const *))0x59E340)(false, camera_object_index, &unit_world_matrix.position, &unit_world_matrix.forward, &unit_world_matrix.up);
+				eldorado::sandbox_update_object_position(false, camera_object_index, &unit_world_matrix.position, &unit_world_matrix.forward, &unit_world_matrix.up);
 			}
 		}
 

@@ -106,6 +106,14 @@ namespace Patches
 
 namespace eldorado
 {
+	// Functions in eldorado.exe, named from the game's own symbols.
+	static auto const global_cinematic_zone_is_active = reinterpret_cast<bool (*)(long)>(0x4E9580);
+	static auto const network_life_cycle_session_get_campaign_active_secondary_skulls = reinterpret_cast<unsigned long *(*)(unsigned long *)>(0x434FB0);
+}
+#line 106
+
+namespace eldorado
+{
 	// Functions in eldorado.exe, named as in ManagedDonkey.
 	static auto const action_executing = reinterpret_cast<bool (*)(long, long)>(0xB69BA0);
 	static auto const cinematic_get_debug_mode = reinterpret_cast<bool (*)()>(0x67CF90);
@@ -257,7 +265,7 @@ namespace Patches
 			void (*const unit_camo_update)(unsigned long) = (void (*)(unsigned long))0xB4A020;
 			bool (*const game_team_is_enemy)(long, long) = (bool (*)(long, long))0x670B80;
 			unsigned long secondary_skulls = 0;
-			((unsigned long *(*const)(unsigned long *))0x434FB0)(&secondary_skulls);
+			eldorado::network_life_cycle_session_get_campaign_active_secondary_skulls(&secondary_skulls);
 			if (game_is_campaign() && (secondary_skulls & 1))
 			{
 				s_unit_data *unit_object = (s_unit_data *)object_try_and_get_and_verify_type(unit_index, 1);
@@ -328,7 +336,7 @@ namespace Patches
 			short (*const scenario_object_name_index_from_string)(s_scenario *, char const *) = reinterpret_cast<short (*)(s_scenario *, char const *)>(0x4EB080);
 			long (*const object_index_from_name_index)(short) = reinterpret_cast<long (*)(short)>(0xB2F0A0);
 			s_cinematic_scene_definition *scene = eldorado::get_scene_from_cinematic_or_cortana_effect(cinematic_index, scene_index);
-			if (!scene || (cinematic_index != -1 && cinematic_index <= 1000 && !((bool (*const)(long))0x4E9580)(cinematic_index)))
+			if (!scene || (cinematic_index != -1 && cinematic_index <= 1000 && !eldorado::global_cinematic_zone_is_active(cinematic_index)))
 				return -1;
 			s_cinematic_scene_object *scene_object = scene->objects.get_element(index);
 			#line 304 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Patches\\campaign_patches.cpp"

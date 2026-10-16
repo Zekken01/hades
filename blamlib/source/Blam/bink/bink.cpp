@@ -34,6 +34,15 @@ struct tls_data;
 
 namespace eldorado
 {
+	// Functions in eldorado.exe, named from the game's own symbols.
+	static auto const bink_setup_rasterizer = reinterpret_cast<void (*)(__int32)>(0x6179B0);
+	static auto const c_rasterizer_normalize_screenspace_vertices = reinterpret_cast<void (*)(float, float, float, float, s_screen_vertex *, long)>(0xA46910);
+	static auto const c_rasterizer_set_srgbwrite = reinterpret_cast<void (*)(bool)>(0xA48EB0);
+	static auto const release_unused_textures = reinterpret_cast<__int32 (*)(__int32)>(0x618870);
+}
+
+namespace eldorado
+{
 	// Functions in eldorado.exe, named as in ManagedDonkey.
 	static auto const bink_playback_active = reinterpret_cast<bool (*)()>(0x616910);
 	static auto const c_rasterizer_clear_sampler_textures = reinterpret_cast<void (*)()>(0xA22AB0);
@@ -74,7 +83,7 @@ void bink_display_frame(short_rectangle2d *rect) // 0x10F18130
 		texture_index = tls->bink_gamestate->runtime_frame_texture_index;
 	if (eldorado::bink_playback_active() && texture_index != -1)
 	{
-		((__int32 (*const)(__int32))0x618870)(texture_index);
+		eldorado::release_unused_textures(texture_index);
 		((void (*const)(s_bink_globals::s_bink_runtime::s_bink_video_frame *, __int32))0x615EE0)(&bink_globals->bink_runtime.frame, texture_index);
 		__int32 buffer_width = bink_globals->bink_runtime.frame.framebuffers.YABufferWidth;
 		__int32 buffer_height = bink_globals->bink_runtime.frame.framebuffers.YABufferHeight;
@@ -111,13 +120,13 @@ void bink_display_frame(short_rectangle2d *rect) // 0x10F18130
 		vertices[1].color = 0xFFFFFFFF;
 		vertices[2].color = 0xFFFFFFFF;
 		vertices[3].color = 0xFFFFFFFF;
-		((void (*const)(__int32))0x6179B0)(texture_index);
+		eldorado::bink_setup_rasterizer(texture_index);
 		short_rectangle2d fullscreen_pixel_bounds;
 		interface_get_current_display_or_window_settings(&fullscreen_pixel_bounds, nullptr, nullptr, nullptr);
-		((void (*const)(float, float, float, float, s_screen_vertex *, long))0xA46910)(1.0f / (fullscreen_pixel_bounds.x1 - fullscreen_pixel_bounds.x0), 1.0f / (fullscreen_pixel_bounds.y1 - fullscreen_pixel_bounds.y0), fullscreen_pixel_bounds.x0, fullscreen_pixel_bounds.y0, vertices, 4);
-		((void (*const)(bool))0xA48EB0)(false);
+		eldorado::c_rasterizer_normalize_screenspace_vertices(1.0f / (fullscreen_pixel_bounds.x1 - fullscreen_pixel_bounds.x0), 1.0f / (fullscreen_pixel_bounds.y1 - fullscreen_pixel_bounds.y0), fullscreen_pixel_bounds.x0, fullscreen_pixel_bounds.y0, vertices, 4);
+		eldorado::c_rasterizer_set_srgbwrite(false);
 		eldorado::rasterizer_draw_textured_screen_quad1(vertices, 0);
-		((void (*const)(bool))0xA48EB0)(true);
+		eldorado::c_rasterizer_set_srgbwrite(true);
 		eldorado::c_rasterizer_clear_sampler_textures();
 		bink_globals->bink_runtime.frame.textures[texture_index].displayed = true;
 	}

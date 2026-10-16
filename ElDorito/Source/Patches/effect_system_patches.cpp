@@ -153,6 +153,15 @@ using namespace hades_file_local;
 
 namespace eldorado
 {
+	// Functions in eldorado.exe, named from the game's own symbols.
+	static auto const c_contrail_get_definition = reinterpret_cast<s_contrail_system_definition *(__thiscall *)(s_contrail_instance *)>(0x756460);
+	static auto const c_contrail_get_parent_location = reinterpret_cast<s_contrail_location *(__thiscall *)(s_contrail_instance *)>(0x756560);
+	static auto const c_contrail_location_get_parent_system = reinterpret_cast<s_contrail_system *(__thiscall *)(s_contrail_location *)>(0x756590);
+	static auto const effect_location_get_next_valid_index = reinterpret_cast<long (*)(s_effect_datum *, long, unsigned char)>(0x5B7890);
+}
+
+namespace eldorado
+{
 	// Functions in eldorado.exe, named as in ManagedDonkey.
 	static auto const c_atmosphere_fog_interface_restore_default_atmosphere_constants = reinterpret_cast<void (*)()>(0xA3B5A0);
 	static auto const c_contrail_get = reinterpret_cast<s_contrail_instance *(*)(long)>(0x7563D0);
@@ -265,7 +274,7 @@ void __fastcall c_contrail_gpu__render_hook(s_contrail_gpu_datum *gpu_datum, voi
 	if (!*(bool *)0x1917322 || gpu_datum->gpu_row_datum_index == -1 || gpu_datum->field_C <= 1)
 		return;
 	s_contrail_instance *contrail = eldorado::c_contrail_get(gpu_datum->parent_contrail_index);
-	s_contrail_system_definition *system = ((s_contrail_system_definition *(__thiscall *const)(s_contrail_instance *))0x756460)(contrail);
+	s_contrail_system_definition *system = eldorado::c_contrail_get_definition(contrail);
 	eldorado::rasterizer_set_vertex_stream((c_rasterizer_vertex_buffer *)0x510FD30);
 	eldorado::c_rasterizer_set_vertex_shader_constant(0x20, 1, (void *)0x191C9AC);
 	__int32 v4 = 1;
@@ -293,8 +302,8 @@ void __fastcall c_contrail_gpu__render_hook(s_contrail_gpu_datum *gpu_datum, voi
 	((void (__thiscall *const)(s_contrail_gpu_datum *, void *, s_contrail_states *))0xA54940)(gpu_datum, (void *)0x1917470, states);
 	((void (__thiscall *const)(s_contrail_gpu_datum *, void *))0xA55040)(gpu_datum, (void *)0x1917470);
 	eldorado::render_method_submit_valid(true);
-	s_contrail_location *parent_location = ((s_contrail_location *(__thiscall *const)(s_contrail_instance *))0x756560)(contrail);
-	s_contrail_system *parent_system = ((s_contrail_system *(__thiscall *const)(s_contrail_location *))0x756590)(parent_location);
+	s_contrail_location *parent_location = eldorado::c_contrail_get_parent_location(contrail);
+	s_contrail_system *parent_system = eldorado::c_contrail_location_get_parent_system(parent_location);
 	if (!eldorado::render_method_submit(parent_system->definition_index, &system->render_method, 11, 0, 0, false))
 		return;
 	__int32 index = 0;
@@ -572,7 +581,7 @@ void effect_render(unsigned long effect_index, long output_user_index) // 0x1091
 							__int32 location_count = 0;
 							while (true)
 							{
-								long effect_location_index = ((long (*const)(s_effect_datum *, long, unsigned char))0x5B7890)(effect, runtime_location_index, camera_mode);
+								long effect_location_index = eldorado::effect_location_get_next_valid_index(effect, runtime_location_index, camera_mode);
 								if (effect_location_index == -1)
 									break;
 								s_effect_location_datum *effect_location = tls_data.effect_location->get_absolute((short)effect_location_index);

@@ -26,6 +26,12 @@ struct real_rectangle2d;
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named from the game's own symbols.
+	static auto const c_gui_widget_set_visible = reinterpret_cast<void(__thiscall *)(c_gui_widget *, bool)>(0xABA7E0);
+}
+
 /* ---------- globals */
 
 /* ---------- private variables */
@@ -36,7 +42,7 @@ void c_gui_widget::set_visible(bool visible) // 0x10F13590
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?set_visible@c_gui_widget@@QAEX_N@Z");
 
-	((void(__thiscall *const)(c_gui_widget *, bool))0xaba7e0)(this, visible);
+	eldorado::c_gui_widget_set_visible(this, visible);
 }
 
 c_gui_widget *c_gui_widget::find_first_child(e_gui_widget type) const // 0x10F131E0

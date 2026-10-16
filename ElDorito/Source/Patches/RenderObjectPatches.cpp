@@ -164,6 +164,17 @@ namespace Patches
 
 namespace eldorado
 {
+	// Functions in eldorado.exe, named from the game's own symbols.
+	static auto const c_object_renderer_add_context_mesh_part = reinterpret_cast<long (*)(s_render_object *, s_render_object_info *, unsigned long *, short, short, short, short, __int32)>(0xA77AC0);
+	static auto const c_object_renderer_add_transparent_mesh_part = reinterpret_cast<void (*)(s_render_geometry *, s_mesh *, s_part *, long, long, void *, __int32, real_point3d *, char, long, long, void *)>(0xA77B70);
+	static auto const c_render_method_get_is_decal = reinterpret_cast<bool (*)(long)>(0xA20D10);
+	static auto const object_get_shield_impact_definition = reinterpret_cast<s_shield_parameters *(*)(s_object_data *, bool)>(0xA78030);
+	static auto const render_object_get_render_state_info = reinterpret_cast<s_shader_extern_info *(*)(long)>(0xA44D30);
+}
+#line 164
+
+namespace eldorado
+{
 	// Functions in eldorado.exe, named as in ManagedDonkey.
 	static auto const c_render_globals_set_distortion_active = reinterpret_cast<void (*)(bool)>(0xA2A300);
 	static auto const c_render_globals_set_distortion_visible = reinterpret_cast<void (*)(bool)>(0xA2A320);
@@ -403,7 +414,7 @@ void render_object_add_mesh_parts_hook(s_render_object *render_object, s_visible
 				object_entry_point_flags |= 0x10;
 			*(long *)0x524B6DC |= ((c_flags<enum e_render_method_flags,short> *)((char *)render_method + 0x34))->test((e_render_method_flags)2);
 			bool uses_z_pre_pass = ((bool (*const)(long))0xA77D20)(render_method_index);
-			bool is_decal = ((bool (*const)(long))0xA20D10)(render_method_index);
+			bool is_decal = eldorado::c_render_method_get_is_decal(render_method_index);
 			bool uses_alpha_blending = ((c_tag_block<s_render_method_postprocess_definition> *)((char *)render_method + 0x28))->operator->()->alpha_blend_mode != 0;
 			bool unknown_transparency_flag = uses_alpha_blending && !is_decal;
 			long entry_point_flags = object_entry_point_flags;
@@ -413,7 +424,7 @@ void render_object_add_mesh_parts_hook(s_render_object *render_object, s_visible
 				entry_point_flags = 0x800;
 			if (is_decal)
 				entry_point_flags = object_entry_point_flags & ~1 | 0x20;
-			long element_index = ((long (*const)(s_render_object *, s_render_object_info *, unsigned long *, short, short, short, short, __int32))0xA77AC0)(render_object, &render_info->info, render_info->subpart_visibility, mesh_index, part_index, region_index, material_index, entry_point_flags);
+			long element_index = eldorado::c_object_renderer_add_context_mesh_part(render_object, &render_info->info, render_info->subpart_visibility, mesh_index, part_index, region_index, material_index, entry_point_flags);
 			if (uses_z_pre_pass)
 			{
 				if (mesh->vertex_type == (e_vertex_type)2 || mesh->vertex_type == (e_vertex_type)1 || mesh->vertex_type == (e_vertex_type)22)
@@ -425,7 +436,7 @@ void render_object_add_mesh_parts_hook(s_render_object *render_object, s_visible
 				real_point3d sorting_position = global_origin3d;
 				if (part->transparent_sorting_index != -1 && !mesh->flags.test((e_mesh_flags)1))
 					sorting_position = render_model->render_geometry.sorting[part->transparent_sorting_index].position;
-				((void (*const)(s_render_geometry *, s_mesh *, s_part *, long, long, void *, __int32, real_point3d *, char, long, long, void *))0xA77B70)(&render_model->render_geometry, mesh, part, region_index, render_info->info.skinning_memory_designator, render_object, element_index, &sorting_position, uses_fixed_oreder_transparency, static_cast<char>(*(c_enum<enum e_sorting_layer,char> *)((char *)render_method + 0x36)), sort_index, (void *)0xA78480);
+				eldorado::c_object_renderer_add_transparent_mesh_part(&render_model->render_geometry, mesh, part, region_index, render_info->info.skinning_memory_designator, render_object, element_index, &sorting_position, uses_fixed_oreder_transparency, static_cast<char>(*(c_enum<enum e_sorting_layer,char> *)((char *)render_method + 0x36)), sort_index, (void *)0xA78480);
 				ridiculous_transparency_sort_bias_bit |= sort_index != -1;
 			}
 			if (a4 && (object_entry_point_flags & 1) && (unknown_transparency_flag || has_shield_impact))
@@ -440,7 +451,7 @@ void render_object_add_mesh_parts_hook(s_render_object *render_object, s_visible
 					void *callback = (void *)0xA790E0;
 					if (render_info->flags & 0x10)
 						callback = (void *)0xA79160;
-					((void (*const)(s_render_geometry *, s_mesh *, s_part *, long, long, void *, __int32, real_point3d *, char, long, long, void *))0xA77B70)(&render_model->render_geometry, mesh, part, region_index, render_info->info.skinning_memory_designator, render_object, element_index, &sorting_position, uses_fixed_oreder_transparency, sorting_layer, sort_index, callback);
+					eldorado::c_object_renderer_add_transparent_mesh_part(&render_model->render_geometry, mesh, part, region_index, render_info->info.skinning_memory_designator, render_object, element_index, &sorting_position, uses_fixed_oreder_transparency, sorting_layer, sort_index, callback);
 					if (uses_distortion)
 					{
 						eldorado::c_render_globals_set_distortion_active(true);
@@ -450,11 +461,11 @@ void render_object_add_mesh_parts_hook(s_render_object *render_object, s_visible
 				}
 				if (has_shield_impact)
 				{
-					((void (*const)(s_render_geometry *, s_mesh *, s_part *, long, long, void *, __int32, real_point3d *, char, long, long, void *))0xA77B70)(&render_model->render_geometry, mesh, part, region_index, render_info->info.skinning_memory_designator, render_info, element_index, &sorting_position, 0, 3, sort_index, (void *)0xA78F50);
+					eldorado::c_object_renderer_add_transparent_mesh_part(&render_model->render_geometry, mesh, part, region_index, render_info->info.skinning_memory_designator, render_info, element_index, &sorting_position, 0, 3, sort_index, (void *)0xA78F50);
 					ridiculous_transparency_sort_bias_bit |= sort_index != -1;
 					void *shield_impact = nullptr;
 					if (has_shield_impact)
-						shield_impact = ((s_shield_parameters *(*const)(s_object_data *, bool))0xA78030)(object, isFpShit);
+						shield_impact = eldorado::object_get_shield_impact_definition(object, isFpShit);
 					render_object_set_shield_impact(element_index, shield_impact);
 				}
 			}
@@ -805,7 +816,7 @@ void render_visibility_add_first_person_object_to_items_hook(long output_user_in
 				void *skinning = c_render_frame_memory__get(new_render_visibility.info.skinning_memory_designator);
 				render_model_build_skinning(first_person_model.object_index, first_person_model.render_model_index, first_person_model.node_matrices, new_render_visibility.info.region_mesh_indices, new_render_visibility.info.lod_type, 1, new_render_visibility.info.skinning_matrix_count, skinning);
 			}
-			new_render_visibility.info.render_info = ((s_shader_extern_info *(*const)(long))0xA44D30)(first_person_model.object_index);
+			new_render_visibility.info.render_info = eldorado::render_object_get_render_state_info(first_person_model.object_index);
 			if (new_render_visibility.info.render_info)
 				memcpy((char *)new_render_visibility.info.render_info + 0x10, lighting, 0x218);
 			if (new_render_visibility.info.render_info)

@@ -214,6 +214,13 @@ namespace Blam
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named from the game's own symbols.
+	static auto const game_engine_get_number_of_rounds = reinterpret_cast<long (*)()>(0x5504C0);
+	static auto const game_engine_get_round = reinterpret_cast<__int32 (*)()>(0x550AD0);
+}
+
 #include "Modules/ModulePlayer.hpp"  // hades: added for 0x10B28970
 namespace Utils { namespace Cryptography { extern std::string ReformatKey(bool isPrivateKey, std::string key); extern bool PublicEncrypt(std::string publicKey, void *data, unsigned __int32 dataSize, std::string &encrypted); extern bool CreateRSASignature(std::string privateKey, void *data, unsigned __int32 dataSize, std::string &signature); } } namespace Utils { namespace Version { std::string GetVersionString(); } } namespace Player { namespace Emblems { extern std::string HexToStrHex(int hex); } } extern void player_format_uid(char *string, unsigned long long id); extern char const *g_player_medal_names[58]; extern char const *g_damage_reporting_type_names[64];  // hades: added for 0x10B28970  // hades: added for 0x10B28970
 #include "Player/PlayerCustomization.hpp"  // hades: added for 0x10B28970
@@ -935,7 +942,7 @@ namespace Server
 			case 0x400DA:
 			case 0x400DF:
 			case 0x400F2:
-				if (((long (*const)())0x5504C0)() > 1 && ((__int32 (*const)())0x550AD0)())
+				if (eldorado::game_engine_get_number_of_rounds() > 1 && eldorado::game_engine_get_round())
 				{
 				}
 				else

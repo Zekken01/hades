@@ -94,6 +94,12 @@ struct s_RotationSnapState
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named from the game's own symbols.
+	static auto const sandbox_update_object_position = reinterpret_cast<void (*)(bool, long, real_point3d const *, real_vector3d const *, real_vector3d const *)>(0x59E340);
+}
+
 extern float (*const game_tick_length)();  // hades: added for 0x10971C90
 extern void quaternions_slerp_interpolate_and_normalize(real_quaternion const *q0, real_quaternion const *q1, float fraction, real_quaternion *result);  // hades: added for 0x10971C90
 extern real_matrix3x3 *matrix3x3_rotation_from_quaternion(real_matrix3x3 *matrix, real_quaternion const *quaternion);  // hades: added for 0x10971C90
@@ -176,7 +182,7 @@ namespace Forge
 			quaternions_slerp_interpolate_and_normalize(&hades_file_local::s_RotationSnapState.StartRotation, &hades_file_local::s_RotationSnapState.EndRotation, hades_file_local::s_RotationSnapState.Current, &interpolatedRotation);
 			real_matrix3x3 matrix;
 			matrix3x3_rotation_from_quaternion(&matrix, &interpolatedRotation);
-			((void (*const)(bool, long, real_point3d const *, real_vector3d const *, real_vector3d const *))0x59E340)(false, heldObjectIndex, nullptr, &matrix.forward, &matrix.up);
+			eldorado::sandbox_update_object_position(false, heldObjectIndex, nullptr, &matrix.forward, &matrix.up);
 			hades_file_local::s_RotationSnapState.ObjectIndex = heldObjectIndex;
 		}
 
