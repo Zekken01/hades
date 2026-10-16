@@ -104,6 +104,16 @@ namespace Patches
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const hs_evaluate_runtime = reinterpret_cast<bool (*)(long, long, long, long *)>(0x594510);
+	static auto const hs_stack_allocate = reinterpret_cast<void *(*)(long, long, long, short *)>(0x5987D0);
+	static auto const hs_thread_delete = reinterpret_cast<void (*)(long)>(0x598A60);
+	static auto const hs_thread_main = reinterpret_cast<void (*)(long)>(0x598BC0);
+	static auto const hs_thread_new = reinterpret_cast<long (*)(e_hs_script_type, short)>(0x598E70);
+}
+
 unsigned long system_milliseconds();  // hades: added for 0X106E9390
 
 namespace Scripting
@@ -299,15 +309,15 @@ namespace Scripting
 			s_hs_thread *thread = hs_thread_get(threadIndex);
 			short stack_offset;
 			short args_stack_offset;
-			long *arg_count = (long *)((void *(*const)(long, long, long, short *))0x5987D0)(threadIndex, 2, 2, nullptr);
-			long *next_expression_index = (long *)((void *(*const)(long, long, long, short *))0x5987D0)(threadIndex, 4, 2, nullptr);
-			long *return_value = (long *)((void *(*const)(long, long, long, short *))0x5987D0)(threadIndex, 4, 2, &stack_offset);
-			long *args = (long *)((void *(*const)(long, long, long, short *))0x5987D0)(threadIndex, arguments.size() * 4, 2, &args_stack_offset);
+			long *arg_count = (long *)eldorado::hs_stack_allocate(threadIndex, 2, 2, nullptr);
+			long *next_expression_index = (long *)eldorado::hs_stack_allocate(threadIndex, 4, 2, nullptr);
+			long *return_value = (long *)eldorado::hs_stack_allocate(threadIndex, 4, 2, &stack_offset);
+			long *args = (long *)eldorado::hs_stack_allocate(threadIndex, arguments.size() * 4, 2, &args_stack_offset);
 			*arg_count = arguments.size();
 			*next_expression_index = -1;
 			for (long i = 0; i < script->parameters.count; i++)
 				args[i] = MarshalArgument(threadIndex, script->parameters[i].type, arguments[i]).long_value;
-			((bool (*const)(long, long, long, long *))0x594510)(threadIndex, script->root_expression_index, (stack_offset << 16) | 1, nullptr);
+			eldorado::hs_evaluate_runtime(threadIndex, script->root_expression_index, (stack_offset << 16) | 1, nullptr);
 			hs_stack_frame *stack = hs_thread_stack(threadIndex);
 			stack->script_index = scriptIndex;
 			stack->parameters = args_stack_offset;
@@ -328,7 +338,7 @@ namespace Scripting
 			if (scriptIndex < 0 || scriptIndex >= scnr->scripts.count)
 				return;
 			s_hs_script const *script = &scnr->scripts[scriptIndex];
-			long thread_index = ((long (*const)(e_hs_script_type, short))0x598E70)(script->type, -1);
+			long thread_index = eldorado::hs_thread_new(script->type, -1);
 			if (thread_index == -1)
 				return;
 			PushScript(thread_index, scriptIndex, nullptr, arguments);
@@ -377,13 +387,13 @@ namespace Scripting
 			if (scriptIndex < 0 || scriptIndex >= scnr->scripts.count)
 				return hs_value{};
 			s_hs_script const *script = &scnr->scripts[scriptIndex];
-			long thread_index = ((long (*const)(e_hs_script_type, short))0x598E70)(script->type, -1);
+			long thread_index = eldorado::hs_thread_new(script->type, -1);
 			if (thread_index == -1)
 				return hs_value{};
 			long *retValueAddr = nullptr;
 			PushScript(thread_index, scriptIndex, &retValueAddr, arguments);
-			((void (*const)(long))0x598BC0)(thread_index);
-			((void (*const)(long))0x598A60)(thread_index);
+			eldorado::hs_thread_main(thread_index);
+			eldorado::hs_thread_delete(thread_index);
 			return MarshalReturn(thread_index, script->return_type, hs_value::from_long(*retValueAddr));
 		}
 	}

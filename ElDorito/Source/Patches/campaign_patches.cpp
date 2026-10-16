@@ -104,6 +104,16 @@ namespace Patches
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const action_executing = reinterpret_cast<bool (*)(long, long)>(0xB69BA0);
+	static auto const cinematic_get_debug_mode = reinterpret_cast<bool (*)()>(0x67CF90);
+	static auto const get_scene_from_cinematic_or_cortana_effect = reinterpret_cast<s_cinematic_scene_definition *(*)(long, long)>(0x9EC9C0);
+	static auto const player_mapping_get_unit_by_output_user = reinterpret_cast<unsigned long (*)(long)>(0x589CC0);
+}
+#line 106
+
 namespace Debug { extern void AssertHandle(char const *filename, char const *funcName, __int32 lineNum, char const *expr, char const *msg, ...); }  // hades: added for 0x1090F500
 
 extern void *(*const tag_get)(unsigned long, long);  // hades: added for 0x1090F180
@@ -251,7 +261,7 @@ namespace Patches
 			if (game_is_campaign() && (secondary_skulls & 1))
 			{
 				s_unit_data *unit_object = (s_unit_data *)object_try_and_get_and_verify_type(unit_index, 1);
-				long player_unit_index = ((unsigned long (*const)(long))0x589CC0)(0);
+				long player_unit_index = eldorado::player_mapping_get_unit_by_output_user(0);
 				s_unit_data *player_unit_object = (s_unit_data *)object_try_and_get_and_verify_type(player_unit_index, 0x2003);
 				if (unit_object)
 				{
@@ -317,14 +327,14 @@ namespace Patches
 			long (*const cinematic_object_from_string)(char const *) = reinterpret_cast<long (*)(char const *)>(0x67DAB0);
 			short (*const scenario_object_name_index_from_string)(s_scenario *, char const *) = reinterpret_cast<short (*)(s_scenario *, char const *)>(0x4EB080);
 			long (*const object_index_from_name_index)(short) = reinterpret_cast<long (*)(short)>(0xB2F0A0);
-			s_cinematic_scene_definition *scene = ((s_cinematic_scene_definition *(*const)(long, long))0x9EC9C0)(cinematic_index, scene_index);
+			s_cinematic_scene_definition *scene = eldorado::get_scene_from_cinematic_or_cortana_effect(cinematic_index, scene_index);
 			if (!scene || (cinematic_index != -1 && cinematic_index <= 1000 && !((bool (*const)(long))0x4E9580)(cinematic_index)))
 				return -1;
 			s_cinematic_scene_object *scene_object = scene->objects.get_element(index);
 			#line 304 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Patches\\campaign_patches.cpp"
 			if (!scene_object) Debug::AssertHandle(__FILE__, __FUNCTION__, __LINE__, "scene_object", "scene object index out of range. cinematic_index: %d, scene_index: %d, object_index: %d", cinematic_index, scene_index, index);
 			#line 327 "C:\\Users\\zekken\\Desktop\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Patches\\campaign_patches.cpp"
-			if ((scene_object->flags & _cinematic_object_special_case_like_player0) && !((bool (*const)())0x67CF90)())
+			if ((scene_object->flags & _cinematic_object_special_case_like_player0) && !eldorado::cinematic_get_debug_mode())
 			{
 				char const *player_names[4] = { "player0", "player1", "player2", "player3" };
 				for (__int32 i = 0; i < _countof(player_names); i++)
@@ -339,7 +349,7 @@ namespace Patches
 					}
 				}
 			}
-			if (((scene_object->flags & _cinematic_object_comes_from_game) || (scene_object->flags & _cinematic_object_placed_manually_in_sapien)) && !((bool (*const)())0x67CF90)())
+			if (((scene_object->flags & _cinematic_object_comes_from_game) || (scene_object->flags & _cinematic_object_placed_manually_in_sapien)) && !eldorado::cinematic_get_debug_mode())
 			{
 				long name_index = scenario_object_name_index_from_string(global_scenario_get(), scene_object->import_name);
 				if (name_index != -1)
@@ -401,7 +411,7 @@ namespace Patches
 				actor->meta.min_trackable_weight *= 0.99f;
 			if (++actor->meta.outside_map_ticks >= game_seconds_to_ticks_round(0.5f))
 			{
-				if (actor_runtime_within_structure_bsp(actor_index) || actor->meta.unit_index != -1 && ((bool (*const)(long, long))0xB69BA0)(actor->meta.unit_index, 7))
+				if (actor_runtime_within_structure_bsp(actor_index) || actor->meta.unit_index != -1 && eldorado::action_executing(actor->meta.unit_index, 7))
 					actor->meta.outside_map_ticks = 0;
 				else
 				{

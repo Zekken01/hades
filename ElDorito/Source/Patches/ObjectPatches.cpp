@@ -97,6 +97,12 @@ using namespace ::Blam;
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const game_is_ui_shell = reinterpret_cast<bool (*)()>(0x531E90);
+}
+
 extern void *(*const tag_get)(unsigned long, long);  // hades: added for 0x108D6D80
 
 #include "Modules/ModulePlayer.hpp"  // hades: added for 0x108D7060
@@ -201,7 +207,7 @@ float object_compute_service_tag_function_value(long object_index, short charact
 	wchar_t character = 0;
 	if (character_index < 0 || character_index > 3)
 		return 0.0f;
-	if (((bool (*const)())0x531E90)())
+	if (eldorado::game_is_ui_shell())
 	{
 		character = Modules::ModulePlayer::Instance().VarPlayerServiceTag->ValueString[character_index];
 	}

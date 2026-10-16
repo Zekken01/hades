@@ -117,6 +117,13 @@ using namespace ::Console;
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const game_in_progress = reinterpret_cast<bool (*)()>(0x5314B0);
+}
+#line 119
+
 template<typename t_arg0> static t_arg0 *object_get(unsigned long object_index) { return (t_arg0 *)object_get(object_index); }  // hades: a file-local template in the original (undecorated `object_get<T>`), defined so it is emitted;  // hades: added for 0x10A44CB0
 
 #include "Modules/ModuleGame.hpp"  // hades: added for 0x10A48860
@@ -739,7 +746,7 @@ float main_time_update_hook() // 0x10A4B490
 	bool skip_time_sync = true;
 	if (frame_rate_limit)
 	{
-		if ((in_game = ((bool (*const)())0x5314B0)()))
+		if ((in_game = eldorado::game_in_progress()))
 		{
 			game_time = game_time_get();
 			target_frame_time = 1.0f / frame_rate_limit;
@@ -775,7 +782,7 @@ float main_time_update_hook() // 0x10A4B490
 		delta_frame_time = (float)((double)(cpu_tick.QuadPart - g_main_time_globals->last_cpu_ticks) / (double)cpu_frequency.QuadPart);
 		if (g_debug_disable_frame_rate_throttle)
 			break;
-	} while ((frame_rate_limit && target_frame_time > delta_frame_time) || (((bool (*const)())0x5314B0)() && delta_frame_time < 0.001f));
+	} while ((frame_rate_limit && target_frame_time > delta_frame_time) || (eldorado::game_in_progress() && delta_frame_time < 0.001f));
 	if (!skip_time_sync)
 		cpu_tick.QuadPart = g_main_time_globals->last_cpu_ticks + (long long)(target_frame_time * (double)cpu_frequency.QuadPart);
 	delta_frame_time = fminf(fmaxf(delta_frame_time, 0.0f), 10.0f);

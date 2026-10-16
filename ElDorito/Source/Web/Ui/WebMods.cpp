@@ -338,6 +338,12 @@ using namespace hades_file_local;
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const game_is_ui_shell = reinterpret_cast<bool (*)()>(0x531E90);
+}
+
 namespace Web
 {
 	namespace Ui
@@ -527,7 +533,7 @@ namespace Web
 					if (Blam::Input::GetActionState(Blam::Input::eGameActionUiY)->Ticks == 1 && !Blam::Input::GetKeyTicks(Blam::Input::eKeyCodeEscape, Blam::Input::eInputTypeUi))
 						ScreenLayer::NotifyScreen(ScreenLayer::ModDownload, "menuMaximizedByController", "{}");
 					Blam::Network::Session *session = Blam::Network::GetActiveSession();
-					if (((bool (*const)())0x531E90)() && Blam::Input::GetActionState(Blam::Input::eGameActionUiY)->Ticks == 1 && !Blam::Input::GetKeyTicks(Blam::Input::eKeyCodeEscape, Blam::Input::eInputTypeUi))
+					if (eldorado::game_is_ui_shell() && Blam::Input::GetActionState(Blam::Input::eGameActionUiY)->Ticks == 1 && !Blam::Input::GetKeyTicks(Blam::Input::eKeyCodeEscape, Blam::Input::eInputTypeUi))
 					{
 						if (session && session->IsEstablished() && !session->IsHost())
 							return;

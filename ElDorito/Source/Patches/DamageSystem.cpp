@@ -131,6 +131,12 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const object_new = reinterpret_cast<long (*)(s_object_placement_data *)>(0xB30440);
+}
+
 extern float (*const game_seconds_to_ticks_real)(float);  // hades: added for 0x10960550
 
 extern s_object_data *(*const object_try_and_get_and_verify_type)(unsigned long object_index, c_enum<e_object_type, long> object_type_mask);  // hades: added for 0x109603C0
@@ -197,7 +203,7 @@ long event_generate_part_object_new_hook(s_object_placement_data *placement_data
 	// function call : long (*const)(s_object_placement_data *)
 	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
 
-	long new_object_index = ((long (*const)(s_object_placement_data *))0xB30440)(placement_data);
+	long new_object_index = eldorado::object_new(placement_data);
 	s_equipment_data *equipment = (s_equipment_data *)object_try_and_get_and_verify_type(new_object_index, 8);
 	if (equipment)
 	{

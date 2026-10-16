@@ -254,6 +254,14 @@ namespace Web { namespace Ui { namespace WebForge { Web::Browser::Bridge::QueryE
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const network_life_cycle_session_get_campaign_difficulty = reinterpret_cast<long (*)()>(0x435020);
+	static auto const network_squad_session_get_campaign_insertion_point = reinterpret_cast<short (*)()>(0x435080);
+	static auto const network_squad_session_get_campaign_metagame_scoring = reinterpret_cast<bool (*)()>(0x4350F0);
+}
+
 extern char const *g_player_medal_names[58]; extern char const *g_damage_reporting_type_names[64];  // hades: added for 0x10C67B10  // hades: added for 0x10C67B10
 #include "Player/PlayerInfo.hpp"  // hades: added for 0x10C67B10  // hades: added for 0x10C67B10
 #include "Blam/game/game_results.hpp"  // hades: added for 0x10C67B10  // hades: added for 0x10C67B10
@@ -1273,11 +1281,11 @@ namespace Web
 						rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
 						writer.StartObject();
 						writer.Key("difficulty");
-						writer.Int(((long (*const)())0x435020)());
+						writer.Int(eldorado::network_life_cycle_session_get_campaign_difficulty());
 						writer.Key("insertionPoint");
-						writer.Int(((short (*const)())0x435080)());
+						writer.Int(eldorado::network_squad_session_get_campaign_insertion_point());
 						writer.Key("metagameScoring");
-						writer.Int(((bool (*const)())0x4350F0)());
+						writer.Int(eldorado::network_squad_session_get_campaign_metagame_scoring());
 						writer.EndObject();
 						*p_Result = buffer.GetString();
 						return Web::Browser::Bridge::QueryError_Ok;

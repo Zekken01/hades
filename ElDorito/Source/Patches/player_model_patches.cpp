@@ -181,6 +181,15 @@ namespace Blam
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const current_game_engine = reinterpret_cast<c_game_engine *(*)()>(0x5CE150);
+	static auto const game_engine_has_teams = reinterpret_cast<bool (*)()>(0x5565E0);
+	static auto const game_in_progress = reinterpret_cast<bool (*)()>(0x5314B0);
+}
+#line 183
+
 extern float angle_between_vectors3d(real_vector3d const *v1, real_vector3d const *v2);  // hades: added for 0x10AB7470
 extern float (*const game_ticks_to_seconds)(float);  // hades: added for 0x10AB7470
 
@@ -680,7 +689,7 @@ std::string GetCurrentPreferredCharacter() // 0x10AB6C90
 				// __int32 j;
 	// function call : bool (*const)()
 
-	if (!((bool (*const)())0x5314B0)())
+	if (!eldorado::game_in_progress())
 		return "";
 	std::string loadedMod = c_mod_system::get_current_package_filename(kMainMenu);
 	std::string modHash = c_mod_system::get_current_mainmenu_package_hash();
@@ -954,7 +963,7 @@ void game_engine_get_player_colors_hook(long player_index, s_player_model_custom
 		game_engine_get_player_colors(player_index, customization, out_colors);
 		return;
 	}
-	if (!((c_game_engine *(*const)())0x5CE150)() || !game_is_multiplayer() || player_index == -1)
+	if (!eldorado::current_game_engine() || !game_is_multiplayer() || player_index == -1)
 	{
 		*custom_colors = false;
 		return;
@@ -969,7 +978,7 @@ void game_engine_get_player_colors_hook(long player_index, s_player_model_custom
 	*custom_colors = true;
 	game_engine_get_player_colors(player_index, customization, out_colors);
 	unsigned char team_override_flags = get_player_team_color_override_flags(player_index);
-	if (((bool (*const)())0x5565E0)())
+	if (eldorado::game_engine_has_teams())
 	{
 		for (long i = 0; i < 5; i++)
 		{

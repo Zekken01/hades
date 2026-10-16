@@ -78,6 +78,14 @@ namespace Patches
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const motor_system_submit = reinterpret_cast<e_motor_result (*)(long, c_motor_request *)>(0xB749C0);
+	static auto const object_get_velocities = reinterpret_cast<void (*)(long, real_vector3d *, real_vector3d *)>(0xB2EB30);
+	static auto const object_set_velocities = reinterpret_cast<void (*)(long, real_vector3d const *, real_vector3d const *)>(0xB34040);
+}
+
 extern float (*const game_tick_length)();  // hades: added for 0x1079BA00
 extern float dot_product3d(real_vector3d const *v1, real_vector3d const *v2);  // hades: added for 0x1079BA00
 extern float magnitude3d(real_vector3d const *v);  // hades: added for 0x1079BA00
@@ -148,14 +156,14 @@ namespace Patches
 			if (!Modules::ModuleDebug::Instance().VarAcrophobiaClient->ValueInt)
 				return;
 			real_vector3d velocity;
-			((void (*const)(long, real_vector3d *, real_vector3d *))0xB2EB30)(biped_index, &velocity, nullptr);
+			eldorado::object_get_velocities(biped_index, &velocity, nullptr);
 			if (!(biped->unit_control_flags & 1))
 			{
 				c_motor_request request;
 				request.action_type = 1;
 				request.task_id = 7;
 				request.animation_name1 = -1;
-				((e_motor_result (*const)(long, c_motor_request *))0xB749C0)(biped_index, &request);
+				eldorado::motor_system_submit(biped_index, &request);
 				bool boosting = biped->unit_control_flags & 0x800;
 				float directional_speed = dot_product3d(&biped->desired_aiming_vector, &velocity);
 				float d = fminf(1.0f, fmaxf(directional_speed * 0.02f, 0.0f));
@@ -170,7 +178,7 @@ namespace Patches
 				velocity = global_zero3d;
 			float gravity = *reinterpret_cast<float *>(tls_getd().physics_constants);
 			velocity.k += game_tick_length() * gravity;
-			((void (*const)(long, real_vector3d const *, real_vector3d const *))0xB34040)(biped_index, &velocity, nullptr);
+			eldorado::object_set_velocities(biped_index, &velocity, nullptr);
 		}
 
 		void biped_update_sub1_hook(long biped_index) // 0x1079C000

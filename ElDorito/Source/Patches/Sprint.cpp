@@ -92,6 +92,14 @@ namespace Patches
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const equipment_active_fraction = reinterpret_cast<float (*)(long)>(0xB87DA0);
+	static auto const equipment_definition_get_type = reinterpret_cast<e_equipment_type (*)(long, long)>(0xBA0260);
+	static auto const equipment_remaining_charges = reinterpret_cast<long (*)(long)>(0xB89190);
+}
+
 extern s_object_data *(*const object_try_and_get_and_verify_type)(unsigned long, c_enum<enum e_object_type,long>);  // hades: added for 0x10AD1E10
 
 namespace Patches
@@ -215,11 +223,11 @@ namespace Patches
 				s_unit_data *eqipObject = (s_unit_data *)object_try_and_get_and_verify_type(unitObject->equipment_object_indices[0], -1);
 				if (eqipObject)
 				{
-					e_equipment_type equipment_type = ((e_equipment_type (*const)(long, long))0xBA0260)(eqipObject->definition_index, 0);
+					e_equipment_type equipment_type = eldorado::equipment_definition_get_type(eqipObject->definition_index, 0);
 					if (equipment_type == _equipment_type_adrenaline && sprintState == 2 && !HasSprintPlayerTrait(player_index))
 					{
-						float activeFraction = ((float (*const)(long))0xB87DA0)(unitObject->equipment_object_indices[0]);
-						if (((long (*const)(long))0xB89190)(unitObject->equipment_object_indices[0]) <= 0 && activeFraction == 0.0f)
+						float activeFraction = eldorado::equipment_active_fraction(unitObject->equipment_object_indices[0]);
+						if (eldorado::equipment_remaining_charges(unitObject->equipment_object_indices[0]) <= 0 && activeFraction == 0.0f)
 							player->sprint_cooldown2 = 5;
 					}
 				}

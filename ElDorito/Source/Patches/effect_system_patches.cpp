@@ -151,6 +151,23 @@ using namespace hades_file_local;
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const c_atmosphere_fog_interface_restore_default_atmosphere_constants = reinterpret_cast<void (*)()>(0xA3B5A0);
+	static auto const c_contrail_get = reinterpret_cast<s_contrail_instance *(*)(long)>(0x7563D0);
+	static auto const c_contrail_gpu_s_row_try_get = reinterpret_cast<s_contrail_gpu_row *(*)(long)>(0xA58710);
+	static auto const c_rasterizer_draw_indexed_primitive = reinterpret_cast<void (*)(void *, long, long, long, long)>(0xA28270);
+	static auto const c_rasterizer_get_cull_mode = reinterpret_cast<_D3DCULL (*)()>(0xA22BA0);
+	static auto const c_rasterizer_set_cull_mode = reinterpret_cast<void (*)(_D3DCULL)>(0xA232D0);
+	static auto const c_rasterizer_set_vertex_shader_constant = reinterpret_cast<void (*)(long, long, void *)>(0xA66410);
+	static auto const rasterizer_set_vertex_stream = reinterpret_cast<bool (*)(c_rasterizer_vertex_buffer *)>(0xA5DB60);
+	static auto const rasterizer_set_vertex_stream_with_offset = reinterpret_cast<void (*)(c_rasterizer_vertex_buffer *, long)>(0xA5DB90);
+	static auto const render_method_submit = reinterpret_cast<bool (*)(long, c_render_method *, long, unsigned long, long, bool)>(0xA3CA60);
+	static auto const render_method_submit_valid = reinterpret_cast<bool (*)(bool)>(0xA3D260);
+	static auto const sub_5BBE10 = reinterpret_cast<void (*)()>(0x5BBE10);
+}
+
 float real_random_local();  // hades: added for 0x10913610
 
 real_vector3d *cross_product3d(real_vector3d const *a, real_vector3d const *b, real_vector3d *result);  // hades: added for 0x109137D0
@@ -303,15 +320,15 @@ void __fastcall c_contrail_gpu__render_hook(s_contrail_gpu_datum *gpu_datum, voi
 
 	if (!*(bool *)0x18F3A8C)
 		return;
-	((void (*const)())0x5BBE10)();
+	eldorado::sub_5BBE10();
 	if (!*(bool *)0x18F3A8F)
 		return;
 	if (!*(bool *)0x1917322 || gpu_datum->gpu_row_datum_index == -1 || gpu_datum->field_C <= 1)
 		return;
-	s_contrail_instance *contrail = ((s_contrail_instance *(*const)(long))0x7563D0)(gpu_datum->parent_contrail_index);
+	s_contrail_instance *contrail = eldorado::c_contrail_get(gpu_datum->parent_contrail_index);
 	s_contrail_system_definition *system = ((s_contrail_system_definition *(__thiscall *const)(s_contrail_instance *))0x756460)(contrail);
-	((bool (*const)(c_rasterizer_vertex_buffer *))0xA5DB60)((c_rasterizer_vertex_buffer *)0x510FD30);
-	((void (*const)(long, long, void *))0xA66410)(0x20, 1, (void *)0x191C9AC);
+	eldorado::rasterizer_set_vertex_stream((c_rasterizer_vertex_buffer *)0x510FD30);
+	eldorado::c_rasterizer_set_vertex_shader_constant(0x20, 1, (void *)0x191C9AC);
 	__int32 v4 = 1;
 	if (system->field_12E)
 	{
@@ -322,11 +339,11 @@ void __fastcall c_contrail_gpu__render_hook(s_contrail_gpu_datum *gpu_datum, voi
 	}
 	_D3DCULL previous_cull_mode = (_D3DCULL)1;
 	if ((system->render_flags >> 7) & 1)
-		((void (*const)())0xA3B5A0)();
+		eldorado::c_atmosphere_fog_interface_restore_default_atmosphere_constants();
 	if ((system->render_flags >> 1) & 1)
 	{
-		previous_cull_mode = ((_D3DCULL (*const)())0xA22BA0)();
-		((void (*const)(_D3DCULL))0xA232D0)((_D3DCULL)1);
+		previous_cull_mode = eldorado::c_rasterizer_get_cull_mode();
+		eldorado::c_rasterizer_set_cull_mode((_D3DCULL)1);
 	}
 	if (!*(long *)0x191746C)
 	{
@@ -336,15 +353,15 @@ void __fastcall c_contrail_gpu__render_hook(s_contrail_gpu_datum *gpu_datum, voi
 	}
 	((void (__thiscall *const)(s_contrail_gpu_datum *, void *, s_contrail_states *))0xA54940)(gpu_datum, (void *)0x1917470, states);
 	((void (__thiscall *const)(s_contrail_gpu_datum *, void *))0xA55040)(gpu_datum, (void *)0x1917470);
-	((bool (*const)(bool))0xA3D260)(true);
+	eldorado::render_method_submit_valid(true);
 	s_contrail_location *parent_location = ((s_contrail_location *(__thiscall *const)(s_contrail_instance *))0x756560)(contrail);
 	s_contrail_system *parent_system = ((s_contrail_system *(__thiscall *const)(s_contrail_location *))0x756590)(parent_location);
-	if (!((bool (*const)(long, c_render_method *, long, unsigned long, long, bool))0xA3CA60)(parent_system->definition_index, &system->render_method, 11, 0, 0, false))
+	if (!eldorado::render_method_submit(parent_system->definition_index, &system->render_method, 11, 0, 0, false))
 		return;
 	__int32 index = 0;
 	__int32 row_index = -1;
 	long row_indices[8];
-	for (s_contrail_gpu_row *i = ((s_contrail_gpu_row *(*const)(long))0xA58710)(gpu_datum->gpu_row_datum_index); i; i = ((s_contrail_gpu_row *(*const)(long))0xA58710)(i->next_row_datum_index))
+	for (s_contrail_gpu_row *i = eldorado::c_contrail_gpu_s_row_try_get(gpu_datum->gpu_row_datum_index); i; i = eldorado::c_contrail_gpu_s_row_try_get(i->next_row_datum_index))
 	{
 		if (index >= 8)
 			break;
@@ -366,7 +383,7 @@ void __fastcall c_contrail_gpu__render_hook(s_contrail_gpu_datum *gpu_datum, voi
 				long offset = row_indices[index - 1] * 16 * contrail_vertex_buffer->get_vertex_stride() + *(long *)0x510FD54;
 				if (offset >= 0)
 				{
-					((void (*const)(c_rasterizer_vertex_buffer *, long))0xA5DB90)(contrail_vertex_buffer, offset);
+					eldorado::rasterizer_set_vertex_stream_with_offset(contrail_vertex_buffer, offset);
 					__int32 v15 = 16;
 					if (field_c < 16)
 						v15 = field_c;
@@ -378,7 +395,7 @@ void __fastcall c_contrail_gpu__render_hook(s_contrail_gpu_datum *gpu_datum, voi
 						__int32 v17 = v16 | 0x40000000;
 						device->SetStreamSourceFreq(0, v17);
 						device->SetStreamSourceFreq(2, v17);
-						((void (*const)(void *, long, long, long, long))0xA28270)(contrail_index_buffer, 0, 4 * v4, 0, 6 * v4);
+						eldorado::c_rasterizer_draw_indexed_primitive(contrail_index_buffer, 0, 4 * v4, 0, 6 * v4);
 					}
 				}
 				field_c -= 16;
@@ -387,19 +404,19 @@ void __fastcall c_contrail_gpu__render_hook(s_contrail_gpu_datum *gpu_datum, voi
 		long offset = contrail_vertex_buffer->get_vertex_stride() * (row_indices[0] * 16 + gpu_datum->field_C % 16 - 2) + *(long *)0x510FD54;
 		if (offset >= 0)
 		{
-			((bool (*const)(c_rasterizer_vertex_buffer *))0xA5DB60)((c_rasterizer_vertex_buffer *)0x510FD3C);
-			((void (*const)(c_rasterizer_vertex_buffer *, long))0xA5DB90)(contrail_vertex_buffer, offset);
+			eldorado::rasterizer_set_vertex_stream((c_rasterizer_vertex_buffer *)0x510FD3C);
+			eldorado::rasterizer_set_vertex_stream_with_offset(contrail_vertex_buffer, offset);
 			device->SetStreamSourceFreq(0, 0x40000001);
 			device->SetStreamSourceFreq(2, 0x40000001);
-			((void (*const)(void *, long, long, long, long))0xA28270)(contrail_index_buffer, 0, 4 * v4, 0, 6 * v4);
+			eldorado::c_rasterizer_draw_indexed_primitive(contrail_index_buffer, 0, 4 * v4, 0, 6 * v4);
 		}
 	}
 	device->SetStreamSourceFreq(0, 1);
 	device->SetStreamSourceFreq(1, 1);
 	device->SetStreamSourceFreq(2, 1);
 	if ((system->render_flags >> 1) & 1)
-		((void (*const)(_D3DCULL))0xA232D0)(previous_cull_mode);
-	((bool (*const)(bool))0xA3D260)(false);
+		eldorado::c_rasterizer_set_cull_mode(previous_cull_mode);
+	eldorado::render_method_submit_valid(false);
 }
 
 void gpu_vertex_stream_submit(c_rasterizer_vertex_buffer *vertex_buffer, s_gpu_vertex_stream *stream) // 0x10913080

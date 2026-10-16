@@ -199,6 +199,17 @@ namespace hades_file_local
 }
 using namespace hades_file_local;
 /* ---------- prototypes */
+
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const game_is_authoritative = reinterpret_cast<bool (*)()>(0x5319C0);
+	static auto const game_is_playback = reinterpret_cast<bool (*)()>(0x531D10);
+	static auto const game_is_predicted = reinterpret_cast<bool (*)()>(0x531D70);
+	static auto const unit_get_aim_position = reinterpret_cast<char (*)(long, real_point3d *)>(0xB43110);
+	static auto const unit_get_aiming_vector = reinterpret_cast<void (*)(long, real_vector3d *)>(0xB43300);
+	static auto const unit_set_aiming_vectors = reinterpret_cast<void (*)(long, real_vector3d const *, real_vector3d const *)>(0xB48590);
+}
 template<typename t_arg0> static t_arg0 *object_get(unsigned long object_index) { return (t_arg0 *)object_get(object_index); }  // hades: a file-local template in the original (undecorated `object_get<T>`), defined so it is emitted
 extern bool (*const game_is_distributed)();  // hades: added for 0x1069FE20
 extern void weapon_barrel_fire(long weapon_index, short barrel_index, bool a3);  // hades: added for 0x1069EF80
@@ -291,7 +302,7 @@ void simulation_action_weapon_fire_hook(long weapon_index, long barrel_index, bo
 	// function call : void (*const)(long, long, long *, long, void const *)
 	// function call : void (*const)(e_simulation_event_type, long, long *, long, long, void const *)
 
-	if (!game_is_distributed() || ((bool (*const)())0x531D10)())
+	if (!game_is_distributed() || eldorado::game_is_playback())
 		return;
 	s_weapon_data *weapon = object_get<s_weapon_data>(weapon_index);
 	s_weapon_definition *weapon_definiton = (s_weapon_definition *)tag_get('weap', weapon->definition_index);
@@ -340,7 +351,7 @@ void simulation_action_weapon_fire_hook(long weapon_index, long barrel_index, bo
 	if (aim_assist_unit_index != -1)
 	{
 		s_aim_assist_targeting_result *aim_assist_targeting_result = &object_get<s_unit_data>(aim_assist_unit_index)->aim_assist_data;
-		((void (*const)(long, real_vector3d *))0xB43300)(aim_assist_unit_index, &event_data.aiming_vector);
+		eldorado::unit_get_aiming_vector(aim_assist_unit_index, &event_data.aiming_vector);
 		((void (*const)(s_aim_assist_targeting_result *, s_player_predicted_aim_assist *))0x470CF0)(aim_assist_targeting_result, &event_data.aim_target_predicted);
 	}
 	event_data.aiming_vector_valid = true;
@@ -352,7 +363,7 @@ void simulation_action_weapon_fire_hook(long weapon_index, long barrel_index, bo
 		long index = event_data.predicted_projectile_fire_data_count;
 		if (current_fire_result->impact_valid)
 		{
-			long entity_index = ((bool (*const)())0x5319C0)() ? ((long (*const)(long))0x4AF3E0)(current_fire_result->impact_object_index) : ((long (*const)(long))0x4AF520)(current_fire_result->impact_object_index);
+			long entity_index = eldorado::game_is_authoritative() ? ((long (*const)(long))0x4AF3E0)(current_fire_result->impact_object_index) : ((long (*const)(long))0x4AF520)(current_fire_result->impact_object_index);
 			if (entity_index != -1)
 			{
 				long target_index = 0;
@@ -559,7 +570,7 @@ void __fastcall c_simulation_weapon_fire_event_definition__apply_game_event_hook
 			}
 		}
 		real_point3d position;
-		((char (*const)(long, real_point3d *))0xB43110)(weapon_control_unit_index, &position);
+		eldorado::unit_get_aim_position(weapon_control_unit_index, &position);
 		real_vector3d *event_data_aiming_vector = nullptr;
 		real_vector3d aiming_vector;
 		for (long j = 0; j < fire_data.predicted_projectile_fire_data_count; j++)
@@ -574,7 +585,7 @@ void __fastcall c_simulation_weapon_fire_event_definition__apply_game_event_hook
 		}
 		if (!event_data_aiming_vector && payload->aiming_vector_valid)
 			event_data_aiming_vector = &payload->aiming_vector;
-		((void (*const)(long, real_vector3d const *, real_vector3d const *))0xB48590)(weapon_control_unit_index, event_data_aiming_vector, event_data_aiming_vector);
+		eldorado::unit_set_aiming_vectors(weapon_control_unit_index, event_data_aiming_vector, event_data_aiming_vector);
 		if (((bool (__thiscall *const)(c_aim_target_object *))0x589020)(&payload->aim_target_predicted.aim_assist_data.target_object))
 			unit->aim_assist_data = payload->aim_target_predicted.aim_assist_data;
 		if (((bool (*const)(long))0xB617E0)(weapon_index) && ((char (__thiscall *const)(c_aim_target_simulation_entity *))0x589050)(&payload->aim_target_simulation_entity))
@@ -593,7 +604,7 @@ void __fastcall c_simulation_weapon_fire_event_definition__apply_game_event_hook
 		long v67 = -1;
 		if (!((char (*const)(long, long, long *, long *, long *))0xB5CE60)(weapon_index, payload->barrel_index, &v57, &v64, &v67))
 			return;
-		weapon_barrel_fire(weapon_index, (short)payload->barrel_index, ((bool (*const)())0x531D70)());
+		weapon_barrel_fire(weapon_index, (short)payload->barrel_index, eldorado::game_is_predicted());
 		if (payload->barrel_should_recover || ((bool (*const)(long, short))0xB608D0)(weapon_index, (short)payload->barrel_index))
 			((char (*const)(long, short, bool))0xB60950)(weapon_index, (short)payload->barrel_index, false);
 		else

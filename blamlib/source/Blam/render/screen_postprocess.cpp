@@ -51,6 +51,24 @@ struct s_rasterizer_globals;
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const c_rasterizer_clear_sampler_textures = reinterpret_cast<void (*)()>(0xA22AB0);
+	static auto const c_rasterizer_draw_fullscreen_quad = reinterpret_cast<void (*)(long, long)>(0xA45EE0);
+	static auto const c_rasterizer_get_surface_height = reinterpret_cast<long (*)(long)>(0xA487A0);
+	static auto const c_rasterizer_get_surface_width = reinterpret_cast<long (*)(long)>(0xA48810);
+	static auto const c_rasterizer_set_explicit_shaders = reinterpret_cast<bool (*)(long, long, long, long)>(0xA23300);
+	static auto const c_rasterizer_set_pixel_shader_constant = reinterpret_cast<void (*)(long, long, real_vector4d const *)>(0xA66270);
+	static auto const c_rasterizer_set_render_target = reinterpret_cast<e_surface (*)(long, e_surface, long)>(0xA48E40);
+	static auto const c_rasterizer_set_sampler_address_mode = reinterpret_cast<void (*)(long, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>)>(0xA23570);
+	static auto const c_rasterizer_set_sampler_filter_mode = reinterpret_cast<void (*)(long, c_enum<enum e_sampler_filter_mode,long>)>(0xA23660);
+	static auto const c_rasterizer_set_sampler_texture = reinterpret_cast<void (*)(long, c_rasterizer_texture_ref)>(0xA23810);
+	static auto const c_rasterizer_set_sampler_texture_direct = reinterpret_cast<void (*)(long, long)>(0xA23530);
+	static auto const c_rasterizer_set_surface_as_texture = reinterpret_cast<void (*)(long, e_surface)>(0xA48F20);
+	static auto const c_rasterizer_set_vertex_shader_constant = reinterpret_cast<void (*)(long, long, real_vector4d const *)>(0xA66410);
+}
+
 void *offset_pointer(void *pointer, long offset);  // hades: added for 0x10F10B40
 
 /* ---------- globals */
@@ -326,17 +344,17 @@ bool c_screen_postprocess::smaa_render(e_surface src_surface, e_surface dst_surf
 	// function call : e_surface (*const)(long, e_surface, long)
 
 	IDirect3DDevice9Ex *const device = c_rasterizer::get_device();
-	if (smaa_initialize(((long (*const)(long))0xA48810)(dst_surface), ((long (*const)(long))0xA487A0)(dst_surface)))
+	if (smaa_initialize(eldorado::c_rasterizer_get_surface_width(dst_surface), eldorado::c_rasterizer_get_surface_height(dst_surface)))
 	{
 		bool result = debug_mode == s_smaa_globals::_smaa_debug_mode_velocity_postprocessed;
 		float z_near;
 		float z_far;
-		((e_surface (*const)(long, e_surface, long))0xA48E40)(1, (e_surface)0, -1);
-		((e_surface (*const)(long, e_surface, long))0xA48E40)(2, (e_surface)0, -1);
-		((e_surface (*const)(long, e_surface, long))0xA48E40)(3, (e_surface)0, -1);
-		((void (*const)(long, e_surface))0xA48F20)(1, (e_surface)23);
-		((void (*const)(long, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>))0xA23570)(1, _address_mode_clamp, _address_mode_clamp, _address_mode_clamp);
-		((void (*const)(long, c_enum<enum e_sampler_filter_mode,long>))0xA23660)(1, _filter_bilinear);
+		eldorado::c_rasterizer_set_render_target(1, (e_surface)0, -1);
+		eldorado::c_rasterizer_set_render_target(2, (e_surface)0, -1);
+		eldorado::c_rasterizer_set_render_target(3, (e_surface)0, -1);
+		eldorado::c_rasterizer_set_surface_as_texture(1, (e_surface)23);
+		eldorado::c_rasterizer_set_sampler_address_mode(1, _address_mode_clamp, _address_mode_clamp, _address_mode_clamp);
+		eldorado::c_rasterizer_set_sampler_filter_mode(1, _filter_bilinear);
 		void (*const rasterizer_get_z_planes)(float *, float *) = (void (*)(float *, float *))0xA25AA0;
 		rasterizer_get_z_planes(&z_near, &z_far);
 		real_vector4d depth_constants;
@@ -344,15 +362,15 @@ bool c_screen_postprocess::smaa_render(e_surface src_surface, e_surface dst_surf
 		depth_constants.j = z_far / (z_far - z_near);
 		depth_constants.k = 0.0f;
 		depth_constants.w = 0.0f;
-		((void (*const)(long, long, real_vector4d const *))0xA66270)(3, 1, &depth_constants);
+		eldorado::c_rasterizer_set_pixel_shader_constant(3, 1, &depth_constants);
 		if (smaa_globals.temporal_enabled)
 			smaa_render_velocity(device, dst_surface, debug_mode);
 		else
 			smaa_globals.temporal_valid = false;
-		if (debug_mode != s_smaa_globals::_smaa_debug_mode_velocity_postprocessed && ((bool (*const)(long, long, long, long))0xA23300)(110, 7, 0, 0))
+		if (debug_mode != s_smaa_globals::_smaa_debug_mode_velocity_postprocessed && eldorado::c_rasterizer_set_explicit_shaders(110, 7, 0, 0))
 		{
 			if (debug_mode == s_smaa_globals::_smaa_debug_mode_edges)
-				((e_surface (*const)(long, e_surface, long))0xA48E40)(0, dst_surface, -1);
+				eldorado::c_rasterizer_set_render_target(0, dst_surface, -1);
 			else
 				device->SetRenderTarget(0, smaa_globals.edge_srf);
 			real_vector4d pixel_size;
@@ -360,54 +378,54 @@ bool c_screen_postprocess::smaa_render(e_surface src_surface, e_surface dst_surf
 			pixel_size.j = 1.0f / smaa_globals.res_y;
 			pixel_size.k = (float)smaa_globals.res_x;
 			pixel_size.w = (float)smaa_globals.res_y;
-			((void (*const)(long, long, real_vector4d const *))0xA66270)(1, 1, &pixel_size);
-			((void (*const)(long, long, real_vector4d const *))0xA66410)(1, 1, &pixel_size);
+			eldorado::c_rasterizer_set_pixel_shader_constant(1, 1, &pixel_size);
+			eldorado::c_rasterizer_set_vertex_shader_constant(1, 1, &pixel_size);
 			real_vector4d depth_threshold;
 			depth_threshold.i = smaa_globals.depth_threshold;
 			depth_threshold.j = 0.0f;
 			depth_threshold.k = 0.0f;
 			depth_threshold.w = 0.0f;
-			((void (*const)(long, long, real_vector4d const *))0xA66270)(2, 1, &depth_threshold);
-			((void (*const)(long, e_surface))0xA48F20)(0, src_surface);
-			((void (*const)(long, long))0xA23530)(0, 0);
-			((void (*const)(long, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>))0xA23570)(0, _address_mode_clamp, _address_mode_clamp, _address_mode_clamp);
-			((void (*const)(long, c_enum<enum e_sampler_filter_mode,long>))0xA23660)(0, _filter_bilinear);
-			((void (*const)(long, long))0xA45EE0)(smaa_globals.res_x, smaa_globals.res_y);
+			eldorado::c_rasterizer_set_pixel_shader_constant(2, 1, &depth_threshold);
+			eldorado::c_rasterizer_set_surface_as_texture(0, src_surface);
+			eldorado::c_rasterizer_set_sampler_texture_direct(0, 0);
+			eldorado::c_rasterizer_set_sampler_address_mode(0, _address_mode_clamp, _address_mode_clamp, _address_mode_clamp);
+			eldorado::c_rasterizer_set_sampler_filter_mode(0, _filter_bilinear);
+			eldorado::c_rasterizer_draw_fullscreen_quad(smaa_globals.res_x, smaa_globals.res_y);
 			if (debug_mode == s_smaa_globals::_smaa_debug_mode_edges)
 			{
-				((void (*const)())0xA22AB0)();
+				eldorado::c_rasterizer_clear_sampler_textures();
 				return true;
 			}
-			if (((bool (*const)(long, long, long, long))0xA23300)(110, 7, 0, 1))
+			if (eldorado::c_rasterizer_set_explicit_shaders(110, 7, 0, 1))
 			{
 				if (debug_mode == s_smaa_globals::_smaa_debug_mode_blend_weights)
-					((e_surface (*const)(long, e_surface, long))0xA48E40)(0, dst_surface, -1);
+					eldorado::c_rasterizer_set_render_target(0, dst_surface, -1);
 				else
 					device->SetRenderTarget(0, smaa_globals.blend_srf);
 				device->SetTexture(2, smaa_globals.edge_buffer);
-				((void (*const)(long, long))0xA23530)(2, 0);
-				((void (*const)(long, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>))0xA23570)(2, _address_mode_clamp, _address_mode_clamp, _address_mode_clamp);
-				((void (*const)(long, c_enum<enum e_sampler_filter_mode,long>))0xA23660)(2, _filter_bilinear);
+				eldorado::c_rasterizer_set_sampler_texture_direct(2, 0);
+				eldorado::c_rasterizer_set_sampler_address_mode(2, _address_mode_clamp, _address_mode_clamp, _address_mode_clamp);
+				eldorado::c_rasterizer_set_sampler_filter_mode(2, _filter_bilinear);
 				{
 					s_rasterizer_globals *rasg = c_rasterizer_globals::get();
 					c_rasterizer_texture_ref area_tex(-1);
 					c_rasterizer_globals::get_default_texture_rasterizer_texture_ref(rasg, &area_tex, (e_rasterizer_default_bitmap)15);
-					((void (*const)(long, c_rasterizer_texture_ref))0xA23810)(3, area_tex);
-					((void (*const)(long, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>))0xA23570)(3, _address_mode_clamp, _address_mode_clamp, _address_mode_clamp);
-					((void (*const)(long, c_enum<enum e_sampler_filter_mode,long>))0xA23660)(3, _filter_bilinear);
+					eldorado::c_rasterizer_set_sampler_texture(3, area_tex);
+					eldorado::c_rasterizer_set_sampler_address_mode(3, _address_mode_clamp, _address_mode_clamp, _address_mode_clamp);
+					eldorado::c_rasterizer_set_sampler_filter_mode(3, _filter_bilinear);
 					c_rasterizer_texture_ref search_tex(-1);
 					c_rasterizer_globals::get_default_texture_rasterizer_texture_ref(rasg, &search_tex, (e_rasterizer_default_bitmap)16);
-					((void (*const)(long, c_rasterizer_texture_ref))0xA23810)(4, search_tex);
-					((void (*const)(long, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>))0xA23570)(4, _address_mode_clamp, _address_mode_clamp, _address_mode_clamp);
-					((void (*const)(long, c_enum<enum e_sampler_filter_mode,long>))0xA23660)(4, _filter_bilinear);
+					eldorado::c_rasterizer_set_sampler_texture(4, search_tex);
+					eldorado::c_rasterizer_set_sampler_address_mode(4, _address_mode_clamp, _address_mode_clamp, _address_mode_clamp);
+					eldorado::c_rasterizer_set_sampler_filter_mode(4, _filter_bilinear);
 				}
-				((void (*const)(long, long))0xA45EE0)(smaa_globals.res_x, smaa_globals.res_y);
+				eldorado::c_rasterizer_draw_fullscreen_quad(smaa_globals.res_x, smaa_globals.res_y);
 				if (debug_mode == s_smaa_globals::_smaa_debug_mode_blend_weights)
 				{
-					((void (*const)())0xA22AB0)();
+					eldorado::c_rasterizer_clear_sampler_textures();
 					return true;
 				}
-				if (((bool (*const)(long, long, long, long))0xA23300)(110, 7, 0, 2))
+				if (eldorado::c_rasterizer_set_explicit_shaders(110, 7, 0, 2))
 				{
 					if (smaa_globals.temporal_valid)
 					{
@@ -416,29 +434,29 @@ bool c_screen_postprocess::smaa_render(e_surface src_surface, e_surface dst_surf
 					}
 					else
 					{
-						((e_surface (*const)(long, e_surface, long))0xA48E40)(0, dst_surface, -1);
+						eldorado::c_rasterizer_set_render_target(0, dst_surface, -1);
 					}
-					((void (*const)(long, long))0xA23530)(0, 1);
+					eldorado::c_rasterizer_set_sampler_texture_direct(0, 1);
 					device->SetTexture(5, smaa_globals.blend_buffer);
-					((void (*const)(long, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>))0xA23570)(5, _address_mode_clamp, _address_mode_clamp, _address_mode_clamp);
-					((void (*const)(long, c_enum<enum e_sampler_filter_mode,long>))0xA23660)(5, _filter_bilinear);
+					eldorado::c_rasterizer_set_sampler_address_mode(5, _address_mode_clamp, _address_mode_clamp, _address_mode_clamp);
+					eldorado::c_rasterizer_set_sampler_filter_mode(5, _filter_bilinear);
 					device->SetTexture(6, smaa_globals.velocity_buffer);
-					((void (*const)(long, long))0xA23530)(6, 0);
-					((void (*const)(long, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>))0xA23570)(6, _address_mode_clamp, _address_mode_clamp, _address_mode_clamp);
-					((void (*const)(long, c_enum<enum e_sampler_filter_mode,long>))0xA23660)(6, _filter_bilinear);
-					((void (*const)(long, long))0xA45EE0)(smaa_globals.res_x, smaa_globals.res_y);
+					eldorado::c_rasterizer_set_sampler_texture_direct(6, 0);
+					eldorado::c_rasterizer_set_sampler_address_mode(6, _address_mode_clamp, _address_mode_clamp, _address_mode_clamp);
+					eldorado::c_rasterizer_set_sampler_filter_mode(6, _filter_bilinear);
+					eldorado::c_rasterizer_draw_fullscreen_quad(smaa_globals.res_x, smaa_globals.res_y);
 					if (smaa_globals.temporal_valid)
 					{
-						if (((bool (*const)(long, long, long, long))0xA23300)(110, 7, 0, 10))
+						if (eldorado::c_rasterizer_set_explicit_shaders(110, 7, 0, 10))
 						{
-							((e_surface (*const)(long, e_surface, long))0xA48E40)(0, dst_surface, -1);
+							eldorado::c_rasterizer_set_render_target(0, dst_surface, -1);
 							device->SetTexture(2, smaa_globals.edge_buffer);
-							((void (*const)(long, long))0xA23530)(2, 1);
+							eldorado::c_rasterizer_set_sampler_texture_direct(2, 1);
 							device->SetTexture(8, smaa_globals.prev_rt);
-							((void (*const)(long, long))0xA23530)(8, 1);
-							((void (*const)(long, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>))0xA23570)(8, _address_mode_clamp, _address_mode_clamp, _address_mode_clamp);
-							((void (*const)(long, c_enum<enum e_sampler_filter_mode,long>))0xA23660)(8, _filter_bilinear);
-							((void (*const)(long, long))0xA45EE0)(smaa_globals.res_x, smaa_globals.res_y);
+							eldorado::c_rasterizer_set_sampler_texture_direct(8, 1);
+							eldorado::c_rasterizer_set_sampler_address_mode(8, _address_mode_clamp, _address_mode_clamp, _address_mode_clamp);
+							eldorado::c_rasterizer_set_sampler_filter_mode(8, _filter_bilinear);
+							eldorado::c_rasterizer_draw_fullscreen_quad(smaa_globals.res_x, smaa_globals.res_y);
 							result = true;
 						}
 					}
@@ -451,8 +469,8 @@ bool c_screen_postprocess::smaa_render(e_surface src_surface, e_surface dst_surf
 		}
 		if (result)
 		{
-			((void (*const)())0xA22AB0)();
-			((e_surface (*const)(long, e_surface, long))0xA48E40)(0, (e_surface)0, -1);
+			eldorado::c_rasterizer_clear_sampler_textures();
+			eldorado::c_rasterizer_set_render_target(0, (e_surface)0, -1);
 			if (smaa_globals.temporal_enabled)
 			{
 				if (!smaa_globals.temporal_valid)
@@ -462,15 +480,15 @@ bool c_screen_postprocess::smaa_render(e_surface src_surface, e_surface dst_surf
 				IDirect3DSurface9 *dpth_fp32 = ((c_surface_group *)0x510D8D0)[23].surfaces[0].m_surface;
 				device->StretchRect(dpth_fp32, nullptr, smaa_globals.prev_depth_srf, nullptr, D3DTEXF_NONE);
 			}
-			((e_surface (*const)(long, e_surface, long))0xA48E40)(0, dst_surface, -1);
+			eldorado::c_rasterizer_set_render_target(0, dst_surface, -1);
 			return true;
 		}
 	}
-	((e_surface (*const)(long, e_surface, long))0xA48E40)(0, (e_surface)0, -1);
+	eldorado::c_rasterizer_set_render_target(0, (e_surface)0, -1);
 	IDirect3DSurface9 *src = ((c_surface_group *)0x510D8D0)[src_surface].surfaces[0].m_surface;
 	IDirect3DSurface9 *dst = ((c_surface_group *)0x510D8D0)[dst_surface].surfaces[0].m_surface;
 	device->StretchRect(src, nullptr, dst, nullptr, D3DTEXF_NONE);
-	((e_surface (*const)(long, e_surface, long))0xA48E40)(0, dst_surface, -1);
+	eldorado::c_rasterizer_set_render_target(0, dst_surface, -1);
 	return false;
 }
 

@@ -127,6 +127,12 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const player_mapping_get_player_by_input_user = reinterpret_cast<unsigned long (*)(long)>(0x589C30);
+}
+
 #include "Modules/ModuleInput.hpp"  // hades: added for 0x10ABF380
 #include "Blam/camera/camera.hpp"  // hades: added for 0x10ABF380
 namespace Patches { namespace Camera { extern e_camera_mode GetForcedCameraMode(); } }  // hades: added for 0x10ABF380
@@ -233,7 +239,7 @@ bool ShouldDisableRawInput() // 0x10ABF5C0
 	bool (*const game_engine_round_in_progress)() = reinterpret_cast<bool (*)()>(0x550F90);
 	if (game_engine_round_in_progress())
 	{
-		unsigned long playerIndex = ((unsigned long (*const)(long))0x589C30)(0);
+		unsigned long playerIndex = eldorado::player_mapping_get_player_by_input_user(0);
 		s_player_datum *player = nullptr;
 		if (playerIndex == -1 || !(player = players_get()->try_and_get(playerIndex)))
 			return false;

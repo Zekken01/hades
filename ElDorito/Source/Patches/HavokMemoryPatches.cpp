@@ -126,6 +126,13 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const havok_display_stats = reinterpret_cast<void (*)(CHavokStatsOutputHandler *)>(0x5C4FC0);
+	static auto const interface_get_current_display_settings = reinterpret_cast<void (*)(short_rectangle2d *, short_rectangle2d *, short_rectangle2d *, short_rectangle2d *)>(0xA9FAA0);
+}
+
 extern void ExpandRuntimePool();
 namespace Patches
 {
@@ -318,7 +325,7 @@ _inline CHavokStatsDisplayOutputHandler::CHavokStatsDisplayOutputHandler() // 0x
 	// function call : void (*const)(short_rectangle2d *, short_rectangle2d *, short_rectangle2d *, short_rectangle2d *)
 
 	m_yOffset = 0;
-	((void (*const)(short_rectangle2d *, short_rectangle2d *, short_rectangle2d *, short_rectangle2d *))0xa9faa0)(nullptr, nullptr, nullptr, &m_displayBounds);
+	eldorado::interface_get_current_display_settings(nullptr, nullptr, nullptr, &m_displayBounds);
 }
 
 // mangled_x86(MANGLED_DEFAULT, "??0CHavokStatsOutputHandler@hades_file_local@@QAE@XZ"); no body to assert in
@@ -347,7 +354,7 @@ _inline void CHavokStatsDisplayOutputHandler::OutputLine(real_argb_color const *
 	if (!color)
 	{ static real_argb_color const white = { 1.0f, 1.0f, 1.0f, 1.0f }; color = &white; } // 0x11191FD8
 	short_rectangle2d bounds;
-	((void (*const)(short_rectangle2d *, short_rectangle2d *, short_rectangle2d *, short_rectangle2d *))0xA9FAA0)(nullptr, nullptr, nullptr, &bounds);
+	eldorado::interface_get_current_display_settings(nullptr, nullptr, nullptr, &bounds);
 	m_drawString.set_font(0);
 	m_drawString.set_justification(0);
 	m_drawString.set_color(*color);
@@ -397,7 +404,7 @@ void havok_out_of_memory_hook() // 0x1085FD10
 	// function call : __int32 (HWND__ *, char const *, char const *, unsigned __int32)
 
 	CHavokStatsStringOutputHandler buff;
-	((void (*const)(CHavokStatsOutputHandler *))0x5c4fc0)(&buff);
+	eldorado::havok_display_stats(&buff);
 	MessageBoxA(nullptr, buff.GetString().c_str(), "Havok out of memory!!!", 0x10);
 	__debugbreak();
 }

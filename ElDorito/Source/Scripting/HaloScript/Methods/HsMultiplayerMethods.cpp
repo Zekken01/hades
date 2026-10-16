@@ -194,6 +194,13 @@ namespace Blam
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const hs_macro_function_evaluate = reinterpret_cast<hs_value *(*)(short, long, bool)>(0x5972F0);
+	static auto const hs_return = reinterpret_cast<void (*)(long, hs_value)>(0x5974E0);
+}
+
 extern float (*const game_ticks_to_seconds)(float);  // hades: added for 0x106F92D0
 
 extern s_map_variant *(*const game_engine_get_runtime_map_variant)();  // hades: added for 0x106FA150
@@ -647,17 +654,17 @@ void hs_lobby_size_evaluate(short op, long thread_index, bool initial) // 0x106F
 	// function call : void (*const)(long, hs_value)
 	// function call : void (*const)(long, hs_value)
 
-	hs_value *args = ((hs_value *(*const)(short, long, bool))0x5972F0)(op, thread_index, initial);
+	hs_value *args = eldorado::hs_macro_function_evaluate(op, thread_index, initial);
 	if (args)
 	{
 		Blam::Network::Session *session = Blam::Network::GetActiveSession();
 		if (session && session->IsEstablished())
 		{
-			((void (*const)(long, hs_value))0x5974E0)(thread_index, hs_value::from_short(session->MembershipInfo.PlayerCount));
+			eldorado::hs_return(thread_index, hs_value::from_short(session->MembershipInfo.PlayerCount));
 		}
 		else
 		{
-			((void (*const)(long, hs_value))0x5974E0)(thread_index, hs_value{});
+			eldorado::hs_return(thread_index, hs_value{});
 		}
 	}
 }

@@ -221,6 +221,21 @@ typedef long long long64;
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const collision_model_bsp_iterator_new = reinterpret_cast<void (*)(s_collision_model_bsp_iterator *, model_definition *, collision_model_definition *, unsigned char *)>(0x980AF0);
+	static auto const collision_model_bsp_iterator_next = reinterpret_cast<bool (*)(s_collision_model_bsp_iterator *)>(0x980BC0);
+	static auto const game_in_progress = reinterpret_cast<bool(*)()>(0x5314B0);
+	static auto const object_get_markers_by_string_id = reinterpret_cast<short (*)(long, unsigned long, s_object_marker *, short)>(0xB2E3C0);
+	static auto const object_get_orientation = reinterpret_cast<void (*)(long, real_vector3d *, real_vector3d *)>(0xB2E490);
+	static auto const object_get_origin = reinterpret_cast<void (*)(long, real_point3d *)>(0xB2E5A0);
+	static auto const objects_in_sphere = reinterpret_cast<short (*)(long, long, s_cluster_reference const *, real_point3d const *, float, long *, unsigned short)>(0xB35B60);
+	static auto const player_mapping_get_unit_by_output_user = reinterpret_cast<unsigned long (*)(long)>(0x589CC0);
+	static auto const real_argb_color_to_pixel32 = reinterpret_cast<unsigned long (*)(real_argb_color const &)>(0x521810);
+	static auto const unit_get_camera_position = reinterpret_cast<void (*)(long, real_point3d *)>(0xB439D0);
+}
+
 extern void render_debug_physics_shape(hkpShape const *shape, real_matrix4x3 const *matrix, real_argb_color const *color);  // hades: added for 0x108CCC50
 
 extern s_object_data *(*const object_try_and_get_and_verify_type)(unsigned long, c_enum<e_object_type, long>);  // hades: added for 0x108C95C0
@@ -355,7 +370,7 @@ namespace Patches
 			// procedure flags: nofpo
 			// function call : bool (*const)()
 
-			if (((bool(*const)())0x5314b0)())
+			if (eldorado::game_in_progress())
 			{
 				CRenderDebugCollisionTest::Update();
 			}
@@ -556,10 +571,10 @@ _inline std::string CRenderDebugCollisionTest::GetHitDescription(s_collision_res
 			scnrIndex = object->scenario_datum_index;
 			mapvPlacementIndex = object->map_variant_index;
 			objectName = GetFriendlyTagName(object->definition_index);
-			((void (*const)(long, real_point3d *))0xB2E5A0)(hit.object_index, &object_pos);
+			eldorado::object_get_origin(hit.object_index, &object_pos);
 			real_vector3d forward;
 			real_vector3d up;
-			((void (*const)(long, real_vector3d *, real_vector3d *))0xB2E490)(hit.object_index, &forward, &up);
+			eldorado::object_get_orientation(hit.object_index, &forward, &up);
 			euler_angles3d_from_vectors3d(&object_angles, &forward, &up);
 			object_angles.yaw = object_angles.yaw / 3.1415927f * 180.0f;
 			object_angles.pitch = object_angles.pitch / 3.1415927f * 180.0f;
@@ -583,9 +598,9 @@ _inline std::string CRenderDebugCollisionTest::GetHitDescription(s_collision_res
 	std::string renderMaterialName = "unknown";
 	long renderMaterialIndex = -1;
 	real_point3d cameraPos = { 0.0f, 0.0f, 0.0f };
-	long unitIndex = ((unsigned long (*const)(long))0x589CC0)(0);
+	long unitIndex = eldorado::player_mapping_get_unit_by_output_user(0);
 	if (unitIndex != -1)
-		((void (*const)(long, real_point3d *))0xB439D0)(unitIndex, &cameraPos);
+		eldorado::unit_get_camera_position(unitIndex, &cameraPos);
 	float distance = point3d_distance(&cameraPos, &hit.intersection_point);
 	if ((hit.type == 1 || hit.type == 3) && bspIndex >= 0 && bspIndex < scenario->structure_bsps.count)
 	{
@@ -902,8 +917,8 @@ void render_debug_collision_model(collision_model_instance const *instance) // 0
 	// function call : bool (*const)(s_collision_model_bsp_iterator *)
 
 	s_collision_model_bsp_iterator iterator;
-	((void (*const)(s_collision_model_bsp_iterator *, model_definition *, collision_model_definition *, unsigned char *))0x980AF0)(&iterator, instance->model, instance->collision_model, instance->permutations);
-	while (((bool (*const)(s_collision_model_bsp_iterator *))0x980BC0)(&iterator))
+	eldorado::collision_model_bsp_iterator_new(&iterator, instance->model, instance->collision_model, instance->permutations);
+	while (eldorado::collision_model_bsp_iterator_next(&iterator))
 	{
 		unsigned char node_index = iterator.m_bsp3d_reference & 0xFF;
 		render_debug_collision_bsp(iterator.m_bsp.bsp, &instance->nodes[node_index], 0xFF00FF00);
@@ -963,8 +978,8 @@ void render_debug_object_markers(long object_index) // 0x108CC380
 		float r = sin(theta + 0.0f) * 0.5f + 0.5f;
 		float g = sin(theta + 2.0f) * 0.5f + 0.5f;
 		float b = sin(theta + 4.0f) * 0.5f + 0.5f;
-		unsigned long color = ((unsigned long (*const)(real_argb_color const &))0x521810)({ 1.0f, r, g, b });
-		short marker_count = ((short (*const)(long, unsigned long, s_object_marker *, short))0xB2E3C0)(object_index, marker_group.name, markers, 64);
+		unsigned long color = eldorado::real_argb_color_to_pixel32({ 1.0f, r, g, b });
+		short marker_count = eldorado::object_get_markers_by_string_id(object_index, marker_group.name, markers, 64);
 		for (__int32 j = 0; j < marker_count; j++)
 		{
 				CDebugDrawBackend::DrawLine(markers[j].world_matrix.position, markers[j].world_matrix.position + 0.07f * markers[j].world_matrix.forward, 0xFF0000FF);
@@ -1133,7 +1148,7 @@ short area_of_effect_cause_damage_objects_in_sphere_hook(long flags, long object
 		// s_damage_data *damage_data;
 	// function call : short (*const)(long, long, s_cluster_reference const *, real_point3d const *, float, long *, short)
 
-	short num_objects = ((short (*const)(long, long, s_cluster_reference const *, real_point3d const *, float, long *, unsigned short))0xb35b60)(flags, object_mask, cluster, center, radius, objects, max_objects);
+	short num_objects = eldorado::objects_in_sphere(flags, object_mask, cluster, center, radius, objects, max_objects);
 	if (Modules::ModuleDebug::Instance().VarDamageAoe->ValueInt)
 	{
 		s_damage_data *damage_data = (s_damage_data *)offset_pointer(cluster, -32);

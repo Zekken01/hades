@@ -49,6 +49,13 @@ struct s_scenario;
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const hs_find_thread_by_name = reinterpret_cast<long (*)(char const *)>(0x596070);
+	static auto const hs_return = reinterpret_cast<void(__cdecl *)(long, hs_value)>(0x5974E0);
+}
+
 s_hs_global_external *hs_global_external_get(short global_index);  // hades: added for 0X10F03220
 
 s_hs_thread *hs_thread_get(unsigned long thread_index);  // hades: added for 0X10F03460
@@ -113,7 +120,7 @@ void hs_find_dormant_script(char const *script_name, long *out_script_index) // 
 	// function call : long (*const)(char const *)
 
 	*out_script_index = -1;
-	long thread_index = ((long (*const)(char const *))0x596070)(script_name);
+	long thread_index = eldorado::hs_find_thread_by_name(script_name);
 	if (thread_index != -1)
 	{
 		s_hs_thread *thread = hs_thread_get(thread_index);
@@ -224,7 +231,7 @@ void hs_return2(long thread_index, hs_value value) // 0x10F03380
 	// hs_value value;
 	// function call : void (*const)(long, hs_value)
 
-	((void(__cdecl *const)(long, hs_value))0x5974e0)(thread_index, value);
+	eldorado::hs_return(thread_index, value);
 }
 
 char const *hs_get_type_name(e_hs_type type) // 0x10F03050

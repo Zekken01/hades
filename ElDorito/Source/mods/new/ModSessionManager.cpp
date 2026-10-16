@@ -91,6 +91,12 @@ namespace Blam
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const main_game_change_in_progress = reinterpret_cast<char (*)()>(0x5670E0);
+}
+
 s_session_mod_options const *network_squad_session_get_mod();  // hades: added for 0x10793FC0
 unsigned long system_milliseconds();  // hades: added for 0x10793FC0
 
@@ -147,7 +153,7 @@ void ModSessionManager::CheckSession() // 0x10793FC0
 	// function call : bool (*const)(c_network_session **)
 	// function call : EModResult (EModIndex, char const *, bool)
 
-	if (((char (*const)())0x5670E0)())
+	if (eldorado::main_game_change_in_progress())
 		return;
 	unsigned __int32 currentTime = system_milliseconds();
 	if (currentTime - m_lastCheckTime < 10)

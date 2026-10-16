@@ -48,6 +48,12 @@ using namespace ::Forge;
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const player_mapping_get_player_by_input_user = reinterpret_cast<unsigned long (*)(long)>(0x589C30);
+}
+
 extern s_multiplayer_object_properties *(*const object_get_multiplayer)(unsigned long);  // hades: added for 0x106D1C10
 extern s_object_data *object_get(unsigned long object_index);  // hades: added for 0x106D1C10
 
@@ -80,7 +86,7 @@ namespace Forge
 		Forge::ForgeScreenFxProperties *properties = (Forge::ForgeScreenFxProperties *)&props->boundry_width;
 		if (!properties)
 			return;
-		long playerIndex = ((unsigned long (*const)(long))0x589C30)(output_user_index);
+		long playerIndex = eldorado::player_mapping_get_player_by_input_user(output_user_index);
 		if (playerIndex == -1)
 			return;
 		s_player_datum *player = players_get()->try_and_get(playerIndex);

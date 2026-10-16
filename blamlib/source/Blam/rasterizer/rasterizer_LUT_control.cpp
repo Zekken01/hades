@@ -30,6 +30,12 @@ struct real_rgb_color;
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const c_rasterizer_set_sampler_texture_direct = reinterpret_cast<void(__cdecl *)(long, long)>(0xA23530);
+}
+
 extern float get_linear_buffer_value(long a1, long max_pixel_value, float a3);
 
 /* ---------- globals */
@@ -165,7 +171,7 @@ void c_rasterizer_LUT_control::set_LUT_texture(long sampler) // 0x10F14720
 
 	((void(__cdecl *const)(long))0xa22a90)(sampler);
 	((void(__cdecl *const)(long, IDirect3DTexture9 *))0xa23980)(sampler, g_LUT_1D_gpu);
-	((void(__cdecl *const)(long, long))0xa23530)(sampler, 0);
+	eldorado::c_rasterizer_set_sampler_texture_direct(sampler, 0);
 }
 
 void c_rasterizer_LUT_control::release_textures() // 0x10F14280

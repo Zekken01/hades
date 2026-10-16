@@ -269,6 +269,110 @@ typedef unsigned __int32 U32;
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const c_atmosphere_fog_interface_compute_cluster_weights = reinterpret_cast<void (*)(s_cluster_reference, real_point3d *)>(0x6724B0);
+	static auto const c_atmosphere_fog_interface_populate_atmosphere_parameters = reinterpret_cast<void (*)(s_cluster_reference, s_weighted_atmosphere_parameters *)>(0x6739A0);
+	static auto const c_cpu_gpu_synchronizer_wait_for_gpu_to_catch_up = reinterpret_cast<void (*)()>(0xA60020);
+	static auto const c_decal_system_submit_all = reinterpret_cast<void (*)()>(0x6951B0);
+	static auto const c_object_renderer_render_albedo = reinterpret_cast<void (*)(unsigned long)>(0xA78410);
+	static auto const c_object_renderer_submit_and_render_sky = reinterpret_cast<void (*)(long, long)>(0xA79300);
+	static auto const c_player_view_render_albedo_decals = reinterpret_cast<void (*)(long, long)>(0xA3A310);
+	static auto const c_player_view_render_water = reinterpret_cast<void (*)()>(0xA3B470);
+	static auto const c_player_view_setup_cinematic_clip_planes = reinterpret_cast<void (*)()>(0xA3BBA0);
+	static auto const c_rasterizer_begin_high_quality_blend = reinterpret_cast<void (*)()>(0xA21350);
+	static auto const c_rasterizer_clear = reinterpret_cast<void (*)(long, __int32, float, unsigned char)>(0xA213F0);
+	static auto const c_rasterizer_draw_fullscreen_quad = reinterpret_cast<void (*)(long, long)>(0xA45EE0);
+	static auto const c_rasterizer_draw_indexed_primitive = reinterpret_cast<void (*)(c_rasterizer_index_buffer const *, long, long, long, long)>(0xA28270);
+	static auto const c_rasterizer_draw_indexed_primitive_2 = reinterpret_cast<void (*)(c_rasterizer_index_buffer *, long, long, long, long)>(0xA28270);
+	static auto const c_rasterizer_draw_primitive_up = reinterpret_cast<void (*)(long, long, void *, long)>(0xA28330);
+	static auto const c_rasterizer_end = reinterpret_cast<void (*)()>(0xA1F9B0);
+	static auto const c_rasterizer_end_high_quality_blend = reinterpret_cast<void (*)()>(0xA21880);
+	static auto const c_rasterizer_get_cull_mode = reinterpret_cast<long (*)()>(0xA22BA0);
+	static auto const c_rasterizer_get_display_surface = reinterpret_cast<long (*)()>(0xA48770);
+	static auto const c_rasterizer_get_is_tiling_enabled = reinterpret_cast<char (*)()>(0xA218D0);
+	static auto const c_rasterizer_restore_last_scissor_rect = reinterpret_cast<void (*)()>(0xA202E0);
+	static auto const c_rasterizer_restore_last_viewport = reinterpret_cast<void (*)()>(0xA202F0);
+	static auto const c_rasterizer_set_alpha_blend_mode = reinterpret_cast<void (*)(long)>(0xA22D10);
+	static auto const c_rasterizer_set_color_write_enable = reinterpret_cast<void (*)(long, long)>(0xA231E0);
+	static auto const c_rasterizer_set_cull_mode = reinterpret_cast<void (*)(long)>(0xA232D0);
+	static auto const c_rasterizer_set_depth_stencil_surface = reinterpret_cast<e_surface (*)(e_surface)>(0xA48CB0);
+	static auto const c_rasterizer_set_explicit_shaders = reinterpret_cast<bool (*)(long, long, long, long)>(0xA23300);
+	static auto const c_rasterizer_set_indices = reinterpret_cast<void (*)(long)>(0xA233C0);
+	static auto const c_rasterizer_set_pixel_shader_constant = reinterpret_cast<void (*)(long, long, real_vector4d const *)>(0xA66270);
+	static auto const c_rasterizer_set_pixel_shader_constant_bool = reinterpret_cast<void (*)(long, long, __int32 const *)>(0xA66370);
+	static auto const c_rasterizer_set_render_target = reinterpret_cast<e_surface (*)(long, e_surface, long)>(0xA48E40);
+	static auto const c_rasterizer_set_sampler_address_mode = reinterpret_cast<void (*)(long, c_enum<e_sampler_address_mode, long>, c_enum<e_sampler_address_mode, long>, c_enum<e_sampler_address_mode, long>)>(0xA23570);
+	static auto const c_rasterizer_set_sampler_address_mode_2 = reinterpret_cast<void (*)(long, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>)>(0xA23570);
+	static auto const c_rasterizer_set_sampler_filter_mode = reinterpret_cast<void (*)(long, c_enum<e_sampler_filter_mode, long>)>(0xA23660);
+	static auto const c_rasterizer_set_sampler_filter_mode_2 = reinterpret_cast<void (*)(long, c_enum<enum e_sampler_filter_mode,long>)>(0xA23660);
+	static auto const c_rasterizer_set_sampler_texture = reinterpret_cast<void (*)(long, c_rasterizer_texture_ref)>(0xA23810);
+	static auto const c_rasterizer_set_sampler_texture_direct = reinterpret_cast<void (*)(long, long)>(0xA23530);
+	static auto const c_rasterizer_set_scissor_rect = reinterpret_cast<void (*)(short_rectangle2d *)>(0xA239B0);
+	static auto const c_rasterizer_set_stencil_mode = reinterpret_cast<void (*)(long)>(0xA23BA0);
+	static auto const c_rasterizer_set_surface_as_texture = reinterpret_cast<void (*)(long, e_surface)>(0xA48F20);
+	static auto const c_rasterizer_set_using_albedo_sampler = reinterpret_cast<void (*)(bool)>(0xA48FE0);
+	static auto const c_rasterizer_set_vertex_shader_constant = reinterpret_cast<void (*)(long, long, real_vector4d const *)>(0xA66410);
+	static auto const c_rasterizer_set_vertex_shader_constant_bool = reinterpret_cast<void (*)(long, long, __int32 const *)>(0xA66620);
+	static auto const c_rasterizer_set_viewport = reinterpret_cast<void (*)(short_rectangle2d *, float, float)>(0xA49010);
+	static auto const c_rasterizer_set_z_buffer_mode = reinterpret_cast<long (*)(long)>(0xA247E0);
+	static auto const c_rasterizer_setup_occlusion_state = reinterpret_cast<void (*)()>(0xA24B30);
+	static auto const c_rasterizer_setup_render_target_globals_with_exposure = reinterpret_cast<void (*)(float, float, float)>(0xA24B90);
+	static auto const c_rasterizer_setup_targets_static_lighting = reinterpret_cast<void (*)(float, float, bool, float, bool, bool, bool)>(0xA252C0);
+	static auto const c_rasterizer_setup_targets_static_lighting_alpha_blend = reinterpret_cast<void (*)(bool)>(0xA25400);
+	static auto const c_render_globals_set_distortion_history = reinterpret_cast<void (*)(bool)>(0xA2A310);
+	static auto const c_render_surfaces_interface_get_render_surface = reinterpret_cast<c_render_surface *(*)(e_surface)>(0x60F8B0);
+	static auto const c_screen_postprocess_postprocess_player_view = reinterpret_cast<void (*)(c_camera_fx_values *, s_render_projection *, s_render_camera *, s_screen_effect_settings *, long, s_observer_depth_of_field *, long)>(0xA61770);
+	static auto const c_screen_postprocess_postprocess_ssr = reinterpret_cast<void (*)(s_render_projection *, s_render_camera *, long, long, long, long, long, long, long, long, long, long, long, long)>(0xA61CD0);
+	static auto const c_structure_renderer_render_albedo = reinterpret_cast<void (*)()>(0xA2F050);
+	static auto const c_transparency_renderer_render = reinterpret_cast<void (*)(bool)>(0xA73640);
+	static auto const c_transparency_renderer_sort = reinterpret_cast<void (*)()>(0xA73880);
+	static auto const c_tron_effect_resolve_and_process_z_camera = reinterpret_cast<void (*)(long, short_rectangle2d *)>(0xA7B5F0);
+	static auto const c_view_begin = reinterpret_cast<void (*)(c_view *)>(0xA289D0);
+	static auto const c_view_end = reinterpret_cast<void (*)()>(0xA28B10);
+	static auto const c_water_renderer_is_active_ripple_exist = reinterpret_cast<bool (*)()>(0xA362B0);
+	static auto const c_water_renderer_ripple_apply = reinterpret_cast<void (*)()>(0xA37000);
+	static auto const c_water_renderer_ripple_slope = reinterpret_cast<void (*)()>(0xA372B0);
+	static auto const c_water_renderer_update_water_part_list = reinterpret_cast<bool (*)()>(0xA373F0);
+	static auto const chud_draw_screen = reinterpret_cast<void (*)(long)>(0xA88DA0);
+	static auto const chud_draw_screen_LDR = reinterpret_cast<void (*)(long)>(0xA88FE0);
+	static auto const chud_draw_screen_saved_film = reinterpret_cast<void (*)(long)>(0xA89100);
+	static auto const chud_draw_turbulence = reinterpret_cast<void (*)(long)>(0xA89250);
+	static auto const chud_generate_damage_flash_texture = reinterpret_cast<bool (*)(long)>(0xA89440);
+	static auto const cinematic_in_progress = reinterpret_cast<bool (*)()>(0x67D270);
+	static auto const game_engine_render = reinterpret_cast<void (*)(long)>(0x6E4E50);
+	static auto const game_engine_render_debug = reinterpret_cast<void (*)(long)>(0x6E4FE0);
+	static auto const game_engine_render_fade_to_black = reinterpret_cast<void (*)(long)>(0x6E5040);
+	static auto const game_engine_render_watermarks = reinterpret_cast<void (*)()>(0x6E5160);
+	static auto const game_engine_suppress_render_scene = reinterpret_cast<char (*)(long)>(0x6E5510);
+	static auto const get_distortion_visible = reinterpret_cast<bool (*)()>(0xA29580);
+	static auto const get_global_camera_collection = reinterpret_cast<c_visibility_collection *(*)()>(0x686B90);
+	static auto const interface_get_current_window_settings = reinterpret_cast<void (*)(long, long, short_rectangle2d *, long)>(0xA9FAF0);
+	static auto const lens_flares_submit_occlusions = reinterpret_cast<void (*)(long, bool)>(0xA5AB30);
+	static auto const pixel32_to_real_rgb_color = reinterpret_cast<real_rgb_color *(*)(unsigned long, real_rgb_color *)>(0x521300);
+	static auto const player_effect_render = reinterpret_cast<void (*)(long)>(0x684B20);
+	static auto const rasterizer_set_vertex_stream = reinterpret_cast<bool (*)(c_rasterizer_vertex_buffer const *)>(0xA5DB60);
+	static auto const rasterizer_set_vertex_stream_2 = reinterpret_cast<bool (*)(c_rasterizer_vertex_buffer *)>(0xA5DB60);
+	static auto const rasterizer_stipple_initialize = reinterpret_cast<void (*)()>(0xA7A930);
+	static auto const rasterizer_stipple_set_fade_byte = reinterpret_cast<void (*)(long, long, long, long)>(0xA7AC20);
+	static auto const render_debug_window_render = reinterpret_cast<void (*)(long)>(0xA29230);
+	static auto const render_method_clear_externs = reinterpret_cast<void (*)()>(0xA3CA50);
+	static auto const render_method_submit = reinterpret_cast<bool (*)(long, c_render_method const *, e_vertex_type, e_prt_vertex_type, e_entry_point, bool)>(0xA3CA60);
+	static auto const render_method_submit_data = reinterpret_cast<void (*)(long, s_shader_extern_info const *)>(0xA3CC20);
+	static auto const render_method_submit_single_extern = reinterpret_cast<void (*)(c_enum<enum e_render_method_extern,long>, bool)>(0xA3D200);
+	static auto const render_method_submit_valid = reinterpret_cast<void (*)(bool)>(0xA3D260);
+	static auto const render_screen_shaders = reinterpret_cast<void (*)(s_screen_effect_shader_sample_result *, bool, long, long, long)>(0x14E6F60);
+	static auto const render_setup_window = reinterpret_cast<void (*)(s_render_camera *, s_render_projection *)>(0xA2A080);
+	static auto const screenshot_allow_postprocess = reinterpret_cast<bool (*)()>(0x6101A0);
+	static auto const screenshot_allow_ui_render = reinterpret_cast<bool (*)()>(0x6101C0);
+	static auto const screenshot_in_progress = reinterpret_cast<bool (*)()>(0x610310);
+	static auto const screenshot_sub_610260 = reinterpret_cast<bool (*)()>(0x610260);
+	static auto const sub_14E56A0 = reinterpret_cast<void (*)(long, c_player_view *)>(0x14E56A0);
+	static auto const user_interface_render = reinterpret_cast<void (*)(long, long, long, short_rectangle2d *, long, long)>(0xA849B0);
+	static auto const vision_mode_render = reinterpret_cast<void (*)(long, c_player_view *, float, float, float, long, long)>(0x14E3EE0);
+}
+
 namespace Player { namespace PlayerEmblem { extern void set_emblem_customization_biped(long sampler, bool use_generic, bool screen_emblem); extern void set_emblem_texture(long sampler, long player_index, bool use_generic, bool screen_emblem); } }  // hades: added for 0x108F6D50
 extern s_object_data *(*const object_try_and_get_and_verify_type)(unsigned long, c_enum<enum e_object_type,long>);  // hades: added for 0x108F6D50
 
@@ -886,7 +990,7 @@ void update_constants_hook(long render_method_index, real_vector4d *source, s_de
 		if (function->type >= _animated_parameter_type_change_color_primary && function->type <= _animated_parameter_type_change_color_quinary)
 		{
 			long cc_index = function->type - _animated_parameter_type_change_color_primary;
-			((real_rgb_color *(*const)(unsigned long, real_rgb_color *))0x521300)(c_render_method_data::m_change_colors[cc_index], &out_colour);
+			eldorado::pixel32_to_real_rgb_color(c_render_method_data::m_change_colors[cc_index], &out_colour);
 			source[routing_info[i].source_index].i = out_colour.red;
 			source[routing_info[i].source_index].j = out_colour.green;
 			source[routing_info[i].source_index].k = out_colour.blue;
@@ -1198,22 +1302,22 @@ void render_underwater_fog_hook() // 0x108F5D40
 	long &g_render_underwater_fog = *(long *)0x50FAAEC;
 	if (g_render_underwater_fog)
 	{
-		((long (*const)(long))0xA247E0)(2);
-		((void (*const)(long))0xA232D0)(1);
-		((void (*const)(long, long))0xA231E0)(0, 15);
-		if (((bool (*const)(long, long, long, long))0xA23300)(0x3A, 7, 0, 13))
+		eldorado::c_rasterizer_set_z_buffer_mode(2);
+		eldorado::c_rasterizer_set_cull_mode(1);
+		eldorado::c_rasterizer_set_color_write_enable(0, 15);
+		if (eldorado::c_rasterizer_set_explicit_shaders(0x3A, 7, 0, 13))
 		{
-			((void (*const)(long, long, real_vector4d const *))0xA66270)(0xD5, 4, (real_vector4d const *)0x50FB328);
-			((void (*const)(long, long, real_vector4d const *))0xA66270)(0xDA, 1, (real_vector4d const *)0x2446520);
-			((void (*const)(long, long, real_vector4d const *))0xA66270)(0xDB, 1, (real_vector4d const *)0x50FB3C8);
-			((void (*const)(long, long, real_vector4d const *))0xA66270)(0xDC, 1, (real_vector4d const *)0x50FB324);
-			((void (*const)(long, long, real_vector4d const *))0xA66270)(0xDD, 1, (real_vector4d const *)0x50FB3A8);
+			eldorado::c_rasterizer_set_pixel_shader_constant(0xD5, 4, (real_vector4d const *)0x50FB328);
+			eldorado::c_rasterizer_set_pixel_shader_constant(0xDA, 1, (real_vector4d const *)0x2446520);
+			eldorado::c_rasterizer_set_pixel_shader_constant(0xDB, 1, (real_vector4d const *)0x50FB3C8);
+			eldorado::c_rasterizer_set_pixel_shader_constant(0xDC, 1, (real_vector4d const *)0x50FB324);
+			eldorado::c_rasterizer_set_pixel_shader_constant(0xDD, 1, (real_vector4d const *)0x50FB3A8);
 			real_vector4d ps_screen_constants = {};
 			ps_screen_constants.i = 1.0f / g_game_resolution[0];
 			ps_screen_constants.j = 1.0f / g_game_resolution[1];
 			ps_screen_constants.k = ps_screen_constants.i / 2.0f;
 			ps_screen_constants.w = ps_screen_constants.j / 2.0f;
-			((void (*const)(long, long, real_vector4d const *))0xA66270)(0xDE, 1, &ps_screen_constants);
+			eldorado::c_rasterizer_set_pixel_shader_constant(0xDE, 1, &ps_screen_constants);
 			float z_near;
 			float z_far;
 			rasterizer_get_z_planes_hook(&z_near, &z_far);
@@ -1222,13 +1326,13 @@ void render_underwater_fog_hook() // 0x108F5D40
 			k_ps_water_view_depth_constant.j = z_far / (z_far - z_near);
 			k_ps_water_view_depth_constant.k = 0.0f;
 			k_ps_water_view_depth_constant.w = 0.0f;
-			((void (*const)(long, long, real_vector4d const *))0xA66270)(0xD9, 1, &k_ps_water_view_depth_constant);
-			((void (*const)(long, e_surface))0xA48F20)(0, (e_surface)13);
-			((void (*const)(long, c_enum<e_sampler_address_mode, long>, c_enum<e_sampler_address_mode, long>, c_enum<e_sampler_address_mode, long>))0xA23570)(0, _address_mode_mirror, _address_mode_mirror, _address_mode_mirror);
-			((void (*const)(long, c_enum<e_sampler_filter_mode, long>))0xA23660)(0, _filter_bilinear);
-			((void (*const)(long, e_surface))0xA48F20)(1, (e_surface)23);
-			((void (*const)(long, c_enum<e_sampler_address_mode, long>, c_enum<e_sampler_address_mode, long>, c_enum<e_sampler_address_mode, long>))0xA23570)(1, _address_mode_mirror, _address_mode_mirror, _address_mode_mirror);
-			((void (*const)(long, c_enum<e_sampler_filter_mode, long>))0xA23660)(1, _filter_bilinear);
+			eldorado::c_rasterizer_set_pixel_shader_constant(0xD9, 1, &k_ps_water_view_depth_constant);
+			eldorado::c_rasterizer_set_surface_as_texture(0, (e_surface)13);
+			eldorado::c_rasterizer_set_sampler_address_mode(0, _address_mode_mirror, _address_mode_mirror, _address_mode_mirror);
+			eldorado::c_rasterizer_set_sampler_filter_mode(0, _filter_bilinear);
+			eldorado::c_rasterizer_set_surface_as_texture(1, (e_surface)23);
+			eldorado::c_rasterizer_set_sampler_address_mode(1, _address_mode_mirror, _address_mode_mirror, _address_mode_mirror);
+			eldorado::c_rasterizer_set_sampler_filter_mode(1, _filter_bilinear);
 			s_screen_vertex vertices[4] = {};
 			vertices[0].position = { -1.0f, 1.0f };
 			vertices[1].position = { 1.0f, 1.0f };
@@ -1242,8 +1346,8 @@ void render_underwater_fog_hook() // 0x108F5D40
 			vertices[1].color = 0;
 			vertices[2].color = 0;
 			vertices[3].color = 0;
-			((void (*const)(long))0xA233C0)(0);
-			((void (*const)(long, long, void *, long))0xA28330)(5, 2, vertices, sizeof(s_screen_vertex));
+			eldorado::c_rasterizer_set_indices(0);
+			eldorado::c_rasterizer_draw_primitive_up(5, 2, vertices, sizeof(s_screen_vertex));
 		}
 	}
 }
@@ -1344,19 +1448,19 @@ void render_mesh_part_default_hook(s_render_geometry *geometry, s_mesh *mesh, s_
 	long (*const global_preferenced_get_lighting_quality)() = (long (*)())0x50B890;
 	c_rasterizer_index_buffer *index_buffer = render_geometry_get_index_buffer(geometry, mesh->index_buffer_indices[0]);
 	c_rasterizer_vertex_buffer *vertex_buffer = ((c_rasterizer_vertex_buffer *(*const)(s_render_geometry *, s_mesh *, e_vertex_buffer_usage))0x78C750)(geometry, mesh, (e_vertex_buffer_usage)0);
-	((bool (*const)(c_rasterizer_vertex_buffer const *))0xA5DB60)(vertex_buffer);
+	eldorado::rasterizer_set_vertex_stream(vertex_buffer);
 	c_rasterizer_vertex_buffer *lighting_buffer = nullptr;
 	if (mesh->vertex_buffer_indices[2] != -1)
 		lighting_buffer = ((c_rasterizer_vertex_buffer *(*const)(s_render_geometry *, s_mesh *, e_vertex_buffer_usage))0x78C750)(geometry, mesh, (e_vertex_buffer_usage)2);
 	else if ((entry_point == _entry_static_per_pixel || entry_point == _entry_lightmap_debug_mode) && mesh->vertex_buffer_indices[1] != -1)
 		lighting_buffer = ((c_rasterizer_vertex_buffer *(*const)(s_render_geometry *, s_mesh *, e_vertex_buffer_usage))0x78C750)(geometry, mesh, (e_vertex_buffer_usage)1);
 	if (lighting_buffer)
-		((bool (*const)(c_rasterizer_vertex_buffer const *))0xA5DB60)(lighting_buffer);
+		eldorado::rasterizer_set_vertex_stream(lighting_buffer);
 	if (mesh->vertex_buffer_indices[3] != -1)
 	{
 		c_rasterizer_vertex_buffer *ambient_ptr_buffer = ((c_rasterizer_vertex_buffer *(*const)(s_render_geometry *, s_mesh *, e_vertex_buffer_usage))0x78C750)(geometry, mesh, (e_vertex_buffer_usage)3);
 		if (ambient_ptr_buffer)
-			((bool (*const)(c_rasterizer_vertex_buffer const *))0xA5DB60)(ambient_ptr_buffer);
+			eldorado::rasterizer_set_vertex_stream(ambient_ptr_buffer);
 	}
 	if (entry_point == _entry_static_prt_quadratic)
 	{
@@ -1364,7 +1468,7 @@ void render_mesh_part_default_hook(s_render_geometry *geometry, s_mesh *mesh, s_
 		{
 			entry_point = _entry_static_per_vertex_color;
 		}
-		else if (((bool (*const)())0x67D270)() || player_reading_terminal() || (entry_point = _entry_static_sh, global_preferenced_get_lighting_quality()))
+		else if (eldorado::cinematic_in_progress() || player_reading_terminal() || (entry_point = _entry_static_sh, global_preferenced_get_lighting_quality()))
 		{
 			if ((char)mesh->prt_vertex_type >= 0 && (char)mesh->prt_vertex_type < 4 && !Patches::RenderObject::GetPRTDisabled())
 			{
@@ -1381,8 +1485,8 @@ void render_mesh_part_default_hook(s_render_geometry *geometry, s_mesh *mesh, s_
 	long cached_cull_mode = 2;
 	if (prevent_backface_culling)
 	{
-		cached_cull_mode = ((long (*const)())0xA22BA0)();
-		((void (*const)(long))0xA232D0)(0);
+		cached_cull_mode = eldorado::c_rasterizer_get_cull_mode();
+		eldorado::c_rasterizer_set_cull_mode(0);
 	}
 	bool alpha_test_enabled = false;
 	if ((*(c_tag_block<s_render_method_postprocess_definition> *)((char *)render_method + 0x28))->flags.test((e_render_method_postprocess_flags)1))
@@ -1392,7 +1496,7 @@ void render_mesh_part_default_hook(s_render_geometry *geometry, s_mesh *mesh, s_
 	}
 	if (!subpart_visibility)
 	{
-		((void (*const)(c_rasterizer_index_buffer const *, long, long, long, long))0xA28270)(index_buffer, 0, vertex_buffer->get_vertex_count(), part->first_index, part->index_count);
+		eldorado::c_rasterizer_draw_indexed_primitive(index_buffer, 0, vertex_buffer->get_vertex_count(), part->first_index, part->index_count);
 	}
 	else if (part->subpart_count > 0)
 	{
@@ -1414,18 +1518,18 @@ void render_mesh_part_default_hook(s_render_geometry *geometry, s_mesh *mesh, s_
 			}
 			else
 			{
-				((void (*const)(c_rasterizer_index_buffer const *, long, long, long, long))0xA28270)(index_buffer, 0, vertex_buffer->get_vertex_count(), index_start, index_end - index_start + 1);
+				eldorado::c_rasterizer_draw_indexed_primitive(index_buffer, 0, vertex_buffer->get_vertex_count(), index_start, index_end - index_start + 1);
 				index_start = subpart->first_index;
 				index_end = subpart->first_index + subpart->index_count - 1;
 			}
 		}
 		if (index_start != -1)
-			((void (*const)(c_rasterizer_index_buffer const *, long, long, long, long))0xA28270)(index_buffer, 0, vertex_buffer->get_vertex_count(), index_start, index_end - index_start + 1);
+			eldorado::c_rasterizer_draw_indexed_primitive(index_buffer, 0, vertex_buffer->get_vertex_count(), index_start, index_end - index_start + 1);
 	}
 	if (alpha_test_enabled)
 		((void (*const)(bool))0xA230E0)(false);
 	if (prevent_backface_culling)
-		((void (*const)(long))0xA232D0)(cached_cull_mode);
+		eldorado::c_rasterizer_set_cull_mode(cached_cull_mode);
 }
 
 void c_structure_renderer__render_cluster_mesh_part_hook(long cluster_visibility_index, e_entry_point entry_point, long flags) // 0x108E8D60
@@ -1589,7 +1693,7 @@ void c_structure_renderer__render_instance_mesh_part_hook(long render_instance_i
 				s_part *part = &mesh->parts[render_instance_part->mesh_part_index];
 				entry_point = update_cluster_instance_stream_and_determine_lighting_attributes(entry_point, bsp_index, lightmap_data, geometry, mesh, part, materials, instance_index, instance);
 				unsigned long *subpart_visibility = nullptr;
-				((void (*const)(long, long, long, long))0xA7AC20)(render_instance_part->lod, 0, 0, 0);
+				eldorado::rasterizer_stipple_set_fade_byte(render_instance_part->lod, 0, 0, 0);
 				long breakable_surface_set_index = materials[part->material_index].breakable_surface_set_index;
 				if (breakable_surface_set_index != -1 && !(instance->flags & 2))
 				{
@@ -1609,7 +1713,7 @@ void c_structure_renderer__render_instance_mesh_part_hook(long render_instance_i
 			}
 		}
 	}
-	((void (*const)(bool))0xA3D260)(false);
+	eldorado::render_method_submit_valid(false);
 }
 
 void c_structure_renderer__submit_cluster_visibility(bool include_transparent) // 0x108EA710
@@ -1995,15 +2099,15 @@ void c_structure_renderer__render_decorators_hook() // 0x108E9110
 		s_wind_definition *const wind = s_wind_definition::get_wind_definition(&camera_position);
 		if (wind)
 			s_wind_definition::update(wind, &g_wind_values);
-		((long (*const)(long))0xA247E0)(0);
-		((void (*const)(long, long))0xA231E0)(0, 15);
+		eldorado::c_rasterizer_set_z_buffer_mode(0);
+		eldorado::c_rasterizer_set_color_write_enable(0, 15);
 		IDirect3DDevice9Ex *const g_device = c_rasterizer::get_device();
 		if (!byte_50E8931)
 		{
 			((void (*const)(s_wind_definition *, s_wind_values *))0x14E6E90)(wind, &g_wind_values);
-			((void (*const)(long))0xA23BA0)(9);
+			eldorado::c_rasterizer_set_stencil_mode(9);
 			clear_cached_sun_constants();
-			c_visibility_collection *collection = ((c_visibility_collection *(*const)())0x686B90)();
+			c_visibility_collection *collection = eldorado::get_global_camera_collection();
 			s_visibility_region *region = collection->visbility_region;
 			float fov_scale = rasterizer_camera_get_fov_pixel_linear_scale();
 			for (__int32 i = 0; i < collection->visbility_region->cluster_count; i++)
@@ -2041,28 +2145,28 @@ void c_structure_renderer__render_decorators_hook() // 0x108E9110
 							bool fully_contained;
 							if (visibility_region_test_sphere(region, i, &decorator_grid->bounding_sphere_offset, decorator_grid->radius, &fully_contained))
 							{
-								((bool (*const)(long, long, long, long))0xA23300)(s_decorator_set::get_explicit_shader_index(decorator_set), 15, 0, 0);
+								eldorado::c_rasterizer_set_explicit_shaders(s_decorator_set::get_explicit_shader_index(decorator_set), 15, 0, 0);
 								real_vector4d LOD_constants;
 								LOD_constants.i = 0.7f / (cull_start - cull_end);
 								LOD_constants.j = 1.0f - 0.7f / (cull_start - cull_end) * cull_start;
 								LOD_constants.k = 0.0f;
 								LOD_constants.w = 0.0f;
-								((void (*const)(long, long, real_vector4d const *))0xA66410)(245, 1, &LOD_constants);
-								((void (*const)(long, long, real_vector4d const *))0xA66410)(246, 1, (real_vector4d const *)&decorator_set->translucency_abc);
-								((void (*const)(long, long, real_vector4d const *))0xA66410)(249, 1, (real_vector4d const *)&decorator_set->wavelength_xy);
-								((void (*const)(long, long, real_vector4d const *))0xA66270)(13, 1, (real_vector4d const *)&decorator_set->darkness);
-								((void (*const)(long))0xA232D0)(2 - ((decorator_set->render_flags & 1) != 0));
+								eldorado::c_rasterizer_set_vertex_shader_constant(245, 1, &LOD_constants);
+								eldorado::c_rasterizer_set_vertex_shader_constant(246, 1, (real_vector4d const *)&decorator_set->translucency_abc);
+								eldorado::c_rasterizer_set_vertex_shader_constant(249, 1, (real_vector4d const *)&decorator_set->wavelength_xy);
+								eldorado::c_rasterizer_set_pixel_shader_constant(13, 1, (real_vector4d const *)&decorator_set->darkness);
+								eldorado::c_rasterizer_set_cull_mode(2 - ((decorator_set->render_flags & 1) != 0));
 								s_render_model *const render_model = (s_render_model *)tag_get('mode', decorator_set->model.index);
 								s_render_geometry *const render_geometry = &render_model->render_geometry;
 								c_rasterizer_vertex_buffer *vertex_buffer = ((c_rasterizer_vertex_buffer *(*const)(s_render_geometry *, long))0x78C930)(render_geometry, 0);
-								((bool (*const)(c_rasterizer_vertex_buffer *))0xA5DB60)(vertex_buffer);
+								eldorado::rasterizer_set_vertex_stream_2(vertex_buffer);
 								((void (*const)(s_compression_info *, float))0xA47940)(&render_geometry->compression[0], 2.0f);
 								((void (*const)(long, long, long))0xA3D130)(0, decorator_set->texture.index, 0);
-								((void (*const)(long, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>))0xA23570)(0, _address_mode_wrap, _address_mode_wrap, _address_mode_wrap);
-								((void (*const)(long, c_enum<enum e_sampler_filter_mode,long>))0xA23660)(0, _filter_bilinear);
+								eldorado::c_rasterizer_set_sampler_address_mode_2(0, _address_mode_wrap, _address_mode_wrap, _address_mode_wrap);
+								eldorado::c_rasterizer_set_sampler_filter_mode_2(0, _filter_bilinear);
 								c_rasterizer_vertex_buffer *sbsp_vertex_buffer = ((c_rasterizer_vertex_buffer *(*const)(s_render_geometry *, long))0x78C930)(&global_sbsp->decorator_geometry, decorator_grid->vertex_buffer_index);
 								rasterizer_set_vertex_buffer_stream(sbsp_vertex_buffer, decorator_grid->vertex_buffer_offset);
-								((void (*const)(long, long, real_vector4d const *))0xA66410)(240, 2, (real_vector4d const *)&decorator_grid->position);
+								eldorado::c_rasterizer_set_vertex_shader_constant(240, 2, (real_vector4d const *)&decorator_grid->position);
 								s_mesh *const mesh = &render_geometry->meshes[render_model->instance_mesh_index];
 								long instance_index_count = mesh->subparts[decorator_grid->variant].index_count;
 								rasterizer_set_vertex_buffer_stream(sbsp_vertex_buffer, decorator_grid->vertex_buffer_offset);
@@ -2071,12 +2175,12 @@ void c_structure_renderer__render_decorators_hook() // 0x108E9110
 								variant_index_count.j = 0.0f;
 								variant_index_count.k = 0.0f;
 								variant_index_count.w = 0.0f;
-								((void (*const)(long, long, real_vector4d const *))0xA66410)(242, 1, &variant_index_count);
+								eldorado::c_rasterizer_set_vertex_shader_constant(242, 1, &variant_index_count);
 								g_device->SetStreamSourceFreq(0, decorator_grid->amount | D3DSTREAMSOURCE_INDEXEDDATA);
 								g_device->SetStreamSourceFreq(1, D3DSTREAMSOURCE_INSTANCEDATA | 1);
 								sub_A28480(decorator_grid->amount);
 								c_rasterizer_index_buffer *const index_buffer = ((c_rasterizer_index_buffer *(*const)(s_render_geometry *, long))0x78C870)(render_geometry, mesh->index_buffer_indices[0]);
-								((void (*const)(c_rasterizer_index_buffer *, long, long, long, long))0xA28270)(index_buffer, mesh->subparts[decorator_grid->variant].first_index, instance_index_count, 0, instance_index_count);
+								eldorado::c_rasterizer_draw_indexed_primitive_2(index_buffer, mesh->subparts[decorator_grid->variant].first_index, instance_index_count, 0, instance_index_count);
 							}
 						}
 					}
@@ -2086,9 +2190,9 @@ void c_structure_renderer__render_decorators_hook() // 0x108E9110
 		g_device->SetStreamSourceFreq(0, 1);
 		g_device->SetStreamSourceFreq(1, 1);
 		sub_A28480(1);
-		((void (*const)(bool))0xA3D260)(false);
+		eldorado::render_method_submit_valid(false);
 		((void (*const)(long))0xA230E0)(0);
-		((void (*const)(long))0xA23BA0)(0);
+		eldorado::c_rasterizer_set_stencil_mode(0);
 	}
 }
 
@@ -2265,25 +2369,25 @@ void c_water_renderer__render_water_part_hook(s_render_geometry *geometry, __int
 		if (rm_index != -1)
 		{
 			c_render_method *const render_method = c_render_method::get(rm_index);
-			if (((bool (*const)(long, c_render_method const *, e_vertex_type, e_prt_vertex_type, e_entry_point, bool))0xA3CA60)(rm_index, render_method, (e_vertex_type)18, mesh->prt_vertex_type, entry_point, false))
+			if (eldorado::render_method_submit(rm_index, render_method, (e_vertex_type)18, mesh->prt_vertex_type, entry_point, false))
 			{
 				real_vector4d unknown_water_instance_constant = { (float)(mesh->instance_water[part_index].value / 3), 0.0f, 0.0f, 0.0f };
-				((void (*const)(long, long, real_vector4d const *))0xA66410)(0x83, 1, &unknown_water_instance_constant);
+				eldorado::c_rasterizer_set_vertex_shader_constant(0x83, 1, &unknown_water_instance_constant);
 				if (entry_point == _entry_static_per_pixel || entry_point == _entry_static_per_vertex)
 				{
-					((void (*const)(long, long, real_vector4d const *))0xA66410)(0x85, 1, (real_vector4d const *)&k_ripple_buffer_radius);
+					eldorado::c_rasterizer_set_vertex_shader_constant(0x85, 1, (real_vector4d const *)&k_ripple_buffer_radius);
 					__int32 active_water_interaction = *(bool *)0x19146F2 && c_water_renderer__is_active_ripple_exist();
-					((void (*const)(long, long, __int32 const *))0xA66620)(1, 1, &active_water_interaction);
-					((void (*const)(long, long, __int32 const *))0xA66370)(1, 1, &active_water_interaction);
+					eldorado::c_rasterizer_set_vertex_shader_constant_bool(1, 1, &active_water_interaction);
+					eldorado::c_rasterizer_set_pixel_shader_constant_bool(1, 1, &active_water_interaction);
 					if (active_water_interaction)
 					{
-						((void (*const)(long, e_surface))0xA48F20)(1, (e_surface)0x36);
-						((void (*const)(long, c_enum<e_sampler_filter_mode, long>))0xA23660)(1, _filter_bilinear);
+						eldorado::c_rasterizer_set_surface_as_texture(1, (e_surface)0x36);
+						eldorado::c_rasterizer_set_sampler_filter_mode(1, _filter_bilinear);
 						((void (*const)(long, e_surface))0xA48F80)(1, (e_surface)0x36);
 						((void (*const)(long, c_enum<e_sampler_filter_mode, long>))0xA246A0)(1, _filter_bilinear);
 					}
 					__int32 k_is_water_tesselated = g_render_water_tesselation;
-					((void (*const)(long, long, __int32 const *))0xA66620)(2, 1, &k_is_water_tesselated);
+					eldorado::c_rasterizer_set_vertex_shader_constant_bool(2, 1, &k_is_water_tesselated);
 					if (entry_point != _entry_static_per_pixel && entry_point == _entry_static_per_vertex)
 					{
 						c_rasterizer_vertex_buffer *water_vertex_buffer_1 = mesh_get_vertex_buffer(geometry, mesh, 6);
@@ -2297,7 +2401,7 @@ void c_water_renderer__render_water_part_hook(s_render_geometry *geometry, __int
 						g_device->SetStreamSourceFreq(0, (mesh_part->index_count / 3) | D3DSTREAMSOURCE_INDEXEDDATA);
 						g_device->SetStreamSourceFreq(2, (mesh_part->index_count / 3) | D3DSTREAMSOURCE_INDEXEDDATA);
 						long vertex_count = 0;
-						((void (*const)(c_rasterizer_index_buffer const *, long, long, long, long))0xA28270)(g_water_geometry_index_buffer, 0, vertex_count, 0, 0x2A3);
+						eldorado::c_rasterizer_draw_indexed_primitive(g_water_geometry_index_buffer, 0, vertex_count, 0, 0x2A3);
 						g_device->SetStreamSourceFreq(0, 1);
 						g_device->SetStreamSourceFreq(1, 1);
 						g_device->SetStreamSourceFreq(2, 1);
@@ -2436,7 +2540,7 @@ void c_object_renderer__render_object_context_instances_hook(s_render_object_mes
 		s_compression_info *compression_info = &render_model->render_geometry.compression[0];
 		((void (*const)(s_compression_info const *))0xA47890)(compression_info);
 		long active_bsp_index = global_structure_bsp_first_active_index_get();
-		((void (*const)(long, s_shader_extern_info const *))0xA3CC20)(active_bsp_index, render_part->info->info.render_info);
+		eldorado::render_method_submit_data(active_bsp_index, render_part->info->info.render_info);
 		long count = render_model->instance_placements.count;
 		if (mesh->subparts.count < count)
 			count = mesh->subparts.count;
@@ -2469,13 +2573,13 @@ void c_object_renderer__render_object_context_instances_hook(s_render_object_mes
 			unsigned long local_subpart_visibility[2] = {};
 			local_subpart_visibility[(i - part->first_subpart_index) >> 5] |= 1 << ((i - part->first_subpart_index) & 31);
 			if (matrix.scale < 0.0)
-				((void (*const)(long))0xA232D0)(3);
+				eldorado::c_rasterizer_set_cull_mode(3);
 			((void (*const)(long long, s_render_geometry *, s_mesh *, s_part *, e_entry_point, unsigned long *, s_geometry_material *))0xA475A0)(0, &render_model->render_geometry, mesh, part, entry_point, local_subpart_visibility, &render_model->materials[0]);
 			if (matrix.scale < 0.0)
-				((void (*const)(long))0xA232D0)(2);
+				eldorado::c_rasterizer_set_cull_mode(2);
 		}
 	}
-	((void (*const)(bool))0xA3D260)(false);
+	eldorado::render_method_submit_valid(false);
 }
 
 void c_object_renderer__render_object_context_mesh_part_hook(s_render_object_mesh_part *mesh_part, e_entry_point entry_point, long mesh_part_mask, bool a4) // 0x108E62B0
@@ -3096,11 +3200,11 @@ void __fastcall c_player_view__render_hook(c_player_view *view) // 0x108E6C50
 	short_rectangle2d window_bounds;
 	screen_effect_sample(&view->rasterizer_camera.position, &view->rasterizer_camera.forward, &screen_effect, &screen_effect_shader_sample, view->out_user_index);
 	c_surface__g_current_splitscreen_res = view->splitscreen_res;
-	if (!((char (*const)(long))0x6E5510)(view->out_user_index))
+	if (!eldorado::game_engine_suppress_render_scene(view->out_user_index))
 	{
-		((void (*const)())0xA3CA50)();
+		eldorado::render_method_clear_externs();
 		((s_cluster_reference (__thiscall *)(c_player_view *, s_cluster_reference *))0xA28B50)(view, &cluster_reference);
-		((void (*const)(s_cluster_reference, real_point3d *))0x6724B0)(cluster_reference, &view->rasterizer_camera.position);
+		eldorado::c_atmosphere_fog_interface_compute_cluster_weights(cluster_reference, &view->rasterizer_camera.position);
 		float fov_rad = Modules::ModuleCamera::Instance().VarCameraFov->ValueFloat * 0.017453292f;
 		float horizontal_fov = fmax(fov_rad / 1.3962634f, 0.000099999997f);
 		g_particle_hack_near_fade_scale = 1.0f / horizontal_fov;
@@ -3108,13 +3212,13 @@ void __fastcall c_player_view__render_hook(c_player_view *view) // 0x108E6C50
 		((void (*const)(long))0xA67B30)(view->out_user_index);
 		unsigned char a2 = 2;
 		((void (*const)(long, unsigned char *))0x5BD0D0)(view->out_user_index, &a2);
-		bool should_render_render = ((bool (*const)())0xA373F0)();
-		if (should_render_render && render_water_interaction_enabled && ((bool (*const)())0xA362B0)())
+		bool should_render_render = eldorado::c_water_renderer_update_water_part_list();
+		if (should_render_render && render_water_interaction_enabled && eldorado::c_water_renderer_is_active_ripple_exist())
 		{
-			((void (*const)())0xA37000)();
-			((void (*const)())0xA372B0)();
+			eldorado::c_water_renderer_ripple_apply();
+			eldorado::c_water_renderer_ripple_slope();
 		}
-		((void (*const)(long))0xA89250)(view->out_user_index);
+		eldorado::chud_draw_turbulence(view->out_user_index);
 		screen_effect_set_hud_alpha_scale(1.0 - fminf(fmaxf(screen_effect.hud_fade, 0.0f), 1.0f));
 		if (screen_effect.tron <= 0.0f)
 		{
@@ -3128,13 +3232,13 @@ void __fastcall c_player_view__render_hook(c_player_view *view) // 0x108E6C50
 		}
 		((void (__thiscall *)(c_player_view *, float))0xA3B990)(view, screen_effect.exposure_boost - screen_effect.exposure_deboost);
 		Forge::CForgeCameraFx::OverrideCameraFxSettings(view, screen_effect.exposure_boost - screen_effect.exposure_deboost);
-		((void (*const)())0xA3BBA0)();
+		eldorado::c_player_view_setup_cinematic_clip_planes();
 		((long (__thiscall *)(c_lights_view *, long))0xA66A20)(&view->lights_view, view->out_user_index);
 		((void (__thiscall *)(c_lights_view *, long))0xA669E0)(&view->lights_view, view->window_index);
 		c_atmosphere_fog_interface::g_custom_setting_index = -1;
 		memset(&atmosphere_parameters, 0, sizeof(atmosphere_parameters));
 		if (!Forge::CForgeAtmosphere::OverrideSkyAtmosphereSettings(cluster_reference, &atmosphere_parameters))
-			((void (*const)(s_cluster_reference, s_weighted_atmosphere_parameters *))0x6739A0)(cluster_reference, &atmosphere_parameters);
+			eldorado::c_atmosphere_fog_interface_populate_atmosphere_parameters(cluster_reference, &atmosphere_parameters);
 		memcpy(&g_atmosphere_parameters, &atmosphere_parameters, sizeof(atmosphere_parameters));
 		c_atmosphere_fog_interface::g_custom_setting_index = -2;
 		((void (*const)(s_weighted_atmosphere_parameters *, bool, bool))0x674170)(&g_atmosphere_parameters, true, true);
@@ -3143,21 +3247,21 @@ void __fastcall c_player_view__render_hook(c_player_view *view) // 0x108E6C50
 			c_atmosphere_fog_interface::g_custom_setting_index = -2;
 			((void (*const)(s_weighted_atmosphere_parameters *, bool, bool))0x674170)(&g_atmosphere_parameters, true, true);
 		}
-		((void (*const)())0xA7A930)();
-		((void (*const)())0x6951B0)();
+		eldorado::rasterizer_stipple_initialize();
+		eldorado::c_decal_system_submit_all();
 		bool render_albedo = ((bool (__thiscall *)(c_player_view *))0xA3A0E0)(view);
 		if (render_albedo)
 		{
-			bool v10 = c_screen_postprocess__x_settings.field_0 || ((bool (*const)())0x610310)();
-			((void (*const)(bool))0xA48FE0)(true);
-			if (!((bool (*const)())0x610310)())
+			bool v10 = c_screen_postprocess__x_settings.field_0 || eldorado::screenshot_in_progress();
+			eldorado::c_rasterizer_set_using_albedo_sampler(true);
+			if (!eldorado::screenshot_in_progress())
 			{
-				((void (*const)())0xA24B30)();
-				((void (*const)(long, bool))0xA5AB30)(view->out_user_index, true);
+				eldorado::c_rasterizer_setup_occlusion_state();
+				eldorado::lens_flares_submit_occlusions(view->out_user_index, true);
 			}
 			if (view->flush_device_queries)
 			{
-				((void (*const)())0xA60020)();
+				eldorado::c_cpu_gpu_synchronizer_wait_for_gpu_to_catch_up();
 				view->flush_device_queries = false;
 			}
 			if (render_static_lighting_enabled)
@@ -3170,9 +3274,9 @@ void __fastcall c_player_view__render_hook(c_player_view *view) // 0x108E6C50
 				shadow_map_pixel_size.j = sm_ps;
 				shadow_map_pixel_size.k = 0.0f;
 				shadow_map_pixel_size.w = 0.0f;
-				((void (*const)(long, long, real_vector4d const *))0xA66270)(214, 1, &shadow_map_pixel_size);
+				eldorado::c_rasterizer_set_pixel_shader_constant(214, 1, &shadow_map_pixel_size);
 				((void (__thiscall *)(c_player_view *))0xA3A700)(view);
-				((void (*const)(float, float, bool, float, bool, bool, bool))0xA252C0)(view->exposure, view->bloom_intensity, true, c_camera_fx_values__g_HDR_target_stops, false, false, false);
+				eldorado::c_rasterizer_setup_targets_static_lighting(view->exposure, view->bloom_intensity, true, c_camera_fx_values__g_HDR_target_stops, false, false, false);
 				c_render_surface *v4 = ((c_render_surface *(__thiscall *)(c_surface_group *, e_surface))0xA48740)(&((c_surface_group *)0x510D8D0)[7], (e_surface)7);
 				c_render_surface *v5 = ((c_render_surface *(__thiscall *)(c_surface_group *, e_surface))0xA48740)(&((c_surface_group *)0x510D8D0)[8], (e_surface)8);
 				c_render_surface *v6 = ((c_render_surface *(__thiscall *)(c_surface_group *, e_surface))0xA48740)(&((c_surface_group *)0x510D8D0)[4], (e_surface)4);
@@ -3180,82 +3284,82 @@ void __fastcall c_player_view__render_hook(c_player_view *view) // 0x108E6C50
 			}
 			if (byte_191C922)
 			{
-				((void (*const)(float, float, bool, float, bool, bool, bool))0xA252C0)(view->exposure, view->bloom_intensity, v10, c_camera_fx_values__g_HDR_target_stops, false, false, true);
+				eldorado::c_rasterizer_setup_targets_static_lighting(view->exposure, view->bloom_intensity, v10, c_camera_fx_values__g_HDR_target_stops, false, false, true);
 				if (render_debug_depth_render == 0)
 					((void (__thiscall *)(c_player_view *, bool))0xA3A420)(view, false);
-				if (((char (*const)())0xA218D0)())
-					((void (*const)(long, short_rectangle2d *))0xA7B5F0)(view->window_index, &view->rasterizer_camera.window_pixel_bounds);
-				if (((bool (*const)())0x6101A0)())
-					((void (*const)(s_render_projection *, s_render_camera *, long, long, long, long, long, long, long, long, long, long, long, long))0xA61CD0)(&view->rasterizer_projection, &view->rasterizer_camera, 7, 8, 12, 23, 11, 13, 14, 18, 19, 20, 17, 15);
-				((void (*const)(float, float, bool, float, bool, bool, bool))0xA252C0)(view->exposure, view->bloom_intensity, v10, c_camera_fx_values__g_HDR_target_stops, false, false, false);
+				if (eldorado::c_rasterizer_get_is_tiling_enabled())
+					eldorado::c_tron_effect_resolve_and_process_z_camera(view->window_index, &view->rasterizer_camera.window_pixel_bounds);
+				if (eldorado::screenshot_allow_postprocess())
+					eldorado::c_screen_postprocess_postprocess_ssr(&view->rasterizer_projection, &view->rasterizer_camera, 7, 8, 12, 23, 11, 13, 14, 18, 19, 20, 17, 15);
+				eldorado::c_rasterizer_setup_targets_static_lighting(view->exposure, view->bloom_intensity, v10, c_camera_fx_values__g_HDR_target_stops, false, false, false);
 				if (should_render_render || render_water_wireframe_enabled)
-					((void (*const)())0xA3B470)();
+					eldorado::c_player_view_render_water();
 				if (*(bool *)offset_pointer(tls_getd().rasterizer_game_states, 2))
 					((void (__thiscall *)(c_player_view *))0xA39860)(view);
 				((void (__thiscall *)(c_player_view *))0xA3B380)(view);
 				((void (__thiscall *)(c_player_view *))0xA3BDF0)(view);
-				((void (*const)(bool))0xA2A310)(((bool (*const)())0xA29580)() || should_render_render || render_water_wireframe_enabled);
-				((void (*const)(long))0x6E4E50)(view->out_user_index);
+				eldorado::c_render_globals_set_distortion_history(eldorado::get_distortion_visible() || should_render_render || render_water_wireframe_enabled);
+				eldorado::game_engine_render(view->out_user_index);
 				c_player_view::apply_distortions_new(view, &screen_effect.motion_suck_direction, Modules::ModuleSettings::Instance().VarMotionBlurAlways->ValueInt > 0);
 				if (render_debug_depth_render == 0)
 				{
-					((void (*const)(bool))0xA25400)(v10);
+					eldorado::c_rasterizer_setup_targets_static_lighting_alpha_blend(v10);
 					((void (__thiscall *)(c_player_view *, bool))0xA3A420)(view, true);
 				}
-				((void (*const)(bool))0xA25400)(v10);
+				eldorado::c_rasterizer_setup_targets_static_lighting_alpha_blend(v10);
 				((void (__thiscall *)(c_player_view *))0xA3A6C0)(view);
-				if (!((bool (*const)())0x610310)())
+				if (!eldorado::screenshot_in_progress())
 				{
-					((void (*const)())0xA24B30)();
-					((void (*const)(long, bool))0xA5AB30)(view->out_user_index, false);
+					eldorado::c_rasterizer_setup_occlusion_state();
+					eldorado::lens_flares_submit_occlusions(view->out_user_index, false);
 				}
-				if (((bool (*const)(long))0xA89440)(view->out_user_index))
+				if (eldorado::chud_generate_damage_flash_texture(view->out_user_index))
 				{
-					((void (*const)(bool))0xA25400)(false);
-					((void (*const)(float, float, float))0xA24B90)(1.0f, 1.0f, 1.0f);
-					((e_surface (*const)(long, e_surface, long))0xA48E40)(1, (e_surface)0, -1);
-					((void (*const)(long))0xA88FE0)(view->out_user_index);
+					eldorado::c_rasterizer_setup_targets_static_lighting_alpha_blend(false);
+					eldorado::c_rasterizer_setup_render_target_globals_with_exposure(1.0f, 1.0f, 1.0f);
+					eldorado::c_rasterizer_set_render_target(1, (e_surface)0, -1);
+					eldorado::chud_draw_screen_LDR(view->out_user_index);
 				}
-				((void (*const)(s_render_camera *, s_render_projection *))0xA2A080)(&view->rasterizer_camera, &view->rasterizer_projection);
-				((void (*const)(float, float, bool, float, bool, bool, bool))0xA252C0)(view->exposure, view->bloom_intensity, true, c_camera_fx_values__g_HDR_target_stops, false, false, false);
+				eldorado::render_setup_window(&view->rasterizer_camera, &view->rasterizer_projection);
+				eldorado::c_rasterizer_setup_targets_static_lighting(view->exposure, view->bloom_intensity, true, c_camera_fx_values__g_HDR_target_stops, false, false, false);
 				((void (__thiscall *)(c_player_view *))0xA3B500)(view);
 			}
-			if (((bool (*const)())0x6101A0)())
-				((void (*const)(c_camera_fx_values *, s_render_projection *, s_render_camera *, s_screen_effect_settings *, long, s_observer_depth_of_field *, long))0xA61770)(&view->player_window_game_state->camera_fx_values, &view->rasterizer_projection, &view->rasterizer_camera, &screen_effect, view->splitscreen_res, &view->observer_depth_of_field, view->out_user_index);
+			if (eldorado::screenshot_allow_postprocess())
+				eldorado::c_screen_postprocess_postprocess_player_view(&view->player_window_game_state->camera_fx_values, &view->rasterizer_projection, &view->rasterizer_camera, &screen_effect, view->splitscreen_res, &view->observer_depth_of_field, view->out_user_index);
 		}
 		else if (view->flush_device_queries)
 		{
-			((void (*const)())0xA60020)();
+			eldorado::c_cpu_gpu_synchronizer_wait_for_gpu_to_catch_up();
 			view->flush_device_queries = false;
 		}
 	}
-	if (((bool (*const)())0x6101C0)())
+	if (eldorado::screenshot_allow_ui_render())
 	{
-		((void (*const)())0xA202F0)();
-		((void (*const)())0xA202E0)();
-		((void (*const)(float, float, float))0xA24B90)(1.0f, 1.0f, 1.0f);
+		eldorado::c_rasterizer_restore_last_viewport();
+		eldorado::c_rasterizer_restore_last_scissor_rect();
+		eldorado::c_rasterizer_setup_render_target_globals_with_exposure(1.0f, 1.0f, 1.0f);
 		if (Forge::CForgeVisionRenderer::IsActive())
 			Forge::CForgeVisionRenderer::Render(view->window_index, view);
 		if (screen_effect.vision_mode <= 0.0f)
-			((void (*const)(long, c_player_view *))0x14E56A0)(view->window_index, view);
+			eldorado::sub_14E56A0(view->window_index, view);
 		else
-			((void (*const)(long, c_player_view *, float, float, float, long, long))0x14E3EE0)(view->window_index, view, screen_effect.vision_mode, *(float *)offset_pointer(tls_getd().main_render_timing, 12), screen_effect.vision_noise, 0, 0);
-		((void (*const)(s_screen_effect_shader_sample_result *, bool, long, long, long))0x14E6F60)(&screen_effect_shader_sample, true, ((long (*const)())0xA48770)(), 0, 0);
-		((void (*const)(long))0xA88DA0)(view->out_user_index);
-		((void (*const)(long))0x6E5040)(view->out_user_index);
-		((void (*const)(long, long, short_rectangle2d *, long))0xA9FAF0)(0, 0, &window_bounds, 0);
-		((void (*const)(long, long, long, short_rectangle2d *, long, long))0xA849B0)(view->controller_index, view->out_user_index, view->window_index, &window_bounds, ((long (*const)())0xA48770)(), 0);
+			eldorado::vision_mode_render(view->window_index, view, screen_effect.vision_mode, *(float *)offset_pointer(tls_getd().main_render_timing, 12), screen_effect.vision_noise, 0, 0);
+		eldorado::render_screen_shaders(&screen_effect_shader_sample, true, eldorado::c_rasterizer_get_display_surface(), 0, 0);
+		eldorado::chud_draw_screen(view->out_user_index);
+		eldorado::game_engine_render_fade_to_black(view->out_user_index);
+		eldorado::interface_get_current_window_settings(0, 0, &window_bounds, 0);
+		eldorado::user_interface_render(view->controller_index, view->out_user_index, view->window_index, &window_bounds, eldorado::c_rasterizer_get_display_surface(), 0);
 		c_screen_postprocess::render_screen_effect_blur(screen_effect.horizontal_blur, screen_effect.vertical_blur);
-		((void (*const)())0x6E5160)();
-		((void (*const)(long))0xA89100)(view->out_user_index);
-		((void (*const)(s_screen_effect_shader_sample_result *, bool, long, long, long))0x14E6F60)(&screen_effect_shader_sample, false, ((long (*const)())0xA48770)(), 0, 0);
-		((void (*const)(long))0x684B20)(view->out_user_index);
+		eldorado::game_engine_render_watermarks();
+		eldorado::chud_draw_screen_saved_film(view->out_user_index);
+		eldorado::render_screen_shaders(&screen_effect_shader_sample, false, eldorado::c_rasterizer_get_display_surface(), 0, 0);
+		eldorado::player_effect_render(view->out_user_index);
 	}
-	((void (*const)(long))0x6E4FE0)(view->out_user_index);
+	eldorado::game_engine_render_debug(view->out_user_index);
 	Patches::Debug::RenderPlayerView();
-	if (!((bool (*const)())0x610260)())
-		((void (*const)(long))0xA29230)(view->out_user_index);
-	((void (*const)())0xA1F9B0)();
+	if (!eldorado::screenshot_sub_610260())
+		eldorado::render_debug_window_render(view->out_user_index);
+	eldorado::c_rasterizer_end();
 }
 
 void __fastcall c_player_view__render_lightmap_shadows_hook(c_player_view *_this, void *__savedreg) // 0x108E80F0
@@ -3477,63 +3581,63 @@ void __fastcall c_texture_camera_view__render_hook(c_texture_camera_view *thispt
 	float dword_19186F8 = *(float *)0x19186F8;
 	float dword_19186EC = *(float *)0x19186EC;
 	float dword_19186F0 = *(float *)0x19186F0;
-	((void (*const)(c_view *))0xA289D0)(thisptr);
-	((void (*const)())0xA3CA50)();
-	((e_surface (*const)(long, e_surface, long))0xA48E40)(2, (e_surface)0, -1);
-	((e_surface (*const)(long, e_surface, long))0xA48E40)(3, (e_surface)0, -1);
+	eldorado::c_view_begin(thisptr);
+	eldorado::render_method_clear_externs();
+	eldorado::c_rasterizer_set_render_target(2, (e_surface)0, -1);
+	eldorado::c_rasterizer_set_render_target(3, (e_surface)0, -1);
 	if (thisptr->flags & 0x20)
 	{
 		((long (__thiscall *)(c_lights_view *, long))0xA66A20)(&thisptr->lights_view, 0);
 		thisptr->lights_view.global_light_intensity = tls_getd().scripted_exposure_globals->exposure.field_4 * c_lights_view::g_render_light_intensity;
 		if (thisptr->flags & 0x200)
 			((void (__thiscall *)(c_lights_view *, long))0xA669E0)(&thisptr->lights_view, 0);
-		((void (*const)())0xA21880)();
+		eldorado::c_rasterizer_end_high_quality_blend();
 		((long (*const)(long, c_rasterizer_texture_ref, long, long))0xA48DD0)(0, thisptr->albedo_texture, 0, 0);
 		((long (*const)(long, c_rasterizer_texture_ref, long, long))0xA48DD0)(1, thisptr->normal_texture, 0, 0);
 		((void (*const)(bool))0xA48EB0)(false);
-		((e_surface (*const)(e_surface))0xA48CB0)(thisptr->depth_stencil_surface);
+		eldorado::c_rasterizer_set_depth_stencil_surface(thisptr->depth_stencil_surface);
 		{
 			long width = 0;
 			long height = 0;
 			((bool (__thiscall *)(c_rasterizer_texture_ref *, long, long *, long *))0xA6E950)(&thisptr->accum_texture, 0, &width, &height);
 			short_rectangle2d viewport = { 0, 0, (short)height, (short)width };
-			((void (*const)(short_rectangle2d *, float, float))0xA49010)(&viewport, 0.0f, 1.0f);
+			eldorado::c_rasterizer_set_viewport(&viewport, 0.0f, 1.0f);
 		}
-		((void (*const)(long, __int32, float, unsigned char))0xA213F0)(thisptr->flags & 1 | 2, 0, 1.0f, 0);
+		eldorado::c_rasterizer_clear(thisptr->flags & 1 | 2, 0, 1.0f, 0);
 		if (thisptr->flags & 8)
-			((void (*const)(unsigned long))0xA78410)(1);
+			eldorado::c_object_renderer_render_albedo(1);
 		if (thisptr->flags & 4)
-			((void (*const)())0xA2F050)();
+			eldorado::c_structure_renderer_render_albedo();
 		if (thisptr->flags & 8)
-			((void (*const)(long, long))0xA79300)(0, thisptr->window_index);
-		((void (*const)(long, long))0xA3A310)((thisptr->flags & 8) != 0, 0);
-		((void (*const)())0xA21350)();
+			eldorado::c_object_renderer_submit_and_render_sky(0, thisptr->window_index);
+		eldorado::c_player_view_render_albedo_decals((thisptr->flags & 8) != 0, 0);
+		eldorado::c_rasterizer_begin_high_quality_blend();
 		((long (*const)(long, c_rasterizer_texture_ref, long, long))0xA48DD0)(0, thisptr->accum_texture, thisptr->cubemap_face, 0);
 		c_rasterizer::m_albedo_texture = thisptr->albedo_texture;
 		c_rasterizer::m_normal_texture = thisptr->normal_texture;
-		((void (*const)(c_enum<enum e_render_method_extern,long>, bool))0xA3D200)((e_render_method_extern)1, false);
-		((void (*const)(c_enum<enum e_render_method_extern,long>, bool))0xA3D200)((e_render_method_extern)2, false);
-		((e_surface (*const)(long, e_surface, long))0xA48E40)(1, (e_surface)0, -1);
+		eldorado::render_method_submit_single_extern((e_render_method_extern)1, false);
+		eldorado::render_method_submit_single_extern((e_render_method_extern)2, false);
+		eldorado::c_rasterizer_set_render_target(1, (e_surface)0, -1);
 		if (thisptr->unknown_object_index != -1 || thisptr->flags & 2)
-			((void (*const)(long, __int32, float, unsigned char))0xA213F0)(1, 0, 1.0f, 0);
-		((void (*const)(float, float, float))0xA24B90)(g_texture_camera_exposure[0], g_texture_camera_exposure[1], 7.0f);
-		((void (*const)())0xA21880)();
+			eldorado::c_rasterizer_clear(1, 0, 1.0f, 0);
+		eldorado::c_rasterizer_setup_render_target_globals_with_exposure(g_texture_camera_exposure[0], g_texture_camera_exposure[1], 7.0f);
+		eldorado::c_rasterizer_end_high_quality_blend();
 		((void (*const)(bool))0xA48EB0)(true);
 		((void (*const)(s_simple_light *, long))0xA67B90)(thisptr->lights_view.m_simple_lights, thisptr->lights_view.m_simple_light_count);
-		((void (*const)(bool))0xA48FE0)(true);
+		eldorado::c_rasterizer_set_using_albedo_sampler(true);
 		if (thisptr->flags & 8)
 			((void (*const)(unsigned long))0xA79060)(1);
 		if (thisptr->flags & 4)
 			((void (*const)())0xA2FC90)();
 		if (thisptr->flags & 8)
-			((void (*const)(long, long))0xA79300)(1, thisptr->window_index);
-		((void (*const)())0xA21350)();
+			eldorado::c_object_renderer_submit_and_render_sky(1, thisptr->window_index);
+		eldorado::c_rasterizer_begin_high_quality_blend();
 	}
 	else if (thisptr->flags & 0x40)
 	{
 		((long (*const)(long, c_rasterizer_texture_ref, long, long))0xA48DD0)(0, thisptr->accum_texture, thisptr->cubemap_face, 0);
-		((e_surface (*const)(e_surface))0xA48CB0)(thisptr->depth_stencil_surface);
-		((void (*const)(long, __int32, float, unsigned char))0xA213F0)(3, -1, 1.0f, 0);
+		eldorado::c_rasterizer_set_depth_stencil_surface(thisptr->depth_stencil_surface);
+		eldorado::c_rasterizer_clear(3, -1, 1.0f, 0);
 		if (thisptr->flags & 4)
 			((long (*const)(long))0xA2FC30)(3);
 		if (thisptr->flags & 8)
@@ -3541,7 +3645,7 @@ void __fastcall c_texture_camera_view__render_hook(c_texture_camera_view *thispt
 	}
 	if (thisptr->flags & 0x200)
 	{
-		c_render_surface *depth_surface = ((c_render_surface *(*const)(e_surface))0x60F8B0)(thisptr->depth_stencil_surface);
+		c_render_surface *depth_surface = eldorado::c_render_surfaces_interface_get_render_surface(thisptr->depth_stencil_surface);
 		IDirect3DSurface9 *accum_surface = ((IDirect3DSurface9 *(__thiscall *)(c_rasterizer_texture_ref *, long, long))0xA6E860)(&thisptr->accum_texture, 0, thisptr->cubemap_face);
 		((void (__thiscall *)(c_lights_view *, long, long, IDirect3DSurface9 *, IDirect3DSurface9 *, IDirect3DSurface9 *))0xA67060)(&thisptr->lights_view, thisptr->out_user_index, thisptr->window_index, accum_surface, nullptr, depth_surface->m_surface);
 	}
@@ -3549,31 +3653,31 @@ void __fastcall c_texture_camera_view__render_hook(c_texture_camera_view *thispt
 		c_player_view__render_lightmap_shadows_hook(thisptr, nullptr);
 	if (thisptr->flags & 0x20 && thisptr->flags & 0x80)
 	{
-		((void (*const)(c_enum<enum e_render_method_extern,long>, bool))0xA3D200)((e_render_method_extern)3, false);
-		((void (*const)(c_enum<enum e_render_method_extern,long>, bool))0xA3D200)((e_render_method_extern)1, true);
-		((void (*const)(c_enum<enum e_render_method_extern,long>, bool))0xA3D200)((e_render_method_extern)2, true);
+		eldorado::render_method_submit_single_extern((e_render_method_extern)3, false);
+		eldorado::render_method_submit_single_extern((e_render_method_extern)1, true);
+		eldorado::render_method_submit_single_extern((e_render_method_extern)2, true);
 		((void (*const)(s_simple_light *, long))0xA67B90)(thisptr->lights_view.m_simple_lights, thisptr->lights_view.m_simple_light_count);
-		((void (*const)(bool))0xA48FE0)(false);
-		((void (*const)(long, long))0xA79300)(2, thisptr->window_index);
-		((void (*const)())0xA73880)();
-		((void (*const)(bool))0xA73640)(true);
-		((void (*const)(bool))0xA48FE0)(true);
+		eldorado::c_rasterizer_set_using_albedo_sampler(false);
+		eldorado::c_object_renderer_submit_and_render_sky(2, thisptr->window_index);
+		eldorado::c_transparency_renderer_sort();
+		eldorado::c_transparency_renderer_render(true);
+		eldorado::c_rasterizer_set_using_albedo_sampler(true);
 	}
 	if (thisptr->flags & 0x800 && thisptr->unknown_callback)
 		thisptr->unknown_callback(thisptr->unknown_callback_context);
 	long width;
 	long height;
 	((bool (__thiscall *)(c_rasterizer_texture_ref *, long, long *, long *))0xA6E950)(&thisptr->accum_texture, 0, &width, &height);
-	((void (*const)(long))0xA22D10)(0);
-	((void (*const)(long))0xA232D0)(1);
-	((void (*const)(short_rectangle2d *))0xA239B0)(nullptr);
-	((long (*const)(long))0xA247E0)(2);
-	((void (*const)(long, long))0xA231E0)(0, 15);
+	eldorado::c_rasterizer_set_alpha_blend_mode(0);
+	eldorado::c_rasterizer_set_cull_mode(1);
+	eldorado::c_rasterizer_set_scissor_rect(nullptr);
+	eldorado::c_rasterizer_set_z_buffer_mode(2);
+	eldorado::c_rasterizer_set_color_write_enable(0, 15);
 	c_texture_camera_view__copy_texture(thisptr, (e_rasterizer_default_shader)51, thisptr->normal_texture, thisptr->accum_texture, (float)width, (float)height, true);
-	((void (*const)(long))0xA22D10)(0);
-	((void (*const)(long, long))0xA231E0)(0, 15);
+	eldorado::c_rasterizer_set_alpha_blend_mode(0);
+	eldorado::c_rasterizer_set_color_write_enable(0, 15);
 	((long (*const)(long, c_rasterizer_texture_ref, long, long))0xA48DD0)(0, thisptr->albedo_texture, 0, 0);
-	((void (*const)(long, __int32, float, unsigned char))0xA213F0)(1, 0, 1.0f, 0);
+	eldorado::c_rasterizer_clear(1, 0, 1.0f, 0);
 	s_screen_effect_settings screen_effect;
 	s_screen_effect_shader_sample_result shader_sample_result;
 	screen_effect_sample(&thisptr->rasterizer_camera.position, &thisptr->rasterizer_camera.forward, &screen_effect, &shader_sample_result, -1);
@@ -3584,40 +3688,40 @@ void __fastcall c_texture_camera_view__render_hook(c_texture_camera_view *thispt
 	p_postprocess_contrast.j = contrast;
 	p_postprocess_contrast.k = contrast;
 	p_postprocess_contrast.w = contrast;
-	((void (*const)(long, long, real_vector4d const *))0xA66270)(222, 1, &p_postprocess_contrast);
+	eldorado::c_rasterizer_set_pixel_shader_constant(222, 1, &p_postprocess_contrast);
 	c_camera_fx_settings *camera_fx = c_camera_fx_settings::get(game_globals_get()->DefaultCameraEffect.index);
 	s_color_grading_parameter__update(&camera_fx->color_grading, false, 1);
-	if (((bool (*const)(long, long, long, long))0xA23300)(18, 7, 0, 0))
+	if (eldorado::c_rasterizer_set_explicit_shaders(18, 7, 0, 0))
 	{
-		((void (*const)(long, c_enum<enum e_sampler_filter_mode,long>))0xA23660)(0, (e_sampler_filter_mode)1);
-		((void (*const)(long, c_enum<enum e_sampler_filter_mode,long>))0xA23660)(1, (e_sampler_filter_mode)1);
-		((void (*const)(long, c_rasterizer_texture_ref))0xA23810)(0, thisptr->accum_texture);
+		eldorado::c_rasterizer_set_sampler_filter_mode_2(0, (e_sampler_filter_mode)1);
+		eldorado::c_rasterizer_set_sampler_filter_mode_2(1, (e_sampler_filter_mode)1);
+		eldorado::c_rasterizer_set_sampler_texture(0, thisptr->accum_texture);
 		c_rasterizer_texture_ref dark_surface(-1);
 		s_rasterizer_globals *const rasg = c_rasterizer_globals::get();
 		c_rasterizer_globals::get_default_texture_rasterizer_texture_ref(rasg, &dark_surface, _default_bitmap_color_black_transparent);
-		((void (*const)(long, c_rasterizer_texture_ref))0xA23810)(1, dark_surface);
-		((void (*const)(long, c_rasterizer_texture_ref))0xA23810)(2, -1);
-		((void (*const)(long, c_rasterizer_texture_ref))0xA23810)(3, -1);
+		eldorado::c_rasterizer_set_sampler_texture(1, dark_surface);
+		eldorado::c_rasterizer_set_sampler_texture(2, -1);
+		eldorado::c_rasterizer_set_sampler_texture(3, -1);
 		c_rasterizer::get_device()->SetTexture(4, *(IDirect3DBaseTexture9 **)0x5215C34);
-		((void (*const)(long, long))0xA23530)(4, 0);
-		((void (*const)(long, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>))0xA23570)(4, (e_sampler_address_mode)1, (e_sampler_address_mode)1, (e_sampler_address_mode)1);
-		((void (*const)(long, c_enum<enum e_sampler_filter_mode,long>))0xA23660)(4, (e_sampler_filter_mode)2);
+		eldorado::c_rasterizer_set_sampler_texture_direct(4, 0);
+		eldorado::c_rasterizer_set_sampler_address_mode_2(4, (e_sampler_address_mode)1, (e_sampler_address_mode)1, (e_sampler_address_mode)1);
+		eldorado::c_rasterizer_set_sampler_filter_mode_2(4, (e_sampler_filter_mode)2);
 		c_rasterizer::get_device()->SetTexture(5, *(IDirect3DBaseTexture9 **)0x5215C34);
-		((void (*const)(long, long))0xA23530)(5, 0);
-		((void (*const)(long, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>))0xA23570)(5, (e_sampler_address_mode)1, (e_sampler_address_mode)1, (e_sampler_address_mode)1);
-		((void (*const)(long, c_enum<enum e_sampler_filter_mode,long>))0xA23660)(5, (e_sampler_filter_mode)2);
+		eldorado::c_rasterizer_set_sampler_texture_direct(5, 0);
+		eldorado::c_rasterizer_set_sampler_address_mode_2(5, (e_sampler_address_mode)1, (e_sampler_address_mode)1, (e_sampler_address_mode)1);
+		eldorado::c_rasterizer_set_sampler_filter_mode_2(5, (e_sampler_filter_mode)2);
 		real_vector4d pixel_size;
 		pixel_size.i = 1.0f / width;
 		pixel_size.j = 1.0f / height;
 		pixel_size.k = 0.0f;
 		pixel_size.w = 0.0f;
-		((void (*const)(long, long, real_vector4d const *))0xA66270)(1, 1, &pixel_size);
+		eldorado::c_rasterizer_set_pixel_shader_constant(1, 1, &pixel_size);
 		real_vector4d intensity;
 		intensity[0] = dword_19186EC;
 		intensity[1] = camera_fx->bloom_intensity.bloom_intensity;
 		intensity[2] = camera_fx->bling_intensity.bling_intensity;
 		intensity[3] = dword_19186F0;
-		((void (*const)(long, long, real_vector4d const *))0xA66270)(2, 1, &intensity);
+		eldorado::c_rasterizer_set_pixel_shader_constant(2, 1, &intensity);
 		real_vector4d tone_curve_constants;
 		if (byte_19186F4)
 		{
@@ -3633,36 +3737,36 @@ void __fastcall c_texture_camera_view__render_hook(c_texture_camera_view *thispt
 			tone_curve_constants[2] = 0.0f;
 			tone_curve_constants[3] = 0.0f;
 		}
-		((void (*const)(long, long, real_vector4d const *))0xA66270)(3, 1, &tone_curve_constants);
+		eldorado::c_rasterizer_set_pixel_shader_constant(3, 1, &tone_curve_constants);
 		real_vector4d bloom_sampler_xform;
 		bloom_sampler_xform.i = 1.0f;
 		bloom_sampler_xform.j = 1.0f;
 		bloom_sampler_xform.k = 0.0f;
 		bloom_sampler_xform.w = 0.0f;
-		((void (*const)(long, long, real_vector4d const *))0xA66270)(5, 1, &bloom_sampler_xform);
+		eldorado::c_rasterizer_set_pixel_shader_constant(5, 1, &bloom_sampler_xform);
 		real_vector4d cg_blend_factor;
 		cg_blend_factor.i = 1.0f;
 		cg_blend_factor.j = 0.0f;
 		cg_blend_factor.k = 0.0f;
 		cg_blend_factor.w = 0.0f;
-		((void (*const)(long, long, real_vector4d const *))0xA66270)(6, 1, &cg_blend_factor);
+		eldorado::c_rasterizer_set_pixel_shader_constant(6, 1, &cg_blend_factor);
 		real_vector4d gamma_power_constant;
 		gamma_power_constant.i = Modules::ModuleGraphics::Instance().VarGammaPower->ValueFloatMax - Modules::ModuleGraphics::Instance().VarGammaPower->ValueFloat + 1.0f;
 		gamma_power_constant.j = 0.0f;
 		gamma_power_constant.k = 0.0f;
 		gamma_power_constant.w = 0.0f;
-		((void (*const)(long, long, real_vector4d const *))0xA66270)(8, 1, &gamma_power_constant);
+		eldorado::c_rasterizer_set_pixel_shader_constant(8, 1, &gamma_power_constant);
 		real_vector4d pixel_space_xform;
 		pixel_space_xform[0] = 1.0f;
 		pixel_space_xform[1] = 1.0f;
 		pixel_space_xform[2] = 0.0f;
 		pixel_space_xform[3] = 0.0f;
-		((void (*const)(long, long, real_vector4d const *))0xA66410)(9, 1, &pixel_space_xform);
+		eldorado::c_rasterizer_set_vertex_shader_constant(9, 1, &pixel_space_xform);
 		c_rasterizer_texture_ref default_noise_texture_ref(-1);
 		c_rasterizer_globals::get_default_texture_rasterizer_texture_ref(rasg, &default_noise_texture_ref, _default_bitmap_noise);
-		((void (*const)(long, c_rasterizer_texture_ref))0xA23810)(9, default_noise_texture_ref);
-		((void (*const)(long, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>))0xA23570)(9, 0, 0, 0);
-		((void (*const)(long, c_enum<enum e_sampler_filter_mode,long>))0xA23660)(9, 1);
+		eldorado::c_rasterizer_set_sampler_texture(9, default_noise_texture_ref);
+		eldorado::c_rasterizer_set_sampler_address_mode_2(9, 0, 0, 0);
+		eldorado::c_rasterizer_set_sampler_filter_mode_2(9, 1);
 		long noise_width;
 		long noise_height;
 		((bool (__thiscall *)(c_rasterizer_texture_ref *, long, long *, long *))0xA6E950)(&default_noise_texture_ref, 0, &noise_width, &noise_height);
@@ -3682,30 +3786,30 @@ void __fastcall c_texture_camera_view__render_hook(c_texture_camera_view *thispt
 		noise_space_xform[1] = (float)accum_surface_desc.Height / (float)noise_height;
 		noise_space_xform[2] = ((frame_index & 2) * 0.5f + noise_random1) * 0.5f;
 		noise_space_xform[3] = (((frame_index + 1) & 2) * 0.5f + noise_random2) * 0.5f;
-		((void (*const)(long, long, real_vector4d const *))0xA66410)(10, 1, &noise_space_xform);
+		eldorado::c_rasterizer_set_vertex_shader_constant(10, 1, &noise_space_xform);
 		real_vector4d noise_params;
 		noise_params[0] = screen_effect.dark_noise + screen_effect.dark_noise;
 		noise_params[1] = screen_effect.bright_noise;
 		noise_params[2] = 1.0 - screen_effect.dark_noise;
 		noise_params[3] = 0.0f;
-		((void (*const)(long, long, real_vector4d const *))0xA66270)(11, 1, &noise_params);
-		((void (*const)(long, long))0xA45EE0)(width, height);
-		((void (*const)(long, c_rasterizer_texture_ref))0xA23810)(0, -1);
-		((void (*const)(long, c_rasterizer_texture_ref))0xA23810)(1, -1);
-		((void (*const)(long, c_rasterizer_texture_ref))0xA23810)(2, -1);
-		((void (*const)(long, c_rasterizer_texture_ref))0xA23810)(3, -1);
-		((void (*const)(long, c_rasterizer_texture_ref))0xA23810)(4, -1);
-		((void (*const)(long, c_rasterizer_texture_ref))0xA23810)(5, -1);
+		eldorado::c_rasterizer_set_pixel_shader_constant(11, 1, &noise_params);
+		eldorado::c_rasterizer_draw_fullscreen_quad(width, height);
+		eldorado::c_rasterizer_set_sampler_texture(0, -1);
+		eldorado::c_rasterizer_set_sampler_texture(1, -1);
+		eldorado::c_rasterizer_set_sampler_texture(2, -1);
+		eldorado::c_rasterizer_set_sampler_texture(3, -1);
+		eldorado::c_rasterizer_set_sampler_texture(4, -1);
+		eldorado::c_rasterizer_set_sampler_texture(5, -1);
 	}
-	((void (*const)(long, c_rasterizer_texture_ref))0xA23810)(1, thisptr->normal_texture);
-	((void (*const)(long, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>))0xA23570)(1, (e_sampler_address_mode)1, (e_sampler_address_mode)1, (e_sampler_address_mode)1);
-	((void (*const)(long, c_enum<enum e_sampler_filter_mode,long>))0xA23660)(1, (e_sampler_filter_mode)2);
+	eldorado::c_rasterizer_set_sampler_texture(1, thisptr->normal_texture);
+	eldorado::c_rasterizer_set_sampler_address_mode_2(1, (e_sampler_address_mode)1, (e_sampler_address_mode)1, (e_sampler_address_mode)1);
+	eldorado::c_rasterizer_set_sampler_filter_mode_2(1, (e_sampler_filter_mode)2);
 	c_texture_camera_view__copy_texture(thisptr, (e_rasterizer_default_shader)94, thisptr->accum_texture, thisptr->albedo_texture, (float)width, (float)height, true);
-	((void (*const)(long, c_rasterizer_texture_ref))0xA23810)(1, -1);
+	eldorado::c_rasterizer_set_sampler_texture(1, -1);
 	c_rasterizer::m_albedo_texture = -1;
 	c_rasterizer::m_normal_texture = -1;
-	((void (*const)())0xA3CA50)();
-	((void (*const)())0xA28B10)();
+	eldorado::render_method_clear_externs();
+	eldorado::c_view_end();
 }
 
 void __fastcall c_player_view__render_static_lighting(c_player_view *_this, void *_savedreg) // 0x108E8270

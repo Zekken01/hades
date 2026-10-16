@@ -169,6 +169,12 @@ namespace Blam
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const levels_enumeration_in_progress = reinterpret_cast<bool (*)()>(0x54B3A0);
+}
+
 namespace Server
 {
 	namespace Voting
@@ -776,7 +782,7 @@ namespace Server
 				Reset();
 				return;
 			}
-			if (winnerChosenTime != 0 && !((bool (*const)())0x54B3A0)())
+			if (winnerChosenTime != 0 && !eldorado::levels_enumeration_in_progress())
 			{
 				if (enumerationTime == 0)
 					time(&enumerationTime);

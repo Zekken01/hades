@@ -90,6 +90,17 @@ using namespace ::Forge;
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const object_get_origin = reinterpret_cast<void(__cdecl *)(long, real_point3d *)>(0xB2E5A0);
+	static auto const object_get_velocities = reinterpret_cast<void (*)(long, real_vector3d *, real_vector3d *)>(0xB2EB30);
+	static auto const object_get_world_matrix = reinterpret_cast<real_matrix4x3 *(*)(long, real_matrix4x3 *)>(0xB2EC60);
+	static auto const object_set_at_rest = reinterpret_cast<void (*)(long, bool)>(0xB327F0);
+	static auto const object_set_velocities = reinterpret_cast<void (*)(long, real_vector3d const *, real_vector3d const *)>(0xB34040);
+	static auto const unit_get_camera_position = reinterpret_cast<void (*)(long, real_point3d *)>(0xB439D0);
+}
+
 extern float normalize3d(real_vector3d *v);  // hades: added for 0x1096A240
 extern real_vector3d *vector_from_points3d(real_point3d const *p1, real_point3d const *p2, real_vector3d *result);  // hades: added for 0x1096A240
 
@@ -245,7 +256,7 @@ namespace Forge
 		real_rectangle3d const &bounds = *boundsPtr;
 		s_map_variant_placement_properties const &variantProperties = mapv->objects[object->map_variant_index].properties;
 		real_matrix4x3 objectTransform;
-		((real_matrix4x3 *(*const)(long, real_matrix4x3 *))0xB2EC60)(object_index, &objectTransform);
+		eldorado::object_get_world_matrix(object_index, &objectTransform);
 		real_vector3d intersectNormal;
 		matrix4x3_inverse_transform_vector(&objectTransform, &normal, &intersectNormal);
 		real_vector3d displacement = global_zero3d;
@@ -310,18 +321,18 @@ namespace Forge
 		void (*const simulation_action_generic_object_update)(long, unsigned long) = (void (*)(long, unsigned long))0x580AD0;
 		void (*const start_tracking_object)(long) = (void (*)(long))0x59EA10;
 		real_matrix4x3 objectTransform;
-		((real_matrix4x3 *(*const)(long, real_matrix4x3 *))0xB2EC60)(object_index, &objectTransform);
+		eldorado::object_get_world_matrix(object_index, &objectTransform);
 		s_player_datum *player = player_get(player_index);
 		if (!player)
 			return;
-		((void (*const)(long, bool))0xB327F0)(object_index, false);
+		eldorado::object_set_at_rest(object_index, false);
 		if (throwForce >= 0.00001f)
 		{
 			s_object_data *unitObjectPtr = object_get(player->unit_index);
 			if (!unitObjectPtr)
 				return;
 			real_point3d unitHeadPos;
-			((void (*const)(long, real_point3d *))0xB439D0)(player->unit_index, &unitHeadPos);
+			eldorado::unit_get_camera_position(player->unit_index, &unitHeadPos);
 			real_vector3d vec;
 			vector_from_points3d(&unitHeadPos, &objectTransform.position, &vec);
 			normalize3d(&vec);
@@ -330,8 +341,8 @@ namespace Forge
 			vec.k = throwForce * 15.0f * vec.k;
 			real_vector3d v2;
 			real_vector3d v3;
-			((void (*const)(long, real_vector3d *, real_vector3d *))0xB2EB30)(object_index, &v2, &v3);
-			((void (*const)(long, real_vector3d const *, real_vector3d const *))0xB34040)(object_index, &v2, &v3);
+			eldorado::object_get_velocities(object_index, &v2, &v3);
+			eldorado::object_set_velocities(object_index, &v2, &v3);
 			simulation_action_generic_object_update(object_index, 4);
 		}
 		start_tracking_object(object_index);
@@ -414,7 +425,7 @@ namespace Forge
 
 		real_point3d worldPos;
 
-		((void(__cdecl *const)(long, real_point3d *))0xb2e5a0)(objectIndex, &worldPos);
+		eldorado::object_get_origin(objectIndex, &worldPos);
 
 		return Forge::PointInWorldBounds(worldPos);
 	}

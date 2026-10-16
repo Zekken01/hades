@@ -99,6 +99,12 @@ using namespace hades_file_local;
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const player_index_from_absolute_player_index = reinterpret_cast<long (*)(long)>(0x53B1A0);
+}
+
 #include "Player/PlayerCustomization.hpp"  // hades: added for 0x106D71E0
 extern void (*const object_placement_data_new)(s_object_placement_data *, long, unsigned long, s_damage_owner *);  // hades: added for 0x106D7380
 extern void *(*const datum_try_and_get_absolute)(s_data_array const *, unsigned long);  // hades: added for 0x106D7380
@@ -225,7 +231,7 @@ long __fastcall c_simulation_unit_entity_definition__create_object_hook(void *th
 	((bool (*const)(s_simulation_object_creation_data *, s_simulation_object_state_data *, unsigned long long *, s_object_placement_data *))0x4AE280)(creation_data, state_data, flags, &placement_data);
 	long player_index = -1;
 	if (state_data->controlling_player_index != -1 && datum_try_and_get_absolute(tls_getd().players, state_data->controlling_player_index))
-		player_index = ((long (*const)(long))0x53B1A0)(state_data->controlling_player_index);
+		player_index = eldorado::player_index_from_absolute_player_index(state_data->controlling_player_index);
 	real_rgb_color colors[5];
 	bool custom_change_colors;
 	((void (*const)(long, s_player_model_customization const *, long, real_rgb_color *, bool *))0x54F250)(player_index, &creation_data->player_appearance, creation_data->team, colors, &custom_change_colors);

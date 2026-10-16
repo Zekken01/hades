@@ -177,6 +177,22 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const c_rasterizer_clear_sampler_textures = reinterpret_cast<void (*)()>(0xA22AB0);
+	static auto const c_rasterizer_get_render_target = reinterpret_cast<e_surface (*)(long)>(0xA48720);
+	static auto const c_rasterizer_set_alpha_blend_mode = reinterpret_cast<void (*)(long)>(0xA22D10);
+	static auto const c_rasterizer_set_cull_mode = reinterpret_cast<void (*)(long)>(0xA232D0);
+	static auto const c_rasterizer_set_indices = reinterpret_cast<bool (*)(IDirect3DIndexBuffer9 *)>(0xA233C0);
+	static auto const c_rasterizer_set_pixel_shader = reinterpret_cast<bool (*)(void *, long)>(0xA23460);
+	static auto const c_rasterizer_set_render_target = reinterpret_cast<e_surface (*)(long, e_surface, long)>(0xA48E40);
+	static auto const c_rasterizer_set_sampler_address_mode = reinterpret_cast<void (*)(long, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>)>(0xA23570);
+	static auto const c_rasterizer_set_sampler_filter_mode = reinterpret_cast<void (*)(long, c_enum<enum e_sampler_filter_mode,long>)>(0xA23660);
+	static auto const c_rasterizer_set_vertex_shader = reinterpret_cast<bool (*)(void *, long, long, long)>(0xA246E0);
+	static auto const c_rasterizer_set_z_buffer_mode = reinterpret_cast<long (*)(long)>(0xA247E0);
+}
+
 namespace Player { namespace PlayerEmblem { extern void set_emblem_texture(long sampler, long player_index, bool use_generic, bool screen_emblem); } }  // hades: added for 0x108D2BE0
 
 namespace Patches
@@ -452,24 +468,24 @@ void draw_custom_bitmap(s_gui_bitmap_widget_render_info *info, short_rectangle2d
 	void *const pixl = tag_get('pixl', ((s_tag_reference *)explicit_shader->pixel_shader)->index);
 	if (!vtsh || !pixl)
 		return;
-	((bool (*const)(void *, long, long, long))0xA246E0)(vtsh, 7, 0, 0);
-	((bool (*const)(void *, long))0xA23460)(pixl, 0);
+	eldorado::c_rasterizer_set_vertex_shader(vtsh, 7, 0, 0);
+	eldorado::c_rasterizer_set_pixel_shader(pixl, 0);
 	long address_mode = params.texture_address_mode1 == 0;
-	((void (*const)(long, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>))0xA23570)(0, address_mode, address_mode, address_mode);
+	eldorado::c_rasterizer_set_sampler_address_mode(0, address_mode, address_mode, address_mode);
 	long filter_mode = (params.texture_filter_mode == 0) + 1;
-	((void (*const)(long, c_enum<enum e_sampler_filter_mode,long>))0xA23660)(0, filter_mode);
-	((void (*const)(long))0xA22D10)(params.alpha_blend_mode);
+	eldorado::c_rasterizer_set_sampler_filter_mode(0, filter_mode);
+	eldorado::c_rasterizer_set_alpha_blend_mode(params.alpha_blend_mode);
 	short_rectangle2d fullscreen_pixel_bounds;
 	interface_get_current_display_or_window_settings(&fullscreen_pixel_bounds, nullptr, nullptr, nullptr);
 	((void (*const)(float, float, float, float, s_screen_vertex *, long))0xA46910)(1.0f / (fullscreen_pixel_bounds.x1 - fullscreen_pixel_bounds.x0), 1.0f / (fullscreen_pixel_bounds.y1 - fullscreen_pixel_bounds.y0), fullscreen_pixel_bounds.x0, fullscreen_pixel_bounds.y0, vertices, 4);
-	((void (*const)(long))0xA232D0)(1);
-	((long (*const)(long))0xA247E0)(2);
+	eldorado::c_rasterizer_set_cull_mode(1);
+	eldorado::c_rasterizer_set_z_buffer_mode(2);
 	c_vertex_declaration_table__vertex_shader_declaration_set(7, 0, 0);
-	((bool (*const)(IDirect3DIndexBuffer9 *))0xA233C0)(nullptr);
+	eldorado::c_rasterizer_set_indices(nullptr);
 	DrawPrimitiveUP(4, 2, vertices, sizeof(s_screen_vertex));
-	((long (*const)(long))0xA247E0)(1);
-	((void (*const)(long))0xA232D0)(2);
-	((void (*const)())0xA22AB0)();
+	eldorado::c_rasterizer_set_z_buffer_mode(1);
+	eldorado::c_rasterizer_set_cull_mode(2);
+	eldorado::c_rasterizer_clear_sampler_textures();
 }
 
 void draw_custom_emblem(s_gui_bitmap_widget_render_info *info, short_rectangle2d *display_bounds, __int32 player_index) // 0x108D2BE0
@@ -532,9 +548,9 @@ void ui_draw_bitmap_widget_hook(s_gui_bitmap_widget_render_info *data, short_rec
 	void (*const ui_draw_bitmap_widget)(s_gui_bitmap_widget_render_info *, short_rectangle2d *) = (void (*)(s_gui_bitmap_widget_render_info *, short_rectangle2d *))0xB170F0;
 	if ((data->flags >> 2) & 1)
 	{
-		e_surface old_surface = ((e_surface (*const)(long))0xA48720)(0);
+		e_surface old_surface = eldorado::c_rasterizer_get_render_target(0);
 		draw_widget_blur(data, display_bounds);
-		((e_surface (*const)(long, e_surface, long))0xA48E40)(0, old_surface, -1);
+		eldorado::c_rasterizer_set_render_target(0, old_surface, -1);
 	}
 	else if ((data->flags & (1 << 0)) & 1)
 	{

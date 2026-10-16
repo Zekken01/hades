@@ -102,6 +102,13 @@ namespace Patches
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const object_get_markers_by_string_id = reinterpret_cast<short (*)(long, unsigned long, s_object_marker *, short)>(0xB2E3C0);
+	static auto const unit_inventory_get_weapon = reinterpret_cast<long (*)(long, short)>(0xB454D0);
+}
+
 extern long (*const game_seconds_to_ticks_round)(float);  // hades: added for 0x106A2030
 
 extern void *(*const tag_get)(unsigned long, long);  // hades: added for 0x106A34B0
@@ -433,7 +440,7 @@ extern "C" void unit_update_target_pivot_aiming(long unit_index, long ultimate_w
 		return;
 	if (!unit_definiton->target_aiming_pivot_marker_name)
 		return;
-	long primary_weapon_index = ((long (*const)(long, short))0xB454D0)(unit_index, unit->current_weapon_set.indices[0]);
+	long primary_weapon_index = eldorado::unit_inventory_get_weapon(unit_index, unit->current_weapon_set.indices[0]);
 	if (primary_weapon_index == -1)
 		return;
 	s_weapon_data *weapon = (s_weapon_data *)object_try_and_get_and_verify_type(primary_weapon_index, 4);
@@ -441,14 +448,14 @@ extern "C" void unit_update_target_pivot_aiming(long unit_index, long ultimate_w
 	if (!weapon_definition->barrels.count || weapon_definition->barrels->initial_projectile.index == -1)
 		return;
 	s_unit_data *weapon_control_unit = (s_unit_data *)object_try_and_get_and_verify_type(unit->weapon_control_unit_index, 0x2003);
-	long ultimate_primary_weapon_index = ((long (*const)(long, short))0xB454D0)(ultimate_weapon_control_unit_index, weapon_control_unit->current_weapon_set.indices[0]);
+	long ultimate_primary_weapon_index = eldorado::unit_inventory_get_weapon(ultimate_weapon_control_unit_index, weapon_control_unit->current_weapon_set.indices[0]);
 	long effect_object_index = weapon_get_effect_object_index(primary_weapon_index);
 	s_object_marker barrel_marker;
 	s_object_marker pivot_marker;
 	unsigned long barrel_marker_name = weapon_barrel_get_marker_name(primary_weapon_index, 0);
-	if (!((short (*const)(long, unsigned long, s_object_marker *, short))0xB2E3C0)(effect_object_index, barrel_marker_name, &barrel_marker, 1))
+	if (!eldorado::object_get_markers_by_string_id(effect_object_index, barrel_marker_name, &barrel_marker, 1))
 		return;
-	if (!((short (*const)(long, unsigned long, s_object_marker *, short))0xB2E3C0)(effect_object_index, unit_definiton->target_aiming_pivot_marker_name, &pivot_marker, 1))
+	if (!eldorado::object_get_markers_by_string_id(effect_object_index, unit_definiton->target_aiming_pivot_marker_name, &pivot_marker, 1))
 		return;
 	real_vector3d forward = barrel_marker.world_matrix.forward;
 	real_point3d position = pivot_marker.world_matrix.position;

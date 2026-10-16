@@ -201,6 +201,13 @@ using namespace ::Blam;
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const game_is_ui_shell = reinterpret_cast<bool (*)()>(0x531E90);
+	static auto const player_mapping_get_player_by_input_user = reinterpret_cast<unsigned long (*)(long)>(0x589C30);
+}
+
 extern long (*const game_tick_rate)();  // hades: added for 0x10A81060
 extern s_object_data *(*const object_try_and_get_and_verify_type)(unsigned long, c_enum<enum e_object_type,long>);  // hades: added for 0x10A81060
 #include "Modules/ModuleDebug.hpp"  // hades: added for 0x10A81060
@@ -794,7 +801,7 @@ void UpdateUiControllerInputHook(__int32 a0) // 0x10A7BE10
 	void (*UpdateCharPlatform)() = reinterpret_cast<void (*)()>(0xBB5F00);
 	c_gui_screen_widget *screen = c_gui_location_manager::get_location_gui_screen();
 	UiUpdateControllerInput(a0);
-	if (!((bool (*const)())0x531E90)())
+	if (!eldorado::game_is_ui_shell())
 		return;
 	static bool returnedBiped;
 	if (screen)
@@ -1079,7 +1086,7 @@ void LocalPlayerInputHook(__int32 localPlayerIndex, unsigned __int32 playerIndex
 	{
 		if (s_SprintToggled)
 		{
-			unsigned long playerIndex = ((unsigned long (*const)(long))0x589C30)(localPlayerIndex);
+			unsigned long playerIndex = eldorado::player_mapping_get_player_by_input_user(localPlayerIndex);
 			c_data_array<s_player_datum> *players = players_get();
 			s_player_datum *player = players->try_and_get(playerIndex);
 			if (player)

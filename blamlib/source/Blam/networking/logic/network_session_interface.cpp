@@ -38,6 +38,12 @@ struct s_session_mod_options;
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const network_life_cycle_in_squad_session = reinterpret_cast<bool (*)(c_network_session **)>(0x454F20);
+}
+
 extern bool network_squad_session_set_mod(s_session_mod_options const *options);
 extern s_session_mod_options const *network_squad_session_get_mod();
 
@@ -62,7 +68,7 @@ bool network_squad_session_set_mod(s_session_mod_options const *options) // 0x10
 	// function call : bool (*const)(c_network_session **)
 
 	c_network_session *session;
-	if (!((bool (*const)(c_network_session **))0x454F20)(&session))
+	if (!eldorado::network_life_cycle_in_squad_session(&session))
 	{
 		return false;
 	}
@@ -90,7 +96,7 @@ s_session_mod_options const *network_squad_session_get_mod() // 0x10EF8810
 	// function call : bool (*const)(c_network_session **)
 
 	c_network_session *session;
-	if (!((bool (*const)(c_network_session **))0x454F20)(&session))
+	if (!eldorado::network_life_cycle_in_squad_session(&session))
 	{
 		return nullptr;
 	}

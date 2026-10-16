@@ -113,6 +113,12 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const object_get_world_matrix = reinterpret_cast<real_matrix4x3 *(*)(long, real_matrix4x3 *)>(0xB2EC60);
+}
+
 extern float (*const game_tick_length)();  // hades: added for 0x10977300
 extern c_data_array<s_object_header> *object_headers_get();  // hades: added for 0x10977300
 
@@ -196,7 +202,7 @@ namespace Forge
 					real_rectangle3d const *boundingBox = Forge::GetObjectBoundingBox(it->data->definition_index);
 					if (!boundingBox)
 						continue;
-					((real_matrix4x3 *(*const)(long, real_matrix4x3 *))0xB2EC60)(it.current_datum_index, &item.Transform);
+					eldorado::object_get_world_matrix(it.current_datum_index, &item.Transform);
 					item.Transform.forward *= (boundingBox->x1 - boundingBox->x0) * 1.02f;
 					item.Transform.left *= (boundingBox->y1 - boundingBox->y0) * 1.02f;
 					item.Transform.up *= (boundingBox->z1 - boundingBox->z0) * 1.02f;

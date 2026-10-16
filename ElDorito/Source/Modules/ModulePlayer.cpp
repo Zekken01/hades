@@ -259,6 +259,13 @@ namespace Blam
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const observer_get_camera = reinterpret_cast<s_observer_result *(*)(long)>(0x6127C0);
+	static auto const observer_try_and_get_camera = reinterpret_cast<s_observer_result *(*)(long)>(0x613960);
+}
+
 namespace Utils::Version { std::string GetVersionString(); }  // hades: added for 0x109F6220
 
 #include "mods/mod_system.hpp"  // hades: added for 0x109F1EA0
@@ -1096,7 +1103,7 @@ bool CommandSetUiPlayerModelCustomization(std::vector<std::string> const &Argume
 		returnInfo = "ERROR: No scenario loaded";
 		return true;
 	}
-	s_observer_result *observer_camera_data = ((s_observer_result *(*const)(long))0x613960)(0);
+	s_observer_result *observer_camera_data = eldorado::observer_try_and_get_camera(0);
 	c_tag_block<s_scenario_cutscene_camera_point> cutscenes = scnr->cutscene_camera_points;
 	long *ui_resolution = (long *)0x19106C8;
 	float ui_aspect_ratio = (float)ui_resolution[0] / ui_resolution[1];
@@ -1130,7 +1137,7 @@ bool CommandSetUiPlayerModelCustomization(std::vector<std::string> const &Argume
 					float rotationOffset = character->character_position_data.relative_biped_rotation;
 					real_point3d newBipedPoint = {};
 					float rotationAngle = 0.0f;
-					s_observer_result *camera = ((s_observer_result *(*const)(long))0x6127C0)(0);
+					s_observer_result *camera = eldorado::observer_get_camera(0);
 					real_point3d point = camera->position;
 					if (display_mode == 1)
 					{

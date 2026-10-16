@@ -162,6 +162,13 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const game_in_progress = reinterpret_cast<bool (*)()>(0x5314B0);
+	static auto const game_is_ui_shell = reinterpret_cast<bool (*)()>(0x531E90);
+}
+
 #include "mods/mod_system.hpp"  // hades: added for 0x107BC140
 
 namespace Patches
@@ -581,8 +588,8 @@ void lobby_update() // 0x107BE3D0
 	c_network_session *session;
 	static long last_update_number = -1;
 
-	if (((bool (*const)())0x5314b0)()
-		&& ((bool (*const)())0x531e90)()
+	if (eldorado::game_in_progress()
+		&& eldorado::game_is_ui_shell()
 		&& network_session_interface_get_squad_session(&session)
 		&& session->established())
 	{

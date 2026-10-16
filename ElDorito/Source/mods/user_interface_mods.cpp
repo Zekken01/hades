@@ -95,6 +95,12 @@ namespace Blam
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const user_interface_session_get_map = reinterpret_cast<bool (*)(long *, long *)>(0xA817B0);
+}
+
 /* ---------- globals */
 
 /* ---------- private variables */
@@ -182,7 +188,7 @@ bool c_user_interface_mods_player_character_data::build_from_mod_package() // 0x
 		return false;
 	long campaign_id;
 	long map_id;
-	if (!((bool (*const)(long *, long *))0xA817B0)(&campaign_id, &map_id))
+	if (!eldorado::user_interface_session_get_map(&campaign_id, &map_id))
 		return false;
 	long cache_index = mod_package->get_tag_cache_index_for_map_id(map_id);
 	if (cache_index == -1)

@@ -64,6 +64,12 @@ struct short_rectangle2d;
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const real_argb_color_to_pixel32 = reinterpret_cast<unsigned long (*)(real_argb_color const &)>(0x521810);
+}
+
 real_point3d *matrix4x3_transform_point(real_matrix4x3 const *matrix, real_point3d const *point, real_point3d *result);  // hades: added for 0x10F08A60
 
 bool render_camera_world_to_window(s_render_camera const *camera, s_render_projection const *projection, short_rectangle2d const *window_display_bounds, real_point3d const *world_point, real_point2d *screen_point);  // hades: added for 0x10F0B960
@@ -322,7 +328,7 @@ void render_debug_box(real_rectangle3d const &bounds, real_argb_color const &col
 
 	real_point3d faces[6][4];
 	rectangle3d_build_faces(bounds, faces);
-	unsigned long pixel_color = ((unsigned long (*const)(real_argb_color const &))0x521810)(color);
+	unsigned long pixel_color = eldorado::real_argb_color_to_pixel32(color);
 	for (long i = 0; i < 6; i++)
 	{
 		render_debug_quadrilateral(faces[i][0], faces[i][1], faces[i][2], faces[i][3], color);
@@ -343,7 +349,7 @@ void render_debug_box_outline(real_rectangle3d const &bounds, real_argb_color co
 
 	real_point3d edges[12][2];
 	rectangle3d_build_edges(bounds, 12, edges);
-	unsigned long pixel_color = ((unsigned long (*const)(real_argb_color const &))0x521810)(color);
+	unsigned long pixel_color = eldorado::real_argb_color_to_pixel32(color);
 	for (long edge_index = 0; edge_index < 12; edge_index++)
 	{
 		render_debug_line(edges[edge_index][0], edges[edge_index][1], color);

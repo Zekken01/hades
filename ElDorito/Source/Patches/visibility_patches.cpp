@@ -129,6 +129,13 @@ static_assert32(sizeof(CDebugTextPrinter) == 2116, "Invalid CDebugTextPrinter si
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const scenario_structure_bsp_get = reinterpret_cast<s_scenario_structure_bsp *(*)(s_scenario *, long)>(0x766280);
+}
+#line 131
+
 #define NONE -1  // hades: added for 0x10AC6AE0
 
 long scenario_pvs_bsp_pvs_index_get(unsigned long bsp_zone_flags, long bsp_index);  // hades: added for 0x10AC7240
@@ -375,7 +382,7 @@ bool structure_seams_connected_cluster_references_get_h3(long scenario_index, s_
 	// function call : s_scenario_structure_bsp *(*const)(s_scenario *, long)
 
 	s_scenario *scenario = (s_scenario *)tag_get('scnr', scenario_index);
-	s_scenario_structure_bsp *structure = ((s_scenario_structure_bsp *(*const)(s_scenario *, long))0x766280)(scenario, cluster_reference.bsp_index);
+	s_scenario_structure_bsp *structure = eldorado::scenario_structure_bsp_get(scenario, cluster_reference.bsp_index);
 	s_structure_cluster &structure_cluster = structure->clusters[cluster_reference.cluster_index];
 	if (add_self)
 		out_cluster_refs->references[out_cluster_refs->reference_count++] = cluster_reference;

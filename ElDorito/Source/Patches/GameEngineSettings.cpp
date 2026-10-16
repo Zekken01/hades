@@ -199,6 +199,12 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const simulation_action_game_engine_player_update = reinterpret_cast<void (*)(short, unsigned long long const *)>(0x4B26B0);
+}
+
 s_game_globals *game_globals_get();  // hades: added for 0x10AA7A20
 extern void *(*const tag_get)(unsigned long, long);  // hades: added for 0x10AA7A20
 
@@ -604,7 +610,7 @@ void game_engine_apply_extended_traits(long player_index, c_player_trait_extende
 	if (changed)
 	{
 		unsigned long long const update_mask = 0x100000;
-		((void (*const)(short, unsigned long long const *))0x4B26B0)((short)player_index, &update_mask);
+		eldorado::simulation_action_game_engine_player_update((short)player_index, &update_mask);
 	}
 }
 

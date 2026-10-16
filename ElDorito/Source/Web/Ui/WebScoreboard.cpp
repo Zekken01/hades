@@ -383,6 +383,24 @@ struct s_globals
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const current_game_engine = reinterpret_cast<c_game_engine *(*)()>(0x5CE150);
+	static auto const game_engine_get_player_place = reinterpret_cast<long (*)(long)>(0x5506F0);
+	static auto const game_engine_get_statborg = reinterpret_cast<c_game_statborg *(*)()>(0x550B80);
+	static auto const game_engine_get_team_place = reinterpret_cast<long (*)(long)>(0x550BF0);
+	static auto const game_engine_has_teams = reinterpret_cast<bool (*)()>(0x5565E0);
+	static auto const game_engine_in_round = reinterpret_cast<bool (*)()>(0x550F90);
+	static auto const game_engine_running = reinterpret_cast<bool (*)()>(0x552410);
+	static auto const game_is_finished = reinterpret_cast<bool (*)()>(0x531B20);
+	static auto const game_is_survival = reinterpret_cast<bool (*)()>(0x531E20);
+	static auto const game_is_ui_shell = reinterpret_cast<bool (*)()>(0x531E90);
+	static auto const game_options_get = reinterpret_cast<s_game_options *(*)()>(0x5322D0);
+	static auto const player_index_from_absolute_player_index = reinterpret_cast<long (*)(long)>(0x53B1A0);
+	static auto const player_mapping_get_player_by_input_user = reinterpret_cast<unsigned long (*)(long)>(0x589C30);
+}
+
 extern bool (*const game_is_multiplayer)();  // hades: added for 0x10CB15A0  // hades: added for 0x10CB15A0
 namespace Player { namespace PlayerPodium { extern bool PodiumEnabled(); extern bool PodiumhasInitialized(); extern bool PodiumIsReady(); } }  // hades: added for 0x10CB15A0  // hades: added for 0x10CB15A0
 
@@ -512,7 +530,7 @@ namespace Web
 				}
 				if (event->name == 0x4004E)
 				{
-					s_player_datum *player = player_get(((unsigned long (*const)(long))0x589C30)(0));
+					s_player_datum *player = player_get(eldorado::player_mapping_get_player_by_input_user(0));
 					if (player)
 					{
 						long secondsUntilSpawn = player->respawn_timer_countdown_seconds;
@@ -612,14 +630,14 @@ namespace Web
 				static __int32 previousMapLoadingState = 0;
 				static __int32 previous_round_condition_flags = 0;
 				static bool previousHasUnit = false;
-				if (!(game_is_multiplayer() || ((bool (*const)())0x531E90)()))
+				if (!(game_is_multiplayer() || eldorado::game_is_ui_shell()))
 					return;
 				check_to_send_update();
 				if (globals.postgame)
 				{
 					if (game_ticks_to_seconds((float)(game_time_get() - globals.post_game_time)) > 2.0f)
 					{
-						if (!((bool (*const)())0x531B20)() || !Player::PlayerPodium::PodiumEnabled() || !Player::PlayerPodium::PodiumIsReady() || !Player::PlayerPodium::PodiumhasInitialized())
+						if (!eldorado::game_is_finished() || !Player::PlayerPodium::PodiumEnabled() || !Player::PlayerPodium::PodiumIsReady() || !Player::PlayerPodium::PodiumhasInitialized())
 							Show(globals.locked, globals.pregame, false);
 						globals.acceptsInput = false;
 						globals.postgame = false;
@@ -629,7 +647,7 @@ namespace Web
 				bool currentMapLoadingState = *(bool *)0x23917F0;
 				if (previousMapLoadingState && !currentMapLoadingState)
 				{
-					if (((bool (*const)())0x531E90)())
+					if (eldorado::game_is_ui_shell())
 					{
 						globals.returningToLobby = false;
 						globals.acceptsInput = true;
@@ -644,14 +662,14 @@ namespace Web
 						Show(globals.locked, globals.pregame, false);
 					}
 				}
-				else if (!previousMapLoadingState && currentMapLoadingState && ((bool (*const)())0x531E90)() && !globals.returningToLobby)
+				else if (!previousMapLoadingState && currentMapLoadingState && eldorado::game_is_ui_shell() && !globals.returningToLobby)
 				{
 					globals.locked = false;
 					globals.postgame = false;
 					Web::Ui::ScreenLayer::NotifyScreen("scoreboard", "scoreboard_hide", {});
 				}
 				previousMapLoadingState = currentMapLoadingState;
-				if (!((bool (*const)())0x550F90)())
+				if (!eldorado::game_engine_in_round())
 					return;
 				void *engine_globals = *(void **)tls_get(0x48);
 				short round_condition_flags = *(short *)((char *)engine_globals + 0xE110);
@@ -664,7 +682,7 @@ namespace Web
 					Web::Ui::ScreenLayer::NotifyScreen("scoreboard", "scoreboard_hide", {});
 				}
 				previous_round_condition_flags = round_condition_flags;
-				s_player_datum *player = player_get(((unsigned long (*const)(long))0x589C30)(0));
+				s_player_datum *player = player_get(eldorado::player_mapping_get_player_by_input_user(0));
 				if (!player)
 					return;
 				if (!roundCountdown && player->unit_index != -1 && !previousHasUnit)
@@ -982,10 +1000,10 @@ void build_score_update(s_scores_update &update) // 0x10CB1DE0
 	c_network_session *session;
 	if (!network_session_interface_get_squad_session(&session))
 		return;
-	c_game_statborg *scoreboard = ((c_game_statborg *(*const)())0x550B80)();
+	c_game_statborg *scoreboard = eldorado::game_engine_get_statborg();
 	if (!scoreboard)
 		return;
-	bool in_game_engine = ((bool (*const)())0x552410)();
+	bool in_game_engine = eldorado::game_engine_running();
 	update.valid_player_mask = 0;
 	update.dead_player_mask = 0;
 	update.objective_player_mask = 0;
@@ -997,22 +1015,22 @@ void build_score_update(s_scores_update &update) // 0x10CB1DE0
 		s_player_datum *player = players_get()->try_and_get_absolute(i);
 		if (!player)
 			continue;
-		long player_datum_index = ((long (*const)(long))0x53B1A0)(i);
-		if ((!((bool (*const)())0x531B20)() && player->respawn_timer_countdown_seconds > 0 && !(player->flags & 8)) || (!((bool (*const)())0x531B20)() && (game_is_campaign() || ((bool (*const)())0x531E20)()) && (player->respawn_in_progress == 1 || player->single_player_respawn_timer != 0)))
+		long player_datum_index = eldorado::player_index_from_absolute_player_index(i);
+		if ((!eldorado::game_is_finished() && player->respawn_timer_countdown_seconds > 0 && !(player->flags & 8)) || (!eldorado::game_is_finished() && (game_is_campaign() || eldorado::game_is_survival()) && (player->respawn_in_progress == 1 || player->single_player_respawn_timer != 0)))
 			update.dead_player_mask |= 1 << i;
-		if (((c_game_engine *(*const)())0x5CE150)())
+		if (eldorado::current_game_engine())
 		{
-			c_enum<enum e_game_engine_type,long> current_gametype = ((s_game_options *(*const)())0x5322D0)()->game_variant.game_engine_type;
+			c_enum<enum e_game_engine_type,long> current_gametype = eldorado::game_options_get()->game_variant.game_engine_type;
 			bool is_zombie = (get_infection_globals()->zombie_bit_vector & (1 << i)) != 0;
 			bool is_alpha_zombie = (get_infection_globals()->first_zombie_bit_vector & (1 << i)) != 0;
 			bool is_juggernaut = get_juggernaut_globals()->juggernaut_player_index == player_datum_index;
-			if (!((bool (*const)())0x531B20)() && ((unit_is_holding_objective(player->unit_index) && (current_gametype == _game_engine_type_ctf || current_gametype == _game_engine_type_oddball || current_gametype == _game_engine_type_assault)) || (is_zombie && current_gametype == _game_engine_type_infection) || (player_is_vip(player_datum_index, nullptr) && current_gametype == _game_engine_type_vip) || (is_juggernaut && current_gametype == _game_engine_type_juggernaut)))
+			if (!eldorado::game_is_finished() && ((unit_is_holding_objective(player->unit_index) && (current_gametype == _game_engine_type_ctf || current_gametype == _game_engine_type_oddball || current_gametype == _game_engine_type_assault)) || (is_zombie && current_gametype == _game_engine_type_infection) || (player_is_vip(player_datum_index, nullptr) && current_gametype == _game_engine_type_vip) || (is_juggernaut && current_gametype == _game_engine_type_juggernaut)))
 				update.objective_player_mask |= 1 << i;
-			if (!((bool (*const)())0x531B20)() && is_alpha_zombie && current_gametype == _game_engine_type_infection)
+			if (!eldorado::game_is_finished() && is_alpha_zombie && current_gametype == _game_engine_type_infection)
 				update.alpha_player_mask |= 1 << i;
 		}
 		if (in_game_engine)
-			update.player_place[i] = ((long (*const)(long))0x5506F0)(player_datum_index);
+			update.player_place[i] = eldorado::game_engine_get_player_place(player_datum_index);
 		update.player_scores[i] = scoreboard->players[i];
 		update.player_stats[i] = *game_results_get_player_stats(i);
 		update.valid_player_mask |= 1 << i;
@@ -1023,20 +1041,20 @@ void build_score_update(s_scores_update &update) // 0x10CB1DE0
 		if (!((bool (*const)(long))0x556610)(i))
 			continue;
 		if (in_game_engine)
-			update.team_place[i] = ((long (*const)(long))0x550BF0)(i);
+			update.team_place[i] = eldorado::game_engine_get_team_place(i);
 		update.team_scores[i] = scoreboard->teams[i];
 		update.valid_team_mask |= 1 << i;
 	}
 	if (game_is_multiplayer())
-		update.game_engine_type = (short)(long)((s_game_options *(*const)())0x5322D0)()->game_variant.game_engine_type;
+		update.game_engine_type = (short)(long)eldorado::game_options_get()->game_variant.game_engine_type;
 	update.game_lobby_type = Blam::Network::GetLobbyType();
-	update.game_finished = ((bool (*const)())0x531B20)();
+	update.game_finished = eldorado::game_is_finished();
 	if (update.game_finished)
 	{
-		bool tie = ((bool (*const)())0x5565E0)() ? ((bool (*const)())0x54DA50)() : ((bool (*const)())0x54D9C0)();
+		bool tie = eldorado::game_engine_has_teams() ? ((bool (*const)())0x54DA50)() : ((bool (*const)())0x54D9C0)();
 		update.game_tied = tie;
 	}
-	update.round_over = !((bool (*const)())0x531B20)() && !((bool (*const)())0x550F90)();
+	update.round_over = !eldorado::game_is_finished() && !eldorado::game_engine_in_round();
 	update.valid = true;
 }
 
@@ -1074,7 +1092,7 @@ void build_session_update(s_session_update &update) // 0x10CB27C0
 	c_network_session *session;
 	if (!network_session_interface_get_squad_session(&session))
 		return;
-	s_game_options *game_options = ((s_game_options *(*const)())0x5322D0)();
+	s_game_options *game_options = eldorado::game_options_get();
 	for (long i = 0; i < 16; i++)
 	{
 		if (!session->get_session_membership()->is_player_valid(i))
@@ -1103,7 +1121,7 @@ void build_session_update(s_session_update &update) // 0x10CB27C0
 	update.game_lobby_type = Blam::Network::GetLobbyType();
 	update.game_mode = game_options->game_mode;
 	update.game_id = game_options->game_id;
-	update.has_teams = ((bool (*const)())0x5565E0)();
+	update.has_teams = eldorado::game_engine_has_teams();
 	update.number_of_rounds = ((long (*const)())0x5504C0)();
 	update.current_round = ((__int32 (*const)())0x550AD0)() + 1;
 	std::string playersInfo = Modules::ModuleServer::Instance().VarPlayersInfoClient->ValueString;

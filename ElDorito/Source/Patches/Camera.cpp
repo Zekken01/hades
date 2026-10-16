@@ -180,6 +180,13 @@ namespace Blam
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const cinematic_in_progress = reinterpret_cast<bool (*)()>(0x67D270);
+	static auto const player_mapping_get_player_by_output_user = reinterpret_cast<unsigned long (*)(long)>(0x589C60);
+}
+
 extern void matrix3x3_from_axis_and_angle(real_matrix3x3 *matrix, real_vector3d const *axis, float sin_theta, float cos_theta);  // hades: added for 0x1095C610
 extern real_vector3d *matrix3x3_transform_vector(real_matrix3x3 const *matrix, real_vector3d const *vector, real_vector3d *result);  // hades: added for 0x1095C610
 real_vector3d *cross_product3d(real_vector3d const *a, real_vector3d const *b, real_vector3d *result);  // hades: added for 0x1095C610
@@ -1364,7 +1371,7 @@ void scripted_camera_update_call_hook(void *a1, void *camera_control, s_observer
 	}
 	observer_command->flags = 0;
 	float field_of_view = observer_suggested_field_of_view();
-	if (((bool (*const)())0x67D270)() && scripted_camera_globals->destination_field_of_view != 0.0f && scripted_camera_globals->field_of_view_change_duration > scripted_camera_globals->seconds_elapsed)
+	if (eldorado::cinematic_in_progress() && scripted_camera_globals->destination_field_of_view != 0.0f && scripted_camera_globals->field_of_view_change_duration > scripted_camera_globals->seconds_elapsed)
 	{
 		float fov_time_scale = scripted_camera_globals->seconds_elapsed / scripted_camera_globals->field_of_view_change_duration;
 		if (fov_time_scale <= 0.0f)
@@ -1568,7 +1575,7 @@ void __fastcall c_flying_camera__update_hook(c_flying_camera *thisptr, void *__f
 	// function call : unsigned long (*const)(long)
 
 	float k_camera_pitch_threshold = 1.4922565f;
-	long player_index = ((unsigned long (*const)(long))0x589C60)(0);
+	long player_index = eldorado::player_mapping_get_player_by_output_user(0);
 	if (player_index == -1)
 		return;
 	long controller_index = player_get(player_index)->machine_controller_index;

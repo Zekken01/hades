@@ -208,6 +208,12 @@ namespace Patches
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const player_mapping_get_player_by_input_user = reinterpret_cast<unsigned long (*)(long)>(0x589C30);
+}
+
 namespace Forge { extern s_map_variant *GetMapVariant(); }  // hades: added for 0x10CA9010
 
 extern void *(*const tag_get)(unsigned long, long);  // hades: added for 0x10CA7590
@@ -822,7 +828,7 @@ std::string SerializeObjectProperties(short placementIndex) // 0x10CA7C80
 	writer.EndObject();
 	writer.Key("properties");
 	writer.StartObject();
-	long playerIndex = ((unsigned long (*const)(long))0x589C30)(0);
+	long playerIndex = eldorado::player_mapping_get_player_by_input_user(0);
 	Forge::CDefaultPropertyAccessor accessor(playerIndex, placement.object_index);
 	try
 	{

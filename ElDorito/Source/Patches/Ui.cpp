@@ -533,6 +533,16 @@ using namespace hades_file_local;
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const controller_get = reinterpret_cast<unsigned char *(*)(__int32)>(0xA7CD50);
+	static auto const levels_try_and_get_campaign_insertion = reinterpret_cast<bool (*)(long, void *)>(0x54C9E0);
+	static auto const network_life_cycle_session_get_map = reinterpret_cast<bool (*)(long *, long *)>(0x4354D0);
+	static auto const network_squad_session_get_campaign_insertion_point = reinterpret_cast<short (*)()>(0x435080);
+	static auto const player_mapping_get_player_by_input_user = reinterpret_cast<unsigned long(__cdecl *)(long)>(0x589C30);
+}
+
 extern void *(__cdecl *const tag_get)(unsigned long, long);  // hades: added for 0x10ADD3E0
 extern void *tag_try_and_get_and_verify_group(unsigned long group_tag, long tag_index);  // hades: added for 0x10ADD3E0
 
@@ -3398,7 +3408,7 @@ __int32 GameStateFlagsValues() // 0x10ADBB80
 	// Blam::Network::Session *session;
 	// function call : unsigned long (*const)(long)
 
-	s_player_datum *player = players_get()->try_and_get(((unsigned long(__cdecl *const)(long))0x589c30)(0));
+	s_player_datum *player = players_get()->try_and_get(eldorado::player_mapping_get_player_by_input_user(0));
 
 	if (!player)
 	{
@@ -3892,7 +3902,7 @@ float get_player_vertical_crosshair_location() // 0x10AE8B30
 	// __int32 representationIndex;
 	// function call : unsigned char *(*const)(__int32)
 
-	unsigned char *c_player_profile = ((unsigned char *(*const)(__int32))0xA7CD50)(0);
+	unsigned char *c_player_profile = eldorado::controller_get(0);
 	__int32 representationIndex = *(__int32 *)(c_player_profile + 4);
 	s_game_globals *game_globals = game_globals_get();
 	if (game_globals->PlayerControl.count > representationIndex)
@@ -4137,12 +4147,12 @@ void user_interface_text_parser_initialize_hook() // 0x10AE9D30
 		std::string mission_name = "";
 		long campaignId;
 		long mapId;
-		if (((bool (*const)(long *, long *))0x4354D0)(&campaignId, &mapId))
+		if (eldorado::network_life_cycle_session_get_map(&campaignId, &mapId))
 		{
 			char insertion[0xBA8];
-			if (((bool (*const)(long, void *))0x54C9E0)(mapId, insertion))
+			if (eldorado::levels_try_and_get_campaign_insertion(mapId, insertion))
 			{
-				short insertion_point = ((short (*const)())0x435080)();
+				short insertion_point = eldorado::network_squad_session_get_campaign_insertion_point();
 				if (Blam::Network::GetLobbyType() == 5)
 					mission_name = Utils::String::ThinString((wchar_t const *)(insertion + 8 + 64 * insertion_point));
 				else

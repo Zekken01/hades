@@ -164,6 +164,23 @@ namespace Blam
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const action_submit0 = reinterpret_cast<bool (*)(long, s_action_request *)>(0xB69C50);
+	static auto const equipment_activate = reinterpret_cast<bool (*)(long, long, bool)>(0xB86C20);
+	static auto const equipment_definition_get_type = reinterpret_cast<e_equipment_type (*)(long, long)>(0xBA0260);
+	static auto const game_is_authoritative = reinterpret_cast<bool (*)()>(0x5319C0);
+	static auto const game_is_survival = reinterpret_cast<bool (*)()>(0x531E20);
+	static auto const object_wake = reinterpret_cast<void (*)(long)>(0xB34D00);
+	static auto const player_mapping_get_first_output_user = reinterpret_cast<long (*)(long)>(0x589A70);
+	static auto const player_mapping_get_next_output_user = reinterpret_cast<long (*)(long, long)>(0x589B90);
+	static auto const simulation_action_object_update_internal = reinterpret_cast<void (*)(long, unsigned long long *)>(0x4B3010);
+	static auto const unit_can_pickup_equipment = reinterpret_cast<bool (*)(long, long)>(0xB3AAA0);
+	static auto const unit_get_active_primary_weapon = reinterpret_cast<long (*)(long, long *)>(0xB42EF0);
+	static auto const weapon_is_support_weapon = reinterpret_cast<bool (*)(long)>(0xB641D0);
+}
+
 extern float distance_squared3d(real_point3d const *p1, real_point3d const *p2);  // hades: added for 0x10A54CF0
 
 namespace Patches { namespace Sprint { int GetState(); bool PlayerHasSprintTrait(long playerIndex); } }  // hades: added for 0x10A579B0
@@ -290,13 +307,13 @@ namespace Patches
 				return;
 			if (unit->equipment_object_indices[0] == -1)
 				return;
-			long active_primary_weapon_index = ((long (*const)(long, long *))0xB42EF0)(player->unit_index, nullptr);
-			if (active_primary_weapon_index != -1 && ((bool (*const)(long))0xB641D0)(active_primary_weapon_index))
+			long active_primary_weapon_index = eldorado::unit_get_active_primary_weapon(player->unit_index, nullptr);
+			if (active_primary_weapon_index != -1 && eldorado::weapon_is_support_weapon(active_primary_weapon_index))
 				return;
 			float const radius = unit->bounding_sphere_radius + 0.4f;
 			if (distance_squared3d(&unit->bounding_sphere_center, &equipment->bounding_sphere_center) >= radius * radius)
 				return;
-			if (!((bool (*const)(long, long))0xB3AAA0)(player->unit_index, equipmentIndex))
+			if (!eldorado::unit_can_pickup_equipment(player->unit_index, equipmentIndex))
 				return;
 			s_player_interaction interaction = {};
 			interaction.type = 2;
@@ -488,7 +505,7 @@ void player_examine_nearby_item_hook(long player_index, long item_index) // 0x10
 				{
 					s_object_data *weapon = object_try_and_get_and_verify_type(weapon_index, 4);
 					if (weapon != object_try_and_get_and_verify_type(loop_weapon_index, 4))
-						((void (*const)(long))0xB34D00)(weapon_index);
+						eldorado::object_wake(weapon_index);
 				}
 			}
 		}
@@ -499,11 +516,11 @@ void player_examine_nearby_item_hook(long player_index, long item_index) // 0x10
 			{
 				if (unit_can_pickup_equipment(player->unit_index, item_index))
 				{
-					long equipment_type = ((e_equipment_type (*const)(long, long))0xBA0260)(equipment->definition_index, 0);
+					long equipment_type = eldorado::equipment_definition_get_type(equipment->definition_index, 0);
 					long current_equipment_index = unit->equipment_object_indices[0];
 					if (equipment_type == 1)
 					{
-						if (((bool (*const)())0x5319C0)())
+						if (eldorado::game_is_authoritative())
 							equipment_play_pickup_sound(player_index, item_index);
 						else
 							simulation_request_pickup_powerup(player_index, item_index);
@@ -512,15 +529,15 @@ void player_examine_nearby_item_hook(long player_index, long item_index) // 0x10
 					{
 						if (1.0f > unit->body_vitality || 1.0f > unit->shield_vitality)
 						{
-							if (((bool (*const)())0x5319C0)())
+							if (eldorado::game_is_authoritative())
 							{
-								((bool (*const)(long, long, bool))0xB86C20)(item_index, player->unit_index, false);
+								eldorado::equipment_activate(item_index, player->unit_index, false);
 								player_use_multiplayer_powerup(unit->player_index, equipment->definition_index);
-								long output_index_index = ((long (*const)(long))0x589A70)(unit->player_index);
+								long output_index_index = eldorado::player_mapping_get_first_output_user(unit->player_index);
 								while (output_index_index != -1)
 								{
 									((void (*const)(long, long))0xA95890)(output_index_index, equipment->definition_index);
-									output_index_index = ((long (*const)(long, long))0x589B90)(unit->player_index, output_index_index);
+									output_index_index = eldorado::player_mapping_get_next_output_user(unit->player_index, output_index_index);
 								}
 								object_destroy(item_index);
 								simulation_action_pickup_healthpack(player->unit_index, equipment->definition_index);
@@ -533,13 +550,13 @@ void player_examine_nearby_item_hook(long player_index, long item_index) // 0x10
 					}
 					else if (current_equipment_index == -1)
 					{
-						if (((bool (*const)())0x5319C0)())
+						if (eldorado::game_is_authoritative())
 						{
 							s_unit_weapon_pickup_action_request action_request = {};
 							action_request.type = 61;
 							action_request.object_index = item_index;
 							action_request.pickup_type = 2;
-							((bool (*const)(long, s_action_request *))0xB69C50)(player->unit_index, (s_action_request *)&action_request);
+							eldorado::action_submit0(player->unit_index, (s_action_request *)&action_request);
 							player_use_multiplayer_powerup(player_index, equipment->definition_index);
 							c_player_output_user_iterator iterator;
 							iterator.begin(player_index);
@@ -556,7 +573,7 @@ void player_examine_nearby_item_hook(long player_index, long item_index) // 0x10
 			}
 			else if (!game_is_multiplayer() || player->traits.weapons.weapon_pickup != 2)
 			{
-				if (((bool (*const)())0x5319C0)())
+				if (eldorado::game_is_authoritative())
 				{
 					if (unit_add_grenade_to_inventory(player->unit_index, item_index))
 					{
@@ -577,13 +594,13 @@ void player_examine_nearby_item_hook(long player_index, long item_index) // 0x10
 			s_unit_weapon_pickup_result pickup_result;
 			if (unit_can_pickup_weapon(player->unit_index, item_index, -1, &pickup_result) && pickup_result.data[0] && player_should_auto_pickup_weapon(player_index, item_index))
 			{
-				if (((bool (*const)())0x5319C0)())
+				if (eldorado::game_is_authoritative())
 				{
 					s_unit_weapon_pickup_action_request action_request = {};
 					action_request.type = 46;
 					action_request.object_index = item_index;
 					action_request.pickup_type = 3;
-					((bool (*const)(long, s_action_request *))0xB69C50)(player->unit_index, (s_action_request *)&action_request);
+					eldorado::action_submit0(player->unit_index, (s_action_request *)&action_request);
 				}
 				else
 				{
@@ -615,7 +632,7 @@ void unit_add_initial_loadout_hook(long unit_index) // 0x10A56920
 	// function call : void (*const)(long)
 
 	void (*const unit_add_initial_loadout)(long) = reinterpret_cast<void (*)(long)>(0x5A30F0);
-	if (game_is_campaign() || ((bool (*const)())0x531E20)())
+	if (game_is_campaign() || eldorado::game_is_survival())
 	{
 		s_unit_data *unit = (s_unit_data *)object_try_and_get_and_verify_type(unit_index, 0x2003);
 		s_player_datum *player = player_get(unit->player_index);
@@ -625,7 +642,7 @@ void unit_add_initial_loadout_hook(long unit_index) // 0x10A56920
 		{
 			bool useRespawn = player->respawn_duration_seconds > 0 || player->first_spawn;
 			__int32 character_profile = session->MembershipInfo.GetPeerPlayer(player->machine_index);
-			character_profile += useRespawn ? (((bool (*const)())0x531E20)() ? 12 : 8) : (((bool (*const)())0x531E20)() ? 4 : 0);
+			character_profile += useRespawn ? (eldorado::game_is_survival() ? 12 : 8) : (eldorado::game_is_survival() ? 4 : 0);
 			if (character_profile < scnr->player_starting_profile.count)
 			{
 				unit_add_starting_profile_equipment_hook(player->unit_index, (short)character_profile, true, false);
@@ -1163,7 +1180,7 @@ void unit_update_health_pack_hook(long unit_index) // 0x10A57780
 		if (unit->shield_vitality < 0.0f)
 			unit->shield_vitality = 0.0f;
 		unsigned long long update_flags = 0xC0;
-		((void (*const)(long, unsigned long long *))0x4B3010)(unit_index, &update_flags);
+		eldorado::simulation_action_object_update_internal(unit_index, &update_flags);
 	}
 }
 

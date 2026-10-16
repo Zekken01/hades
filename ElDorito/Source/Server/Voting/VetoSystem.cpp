@@ -181,6 +181,12 @@ namespace Blam
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const levels_enumeration_in_progress = reinterpret_cast<bool (*)()>(0x54B3A0);
+}
+
 extern float real_random_range(float minimum, float maximum);  // hades: added for 0x1073CF30
 
 /* ---------- globals */
@@ -627,7 +633,7 @@ namespace Server
 			}
 			if (startime != 0)
 			{
-				if (willSetMap && !((bool (*const)())0x54B3A0)())
+				if (willSetMap && !eldorado::levels_enumeration_in_progress())
 				{
 					willSetMap = false;
 					Modules::CommandMap::Instance().ExecuteCommand("Game.GameType \"" + currentVetoOption.haloType.typeName + "\"", false);

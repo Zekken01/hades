@@ -168,6 +168,12 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const game_is_ui_shell = reinterpret_cast<bool (*)()>(0x531E90);
+}
+
 extern bool (*const network_session_interface_get_squad_session)(c_network_session **out_session);  // hades: added for 0x107EF4E0, 0x107EE0C0  // hades: added for 0x107EE0C0
 extern void player_format_uid(char *string, unsigned long long id);  // hades: added for 0x107EE0C0  // hades: added for 0x107EE0C0
 
@@ -509,7 +515,7 @@ namespace Player
 			rankCheckGameStarted = false;
 			rankCheckGameEnded = false;
 		}
-		if (checkRankTime && Blam::Network::GetLobbyType() == 2 && ((bool (*const)())0x531E90)())
+		if (checkRankTime && Blam::Network::GetLobbyType() == 2 && eldorado::game_is_ui_shell())
 		{
 			long long elapsed = curTime1 - checkRankTime;
 			if (elapsed > 5)

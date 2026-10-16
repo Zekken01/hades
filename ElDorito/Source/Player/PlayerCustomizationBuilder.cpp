@@ -99,6 +99,12 @@ namespace Blam
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const game_in_progress = reinterpret_cast<bool (*)()>(0x5314B0);
+}
+
 namespace Player
 {
 	extern void BuildChangeColors(unsigned long *changeColors, std::map<std::string,std::string> const &colors);
@@ -316,7 +322,7 @@ namespace Player
 		// function call : void *(*const)(unsigned long, long)
 		// function call : void *(*const)(unsigned long, long)
 
-		if (!((bool (*const)())0x5314B0)())
+		if (!eldorado::game_in_progress())
 			return false;
 		if (!m_mulg)
 		{

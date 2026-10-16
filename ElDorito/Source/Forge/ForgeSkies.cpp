@@ -112,6 +112,12 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const player_mapping_get_unit_by_output_user = reinterpret_cast<unsigned long (*)(long)>(0x589CC0);
+}
+
 extern void (*const object_set_position)(unsigned long, real_point3d *, real_vector3d *, real_vector3d *, s_scenario_location *);  // hades: added for 0x1067EB10
 extern void vectors3d_from_euler_angles3d(real_vector3d *forward, real_vector3d *up, real_euler_angles3d const *angles);  // hades: added for 0x1067EB10
 extern s_object_data *(*const object_try_and_get_and_verify_type)(unsigned long, c_enum<enum e_object_type,long>);  // hades: added for 0x1067EB10
@@ -423,7 +429,7 @@ void ReplaceForgeSky(s_forge_sky_definition *desiredSky) // 0x1067E230
 	}
 	if (desiredSky->screen_fx.index != -1)
 	{
-		unsigned long unit_index = ((unsigned long (*const)(long))0x589CC0)(0);
+		unsigned long unit_index = eldorado::player_mapping_get_unit_by_output_user(0);
 		screen_effect_new(desiredSky->screen_fx.index, unit_index, 0, &global_origin3d, &global_null_rectangle2d);
 		for (c_data_iterator<s_screen_effect_datum> it = screenEffects->begin(); it != screenEffects->end(); ++it)
 		{

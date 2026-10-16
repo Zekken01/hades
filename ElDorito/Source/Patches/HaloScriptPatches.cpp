@@ -323,6 +323,24 @@ typedef void (*hs_evaluate_func)(short, long, bool);
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const game_is_authoritative = reinterpret_cast<bool (*)()>(0x5319C0);
+	static auto const hs_evaluate_runtime = reinterpret_cast<bool (*)(long, long, long, long *)>(0x594510);
+	static auto const hs_find_thread_by_script = reinterpret_cast<long (*)(short)>(0x596130);
+	static auto const hs_global_reconcile_write = reinterpret_cast<void (*)(long)>(0x596C10);
+	static auto const hs_macro_function_evaluate = reinterpret_cast<hs_value *(*)(short, long, bool)>(0x5972F0);
+	static auto const hs_return = reinterpret_cast<void (*)(long, hs_value)>(0x5974E0);
+	static auto const hs_return_2 = reinterpret_cast<void(__cdecl *)(long, hs_value)>(0x5974E0);
+	static auto const hs_stack_allocate = reinterpret_cast<void *(*)(long, long, long, short *)>(0x5987D0);
+	static auto const hs_stack_pop = reinterpret_cast<void (*)(long)>(0x598900);
+	static auto const hs_syntax_get = reinterpret_cast<s_hs_syntax_node *(*)(long)>(0x598A10);
+	static auto const hs_thread_new = reinterpret_cast<long (*)(e_hs_script_type, short)>(0x598E70);
+	static auto const hs_wake = reinterpret_cast<void (*)(short)>(0x599170);
+	static auto const object_get_world_matrix = reinterpret_cast<real_matrix4x3 *(*)(long, real_matrix4x3 *)>(0xB2EC60);
+}
+
 namespace Forge { namespace PodiumPoint { extern long FindPodiumObject(); } }  // hades: added for 0x107B4FD0
 namespace Player { namespace PlayerPodium { extern bool ForgeCanOverride(); } }  // hades: added for 0x107B4FD0
 extern void matrix4x3_rotation_to_angles(real_matrix4x3 const *matrix, real_euler_angles3d *angles);  // hades: added for 0x107B4FD0
@@ -791,7 +809,7 @@ _inline bool c_simulation_hs_sync_global_event_definition::apply_game_event(long
 		global->value = data->value;
 	}
 
-	((void (*const)(long))0x596C10)(data->global_index);
+	eldorado::hs_global_reconcile_write(data->global_index);
 	char value_str[256];
 	hs_get_value_string(global_type, global->value, value_str);
 	Console::WriteLine(std::format("received hs global \"{}\", value: {}", hs_global_get_name(data->global_index), value_str));
@@ -883,9 +901,9 @@ void hs_mp_wake_script_evaluate(short a1, __int32 thread_index, char a3) // 0x10
 	// function call : void (*const)(long, hs_value)
 
 	s_hs_thread *thread = tls_getd().hs_thread_deterministic_data->try_and_get(thread_index);
-	s_hs_syntax_node *node = ((s_hs_syntax_node *(*const)(long))0x598a10)(*(long *)&thread->stack[thread->stack_offset]);
-	node = ((s_hs_syntax_node *(*const)(long))0x598a10)(*(long *)node->data);
-	node = ((s_hs_syntax_node *(*const)(long))0x598a10)(node->next_expression_index);
+	s_hs_syntax_node *node = eldorado::hs_syntax_get(*(long *)&thread->stack[thread->stack_offset]);
+	node = eldorado::hs_syntax_get(*(long *)node->data);
+	node = eldorado::hs_syntax_get(node->next_expression_index);
 	short script_index = *(short *)node->data;
 	s_scenario *scnr = global_scenario_get();
 	if (script_index < 0 || script_index >= scnr->scripts.count)
@@ -893,18 +911,18 @@ void hs_mp_wake_script_evaluate(short a1, __int32 thread_index, char a3) // 0x10
 		return;
 	}
 
-	if (((bool (*const)())0x5319c0)())
+	if (eldorado::game_is_authoritative())
 	{
-		long thread_index = ((long (*const)(short))0x596130)(script_index);
+		long thread_index = eldorado::hs_find_thread_by_script(script_index);
 		if (thread_index != -1)
 		{
-			((void (*const)(short))0x599170)((short)thread_index);
+			eldorado::hs_wake((short)thread_index);
 		}
 
 		simulation_action_hs_script_wake(script_index);
 	}
 
-	((void (*const)(long, hs_value))0x5974e0)(thread_index, hs_value::from_long(0));
+	eldorado::hs_return(thread_index, hs_value::from_long(0));
 }
 
 void hs_mp_sync_global_evaluate(short op, __int32 thread_index, char a3) // 0x107B7FE0
@@ -922,22 +940,22 @@ void hs_mp_sync_global_evaluate(short op, __int32 thread_index, char a3) // 0x10
 	// function call : void (*const)(long, hs_value)
 
 	s_hs_thread *thread = tls_getd().hs_thread_deterministic_data->try_and_get(thread_index);
-	s_hs_syntax_node *node = ((s_hs_syntax_node *(*const)(long))0x598a10)(*(long *)&thread->stack[thread->stack_offset]);
-	node = ((s_hs_syntax_node *(*const)(long))0x598a10)(*(long *)node->data);
-	node = ((s_hs_syntax_node *(*const)(long))0x598a10)(node->next_expression_index);
+	s_hs_syntax_node *node = eldorado::hs_syntax_get(*(long *)&thread->stack[thread->stack_offset]);
+	node = eldorado::hs_syntax_get(*(long *)node->data);
+	node = eldorado::hs_syntax_get(node->next_expression_index);
 	if (!(static_cast<unsigned short>(node->flags) & 4))
 	{
 		return;
 	}
 
-	if (((bool (*const)())0x5319c0)())
+	if (eldorado::game_is_authoritative())
 	{
 		short global_index = *(short *)node->data;
 		Server::HsGlobalSync::RegisterGlobal(global_index);
 		Console::WriteLine(std::format("registered global \"{}\" for synchronization", hs_global_get_name(global_index)));
 	}
 
-	((void (*const)(long, hs_value))0x5974e0)(thread_index, hs_value::from_long(0));
+	eldorado::hs_return(thread_index, hs_value::from_long(0));
 }
 
 void hs_cinematic_scripting_start_animation_legacy(long cine_index, long scene_index, long cine_object_index, long object_index, unsigned long animation_id) // 0x107B6A10
@@ -1407,7 +1425,7 @@ void hs_cinematic_scripting_create_and_animate_object_legacy_evaluate(short a1, 
 	if (args)
 	{
 		hs_cinematic_scripting_create_and_animate_object_legacy(*(long *)args, *(long *)(args + 4), *(long *)(args + 8), *(unsigned short *)(args + 12), *(long *)(args + 16), *(unsigned long *)(args + 20), *(bool *)(args + 24));
-		((void(__cdecl *const)(long, hs_value))0x5974e0)(a2, hs_value::from_long(0));
+		eldorado::hs_return_2(a2, hs_value::from_long(0));
 	}
 }
 
@@ -1433,7 +1451,7 @@ void hs_cinematic_scripting_create_and_animate_object_no_animation_legacy_evalua
 	if (args)
 	{
 		hs_cinematic_scripting_create_and_animate_object_no_animation_legacy(*(long *)args, *(long *)(args + 4), *(long *)(args + 8), *(unsigned short *)(args + 12), *(long *)(args + 16), *(bool *)(args + 20));
-		((void(__cdecl *const)(long, hs_value))0x5974e0)(a2, hs_value::from_long(0));
+		eldorado::hs_return_2(a2, hs_value::from_long(0));
 	}
 }
 
@@ -1459,7 +1477,7 @@ void hs_cinematic_scripting_create_and_animate_cinematic_object_legacy_evaluate(
 	if (args)
 	{
 		hs_cinematic_scripting_create_and_animate_cinematic_object_legacy(*(long *)args, *(long *)(args + 4), *(long *)(args + 8), *(long *)(args + 12), *(unsigned long *)(args + 16), *(bool *)(args + 20));
-		((void(__cdecl *const)(long, hs_value))0x5974e0)(a2, hs_value::from_long(0));
+		eldorado::hs_return_2(a2, hs_value::from_long(0));
 	}
 }
 
@@ -1608,7 +1626,7 @@ void hs_camera_set_evaluate(short a1, __int32 a2, char a3) // 0x107B4FD0
 	real_euler_angles3d * (*const euler_angles3d_from_vectors3d)(real_euler_angles3d *, real_vector3d const &, real_vector3d const &) = reinterpret_cast<real_euler_angles3d * (*)(real_euler_angles3d *, real_vector3d const &, real_vector3d const &)>(0x4F1490);
 	void (*const camera_update_scripted)(__int32, real_vector3d *, real_vector3d *, float, short, unsigned __int32) = reinterpret_cast<void (*)(__int32, real_vector3d *, real_vector3d *, float, short, unsigned __int32)>(0x72DD70);
 	void (*const object_get_orientation)(long, real_vector3d *, real_vector3d *) = reinterpret_cast<void (*)(long, real_vector3d *, real_vector3d *)>(0xB2E490);
-	long const *args = (long const *)((hs_value *(*const)(short, long, bool))0x5972f0)(a1, a2, a3);
+	long const *args = (long const *)eldorado::hs_macro_function_evaluate(a1, a2, a3);
 	void (*const sub4FA020)(real_quaternion *, real_euler_angles3d *) = reinterpret_cast<void (*)(real_quaternion *, real_euler_angles3d *)>(0x4FA020);
 	void (*const sub501040)(real_vector3d *, real_vector3d *, real_vector3d *) = reinterpret_cast<void (*)(real_vector3d *, real_vector3d *, real_vector3d *)>(0x501040);
 	if (args)
@@ -1638,7 +1656,7 @@ void hs_camera_set_evaluate(short a1, __int32 a2, char a3) // 0x107B4FD0
 					if (s_PodiumObjectIndex != -1 && scenObject && Player::PlayerPodium::ForgeCanOverride())
 					{
 						real_matrix4x3 podiumObjectTransform;
-						((real_matrix4x3 *(*const)(long, real_matrix4x3 *))0xb2ec60)(s_PodiumObjectIndex, &podiumObjectTransform);
+						eldorado::object_get_world_matrix(s_PodiumObjectIndex, &podiumObjectTransform);
 						real_euler_angles3d podiumObjectOrientation;
 						matrix4x3_rotation_to_angles(&podiumObjectTransform, &podiumObjectOrientation);
 						podiumCamera.position.x = podiumObjectTransform.position.x;
@@ -1672,7 +1690,7 @@ void hs_camera_set_evaluate(short a1, __int32 a2, char a3) // 0x107B4FD0
 								matrix4x3_transform_vector(&cutscene_camera_matrix, &a3, &a3);
 								euler_angles3d_from_vectors3d((real_euler_angles3d *)&v36, a2a, a3);
 								camera_update_scripted(0, (real_vector3d *)&transformed_point, &v36, ticks, -1, -1);
-								((void (*const)(long, hs_value))0x5974e0)(a2, hs_value::from_long(0));
+								eldorado::hs_return(a2, hs_value::from_long(0));
 								return;
 							}
 						}
@@ -1685,7 +1703,7 @@ void hs_camera_set_evaluate(short a1, __int32 a2, char a3) // 0x107B4FD0
 			}
 		}
 
-		((void (*const)(long, hs_value))0x5974e0)(a2, hs_value::from_long(0));
+		eldorado::hs_return(a2, hs_value::from_long(0));
 	}
 }
 
@@ -1704,7 +1722,7 @@ void hs_dew_method_stub_evaluate(short op, __int32 thread_index, char a3) // 0x1
 	// function call : void (*const)(long, hs_value)
 
 	hs_stack_frame *const stack_frame = hs_thread_stack(thread_index);
-	s_hs_syntax_node *const node = ((s_hs_syntax_node *(*const)(long))0x598a10)(stack_frame->expression_index);
+	s_hs_syntax_node *const node = eldorado::hs_syntax_get(stack_frame->expression_index);
 	s_hs_script const *script = global_scenario_get()->scripts.get_element(node->line_number);
 	if (script && script->type == static_cast<e_hs_script_type>(6))
 	{
@@ -1714,11 +1732,11 @@ void hs_dew_method_stub_evaluate(short op, __int32 thread_index, char a3) // 0x1
 			method->evaluateProc(op, thread_index, a3);
 			return;
 		}
-		((void (*const)(long, hs_value))0x5974e0)(thread_index, hs_value::get_default(script->return_type));
+		eldorado::hs_return(thread_index, hs_value::get_default(script->return_type));
 	}
 	else
 	{
-		((void (*const)(long, hs_value))0x5974e0)(thread_index, hs_value::get_default((e_hs_type)4));
+		eldorado::hs_return(thread_index, hs_value::get_default((e_hs_type)4));
 	}
 }
 
@@ -1824,7 +1842,7 @@ void hs_vehicle_test_seat_legacy_evaluate(short function_index, __int32 thread_i
 	if (hs_value const *args = ((hs_value const *(__cdecl *)(unsigned short, long, bool))0x5972f0)(function_index, thread_index, initial))
 	{
 		bool result = unit_scripting_vehicle_test_seat(args[0].long_value, args[1].long_value, args[2].long_value);
-		((void(__cdecl *const)(long, hs_value))0x5974e0)(thread_index, hs_value::from_bool(result));
+		eldorado::hs_return_2(thread_index, hs_value::from_bool(result));
 	}
 }
 
@@ -1838,10 +1856,10 @@ void hs_vehicle_test_seat_list_legacy_evaluate(short function_index, __int32 thr
 	// function call : hs_value *(*const)(short, long, bool)
 	// function call : void (*const)(long, hs_value)
 
-	if (hs_value const *args = ((hs_value *(*const)(short, long, bool))0x5972f0)(function_index, thread_index, initial))
+	if (hs_value const *args = eldorado::hs_macro_function_evaluate(function_index, thread_index, initial))
 	{
 		bool result = unit_scripting_vehicle_test_seat_list_legacy(args[0].long_value, args[1].long_value, args[2].long_value);
-		((void (*const)(long, hs_value))0x5974e0)(thread_index, hs_value::from_bool(result));
+		eldorado::hs_return(thread_index, hs_value::from_bool(result));
 	}
 }
 
@@ -1978,7 +1996,7 @@ void hs_debug_macro_function_evaluate(long thread_index, long *evaluated_argumen
 	s_hs_thread const *thread = hs_thread_get(thread_index);
 	hs_stack_frame const *frame = hs_thread_stack(thread_index);
 	long const expression_index = frame->expression_index;
-	s_hs_syntax_node const *expression = ((s_hs_syntax_node *(*const)(long))0x598a10)(expression_index);
+	s_hs_syntax_node const *expression = eldorado::hs_syntax_get(expression_index);
 	if (thread->script_index == -1)
 	{
 		return;
@@ -2103,10 +2121,10 @@ long hs_runtime_script_begin_hook(short script_index, e_hs_script_type script_ty
 		s_hs_script &script = scenario->scripts[script_index];
 		if (script.type == script_type)
 		{
-			long thread_index = ((long (*const)(e_hs_script_type, short))0x598e70)(thread_type, script_index);
+			long thread_index = eldorado::hs_thread_new(thread_type, script_index);
 			if (thread_index != -1)
 			{
-				((bool (*const)(long, long, long, long *))0x594510)(thread_index, script.root_expression_index, 3, nullptr);
+				eldorado::hs_evaluate_runtime(thread_index, script.root_expression_index, 3, nullptr);
 				return thread_index;
 			}
 		}
@@ -2136,7 +2154,7 @@ long *hs_macro_function_evaluate_hook(short function_index, long thread_index, b
 
 	long *(*const hs_arguments_evaluate)(long, short, short const *, bool) = reinterpret_cast<long *(*)(long, short, short const *, bool)>(0x594140);
 	hs_stack_frame *stack = hs_thread_stack(thread_index);
-	s_hs_syntax_node *node = ((s_hs_syntax_node *(*const)(long))0x598a10)(stack->expression_index);
+	s_hs_syntax_node *node = eldorado::hs_syntax_get(stack->expression_index);
 	if (node->flags.test((e_hs_syntax_node_flags)5))
 	{
 		s_hs_script *script = &global_scenario_get()->scripts[node->line_number];
@@ -2183,7 +2201,7 @@ void hs_return_hook(long thread_index, hs_value value) // 0x107B8410
 	long (*const hs_cast)(long, e_hs_type, e_hs_type, long) = reinterpret_cast<long (*)(long, e_hs_type, e_hs_type, long)>(0x5943a0);
 	s_hs_thread *thread = hs_thread_get(thread_index);
 	hs_stack_frame *stack = hs_thread_stack(thread_index);
-	s_hs_syntax_node *node = ((s_hs_syntax_node *(*const)(long))0x598a10)(stack->expression_index);
+	s_hs_syntax_node *node = eldorado::hs_syntax_get(stack->expression_index);
 	e_hs_type return_type = (e_hs_type)4;
 	if (node->flags.test((e_hs_syntax_node_flags)5))
 	{
@@ -2212,7 +2230,7 @@ void hs_return_hook(long thread_index, hs_value value) // 0x107B8410
 		*return_value = hs_cast(thread_index, return_type, node->type, value.long_value);
 	}
 
-	((void (*const)(long))0x598900)(thread_index);
+	eldorado::hs_stack_pop(thread_index);
 }
 
 void hs_evaluate_inspect_hook(short op, long thread_index, bool a3) // 0x107B75D0
@@ -2243,22 +2261,22 @@ void hs_evaluate_inspect_hook(short op, long thread_index, bool a3) // 0x107B75D
 
 	void (**const g_hs_inspect_function_table)(short, long, char *, long) = reinterpret_cast<void (**)(short, long, char *, long)>(0x18A1090);
 	short stack_pointer;
-	long *value = (long *)((void *(*const)(long, long, long, short *))0x5987d0)(thread_index, 4, 2, &stack_pointer);
+	long *value = (long *)eldorado::hs_stack_allocate(thread_index, 4, 2, &stack_pointer);
 	if (!value)
 	{
 		return;
 	}
 
-	s_hs_syntax_node *func_expr = ((s_hs_syntax_node *(*const)(long))0x598a10)(hs_thread_stack(thread_index)->expression_index);
-	s_hs_syntax_node *name_expr = ((s_hs_syntax_node *(*const)(long))0x598a10)(*(long *)func_expr->data);
+	s_hs_syntax_node *func_expr = eldorado::hs_syntax_get(hs_thread_stack(thread_index)->expression_index);
+	s_hs_syntax_node *name_expr = eldorado::hs_syntax_get(*(long *)func_expr->data);
 	long value_expr_index = name_expr->next_expression_index;
 	if (a3)
 	{
-		((bool (*const)(long, long, long, long *))0x594510)(thread_index, value_expr_index, (stack_pointer << 16) | 1, nullptr);
+		eldorado::hs_evaluate_runtime(thread_index, value_expr_index, (stack_pointer << 16) | 1, nullptr);
 	}
 	else
 	{
-		s_hs_syntax_node *value_expr = ((s_hs_syntax_node *(*const)(long))0x598a10)(value_expr_index);
+		s_hs_syntax_node *value_expr = eldorado::hs_syntax_get(value_expr_index);
 		void (*inspect_function)(short, long, char *, long) = g_hs_inspect_function_table[(short)value_expr->type];
 		if (inspect_function)
 		{
@@ -2267,7 +2285,7 @@ void hs_evaluate_inspect_hook(short op, long thread_index, bool a3) // 0x107B75D
 			Console::WriteLine(buffer);
 		}
 
-		((void (*const)(long, hs_value))0x5974e0)(thread_index, hs_value::from_long(0));
+		eldorado::hs_return(thread_index, hs_value::from_long(0));
 	}
 }
 
@@ -2286,9 +2304,9 @@ void hs_evaluate_set_hook(short op, long thread_index, bool a3) // 0x107B78C0
 
 	void (*const hs_set_evaluate)(short, long, bool) = (void (*const)(short, long, bool))0x5957f0;
 	s_hs_thread *thread = tls_getd().hs_thread_deterministic_data->try_and_get(thread_index);
-	s_hs_syntax_node *node = ((s_hs_syntax_node *(*const)(long))0x598a10)(*(long *)&thread->stack[thread->stack_offset]);
-	node = ((s_hs_syntax_node *(*const)(long))0x598a10)(*(long *)node->data);
-	node = ((s_hs_syntax_node *(*const)(long))0x598a10)(node->next_expression_index);
+	s_hs_syntax_node *node = eldorado::hs_syntax_get(*(long *)&thread->stack[thread->stack_offset]);
+	node = eldorado::hs_syntax_get(*(long *)node->data);
+	node = eldorado::hs_syntax_get(node->next_expression_index);
 	hs_set_evaluate(op, thread_index, a3);
 	if (!a3)
 	{

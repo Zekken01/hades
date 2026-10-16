@@ -112,6 +112,13 @@ using namespace hades_file_local;
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const game_in_progress = reinterpret_cast<bool (*)()>(0x5314B0);
+	static auto const game_is_authoritative = reinterpret_cast<bool (*)()>(0x5319C0);
+}
+
 namespace Server
 {
 	namespace HsGlobalSync
@@ -266,7 +273,7 @@ namespace Server
 			// function call : bool (*const)()
 			// function call : bool (*const)()
 
-			if (!((bool (*const)())0x5314b0)() || !((bool (*const)())0x5319c0)() || !game_is_distributed())
+			if (!eldorado::game_in_progress() || !eldorado::game_is_authoritative() || !game_is_distributed())
 				return;
 
 			if (lastSynchronizeTime == -1 || system_milliseconds() - lastSynchronizeTime >= 50)

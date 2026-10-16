@@ -50,6 +50,13 @@ using namespace ::Forge;
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const object_get_world_matrix = reinterpret_cast<real_matrix4x3 *(*)(long, real_matrix4x3 *)>(0xB2EC60);
+	static auto const player_mapping_get_player_by_input_user = reinterpret_cast<unsigned long (*)(long)>(0x589C30);
+}
+
 namespace Forge
 {
 	namespace PrematchCamera
@@ -140,7 +147,7 @@ namespace Forge
 
 			unsigned __int32 (__thiscall *const spawn_object)(s_map_variant *, long, long, long, real_point3d const *, real_vector3d const *, real_vector3d const *, long, long, s_map_variant_placement_properties const *, unsigned short) = (unsigned __int32 (__thiscall *)(s_map_variant *, long, long, long, real_point3d const *, real_vector3d const *, real_vector3d const *, long, long, s_map_variant_placement_properties const *, unsigned short))0x582110;
 			void (*const game_engine_sandbox_update_variant_object_properties)(long, long, s_map_variant_placement_properties const *) = (void (*)(long, long, s_map_variant_placement_properties const *))0x59B720;
-			long player_index = ((unsigned long (*const)(long))0x589C30)(0);
+			long player_index = eldorado::player_mapping_get_player_by_input_user(0);
 			if (player_index == -1)
 				return;
 			s_player_datum *player = player_get(player_index);
@@ -148,7 +155,7 @@ namespace Forge
 				return;
 			s_map_variant *map_variant = game_engine_get_runtime_map_variant();
 			real_matrix4x3 unit_world_matrix;
-			((real_matrix4x3 *(*const)(long, real_matrix4x3 *))0xB2EC60)(player->unit_index, &unit_world_matrix);
+			eldorado::object_get_world_matrix(player->unit_index, &unit_world_matrix);
 			long camera_object_index = FindCameraObjectForTeamDesignator(team);
 			if (camera_object_index == -1)
 			{

@@ -162,6 +162,16 @@ namespace Patches
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const c_render_globals_set_distortion_active = reinterpret_cast<void (*)(bool)>(0xA2A300);
+	static auto const c_render_globals_set_distortion_visible = reinterpret_cast<void (*)(bool)>(0xA2A320);
+	static auto const object_get_ultimate_parent = reinterpret_cast<long (*)(long)>(0xB2EAB0);
+	static auto const real_rgb_color_to_pixel32 = reinterpret_cast<unsigned long (*)(real_rgb_color *)>(0x521D90);
+}
+#line 164
+
 #include "Modules/ModuleDebug.hpp"  // hades: added for 0x108DF6D0
 #include "Modules/ModuleForge.hpp"  // hades: added for 0x108DF6D0
 extern bool (*const game_engine_is_sandbox)();  // hades: added for 0x108DF6D0
@@ -433,8 +443,8 @@ void render_object_add_mesh_parts_hook(s_render_object *render_object, s_visible
 					((void (*const)(s_render_geometry *, s_mesh *, s_part *, long, long, void *, __int32, real_point3d *, char, long, long, void *))0xA77B70)(&render_model->render_geometry, mesh, part, region_index, render_info->info.skinning_memory_designator, render_object, element_index, &sorting_position, uses_fixed_oreder_transparency, sorting_layer, sort_index, callback);
 					if (uses_distortion)
 					{
-						((void (*const)(bool))0xA2A300)(true);
-						((void (*const)(bool))0xA2A320)(true);
+						eldorado::c_render_globals_set_distortion_active(true);
+						eldorado::c_render_globals_set_distortion_visible(true);
 					}
 					ridiculous_transparency_sort_bias_bit |= sort_index != -1;
 				}
@@ -682,7 +692,7 @@ void render_object_update_change_colors_hook(long object_index, bool force) // 0
 			real_rgb_color color;
 			if (object_get_change_color(object_index, i + 1, &color))
 			{
-				long target_object_index = ((long (*const)(long))0xB2EAB0)(object_index);
+				long target_object_index = eldorado::object_get_ultimate_parent(object_index);
 				s_multiplayer_object_properties *multiplayer = object_get_multiplayer(target_object_index);
 				if (!multiplayer)
 					multiplayer = object_get_multiplayer(target_object_index);
@@ -712,7 +722,7 @@ void render_object_update_change_colors_hook(long object_index, bool force) // 0
 						}
 					}
 				}
-				cached_state->shader_extern_info.change_colors[i] = ((unsigned long (*const)(real_rgb_color *))0x521D90)(&color);
+				cached_state->shader_extern_info.change_colors[i] = eldorado::real_rgb_color_to_pixel32(&color);
 				cached_state->shader_extern_info.change_colors_count++;
 			}
 		}

@@ -231,6 +231,13 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const game_is_authoritative = reinterpret_cast<bool (*)()>(0x5319C0);
+	static auto const simulation_action_game_engine_player_update = reinterpret_cast<void (*)(short, unsigned long long const *)>(0x4B26B0);
+}
+
 namespace Server { namespace Voting { extern void OnVotePassed(std::function<void __cdecl(Server::Voting::MapAndType)> &&callback); } }  // hades: added for 0x109023F0
 
 float real_random_range(float min, float max); template<typename t_entry, typename t_weight_function> long compute_weighted_random_index(t_entry entries, long count, t_weight_function get_weight) { if (!count) return -1; float total_weight = 0.0f; for (long i = 0; i < count; i++) total_weight += get_weight(entries[i]); float random = real_random_range(0.0f, total_weight); for (long i = 0; i < count; i++) { float weight = get_weight(entries[i]); if (weight != 0.0f && weight > random) return i; random -= weight; } return -1; }  // hades: added for 0x10903B00
@@ -398,7 +405,7 @@ namespace Player
 		if (!game_is_multiplayer())
 			return;
 		__int32 characterTypeIndex = -1;
-		if (((bool (*const)())0x5319C0)())
+		if (eldorado::game_is_authoritative())
 		{
 			s_player_datum *player = player_get(playerIndex);
 			if (characterTypeIndex == -1)
@@ -414,7 +421,7 @@ namespace Player
 			player->character_type_index = characterTypeIndex;
 			player->previous_character_type_index = characterTypeIndex;
 			unsigned long long componentMask = 0x20000;
-			((void (*const)(short, unsigned long long const *))0x4B26B0)(playerIndex, &componentMask);
+			eldorado::simulation_action_game_engine_player_update(playerIndex, &componentMask);
 		}
 		UpdateLocalPlayerHudGlobals();
 	}
@@ -440,7 +447,7 @@ namespace Player
 
 		if (!game_is_multiplayer())
 			return;
-		if (((bool (*const)())0x5319C0)() && game_engine_is_sandbox())
+		if (eldorado::game_is_authoritative() && game_engine_is_sandbox())
 		{
 			s_player_datum *player = player_get(playerIndex);
 			if (player->unit_index != -1)
@@ -454,7 +461,7 @@ namespace Player
 					player->character_type_index = player->previous_character_type_index;
 			}
 			unsigned long long componentMask = 0x20000;
-			((void (*const)(short, unsigned long long const *))0x4B26B0)(playerIndex, &componentMask);
+			eldorado::simulation_action_game_engine_player_update(playerIndex, &componentMask);
 		}
 		UpdateLocalPlayerHudGlobals();
 	}

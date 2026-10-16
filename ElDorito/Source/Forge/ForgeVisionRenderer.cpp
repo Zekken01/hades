@@ -132,6 +132,13 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const c_rasterizer_get_render_target = reinterpret_cast<e_surface (*)(long)>(0xA48720);
+	static auto const pixel32_to_real_argb_color = reinterpret_cast<real_argb_color *(*)(unsigned long, real_argb_color *)>(0x5211C0);
+}
+
 extern void (*const data_iterator_new)(s_data_iterator *, s_data_array const *);  // hades: added for 0x108380B0  // hades: added for 0x108380B0
 extern s_datum *(*const data_iterator_next)(s_data_iterator *);  // hades: added for 0x108380B0  // hades: added for 0x108380B0
 extern s_object_data *object_get(unsigned long object_index);  // hades: added for 0x108380B0  // hades: added for 0x108380B0
@@ -199,7 +206,7 @@ namespace Forge
 		}
 		else
 		{
-			((real_argb_color *(*const)(unsigned long, real_argb_color *))0x5211C0)(selectionColor, &color);
+			eldorado::pixel32_to_real_argb_color(selectionColor, &color);
 		}
 		colors[0] = { color.red, color.green, color.blue, 0.08f };
 		colors[1] = { color.red, color.green, color.blue, 0.15f };
@@ -326,7 +333,7 @@ namespace Forge
 		s_hud_camera_globals *hud_camera_globals = (s_hud_camera_globals *)&hud_camera_view[0x26B8];
 		s_hud_camera_globals_initialize(hud_camera_globals);
 		vision_mode_setup_camera_globals(hud_camera_globals);
-		hud_camera_globals->surface = ((e_surface (*const)(long))0xA48720)(0);
+		hud_camera_globals->surface = eldorado::c_rasterizer_get_render_target(0);
 		hud_camera_globals->maximum_distance = 100.0f;
 		hud_camera_globals->flags |= 0x40;
 		c_hud_camera_view__render(hud_camera_view, windowIndex, view, hud_camera_globals);

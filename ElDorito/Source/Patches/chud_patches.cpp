@@ -136,6 +136,21 @@ namespace Patches
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const c_rasterizer_set_alpha_blend_mode = reinterpret_cast<void (*)(long)>(0xA22D10);
+	static auto const c_rasterizer_set_cull_mode = reinterpret_cast<void (*)(long)>(0xA232D0);
+	static auto const c_rasterizer_set_pixel_shader_constant = reinterpret_cast<void (*)(long, long, real_vector4d const *)>(0xA66270);
+	static auto const c_rasterizer_set_pixel_shader_constant_bool = reinterpret_cast<void (*)(long, long, __int32 const *)>(0xA66370);
+	static auto const c_rasterizer_set_sampler_address_mode = reinterpret_cast<void (*)(long, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>)>(0xA23570);
+	static auto const c_rasterizer_set_sampler_filter_mode = reinterpret_cast<void (*)(long, c_enum<enum e_sampler_filter_mode,long>)>(0xA23660);
+	static auto const c_rasterizer_set_sampler_texture = reinterpret_cast<void (*)(long, c_rasterizer_texture_ref)>(0xA23810);
+	static auto const c_rasterizer_set_vertex_shader_constant_bool = reinterpret_cast<void (*)(long, long, __int32 const *)>(0xA66620);
+	static auto const c_rasterizer_set_z_buffer_mode = reinterpret_cast<long (*)(long)>(0xA247E0);
+	static auto const chud_shared_persistent_user_data_get = reinterpret_cast<s_chud_shared_persistent_user_data *(*)(long)>(0xA8A570);
+}
+
 extern void *(*const tag_get)(unsigned long, long);  // hades: added for 0x1085DD50
 
 extern bool (*const game_is_multiplayer)();  // hades: added for 0x1085ACC0
@@ -558,7 +573,7 @@ bool chud_draw_begin_hook(long output_user_index, float alpha, bool a3, bool cur
 		return false;
 	s_chud_shared_persistent_user_data *persistent_user_data;
 	c_player_view *player_view = c_player_view::get_current();
-	persistent_user_data = ((s_chud_shared_persistent_user_data *(*const)(long))0xA8A570)(output_user_index);
+	persistent_user_data = eldorado::chud_shared_persistent_user_data_get(output_user_index);
 	g_chud_draw_user_index = output_user_index;
 	g_chud_draw_globals_index = chud_globals_from_output_user(output_user_index);
 	g_chud_draw_resolution_setting = persistent_user_data->resolution_setting;
@@ -716,9 +731,9 @@ bool chud_draw_begin_hook(long output_user_index, float alpha, bool a3, bool cur
 	{
 		c_rasterizer_texture_ref micro_texture_ref(-1);
 		bitmap_group_try_get_texture(hud_globals->damage_microtexture.index, 0, &micro_texture_ref);
-		((void (*const)(long, c_rasterizer_texture_ref))0xA23810)(1, micro_texture_ref);
-		((void (*const)(long, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>, c_enum<enum e_sampler_address_mode,long>))0xA23570)(1, _address_mode_wrap, _address_mode_wrap, _address_mode_wrap);
-		((void (*const)(long, c_enum<enum e_sampler_filter_mode,long>))0xA23660)(1, _filter_bilinear);
+		eldorado::c_rasterizer_set_sampler_texture(1, micro_texture_ref);
+		eldorado::c_rasterizer_set_sampler_address_mode(1, _address_mode_wrap, _address_mode_wrap, _address_mode_wrap);
+		eldorado::c_rasterizer_set_sampler_filter_mode(1, _filter_bilinear);
 	}
 	if (persistent_user_data->use_pointer_tracker1)
 	{
@@ -733,14 +748,14 @@ bool chud_draw_begin_hook(long output_user_index, float alpha, bool a3, bool cur
 		((void (__thiscall *const)(c_chud_point_tracker *, float))0xAD2360)(&persistent_user_data->pointer_tracker2, 1.0f);
 		persistent_user_data->use_pointer_tracker2 = persistent_user_data->pointer_tracker2.offscreen_amount < 0.000099999997;
 	}
-	((void (*const)(long))0xA22D10)(3);
+	eldorado::c_rasterizer_set_alpha_blend_mode(3);
 	__int32 cortana_vertex = 0;
-	((void (*const)(long, long, __int32 const *))0xA66620)(7, 1, &cortana_vertex);
-	((void (*const)(long, long, __int32 const *))0xA66370)(7, 1, &cortana_vertex);
+	eldorado::c_rasterizer_set_vertex_shader_constant_bool(7, 1, &cortana_vertex);
+	eldorado::c_rasterizer_set_pixel_shader_constant_bool(7, 1, &cortana_vertex);
 	if (curve_flag)
-		((void (*const)(long, long, real_vector4d const *))0xA66270)(33, 4, &persistent_user_data->local_to_world0);
-	((long (*const)(long))0xA247E0)(2);
-	((void (*const)(long))0xA232D0)(1);
+		eldorado::c_rasterizer_set_pixel_shader_constant(33, 4, &persistent_user_data->local_to_world0);
+	eldorado::c_rasterizer_set_z_buffer_mode(2);
+	eldorado::c_rasterizer_set_cull_mode(1);
 	return true;
 }
 

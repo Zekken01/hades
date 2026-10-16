@@ -383,6 +383,19 @@ namespace Patches
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const game_engine_object_is_fixed = reinterpret_cast<bool (*)(long)>(0x59A7B0);
+	static auto const object_get_origin = reinterpret_cast<void (*)(long, real_point3d *)>(0xB2E5A0);
+	static auto const object_get_world_matrix = reinterpret_cast<real_matrix4x3 *(*)(long, real_matrix4x3 *)>(0xB2EC60);
+	static auto const object_set_velocities = reinterpret_cast<void(__cdecl *)(long, real_vector3d const *, real_vector3d const *)>(0xB34040);
+	static auto const player_mapping_get_input_user = reinterpret_cast<long (*)(long)>(0x589B00);
+	static auto const player_mapping_get_player_by_input_user = reinterpret_cast<unsigned long (*)(long)>(0x589C30);
+	static auto const player_mapping_get_player_by_input_user_2 = reinterpret_cast<long(__cdecl *)(long)>(0x589C30);
+}
+#line 385
+
 real_vector3d *vector_from_points3d(real_point3d const *a, real_point3d const *b, real_vector3d *result);  // hades: added for 0x10A6DC20
 extern real_point3d *point_from_line3d(real_point3d const *origin, real_vector3d const *vector, float t, real_point3d *result);  // hades: added for 0x10A6DC20
 
@@ -727,7 +740,7 @@ void ApplyGrabOffset(long player_index, long object_index) // 0x10A647D0
 		return;
 	s_object_data *object = object_get(object_index);
 	real_point3d unitPos;
-	((void (*const)(long, real_point3d *))0xB2E5A0)(player->unit_index, &unitPos);
+	eldorado::object_get_origin(player->unit_index, &unitPos);
 	s_sandbox_globals *sandboxGlobals = get_sandbox_globals();
 	real_point3d crosshairPoint = sandboxGlobals->player_cursor_position[player_index & 0xF];
 	sandboxGlobals->player_cursor_distance[player_index & 0xF] = distance3d(&unitPos, &crosshairPoint);
@@ -765,7 +778,7 @@ void GrabObject(long player_index, long map_variant_index) // 0x10A656C0
 	if (!object_try_and_get_and_verify_type(object_index, -1))
 		return;
 	AddMapVariantUndoPoint("Object Grabbed");
-	if (player_index == ((unsigned long (*const)(long))0x589C30)(0))
+	if (player_index == eldorado::player_mapping_get_player_by_input_user(0))
 		monitorState.HeldObjectIndex = object_index;
 	game_engine_sandox_apply_grab_object(player_index, map_variant_index);
 	::Forge::ObjectSet &selection = ::Forge::Selection::GetSelection();
@@ -785,7 +798,7 @@ void GrabObject(long player_index, long map_variant_index) // 0x10A656C0
 			}
 		}
 	}
-	if (((bool (*const)(long))0x59A7B0)(object_index))
+	if (eldorado::game_engine_object_is_fixed(object_index))
 		ApplyGrabOffset(player_index, object_index);
 }
 
@@ -1247,7 +1260,7 @@ void HandleRotationReset() // 0x10A66650
 		uiUpAction->Flags |= 1;
 
 		long heldObjectIndex;
-		if (((bool(__cdecl *const)(long, long *, long *))0x59a6f0)(((long(__cdecl *const)(long))0x589c30)(0), &heldObjectIndex, 0))
+		if (((bool(__cdecl *const)(long, long *, long *))0x59a6f0)(eldorado::player_mapping_get_player_by_input_user_2(0), &heldObjectIndex, 0))
 		{
 			real_quaternion ident;
 			ident.i = 0.0f;
@@ -1470,7 +1483,7 @@ void UpdateSelectionManipulationState(__int32 rootObjectIndex) // 0x10A678D0
 	s_object_data *rootObject = object_get(rootObjectIndex);
 	selectionState.children.clear();
 	selectionState.initialScale = rootObject->scale;
-	((void (*const)(long, real_point3d *))0xB2E5A0)(rootObjectIndex, &selectionState.initialPosition);
+	eldorado::object_get_origin(rootObjectIndex, &selectionState.initialPosition);
 	if (!selection.Contains(rootObjectIndex))
 		return;
 	s_map_variant *map_variant = game_engine_get_runtime_map_variant();
@@ -1485,7 +1498,7 @@ void UpdateSelectionManipulationState(__int32 rootObjectIndex) // 0x10A678D0
 		if (placement.properties.boundry_width >= 0.00001f)
 			scale = placement.properties.boundry_width;
 		real_point3d pos;
-		((void (*const)(long, real_point3d *))0xB2E5A0)(placement.object_index, &pos);
+		eldorado::object_get_origin(placement.object_index, &pos);
 		s_selectionState::ChildInfo &childInfo = selectionState.children[placement.object_index];
 		vector_from_points3d(&selectionState.initialPosition, &pos, &childInfo.displacement);
 		childInfo.scale = scale;
@@ -1736,15 +1749,15 @@ void OnMonitorModeChange(bool isMonitor) // 0x10A66A70
 
 	if (!isMonitor)
 	{
-		long player_index = ((long(__cdecl *const)(long))0x589c30)(0);
-		s_player_datum *player = players_get()->try_and_get(((long(__cdecl *const)(long))0x589c30)(0));
+		long player_index = eldorado::player_mapping_get_player_by_input_user_2(0);
+		s_player_datum *player = players_get()->try_and_get(eldorado::player_mapping_get_player_by_input_user_2(0));
 
 		if (!player || (player && player->unit_index == player->dead_unit_index))
 			return;
 		else if (player->unit_index == -1)
 			return;
 
-		((void(__cdecl *const)(long, real_vector3d const *, real_vector3d const *))0xb34040)(player->unit_index, &global_zero3d, &global_zero3d);
+		eldorado::object_set_velocities(player->unit_index, &global_zero3d, &global_zero3d);
 	}
 }
 
@@ -1903,7 +1916,7 @@ void __fastcall c_sandbox_engine__rotate_object_hook(c_sandbox_engine *thisptr, 
 	Modules::ModuleForge const &moduleForge = Modules::ModuleForge::Instance();
 	long const currentSnap = moduleForge.VarRotationSnap->ValueInt;
 	float const rotationSensitivity = moduleForge.VarRotationSensitivity->ValueFloat;
-	if (playerIndex != ((unsigned long (*const)(long))0x589C30)(0))
+	if (playerIndex != eldorado::player_mapping_get_player_by_input_user(0))
 	{
 		c_sandbox_engine__rotate_object(thisptr, playerIndex, objectIndex, yaw, pitch, roll);
 		return;
@@ -1921,7 +1934,7 @@ void __fastcall c_sandbox_engine__rotate_object_hook(c_sandbox_engine *thisptr, 
 	if (player->unit_index == -1)
 		return;
 	real_matrix4x3 objectTransform;
-	((real_matrix4x3 *(*const)(long, real_matrix4x3 *))0xB2EC60)(player->unit_index, &objectTransform);
+	eldorado::object_get_world_matrix(player->unit_index, &objectTransform);
 	float const xn = abs(yaw);
 	float const yn = abs(pitch);
 	float const zn = abs(roll);
@@ -1984,7 +1997,7 @@ void game_engine_sandox_apply_grab_object_hook2(long player_index, long object_i
 	void (__cdecl *const sub_5C7360)(long) = (void(__cdecl *const)(long))0x5c7360;
 
 	sub_5C7360(object_index);
-	if (player_index == ((long(__cdecl *const)(long))0x589c30)(0))
+	if (player_index == eldorado::player_mapping_get_player_by_input_user_2(0))
 	{
 		monitorState.HeldObjectIndex = object_index;
 		monitorState.HeldObjectRootNode = FindComplexObjectRigidBodyRootNode(object_index);
@@ -2174,7 +2187,7 @@ void game_engine_sandbox_place_object_hook(long tag_index, long player_index, re
 	AddMapVariantUndoPoint("Spawn Item");
 	CForgeUndoManager::Instance().StopRecording();
 
-	if (player_index == ((long(__cdecl *const)(long))0x589c30)(0))
+	if (player_index == eldorado::player_mapping_get_player_by_input_user_2(0))
 	{
 		monitorState.GrabOffset = { 0.0f, 0.0f, 0.0f };
 	}
@@ -2295,7 +2308,7 @@ void character_physics_update_input_datum_initialize_flying_hook(long unit_index
 	// function call : void (*const)(long, s_character_physics_update_input_datum *, c_character_physics_component *, float, float)
 
 	void (*const character_physics_update_input_datum_initialize_flying)(long, s_character_physics_update_input_datum *, c_character_physics_component *, float, float) = (void (*)(long, s_character_physics_update_input_datum *, c_character_physics_component *, float, float))0x7205D0;
-	long playerIndex = ((unsigned long (*const)(long))0x589C30)(0);
+	long playerIndex = eldorado::player_mapping_get_player_by_input_user(0);
 	s_player_datum *player = player_get(playerIndex);
 	if (player && player->unit_index == unit_index && ((bool (*const)(long, long *, long *))0x59A6F0)(playerIndex, nullptr, nullptr))
 	{
@@ -2451,7 +2464,7 @@ bool shoot_probe_for_player_hook(long player_index, long *out_object_index) // 0
 
 	bool (__cdecl *const shoot_probe_for_player)(long, long *) = (bool(__cdecl *const)(long, long *))0x59e720;
 
-	if (((long(__cdecl *const)(long))0x589c30)(0) == player_index)
+	if (eldorado::player_mapping_get_player_by_input_user_2(0) == player_index)
 	{
 		s_sandbox_globals *sandbox_globals = get_sandbox_globals();
 		long player_absolute_index = player_index & 0xF;
@@ -2973,7 +2986,7 @@ bool collision_test_object_hook(long object_index, s_object_header *object_heade
 	bool (*const test_object)(long, s_object_header *, s_object_data *, unsigned long, unsigned long, long, long, long) = reinterpret_cast<bool (*)(long, s_object_header *, s_object_data *, unsigned long, unsigned long, long, long, long)>(0x6D92A0);
 	if (!test_object(object_index, object_header, object, test_flags, object_type_mask, ignore_object_index_1, ignore_object_index_2, ignore_object_index_3))
 		return false;
-	long playerIndex = ((unsigned long (*const)(long))0x589C30)(0);
+	long playerIndex = eldorado::player_mapping_get_player_by_input_user(0);
 	s_forge_globals_definition *forge_globals = forge_globals_get_definition();
 	if (!forge_globals)
 		return true;
@@ -2984,7 +2997,7 @@ bool collision_test_object_hook(long object_index, s_object_header *object_heade
 	{
 		::Forge::ReforgeObjectProperties *reforgeProperties = (::Forge::ReforgeObjectProperties *)((unsigned char *)mpProperties + 0x14);
 		bool allowsProjectiles = (reforgeProperties->Flags & ::Forge::ReforgeObjectProperties::MaterialAllowsProjectiles) != 0;
-		if (allowsProjectiles && !((bool (*const)(long, long *, long *))0x59A6F0)(((unsigned long (*const)(long))0x589C30)(0), nullptr, nullptr))
+		if (allowsProjectiles && !((bool (*const)(long, long *, long *))0x59A6F0)(eldorado::player_mapping_get_player_by_input_user(0), nullptr, nullptr))
 		{
 			if (reforgeProperties->TeamBarrier)
 				return !TestBarrierTestProjectile(object_index, ignore_object_index_3);
@@ -3323,7 +3336,7 @@ void __fastcall c_sandbox_engine__update_local_player_hook(c_sandbox_engine *thi
 	// function call : void (*const)(c_sandbox_engine *, long)
 
 	void (__thiscall *const c_sandbox_engine__update_local_player)(c_sandbox_engine *, long) = reinterpret_cast<void (__thiscall *)(c_sandbox_engine *, long)>(0x59F0E0);
-	if (c_gui_screen_manager::get()->input_should_be_suppressed(((long (*const)(long))0x589B00)(player_index)))
+	if (c_gui_screen_manager::get()->input_should_be_suppressed(eldorado::player_mapping_get_input_user(player_index)))
 	{
 		return;
 	}

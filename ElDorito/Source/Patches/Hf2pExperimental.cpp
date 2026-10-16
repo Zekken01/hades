@@ -271,6 +271,18 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const current_game_engine = reinterpret_cast<c_game_engine *(*)()>(0x5CE150);
+	static auto const game_engine_has_teams = reinterpret_cast<bool (*)()>(0x5565E0);
+	static auto const game_in_progress = reinterpret_cast<bool (*)()>(0x5314B0);
+	static auto const game_is_finished = reinterpret_cast<bool (*)()>(0x531B20);
+	static auto const game_is_finished_2 = reinterpret_cast<bool(__cdecl *)()>(0x531B20);
+	static auto const object_get_world_matrix = reinterpret_cast<real_matrix4x3 *(*)(long, real_matrix4x3 *)>(0xB2EC60);
+	static auto const player_mapping_get_player_by_input_user = reinterpret_cast<unsigned long (*)(long)>(0x589C30);
+}
+
 extern __int32 game_engine_get_player_score(unsigned long player_index);  // hades: added for 0x10A73AE0
 
 #include "Modules/ModuleServer.hpp"  // hades: added for 0x10A73A60
@@ -630,16 +642,16 @@ void Hf2pTickHook() // 0x10A72BB0
 	void (*const camera_control)(__int32) = (void (*)(__int32))0x592320;
 	__int32 secondsUntilPlayerSpawn = GetSecondsRemainingUntilPlayerSpawn();
 	unsigned long roundTimer = Modules::ModuleServer::Instance().VarServerCountdownClient->ValueInt;
-	if (((bool (*const)())0x5314B0)() && ((c_game_engine *(*const)())0x5CE150)() && InPrematchState(4))
+	if (eldorado::game_in_progress() && eldorado::current_game_engine() && InPrematchState(4))
 	{
 		if (roundTimer > 0)
 		{
 			if (!Forge::PrematchCamera::IsForgePrematchCameraDisabled())
 			{
-				if (((bool (*const)())0x5565E0)() || game_engine_get_variant()->game_engine_type == _game_engine_type_infection)
+				if (eldorado::game_engine_has_teams() || game_engine_get_variant()->game_engine_type == _game_engine_type_infection)
 				{
 					s_player_datum *player = nullptr;
-					unsigned long playerIndex = ((unsigned long (*const)(long))0x589C30)(0);
+					unsigned long playerIndex = eldorado::player_mapping_get_player_by_input_user(0);
 					if (playerIndex != -1)
 					{
 						player = players_get()->try_and_get(playerIndex);
@@ -662,7 +674,7 @@ void Hf2pTickHook() // 0x10A72BB0
 				{
 					real_matrix4x3 cameraObjectTransform;
 					real_euler_angles3d cameraObjectOrientation;
-					((real_matrix4x3 *(*const)(long, real_matrix4x3 *))0xB2EC60)(s_CameraObjectIndex, &cameraObjectTransform);
+					eldorado::object_get_world_matrix(s_CameraObjectIndex, &cameraObjectTransform);
 					matrix4x3_rotation_to_angles(&cameraObjectTransform, &cameraObjectOrientation);
 					camera_control(1);
 					scripted_camera_set_internal(0, &cameraObjectTransform.position, &cameraObjectOrientation, 0.0f, 0, -1);
@@ -689,7 +701,7 @@ void Hf2pTickHook() // 0x10A72BB0
 		unsigned long time = Modules::ModuleServer::Instance().VarPostGameFadeStartDelay->ValueInt;
 		Pointer(0x553750).Write<unsigned char>(time);
 	}
-	if (((bool (*const)())0x531B20)() && !game_end_time)
+	if (eldorado::game_is_finished() && !game_end_time)
 		::time(&game_end_time);
 	if (game_end_time)
 	{
@@ -697,7 +709,7 @@ void Hf2pTickHook() // 0x10A72BB0
 		float game_engine_finish_wait_seconds = game_ticks_to_seconds((float)game_finished_wait_time_ticks);
 		if (game_engine_finish_wait_seconds <= 3.0f)
 		{
-			if (((c_game_engine *(*const)())0x5CE150)() && !Modules::ModuleServer::Instance().VarServerMuteSoundsDuringPostGameClient->ValueInt)
+			if (eldorado::current_game_engine() && !Modules::ModuleServer::Instance().VarServerMuteSoundsDuringPostGameClient->ValueInt)
 			{
 				((void (*const)(char const *, float, short))0x660B50)("", 0.0f, (short)game_seconds_to_ticks_real(3.0f));
 				((void (*const)(char const *, float, short))0x660B50)("ambient_nature", 0.2f, (short)game_seconds_to_ticks_real(3.0f));
@@ -986,7 +998,7 @@ long scenario_multiplayer_globals_try_and_get_runtime_data_hook() // 0x10A73FF0
 
 	long result = scenario_multiplayer_globals_try_and_get_runtime_data();
 
-	if (((bool(__cdecl *const)())0x531B20)() && Utils::Singleton<Modules::ModuleServer>::Instance().VarServerPostMatchMusicEnabledClient->ValueInt == 1)
+	if (eldorado::game_is_finished_2() && Utils::Singleton<Modules::ModuleServer>::Instance().VarServerPostMatchMusicEnabledClient->ValueInt == 1)
 	{
 		return result;
 	}

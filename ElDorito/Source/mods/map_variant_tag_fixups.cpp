@@ -145,6 +145,13 @@ static_assert(sizeof(s_name_lookup_key) == 12, "Invalid s_name_lookup_key size")
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const main_loop_pregame = reinterpret_cast<void (*)()>(0x5063A0);
+}
+#line 147
+
 extern bool (*const file_get_size)(s_file_reference *, unsigned long *);  // hades: added for 0x10890AD0
 extern bool (*const file_open)(s_file_reference *, c_flags<enum e_file_permission_flags,long>, unsigned long *);  // hades: added for 0x10890AD0
 extern bool (*const file_read)(s_file_reference *, unsigned long, bool, void *);  // hades: added for 0x10890AD0
@@ -377,7 +384,7 @@ bool fixup_map_variant_internal(s_blf_chunk_mapv_tag_names const *fixup_data, s_
 		while (mod->GetCacheIsLoading())
 		{
 			SwitchToThread();
-			((void (*const)())0x5063A0)();
+			eldorado::main_loop_pregame();
 		}
 		std::shared_ptr<c_cache_file_interface> cache = mod->GetCache(true);
 		if (!cache)

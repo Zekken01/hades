@@ -218,6 +218,18 @@ using namespace hades_file_local;
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const action_executing = reinterpret_cast<bool (*)(long, e_action)>(0xB69BA0);
+	static auto const action_submit0 = reinterpret_cast<bool(__cdecl *)(long, s_action_request *)>(0xB69C50);
+	static auto const game_is_authoritative = reinterpret_cast<bool (*)()>(0x5319C0);
+	static auto const motor_system_submit = reinterpret_cast<e_motor_result(__cdecl *)(long, c_motor_request *)>(0xB749C0);
+	static auto const player_index_from_absolute_player_index = reinterpret_cast<long(__cdecl *)(long)>(0x53B1A0);
+	static auto const player_is_local = reinterpret_cast<bool (*)(long)>(0x53B4E0);
+	static auto const player_mapping_get_player_by_input_user = reinterpret_cast<unsigned long(__cdecl *)(long)>(0x589C30);
+}
+
 extern void *(*const tag_get)(unsigned long, long);  // hades: added for 0x107EBE20
 extern s_game_globals *game_globals_get();  // hades: added for 0x107EBE20
 
@@ -270,7 +282,7 @@ namespace Player
 		// function call : unsigned long (*const)(long)
 		// function call : void *(*const)(unsigned long, long)
 
-		long playerIndex = ((unsigned long(__cdecl *const)(long))0x589c30)(0);
+		long playerIndex = eldorado::player_mapping_get_player_by_input_user(0);
 		if (playerIndex == -1)
 			return false;
 		short characterTypeIndex = -1;
@@ -322,7 +334,7 @@ namespace Player
 		// long playerIndex;
 		// function call : unsigned long (*const)(long)
 
-		long playerIndex = ((unsigned long(__cdecl *const)(long))0x589c30)(0);
+		long playerIndex = eldorado::player_mapping_get_player_by_input_user(0);
 		if (playerIndex == -1)
 		{
 			return;
@@ -504,7 +516,7 @@ _inline void CPlayerEmoteAction::SActionRequest::Submit(long unit_index) // 0x10
 	// long unit_index;
 	// function call : bool (*const)(long, s_action_request *)
 
-	((bool(__cdecl *const)(long, s_action_request *))0xb69c50)(unit_index, this);
+	eldorado::action_submit0(unit_index, this);
 	submit_unit_holograms(unit_index);
 }
 
@@ -718,7 +730,7 @@ _inline bool CPlayerEmoteAction::StartAnimation(long unit_index, unsigned long m
 	motor_request.action_type = _action_player_emote;
 	motor_request.interpolation_time = 0.1f;
 
-	e_motor_result result = ((e_motor_result(__cdecl *const)(long, c_motor_request *))0xb749c0)(unit_index, &motor_request);
+	e_motor_result result = eldorado::motor_system_submit(unit_index, &motor_request);
 	return result != 0;
 }
 
@@ -879,7 +891,7 @@ _inline bool c_simulation_player_emote_event_definition::apply_game_event(long r
 	s_simulation_player_emote_event_data *data = (s_simulation_player_emote_event_data *)payload;
 	s_player_datum *player = players_get()->try_and_get_absolute(data->player_index);
 
-	long player_index = ((long(__cdecl *const)(long))0x53b1a0)(data->player_index);
+	long player_index = eldorado::player_index_from_absolute_player_index(data->player_index);
 	if (player_index == -1)
 	{
 		return false;
@@ -958,7 +970,7 @@ void PlayerStartEmote(__int32 playerIndex, long definitionIndex, long emoteIndex
 	s_player_datum *player = player_get(playerIndex);
 	CPlayerEmoteAction::SActionRequest actionRequest(definitionIndex, emoteIndex);
 	actionRequest.Submit(player->unit_index);
-	if (((bool (*const)(long))0x53B4E0)(playerIndex) || ((bool (*const)())0x5319C0)())
+	if (eldorado::player_is_local(playerIndex) || eldorado::game_is_authoritative())
 	{
 		s_simulation_player_emote_event_data data;
 		data.action_type = 0;
@@ -993,7 +1005,7 @@ void PlayerStopEmote(__int32 playerIndex) // 0x107EBB50
 		return;
 	if (player->unit_index == -1 || !object_get(player->unit_index))
 		return;
-	if (!((bool (*const)(long, e_action))0xB69BA0)(player->unit_index, (e_action)0x57))
+	if (!eldorado::action_executing(player->unit_index, (e_action)0x57))
 		return;
 	if (Player::CPlayerEmotes::UnitCancelInhibited(player->unit_index))
 		return;
@@ -1004,7 +1016,7 @@ void PlayerStopEmote(__int32 playerIndex) // 0x107EBB50
 		((void (*const)(long, e_action))0xB69C20)(player->unit_index, (e_action)0x57);
 	else
 		emoteStateData->cancelled = true;
-	if (((bool (*const)(long))0x53B4E0)(playerIndex) || ((bool (*const)())0x5319C0)())
+	if (eldorado::player_is_local(playerIndex) || eldorado::game_is_authoritative())
 	{
 		s_simulation_player_emote_event_data data = {};
 		data.action_type = 1;

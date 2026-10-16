@@ -218,6 +218,12 @@ namespace Http
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const game_is_ui_shell = reinterpret_cast<bool (*)()>(0x531E90);
+}
+
 namespace Http { extern std::shared_ptr<Http::IHttpRequest> CreateRequest(); } namespace Utils { namespace Version { extern std::string GetVersionString(); } }  // hades: added for 0x108FE180
 
 #include "Player/PlayerInfo.hpp"  // hades: added for 0x108FC890
@@ -548,7 +554,7 @@ namespace Player
 				player = session->MembershipInfo.FindNextPlayer(player);
 			}
 		}
-		if (((bool (*const)())0x531E90)() && emblemUpdate)
+		if (eldorado::game_is_ui_shell() && emblemUpdate)
 		{
 			std::scoped_lock<std::mutex> lock(player_emblems[16].mutex);
 			emblemUpdate = false;

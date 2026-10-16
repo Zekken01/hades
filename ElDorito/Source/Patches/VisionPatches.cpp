@@ -94,6 +94,14 @@ namespace Patches
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const object_get_origin = reinterpret_cast<void (*)(long, real_point3d *)>(0xB2E5A0);
+	static auto const player_mapping_get_player_by_output_user = reinterpret_cast<unsigned long (*)(long)>(0x589C60);
+	static auto const player_mapping_get_player_by_output_user_2 = reinterpret_cast<long (*)(long)>(0x589C60);
+}
+
 #include "Blam/game/game_globals.hpp"  // hades: added for 0x108F94B0
 #include "Blam/camera/camera.hpp"  // hades: added for 0x108F94B0
 namespace Patches { namespace Camera { extern e_camera_mode GetForcedCameraMode(); } }  // hades: added for 0x108F94B0
@@ -304,7 +312,7 @@ void *vision_mode_definition_tag_get_hook(long group_tag, long index) // 0x108F9
 	// function call : unsigned long (*const)(long)
 	// function call : void *(*const)(unsigned long, long)
 
-	long player_index = ((unsigned long (*const)(long))0x589C60)(0);
+	long player_index = eldorado::player_mapping_get_player_by_output_user(0);
 	if (player_index != -1)
 	{
 		s_player_datum *player = player_get(player_index);
@@ -372,12 +380,12 @@ bool chud_vision_proximity_test_hook() // 0x108F8D10
 	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
 	// function call : void (*const)(long, real_point3d *)
 
-	long our_player_index = ((long (*const)(long))0x589C60)(0);
+	long our_player_index = eldorado::player_mapping_get_player_by_output_user_2(0);
 	s_player_datum *our_player = player_get(our_player_index);
 	if (!object_try_and_get_and_verify_type(our_player->unit_index, 0x2003))
 		return false;
 	real_point3d our_position;
-	((void (*const)(long, real_point3d *))0xB2E5A0)(our_player->unit_index, &our_position);
+	eldorado::object_get_origin(our_player->unit_index, &our_position);
 	c_data_array<s_player_datum> *players = players_get();
 	for (c_data_iterator<s_player_datum> it = players->begin(); it != players->end(); ++it)
 	{

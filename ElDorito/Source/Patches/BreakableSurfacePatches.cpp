@@ -119,6 +119,15 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const game_is_playback = reinterpret_cast<bool (*)()>(0x531D10);
+	static auto const simulation_entity_update = reinterpret_cast<void (*)(long, long, unsigned long long *)>(0x4AFC20);
+	static auto const simulation_object_glue_get_simulation_entity_index = reinterpret_cast<long (*)(long)>(0x471FC0);
+}
+#line 121
+
 extern void *(*const datum_try_and_get)(s_data_array const *, unsigned long);  // hades: added for 0x1069CA20
 extern void (*const data_iterator_new)(s_data_iterator *, s_data_array const *);  // hades: added for 0x1069CA20
 extern s_datum *(*const data_iterator_next)(s_data_iterator *);  // hades: added for 0x1069CA20
@@ -376,16 +385,16 @@ void simulation_action_breakable_surface_update(long bsp_index, long group_index
 		(void)((!!(bsp_index >= 0 && bsp_index < 16)) || (_wassert(L"bsp_index >= 0 && bsp_index < k_maximum_structure_bsps_per_scenario", _CRT_WIDE(__FILE__), (unsigned)(__LINE__)), 0));
 		(void)((!!(group_index >= 0 && group_index < 1024)) || (_wassert(L"group_index >= 0 && group_index < k_maximum_breakable_surface_groups", _CRT_WIDE(__FILE__), (unsigned)(__LINE__)), 0));
 		#line 379 "F:\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Patches\\BreakableSurfacePatches.cpp"
-	if (!game_is_distributed() || !game_is_server() || ((bool (*const)())0x531D10)())
+	if (!game_is_distributed() || !game_is_server() || eldorado::game_is_playback())
 		return;
 	long gamestate_index = breakable_surface_group_get_gamestate_index(bsp_index, group_index);
 	if (gamestate_index != -1)
 	{
-		long entity_indx = ((long (*const)(long))0x471FC0)(gamestate_index);
+		long entity_indx = eldorado::simulation_object_glue_get_simulation_entity_index(gamestate_index);
 		if (entity_indx != -1)
 		{
 			unsigned long long flags = 1;
-			((void (*const)(long, long, unsigned long long *))0x4AFC20)(entity_indx, group_index, &flags);
+			eldorado::simulation_entity_update(entity_indx, group_index, &flags);
 		}
 	}
 }

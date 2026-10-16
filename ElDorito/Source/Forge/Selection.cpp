@@ -96,6 +96,13 @@ namespace Blam
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const object_get_world_matrix = reinterpret_cast<real_matrix4x3 *(*)(long, real_matrix4x3 *)>(0xB2EC60);
+	static auto const player_mapping_get_player_by_input_user = reinterpret_cast<unsigned long (*)(long)>(0x589C30);
+}
+
 extern float distance_squared3d(real_point3d const *p1, real_point3d const *p2);  // hades: added for 0x10974440
 
 extern real_vector3d *vector_from_points3d(real_point3d const *p0, real_point3d const *p1, real_vector3d *v);  // hades: added for 0x10973C00
@@ -535,7 +542,7 @@ namespace Forge
 			s_object_data *referenceObject = object_get(cloneStack.top());
 			if (!referenceObject)
 				return false;
-			unsigned long playerHandle = ((unsigned long (*const)(long))0x589C30)(0);
+			unsigned long playerHandle = eldorado::player_mapping_get_player_by_input_user(0);
 			if (playerHandle == -1)
 				return false;
 			Forge::ObjectSet &selection = Forge::Selection::GetSelection();
@@ -550,7 +557,7 @@ namespace Forge
 				if (!object)
 					continue;
 				real_matrix4x3 object_world_matrix;
-				((real_matrix4x3 *(*const)(long, real_matrix4x3 *))0xB2EC60)(object_index, &object_world_matrix);
+				eldorado::object_get_world_matrix(object_index, &object_world_matrix);
 				s_map_variant_placement_properties *variantProperties = nullptr;
 				if (object->map_variant_index != -1)
 					variantProperties = &mapv->objects[object->map_variant_index].properties;
@@ -583,7 +590,7 @@ namespace Forge
 			// function call : unsigned long (*const)(long)
 			// function call : bool (*const)(long, long *, long *)
 
-			unsigned long playerIndex = ((unsigned long (*const)(long))0x589C30)(0);
+			unsigned long playerIndex = eldorado::player_mapping_get_player_by_input_user(0);
 			long heldObjectIndex;
 			long crosshairObjectIndex;
 			if (!((bool (*const)(long, long *, long *))0x59A6F0)(playerIndex, &heldObjectIndex, &crosshairObjectIndex))

@@ -189,6 +189,12 @@ using namespace hades_file_local;
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const player_mapping_get_unit_by_output_user = reinterpret_cast<unsigned long (*)(long)>(0x589CC0);
+}
+
 #include "Blam/Cache/StringIdCache.hpp"  // hades: added for 0x10AF3190
 long tag_find_by_name(unsigned long group_tag, char const *name);  // hades: added for 0x10AF3190  // hades: added for 0x10AF3190
 
@@ -479,7 +485,7 @@ namespace Patches
 			// function call : void *(*const)(unsigned long, long)
 
 			WeaponInfo weapon = {};
-			__int32 unitIndex = ((unsigned long (*const)(long))0x589CC0)(0);
+			__int32 unitIndex = eldorado::player_mapping_get_unit_by_output_user(0);
 			if (unitIndex == -1)
 				return weapon;
 			s_unit_data *unit = (s_unit_data *)object_try_and_get_and_verify_type(unitIndex, 1);

@@ -100,6 +100,12 @@ namespace Patches
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const game_is_playback = reinterpret_cast<bool (*)()>(0x531D10);
+}
+
 extern float normalize3d(real_vector3d *v);  // hades: added for 0x107C10F0
 float magnitude3d(real_vector3d const *v);  // hades: added for 0x107C2A80
 float angle_between_vectors3d(real_vector3d const *a, real_vector3d const *b);  // hades: added for 0x107C2A80
@@ -370,7 +376,7 @@ void screen_effect_sample(real_point3d const *camera_position, real_vector3d con
 		for (long i = 0; i < sefc->screen_effects.count; i++)
 		{
 			s_single_screen_effect_definition *screen_effect = &sefc->screen_effects[i];
-			if (screen_effect->hidden_flags.test(s_single_screen_effect_definition::_render_thread_bit) && screen_effect->is_visible(datum->alive_time_in_seconds, attach_object_index, output_user_index) && (!datum->flags.test(s_screen_effect_datum::_unknown1_bit) || !((bool (*const)())0x531D10)()))
+			if (screen_effect->hidden_flags.test(s_single_screen_effect_definition::_render_thread_bit) && screen_effect->is_visible(datum->alive_time_in_seconds, attach_object_index, output_user_index) && (!datum->flags.test(s_screen_effect_datum::_unknown1_bit) || !eldorado::game_is_playback()))
 			{
 				Forge::CForgeScreenEffects::ApplyScreenEffectOverride(output_user_index, it.current_datum_index, screen_effect);
 				float t = 0.0f;
@@ -452,7 +458,7 @@ void screen_effect_sample_camera(long output_user_index, real_point3d const *cam
 		for (long i = 0; i < sefc->screen_effects.count; i++)
 		{
 			s_single_screen_effect_definition *screen_effect = &sefc->screen_effects[i];
-			if (screen_effect->hidden_flags.test(s_single_screen_effect_definition::_update_thread_bit) && screen_effect->is_visible(datum->alive_time_in_seconds, attach_object_index, output_user_index) && (!datum->flags.test(s_screen_effect_datum::_unknown1_bit) || !((bool (*const)())0x531D10)()))
+			if (screen_effect->hidden_flags.test(s_single_screen_effect_definition::_update_thread_bit) && screen_effect->is_visible(datum->alive_time_in_seconds, attach_object_index, output_user_index) && (!datum->flags.test(s_screen_effect_datum::_unknown1_bit) || !eldorado::game_is_playback()))
 			{
 				float t = 0.0f;
 				float falloff = screen_effect->evaluate_falloff(distance, angle, datum->alive_time_in_seconds, attach_object_index, output_user_index, &t);

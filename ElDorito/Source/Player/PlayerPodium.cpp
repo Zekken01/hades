@@ -257,6 +257,19 @@ namespace Blam
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const current_game_engine = reinterpret_cast<c_game_engine *(*)()>(0x5CE150);
+	static auto const game_engine_get_statborg = reinterpret_cast<c_game_statborg *(*)()>(0x550B80);
+	static auto const game_engine_in_round = reinterpret_cast<bool (*)()>(0x550F90);
+	static auto const game_engine_round_time_get = reinterpret_cast<long (*)()>(0x5523D0);
+	static auto const game_is_authoritative = reinterpret_cast<bool (*)()>(0x5319C0);
+	static auto const game_is_finished = reinterpret_cast<bool (*)()>(0x531B20);
+	static auto const object_get_world_matrix = reinterpret_cast<real_matrix4x3 *(*)(long, real_matrix4x3 *)>(0xB2EC60);
+}
+#line 259
+
 extern void (*const object_placement_data_new)(s_object_placement_data *, long, unsigned long, s_damage_owner *);  // hades: added for 0x106DD850
 extern void (*const player_refresh_object_appearance_full)(long, long);  // hades: added for 0x106DD850
 
@@ -425,7 +438,7 @@ namespace Player
 							{
 								real_matrix4x3 podiumObjectTransform;
 								real_euler_angles3d podiumObjectOrientation;
-								((real_matrix4x3 *(*const)(long, real_matrix4x3 *))0xB2EC60)(s_PodiumObjectIndex, &podiumObjectTransform);
+								eldorado::object_get_world_matrix(s_PodiumObjectIndex, &podiumObjectTransform);
 								matrix4x3_rotation_to_angles(&podiumObjectTransform, &podiumObjectOrientation);
 								podiumCamera.position.x = podiumObjectTransform.position.x;
 								podiumCamera.position.y = podiumObjectTransform.position.y;
@@ -451,7 +464,7 @@ namespace Player
 				// s_player_datum *player;
 			// function call : bool (*const)()
 
-			if (((bool (*const)())0x5319C0)())
+			if (eldorado::game_is_authoritative())
 			{
 				if (s_player_datum *player = PlayerNetworkUtil::get_player_from_session_index(player_session_idx))
 					UpdatePlayerState(player_session_idx, position, yaw, pitch, true);
@@ -526,7 +539,7 @@ namespace Player
 						}
 					}
 					std::sort(player_places.begin(), player_places.end());
-					c_game_statborg *scoreboard = ((c_game_statborg *(*const)())0x550B80)();
+					c_game_statborg *scoreboard = eldorado::game_engine_get_statborg();
 					if (scoreboard)
 					{
 						std::string playersInfo = Modules::ModuleServer::Instance().VarPlayersInfoClient->ValueString;
@@ -896,7 +909,7 @@ namespace Player
 
 			static bool (*InPrematchState)(char) = (bool (*)(char))0x5523A0;
 			static bool (*IsMapLoading)() = (bool (*)())0x5670E0;
-			long roundTime = ((long (*const)())0x5523D0)();
+			long roundTime = eldorado::game_engine_round_time_get();
 			if (!game_is_multiplayer())
 				return;
 			if (InPrematchState(4))
@@ -904,11 +917,11 @@ namespace Player
 				podiumReady = false;
 				return;
 			}
-			if (((bool (*const)())0x550F90)())
+			if (eldorado::game_engine_in_round())
 				podiumReady = true;
-			if (((c_game_engine *(*const)())0x5CE150)() && ((bool (*const)())0x531B20)() && ((c_game_statborg *(*const)())0x550B80)() && ((c_game_statborg *(*const)())0x550B80)()->finalized && podiumReady && !s_PodiumStates.inPostGame && PodiumEnabled())
+			if (eldorado::current_game_engine() && eldorado::game_is_finished() && eldorado::game_engine_get_statborg() && eldorado::game_engine_get_statborg()->finalized && podiumReady && !s_PodiumStates.inPostGame && PodiumEnabled())
 			{
-				if (((bool (*const)())0x5319C0)())
+				if (eldorado::game_is_authoritative())
 				{
 					long s_PodiumObjectIndex = Forge::PodiumPoint::FindPodiumObject();
 					s_object_data *scenObject = object_try_and_get_and_verify_type(s_PodiumObjectIndex, 0x80);
@@ -919,7 +932,7 @@ namespace Player
 				}
 				s_PodiumStates.inPostGame = true;
 			}
-			else if (((c_game_engine *(*const)())0x5CE150)() && !((bool (*const)())0x531B20)() && s_PodiumStates.inPostGame)
+			else if (eldorado::current_game_engine() && !eldorado::game_is_finished() && s_PodiumStates.inPostGame)
 			{
 				s_PodiumStates.inPostGame = false;
 			}
@@ -1206,7 +1219,7 @@ namespace Player
 				if (player_session_idx != -1)
 				{
 					HaloScriptPlayerModelState::PlayerPositions playerState = s_PodiumPlayerStates.player[player_session_idx];
-					if (((bool (*const)())0x5319C0)() && playerState.dirty)
+					if (eldorado::game_is_authoritative() && playerState.dirty)
 					{
 						real_vector3d forward;
 						float angle_radians_vertical = playerState.yaw / 180.0f * 3.1415927f;

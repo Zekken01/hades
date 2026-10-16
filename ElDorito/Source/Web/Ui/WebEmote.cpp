@@ -173,6 +173,12 @@ namespace Blam
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const player_mapping_get_player_by_input_user = reinterpret_cast<unsigned long (*)(long)>(0x589C30);
+}
+
 #include "Blam/camera/camera.hpp"  // hades: added for 0x10CA4AB0
 #include "mods/mod_system.hpp"  // hades: added for 0x10CA4DD0
 namespace Patches { namespace Camera { extern e_camera_mode GetForcedCameraMode(); } }  // hades: added for 0x10CA4AB0
@@ -260,7 +266,7 @@ namespace Web
 				bool enabled = serverModule.VarServerEmotesEnabledClient->ValueInt != 0;
 				if (!enabled)
 					return;
-				unsigned long playerIndex = ((unsigned long (*const)(long))0x589C30)(0);
+				unsigned long playerIndex = eldorado::player_mapping_get_player_by_input_user(0);
 				short characterTypeIndex = -1;
 				s_player_datum *player = player_get(playerIndex);
 				if (player->unit_index != -1)

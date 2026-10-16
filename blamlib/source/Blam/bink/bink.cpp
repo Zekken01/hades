@@ -32,6 +32,14 @@ struct tls_data;
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const bink_playback_active = reinterpret_cast<bool (*)()>(0x616910);
+	static auto const c_rasterizer_clear_sampler_textures = reinterpret_cast<void (*)()>(0xA22AB0);
+	static auto const rasterizer_draw_textured_screen_quad1 = reinterpret_cast<void (*)(void *, char)>(0xA465F0);
+}
+
 extern void bink_display_frame(short_rectangle2d *rect);
 extern bool bink_prediction_queued_and_not_active();
 
@@ -101,7 +109,7 @@ void bink_display_frame(short_rectangle2d *rect) // 0x10F18130
 		texture_index = bink_globals->bink_runtime.frame.framebuffers.FrameNum;
 	else
 		texture_index = tls->bink_gamestate->runtime_frame_texture_index;
-	if (((bool (*const)())0x616910)() && texture_index != -1)
+	if (eldorado::bink_playback_active() && texture_index != -1)
 	{
 		((__int32 (*const)(__int32))0x618870)(texture_index);
 		((void (*const)(s_bink_globals::s_bink_runtime::s_bink_video_frame *, __int32))0x615EE0)(&bink_globals->bink_runtime.frame, texture_index);
@@ -145,9 +153,9 @@ void bink_display_frame(short_rectangle2d *rect) // 0x10F18130
 		interface_get_current_display_or_window_settings(&fullscreen_pixel_bounds, nullptr, nullptr, nullptr);
 		((void (*const)(float, float, float, float, s_screen_vertex *, long))0xA46910)(1.0f / (fullscreen_pixel_bounds.x1 - fullscreen_pixel_bounds.x0), 1.0f / (fullscreen_pixel_bounds.y1 - fullscreen_pixel_bounds.y0), fullscreen_pixel_bounds.x0, fullscreen_pixel_bounds.y0, vertices, 4);
 		((void (*const)(bool))0xA48EB0)(false);
-		((void (*const)(void *, char))0xA465F0)(vertices, 0);
+		eldorado::rasterizer_draw_textured_screen_quad1(vertices, 0);
 		((void (*const)(bool))0xA48EB0)(true);
-		((void (*const)())0xA22AB0)();
+		eldorado::c_rasterizer_clear_sampler_textures();
 		bink_globals->bink_runtime.frame.textures[texture_index].displayed = true;
 	}
 	if (sub_42E2C0())

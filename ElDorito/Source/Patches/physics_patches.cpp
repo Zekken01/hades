@@ -117,6 +117,12 @@ typedef char hkint8;
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const tag_resource_get = reinterpret_cast<void *(*)(void *)>(0x563E10);
+}
+
 namespace Forge { namespace Reforge { extern bool TeamBarrierTestUnit(long barrierObjectIndex, long unitIndex); } }  // hades: added for 0x10AAB080
 
 extern long (*const havok_entity_get_havok_component_index)(hkpEntity const *);  // hades: added for 0x10AAAEB0
@@ -382,7 +388,7 @@ hkpShape const *__fastcall c_environment_surface_shape__getChildShape_hook(hkSha
 				c_decomposed_poop_shape *polyhedra_list_shape = &(*reinterpret_cast<c_tag_block<c_decomposed_poop_shape> *>(instance_physics->polyhedra_list_shape))[0];
 				if (!*reinterpret_cast<void **>(polyhedra_list_shape))
 				{
-					s_structure_bsp_resources *tag_resources = (s_structure_bsp_resources *)((void *(*const)(void *))0x563E10)(&structure_bsp->collision_bsp_resource);
+					s_structure_bsp_resources *tag_resources = (s_structure_bsp_resources *)eldorado::tag_resource_get(&structure_bsp->collision_bsp_resource);
 					s_structure_instanced_geometry_definition *instance_definition = &tag_resources->instanced_geometry[instance->mesh_index];
 					c_decomposed_poop_shape::fixup(polyhedra_list_shape, instance_definition);
 				}

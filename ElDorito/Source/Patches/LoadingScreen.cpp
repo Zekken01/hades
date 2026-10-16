@@ -126,6 +126,13 @@ namespace Blam
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const levels_try_and_get_campaign_insertion = reinterpret_cast<bool (*)(long, s_level_insertion_datum *)>(0x54C9E0);
+	static auto const network_life_cycle_session_get_campaign_difficulty = reinterpret_cast<long (*)()>(0x435020);
+}
+
 extern bool (*const levels_try_and_get_multiplayer_map)(long, s_level_datum *);  // hades: added for 0x10A82F40
 extern bool (*const levels_try_and_get_campaign_map)(long, s_level_datum *);  // hades: added for 0x10A82F40
 
@@ -436,9 +443,9 @@ bool BuildLoadingScreenShowInfo(s_game_options &gameOptions, Patches::LoadingScr
 		if (!levels_try_and_get_campaign_map(gameOptions.map_id, &level))
 			return true;
 		s_level_insertion_datum insertion;
-		if (!((bool (*const)(long, s_level_insertion_datum *))0x54C9E0)(gameOptions.map_id, &insertion))
+		if (!eldorado::levels_try_and_get_campaign_insertion(gameOptions.map_id, &insertion))
 			return true;
-		outInfo.Difficulty = camapgin_difficulty_level_to_string(((long (*const)())0x435020)());
+		outInfo.Difficulty = camapgin_difficulty_level_to_string(eldorado::network_life_cycle_session_get_campaign_difficulty());
 		outInfo.Skulls = GetActiveSkullsForDisplay();
 		outInfo.MapName = Utils::String::ThinString(level.name);
 		outInfo.MapDescription = Utils::String::ThinString(level.description);

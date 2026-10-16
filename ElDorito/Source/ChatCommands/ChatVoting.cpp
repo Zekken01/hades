@@ -134,6 +134,12 @@ namespace Blam
 
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const game_engine_in_round = reinterpret_cast<bool (*)()>(0x550F90);
+}
+
 extern void player_format_uid(char *string, unsigned long long id);  // hades: added for 0x10933FC0  // hades: added for 0x10933FC0
 namespace ChatCommands { extern bool addToVoteTimes(unsigned long long sender); }  // hades: added for 0x10933FC0  // hades: added for 0x10933FC0
 
@@ -291,7 +297,7 @@ namespace ChatCommands
 		// std::string &returnInfo;
 		// function call : bool (*const)()
 
-		if (((bool (*const)())0x550F90)())
+		if (eldorado::game_engine_in_round())
 			return true;
 		returnInfo = "You must be currently in a round.";
 		return false;
@@ -348,7 +354,7 @@ namespace ChatCommands
 		// std::string &returnInfo;
 		// function call : bool (*const)()
 
-		if (((bool (*const)())0x550F90)())
+		if (eldorado::game_engine_in_round())
 			return true;
 		returnInfo = "You must be currently in a round.";
 		return false;

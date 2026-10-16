@@ -105,6 +105,12 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- prototypes */
 
+namespace eldorado
+{
+	// Functions in eldorado.exe, named as in ManagedDonkey.
+	static auto const game_is_authoritative = reinterpret_cast<bool(__cdecl *)()>(0x5319C0);
+}
+
 extern s_multiplayer_object_properties *(*const object_get_multiplayer)(unsigned long);  // hades: added for 0x1083CC40
 
 namespace Forge { s_map_variant *GetMapVariant(); }  // hades: added for 0X108406A0
@@ -1748,7 +1754,7 @@ _inline bool SetMapVariantObjectProperties(long playerIndex, long objectIndex, s
 		return false;
 	if (object->map_variant_index == -1)
 		return false;
-	if (((bool(__cdecl *const)())0x5319c0)())
+	if (eldorado::game_is_authoritative())
 		memcpy(&Forge::GetMapVariant()->objects[object->map_variant_index].properties, &properties, sizeof(properties));
 	SetMapVariantObjectPropertiesInternal(playerIndex, object->map_variant_index, &properties);
 	return true;
