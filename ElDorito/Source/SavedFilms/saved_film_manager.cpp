@@ -68,7 +68,11 @@ namespace SavedFilms
 		auto const game_time_get = reinterpret_cast<long (*)()>(0x00564D50);
 
 		long const k_game_options_game_mode = 0x0;
+		long const k_game_options_game_simulation = 0x4;
+		long const k_game_options_game_network_type = 0x5;
 		long const k_game_options_tick_rate = 0x6;
+		unsigned char const k_game_simulation_local = 1;
+		unsigned char const k_network_game_simulation_local = 1;
 		long const k_game_options_game_engine = 0x32C; // the multiplayer variant's engine; Game.ForceLoad writes the same field
 		long const k_game_options_scenario_path = 0x24;
 		long const k_game_options_game_playback = 0x130;
@@ -447,6 +451,12 @@ namespace SavedFilms
 
 			static unsigned char options[k_game_options_size];
 			memcpy(options, g_playback.get_game_options(), k_game_options_size);
+			// A film recorded in an online game carries that game's simulation (a
+			// distributed client or server); playback is always a local game, as
+			// ManagedDonkey's main_game_reload_map_by_name sets it.
+			playback_log("film simulation %d, network %d; playing as local", options[k_game_options_game_simulation], options[k_game_options_game_network_type]);
+			options[k_game_options_game_simulation] = k_game_simulation_local;
+			options[k_game_options_game_network_type] = k_network_game_simulation_local;
 			*reinterpret_cast<unsigned short *>(options + k_game_options_game_playback) = k_game_playback_film;
 			options[k_game_options_record_saved_film] = 0;
 			*reinterpret_cast<long *>(options + k_game_options_playback_start_tick) = 0;
