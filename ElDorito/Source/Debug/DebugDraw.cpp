@@ -1349,3 +1349,14 @@ template SDrawText2dMessage &SRenderThreadMessage::GetPayload<SDrawText2dMessage
 template SDrawText3dMessage &SRenderThreadMessage::GetPayload<SDrawText3dMessage>();
 template SDrawPhysicsShapeCapsuleMessage &SRenderThreadMessage::GetPayload<SDrawPhysicsShapeCapsuleMessage>();
 template SClearMessage &SRenderThreadMessage::GetPayload<SClearMessage>();
+
+/* ---------- data definitions */
+long const CDebugDraw::COLOR_WHITE = static_cast<long>(0xFFFFFFFF);
+long const CDebugDraw::COLOR_BLACK = static_cast<long>(0xFF000000);
+long const CDebugDraw::COLOR_RED = static_cast<long>(0xFFFF0000);
+long const CDebugDraw::COLOR_BLUE = static_cast<long>(0xFF0000FF);
+long const CDebugDraw::COLOR_GREEN = static_cast<long>(0xFF00FF00);
+long const CDebugDraw::COLOR_YELLOW = static_cast<long>(0xFFFFFF00);
+long const CDebugDraw::COLOR_PINK = static_cast<long>(0xFFFF00FF);
+long const CDebugDraw::COLOR_CYAN = static_cast<long>(0xFF00FFFF);
+long const CDebugDraw::COLOR_ORANGE = static_cast<long>(0xFFFF7F00);
