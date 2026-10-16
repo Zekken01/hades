@@ -139,6 +139,12 @@ namespace Patches
 namespace eldorado
 {
 	// Functions in eldorado.exe, named from the game's own symbols.
+	static auto const c_curved_hud_test_construct = reinterpret_cast<void (__thiscall *)(c_curved_hud_test *)>(0xAC5190);
+}
+
+namespace eldorado
+{
+	// Functions in eldorado.exe, named from the game's own symbols.
 	static auto const c_chud_navpoint_manager_get_managed_navpoint_text_color = reinterpret_cast<unsigned long (*)(s_chud_managed_navpoint *)>(0xAD1680);
 	static auto const c_chud_point_tracker_prepare_for_draw = reinterpret_cast<void (__thiscall *)(c_chud_point_tracker *, float)>(0xAD2360);
 	static auto const c_curved_hud_test_set_constants = reinterpret_cast<void (__thiscall *)(c_curved_hud_test *, long)>(0xAD2B20);
@@ -532,12 +538,12 @@ bool chud_draw_begin_hook(long output_user_index, float alpha, bool a3, bool cur
 		g_chud_draw_warp_modifier = 0.0f;
 	else
 		g_chud_draw_warp_modifier = persistent_user_data->warp_modifier;
-	((void (__thiscall *const)(c_curved_hud_test *))0xAC5190)(&curved_hud_test);
+	eldorado::c_curved_hud_test_construct(&curved_hud_test);
 	eldorado::c_curved_hud_test_set_constants(&curved_hud_test, output_user_index);
 	if (curve_flag)
 	{
 		g_chud_draw_warp_modifier = persistent_user_data->warp_modifier;
-		((void (__thiscall *const)(c_curved_hud_test *))0xAC5190)(&curved_hud_test2);
+		eldorado::c_curved_hud_test_construct(&curved_hud_test2);
 		eldorado::c_curved_hud_test_transform(&curved_hud_test2, 0.0f, 1.0f, &g_chud_draw_curved_hud_point1);
 		eldorado::c_curved_hud_test_transform(&curved_hud_test2, 1.0f, 0.0f, &g_chud_draw_curved_hud_point2);
 		eldorado::c_curved_hud_test_transform(&curved_hud_test2, 0.5f, 1.0f, &g_chud_draw_curved_hud_point3);

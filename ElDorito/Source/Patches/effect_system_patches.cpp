@@ -154,6 +154,15 @@ using namespace hades_file_local;
 namespace eldorado
 {
 	// Functions in eldorado.exe, named from the game's own symbols.
+	static auto const c_contrail_gpu_set_shader_state = reinterpret_cast<void (__thiscall *)(s_contrail_gpu_datum *, void *, s_contrail_states *)>(0xA54940);
+	static auto const c_contrail_gpu_set_shader_strip = reinterpret_cast<void (__thiscall *)(s_contrail_gpu_datum *, void *)>(0xA55040);
+	static auto const s_gpu_constant_table_initialize = reinterpret_cast<__int32 (__thiscall *)(void *, __int32)>(0xA56BC0);
+	static auto const s_gpu_global_vertex_shader_initialize_constant_table = reinterpret_cast<__int32 (__thiscall *)(c_render_method **)>(0xA57300);
+}
+
+namespace eldorado
+{
+	// Functions in eldorado.exe, named from the game's own symbols.
 	static auto const c_contrail_get_definition = reinterpret_cast<s_contrail_system_definition *(__thiscall *)(s_contrail_instance *)>(0x756460);
 	static auto const c_contrail_get_parent_location = reinterpret_cast<s_contrail_location *(__thiscall *)(s_contrail_instance *)>(0x756560);
 	static auto const c_contrail_location_get_parent_system = reinterpret_cast<s_contrail_system *(__thiscall *)(s_contrail_location *)>(0x756590);
@@ -296,11 +305,11 @@ void __fastcall c_contrail_gpu__render_hook(s_contrail_gpu_datum *gpu_datum, voi
 	if (!*(long *)0x191746C)
 	{
 		*(c_render_method **)0x191746C = &system->render_method;
-		__int32 v7 = ((__int32 (__thiscall *const)(c_render_method **))0xA57300)((c_render_method **)0x191746C);
-		((__int32 (__thiscall *const)(void *, __int32))0xA56BC0)((void *)0x1917470, v7);
+		__int32 v7 = eldorado::s_gpu_global_vertex_shader_initialize_constant_table((c_render_method **)0x191746C);
+		eldorado::s_gpu_constant_table_initialize((void *)0x1917470, v7);
 	}
-	((void (__thiscall *const)(s_contrail_gpu_datum *, void *, s_contrail_states *))0xA54940)(gpu_datum, (void *)0x1917470, states);
-	((void (__thiscall *const)(s_contrail_gpu_datum *, void *))0xA55040)(gpu_datum, (void *)0x1917470);
+	eldorado::c_contrail_gpu_set_shader_state(gpu_datum, (void *)0x1917470, states);
+	eldorado::c_contrail_gpu_set_shader_strip(gpu_datum, (void *)0x1917470);
 	eldorado::render_method_submit_valid(true);
 	s_contrail_location *parent_location = eldorado::c_contrail_get_parent_location(contrail);
 	s_contrail_system *parent_system = eldorado::c_contrail_location_get_parent_system(parent_location);
