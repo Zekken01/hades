@@ -39,7 +39,11 @@ namespace SavedFilms
 		c_saved_film();
 		~c_saved_film();
 
-		bool open_for_write(char const *path, s_game_options const *options);
+		// mod_hash/mod_file name the ElDewrito mod package the game ran from ("" for none).
+		bool open_for_write(char const *path, s_game_options const *options, char const *mod_hash, char const *mod_file);
+		bool has_mod_info() const; // films recorded before the mod was stored have none
+		std::string get_mod_hash() const;
+		std::string get_mod_file() const;
 		bool write_simulation_update(void const *simulation_update);
 
 		bool open_for_read(char const *path);
@@ -80,5 +84,12 @@ namespace SavedFilms
 		k_film_header_recorded_time_offset = k_film_header_offset + 0x24C60,
 		k_film_header_length_in_ticks_offset = k_film_header_offset + 0x24C64,
 		k_film_data_offset = 0x25B74, // 'flmd'
+
+		// ElDewrito's addition, in the film header's padding_to_align_for_utility_drive:
+		// the mod package the game ran from, as "HADESMOD", a 64-byte hash string and a
+		// 260-byte file name.
+		k_film_header_mod_offset = k_film_header_offset + 0x24C6C,
+		k_film_header_mod_hash_offset = k_film_header_mod_offset + 8,
+		k_film_header_mod_file_offset = k_film_header_mod_hash_offset + 64,
 	};
 }

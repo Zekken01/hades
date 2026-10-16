@@ -10,6 +10,8 @@
 #include "Patches/Core.hpp"
 #include "Patches/Input.hpp"
 #include "Web/Ui/ScreenLayer.hpp"
+#include "mods/mod_system.hpp"
+#include "mods/new/IModManager.hpp"
 
 #include <Windows.h>
 #include <stdarg.h>
@@ -53,7 +55,6 @@ namespace SavedFilms
 		auto const game_seconds_to_ticks_round = reinterpret_cast<long (*)(float)>(0x00564BB0);
 		auto const simulation_globals = reinterpret_cast<unsigned char *>(0x019A9FA0);
 
-		auto const network_life_cycle_end = reinterpret_cast<void (*)()>(0x00454B40);
 		auto const simulation_end = reinterpret_cast<void (*)(long)>(0x004412B0);
 		auto const game_options_validate = reinterpret_cast<void (*)(unsigned char *)>(0x00532680);
 		auto const main_game_change = reinterpret_cast<void (*)(unsigned char const *)>(0x00566E70);
@@ -178,7 +179,8 @@ namespace SavedFilms
 				stop_recording();
 				CreateDirectoryA(films_directory().c_str(), nullptr);
 				std::string path = film_path(new_film_name(options));
-				if (!g_recording.open_for_write(path.c_str(), reinterpret_cast<s_game_options const *>(options)))
+				if (!g_recording.open_for_write(path.c_str(), reinterpret_cast<s_game_options const *>(options),
+					c_mod_system::get_current_package_hash().c_str(), c_mod_system::get_current_package_filename(EModIndex(0)).c_str()))
 				{
 					print("Film: could not create %s", path.c_str());
 					return;
@@ -401,9 +403,110 @@ namespace SavedFilms
 			}
 		}
 
+		/* ---------- starting a film */
+
+		// Film.Play opens the film; the main loop then puts the film's mod in place and
+		// changes to its game. ElDewrito keeps the active mod in step with the squad
+		// session (ModSessionManager), so the session stays up and its mod is switched
+		// to the film's, rather than leaving the session as ManagedDonkey does.
+		enum e_play_state
+		{
+			_play_state_none,
+			_play_state_requested,
+			_play_state_waiting_for_mod,
+		};
+		e_play_state g_play_state = _play_state_none;
+		DWORD g_play_wait_start = 0;
+
+		std::string film_mod_description()
+		{
+			std::string file = g_playback.get_mod_file();
+			size_t slash = file.find_last_of("\\/");
+			return slash == std::string::npos ? file : file.substr(slash + 1);
+		}
+
+		void cancel_play(char const *reason)
+		{
+			print("Film: %s", reason);
+			playback_log("cancelled: %s", reason);
+			g_playback.close();
+			g_play_state = _play_state_none;
+		}
+
+		void start_film_game()
+		{
+			simulation_end(k_simulation_abort_reason_preparing_to_play_film);
+
+			static unsigned char options[k_game_options_size];
+			memcpy(options, g_playback.get_game_options(), k_game_options_size);
+			*reinterpret_cast<unsigned short *>(options + k_game_options_game_playback) = k_game_playback_film;
+			options[k_game_options_record_saved_film] = 0;
+			*reinterpret_cast<long *>(options + k_game_options_playback_start_tick) = 0;
+			*reinterpret_cast<long *>(options + k_game_options_playback_length_in_ticks) = g_playback.get_length_in_ticks();
+			game_options_validate(options);
+			main_game_change(options);
+
+			g_play_state = _play_state_none;
+			playback_log("starting the film's game: map %s", reinterpret_cast<char const *>(options + k_game_options_scenario_path));
+		}
+
+		bool film_mod_ready(std::string const &hash)
+		{
+			IMod *mod = c_mod_system::GetModManager().GetMod(EModIndex(0));
+			if (hash.empty())
+				return mod == nullptr;
+			return mod && !mod->GetPakIsLoading() && !mod->GetCacheIsLoading() && mod->GetError() == kSuccess
+				&& _stricmp(c_mod_system::get_current_package_hash().c_str(), hash.c_str()) == 0;
+		}
+
+		void update_play_request()
+		{
+			if (g_play_state == _play_state_requested)
+			{
+				std::string hash = g_playback.get_mod_hash();
+				// Films from before the mod was recorded keep whatever mod is active.
+				if (!g_playback.has_mod_info() || _stricmp(c_mod_system::get_current_package_hash().c_str(), hash.c_str()) == 0)
+				{
+					start_film_game();
+					return;
+				}
+
+				playback_log("switching mod from '%s' to '%s' (%s)", c_mod_system::get_current_package_hash().c_str(), hash.c_str(), film_mod_description().c_str());
+				bool switched = hash.empty()
+					? c_mod_system::unload_current_package()
+					: c_mod_system::load_package_by_identifier(hash.c_str());
+				if (!switched)
+				{
+					std::string reason = "this film needs the mod " + film_mod_description() + ", which is not installed";
+					cancel_play(reason.c_str());
+					return;
+				}
+				g_play_state = _play_state_waiting_for_mod;
+				g_play_wait_start = GetTickCount();
+				print("Film: loading the mod %s", hash.empty() ? "(none)" : film_mod_description().c_str());
+			}
+
+			if (g_play_state == _play_state_waiting_for_mod)
+			{
+				std::string hash = g_playback.get_mod_hash();
+				if (film_mod_ready(hash))
+				{
+					start_film_game();
+					return;
+				}
+				IMod *mod = c_mod_system::GetModManager().GetMod(EModIndex(0));
+				EModResult error = mod ? mod->GetError() : kSuccess;
+				if (mod && error != kSuccess && error != kPending)
+					cancel_play(("the mod " + film_mod_description() + " failed to load").c_str());
+				else if (GetTickCount() - g_play_wait_start > 30000)
+					cancel_play("timed out waiting for the film's mod to load");
+			}
+		}
+
 		void simulation_update_hook()
 		{
 			simulation_update();
+			update_play_request();
 
 			if (g_playback.is_open())
 			{
@@ -436,25 +539,13 @@ namespace SavedFilms
 				return false;
 			}
 
-			// As ManagedDonkey's saved_film_manager_play: leave any session, end the
-			// simulation, then change to the film's game with playback from the film.
-			network_life_cycle_end();
-			simulation_end(k_simulation_abort_reason_preparing_to_play_film);
-
-			static unsigned char options[k_game_options_size];
-			memcpy(options, g_playback.get_game_options(), k_game_options_size);
-			*reinterpret_cast<unsigned short *>(options + k_game_options_game_playback) = k_game_playback_film;
-			options[k_game_options_record_saved_film] = 0;
-			*reinterpret_cast<long *>(options + k_game_options_playback_start_tick) = 0;
-			*reinterpret_cast<long *>(options + k_game_options_playback_length_in_ticks) = g_playback.get_length_in_ticks();
-			game_options_validate(options);
-			main_game_change(options);
-
+			// The main loop starts it (update_play_request), with the film's mod.
+			g_play_state = _play_state_requested;
 			g_playback_pending = true;
 			g_playback_ended = false;
 			g_last_logged_state.clear();
-			playback_log("play %s: %ld ticks, map %s", path.c_str(), g_playback.get_length_in_ticks(),
-				reinterpret_cast<char const *>(options + k_game_options_scenario_path));
+			playback_log("play %s: %ld ticks, mod '%s' (%s)", path.c_str(), g_playback.get_length_in_ticks(),
+				g_playback.has_mod_info() ? g_playback.get_mod_hash().c_str() : "not recorded", film_mod_description().c_str());
 			result = "Playing " + path + " (" + std::to_string(g_playback.get_length_in_ticks()) + " ticks)";
 			return true;
 		}

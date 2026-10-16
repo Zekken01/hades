@@ -53,7 +53,26 @@ namespace SavedFilms
 		memcpy(&m_header[offset], &value, sizeof(value));
 	}
 
-	bool c_saved_film::open_for_write(char const *path, s_game_options const *options)
+	bool c_saved_film::has_mod_info() const
+	{
+		return !m_header.empty() && memcmp(&m_header[k_film_header_mod_offset], "HADESMOD", 8) == 0;
+	}
+
+	std::string c_saved_film::get_mod_hash() const
+	{
+		if (m_header.empty() || memcmp(&m_header[k_film_header_mod_offset], "HADESMOD", 8) != 0)
+			return "";
+		return std::string(reinterpret_cast<char const *>(&m_header[k_film_header_mod_hash_offset]), strnlen(reinterpret_cast<char const *>(&m_header[k_film_header_mod_hash_offset]), 63));
+	}
+
+	std::string c_saved_film::get_mod_file() const
+	{
+		if (m_header.empty() || memcmp(&m_header[k_film_header_mod_offset], "HADESMOD", 8) != 0)
+			return "";
+		return std::string(reinterpret_cast<char const *>(&m_header[k_film_header_mod_file_offset]), strnlen(reinterpret_cast<char const *>(&m_header[k_film_header_mod_file_offset]), 259));
+	}
+
+	bool c_saved_film::open_for_write(char const *path, s_game_options const *options, char const *mod_hash, char const *mod_file)
 	{
 		close();
 
@@ -72,6 +91,10 @@ namespace SavedFilms
 
 		memcpy(&m_header[k_film_header_game_options_offset], options, k_game_options_size);
 		write_header_long(k_film_header_recorded_time_offset, unsigned long(time(nullptr)));
+
+		memcpy(&m_header[k_film_header_mod_offset], "HADESMOD", 8);
+		strncpy_s(reinterpret_cast<char *>(&m_header[k_film_header_mod_hash_offset]), 64, mod_hash ? mod_hash : "", _TRUNCATE);
+		strncpy_s(reinterpret_cast<char *>(&m_header[k_film_header_mod_file_offset]), 260, mod_file ? mod_file : "", _TRUNCATE);
 
 		m_writing = true;
 		m_fatal_error = false;
