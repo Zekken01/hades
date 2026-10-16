@@ -176,6 +176,21 @@ namespace SavedFilms
 			simulation_queue_entity_deletion_apply(element);
 		}
 
+		// hs_object_hide (0x96E230), which scripts' object_hide calls: logged during playback.
+		auto const object_set_hidden = reinterpret_cast<void (*)(long, bool)>(0x00B32D50);
+
+		void __cdecl hs_object_hide_hook(long object_index, bool hidden)
+		{
+			if (film_is_playing())
+			{
+				char text[128];
+				sprintf_s(text, "film: script object_hide %08lX %d", object_index, int(hidden));
+				film_log(text);
+			}
+			if (object_index != -1)
+				object_set_hidden(object_index, hidden);
+		}
+
 		void __cdecl event_apply_hook(void const *element)
 		{
 			if (film_is_playing())
@@ -214,6 +229,7 @@ namespace SavedFilms
 		Hook(0x00467E40 - 0x00400000, reinterpret_cast<void *>(&creation_apply_hook), static_cast<__int32>(HookFlags::IsCall)).Apply();
 		Hook(0x00467E50 - 0x00400000, reinterpret_cast<void *>(&deletion_apply_hook), static_cast<__int32>(HookFlags::IsCall)).Apply();
 		Hook(0x00467E38 - 0x00400000, reinterpret_cast<void *>(&event_apply_hook), static_cast<__int32>(HookFlags::IsCall)).Apply();
+		Hook(0x0096E230 - 0x00400000, reinterpret_cast<void *>(&hs_object_hide_hook)).Apply();
 
 		Patches::Core::OnMapLoaded([](char const *)
 		{
