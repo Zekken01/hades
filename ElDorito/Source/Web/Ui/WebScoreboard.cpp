@@ -639,6 +639,15 @@ namespace Web
 					Web::Ui::ScreenLayer::NotifyScreen("scoreboard", "scoreboard_hide", {});
 				}
 				previousMapLoadingState = currentMapLoadingState;
+				// The pregame scoreboard closes when the local player's unit spawns; a film's
+				// viewer has none, so it would stay up ("Starting Game...") and keep reopening.
+				if (globals.pregame && SavedFilms::film_is_playing())
+				{
+					globals.locked = false;
+					globals.pregame = false;
+					globals.acceptsInput = true;
+					Web::Ui::ScreenLayer::NotifyScreen("scoreboard", "scoreboard_hide", {});
+				}
 				if (!eldorado::game_engine_in_round())
 					return;
 				void *engine_globals = *(void **)tls_get(0x48);
