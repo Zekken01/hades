@@ -115,6 +115,7 @@ namespace SavedFilms
 		long long g_pending_packet_bytes = 0;
 		long long const k_pending_packet_bytes_max = 64 * 1024 * 1024;
 		long g_last_recorded_update = -1;
+		unsigned long long g_recording_game_instance = 0;
 
 		c_saved_film g_playback;
 		long g_clip_start_tick = -1; // a clip being recorded from the film, from this tick
@@ -177,9 +178,30 @@ namespace SavedFilms
 
 		/* ---------- hooks */
 
+		void record_update_to_film(void const *update);
+
+		// simulation_record_update, which game_tick and game_update call: ElDewrito's
+		// determinism trace, then the film.
 		void film_record_update_hook(void const *update)
 		{
 			::simulation_record_update_hook(static_cast<s_simulation_update *>(const_cast<void *>(update)));
+			record_update_to_film(update);
+		}
+
+		// simulation_update_pregame builds and applies updates outside the game tick (a
+		// client's join arrives in these, as entity creations in the update's simulation
+		// queues); its simulation_record_update call was stripped from the release build,
+		// so the updates are recorded here, before they are applied.
+		auto const simulation_apply_before_game = reinterpret_cast<void (*)(void const *)>(0x00440E50);
+
+		void simulation_update_pregame_apply_hook(void const *update)
+		{
+			record_update_to_film(update);
+			simulation_apply_before_game(update);
+		}
+
+		void record_update_to_film(void const *update)
+		{
 
 			unsigned char *options = game_options_get();
 			if (!options || *reinterpret_cast<unsigned short *>(options + k_game_options_game_playback) != 0)
@@ -197,13 +219,18 @@ namespace SavedFilms
 			// host; its films also carry what it was sent (replication packets,
 			// saved_film_replication.cpp) so the game can be rebuilt from them.
 
+			// Updates reach here from simulation_update_pregame (before the game ticks,
+			// e.g. a client's join) and from game_tick/game_update, which can pass one
+			// that was already written; each is written once, in order.
 			long update_number = *static_cast<long const *>(update);
-			if (g_recording.is_writing() && update_number == g_last_recorded_update)
-				return; // game_tick and game_update can both pass the same update
+			unsigned long long game_instance = *reinterpret_cast<unsigned long long *>(options + k_game_options_game_instance);
+			bool new_game = !g_recording.is_writing() || game_instance != g_recording_game_instance;
+			if (!new_game && update_number <= g_last_recorded_update)
+				return;
 
-			// A lower update number than the last one written means a new game started.
-			if (!g_recording.is_writing() || update_number < g_last_recorded_update)
+			if (new_game)
 			{
+				g_recording_game_instance = game_instance;
 				stop_recording();
 				CreateDirectoryA(films_directory().c_str(), nullptr);
 				std::string path = film_path(new_film_name(options));
@@ -674,12 +701,6 @@ namespace SavedFilms
 				result = "Could not open film " + path;
 				return false;
 			}
-			if (simulation_is_client(reinterpret_cast<unsigned char const *>(g_playback.get_game_options())[k_game_options_game_simulation]))
-			{
-				g_playback.close();
-				result = "This film was recorded as a client of an online game and cannot be played back; only the host's films can";
-				return false;
-			}
 
 			// The main loop starts it (update_play_request), with the film's mod; a clip
 			// then runs at full speed to its start.
@@ -986,6 +1007,7 @@ namespace SavedFilms
 	{
 		Hook(0x00441F90 - 0x00400000, reinterpret_cast<void *>(film_record_update_hook)).Apply();
 		Hook(0x00441CD0 - 0x00400000, reinterpret_cast<void *>(simulation_must_close_saved_film_hook)).Apply();
+		Hook(0x0044275C - 0x00400000, reinterpret_cast<void *>(simulation_update_pregame_apply_hook), static_cast<__int32>(HookFlags::IsCall)).Apply();
 		Hook(0x00505DD7 - 0x00400000, reinterpret_cast<void *>(simulation_update_hook), static_cast<__int32>(HookFlags::IsCall)).Apply();
 		// game_time_update sets the game speed to the film manager's playback speed during
 		// playback; with the manager stripped that became a constant 0, so films never
