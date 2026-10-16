@@ -292,8 +292,8 @@ namespace SavedFilms
 		//
 		// Replaces 0x727CE0-0x727CFE: dl is X's down frames, edi the director, bl whether X
 		// was released after a press, [ebp-0xD] play_or_eject. X arms the director only
-		// when freshly pressed; the pad opens only on its release; Eject is offered once
-		// the film has ended.
+		// once it has been released since the pad was last up (director_x_down); the pad
+		// opens only on its release; Eject is offered once the film has ended.
 		unsigned long const k_director_x_update = 0x00727CE0;
 		unsigned long const k_director_open_control_pad = 0x00727CFE;
 		unsigned long const k_director_skip_control_pad = 0x00727D78;
@@ -304,20 +304,35 @@ namespace SavedFilms
 			return film_is_ended();
 		}
 
+		// Whether X is down for the director (its "pressed with no pad up" state). The
+		// director sees X only while no pad is up, so after a gap - the pad was up, and
+		// may have been closed with X - X has to be released before a press counts.
+		bool __cdecl director_x_down(unsigned long down_frames)
+		{
+			static DWORD last_seen = 0;
+			static bool awaiting_release = true;
+			DWORD now = GetTickCount();
+			if (now - last_seen > 250)
+				awaiting_release = true;
+			last_seen = now;
+
+			if (awaiting_release)
+			{
+				if (down_frames == 0)
+					awaiting_release = false;
+				return false;
+			}
+			return down_frames != 0;
+		}
+
 		__declspec(naked) void director_x_update_hook()
 		{
 			__asm
 			{
 				movzx   eax, dl
-				cmp     byte ptr [edi + 0x159], 0
-				jnz     was_down
-				cmp     eax, 1
-				sete    al
-				jmp     store
-			was_down:
-				test    eax, eax
-				setnz   al
-			store:
+				push    eax
+				call    director_x_down
+				add     esp, 4
 				mov     byte ptr [edi + 0x159], al
 
 				call    director_film_ended
