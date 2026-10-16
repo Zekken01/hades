@@ -249,12 +249,12 @@ extern s_object_data *(*const object_try_and_get_and_verify_type)(unsigned long,
 
 namespace Player
 {
-	s_action_definition *CPlayerEmotes::m_emote_action_definition; // 0x11352534
+	s_action_definition *CPlayerEmotes::m_emote_action_definition = &CPlayerEmoteAction::m_definition; // 0x11352534
 }
 
 /* ---------- private variables */
 
-s_action_definition CPlayerEmoteAction::m_definition; // 0x11352538
+s_action_definition CPlayerEmoteAction::m_definition = { CPlayerEmoteAction::ActionSubmit, CPlayerEmoteAction::ActionUpdate, CPlayerEmoteAction::ActionAnimationEvent, CPlayerEmoteAction::ActionFinished, CPlayerEmoteAction::ActionInterrupt }; // 0x11352538
 
 /* ---------- public code */
 

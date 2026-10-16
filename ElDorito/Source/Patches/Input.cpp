@@ -289,7 +289,7 @@ template<typename t_arg0> static t_arg0 *object_get(unsigned long object_index) 
 extern bool CharacterHasFlag(__int32 flag);  // hades: added for 0x10A7BE10
 extern void SetUiPlayerModelRotation(float angleDegrees, float seconds);  // hades: added for 0x10A7BE10
 
-c_gui_screen_widget *(*c_gui_location_manager::get_location_gui_screen)(); // 0x1135459C
+c_gui_screen_widget *(*c_gui_location_manager::get_location_gui_screen)() = reinterpret_cast<decltype(c_gui_location_manager::get_location_gui_screen)>(0xADF8A0); // 0x1135459C
 
 /* ---------- private variables */
 

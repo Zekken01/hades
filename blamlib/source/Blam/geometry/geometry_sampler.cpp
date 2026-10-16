@@ -64,7 +64,7 @@ struct c_geometry_sampler
 /* ---------- globals */
 
 extern s_geometry_sample *g_default_geometry_sample; // 0x1135A0B4
-long (*c_geometry_sampler::interpolate_geometry_samples)(s_geometry_sample *, s_geometry_sample *, float, char); // 0x1135A0B8
+long (*c_geometry_sampler::interpolate_geometry_samples)(s_geometry_sample *, s_geometry_sample *, float, char) = reinterpret_cast<decltype(c_geometry_sampler::interpolate_geometry_samples)>(0xA425E0); // 0x1135A0B8
 
 /* ---------- private variables */
 

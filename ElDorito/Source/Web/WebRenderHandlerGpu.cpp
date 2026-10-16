@@ -181,7 +181,7 @@ typedef real_vector4d vector_4d;
 
 /* ---------- globals */
 
-char *c_rasterizer_samplers::sampler_srgb_states; // 0x113555D4
+char *c_rasterizer_samplers::sampler_srgb_states = reinterpret_cast<decltype(c_rasterizer_samplers::sampler_srgb_states)>(0x50DB200); // 0x113555D4
 
 /* ---------- private variables */
 

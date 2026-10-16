@@ -162,7 +162,7 @@ bool CommandSupportedResolutions(std::vector<std::string> const &Arguments, std:
 
 /* ---------- globals */
 
-s_depth_of_field *(*s_depth_of_field::get)(); // 0x11353FE0
+s_depth_of_field *(*s_depth_of_field::get)() = reinterpret_cast<decltype(s_depth_of_field::get)>(0xA3EB00); // 0x11353FE0
 
 /* ---------- private variables */
 

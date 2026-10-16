@@ -454,20 +454,20 @@ bool c_rasterizer__initialize_after_device_creation_or_reset_call_hook();
 
 /* ---------- globals */
 
-float c_player_view::render_debug_depth_render_alpha; // 0x11352F68
-void (__thiscall *s_wind_definition::update)(s_wind_definition *, s_wind_values *); // 0x11352F74
-s_wind_definition *(*s_wind_definition::get_wind_definition)(real_point3d *); // 0x11352F78
-s_decorator_set *(*s_decorator_set::get)(long); // 0x11352F7C
-long (__thiscall *s_decorator_set::get_explicit_shader_index)(s_decorator_set *); // 0x11352F80
-unsigned long *c_render_method_data::m_change_colors; // 0x11352F34
-void (__thiscall *c_rasterizer_globals::get_default_texture_rasterizer_texture_ref)(s_rasterizer_globals *, c_rasterizer_texture_ref *, c_enum<enum e_rasterizer_default_bitmap,long>); // 0x11352F3C
-long *c_rasterizer::g_color_surfaces; // 0x11352F48
-s_muffin_definition *(*s_muffin_definition::get)(long); // 0x11352F6C
+float c_player_view::render_debug_depth_render_alpha = 1.0f; // 0x11352F68
+void (__thiscall *s_wind_definition::update)(s_wind_definition *, s_wind_values *) = reinterpret_cast<decltype(s_wind_definition::update)>(0x14E6B50); // 0x11352F74
+s_wind_definition *(*s_wind_definition::get_wind_definition)(real_point3d *) = reinterpret_cast<decltype(s_wind_definition::get_wind_definition)>(0x14E6DE0); // 0x11352F78
+s_decorator_set *(*s_decorator_set::get)(long) = reinterpret_cast<decltype(s_decorator_set::get)>(0x6EDCE0); // 0x11352F7C
+long (__thiscall *s_decorator_set::get_explicit_shader_index)(s_decorator_set *) = reinterpret_cast<decltype(s_decorator_set::get_explicit_shader_index)>(0xA7ADE0); // 0x11352F80
+unsigned long *c_render_method_data::m_change_colors = reinterpret_cast<decltype(c_render_method_data::m_change_colors)>(0x50FB614); // 0x11352F34
+void (__thiscall *c_rasterizer_globals::get_default_texture_rasterizer_texture_ref)(s_rasterizer_globals *, c_rasterizer_texture_ref *, c_enum<enum e_rasterizer_default_bitmap,long>) = reinterpret_cast<decltype(c_rasterizer_globals::get_default_texture_rasterizer_texture_ref)>(0xA35D40); // 0x11352F3C
+long *c_rasterizer::g_color_surfaces = reinterpret_cast<decltype(c_rasterizer::g_color_surfaces)>(0x50DB1F0); // 0x11352F48
+s_muffin_definition *(*s_muffin_definition::get)(long) = reinterpret_cast<decltype(s_muffin_definition::get)>(0xBC6800); // 0x11352F6C
 
 /* ---------- private variables */
 
-extern "C" { static __int32 *g_bink_frame_width; } // 0x11352EE0
-extern "C" { static __int32 *g_bink_frame_height; } // 0x11352EE4
+extern "C" { static __int32 *g_bink_frame_width = reinterpret_cast<__int32 *>(0x18BB398); } // 0x11352EE0
+extern "C" { static __int32 *g_bink_frame_height = reinterpret_cast<__int32 *>(0x18BB39C); } // 0x11352EE4
 
 namespace hades_file_local
 {

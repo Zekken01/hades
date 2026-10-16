@@ -160,9 +160,9 @@ long c_screen_postprocess__downsample_generate_call_hook(e_surface source_surfac
 
 /* ---------- globals */
 
-s_motion_blur_parameters *c_rasterizer_globals::g_motion_blur_parameters; // 0x11354A3C
-bool (*s_depth_of_field::get_enabled)(); // 0x11354A50
-float (*s_depth_of_field::get_depth_of_field_blur_sigma)(s_depth_of_field *); // 0x11354A54
+s_motion_blur_parameters *c_rasterizer_globals::g_motion_blur_parameters = reinterpret_cast<decltype(c_rasterizer_globals::g_motion_blur_parameters)>(0x1914B90); // 0x11354A3C
+bool (*s_depth_of_field::get_enabled)() = reinterpret_cast<decltype(s_depth_of_field::get_enabled)>(0xA3ECB0); // 0x11354A50
+float (*s_depth_of_field::get_depth_of_field_blur_sigma)(s_depth_of_field *) = reinterpret_cast<decltype(s_depth_of_field::get_depth_of_field_blur_sigma)>(0xA3EC30); // 0x11354A54
 
 /* ---------- private variables */
 

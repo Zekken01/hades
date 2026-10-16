@@ -300,12 +300,12 @@ extern char const *tag_get_name(long tag_index);
 extern void *(__cdecl *const tag_get)(unsigned long, long);
 
 extern long const k_number_of_xbox_sound_datums; // 0x111ABBB4
-bool (__thiscall *HALO_PERM_SOUND::Init)(HALO_PERM_SOUND *, s_sound_tag_data *, HALO_CHANNEL_PROPERTIES *, HALO_CHANNEL *); // 0x113541FC
-HALO_PERM_SOUND *(__thiscall *HALO_PERM_SOUND::Free)(HALO_PERM_SOUND *); // 0x11354200
-HALO_PERM_SOUND *(__thiscall *HALO_PERM_SOUND::Reset)(HALO_PERM_SOUND *); // 0x11354204
-__int32 (__thiscall *HALO_PERM_SOUND::UpdateChannelProperties)(HALO_PERM_SOUND *, HALO_CHANNEL_PROPERTIES *); // 0x11354208
-__int32 (__thiscall *HALO_PERM_SOUND::InitChannelProperties)(HALO_PERM_SOUND *, HALO_CHANNEL_PROPERTIES *); // 0x1135420C
-char const *HALO_CHANNEL::STATE_NAMES[4]; // 0x11354210
+bool (__thiscall *HALO_PERM_SOUND::Init)(HALO_PERM_SOUND *, s_sound_tag_data *, HALO_CHANNEL_PROPERTIES *, HALO_CHANNEL *) = reinterpret_cast<decltype(HALO_PERM_SOUND::Init)>(0x64D550); // 0x113541FC
+HALO_PERM_SOUND *(__thiscall *HALO_PERM_SOUND::Free)(HALO_PERM_SOUND *) = reinterpret_cast<decltype(HALO_PERM_SOUND::Free)>(0x652C70); // 0x11354200
+HALO_PERM_SOUND *(__thiscall *HALO_PERM_SOUND::Reset)(HALO_PERM_SOUND *) = reinterpret_cast<decltype(HALO_PERM_SOUND::Reset)>(0x648F80); // 0x11354204
+__int32 (__thiscall *HALO_PERM_SOUND::UpdateChannelProperties)(HALO_PERM_SOUND *, HALO_CHANNEL_PROPERTIES *) = reinterpret_cast<decltype(HALO_PERM_SOUND::UpdateChannelProperties)>(0x653640); // 0x11354208
+__int32 (__thiscall *HALO_PERM_SOUND::InitChannelProperties)(HALO_PERM_SOUND *, HALO_CHANNEL_PROPERTIES *) = reinterpret_cast<decltype(HALO_PERM_SOUND::InitChannelProperties)>(0x64FDA0); // 0x1135420C
+char const *HALO_CHANNEL::STATE_NAMES[4] = { "IDLE", "STOPPING", "PLAYING", "FULL" }; // 0x11354210
 
 /* ---------- private variables */
 
