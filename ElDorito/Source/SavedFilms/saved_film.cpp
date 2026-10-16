@@ -137,6 +137,23 @@ namespace SavedFilms
 		return true;
 	}
 
+	bool c_saved_film::write_record(e_saved_film_update_type type, void const *data, long size)
+	{
+		if (!m_file || !m_writing || m_fatal_error || size <= 0 || size > k_saved_film_update_size_max)
+			return false;
+		if (m_current_offset + long(sizeof(unsigned long)) + size + k_saved_film_header_size >= k_saved_film_maximum_size)
+			return false;
+
+		unsigned long record = unsigned long(size) | (unsigned long(type) << k_saved_film_update_size_bits);
+		if (fwrite(&record, sizeof(record), 1, m_file) != 1 || fwrite(data, 1, size, m_file) != size_t(size))
+		{
+			m_fatal_error = true;
+			return false;
+		}
+		m_current_offset += sizeof(record) + size;
+		return true;
+	}
+
 	bool c_saved_film::write_clip(char const *source_path, char const *clip_path, long start_tick, long stop_tick)
 	{
 		c_saved_film source;

@@ -31,6 +31,7 @@ namespace SavedFilms
 	{
 		_saved_film_update_type_simulation_update = 0,
 		_saved_film_update_type_gamestate,
+		_saved_film_update_type_replication_packet, // ElDewrito: what an online client was sent (saved_film_replication.cpp)
 	};
 
 	class c_saved_film
@@ -51,6 +52,7 @@ namespace SavedFilms
 		std::string get_mod_hash() const;
 		std::string get_mod_file() const;
 		bool write_simulation_update(void const *simulation_update);
+		bool write_record(e_saved_film_update_type type, void const *data, long size);
 
 		bool open_for_read(char const *path);
 		// Reads the next record. Returns false at the end of the film or on a bad record.

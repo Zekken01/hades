@@ -72,6 +72,7 @@ namespace SavedFilms
 		long const k_game_options_game_network_type = 0x5;
 		long const k_game_options_tick_rate = 0x6;
 		unsigned char const k_game_simulation_local = 1;
+		unsigned char const k_game_simulation_distributed_client = 4;
 		long const k_game_options_game_instance = 0x8;
 
 		// _game_simulation_synchronous_client and _game_simulation_distributed_client.
@@ -107,6 +108,12 @@ namespace SavedFilms
 		std::string g_loaded_mod_hash; // loaded_mod_hash() as of this frame, set on the main thread
 
 		c_saved_film g_recording;
+
+		// Replication packets a client receives before its film opens (the join, which
+		// creates every entity), written at the start of the film.
+		std::vector<std::vector<unsigned char>> g_pending_packets;
+		long long g_pending_packet_bytes = 0;
+		long long const k_pending_packet_bytes_max = 64 * 1024 * 1024;
 		long g_last_recorded_update = -1;
 
 		c_saved_film g_playback;
@@ -187,20 +194,8 @@ namespace SavedFilms
 			}
 
 			// A client of an online game is sent the other players and objects by the
-			// host, so its own simulation updates cannot replay the game (playback goes
-			// out of sync at once); only the host's and local games are recorded.
-			if (simulation_is_client(options[k_game_options_game_simulation]))
-			{
-				static unsigned long long noticed_game = 0;
-				unsigned long long game_instance = *reinterpret_cast<unsigned long long *>(options + k_game_options_game_instance);
-				if (noticed_game != game_instance)
-				{
-					noticed_game = game_instance;
-					print("Film: not recording - films can only be recorded by the host of an online game");
-				}
-				stop_recording();
-				return;
-			}
+			// host; its films also carry what it was sent (replication packets,
+			// saved_film_replication.cpp) so the game can be rebuilt from them.
 
 			long update_number = *static_cast<long const *>(update);
 			if (g_recording.is_writing() && update_number == g_last_recorded_update)
@@ -219,6 +214,10 @@ namespace SavedFilms
 					return;
 				}
 				print("Film recording: %s (from update #%ld)", path.c_str(), update_number);
+				for (std::vector<unsigned char> const &packet : g_pending_packets)
+					g_recording.write_record(_saved_film_update_type_replication_packet, packet.data(), long(packet.size()));
+				g_pending_packets.clear();
+				g_pending_packet_bytes = 0;
 			}
 
 			if (g_recording.write_simulation_update(update))
@@ -912,6 +911,34 @@ namespace SavedFilms
 		main_menu_launch();
 	}
 
+	void record_replication_packet(void const *data, long size)
+	{
+		unsigned char const *options = game_options_get();
+		if (!options || !g_record_variable || g_record_variable->ValueInt == 0
+			|| *reinterpret_cast<unsigned short const *>(options + k_game_options_game_playback) != 0
+			|| options[k_game_options_game_simulation] != k_game_simulation_distributed_client)
+		{
+			return;
+		}
+
+		if (g_recording.is_writing())
+		{
+			g_recording.write_record(_saved_film_update_type_replication_packet, data, size);
+		}
+		else if (g_pending_packet_bytes + size <= k_pending_packet_bytes_max)
+		{
+			unsigned char const *bytes = static_cast<unsigned char const *>(data);
+			g_pending_packets.emplace_back(bytes, bytes + size);
+			g_pending_packet_bytes += size;
+		}
+	}
+
+	void clear_pending_replication_packets()
+	{
+		g_pending_packets.clear();
+		g_pending_packet_bytes = 0;
+	}
+
 	bool clip_is_recording()
 	{
 		return g_clip_start_tick >= 0;
@@ -971,6 +998,7 @@ namespace SavedFilms
 			g_playback.close();
 		});
 		ApplyControlPad();
+		ApplyReplication();
 	}
 }
 
