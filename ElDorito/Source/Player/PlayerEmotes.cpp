@@ -1,6 +1,7 @@
 /* ---------- headers */
 
 #include "Player/PlayerEmotes.hpp"
+#include "SavedFilms/saved_film_manager.hpp"
 #include "hades/hades.h"
 
 #include "Blam/animations/mixing_board/channels/animation_channel.hpp"
@@ -248,6 +249,7 @@ s_player_datum *player_get(unsigned long player_index);  // hades: added for 0X1
 
 bool PlayerCanEmote(__int32 playerIndex, __int32 definitionIndex, short emoteIndex);
 void PlayerStartEmote(__int32 playerIndex, long definitionIndex, long emoteIndex);
+bool PlayerCanEmote(__int32 playerIndex, __int32 definitionIndex, short emoteIndex);
 void PlayerStopEmote(__int32 playerIndex);
 
 /* ---------- globals */
@@ -734,6 +736,16 @@ _inline bool c_simulation_player_emote_event_definition::apply_game_event(long r
 	if (player_index == -1)
 	{
 		return false;
+	}
+
+	if (SavedFilms::film_is_playing())
+	{
+		char text[256];
+		sprintf_s(text, "film: emote event action %d player %d (datum %08lX) unit %08lX definition %08lX emote %ld can %d",
+			int(data->action_type), int(data->player_index), player_index, player ? player->unit_index : 0xFFFFFFFFul,
+			data->emote_definition_index, data->emote_index,
+			data->action_type == s_simulation_player_emote_event_data::_action_start ? int(PlayerCanEmote(player_index, data->emote_definition_index, short(data->emote_index))) : -1);
+		SavedFilms::film_log(text);
 	}
 
 	switch (data->action_type)

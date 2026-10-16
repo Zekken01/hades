@@ -384,6 +384,13 @@ namespace Player
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?RespawnPlayerOffset@PlayerPodium@Player@@YAXFFMMMMM@Z");
 
+			if (SavedFilms::film_is_playing())
+			{
+				char text[128];
+				sprintf_s(text, "film: podium respawn player %d at camera point %d", int(player_session_idx), int(cutscene_camera_point_index));
+				SavedFilms::film_log(text);
+			}
+
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			if (session && session->IsEstablished())
 			{
@@ -799,6 +806,20 @@ namespace Player
 						Scripting::HS::ExecuteScript("podium", {});
 				}
 				s_PodiumStates.inPostGame = true;
+				if (SavedFilms::film_is_playing())
+				{
+					char text[256];
+					sprintf_s(text, "film: podium starts (authoritative %d)", int(eldorado::game_is_authoritative()));
+					SavedFilms::film_log(text);
+					for (long i = 0; i < 16; i++)
+					{
+						if (s_player_datum *player = players_get()->try_and_get_absolute(i))
+						{
+							sprintf_s(text, "film: podium player %ld '%s' unit %08lX flags %08lX", i, Utils::String::ThinString(player->configuration.host.player_name).c_str(), player->unit_index, player->flags);
+							SavedFilms::film_log(text);
+						}
+					}
+				}
 			}
 			else if (eldorado::current_game_engine() && !eldorado::game_is_finished() && s_PodiumStates.inPostGame)
 			{

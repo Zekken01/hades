@@ -1,9 +1,12 @@
 #include "SavedFilms/saved_film_manager.hpp"
 
 #include "Patches/Core.hpp"
+#include "Patch.hpp"
 #include "Pointer.hpp"
 
+#include <stdio.h>
 #include <string.h>
+#include <windows.h>
 #include <vector>
 
 // Films of online games recorded as a client.
@@ -121,6 +124,66 @@ namespace SavedFilms
 		}
 	}
 
+	namespace
+	{
+		// Diagnostics: what of a film's simulation queues reaches the game.
+		auto const simulation_gamestate_entity_create_at_index = reinterpret_cast<long (*)(long)>(0x00471E60);
+		auto const simulation_queue_entity_creation_apply = reinterpret_cast<void (*)(void const *)>(0x004A9220);
+		auto const simulation_queue_entity_deletion_apply = reinterpret_cast<void (*)(void const *)>(0x004A9370);
+		auto const simulation_queue_event_apply = reinterpret_cast<void (*)(void const *)>(0x004A8A60);
+
+		long g_film_creations = 0;
+		long g_film_creation_failures = 0;
+		long g_film_deletions = 0;
+		long g_film_events = 0;
+		DWORD g_film_queue_report_time = 0;
+
+		void report_film_queues()
+		{
+			DWORD now = GetTickCount();
+			if (now - g_film_queue_report_time < 5000)
+				return;
+			g_film_queue_report_time = now;
+			char text[160];
+			sprintf_s(text, "film queues: %ld creations (%ld failed), %ld deletions, %ld events", g_film_creations, g_film_creation_failures, g_film_deletions, g_film_events);
+			film_log(text);
+		}
+
+		long __cdecl create_at_index_hook(long gamestate_index)
+		{
+			long result = simulation_gamestate_entity_create_at_index(gamestate_index);
+			if (film_is_playing() && result != gamestate_index)
+			{
+				g_film_creation_failures++;
+				char text[128];
+				sprintf_s(text, "film: entity creation at gamestate %08lX failed (got %08lX)", gamestate_index, result);
+				film_log(text);
+			}
+			return result;
+		}
+
+		void __cdecl creation_apply_hook(void const *element)
+		{
+			if (film_is_playing())
+				g_film_creations++, report_film_queues();
+			simulation_queue_entity_creation_apply(element);
+		}
+
+		void __cdecl deletion_apply_hook(void const *element)
+		{
+			if (film_is_playing())
+				g_film_deletions++, report_film_queues();
+			simulation_queue_entity_deletion_apply(element);
+		}
+
+		void __cdecl event_apply_hook(void const *element)
+		{
+			if (film_is_playing())
+				g_film_events++, report_film_queues();
+			simulation_queue_event_apply(element);
+		}
+	}
+
 	void apply_received_map_variant_placements(void *game_options)
 	{
 		if (!game_options)
@@ -147,8 +210,14 @@ namespace SavedFilms
 		Pointer(k_generic_entity_creation_decode_slots[0]).Write(reinterpret_cast<unsigned long>(&generic_entity_creation_decode_hook<0>));
 		Pointer(k_generic_entity_creation_decode_slots[1]).Write(reinterpret_cast<unsigned long>(&generic_entity_creation_decode_hook<1>));
 
+		Hook(0x004A9288 - 0x00400000, reinterpret_cast<void *>(&create_at_index_hook), static_cast<__int32>(HookFlags::IsCall)).Apply();
+		Hook(0x00467E40 - 0x00400000, reinterpret_cast<void *>(&creation_apply_hook), static_cast<__int32>(HookFlags::IsCall)).Apply();
+		Hook(0x00467E50 - 0x00400000, reinterpret_cast<void *>(&deletion_apply_hook), static_cast<__int32>(HookFlags::IsCall)).Apply();
+		Hook(0x00467E38 - 0x00400000, reinterpret_cast<void *>(&event_apply_hook), static_cast<__int32>(HookFlags::IsCall)).Apply();
+
 		Patches::Core::OnMapLoaded([](char const *)
 		{
+			g_film_creations = g_film_creation_failures = g_film_deletions = g_film_events = 0;
 			clear_pending_replication_packets();
 			memset(g_received_placements, 0, sizeof(g_received_placements));
 		});
