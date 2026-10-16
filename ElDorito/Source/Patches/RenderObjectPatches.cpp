@@ -557,8 +557,6 @@ void render_object_mesh_part_hook(s_render_object_mesh_part *element, long entry
 bool object_sh_lightmap_sampling_disabled(long object_index) // 0x108DF640
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?object_sh_lightmap_sampling_disabled@@YA_NJ@Z");
-	// `anonymous-namespace'::object_sh_lightmap_sampling_disabled
-	// long object_index;
 
 	return Forge::Reforge::IsReforgeObject(object_index) || Forge::ObjectIsForgeScenery(object_index);
 }
@@ -566,10 +564,6 @@ bool object_sh_lightmap_sampling_disabled(long object_index) // 0x108DF640
 long object_lighting_geometry_sample_hook(real_point3d *origin, real_vector3d *direction, __int32 a3, long object_index, char a5, char a6, s_geometry_sample *sample) // 0x108DF570
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?object_lighting_geometry_sample_hook@@YAJPAUreal_point3d@@PAUreal_vector3d@@HJDDPAUs_geometry_sample@@@Z");
-	// `anonymous-namespace'::object_lighting_geometry_sample_hook
-	// s_geometry_sample *sample;
-	// static __int32 (*`object_lighting_geometry_sample_hook'::`2'::object_sh_lighting)(real_point3d *, real_vector3d *, __int32, long, char, char, void *); // 0x11352E8C
-	// function call : __int32 (*)(real_point3d *, real_vector3d *, __int32, long, char, char, void *)
 
 	if (object_sh_lightmap_sampling_disabled(object_index))
 	{
@@ -585,10 +579,6 @@ long object_lighting_geometry_sample_hook(real_point3d *origin, real_vector3d *d
 static s_game_globals *try_and_get_game_globals() // 0x108E1E10
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?try_and_get_game_globals@@YAPAUs_game_globals@@XZ");
-	// `anonymous-namespace'::try_and_get_game_globals
-	// procedure flags: nofpo
-	// function call : long (*const)(unsigned long)
-	// function call : void *(*const)(unsigned long, long)
 
 	return (s_game_globals *)tag_get(0x6D617467, tag_get_first_in_group(0x6D617467));
 }
@@ -596,11 +586,6 @@ static s_game_globals *try_and_get_game_globals() // 0x108E1E10
 static real_rgb_color *network_get_team_color(real_rgb_color *color, long team) // 0x108DF2B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?network_get_team_color@@YAPAUreal_rgb_color@@PAU1@J@Z");
-	// `anonymous-namespace'::network_get_team_color
-	// long team;
-	// s_game_globals *matg;
-		// s_multiplayer_globals_definition *mulg;
-	// function call : void *(*const)(unsigned long, long)
 
 	*color = **reinterpret_cast<real_rgb_color **>(0x189CDBC);
 	s_game_globals *matg = try_and_get_game_globals();
@@ -619,10 +604,6 @@ static real_rgb_color *network_get_team_color(real_rgb_color *color, long team) 
 bool object_always_updates_change_colors(long object_index) // 0x108DF3C0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?object_always_updates_change_colors@@YA_NJ@Z");
-	// `anonymous-namespace'::object_always_updates_change_colors
-	// long object_index;
-	// s_multiplayer_object_properties *multiplayer;
-	// function call : s_multiplayer_object_properties *(*const)(unsigned long)
 
 	s_multiplayer_object_properties *multiplayer = object_get_multiplayer(object_index);
 
@@ -637,36 +618,6 @@ bool object_always_updates_change_colors(long object_index) // 0x108DF3C0
 void render_object_update_change_colors_hook(long object_index, bool force) // 0x108E0730
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?render_object_update_change_colors_hook@@YAXJ_N@Z");
-	// `anonymous-namespace'::render_object_update_change_colors_hook
-	// static ...; // 0x108E0C20
-	// static ...; // 0x108E0C18
-	// long object_index;
-	// bool force;
-	// s_object_data *object;
-	// bool (*const restricted_region_locked_for_current_thread)(long);
-	// void (*const object_queue_render_thread_message)(long, long, long);
-	// void *(*const object_get_render_data)(long);
-	// bool (*const object_get_change_color)(long, long, real_rgb_color *);
-	// s_object_definition *object_def;
-	// long cached_state_index;
-		// c_data_array<s_object_cached_render_state_datum> *cached_states;
-		// s_object_cached_render_state_datum *cached_state;
-			// __int32 i;
-				// real_rgb_color color;
-					// s_multiplayer_object_properties *multiplayer;
-					// long target_object_index;
-						// bool isReforgeObject;
-							// Forge::ReforgeObjectProperties *const reforge;
-							// unsigned char *custom_change_colors;
-	// function call : bool (*const)(long)
-	// function call : void (*const)(long, long, long)
-	// function call : void *(*const)(unsigned long, long)
-	// function call : void *(*const)(long)
-	// function call : bool (*const)(long, long, real_rgb_color *)
-	// function call : long (*const)(long)
-	// function call : s_multiplayer_object_properties *(*const)(unsigned long)
-	// function call : s_multiplayer_object_properties *(*const)(unsigned long)
-	// function call : unsigned long (*const)(real_rgb_color *)
 
 	bool (*const restricted_region_locked_for_current_thread)(long) = (bool (*)(long))0x5A03E0;
 	void (*const object_queue_render_thread_message)(long, long, long) = (void (*)(long, long, long))0xB31B80;
@@ -732,76 +683,6 @@ void render_object_update_change_colors_hook(long object_index, bool force) // 0
 void render_visibility_add_first_person_object_to_items_hook(long output_user_index, long object_index, bool a3, bool a4) // 0x108E1010
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?render_visibility_add_first_person_object_to_items_hook@@YAXJJ_N0@Z");
-	// `anonymous-namespace'::render_visibility_add_first_person_object_to_items_hook
-	// static ...; // 0x108E1A3C
-	// long output_user_index;
-	// long object_index;
-	// bool a3;
-	// bool a4;
-	// bool (*const render_object_first_person_globals_valid)();
-	// void *(*const c_render_frame_memory__get)(long);
-	// long (*const render_model_get_skinning_matrix_count)(long, long, unsigned char const *);
-	// long old_objects_count;
-	// long old_hierarchy_count;
-	// long new_hierarchy_index;
-	// long (*const c_object_renderer_submit_object_attachments)(long, long);
-	// s_render_lighting *(*const object_update_cached_render_lighting)(long, float);
-	// void (*const render_object_get_object_values)(long, s_render_object_info *);
-	// long (*const c_render_frame_memory__allocate)(long, __int32, long);
-	// void (*const render_model_build_skinning)(long, long, real_matrix4x3 *, unsigned char *, long, char, __int32, void *);
-	// s_render_lighting *lighting;
-	// void (*const object_get_region_information)(long, long *, char **, char **, s_object_region_information **);
-	// long (*const render_model_compute_skinning_size_in_bytes)(long);
-	// bool added_successfully;
-	// void (*const object_visibility_new)(s_visible_object *);
-	// s_visible_items &visible_items;
-		// s_visible_object_hierarchy &new_hierarchy;
-		// __int32 count;
-			// __int32 i;
-				// s_object_data *object;
-				// long new_render_visibility_index;
-				// long unit_region_count;
-				// s_render_first_person_model &first_person_model;
-				// s_object_definition *object_def;
-				// char *unit_region_permutation_indices;
-				// bool v29;
-				// s_render_model *render_model;
-				// s_visible_object &new_render_visibility;
-				// long skinning_size;
-					// __int32 j;
-						// s_render_model_region &region;
-					// s_model_definition *tp_model;
-					// s_object_data *tp_object;
-					// s_render_model *tp_render_model;
-					// s_object_definition *tp_object_def;
-						// __int32 j;
-							// s_render_model_permutation &permutation;
-							// char permutation_index;
-							// s_render_model_region &region;
-								// __int32 k;
-									// s_render_model_region &target_region;
-										// __int32 l;
-											// s_render_model_permutation &target_permutation;
-					// void *skinning;
-	// function call : bool (*const)()
-	// function call : s_render_lighting *(*const)(long, float)
-	// function call : void *(*const)(unsigned long, long)
-	// function call : long (*const)(long, long)
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : void *(*const)(unsigned long, long)
-	// function call : void *(*const)(unsigned long, long)
-	// function call : void (*const)(s_visible_object *)
-	// function call : void (*const)(long, long *, char **, char **, s_object_region_information **)
-	// function call : void *(*const)(unsigned long, long)
-	// function call : void *(*const)(unsigned long, long)
-	// function call : void *(*const)(unsigned long, long)
-	// function call : long (*const)(long, long, unsigned char const *)
-	// function call : long (*const)(long)
-	// function call : long (*const)(long, __int32, long)
-	// function call : void *(*const)(long)
-	// function call : void (*const)(long, long, real_matrix4x3 *, unsigned char *, long, char, __int32, void *)
-	// function call : s_shader_extern_info *(*const)(long)
-	// function call : void (*const)(long, s_render_object_info *)
 
 	bool (*const render_object_first_person_globals_valid)() = reinterpret_cast<bool (*)()>(0xA44BE0);
 	long (*const c_object_renderer_submit_object_attachments)(long, long) = reinterpret_cast<long (*)(long, long)>(0xA79470);

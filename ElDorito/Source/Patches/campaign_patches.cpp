@@ -363,11 +363,6 @@ namespace Patches
 		bool game_reverted_hook() // 0x1090FA30
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?game_reverted_hook@campaign_patches@Patches@@YA_NXZ");
-			// procedure flags: nofpo
-			// __int32 game_state_revert_time;
-			// function call : long (*const)()
-			// function call : long (*const)()
-			// function call : long (*const)()
 
 			int game_state_revert_time = *(int *)0x238db14;
 			if (game_state_revert_time != -1 && (game_state_revert_time == game_time_get() - 1 || game_state_revert_time == game_time_get() + 1))
@@ -380,21 +375,6 @@ namespace Patches
 		bool actor_general_update_hook(long actor_index) // 0x1090EBC0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?actor_general_update_hook@campaign_patches@Patches@@YA_NJ@Z");
-			// long actor_index;
-			// void (*const actor_erase)(long, bool);
-			// bool (*const actor_runtime_within_structure_bsp)(long);
-			// long (*const object_get_root_object)(long);
-			// s_actor_datum *actor;
-			// bool result;
-			// bool (*const actor_set_active)(long, bool);
-			// void (*const dynamic_firing_set_discard)(long);
-				// long parent_index;
-			// function call : void (*const)(long, bool)
-			// function call : long (*const)(float)
-			// function call : bool (*const)(long)
-			// function call : bool (*const)(long, e_action)
-			// function call : bool (*const)(long, bool)
-			// function call : long (*const)(long)
 
 			void (*const actor_erase)(long, bool) = (void (*)(long, bool))0x1429DF0;
 			bool (*const actor_runtime_within_structure_bsp)(long) = (bool (*)(long))0x142E1A0;
@@ -435,26 +415,6 @@ namespace Patches
 		void cinematic_clips_initialize_for_shot(long shot_index) // 0x1090F180
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?cinematic_clips_initialize_for_shot@campaign_patches@Patches@@YAXJ@Z");
-			// long shot_index;
-			// tls_data const &tls_data;
-			// unsigned long (*const cinematic_scene_get_puppet_object_handle)(long);
-			// void (*const cinematic_clips_destroy)();
-				// s_cinematic_scene_definition *const cinematic_scene;
-					// s_cinematic_scene_shot *const shot_definition;
-						// long game_time;
-							// __int32 i;
-								// s_cinematic_shot_clip *const clip_definition;
-								// s_cinematic_new_globals::s_cinematic_clip *clip;
-								// float tick_scale;
-									// __int32 j;
-										// long puppet_index;
-											// unsigned long puppet_datum_index;
-												// s_object_data *object_data;
-			// function call : void (*const)()
-			// function call : void *(*const)(unsigned long, long)
-			// function call : long (*const)()
-			// function call : long (*const)()
-			// function call : unsigned long (*const)(long)
 
 			void (*const cinematic_clips_destroy)() = reinterpret_cast<void (*)()>(0x67C570);
 			unsigned long (*const cinematic_scene_get_puppet_object_handle)(long) = reinterpret_cast<unsigned long (*)(long)>(0x67DBC0);
@@ -506,9 +466,6 @@ namespace Patches
 		void main_save_map_hook() // 0x1090FC60
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?main_save_map_hook@campaign_patches@Patches@@YAXXZ");
-			// procedure flags: nofpo
-			// void (*const main_save_map)();
-			// function call : void (*const)()
 
 			if (Utils::Singleton<Modules::ModuleCampaign>::Instance().VarCheckpointsDisabled->ValueInt)
 			{

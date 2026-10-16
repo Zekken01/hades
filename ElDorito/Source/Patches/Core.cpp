@@ -685,45 +685,6 @@ long long main_time_get_absolute_milliseconds() // 0x10A4B3A0
 float main_time_update_hook() // 0x10A4B490
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?main_time_update_hook@@YAMXZ");
-	// `anonymous-namespace'::main_time_update_hook
-	// procedure flags: nofpo
-	// static ...; // 0x10A4B9CF
-	// static ...; // 0x10A4B9C6
-	// static ...; // 0x10A4B9B8
-	// static ...; // 0x10A4B9A0
-	// static ...; // 0x10A4B998
-	// _LARGE_INTEGER cpu_tick;
-	// long game_time;
-	// long long (*const rasterizer_get_vblank_index)();
-	// float delta_frame_time;
-	// float target_frame_time;
-	// bool in_game;
-	// _LARGE_INTEGER cpu_frequency;
-	// bool skip_time_sync;
-	// bool const g_main_time_is_throttled;
-	// s_main_time_globals *g_main_time_globals;
-	// float (*const main_time_update)();
-	// void (*const shell_idle)();
-	// long long vblank_index;
-	// __int32 frame_rate_limit;
-	// bool const g_debug_disable_frame_rate_throttle;
-	// long long milliseconds;
-		// __int32 sleep_ms;
-		// __int32 excess_ms;
-			// unsigned long prev;
-			// void *process_handle;
-	// function call : long long (*const)()
-	// function call : __int32 (_LARGE_INTEGER *)
-	// function call : bool (*const)()
-	// function call : long (*const)()
-	// function call : __int32 (_LARGE_INTEGER *)
-	// function call : void *()
-	// function call : unsigned long (void *)
-	// function call : __int32 (void *, unsigned long)
-	// function call : unsigned long (unsigned long, __int32)
-	// function call : __int32 (void *, unsigned long)
-	// function call : __int32 (_LARGE_INTEGER *)
-	// function call : bool (*const)()
 
 	float (*const main_time_update)() = (float (*)())0x508170;
 	void (*const shell_idle)() = (void (*)())0x42E940;
@@ -797,9 +758,6 @@ float main_time_update_hook() // 0x10A4B490
 long hs_seconds_to_ticks_hook(float seconds) // 0x10A4A9E0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_seconds_to_ticks_hook@@YAJM@Z");
-	// `anonymous-namespace'::hs_seconds_to_ticks_hook
-	// float seconds;
-	// float ticks;
 
 	float ticks = seconds * 30.0;
 	if (ticks < 0.0)
@@ -815,13 +773,6 @@ long hs_seconds_to_ticks_hook(float seconds) // 0x10A4A9E0
 unsigned __int32 system_milliseconds_hook() // 0x10A4C360
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?system_milliseconds_hook@@YAIXZ");
-	// `anonymous-namespace'::system_milliseconds_hook
-	// procedure flags: nofpo
-	// static ...; // 0x10A4C3F0
-	// static ...; // 0x10A4C3E4
-	// static ...; // 0x10A4C3DC
-	// _LARGE_INTEGER currentTime;
-	// function call : __int32 (_LARGE_INTEGER *)
 
 	LARGE_INTEGER currentTime;
 
@@ -832,20 +783,6 @@ unsigned __int32 system_milliseconds_hook() // 0x10A4C360
 void publish_waiting_gamestate() // 0x10A4BC80
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?publish_waiting_gamestate@@YAXXZ");
-	// `anonymous-namespace'::publish_waiting_gamestate
-	// procedure flags: nofpo
-	// void (*const main_render_purge_pending_messages)();
-	// bool (*const multithreaded)();
-	// void (*const main_time_mark_publishing_start_time)();
-	// unsigned long (*const main_time_mark_publishing_end_time)();
-	// bool (*const restricted_region_publish_to_mirror_blocking)(long);
-	// long volatile &g_render_thread_enabled;
-		// s_game_tick_time_samples *gamestate_timing;
-	// function call : bool (*const)()
-	// function call : void (*const)()
-	// function call : bool (*const)(long)
-	// function call : void (*const)()
-	// function call : unsigned long (*const)()
 
 	void (*const main_time_mark_publishing_start_time)() = reinterpret_cast<void (*)()>(0x5080B0);
 	void (*const main_render_purge_pending_messages)() = reinterpret_cast<void (*)()>(0x604AA0);
@@ -873,73 +810,6 @@ void publish_waiting_gamestate() // 0x10A4BC80
 void main_loop() // 0x10A4AD40
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?main_loop@@YAXXZ");
-	// `anonymous-namespace'::main_loop
-	// procedure flags: nofpo
-	// void (*const main_game_unload_and_prepare_for_next_game)(void *);
-	// void (*const c_rasterizer__rasterizer_device_release_thread)();
-	// void (*const main_render_purge_pending_messages)();
-	// void (*const c_interlocked_long__set_bit)(long volatile *, char, char);
-	// void *(*const restricted_region_lock_primary)(long);
-	// void (*const main_render_signal_shutdown)();
-	// void (*const physical_memory_resize_region_dispose)();
-	// void (*const game_sound_process_update_messages)();
-	// long volatile &g_single_thread_request_flags;
-	// __int32 (*const _internal_halt_render_thread_and_lock_resources)(char const *, __int32);
-	// bool (*const multithreaded)();
-	// bool &unk_22AE4F2;
-	// long (*const c_interlocked_int32__set)(long volatile *, long);
-	// void (*const main_loading_dispose)();
-	// void (*const main_loop_body_single_threaded)();
-	// char &unk_22AE4F0;
-	// bool &g_main_exit;
-	// unsigned long &dword_22B47B8;
-	// char (*const screenshot_unknown)();
-	// long (*const c_synchronized_int32__set_if_equal)(long volatile *, long, long);
-	// void (*const game_dispose)();
-	// void (*const main_loop_enter)();
-	// char (*const sub_610530)();
-	// char v2;
-	// void (*const process_game_engine_globals_messages)();
-	// void (*const wait_for_thread_to_exit)(__int32, unsigned long);
-	// long volatile &g_render_thread_enabled;
-	// unsigned long v3;
-	// void (*const main_loop_body)();
-	// char a3;
-	// void (*const restricted_region_unlock_primary)(long);
-	// function call : bool (*const)()
-	// function call : void (*const)()
-	// function call : bool (*const)()
-	// function call : void (*const)(long)
-	// function call : void (*const)(long)
-	// function call : void (*const)(long volatile *, char, char)
-	// function call : bool (*const)()
-	// function call : void (*const)()
-	// function call : void (*const)()
-	// function call : void (*const)()
-	// function call : void (*const)()
-	// function call : char (*const)()
-	// function call : char (*const)()
-	// function call : void (*const)(long volatile *, char, char)
-	// function call : bool (*const)()
-	// function call : bool (*const)()
-	// function call : void (*const)()
-	// function call : void (*const)(long)
-	// function call : void (*const)(long)
-	// function call : bool (*const)()
-	// function call : long (*const)(long volatile *, long, long)
-	// function call : __int32 (*const)(char const *, __int32)
-	// function call : bool (*const)()
-	// function call : bool (*const)()
-	// function call : void *(*const)(long)
-	// function call : void *(*const)(long)
-	// function call : bool (*const)()
-	// function call : void (*const)()
-	// function call : void (*const)(__int32, unsigned long)
-	// function call : void (*const)()
-	// function call : void (*const)(void *)
-	// function call : void (*const)()
-	// function call : void (*const)()
-	// function call : void (*const)()
 
 	void (*const sub_5A05B0)(long) = (void (*)(long))0x5A05B0;
 	void (*const main_game_unload_and_prepare_for_next_game)(void *) = (void (*)(void *))0x567F40;
@@ -1049,55 +919,6 @@ void main_loop() // 0x10A4AD40
 unsigned long render_thread_loop(void *lpParam) // 0x10A4BE90
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?render_thread_loop@@YAKPAX@Z");
-	// `anonymous-namespace'::render_thread_loop
-	// void *lpParam;
-	// bool (*const restricted_region_try_and_lock_primary)(long);
-	// bool (*const restricted_region_lock_mirror)(long);
-	// long (*const c_rasterizer__rasterizer_device_acquire_thread)();
-	// void (*const c_rasterizer__rasterizer_device_release_thread)();
-	// void (*const font_idle)();
-	// long volatile &g_render_thread_waiting;
-	// bool (*const current_thread_should_exit)();
-	// void (*const process_published_game_state)(char);
-	// unsigned long (*const tag_resources_lock_render)();
-	// long volatile &g_single_thread_request_flags;
-	// bool (*const multithreaded)();
-	// long (*const c_interlocked_int32__set)(long volatile *, long);
-	// bool (*const restricted_region_wait_for_available_mirror)(long, __int32);
-	// void (*const c_rasterizer__cleanup_d3d_states)(char);
-	// bool (*const restricted_region_mirror_locked_for_current_thread)(long);
-	// long volatile &g_render_thread_enabled;
-	// void (*const tag_resources_unlock_render_gpu_usage)(unsigned long);
-	// __int32 (*const restricted_region_unlock_mirror)(__int32);
-	// unsigned long (*const tag_resources_unlock_render_access)();
-	// __int32 (*const current_thread_update_test_functions)();
-	// void (*const restricted_region_unlock_primary)(long);
-		// unsigned long tag_resource_access_cookie;
-	// function call : bool (*const)()
-	// function call : bool (*const)()
-	// function call : __int32 (*const)()
-	// function call : void (*const)()
-	// function call : long (*const)(long volatile *, long)
-	// function call : bool (*const)(long, __int32)
-	// function call : bool (*const)(long)
-	// function call : bool (*const)(long)
-	// function call : bool (*const)()
-	// function call : bool (*const)(long)
-	// function call : long (*const)(long volatile *, long)
-	// function call : unsigned long (*const)()
-	// function call : long (*const)()
-	// function call : void (*const)(char)
-	// function call : void (*const)(char)
-	// function call : unsigned long (*const)()
-	// function call : void (*const)()
-	// function call : void (*const)(unsigned long)
-	// function call : bool (*const)(long)
-	// function call : __int32 (*const)(__int32)
-	// function call : void (*const)(long)
-	// function call : void (*const)(long)
-	// function call : long (*const)(long volatile *, long)
-	// function call : void (*const)()
-	// function call : bool (*const)()
 
 	bool (*const restricted_region_mirror_locked_for_current_thread)(long) = reinterpret_cast<bool (*)(long)>(0x5A0410);
 	void (*const font_idle)() = reinterpret_cast<void (*)()>(0x509390);

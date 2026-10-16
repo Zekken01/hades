@@ -1672,10 +1672,6 @@ c_basic_buffer<void> *cache_file_tag_resource_runtime_manager__allocate_memory_b
 bool main_game_initialize_for_new_map_hook(bool a1, s_game_options *options) // 0x10928950
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?main_game_initialize_for_new_map_hook@@YA_N_NPAUs_game_options@@@Z");
-	// `anonymous-namespace'::main_game_initialize_for_new_map_hook
-	// s_game_options *options;
-	// bool (*const main_game_initialize_for_new_map)(bool, s_game_options *);
-	// function call : bool (*const)(bool, s_game_options *)
 
 	bool (*const main_game_initialize_for_new_map)(bool, s_game_options *) = (bool(*const)(bool, s_game_options *))0x567560;
 
@@ -1691,35 +1687,6 @@ bool main_game_initialize_for_new_map_hook(bool a1, s_game_options *options) // 
 void scenario_tags_mark_necessary_bitmaps() // 0x10929660
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?scenario_tags_mark_necessary_bitmaps@@YAXXZ");
-	// `anonymous-namespace'::scenario_tags_mark_necessary_bitmaps
-	// procedure flags: nofpo
-	// static ...; // 0x109299A3
-	// static ...; // 0x10929996
-	// static ...; // 0x10929991
-	// static ...; // 0x1092998C
-	// static ...; // 0x1092995C
-	// static ...; // 0x10929954
-	// s_tag_iterator tag_iterator;
-	// scenario_tags_mark_necessary_bitmaps::__l2::<lambda_1> mark_bitmap;
-		// s_scenario_lightmap_bsp_data *lbsp;
-		// s_scenario_structure_bsp *sbsp;
-			// c_tag_block<s_structure_collision_material> &<range>$L0;
-			// s_structure_collision_material *<begin>$L0;
-			// s_structure_collision_material *<end>$L0;
-				// s_structure_collision_material const &element;
-					// c_render_method *rm;
-						// __int32 const *<end>$L1;
-						// __int32 const *<begin>$L1;
-						// std::initializer_list<int> &<range>$L1;
-							// __int32 i;
-								// long texture_index;
-	// function call : void (*const)(s_tag_iterator *, long)
-	// function call : long (*const)(s_tag_iterator *)
-	// function call : void *(*const)(unsigned long, long)
-	// function call : void (*const)(s_tag_iterator *, long)
-	// function call : long (*const)(s_tag_iterator *)
-	// function call : void *(*const)(unsigned long, long)
-	// function call : void *(*const)(unsigned long, long)
 
 	auto mark_bitmap = [](long bitmap_index)
 	{
@@ -1759,16 +1726,6 @@ void scenario_tags_mark_necessary_bitmaps() // 0x10929660
 void __fastcall begin_tracking_resource_hook(void *thisptr, void *unused, tag_resource_tracking_setup *setup) // 0x10924170
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?begin_tracking_resource_hook@@YIXPAX0PAUtag_resource_tracking_setup@hades_file_local@@@Z");
-	// `anonymous-namespace'::begin_tracking_resource_hook
-	// tag_resource_tracking_setup *setup;
-	// void (*const sub_9EA6E0)(void *, long, bool);
-	// s_cache_file_tag_resource_table_runtime *resource_table;
-		// s_tag_resource *resource;
-		// void *page_manager;
-		// bool keep_in_memory;
-			// s_bitmap_definition *bitmap;
-	// function call : void *(*const)(unsigned long, long)
-	// function call : void (*const)(void *, long, bool)
 
 	void (__thiscall *const sub_9EA6E0)(void *, long, bool) = reinterpret_cast<void (__thiscall *)(void *, long, bool)>(0x9EA6E0);
 	s_cache_file_tag_resource_table_runtime *resource_table = *((s_cache_file_tag_resource_table_runtime **)setup->datum_handler + 1);
@@ -1794,8 +1751,6 @@ void __fastcall begin_tracking_resource_hook(void *thisptr, void *unused, tag_re
 static void OnMapLoaded(char const *mapPath) // 0x109238B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnMapLoaded@@YAXPBD@Z");
-	// `anonymous-namespace'::OnMapLoaded
-	// char const *mapPath;
 
 	crash_recovery_helper.map_load_end();
 }
@@ -1803,8 +1758,6 @@ static void OnMapLoaded(char const *mapPath) // 0x109238B0
 static void OnShutdown() // 0x10923900
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?OnShutdown@@YAXXZ");
-	// `anonymous-namespace'::OnShutdown
-	// procedure flags: nofpo
 
 	crash_recovery_helper.shutdown();
 }
@@ -1812,22 +1765,6 @@ static void OnShutdown() // 0x10923900
 void main_menu_launch_force_hook() // 0x10928C40
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?main_menu_launch_force_hook@@YAXXZ");
-	// `anonymous-namespace'::main_menu_launch_force_hook
-	// procedure flags: nofpo
-	// static ...; // 0x10928D8C
-	// static ...; // 0x10928D80
-	// static ...; // 0x10928D78
-	// s_game_options options;
-	// void (*const main_game_change)(s_game_options *);
-	// void (*const c_map_variant)(s_map_variant *);
-	// bool (*const game_options_validate)(s_game_options *);
-	// void (*const s_game_options__ctor)(s_game_options *);
-	// void (*const main_menu_build_game_options)(s_game_options *);
-	// function call : EModResult (EModIndex, char const *, bool)
-	// function call : void (*const)(s_game_options *)
-	// function call : void (*const)(s_game_options *)
-	// function call : bool (*const)(s_game_options *)
-	// function call : void (*const)(s_game_options *)
 
 	void (*const main_menu_build_game_options)(s_game_options *) = reinterpret_cast<void (*)(s_game_options *)>(0x568080);
 	void (*const main_game_change)(s_game_options *) = reinterpret_cast<void (*)(s_game_options *)>(0x566E70);
@@ -1852,14 +1789,6 @@ _inline s_cache_file_loaded_state::s_cache_file_loaded_state() = default; // 0x1
 void main_menu_launch_hook() // 0x10928DF0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?main_menu_launch_hook@@YAXXZ");
-	// `anonymous-namespace'::main_menu_launch_hook
-	// procedure flags: nofpo
-	// char (*const main_halted_with_errors)();
-	// long (*const user_interface_enter_game_shell)();
-	// function call : char (*const)()
-	// function call : bool (*const)()
-	// function call : bool (*const)()
-	// function call : long (*const)()
 
 	char (*const main_menu_launch_safe_func)() = (char (*const)())0x505860;
 	void (*const main_menu_launch_func)() = (void (*const)())0xa84330;

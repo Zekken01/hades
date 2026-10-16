@@ -632,10 +632,6 @@ bool __fastcall c_simulation_breakable_surface_group_entity_definition__update_g
 void breakable_surfaces_initialize_for_new_map_hook() // 0x1069C9B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?breakable_surfaces_initialize_for_new_map_hook@@YAXXZ");
-	// `anonymous-namespace'::breakable_surfaces_initialize_for_new_map_hook
-	// procedure flags: nofpo
-	// void (*const breakable_surfaces_initialize_for_new_map)();
-	// function call : void (*const)()
 
 	void (*const breakable_surfaces_initialize_for_new_map)() = (void (*const)())0x56B770;
 	breakable_surfaces_initialize_for_new_map();
@@ -645,30 +641,6 @@ void breakable_surfaces_initialize_for_new_map_hook() // 0x1069C9B0
 void breakable_surfaces_reset_hook() // 0x1069CA20
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?breakable_surfaces_reset_hook@@YAXXZ");
-	// `anonymous-namespace'::breakable_surfaces_reset_hook
-	// procedure flags: nofpo
-	// static ...; // 0x1069CCC1
-	// static ...; // 0x1069CCBC
-	// static ...; // 0x1069CCA4
-	// static ...; // 0x1069CC9C
-	// s_breakable_surface_set set;
-	// s_breakable_surface_globals *breakable_surface_globals;
-	// s_data_array *broken_events;
-	// void (*const havok_notify_static_geometry_modfied)();
-	// s_data_iterator iter;
-		// long i;
-		// long bsp_index;
-			// long group_count;
-				// long i;
-	// function call : void (*const)()
-	// function call : void (*const)(s_data_iterator *, s_data_array const *)
-	// function call : s_datum *(*const)(s_data_iterator *)
-	// function call : void *(*const)(s_data_array const *, unsigned long)
-	// function call : bool (*const)()
-	// function call : bool (*const)()
-	// function call : long (*const)()
-	// function call : long (*const)(long)
-	// function call : long (*const)(long)
 
 	void (*const havok_notify_static_geometry_modfied)() = reinterpret_cast<void (*)()>(0x5C6AF0);
 	s_breakable_surface_globals *breakable_surface_globals = tls_getd().breakable_surface_globals;

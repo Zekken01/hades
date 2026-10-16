@@ -853,44 +853,6 @@ extern "C" bool structure_instanced_geometry_unmarked(short structure_bsp_index,
 extern "C" void __fastcall c_visibility_collection__collect_structure_elements_from_region_hook(c_visibility_collection *thisptr) // 0x10AC43A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "@c_visibility_collection__collect_structure_elements_from_region_hook@4");
-	// c_visibility_collection__collect_structure_elements_from_region_hook
-	// static ...; // 0x10AC4977
-	// static ...; // 0x10AC4973
-	// static ...; // 0x10AC4964
-	// static ...; // 0x10AC4940
-	// static ...; // 0x10AC4938
-	// c_visibility_collection *thisptr;
-		// s_visible_items *visible_items;
-			// long region_cluster_index;
-				// long cluster_mesh_index;
-				// s_visibility_cluster const *visible_cluster;
-				// s_scenario_structure_bsp const *structure;
-				// s_mesh const *cluster_mesh;
-				// long dword_index;
-				// s_visible_cluster *cluster;
-				// long visibility_cluster_index;
-				// long structure_index;
-				// s_structure_cluster const *structure_cluster;
-				// s_render_geometry const *structure_render_geometry;
-					// long instance_bucket_index;
-						// s_instance_part const *instance_bucket;
-						// s_visible_instance_group *instance_list;
-						// long instance_mesh_index;
-						// long visibility_instance_list_index;
-							// long i;
-								// long structure_instance_index;
-								// s_structure_instanced_geometry_instance const *structure_instance;
-									// bool shadow_casting;
-									// bool fully_contained;
-									// bool lit;
-										// long visibility_instance_index;
-										// float instance_alpha;
-										// s_visible_instance *instance;
-	// function call : s_scenario_structure_bsp *(*const)(long)
-	// function call : s_render_geometry *(*const)(long)
-	// function call : char (*const)(c_visibility_collection *, real_point3d const *, float, short, bool, bool *, bool *, bool *)
-	// function call : float (*const)(s_structure_instanced_geometry_instance const *, long)
-	// function call : void (*const)(c_visibility_collection *)
 
 	structure_instanced_geometry_marker_begin();
 	if ((thisptr->visbility_region->flags & 0x10) == 0)
@@ -974,10 +936,6 @@ extern "C" void __fastcall c_visibility_collection__collect_structure_elements_f
 extern "C" unsigned char const *scenario_pvs_connected_clusters_get_hook(s_cluster_reference cluster_reference, long *out_count) // 0x10AC6630
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "_scenario_pvs_connected_clusters_get_hook");
-	// scenario_pvs_connected_clusters_get_hook
-	// long *out_count;
-	// unsigned char const *(*const scenario_pvs_connected_clusters_get)(s_cluster_reference, long *);
-	// function call : unsigned char const *(*const)(s_cluster_reference, long *)
 
 	unsigned char const *(__cdecl *const scenario_pvs_connected_clusters_get)(s_cluster_reference, long *) = (unsigned char const *(__cdecl *const)(s_cluster_reference, long *))0x5f0e40;
 

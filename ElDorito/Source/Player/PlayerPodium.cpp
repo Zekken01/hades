@@ -1254,7 +1254,6 @@ namespace Player
 		void Init() // 0x106DF3C0
 		{
 			mangled_x86(MANGLED_KNOWN_GOOD, "?Init@PlayerPodium@Player@@YAXXZ");
-			// procedure flags: nofpo
 
 			Patches::Core::OnMapLoaded(Player::PlayerPodium::OnMapLoaded);
 		}

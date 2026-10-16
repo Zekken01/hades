@@ -1384,20 +1384,6 @@ void CustomizeBipeds() // 0x10AB63E0
 void update_customization_biped() // 0x10ABB920
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?update_customization_biped@@YAXXZ");
-	// procedure flags: nofpo
-	// static ...; // 0x10ABBACB
-	// static ...; // 0x10ABBAC8
-	// static ...; // 0x10ABBAB0
-	// static ...; // 0x10ABBAA8
-	// void (*const object_get_orientation)(long, real_vector3d *, real_vector3d *);
-	// void (*const object_queue_render_thread_message)(long, short, long);
-		// real_vector3d forward;
-		// float angle_radians;
-		// real_vector3d up;
-	// function call : void (*const)(long, real_vector3d *, real_vector3d *)
-	// function call : void (*const)(unsigned long, real_point3d *, real_vector3d *, real_vector3d *, s_scenario_location *)
-	// function call : void (*const)(unsigned long, real_point3d *, real_vector3d *, real_vector3d *, s_scenario_location *)
-	// function call : void (*const)(long, short, long)
 
 	void (*const object_get_orientation)(long, real_vector3d *, real_vector3d *) = reinterpret_cast<void (*)(long, real_vector3d *, real_vector3d *)>(0xB2E490);
 	void (*const object_queue_render_thread_message)(long, short, long) = reinterpret_cast<void (*)(long, short, long)>(0xB31B80);
@@ -1422,16 +1408,6 @@ void update_customization_biped() // 0x10ABB920
 void set_customization_bipeds() // 0x10ABADC0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?set_customization_bipeds@@YAXXZ");
-	// procedure flags: nofpo
-	// static ...; // 0x10ABAF60
-	// static ...; // 0x10ABAF54
-	// static ...; // 0x10ABAF4C
-	// std::vector<int> characterBipeds;
-	// s_mod_globals_definition *modg;
-		// __int32 i;
-			// s_mod_globals_player_character_customization *character;
-				// long object_index;
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
 
 	std::vector<int> characterBipeds;
 	s_mod_globals_definition *modg = nullptr;
@@ -1457,28 +1433,6 @@ void set_customization_bipeds() // 0x10ABADC0
 void UpdateUiPlayerModelArmor() // 0x10AB7470
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateUiPlayerModelArmor@@YAXXZ");
-	// procedure flags: nofpo
-	// static ...; // 0x10AB7876
-	// static ...; // 0x10AB7873
-	// static ...; // 0x10AB786B
-	// static ...; // 0x10AB7868
-	// static ...; // 0x10AB7838
-	// static ...; // 0x10AB7830
-	// void (*const object_get_orientation)(long, real_vector3d *, real_vector3d *);
-	// void (*const Object_SetTransform)(__int32, real_vector3d *, real_vector3d *, real_vector3d *, __int32);
-		// real_vector3d forward;
-		// real_vector3d up;
-		// float d;
-		// float t;
-			// float c;
-			// float b;
-		// float angle_radians;
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : void (*const)(long, real_vector3d *, real_vector3d *)
-	// function call : s_object_data *(*const)(unsigned long, c_enum<enum e_object_type,long>)
-	// function call : float (*const)(float)
-	// function call : void (*const)(long, real_vector3d *, real_vector3d *)
-	// function call : void (*const)(__int32, real_vector3d *, real_vector3d *, real_vector3d *, __int32)
 
 	void (*const Object_SetTransform)(__int32, real_vector3d *, real_vector3d *, real_vector3d *, __int32) = reinterpret_cast<void (*)(__int32, real_vector3d *, real_vector3d *, real_vector3d *, __int32)>(0xB33530);
 	void (*const object_get_orientation)(long, real_vector3d *, real_vector3d *) = reinterpret_cast<void (*)(long, real_vector3d *, real_vector3d *)>(0xB2E490);
@@ -1541,7 +1495,6 @@ void UpdateUiPlayerModelArmor() // 0x10AB7470
 bool CharacterHasFlag(__int32 flag) // 0x10AB63A0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?CharacterHasFlag@@YA_NH@Z");
-	// __int32 flag;
 
 	if ((1 << flag) & customization_biped_flags)
 	{
@@ -1554,7 +1507,6 @@ bool CharacterHasFlag(__int32 flag) // 0x10AB63A0
 void SetUiPlayerModelPosition(real_vector3d const *newPosition) // 0x10AB73B0
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SetUiPlayerModelPosition@@YAXPBUreal_vector3d@@@Z");
-	// real_vector3d const *newPosition;
 
 	*(real_vector3d *)s_UiPlayerModelState.Position = *newPosition;
 	s_UiPlayerModelState.Flags |= 2;
@@ -1563,7 +1515,6 @@ void SetUiPlayerModelPosition(real_vector3d const *newPosition) // 0x10AB73B0
 void SetUiPlayerModelRotation(float angleDegrees, float seconds) // 0x10AB7400
 {
 	mangled_x86(MANGLED_KNOWN_GOOD, "?SetUiPlayerModelRotation@@YAXMM@Z");
-	// float seconds;
 
 	s_UiPlayerModelState.StartRotationAngle = customzation_biped_angle_degrees;
 	s_UiPlayerModelState.EndRotationAngle = angleDegrees;
