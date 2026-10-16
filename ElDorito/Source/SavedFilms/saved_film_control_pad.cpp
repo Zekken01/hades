@@ -117,8 +117,16 @@ namespace SavedFilms
 
 		// The original update shows each button's icon and then disables play, skip
 		// and clip outright; enable what the film can do.
+		DWORD g_control_pad_update_time = 0; // when the pad last updated: it is up
+
+		bool control_pad_is_up()
+		{
+			return GetTickCount() - g_control_pad_update_time < 200;
+		}
+
 		void __fastcall control_pad_update_hook(void *control_pad, void *, unsigned long current_milliseconds)
 		{
+			g_control_pad_update_time = GetTickCount();
 			control_pad_update(control_pad, current_milliseconds);
 
 			void *data = c_gui_screen_widget_get_data(control_pad, k_saved_film_control_buttons, nullptr);
@@ -365,11 +373,26 @@ namespace SavedFilms
 		{
 			return true;
 		}
+
+		// The observer director switches the watched player with the d-pad, which the
+		// control pad also navigates by (camera_input_inhibited lets the pad's camera
+		// input through): while the pad is up, the d-pad is the pad's. Replaces
+		// c_observer_director::update's c_director::player_switch_update call at 0x726CE8.
+		unsigned long const k_observer_director_player_switch_update_call = 0x00726CE8;
+		auto const director_player_switch_update = reinterpret_cast<bool(__thiscall *)(void *)>(0x00592F90);
+
+		bool __fastcall observer_director_player_switch_update_hook(void *director, void *)
+		{
+			if (control_pad_is_up())
+				return false;
+			return director_player_switch_update(director);
+		}
 	}
 
 	void ApplyControlPad()
 	{
 		Hook(k_unit_is_film_recorder_player_call - 0x00400000, reinterpret_cast<void *>(&player_is_film_recorder_for_first_person), static_cast<__int32>(HookFlags::IsCall)).Apply();
+		Hook(k_observer_director_player_switch_update_call - 0x00400000, reinterpret_cast<void *>(&observer_director_player_switch_update_hook), static_cast<__int32>(HookFlags::IsCall)).Apply();
 		Hook(k_director_x_update - 0x00400000, reinterpret_cast<void *>(&director_x_update_hook)).Apply();
 		Patch::NopFill(Pointer::Base(k_director_x_authoritative_only - 0x00400000), 2);
 		Hook(k_director_post_control_pad - 0x00400000, reinterpret_cast<void *>(&director_post_control_pad), static_cast<__int32>(HookFlags::IsCall)).Apply();

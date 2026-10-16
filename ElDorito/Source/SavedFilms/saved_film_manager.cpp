@@ -730,12 +730,61 @@ namespace SavedFilms
 			speed_set(1.0f);
 		}
 
+		// The right trigger plays the film faster the further it is pulled, as Halo 3's
+		// c_saved_film_director::update does (its saved film manager call was stripped):
+		// speed = (max + 1)^pull - 1, max from the camera globals' saved film director max
+		// playback speed. Letting go returns to the speed before.
+		auto const input_abstraction_get_input_state = reinterpret_cast<void (*)(long, unsigned char **)>(0x0060BFE0);
+		long const k_abstract_button_size = 0xC;
+		long const k_abstract_button_right_trigger = 1;
+		long const k_abstract_button_flags = 0x3;
+		long const k_abstract_button_down_amount = 0x4;
+		long const k_abstract_button_accessor_index = 0x8;
+		long const k_abstract_button_locked_index = 0x9;
+		float const *const k_saved_film_director_max_playback_speed = reinterpret_cast<float const *>(0x018ECE00 + 0x80);
+
+		void update_trigger_speed()
+		{
+			static bool trigger_controls_speed = false;
+			static float speed_before_trigger = 1.0f;
+
+			float pull = 0.0f;
+			bool const controller_in_use = *reinterpret_cast<bool const *>(0x0244DE98);
+			if (film_game_running() && g_skip_target < 0 && controller_in_use)
+			{
+				unsigned char *state = nullptr;
+				input_abstraction_get_input_state(0, &state);
+				unsigned char const *trigger = state ? state + k_abstract_button_right_trigger * k_abstract_button_size : nullptr;
+				char locked = trigger ? char(trigger[k_abstract_button_locked_index]) : 0;
+				if (trigger && !(trigger[k_abstract_button_flags] & 1) && (locked == -1 || locked == char(trigger[k_abstract_button_accessor_index])))
+					pull = *reinterpret_cast<float const *>(trigger + k_abstract_button_down_amount);
+			}
+
+			if (pull > 0.0f)
+			{
+				if (!trigger_controls_speed)
+				{
+					speed_before_trigger = speed_get();
+					trigger_controls_speed = true;
+				}
+				float max_speed = *k_saved_film_director_max_playback_speed > 0.0f ? *k_saved_film_director_max_playback_speed : 4.0f;
+				speed_set(powf(max_speed + 1.0f, pull) - 1.0f);
+			}
+			else if (trigger_controls_speed)
+			{
+				trigger_controls_speed = false;
+				if (film_game_running() && g_skip_target < 0)
+					speed_set(speed_before_trigger);
+			}
+		}
+
 		void simulation_update_hook()
 		{
 			simulation_update();
 			g_loaded_mod_hash = loaded_mod_hash();
 			update_play_request();
 			update_theater();
+			update_trigger_speed();
 
 			// A game other than the film is running: the film was left.
 			if (g_playback.is_open() && g_play_state == _play_state_none && !g_playback_pending
