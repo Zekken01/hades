@@ -12,6 +12,9 @@ namespace SavedFilms
 	// Online-client films: the replication packets the host sent (saved_film_replication.cpp).
 	void record_replication_packet(void const *data, long size);
 	void clear_pending_replication_packets();
+	// Puts the reforge properties a client was sent for each map variant object into
+	// the map variant in a film's game_options.
+	void apply_received_map_variant_placements(void *game_options);
 
 	bool film_is_playing(); // a film's game is running
 	bool film_is_ended(); // the film has played to its end

@@ -64,6 +64,7 @@ namespace SavedFilms
 		bool is_open() const;
 		bool is_writing() const;
 		s_game_options const *get_game_options() const;
+		s_game_options *get_game_options(); // written with the header when the film closes
 		long get_current_tick() const;
 		long get_length_in_ticks() const;
 		std::string const &get_path() const;

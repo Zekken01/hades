@@ -54,6 +54,53 @@ namespace SavedFilms
 			return world ? *reinterpret_cast<long *>(world + k_world_next_update_number) : -1;
 		}
 
+		// Reforge properties. A client's map variant carries an object's placement but not
+		// its reforge properties (the material, texture and flags kept in the boundary
+		// fields of a shapeless object); the host sends those with each object it creates,
+		// as ElDewrito's creation data (Patches/Simulation.cpp). Playback spawns the objects
+		// from the film's map variant, so they are put back into it when the film closes.
+		unsigned long const k_generic_entity_creation_decode_slots[] = { 0x01642F5C, 0x01643154 };
+		typedef bool(__fastcall *creation_decode_t)(void *, void *, long, unsigned char *, void *, long);
+		creation_decode_t g_creation_decode[2];
+
+		long const k_map_variant_object_count = 640;
+		long const k_creation_data_map_variant_index = 0x4; // short
+		long const k_creation_data_reforge = 0x14; // s_simulation_reforge_object_creation_datum
+		long const k_reforge_valid = 0x0;
+		long const k_reforge_placement = 0x4; // position, forward, up
+		long const k_reforge_properties = 0x28; // s_map_variant_placement_properties
+		long const k_placement_size = 0x24;
+		long const k_properties_size = 0x18;
+
+		long const k_game_options_map_variant_objects = 0x590 + 0x130; // game_options.map_variant.objects
+		long const k_variant_datum_size = 0x54;
+		long const k_variant_datum_placement = 0x10;
+		long const k_variant_datum_properties = 0x3C;
+
+		struct s_received_placement
+		{
+			bool valid;
+			unsigned char placement[k_placement_size];
+			unsigned char properties[k_properties_size];
+		};
+		s_received_placement g_received_placements[k_map_variant_object_count];
+
+		template <long index>
+		bool __fastcall generic_entity_creation_decode_hook(void *definition, void *edx, long creation_data_size, unsigned char *creation_data, void *packet, long a5)
+		{
+			bool result = g_creation_decode[index](definition, edx, creation_data_size, creation_data, packet, a5);
+			long map_variant_index = *reinterpret_cast<short const *>(creation_data + k_creation_data_map_variant_index);
+			unsigned char const *reforge = creation_data + k_creation_data_reforge;
+			if (result && map_variant_index >= 0 && map_variant_index < k_map_variant_object_count && reforge[k_reforge_valid])
+			{
+				s_received_placement &received = g_received_placements[map_variant_index];
+				received.valid = true;
+				memcpy(received.placement, reforge + k_reforge_placement, k_placement_size);
+				memcpy(received.properties, reforge + k_reforge_properties, k_properties_size);
+			}
+			return result;
+		}
+
 		long __fastcall replication_scheduler_read_from_packet_hook(void *scheduler, void *, long *sequence_number, void *packet)
 		{
 			unsigned char const *bitstream = static_cast<unsigned char const *>(packet);
@@ -74,12 +121,36 @@ namespace SavedFilms
 		}
 	}
 
+	void apply_received_map_variant_placements(void *game_options)
+	{
+		if (!game_options)
+			return;
+		unsigned char *objects = static_cast<unsigned char *>(game_options) + k_game_options_map_variant_objects;
+		for (long index = 0; index < k_map_variant_object_count; index++)
+		{
+			s_received_placement const &received = g_received_placements[index];
+			if (!received.valid)
+				continue;
+			unsigned char *datum = objects + index * k_variant_datum_size;
+			memcpy(datum + k_variant_datum_placement, received.placement, k_placement_size);
+			memcpy(datum + k_variant_datum_properties, received.properties, k_properties_size);
+		}
+	}
+
+	// Applied after Patches::Simulation, whose creation decode it wraps.
 	void ApplyReplication()
 	{
 		Pointer(k_replication_scheduler_read_from_packet_slot).Write(reinterpret_cast<unsigned long>(&replication_scheduler_read_from_packet_hook));
+
+		g_creation_decode[0] = *reinterpret_cast<creation_decode_t *>(k_generic_entity_creation_decode_slots[0]);
+		g_creation_decode[1] = *reinterpret_cast<creation_decode_t *>(k_generic_entity_creation_decode_slots[1]);
+		Pointer(k_generic_entity_creation_decode_slots[0]).Write(reinterpret_cast<unsigned long>(&generic_entity_creation_decode_hook<0>));
+		Pointer(k_generic_entity_creation_decode_slots[1]).Write(reinterpret_cast<unsigned long>(&generic_entity_creation_decode_hook<1>));
+
 		Patches::Core::OnMapLoaded([](char const *)
 		{
 			clear_pending_replication_packets();
+			memset(g_received_placements, 0, sizeof(g_received_placements));
 		});
 	}
 }

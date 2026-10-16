@@ -173,6 +173,7 @@ namespace SavedFilms
 				return;
 			long ticks = g_recording.get_current_tick();
 			std::string path = g_recording.get_path();
+			apply_received_map_variant_placements(g_recording.get_game_options());
 			g_recording.close();
 			g_last_recorded_update = -1;
 			print("Film saved: %s (%ld ticks)", path.c_str(), ticks);

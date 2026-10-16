@@ -349,6 +349,11 @@ namespace SavedFilms
 		return m_header.empty() ? 0 : long(read_header_long(k_film_header_length_in_ticks_offset));
 	}
 
+	s_game_options *c_saved_film::get_game_options()
+	{
+		return m_header.empty() ? nullptr : reinterpret_cast<s_game_options *>(&m_header[k_film_header_game_options_offset]);
+	}
+
 	std::string const &c_saved_film::get_path() const
 	{
 		return m_path;
