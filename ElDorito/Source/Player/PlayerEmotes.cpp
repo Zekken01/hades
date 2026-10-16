@@ -523,7 +523,9 @@ _inline bool CPlayerEmoteAction::ActionSubmit(long unit_index, s_action_request 
 		return false;
 	if (!actionDef->animation_enter)
 		return false;
-	if (!((bool (*)(long, long, long))0xB90C80)(unit_index, 0x57, 15) && (!((bool (*)())0x531B20)() || !Utils::Singleton<Modules::ModuleServer>::Instance().VarServerEmotesDuringPodiumEnabledClient->ValueInt))
+	// A film's emotes were allowed by the server it was recorded on (its podium emotes
+	// by that server's Server.EmotesDuringPodiumEnabled), not the viewer's.
+	if (!((bool (*)(long, long, long))0xB90C80)(unit_index, 0x57, 15) && (!((bool (*)())0x531B20)() || !(Utils::Singleton<Modules::ModuleServer>::Instance().VarServerEmotesDuringPodiumEnabledClient->ValueInt || SavedFilms::film_is_playing())))
 		return false;
 	long active_primary_weapon_index = ((long (*)(long, long))0xB42EF0)(unit_index, 0);
 	if (active_primary_weapon_index != -1 && ((bool (*)(long))0xB641D0)(active_primary_weapon_index))
