@@ -1,6 +1,7 @@
 #include "SavedFilms/saved_film_manager.hpp"
 
 #include "Patch.hpp"
+#include "Patches/Core.hpp"
 #include "Pointer.hpp"
 
 // The game's saved film control pad (c_saved_film_control_pad), after ManagedDonkey's
@@ -193,8 +194,82 @@ namespace SavedFilms
 		}
 	}
 
+	namespace
+	{
+		/* ---------- tag fixups */
+
+		// Halo Online's UI tags name the datasource column the control pad reads (and the
+		// text widgets that show it) global::item, where the code asks for gui::gui_item.
+		// Every lookup failed, so the pad never knew which button was which: each showed
+		// its default icon and no action ran. ManagedDonkey renames them back after the
+		// tags load (apply_gui_datasource/skin_definition_tag_instance_modification).
+		auto const tag_iterator_new = reinterpret_cast<void (*)(void *, unsigned long)>(0x005033E0);
+		auto const tag_iterator_next = reinterpret_cast<long (*)(void *)>(0x00503400);
+		auto const tag_get = reinterpret_cast<void *(*)(unsigned long, long)>(0x00503370);
+
+		long const k_global_item = 0x5C0;
+
+		struct s_tag_block
+		{
+			long count;
+			unsigned char *address;
+			long definition;
+		};
+
+		template<typename t_visit>
+		void for_each_tag(unsigned long group_tag, t_visit visit)
+		{
+			unsigned char iterator[20];
+			tag_iterator_new(iterator, group_tag);
+			for (long tag_index; (tag_index = tag_iterator_next(iterator)) != -1; )
+			{
+				if (unsigned char *definition = static_cast<unsigned char *>(tag_get(group_tag, tag_index)))
+					visit(definition);
+			}
+		}
+
+		void rename_global_item(long *string_id, long *renamed)
+		{
+			if (*string_id == k_global_item)
+			{
+				*string_id = k_gui_item;
+				++*renamed;
+			}
+		}
+
+		void fix_gui_item_string_ids(char const *)
+		{
+			long renamed = 0;
+
+			// 'dsrc': elements (+0x10, 0x28 each) -> string id nuggets (+0x18, 8 each, name first).
+			for_each_tag('dsrc', [&renamed](unsigned char *datasource)
+			{
+				s_tag_block const &elements = *reinterpret_cast<s_tag_block *>(datasource + 0x10);
+				for (long element = 0; element < elements.count; element++)
+				{
+					s_tag_block const &nuggets = *reinterpret_cast<s_tag_block *>(elements.address + element * 0x28 + 0x18);
+					for (long nugget = 0; nugget < nuggets.count; nugget++)
+						rename_global_item(reinterpret_cast<long *>(nuggets.address + nugget * 8), &renamed);
+				}
+			});
+
+			// 'skn3': text blocks (+0x4, 0x4C each): widget_identifier +0x14, value_identifier +0x40.
+			for_each_tag('skn3', [&renamed](unsigned char *skin)
+			{
+				s_tag_block const &text_blocks = *reinterpret_cast<s_tag_block *>(skin + 0x4);
+				for (long block = 0; block < text_blocks.count; block++)
+				{
+					unsigned char *text_block = text_blocks.address + block * 0x4C;
+					rename_global_item(reinterpret_cast<long *>(text_block + 0x14), &renamed);
+					rename_global_item(reinterpret_cast<long *>(text_block + 0x40), &renamed);
+				}
+			});
+		}
+	}
+
 	void ApplyControlPad()
 	{
+		Patches::Core::OnMapLoaded(fix_gui_item_string_ids);
 		Pointer(k_control_pad_vtable + k_slot_update).Write(reinterpret_cast<unsigned long>(&control_pad_update_hook));
 		Pointer(k_control_pad_vtable + k_slot_handle_list_item_chosen).Write(reinterpret_cast<unsigned long>(&control_pad_handle_list_item_chosen_hook));
 		Pointer(k_control_pad_vtable + k_slot_handle_dialog_result).Write(reinterpret_cast<unsigned long>(&control_pad_handle_dialog_result_hook));
