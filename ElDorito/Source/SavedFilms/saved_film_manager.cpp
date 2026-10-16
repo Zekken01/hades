@@ -990,6 +990,11 @@ namespace SavedFilms
 		return g_loaded_mod_hash;
 	}
 
+	void film_log(char const *text)
+	{
+		playback_log("%s", text);
+	}
+
 	std::string get_films_directory()
 	{
 		return films_directory();
