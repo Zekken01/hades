@@ -8,8 +8,8 @@
 #include "Modules/ModuleBase.hpp"
 #include "Patch.hpp"
 #include "Patches/Core.hpp"
-#include "Patches/Input.hpp"
-#include "Web/Ui/ScreenLayer.hpp"
+#include "Modules/ModuleTime.hpp"
+#include "SavedFilms/saved_film_manager.hpp"
 #include "Utils/String.hpp"
 #include "mods/mod_package_cache.hpp"
 #include "mods/mod_system.hpp"
@@ -199,14 +199,11 @@ namespace SavedFilms
 				stop_recording();
 		}
 
+		// Leaving a game closes a recording. Playback is closed by the main loop once a
+		// game other than the film is running, since replaying a film leaves its game too.
 		void simulation_must_close_saved_film_hook()
 		{
 			stop_recording();
-			if (g_playback.is_open())
-			{
-				g_playback.close();
-				g_playback_pending = false;
-			}
 		}
 
 		// Feeds the playback world updates from the film, as ManagedDonkey's
@@ -530,11 +527,81 @@ namespace SavedFilms
 			}
 		}
 
+		/* ---------- speed and skipping */
+
+		// Playback speed is the game speed ElDorito::Tick applies every tick
+		// (Time.GameSpeed, or Time.GameSpeedClient in a session), so both are set.
+		long g_skip_target = -1; // the film tick a skip runs to at full speed
+		long g_pending_skip_target = -1; // a skip back, run once the restarted film plays
+		float g_speed_before_skip = 1.0f;
+		float const k_skip_speed = 10.0f;
+
+		float speed_get()
+		{
+			return Modules::ModuleTime::Instance().VarSpeed->ValueFloat;
+		}
+
+		void speed_set(float speed)
+		{
+			speed = speed < 0.0f ? 0.0f : speed > k_skip_speed ? k_skip_speed : speed;
+			Modules::ModuleTime &time = Modules::ModuleTime::Instance();
+			time.VarSpeed->ValueFloat = speed;
+			time.VarSpeedClient->ValueFloat = speed;
+		}
+
+		bool film_game_running()
+		{
+			return g_playback.is_open() && game_in_progress() && game_playback_get() == k_game_playback_film;
+		}
+
+		void start_skip_to(long target)
+		{
+			if (g_skip_target < 0)
+				g_speed_before_skip = speed_get() > 0.0f ? speed_get() : 1.0f;
+			g_skip_target = target;
+			speed_set(k_skip_speed);
+		}
+
+		void update_skip()
+		{
+			if (!film_game_running())
+				return;
+			if (g_pending_skip_target >= 0)
+			{
+				long target = g_pending_skip_target;
+				g_pending_skip_target = -1;
+				if (target > film_playback_tick())
+					start_skip_to(target);
+			}
+			if (g_skip_target >= 0 && (film_playback_tick() >= g_skip_target || film_playback_tick() >= g_playback.get_length_in_ticks()))
+			{
+				speed_set(g_speed_before_skip);
+				g_skip_target = -1;
+			}
+		}
+
+		void reset_playback_state()
+		{
+			g_skip_target = -1;
+			g_pending_skip_target = -1;
+			speed_set(1.0f);
+		}
+
 		void simulation_update_hook()
 		{
 			simulation_update();
 			g_loaded_mod_hash = loaded_mod_hash();
 			update_play_request();
+
+			// A game other than the film is running: the film was left.
+			if (g_playback.is_open() && g_play_state == _play_state_none && !g_playback_pending
+				&& game_in_progress() && game_playback_get() != k_game_playback_film)
+			{
+				playback_log("left the film");
+				g_playback.close();
+				reset_playback_state();
+			}
+			update_skip();
 
 			if (g_playback.is_open())
 			{
@@ -615,117 +682,6 @@ namespace SavedFilms
 			return true;
 		}
 
-		/* ---------- theater screen */
-
-		// The theater screen (ui/screens/theater) talks to these through dew.command;
-		// Film.ListJson and Film.Status answer in JSON.
-
-		std::string json_string(std::string const &text)
-		{
-			std::string out = "\"";
-			for (char c : text)
-			{
-				if (c == '"' || c == '\\')
-				{
-					out += '\\';
-					out += c;
-				}
-				else if (unsigned char(c) < 0x20)
-				{
-					char escaped[8];
-					sprintf_s(escaped, "\\u%04x", c);
-					out += escaped;
-				}
-				else
-				{
-					out += c;
-				}
-			}
-			return out + "\"";
-		}
-
-		// What the film list shows, read from the header without loading the whole film.
-		struct s_film_summary
-		{
-			std::string name;
-			std::string map;
-			long game_mode;
-			long game_engine;
-			long length_in_ticks;
-			long tick_rate;
-			long long size;
-			long long modified; // seconds since 1970
-		};
-
-		bool read_film_summary(std::string const &file_name, s_film_summary *summary)
-		{
-			FILE *file = nullptr;
-			if (fopen_s(&file, (films_directory() + "\\" + file_name).c_str(), "rb") != 0 || !file)
-				return false;
-
-			std::vector<unsigned char> header(k_saved_film_header_size);
-			bool valid = fread(header.data(), 1, header.size(), file) == header.size();
-			fclose(file);
-			if (!valid)
-				return false;
-
-			bool big_endian = memcmp(&header[k_film_data_offset], "flmd", 4) == 0;
-			if (!big_endian && memcmp(&header[k_film_data_offset], "dmlf", 4) != 0)
-				return false;
-
-			unsigned char const *options = &header[k_film_header_game_options_offset];
-			char const *scenario = reinterpret_cast<char const *>(options + k_game_options_scenario_path);
-			char const *map = strrchr(scenario, '\\');
-
-			unsigned long length;
-			memcpy(&length, &header[k_film_header_length_in_ticks_offset], sizeof(length));
-
-			summary->name = file_name.substr(0, file_name.size() - 5);
-			summary->map = map ? map + 1 : scenario;
-			summary->game_mode = *reinterpret_cast<long const *>(options + k_game_options_game_mode);
-			summary->game_engine = *reinterpret_cast<long const *>(options + k_game_options_game_engine);
-			summary->length_in_ticks = long(big_endian ? _byteswap_ulong(length) : length);
-			summary->tick_rate = *reinterpret_cast<short const *>(options + k_game_options_tick_rate);
-			if (summary->tick_rate <= 0)
-				summary->tick_rate = 60;
-			return true;
-		}
-
-		bool command_list_json(std::vector<std::string> const &, std::string &result)
-		{
-			std::vector<s_film_summary> films;
-			WIN32_FIND_DATAA data;
-			HANDLE find = FindFirstFileA((films_directory() + "\\*.film").c_str(), &data);
-			if (find != INVALID_HANDLE_VALUE)
-			{
-				do
-				{
-					s_film_summary summary;
-					if (!read_film_summary(data.cFileName, &summary))
-						continue;
-					summary.size = (long long(data.nFileSizeHigh) << 32) | data.nFileSizeLow;
-					ULARGE_INTEGER written = { data.ftLastWriteTime.dwLowDateTime, data.ftLastWriteTime.dwHighDateTime };
-					summary.modified = long long(written.QuadPart / 10000000ULL) - 11644473600LL;
-					films.push_back(summary);
-				} while (FindNextFileA(find, &data));
-				FindClose(find);
-			}
-			std::sort(films.begin(), films.end(), [](s_film_summary const &a, s_film_summary const &b) { return a.modified > b.modified; });
-
-			static char const *const k_game_engine_names[] = { "", "Capture the Flag", "Slayer", "Oddball", "King of the Hill", "Forge", "VIP", "Juggernaut", "Territories", "Assault", "Infection" };
-			result = "[";
-			for (size_t i = 0; i < films.size(); i++)
-			{
-				s_film_summary const &film = films[i];
-				char const *engine = film.game_mode == k_game_mode_multiplayer && film.game_engine > 0 && film.game_engine < 11 ? k_game_engine_names[film.game_engine] : "";
-				char fields[256];
-				sprintf_s(fields, ",\"mode\":%ld,\"lengthSeconds\":%ld,\"size\":%lld,\"modified\":%lld", film.game_mode, film.length_in_ticks / film.tick_rate, film.size, film.modified);
-				result += std::string(i ? "," : "") + "{\"name\":" + json_string(film.name) + ",\"map\":" + json_string(film.map) + ",\"gametype\":" + json_string(engine) + fields + "}";
-			}
-			result += "]";
-			return true;
-		}
-
 		bool command_delete(std::vector<std::string> const &arguments, std::string &result)
 		{
 			if (arguments.empty())
@@ -748,57 +704,9 @@ namespace SavedFilms
 			return true;
 		}
 
-		Modules::Command *game_speed_variable()
-		{
-			return Modules::CommandMap::Instance().FindCommand("Time.GameSpeed");
-		}
-
-		void set_game_speed(float speed)
-		{
-			char value[32];
-			sprintf_s(value, "%g", speed);
-			Modules::CommandMap::Instance().ExecuteCommand(std::vector<std::string> { "Time.GameSpeed", value }, false);
-		}
-
-		float g_speed_before_pause = 1.0f;
-
-		bool playing_film()
-		{
-			return g_playback.is_open() && game_in_progress() && game_playback_get() == k_game_playback_film;
-		}
-
-		bool command_status(std::vector<std::string> const &, std::string &result)
-		{
-			Modules::Command *speed = game_speed_variable();
-			long tick_rate = 60;
-			if (s_game_options const *options = g_playback.get_game_options())
-			{
-				short rate = *reinterpret_cast<short const *>(reinterpret_cast<unsigned char const *>(options) + k_game_options_tick_rate);
-				if (rate > 0)
-					tick_rate = rate;
-			}
-
-			std::string name = g_playback.is_open() ? g_playback.get_path() : "";
-			size_t slash = name.find_last_of('\\');
-			if (slash != std::string::npos)
-				name = name.substr(slash + 1, name.size() - slash - 6);
-
-			char fields[256];
-			sprintf_s(fields, "\"recording\":%s,\"playing\":%s,\"ended\":%s,\"tick\":%ld,\"length\":%ld,\"tickRate\":%ld,\"speed\":%g",
-				g_recording.is_writing() ? "true" : "false",
-				playing_film() ? "true" : "false",
-				g_playback_ended ? "true" : "false",
-				playing_film() ? film_playback_tick() : 0,
-				g_playback.is_open() ? g_playback.get_length_in_ticks() : 0,
-				tick_rate,
-				speed ? double(speed->ValueFloat) : 1.0);
-			result = std::string("{") + fields + ",\"name\":" + json_string(name) + "}";
-			return true;
-		}
-
 		bool command_speed(std::vector<std::string> const &arguments, std::string &result)
 		{
-			if (!playing_film())
+			if (!film_is_playing())
 			{
 				result = "No film is playing";
 				return false;
@@ -808,32 +716,34 @@ namespace SavedFilms
 				result = "Usage: Film.Speed <speed>";
 				return false;
 			}
-			float speed = float(atof(arguments[0].c_str()));
-			speed = speed < 0.0f ? 0.0f : speed > 10.0f ? 10.0f : speed;
-			set_game_speed(speed);
+			set_playback_speed(float(atof(arguments[0].c_str())));
 			result = "Film speed " + arguments[0];
 			return true;
 		}
 
 		bool command_pause(std::vector<std::string> const &, std::string &result)
 		{
-			if (!playing_film())
+			if (!film_is_playing())
 			{
 				result = "No film is playing";
 				return false;
 			}
-			Modules::Command *speed = game_speed_variable();
-			if (speed && speed->ValueFloat > 0.0f)
+			bool paused = get_playback_speed() > 0.0f;
+			set_playback_speed(paused ? 0.0f : 1.0f);
+			result = paused ? "Paused" : "Resumed";
+			return true;
+		}
+
+		bool command_skip(std::vector<std::string> const &arguments, std::string &result)
+		{
+			if (!film_is_playing())
 			{
-				g_speed_before_pause = speed->ValueFloat;
-				set_game_speed(0.0f);
-				result = "Paused";
+				result = "No film is playing";
+				return false;
 			}
-			else
-			{
-				set_game_speed(g_speed_before_pause > 0.0f ? g_speed_before_pause : 1.0f);
-				result = "Resumed";
-			}
+			float seconds = arguments.empty() ? 30.0f : float(atof(arguments[0].c_str()));
+			skip(seconds);
+			result = "Skipping " + std::to_string(int(seconds)) + " seconds";
 			return true;
 		}
 
@@ -844,26 +754,9 @@ namespace SavedFilms
 				result = "No film is playing";
 				return false;
 			}
-			g_playback.close();
-			g_playback_pending = false;
-			set_game_speed(1.0f);
-			main_menu_launch();
+			end_film();
 			result = "Film ended";
 			return true;
-		}
-
-		bool command_menu(std::vector<std::string> const &, std::string &result)
-		{
-			Web::Ui::ScreenLayer::Show("theater", "{}");
-			result = "";
-			return true;
-		}
-
-		// Home opens the theater screen, in the menus and while a film plays.
-		void theater_input_handler()
-		{
-			if (Blam::Input::GetKeyTicks(Blam::Input::eKeyCodeHome, Blam::Input::eInputTypeUi) == 1)
-				Web::Ui::ScreenLayer::Show("theater", "{}");
 		}
 
 		class ModuleSavedFilm :
@@ -879,15 +772,88 @@ namespace SavedFilms
 				AddCommand("Play", "film_play", "Plays a saved film from the films folder", eCommandFlagsNone, command_play, { "name(string) The film's name, as Film.List shows it, or a path" });
 				AddCommand("Stop", "film_stop", "Stops recording or playing the current film", eCommandFlagsNone, command_stop);
 				AddCommand("List", "film_list", "Lists the saved films", eCommandFlagsNone, command_list);
-				AddCommand("ListJson", "film_list_json", "Lists the saved films as JSON, for the theater screen", eCommandFlagsHidden, command_list_json);
 				AddCommand("Delete", "film_delete", "Deletes a saved film", eCommandFlagsNone, command_delete, { "name(string) The film's name, as Film.List shows it" });
-				AddCommand("Status", "film_status", "The recording and playback state as JSON, for the theater screen", eCommandFlagsHidden, command_status);
 				AddCommand("Speed", "film_speed", "Sets the playback speed of the film that is playing", eCommandFlagsNone, command_speed, { "speed(float) 0 to 10; 1 is normal speed" });
 				AddCommand("Pause", "film_pause", "Pauses or resumes the film that is playing", eCommandFlagsNone, command_pause);
+				AddCommand("Skip", "film_skip", "Skips the film that is playing forward or back", eCommandFlagsNone, command_skip, { "seconds(float) Seconds to skip; negative skips back (default 30)" });
 				AddCommand("End", "film_end", "Stops the film that is playing and returns to the main menu", eCommandFlagsNone, command_end);
-				AddCommand("Menu", "film_menu", "Opens the theater screen", eCommandFlagsNone, command_menu);
 			}
 		};
+	}
+
+	bool film_is_playing()
+	{
+		return film_game_running();
+	}
+
+	bool film_is_ended()
+	{
+		return film_game_running() && film_playback_tick() >= g_playback.get_length_in_ticks();
+	}
+
+	float get_playback_speed()
+	{
+		return g_skip_target >= 0 ? g_speed_before_skip : speed_get();
+	}
+
+	void set_playback_speed(float speed)
+	{
+		if (g_skip_target >= 0)
+			g_speed_before_skip = speed; // applied when the skip finishes
+		else
+			speed_set(speed);
+	}
+
+	void skip(float seconds)
+	{
+		if (!film_game_running())
+			return;
+		long length = g_playback.get_length_in_ticks();
+		long target = film_playback_tick() + long(seconds * film_tick_rate());
+		target = target < 0 ? 0 : target > length ? length : target;
+		if (target > film_playback_tick())
+		{
+			start_skip_to(target);
+		}
+		else
+		{
+			// There are no snapshots to rewind to: replay from the start and run to it.
+			float speed = get_playback_speed();
+			replay_film();
+			g_speed_before_skip = speed > 0.0f ? speed : 1.0f;
+			g_pending_skip_target = target;
+		}
+	}
+
+	bool is_skipping()
+	{
+		return g_skip_target >= 0 || g_pending_skip_target >= 0;
+	}
+
+	void replay_film()
+	{
+		if (!g_playback.is_open())
+			return;
+		std::string path = g_playback.get_path();
+		g_skip_target = -1;
+		g_pending_skip_target = -1;
+		if (!g_playback.open_for_read(path.c_str()))
+			return;
+		g_playback_pending = true;
+		g_playback_ended = false;
+		g_play_state = _play_state_requested;
+		playback_log("replay %s", path.c_str());
+	}
+
+	void end_film()
+	{
+		if (!g_playback.is_open())
+			return;
+		g_playback.close();
+		g_playback_pending = false;
+		g_play_state = _play_state_none;
+		reset_playback_state();
+		main_menu_launch();
 	}
 
 	void ApplyAll()
@@ -905,7 +871,7 @@ namespace SavedFilms
 			stop_recording();
 			g_playback.close();
 		});
-		Patches::Input::RegisterDefaultInputHandler(theater_input_handler);
+		ApplyControlPad();
 	}
 }
 

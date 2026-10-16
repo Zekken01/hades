@@ -1,0 +1,203 @@
+#include "SavedFilms/saved_film_manager.hpp"
+
+#include "Patch.hpp"
+#include "Pointer.hpp"
+
+// The game's saved film control pad (c_saved_film_control_pad), after ManagedDonkey's
+// gui_screen_saved_film_control_pad.cpp. The release build kept the screen but
+// compiled out its calls into the film manager: play/pause, skip and replay did
+// nothing, play was always shown and disabled, and skip back/forward were always
+// disabled. The screen's update and list handlers are wrapped through its vtable and
+// its menu-item filter is replaced, with the actions going to SavedFilms.
+
+namespace SavedFilms
+{
+	namespace
+	{
+		// c_saved_film_control_pad's vtable and the slots replaced in it.
+		unsigned long const k_control_pad_vtable = 0x0169F424;
+		unsigned long const k_slot_update = 0x60;
+		unsigned long const k_slot_handle_list_item_chosen = 0xC4;
+		unsigned long const k_slot_handle_dialog_result = 0xC8;
+
+		// The originals.
+		auto const control_pad_update = reinterpret_cast<void(__thiscall *)(void *, unsigned long)>(0x00AE4D80);
+		auto const control_pad_handle_list_item_chosen = reinterpret_cast<bool(__thiscall *)(void *, void const *, long, void *, void *)>(0x00AE4B10);
+		auto const control_pad_handle_dialog_result = reinterpret_cast<bool(__thiscall *)(void *, void const *)>(0x00AE4A20);
+		unsigned long const k_control_pad_update_enabled_menu_items = 0x00AE4F90;
+
+		// GUI helpers.
+		auto const c_gui_screen_widget_get_data = reinterpret_cast<void *(__thiscall *)(void *, long, long *)>(0x00AB0DB0);
+		auto const c_gui_widget_get_child_list_widget = reinterpret_cast<void *(__thiscall *)(void *, long)>(0x00AB8AA0);
+		auto const c_gui_widget_get_first_child_widget_by_type = reinterpret_cast<void *(__thiscall *)(void *, long)>(0x00AB8F80);
+		auto const c_gui_widget_get_next_list_item_widget = reinterpret_cast<void *(__thiscall *)(void *, bool)>(0x00AB9230);
+
+		long const k_gui_list_item = 5;
+
+		// Virtual functions, as offsets into their vtables.
+		unsigned long const k_widget_set_enabled = 0x24;
+		unsigned long const k_list_item_get_element_handle = 0x18;
+		unsigned long const k_data_get_string_id_value = 0x34;
+		unsigned long const k_data_clear_disabled_elements = 0x5C;
+		unsigned long const k_data_set_disabled_element = 0x60;
+
+		// String ids (gui).
+		long const k_saved_film_control_buttons = 0x105ED;
+		long const k_button_list = 0x105EE;
+		long const k_gui_item = 0x10010;
+		long const k_skip_back = 0x105EF;
+		long const k_skip_forward = 0x105F0;
+		long const k_take_screenshot_upload = 0x105F2;
+		long const k_take_screenshot_disabled = 0x105F3;
+		long const k_record_clip = 0x105F4;
+		long const k_play_film = 0x105F5;
+		long const k_pause_film = 0x105F6;
+		long const k_stop_recording = 0x105F7;
+		long const k_replay_film = 0x105FB;
+		long const k_end_preview = 0x105FC;
+		long const k_dialog_in_game_exit_film_playback = 0x30017; // gui_dialog
+
+		// c_dialog_result_message fields.
+		unsigned long const k_dialog_result = 0x18;
+		unsigned long const k_dialog_name = 0x1C;
+
+		float const k_skip_seconds = 30.0f;
+
+		template<typename t_function>
+		t_function virtual_function(void *object, unsigned long offset)
+		{
+			return *reinterpret_cast<t_function *>(*static_cast<unsigned char **>(object) + offset);
+		}
+
+		bool get_item_name(void *data, void *list_item, long *name_out)
+		{
+			long element_handle = virtual_function<long(__thiscall *)(void *)>(list_item, k_list_item_get_element_handle)(list_item);
+			if (element_handle == -1)
+				return false;
+			return virtual_function<bool(__thiscall *)(void *, long, long, long *)>(data, k_data_get_string_id_value)(data, element_handle, k_gui_item, name_out);
+		}
+
+		void set_enabled(void *widget, bool enabled)
+		{
+			virtual_function<void(__thiscall *)(void *, bool)>(widget, k_widget_set_enabled)(widget, enabled);
+		}
+
+		// Which items the pad lists: play or pause while the film runs, replay once it
+		// has ended. Clips and the screenshot upload variants are not supported.
+		void __fastcall update_enabled_menu_items(void *control_pad, void *)
+		{
+			void *data = c_gui_screen_widget_get_data(control_pad, k_saved_film_control_buttons, nullptr);
+			if (!data)
+				return;
+
+			auto disable = [data](long item)
+			{
+				virtual_function<void(__thiscall *)(void *, long, long)>(data, k_data_set_disabled_element)(data, k_gui_item, item);
+			};
+
+			virtual_function<void(__thiscall *)(void *)>(data, k_data_clear_disabled_elements)(data);
+			disable(k_take_screenshot_upload);
+			disable(k_take_screenshot_disabled);
+			disable(k_stop_recording);
+			disable(k_end_preview);
+			disable(k_record_clip);
+
+			if (film_is_ended())
+			{
+				disable(k_play_film);
+				disable(k_pause_film);
+			}
+			else
+			{
+				disable(get_playback_speed() > 0.0f ? k_play_film : k_pause_film);
+				disable(k_replay_film);
+			}
+		}
+
+		// The original update shows each button's icon and then disables play, skip
+		// and clip outright; enable what the film can do.
+		void __fastcall control_pad_update_hook(void *control_pad, void *, unsigned long current_milliseconds)
+		{
+			control_pad_update(control_pad, current_milliseconds);
+
+			void *data = c_gui_screen_widget_get_data(control_pad, k_saved_film_control_buttons, nullptr);
+			void *button_list = c_gui_widget_get_child_list_widget(control_pad, k_button_list);
+			if (!data || !button_list)
+				return;
+
+			bool playing = film_is_playing();
+			bool ended = film_is_ended();
+			for (void *button = c_gui_widget_get_first_child_widget_by_type(button_list, k_gui_list_item);
+				button;
+				button = c_gui_widget_get_next_list_item_widget(button, true))
+			{
+				long name;
+				if (!get_item_name(data, button, &name))
+					continue;
+
+				switch (name)
+				{
+				case k_play_film:
+				case k_pause_film:
+				case k_skip_forward:
+					set_enabled(button, playing && !ended && !is_skipping());
+					break;
+				case k_skip_back:
+					set_enabled(button, playing && !is_skipping());
+					break;
+				case k_replay_film:
+					set_enabled(button, playing);
+					break;
+				}
+			}
+		}
+
+		bool __fastcall control_pad_handle_list_item_chosen_hook(void *control_pad, void *, void const *message, long list_name, void *list_item, void *data)
+		{
+			long name;
+			if (list_name == k_button_list && get_item_name(data, list_item, &name))
+			{
+				switch (name)
+				{
+				case k_play_film:
+					set_playback_speed(1.0f);
+					return true;
+				case k_pause_film:
+					set_playback_speed(0.0f);
+					return true;
+				case k_skip_back:
+					skip(-k_skip_seconds);
+					return true;
+				case k_skip_forward:
+					skip(k_skip_seconds);
+					return true;
+				case k_replay_film:
+					replay_film();
+					return true;
+				}
+			}
+			return control_pad_handle_list_item_chosen(control_pad, message, list_name, list_item, data);
+		}
+
+		// "Exit film playback?": the first choice leaves the film.
+		bool __fastcall control_pad_handle_dialog_result_hook(void *control_pad, void *, void const *message)
+		{
+			unsigned char const *result_message = static_cast<unsigned char const *>(message);
+			bool exit_film = *reinterpret_cast<long const *>(result_message + k_dialog_name) == k_dialog_in_game_exit_film_playback
+				&& *reinterpret_cast<long const *>(result_message + k_dialog_result) == 0;
+
+			bool handled = control_pad_handle_dialog_result(control_pad, message);
+			if (exit_film)
+				end_film();
+			return handled;
+		}
+	}
+
+	void ApplyControlPad()
+	{
+		Pointer(k_control_pad_vtable + k_slot_update).Write(reinterpret_cast<unsigned long>(&control_pad_update_hook));
+		Pointer(k_control_pad_vtable + k_slot_handle_list_item_chosen).Write(reinterpret_cast<unsigned long>(&control_pad_handle_list_item_chosen_hook));
+		Pointer(k_control_pad_vtable + k_slot_handle_dialog_result).Write(reinterpret_cast<unsigned long>(&control_pad_handle_dialog_result_hook));
+		Hook(k_control_pad_update_enabled_menu_items - 0x00400000, reinterpret_cast<void *>(&update_enabled_menu_items)).Apply();
+	}
+}
