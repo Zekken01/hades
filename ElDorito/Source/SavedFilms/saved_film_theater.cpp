@@ -409,18 +409,18 @@ namespace SavedFilms
 				description.category = *reinterpret_cast<long const *>(item + k_saved_film_selected_item_category);
 				description.campaign_id = -1;
 				description.map_id = *reinterpret_cast<long const *>(item + k_selected_item_metadata_map_id);
-				description.controller_index = controller_index;
+				// The squad takes only a film with no controller (user_interface_squad_set_film_internal).
+				description.controller_index = -1;
 				description.length_seconds = *reinterpret_cast<long const *>(item + k_selected_item_metadata_length_seconds);
 				MultiByteToWideChar(CP_ACP, 0, path, -1, description.film_path, _countof(description.film_path) - 1);
 				wcsncpy_s(description.film_name, reinterpret_cast<wchar_t const *>(item + k_selected_item_metadata_display_name), 15);
 
+				// The lobby shows the squad's film; starting plays the one chosen here either way.
+				g_selected_film_path = path;
 				if (user_interface_squad_set_film(&description))
-				{
 					user_interface_squad_set_saved_film_game_options(length_in_ticks, start_tick, options);
-					g_selected_film_path = path;
-					dispose_screen(source_screen_index_to_dispose);
-					return;
-				}
+				dispose_screen(source_screen_index_to_dispose);
+				return;
 			}
 
 			s_saved_film_description invalid_film = {};
