@@ -354,6 +354,12 @@ namespace SavedFilms
 		auto const user_interface_squad_set_film = reinterpret_cast<bool (*)(void const *)>(0x00A836F0);
 		auto const user_interface_squad_set_saved_film_game_options = reinterpret_cast<bool (*)(long, long, void const *)>(0x00A83C90);
 		auto const user_interface_squad_set_map_variant = reinterpret_cast<bool (*)(void const *)>(0x00A83AB0);
+		auto const user_interface_squad_exists = reinterpret_cast<bool (*)()>(0x00A82980);
+		auto const user_interface_squad_local_peer_is_leader = reinterpret_cast<bool (*)()>(0x00A83520);
+		auto const user_interface_squad_get_ui_game_mode = reinterpret_cast<long (*)()>(0x00A83180);
+		auto const user_interface_get_session_game_mode = reinterpret_cast<long (*)()>(0x00A80970);
+		long const k_gui_game_setup_mode_theater = 4;
+		long const k_session_game_mode_pregame = 2;
 		long const k_game_options_map_variant = 0x590;
 		auto const window_manager_get = reinterpret_cast<void *(*)()>(0x00AAD930);
 		auto const window_manager_get_screen_by_screen_index = reinterpret_cast<void *(__thiscall *)(void *, long)>(0x00AAB5B0);
@@ -386,6 +392,8 @@ namespace SavedFilms
 		};
 		static_assert(sizeof(s_saved_film_description) == 0x31C, "Invalid s_saved_film_description size");
 
+		auto const network_life_cycle_session_get_film = reinterpret_cast<s_saved_film_description const *(*)()>(0x00435250);
+
 		std::string g_selected_film_path; // the last film chosen, should the session's not say
 
 		void dispose_screen(long screen_index)
@@ -396,33 +404,58 @@ namespace SavedFilms
 				screen_widget_transition_out(screen, k_transition_out_normal);
 		}
 
-		void select_film(long controller_index, unsigned char const *item, long source_screen_index_to_dispose)
+		long const k_saved_film_category_film_clips = 2;
+		long const k_saved_film_category_multiplayer = 4;
+		long const k_saved_film_category_editor = 5;
+		long const k_game_engine_type_sandbox = 5;
+
+		std::string g_applied_mod_hash; // the mod loaded when the squad was last given the film
+		bool g_applied_with_mod_ready = false;
+
+		// Gives the squad the film, its game options and its map: the theater lobby can
+		// start once it has all three (user_interface_session_parameters_are_valid_for_ui_game_mode).
+		bool set_squad_film(char const *path)
 		{
 			static unsigned char options[k_game_options_size];
-			long length_in_ticks = 0;
-			long start_tick = 0;
-			char const *path = reinterpret_cast<char const *>(item + k_saved_film_selected_item_file_path);
+			char const *name = strrchr(path, '\\');
+			name = name ? name + 1 : path;
+
+			s_saved_game_item_metadata metadata;
+			c_saved_film film;
+			if (!film_metadata(path, name, &metadata) || !film.open_for_read(path))
+				return false;
+			memcpy(options, film.get_game_options(), k_game_options_size);
 
 			s_saved_film_description description = {};
-			if (saved_film_selected_item_get_film_details_hook(item, nullptr, options, &length_in_ticks, &start_tick))
-			{
-				description.category = *reinterpret_cast<long const *>(item + k_saved_film_selected_item_category);
-				description.campaign_id = -1;
-				description.map_id = *reinterpret_cast<long const *>(item + k_selected_item_metadata_map_id);
-				// The squad takes only a film with no controller (user_interface_squad_set_film_internal).
-				description.controller_index = -1;
-				description.length_seconds = *reinterpret_cast<long const *>(item + k_selected_item_metadata_length_seconds);
-				MultiByteToWideChar(CP_ACP, 0, path, -1, description.film_path, _countof(description.film_path) - 1);
-				wcsncpy_s(description.film_name, reinterpret_cast<wchar_t const *>(item + k_selected_item_metadata_display_name), 15);
+			description.category = metadata.file_type == _saved_game_film_clip ? k_saved_film_category_film_clips
+				: metadata.game_engine_index == k_game_engine_type_sandbox ? k_saved_film_category_editor
+				: k_saved_film_category_multiplayer;
+			description.campaign_id = -1;
+			description.map_id = metadata.map_id;
+			// The squad takes only a film with no controller (user_interface_squad_set_film_internal).
+			description.controller_index = -1;
+			description.length_seconds = metadata.length_seconds;
+			MultiByteToWideChar(CP_ACP, 0, path, -1, description.film_path, _countof(description.film_path) - 1);
+			wcsncpy_s(description.film_name, metadata.display_name, 15);
 
-				g_selected_film_path = path;
-				// The theater lobby can start once the squad has the film, its game options
-				// and its map (user_interface_session_parameters_are_valid_for_ui_game_mode).
-				if (user_interface_squad_set_film(&description))
-				{
-					user_interface_squad_set_saved_film_game_options(length_in_ticks, start_tick, options);
-					user_interface_squad_set_map_variant(options + k_game_options_map_variant);
-				}
+			if (!user_interface_squad_set_film(&description))
+				return false;
+			user_interface_squad_set_saved_film_game_options(film.get_length_in_ticks(), film.get_snippet_start_tick(), options);
+			user_interface_squad_set_map_variant(options + k_game_options_map_variant);
+			g_applied_mod_hash = get_loaded_mod_hash();
+			return true;
+		}
+
+		void select_film(unsigned char const *item, long source_screen_index_to_dispose)
+		{
+			char const *path = reinterpret_cast<char const *>(item + k_saved_film_selected_item_file_path);
+			g_selected_film_path = path;
+
+			// A film from a mod package needs that mod, which loading passes on to the
+			// squad; update_theater gives the squad the film again once it has loaded.
+			g_applied_with_mod_ready = prepare_film_mod(path);
+			if (set_squad_film(path))
+			{
 				dispose_screen(source_screen_index_to_dispose);
 				return;
 			}
@@ -433,11 +466,21 @@ namespace SavedFilms
 			g_selected_film_path.clear();
 		}
 
+		bool squad_has_film(char const *path)
+		{
+			s_saved_film_description const *film = network_life_cycle_session_get_film();
+			if (!film || film->category == 0 || film->category == k_saved_film_category_invalid)
+				return false;
+			wchar_t wide_path[MAX_PATH] = {};
+			MultiByteToWideChar(CP_ACP, 0, path, -1, wide_path, _countof(wide_path) - 1);
+			return _wcsicmp(film->film_path, wide_path) == 0;
+		}
+
 		void __fastcall set_selected_item_hook(void *manager, void *, long controller_index, unsigned char const *item, bool selected_from_recent_list, long source_screen_index_to_dispose)
 		{
 			if (item && *reinterpret_cast<long const *>(item + k_selected_item_selection_type) == k_gui_selection_type_film)
 			{
-				select_film(controller_index, item, source_screen_index_to_dispose);
+				select_film(item, source_screen_index_to_dispose);
 				return;
 			}
 			set_selected_item(manager, controller_index, item, selected_from_recent_list, source_screen_index_to_dispose);
@@ -452,7 +495,6 @@ namespace SavedFilms
 		unsigned long const k_begin_load_map_host_film_check = 0x00491C52;
 		unsigned long const k_begin_load_map_main_game_change_call = 0x00491F96;
 		auto const main_game_change = reinterpret_cast<void (*)(void const *)>(0x00566E70);
-		auto const network_life_cycle_session_get_film = reinterpret_cast<s_saved_film_description const *(*)()>(0x00435250);
 		long const k_game_options_game_playback = 0x130;
 
 		void __cdecl begin_load_map_main_game_change_hook(unsigned char *options)
@@ -470,6 +512,34 @@ namespace SavedFilms
 			}
 			main_game_change(options);
 		}
+	}
+
+	// In the theater lobby, keeps the squad's film the one chosen: once the film's mod
+	// has loaded (ElDewrito restores the lobby's last setup when the mod changes), or
+	// if the squad's film is otherwise reset.
+	void update_theater()
+	{
+		if (g_selected_film_path.empty())
+			return;
+		static DWORD last_update = 0;
+		DWORD now = GetTickCount();
+		if (now - last_update < 250)
+			return;
+		last_update = now;
+
+		if (!user_interface_squad_exists() || user_interface_get_session_game_mode() != k_session_game_mode_pregame
+			|| user_interface_squad_get_ui_game_mode() != k_gui_game_setup_mode_theater || !user_interface_squad_local_peer_is_leader())
+			return;
+
+		char const *path = g_selected_film_path.c_str();
+		bool has_film = squad_has_film(path);
+		bool same_mod = g_applied_mod_hash == get_loaded_mod_hash();
+		if (has_film && same_mod && g_applied_with_mod_ready)
+			return;
+
+		bool mod_ready = prepare_film_mod(path);
+		if ((!has_film || !same_mod || (mod_ready && !g_applied_with_mod_ready)) && set_squad_film(path))
+			g_applied_with_mod_ready = mod_ready;
 	}
 
 	void ApplyTheater()

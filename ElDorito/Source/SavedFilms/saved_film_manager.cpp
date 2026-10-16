@@ -722,6 +722,7 @@ namespace SavedFilms
 			simulation_update();
 			g_loaded_mod_hash = loaded_mod_hash();
 			update_play_request();
+			update_theater();
 
 			// A game other than the film is running: the film was left.
 			if (g_playback.is_open() && g_play_state == _play_state_none && !g_playback_pending
@@ -945,6 +946,48 @@ namespace SavedFilms
 		game_options_validate(static_cast<unsigned char *>(options));
 		playback_log("starting the film's game: map %s", static_cast<char const *>(options) + k_game_options_scenario_path);
 		return true;
+	}
+
+	bool prepare_film_mod(char const *path)
+	{
+		static std::string requested_path;
+		static std::string requested_hash;
+		static DWORD requested_time = 0;
+
+		c_saved_film film;
+		if (!film.open_for_read(path))
+			return false;
+		// Films from before the mod was recorded keep whatever mod is active.
+		if (!film.has_mod_info())
+			return true;
+		std::string hash = film.get_mod_hash();
+		if (film_mod_ready(hash))
+			return true;
+
+		// Switch once per film (again only if it has not loaded after a while).
+		if (requested_path == path && requested_hash == hash && GetTickCount() - requested_time < 30000)
+			return false;
+		requested_path = path;
+		requested_hash = hash;
+		requested_time = GetTickCount();
+
+		std::string file = film.get_mod_file();
+		size_t slash = file.find_last_of("\\/");
+		std::string description = slash == std::string::npos ? file : file.substr(slash + 1);
+		playback_log("theater: switching mod from '%s' to '%s' (%s) for %s", loaded_mod_hash().c_str(), hash.c_str(), description.c_str(), path);
+		bool switched = hash.empty()
+			? c_mod_system::unload_current_package()
+			: c_mod_system::load_package_by_identifier(hash.c_str());
+		if (!switched)
+			print("Film: this film needs the mod %s, which is not installed", description.c_str());
+		else
+			print("Film: loading the mod %s", hash.empty() ? "(none)" : description.c_str());
+		return false;
+	}
+
+	std::string get_loaded_mod_hash()
+	{
+		return g_loaded_mod_hash;
 	}
 
 	std::string get_films_directory()

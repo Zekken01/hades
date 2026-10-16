@@ -18,6 +18,12 @@ namespace SavedFilms
 	// game_options: opens the film and sets them up for playback.
 	bool begin_session_film(void *options, char const *path);
 
+	// The film's mod package (as Film.Play switches to it): true once it is the loaded
+	// one; otherwise starts loading it, which ModSessionManager passes on to the squad.
+	bool prepare_film_mod(char const *path);
+	std::string get_loaded_mod_hash();
+	void update_theater(); // every frame (saved_film_theater.cpp)
+
 	// Online-client films: the replication packets the host sent (saved_film_replication.cpp).
 	void record_replication_packet(void const *data, long size);
 	void clear_pending_replication_packets();
