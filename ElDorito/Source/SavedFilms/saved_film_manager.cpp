@@ -77,6 +77,10 @@ namespace SavedFilms
 		long const k_game_playback_film = 1;
 
 		// c_simulation_world fields.
+		long const k_world_type = 0x8;
+		long const k_world_update_queue_next_update_number_to_dequeue = 0x14EC;
+		long const k_world_update_queue_latest_received_type = 0x14F0;
+		long const k_world_update_queue_latest_received_update_number = 0x14F4;
 		long const k_world_state = 0x24;
 		long const k_world_time_running = 0x30;
 		long const k_world_out_of_sync = 0x3C;
@@ -178,6 +182,7 @@ namespace SavedFilms
 					print("Film: could not create %s", path.c_str());
 					return;
 				}
+				print("Film recording: %s (from update #%ld)", path.c_str(), update_number);
 			}
 
 			if (g_recording.write_simulation_update(update))
@@ -198,9 +203,66 @@ namespace SavedFilms
 
 		// Feeds the playback world updates from the film, as ManagedDonkey's
 		// simulation_film_retrieve_updates does: enough for a quarter second ahead.
+		// films\film_playback.log: what playback saw, to diagnose a film that does not play.
+		FILE *g_playback_log = nullptr;
+		std::string g_last_logged_state;
+
+		void playback_log(char const *format, ...)
+		{
+			if (!g_playback_log)
+			{
+				CreateDirectoryA(films_directory().c_str(), nullptr);
+				if (fopen_s(&g_playback_log, (films_directory() + "\\film_playback.log").c_str(), "w") != 0)
+					g_playback_log = nullptr;
+				if (!g_playback_log)
+					return;
+			}
+			char buffer[1024];
+			va_list arguments;
+			va_start(arguments, format);
+			vsprintf_s(buffer, format, arguments);
+			va_end(arguments);
+			fprintf(g_playback_log, "[%lu] %s\n", GetTickCount(), buffer);
+			fflush(g_playback_log);
+		}
+
+		// Logs the playback state whenever it changes.
+		void playback_log_state(char const *state)
+		{
+			if (g_last_logged_state != state)
+			{
+				g_last_logged_state = state;
+				playback_log("%s", state);
+			}
+		}
+
+		// The update number the playback world accepts next, as handle_playback_update
+		// computes it; -1 accepts any.
+		long world_expected_update_number(unsigned char const *world)
+		{
+			long received_type = *reinterpret_cast<long const *>(world + k_world_update_queue_latest_received_type);
+			long latest = *reinterpret_cast<long const *>(world + k_world_update_queue_latest_received_update_number);
+			if (received_type == 1)
+				return latest;
+			if (received_type != 0)
+				return *reinterpret_cast<long const *>(world + k_world_update_queue_next_update_number_to_dequeue);
+			return latest + 1;
+		}
+
 		void retrieve_film_updates()
 		{
 			unsigned char *world = *reinterpret_cast<unsigned char **>(simulation_globals + 0x14);
+			{
+				char state[256];
+				sprintf_s(state, "world %p type %ld state %ld time_running %d out_of_sync %d expects %ld",
+					world,
+					world ? *reinterpret_cast<long *>(world + k_world_type) : -1,
+					world ? *reinterpret_cast<long *>(world + k_world_state) : -1,
+					world ? world[k_world_time_running] : -1,
+					world ? world[k_world_out_of_sync] : -1,
+					world ? world_expected_update_number(world) : -2);
+				playback_log_state(state);
+			}
 			if (!world || world[k_world_time_running] == 0 || *reinterpret_cast<long *>(world + k_world_state) != k_world_state_active || world[k_world_out_of_sync])
 				return;
 
@@ -242,9 +304,19 @@ namespace SavedFilms
 					long saved_film_tick;
 				} metadata = { k_simulation_update_metadata_from_saved_film, 0, position_tick };
 
+				// The film's numbering is its own; the world only checks that the numbers
+				// run on from its own count, so the update takes the number it expects.
+				long &update_number = *reinterpret_cast<long *>(update);
+				long expected = world_expected_update_number(world);
+				if (position_tick < 3 || (expected != -1 && update_number != expected))
+					playback_log("film tick %ld: update #%ld, world expects #%ld", position_tick, update_number, expected);
+				if (expected != -1)
+					update_number = expected;
+
 				if (!handle_playback_update(world, update, &metadata))
 				{
-					print("Film: update %ld was rejected by the simulation; stopping playback", *reinterpret_cast<long *>(update));
+					playback_log("film tick %ld: update #%ld rejected", position_tick, update_number);
+					print("Film: update %ld was rejected by the simulation; stopping playback", update_number);
 					g_playback.close();
 					return;
 				}
@@ -254,6 +326,13 @@ namespace SavedFilms
 		void simulation_update_hook()
 		{
 			simulation_update();
+
+			if (g_playback.is_open())
+			{
+				char state[128];
+				sprintf_s(state, "game_in_progress %d game_playback %ld", game_in_progress(), game_playback_get());
+				playback_log_state(state);
+			}
 
 			if (!g_playback.is_open() || !game_in_progress() || game_playback_get() != k_game_playback_film)
 				return;
@@ -295,6 +374,9 @@ namespace SavedFilms
 
 			g_playback_pending = true;
 			g_playback_ended = false;
+			g_last_logged_state.clear();
+			playback_log("play %s: %ld ticks, map %s", path.c_str(), g_playback.get_length_in_ticks(),
+				reinterpret_cast<char const *>(options + k_game_options_scenario_path));
 			result = "Playing " + path + " (" + std::to_string(g_playback.get_length_in_ticks()) + " ticks)";
 			return true;
 		}
@@ -616,6 +698,10 @@ namespace SavedFilms
 		Hook(0x00441F90 - 0x00400000, reinterpret_cast<void *>(film_record_update_hook)).Apply();
 		Hook(0x00441CD0 - 0x00400000, reinterpret_cast<void *>(simulation_must_close_saved_film_hook)).Apply();
 		Hook(0x00505DD7 - 0x00400000, reinterpret_cast<void *>(simulation_update_hook), static_cast<__int32>(HookFlags::IsCall)).Apply();
+		// game_time_update sets the game speed to the film manager's playback speed during
+		// playback; with the manager stripped that became a constant 0, so films never
+		// ran. Skip it (jz -> jmp) and leave the speed to Time.GameSpeed / Film.Speed.
+		Patch(0x00565277 - 0x00400000, { 0xEB }).Apply();
 		Patches::Core::OnShutdown([]()
 		{
 			stop_recording();
