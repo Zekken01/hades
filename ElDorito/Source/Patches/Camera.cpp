@@ -1223,7 +1223,7 @@ void __fastcall c_flying_camera__update_hook(c_flying_camera *thisptr, void *__f
 		// The aiming velocity comes from the local player's control input, which a film
 		// (with no local player) never runs; its free camera turns with the stick itself.
 		float const k_film_camera_turn_rate = 3.1415927f; // radians per second at full tilt
-		thisptr->angles.yaw -= state->LookHorizontal * k_film_camera_turn_rate * dt;
+		thisptr->angles.yaw += state->LookHorizontal * k_film_camera_turn_rate * dt;
 		thisptr->angles.pitch += state->LookVertical * k_film_camera_turn_rate * dt;
 	}
 	else if (controllerEnabled)
