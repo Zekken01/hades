@@ -454,6 +454,12 @@ namespace Player
 			mangled_x86(MANGLED_KNOWN_GOOD, "?ShowPlace@PlayerPodium@Player@@YAXFF@Z");
 
 			long (*const game_engine_get_player_place)(long) = (long (*)(long))0x5506F0;
+			if (SavedFilms::film_is_playing())
+			{
+				char text[128];
+				sprintf_s(text, "film: podium show place %d stats %d", int(desiredPlace), int(stats_player_session_idx));
+				SavedFilms::film_log(text);
+			}
 			c_network_session *session;
 			if (network_session_interface_get_squad_session(&session))
 			{
@@ -792,7 +798,7 @@ namespace Player
 			{
 				static DWORD last_report = 0;
 				DWORD now = GetTickCount();
-				if (now - last_report > 5000)
+				if (now - last_report > (eldorado::game_is_finished() ? 500u : 5000u))
 				{
 					last_report = now;
 					char text[256];
