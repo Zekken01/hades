@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Build steps shared by the projects that link against CEF (ElDorito, CefProcess). -->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <UsingTask TaskName="HadesReplaceBytes" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+    <ParameterGroup>
+      <Source ParameterType="System.String" Required="true" />
+      <Destination ParameterType="System.String" Required="true" />
+      <Find ParameterType="System.String" Required="true" />
+      <Replace ParameterType="System.String" Required="true" />
+    </ParameterGroup>
+    <Task>
+      <Code Type="Fragment" Language="cs"><![CDATA[
+        byte[] data = System.IO.File.ReadAllBytes(Source);
+        byte[] find = System.Text.Encoding.ASCII.GetBytes(Find);
+        byte[] repl = System.Text.Encoding.ASCII.GetBytes(Replace);
+        if (find.Length != repl.Length || find.Length == 0)
+        {
+            Log.LogError("HadesReplaceBytes: Find and Replace must be non-empty and the same length.");
+        }
+        else
+        {
+            int count = 0;
+            for (int i = 0; i <= data.Length - find.Length; i++)
+            {
+                int j = 0;
+                while (j < find.Length && data[i + j] == find[j])
+                    j++;
+                if (j == find.Length)
+                {
+                    System.Array.Copy(repl, 0, data, i, repl.Length);
+                    count++;
+                    i += find.Length - 1;
+                }
+            }
+            if (count == 0)
+                Log.LogWarning("HadesReplaceBytes: '{0}' not found in {1}; copied unchanged.", Find, Source);
+            System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(Destination));
+            System.IO.File.WriteAllBytes(Destination, data);
+            Log.LogMessage(MessageImportance.High, "Patched {0} CEF API hash occurrence(s) into {1}", count, Destination);
+        }
+      ]]></Code>
+    </Task>
+  </UsingTask>
+
+  <Target Name="HadesPatchCefWrapper"
+          BeforeTargets="Link"
+          Condition="'$(HadesCefWrapper)' != ''"
+          Inputs="$(HadesLibs)cef\lib\$(HadesLibConfiguration)\libcef_dll_wrapper.lib;$(MSBuildAllProjects)"
+          Outputs="$(HadesCefWrapper)">
+    <HadesReplaceBytes Source="$(HadesLibs)cef\lib\$(HadesLibConfiguration)\libcef_dll_wrapper.lib"
+                       Destination="$(HadesCefWrapper)"
+                       Find="$(HadesCefHashSdk)"
+                       Replace="$(HadesCefHashShipped)" />
+  </Target>
+</Project>

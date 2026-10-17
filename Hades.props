@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Settings shared by every project in hades.sln. See BUILDING.md.
+
+  The settings with a Condition below (HadesToolset, HadesWindowsSdk, EldewritoDir, HadesLaunchArgs,
+  HadesDeploy, HadesDeployCustomMenu) can be changed without editing this file: set them in a
+  Hades.user.props next to it, or pass /p:Name=Value to msbuild.
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!-- Imported first, so that what it sets wins over the defaults below. -->
+  <Import Project="$(MSBuildThisFileDirectory)Hades.user.props" Condition="Exists('$(MSBuildThisFileDirectory)Hades.user.props')" />
+  <PropertyGroup>
+    <HadesRoot>$(MSBuildThisFileDirectory)</HadesRoot>
+    <HadesLibs>$(HadesRoot)libs\</HadesLibs>
+
+    <!-- The shipped binaries were built with the v142 toolset (MSVC 14.29), and the tree's matching
+         flags assume it. In VS 2022 install "MSVC v142 - VS 2019 C++ x64/x86 build tools (Latest)".
+         v143 also builds, but its code generation differs from the original. -->
+    <HadesToolset Condition="'$(HadesToolset)' == ''">v142</HadesToolset>
+
+    <!-- build.py and the original both use Windows SDK 10.0.22621.0. The SDK's static CRT (libucrtd.lib)
+         ends up inside mtndew.dll, so another SDK changes the DLL (a build against 10.0.26100.0 had an extra
+         IsThreadAFiber import and an .fptable section). Use 10.0.22621.0 when it's installed. -->
+    <HadesWindowsSdk Condition="'$(HadesWindowsSdk)' == '' and Exists('$(MSBuildProgramFiles32)\Windows Kits\10\Include\10.0.22621.0\um\Windows.h')">10.0.22621.0</HadesWindowsSdk>
+    <HadesWindowsSdk Condition="'$(HadesWindowsSdk)' == ''">10.0</HadesWindowsSdk>
+    <WindowsTargetPlatformVersion>$(HadesWindowsSdk)</WindowsTargetPlatformVersion>
+
+    <!-- Your ElDewrito 0.7.2 install. The post-build step copies mtndew.dll and mtndew.pdb here,
+         and F5 starts eldorado.exe from here. -->
+    <EldewritoDir Condition="'$(EldewritoDir)' == ''">N:\Halo\Eldewrito0_7_2\ElDewrito</EldewritoDir>
+    <HadesLaunchArgs Condition="'$(HadesLaunchArgs)' == ''">-launcher</HadesLaunchArgs>
+    <!-- Set to false to only build, without copying anything into the game folder. -->
+    <HadesDeploy Condition="'$(HadesDeploy)' == ''">true</HadesDeploy>
+    <!-- custom_menu.exe is built, but only copied to the game when this is true. -->
+    <HadesDeployCustomMenu Condition="'$(HadesDeployCustomMenu)' == ''">false</HadesDeployCustomMenu>
+
+    <!-- Everything MSBuild writes goes under build\vs, which .gitignore already covers
+         (build.py writes to build\ itself, so the two never touch each other's files). -->
+    <HadesBuildDir>$(HadesRoot)build\vs\</HadesBuildDir>
+
+    <!-- Debug and Release both use the Debug runtime (/MTd) and the Debug builds of the libraries in libs\.
+         The tree's classes are laid out for the Debug standard library, whose containers are bigger than
+         the Release ones, and its size checks and direct _wassert calls only compile that way. -->
+    <HadesLibConfiguration>Debug</HadesLibConfiguration>
+
+    <!-- libs\cef is CEF build 2560, but ElDewrito 0.7.2 ships its own build 2561, whose API hash
+         differs. Linking the wrapper as-is makes libcef refuse to start, so the link uses a copy
+         carrying the shipped hash (the same patch build.py makes). -->
+    <HadesCefHashSdk>c78306ad4768dc6c4ca1c376fa4c3799db8fd0eb</HadesCefHashSdk>
+    <HadesCefHashShipped>5a4d7459b37369cf019a353988e0bd79c578ac44</HadesCefHashShipped>
+  </PropertyGroup>
+</Project>

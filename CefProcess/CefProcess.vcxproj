@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <ProjectGuid>{C0CFADE0-78C2-572F-9BED-FA325E42352E}</ProjectGuid>
+    <RootNamespace>CefProcess</RootNamespace>
+    <ProjectName>CefProcess</ProjectName>
+  </PropertyGroup>
+  <Import Project="..\Hades.props" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>$(HadesToolset)</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>$(HadesToolset)</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <TargetName>custom_menu</TargetName>
+    <OutDir>$(HadesBuildDir)$(Configuration)\</OutDir>
+    <IntDir>$(HadesBuildDir)obj\$(ProjectName)\$(Configuration)\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+    <HadesCefWrapper>$(IntDir)libcef_dll_wrapper_shipped_hash.lib</HadesCefWrapper>
+    <!-- custom_menu.exe is copied to the game only when both HadesDeploy and HadesDeployCustomMenu are true. -->
+    <PostBuildEventUseInBuild Condition="'$(HadesDeploy)' != 'true' or '$(HadesDeployCustomMenu)' != 'true'">false</PostBuildEventUseInBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <TargetName>custom_menu</TargetName>
+    <OutDir>$(HadesBuildDir)$(Configuration)\</OutDir>
+    <IntDir>$(HadesBuildDir)obj\$(ProjectName)\$(Configuration)\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+    <HadesCefWrapper>$(IntDir)libcef_dll_wrapper_shipped_hash.lib</HadesCefWrapper>
+    <!-- custom_menu.exe is copied to the game only when both HadesDeploy and HadesDeployCustomMenu are true. -->
+    <PostBuildEventUseInBuild Condition="'$(HadesDeploy)' != 'true' or '$(HadesDeployCustomMenu)' != 'true'">false</PostBuildEventUseInBuild>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(HadesRoot);$(HadesRoot)ElDorito\Source;$(HadesRoot)blamlib\source;$(HadesLibs)boost-1.76\include;$(HadesLibs)cef;$(HadesLibs)cef\include;$(HadesLibs)detours\include;$(HadesLibs)directx\Include;$(HadesLibs)discord-rpc\include;$(HadesLibs)fmod\inc;$(HadesLibs)miniupnpc\include;$(HadesLibs)oggvorbis\include;$(HadesLibs)openssl-1.1.0e\include;$(HadesLibs)steam\Include;$(HadesLibs)websocketpp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;NOMINMAX;MATCHING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <SupportJustMyCode>false</SupportJustMyCode>
+      <WarningLevel>Level3</WarningLevel>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <SDLCheck>false</SDLCheck>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <OmitFramePointers>false</OmitFramePointers>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <FloatingPointModel>Precise</FloatingPointModel>
+      <ConformanceMode>true</ConformanceMode>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <CallingConvention>Cdecl</CallingConvention>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <UseFullPaths>true</UseFullPaths>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
+      <StackReserveSize>8194304</StackReserveSize>
+      <StackCommitSize>8194304</StackCommitSize>
+      <LargeAddressAware>true</LargeAddressAware>
+      <OptimizeReferences>false</OptimizeReferences>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <ImageHasSafeExceptionHandlers>true</ImageHasSafeExceptionHandlers>
+      <TargetMachine>MachineX86</TargetMachine>
+      <DelayLoadDLLs>libcef.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <AdditionalLibraryDirectories>$(HadesLibs)cef\lib\$(HadesLibConfiguration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libcef.lib;$(HadesCefWrapper);delayimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>/IGNORE:4099 %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+    <PostBuildEvent>
+      <Message>Copying the $(Configuration) custom_menu.exe to $(EldewritoDir)</Message>
+      <Command>if not exist "$(EldewritoDir)\eldorado.exe" (
+  echo warning: "$(EldewritoDir)" has no eldorado.exe, so custom_menu.exe was not copied. Set EldewritoDir in Hades.user.props.
+  exit /b 0
+)
+if not exist "$(EldewritoDir)\custom_menu.exe.original" if exist "$(EldewritoDir)\custom_menu.exe" (
+  copy /Y "$(EldewritoDir)\custom_menu.exe" "$(EldewritoDir)\custom_menu.exe.original" &gt;nul || (
+    echo error: could not back up custom_menu.exe in "$(EldewritoDir)", so nothing was copied.
+    exit /b 1
+  )
+)
+copy /Y "$(TargetPath)" "$(EldewritoDir)\custom_menu.exe" &gt;nul || (
+  echo error: could not copy custom_menu.exe to "$(EldewritoDir)". Close the game if it is running, then build again.
+  exit /b 1
+)
+echo Copied the $(Configuration) custom_menu.exe to "$(EldewritoDir)"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(HadesRoot);$(HadesRoot)ElDorito\Source;$(HadesRoot)blamlib\source;$(HadesLibs)boost-1.76\include;$(HadesLibs)cef;$(HadesLibs)cef\include;$(HadesLibs)detours\include;$(HadesLibs)directx\Include;$(HadesLibs)discord-rpc\include;$(HadesLibs)fmod\inc;$(HadesLibs)miniupnpc\include;$(HadesLibs)oggvorbis\include;$(HadesLibs)openssl-1.1.0e\include;$(HadesLibs)steam\Include;$(HadesLibs)websocketpp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;NOMINMAX;MATCHING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <SupportJustMyCode>false</SupportJustMyCode>
+      <WarningLevel>Level3</WarningLevel>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <SDLCheck>false</SDLCheck>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <OmitFramePointers>false</OmitFramePointers>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <FloatingPointModel>Precise</FloatingPointModel>
+      <ConformanceMode>true</ConformanceMode>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <RemoveUnreferencedCodeData>false</RemoveUnreferencedCodeData>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <CallingConvention>Cdecl</CallingConvention>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <UseFullPaths>true</UseFullPaths>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
+      <StackReserveSize>8194304</StackReserveSize>
+      <StackCommitSize>8194304</StackCommitSize>
+      <LargeAddressAware>true</LargeAddressAware>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>false</EnableCOMDATFolding>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <ImageHasSafeExceptionHandlers>true</ImageHasSafeExceptionHandlers>
+      <TargetMachine>MachineX86</TargetMachine>
+      <DelayLoadDLLs>libcef.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <AdditionalLibraryDirectories>$(HadesLibs)cef\lib\$(HadesLibConfiguration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libcef.lib;$(HadesCefWrapper);delayimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>/IGNORE:4099 %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+    <PostBuildEvent>
+      <Message>Copying the $(Configuration) custom_menu.exe to $(EldewritoDir)</Message>
+      <Command>if not exist "$(EldewritoDir)\eldorado.exe" (
+  echo warning: "$(EldewritoDir)" has no eldorado.exe, so custom_menu.exe was not copied. Set EldewritoDir in Hades.user.props.
+  exit /b 0
+)
+if not exist "$(EldewritoDir)\custom_menu.exe.original" if exist "$(EldewritoDir)\custom_menu.exe" (
+  copy /Y "$(EldewritoDir)\custom_menu.exe" "$(EldewritoDir)\custom_menu.exe.original" &gt;nul || (
+    echo error: could not back up custom_menu.exe in "$(EldewritoDir)", so nothing was copied.
+    exit /b 1
+  )
+)
+copy /Y "$(TargetPath)" "$(EldewritoDir)\custom_menu.exe" &gt;nul || (
+  echo error: could not copy custom_menu.exe to "$(EldewritoDir)". Close the game if it is running, then build again.
+  exit /b 1
+)
+echo Copied the $(Configuration) custom_menu.exe to "$(EldewritoDir)"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <Manifest Include="compatibility.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\App.cpp" />
+    <ClCompile Include="Source\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\App.hpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <Import Project="..\Hades.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
