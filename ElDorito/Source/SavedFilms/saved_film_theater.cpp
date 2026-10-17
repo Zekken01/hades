@@ -143,6 +143,64 @@ namespace SavedFilms
 		long const k_bitmap_block_size = 0x6C;
 		long const k_bitmap_bounds = 0x1C;
 
+		// The main menu's list (ui\halox\main_menu\main_menu) has a fixed slot for each row:
+		// a header, the middle rows, and a last slot set apart (Settings). With Theater the
+		// middle rows reach the last slot, so it moves down a row, and with it the panel
+		// under the list: within the list's column, bitmaps from its old top move down a
+		// row and bitmaps across it grow by one.
+		void move_list_last_row_down(long datasource_name)
+		{
+			unsigned char iterator[20];
+			tag_iterator_new(iterator, 'scn3');
+			for (long tag_index; (tag_index = tag_iterator_next(iterator)) != -1; )
+			{
+				auto *screen = static_cast<unsigned char *>(tag_get('scn3', tag_index));
+				if (!screen)
+					continue;
+				s_tag_block const &groups = *reinterpret_cast<s_tag_block *>(screen + k_screen_group_blocks);
+				for (long group = 0; groups.address && group < groups.count; group++)
+				{
+					auto *group_block = static_cast<unsigned char *>(groups.address) + group * k_group_block_size;
+					s_tag_block const &lists = *reinterpret_cast<s_tag_block *>(group_block + k_group_list_blocks);
+					for (long list = 0; lists.address && list < lists.count; list++)
+					{
+						auto *list_block = static_cast<unsigned char *>(lists.address) + list * k_list_block_size;
+						s_tag_block const &items = *reinterpret_cast<s_tag_block *>(list_block + k_list_items);
+						if (*reinterpret_cast<long *>(list_block + k_list_datasource_name) != datasource_name || !items.address || items.count < 4)
+							continue;
+						auto *item = [&](long index) { return reinterpret_cast<short *>(static_cast<unsigned char *>(items.address) + index * k_list_item_size + k_list_item_bounds); };
+						short row_height = item(2)[0] - item(1)[0];
+						short *last = item(items.count - 1);
+						short const *list_bounds = reinterpret_cast<short const *>(list_block + k_list_bounds);
+						short threshold = list_bounds[0] + last[0];
+						short list_left = list_bounds[1];
+						if (row_height <= 0)
+							continue;
+						last[0] += row_height;
+
+						for (long other_group = 0; other_group < groups.count; other_group++)
+						{
+							auto *other = static_cast<unsigned char *>(groups.address) + other_group * k_group_block_size;
+							s_tag_block const &bitmaps = *reinterpret_cast<s_tag_block *>(other + k_group_bitmap_blocks);
+							for (long bitmap = 0; bitmaps.address && bitmap < bitmaps.count; bitmap++)
+							{
+								short *bounds = reinterpret_cast<short *>(static_cast<unsigned char *>(bitmaps.address) + bitmap * k_bitmap_block_size + k_bitmap_bounds);
+								if (bounds[1] > list_left || bounds[3] <= list_left || bounds[1] < -1000)
+									continue;
+								if (bounds[0] >= threshold)
+								{
+									bounds[0] += row_height;
+									bounds[2] += row_height;
+								}
+								else if (bounds[2] >= threshold)
+									bounds[2] += row_height;
+							}
+						}
+					}
+				}
+			}
+		}
+
 		void grow_list_backgrounds(long datasource_name, long old_rows)
 		{
 			unsigned char iterator[20];
@@ -196,8 +254,8 @@ namespace SavedFilms
 					continue;
 				long name = *reinterpret_cast<long *>(datasource + k_datasource_name);
 				long old_rows = reinterpret_cast<s_tag_block *>(datasource + k_datasource_elements)->count;
-				if (name == k_gui_main_menu)
-					add_theater_element(datasource, g_main_menu_elements, g_theater_nuggets, _countof(g_theater_nuggets));
+				if (name == k_gui_main_menu && add_theater_element(datasource, g_main_menu_elements, g_theater_nuggets, _countof(g_theater_nuggets)))
+					move_list_last_row_down(k_gui_main_menu);
 				else if (name == k_gui_switch_lobby && add_theater_element(datasource, g_switch_lobby_elements, g_switch_lobby_theater_nuggets, _countof(g_switch_lobby_theater_nuggets)))
 					grow_list_backgrounds(k_gui_switch_lobby, old_rows);
 			}
