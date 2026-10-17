@@ -142,6 +142,9 @@ namespace SavedFilms
 		long const k_list_item_bounds = 0xC;
 		long const k_bitmap_block_size = 0x6C;
 		long const k_bitmap_bounds = 0x1C;
+		long const k_group_text_blocks = 0x48;
+		long const k_text_block_size = 0x4C;
+		long const k_widget_block_bounds = 0x1C; // bitmap and text blocks
 
 		// The main menu's list (ui\halox\main_menu\main_menu) has a fixed slot for each row:
 		// a header, the middle rows, and a last slot set apart (Exit) - as many as it had
@@ -193,13 +196,12 @@ namespace SavedFilms
 						items.address = g_main_menu_list_items;
 						items.count++;
 
-						for (long other_group = 0; other_group < groups.count; other_group++)
+						// Bitmaps (the panel) and text (the version under Exit) alike.
+						auto move_down = [&](s_tag_block const &widgets, long widget_size)
 						{
-							auto *other = static_cast<unsigned char *>(groups.address) + other_group * k_group_block_size;
-							s_tag_block const &bitmaps = *reinterpret_cast<s_tag_block *>(other + k_group_bitmap_blocks);
-							for (long bitmap = 0; bitmaps.address && bitmap < bitmaps.count; bitmap++)
+							for (long widget = 0; widgets.address && widget < widgets.count; widget++)
 							{
-								short *bounds = reinterpret_cast<short *>(static_cast<unsigned char *>(bitmaps.address) + bitmap * k_bitmap_block_size + k_bitmap_bounds);
+								short *bounds = reinterpret_cast<short *>(static_cast<unsigned char *>(widgets.address) + widget * widget_size + k_widget_block_bounds);
 								if (bounds[1] > list_left || bounds[3] <= list_left || bounds[1] < -1000)
 									continue;
 								if (bounds[0] >= threshold)
@@ -210,6 +212,12 @@ namespace SavedFilms
 								else if (bounds[2] >= threshold)
 									bounds[2] += row_height;
 							}
+						};
+						for (long other_group = 0; other_group < groups.count; other_group++)
+						{
+							auto *other = static_cast<unsigned char *>(groups.address) + other_group * k_group_block_size;
+							move_down(*reinterpret_cast<s_tag_block *>(other + k_group_bitmap_blocks), k_bitmap_block_size);
+							move_down(*reinterpret_cast<s_tag_block *>(other + k_group_text_blocks), k_text_block_size);
 						}
 					}
 				}
