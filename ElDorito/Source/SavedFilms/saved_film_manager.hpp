@@ -43,6 +43,7 @@ namespace SavedFilms
 	// Chapters, as Halo 3's theater marks them on the timeline: every tenth of the film.
 	long const k_film_chapter_count = 10;
 	void skip_chapter(long direction); // to the next (1) or previous (-1) chapter mark
+	float film_position_theta(); // how far through the playing film, 0-1
 	bool is_skipping();
 	void replay_film();
 	void end_film(); // stops the film and returns to the main menu

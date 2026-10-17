@@ -678,6 +678,12 @@ namespace SavedFilms
 		// (Time.GameSpeed, or Time.GameSpeedClient in a session), so both are set.
 		long g_skip_target = -1; // the film tick a skip runs to at full speed
 		long g_pending_skip_target = -1; // a skip back, run once the restarted film plays
+
+		// Replaying restarts the film's game in place - main_game_reset_map, the same game
+		// and game options from its start - which keeps a theater session's game; a new
+		// game (main_game_change) behind the session's back ends it.
+		auto const main_game_reset_map = reinterpret_cast<void (*)(bool)>(0x00567CA0);
+		bool g_reset_requested = false;
 		float g_speed_before_skip = 1.0f;
 		float const k_skip_speed = 10.0f;
 
@@ -783,6 +789,17 @@ namespace SavedFilms
 
 		void simulation_update_hook()
 		{
+			if (g_reset_requested)
+			{
+				g_reset_requested = false;
+				if (game_in_progress() && game_playback_get() == k_game_playback_film)
+				{
+					playback_log("restarting the film's game");
+					main_game_reset_map(false);
+				}
+				else
+					g_play_state = _play_state_requested;
+			}
 			simulation_update();
 			g_loaded_mod_hash = loaded_mod_hash();
 			update_play_request();
@@ -1110,6 +1127,12 @@ namespace SavedFilms
 		}
 	}
 
+	float film_position_theta()
+	{
+		long length = g_playback.get_length_in_ticks();
+		return film_game_running() && length > 0 ? float(film_playback_tick()) / length : 0.0f;
+	}
+
 	void skip_chapter(long direction)
 	{
 		if (!film_game_running())
@@ -1162,7 +1185,10 @@ namespace SavedFilms
 			return;
 		g_playback_pending = true;
 		g_playback_ended = false;
-		g_play_state = _play_state_requested;
+		if (game_in_progress() && game_playback_get() == k_game_playback_film)
+			g_reset_requested = true;
+		else
+			g_play_state = _play_state_requested;
 		if (g_playback.is_snippet())
 			g_pending_skip_target = g_playback.get_snippet_start_tick();
 		playback_log("replay %s", path.c_str());

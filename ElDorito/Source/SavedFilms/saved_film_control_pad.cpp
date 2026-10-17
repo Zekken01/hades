@@ -303,6 +303,50 @@ namespace SavedFilms
 
 		unsigned char g_timeline_bitmap_widgets[k_timeline_bitmap_widgets_max * k_chud_bitmap_widget_size];
 		unsigned char g_timeline_chapter_render_data[k_chud_render_data_size];
+		unsigned char const *g_timeline_chapter_widget = nullptr;
+
+		// A chapter is marked once the film has reached it: the marks' geometry is cut off
+		// at the playback position. Wraps chud_draw_bitmap_widget's
+		// chud_bitmap_widget_compute_geometry call (s_widget_geometry: bounds +0x34, quad
+		// count +0x54, quads +0x58 of four (x, y, u, v) corners - left top, right top,
+		// right bottom, left bottom - in a grid).
+		unsigned long const k_draw_bitmap_widget_compute_geometry_call = 0x00AC8D56;
+		auto const chud_bitmap_widget_compute_geometry = reinterpret_cast<bool (*)(void *, unsigned char *)>(0x00AC63F0);
+		long const k_draw_widget_data_widget_base = 0x10;
+		long const k_widget_geometry_bounds = 0x34;
+		long const k_widget_geometry_quad_count = 0x54;
+		long const k_widget_geometry_quads = 0x58;
+		long const k_widget_geometry_quad_size = 0x40;
+
+		struct s_geometry_corner
+		{
+			float x, y, u, v;
+		};
+
+		bool __cdecl draw_bitmap_widget_compute_geometry_hook(unsigned char *draw_widget_data, unsigned char *geometry)
+		{
+			if (!chud_bitmap_widget_compute_geometry(draw_widget_data, geometry))
+				return false;
+			if (!g_timeline_chapter_widget || *reinterpret_cast<unsigned char **>(draw_widget_data + k_draw_widget_data_widget_base) != g_timeline_chapter_widget)
+				return true;
+
+			float const *bounds = reinterpret_cast<float const *>(geometry + k_widget_geometry_bounds); // x0, x1, y0, y1
+			float clip = bounds[0] + film_position_theta() * (bounds[1] - bounds[0]);
+			long quad_count = *reinterpret_cast<long *>(geometry + k_widget_geometry_quad_count);
+			for (long quad = 0; quad < quad_count; quad++)
+			{
+				auto *corners = reinterpret_cast<s_geometry_corner *>(geometry + k_widget_geometry_quads + quad * k_widget_geometry_quad_size);
+				float left = corners[0].x;
+				float right = corners[1].x;
+				if (right <= clip)
+					continue;
+				float cut = left >= clip ? left : clip;
+				float u = right > left ? corners[0].u + (corners[1].u - corners[0].u) * (cut - left) / (right - left) : corners[0].u;
+				corners[1].x = corners[2].x = cut;
+				corners[1].u = corners[2].u = u;
+			}
+			return true;
+		}
 
 		long chud_definition_next_runtime_index(unsigned char *definition)
 		{
@@ -346,6 +390,7 @@ namespace SavedFilms
 
 			bitmap_widgets.address = g_timeline_bitmap_widgets;
 			bitmap_widgets.count++;
+			g_timeline_chapter_widget = marks;
 		}
 
 		void fix_saved_film_timeline(char const *)
@@ -523,6 +568,7 @@ namespace SavedFilms
 		Hook(k_director_post_control_pad - 0x00400000, reinterpret_cast<void *>(&director_post_control_pad), static_cast<__int32>(HookFlags::IsCall)).Apply();
 		Patches::Core::OnMapLoaded(fix_gui_item_string_ids);
 		Patches::Core::OnMapLoaded(fix_saved_film_timeline);
+		Hook(k_draw_bitmap_widget_compute_geometry_call - 0x00400000, reinterpret_cast<void *>(&draw_bitmap_widget_compute_geometry_hook), static_cast<__int32>(HookFlags::IsCall)).Apply();
 		Pointer(k_control_pad_vtable + k_slot_update).Write(reinterpret_cast<unsigned long>(&control_pad_update_hook));
 		Pointer(k_control_pad_vtable + k_slot_handle_list_item_chosen).Write(reinterpret_cast<unsigned long>(&control_pad_handle_list_item_chosen_hook));
 		Pointer(k_control_pad_vtable + k_slot_handle_dialog_result).Write(reinterpret_cast<unsigned long>(&control_pad_handle_dialog_result_hook));
