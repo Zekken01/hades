@@ -144,11 +144,15 @@ namespace SavedFilms
 		long const k_bitmap_bounds = 0x1C;
 
 		// The main menu's list (ui\halox\main_menu\main_menu) has a fixed slot for each row:
-		// a header, the middle rows, and a last slot set apart (Settings). With Theater the
-		// middle rows reach the last slot, so it moves down a row, and with it the panel
-		// under the list: within the list's column, bitmaps from its old top move down a
-		// row and bitmaps across it grow by one.
-		void move_list_last_row_down(long datasource_name)
+		// a header, the middle rows, and a last slot set apart (Exit) - as many as it had
+		// elements, so with Theater the list scrolled. A middle slot is added after the
+		// last middle one, the last slot moves down a row, and the panel under the list
+		// with it: within the list's column, bitmaps from the last slot's old top move
+		// down a row and bitmaps across it grow by one.
+		long const k_list_items_max = 16;
+		unsigned char g_main_menu_list_items[k_list_items_max * k_list_item_size];
+
+		void add_list_middle_row(long datasource_name)
 		{
 			unsigned char iterator[20];
 			tag_iterator_new(iterator, 'scn3');
@@ -165,18 +169,29 @@ namespace SavedFilms
 					for (long list = 0; lists.address && list < lists.count; list++)
 					{
 						auto *list_block = static_cast<unsigned char *>(lists.address) + list * k_list_block_size;
-						s_tag_block const &items = *reinterpret_cast<s_tag_block *>(list_block + k_list_items);
-						if (*reinterpret_cast<long *>(list_block + k_list_datasource_name) != datasource_name || !items.address || items.count < 4)
+						s_tag_block &items = *reinterpret_cast<s_tag_block *>(list_block + k_list_items);
+						if (*reinterpret_cast<long *>(list_block + k_list_datasource_name) != datasource_name || !items.address
+							|| items.count < 4 || items.count >= k_list_items_max || items.address == g_main_menu_list_items)
 							continue;
-						auto *item = [&](long index) { return reinterpret_cast<short *>(static_cast<unsigned char *>(items.address) + index * k_list_item_size + k_list_item_bounds); };
-						short row_height = item(2)[0] - item(1)[0];
-						short *last = item(items.count - 1);
+
+						auto *old_items = static_cast<unsigned char *>(items.address);
+						auto top = [](unsigned char *item) { return reinterpret_cast<short *>(item + k_list_item_bounds); };
+						long last = items.count - 1;
+						short row_height = top(old_items + 2 * k_list_item_size)[0] - top(old_items + k_list_item_size)[0];
 						short const *list_bounds = reinterpret_cast<short const *>(list_block + k_list_bounds);
-						short threshold = list_bounds[0] + last[0];
+						short threshold = list_bounds[0] + top(old_items + last * k_list_item_size)[0];
 						short list_left = list_bounds[1];
 						if (row_height <= 0)
 							continue;
-						last[0] += row_height;
+
+						// The new middle slot is a copy of the last middle one, a row lower.
+						memcpy(g_main_menu_list_items, old_items, last * k_list_item_size);
+						memcpy(g_main_menu_list_items + last * k_list_item_size, old_items + (last - 1) * k_list_item_size, k_list_item_size);
+						top(g_main_menu_list_items + last * k_list_item_size)[0] += row_height;
+						memcpy(g_main_menu_list_items + (last + 1) * k_list_item_size, old_items + last * k_list_item_size, k_list_item_size);
+						top(g_main_menu_list_items + (last + 1) * k_list_item_size)[0] += row_height;
+						items.address = g_main_menu_list_items;
+						items.count++;
 
 						for (long other_group = 0; other_group < groups.count; other_group++)
 						{
@@ -255,7 +270,7 @@ namespace SavedFilms
 				long name = *reinterpret_cast<long *>(datasource + k_datasource_name);
 				long old_rows = reinterpret_cast<s_tag_block *>(datasource + k_datasource_elements)->count;
 				if (name == k_gui_main_menu && add_theater_element(datasource, g_main_menu_elements, g_theater_nuggets, _countof(g_theater_nuggets)))
-					move_list_last_row_down(k_gui_main_menu);
+					add_list_middle_row(k_gui_main_menu);
 				else if (name == k_gui_switch_lobby && add_theater_element(datasource, g_switch_lobby_elements, g_switch_lobby_theater_nuggets, _countof(g_switch_lobby_theater_nuggets)))
 					grow_list_backgrounds(k_gui_switch_lobby, old_rows);
 			}
