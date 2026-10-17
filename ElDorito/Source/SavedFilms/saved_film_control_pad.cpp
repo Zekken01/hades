@@ -257,6 +257,69 @@ namespace SavedFilms
 			}
 		}
 
+		// The film timeline's bar (ui\chud\saved_film) is drawn with chud shader 18,
+		// chud_meter_double_gradient, which Halo 3 wrote for the Xbox only - its PC path
+		// returns float4(0,0,0,0) - so the bar never filled. It is redrawn with
+		// chud_meter_single_color (9), which fills along the bar the same way: up to
+		// scalar A (the playback position) of scalar B (1), in color A, the empty part
+		// transparent (scalar D 0), with a highlight over scalar E of its width.
+		struct s_chud_widget_render_data
+		{
+			unsigned char shader_type;
+			unsigned char alpha_blend_mode;
+			unsigned short pad;
+			short external_inputs[2];
+			unsigned long custom_colors[4];
+			float custom_scalars[4];
+			short color_outputs[6];
+			short scalar_outputs[6];
+		};
+
+		unsigned char const k_chud_shader_meter_single_color = 9;
+		unsigned char const k_chud_shader_double_gradient = 18;
+		short const k_chud_input_saved_film_buffered_theta = 40;
+		short const k_chud_input_saved_film_current_position_theta = 41;
+		short const k_chud_output_input = 0; // the widget's first input, the playback position
+		short const k_chud_output_local_scalar_b = 3; // 0.4
+		short const k_chud_output_local_scalar_d = 5; // 1.0
+		short const k_chud_output_zero = 6;
+
+		long const k_chud_definition_widgets = 0x0;
+		long const k_chud_widget_size = 0x5C;
+		long const k_chud_widget_bitmap_widgets = 0x48;
+		long const k_chud_bitmap_widget_size = 0x54;
+		long const k_chud_bitmap_widget_render_data = 0x2C;
+
+		void fix_saved_film_timeline(char const *)
+		{
+			for_each_tag('chdt', [](unsigned char *definition)
+			{
+				s_tag_block const &widgets = *reinterpret_cast<s_tag_block *>(definition + k_chud_definition_widgets);
+				for (long widget = 0; widget < widgets.count; widget++)
+				{
+					s_tag_block const &bitmap_widgets = *reinterpret_cast<s_tag_block *>(widgets.address + widget * k_chud_widget_size + k_chud_widget_bitmap_widgets);
+					for (long bitmap_widget = 0; bitmap_widget < bitmap_widgets.count; bitmap_widget++)
+					{
+						s_tag_block const &render_data = *reinterpret_cast<s_tag_block *>(bitmap_widgets.address + bitmap_widget * k_chud_bitmap_widget_size + k_chud_bitmap_widget_render_data);
+						if (render_data.count != 1)
+							continue;
+						auto &render = *reinterpret_cast<s_chud_widget_render_data *>(render_data.address);
+						if (render.shader_type != k_chud_shader_double_gradient
+							|| render.external_inputs[0] != k_chud_input_saved_film_current_position_theta
+							|| render.external_inputs[1] != k_chud_input_saved_film_buffered_theta)
+							continue;
+						render.shader_type = k_chud_shader_meter_single_color;
+						render.scalar_outputs[0] = k_chud_output_input;
+						render.scalar_outputs[1] = k_chud_output_local_scalar_d;
+						render.scalar_outputs[2] = k_chud_output_local_scalar_d;
+						render.scalar_outputs[3] = k_chud_output_zero;
+						render.scalar_outputs[4] = k_chud_output_local_scalar_b;
+						render.scalar_outputs[5] = k_chud_output_zero;
+					}
+				}
+			});
+		}
+
 		void fix_gui_item_string_ids(char const *)
 		{
 			long renamed = 0;
@@ -397,6 +460,7 @@ namespace SavedFilms
 		Patch::NopFill(Pointer::Base(k_director_x_authoritative_only - 0x00400000), 2);
 		Hook(k_director_post_control_pad - 0x00400000, reinterpret_cast<void *>(&director_post_control_pad), static_cast<__int32>(HookFlags::IsCall)).Apply();
 		Patches::Core::OnMapLoaded(fix_gui_item_string_ids);
+		Patches::Core::OnMapLoaded(fix_saved_film_timeline);
 		Pointer(k_control_pad_vtable + k_slot_update).Write(reinterpret_cast<unsigned long>(&control_pad_update_hook));
 		Pointer(k_control_pad_vtable + k_slot_handle_list_item_chosen).Write(reinterpret_cast<unsigned long>(&control_pad_handle_list_item_chosen_hook));
 		Pointer(k_control_pad_vtable + k_slot_handle_dialog_result).Write(reinterpret_cast<unsigned long>(&control_pad_handle_dialog_result_hook));
