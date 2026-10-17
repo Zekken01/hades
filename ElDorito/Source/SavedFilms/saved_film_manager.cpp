@@ -452,7 +452,9 @@ namespace SavedFilms
 					state->recording = true;
 					state->recording_start_theta = float(g_clip_start_tick) / length;
 				}
-				state->buffered_theta = float(g_playback.get_current_tick() > length ? length : g_playback.get_current_tick()) / length;
+				// The timeline fills from the buffered (rewindable) point to the marker; a
+				// film here can be rewound to its start (skip back replays it).
+				state->buffered_theta = 0.0f;
 			}
 		}
 
