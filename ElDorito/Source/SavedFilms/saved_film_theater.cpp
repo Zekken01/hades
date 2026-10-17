@@ -66,9 +66,19 @@ namespace SavedFilms
 		long const k_datasource_name = 0x0;
 		long const k_datasource_elements = 0x10;
 
-		long const k_main_menu_elements_max = 32;
-		s_datasource_element g_main_menu_elements[k_main_menu_elements_max];
+		long const k_datasource_elements_max = 32;
+		s_datasource_element g_main_menu_elements[k_datasource_elements_max];
 		s_string_id_data_nugget g_theater_nuggets[] = { { k_global_name, k_gui_theater } };
+
+		// The pregame lobbies' Switch Lobby list (ui\halox\pregame_lobby\switch_lobby\lobbies)
+		// dropped Theater too, though c_gui_screen_pregame_switch_lobby still handles it
+		// and its strings still have its name and description; from the theater lobby
+		// the list opened focused on the missing element, which froze the game.
+		long const k_gui_switch_lobby = 0x102BE;
+		long const k_global_description = 0x2AC;
+		long const k_switch_lobby_theater_description = 0x428E;
+		s_datasource_element g_switch_lobby_elements[k_datasource_elements_max];
+		s_string_id_data_nugget g_switch_lobby_theater_nuggets[] = { { k_global_name, k_gui_theater }, { k_global_description, k_switch_lobby_theater_description } };
 
 		long element_name(s_datasource_element const &element)
 		{
@@ -81,10 +91,11 @@ namespace SavedFilms
 			return -1;
 		}
 
-		void add_theater_to_main_menu(unsigned char *datasource)
+		// Adds a Theater element (its string id nuggets as given) after Forge's.
+		void add_theater_element(unsigned char *datasource, s_datasource_element *storage, s_string_id_data_nugget *nuggets, long nugget_count)
 		{
 			s_tag_block &elements = *reinterpret_cast<s_tag_block *>(datasource + k_datasource_elements);
-			if (elements.count <= 0 || elements.count >= k_main_menu_elements_max || elements.address == g_main_menu_elements)
+			if (elements.count <= 0 || elements.count >= k_datasource_elements_max || elements.address == storage)
 				return;
 
 			auto const *old_elements = static_cast<s_datasource_element const *>(elements.address);
@@ -101,13 +112,13 @@ namespace SavedFilms
 			s_datasource_element theater = {};
 			theater.integer_nuggets.definition = old_elements[0].integer_nuggets.definition;
 			theater.text_nuggets.definition = old_elements[0].text_nuggets.definition;
-			theater.string_id_nuggets = { _countof(g_theater_nuggets), g_theater_nuggets, old_elements[0].string_id_nuggets.definition };
+			theater.string_id_nuggets = { nugget_count, nuggets, old_elements[0].string_id_nuggets.definition };
 
-			memcpy(g_main_menu_elements, old_elements, insert_at * sizeof(s_datasource_element));
-			g_main_menu_elements[insert_at] = theater;
-			memcpy(g_main_menu_elements + insert_at + 1, old_elements + insert_at, (elements.count - insert_at) * sizeof(s_datasource_element));
+			memcpy(storage, old_elements, insert_at * sizeof(s_datasource_element));
+			storage[insert_at] = theater;
+			memcpy(storage + insert_at + 1, old_elements + insert_at, (elements.count - insert_at) * sizeof(s_datasource_element));
 
-			elements.address = g_main_menu_elements;
+			elements.address = storage;
 			elements.count++;
 		}
 
@@ -118,8 +129,13 @@ namespace SavedFilms
 			for (long tag_index; (tag_index = tag_iterator_next(iterator)) != -1; )
 			{
 				auto *datasource = static_cast<unsigned char *>(tag_get('dsrc', tag_index));
-				if (datasource && *reinterpret_cast<long *>(datasource + k_datasource_name) == k_gui_main_menu)
-					add_theater_to_main_menu(datasource);
+				if (!datasource)
+					continue;
+				long name = *reinterpret_cast<long *>(datasource + k_datasource_name);
+				if (name == k_gui_main_menu)
+					add_theater_element(datasource, g_main_menu_elements, g_theater_nuggets, _countof(g_theater_nuggets));
+				else if (name == k_gui_switch_lobby)
+					add_theater_element(datasource, g_switch_lobby_elements, g_switch_lobby_theater_nuggets, _countof(g_switch_lobby_theater_nuggets));
 			}
 		}
 	}
