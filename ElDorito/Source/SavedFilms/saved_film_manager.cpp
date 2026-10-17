@@ -689,6 +689,12 @@ namespace SavedFilms
 		auto const main_game_change_in_progress = reinterpret_cast<bool (*)()>(0x005670E0);
 		bool g_reset_requested = false;
 		bool g_reset_change_seen = false;
+
+		// A theater session's film ends through the session (network_squad_session_end_game:
+		// its life cycle finishes a playback game, and the squad goes back to its lobby).
+		auto const network_squad_session_end_game = reinterpret_cast<bool (*)()>(0x00438780);
+		bool g_session_film = false; // the film's game was started by a theater session
+		DWORD g_end_request_tick = 0;
 		DWORD g_reset_request_tick = 0;
 		float g_speed_before_skip = 1.0f;
 		float const k_skip_speed = 10.0f;
@@ -795,6 +801,20 @@ namespace SavedFilms
 
 		void simulation_update_hook()
 		{
+			if (g_end_request_tick && GetTickCount() - g_end_request_tick > 5000)
+			{
+				g_end_request_tick = 0;
+				if (film_game_running())
+				{
+					playback_log("the session did not end the film's game; leaving it");
+					g_playback.close();
+					g_playback_pending = false;
+					g_play_state = _play_state_none;
+					reset_playback_state();
+					main_menu_launch();
+				}
+			}
+
 			if (g_reset_requested)
 			{
 				if (main_game_change_in_progress())
@@ -1000,6 +1020,7 @@ namespace SavedFilms
 
 	bool play_film(char const *path)
 	{
+		g_session_film = false;
 		stop_recording();
 		if (!g_playback.open_for_read(path))
 			return false;
@@ -1033,6 +1054,8 @@ namespace SavedFilms
 		g_playback_ended = false;
 		g_last_logged_state.clear();
 		playback_log("session film %s: %ld ticks", path, g_playback.get_length_in_ticks());
+		g_session_film = true;
+		g_end_request_tick = 0;
 
 		// The session's copy of the film's game_options, overridden as for Film.Play.
 		set_film_playback_options(static_cast<unsigned char *>(options));
@@ -1218,6 +1241,12 @@ namespace SavedFilms
 		if (!g_playback.is_open())
 			return;
 		clip_stop();
+		if (g_session_film && film_game_running() && network_squad_session_end_game())
+		{
+			playback_log("ending the film's game through the session");
+			g_end_request_tick = GetTickCount();
+			return;
+		}
 		g_playback.close();
 		g_playback_pending = false;
 		g_play_state = _play_state_none;

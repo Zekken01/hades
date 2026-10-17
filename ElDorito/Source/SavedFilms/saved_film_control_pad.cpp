@@ -211,6 +211,24 @@ namespace SavedFilms
 				end_film();
 			return handled;
 		}
+
+		// The start menu's Leave Film asks the same; on yes the release build's
+		// c_start_menu_game_saved_film::handle_dialog_result only closes the menu (its
+		// film manager call was stripped). Wrapped through its vtable (+0xC8).
+		unsigned long const k_start_menu_saved_film_handle_dialog_result_slot = 0x016A038C;
+		auto const start_menu_saved_film_handle_dialog_result = reinterpret_cast<bool(__thiscall *)(void *, void const *)>(0x00AEBBC0);
+
+		bool __fastcall start_menu_saved_film_handle_dialog_result_hook(void *start_menu, void *, void const *message)
+		{
+			unsigned char const *result_message = static_cast<unsigned char const *>(message);
+			bool exit_film = *reinterpret_cast<long const *>(result_message + k_dialog_name) == k_dialog_in_game_exit_film_playback
+				&& *reinterpret_cast<long const *>(result_message + k_dialog_result) == 0;
+
+			bool handled = start_menu_saved_film_handle_dialog_result(start_menu, message);
+			if (exit_film)
+				end_film();
+			return handled;
+		}
 	}
 
 	namespace
@@ -572,6 +590,7 @@ namespace SavedFilms
 		Pointer(k_control_pad_vtable + k_slot_update).Write(reinterpret_cast<unsigned long>(&control_pad_update_hook));
 		Pointer(k_control_pad_vtable + k_slot_handle_list_item_chosen).Write(reinterpret_cast<unsigned long>(&control_pad_handle_list_item_chosen_hook));
 		Pointer(k_control_pad_vtable + k_slot_handle_dialog_result).Write(reinterpret_cast<unsigned long>(&control_pad_handle_dialog_result_hook));
+		Pointer(k_start_menu_saved_film_handle_dialog_result_slot).Write(reinterpret_cast<unsigned long>(&start_menu_saved_film_handle_dialog_result_hook));
 		Hook(k_control_pad_update_enabled_menu_items - 0x00400000, reinterpret_cast<void *>(&update_enabled_menu_items)).Apply();
 	}
 }
