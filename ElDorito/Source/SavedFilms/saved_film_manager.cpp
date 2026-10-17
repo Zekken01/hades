@@ -679,11 +679,14 @@ namespace SavedFilms
 		long g_skip_target = -1; // the film tick a skip runs to at full speed
 		long g_pending_skip_target = -1; // a skip back, run once the restarted film plays
 
-		// Replaying restarts the film's game in place - main_game_reset_map, the same game
-		// and game options from its start - which keeps a theater session's game; a new
-		// game (main_game_change) behind the session's back ends it.
-		auto const main_game_reset_map = reinterpret_cast<void (*)(bool)>(0x00567CA0);
+		// Replaying restarts the film's game in place - main_reset_map, which the main
+		// loop carries out (main_game_reset_map: the same game and game options from its
+		// start) - keeping a theater session's game; a new game (main_game_change) behind
+		// the session's back ends it. No updates are fed until the game time has gone back.
+		auto const main_reset_map = reinterpret_cast<void (*)()>(0x00506AF0);
 		bool g_reset_requested = false;
+		long g_reset_request_game_time = 0;
+		DWORD g_reset_request_tick = 0;
 		float g_speed_before_skip = 1.0f;
 		float const k_skip_speed = 10.0f;
 
@@ -791,14 +794,17 @@ namespace SavedFilms
 		{
 			if (g_reset_requested)
 			{
-				g_reset_requested = false;
-				if (game_in_progress() && game_playback_get() == k_game_playback_film)
+				if (game_in_progress() && game_time_get() < g_reset_request_game_time)
 				{
-					playback_log("restarting the film's game");
-					main_game_reset_map(false);
+					g_reset_requested = false;
+					playback_log("the film's game restarted");
 				}
-				else
+				else if (GetTickCount() - g_reset_request_tick > 5000)
+				{
+					g_reset_requested = false;
+					playback_log("the film's game did not restart; starting it again");
 					g_play_state = _play_state_requested;
+				}
 			}
 			simulation_update();
 			g_loaded_mod_hash = loaded_mod_hash();
@@ -825,7 +831,7 @@ namespace SavedFilms
 				playback_log_state(state);
 			}
 
-			if (!g_playback.is_open() || !game_in_progress() || game_playback_get() != k_game_playback_film)
+			if (!g_playback.is_open() || !game_in_progress() || game_playback_get() != k_game_playback_film || g_reset_requested)
 				return;
 			g_playback_pending = false;
 			retrieve_film_updates();
@@ -1186,7 +1192,13 @@ namespace SavedFilms
 		g_playback_pending = true;
 		g_playback_ended = false;
 		if (game_in_progress() && game_playback_get() == k_game_playback_film)
+		{
 			g_reset_requested = true;
+			g_reset_request_game_time = game_time_get();
+			g_reset_request_tick = GetTickCount();
+			main_reset_map();
+			playback_log("restarting the film's game");
+		}
 		else
 			g_play_state = _play_state_requested;
 		if (g_playback.is_snippet())
