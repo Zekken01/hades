@@ -690,9 +690,24 @@ namespace SavedFilms
 		bool g_reset_requested = false;
 		bool g_reset_change_seen = false;
 
-		// A theater session's film ends through the session (network_squad_session_end_game:
-		// its life cycle finishes a playback game, and the squad goes back to its lobby).
-		auto const network_squad_session_end_game = reinterpret_cast<bool (*)()>(0x00438780);
+		// A theater session's film ends through the session: its mode set to end game, as
+		// c_life_cycle_state_handler_in_game::update ends any other game (for a playback
+		// game it only queues a game finish, which the film's world does not apply), and
+		// the squad goes back to its lobby.
+		auto const network_life_cycle_in_squad_session = reinterpret_cast<bool (*)(void **)>(0x00454F20);
+		auto const network_session_get_session_parameters = reinterpret_cast<unsigned char *(__thiscall *)(void *)>(0x0045C2A0);
+		auto const network_session_parameter_session_mode_set = reinterpret_cast<bool(__thiscall *)(void *, long)>(0x00459A40);
+		long const k_network_session_mode_end_game = 4;
+		long const k_network_session_parameters_session_mode = 0x0;
+
+		bool end_session_game()
+		{
+			void *session = nullptr;
+			if (!network_life_cycle_in_squad_session(&session) || !session)
+				return false;
+			unsigned char *parameters = network_session_get_session_parameters(session);
+			return parameters && network_session_parameter_session_mode_set(parameters + k_network_session_parameters_session_mode, k_network_session_mode_end_game);
+		}
 		bool g_session_film = false; // the film's game was started by a theater session
 		DWORD g_end_request_tick = 0;
 		DWORD g_reset_request_tick = 0;
@@ -1241,7 +1256,7 @@ namespace SavedFilms
 		if (!g_playback.is_open())
 			return;
 		clip_stop();
-		if (g_session_film && film_game_running() && network_squad_session_end_game())
+		if (g_session_film && film_game_running() && end_session_game())
 		{
 			playback_log("ending the film's game through the session");
 			g_end_request_tick = GetTickCount();
