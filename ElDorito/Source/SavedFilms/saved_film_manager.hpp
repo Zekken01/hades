@@ -40,6 +40,9 @@ namespace SavedFilms
 	float get_playback_speed();
 	void set_playback_speed(float speed); // 0 pauses; 1 is normal speed
 	void skip(float seconds); // forward by fast-forwarding, back by restarting and fast-forwarding
+	// Chapters, as Halo 3's theater marks them on the timeline: every tenth of the film.
+	long const k_film_chapter_count = 10;
+	void skip_chapter(long direction); // to the next (1) or previous (-1) chapter mark
 	bool is_skipping();
 	void replay_film();
 	void end_film(); // stops the film and returns to the main menu

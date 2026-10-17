@@ -453,6 +453,9 @@ namespace SavedFilms
 					state->recording_start_theta = float(g_clip_start_tick) / length;
 				}
 				state->buffered_theta = state->current_position_theta;
+				state->number_of_chapters_available = k_film_chapter_count - 1;
+				for (long chapter = 1; chapter < k_film_chapter_count; chapter++)
+					state->chapter_mark_theta[chapter - 1] = float(chapter) / k_film_chapter_count;
 			}
 		}
 
@@ -1105,6 +1108,41 @@ namespace SavedFilms
 			g_speed_before_skip = speed > 0.0f ? speed : 1.0f;
 			g_pending_skip_target = target;
 		}
+	}
+
+	void skip_chapter(long direction)
+	{
+		if (!film_game_running())
+			return;
+		long length = g_playback.get_length_in_ticks();
+		long tick = film_playback_tick();
+		long rate = film_tick_rate();
+		long target = -1;
+		if (direction > 0)
+		{
+			// The next mark at least half a second on; the end after the last.
+			for (long chapter = 1; chapter <= k_film_chapter_count && target < 0; chapter++)
+			{
+				long mark = length * chapter / k_film_chapter_count;
+				if (mark > tick + rate / 2)
+					target = mark;
+			}
+		}
+		else
+		{
+			// The last mark more than two seconds back, so a press just after a mark
+			// goes on to the one before it.
+			for (long chapter = k_film_chapter_count - 1; chapter >= 0 && target < 0; chapter--)
+			{
+				long mark = length * chapter / k_film_chapter_count;
+				if (mark < tick - 2 * rate)
+					target = mark;
+			}
+			if (target < 0)
+				target = 0;
+		}
+		if (target >= 0 && target != tick)
+			skip(float(target - tick) / rate);
 	}
 
 	bool is_skipping()

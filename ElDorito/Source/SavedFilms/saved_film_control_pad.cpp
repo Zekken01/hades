@@ -62,7 +62,6 @@ namespace SavedFilms
 		unsigned long const k_dialog_result = 0x18;
 		unsigned long const k_dialog_name = 0x1C;
 
-		float const k_skip_seconds = 30.0f;
 
 		template<typename t_function>
 		t_function virtual_function(void *object, unsigned long offset)
@@ -181,10 +180,10 @@ namespace SavedFilms
 					set_playback_speed(0.0f);
 					return true;
 				case k_skip_back:
-					skip(-k_skip_seconds);
+					skip_chapter(-1);
 					return true;
 				case k_skip_forward:
-					skip(k_skip_seconds);
+					skip_chapter(1);
 					return true;
 				case k_replay_film:
 					replay_film();
@@ -290,6 +289,65 @@ namespace SavedFilms
 		long const k_chud_bitmap_widget_size = 0x54;
 		long const k_chud_widget_render_data = 0x2C; // s_chud_widget_base
 
+		// Halo 3's timeline also marks its chapters (skip back and forward jump between
+		// them) - on the Xbox, in the same double gradient. A copy of the bar is added
+		// over it, drawn with chud_meter_chapter (17), which marks every tenth of the
+		// bar with the bar's bitmap, under a widget runtime index of its own (the chud
+		// creates a widget for each index of an active definition it has not yet).
+		short const k_chud_shader_meter_chapter = 17;
+		long const k_chud_widget_collection_text_widgets = 0x54;
+		long const k_chud_text_widget_size = 0x48;
+		long const k_chud_widget_runtime_index = 0x38; // bitmap and text widgets
+		long const k_chud_render_data_size = 0x48; // s_chud_widget_render_data and its rectangle
+		long const k_timeline_bitmap_widgets_max = 8;
+
+		unsigned char g_timeline_bitmap_widgets[k_timeline_bitmap_widgets_max * k_chud_bitmap_widget_size];
+		unsigned char g_timeline_chapter_render_data[k_chud_render_data_size];
+
+		long chud_definition_next_runtime_index(unsigned char *definition)
+		{
+			long next = 0;
+			s_tag_block const &collections = *reinterpret_cast<s_tag_block *>(definition + k_chud_definition_widget_collections);
+			for (long collection = 0; collections.address && collection < collections.count; collection++)
+			{
+				unsigned char *widget_collection = collections.address + collection * k_chud_widget_collection_size;
+				s_tag_block const &bitmap_widgets = *reinterpret_cast<s_tag_block *>(widget_collection + k_chud_widget_collection_bitmap_widgets);
+				s_tag_block const &text_widgets = *reinterpret_cast<s_tag_block *>(widget_collection + k_chud_widget_collection_text_widgets);
+				for (long widget = 0; bitmap_widgets.address && widget < bitmap_widgets.count; widget++)
+				{
+					long index = *reinterpret_cast<long *>(bitmap_widgets.address + widget * k_chud_bitmap_widget_size + k_chud_widget_runtime_index);
+					next = index + 1 > next ? index + 1 : next;
+				}
+				for (long widget = 0; text_widgets.address && widget < text_widgets.count; widget++)
+				{
+					long index = *reinterpret_cast<long *>(text_widgets.address + widget * k_chud_text_widget_size + k_chud_widget_runtime_index);
+					next = index + 1 > next ? index + 1 : next;
+				}
+			}
+			return next;
+		}
+
+		void add_timeline_chapter_marks(unsigned char *definition, s_tag_block &bitmap_widgets, long bar_widget)
+		{
+			long runtime_index = chud_definition_next_runtime_index(definition);
+			if (bitmap_widgets.count >= k_timeline_bitmap_widgets_max || runtime_index >= 256)
+				return;
+
+			unsigned char const *bar = bitmap_widgets.address + bar_widget * k_chud_bitmap_widget_size;
+			s_tag_block const &bar_render_data = *reinterpret_cast<s_tag_block const *>(bar + k_chud_widget_render_data);
+			memcpy(g_timeline_chapter_render_data, bar_render_data.address, k_chud_render_data_size);
+			reinterpret_cast<s_chud_widget_render_data *>(g_timeline_chapter_render_data)->shader_type = k_chud_shader_meter_chapter;
+
+			memcpy(g_timeline_bitmap_widgets, bitmap_widgets.address, bitmap_widgets.count * k_chud_bitmap_widget_size);
+			unsigned char *marks = g_timeline_bitmap_widgets + bitmap_widgets.count * k_chud_bitmap_widget_size;
+			memcpy(marks, bar, k_chud_bitmap_widget_size);
+			*reinterpret_cast<long *>(marks + k_chud_widget_runtime_index) = runtime_index;
+			reinterpret_cast<s_tag_block *>(marks + k_chud_widget_render_data)->address = g_timeline_chapter_render_data;
+
+			bitmap_widgets.address = g_timeline_bitmap_widgets;
+			bitmap_widgets.count++;
+		}
+
 		void fix_saved_film_timeline(char const *)
 		{
 			for_each_tag('chdt', [](unsigned char *definition)
@@ -297,7 +355,7 @@ namespace SavedFilms
 				s_tag_block const &collections = *reinterpret_cast<s_tag_block *>(definition + k_chud_definition_widget_collections);
 				for (long collection = 0; collections.address && collection < collections.count; collection++)
 				{
-					s_tag_block const &bitmap_widgets = *reinterpret_cast<s_tag_block *>(collections.address + collection * k_chud_widget_collection_size + k_chud_widget_collection_bitmap_widgets);
+					s_tag_block &bitmap_widgets = *reinterpret_cast<s_tag_block *>(collections.address + collection * k_chud_widget_collection_size + k_chud_widget_collection_bitmap_widgets);
 					for (long bitmap_widget = 0; bitmap_widgets.address && bitmap_widget < bitmap_widgets.count; bitmap_widget++)
 					{
 						s_tag_block const &render_data = *reinterpret_cast<s_tag_block *>(bitmap_widgets.address + bitmap_widget * k_chud_bitmap_widget_size + k_chud_widget_render_data);
@@ -308,13 +366,17 @@ namespace SavedFilms
 							|| render.external_inputs[0] != k_chud_input_saved_film_current_position_theta
 							|| render.external_inputs[1] != k_chud_input_saved_film_buffered_theta)
 							continue;
-						render.shader_type = k_chud_shader_meter_single_color;
-						render.scalar_outputs[0] = k_chud_output_input;
-						render.scalar_outputs[1] = k_chud_output_local_scalar_d;
-						render.scalar_outputs[2] = k_chud_output_local_scalar_d;
-						render.scalar_outputs[3] = k_chud_output_zero;
-						render.scalar_outputs[4] = k_chud_output_local_scalar_b;
-						render.scalar_outputs[5] = k_chud_output_zero;
+						add_timeline_chapter_marks(definition, bitmap_widgets, bitmap_widget);
+						auto &bar_render = *reinterpret_cast<s_chud_widget_render_data *>(
+							reinterpret_cast<s_tag_block *>(bitmap_widgets.address + bitmap_widget * k_chud_bitmap_widget_size + k_chud_widget_render_data)->address);
+						bar_render.shader_type = k_chud_shader_meter_single_color;
+						bar_render.scalar_outputs[0] = k_chud_output_input;
+						bar_render.scalar_outputs[1] = k_chud_output_local_scalar_d;
+						bar_render.scalar_outputs[2] = k_chud_output_local_scalar_d;
+						bar_render.scalar_outputs[3] = k_chud_output_zero;
+						bar_render.scalar_outputs[4] = k_chud_output_local_scalar_b;
+						bar_render.scalar_outputs[5] = k_chud_output_zero;
+						break;
 					}
 				}
 			});
