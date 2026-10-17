@@ -679,13 +679,16 @@ namespace SavedFilms
 		long g_skip_target = -1; // the film tick a skip runs to at full speed
 		long g_pending_skip_target = -1; // a skip back, run once the restarted film plays
 
-		// Replaying restarts the film's game in place - main_reset_map, which the main
-		// loop carries out (main_game_reset_map: the same game and game options from its
-		// start) - keeping a theater session's game; a new game (main_game_change) behind
-		// the session's back ends it. No updates are fed until the game time has gone back.
-		auto const main_reset_map = reinterpret_cast<void (*)()>(0x00506AF0);
+		// Replaying starts the film's game again with its own game options - the same
+		// game instance, so a theater session keeps it as its game - by main_game_change
+		// alone, as the session started it (c_life_cycle_state_handler_in_game::
+		// begin_load_map): ending the simulation first aborts it, and the session's life
+		// cycle ends a game whose simulation aborted. (A map reset leaves the simulation
+		// world's entities behind, which a client's film cannot replay over.) No updates
+		// are fed until the new game is in.
+		auto const main_game_change_in_progress = reinterpret_cast<bool (*)()>(0x005670E0);
 		bool g_reset_requested = false;
-		long g_reset_request_game_time = 0;
+		bool g_reset_change_seen = false;
 		DWORD g_reset_request_tick = 0;
 		float g_speed_before_skip = 1.0f;
 		float const k_skip_speed = 10.0f;
@@ -794,16 +797,17 @@ namespace SavedFilms
 		{
 			if (g_reset_requested)
 			{
-				if (game_in_progress() && game_time_get() < g_reset_request_game_time)
+				if (main_game_change_in_progress())
+					g_reset_change_seen = true;
+				else if (g_reset_change_seen && game_in_progress())
 				{
 					g_reset_requested = false;
 					playback_log("the film's game restarted");
 				}
-				else if (GetTickCount() - g_reset_request_tick > 5000)
+				else if (GetTickCount() - g_reset_request_tick > 15000)
 				{
 					g_reset_requested = false;
-					playback_log("the film's game did not restart; starting it again");
-					g_play_state = _play_state_requested;
+					playback_log("the film's game did not restart");
 				}
 			}
 			simulation_update();
@@ -820,7 +824,8 @@ namespace SavedFilms
 				g_playback.close();
 				reset_playback_state();
 			}
-			update_skip();
+			if (!g_reset_requested)
+				update_skip();
 			if (g_clip_start_tick >= 0 && film_is_ended())
 				clip_stop();
 
@@ -1193,10 +1198,12 @@ namespace SavedFilms
 		g_playback_ended = false;
 		if (game_in_progress() && game_playback_get() == k_game_playback_film)
 		{
+			static unsigned char options[k_game_options_size];
+			memcpy(options, game_options_get(), k_game_options_size);
 			g_reset_requested = true;
-			g_reset_request_game_time = game_time_get();
+			g_reset_change_seen = false;
 			g_reset_request_tick = GetTickCount();
-			main_reset_map();
+			main_game_change(options);
 			playback_log("restarting the film's game");
 		}
 		else
