@@ -265,8 +265,7 @@ namespace SavedFilms
 		// transparent (scalar D 0), with a highlight over scalar E of its width.
 		struct s_chud_widget_render_data
 		{
-			unsigned char shader_type;
-			unsigned char alpha_blend_mode;
+			short shader_type;
 			unsigned short pad;
 			short external_inputs[2];
 			unsigned long custom_colors[4];
@@ -275,8 +274,8 @@ namespace SavedFilms
 			short scalar_outputs[6];
 		};
 
-		unsigned char const k_chud_shader_meter_single_color = 9;
-		unsigned char const k_chud_shader_double_gradient = 18;
+		short const k_chud_shader_meter_single_color = 9;
+		short const k_chud_shader_double_gradient = 18;
 		short const k_chud_input_saved_film_buffered_theta = 40;
 		short const k_chud_input_saved_film_current_position_theta = 41;
 		short const k_chud_output_input = 0; // the widget's first input, the playback position
@@ -284,24 +283,25 @@ namespace SavedFilms
 		short const k_chud_output_local_scalar_d = 5; // 1.0
 		short const k_chud_output_zero = 6;
 
-		long const k_chud_definition_widgets = 0x0;
-		long const k_chud_widget_size = 0x5C;
-		long const k_chud_widget_bitmap_widgets = 0x48;
+		// s_chud_definition, s_chud_widget_collection, s_chud_widget_bitmap.
+		long const k_chud_definition_widget_collections = 0x0;
+		long const k_chud_widget_collection_size = 0x60;
+		long const k_chud_widget_collection_bitmap_widgets = 0x48;
 		long const k_chud_bitmap_widget_size = 0x54;
-		long const k_chud_bitmap_widget_render_data = 0x2C;
+		long const k_chud_widget_render_data = 0x2C; // s_chud_widget_base
 
 		void fix_saved_film_timeline(char const *)
 		{
 			for_each_tag('chdt', [](unsigned char *definition)
 			{
-				s_tag_block const &widgets = *reinterpret_cast<s_tag_block *>(definition + k_chud_definition_widgets);
-				for (long widget = 0; widget < widgets.count; widget++)
+				s_tag_block const &collections = *reinterpret_cast<s_tag_block *>(definition + k_chud_definition_widget_collections);
+				for (long collection = 0; collections.address && collection < collections.count; collection++)
 				{
-					s_tag_block const &bitmap_widgets = *reinterpret_cast<s_tag_block *>(widgets.address + widget * k_chud_widget_size + k_chud_widget_bitmap_widgets);
-					for (long bitmap_widget = 0; bitmap_widget < bitmap_widgets.count; bitmap_widget++)
+					s_tag_block const &bitmap_widgets = *reinterpret_cast<s_tag_block *>(collections.address + collection * k_chud_widget_collection_size + k_chud_widget_collection_bitmap_widgets);
+					for (long bitmap_widget = 0; bitmap_widgets.address && bitmap_widget < bitmap_widgets.count; bitmap_widget++)
 					{
-						s_tag_block const &render_data = *reinterpret_cast<s_tag_block *>(bitmap_widgets.address + bitmap_widget * k_chud_bitmap_widget_size + k_chud_bitmap_widget_render_data);
-						if (render_data.count != 1)
+						s_tag_block const &render_data = *reinterpret_cast<s_tag_block *>(bitmap_widgets.address + bitmap_widget * k_chud_bitmap_widget_size + k_chud_widget_render_data);
+						if (render_data.count != 1 || !render_data.address)
 							continue;
 						auto &render = *reinterpret_cast<s_chud_widget_render_data *>(render_data.address);
 						if (render.shader_type != k_chud_shader_double_gradient
