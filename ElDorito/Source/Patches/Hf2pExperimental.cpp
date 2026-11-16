@@ -305,6 +305,7 @@ namespace Patches
 }
 
 void Hf2pInitHook();
+void hf2p_game_initialize_hook();
 void Hf2pShutdownHook();
 void SystemMenu();
 __int32 GetSecondsRemainingUntilPlayerSpawn();
@@ -356,7 +357,7 @@ namespace Patches
 			Patch(0x24F6B0, { 0xC3 }).Apply();
 			Patch(0x24EF50, { 0xC3 }).Apply();
 			Patch(0x10F1121, { 0xE9 }).Apply();
-			Patch(0x2006F0, { 0xC3 }).Apply();
+			Hook(0x2006F0, hf2p_game_initialize_hook).Apply();  // hades: was Patch(0x2006F0, { 0xC3 })
 			Patch(0x622920, { 0xB8, 0x01, 0x00, 0x00, 0x00, 0xC3 }).Apply();
 			Hook(0x200790, Hf2pShutdownHook).Apply();
 			Hook(0x105F0D, Hf2pTickHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
@@ -388,6 +389,18 @@ void Hf2pInitHook() // 0x10A723E0
 	eldorado::fmod_initialize();
 
 	PingId = Patches::Network::OnPong(PongReceived);
+}
+
+// hades: replaces ED's `ret` over hf2p_game_initialize (0x6006F0). ED skips the hf2p
+// config and security setup, but the security setup also ran the texture render reset
+// (0x836610), which marks the shop video's bink slot (0x504C834) empty with -1. Left at
+// its zeroed start, the first map load's hf2p_scenario_load (0x8368A0) took the slot for
+// a playing shop video and called bink_playback_stop, killing the startup movies the
+// moment they began. The reset's texture refs are statically initialised to -1, so its
+// releases do nothing here.
+void hf2p_game_initialize_hook()
+{
+	reinterpret_cast<void (*)()>(0x836610)();
 }
 
 void Hf2pShutdownHook() // 0x10A72B60

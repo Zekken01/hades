@@ -206,6 +206,11 @@ bool ShowLoadingScreenHook(s_game_options &options) // 0x10A84100
 		{
 			Patches::LoadingScreen::firstRun = false;
 			((bool (*)(s_game_options &))0x567850)(options);
+			// hades: main_game_load_map returns once the intro movies end. The loading
+			// screen was skipped so they could be seen, and with it the title splash its
+			// first Show brings up, which then appeared on the next map load instead.
+			if (ActiveUi)
+				ActiveUi->ShowTitleSplash();
 			return true;
 		}
 	}

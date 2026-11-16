@@ -186,12 +186,16 @@ namespace hades_file_local
 		virtual void Begin(unsigned __int32);
 		virtual void UpdateProgress(unsigned __int32);
 		virtual void Hide();
+		virtual void ShowTitleSplash();  // hades: added
 		virtual ~WebLoadingScreenUi() = default; /* compiler_generated() */
 		WebLoadingScreenUi &operator=(WebLoadingScreenUi &); /* compiler_generated() */
 		WebLoadingScreenUi &operator=(WebLoadingScreenUi const &); /* compiler_generated() */
 	unsigned char __pad1[4]; // 0x44
 	};
 	static_assert(sizeof(WebLoadingScreenUi) == 72, "Invalid WebLoadingScreenUi size");
+
+	// hades: whether the boot title splash has been shown; shared by Show and ShowTitleSplash
+	static bool g_title_splash_shown = false;
 }
 using namespace hades_file_local;
 /* ---------- prototypes */
@@ -299,12 +303,23 @@ void WebLoadingScreenUi::Show(Patches::LoadingScreen::LoadingScreenShowInfo cons
 	jsonWriter.String(info.modVersion.c_str());
 	jsonWriter.EndObject();
 	Web::Ui::ScreenLayer::Show(Web::Ui::ScreenLayer::Loading, jsonBuffer.GetString());
-	static bool firstShow = false;
-	if (!firstShow && !ElDorito::Instance().IsConnectingToServer())
+	if (!g_title_splash_shown && !ElDorito::Instance().IsConnectingToServer())  // hades: was a function-local firstShow
 	{
 		Web::Ui::ScreenLayer::Show(Web::Ui::ScreenLayer::Title, "{ firstBoot: true }");
-		firstShow = true;
+		g_title_splash_shown = true;
 	}
+}
+
+// hades: the first main-menu load skips Show while the intro movies cover it
+// (ShowLoadingScreenHook), which left the title splash to whatever map loaded next.
+// This shows it once the movies are done. Loading is already over by then, so it is
+// not shown as firstBoot, whose input waits for the loadingFinished notification.
+void WebLoadingScreenUi::ShowTitleSplash()
+{
+	if (g_title_splash_shown || ElDorito::Instance().IsConnectingToServer())
+		return;
+	Web::Ui::ScreenLayer::Show(Web::Ui::ScreenLayer::Title, "{}");
+	g_title_splash_shown = true;
 }
 
 void WebLoadingScreenUi::Begin(unsigned __int32 totalBytes) // 0x10CAA320

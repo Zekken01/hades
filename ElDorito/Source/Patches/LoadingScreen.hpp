@@ -42,6 +42,7 @@ namespace Patches
 			virtual void Begin(unsigned __int32) = 0;
 			virtual void UpdateProgress(unsigned __int32) = 0;
 			virtual void Hide() = 0;
+			virtual void ShowTitleSplash() = 0;  // hades: added, see ShowLoadingScreenHook
 			LoadingScreenUi(Patches::LoadingScreen::LoadingScreenUi const &); /* compiler_generated() */
 			_inline LoadingScreenUi() = default; /* compiler_generated() */
 			Patches::LoadingScreen::LoadingScreenUi &operator=(Patches::LoadingScreen::LoadingScreenUi const &); /* compiler_generated() */
