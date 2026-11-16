@@ -103,11 +103,10 @@ def find_cmake():
     sys.exit("CMake not found; install it or add it to PATH")
 
 
-def deps_stamp():
-    """What the deps build depends on: the submodule commits, the patches and CMake files."""
-    status = subprocess.run(["git", "submodule", "status", "--recursive", "libs/src"], cwd=HERE,
-                            capture_output=True, text=True, check=True).stdout
-    digest = hashlib.sha1(status.encode())
+def deps_stamp(status):
+    """[submodule commits, patches and CMake files] hashes: what the deps build depends on."""
+    sources = hashlib.sha1(status.encode()).hexdigest()
+    digest = hashlib.sha1()
     inputs = [os.path.join(HERE, "libs", "CMakeLists.txt")] + sorted(
         glob.glob(os.path.join(HERE, "libs", "cmake", "**", "*"), recursive=True) +
         glob.glob(os.path.join(HERE, "libs", "patches", "*")))
@@ -116,7 +115,7 @@ def deps_stamp():
             digest.update(path.encode())
             with open(path, "rb") as f:
                 digest.update(f.read())
-    return digest.hexdigest()
+    return [sources, digest.hexdigest()]
 
 
 def ensure_deps(jobs):
@@ -130,13 +129,14 @@ def ensure_deps(jobs):
                        cwd=HERE, check=True)
     bdir = os.path.join(HERE, "build", "deps")
     stamp_path = os.path.join(bdir, "hades_deps.stamp")
-    stamp = deps_stamp()
-    old = open(stamp_path).read().strip() if os.path.isfile(stamp_path) else None
+    stamp = deps_stamp(status)
+    old = open(stamp_path).read().split() if os.path.isfile(stamp_path) else None
     missing = [l for l in BUILT_DEPS + BUILT_HEADERS if not os.path.isfile(os.path.join(HERE, "libs", l))]
     if old == stamp and not missing:
         return
-    if old is not None and old != stamp:
-        # ExternalProject does not notice a moved submodule; start the deps build over.
+    if old is not None and len(old) == 2 and old[0] != stamp[0]:
+        # ExternalProject does not notice a moved submodule; start the deps build over. A
+        # changed patch or CMake file it does notice, and rebuilds only what depends on it.
         shutil.rmtree(bdir)
     elif missing:
         # Installed files were deleted behind ExternalProject's back; redo every install step.
@@ -152,7 +152,7 @@ def ensure_deps(jobs):
     if missing:
         sys.exit("the deps build did not produce: " + ", ".join(missing))
     with open(stamp_path, "w") as f:
-        f.write(stamp + "\n")
+        f.write("\n".join(stamp) + "\n")
 
 
 def sources():
