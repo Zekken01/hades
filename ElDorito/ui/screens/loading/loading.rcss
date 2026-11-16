@@ -221,11 +221,15 @@ body {
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
+	/* the logo is square (500x500); without a width the box shrank to 0 and the translate
+	   left the logo half its width right of centre */
+	width: 144dp;
 	height: 144dp;
 }
 
 .genericLoader .logobox img {
 	display: block;
+	width: 144dp;
 	height: 144dp;
 }
 
