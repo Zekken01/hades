@@ -30,6 +30,7 @@
 #include "mods/mod_package_manager.hpp"
 #include "mods/mod_system.hpp"
 #include "mods/new/IModManager.hpp"
+#include "Modules/ModuleGame.hpp"  // hades: added for ShowLoadingScreenHook
 #include "Modules/ModuleServer.hpp"
 #include "Patch.hpp"
 #include "Patches/Audio.hpp"
@@ -201,7 +202,10 @@ bool ShowLoadingScreenHook(s_game_options &options) // 0x10A84100
 {
 	if (strcmp(options.scenario_path, "maps\\mainmenu") == 0 && Patches::LoadingScreen::firstRun)
 	{
-		bool HasIntroBinks = std::filesystem::exists("bink\\intro.bik") || std::filesystem::exists("bink\\logo_343.bik") || std::filesystem::exists("bink\\logo_microsoft.bik");
+		// hades: with Game.SkipIntroVideos the movies are skipped (GetBinkVideoPathHook), so
+		// the loading screen is shown as if there were none.
+		bool HasIntroBinks = Utils::Singleton<Modules::ModuleGame>::Instance().VarSkipIntroVideos->ValueInt != 1
+			&& (std::filesystem::exists("bink\\intro.bik") || std::filesystem::exists("bink\\logo_343.bik") || std::filesystem::exists("bink\\logo_microsoft.bik"));
 		if (HasIntroBinks)
 		{
 			Patches::LoadingScreen::firstRun = false;

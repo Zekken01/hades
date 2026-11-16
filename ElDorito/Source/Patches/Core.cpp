@@ -252,6 +252,7 @@ namespace Patches
 			Pointer::Base(0x1A315F).Write<unsigned char>(0xEB);
 			Pointer::Base(0x1A31A4).Write<unsigned char>(0xEB);
 			Hook(0x10590B, GetBinkVideoPathHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
+			Hook(0x105939, GetBinkVideoPathHook, static_cast<__int32>(HookFlags::IsCall)).Apply();  // hades: added, the loading loop movie that follows the intro movies
 			Hook(0x20F4AD, GetScreenshotFolderHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x20F44B, GetScreenshotFolderHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x1BD006, sub_757890_call_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
