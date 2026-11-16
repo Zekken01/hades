@@ -116,9 +116,13 @@ def deps_stamp():
 
 def ensure_deps(jobs):
     """Build the submodule libraries (libs/CMakeLists.txt) when one is missing or stale."""
-    if not os.path.isfile(os.path.join(HERE, "libs", "src", "rmlui", "CMakeLists.txt")):
+    status = subprocess.run(["git", "submodule", "status", "--recursive", "libs/src"], cwd=HERE,
+                            capture_output=True, text=True, check=True).stdout
+    if any(line.startswith("-") for line in status.splitlines()):  # a submodule is not checked out
         print("fetching submodules")
-        subprocess.run(["git", "submodule", "update", "--init", "--recursive", "--depth", "1"], cwd=HERE, check=True)
+        # core.longpaths: libdatachannel's nested nlohmann/json has test files past MAX_PATH.
+        subprocess.run(["git", "-c", "core.longpaths=true", "submodule", "update", "--init", "--recursive", "--depth", "1"],
+                       cwd=HERE, check=True)
     bdir = os.path.join(HERE, "build", "deps")
     stamp_path = os.path.join(bdir, "hades_deps.stamp")
     stamp = deps_stamp()
