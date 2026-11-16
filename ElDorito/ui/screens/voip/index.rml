@@ -1,0 +1,12 @@
+<rml>
+<head>
+	<title>VoIP</title>
+	<link type="text/rcss" href="dew://lib/html.rcss"/>
+	<link type="text/rcss" href="voip.rcss"/>
+	<script src="voip.lua"></script>
+</head>
+<body onload="init()">
+	<div id="speaking"></div>
+	<div id="stats" class="stats-container hidden"></div>
+</body>
+</rml>

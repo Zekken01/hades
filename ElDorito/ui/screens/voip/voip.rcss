@@ -1,0 +1,58 @@
+/*
+ * Port of screens/voip/voip.css: the speaking-players overlay and the VoIP.Stats table.
+ * text-shadow outline -> font-effect outline.
+ */
+
+body {
+	color: white;
+	font-effect: outline(1px black);
+	pointer-events: none;
+}
+
+#speaking {
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+
+#speaking p {
+	position: absolute;
+	left: 0;
+	top: 0;
+	font-size: 24dp;
+	margin-top: 24dp; /* the browser's 1em default margin on <p> */
+	white-space: nowrap;
+	transition: transform 0.3s quadratic-in-out;
+}
+
+#stats {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	padding: 0;
+	margin: 0;
+	display: block;
+	background-color: #000000f2;
+	font-size: 16dp;
+}
+
+#stats.hidden {
+	display: none;
+}
+
+#stats table {
+	width: 100%;
+}
+
+#stats th {
+	text-transform: uppercase;
+}
+
+#stats th,
+#stats td {
+	text-align: left;
+	border: 1dp #ffffff1a;
+	color: #d8d8d8;
+	padding: 8dp;
+}
