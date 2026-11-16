@@ -1,0 +1,23 @@
+<rml>
+<head>
+	<title>Player Emote</title>
+	<link type="text/rcss" href="dew://lib/html.rcss"/>
+	<link type="text/rcss" href="dew://lib/window-resize.rcss"/>
+	<link type="text/rcss" href="emote.rcss"/>
+	<script src="dew://lib/input.lua"></script>
+	<script src="emote.lua"></script>
+</head>
+<body>
+	<div id="container">
+		<div class="page_content">
+			<div id="emote-widget-container">
+				<div style="display: none;" id="emoteWheel" class="emote-wheel">
+					<svg id="wheelSvg" viewBox="-3 -3 506 506"></svg>
+					<div id="wheelIcons"></div>
+				</div>
+				<div style="display: none;" id="emoteGrid" class="emote-grid"></div>
+			</div>
+		</div>
+	</div>
+</body>
+</rml>
