@@ -1,0 +1,53 @@
+<rml>
+<head>
+	<title>Server Browser</title>
+	<link type="text/rcss" href="dew://lib/html.rcss"/>
+	<link type="text/rcss" href="dew://lib/window-resize.rcss"/>
+	<link type="text/rcss" href="dew://lib/style-global.rcss"/>
+	<link type="text/rcss" href="browser.rcss"/>
+	<script src="dew://lib/jq.lua"></script>
+	<script src="browser.lua"></script>
+</head>
+<body>
+	<div id="container">
+		<div class="page_content container">
+			<div class="server-list-header">
+				<p id="menuTitle">Server Browser</p>
+				<div id="serverSearch">
+					<p id="population">test</p>
+					<input id="server-list-filter" type="text" placeholder="search..." value=""/>
+					<button id="refresh"></button>
+				</div>
+				<div class="playlist-tabs">
+					<ul id="playlistTabs">
+						<li><a data-playlist="all">All</a></li>
+						<li><a data-playlist="social">Social</a></li>
+						<li><a data-playlist="ranked">Ranked</a></li>
+						<li><a data-playlist="customs">Customs</a></li>
+						<li><a data-playlist="private">Private</a></li>
+						<li><a data-playlist="forge">Forge</a></li>
+					</ul>
+					<div id="notice" class="notice_message"></div>
+				</div>
+			</div>
+			<div class="page_footer gamepad-only">
+				<div class="footer_buttons">
+					<button id="joinBtn" class="legend-button"><img class="button"/><span>Join Server</span></button>
+					<button id="refreshBtn" class="legend-button"><img class="button"/><span id="refreshLegendLink">Refresh List</span></button>
+					<button id="quickjoinBtn" class="legend-button"><img class="button"/><span>Quick Join</span></button>
+					<button id="closeBtn" class="legend-button"><img class="button"/><span>Close</span></button>
+					<button id="lanBtn" class="legend-button"><img class="button"/><span>Lan Browser</span></button>
+					<button id="serverModBrowserBtn" class="legend-button"><img class="button"/><span>Server Mod Browser</span></button>
+				</div>
+				<div class="current_version" id="current_version"></div>
+			</div>
+			<div id="server-list-wrap">
+				<div class="server-list">
+					<div class="server-list-head" id="serverListHead"></div>
+					<div class="server-list-body" id="serverListBody"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</rml>
