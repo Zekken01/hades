@@ -1,0 +1,122 @@
+<rml>
+<head>
+	<title>Customization</title>
+	<link type="text/rcss" href="dew://lib/html.rcss"/>
+	<link type="text/rcss" href="dew://lib/window-resize.rcss"/>
+	<link type="text/rcss" href="dew://lib/style-global.rcss"/>
+	<link type="text/rcss" href="customization.rcss"/>
+	<script src="dew://lib/jq.lua"></script>
+	<script src="dew://lib/input.lua"></script>
+	<script src="dew://lib/pak_aware.lua"></script>
+	<script src="dew://lib/color_picker.lua"></script>
+	<script src="customization.lua"></script>
+</head>
+<body>
+	<div id="blackLayer"></div>
+	<div id="container">
+		<div class="page_content">
+			<img id="background" data-pak="mainmenu" data-url="assets/blur/customization-blur" data-fallback="dew://assets/blur/customization-blur.png"/>
+			<div id="settingsWindow" class="menu-fullscreen">
+				<h1 class="header window-side-padding">Customization</h1>
+				<ul class="tabs">
+					<li id="page_1" class="first" data-page="#page1">
+						<a>
+							<img class="button"/>
+							<img class="button"/>
+							<p>Armory</p>
+							<div class="tab-bg"></div>
+						</a>
+					</li>
+					<li id="page_2" data-page="#page2">
+						<a><p>Colors</p><div class="tab-bg"></div></a>
+					</li>
+					<li id="page_3" class="last" data-page="#page3">
+						<a><p>Emblem</p><div class="tab-bg"></div></a>
+					</li>
+				</ul>
+				<div class="tabpage-container">
+					<div id="page1" class="tabpage hide">
+						<div class="buttonContainer" id="page1Buttons">
+							<div class="row"><div class="setting baseNav button-list inputButton" data-action="input" data-arg="playerName"><label>Player Name</label></div></div>
+							<div class="row"><div class="setting baseNav button-list inputButton" data-action="input" data-arg="serviceTag"><label>Service Tag</label></div></div>
+							<div class="row"><div class="setting baseNav button-list" data-action="armor" data-arg="races" data-region="races"><label>Race</label></div></div>
+						</div>
+						<div class="infoBox hide" id="page1Info">
+							<div class="infobox-header"></div>
+							<div class="infobox-content"></div>
+						</div>
+						<div id="armorSideList" class="side-list has-vertical-scrollbar">
+							<div class="armorForm form hide tile-button tile-large" id="races"></div>
+							<div class="armorForm form hide tile-button tile-large" id="gender"></div>
+						</div>
+					</div>
+					<div id="page2" class="tabpage hide">
+						<div class="buttonContainer" id="page2Buttons">
+							<div class="row"><div class="setting baseNav button-list" data-action="color" data-arg="colorsPrimary" data-region="primary"><label id="primaryButton">Armor Primary</label></div></div>
+							<div class="row"><div class="setting baseNav button-list" data-action="color" data-arg="colorsSecondary" data-region="secondary"><label id="secondaryButton">Armor Secondary</label></div></div>
+							<div class="row"><div class="setting baseNav button-list" data-action="color" data-arg="colorsTertiary" data-region="tertiary"><label id="tertiaryButton">Armor Tertiary</label></div></div>
+							<div class="row"><div class="setting baseNav button-list" data-action="color" data-arg="colorsQuaternary" data-region="quaternary"><label id="quaternaryButton">Armor Quaternary</label></div></div>
+							<div class="row"><div class="setting baseNav button-list" data-action="color" data-arg="colorsQuinary" data-region="quinary"><label id="quinaryButton">Armor Quinary</label></div></div>
+						</div>
+						<div class="side-list">
+							<div class="colorForm form hide tile-button" id="colorsPrimary"></div>
+							<div class="colorForm form hide tile-button" id="colorsSecondary"></div>
+							<div class="colorForm form hide tile-button" id="colorsTertiary"></div>
+							<div class="colorForm form hide tile-button" id="colorsQuaternary"></div>
+							<div class="colorForm form hide tile-button" id="colorsQuinary"></div>
+							<div id="colorPicker" class="pickerHost hide"></div>
+						</div>
+						<div class="infoBox hide" id="page2Info">
+							<div class="infobox-header"></div>
+							<div class="infobox-content"></div>
+						</div>
+					</div>
+					<div id="page3" class="tabpage hide">
+						<div class="buttonContainer" id="page3Buttons">
+							<div class="row"><div class="setting baseNav button-list" data-action="emblem" data-arg="emblemIcon"><label>Icon</label></div></div>
+							<div class="row"><div class="setting baseNav button-list" data-action="emblem" data-arg="emblemBackgroundImage"><label>Background Image</label></div></div>
+							<div class="row"><div class="setting baseNav button-list" data-action="emblem" data-arg="colorsEmblemPrimary" data-grid="1"><label>Primary Color</label></div></div>
+							<div class="row"><div class="setting baseNav button-list" data-action="emblem" data-arg="colorsEmblemSecondary" data-grid="1"><label>Secondary Color</label></div></div>
+							<div class="row"><div class="setting baseNav button-list" data-action="emblem" data-arg="colorsEmblemImage" data-grid="1"><label>Background Color</label></div></div>
+							<div class="row"><div class="setting baseNav button-list" data-action="emblem" data-arg="colorsNameplate" data-grid="1"><label>Nameplate Color</label></div></div>
+							<div class="row"><div class="setting baseNav button-list" data-action="emblem" data-arg="nameplateImage"><label>Nameplate Image</label></div></div>
+						</div>
+						<div class="emblemBox" id="page3Info">
+							<img class="emblemPreviewBig" id="emblemPreviewBig" src="dew://assets/emblems/generic.png"/>
+							<div id="playerNamePlate">
+								<img id="nameplateBase" src="dew://assets/emblems/nameplate/base.png"/>
+								<img id="nameplateBaseTray" src="dew://assets/emblems/nameplate/base_tray.png"/>
+								<img class="emblemPreviewSmall" id="nameplateEmblem" src="dew://assets/emblems/generic.png"/>
+								<span id="playerNamePlateName"></span>
+								<img id="nameplatePreview" src="dew://assets/emblems/nameplate/0.png"/>
+							</div>
+						</div>
+						<div id="emblemImages" class="side-list has-vertical-scrollbar">
+							<div class="emblemForm form hide tile-button tile-large emblem-tile" id="emblemIcon"></div>
+							<div class="emblemForm form hide tile-button tile-large emblem-tile" id="emblemBackgroundImage"></div>
+							<div class="emblemForm form hide tile-button tile-large nameplate-tile" id="nameplateImage"></div>
+						</div>
+						<div id="emblemColors" class="side-list">
+							<div class="emblemColorForm colorForm form hide tile-button" id="colorsEmblemPrimary"></div>
+							<div class="emblemColorForm colorForm form hide tile-button" id="colorsEmblemSecondary"></div>
+							<div class="emblemColorForm colorForm form hide tile-button" id="colorsEmblemImage"></div>
+							<div class="emblemColorForm colorForm form hide tile-button" id="colorsNameplate"></div>
+							<div id="emblemColorPicker" class="pickerHost hide"></div>
+						</div>
+					</div>
+					<div id="playerWindow"></div>
+				</div>
+				<div class="bottomBar window-side-padding">
+					<button id="cancelButton" class="legend-button"><img class="button"/><span>Close</span></button>
+					<button id="toggleIconButton" class="legend-button"><img class="button"/><span>Toggle Icon</span></button>
+					<button id="randomEmblem" class="legend-button randomizer"><img class="button"/><span>Random Emblem</span></button>
+					<button id="randomColors" class="legend-button randomizer"><img class="button"/><span>Random Colors</span></button>
+					<button id="randomArmor" class="legend-button randomizer"><img class="button"/><span>Random Armor</span></button>
+					<button id="reset" class="legend-button randomizer"><img class="button"/><span>Reset</span></button>
+					<button id="modBrowser" class="legend-button"><img class="button"/><span>Mod Browser</span></button>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</rml>

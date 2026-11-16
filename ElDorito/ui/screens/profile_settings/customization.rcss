@@ -1,0 +1,240 @@
+/*
+ * Port of screens/profile_settings/customization.css with the grid layout of
+ * style-global-window.css worked out in dp: the tab page is 3/5 of the 1088dp content
+ * (652.8dp: button list 341.4dp | 32dp | side list 279.4dp), the player window the rest.
+ * The canvas nameplate tinting is image-color (it cannot brighten past the source).
+ */
+
+#background {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	z-index: -100;
+}
+
+#blackLayer {
+	display: none;
+}
+
+.tabpage-container {
+	position: relative;
+	float: left;
+	width: 100%;
+	height: 508dp;
+	box-sizing: border-box;
+}
+
+.tabpage {
+	position: absolute;
+	left: 96dp;
+	top: 0;
+	width: 652.8dp;
+	height: 508dp;
+}
+.tabpage.hide {
+	display: none;
+}
+
+#playerWindow {
+	position: absolute;
+	right: 96dp;
+	top: 0;
+	width: 435.2dp;
+	height: 508dp;
+}
+
+.buttonContainer {
+	position: absolute;
+	left: 0;
+	top: 30dp;
+	width: 341.4dp;
+	height: 284dp;
+	overflow-y: auto;
+	padding-bottom: 10dp;
+	box-sizing: border-box;
+}
+
+.buttonContainer .row {
+	display: block;
+}
+
+.button-list label {
+	cursor: pointer;
+}
+
+.infoBox {
+	position: absolute;
+	left: 0;
+	top: 314dp;
+	width: 341.4dp;
+	height: 130dp;
+	padding-top: 40dp;
+	padding-bottom: 0;
+}
+.infoBox.hide {
+	display: none;
+}
+
+.side-list {
+	position: absolute;
+	left: 373.4dp;
+	top: 0;
+	width: 259.4dp;
+	height: 440dp;
+	padding: 34dp 10dp;
+}
+
+/* ---- armor tiles */
+
+.armorForm span.tile {
+	height: 141dp;
+}
+.armorForm img {
+	width: 100%;
+	height: 141dp;
+}
+.armorForm label, .emblemForm label {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	padding: 12dp;
+	font-size: 21dp;
+	text-transform: uppercase;
+	color: #EBEBEB;
+	z-index: 1;
+}
+
+/* ---- color grids (grid-template-columns: repeat(3, 1fr); gap 6px) */
+
+.colorForm {
+	display: block;
+	width: 100%;
+}
+.colorForm.hide {
+	display: none;
+}
+.colorForm span.tile {
+	float: left;
+	width: 82dp;
+	height: 30dp;
+	margin: 0 6dp 6dp 0;
+}
+.colorForm span.tile.third {
+	margin-right: 0;
+}
+.colorForm span.customColor {
+	width: 258dp;
+	height: 34dp;
+	margin-right: 0;
+	font-size: 18dp;
+	line-height: 22dp;
+	text-align: center;
+	text-transform: uppercase;
+	color: #A5BEDB;
+	padding: 6dp;
+}
+.customColor .hex {
+	display: none;
+}
+.customColor:hover .caption, .customColor.selectedElement .caption {
+	display: none;
+}
+.customColor:hover .hex, .customColor.selectedElement .hex {
+	display: inline;
+}
+
+/* ---- emblem tiles */
+
+.emblem-tile span.tile {
+	height: 63dp;
+}
+.emblem-tile img {
+	position: absolute;
+	right: 5dp;
+	top: 0;
+	height: 63dp;
+	width: 63dp;
+}
+.nameplate-tile span.tile {
+	height: 40dp;
+}
+.nameplate-tile img {
+	position: absolute;
+	right: 5dp;
+	top: 2dp;
+	width: 185dp;
+	height: 36dp;
+}
+
+.pickerHost.hide {
+	display: none;
+}
+
+/* ---- emblem preview */
+
+.emblemBox {
+	position: absolute;
+	left: 0;
+	top: 314dp;
+	width: 341.4dp;
+	height: 140dp;
+}
+.emblemPreviewBig {
+	position: absolute;
+	left: 30%;
+	top: -40dp;
+	width: 130dp;
+	height: 130dp;
+}
+#playerNamePlate {
+	position: absolute;
+	left: 30%;
+	margin-left: -85dp;
+	top: 110dp;
+	width: 300dp;
+	height: 36dp;
+}
+#nameplateBase, #nameplateBaseTray {
+	position: absolute;
+	left: -15dp;
+	top: 0;
+	height: 36dp;
+	width: 330dp;
+}
+#nameplateBaseTray {
+	image-color: #0000008c;
+}
+#nameplateEmblem {
+	position: absolute;
+	left: -10dp;
+	top: 2dp;
+	width: 31dp;
+	height: 31dp;
+}
+#playerNamePlateName {
+	position: absolute;
+	left: 26dp;
+	top: 1.5dp;
+	color: white;
+	font-size: 26dp;
+	letter-spacing: -1dp;
+	font-effect: outline(1px black);
+}
+#nameplatePreview {
+	position: absolute;
+	right: 45dp;
+	top: 0;
+	height: 36dp;
+	width: 160dp;
+}
+
+/* ---- bottom bar */
+
+.bottomBar .legend-button img {
+	display: none;
+}
+#settingsWindow.gamepad .legend-button img, #settingsWindow.gamepad .tabs img {
+	display: block;
+}

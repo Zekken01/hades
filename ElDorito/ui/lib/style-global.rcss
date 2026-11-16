@@ -1,0 +1,375 @@
+/*
+ * Port of lib/css/style-global-*.css (color, misc, legend, window, tabs) for the menus that
+ * use it (profile settings, browser, forge).  Inside the scaled .page_content: px -> dp.
+ * Colours from style-global-color.css are written out (RCSS variables cannot nest var()).
+ *   iceblue #A5BEDB, white #EBEBEB, dim #77879A
+ */
+
+body {
+	font-family: "Conduit ITC";
+	color: #EBEBEB;
+}
+
+/* ---- misc */
+
+#blackLayer {
+	position: absolute;
+	background-color: black;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	opacity: 1;
+	z-index: 10000;
+}
+
+.hide {
+	display: none;
+}
+
+.has-vertical-scrollbar {
+	overflow-y: auto;
+}
+
+.no-scrollbar {
+	overflow-y: hidden;
+}
+
+scrollbarvertical {
+	width: 8dp;
+}
+scrollbarvertical slidertrack {
+	background-color: transparent;
+}
+scrollbarvertical sliderbar {
+	background-color: #ffffff1a;
+}
+scrollbarvertical sliderbar:hover {
+	background-color: #ffffff33;
+}
+scrollbarvertical sliderarrowdec, scrollbarvertical sliderarrowinc {
+	height: 0;
+}
+
+/* ---- legend buttons */
+
+.legend-button {
+	position: relative;
+	z-index: 3;
+	font-size: 20dp;
+	color: #EBEBEB;
+	line-height: 32dp;
+	display: flex;
+	float: left;
+	margin-right: 16dp;
+	height: 32dp;
+	padding: 12dp;
+	padding-left: 0;
+	cursor: pointer;
+	background-color: transparent;
+	border-width: 0;
+}
+.legend-button img {
+	position: relative;
+	height: 32dp;
+	width: 32dp;
+}
+.legend-button:hover {
+	text-decoration: underline;
+}
+
+/* ---- window */
+
+.window-side-padding {
+	padding-left: 96dp;
+	padding-right: 96dp;
+}
+
+.menu-fullscreen {
+	position: absolute;
+	margin: 0;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	opacity: 1;
+	z-index: 0;
+	display: block;
+}
+
+.header {
+	position: relative;
+	display: block;
+	box-sizing: border-box;
+	height: 96dp;
+	width: 100%;
+	text-align: left;
+	font-weight: 100;
+	text-transform: uppercase;
+	line-height: 128dp;
+	color: #EBEBEB;
+	font-size: 46dp;
+	margin: 0;
+	decorator: linear-gradient(to bottom, #00000000 76%, #00000066 140%);
+}
+
+.bottomBar {
+	position: relative;
+	float: left;
+	height: 72dp;
+	width: 100%;
+	box-sizing: border-box;
+	decorator: linear-gradient(to top, #00000000 20%, #00000066 140%);
+}
+
+/* button lists: the hover bar is the row's decorator (button-list::before) */
+.button-list {
+	color: #A5BEDB;
+	font-size: 24dp;
+	text-transform: uppercase;
+	padding-left: 8dp;
+	position: relative;
+	display: block;
+	box-sizing: border-box;
+	width: 100%;
+	margin-bottom: 4dp;
+	cursor: pointer;
+}
+.button-list.selectedElement, .button-list.clickedElement {
+	color: #EBEBEB;
+	decorator: svg(dew://assets/ux/buttonhover.svg);
+}
+.button-list:hover {
+	color: #EBEBEB;
+}
+
+/* tiles: box-shadow rings become borders */
+.tile-button span.tile {
+	display: block;
+	position: relative;
+	box-sizing: border-box;
+	background-color: #00000026;
+	cursor: pointer;
+}
+.tile-button span.tile.selectedElement {
+	border: 3dp #ffffff;
+	z-index: 10;
+}
+.tile-button span.tile.chosenElement {
+	border: 3dp #b17c5b;
+	z-index: 10;
+}
+.tile-large span.tile {
+	margin-bottom: 8dp;
+}
+.tile-large img {
+	width: 100%;
+}
+
+/* ---- info box */
+
+.infoBox {
+	display: block;
+	padding-top: 34dp;
+	padding-bottom: 34dp;
+}
+.infobox-header {
+	color: #EBEBEB;
+	font-size: 24dp;
+	width: 100%;
+	display: block;
+	padding: 8dp;
+	box-sizing: border-box;
+	text-transform: uppercase;
+	border-top: 2dp #ffffff4d;
+	border-bottom: 2dp #ffffff4d;
+}
+.infobox-content {
+	color: #A5BEDB;
+	font-size: 18dp;
+	padding: 8dp;
+	box-sizing: border-box;
+	display: block;
+}
+
+/* ---- tabs */
+
+.tabs {
+	position: relative;
+	display: flex;
+	height: 44dp;
+	width: 100%;
+	z-index: 5;
+	box-sizing: border-box;
+	text-transform: uppercase;
+	margin: 0;
+	padding: 0;
+}
+.tabs li {
+	position: relative;
+	display: flex;
+	margin-right: 22dp;
+	margin-left: 22dp;
+	cursor: pointer;
+}
+.tabs li a {
+	position: relative;
+	display: block;
+	padding: 0;
+	width: 168dp;
+	height: 44dp;
+	box-sizing: border-box;
+}
+.tabs li a p {
+	display: block;
+	position: relative;
+	font-size: 24dp;
+	line-height: 44dp;
+	z-index: 1;
+	text-align: center;
+	color: #77879A;
+	transition: color 0.5s linear-in-out;
+	margin: 0;
+}
+.tabs li.first {
+	margin-left: 0;
+}
+.tabs li.first a {
+	width: 320dp; /* 168 + 96 padding + 2 * 28 icons */
+	padding-left: 96dp;
+	display: flex;
+}
+.tabs li.first a p {
+	text-align: left;
+	flex: 1;
+}
+.tabs li.last a {
+	width: 264dp;
+	padding-right: 96dp;
+}
+.tabs img {
+	display: none;
+	position: relative;
+	width: 28dp;
+	height: 28dp;
+	margin-top: 8dp;
+	margin-left: 4dp;
+	z-index: 1;
+}
+.tabs li a:hover p, .tabs li.selected a p {
+	color: #EBEBEB;
+}
+.tab-bg {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	padding-right: 44dp;
+	margin-left: -22dp;
+	background-color: #00000040;
+	transform: skewX(-45deg);
+}
+.tabs li.right .tab-bg {
+	transform: skewX(45deg);
+}
+.tabs li.selected .tab-bg {
+	transform: skewX(0deg);
+	background-color: transparent;
+}
+.tabs li.last .tab-bg {
+	background-color: transparent;
+	decorator: linear-gradient(to right, #00000040 0%, #00000000 100%);
+}
+.tabs li.last.selected .tab-bg {
+	decorator: none;
+}
+
+/* ---- color picker (lib/color_picker.lua) */
+
+.ed-color-picker {
+	display: block;
+	width: 100%;
+	padding: 15dp;
+	box-sizing: border-box;
+	overflow: hidden;
+}
+.ed-color-picker__palette-wrapper {
+	position: relative;
+	height: 200dp;
+	cursor: pointer;
+}
+.ed-color-picker__palette, .ed-color-picker__palette-white, .ed-color-picker__palette-black {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+}
+.ed-color-picker__palette-white {
+	decorator: linear-gradient(to right, #ffffffff, #ffffff00);
+}
+.ed-color-picker__palette-black {
+	decorator: linear-gradient(to bottom, #00000000, #000000ff);
+}
+.ed-color-picker__palette-thumb {
+	position: absolute;
+	width: 20dp;
+	height: 20dp;
+	border: 2dp white;
+	border-radius: 12dp;
+	box-sizing: border-box;
+	pointer-events: none;
+	z-index: 999;
+}
+.ed-color-picker__hue-slider-wrapper {
+	position: relative;
+	margin-top: 20dp;
+	height: 25dp;
+	decorator: linear-gradient(to right, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000);
+}
+.ed-color-picker__hue-slider {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+.ed-color-picker__hue-slider slidertrack {
+	background-color: transparent;
+	height: 100%;
+}
+.ed-color-picker__hue-slider sliderprogress {
+	height: 0;
+}
+.ed-color-picker__hue-slider sliderbar {
+	width: 7dp;
+	height: 30dp;
+	margin-top: -2.5dp;
+	border-radius: 2dp;
+	background-color: #ffffff;
+}
+.ed-color-picker__hue-slider sliderarrowdec, .ed-color-picker__hue-slider sliderarrowinc {
+	width: 0;
+	height: 0;
+}
+.ed-color-picker__detail {
+	display: block;
+	margin-top: 30dp;
+	font-size: 24dp;
+	color: #A5BEDB;
+}
+.ed-color-picker_rgb_output {
+	display: block;
+	margin-bottom: 10dp;
+}
+.ed-color-picker_rgb_output div {
+	display: inline-block;
+	width: 72dp;
+}
+.ed-color-picker__detail_hex-input {
+	display: inline-block;
+	background-color: transparent;
+	border-width: 0;
+	color: white;
+	width: 100dp;
+	margin-left: 2dp;
+}
